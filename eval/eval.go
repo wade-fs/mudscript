@@ -162,7 +162,7 @@ func evalPrefixExpression(operator string, right object.Object) object.Object {
 	case "-":
 		return evalMinusPrefixOperatorExpression(right)
 	default:
-		return newError("unknown operator: %s%s", operator, right.Type())
+		return newError("unknown operator: %s%s", operator, right.TokenType())
 	}
 }
 
@@ -180,26 +180,26 @@ func evalMinusPrefixOperatorExpression(right object.Object) object.Object {
 	case *object.Float:
 		return &object.Float{Value: -right.Value}
 	default:
-		return newError("unknown operator: -%s", right.Type())
+		return newError("unknown operator: -%s", right.TokenType())
 	}
 }
 
 func evalInfixExpression(operator string, left, right object.Object) object.Object {
 	switch {
-	case left.Type() == object.IntegerType && right.Type() == object.IntegerType:
+	case left.TokenType() == object.IntegerType && right.TokenType() == object.IntegerType:
 		return evalIntegerInfixExpression(operator, left, right)
-	case left.Type() == object.FloatType || right.Type() == object.FloatType:
+	case left.TokenType() == object.FloatType || right.TokenType() == object.FloatType:
 		return evalFloatInfixExpression(operator, left, right)
-	case left.Type() == object.StringType && right.Type() == object.StringType:
+	case left.TokenType() == object.StringType && right.TokenType() == object.StringType:
 		return evalStringInfixExpression(operator, left, right)
 	case operator == "==":
 		return nativeBoolToBooleanObject(left == right)
 	case operator == "!=":
 		return nativeBoolToBooleanObject(left != right)
-	case left.Type() != right.Type():
-		return newError("type mismatch: %s %s %s", left.Type(), operator, right.Type())
+	case left.TokenType() != right.TokenType():
+		return newError("type mismatch: %s %s %s", left.TokenType(), operator, right.TokenType())
 	default:
-		return newError("unknown operator: %s %s %s", left.Type(), operator, right.Type())
+		return newError("unknown operator: %s %s %s", left.TokenType(), operator, right.TokenType())
 	}
 }
 
@@ -229,7 +229,7 @@ func evalIntegerInfixExpression(operator string, left, right object.Object) obje
 	case "!=":
 		return nativeBoolToBooleanObject(leftVal != rightVal)
 	default:
-		return newError("unknown operator: %s %s %s", left.Type(), operator, right.Type())
+		return newError("unknown operator: %s %s %s", left.TokenType(), operator, right.TokenType())
 	}
 }
 
@@ -242,7 +242,7 @@ func evalFloatInfixExpression(operator string, left, right object.Object) object
 	case *object.Float:
 		leftVal = left.Value
 	default:
-		return newError("unknown operator: %s %s %s", left.Type(), operator, right.Type())
+		return newError("unknown operator: %s %s %s", left.TokenType(), operator, right.TokenType())
 	}
 
 	switch right := right.(type) {
@@ -251,7 +251,7 @@ func evalFloatInfixExpression(operator string, left, right object.Object) object
 	case *object.Float:
 		rightVal = right.Value
 	default:
-		return newError("unknown operator: %s %s %s", left.Type(), operator, right.Type())
+		return newError("unknown operator: %s %s %s", left.TokenType(), operator, right.TokenType())
 	}
 
 	switch operator {
@@ -276,7 +276,7 @@ func evalFloatInfixExpression(operator string, left, right object.Object) object
 	case "!=":
 		return nativeBoolToBooleanObject(leftVal != rightVal)
 	default:
-		return newError("unknown operator: %s %s %s", left.Type(), operator, right.Type())
+		return newError("unknown operator: %s %s %s", left.TokenType(), operator, right.TokenType())
 	}
 }
 
@@ -292,7 +292,7 @@ func evalStringInfixExpression(operator string, left, right object.Object) objec
 	case "!=":
 		return nativeBoolToBooleanObject(leftVal != rightVal)
 	default:
-		return newError("unknown operator: %s %s %s", left.Type(), operator, right.Type())
+		return newError("unknown operator: %s %s %s", left.TokenType(), operator, right.TokenType())
 	}
 }
 
@@ -305,7 +305,7 @@ func evalBlockStatement(block *ast.BlockStatement, env object.Environment) objec
 			continue
 		}
 
-		if rt := result.Type(); rt == object.ReturnValueType || rt == object.ErrorType {
+		if rt := result.TokenType(); rt == object.ReturnValueType || rt == object.ErrorType {
 			return result
 		}
 	}
@@ -336,7 +336,7 @@ func newError(format string, a ...interface{}) *object.Error {
 }
 
 func isError(obj object.Object) bool {
-	return obj != nil && obj.Type() == object.ErrorType
+	return obj != nil && obj.TokenType() == object.ErrorType
 }
 
 func evalIdent(node *ast.Ident, env object.Environment) object.Object {
@@ -384,7 +384,7 @@ func applyFunction(fn object.Object, args []object.Object) object.Object {
 	case *object.Builtin:
 		return fn.Fn(args...)
 	default:
-		return newError("not a function: %s", fn.Type())
+		return newError("not a function: %s", fn.TokenType())
 	}
 }
 
@@ -397,12 +397,12 @@ func unwrapReturnValue(obj object.Object) object.Object {
 
 func evalIndexExpression(left, index object.Object) object.Object {
 	switch {
-	case left.Type() == object.ArrayType && index.Type() == object.IntegerType:
+	case left.TokenType() == object.ArrayType && index.TokenType() == object.IntegerType:
 		return evalArrayIndexExpression(left, index)
-	case left.Type() == object.HashType:
+	case left.TokenType() == object.HashType:
 		return evalHashIndexExpression(left, index)
 	default:
-		return newError("index operator not supported: %s", left.Type())
+		return newError("index operator not supported: %s", left.TokenType())
 	}
 }
 
@@ -429,7 +429,7 @@ func evalHashLiteral(node *ast.HashLiteral, env object.Environment) object.Objec
 
 		hashKey, ok := key.(object.Hashable)
 		if !ok {
-			return newError("unusable as hash key: %s", key.Type())
+			return newError("unusable as hash key: %s", key.TokenType())
 		}
 
 		value := Eval(valueNode, env)
@@ -450,7 +450,7 @@ func evalHashLiteral(node *ast.HashLiteral, env object.Environment) object.Objec
 func evalHashIndexExpression(left, index object.Object) object.Object {
 	key, ok := index.(object.Hashable)
 	if !ok {
-		return newError("unusable as hash key: %s", index.Type())
+		return newError("unusable as hash key: %s", index.TokenType())
 	}
 
 	hashObj := left.(*object.Hash)

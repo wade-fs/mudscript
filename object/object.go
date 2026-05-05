@@ -10,12 +10,12 @@ import (
 	"github.com/skatsuta/monkey-interpreter/ast"
 )
 
-// Type is a type of objects.
-type Type string
+// TokenType is a type of objects.
+type TokenType string
 
 const (
 	// IntegerType represents a type of integers.
-	IntegerType Type = "Integer"
+	IntegerType TokenType = "Integer"
 	// FloatType represents a type of floating point numbers.
 	FloatType = "Float"
 	// BooleanType represents a type of booleans.
@@ -44,13 +44,13 @@ const (
 
 // Object represents an object of Monkey language.
 type Object interface {
-	Type() Type
+	TokenType() TokenType
 	Inspect() string
 }
 
 // HashKey represents a key of a hash.
 type HashKey struct {
-	Type  Type
+	TokenType  TokenType
 	Value uint64
 }
 
@@ -64,8 +64,8 @@ type Integer struct {
 	Value int64
 }
 
-// Type returns the type of the Integer.
-func (i *Integer) Type() Type {
+// TokenType returns the type of the Integer.
+func (i *Integer) TokenType() TokenType {
 	return IntegerType
 }
 
@@ -77,7 +77,7 @@ func (i *Integer) Inspect() string {
 // HashKey returns a hash key object for i.
 func (i *Integer) HashKey() HashKey {
 	return HashKey{
-		Type:  i.Type(),
+		TokenType:  i.TokenType(),
 		Value: uint64(i.Value),
 	}
 }
@@ -87,8 +87,8 @@ type Float struct {
 	Value float64
 }
 
-// Type returns the type of f.
-func (f *Float) Type() Type {
+// TokenType returns the type of f.
+func (f *Float) TokenType() TokenType {
 	return FloatType
 }
 
@@ -104,7 +104,7 @@ func (f *Float) HashKey() HashKey {
 	h.Write([]byte(s))
 
 	return HashKey{
-		Type:  f.Type(),
+		TokenType:  f.TokenType(),
 		Value: h.Sum64(),
 	}
 }
@@ -114,8 +114,8 @@ type Boolean struct {
 	Value bool
 }
 
-// Type returns the type of the Boolean.
-func (b *Boolean) Type() Type {
+// TokenType returns the type of the Boolean.
+func (b *Boolean) TokenType() TokenType {
 	return BooleanType
 }
 
@@ -126,7 +126,7 @@ func (b *Boolean) Inspect() string {
 
 // HashKey returns a hash key object for b.
 func (b *Boolean) HashKey() HashKey {
-	key := HashKey{Type: b.Type()}
+	key := HashKey{TokenType: b.TokenType()}
 	if b.Value {
 		key.Value = 1
 	}
@@ -136,8 +136,8 @@ func (b *Boolean) HashKey() HashKey {
 // Nil represents the absence of any value.
 type Nil struct{}
 
-// Type returns the type of the Nil.
-func (n *Nil) Type() Type {
+// TokenType returns the type of the Nil.
+func (n *Nil) TokenType() TokenType {
 	return NilType
 }
 
@@ -151,8 +151,8 @@ type ReturnValue struct {
 	Value Object
 }
 
-// Type returns the type of the ReturnValue.
-func (rv *ReturnValue) Type() Type {
+// TokenType returns the type of the ReturnValue.
+func (rv *ReturnValue) TokenType() TokenType {
 	return ReturnValueType
 }
 
@@ -166,8 +166,8 @@ type Error struct {
 	Message string
 }
 
-// Type returns the type of the Error.
-func (e *Error) Type() Type {
+// TokenType returns the type of the Error.
+func (e *Error) TokenType() TokenType {
 	return ErrorType
 }
 
@@ -183,8 +183,8 @@ type Function struct {
 	Env        Environment
 }
 
-// Type returns the type of the Function.
-func (f *Function) Type() Type {
+// TokenType returns the type of the Function.
+func (f *Function) TokenType() TokenType {
 	return FunctionType
 }
 
@@ -211,8 +211,8 @@ type String struct {
 	Value string
 }
 
-// Type returns the type of the String.
-func (s *String) Type() Type {
+// TokenType returns the type of the String.
+func (s *String) TokenType() TokenType {
 	return StringType
 }
 
@@ -227,7 +227,7 @@ func (s *String) HashKey() HashKey {
 	h.Write([]byte(s.Value))
 
 	return HashKey{
-		Type:  s.Type(),
+		TokenType:  s.TokenType(),
 		Value: h.Sum64(),
 	}
 }
@@ -240,8 +240,8 @@ type Builtin struct {
 	Fn BuiltinFunction
 }
 
-// Type returns the type of the Builtin.
-func (b *Builtin) Type() Type {
+// TokenType returns the type of the Builtin.
+func (b *Builtin) TokenType() TokenType {
 	return BuiltinType
 }
 
@@ -255,8 +255,8 @@ type Array struct {
 	Elements []Object
 }
 
-// Type returns the type of the Array.
-func (*Array) Type() Type {
+// TokenType returns the type of the Array.
+func (*Array) TokenType() TokenType {
 	return ArrayType
 }
 
@@ -289,8 +289,8 @@ type Hash struct {
 	Pairs map[HashKey]HashPair
 }
 
-// Type returns the type of the Hash.
-func (*Hash) Type() Type {
+// TokenType returns the type of the Hash.
+func (*Hash) TokenType() TokenType {
 	return HashType
 }
 
@@ -317,8 +317,8 @@ type Quote struct {
 	ast.Node
 }
 
-// Type returns the type of `q`.
-func (q *Quote) Type() Type {
+// TokenType returns the type of `q`.
+func (q *Quote) TokenType() TokenType {
 	return QuoteType
 }
 
@@ -334,8 +334,8 @@ type Macro struct {
 	Env        Environment
 }
 
-// Type returns the type of `m`.
-func (m *Macro) Type() Type {
+// TokenType returns the type of `m`.
+func (m *Macro) TokenType() TokenType {
 	return MacroType
 }
 

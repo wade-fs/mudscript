@@ -1,11 +1,16 @@
 package token
 
-// Type is a token type.
-type Type string
+// TokenType is a token type.
+type TokenType string
+
+type Token struct {
+	TokenType    TokenType
+	Literal string
+}
 
 const (
 	// ILLEGAL is a token type for illegal tokens.
-	ILLEGAL Type = "ILLEGAL"
+	ILLEGAL TokenType = "ILLEGAL"
 	// EOF is a token type that represents end of file.
 	EOF = "EOF"
 
@@ -75,16 +80,30 @@ const (
 	RETURN = "RETURN"
 	// MACRO is a token type for macros.
 	MACRO = "MACRO"
+
+	/////////////////////////////////////////////////
+	// Mudscript
+	INT_TYPE     = "INT_TYPE"     // int
+	STRING_TYPE  = "STRING_TYPE"  // string
+	FLOAT_TYPE   = "FLOAT_TYPE"   // float
+	OBJECT_TYPE  = "OBJECT_TYPE"  // object
+	MAPPING_TYPE = "MAPPING_TYPE" // mapping
+	MIXED_TYPE   = "MIXED_TYPE"   // mixed
+	VOID_TYPE    = "VOID_TYPE"    // void
+
+	// LPC 新增的關鍵字
+	INHERIT      = "INHERIT"
+	NEW          = "NEW"
+
+	// LPC 專屬符號
+	ARROW        = "->" // call_other
+	SCOPE        = "::" // 繼承呼叫
+	LBRACKET_MAP = "([" // mapping 起始
+	RBRACKET_MAP = "])" // mapping 結束
 )
 
-// Token represents a token which has a token type and literal.
-type Token struct {
-	Type    Type
-	Literal string
-}
-
 // Language keywords
-var keywords = map[string]Type{
+var keywords = map[string]TokenType{
 	"fn":     FUNCTION,
 	"let":    LET,
 	"true":   TRUE,
@@ -93,11 +112,23 @@ var keywords = map[string]Type{
 	"else":   ELSE,
 	"return": RETURN,
 	"macro":  MACRO,
+
+	/////////////////////////////////////////////////
+	// Mudscript 加入 LPC 的關鍵字
+	"int":     INT_TYPE,
+	"string":  STRING_TYPE,
+	"float":   FLOAT_TYPE,
+	"object":  OBJECT_TYPE,
+	"mapping": MAPPING_TYPE,
+	"mixed":   MIXED_TYPE,
+	"void":    VOID_TYPE,
+	"inherit": INHERIT,
+	"new":     NEW,
 }
 
 // LookupIdent checks the language keywords to see whether the given identifier is a keyword.
-// If it is, it returns the keyword's Type constant. If it isn't, it just gets back IDENT.
-func LookupIdent(ident string) Type {
+// If it is, it returns the keyword's TokenType constant. If it isn't, it just gets back IDENT.
+func LookupIdent(ident string) TokenType {
 	if tok, ok := keywords[ident]; ok {
 		return tok
 	}

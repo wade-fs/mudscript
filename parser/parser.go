@@ -29,7 +29,7 @@ const (
 	INDEX // array[index]
 )
 
-var precedences = map[token.Type]int{
+var precedences = map[token.TokenType]int{
 	token.EQ:       EQUALS,
 	token.NEQ:      EQUALS,
 	token.LT:       LESSGREATER,
@@ -55,8 +55,8 @@ type Parser struct {
 	curToken  token.Token
 	peekToken token.Token
 
-	prefixParseFns map[token.Type]prefixParseFn
-	infixParseFns  map[token.Type]infixParseFn
+	prefixParseFns map[token.TokenType]prefixParseFn
+	infixParseFns  map[token.TokenType]infixParseFn
 }
 
 // New returns a new Parser.
@@ -66,7 +66,7 @@ func New(l lexer.Lexer) *Parser {
 		errors: []string{},
 	}
 
-	p.prefixParseFns = map[token.Type]prefixParseFn{
+	p.prefixParseFns = map[token.TokenType]prefixParseFn{
 		token.IDENT:    p.parseIdent,
 		token.INT:      p.parseIntegerLiteral,
 		token.FLOAT:    p.parseFloatLiteral,
@@ -83,7 +83,7 @@ func New(l lexer.Lexer) *Parser {
 		token.MACRO:    p.parseMacroLiteral,
 	}
 
-	p.infixParseFns = map[token.Type]infixParseFn{
+	p.infixParseFns = map[token.TokenType]infixParseFn{
 		token.PLUS:     p.parseInfixExpression,
 		token.MINUS:    p.parseInfixExpression,
 		token.ASTARISK: p.parseInfixExpression,
@@ -113,20 +113,20 @@ func (p *Parser) Errors() []string {
 	return p.errors
 }
 
-func (p *Parser) peekError(typ token.Type) {
-	msg := fmt.Sprintf("expected next token to be %s, got %s instead", typ, p.peekToken.Type)
+func (p *Parser) peekError(typ token.TokenType) {
+	msg := fmt.Sprintf("expected next token to be %s, got %s instead", typ, p.peekToken.TokenType)
 	p.errors = append(p.errors, msg)
 }
 
-func (p *Parser) curTokenIs(typ token.Type) bool {
-	return p.curToken.Type == typ
+func (p *Parser) curTokenIs(typ token.TokenType) bool {
+	return p.curToken.TokenType == typ
 }
 
-func (p *Parser) peekTokenIs(typ token.Type) bool {
-	return p.peekToken.Type == typ
+func (p *Parser) peekTokenIs(typ token.TokenType) bool {
+	return p.peekToken.TokenType == typ
 }
 
-func (p *Parser) expectPeek(typ token.Type) bool {
+func (p *Parser) expectPeek(typ token.TokenType) bool {
 	if p.peekTokenIs(typ) {
 		p.nextToken()
 		return true
@@ -154,7 +154,7 @@ func (p *Parser) ParseProgram() *ast.Program {
 }
 
 func (p *Parser) parseStatement() ast.Statement {
-	switch p.curToken.Type {
+	switch p.curToken.TokenType {
 	case token.LET:
 		return p.parseLetStatement()
 	case token.RETURN:
@@ -221,9 +221,9 @@ func (p *Parser) parseExpressionStatement() *ast.ExpressionStatement {
 }
 
 func (p *Parser) parseExpression(precedence int) ast.Expression {
-	prefix := p.prefixParseFns[p.curToken.Type]
+	prefix := p.prefixParseFns[p.curToken.TokenType]
 	if prefix == nil {
-		msg := fmt.Sprintf("no prefix parse function for %s found", p.curToken.Type)
+		msg := fmt.Sprintf("no prefix parse function for %s found", p.curToken.TokenType)
 		p.errors = append(p.errors, msg)
 		return nil
 	}
@@ -231,7 +231,7 @@ func (p *Parser) parseExpression(precedence int) ast.Expression {
 	leftExp := prefix()
 
 	for !p.curTokenIs(token.SEMICOLON) && precedence < p.peekPrecedence() {
-		infix := p.infixParseFns[p.peekToken.Type]
+		infix := p.infixParseFns[p.peekToken.TokenType]
 		if infix == nil {
 			return leftExp
 		}
@@ -292,14 +292,14 @@ func (p *Parser) parsePrefixExpression() ast.Expression {
 }
 
 func (p *Parser) peekPrecedence() int {
-	if p, ok := precedences[p.peekToken.Type]; ok {
+	if p, ok := precedences[p.peekToken.TokenType]; ok {
 		return p
 	}
 	return LOWEST
 }
 
 func (p *Parser) curPrecedence() int {
-	if p, ok := precedences[p.curToken.Type]; ok {
+	if p, ok := precedences[p.curToken.TokenType]; ok {
 		return p
 	}
 	return LOWEST
@@ -443,7 +443,7 @@ func (p *Parser) parseFunctionParameters() []*ast.Ident {
 	return idents
 }
 
-func (p *Parser) parseExpressionList(end token.Type) []ast.Expression {
+func (p *Parser) parseExpressionList(end token.TokenType) []ast.Expression {
 	list := make([]ast.Expression, 0)
 
 	if p.peekTokenIs(end) {

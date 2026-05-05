@@ -19,7 +19,7 @@ var builtins = map[string]*object.Builtin{
 			case *object.Array:
 				return &object.Integer{Value: int64(len(arg.Elements))}
 			default:
-				return newError("argument to `len` not supported, got %s", arg.Type())
+				return newError("argument to `len` not supported, got %s", arg.TokenType())
 			}
 		},
 	},
@@ -30,7 +30,7 @@ var builtins = map[string]*object.Builtin{
 				return newError("wrong number of arguments. want=1, got=%d", l)
 			}
 
-			if typ := args[0].Type(); typ != object.ArrayType {
+			if typ := args[0].TokenType(); typ != object.ArrayType {
 				return newError("argument to `first` must be Array, got %s", typ)
 			}
 
@@ -48,7 +48,7 @@ var builtins = map[string]*object.Builtin{
 				return newError("wrong number of arguments. want=1, got=%d", l)
 			}
 
-			if typ := args[0].Type(); typ != object.ArrayType {
+			if typ := args[0].TokenType(); typ != object.ArrayType {
 				return newError("argument to `last` must be Array, got %s", typ)
 			}
 
@@ -67,7 +67,7 @@ var builtins = map[string]*object.Builtin{
 				return newError("wrong number of arguments. want=1, got=%d", l)
 			}
 
-			if typ := args[0].Type(); typ != object.ArrayType {
+			if typ := args[0].TokenType(); typ != object.ArrayType {
 				return newError("argument to `last` must be Array, got %s", typ)
 			}
 
@@ -89,7 +89,7 @@ var builtins = map[string]*object.Builtin{
 				return newError("wrong number of arguments. want=%d, got=%d", 2, l)
 			}
 
-			if typ := args[0].Type(); typ != object.ArrayType {
+			if typ := args[0].TokenType(); typ != object.ArrayType {
 				return newError("first argument to `push` must be Array, got %s", typ)
 			}
 

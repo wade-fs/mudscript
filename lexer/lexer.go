@@ -50,7 +50,7 @@ func (l *lexer) NextToken() token.Token {
 			ch := l.ch
 			l.readChar()
 			tok = token.Token{
-				Type:    token.EQ,
+				TokenType:    token.EQ,
 				Literal: string(ch) + string(l.ch),
 			}
 		} else {
@@ -61,7 +61,7 @@ func (l *lexer) NextToken() token.Token {
 			ch := l.ch
 			l.readChar()
 			tok = token.Token{
-				Type:    token.NEQ,
+				TokenType:    token.NEQ,
 				Literal: string(ch) + string(l.ch),
 			}
 		} else {
@@ -98,11 +98,11 @@ func (l *lexer) NextToken() token.Token {
 	case ']':
 		tok = newToken(token.RBRACKET, l.ch)
 	case '"':
-		tok.Type = token.STRING
+		tok.TokenType = token.STRING
 		tok.Literal = l.readString()
 	case 0:
 		tok.Literal = ""
-		tok.Type = token.EOF
+		tok.TokenType = token.EOF
 	default:
 		if isDigit(l.ch) {
 			return l.readNumberToken()
@@ -110,7 +110,7 @@ func (l *lexer) NextToken() token.Token {
 
 		if isLetter(l.ch) {
 			tok.Literal = l.readIdent()
-			tok.Type = token.LookupIdent(tok.Literal)
+			tok.TokenType = token.LookupIdent(tok.Literal)
 			return tok
 		}
 
@@ -172,7 +172,7 @@ func (l *lexer) readNumberToken() token.Token {
 	intPart := l.readNumber()
 	if l.ch != '.' {
 		return token.Token{
-			Type:    token.INT,
+			TokenType:    token.INT,
 			Literal: intPart,
 		}
 	}
@@ -180,7 +180,7 @@ func (l *lexer) readNumberToken() token.Token {
 	l.readChar()
 	fracPart := l.readNumber()
 	return token.Token{
-		Type:    token.FLOAT,
+		TokenType:    token.FLOAT,
 		Literal: intPart + "." + fracPart,
 	}
 }
@@ -193,9 +193,9 @@ func isDigit(ch byte) bool {
 	return '0' <= ch && ch <= '9'
 }
 
-func newToken(tokenType token.Type, ch byte) token.Token {
+func newToken(tokenType token.TokenType, ch byte) token.Token {
 	return token.Token{
-		Type:    tokenType,
+		TokenType:    tokenType,
 		Literal: string(ch),
 	}
 }
