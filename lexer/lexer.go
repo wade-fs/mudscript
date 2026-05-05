@@ -1,6 +1,6 @@
 package lexer
 
-import "github.com/skatsuta/monkey-interpreter/token"
+import "mudscript/token"
 
 // Lexer represents a lexer for Monkey programming language.
 type Lexer interface {
@@ -36,15 +36,65 @@ func (l *lexer) readChar() {
 }
 
 func (l *lexer) NextToken() token.Token {
+	var tok token.Token
+
 	l.skipWhitespace()
 
 	// skip comments
-	if l.ch == '/' && l.peekChar() == '/' {
-		l.skipComment()
+	for l.ch == '/' {
+		if l.peekChar() == '/' {
+			l.skipSingleLineComment()
+			l.skipWhitespace()
+		} else if l.peekChar() == '*' {
+			l.skipMultiLineComment()
+			l.skipWhitespace()
+		} else {
+			break
+		}
 	}
 
-	var tok token.Token
 	switch l.ch {
+	case '-':
+		if l.peekChar() == '>' { // 處理 ->
+			ch := l.ch
+			l.readChar()
+			literal := string(ch) + string(l.ch)
+			tok = token.Token{TokenType: token.ARROW, Literal: literal}
+		} else {
+			tok = newToken(token.MINUS, l.ch)
+		}
+	case ':':
+		if l.peekChar() == ':' { // 處理 ::
+			ch := l.ch
+			l.readChar()
+			literal := string(ch) + string(l.ch)
+			tok = token.Token{TokenType: token.SCOPE, Literal: literal}
+		} else {
+			tok = newToken(token.COLON, l.ch)
+		}
+	case '(':
+		if l.peekChar() == '[' { // 處理 ([
+			ch := l.ch
+			l.readChar()
+			literal := string(ch) + string(l.ch)
+			tok = token.Token{TokenType: token.LBRACKET_MAP, Literal: literal}
+		} else {
+			tok = newToken(token.LPAREN, l.ch)
+		}
+	case ')':
+		tok = newToken(token.RPAREN, l.ch)
+	case ']':
+		if l.peekChar() == ')' { // 處理 ])
+			// 注意：這部分的實作取決於你的 Parser 是把 ]) 當作一個 token 還是兩個
+			ch := l.ch
+			l.readChar()
+			literal := string(ch) + string(l.ch)
+			tok = token.Token{TokenType: token.RBRACKET_MAP, Literal: literal}
+		} else {
+			tok = newToken(token.RBRACKET, l.ch)
+		}
+	case '[':
+		tok = newToken(token.LBRACKET, l.ch)
 	case '=':
 		if l.peekChar() == '=' {
 			ch := l.ch
@@ -69,18 +119,10 @@ func (l *lexer) NextToken() token.Token {
 		}
 	case ';':
 		tok = newToken(token.SEMICOLON, l.ch)
-	case ':':
-		tok = newToken(token.COLON, l.ch)
-	case '(':
-		tok = newToken(token.LPAREN, l.ch)
-	case ')':
-		tok = newToken(token.RPAREN, l.ch)
 	case ',':
 		tok = newToken(token.COMMA, l.ch)
 	case '+':
 		tok = newToken(token.PLUS, l.ch)
-	case '-':
-		tok = newToken(token.MINUS, l.ch)
 	case '*':
 		tok = newToken(token.ASTARISK, l.ch)
 	case '/':
@@ -93,10 +135,6 @@ func (l *lexer) NextToken() token.Token {
 		tok = newToken(token.LBRACE, l.ch)
 	case '}':
 		tok = newToken(token.RBRACE, l.ch)
-	case '[':
-		tok = newToken(token.LBRACKET, l.ch)
-	case ']':
-		tok = newToken(token.RBRACKET, l.ch)
 	case '"':
 		tok.TokenType = token.STRING
 		tok.Literal = l.readString()
@@ -119,6 +157,31 @@ func (l *lexer) NextToken() token.Token {
 
 	l.readChar()
 	return tok
+}
+
+func (l *lexer) skipMultiLineComment() {
+	l.readChar() // 吃掉 '/'
+	l.readChar() // 吃掉 '*'
+	for l.ch != 0 {
+		if l.ch == '*' && l.peekChar() == '/' {
+			l.readChar() // 吃掉 '*'
+			l.readChar() // 吃掉 '/'
+			return
+		}
+		l.readChar()
+	}
+}
+
+func (l *lexer) skipSingleLineComment() {
+	l.readChar() // 吃掉 '/'
+	l.readChar() // 吃掉 '/'
+	for l.ch != 0 {
+		if l.ch == '\n' {
+			l.readChar() // 吃掉 '\n'
+			return
+		}
+		l.readChar()
+	}
 }
 
 func (l *lexer) skipWhitespace() {

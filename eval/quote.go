@@ -3,9 +3,9 @@ package eval
 import (
 	"strconv"
 
-	"github.com/skatsuta/monkey-interpreter/ast"
-	"github.com/skatsuta/monkey-interpreter/object"
-	"github.com/skatsuta/monkey-interpreter/token"
+	"mudscript/ast"
+	"mudscript/object"
+	"mudscript/token"
 )
 
 const (

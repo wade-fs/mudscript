@@ -3,7 +3,7 @@ package eval
 import (
 	"fmt"
 
-	"github.com/skatsuta/monkey-interpreter/object"
+	"mudscript/object"
 )
 
 var builtins = map[string]*object.Builtin{

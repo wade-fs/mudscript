@@ -5,10 +5,10 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/skatsuta/monkey-interpreter/eval"
-	"github.com/skatsuta/monkey-interpreter/lexer"
-	"github.com/skatsuta/monkey-interpreter/object"
-	"github.com/skatsuta/monkey-interpreter/parser"
+	"mudscript/eval"
+	"mudscript/lexer"
+	"mudscript/object"
+	"mudscript/parser"
 )
 
 const prompt = ">> "

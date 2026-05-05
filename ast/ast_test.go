@@ -3,7 +3,7 @@ package ast
 import (
 	"testing"
 
-	"github.com/skatsuta/monkey-interpreter/token"
+	"mudscript/token"
 )
 
 func TestString(t *testing.T) {

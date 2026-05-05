@@ -7,7 +7,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/skatsuta/monkey-interpreter/ast"
+	"mudscript/ast"
 )
 
 // TokenType is a type of objects.

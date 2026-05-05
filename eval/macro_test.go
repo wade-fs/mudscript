@@ -3,10 +3,10 @@ package eval
 import (
 	"testing"
 
-	"github.com/skatsuta/monkey-interpreter/ast"
-	"github.com/skatsuta/monkey-interpreter/lexer"
-	"github.com/skatsuta/monkey-interpreter/object"
-	"github.com/skatsuta/monkey-interpreter/parser"
+	"mudscript/ast"
+	"mudscript/lexer"
+	"mudscript/object"
+	"mudscript/parser"
 )
 
 func TestDefineMacros(t *testing.T) {
