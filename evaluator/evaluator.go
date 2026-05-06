@@ -156,6 +156,8 @@ func Eval(node ast.Node, env object.Environment) object.Object {
 		return &object.BreakValue{}
 	case *ast.ContinueStatement:
 		return &object.ContinueValue{}
+	case *ast.MappingLiteral:
+		return evalMappingLiteral(node, env)
 	}
 
 	return nil
@@ -434,6 +436,8 @@ func evalIndexExpression(left, index object.Object) object.Object {
 		return evalArrayIndexExpression(left, index)
 	case left.TokenType() == object.HashType:
 		return evalHashIndexExpression(left, index)
+	case left.TokenType() == object.MAPPING_OBJ:
+		return evalMappingIndexExpression(left, index)
 	default:
 		return newError("index operator not supported: %s", left.TokenType())
 	}
@@ -535,6 +539,11 @@ func checkTypeMatch(lpcType string, obj object.Object) bool {
 		return true
 	case "object":
 		return obj.TokenType() == object.NilType // or later Object type
+	
+	case "mapping":
+		return obj.TokenType() == object.MAPPING_OBJ
+	case "array": // 如果你的腳本是用 array x = []
+		return obj.TokenType() == object.ArrayType
 	default:
 		return false
 	}
@@ -549,6 +558,14 @@ func getDefaultLPCValue(lpcType string) object.Object {
 		return &object.String{Value: ""}
 	case "float":
 		return &object.Float{Value: 0.0}
+	
+	case "mapping":
+		// [修正] 使用全新的 HashKey 與 HashPair 結構來初始化空 Mapping
+		return &object.Mapping{Pairs: make(map[object.HashKey]object.HashPair)}
+		
+	case "array":
+		return &object.Array{Elements: []object.Object{}}
+		
 	default:
 		return NilValue
 	}
@@ -579,32 +596,87 @@ func evalAssignExpression(node *ast.AssignExpression, env object.Environment) ob
 	val := Eval(node.Value, env)
 	if isError(val) { return val }
 
-	// 為了簡化，目前先支援對 Ident (變數) 重新賦值
+	// ==========================================
+	// 1. 處理陣列或 Mapping 的索引賦值 (例如 arr[0] = 5 或 m["hp"] += 10)
+	// ==========================================
+	if indexExpr, ok := node.Left.(*ast.IndexExpression); ok {
+		leftObj := Eval(indexExpr.Left, env) // 取得 Array 或 Mapping 本身
+		if isError(leftObj) { return leftObj }
+		
+		indexObj := Eval(indexExpr.Index, env) // 取得索引值 (例如 0 或 "hp")
+		if isError(indexObj) { return indexObj }
+
+		// 如果是單純的 =
+		if node.Operator == "=" {
+			return assignToIndex(leftObj, indexObj, val)
+		}
+
+		// 如果是 +=, -=, *=, /=
+		currentVal := evalIndexExpression(leftObj, indexObj)
+		if isError(currentVal) { return currentVal }
+		
+		op := node.Operator[:len(node.Operator)-1] // 把 "+=" 切成 "+"
+		newVal := evalInfixExpression(op, currentVal, val)
+		if isError(newVal) { return newVal }
+		
+		return assignToIndex(leftObj, indexObj, newVal)
+	}
+
+	// ==========================================
+	// 2. 處理一般變數賦值 (例如 x = 5)
+	// ==========================================
 	leftIdent, ok := node.Left.(*ast.Ident)
 	if !ok {
-		return newError("目前僅支援對變數重新賦值")
+		return newError("賦值的左側必須是變數或索引 (例如 x 或 arr[0])")
 	}
 
 	if node.Operator == "=" {
-		// [修正] 使用 Assign，確保更新到正確的外層 Scope
 		if !env.Assign(leftIdent.Value, val) {
 			return newError("變數未宣告或不存在: %s", leftIdent.Value)
 		}
 		return val
 	}
 
-	// 處理 +=, -=, *=, /=
 	currentVal, exists := env.Get(leftIdent.Value)
 	if !exists {
-		return newError("變數不存在: %s", leftIdent.Value)
+		return newError("變數未宣告或不存在: %s", leftIdent.Value)
 	}
 
-	op := node.Operator[:len(node.Operator)-1] // 把 "+=" 變成 "+"
+	op := node.Operator[:len(node.Operator)-1]
 	newVal := evalInfixExpression(op, currentVal, val)
 	if isError(newVal) { return newVal }
 
-	env.Set(leftIdent.Value, newVal)
+	env.Assign(leftIdent.Value, newVal)
 	return newVal
+}
+
+// 輔助函式：執行對底層資料結構的修改
+func assignToIndex(left, index, val object.Object) object.Object {
+	switch leftObj := left.(type) {
+	
+	// 處理陣列的修改
+	case *object.Array:
+		idx, ok := index.(*object.Integer)
+		if !ok { return newError("陣列索引必須是整數") }
+		i := idx.Value
+		if i < 0 || i >= int64(len(leftObj.Elements)) {
+			return newError("陣列索引超出範圍: %d", i)
+		}
+		leftObj.Elements[i] = val
+		return val
+		
+	// 處理 Mapping 的修改
+	case *object.Mapping:
+		hashKey, ok := index.(object.Hashable)
+		if !ok { return newError("無法作為 mapping 的 key: %s", index.TokenType()) }
+		
+		hashed := hashKey.HashKey()
+		leftObj.Pairs[hashed] = object.HashPair{Key: index, Value: val}
+		return val
+
+	default:
+		return newError("不支援對 %s 進行索引賦值", left.TokenType())
+	}
 }
 
 func evalPostfixExpression(node *ast.PostfixExpression, env object.Environment) object.Object {
@@ -741,4 +813,42 @@ func evalSwitchStatement(node *ast.SwitchStatement, env object.Environment) obje
 		}
 	}
 	return NilValue
+}
+
+func evalMappingLiteral(node *ast.MappingLiteral, env object.Environment) object.Object {
+	pairs := make(map[object.HashKey]object.HashPair)
+
+	for keyNode, valueNode := range node.Pairs {
+		key := Eval(keyNode, env)
+		if isError(key) { return key }
+
+		// [修正] 檢查這個物件是否可以作為 Hash Key
+		hashKey, ok := key.(object.Hashable)
+		if !ok {
+			return newError("無法作為 mapping 的 key: %s", key.TokenType())
+		}
+
+		value := Eval(valueNode, env)
+		if isError(value) { return value }
+
+		hashed := hashKey.HashKey()
+		pairs[hashed] = object.HashPair{Key: key, Value: value}
+	}
+
+	return &object.Mapping{Pairs: pairs}
+}
+func evalMappingIndexExpression(left, index object.Object) object.Object {
+	mapping := left.(*object.Mapping)
+
+	hashKey, ok := index.(object.Hashable)
+	if !ok {
+		return newError("無法作為 mapping 的 key: %s", index.TokenType())
+	}
+
+	if pair, exists := mapping.Pairs[hashKey.HashKey()]; exists {
+		return pair.Value
+	}
+	
+	// 找不到時回傳 0 (相容 LPC)
+	return &object.Integer{Value: 0} 
 }

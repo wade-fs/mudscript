@@ -29,7 +29,7 @@ mudscript:
 	cd cmd/$@ && \
 	go mod tidy && \
 	env $(ENV) go build -o $(OUT)/$@ && \
-	ls $(OUT)/$@ 
+	$(OUT)/$@ 
 
 clean:
 	@ rm -rf *.log $(OUT)/*

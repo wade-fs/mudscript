@@ -217,6 +217,16 @@ func (f *Function) Inspect() string {
 	return out.String()
 }
 
+func (f *Function) HashKey() HashKey {
+	h := fnv.New64a()
+	// 利用 fmt.Sprintf("%p") 取得這個函式在 Go 記憶體中的唯一指標位址
+	h.Write([]byte(fmt.Sprintf("%p", f))) 
+	return HashKey{
+		TokenType: f.TokenType(),
+		Value:     h.Sum64(),
+	}
+}
+
 // String represents a string.
 type String struct {
 	Value string
@@ -259,6 +269,15 @@ func (b *Builtin) TokenType() TokenType {
 // Inspect returns a string representation of the Builtin.
 func (b *Builtin) Inspect() string {
 	return "builtin function"
+}
+
+func (b *Builtin) HashKey() HashKey {
+	h := fnv.New64a()
+	h.Write([]byte(fmt.Sprintf("%p", b)))
+	return HashKey{
+		TokenType: b.TokenType(),
+		Value:     h.Sum64(),
+	}
 }
 
 // Array represents an array.
@@ -393,9 +412,19 @@ func (o *LPCObject) Inspect() string {
 	return "<object: " + o.Filename + ">"
 }
 
+func (o *LPCObject) HashKey() HashKey {
+	h := fnv.New64a()
+	// LPC 物件因為檔名加上 CloneID 是獨一無二的，所以我們 Hash 它的檔名
+	h.Write([]byte(o.Filename))
+	return HashKey{
+		TokenType: o.TokenType(),
+		Value:     h.Sum64(),
+	}
+}
+
 // Mapping: LPC 專用的 mapping 結構
 type Mapping struct {
-	Pairs map[string]Object
+	Pairs map[HashKey]HashPair
 }
 
 // TokenType implements Object interface
@@ -406,15 +435,12 @@ func (m *Mapping) TokenType() TokenType {
 func (m *Mapping) Inspect() string {
 	var out bytes.Buffer
 	var pairs []string
-
-	for key, val := range m.Pairs {
-		pairs = append(pairs, `"`+key+`": `+val.Inspect())
+	for _, pair := range m.Pairs {
+		pairs = append(pairs, pair.Key.Inspect()+": "+pair.Value.Inspect())
 	}
-
 	out.WriteString("([ ")
 	out.WriteString(strings.Join(pairs, ", "))
 	out.WriteString(" ])")
-
 	return out.String()
 }
 
