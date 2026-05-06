@@ -7,7 +7,7 @@ import (
 	"io/ioutil"
 	"os"
 
-	"mudscript/eval"
+	"mudscript/evaluator"
 	"mudscript/lexer"
 	"mudscript/object"
 	"mudscript/parser"
@@ -43,7 +43,7 @@ func runProgram(filename string) error {
 	}
 
 	env := object.NewEnvironment()
-	result := eval.Eval(program, env)
+	result := evaluator.Eval(program, env)
 	if _, ok := result.(*object.Nil); ok {
 		return nil
 	}

@@ -1,4 +1,4 @@
-package eval
+package evaluator
 
 import (
 	"fmt"
@@ -126,6 +126,14 @@ func Eval(node ast.Node, env object.Environment) object.Object {
 
 	case *ast.HashLiteral:
 		return evalHashLiteral(node, env)
+
+	// [新增] 處理強型別變數宣告 (int x = 10;)
+	case *ast.TypedVarDecl:
+		return evalTypedVarDecl(node, env)
+
+	// [新增] 處理函式定義 (int main() { ... })
+	case *ast.FunctionDef:
+		return evalFunctionDef(node, env)
 	}
 
 	return nil
@@ -458,4 +466,82 @@ func evalHashIndexExpression(left, index object.Object) object.Object {
 		return pair.Value
 	}
 	return NilValue
+}
+
+/////////////////////////////////////////////////////
+// mudscript
+
+func evalTypedVarDecl(node *ast.TypedVarDecl, env object.Environment) object.Object {
+	var val object.Object
+
+	// 1. 如果有等號賦值 (例如: int x = 10;)
+	if node.Value != nil {
+		val = Eval(node.Value, env)
+		if isError(val) {
+			return val
+		}
+
+		// 執行型別檢查！
+		expectedType := node.Token.Literal
+		if !checkTypeMatch(expectedType, val) {
+			return newError("type mismatch: cannot assign %s to %s variable '%s'",
+				val.TokenType(), expectedType, node.Name.Value)
+		}
+	} else {
+		// 2. 如果沒有賦值，給予預設值
+		val = getDefaultLPCValue(node.Token.Literal)
+	}
+
+	// 3. 將變數存入環境中
+	env.Set(node.Name.Value, val)
+	return val
+}
+
+// 輔助函式：判斷指派的值是否符合宣告的型別
+func checkTypeMatch(lpcType string, obj object.Object) bool {
+	switch lpcType {
+	case "int":
+		return obj.TokenType() == object.IntegerType
+	case "string":
+		return obj.TokenType() == object.StringType
+	case "float":
+		return obj.TokenType() == object.FloatType
+	case "mixed":
+		return true
+	case "object":
+		return obj.TokenType() == object.NilType // or later Object type
+	default:
+		return false
+	}
+}
+
+// 輔助函式：取得 LPC 的預設值
+func getDefaultLPCValue(lpcType string) object.Object {
+	switch lpcType {
+	case "int":
+		return &object.Integer{Value: 0}
+	case "string":
+		return &object.String{Value: ""}
+	case "float":
+		return &object.Float{Value: 0.0}
+	default:
+		return NilValue
+	}
+}
+
+func evalFunctionDef(node *ast.FunctionDef, env object.Environment) object.Object {
+	// 轉換 TypedParam → Ident 以相容原本的 Function
+	var params []*ast.Ident
+	for _, p := range node.Params {
+		params = append(params, p.Name)
+	}
+
+	fn := &object.Function{
+		Parameters: params,
+		Env:        env,
+		Body:       node.Body,
+	}
+
+	env.Set(node.Name.Value, fn)
+	return fn
 }

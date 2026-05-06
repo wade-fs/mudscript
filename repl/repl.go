@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"io"
 
-	"mudscript/eval"
+	"mudscript/evaluator"
 	"mudscript/lexer"
 	"mudscript/object"
 	"mudscript/parser"
@@ -36,11 +36,11 @@ func Start(in io.Reader, out io.Writer) {
 		}
 
 		// Process macros
-		eval.DefineMacros(program, macroEnv)
-		expanded := eval.ExpandMacros(program, macroEnv)
+		evaluator.DefineMacros(program, macroEnv)
+		expanded := evaluator.ExpandMacros(program, macroEnv)
 
 		// Evaluate AST
-		evaluated := eval.Eval(expanded, env)
+		evaluated := evaluator.Eval(expanded, env)
 		if evaluated == nil {
 			continue
 		}
