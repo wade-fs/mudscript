@@ -134,6 +134,28 @@ func Eval(node ast.Node, env object.Environment) object.Object {
 	// [新增] 處理函式定義 (int main() { ... })
 	case *ast.FunctionDef:
 		return evalFunctionDef(node, env)
+
+	// [新增] 重新賦值與複合賦值 (x = 1, x += 2)
+	case *ast.AssignExpression:
+		return evalAssignExpression(node, env)
+	
+	// [新增] 自增減 (x++, x--)
+	case *ast.PostfixExpression:
+		return evalPostfixExpression(node, env)
+
+	// [新增] 控制流與迴圈
+	case *ast.ForStatement:
+		return evalForStatement(node, env)
+	case *ast.WhileStatement:
+		return evalWhileStatement(node, env)
+	case *ast.DoWhileStatement:
+		return evalDoWhileStatement(node, env)
+	case *ast.SwitchStatement:
+		return evalSwitchStatement(node, env)
+	case *ast.BreakStatement:
+		return &object.BreakValue{}
+	case *ast.ContinueStatement:
+		return &object.ContinueValue{}
 	}
 
 	return nil
@@ -313,7 +335,10 @@ func evalBlockStatement(block *ast.BlockStatement, env object.Environment) objec
 			continue
 		}
 
-		if rt := result.TokenType(); rt == object.ReturnValueType || rt == object.ErrorType {
+		rt := result.TokenType()
+		// 新增：遇到 Return、Error、Break、Continue 都要立刻把訊號往上傳
+		if rt == object.ReturnValueType || rt == object.ErrorType || 
+		   rt == object.BREAK_VALUE_OBJ || rt == object.CONTINUE_VALUE_OBJ {
 			return result
 		}
 	}
@@ -544,4 +569,176 @@ func evalFunctionDef(node *ast.FunctionDef, env object.Environment) object.Objec
 
 	env.Set(node.Name.Value, fn)
 	return fn
+}
+
+// ==========================================
+// 重新賦值與自增減
+// ==========================================
+
+func evalAssignExpression(node *ast.AssignExpression, env object.Environment) object.Object {
+	val := Eval(node.Value, env)
+	if isError(val) { return val }
+
+	// 為了簡化，目前先支援對 Ident (變數) 重新賦值
+	leftIdent, ok := node.Left.(*ast.Ident)
+	if !ok {
+		return newError("目前僅支援對變數重新賦值")
+	}
+
+	if node.Operator == "=" {
+		// [修正] 使用 Assign，確保更新到正確的外層 Scope
+		if !env.Assign(leftIdent.Value, val) {
+			return newError("變數未宣告或不存在: %s", leftIdent.Value)
+		}
+		return val
+	}
+
+	// 處理 +=, -=, *=, /=
+	currentVal, exists := env.Get(leftIdent.Value)
+	if !exists {
+		return newError("變數不存在: %s", leftIdent.Value)
+	}
+
+	op := node.Operator[:len(node.Operator)-1] // 把 "+=" 變成 "+"
+	newVal := evalInfixExpression(op, currentVal, val)
+	if isError(newVal) { return newVal }
+
+	env.Set(leftIdent.Value, newVal)
+	return newVal
+}
+
+func evalPostfixExpression(node *ast.PostfixExpression, env object.Environment) object.Object {
+	leftIdent, ok := node.Left.(*ast.Ident)
+	if !ok { return newError("目前僅支援對變數使用自增減") }
+	
+	currentVal, exists := env.Get(leftIdent.Value)
+	if !exists { return newError("變數不存在: %s", leftIdent.Value) }
+	
+	if currentVal.TokenType() != object.IntegerType {
+		return newError("自增減運算子只能用於整數")
+	}
+
+	oldInt := currentVal.(*object.Integer).Value
+	var newInt int64
+	if node.Operator == "++" {
+		newInt = oldInt + 1
+	} else {
+		newInt = oldInt - 1
+	}
+
+	env.Assign(leftIdent.Value, &object.Integer{Value: newInt})
+	// 後綴運算子 (x++) 會回傳「原本」的值
+	return &object.Integer{Value: oldInt}
+}
+
+// ==========================================
+// 迴圈與分支
+// ==========================================
+
+func evalForStatement(node *ast.ForStatement, env object.Environment) object.Object {
+	loopEnv := object.NewEnclosedEnvironment(env) // 建立迴圈專屬作用域
+
+	if node.Init != nil {
+		Eval(node.Init, loopEnv)
+	}
+
+	var result object.Object
+	for {
+		if node.Condition != nil {
+			cond := Eval(node.Condition, loopEnv)
+			if isError(cond) { return cond }
+			if !isTruthy(cond) { break }
+		}
+
+		result = Eval(node.Body, loopEnv)
+		if isError(result) { return result }
+
+		if result != nil {
+			rt := result.TokenType()
+			if rt == object.ReturnValueType { return result }
+			if rt == object.BREAK_VALUE_OBJ { break }
+			// 如果是 CONTINUE_VALUE_OBJ，就直接往下執行 Post，不要中斷迴圈
+		}
+
+		if node.Post != nil {
+			Eval(node.Post, loopEnv)
+		}
+	}
+	return NilValue
+}
+
+func evalWhileStatement(node *ast.WhileStatement, env object.Environment) object.Object {
+	var result object.Object
+	for {
+		cond := Eval(node.Condition, env)
+		if isError(cond) { return cond }
+		if !isTruthy(cond) { break }
+
+		result = Eval(node.Body, env)
+		if isError(result) { return result }
+
+		if result != nil {
+			rt := result.TokenType()
+			if rt == object.ReturnValueType { return result }
+			if rt == object.BREAK_VALUE_OBJ { break }
+		}
+	}
+	return NilValue
+}
+
+func evalDoWhileStatement(node *ast.DoWhileStatement, env object.Environment) object.Object {
+	var result object.Object
+	for {
+		result = Eval(node.Body, env)
+		if isError(result) { return result }
+
+		if result != nil {
+			rt := result.TokenType()
+			if rt == object.ReturnValueType { return result }
+			if rt == object.BREAK_VALUE_OBJ { break }
+		}
+
+		cond := Eval(node.Condition, env)
+		if isError(cond) { return cond }
+		if !isTruthy(cond) { break }
+	}
+	return NilValue
+}
+
+func evalSwitchStatement(node *ast.SwitchStatement, env object.Environment) object.Object {
+	val := Eval(node.Value, env)
+	if isError(val) { return val }
+
+	isFallthrough := false
+	var result object.Object
+
+	for _, caseStmt := range node.Cases {
+		match := false
+
+		if caseStmt.Value == nil {
+			match = true // 這是 default
+		} else if !isFallthrough {
+			caseVal := Eval(caseStmt.Value, env)
+			if isError(caseVal) { return caseVal }
+			
+			// 使用現有的 Infix 比較邏輯
+			cmp := evalInfixExpression("==", val, caseVal)
+			if cmp == TrueValue { match = true }
+		}
+
+		if match || isFallthrough {
+			isFallthrough = true // 除非遇到 break，否則 C/LPC 預設會 isFallthrough
+			
+			for _, stmt := range caseStmt.Body {
+				result = Eval(stmt, env)
+				if result != nil {
+					rt := result.TokenType()
+					if rt == object.ReturnValueType || rt == object.ErrorType { return result }
+					if rt == object.BREAK_VALUE_OBJ { return NilValue } // break 跳出 switch
+					if rt == object.CONTINUE_VALUE_OBJ { return result } // continue 給外層迴圈處理
+				}
+			}
+		}
+	}
+	return NilValue
 }

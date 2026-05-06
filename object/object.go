@@ -45,6 +45,8 @@ const (
 	// mudscript
 	LPC_OBJECT_OBJ = "LPC_OBJECT"
 	MAPPING_OBJ    = "MAPPING"
+	BREAK_VALUE_OBJ    = "BREAK_VALUE"
+	CONTINUE_VALUE_OBJ = "CONTINUE_VALUE"
 )
 
 // Object represents an object of Monkey language.
@@ -415,3 +417,13 @@ func (m *Mapping) Inspect() string {
 
 	return out.String()
 }
+
+// BreakValue: 代表遇到了 break;
+type BreakValue struct{}
+func (b *BreakValue) TokenType() TokenType { return BREAK_VALUE_OBJ }
+func (b *BreakValue) Inspect() string { return "break" }
+
+// ContinueValue: 代表遇到了 continue;
+type ContinueValue struct{}
+func (c *ContinueValue) TokenType() TokenType { return CONTINUE_VALUE_OBJ }
+func (c *ContinueValue) Inspect() string { return "continue" }
