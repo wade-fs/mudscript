@@ -371,10 +371,15 @@ func (m *Macro) Inspect() string {
 
 // LPCObject: 代表一個載入記憶體中的 LPC 物件實體 (.c 檔)
 type LPCObject struct {
-	Filename  string
-	Vars      Environment
-	Functions map[string]*Function
-	Inherits  []*LPCObject
+	Filename    string
+	Vars        Environment
+	Functions   map[string]*Function
+	Inherits    []*LPCObject
+	
+	// --- 新增：空間與生命週期狀態 ---
+	Location    *LPCObject   // 這個物件目前在哪裡？ (例如在某個房間，或某個玩家身上)
+	Inventory   []*LPCObject // 這個物件裡面裝了什麼？
+	IsDestructed bool        // 標記是否已經被摧毀
 }
 
 // TokenType implements Object interface

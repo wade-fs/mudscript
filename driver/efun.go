@@ -3,6 +3,8 @@ package driver
 
 import (
 	"fmt"
+	"math/rand"
+	"strings"
 	"time"
 
 	"mudscript/object"
@@ -11,65 +13,189 @@ import (
 // SetupEfuns 為每個載入的 LPC 物件注入專屬的內建函式
 func (d *Driver) SetupEfuns(obj *object.LPCObject) {
 
-	// 1. write(string msg) - 輸出訊息到控制台
+	// ==========================================
+	// 1. 核心與 I/O (Core & IO)
+	// ==========================================
+
+	// write(string msg) - 印出訊息
 	obj.Vars.Set("write", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
-			if len(args) != 1 || args[0].TokenType() != object.StringType {
-				return object.NewError("argument to `write` must be STRING")
+			if len(args) > 0 && args[0].TokenType() == object.StringType {
+				fmt.Print(args[0].(*object.String).Value)
 			}
-			msg := args[0].(*object.String).Value
-			fmt.Print(msg)
 			return &object.Nil{}
 		},
 	})
 
-	// 2. this_object() - 回傳自己這個物件實體
-	obj.Vars.Set("this_object", &object.Builtin{
+	// say(string msg) - 對周圍的其他物件廣播訊息
+	obj.Vars.Set("say", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
-			return obj
+			if len(args) == 0 || args[0].TokenType() != object.StringType {
+				return object.NewError("argument to `say` must be STRING")
+			}
+			msg := args[0].(*object.String).Value
+			env := obj.Location
+			if env != nil {
+				// 呼叫房間內所有其他物件的 catch_tell 函式 (NPC 會聽見)
+				for _, other := range env.Inventory {
+					if other != obj {
+						d.CallFunction(other, "catch_tell", []object.Object{&object.String{Value: msg}})
+					}
+				}
+			}
+			return &object.Nil{}
 		},
 	})
 
-	// 3. clone_object(string filename) - 複製新物件
+	// this_object() - 回傳自己
+	obj.Vars.Set("this_object", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object { return obj },
+	})
+
+	// ==========================================
+	// 2. 空間與物件操作 (Environment & Objects)
+	// ==========================================
+
+	// environment([object ob]) - 取得所在環境
+	obj.Vars.Set("environment", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			target := obj
+			if len(args) > 0 && args[0].TokenType() == object.LPC_OBJECT_OBJ {
+				target = args[0].(*object.LPCObject)
+			}
+			if target.Location != nil {
+				return target.Location
+			}
+			return &object.Nil{}
+		},
+	})
+
+	// move_object(object dest) - 移動物件
+	obj.Vars.Set("move_object", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) != 1 || args[0].TokenType() != object.LPC_OBJECT_OBJ {
+				return object.NewError("argument to `move_object` must be OBJECT")
+			}
+			dest := args[0].(*object.LPCObject)
+			d.MoveObject(obj, dest)
+			return &object.Nil{}
+		},
+	})
+
+	// destruct(object ob) - 摧毀物件
+	obj.Vars.Set("destruct", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) != 1 || args[0].TokenType() != object.LPC_OBJECT_OBJ {
+				return object.NewError("argument to `destruct` must be OBJECT")
+			}
+			target := args[0].(*object.LPCObject)
+			d.DestructObject(target)
+			return &object.Nil{}
+		},
+	})
+
+	// clone_object(string file) - 複製物件
 	obj.Vars.Set("clone_object", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
 			if len(args) != 1 || args[0].TokenType() != object.StringType {
 				return object.NewError("argument to `clone_object` must be STRING")
 			}
-			filename := args[0].(*object.String).Value
-			clonedObj, err := d.CloneObject(filename)
+			clonedObj, err := d.CloneObject(args[0].(*object.String).Value)
 			if err != nil {
-				return object.NewError("failed to clone object: %s", err.Error())
+				return object.NewError("clone error: %s", err.Error())
 			}
 			return clonedObj
 		},
 	})
 
-	// 4. call_out(string funcName, int delay, ...args) - 延遲執行
+	// ==========================================
+	// 3. 時間與排程 (Time & Scheduling)
+	// ==========================================
+
+	// time() - 回傳 Unix Timestamp
+	obj.Vars.Set("time", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			return &object.Integer{Value: time.Now().Unix()}
+		},
+	})
+
+	// random(int n) - 取亂數 0 ~ (n-1)
+	obj.Vars.Set("random", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) != 1 || args[0].TokenType() != object.IntegerType {
+				return object.NewError("argument to `random` must be INTEGER")
+			}
+			max := args[0].(*object.Integer).Value
+			if max <= 0 {
+				return &object.Integer{Value: 0}
+			}
+			return &object.Integer{Value: rand.Int63n(max)}
+		},
+	})
+
+	// call_out(string func, int delay, ...args)
 	obj.Vars.Set("call_out", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
-			if len(args) < 2 {
-				return object.NewError("call_out requires at least 2 arguments")
-			}
-			funcName, ok := args[0].(*object.String)
-			if !ok {
-				return object.NewError("first argument to call_out must be STRING")
-			}
-			delay, ok := args[1].(*object.Integer)
-			if !ok {
-				return object.NewError("second argument to call_out must be INTEGER")
-			}
-
-			// 將 LPC 的整數轉換為 Go 的時間單位 (秒)
-			duration := time.Duration(delay.Value) * time.Second
-
-			// 將剩餘的參數收集起來，準備傳給目標函式
-			callArgs := args[2:]
-
-			// 呼叫 Driver 的排程系統
-			d.CallOut(obj, funcName.Value, duration, callArgs...)
-
+			if len(args) < 2 { return object.NewError("call_out needs 2+ args") }
+			funcName, _ := args[0].(*object.String)
+			delay, _ := args[1].(*object.Integer)
+			d.CallOut(obj, funcName.Value, time.Duration(delay.Value)*time.Second, args[2:]...)
 			return &object.Nil{}
+		},
+	})
+
+	// ==========================================
+	// 4. 資料結構操作 (Strings, Arrays, Mappings)
+	// ==========================================
+
+	// sizeof(array/string/mapping) - 取得長度
+	obj.Vars.Set("sizeof", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) == 0 { return &object.Integer{Value: 0} }
+			switch arg := args[0].(type) {
+			case *object.Array:
+				return &object.Integer{Value: int64(len(arg.Elements))}
+			case *object.String:
+				return &object.Integer{Value: int64(len(arg.Value))}
+			case *object.Mapping:
+				return &object.Integer{Value: int64(len(arg.Pairs))}
+			}
+			return &object.Integer{Value: 0}
+		},
+	})
+
+	// explode(string str, string delim) - 字串分割成 Array
+	obj.Vars.Set("explode", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) != 2 { return object.NewError("explode requires 2 strings") }
+			str, ok1 := args[0].(*object.String)
+			delim, ok2 := args[1].(*object.String)
+			if !ok1 || !ok2 { return object.NewError("explode requires strings") }
+			
+			parts := strings.Split(str.Value, delim.Value)
+			elements := make([]object.Object, len(parts))
+			for i, p := range parts {
+				elements[i] = &object.String{Value: p}
+			}
+			return &object.Array{Elements: elements}
+		},
+	})
+
+	// implode(array arr, string delim) - Array 結合成字串
+	obj.Vars.Set("implode", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) != 2 { return object.NewError("implode requires array and string") }
+			arr, ok1 := args[0].(*object.Array)
+			delim, ok2 := args[1].(*object.String)
+			if !ok1 || !ok2 { return object.NewError("implode type mismatch") }
+
+			var strs []string
+			for _, e := range arr.Elements {
+				if s, ok := e.(*object.String); ok {
+					strs = append(strs, s.Value)
+				}
+			}
+			return &object.String{Value: strings.Join(strs, delim.Value)}
 		},
 	})
 }

@@ -287,3 +287,57 @@ func unwrapReturnValue(obj object.Object) object.Object {
 	}
 	return obj
 }
+
+// driver/driver.go
+
+// MoveObject 處理物件在容器間的轉移
+func (d *Driver) MoveObject(item *object.LPCObject, dest *object.LPCObject) {
+	if item == nil || dest == nil || item.IsDestructed || dest.IsDestructed {
+		return
+	}
+
+	// 1. 如果物品原本有地方，先從原地點移除
+	if item.Location != nil {
+		oldInv := item.Location.Inventory
+		newInv := make([]*object.LPCObject, 0, len(oldInv))
+		for _, obj := range oldInv {
+			if obj != item {
+				newInv = append(newInv, obj)
+			}
+		}
+		item.Location.Inventory = newInv
+	}
+
+	// 2. 放入新地點
+	item.Location = dest
+	dest.Inventory = append(dest.Inventory, item)
+
+	// MUD 慣例：移動後通常會觸發 init() 讓房間內的物件互相認識
+	d.CallFunction(item, "init", nil)
+}
+
+// DestructObject 徹底摧毀物件
+func (d *Driver) DestructObject(obj *object.LPCObject) {
+	if obj == nil || obj.IsDestructed {
+		return
+	}
+	obj.IsDestructed = true
+
+	// 1. 從心跳名單移除
+	d.SetHeartBeat(obj, false)
+
+	// 2. 把它身上的東西掉到它所在的環境
+	for _, item := range obj.Inventory {
+		d.MoveObject(item, obj.Location)
+	}
+
+	// 3. 把它從目前的環境中移除
+	if obj.Location != nil {
+		d.MoveObject(obj, nil) // 這裡傳 nil 代表移出空間
+	}
+
+	// 4. (可選) 從 Driver 的 ObjectTable 快取中移除 (如果是 clone 的話)
+	d.mu.Lock()
+	delete(d.ObjectTable, obj.Filename)
+	d.mu.Unlock()
+}
