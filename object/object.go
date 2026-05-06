@@ -171,6 +171,10 @@ type Error struct {
 	Message string
 }
 
+func NewError(format string, a ...interface{}) *Error {
+	return &Error{Message: fmt.Sprintf(format, a...)}
+}
+
 // TokenType returns the type of the Error.
 func (e *Error) TokenType() TokenType {
 	return ErrorType

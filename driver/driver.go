@@ -139,12 +139,6 @@ func (d *Driver) CloneObject(filename string) (*object.LPCObject, error) {
 	return clone, nil
 }
 
-// 輔助函數：執行物件內的指定函數
-func (d *Driver) CallFunction(obj *object.LPCObject, funcName string, args []object.Object) object.Object {
-	// 尋找函式並利用 Evaluator 執行... (略)
-	return nil
-}
-
 var cloneCounter int
 func generateCloneID() string {
 	cloneCounter++
@@ -245,4 +239,49 @@ func (d *Driver) SetHeartBeat(obj *object.LPCObject, enable bool) {
 	} else {
 		delete(d.Heartbeats, obj)
 	}
+}
+
+// CallFunction 在指定的 LPC 物件環境中尋找並執行函式
+func (d *Driver) CallFunction(obj *object.LPCObject, funcName string, args []object.Object) object.Object {
+	// 1. 從物件的變數環境中尋找該函式
+	// (因為我們在 Phase 1 的 Eval 中，已經把 FunctionDef 存進 Env 了)
+	fnObj, ok := obj.Vars.Get(funcName)
+	if !ok {
+		// 在 LPC 中，呼叫不存在的函式（例如沒有定義 create 或 heart_beat）是合法的，直接忽略即可
+		return nil
+	}
+
+	// 2. 確定找到的是一個函式物件
+	fn, ok := fnObj.(*object.Function)
+	if !ok {
+		return object.NewError("%s is not a function in %s", funcName, obj.Filename)
+	}
+
+	// 3. 建立執行環境 (Closure)
+	// 將這個物件本身的 Env 作為外層環境，這樣函式內就能存取該物件的全域變數 (例如 hp, name)
+	extendedEnv := object.NewEnclosedEnvironment(fn.Env)
+
+	// 4. 將傳入的引數 (Arguments) 綁定到函式的參數 (Parameters) 上
+	for i, param := range fn.Parameters {
+		if i < len(args) {
+			extendedEnv.Set(param.Value, args[i])
+		} else {
+			// 如果傳入的參數不夠，LPC 預設給整數 0 或是 null
+			extendedEnv.Set(param.Value, &object.Integer{Value: 0})
+		}
+	}
+
+	// 5. 交給 Evaluator 執行函式主體
+	evaluated := evaluator.Eval(fn.Body, extendedEnv)
+
+	// 6. 處理 Return 值 (去除 ReturnWrapper)
+	return unwrapReturnValue(evaluated)
+}
+
+// 輔助函式：剝除 Evaluator 的 ReturnValue 封裝
+func unwrapReturnValue(obj object.Object) object.Object {
+	if returnValue, ok := obj.(*object.ReturnValue); ok {
+		return returnValue.Value
+	}
+	return obj
 }
