@@ -87,26 +87,25 @@ func (d *Driver) LoadObject(filename string) (*object.LPCObject, error) {
 	// 4. 建立物件的獨立變數空間 (Environment)
 	env := object.NewEnvironment()
 
-	// 5. 執行 Evaluator 來初始化這個物件的變數與函式
-	// (此時 evaluator 會把 int x = 1; 以及函式定義存入 env 中)
-	evaluator.Eval(program, env)
-
-	// 6. 封裝成 LPCObject
+	// [修改這裡] 5. 先把 LPCObject 建立出來，這樣才能注入綁定此物件的 Efuns
 	lpcObj := &object.LPCObject{
 		Filename:  filename,
 		Vars:      env,
-		Functions: make(map[string]*object.Function), // 這裡可以從 env 中萃取出函式放入
+		Functions: make(map[string]*object.Function), 
 	}
 
-	// 從 Environment 萃取函式存入 LPCObject (分離變數與函式)
-	// (實作細節取決於你的 Environment 如何儲存，通常可以遍歷 env 找出 type 為 FUNCTION 的項目)
+	// [新增] 6. 注入 Efuns
+	d.SetupEfuns(lpcObj)
 
-	// 7. 寫入 ObjectTable 快取
+	// 7. 執行 Evaluator (此時腳本內的程式已經可以使用 write 等函式了)
+	evaluator.Eval(program, env)
+
+	// 8. 寫入 ObjectTable 快取
 	d.mu.Lock()
 	d.ObjectTable[filename] = lpcObj
 	d.mu.Unlock()
 
-	// MudOS 特性：載入後通常會自動呼叫 create() 函式初始化
+	// 9. 呼叫 create()
 	d.CallFunction(lpcObj, "create", nil)
 
 	return lpcObj, nil
@@ -130,6 +129,9 @@ func (d *Driver) CloneObject(filename string) (*object.LPCObject, error) {
 		Functions: blueprint.Functions,                // 函式直接共用藍圖的
 		Inherits:  blueprint.Inherits,
 	}
+
+	// [新增] 替分身注入它專屬的 Efuns
+	d.SetupEfuns(clone)
 
 	// TODO: 將藍圖的初始變數值複製到 clone.Vars 中
 
