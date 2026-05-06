@@ -300,3 +300,35 @@ func TestOperatorPrecedenceParsing(t *testing.T) {
 		}
 	}
 }
+
+func TestMappingLiteralExpression(t *testing.T) {
+	input := `([ "name": "orc", "hp": 100, "damage": 15 + 5 ])`
+
+	l := lexer.New(input)
+	p := New(l)
+	program := p.ParseProgram()
+	checkParserErrors(t, p)
+
+	if len(program.Statements) != 1 {
+		t.Fatalf("預期 1 個 statement, 得到=%d", len(program.Statements))
+	}
+
+	stmt, ok := program.Statements[0].(*ast.ExpressionStatement)
+	if !ok {
+		t.Fatalf("Statement 不是 ast.ExpressionStatement, 得到=%T", program.Statements[0])
+	}
+
+	mapping, ok := stmt.Expression.(*ast.MappingLiteral)
+	if !ok {
+		t.Fatalf("Expression 不是 ast.MappingLiteral, 得到=%T", stmt.Expression)
+	}
+
+	if len(mapping.Pairs) != 3 {
+		t.Errorf("Mapping 預期有 3 個鍵值對, 得到=%d", len(mapping.Pairs))
+	}
+
+	// 簡單驗證 AST 字串是否正確成型 (順序可能會變，因為 map 走訪無序，所以主要確保沒錯誤即可)
+	if mapping.TokenLiteral() != "([" {
+		t.Errorf("TokenLiteral 預期為 '([', 得到=%s", mapping.TokenLiteral())
+	}
+}

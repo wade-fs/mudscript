@@ -83,6 +83,8 @@ func New(l lexer.Lexer) *Parser {
 		token.LBRACKET: p.parseArrayLiteral,
 		token.LBRACE:   p.parseHashLiteral,
 		token.MACRO:    p.parseMacroLiteral,
+
+		token.LBRACKET_MAP: p.parseMappingLiteral,
 	}
 
 	p.infixParseFns = map[token.TokenType]infixParseFn{
@@ -867,4 +869,44 @@ func (p *Parser) parseSwitchStatement() ast.Statement {
 		}
 	}
 	return stmt
+}
+
+func (p *Parser) parseMappingLiteral() ast.Expression {
+	mapping := &ast.MappingLiteral{
+		Token: p.curToken,
+		Pairs: make(map[ast.Expression]ast.Expression),
+	}
+
+	// 只要還沒遇到結尾的 '])'，就繼續解析鍵值對
+	for !p.peekTokenIs(token.RBRACKET_MAP) {
+		p.nextToken()
+		
+		// 1. 解析 Key
+		key := p.parseExpression(LOWEST)
+
+		// 2. 預期接下來是冒號 ':'
+		if !p.expectPeek(token.COLON) {
+			return nil
+		}
+
+		p.nextToken()
+		
+		// 3. 解析 Value
+		value := p.parseExpression(LOWEST)
+		
+		mapping.Pairs[key] = value
+
+		// 4. 處理逗號：如果下一個不是 '])'，那就必須是逗號 ','
+		// 這同時支援了尾隨逗號 (trailing comma) 的寫法：([ "a":1, ])
+		if !p.peekTokenIs(token.RBRACKET_MAP) && !p.expectPeek(token.COMMA) {
+			return nil
+		}
+	}
+
+	// 最後確保完美收尾在 '])' 上
+	if !p.expectPeek(token.RBRACKET_MAP) {
+		return nil
+	}
+
+	return mapping
 }

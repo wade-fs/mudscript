@@ -729,3 +729,26 @@ func (ss *SwitchStatement) String() string {
 	out.WriteString("}")
 	return out.String()
 }
+
+// MappingLiteral 處理 LPC 的 mapping: ([ "key": val, 1: 2 ])
+type MappingLiteral struct {
+	Token token.Token // 儲存 token.LBRACKET_MAP ('([')
+	Pairs map[Expression]Expression
+}
+
+func (ml *MappingLiteral) expressionNode()      {}
+func (ml *MappingLiteral) TokenLiteral() string { return ml.Token.Literal }
+func (ml *MappingLiteral) String() string {
+	var out bytes.Buffer
+
+	var pairs []string
+	for key, value := range ml.Pairs {
+		pairs = append(pairs, key.String()+": "+value.String())
+	}
+
+	out.WriteString("([")
+	out.WriteString(strings.Join(pairs, ", "))
+	out.WriteString("])")
+
+	return out.String()
+}
