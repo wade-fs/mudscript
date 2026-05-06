@@ -173,15 +173,11 @@ func (l *lexer) skipMultiLineComment() {
 }
 
 func (l *lexer) skipSingleLineComment() {
-	l.readChar() // 吃掉 '/'
-	l.readChar() // 吃掉 '/'
-	for l.ch != 0 {
-		if l.ch == '\n' {
-			l.readChar() // 吃掉 '\n'
-			return
-		}
-		l.readChar()
-	}
+    // 一直讀取字元，直到遇到換行符號 '\n' 或是字串結尾的 0
+    for l.ch != '\n' && l.ch != 0 {
+        l.readChar()
+    }
+    l.skipWhitespace() // 註解結束後，繼續跳過後面的空白
 }
 
 func (l *lexer) skipWhitespace() {

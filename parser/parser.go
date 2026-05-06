@@ -153,17 +153,6 @@ func (p *Parser) ParseProgram() *ast.Program {
 	return program
 }
 
-func (p *Parser) parseStatement() ast.Statement {
-	switch p.curToken.TokenType {
-	case token.LET:
-		return p.parseLetStatement()
-	case token.RETURN:
-		return p.parseReturnStatement()
-	default:
-		return p.parseExpressionStatement()
-	}
-}
-
 func (p *Parser) parseLetStatement() *ast.LetStatement {
 	stmt := &ast.LetStatement{Token: p.curToken}
 
@@ -555,4 +544,154 @@ func (p *Parser) parseMacroLiteral() ast.Expression {
 		Parameters: params,
 		Body:       body,
 	}
+}
+
+// 判斷是否為 LPC 的型別 Token
+func (p *Parser) isTypeToken(t token.TokenType) bool {
+	switch t {
+	case token.INT_TYPE, token.STRING_TYPE, token.OBJECT_TYPE, 
+	     token.MAPPING_TYPE, token.FLOAT_TYPE, token.MIXED_TYPE, token.VOID_TYPE:
+		return true
+	default:
+		return false
+	}
+}
+
+func (p *Parser) parseStatement() ast.Statement {
+	if p.isTypeToken(p.curToken.TokenType) {
+		return p.parseTypedDeclarationStatement()
+	}
+
+	switch p.curToken.TokenType {
+	case token.RETURN:
+		return p.parseReturnStatement()
+	case token.INHERIT:
+		return p.parseInheritStatement()
+	default:
+		return p.parseExpressionStatement()
+	}
+}
+
+// 處理型別宣告（例如 int x = 1; 或 int func() {}）
+func (p *Parser) parseTypedDeclarationStatement() ast.Statement {
+	typeToken := p.curToken // 記住型別 (e.g., INT_TYPE)
+
+	if !p.expectPeek(token.IDENT) { // 下一個必須是變數或函式名稱
+		return nil
+	}
+
+	// 這裡改用 &ast.Ident
+	name := &ast.Ident{Token: p.curToken, Value: p.curToken.Literal}
+
+	if p.peekTokenIs(token.LPAREN) {
+		return p.parseFunctionDefinition(typeToken, name)
+	}
+
+	return p.parseTypedVariableDeclaration(typeToken, name)
+}
+
+// 注意參數 name 的型別改為 *ast.Ident
+func (p *Parser) parseTypedVariableDeclaration(typeToken token.Token, name *ast.Ident) ast.Statement {
+	stmt := &ast.TypedVarDecl{
+		Token: typeToken,
+		Name:  name,
+	}
+
+	// 檢查是否有賦值運算子 '='
+	if p.peekTokenIs(token.ASSIGN) {
+		p.nextToken() // 移動到 '='
+		p.nextToken() // 移動到值的部分
+		
+		stmt.Value = p.parseExpression(LOWEST)
+	}
+
+	if p.peekTokenIs(token.SEMICOLON) {
+		p.nextToken()
+	}
+
+	return stmt
+}
+
+// 注意參數 name 的型別改為 *ast.Ident
+func (p *Parser) parseFunctionDefinition(typeToken token.Token, name *ast.Ident) ast.Statement {
+	stmt := &ast.FunctionDef{
+		Token: typeToken,
+		Name:  name,
+	}
+
+	if !p.expectPeek(token.LPAREN) {
+		return nil
+	}
+
+	stmt.Params = p.parseTypedParameters()
+
+	if !p.expectPeek(token.LBRACE) {
+		return nil
+	}
+
+	stmt.Body = p.parseBlockStatement()
+
+	return stmt
+}
+
+// 輔助函式：解析帶型別的參數
+func (p *Parser) parseTypedParameters() []*ast.TypedParam {
+	var params []*ast.TypedParam
+
+	if p.peekTokenIs(token.RPAREN) {
+		p.nextToken()
+		return params
+	}
+
+	p.nextToken()
+
+	for {
+		if !p.isTypeToken(p.curToken.TokenType) {
+			return nil
+		}
+		paramType := p.curToken
+
+		if !p.expectPeek(token.IDENT) {
+			return nil
+		}
+		
+		// 這裡改用 &ast.Ident
+		paramName := &ast.Ident{Token: p.curToken, Value: p.curToken.Literal}
+
+		params = append(params, &ast.TypedParam{
+			TypeToken: paramType,
+			Name:      paramName,
+		})
+
+		if p.peekTokenIs(token.COMMA) {
+			p.nextToken()
+			p.nextToken()
+		} else {
+			break
+		}
+	}
+
+	if !p.expectPeek(token.RPAREN) {
+		return nil
+	}
+
+	return params
+}
+
+func (p *Parser) parseInheritStatement() ast.Statement {
+	stmt := &ast.InheritStatement{Token: p.curToken}
+
+	// 預期下一個 Token 必須是字串 (STRING)
+	if !p.expectPeek(token.STRING) {
+		return nil
+	}
+
+	stmt.Path = p.curToken.Literal
+
+	// 處理結尾的分號
+	if p.peekTokenIs(token.SEMICOLON) {
+		p.nextToken()
+	}
+
+	return stmt
 }

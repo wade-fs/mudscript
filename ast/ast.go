@@ -512,3 +512,89 @@ func (ml *MacroLiteral) String() string {
 
 	return out.String()
 }
+
+////////////////////////////////////////////////
+// mudscript
+// 變數宣告 (例如: int x = 1; 或 int x;)
+type TypedVarDecl struct {
+	Token token.Token // 記錄型別的 Token (例如 INT_TYPE)
+	Name  *Ident      // 變數名稱 (使用 *Ident)
+	Value Expression  // 初始值 (如果有的話)
+}
+
+func (tvd *TypedVarDecl) statementNode()       {}
+func (tvd *TypedVarDecl) TokenLiteral() string { return tvd.Token.Literal }
+func (tvd *TypedVarDecl) String() string {
+	var out bytes.Buffer
+
+	out.WriteString(tvd.TokenLiteral() + " ") 
+	out.WriteString(tvd.Name.String())        
+
+	if tvd.Value != nil {
+		out.WriteString(" = ")
+		out.WriteString(tvd.Value.String())
+	}
+	out.WriteString(";")
+	return out.String()
+}
+
+// 函式定義 (例如: int main(string arg) { ... })
+type FunctionDef struct {
+	Token  token.Token    // 記錄回傳型別的 Token
+	Name   *Ident         // 函式名稱 (使用 *Ident)
+	Params []*TypedParam  // 帶有型別的參數清單
+	Body   *BlockStatement
+}
+
+func (fd *FunctionDef) statementNode()       {}
+func (fd *FunctionDef) TokenLiteral() string { return fd.Token.Literal }
+func (fd *FunctionDef) String() string {
+	var out bytes.Buffer
+
+	out.WriteString(fd.TokenLiteral() + " ")
+	out.WriteString(fd.Name.String())
+	out.WriteString("(")
+
+	var params []string
+	for _, p := range fd.Params {
+		params = append(params, p.String())
+	}
+	out.WriteString(strings.Join(params, ", "))
+	
+	out.WriteString(") { ") // 加上左大括號
+
+	if fd.Body != nil {
+		out.WriteString(fd.Body.String())
+	}
+
+	out.WriteString(" } ") // 加上右大括號
+	
+	return out.String()
+}
+
+// 帶型別的參數 (例如: string arg)
+type TypedParam struct {
+	TypeToken token.Token
+	Name      *Ident      // 參數名稱 (使用 *Ident)
+}
+
+func (tp *TypedParam) TokenLiteral() string { return tp.TypeToken.Literal }
+func (tp *TypedParam) String() string {
+	return tp.TypeToken.Literal + " " + tp.Name.String()
+}
+
+// InheritStatement 不變
+type InheritStatement struct {
+	Token token.Token 
+	Path  string      
+}
+
+func (is *InheritStatement) statementNode()       {}
+func (is *InheritStatement) TokenLiteral() string { return is.Token.Literal }
+func (is *InheritStatement) String() string {
+	var out bytes.Buffer
+	out.WriteString(is.TokenLiteral() + " ")
+	out.WriteString(`"` + is.Path + `"`)
+	out.WriteString(";")
+	return out.String()
+}
