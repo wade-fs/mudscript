@@ -14,7 +14,7 @@ GO_FLAGS := -ldflags="-s -w -X main.Version=$(VERSION)"
 ENV := GOPATH=$(GOPATH) GOROOT=$(GOROOT)
 
 mudscript:
-	@ rm -f out/$@
+	@ rm -f $(OUT)/$@ && mkdir -p $(OUT)
 	@ TARGET=$@ CMD=$(basename $@) && \
 	echo "TARGET=$@ CMD=$$CMD" && \
 	go mod tidy && \
@@ -22,7 +22,7 @@ mudscript:
 	ls $(OUT)/$@ 
 
 %:
-	@ rm -f out/$@
+	@ rm -f $(OUT)/$@ && mkdir -p $(OUT)
 	@ TARGET=$@ CMD=$(basename $@) && \
 	PLATFORM=$$(case $@ in *.exe) echo windows;; *) echo linux;; esac) && \
 	echo "TARGET=$@ CMD=$$CMD build for $$PLATFORM" && \

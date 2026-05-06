@@ -38,31 +38,9 @@ func (l *lexer) readChar() {
 func (l *lexer) NextToken() token.Token {
 	var tok token.Token
 
-	l.skipWhitespace()
-
-	// skip comments
-	for l.ch == '/' {
-		if l.peekChar() == '/' {
-			l.skipSingleLineComment()
-			l.skipWhitespace()
-		} else if l.peekChar() == '*' {
-			l.skipMultiLineComment()
-			l.skipWhitespace()
-		} else {
-			break
-		}
-	}
+	l.skipWhitespaceAndComments()
 
 	switch l.ch {
-	case '-':
-		if l.peekChar() == '>' { // 處理 ->
-			ch := l.ch
-			l.readChar()
-			literal := string(ch) + string(l.ch)
-			tok = token.Token{TokenType: token.ARROW, Literal: literal}
-		} else {
-			tok = newToken(token.MINUS, l.ch)
-		}
 	case ':':
 		if l.peekChar() == ':' { // 處理 ::
 			ch := l.ch
@@ -95,6 +73,24 @@ func (l *lexer) NextToken() token.Token {
 		}
 	case '[':
 		tok = newToken(token.LBRACKET, l.ch)
+	case '&':
+		if l.peekChar() == '&' {
+			ch := l.ch
+			l.readChar()
+			tok = token.Token{TokenType: token.AND, Literal: string(ch) + string(l.ch)}
+		} else {
+			tok = newToken(token.ILLEGAL, l.ch) // MUD 暫不支援單一的 & (位元運算可後續加)
+		}
+	case '|':
+		if l.peekChar() == '|' {
+			ch := l.ch
+			l.readChar()
+			tok = token.Token{TokenType: token.OR, Literal: string(ch) + string(l.ch)}
+		} else {
+			tok = newToken(token.ILLEGAL, l.ch) 
+		}
+	case '%':
+		tok = newToken(token.PERCENT, l.ch)
 	case '=':
 		if l.peekChar() == '=' {
 			ch := l.ch
@@ -122,11 +118,50 @@ func (l *lexer) NextToken() token.Token {
 	case ',':
 		tok = newToken(token.COMMA, l.ch)
 	case '+':
-		tok = newToken(token.PLUS, l.ch)
+		if l.peekChar() == '+' {
+			ch := l.ch
+			l.readChar()
+			tok = token.Token{TokenType: token.INC, Literal: string(ch) + string(l.ch)}
+		} else if l.peekChar() == '=' {
+			ch := l.ch
+			l.readChar()
+			tok = token.Token{TokenType: token.PLUS_EQUALS, Literal: string(ch) + string(l.ch)}
+		} else {
+			tok = newToken(token.PLUS, l.ch)
+		}
+	case '-':
+		if l.peekChar() == '>' {
+			ch := l.ch
+			l.readChar()
+			tok = token.Token{TokenType: token.ARROW, Literal: string(ch) + string(l.ch)}
+		} else if l.peekChar() == '-' {
+			ch := l.ch
+			l.readChar()
+			tok = token.Token{TokenType: token.DEC, Literal: string(ch) + string(l.ch)}
+		} else if l.peekChar() == '=' {
+			ch := l.ch
+			l.readChar()
+			tok = token.Token{TokenType: token.MINUS_EQUALS, Literal: string(ch) + string(l.ch)}
+		} else {
+			tok = newToken(token.MINUS, l.ch)
+		}
 	case '*':
-		tok = newToken(token.ASTARISK, l.ch)
+		if l.peekChar() == '=' {
+			ch := l.ch
+			l.readChar()
+			tok = token.Token{TokenType: token.ASTERISK_EQUALS, Literal: string(ch) + string(l.ch)}
+		} else {
+			tok = newToken(token.ASTARISK, l.ch)
+		}
 	case '/':
-		tok = newToken(token.SLASH, l.ch)
+		// 註解已經在最上面過濾掉了，這裡處理 /= 和 /
+		if l.peekChar() == '=' {
+			ch := l.ch
+			l.readChar()
+			tok = token.Token{TokenType: token.SLASH_EQUALS, Literal: string(ch) + string(l.ch)}
+		} else {
+			tok = newToken(token.SLASH, l.ch)
+		}
 	case '<':
 		tok = newToken(token.LT, l.ch)
 	case '>':
@@ -190,13 +225,6 @@ func (l *lexer) skipWhitespace() {
 	for l.ch == ' ' || l.ch == '\t' || l.ch == '\n' || l.ch == '\r' {
 		l.readChar()
 	}
-}
-
-func (l *lexer) skipComment() {
-	for l.ch != '\n' && l.ch != '\r' {
-		l.readChar()
-	}
-	l.skipWhitespace()
 }
 
 func (l *lexer) peekChar() byte {
@@ -288,7 +316,7 @@ func (l *lexer) readCharLiteral() string {
 	char := l.ch
 	l.readChar() // 讀掉字元本身
 	if l.ch == '\'' {
-		l.readChar() // 讀掉結尾的單引號
+		// 注意這裡不呼叫 l.readChar()，因為 NextToken 最後面會統一呼叫
 	}
 	return string(char)
 }
@@ -296,14 +324,33 @@ func (l *lexer) readCharLiteral() string {
 // 讀取前處理器指令 (整行讀取，包含 #include "file.c" 或 #define)
 func (l *lexer) readPreprocessor() string {
 	position := l.position
-	// 一直讀到換行或檔案結尾
 	for l.ch != '\n' && l.ch != 0 {
 		l.readChar()
 	}
-	return l.input[position:l.position]
+	// 為了配合 NextToken 結尾統一的 l.readChar()，我們退回一格
+	literal := l.input[position:l.position]
+	// 退回一格的作法：雖然不乾淨，但避免吃掉換行導致後續解析錯誤
+	l.position -= 1
+	l.readPosition -= 1
+	l.ch = l.input[l.position]
+	return literal
 }
 
 // 判斷是否為十六進位字元
 func isHexDigit(ch byte) bool {
 	return isDigit(ch) || ('a' <= ch && ch <= 'f') || ('A' <= ch && ch <= 'F')
+}
+
+// 為了讓註解處理更強健，我們把略過空白與註解的邏輯包裝起來
+func (l *lexer) skipWhitespaceAndComments() {
+	for {
+		l.skipWhitespace()
+		if l.ch == '/' && l.peekChar() == '/' {
+			l.skipSingleLineComment()
+		} else if l.ch == '/' && l.peekChar() == '*' {
+			l.skipMultiLineComment()
+		} else {
+			break
+		}
+	}
 }

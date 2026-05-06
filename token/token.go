@@ -100,6 +100,17 @@ const (
 	SCOPE        = "::" // 繼承呼叫
 	LBRACKET_MAP = "([" // mapping 起始
 	RBRACKET_MAP = "])" // mapping 結束
+	PERCENT      = "%"
+	PLUS_EQUALS     = "+="
+	MINUS_EQUALS    = "-="
+	ASTERISK_EQUALS = "*="
+	SLASH_EQUALS    = "/="
+	INC             = "++"
+	DEC             = "--"
+
+	// 邏輯運算子
+	AND             = "&&"
+	OR              = "||"
 
 	CLONE_OBJECT = "CLONE_OBJECT"
 	CHAR         = "CHAR"         // 'c'
