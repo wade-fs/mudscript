@@ -87,9 +87,9 @@ func Eval(node ast.Node, env object.Environment) object.Object {
 		}
 
 	case *ast.CallExpression:
-		if node.Function.TokenLiteral() == FuncNameQuote {
-			return quote(node.Arguments[0], env)
-		}
+		//if node.Function.TokenLiteral() == FuncNameQuote {
+		//	return quote(node.Arguments[0], env)
+		//}
 
 		function := Eval(node.Function, env)
 		if isError(function) {

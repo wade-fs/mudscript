@@ -100,6 +100,10 @@ const (
 	SCOPE        = "::" // 繼承呼叫
 	LBRACKET_MAP = "([" // mapping 起始
 	RBRACKET_MAP = "])" // mapping 結束
+
+	CLONE_OBJECT = "CLONE_OBJECT"
+	CHAR         = "CHAR"         // 'c'
+	PREPROCESSOR = "PREPROCESSOR" // #include, #define
 )
 
 // Language keywords
@@ -124,6 +128,7 @@ var keywords = map[string]TokenType{
 	"void":    VOID_TYPE,
 	"inherit": INHERIT,
 	"new":     NEW,
+	"clone_object": CLONE_OBJECT,
 }
 
 // LookupIdent checks the language keywords to see whether the given identifier is a keyword.

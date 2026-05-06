@@ -40,6 +40,11 @@ const (
 	QuoteType = "Quote"
 	// MacroType represents a type of macros.
 	MacroType = "Macro"
+
+	////////////////////////////////////////////
+	// mudscript
+	LPC_OBJECT_OBJ = "LPC_OBJECT"
+	MAPPING_OBJ    = "MAPPING"
 )
 
 // Object represents an object of Monkey language.
@@ -353,6 +358,51 @@ func (m *Macro) Inspect() string {
 	out.WriteString(") {\n")
 	out.WriteString(m.Body.String())
 	out.WriteString("\n}")
+
+	return out.String()
+}
+
+////////////////////////////////////////////////
+// mudscript
+
+// LPCObject: 代表一個載入記憶體中的 LPC 物件實體 (.c 檔)
+type LPCObject struct {
+	Filename  string
+	Vars      Environment
+	Functions map[string]*Function
+	Inherits  []*LPCObject
+}
+
+// TokenType implements Object interface
+func (o *LPCObject) TokenType() TokenType {
+	return LPC_OBJECT_OBJ
+}
+
+func (o *LPCObject) Inspect() string {
+	return "<object: " + o.Filename + ">"
+}
+
+// Mapping: LPC 專用的 mapping 結構
+type Mapping struct {
+	Pairs map[string]Object
+}
+
+// TokenType implements Object interface
+func (m *Mapping) TokenType() TokenType {
+	return MAPPING_OBJ
+}
+
+func (m *Mapping) Inspect() string {
+	var out bytes.Buffer
+	var pairs []string
+
+	for key, val := range m.Pairs {
+		pairs = append(pairs, `"`+key+`": `+val.Inspect())
+	}
+
+	out.WriteString("([ ")
+	out.WriteString(strings.Join(pairs, ", "))
+	out.WriteString(" ])")
 
 	return out.String()
 }

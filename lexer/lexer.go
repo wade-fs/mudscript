@@ -138,6 +138,12 @@ func (l *lexer) NextToken() token.Token {
 	case '"':
 		tok.TokenType = token.STRING
 		tok.Literal = l.readString()
+	case '\'':
+		tok.TokenType = token.CHAR
+		tok.Literal = l.readCharLiteral()
+	case '#':
+		tok.TokenType = token.PREPROCESSOR
+		tok.Literal = l.readPreprocessor()
 	case 0:
 		tok.Literal = ""
 		tok.TokenType = token.EOF
@@ -224,7 +230,24 @@ func (l *lexer) readIdent() string {
 }
 
 func (l *lexer) readNumber() string {
-	return l.read(isDigit)
+	position := l.position
+
+	// 檢查是否為 16 進位 (0x 或 0X)
+	if l.ch == '0' && (l.peekChar() == 'x' || l.peekChar() == 'X') {
+		l.readChar() // 讀掉 0
+		l.readChar() // 讀掉 x
+		for isHexDigit(l.ch) {
+			l.readChar()
+		}
+		return l.input[position:l.position]
+	}
+
+	// 否則照舊處理一般 10 進位或浮點數
+	for isDigit(l.ch) {
+		l.readChar()
+	}
+	// 這裡可以保留你原本處理浮點數 (float) 小數點的邏輯...
+	return l.input[position:l.position]
 }
 
 func (l *lexer) readNumberToken() token.Token {
@@ -257,4 +280,30 @@ func newToken(tokenType token.TokenType, ch byte) token.Token {
 		TokenType:    tokenType,
 		Literal: string(ch),
 	}
+}
+
+// 讀取單字元 (例如 'c')
+func (l *lexer) readCharLiteral() string {
+	l.readChar() // 讀掉開頭的單引號
+	char := l.ch
+	l.readChar() // 讀掉字元本身
+	if l.ch == '\'' {
+		l.readChar() // 讀掉結尾的單引號
+	}
+	return string(char)
+}
+
+// 讀取前處理器指令 (整行讀取，包含 #include "file.c" 或 #define)
+func (l *lexer) readPreprocessor() string {
+	position := l.position
+	// 一直讀到換行或檔案結尾
+	for l.ch != '\n' && l.ch != 0 {
+		l.readChar()
+	}
+	return l.input[position:l.position]
+}
+
+// 判斷是否為十六進位字元
+func isHexDigit(ch byte) bool {
+	return isDigit(ch) || ('a' <= ch && ch <= 'f') || ('A' <= ch && ch <= 'F')
 }
