@@ -11,22 +11,16 @@ import (
 
 const (
 	_ int = iota
-	// LOWEST represents the lowest precedence.
 	LOWEST
-	// EQUALS represents precedence of equals.
-	EQUALS // ==
-	// LESSGREATER represents precedence of less than or greater than.
-	LESSGREATER // > or <
-	// SUM represents precedence of sum.
-	SUM // +
-	// PRODUCT represents precedence of product.
-	PRODUCT // *
-	// PREFIX represents precedence of prefix operator.
-	PREFIX // -X or !X
-	// CALL represents precedence of function call.
-	CALL // myFunc(X)
-	// INDEX represents precedence of array index operator.
-	INDEX // array[index]
+	ASSIGN      // = += -= *= /=
+	EQUALS      // == !=
+	LESSGREATER // > < >= <=
+	SUM         // + -
+	PRODUCT     // * / %
+	PREFIX      // -X or !X
+	CALL        // myFunction(X)
+	INDEX       // array[index]
+	POSTFIX     // X++ X--
 )
 
 var precedences = map[token.TokenType]int{
@@ -40,6 +34,14 @@ var precedences = map[token.TokenType]int{
 	token.ASTARISK: PRODUCT,
 	token.LPAREN:   CALL,
 	token.LBRACKET: INDEX,
+
+	token.ASSIGN:          ASSIGN,
+	token.PLUS_EQUALS:     ASSIGN,
+	token.MINUS_EQUALS:    ASSIGN,
+	token.ASTERISK_EQUALS: ASSIGN,
+	token.SLASH_EQUALS:    ASSIGN,
+	token.INC:             POSTFIX,
+	token.DEC:             POSTFIX,
 }
 
 type (
@@ -94,6 +96,13 @@ func New(l lexer.Lexer) *Parser {
 		token.GT:       p.parseInfixExpression,
 		token.LPAREN:   p.parseCallExpression,
 		token.LBRACKET: p.parseIndexExpression,
+		token.ASSIGN:   p.parseAssignExpression,
+		token.PLUS_EQUALS:   p.parseAssignExpression,
+		token.MINUS_EQUALS:   p.parseAssignExpression,
+		token.ASTERISK_EQUALS:   p.parseAssignExpression,
+		token.SLASH_EQUALS:   p.parseAssignExpression,
+		token.INC:   p.parsePostfixExpression,
+		token.DEC:   p.parsePostfixExpression,
 	}
 
 	// Read two tokens, so curToken and peekToken are both set
@@ -567,6 +576,18 @@ func (p *Parser) parseStatement() ast.Statement {
 		return p.parseReturnStatement()
 	case token.INHERIT:
 		return p.parseInheritStatement()
+	case token.FOR:
+		return p.parseForStatement()
+	case token.WHILE:
+		return p.parseWhileStatement()
+	case token.DO:
+		return p.parseDoWhileStatement()
+	case token.SWITCH:
+		return p.parseSwitchStatement()
+	case token.BREAK:
+		return p.parseBreakStatement()
+	case token.CONTINUE:
+		return p.parseContinueStatement()
 	default:
 		return p.parseExpressionStatement()
 	}
@@ -693,5 +714,157 @@ func (p *Parser) parseInheritStatement() ast.Statement {
 		p.nextToken()
 	}
 
+	return stmt
+}
+
+// 解析 x = 5, x += 2
+func (p *Parser) parseAssignExpression(left ast.Expression) ast.Expression {
+	expr := &ast.AssignExpression{
+		Token:    p.curToken,
+		Operator: p.curToken.Literal,
+		Left:     left,
+	}
+	// 賦值是右結合的 (Right-associative)，所以我們用 prec - 1
+	prec := p.curPrecedence()
+	p.nextToken()
+	expr.Value = p.parseExpression(prec - 1) 
+	return expr
+}
+
+// 解析 x++, x--
+func (p *Parser) parsePostfixExpression(left ast.Expression) ast.Expression {
+	// Postfix 不需要向右繼續解析
+	return &ast.PostfixExpression{
+		Token:    p.curToken,
+		Operator: p.curToken.Literal,
+		Left:     left,
+	}
+}
+
+// --- 實作 Break / Continue ---
+func (p *Parser) parseBreakStatement() ast.Statement {
+	stmt := &ast.BreakStatement{Token: p.curToken}
+	if p.peekTokenIs(token.SEMICOLON) { p.nextToken() }
+	return stmt
+}
+func (p *Parser) parseContinueStatement() ast.Statement {
+	stmt := &ast.ContinueStatement{Token: p.curToken}
+	if p.peekTokenIs(token.SEMICOLON) { p.nextToken() }
+	return stmt
+}
+
+// --- 實作 While ---
+func (p *Parser) parseWhileStatement() ast.Statement {
+	stmt := &ast.WhileStatement{Token: p.curToken}
+	if !p.expectPeek(token.LPAREN) { return nil }
+	p.nextToken()
+	stmt.Condition = p.parseExpression(LOWEST)
+	if !p.expectPeek(token.RPAREN) { return nil }
+	if !p.expectPeek(token.LBRACE) { return nil }
+	stmt.Body = p.parseBlockStatement()
+	return stmt
+}
+
+// --- 實作 For ---
+// --- 實作 For ---
+func (p *Parser) parseForStatement() ast.Statement {
+	stmt := &ast.ForStatement{Token: p.curToken}
+	if !p.expectPeek(token.LPAREN) {
+		return nil
+	}
+	p.nextToken() // 移動到 Init 的第一個 Token
+
+	// 1. 解析 Init (可能是 int x = 0; 或 x = 0; 或是空的)
+	if !p.curTokenIs(token.SEMICOLON) {
+		stmt.Init = p.parseStatement()
+	}
+	
+	// parseStatement() 結束後，curToken 通常會停在 ';' 上
+	if p.curTokenIs(token.SEMICOLON) {
+		p.nextToken() // 吃掉 ';'，進入 Condition
+	} else {
+		p.peekError(token.SEMICOLON)
+		return nil
+	}
+
+	// 2. 解析 Condition (例如 i < 10)
+	if !p.curTokenIs(token.SEMICOLON) {
+		stmt.Condition = p.parseExpression(LOWEST)
+		p.nextToken() // parseExpression 不會自動前進到下一個符號，所以手動移動到 ';'
+	}
+	
+	if p.curTokenIs(token.SEMICOLON) {
+		p.nextToken() // 吃掉 ';'，進入 Post
+	} else {
+		p.peekError(token.SEMICOLON)
+		return nil
+	}
+
+	// 3. 解析 Post (例如 i++)
+	if !p.curTokenIs(token.RPAREN) {
+		stmt.Post = p.parseExpression(LOWEST)
+		p.nextToken() // 移動到 ')'
+	}
+	
+	// 確認現在確實踩在 ')' 上
+	if !p.curTokenIs(token.RPAREN) {
+		p.peekError(token.RPAREN)
+		return nil
+	}
+
+	// 預期接下來是 '{' 開啟 Body
+	if !p.expectPeek(token.LBRACE) {
+		return nil
+	}
+	stmt.Body = p.parseBlockStatement()
+	
+	return stmt
+}
+
+// --- 實作 Do-While ---
+func (p *Parser) parseDoWhileStatement() ast.Statement {
+	stmt := &ast.DoWhileStatement{Token: p.curToken}
+	if !p.expectPeek(token.LBRACE) { return nil }
+	stmt.Body = p.parseBlockStatement()
+	if !p.expectPeek(token.WHILE) { return nil }
+	if !p.expectPeek(token.LPAREN) { return nil }
+	p.nextToken()
+	stmt.Condition = p.parseExpression(LOWEST)
+	if !p.expectPeek(token.RPAREN) { return nil }
+	if p.peekTokenIs(token.SEMICOLON) { p.nextToken() }
+	return stmt
+}
+
+// --- 實作 Switch ---
+func (p *Parser) parseSwitchStatement() ast.Statement {
+	stmt := &ast.SwitchStatement{Token: p.curToken}
+	if !p.expectPeek(token.LPAREN) { return nil }
+	p.nextToken()
+	stmt.Value = p.parseExpression(LOWEST)
+	if !p.expectPeek(token.RPAREN) { return nil }
+	if !p.expectPeek(token.LBRACE) { return nil }
+
+	p.nextToken()
+	for !p.curTokenIs(token.RBRACE) && !p.curTokenIs(token.EOF) {
+		if p.curTokenIs(token.CASE) || p.curTokenIs(token.DEFAULT) {
+			caseStmt := &ast.CaseStatement{Token: p.curToken}
+			if p.curTokenIs(token.CASE) {
+				p.nextToken()
+				caseStmt.Value = p.parseExpression(LOWEST)
+			}
+			if !p.expectPeek(token.COLON) { return nil }
+			p.nextToken()
+			
+			// 讀取 Case 裡的 statements，直到遇到下一個 case/default 或 }
+			for !p.curTokenIs(token.CASE) && !p.curTokenIs(token.DEFAULT) && !p.curTokenIs(token.RBRACE) && !p.curTokenIs(token.EOF) {
+				s := p.parseStatement()
+				if s != nil { caseStmt.Body = append(caseStmt.Body, s) }
+				p.nextToken()
+			}
+			stmt.Cases = append(stmt.Cases, caseStmt)
+		} else {
+			p.nextToken() // 錯誤恢復：如果不是 case/default 則跳過
+		}
+	}
 	return stmt
 }

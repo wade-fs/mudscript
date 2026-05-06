@@ -115,6 +115,15 @@ const (
 	CLONE_OBJECT = "CLONE_OBJECT"
 	CHAR         = "CHAR"         // 'c'
 	PREPROCESSOR = "PREPROCESSOR" // #include, #define
+
+	FOR      = "FOR"
+	WHILE    = "WHILE"
+	DO       = "DO"
+	SWITCH   = "SWITCH"
+	CASE     = "CASE"
+	DEFAULT  = "DEFAULT"
+	BREAK    = "BREAK"
+	CONTINUE = "CONTINUE"
 )
 
 // Language keywords
@@ -140,6 +149,15 @@ var keywords = map[string]TokenType{
 	"inherit": INHERIT,
 	"new":     NEW,
 	"clone_object": CLONE_OBJECT,
+
+	"for":      FOR,
+	"while":    WHILE,
+	"do":       DO,
+	"switch":   SWITCH,
+	"case":     CASE,
+	"default":  DEFAULT,
+	"break":    BREAK,
+	"continue": CONTINUE,
 }
 
 // LookupIdent checks the language keywords to see whether the given identifier is a keyword.

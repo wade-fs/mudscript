@@ -598,3 +598,134 @@ func (is *InheritStatement) String() string {
 	out.WriteString(";")
 	return out.String()
 }
+
+// ==========================================
+// 表達式 (Expressions): 賦值與自增減
+// ==========================================
+
+// AssignExpression (處理 x = 1, x += 2 等)
+type AssignExpression struct {
+	Token    token.Token // =, +=, -= 等
+	Left     Expression  // 通常是 Ident 或 IndexExpression
+	Operator string
+	Value    Expression
+}
+func (ae *AssignExpression) expressionNode()      {}
+func (ae *AssignExpression) TokenLiteral() string { return ae.Token.Literal }
+func (ae *AssignExpression) String() string {
+	return "(" + ae.Left.String() + " " + ae.Operator + " " + ae.Value.String() + ")"
+}
+
+// PostfixExpression (處理 x++, x--)
+type PostfixExpression struct {
+	Token    token.Token // ++, --
+	Left     Expression
+	Operator string
+}
+func (pe *PostfixExpression) expressionNode()      {}
+func (pe *PostfixExpression) TokenLiteral() string { return pe.Token.Literal }
+func (pe *PostfixExpression) String() string {
+	return "(" + pe.Left.String() + pe.Operator + ")"
+}
+
+// ==========================================
+// 陳述式 (Statements): 迴圈與分支
+// ==========================================
+
+// ForStatement
+type ForStatement struct {
+	Token     token.Token // 'for' token
+	Init      Statement
+	Condition Expression
+	Post      Expression
+	Body      *BlockStatement
+}
+func (fs *ForStatement) statementNode()       {}
+func (fs *ForStatement) TokenLiteral() string { return fs.Token.Literal }
+func (fs *ForStatement) String() string {
+	var out bytes.Buffer
+	out.WriteString("for (")
+	if fs.Init != nil { out.WriteString(fs.Init.String()) }
+	out.WriteString(" ")
+	if fs.Condition != nil { out.WriteString(fs.Condition.String()) }
+	out.WriteString("; ")
+	if fs.Post != nil { out.WriteString(fs.Post.String()) }
+	out.WriteString(") ")
+	out.WriteString(fs.Body.String())
+	return out.String()
+}
+
+// WhileStatement
+type WhileStatement struct {
+	Token     token.Token // 'while'
+	Condition Expression
+	Body      *BlockStatement
+}
+func (ws *WhileStatement) statementNode()       {}
+func (ws *WhileStatement) TokenLiteral() string { return ws.Token.Literal }
+func (ws *WhileStatement) String() string {
+	return "while (" + ws.Condition.String() + ") " + ws.Body.String()
+}
+
+// DoWhileStatement
+type DoWhileStatement struct {
+	Token     token.Token // 'do'
+	Body      *BlockStatement
+	Condition Expression
+}
+func (dws *DoWhileStatement) statementNode()       {}
+func (dws *DoWhileStatement) TokenLiteral() string { return dws.Token.Literal }
+func (dws *DoWhileStatement) String() string {
+	return "do " + dws.Body.String() + " while (" + dws.Condition.String() + ");"
+}
+
+// BreakStatement
+type BreakStatement struct { Token token.Token }
+func (bs *BreakStatement) statementNode()       {}
+func (bs *BreakStatement) TokenLiteral() string { return bs.Token.Literal }
+func (bs *BreakStatement) String() string       { return "break;" }
+
+// ContinueStatement
+type ContinueStatement struct { Token token.Token }
+func (cs *ContinueStatement) statementNode()       {}
+func (cs *ContinueStatement) TokenLiteral() string { return cs.Token.Literal }
+func (cs *ContinueStatement) String() string       { return "continue;" }
+
+// CaseStatement
+type CaseStatement struct {
+	Token token.Token // 'case' or 'default'
+	Value Expression  // nil if default
+	Body  []Statement
+}
+func (cs *CaseStatement) statementNode()       {}
+func (cs *CaseStatement) TokenLiteral() string { return cs.Token.Literal }
+func (cs *CaseStatement) String() string {
+	var out bytes.Buffer
+	if cs.Value == nil {
+		out.WriteString("default:\n")
+	} else {
+		out.WriteString("case " + cs.Value.String() + ":\n")
+	}
+	for _, s := range cs.Body {
+		out.WriteString(s.String() + "\n")
+	}
+	return out.String()
+}
+
+// SwitchStatement
+type SwitchStatement struct {
+	Token token.Token // 'switch'
+	Value Expression
+	Cases []*CaseStatement
+}
+func (ss *SwitchStatement) statementNode()       {}
+func (ss *SwitchStatement) TokenLiteral() string { return ss.Token.Literal }
+func (ss *SwitchStatement) String() string {
+	var out bytes.Buffer
+	out.WriteString("switch (" + ss.Value.String() + ") {\n")
+	for _, c := range ss.Cases {
+		out.WriteString(c.String())
+	}
+	out.WriteString("}")
+	return out.String()
+}
