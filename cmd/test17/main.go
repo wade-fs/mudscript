@@ -8,7 +8,7 @@ import (
 func main() {
 	// 1. 初始化 Driver 與 Master
 	d := driver.New(driver.DriverConfig{
-        MudLibPath: "./mudlib",
+        MudLibPath: "./mudlib-from-claude",
         MasterFile: "/master.c",
     })
 	

@@ -312,7 +312,7 @@ func (d *Driver) LoadObject(filename string) (*object.LPCObject, error) {
 		Inherits:  make([]*object.LPCObject, 0),
 	}
 
-	for _, stmt := range program.Statements {
+		for _, stmt := range program.Statements {
 		if inheritStmt, ok := stmt.(*ast.InheritStatement); ok {
 			parentFile := inheritStmt.Path
 			if !strings.HasSuffix(parentFile, ".c") {
@@ -325,12 +325,13 @@ func (d *Driver) LoadObject(filename string) (*object.LPCObject, error) {
 			lpcObj.Inherits = append(lpcObj.Inherits, parentObj)
 			baseName := strings.TrimSuffix(filepath.Base(parentFile), ".c")
 
+			// === 重要：正確複製父類的變數與函式 ===
 			for k, v := range parentObj.Vars.GetAll() {
 				env.Set(k, deepCopyLPCValue(v))
 				if _, isFunc := v.(*object.Function); isFunc {
 					if !strings.Contains(k, "::") {
-						env.Set("::"+k, v)
-						env.Set(baseName+"::"+k, v)
+						env.Set("::"+k, v)           // ::create
+						env.Set(baseName+"::"+k, v)  // living::create
 					}
 				}
 			}
