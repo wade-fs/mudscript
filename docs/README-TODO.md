@@ -102,7 +102,19 @@ ob->func(args) 等同於 call_other(ob, "func", args)
 - #include "path/to/file.h" → 把檔案內容展開
 - #define MACRO value → 字串替換
 - #ifdef / #ifndef / #endif → 條件編譯
-(這對於 mudlib 中大量 #include "include/config.h" 是必要的)
+	(這對於 mudlib 中大量 #include "include/config.h" 是必要的)
+- sscanf 語法與「傳址參考 (Pass by Reference)」
+	- 情境：MUD 最常用來解析玩家指令的神兵利器，例如 sscanf(str, "give %d %s to %s", amount, item, target);。
+	- 挑戰：這需要 Evaluator 支援將變數「傳址」給函式，並直接修改該變數在 Environment 裡的值。
+- 進階陣列/映射表操作 (Advanced EFuns)
+	- 情境：在 MUD 中走訪資料，常會用到 keys(mapping)、values(mapping)，或者是高階陣列操作如 filter_array()、map_array()。
+	- 挑戰：擴充 efun.go，實作這些將陣列與 Mapping 發揮到極致的內建函式。
+- 錯誤攔截 catch 與 throw
+	- 情境：當腳本預期某些操作可能會失敗（例如除以零、轉型失敗），但不希望觸發 master->runtime_error() 導致全域崩潰時，可以用 mixed err = catch( do_something() ); 來將錯誤捕捉下來處理。
+	- 挑戰：在 Evaluator 實作 catch 節點，讓它能夠吸收 object.Error 並轉化為字串傳回給 LPC 變數。
+- 函數指標 / 閉包 (Closures / Function Pointers)
+	- 情境：LPC 支援高階函數傳遞，例如 function f = (: this_object(), "take_damage" :); 或是 evaluate(f, 10);。
+	- 挑戰：在 Object System 中擴充 FunctionPointer 型別，並在 Parser 支援 (: ... :) 的特殊語法。
 
 ## 🟡 P2 — 網路層（讓玩家能連進來）
 

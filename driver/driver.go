@@ -14,6 +14,7 @@ import (
 	"mudscript/lexer"
 	"mudscript/object"
 	"mudscript/parser"
+	"mudscript/preprocessor"
 )
 
 // DriverConfig 運行時期的配置
@@ -81,8 +82,15 @@ func (d *Driver) LoadObject(filename string) (*object.LPCObject, error) {
 		return nil, fmt.Errorf("failed to read file %s: %v", filename, err)
 	}
 
+	// 2.5 執行前處理器 (展開巨集與引入檔案)
+	pp := preprocessor.New(d.Config.MudLibPath)
+	processedContent, err := pp.Process(filename, string(content))
+	if err != nil {
+		return nil, fmt.Errorf("preprocessor error in %s: %v", filename, err)
+	}
+
 	// 3. 進行解析 (Lexing & Parsing)
-	l := lexer.New(string(content))
+	l := lexer.New(processedContent)
 	p := parser.New(l)
 	program := p.ParseProgram()
 

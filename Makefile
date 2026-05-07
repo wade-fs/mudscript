@@ -15,18 +15,13 @@ ENV := GOPATH=$(GOPATH) GOROOT=$(GOROOT)
 
 mudscript:
 	@ rm -f $(OUT)/$@ && mkdir -p $(OUT)
-	@ TARGET=$@ CMD=$(basename $@) && \
-	echo "TARGET=$@ CMD=$$CMD" && \
-	go mod tidy && \
+	@ go mod tidy && \
 	env $(ENV) go build -o $(OUT)/$@ && \
 	ls $(OUT)/$@ 
 
 %:
 	@ rm -f $(OUT)/$@ && mkdir -p $(OUT)
-	@ TARGET=$@ CMD=$(basename $@) && \
-	PLATFORM=$$(case $@ in *.exe) echo windows;; *) echo linux;; esac) && \
-	echo "TARGET=$@ CMD=$$CMD build for $$PLATFORM" && \
-	cd cmd/$@ && \
+	@ cd cmd/$@ && \
 	go mod tidy && \
 	env $(ENV) go build -o $(OUT)/$@ && \
 	$(OUT)/$@ 

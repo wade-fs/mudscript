@@ -176,9 +176,6 @@ func (l *lexer) NextToken() token.Token {
 	case '\'':
 		tok.TokenType = token.CHAR
 		tok.Literal = l.readCharLiteral()
-	case '#':
-		tok.TokenType = token.PREPROCESSOR
-		tok.Literal = l.readPreprocessor()
 	case 0:
 		tok.Literal = ""
 		tok.TokenType = token.EOF
@@ -341,21 +338,6 @@ func (l *lexer) readCharLiteral() string {
 		// 注意這裡不呼叫 l.readChar()，因為 NextToken 最後面會統一呼叫
 	}
 	return string(char)
-}
-
-// 讀取前處理器指令 (整行讀取，包含 #include "file.c" 或 #define)
-func (l *lexer) readPreprocessor() string {
-	position := l.position
-	for l.ch != '\n' && l.ch != 0 {
-		l.readChar()
-	}
-	// 為了配合 NextToken 結尾統一的 l.readChar()，我們退回一格
-	literal := l.input[position:l.position]
-	// 退回一格的作法：雖然不乾淨，但避免吃掉換行導致後續解析錯誤
-	l.position -= 1
-	l.readPosition -= 1
-	l.ch = l.input[l.position]
-	return literal
 }
 
 // 判斷是否為十六進位字元
