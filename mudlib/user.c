@@ -2,6 +2,14 @@
 
 string query_name() { return "你"; }
 
+void create() {
+	set_heart_beat(1);
+}
+
+void heart_beat() {
+	write("💓 心跳跳動中... 現在時間: " + sprintf("%d", time()) + "\n");
+}
+
 // 登入後的第一個動作
 void setup() {
     enable_commands();

@@ -18,6 +18,48 @@ func (d *Driver) SetupEfuns(obj *object.LPCObject) {
 	// 1. 核心與 I/O (Core & IO)
 	// ==========================================
 
+	// set_heart_beat(int flag) - 開啟或關閉心跳 (1 為開啟, 0 為關閉)
+	obj.Vars.Set("set_heart_beat", &object.Builtin{
+	    Fn: func(args ...object.Object) object.Object {
+	        if len(args) < 1 {
+	            return object.NewError("set_heart_beat 需要 1 個整數參數")
+	        }
+
+	        flag, ok := args[0].(*object.Integer)
+	        if !ok {
+	            return object.NewError("set_heart_beat 參數必須是整數")
+	        }
+
+			enable := flag.Value > 0
+			fmt.Printf("DEBUG: set_heart_beat(%d) called on %s\n", flag.Value, obj.Filename)
+
+	        d.SetHeartBeat(obj, enable)
+
+	        return &object.Integer{Value: flag.Value}
+	    },
+	})
+
+	// query_heart_beat(object ob) - 查詢指定物件是否開啟心跳
+	obj.Vars.Set("query_heart_beat", &object.Builtin{
+	    Fn: func(args ...object.Object) object.Object {
+	        target := obj
+	        if len(args) > 0 {
+	            if t, ok := args[0].(*object.LPCObject); ok {
+	                target = t
+	            }
+	        }
+
+	        d.mu.RLock()
+	        _, active := d.Heartbeats[target]
+	        d.mu.RUnlock()
+
+	        if active {
+	            return &object.Integer{Value: 1}
+	        }
+	        return &object.Integer{Value: 0}
+	    },
+	})
+
 	obj.Vars.Set("destruct", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
 			var target *object.LPCObject
