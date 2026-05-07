@@ -379,7 +379,17 @@ func (d *Driver) processHeartBeats() {
 	d.mu.RUnlock()
 
 	for _, obj := range targets {
-		d.CallFunction(obj, "heart_beat", nil)
+		// 若這個物件是互動玩家，heart_beat() 執行期間需要綁定玩家 context，
+		// 這樣 write() 才能把訊息正確送給對應的 TCP 連線。
+		if conn := d.GetConnectionFromObject(obj); conn != nil {
+			gid := getGID()
+			d.playerContexts.Store(gid, conn)
+			d.CallFunction(obj, "heart_beat", nil)
+			d.playerContexts.Delete(gid)
+		} else {
+			// 非互動物件（NPC、房間）直接呼叫
+			d.CallFunction(obj, "heart_beat", nil)
+		}
 	}
 }
 
@@ -573,8 +583,16 @@ func deepCopyLPCValue(obj object.Object) object.Object {
 	}
 }
 
-func (d *Driver) AcceptConnection() *object.LPCObject {
+// AcceptConnection 為新連線建立玩家物件，並在 master.connect() 執行期間
+// 將玩家上下文綁定到當前 goroutine，讓 connect() 內的 write() 能正確輸出。
+func (d *Driver) AcceptConnection(pConn *PlayerConnection) *object.LPCObject {
 	if d.MasterObject == nil { return nil }
+
+	// 先暫時把 pConn 綁到當前 goroutine，讓 master.connect() 裡的 write() 能用
+	gid := getGID()
+	d.playerContexts.Store(gid, pConn)
+	defer d.playerContexts.Delete(gid)
+
 	result := d.CallFunction(d.MasterObject, "connect", nil)
 	if loginObj, ok := result.(*object.LPCObject); ok {
 		return loginObj

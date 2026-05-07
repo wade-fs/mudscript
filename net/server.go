@@ -43,17 +43,21 @@ func (s *TelnetServer) Listen() error {
 
 func (s *TelnetServer) handleConnection(conn net.Conn) {
 	conn.Write([]byte{255, 251, 1, 255, 251, 3})
-	
-	// 取得登入物件
-	userObj := s.Driver.AcceptConnection()
+
+	// 先建立連線物件（Object 暫時為 nil），讓 AcceptConnection 內部的 write() 能輸出
+	pConn := driver.NewPlayerConnection(conn, nil)
+
+	// 呼叫 master.connect()，取得此連線對應的 user clone
+	userObj := s.Driver.AcceptConnection(pConn)
 	if userObj == nil {
-		conn.Write([]byte("系統忙碌中，請稍後再試。\n"))
+		conn.Write([]byte("系統忙碌中，請稍後再試。\r\n"))
 		conn.Close()
 		return
 	}
 
-	// [修改] 使用新的工廠函式建立帶有 TCP Buffer 的連線
-	pConn := driver.NewPlayerConnection(conn, userObj)
+	// 把 user clone 綁定到連線上
+	pConn.Object = userObj
+
 	s.Driver.RegisterInteractive(userObj, pConn)
 	fmt.Printf("DEBUG: 成功註冊互動玩家 -> %s (IsInteractive=%v)\n", userObj.Filename, userObj.IsInteractive)
 	defer s.Driver.UnregisterInteractive(userObj)
