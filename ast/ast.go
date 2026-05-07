@@ -752,3 +752,32 @@ func (ml *MappingLiteral) String() string {
 
 	return out.String()
 }
+
+// CallOtherExpression 處理 ob->func(args)
+type CallOtherExpression struct {
+	Token     token.Token // 儲存 '->' (token.ARROW)
+	Object    Expression  // 左側的目標物件 (例如 ob)
+	Method    *Ident      // 右側的函式名稱 (例如 func)
+	Arguments []Expression // 傳入的參數
+}
+
+func (ce *CallOtherExpression) expressionNode()      {}
+func (ce *CallOtherExpression) TokenLiteral() string { return ce.Token.Literal }
+func (ce *CallOtherExpression) String() string {
+	var out bytes.Buffer
+
+	args := []string{}
+	for _, a := range ce.Arguments {
+		args = append(args, a.String())
+	}
+
+	out.WriteString("(")
+	out.WriteString(ce.Object.String())
+	out.WriteString("->")
+	out.WriteString(ce.Method.String())
+	out.WriteString("(")
+	out.WriteString(strings.Join(args, ", "))
+	out.WriteString("))")
+
+	return out.String()
+}

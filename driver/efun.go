@@ -198,4 +198,30 @@ func (d *Driver) SetupEfuns(obj *object.LPCObject) {
 			return &object.String{Value: strings.Join(strs, delim.Value)}
 		},
 	})
+
+	// call_other(object ob, string func, ...args) - 跨物件函式呼叫
+	obj.Vars.Set("call_other", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 2 {
+				return object.NewError("call_other 至少需要兩個參數 (object, string)")
+			}
+
+			targetObj, ok := args[0].(*object.LPCObject)
+			if !ok {
+				return object.NewError("call_other 第一個參數必須是 object")
+			}
+
+			funcName, ok := args[1].(*object.String)
+			if !ok {
+				return object.NewError("call_other 第二個參數必須是 string")
+			}
+
+			// 呼叫 Driver 原本寫好的 CallFunction！
+			result := d.CallFunction(targetObj, funcName.Value, args[2:])
+			if result == nil {
+				return &object.Integer{Value: 0}
+			}
+			return result
+		},
+	})
 }

@@ -35,6 +35,7 @@ var precedences = map[token.TokenType]int{
 	token.ASTARISK: PRODUCT,
 	token.LPAREN:   CALL,
 	token.LBRACKET: INDEX,
+	token.ARROW:    CALL,
 
 	token.ASSIGN:          ASSIGN,
 	token.PLUS_EQUALS:     ASSIGN,
@@ -110,6 +111,7 @@ func New(l lexer.Lexer) *Parser {
 		token.DEC:      p.parsePostfixExpression,
 
 		token.SCOPE:    p.parseInfixScope,
+		token.ARROW:    p.parseCallOtherExpression,
 	}
 
 	// Read two tokens, so curToken and peekToken are both set
@@ -943,4 +945,31 @@ func (p *Parser) parseInfixScope(left ast.Expression) ast.Expression {
 		Token: p.curToken,
 		Value: leftIdent.Value + "::" + p.curToken.Literal,
 	}
+}
+
+func (p *Parser) parseCallOtherExpression(left ast.Expression) ast.Expression {
+	expr := &ast.CallOtherExpression{
+		Token:  p.curToken,
+		Object: left,
+	}
+
+	// 預期 -> 後面必須緊接著一個識別字 (函式名稱)
+	if !p.expectPeek(token.IDENT) {
+		return nil
+	}
+
+	expr.Method = &ast.Ident{
+		Token: p.curToken,
+		Value: p.curToken.Literal,
+	}
+
+	// 預期函式名稱後面必須接著 '('
+	if !p.expectPeek(token.LPAREN) {
+		return nil
+	}
+
+	// 沿用原本解析參數列表的輔助函式
+	expr.Arguments = p.parseExpressionList(token.RPAREN)
+
+	return expr
 }

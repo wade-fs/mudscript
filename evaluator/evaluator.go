@@ -158,6 +158,8 @@ func Eval(node ast.Node, env object.Environment) object.Object {
 		return &object.ContinueValue{}
 	case *ast.MappingLiteral:
 		return evalMappingLiteral(node, env)
+	case *ast.CallOtherExpression:
+		return evalCallOtherExpression(node, env)
 	}
 
 	return nil
@@ -222,6 +224,11 @@ func evalInfixExpression(operator string, left, right object.Object) object.Obje
 		return evalIntegerInfixExpression(operator, left, right)
 	case left.TokenType() == object.FloatType || right.TokenType() == object.FloatType:
 		return evalFloatInfixExpression(operator, left, right)
+
+	// 只要運算子是 '+'，且其中一邊是字串，就強制轉型並串接
+	case operator == "+" && (left.TokenType() == object.StringType || right.TokenType() == object.StringType):
+		return evalStringConcatExpression(left, right)
+
 	case left.TokenType() == object.StringType && right.TokenType() == object.StringType:
 		return evalStringInfixExpression(operator, left, right)
 	case operator == "==":
@@ -851,4 +858,64 @@ func evalMappingIndexExpression(left, index object.Object) object.Object {
 	
 	// 找不到時回傳 0 (相容 LPC)
 	return &object.Integer{Value: 0} 
+}
+
+func evalCallOtherExpression(node *ast.CallOtherExpression, env object.Environment) object.Object {
+	// 1. 求出目標物件
+	target := Eval(node.Object, env)
+	if isError(target) { return target }
+
+	targetObj, ok := target.(*object.LPCObject)
+	if !ok {
+		return newError("-> 運算子只能用於物件 (LPCObject), 得到的是 %s", target.TokenType())
+	}
+
+	// 2. 求出傳入的參數
+	args := evalExpressions(node.Arguments, env)
+	if len(args) == 1 && isError(args[0]) {
+		return args[0]
+	}
+
+	// 3. 從目標物件的環境中尋找該函式
+	fnObj, exists := targetObj.Vars.Get(node.Method.Value)
+	if !exists {
+		// 在 LPC 中，對物件呼叫不存在的函式不會崩潰，而是靜默回傳 0 (Nil)
+		return &object.Integer{Value: 0}
+	}
+
+	fn, ok := fnObj.(*object.Function)
+	if !ok {
+		return newError("目標物件中的 '%s' 不是一個函式", node.Method.Value)
+	}
+
+	// 4. [關鍵] 建立新的執行環境！外層必須是目標物件的 Vars！
+	extendedEnv := object.NewEnclosedEnvironment(targetObj.Vars)
+	
+	// 將參數綁定到目標函式上
+	for i, param := range fn.Parameters {
+		if i < len(args) {
+			extendedEnv.Set(param.Value, args[i])
+		} else {
+			extendedEnv.Set(param.Value, &object.Integer{Value: 0})
+		}
+	}
+
+	// 5. 執行目標函式，並解開 Return 包裝
+	evaluated := Eval(fn.Body, extendedEnv)
+	return unwrapReturnValue(evaluated)
+}
+
+// 輔助函式：自動將非字串物件轉為字串並串接
+func evalStringConcatExpression(left, right object.Object) object.Object {
+	leftStr := left.Inspect()
+	if l, ok := left.(*object.String); ok {
+		leftStr = l.Value
+	}
+
+	rightStr := right.Inspect()
+	if r, ok := right.(*object.String); ok {
+		rightStr = r.Value
+	}
+
+	return &object.String{Value: leftStr + rightStr}
 }
