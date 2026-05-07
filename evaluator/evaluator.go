@@ -94,6 +94,11 @@ func Eval(node ast.Node, env object.Environment) object.Object {
 		}
 
 	case *ast.CallExpression:
+		// 攔截 catch 錯誤捕捉
+		if ident, ok := node.Function.(*ast.Ident); ok && ident.Value == "catch" {
+			return evalCatch(node, env)
+		}
+
 		// 攔截 sscanf (作為編譯器級別的關鍵字處理)
 		if ident, ok := node.Function.(*ast.Ident); ok && ident.Value == "sscanf" {
 			return evalSscanf(node, env)
@@ -1000,4 +1005,22 @@ func evalSscanf(node *ast.CallExpression, env object.Environment) object.Object 
 
 	// 回傳成功匹配並賦值的變數數量
 	return &object.Integer{Value: int64(matchedCount)}
+}
+
+func evalCatch(node *ast.CallExpression, env object.Environment) object.Object {
+	if len(node.Arguments) != 1 {
+		return newError("catch() 只需要 1 個表達式參數")
+	}
+
+	// 1. 嘗試評估括號內的表達式
+	result := Eval(node.Arguments[0], env)
+
+	// 2. 檢查結果是否為 Error 物件
+	if err, ok := result.(*object.Error); ok {
+		// 捕捉成功！將錯誤訊息轉化為普通的字串回傳，阻止它繼續往上崩潰
+		return &object.String{Value: err.Message}
+	}
+
+	// 3. 如果沒有發生錯誤，LPC 的 catch 慣例是回傳 0
+	return &object.Integer{Value: 0}
 }

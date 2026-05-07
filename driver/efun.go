@@ -52,6 +52,20 @@ func (d *Driver) SetupEfuns(obj *object.LPCObject) {
 		Fn: func(args ...object.Object) object.Object { return obj },
 	})
 
+	// throw(mixed err) - 主動拋出例外
+	obj.Vars.Set("throw", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) == 0 {
+				return object.NewError("Thrown exception")
+			}
+			// 將拋出的物件轉為字串形式的 Error
+			if str, ok := args[0].(*object.String); ok {
+				return object.NewError(str.Value)
+			}
+			return object.NewError(args[0].Inspect())
+		},
+	})
+
 	// ==========================================
 	// 2. 空間與物件操作 (Environment & Objects)
 	// ==========================================
