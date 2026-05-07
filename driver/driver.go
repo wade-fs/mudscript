@@ -123,10 +123,12 @@ func (p *PlayerConnection) ExpandHistory(input string) string {
 // 註冊與取得互動玩家
 func (d *Driver) RegisterInteractive(obj *object.LPCObject, conn *PlayerConnection) {
 	d.interactiveObjects.Store(obj, conn)
+	obj.IsInteractive = true // 標記為真實連線玩家
 }
 
 func (d *Driver) UnregisterInteractive(obj *object.LPCObject) {
 	d.interactiveObjects.Delete(obj)
+	obj.IsInteractive = false // 標記為斷線
 }
 
 func (d *Driver) GetConnectionFromObject(obj *object.LPCObject) *PlayerConnection {
@@ -418,7 +420,7 @@ func (d *Driver) CallFunction(obj *object.LPCObject, funcName string, args []obj
 		if i < len(args) {
 			extendedEnv.Set(param.Value, args[i])
 		} else {
-			extendedEnv.Set(param.Value, &object.Integer{Value: 0})
+			extendedEnv.Set(param.Value, &object.Nil{})
 		}
 	}
 

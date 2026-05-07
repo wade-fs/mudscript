@@ -391,6 +391,13 @@ func (m *Macro) Inspect() string {
 ////////////////////////////////////////////////
 // mudscript
 
+// 玩家/生物身上的指令結構
+type Action struct {
+	Verb     string      // 指令動詞 (例如 "get", "look")
+	FuncName string      // 對應的 LPC 函式名稱 (例如 "do_get")
+	Provider *LPCObject  // 提供這個指令的物件 (例如「蘋果」或「房間」)
+}
+
 // LPCObject: 代表一個載入記憶體中的 LPC 物件實體 (.c 檔)
 type LPCObject struct {
 	Filename    string
@@ -402,6 +409,11 @@ type LPCObject struct {
 	Location    *LPCObject   // 這個物件目前在哪裡？ (例如在某個房間，或某個玩家身上)
 	Inventory   []*LPCObject // 這個物件裡面裝了什麼？
 	IsDestructed bool        // 標記是否已經被摧毀
+
+	// 生物與互動標籤
+	IsLiving      bool               // 是否為活物 (可以接收指令)
+	IsInteractive bool               // 是否為線上玩家 (背後有 TCP 連線)
+	Actions       map[string]*Action // 該生物目前可用的指令表
 }
 
 // TokenType implements Object interface

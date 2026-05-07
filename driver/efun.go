@@ -17,6 +17,52 @@ func (d *Driver) SetupEfuns(obj *object.LPCObject) {
 	// 1. 核心與 I/O (Core & IO)
 	// ==========================================
 
+	// enable_commands() - 讓物件成為「活物」，可以接收 add_action
+	obj.Vars.Set("enable_commands", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			obj.IsLiving = true
+			if obj.Actions == nil {
+				obj.Actions = make(map[string]*object.Action)
+			}
+			return &object.Integer{Value: 1}
+		},
+	})
+
+	// add_action(string func, string verb) - 把指令塞給當前玩家
+	obj.Vars.Set("add_action", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 2 { return object.NewError("add_action 需 2 個字串參數") }
+			
+			funcName, ok1 := args[0].(*object.String)
+			verb, ok2 := args[1].(*object.String)
+			if !ok1 || !ok2 { return object.NewError("add_action 參數型別錯誤") }
+
+			// 誰呼叫了這個動作？通常是 this_player() (正在執行 init 的人)
+			p := d.GetCurrentPlayer()
+			if p == nil || p.Object == nil {
+				return &object.Integer{Value: 0}
+			}
+
+			targetObj := p.Object
+			if !targetObj.IsLiving {
+				return &object.Integer{Value: 0} // 只有活物能學指令
+			}
+
+			// 初始化並寫入指令表
+			if targetObj.Actions == nil {
+				targetObj.Actions = make(map[string]*object.Action)
+			}
+
+			targetObj.Actions[verb.Value] = &object.Action{
+				Verb:     verb.Value,
+				FuncName: funcName.Value,
+				Provider: obj, // 提供者就是呼叫 add_action 的這個物品
+			}
+
+			return &object.Integer{Value: 1}
+		},
+	})
+
 	// write(string msg) - 印出訊息
 	obj.Vars.Set("write", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {

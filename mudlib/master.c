@@ -3,24 +3,47 @@
 string get_root_uid() { return "Root"; }
 string get_bb_uid() { return "Backbone"; }
 
-// 當有新連線進入時，Driver 會呼叫此函式
+void create() {
+    enable_commands();
+}
+
 object connect() {
     write("透過 Master 建立新連線...\n");
-    // 這裡通常會 clone 一個 login 物件，現在我們先回傳 master 自己作為測試
     return this_object(); 
 }
 
-// 處理 process_input (當玩家在 telnet 輸入文字時)
-void process_input(string arg) {
-    if (arg == "help") {
-        write("指令列表：help, quit, info\n");
-	}
+void init() {
+    add_action("do_look", "look");
+    add_action("do_smile", "smile");
+}
 
-	if (arg == "poke") {
-        tell_object(this_player(), "你戳了戳自己！\n");
+int do_look(string arg) {
+    if (!arg) {
+        write("你環顧四周，這裡空無一物。\n");
     } else {
-        write("你說了：" + arg + "\n");
+        write("你看了看 " + arg + "。\n");
     }
+    return 1;
+}
+
+int do_smile(string arg) {
+    if (!arg) {
+        write("你開心地笑了。\n");
+        // 如果還沒有寫 query_name，這裡先用寫死的字串測試
+        say("有人 開心地笑了。\n"); 
+    } else {
+        write("你對著 " + arg + " 笑了笑。\n");
+    }
+    return 1;
+} // <--- 之前這裡漏了這個大括號！
+
+// 將 void 改為 int，因為它需要回傳 1 或 0
+int process_input(string arg) {
+    if (arg == "help") {
+        write("指令列表：look, smile, history\n");
+        return 1;
+    }
+    return 0;
 }
 
 void runtime_error(string msg, string file) {

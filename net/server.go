@@ -59,6 +59,9 @@ func (s *TelnetServer) handleConnection(conn net.Conn) {
 	s.Driver.RegisterInteractive(loginObj, pConn)
 	defer s.Driver.UnregisterInteractive(loginObj)
 
+	// 註冊完玩家後，呼叫物件的 init()，讓 add_action 生效！
+	s.Driver.RunCommand(pConn, loginObj, "init", nil)
+
 	s.servePlayer(pConn)
 }
 
@@ -114,7 +117,53 @@ func (s *TelnetServer) servePlayer(p *driver.PlayerConnection) {
 			}
 
 			if finalInput != "" {
-				s.Driver.RunCommand(p, p.Object, "process_input", []object.Object{&object.String{Value: finalInput}})
+				// 將輸入分割為 動詞 (verb) 和 參數 (arg)
+				parts := strings.SplitN(finalInput, " ", 2)
+				verb := parts[0]
+				arg := ""
+				if len(parts) > 1 {
+					arg = parts[1]
+				}
+			
+				cmdHandled := false
+			
+				// 1. 檢查玩家身上有沒有註冊這個動詞
+				if p.Object.Actions != nil {
+					if action, exists := p.Object.Actions[verb]; exists {
+						// 找到了！去呼叫提供該指令的物件 (例如劍、房間或玩家自己)
+						
+						// 我們需要將參數傳給函式
+						callArgs := []object.Object{}
+						if arg != "" {
+							callArgs = append(callArgs, &object.String{Value: arg})
+						}
+			
+						// 執行該函式 (注意：RunCommand 會將 this_player() 綁定為 p)
+						res := s.Driver.RunCommand(p, action.Provider, action.FuncName, callArgs)
+			
+						// LPC 慣例：如果函式回傳 1 (非 0)，代表指令成功執行
+						// 如果回傳 0，代表執行失敗（例如 "get all" 但其實拿不起來），應該繼續往下找或報錯
+						if res != nil {
+							if i, ok := res.(*object.Integer); !ok || i.Value != 0 {
+								cmdHandled = true
+							}
+						}
+					}
+				}
+			
+				// 2. 如果指令表裡找不到，退回到原本的 process_input (供聊天或系統指令使用)
+				if !cmdHandled {
+					res := s.Driver.RunCommand(p, p.Object, "process_input", []object.Object{&object.String{Value: finalInput}})
+					
+					// 如果 process_input 也回傳 0，我們就印出經典的 MUD 提示
+					if res != nil {
+						if i, ok := res.(*object.Integer); ok && i.Value == 0 {
+							p.Send("什麼？\r\n")
+						}
+					} else {
+			            p.Send("什麼？\r\n")
+			        }
+				}
 			}
 
 			p.Send("> ")
