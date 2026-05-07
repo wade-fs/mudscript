@@ -11,6 +11,7 @@ type Environment interface {
 	Set(name string, val Object) Object
 
 	Assign(name string, val Object) bool
+	GetAll() map[string]Object
 }
 
 // environment implements Environment interface.
@@ -67,4 +68,12 @@ func (e *environment) Assign(name string, val Object) bool {
 	}
 	// 如果都找不到，代表這是一個未宣告的變數！
 	return false
+}
+
+func (e *environment) GetAll() map[string]Object {
+	result := make(map[string]Object)
+	for k, v := range e.store {
+		result[k] = v
+	}
+	return result
 }

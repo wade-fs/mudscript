@@ -235,14 +235,36 @@ func (l *lexer) peekChar() byte {
 }
 
 func (l *lexer) readString() string {
-	position := l.position + 1
+	var out []byte
 	for {
 		l.readChar()
 		if l.ch == '"' || l.ch == 0 {
 			break
 		}
+
+		// 處理轉義字元 (Escape Sequences)
+		if l.ch == '\\' {
+			l.readChar() // 讀取斜線後面的字元
+			switch l.ch {
+			case 'n':
+				out = append(out, '\n')
+			case 't':
+				out = append(out, '\t')
+			case 'r':
+				out = append(out, '\r')
+			case '"':
+				out = append(out, '"')
+			case '\\':
+				out = append(out, '\\')
+			default:
+				// 如果是不認識的轉義，保留原樣
+				out = append(out, '\\', l.ch)
+			}
+		} else {
+			out = append(out, l.ch)
+		}
 	}
-	return l.input[position:l.position]
+	return string(out)
 }
 
 func (l *lexer) read(checkFn func(byte) bool) string {

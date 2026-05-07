@@ -4,9 +4,11 @@ package driver
 import (
 	"fmt"
 	"os"
+	"strings"
 	"sync"
 	"time"
 
+	"mudscript/ast"
 	"mudscript/evaluator"
 	"mudscript/lexer"
 	"mudscript/object"
@@ -86,12 +88,38 @@ func (d *Driver) LoadObject(filename string) (*object.LPCObject, error) {
 
 	// 4. 建立物件的獨立變數空間 (Environment)
 	env := object.NewEnvironment()
-
-	// [修改這裡] 5. 先把 LPCObject 建立出來，這樣才能注入綁定此物件的 Efuns
 	lpcObj := &object.LPCObject{
 		Filename:  filename,
 		Vars:      env,
 		Functions: make(map[string]*object.Function), 
+		Inherits:  make([]*object.LPCObject, 0),
+	}
+
+	// ==========================================
+	// [新增] 5. 處理 Inherit 語法 (在編譯期載入父物件)
+	// ==========================================
+	for _, stmt := range program.Statements {
+		if inheritStmt, ok := stmt.(*ast.InheritStatement); ok {
+			
+			// 處理路徑 (LPC 腳本常省略 .c)
+			parentFile := inheritStmt.Path
+			if !strings.HasSuffix(parentFile, ".c") {
+				parentFile += ".c"
+			}
+
+			// 遞迴載入父物件 (Blueprint)
+			parentObj, err := d.LoadObject(parentFile)
+			if err != nil {
+				return nil, fmt.Errorf("無法繼承 %s: %v", parentFile, err)
+			}
+
+			lpcObj.Inherits = append(lpcObj.Inherits, parentObj)
+
+			// 將父物件的變數與函式深拷貝到當前物件的環境中
+			for k, v := range parentObj.Vars.GetAll() {
+				env.Set(k, deepCopyLPCValue(v))
+			}
+		}
 	}
 
 	// [新增] 6. 注入 Efuns
@@ -130,10 +158,12 @@ func (d *Driver) CloneObject(filename string) (*object.LPCObject, error) {
 		Inherits:  blueprint.Inherits,
 	}
 
-	// [新增] 替分身注入它專屬的 Efuns
+	// 替分身注入它專屬的 Efuns
 	d.SetupEfuns(clone)
 
-	// TODO: 將藍圖的初始變數值複製到 clone.Vars 中
+	for k, v := range blueprint.Vars.GetAll() {
+		clone.Vars.Set(k, deepCopyLPCValue(v))
+	}
 
 	// 呼叫新物件的 create()
 	d.CallFunction(clone, "create", nil)
@@ -261,7 +291,7 @@ func (d *Driver) CallFunction(obj *object.LPCObject, funcName string, args []obj
 
 	// 3. 建立執行環境 (Closure)
 	// 將這個物件本身的 Env 作為外層環境，這樣函式內就能存取該物件的全域變數 (例如 hp, name)
-	extendedEnv := object.NewEnclosedEnvironment(fn.Env)
+	extendedEnv := object.NewEnclosedEnvironment(obj.Vars)
 
 	// 4. 將傳入的引數 (Arguments) 綁定到函式的參數 (Parameters) 上
 	for i, param := range fn.Parameters {
@@ -340,4 +370,34 @@ func (d *Driver) DestructObject(obj *object.LPCObject) {
 	d.mu.Lock()
 	delete(d.ObjectTable, obj.Filename)
 	d.mu.Unlock()
+}
+
+// deepCopyLPCValue 負責深拷貝陣列與 Mapping，避免父子或本尊分身共用記憶體
+func deepCopyLPCValue(obj object.Object) object.Object {
+	if obj == nil {
+		return nil
+	}
+
+	switch o := obj.(type) {
+	case *object.Array:
+		newElems := make([]object.Object, len(o.Elements))
+		for i, el := range o.Elements {
+			newElems[i] = deepCopyLPCValue(el)
+		}
+		return &object.Array{Elements: newElems}
+
+	case *object.Mapping:
+		newPairs := make(map[object.HashKey]object.HashPair)
+		for k, v := range o.Pairs {
+			newPairs[k] = object.HashPair{
+				Key:   deepCopyLPCValue(v.Key),
+				Value: deepCopyLPCValue(v.Value),
+			}
+		}
+		return &object.Mapping{Pairs: newPairs}
+
+	default:
+		// 整數、浮點、字串、函式 (Function) 等皆為傳值或不可變參考，直接回傳即可
+		return obj
+	}
 }
