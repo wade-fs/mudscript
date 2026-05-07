@@ -2,6 +2,9 @@ package evaluator
 
 import (
 	"fmt"
+	"regexp"
+	"strconv"
+	"strings"
 
 	"mudscript/ast"
 	"mudscript/object"
@@ -28,6 +31,10 @@ func Eval(node ast.Node, env object.Environment) object.Object {
 		return Eval(node.Expression, env)
 
 	case *ast.ReturnStatement:
+		// 支援 return; (空回傳)
+		if node.ReturnValue == nil {
+			return &object.ReturnValue{Value: &object.Integer{Value: 0}}
+		}
 		value := Eval(node.ReturnValue, env)
 		if isError(value) {
 			return value
@@ -87,9 +94,10 @@ func Eval(node ast.Node, env object.Environment) object.Object {
 		}
 
 	case *ast.CallExpression:
-		//if node.Function.TokenLiteral() == FuncNameQuote {
-		//	return quote(node.Arguments[0], env)
-		//}
+		// 攔截 sscanf (作為編譯器級別的關鍵字處理)
+		if ident, ok := node.Function.(*ast.Ident); ok && ident.Value == "sscanf" {
+			return evalSscanf(node, env)
+		}
 
 		function := Eval(node.Function, env)
 		if isError(function) {
@@ -918,4 +926,78 @@ func evalStringConcatExpression(left, right object.Object) object.Object {
 	}
 
 	return &object.String{Value: leftStr + rightStr}
+}
+
+func evalSscanf(node *ast.CallExpression, env object.Environment) object.Object {
+	if len(node.Arguments) < 3 {
+		return newError("sscanf 至少需要 3 個參數: sscanf(字串, 格式, 變數...)")
+	}
+
+	// 1. 正常評估前兩個參數 (輸入字串 與 格式)
+	inputObj := Eval(node.Arguments[0], env)
+	formatObj := Eval(node.Arguments[1], env)
+
+	inputStr, ok1 := inputObj.(*object.String)
+	formatStr, ok2 := formatObj.(*object.String)
+	if !ok1 || !ok2 {
+		return newError("sscanf 的前兩個參數必須是字串")
+	}
+
+	// 2. 將 LPC 的格式字串 (例如 "give %d %s to %s") 轉換為正規表達式
+	// 使用 QuoteMeta 防止格式中的特殊符號干擾
+	regexStr := regexp.QuoteMeta(formatStr.Value)
+	
+	regexStr = strings.ReplaceAll(regexStr, "%d", "(-?\\d+)")
+	regexStr = strings.ReplaceAll(regexStr, "%s", "(.*?)")
+	
+	// LPC 特性：如果最後一個是 %s，它會把剩下的字串全吃掉 (貪婪模式)
+	if strings.HasSuffix(formatStr.Value, "%s") {
+		regexStr = strings.TrimSuffix(regexStr, "(.*?)") + "(.*)"
+	}
+	
+	// 頭尾完全匹配
+	re, err := regexp.Compile("^" + regexStr + "$")
+	if err != nil {
+		return newError("sscanf 格式編譯失敗: %v", err)
+	}
+
+	// 3. 進行字串配對
+	matches := re.FindStringSubmatch(inputStr.Value)
+	if matches == nil {
+		return &object.Integer{Value: 0} // 配對失敗回傳 0
+	}
+
+	// matches[0] 是完整字串，matches[1:] 才是括號捕捉到的變數
+	capturedGroups := matches[1:]
+	matchedCount := 0
+
+	// 4. 將捕捉到的值「強制覆寫」回傳入的變數中 (傳址的魔法)
+	// 從 node.Arguments 的第 2 個開始，就是接收變數 (例如 amt, item)
+	for i := 2; i < len(node.Arguments); i++ {
+		if i-2 >= len(capturedGroups) {
+			break // 捕捉群組用完了
+		}
+
+		ident, ok := node.Arguments[i].(*ast.Ident)
+		if !ok {
+			return newError("sscanf 的接收變數必須是識別字 (Identifier)")
+		}
+
+		valueStr := capturedGroups[i-2]
+
+		// 判斷當初這個位置是 %d 還是 %s
+		// (這裡用簡單的位置推算，真實 LPC 引擎會有更嚴謹的對應)
+		if valInt, err := strconv.ParseInt(valueStr, 10, 64); err == nil {
+			// 存入整數
+			env.Assign(ident.Value, &object.Integer{Value: valInt})
+		} else {
+			// 存入字串
+			env.Assign(ident.Value, &object.String{Value: valueStr})
+		}
+		
+		matchedCount++
+	}
+
+	// 回傳成功匹配並賦值的變數數量
+	return &object.Integer{Value: int64(matchedCount)}
 }

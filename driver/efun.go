@@ -108,6 +108,43 @@ func (d *Driver) SetupEfuns(obj *object.LPCObject) {
 		},
 	})
 
+	// call_out(string func, int delay, ...args)
+	obj.Vars.Set("call_out", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 2 { return object.NewError("call_out needs 2+ args") }
+			funcName, _ := args[0].(*object.String)
+			delay, _ := args[1].(*object.Integer)
+			d.CallOut(obj, funcName.Value, time.Duration(delay.Value)*time.Second, args[2:]...)
+			return &object.Nil{}
+		},
+	})
+
+	// call_other(object ob, string func, ...args) - 跨物件函式呼叫
+	obj.Vars.Set("call_other", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 2 {
+				return object.NewError("call_other 至少需要兩個參數 (object, string)")
+			}
+
+			targetObj, ok := args[0].(*object.LPCObject)
+			if !ok {
+				return object.NewError("call_other 第一個參數必須是 object")
+			}
+
+			funcName, ok := args[1].(*object.String)
+			if !ok {
+				return object.NewError("call_other 第二個參數必須是 string")
+			}
+
+			// 呼叫 Driver 原本寫好的 CallFunction！
+			result := d.CallFunction(targetObj, funcName.Value, args[2:])
+			if result == nil {
+				return &object.Integer{Value: 0}
+			}
+			return result
+		},
+	})
+
 	// ==========================================
 	// 3. 時間與排程 (Time & Scheduling)
 	// ==========================================
@@ -130,17 +167,6 @@ func (d *Driver) SetupEfuns(obj *object.LPCObject) {
 				return &object.Integer{Value: 0}
 			}
 			return &object.Integer{Value: rand.Int63n(max)}
-		},
-	})
-
-	// call_out(string func, int delay, ...args)
-	obj.Vars.Set("call_out", &object.Builtin{
-		Fn: func(args ...object.Object) object.Object {
-			if len(args) < 2 { return object.NewError("call_out needs 2+ args") }
-			funcName, _ := args[0].(*object.String)
-			delay, _ := args[1].(*object.Integer)
-			d.CallOut(obj, funcName.Value, time.Duration(delay.Value)*time.Second, args[2:]...)
-			return &object.Nil{}
 		},
 	})
 
@@ -199,29 +225,39 @@ func (d *Driver) SetupEfuns(obj *object.LPCObject) {
 		},
 	})
 
-	// call_other(object ob, string func, ...args) - 跨物件函式呼叫
-	obj.Vars.Set("call_other", &object.Builtin{
+	// ==========================================
+	// 5. 字串操作
+	// ==========================================
+
+	// sprintf(string format, ...args) - 格式化字串
+	obj.Vars.Set("sprintf", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
-			if len(args) < 2 {
-				return object.NewError("call_other 至少需要兩個參數 (object, string)")
+			if len(args) == 0 {
+				return object.NewError("sprintf 至少需要一個參數")
 			}
-
-			targetObj, ok := args[0].(*object.LPCObject)
+			formatObj, ok := args[0].(*object.String)
 			if !ok {
-				return object.NewError("call_other 第一個參數必須是 object")
+				return object.NewError("sprintf 的第一個參數必須是字串")
 			}
 
-			funcName, ok := args[1].(*object.String)
-			if !ok {
-				return object.NewError("call_other 第二個參數必須是 string")
+			// 將 LPC 的 Object 轉換為 Go 的原生型別，餵給 fmt.Sprintf
+			var goArgs []interface{}
+			for _, arg := range args[1:] {
+				switch a := arg.(type) {
+				case *object.Integer:
+					goArgs = append(goArgs, a.Value)
+				case *object.String:
+					goArgs = append(goArgs, a.Value)
+				case *object.Float:
+					goArgs = append(goArgs, a.Value)
+				default:
+					goArgs = append(goArgs, a.Inspect())
+				}
 			}
 
-			// 呼叫 Driver 原本寫好的 CallFunction！
-			result := d.CallFunction(targetObj, funcName.Value, args[2:])
-			if result == nil {
-				return &object.Integer{Value: 0}
-			}
-			return result
+			// 這裡直接借用 Go 的 fmt.Sprintf，因為 %d 和 %s 的邏輯與 LPC 幾乎互通
+			result := fmt.Sprintf(formatObj.Value, goArgs...)
+			return &object.String{Value: result}
 		},
 	})
 }
