@@ -244,6 +244,13 @@ func getGID() uint64 {
 	return n
 }
 
+func (d *Driver) GetThisObject() *object.LPCObject {
+    if p := d.GetCurrentPlayer(); p != nil && p.Object != nil {
+        return p.Object
+    }
+    return nil
+}
+
 // 取得當前 Goroutine 對應的玩家
 func (d *Driver) GetCurrentPlayer() *PlayerConnection {
 	if p, ok := d.playerContexts.Load(getGID()); ok {
@@ -359,7 +366,14 @@ func (d *Driver) CloneObject(filename string) (*object.LPCObject, error) {
 		clone.Vars.Set(k, deepCopyLPCValue(v))
 	}
 
+	// === 關鍵修正：建立 clone 時立即綁定上下文 ===
+	dummyConn := &PlayerConnection{Object: clone}
+	gid := getGID()
+	d.playerContexts.Store(gid, dummyConn)
+	defer d.playerContexts.Delete(gid)
+
 	d.CallFunction(clone, "create", nil)
+
 	return clone, nil
 }
 
@@ -424,20 +438,24 @@ func (d *Driver) processHeartBeats() {
 	d.mu.RLock()
 	targets := make([]*object.LPCObject, 0, len(d.Heartbeats))
 	for obj := range d.Heartbeats {
-		targets = append(targets, obj)
+		if obj != nil && !obj.IsDestructed && strings.Contains(obj.Filename, "#") {
+			targets = append(targets, obj)
+		}
 	}
 	d.mu.RUnlock()
 
 	for _, obj := range targets {
-		// 若這個物件是互動玩家，heart_beat() 執行期間需要綁定玩家 context，
-		// 這樣 write() 才能把訊息正確送給對應的 TCP 連線。
+		if obj.IsDestructed {
+			continue
+		}
+		fmt.Printf("💓 執行 heart_beat -> %s\n", obj.Filename)
+
 		if conn := d.GetConnectionFromObject(obj); conn != nil {
 			gid := getGID()
 			d.playerContexts.Store(gid, conn)
 			d.CallFunction(obj, "heart_beat", nil)
 			d.playerContexts.Delete(gid)
 		} else {
-			// 非互動物件（NPC、房間）直接呼叫
 			d.CallFunction(obj, "heart_beat", nil)
 		}
 	}
@@ -472,12 +490,19 @@ func (d *Driver) processCallOuts() {
 }
 
 func (d *Driver) SetHeartBeat(obj *object.LPCObject, enable bool) {
+	if obj == nil || obj.IsDestructed {
+		return
+	}
+
 	d.mu.Lock()
 	defer d.mu.Unlock()
+
 	if enable {
 		d.Heartbeats[obj] = true
+		fmt.Printf("💓 [HEARTBEAT] 已註冊: %s\n", obj.Filename)
 	} else {
 		delete(d.Heartbeats, obj)
+		fmt.Printf("💓 [HEARTBEAT] 已移除: %s\n", obj.Filename)
 	}
 }
 
@@ -487,7 +512,17 @@ type callFrame struct {
 }
 
 func (d *Driver) CallFunction(obj *object.LPCObject, funcName string, args []object.Object) object.Object {
+	if obj == nil || obj.IsDestructed {
+		return &object.Integer{Value: 0}
+	}
+
+	// 藍圖不執行 heart_beat
+	if funcName == "heart_beat" && !strings.Contains(obj.Filename, "#") {
+		return nil
+	}
+
 	fmt.Printf("DEBUG: [%s]->%s() 被呼叫\n", obj.Filename, funcName)
+
 	frame := callFrame{File: obj.Filename, Function: funcName}
 	d.pushFrame(frame)
 	defer d.popFrame()
@@ -556,48 +591,34 @@ func (d *Driver) MoveObject(item *object.LPCObject, dest *object.LPCObject) {
 }
 
 func (d *Driver) DestructObject(obj *object.LPCObject) {
-	if obj == nil || obj.IsDestructed { return }
-	
+	if obj == nil || obj.IsDestructed {
+		return
+	}
+
 	fmt.Printf("DEBUG: DestructObject called on %s\n", obj.Filename)
 
-	// === 核心修正：精準找到對應的連線 ===
-	var targetConn *PlayerConnection
+	d.SetHeartBeat(obj, false)
+	obj.IsDestructed = true
 
-	// 方法1：直接用 Filename 查（推薦主要方式）
+	// === 關鍵修正：移除 heartbeat ===
+	d.SetHeartBeat(obj, false)
+
+	// === 處理連線 ===
+	var targetConn *PlayerConnection
 	if conn, ok := d.interactiveObjects.Load(obj.Filename); ok {
 		targetConn = conn.(*PlayerConnection)
-		fmt.Printf("DEBUG: 直接透過 Filename 找到連線 %s\n", obj.Filename)
 	}
 
-	// 方法2：如果沒找到，用 pointer 比對（防 clone 後 Filename 不同的情況）
 	if targetConn == nil {
 		d.interactiveObjects.Range(func(key, value interface{}) bool {
-			if pconn, ok := value.(*PlayerConnection); ok {
-				if pconn.Object == obj {  // 嚴格比對 pointer
-					targetConn = pconn
-					fmt.Printf("DEBUG: 透過 pointer 比對找到連線 %s\n", pconn.Object.Filename)
-					return false
-				}
+			if pconn, ok := value.(*PlayerConnection); ok && pconn.Object == obj {
+				targetConn = pconn
+				return false
 			}
 			return true
 		})
 	}
 
-	// 方法3：最後手段 - 根據 Filename 前綴（只在必要時使用）
-	if targetConn == nil && strings.HasPrefix(obj.Filename, "/user.c") {
-		d.interactiveObjects.Range(func(key, value interface{}) bool {
-			if pconn, ok := value.(*PlayerConnection); ok {
-				if pconn.Object != nil && pconn.Object.Filename == obj.Filename {
-					targetConn = pconn
-					fmt.Printf("DEBUG: 透過精準 Filename 前綴找到 %s\n", pconn.Object.Filename)
-					return false
-				}
-			}
-			return true
-		})
-	}
-
-	// === 執行斷線 ===
 	if targetConn != nil {
 		fmt.Printf("DEBUG: 強制關閉玩家連線 %s\n", targetConn.Object.Filename)
 		targetConn.IsActive = false
@@ -605,25 +626,24 @@ func (d *Driver) DestructObject(obj *object.LPCObject) {
 			targetConn.Conn.Close()
 		}
 		d.UnregisterInteractive(targetConn.Object)
-	} else {
-		fmt.Printf("DEBUG: 完全找不到對應連線 for %s\n", obj.Filename)
 	}
 
-	// 後續清理邏輯...
-	obj.IsDestructed = true
-	d.SetHeartBeat(obj, false)
-
+	// 移動 inventory 到環境
 	for _, item := range obj.Inventory {
 		d.MoveObject(item, obj.Location)
 	}
 
+	// 從所在環境移除自己
 	if obj.Location != nil {
-		d.MoveObject(obj, nil)
+		d.MoveObject(obj, nil) // 會處理 inventory 清理
 	}
 
+	// 從 ObjectTable 移除
 	d.mu.Lock()
 	delete(d.ObjectTable, obj.Filename)
 	d.mu.Unlock()
+
+	fmt.Printf("✅ 物件已完全摧毀: %s\n", obj.Filename)
 }
 
 func deepCopyLPCValue(obj object.Object) object.Object {

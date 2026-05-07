@@ -24,17 +24,24 @@ func (d *Driver) SetupEfuns(obj *object.LPCObject) {
 	        if len(args) < 1 {
 	            return object.NewError("set_heart_beat 需要 1 個整數參數")
 	        }
-
+	
 	        flag, ok := args[0].(*object.Integer)
 	        if !ok {
 	            return object.NewError("set_heart_beat 參數必須是整數")
 	        }
-
-			enable := flag.Value > 0
-			fmt.Printf("DEBUG: set_heart_beat(%d) called on %s\n", flag.Value, obj.Filename)
-
-	        d.SetHeartBeat(obj, enable)
-
+	
+	        enable := flag.Value > 0
+	
+	        thisObj := d.GetThisObject()
+	        if thisObj == nil {
+	            thisObj = obj
+	        }
+	
+	        fmt.Printf("DEBUG: set_heart_beat(%d) called on %s (this_object=%s)\n", 
+	            flag.Value, obj.Filename, thisObj.Filename)
+	
+	        d.SetHeartBeat(thisObj, enable)
+	
 	        return &object.Integer{Value: flag.Value}
 	    },
 	})

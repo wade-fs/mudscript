@@ -10,12 +10,21 @@ string query_name() {
 void set_name(string n) { name = n; }
 
 void create() {
-    name = "旅者#" + sprintf("%d", time());
-    set_heart_beat(1);
+    string fname = object_name(this_object());
+    write("create() called for " + fname + "\n");
+    
+    if (strsrch(fname, "#") != -1) {
+        write("→ 這是 clone，開啟 heart_beat\n");
+        set_heart_beat(1);
+    } else {
+        write("→ 這是 blueprint，跳過 heart_beat\n");
+    }
 }
 
 void heart_beat() {
-    write("💓 [" + query_name() + "] 心跳中... t=" + sprintf("%d", time()) + "\n");
+    write("💓 [" + query_name() + "#" + 
+          substr(object_name(this_object()), strsrch(object_name(this_object()), "#")+1) + 
+          "] 心跳中... t=" + sprintf("%d", time()) + "\n");
 }
 
 void setup() {
@@ -39,7 +48,6 @@ void init() {}
 // ── 基本指令 ────────────────────────────────────────
 
 int do_quit(string arg) {
-    write("你化為一道光芒，離開了這個世界。\n");
     say(query_name() + " 離開了遊戲。\n");
     destruct(this_object());
     return 1;

@@ -505,6 +505,25 @@ func isError(obj object.Object) bool {
 }
 
 func evalIdent(node *ast.Ident, env object.Environment) object.Object {
+	name := node.Value
+
+    // 支援 ::func() 這種繼承呼叫
+    if strings.HasPrefix(name, "::") {
+        funcName := strings.TrimPrefix(name, "::")
+        
+        // 先找 blueprint（繼承鏈最上層）
+        if obj, ok := env.Get("this_object"); ok {
+            if lpcObj, ok := obj.(*object.LPCObject); ok {
+                // 往繼承鏈找
+                for _, parent := range lpcObj.Inherits {
+                    if fn, exists := parent.Vars.Get(funcName); exists {
+                        return fn
+                    }
+                }
+            }
+        }
+    }
+
 	if val, ok := env.Get(node.Value); ok {
 		return val
 	}
