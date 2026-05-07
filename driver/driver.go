@@ -21,6 +21,56 @@ import (
 	"mudscript/preprocessor"
 )
 
+type RuntimeError struct {
+    Message  string
+    File     string
+    Function string
+    Stack    []string // 呼叫堆疊
+}
+
+var callStack = struct {
+    sync.Mutex
+    frames []callFrame
+}{}
+
+func (d *Driver) pushFrame(f callFrame) {
+    callStack.Lock()
+    callStack.frames = append(callStack.frames, f)
+    callStack.Unlock()
+}
+
+func (d *Driver) popFrame() {
+    callStack.Lock()
+    if len(callStack.frames) > 0 {
+        callStack.frames = callStack.frames[:len(callStack.frames)-1]
+    }
+    callStack.Unlock()
+}
+
+func (d *Driver) buildCallStack() []string {
+    callStack.Lock()
+    defer callStack.Unlock()
+    var s []string
+    for _, f := range callStack.frames {
+        s = append(s, fmt.Sprintf("%s::%s()", f.File, f.Function))
+    }
+    return s
+}
+
+func (e *RuntimeError) Error() string {
+    var sb strings.Builder
+    sb.WriteString(fmt.Sprintf("🔥 Runtime Error in %s::%s()\n", e.File, e.Function))
+    sb.WriteString(fmt.Sprintf("   %s\n\n", e.Message))
+    
+    if len(e.Stack) > 0 {
+        sb.WriteString("Call Stack:\n")
+        for i, frame := range e.Stack {
+            sb.WriteString(fmt.Sprintf("  %2d. %s\n", len(e.Stack)-i, frame))
+        }
+    }
+    return sb.String()
+}
+
 // DriverConfig 運行時期的配置
 type DriverConfig struct {
 	MudLibPath    string
@@ -244,7 +294,7 @@ func (d *Driver) LoadObject(filename string) (*object.LPCObject, error) {
 	program := p.ParseProgram()
 
 	if len(p.Errors()) > 0 {
-		return nil, fmt.Errorf("parse error in %s: %v", filename, p.Errors())
+		return nil, d.formatParserErrors(filename, p.Errors())
 	}
 
 	env := object.NewEnvironment()
@@ -431,8 +481,17 @@ func (d *Driver) SetHeartBeat(obj *object.LPCObject, enable bool) {
 	}
 }
 
+type callFrame struct {
+    File     string
+    Function string
+}
+
 func (d *Driver) CallFunction(obj *object.LPCObject, funcName string, args []object.Object) object.Object {
 	fmt.Printf("DEBUG: [%s]->%s() 被呼叫\n", obj.Filename, funcName)
+	frame := callFrame{File: obj.Filename, Function: funcName}
+	d.pushFrame(frame)
+	defer d.popFrame()
+
 	if obj.Vars != nil {
 		obj.Vars.Set("this_object", &object.Builtin{
 			Fn: func(args ...object.Object) object.Object { return obj },
@@ -457,16 +516,23 @@ func (d *Driver) CallFunction(obj *object.LPCObject, funcName string, args []obj
 	evaluated := evaluator.Eval(fn.Body, extendedEnv)
 
 	if errObj, ok := evaluated.(*object.Error); ok {
-		if d.MasterObject != nil && obj != d.MasterObject {
-			d.CallFunction(d.MasterObject, "runtime_error", []object.Object{
-				&object.String{Value: errObj.Message},
-				&object.String{Value: obj.Filename},
-			})
-		} else {
-			fmt.Printf("🔥 系統崩潰: %s\n", errObj.Message)
-		}
-		return nil
-	}
+        runtimeErr := &RuntimeError{
+            Message:  errObj.Message,
+            File:     obj.Filename,
+            Function: funcName,
+            Stack:    d.buildCallStack(), // TODO: 實作堆疊
+        }
+        
+        if d.MasterObject != nil && obj != d.MasterObject {
+            d.CallFunction(d.MasterObject, "runtime_error", []object.Object{
+                &object.String{Value: runtimeErr.Error()},
+                &object.String{Value: obj.Filename},
+            })
+        } else {
+            fmt.Println(runtimeErr.Error())
+        }
+        return nil
+    }
 
 	if returnValue, ok := evaluated.(*object.ReturnValue); ok {
 		return returnValue.Value
@@ -598,4 +664,20 @@ func (d *Driver) AcceptConnection(pConn *PlayerConnection) *object.LPCObject {
 		return loginObj
 	}
 	return nil
+}
+
+func (d *Driver) formatParserErrors(filename string, errors []string) error {
+    var sb strings.Builder
+    sb.WriteString(fmt.Sprintf("❌ 語法錯誤 in %s\n\n", filename))
+    
+    for i, err := range errors {
+        sb.WriteString(fmt.Sprintf("   %2d. %s\n", i+1, err))
+    }
+    
+    sb.WriteString("\n💡 提示：常見原因：\n")
+    sb.WriteString("   • mapping 寫法錯誤 → 應使用 ([ key: value ])\n")
+    sb.WriteString("   • closure 寫法錯誤 → (: this_object, \"func\" :)\n")
+    sb.WriteString("   • 缺少分號、括號不匹配、型別宣告錯誤\n")
+    
+    return fmt.Errorf(sb.String())
 }

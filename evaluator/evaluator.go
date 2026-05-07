@@ -495,6 +495,9 @@ func isTruthy(obj object.Object) bool {
 
 func newError(format string, a ...interface{}) *object.Error {
 	return &object.Error{Message: fmt.Sprintf(format, a...)}
+	msg := fmt.Sprintf(format, a...)
+    // TODO: 可以這裡記錄呼叫位置（進階）
+    return &object.Error{Message: msg}
 }
 
 func isError(obj object.Object) bool {
