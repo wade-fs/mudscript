@@ -57,6 +57,11 @@ const (
 	LPAREN = "("
 	// RPAREN is a token type for right parentheses.
 	RPAREN = ")"
+
+	// 閉包 closure
+	LPAREN_COLON = "(: "
+	COLON_RPAREN = " :)"
+
 	// LBRACE is a token type for left braces.
 	LBRACE = "{"
 	// RBRACE is a token type for right braces.

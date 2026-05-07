@@ -781,3 +781,11 @@ func (ce *CallOtherExpression) String() string {
 
 	return out.String()
 }
+
+type ClosureLiteral struct {
+	Token    token.Token // The '(: ' token
+	Elements []Expression
+}
+func (cl *ClosureLiteral) expressionNode()      {}
+func (cl *ClosureLiteral) TokenLiteral() string { return cl.Token.Literal }
+func (cl *ClosureLiteral) String() string { return "(: closure :)" }

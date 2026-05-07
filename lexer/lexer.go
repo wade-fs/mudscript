@@ -41,23 +41,33 @@ func (l *lexer) NextToken() token.Token {
 	l.skipWhitespaceAndComments()
 
 	switch l.ch {
-	case ':':
-		if l.peekChar() == ':' { // 處理 ::
-			ch := l.ch
-			l.readChar()
-			literal := string(ch) + string(l.ch)
-			tok = token.Token{TokenType: token.SCOPE, Literal: literal}
-		} else {
-			tok = newToken(token.COLON, l.ch)
-		}
 	case '(':
-		if l.peekChar() == '[' { // 處理 ([
+		if l.peekChar() == '[' { // 原有的: 處理 ([
 			ch := l.ch
 			l.readChar()
 			literal := string(ch) + string(l.ch)
 			tok = token.Token{TokenType: token.LBRACKET_MAP, Literal: literal}
+		} else if l.peekChar() == ':' { // [新增]: 處理 (: 
+			ch := l.ch
+			l.readChar()
+			literal := string(ch) + string(l.ch)
+			tok = token.Token{TokenType: token.LPAREN_COLON, Literal: literal}
 		} else {
 			tok = newToken(token.LPAREN, l.ch)
+		}
+	case ':':
+		if l.peekChar() == ':' { // 原有的: 處理 ::
+			ch := l.ch
+			l.readChar()
+			literal := string(ch) + string(l.ch)
+			tok = token.Token{TokenType: token.SCOPE, Literal: literal}
+		} else if l.peekChar() == ')' { // [新增]: 處理 :)
+			ch := l.ch
+			l.readChar()
+			literal := string(ch) + string(l.ch)
+			tok = token.Token{TokenType: token.COLON_RPAREN, Literal: literal}
+		} else {
+			tok = newToken(token.COLON, l.ch)
 		}
 	case ')':
 		tok = newToken(token.RPAREN, l.ch)

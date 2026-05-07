@@ -90,7 +90,8 @@ func New(l lexer.Lexer) *Parser {
 		token.MACRO:    p.parseMacroLiteral,
 
 		token.LBRACKET_MAP: p.parseMappingLiteral,
-		token.SCOPE:    p.parsePrefixScope,
+		token.SCOPE:        p.parsePrefixScope,
+		token.LPAREN_COLON: p.parseClosureLiteral,
 	}
 
 	p.infixParseFns = map[token.TokenType]infixParseFn{
@@ -979,4 +980,10 @@ func (p *Parser) parseCallOtherExpression(left ast.Expression) ast.Expression {
 	expr.Arguments = p.parseExpressionList(token.RPAREN)
 
 	return expr
+}
+
+func (p *Parser) parseClosureLiteral() ast.Expression {
+	lit := &ast.ClosureLiteral{Token: p.curToken}
+	lit.Elements = p.parseExpressionList(token.COLON_RPAREN)
+	return lit
 }

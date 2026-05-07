@@ -12,6 +12,7 @@ import (
 
 // TokenType is a type of objects.
 type TokenType string
+const ClosureType TokenType = "CLOSURE_TYPE"
 
 const (
 	// IntegerType represents a type of integers.
@@ -453,3 +454,16 @@ func (b *BreakValue) Inspect() string { return "break" }
 type ContinueValue struct{}
 func (c *ContinueValue) TokenType() TokenType { return CONTINUE_VALUE_OBJ }
 func (c *ContinueValue) Inspect() string { return "continue" }
+
+// Closure 表示 LPC 的函數指標
+type Closure struct {
+	Target    *LPCObject // 目標物件 (如果是 nil，代表呼叫時的 this_object)
+	FuncName  string     // 函式名稱
+	BoundArgs []Object   // 預先綁定的參數 (Currying)
+}
+func (c *Closure) TokenType() TokenType { return ClosureType }
+func (c *Closure) Inspect() string {
+	target := "this_object"
+	if c.Target != nil { target = c.Target.Filename }
+	return fmt.Sprintf("(: %s, \"%s\", ...%d args :)", target, c.FuncName, len(c.BoundArgs))
+}

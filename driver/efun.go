@@ -66,6 +66,30 @@ func (d *Driver) SetupEfuns(obj *object.LPCObject) {
 		},
 	})
 
+	// evaluate(closure, ...args) - 執行函數指標
+	obj.Vars.Set("evaluate", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 1 { return object.NewError("evaluate 至少需要 1 個參數 (closure)") }
+			
+			c, ok := args[0].(*object.Closure)
+			if !ok { return object.NewError("evaluate 的第一個參數必須是閉包 (: :)") }
+			
+			// 如果閉包沒有指定 Target，就預設呼叫者 (this_object)
+			target := c.Target
+			if target == nil {
+				target = obj 
+			}
+			
+			// 魔法發生的地方：把當初「預先綁定」的參數，跟「現在傳入」的參數結合！
+			finalArgs := append([]object.Object{}, c.BoundArgs...)
+			finalArgs = append(finalArgs, args[1:]...)
+			
+			res := d.CallFunction(target, c.FuncName, finalArgs)
+			if res == nil { return &object.Integer{Value: 0} }
+			return res
+		},
+	})
+
 	// ==========================================
 	// 2. 空間與物件操作 (Environment & Objects)
 	// ==========================================
