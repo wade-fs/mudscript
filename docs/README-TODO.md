@@ -221,8 +221,29 @@ mudlib/
     └── player.c      ← 玩家物件
 ```
 
-## 建議的執行順序
-- 本週：T-01 → T-02 → T-03  (先讓 for/while/賦值能跑)
-- 下週：T-04 → T-05 → T-06  (Mapping + Inherit，核心中的核心)
-- 之後：T-08 → T-10 → T-11  (call_other + 前處理器 + 網路)
-- 最後：T-14~T-18 efun 補齊，搭配 T-21 真正的 mudlib 跑起來
+## 待修 問題清單：
+- token.go — 缺少 PRIVATE/STATIC/PROTECTED/VARARGS/NOSAVE/NOMASK 修飾子 token
+- parser.go — (a) 缺少 &&/|| infix handler；(b) parseStatement 不跳過修飾子；(c) parseTypedParameters 不接受 varargs；(d) int* 陣列型別宣告不認識
+- evaluator.go — ::create() 路徑錯誤（this_object 是 *Builtin 不是 *LPCObject）；checkTypeMatch 太嚴格；缺少 AND/OR infix
+- driver.go — CloneObject 的 :: 函式沒有重新登記到新 clone 的 env
+- efun:
+	- to_int(mixed)
+	- to_string(mixed)
+	- abs(int)
+	- max(int, int)
+	- min(int, int)
+	- stringp(object) 型別判斷
+	- intp(object)
+	- objectp(object)
+	- mappingp(object)
+	- arrayp(object)
+	- floatp(object)
+	- nullp(object)
+	- load_object(file) 載入不clone
+	- input_to(function) 下次輸入的 callback
+	- remove_call_out(function)
+	- write_file([]object) 修改物件（檔案）
+	- read_file(file)
+	- ctime(time)
+	- shout(msg)
+	- users()
