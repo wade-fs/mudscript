@@ -19,6 +19,7 @@ import (
 // DriverConfig 運行時期的配置
 type DriverConfig struct {
 	MudLibPath    string        // MUD 腳本的根目錄 (例如 "./mudlib")
+	MasterFile    string        // master.c 的路徑 (預設 "/master.c" 或 "/adm/obj/master.c")
 	HeartBeatTick time.Duration // heart_beat 的觸發間隔 (LPC 預設通常是 2 秒)
 }
 
@@ -37,13 +38,15 @@ type ScheduledCall struct {
 type Driver struct {
 	mu           sync.RWMutex                     // 保護全域資料結構的並發安全
 	ObjectTable  map[string]*object.LPCObject     // 已載入的藍圖物件 (Blueprint)
-	MasterObject *object.LPCObject                // master.c
 	PlayerConns  []*PlayerConnection              // 玩家連線清單
 	Heartbeats   map[*object.LPCObject]bool       // 註冊 heart_beat() 的物件集合 (用 map 方便 O(1) 增刪)
 	CallOuts     []*ScheduledCall                 // call_out 排程佇列
 	Config       DriverConfig
-
 	shutdownCh   chan struct{}                    // 用於安全關閉 Driver 的 channel
+
+	MasterObject *object.LPCObject                // master.c
+	RootUID      string // 儲存最高權限 UID (通常是 "Root")
+	BackboneUID  string // 儲存背景執行 UID (通常是 "Backbone")
 }
 
 // New 建立新的 Driver 實例
@@ -97,7 +100,7 @@ func (d *Driver) LoadObject(filename string) (*object.LPCObject, error) {
 	}
 
 	// ==========================================
-	// [新增] 5. 處理 Inherit 語法 (在編譯期載入父物件)
+	// 5. 處理 Inherit 語法 (在編譯期載入父物件)
 	// ==========================================
 	for _, stmt := range program.Statements {
 		if inheritStmt, ok := stmt.(*ast.InheritStatement); ok {
@@ -137,7 +140,7 @@ func (d *Driver) LoadObject(filename string) (*object.LPCObject, error) {
 		}
 	}
 
-	// [新增] 6. 注入 Efuns
+	// 6. 注入 Efuns
 	d.SetupEfuns(lpcObj)
 
 	// 7. 執行 Evaluator (此時腳本內的程式已經可以使用 write 等函式了)
@@ -193,8 +196,40 @@ func generateCloneID() string {
 }
 
 // Start 啟動 Driver 的背景迴圈
-func (d *Driver) Start() {
+func (d *Driver) Start() error {
+	masterFile := d.Config.MasterFile
+	if masterFile == "" {
+		masterFile = "/master.c" // 預設路徑
+	}
+
+	fmt.Println("🚀 Driver 啟動中... 準備載入 Master Object:", masterFile)
+	
+	// 1. 載入 master.c
+	master, err := d.LoadObject(masterFile)
+	if err != nil {
+		return fmt.Errorf("致命錯誤: 無法載入 master.c: %v", err)
+	}
+	d.MasterObject = master
+
+	// 2. 呼叫 get_root_uid()
+	if res := d.CallFunction(master, "get_root_uid", nil); res != nil {
+		if s, ok := res.(*object.String); ok {
+			d.RootUID = s.Value
+		}
+	}
+
+	// 3. 呼叫 get_bb_uid()
+	if res := d.CallFunction(master, "get_bb_uid", nil); res != nil {
+		if s, ok := res.(*object.String); ok {
+			d.BackboneUID = s.Value
+		}
+	}
+
+	fmt.Printf("✅ Master 載入成功 (RootUID: %s, BackboneUID: %s)\n", d.RootUID, d.BackboneUID)
+
+	// 啟動心跳引擎
 	go d.runGameLoop()
+	return nil
 }
 
 // Stop 停止 Driver
@@ -321,6 +356,24 @@ func (d *Driver) CallFunction(obj *object.LPCObject, funcName string, args []obj
 	// 5. 交給 Evaluator 執行函式主體
 	evaluated := evaluator.Eval(fn.Body, extendedEnv)
 
+	// ==========================================
+	// 攔截執行期錯誤 (Runtime Error)
+	// ==========================================
+	if errObj, ok := evaluated.(*object.Error); ok {
+		// 為了避免 runtime_error 裡面自己也寫錯導致無限遞迴，我們檢查 obj != d.MasterObject
+		if d.MasterObject != nil && obj != d.MasterObject {
+			// 呼叫 master.c 的 runtime_error(string error_msg, string filename)
+			d.CallFunction(d.MasterObject, "runtime_error", []object.Object{
+				&object.String{Value: errObj.Message},
+				&object.String{Value: obj.Filename},
+			})
+		} else {
+			// 如果是 master.c 自己爆了，只能印在 Server Console 上
+			fmt.Printf("🔥 MasterObject 崩潰: %s\n", errObj.Message)
+		}
+		return nil // 發生錯誤時回傳 nil (LPC 的 0)
+	}
+
 	// 6. 處理 Return 值 (去除 ReturnWrapper)
 	return unwrapReturnValue(evaluated)
 }
@@ -415,4 +468,24 @@ func deepCopyLPCValue(obj object.Object) object.Object {
 		// 整數、浮點、字串、函式 (Function) 等皆為傳值或不可變參考，直接回傳即可
 		return obj
 	}
+}
+
+// AcceptConnection 模擬新玩家連線的掛勾
+func (d *Driver) AcceptConnection() *object.LPCObject {
+	if d.MasterObject == nil {
+		fmt.Println("⚠️ 拒絕連線：系統尚未準備好 (無 Master Object)")
+		return nil
+	}
+
+	// 呼叫 master.c 的 connect()
+	result := d.CallFunction(d.MasterObject, "connect", nil)
+	
+	// 預期 master.c 會 clone 一個 login 物件並回傳給我們
+	if loginObj, ok := result.(*object.LPCObject); ok {
+		fmt.Printf("🔗 新連線建立！分配的登入物件: %s\n", loginObj.Filename)
+		return loginObj
+	}
+
+	fmt.Println("❌ 連線失敗：master->connect() 沒有回傳合法的 LPCObject")
+	return nil
 }

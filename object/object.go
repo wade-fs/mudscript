@@ -397,7 +397,7 @@ type LPCObject struct {
 	Functions   map[string]*Function
 	Inherits    []*LPCObject
 	
-	// --- 新增：空間與生命週期狀態 ---
+	// --- 空間與生命週期狀態 ---
 	Location    *LPCObject   // 這個物件目前在哪裡？ (例如在某個房間，或某個玩家身上)
 	Inventory   []*LPCObject // 這個物件裡面裝了什麼？
 	IsDestructed bool        // 標記是否已經被摧毀

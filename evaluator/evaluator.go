@@ -127,23 +127,23 @@ func Eval(node ast.Node, env object.Environment) object.Object {
 	case *ast.HashLiteral:
 		return evalHashLiteral(node, env)
 
-	// [新增] 處理強型別變數宣告 (int x = 10;)
+	// 處理強型別變數宣告 (int x = 10;)
 	case *ast.TypedVarDecl:
 		return evalTypedVarDecl(node, env)
 
-	// [新增] 處理函式定義 (int main() { ... })
+	// 處理函式定義 (int main() { ... })
 	case *ast.FunctionDef:
 		return evalFunctionDef(node, env)
 
-	// [新增] 重新賦值與複合賦值 (x = 1, x += 2)
+	// 重新賦值與複合賦值 (x = 1, x += 2)
 	case *ast.AssignExpression:
 		return evalAssignExpression(node, env)
 	
-	// [新增] 自增減 (x++, x--)
+	// 自增減 (x++, x--)
 	case *ast.PostfixExpression:
 		return evalPostfixExpression(node, env)
 
-	// [新增] 控制流與迴圈
+	// 控制流與迴圈
 	case *ast.ForStatement:
 		return evalForStatement(node, env)
 	case *ast.WhileStatement:
@@ -345,7 +345,7 @@ func evalBlockStatement(block *ast.BlockStatement, env object.Environment) objec
 		}
 
 		rt := result.TokenType()
-		// 新增：遇到 Return、Error、Break、Continue 都要立刻把訊號往上傳
+		// 遇到 Return、Error、Break、Continue 都要立刻把訊號往上傳
 		if rt == object.ReturnValueType || rt == object.ErrorType || 
 		   rt == object.BREAK_VALUE_OBJ || rt == object.CONTINUE_VALUE_OBJ {
 			return result
