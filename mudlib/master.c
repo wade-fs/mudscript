@@ -38,6 +38,11 @@ string get_first_char(string word) {
     return substr(word, 0, 1);
 }
 
+int double_value(string k, int v) {
+    // 把所有的 value 乘以 2
+    return v * 2;
+}
+
 int do_test(string arg) {
     if (arg == "string") {
         write("=== 測試字串 Efuns ===\n");
@@ -101,6 +106,33 @@ int do_test(string arg) {
         mixed words = ["apple", "ant", "banana", "bear", "cat"];
         write("原始單字: " + sprintf("%O", words) + "\n");
         write("unique_array (依字首分組):\n" + sprintf("%O", unique_array(words, "get_first_char")) + "\n");
+
+        return 1;
+	} else if (arg == "mapping") {
+        write("=== 測試 Mapping Efuns ===\n");
+        
+        mixed stats = ([ "STR": 15, "DEX": 18, "INT": 12 ]);
+        write("原始狀態: " + sprintf("%O", stats) + "\n\n");
+
+        // 1. keys 和 values
+        write("所有的 Keys: " + sprintf("%O", keys(stats)) + "\n");
+        write("所有的 Values: " + sprintf("%O", values(stats)) + "\n\n");
+
+        // 2. m_delete (刪除 INT)
+        m_delete(stats, "INT");
+        write("刪除 INT 後: " + sprintf("%O", stats) + "\n");
+
+        // 3. m_add (新增 CON)
+        m_add(stats, "CON", 16);
+        // 也修改一下 DEX
+        stats["DEX"] = 20; 
+        write("新增 CON 並修改 DEX 後: " + sprintf("%O", stats) + "\n\n");
+
+        // 4. map_mapping (全部乘以 2)
+        mixed buffed_stats = map_mapping(stats, "double_value");
+        write("Map_Mapping (狀態數值加倍): " + sprintf("%O", buffed_stats) + "\n");
+        // 證明 map_mapping 不會改到原本的資料
+        write("原狀態依舊是: " + sprintf("%O", stats) + "\n");
 
         return 1;
     }

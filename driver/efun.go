@@ -398,6 +398,87 @@ func (d *Driver) SetupEfuns(obj *object.LPCObject) {
 		},
 	})
 
+	// m_delete(mapping, key) - 刪除指定的鍵值對，回傳修改後的 mapping (原地修改)
+	obj.Vars.Set("m_delete", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 2 { return object.NewError("m_delete() 需要 2 個參數") }
+			m, ok := args[0].(*object.Mapping)
+			if !ok { return object.NewError("m_delete() 第一個參數必須是 mapping") }
+
+			key := args[1]
+			hashable, ok := key.(object.Hashable)
+			if !ok {
+				return object.NewError("給定的鍵 (%s) 無法作為 mapping 的 key", key.TokenType())
+			}
+
+			// 從 Go 的 map 中刪除該鍵
+			delete(m.Pairs, hashable.HashKey())
+			
+			// LPC 慣例通常會回傳修改後的 mapping
+			return m 
+		},
+	})
+
+	// m_add(mapping, key, val) - 新增或修改鍵值對 (通常可以用 m[key] = val 代替)
+	obj.Vars.Set("m_add", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 3 { return object.NewError("m_add() 需要 3 個參數") }
+			m, ok := args[0].(*object.Mapping)
+			if !ok { return object.NewError("m_add() 第一個參數必須是 mapping") }
+
+			key := args[1]
+			val := args[2]
+
+			hashable, ok := key.(object.Hashable)
+			if !ok {
+				return object.NewError("給定的鍵 (%s) 無法作為 mapping 的 key", key.TokenType())
+			}
+
+			m.Pairs[hashable.HashKey()] = object.HashPair{Key: key, Value: val}
+			return m
+		},
+	})
+
+	// [額外建議] map_mapping(mapping, func) - 對 mapping 進行轉換
+	// 類似 map_array，但傳入的函式會接收 (key, value) 兩個參數
+	obj.Vars.Set("map_mapping", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 2 { return object.NewError("map_mapping() 至少需要 2 個參數") }
+			m, ok := args[0].(*object.Mapping)
+			if !ok { return object.NewError("map_mapping() 第一個參數必須是 mapping") }
+
+			// 建立一個新的 Mapping 來存放結果 (保持函數式編程不改動原本資料的好習慣)
+			newPairs := make(map[object.HashKey]object.HashPair)
+
+			for _, pair := range m.Pairs {
+				var res object.Object
+
+				if funcName, ok := args[1].(*object.String); ok {
+					targetObj := obj
+					if len(args) > 2 {
+						if o, isObj := args[2].(*object.LPCObject); isObj { targetObj = o }
+					}
+					// 傳入 Key 和 Value 給目標函式
+					res = d.CallFunction(targetObj, funcName.Value, []object.Object{pair.Key, pair.Value})
+				} else if cl, ok := args[1].(*object.Closure); ok {
+					target := cl.Target
+					if target == nil { target = obj }
+					callArgs := append([]object.Object{}, cl.BoundArgs...)
+					callArgs = append(callArgs, pair.Key, pair.Value)
+					res = d.CallFunction(target, cl.FuncName, callArgs)
+				}
+
+				if res == nil || res.TokenType() == object.ErrorType {
+					res = &object.Integer{Value: 0} // 預設值
+				}
+				
+				// 將新的 Value 存入新 Mapping
+				newPairs[pair.Key.(object.Hashable).HashKey()] = object.HashPair{Key: pair.Key, Value: res}
+			}
+			return &object.Mapping{Pairs: newPairs}
+		},
+	})
+
 	// 輔助函式：判斷 LPC 中的真假值 (非 0 即真)
 	isLPCTrue := func(o object.Object) bool {
 		if o == nil || o.TokenType() == object.NilType { return false }
@@ -601,6 +682,7 @@ func (d *Driver) SetupEfuns(obj *object.LPCObject) {
 		},
 	})
 
+	
 	// ==========================================
 	// 5. 字串操作
 	// ==========================================
