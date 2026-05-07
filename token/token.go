@@ -35,6 +35,7 @@ const (
 	ASTARISK = "*"
 	// SLASH is a token type for division.
 	SLASH = "/"
+	MOD = "%"
 	// LT is a token ype for 'less than' operator.
 	LT = "<"
 	// GT is a token ype for 'greater than' operator.
@@ -107,7 +108,6 @@ const (
 	SCOPE        = "::" // 繼承呼叫
 	LBRACKET_MAP = "([" // mapping 起始
 	RBRACKET_MAP = "])" // mapping 結束
-	PERCENT      = "%"
 	PLUS_EQUALS     = "+="
 	MINUS_EQUALS    = "-="
 	ASTERISK_EQUALS = "*="

@@ -4,6 +4,7 @@ package driver
 import (
 	"fmt"
 	"math/rand"
+	"sort"
 	"strings"
 	"time"
 
@@ -406,77 +407,98 @@ func (d *Driver) SetupEfuns(obj *object.LPCObject) {
 		return true
 	}
 
-	// filter_array(array, string func, object ob, ...extra_args) 
-	// 過濾陣列：將陣列元素逐一代入函式，回傳非 0 則保留
-	obj.Vars.Set("filter_array", &object.Builtin{
+	// 輔助函式：比較兩個 LPC 物件是否相等 (給 member_array 用)
+	isEqual := func(a, b object.Object) bool {
+		if a.TokenType() != b.TokenType() { return false }
+		if i1, ok := a.(*object.Integer); ok { return i1.Value == b.(*object.Integer).Value }
+		if s1, ok := a.(*object.String); ok { return s1.Value == b.(*object.String).Value }
+		if o1, ok := a.(*object.LPCObject); ok { return o1 == b.(*object.LPCObject) } // 比較記憶體位址
+		return a.Inspect() == b.Inspect() // Fallback 暴力比較字串表示法
+	}
+
+	// --- 升級版的 Filter ---
+	// 支援: filter(arr, "func", obj) 以及 filter(arr, (: closure :))
+	filterFn := &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
-			if len(args) < 2 { return object.NewError("filter_array() 至少需要 2 個參數") }
+			if len(args) < 2 { return object.NewError("filter() 至少需要 2 個參數") }
 			arr, ok := args[0].(*object.Array)
-			if !ok { return object.NewError("filter_array() 第 1 個參數必須是 array") }
-			funcName, ok := args[1].(*object.String)
-			if !ok { return object.NewError("filter_array() 第 2 個參數必須是 string") }
-
-			// 預設呼叫者是自己 (this_object)
-			targetObj := obj 
-			extraStart := 2
-			
-			// 如果有傳第 3 個參數且是物件，就改為呼叫該物件
-			if len(args) > 2 {
-				if o, isObj := args[2].(*object.LPCObject); isObj {
-					targetObj = o
-					extraStart = 3
-				}
-			}
-
-			// 整理額外的參數
-			var extraArgs []object.Object
-			if len(args) > extraStart {
-				extraArgs = args[extraStart:]
-			}
+			if !ok { return object.NewError("filter() 第一個參數必須是陣列") }
 
 			filtered := []object.Object{}
 			for _, el := range arr.Elements {
-				// 組合呼叫參數： func( element, extra1, extra2... )
-				callArgs := append([]object.Object{el}, extraArgs...)
-				res := d.CallFunction(targetObj, funcName.Value, callArgs)
-				
+				var res object.Object
+
+				if funcName, ok := args[1].(*object.String); ok {
+					targetObj := obj
+					extraStart := 2
+					if len(args) > 2 {
+						if o, isObj := args[2].(*object.LPCObject); isObj {
+							targetObj = o
+							extraStart = 3
+						}
+					}
+					var extraArgs []object.Object
+					if len(args) > extraStart { extraArgs = args[extraStart:] }
+					
+					callArgs := append([]object.Object{el}, extraArgs...)
+					res = d.CallFunction(targetObj, funcName.Value, callArgs)
+				} else if cl, ok := args[1].(*object.Closure); ok {
+					target := cl.Target
+					if target == nil { target = obj }
+					callArgs := append([]object.Object{}, cl.BoundArgs...)
+					callArgs = append(callArgs, el)
+					if len(args) > 2 { callArgs = append(callArgs, args[2:]...) }
+					
+					res = d.CallFunction(target, cl.FuncName, callArgs)
+				} else {
+					return object.NewError("filter() 第二個參數必須是字串或閉包")
+				}
+
 				if isLPCTrue(res) {
 					filtered = append(filtered, el)
 				}
 			}
 			return &object.Array{Elements: filtered}
 		},
-	})
+	}
+	obj.Vars.Set("filter", filterFn)
+	obj.Vars.Set("filter_array", filterFn) // 設定別名支援舊腳本
 
-	// map_array(array, string func, object ob, ...extra_args)
-	// 映射陣列：將陣列元素逐一代入函式，用函式的回傳值替換原本的元素
-	obj.Vars.Set("map_array", &object.Builtin{
+	// --- 升級版的 Map ---
+	mapFn := &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
-			if len(args) < 2 { return object.NewError("map_array() 至少需要 2 個參數") }
+			if len(args) < 2 { return object.NewError("map() 至少需要 2 個參數") }
 			arr, ok := args[0].(*object.Array)
-			if !ok { return object.NewError("map_array() 第 1 個參數必須是 array") }
-			funcName, ok := args[1].(*object.String)
-			if !ok { return object.NewError("map_array() 第 2 個參數必須是 string") }
-
-			targetObj := obj
-			extraStart := 2
-			if len(args) > 2 {
-				if o, isObj := args[2].(*object.LPCObject); isObj {
-					targetObj = o
-					extraStart = 3
-				}
-			}
-
-			var extraArgs []object.Object
-			if len(args) > extraStart {
-				extraArgs = args[extraStart:]
-			}
+			if !ok { return object.NewError("map() 第一個參數必須是陣列") }
 
 			mapped := make([]object.Object, len(arr.Elements))
 			for i, el := range arr.Elements {
-				callArgs := append([]object.Object{el}, extraArgs...)
-				res := d.CallFunction(targetObj, funcName.Value, callArgs)
-				
+				var res object.Object
+
+				if funcName, ok := args[1].(*object.String); ok {
+					targetObj := obj
+					extraStart := 2
+					if len(args) > 2 {
+						if o, isObj := args[2].(*object.LPCObject); isObj {
+							targetObj = o
+							extraStart = 3
+						}
+					}
+					var extraArgs []object.Object
+					if len(args) > extraStart { extraArgs = args[extraStart:] }
+					
+					callArgs := append([]object.Object{el}, extraArgs...)
+					res = d.CallFunction(targetObj, funcName.Value, callArgs)
+				} else if cl, ok := args[1].(*object.Closure); ok {
+					target := cl.Target
+					if target == nil { target = obj }
+					callArgs := append([]object.Object{}, cl.BoundArgs...)
+					callArgs = append(callArgs, el)
+					if len(args) > 2 { callArgs = append(callArgs, args[2:]...) }
+					
+					res = d.CallFunction(target, cl.FuncName, callArgs)
+				}
+
 				if res == nil || res.TokenType() == object.ErrorType {
 					mapped[i] = &object.Integer{Value: 0}
 				} else {
@@ -484,6 +506,98 @@ func (d *Driver) SetupEfuns(obj *object.LPCObject) {
 				}
 			}
 			return &object.Array{Elements: mapped}
+		},
+	}
+	obj.Vars.Set("map", mapFn)
+	obj.Vars.Set("map_array", mapFn) // 設定別名
+
+	// --- 陣列排序 (sort_array) ---
+	obj.Vars.Set("sort_array", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 2 { return object.NewError("sort_array() 至少需要 2 個參數") }
+			arr, ok := args[0].(*object.Array)
+			if !ok { return object.NewError("sort_array() 第一個參數必須是陣列") }
+
+			// 複製一份，避免原地修改原陣列 (LPC 的慣例是回傳新陣列)
+			newElements := make([]object.Object, len(arr.Elements))
+			copy(newElements, arr.Elements)
+
+			// 呼叫 Go 的排序，並在比較函式中 callback 回 LPC
+			sort.SliceStable(newElements, func(i, j int) bool {
+				el1, el2 := newElements[i], newElements[j]
+				var res object.Object
+
+				if funcName, ok := args[1].(*object.String); ok {
+					targetObj := obj
+					if len(args) > 2 {
+						if o, isObj := args[2].(*object.LPCObject); isObj { targetObj = o }
+					}
+					res = d.CallFunction(targetObj, funcName.Value, []object.Object{el1, el2})
+				} else if cl, ok := args[1].(*object.Closure); ok {
+					target := cl.Target
+					if target == nil { target = obj }
+					callArgs := append([]object.Object{}, cl.BoundArgs...)
+					callArgs = append(callArgs, el1, el2)
+					res = d.CallFunction(target, cl.FuncName, callArgs)
+				}
+
+				// LPC 的排序慣例：回傳 < 0 的值代表 el1 應該在 el2 前面
+				if iRes, ok := res.(*object.Integer); ok {
+					return iRes.Value < 0
+				}
+				return false
+			})
+			return &object.Array{Elements: newElements}
+		},
+	})
+
+	// --- 陣列元素尋找 (member_array) ---
+	obj.Vars.Set("member_array", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 2 { return &object.Integer{Value: -1} }
+			val := args[0]
+			arr, ok := args[1].(*object.Array)
+			if !ok { return &object.Integer{Value: -1} }
+
+			for i, el := range arr.Elements {
+				if isEqual(val, el) {
+					return &object.Integer{Value: int64(i)}
+				}
+			}
+			return &object.Integer{Value: -1}
+		},
+	})
+
+	// --- 陣列分類 (unique_array) ---
+	obj.Vars.Set("unique_array", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 2 { return object.NewError("unique_array() 至少需要 2 個參數") }
+			arr, ok := args[0].(*object.Array)
+			if !ok { return object.NewError("unique_array() 第一個參數必須是陣列") }
+
+			groups := make(map[string][]object.Object)
+			
+			for _, el := range arr.Elements {
+				var res object.Object
+				if funcName, ok := args[1].(*object.String); ok {
+					res = d.CallFunction(obj, funcName.Value, []object.Object{el})
+				} else if cl, ok := args[1].(*object.Closure); ok {
+					target := cl.Target
+					if target == nil { target = obj }
+					callArgs := append([]object.Object{}, cl.BoundArgs...)
+					res = d.CallFunction(target, cl.FuncName, append(callArgs, el))
+				}
+
+				if res == nil { res = &object.Integer{Value: 0} }
+				key := res.Inspect() // 利用字串化結果作為 Go map 的分類 Key
+				groups[key] = append(groups[key], el)
+			}
+			
+			result := make([]object.Object, 0, len(groups))
+			for _, g := range groups {
+				result = append(result, &object.Array{Elements: g})
+			}
+			return &object.Array{Elements: result}
 		},
 	})
 

@@ -99,8 +99,6 @@ func (l *lexer) NextToken() token.Token {
 		} else {
 			tok = newToken(token.ILLEGAL, l.ch) 
 		}
-	case '%':
-		tok = newToken(token.PERCENT, l.ch)
 	case '=':
 		if l.peekChar() == '=' {
 			ch := l.ch
@@ -172,6 +170,8 @@ func (l *lexer) NextToken() token.Token {
 		} else {
 			tok = newToken(token.SLASH, l.ch)
 		}
+	case '%':
+		tok = newToken(token.MOD, l.ch)
 	case '<':
 		if l.peekChar() == '=' {
 			ch := l.ch

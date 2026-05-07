@@ -18,6 +18,26 @@ void init() {
 	add_action("do_test", "test");
 }
 
+// ==========================================
+// 陣列測試用的輔助函式 (字串呼叫法)
+// ==========================================
+int is_even(int x) {
+    return x % 2 == 0;
+}
+
+int multi_ten(int x) {
+    return x * 10;
+}
+
+int sort_desc(int a, int b) {
+    // 降冪排序：回傳 < 0 代表 a 要排在 b 前面
+    return b - a; 
+}
+
+string get_first_char(string word) {
+    return substr(word, 0, 1);
+}
+
 int do_test(string arg) {
     if (arg == "string") {
         write("=== 測試字串 Efuns ===\n");
@@ -53,6 +73,35 @@ int do_test(string arg) {
             write("屬性 " + key + ": " + sprintf("%d", val) + "\n");
         }
         
+        return 1;
+	} else if (arg == "array") {
+        mixed arr = [1, 2, 3, 4, 5];
+        write("=== 測試陣列 Efuns ===\n");
+        write("原始陣列: " + sprintf("%O", arr) + "\n\n");
+
+        // 1. filter 與 map (字串回呼法)
+        write("[字串寫法] filter (找偶數): " + sprintf("%O", filter(arr, "is_even")) + "\n");
+        write("[字串寫法] map (全部乘 10): " + sprintf("%O", map(arr, "multi_ten")) + "\n\n");
+
+        // 2. filter 與 map (閉包寫法) 
+        // 註: 若你的 Parser 已經支援 $1 語法，這裡可以解開註解測試
+        // write("[閉包寫法] filter (大於2): " + sprintf("%O", filter(arr, (: $1 > 2 :))) + "\n");
+        // write("[閉包寫法] map (加 100): " + sprintf("%O", map(arr, (: $1 + 100 :))) + "\n\n");
+
+        // 3. sort_array 排序
+        mixed unsorted = [8, 3, 7, 1, 4];
+        write("未排序陣列: " + sprintf("%O", unsorted) + "\n");
+        write("sort_array (由大到小): " + sprintf("%O", sort_array(unsorted, "sort_desc")) + "\n\n");
+
+        // 4. member_array 尋找
+        write("member_array (找數字 7): " + sprintf("%d", member_array(7, unsorted)) + "\n");
+        write("member_array (找數字 99): " + sprintf("%d", member_array(99, unsorted)) + "\n\n");
+
+        // 5. unique_array 分組
+        mixed words = ["apple", "ant", "banana", "bear", "cat"];
+        write("原始單字: " + sprintf("%O", words) + "\n");
+        write("unique_array (依字首分組):\n" + sprintf("%O", unique_array(words, "get_first_char")) + "\n");
+
         return 1;
     }
 
