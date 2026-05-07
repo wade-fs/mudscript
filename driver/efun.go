@@ -524,4 +524,124 @@ func (d *Driver) SetupEfuns(obj *object.LPCObject) {
 			return &object.String{Value: result}
 		},
 	})
+
+	// lower_case(string str) - 轉小寫
+	obj.Vars.Set("lower_case", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) != 1 { return object.NewError("lower_case 需要 1 個參數") }
+			str, ok := args[0].(*object.String)
+			if !ok { return object.NewError("lower_case 參數必須是字串") }
+			return &object.String{Value: strings.ToLower(str.Value)}
+		},
+	})
+
+	// upper_case(string str) - 轉大寫
+	obj.Vars.Set("upper_case", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) != 1 { return object.NewError("upper_case 需要 1 個參數") }
+			str, ok := args[0].(*object.String)
+			if !ok { return object.NewError("upper_case 參數必須是字串") }
+			return &object.String{Value: strings.ToUpper(str.Value)}
+		},
+	})
+
+	// strlen(string str) - 取得字串長度 (支援中文字元)
+	obj.Vars.Set("strlen", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) != 1 { return &object.Integer{Value: 0} }
+			str, ok := args[0].(*object.String)
+			if !ok { return &object.Integer{Value: 0} }
+			// 使用 []rune 確保中文字算 1 個字元
+			return &object.Integer{Value: int64(len([]rune(str.Value)))}
+		},
+	})
+
+	// substr(string str, int start, [int length]) - 截取字串 (支援中文字元)
+	obj.Vars.Set("substr", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 2 { return object.NewError("substr 至少需要 2 個參數") }
+			str, ok1 := args[0].(*object.String)
+			start, ok2 := args[1].(*object.Integer)
+			if !ok1 || !ok2 { return object.NewError("substr 參數型別錯誤") }
+
+			runes := []rune(str.Value)
+			length := len(runes)
+			
+			sIdx := int(start.Value)
+			// 支援負數索引 (從後面算起)
+			if sIdx < 0 { sIdx = length + sIdx }
+			if sIdx < 0 { sIdx = 0 }
+			if sIdx >= length { return &object.String{Value: ""} }
+
+			eIdx := length
+			if len(args) > 2 {
+				if l, ok := args[2].(*object.Integer); ok {
+					eIdx = sIdx + int(l.Value)
+				}
+			}
+			if eIdx > length { eIdx = length }
+			if eIdx < sIdx { return &object.String{Value: ""} }
+
+			return &object.String{Value: string(runes[sIdx:eIdx])}
+		},
+	})
+
+	// strsrch(string str, string pattern, [int flag]) - 搜尋字串位置
+	obj.Vars.Set("strsrch", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 2 { return object.NewError("strsrch 需要 2 個參數") }
+			str, ok1 := args[0].(*object.String)
+			pattern, ok2 := args[1].(*object.String)
+			if !ok1 || !ok2 { return object.NewError("strsrch 參數必須是字串") }
+
+			// 預設找第一個符合的
+			reverse := false
+			if len(args) > 2 {
+				if flag, ok := args[2].(*object.Integer); ok && flag.Value != 0 {
+					reverse = true // 第三個參數非 0 代表從後面找 (LastIndex)
+				}
+			}
+
+			var byteIdx int
+			if reverse {
+				byteIdx = strings.LastIndex(str.Value, pattern.Value)
+			} else {
+				byteIdx = strings.Index(str.Value, pattern.Value)
+			}
+
+			if byteIdx == -1 {
+				return &object.Integer{Value: -1}
+			}
+			
+			// 將 Byte Index 轉換為 Rune Index (給 LPC 用的字元索引)
+			runeIdx := len([]rune(str.Value[:byteIdx]))
+			return &object.Integer{Value: int64(runeIdx)}
+		},
+	})
+
+	// capitalize(string str) - 首字母大寫
+	obj.Vars.Set("capitalize", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) != 1 { return object.NewError("capitalize 需要 1 個參數") }
+			str, ok := args[0].(*object.String)
+			if !ok { return object.NewError("capitalize 參數必須是字串") }
+
+			runes := []rune(str.Value)
+			if len(runes) == 0 { return &object.String{Value: ""} }
+
+			// 只有第一個字元轉大寫
+			runes[0] = []rune(strings.ToUpper(string(runes[0])))[0]
+			return &object.String{Value: string(runes)}
+		},
+	})
+
+	// trim(string str) - 移除前後空白與換行
+	obj.Vars.Set("trim", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) != 1 { return object.NewError("trim 需要 1 個參數") }
+			str, ok := args[0].(*object.String)
+			if !ok { return object.NewError("trim 參數必須是字串") }
+			return &object.String{Value: strings.TrimSpace(str.Value)}
+		},
+	})
 }

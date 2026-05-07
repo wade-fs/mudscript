@@ -789,3 +789,24 @@ type ClosureLiteral struct {
 func (cl *ClosureLiteral) expressionNode()      {}
 func (cl *ClosureLiteral) TokenLiteral() string { return cl.Token.Literal }
 func (cl *ClosureLiteral) String() string { return "(: closure :)" }
+
+type ForEachStatement struct {
+	Token      token.Token // 'foreach' 標記
+	Key        *Ident      // 對於 mapping 來說是 key；對於 array 來說可以不寫
+	Value      *Ident      // 對於 mapping 來說是 value；對於 array 來說是 item
+	Collection Expression  // 被巡覽的陣列或 Mapping 表達式
+	Body       *BlockStatement
+}
+
+func (fes *ForEachStatement) statementNode()       {}
+func (fes *ForEachStatement) TokenLiteral() string { return fes.Token.Literal }
+func (fes *ForEachStatement) String() string {
+	var out bytes.Buffer
+	out.WriteString("foreach (")
+	if fes.Key != nil {
+		out.WriteString(fes.Key.String() + ", ")
+	}
+	out.WriteString(fes.Value.String() + " in " + fes.Collection.String() + ") ")
+	out.WriteString(fes.Body.String())
+	return out.String()
+}

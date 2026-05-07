@@ -131,6 +131,9 @@ const (
 	DEFAULT  = "DEFAULT"
 	BREAK    = "BREAK"
 	CONTINUE = "CONTINUE"
+
+	FOREACH = "FOREACH"
+    IN      = "IN"
 )
 
 // Language keywords
@@ -165,6 +168,9 @@ var keywords = map[string]TokenType{
 	"default":  DEFAULT,
 	"break":    BREAK,
 	"continue": CONTINUE,
+
+	"foreach": FOREACH,
+    "in":      IN,
 }
 
 // LookupIdent checks the language keywords to see whether the given identifier is a keyword.

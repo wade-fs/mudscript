@@ -355,14 +355,14 @@ func (p *Parser) parseGroupedExpression() ast.Expression {
 }
 
 func (p *Parser) parseIfExpression() ast.Expression {
-	expr := &ast.IfExpression{Token: p.curToken}
+	expression := &ast.IfExpression{Token: p.curToken}
 
 	if !p.expectPeek(token.LPAREN) {
 		return nil
 	}
 
 	p.nextToken()
-	expr.Condition = p.parseExpression(LOWEST)
+	expression.Condition = p.parseExpression(LOWEST)
 
 	if !p.expectPeek(token.RPAREN) {
 		return nil
@@ -372,19 +372,40 @@ func (p *Parser) parseIfExpression() ast.Expression {
 		return nil
 	}
 
-	expr.Consequence = p.parseBlockStatement()
+	expression.Consequence = p.parseBlockStatement()
 
+	// === [修改開始] 處理 else 與 else if ===
 	if p.peekTokenIs(token.ELSE) {
-		p.nextToken()
+		p.nextToken() // 移動到 'else'
 
-		if !p.expectPeek(token.LBRACE) {
-			return nil
+		if p.peekTokenIs(token.IF) {
+			// 1. 發現是 else if！
+			p.nextToken() // 移動到 'if'
+
+			// 2. 遞迴解析這個新的 if 結構
+			elseIfNode := p.parseIfExpression()
+
+			// 3. 語法糖魔法：建構一個隱形的 BlockStatement 把 else if 包起來
+			expression.Alternative = &ast.BlockStatement{
+				Token: p.curToken, // 借用當前的 token
+				Statements: []ast.Statement{
+					&ast.ExpressionStatement{
+						Token:      p.curToken,
+						Expression: elseIfNode,
+					},
+				},
+			}
+		} else {
+			// 4. 一般的 else { ... }
+			if !p.expectPeek(token.LBRACE) {
+				return nil
+			}
+			expression.Alternative = p.parseBlockStatement()
 		}
-
-		expr.Alternative = p.parseBlockStatement()
 	}
+	// === [修改結束] ===
 
-	return expr
+	return expression
 }
 
 func (p *Parser) parseBlockStatement() *ast.BlockStatement {
@@ -605,6 +626,8 @@ func (p *Parser) parseStatement() ast.Statement {
 		return p.parseBreakStatement()
 	case token.CONTINUE:
 		return p.parseContinueStatement()
+	case token.FOREACH:
+		return p.parseForEachStatement()
 	default:
 		return p.parseExpressionStatement()
 	}
@@ -986,4 +1009,43 @@ func (p *Parser) parseClosureLiteral() ast.Expression {
 	lit := &ast.ClosureLiteral{Token: p.curToken}
 	lit.Elements = p.parseExpressionList(token.COLON_RPAREN)
 	return lit
+}
+
+func (p *Parser) parseForEachStatement() ast.Statement {
+	stmt := &ast.ForEachStatement{Token: p.curToken}
+
+	if !p.expectPeek(token.LPAREN) { return nil }
+	p.nextToken()
+
+	// 讀取第一個變數 (可能只是 item，也可能是 mapping 的 key)
+	firstIdent := &ast.Ident{Token: p.curToken, Value: p.curToken.Literal}
+	
+	p.nextToken() // 偷看下一個符號
+
+	if p.curToken.TokenType == token.COMMA {
+		// 如果有逗號，代表是 foreach(key, value in mapping)
+		stmt.Key = firstIdent
+		p.nextToken() // 跳過逗號
+		stmt.Value = &ast.Ident{Token: p.curToken, Value: p.curToken.Literal}
+		p.nextToken()
+	} else {
+		// 只有一個變數，代表是 foreach(item in array)
+		stmt.Value = firstIdent
+	}
+
+	// 預期接下來是 'in' 關鍵字
+	if p.curToken.TokenType != token.IN {
+		p.errors = append(p.errors, "foreach 語法缺少 'in' 關鍵字")
+		return nil
+	}
+	p.nextToken() // 跳過 'in'
+
+	stmt.Collection = p.parseExpression(LOWEST)
+
+	if !p.expectPeek(token.RPAREN) { return nil }
+	if !p.expectPeek(token.LBRACE) { return nil }
+
+	stmt.Body = p.parseBlockStatement()
+
+	return stmt
 }

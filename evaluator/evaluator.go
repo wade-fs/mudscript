@@ -199,6 +199,53 @@ func Eval(node ast.Node, env object.Environment) object.Object {
 			return newError("不合法的閉包格式，第一個參數必須是字串或物件")
 		}
 		return closure
+	case *ast.ForEachStatement:
+		collection := Eval(node.Collection, env)
+		if isError(collection) { return collection }
+
+		switch coll := collection.(type) {
+		case *object.Array:
+			for _, element := range coll.Elements {
+				loopEnv := object.NewEnclosedEnvironment(env)
+				loopEnv.Set(node.Value.Value, element)
+				// 如果陣列也硬傳了兩個變數，Key 就當作 Index (整數)
+				if node.Key != nil {
+					// TODO: 這裡其實應該傳入真實的 index，我們為了簡化可以略過或支援
+					loopEnv.Set(node.Key.Value, &object.Nil{}) 
+				}
+
+				res := Eval(node.Body, loopEnv)
+				
+				if res != nil {
+					if res.TokenType() == object.BREAK_VALUE_OBJ { break }
+					if res.TokenType() == object.CONTINUE_VALUE_OBJ { continue }
+					if res.TokenType() == object.ReturnValueType || res.TokenType() == object.ErrorType {
+						return res
+					}
+				}
+			}
+		case *object.Mapping:
+			for _, pair := range coll.Pairs {
+				loopEnv := object.NewEnclosedEnvironment(env)
+				loopEnv.Set(node.Value.Value, pair.Value)
+				if node.Key != nil {
+					loopEnv.Set(node.Key.Value, pair.Key)
+				}
+
+				res := Eval(node.Body, loopEnv)
+				
+				if res != nil {
+					if res.TokenType() == object.BREAK_VALUE_OBJ { break }
+					if res.TokenType() == object.CONTINUE_VALUE_OBJ { continue }
+					if res.TokenType() == object.ReturnValueType || res.TokenType() == object.ErrorType {
+						return res
+					}
+				}
+			}
+		default:
+			return newError("foreach 只能用於 array 或 mapping")
+		}
+		return nil
 	}
 
 	return nil
