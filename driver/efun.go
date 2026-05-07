@@ -19,12 +19,24 @@ func (d *Driver) SetupEfuns(obj *object.LPCObject) {
 
 	// write(string msg) - 印出訊息
 	obj.Vars.Set("write", &object.Builtin{
-		Fn: func(args ...object.Object) object.Object {
-			if len(args) > 0 && args[0].TokenType() == object.StringType {
-				fmt.Print(args[0].(*object.String).Value)
-			}
-			return &object.Nil{}
-		},
+	    Fn: func(args ...object.Object) object.Object {
+	        msg := ""
+	        if len(args) > 0 {
+	            if s, ok := args[0].(*object.String); ok {
+	                msg = s.Value
+	            } else {
+	                msg = args[0].Inspect()
+	            }
+	        }
+	
+	        if d.CurrentPlayer != nil && d.CurrentPlayer.Conn != nil {
+	            // 使用 \r\n 確保在各平台 Telnet 都能正確換行
+	            d.CurrentPlayer.Send(msg + "\r\n")
+	        } else {
+	            fmt.Print(msg)
+	        }
+	        return &object.Nil{}
+	    },
 	})
 
 	// say(string msg) - 對周圍的其他物件廣播訊息
@@ -181,6 +193,15 @@ func (d *Driver) SetupEfuns(obj *object.LPCObject) {
 			}
 			return result
 		},
+	})
+
+	obj.Vars.Set("this_player", &object.Builtin{
+	    Fn: func(args ...object.Object) object.Object {
+	        if d.CurrentPlayer != nil && d.CurrentPlayer.Object != nil {
+	            return d.CurrentPlayer.Object // 回傳目前操作者的 LPCObject
+	        }
+	        return &object.Nil{}
+	    },
 	})
 
 	// ==========================================

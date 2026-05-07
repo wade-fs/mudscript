@@ -24,6 +24,7 @@ mudscript:
 	@ cd cmd/$@ && \
 	go mod tidy && \
 	env $(ENV) go build -o $(OUT)/$@ && \
+	cd $(TOP) && \
 	$(OUT)/$@ 
 
 clean:

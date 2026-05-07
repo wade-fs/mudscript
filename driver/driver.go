@@ -2,7 +2,9 @@
 package driver
 
 import (
+	"bufio"
 	"fmt"
+	"net"
 	"os"
 	"path/filepath"
 	"strings"
@@ -23,9 +25,6 @@ type DriverConfig struct {
 	MasterFile    string        // master.c 的路徑 (預設 "/master.c" 或 "/adm/obj/master.c")
 	HeartBeatTick time.Duration // heart_beat 的觸發間隔 (LPC 預設通常是 2 秒)
 }
-
-// PlayerConnection 玩家連線 (Phase 4 實作，先放個空殼)
-type PlayerConnection struct{}
 
 // ScheduledCall 用於 call_out 排程
 type ScheduledCall struct {
@@ -48,6 +47,7 @@ type Driver struct {
 	MasterObject *object.LPCObject                // master.c
 	RootUID      string // 儲存最高權限 UID (通常是 "Root")
 	BackboneUID  string // 儲存背景執行 UID (通常是 "Backbone")
+	CurrentPlayer *PlayerConnection // 追蹤當前正在操作的玩家
 }
 
 // New 建立新的 Driver 實例
@@ -76,10 +76,13 @@ func (d *Driver) LoadObject(filename string) (*object.LPCObject, error) {
 	d.mu.RUnlock()
 
 	// 2. 讀取實體檔案
-	lpcFile := d.Config.MudLibPath + filename
-	content, err := os.ReadFile(lpcFile)
+	// 確保 filename 的開頭斜線不會影響 Join
+	cleanName := strings.TrimPrefix(filename, "/")
+	fullPath := filepath.Join(d.Config.MudLibPath, cleanName)
+
+	content, err := os.ReadFile(fullPath)
 	if err != nil {
-		return nil, fmt.Errorf("failed to read file %s: %v", filename, err)
+		return nil, fmt.Errorf("failed to read file %s(Full Path: %s): %v", filename, fullPath, err)
 	}
 
 	// 2.5 執行前處理器 (展開巨集與引入檔案)
@@ -217,7 +220,10 @@ func (d *Driver) Start() error {
 	if err != nil {
 		return fmt.Errorf("致命錯誤: 無法載入 master.c: %v", err)
 	}
+
+	d.mu.Lock()
 	d.MasterObject = master
+	d.mu.Unlock()
 
 	// 2. 呼叫 get_root_uid()
 	if res := d.CallFunction(master, "get_root_uid", nil); res != nil {
@@ -496,4 +502,18 @@ func (d *Driver) AcceptConnection() *object.LPCObject {
 
 	fmt.Println("❌ 連線失敗：master->connect() 沒有回傳合法的 LPCObject")
 	return nil
+}
+
+type PlayerConnection struct {
+    Conn     net.Conn
+    Reader   *bufio.Reader
+    Object   *object.LPCObject // 該連線目前控制的 LPC 物件 (通常是 Login 或 Player 物件)
+    IsActive bool
+}
+
+// 向玩家發送訊息
+func (p *PlayerConnection) Send(msg string) {
+    if p.Conn != nil {
+        p.Conn.Write([]byte(msg))
+    }
 }
