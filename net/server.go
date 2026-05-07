@@ -45,22 +45,22 @@ func (s *TelnetServer) handleConnection(conn net.Conn) {
 	conn.Write([]byte{255, 251, 1, 255, 251, 3})
 	
 	// 取得登入物件
-	loginObj := s.Driver.AcceptConnection()
-	if loginObj == nil {
+	userObj := s.Driver.AcceptConnection()
+	if userObj == nil {
 		conn.Write([]byte("系統忙碌中，請稍後再試。\n"))
 		conn.Close()
 		return
 	}
 
 	// [修改] 使用新的工廠函式建立帶有 TCP Buffer 的連線
-	pConn := driver.NewPlayerConnection(conn, loginObj)
-	
-	// [關鍵] 將這個物件註冊為「互動中的玩家」，讓 tell_object 找得到
-	s.Driver.RegisterInteractive(loginObj, pConn)
-	defer s.Driver.UnregisterInteractive(loginObj)
+	pConn := driver.NewPlayerConnection(conn, userObj)
+	s.Driver.RegisterInteractive(userObj, pConn)
+	fmt.Printf("DEBUG: 成功註冊互動玩家 -> %s (IsInteractive=%v)\n", userObj.Filename, userObj.IsInteractive)
+	defer s.Driver.UnregisterInteractive(userObj)
 
-	// 註冊完玩家後，呼叫物件的 init()，讓 add_action 生效！
-	s.Driver.RunCommand(pConn, loginObj, "init", nil)
+	s.Driver.RunCommand(pConn, userObj, "enable_commands", nil)
+	s.Driver.RunCommand(pConn, userObj, "setup", nil)
+	s.Driver.RunCommand(pConn, userObj, "init", nil)
 
 	s.servePlayer(pConn)
 }
@@ -74,7 +74,10 @@ func (s *TelnetServer) servePlayer(p *driver.PlayerConnection) {
 
 	for p.IsActive {
 		b, err := reader.ReadByte()
-		if err != nil { break }
+		if err != nil {
+			fmt.Printf("DEBUG: 玩家 %s 讀取錯誤 (已斷線): %v\n", p.Object.Filename, err)
+			break
+		}
 
 		if b == 255 {
 			cmd, err := reader.ReadByte()
@@ -129,30 +132,34 @@ func (s *TelnetServer) servePlayer(p *driver.PlayerConnection) {
 			
 				// 1. 檢查玩家身上有沒有註冊這個動詞
 				if p.Object.Actions != nil {
-					if action, exists := p.Object.Actions[verb]; exists {
-						// 找到了！去呼叫提供該指令的物件 (例如劍、房間或玩家自己)
-						
-						// 我們需要將參數傳給函式
-						callArgs := []object.Object{}
-						if arg != "" {
-							callArgs = append(callArgs, &object.String{Value: arg})
-						}
-			
-						// 執行該函式 (注意：RunCommand 會將 this_player() 綁定為 p)
-						res := s.Driver.RunCommand(p, action.Provider, action.FuncName, callArgs)
-			
-						// LPC 慣例：如果函式回傳 1 (非 0)，代表指令成功執行
-						// 如果回傳 0，代表執行失敗（例如 "get all" 但其實拿不起來），應該繼續往下找或報錯
-						if res != nil {
-							if i, ok := res.(*object.Integer); !ok || i.Value != 0 {
-								cmdHandled = true
-							}
-						}
-					}
+				    if action, exists := p.Object.Actions[verb]; exists {
+				        fmt.Printf("DEBUG: 執行 action %s -> %s() by provider %s (player=%s)\n", 
+				            verb, action.FuncName, action.Provider.Filename, p.Object.Filename)
+				
+				        callArgs := []object.Object{}
+				        if arg != "" {
+				            callArgs = append(callArgs, &object.String{Value: arg})
+				        }
+				
+				        // 【關鍵修正】：永遠用 p.Object（玩家的 clone）作為執行主體
+				        res := s.Driver.RunCommand(p, p.Object, action.FuncName, callArgs)
+				
+				        if res != nil {
+				            if i, ok := res.(*object.Integer); !ok || i.Value != 0 {
+				                cmdHandled = true
+				            }
+				        }
+				    }
 				}
 			
 				// 2. 如果指令表裡找不到，退回到原本的 process_input (供聊天或系統指令使用)
 				if !cmdHandled {
+					fmt.Printf("DEBUG: 玩家 %s 輸入 '%s', 目前有 %d 個 action\n", 
+				        p.Object.Filename, finalInput, len(p.Object.Actions))
+					for v := range p.Object.Actions {
+				        fmt.Printf("  - action: %s\n", v)
+				    }
+
 					res := s.Driver.RunCommand(p, p.Object, "process_input", []object.Object{&object.String{Value: finalInput}})
 					
 					// 如果 process_input 也回傳 0，我們就印出經典的 MUD 提示

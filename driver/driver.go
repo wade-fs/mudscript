@@ -122,20 +122,33 @@ func (p *PlayerConnection) ExpandHistory(input string) string {
 
 // 註冊與取得互動玩家
 func (d *Driver) RegisterInteractive(obj *object.LPCObject, conn *PlayerConnection) {
-	d.interactiveObjects.Store(obj, conn)
-	obj.IsInteractive = true // 標記為真實連線玩家
+	if obj == nil || conn == nil { return }
+    d.interactiveObjects.Store(obj.Filename, conn)
+    obj.IsInteractive = true
+    fmt.Printf("DEBUG: RegisterInteractive -> %s\n", obj.Filename)
 }
 
 func (d *Driver) UnregisterInteractive(obj *object.LPCObject) {
-	d.interactiveObjects.Delete(obj)
-	obj.IsInteractive = false // 標記為斷線
+	if obj == nil { return }
+    d.interactiveObjects.Delete(obj.Filename)
+    obj.IsInteractive = false
+    fmt.Printf("DEBUG: UnregisterInteractive -> %s\n", obj.Filename)
 }
 
 func (d *Driver) GetConnectionFromObject(obj *object.LPCObject) *PlayerConnection {
-	if conn, ok := d.interactiveObjects.Load(obj); ok {
-		return conn.(*PlayerConnection)
-	}
-	return nil
+	if obj == nil { return nil }
+    
+    // 直接用 Filename 查
+    if conn, ok := d.interactiveObjects.Load(obj.Filename); ok {
+        return conn.(*PlayerConnection)
+    }
+    
+    // 相容舊的 pointer 查詢（防萬一）
+    if conn, ok := d.interactiveObjects.Load(obj); ok {
+        return conn.(*PlayerConnection)
+    }
+    
+    return nil
 }
 
 // Driver MUD 伺服器核心
@@ -409,6 +422,13 @@ func (d *Driver) SetHeartBeat(obj *object.LPCObject, enable bool) {
 }
 
 func (d *Driver) CallFunction(obj *object.LPCObject, funcName string, args []object.Object) object.Object {
+	fmt.Printf("DEBUG: [%s]->%s() 被呼叫\n", obj.Filename, funcName)
+	if obj.Vars != nil {
+		obj.Vars.Set("this_object", &object.Builtin{
+			Fn: func(args ...object.Object) object.Object { return obj },
+		})
+	}
+
 	fnObj, ok := obj.Vars.Get(funcName)
 	if !ok { return nil }
 
@@ -461,14 +481,70 @@ func (d *Driver) MoveObject(item *object.LPCObject, dest *object.LPCObject) {
 
 func (d *Driver) DestructObject(obj *object.LPCObject) {
 	if obj == nil || obj.IsDestructed { return }
+	
+	fmt.Printf("DEBUG: DestructObject called on %s\n", obj.Filename)
+
+	// === 核心修正：精準找到對應的連線 ===
+	var targetConn *PlayerConnection
+
+	// 方法1：直接用 Filename 查（推薦主要方式）
+	if conn, ok := d.interactiveObjects.Load(obj.Filename); ok {
+		targetConn = conn.(*PlayerConnection)
+		fmt.Printf("DEBUG: 直接透過 Filename 找到連線 %s\n", obj.Filename)
+	}
+
+	// 方法2：如果沒找到，用 pointer 比對（防 clone 後 Filename 不同的情況）
+	if targetConn == nil {
+		d.interactiveObjects.Range(func(key, value interface{}) bool {
+			if pconn, ok := value.(*PlayerConnection); ok {
+				if pconn.Object == obj {  // 嚴格比對 pointer
+					targetConn = pconn
+					fmt.Printf("DEBUG: 透過 pointer 比對找到連線 %s\n", pconn.Object.Filename)
+					return false
+				}
+			}
+			return true
+		})
+	}
+
+	// 方法3：最後手段 - 根據 Filename 前綴（只在必要時使用）
+	if targetConn == nil && strings.HasPrefix(obj.Filename, "/user.c") {
+		d.interactiveObjects.Range(func(key, value interface{}) bool {
+			if pconn, ok := value.(*PlayerConnection); ok {
+				if pconn.Object != nil && pconn.Object.Filename == obj.Filename {
+					targetConn = pconn
+					fmt.Printf("DEBUG: 透過精準 Filename 前綴找到 %s\n", pconn.Object.Filename)
+					return false
+				}
+			}
+			return true
+		})
+	}
+
+	// === 執行斷線 ===
+	if targetConn != nil {
+		fmt.Printf("DEBUG: 強制關閉玩家連線 %s\n", targetConn.Object.Filename)
+		targetConn.IsActive = false
+		if targetConn.Conn != nil {
+			targetConn.Conn.Close()
+		}
+		d.UnregisterInteractive(targetConn.Object)
+	} else {
+		fmt.Printf("DEBUG: 完全找不到對應連線 for %s\n", obj.Filename)
+	}
+
+	// 後續清理邏輯...
 	obj.IsDestructed = true
 	d.SetHeartBeat(obj, false)
+
 	for _, item := range obj.Inventory {
 		d.MoveObject(item, obj.Location)
 	}
+
 	if obj.Location != nil {
 		d.MoveObject(obj, nil)
 	}
+
 	d.mu.Lock()
 	delete(d.ObjectTable, obj.Filename)
 	d.mu.Unlock()

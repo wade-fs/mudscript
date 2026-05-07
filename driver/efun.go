@@ -18,6 +18,26 @@ func (d *Driver) SetupEfuns(obj *object.LPCObject) {
 	// 1. 核心與 I/O (Core & IO)
 	// ==========================================
 
+	obj.Vars.Set("destruct", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			var target *object.LPCObject
+			if len(args) > 0 {
+				if o, ok := args[0].(*object.LPCObject); ok {
+					target = o
+				}
+			}
+			if target == nil {
+				target = obj  // 如果沒傳參數，就摧毀自己
+			}
+
+			fmt.Printf("DEBUG: destruct() called for %s (from this_object=%s)\n", 
+				target.Filename, obj.Filename)
+
+			d.DestructObject(target)
+			return &object.Nil{}
+		},
+	})
+
 	// enable_commands() - 讓物件成為「活物」，可以接收 add_action
 	obj.Vars.Set("enable_commands", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
@@ -30,36 +50,47 @@ func (d *Driver) SetupEfuns(obj *object.LPCObject) {
 	})
 
 	// add_action(string func, string verb) - 把指令塞給當前玩家
+	// driver/efun.go 裡的 add_action 替換成下面這個版本
 	obj.Vars.Set("add_action", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
-			if len(args) < 2 { return object.NewError("add_action 需 2 個字串參數") }
+			if len(args) < 2 {
+				return object.NewError("add_action 需 2 個字串參數")
+			}
 			
 			funcName, ok1 := args[0].(*object.String)
 			verb, ok2 := args[1].(*object.String)
-			if !ok1 || !ok2 { return object.NewError("add_action 參數型別錯誤") }
-
-			// 誰呼叫了這個動作？通常是 this_player() (正在執行 init 的人)
-			p := d.GetCurrentPlayer()
-			if p == nil || p.Object == nil {
-				return &object.Integer{Value: 0}
+			if !ok1 || !ok2 {
+				return object.NewError("add_action 參數型別錯誤")
 			}
-
-			targetObj := p.Object
-			if !targetObj.IsLiving {
-				return &object.Integer{Value: 0} // 只有活物能學指令
+	
+			// 優先使用 this_player()，如果抓不到再用 obj（呼叫者）
+			playerObj := obj // 預設
+			if p := d.GetCurrentPlayer(); p != nil && p.Object != nil {
+				playerObj = p.Object
 			}
-
-			// 初始化並寫入指令表
-			if targetObj.Actions == nil {
-				targetObj.Actions = make(map[string]*object.Action)
+	
+			if !playerObj.IsLiving {
+				// 自動幫它 enable
+				playerObj.IsLiving = true
+				if playerObj.Actions == nil {
+					playerObj.Actions = make(map[string]*object.Action)
+				}
 			}
-
-			targetObj.Actions[verb.Value] = &object.Action{
+	
+			if playerObj.Actions == nil {
+				playerObj.Actions = make(map[string]*object.Action)
+			}
+	
+			playerObj.Actions[verb.Value] = &object.Action{
 				Verb:     verb.Value,
 				FuncName: funcName.Value,
-				Provider: obj, // 提供者就是呼叫 add_action 的這個物品
+				Provider: obj,           // 提供實作的物件（通常是 user.c 或 room.c）
 			}
-
+	
+			// Debug 用（正式版可註解掉）
+			fmt.Printf("DEBUG: add_action [%s] -> %s() by %s\n", 
+				verb.Value, funcName.Value, playerObj.Filename)
+	
 			return &object.Integer{Value: 1}
 		},
 	})
@@ -80,7 +111,9 @@ func (d *Driver) SetupEfuns(obj *object.LPCObject) {
 			p := d.GetCurrentPlayer()
 
 			if p != nil && p.Conn != nil {
-				p.Send(msg + "\r\n") // 確保網路回傳換行
+				safeMsg := strings.ReplaceAll(msg, "\r\n", "\n")
+				safeMsg = strings.ReplaceAll(safeMsg, "\n", "\r\n")
+				p.Send(safeMsg)
 			} else {
 				fmt.Print(msg) // 無玩家時印在 Server
 			}
@@ -138,7 +171,9 @@ func (d *Driver) SetupEfuns(obj *object.LPCObject) {
 			// 1. 如果目標是一個連線中的玩家，直接發送 TCP 訊息
 			conn := d.GetConnectionFromObject(targetObj)
 			if conn != nil {
-				conn.Send(msg + "\r\n")
+				safeMsg := strings.ReplaceAll(msg, "\r\n", "\n")
+				safeMsg = strings.ReplaceAll(safeMsg, "\n", "\r\n")
+				conn.Send(safeMsg)
 			}
 
 			// 2. 無論是否為玩家，都觸發該物件的 catch_tell，這讓 NPC 也能處理聽到的訊息
@@ -222,17 +257,6 @@ func (d *Driver) SetupEfuns(obj *object.LPCObject) {
 				return object.NewError("argument to `move_object` must be OBJECT")
 			}
 			d.MoveObject(obj, args[0].(*object.LPCObject))
-			return &object.Nil{}
-		},
-	})
-
-	// destruct(object ob) - 摧毀物件
-	obj.Vars.Set("destruct", &object.Builtin{
-		Fn: func(args ...object.Object) object.Object {
-			if len(args) != 1 || args[0].TokenType() != object.LPC_OBJECT_OBJ {
-				return object.NewError("argument to `destruct` must be OBJECT")
-			}
-			d.DestructObject(args[0].(*object.LPCObject))
 			return &object.Nil{}
 		},
 	})
