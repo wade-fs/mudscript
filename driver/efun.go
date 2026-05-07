@@ -19,36 +19,47 @@ func (d *Driver) SetupEfuns(obj *object.LPCObject) {
 
 	// write(string msg) - 印出訊息
 	obj.Vars.Set("write", &object.Builtin{
-	    Fn: func(args ...object.Object) object.Object {
-	        msg := ""
-	        if len(args) > 0 {
-	            if s, ok := args[0].(*object.String); ok {
-	                msg = s.Value
-	            } else {
-	                msg = args[0].Inspect()
-	            }
-	        }
-	
-	        if d.CurrentPlayer != nil && d.CurrentPlayer.Conn != nil {
-	            // 使用 \r\n 確保在各平台 Telnet 都能正確換行
-	            d.CurrentPlayer.Send(msg + "\r\n")
-	        } else {
-	            fmt.Print(msg)
-	        }
-	        return &object.Nil{}
-	    },
+		Fn: func(args ...object.Object) object.Object {
+			msg := ""
+			if len(args) > 0 {
+				if s, ok := args[0].(*object.String); ok {
+					msg = s.Value
+				} else {
+					msg = args[0].Inspect()
+				}
+			}
+
+			// 魔法：透過 Goroutine ID 抓取呼叫此函式的玩家
+			p := d.GetCurrentPlayer()
+
+			if p != nil && p.Conn != nil {
+				p.Send(msg + "\r\n") // 確保網路回傳換行
+			} else {
+				fmt.Print(msg) // 無玩家時印在 Server
+			}
+			return &object.Nil{}
+		},
 	})
 
-	// say(string msg) - 對周圍的其他物件廣播訊息
+	// this_player() - 取得當前下指令的玩家物件
+	obj.Vars.Set("this_player", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			p := d.GetCurrentPlayer()
+			if p != nil && p.Object != nil {
+				return p.Object
+			}
+			return &object.Nil{}
+		},
+	})
+
 	obj.Vars.Set("say", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
-			if len(args) == 0 || args[0].TokenType() != object.StringType {
-				return object.NewError("argument to `say` must be STRING")
-			}
-			msg := args[0].(*object.String).Value
+			if len(args) == 0 { return &object.Nil{} }
+			msg := args[0].Inspect()
+			if s, ok := args[0].(*object.String); ok { msg = s.Value }
+
 			env := obj.Location
 			if env != nil {
-				// 呼叫房間內所有其他物件的 catch_tell 函式 (NPC 會聽見)
 				for _, other := range env.Inventory {
 					if other != obj {
 						d.CallFunction(other, "catch_tell", []object.Object{&object.String{Value: msg}})
@@ -126,8 +137,7 @@ func (d *Driver) SetupEfuns(obj *object.LPCObject) {
 			if len(args) != 1 || args[0].TokenType() != object.LPC_OBJECT_OBJ {
 				return object.NewError("argument to `move_object` must be OBJECT")
 			}
-			dest := args[0].(*object.LPCObject)
-			d.MoveObject(obj, dest)
+			d.MoveObject(obj, args[0].(*object.LPCObject))
 			return &object.Nil{}
 		},
 	})
@@ -138,8 +148,7 @@ func (d *Driver) SetupEfuns(obj *object.LPCObject) {
 			if len(args) != 1 || args[0].TokenType() != object.LPC_OBJECT_OBJ {
 				return object.NewError("argument to `destruct` must be OBJECT")
 			}
-			target := args[0].(*object.LPCObject)
-			d.DestructObject(target)
+			d.DestructObject(args[0].(*object.LPCObject))
 			return &object.Nil{}
 		},
 	})
@@ -193,15 +202,6 @@ func (d *Driver) SetupEfuns(obj *object.LPCObject) {
 			}
 			return result
 		},
-	})
-
-	obj.Vars.Set("this_player", &object.Builtin{
-	    Fn: func(args ...object.Object) object.Object {
-	        if d.CurrentPlayer != nil && d.CurrentPlayer.Object != nil {
-	            return d.CurrentPlayer.Object // 回傳目前操作者的 LPCObject
-	        }
-	        return &object.Nil{}
-	    },
 	})
 
 	// ==========================================
