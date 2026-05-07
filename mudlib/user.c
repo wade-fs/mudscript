@@ -13,12 +13,7 @@ void create() {
     string fname = object_name(this_object());
     write("create() called for " + fname + "\n");
     
-    if (strsrch(fname, "#") != -1) {
-        write("→ 這是 clone，開啟 heart_beat\n");
-        set_heart_beat(1);
-    } else {
-        write("→ 這是 blueprint，跳過 heart_beat\n");
-    }
+    set_heart_beat(1);
 }
 
 void heart_beat() {
