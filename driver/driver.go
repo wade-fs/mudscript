@@ -4,6 +4,7 @@ package driver
 import (
 	"fmt"
 	"os"
+	"path/filepath"
 	"strings"
 	"sync"
 	"time"
@@ -71,8 +72,8 @@ func (d *Driver) LoadObject(filename string) (*object.LPCObject, error) {
 	d.mu.RUnlock()
 
 	// 2. 讀取實體檔案
-	filepath := d.Config.MudLibPath + filename
-	content, err := os.ReadFile(filepath)
+	lpcFile := d.Config.MudLibPath + filename
+	content, err := os.ReadFile(lpcFile)
 	if err != nil {
 		return nil, fmt.Errorf("failed to read file %s: %v", filename, err)
 	}
@@ -114,10 +115,24 @@ func (d *Driver) LoadObject(filename string) (*object.LPCObject, error) {
 			}
 
 			lpcObj.Inherits = append(lpcObj.Inherits, parentObj)
+			baseName := strings.TrimSuffix(filepath.Base(parentFile), ".c")
 
 			// 將父物件的變數與函式深拷貝到當前物件的環境中
 			for k, v := range parentObj.Vars.GetAll() {
 				env.Set(k, deepCopyLPCValue(v))
+				
+				// ==========================================
+				// 備份父物件的函式，以支援 Scope 呼叫！
+				// ==========================================
+				if _, isFunc := v.(*object.Function); isFunc {
+					// 避免備份到父物件自己已經加過 :: 前綴的函式，只備份最乾淨的原始名稱
+					if !strings.Contains(k, "::") {
+						// 支援 ::func()
+						env.Set("::"+k, v) 
+						// 支援 monster::func()
+						env.Set(baseName+"::"+k, v) 
+					}
+				}
 			}
 		}
 	}

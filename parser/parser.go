@@ -20,6 +20,7 @@ const (
 	PREFIX      // -X or !X
 	CALL        // myFunction(X)
 	INDEX       // array[index]
+	SCOPE_PREC  // 作用域解析的優先權極高
 	POSTFIX     // X++ X--
 )
 
@@ -42,6 +43,7 @@ var precedences = map[token.TokenType]int{
 	token.SLASH_EQUALS:    ASSIGN,
 	token.INC:             POSTFIX,
 	token.DEC:             POSTFIX,
+	token.SCOPE:           SCOPE_PREC,
 }
 
 type (
@@ -85,6 +87,7 @@ func New(l lexer.Lexer) *Parser {
 		token.MACRO:    p.parseMacroLiteral,
 
 		token.LBRACKET_MAP: p.parseMappingLiteral,
+		token.SCOPE:    p.parsePrefixScope,
 	}
 
 	p.infixParseFns = map[token.TokenType]infixParseFn{
@@ -99,12 +102,14 @@ func New(l lexer.Lexer) *Parser {
 		token.LPAREN:   p.parseCallExpression,
 		token.LBRACKET: p.parseIndexExpression,
 		token.ASSIGN:   p.parseAssignExpression,
-		token.PLUS_EQUALS:   p.parseAssignExpression,
-		token.MINUS_EQUALS:   p.parseAssignExpression,
-		token.ASTERISK_EQUALS:   p.parseAssignExpression,
-		token.SLASH_EQUALS:   p.parseAssignExpression,
-		token.INC:   p.parsePostfixExpression,
-		token.DEC:   p.parsePostfixExpression,
+		token.PLUS_EQUALS:     p.parseAssignExpression,
+		token.MINUS_EQUALS:    p.parseAssignExpression,
+		token.ASTERISK_EQUALS: p.parseAssignExpression,
+		token.SLASH_EQUALS:    p.parseAssignExpression,
+		token.INC:      p.parsePostfixExpression,
+		token.DEC:      p.parsePostfixExpression,
+
+		token.SCOPE:    p.parseInfixScope,
 	}
 
 	// Read two tokens, so curToken and peekToken are both set
@@ -909,4 +914,33 @@ func (p *Parser) parseMappingLiteral() ast.Expression {
 	}
 
 	return mapping
+}
+
+// 處理 ::func()
+func (p *Parser) parsePrefixScope() ast.Expression {
+	if !p.expectPeek(token.IDENT) {
+		return nil
+	}
+	return &ast.Ident{
+		Token: p.curToken, // IDENT token
+		Value: "::" + p.curToken.Literal,
+	}
+}
+
+// 處理 parent::func()
+func (p *Parser) parseInfixScope(left ast.Expression) ast.Expression {
+	leftIdent, ok := left.(*ast.Ident)
+	if !ok {
+		p.errors = append(p.errors, "expected identifier before ::")
+		return nil
+	}
+
+	if !p.expectPeek(token.IDENT) {
+		return nil
+	}
+
+	return &ast.Ident{
+		Token: p.curToken,
+		Value: leftIdent.Value + "::" + p.curToken.Literal,
+	}
 }
