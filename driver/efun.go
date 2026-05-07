@@ -840,4 +840,146 @@ func (d *Driver) SetupEfuns(obj *object.LPCObject) {
 			return &object.String{Value: strings.TrimSpace(str.Value)}
 		},
 	})
+
+	// ==========================================
+	// 6. 物件查詢與狀態 (Object Queries)
+	// ==========================================
+
+	// 輔助函式：取得目標物件 (預設為呼叫者 this_object)
+	getTarget := func(args []object.Object) *object.LPCObject {
+		if len(args) > 0 {
+			if o, ok := args[0].(*object.LPCObject); ok {
+				return o
+			}
+		}
+		return obj // 預設回傳呼叫 Efun 的那個物件
+	}
+
+	// all_inventory([object ob]) - 取得物件內的第一層所有內容物
+	obj.Vars.Set("all_inventory", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			target := getTarget(args)
+			elements := make([]object.Object, len(target.Inventory))
+			for i, item := range target.Inventory {
+				elements[i] = item
+			}
+			return &object.Array{Elements: elements}
+		},
+	})
+
+	// deep_inventory([object ob]) - 遞迴取得物件內的所有內容物 (包含包包裡的包包)
+	obj.Vars.Set("deep_inventory", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			target := getTarget(args)
+			var result []object.Object
+			
+			// 定義遞迴巡覽函式
+			var traverse func(*object.LPCObject)
+			traverse = func(cur *object.LPCObject) {
+				for _, item := range cur.Inventory {
+					result = append(result, item)
+					traverse(item) // 繼續往下挖
+				}
+			}
+			
+			traverse(target)
+			return &object.Array{Elements: result}
+		},
+	})
+
+	// first_inventory([object ob]) - 取得容器內的第一個物件
+	obj.Vars.Set("first_inventory", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			target := getTarget(args)
+			if len(target.Inventory) > 0 {
+				return target.Inventory[0]
+			}
+			return &object.Nil{}
+		},
+	})
+
+	// object_name([object ob]) - 取得物件的檔名 (包含 clone ID)
+	obj.Vars.Set("object_name", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			target := getTarget(args)
+			return &object.String{Value: target.Filename}
+		},
+	})
+
+	// find_object(string filename) - 從記憶體 (ObjectTable) 找已經載入的物件
+	obj.Vars.Set("find_object", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 1 { return &object.Nil{} }
+			fileName, ok := args[0].(*object.String)
+			if !ok { return &object.Nil{} }
+
+			// 存取 Driver 的 ObjectTable 需要上讀寫鎖
+			d.mu.RLock()
+			defer d.mu.RUnlock()
+			if found, exists := d.ObjectTable[fileName.Value]; exists {
+				return found
+			}
+			return &object.Nil{}
+		},
+	})
+
+	// living(object ob) - 判斷是否為活物 (有呼叫過 enable_commands)
+	obj.Vars.Set("living", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 1 { return object.NewError("living 需要 1 個參數") }
+			target, ok := args[0].(*object.LPCObject)
+			if !ok { return &object.Integer{Value: 0} }
+			
+			if target.IsLiving { return &object.Integer{Value: 1} }
+			return &object.Integer{Value: 0}
+		},
+	})
+
+	// interactive(object ob) - 判斷是否為線上玩家
+	obj.Vars.Set("interactive", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 1 { return object.NewError("interactive 需要 1 個參數") }
+			target, ok := args[0].(*object.LPCObject)
+			if !ok { return &object.Integer{Value: 0} }
+			
+			if target.IsInteractive { return &object.Integer{Value: 1} }
+			return &object.Integer{Value: 0}
+		},
+	})
+
+	// present(mixed str_or_obj, [object env]) - 在容器中尋找物件
+	obj.Vars.Set("present", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 1 { return object.NewError("present 至少需要 1 個參數") }
+
+			// 決定要搜尋的容器 (沒給就預設找自己)
+			var container *object.LPCObject
+			if len(args) > 1 {
+				if c, ok := args[1].(*object.LPCObject); ok {
+					container = c
+				}
+			}
+			if container == nil { container = obj }
+
+			// 1. 如果找的是物件實體，直接比對
+			if targetObj, isObj := args[0].(*object.LPCObject); isObj {
+				for _, item := range container.Inventory {
+					if item == targetObj { return item }
+				}
+				return &object.Nil{}
+			}
+
+			// 2. 如果找的是字串，呼叫物件的 id() 函式來判斷！
+			if idStr, isStr := args[0].(*object.String); isStr {
+				for _, item := range container.Inventory {
+					res := d.CallFunction(item, "id", []object.Object{idStr})
+					if isLPCTrue(res) {
+						return item // 找到了！
+					}
+				}
+			}
+
+			return &object.Nil{}
+		},
+	})
 }

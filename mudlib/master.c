@@ -148,6 +148,27 @@ int do_test(string arg) {
         move_object(start_room); // 觸發 init，獲得 jump 指令
         
         return 1;
+	} else if (arg == "object") {
+        write("=== 測試物件查詢 Efuns ===\n");
+        
+        // 自己(master)的檔名
+        write("1. 我的名字 (object_name): " + object_name(this_object()) + "\n");
+        
+        // 尋找 master 是否存在
+        object m = find_object("/master.c");
+        if (m) {
+			write("2. 成功用 find_object 找到 master！\n");
+		}
+        
+        // 狀態判斷
+        write("3. 玩家 (this_player) 是活物嗎 (living)? " + sprintf("%d", living(this_player())) + "\n");
+        write("4. 玩家是連線狀態嗎 (interactive)? " + sprintf("%d", interactive(this_player())) + "\n");
+        
+        // 測試 Inventory
+        write("5. 我的背包目前裝了幾個東西 (sizeof all_inventory)? " + 
+              sprintf("%d", sizeof(all_inventory(this_object()))) + "\n");
+
+        return 1;
     }
 
     // 如果沒給參數，或者是打錯字
