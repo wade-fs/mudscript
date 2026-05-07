@@ -230,10 +230,9 @@ func (p *Parser) parseExpressionStatement() *ast.ExpressionStatement {
 		Expression: p.parseExpression(LOWEST),
 	}
 
-	if p.peekTokenIs(token.SEMICOLON) {
+	for p.peekTokenIs(token.SEMICOLON) {
 		p.nextToken()
 	}
-
 	return stmt
 }
 
@@ -633,6 +632,7 @@ func (p *Parser) parseStatement() ast.Statement {
 	default:
 		return p.parseExpressionStatement()
 	}
+	return p.parseExpressionStatement()
 }
 
 // 處理型別宣告（例如 int x = 1; 或 int func() {}）
@@ -653,22 +653,21 @@ func (p *Parser) parseTypedDeclarationStatement() ast.Statement {
 	return p.parseTypedVariableDeclaration(typeToken, name)
 }
 
-// 注意參數 name 的型別改為 *ast.Ident
+// parser/parser.go - relevant updated sections
 func (p *Parser) parseTypedVariableDeclaration(typeToken token.Token, name *ast.Ident) ast.Statement {
 	stmt := &ast.TypedVarDecl{
 		Token: typeToken,
 		Name:  name,
 	}
 
-	// 檢查是否有賦值運算子 '='
 	if p.peekTokenIs(token.ASSIGN) {
-		p.nextToken() // 移動到 '='
-		p.nextToken() // 移動到值的部分
-		
+		p.nextToken() // =
+		p.nextToken() // start of value
 		stmt.Value = p.parseExpression(LOWEST)
 	}
 
-	if p.peekTokenIs(token.SEMICOLON) {
+	// 更穩健地吃掉分號（無論是否有賦值）
+	for p.peekTokenIs(token.SEMICOLON) {
 		p.nextToken()
 	}
 
