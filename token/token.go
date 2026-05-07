@@ -43,6 +43,8 @@ const (
 	EQ = "=="
 	// NEQ is a token type for not equality operator.
 	NEQ = "!="
+	GTE = ">="
+	LTE = "<="
 
 	// COMMA is a token type for commas.
 	COMMA = ","

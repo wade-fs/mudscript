@@ -239,7 +239,7 @@ func (s *String) TokenType() TokenType {
 
 // Inspect returns a string representation of the String.
 func (s *String) Inspect() string {
-	return s.Value
+	return `"` + s.Value + `"`
 }
 
 // HashKey returns a hash key object for s.

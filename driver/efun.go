@@ -225,6 +225,126 @@ func (d *Driver) SetupEfuns(obj *object.LPCObject) {
 		},
 	})
 
+	// keys(mapping) - 取出 mapping 所有的 key 變成 array
+	obj.Vars.Set("keys", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) != 1 { return object.NewError("keys() 需要 1 個參數") }
+			m, ok := args[0].(*object.Mapping)
+			if !ok { return object.NewError("keys() 參數必須是 mapping") }
+
+			elements := make([]object.Object, 0, len(m.Pairs))
+			for _, pair := range m.Pairs {
+				elements = append(elements, pair.Key)
+			}
+			return &object.Array{Elements: elements}
+		},
+	})
+
+	// values(mapping) - 取出 mapping 所有的 value 變成 array
+	obj.Vars.Set("values", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) != 1 { return object.NewError("values() 需要 1 個參數") }
+			m, ok := args[0].(*object.Mapping)
+			if !ok { return object.NewError("values() 參數必須是 mapping") }
+
+			elements := make([]object.Object, 0, len(m.Pairs))
+			for _, pair := range m.Pairs {
+				elements = append(elements, pair.Value)
+			}
+			return &object.Array{Elements: elements}
+		},
+	})
+
+	// 輔助函式：判斷 LPC 中的真假值 (非 0 即真)
+	isLPCTrue := func(o object.Object) bool {
+		if o == nil || o.TokenType() == object.NilType { return false }
+		if i, ok := o.(*object.Integer); ok && i.Value == 0 { return false }
+		if b, ok := o.(*object.Boolean); ok && !b.Value { return false }
+		if _, ok := o.(*object.Error); ok { return false }
+		return true
+	}
+
+	// filter_array(array, string func, object ob, ...extra_args) 
+	// 過濾陣列：將陣列元素逐一代入函式，回傳非 0 則保留
+	obj.Vars.Set("filter_array", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 2 { return object.NewError("filter_array() 至少需要 2 個參數") }
+			arr, ok := args[0].(*object.Array)
+			if !ok { return object.NewError("filter_array() 第 1 個參數必須是 array") }
+			funcName, ok := args[1].(*object.String)
+			if !ok { return object.NewError("filter_array() 第 2 個參數必須是 string") }
+
+			// 預設呼叫者是自己 (this_object)
+			targetObj := obj 
+			extraStart := 2
+			
+			// 如果有傳第 3 個參數且是物件，就改為呼叫該物件
+			if len(args) > 2 {
+				if o, isObj := args[2].(*object.LPCObject); isObj {
+					targetObj = o
+					extraStart = 3
+				}
+			}
+
+			// 整理額外的參數
+			var extraArgs []object.Object
+			if len(args) > extraStart {
+				extraArgs = args[extraStart:]
+			}
+
+			filtered := []object.Object{}
+			for _, el := range arr.Elements {
+				// 組合呼叫參數： func( element, extra1, extra2... )
+				callArgs := append([]object.Object{el}, extraArgs...)
+				res := d.CallFunction(targetObj, funcName.Value, callArgs)
+				
+				if isLPCTrue(res) {
+					filtered = append(filtered, el)
+				}
+			}
+			return &object.Array{Elements: filtered}
+		},
+	})
+
+	// map_array(array, string func, object ob, ...extra_args)
+	// 映射陣列：將陣列元素逐一代入函式，用函式的回傳值替換原本的元素
+	obj.Vars.Set("map_array", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 2 { return object.NewError("map_array() 至少需要 2 個參數") }
+			arr, ok := args[0].(*object.Array)
+			if !ok { return object.NewError("map_array() 第 1 個參數必須是 array") }
+			funcName, ok := args[1].(*object.String)
+			if !ok { return object.NewError("map_array() 第 2 個參數必須是 string") }
+
+			targetObj := obj
+			extraStart := 2
+			if len(args) > 2 {
+				if o, isObj := args[2].(*object.LPCObject); isObj {
+					targetObj = o
+					extraStart = 3
+				}
+			}
+
+			var extraArgs []object.Object
+			if len(args) > extraStart {
+				extraArgs = args[extraStart:]
+			}
+
+			mapped := make([]object.Object, len(arr.Elements))
+			for i, el := range arr.Elements {
+				callArgs := append([]object.Object{el}, extraArgs...)
+				res := d.CallFunction(targetObj, funcName.Value, callArgs)
+				
+				if res == nil || res.TokenType() == object.ErrorType {
+					mapped[i] = &object.Integer{Value: 0}
+				} else {
+					mapped[i] = res
+				}
+			}
+			return &object.Array{Elements: mapped}
+		},
+	})
+
 	// ==========================================
 	// 5. 字串操作
 	// ==========================================
@@ -255,8 +375,10 @@ func (d *Driver) SetupEfuns(obj *object.LPCObject) {
 				}
 			}
 
-			// 這裡直接借用 Go 的 fmt.Sprintf，因為 %d 和 %s 的邏輯與 LPC 幾乎互通
-			result := fmt.Sprintf(formatObj.Value, goArgs...)
+			// 這裡直接借用 Go 的 fmt.Sprintf
+			// 將 LPC 專屬的 %O 替換為 Go 的字串格式 %s，因為我們已經用 Inspect() 轉字串了
+			formatStr := strings.ReplaceAll(formatObj.Value, "%O", "%s")
+			result := fmt.Sprintf(formatStr, goArgs...)
 			return &object.String{Value: result}
 		},
 	})
