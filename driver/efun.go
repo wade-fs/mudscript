@@ -70,6 +70,43 @@ func (d *Driver) SetupEfuns(obj *object.LPCObject) {
 		},
 	})
 
+	// tell_object(object ob, string msg) - 私訊指定物件
+	obj.Vars.Set("tell_object", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 2 {
+				return object.NewError("tell_object 需要 2 個參數 (object, string)")
+			}
+
+			targetObj, ok := args[0].(*object.LPCObject)
+			if !ok {
+				return object.NewError("tell_object 的第一個參數必須是 object")
+			}
+
+			// 取得要發送的字串內容
+			msg := args[1].Inspect()
+			if s, isStr := args[1].(*object.String); isStr {
+				msg = s.Value
+			}
+
+			// 1. 如果目標是一個連線中的玩家，直接發送 TCP 訊息
+			conn := d.GetConnectionFromObject(targetObj)
+			if conn != nil {
+				conn.Send(msg + "\r\n")
+			}
+
+			// 2. 無論是否為玩家，都觸發該物件的 catch_tell，這讓 NPC 也能處理聽到的訊息
+			// 並且透過 RunCommand 確保 `this_player()` 是發話者
+			initiator := d.GetCurrentPlayer()
+			if initiator != nil {
+				d.RunCommand(initiator, targetObj, "catch_tell", []object.Object{&object.String{Value: msg}})
+			} else {
+				d.CallFunction(targetObj, "catch_tell", []object.Object{&object.String{Value: msg}})
+			}
+
+			return &object.Nil{}
+		},
+	})
+
 	// this_object() - 回傳自己
 	obj.Vars.Set("this_object", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object { return obj },

@@ -44,18 +44,20 @@ func (s *TelnetServer) Listen() error {
 func (s *TelnetServer) handleConnection(conn net.Conn) {
 	conn.Write([]byte{255, 251, 1, 255, 251, 3})
 	
-	pConn := &driver.PlayerConnection{
-		Conn:     conn,
-		IsActive: true,
-	}
-
+	// 取得登入物件
 	loginObj := s.Driver.AcceptConnection()
 	if loginObj == nil {
 		conn.Write([]byte("系統忙碌中，請稍後再試。\n"))
 		conn.Close()
 		return
 	}
-	pConn.Object = loginObj
+
+	// [修改] 使用新的工廠函式建立帶有 TCP Buffer 的連線
+	pConn := driver.NewPlayerConnection(conn, loginObj)
+	
+	// [關鍵] 將這個物件註冊為「互動中的玩家」，讓 tell_object 找得到
+	s.Driver.RegisterInteractive(loginObj, pConn)
+	defer s.Driver.UnregisterInteractive(loginObj)
 
 	s.servePlayer(pConn)
 }
@@ -69,72 +71,58 @@ func (s *TelnetServer) servePlayer(p *driver.PlayerConnection) {
 
 	for p.IsActive {
 		b, err := reader.ReadByte()
-		if err != nil {
-			fmt.Println("DEBUG: 玩家離線")
-			break
-		}
+		if err != nil { break }
 
-		// ==========================================
-		// 1. 處理 Telnet IAC (Interpret As Command)
-		// ==========================================
 		if b == 255 {
-			// Telnet 協商指令通常是 2~3 bytes
 			cmd, err := reader.ReadByte()
 			if err != nil { break }
-
-			// WILL(251), WONT(252), DO(253), DONT(254) 後面會跟著一個選項 byte
-			if cmd >= 251 && cmd <= 254 {
-				reader.ReadByte() // 吃掉選項位元組 (例如 ECHO, SGA 等)
-			}
-			continue // 忽略控制碼，繼續讀下一個字元
+			if cmd >= 251 && cmd <= 254 { reader.ReadByte() }
+			continue
 		}
 
-		// ==========================================
-		// 2. 處理退格鍵 Backspace (Ctrl+H) 或 Delete
-		// ==========================================
 		if b == 8 || b == 127 {
 			if len(inputBuffer) > 0 {
-				inputBuffer = inputBuffer[:len(inputBuffer)-1] // 從緩衝區移除最後一個字元
-				
-				// 【視覺魔法】讓客戶端的游標退後一格 -> 印出空白蓋掉字元 -> 再退後一格
+				inputBuffer = inputBuffer[:len(inputBuffer)-1]
 				p.Send("\b \b") 
 			}
 			continue
 		}
 
-		// ==========================================
-		// 3. 處理換行 (Enter 鍵)
-		// ==========================================
 		if b == '\n' || b == '\r' {
 			if len(inputBuffer) == 0 {
-				p.Send("\r\n> ") // 空行直接給新提示符
+				p.Send("\r\n> ")
 				continue
 			}
 
-			// 玩家按下 Enter 時，伺服器先回傳一個換行，讓畫面排版往下跳
 			p.Send("\r\n") 
-
-			// 取出緩衝區內容並清空
 			rawLine := string(inputBuffer)
 			inputBuffer = nil
 			
-			input := strings.TrimSpace(rawLine)
-			if input != "" {
-				// 呼叫指令處理
-				s.Driver.RunCommand(p, p.Object, "process_input", []object.Object{&object.String{Value: input}})
+			input := s.cleanInput(rawLine)
+			
+			// [新增] 展開命令歷史 (! 系列)
+			finalInput := p.ExpandHistory(input)
+			
+			// [新增] 內部指令攔截：如果玩家輸入 history，直接由底層回傳
+			if finalInput == "history" {
+				p.Send("--- 命令歷史 ---\r\n")
+				for i, cmd := range p.History {
+					p.Send(fmt.Sprintf("%2d. %s\r\n", i+1, cmd))
+				}
+				p.Send("> ")
+				continue
+			}
+
+			if finalInput != "" {
+				s.Driver.RunCommand(p, p.Object, "process_input", []object.Object{&object.String{Value: finalInput}})
 			}
 
 			p.Send("> ")
 			continue
 		}
 
-		// ==========================================
-		// 4. 一般可見字元與伺服器回顯 (Echo)
-		// ==========================================
 		if b >= 32 && b <= 126 {
 			inputBuffer = append(inputBuffer, b)
-			
-			// 【實作 WILL ECHO 的承諾】將收到的字元即時印回給客戶端！
 			p.Send(string(b)) 
 		}
 	}

@@ -14,6 +14,10 @@ object connect() {
 void process_input(string arg) {
     if (arg == "help") {
         write("指令列表：help, quit, info\n");
+	}
+
+	if (arg == "poke") {
+        tell_object(this_player(), "你戳了戳自己！\n");
     } else {
         write("你說了：" + arg + "\n");
     }

@@ -2,7 +2,6 @@
 package driver
 
 import (
-	"bufio"
 	"bytes"
 	"fmt"
 	"net"
@@ -38,15 +37,103 @@ type ScheduledCall struct {
 
 type PlayerConnection struct {
 	Conn     net.Conn
-	Reader   *bufio.Reader
 	Object   *object.LPCObject
 	IsActive bool
+
+	History  []string
+	MaxHist  int
+	sendChan chan string
+}
+
+func NewPlayerConnection(conn net.Conn, obj *object.LPCObject) *PlayerConnection {
+	p := &PlayerConnection{
+		Conn:     conn,
+		Object:   obj,
+		IsActive: true,
+		History:  make([]string, 0),
+		MaxHist:  20,                           // 最多記錄 20 筆
+		sendChan: make(chan string, 256),       // 256 筆訊息的緩衝區
+	}
+
+	// 啟動專屬的「背景發送寫手」，避免阻塞主程式
+	go p.writePump()
+	return p
+}
+
+// 背景發送迴圈 (Write Pump)
+func (p *PlayerConnection) writePump() {
+	defer p.Conn.Close()
+	for msg := range p.sendChan {
+		if !p.IsActive { break }
+		_, err := p.Conn.Write([]byte(msg))
+		if err != nil {
+			p.IsActive = false
+			break
+		}
+	}
 }
 
 func (p *PlayerConnection) Send(msg string) {
-	if p.Conn != nil {
-		p.Conn.Write([]byte(msg))
+	if !p.IsActive { return }
+	
+	select {
+	case p.sendChan <- msg:
+		// 成功放入緩衝區
+	default:
+		// 緩衝區滿了 (玩家網路太卡)，為了保護伺服器，直接丟棄訊息
+		// TODO: 強制斷線 p.IsActive = false
 	}
+}
+
+// 處理命令歷史與 ! 展開
+func (p *PlayerConnection) ExpandHistory(input string) string {
+	input = strings.TrimSpace(input)
+	if input == "" { return "" }
+
+	// 如果輸入 !!，展開為上一次的指令
+	if input == "!!" {
+		if len(p.History) == 0 {
+			p.Send("沒有歷史指令可供重複。\r\n")
+			return ""
+		}
+		cmd := p.History[len(p.History)-1]
+		p.Send(cmd + "\r\n") // 顯示展開後的指令
+		return cmd
+	}
+
+	// 處理 ! 開頭但不是 !! 的狀況 (可後續擴充如 !1, !2 等)
+	if strings.HasPrefix(input, "!") {
+		// TODO: 這裡先簡單支援 !!，其他的你可以擴充
+		p.Send("目前僅支援 !! 重發上一個指令。\r\n")
+		return ""
+	}
+
+	// 處理一般指令：加入歷史紀錄
+	if len(p.History) == 0 || p.History[len(p.History)-1] != input {
+		p.History = append(p.History, input)
+		// 限制歷史紀錄長度
+		if len(p.History) > p.MaxHist {
+			p.History = p.History[1:]
+		}
+	}
+
+	return input
+}
+
+// 註冊與取得互動玩家
+func (d *Driver) RegisterInteractive(obj *object.LPCObject, conn *PlayerConnection) {
+	d.interactiveObjects.Store(obj, conn)
+}
+
+func (d *Driver) UnregisterInteractive(obj *object.LPCObject) {
+	d.interactiveObjects.Delete(obj)
+}
+
+func (d *Driver) GetConnectionFromObject(obj *object.LPCObject) *PlayerConnection {
+	if conn, ok := d.interactiveObjects.Load(obj); ok {
+		return conn.(*PlayerConnection)
+	}
+	return nil
 }
 
 // Driver MUD 伺服器核心
@@ -62,8 +149,9 @@ type Driver struct {
 	RootUID      string
 	BackboneUID  string
 
-	// [核心魔法] 使用 Goroutine ID 來追蹤當前正在執行的玩家
+	// 使用 Goroutine ID 來追蹤當前正在執行的玩家
 	playerContexts sync.Map 
+	interactiveObjects sync.Map
 }
 
 func New(config DriverConfig) *Driver {
