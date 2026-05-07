@@ -119,7 +119,6 @@ const (
 	AND             = "&&"
 	OR              = "||"
 
-	CLONE_OBJECT = "CLONE_OBJECT"
 	CHAR         = "CHAR"         // 'c'
 	PREPROCESSOR = "PREPROCESSOR" // #include, #define
 
@@ -158,7 +157,6 @@ var keywords = map[string]TokenType{
 	"void":    VOID_TYPE,
 	"inherit": INHERIT,
 	"new":     NEW,
-	"clone_object": CLONE_OBJECT,
 
 	"for":      FOR,
 	"while":    WHILE,

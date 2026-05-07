@@ -103,6 +103,9 @@ ob->func(args) 等同於 call_other(ob, "func", args)
 - #define MACRO value → 字串替換
 - #ifdef / #ifndef / #endif → 條件編譯
 	(這對於 mudlib 中大量 #include "include/config.h" 是必要的)
+
+### T-11: 進階處理 LPC
+
 - sscanf 語法與「傳址參考 (Pass by Reference)」
 	- 情境：MUD 最常用來解析玩家指令的神兵利器，例如 sscanf(str, "give %d %s to %s", amount, item, target);。
 	- 挑戰：這需要 Evaluator 支援將變數「傳址」給函式，並直接修改該變數在 Environment 裡的值。
@@ -118,7 +121,7 @@ ob->func(args) 等同於 call_other(ob, "func", args)
 
 ## 🟡 P2 — 網路層（讓玩家能連進來）
 
-### T-11：Telnet Server 實作
+### T-12：Telnet Server 實作
 
 新增 net/ 套件：
 - TelnetServer.Listen(port)
@@ -126,7 +129,7 @@ ob->func(args) 等同於 call_other(ob, "func", args)
 - 處理 Telnet 協議的基本 IAC 命令（WILL ECHO, WILL SGA 等）
 - 輸入緩衝與換行處理
 
-### T-12：PlayerConnection 物件
+### T-13：PlayerConnection 物件
 
 目前是空殼，需要：
 - net.Conn 持有連線
@@ -134,7 +137,7 @@ ob->func(args) 等同於 call_other(ob, "func", args)
 - receive_message(string) → 寫入到玩家的 TCP 緩衝
 - tell_object(player, msg) efun 實作
 
-### T-13：Interactive Object 概念
+### T-14：Interactive Object 概念
 
 玩家在 LPC 中是一個 interactive object（有連線的 LPCObject）
 
@@ -144,18 +147,18 @@ ob->func(args) 等同於 call_other(ob, "func", args)
 
 ## 🟢 P3 — 補充 Efun（讓 mudlib 腳本跑起來）
 
-### T-14：字串 Efun
+### T-15：字串 Efun
 
-- sprintf(format, args...)  ← 最高優先，幾乎所有腳本都用
 - lower_case(str)
 - upper_case(str)
-- strlen(str)               ← 或確認 sizeof 已 cover
+- strlen(str)
 - substr(str, start, len)
 - strsrch(str, pattern)
 - capitalize(str)
 - trim(str)
+- foreach
 
-### T-15：陣列 Efun
+### T-16：陣列 Efun
 
 - filter(arr, func)
 - map(arr, func)           ← 注意不要跟 mapping 型別衝突
@@ -163,14 +166,16 @@ ob->func(args) 等同於 call_other(ob, "func", args)
 - member_array(val, arr)   ← 查找元素位置
 - unique_array(arr)
 
-### T-16：Mapping Efun
+### T-17：Mapping Efun
 
 - keys(mapping)
 - values(mapping)
 - m_delete(mapping, key)
 - m_add(mapping, key, val)
 
-### T-17：物件查詢 Efun
+### T-18: 補完 Inherit
+
+### T-19：物件查詢 Efun
 
 - all_inventory(ob)
 - deep_inventory(ob)
@@ -181,27 +186,27 @@ ob->func(args) 等同於 call_other(ob, "func", args)
 - living(ob)               ← 是否有 heart_beat 啟用
 - interactive(ob)          ← 是否是玩家連線
 
-### T-18：set_heart_beat efun 注入
+### T-20：set_heart_beat efun 注入
 
 目前 driver.SetHeartBeat 存在，
 但沒有把 set_heart_beat(int) 注入到每個物件的 efun 中
 
 ## 🔵 P4 — 品質與測試
 
-### T-19：補全現有功能的 Unit Test
+### T-21：補全現有功能的 Unit Test
 
 目前只有 driver/efun_test.go，需要補：
 - lexer_test.go：測試 ->、::、([])、%、++、+=
 - parser_test.go：測試 for/while/switch/assignment
 - evaluator_test.go：測試 for 迴圈、mapping 操作、繼承
 
-### T-20：錯誤處理強化
+### T-22：錯誤處理強化
 
 - 目前 Eval 回傳 nil 的地方沒有統一處理
 - runtime error 應通知 master.c 的 runtime_error() 函式
 - 加入 call stack / stack trace 機制方便偵錯
 
-### T-21：整合測試用 Mudlib 骨架
+### T-23：整合測試用 Mudlib 骨架
 
 建立 mudlib/ 目錄：
 ```

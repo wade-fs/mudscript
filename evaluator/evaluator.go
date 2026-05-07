@@ -172,7 +172,36 @@ func Eval(node ast.Node, env object.Environment) object.Object {
 	case *ast.MappingLiteral:
 		return evalMappingLiteral(node, env)
 	case *ast.CallOtherExpression:
-		return evalCallOtherExpression(node, env)
+		// 1. 先計算左邊的目標物件 (例如 start_room)
+		targetObj := Eval(node.Object, env)
+		if isError(targetObj) {
+			return targetObj
+		}
+
+		// 2. 利用我們在 efun 已經註冊好的 call_other 來執行！
+		// 這是一個魔法：我們不需要把 Driver 傳進 Evaluator，直接借用環境裡的 efun
+		callOtherFn, ok := env.Get("call_other")
+		if !ok {
+			return newError("系統錯誤：找不到 call_other 內建函式")
+		}
+
+		builtin, ok := callOtherFn.(*object.Builtin)
+		if !ok {
+			return newError("系統錯誤：call_other 不是內建函式")
+		}
+
+		// 3. 處理傳入的參數
+		args := evalExpressions(node.Arguments, env)
+		if len(args) == 1 && isError(args[0]) {
+			return args[0]
+		}
+
+		// 4. 組裝給 call_other 的最終參數：[目標物件, 函式名稱字串, 參數1, 參數2...]
+		finalArgs := []object.Object{targetObj, &object.String{Value: node.Method.Value}}
+		finalArgs = append(finalArgs, args...)
+
+		// 5. 執行！
+		return builtin.Fn(finalArgs...)
 	case *ast.ClosureLiteral:
 		elements := evalExpressions(node.Elements, env)
 		if len(elements) == 1 && isError(elements[0]) { return elements[0] }
@@ -636,12 +665,17 @@ func checkTypeMatch(lpcType string, obj object.Object) bool {
 	case "mixed":
 		return true
 	case "object":
-		return obj.TokenType() == object.NilType // or later Object type
-	
+		return obj.TokenType() == object.LPC_OBJECT_OBJ || 
+		       obj.TokenType() == object.NilType || 
+		       obj.TokenType() == object.IntegerType
 	case "mapping":
-		return obj.TokenType() == object.MAPPING_OBJ
+		return obj.TokenType() == object.MAPPING_OBJ || 
+		       obj.TokenType() == object.NilType || 
+		       obj.TokenType() == object.IntegerType
 	case "array": // 如果你的腳本是用 array x = []
-		return obj.TokenType() == object.ArrayType
+		return obj.TokenType() == object.ArrayType || 
+		       obj.TokenType() == object.NilType || 
+		       obj.TokenType() == object.IntegerType
 	default:
 		return false
 	}

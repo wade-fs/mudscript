@@ -135,6 +135,19 @@ int do_test(string arg) {
         write("原狀態依舊是: " + sprintf("%O", stats) + "\n");
 
         return 1;
+	} else if (arg == "inherit") {
+        // 動態複製出一個 start 房間
+        object start_room = clone_object("/start.c");
+        
+        write("成功複製房間！嘗試呼叫父類別繼承來的 look_room()：\n");
+        // 呼叫這間房間的 look_room (這是從 room.c 繼承來的)
+        start_room->look_room();
+        
+        // 為了測試，把玩家「移動」進去，看看 init() 有沒有觸發
+        write("\n把你丟進這個房間！\n");
+        move_object(start_room); // 觸發 init，獲得 jump 指令
+        
+        return 1;
     }
 
     // 如果沒給參數，或者是打錯字
