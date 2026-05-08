@@ -70,6 +70,9 @@ func Eval(node ast.Node, env object.Environment) object.Object {
 		return evalPrefixExpression(node.Operator, right)
 
 	case *ast.InfixExpression:
+		if node.Operator == "&&" || node.Operator == "||" {
+			return evalLogicalExpression(node, env)
+		}
 		left := Eval(node.Left, env)
 		if isError(left) {
 			return left
@@ -315,13 +318,6 @@ func evalPrefixExpression(operator string, right object.Object) object.Object {
 	}
 }
 
-func evalBangOperatorExpression(right object.Object) object.Object {
-	if right == NilValue || right == FalseValue {
-		return TrueValue
-	}
-	return FalseValue
-}
-
 func evalMinusPrefixOperatorExpression(right object.Object) object.Object {
 	switch right := right.(type) {
 	case *object.Integer:
@@ -490,7 +486,22 @@ func evalIfExpression(ie *ast.IfExpression, env object.Environment) object.Objec
 }
 
 func isTruthy(obj object.Object) bool {
-	return obj != NilValue && obj != FalseValue
+	if obj == NilValue || obj == FalseValue {
+		return false
+	}
+	// ▼ LPC 特性：整數 0 也視為 false
+	if i, ok := obj.(*object.Integer); ok && i.Value == 0 {
+		return false
+	}
+	// 在 LPC 中，字串 (即使是 "") 或其他物件皆視為 true
+	return true
+}
+
+func evalBangOperatorExpression(right object.Object) object.Object {
+	if isTruthy(right) {
+		return FalseValue // 如果是真，! 之後就變成假
+	}
+	return TrueValue
 }
 
 func newError(format string, a ...interface{}) *object.Error {
@@ -1010,6 +1021,10 @@ func evalCallOtherExpression(node *ast.CallOtherExpression, env object.Environme
 	target := Eval(node.Object, env)
 	if isError(target) { return target }
 
+	if target == NilValue || (target.TokenType() == object.IntegerType && target.(*object.Integer).Value == 0) {
+		return &object.Integer{Value: 0}
+	}
+
 	targetObj, ok := target.(*object.LPCObject)
 	if !ok {
 		return newError("-> 運算子只能用於物件 (LPCObject), 得到的是 %s", target.TokenType())
@@ -1155,4 +1170,22 @@ func evalCatch(node *ast.CallExpression, env object.Environment) object.Object {
 
 	// 3. 如果沒有發生錯誤，LPC 的 catch 慣例是回傳 0
 	return &object.Integer{Value: 0}
+}
+
+func evalLogicalExpression(node *ast.InfixExpression, env object.Environment) object.Object {
+	left := Eval(node.Left, env)
+	if isError(left) { return left }
+
+	if node.Operator == "&&" {
+		if !isTruthy(left) {
+			return FalseValue // 左邊為假，直接中斷回傳假
+		}
+		return Eval(node.Right, env)
+	} else if node.Operator == "||" {
+		if isTruthy(left) {
+			return left // 左邊為真，直接中斷並回傳左邊的值
+		}
+		return Eval(node.Right, env)
+	}
+	return NilValue
 }

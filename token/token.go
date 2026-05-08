@@ -62,6 +62,8 @@ const (
 	// 閉包 closure
 	LPAREN_COLON = "(: "
 	COLON_RPAREN = " :)"
+	LARRAY = "({" 
+	RARRAY = "})"
 
 	// LBRACE is a token type for left braces.
 	LBRACE = "{"
@@ -107,7 +109,6 @@ const (
 	ARROW        = "->" // call_other
 	SCOPE        = "::" // 繼承呼叫
 	LBRACKET_MAP = "([" // mapping 起始
-	RBRACKET_MAP = "])" // mapping 結束
 	PLUS_EQUALS     = "+="
 	MINUS_EQUALS    = "-="
 	ASTERISK_EQUALS = "*="

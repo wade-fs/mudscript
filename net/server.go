@@ -35,8 +35,6 @@ func (s *TelnetServer) Listen() error {
 			fmt.Printf("⚠️ 連線接受失敗: %v\n", err)
 			continue
 		}
-
-		// 交給獨立的 goroutine 處理
 		go s.handleConnection(conn)
 	}
 }
@@ -44,10 +42,8 @@ func (s *TelnetServer) Listen() error {
 func (s *TelnetServer) handleConnection(conn net.Conn) {
 	conn.Write([]byte{255, 251, 1, 255, 251, 3})
 
-	// 先建立連線物件（Object 暫時為 nil），讓 AcceptConnection 內部的 write() 能輸出
 	pConn := driver.NewPlayerConnection(conn, nil)
 
-	// 呼叫 master.connect()，取得此連線對應的 user clone
 	userObj := s.Driver.AcceptConnection(pConn)
 	if userObj == nil {
 		conn.Write([]byte("系統忙碌中，請稍後再試。\r\n"))
@@ -55,11 +51,8 @@ func (s *TelnetServer) handleConnection(conn net.Conn) {
 		return
 	}
 
-	// 把 user clone 綁定到連線上
 	pConn.Object = userObj
-
 	s.Driver.RegisterInteractive(userObj, pConn)
-	fmt.Printf("DEBUG: 成功註冊互動玩家 -> %s (IsInteractive=%v)\n", userObj.Filename, userObj.IsInteractive)
 	defer s.Driver.UnregisterInteractive(userObj)
 
 	s.Driver.RunCommand(pConn, userObj, "enable_commands", nil)
@@ -80,10 +73,10 @@ func (s *TelnetServer) servePlayer(p *driver.PlayerConnection) {
 	for p.IsActive {
 		b, err := reader.ReadByte()
 		if err != nil {
-			fmt.Printf("DEBUG: 玩家 %s 讀取錯誤 (已斷線): %v\n", p.Object.Filename, err)
 			break
 		}
 
+		// ── Telnet 協定控制碼 ──────────────────────────────────
 		if b == 255 {
 			cmd, err := reader.ReadByte()
 			if err != nil { break }
@@ -91,14 +84,16 @@ func (s *TelnetServer) servePlayer(p *driver.PlayerConnection) {
 			continue
 		}
 
+		// ── Backspace ──────────────────────────────────────────
 		if b == 8 || b == 127 {
 			if len(inputBuffer) > 0 {
 				inputBuffer = inputBuffer[:len(inputBuffer)-1]
-				p.Send("\b \b") 
+				p.Send("\b \b")
 			}
 			continue
 		}
 
+		// ── Enter ─────────────────────────────────────────────
 		if b == '\r' || b == '\n' {
 			if b == '\r' {
 				next, err := reader.Peek(1)
@@ -107,22 +102,20 @@ func (s *TelnetServer) servePlayer(p *driver.PlayerConnection) {
 				}
 			}
 
-			p.Send("\r\n") 
+			p.Send("\r\n")
 			rawLine := string(inputBuffer)
 			inputBuffer = nil
 			input := s.cleanInput(rawLine)
 
+			// ── input_to 模式：直接交給等待中的函式 ──────────
 			if p.NextInputFunc != "" {
 				funcName := p.NextInputFunc
 				p.NextInputFunc = ""
 				p.InputHidden = false
-
 				s.Driver.RunCommand(p, p.Object, funcName, []object.Object{&object.String{Value: input}})
-				
 				if p.NextInputFunc == "" {
 					p.Send("> ")
 				}
-
 				continue
 			}
 
@@ -130,64 +123,29 @@ func (s *TelnetServer) servePlayer(p *driver.PlayerConnection) {
 				p.Send("> ")
 				continue
 			}
-			finalInput := p.ExpandHistory(input)
 
-			if finalInput == "history" {
-				p.Send("--- 命令歷史 ---\r\n")
-				for i, cmd := range p.History {
-					p.Send(fmt.Sprintf("%2d. %s\r\n", i+1, cmd))
-				}
+			// ── 展開歷史符號（!! 等） ─────────────────────────
+			finalInput := p.ExpandHistory(input)
+			if finalInput == "" {
 				p.Send("> ")
 				continue
 			}
 
-			if finalInput != "" {
-				parts := strings.SplitN(finalInput, " ", 2)
-				verb := parts[0]
-				arg := ""
-				if len(parts) > 1 {
-					arg = parts[1]
-				}
-			
-				cmdHandled := false
-				if p.Object.Actions != nil {
-				    if action, exists := p.Object.Actions[verb]; exists {
-				        fmt.Printf("DEBUG: 執行 action %s -> %s() by provider %s (player=%s)\n", verb, action.FuncName, action.Provider.Filename, p.Object.Filename)
-				
-				        callArgs := []object.Object{}
-				        if arg != "" {
-				            callArgs = append(callArgs, &object.String{Value: arg})
-				        }
-				
-				        res := s.Driver.RunCommand(p, p.Object, action.FuncName, callArgs)
-				
-				        if res != nil {
-				            if i, ok := res.(*object.Integer); !ok || i.Value != 0 {
-				                cmdHandled = true
-				            }
-				        }
-				    }
-				}
-			
-				// 2. 如果指令表裡找不到，退回到原本的 process_input (供聊天或系統指令使用)
-				if !cmdHandled {
-					fmt.Printf("DEBUG: 玩家 %s 輸入 '%s', 目前有 %d 個 action\n", p.Object.Filename, finalInput, len(p.Object.Actions))
-					for v := range p.Object.Actions {
-				        fmt.Printf("  - action: %s\n", v)
-				    }
-
-					res := s.Driver.RunCommand(p, p.Object, "process_input", []object.Object{&object.String{Value: finalInput}})
-					
-					// 如果 process_input 也回傳 0，我們就印出經典的 MUD 提示
-					if res != nil {
-						if i, ok := res.(*object.Integer); ok && i.Value == 0 {
-							p.Send("什麼？\r\n")
-						}
-					} else {
-			            p.Send("什麼？\r\n")
-			        }
+			// ── Alias 展開 ────────────────────────────────────
+			expandedResult := s.Driver.RunCommand(
+				p, p.Object, "expand_alias",
+				[]object.Object{&object.String{Value: finalInput}},
+			)
+			if expandedResult != nil {
+				if expanded, ok := expandedResult.(*object.String); ok && expanded.Value != finalInput {
+					finalInput = expanded.Value
+					// ▼ [新增這行] 直接在底層發送 UX 提示，讓玩家知道發生了什麼事
+					p.Send(fmt.Sprintf("（別名展開：%s）\r\n", finalInput))
 				}
 			}
+
+			// ── 派送指令 ─────────────────────────────────────
+			s.dispatchCommand(p, finalInput)
 
 			if p.NextInputFunc == "" {
 				p.Send("> ")
@@ -195,14 +153,52 @@ func (s *TelnetServer) servePlayer(p *driver.PlayerConnection) {
 			continue
 		}
 
+		// ── 一般可見字元 ──────────────────────────────────────
 		if b >= 32 && b <= 126 {
 			inputBuffer = append(inputBuffer, b)
 			if p.InputHidden {
 				p.Send("*")
 			} else {
-				p.Send(string(b)) 
+				p.Send(string(b))
 			}
 		}
+	}
+}
+
+// dispatchCommand 將輸入拆成 verb + arg，依序查詢 Actions 表；
+// 找不到時交給 process_input 處理。
+func (s *TelnetServer) dispatchCommand(p *driver.PlayerConnection, input string) {
+	parts := strings.SplitN(input, " ", 2)
+	verb := parts[0]
+	arg := ""
+	if len(parts) > 1 {
+		arg = parts[1]
+	}
+
+	// 1. 查 Actions 表（由 add_action / cmd_*_setup() 注冊）
+	if p.Object.Actions != nil {
+		if action, exists := p.Object.Actions[verb]; exists {
+			callArgs := []object.Object{}
+			if arg != "" {
+				callArgs = append(callArgs, &object.String{Value: arg})
+			}
+			res := s.Driver.RunCommand(p, p.Object, action.FuncName, callArgs)
+			if res != nil {
+				if i, ok := res.(*object.Integer); !ok || i.Value != 0 {
+					return // 指令處理成功
+				}
+			}
+		}
+	}
+
+	// 2. 交給 process_input（來自 user.c，做 alias fallback 或印錯誤）
+	res := s.Driver.RunCommand(p, p.Object, "process_input", []object.Object{&object.String{Value: input}})
+	if res != nil {
+		if i, ok := res.(*object.Integer); ok && i.Value == 0 {
+			p.Send("什麼？\r\n")
+		}
+	} else {
+		p.Send("什麼？\r\n")
 	}
 }
 

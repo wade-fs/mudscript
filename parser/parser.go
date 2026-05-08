@@ -13,6 +13,8 @@ const (
 	_ int = iota
 	LOWEST
 	ASSIGN      // = += -= *= /=
+	LOGICAL_OR	// ||
+	LOGICAL_AND	// &&
 	EQUALS      // == !=
 	LESSGREATER // > < >= <=
 	SUM         // + -
@@ -25,6 +27,8 @@ const (
 )
 
 var precedences = map[token.TokenType]int{
+	token.OR:       LOGICAL_OR,
+	token.AND:      LOGICAL_AND,
 	token.EQ:       EQUALS,
 	token.NEQ:      EQUALS,
 	token.LT:       LESSGREATER,
@@ -89,6 +93,7 @@ func New(l lexer.Lexer) *Parser {
 		token.LBRACKET: p.parseArrayLiteral,
 		token.LBRACE:   p.parseHashLiteral,
 		token.MACRO:    p.parseMacroLiteral,
+		token.LARRAY:   p.parseLPCArrayLiteral,
 
 		token.LBRACKET_MAP: p.parseMappingLiteral,
 		token.SCOPE:        p.parsePrefixScope,
@@ -494,7 +499,7 @@ func (p *Parser) parseExpressionList(end token.TokenType) []ast.Expression {
 	list = append(list, p.parseExpression(LOWEST))
 
 	for p.peekTokenIs(token.COMMA) {
-		p.nextToken()
+		p.nextToken() // comma
 		p.nextToken()
 		list = append(list, p.parseExpression(LOWEST))
 	}
@@ -662,7 +667,6 @@ func (p *Parser) parseTypedDeclarationStatement() ast.Statement {
 	return p.parseTypedVariableDeclaration(typeToken, name)
 }
 
-// parser/parser.go - relevant updated sections
 func (p *Parser) parseTypedVariableDeclaration(typeToken token.Token, name *ast.Ident) ast.Statement {
 	stmt := &ast.TypedVarDecl{
 		Token: typeToken,
@@ -671,11 +675,11 @@ func (p *Parser) parseTypedVariableDeclaration(typeToken token.Token, name *ast.
 
 	if p.peekTokenIs(token.ASSIGN) {
 		p.nextToken() // =
-		p.nextToken() // start of value
+		p.nextToken() // value
 		stmt.Value = p.parseExpression(LOWEST)
 	}
 
-	// 更穩健地吃掉分號（無論是否有賦值）
+	// Eat one or more semicolons
 	for p.peekTokenIs(token.SEMICOLON) {
 		p.nextToken()
 	}
@@ -815,59 +819,49 @@ func (p *Parser) parseWhileStatement() ast.Statement {
 	return stmt
 }
 
-// --- 實作 For ---
-// --- 實作 For ---
 func (p *Parser) parseForStatement() ast.Statement {
 	stmt := &ast.ForStatement{Token: p.curToken}
 	if !p.expectPeek(token.LPAREN) {
 		return nil
 	}
-	p.nextToken() // 移動到 Init 的第一個 Token
 
-	// 1. 解析 Init (可能是 int x = 0; 或 x = 0; 或是空的)
-	if !p.curTokenIs(token.SEMICOLON) {
+	// Init (assignment, declaration, or empty)
+	if !p.peekTokenIs(token.SEMICOLON) {
+		p.nextToken()
 		stmt.Init = p.parseStatement()
-	}
-	
-	// parseStatement() 結束後，curToken 通常會停在 ';' 上
-	if p.curTokenIs(token.SEMICOLON) {
-		p.nextToken() // 吃掉 ';'，進入 Condition
 	} else {
-		p.peekError(token.SEMICOLON)
+		p.nextToken() // empty init ; 
+	}
+
+	if !p.expectPeek(token.SEMICOLON) {
 		return nil
 	}
 
-	// 2. 解析 Condition (例如 i < 10)
-	if !p.curTokenIs(token.SEMICOLON) {
+	// Condition
+	if !p.peekTokenIs(token.SEMICOLON) {
+		p.nextToken()
 		stmt.Condition = p.parseExpression(LOWEST)
-		p.nextToken() // parseExpression 不會自動前進到下一個符號，所以手動移動到 ';'
 	}
-	
-	if p.curTokenIs(token.SEMICOLON) {
-		p.nextToken() // 吃掉 ';'，進入 Post
-	} else {
-		p.peekError(token.SEMICOLON)
+
+	if !p.expectPeek(token.SEMICOLON) {
 		return nil
 	}
 
-	// 3. 解析 Post (例如 i++)
-	if !p.curTokenIs(token.RPAREN) {
+	// Post (e.g. i++)
+	if !p.peekTokenIs(token.RPAREN) {
+		p.nextToken()
 		stmt.Post = p.parseExpression(LOWEST)
-		p.nextToken() // 移動到 ')'
 	}
-	
-	// 確認現在確實踩在 ')' 上
-	if !p.curTokenIs(token.RPAREN) {
-		p.peekError(token.RPAREN)
+
+	if !p.expectPeek(token.RPAREN) {
 		return nil
 	}
 
-	// 預期接下來是 '{' 開啟 Body
 	if !p.expectPeek(token.LBRACE) {
 		return nil
 	}
 	stmt.Body = p.parseBlockStatement()
-	
+
 	return stmt
 }
 
@@ -925,34 +919,32 @@ func (p *Parser) parseMappingLiteral() ast.Expression {
 		Pairs: make(map[ast.Expression]ast.Expression),
 	}
 
-	// 只要還沒遇到結尾的 '])'，就繼續解析鍵值對
-	for !p.peekTokenIs(token.RBRACKET_MAP) {
+	// 只要還沒遇到結尾的 ']'，就繼續解析鍵值對
+	for !p.peekTokenIs(token.RBRACKET) { // <-- 這裡改成普通的 RBRACKET
 		p.nextToken()
 		
-		// 1. 解析 Key
 		key := p.parseExpression(LOWEST)
 
-		// 2. 預期接下來是冒號 ':'
 		if !p.expectPeek(token.COLON) {
 			return nil
 		}
 
 		p.nextToken()
-		
-		// 3. 解析 Value
 		value := p.parseExpression(LOWEST)
-		
 		mapping.Pairs[key] = value
 
-		// 4. 處理逗號：如果下一個不是 '])'，那就必須是逗號 ','
-		// 這同時支援了尾隨逗號 (trailing comma) 的寫法：([ "a":1, ])
-		if !p.peekTokenIs(token.RBRACKET_MAP) && !p.expectPeek(token.COMMA) {
+		if !p.peekTokenIs(token.RBRACKET) && !p.expectPeek(token.COMMA) { // <-- 這裡也改成 RBRACKET
 			return nil
 		}
 	}
 
-	// 最後確保完美收尾在 '])' 上
-	if !p.expectPeek(token.RBRACKET_MAP) {
+	// 確保陣列部分完美收尾在 ']' 上
+	if !p.expectPeek(token.RBRACKET) { // <-- 這裡改成 RBRACKET
+		return nil
+	}
+
+	// 因為 mapping 是 ([ 開頭，所以遇到 ] 後，還必須吃掉一個 ')'
+	if !p.expectPeek(token.RPAREN) { // <-- 新增這行來吃掉右括號
 		return nil
 	}
 
@@ -1058,4 +1050,12 @@ func (p *Parser) parseForEachStatement() ast.Statement {
 	stmt.Body = p.parseBlockStatement()
 
 	return stmt
+}
+
+// 支援 LPC 陣列語法 ({ 1, 2, 3 })
+func (p *Parser) parseLPCArrayLiteral() ast.Expression {
+	return &ast.ArrayLiteral{
+		Token:    p.curToken,
+		Elements: p.parseExpressionList(token.RARRAY),
+	}
 }

@@ -210,40 +210,40 @@ ob->func(args) 等同於 call_other(ob, "func", args)
 
 建立 mudlib/ 目錄：
 ```
-mudlib/
-├── master.c          ← Driver 啟動時第一個載入
-├── include/
-│   └── config.h      ← 常數定義
-├── std/
-│   ├── room.c        ← 基礎房間
-│   └── living.c      ← 生物基礎
-└── obj/
-    └── player.c      ← 玩家物件
-```
+mudlib
+├── admin.c
+├── area
+│   └── newbie
+│       ├── deep_forest.c
+│       ├── entrance.c
+│       ├── forest_trail.c
+│       └── item_shop.c
+├── cmds
+│   └── login.c
+├── include
+│   └── config.h
+├── item
+│   ├── armour
+│   │   └── leather_armour.c
+│   ├── consumable
+│   │   └── health_potion.c
+│   └── weapon
+│       ├── magic_staff.c
+│       └── short_sword.c
+├── master.c
+├── npc
+│   ├── slime.c
+│   └── wolf.c
+├── start.c
+└── std
+    ├── armour.c
+    ├── combat.c
+    ├── living.c
+    ├── npc.c
+    ├── object.c
+    ├── room.c
+    ├── user.c
+    └── weapon.c
 
-## 待修 問題清單：
-- token.go — 缺少 PRIVATE/STATIC/PROTECTED/VARARGS/NOSAVE/NOMASK 修飾子 token
-- parser.go — (a) 缺少 &&/|| infix handler；(b) parseStatement 不跳過修飾子；(c) parseTypedParameters 不接受 varargs；(d) int* 陣列型別宣告不認識
-- evaluator.go — ::create() 路徑錯誤（this_object 是 *Builtin 不是 *LPCObject）；checkTypeMatch 太嚴格；缺少 AND/OR infix
-- driver.go — CloneObject 的 :: 函式沒有重新登記到新 clone 的 env
-- efun:
-	- to_int(mixed)
-	- to_string(mixed)
-	- abs(int)
-	- max(int, int)
-	- min(int, int)
-	- stringp(object) 型別判斷
-	- intp(object)
-	- objectp(object)
-	- mappingp(object)
-	- arrayp(object)
-	- floatp(object)
-	- nullp(object)
-	- load_object(file) 載入不clone
-	- input_to(function) 下次輸入的 callback
-	- remove_call_out(function)
-	- write_file([]object) 修改物件（檔案）
-	- read_file(file)
-	- ctime(time)
-	- shout(msg)
-	- users()
+11 directories, 23 files
+```

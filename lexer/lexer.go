@@ -47,11 +47,16 @@ func (l *lexer) NextToken() token.Token {
 			l.readChar()
 			literal := string(ch) + string(l.ch)
 			tok = token.Token{TokenType: token.LBRACKET_MAP, Literal: literal}
-		} else if l.peekChar() == ':' { // [新增]: 處理 (: 
+		} else if l.peekChar() == ':' { // 原有的: 處理 (: 
 			ch := l.ch
 			l.readChar()
 			literal := string(ch) + string(l.ch)
 			tok = token.Token{TokenType: token.LPAREN_COLON, Literal: literal}
+		} else if l.peekChar() == '{' { // ▼ [新增]: 處理 ({
+			ch := l.ch
+			l.readChar()
+			literal := string(ch) + string(l.ch)
+			tok = token.Token{TokenType: token.LARRAY, Literal: literal}
 		} else {
 			tok = newToken(token.LPAREN, l.ch)
 		}
@@ -72,15 +77,7 @@ func (l *lexer) NextToken() token.Token {
 	case ')':
 		tok = newToken(token.RPAREN, l.ch)
 	case ']':
-		if l.peekChar() == ')' { // 處理 ])
-			// 注意：這部分的實作取決於你的 Parser 是把 ]) 當作一個 token 還是兩個
-			ch := l.ch
-			l.readChar()
-			literal := string(ch) + string(l.ch)
-			tok = token.Token{TokenType: token.RBRACKET_MAP, Literal: literal}
-		} else {
-			tok = newToken(token.RBRACKET, l.ch)
-		}
+		tok = newToken(token.RBRACKET, l.ch)
 	case '[':
 		tok = newToken(token.LBRACKET, l.ch)
 	case '&':
@@ -191,7 +188,14 @@ func (l *lexer) NextToken() token.Token {
 	case '{':
 		tok = newToken(token.LBRACE, l.ch)
 	case '}':
-		tok = newToken(token.RBRACE, l.ch)
+		if l.peekChar() == ')' {
+			ch := l.ch
+			l.readChar()
+			literal := string(ch) + string(l.ch)
+			tok = token.Token{TokenType: token.RARRAY, Literal: literal}
+		} else {
+			tok = newToken(token.RBRACE, l.ch)
+		}
 	case '"':
 		tok.TokenType = token.STRING
 		tok.Literal = l.readString()
@@ -295,7 +299,11 @@ func (l *lexer) read(checkFn func(byte) bool) string {
 }
 
 func (l *lexer) readIdent() string {
-	return l.read(isLetter)
+	position := l.position
+	for isLetter(l.ch) || isDigit(l.ch) {
+		l.readChar()
+	}
+	return l.input[position:l.position]
 }
 
 func (l *lexer) readNumber() string {
