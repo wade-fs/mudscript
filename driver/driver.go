@@ -264,13 +264,25 @@ func (d *Driver) GetCurrentPlayer() *PlayerConnection {
 // 專門給玩家網路層呼叫的進入點 (自動綁定上下文)
 func (d *Driver) RunCommand(p *PlayerConnection, obj *object.LPCObject, funcName string, args []object.Object) object.Object {
 	gid := getGID()
-	// 執行前，將當前 goroutine 綁定給這個玩家
-	d.playerContexts.Store(gid, p)
 	
-	// 執行完畢後自動清理，避免記憶體洩漏與污染
-	defer d.playerContexts.Delete(gid)
+	// 1. 備份舊的 Context (如果有的話)
+	oldContext, hasOld := d.playerContexts.Load(gid)
+	
+	// 2. 如果這次有傳入玩家，就覆寫為新的 Context
+	if p != nil {
+		d.playerContexts.Store(gid, p)
+	}
 
-	// 呼叫原本的執行邏輯
+	// 3. 確保函式結束時，安全地還原舊 Context
+	defer func() {
+		if hasOld {
+			d.playerContexts.Store(gid, oldContext) // 還原為舊的
+		} else {
+			d.playerContexts.Delete(gid)            // 真的沒有舊的才刪除
+		}
+	}()
+
+	// 4. 原本的執行邏輯保持不變
 	return d.CallFunction(obj, funcName, args)
 }
 
@@ -388,8 +400,19 @@ func (d *Driver) CloneObject(filename string) (*object.LPCObject, error) {
 	// === 關鍵修正：建立 clone 時立即綁定上下文 ===
 	dummyConn := &PlayerConnection{Object: clone}
 	gid := getGID()
+	oldContext, hasOld := d.playerContexts.Load(gid)
+	
+	// 2. 綁定這個暫時的 dummyConn 給 clone 的 create() 用
 	d.playerContexts.Store(gid, dummyConn)
-	defer d.playerContexts.Delete(gid)
+	
+	// 3. 確保 create() 執行完畢後，把原本玩家的連線還原回來！
+	defer func() {
+		if hasOld {
+			d.playerContexts.Store(gid, oldContext)
+		} else {
+			d.playerContexts.Delete(gid)
+		}
+	}()
 
 	d.CallFunction(clone, "create", nil)
 

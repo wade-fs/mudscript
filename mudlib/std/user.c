@@ -23,6 +23,9 @@ inherit "/cmds/cmd_alias.c";
 // ── 玩家屬性 ────────────────────────────────────────────
 int gold;
 string name;
+string password;
+void set_password(string p) { password = p; }
+string get_password() { return password; }
 
 // ── 初始化 ───────────────────────────────────────────────
 void create() {

@@ -80,3 +80,8 @@ void new_pass(string pass) {
         destruct(user);
     }
 }
+void runtime_error(string err_msg, string file) {
+    write("【系統嚴重警告】執行期錯誤！\n");
+    write("檔案：" + file + "\n");
+    write("訊息：" + err_msg + "\n");
+}

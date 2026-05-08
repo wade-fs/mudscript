@@ -112,7 +112,11 @@ func (s *TelnetServer) servePlayer(p *driver.PlayerConnection) {
 				funcName := p.NextInputFunc
 				p.NextInputFunc = ""
 				p.InputHidden = false
-				s.Driver.RunCommand(p, p.Object, funcName, []object.Object{&object.String{Value: input}})
+				res := s.Driver.RunCommand(p, p.Object, funcName, []object.Object{&object.String{Value: input}})
+				if errObj, ok := res.(*object.Error); ok {
+					p.Send(fmt.Sprintf("\r\n【系統嚴重警告】對話執行期錯誤！\r\n訊息：%s\r\n", errObj.Message))
+				}
+
 				if p.NextInputFunc == "" {
 					p.Send("> ")
 				}
@@ -183,6 +187,10 @@ func (s *TelnetServer) dispatchCommand(p *driver.PlayerConnection, input string)
 				callArgs = append(callArgs, &object.String{Value: arg})
 			}
 			res := s.Driver.RunCommand(p, p.Object, action.FuncName, callArgs)
+			if errObj, ok := res.(*object.Error); ok {
+				p.Send(fmt.Sprintf("\r\n【系統嚴重警告】指令執行期錯誤！\r\n訊息：%s\r\n", errObj.Message))
+				return
+			}
 			if res != nil {
 				if i, ok := res.(*object.Integer); !ok || i.Value != 0 {
 					return // 指令處理成功

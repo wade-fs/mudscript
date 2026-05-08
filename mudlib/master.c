@@ -47,13 +47,7 @@ string get_bb_uid() {
 // 當 Evaluator 執行期間發生崩潰 (Runtime Error) 時，Driver 會呼叫此函式
 // 傳入的參數是錯誤訊息字串與發生錯誤的檔案名稱
 void runtime_error(string err_msg, string file) {
-    // 傳統 MUD 中，這裡會利用 write_file() 將錯誤寫入 debug.log
-    // 同時可以使用 shout() 或 filter(users()) 廣播給在線的巫師 (管理員) 知道
-    
     write("【系統嚴重警告】執行期錯誤！\n");
     write("檔案：" + file + "\n");
     write("訊息：" + err_msg + "\n");
-    
-    // 範例：將錯誤寫入日誌檔 (利用我們剛剛寫好的 write_file efun)
-    // write_file("/log/debug.log", ctime(time()) + " [" + file + "] " + err_msg + "\n");
 }
