@@ -65,6 +65,7 @@ func (s *TelnetServer) handleConnection(conn net.Conn) {
 	s.Driver.RunCommand(pConn, userObj, "enable_commands", nil)
 	s.Driver.RunCommand(pConn, userObj, "setup", nil)
 	s.Driver.RunCommand(pConn, userObj, "init", nil)
+	pConn.Send("\r\n[系統] 歡迎來到 MudScript！\r\n")
 	s.Driver.RunCommand(pConn, userObj, "logon", nil)
 
 	s.servePlayer(pConn)
@@ -72,7 +73,6 @@ func (s *TelnetServer) handleConnection(conn net.Conn) {
 
 func (s *TelnetServer) servePlayer(p *driver.PlayerConnection) {
 	defer p.Conn.Close()
-	p.Send("\r\n[系統] 歡迎來到 MudScript！\r\n> ")
 
 	reader := bufio.NewReader(p.Conn)
 	var inputBuffer []byte
@@ -101,7 +101,11 @@ func (s *TelnetServer) servePlayer(p *driver.PlayerConnection) {
 
 		if b == '\n' || b == '\r' {
 			if len(inputBuffer) == 0 {
-				p.Send("\r\n> ")
+				if p.NextInputFunc == "" {
+					p.Send("\r\n> ")
+				} else {
+					p.Send("\r\n")
+				}
 				continue
 			}
 

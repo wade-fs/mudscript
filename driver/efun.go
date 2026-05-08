@@ -964,6 +964,28 @@ func (d *Driver) registerStringEfuns(obj *object.LPCObject) {
 // 9. 系統與檔案 (System & Files)
 // ==========================================
 func (d *Driver) registerSystemAndFiles(obj *object.LPCObject) {
+	obj.Vars.Set("file_size", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 1 { return &object.Integer{Value: -1} }
+			fileName, ok := args[0].(*object.String)
+			if !ok { return &object.Integer{Value: -1} }
+
+			// 組合出真實的檔案路徑
+			fullPath := filepath.Join(d.Config.MudLibPath, fileName.Value)
+			
+			// 取得檔案資訊
+			info, err := os.Stat(fullPath)
+			if err != nil {
+				return &object.Integer{Value: -1} // 檔案不存在回傳 -1
+			}
+			if info.IsDir() {
+				return &object.Integer{Value: -2} // 是目錄回傳 -2 (LPC 慣例)
+			}
+			
+			// 回傳檔案大小
+			return &object.Integer{Value: info.Size()}
+		},
+	})
 	obj.Vars.Set("load_object", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
 			if len(args) < 1 { return &object.Nil{} }
