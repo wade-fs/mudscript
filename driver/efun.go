@@ -960,6 +960,7 @@ func (d *Driver) registerStringEfuns(obj *object.LPCObject) {
 			return &object.Array{Elements: elements}
 		},
 	})
+
 	// 語法: string lower_case(string str)
 	// 說明: 將字串中所有的大寫英文字母轉換為小寫。
 	// 範例: lower_case("HELLO") -> "hello"
@@ -968,6 +969,19 @@ func (d *Driver) registerStringEfuns(obj *object.LPCObject) {
 			if len(args) == 0 { return &object.String{Value: ""} }
 			if s, ok := args[0].(*object.String); ok {
 				return &object.String{Value: strings.ToLower(s.Value)}
+			}
+			return &object.String{Value: ""}
+		},
+	})
+
+	// 語法: string upper_case(string str)
+	// 說明: 將字串中所有的小寫英文字母轉換為大寫。
+	// 範例: upper_case("hello") -> "HELLO"
+	obj.Vars.Set("upper_case", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) == 0 { return &object.String{Value: ""} }
+			if s, ok := args[0].(*object.String); ok {
+				return &object.String{Value: strings.ToUpper(s.Value)}
 			}
 			return &object.String{Value: ""}
 		},
@@ -1010,16 +1024,27 @@ func (d *Driver) registerStringEfuns(obj *object.LPCObject) {
 		},
 	})
 
-	// 語法: string upper_case(string str)
-	// 說明: 將字串中所有的小寫英文字母轉換為大寫。
-	// 範例: upper_case("hello") -> "HELLO"
-	obj.Vars.Set("upper_case", &object.Builtin{
+	// 語法: string replace_string(string str, string pattern, string replace)
+	// 說明: 將字串 str 中的所有 pattern 替換為 replace。
+	// 範例: replace_string("hello world", "world", "mud") -> "hello mud"
+	//       replace_string("a,b,c", ",", "|") -> "a|b|c"
+	obj.Vars.Set("replace_string", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
-			if len(args) == 0 { return &object.String{Value: ""} }
-			if s, ok := args[0].(*object.String); ok {
-				return &object.String{Value: strings.ToUpper(s.Value)}
+			if len(args) < 3 { 
+				return object.NewError("replace_string 需要 3 個參數") 
 			}
-			return &object.String{Value: ""}
+			
+			str, ok1 := args[0].(*object.String)
+			pattern, ok2 := args[1].(*object.String)
+			repl, ok3 := args[2].(*object.String)
+			
+			if !ok1 || !ok2 || !ok3 { 
+				return object.NewError("replace_string 的參數必須都是字串") 
+			}
+
+			// 使用 Go 原生的 strings.ReplaceAll 進行全域替換
+			result := strings.ReplaceAll(str.Value, pattern.Value, repl.Value)
+			return &object.String{Value: result}
 		},
 	})
 
