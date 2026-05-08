@@ -37,7 +37,18 @@ void check_pass(string pass) {
     user->set_id(current_id);
     user->restore();
     
-    if (user->get_password() == pass) {
+    string saved_pass = user->get_password();
+    string hashed_pass = crypt(pass);
+
+    // 檢查密碼：符合加密後的密碼，或是符合舊版的明文密碼（向下相容）
+    if (saved_pass == hashed_pass || saved_pass == pass) {
+        
+        // 【無縫升級】：如果是用舊版明文登入的，順手幫他升級成加密版
+        if (saved_pass == pass) {
+            user->set_password(hashed_pass);
+            user->save();
+        }
+
         if (exec(user, this_object())) {
             write("\n登入成功！歡迎回來，" + user->query_name() + "。\n");
             user->setup_player();
@@ -60,7 +71,8 @@ void new_pass(string pass) {
         return;
     }
 
-    current_pass = pass;
+    current_pass = crypt(pass);
+    
     write("請輸入您在遊戲中的暱稱：");
     input_to("get_nickname"); // 這裡不需要隱藏輸入，所以不加 1
 }

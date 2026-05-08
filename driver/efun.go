@@ -2,6 +2,8 @@
 package driver
 
 import (
+	"crypto/sha256"
+	"encoding/hex"
 	"encoding/json"
 	"fmt"
 	"math/rand"
@@ -830,6 +832,18 @@ func (d *Driver) registerDataStructures(obj *object.LPCObject) {
 // 8. 字串操作 (Strings)
 // ==========================================
 func (d *Driver) registerStringEfuns(obj *object.LPCObject) {
+	obj.Vars.Set("crypt", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 1 { return &object.String{Value: ""} }
+			str, ok := args[0].(*object.String)
+			if !ok { return &object.String{Value: ""} }
+
+			// 進行 SHA-256 雜湊
+			hash := sha256.Sum256([]byte(str.Value))
+			// 轉成 16 進位字串回傳
+			return &object.String{Value: hex.EncodeToString(hash[:])}
+		},
+	})
 	// pad_str(string str, int width): 根據終端機顯示寬度進行向右補空白對齊
 	// 中文/全形算 2 格，英文/半形算 1 格
 	obj.Vars.Set("pad_str", &object.Builtin{
