@@ -829,6 +829,113 @@ func (d *Driver) registerDataStructures(obj *object.LPCObject) {
 // 8. 字串操作 (Strings)
 // ==========================================
 func (d *Driver) registerStringEfuns(obj *object.LPCObject) {
+	// 語法: string *get_dir(string path, [int recursive])
+	// 說明: 取得指定路徑下的所有檔案與目錄清單。
+	//       - 支援萬用字元，例如 "/cmds/*.c"
+	//       - 若為目錄，回傳的名稱結尾會帶有 "/" 方便判斷
+	//       - recursive = 1 時，會遞迴往下掃描所有子目錄 (此模式下不支援萬用字元，需傳入明確目錄)
+	// 範例: 
+	//   get_dir("/cmds/")          -> ({ "cmd_info.c", "cmd_look.c", "login.c", ... })
+	//   get_dir("/data/user/*.o")  -> ({ "wade.o", "admin.o" })
+	//   get_dir("/cmds/", 1)       -> ({ "cmd_info.c", "admin/cmd_shutdown.c", ... })
+	obj.Vars.Set("get_dir", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 1 {
+				return &object.Array{Elements: []object.Object{}}
+			}
+			pathArg, ok := args[0].(*object.String)
+			if !ok {
+				return object.NewError("get_dir 的第一個參數必須是字串")
+			}
+
+			recursive := false
+			if len(args) > 1 {
+				if flag, ok := args[1].(*object.Integer); ok && flag.Value > 0 {
+					recursive = true
+				}
+			}
+
+			// 處理路徑與安全防護 (防止 ../ 跳出 MudLib 目錄)
+			searchPath := pathArg.Value
+			if !strings.HasPrefix(searchPath, "/") {
+				searchPath = "/" + searchPath
+			}
+			fullPath := filepath.Clean(filepath.Join(d.Config.MudLibPath, searchPath))
+			if !strings.HasPrefix(fullPath, filepath.Clean(d.Config.MudLibPath)) {
+				return object.NewError("get_dir 權限錯誤：無法存取根目錄以外的檔案")
+			}
+
+			var results []string
+
+			if recursive {
+				// ── 模式 1：遞迴掃描目錄 ──
+				info, err := os.Stat(fullPath)
+				if err == nil && info.IsDir() {
+					filepath.WalkDir(fullPath, func(path string, entry os.DirEntry, err error) error {
+						if err != nil { return nil }
+						if path == fullPath { return nil } // 略過根目錄自己
+						
+						// 取得相對於目標目錄的路徑
+						rel, _ := filepath.Rel(fullPath, path)
+						// 統一轉換路徑斜線為 LPC 習慣的 "/"
+						rel = filepath.ToSlash(rel)
+						
+						if entry.IsDir() {
+							results = append(results, rel+"/")
+						} else {
+							results = append(results, rel)
+						}
+						return nil
+					})
+				}
+			} else {
+				// ── 模式 2：單層目錄或萬用字元 ──
+				if strings.Contains(searchPath, "*") || strings.Contains(searchPath, "?") {
+					// 處理萬用字元 (例如 /cmds/*.c)
+					matches, err := filepath.Glob(fullPath)
+					if err == nil {
+						for _, match := range matches {
+							info, err := os.Stat(match)
+							if err != nil { continue }
+							_, name := filepath.Split(match)
+							if info.IsDir() {
+								results = append(results, name+"/")
+							} else {
+								results = append(results, name)
+							}
+						}
+					}
+				} else {
+					// 處理單純目錄讀取 (例如 /cmds/)
+					entries, err := os.ReadDir(fullPath)
+					if err == nil {
+						for _, entry := range entries {
+							if entry.IsDir() {
+								results = append(results, entry.Name()+"/")
+							} else {
+								results = append(results, entry.Name())
+							}
+						}
+					} else {
+						// 如果不是目錄但檔案存在，就回傳它自己
+						info, err := os.Stat(fullPath)
+						if err == nil && !info.IsDir() {
+							_, name := filepath.Split(fullPath)
+							results = append(results, name)
+						}
+					}
+				}
+			}
+
+			// 轉換為 LPC Array 回傳
+			elements := make([]object.Object, len(results))
+			for i, res := range results {
+				elements[i] = &object.String{Value: res}
+			}
+
+			return &object.Array{Elements: elements}
+		},
+	})
 	// 語法: string lower_case(string str)
 	// 說明: 將字串中所有的大寫英文字母轉換為小寫。
 	// 範例: lower_case("HELLO") -> "hello"
