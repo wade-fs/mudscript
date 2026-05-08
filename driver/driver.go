@@ -93,6 +93,7 @@ type PlayerConnection struct {
 	History  []string
 	MaxHist  int
 	sendChan chan string
+	NextInputFunc string
 }
 
 func NewPlayerConnection(conn net.Conn, obj *object.LPCObject) *PlayerConnection {
@@ -717,4 +718,52 @@ func (d *Driver) formatParserErrors(filename string, errors []string) error {
     sb.WriteString("   • 缺少分號、括號不匹配、型別宣告錯誤\n")
     
     return fmt.Errorf(sb.String())
+}
+
+// TransferConnection 將 TCP 連線從 src 轉移到 target
+func (d *Driver) TransferConnection(target *object.LPCObject, src *object.LPCObject) bool {
+	if target == nil || src == nil {
+		return false
+	}
+
+	d.mu.Lock()
+	defer d.mu.Unlock()
+
+	// 找出原本在 src 身上的連線
+	var connToMove *PlayerConnection
+	if conn, ok := d.interactiveObjects.Load(src.Filename); ok {
+		connToMove = conn.(*PlayerConnection)
+	} else {
+		// 降級搜尋，確保能找到
+		d.interactiveObjects.Range(func(key, value interface{}) bool {
+			if pconn, ok := value.(*PlayerConnection); ok && pconn.Object == src {
+				connToMove = pconn
+				return false
+			}
+			return true
+		})
+	}
+
+	if connToMove == nil {
+		fmt.Printf("DEBUG: exec 失敗，找不到來源 %s 的連線\n", src.Filename)
+		return false
+	}
+
+	// 1. 將舊的互動狀態解除
+	d.interactiveObjects.Delete(src.Filename)
+	src.IsInteractive = false
+
+	// 2. 更新連線綁定的物件
+	connToMove.Object = target
+
+	// 3. 註冊新的互動狀態
+	d.interactiveObjects.Store(target.Filename, connToMove)
+	target.IsInteractive = true
+
+	// 4. (可選) 重新綁定當前執行的 goroutine context，避免 exec 後的 write 印錯人
+	gid := getGID()
+	d.playerContexts.Store(gid, connToMove)
+
+	fmt.Printf("🔄 [EXEC] 連線已從 %s 轉移至 %s\n", src.Filename, target.Filename)
+	return true
 }

@@ -65,6 +65,7 @@ func (s *TelnetServer) handleConnection(conn net.Conn) {
 	s.Driver.RunCommand(pConn, userObj, "enable_commands", nil)
 	s.Driver.RunCommand(pConn, userObj, "setup", nil)
 	s.Driver.RunCommand(pConn, userObj, "init", nil)
+	s.Driver.RunCommand(pConn, userObj, "login", nil)
 
 	s.servePlayer(pConn)
 }

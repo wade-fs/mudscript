@@ -2,6 +2,7 @@
 package driver
 
 import (
+	"encoding/json"
 	"fmt"
 	"math/rand"
 	"os"
@@ -77,6 +78,7 @@ func (d *Driver) SetupEfuns(obj *object.LPCObject) {
 	d.registerDataStructures(obj)
 	d.registerStringEfuns(obj)
 	d.registerSystemAndFiles(obj)
+	d.registerPersistenceEfuns(obj)
 }
 
 // ==========================================
@@ -1062,7 +1064,7 @@ func (d *Driver) registerSystemAndFiles(obj *object.LPCObject) {
 			p := d.GetCurrentPlayer()
 			if p == nil { return &object.Integer{Value: 0} }
 
-			// 這裡建立一個臨時結構，在下一回合網路層讀取輸入時攔截並執行。
+			// TODO: 這裡建立一個臨時結構，在下一回合網路層讀取輸入時攔截並執行。
 			// 若要在 driver.go 裡完整支援，需要在 PlayerConnection 裡新增一個 callback 欄位：
 			// p.NextInput = args[0] (儲存傳入的 String 或 Closure)
 			
@@ -1075,4 +1077,144 @@ func (d *Driver) registerSystemAndFiles(obj *object.LPCObject) {
 			return &object.Integer{Value: 1}
 		},
 	})
+}
+
+// ==========================================
+// 10. 存檔與連線轉移 (Persistence & Connection)
+// ==========================================
+func (d *Driver) registerPersistenceEfuns(obj *object.LPCObject) {
+	// save_object(string file) - 儲存當前物件的變數到檔案
+	obj.Vars.Set("save_object", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 1 { return &object.Integer{Value: 0} }
+			fileArg, ok := args[0].(*object.String)
+			if !ok { return object.NewError("save_object 需要字串參數") }
+
+			fileName := fileArg.Value
+			if !strings.HasSuffix(fileName, ".o") { fileName += ".o" } // MUD 慣例存檔副檔名為 .o
+			fullPath := filepath.Join(d.Config.MudLibPath, fileName)
+
+			// 將 LPC 變數轉換為 Go 的 map 以便轉成 JSON
+			saveData := make(map[string]interface{})
+			for k, v := range obj.Vars.GetAll() {
+				// 慣例：以底線開頭的變數不存檔 (暫時變數)，且不儲存函式/內建函式
+				if strings.HasPrefix(k, "_") { continue }
+				if v.TokenType() == object.FunctionType || v.TokenType() == object.BuiltinType || v.TokenType() == object.ClosureType { continue }
+				
+				saveData[k] = lpcToGoValue(v)
+			}
+
+			// 確保目錄存在
+			os.MkdirAll(filepath.Dir(fullPath), 0755)
+
+			jsonData, err := json.MarshalIndent(saveData, "", "  ")
+			if err != nil { return &object.Integer{Value: 0} }
+
+			err = os.WriteFile(fullPath, jsonData, 0644)
+			if err != nil { return &object.Integer{Value: 0} }
+
+			return &object.Integer{Value: 1}
+		},
+	})
+
+	// restore_object(string file) - 從檔案讀取變數到當前物件
+	obj.Vars.Set("restore_object", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 1 { return &object.Integer{Value: 0} }
+			fileArg, ok := args[0].(*object.String)
+			if !ok { return object.NewError("restore_object 需要字串參數") }
+
+			fileName := fileArg.Value
+			if !strings.HasSuffix(fileName, ".o") { fileName += ".o" }
+			fullPath := filepath.Join(d.Config.MudLibPath, fileName)
+
+			jsonData, err := os.ReadFile(fullPath)
+			if err != nil { return &object.Integer{Value: 0} } // 檔案不存在視為無資料，不報錯
+
+			var loadedData map[string]interface{}
+			err = json.Unmarshal(jsonData, &loadedData)
+			if err != nil { return &object.Integer{Value: 0} }
+
+			// 將讀取到的 Go 資料轉回 LPC 物件並存入環境
+			for k, v := range loadedData {
+				obj.Vars.Set(k, goToLPCValue(v))
+			}
+
+			return &object.Integer{Value: 1}
+		},
+	})
+
+	// exec(object target, object src) - 轉移玩家連線 (例如從 login.c 轉移到 user.c)
+	obj.Vars.Set("exec", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 2 { return object.NewError("exec 需要兩個 object 參數") }
+			target, ok1 := args[0].(*object.LPCObject)
+			src, ok2 := args[1].(*object.LPCObject)
+			if !ok1 || !ok2 { return object.NewError("exec 參數必須是 object") }
+
+			// 呼叫 Driver 來處理底層連線轉移
+			success := d.TransferConnection(target, src)
+			if success {
+				return &object.Integer{Value: 1}
+			}
+			return &object.Integer{Value: 0}
+		},
+	})
+}
+
+// 將 LPC Object 轉為 Go 原生型別 (給 JSON Marshal 用)
+func lpcToGoValue(o object.Object) interface{} {
+	if o == nil { return nil }
+	switch v := o.(type) {
+	case *object.Integer: return v.Value
+	case *object.Float: return v.Value
+	case *object.String: return v.Value
+	case *object.Boolean: return v.Value
+	case *object.Array:
+		arr := make([]interface{}, len(v.Elements))
+		for i, el := range v.Elements { arr[i] = lpcToGoValue(el) }
+		return arr
+	// 註：Mapping 轉 JSON 比較複雜，因為 JSON 的 key 必須是字串。
+	// 這裡簡化處理，將 Mapping 轉為 string map。
+	case *object.Mapping:
+		m := make(map[string]interface{})
+		for _, pair := range v.Pairs {
+			keyStr := pair.Key.Inspect()
+			if s, ok := pair.Key.(*object.String); ok { keyStr = s.Value }
+			m[keyStr] = lpcToGoValue(pair.Value)
+		}
+		return m
+	default:
+		return nil
+	}
+}
+
+// 將 Go 原生型別轉回 LPC Object (給 JSON Unmarshal 用)
+func goToLPCValue(v interface{}) object.Object {
+	if v == nil { return &object.Nil{} }
+	switch val := v.(type) {
+	case float64: // JSON 數字預設會被解析為 float64
+		// 判斷是否為整數
+		if val == float64(int64(val)) {
+			return &object.Integer{Value: int64(val)}
+		}
+		return &object.Float{Value: val}
+	case string:
+		return &object.String{Value: val}
+	case bool:
+		return &object.Boolean{Value: val}
+	case []interface{}:
+		arr := make([]object.Object, len(val))
+		for i, el := range val { arr[i] = goToLPCValue(el) }
+		return &object.Array{Elements: arr}
+	case map[string]interface{}:
+		m := &object.Mapping{Pairs: make(map[object.HashKey]object.HashPair)}
+		for k, el := range val {
+			strKey := &object.String{Value: k}
+			m.Pairs[strKey.HashKey()] = object.HashPair{Key: strKey, Value: goToLPCValue(el)}
+		}
+		return m
+	default:
+		return &object.Nil{}
+	}
 }
