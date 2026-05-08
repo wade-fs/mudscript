@@ -1064,17 +1064,16 @@ func (d *Driver) registerSystemAndFiles(obj *object.LPCObject) {
 			p := d.GetCurrentPlayer()
 			if p == nil { return &object.Integer{Value: 0} }
 
-			// TODO: 這裡建立一個臨時結構，在下一回合網路層讀取輸入時攔截並執行。
-			// 若要在 driver.go 裡完整支援，需要在 PlayerConnection 裡新增一個 callback 欄位：
-			// p.NextInput = args[0] (儲存傳入的 String 或 Closure)
-			
-			// 為了不讓這個檔直接報錯，我們暫時用一個註解說明，並保留介面：
-			// p.SetNextInputCallback(args[0]) 
+			if funcName, ok := args[0].(*object.String); ok {
+				// 將指定的函式名稱存入玩家連線狀態中
+				p.NextInputFunc = funcName.Value
+				return &object.Integer{Value: 1}
+			}
 
 			// DEBUG 用
 			fmt.Printf("DEBUG: %s 呼叫了 input_to\n", p.Object.Filename)
 			
-			return &object.Integer{Value: 1}
+			return &object.Integer{Value: 0}
 		},
 	})
 }

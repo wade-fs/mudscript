@@ -6,7 +6,7 @@ void create() {
     ::create();
 }
 
-void login() {
+void logon() {
     write("請輸入您的帳號：");
     input_to("get_id"); // 攔截下次輸入
 }

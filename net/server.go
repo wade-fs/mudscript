@@ -65,7 +65,7 @@ func (s *TelnetServer) handleConnection(conn net.Conn) {
 	s.Driver.RunCommand(pConn, userObj, "enable_commands", nil)
 	s.Driver.RunCommand(pConn, userObj, "setup", nil)
 	s.Driver.RunCommand(pConn, userObj, "init", nil)
-	s.Driver.RunCommand(pConn, userObj, "login", nil)
+	s.Driver.RunCommand(pConn, userObj, "logon", nil)
 
 	s.servePlayer(pConn)
 }
@@ -120,6 +120,18 @@ func (s *TelnetServer) servePlayer(p *driver.PlayerConnection) {
 				for i, cmd := range p.History {
 					p.Send(fmt.Sprintf("%2d. %s\r\n", i+1, cmd))
 				}
+				p.Send("> ")
+				continue
+			}
+
+			if p.NextInputFunc != "" {
+				funcName := p.NextInputFunc
+				p.NextInputFunc = "" // 清空，確保只攔截這一次
+
+				// 將玩家輸入的 finalInput 當作參數，直接丟給指定的函式處理
+				s.Driver.RunCommand(p, p.Object, funcName, []object.Object{&object.String{Value: finalInput}})
+				
+				// 攔截處理完畢後，直接進入下一個迴圈等待輸入，不執行後面的指令解析
 				p.Send("> ")
 				continue
 			}
