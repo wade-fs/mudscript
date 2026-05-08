@@ -94,6 +94,7 @@ type PlayerConnection struct {
 	MaxHist  int
 	sendChan chan string
 	NextInputFunc string
+	InputHidden   bool
 }
 
 func NewPlayerConnection(conn net.Conn, obj *object.LPCObject) *PlayerConnection {

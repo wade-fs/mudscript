@@ -99,26 +99,39 @@ func (s *TelnetServer) servePlayer(p *driver.PlayerConnection) {
 			continue
 		}
 
-		if b == '\n' || b == '\r' {
-			if len(inputBuffer) == 0 {
-				if p.NextInputFunc == "" {
-					p.Send("\r\n> ")
-				} else {
-					p.Send("\r\n")
+		if b == '\r' || b == '\n' {
+			if b == '\r' {
+				next, err := reader.Peek(1)
+				if err == nil && (next[0] == '\n' || next[0] == 0) {
+					reader.ReadByte()
 				}
-				continue
 			}
 
 			p.Send("\r\n") 
 			rawLine := string(inputBuffer)
 			inputBuffer = nil
-			
 			input := s.cleanInput(rawLine)
-			
-			// [新增] 展開命令歷史 (! 系列)
+
+			if p.NextInputFunc != "" {
+				funcName := p.NextInputFunc
+				p.NextInputFunc = ""
+				p.InputHidden = false
+
+				s.Driver.RunCommand(p, p.Object, funcName, []object.Object{&object.String{Value: input}})
+				
+				if p.NextInputFunc == "" {
+					p.Send("> ")
+				}
+
+				continue
+			}
+
+			if input == "" {
+				p.Send("> ")
+				continue
+			}
 			finalInput := p.ExpandHistory(input)
-			
-			// [新增] 內部指令攔截：如果玩家輸入 history，直接由底層回傳
+
 			if finalInput == "history" {
 				p.Send("--- 命令歷史 ---\r\n")
 				for i, cmd := range p.History {
@@ -128,20 +141,7 @@ func (s *TelnetServer) servePlayer(p *driver.PlayerConnection) {
 				continue
 			}
 
-			if p.NextInputFunc != "" {
-				funcName := p.NextInputFunc
-				p.NextInputFunc = "" // 清空，確保只攔截這一次
-
-				// 將玩家輸入的 finalInput 當作參數，直接丟給指定的函式處理
-				s.Driver.RunCommand(p, p.Object, funcName, []object.Object{&object.String{Value: finalInput}})
-				
-				// 攔截處理完畢後，直接進入下一個迴圈等待輸入，不執行後面的指令解析
-				p.Send("> ")
-				continue
-			}
-
 			if finalInput != "" {
-				// 將輸入分割為 動詞 (verb) 和 參數 (arg)
 				parts := strings.SplitN(finalInput, " ", 2)
 				verb := parts[0]
 				arg := ""
@@ -150,19 +150,15 @@ func (s *TelnetServer) servePlayer(p *driver.PlayerConnection) {
 				}
 			
 				cmdHandled := false
-			
-				// 1. 檢查玩家身上有沒有註冊這個動詞
 				if p.Object.Actions != nil {
 				    if action, exists := p.Object.Actions[verb]; exists {
-				        fmt.Printf("DEBUG: 執行 action %s -> %s() by provider %s (player=%s)\n", 
-				            verb, action.FuncName, action.Provider.Filename, p.Object.Filename)
+				        fmt.Printf("DEBUG: 執行 action %s -> %s() by provider %s (player=%s)\n", verb, action.FuncName, action.Provider.Filename, p.Object.Filename)
 				
 				        callArgs := []object.Object{}
 				        if arg != "" {
 				            callArgs = append(callArgs, &object.String{Value: arg})
 				        }
 				
-				        // 【關鍵修正】：永遠用 p.Object（玩家的 clone）作為執行主體
 				        res := s.Driver.RunCommand(p, p.Object, action.FuncName, callArgs)
 				
 				        if res != nil {
@@ -175,8 +171,7 @@ func (s *TelnetServer) servePlayer(p *driver.PlayerConnection) {
 			
 				// 2. 如果指令表裡找不到，退回到原本的 process_input (供聊天或系統指令使用)
 				if !cmdHandled {
-					fmt.Printf("DEBUG: 玩家 %s 輸入 '%s', 目前有 %d 個 action\n", 
-				        p.Object.Filename, finalInput, len(p.Object.Actions))
+					fmt.Printf("DEBUG: 玩家 %s 輸入 '%s', 目前有 %d 個 action\n", p.Object.Filename, finalInput, len(p.Object.Actions))
 					for v := range p.Object.Actions {
 				        fmt.Printf("  - action: %s\n", v)
 				    }
@@ -194,13 +189,19 @@ func (s *TelnetServer) servePlayer(p *driver.PlayerConnection) {
 				}
 			}
 
-			p.Send("> ")
+			if p.NextInputFunc == "" {
+				p.Send("> ")
+			}
 			continue
 		}
 
 		if b >= 32 && b <= 126 {
 			inputBuffer = append(inputBuffer, b)
-			p.Send(string(b)) 
+			if p.InputHidden {
+				p.Send("*")
+			} else {
+				p.Send(string(b)) 
+			}
 		}
 	}
 }

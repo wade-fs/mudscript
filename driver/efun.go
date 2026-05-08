@@ -1079,22 +1079,25 @@ func (d *Driver) registerSystemAndFiles(obj *object.LPCObject) {
 		},
 	})
 
-	// input_to 實作 (注意：需要配合 driver.go 中的 PlayerConnection 與輸入處理迴圈修改)
 	obj.Vars.Set("input_to", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
-			if len(args) < 1 { return object.NewError("input_to 需要函式或閉包作為參數") }
+			if len(args) < 1 { return object.NewError("input_to 需要函式字串作為參數") }
+			
 			p := d.GetCurrentPlayer()
 			if p == nil { return &object.Integer{Value: 0} }
 
 			if funcName, ok := args[0].(*object.String); ok {
-				// 將指定的函式名稱存入玩家連線狀態中
 				p.NextInputFunc = funcName.Value
+				
+				// ▼ 新增：檢查是否有第二個參數 (隱藏標記)
+				p.InputHidden = false
+				if len(args) > 1 {
+					if flag, ok := args[1].(*object.Integer); ok && flag.Value != 0 {
+						p.InputHidden = true
+					}
+				}
 				return &object.Integer{Value: 1}
 			}
-
-			// DEBUG 用
-			fmt.Printf("DEBUG: %s 呼叫了 input_to\n", p.Object.Filename)
-			
 			return &object.Integer{Value: 0}
 		},
 	})
