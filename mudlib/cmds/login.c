@@ -37,7 +37,7 @@ void get_id(string id) {
 }
 
 void check_pass(string pass) {
-    object user = clone_object("/cmds/user.c");
+    object user = clone_object("/std/user.c");
     user->set_id(current_id);
     user->restore();
     
@@ -65,7 +65,7 @@ void new_pass(string pass) {
         return;
     }
 
-    object user = clone_object("/cmds/user.c");
+    object user = clone_object("/std/user.c");
     user->set_id(current_id);
     user->set_password(pass); // user.c 必須實作這個函式
     

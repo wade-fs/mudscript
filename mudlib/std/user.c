@@ -21,8 +21,13 @@ inherit "/cmds/cmd_help.c";
 inherit "/cmds/cmd_alias.c";
 
 // ── 玩家屬性 ────────────────────────────────────────────
+string id;
+void set_id(string i) { id = i; }
+string get_id() { return id; }
+
 int gold;
 string name;
+
 string password;
 void set_password(string p) { password = p; }
 string get_password() { return password; }
@@ -111,4 +116,12 @@ string expand_alias(string input) {
         return expanded;
     }
     return input;
+}
+
+int save() { 
+    return save_object("/data/user/" + id); 
+}
+
+int restore() { 
+    return restore_object("/data/user/" + id); 
 }
