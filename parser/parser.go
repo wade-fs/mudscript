@@ -119,6 +119,8 @@ func New(l lexer.Lexer) *Parser {
 
 		token.SCOPE:    p.parseInfixScope,
 		token.ARROW:    p.parseCallOtherExpression,
+		token.AND: p.parseInfixExpression,
+ 		token.OR:  p.parseInfixExpression,
 	}
 
 	// Read two tokens, so curToken and peekToken are both set
@@ -606,6 +608,13 @@ func (p *Parser) isTypeToken(t token.TokenType) bool {
 }
 
 func (p *Parser) parseStatement() ast.Statement {
+	// Skip modifiers (private, static, etc.)
+	for p.curTokenIs(token.PRIVATE) || p.curTokenIs(token.STATIC) ||
+		p.curTokenIs(token.PROTECTED) || p.curTokenIs(token.VARARGS) ||
+		p.curTokenIs(token.NOSAVE) || p.curTokenIs(token.NOMASK) {
+		p.nextToken()
+	}
+
 	if p.isTypeToken(p.curToken.TokenType) {
 		return p.parseTypedDeclarationStatement()
 	}

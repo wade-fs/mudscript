@@ -89,8 +89,8 @@ func Eval(node ast.Node, env object.Environment) object.Object {
 	case *ast.FunctionLiteral:
 		return &object.Function{
 			Parameters: node.Parameters,
-			Body:       node.Body,
-			Env:        env,
+			Body:	   node.Body,
+			Env:		env,
 		}
 
 	case *ast.CallExpression:
@@ -496,8 +496,8 @@ func isTruthy(obj object.Object) bool {
 func newError(format string, a ...interface{}) *object.Error {
 	return &object.Error{Message: fmt.Sprintf(format, a...)}
 	msg := fmt.Sprintf(format, a...)
-    // TODO: 可以這裡記錄呼叫位置（進階）
-    return &object.Error{Message: msg}
+	// TODO: 可以這裡記錄呼叫位置（進階）
+	return &object.Error{Message: msg}
 }
 
 func isError(obj object.Object) bool {
@@ -686,16 +686,16 @@ func checkTypeMatch(lpcType string, obj object.Object) bool {
 		return true
 	case "object":
 		return obj.TokenType() == object.LPC_OBJECT_OBJ || 
-		       obj.TokenType() == object.NilType || 
-		       obj.TokenType() == object.IntegerType
+			   obj.TokenType() == object.NilType || 
+			   obj.TokenType() == object.IntegerType
 	case "mapping":
 		return obj.TokenType() == object.MAPPING_OBJ || 
-		       obj.TokenType() == object.NilType || 
-		       obj.TokenType() == object.IntegerType
-	case "array": // 如果你的腳本是用 array x = []
+			   obj.TokenType() == object.NilType || 
+			   obj.TokenType() == object.IntegerType
+	case "array":
 		return obj.TokenType() == object.ArrayType || 
-		       obj.TokenType() == object.NilType || 
-		       obj.TokenType() == object.IntegerType
+			   obj.TokenType() == object.NilType || 
+			   obj.TokenType() == object.IntegerType
 	default:
 		return false
 	}
@@ -732,8 +732,8 @@ func evalFunctionDef(node *ast.FunctionDef, env object.Environment) object.Objec
 
 	fn := &object.Function{
 		Parameters: params,
-		Env:        env,
-		Body:       node.Body,
+		Env:		env,
+		Body:	   node.Body,
 	}
 
 	env.Set(node.Name.Value, fn)

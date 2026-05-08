@@ -133,6 +133,13 @@ const (
 
 	FOREACH = "FOREACH"
     IN      = "IN"
+
+	PRIVATE   TokenType = "PRIVATE"
+ 	STATIC    TokenType = "STATIC"
+ 	PROTECTED TokenType = "PROTECTED"
+ 	VARARGS   TokenType = "VARARGS"
+ 	NOSAVE    TokenType = "NOSAVE"
+ 	NOMASK    TokenType = "NOMASK"
 )
 
 // Language keywords
@@ -169,6 +176,13 @@ var keywords = map[string]TokenType{
 
 	"foreach": FOREACH,
     "in":      IN,
+ 	// Modifiers
+ 	"private":   PRIVATE,
+ 	"static":    STATIC,
+ 	"protected": PROTECTED,
+ 	"varargs":   VARARGS,
+ 	"nosave":    NOSAVE,
+ 	"nomask":    NOMASK,
 }
 
 // LookupIdent checks the language keywords to see whether the given identifier is a keyword.

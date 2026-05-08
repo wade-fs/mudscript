@@ -365,6 +365,22 @@ func (d *Driver) CloneObject(filename string) (*object.LPCObject, error) {
 	d.SetupEfuns(clone)
 	for k, v := range blueprint.Vars.GetAll() {
 		clone.Vars.Set(k, deepCopyLPCValue(v))
+		// Re-register inherited :: functions
+		if strings.Contains(k, "::") {
+			clone.Vars.Set(k, v)
+		}
+	}
+
+	for _, parent := range clone.Inherits {
+		baseName := strings.TrimSuffix(filepath.Base(parent.Filename), ".c")
+		for k, v := range parent.Vars.GetAll() {
+			if _, isFunc := v.(*object.Function); isFunc {
+				if !strings.Contains(k, "::") {
+					clone.Vars.Set("::"+k, v)
+					clone.Vars.Set(baseName+"::"+k, v)
+				}
+			}
+		}
 	}
 
 	// === 關鍵修正：建立 clone 時立即綁定上下文 ===
