@@ -852,6 +852,7 @@ func (d *Driver) registerDataStructures(obj *object.LPCObject) {
 // 8. 字串操作 (Strings)
 // ==========================================
 func (d *Driver) registerStringEfuns(obj *object.LPCObject) {
+	
 	// 語法: string *get_dir(string path, [int recursive])
 	// 說明: 取得指定路徑下的所有檔案與目錄清單。
 	//       - 支援萬用字元，例如 "/cmds/*.c"
@@ -987,14 +988,36 @@ func (d *Driver) registerStringEfuns(obj *object.LPCObject) {
 		},
 	})
 
-	// 語法: string trim(string str)
-	// 說明: 移除字串前後的空白字元 (包含空白、換行與 Tab)。
+	// 語法: string trim(string str, [string cutset])
+	// 說明: 移除字串前後的空白字元 (包含空白、換行與 Tab)。若指定 cutset，則移除指定的特定字元。
 	// 範例: trim("  hello  ") -> "hello"
+	//       trim("===hello===", "=") -> "hello"
 	obj.Vars.Set("trim", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
 			if len(args) == 0 { return &object.String{Value: ""} }
+			s, ok := args[0].(*object.String)
+			if !ok { return &object.String{Value: ""} }
+
+			// 若有提供第二個參數作為 cutset
+			if len(args) > 1 {
+				if cutset, ok := args[1].(*object.String); ok {
+					return &object.String{Value: strings.Trim(s.Value, cutset.Value)}
+				}
+			}
+			
+			// 預設行為：移除空白與換行
+			return &object.String{Value: strings.TrimSpace(s.Value)}
+		},
+	})
+
+	// 語法: string upper_case(string str)
+	// 說明: 將字串中所有的小寫英文字母轉換為大寫。
+	// 範例: upper_case("hello") -> "HELLO"
+	obj.Vars.Set("upper_case", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) == 0 { return &object.String{Value: ""} }
 			if s, ok := args[0].(*object.String); ok {
-				return &object.String{Value: strings.TrimSpace(s.Value)}
+				return &object.String{Value: strings.ToUpper(s.Value)}
 			}
 			return &object.String{Value: ""}
 		},

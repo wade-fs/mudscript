@@ -1,5 +1,4 @@
 void cmd_demote_setup() {                                              
-	write("Add demote command\n");
     add_action("do_demote", "demote");                                   
 }                                                                    
                                                                      

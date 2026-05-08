@@ -1,5 +1,4 @@
 void cmd_promote_setup() {
-	write("Add promote command\n");
 	add_action("do_promote", "promote");
 }
 

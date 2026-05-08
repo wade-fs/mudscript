@@ -1,5 +1,4 @@
 void cmd_grant_setup() {
-	write("Add grant command\n");
 	add_action("do_grant", "grant");
 }
 

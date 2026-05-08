@@ -1,5 +1,4 @@
 void cmd_revoke_setup() {
-	write("Add revoke command\n");
 	add_action("do_revoke", "revoke");
 }
 
@@ -22,6 +21,7 @@ int do_revoke(string arg) {
         return 1;
     }
 
+	path = trim(path, "\"");
 	if (path == user->query_save_file()) {
 		write("你不能禁止玩家檔，會導致玩家無法儲存。");
 		return 1;
