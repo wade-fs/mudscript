@@ -87,19 +87,19 @@ func (d *Driver) SetupEfuns(obj *object.LPCObject) {
 // 1. 型別判斷 (Predicates)
 // ==========================================
 func (d *Driver) registerTypePredicates(obj *object.LPCObject) {
-	// 定義一個輔助函式，利用 any (interface{}) 避開精確型別名稱，Go 會自動比對
+	// 語法: int <type>p(mixed arg)
+	// 說明: 判斷傳入的變數是否為指定型別。是回傳 1，否回傳 0。
+	// 範例: intp(123) -> 1; stringp(123) -> 0; nullp(0) -> 1
 	register := func(name string, expectedType any) {
 		obj.Vars.Set(name, &object.Builtin{
 			Fn: func(args ...object.Object) object.Object {
 				if len(args) < 1 {
-					// 沒傳參數視為 0 (int) -> nullp 時回傳 1，其餘為 0
 					if expectedType == object.NilType {
 						return &object.Integer{Value: 1}
 					}
 					return &object.Integer{Value: 0}
 				}
 
-				// LPC 慣例：0 也常被當作 null
 				if expectedType == object.NilType {
 					if args[0].TokenType() == object.NilType {
 						return &object.Integer{Value: 1}
@@ -118,7 +118,6 @@ func (d *Driver) registerTypePredicates(obj *object.LPCObject) {
 		})
 	}
 
-	// 依序註冊所有型別判斷
 	register("intp", object.IntegerType)
 	register("stringp", object.StringType)
 	register("floatp", object.FloatType)
@@ -132,6 +131,9 @@ func (d *Driver) registerTypePredicates(obj *object.LPCObject) {
 // 2. 型別轉換 (Casting)
 // ==========================================
 func (d *Driver) registerTypeCasting(obj *object.LPCObject) {
+	// 語法: int to_int(mixed arg)
+	// 說明: 將浮點數或字串轉換為整數。
+	// 範例: to_int("123") -> 123; to_int(3.14) -> 3
 	obj.Vars.Set("to_int", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
 			if len(args) < 1 {
@@ -154,6 +156,9 @@ func (d *Driver) registerTypeCasting(obj *object.LPCObject) {
 		},
 	})
 
+	// 語法: string to_string(mixed arg)
+	// 說明: 將任意變數轉換為字串表示。
+	// 範例: to_string(123) -> "123"; to_string(({1, 2})) -> "[1, 2]"
 	obj.Vars.Set("to_string", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
 			if len(args) < 1 {
@@ -171,33 +176,31 @@ func (d *Driver) registerTypeCasting(obj *object.LPCObject) {
 // 3. 數學運算 (Math)
 // ==========================================
 func (d *Driver) registerMathEfuns(obj *object.LPCObject) {
+	// 語法: int abs(int num)
+	// 說明: 取得整數的絕對值。
+	// 範例: abs(-5) -> 5
 	obj.Vars.Set("abs", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
-			if len(args) < 1 {
-				return &object.Integer{Value: 0}
-			}
+			if len(args) < 1 { return &object.Integer{Value: 0} }
 			if i, ok := args[0].(*object.Integer); ok {
-				if i.Value < 0 {
-					return &object.Integer{Value: -i.Value}
-				}
+				if i.Value < 0 { return &object.Integer{Value: -i.Value} }
 				return i
 			}
 			return &object.Integer{Value: 0}
 		},
 	})
 
+	// 語法: int max(int a, int b) / int min(int a, int b)
+	// 說明: 回傳兩數之中的最大/最小值。
+	// 範例: max(10, 20) -> 20; min(10, 20) -> 10
 	for _, name := range []string{"max", "min"} {
 		op := name
 		obj.Vars.Set(op, &object.Builtin{
 			Fn: func(args ...object.Object) object.Object {
-				if len(args) < 2 {
-					return &object.Integer{Value: 0}
-				}
+				if len(args) < 2 { return &object.Integer{Value: 0} }
 				v1, ok1 := args[0].(*object.Integer)
 				v2, ok2 := args[1].(*object.Integer)
-				if !ok1 || !ok2 {
-					return &object.Integer{Value: 0}
-				}
+				if !ok1 || !ok2 { return &object.Integer{Value: 0} }
 				if (op == "max" && v1.Value > v2.Value) || (op == "min" && v1.Value < v2.Value) {
 					return v1
 				}
@@ -206,15 +209,16 @@ func (d *Driver) registerMathEfuns(obj *object.LPCObject) {
 		})
 	}
 
+	// 語法: int random(int max)
+	// 說明: 產生 0 到 max-1 的隨機整數。
+	// 範例: random(10) -> 可能回傳 0 ~ 9 之間的任意數字
 	obj.Vars.Set("random", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
 			if len(args) != 1 || args[0].TokenType() != object.IntegerType {
 				return object.NewError("argument to `random` must be INTEGER")
 			}
 			max := args[0].(*object.Integer).Value
-			if max <= 0 {
-				return &object.Integer{Value: 0}
-			}
+			if max <= 0 { return &object.Integer{Value: 0} }
 			return &object.Integer{Value: rand.Int63n(max)}
 		},
 	})
@@ -224,32 +228,88 @@ func (d *Driver) registerMathEfuns(obj *object.LPCObject) {
 // 4. 核心與 I/O (Core & IO)
 // ==========================================
 func (d *Driver) registerCoreIOEfuns(obj *object.LPCObject) {
+	// 語法: mixed call_other(object ob, string func, [mixed args...])
+	// 說明: 動態呼叫物件上的函式。當函式名稱是變數時非常有用。
+	// 範例: call_other(this_player(), "set_" + prop_name, value);
+	obj.Vars.Set("call_other", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 2 { return &object.Nil{} }
+			target, ok1 := args[0].(*object.LPCObject)
+			funcName, ok2 := args[1].(*object.String)
+			if !ok1 || !ok2 { return &object.Nil{} }
+			return d.CallFunction(target, funcName.Value, args[2:])
+		},
+	})
+
+	// 語法: int living(object ob)
+	// 說明: 判斷物件是否為活著的生物 (有呼叫過 enable_commands)。
+	// 範例: if (living(target)) { write("這是一個生物。\\n"); }
+	obj.Vars.Set("living", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) == 0 { return &object.Integer{Value: 0} }
+			if o, ok := args[0].(*object.LPCObject); ok && o.IsLiving {
+				return &object.Integer{Value: 1}
+			}
+			return &object.Integer{Value: 0}
+		},
+	})
+
+	// 語法: int interactive(object ob)
+	// 說明: 判斷該物件是否為正在連線中的玩家 (有網路 Socket 綁定)。
+	// 範例: if (interactive(target)) { write("玩家在線上。\\n"); }
+	obj.Vars.Set("interactive", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) == 0 { return &object.Integer{Value: 0} }
+			if o, ok := args[0].(*object.LPCObject); ok {
+				conn := d.GetConnectionFromObject(o)
+				if conn != nil && conn.IsActive {
+					return &object.Integer{Value: 1}
+				}
+			}
+			return &object.Integer{Value: 0}
+		},
+	})
+
+	// 語法: void shout(string msg)
+	// 說明: 對全伺服器所有連線中的玩家廣播訊息 (會自動排除自己)。
+	// 範例: shout("【謠言】" + query_name() + " 登入了遊戲！\\n");
+	obj.Vars.Set("shout", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) == 0 { return &object.Nil{} }
+			msg := args[0].Inspect()
+			if s, ok := args[0].(*object.String); ok { msg = s.Value }
+			
+			tp := d.GetCurrentPlayer()
+			d.interactiveObjects.Range(func(key, value interface{}) bool {
+				if conn, ok := value.(*PlayerConnection); ok && conn.IsActive {
+					if tp == nil || conn != tp { // 排除發送者自己
+						safeMsg := strings.ReplaceAll(msg, "\r\n", "\n")
+						conn.Send(strings.ReplaceAll(safeMsg, "\n", "\r\n"))
+					}
+				}
+				return true
+			})
+			return &object.Nil{}
+		},
+	})
+
+	// 語法: int set_heart_beat(int flag)
+	// 說明: 開啟(1)或關閉(0)物件的心跳機制 (每秒觸發一次 heart_beat 函式)。
 	obj.Vars.Set("set_heart_beat", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
 			if len(args) < 1 { return object.NewError("set_heart_beat 需要 1 個整數參數") }
 			flag, ok := args[0].(*object.Integer)
 			if !ok { return object.NewError("set_heart_beat 參數必須是整數") }
-
 			enable := flag.Value > 0
 			thisObj := d.GetThisObject()
 			if thisObj == nil { thisObj = obj }
-
 			d.SetHeartBeat(thisObj, enable)
 			return &object.Integer{Value: flag.Value}
 		},
 	})
 
-	obj.Vars.Set("query_heart_beat", &object.Builtin{
-		Fn: func(args ...object.Object) object.Object {
-			target := getTarget(args, obj)
-			d.mu.RLock()
-			_, active := d.Heartbeats[target]
-			d.mu.RUnlock()
-			if active { return &object.Integer{Value: 1} }
-			return &object.Integer{Value: 0}
-		},
-	})
-
+	// 語法: void destruct(object ob)
+	// 說明: 從記憶體中徹底銷毀指定的物件。若未指定參數，則銷毀自己。
 	obj.Vars.Set("destruct", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
 			target := getTarget(args, obj)
@@ -258,6 +318,8 @@ func (d *Driver) registerCoreIOEfuns(obj *object.LPCObject) {
 		},
 	})
 
+	// 語法: void enable_commands()
+	// 說明: 將當前物件標記為生物 (Living)，使其可以接收與執行 add_action 註冊的指令。
 	obj.Vars.Set("enable_commands", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
 			obj.IsLiving = true
@@ -268,6 +330,9 @@ func (d *Driver) registerCoreIOEfuns(obj *object.LPCObject) {
 		},
 	})
 
+	// 語法: void add_action(string func_name, string verb)
+	// 說明: 為玩家註冊一個指令，當玩家輸入 verb 時，會呼叫 func_name。
+	// 範例: add_action("do_look", "look");
 	obj.Vars.Set("add_action", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
 			if len(args) < 2 { return object.NewError("add_action 需 2 個字串參數") }
@@ -279,18 +344,12 @@ func (d *Driver) registerCoreIOEfuns(obj *object.LPCObject) {
 			if p := d.GetCurrentPlayer(); p != nil && p.Object != nil {
 				playerObj = p.Object
 			}
-
 			if !playerObj.IsLiving {
 				playerObj.IsLiving = true
-				if playerObj.Actions == nil {
-					playerObj.Actions = make(map[string]*object.Action)
-				}
 			}
-
 			if playerObj.Actions == nil {
 				playerObj.Actions = make(map[string]*object.Action)
 			}
-
 			playerObj.Actions[verb.Value] = &object.Action{
 				Verb:     verb.Value,
 				FuncName: funcName.Value,
@@ -300,6 +359,9 @@ func (d *Driver) registerCoreIOEfuns(obj *object.LPCObject) {
 		},
 	})
 
+	// 語法: void write(string msg)
+	// 說明: 發送訊息給觸發當前行為的玩家。
+	// 範例: write("你看了看四周。\n");
 	obj.Vars.Set("write", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
 			msg := ""
@@ -310,7 +372,6 @@ func (d *Driver) registerCoreIOEfuns(obj *object.LPCObject) {
 					msg = args[0].Inspect()
 				}
 			}
-
 			p := d.GetCurrentPlayer()
 			if p != nil && p.Conn != nil {
 				safeMsg := strings.ReplaceAll(msg, "\r\n", "\n")
@@ -323,6 +384,8 @@ func (d *Driver) registerCoreIOEfuns(obj *object.LPCObject) {
 		},
 	})
 
+	// 語法: object this_player()
+	// 說明: 取得觸發當前執行緒的玩家物件。若無則回傳 0。
 	obj.Vars.Set("this_player", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
 			p := d.GetCurrentPlayer()
@@ -331,10 +394,15 @@ func (d *Driver) registerCoreIOEfuns(obj *object.LPCObject) {
 		},
 	})
 
+	// 語法: object this_object()
+	// 說明: 取得當前正在執行程式碼的物件。
 	obj.Vars.Set("this_object", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object { return obj },
 	})
 
+	// 語法: void say(string msg)
+	// 說明: 將訊息廣播給與當前物件處於同一環境(房間)內的所有其他物件。
+	// 範例: say("一陣微風吹過。\n");
 	obj.Vars.Set("say", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
 			if len(args) == 0 { return &object.Nil{} }
@@ -353,6 +421,9 @@ func (d *Driver) registerCoreIOEfuns(obj *object.LPCObject) {
 		},
 	})
 
+	// 語法: void tell_object(object target, string msg)
+	// 說明: 直接向指定物件 (通常是玩家) 發送訊息。
+	// 範例: tell_object(user, "你感受到一股強大的力量。\n");
 	obj.Vars.Set("tell_object", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
 			if len(args) < 2 { return object.NewError("tell_object 需要 2 個參數") }
@@ -368,41 +439,13 @@ func (d *Driver) registerCoreIOEfuns(obj *object.LPCObject) {
 				safeMsg = strings.ReplaceAll(safeMsg, "\n", "\r\n")
 				conn.Send(safeMsg)
 			}
-
 			initiator := d.GetCurrentPlayer()
 			if initiator != nil {
 				d.RunCommand(initiator, targetObj, "catch_tell", []object.Object{&object.String{Value: msg}})
 			} else {
 				d.CallFunction(targetObj, "catch_tell", []object.Object{&object.String{Value: msg}})
 			}
-
 			return &object.Nil{}
-		},
-	})
-
-	obj.Vars.Set("throw", &object.Builtin{
-		Fn: func(args ...object.Object) object.Object {
-			if len(args) == 0 { return object.NewError("Thrown exception") }
-			if str, ok := args[0].(*object.String); ok { return object.NewError(str.Value) }
-			return object.NewError(args[0].Inspect())
-		},
-	})
-
-	obj.Vars.Set("evaluate", &object.Builtin{
-		Fn: func(args ...object.Object) object.Object {
-			if len(args) < 1 { return object.NewError("evaluate 至少需要 1 個參數") }
-			c, ok := args[0].(*object.Closure)
-			if !ok { return object.NewError("evaluate 的第一個參數必須是閉包") }
-			
-			target := c.Target
-			if target == nil { target = obj }
-			
-			finalArgs := append([]object.Object{}, c.BoundArgs...)
-			finalArgs = append(finalArgs, args[1:]...)
-			
-			res := d.CallFunction(target, c.FuncName, finalArgs)
-			if res == nil { return &object.Integer{Value: 0} }
-			return res
 		},
 	})
 }
@@ -411,6 +454,9 @@ func (d *Driver) registerCoreIOEfuns(obj *object.LPCObject) {
 // 5. 空間與物件操作 (Environment & Objects)
 // ==========================================
 func (d *Driver) registerEnvironmentEfuns(obj *object.LPCObject) {
+	// 語法: object environment([object target])
+	// 說明: 取得物件所在的環境 (房間或容器)。
+	// 範例: object room = environment(this_player());
 	obj.Vars.Set("environment", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
 			target := getTarget(args, obj)
@@ -419,6 +465,9 @@ func (d *Driver) registerEnvironmentEfuns(obj *object.LPCObject) {
 		},
 	})
 
+	// 語法: void move_object(object dest)
+	// 說明: 將自己移動到目標物件(房間或容器)之內。
+	// 範例: move_object(load_object("/d/city/square"));
 	obj.Vars.Set("move_object", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
 			if len(args) != 1 || args[0].TokenType() != object.LPC_OBJECT_OBJ {
@@ -429,6 +478,9 @@ func (d *Driver) registerEnvironmentEfuns(obj *object.LPCObject) {
 		},
 	})
 
+	// 語法: object clone_object(string file)
+	// 說明: 根據腳本路徑，複製並產生一個新的物件實體 (Clone)。
+	// 範例: object sword = clone_object("/obj/weapon/sword");
 	obj.Vars.Set("clone_object", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
 			if len(args) != 1 || args[0].TokenType() != object.StringType {
@@ -440,6 +492,9 @@ func (d *Driver) registerEnvironmentEfuns(obj *object.LPCObject) {
 		},
 	})
 
+	// 語法: object *all_inventory([object target])
+	// 說明: 取得目標物件內部包含的所有物件 (淺層搜尋)。回傳陣列。
+	// 範例: object *items = all_inventory(this_player());
 	obj.Vars.Set("all_inventory", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
 			target := getTarget(args, obj)
@@ -451,6 +506,8 @@ func (d *Driver) registerEnvironmentEfuns(obj *object.LPCObject) {
 		},
 	})
 
+	// 語法: object *deep_inventory([object target])
+	// 說明: 取得目標物件內部包含的所有物件，包含子容器內的物品 (遞迴深層搜尋)。
 	obj.Vars.Set("deep_inventory", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
 			target := getTarget(args, obj)
@@ -467,56 +524,9 @@ func (d *Driver) registerEnvironmentEfuns(obj *object.LPCObject) {
 		},
 	})
 
-	obj.Vars.Set("first_inventory", &object.Builtin{
-		Fn: func(args ...object.Object) object.Object {
-			target := getTarget(args, obj)
-			if len(target.Inventory) > 0 { return target.Inventory[0] }
-			return &object.Nil{}
-		},
-	})
-
-	obj.Vars.Set("object_name", &object.Builtin{
-		Fn: func(args ...object.Object) object.Object {
-			target := getTarget(args, obj)
-			return &object.String{Value: target.Filename}
-		},
-	})
-
-	obj.Vars.Set("find_object", &object.Builtin{
-		Fn: func(args ...object.Object) object.Object {
-			if len(args) < 1 { return &object.Nil{} }
-			fileName, ok := args[0].(*object.String)
-			if !ok { return &object.Nil{} }
-
-			d.mu.RLock()
-			defer d.mu.RUnlock()
-			if found, exists := d.ObjectTable[fileName.Value]; exists {
-				return found
-			}
-			return &object.Nil{}
-		},
-	})
-
-	obj.Vars.Set("living", &object.Builtin{
-		Fn: func(args ...object.Object) object.Object {
-			if len(args) < 1 { return object.NewError("living 需要 1 個參數") }
-			if target, ok := args[0].(*object.LPCObject); ok && target.IsLiving {
-				return &object.Integer{Value: 1}
-			}
-			return &object.Integer{Value: 0}
-		},
-	})
-
-	obj.Vars.Set("interactive", &object.Builtin{
-		Fn: func(args ...object.Object) object.Object {
-			if len(args) < 1 { return object.NewError("interactive 需要 1 個參數") }
-			if target, ok := args[0].(*object.LPCObject); ok && target.IsInteractive {
-				return &object.Integer{Value: 1}
-			}
-			return &object.Integer{Value: 0}
-		},
-	})
-
+	// 語法: object present(string id_or_obj, [object env])
+	// 說明: 在指定容器中尋找符合特定 ID 的物件。
+	// 範例: object sword = present("sword", this_player());
 	obj.Vars.Set("present", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
 			if len(args) < 1 { return object.NewError("present 至少需要 1 個參數") }
@@ -547,12 +557,17 @@ func (d *Driver) registerEnvironmentEfuns(obj *object.LPCObject) {
 // 6. 時間與排程 (Time & Scheduling)
 // ==========================================
 func (d *Driver) registerTimeAndScheduling(obj *object.LPCObject) {
+	// 語法: int time()
+	// 說明: 回傳目前的 Unix 時間戳 (從 1970 年開始的秒數)。
 	obj.Vars.Set("time", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
 			return &object.Integer{Value: time.Now().Unix()}
 		},
 	})
 
+	// 語法: void call_out(string func_name, int delay, [mixed args...])
+	// 說明: 延遲 delay 秒後，自動呼叫 func_name 函式，並可傳入參數。
+	// 範例: call_out("destroy_self", 5); // 5秒後呼叫 destroy_self()
 	obj.Vars.Set("call_out", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
 			if len(args) < 2 { return object.NewError("call_out 至少需要 2 個參數") }
@@ -566,6 +581,8 @@ func (d *Driver) registerTimeAndScheduling(obj *object.LPCObject) {
 		},
 	})
 
+	// 語法: int remove_call_out(string func_name)
+	// 說明: 移除排程中準備呼叫的 func_name。回傳移除的數量。
 	obj.Vars.Set("remove_call_out", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
 			if len(args) < 1 { return &object.Integer{Value: 0} }
@@ -584,31 +601,135 @@ func (d *Driver) registerTimeAndScheduling(obj *object.LPCObject) {
 				}
 			}
 			d.CallOuts = pending
-			
-			// 回傳剩餘多少時間 (此處簡化為回傳移除的數量)
 			return &object.Integer{Value: int64(removedCount)}
-		},
-	})
-
-	obj.Vars.Set("call_other", &object.Builtin{
-		Fn: func(args ...object.Object) object.Object {
-			if len(args) < 2 { return object.NewError("call_other 至少需要兩個參數") }
-			targetObj, ok := args[0].(*object.LPCObject)
-			if !ok { return object.NewError("call_other 第一個參數必須是 object") }
-			funcName, ok := args[1].(*object.String)
-			if !ok { return object.NewError("call_other 第二個參數必須是 string") }
-
-			result := d.CallFunction(targetObj, funcName.Value, args[2:])
-			if result == nil { return &object.Integer{Value: 0} }
-			return result
 		},
 	})
 }
 
 // ==========================================
-// 7. 資料結構操作 (Strings, Arrays, Mappings)
+// 7. 資料結構操作 (Arrays, Mappings)
 // ==========================================
 func (d *Driver) registerDataStructures(obj *object.LPCObject) {
+	// 語法: mixed *values(mapping m)
+	// 說明: 取得 Mapping 中所有的 Value，回傳為陣列。
+	// 範例: values((["hp": 100, "mp": 50])) -> ({ 100, 50 })
+	obj.Vars.Set("values", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) != 1 { return &object.Array{Elements: []object.Object{}} }
+			m, ok := args[0].(*object.Mapping)
+			if !ok { return &object.Array{Elements: []object.Object{}} }
+			var elements []object.Object
+			for _, pair := range m.Pairs { elements = append(elements, pair.Value) }
+			return &object.Array{Elements: elements}
+		},
+	})
+
+	// 語法: mixed *filter(mixed *arr, string func, [object target])
+	// 說明: 遍歷陣列，將元素傳入指定的函式，若回傳為真 (非 0) 則保留該元素。
+	// 範例: object *players = filter(users(), "is_admin", this_object());
+	obj.Vars.Set("filter", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 2 { return args[0] }
+			arr, isArr := args[0].(*object.Array)
+			funcName, isStr := args[1].(*object.String)
+			if !isArr || !isStr { return args[0] }
+
+			target := obj
+			if len(args) > 2 {
+				if t, ok := args[2].(*object.LPCObject); ok { target = t }
+			}
+
+			var result []object.Object
+			for _, el := range arr.Elements {
+				res := d.CallFunction(target, funcName.Value, []object.Object{el})
+				if isLPCTrue(res) { result = append(result, el) }
+			}
+			return &object.Array{Elements: result}
+		},
+	})
+
+	// 語法: mixed *map(mixed *arr, string func, [object target])
+	// 說明: 遍歷陣列，將每個元素傳入指定的函式，並用回傳值取代原本的元素。
+	// 範例: string *names = map(users(), "query_name");
+	obj.Vars.Set("map", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 2 { return args[0] }
+			arr, isArr := args[0].(*object.Array)
+			funcName, isStr := args[1].(*object.String)
+			if !isArr || !isStr { return args[0] }
+
+			target := obj
+			if len(args) > 2 {
+				if t, ok := args[2].(*object.LPCObject); ok { target = t }
+			}
+
+			var result []object.Object
+			for _, el := range arr.Elements {
+				res := d.CallFunction(target, funcName.Value, []object.Object{el})
+				result = append(result, res)
+			}
+			return &object.Array{Elements: result}
+		},
+	})
+
+	// 語法: mixed *sort_array(mixed *arr, string func, [object target])
+	// 說明: 使用自訂的比較函式對陣列進行排序。函式需接收兩個元素，並回傳 1, 0 或 -1。
+	// 範例: sort_array(items, "compare_value", this_object());
+	obj.Vars.Set("sort_array", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 2 { return args[0] }
+			arr, isArr := args[0].(*object.Array)
+			funcName, isStr := args[1].(*object.String)
+			if !isArr || !isStr { return args[0] }
+
+			target := obj
+			if len(args) > 2 {
+				if t, ok := args[2].(*object.LPCObject); ok { target = t }
+			}
+
+			// 複製一份新陣列避免修改原陣列 (LPC 慣例)
+			newElements := make([]object.Object, len(arr.Elements))
+			copy(newElements, arr.Elements)
+
+			sort.SliceStable(newElements, func(i, j int) bool {
+				res := d.CallFunction(target, funcName.Value, []object.Object{newElements[i], newElements[j]})
+				if val, ok := res.(*object.Integer); ok {
+					return val.Value < 0 // 依據 LPC 習慣，回傳負數代表 i 排在 j 前面
+				}
+				return false
+			})
+
+			return &object.Array{Elements: newElements}
+		},
+	})
+
+	// 語法: mixed *unique_array(mixed *arr)
+	// 說明: 移除陣列中重複的元素，回傳一個只包含唯一元素的新陣列。
+	// 範例: unique_array(({ 1, 2, 2, 3 })) -> ({ 1, 2, 3 })
+	obj.Vars.Set("unique_array", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 1 { return &object.Array{Elements: []object.Object{}} }
+			arr, ok := args[0].(*object.Array)
+			if !ok { return args[0] }
+
+			var unique []object.Object
+			for _, el := range arr.Elements {
+				found := false
+				for _, u := range unique {
+					if isEqual(el, u) {
+						found = true
+						break
+					}
+				}
+				if !found { unique = append(unique, el) }
+			}
+			return &object.Array{Elements: unique}
+		},
+	})
+
+	// 語法: int sizeof(mixed target)
+	// 說明: 回傳陣列元素數量、字串長度，或是 Mapping 鍵值對數量。
+	// 範例: sizeof(({1, 2, 3})) -> 3; sizeof("abc") -> 3
 	obj.Vars.Set("sizeof", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
 			if len(args) == 0 { return &object.Integer{Value: 0} }
@@ -621,6 +742,9 @@ func (d *Driver) registerDataStructures(obj *object.LPCObject) {
 		},
 	})
 
+	// 語法: string *explode(string str, string delim)
+	// 說明: 以 delim 為分隔符號，將字串切割成陣列。
+	// 範例: explode("a,b,c", ",") -> ({"a", "b", "c"})
 	obj.Vars.Set("explode", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
 			if len(args) != 2 { return object.NewError("explode 需要 2 個字串") }
@@ -635,6 +759,9 @@ func (d *Driver) registerDataStructures(obj *object.LPCObject) {
 		},
 	})
 
+	// 語法: string implode(string *arr, string delim)
+	// 說明: 以 delim 為連接符號，將字串陣列合併為單一字串。
+	// 範例: implode(({"a", "b"}), "-") -> "a-b"
 	obj.Vars.Set("implode", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
 			if len(args) != 2 { return object.NewError("implode 需要 array 與 string") }
@@ -650,6 +777,9 @@ func (d *Driver) registerDataStructures(obj *object.LPCObject) {
 		},
 	})
 
+	// 語法: mixed *keys(mapping m)
+	// 說明: 取得 Mapping 中所有的 Key，回傳為陣列。
+	// 範例: keys((["a": 1, "b": 2])) -> ({"a", "b"})
 	obj.Vars.Set("keys", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
 			if len(args) != 1 { return object.NewError("keys() 需要 1 個參數") }
@@ -661,17 +791,9 @@ func (d *Driver) registerDataStructures(obj *object.LPCObject) {
 		},
 	})
 
-	obj.Vars.Set("values", &object.Builtin{
-		Fn: func(args ...object.Object) object.Object {
-			if len(args) != 1 { return object.NewError("values() 需要 1 個參數") }
-			m, ok := args[0].(*object.Mapping)
-			if !ok { return object.NewError("values() 參數必須是 mapping") }
-			elements := make([]object.Object, 0, len(m.Pairs))
-			for _, pair := range m.Pairs { elements = append(elements, pair.Value) }
-			return &object.Array{Elements: elements}
-		},
-	})
-
+	// 語法: mapping m_delete(mapping m, mixed key)
+	// 說明: 從 Mapping 中刪除指定的 Key 與其對應的 Value。
+	// 範例: m_delete(my_map, "hp");
 	obj.Vars.Set("m_delete", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
 			if len(args) < 2 { return object.NewError("m_delete() 需要 2 個參數") }
@@ -685,112 +807,9 @@ func (d *Driver) registerDataStructures(obj *object.LPCObject) {
 		},
 	})
 
-	obj.Vars.Set("m_add", &object.Builtin{
-		Fn: func(args ...object.Object) object.Object {
-			if len(args) < 3 { return object.NewError("m_add() 需要 3 個參數") }
-			m, ok := args[0].(*object.Mapping)
-			if !ok { return object.NewError("m_add() 參數必須是 mapping") }
-			key, val := args[1], args[2]
-			hashable, ok := key.(object.Hashable)
-			if !ok { return object.NewError("無法作為 mapping 的 key") }
-			m.Pairs[hashable.HashKey()] = object.HashPair{Key: key, Value: val}
-			return m
-		},
-	})
-
-	// 共用的 Closure/Func 呼叫器
-	callMapFilterFn := func(targetObj *object.LPCObject, cb object.Object, callArgs []object.Object) object.Object {
-		if funcName, ok := cb.(*object.String); ok {
-			return d.CallFunction(targetObj, funcName.Value, callArgs)
-		} else if cl, ok := cb.(*object.Closure); ok {
-			target := cl.Target
-			if target == nil { target = targetObj }
-			fullArgs := append([]object.Object{}, cl.BoundArgs...)
-			fullArgs = append(fullArgs, callArgs...)
-			return d.CallFunction(target, cl.FuncName, fullArgs)
-		}
-		return nil
-	}
-
-	obj.Vars.Set("map_mapping", &object.Builtin{
-		Fn: func(args ...object.Object) object.Object {
-			if len(args) < 2 { return object.NewError("map_mapping 至少需要 2 個參數") }
-			m, ok := args[0].(*object.Mapping)
-			if !ok { return object.NewError("第一個參數必須是 mapping") }
-
-			newPairs := make(map[object.HashKey]object.HashPair)
-			targetObj := getTarget(args[2:], obj)
-
-			for _, pair := range m.Pairs {
-				res := callMapFilterFn(targetObj, args[1], []object.Object{pair.Key, pair.Value})
-				if res == nil || res.TokenType() == object.ErrorType { res = &object.Integer{Value: 0} }
-				newPairs[pair.Key.(object.Hashable).HashKey()] = object.HashPair{Key: pair.Key, Value: res}
-			}
-			return &object.Mapping{Pairs: newPairs}
-		},
-	})
-
-	filterFn := &object.Builtin{
-		Fn: func(args ...object.Object) object.Object {
-			if len(args) < 2 { return object.NewError("filter() 至少需要 2 個參數") }
-			arr, ok := args[0].(*object.Array)
-			if !ok { return object.NewError("第一個參數必須是陣列") }
-
-			targetObj := getTarget(args[2:], obj)
-			filtered := []object.Object{}
-			
-			for _, el := range arr.Elements {
-				res := callMapFilterFn(targetObj, args[1], []object.Object{el})
-				if isLPCTrue(res) { filtered = append(filtered, el) }
-			}
-			return &object.Array{Elements: filtered}
-		},
-	}
-	obj.Vars.Set("filter", filterFn)
-	obj.Vars.Set("filter_array", filterFn)
-
-	mapFn := &object.Builtin{
-		Fn: func(args ...object.Object) object.Object {
-			if len(args) < 2 { return object.NewError("map() 至少需要 2 個參數") }
-			arr, ok := args[0].(*object.Array)
-			if !ok { return object.NewError("第一個參數必須是陣列") }
-
-			targetObj := getTarget(args[2:], obj)
-			mapped := make([]object.Object, len(arr.Elements))
-			
-			for i, el := range arr.Elements {
-				res := callMapFilterFn(targetObj, args[1], []object.Object{el})
-				if res == nil || res.TokenType() == object.ErrorType {
-					mapped[i] = &object.Integer{Value: 0}
-				} else {
-					mapped[i] = res
-				}
-			}
-			return &object.Array{Elements: mapped}
-		},
-	}
-	obj.Vars.Set("map", mapFn)
-	obj.Vars.Set("map_array", mapFn)
-
-	obj.Vars.Set("sort_array", &object.Builtin{
-		Fn: func(args ...object.Object) object.Object {
-			if len(args) < 2 { return object.NewError("sort_array 至少需 2 個參數") }
-			arr, ok := args[0].(*object.Array)
-			if !ok { return object.NewError("第一個參數必須是陣列") }
-
-			newElements := make([]object.Object, len(arr.Elements))
-			copy(newElements, arr.Elements)
-			targetObj := getTarget(args[2:], obj)
-
-			sort.SliceStable(newElements, func(i, j int) bool {
-				res := callMapFilterFn(targetObj, args[1], []object.Object{newElements[i], newElements[j]})
-				if iRes, ok := res.(*object.Integer); ok { return iRes.Value < 0 }
-				return false
-			})
-			return &object.Array{Elements: newElements}
-		},
-	})
-
+	// 語法: int member_array(mixed item, mixed *arr)
+	// 說明: 尋找 item 在陣列中的索引位置。若找不到回傳 -1。
+	// 範例: member_array("b", ({"a", "b", "c"})) -> 1
 	obj.Vars.Set("member_array", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
 			if len(args) < 2 { return &object.Integer{Value: -1} }
@@ -804,75 +823,56 @@ func (d *Driver) registerDataStructures(obj *object.LPCObject) {
 			return &object.Integer{Value: -1}
 		},
 	})
-
-	obj.Vars.Set("unique_array", &object.Builtin{
-		Fn: func(args ...object.Object) object.Object {
-			if len(args) < 2 { return object.NewError("unique_array 至少需 2 個參數") }
-			arr, ok := args[0].(*object.Array)
-			if !ok { return object.NewError("第一個參數必須是陣列") }
-
-			groups := make(map[string][]object.Object)
-			targetObj := obj 
-			
-			for _, el := range arr.Elements {
-				res := callMapFilterFn(targetObj, args[1], []object.Object{el})
-				if res == nil { res = &object.Integer{Value: 0} }
-				key := res.Inspect()
-				groups[key] = append(groups[key], el)
-			}
-			
-			result := make([]object.Object, 0, len(groups))
-			for _, g := range groups { result = append(result, &object.Array{Elements: g}) }
-			return &object.Array{Elements: result}
-		},
-	})
 }
 
 // ==========================================
 // 8. 字串操作 (Strings)
 // ==========================================
 func (d *Driver) registerStringEfuns(obj *object.LPCObject) {
-	obj.Vars.Set("crypt", &object.Builtin{
+	// 語法: string lower_case(string str)
+	// 說明: 將字串中所有的大寫英文字母轉換為小寫。
+	// 範例: lower_case("HELLO") -> "hello"
+	obj.Vars.Set("lower_case", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
-			if len(args) < 1 { return &object.String{Value: ""} }
-			str, ok := args[0].(*object.String)
-			if !ok { return &object.String{Value: ""} }
-
-			// 進行 SHA-256 雜湊
-			hash := sha256.Sum256([]byte(str.Value))
-			// 轉成 16 進位字串回傳
-			return &object.String{Value: hex.EncodeToString(hash[:])}
+			if len(args) == 0 { return &object.String{Value: ""} }
+			if s, ok := args[0].(*object.String); ok {
+				return &object.String{Value: strings.ToLower(s.Value)}
+			}
+			return &object.String{Value: ""}
 		},
 	})
-	// pad_str(string str, int width): 根據終端機顯示寬度進行向右補空白對齊
-	// 中文/全形算 2 格，英文/半形算 1 格
-	obj.Vars.Set("pad_str", &object.Builtin{
-		Fn: func(args ...object.Object) object.Object {
-			if len(args) < 2 { return &object.String{Value: ""} }
-			str, ok1 := args[0].(*object.String)
-			width, ok2 := args[1].(*object.Integer)
-			if !ok1 || !ok2 { return &object.String{Value: ""} }
 
-			s := str.Value
-			targetWidth := int(width.Value)
-			
-			currentWidth := 0
-			for _, r := range s {
-				// 簡單判斷：非 ASCII 字元在終端機通常顯示為全形 (佔 2 格)
-				if r > 127 {
-					currentWidth += 2
-				} else {
-					currentWidth += 1
-				}
+	// 語法: string capitalize(string str)
+	// 說明: 將字串的第一個英文字母轉換為大寫。
+	// 範例: capitalize("apple") -> "Apple"
+	obj.Vars.Set("capitalize", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) == 0 { return &object.String{Value: ""} }
+			if s, ok := args[0].(*object.String); ok && len(s.Value) > 0 {
+				runes := []rune(s.Value)
+				runes[0] = []rune(strings.ToUpper(string(runes[0])))[0]
+				return &object.String{Value: string(runes)}
 			}
-			
-			// 如果實際顯示寬度小於目標寬度，就補足空白
-			if currentWidth < targetWidth {
-				s += strings.Repeat(" ", targetWidth-currentWidth)
-			}
-			return &object.String{Value: s}
+			return &object.String{Value: ""}
 		},
 	})
+
+	// 語法: string trim(string str)
+	// 說明: 移除字串前後的空白字元 (包含空白、換行與 Tab)。
+	// 範例: trim("  hello  ") -> "hello"
+	obj.Vars.Set("trim", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) == 0 { return &object.String{Value: ""} }
+			if s, ok := args[0].(*object.String); ok {
+				return &object.String{Value: strings.TrimSpace(s.Value)}
+			}
+			return &object.String{Value: ""}
+		},
+	})
+
+	// 語法: string sprintf(string format, ...)
+	// 說明: C 語言風格的字串格式化。
+	// 範例: sprintf("HP: %d/%d", 10, 20) -> "HP: 10/20"
 	obj.Vars.Set("sprintf", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
 			if len(args) == 0 { return object.NewError("sprintf 需要參數") }
@@ -888,33 +888,15 @@ func (d *Driver) registerStringEfuns(obj *object.LPCObject) {
 				default:              goArgs = append(goArgs, a.Inspect())
 				}
 			}
-
 			formatStr := strings.ReplaceAll(formatObj.Value, "%O", "%s")
 			result := fmt.Sprintf(formatStr, goArgs...)
 			return &object.String{Value: result}
 		},
 	})
 
-	obj.Vars.Set("lower_case", &object.Builtin{
-		Fn: func(args ...object.Object) object.Object {
-			if len(args) != 1 { return &object.String{Value: ""} }
-			if str, ok := args[0].(*object.String); ok {
-				return &object.String{Value: strings.ToLower(str.Value)}
-			}
-			return &object.String{Value: ""}
-		},
-	})
-
-	obj.Vars.Set("upper_case", &object.Builtin{
-		Fn: func(args ...object.Object) object.Object {
-			if len(args) != 1 { return &object.String{Value: ""} }
-			if str, ok := args[0].(*object.String); ok {
-				return &object.String{Value: strings.ToUpper(str.Value)}
-			}
-			return &object.String{Value: ""}
-		},
-	})
-
+	// 語法: int strlen(string str)
+	// 說明: 回傳字串長度。
+	// 範例: strlen("hello") -> 5
 	obj.Vars.Set("strlen", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
 			if len(args) != 1 { return &object.Integer{Value: 0} }
@@ -925,6 +907,9 @@ func (d *Driver) registerStringEfuns(obj *object.LPCObject) {
 		},
 	})
 
+	// 語法: string substr(string str, int start, [int length])
+	// 說明: 截取子字串。
+	// 範例: substr("hello", 1, 3) -> "ell"
 	obj.Vars.Set("substr", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
 			if len(args) < 2 { return object.NewError("substr 需 2 個參數") }
@@ -953,6 +938,9 @@ func (d *Driver) registerStringEfuns(obj *object.LPCObject) {
 		},
 	})
 
+	// 語法: int strsrch(string str, string pattern, [int reverse])
+	// 說明: 尋找 pattern 在 str 中第一次出現的位置，若無則回傳 -1。
+	// 範例: strsrch("hello", "l") -> 2
 	obj.Vars.Set("strsrch", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
 			if len(args) < 2 { return object.NewError("strsrch 需 2 個參數") }
@@ -980,25 +968,45 @@ func (d *Driver) registerStringEfuns(obj *object.LPCObject) {
 		},
 	})
 
-	obj.Vars.Set("capitalize", &object.Builtin{
+	// 語法: string pad_str(string str, int width)
+	// 說明: 計算終端機顯示寬度 (中文字算 2 格)，將字串向右補空白直到滿足 width。
+	// 範例: pad_str("攻擊", 10) -> "攻擊      "
+	obj.Vars.Set("pad_str", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
-			if len(args) != 1 { return &object.String{Value: ""} }
-			str, ok := args[0].(*object.String)
-			if !ok { return &object.String{Value: ""} }
+			if len(args) < 2 { return &object.String{Value: ""} }
+			str, ok1 := args[0].(*object.String)
+			width, ok2 := args[1].(*object.Integer)
+			if !ok1 || !ok2 { return &object.String{Value: ""} }
 
-			runes := []rune(str.Value)
-			if len(runes) == 0 { return &object.String{Value: ""} }
-			runes[0] = []rune(strings.ToUpper(string(runes[0])))[0]
-			return &object.String{Value: string(runes)}
+			s := str.Value
+			targetWidth := int(width.Value)
+			
+			currentWidth := 0
+			for _, r := range s {
+				if r > 127 {
+					currentWidth += 2 // 中文字或全形算 2 格
+				} else {
+					currentWidth += 1 // 英數字算 1 格
+				}
+			}
+			
+			if currentWidth < targetWidth {
+				s += strings.Repeat(" ", targetWidth-currentWidth)
+			}
+			return &object.String{Value: s}
 		},
 	})
 
-	obj.Vars.Set("trim", &object.Builtin{
+	// 語法: string crypt(string str)
+	// 說明: 使用 SHA-256 對字串進行單向雜湊加密，常用於密碼儲存。
+	// 範例: crypt("1234") -> "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4"
+	obj.Vars.Set("crypt", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
-			if len(args) != 1 { return &object.String{Value: ""} }
+			if len(args) < 1 { return &object.String{Value: ""} }
 			str, ok := args[0].(*object.String)
 			if !ok { return &object.String{Value: ""} }
-			return &object.String{Value: strings.TrimSpace(str.Value)}
+			hash := sha256.Sum256([]byte(str.Value))
+			return &object.String{Value: hex.EncodeToString(hash[:])}
 		},
 	})
 }
@@ -1007,28 +1015,64 @@ func (d *Driver) registerStringEfuns(obj *object.LPCObject) {
 // 9. 系統與檔案 (System & Files)
 // ==========================================
 func (d *Driver) registerSystemAndFiles(obj *object.LPCObject) {
-	obj.Vars.Set("file_size", &object.Builtin{
+	// 語法: string object_name(object ob)
+	// 說明: 取得該實體物件的檔案路徑與識別名稱 (例如 /std/user.c#3)。
+	// 範例: write(object_name(this_player()));
+	obj.Vars.Set("object_name", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
-			if len(args) < 1 { return &object.Integer{Value: -1} }
-			fileName, ok := args[0].(*object.String)
-			if !ok { return &object.Integer{Value: -1} }
-
-			// 組合出真實的檔案路徑
-			fullPath := filepath.Join(d.Config.MudLibPath, fileName.Value)
-			
-			// 取得檔案資訊
-			info, err := os.Stat(fullPath)
-			if err != nil {
-				return &object.Integer{Value: -1} // 檔案不存在回傳 -1
+			if len(args) == 0 { return &object.String{Value: obj.Filename} }
+			if o, ok := args[0].(*object.LPCObject); ok {
+				return &object.String{Value: o.Filename}
 			}
-			if info.IsDir() {
-				return &object.Integer{Value: -2} // 是目錄回傳 -2 (LPC 慣例)
-			}
-			
-			// 回傳檔案大小
-			return &object.Integer{Value: info.Size()}
+			return &object.String{Value: ""}
 		},
 	})
+
+	// 語法: object find_object(string path)
+	// 說明: 尋找記憶體中是否已經載入該路徑的藍圖物件。不產生新 clone。
+	// 範例: object room = find_object("/d/city/square");
+	obj.Vars.Set("find_object", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) == 0 { return &object.Nil{} }
+			if path, ok := args[0].(*object.String); ok {
+				res, err := d.LoadObject(path.Value)
+				if err == nil { return res }
+			}
+			return &object.Nil{}
+		},
+	})
+
+	// 語法: int write_file(string file, string text, [int overwrite])
+	// 說明: 將文字寫入實體硬碟的檔案中。預設為接續寫入(Append)，若 overwrite=1 則覆寫。
+	// 範例: write_file("/log/debug.log", "發生錯誤\\n");
+	obj.Vars.Set("write_file", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 2 { return &object.Integer{Value: 0} }
+			file, ok1 := args[0].(*object.String)
+			text, ok2 := args[1].(*object.String)
+			if !ok1 || !ok2 { return &object.Integer{Value: 0} }
+
+			flag := os.O_APPEND | os.O_CREATE | os.O_WRONLY
+			if len(args) > 2 {
+				if i, ok := args[2].(*object.Integer); ok && i.Value == 1 {
+					flag = os.O_TRUNC | os.O_CREATE | os.O_WRONLY
+				}
+			}
+
+			fullPath := filepath.Join(d.Config.MudLibPath, file.Value)
+			os.MkdirAll(filepath.Dir(fullPath), 0755)
+			f, err := os.OpenFile(fullPath, flag, 0644)
+			if err != nil { return &object.Integer{Value: 0} }
+			defer f.Close()
+
+			f.WriteString(text.Value)
+			return &object.Integer{Value: 1}
+		},
+	})
+
+	// 語法: object load_object(string file)
+	// 說明: 載入並回傳指定路徑的藍圖物件 (Blueprint)，若已載入則直接回傳。不會建立 Clone。
+	// 範例: object room = load_object("/d/city/square");
 	obj.Vars.Set("load_object", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
 			if len(args) < 1 { return &object.Nil{} }
@@ -1040,6 +1084,8 @@ func (d *Driver) registerSystemAndFiles(obj *object.LPCObject) {
 		},
 	})
 
+	// 語法: string read_file(string file)
+	// 說明: 讀取並回傳檔案的完整文字內容。
 	obj.Vars.Set("read_file", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
 			if len(args) < 1 { return &object.Nil{} }
@@ -1053,44 +1099,42 @@ func (d *Driver) registerSystemAndFiles(obj *object.LPCObject) {
 		},
 	})
 
-	obj.Vars.Set("write_file", &object.Builtin{
+	// 語法: int file_size(string file)
+	// 說明: 取得檔案大小。若不存在回傳 -1，若為目錄回傳 -2。
+	// 範例: if (file_size("/data/user/wade.o") > 0) { ... }
+	obj.Vars.Set("file_size", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
-			if len(args) < 2 { return &object.Integer{Value: 0} }
-			fileName, ok1 := args[0].(*object.String)
-			content, ok2 := args[1].(*object.String)
-			if !ok1 || !ok2 { return object.NewError("write_file 需要兩個字串") }
-
-			flag := 0 // 0 = append, 1 = overwrite
-			if len(args) > 2 {
-				if i, ok := args[2].(*object.Integer); ok { flag = int(i.Value) }
-			}
+			if len(args) < 1 { return &object.Integer{Value: -1} }
+			fileName, ok := args[0].(*object.String)
+			if !ok { return &object.Integer{Value: -1} }
 
 			fullPath := filepath.Join(d.Config.MudLibPath, fileName.Value)
-			mode := os.O_APPEND | os.O_CREATE | os.O_WRONLY
-			if flag == 1 { mode = os.O_TRUNC | os.O_CREATE | os.O_WRONLY }
-
-			f, err := os.OpenFile(fullPath, mode, 0644)
-			if err != nil { return &object.Integer{Value: 0} }
-			defer f.Close()
-
-			if _, err := f.WriteString(content.Value); err != nil {
-				return &object.Integer{Value: 0}
+			info, err := os.Stat(fullPath)
+			if err != nil {
+				return &object.Integer{Value: -1}
 			}
-			return &object.Integer{Value: 1}
+			if info.IsDir() {
+				return &object.Integer{Value: -2}
+			}
+			return &object.Integer{Value: info.Size()}
 		},
 	})
 
+	// 語法: string ctime(int time)
+	// 說明: 將 Unix 時間戳轉為人類可讀的字串格式。
+	// 範例: write(ctime(time()));
 	obj.Vars.Set("ctime", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
 			ts := time.Now().Unix()
 			if len(args) > 0 {
 				if i, ok := args[0].(*object.Integer); ok { ts = i.Value }
 			}
-			// LPC 標準時間格式 (例如 "Mon Jan 02 15:04:05 2006")
 			return &object.String{Value: time.Unix(ts, 0).Format("Mon Jan _2 15:04:05 2006")}
 		},
 	})
 
+	// 語法: object *users()
+	// 說明: 回傳目前線上所有玩家(已成功連線並處於互動狀態)的實體物件陣列。
 	obj.Vars.Set("users", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
 			var userObjs []object.Object
@@ -1104,24 +1148,9 @@ func (d *Driver) registerSystemAndFiles(obj *object.LPCObject) {
 		},
 	})
 
-	obj.Vars.Set("shout", &object.Builtin{
-		Fn: func(args ...object.Object) object.Object {
-			if len(args) < 1 { return &object.Nil{} }
-			msg := args[0].Inspect()
-			if s, ok := args[0].(*object.String); ok { msg = s.Value }
-
-			d.interactiveObjects.Range(func(key, value interface{}) bool {
-				if conn, ok := value.(*PlayerConnection); ok && conn.IsActive {
-					safeMsg := strings.ReplaceAll(msg, "\r\n", "\n")
-					safeMsg = strings.ReplaceAll(safeMsg, "\n", "\r\n")
-					conn.Send(safeMsg)
-				}
-				return true
-			})
-			return &object.Nil{}
-		},
-	})
-
+	// 語法: int input_to(string func_name, [int hidden])
+	// 說明: 攔截玩家的下一次終端機輸入，強制將輸入的字串丟給指定的函式處理。若 hidden=1 則終端機會隱藏輸入(打星號)。
+	// 範例: write("請輸入密碼:"); input_to("get_pass", 1);
 	obj.Vars.Set("input_to", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
 			if len(args) < 1 { return object.NewError("input_to 需要函式字串作為參數") }
@@ -1131,8 +1160,6 @@ func (d *Driver) registerSystemAndFiles(obj *object.LPCObject) {
 
 			if funcName, ok := args[0].(*object.String); ok {
 				p.NextInputFunc = funcName.Value
-				
-				// ▼ 新增：檢查是否有第二個參數 (隱藏標記)
 				p.InputHidden = false
 				if len(args) > 1 {
 					if flag, ok := args[1].(*object.Integer); ok && flag.Value != 0 {
@@ -1150,7 +1177,9 @@ func (d *Driver) registerSystemAndFiles(obj *object.LPCObject) {
 // 10. 存檔與連線轉移 (Persistence & Connection)
 // ==========================================
 func (d *Driver) registerPersistenceEfuns(obj *object.LPCObject) {
-	// save_object(string file) - 儲存當前物件的變數到檔案
+	// 語法: int save_object(string file)
+	// 說明: 將當前物件內的所有變數狀態，以 JSON 格式儲存至硬碟。
+	// 範例: save_object("/data/user/" + id);
 	obj.Vars.Set("save_object", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
 			if len(args) < 1 { return &object.Integer{Value: 0} }
@@ -1158,33 +1187,29 @@ func (d *Driver) registerPersistenceEfuns(obj *object.LPCObject) {
 			if !ok { return object.NewError("save_object 需要字串參數") }
 
 			fileName := fileArg.Value
-			if !strings.HasSuffix(fileName, ".o") { fileName += ".o" } // MUD 慣例存檔副檔名為 .o
+			if !strings.HasSuffix(fileName, ".o") { fileName += ".o" }
 			fullPath := filepath.Join(d.Config.MudLibPath, fileName)
 
-			// 將 LPC 變數轉換為 Go 的 map 以便轉成 JSON
 			saveData := make(map[string]interface{})
 			for k, v := range obj.Vars.GetAll() {
-				// 慣例：以底線開頭的變數不存檔 (暫時變數)，且不儲存函式/內建函式
 				if strings.HasPrefix(k, "_") { continue }
 				if v.TokenType() == object.FunctionType || v.TokenType() == object.BuiltinType || v.TokenType() == object.ClosureType { continue }
-				
 				saveData[k] = lpcToGoValue(v)
 			}
 
-			// 確保目錄存在
 			os.MkdirAll(filepath.Dir(fullPath), 0755)
-
 			jsonData, err := json.MarshalIndent(saveData, "", "  ")
 			if err != nil { return &object.Integer{Value: 0} }
 
 			err = os.WriteFile(fullPath, jsonData, 0644)
 			if err != nil { return &object.Integer{Value: 0} }
-
 			return &object.Integer{Value: 1}
 		},
 	})
 
-	// restore_object(string file) - 從檔案讀取變數到當前物件
+	// 語法: int restore_object(string file)
+	// 說明: 從硬碟讀取儲存的 JSON 變數，恢復當前物件的狀態。成功回傳 1，失敗回傳 0。
+	// 範例: if(restore_object("/data/user/" + id)) { write("讀檔成功"); }
 	obj.Vars.Set("restore_object", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
 			if len(args) < 1 { return &object.Integer{Value: 0} }
@@ -1196,22 +1221,22 @@ func (d *Driver) registerPersistenceEfuns(obj *object.LPCObject) {
 			fullPath := filepath.Join(d.Config.MudLibPath, fileName)
 
 			jsonData, err := os.ReadFile(fullPath)
-			if err != nil { return &object.Integer{Value: 0} } // 檔案不存在視為無資料，不報錯
+			if err != nil { return &object.Integer{Value: 0} }
 
 			var loadedData map[string]interface{}
 			err = json.Unmarshal(jsonData, &loadedData)
 			if err != nil { return &object.Integer{Value: 0} }
 
-			// 將讀取到的 Go 資料轉回 LPC 物件並存入環境
 			for k, v := range loadedData {
 				obj.Vars.Set(k, goToLPCValue(v))
 			}
-
 			return &object.Integer{Value: 1}
 		},
 	})
 
-	// exec(object target, object src) - 轉移玩家連線 (例如從 login.c 轉移到 user.c)
+	// 語法: int exec(object target, object src)
+	// 說明: 將 TCP 連線狀態從來源物件(src)轉移到目標物件(target)上。常用於登入系統連線切換。
+	// 範例: exec(user_ob, this_object());
 	obj.Vars.Set("exec", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
 			if len(args) < 2 { return object.NewError("exec 需要兩個 object 參數") }
@@ -1219,17 +1244,17 @@ func (d *Driver) registerPersistenceEfuns(obj *object.LPCObject) {
 			src, ok2 := args[1].(*object.LPCObject)
 			if !ok1 || !ok2 { return object.NewError("exec 參數必須是 object") }
 
-			// 呼叫 Driver 來處理底層連線轉移
 			success := d.TransferConnection(target, src)
-			if success {
-				return &object.Integer{Value: 1}
-			}
+			if success { return &object.Integer{Value: 1} }
 			return &object.Integer{Value: 0}
 		},
 	})
 }
 
-// 將 LPC Object 轉為 Go 原生型別 (給 JSON Marshal 用)
+// ==========================================
+// 轉換工具 (LPC 與 Go 原生型別互轉，供 JSON 存檔用)
+// ==========================================
+
 func lpcToGoValue(o object.Object) interface{} {
 	if o == nil { return nil }
 	switch v := o.(type) {
@@ -1241,8 +1266,6 @@ func lpcToGoValue(o object.Object) interface{} {
 		arr := make([]interface{}, len(v.Elements))
 		for i, el := range v.Elements { arr[i] = lpcToGoValue(el) }
 		return arr
-	// 註：Mapping 轉 JSON 比較複雜，因為 JSON 的 key 必須是字串。
-	// 這裡簡化處理，將 Mapping 轉為 string map。
 	case *object.Mapping:
 		m := make(map[string]interface{})
 		for _, pair := range v.Pairs {
@@ -1256,12 +1279,10 @@ func lpcToGoValue(o object.Object) interface{} {
 	}
 }
 
-// 將 Go 原生型別轉回 LPC Object (給 JSON Unmarshal 用)
 func goToLPCValue(v interface{}) object.Object {
 	if v == nil { return &object.Nil{} }
 	switch val := v.(type) {
-	case float64: // JSON 數字預設會被解析為 float64
-		// 判斷是否為整數
+	case float64: 
 		if val == float64(int64(val)) {
 			return &object.Integer{Value: int64(val)}
 		}
