@@ -326,7 +326,7 @@ func (d *Driver) LoadObject(filename string) (*object.LPCObject, error) {
 		Inherits:  make([]*object.LPCObject, 0),
 	}
 
-		for _, stmt := range program.Statements {
+	for _, stmt := range program.Statements {
 		if inheritStmt, ok := stmt.(*ast.InheritStatement); ok {
 			parentFile := inheritStmt.Path
 			if !strings.HasSuffix(parentFile, ".c") {
@@ -339,14 +339,29 @@ func (d *Driver) LoadObject(filename string) (*object.LPCObject, error) {
 			lpcObj.Inherits = append(lpcObj.Inherits, parentObj)
 			baseName := strings.TrimSuffix(filepath.Base(parentFile), ".c")
 
-			// === 重要：正確複製父類的變數與函式 ===
 			for k, v := range parentObj.Vars.GetAll() {
-				env.Set(k, deepCopyLPCValue(v))
-				if _, isFunc := v.(*object.Function); isFunc {
-					if !strings.Contains(k, "::") {
-						env.Set("::"+k, v)           // ::create
-						env.Set(baseName+"::"+k, v)  // living::create
+				if _, isBuiltin := v.(*object.Builtin); isBuiltin {
+					continue
+				}
+	
+				var copiedVal object.Object
+				
+				// 【核心修正】：讓繼承來的方法，綁定到子物件的環境上！
+				if fn, ok := v.(*object.Function); ok {
+					copiedVal = &object.Function{
+						Parameters: fn.Parameters,
+						Body:       fn.Body,
+						Env:        env, // 👈 關鍵：指派為子物件的環境
 					}
+				} else {
+					copiedVal = deepCopyLPCValue(v)
+				}
+	
+				env.Set(k, copiedVal)
+				
+				// 處理 :: 繼承呼叫 (讓 child::func 也能正確讀取 child 的變數)
+				if _, ok := v.(*object.Function); ok {
+					env.Set(baseName+"::"+k, copiedVal)
 				}
 			}
 		}
@@ -378,10 +393,27 @@ func (d *Driver) CloneObject(filename string) (*object.LPCObject, error) {
 
 	d.SetupEfuns(clone)
 	for k, v := range blueprint.Vars.GetAll() {
-		clone.Vars.Set(k, deepCopyLPCValue(v))
-		// Re-register inherited :: functions
+		// 跳過 Builtin，因為 efun 已經在 SetupEfuns 綁定過一次了
+		if _, isBuiltin := v.(*object.Builtin); isBuiltin {
+			continue
+		}
+
+		var copiedVal object.Object
+		
+		if fn, ok := v.(*object.Function); ok {
+			copiedVal = &object.Function{
+				Parameters: fn.Parameters,
+				Body:       fn.Body,
+				Env:        clone.Vars,
+			}
+		} else {
+			copiedVal = deepCopyLPCValue(v)
+		}
+
+		clone.Vars.Set(k, copiedVal)
+		
 		if strings.Contains(k, "::") {
-			clone.Vars.Set(k, v)
+			clone.Vars.Set(k, copiedVal)
 		}
 	}
 

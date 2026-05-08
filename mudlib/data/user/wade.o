@@ -1,0 +1,16 @@
+{
+  "aliases": {},
+  "attack": 1,
+  "defence": 2,
+  "exp": 100,
+  "exp_to_next": 200,
+  "gold": 20,
+  "hp": 30,
+  "id": "wade",
+  "level": 1,
+  "max_hp": 40,
+  "max_mp": 200,
+  "mp": 50,
+  "nickname": "菠蘿麵包",
+  "password": "jjchen"
+}

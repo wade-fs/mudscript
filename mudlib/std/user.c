@@ -1,13 +1,4 @@
 // mudlib/std/user.c
-// 玩家物件 — 重構版
-//
-// 設計原則：
-//   所有 cmd 邏輯已抽離至 mudlib/cmds/cmd_*.c
-//   user.c 只負責：
-//     1. 玩家基本屬性（gold、name、hp…）
-//     2. 繼承所有 cmd 模組
-//     3. setup() 呼叫各模組的 *_setup()
-//     4. 生命週期（heart_beat、on_death、save/restore）
 
 #include "/include/config.h"
 
@@ -19,30 +10,12 @@ inherit "/cmds/cmd_info.c";
 inherit "/cmds/cmd_quit.c";
 inherit "/cmds/cmd_help.c";
 inherit "/cmds/cmd_alias.c";
-
-// ── 玩家屬性 ────────────────────────────────────────────
-string id;
-void set_id(string i) { id = i; }
-string get_id() { return id; }
-
-int gold;
-string name;
-
-string password;
-void set_password(string p) { password = p; }
-string get_password() { return password; }
+inherit "/cmds/cmd_nickname.c";
 
 // ── 初始化 ───────────────────────────────────────────────
 void create() {
     set_heart_beat(1);
 }
-
-// ── 基本查詢 ─────────────────────────────────────────────
-string query_name()  { return name; }
-
-int  query_gold()      { return gold; }
-void gain_gold(int v)  { gold = gold + v; }
-void lose_gold(int v)  { gold = gold - v; if (gold < 0) { gold = 0; } }
 
 // ── 登入初始化 ───────────────────────────────────────────
 // server.go 建立連線後呼叫 setup()，把所有指令綁定好
@@ -59,6 +32,66 @@ void setup() {
     cmd_help_setup();
     cmd_alias_setup();
 }
+
+// ── 玩家屬性 ────────────────────────────────────────────
+string id;
+void set_id(string i) { id = i; }
+string get_id() { return id; }
+
+string password;
+void set_password(string p) { password = p; }
+string get_password() { return password; }
+
+// ── 基本查詢 ─────────────────────────────────────────────
+string nickname;
+string query_name()  { return nickname; }
+
+int level;
+int query_level() { return level; }
+
+int exp;
+int query_exp() { return exp; }
+
+int exp_to_next;
+int query_exp_to_next() {
+  if (exp_to_next <= exp) {
+    exp_to_next = exp + 100;
+  }
+  return exp_to_next;
+}
+
+int hp;
+int query_hp() { return hp; }
+
+int max_hp;
+int query_max_hp() {
+  if (max_hp <= 0) {
+    max_hp = 100;
+  }
+  return max_hp;
+}
+
+int mp;
+int query_mp() { return mp; }
+
+int max_mp;
+int query_max_mp() {
+  if (max_mp <= 0) {
+    max_mp = 100;
+  }
+  return max_mp;
+}
+
+int attack;
+int query_attack() { return attack; }
+
+int defence;
+int query_defence() { return defence; }
+
+int gold;
+int  query_gold()      { return gold; }
+void gain_gold(int v)  { gold = gold + v; }
+void lose_gold(int v)  { gold = gold - v; if (gold < 0) { gold = 0; } }
 
 // setup_player() 是 login.c 登入成功後呼叫的別名，保持相容
 void setup_player() {

@@ -830,6 +830,35 @@ func (d *Driver) registerDataStructures(obj *object.LPCObject) {
 // 8. 字串操作 (Strings)
 // ==========================================
 func (d *Driver) registerStringEfuns(obj *object.LPCObject) {
+	// pad_str(string str, int width): 根據終端機顯示寬度進行向右補空白對齊
+	// 中文/全形算 2 格，英文/半形算 1 格
+	obj.Vars.Set("pad_str", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 2 { return &object.String{Value: ""} }
+			str, ok1 := args[0].(*object.String)
+			width, ok2 := args[1].(*object.Integer)
+			if !ok1 || !ok2 { return &object.String{Value: ""} }
+
+			s := str.Value
+			targetWidth := int(width.Value)
+			
+			currentWidth := 0
+			for _, r := range s {
+				// 簡單判斷：非 ASCII 字元在終端機通常顯示為全形 (佔 2 格)
+				if r > 127 {
+					currentWidth += 2
+				} else {
+					currentWidth += 1
+				}
+			}
+			
+			// 如果實際顯示寬度小於目標寬度，就補足空白
+			if currentWidth < targetWidth {
+				s += strings.Repeat(" ", targetWidth-currentWidth)
+			}
+			return &object.String{Value: s}
+		},
+	})
 	obj.Vars.Set("sprintf", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
 			if len(args) == 0 { return object.NewError("sprintf 需要參數") }
