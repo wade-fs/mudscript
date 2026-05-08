@@ -254,6 +254,29 @@ func (d *Driver) registerCoreIOEfuns(obj *object.LPCObject) {
 		},
 	})
 
+	// 語法: object find_player(string id)
+	obj.Vars.Set("find_player", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) == 0 { return &object.Nil{} }
+			idStr, ok := args[0].(*object.String)
+			if !ok { return &object.Nil{} }
+			
+			var target object.Object = &object.Nil{}
+			d.interactiveObjects.Range(func(key, value interface{}) bool {
+				conn, ok := value.(*PlayerConnection)
+				if ok && conn.IsActive && conn.Object != nil {
+					res := d.CallFunction(conn.Object, "get_id", nil)
+					if s, isStr := res.(*object.String); isStr && s.Value == idStr.Value {
+						target = conn.Object
+						return false // 找到即中斷
+					}
+				}
+				return true
+			})
+			return target
+		},
+	})
+
 	// 語法: int interactive(object ob)
 	// 說明: 判斷該物件是否為正在連線中的玩家 (有網路 Socket 綁定)。
 	// 範例: if (interactive(target)) { write("玩家在線上。\\n"); }
@@ -1118,6 +1141,49 @@ func (d *Driver) registerStringEfuns(obj *object.LPCObject) {
 	})
 }
 
+// checkWritePermission 呼叫 LPC 的 valid_write 來判定權限
+// 回傳值: (是否允許寫入 bool, 錯誤訊息 string)
+func (d *Driver) checkWritePermission(path string, efunName string) (bool, string) {
+	// 1. 【路徑正規化】：防禦 ../ 目錄穿越攻擊
+	cleanPath := filepath.Clean(path)
+	cleanPath = filepath.ToSlash(cleanPath) // 確保跨平台都使用 MUD 習慣的 "/"
+	if !strings.HasPrefix(cleanPath, "/") {
+		cleanPath = "/" + cleanPath
+	}
+
+	// 2. 載入權限管理物件
+	validOb, err := d.LoadObject("/secure/valid.c")
+	if err != nil {
+		return false, "系統嚴重錯誤：找不到 /secure/valid.c，安全鎖定啟動。"
+	}
+
+	player := d.GetCurrentPlayer()
+	var userObj object.Object = &object.Nil{}
+	if player != nil && player.Object != nil {
+		userObj = player.Object
+	}
+
+	// 3. 呼叫 LPC
+	res := d.CallFunction(validOb, "valid_write", []object.Object{
+		&object.String{Value: cleanPath},
+		userObj,
+		&object.String{Value: efunName},
+	})
+
+	// 4. 【解析動態錯誤訊息】：判斷回傳型別
+	switch v := res.(type) {
+	case *object.Integer:
+		if v.Value != 0 {
+			return true, "" // 回傳非 0 整數代表允許
+		}
+		return false, "權限拒絕：未授權的操作。"
+	case *object.String:
+		return false, v.Value // 回傳字串代表拒絕，並附帶原因
+	default:
+		return false, "權限系統異常：valid_write 回傳了未知的型別。"
+	}
+}
+
 // ==========================================
 // 9. 系統與檔案 (System & Files)
 // ==========================================
@@ -1159,6 +1225,17 @@ func (d *Driver) registerSystemAndFiles(obj *object.LPCObject) {
 			text, ok2 := args[1].(*object.String)
 			if !ok1 || !ok2 { return &object.Integer{Value: 0} }
 
+			allowed, errMsg := d.checkWritePermission(file.Value, "write_file")
+			if !allowed {
+				// 直接將錯誤訊息印給當前玩家
+				if p := d.GetCurrentPlayer(); p != nil {
+					p.Send(fmt.Sprintf("\r\n⚠️ 系統安全攔截：%s\r\n", errMsg))
+				} else {
+					fmt.Printf("🚫 寫入拒絕: %s\n", errMsg)
+				}
+				return &object.Integer{Value: 0}
+			}
+
 			flag := os.O_APPEND | os.O_CREATE | os.O_WRONLY
 			if len(args) > 2 {
 				if i, ok := args[2].(*object.Integer); ok && i.Value == 1 {
@@ -1167,24 +1244,6 @@ func (d *Driver) registerSystemAndFiles(obj *object.LPCObject) {
 			}
 
 			fullPath := filepath.Join(d.Config.MudLibPath, file.Value)
-
-			// TODO: 讀取檔案時應該也要判斷
-			//validObj,err := d.LoadObject("/secure/valid.c")
-			//if err != nil {
-			//	return &object.Integer{Value:0}
-			//}
-			//currentUser := d.GetCurrentPlayer()
-			//res := d.CallFunction(
-			//	validObj, "valid_write",
-			//	[]object.Object{
-			//		&object.String{Value: file.Value},
-			//		currentUser,
-			//		&object.String{Value: "save"},
-			//	},
-			//)
-			//if !isLPCTrue(res) {
-			//	return &object.Integer{Value: 0}
-			//}
 
 			os.MkdirAll(filepath.Dir(fullPath), 0755)
 			f, err := os.OpenFile(fullPath, flag, 0644)
@@ -1314,25 +1373,18 @@ func (d *Driver) registerPersistenceEfuns(obj *object.LPCObject) {
 
 			fileName := fileArg.Value
 			if !strings.HasSuffix(fileName, ".o") { fileName += ".o" }
-			fullPath := filepath.Join(d.Config.MudLibPath, fileName)
 
-			// TODO: 讀取檔案時應該也要判斷
-			//validObj,err := d.LoadObject("/secure/valid.c")
-			//if err != nil {
-			//	return &object.Integer{Value:0}
-			//}
-			//currentUser := d.GetCurrentPlayer()
-			//res := d.CallFunction(
-			//	validObj, "valid_write",
-			//	[]object.Object{
-			//		&object.String{Value: fileName},
-			//		currentUser,
-			//		&object.String{Value: "save"},
-			//	},
-			//)
-			//if !isLPCTrue(res) {
-			//	return &object.Integer{Value: 0}
-			//}
+			allowed, errMsg := d.checkWritePermission(fileName, "save_object")
+			if !allowed {
+				if p := d.GetCurrentPlayer(); p != nil {
+					p.Send(fmt.Sprintf("\r\n⚠️ 系統安全攔截：%s\r\n", errMsg))
+				} else {
+					fmt.Printf("🚫 存檔拒絕: %s\n", errMsg)
+				}
+				return &object.Integer{Value: 0}
+			}
+
+			fullPath := filepath.Join(d.Config.MudLibPath, fileName)
 
 			saveData := make(map[string]interface{})
 			for k, v := range obj.Vars.GetAll() {

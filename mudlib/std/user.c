@@ -11,6 +11,10 @@ inherit "/cmds/cmd_quit.c";
 inherit "/cmds/cmd_help.c";
 inherit "/cmds/cmd_alias.c";
 inherit "/cmds/cmd_nickname.c";
+inherit "/cmds/admin/cmd_demote.c";
+inherit "/cmds/admin/cmd_grant.c";
+inherit "/cmds/admin/cmd_promote.c";
+inherit "/cmds/admin/cmd_revoke.c";
 
 // ── 初始化 ───────────────────────────────────────────────
 void create() {
@@ -32,6 +36,14 @@ void setup() {
     cmd_quit_setup();
     cmd_help_setup();
     cmd_alias_setup();
+
+	// 管理指令
+	if (role == "god" || role == "wizard") {
+		cmd_promote_setup();
+		cmd_demote_setup();
+		cmd_grant_setup();
+		cmd_revoke_setup();
+    }
 }
 
 // ── 玩家屬性 ────────────────────────────────────────────
@@ -45,7 +57,11 @@ string get_password() { return password; }
 
 string role;
 string query_role() { return role; }
-void set_role(string r) { role = r; }
+void set_role(string r) {
+	if (r == "god" || r == "wizard" || r == "user") {
+        role = r;
+	}
+}
 
 string *write_paths;
 string *query_write_paths() { return write_paths; }
@@ -60,6 +76,7 @@ int remove_write_path(string path) {
 }
 
 int has_write_access(string path) {
+	if (role == "god") return 1;
     foreach (p in write_paths) {
         if (strsrch(path, p) == 0) { return 1; }
     }
@@ -117,11 +134,6 @@ int gold;
 int  query_gold()      { return gold; }
 void gain_gold(int v)  { gold = gold + v; }
 void lose_gold(int v)  { gold = gold - v; if (gold < 0) { gold = 0; } }
-
-// setup_player() 是 login.c 登入成功後呼叫的別名，保持相容
-void setup_player() {
-    setup();
-}
 
 // ── 心跳 ─────────────────────────────────────────────────
 void heart_beat() {

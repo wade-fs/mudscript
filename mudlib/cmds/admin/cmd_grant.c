@@ -1,17 +1,14 @@
-int valid_grant(object me, string path)
-{
-    if (me->query_role() == "god")
-        return 1;
-
-    return me->has_write_access(path);
+void cmd_grant_setup() {
+	write("Add grant command\n");
+	add_action("do_grant", "grant");
 }
 
-int main(object me, string arg)
-{
+int do_grant(string arg) {
     string user_name;
     string path;
 
     object user;
+	object me = this_player();
 
     if (!arg || sscanf(arg, "%s %s", user_name, path) != 2) {
         write("grant <user> <path>\n");
@@ -32,9 +29,18 @@ int main(object me, string arg)
 
     user->add_write_path(path);
 
-    user->save_user();
+    user->save();
 
     write("授權完成。\n");
 
     return 1;
 }
+
+int valid_grant(object me, string path)
+{
+    if (me->query_role() == "god")
+        return 1;
+
+    return me->has_write_access(path);
+}
+

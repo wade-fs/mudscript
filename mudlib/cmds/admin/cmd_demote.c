@@ -1,6 +1,11 @@
-int main(object me, string arg)
-{
+void cmd_demote_setup() {                                              
+	write("Add demote command\n");
+    add_action("do_demote", "demote");                                   
+}                                                                    
+                                                                     
+int do_demote(string arg) {
     object user;
+    object me = this_player();
 
     if (me->query_role() != "god") {
         write("只有 god 可以降級。\n");
@@ -28,7 +33,7 @@ int main(object me, string arg)
 
     user->remove_write_path("/");
 
-    user->save_user();
+    user->save();
 
     write("已降級為 user。\n");
 

@@ -41,6 +41,15 @@ string get_bb_uid() {
     return "Backbone";
 }
 
+int is_creator(string id) {
+    // 透過 get_dir 掃描是否已經有存檔
+    mixed *files = get_dir("/data/user/*.o");
+    if (sizeof(files) == 0) {
+        return 1; // 第一個登入者自動獲得 God 權限
+    }
+    return 0;
+}
+
 // ==========================================
 // 3. 錯誤處理攔截 (Error Handling)
 // ==========================================

@@ -51,7 +51,7 @@ void check_pass(string pass) {
 
         if (exec(user, this_object())) {
             write("\n登入成功！歡迎回來，" + user->query_name() + "。\n");
-            user->setup_player();
+            user->setup();
             destruct(this_object());
         } else {
             write("系統錯誤：無法轉移連線。\n");
@@ -89,19 +89,21 @@ void get_nickname(string nick) {
     user->set_password(current_pass);
     user->set_nickname(nick); // 呼叫 user.c 的新函式寫入暱稱
     
+	string *files;
+	files = get_dir("/data/user/*.o");
+    if (!sizeof(files)) {
+        user->set_role("god");
+        user->add_write_path("/");        // god 擁有全部權限
+        write("【創世神】您是本服第一位玩家，已自動獲得 god 權限！\n");
+    } else {
+        user->set_role("user");
+		user->add_write_path(user->query_save_file());
+    }
+
     if (exec(user, this_object())) {
         write("\n角色創建成功！歡迎來到這個世界，" + nick + "！\n");
-		string *files;
-		files = get_dir("/data/user/*.o");
-		if (!sizeof(files)) {
-		    user->set_role("god");
-		    user->add_write_path("/");
-		} else {
-		    user->set_role("user");
-		    user->add_write_path(user->query_save_file());
-		}
         user->save();
-        user->setup_player();
+        user->setup();
         destruct(this_object());
     } else {
         write("系統錯誤：無法轉移連線。\n");

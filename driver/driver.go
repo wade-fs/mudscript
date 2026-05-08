@@ -523,7 +523,6 @@ func (d *Driver) processHeartBeats() {
 		if obj.IsDestructed {
 			continue
 		}
-		fmt.Printf("💓 執行 heart_beat -> %s\n", obj.Filename)
 
 		if conn := d.GetConnectionFromObject(obj); conn != nil {
 			gid := getGID()

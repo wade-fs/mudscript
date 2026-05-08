@@ -27,3 +27,4 @@ _testmain.go
 mudscript
 bin
 *.zip
+mudlib/data/user
