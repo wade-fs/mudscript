@@ -3,6 +3,7 @@ package parser
 import (
 	"fmt"
 	"strconv"
+	"strings" // [新增] 用來處理字串切分
 
 	"mudscript/ast"
 	"mudscript/lexer"
@@ -128,7 +129,6 @@ func New(l lexer.Lexer) *Parser {
  		token.OR:  p.parseInfixExpression,
 	}
 
-	// Read two tokens, so curToken and peekToken are both set
 	p.nextToken()
 	p.nextToken()
 
@@ -140,14 +140,33 @@ func (p *Parser) nextToken() {
 	p.peekToken = p.l.NextToken()
 }
 
-// Errors returns error messages.
 func (p *Parser) Errors() []string {
 	return p.errors
 }
 
+// ==========================================
+// [新增] 強大的錯誤產生器
+// ==========================================
+func (p *Parser) addError(tok token.Token, format string, args ...interface{}) {
+	baseMsg := fmt.Sprintf(format, args...)
+	
+	// 從 lexer 取得完整的原始程式碼，切分成行
+	lines := strings.Split(p.l.GetInput(), "\n")
+	lineContent := ""
+	if tok.Line > 0 && tok.Line <= len(lines) {
+		lineContent = lines[tok.Line-1] // 陣列索引是從 0 開始
+	}
+
+	// 去除多餘空白，讓終端機顯示更好看
+	lineContent = strings.TrimSpace(lineContent)
+
+	// 組裝帶有行號與程式碼內容的錯誤訊息
+	finalMsg := fmt.Sprintf("[Line %d] %s\n    > %s", tok.Line, baseMsg, lineContent)
+	p.errors = append(p.errors, finalMsg)
+}
+
 func (p *Parser) peekError(typ token.TokenType) {
-	msg := fmt.Sprintf("expected next token to be %s, got %s instead", typ, p.peekToken.TokenType)
-	p.errors = append(p.errors, msg)
+	p.addError(p.peekToken, "預期下一個符號為 '%s'，但得到了 '%s' (%s)", typ, p.peekToken.TokenType, p.peekToken.Literal)
 }
 
 func (p *Parser) curTokenIs(typ token.TokenType) bool {
@@ -168,7 +187,6 @@ func (p *Parser) expectPeek(typ token.TokenType) bool {
 	return false
 }
 
-// ParseProgram parses a program and returns a new Program AST node.
 func (p *Parser) ParseProgram() *ast.Program {
 	program := &ast.Program{
 		Statements: []ast.Statement{},
@@ -246,8 +264,7 @@ func (p *Parser) parseExpressionStatement() *ast.ExpressionStatement {
 func (p *Parser) parseExpression(precedence int) ast.Expression {
 	prefix := p.prefixParseFns[p.curToken.TokenType]
 	if prefix == nil {
-		msg := fmt.Sprintf("no prefix parse function for %s found", p.curToken.TokenType)
-		p.errors = append(p.errors, msg)
+		p.addError(p.curToken, "無法解析開頭為 '%s' 的語法 (找不到對應的前綴處理器)", p.curToken.TokenType)
 		return nil
 	}
 
@@ -279,8 +296,7 @@ func (p *Parser) parseIntegerLiteral() ast.Expression {
 
 	val, err := strconv.ParseInt(p.curToken.Literal, 0, 64)
 	if err != nil {
-		msg := fmt.Sprintf("could not parse %q as integer", p.curToken.Literal)
-		p.errors = append(p.errors, msg)
+		p.addError(p.curToken, "無法將 '%s' 解析為整數", p.curToken.Literal)
 		return nil
 	}
 
@@ -291,8 +307,7 @@ func (p *Parser) parseIntegerLiteral() ast.Expression {
 func (p *Parser) parseFloatLiteral() ast.Expression {
 	val, err := strconv.ParseFloat(p.curToken.Literal, 64)
 	if err != nil {
-		msg := fmt.Sprintf("could not parse %q as float", p.curToken.Literal)
-		p.errors = append(p.errors, msg)
+		p.addError(p.curToken, "無法將 '%s' 解析為浮點數", p.curToken.Literal)
 		return nil
 	}
 
@@ -382,20 +397,15 @@ func (p *Parser) parseIfExpression() ast.Expression {
 
 	expression.Consequence = p.parseBlockStatement()
 
-	// === [修改開始] 處理 else 與 else if ===
 	if p.peekTokenIs(token.ELSE) {
-		p.nextToken() // 移動到 'else'
+		p.nextToken() 
 
 		if p.peekTokenIs(token.IF) {
-			// 1. 發現是 else if！
-			p.nextToken() // 移動到 'if'
-
-			// 2. 遞迴解析這個新的 if 結構
+			p.nextToken() 
 			elseIfNode := p.parseIfExpression()
 
-			// 3. 語法糖魔法：建構一個隱形的 BlockStatement 把 else if 包起來
 			expression.Alternative = &ast.BlockStatement{
-				Token: p.curToken, // 借用當前的 token
+				Token: p.curToken,
 				Statements: []ast.Statement{
 					&ast.ExpressionStatement{
 						Token:      p.curToken,
@@ -404,14 +414,12 @@ func (p *Parser) parseIfExpression() ast.Expression {
 				},
 			}
 		} else {
-			// 4. 一般的 else { ... }
 			if !p.expectPeek(token.LBRACE) {
 				return nil
 			}
 			expression.Alternative = p.parseBlockStatement()
 		}
 	}
-	// === [修改結束] ===
 
 	return expression
 }
@@ -499,7 +507,7 @@ func (p *Parser) parseExpressionList(end token.TokenType) []ast.Expression {
 	list = append(list, p.parseExpression(LOWEST))
 
 	for p.peekTokenIs(token.COMMA) {
-		p.nextToken() // comma
+		p.nextToken() 
 		p.nextToken()
 		list = append(list, p.parseExpression(LOWEST))
 	}
@@ -601,7 +609,6 @@ func (p *Parser) parseMacroLiteral() ast.Expression {
 	}
 }
 
-// 判斷是否為 LPC 的型別 Token
 func (p *Parser) isTypeToken(t token.TokenType) bool {
 	switch t {
 	case token.INT_TYPE, token.STRING_TYPE, token.OBJECT_TYPE, 
@@ -613,7 +620,6 @@ func (p *Parser) isTypeToken(t token.TokenType) bool {
 }
 
 func (p *Parser) parseStatement() ast.Statement {
-	// Skip modifiers (private, static, etc.)
 	for p.curTokenIs(token.PRIVATE) || p.curTokenIs(token.STATIC) ||
 		p.curTokenIs(token.PROTECTED) || p.curTokenIs(token.VARARGS) ||
 		p.curTokenIs(token.NOSAVE) || p.curTokenIs(token.NOMASK) {
@@ -649,15 +655,13 @@ func (p *Parser) parseStatement() ast.Statement {
 	return p.parseExpressionStatement()
 }
 
-// 處理型別宣告（例如 int x = 1; 或 int func() {}）
 func (p *Parser) parseTypedDeclarationStatement() ast.Statement {
-	typeToken := p.curToken // 記住型別 (e.g., INT_TYPE)
+	typeToken := p.curToken 
 
-	if !p.expectPeek(token.IDENT) { // 下一個必須是變數或函式名稱
+	if !p.expectPeek(token.IDENT) { 
 		return nil
 	}
 
-	// 這裡改用 &ast.Ident
 	name := &ast.Ident{Token: p.curToken, Value: p.curToken.Literal}
 
 	if p.peekTokenIs(token.LPAREN) {
@@ -674,12 +678,11 @@ func (p *Parser) parseTypedVariableDeclaration(typeToken token.Token, name *ast.
 	}
 
 	if p.peekTokenIs(token.ASSIGN) {
-		p.nextToken() // =
-		p.nextToken() // value
+		p.nextToken() 
+		p.nextToken() 
 		stmt.Value = p.parseExpression(LOWEST)
 	}
 
-	// Eat one or more semicolons
 	for p.peekTokenIs(token.SEMICOLON) {
 		p.nextToken()
 	}
@@ -687,7 +690,6 @@ func (p *Parser) parseTypedVariableDeclaration(typeToken token.Token, name *ast.
 	return stmt
 }
 
-// 注意參數 name 的型別改為 *ast.Ident
 func (p *Parser) parseFunctionDefinition(typeToken token.Token, name *ast.Ident) ast.Statement {
 	stmt := &ast.FunctionDef{
 		Token: typeToken,
@@ -709,7 +711,6 @@ func (p *Parser) parseFunctionDefinition(typeToken token.Token, name *ast.Ident)
 	return stmt
 }
 
-// 輔助函式：解析帶型別的參數
 func (p *Parser) parseTypedParameters() []*ast.TypedParam {
 	var params []*ast.TypedParam
 
@@ -730,7 +731,6 @@ func (p *Parser) parseTypedParameters() []*ast.TypedParam {
 			return nil
 		}
 		
-		// 這裡改用 &ast.Ident
 		paramName := &ast.Ident{Token: p.curToken, Value: p.curToken.Literal}
 
 		params = append(params, &ast.TypedParam{
@@ -756,14 +756,12 @@ func (p *Parser) parseTypedParameters() []*ast.TypedParam {
 func (p *Parser) parseInheritStatement() ast.Statement {
 	stmt := &ast.InheritStatement{Token: p.curToken}
 
-	// 預期下一個 Token 必須是字串 (STRING)
 	if !p.expectPeek(token.STRING) {
 		return nil
 	}
 
 	stmt.Path = p.curToken.Literal
 
-	// 處理結尾的分號
 	if p.peekTokenIs(token.SEMICOLON) {
 		p.nextToken()
 	}
@@ -771,23 +769,19 @@ func (p *Parser) parseInheritStatement() ast.Statement {
 	return stmt
 }
 
-// 解析 x = 5, x += 2
 func (p *Parser) parseAssignExpression(left ast.Expression) ast.Expression {
 	expr := &ast.AssignExpression{
 		Token:    p.curToken,
 		Operator: p.curToken.Literal,
 		Left:     left,
 	}
-	// 賦值是右結合的 (Right-associative)，所以我們用 prec - 1
 	prec := p.curPrecedence()
 	p.nextToken()
 	expr.Value = p.parseExpression(prec - 1) 
 	return expr
 }
 
-// 解析 x++, x--
 func (p *Parser) parsePostfixExpression(left ast.Expression) ast.Expression {
-	// Postfix 不需要向右繼續解析
 	return &ast.PostfixExpression{
 		Token:    p.curToken,
 		Operator: p.curToken.Literal,
@@ -795,7 +789,6 @@ func (p *Parser) parsePostfixExpression(left ast.Expression) ast.Expression {
 	}
 }
 
-// --- 實作 Break / Continue ---
 func (p *Parser) parseBreakStatement() ast.Statement {
 	stmt := &ast.BreakStatement{Token: p.curToken}
 	if p.peekTokenIs(token.SEMICOLON) { p.nextToken() }
@@ -807,7 +800,6 @@ func (p *Parser) parseContinueStatement() ast.Statement {
 	return stmt
 }
 
-// --- 實作 While ---
 func (p *Parser) parseWhileStatement() ast.Statement {
 	stmt := &ast.WhileStatement{Token: p.curToken}
 	if !p.expectPeek(token.LPAREN) { return nil }
@@ -819,44 +811,64 @@ func (p *Parser) parseWhileStatement() ast.Statement {
 	return stmt
 }
 
+// --- 實作 For ---
 func (p *Parser) parseForStatement() ast.Statement {
 	stmt := &ast.ForStatement{Token: p.curToken}
 	if !p.expectPeek(token.LPAREN) {
 		return nil
 	}
+	p.nextToken() // 從 '(' 移到下一個 token (Init 的開頭)
 
-	// Init (assignment, declaration, or empty)
-	if !p.peekTokenIs(token.SEMICOLON) {
-		p.nextToken()
+	// 1. 解析 Init (可能是 int i = 0; 或是空 ;)
+	if !p.curTokenIs(token.SEMICOLON) {
 		stmt.Init = p.parseStatement()
+	}
+	
+	// 處理分號：由於 parseStatement 有時會吃掉結尾的分號，我們必須彈性判斷
+	if p.curTokenIs(token.SEMICOLON) {
+		p.nextToken() // 吃掉分號，移動到 Condition 的開頭
+	} else if p.peekTokenIs(token.SEMICOLON) {
+		p.nextToken()
+		p.nextToken()
 	} else {
-		p.nextToken() // empty init ; 
-	}
-
-	if !p.expectPeek(token.SEMICOLON) {
+		p.addError(p.curToken, "for 迴圈初始化區塊缺少分號 ';'")
 		return nil
 	}
 
-	// Condition
-	if !p.peekTokenIs(token.SEMICOLON) {
-		p.nextToken()
+	// 2. 解析 Condition
+	if !p.curTokenIs(token.SEMICOLON) {
 		stmt.Condition = p.parseExpression(LOWEST)
+		p.nextToken() // 表達式解析完後，手動往下推一格
 	}
-
-	if !p.expectPeek(token.SEMICOLON) {
-		return nil
-	}
-
-	// Post (e.g. i++)
-	if !p.peekTokenIs(token.RPAREN) {
+	
+	// 處理分號
+	if p.curTokenIs(token.SEMICOLON) {
+		p.nextToken() // 吃掉分號，移動到 Post 的開頭
+	} else if p.peekTokenIs(token.SEMICOLON) {
 		p.nextToken()
-		stmt.Post = p.parseExpression(LOWEST)
-	}
-
-	if !p.expectPeek(token.RPAREN) {
+		p.nextToken()
+	} else {
+		p.addError(p.curToken, "for 迴圈條件區塊缺少分號 ';'")
 		return nil
 	}
 
+	// 3. 解析 Post (例如 i++)
+	if !p.curTokenIs(token.RPAREN) {
+		stmt.Post = p.parseExpression(LOWEST)
+		p.nextToken() // 手動往下推一格
+	}
+	
+	// 確保收尾是 ')'
+	if !p.curTokenIs(token.RPAREN) {
+		if p.peekTokenIs(token.RPAREN) {
+			p.nextToken()
+		} else {
+			p.addError(p.curToken, "for 迴圈缺少結尾的 ')'")
+			return nil
+		}
+	}
+
+	// 4. 解析 Body
 	if !p.expectPeek(token.LBRACE) {
 		return nil
 	}
@@ -865,7 +877,6 @@ func (p *Parser) parseForStatement() ast.Statement {
 	return stmt
 }
 
-// --- 實作 Do-While ---
 func (p *Parser) parseDoWhileStatement() ast.Statement {
 	stmt := &ast.DoWhileStatement{Token: p.curToken}
 	if !p.expectPeek(token.LBRACE) { return nil }
@@ -879,7 +890,6 @@ func (p *Parser) parseDoWhileStatement() ast.Statement {
 	return stmt
 }
 
-// --- 實作 Switch ---
 func (p *Parser) parseSwitchStatement() ast.Statement {
 	stmt := &ast.SwitchStatement{Token: p.curToken}
 	if !p.expectPeek(token.LPAREN) { return nil }
@@ -899,7 +909,6 @@ func (p *Parser) parseSwitchStatement() ast.Statement {
 			if !p.expectPeek(token.COLON) { return nil }
 			p.nextToken()
 			
-			// 讀取 Case 裡的 statements，直到遇到下一個 case/default 或 }
 			for !p.curTokenIs(token.CASE) && !p.curTokenIs(token.DEFAULT) && !p.curTokenIs(token.RBRACE) && !p.curTokenIs(token.EOF) {
 				s := p.parseStatement()
 				if s != nil { caseStmt.Body = append(caseStmt.Body, s) }
@@ -907,7 +916,7 @@ func (p *Parser) parseSwitchStatement() ast.Statement {
 			}
 			stmt.Cases = append(stmt.Cases, caseStmt)
 		} else {
-			p.nextToken() // 錯誤恢復：如果不是 case/default 則跳過
+			p.nextToken() 
 		}
 	}
 	return stmt
@@ -919,8 +928,7 @@ func (p *Parser) parseMappingLiteral() ast.Expression {
 		Pairs: make(map[ast.Expression]ast.Expression),
 	}
 
-	// 只要還沒遇到結尾的 ']'，就繼續解析鍵值對
-	for !p.peekTokenIs(token.RBRACKET) { // <-- 這裡改成普通的 RBRACKET
+	for !p.peekTokenIs(token.RBRACKET) { 
 		p.nextToken()
 		
 		key := p.parseExpression(LOWEST)
@@ -933,40 +941,36 @@ func (p *Parser) parseMappingLiteral() ast.Expression {
 		value := p.parseExpression(LOWEST)
 		mapping.Pairs[key] = value
 
-		if !p.peekTokenIs(token.RBRACKET) && !p.expectPeek(token.COMMA) { // <-- 這裡也改成 RBRACKET
+		if !p.peekTokenIs(token.RBRACKET) && !p.expectPeek(token.COMMA) { 
 			return nil
 		}
 	}
 
-	// 確保陣列部分完美收尾在 ']' 上
-	if !p.expectPeek(token.RBRACKET) { // <-- 這裡改成 RBRACKET
+	if !p.expectPeek(token.RBRACKET) { 
 		return nil
 	}
 
-	// 因為 mapping 是 ([ 開頭，所以遇到 ] 後，還必須吃掉一個 ')'
-	if !p.expectPeek(token.RPAREN) { // <-- 新增這行來吃掉右括號
+	if !p.expectPeek(token.RPAREN) { 
 		return nil
 	}
 
 	return mapping
 }
 
-// 處理 ::func()
 func (p *Parser) parsePrefixScope() ast.Expression {
 	if !p.expectPeek(token.IDENT) {
 		return nil
 	}
 	return &ast.Ident{
-		Token: p.curToken, // IDENT token
+		Token: p.curToken, 
 		Value: "::" + p.curToken.Literal,
 	}
 }
 
-// 處理 parent::func()
 func (p *Parser) parseInfixScope(left ast.Expression) ast.Expression {
 	leftIdent, ok := left.(*ast.Ident)
 	if !ok {
-		p.errors = append(p.errors, "expected identifier before ::")
+		p.addError(p.curToken, "在 '::' 前面必須是變數或類別名稱")
 		return nil
 	}
 
@@ -986,7 +990,6 @@ func (p *Parser) parseCallOtherExpression(left ast.Expression) ast.Expression {
 		Object: left,
 	}
 
-	// 預期 -> 後面必須緊接著一個識別字 (函式名稱)
 	if !p.expectPeek(token.IDENT) {
 		return nil
 	}
@@ -996,12 +999,10 @@ func (p *Parser) parseCallOtherExpression(left ast.Expression) ast.Expression {
 		Value: p.curToken.Literal,
 	}
 
-	// 預期函式名稱後面必須接著 '('
 	if !p.expectPeek(token.LPAREN) {
 		return nil
 	}
 
-	// 沿用原本解析參數列表的輔助函式
 	expr.Arguments = p.parseExpressionList(token.RPAREN)
 
 	return expr
@@ -1019,28 +1020,24 @@ func (p *Parser) parseForEachStatement() ast.Statement {
 	if !p.expectPeek(token.LPAREN) { return nil }
 	p.nextToken()
 
-	// 讀取第一個變數 (可能只是 item，也可能是 mapping 的 key)
 	firstIdent := &ast.Ident{Token: p.curToken, Value: p.curToken.Literal}
 	
-	p.nextToken() // 偷看下一個符號
+	p.nextToken() 
 
 	if p.curToken.TokenType == token.COMMA {
-		// 如果有逗號，代表是 foreach(key, value in mapping)
 		stmt.Key = firstIdent
-		p.nextToken() // 跳過逗號
+		p.nextToken() 
 		stmt.Value = &ast.Ident{Token: p.curToken, Value: p.curToken.Literal}
 		p.nextToken()
 	} else {
-		// 只有一個變數，代表是 foreach(item in array)
 		stmt.Value = firstIdent
 	}
 
-	// 預期接下來是 'in' 關鍵字
 	if p.curToken.TokenType != token.IN {
-		p.errors = append(p.errors, "foreach 語法缺少 'in' 關鍵字")
+		p.addError(p.curToken, "foreach 語法缺少 'in' 關鍵字")
 		return nil
 	}
-	p.nextToken() // 跳過 'in'
+	p.nextToken() 
 
 	stmt.Collection = p.parseExpression(LOWEST)
 
@@ -1052,7 +1049,6 @@ func (p *Parser) parseForEachStatement() ast.Statement {
 	return stmt
 }
 
-// 支援 LPC 陣列語法 ({ 1, 2, 3 })
 func (p *Parser) parseLPCArrayLiteral() ast.Expression {
 	return &ast.ArrayLiteral{
 		Token:    p.curToken,

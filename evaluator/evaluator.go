@@ -489,11 +489,9 @@ func isTruthy(obj object.Object) bool {
 	if obj == NilValue || obj == FalseValue {
 		return false
 	}
-	// ▼ LPC 特性：整數 0 也視為 false
 	if i, ok := obj.(*object.Integer); ok && i.Value == 0 {
 		return false
 	}
-	// 在 LPC 中，字串 (即使是 "") 或其他物件皆視為 true
 	return true
 }
 

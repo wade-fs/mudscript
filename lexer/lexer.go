@@ -4,28 +4,34 @@ import "mudscript/token"
 
 // Lexer represents a lexer for Monkey programming language.
 type Lexer interface {
-	// NextToken returns a next token.
 	NextToken() token.Token
+	GetInput() string // [新增] 讓 Parser 能取得原始碼以產生漂亮的錯誤訊息
 }
 
 type lexer struct {
 	input string
-	// current position in input (points to current char)
 	position int
-	// current reading position in input (after current char)
 	readPosition int
-	// current char under examination
 	ch byte
+	line int // [新增] 紀錄目前行號
 }
 
 // New returns a new Lexer.
 func New(input string) Lexer {
-	l := &lexer{input: input}
+	l := &lexer{input: input, line: 1} // 從第 1 行開始
 	l.readChar()
 	return l
 }
 
+func (l *lexer) GetInput() string {
+	return l.input
+}
+
 func (l *lexer) readChar() {
+	if l.ch == '\n' {
+		l.line++ // 遇到換行，行號 +1
+	}
+
 	if l.readPosition >= len(l.input) {
 		l.ch = 0
 	} else {
@@ -35,188 +41,192 @@ func (l *lexer) readChar() {
 	l.readPosition++
 }
 
+// [修改] 讓 newToken 變成物件方法，這樣可以抓到 l.line
+func (l *lexer) newToken(tokenType token.TokenType, ch byte) token.Token {
+	return token.Token{
+		TokenType: tokenType,
+		Literal:   string(ch),
+		Line:      l.line,
+	}
+}
+
 func (l *lexer) NextToken() token.Token {
 	var tok token.Token
 
 	l.skipWhitespaceAndComments()
 
+	currentLine := l.line // 記錄此 Token 發生的行號
+
 	switch l.ch {
 	case '(':
-		if l.peekChar() == '[' { // 原有的: 處理 ([
+		if l.peekChar() == '[' { 
 			ch := l.ch
 			l.readChar()
-			literal := string(ch) + string(l.ch)
-			tok = token.Token{TokenType: token.LBRACKET_MAP, Literal: literal}
-		} else if l.peekChar() == ':' { // 原有的: 處理 (: 
+			tok = token.Token{TokenType: token.LBRACKET_MAP, Literal: string(ch) + string(l.ch), Line: currentLine}
+		} else if l.peekChar() == ':' { 
 			ch := l.ch
 			l.readChar()
-			literal := string(ch) + string(l.ch)
-			tok = token.Token{TokenType: token.LPAREN_COLON, Literal: literal}
-		} else if l.peekChar() == '{' { // ▼ [新增]: 處理 ({
+			tok = token.Token{TokenType: token.LPAREN_COLON, Literal: string(ch) + string(l.ch), Line: currentLine}
+		} else if l.peekChar() == '{' { 
 			ch := l.ch
 			l.readChar()
-			literal := string(ch) + string(l.ch)
-			tok = token.Token{TokenType: token.LARRAY, Literal: literal}
+			tok = token.Token{TokenType: token.LARRAY, Literal: string(ch) + string(l.ch), Line: currentLine}
 		} else {
-			tok = newToken(token.LPAREN, l.ch)
+			tok = l.newToken(token.LPAREN, l.ch)
 		}
 	case ':':
-		if l.peekChar() == ':' { // 原有的: 處理 ::
+		if l.peekChar() == ':' { 
 			ch := l.ch
 			l.readChar()
-			literal := string(ch) + string(l.ch)
-			tok = token.Token{TokenType: token.SCOPE, Literal: literal}
-		} else if l.peekChar() == ')' { // [新增]: 處理 :)
+			tok = token.Token{TokenType: token.SCOPE, Literal: string(ch) + string(l.ch), Line: currentLine}
+		} else if l.peekChar() == ')' { 
 			ch := l.ch
 			l.readChar()
-			literal := string(ch) + string(l.ch)
-			tok = token.Token{TokenType: token.COLON_RPAREN, Literal: literal}
+			tok = token.Token{TokenType: token.COLON_RPAREN, Literal: string(ch) + string(l.ch), Line: currentLine}
 		} else {
-			tok = newToken(token.COLON, l.ch)
+			tok = l.newToken(token.COLON, l.ch)
 		}
 	case ')':
-		tok = newToken(token.RPAREN, l.ch)
+		tok = l.newToken(token.RPAREN, l.ch)
 	case ']':
-		tok = newToken(token.RBRACKET, l.ch)
+		tok = l.newToken(token.RBRACKET, l.ch)
 	case '[':
-		tok = newToken(token.LBRACKET, l.ch)
+		tok = l.newToken(token.LBRACKET, l.ch)
 	case '&':
 		if l.peekChar() == '&' {
 			ch := l.ch
 			l.readChar()
-			tok = token.Token{TokenType: token.AND, Literal: string(ch) + string(l.ch)}
+			tok = token.Token{TokenType: token.AND, Literal: string(ch) + string(l.ch), Line: currentLine}
 		} else {
-			tok = newToken(token.ILLEGAL, l.ch) // MUD 暫不支援單一的 & (位元運算可後續加)
+			tok = l.newToken(token.ILLEGAL, l.ch) 
 		}
 	case '|':
 		if l.peekChar() == '|' {
 			ch := l.ch
 			l.readChar()
-			tok = token.Token{TokenType: token.OR, Literal: string(ch) + string(l.ch)}
+			tok = token.Token{TokenType: token.OR, Literal: string(ch) + string(l.ch), Line: currentLine}
 		} else {
-			tok = newToken(token.ILLEGAL, l.ch) 
+			tok = l.newToken(token.ILLEGAL, l.ch) 
 		}
 	case '=':
 		if l.peekChar() == '=' {
 			ch := l.ch
 			l.readChar()
-			tok = token.Token{
-				TokenType:    token.EQ,
-				Literal: string(ch) + string(l.ch),
-			}
+			tok = token.Token{TokenType: token.EQ, Literal: string(ch) + string(l.ch), Line: currentLine}
 		} else {
-			tok = newToken(token.ASSIGN, l.ch)
+			tok = l.newToken(token.ASSIGN, l.ch)
 		}
 	case '!':
 		if l.peekChar() == '=' {
 			ch := l.ch
 			l.readChar()
-			tok = token.Token{
-				TokenType:    token.NEQ,
-				Literal: string(ch) + string(l.ch),
-			}
+			tok = token.Token{TokenType: token.NEQ, Literal: string(ch) + string(l.ch), Line: currentLine}
 		} else {
-			tok = newToken(token.BANG, l.ch)
+			tok = l.newToken(token.BANG, l.ch)
 		}
 	case ';':
-		tok = newToken(token.SEMICOLON, l.ch)
+		tok = l.newToken(token.SEMICOLON, l.ch)
 	case ',':
-		tok = newToken(token.COMMA, l.ch)
+		tok = l.newToken(token.COMMA, l.ch)
 	case '+':
 		if l.peekChar() == '+' {
 			ch := l.ch
 			l.readChar()
-			tok = token.Token{TokenType: token.INC, Literal: string(ch) + string(l.ch)}
+			tok = token.Token{TokenType: token.INC, Literal: string(ch) + string(l.ch), Line: currentLine}
 		} else if l.peekChar() == '=' {
 			ch := l.ch
 			l.readChar()
-			tok = token.Token{TokenType: token.PLUS_EQUALS, Literal: string(ch) + string(l.ch)}
+			tok = token.Token{TokenType: token.PLUS_EQUALS, Literal: string(ch) + string(l.ch), Line: currentLine}
 		} else {
-			tok = newToken(token.PLUS, l.ch)
+			tok = l.newToken(token.PLUS, l.ch)
 		}
 	case '-':
 		if l.peekChar() == '>' {
 			ch := l.ch
 			l.readChar()
-			tok = token.Token{TokenType: token.ARROW, Literal: string(ch) + string(l.ch)}
+			tok = token.Token{TokenType: token.ARROW, Literal: string(ch) + string(l.ch), Line: currentLine}
 		} else if l.peekChar() == '-' {
 			ch := l.ch
 			l.readChar()
-			tok = token.Token{TokenType: token.DEC, Literal: string(ch) + string(l.ch)}
+			tok = token.Token{TokenType: token.DEC, Literal: string(ch) + string(l.ch), Line: currentLine}
 		} else if l.peekChar() == '=' {
 			ch := l.ch
 			l.readChar()
-			tok = token.Token{TokenType: token.MINUS_EQUALS, Literal: string(ch) + string(l.ch)}
+			tok = token.Token{TokenType: token.MINUS_EQUALS, Literal: string(ch) + string(l.ch), Line: currentLine}
 		} else {
-			tok = newToken(token.MINUS, l.ch)
+			tok = l.newToken(token.MINUS, l.ch)
 		}
 	case '*':
 		if l.peekChar() == '=' {
 			ch := l.ch
 			l.readChar()
-			tok = token.Token{TokenType: token.ASTERISK_EQUALS, Literal: string(ch) + string(l.ch)}
+			tok = token.Token{TokenType: token.ASTERISK_EQUALS, Literal: string(ch) + string(l.ch), Line: currentLine}
 		} else {
-			tok = newToken(token.ASTARISK, l.ch)
+			tok = l.newToken(token.ASTARISK, l.ch)
 		}
 	case '/':
-		// 註解已經在最上面過濾掉了，這裡處理 /= 和 /
 		if l.peekChar() == '=' {
 			ch := l.ch
 			l.readChar()
-			tok = token.Token{TokenType: token.SLASH_EQUALS, Literal: string(ch) + string(l.ch)}
+			tok = token.Token{TokenType: token.SLASH_EQUALS, Literal: string(ch) + string(l.ch), Line: currentLine}
 		} else {
-			tok = newToken(token.SLASH, l.ch)
+			tok = l.newToken(token.SLASH, l.ch)
 		}
 	case '%':
-		tok = newToken(token.MOD, l.ch)
+		tok = l.newToken(token.MOD, l.ch)
 	case '<':
 		if l.peekChar() == '=' {
 			ch := l.ch
 			l.readChar()
-			tok = token.Token{TokenType: token.LTE, Literal: string(ch) + string(l.ch)}
+			tok = token.Token{TokenType: token.LTE, Literal: string(ch) + string(l.ch), Line: currentLine}
 		} else {
-			tok = newToken(token.LT, l.ch)
+			tok = l.newToken(token.LT, l.ch)
 		}
 	case '>':
 		if l.peekChar() == '=' {
 			ch := l.ch
 			l.readChar()
-			tok = token.Token{TokenType: token.GTE, Literal: string(ch) + string(l.ch)}
+			tok = token.Token{TokenType: token.GTE, Literal: string(ch) + string(l.ch), Line: currentLine}
 		} else {
-			tok = newToken(token.GT, l.ch)
+			tok = l.newToken(token.GT, l.ch)
 		}
 	case '{':
-		tok = newToken(token.LBRACE, l.ch)
+		tok = l.newToken(token.LBRACE, l.ch)
 	case '}':
 		if l.peekChar() == ')' {
 			ch := l.ch
 			l.readChar()
-			literal := string(ch) + string(l.ch)
-			tok = token.Token{TokenType: token.RARRAY, Literal: literal}
+			tok = token.Token{TokenType: token.RARRAY, Literal: string(ch) + string(l.ch), Line: currentLine}
 		} else {
-			tok = newToken(token.RBRACE, l.ch)
+			tok = l.newToken(token.RBRACE, l.ch)
 		}
 	case '"':
 		tok.TokenType = token.STRING
 		tok.Literal = l.readString()
+		tok.Line = currentLine
 	case '\'':
 		tok.TokenType = token.CHAR
 		tok.Literal = l.readCharLiteral()
+		tok.Line = currentLine
 	case 0:
 		tok.Literal = ""
 		tok.TokenType = token.EOF
+		tok.Line = currentLine
 	default:
 		if isDigit(l.ch) {
-			return l.readNumberToken()
+			tok = l.readNumberToken()
+			tok.Line = currentLine
+			return tok
 		}
 
 		if isLetter(l.ch) {
 			tok.Literal = l.readIdent()
 			tok.TokenType = token.LookupIdent(tok.Literal)
+			tok.Line = currentLine
 			return tok
 		}
 
-		tok = newToken(token.ILLEGAL, l.ch)
+		tok = l.newToken(token.ILLEGAL, l.ch)
 	}
 
 	l.readChar()
@@ -224,12 +234,12 @@ func (l *lexer) NextToken() token.Token {
 }
 
 func (l *lexer) skipMultiLineComment() {
-	l.readChar() // 吃掉 '/'
-	l.readChar() // 吃掉 '*'
+	l.readChar() 
+	l.readChar() 
 	for l.ch != 0 {
 		if l.ch == '*' && l.peekChar() == '/' {
-			l.readChar() // 吃掉 '*'
-			l.readChar() // 吃掉 '/'
+			l.readChar() 
+			l.readChar() 
 			return
 		}
 		l.readChar()
@@ -237,11 +247,10 @@ func (l *lexer) skipMultiLineComment() {
 }
 
 func (l *lexer) skipSingleLineComment() {
-    // 一直讀取字元，直到遇到換行符號 '\n' 或是字串結尾的 0
     for l.ch != '\n' && l.ch != 0 {
         l.readChar()
     }
-    l.skipWhitespace() // 註解結束後，繼續跳過後面的空白
+    l.skipWhitespace() 
 }
 
 func (l *lexer) skipWhitespace() {
@@ -265,22 +274,15 @@ func (l *lexer) readString() string {
 			break
 		}
 
-		// 處理轉義字元 (Escape Sequences)
 		if l.ch == '\\' {
-			l.readChar() // 讀取斜線後面的字元
+			l.readChar()
 			switch l.ch {
-			case 'n':
-				out = append(out, '\n')
-			case 't':
-				out = append(out, '\t')
-			case 'r':
-				out = append(out, '\r')
-			case '"':
-				out = append(out, '"')
-			case '\\':
-				out = append(out, '\\')
+			case 'n': out = append(out, '\n')
+			case 't': out = append(out, '\t')
+			case 'r': out = append(out, '\r')
+			case '"': out = append(out, '"')
+			case '\\': out = append(out, '\\')
 			default:
-				// 如果是不認識的轉義，保留原樣
 				out = append(out, '\\', l.ch)
 			}
 		} else {
@@ -298,6 +300,7 @@ func (l *lexer) read(checkFn func(byte) bool) string {
 	return l.input[position:l.position]
 }
 
+// 支援數字結尾的變數
 func (l *lexer) readIdent() string {
 	position := l.position
 	for isLetter(l.ch) || isDigit(l.ch) {
@@ -309,21 +312,18 @@ func (l *lexer) readIdent() string {
 func (l *lexer) readNumber() string {
 	position := l.position
 
-	// 檢查是否為 16 進位 (0x 或 0X)
 	if l.ch == '0' && (l.peekChar() == 'x' || l.peekChar() == 'X') {
-		l.readChar() // 讀掉 0
-		l.readChar() // 讀掉 x
+		l.readChar() 
+		l.readChar() 
 		for isHexDigit(l.ch) {
 			l.readChar()
 		}
 		return l.input[position:l.position]
 	}
 
-	// 否則照舊處理一般 10 進位或浮點數
 	for isDigit(l.ch) {
 		l.readChar()
 	}
-	// 這裡可以保留你原本處理浮點數 (float) 小數點的邏輯...
 	return l.input[position:l.position]
 }
 
@@ -331,16 +331,16 @@ func (l *lexer) readNumberToken() token.Token {
 	intPart := l.readNumber()
 	if l.ch != '.' {
 		return token.Token{
-			TokenType:    token.INT,
-			Literal: intPart,
+			TokenType: token.INT,
+			Literal:   intPart,
 		}
 	}
 
 	l.readChar()
 	fracPart := l.readNumber()
 	return token.Token{
-		TokenType:    token.FLOAT,
-		Literal: intPart + "." + fracPart,
+		TokenType: token.FLOAT,
+		Literal:   intPart + "." + fracPart,
 	}
 }
 
@@ -352,30 +352,19 @@ func isDigit(ch byte) bool {
 	return '0' <= ch && ch <= '9'
 }
 
-func newToken(tokenType token.TokenType, ch byte) token.Token {
-	return token.Token{
-		TokenType:    tokenType,
-		Literal: string(ch),
-	}
-}
-
-// 讀取單字元 (例如 'c')
 func (l *lexer) readCharLiteral() string {
-	l.readChar() // 讀掉開頭的單引號
+	l.readChar() 
 	char := l.ch
-	l.readChar() // 讀掉字元本身
+	l.readChar() 
 	if l.ch == '\'' {
-		// 注意這裡不呼叫 l.readChar()，因為 NextToken 最後面會統一呼叫
 	}
 	return string(char)
 }
 
-// 判斷是否為十六進位字元
 func isHexDigit(ch byte) bool {
 	return isDigit(ch) || ('a' <= ch && ch <= 'f') || ('A' <= ch && ch <= 'F')
 }
 
-// 為了讓註解處理更強健，我們把略過空白與註解的邏輯包裝起來
 func (l *lexer) skipWhitespaceAndComments() {
 	for {
 		l.skipWhitespace()
