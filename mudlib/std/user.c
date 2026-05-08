@@ -14,12 +14,13 @@ inherit "/cmds/cmd_nickname.c";
 
 // ── 初始化 ───────────────────────────────────────────────
 void create() {
-    set_heart_beat(1);
+	write_paths = ({ });
 }
 
 // ── 登入初始化 ───────────────────────────────────────────
 // server.go 建立連線後呼叫 setup()，把所有指令綁定好
 void setup() {
+    set_heart_beat(1);
     enable_commands();
 
     // 各模組統一由自己的 *_setup() 負責 add_action
@@ -42,9 +43,33 @@ string password;
 void set_password(string p) { password = p; }
 string get_password() { return password; }
 
+string role;
+string query_role() { return role; }
+void set_role(string r) { role = r; }
+
+string *write_paths;
+string *query_write_paths() { return write_paths; }
+int add_write_path(string path) {
+    if (member_array(path, write_paths) != -1) { return 0; }
+    write_paths += ({ path });
+    return 1;
+}
+int remove_write_path(string path) {
+    write_paths -= ({ path });
+    return 1;
+}
+
+int has_write_access(string path) {
+    foreach (p in write_paths) {
+        if (strsrch(path, p) == 0) { return 1; }
+    }
+    return 0;
+}
+
 // ── 基本查詢 ─────────────────────────────────────────────
-string nickname;
-string query_name()  { return nickname; }
+string name;
+string query_name()  { return name; }
+void set_name(string n) { name = n; }
 
 int level;
 int query_level() { return level; }
@@ -151,10 +176,6 @@ string expand_alias(string input) {
     return input;
 }
 
-int save() { 
-    return save_object("/data/user/" + id); 
-}
-
-int restore() { 
-    return restore_object("/data/user/" + id); 
-}
+string query_save_file() { return "/data/user/" + id; }
+int save() { return save_object(query_save_file()); }
+int restore() { return restore_object(query_save_file()); }

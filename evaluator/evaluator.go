@@ -330,6 +330,13 @@ func evalMinusPrefixOperatorExpression(right object.Object) object.Object {
 }
 
 func evalInfixExpression(operator string, left, right object.Object) object.Object {
+	if left == nil {
+		left = &object.Integer{Value: 0}
+	}
+	if right == nil {
+		right = &object.Integer{Value: 0}
+	}
+
 	switch {
 	case left.TokenType() == object.IntegerType && right.TokenType() == object.IntegerType:
 		return evalIntegerInfixExpression(operator, left, right)
@@ -342,6 +349,8 @@ func evalInfixExpression(operator string, left, right object.Object) object.Obje
 
 	case left.TokenType() == object.StringType && right.TokenType() == object.StringType:
 		return evalStringInfixExpression(operator, left, right)
+	case left.TokenType() == object.ArrayType && right.TokenType() == object.ArrayType:
+		return evalArrayInfixExpression(operator, left, right)
 	case operator == "==":
 		return nativeBoolToBooleanObject(left == right)
 	case operator == "!=":
@@ -684,6 +693,9 @@ func evalTypedVarDecl(node *ast.TypedVarDecl, env object.Environment) object.Obj
 
 // 輔助函式：判斷指派的值是否符合宣告的型別
 func checkTypeMatch(lpcType string, obj object.Object) bool {
+	if obj == nil {
+        return true // nil 可以指派給 object / mixed 等
+    }
 	switch lpcType {
 	case "int":
 		return obj.TokenType() == object.IntegerType
@@ -694,19 +706,22 @@ func checkTypeMatch(lpcType string, obj object.Object) bool {
 	case "mixed":
 		return true
 	case "object":
-		return obj.TokenType() == object.LPC_OBJECT_OBJ || 
-			   obj.TokenType() == object.NilType || 
-			   obj.TokenType() == object.IntegerType
+		tt := obj.TokenType()
+        return tt == object.LPC_OBJECT_OBJ || 
+               tt == object.NilType || 
+               tt == object.IntegerType
 	case "mapping":
-		return obj.TokenType() == object.MAPPING_OBJ || 
-			   obj.TokenType() == object.NilType || 
-			   obj.TokenType() == object.IntegerType
+		tt := obj.TokenType()
+        return tt == object.MAPPING_OBJ || 
+               tt == object.NilType || 
+               tt == object.IntegerType
 	case "array":
-		return obj.TokenType() == object.ArrayType || 
-			   obj.TokenType() == object.NilType || 
-			   obj.TokenType() == object.IntegerType
+		tt := obj.TokenType()
+        return tt == object.ArrayType || 
+               tt == object.NilType || 
+               tt == object.IntegerType
 	default:
-		return false
+		return true // TODO: 應該是false
 	}
 }
 
@@ -1186,4 +1201,38 @@ func evalLogicalExpression(node *ast.InfixExpression, env object.Environment) ob
 		return Eval(node.Right, env)
 	}
 	return NilValue
+}
+
+func evalArrayInfixExpression(operator string, left, right object.Object) object.Object {
+	leftVal := left.(*object.Array).Elements
+	rightVal := right.(*object.Array).Elements
+
+	switch operator {
+	case "+":
+		// 陣列相加：將兩個陣列合併成一個新陣列
+		newElements := append([]object.Object{}, leftVal...)
+		newElements = append(newElements, rightVal...)
+		return &object.Array{Elements: newElements}
+		
+	case "-":
+		// 陣列相減：從左邊的陣列中，移除所有出現在右邊陣列裡的元素
+		var newElements []object.Object
+		for _, l := range leftVal {
+			shouldRemove := false
+			for _, r := range rightVal {
+				// 簡單比較，LPC 通常依賴值或外觀字串相同即可移除
+				if l.Inspect() == r.Inspect() {
+					shouldRemove = true
+					break
+				}
+			}
+			if !shouldRemove {
+				newElements = append(newElements, l)
+			}
+		}
+		return &object.Array{Elements: newElements}
+		
+	default:
+		return newError("陣列不支援此運算子：%s %s %s", left.TokenType(), operator, right.TokenType())
+	}
 }

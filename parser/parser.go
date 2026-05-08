@@ -380,22 +380,24 @@ func (p *Parser) parseGroupedExpression() ast.Expression {
 func (p *Parser) parseIfExpression() ast.Expression {
 	expression := &ast.IfExpression{Token: p.curToken}
 
-	if !p.expectPeek(token.LPAREN) {
-		return nil
-	}
-
+	if !p.expectPeek(token.LPAREN) { return nil }
 	p.nextToken()
 	expression.Condition = p.parseExpression(LOWEST)
+	if !p.expectPeek(token.RPAREN) { return nil }
 
-	if !p.expectPeek(token.RPAREN) {
-		return nil
+	// ▼ [關鍵修正]：Consequence (If 成立的分支)
+	if p.peekTokenIs(token.LBRACE) {
+		p.nextToken()
+		expression.Consequence = p.parseBlockStatement()
+	} else {
+		// 處理單行 if (例如: if(x) return 1;)
+		p.nextToken()
+		stmt := p.parseStatement()
+		expression.Consequence = &ast.BlockStatement{
+			Token:      p.curToken,
+			Statements: []ast.Statement{stmt},
+		}
 	}
-
-	if !p.expectPeek(token.LBRACE) {
-		return nil
-	}
-
-	expression.Consequence = p.parseBlockStatement()
 
 	if p.peekTokenIs(token.ELSE) {
 		p.nextToken() 
@@ -403,7 +405,6 @@ func (p *Parser) parseIfExpression() ast.Expression {
 		if p.peekTokenIs(token.IF) {
 			p.nextToken() 
 			elseIfNode := p.parseIfExpression()
-
 			expression.Alternative = &ast.BlockStatement{
 				Token: p.curToken,
 				Statements: []ast.Statement{
@@ -413,11 +414,17 @@ func (p *Parser) parseIfExpression() ast.Expression {
 					},
 				},
 			}
-		} else {
-			if !p.expectPeek(token.LBRACE) {
-				return nil
-			}
+		} else if p.peekTokenIs(token.LBRACE) {
+			p.nextToken()
 			expression.Alternative = p.parseBlockStatement()
+		} else {
+			// ▼ [關鍵修正]：處理單行 else (例如: else return 0;)
+			p.nextToken()
+			stmt := p.parseStatement()
+			expression.Alternative = &ast.BlockStatement{
+				Token:      p.curToken,
+				Statements: []ast.Statement{stmt},
+			}
 		}
 	}
 
@@ -658,6 +665,11 @@ func (p *Parser) parseStatement() ast.Statement {
 func (p *Parser) parseTypedDeclarationStatement() ast.Statement {
 	typeToken := p.curToken 
 
+	// ▼ [關鍵修正]：處理變數宣告中的 '*'
+	if p.peekTokenIs(token.ASTARISK) {
+		p.nextToken()
+	}
+
 	if !p.expectPeek(token.IDENT) { 
 		return nil
 	}
@@ -726,6 +738,11 @@ func (p *Parser) parseTypedParameters() []*ast.TypedParam {
 			return nil
 		}
 		paramType := p.curToken
+
+		// ▼ [關鍵修正]：如果下一個是 '*' (如 string *paths)，將其吃掉
+		if p.peekTokenIs(token.ASTARISK) {
+			p.nextToken()
+		}
 
 		if !p.expectPeek(token.IDENT) {
 			return nil

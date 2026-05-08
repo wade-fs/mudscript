@@ -1167,6 +1167,25 @@ func (d *Driver) registerSystemAndFiles(obj *object.LPCObject) {
 			}
 
 			fullPath := filepath.Join(d.Config.MudLibPath, file.Value)
+
+			// TODO: 讀取檔案時應該也要判斷
+			//validObj,err := d.LoadObject("/secure/valid.c")
+			//if err != nil {
+			//	return &object.Integer{Value:0}
+			//}
+			//currentUser := d.GetCurrentPlayer()
+			//res := d.CallFunction(
+			//	validObj, "valid_write",
+			//	[]object.Object{
+			//		&object.String{Value: file.Value},
+			//		currentUser,
+			//		&object.String{Value: "save"},
+			//	},
+			//)
+			//if !isLPCTrue(res) {
+			//	return &object.Integer{Value: 0}
+			//}
+
 			os.MkdirAll(filepath.Dir(fullPath), 0755)
 			f, err := os.OpenFile(fullPath, flag, 0644)
 			if err != nil { return &object.Integer{Value: 0} }
@@ -1296,6 +1315,24 @@ func (d *Driver) registerPersistenceEfuns(obj *object.LPCObject) {
 			fileName := fileArg.Value
 			if !strings.HasSuffix(fileName, ".o") { fileName += ".o" }
 			fullPath := filepath.Join(d.Config.MudLibPath, fileName)
+
+			// TODO: 讀取檔案時應該也要判斷
+			//validObj,err := d.LoadObject("/secure/valid.c")
+			//if err != nil {
+			//	return &object.Integer{Value:0}
+			//}
+			//currentUser := d.GetCurrentPlayer()
+			//res := d.CallFunction(
+			//	validObj, "valid_write",
+			//	[]object.Object{
+			//		&object.String{Value: fileName},
+			//		currentUser,
+			//		&object.String{Value: "save"},
+			//	},
+			//)
+			//if !isLPCTrue(res) {
+			//	return &object.Integer{Value: 0}
+			//}
 
 			saveData := make(map[string]interface{})
 			for k, v := range obj.Vars.GetAll() {

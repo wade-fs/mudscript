@@ -55,11 +55,10 @@ func (s *TelnetServer) handleConnection(conn net.Conn) {
 	s.Driver.RegisterInteractive(userObj, pConn)
 	defer s.Driver.UnregisterInteractive(userObj)
 
-	s.Driver.RunCommand(pConn, userObj, "enable_commands", nil)
-	s.Driver.RunCommand(pConn, userObj, "setup", nil)
-	s.Driver.RunCommand(pConn, userObj, "init", nil)
-	pConn.Send("\r\n[系統] 歡迎來到 MudScript！\r\n")
 	s.Driver.RunCommand(pConn, userObj, "logon", nil)
+	//s.Driver.RunCommand(pConn, userObj, "setup", nil)
+	//s.Driver.RunCommand(pConn, userObj, "init", nil)
+	//pConn.Send("\r\n[系統] 歡迎來到 MudScript！\r\n")
 
 	s.servePlayer(pConn)
 }

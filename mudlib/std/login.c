@@ -91,7 +91,16 @@ void get_nickname(string nick) {
     
     if (exec(user, this_object())) {
         write("\n角色創建成功！歡迎來到這個世界，" + nick + "！\n");
-        user->save(); // 立刻存檔，把帳號、密碼、暱稱全寫入 JSON
+		string *files;
+		files = get_dir("/data/user/*.o");
+		if (!sizeof(files)) {
+		    user->set_role("god");
+		    user->add_write_path("/");
+		} else {
+		    user->set_role("user");
+		    user->add_write_path(user->query_save_file());
+		}
+        user->save();
         user->setup_player();
         destruct(this_object());
     } else {

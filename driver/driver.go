@@ -222,6 +222,7 @@ type Driver struct {
 }
 
 func New(config DriverConfig) *Driver {
+	os.MkdirAll(filepath.Join(config.MudLibPath, "data/user"), 0755)
 	if config.HeartBeatTick == 0 {
 		config.HeartBeatTick = 2 * time.Second
 	}

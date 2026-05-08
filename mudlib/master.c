@@ -19,8 +19,8 @@ object connect() {
     write("\n連線成功！歡迎來到 MudScript 測試伺服器！\n");
     
     // 複製一個 login 物件來處理後續的登入流程
-    // (對應我們剛剛寫的 /cmds/login.c)
-    login_ob = clone_object("/cmds/login.c");
+    // (對應我們剛剛寫的 /std/login.c)
+    login_ob = clone_object("/std/login.c");
     
     // 將這個 login 物件回傳給 Driver
     // Driver 收到後，會正式把玩家的網路連線掛載到這個 login_ob 身上

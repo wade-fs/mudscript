@@ -1,0 +1,20 @@
+{
+  "aliases": {},
+  "attack": 0,
+  "defence": 0,
+  "exp": 0,
+  "exp_to_next": 100,
+  "gold": 0,
+  "hp": 0,
+  "id": "wade",
+  "level": 0,
+  "max_hp": 100,
+  "max_mp": 100,
+  "mp": 0,
+  "name": "",
+  "password": "de3bbd0fd7945e42581643b18cdf28dd3ed61d9c3d541b7b016081564b65a3f3",
+  "role": "god",
+  "write_paths": [
+    "/"
+  ]
+}

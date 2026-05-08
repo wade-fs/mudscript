@@ -16,7 +16,7 @@ int do_nickname(string arg) {
     }
 
     // 更新暱稱
-    me->set_nickname(arg);
+    me->set_name(arg);
     me->save(); // 立即存檔，確保重登不遺失
 
     write("您的暱稱已成功更改為：「" + arg + "」。\n");
