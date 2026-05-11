@@ -1,3 +1,5 @@
+#include "/include/config.h"
+
 string current_id;
 string current_pass;
 
@@ -5,7 +7,12 @@ void create() {
 }
 
 void logon() {
-    write("\n連線成功！歡迎來到 MudScript 測試伺服器！\n");
+    string issue = read_file(ISSUE_FILE);
+    if (issue) {
+        write(issue);
+    } else {
+        write("\n連線成功！歡迎來到 MudScript 測試伺服器！\n");
+    }
     write("\n請輸入您的帳號名稱 (若無帳號將自動註冊)：");
     input_to("get_id");
 }

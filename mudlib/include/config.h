@@ -44,3 +44,4 @@
 // ── 路徑常數 ────────────────────────────────────────────
 #define START_ROOM      "/area/newbie/room_2_2.c"
 #define MASTER_FILE     "/master.c"
+#define ISSUE_FILE      "/etc/issue"

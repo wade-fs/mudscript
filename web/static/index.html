@@ -66,9 +66,81 @@
         /* 點擊指令樣式 */
         .cmd-link { color: #4CAF50; text-decoration: underline; cursor: pointer; font-weight: bold; }
         .cmd-link:hover { color: #8BC34A; }
+
+        /* 🚀 幻想太空主題特效 */
+        .neon-text {
+            color: #fff;
+            text-shadow: 
+                0 0 5px #fff,
+                0 0 10px #fff,
+                0 0 20px #00ffff,
+                0 0 30px #00ffff,
+                0 0 40px #00ffff;
+            animation: neon-pulse 2s infinite;
+        }
+
+        .neon-purple {
+            color: #f0f;
+            text-shadow: 0 0 10px #f0f, 0 0 20px #f0f;
+        }
+
+        .neon-blue {
+            color: #0ff;
+            text-shadow: 0 0 10px #0ff, 0 0 20px #0ff;
+        }
+
+        .neon-gold {
+            color: #ffd700;
+            text-shadow: 0 0 10px #ffd700, 0 0 20px #ffd700;
+        }
+
+        @keyframes neon-pulse {
+            0%, 100% { opacity: 1; text-shadow: 0 0 5px #fff, 0 0 20px #00ffff; }
+            50% { opacity: 0.8; text-shadow: 0 0 10px #fff, 0 0 40px #00ffff; }
+        }
+
+        .typing-text {
+            display: inline-block;
+            overflow: hidden;
+            border-right: .15em solid orange;
+            white-space: nowrap;
+            margin: 0 auto;
+            letter-spacing: .15em;
+            animation: 
+                typing 3.5s steps(40, end),
+                blink-caret .75s step-end infinite;
+        }
+
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: orange; }
+        }
+
+        .space-bg {
+            background: linear-gradient(to bottom, #000000 0%, #020107 100%) !important;
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: twinkle var(--duration) infinite;
+            pointer-events: none;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.2; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
     </style>
 </head>
-<body>
+<body class="space-bg">
 
 <div id="wrapper">
     <div id="cmds-area">載入指令中...</div>
@@ -180,7 +252,6 @@
                 html += `<div class="map-cell map-center" title="${data.center_name}">👤</div>`;
             } else if (exits.has(dir)) {
                 const label = getDirLabel(dir);
-                // 🚩 修改：點擊小地圖時送出 "go 方向"
                 html += `<div class="map-cell map-exit" onclick="sendCmd('go ${dir}')">${label}</div>`;
             } else {
                 html += `<div class="map-cell"></div>`;
@@ -201,7 +272,6 @@
         histIdx = historyCmds.length;
         ws.send(JSON.stringify({ type: "cmd", payload: cmd }));
         
-        // 🚩 修正：如果目前是密碼輸入模式，日誌顯示星號
         const displayVal = msgInput.type === "password" ? "******" : cmd;
         appendLook("<span style='color: #888;'>>> " + displayVal + "</span>");
     }
@@ -219,7 +289,6 @@
         const area = document.getElementById("look-area");
         const content = document.getElementById("look-content");
         
-        // 處理 [指令] 格式，轉化為可點擊連結
         let formattedText = text.replace(/\[(.*?)\]/g, (match, cmd) => {
             return `<span class="cmd-link" onclick="sendCmd('${cmd}')">${match}</span>`;
         });
@@ -228,8 +297,26 @@
         newMsg.innerHTML = formattedText.replace(/\n/g, "<br>");
         
         content.appendChild(newMsg);
-        area.scrollTop = area.scrollHeight;
+        setTimeout(() => {
+            area.scrollTop = area.scrollHeight;
+        }, 10);
     }
+
+    function initStars() {
+        const lookArea = document.getElementById("look-area");
+        for (let i = 0; i < 60; i++) {
+            const star = document.createElement("div");
+            star.className = "star";
+            const size = (Math.random() * 2 + 1) + "px";
+            star.style.width = size;
+            star.style.height = size;
+            star.style.left = Math.random() * 100 + "%";
+            star.style.top = Math.random() * 100 + "%";
+            star.style.setProperty("--duration", (Math.random() * 3 + 2) + "s");
+            lookArea.appendChild(star);
+        }
+    }
+    setTimeout(initStars, 500);
 
     function sendMsg() {
         const val = msgInput.value.trim();

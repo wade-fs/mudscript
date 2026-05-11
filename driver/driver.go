@@ -484,7 +484,8 @@ func generateCloneID() string {
 func (d *Driver) Start() error {
 	masterFile := d.Config.MasterFile
 	if masterFile == "" {
-		masterFile = "/master.c"
+		// 嘗試從 config.h 自動探索 MASTER_FILE
+		masterFile = d.DiscoverMasterFile()
 	}
 
 	fmt.Println("🚀 Driver 啟動中... 準備載入 Master Object:", masterFile)
@@ -511,6 +512,26 @@ func (d *Driver) Start() error {
 	fmt.Printf("✅ Master 載入成功 (RootUID: %s, BackboneUID: %s)\n", d.RootUID, d.BackboneUID)
 	go d.runGameLoop()
 	return nil
+}
+
+func (d *Driver) DiscoverMasterFile() string {
+	configPath := filepath.Join(d.Config.MudLibPath, "include/config.h")
+	content, err := os.ReadFile(configPath)
+	if err != nil {
+		return "/master.c" // 預設值
+	}
+
+	lines := strings.Split(string(content), "\n")
+	for _, line := range lines {
+		if strings.Contains(line, "#define MASTER_FILE") {
+			parts := strings.Fields(line)
+			if len(parts) >= 3 {
+				path := strings.Trim(parts[2], "\"")
+				return path
+			}
+		}
+	}
+	return "/master.c"
 }
 
 func (d *Driver) Stop() {

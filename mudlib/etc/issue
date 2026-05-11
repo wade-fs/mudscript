@@ -1,0 +1,35 @@
+
+<div style="text-align: center; padding: 20px;">
+<pre class="neon-text" style="font-size: 14px; line-height: 1.2; display: inline-block; text-align: left;">
+   ________                      __                               
+  / ____/ /_  ____  ____  ____  / /_  ____  ____  ____  ____  ____
+ / /_  / __ \/ __ \/ __ \/ __ \/ __ \/ __ \/ __ \/ __ \/ __ \/ __ \
+/ __/ / / / / /_/ / /_/ / /_/ / /_/ / /_/ / /_/ / /_/ / /_/ / /_/ /
+/_/   /_/ /_/\__,_/\__,_/\__,_/\__,_/\__,_/\__,_/\__,_/\__,_/\__,_/ 
+
+   _____                             __  __ _   _ ____  
+  / ___/____  ____ _________        |  \/  | | | |  _ \ 
+  \__ \/ __ \/ __ `/ ___/ _ \       | |\/| | | | | | | |
+ ___/ / /_/ / /_/ / /__/  __/       | |  | | |_| | |_| |
+/____/ .___/\__,_/\___/\___/        |_|  |_|\___/|____/ 
+    /_/                                                 
+</pre>
+
+<div style="margin: 20px 0;">
+    <span class="neon-blue" style="font-size: 24px; font-weight: bold;">FANTASY SPACE</span>
+</div>
+
+<div style="border: 1px solid #4CAF50; padding: 10px; display: inline-block; background: rgba(0,255,255,0.05);">
+    <span class="neon-gold" style="letter-spacing: 2px;">建立於 MudScript 引擎</span>
+</div>
+
+<div style="margin-top: 30px; font-family: 'Courier New', Courier, monospace;">
+    <div class="typing-text" style="color: #00ff00;">>>> 系統初始化完成...</div><br>
+    <div class="typing-text" style="color: #00ff00; animation-delay: 1s;">>>> 連結星際網路中...</div><br>
+    <div class="typing-text" style="color: #00ff00; animation-delay: 2s;">>>> 歡迎來到未來的幻想世界。</div>
+</div>
+
+<div style="margin-top: 40px; color: #555; font-size: 12px;">
+    [ 本系統僅供開發與測試使用 ]
+</div>
+</div>
