@@ -83,6 +83,13 @@
             const msg = JSON.parse(event.data);
             if (msg.type === "mud_text") {
                 const payload = msg.payload.trim();
+
+                // 🚩 處理特殊指令：隱藏輸入 (密碼模式)
+                if (payload === "__INPUT_HIDDEN__") {
+                    msgInput.type = "password";
+                    return;
+                }
+
                 // 🚩 判斷是否為結構化 JSON
                 if (payload.startsWith("{") && payload.endsWith("}")) {
                     try {
@@ -152,6 +159,9 @@
         histIdx = history.length;
         ws.send(JSON.stringify({ type: "cmd", payload: val }));
         msgInput.value = "";
+
+        // 🚩 發送完後，強制恢復為一般輸入模式 (防止卡在密碼模式)
+        msgInput.type = "text";
     }
 </script>
 </body>

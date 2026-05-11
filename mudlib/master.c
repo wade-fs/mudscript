@@ -15,9 +15,6 @@ void create() {
 object connect() {
     object login_ob;
     
-    // 這裡印出的訊息，因為在 driver.go 裡有綁定上下文，會直接送到玩家的終端機
-    write("\n連線成功！歡迎來到 MudScript 測試伺服器！\n");
-    
     // 複製一個 login 物件來處理後續的登入流程
     // (對應我們剛剛寫的 /std/login.c)
     login_ob = clone_object("/std/login.c");
