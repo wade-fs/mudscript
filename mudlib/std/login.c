@@ -5,18 +5,9 @@ void create() {
 }
 
 void logon() {
-	// 透過 efun 取得 Go 層級傳來的名稱
-    string name = query_username(this_object());
-
-    if (name && name != "" && name != "Anonymous") {
-        // 如果有名字，直接進入原本 get_id 的邏輯
-        write("\n偵測到登入身分：" + name + "\n");
-        get_id(name);
-    } else {
-        // 萬一沒有名字（例如傳統 Telnet 登入），則走回原本的手動輸入流程
-        write("\n請輸入您的帳號名稱 (若無帳號將自動註冊)：");
-        input_to("get_id");
-    }
+    write("\n連線成功！歡迎來到 MudScript 測試伺服器！\n");
+    write("\n請輸入您的帳號名稱 (若無帳號將自動註冊)：");
+    input_to("get_id");
 }
 
 void get_id(string id) {

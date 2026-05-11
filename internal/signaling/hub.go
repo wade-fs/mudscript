@@ -41,7 +41,7 @@ func (h *Hub) Run() {
 			// A. 建立一個專屬於此 WebSocket 的 PlayerConnection
 			// 這裡的 conn 傳 nil，因為我們不用傳統 TCP
 			pConn := driver.NewPlayerConnection(nil, nil) 
-			pConn.Username = client.Username
+			pConn.Username = "New Connection"
 			
 			pConn.OutputCallback = func(mudText string) {
 			    // 確保 client 還在線上

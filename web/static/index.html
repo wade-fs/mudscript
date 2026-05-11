@@ -1,111 +1,81 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="utf-8">
-<title>Fantasy Space Mudlib with P2P</title>
-<style>
-body {
-	font-family: sans-serif;
-	margin: 20px;
-}
-#chat {
-	border: 1px solid #ccc;
-	height: 300px;
-	overflow: auto;
-	padding: 10px;
-}
-</style>
-</head>
 <body>
 
-<h2>Fantasy Space Mudlib with P2P.</h2>
-
-<input id="username" placeholder="username">
-<button onclick="login()">Login</button>
-
-<hr>
+<h2>Fantasy Space Mudlib - Web Terminal</h2>
 
 <div id="chat"></div>
 
-<input id="msg" placeholder="message">
+<input id="msg" placeholder="Type here..." onkeypress="if(event.keyCode==13) sendMsg()">
 <button onclick="sendMsg()">Send</button>
 
 <script>
 let ws;
 let myID = "";
 
+// 網頁載入後自動啟動連線程序
+window.onload = function() {
+    connect();
+};
+
 function log(msg) {
-	const div = document.getElementById("chat");
-	div.innerHTML += "<div>" + msg + "</div>";
-	div.scrollTop = div.scrollHeight;
+    const div = document.getElementById("chat");
+    div.innerHTML += "<div>" + msg + "</div>";
+    div.scrollTop = div.scrollHeight;
 }
 
-function login() {
-    // 1. 取得輸入框的名字
-	const username = document.getElementById("username").value;
-	if (!username) {
-		alert("請先輸入 username 喔！");
-		return;
-	}
+function connect() {
+    // 1. 不再攜帶 username 參數，讓 MUDlib 決定身份
+    ws = new WebSocket("ws://" + location.host + "/ws");
 
-    // 2. 將名字編碼後放在 URL 參數中傳給後端
-	ws = new WebSocket("ws://" + location.host + "/ws?username=" + encodeURIComponent(username));
+    ws.onopen = () => {
+        log("🟢 已建立伺服器連線，等待回應...");
+    };
 
-	ws.onopen = () => {
-		log("🟢 connected to server");
-	};
+    let isInputHidden = false;
 
-	let isInputHidden = false;
+    ws.onmessage = (event) => {
+        const msg = JSON.parse(event.data);
+        
+        // 處理隱藏輸入信號 (用於密碼)
+        if (msg.payload === "__INPUT_HIDDEN__") {
+            isInputHidden = true;
+            document.getElementById("msg").type = "password";
+            return;
+        }
 
-	ws.onmessage = (event) => {
-		const msg = JSON.parse(event.data);
-		if (msg.payload === "__INPUT_HIDDEN__") {
-	        isInputHidden = true;
-	        document.getElementById("msg").type = "password"; // 切換為密碼模式
-	        return;
-	    }
+        switch (msg.type) {
+            case "welcome":
+                myID = msg.to;
+                break;
+            case "mud_text":
+                // 渲染來自 MUD 引擎的文字
+                const formattedText = msg.payload.replace(/\r\n/g, "<br>").replace(/\n/g, "<br>");
+                log("<span style='color: #4CAF50;'>" + formattedText + "</span>");
+                break;
+            case "peer-joined":
+                log("👋 [系統] 有新連線進入");
+                break;
+            case "peer-left":
+                log("🚪 [系統] 某個連線已斷開");
+                break;
+            case "chat":
+                log("💬 <b>" + (msg.username || "匿名者") + "</b>: " + msg.payload);
+                break;
+        }
+    };
 
-		switch (msg.type) {
-			case "welcome":
-				myID = msg.to;
-				log("ℹ️ Server assigned my ID: " + myID);
-				break;
-			case "peer-joined":
-				// 加上 || "匿名者" 來防呆
-				const joinName = msg.username || "匿名者";
-				log("👋 " + joinName + " 加入了聊天室");
-				break;
-			case "mud_text":
-				const formattedText = msg.payload.replace(/\r\n/g, "<br>").replace(/\n/g, "<br>");
-				log("<span style='color: #4CAF50;'>" + formattedText + "</span>");
-				break;
-			case "peer-left":
-				const leftName = msg.username || "匿名者";
-				log("🚪 " + leftName + " 離開了");
-				break;
-			case "chat":
-				const chatName = msg.username || "匿名者";
-				log("💬 <b>" + chatName + "</b>: " + msg.payload);
-				break;
-			default:
-				log("📩 signal [" + msg.type + "] from " + msg.from);
-				break;
-		}
-	};
-
-	ws.onclose = () => {
-		log("🔴 disconnected, attempting to reconnect...");
-		setTimeout(login, 2000);
-	};
+    ws.onclose = () => {
+        log("🔴 連線中斷，2秒後嘗試重新連線...");
+        setTimeout(connect, 2000);
+    };
 }
 
 function sendMsg() {
     const msgInput = document.getElementById("msg");
     const msgText = msgInput.value;
-    if (!ws || ws.readyState !== WebSocket.OPEN) return; // 確保連線還開著
+    if (!msgText || !ws || ws.readyState !== WebSocket.OPEN) return;
 
-    // 如果輸入的是密碼，畫面上不要印出明文
-    if (msgInput.type === "password") {
+    // 處理 UI 密碼遮蔽顯示
+    if (document.getElementById("msg").type === "password") {
         log("<span style='color: #888;'>>> ******</span>");
     } else {
         log("<span style='color: #888;'>>> " + msgText + "</span>");
@@ -114,11 +84,7 @@ function sendMsg() {
     const msgObj = { type: "cmd", payload: msgText };
     ws.send(JSON.stringify(msgObj));
     msgInput.value = "";
-    
-    // 發送後將輸入框恢復為一般文字模式
-    msgInput.type = "text"; 
+    document.getElementById("msg").type = "text"; 
 }
 </script>
-
 </body>
-</html>
