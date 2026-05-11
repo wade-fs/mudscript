@@ -9,3 +9,9 @@ int main(object me, string arg) {
     destruct(me);
     return 1;
 }
+
+string help() {
+    return "【離開指令】\n" +
+           "  用法：quit 或 exit\n" +
+           "  功能：儲存角色資料並安全地登出遊戲。\n";
+}

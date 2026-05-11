@@ -122,3 +122,13 @@ int do_remove(object me, string arg) {
     write("你沒有裝備叫「" + arg + "」的東西。\n");
     return 1;
 }
+
+string help() {
+    return "【物品指令】\n" +
+           "  inventory (i)   查看背包內容\n" +
+           "  get <物品>      撿起物品\n" +
+           "  drop <物品>     丟下物品\n" +
+           "  wear <防具>     穿上防具\n" +
+           "  wield <武器>    裝備武器\n" +
+           "  remove <裝備>   卸下裝備\n";
+}

@@ -34,3 +34,9 @@ int main(object me, string arg) {
     tell_object(user, "您已獲得對 " + path + " 的寫入權限。\n");
     return 1;
 }
+
+string help() {
+    return "【路徑授權指令 (管理員專用)】\n" +
+           "  用法：grant <玩家帳號> <路徑>\n" +
+           "  功能：授予指定玩家對特定目錄或檔案的寫入權限。\n";
+}

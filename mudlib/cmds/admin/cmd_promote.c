@@ -29,3 +29,9 @@ int main(object me, string arg) {
     tell_object(user, "您的權限已被提升為 wizard。\n");
     return 1;
 }
+
+string help() {
+    return "【權限提升指令 (管理員專用)】\n" +
+           "  用法：promote <玩家帳號>\n" +
+           "  功能：將指定的玩家提升為 wizard (巫師) 權限。\n";
+}

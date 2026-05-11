@@ -23,3 +23,10 @@ int main(object me, string arg) {
 
     return here->do_go(dir);
 }
+
+string help() {
+    return "【移動指令】\n" +
+           "  north / south / east / west  往四個方向移動\n" +
+           "  up / down                    往上 / 往下移動\n" +
+           "  go <方向>                    明確移動，例如：go north\n";
+}

@@ -29,3 +29,9 @@ int main(object me, string arg) {
     tell_object(user, "您的權限已被降級為 user。\n");
     return 1;
 }
+
+string help() {
+    return "【權限降級指令 (管理員專用)】\n" +
+           "  用法：demote <玩家帳號>\n" +
+           "  功能：將指定的玩家權限降回 user (一般玩家)。\n";
+}

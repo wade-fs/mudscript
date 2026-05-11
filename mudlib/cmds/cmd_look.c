@@ -37,3 +37,10 @@ int main(object me, string arg) {
     write("你看不到叫「" + arg + "」的東西。\n");
     return 1;
 }
+
+string help() {
+    return "【查看指令】\n" +
+           "  look (l)              查看目前房間\n" +
+           "  look <目標>           查看房間或背包中的物品\n" +
+           "  examine (ex) <目標>   同 look，更仔細地檢視\n";
+}

@@ -21,3 +21,8 @@ int main(object me, string arg) {
     write(payload); 
     return 1;
 }
+
+string help() {
+    return "【狀態指令】\n" +
+           "  score / status  查看角色的詳細狀態資訊，包含 HP、MP、等級與屬性。\n";
+}

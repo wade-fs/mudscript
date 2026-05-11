@@ -29,3 +29,11 @@ int do_emote(object me, string arg) {
     say(msg);
     return 1;
 }
+
+string help() {
+    return "【社交指令】\n" +
+           "  say <訊息>      向房間內所有人說話\n" +
+           "  ' <訊息>        同 say 的縮寫\n" +
+           "  emote <動作>    做出描述性動作\n" +
+           "  : <動作>        同 emote 的縮寫\n";
+}

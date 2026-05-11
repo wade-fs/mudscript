@@ -77,3 +77,11 @@ int do_unalias(object me, string arg) {
     write("別名「" + arg + "」已刪除。\n");
     return 1;
 }
+
+string help() {
+    return "【別名指令】\n" +
+           "  alias                  列出所有別名\n" +
+           "  alias <名稱> <指令>    設定別名，例如：alias n north\n" +
+           "  alias <名稱>           查看指定別名\n" +
+           "  unalias <名稱>         刪除別名\n";
+}
