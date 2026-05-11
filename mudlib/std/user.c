@@ -21,10 +21,12 @@ string id, name, password, role;
 int level, exp, exp_to_next, hp, max_hp, mp, max_mp, attack, defence, gold;
 string *write_paths;
 mapping aliases = ([]);
+string *saved_inventory = ({ });
 
 // ── 初始化 ───────────────────────────────────────────────
 void create() {
 	write_paths = ({ });
+	saved_inventory = ({ });
 }
 
 // ── 登入初始化 ───────────────────────────────────────────
@@ -55,6 +57,9 @@ void setup() {
         set_name(id);
     }
 
+	// 恢復背包物品
+	call_other(this_object(), "restore_inventory");
+
     call_other(this_object(), "do_help_list", "");
 }
 
@@ -67,6 +72,7 @@ string query_role() { return role; }
 void set_role(string r) { if (r == "god" || r == "wizard" || r == "user") role = r; }
 string query_name() { return name; }
 void set_name(string n) { name = n; }
+void set_nickname(string n) { name = n; }
 int query_level() { return level; }
 int query_exp() { return exp; }
 int query_exp_to_next() { if (exp_to_next <= exp) exp_to_next = exp + 100; return exp_to_next; }
@@ -77,6 +83,17 @@ int query_max_mp() { if (max_mp <= 0) max_mp = 100; return max_mp; }
 int query_attack() { return attack; }
 int query_defence() { return defence; }
 int query_gold() { return gold; }
+void add_gold(int g) { gold += g; }
+
+string *query_write_paths() { return write_paths; }
+void add_write_path(string p) {
+    if (member_array(p, write_paths) == -1) {
+        write_paths += ({ p });
+    }
+}
+void remove_write_path(string p) {
+    write_paths -= ({ p });
+}
 
 // ── 心跳 ─────────────────────────────────────────────────
 void heart_beat() {
@@ -95,8 +112,37 @@ void on_death() {
 
 int process_input(string input) { return 0; }
 string query_save_file() { return "/data/user/" + id; }
-int save() { return save_object(query_save_file()); }
+
+int save() {
+	// 在存檔前，先記錄背包裡所有物品的檔名
+	object *inv = all_inventory(this_object());
+	saved_inventory = ({ });
+	for (int i = 0; i < sizeof(inv); i++) {
+		string filename = object_name(inv[i]);
+		// 去掉 clone 的編號 (例如 /obj/sword.c#123 -> /obj/sword.c)
+		int pos = strsrch(filename, "#");
+		if (pos != -1) {
+			filename = substr(filename, 0, pos);
+		}
+		saved_inventory += ({ filename });
+	}
+	return save_object(query_save_file());
+}
+
 int restore() { return restore_object(query_save_file()); }
+
+void restore_inventory() {
+	if (!sizeof(saved_inventory)) return;
+	
+	for (int i = 0; i < sizeof(saved_inventory); i++) {
+		object ob = clone_object(saved_inventory[i]);
+		if (ob) {
+			move_object(ob, this_object());
+		}
+	}
+	// 清空紀錄，避免重複恢復（存檔時會重新產生）
+	saved_inventory = ({ });
+}
 
 // 給其他物件修改別名的介面
 mapping query_aliases() { return aliases; }

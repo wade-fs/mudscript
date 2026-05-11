@@ -42,6 +42,7 @@ int do_alias(string arg) {
 
     // 呼叫玩家的介面寫入資料
     me->set_alias(alias_name, alias_cmd);
+    me->save(); // 立即存檔
     write("別名設定：" + alias_name + "  ->  " + alias_cmd + "\n");
     return 1;
 }
@@ -62,6 +63,7 @@ int do_unalias(string arg) {
     }
 
     me->remove_alias(arg);
+    me->save(); // 立即存檔
     write("別名「" + arg + "」已刪除。\n");
     return 1;
 }

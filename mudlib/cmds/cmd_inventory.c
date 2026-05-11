@@ -41,6 +41,7 @@ int do_get(string arg) {
         return 1;
     }
     move_object(item, this_object());
+    this_object()->save(); // 立即存檔
     write("你撿起了 " + item->query_short() + "。\n");
     say(query_name() + " 撿起了 " + item->query_short() + "。\n");
     return 1;
@@ -55,6 +56,7 @@ int do_drop(string arg) {
     }
     object here = environment(this_object());
     move_object(item, here);
+    this_object()->save(); // 立即存檔
     write("你放下了 " + item->query_short() + "。\n");
     say(query_name() + " 放下了 " + item->query_short() + "。\n");
     return 1;
