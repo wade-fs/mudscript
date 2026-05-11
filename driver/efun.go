@@ -648,6 +648,25 @@ func (d *Driver) registerTimeAndScheduling(obj *object.LPCObject) {
 // 7. 資料結構操作 (Arrays, Mappings)
 // ==========================================
 func (d *Driver) registerDataStructures(obj *object.LPCObject) {
+	obj.Vars.Set("json_encode", &object.Builtin{
+        Fn: func(args ...object.Object) object.Object {
+            if len(args) < 1 {
+                return &object.String{Value: "{}"}
+            }
+            
+            // 1. 利用現有的輔助函式將 LPC 物件轉為 Go interface{}
+            // 這個函式在您的 efun.go 結尾處應該已經有了
+            goVal := lpcToGoValue(args[0])
+            
+            // 2. 使用 Go 標準庫進行 JSON 編碼
+            jsonData, err := json.Marshal(goVal)
+            if err != nil {
+                return &object.String{Value: "{}"}
+            }
+            
+            return &object.String{Value: string(jsonData)}
+        },
+    })
 	// 語法: mixed *values(mapping m)
 	// 說明: 取得 Mapping 中所有的 Value，回傳為陣列。
 	// 範例: values((["hp": 100, "mp": 50])) -> ({ 100, 50 })

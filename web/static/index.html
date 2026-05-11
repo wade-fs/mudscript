@@ -26,9 +26,33 @@
         .my-input { color: #888; font-style: italic; } /* 自己輸入的指令 */
 
         /* 優化後的 Score 卡片樣式 */
-        .score-card { background: #252525; border: 1px solid #4CAF50; padding: 15px; border-radius: 8px; margin: 10px 0; box-shadow: 0 4px 10px rgba(0,0,0,0.5); width: fit-content; min-width: 300px; }
-        .score-card table { width: 100%; border-collapse: collapse; }
-        .score-card td { padding: 5px; border-bottom: 1px solid #333; }
+        .score-card {
+		    background: #2a2a2a;
+		    border: 1px solid #4CAF50;
+		    padding: 15px;
+		    border-radius: 8px;
+		    width: 280px;
+		    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+		}
+
+		.stat-grid {
+		    display: grid;
+		    grid-template-columns: 1fr 1fr;
+		    gap: 10px;
+		}
+
+		.stat-bar-group {
+		    grid-column: span 2;
+		}
+
+		.progress-bg {
+		    background: #444;
+		    height: 10px;
+		    border-radius: 5px;
+		    overflow: hidden;
+		}
+		.progress-fill.hp { background: #ff4444; transition: width 0.5s; }
+		.progress-fill.mp { background: #4444ff; transition: width 0.5s; }
         .label { color: #888; font-size: 0.9em; }
         .val { color: #fff; font-weight: bold; text-align: right; }
     </style>
@@ -83,15 +107,21 @@
                     myID = msg.to;
                     break;
                 case "mud_text":
-                    // 🚩 支援 HTML 解析：如果是 <table> 或特定的 HTML 標籤，直接渲染
-                    if (msg.payload.includes("<table") || msg.payload.includes("score-card")) {
-                        log(msg.payload);
-                    } else {
-                        // 一般文字處理換行
-                        const text = msg.payload.replace(/\r\n/g, "<br>").replace(/\n/g, "<br>");
-                        log(text, "mud-text");
-                    }
-                    break;
+                    const payload = msg.payload.trim();
+
+			        // 🚩 判斷是否為結構化 UI 訊息
+			        if (payload.startsWith("{") && payload.endsWith("}")) {
+			            try {
+			                const uiData = JSON.parse(payload);
+			                renderUIComponent(uiData);
+			            } catch (e) {
+			                // 解析失敗則當成普通文字
+			                renderPlainText(payload);
+			            }
+			        } else {
+			            renderPlainText(payload);
+			        }
+					break;
                 case "chat":
                     log(`💬 <b>${msg.username}</b>: ${msg.payload}`);
                     break;
@@ -116,6 +146,52 @@
         input.value = "";
         input.type = "text"; // 重設為一般文字模式
     }
+
+function renderUIComponent(uiData) {
+    const chat = document.getElementById("chat");
+    const container = document.createElement("div");
+    container.className = "ui-container";
+
+    switch (uiData.ui) {
+        case "score":
+            container.innerHTML = `
+                <div class="score-card">
+                    <div class="card-header">📊 角色狀態：${uiData.data.name}</div>
+                    <div class="stat-grid">
+                        <div class="stat-item">LV: <span>${uiData.data.level}</span></div>
+                        <div class="stat-item">Gold: <span class="gold">${uiData.data.gold}</span></div>
+                        <div class="stat-bar-group">
+                            <label>HP</label>
+                            <div class="progress-bg"><div class="progress-fill hp" style="width: ${(uiData.data.hp/uiData.data.max_hp)*100}%"></div></div>
+                            <small>${uiData.data.hp}/${uiData.data.max_hp}</small>
+                        </div>
+                        <div class="stat-bar-group">
+                            <label>MP</label>
+                            <div class="progress-bg"><div class="progress-fill mp" style="width: ${(uiData.data.mp/uiData.data.max_mp)*100}%"></div></div>
+                            <small>${uiData.data.mp}/${uiData.data.max_mp}</small>
+                        </div>
+                    </div>
+                </div>
+            `;
+            break;
+            
+        case "combat":
+            // 未來可以擴充戰鬥用的血條對峙畫面
+            break;
+            
+        case "weather":
+            // 顯示天氣圖標
+            break;
+    }
+
+    chat.appendChild(container);
+    chat.scrollTop = chat.scrollHeight;
+}
+function renderPlainText(payload) {
+    // 處理換行符號，確保純文字在網頁上正確顯示
+    const text = payload.replace(/\r\n/g, "<br>").replace(/\n/g, "<br>");
+    log(text, "mud-text");
+}
 </script>
 </body>
 </html>
