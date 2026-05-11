@@ -13,9 +13,17 @@ GO_FLAGS := -ldflags="-s -w -X main.Version=$(VERSION)"
 
 ENV := GOPATH=$(GOPATH) GOROOT=$(GOROOT)
 
+all: mudscript
+
 mudscript:
 	@ rm -f $(OUT)/$@ && mkdir -p $(OUT)
 	@ go mod tidy && \
+	env $(ENV) go build -o $(OUT)/$@ && \
+	ls $(OUT)/$@ 
+
+p2pchat:
+	@ rm -f $(OUT)/$@ && mkdir -p $(OUT)
+	@ cd cmd/$@ && go mod tidy && \
 	env $(ENV) go build -o $(OUT)/$@ && \
 	ls $(OUT)/$@ 
 

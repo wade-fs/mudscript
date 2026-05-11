@@ -4,7 +4,7 @@ import (
 	"log"
 	"net/http"
 
-	"p2pchat/internal/signaling"
+	"mudscript/internal/signaling"
 )
 
 func main() {
