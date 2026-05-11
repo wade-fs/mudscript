@@ -200,7 +200,10 @@
         historyCmds.push(cmd);
         histIdx = historyCmds.length;
         ws.send(JSON.stringify({ type: "cmd", payload: cmd }));
-        appendLook("<span style='color: #888;'>>> " + cmd + "</span>");
+        
+        // 🚩 修正：如果目前是密碼輸入模式，日誌顯示星號
+        const displayVal = msgInput.type === "password" ? "******" : cmd;
+        appendLook("<span style='color: #888;'>>> " + displayVal + "</span>");
     }
 
     function fillInput(cmd) {

@@ -18,9 +18,8 @@ int do_move(string arg) {
         return 1;
     }
 
-    if (!arg) {
-        write("要往哪裡去？例如：go north\n");
-        return 1;
+    if (!arg || arg == "") {
+        arg = query_verb();
     }
 
     if (arg == "go") {
