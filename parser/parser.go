@@ -991,7 +991,7 @@ func (p *Parser) parseMappingLiteral() ast.Expression {
 		Pairs: make(map[ast.Expression]ast.Expression),
 	}
 
-	for !p.peekTokenIs(token.RBRACKET) { 
+	for !p.peekTokenIs(token.RBRACKET_MAP) { 
 		p.nextToken()
 		
 		key := p.parseExpression(LOWEST)
@@ -1004,16 +1004,12 @@ func (p *Parser) parseMappingLiteral() ast.Expression {
 		value := p.parseExpression(LOWEST)
 		mapping.Pairs[key] = value
 
-		if !p.peekTokenIs(token.RBRACKET) && !p.expectPeek(token.COMMA) { 
+		if !p.peekTokenIs(token.RBRACKET_MAP) && !p.expectPeek(token.COMMA) { 
 			return nil
 		}
 	}
 
-	if !p.expectPeek(token.RBRACKET) { 
-		return nil
-	}
-
-	if !p.expectPeek(token.RPAREN) { 
+	if !p.expectPeek(token.RBRACKET_MAP) { 
 		return nil
 	}
 

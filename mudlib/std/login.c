@@ -11,7 +11,7 @@ void logon() {
 }
 
 void get_id(string id) {
-    if (id == "") {
+    if (!id) {
         write("帳號不能為空，請重新輸入：");
         input_to("get_id");
         return;
@@ -63,7 +63,7 @@ void check_pass(string pass) {
 
         if (exec(user, this_object())) {
             user->setup();
-			if (!user->query_name() || user->query_name() == "") {
+			if (!user->query_name()) {
                 user->set_name(user->get_id());
             }
             write("\n登入成功！歡迎回來，" + user->query_name() + "。\n");
@@ -80,7 +80,7 @@ void check_pass(string pass) {
 }
 
 void new_pass(string pass) {
-    if (pass == "") {
+    if (!pass) {
         write("密碼不能為空，請重新設定密碼：");
         input_to("new_pass", 1);
         return;
@@ -93,7 +93,7 @@ void new_pass(string pass) {
 }
 
 void get_nickname(string nick) {
-    if (nick == "") {
+    if (!nick) {
         write("暱稱不能為空，請重新輸入您的暱稱：");
         input_to("get_nickname");
         return;

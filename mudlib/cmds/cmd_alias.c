@@ -7,9 +7,9 @@ int do_alias(string arg) {
     object me = this_player(); // 取得下指令的玩家
     mapping al = me->query_aliases(); // 向玩家取得他的別名表
 
-    if (!arg || arg == "") {
+    if (!arg) {
         mixed ks = keys(al);
-        if (sizeof(ks) == 0) {
+        if (!ks) {
             write("你沒有設定任何別名。\n");
             return 1;
         }
@@ -51,7 +51,7 @@ int do_unalias(string arg) {
     object me = this_player();
     mapping al = me->query_aliases();
 
-    if (!arg || arg == "") {
+    if (!arg) {
         write("用法：unalias <別名名稱>\n");
         return 1;
     }

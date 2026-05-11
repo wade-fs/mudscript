@@ -89,7 +89,13 @@ func (l *lexer) NextToken() token.Token {
 	case ')':
 		tok = l.newToken(token.RPAREN, l.ch)
 	case ']':
-		tok = l.newToken(token.RBRACKET, l.ch)
+		if l.peekChar() == ')' {
+			ch := l.ch
+			l.readChar()
+			tok = token.Token{TokenType: token.RBRACKET_MAP, Literal: string(ch) + string(l.ch), Line: currentLine}
+		} else {
+			tok = l.newToken(token.RBRACKET, l.ch)
+		}
 	case '[':
 		tok = l.newToken(token.LBRACKET, l.ch)
 	case '&':

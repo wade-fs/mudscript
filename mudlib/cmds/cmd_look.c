@@ -45,7 +45,7 @@ int do_look(string arg) {
 
     // 看房間裝飾物
     string item_desc = here->look_at_item(arg);
-    if (item_desc != "") {
+    if (item_desc) {
         write(item_desc + "\n");
         return 1;
     }

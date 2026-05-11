@@ -106,7 +106,7 @@ void attacked_by(object attacker) {
     if (!in_combat) {
         in_combat     = 1;
         combat_target = attacker;
-        if (aggro_msg != "") {
+        if (aggro_msg) {
             say(aggro_msg);
         } else {
             say(name + " 怒目而視，準備反擊！\n");

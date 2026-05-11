@@ -22,6 +22,7 @@ int level, exp, exp_to_next, hp, max_hp, mp, max_mp, attack, defence, gold;
 string *write_paths;
 mapping aliases = ([ ]);
 string *saved_inventory = ({ });
+string last_location;
 
 // ── 初始化 ───────────────────────────────────────────────
 void create() {
@@ -58,7 +59,30 @@ void setup() {
 	// 恢復背包物品
 	call_other(this_object(), "restore_inventory");
 
+    // 處理進入世界的位置
+    if (last_location) {
+        object loc = clone_object(last_location);
+        if (loc) {
+            move_object(loc);
+            loc->look_room();
+        } else {
+            move_to_start();
+        }
+    } else {
+        move_to_start();
+    }
+
     call_other(this_object(), "do_help_list", "");
+}
+
+void move_to_start() {
+    object start = clone_object(START_ROOM);
+    if (start) {
+        move_object(start);
+        start->look_room();
+    } else {
+        write("致命錯誤：找不到起始點 " + START_ROOM + "\n");
+    }
 }
 
 // ── 基本介面 ─────────────────────────────────────────────
@@ -124,6 +148,18 @@ int save() {
 		}
 		saved_inventory += ({ filename });
 	}
+
+    // 紀錄目前位置
+    object env = environment(this_object());
+    if (env) {
+        last_location = object_name(env);
+        // 同樣去掉 clone 編號
+        int pos_env = strsrch(last_location, "#");
+        if (pos_env != -1) {
+            last_location = substr(last_location, 0, pos_env);
+        }
+    }
+
 	return save_object(query_save_file());
 }
 
@@ -148,7 +184,7 @@ void set_alias(string verb, string cmd) { aliases[verb] = cmd; }
 void remove_alias(string verb) { m_delete(aliases, verb); }
 string expand_alias(string input) {
     mixed ks = keys(aliases);
-    if (sizeof(ks) == 0) { return input; }
+    if (!ks) { return input; }
 
     string verb;
     string rest;
@@ -164,7 +200,7 @@ string expand_alias(string input) {
 
     if (member_array(verb, ks) >= 0) {
         string expanded = aliases[verb];
-        if (rest != "") { expanded = expanded + " " + rest; }
+        if (rest) { expanded = expanded + " " + rest; }
         return expanded;
     }
     return input;

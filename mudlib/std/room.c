@@ -56,7 +56,7 @@ void look_room() {
     write(long_desc + "\n");
 
     mixed exit_dirs = keys(exits);
-    if (sizeof(exit_dirs) > 0) {
+    if (exit_dirs) {
         write("出口：" + implode(exit_dirs, "  ") + "\n");
     } else {
         write("出口：（無）\n");
@@ -76,7 +76,7 @@ void look_room() {
         }
     }
 
-    if (sizeof(items_in_room) > 0) {
+    if (items_in_room) {
         write("物品：");
         int j;
         for (j = 0; j < sizeof(items_in_room); j++) {
@@ -86,7 +86,7 @@ void look_room() {
         write("\n");
     }
 
-    if (sizeof(livings_in_room) > 0) {
+    if (livings_in_room) {
         write("這裡有：");
         int k;
         for (k = 0; k < sizeof(livings_in_room); k++) {

@@ -42,5 +42,5 @@
 #define BASE_EXP_PER_LV 1000   // 每級所需基礎經驗值 (會依等級倍增)
 
 // ── 路徑常數 ────────────────────────────────────────────
-#define START_ROOM      "/area/newbie/entrance.c"
+#define START_ROOM      "/area/newbie/room_2_2.c"
 #define MASTER_FILE     "/master.c"

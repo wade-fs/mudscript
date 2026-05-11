@@ -501,6 +501,15 @@ func isTruthy(obj object.Object) bool {
 	if i, ok := obj.(*object.Integer); ok && i.Value == 0 {
 		return false
 	}
+	if s, ok := obj.(*object.String); ok && s.Value == "" {
+		return false
+	}
+	if a, ok := obj.(*object.Array); ok && len(a.Elements) == 0 {
+		return false
+	}
+	if m, ok := obj.(*object.Mapping); ok && len(m.Pairs) == 0 {
+		return false
+	}
 	return true
 }
 

@@ -21,12 +21,21 @@ import (
 // 輔助工具函式 (Internal Helpers)
 // ==========================================
 
-// isLPCTrue 判斷 LPC 中的真假值 (非 0 且非 nil 即真)
+// isLPCTrue 判斷 LPC 中的真假值 (符合現代語言習慣：0, "", [], ([]) 皆為假)
 func isLPCTrue(o object.Object) bool {
 	if o == nil || o.TokenType() == object.NilType {
 		return false
 	}
 	if i, ok := o.(*object.Integer); ok && i.Value == 0 {
+		return false
+	}
+	if s, ok := o.(*object.String); ok && s.Value == "" {
+		return false
+	}
+	if a, ok := o.(*object.Array); ok && len(a.Elements) == 0 {
+		return false
+	}
+	if m, ok := o.(*object.Mapping); ok && len(m.Pairs) == 0 {
 		return false
 	}
 	if b, ok := o.(*object.Boolean); ok && !b.Value {
