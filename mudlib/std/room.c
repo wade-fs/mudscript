@@ -57,7 +57,12 @@ void look_room() {
 
     mixed exit_dirs = keys(exits);
     if (exit_dirs) {
-        write("出口：" + implode(exit_dirs, "  ") + "\n");
+        // 將出口用 [ ] 包起來，讓前端可以轉化為可點擊的連結
+        string *formatted_exits = ({});
+        for (int i = 0; i < sizeof(exit_dirs); i++) {
+            formatted_exits += ({ "[" + exit_dirs[i] + "]" });
+        }
+        write("出口：" + implode(formatted_exits, "  ") + "\n");
     } else {
         write("出口：（無）\n");
     }

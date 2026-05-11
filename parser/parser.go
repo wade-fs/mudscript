@@ -991,7 +991,7 @@ func (p *Parser) parseMappingLiteral() ast.Expression {
 		Pairs: make(map[ast.Expression]ast.Expression),
 	}
 
-	for !p.peekTokenIs(token.RBRACKET_MAP) { 
+	for !p.peekTokenIs(token.RBRACKET) { 
 		p.nextToken()
 		
 		key := p.parseExpression(LOWEST)
@@ -1004,12 +1004,16 @@ func (p *Parser) parseMappingLiteral() ast.Expression {
 		value := p.parseExpression(LOWEST)
 		mapping.Pairs[key] = value
 
-		if !p.peekTokenIs(token.RBRACKET_MAP) && !p.expectPeek(token.COMMA) { 
+		if !p.peekTokenIs(token.RBRACKET) && !p.expectPeek(token.COMMA) { 
 			return nil
 		}
 	}
 
-	if !p.expectPeek(token.RBRACKET_MAP) { 
+	if !p.expectPeek(token.RBRACKET) { 
+		return nil
+	}
+
+	if !p.expectPeek(token.RPAREN) { 
 		return nil
 	}
 
@@ -1069,7 +1073,10 @@ func (p *Parser) parseCallOtherExpression(left ast.Expression) ast.Expression {
 
 func (p *Parser) parseClosureLiteral() ast.Expression {
 	lit := &ast.ClosureLiteral{Token: p.curToken}
-	lit.Elements = p.parseExpressionList(token.COLON_RPAREN)
+	lit.Elements = p.parseExpressionList(token.COLON)
+	if !p.expectPeek(token.RPAREN) {
+		return nil
+	}
 	return lit
 }
 
@@ -1109,8 +1116,12 @@ func (p *Parser) parseForEachStatement() ast.Statement {
 }
 
 func (p *Parser) parseLPCArrayLiteral() ast.Expression {
-	return &ast.ArrayLiteral{
-		Token:    p.curToken,
-		Elements: p.parseExpressionList(token.RARRAY),
+	lit := &ast.ArrayLiteral{
+		Token: p.curToken,
 	}
+	lit.Elements = p.parseExpressionList(token.RBRACE)
+	if !p.expectPeek(token.RPAREN) {
+		return nil
+	}
+	return lit
 }

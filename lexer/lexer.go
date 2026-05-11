@@ -79,23 +79,13 @@ func (l *lexer) NextToken() token.Token {
 			ch := l.ch
 			l.readChar()
 			tok = token.Token{TokenType: token.SCOPE, Literal: string(ch) + string(l.ch), Line: currentLine}
-		} else if l.peekChar() == ')' { 
-			ch := l.ch
-			l.readChar()
-			tok = token.Token{TokenType: token.COLON_RPAREN, Literal: string(ch) + string(l.ch), Line: currentLine}
 		} else {
 			tok = l.newToken(token.COLON, l.ch)
 		}
 	case ')':
 		tok = l.newToken(token.RPAREN, l.ch)
 	case ']':
-		if l.peekChar() == ')' {
-			ch := l.ch
-			l.readChar()
-			tok = token.Token{TokenType: token.RBRACKET_MAP, Literal: string(ch) + string(l.ch), Line: currentLine}
-		} else {
-			tok = l.newToken(token.RBRACKET, l.ch)
-		}
+		tok = l.newToken(token.RBRACKET, l.ch)
 	case '[':
 		tok = l.newToken(token.LBRACKET, l.ch)
 	case '&':
@@ -199,13 +189,7 @@ func (l *lexer) NextToken() token.Token {
 	case '{':
 		tok = l.newToken(token.LBRACE, l.ch)
 	case '}':
-		if l.peekChar() == ')' {
-			ch := l.ch
-			l.readChar()
-			tok = token.Token{TokenType: token.RARRAY, Literal: string(ch) + string(l.ch), Line: currentLine}
-		} else {
-			tok = l.newToken(token.RBRACE, l.ch)
-		}
+		tok = l.newToken(token.RBRACE, l.ch)
 	case '"':
 		tok.TokenType = token.STRING
 		tok.Literal = l.readString()
