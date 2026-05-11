@@ -518,9 +518,10 @@ func (ml *MacroLiteral) String() string {
 // mudscript
 // 變數宣告 (例如: int x = 1; 或 int x;)
 type TypedVarDecl struct {
-	Token token.Token // 記錄型別的 Token (例如 INT_TYPE)
-	Name  *Ident      // 變數名稱 (使用 *Ident)
-	Value Expression  // 初始值 (如果有的話)
+	Token   token.Token // 記錄型別的 Token (例如 INT_TYPE)
+	IsArray bool        // 是否為陣列 (例如 string *paths)
+	Name    *Ident      // 變數名稱 (使用 *Ident)
+	Value   Expression  // 初始值 (如果有的話)
 }
 
 func (tvd *TypedVarDecl) statementNode()       {}
@@ -528,8 +529,11 @@ func (tvd *TypedVarDecl) TokenLiteral() string { return tvd.Token.Literal }
 func (tvd *TypedVarDecl) String() string {
 	var out bytes.Buffer
 
-	out.WriteString(tvd.TokenLiteral() + " ") 
-	out.WriteString(tvd.Name.String())        
+	out.WriteString(tvd.TokenLiteral() + " ")
+	if tvd.IsArray {
+		out.WriteString("*")
+	}
+	out.WriteString(tvd.Name.String())
 
 	if tvd.Value != nil {
 		out.WriteString(" = ")
@@ -542,6 +546,7 @@ func (tvd *TypedVarDecl) String() string {
 // 函式定義 (例如: int main(string arg) { ... })
 type FunctionDef struct {
 	Token  token.Token    // 記錄回傳型別的 Token
+	IsArray bool           // 回傳值是否為陣列
 	Name   *Ident         // 函式名稱 (使用 *Ident)
 	Params []*TypedParam  // 帶有型別的參數清單
 	Body   *BlockStatement
@@ -553,6 +558,9 @@ func (fd *FunctionDef) String() string {
 	var out bytes.Buffer
 
 	out.WriteString(fd.TokenLiteral() + " ")
+	if fd.IsArray {
+		out.WriteString("*")
+	}
 	out.WriteString(fd.Name.String())
 	out.WriteString("(")
 
@@ -576,12 +584,18 @@ func (fd *FunctionDef) String() string {
 // 帶型別的參數 (例如: string arg)
 type TypedParam struct {
 	TypeToken token.Token
+	IsArray   bool
 	Name      *Ident      // 參數名稱 (使用 *Ident)
 }
 
 func (tp *TypedParam) TokenLiteral() string { return tp.TypeToken.Literal }
 func (tp *TypedParam) String() string {
-	return tp.TypeToken.Literal + " " + tp.Name.String()
+	res := tp.TypeToken.Literal + " "
+	if tp.IsArray {
+		res += "*"
+	}
+	res += tp.Name.String()
+	return res
 }
 
 // InheritStatement 不變

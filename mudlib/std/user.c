@@ -20,13 +20,11 @@ inherit "/cmds/admin/cmd_revoke.c";
 string id, name, password, role;
 int level, exp, exp_to_next, hp, max_hp, mp, max_mp, attack, defence, gold;
 string *write_paths;
-mapping aliases = ([]);
+mapping aliases = ([ ]);
 string *saved_inventory = ({ });
 
 // ── 初始化 ───────────────────────────────────────────────
 void create() {
-	write_paths = ({ });
-	saved_inventory = ({ });
 }
 
 // ── 登入初始化 ───────────────────────────────────────────

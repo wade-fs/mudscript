@@ -665,9 +665,10 @@ func (p *Parser) parseStatement() ast.Statement {
 func (p *Parser) parseTypedDeclarationStatement() ast.Statement {
 	typeToken := p.curToken 
 
-	// ▼ [關鍵修正]：處理變數宣告中的 '*'
+	isArray := false
 	if p.peekTokenIs(token.ASTARISK) {
 		p.nextToken()
+		isArray = true
 	}
 
 	if !p.expectPeek(token.IDENT) { 
@@ -677,19 +678,20 @@ func (p *Parser) parseTypedDeclarationStatement() ast.Statement {
 	name := &ast.Ident{Token: p.curToken, Value: p.curToken.Literal}
 
 	if p.peekTokenIs(token.LPAREN) {
-		return p.parseFunctionDefinition(typeToken, name)
+		return p.parseFunctionDefinition(typeToken, isArray, name)
 	}
 
-	return p.parseTypedVariableDeclaration(typeToken, name)
+	return p.parseTypedVariableDeclaration(typeToken, isArray, name)
 }
 
-func (p *Parser) parseTypedVariableDeclaration(typeToken token.Token, name *ast.Ident) ast.Statement {
+func (p *Parser) parseTypedVariableDeclaration(typeToken token.Token, isArray bool, name *ast.Ident) ast.Statement {
 	var statements []ast.Statement
 
 	// 處理第一個變數
 	stmt := &ast.TypedVarDecl{
-		Token: typeToken,
-		Name:  name,
+		Token:   typeToken,
+		IsArray: isArray,
+		Name:    name,
 	}
 
 	if p.peekTokenIs(token.ASSIGN) {
@@ -704,8 +706,10 @@ func (p *Parser) parseTypedVariableDeclaration(typeToken token.Token, name *ast.
 		p.nextToken() // 跳過逗號
 
 		// 支援 int a, *b; 這種 LPC 語法
+		nextIsArray := isArray // 預設跟隨前面的型別，但可以被 * 覆蓋/強制
 		if p.peekTokenIs(token.ASTARISK) {
 			p.nextToken()
+			nextIsArray = true
 		}
 
 		if !p.expectPeek(token.IDENT) {
@@ -714,8 +718,9 @@ func (p *Parser) parseTypedVariableDeclaration(typeToken token.Token, name *ast.
 
 		nextName := &ast.Ident{Token: p.curToken, Value: p.curToken.Literal}
 		nextStmt := &ast.TypedVarDecl{
-			Token: typeToken,
-			Name:  nextName,
+			Token:   typeToken,
+			IsArray: nextIsArray,
+			Name:    nextName,
 		}
 
 		if p.peekTokenIs(token.ASSIGN) {
@@ -740,10 +745,11 @@ func (p *Parser) parseTypedVariableDeclaration(typeToken token.Token, name *ast.
 	}
 }
 
-func (p *Parser) parseFunctionDefinition(typeToken token.Token, name *ast.Ident) ast.Statement {
+func (p *Parser) parseFunctionDefinition(typeToken token.Token, isArray bool, name *ast.Ident) ast.Statement {
 	stmt := &ast.FunctionDef{
-		Token: typeToken,
-		Name:  name,
+		Token:   typeToken,
+		IsArray: isArray,
+		Name:    name,
 	}
 
 	if !p.expectPeek(token.LPAREN) {
@@ -777,9 +783,10 @@ func (p *Parser) parseTypedParameters() []*ast.TypedParam {
 		}
 		paramType := p.curToken
 
-		// ▼ [關鍵修正]：如果下一個是 '*' (如 string *paths)，將其吃掉
+		paramIsArray := false
 		if p.peekTokenIs(token.ASTARISK) {
 			p.nextToken()
+			paramIsArray = true
 		}
 
 		if !p.expectPeek(token.IDENT) {
@@ -790,6 +797,7 @@ func (p *Parser) parseTypedParameters() []*ast.TypedParam {
 
 		params = append(params, &ast.TypedParam{
 			TypeToken: paramType,
+			IsArray:   paramIsArray,
 			Name:      paramName,
 		})
 

@@ -20,13 +20,24 @@ void get_id(string id) {
     current_id = id;
     
     object temp_user = clone_object("/std/user.c");
+    if (!temp_user) {
+        write("致命錯誤：無法載入 /std/user.c\n");
+        return;
+    }
+    
+    // 如果是錯誤物件 (由 evaluator 產生的 Error)
+    if (errorp(temp_user)) {
+        write("載入 /std/user.c 發生錯誤：\n" + sprintf("%v", temp_user) + "\n");
+        return;
+    }
+
     temp_user->set_id(id);
     
     if (temp_user->restore() == 1) {
         write("歡迎回來，" + id + "！請輸入密碼：");
         input_to("check_pass", 1);
     } else {
-        write("歡迎新玩家！為您的帳號設定密碼：");
+        write("歡迎新玩家 " + id + "！為您的帳號設定密碼：");
         input_to("new_pass", 1);
     }
     

@@ -388,7 +388,10 @@ func (d *Driver) LoadObject(filename string) (*object.LPCObject, error) {
 	}
 
 	d.SetupEfuns(lpcObj)
-	evaluator.Eval(program, env)
+	res := evaluator.Eval(program, env)
+	if errObj, ok := res.(*object.Error); ok {
+		return nil, fmt.Errorf("evaluation error in %s: %s", filename, errObj.Message)
+	}
 
 	d.mu.Lock()
 	d.ObjectTable[filename] = lpcObj

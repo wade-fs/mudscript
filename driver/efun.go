@@ -125,6 +125,7 @@ func (d *Driver) registerTypePredicates(obj *object.LPCObject) {
 	register("mappingp", object.MAPPING_OBJ)
 	register("arrayp", object.ArrayType)
 	register("nullp", object.NilType)
+	register("errorp", object.ErrorType)
 }
 
 // ==========================================

@@ -677,13 +677,21 @@ func evalTypedVarDecl(node *ast.TypedVarDecl, env object.Environment) object.Obj
 
 		// 執行型別檢查！
 		expectedType := node.Token.Literal
+		if node.IsArray {
+			expectedType = "array"
+		}
+
 		if !checkTypeMatch(expectedType, val) {
 			return newError("type mismatch: cannot assign %s to %s variable '%s'",
 				val.TokenType(), expectedType, node.Name.Value)
 		}
 	} else {
 		// 2. 如果沒有賦值，給予預設值
-		val = getDefaultLPCValue(node.Token.Literal)
+		lpcType := node.Token.Literal
+		if node.IsArray {
+			lpcType = "array"
+		}
+		val = getDefaultLPCValue(lpcType)
 	}
 
 	// 3. 將變數存入環境中
@@ -709,17 +717,17 @@ func checkTypeMatch(lpcType string, obj object.Object) bool {
 		tt := obj.TokenType()
         return tt == object.LPC_OBJECT_OBJ || 
                tt == object.NilType || 
-               tt == object.IntegerType
+               tt == object.IntegerType // 0 可以指派給 object
 	case "mapping":
 		tt := obj.TokenType()
         return tt == object.MAPPING_OBJ || 
                tt == object.NilType || 
-               tt == object.IntegerType
+               tt == object.IntegerType // 0 可以指派給 mapping
 	case "array":
 		tt := obj.TokenType()
         return tt == object.ArrayType || 
                tt == object.NilType || 
-               tt == object.IntegerType
+               tt == object.IntegerType // 0 可以指派給 array
 	default:
 		return true // TODO: 應該是false
 	}
