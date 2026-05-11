@@ -60,8 +60,11 @@ void check_pass(string pass) {
         }
 
         if (exec(user, this_object())) {
-            write("\n登入成功！歡迎回來，" + user->query_name() + "。\n");
             user->setup();
+			if (!user->query_name() || user->query_name() == "") {
+                user->set_name(user->get_id());
+            }
+            write("\n登入成功！歡迎回來，" + user->query_name() + "。\n");
             destruct(this_object());
         } else {
             write("系統錯誤：無法轉移連線。\n");

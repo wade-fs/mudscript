@@ -2,6 +2,7 @@ package signaling
 
 import (
 	"fmt"
+	"strings"
 
 	"mudscript/driver"
 	"mudscript/object"
@@ -125,29 +126,64 @@ func (h *Hub) Run() {
 			}
 
 		case msg := <-h.forward:
-		    if msg.Type == "cmd" {
+			if msg.Type == "cmd" {
 				client, ok := h.clients[msg.From]
 				if !ok || client.MudConn == nil {
 					continue
 				}
-
 				p := client.MudConn
-				// 👉 關鍵修正：優先檢查是否有等待中的 input_to 函式
+				input := strings.TrimSpace(msg.Payload)
+				if input == "" {
+					continue
+				}
+
+				// 🚀 階段 1：處理 input_to (密碼或對話)
 				if p.NextInputFunc != "" {
 					funcName := p.NextInputFunc
-					p.NextInputFunc = "" // 執行一次後立即清除狀態
-					p.InputHidden = false // 重設隱藏狀態
+					p.NextInputFunc = ""
+					p.InputHidden = false
+					h.mudDriver.RunCommand(p, p.Object, funcName, []object.Object{&object.String{Value: input}})
+					continue
+				}
 
-					// 將輸入直接送往該函式
-					h.mudDriver.RunCommand(p, p.Object, funcName, []object.Object{
-						&object.String{Value: msg.Payload},
-					})
-				} else {
-					// 正常的指令處理流程 (例如 look, move 等)
-					// 您可以考慮在這裡加入 add_action 的檢查邏輯，或是交給 process_input
-					h.mudDriver.RunCommand(p, p.Object, "process_input", []object.Object{
-						&object.String{Value: msg.Payload},
-					})
+				// 🚀 階段 2：處理 Alias 展開
+				// 呼叫 user.c 中的 expand_alias 函式
+				expanded := h.mudDriver.RunCommand(p, p.Object, "expand_alias", []object.Object{&object.String{Value: input}})
+				if s, ok := expanded.(*object.String); ok {
+					input = s.Value
+				}
+
+				// 解析動詞與參數
+				parts := strings.SplitN(input, " ", 2)
+				verb := parts[0]
+				arg := ""
+				if len(parts) > 1 {
+					arg = parts[1]
+				}
+
+				// 🚀 階段 3：檢查 Actions 表 (add_action 註冊的指令)
+				found := false
+				if p.Object.Actions != nil {
+					if action, exists := p.Object.Actions[verb]; exists {
+						callArgs := []object.Object{}
+						if arg != "" {
+							callArgs = append(callArgs, &object.String{Value: arg})
+						}
+						// 執行指令
+						res := h.mudDriver.RunCommand(p, p.Object, action.FuncName, callArgs)
+						// 若回傳非 0 整數，代表指令處理成功
+						if i, ok := res.(*object.Integer); !ok || i.Value != 0 {
+							found = true
+						}
+					}
+				}
+
+				// 🚀 階段 4：最後才交給 process_input
+				if !found {
+					res := h.mudDriver.RunCommand(p, p.Object, "process_input", []object.Object{&object.String{Value: input}})
+					if i, ok := res.(*object.Integer); ok && i.Value == 0 {
+						p.Send("什麼？\r\n")
+					}
 				}
 			} else if msg.Type == "chat" {
 				for id, peer := range h.clients {
