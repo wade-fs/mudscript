@@ -26,6 +26,18 @@ string last_location;
 
 // ── 初始化 ───────────────────────────────────────────────
 void create() {
+    // 初始預設別名，讓玩家手打更簡單
+    aliases = ([
+        "n" : "go north",
+        "s" : "go south",
+        "e" : "go east",
+        "w" : "go west",
+        "u" : "go up",
+        "d" : "go down",
+        "l" : "look",
+        "i" : "inventory",
+        "sc": "score"
+    ]);
 }
 
 // ── 登入初始化 ───────────────────────────────────────────

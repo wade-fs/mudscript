@@ -535,10 +535,22 @@ func evalIdent(node *ast.Ident, env object.Environment) object.Object {
 	name := node.Value
 
 	// 支援 ::func() 繼承呼叫
-	if strings.HasPrefix(name, "::") {
+	if (strings.HasPrefix(name, "::")) {
 		funcName := strings.TrimPrefix(name, "::")
-		if thisObj, ok := env.Get("this_object"); ok {
-			if lpcObj, ok := thisObj.(*object.LPCObject); ok {
+		if thisObjVal, ok := env.Get("this_object"); ok {
+			var lpcObj *object.LPCObject
+
+			// 判斷 this_object 是直接的物件，還是回傳物件的 Builtin
+			if obj, ok := thisObjVal.(*object.LPCObject); ok {
+				lpcObj = obj
+			} else if builtin, ok := thisObjVal.(*object.Builtin); ok {
+				res := builtin.Fn()
+				if obj, ok := res.(*object.LPCObject); ok {
+					lpcObj = obj
+				}
+			}
+
+			if lpcObj != nil {
 				// 從繼承鏈由上往下找
 				for _, parent := range lpcObj.Inherits {
 					if fn, exists := parent.Vars.Get(funcName); exists {
@@ -548,6 +560,7 @@ func evalIdent(node *ast.Ident, env object.Environment) object.Object {
 			}
 		}
 	}
+
 
 	if val, ok := env.Get(name); ok {
 		return val

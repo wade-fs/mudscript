@@ -161,6 +161,8 @@ func (h *Hub) Run() {
 					arg = parts[1]
 				}
 
+				p.CurrentVerb = verb // 🚀 設定當前動詞
+
 				// 🚀 階段 3：檢查 Actions 表 (add_action 註冊的指令)
 				found := false
 				if p.Object.Actions != nil {

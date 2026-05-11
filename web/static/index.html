@@ -180,7 +180,8 @@
                 html += `<div class="map-cell map-center" title="${data.center_name}">👤</div>`;
             } else if (exits.has(dir)) {
                 const label = getDirLabel(dir);
-                html += `<div class="map-cell map-exit" onclick="sendCmd('${dir}')">${label}</div>`;
+                // 🚩 修改：點擊小地圖時送出 "go 方向"
+                html += `<div class="map-cell map-exit" onclick="sendCmd('go ${dir}')">${label}</div>`;
             } else {
                 html += `<div class="map-cell"></div>`;
             }

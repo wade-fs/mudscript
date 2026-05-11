@@ -97,6 +97,7 @@ type PlayerConnection struct {
 	NextInputFunc string
 	InputHidden   bool
 	OutputCallback func(msg string)
+	CurrentVerb    string // 🚀 新增：儲存當前執行的指令動詞
 }
 
 func NewPlayerConnection(conn net.Conn, obj *object.LPCObject) *PlayerConnection {

@@ -100,6 +100,13 @@ void look_room() {
         }
         write("\n");
     }
+
+    // 🚀 新增：發送小地圖的 JSON 資料給前端
+    mapping map_data = ([
+        "center_name": short_desc,
+        "exits": keys(exits)
+    ]);
+    write(sprintf("{\"ui\": \"minimap\", \"data\": %s}", json_encode(map_data)));
 }
 
 // ── 移動指令 ────────────────────────────────────────────

@@ -249,6 +249,19 @@ func (d *Driver) registerCoreIOEfuns(obj *object.LPCObject) {
 	        return &object.Nil{}
 	    },
 	})
+	// 語法: string query_verb()
+	// 說明: 回傳當前觸發指令的動詞。
+	// 範例: 若輸入 "go north"，query_verb() 回傳 "go"。
+	obj.Vars.Set("query_verb", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			conn := d.GetCurrentPlayer()
+			if conn != nil {
+				return &object.String{Value: conn.CurrentVerb}
+			}
+			return &object.Nil{}
+		},
+	})
+
 	// 語法: mixed call_other(object ob, string func, [mixed args...])
 	// 說明: 動態呼叫物件上的函式。當函式名稱是變數時非常有用。
 	// 範例: call_other(this_player(), "set_" + prop_name, value);
