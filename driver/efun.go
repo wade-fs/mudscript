@@ -526,16 +526,19 @@ func (d *Driver) registerEnvironmentEfuns(obj *object.LPCObject) {
 		},
 	})
 
-	// 語法: void move_object(object dest)
-	// 說明: 將自己移動到目標物件(房間或容器)之內。
+	// 語法: void move_object(object dest) / void move_object(object item, object dest)
+	// 說明: 將物件移動到目標物件(房間或容器)之內。
 	// 範例: move_object(load_object("/d/city/square"));
 	obj.Vars.Set("move_object", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
-			if len(args) != 1 || args[0].TokenType() != object.LPC_OBJECT_OBJ {
-				return object.NewError("move_object 需要 object 參數")
+			if len(args) == 1 && args[0].TokenType() == object.LPC_OBJECT_OBJ {
+				d.MoveObject(obj, args[0].(*object.LPCObject))
+				return &object.Nil{}
+			} else if len(args) == 2 && args[0].TokenType() == object.LPC_OBJECT_OBJ && args[1].TokenType() == object.LPC_OBJECT_OBJ {
+				d.MoveObject(args[0].(*object.LPCObject), args[1].(*object.LPCObject))
+				return &object.Nil{}
 			}
-			d.MoveObject(obj, args[0].(*object.LPCObject))
-			return &object.Nil{}
+			return object.NewError("move_object 參數錯誤，需要 1 或 2 個 object 參數")
 		},
 	})
 
@@ -1366,7 +1369,13 @@ func (d *Driver) registerSystemAndFiles(obj *object.LPCObject) {
 	obj.Vars.Set("load_object", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
 			if len(args) < 1 { return &object.Nil{} }
-			path := args[0].Inspect()
+			path := ""
+			if s, ok := args[0].(*object.String); ok {
+				path = s.Value
+			} else {
+				path = args[0].Inspect()
+			}
+			
 			if !strings.HasSuffix(path, ".c") { path += ".c" }
 			res, err := d.LoadObject(path)
 			if err != nil { return object.NewError(err.Error()) }

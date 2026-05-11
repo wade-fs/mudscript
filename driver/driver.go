@@ -633,6 +633,11 @@ func (d *Driver) CallFunction(obj *object.LPCObject, funcName string, args []obj
 	fnObj, ok := obj.Vars.Get(funcName)
 	if !ok { return nil }
 
+	// 🚀 新增：支援呼叫 Builtin 函式 (efun)
+	if builtin, ok := fnObj.(*object.Builtin); ok {
+		return builtin.Fn(args...)
+	}
+
 	fn, ok := fnObj.(*object.Function)
 	if !ok { return object.NewError("%s is not a function", funcName) }
 
@@ -673,7 +678,7 @@ func (d *Driver) CallFunction(obj *object.LPCObject, funcName string, args []obj
 }
 
 func (d *Driver) MoveObject(item *object.LPCObject, dest *object.LPCObject) {
-	if item == nil || dest == nil || item.IsDestructed || dest.IsDestructed { return }
+	if item == nil || item.IsDestructed { return }
 	if item.Location != nil {
 		oldInv := item.Location.Inventory
 		newInv := make([]*object.LPCObject, 0, len(oldInv))
@@ -682,9 +687,19 @@ func (d *Driver) MoveObject(item *object.LPCObject, dest *object.LPCObject) {
 		}
 		item.Location.Inventory = newInv
 	}
+	
 	item.Location = dest
-	dest.Inventory = append(dest.Inventory, item)
+	if dest != nil && !dest.IsDestructed {
+		dest.Inventory = append(dest.Inventory, item)
+	}
+	
+	// 執行 item 的 init
 	d.CallFunction(item, "init", nil)
+	
+	// 如果目標是容器，執行目標的 init (讓目標有機會對 item 註冊指令，例如房間 add_action)
+	if dest != nil && !dest.IsDestructed {
+		d.CallFunction(dest, "init", nil)
+	}
 }
 
 func (d *Driver) DestructObject(obj *object.LPCObject) {

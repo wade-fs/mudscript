@@ -7,13 +7,15 @@
   "gold": 0,
   "hp": 0,
   "id": "wade",
+  "last_location": "/area/newbie/room_2_2.c",
   "level": 0,
   "max_hp": 0,
   "max_mp": 0,
   "mp": 0,
-  "name": "",
+  "name": "wade",
   "password": "de3bbd0fd7945e42581643b18cdf28dd3ed61d9c3d541b7b016081564b65a3f3",
   "role": "god",
+  "saved_inventory": [],
   "write_paths": [
     "/"
   ]

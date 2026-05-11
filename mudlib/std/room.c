@@ -121,13 +121,17 @@ void init() {
 
 int do_go(string dir) {
     mixed cmd = dir;
+    if (!cmd || cmd == "") {
+        cmd = query_verb();
+    }
+
     if (!exits[cmd]) {
         write("那個方向沒有出路。\n");
         return 1;
     }
 
     string dest_path = exits[cmd];
-    object dest = clone_object(dest_path);
+    object dest = load_object(dest_path);
     if (!dest) {
         write("目的地不存在。\n");
         return 1;
@@ -137,7 +141,7 @@ int do_go(string dir) {
     string my_name = me->query_name();
 
     say(my_name + " 往 " + cmd + " 方向離開了。\n");
-    move_object(dest);
+    me->move_object(dest);
     say(my_name + " 從 " + cmd + " 方向來到了這裡。\n");
     dest->look_room();
     return 1;

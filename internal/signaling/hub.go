@@ -167,14 +167,12 @@ func (h *Hub) Run() {
 				found := false
 				if p.Object.Actions != nil {
 					if action, exists := p.Object.Actions[verb]; exists {
-						callArgs := []object.Object{}
-						if arg != "" {
-							callArgs = append(callArgs, &object.String{Value: arg})
-						}
-						// 執行指令
-						res := h.mudDriver.RunCommand(p, p.Object, action.FuncName, callArgs)
+						// 執行指令 (要在 Provider 上執行，而不是 player 本身)
+						// 始終傳遞參數字串，即使是空的 (避免後續 LPC 收到 Nil 而在 mapping 索引時崩潰)
+						res := h.mudDriver.RunCommand(p, action.Provider, action.FuncName, []object.Object{&object.String{Value: arg}})
+						
 						// 若回傳非 0 整數，代表指令處理成功
-						if i, ok := res.(*object.Integer); !ok || i.Value != 0 {
+						if i, ok := res.(*object.Integer); ok && i.Value != 0 {
 							found = true
 						}
 					}

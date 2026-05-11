@@ -20,29 +20,39 @@ inherit "/cmds/admin/cmd_revoke.c";
 string id, name, password, role;
 int level, exp, exp_to_next, hp, max_hp, mp, max_mp, attack, defence, gold;
 string *write_paths;
-mapping aliases = ([ ]);
+mapping aliases;
 string *saved_inventory = ({ });
 string last_location;
 
 // ── 初始化 ───────────────────────────────────────────────
+void init_aliases() {
+    if (!aliases || sizeof(aliases) == 0) {
+        aliases = ([
+            "n" : "go north",
+            "s" : "go south",
+            "e" : "go east",
+            "w" : "go west",
+            "u" : "go up",
+            "d" : "go down",
+            "north" : "go north",
+            "south" : "go south",
+            "east" : "go east",
+            "west" : "go west",
+            "l" : "look",
+            "i" : "inventory",
+            "sc": "score"
+        ]);
+    }
+}
+
 void create() {
-    // 初始預設別名，讓玩家手打更簡單
-    aliases = ([
-        "n" : "go north",
-        "s" : "go south",
-        "e" : "go east",
-        "w" : "go west",
-        "u" : "go up",
-        "d" : "go down",
-        "l" : "look",
-        "i" : "inventory",
-        "sc": "score"
-    ]);
+    init_aliases();
 }
 
 // ── 登入初始化 ───────────────────────────────────────────
 // server.go 建立連線後呼叫 setup()，把所有指令綁定好
 void setup() {
+    init_aliases();
     set_heart_beat(1);
     enable_commands();
 
