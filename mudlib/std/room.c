@@ -7,11 +7,30 @@ string  long_desc;     // 房間描述
 mapping exits;         // 出口表：([ "north": "/area/..." ])
 mixed   item_ids;      // 房間內可互動的裝飾物描述表
 
+// 🚀 新增空間座標 (注意：配合 Go 解析器限制，逐行宣告)
+int x;
+int y;
+int z;
+
 void create() {
     short_desc = "未命名的空房間";
     long_desc  = "這裡什麼都沒有，只有無盡的虛空。\n";
     exits      = ([]);
     item_ids   = ([]);
+    x = 0;
+    y = 0;
+    z = 0;
+}
+
+// ── 座標設定與查詢 ───────────────────────────────────────
+void set_coordinate(int cx, int cy, int cz) {
+    x = cx;
+    y = cy;
+    z = cz;
+}
+
+mixed query_coordinate() {
+    return ({ x, y, z });
 }
 
 // ── 設定函式 ────────────────────────────────────────────
@@ -36,7 +55,6 @@ void look_room() {
     write("【" + short_desc + "】\n");
     write(long_desc + "\n");
 
-    // 列出出口
     mixed exit_dirs = keys(exits);
     if (sizeof(exit_dirs) > 0) {
         write("出口：" + implode(exit_dirs, "  ") + "\n");
@@ -44,7 +62,6 @@ void look_room() {
         write("出口：（無）\n");
     }
 
-    // 列出房間內的物件（玩家與道具，排除房間本身）
     mixed here_inv = all_inventory(this_object());
     mixed items_in_room = ({});
     mixed livings_in_room = ({});
@@ -82,7 +99,6 @@ void look_room() {
 
 // ── 移動指令 ────────────────────────────────────────────
 void init() {
-    // 為所有出口方向加上移動指令
     mixed dirs = keys(exits);
     int i;
     for (i = 0; i < sizeof(dirs); i++) {
@@ -92,10 +108,7 @@ void init() {
 }
 
 int do_go(string dir) {
-    // 支援 "go north" 或直接 "north"
     mixed cmd = dir;
-
-    // 查出口
     if (!exits[cmd]) {
         write("那個方向沒有出路。\n");
         return 1;
@@ -120,11 +133,8 @@ int do_go(string dir) {
 
 // ── 看裝飾物 ────────────────────────────────────────────
 string look_at_item(string id) {
-    if (item_ids[id]) {
-        return item_ids[id];
-    }
+    if (item_ids[id]) { return item_ids[id]; }
     return "";
 }
 
-// catch_tell 讓房間能接收到 say 訊息（NPC AI 用）
 void catch_tell(string msg) {}

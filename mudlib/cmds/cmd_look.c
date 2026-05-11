@@ -16,7 +16,16 @@ int do_look(string arg) {
     }
 
     if (!arg) {
+        // 印出傳統的文字描述
         here->look_room();
+        
+        // 🚀 新增：發送小地圖的 JSON 資料給前端
+        mapping map_data = ([
+            "center_name": here->query_short(),
+            "exits": keys(here->query_exits())
+        ]);
+        write(sprintf("{\"ui\": \"minimap\", \"data\": %s}", json_encode(map_data)));
+        
         return 1;
     }
 

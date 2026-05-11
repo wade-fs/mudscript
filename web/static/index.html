@@ -13,18 +13,18 @@
                 "cmds info"
                 "cmds look"
                 "send send";
-            grid-template-rows: 180px 1fr 60px; /* Info區 180px, Send區 60px */
-            grid-template-columns: 240px 1fr;   /* 左側指令欄 240px */
+            grid-template-rows: 180px 1fr 60px;
+            grid-template-columns: 240px 1fr;
             height: 100vh;
             gap: 4px;
         }
 
         #info-area { grid-area: info; background: #1a1a1a; border: 1px solid #333; padding: 10px; display: flex; flex-wrap: wrap; gap: 15px; }
         #cmds-area { grid-area: cmds; background: #1a1a1a; border: 1px solid #333; overflow-y: auto; padding: 10px; }
-        #look-area { grid-area: look; background: #000; border: 1px solid #4CAF50; overflow-y: auto; padding: 20px; font-size: 18px; line-height: 1.6; }
+        /* 🚩 Look 區必須設定 position: relative，讓小地圖可以在裡面絕對定位 */
+        #look-area { grid-area: look; background: #000; border: 1px solid #4CAF50; overflow-y: auto; padding: 20px; font-size: 18px; line-height: 1.6; position: relative; }
         #send-area { grid-area: send; background: #222; display: flex; align-items: center; padding: 0 15px; gap: 10px; }
 
-        /* 2. 組件樣式 */
         .stat-box { background: #222; border-radius: 4px; padding: 8px 12px; min-width: 120px; border-left: 4px solid #4CAF50; }
         .stat-label { font-size: 12px; color: #888; }
         .stat-value { font-weight: bold; color: #fff; display: block; }
@@ -36,20 +36,38 @@
         
         #msg { flex: 1; background: #000; border: 1px solid #4CAF50; color: #00ff00; padding: 10px; font-size: 18px; outline: none; }
         
-        /* 捲軸美化 */
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-thumb { background: #444; }
+
+        /* 🚀 迷你地圖專用樣式 */
+        #minimap-container {
+            position: absolute; /* 浮動在 Look 區右上角 */
+            top: 20px;
+            right: 20px;
+            background: rgba(30, 30, 30, 0.85);
+            border: 1px solid #4CAF50;
+            border-radius: 8px;
+            padding: 10px;
+            display: grid;
+            grid-template-columns: repeat(3, 40px);
+            grid-template-rows: repeat(3, 40px);
+            gap: 4px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            z-index: 10;
+        }
+
+        .map-cell { background: #111; border: 1px solid #333; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 14px; color: #555; user-select: none; }
+        .map-exit { background: #2E7D32; cursor: pointer; color: #fff; font-weight: bold; transition: background 0.2s; }
+        .map-exit:hover { background: #4CAF50; }
+        .map-center { background: #1976D2; color: #fff; border-color: #64B5F6; font-size: 18px; }
     </style>
 </head>
 <body>
 
 <div id="wrapper">
     <div id="info-area">等待狀態更新...</div>
-    
     <div id="cmds-area">載入指令中...</div>
-    
     <div id="look-area"></div>
-    
     <div id="send-area">
         <input id="msg" placeholder="輸入指令..." autocomplete="off">
         <button onclick="sendMsg()">發送</button>
@@ -58,19 +76,18 @@
 
 <script>
     let ws;
-    let history = [];
+    let historyCmds = [];
     let histIdx = -1;
 
     window.onload = () => { connect(); };
 
-    // 🚩 前端維護歷史紀錄
     const msgInput = document.getElementById("msg");
     msgInput.onkeydown = (e) => {
         if (e.key === "ArrowUp") {
-            if (histIdx > 0) { histIdx--; msgInput.value = history[histIdx]; }
+            if (histIdx > 0) { histIdx--; msgInput.value = historyCmds[histIdx]; }
         } else if (e.key === "ArrowDown") {
-            if (histIdx < history.length - 1) { histIdx++; msgInput.value = history[histIdx]; }
-            else { histIdx = history.length; msgInput.value = ""; }
+            if (histIdx < historyCmds.length - 1) { histIdx++; msgInput.value = historyCmds[histIdx]; }
+            else { histIdx = historyCmds.length; msgInput.value = ""; }
         } else if (e.key === "Enter") {
             sendMsg();
         }
@@ -84,13 +101,11 @@
             if (msg.type === "mud_text") {
                 const payload = msg.payload.trim();
 
-                // 🚩 處理特殊指令：隱藏輸入 (密碼模式)
                 if (payload === "__INPUT_HIDDEN__") {
                     msgInput.type = "password";
                     return;
                 }
 
-                // 🚩 判斷是否為結構化 JSON
                 if (payload.startsWith("{") && payload.endsWith("}")) {
                     try {
                         const uiData = JSON.parse(payload);
@@ -114,6 +129,8 @@
             `;
         } else if (ui.ui === "cmd_list") {
             renderCmdList(ui.data);
+        } else if (ui.ui === "minimap") {
+            renderMiniMap(ui.data); // 🚀 處理地圖渲染
         }
     }
 
@@ -137,6 +154,55 @@
         }
     }
 
+    // 🚀 渲染九宮格迷你地圖
+    function renderMiniMap(data) {
+        const lookArea = document.getElementById("look-area");
+        let mapDiv = document.getElementById("minimap-container");
+        
+        if (!mapDiv) {
+            mapDiv = document.createElement("div");
+            mapDiv.id = "minimap-container";
+            lookArea.appendChild(mapDiv);
+        }
+
+        const exits = new Set(data.exits);
+        
+        // 3x3 網格對應的方位 (目前只對應主要的平面 4 方向)
+        const layout = [
+            "nw", "north", "ne",
+            "west", "center", "east",
+            "sw", "south", "se"
+        ];
+
+        let html = "";
+        layout.forEach(dir => {
+            if (dir === "center") {
+                html += `<div class="map-cell map-center" title="${data.center_name}">👤</div>`;
+            } else if (exits.has(dir)) {
+                // 有出口的方塊轉化為可點擊按鈕
+                const label = getDirLabel(dir);
+                html += `<div class="map-cell map-exit" onclick="sendMovement('${dir}')">${label}</div>`;
+            } else {
+                html += `<div class="map-cell"></div>`;
+            }
+        });
+
+        mapDiv.innerHTML = html;
+    }
+
+    function getDirLabel(dir) {
+        const labels = { north:"北", south:"南", east:"東", west:"西", up:"上", down:"下" };
+        return labels[dir] || dir.substring(0, 1).toUpperCase();
+    }
+
+    function sendMovement(dir) {
+        // 點擊小地圖按鈕，視同送出移動指令
+        historyCmds.push(dir);
+        histIdx = historyCmds.length;
+        ws.send(JSON.stringify({ type: "cmd", payload: dir }));
+        appendLook("<span style='color: #888;'>>> " + dir + "</span>");
+    }
+
     function fillInput(cmd) {
         msgInput.value = cmd + " ";
         msgInput.focus();
@@ -148,19 +214,33 @@
 
     function appendLook(text) {
         const area = document.getElementById("look-area");
-        area.innerHTML += `<div>${text.replace(/\n/g, "<br>")}</div>`;
+        // 確保地圖不會被純文字覆寫掉
+        const minimap = document.getElementById("minimap-container");
+        
+        const newMsg = document.createElement("div");
+        newMsg.innerHTML = text.replace(/\n/g, "<br>");
+        
+        if (minimap) {
+            area.insertBefore(newMsg, minimap);
+        } else {
+            area.appendChild(newMsg);
+        }
+        
         area.scrollTop = area.scrollHeight;
     }
 
     function sendMsg() {
         const val = msgInput.value.trim();
         if (!val) return;
-        history.push(val);
-        histIdx = history.length;
+        historyCmds.push(val);
+        histIdx = historyCmds.length;
         ws.send(JSON.stringify({ type: "cmd", payload: val }));
-        msgInput.value = "";
+        
+        // 自己輸入的指令也印在畫面上
+        const displayVal = msgInput.type === "password" ? "******" : val;
+        appendLook("<span style='color: #888;'>>> " + displayVal + "</span>");
 
-        // 🚩 發送完後，強制恢復為一般輸入模式 (防止卡在密碼模式)
+        msgInput.value = "";
         msgInput.type = "text";
     }
 </script>
