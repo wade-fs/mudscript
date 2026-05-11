@@ -2,20 +2,6 @@
 
 #include "/include/config.h"
 
-inherit "/cmds/cmd_movement.c";
-inherit "/cmds/cmd_look.c";
-inherit "/cmds/cmd_inventory.c";
-inherit "/cmds/cmd_social.c";
-inherit "/cmds/cmd_info.c";
-inherit "/cmds/cmd_quit.c";
-inherit "/cmds/cmd_help.c";
-inherit "/cmds/cmd_alias.c";
-inherit "/cmds/cmd_nickname.c";
-inherit "/cmds/admin/cmd_demote.c";
-inherit "/cmds/admin/cmd_grant.c";
-inherit "/cmds/admin/cmd_promote.c";
-inherit "/cmds/admin/cmd_revoke.c";
-
 // ── 屬性宣告 ────────────────────────────────────────────
 string id, name, password, role;
 int level, exp, exp_to_next, hp, max_hp, mp, max_mp, attack, defence, gold;
@@ -56,23 +42,7 @@ void setup() {
     set_heart_beat(1);
     enable_commands();
 
-    // 各模組統一由自己的 *_setup() 負責 add_action
-    cmd_movement_setup();
-    cmd_look_setup();
-    cmd_inventory_setup();
-    cmd_social_setup();
-    cmd_info_setup();
-    cmd_quit_setup();
-    cmd_help_setup();
-    cmd_alias_setup();
-
-	// 管理指令
-	if (role == "god" || role == "wizard") {
-		cmd_promote_setup();
-		cmd_demote_setup();
-		cmd_grant_setup();
-		cmd_revoke_setup();
-    }
+    // 🚩 這裡不再呼叫 cmd_xxx_setup()，因為改用 COMMAND_D 守護進程機制
 
 	if (!name) {
         set_name(id);
@@ -83,7 +53,7 @@ void setup() {
 
     // 處理進入世界的位置
     if (last_location) {
-        object loc = clone_object(last_location);
+        object loc = load_object(last_location);
         if (loc) {
             move_object(loc);
             loc->look_room();
@@ -94,7 +64,38 @@ void setup() {
         move_to_start();
     }
 
-    call_other(this_object(), "do_help_list", "");
+    call_other(load_object("/cmds/cmd_help.c"), "do_help_list", this_object(), "");
+}
+
+int process_input(string input) {
+    string verb, arg;
+    
+    input = trim(input);
+    if (!input || input == "") return 0;
+
+    if (substr(input, 0, 1) == "'") {
+        verb = "'";
+        arg = substr(input, 1, strlen(input) - 1);
+    } else if (substr(input, 0, 1) == ":") {
+        verb = ":";
+        arg = substr(input, 1, strlen(input) - 1);
+    } else {
+        int sp = strsrch(input, " ");
+        if (sp < 0) {
+            verb = input;
+            arg = "";
+        } else {
+            verb = substr(input, 0, sp);
+            arg = substr(input, sp + 1, strlen(input) - sp - 1);
+        }
+    }
+    
+    object cmd_d = load_object("/secure/command_d.c");
+    if (!cmd_d) {
+        write("系統錯誤：無法載入指令守護進程。\n");
+        return 1;
+    }
+    return cmd_d->execute(this_object(), verb, arg);
 }
 
 void move_to_start() {
@@ -142,7 +143,10 @@ void remove_write_path(string p) {
 // ── 心跳 ─────────────────────────────────────────────────
 void heart_beat() {
     // 🚀 利用心跳，定時將 score 資訊以 JSON 格式推送到 Info 區
-    call_other(this_object(), "do_score", "");
+    object cmd_info = load_object("/cmds/cmd_info.c");
+    if (cmd_info) {
+        cmd_info->main(this_object(), "");
+    }
 }
 
 // ── 死亡 ─────────────────────────────────────────────────
@@ -154,7 +158,6 @@ void on_death() {
     set_heart_beat(1);
 }
 
-int process_input(string input) { return 0; }
 string query_save_file() { return "/data/user/" + id; }
 
 int save() {

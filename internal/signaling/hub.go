@@ -154,11 +154,22 @@ func (h *Hub) Run() {
 				}
 
 				// 解析動詞與參數
-				parts := strings.SplitN(input, " ", 2)
-				verb := parts[0]
+				input = strings.TrimSpace(input)
+				verb := ""
 				arg := ""
-				if len(parts) > 1 {
-					arg = parts[1]
+
+				if strings.HasPrefix(input, "'") {
+					verb = "'"
+					arg = strings.TrimSpace(input[1:])
+				} else if strings.HasPrefix(input, ":") {
+					verb = ":"
+					arg = strings.TrimSpace(input[1:])
+				} else {
+					parts := strings.SplitN(input, " ", 2)
+					verb = parts[0]
+					if len(parts) > 1 {
+						arg = parts[1]
+					}
 				}
 
 				p.CurrentVerb = verb // 🚀 設定當前動詞

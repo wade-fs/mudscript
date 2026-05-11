@@ -1,13 +1,17 @@
 // mudlib/cmds/cmd_help.c
-// 幫助指令模組：help / ?
+// 幫助指令守護進程：help / ?
 
-void cmd_help_setup() {
-    add_action("do_help", "help");
-    add_action("do_help", "?");
-	add_action("do_help_list", "help_list_json"); // 內部用
+int main(object me, string arg) {
+    string verb = query_verb();
+    
+    if (verb == "help_list_json") {
+        return do_help_list(me, arg);
+    }
+    
+    return do_help(me, arg);
 }
 
-int do_help_list(string arg) {
+int do_help_list(object me, string arg) {
     mapping data = ([
         "移動" : ({ "north", "south", "east", "west", "up", "down" }),
         "查看" : ({ "look", "score", "inventory", "status" }),
@@ -73,8 +77,8 @@ int help_alias() {
     return 1;
 }
 
-int do_help(string arg) {
-    if (!arg) {
+int do_help(object me, string arg) {
+    if (!arg || arg == "") {
         write("輸入 help <主題> 查看說明。主題：move look inventory social system alias\n");
         return 1;
     }

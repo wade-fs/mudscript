@@ -1,45 +1,36 @@
-void cmd_grant_setup() {
-	add_action("do_grant", "grant");
-}
+// mudlib/cmds/admin/cmd_grant.c
 
-int do_grant(string arg) {
-    string user_name;
-    string path;
+int main(object me, string arg) {
+    if (me->query_role() != "god" && me->query_role() != "wizard") {
+        write("權限不足。\n");
+        return 1;
+    }
 
-    object user;
-	object me = this_player();
-
-    if (!arg || sscanf(arg, "%s %s", user_name, path) != 2) {
+    if (!arg || arg == "") {
         write("grant <user> <path>\n");
         return 1;
     }
 
-    user = find_player(user_name);
+    string target, path;
+    int sp = strsrch(arg, " ");
+    if (sp < 0) {
+        write("請指定路徑。\n");
+        return 1;
+    }
 
+    target = substr(arg, 0, sp);
+    path = substr(arg, sp + 1, strlen(arg) - sp - 1);
+
+    object user = find_player(target);
     if (!user) {
         write("玩家不存在。\n");
         return 1;
     }
 
-    if (!valid_grant(me, path)) {
-        write("你不能授權這個目錄。\n");
-        return 1;
-    }
-
     user->add_write_path(path);
-
     user->save();
 
-    write("授權完成。\n");
-
+    write("已授權 " + target + " 對 " + path + " 的寫入權限。\n");
+    tell_object(user, "您已獲得對 " + path + " 的寫入權限。\n");
     return 1;
 }
-
-int valid_grant(object me, string path)
-{
-    if (me->query_role() == "god")
-        return 1;
-
-    return me->has_write_access(path);
-}
-

@@ -1,27 +1,21 @@
 // mudlib/cmds/cmd_info.c
-// 資訊指令模組：score / status
+// 資訊指令守護進程：score / status
 
-void cmd_info_setup() {
-    add_action("do_score", "score");
-    add_action("do_score", "status");
-}
-
-int do_score(string arg) {
+int main(object me, string arg) {
     // 建立一個資料對應 (Mapping)
     mapping data = ([
-        "name" : query_name(),
-        "level": query_level(),
-        "hp"   : query_hp(),
-        "max_hp": query_max_hp(),
-        "mp"   : query_mp(),
-        "max_mp": query_max_mp(),
-        "gold" : query_gold(),
-        "atk"  : query_attack(),
-        "def"  : query_defence()
+        "name" : me->query_name(),
+        "level": me->query_level(),
+        "hp"   : me->query_hp(),
+        "max_hp": me->query_max_hp(),
+        "mp"   : me->query_mp(),
+        "max_mp": me->query_max_mp(),
+        "gold" : me->query_gold(),
+        "atk"  : me->query_attack(),
+        "def"  : me->query_defence()
     ]);
 
     // 將資料包裝成通用格式
-    // 假設您有一個 json_encode 的 efun (或直接用寫死的字串)
     string payload = sprintf("{\"ui\": \"score\", \"data\": %s}", json_encode(data));
     
     write(payload); 

@@ -1,40 +1,31 @@
-void cmd_demote_setup() {                                              
-    add_action("do_demote", "demote");                                   
-}                                                                    
-                                                                     
-int do_demote(string arg) {
-    object user;
-    object me = this_player();
+// mudlib/cmds/admin/cmd_demote.c
 
+int main(object me, string arg) {
     if (me->query_role() != "god") {
-        write("只有 god 可以降級。\n");
+        write("只有 god 可以降低權限。\n");
         return 1;
     }
 
-    if (!arg) {
+    if (!arg || arg == "") {
         write("demote <user>\n");
         return 1;
     }
 
-    user = find_player(arg);
-
+    object user = find_player(arg);
     if (!user) {
         write("玩家不存在。\n");
         return 1;
     }
 
     if (user == me) {
-        write("不能降級自己。\n");
+        write("不能修改自己的權限。\n");
         return 1;
     }
 
     user->set_role("user");
-
-    user->remove_write_path("/");
-
     user->save();
 
-    write("已降級為 user。\n");
-
+    write("已將 " + user->get_id() + " 降級為 user。\n");
+    tell_object(user, "您的權限已被降級為 user。\n");
     return 1;
 }
