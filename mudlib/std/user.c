@@ -44,6 +44,10 @@ void setup() {
 		cmd_grant_setup();
 		cmd_revoke_setup();
     }
+
+	if (!query_name()) {
+        set_name(get_id()); // 預設名稱與 ID 相同
+    }
 }
 
 // ── 玩家屬性 ────────────────────────────────────────────

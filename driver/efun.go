@@ -228,6 +228,17 @@ func (d *Driver) registerMathEfuns(obj *object.LPCObject) {
 // 4. 核心與 I/O (Core & IO)
 // ==========================================
 func (d *Driver) registerCoreIOEfuns(obj *object.LPCObject) {
+	// 在 efun.go 的 registerCoreIOEfuns 或類似位置加入
+	obj.Vars.Set("query_username", &object.Builtin{
+	    Fn: func(args ...object.Object) object.Object {
+	        target := getTarget(args, obj)
+	        conn := d.GetConnectionFromObject(target)
+	        if conn != nil {
+	            return &object.String{Value: conn.Username}
+	        }
+	        return &object.Nil{}
+	    },
+	})
 	// 語法: mixed call_other(object ob, string func, [mixed args...])
 	// 說明: 動態呼叫物件上的函式。當函式名稱是變數時非常有用。
 	// 範例: call_other(this_player(), "set_" + prop_name, value);
@@ -1401,6 +1412,7 @@ func (d *Driver) registerSystemAndFiles(obj *object.LPCObject) {
 				if len(args) > 1 {
 					if flag, ok := args[1].(*object.Integer); ok && flag.Value != 0 {
 						p.InputHidden = true
+						p.Send("__INPUT_HIDDEN__")
 					}
 				}
 				return &object.Integer{Value: 1}

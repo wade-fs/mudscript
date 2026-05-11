@@ -88,6 +88,7 @@ type ScheduledCall struct {
 type PlayerConnection struct {
 	Conn     net.Conn
 	Object   *object.LPCObject
+	Username string
 	IsActive bool
 
 	History  []string

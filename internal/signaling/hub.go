@@ -40,6 +40,7 @@ func (h *Hub) Run() {
 			// A. 建立一個專屬於此 WebSocket 的 PlayerConnection
 			// 這裡的 conn 傳 nil，因為我們不用傳統 TCP
 			pConn := driver.NewPlayerConnection(nil, nil) 
+			pConn.Username = client.Username
 			
 			pConn.OutputCallback = func(mudText string) {
 			    // 確保 client 還在線上
@@ -124,15 +125,30 @@ func (h *Hub) Run() {
 			}
 
 		case msg := <-h.forward:
-			if msg.Type == "cmd" {
-				if client, ok := h.clients[msg.From]; ok && client.MudConn != nil {
-		            // 2. 將指令丟給 MUD 引擎處理
-		            // 注意：這裡應該呼叫 dispatchCommand 邏輯
-		            // 您可以考慮在 driver.go 封裝一個通用的指令入口
-		            h.mudDriver.RunCommand(client.MudConn, client.MudConn.Object, "process_input", []object.Object{
-		                &object.String{Value: msg.Payload},
-		            })
-		        }
+		    if msg.Type == "cmd" {
+				client, ok := h.clients[msg.From]
+				if !ok || client.MudConn == nil {
+					continue
+				}
+
+				p := client.MudConn
+				// 👉 關鍵修正：優先檢查是否有等待中的 input_to 函式
+				if p.NextInputFunc != "" {
+					funcName := p.NextInputFunc
+					p.NextInputFunc = "" // 執行一次後立即清除狀態
+					p.InputHidden = false // 重設隱藏狀態
+
+					// 將輸入直接送往該函式
+					h.mudDriver.RunCommand(p, p.Object, funcName, []object.Object{
+						&object.String{Value: msg.Payload},
+					})
+				} else {
+					// 正常的指令處理流程 (例如 look, move 等)
+					// 您可以考慮在這裡加入 add_action 的檢查邏輯，或是交給 process_input
+					h.mudDriver.RunCommand(p, p.Object, "process_input", []object.Object{
+						&object.String{Value: msg.Payload},
+					})
+				}
 			} else if msg.Type == "chat" {
 				for id, peer := range h.clients {
 					// 不要把訊息發回給自己 (msg.From 在 client.go 的 readLoop 已經自動被填上了)

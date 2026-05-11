@@ -55,8 +55,15 @@ function login() {
 		log("🟢 connected to server");
 	};
 
+	let isInputHidden = false;
+
 	ws.onmessage = (event) => {
 		const msg = JSON.parse(event.data);
+		if (msg.payload === "__INPUT_HIDDEN__") {
+	        isInputHidden = true;
+	        document.getElementById("msg").type = "password"; // 切換為密碼模式
+	        return;
+	    }
 
 		switch (msg.type) {
 			case "welcome":
@@ -95,17 +102,17 @@ function login() {
 function sendMsg() {
     const msgInput = document.getElementById("msg");
     const msgText = msgInput.value;
-    if (!msgText || !ws || ws.readyState !== WebSocket.OPEN) return;
+    
+    // 根據狀態決定顯示方式
+    if (isInputHidden) {
+        log("<span style='color: #888;'>>> ******</span>");
+        isInputHidden = false; // 發送後重設
+        msgInput.type = "text"; // 切換回一般文字模式
+    } else {
+        log("<span style='color: #888;'>>> " + msgText + "</span>");
+    }
 
-    // 1. 先在畫面上顯示自己輸入了什麼
-    log("<span style='color: #888;'>>> " + msgText + "</span>");
-
-    // 2. 封裝訊息，類型改為 "cmd" 讓 hub.go 轉交給 MUD 引擎
-    const msgObj = {
-        type: "cmd",
-        payload: msgText
-    };
-
+    const msgObj = { type: "cmd", payload: msgText };
     ws.send(JSON.stringify(msgObj));
     msgInput.value = "";
 }
