@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>P2P Chat</title>
+<style>
+body {
+	font-family: sans-serif;
+	margin: 20px;
+}
+#chat {
+	border: 1px solid #ccc;
+	height: 300px;
+	overflow: auto;
+	padding: 10px;
+}
+</style>
+</head>
+<body>
+
+<h2>P2P Multi Peer Chat</h2>
+
+<input id="username" placeholder="username">
+<button onclick="login()">Login</button>
+
+<hr>
+
+<div id="chat"></div>
+
+<input id="msg" placeholder="message">
+<button onclick="sendMsg()">Send</button>
+
+<script>
+let ws;
+let myID = "";
+
+function log(msg) {
+	const div = document.getElementById("chat");
+	div.innerHTML += "<div>" + msg + "</div>";
+	div.scrollTop = div.scrollHeight;
+}
+
+function login() {
+    // 1. 取得輸入框的名字
+	const username = document.getElementById("username").value;
+	if (!username) {
+		alert("請先輸入 username 喔！");
+		return;
+	}
+
+    // 2. 將名字編碼後放在 URL 參數中傳給後端
+	ws = new WebSocket("ws://" + location.host + "/ws?username=" + encodeURIComponent(username));
+
+	ws.onopen = () => {
+		log("🟢 connected to server");
+	};
+
+	ws.onmessage = (event) => {
+		const msg = JSON.parse(event.data);
+
+		switch (msg.type) {
+			case "welcome":
+				myID = msg.to;
+				log("ℹ️ Server assigned my ID: " + myID);
+				break;
+			case "peer-joined":
+				// 加上 || "匿名者" 來防呆
+				const joinName = msg.username || "匿名者";
+				log("👋 " + joinName + " 加入了聊天室");
+				break;
+			case "peer-left":
+				const leftName = msg.username || "匿名者";
+				log("🚪 " + leftName + " 離開了");
+				break;
+			case "chat":
+				const chatName = msg.username || "匿名者";
+				log("💬 <b>" + chatName + "</b>: " + msg.payload);
+				break;
+			default:
+				log("📩 signal [" + msg.type + "] from " + msg.from);
+				break;
+		}
+	};
+
+	ws.onclose = () => {
+		log("🔴 disconnected, attempting to reconnect...");
+		setTimeout(login, 2000);
+	};
+}
+
+function sendMsg() {
+	const msgText = document.getElementById("msg").value;
+	if (!msgText || !ws || ws.readyState !== WebSocket.OPEN) return;
+
+	log("me: " + msgText);
+
+	const msgObj = {
+		type: "chat",
+		payload: msgText
+	};
+
+	ws.send(JSON.stringify(msgObj));
+	document.getElementById("msg").value = "";
+}
+</script>
+
+</body>
+</html>
