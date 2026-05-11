@@ -6,6 +6,7 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/gorilla/websocket"
+	"mudscript/driver"
 )
 
 var upgrader = websocket.Upgrader{
@@ -20,6 +21,7 @@ type Client struct {
 	Conn     *websocket.Conn
 	Hub      *Hub
 	Send     chan Message
+	MudConn  *driver.PlayerConnection
 }
 
 func HandleWS(hub *Hub, w http.ResponseWriter, r *http.Request) {

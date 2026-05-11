@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>P2P Chat</title>
+<title>Fantasy Space Mudlib with P2P</title>
 <style>
 body {
 	font-family: sans-serif;
@@ -18,7 +18,7 @@ body {
 </head>
 <body>
 
-<h2>P2P Multi Peer Chat</h2>
+<h2>Fantasy Space Mudlib with P2P.</h2>
 
 <input id="username" placeholder="username">
 <button onclick="login()">Login</button>
@@ -68,6 +68,10 @@ function login() {
 				const joinName = msg.username || "匿名者";
 				log("👋 " + joinName + " 加入了聊天室");
 				break;
+			case "mud_text":
+				const formattedText = msg.payload.replace(/\r\n/g, "<br>").replace(/\n/g, "<br>");
+				log("<span style='color: #4CAF50;'>" + formattedText + "</span>");
+				break;
 			case "peer-left":
 				const leftName = msg.username || "匿名者";
 				log("🚪 " + leftName + " 離開了");
@@ -89,18 +93,21 @@ function login() {
 }
 
 function sendMsg() {
-	const msgText = document.getElementById("msg").value;
-	if (!msgText || !ws || ws.readyState !== WebSocket.OPEN) return;
+    const msgInput = document.getElementById("msg");
+    const msgText = msgInput.value;
+    if (!msgText || !ws || ws.readyState !== WebSocket.OPEN) return;
 
-	log("me: " + msgText);
+    // 1. 先在畫面上顯示自己輸入了什麼
+    log("<span style='color: #888;'>>> " + msgText + "</span>");
 
-	const msgObj = {
-		type: "chat",
-		payload: msgText
-	};
+    // 2. 封裝訊息，類型改為 "cmd" 讓 hub.go 轉交給 MUD 引擎
+    const msgObj = {
+        type: "cmd",
+        payload: msgText
+    };
 
-	ws.send(JSON.stringify(msgObj));
-	document.getElementById("msg").value = "";
+    ws.send(JSON.stringify(msgObj));
+    msgInput.value = "";
 }
 </script>
 

@@ -386,25 +386,29 @@ func (d *Driver) registerCoreIOEfuns(obj *object.LPCObject) {
 	// 說明: 發送訊息給觸發當前行為的玩家。
 	// 範例: write("你看了看四周。\n");
 	obj.Vars.Set("write", &object.Builtin{
-		Fn: func(args ...object.Object) object.Object {
-			msg := ""
-			if len(args) > 0 {
-				if s, ok := args[0].(*object.String); ok {
-					msg = s.Value
-				} else {
-					msg = args[0].Inspect()
-				}
-			}
-			p := d.GetCurrentPlayer()
-			if p != nil && p.Conn != nil {
-				safeMsg := strings.ReplaceAll(msg, "\r\n", "\n")
-				safeMsg = strings.ReplaceAll(safeMsg, "\n", "\r\n")
-				p.Send(safeMsg)
-			} else {
-				fmt.Print(msg)
-			}
-			return &object.Nil{}
-		},
+	    Fn: func(args ...object.Object) object.Object {
+	        msg := ""
+	        if len(args) > 0 {
+	            if s, ok := args[0].(*object.String); ok {
+	                msg = s.Value
+	            } else {
+	                msg = args[0].Inspect()
+	            }
+	        }
+	        
+	        p := d.GetCurrentPlayer()
+	        // 👉 關鍵修正：只要玩家物件存在且處於活動狀態，就呼叫 p.Send
+	        // 不要檢查 p.Conn != nil，因為 WebSocket 模式下 Conn 是 nil
+	        if p != nil && p.IsActive { 
+	            safeMsg := strings.ReplaceAll(msg, "\r\n", "\n")
+	            safeMsg = strings.ReplaceAll(safeMsg, "\n", "\r\n")
+	            p.Send(safeMsg)
+	        } else {
+	            // 只有在找不到玩家上下文時（例如系統背景執行），才印到伺服器終端機
+	            fmt.Print(msg)
+	        }
+	        return &object.Nil{}
+	    },
 	})
 
 	// 語法: object this_player()

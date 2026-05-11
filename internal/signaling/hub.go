@@ -1,6 +1,10 @@
 package signaling
 
 import (
+	"fmt"
+
+	"mudscript/driver"
+	"mudscript/object"
 )
 
 type Hub struct {
@@ -8,14 +12,17 @@ type Hub struct {
 	register   chan *Client
 	unregister chan *Client
 	forward    chan Message
+
+	mudDriver  *driver.Driver
 }
 
-func NewHub() *Hub {
+func NewHub(d *driver.Driver) *Hub {
 	return &Hub{
 		clients:    map[string]*Client{},
 		register:   make(chan *Client),
 		unregister: make(chan *Client),
 		forward:    make(chan Message, 1024),
+		mudDriver:  d,
 	}
 }
 
@@ -25,6 +32,39 @@ func (h *Hub) Run() {
 		case client := <-h.register:
 			// 1. 將新客戶端加入列表
 			h.clients[client.ID] = client
+
+			// ==========================================
+			// 🚀 MUD 整合：玩家登入流程
+			// ==========================================
+			
+			// A. 建立一個專屬於此 WebSocket 的 PlayerConnection
+			// 這裡的 conn 傳 nil，因為我們不用傳統 TCP
+			pConn := driver.NewPlayerConnection(nil, nil) 
+			
+			pConn.OutputCallback = func(mudText string) {
+			    // 確保 client 還在線上
+			    client.Send <- Message{
+			        Type:    "mud_text",
+			        Payload: mudText,
+			    }
+			}
+
+            // C. 向 Master Object 請求登入物件 (這會執行 master.c 的 connect())
+			userObj := h.mudDriver.AcceptConnection(pConn)
+			if userObj != nil {
+				pConn.Object = userObj
+				// 註冊互動狀態
+				h.mudDriver.RegisterInteractive(userObj, pConn)
+				// 觸發 Logon 函數
+				h.mudDriver.RunCommand(pConn, userObj, "logon", nil)
+				
+				// 為了方便後續查詢，把這個 pConn 存進 WebSocket Client 裡
+				// (您需要在 signaling.Client 結構中新增一個 MudConn *driver.PlayerConnection 欄位)
+				client.MudConn = pConn 
+			} else {
+				fmt.Println("⚠️ 系統拒絕了", client.Username, "的連線")
+				// 可以在這裡發送錯誤訊息給 Client 並關閉連線
+			}
 
 			// 2. 告訴新客戶端他自己的 ID (歡迎訊息)
 			client.Send <- Message{
@@ -60,6 +100,19 @@ func (h *Hub) Run() {
 				close(client.Send) // 關閉 channel，讓 writeLoop 安全退出
 			}
 
+			// ==========================================
+			// 🚀 MUD 整合：玩家斷線流程
+			// ==========================================
+			if client.MudConn != nil && client.MudConn.Object != nil {
+				// 觸發 user.c 中的斷線處理邏輯 (通常是 net_dead 或 quit)
+				h.mudDriver.RunCommand(client.MudConn, client.MudConn.Object, "net_dead", nil)
+				
+				// 解除註冊
+				h.mudDriver.UnregisterInteractive(client.MudConn.Object)
+				client.MudConn.IsActive = false
+			}
+			// ==========================================
+
 			// 2. 廣播給剩下的所有人：有人離開了
 			for id, peer := range h.clients {
 				peer.Send <- Message{
@@ -71,9 +124,16 @@ func (h *Hub) Run() {
 			}
 
 		case msg := <-h.forward:
-			
-			// 新增：如果是聊天訊息，廣播給所有其他人
-			if msg.Type == "chat" {
+			if msg.Type == "cmd" {
+				if client, ok := h.clients[msg.From]; ok && client.MudConn != nil {
+		            // 2. 將指令丟給 MUD 引擎處理
+		            // 注意：這裡應該呼叫 dispatchCommand 邏輯
+		            // 您可以考慮在 driver.go 封裝一個通用的指令入口
+		            h.mudDriver.RunCommand(client.MudConn, client.MudConn.Object, "process_input", []object.Object{
+		                &object.String{Value: msg.Payload},
+		            })
+		        }
+			} else if msg.Type == "chat" {
 				for id, peer := range h.clients {
 					// 不要把訊息發回給自己 (msg.From 在 client.go 的 readLoop 已經自動被填上了)
 					if id != msg.From {

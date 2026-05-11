@@ -95,6 +95,7 @@ type PlayerConnection struct {
 	sendChan chan string
 	NextInputFunc string
 	InputHidden   bool
+	OutputCallback func(msg string)
 }
 
 func NewPlayerConnection(conn net.Conn, obj *object.LPCObject) *PlayerConnection {
@@ -113,14 +114,31 @@ func NewPlayerConnection(conn net.Conn, obj *object.LPCObject) *PlayerConnection
 }
 
 // 背景發送迴圈 (Write Pump)
+// 背景發送迴圈 (Write Pump)
 func (p *PlayerConnection) writePump() {
-	defer p.Conn.Close()
+	// 如果是傳統 TCP 連線，才需要 defer 關閉
+	if p.Conn != nil {
+		defer p.Conn.Close()
+	}
+
 	for msg := range p.sendChan {
-		if !p.IsActive { break }
-		_, err := p.Conn.Write([]byte(msg))
-		if err != nil {
-			p.IsActive = false
-			break
+		if !p.IsActive { 
+			break 
+		}
+
+		// 👉 優先判定：如果有設定 Callback，就走 WebSocket 輸出
+		if p.OutputCallback != nil {
+			p.OutputCallback(msg)
+			continue
+		}
+
+		// 否則，如果連線存在，走傳統 TCP 輸出
+		if p.Conn != nil {
+			_, err := p.Conn.Write([]byte(msg))
+			if err != nil {
+				p.IsActive = false
+				break
+			}
 		}
 	}
 }
