@@ -4,6 +4,19 @@
 void cmd_help_setup() {
     add_action("do_help", "help");
     add_action("do_help", "?");
+	add_action("do_help_list", "help_list_json"); // 內部用
+}
+
+int do_help_list(string arg) {
+    mapping data = ([
+        "移動" : ({ "north", "south", "east", "west", "up", "down" }),
+        "查看" : ({ "look", "score", "inventory", "status" }),
+        "社交" : ({ "say", "emote", "nick" }),
+        "系統" : ({ "help", "quit", "alias" })
+    ]);
+    // 輸出協定：{"ui": "cmd_list", "data": ...}
+    write(sprintf("{\"ui\": \"cmd_list\", \"data\": %s}", json_encode(data)));
+    return 1;
 }
 
 int help_movement() {
@@ -62,23 +75,6 @@ int help_alias() {
 
 int do_help(string arg) {
     if (!arg) {
-        write("+-----------------------------------------+\n");
-        write("|         MudScript 指令說明              |\n");
-        write("+-----------------------------------------+\n");
-        write("|  輸入 help <主題> 查看詳細說明          |\n");
-        write("|                                         |\n");
-        write("|  主題列表：                             |\n");
-        write("|    move        移動指令                 |\n");
-        write("|    look        查看指令                 |\n");
-        write("|    inventory   物品指令                 |\n");
-        write("|    social      社交指令                 |\n");
-        write("|    system      系統指令                 |\n");
-        write("|    alias       別名指令                 |\n");
-        write("+-----------------------------------------+\n");
-        return 1;
-    }
-
-    if (arg == "") {
         write("輸入 help <主題> 查看說明。主題：move look inventory social system alias\n");
         return 1;
     }

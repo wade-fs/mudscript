@@ -283,6 +283,7 @@ type BlockStatement struct {
 	Statements []Statement
 }
 
+func (bs *BlockStatement) statementNode()  {}
 func (bs *BlockStatement) expressionNode() {}
 
 // TokenLiteral returns a token literal of block statement.

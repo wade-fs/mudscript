@@ -684,22 +684,60 @@ func (p *Parser) parseTypedDeclarationStatement() ast.Statement {
 }
 
 func (p *Parser) parseTypedVariableDeclaration(typeToken token.Token, name *ast.Ident) ast.Statement {
+	var statements []ast.Statement
+
+	// 處理第一個變數
 	stmt := &ast.TypedVarDecl{
 		Token: typeToken,
 		Name:  name,
 	}
 
 	if p.peekTokenIs(token.ASSIGN) {
-		p.nextToken() 
-		p.nextToken() 
+		p.nextToken()
+		p.nextToken()
 		stmt.Value = p.parseExpression(LOWEST)
+	}
+	statements = append(statements, stmt)
+
+	// 處理逗號分隔的後續變數 (例如 int a, b, c;)
+	for p.peekTokenIs(token.COMMA) {
+		p.nextToken() // 跳過逗號
+
+		// 支援 int a, *b; 這種 LPC 語法
+		if p.peekTokenIs(token.ASTARISK) {
+			p.nextToken()
+		}
+
+		if !p.expectPeek(token.IDENT) {
+			return nil
+		}
+
+		nextName := &ast.Ident{Token: p.curToken, Value: p.curToken.Literal}
+		nextStmt := &ast.TypedVarDecl{
+			Token: typeToken,
+			Name:  nextName,
+		}
+
+		if p.peekTokenIs(token.ASSIGN) {
+			p.nextToken()
+			p.nextToken()
+			nextStmt.Value = p.parseExpression(LOWEST)
+		}
+		statements = append(statements, nextStmt)
 	}
 
 	for p.peekTokenIs(token.SEMICOLON) {
 		p.nextToken()
 	}
 
-	return stmt
+	if len(statements) == 1 {
+		return statements[0]
+	}
+
+	return &ast.BlockStatement{
+		Token:      typeToken,
+		Statements: statements,
+	}
 }
 
 func (p *Parser) parseFunctionDefinition(typeToken token.Token, name *ast.Ident) ast.Statement {

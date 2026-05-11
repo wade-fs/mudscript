@@ -4,194 +4,155 @@
     <meta charset="utf-8">
     <title>Fantasy Space MUD</title>
     <style>
-        /* 全域佈局：固定高度，禁止網頁捲動 */
-        html, body { height: 100%; margin: 0; background: #1a1a1a; color: #ccc; font-family: 'Consolas', monospace; overflow: hidden; }
+        /* 1. CSS Grid 多區塊佈局 */
+        html, body { height: 100%; margin: 0; background: #000; color: #ccc; font-family: 'Consolas', monospace; overflow: hidden; }
         
-        #wrapper { display: flex; flex-direction: column; height: 100vh; }
+        #wrapper {
+            display: grid;
+            grid-template-areas: 
+                "cmds info"
+                "cmds look"
+                "send send";
+            grid-template-rows: 180px 1fr 60px; /* Info區 180px, Send區 60px */
+            grid-template-columns: 240px 1fr;   /* 左側指令欄 240px */
+            height: 100vh;
+            gap: 4px;
+        }
 
-        /* 訊息顯示區：會自動填滿剩餘空間並產生捲軸 */
-        #chat { flex: 1; overflow-y: auto; padding: 20px; line-height: 1.6; }
+        #info-area { grid-area: info; background: #1a1a1a; border: 1px solid #333; padding: 10px; display: flex; flex-wrap: wrap; gap: 15px; }
+        #cmds-area { grid-area: cmds; background: #1a1a1a; border: 1px solid #333; overflow-y: auto; padding: 10px; }
+        #look-area { grid-area: look; background: #000; border: 1px solid #4CAF50; overflow-y: auto; padding: 20px; font-size: 18px; line-height: 1.6; }
+        #send-area { grid-area: send; background: #222; display: flex; align-items: center; padding: 0 15px; gap: 10px; }
 
-        /* 底部輸入欄：永遠固定在最下方 */
-        #input-area { background: #2a2a2a; padding: 15px; display: flex; gap: 10px; border-top: 1px solid #444; }
+        /* 2. 組件樣式 */
+        .stat-box { background: #222; border-radius: 4px; padding: 8px 12px; min-width: 120px; border-left: 4px solid #4CAF50; }
+        .stat-label { font-size: 12px; color: #888; }
+        .stat-value { font-weight: bold; color: #fff; display: block; }
 
-        #msg { flex: 1; background: #000; border: 1px solid #555; color: #00ff00; padding: 10px; font-size: 16px; outline: none; border-radius: 4px; }
+        .cmd-group { margin-bottom: 15px; }
+        .cmd-row { display: flex; margin-bottom: 4px; gap: 4px; }
+        .btn-cmd { flex: 1; background: #333; color: #00ff00; border: 1px solid #444; padding: 4px; cursor: pointer; text-align: left; }
+        .btn-help { background: #444; color: #fff; border: none; padding: 4px 8px; cursor: help; border-radius: 2px; }
         
-        button { background: #4CAF50; color: white; border: none; padding: 10px 20px; cursor: pointer; border-radius: 4px; font-weight: bold; }
-
-        /* MUD 輸出樣式美化 */
-        .mud-text { margin-bottom: 8px; white-space: pre-wrap; }
-        .mud-info { color: #4CAF50; } /* 系統訊息綠色 */
-        .mud-error { color: #ff5555; } /* 錯誤訊息紅色 */
-        .my-input { color: #888; font-style: italic; } /* 自己輸入的指令 */
-
-        /* 優化後的 Score 卡片樣式 */
-        .score-card {
-		    background: #2a2a2a;
-		    border: 1px solid #4CAF50;
-		    padding: 15px;
-		    border-radius: 8px;
-		    width: 280px;
-		    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-		}
-
-		.stat-grid {
-		    display: grid;
-		    grid-template-columns: 1fr 1fr;
-		    gap: 10px;
-		}
-
-		.stat-bar-group {
-		    grid-column: span 2;
-		}
-
-		.progress-bg {
-		    background: #444;
-		    height: 10px;
-		    border-radius: 5px;
-		    overflow: hidden;
-		}
-		.progress-fill.hp { background: #ff4444; transition: width 0.5s; }
-		.progress-fill.mp { background: #4444ff; transition: width 0.5s; }
-        .label { color: #888; font-size: 0.9em; }
-        .val { color: #fff; font-weight: bold; text-align: right; }
+        #msg { flex: 1; background: #000; border: 1px solid #4CAF50; color: #00ff00; padding: 10px; font-size: 18px; outline: none; }
+        
+        /* 捲軸美化 */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-thumb { background: #444; }
     </style>
 </head>
 <body>
 
 <div id="wrapper">
-    <div id="chat"></div>
-    <div id="input-area">
-        <input id="msg" placeholder="輸入指令..." autocomplete="off" onkeypress="if(event.keyCode==13) sendMsg()">
+    <div id="info-area">等待狀態更新...</div>
+    
+    <div id="cmds-area">載入指令中...</div>
+    
+    <div id="look-area"></div>
+    
+    <div id="send-area">
+        <input id="msg" placeholder="輸入指令..." autocomplete="off">
         <button onclick="sendMsg()">發送</button>
     </div>
 </div>
 
 <script>
     let ws;
-    let myID = "";
+    let history = [];
+    let histIdx = -1;
 
-    // 🚩 網頁一開啟就自動連線
-    window.onload = () => {
-        connect();
+    window.onload = () => { connect(); };
+
+    // 🚩 前端維護歷史紀錄
+    const msgInput = document.getElementById("msg");
+    msgInput.onkeydown = (e) => {
+        if (e.key === "ArrowUp") {
+            if (histIdx > 0) { histIdx--; msgInput.value = history[histIdx]; }
+        } else if (e.key === "ArrowDown") {
+            if (histIdx < history.length - 1) { histIdx++; msgInput.value = history[histIdx]; }
+            else { histIdx = history.length; msgInput.value = ""; }
+        } else if (e.key === "Enter") {
+            sendMsg();
+        }
     };
 
-    function log(html, className = "") {
-        const chat = document.getElementById("chat");
-        const div = document.createElement("div");
-        div.className = className;
-        div.innerHTML = html;
-        chat.appendChild(div);
-        chat.scrollTop = chat.scrollHeight; // 自動捲動到底部
-    }
-
     function connect() {
-        // 自動偵測當前網域進行 WebSocket 連線
         ws = new WebSocket("ws://" + location.host + "/ws");
-
-        ws.onopen = () => {
-            log("🟢 已建立伺服器連線，歡迎來到 Fantasy Space！", "mud-info");
-        };
-
+        
         ws.onmessage = (event) => {
             const msg = JSON.parse(event.data);
-
-            // 處理密碼隱藏狀態
-            if (msg.payload === "__INPUT_HIDDEN__") {
-                document.getElementById("msg").type = "password";
-                return;
-            }
-
-            switch (msg.type) {
-                case "welcome":
-                    myID = msg.to;
-                    break;
-                case "mud_text":
-                    const payload = msg.payload.trim();
-
-			        // 🚩 判斷是否為結構化 UI 訊息
-			        if (payload.startsWith("{") && payload.endsWith("}")) {
-			            try {
-			                const uiData = JSON.parse(payload);
-			                renderUIComponent(uiData);
-			            } catch (e) {
-			                // 解析失敗則當成普通文字
-			                renderPlainText(payload);
-			            }
-			        } else {
-			            renderPlainText(payload);
-			        }
-					break;
-                case "chat":
-                    log(`💬 <b>${msg.username}</b>: ${msg.payload}`);
-                    break;
+            if (msg.type === "mud_text") {
+                const payload = msg.payload.trim();
+                // 🚩 判斷是否為結構化 JSON
+                if (payload.startsWith("{") && payload.endsWith("}")) {
+                    try {
+                        const uiData = JSON.parse(payload);
+                        handleUIData(uiData);
+                    } catch (e) { appendLook(payload); }
+                } else {
+                    appendLook(payload);
+                }
             }
         };
+    }
 
-        ws.onclose = () => {
-            log("🔴 連線中斷，正在重新連接...", "mud-error");
-            setTimeout(connect, 2000);
-        };
+    function handleUIData(ui) {
+        if (ui.ui === "score") {
+            const data = ui.data;
+            document.getElementById("info-area").innerHTML = `
+                <div class="stat-box"><span class="stat-label">❤️ HP</span><span class="stat-value">${data.hp}/${data.max_hp}</span></div>
+                <div class="stat-box"><span class="stat-label">✨ MP</span><span class="stat-value">${data.mp}/${data.max_mp}</span></div>
+                <div class="stat-box"><span class="stat-label">💰 GOLD</span><span class="stat-value">${data.gold}</span></div>
+                <div class="stat-box"><span class="stat-label">⚔️ ATK</span><span class="stat-value">${data.atk}</span></div>
+            `;
+        } else if (ui.ui === "cmd_list") {
+            renderCmdList(ui.data);
+        }
+    }
+
+    function renderCmdList(categories) {
+        const area = document.getElementById("cmds-area");
+        area.innerHTML = "<h4>📜 指令列表</h4>";
+        for (let cat in categories) {
+            let div = document.createElement("div");
+            div.className = "cmd-group";
+            div.innerHTML = `<b>${cat}</b>`;
+            categories[cat].forEach(cmd => {
+                let row = document.createElement("div");
+                row.className = "cmd-row";
+                row.innerHTML = `
+                    <button class="btn-cmd" onclick="fillInput('${cmd}')">${cmd}</button>
+                    <button class="btn-help" title="查看說明" onclick="askHelp('${cmd}')">?</button>
+                `;
+                div.appendChild(row);
+            });
+            area.appendChild(div);
+        }
+    }
+
+    function fillInput(cmd) {
+        msgInput.value = cmd + " ";
+        msgInput.focus();
+    }
+
+    function askHelp(cmd) {
+        ws.send(JSON.stringify({ type: "cmd", payload: "help " + cmd }));
+    }
+
+    function appendLook(text) {
+        const area = document.getElementById("look-area");
+        area.innerHTML += `<div>${text.replace(/\n/g, "<br>")}</div>`;
+        area.scrollTop = area.scrollHeight;
     }
 
     function sendMsg() {
-        const input = document.getElementById("msg");
-        const text = input.value.trim();
-        if (!text || !ws || ws.readyState !== WebSocket.OPEN) return;
-
-        // 在畫面上印出自己的輸入
-        log(">> " + (input.type === "password" ? "******" : text), "my-input");
-
-        ws.send(JSON.stringify({ type: "cmd", payload: text }));
-        input.value = "";
-        input.type = "text"; // 重設為一般文字模式
+        const val = msgInput.value.trim();
+        if (!val) return;
+        history.push(val);
+        histIdx = history.length;
+        ws.send(JSON.stringify({ type: "cmd", payload: val }));
+        msgInput.value = "";
     }
-
-function renderUIComponent(uiData) {
-    const chat = document.getElementById("chat");
-    const container = document.createElement("div");
-    container.className = "ui-container";
-
-    switch (uiData.ui) {
-        case "score":
-            container.innerHTML = `
-                <div class="score-card">
-                    <div class="card-header">📊 角色狀態：${uiData.data.name}</div>
-                    <div class="stat-grid">
-                        <div class="stat-item">LV: <span>${uiData.data.level}</span></div>
-                        <div class="stat-item">Gold: <span class="gold">${uiData.data.gold}</span></div>
-                        <div class="stat-bar-group">
-                            <label>HP</label>
-                            <div class="progress-bg"><div class="progress-fill hp" style="width: ${(uiData.data.hp/uiData.data.max_hp)*100}%"></div></div>
-                            <small>${uiData.data.hp}/${uiData.data.max_hp}</small>
-                        </div>
-                        <div class="stat-bar-group">
-                            <label>MP</label>
-                            <div class="progress-bg"><div class="progress-fill mp" style="width: ${(uiData.data.mp/uiData.data.max_mp)*100}%"></div></div>
-                            <small>${uiData.data.mp}/${uiData.data.max_mp}</small>
-                        </div>
-                    </div>
-                </div>
-            `;
-            break;
-            
-        case "combat":
-            // 未來可以擴充戰鬥用的血條對峙畫面
-            break;
-            
-        case "weather":
-            // 顯示天氣圖標
-            break;
-    }
-
-    chat.appendChild(container);
-    chat.scrollTop = chat.scrollHeight;
-}
-function renderPlainText(payload) {
-    // 處理換行符號，確保純文字在網頁上正確顯示
-    const text = payload.replace(/\r\n/g, "<br>").replace(/\n/g, "<br>");
-    log(text, "mud-text");
-}
 </script>
 </body>
 </html>
