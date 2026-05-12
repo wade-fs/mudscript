@@ -6,6 +6,7 @@ import (
 	"encoding/hex"
 	"encoding/json"
 	"fmt"
+	"io/fs"
 	"math/rand"
 	"os"
 	"path/filepath"
@@ -1426,8 +1427,7 @@ func (d *Driver) registerSystemAndFiles(obj *object.LPCObject) {
 			fileName, ok := args[0].(*object.String)
 			if !ok { return object.NewError("read_file 需要字串參數") }
 
-			fullPath := filepath.Join(d.Config.MudLibPath, fileName.Value)
-			content, err := os.ReadFile(fullPath)
+			content, err := d.ReadFile(fileName.Value)
 			if err != nil { return &object.Nil{} }
 			return &object.String{Value: string(content)}
 		},
@@ -1442,15 +1442,26 @@ func (d *Driver) registerSystemAndFiles(obj *object.LPCObject) {
 			fileName, ok := args[0].(*object.String)
 			if !ok { return &object.Integer{Value: -1} }
 
-			fullPath := filepath.Join(d.Config.MudLibPath, fileName.Value)
-			info, err := os.Stat(fullPath)
-			if err != nil {
-				return &object.Integer{Value: -1}
+			searchPath := fileName.Value
+			if !strings.HasPrefix(searchPath, "/") { searchPath = "/" + searchPath }
+			
+			// 1. 優先檢查實體磁碟
+			fullPath := filepath.Join(d.Config.MudLibPath, searchPath)
+			if info, err := os.Stat(fullPath); err == nil {
+				if info.IsDir() { return &object.Integer{Value: -2} }
+				return &object.Integer{Value: info.Size()}
 			}
-			if info.IsDir() {
-				return &object.Integer{Value: -2}
+			
+			// 2. 備援檢查嵌入檔案
+			if d.Config.EmbeddedFS != nil {
+				embedPath := filepath.Join("mudlib", strings.TrimPrefix(searchPath, "/"))
+				if info, err := fs.Stat(d.Config.EmbeddedFS, embedPath); err == nil {
+					if info.IsDir() { return &object.Integer{Value: -2} }
+					return &object.Integer{Value: info.Size()}
+				}
 			}
-			return &object.Integer{Value: info.Size()}
+
+			return &object.Integer{Value: -1}
 		},
 	})
 

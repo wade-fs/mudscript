@@ -844,7 +844,15 @@ func checkTypeMatch(lpcType string, obj object.Object) bool {
 	case "int":
 		return obj.TokenType() == object.IntegerType
 	case "string":
-		return obj.TokenType() == object.StringType
+		tt := obj.TokenType()
+		// 🚀 彈性處理：允許 Nil 或 0 指派給字串
+		if tt == object.NilType {
+			return true
+		}
+		if i, ok := obj.(*object.Integer); ok && i.Value == 0 {
+			return true
+		}
+		return tt == object.StringType
 	case "float":
 		return obj.TokenType() == object.FloatType
 	case "mixed":
