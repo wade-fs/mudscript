@@ -383,6 +383,40 @@
         msgInput.type = "text";
         msgInput.focus();
     }
+// 自動聚焦：點擊頁面任何地方後，讓焦點回到輸入框
+document.addEventListener('click', (e) => {
+    // 取得點擊的元素標籤名稱
+    const tagName = e.target.tagName.toUpperCase();
+    
+    // 如果點擊的是按鈕、輸入框本身、或是具有 cmd-link 類別的元素，則不干預
+    // 這樣可以保留原本按鈕點擊的功能
+    if (
+        tagName === 'INPUT' || 
+        tagName === 'BUTTON' || 
+        tagName === 'A' || 
+        e.target.classList.contains('cmd-link') ||
+        e.target.classList.contains('map-exit')
+    ) {
+        return;
+    }
+
+    // 取得選取的文字，如果使用者正在選取（複製）文字，則不要搶走焦點
+    const selection = window.getSelection().toString();
+    if (selection) return;
+
+    // 回到輸入框
+    msgInput.focus();
+});
+// 當網頁載入完成後，自動將焦點移至輸入框
+window.addEventListener('load', () => {
+    // 延遲一小段時間確保 DOM 渲染完全
+    setTimeout(() => {
+        const msgInput = document.getElementById("msg-input");
+        if (msgInput) {
+            msgInput.focus();
+        }
+    }, 100);
+});
 </script>
 </body>
 </html>
