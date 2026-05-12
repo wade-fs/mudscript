@@ -1,6 +1,6 @@
-# MudScript Built-in Functions (Efuns) 參考手冊
+# MudScript Built-in Functions (Efuns) 完整參考手冊
 
-本文檔列出了 MudScript 引擎中所有可用的內建函式 (Efuns) 及其詳細用法與範例。
+本文檔詳盡列出了 MudScript 引擎中所有可用的內建函式 (Efuns)。
 
 ## 1. 型別判斷 (Predicates)
 
@@ -33,35 +33,35 @@
 - **說明**: 產生 0 到 max-1 的隨機整數。
 - **範例**: `random(10) -> 可能回傳 0 ~ 9 之間的任意數字`
 
-## 4. 核心輸出入 (Core IO)
-
-### `write()`
-- **語法**: `void write(string msg)`
-- **說明**: 發送訊息給觸發當前行為的玩家。
-- **範例**: `write("你看了看四周。\n");`
-
-### `say()`
-- **語法**: `void say(string msg)`
-- **說明**: 將訊息廣播給與當前物件處於同一環境(房間)內的所有其他物件。
-- **範例**: `say("一陣微風吹過。\n");`
-
-### `shout()`
-- **語法**: `void shout(string msg)`
-- **說明**: 對全伺服器所有連線中的玩家廣播訊息 (會自動排除自己)。
-- **範例**: `shout("【謠言】" + query_name() + " 登入了遊戲！\\n");`
-
-### `tell_object()`
-- **語法**: `void tell_object(object target, string msg)`
-- **說明**: 直接向指定物件 (通常是玩家) 發送訊息。
-- **範例**: `tell_object(user, "你感受到一股強大的力量。\n");`
-
-### `input_to()`
-- **語法**: `int input_to(string func_name, [int hidden])`
-- **說明**: 攔截玩家的下一次終端機輸入，強制將輸入的字串丟給指定的函式處理。若 hidden=1 則終端機會隱藏輸入(打星號)。
-- **範例**: `write("請輸入密碼:"); input_to("get_pass", 1);`
+## 4. 玩家與生物 (Players & Livings)
 
 ### `query_username()`
 - **說明**: 在 efun.go 的 registerCoreIOEfuns 或類似位置加入
+
+### `userp()`
+- **語法**: `int userp(object ob)`
+- **說明**: 判斷該物件是否為玩家物件。
+
+### `find_player()`
+- **語法**: `object find_player(string id)`
+
+### `users()`
+- **語法**: `object *users()`
+- **說明**: 回傳目前線上所有玩家(已成功連線並處於互動狀態)的實體物件陣列。
+
+### `enable_commands()`
+- **語法**: `void enable_commands()`
+- **說明**: 將當前物件標記為生物 (Living)，使其可以接收與執行 add_action 註冊的指令。
+
+### `living()`
+- **語法**: `int living(object ob)`
+- **說明**: 判斷物件是否為活著的生物 (有呼叫過 enable_commands)。
+- **範例**: `if (living(target)) { write("這是一個生物。\\n"); }`
+
+### `query_verb()`
+- **語法**: `string query_verb()`
+- **說明**: 回傳當前觸發指令的動詞。
+- **範例**: `若輸入 "go north"，query_verb() 回傳 "go"。`
 
 ## 5. 環境與物件管理 (Environment & Objects)
 
@@ -121,28 +121,6 @@
 - **說明**: 尋找記憶體中是否已經載入該路徑的藍圖物件。不產生新 clone。
 - **範例**: `object room = find_object("/d/city/square");`
 
-### `find_player()`
-- **語法**: `object find_player(string id)`
-
-### `exec()`
-- **語法**: `int exec(object target, object src)`
-- **說明**: 將 TCP 連線狀態從來源物件(src)轉移到目標物件(target)上。常用於登入系統連線切換。
-- **範例**: `exec(user_ob, this_object());`
-
-### `interactive()`
-- **語法**: `int interactive(object ob)`
-- **說明**: 判斷該物件是否為正在連線中的玩家 (有網路 Socket 綁定)。
-- **範例**: `if (interactive(target)) { write("玩家在線上。\\n"); }`
-
-### `userp()`
-- **語法**: `int userp(object ob)`
-- **說明**: 判斷該物件是否為玩家物件。
-
-### `query_verb()`
-- **語法**: `string query_verb()`
-- **說明**: 回傳當前觸發指令的動詞。
-- **範例**: `若輸入 "go north"，query_verb() 回傳 "go"。`
-
 ### `call_other()`
 - **語法**: `mixed call_other(object ob, string func, [mixed args...])`
 - **說明**: 動態呼叫物件上的函式。當函式名稱是變數時非常有用。
@@ -172,7 +150,7 @@
 - **語法**: `int set_heart_beat(int flag)`
 - **說明**: 開啟(1)或關閉(0)物件的心跳機制 (每秒觸發一次 heart_beat 函式)。
 
-## 7. 資料結構與字串操作 (Data & Strings)
+## 7. 資料結構操作 (Data Structures)
 
 ### `sizeof()`
 - **語法**: `int sizeof(mixed target)`
@@ -231,6 +209,8 @@
 
 ### `json_encode()`
 
+## 8. 字串處理 (Strings)
+
 ### `strlen()`
 - **語法**: `int strlen(string str)`
 - **說明**: 回傳字串長度。
@@ -286,7 +266,7 @@
 - **說明**: 使用 SHA-256 對字串進行單向雜湊加密，常用於密碼儲存。
 - **範例**: `crypt("1234") -> "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4"`
 
-## 8. 系統與檔案 (System & Files)
+## 9. 系統與檔案 (System & Files)
 
 ### `get_dir()`
 - **語法**: `string *get_dir(string path, [int recursive])`
@@ -306,7 +286,7 @@
 - **說明**: 取得檔案大小。若不存在回傳 -1，若為目錄回傳 -2。
 - **範例**: `if (file_size("/data/user/wade.o") > 0) { ... }`
 
-## 9. 持久化 (Persistence)
+## 10. 持久化 (Persistence)
 
 ### `save_object()`
 - **語法**: `int save_object(string file)`
@@ -317,4 +297,9 @@
 - **語法**: `int restore_object(string file)`
 - **說明**: 從硬碟讀取儲存的 JSON 變數，恢復當前物件的狀態。成功回傳 1，失敗回傳 0。
 - **範例**: `if(restore_object("/data/user/" + id)) { write("讀檔成功"); }`
+
+### `exec()`
+- **語法**: `int exec(object target, object src)`
+- **說明**: 將 TCP 連線狀態從來源物件(src)轉移到目標物件(target)上。常用於登入系統連線切換。
+- **範例**: `exec(user_ob, this_object());`
 

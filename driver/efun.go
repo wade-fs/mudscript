@@ -139,7 +139,9 @@ func (d *Driver) registerTypePredicates(obj *object.LPCObject) {
 	register("floatp", object.FloatType)
 	register("objectp", object.LPC_OBJECT_OBJ)
 	register("mappingp", object.MAPPING_OBJ)
+	register("mapp", object.MAPPING_OBJ) // 🚀 別名
 	register("arrayp", object.ArrayType)
+	register("pointerp", object.ArrayType) // 🚀 別名
 	register("nullp", object.NilType)
 	register("errorp", object.ErrorType)
 }
@@ -284,19 +286,20 @@ func (d *Driver) registerCoreIOEfuns(obj *object.LPCObject) {
 	})
 
 	// 語法: int userp(object ob)
-    // 說明: 判斷該物件是否為玩家物件。
-    obj.Vars.Set("userp", &object.Builtin{
-        Fn: func(args ...object.Object) object.Object {
-            if len(args) == 0 { return &object.Integer{Value: 0} }
-            if o, ok := args[0].(*object.LPCObject); ok {
-                // 在我們的實作中，userp 檢查是否具有 IsInteractive 標籤
-                if o.IsInteractive { return &object.Integer{Value: 1} }
-                // 也可以透過檔名判斷
-                if strings.HasPrefix(o.Filename, "/std/user.c") || strings.HasPrefix(o.Filename, "/data/user/") {
-                    return &object.Integer{Value: 1}
-                }
-            }
-			return &object.Nil{}
+	// 說明: 判斷該物件是否為玩家物件。
+	obj.Vars.Set("userp", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) == 0 {
+				if obj.IsInteractive { return &object.Integer{Value: 1} }
+				return &object.Integer{Value: 0}
+			}
+			if o, ok := args[0].(*object.LPCObject); ok {
+				if o.IsInteractive { return &object.Integer{Value: 1} }
+				if strings.HasPrefix(o.Filename, "/std/user.c") || strings.HasPrefix(o.Filename, "/data/user/") {
+					return &object.Integer{Value: 1}
+				}
+			}
+			return &object.Integer{Value: 0}
 		},
 	})
 
@@ -331,10 +334,12 @@ func (d *Driver) registerCoreIOEfuns(obj *object.LPCObject) {
 	// 範例: if (living(target)) { write("這是一個生物。\\n"); }
 	obj.Vars.Set("living", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
-			if len(args) == 0 { return &object.Integer{Value: 0} }
-			if o, ok := args[0].(*object.LPCObject); ok && o.IsLiving {
-				return &object.Integer{Value: 1}
+			target := obj
+			if len(args) > 0 {
+				if o, ok := args[0].(*object.LPCObject); ok { target = o }
+				else { return &object.Integer{Value: 0} }
 			}
+			if target.IsLiving { return &object.Integer{Value: 1} }
 			return &object.Integer{Value: 0}
 		},
 	})
@@ -367,28 +372,13 @@ func (d *Driver) registerCoreIOEfuns(obj *object.LPCObject) {
 	// 範例: if (interactive(target)) { write("玩家在線上。\\n"); }
 	obj.Vars.Set("interactive", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
-			if len(args) == 0 { return &object.Integer{Value: 0} }
-			if o, ok := args[0].(*object.LPCObject); ok {
-				if d.GetConnectionFromObject(o) != nil {
-					return &object.Integer{Value: 1}
-				}
+			target := obj
+			if len(args) > 0 {
+				if o, ok := args[0].(*object.LPCObject); ok { target = o }
+				else { return &object.Integer{Value: 0} }
 			}
-			return &object.Integer{Value: 0}
-		},
-	})
-
-	// 語法: int userp(object ob)
-	// 說明: 判斷該物件是否為玩家物件。
-	obj.Vars.Set("userp", &object.Builtin{
-		Fn: func(args ...object.Object) object.Object {
-			if len(args) == 0 { return &object.Integer{Value: 0} }
-			if o, ok := args[0].(*object.LPCObject); ok {
-				// 在我們的實作中，userp 檢查是否具有 IsInteractive 標籤
-				if o.IsInteractive { return &object.Integer{Value: 1} }
-				// 也可以透過檔名判斷
-				if strings.HasPrefix(o.Filename, "/std/user.c") || strings.HasPrefix(o.Filename, "/data/user/") {
-					return &object.Integer{Value: 1}
-				}
+			if d.GetConnectionFromObject(target) != nil {
+				return &object.Integer{Value: 1}
 			}
 			return &object.Integer{Value: 0}
 		},
