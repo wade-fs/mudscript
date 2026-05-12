@@ -5,6 +5,7 @@ package preprocessor
 import (
 	"bufio"
 	"fmt"
+	"io/fs"
 	"os"
 	"path/filepath"
 	"regexp"
@@ -21,6 +22,7 @@ type Macro struct {
 type Preprocessor struct {
 	MudLibPath string
 	Macros     map[string]Macro
+	EmbeddedFS fs.FS // 🚀 新增：支援嵌入式檔案系統
 }
 
 func New(mudLibPath string) *Preprocessor {
@@ -28,6 +30,11 @@ func New(mudLibPath string) *Preprocessor {
 		MudLibPath: mudLibPath,
 		Macros:     make(map[string]Macro),
 	}
+}
+
+// SetEmbeddedFS 設定嵌入式檔案系統
+func (p *Preprocessor) SetEmbeddedFS(efs fs.FS) {
+	p.EmbeddedFS = efs
 }
 
 // 用來追蹤 if/elif/else 狀態的結構
@@ -228,19 +235,35 @@ func (p *Preprocessor) Process(filename, input string) (string, error) {
 			pathStr := strings.TrimSpace(trimmed[9:])
 			pathStr = strings.Trim(pathStr, "\"<>")
 
-			var fullPath string
+			var relPath string
 			if strings.HasPrefix(pathStr, "/") {
-				fullPath = filepath.Join(p.MudLibPath, pathStr)
+				relPath = strings.TrimPrefix(pathStr, "/")
 			} else {
-				fullPath = filepath.Join(p.MudLibPath, filepath.Dir(filename), pathStr)
+				dir := filepath.Dir(filename)
+				relPath = filepath.Join(dir, pathStr)
+			}
+			relPath = strings.TrimPrefix(relPath, "/")
+
+			var content []byte
+			var err error
+
+			// 1. 優先嘗試從實體磁碟讀取
+			fullPath := filepath.Join(p.MudLibPath, relPath)
+			if _, statErr := os.Stat(fullPath); statErr == nil {
+				content, err = os.ReadFile(fullPath)
+			} else if p.EmbeddedFS != nil {
+				// 2. 備備嘗試從嵌入檔案讀取
+				embedPath := filepath.Join("mudlib", relPath)
+				content, err = fs.ReadFile(p.EmbeddedFS, embedPath)
+			} else {
+				err = fmt.Errorf("找不到檔案: %s", pathStr)
 			}
 
-			content, err := os.ReadFile(fullPath)
 			if err != nil {
-				return "", fmt.Errorf("前處理器錯誤: 找不到引入的檔案 %s (%v)", pathStr, err)
+				return "", fmt.Errorf("前處理器錯誤: %v", err)
 			}
 
-			includedContent, err := p.Process(pathStr, string(content))
+			includedContent, err := p.Process(relPath, string(content))
 			if err != nil {
 				return "", err
 			}

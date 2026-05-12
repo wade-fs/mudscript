@@ -4,6 +4,7 @@ package driver
 import (
 	"bytes"
 	"fmt"
+	"io/fs"
 	"net"
 	"os"
 	"path/filepath"
@@ -22,53 +23,53 @@ import (
 )
 
 type RuntimeError struct {
-    Message  string
-    File     string
-    Function string
-    Stack    []string // 呼叫堆疊
+	Message  string
+	File     string
+	Function string
+	Stack    []string // 呼叫堆疊
 }
 
 var callStack = struct {
-    sync.Mutex
-    frames []callFrame
+	sync.Mutex
+	frames []callFrame
 }{}
 
 func (d *Driver) pushFrame(f callFrame) {
-    callStack.Lock()
-    callStack.frames = append(callStack.frames, f)
-    callStack.Unlock()
+	callStack.Lock()
+	callStack.frames = append(callStack.frames, f)
+	callStack.Unlock()
 }
 
 func (d *Driver) popFrame() {
-    callStack.Lock()
-    if len(callStack.frames) > 0 {
-        callStack.frames = callStack.frames[:len(callStack.frames)-1]
-    }
-    callStack.Unlock()
+	callStack.Lock()
+	if len(callStack.frames) > 0 {
+		callStack.frames = callStack.frames[:len(callStack.frames)-1]
+	}
+	callStack.Unlock()
 }
 
 func (d *Driver) buildCallStack() []string {
-    callStack.Lock()
-    defer callStack.Unlock()
-    var s []string
-    for _, f := range callStack.frames {
-        s = append(s, fmt.Sprintf("%s::%s()", f.File, f.Function))
-    }
-    return s
+	callStack.Lock()
+	defer callStack.Unlock()
+	var s []string
+	for _, f := range callStack.frames {
+		s = append(s, fmt.Sprintf("%s::%s()", f.File, f.Function))
+	}
+	return s
 }
 
 func (e *RuntimeError) Error() string {
-    var sb strings.Builder
-    sb.WriteString(fmt.Sprintf("🔥 Runtime Error in %s::%s()\n", e.File, e.Function))
-    sb.WriteString(fmt.Sprintf("   %s\n\n", e.Message))
-    
-    if len(e.Stack) > 0 {
-        sb.WriteString("Call Stack:\n")
-        for i, frame := range e.Stack {
-            sb.WriteString(fmt.Sprintf("  %2d. %s\n", len(e.Stack)-i, frame))
-        }
-    }
-    return sb.String()
+	var sb strings.Builder
+	sb.WriteString(fmt.Sprintf("🔥 Runtime Error in %s::%s()\n", e.File, e.Function))
+	sb.WriteString(fmt.Sprintf("   %s\n\n", e.Message))
+
+	if len(e.Stack) > 0 {
+		sb.WriteString("Call Stack:\n")
+		for i, frame := range e.Stack {
+			sb.WriteString(fmt.Sprintf("  %2d. %s\n", len(e.Stack)-i, frame))
+		}
+	}
+	return sb.String()
 }
 
 // DriverConfig 運行時期的配置
@@ -76,6 +77,7 @@ type DriverConfig struct {
 	MudLibPath    string
 	MasterFile    string
 	HeartBeatTick time.Duration
+	EmbeddedFS    fs.FS // 🚀 新增：支援嵌入式檔案系統
 }
 
 type ScheduledCall struct {
@@ -86,16 +88,15 @@ type ScheduledCall struct {
 }
 
 type PlayerConnection struct {
-	Conn     net.Conn
-	Object   *object.LPCObject
-	Username string
-	IsActive bool
-
-	History  []string
-	MaxHist  int
-	sendChan chan string
-	NextInputFunc string
-	InputHidden   bool
+	Conn           net.Conn
+	Object         *object.LPCObject
+	Username       string
+	IsActive       bool
+	History        []string
+	MaxHist        int
+	sendChan       chan string
+	NextInputFunc  string
+	InputHidden    bool
 	OutputCallback func(msg string)
 	CurrentVerb    string // 🚀 新增：儲存當前執行的指令動詞
 }
@@ -106,8 +107,8 @@ func NewPlayerConnection(conn net.Conn, obj *object.LPCObject) *PlayerConnection
 		Object:   obj,
 		IsActive: true,
 		History:  make([]string, 0),
-		MaxHist:  20,                           // 最多記錄 20 筆
-		sendChan: make(chan string, 256),       // 256 筆訊息的緩衝區
+		MaxHist:  20,                     // 最多記錄 20 筆
+		sendChan: make(chan string, 256), // 256 筆訊息的緩衝區
 	}
 
 	// 啟動專屬的「背景發送寫手」，避免阻塞主程式
@@ -116,7 +117,6 @@ func NewPlayerConnection(conn net.Conn, obj *object.LPCObject) *PlayerConnection
 }
 
 // 背景發送迴圈 (Write Pump)
-// 背景發送迴圈 (Write Pump)
 func (p *PlayerConnection) writePump() {
 	// 如果是傳統 TCP 連線，才需要 defer 關閉
 	if p.Conn != nil {
@@ -124,8 +124,8 @@ func (p *PlayerConnection) writePump() {
 	}
 
 	for msg := range p.sendChan {
-		if !p.IsActive { 
-			break 
+		if !p.IsActive {
+			break
 		}
 
 		// 👉 優先判定：如果有設定 Callback，就走 WebSocket 輸出
@@ -146,21 +146,24 @@ func (p *PlayerConnection) writePump() {
 }
 
 func (p *PlayerConnection) Send(msg string) {
-	if !p.IsActive { return }
-	
+	if !p.IsActive {
+		return
+	}
+
 	select {
 	case p.sendChan <- msg:
 		// 成功放入緩衝區
 	default:
-		// 緩衝區滿了 (玩家網路太卡)，為了保護伺服器，直接丟棄訊息
-		// TODO: 強制斷線 p.IsActive = false
+		// 緩衝區滿了 (彈性丟棄)
 	}
 }
 
 // 處理命令歷史與 ! 展開
 func (p *PlayerConnection) ExpandHistory(input string) string {
 	input = strings.TrimSpace(input)
-	if input == "" { return "" }
+	if input == "" {
+		return ""
+	}
 
 	// 如果輸入 !!，展開為上一次的指令
 	if input == "!!" {
@@ -173,9 +176,7 @@ func (p *PlayerConnection) ExpandHistory(input string) string {
 		return cmd
 	}
 
-	// 處理 ! 開頭但不是 !! 的狀況 (可後續擴充如 !1, !2 等)
 	if strings.HasPrefix(input, "!") {
-		// TODO: 這裡先簡單支援 !!，其他的你可以擴充
 		p.Send("目前僅支援 !! 重發上一個指令。\r\n")
 		return ""
 	}
@@ -194,31 +195,29 @@ func (p *PlayerConnection) ExpandHistory(input string) string {
 
 // 註冊與取得互動玩家
 func (d *Driver) RegisterInteractive(obj *object.LPCObject, conn *PlayerConnection) {
-	if obj == nil || conn == nil { return }
-    d.interactiveObjects.Store(obj.Filename, conn)
-    obj.IsInteractive = true
+	if obj == nil || conn == nil {
+		return
+	}
+	d.interactiveObjects.Store(obj.Filename, conn)
+	obj.IsInteractive = true
 }
 
 func (d *Driver) UnregisterInteractive(obj *object.LPCObject) {
-	if obj == nil { return }
-    d.interactiveObjects.Delete(obj.Filename)
-    obj.IsInteractive = false
+	if obj == nil {
+		return
+	}
+	d.interactiveObjects.Delete(obj.Filename)
+	obj.IsInteractive = false
 }
 
 func (d *Driver) GetConnectionFromObject(obj *object.LPCObject) *PlayerConnection {
-	if obj == nil { return nil }
-    
-    // 直接用 Filename 查
-    if conn, ok := d.interactiveObjects.Load(obj.Filename); ok {
-        return conn.(*PlayerConnection)
-    }
-    
-    // 相容舊的 pointer 查詢（防萬一）
-    if conn, ok := d.interactiveObjects.Load(obj); ok {
-        return conn.(*PlayerConnection)
-    }
-    
-    return nil
+	if obj == nil {
+		return nil
+	}
+	if conn, ok := d.interactiveObjects.Load(obj.Filename); ok {
+		return conn.(*PlayerConnection)
+	}
+	return nil
 }
 
 // Driver MUD 伺服器核心
@@ -235,7 +234,7 @@ type Driver struct {
 	BackboneUID  string
 
 	// 使用 Goroutine ID 來追蹤當前正在執行的玩家
-	playerContexts sync.Map 
+	playerContexts     sync.Map
 	interactiveObjects sync.Map
 }
 
@@ -253,9 +252,7 @@ func New(config DriverConfig) *Driver {
 	}
 }
 
-// === [並發安全上下文機制] ===
-
-// 取得當前 Goroutine ID
+//取得當前 Goroutine ID
 func getGID() uint64 {
 	b := make([]byte, 64)
 	b = b[:runtime.Stack(b, false)]
@@ -266,10 +263,10 @@ func getGID() uint64 {
 }
 
 func (d *Driver) GetThisObject() *object.LPCObject {
-    if p := d.GetCurrentPlayer(); p != nil && p.Object != nil {
-        return p.Object
-    }
-    return nil
+	if p := d.GetCurrentPlayer(); p != nil && p.Object != nil {
+		return p.Object
+	}
+	return nil
 }
 
 // 取得當前 Goroutine 對應的玩家
@@ -283,29 +280,39 @@ func (d *Driver) GetCurrentPlayer() *PlayerConnection {
 // 專門給玩家網路層呼叫的進入點 (自動綁定上下文)
 func (d *Driver) RunCommand(p *PlayerConnection, obj *object.LPCObject, funcName string, args []object.Object) object.Object {
 	gid := getGID()
-	
-	// 1. 備份舊的 Context (如果有的話)
 	oldContext, hasOld := d.playerContexts.Load(gid)
-	
-	// 2. 如果這次有傳入玩家，就覆寫為新的 Context
 	if p != nil {
 		d.playerContexts.Store(gid, p)
 	}
-
-	// 3. 確保函式結束時，安全地還原舊 Context
 	defer func() {
 		if hasOld {
-			d.playerContexts.Store(gid, oldContext) // 還原為舊的
+			d.playerContexts.Store(gid, oldContext)
 		} else {
-			d.playerContexts.Delete(gid)            // 真的沒有舊的才刪除
+			d.playerContexts.Delete(gid)
 		}
 	}()
-
-	// 4. 原本的執行邏輯保持不變
 	return d.CallFunction(obj, funcName, args)
 }
 
-// ============================
+// 🚀 新增：混合模式讀取檔案
+func (d *Driver) ReadFile(filename string) ([]byte, error) {
+	relPath := strings.TrimPrefix(filename, "/")
+	
+	// 1. 優先從實體磁碟讀取
+	fullPath := filepath.Join(d.Config.MudLibPath, relPath)
+	if _, err := os.Stat(fullPath); err == nil {
+		return os.ReadFile(fullPath)
+	}
+	
+	// 2. 備援從嵌入式系統讀取
+	if d.Config.EmbeddedFS != nil {
+		// embed.FS 的路徑通常包含根目錄 (假設為 mudlib)
+		embedPath := filepath.Join("mudlib", relPath)
+		return fs.ReadFile(d.Config.EmbeddedFS, embedPath)
+	}
+	
+	return nil, fmt.Errorf("file not found: %s", filename)
+}
 
 func (d *Driver) LoadObject(filename string) (*object.LPCObject, error) {
 	d.mu.RLock()
@@ -315,15 +322,16 @@ func (d *Driver) LoadObject(filename string) (*object.LPCObject, error) {
 	}
 	d.mu.RUnlock()
 
-	cleanName := strings.TrimPrefix(filename, "/")
-	fullPath := filepath.Join(d.Config.MudLibPath, cleanName)
-
-	content, err := os.ReadFile(fullPath)
+	// 使用混合模式讀取檔案內容
+	content, err := d.ReadFile(filename)
 	if err != nil {
-		return nil, fmt.Errorf("failed to read file %s: %v", filename, err)
+		return nil, err
 	}
 
 	pp := preprocessor.New(d.Config.MudLibPath)
+	if d.Config.EmbeddedFS != nil {
+		pp.SetEmbeddedFS(d.Config.EmbeddedFS)
+	}
 	processedContent, err := pp.Process(filename, string(content))
 	if err != nil {
 		return nil, fmt.Errorf("preprocessor error: %v", err)
@@ -345,6 +353,11 @@ func (d *Driver) LoadObject(filename string) (*object.LPCObject, error) {
 		Inherits:  make([]*object.LPCObject, 0),
 	}
 
+	// 🚩 關鍵：先註冊到 ObjectTable 再初始化，防止循環繼承/移動导致的崩潰
+	d.mu.Lock()
+	d.ObjectTable[filename] = lpcObj
+	d.mu.Unlock()
+
 	for _, stmt := range program.Statements {
 		if inheritStmt, ok := stmt.(*ast.InheritStatement); ok {
 			parentFile := inheritStmt.Path
@@ -356,50 +369,34 @@ func (d *Driver) LoadObject(filename string) (*object.LPCObject, error) {
 				return nil, fmt.Errorf("無法繼承 %s: %v", parentFile, err)
 			}
 			lpcObj.Inherits = append(lpcObj.Inherits, parentObj)
-			baseName := strings.TrimSuffix(filepath.Base(parentFile), ".c")
 
 			for k, v := range parentObj.Vars.GetAll() {
 				if _, isBuiltin := v.(*object.Builtin); isBuiltin {
 					continue
 				}
-	
 				var copiedVal object.Object
-				
-				// 【核心修正】：讓繼承來的方法，綁定到子物件的環境上！
 				if fn, ok := v.(*object.Function); ok {
 					copiedVal = &object.Function{
 						Parameters: fn.Parameters,
 						Body:       fn.Body,
 						Env:        env, // 👈 關鍵：指派為子物件的環境
-						OriginFile: fn.OriginFile, // 🚀 必備：保留來源資訊
+						OriginFile: fn.OriginFile,
 					}
 				} else {
 					copiedVal = deepCopyLPCValue(v)
 				}
-	
 				env.Set(k, copiedVal)
-				
-				// 處理 :: 繼承呼叫 (讓 child::func 也能正確讀取 child 的變數)
-				if _, ok := v.(*object.Function); ok {
-					env.Set(baseName+"::"+k, copiedVal)
-				}
 			}
 		}
 	}
 
 	d.SetupEfuns(lpcObj)
-	
-	// 🚀 新增：告知 Evaluator 目前正在解析哪個檔案，以便設定 Function.OriginFile
 	env.Set("__file__", &object.String{Value: filename})
-	
+
 	res := evaluator.Eval(program, env)
 	if errObj, ok := res.(*object.Error); ok {
 		return nil, fmt.Errorf("evaluation error in %s: %s", filename, errObj.Message)
 	}
-
-	d.mu.Lock()
-	d.ObjectTable[filename] = lpcObj
-	d.mu.Unlock()
 
 	d.CallFunction(lpcObj, "create", nil)
 	return lpcObj, nil
@@ -420,52 +417,27 @@ func (d *Driver) CloneObject(filename string) (*object.LPCObject, error) {
 
 	d.SetupEfuns(clone)
 	for k, v := range blueprint.Vars.GetAll() {
-		// 跳過 Builtin，因為 efun 已經在 SetupEfuns 綁定過一次了
 		if _, isBuiltin := v.(*object.Builtin); isBuiltin {
 			continue
 		}
-
 		var copiedVal object.Object
-		
 		if fn, ok := v.(*object.Function); ok {
 			copiedVal = &object.Function{
 				Parameters: fn.Parameters,
 				Body:       fn.Body,
 				Env:        clone.Vars,
-				OriginFile: fn.OriginFile, // 🚀 必備：保留來源資訊
+				OriginFile: fn.OriginFile,
 			}
 		} else {
 			copiedVal = deepCopyLPCValue(v)
 		}
-
 		clone.Vars.Set(k, copiedVal)
-		
-		if strings.Contains(k, "::") {
-			clone.Vars.Set(k, copiedVal)
-		}
 	}
 
-	for _, parent := range clone.Inherits {
-		baseName := strings.TrimSuffix(filepath.Base(parent.Filename), ".c")
-		for k, v := range parent.Vars.GetAll() {
-			if _, isFunc := v.(*object.Function); isFunc {
-				if !strings.Contains(k, "::") {
-					clone.Vars.Set("::"+k, v)
-					clone.Vars.Set(baseName+"::"+k, v)
-				}
-			}
-		}
-	}
-
-	// === 關鍵修正：建立 clone 時立即綁定上下文 ===
 	dummyConn := &PlayerConnection{Object: clone}
 	gid := getGID()
 	oldContext, hasOld := d.playerContexts.Load(gid)
-	
-	// 2. 綁定這個暫時的 dummyConn 給 clone 的 create() 用
 	d.playerContexts.Store(gid, dummyConn)
-	
-	// 3. 確保 create() 執行完畢後，把原本玩家的連線還原回來！
 	defer func() {
 		if hasOld {
 			d.playerContexts.Store(gid, oldContext)
@@ -475,11 +447,11 @@ func (d *Driver) CloneObject(filename string) (*object.LPCObject, error) {
 	}()
 
 	d.CallFunction(clone, "create", nil)
-
 	return clone, nil
 }
 
 var cloneCounter int
+
 func generateCloneID() string {
 	cloneCounter++
 	return fmt.Sprintf("%d", cloneCounter)
@@ -488,7 +460,6 @@ func generateCloneID() string {
 func (d *Driver) Start() error {
 	masterFile := d.Config.MasterFile
 	if masterFile == "" {
-		// 嘗試從 config.h 自動探索 MASTER_FILE
 		masterFile = d.DiscoverMasterFile()
 	}
 
@@ -522,9 +493,8 @@ func (d *Driver) DiscoverMasterFile() string {
 	configPath := filepath.Join(d.Config.MudLibPath, "include/config.h")
 	content, err := os.ReadFile(configPath)
 	if err != nil {
-		return "/master.c" // 預設值
+		return "/master.c"
 	}
-
 	lines := strings.Split(string(content), "\n")
 	for _, line := range lines {
 		if strings.Contains(line, "#define MASTER_FILE") {
@@ -545,7 +515,6 @@ func (d *Driver) Stop() {
 func (d *Driver) runGameLoop() {
 	ticker := time.NewTicker(d.Config.HeartBeatTick)
 	defer ticker.Stop()
-
 	for {
 		select {
 		case <-ticker.C:
@@ -571,7 +540,6 @@ func (d *Driver) processHeartBeats() {
 		if obj.IsDestructed {
 			continue
 		}
-
 		if conn := d.GetConnectionFromObject(obj); conn != nil {
 			gid := getGID()
 			d.playerContexts.Store(gid, conn)
@@ -605,7 +573,6 @@ func (d *Driver) processCallOuts() {
 	}
 	d.CallOuts = pending
 	d.mu.Unlock()
-
 	for _, call := range ready {
 		d.CallFunction(call.Caller, call.FuncName, call.Args)
 	}
@@ -615,36 +582,27 @@ func (d *Driver) SetHeartBeat(obj *object.LPCObject, enable bool) {
 	if obj == nil || obj.IsDestructed {
 		return
 	}
-
 	d.mu.Lock()
 	defer d.mu.Unlock()
-
 	if enable {
 		d.Heartbeats[obj] = true
-		fmt.Printf("💓 [HEARTBEAT] 已註冊: %s\n", obj.Filename)
 	} else {
 		delete(d.Heartbeats, obj)
-		fmt.Printf("💓 [HEARTBEAT] 已移除: %s\n", obj.Filename)
 	}
 }
 
 type callFrame struct {
-    File     string
-    Function string
+	File     string
+	Function string
 }
 
 func (d *Driver) CallFunction(obj *object.LPCObject, funcName string, args []object.Object) object.Object {
 	if obj == nil || obj.IsDestructed {
 		return &object.Integer{Value: 0}
 	}
-
-	// 藍圖不執行 heart_beat
 	if funcName == "heart_beat" && !strings.Contains(obj.Filename, "#") {
 		return nil
 	}
-
-	// fmt.Printf("DEBUG: [%s]->%s() 被呼叫\n", obj.Filename, funcName)
-
 	frame := callFrame{File: obj.Filename, Function: funcName}
 	d.pushFrame(frame)
 	defer d.popFrame()
@@ -654,21 +612,19 @@ func (d *Driver) CallFunction(obj *object.LPCObject, funcName string, args []obj
 			Fn: func(args ...object.Object) object.Object { return obj },
 		})
 	}
-
 	fnObj, ok := obj.Vars.Get(funcName)
-	if !ok { return nil }
-
-	// 🚀 新增：支援呼叫 Builtin 函式 (efun)
+	if !ok {
+		return nil
+	}
 	if builtin, ok := fnObj.(*object.Builtin); ok {
 		return builtin.Fn(args...)
 	}
-
 	fn, ok := fnObj.(*object.Function)
-	if !ok { return object.NewError("%s is not a function", funcName) }
+	if !ok {
+		return object.NewError("%s is not a function", funcName)
+	}
 
 	extendedEnv := object.NewEnclosedEnvironment(obj.Vars)
-	
-	// 🚀 新增：傳遞當前函式的來源，供 :: 呼叫使用
 	extendedEnv.Set("__origin_file", &object.String{Value: fn.OriginFile})
 
 	for i, param := range fn.Parameters {
@@ -678,28 +634,24 @@ func (d *Driver) CallFunction(obj *object.LPCObject, funcName string, args []obj
 			extendedEnv.Set(param.Value, &object.Nil{})
 		}
 	}
-
 	evaluated := evaluator.Eval(fn.Body, extendedEnv)
-
 	if errObj, ok := evaluated.(*object.Error); ok {
-        runtimeErr := &RuntimeError{
-            Message:  errObj.Message,
-            File:     obj.Filename,
-            Function: funcName,
-            Stack:    d.buildCallStack(), // TODO: 實作堆疊
-        }
-        
-        if d.MasterObject != nil && obj != d.MasterObject {
-            d.CallFunction(d.MasterObject, "runtime_error", []object.Object{
-                &object.String{Value: runtimeErr.Error()},
-                &object.String{Value: obj.Filename},
-            })
-        } else {
-            fmt.Println(runtimeErr.Error())
-        }
-        return nil
-    }
-
+		runtimeErr := &RuntimeError{
+			Message:  errObj.Message,
+			File:     obj.Filename,
+			Function: funcName,
+			Stack:    d.buildCallStack(),
+		}
+		if d.MasterObject != nil && obj != d.MasterObject {
+			d.CallFunction(d.MasterObject, "runtime_error", []object.Object{
+				&object.String{Value: runtimeErr.Error()},
+				&object.String{Value: obj.Filename},
+			})
+		} else {
+			fmt.Println(runtimeErr.Error())
+		}
+		return nil
+	}
 	if returnValue, ok := evaluated.(*object.ReturnValue); ok {
 		return returnValue.Value
 	}
@@ -707,25 +659,24 @@ func (d *Driver) CallFunction(obj *object.LPCObject, funcName string, args []obj
 }
 
 func (d *Driver) MoveObject(item *object.LPCObject, dest *object.LPCObject) {
-	if item == nil || item.IsDestructed { return }
+	if item == nil || item.IsDestructed {
+		return
+	}
 	if item.Location != nil {
 		oldInv := item.Location.Inventory
 		newInv := make([]*object.LPCObject, 0, len(oldInv))
 		for _, obj := range oldInv {
-			if obj != item { newInv = append(newInv, obj) }
+			if obj != item {
+				newInv = append(newInv, obj)
+			}
 		}
 		item.Location.Inventory = newInv
 	}
-	
 	item.Location = dest
 	if dest != nil && !dest.IsDestructed {
 		dest.Inventory = append(dest.Inventory, item)
 	}
-	
-	// 執行 item 的 init
 	d.CallFunction(item, "init", nil)
-	
-	// 如果目標是容器，執行目標的 init (讓目標有機會對 item 註冊指令，例如房間 add_action)
 	if dest != nil && !dest.IsDestructed {
 		d.CallFunction(dest, "init", nil)
 	}
@@ -735,21 +686,12 @@ func (d *Driver) DestructObject(obj *object.LPCObject) {
 	if obj == nil || obj.IsDestructed {
 		return
 	}
-
-	// fmt.Printf("DEBUG: DestructObject called on %s\n", obj.Filename)
-
 	d.SetHeartBeat(obj, false)
 	obj.IsDestructed = true
-
-	// === 關鍵修正：移除 heartbeat ===
-	d.SetHeartBeat(obj, false)
-
-	// === 處理連線 ===
 	var targetConn *PlayerConnection
 	if conn, ok := d.interactiveObjects.Load(obj.Filename); ok {
 		targetConn = conn.(*PlayerConnection)
 	}
-
 	if targetConn == nil {
 		d.interactiveObjects.Range(func(key, value interface{}) bool {
 			if pconn, ok := value.(*PlayerConnection); ok && pconn.Object == obj {
@@ -759,36 +701,28 @@ func (d *Driver) DestructObject(obj *object.LPCObject) {
 			return true
 		})
 	}
-
 	if targetConn != nil {
-		fmt.Printf("DEBUG: 強制關閉玩家連線 %s\n", targetConn.Object.Filename)
 		targetConn.IsActive = false
 		if targetConn.Conn != nil {
 			targetConn.Conn.Close()
 		}
 		d.UnregisterInteractive(targetConn.Object)
 	}
-
-	// 移動 inventory 到環境
 	for _, item := range obj.Inventory {
 		d.MoveObject(item, obj.Location)
 	}
-
-	// 從所在環境移除自己
 	if obj.Location != nil {
-		d.MoveObject(obj, nil) // 會處理 inventory 清理
+		d.MoveObject(obj, nil)
 	}
-
-	// 從 ObjectTable 移除
 	d.mu.Lock()
 	delete(d.ObjectTable, obj.Filename)
 	d.mu.Unlock()
-
-	fmt.Printf("✅ 物件已完全摧毀: %s\n", obj.Filename)
 }
 
 func deepCopyLPCValue(obj object.Object) object.Object {
-	if obj == nil { return nil }
+	if obj == nil {
+		return nil
+	}
 	switch o := obj.(type) {
 	case *object.Array:
 		newElems := make([]object.Object, len(o.Elements))
@@ -810,16 +744,13 @@ func deepCopyLPCValue(obj object.Object) object.Object {
 	}
 }
 
-// AcceptConnection 為新連線建立玩家物件，並在 master.connect() 執行期間
-// 將玩家上下文綁定到當前 goroutine，讓 connect() 內的 write() 能正確輸出。
 func (d *Driver) AcceptConnection(pConn *PlayerConnection) *object.LPCObject {
-	if d.MasterObject == nil { return nil }
-
-	// 先暫時把 pConn 綁到當前 goroutine，讓 master.connect() 裡的 write() 能用
+	if d.MasterObject == nil {
+		return nil
+	}
 	gid := getGID()
 	d.playerContexts.Store(gid, pConn)
 	defer d.playerContexts.Delete(gid)
-
 	result := d.CallFunction(d.MasterObject, "connect", nil)
 	if loginObj, ok := result.(*object.LPCObject); ok {
 		return loginObj
@@ -828,36 +759,28 @@ func (d *Driver) AcceptConnection(pConn *PlayerConnection) *object.LPCObject {
 }
 
 func (d *Driver) formatParserErrors(filename string, errors []string) error {
-    var sb strings.Builder
-    sb.WriteString(fmt.Sprintf("❌ 語法錯誤 in %s\n\n", filename))
-    
-    for i, err := range errors {
-        sb.WriteString(fmt.Sprintf("   %2d. %s\n", i+1, err))
-    }
-    
-    sb.WriteString("\n💡 提示：常見原因：\n")
-    sb.WriteString("   • mapping 寫法錯誤 → 應使用 ([ key: value ])\n")
-    sb.WriteString("   • closure 寫法錯誤 → (: this_object, \"func\" :)\n")
-    sb.WriteString("   • 缺少分號、括號不匹配、型別宣告錯誤\n")
-    
-    return fmt.Errorf(sb.String())
+	var sb strings.Builder
+	sb.WriteString(fmt.Sprintf("❌ 語法錯誤 in %s\n\n", filename))
+	for i, err := range errors {
+		sb.WriteString(fmt.Sprintf("   %2d. %s\n", i+1, err))
+	}
+	sb.WriteString("\n💡 提示：常見原因：\n")
+	sb.WriteString("   • mapping 寫法錯誤 → 應使用 ([ key: value ])\n")
+	sb.WriteString("   • closure 寫法錯誤 → (: this_object, \"func\" :)\n")
+	sb.WriteString("   • 缺少分號、括號不匹配、型別宣告錯誤\n")
+	return fmt.Errorf(sb.String())
 }
 
-// TransferConnection 將 TCP 連線從 src 轉移到 target
 func (d *Driver) TransferConnection(target *object.LPCObject, src *object.LPCObject) bool {
 	if target == nil || src == nil {
 		return false
 	}
-
 	d.mu.Lock()
 	defer d.mu.Unlock()
-
-	// 找出原本在 src 身上的連線
 	var connToMove *PlayerConnection
 	if conn, ok := d.interactiveObjects.Load(src.Filename); ok {
 		connToMove = conn.(*PlayerConnection)
 	} else {
-		// 降級搜尋，確保能找到
 		d.interactiveObjects.Range(func(key, value interface{}) bool {
 			if pconn, ok := value.(*PlayerConnection); ok && pconn.Object == src {
 				connToMove = pconn
@@ -866,27 +789,15 @@ func (d *Driver) TransferConnection(target *object.LPCObject, src *object.LPCObj
 			return true
 		})
 	}
-
 	if connToMove == nil {
-		fmt.Printf("DEBUG: exec 失敗，找不到來源 %s 的連線\n", src.Filename)
 		return false
 	}
-
-	// 1. 將舊的互動狀態解除
 	d.interactiveObjects.Delete(src.Filename)
 	src.IsInteractive = false
-
-	// 2. 更新連線綁定的物件
 	connToMove.Object = target
-
-	// 3. 註冊新的互動狀態
 	d.interactiveObjects.Store(target.Filename, connToMove)
 	target.IsInteractive = true
-
-	// 4. (可選) 重新綁定當前執行的 goroutine context，避免 exec 後的 write 印錯人
 	gid := getGID()
 	d.playerContexts.Store(gid, connToMove)
-
-	fmt.Printf("🔄 [EXEC] 連線已從 %s 轉移至 %s\n", src.Filename, target.Filename)
 	return true
 }

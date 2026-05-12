@@ -13,22 +13,22 @@ GO_FLAGS := -ldflags="-s -w -X main.Version=$(VERSION)"
 
 ENV := GOPATH=$(GOPATH) GOROOT=$(GOROOT)
 
+all: fsmud.exe fsmud
+
+# 通用規則
 %.exe:
 	@ rm -f $(OUT)/$@ && mkdir -p $(OUT)
 	@ BASE=$(basename $@); \
-	cd cmd/$$BASE && \
 	go mod tidy && \
-	env $(ENV) GOOS=windows go build $(GO_FLAGS) -o $(OUT)/$@ && \
-	cd $(TOP) && \
+	env $(ENV) GOOS=windows go build $(GO_FLAGS) -o $(OUT)/$@ ./cmd/$$BASE && \
 	ls $(OUT)/$@
 
 %:
 	@ rm -f $(OUT)/$@ && mkdir -p $(OUT)
-	@ cd cmd/$@ && \
-	go mod tidy && \
-	env $(ENV) go build $(GO_FLAGS) -o $(OUT)/$@ && \
-	cd $(TOP) && \
-	$(OUT)/$@ 
+	@ go mod tidy && \
+	env $(ENV) go build $(GO_FLAGS) -o $(OUT)/$@ ./cmd/$@ && \
+	ls $(OUT)/$@ && \
+	$(OUT)/$@
 
 clean:
 	@ rm -rf *.log $(OUT)/*
