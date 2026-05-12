@@ -6,6 +6,7 @@ inherit "/std/object.c";
 
 // ── 基本資料 ─────────────────────────────────────────────
 string  name;
+string  race;
 int     level;
 int     exp;
 int     exp_to_next;
@@ -86,10 +87,15 @@ void recalc_stats() {
 // ── 設定 / 查詢 ────────────────────────────────────────────
 void set_name(string n)   { name = n; }
 string query_name()       { return name; }
+void set_race(string r)   { race = r; }
+string query_race()       { return race; }
+void set_level(int l)     { level = l; }
 int query_level()         { return level; }
 int query_exp()           { return exp; }
+void set_hp(int v)        { hp = v; }
 int query_hp()            { return hp; }
 int query_max_hp()        { return max_hp; }
+void set_mp(int v)        { mp = v; }
 int query_mp()            { return mp; }
 int query_max_mp()        { return max_mp; }
 int query_attack()        { return attack; }
@@ -102,6 +108,13 @@ int query_stat(string s)  {
     if (s == STAT_WIS) { return stat_wis; }
     if (s == STAT_CHA) { return stat_cha; }
     return 0;
+}
+string query_display_name() {
+    string id = query_key_id();
+    if (id && id != "" && id != query_name()) {
+        return query_name() + "(" + id + ")";
+    }
+    return query_name();
 }
 
 void set_stat(string s, int v) {

@@ -54,7 +54,22 @@ func (p *Preprocessor) Process(filename, input string) (string, error) {
 
 	for scanner.Scan() {
 		line := scanner.Text()
-		trimmed := strings.TrimSpace(line)
+		
+		// 🚩 先移除註解，但要避開字串內部的 // (如網址)
+		// 使用 strings.Builder 與 WriteByte 確保不破壞 UTF-8 字節流
+		var cleanLineBuilder strings.Builder
+		inString := false
+		for i := 0; i < len(line); i++ {
+			if line[i] == '"' && (i == 0 || line[i-1] != '\\') {
+				inString = !inString
+			}
+			if !inString && i < len(line)-1 && line[i] == '/' && line[i+1] == '/' {
+				break // 遇到註解，本行後續捨棄
+			}
+			cleanLineBuilder.WriteByte(line[i])
+		}
+		cleanLine := cleanLineBuilder.String()
+		trimmed := strings.TrimSpace(cleanLine)
 
 		// ==========================================
 		// 1. 處理條件編譯
@@ -137,7 +152,19 @@ func (p *Preprocessor) Process(filename, input string) (string, error) {
 				fullDefine = strings.TrimSuffix(strings.TrimSpace(fullDefine), "\\")
 				if scanner.Scan() {
 					nextLine := scanner.Text()
-					fullDefine += " " + strings.TrimSpace(nextLine)
+					// 多行定義時也要清理每一行的註解
+					var cleanNextBuilder strings.Builder
+					inStrNext := false
+					for j := 0; j < len(nextLine); j++ {
+						if nextLine[j] == '"' && (j == 0 || nextLine[j-1] != '\\') {
+							inStrNext = !inStrNext
+						}
+						if !inStrNext && j < len(nextLine)-1 && nextLine[j] == '/' && nextLine[j+1] == '/' {
+							break
+						}
+						cleanNextBuilder.WriteByte(nextLine[j])
+					}
+					fullDefine += " " + strings.TrimSpace(cleanNextBuilder.String())
 					output.WriteString("\n") // 補償行號
 				} else {
 					break
@@ -224,7 +251,7 @@ func (p *Preprocessor) Process(filename, input string) (string, error) {
 		// ==========================================
 		// 4. 處理一般程式碼：替換巨集
 		// ==========================================
-		outLine := line
+		outLine := cleanLine
 		if len(p.Macros) > 0 {
 			// 先處理函式型巨集
 			for name, m := range p.Macros {

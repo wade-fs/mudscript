@@ -73,7 +73,7 @@ void look_room() {
 
     int i;
     for (i = 0; i < sizeof(here_inv); i++) {
-        mixed ob = here_inv[i];
+        object ob = here_inv[i];
         if (living(ob)) {
             livings_in_room = livings_in_room + ({ ob });
         } else {
@@ -81,21 +81,37 @@ void look_room() {
         }
     }
 
-    if (items_in_room) {
+    if (sizeof(items_in_room) > 0) {
         write("物品：");
         int j;
         for (j = 0; j < sizeof(items_in_room); j++) {
-            write(items_in_room[j]->query_short());
+            object item = items_in_room[j];
+            string item_id = item->query_key_id();
+            mixed ids = item->query_id();
+            if (arrayp(ids) && sizeof(ids) > 0) item_id = ids[0];
+            else if (stringp(ids)) item_id = ids;
+            
+            write("[" + item->query_display_name() + "|look " + item_id + "]");
             if (j < sizeof(items_in_room) - 1) { write("、"); }
         }
         write("\n");
     }
 
-    if (livings_in_room) {
+    if (sizeof(livings_in_room) > 0) {
         write("這裡有：");
         int k;
         for (k = 0; k < sizeof(livings_in_room); k++) {
-            write(livings_in_room[k]->query_name());
+            object liv = livings_in_room[k];
+            if (liv == this_player()) continue; // 不看自己
+            
+            string liv_id = "living";
+            if (userp(liv)) {
+                liv_id = liv->get_id() || liv->query_key_id();
+            } else {
+                liv_id = liv->query_key_id();
+            }
+            
+            write("[" + liv->query_display_name() + "|look " + liv_id + "]");
             if (k < sizeof(livings_in_room) - 1) { write("、"); }
         }
         write("\n");

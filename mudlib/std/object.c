@@ -20,7 +20,7 @@ void create() {
 // ── 設定函式 ────────────────────────────────────────────
 void set_short(string s)     { short_name = s; }
 void set_long(string s)      { long_name  = s; }
-void set_id(mixed ids)       { id_list    = ids; }
+void set_id(mixed ids)       { if (arrayp(ids)) id_list = ids; else id_list = ({ ids }); }
 void set_item_type(string t) { item_type  = t; }
 void set_weight(int w)       { weight     = w; }
 void set_value(int v)        { value      = v; }
@@ -32,6 +32,40 @@ mixed  query_id()        { return id_list; }
 string query_item_type() { return item_type; }
 int    query_weight()    { return weight; }
 int    query_value()     { return value; }
+
+// ── 取得用於指令互動的主要識別字 ─────────────────────
+string query_key_id() {
+    if (arrayp(id_list) && sizeof(id_list) > 0) {
+        return id_list[0];
+    }
+    if (stringp(id_list) && id_list != "") {
+        return id_list;
+    }
+
+    // 最後防線：只取檔名，不帶路徑和 .c
+    string fname = object_name(this_object());
+    int pos = strsrch(fname, "#");
+    if (pos != -1) {
+        fname = substr(fname, 0, pos);
+    }
+    
+    // 如果結尾是 .c，去掉它
+    if (strlen(fname) > 2) {
+        string tail = substr(fname, strlen(fname)-2, 2);
+        if (tail == ".c") {
+            fname = substr(fname, 0, strlen(fname)-2);
+        }
+    }
+
+    // 取得最後一個 / 之後的內容 (模仿 basename)
+    // 由於沒有 strrchr，我們用簡單的方式處理
+    string *parts = explode(fname, "/");
+    if (sizeof(parts) > 0) {
+        return parts[sizeof(parts)-1];
+    }
+
+    return fname;
+}
 
 // id(string str) - 判斷這個物件是否符合指定識別詞
 int id(string str) {

@@ -201,6 +201,7 @@ type Function struct {
 	Parameters []*ast.Ident
 	Body       *ast.BlockStatement
 	Env        Environment
+	OriginFile string // 🚀 新增：記錄此函式定義於哪個檔案
 }
 
 // TokenType returns the type of the Function.

@@ -70,9 +70,11 @@ const (
 	// RBRACE is a token type for right braces.
 	RBRACE = "}"
 	// LBRACKET is a token type for left brackets.
-	LBRACKET = "["
-	// RBRACKET is a token type for right brackets.
-	RBRACKET = "]"
+	LBRACKET     = "["
+	RBRACKET     = "]"
+
+	// Slice operator
+	DOTDOT       = ".."
 
 	// FUNCTION is a token type for functions.
 	FUNCTION = "FUNCTION"

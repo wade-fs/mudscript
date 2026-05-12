@@ -371,6 +371,7 @@ func (d *Driver) LoadObject(filename string) (*object.LPCObject, error) {
 						Parameters: fn.Parameters,
 						Body:       fn.Body,
 						Env:        env, // 👈 關鍵：指派為子物件的環境
+						OriginFile: fn.OriginFile, // 🚀 必備：保留來源資訊
 					}
 				} else {
 					copiedVal = deepCopyLPCValue(v)
@@ -387,6 +388,10 @@ func (d *Driver) LoadObject(filename string) (*object.LPCObject, error) {
 	}
 
 	d.SetupEfuns(lpcObj)
+	
+	// 🚀 新增：告知 Evaluator 目前正在解析哪個檔案，以便設定 Function.OriginFile
+	env.Set("__file__", &object.String{Value: filename})
+	
 	res := evaluator.Eval(program, env)
 	if errObj, ok := res.(*object.Error); ok {
 		return nil, fmt.Errorf("evaluation error in %s: %s", filename, errObj.Message)
@@ -427,6 +432,7 @@ func (d *Driver) CloneObject(filename string) (*object.LPCObject, error) {
 				Parameters: fn.Parameters,
 				Body:       fn.Body,
 				Env:        clone.Vars,
+				OriginFile: fn.OriginFile, // 🚀 必備：保留來源資訊
 			}
 		} else {
 			copiedVal = deepCopyLPCValue(v)
@@ -661,6 +667,10 @@ func (d *Driver) CallFunction(obj *object.LPCObject, funcName string, args []obj
 	if !ok { return object.NewError("%s is not a function", funcName) }
 
 	extendedEnv := object.NewEnclosedEnvironment(obj.Vars)
+	
+	// 🚀 新增：傳遞當前函式的來源，供 :: 呼叫使用
+	extendedEnv.Set("__origin_file", &object.String{Value: fn.OriginFile})
+
 	for i, param := range fn.Parameters {
 		if i < len(args) {
 			extendedEnv.Set(param.Value, args[i])

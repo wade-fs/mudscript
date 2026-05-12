@@ -549,13 +549,42 @@ func (p *Parser) parseArrayLiteral() ast.Expression {
 }
 
 func (p *Parser) parseIndexExpression(left ast.Expression) ast.Expression {
-	expr := &ast.IndexExpression{
-		Token: p.curToken,
-		Left:  left,
+	tok := p.curToken // '['
+
+	p.nextToken() // Skip '['
+
+	// 1. [..end] or [..]
+	if p.curTokenIs(token.DOTDOT) {
+		slice := &ast.SliceExpression{Token: tok, Left: left}
+		p.nextToken() // Skip '..'
+		if !p.curTokenIs(token.RBRACKET) {
+			slice.EndIndex = p.parseExpression(LOWEST)
+		}
+		if !p.expectPeek(token.RBRACKET) { return nil }
+		return slice
 	}
 
-	p.nextToken()
-	expr.Index = p.parseExpression(LOWEST)
+	// 2. [start..] or [start..end] or [index]
+	idx := p.parseExpression(LOWEST)
+	
+	if p.peekTokenIs(token.DOTDOT) {
+		slice := &ast.SliceExpression{Token: tok, Left: left, StartIndex: idx}
+		p.nextToken() // Move to '..'
+		p.nextToken() // Skip '..'
+		
+		if !p.curTokenIs(token.RBRACKET) {
+			slice.EndIndex = p.parseExpression(LOWEST)
+		}
+		if !p.expectPeek(token.RBRACKET) { return nil }
+		return slice
+	}
+
+	// 一般索引 [index]
+	expr := &ast.IndexExpression{
+		Token: tok,
+		Left:  left,
+		Index: idx,
+	}
 
 	if !p.expectPeek(token.RBRACKET) {
 		return nil

@@ -450,6 +450,32 @@ func (ie *IndexExpression) String() string {
 	return out.String()
 }
 
+// SliceExpression represents a slice operator: Left[StartIndex..EndIndex]
+type SliceExpression struct {
+	Token      token.Token // The '[' token
+	Left       Expression
+	StartIndex Expression // Can be nil
+	EndIndex   Expression // Can be nil
+}
+
+func (*SliceExpression) expressionNode() {}
+func (se *SliceExpression) TokenLiteral() string { return se.Token.Literal }
+func (se *SliceExpression) String() string {
+	var out bytes.Buffer
+	out.WriteString("(")
+	out.WriteString(se.Left.String())
+	out.WriteString("[")
+	if se.StartIndex != nil {
+		out.WriteString(se.StartIndex.String())
+	}
+	out.WriteString("..")
+	if se.EndIndex != nil {
+		out.WriteString(se.EndIndex.String())
+	}
+	out.WriteString("])")
+	return out.String()
+}
+
 // HashLiteral represents a hash literal.
 type HashLiteral struct {
 	Token token.Token // the '{' token

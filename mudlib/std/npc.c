@@ -10,9 +10,12 @@ int     gold_reward;   // 掉落金幣數量
 mixed   drop_list;     // 掉落物清單：({"path/to/item.c", ...})
 int     respawn_time;  // 重生時間（秒），0 = 不重生
 string  aggro_msg;     // 主動攻擊時的訊息
+mapping chat_topics;   // 詢問話題表：([ "topic": "response" ])
 
 void create() {
     ::create();
+    enable_commands(); // 🚩 強制確保 Living 標籤被設定
+
     set_name("怪物");
     set_short("一隻怪物");
     set_long("這是一隻普通的怪物，看起來不太友善。\n");
@@ -31,6 +34,7 @@ void create() {
     drop_list   = ({});
     respawn_time= 0;
     aggro_msg   = "";
+    chat_topics = ([]);
 
     set_heart_beat(1);
 }
@@ -41,6 +45,30 @@ void set_gold_reward(int v)  { gold_reward  = v; }
 void set_drop_list(mixed l)  { drop_list    = l; }
 void set_respawn(int v)      { respawn_time = v; }
 void set_aggro_msg(string s) { aggro_msg    = s; }
+void set_chat_topic(string topic, string response) { chat_topics[topic] = response; }
+
+// ── 互動：對話 ──────────────────────────────────────────────
+int do_chat(object me, string topic) {
+    if (!topic || topic == "") return 0;
+    
+    if (chat_topics[topic]) {
+        write(name + " 告訴你：「" + chat_topics[topic] + "」\n");
+        return 1;
+    }
+    
+    // 預設回應
+    if (topic == "here" || topic == "這裡") {
+        write(name + " 說：「這裡是新手村，是個好地方。」\n");
+        return 1;
+    }
+    
+    if (topic == "name" || topic == "名字") {
+        write(name + " 說：「我叫 " + name + "，請多指教。」\n");
+        return 1;
+    }
+
+    return 0;
+}
 
 // ── 心跳：AI 巡邏 ───────────────────────────────────────────
 void heart_beat() {

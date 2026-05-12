@@ -1,20 +1,20 @@
 // include/config.h - 全域常數定義
 
 // ── 屬性常數 ────────────────────────────────────────────
-#define STAT_STR    "str"      // 力量
-#define STAT_DEX    "dex"      // 敏捷
-#define STAT_INT    "int"      // 智力
-#define STAT_CON    "con"      // 體魄
-#define STAT_WIS    "wis"      // 智慧
-#define STAT_CHA    "cha"      // 魅力
+#define STAT_STR    "str"
+#define STAT_DEX    "dex"
+#define STAT_INT    "int"
+#define STAT_CON    "con"
+#define STAT_WIS    "wis"
+#define STAT_CHA    "cha"
 
 // ── 戰鬥相關 ────────────────────────────────────────────
-#define MAX_HP_PER_CON  10     // 每點體魄提供的最大 HP
-#define BASE_ATTACK     10     // 基礎攻擊力
-#define BASE_DEFENCE    5      // 基礎防禦力
-#define HIT_RATE_BASE   75     // 基礎命中率 (%)
-#define CRIT_RATE_BASE  5      // 基礎暴擊率 (%)
-#define CRIT_MULTIPLIER 2      // 暴擊傷害倍率
+#define MAX_HP_PER_CON  10
+#define BASE_ATTACK     10
+#define BASE_DEFENCE    5
+#define HIT_RATE_BASE   75
+#define CRIT_RATE_BASE  5
+#define CRIT_MULTIPLIER 2
 
 // ── 物品種類 ────────────────────────────────────────────
 #define ITEM_WEAPON     "weapon"
@@ -39,9 +39,9 @@
 
 // ── 經驗值與等級 ────────────────────────────────────────
 #define MAX_LEVEL       50
-#define BASE_EXP_PER_LV 1000   // 每級所需基礎經驗值 (會依等級倍增)
+#define BASE_EXP_PER_LV 1000
 
 // ── 路徑常數 ────────────────────────────────────────────
-#define START_ROOM      "/area/newbie/room_2_2.c"
+#define START_ROOM      "/area/newbie/room_4_4.c"
 #define MASTER_FILE     "/master.c"
 #define ISSUE_FILE      "/etc/issue"

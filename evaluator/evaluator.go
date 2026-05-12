@@ -140,6 +140,9 @@ func Eval(node ast.Node, env object.Environment) object.Object {
 		}
 		return evalIndexExpression(left, index)
 
+	case *ast.SliceExpression:
+		return evalSliceExpression(node, env)
+
 	case *ast.HashLiteral:
 		return evalHashLiteral(node, env)
 
@@ -551,11 +554,48 @@ func evalIdent(node *ast.Ident, env object.Environment) object.Object {
 			}
 
 			if lpcObj != nil {
-				// 從繼承鏈由上往下找
-				for _, parent := range lpcObj.Inherits {
+				originFile := ""
+				if val, ok := env.Get("__origin_file"); ok {
+					if s, ok := val.(*object.String); ok { originFile = s.Value }
+				}
+
+				// 移除可能存在的 clone 編號
+				originFile = strings.Split(originFile, "#")[0]
+
+				// 輔助函式：在繼承樹中尋找特定檔案對應的節點
+				var findNode func(cur *object.LPCObject) *object.LPCObject
+				findNode = func(cur *object.LPCObject) *object.LPCObject {
+					curName := strings.Split(cur.Filename, "#")[0]
+					if curName == originFile { return cur }
+					for _, p := range cur.Inherits {
+						if res := findNode(p); res != nil { return res }
+					}
+					return nil
+				}
+
+				targetNode := lpcObj
+				if originFile != "" {
+					if found := findNode(lpcObj); found != nil {
+						targetNode = found
+					}
+				}
+
+				// 從目標節點的「直接父類別」開始往下找
+				for _, parent := range targetNode.Inherits {
 					if fn, exists := parent.Vars.Get(funcName); exists {
 						return fn
 					}
+					
+					// 遞迴尋找父類別的父類別
+					var findInParents func(*object.LPCObject) object.Object
+					findInParents = func(p *object.LPCObject) object.Object {
+						for _, gp := range p.Inherits {
+							if f, ex := gp.Vars.Get(funcName); ex { return f }
+							if f := findInParents(gp); f != nil { return f }
+						}
+						return nil
+					}
+					if f := findInParents(parent); f != nil { return f }
 				}
 			}
 		}
@@ -625,8 +665,82 @@ func evalIndexExpression(left, index object.Object) object.Object {
 		return evalHashIndexExpression(left, index)
 	case left.TokenType() == object.MAPPING_OBJ:
 		return evalMappingIndexExpression(left, index)
+	case left.TokenType() == object.StringType && index.TokenType() == object.IntegerType:
+		// 🚀 新增：支援字串索引
+		str := left.(*object.String).Value
+		idx := index.(*object.Integer).Value
+		if idx < 0 || idx >= int64(len(str)) { return &object.Integer{Value: 0} }
+		return &object.Integer{Value: int64(str[idx])}
 	default:
 		return newError("index operator not supported: %s", left.TokenType())
+	}
+}
+
+func evalSliceExpression(node *ast.SliceExpression, env object.Environment) object.Object {
+	left := Eval(node.Left, env)
+	if isError(left) { return left }
+
+	var start, end int64
+	var hasStart, hasEnd bool
+
+	if node.StartIndex != nil {
+		s := Eval(node.StartIndex, env)
+		if isError(s) { return s }
+		if si, ok := s.(*object.Integer); ok {
+			start = si.Value
+			hasStart = true
+		}
+	}
+
+	if node.EndIndex != nil {
+		e := Eval(node.EndIndex, env)
+		if isError(e) { return e }
+		if ei, ok := e.(*object.Integer); ok {
+			end = ei.Value
+			hasEnd = true
+		}
+	}
+
+	switch l := left.(type) {
+	case *object.String:
+		str := l.Value
+		length := int64(len(str))
+		
+		if !hasStart { start = 0 }
+		if !hasEnd { end = length - 1 }
+		
+		// 負數索引處理 (LPC 風格：從末尾計算)
+		if start < 0 { start = length + start }
+		if end < 0 { end = length + end }
+		
+		// 邊界安全
+		if start < 0 { start = 0 }
+		if end >= length { end = length - 1 }
+		if start > end || start >= length { return &object.String{Value: ""} }
+		
+		// LPC 的切片是包含性的 [start..end]
+		return &object.String{Value: str[start : end+1]}
+
+	case *object.Array:
+		elems := l.Elements
+		length := int64(len(elems))
+		
+		if !hasStart { start = 0 }
+		if !hasEnd { end = length - 1 }
+		
+		if start < 0 { start = length + start }
+		if end < 0 { end = length + end }
+		
+		if start < 0 { start = 0 }
+		if end >= length { end = length - 1 }
+		if start > end || start >= length { return &object.Array{Elements: []object.Object{}} }
+		
+		newElems := make([]object.Object, end-start+1)
+		copy(newElems, elems[start : end+1])
+		return &object.Array{Elements: newElems}
+
+	default:
+		return newError("slice operator not supported for type: %s", left.TokenType())
 	}
 }
 
@@ -784,10 +898,16 @@ func evalFunctionDef(node *ast.FunctionDef, env object.Environment) object.Objec
 		params = append(params, p.Name)
 	}
 
+	origin := ""
+	if val, ok := env.Get("__file__"); ok {
+		if s, ok := val.(*object.String); ok { origin = s.Value }
+	}
+
 	fn := &object.Function{
 		Parameters: params,
 		Env:		env,
 		Body:	   node.Body,
+		OriginFile: origin, // 🚀 記錄來源
 	}
 
 	env.Set(node.Name.Value, fn)

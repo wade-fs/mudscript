@@ -318,8 +318,24 @@ func (d *Driver) registerCoreIOEfuns(obj *object.LPCObject) {
 		Fn: func(args ...object.Object) object.Object {
 			if len(args) == 0 { return &object.Integer{Value: 0} }
 			if o, ok := args[0].(*object.LPCObject); ok {
-				conn := d.GetConnectionFromObject(o)
-				if conn != nil && conn.IsActive {
+				if d.GetConnectionFromObject(o) != nil {
+					return &object.Integer{Value: 1}
+				}
+			}
+			return &object.Integer{Value: 0}
+		},
+	})
+
+	// 語法: int userp(object ob)
+	// 說明: 判斷該物件是否為玩家物件。
+	obj.Vars.Set("userp", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) == 0 { return &object.Integer{Value: 0} }
+			if o, ok := args[0].(*object.LPCObject); ok {
+				// 在我們的實作中，userp 檢查是否具有 IsInteractive 標籤
+				if o.IsInteractive { return &object.Integer{Value: 1} }
+				// 也可以透過檔名判斷
+				if strings.HasPrefix(o.Filename, "/std/user.c") || strings.HasPrefix(o.Filename, "/data/user/") {
 					return &object.Integer{Value: 1}
 				}
 			}

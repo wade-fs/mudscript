@@ -1,10 +1,11 @@
 #include "/include/config.h"
+#include "/include/ansi.h"
 inherit "/std/room.c";
 
 void create() {
     ::create();
-    set_short("西大門");
-    set_long("新手村的西大門，通往茂密的森林。\n");
+    set_short("平民區");
+    set_long("這裡是一排排整齊的石造民居。\n");
     set_coordinate(1, 2, 0);
     add_exit("west", "/area/newbie/room_0_2.c");
     add_exit("east", "/area/newbie/room_2_2.c");
