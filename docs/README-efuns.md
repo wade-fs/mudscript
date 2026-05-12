@@ -4,6 +4,17 @@
 
 ## 1. 型別判斷 (Predicates)
 
+    用於檢查變數的資料型別。是回傳 `1`，否回傳 `0`。
+
+- `intp(mixed arg)`: 判斷是否為整數。
+- `stringp(mixed arg)`: 判斷是否為字串。
+- `floatp(mixed arg)`: 判斷是否為浮點數。
+- `objectp(mixed arg)`: 判斷是否為 LPC 物件。
+- `mappingp(mixed arg)`: 判斷是否為 Mapping (鍵值對)。
+- `arrayp(mixed arg)`: 判斷是否為陣列。
+- `nullp(mixed arg)`: 判斷是否為 `nil` 或整數 `0`。
+- `errorp(mixed arg)`: 判斷是否為系統錯誤物件。
+
 ## 2. 型別轉換 (Casting)
 
 ### `to_int()`
@@ -35,23 +46,25 @@
 
 ## 4. 玩家與生物 (Players & Livings)
 
-### `query_username()`
-- **說明**: 在 efun.go 的 registerCoreIOEfuns 或類似位置加入
-
 ### `userp()`
 - **語法**: `int userp(object ob)`
 - **說明**: 判斷該物件是否為玩家物件。
+- **範例**: if (userp(this_player())) {}
 
 ### `find_player()`
 - **語法**: `object find_player(string id)`
+- **說明**: 找到 player id 的物件
+- **範例**: object user = find_player(arg);
 
 ### `users()`
 - **語法**: `object *users()`
 - **說明**: 回傳目前線上所有玩家(已成功連線並處於互動狀態)的實體物件陣列。
+- **範例**: string *onlines = users();
 
 ### `enable_commands()`
 - **語法**: `void enable_commands()`
 - **說明**: 將當前物件標記為生物 (Living)，使其可以接收與執行 add_action 註冊的指令。
+- **範例**: enable_commands();
 
 ### `living()`
 - **語法**: `int living(object ob)`
@@ -68,10 +81,12 @@
 ### `this_player()`
 - **語法**: `object this_player()`
 - **說明**: 取得觸發當前執行緒的玩家物件。若無則回傳 0。
+- **範例**: if (me == this_player()) continue; // skip self
 
 ### `this_object()`
 - **語法**: `object this_object()`
 - **說明**: 取得當前正在執行程式碼的物件。
+- **範例**: mixed here_inv = all_inventory(this_object());
 
 ### `environment()`
 - **語法**: `object environment([object target])`
@@ -96,6 +111,7 @@
 ### `destruct()`
 - **語法**: `void destruct(object ob)`
 - **說明**: 從記憶體中徹底銷毀指定的物件。若未指定參數，則銷毀自己。
+- **範例**: destruct(me);
 
 ### `present()`
 - **語法**: `object present(string id_or_obj, [object env])`
@@ -110,6 +126,7 @@
 ### `deep_inventory()`
 - **語法**: `object *deep_inventory([object target])`
 - **說明**: 取得目標物件內部包含的所有物件，包含子容器內的物品 (遞迴深層搜尋)。
+- **範例**: object *inv = deep_inventory(this_object());
 
 ### `object_name()`
 - **語法**: `string object_name(object ob)`
@@ -131,6 +148,7 @@
 ### `time()`
 - **語法**: `int time()`
 - **說明**: 回傳目前的 Unix 時間戳 (從 1970 年開始的秒數)。
+- **範例**: int t = time();
 
 ### `ctime()`
 - **語法**: `string ctime(int time)`
@@ -145,10 +163,12 @@
 ### `remove_call_out()`
 - **語法**: `int remove_call_out(string func_name)`
 - **說明**: 移除排程中準備呼叫的 func_name。回傳移除的數量。
+- **範例**: remove_call_out("respawn");
 
 ### `set_heart_beat()`
 - **語法**: `int set_heart_beat(int flag)`
 - **說明**: 開啟(1)或關閉(0)物件的心跳機制 (每秒觸發一次 heart_beat 函式)。
+- **範例**: if (living(inv[i])) inv[i]->set_heart_beat(1);
 
 ## 7. 資料結構操作 (Data Structures)
 
@@ -208,6 +228,9 @@
 - **範例**: `unique_array(({ 1, 2, 2, 3 })) -> ({ 1, 2, 3 })`
 
 ### `json_encode()`
+- **語法**: `string json_encode(mixed data)`
+- **說明**: 將物件轉成 JSON
+- **範例**: payload = sprintf("{\"ui\": \"score\", \"data\": %s}", json_encode(data));
 
 ## 8. 字串處理 (Strings)
 
@@ -271,10 +294,18 @@
 ### `get_dir()`
 - **語法**: `string *get_dir(string path, [int recursive])`
 - **說明**: 取得指定路徑下的所有檔案與目錄清單。
+	- 支援萬用字元，例如 "/cmds/*.c"
+    - 若為目錄，回傳的名稱結尾會帶有 "/" 方便判斷
+    - recursive = 1 時，會遞迴往下掃描所有子目錄 (此模式下不支援萬用字元，需傳入明確目>錄)
+- **範例**:
+	- get_dir("/cmds/")          -> ({ "cmd_info.c", "cmd_look.c", "login.c", ... })
+    - get_dir("/data/user/*.o")  -> ({ "wade.o", "admin.o" })
+    - get_dir("/cmds/", 1)       -> ({ "cmd_info.c", "admin/cmd_shutdown.c", ... })
 
 ### `read_file()`
 - **語法**: `string read_file(string file)`
 - **說明**: 讀取並回傳檔案的完整文字內容。
+- **範例**: string issue = read_file(ISSUE_FILE);
 
 ### `write_file()`
 - **語法**: `int write_file(string file, string text, [int overwrite])`

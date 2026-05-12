@@ -273,20 +273,9 @@ func (d *Driver) registerMathEfuns(obj *object.LPCObject) {
 // ==========================================
 func (d *Driver) registerCoreIOEfuns(obj *object.LPCObject) {
 	
-	// 在 efun.go 的 registerCoreIOEfuns 或類似位置加入
-	obj.Vars.Set("query_username", &object.Builtin{
-	    Fn: func(args ...object.Object) object.Object {
-	        target := getTarget(args, obj)
-	        conn := d.GetConnectionFromObject(target)
-	        if conn != nil {
-	            return &object.String{Value: conn.Username}
-	        }
-	        return &object.Nil{}
-	    },
-	})
-
 	// 語法: int userp(object ob)
 	// 說明: 判斷該物件是否為玩家物件。
+	// 範例: if (userp(this_player())) {}
 	obj.Vars.Set("userp", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
 			if len(args) == 0 {
@@ -345,6 +334,8 @@ func (d *Driver) registerCoreIOEfuns(obj *object.LPCObject) {
 	})
 
 	// 語法: object find_player(string id)
+	// 說明: 找到 player id 的物件
+	// 範例: object user = find_player(arg);
 	obj.Vars.Set("find_player", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
 			if len(args) == 0 { return &object.Nil{} }
@@ -409,6 +400,7 @@ func (d *Driver) registerCoreIOEfuns(obj *object.LPCObject) {
 
 	// 語法: int set_heart_beat(int flag)
 	// 說明: 開啟(1)或關閉(0)物件的心跳機制 (每秒觸發一次 heart_beat 函式)。
+	// 範例: if (living(inv[i])) inv[i]->set_heart_beat(1);
 	obj.Vars.Set("set_heart_beat", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
 			if len(args) < 1 { return object.NewError("set_heart_beat 需要 1 個整數參數") }
@@ -424,6 +416,7 @@ func (d *Driver) registerCoreIOEfuns(obj *object.LPCObject) {
 
 	// 語法: void destruct(object ob)
 	// 說明: 從記憶體中徹底銷毀指定的物件。若未指定參數，則銷毀自己。
+	// 範例: destruct(me);
 	obj.Vars.Set("destruct", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
 			target := getTarget(args, obj)
@@ -434,6 +427,7 @@ func (d *Driver) registerCoreIOEfuns(obj *object.LPCObject) {
 
 	// 語法: void enable_commands()
 	// 說明: 將當前物件標記為生物 (Living)，使其可以接收與執行 add_action 註冊的指令。
+	// 範例: enable_commands();
 	obj.Vars.Set("enable_commands", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
 			obj.IsLiving = true
@@ -504,6 +498,7 @@ func (d *Driver) registerCoreIOEfuns(obj *object.LPCObject) {
 
 	// 語法: object this_player()
 	// 說明: 取得觸發當前執行緒的玩家物件。若無則回傳 0。
+	// 範例: if (me == this_player()) continue; // skip self
 	obj.Vars.Set("this_player", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
 			p := d.GetCurrentPlayer()
@@ -514,6 +509,7 @@ func (d *Driver) registerCoreIOEfuns(obj *object.LPCObject) {
 
 	// 語法: object this_object()
 	// 說明: 取得當前正在執行程式碼的物件。
+	// 範例: mixed here_inv = all_inventory(this_object());
 	obj.Vars.Set("this_object", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object { return obj },
 	})
@@ -629,6 +625,7 @@ func (d *Driver) registerEnvironmentEfuns(obj *object.LPCObject) {
 
 	// 語法: object *deep_inventory([object target])
 	// 說明: 取得目標物件內部包含的所有物件，包含子容器內的物品 (遞迴深層搜尋)。
+	// 範例: object *inv = deep_inventory(this_object());
 	obj.Vars.Set("deep_inventory", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
 			target := getTarget(args, obj)
@@ -680,6 +677,7 @@ func (d *Driver) registerEnvironmentEfuns(obj *object.LPCObject) {
 func (d *Driver) registerTimeAndScheduling(obj *object.LPCObject) {
 	// 語法: int time()
 	// 說明: 回傳目前的 Unix 時間戳 (從 1970 年開始的秒數)。
+	// 範例: int t = time();
 	obj.Vars.Set("time", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
 			return &object.Integer{Value: time.Now().Unix()}
@@ -704,6 +702,7 @@ func (d *Driver) registerTimeAndScheduling(obj *object.LPCObject) {
 
 	// 語法: int remove_call_out(string func_name)
 	// 說明: 移除排程中準備呼叫的 func_name。回傳移除的數量。
+	// 範例: remove_call_out("respawn");
 	obj.Vars.Set("remove_call_out", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
 			if len(args) < 1 { return &object.Integer{Value: 0} }
@@ -731,6 +730,9 @@ func (d *Driver) registerTimeAndScheduling(obj *object.LPCObject) {
 // 7. 資料結構操作 (Arrays, Mappings)
 // ==========================================
 func (d *Driver) registerDataStructures(obj *object.LPCObject) {
+	// 語法: string json_encode(mixed data)
+	// 說明: 將物件轉成 JSON
+	// 範例: payload = sprintf("{\"ui\": \"score\", \"data\": %s}", json_encode(data));
 	obj.Vars.Set("json_encode", &object.Builtin{
         Fn: func(args ...object.Object) object.Object {
             if len(args) < 1 {
@@ -1442,6 +1444,7 @@ func (d *Driver) registerSystemAndFiles(obj *object.LPCObject) {
 
 	// 語法: string read_file(string file)
 	// 說明: 讀取並回傳檔案的完整文字內容。
+	// 範例: string issue = read_file(ISSUE_FILE);
 	obj.Vars.Set("read_file", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
 			if len(args) < 1 { return &object.Nil{} }
@@ -1501,6 +1504,7 @@ func (d *Driver) registerSystemAndFiles(obj *object.LPCObject) {
 
 	// 語法: object *users()
 	// 說明: 回傳目前線上所有玩家(已成功連線並處於互動狀態)的實體物件陣列。
+	// 範例: string *onlines = users();
 	obj.Vars.Set("users", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
 			var userObjs []object.Object
