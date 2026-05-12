@@ -13,17 +13,20 @@ GO_FLAGS := -ldflags="-s -w -X main.Version=$(VERSION)"
 
 ENV := GOPATH=$(GOPATH) GOROOT=$(GOROOT)
 
-mudscript:
+%.exe:
 	@ rm -f $(OUT)/$@ && mkdir -p $(OUT)
-	@ go mod tidy && \
-	env $(ENV) go build -o $(OUT)/$@ && \
-	ls $(OUT)/$@ 
+	@ BASE=$(basename $@); \
+	cd cmd/$$BASE && \
+	go mod tidy && \
+	env $(ENV) GOOS=windows go build $(GO_FLAGS) -o $(OUT)/$@ && \
+	cd $(TOP) && \
+	ls $(OUT)/$@
 
 %:
 	@ rm -f $(OUT)/$@ && mkdir -p $(OUT)
 	@ cd cmd/$@ && \
 	go mod tidy && \
-	env $(ENV) go build -o $(OUT)/$@ && \
+	env $(ENV) go build $(GO_FLAGS) -o $(OUT)/$@ && \
 	cd $(TOP) && \
 	$(OUT)/$@ 
 

@@ -115,7 +115,25 @@ int process_input(string input) {
         write("系統錯誤：無法載入指令守護進程。\n");
         return 1;
     }
-    return cmd_d->execute(this_object(), verb, arg);
+
+    int res = cmd_d->execute(this_object(), verb, arg);
+    if (res) return res;
+
+    // 🚩 這裡可以擴充：如果全域指令沒找到，嘗試在環境中尋找具備特定互動能力的 NPC
+    object env = environment(this_object());
+    if (env) {
+        object *inv = all_inventory(env);
+        int i;
+        for (i = 0; i < sizeof(inv); i++) {
+            object ob = inv[i];
+            // 排除自己，且只找生物 (NPC)
+            if (ob && living(ob) && ob != this_object()) {
+                if (ob->handle_interaction(verb, arg)) return 1;
+            }
+        }
+    }
+
+    return 0;
 }
 
 void move_to_start() {

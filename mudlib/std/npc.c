@@ -4,7 +4,7 @@
 
 inherit "/std/living.c";
 
-// ── NPC 專屬欄位 ────────────────────────────────────────────
+// ── NPC 專屬欄位 ────────────────────────────────────────────────
 int     exp_reward;    // 擊殺後給予的經驗值
 int     gold_reward;   // 掉落金幣數量
 mixed   drop_list;     // 掉落物清單：({"path/to/item.c", ...})
@@ -14,7 +14,7 @@ mapping chat_topics;   // 詢問話題表：([ "topic": "response" ])
 
 void create() {
     ::create();
-    enable_commands(); // 🚩 強制確保 Living 標籤被設定
+    enable_commands();
 
     set_name("怪物");
     set_short("一隻怪物");
@@ -39,7 +39,40 @@ void create() {
     set_heart_beat(1);
 }
 
-// ── 設定 / 查詢 ─────────────────────────────────────────────
+// init() 在玩家進入 NPC 所在房間時由 driver 呼叫
+// 此處的 add_action 作為備援路徑；主路徑是 command_d -> cmd_ask.c -> do_chat()
+void init() {
+    add_action("do_ask_action", "ask");
+}
+
+// do_ask_action：備援詢問路徑（當 command_d 未攔截時觸發）
+// 注意：若 command_d 已把 "ask" 路由到 cmd_ask.c，此 action 不會被呼叫
+int do_ask_action(string arg) {
+    object me = this_player();
+    if (!arg || arg == "") return 0;
+
+    string target_id, topic;
+    if (sscanf(arg, "%s about %s", target_id, topic) != 2 ||
+        target_id == "" || topic == "") {
+        if (sscanf(arg, "%s %s", target_id, topic) != 2 ||
+            target_id == "" || topic == "") {
+            return 0;
+        }
+    }
+
+    if (!id(target_id)) return 0;  // 問的不是我，讓其他 NPC 的 action 處理
+
+    string my_name = query_name();
+    tell_object(me, "你向 " + my_name + " 詢問關於「" + topic + "」的事。\n");
+    say(me->query_name() + " 向 " + my_name + " 詢問了一些事。\n");
+
+    if (!do_chat(me, topic)) {
+        tell_object(me, my_name + " 只是看了看你，什麼也沒說。\n");
+    }
+    return 1;
+}
+
+// ── 設定 / 查詢 ──────────────────────────────────────────────────
 void set_exp_reward(int v)   { exp_reward   = v; }
 void set_gold_reward(int v)  { gold_reward  = v; }
 void set_drop_list(mixed l)  { drop_list    = l; }
@@ -70,11 +103,58 @@ int do_chat(object me, string topic) {
     return 0;
 }
 
-// ── 心跳：AI 巡邏 ───────────────────────────────────────────
+void set_chat_topic(string topic, string response) {
+    if (!chat_topics) chat_topics = ([]);
+    chat_topics[topic] = response;
+}
+
+mapping query_chat_topics() { return chat_topics; }
+
+// ── 互動：對話 ───────────────────────────────────────────────────
+// me：詢問者物件；topic：話題字串
+// 回傳 1 表示有回應，0 表示無話可說
+int do_chat(object me, string topic) {
+    if (!topic || topic == "") return 0;
+    if (!chat_topics) chat_topics = ([]);
+
+    string my_name = query_name();
+
+    // 查表：完全比對（支援中英文 topic）
+    if (chat_topics[topic]) {
+        tell_object(me, my_name + " 告訴你：「" + chat_topics[topic] + "」\n");
+        return 1;
+    }
+
+    // 大小寫不敏感備援（英文 topic）
+    string lc_topic = lower_case(topic);
+    mixed keys = keys(chat_topics);
+    int i;
+    for (i = 0; i < sizeof(keys); i++) {
+        if (lower_case(keys[i]) == lc_topic) {
+            tell_object(me, my_name + " 告訴你：「" + chat_topics[keys[i]] + "」\n");
+            return 1;
+        }
+    }
+
+    // 內建 fallback：查詢可問的話題
+    if (lc_topic == "topics" || topic == "話題" || topic == "topic") {
+        mixed t_keys = keys(chat_topics);
+        if (sizeof(t_keys) == 0) {
+            tell_object(me, my_name + " 搖搖頭說：「我沒什麼好說的。」\n");
+        } else {
+            string list = implode(t_keys, "、");
+            tell_object(me, my_name + " 說：「你可以問我關於：" + list + "。」\n");
+        }
+        return 1;
+    }
+
+    return 0;
+}
+
+// ── 心跳：AI 巡邏 ────────────────────────────────────────────────
 void heart_beat() {
     if (is_dead) { return; }
 
-    // 如果正在戰鬥，呼叫戰鬥邏輯
     if (in_combat && combat_target) {
         if (combat_target->query_hp() <= 0) {
             in_combat     = 0;
@@ -84,30 +164,25 @@ void heart_beat() {
         do_attack();
         return;
     }
-
-    // 掃描同一房間的活物，若是玩家就主動攻擊（預設不主動攻擊，子類別可覆寫）
 }
 
-// ── 戰鬥：NPC 攻擊 ──────────────────────────────────────────
+// ── 戰鬥：NPC 攻擊 ───────────────────────────────────────────────
 void do_attack() {
     if (!combat_target || is_dead) { return; }
 
-    // 命中判斷
     int hit_roll = random(100);
     int hit_chance = HIT_RATE_BASE + (stat_dex - combat_target->query_stat(STAT_DEX));
     if (hit_roll > hit_chance) {
         tell_object(combat_target,
-            name + " 攻擊你，但沒打中！\n");
+            query_name() + " 攻擊你，但沒打中！\n");
         return;
     }
 
-    // 計算傷害
     int raw = attack - combat_target->query_defence();
     if (raw < 1) { raw = 1; }
     int variation = random(raw / 3 + 1);
     raw = raw - variation / 2 + random(variation);
 
-    // 暴擊
     string crit_str = "";
     if (random(100) < CRIT_RATE_BASE) {
         raw = raw * CRIT_MULTIPLIER;
@@ -116,19 +191,19 @@ void do_attack() {
 
     combat_target->take_damage(raw);
     tell_object(combat_target,
-        crit_str + name + " 對你造成了 " + sprintf("%d", raw) + " 點傷害！" +
+        crit_str + query_name() + " 對你造成了 " + sprintf("%d", raw) + " 點傷害！" +
         "（你剩 " + sprintf("%d", combat_target->query_hp()) + "/" +
         sprintf("%d", combat_target->query_max_hp()) + " HP）\n");
 
     if (combat_target->query_hp() <= 0) {
-        tell_object(combat_target, "你被 " + name + " 擊倒了！\n");
+        tell_object(combat_target, "你被 " + query_name() + " 擊倒了！\n");
         combat_target->die();
         in_combat     = 0;
         combat_target = 0;
     }
 }
 
-// ── 被攻擊後，自動迎戰 ──────────────────────────────────────
+// ── 被攻擊後，自動迎戰 ───────────────────────────────────────────
 void attacked_by(object attacker) {
     if (is_dead) { return; }
     if (!in_combat) {
@@ -137,16 +212,15 @@ void attacked_by(object attacker) {
         if (aggro_msg) {
             say(aggro_msg);
         } else {
-            say(name + " 怒目而視，準備反擊！\n");
+            say(query_name() + " 怒目而視，準備反擊！\n");
         }
     }
 }
 
-// ── 死亡 ────────────────────────────────────────────────────
+// ── 死亡 ─────────────────────────────────────────────────────────
 void on_death() {
-    say(name + " 倒下了！\n");
+    say(query_name() + " 倒下了！\n");
 
-    // 發放獎勵給擊殺者
     if (combat_target && living(combat_target)) {
         combat_target->gain_exp(exp_reward);
         tell_object(combat_target,
@@ -154,7 +228,6 @@ void on_death() {
         combat_target->gain_gold(gold_reward);
     }
 
-    // 掉落物品
     int i;
     for (i = 0; i < sizeof(drop_list); i++) {
         object item = clone_object(drop_list[i]);
@@ -163,7 +236,6 @@ void on_death() {
         }
     }
 
-    // 計劃重生
     if (respawn_time > 0) {
         call_out("respawn", respawn_time);
     }
@@ -171,7 +243,7 @@ void on_death() {
     destruct(this_object());
 }
 
-// ── 重生 ────────────────────────────────────────────────────
+// ── 重生 ─────────────────────────────────────────────────────────
 void respawn() {
     // 子類別實作重生邏輯
 }

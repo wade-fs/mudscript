@@ -238,6 +238,7 @@ func (d *Driver) registerMathEfuns(obj *object.LPCObject) {
 // 4. 核心與 I/O (Core & IO)
 // ==========================================
 func (d *Driver) registerCoreIOEfuns(obj *object.LPCObject) {
+	
 	// 在 efun.go 的 registerCoreIOEfuns 或類似位置加入
 	obj.Vars.Set("query_username", &object.Builtin{
 	    Fn: func(args ...object.Object) object.Object {
@@ -249,6 +250,24 @@ func (d *Driver) registerCoreIOEfuns(obj *object.LPCObject) {
 	        return &object.Nil{}
 	    },
 	})
+
+	// 語法: int userp(object ob)
+    // 說明: 判斷該物件是否為玩家物件。
+    obj.Vars.Set("userp", &object.Builtin{
+        Fn: func(args ...object.Object) object.Object {
+            if len(args) == 0 { return &object.Integer{Value: 0} }
+            if o, ok := args[0].(*object.LPCObject); ok {
+                // 在我們的實作中，userp 檢查是否具有 IsInteractive 標籤
+                if o.IsInteractive { return &object.Integer{Value: 1} }
+                // 也可以透過檔名判斷
+                if strings.HasPrefix(o.Filename, "/std/user.c") || strings.HasPrefix(o.Filename, "/data/user/") {
+                    return &object.Integer{Value: 1}
+                }
+            }
+			return &object.Nil{}
+		},
+	})
+
 	// 語法: string query_verb()
 	// 說明: 回傳當前觸發指令的動詞。
 	// 範例: 若輸入 "go north"，query_verb() 回傳 "go"。
