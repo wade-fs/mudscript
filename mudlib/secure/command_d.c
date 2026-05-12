@@ -39,6 +39,8 @@ void create() {
         "social"   : "/cmds/cmd_social.c",
         "nickname" : "/cmds/cmd_nickname.c",
         "nick"     : "/cmds/cmd_nickname.c",
+        "ask"      : "/cmds/cmd_ask.c",
+        "update"   : "/cmds/admin/cmd_update.c",
         "promote"  : "/cmds/admin/cmd_promote.c",
         "demote"   : "/cmds/admin/cmd_demote.c",
         "grant"    : "/cmds/admin/cmd_grant.c",
@@ -48,9 +50,9 @@ void create() {
 
 int execute(object me, string verb, string arg) {
     // write("DEBUG: COMMAND_D 正在執行 " + verb + " (" + arg + ")\n");
-    string cmd_file = cmd_map[verb];
+    mixed cmd_file = cmd_map[verb];
     
-    if (!cmd_file) {
+    if (!cmd_file || !stringp(cmd_file)) {
         return 0; 
     }
 

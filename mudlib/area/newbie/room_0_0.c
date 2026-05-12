@@ -1,10 +1,11 @@
 #include "/include/config.h"
+#include "/include/ansi.h"
 inherit "/std/room.c";
 
 void create() {
     ::create();
-    set_short("寧靜池塘");
-    set_long("這是一個平靜的池塘，水面如鏡，倒映著天空的白雲。\n");
+    set_short("平民區");
+    set_long("這裡是一排排整齊的石造民居。\n");
     set_coordinate(0, 0, 0);
     add_exit("east", "/area/newbie/room_1_0.c");
     add_exit("north", "/area/newbie/room_0_1.c");

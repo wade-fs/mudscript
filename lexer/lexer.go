@@ -186,6 +186,14 @@ func (l *lexer) NextToken() token.Token {
 		} else {
 			tok = l.newToken(token.GT, l.ch)
 		}
+	case '.':
+		if l.peekChar() == '.' {
+			ch := l.ch
+			l.readChar()
+			tok = token.Token{TokenType: token.DOTDOT, Literal: string(ch) + string(l.ch), Line: currentLine}
+		} else {
+			tok = l.newToken(token.ILLEGAL, l.ch)
+		}
 	case '{':
 		tok = l.newToken(token.LBRACE, l.ch)
 	case '}':

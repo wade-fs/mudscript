@@ -73,7 +73,7 @@ void look_room() {
 
     int i;
     for (i = 0; i < sizeof(here_inv); i++) {
-        mixed ob = here_inv[i];
+        object ob = here_inv[i];
         if (living(ob)) {
             livings_in_room = livings_in_room + ({ ob });
         } else {
@@ -81,24 +81,38 @@ void look_room() {
         }
     }
 
-    if (items_in_room) {
-        write("物品：");
+    if (sizeof(items_in_room) > 0) {
+        write("物品：\n");
         int j;
         for (j = 0; j < sizeof(items_in_room); j++) {
-            write(items_in_room[j]->query_short());
-            if (j < sizeof(items_in_room) - 1) { write("、"); }
+            object item = items_in_room[j];
+            string item_id = item->query_key_id();
+            write("  [" + item->query_short() + "(" + item_id + ")|look " + item_id + "]\n");
         }
-        write("\n");
     }
 
-    if (livings_in_room) {
-        write("這裡有：");
+    if (sizeof(livings_in_room) > 0) {
+        write("這裡有：\n");
         int k;
         for (k = 0; k < sizeof(livings_in_room); k++) {
-            write(livings_in_room[k]->query_name());
-            if (k < sizeof(livings_in_room) - 1) { write("、"); }
+            object liv = livings_in_room[k];
+            if (liv == this_player()) continue; // 不看自己
+            
+            string liv_id = "living";
+            string display_name = liv->query_name();
+            
+            if (userp(liv)) {
+                liv_id = liv->get_id();
+                display_name = HIG("[玩家] ") + display_name;
+            } else {
+                // 從 ID 列表抓取第一個可用 ID
+                mixed ids = liv->query_id();
+                if (arrayp(ids) && sizeof(ids) > 0) liv_id = ids[0];
+                else if (stringp(ids)) liv_id = ids;
+            }
+            
+            write("  [" + display_name + "(" + liv_id + ")|look " + liv_id + "]\n");
         }
-        write("\n");
     }
 
     // 🚀 新增：發送小地圖的 JSON 資料給前端
@@ -117,6 +131,14 @@ void init() {
         add_action("do_go", dirs[i]);
     }
     add_action("do_go", "go");
+
+    // 🚩 性能優化：當玩家進入房間時，喚醒房間內所有 NPC 的心跳
+    if (userp(this_player())) {
+        object *inv = all_inventory(this_object());
+        for (i = 0; i < sizeof(inv); i++) {
+            if (living(inv[i])) inv[i]->set_heart_beat(1);
+        }
+    }
 }
 
 int do_go(string dir) {
