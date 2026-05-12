@@ -319,19 +319,15 @@ func (d *Driver) registerCoreIOEfuns(obj *object.LPCObject) {
 	})
 
 	// 語法: int living(object ob)
-	// 說明: 判斷物件是否為活著的生物 (有呼叫過 enable_commands)。
-	// 範例: if (living(target)) { write("這是一個生物。\\n"); }
+	// 說明: 判斷物件是否為活著的生物。
+	// 實作: 呼叫物件上的 is_living() 函式，回傳 1 代表是生物。
 	obj.Vars.Set("living", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
-			target := obj
-			if len(args) > 0 {
-				if o, ok := args[0].(*object.LPCObject); ok {
-					target = o
-				} else {
-					return &object.Integer{Value: 0}
-				}
+			target := getTarget(args, obj)
+			res := d.CallFunction(target, "is_living", nil)
+			if isLPCTrue(res) {
+				return &object.Integer{Value: 1}
 			}
-			if target.IsLiving { return &object.Integer{Value: 1} }
 			return &object.Integer{Value: 0}
 		},
 	})
@@ -520,7 +516,7 @@ func (d *Driver) registerCoreIOEfuns(obj *object.LPCObject) {
 		Fn: func(args ...object.Object) object.Object { return obj },
 	})
 
-	// 語法: void say(string msg)
+	// 語法: void say(string msg, [mixed exclude])
 	// 說明: 將訊息廣播給與當前物件處於同一環境(房間)內的所有其他物件。
 	// 範例: say("一陣微風吹過。\n");
 	obj.Vars.Set("say", &object.Builtin{
@@ -529,13 +525,23 @@ func (d *Driver) registerCoreIOEfuns(obj *object.LPCObject) {
 			msg := args[0].Inspect()
 			if s, ok := args[0].(*object.String); ok { msg = s.Value }
 
-			env := obj.Location
-			if env != nil {
-				for _, other := range env.Inventory {
-					if other != obj {
-						d.CallFunction(other, "catch_tell", []object.Object{&object.String{Value: msg}})
+			var exclude []*object.LPCObject
+			exclude = append(exclude, obj) // 預設排除自己
+
+			if len(args) > 1 {
+				if o, ok := args[1].(*object.LPCObject); ok {
+					exclude = append(exclude, o)
+				} else if arr, ok := args[1].(*object.Array); ok {
+					for _, el := range arr.Elements {
+						if o, ok := el.(*object.LPCObject); ok {
+							exclude = append(exclude, o)
+						}
 					}
 				}
+			}
+
+			if obj.Location != nil {
+				d.TellRoom(obj.Location, msg, exclude)
 			}
 			return &object.Nil{}
 		},
@@ -553,18 +559,36 @@ func (d *Driver) registerCoreIOEfuns(obj *object.LPCObject) {
 			msg := args[1].Inspect()
 			if s, isStr := args[1].(*object.String); isStr { msg = s.Value }
 
-			conn := d.GetConnectionFromObject(targetObj)
-			if conn != nil {
-				safeMsg := strings.ReplaceAll(msg, "\r\n", "\n")
-				safeMsg = strings.ReplaceAll(safeMsg, "\n", "\r\n")
-				conn.Send(safeMsg)
+			d.TellObject(targetObj, msg)
+			return &object.Nil{}
+		},
+	})
+
+	// 語法: void tell_room(object room, string msg, [mixed exclude])
+	// 說明: 向指定房間廣播訊息。
+	obj.Vars.Set("tell_room", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 2 { return object.NewError("tell_room 需要 2 個參數") }
+			roomObj, ok := args[0].(*object.LPCObject)
+			if !ok { return object.NewError("tell_room 的第一個參數必須是 object") }
+
+			msg := args[1].Inspect()
+			if s, isStr := args[1].(*object.String); isStr { msg = s.Value }
+
+			var exclude []*object.LPCObject
+			if len(args) > 2 {
+				if o, ok := args[2].(*object.LPCObject); ok {
+					exclude = append(exclude, o)
+				} else if arr, ok := args[2].(*object.Array); ok {
+					for _, el := range arr.Elements {
+						if o, ok := el.(*object.LPCObject); ok {
+							exclude = append(exclude, o)
+						}
+					}
+				}
 			}
-			initiator := d.GetCurrentPlayer()
-			if initiator != nil {
-				d.RunCommand(initiator, targetObj, "catch_tell", []object.Object{&object.String{Value: msg}})
-			} else {
-				d.CallFunction(targetObj, "catch_tell", []object.Object{&object.String{Value: msg}})
-			}
+
+			d.TellRoom(roomObj, msg, exclude)
 			return &object.Nil{}
 		},
 	})

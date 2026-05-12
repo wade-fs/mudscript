@@ -32,15 +32,15 @@ int main(object me, string arg) {
     }
 
     if (!living(target)) {
-        write("你要問一尊雕像什麼嗎？\n");
-        return 1;
-    }
+	    write("你要問一尊雕像什麼嗎？\n");
+	}
 
     string target_name = target->query_name();
 
     // 用 tell_object 確保訊息送給正確的玩家
     tell_object(me, "你向 " + target_name + " 詢問關於「" + topic + "」的事。\n");
-    say(me->query_name() + " 向 " + target_name + " 詢問了一些事。\n");
+	tell_room(environment(me),
+    	me->query_name() + " 向 " + target_name + " 詢問了一些事。\n", ({ me }));
 
     // 呼叫 NPC 的 do_chat，傳入詢問者 me 方便 NPC 直接 tell_object
     if (!target->do_chat(me, topic)) {

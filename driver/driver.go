@@ -801,3 +801,51 @@ func (d *Driver) TransferConnection(target *object.LPCObject, src *object.LPCObj
 	d.playerContexts.Store(gid, connToMove)
 	return true
 }
+
+// TellObject 向指定物件發送訊息 (封裝通訊邏輯)
+func (d *Driver) TellObject(target *object.LPCObject, msg string) {
+	if target == nil || target.IsDestructed {
+		return
+	}
+
+	// 1. 若為連線中的玩家，直接透過 Socket 發送
+	conn := d.GetConnectionFromObject(target)
+	if conn != nil {
+		safeMsg := strings.ReplaceAll(msg, "\r\n", "\n")
+		safeMsg = strings.ReplaceAll(safeMsg, "\n", "\r\n")
+		conn.Send(safeMsg)
+	}
+
+	// 2. 不論是否為玩家，都觸發 catch_tell 函式 (供 NPC 或腳本攔截訊息)
+	initiator := d.GetCurrentPlayer()
+	if initiator != nil {
+		d.RunCommand(initiator, target, "catch_tell", []object.Object{&object.String{Value: msg}})
+	} else {
+		d.CallFunction(target, "catch_tell", []object.Object{&object.String{Value: msg}})
+	}
+}
+
+// TellRoom 向指定房間內的所有物件廣播訊息 (支援排除清單)
+func (d *Driver) TellRoom(room *object.LPCObject, msg string, exclude []*object.LPCObject) {
+	if room == nil || room.IsDestructed {
+		return
+	}
+
+	for _, item := range room.Inventory {
+		if item == nil || item.IsDestructed {
+			continue
+		}
+
+		shouldExclude := false
+		for _, ex := range exclude {
+			if item == ex {
+				shouldExclude = true
+				break
+			}
+		}
+
+		if !shouldExclude {
+			d.TellObject(item, msg)
+		}
+	}
+}

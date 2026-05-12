@@ -65,5 +65,8 @@ int id(string str) {
     return 0;
 }
 
+// 判斷是否為生物
+int is_living() { return 0; }
+
 // catch_tell(string msg) - 收到訊息（預設不處理）
 void catch_tell(string msg) {}

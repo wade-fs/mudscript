@@ -71,6 +71,9 @@ int can_receive(object ob) {
     return ::can_receive(ob); // 呼叫父類別的容量檢查
 }
 
+// 判斷是否為生物
+int is_living() { return 1; }
+
 // ── 重算衍生屬性 ──────────────────────────────────────────
 void recalc_stats() {
     max_hp  = stat_con * MAX_HP_PER_CON + level * 5;
@@ -97,7 +100,9 @@ void recalc_stats() {
 }
 
 // ── 設定 / 查詢 ────────────────────────────────────────────
-void set_name(string n)   { name = n; }
+void set_name(string n) {
+    name = n;
+}
 string query_name()       { return name; }
 void set_race(string r)   { race = r; }
 string query_race()       { return race; }

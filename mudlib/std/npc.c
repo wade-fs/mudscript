@@ -61,33 +61,11 @@ void create() {
     set_heart_beat(1);
 }
 
+// init() 在玩家進入 NPC 所在房間時由 driver 呼叫
+// ⚠️  不在這裡掛 add_action("ask")：
+//     "ask" 已由 command_d → cmd_ask.c 統一處理。
+//     若再 add_action，driver action 與 command_d 都觸發，造成重複輸出。
 void init() {
-    add_action("do_ask_action", "ask");
-}
-
-int do_ask_action(string arg) {
-    object me = this_player();
-    if (!arg || arg == "") return 0;
-
-    string target_id, topic;
-    if (sscanf(arg, "%s about %s", target_id, topic) != 2 ||
-        target_id == "" || topic == "") {
-        if (sscanf(arg, "%s %s", target_id, topic) != 2 ||
-            target_id == "" || topic == "") {
-            return 0;
-        }
-    }
-
-    if (!id(target_id)) return 0;
-
-    string my_name = query_name();
-    tell_object(me, "你向 " + my_name + " 詢問關於「" + topic + "」的事。\n");
-    say(me->query_name() + " 向 " + my_name + " 詢問了一些事。\n");
-
-    if (!do_chat(me, topic)) {
-        tell_object(me, my_name + " 只是看了看你，什麼也沒說。\n");
-    }
-    return 1;
 }
 
 // ── 設定 / 查詢 ──────────────────────────────────────────────────

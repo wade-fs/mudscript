@@ -102,16 +102,21 @@ int process_input(string input) {
     int res = cmd_d->execute(this_object(), verb, arg);
     if (res) return res;
 
-    // 🚩 這裡可以擴充：如果全域指令沒找到，嘗試在環境中尋找具備特定互動能力的 NPC
-    object env = environment(this_object());
-    if (env) {
-        object *inv = all_inventory(env);
-        int i;
-        for (i = 0; i < sizeof(inv); i++) {
-            object ob = inv[i];
-            // 排除自己，且只找生物 (NPC)
-            if (ob && living(ob) && ob != this_object()) {
-                if (ob->handle_interaction(verb, arg)) return 1;
+    // command_d 已處理所有已知指令（含 ask）。
+    // handle_interaction 備援迴圈只用於 command_d 完全不認識的自訂動詞，
+    // 以防止 ask / look 等指令被第二次執行。
+    string *cmd_d_verbs = keys(cmd_d->query_cmd_map());
+    int verb_in_cmd_d = (member_array(verb, cmd_d_verbs) >= 0);
+    if (!verb_in_cmd_d) {
+        object env = environment(this_object());
+        if (env) {
+            object *inv = all_inventory(env);
+            int i;
+            for (i = 0; i < sizeof(inv); i++) {
+                object ob = inv[i];
+                if (ob && living(ob) && ob != this_object()) {
+                    if (ob->handle_interaction(verb, arg)) return 1;
+                }
             }
         }
     }
