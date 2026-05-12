@@ -19,17 +19,28 @@
   "exp": 0,
   "exp_to_next": 0,
   "gold": 0,
-  "hp": 0,
+  "hp": 100,
   "id": "wade",
-  "last_location": "/area/newbie/room_2_2.c",
-  "level": 0,
+  "last_location": "",
+  "level": 1,
   "max_hp": 100,
   "max_mp": 100,
-  "mp": 0,
-  "name": "wade",
+  "mp": 100,
+  "name": "菠蘿麵包",
+  "nature": "agile",
   "password": "de3bbd0fd7945e42581643b18cdf28dd3ed61d9c3d541b7b016081564b65a3f3",
+  "race": "human",
   "role": "god",
   "saved_inventory": [],
+  "skills": {
+    "dodge": 1
+  },
+  "stat_cha": 13,
+  "stat_con": 12,
+  "stat_dex": 15,
+  "stat_int": 12,
+  "stat_str": 12,
+  "stat_wis": 12,
   "write_paths": [
     "/"
   ]

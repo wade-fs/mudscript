@@ -12,15 +12,21 @@ import (
 	"strings"
 )
 
+type Macro struct {
+	Name string
+	Args []string
+	Body string
+}
+
 type Preprocessor struct {
 	MudLibPath string
-	Macros     map[string]string
+	Macros     map[string]Macro
 }
 
 func New(mudLibPath string) *Preprocessor {
 	return &Preprocessor{
 		MudLibPath: mudLibPath,
-		Macros:     make(map[string]string),
+		Macros:     make(map[string]Macro),
 	}
 }
 
@@ -121,26 +127,69 @@ func (p *Preprocessor) Process(filename, input string) (string, error) {
 			continue
 		}
 
-		// 如果目前在忽略區塊內，直接塞入空行 (保留行號)
-		if isSkipping() {
-			output.WriteString("\n")
-			continue
-		}
-
 		// ==========================================
 		// 2. 處理巨集定義 (#define)
 		// ==========================================
 		if strings.HasPrefix(trimmed, "#define ") {
-			parts := strings.Fields(trimmed[8:])
-			if len(parts) > 0 {
-				key := parts[0]
-				val := ""
-				if len(parts) > 1 {
-					idx := strings.Index(trimmed, key) + len(key)
-					val = strings.TrimSpace(trimmed[idx:])
+			fullDefine := trimmed
+			// 支援多行定義 (結尾帶有 \)
+			for strings.HasSuffix(strings.TrimSpace(fullDefine), "\\") {
+				fullDefine = strings.TrimSuffix(strings.TrimSpace(fullDefine), "\\")
+				if scanner.Scan() {
+					nextLine := scanner.Text()
+					fullDefine += " " + strings.TrimSpace(nextLine)
+					output.WriteString("\n") // 補償行號
+				} else {
+					break
 				}
-				p.Macros[key] = val
 			}
+
+			defineBody := strings.TrimSpace(fullDefine[8:])
+			if defineBody == "" {
+				output.WriteString("\n")
+				continue
+			}
+
+			var name string
+			var args []string
+			var body string
+
+			// 檢查是否為函式型巨集: #define YELLOW(x) CLR_YEL + x + CLR_NOR
+			if idx := strings.Index(defineBody, "("); idx > 0 && !strings.Contains(defineBody[:idx], " ") {
+				name = defineBody[:idx]
+				endIdx := strings.Index(defineBody, ")")
+				if endIdx > idx {
+					argStr := defineBody[idx+1 : endIdx]
+					if argStr != "" {
+						for _, s := range strings.Split(argStr, ",") {
+							args = append(args, strings.TrimSpace(s))
+						}
+					}
+					body = strings.TrimSpace(defineBody[endIdx+1:])
+				} else {
+					// 格式錯誤，退回一般巨集處理
+					parts := strings.Fields(defineBody)
+					name = parts[0]
+					if len(parts) > 1 {
+						body = strings.TrimSpace(defineBody[len(name):])
+					}
+				}
+			} else {
+				// 一般巨集: #define PI 3.14
+				parts := strings.Fields(defineBody)
+				name = parts[0]
+				if len(parts) > 1 {
+					body = strings.TrimSpace(defineBody[len(name):])
+				}
+			}
+
+			p.Macros[name] = Macro{Name: name, Args: args, Body: body}
+			output.WriteString("\n")
+			continue
+		}
+
+		// 如果目前在忽略區塊內，直接塞入空行 (保留行號)
+		if isSkipping() {
 			output.WriteString("\n")
 			continue
 		}
@@ -177,9 +226,82 @@ func (p *Preprocessor) Process(filename, input string) (string, error) {
 		// ==========================================
 		outLine := line
 		if len(p.Macros) > 0 {
-			for k, v := range p.Macros {
-				re := regexp.MustCompile(`\b` + regexp.QuoteMeta(k) + `\b`)
-				outLine = re.ReplaceAllString(outLine, v)
+			// 先處理函式型巨集
+			for name, m := range p.Macros {
+				if len(m.Args) > 0 {
+					searchIdx := 0
+					for {
+						idx := strings.Index(outLine[searchIdx:], name)
+						if idx == -1 { break }
+						idx += searchIdx
+						
+						// 檢查是否為獨立單字
+						isWord := true
+						if idx > 0 && isAlphaNumeric(outLine[idx-1]) { isWord = false }
+						if idx+len(name) < len(outLine) && isAlphaNumeric(outLine[idx+len(name)]) { isWord = false }
+						
+						if !isWord {
+							searchIdx = idx + 1
+							continue
+						}
+
+						// 尋找 '('
+						rest := outLine[idx+len(name):]
+						lparenIdx := strings.Index(rest, "(")
+						if lparenIdx == -1 || strings.TrimSpace(rest[:lparenIdx]) != "" {
+							searchIdx = idx + 1
+							continue
+						}
+						
+						// 尋找成對的 ')' (支援巢狀括號)
+						start := idx + len(name) + lparenIdx + 1
+						depth := 1
+						rparenIdx := -1
+						for i := start; i < len(outLine); i++ {
+							if outLine[i] == '(' { depth++ } else if outLine[i] == ')' {
+								depth--
+								if depth == 0 {
+									rparenIdx = i
+									break
+								}
+							}
+						}
+
+						if rparenIdx == -1 {
+							searchIdx = idx + 1
+							continue
+						}
+
+						// 提取參數並拆分 (考慮到參數內可能也有逗號，如函數呼叫)
+						argStr := outLine[start:rparenIdx]
+						providedArgs := splitMacroArgs(argStr)
+						
+						if len(providedArgs) != len(m.Args) {
+							searchIdx = rparenIdx + 1
+							continue
+						}
+
+						// 執行替換
+						finalBody := m.Body
+						for i, argName := range m.Args {
+							val := strings.TrimSpace(providedArgs[i])
+							argRe := regexp.MustCompile(`\b` + regexp.QuoteMeta(argName) + `\b`)
+							finalBody = argRe.ReplaceAllString(finalBody, val)
+						}
+						
+						// 組裝回原字串
+						outLine = outLine[:idx] + finalBody + outLine[rparenIdx+1:]
+						searchIdx = idx + len(finalBody)
+					}
+				}
+			}
+
+			// 再處理一般巨集
+			for name, m := range p.Macros {
+				if len(m.Args) == 0 {
+					re := regexp.MustCompile(`\b` + regexp.QuoteMeta(name) + `\b`)
+					outLine = re.ReplaceAllString(outLine, m.Body)
+				}
 			}
 		}
 
@@ -189,6 +311,35 @@ func (p *Preprocessor) Process(filename, input string) (string, error) {
 	return output.String(), nil
 }
 
+func isAlphaNumeric(c byte) bool {
+	return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '_'
+}
+
+func splitMacroArgs(s string) []string {
+	var args []string
+	var current strings.Builder
+	parenDepth := 0
+	braceDepth := 0
+	bracketDepth := 0
+	inString := false
+	for i := 0; i < len(s); i++ {
+		c := s[i]
+		if c == '"' && (i == 0 || s[i-1] != '\\') {
+			inString = !inString
+		}
+		if !inString {
+			if c == '(' { parenDepth++ } else if c == ')' { parenDepth-- } else if c == '{' { braceDepth++ } else if c == '}' { braceDepth-- } else if c == '[' { bracketDepth++ } else if c == ']' { bracketDepth-- } else if c == ',' && parenDepth == 0 && braceDepth == 0 && bracketDepth == 0 {
+				args = append(args, current.String())
+				current.Reset()
+				continue
+			}
+		}
+		current.WriteByte(c)
+	}
+	args = append(args, current.String())
+	return args
+}
+
 // evalCondition 評估前處理器的邏輯判斷 (例如 "ENABLE_CRIT == 1")
 func (p *Preprocessor) evalCondition(condStr string) bool {
 	// 1. 先把條件式裡面的巨集替換為真實的數值字串
@@ -196,7 +347,7 @@ func (p *Preprocessor) evalCondition(condStr string) bool {
 		// 使用 \b 確保只替換獨立的單字
 		re := regexp.MustCompile(`\b` + regexp.QuoteMeta(k) + `\b`)
 		// 如果巨集沒有值 (例如 #define MODE_A)，預設替換為 "1"
-		replaceVal := v
+		replaceVal := v.Body
 		if replaceVal == "" {
 			replaceVal = "1"
 		}

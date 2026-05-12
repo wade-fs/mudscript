@@ -289,14 +289,71 @@
         const area = document.getElementById("look-area");
         const content = document.getElementById("look-content");
         
-        let formattedText = text.replace(/\[(.*?)\]/g, (match, cmd) => {
-            return `<span class="cmd-link" onclick="sendCmd('${cmd}')">${match}</span>`;
+        let processedText = text;
+        const hasTags = /<[a-z/][^>]*>/i.test(text);
+
+        if (hasTags) {
+            // 1. 如果包含 HTML 標籤，進行安全性過濾
+            // 移除 script, iframe 等危險元素，但不轉義整個字串以保留 Logo 的 <pre> 結構
+            processedText = processedText.replace(/<script\b[^>]*>([\s\S]*?)<\/script>/gmi, " [Blocked Script] ")
+                                         .replace(/\bon\w+\s*=\s*("[^"]*"|'[^']*'|[^\s>]*)/gmi, "")
+                                         .replace(/<(iframe|object|embed|form)\b[^>]*>([\s\S]*?)<\/\1>/gmi, " [Blocked Element] ");
+        } else {
+            // 2. 純文字模式：進行完整的 HTML 轉義
+            processedText = processedText.replace(/&/g, "&amp;")
+                                         .replace(/</g, "&lt;")
+                                         .replace(/>/g, "&gt;");
+        }
+
+        // 3. Color Tags: {r}text{n} - 使用更精確的匹配
+        const colorMap = {
+            'r': '#ff5555', 'g': '#55ff55', 'b': '#5555ff',
+            'y': '#ffff55', 'c': '#55ffff', 'm': '#ff55ff',
+            'w': '#ffffff', 'gr': '#888888', 'n': 'inherit'
+        };
+
+        let openSpans = 0;
+        processedText = processedText.replace(/\{([rgbymcwgn]|gr)\}/g, (match, tag) => {
+            if (tag === 'n') {
+                if (openSpans > 0) {
+                    openSpans--;
+                    return '</span>';
+                }
+                return '';
+            }
+            if (colorMap[tag]) {
+                openSpans++;
+                return `<span style="color: ${colorMap[tag]}">`;
+            }
+            return match;
         });
 
+        while (openSpans > 0) {
+            processedText += '</span>';
+            openSpans--;
+        }
+
+        // 4. Command links: [顯示名稱|指令]
+        processedText = processedText.replace(/\[(.*?)\]/g, (match, p1) => {
+            let parts = p1.split('|');
+            let display = parts[0];
+            let command = parts.length > 1 ? parts[1] : parts[0];
+            let cleanCommand = command.replace(/\{.*?\}/g, '').replace(/'/g, "\\'");
+            return `<span class="cmd-link" onclick="sendCmd('${cleanCommand}')">${display}</span>`;
+        });
+
+        // 5. 渲染與換行處理
         const newMsg = document.createElement("div");
-        newMsg.innerHTML = formattedText.replace(/\n/g, "<br>");
+        // 如果是純文字，我們強制套用 pre-wrap 樣式以保護 ASCII 格式
+        if (!hasTags) {
+            newMsg.style.whiteSpace = "pre-wrap";
+            newMsg.style.wordBreak = "break-all";
+            newMsg.style.fontFamily = "'Consolas', 'Courier New', monospace";
+        }
         
+        newMsg.innerHTML = processedText;
         content.appendChild(newMsg);
+        
         setTimeout(() => {
             area.scrollTop = area.scrollHeight;
         }, 10);

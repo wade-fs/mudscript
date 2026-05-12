@@ -197,14 +197,12 @@ func (d *Driver) RegisterInteractive(obj *object.LPCObject, conn *PlayerConnecti
 	if obj == nil || conn == nil { return }
     d.interactiveObjects.Store(obj.Filename, conn)
     obj.IsInteractive = true
-    fmt.Printf("DEBUG: RegisterInteractive -> %s\n", obj.Filename)
 }
 
 func (d *Driver) UnregisterInteractive(obj *object.LPCObject) {
 	if obj == nil { return }
     d.interactiveObjects.Delete(obj.Filename)
     obj.IsInteractive = false
-    fmt.Printf("DEBUG: UnregisterInteractive -> %s\n", obj.Filename)
 }
 
 func (d *Driver) GetConnectionFromObject(obj *object.LPCObject) *PlayerConnection {
@@ -639,7 +637,7 @@ func (d *Driver) CallFunction(obj *object.LPCObject, funcName string, args []obj
 		return nil
 	}
 
-	fmt.Printf("DEBUG: [%s]->%s() 被呼叫\n", obj.Filename, funcName)
+	// fmt.Printf("DEBUG: [%s]->%s() 被呼叫\n", obj.Filename, funcName)
 
 	frame := callFrame{File: obj.Filename, Function: funcName}
 	d.pushFrame(frame)
@@ -728,7 +726,7 @@ func (d *Driver) DestructObject(obj *object.LPCObject) {
 		return
 	}
 
-	fmt.Printf("DEBUG: DestructObject called on %s\n", obj.Filename)
+	// fmt.Printf("DEBUG: DestructObject called on %s\n", obj.Filename)
 
 	d.SetHeartBeat(obj, false)
 	obj.IsDestructed = true

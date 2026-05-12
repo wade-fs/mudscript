@@ -1086,6 +1086,15 @@ func (p *Parser) parseForEachStatement() ast.Statement {
 	if !p.expectPeek(token.LPAREN) { return nil }
 	p.nextToken()
 
+	// 支援型別宣告: foreach (string s in stats)
+	if p.isTypeToken(p.curToken.TokenType) {
+		p.nextToken()
+		// 支援陣列指標型別: foreach (string *s in stats)
+		if p.curTokenIs(token.ASTARISK) {
+			p.nextToken()
+		}
+	}
+
 	firstIdent := &ast.Ident{Token: p.curToken, Value: p.curToken.Literal}
 	
 	p.nextToken() 
@@ -1093,6 +1102,15 @@ func (p *Parser) parseForEachStatement() ast.Statement {
 	if p.curToken.TokenType == token.COMMA {
 		stmt.Key = firstIdent
 		p.nextToken() 
+
+		// 支援第二個變數的型別宣告: foreach (int k, string v in mapping)
+		if p.isTypeToken(p.curToken.TokenType) {
+			p.nextToken()
+			if p.curTokenIs(token.ASTARISK) {
+				p.nextToken()
+			}
+		}
+
 		stmt.Value = &ast.Ident{Token: p.curToken, Value: p.curToken.Literal}
 		p.nextToken()
 	} else {
