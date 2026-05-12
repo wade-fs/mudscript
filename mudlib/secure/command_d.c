@@ -49,10 +49,10 @@ void create() {
 }
 
 int execute(object me, string verb, string arg) {
-    // write("DEBUG: COMMAND_D 正在執行 " + verb + " (" + arg + ")\n");
     mixed cmd_file = cmd_map[verb];
     
-    if (!cmd_file || !stringp(cmd_file)) {
+    if (!cmd_file) {
+		write("DEBUG: not found cmd_file: "+cmd_file+"\n");
         return 0; 
     }
 
