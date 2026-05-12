@@ -70,3 +70,30 @@ int is_living() { return 0; }
 
 // catch_tell(string msg) - 收到訊息（預設不處理）
 void catch_tell(string msg) {}
+
+// ── 關鍵字互動系統 ──────────────────────────────────────
+mapping responses;
+
+void add_response(mixed keyword, mixed response) {
+    if (!responses) responses = ([]);
+    
+    if (arrayp(keyword)) {
+        int i;
+        for (i = 0; i < sizeof(keyword); i++) {
+            add_response(keyword[i], response);
+        }
+        return;
+    }
+
+    if (!responses[keyword]) responses[keyword] = ({});
+    if (stringp(response)) {
+        responses[keyword] += ({ response });
+    } else if (arrayp(response)) {
+        responses[keyword] += response;
+    }
+}
+
+mapping query_responses() {
+    if (!responses) return ([]);
+    return responses;
+}

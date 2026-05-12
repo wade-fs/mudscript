@@ -12,6 +12,17 @@ void create() {
     add_exit("west",  "/area/newbie/room_3_4.c");
     add_exit("east",  "/area/newbie/room_5_4.c");
 
+    add_response("噴泉", ({
+        "這座噴泉的水來自深層的地下泉水，清澈且甘甜。",
+        "傳說在滿月的夜晚，噴泉中會映照出未來的景象。",
+        "噴泉中央的石雕是一位古代英雄的塑像。"
+    }));
+    add_response("石板", "這些石板見證了無數冒險者的起程與歸來。");
+    add_response("廣場", ({
+        "中央廣場是新手村最繁榮的地方。",
+        "在這裡你可以遇到來自世界各地的冒險者。"
+    }));
+
     // 廣場守衛
     object ob = clone_object("/npc/guard.c");
     if (ob) move_object(ob, this_object());

@@ -10,7 +10,6 @@ int     gold_reward;   // 掉落金幣數量
 mixed   drop_list;     // 掉落物清單：({"/path/item.c", ...})
 int     respawn_time;  // 重生時間（秒），0 = 不重生
 string  aggro_msg;     // 主動攻擊時的訊息
-mapping chat_topics;   // 詢問話題表：([ "topic": "response" ])
 
 // ── 新增：棲息地與行為模式 ──────────────────────────────────────
 string  habitat;       // HABITAT_LAND / WATER / UNDERGROUND / SKY / CAVE
@@ -45,7 +44,6 @@ void create() {
     drop_list   = ({});
     respawn_time= 0;
     aggro_msg   = "";
-    chat_topics = ([]);
 
     // 預設值
     habitat          = HABITAT_LAND;
@@ -62,9 +60,6 @@ void create() {
 }
 
 // init() 在玩家進入 NPC 所在房間時由 driver 呼叫
-// ⚠️  不在這裡掛 add_action("ask")：
-//     "ask" 已由 command_d → cmd_ask.c 統一處理。
-//     若再 add_action，driver action 與 command_d 都觸發，造成重複輸出。
 void init() {
 }
 
@@ -84,40 +79,152 @@ void set_special_atk(string s, int pct) {
     special_atk        = s;
     special_atk_chance = pct;
 }
-void set_chat_topic(string topic, string response) {
-    if (!chat_topics) chat_topics = ([]);
-    chat_topics[topic] = response;
-}
 
 string  query_habitat()       { return habitat; }
 string  query_behaviour()     { return behaviour; }
 int     query_aggro_range()   { return aggro_range; }
-mapping query_chat_topics()   { return chat_topics; }
 
 // ── 互動：對話 ───────────────────────────────────────────────────
+
+// 收集所有來源的關鍵字回應（自己、房間、持有物）
+mapping query_all_responses() {
+    mapping all = ([]);
+    mapping from;
+    mixed ks;
+    int i, j;
+
+    // 1. 來自房間
+    object env = environment(this_object());
+    if (env) {
+        from = env->query_responses();
+        if (mapp(from)) {
+            ks = keys(from);
+            for (i = 0; i < sizeof(ks); i++) {
+                if (!all[ks[i]]) all[ks[i]] = ({});
+                all[ks[i]] += from[ks[i]];
+            }
+        }
+    }
+    
+    // 2. 來自持有物
+    object *inv = all_inventory(this_object());
+    for (j = 0; j < sizeof(inv); j++) {
+        from = inv[j]->query_responses();
+        if (mapp(from)) {
+            ks = keys(from);
+            for (i = 0; i < sizeof(ks); i++) {
+                if (!all[ks[i]]) all[ks[i]] = ({});
+                all[ks[i]] += from[ks[i]];
+            }
+        }
+    }
+    
+    // 3. 來自 NPC 自己
+    from = query_responses();
+    if (mapp(from)) {
+        ks = keys(from);
+        for (i = 0; i < sizeof(ks); i++) {
+            if (!all[ks[i]]) all[ks[i]] = ({});
+            all[ks[i]] += from[ks[i]];
+        }
+    }
+    
+    return all;
+}
+
+// 執行回應
+void do_respond(string msg) {
+    if (!msg || msg == "") return;
+    say(query_name() + " 說：「" + msg + "」\n");
+}
+
+// 攔截聽到的訊息
+void catch_tell(string msg) {
+    ::catch_tell(msg); // 呼叫繼承的 catch_tell
+
+    // 只對玩家的說話內容反應，避免 NPC 之間產生無限迴圈
+    if (!this_player() || !userp(this_player())) return;
+
+    // 判斷是否有人說話。格式通常為：Name 說：「Content」
+    int start = strsrch(msg, " 說：「");
+    if (start == -1) return;
+    
+    int end = strsrch(msg, "」", 1);
+    if (end == -1 || end <= start + 4) return;
+    
+    string content = substr(msg, start + 4, end - (start + 4));
+    mapping all_resp = query_all_responses();
+    mixed ks = keys(all_resp);
+    int i;
+
+    for (i = 0; i < sizeof(ks); i++) {
+        if (strsrch(content, ks[i]) != -1) {
+            mixed options = all_resp[ks[i]];
+            string final_msg = "";
+            if (arrayp(options)) {
+                if (sizeof(options) > 0) {
+                    final_msg = options[random(sizeof(options))];
+                }
+            } else if (stringp(options)) {
+                final_msg = options;
+            }
+            
+            if (final_msg != "") {
+                // 稍微延遲一下再回應，感覺比較真實
+                call_out("do_respond", 1, final_msg);
+                return; // 每次說話只針對一個關鍵字反應
+            }
+        }
+    }
+}
+
 int do_chat(object me, string topic) {
     if (!topic || topic == "") return 0;
-    if (!chat_topics) chat_topics = ([]);
-
+    
+    mapping all_resp = query_all_responses();
     string my_name = query_name();
 
-    if (chat_topics[topic]) {
-        tell_object(me, my_name + " 告訴你：「" + chat_topics[topic] + "」\n");
-        return 1;
-    }
-
-    string lc_topic = lower_case(topic);
-    mixed ks = keys(chat_topics);
-    int i;
-    for (i = 0; i < sizeof(ks); i++) {
-        if (lower_case(ks[i]) == lc_topic) {
-            tell_object(me, my_name + " 告訴你：「" + chat_topics[ks[i]] + "」\n");
+    // 優先精確匹配
+    if (all_resp[topic]) {
+        mixed options = all_resp[topic];
+        string final_msg = "";
+        if (arrayp(options)) {
+            if (sizeof(options) > 0) {
+                final_msg = options[random(sizeof(options))];
+            }
+        } else {
+            final_msg = options;
+        }
+        if (final_msg != "") {
+            tell_object(me, my_name + " 告訴你：「" + final_msg + "」\n");
             return 1;
         }
     }
 
+    // 模糊匹配與特殊話題
+    string lc_topic = lower_case(topic);
+    mixed ks = keys(all_resp);
+    int i;
+    for (i = 0; i < sizeof(ks); i++) {
+        if (lower_case(ks[i]) == lc_topic) {
+            mixed options = all_resp[ks[i]];
+            string final_msg = "";
+            if (arrayp(options)) {
+                if (sizeof(options) > 0) {
+                    final_msg = options[random(sizeof(options))];
+                }
+            } else {
+                final_msg = options;
+            }
+            if (final_msg != "") {
+                tell_object(me, my_name + " 告訴你：「" + final_msg + "」\n");
+                return 1;
+            }
+        }
+    }
+
     if (topic == "here" || topic == "這裡") {
-        tell_object(me, my_name + " 說：「這裡是新手村，是個好地方。」\n");
+        tell_object(me, my_name + " 說：「這裡是個好地方。」\n");
         return 1;
     }
     if (topic == "name" || topic == "名字") {
@@ -125,7 +232,7 @@ int do_chat(object me, string topic) {
         return 1;
     }
     if (lc_topic == "topics" || topic == "話題" || topic == "topic") {
-        mixed t_keys = keys(chat_topics);
+        mixed t_keys = keys(all_resp);
         if (sizeof(t_keys) == 0) {
             tell_object(me, my_name + " 搖搖頭說：「我沒什麼好說的。」\n");
         } else {
