@@ -187,6 +187,31 @@ func (d *Driver) registerTypeCasting(obj *object.LPCObject) {
 			return &object.String{Value: args[0].Inspect()}
 		},
 	})
+
+	// 語法: float to_float(mixed arg)
+	// 說明: 將整數或字串轉換為浮點數。
+	// 範例: to_float(123) -> 123.0; to_float("3.14") -> 3.14
+	obj.Vars.Set("to_float", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 1 {
+				return &object.Float{Value: 0.0}
+			}
+			switch v := args[0].(type) {
+			case *object.Float:
+				return v
+			case *object.Integer:
+				return &object.Float{Value: float64(v.Value)}
+			case *object.String:
+				f, err := strconv.ParseFloat(v.Value, 64)
+				if err != nil {
+					return &object.Float{Value: 0.0}
+				}
+				return &object.Float{Value: f}
+			default:
+				return &object.Float{Value: 0.0}
+			}
+		},
+	})
 }
 
 // ==========================================
