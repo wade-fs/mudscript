@@ -2,7 +2,8 @@
 
 #include "/include/config.h"
 
-inherit "/std/object.c";
+inherit "/std/item.c";
+inherit "/std/interactive.c";
 
 int    defence_bonus;
 string slot;

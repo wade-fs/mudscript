@@ -2,7 +2,8 @@
 
 #include "/include/config.h"
 
-inherit "/std/object.c";
+inherit "/std/item.c";
+inherit "/std/interactive.c";
 
 int    attack_bonus;  // 攻擊力加成
 string weapon_type;   // WPN_SWORD / WPN_AXE ...

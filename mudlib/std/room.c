@@ -3,7 +3,7 @@
 #include "/include/ansi.h"
 #include "/include/config.h"
 
-inherit "/std/object.c";
+inherit "/std/container.c";
 
 string  short_desc;    // 房間標題
 string  long_desc;     // 房間描述
@@ -24,6 +24,11 @@ void create() {
     x = 0;
     y = 0;
     z = 0;
+}
+
+// 判斷物件是否可以進入房間 (房間預設允許所有人進入)
+int can_receive(object ob) {
+    return 1;
 }
 
 // ── 座標設定與查詢 ───────────────────────────────────────

@@ -2,7 +2,8 @@
 
 #include "/include/config.h"
 
-inherit "/std/object.c";
+inherit "/std/container.c";
+inherit "/std/interactive.c";
 
 // ── 基本資料 ─────────────────────────────────────────────
 string  name;
@@ -61,6 +62,13 @@ void create() {
 
     recalc_stats();
     enable_commands();
+}
+
+// 判斷物件是否可以進入生物的背包 (生物預設不允許其他生物進入)
+int can_receive(object ob) {
+    if (!ob) return 0;
+    if (living(ob)) return 0; // 不允許生物進入另一個生物
+    return ::can_receive(ob); // 呼叫父類別的容量檢查
 }
 
 // ── 重算衍生屬性 ──────────────────────────────────────────
