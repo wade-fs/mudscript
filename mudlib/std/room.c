@@ -1,5 +1,6 @@
 // std/room.c - 所有房間的基底類別
 
+#include "/include/ansi.h"
 #include "/include/config.h"
 
 string  short_desc;    // 房間標題

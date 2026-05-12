@@ -137,7 +137,7 @@ int process_input(string input) {
 }
 
 void move_to_start() {
-    object start = clone_object(START_ROOM);
+    object start = load_object(START_ROOM);
     if (start) {
         move_object(start);
         start->look_room();

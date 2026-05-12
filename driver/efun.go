@@ -325,8 +325,11 @@ func (d *Driver) registerCoreIOEfuns(obj *object.LPCObject) {
 		Fn: func(args ...object.Object) object.Object {
 			target := obj
 			if len(args) > 0 {
-				if o, ok := args[0].(*object.LPCObject); ok { target = o }
-				else { return &object.Integer{Value: 0} }
+				if o, ok := args[0].(*object.LPCObject); ok {
+					target = o
+				} else {
+					return &object.Integer{Value: 0}
+				}
 			}
 			if target.IsLiving { return &object.Integer{Value: 1} }
 			return &object.Integer{Value: 0}
@@ -365,8 +368,11 @@ func (d *Driver) registerCoreIOEfuns(obj *object.LPCObject) {
 		Fn: func(args ...object.Object) object.Object {
 			target := obj
 			if len(args) > 0 {
-				if o, ok := args[0].(*object.LPCObject); ok { target = o }
-				else { return &object.Integer{Value: 0} }
+				if o, ok := args[0].(*object.LPCObject); ok {
+					target = o
+				} else {
+					return &object.Integer{Value: 0}
+				}
 			}
 			if d.GetConnectionFromObject(target) != nil {
 				return &object.Integer{Value: 1}
