@@ -3,6 +3,8 @@
 #include "/include/ansi.h"
 #include "/include/config.h"
 
+inherit "/std/object.c";
+
 string  short_desc;    // 房間標題
 string  long_desc;     // 房間描述
 mapping exits;         // 出口表：([ "north": "/area/..." ])
@@ -14,6 +16,7 @@ int y;
 int z;
 
 void create() {
+    ::create();
     short_desc = "未命名的空房間";
     long_desc  = "這裡什麼都沒有，只有無盡的虛空。\n";
     exits      = ([]);

@@ -10,6 +10,8 @@ string  race;
 int     level;
 int     exp;
 int     exp_to_next;
+int     gold;
+mapping skills;
 
 // ── 六圍屬性 ─────────────────────────────────────────────
 int     stat_str;   // 力量
@@ -54,6 +56,8 @@ void create() {
     in_combat      = 0;
     combat_target  = 0;
     is_dead        = 0;
+    gold           = 0;
+    skills         = ([]);
 
     recalc_stats();
     enable_commands();
@@ -226,6 +230,23 @@ void on_death() {
     // 子類別覆寫此函式來定義死亡行為
     write(name + " 倒下了！\n");
 }
+
+// ── 金幣與技能 ───────────────────────────────────────────
+void add_gold(int g) { gold += g; }
+void gain_gold(int g) { gold += g; }
+int query_gold() { return gold; }
+
+void set_skill(string s, int v) {
+    if (!skills) skills = ([]);
+    skills[s] = v;
+}
+
+int query_skill(string s) {
+    if (!skills) return 0;
+    return skills[s];
+}
+
+mapping query_skills() { return skills; }
 
 // catch_tell：活物收到訊息，如果有連線就顯示
 void catch_tell(string msg) {

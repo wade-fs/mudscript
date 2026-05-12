@@ -78,31 +78,6 @@ void set_gold_reward(int v)  { gold_reward  = v; }
 void set_drop_list(mixed l)  { drop_list    = l; }
 void set_respawn(int v)      { respawn_time = v; }
 void set_aggro_msg(string s) { aggro_msg    = s; }
-void set_chat_topic(string topic, string response) { chat_topics[topic] = response; }
-
-// ── 互動：對話 ──────────────────────────────────────────────
-int do_chat(object me, string topic) {
-    if (!topic || topic == "") return 0;
-    
-    if (chat_topics[topic]) {
-        write(name + " 告訴你：「" + chat_topics[topic] + "」\n");
-        return 1;
-    }
-    
-    // 預設回應
-    if (topic == "here" || topic == "這裡") {
-        write(name + " 說：「這裡是新手村，是個好地方。」\n");
-        return 1;
-    }
-    
-    if (topic == "name" || topic == "名字") {
-        write(name + " 說：「我叫 " + name + "，請多指教。」\n");
-        return 1;
-    }
-
-    return 0;
-}
-
 void set_chat_topic(string topic, string response) {
     if (!chat_topics) chat_topics = ([]);
     chat_topics[topic] = response;
@@ -127,13 +102,24 @@ int do_chat(object me, string topic) {
 
     // 大小寫不敏感備援（英文 topic）
     string lc_topic = lower_case(topic);
-    mixed keys = keys(chat_topics);
+    mixed ks = keys(chat_topics);
     int i;
-    for (i = 0; i < sizeof(keys); i++) {
-        if (lower_case(keys[i]) == lc_topic) {
-            tell_object(me, my_name + " 告訴你：「" + chat_topics[keys[i]] + "」\n");
+    for (i = 0; i < sizeof(ks); i++) {
+        if (lower_case(ks[i]) == lc_topic) {
+            tell_object(me, my_name + " 告訴你：「" + chat_topics[ks[i]] + "」\n");
             return 1;
         }
+    }
+
+    // 預設回應
+    if (topic == "here" || topic == "這裡") {
+        tell_object(me, my_name + " 說：「這裡是新手村，是個好地方。」\n");
+        return 1;
+    }
+    
+    if (topic == "name" || topic == "名字") {
+        tell_object(me, my_name + " 說：「我叫 " + my_name + "，請多指教。」\n");
+        return 1;
     }
 
     // 內建 fallback：查詢可問的話題
