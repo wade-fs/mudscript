@@ -100,7 +100,7 @@ func (d *Driver) registerTypePredicates(obj *object.LPCObject) {
 	// 語法: int <type>p(mixed arg)
 	// 說明: 判斷傳入的變數是否為指定型別。是回傳 1，否回傳 0。
 	// 範例: intp(123) -> 1; stringp(123) -> 0; nullp(0) -> 1
-	register := func(name string, expectedType any) {
+	register := func(name string, expectedType object.TokenType) {
 		obj.Vars.Set(name, &object.Builtin{
 			Fn: func(args ...object.Object) object.Object {
 				if len(args) < 1 {
@@ -110,17 +110,23 @@ func (d *Driver) registerTypePredicates(obj *object.LPCObject) {
 					return &object.Integer{Value: 0}
 				}
 
+				arg := args[0]
+				if arg == nil {
+					if expectedType == object.NilType { return &object.Integer{Value: 1} }
+					return &object.Integer{Value: 0}
+				}
+
 				if expectedType == object.NilType {
-					if args[0].TokenType() == object.NilType {
+					if arg.TokenType() == object.NilType {
 						return &object.Integer{Value: 1}
 					}
-					if i, ok := args[0].(*object.Integer); ok && i.Value == 0 {
+					if i, ok := arg.(*object.Integer); ok && i.Value == 0 {
 						return &object.Integer{Value: 1}
 					}
 					return &object.Integer{Value: 0}
 				}
 
-				if args[0].TokenType() == expectedType {
+				if arg.TokenType() == expectedType {
 					return &object.Integer{Value: 1}
 				}
 				return &object.Integer{Value: 0}

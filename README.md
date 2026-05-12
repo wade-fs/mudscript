@@ -69,6 +69,9 @@ make fsmud.exe
 - `/web/static`: 前端網頁資源。
 - [**Efuns 參考手冊**](docs/README-efuns.md)：完整的內建函式清單與用法說明。
 
+# 客製化
+- 就像前面提到的，目前的執行檔已經打包 mudlib/ 與 web/，可以自行客製化
+
 ## 📜 授權
 
 本專案基於 MIT 授權協議開放原始碼。
