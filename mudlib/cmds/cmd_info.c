@@ -1,7 +1,7 @@
 // mudlib/cmds/cmd_info.c
 // 資訊指令守護進程：score / status
 
-int main(object me, string arg) {
+int main(object me, string verb, string arg) {
     // 建立一個資料對應 (Mapping)
     mapping data = ([
         "name" : me->query_name(),

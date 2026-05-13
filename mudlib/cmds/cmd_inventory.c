@@ -3,9 +3,7 @@
 
 #include "/include/config.h"
 
-int main(object me, string arg) {
-    string verb = query_verb();
-    
+int main(object me, string verb, string arg) {
     switch (verb) {
         case "inventory":
         case "i":

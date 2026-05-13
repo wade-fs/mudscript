@@ -1,7 +1,7 @@
 // mudlib/cmds/cmd_look.c
 // 查看指令守護進程：look / l / examine / ex
 
-int main(object me, string arg) {
+int main(object me, string verb, string arg) {
     object here = environment(me);
     if (!here) {
         write("你飄浮在虛空中。\n");

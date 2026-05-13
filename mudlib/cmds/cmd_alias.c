@@ -1,9 +1,7 @@
 // mudlib/cmds/cmd_alias.c
 // 別名指令守護進程：alias / unalias
 
-int main(object me, string arg) {
-    string verb = query_verb();
-    
+int main(object me, string verb, string arg) {
     if (verb == "alias") {
         return do_alias(me, arg);
     }

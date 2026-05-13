@@ -143,22 +143,32 @@ void catch_tell(string msg) {
     ::catch_tell(msg); // 呼叫繼承的 catch_tell
 
     // 只對玩家的說話內容反應，避免 NPC 之間產生無限迴圈
-    if (!this_player() || !userp(this_player())) return;
+    object tp = this_player();
+    if (!tp || !userp(tp)) return;
 
     // 判斷是否有人說話。格式通常為：Name 說：「Content」
-    int start = strsrch(msg, " 說：「");
+    // 使用更寬鬆的匹配：只要包含 ：「 和 」
+    int start = strsrch(msg, "：「");
     if (start == -1) return;
     
     int end = strsrch(msg, "」", 1);
-    if (end == -1 || end <= start + 4) return;
+    if (end == -1 || end <= start + 2) return;
     
-    string content = substr(msg, start + 4, end - (start + 4));
+    // "：「" 長度為 2 (：, 「)
+    string content = substr(msg, start + 2, end - (start + 2));
+    string lc_content = lower_case(trim(content));
+
     mapping all_resp = query_all_responses();
+    if (!mapp(all_resp)) return;
+
     mixed ks = keys(all_resp);
     int i;
 
     for (i = 0; i < sizeof(ks); i++) {
-        if (strsrch(content, ks[i]) != -1) {
+        if (!stringp(ks[i])) continue;
+        
+        string keyword = lower_case(ks[i]);
+        if (strsrch(lc_content, keyword) != -1) {
             mixed options = all_resp[ks[i]];
             string final_msg = "";
             if (arrayp(options)) {
@@ -169,7 +179,7 @@ void catch_tell(string msg) {
                 final_msg = options;
             }
             
-            if (final_msg != "") {
+            if (final_msg && final_msg != "") {
                 // 稍微延遲一下再回應，感覺比較真實
                 call_out("do_respond", 1, final_msg);
                 return; // 每次說話只針對一個關鍵字反應

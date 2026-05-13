@@ -1,9 +1,7 @@
 // mudlib/cmds/cmd_help.c
 // 幫助指令守護進程：help / ?
 
-int main(object me, string arg) {
-    string verb = query_verb();
-    
+int main(object me, string verb, string arg) {
     if (verb == "help_list_json") {
         return do_help_list(me, arg);
     }

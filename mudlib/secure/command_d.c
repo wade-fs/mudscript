@@ -52,7 +52,6 @@ int execute(object me, string verb, string arg) {
     mixed cmd_file = cmd_map[verb];
     
     if (!cmd_file) {
-		write("DEBUG: not found cmd_file: "+cmd_file+"\n");
         return 0; 
     }
 
@@ -62,7 +61,8 @@ int execute(object me, string verb, string arg) {
         return 1;
     }
 
-    return cmd_ob->main(me, arg);
+    // 支援傳遞 verb 給 main
+    return cmd_ob->main(me, verb, arg);
 }
 
 mapping query_cmd_map() {
