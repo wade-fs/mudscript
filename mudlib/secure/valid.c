@@ -24,6 +24,14 @@ mixed valid_write(string path, object user, string func)
         if (strsrch(path, p) == 0) { return 1; }
     }
 
+    // 🚀 關鍵修正：允許使用者備份自己的存檔 (suicide 用)
+    if (strsrch(path, "/data/backup/user/") == 0) {
+        string uid = user->get_id();
+        if (uid && strsrch(path, uid) != -1) {
+            return 1;
+        }
+    }
+
     // 若全數不匹配，回傳精確的拒絕原因
     return "拒絕：目標路徑 (" + path + ") 不在你的管轄範圍內。";
 }

@@ -39,6 +39,7 @@ void create() {
         "social"   : "/cmds/cmd_social.c",
         "nickname" : "/cmds/cmd_nickname.c",
         "nick"     : "/cmds/cmd_nickname.c",
+        "suicide"  : "/cmds/cmd_suicide.c",
 		"ask"      : "/cmds/cmd_ask.c",
         "kill"     : "/cmds/cmd_combat.c",
         "attack"   : "/cmds/cmd_combat.c",

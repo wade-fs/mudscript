@@ -1483,6 +1483,60 @@ func (d *Driver) checkWritePermission(caller *object.LPCObject, path string, efu
 // 9. 系統與檔案 (System & Files)
 // ==========================================
 func (d *Driver) registerSystemAndFiles(obj *object.LPCObject) {
+	// 語法: int rm(string file)
+	// 說明: 刪除檔案。回傳 1 成功，0 失敗。
+	obj.Vars.Set("rm", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 1 { return &object.Integer{Value: 0} }
+			file, ok := args[0].(*object.String)
+			if !ok { return &object.Integer{Value: 0} }
+
+			allowed, errMsg := d.checkWritePermission(obj, file.Value, "rm")
+			if !allowed {
+				if p := d.GetCurrentPlayer(); p != nil {
+					p.Send(fmt.Sprintf("\r\n⚠️ 系統安全攔截：%s\r\n", errMsg))
+				}
+				return &object.Integer{Value: 0}
+			}
+
+			fullPath := filepath.Join(d.Config.MudLibPath, file.Value)
+			err := os.Remove(fullPath)
+			if err != nil { return &object.Integer{Value: 0} }
+			return &object.Integer{Value: 1}
+		},
+	})
+
+	// 語法: int rename(string from, string to)
+	// 說明: 移動或重新命名檔案。回傳 1 成功，0 失敗。
+	obj.Vars.Set("rename", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 2 { return &object.Integer{Value: 0} }
+			from, ok1 := args[0].(*object.String)
+			to, ok2 := args[1].(*object.String)
+			if !ok1 || !ok2 { return &object.Integer{Value: 0} }
+
+			// 兩邊都要檢查權限
+			allowed, errMsg := d.checkWritePermission(obj, from.Value, "rename_from")
+			if !allowed {
+				if p := d.GetCurrentPlayer(); p != nil { p.Send(fmt.Sprintf("\r\n⚠️ 來源權限拒絕：%s\r\n", errMsg)) }
+				return &object.Integer{Value: 0}
+			}
+			allowed, errMsg = d.checkWritePermission(obj, to.Value, "rename_to")
+			if !allowed {
+				if p := d.GetCurrentPlayer(); p != nil { p.Send(fmt.Sprintf("\r\n⚠️ 目標權限拒絕：%s\r\n", errMsg)) }
+				return &object.Integer{Value: 0}
+			}
+
+			fullFrom := filepath.Join(d.Config.MudLibPath, from.Value)
+			fullTo := filepath.Join(d.Config.MudLibPath, to.Value)
+
+			os.MkdirAll(filepath.Dir(fullTo), 0755)
+			err := os.Rename(fullFrom, fullTo)
+			if err != nil { return &object.Integer{Value: 0} }
+			return &object.Integer{Value: 1}
+		},
+	})
+
 	// 語法: string object_name(object ob)
 	// 說明: 取得該實體物件的檔案路徑與識別名稱 (例如 /std/user.c#3)。
 	// 範例: write(object_name(this_player()));
@@ -1614,6 +1668,33 @@ func (d *Driver) registerSystemAndFiles(obj *object.LPCObject) {
 			}
 
 			return &object.Integer{Value: -1}
+		},
+	})
+
+	// 語法: string strftime(string format, [int timestamp])
+	// 說明: 格式化時間。
+	obj.Vars.Set("strftime", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			format := "%Y%m%d_%H%M%S"
+			if len(args) > 0 {
+				if s, ok := args[0].(*object.String); ok { format = s.Value }
+			}
+			ts := time.Now().Unix()
+			if len(args) > 1 {
+				if i, ok := args[1].(*object.Integer); ok { ts = i.Value }
+			}
+			
+			// 轉換 Go 的 time format
+			t := time.Unix(ts, 0)
+			f := format
+			f = strings.ReplaceAll(f, "%Y", "2006")
+			f = strings.ReplaceAll(f, "%m", "01")
+			f = strings.ReplaceAll(f, "%d", "02")
+			f = strings.ReplaceAll(f, "%H", "15")
+			f = strings.ReplaceAll(f, "%M", "04")
+			f = strings.ReplaceAll(f, "%S", "05")
+			
+			return &object.String{Value: t.Format(f)}
 		},
 	})
 
