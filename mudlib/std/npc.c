@@ -352,6 +352,70 @@ void do_flee() {
     }
 }
 
+// ── 戰鬥：NPC 攻擊 ───────────────────────────────────────────────
+void do_attack() {
+    if (!combat_target || is_dead) { return; }
+
+    // 特殊攻擊判定
+    if (special_atk != "" && random(100) < special_atk_chance) {
+        do_special_attack();
+        return;
+    }
+
+    int hit_roll   = random(100);
+    int hit_chance = HIT_RATE_BASE + (stat_dex - combat_target->query_stat(STAT_DEX));
+    if (hit_roll > hit_chance) {
+        tell_object(combat_target,
+            query_name() + " 攻擊你，但沒打中！\n");
+        return;
+    }
+
+    int raw = attack - combat_target->query_defence();
+    if (raw < 1) { raw = 1; }
+    int variation = random(raw / 3 + 1);
+    raw = raw - variation / 2 + random(variation);
+
+    string crit_str = "";
+    if (random(100) < CRIT_RATE_BASE) {
+        raw = raw * CRIT_MULTIPLIER;
+        crit_str = "【暴擊！】";
+    }
+
+    combat_target->take_damage(raw);
+    tell_object(combat_target,
+        crit_str + query_name() + " 對你造成了 " + sprintf("%d", raw) + " 點傷害！" +
+        "（你剩 " + sprintf("%d", combat_target->query_hp()) + "/" +
+        sprintf("%d", combat_target->query_max_hp()) + " HP）\n");
+    
+    // 🚀 觸發對方的被攻擊判定（讓玩家自動反擊）
+    combat_target->attacked_by(this_object());
+
+    if (combat_target->query_hp() <= 0) {
+        tell_object(combat_target, "你被 " + query_name() + " 擊倒了！\n");
+        combat_target->die();
+        stop_combat();
+    }
+}
+
+// ── 特殊攻擊（子類別可 override）────────────────────────────────
+void do_special_attack() {
+    if (!combat_target || is_dead) return;
+    int raw = (attack - combat_target->query_defence()) * 2;
+    if (raw < 1) raw = 1;
+    combat_target->take_damage(raw);
+    tell_object(combat_target,
+        "【特殊技：" + special_atk + "】" +
+        query_name() + " 對你造成了 " + sprintf("%d", raw) + " 點傷害！\n");
+    
+    // 🚀 觸發對方的被攻擊判定
+    combat_target->attacked_by(this_object());
+
+    if (combat_target->query_hp() <= 0) {
+        combat_target->die();
+        stop_combat();
+    }
+}
+
 // ── 心跳：AI 邏輯 ──────────────────────────────────────
 void heart_beat() {
     if (is_dead) { return; }
@@ -396,70 +460,6 @@ void heart_beat() {
     }
 }
 
-// ── 戰鬥：NPC 攻擊 ───────────────────────────────────────────────
-void do_attack() {
-    if (!combat_target || is_dead) { return; }
-
-    // 特殊攻擊判定
-    if (special_atk != "" && random(100) < special_atk_chance) {
-        do_special_attack();
-        return;
-    }
-
-    int hit_roll   = random(100);
-    int hit_chance = HIT_RATE_BASE + (stat_dex - combat_target->query_stat(STAT_DEX));
-    if (hit_roll > hit_chance) {
-        tell_object(combat_target,
-            query_name() + " 攻擊你，但沒打中！\n");
-        return;
-    }
-
-    int raw = attack - combat_target->query_defence();
-    if (raw < 1) { raw = 1; }
-    int variation = random(raw / 3 + 1);
-    raw = raw - variation / 2 + random(variation);
-
-    string crit_str = "";
-    if (random(100) < CRIT_RATE_BASE) {
-        raw = raw * CRIT_MULTIPLIER;
-        crit_str = "【暴擊！】";
-    }
-
-    combat_target->take_damage(raw);
-    tell_object(combat_target,
-        crit_str + query_name() + " 對你造成了 " + raw + " 點傷害！" +
-        "（你剩 " + combat_target->query_hp() + "/" +
-        combat_target->query_max_hp() + " HP）\n");
-    
-    // 🚀 觸發對方的被攻擊判定（讓玩家自動反擊）
-    combat_target->attacked_by(this_object());
-
-    if (combat_target->query_hp() <= 0) {
-        tell_object(combat_target, "你被 " + query_name() + " 擊倒了！\n");
-        combat_target->die();
-        stop_combat();
-    }
-}
-
-// ── 特殊攻擊（子類別可 override）────────────────────────────────
-void do_special_attack() {
-    if (!combat_target || is_dead) return;
-    int raw = (attack - combat_target->query_defence()) * 2;
-    if (raw < 1) raw = 1;
-    combat_target->take_damage(raw);
-    tell_object(combat_target,
-        "【特殊技：" + special_atk + "】" +
-        query_name() + " 對 you 造成了 " + raw + " 點傷害！\n");
-    
-    // 🚀 觸發對方的被攻擊判定
-    combat_target->attacked_by(this_object());
-
-    if (combat_target->query_hp() <= 0) {
-        combat_target->die();
-        stop_combat();
-    }
-}
-
 // ── 被攻擊後，自動迎戰 ───────────────────────────────────────────
 void attacked_by(object attacker) {
     if (is_dead) { return; }
@@ -489,7 +489,7 @@ void on_death() {
     if (combat_target && living(combat_target)) {
         combat_target->gain_exp(exp_reward);
         tell_object(combat_target,
-            "你獲得了 " + gold_reward + " 枚金幣。\n");
+            "你獲得了 " + sprintf("%d", gold_reward) + " 枚金幣。\n");
         combat_target->gain_gold(gold_reward);
     }
 

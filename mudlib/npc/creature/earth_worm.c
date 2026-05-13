@@ -14,7 +14,7 @@ void create() {
     stat_dex = 4;
     stat_con = 16;
     recalc_stats();
-    hp = max_hp/10;
+    hp = max_hp/2;
 
     set_habitat(HABITAT_UNDERGROUND);
     set_behaviour(BEHAV_AGGRESSIVE);

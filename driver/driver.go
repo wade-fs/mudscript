@@ -659,9 +659,14 @@ func (d *Driver) CallFunction(obj *object.LPCObject, funcName string, args []obj
 }
 
 func (d *Driver) MoveObject(item *object.LPCObject, dest *object.LPCObject) {
-	if item == nil || item.IsDestructed {
+	if item == nil {
 		return
 	}
+	// 如果物件已銷毀，只允許移往 nil (即移出目前房間)
+	if item.IsDestructed && dest != nil {
+		return
+	}
+
 	if item.Location != nil {
 		oldInv := item.Location.Inventory
 		newInv := make([]*object.LPCObject, 0, len(oldInv))
@@ -672,10 +677,17 @@ func (d *Driver) MoveObject(item *object.LPCObject, dest *object.LPCObject) {
 		}
 		item.Location.Inventory = newInv
 	}
+
 	item.Location = dest
 	if dest != nil && !dest.IsDestructed {
 		dest.Inventory = append(dest.Inventory, item)
 	}
+
+	// 已銷毀物件不觸發 init
+	if item.IsDestructed {
+		return
+	}
+
 	d.CallFunction(item, "init", nil)
 	if dest != nil && !dest.IsDestructed {
 		d.CallFunction(dest, "init", nil)
@@ -687,7 +699,14 @@ func (d *Driver) DestructObject(obj *object.LPCObject) {
 		return
 	}
 	d.SetHeartBeat(obj, false)
+
+	// 🚩 關鍵：先移出房間再標記銷毀，否則 MoveObject 會攔截導致移不出去
+	if obj.Location != nil {
+		d.MoveObject(obj, nil)
+	}
+
 	obj.IsDestructed = true
+
 	var targetConn *PlayerConnection
 	if conn, ok := d.interactiveObjects.Load(obj.Filename); ok {
 		targetConn = conn.(*PlayerConnection)
