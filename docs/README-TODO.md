@@ -1,6 +1,5 @@
 - npc: 
-	- auto movable
-	- fight
+	- 應該慢慢自我恢復健康
 - item
 	- 可拿、不可拿、不可掉落
 	- 裝備、鑑定
