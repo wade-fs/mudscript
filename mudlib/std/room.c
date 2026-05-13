@@ -109,10 +109,12 @@ void look_room() {
         int k;
         for (k = 0; k < sizeof(livings_in_room); k++) {
             object liv = livings_in_room[k];
-            if (liv == this_player()) continue; // 不看自己
+            if (!liv || liv == this_player()) continue; // 不看自己
             
             string liv_id = "living";
             string display_name = liv->query_name();
+            
+            if (!display_name || display_name == "0") display_name = "某個生物";
             
             if (userp(liv)) {
                 liv_id = liv->get_id();
@@ -123,6 +125,8 @@ void look_room() {
                 if (arrayp(ids) && sizeof(ids) > 0) liv_id = ids[0];
                 else if (stringp(ids)) liv_id = ids;
             }
+            
+            if (!liv_id || liv_id == "0") liv_id = "living";
             
             write("  [" + display_name + "(" + liv_id + ")|look " + liv_id + "]\n");
         }

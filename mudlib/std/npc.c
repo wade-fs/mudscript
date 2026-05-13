@@ -338,8 +338,7 @@ void do_patrol() {
 // ── 逃跑邏輯 ─────────────────────────────────────────────────────
 void do_flee() {
     say(query_name() + " 見勢不妙，拔腿逃跑！\n");
-    in_combat     = 0;
-    combat_target = 0;
+    stop_combat();
     // 嘗試隨機往相鄰房間移動
     object env = environment(this_object());
     if (env) {
@@ -359,11 +358,16 @@ void heart_beat() {
 
     if (in_combat && combat_target) {
         if (combat_target->query_hp() <= 0) {
-            in_combat     = 0;
-            combat_target = 0;
+            stop_combat();
             return;
         }
         
+        // 🚀 檢查目標是否還在同一個房間
+        if (environment(combat_target) != environment(this_object())) {
+            stop_combat();
+            return;
+        }
+
         // 🚀 逃跑判定：血量低於門檻 且 機率命中
         if (hp * 100 / max_hp <= flee_hp_pct) {
             if (random(100) < flee_chance) {
@@ -385,12 +389,9 @@ void heart_beat() {
     }
 
     // 2. 隨機移動行為
-    // (依據 user 建議：透過 move_range > 0 即可決定是否具備 WANDER 能力，或顯式設定旗標)
     if (move_range > 0 && wander_chance > 0) {
-        if ((behaviour & BEHAV_WANDER) || 1) { // 這裡暫定 move_range > 0 即可
-            if (random(100) < wander_chance) {
-                do_wander();
-            }
+        if (random(100) < wander_chance) {
+            do_wander();
         }
     }
 }
@@ -429,12 +430,14 @@ void do_attack() {
         crit_str + query_name() + " 對你造成了 " + raw + " 點傷害！" +
         "（你剩 " + combat_target->query_hp() + "/" +
         combat_target->query_max_hp() + " HP）\n");
+    
+    // 🚀 觸發對方的被攻擊判定（讓玩家自動反擊）
+    combat_target->attacked_by(this_object());
 
     if (combat_target->query_hp() <= 0) {
         tell_object(combat_target, "你被 " + query_name() + " 擊倒了！\n");
         combat_target->die();
-        in_combat     = 0;
-        combat_target = 0;
+        stop_combat();
     }
 }
 
@@ -446,11 +449,14 @@ void do_special_attack() {
     combat_target->take_damage(raw);
     tell_object(combat_target,
         "【特殊技：" + special_atk + "】" +
-        query_name() + " 對你造成了 " + raw + " 點傷害！\n");
+        query_name() + " 對 you 造成了 " + raw + " 點傷害！\n");
+    
+    // 🚀 觸發對方的被攻擊判定
+    combat_target->attacked_by(this_object());
+
     if (combat_target->query_hp() <= 0) {
         combat_target->die();
-        in_combat = 0;
-        combat_target = 0;
+        stop_combat();
     }
 }
 
@@ -461,9 +467,12 @@ void attacked_by(object attacker) {
     object env = environment(this_object());
     if (env && env->query_no_combat()) return;
 
+    // 🚀 強制開啟心跳，確保 AI 會執行攻擊
+    set_heart_beat(1);
+
     if (!in_combat) {
         ::attacked_by(attacker);
-        if (in_combat) { // 確保父類別沒有攔截（雖然上面已經檢查過一次環境，但這是雙重保險）
+        if (in_combat) { // 確保父類別沒有攔截
             if (aggro_msg && aggro_msg != "") {
                 say(aggro_msg);
             } else {

@@ -17,6 +17,7 @@ void do_combat_round() {
     }
 
     object target = combat_target;
+    // 🚀 檢查目標是否還在同一個房間
     if (!target || environment(target) != here) {
         write("對象不在這裡，戰鬥結束了。\n");
         stop_combat();
@@ -25,8 +26,7 @@ void do_combat_round() {
 
     if (target->query_hp() <= 0) {
         write("敵人已經死亡。\n");
-        in_combat     = 0;
-        combat_target = 0;
+        stop_combat();
         return;
     }
 
@@ -64,8 +64,7 @@ void do_combat_round() {
     if (target->query_hp() <= 0) {
         write("你擊敗了 " + target->query_name() + "！\n");
         say(query_name() + " 擊敗了 " + target->query_name() + "！\n");
-        in_combat     = 0;
-        combat_target = 0;
+        stop_combat();
         target->die();
     }
 }
@@ -134,8 +133,7 @@ int do_flee(string arg) {
 
     // 50% 機率逃跑成功
     if (random(100) < 50) {
-        in_combat     = 0;
-        combat_target = 0;
+        stop_combat();
         write("你驚慌逃跑！\n");
         say(query_name() + " 落荒而逃！\n");
         return 1;
@@ -189,8 +187,7 @@ int do_fireball(string arg) {
     if (target->query_hp() <= 0) {
         write("火球術將 " + target->query_name() + " 化為灰燼！\n");
         target->die();
-        in_combat     = 0;
-        combat_target = 0;
+        stop_combat();
     } else if (!in_combat) {
         in_combat     = 1;
         combat_target = target;
