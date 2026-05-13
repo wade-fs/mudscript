@@ -365,14 +365,54 @@ func evalInfixExpression(operator string, left, right object.Object) object.Obje
 	case left.TokenType() == object.ArrayType && right.TokenType() == object.ArrayType:
 		return evalArrayInfixExpression(operator, left, right)
 	case operator == "==":
-		return nativeBoolToBooleanObject(left == right)
+		return nativeBoolToBooleanObject(evalEquality(left, right))
 	case operator == "!=":
-		return nativeBoolToBooleanObject(left != right)
+		return nativeBoolToBooleanObject(!evalEquality(left, right))
 	case left.TokenType() != right.TokenType():
 		return newError("type mismatch: %s %s %s", left.TokenType(), operator, right.TokenType())
 	default:
 		return newError("unknown operator: %s %s %s", left.TokenType(), operator, right.TokenType())
 	}
+}
+
+func evalEquality(left, right object.Object) bool {
+	if left == right {
+		return true
+	}
+	// Integer vs Boolean (0 == false, non-zero == true)
+	if left.TokenType() == object.IntegerType && right.TokenType() == object.BooleanType {
+		lval := left.(*object.Integer).Value
+		rval := right.(*object.Boolean).Value
+		if rval {
+			return lval != 0
+		} else {
+			return lval == 0
+		}
+	}
+	if left.TokenType() == object.BooleanType && right.TokenType() == object.IntegerType {
+		lval := left.(*object.Boolean).Value
+		rval := right.(*object.Integer).Value
+		if lval {
+			return rval != 0
+		} else {
+			return rval == 0
+		}
+	}
+	// Integer vs Nil (0 == nil)
+	if left.TokenType() == object.IntegerType && right.TokenType() == object.NilType {
+		return left.(*object.Integer).Value == 0
+	}
+	if left.TokenType() == object.NilType && right.TokenType() == object.IntegerType {
+		return right.(*object.Integer).Value == 0
+	}
+	// Boolean vs Nil (false == nil)
+	if left.TokenType() == object.BooleanType && right.TokenType() == object.NilType {
+		return !left.(*object.Boolean).Value
+	}
+	if left.TokenType() == object.NilType && right.TokenType() == object.BooleanType {
+		return !right.(*object.Boolean).Value
+	}
+	return false
 }
 
 func evalIntegerInfixExpression(operator string, left, right object.Object) object.Object {

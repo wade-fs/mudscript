@@ -787,7 +787,7 @@ func (d *Driver) formatParserErrors(filename string, errors []string) error {
 	sb.WriteString("   • mapping 寫法錯誤 → 應使用 ([ key: value ])\n")
 	sb.WriteString("   • closure 寫法錯誤 → (: this_object, \"func\" :)\n")
 	sb.WriteString("   • 缺少分號、括號不匹配、型別宣告錯誤\n")
-	return fmt.Errorf(sb.String())
+	return fmt.Errorf("%s", sb.String())
 }
 
 func (d *Driver) TransferConnection(target *object.LPCObject, src *object.LPCObject) bool {

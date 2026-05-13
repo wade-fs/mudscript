@@ -6,7 +6,7 @@ int main(object me, string arg) {
         return 1;
     }
 
-    if (!arg || arg == "") {
+    if (!arg) {
         write("grant <user> <path>\n");
         return 1;
     }

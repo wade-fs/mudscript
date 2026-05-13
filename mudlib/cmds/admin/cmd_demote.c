@@ -6,7 +6,7 @@ int main(object me, string arg) {
         return 1;
     }
 
-    if (!arg || arg == "") {
+    if (!arg) {
         write("demote <user>\n");
         return 1;
     }

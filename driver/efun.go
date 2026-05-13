@@ -1553,7 +1553,7 @@ func (d *Driver) registerSystemAndFiles(obj *object.LPCObject) {
 			
 			if !strings.HasSuffix(path, ".c") { path += ".c" }
 			res, err := d.LoadObject(path)
-			if err != nil { return object.NewError(err.Error()) }
+			if err != nil { return object.NewError("%s", err.Error()) }
 			return res
 		},
 	})
