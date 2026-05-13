@@ -409,9 +409,10 @@ func (d *Driver) registerCoreIOEfuns(obj *object.LPCObject) {
 			flag, ok := args[0].(*object.Integer)
 			if !ok { return object.NewError("set_heart_beat 參數必須是整數") }
 			enable := flag.Value > 0
-			thisObj := d.GetThisObject()
-			if thisObj == nil { thisObj = obj }
-			d.SetHeartBeat(thisObj, enable)
+			
+			// 🚀 修正：直接使用傳入的 obj，確保是設定在 NPC 自己身上
+			// 而不是誤設在當前發話的玩家 (GetThisObject) 身上。
+			d.SetHeartBeat(obj, enable)
 			return &object.Integer{Value: flag.Value}
 		},
 	})

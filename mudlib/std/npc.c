@@ -356,6 +356,8 @@ void do_flee() {
 void do_attack() {
     if (!combat_target || is_dead) { return; }
 
+    tell_object(combat_target, "【除錯】NPC 發起攻擊判定...\n");
+
     // 特殊攻擊判定
     if (special_atk != "" && random(100) < special_atk_chance) {
         do_special_attack();
@@ -420,7 +422,15 @@ void do_special_attack() {
 void heart_beat() {
     if (is_dead) { return; }
 
+    object me = this_object();
+    object env = environment(me);
+    if (env) {
+       tell_room(env, "【除錯】NPC " + query_name() + " 心跳中，in_combat=" + sprintf("%d", in_combat) + "\n");
+    }
+
     if (in_combat && combat_target) {
+        tell_object(combat_target, "【除錯】NPC 戰鬥心跳執行中，目標：" + combat_target->query_name() + "\n");
+        
         if (combat_target->query_hp() <= 0) {
             stop_combat();
             return;
@@ -466,6 +476,8 @@ void attacked_by(object attacker) {
     
     object env = environment(this_object());
     if (env && env->query_no_combat()) return;
+
+    if (attacker) tell_object(attacker, "【除錯】NPC " + query_name() + " 收到來自你的攻擊。\n");
 
     // 🚀 強制開啟心跳，確保 AI 會執行攻擊
     set_heart_beat(1);

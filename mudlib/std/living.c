@@ -262,6 +262,7 @@ void attacked_by(object attacker) {
     if (!in_combat) {
         in_combat     = 1;
         combat_target = attacker;
+        if (attacker) tell_object(attacker, "【除錯】" + query_name() + " 的 in_combat 已設為 1，目標為：" + attacker->query_name() + "\n");
     }
 }
 
