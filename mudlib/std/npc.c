@@ -457,13 +457,18 @@ void do_special_attack() {
 // ── 被攻擊後，自動迎戰 ───────────────────────────────────────────
 void attacked_by(object attacker) {
     if (is_dead) { return; }
+    
+    object env = environment(this_object());
+    if (env && env->query_no_combat()) return;
+
     if (!in_combat) {
-        in_combat     = 1;
-        combat_target = attacker;
-        if (aggro_msg && aggro_msg != "") {
-            say(aggro_msg);
-        } else {
-            say(query_name() + " 怒目而視，準備反擊！\n");
+        ::attacked_by(attacker);
+        if (in_combat) { // 確保父類別沒有攔截（雖然上面已經檢查過一次環境，但這是雙重保險）
+            if (aggro_msg && aggro_msg != "") {
+                say(aggro_msg);
+            } else {
+                say(query_name() + " 怒目而視，準備反擊！\n");
+            }
         }
     }
 }

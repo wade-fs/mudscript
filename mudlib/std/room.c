@@ -14,6 +14,7 @@ mixed   item_ids;      // 房間內可互動的裝飾物描述表
 int x;
 int y;
 int z;
+int no_combat;         // 🚀 禁止戰鬥屬性
 
 void create() {
     ::create();
@@ -24,6 +25,7 @@ void create() {
     x = 0;
     y = 0;
     z = 0;
+    no_combat = 0;
 }
 
 // 判斷物件是否可以進入房間 (房間預設允許所有人進入)
@@ -45,6 +47,7 @@ mixed query_coordinate() {
 // ── 設定函式 ────────────────────────────────────────────
 void set_short(string s) { short_desc = s; }
 void set_long(string s)  { long_desc  = s; }
+void set_no_combat(int v){ no_combat = v; }
 
 void add_exit(string dir, string path) {
     exits[dir] = path;
@@ -58,6 +61,7 @@ void add_item(string id, string desc) {
 string query_short() { return short_desc; }
 string query_long()  { return long_desc; }
 mapping query_exits(){ return exits; }
+int query_no_combat(){ return no_combat; }
 
 // ── 顯示房間 ────────────────────────────────────────────
 void look_room() {

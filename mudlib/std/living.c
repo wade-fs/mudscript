@@ -244,6 +244,22 @@ void on_death() {
     write(name + " 倒下了！\n");
 }
 
+// ── 戰鬥基礎 ─────────────────────────────────────────────
+void attacked_by(object attacker) {
+    if (is_dead) return;
+    
+    object env = environment(this_object());
+    if (env && env->query_no_combat()) {
+        if (attacker) tell_object(attacker, "這裡禁止戰鬥！\n");
+        return;
+    }
+
+    if (!in_combat) {
+        in_combat     = 1;
+        combat_target = attacker;
+    }
+}
+
 // ── 金幣與技能 ───────────────────────────────────────────
 void add_gold(int g) { gold += g; }
 void gain_gold(int g) { gold += g; }
