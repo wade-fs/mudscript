@@ -352,11 +352,55 @@ void do_flee() {
     }
 }
 
+// ── 心跳：AI 邏輯 ──────────────────────────────────────
+void heart_beat() {
+    if (is_dead) { return; }
+
+	object mob = this_object();
+
+    if (in_combat && combat_target) {
+        if (combat_target->query_hp() <= 0) {
+            stop_combat();
+            return;
+        }
+        
+        // 🚀 檢查目標是否還在同一個房間
+        if (environment(combat_target) != environment(this_object())) {
+            stop_combat();
+            return;
+        }
+
+        // 🚀 逃跑判定：血量低於門檻 且 機率命中
+        if (hp * 100 / max_hp <= flee_hp_pct) {
+            if (random(100) < flee_chance) {
+                do_flee();
+                return;
+            }
+        }
+        
+        do_attack();
+        return;
+    }
+
+    // 🚀 使用 bitwise & 檢查行為旗標，可疊加多種行為
+    
+    // 1. 巡邏行為
+    if ((behaviour & BEHAV_PATROL) && sizeof(patrol_rooms) > 0) {
+        do_patrol();
+        return;
+    }
+
+    // 2. 隨機移動行為
+    if (move_range > 0 && wander_chance > 0) {
+        if (random(100) < wander_chance) {
+            do_wander();
+        }
+    }
+}
+
 // ── 戰鬥：NPC 攻擊 ───────────────────────────────────────────────
 void do_attack() {
     if (!combat_target || is_dead) { return; }
-
-    tell_object(combat_target, "【除錯】NPC 發起攻擊判定...\n");
 
     // 特殊攻擊判定
     if (special_atk != "" && random(100) < special_atk_chance) {
@@ -418,66 +462,12 @@ void do_special_attack() {
     }
 }
 
-// ── 心跳：AI 邏輯 ──────────────────────────────────────
-void heart_beat() {
-    if (is_dead) { return; }
-
-    object me = this_object();
-    object env = environment(me);
-    if (env) {
-       tell_room(env, "【除錯】NPC " + query_name() + " 心跳中，in_combat=" + sprintf("%d", in_combat) + "\n");
-    }
-
-    if (in_combat && combat_target) {
-        tell_object(combat_target, "【除錯】NPC 戰鬥心跳執行中，目標：" + combat_target->query_name() + "\n");
-        
-        if (combat_target->query_hp() <= 0) {
-            stop_combat();
-            return;
-        }
-        
-        // 🚀 檢查目標是否還在同一個房間
-        if (environment(combat_target) != environment(this_object())) {
-            stop_combat();
-            return;
-        }
-
-        // 🚀 逃跑判定：血量低於門檻 且 機率命中
-        if (hp * 100 / max_hp <= flee_hp_pct) {
-            if (random(100) < flee_chance) {
-                do_flee();
-                return;
-            }
-        }
-        
-        do_attack();
-        return;
-    }
-
-    // 🚀 使用 bitwise & 檢查行為旗標，可疊加多種行為
-    
-    // 1. 巡邏行為
-    if ((behaviour & BEHAV_PATROL) && sizeof(patrol_rooms) > 0) {
-        do_patrol();
-        return;
-    }
-
-    // 2. 隨機移動行為
-    if (move_range > 0 && wander_chance > 0) {
-        if (random(100) < wander_chance) {
-            do_wander();
-        }
-    }
-}
-
 // ── 被攻擊後，自動迎戰 ───────────────────────────────────────────
 void attacked_by(object attacker) {
     if (is_dead) { return; }
     
     object env = environment(this_object());
     if (env && env->query_no_combat()) return;
-
-    if (attacker) tell_object(attacker, "【除錯】NPC " + query_name() + " 收到來自你的攻擊。\n");
 
     // 🚀 強制開啟心跳，確保 AI 會執行攻擊
     set_heart_beat(1);

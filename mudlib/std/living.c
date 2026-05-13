@@ -18,7 +18,7 @@ mapping skills;
 int     stat_str;   // 力量
 int     stat_dex;   // 敏捷
 int     stat_int;   // 智力
-int     stat_con;   // 體魄
+int     stat_con;   //體魄
 int     stat_wis;   // 智慧
 int     stat_cha;   // 魅力
 
@@ -262,7 +262,6 @@ void attacked_by(object attacker) {
     if (!in_combat) {
         in_combat     = 1;
         combat_target = attacker;
-        if (attacker) tell_object(attacker, "【除錯】" + query_name() + " 的 in_combat 已設為 1，目標為：" + attacker->query_name() + "\n");
     }
 }
 

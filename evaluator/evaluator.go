@@ -602,15 +602,35 @@ func evalIdent(node *ast.Ident, env object.Environment) object.Object {
 
 				// 從目標節點的「直接父類別」開始往下找
 				for _, parent := range targetNode.Inherits {
-					if fn, exists := parent.Vars.Get(funcName); exists {
-						return fn
+					if fnObj, exists := parent.Vars.Get(funcName); exists {
+						// 🚀 關鍵修正：繼承呼叫必須重新「綁定」到目前的物件變數環境 (lpcObj.Vars)
+						// 這樣 inherited methods 才能正確修改到實體物件的狀態
+						if fn, ok := fnObj.(*object.Function); ok {
+							return &object.Function{
+								Parameters: fn.Parameters,
+								Body:       fn.Body,
+								Env:        lpcObj.Vars,
+								OriginFile: fn.OriginFile,
+							}
+						}
+						return fnObj
 					}
 					
 					// 遞迴尋找父類別的父類別
 					var findInParents func(*object.LPCObject) object.Object
 					findInParents = func(p *object.LPCObject) object.Object {
 						for _, gp := range p.Inherits {
-							if f, ex := gp.Vars.Get(funcName); ex { return f }
+							if fnObj, ex := gp.Vars.Get(funcName); ex {
+								if fn, ok := fnObj.(*object.Function); ok {
+									return &object.Function{
+										Parameters: fn.Parameters,
+										Body:       fn.Body,
+										Env:        lpcObj.Vars,
+										OriginFile: fn.OriginFile,
+									}
+								}
+								return fnObj
+							}
 							if f := findInParents(gp); f != nil { return f }
 						}
 						return nil
@@ -661,6 +681,8 @@ func applyFunction(fn object.Object, args []object.Object) object.Object {
 	switch fn := fn.(type) {
 	case *object.Function:
 		extendedEnv := extendFunctionEnv(fn, args)
+		// 🚀 關鍵修正：必須傳遞 origin_file 資訊，否則繼承呼叫 (::) 會失效
+		extendedEnv.Set("__origin_file", &object.String{Value: fn.OriginFile})
 		evaluated := Eval(fn.Body, extendedEnv)
 		return unwrapReturnValue(evaluated)
 	case *object.Builtin:

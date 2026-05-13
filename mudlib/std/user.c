@@ -145,6 +145,12 @@ void heart_beat() {
     
     // 執行戰鬥回合
     combat_heart_beat();
+
+    // 🚀 定期發送狀態資訊給前端 UI
+    object cmd_info = load_object("/cmds/cmd_info.c");
+    if (cmd_info) {
+        cmd_info->main(this_object(), "score", "");
+    }
 }
 
 // ── 死亡 ─────────────────────────────────────────────────
