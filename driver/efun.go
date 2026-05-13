@@ -522,12 +522,21 @@ func (d *Driver) registerCoreIOEfuns(obj *object.LPCObject) {
 	obj.Vars.Set("say", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
 			if len(args) == 0 { return &object.Nil{} }
-			msg := args[0].Inspect()
-			if s, ok := args[0].(*object.String); ok { msg = s.Value }
+			msgStr := args[0].Inspect()
+			if s, ok := args[0].(*object.String); ok { msgStr = s.Value }
 
 			var exclude []*object.LPCObject
-			exclude = append(exclude, obj) // 預設排除自己
+			
+			// 1. 預設排除執行此程式碼的物件 (例如指令物件)
+			exclude = append(exclude, obj) 
 
+			// 2. 自動排除當前發起指令的玩家 (this_player)
+			tp := d.GetCurrentPlayer()
+			if tp != nil && tp.Object != nil {
+				exclude = append(exclude, tp.Object)
+			}
+
+			// 3. 處理手動指定的額外排除對象
 			if len(args) > 1 {
 				if o, ok := args[1].(*object.LPCObject); ok {
 					exclude = append(exclude, o)
@@ -540,9 +549,52 @@ func (d *Driver) registerCoreIOEfuns(obj *object.LPCObject) {
 				}
 			}
 
-			if obj.Location != nil {
-				d.TellRoom(obj.Location, msg, exclude)
+			// 取得環境
+			env := obj.Location
+			if env == nil && tp != nil && tp.Object != nil {
+				env = tp.Object.Location
 			}
+			
+			if env == nil { return &object.Nil{} }
+
+			// 4. 🚀 按照要求實作：遍歷房間，處理玩家發送與 NPC 監聽
+			for _, ob := range env.Inventory {
+				if ob == nil || ob.IsDestructed { continue }
+
+				// 檢查排除清單 (使用指標 + 檔名雙重比對)
+				isExcluded := false
+				for _, ex := range exclude {
+					if ob == ex || (ex != nil && ob.Filename == ex.Filename) {
+						isExcluded = true
+						break
+					}
+				}
+				if isExcluded { continue }
+
+				// A. 判定是否為連線中的玩家 (userp)
+				isUser := false
+				if ob.IsInteractive || strings.HasPrefix(ob.Filename, "/std/user.c") || strings.HasPrefix(ob.Filename, "/data/user/") {
+					isUser = true
+				}
+
+				// B. 判定是否為生物 (living)
+				isLiving := false
+				res := d.CallFunction(ob, "is_living", nil)
+				if isLPCTrue(res) { isLiving = true }
+
+				if isUser {
+					// 發送訊息到玩家終端
+					d.TellObject(ob, msgStr)
+				} else if isLiving {
+					// 🚀 主動對 NPC 呼叫 catch_tell
+					if tp != nil {
+						d.RunCommand(tp, ob, "catch_tell", []object.Object{&object.String{Value: msgStr}})
+					} else {
+						d.CallFunction(ob, "catch_tell", []object.Object{&object.String{Value: msgStr}})
+					}
+				}
+			}
+
 			return &object.Nil{}
 		},
 	})
@@ -588,7 +640,22 @@ func (d *Driver) registerCoreIOEfuns(obj *object.LPCObject) {
 				}
 			}
 
-			d.TellRoom(roomObj, msg, exclude)
+			// 🚀 重要：tell_room 也應該支援檔案名稱比對的排除
+			for _, item := range roomObj.Inventory {
+				if item == nil || item.IsDestructed { continue }
+				
+				shouldExclude := false
+				for _, ex := range exclude {
+					if item == ex || (ex != nil && item.Filename == ex.Filename) {
+						shouldExclude = true
+						break
+					}
+				}
+				
+				if !shouldExclude {
+					d.TellObject(item, msg)
+				}
+			}
 			return &object.Nil{}
 		},
 	})
