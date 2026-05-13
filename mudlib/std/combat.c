@@ -9,7 +9,20 @@ void do_combat_round() {
     if (!in_combat || !combat_target) { return; }
     if (is_dead)                      { return; }
 
+    object here = environment(me);
+    if (here && here->query_no_combat()) {
+        write("這裡禁止戰鬥！戰鬥中斷了。\n");
+        stop_combat();
+        return;
+    }
+
     object target = combat_target;
+    if (!target || environment(target) != here) {
+        write("對象不在這裡，戰鬥結束了。\n");
+        stop_combat();
+        return;
+    }
+
     if (target->query_hp() <= 0) {
         write("敵人已經死亡。\n");
         in_combat     = 0;
@@ -78,6 +91,11 @@ int do_kill(string arg) {
     object here = environment(this_object());
     if (!here) { write("你不在任何地方。\n"); return 1; }
 
+    if (here->query_no_combat()) {
+        write("這裡禁止戰鬥！\n");
+        return 1;
+    }
+
     // 在同一房間裡找到目標
     object target = present(arg, here);
     if (!target) {
@@ -140,12 +158,18 @@ int do_skills(string arg) {
 int do_fireball(string arg) {
     int mp_cost = 20;
     if (!arg) { write("用法：fireball <目標>\n"); return 1; }
+    
+    object here = environment(this_object());
+    if (here && here->query_no_combat()) {
+        write("這裡禁止戰鬥，無法施放攻擊性法術！\n");
+        return 1;
+    }
+
     if (!use_mp(mp_cost)) {
         write("MP 不足，無法施放火球術！（需要 " + sprintf("%d", mp_cost) + " MP）\n");
         return 1;
     }
 
-    object here = environment(this_object());
     object target = present(arg, here);
     if (!target || !living(target)) {
         write("找不到目標：" + arg + "\n");

@@ -245,6 +245,11 @@ void on_death() {
 }
 
 // ── 戰鬥基礎 ─────────────────────────────────────────────
+void stop_combat() {
+    in_combat = 0;
+    combat_target = 0;
+}
+
 void attacked_by(object attacker) {
     if (is_dead) return;
     

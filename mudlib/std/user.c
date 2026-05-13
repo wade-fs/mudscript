@@ -1,9 +1,11 @@
 // mudlib/std/user.c
 
 #include "/include/config.h"
+#include "/include/ansi.h"
 #include "/include/race.h"
 
 inherit "/std/living.c";
+inherit "/std/combat.c";
 
 // ── 屬性宣告 ────────────────────────────────────────────
 string id, password, role;
@@ -139,19 +141,32 @@ void remove_write_path(string p) {
 
 // ── 心跳 ─────────────────────────────────────────────────
 void heart_beat() {
-    object cmd_info = load_object("/cmds/cmd_info.c");
-    if (cmd_info) {
-        cmd_info->main(this_object(), "");
-    }
+    if (is_dead) return;
+    
+    // 執行戰鬥回合
+    combat_heart_beat();
 }
 
 // ── 死亡 ─────────────────────────────────────────────────
 void on_death() {
-    write("\n你死亡了！你從混沌中甦醒，回到了起點...\n\n");
-    object start = clone_object(START_ROOM);
-    move_object(start);
-    start->look_room();
-    set_heart_beat(1);
+    write(RED("\n你感覺到世界在眼前漸漸模糊... 你死亡了。\n") + NOR);
+    write("一股強大的力量將你的靈魂拉回了中央廣場。\n\n");
+    
+    // 死亡懲罰：遺失一部分金幣
+    if (gold > 0) {
+        int lost = gold / 5;
+        gold -= lost;
+        write(YEL("你遺失了 " + sprintf("%d", lost) + " 枚金幣。\n") + NOR);
+    }
+    
+    // 恢復基礎狀態
+    is_dead = 0;
+    hp = max_hp / 2; // 復活時只有一半血
+    mp = max_mp / 2;
+    
+    // 回到起始點
+    move_to_start();
+    save();
 }
 
 string query_save_file() { return "/data/user/" + id; }
