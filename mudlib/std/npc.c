@@ -488,19 +488,27 @@ void attacked_by(object attacker) {
 void on_death() {
     say(query_name() + " 倒下了！\n");
 
+    // 產生屍體
+    object corpse = clone_object("/std/corpse.c");
+    if (corpse) {
+        corpse->set_owner(query_name());
+        move_object(corpse, environment(this_object()));
+
+        // 將遺物移入屍體
+        int i;
+        for (i = 0; i < sizeof(drop_list); i++) {
+            object item = clone_object(drop_list[i]);
+            if (item) {
+                move_object(item, corpse);
+            }
+        }
+    }
+
     if (combat_target && living(combat_target)) {
         combat_target->gain_exp(exp_reward);
         tell_object(combat_target,
-            "你獲得了 " + sprintf("%d", gold_reward) + " 枚金幣。\n");
+            "你獲得了 " + gold_reward + " 枚金幣。\n");
         combat_target->gain_gold(gold_reward);
-    }
-
-    int i;
-    for (i = 0; i < sizeof(drop_list); i++) {
-        object item = clone_object(drop_list[i]);
-        if (item) {
-            move_object(item, environment(this_object()));
-        }
     }
 
     if (respawn_time > 0) {
@@ -509,6 +517,7 @@ void on_death() {
 
     destruct(this_object());
 }
+
 
 // ── 重生 ─────────────────────────────────────────────────────────
 void respawn() {

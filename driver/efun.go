@@ -387,6 +387,10 @@ func (d *Driver) registerCoreIOEfuns(obj *object.LPCObject) {
 			if s, ok := args[0].(*object.String); ok { msg = s.Value }
 			
 			tp := d.GetCurrentPlayer()
+			if tp == nil && obj.IsInteractive {
+				tp = d.GetConnectionFromObject(obj)
+			}
+
 			d.interactiveObjects.Range(func(key, value interface{}) bool {
 				if conn, ok := value.(*PlayerConnection); ok && conn.IsActive {
 					if tp == nil || conn != tp { // 排除發送者自己
@@ -485,7 +489,12 @@ func (d *Driver) registerCoreIOEfuns(obj *object.LPCObject) {
 	        }
 	        
 	        p := d.GetCurrentPlayer()
-	        // 👉 關鍵修正：只要玩家物件存在且處於活動狀態，就呼叫 p.Send
+	        // 👉 關鍵修正：若無全域玩家上下文 (如 NPC 心跳中)，但呼叫者是玩家物件，則自動導向該玩家
+	        if p == nil && obj.IsInteractive {
+	            p = d.GetConnectionFromObject(obj)
+	        }
+
+	        // 只要玩家物件存在且處於活動狀態，就呼叫 p.Send
 	        // 不要檢查 p.Conn != nil，因為 WebSocket 模式下 Conn 是 nil
 	        if p != nil && p.IsActive { 
 	            safeMsg := strings.ReplaceAll(msg, "\r\n", "\n")
@@ -1426,7 +1435,7 @@ func (d *Driver) registerStringEfuns(obj *object.LPCObject) {
 
 // checkWritePermission 呼叫 LPC 的 valid_write 來判定權限
 // 回傳值: (是否允許寫入 bool, 錯誤訊息 string)
-func (d *Driver) checkWritePermission(path string, efunName string) (bool, string) {
+func (d *Driver) checkWritePermission(caller *object.LPCObject, path string, efunName string) (bool, string) {
 	// 1. 【路徑正規化】：防禦 ../ 目錄穿越攻擊
 	cleanPath := filepath.Clean(path)
 	cleanPath = filepath.ToSlash(cleanPath) // 確保跨平台都使用 MUD 習慣的 "/"
@@ -1444,6 +1453,9 @@ func (d *Driver) checkWritePermission(path string, efunName string) (bool, strin
 	var userObj object.Object = &object.Nil{}
 	if player != nil && player.Object != nil {
 		userObj = player.Object
+	} else if caller != nil && caller.IsInteractive {
+		// 🚀 關鍵修正：若無當前玩家上下文，但呼叫者本身是互動玩家 (如死掉的玩家)，則使用呼叫者身分
+		userObj = caller
 	}
 
 	// 3. 呼叫 LPC
@@ -1508,7 +1520,7 @@ func (d *Driver) registerSystemAndFiles(obj *object.LPCObject) {
 			text, ok2 := args[1].(*object.String)
 			if !ok1 || !ok2 { return &object.Integer{Value: 0} }
 
-			allowed, errMsg := d.checkWritePermission(file.Value, "write_file")
+			allowed, errMsg := d.checkWritePermission(obj, file.Value, "write_file")
 			if !allowed {
 				// 直接將錯誤訊息印給當前玩家
 				if p := d.GetCurrentPlayer(); p != nil {
@@ -1642,6 +1654,10 @@ func (d *Driver) registerSystemAndFiles(obj *object.LPCObject) {
 			if len(args) < 1 { return object.NewError("input_to 需要函式字串作為參數") }
 			
 			p := d.GetCurrentPlayer()
+			if p == nil && obj.IsInteractive {
+				p = d.GetConnectionFromObject(obj)
+			}
+
 			if p == nil { return &object.Integer{Value: 0} }
 
 			if funcName, ok := args[0].(*object.String); ok {
@@ -1676,7 +1692,7 @@ func (d *Driver) registerPersistenceEfuns(obj *object.LPCObject) {
 			fileName := fileArg.Value
 			if !strings.HasSuffix(fileName, ".o") { fileName += ".o" }
 
-			allowed, errMsg := d.checkWritePermission(fileName, "save_object")
+			allowed, errMsg := d.checkWritePermission(obj, fileName, "save_object")
 			if !allowed {
 				if p := d.GetCurrentPlayer(); p != nil {
 					p.Send(fmt.Sprintf("\r\n⚠️ 系統安全攔截：%s\r\n", errMsg))

@@ -6,7 +6,6 @@ inherit "/std/container.c";
 inherit "/std/interactive.c";
 
 // ── 基本資料 ─────────────────────────────────────────────
-string  name;
 string  race;
 int     level;
 int     exp;
@@ -100,10 +99,6 @@ void recalc_stats() {
 }
 
 // ── 設定 / 查詢 ────────────────────────────────────────────
-void set_name(string n) {
-    name = n;
-}
-string query_name()       { return name; }
 void set_race(string r)   { race = r; }
 string query_race()       { return race; }
 void set_level(int l)     { level = l; }

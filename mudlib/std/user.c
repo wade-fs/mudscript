@@ -155,21 +155,46 @@ void heart_beat() {
 
 // ── 死亡 ─────────────────────────────────────────────────
 void on_death() {
-    write(RED("\n你感覺到世界在眼前漸漸模糊... 你死亡了。\n") + NOR);
-    write("一股強大的力量將你的靈魂拉回了中央廣場。\n\n");
+    write(RED("\n你感覺到世界在眼前漸漸模糊... 你死亡了。\n"));
+    write("你的靈魂緩緩脫離了肉體，進入了一片純白的世界...\n\n");
+
     
+    // 產生屍體
+    object corpse = clone_object("/std/corpse.c");
+    if (corpse) {
+        corpse->set_owner(query_name());
+        move_object(corpse, environment(this_object()));
+    }
+
     // 死亡懲罰：遺失一部分金幣
     if (gold > 0) {
         int lost = gold / 5;
         gold -= lost;
-        write(YEL("你遺失了 " + sprintf("%d", lost) + " 枚金幣。\n") + NOR);
+        write(YEL("你遺失了 " + sprintf("%d", lost) + " 枚金幣。\n"));
     }
+
     
+    // 移至祈願所
+    object prayer_room = load_object("/std/prayer_room.c");
+    if (prayer_room) {
+        move_object(prayer_room);
+    }
+
+    // 10 秒後復活 (對應屍體消失時間)
+    call_out("revive", 10);
+    save();
+}
+
+void revive() {
+    write(HIY("\n一陣溫暖的光芒包圍了你，你感覺到生命力正在重新注入靈魂...\n"));
+    write("你在中央廣場睜開了眼睛。\n\n");
+
     // 恢復基礎狀態
     is_dead = 0;
     hp = max_hp / 2; // 復活時只有一半血
     mp = max_mp / 2;
-    
+    set_heart_beat(1);
+
     // 回到起始點
     move_to_start();
     save();

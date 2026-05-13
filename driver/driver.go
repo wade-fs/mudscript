@@ -574,7 +574,14 @@ func (d *Driver) processCallOuts() {
 	d.CallOuts = pending
 	d.mu.Unlock()
 	for _, call := range ready {
-		d.CallFunction(call.Caller, call.FuncName, call.Args)
+		if conn := d.GetConnectionFromObject(call.Caller); conn != nil {
+			gid := getGID()
+			d.playerContexts.Store(gid, conn)
+			d.CallFunction(call.Caller, call.FuncName, call.Args)
+			d.playerContexts.Delete(gid)
+		} else {
+			d.CallFunction(call.Caller, call.FuncName, call.Args)
+		}
 	}
 }
 
