@@ -13,7 +13,7 @@ string  aggro_msg;     // 主動攻擊時的訊息
 
 // ── 新增：棲息地與行為模式 ──────────────────────────────────────
 string  habitat;       // HABITAT_LAND / WATER / UNDERGROUND / SKY / CAVE
-string  behaviour;     // BEHAV_PASSIVE / AGGRESSIVE / GUARD / PATROL / FLEE
+string  behaviour;     // BEHAV_PASSIVE / AGGRESSIVE / GUARD / PATROL / FLEE / WANDER
 int     aggro_range;   // 主動攻擊偵測範圍（格數，0=不主動）
 int     flee_hp_pct;   // 逃跑血量百分比（BEHAV_FLEE 用，預設30）
 mixed   patrol_rooms;  // 巡邏路線 ({"/area/newbie/room_x_y.c", ...})
@@ -21,6 +21,11 @@ int     patrol_idx;    // 目前巡邏位置索引
 int     sight_flags;   // 位元旗標: 1=夜視, 2=水中視覺, 4=隱形偵測
 string  special_atk;   // 特殊攻擊名稱（空=無）
 int     special_atk_chance; // 特殊攻擊機率 (0~100)
+
+// ── 自由移動屬性 ──────────────────────────────────────
+string  home_room;     // 出生點 (房間路徑)
+int     move_range;    // 可移動的最大距離 (Manhattan Distance, 0=固定)
+int     wander_chance; // 每次心跳隨機移動的機率 (0~100)
 
 void create() {
     ::create();
@@ -56,11 +61,25 @@ void create() {
     special_atk      = "";
     special_atk_chance = 0;
 
+    home_room        = "";
+    move_range       = 0;
+    wander_chance    = 0;
+
     set_heart_beat(1);
 }
 
 // init() 在玩家進入 NPC 所在房間時由 driver 呼叫
 void init() {
+    // 第一次移動到某個房間時，若 home_room 未設定，則將該處設為家
+    if (home_room == "") {
+        object env = environment(this_object());
+        if (env) {
+            home_room = object_name(env);
+            // 去除可能存在的 clone ID
+            int pos = strsrch(home_room, "#");
+            if (pos != -1) home_room = substr(home_room, 0, pos);
+        }
+    }
 }
 
 // ── 設定 / 查詢 ──────────────────────────────────────────────────
@@ -79,10 +98,31 @@ void set_special_atk(string s, int pct) {
     special_atk        = s;
     special_atk_chance = pct;
 }
+void set_home_room(string r)       { home_room         = r; }
+void set_move_range(int v)         { move_range        = v; }
+void set_wander_chance(int v)      { wander_chance     = v; }
 
 string  query_habitat()       { return habitat; }
 string  query_behaviour()     { return behaviour; }
 int     query_aggro_range()   { return aggro_range; }
+string  query_home_room()     { return home_room; }
+int     query_move_range()    { return move_range; }
+
+// ── 輔助：計算兩個房間之間的距離 ─────────────────────
+int calculate_distance(object room1, object room2) {
+    if (!room1 || !room2) return 999;
+    mixed c1 = room1->query_coordinate();
+    mixed c2 = room2->query_coordinate();
+    if (!arrayp(c1) || !arrayp(c2) || sizeof(c1) < 3 || sizeof(c2) < 3) return 999;
+    
+    int dx = c1[0] - c2[0];
+    int dy = c1[1] - c2[1];
+    int dz = c1[2] - c2[2];
+    if (dx < 0) dx = -dx;
+    if (dy < 0) dy = -dy;
+    if (dz < 0) dz = -dz;
+    return dx + dy + dz;
+}
 
 // ── 互動：對話 ───────────────────────────────────────────────────
 
@@ -253,7 +293,35 @@ int do_chat(object me, string topic) {
     return 0;
 }
 
-// ── 心跳：AI 巡邏 + 逃跑 ─────────────────────────────────────────
+// ── 自由移動邏輯 ─────────────────────────────────────────────
+void do_wander() {
+    object env = environment(this_object());
+    if (!env) return;
+
+    mapping exits = env->query_exits();
+    if (!mapp(exits) || sizeof(exits) == 0) return;
+
+    string *dirs = keys(exits);
+    string dir = dirs[random(sizeof(dirs))];
+    string dest_path = exits[dir];
+    
+    object dest = load_object(dest_path);
+    if (!dest) return;
+
+    // 檢查目的地是否超出移動範圍
+    if (home_room != "" && move_range > 0) {
+        object home = load_object(home_room);
+        if (home && calculate_distance(dest, home) > move_range) {
+            return; // 太遠了，不去
+        }
+    }
+
+    say(query_name() + " 往 " + dir + " 走了過去。\n");
+    move_object(dest);
+    say(query_name() + " 走了過來。\n");
+}
+
+// ── 心跳：AI 巡邏 + 逃跑 + 隨機移動 ───────────────────
 void heart_beat() {
     if (is_dead) { return; }
 
@@ -277,6 +345,14 @@ void heart_beat() {
     if (behaviour == BEHAV_PATROL &&
         sizeof(patrol_rooms) > 0) {
         do_patrol();
+        return;
+    }
+
+    // BEHAV_WANDER：隨機移動
+    if (behaviour == BEHAV_WANDER && wander_chance > 0) {
+        if (random(100) < wander_chance) {
+            do_wander();
+        }
     }
 }
 

@@ -66,6 +66,7 @@
 #define BEHAV_GUARD     "guard"    // 守衛（保護特定範圍）
 #define BEHAV_PATROL    "patrol"   // 巡邏
 #define BEHAV_FLEE      "flee"     // 低血量逃跑
+#define BEHAV_WANDER    "wander"   // 隨機移動
 
 // ── 經驗值與等級 ────────────────────────────────────────
 #define MAX_LEVEL       50

@@ -13,6 +13,9 @@ void create() {
     set_stat(STAT_STR, 25);
     set_stat(STAT_CON, 25);
     recalc_stats();
+	set_move_range(2);
+	set_wander_chance(100);
+	set_behaviour(BEHAV_WANDER);
     hp = max_hp;
 
     add_response("job", ({ 
