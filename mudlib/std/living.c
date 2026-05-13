@@ -261,7 +261,6 @@ int query_skill(string s) {
 
 mapping query_skills() { return skills; }
 
-// catch_tell：活物收到訊息，如果有連線就顯示
+// catch_tell：活物收到訊息，預設不做任何事（子類別可覆寫）
 void catch_tell(string msg) {
-    write(msg);
 }

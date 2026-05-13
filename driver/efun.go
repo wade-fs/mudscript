@@ -530,7 +530,7 @@ func (d *Driver) registerCoreIOEfuns(obj *object.LPCObject) {
 			// 1. 預設排除執行此程式碼的物件 (例如指令物件)
 			exclude = append(exclude, obj) 
 
-			// 2. 自動排除當前發起指令的玩家 (this_player)
+			// 2. 獲取當前玩家連線
 			tp := d.GetCurrentPlayer()
 			if tp != nil && tp.Object != nil {
 				exclude = append(exclude, tp.Object)
@@ -549,7 +549,7 @@ func (d *Driver) registerCoreIOEfuns(obj *object.LPCObject) {
 				}
 			}
 
-			// 取得環境
+			// 取得環境 (指令物件本身不在房間，所以要取 tp 的環境)
 			env := obj.Location
 			if env == nil && tp != nil && tp.Object != nil {
 				env = tp.Object.Location
@@ -557,11 +557,11 @@ func (d *Driver) registerCoreIOEfuns(obj *object.LPCObject) {
 			
 			if env == nil { return &object.Nil{} }
 
-			// 4. 🚀 按照要求實作：遍歷房間，處理玩家發送與 NPC 監聽
+			// 4. 🚀 核心邏輯：遍歷房間
 			for _, ob := range env.Inventory {
 				if ob == nil || ob.IsDestructed { continue }
 
-				// 檢查排除清單 (使用指標 + 檔名雙重比對)
+				// 檢查排除清單
 				isExcluded := false
 				for _, ex := range exclude {
 					if ob == ex || (ex != nil && ob.Filename == ex.Filename) {
@@ -569,24 +569,33 @@ func (d *Driver) registerCoreIOEfuns(obj *object.LPCObject) {
 						break
 					}
 				}
+				
+				// 🚀 終極排除：如果這個物件對應的連線就是當前發話者的連線，排除之！
+				if tp != nil {
+					obConn := d.GetConnectionFromObject(ob)
+					if obConn != nil && obConn == tp {
+						isExcluded = true
+					}
+				}
+
 				if isExcluded { continue }
 
-				// A. 判定是否為連線中的玩家 (userp)
+				// A. 判定是否為玩家
 				isUser := false
 				if ob.IsInteractive || strings.HasPrefix(ob.Filename, "/std/user.c") || strings.HasPrefix(ob.Filename, "/data/user/") {
 					isUser = true
 				}
 
-				// B. 判定是否為生物 (living)
+				// B. 判定是否為生物
 				isLiving := false
 				res := d.CallFunction(ob, "is_living", nil)
 				if isLPCTrue(res) { isLiving = true }
 
 				if isUser {
-					// 發送訊息到玩家終端
+					// 發送訊息到玩家終端 (TellObject 會處理 Socket 發送)
 					d.TellObject(ob, msgStr)
 				} else if isLiving {
-					// 🚀 主動對 NPC 呼叫 catch_tell
+					// 主動對 NPC 呼叫 catch_tell
 					if tp != nil {
 						d.RunCommand(tp, ob, "catch_tell", []object.Object{&object.String{Value: msgStr}})
 					} else {
@@ -640,7 +649,9 @@ func (d *Driver) registerCoreIOEfuns(obj *object.LPCObject) {
 				}
 			}
 
-			// 🚀 重要：tell_room 也應該支援檔案名稱比對的排除
+			// 🚀 tell_room 也加入終極連線排除
+			tp := d.GetCurrentPlayer()
+
 			for _, item := range roomObj.Inventory {
 				if item == nil || item.IsDestructed { continue }
 				
@@ -649,6 +660,13 @@ func (d *Driver) registerCoreIOEfuns(obj *object.LPCObject) {
 					if item == ex || (ex != nil && item.Filename == ex.Filename) {
 						shouldExclude = true
 						break
+					}
+				}
+				
+				if tp != nil {
+					itemConn := d.GetConnectionFromObject(item)
+					if itemConn != nil && itemConn == tp {
+						shouldExclude = true
 					}
 				}
 				

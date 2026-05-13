@@ -140,8 +140,6 @@ void do_respond(string msg) {
 
 // 攔截聽到的訊息
 void catch_tell(string msg) {
-    ::catch_tell(msg); // 呼叫繼承的 catch_tell
-
     // 只對玩家的說話內容反應，避免 NPC 之間產生無限迴圈
     object tp = this_player();
     if (!tp || !userp(tp)) return;
