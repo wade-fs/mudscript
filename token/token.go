@@ -122,6 +122,14 @@ const (
 	AND             = "&&"
 	OR              = "||"
 
+	// 位元運算子
+	BIT_AND         = "&"
+	BIT_OR          = "|"
+	BIT_XOR         = "^"
+	BIT_NOT         = "~"
+	LSHIFT          = "<<"
+	RSHIFT          = ">>"
+
 	CHAR         = "CHAR"         // 'c'
 	PREPROCESSOR = "PREPROCESSOR" // #include, #define
 

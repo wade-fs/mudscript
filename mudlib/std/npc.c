@@ -11,11 +11,12 @@ mixed   drop_list;     // 掉落物清單：({"/path/item.c", ...})
 int     respawn_time;  // 重生時間（秒），0 = 不重生
 string  aggro_msg;     // 主動攻擊時的訊息
 
-// ── 新增：棲息地與行為模式 ──────────────────────────────────────
+// ── 棲息地與行為模式 ──────────────────────────────────────
 string  habitat;       // HABITAT_LAND / WATER / UNDERGROUND / SKY / CAVE
-string  behaviour;     // BEHAV_PASSIVE / AGGRESSIVE / GUARD / PATROL / FLEE / WANDER
+int     behaviour;     // 位元旗標：BEHAV_AGGRESSIVE | BEHAV_GUARD | BEHAV_PATROL | BEHAV_WANDER
 int     aggro_range;   // 主動攻擊偵測範圍（格數，0=不主動）
-int     flee_hp_pct;   // 逃跑血量百分比（BEHAV_FLEE 用，預設30）
+int     flee_hp_pct;   // 逃跑血量百分比 (預設 20)
+int     flee_chance;   // 逃跑成功機率 (0~100, 預設 50)
 mixed   patrol_rooms;  // 巡邏路線 ({"/area/newbie/room_x_y.c", ...})
 int     patrol_idx;    // 目前巡邏位置索引
 int     sight_flags;   // 位元旗標: 1=夜視, 2=水中視覺, 4=隱形偵測
@@ -54,7 +55,8 @@ void create() {
     habitat          = HABITAT_LAND;
     behaviour        = BEHAV_PASSIVE;
     aggro_range      = 0;
-    flee_hp_pct      = 30;
+    flee_hp_pct      = 20;
+    flee_chance      = 50;
     patrol_rooms     = ({});
     patrol_idx       = 0;
     sight_flags      = 0;
@@ -89,9 +91,10 @@ void set_drop_list(mixed l)        { drop_list         = l; }
 void set_respawn(int v)            { respawn_time      = v; }
 void set_aggro_msg(string s)       { aggro_msg         = s; }
 void set_habitat(string h)         { habitat           = h; }
-void set_behaviour(string b)       { behaviour         = b; }
+void set_behaviour(int b)          { behaviour         = b; }
 void set_aggro_range(int v)        { aggro_range       = v; }
 void set_flee_hp_pct(int v)        { flee_hp_pct       = v; }
+void set_flee_chance(int v)        { flee_chance       = v; }
 void set_patrol_rooms(mixed r)     { patrol_rooms      = r; }
 void set_sight_flags(int v)        { sight_flags       = v; }
 void set_special_atk(string s, int pct) {
@@ -103,7 +106,7 @@ void set_move_range(int v)         { move_range        = v; }
 void set_wander_chance(int v)      { wander_chance     = v; }
 
 string  query_habitat()       { return habitat; }
-string  query_behaviour()     { return behaviour; }
+int     query_behaviour()     { return behaviour; }
 int     query_aggro_range()   { return aggro_range; }
 string  query_home_room()     { return home_room; }
 int     query_move_range()    { return move_range; }
@@ -321,41 +324,6 @@ void do_wander() {
     say(query_name() + " 走了過來。\n");
 }
 
-// ── 心跳：AI 巡邏 + 逃跑 + 隨機移動 ───────────────────
-void heart_beat() {
-    if (is_dead) { return; }
-
-    if (in_combat && combat_target) {
-        if (combat_target->query_hp() <= 0) {
-            in_combat     = 0;
-            combat_target = 0;
-            return;
-        }
-        // BEHAV_FLEE：血量不足時逃跑
-        if (behaviour == BEHAV_FLEE &&
-            hp * 100 / max_hp <= flee_hp_pct) {
-            do_flee();
-            return;
-        }
-        do_attack();
-        return;
-    }
-
-    // BEHAV_PATROL：沒在戰鬥時巡邏
-    if (behaviour == BEHAV_PATROL &&
-        sizeof(patrol_rooms) > 0) {
-        do_patrol();
-        return;
-    }
-
-    // BEHAV_WANDER：隨機移動
-    if (behaviour == BEHAV_WANDER && wander_chance > 0) {
-        if (random(100) < wander_chance) {
-            do_wander();
-        }
-    }
-}
-
 // ── 巡邏邏輯 ─────────────────────────────────────────────────────
 void do_patrol() {
     if (sizeof(patrol_rooms) == 0) return;
@@ -381,6 +349,48 @@ void do_flee() {
             string dir = dirs[random(sizeof(dirs))];
             object dest = load_object(exits[dir]);
             if (dest) move_object(this_object(), dest);
+        }
+    }
+}
+
+// ── 心跳：AI 邏輯 ──────────────────────────────────────
+void heart_beat() {
+    if (is_dead) { return; }
+
+    if (in_combat && combat_target) {
+        if (combat_target->query_hp() <= 0) {
+            in_combat     = 0;
+            combat_target = 0;
+            return;
+        }
+        
+        // 🚀 逃跑判定：血量低於門檻 且 機率命中
+        if (hp * 100 / max_hp <= flee_hp_pct) {
+            if (random(100) < flee_chance) {
+                do_flee();
+                return;
+            }
+        }
+        
+        do_attack();
+        return;
+    }
+
+    // 🚀 使用 bitwise & 檢查行為旗標，可疊加多種行為
+    
+    // 1. 巡邏行為
+    if ((behaviour & BEHAV_PATROL) && sizeof(patrol_rooms) > 0) {
+        do_patrol();
+        return;
+    }
+
+    // 2. 隨機移動行為
+    // (依據 user 建議：透過 move_range > 0 即可決定是否具備 WANDER 能力，或顯式設定旗標)
+    if (move_range > 0 && wander_chance > 0) {
+        if ((behaviour & BEHAV_WANDER) || 1) { // 這裡暫定 move_range > 0 即可
+            if (random(100) < wander_chance) {
+                do_wander();
+            }
         }
     }
 }

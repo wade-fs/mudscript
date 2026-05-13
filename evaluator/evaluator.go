@@ -316,9 +316,19 @@ func evalPrefixExpression(operator string, right object.Object) object.Object {
 		return evalBangOperatorExpression(right)
 	case "-":
 		return evalMinusPrefixOperatorExpression(right)
+	case "~":
+		return evalBitNotPrefixOperatorExpression(right)
 	default:
 		return newError("unknown operator: %s%s", operator, right.TokenType())
 	}
+}
+
+func evalBitNotPrefixOperatorExpression(right object.Object) object.Object {
+	if right.TokenType() != object.IntegerType {
+		return newError("unknown operator: ~%s", right.TokenType())
+	}
+	val := right.(*object.Integer).Value
+	return &object.Integer{Value: ^val}
 }
 
 func evalMinusPrefixOperatorExpression(right object.Object) object.Object {
@@ -395,6 +405,16 @@ func evalIntegerInfixExpression(operator string, left, right object.Object) obje
 		return nativeBoolToBooleanObject(leftVal == rightVal)
 	case "!=":
 		return nativeBoolToBooleanObject(leftVal != rightVal)
+	case "&":
+		return &object.Integer{Value: leftVal & rightVal}
+	case "|":
+		return &object.Integer{Value: leftVal | rightVal}
+	case "^":
+		return &object.Integer{Value: leftVal ^ rightVal}
+	case "<<":
+		return &object.Integer{Value: leftVal << uint(rightVal)}
+	case ">>":
+		return &object.Integer{Value: leftVal >> uint(rightVal)}
 	default:
 		return newError("unknown operator: %s %s %s", left.TokenType(), operator, right.TokenType())
 	}

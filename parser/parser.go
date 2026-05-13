@@ -16,11 +16,15 @@ const (
 	ASSIGN      // = += -= *= /=
 	LOGICAL_OR	// ||
 	LOGICAL_AND	// &&
+	BIT_OR      // |
+	BIT_XOR     // ^
+	BIT_AND     // &
 	EQUALS      // == !=
 	LESSGREATER // > < >= <=
+	SHIFT       // << >>
 	SUM         // + -
 	PRODUCT     // * / %
-	PREFIX      // -X or !X
+	PREFIX      // -X or !X or ~X
 	CALL        // myFunction(X)
 	INDEX       // array[index]
 	SCOPE_PREC  // 作用域解析的優先權極高
@@ -30,12 +34,17 @@ const (
 var precedences = map[token.TokenType]int{
 	token.OR:       LOGICAL_OR,
 	token.AND:      LOGICAL_AND,
+	token.BIT_OR:   BIT_OR,
+	token.BIT_XOR:  BIT_XOR,
+	token.BIT_AND:  BIT_AND,
 	token.EQ:       EQUALS,
 	token.NEQ:      EQUALS,
 	token.LT:       LESSGREATER,
 	token.GT:       LESSGREATER,
 	token.GTE:      LESSGREATER,
 	token.LTE:      LESSGREATER,
+	token.LSHIFT:   SHIFT,
+	token.RSHIFT:   SHIFT,
 	token.PLUS:     SUM,
 	token.MINUS:    SUM,
 	token.SLASH:    PRODUCT,
@@ -85,6 +94,7 @@ func New(l lexer.Lexer) *Parser {
 		token.FLOAT:    p.parseFloatLiteral,
 		token.BANG:     p.parsePrefixExpression,
 		token.MINUS:    p.parsePrefixExpression,
+		token.BIT_NOT:  p.parsePrefixExpression,
 		token.TRUE:     p.parseBoolean,
 		token.FALSE:    p.parseBoolean,
 		token.LPAREN:   p.parseGroupedExpression,
@@ -127,6 +137,11 @@ func New(l lexer.Lexer) *Parser {
 		token.ARROW:    p.parseCallOtherExpression,
 		token.AND: p.parseInfixExpression,
  		token.OR:  p.parseInfixExpression,
+		token.BIT_AND: p.parseInfixExpression,
+		token.BIT_OR:  p.parseInfixExpression,
+		token.BIT_XOR: p.parseInfixExpression,
+		token.LSHIFT:  p.parseInfixExpression,
+		token.RSHIFT:  p.parseInfixExpression,
 	}
 
 	p.nextToken()

@@ -60,13 +60,12 @@
 #define HABITAT_SKY     "sky"      // 天空
 #define HABITAT_CAVE    "cave"     // 洞穴
 
-// ── NPC 行為模式 ────────────────────────────────────────
-#define BEHAV_PASSIVE   "passive"  // 被動（不主動攻擊）
-#define BEHAV_AGGRESSIVE "aggressive" // 主動攻擊
-#define BEHAV_GUARD     "guard"    // 守衛（保護特定範圍）
-#define BEHAV_PATROL    "patrol"   // 巡邏
-#define BEHAV_FLEE      "flee"     // 低血量逃跑
-#define BEHAV_WANDER    "wander"   // 隨機移動
+// ── NPC 行為模式 (Bitflags) ──────────────────────────────────
+#define BEHAV_PASSIVE      0
+#define BEHAV_AGGRESSIVE   1    // 主動攻擊
+#define BEHAV_GUARD        2    // 守衛（保護特定範圍）
+#define BEHAV_PATROL       4    // 巡邏
+#define BEHAV_WANDER       8    // 隨機移動
 
 // ── 經驗值與等級 ────────────────────────────────────────
 #define MAX_LEVEL       50

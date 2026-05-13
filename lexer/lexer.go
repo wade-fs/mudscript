@@ -94,7 +94,7 @@ func (l *lexer) NextToken() token.Token {
 			l.readChar()
 			tok = token.Token{TokenType: token.AND, Literal: string(ch) + string(l.ch), Line: currentLine}
 		} else {
-			tok = l.newToken(token.ILLEGAL, l.ch) 
+			tok = l.newToken(token.BIT_AND, l.ch) 
 		}
 	case '|':
 		if l.peekChar() == '|' {
@@ -102,8 +102,12 @@ func (l *lexer) NextToken() token.Token {
 			l.readChar()
 			tok = token.Token{TokenType: token.OR, Literal: string(ch) + string(l.ch), Line: currentLine}
 		} else {
-			tok = l.newToken(token.ILLEGAL, l.ch) 
+			tok = l.newToken(token.BIT_OR, l.ch) 
 		}
+	case '^':
+		tok = l.newToken(token.BIT_XOR, l.ch)
+	case '~':
+		tok = l.newToken(token.BIT_NOT, l.ch)
 	case '=':
 		if l.peekChar() == '=' {
 			ch := l.ch
@@ -175,6 +179,10 @@ func (l *lexer) NextToken() token.Token {
 			ch := l.ch
 			l.readChar()
 			tok = token.Token{TokenType: token.LTE, Literal: string(ch) + string(l.ch), Line: currentLine}
+		} else if l.peekChar() == '<' {
+			ch := l.ch
+			l.readChar()
+			tok = token.Token{TokenType: token.LSHIFT, Literal: string(ch) + string(l.ch), Line: currentLine}
 		} else {
 			tok = l.newToken(token.LT, l.ch)
 		}
@@ -183,6 +191,10 @@ func (l *lexer) NextToken() token.Token {
 			ch := l.ch
 			l.readChar()
 			tok = token.Token{TokenType: token.GTE, Literal: string(ch) + string(l.ch), Line: currentLine}
+		} else if l.peekChar() == '>' {
+			ch := l.ch
+			l.readChar()
+			tok = token.Token{TokenType: token.RSHIFT, Literal: string(ch) + string(l.ch), Line: currentLine}
 		} else {
 			tok = l.newToken(token.GT, l.ch)
 		}
