@@ -42,28 +42,24 @@ int main(object me, string verb, string arg) {
 
     write(HIR("再見了，" + me->query_name() + "。希望在另一個輪迴還能見到你。\n"));
     
-    // 4. 延遲 3 秒後返回登入畫面
-    write(CYN("\n(系統將在 3 秒後自動返回登入介面...)\n") + NOR);
-    call_out("do_redirection", 3, me);
+    // 4. 延遲 3 秒後返回登入畫面 (使用毫秒級 sleep efun)
+    write(CYN("\n(系統將在 3 秒後自動返回登入介面...)\n"));
     
-    return 1;
-}
-
-// 實際執行轉移的函式
-void do_redirection(object me) {
-    if (!me) return;
+    sleep(3000);
     
     object login_ob = clone_object("/std/login.c");
     if (login_ob) {
         if (exec(login_ob, me)) {
             login_ob->logon();
             destruct(me);
-            return;
+            return 1;
         }
     }
 
     // 若轉移失敗，則執行強制離線
     destruct(me);
+    
+    return 1;
 }
 
 string help() {

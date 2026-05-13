@@ -809,6 +809,19 @@ func (d *Driver) registerTimeAndScheduling(obj *object.LPCObject) {
 		},
 	})
 
+	// 語法: void sleep(int ms)
+	// 說明: 暫停執行指定的毫秒數。
+	// 範例: sleep(3000); // 暫停 3 秒
+	obj.Vars.Set("sleep", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 1 { return &object.Nil{} }
+			if ms, ok := args[0].(*object.Integer); ok {
+				time.Sleep(time.Duration(ms.Value) * time.Millisecond)
+			}
+			return &object.Nil{}
+		},
+	})
+
 	// 語法: void call_out(string func_name, int delay, [mixed args...])
 	// 說明: 延遲 delay 秒後，自動呼叫 func_name 函式，並可傳入參數。
 	// 範例: call_out("destroy_self", 5); // 5秒後呼叫 destroy_self()
