@@ -1,6 +1,6 @@
 - npc: 
+	- auto movable
 	- fight
-	- 應該也要處理 process_input, 讓npc 可以聽到玩家說話，而不是一定要動詞
 - item
 	- 可拿、不可拿、不可掉落
 	- 裝備、鑑定
