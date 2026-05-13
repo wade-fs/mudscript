@@ -160,7 +160,7 @@ void init() {
 
 int do_go(string dir) {
     mixed cmd = dir;
-    if (!cmd || cmd == "") {
+    if (!cmd) {
         cmd = query_verb();
     }
 

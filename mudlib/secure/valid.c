@@ -15,7 +15,7 @@ mixed valid_write(string path, object user, string func)
 
     paths = user->query_write_paths();
 
-    if (!paths || sizeof(paths) == 0) {
+    if (!paths) {
         return "拒絕：你沒有任何目錄的寫入授權。";
     }
 

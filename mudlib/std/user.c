@@ -76,7 +76,7 @@ int process_input(string input) {
     string verb, arg;
     
     input = trim(input);
-    if (!input || input == "") return 0;
+    if (!input) return 0;
 
     if (substr(input, 0, 1) == "'") {
         verb = "'";

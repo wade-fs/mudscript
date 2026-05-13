@@ -8,7 +8,7 @@ int main(object me, string verb, string arg) {
         return 1;
     }
 
-    if (!arg || arg == "") {
+    if (!arg) {
         here->look_room();
         return 1;
     }

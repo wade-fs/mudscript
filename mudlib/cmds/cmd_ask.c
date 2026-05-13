@@ -4,7 +4,7 @@
 #include "/include/ansi.h"
 
 int main(object me, string verb, string arg) {
-    if (!arg || arg == "") {
+    if (!arg) {
         write("詢問誰？用法：ask <目標> about <話題>\n");
         return 1;
     }

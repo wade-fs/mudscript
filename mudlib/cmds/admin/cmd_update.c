@@ -4,7 +4,7 @@
 #include "/include/ansi.h"
 
 int main(object me, string arg) {
-    if (!arg || arg == "") {
+    if (!arg) {
         write("請指定要更新的檔案路徑。\n");
         return 1;
     }

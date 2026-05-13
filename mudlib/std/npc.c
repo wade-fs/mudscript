@@ -302,7 +302,7 @@ void do_wander() {
     if (!env) return;
 
     mapping exits = env->query_exits();
-    if (!mapp(exits) || sizeof(exits) == 0) return;
+	if (!exits) return;
 
     string *dirs = keys(exits);
     string dir = dirs[random(sizeof(dirs))];
@@ -326,7 +326,7 @@ void do_wander() {
 
 // ── 巡邏邏輯 ─────────────────────────────────────────────────────
 void do_patrol() {
-    if (sizeof(patrol_rooms) == 0) return;
+    if (!patrol_rooms) return;
     patrol_idx = (patrol_idx + 1) % sizeof(patrol_rooms);
     object dest = find_object(patrol_rooms[patrol_idx]);
     if (!dest) dest = load_object(patrol_rooms[patrol_idx]);
@@ -512,5 +512,5 @@ void on_death() {
 
 // ── 重生 ─────────────────────────────────────────────────────────
 void respawn() {
-    // 子類別實作重生邏輯
+    // TODO
 }

@@ -9,7 +9,7 @@ int main(object me, string verb, string arg) {
     object cmd_d = load_object("/secure/command_d.c");
     mapping cmd_map = cmd_d->query_cmd_map();
 
-    if (!arg || arg == "") {
+    if (!arg) {
         write("=== 📚 幫助系統中心 ===\n");
         write("您可以輸入 help <指令名稱> 來查看具體用法。\n\n");
         

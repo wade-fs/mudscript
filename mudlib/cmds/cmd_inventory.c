@@ -38,7 +38,7 @@ int do_inventory(object me, string arg) {
 }
 
 int do_get(object me, string arg) {
-    if (!arg || arg == "") { write("撿起什麼？\n"); return 1; }
+    if (!arg) { write("撿起什麼？\n"); return 1; }
     object here = environment(me);
     object item = present(arg, here);
     if (!item) {
@@ -57,7 +57,7 @@ int do_get(object me, string arg) {
 }
 
 int do_drop(object me, string arg) {
-    if (!arg || arg == "") { write("丟下什麼？\n"); return 1; }
+    if (!arg) { write("丟下什麼？\n"); return 1; }
     object item = present(arg, me);
     if (!item) {
         write("你身上沒有叫「" + arg + "」的東西。\n");
@@ -72,7 +72,7 @@ int do_drop(object me, string arg) {
 }
 
 int do_wear(object me, string arg) {
-    if (!arg || arg == "") { write("穿上什麼？\n"); return 1; }
+    if (!arg) { write("穿上什麼？\n"); return 1; }
     object item = present(arg, me);
     if (!item) { write("你身上沒有叫「" + arg + "」的東西。\n"); return 1; }
     if (item->query_item_type() != ITEM_ARMOUR) {
@@ -89,7 +89,7 @@ int do_wear(object me, string arg) {
 }
 
 int do_wield(object me, string arg) {
-    if (!arg || arg == "") { write("裝備什麼武器？\n"); return 1; }
+    if (!arg) { write("裝備什麼武器？\n"); return 1; }
     object item = present(arg, me);
     if (!item) { write("你身上沒有叫「" + arg + "」的東西。\n"); return 1; }
     if (item->query_item_type() != ITEM_WEAPON) {
@@ -106,7 +106,7 @@ int do_wield(object me, string arg) {
 }
 
 int do_remove(object me, string arg) {
-    if (!arg || arg == "") { write("脫下什麼？\n"); return 1; }
+    if (!arg) { write("脫下什麼？\n"); return 1; }
     mixed slots = ({"weapon", "head", "body", "hands", "feet", "shield"});
     int i;
     for (i = 0; i < sizeof(slots); i++) {

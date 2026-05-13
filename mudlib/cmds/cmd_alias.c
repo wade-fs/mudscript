@@ -16,9 +16,9 @@ int main(object me, string verb, string arg) {
 int do_alias(object me, string arg) {
     mapping al = me->query_aliases(); // 向玩家取得他的別名表
 
-    if (!arg || arg == "") {
+    if (!arg) {
         mixed ks = keys(al);
-        if (!ks || sizeof(ks) == 0) {
+        if (!ks) {
             write("你沒有設定任何別名。\n");
             return 1;
         }
@@ -59,7 +59,7 @@ int do_alias(object me, string arg) {
 int do_unalias(object me, string arg) {
     mapping al = me->query_aliases();
 
-    if (!arg || arg == "") {
+    if (!arg) {
         write("用法：unalias <別名名稱>\n");
         return 1;
     }

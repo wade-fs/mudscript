@@ -14,7 +14,7 @@ int main(object me, string verb, string arg) {
 }
 
 int do_say_cmd(object me, string arg) {
-    if (!arg || arg == "") { write("說什麼？\n"); return 1; }
+    if (!arg) { write("說什麼？\n"); return 1; }
     
     // 玩家自己看到這行
     write("你說：「" + arg + "」\n");
@@ -29,7 +29,7 @@ int do_say_cmd(object me, string arg) {
 }
 
 int do_emote(object me, string arg) {
-    if (!arg || arg == "") { write("做什麼動作？\n"); return 1; }
+    if (!arg) { write("做什麼動作？\n"); return 1; }
     
     string msg = me->query_name() + " " + arg + "\n";
     write("你 " + arg + "\n");

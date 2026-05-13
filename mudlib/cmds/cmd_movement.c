@@ -11,7 +11,7 @@ int main(object me, string verb, string arg) {
     string dir = arg;
 
     if (verb == "go") {
-        if (!arg || arg == "") {
+        if (!arg) {
             write("要往哪裡去？例如：go north\n");
             return 1;
         }
