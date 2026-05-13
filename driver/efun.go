@@ -526,17 +526,8 @@ func (d *Driver) registerCoreIOEfuns(obj *object.LPCObject) {
 			if s, ok := args[0].(*object.String); ok { msg = s.Value }
 
 			var exclude []*object.LPCObject
-			
-			// 1. 預設排除執行此程式碼的物件 (例如 NPC 自己說話時排除自己)
-			exclude = append(exclude, obj) 
+			exclude = append(exclude, obj) // 預設排除自己
 
-			// 2. 🚀 重要：也要排除觸發此動作的玩家 (避免玩家看到自己說的話兩次)
-			tp := d.GetCurrentPlayer()
-			if tp != nil && tp.Object != nil && tp.Object != obj {
-				exclude = append(exclude, tp.Object)
-			}
-
-			// 3. 處理手動指定的排除對象
 			if len(args) > 1 {
 				if o, ok := args[1].(*object.LPCObject); ok {
 					exclude = append(exclude, o)
@@ -585,13 +576,6 @@ func (d *Driver) registerCoreIOEfuns(obj *object.LPCObject) {
 			if s, isStr := args[1].(*object.String); isStr { msg = s.Value }
 
 			var exclude []*object.LPCObject
-			
-			// 🚀 重要：如果是透過玩家指令觸發，預設也排除該玩家 (除非顯式指定不排除，但 LPC 習慣是這樣)
-			tp := d.GetCurrentPlayer()
-			if tp != nil && tp.Object != nil {
-				exclude = append(exclude, tp.Object)
-			}
-
 			if len(args) > 2 {
 				if o, ok := args[2].(*object.LPCObject); ok {
 					exclude = append(exclude, o)

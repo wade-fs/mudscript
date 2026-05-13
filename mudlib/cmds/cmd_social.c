@@ -15,24 +15,19 @@ int main(object me, string verb, string arg) {
 
 int do_say_cmd(object me, string arg) {
     if (!arg || arg == "") { write("說什麼？\n"); return 1; }
-    
-    // 玩家自己看到這行
+    string msg = me->query_name() + " 說：「" + arg + "」\n";
     write("你說：「" + arg + "」\n");
 
-    // 房間內其他人（包含 NPC）看到這行，且會觸發 NPC 的 catch_tell
-    // 在底層 efun 中已修正，say() 現在會自動排除 this_player()，所以不會重複看到
-    say(me->query_name() + " 說：「" + arg + "」\n");
+	object env = environment(me);
+	tell_room(env, msg, me);
 
     return 1;
 }
 
 int do_emote(object me, string arg) {
     if (!arg || arg == "") { write("做什麼動作？\n"); return 1; }
-    
     string msg = me->query_name() + " " + arg + "\n";
-    write("你 " + arg + "\n");
-    
-    // say 會自動排除 initiator
+    write(msg);
     say(msg);
     return 1;
 }
