@@ -1,3 +1,4 @@
+- 轉移至 github
 - 玩家:
 	- 可以組隊, 自動 follow
 - npc: 
