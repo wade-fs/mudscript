@@ -1,0 +1,46 @@
+// /std/test_case.c
+// 測試案例基底類別
+
+#include "/include/ansi.h"
+
+int total_tests = 0;
+int passed_tests = 0;
+string current_test_name = "";
+
+void assert_equal(mixed expected, mixed actual, string msg) {
+    total_tests++;
+    if (expected == actual) {
+        passed_tests++;
+        // write(HIG("  [PASS] ") + msg + "\n");
+    } else {
+        write(HIR("  [FAIL] ") + msg + "\n");
+        write("         預期: " + sprintf("%O", expected) + "\n");
+        write("         實際: " + sprintf("%O", actual) + "\n");
+    }
+}
+
+void assert_true(int condition, string msg) {
+    total_tests++;
+    if (condition) {
+        passed_tests++;
+    } else {
+        write(HIR("  [FAIL] ") + msg + " (預期為真)\n");
+    }
+}
+
+void start_test(string name) {
+    current_test_name = name;
+    write(HIY("\n👉 正在執行測試組: ") + name + "\n");
+}
+
+void report_results() {
+    write("\n" + BOLD_WHT("測試總結: ") + current_test_name + "\n");
+    if (passed_tests == total_tests) {
+        write(HIG("✅ 全部通過 (" + passed_tests + "/" + total_tests + ")") + "\n");
+    } else {
+        write(HIR("❌ 部分失敗 (" + (total_tests - passed_tests) + "/" + total_tests + ")") + "\n");
+    }
+}
+
+int query_total() { return total_tests; }
+int query_passed() { return passed_tests; }

@@ -23,7 +23,6 @@
 #define GRAY(x)     CLR_GRA + x + CLR_NOR
 
 /* 常用縮寫 (3字母) */
-#define RED(x)      CLR_RED + x + CLR_NOR
 #define GRN(x)      CLR_GRN + x + CLR_NOR
 #define YEL(x)      CLR_YEL + x + CLR_NOR
 #define BLU(x)      CLR_BLU + x + CLR_NOR
@@ -41,7 +40,13 @@
 #define HIC(x)      CLR_CYN + x + CLR_NOR
 #define HIW(x)      CLR_WHT + x + CLR_NOR
 
-/* 其他輔助功能 */
+/* BOLD 系列 (與 HI* 映射相同) */
+#define BOLD_RED(x) CLR_RED + x + CLR_NOR
+#define BOLD_GRN(x) CLR_GRN + x + CLR_NOR
+#define BOLD_YEL(x) CLR_YEL + x + CLR_NOR
+#define BOLD_BLU(x) CLR_BLU + x + CLR_NOR
+#define BOLD_MAG(x) CLR_MAG + x + CLR_NOR
+#define BOLD_CYN(x) CLR_CYN + x + CLR_NOR
 #define BOLD_WHT(x) CLR_WHT + x + CLR_NOR
 
 #endif
