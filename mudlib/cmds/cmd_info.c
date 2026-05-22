@@ -11,6 +11,7 @@ int main(object me, string verb, string arg) {
         "mp"   : me->query_mp(),
         "max_mp": me->query_max_mp(),
         "gold" : me->query_gold(),
+        "pk"   : (me->is_red_name() ? "紅名" : "普通"),
         "atk"  : me->query_attack(),
         "def"  : me->query_defence()
     ]);

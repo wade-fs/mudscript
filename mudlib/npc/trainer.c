@@ -26,6 +26,15 @@ void create() {
     set_skill_to_teach("dodge", 40);
     set_skill_to_teach("parry", 40);
 
+    // 🚀 新增：加入公會
+    add_response(({ "join", "加入" }), (:
+        object tp = this_player();
+        if (load_object("/secure/guild_d.c")->join_guild(tp, "fighter")) {
+            return "很好！戰士的道路沒有捷徑，只有不斷的磨練。";
+        }
+        return "如果你連拿起重劍的力量都沒有，就別想加入我們。";
+    :));
+
     add_response(({ "戰鬥", "fight", "combat" }), ({
         "戰鬥不是兒戲，隨時保持警惕！",
         "力量與速度的結合才是取勝的關鍵。",

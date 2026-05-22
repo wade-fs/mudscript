@@ -140,6 +140,14 @@ void create() {
         return "很好，去消滅 3 隻飢餓的野狼，回來向我『回報』。";
     :));
 
+    // 🚀 新增：加入公會
+    add_response(({ "join", "加入" }), (:
+        object tp = this_player();
+        if (tp->query_guild()) return "你已經是 " + load_object("/secure/guild_d.c")->query_guild_info(tp->query_guild())["name"] + " 的成員了。";
+        load_object("/secure/guild_d.c")->join_guild(tp, "adventurer");
+        return "很好！從今天起，你就是我們冒險者公會的一員了。";
+    :));
+
     add_response(({ "wolf", "野狼" }), "最近東邊的草原野狼氾濫，如果你想練手，可以找我承接『獵狼』任務。");
 }
 

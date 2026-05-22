@@ -124,6 +124,15 @@ int complete_quest(object me, string qid) {
     mapping reward = info["reward"];
     if (reward["exp"]) me->gain_exp(reward["exp"]);
     if (reward["gold"]) me->gain_gold(reward["gold"]);
+    
+    // 🚀 新增：公會貢獻獎勵
+    if (me->query_guild()) {
+        int gexp = reward["exp"] / 5; // 預設貢獻度為經驗值的 20%
+        if (gexp < 1) gexp = 1;
+        me->add_guild_exp(gexp);
+        tell_object(me, HIG("你的公會貢獻度提升了 " + gexp + " 點。\n"));
+    }
+
     if (reward["badge"]) {
         object badge = clone_object(reward["badge"]);
         if (badge) {

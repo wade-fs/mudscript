@@ -82,6 +82,17 @@ int do_get(object me, string arg) {
         return 1;
     }
 
+    // 🚀 新增：檢查屍體歸屬 (Loot Binding)
+    string owner_tid = container->query_team_owner();
+    if (owner_tid != "") {
+        object my_leader = me->query_leader();
+        string my_tid = (my_leader ? my_leader->get_id() : me->get_id());
+        if (my_tid != owner_tid) {
+            write(HIR("這具屍體的戰利品暫時受保護，你目前無法拿取。\n"));
+            return 1;
+        }
+    }
+
     if (!me->can_receive(item)) {
         write("你的背包裝不下了。\n");
         return 1;

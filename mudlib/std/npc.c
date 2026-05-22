@@ -550,11 +550,24 @@ void attacked_by(object attacker) {
 // ── 死亡 ─────────────────────────────────────────────────────────
 void on_death() {
     say(query_name() + " 倒下了！\n");
+    
+    object killer = combat_target;
+    string owner_team = "";
+    if (killer && userp(killer)) {
+        object leader = killer->query_leader();
+        if (leader) owner_team = leader->get_id();
+        else owner_team = killer->get_id();
+    }
 
     // 產生屍體
     object corpse = clone_object("/std/corpse.c");
     if (corpse) {
         corpse->set_owner(query_name());
+        // 🚀 設定屍體歸屬 (Loot Binding)
+        if (owner_team != "") {
+            corpse->set_team_owner(owner_team);
+        }
+
         // 🚀 新增：轉移採集資料
         if (mapp(harvest_data)) {
             corpse->set_harvest_data(harvest_data);
@@ -571,20 +584,40 @@ void on_death() {
         }
     }
 
-    if (combat_target && living(combat_target)) {
-        combat_target->gain_exp(exp_reward);
-        // 🚀 新增：潛能獎勵 (經驗值的 10%)
-        int pot_gain = exp_reward / 10;
-        if (pot_gain < 1) pot_gain = 1;
-        combat_target->gain_potential(pot_gain);
-        
-        tell_object(combat_target,
-            "你獲得了 " + gold_reward + " 枚金幣與 " + pot_gain + " 點潛能。\n");
-        combat_target->gain_gold(gold_reward);
+    if (killer && living(killer)) {
+        int final_exp = exp_reward;
+        int final_gold = gold_reward;
 
-        // 🚀 新增：任務進度通知
-        if (userp(combat_target)) {
-            load_object("/secure/quest_d.c")->check_kill_progress(combat_target, base_name(this_object()));
+        // 🚀 團隊加成：每多一人增加 10% 經驗
+        object leader = killer->query_leader();
+        if (leader) {
+            object *members = leader->query_followers();
+            int count = sizeof(members);
+            if (count > 1) {
+                final_exp = final_exp * (100 + (count - 1) * 10) / 100;
+                // 平分給在場的隊員
+                foreach (object m in members) {
+                    if (m && environment(m) == environment(this_object()) && m->query_hp() > 0) {
+                        m->gain_exp(final_exp / count);
+                        m->gain_potential(exp_reward / 10 / count + 1);
+                        m->gain_gold(final_gold / count + 1);
+                        tell_object(m, HIW("【團隊】你分到了 ") + (final_exp/count) + " 點經驗值。\n");
+                    }
+                }
+            } else {
+                killer->gain_exp(final_exp);
+                killer->gain_potential(exp_reward / 10 + 1);
+                killer->gain_gold(final_gold);
+            }
+        } else {
+            killer->gain_exp(final_exp);
+            killer->gain_potential(exp_reward / 10 + 1);
+            killer->gain_gold(final_gold);
+        }
+
+        // 🚀 任務進度通知
+        if (userp(killer)) {
+            load_object("/secure/quest_d.c")->check_kill_progress(killer, base_name(this_object()));
         }
     }
 

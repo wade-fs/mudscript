@@ -11,6 +11,8 @@ inherit "/std/combat.c";
 string id, password, role;
 string nature;
 string guild; // 🚀 新增：職業/公會
+string guild_rank; // 🚀 新增：公會職位
+int    guild_exp;  // 🚀 新增：公會貢獻/經驗
 string *write_paths;
 mapping aliases;
 mapping quests; // 🚀 新增：任務紀錄
@@ -141,6 +143,10 @@ string query_role() { return role; }
 void set_role(string r) { if (r == "god" || r == "wizard" || r == "user") role = r; }
 void set_guild(string g) { guild = g; }
 string query_guild() { return guild; }
+void set_guild_rank(string r) { guild_rank = r; }
+string query_guild_rank() { return guild_rank; }
+void add_guild_exp(int v) { guild_exp += v; }
+int query_guild_exp() { return guild_exp; }
 void set_nickname(string n) { set_name(n); }
 
 void set_nature(string n) { nature = n; }

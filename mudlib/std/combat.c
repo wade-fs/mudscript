@@ -64,6 +64,10 @@ void do_combat_round() {
     if (target->query_hp() <= 0) {
         write("你擊敗了 " + target->query_name() + "！\n");
         say(query_name() + " 擊敗了 " + target->query_name() + "！\n");
+        
+        // 🚀 PK 判定
+        load_object("/secure/pk_d.c")->check_kill_penalty(this_object(), target);
+
         stop_combat();
         target->die();
     }

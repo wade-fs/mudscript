@@ -43,6 +43,10 @@ int     in_combat;     // 是否正在戰鬥
 object  combat_target; // 當前戰鬥目標
 int     is_dead;
 
+// 🚀 新增：PK 系統
+int     pk_score;      // PK 分數 (正值代表殺害無辜次數)
+int     pk_timer;      // 紅名倒數計時 (Unix Time)
+
 void create() {
     ::create();
     name       = "無名氏";
@@ -281,6 +285,7 @@ void stop_combat() {
 }
 
 object query_combat_target() { return combat_target; }
+void set_combat_target(object ob) { combat_target = ob; if (ob) in_combat = 1; else in_combat = 0; }
 
 void attacked_by(object attacker) {
     if (is_dead) return;
@@ -304,6 +309,25 @@ int query_gold() { return gold; }
 
 void gain_potential(int v) { potential += v; }
 int query_potential() { return potential; }
+
+// ── PK 系統介面 ─────────────────────────────────────────────
+int query_pk_score() { return pk_score; }
+void add_pk_score(int v) { 
+    pk_score += v; 
+    if (pk_score < 0) pk_score = 0;
+    if (v > 0) pk_timer = time() + 3600; // 每殺一人紅名維持一小時
+}
+int is_red_name() { 
+    if (pk_score > 0) {
+        if (time() > pk_timer) {
+            // 這裡可以做緩慢下降逻辑，暫時簡單化：計時到就歸零
+            pk_score = 0;
+            return 0;
+        }
+        return 1;
+    }
+    return 0; 
+}
 
 // ── 技能管理介面 ──────────────────────────────────────────
 void set_skill(string s, int v) {

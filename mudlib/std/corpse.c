@@ -7,6 +7,8 @@
 inherit "/std/container.c";
 
 mapping harvest_data; // 🚀 新增：可採集物資
+string  team_owner;   // 🚀 新增：屍體歸屬 (團隊 ID)
+int     expire_time;  // 🚀 新增：歸屬過期時間
 
 void create() {
     ::create();
@@ -15,9 +17,11 @@ void create() {
     set_long("這是一具死後的屍體，看起來有些蒼白。\n");
     set_id(({"corpse", "corpse_id", "屍體", "死體"}));
     harvest_data = ([]);
+    team_owner = "";
+    expire_time = 0;
     
-    // 預設 10 秒後自動消失
-    call_out("destruct_me", 10);
+    // 預設 60 秒後自動消失 (留點時間給玩家撿寶)
+    call_out("destruct_me", 60);
 }
 
 // 設定是誰的屍體
@@ -29,6 +33,16 @@ void set_owner(string owner_name) {
 
 void set_harvest_data(mapping d) { harvest_data = d; }
 mapping query_harvest_data()     { return harvest_data; }
+
+void set_team_owner(string tid) { 
+    team_owner = tid; 
+    expire_time = time() + 30; // 歸屬保護 30 秒
+}
+
+string query_team_owner() { 
+    if (time() > expire_time) return ""; // 過期後任何人可撿
+    return team_owner; 
+}
 
 
 void destruct_me() {

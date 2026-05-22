@@ -64,7 +64,8 @@ void create() {
         "learn"    : "/cmds/cmd_learn.c",
         "practice" : "/cmds/cmd_practice.c",
         "skills"   : "/cmds/cmd_skills.c",
-        "perform"  : "/cmds/cmd_perform.c"
+        "perform"  : "/cmds/cmd_perform.c",
+        "guild"    : "/cmds/cmd_guild.c"
     ]);
 }
 
