@@ -132,6 +132,19 @@ void set_nickname(string n) { set_name(n); }
 void set_nature(string n) { nature = n; }
 string query_nature() { return nature; }
 
+// ── 任務系統介面 ─────────────────────────────────────────────
+mapping query_quests() { return quests; }
+void set_quest(string qid, mapping data) {
+    if (!quests) quests = ([]);
+    quests[qid] = data;
+}
+void update_quest_progress(string qid, string key, mixed val) {
+    if (!quests[qid]) return;
+    if (!quests[qid]["progress"]) quests[qid]["progress"] = ([]);
+    quests[qid]["progress"][key] = val;
+}
+mapping query_quest(string qid) { return quests[qid]; }
+
 string *query_write_paths() { return write_paths; }
 void add_write_path(string p) {
     if (member_array(p, write_paths) == -1) {

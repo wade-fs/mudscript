@@ -565,6 +565,11 @@ void on_death() {
         tell_object(combat_target,
             "你獲得了 " + gold_reward + " 枚金幣。\n");
         combat_target->gain_gold(gold_reward);
+
+        // 🚀 新增：任務進度通知
+        if (userp(combat_target)) {
+            load_object("/secure/quest_d.c")->check_kill_progress(combat_target, base_name(this_object()));
+        }
     }
 
     if (respawn_time > 0 && home_room != "") {

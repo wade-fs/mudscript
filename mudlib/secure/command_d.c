@@ -53,7 +53,8 @@ void create() {
         "grant"    : "/cmds/admin/cmd_grant.c",
         "revoke"   : "/cmds/admin/cmd_revoke.c",
         "shutdown" : "/cmds/admin/cmd_shutdown.c",
-        "tests"    : "/cmds/admin/cmd_tests.c"
+        "tests"    : "/cmds/admin/cmd_tests.c",
+        "quest"    : "/cmds/cmd_quest.c"
     ]);
 }
 

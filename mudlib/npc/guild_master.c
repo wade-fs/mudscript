@@ -92,6 +92,65 @@ void create() {
         "多加練習，你的技巧會越來越純熟的。",
         "雖然我主要教授戰鬥技巧，但其他領域的知識也同樣重要。"
     }));
-    add_response("map", "新手村由 8x8 的區域組成。我們現在在 (4,5)。中央廣場在正南方 (4,4)。");
     add_response("地圖", "新手村由 8x8 的區域組成。我們現在在 (4,5)。中央廣場在正南方 (4,4)。");
+
+    // 🚀 新增：任務互動
+    add_response(({ "quest", "任務" }), (: 
+        object tp = this_player();
+        if (tp->query_quest("newbie_badge")) {
+            if (tp->query_quest("newbie_badge")["status"] == "active") {
+                return "你已經在進行『新手證明』任務了，快去證明你的勇氣吧！";
+            } else {
+                return "你已經獲得了冒險者的認可。現在可以去[教官|go west]那裡看看有沒有什麼新兵任務。";
+            }
+        }
+        load_object("/secure/quest_d.c")->accept_quest(tp, "newbie_badge");
+        return "很好，有志氣！只要你大聲喊出『我有勇氣』，我就把這枚徽章送給你。";
+    :));
+
+    add_response(({ "report", "回報" }), (:
+        object tp = this_player();
+        object quest_d = load_object("/secure/quest_d.c");
+        
+        // 1. 檢查獵狼任務
+        mapping qwolf = tp->query_quest("wolf_hunter");
+        if (qwolf && qwolf["status"] == "active") {
+            mapping info = quest_d->query_quest_info("wolf_hunter");
+            if (qwolf["progress"]["count"] >= info["goal"]["count"]) {
+                quest_d->complete_quest(tp, "wolf_hunter");
+                return "做得好！那些討厭的野狼終於被制伏了。這是你的獎勵。";
+            } else {
+                return "野狼還在草原上出沒呢，快去完成任務吧！";
+            }
+        }
+        
+        return "你目前沒有什麼可以向我回報的。";
+    :));
+
+    // 2. 教官處提供獵狼任務
+    add_response(({ "hunt", "打獵", "獵狼" }), (:
+        object tp = this_player();
+        if (tp->query_quest("wolf_hunter")) return "你已經領過獵狼任務了。";
+        load_object("/secure/quest_d.c")->accept_quest(tp, "wolf_hunter");
+        return "很好，去消滅 3 隻飢餓的野狼，回來向我『回報』。";
+    :));
+
+    add_response(({ "wolf", "野狼" }), "最近東邊的草原野狼氾濫，如果你想練手，可以找我承接『獵狼』任務。");
 }
+
+// 攔截玩家大喊「我有勇氣」
+void catch_tell(string msg) {
+    ::catch_tell(msg);
+
+    object tp = this_player();
+    if (!tp || !userp(tp)) return;
+
+    if (strsrch(msg, "我有勇氣") != -1) {
+        mapping qdata = tp->query_quest("newbie_badge");
+        if (qdata && qdata["status"] == "active") {
+            load_object("/secure/quest_d.c")->complete_quest(tp, "newbie_badge");
+            say(query_name() + " 欣慰地點點頭，將一枚徽章遞給了 " + tp->query_name() + "。\n");
+        }
+    }
+}
+
