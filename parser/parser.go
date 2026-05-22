@@ -99,11 +99,7 @@ func New(l lexer.Lexer) *Parser {
 		token.FALSE:    p.parseBoolean,
 		token.LPAREN:   p.parseGroupedExpression,
 		token.IF:       p.parseIfExpression,
-		token.FUNCTION: p.parseFunctionLiteral,
 		token.STRING:   p.parseStringLiteral,
-		token.LBRACKET: p.parseArrayLiteral,
-		token.LBRACE:   p.parseHashLiteral,
-		token.MACRO:    p.parseMacroLiteral,
 		token.LARRAY:   p.parseLPCArrayLiteral,
 
 		token.LBRACKET_MAP: p.parseMappingLiteral,
@@ -216,33 +212,6 @@ func (p *Parser) ParseProgram() *ast.Program {
 	}
 
 	return program
-}
-
-func (p *Parser) parseLetStatement() *ast.LetStatement {
-	stmt := &ast.LetStatement{Token: p.curToken}
-
-	if !p.expectPeek(token.IDENT) {
-		return nil
-	}
-
-	stmt.Name = &ast.Ident{
-		Token: p.curToken,
-		Value: p.curToken.Literal,
-	}
-
-	if !p.expectPeek(token.ASSIGN) {
-		return nil
-	}
-
-	p.nextToken()
-
-	stmt.Value = p.parseExpression(LOWEST)
-
-	for p.peekTokenIs(token.SEMICOLON) {
-		p.nextToken()
-	}
-
-	return stmt
 }
 
 func (p *Parser) parseReturnStatement() *ast.ReturnStatement {
@@ -466,24 +435,6 @@ func (p *Parser) parseBlockStatement() *ast.BlockStatement {
 	return block
 }
 
-func (p *Parser) parseFunctionLiteral() ast.Expression {
-	lit := &ast.FunctionLiteral{Token: p.curToken}
-
-	if !p.expectPeek(token.LPAREN) {
-		return nil
-	}
-
-	lit.Parameters = p.parseFunctionParameters()
-
-	if !p.expectPeek(token.LBRACE) {
-		return nil
-	}
-
-	lit.Body = p.parseBlockStatement()
-
-	return lit
-}
-
 func (p *Parser) parseFunctionParameters() []*ast.Ident {
 	idents := []*ast.Ident{}
 
@@ -556,13 +507,6 @@ func (p *Parser) parseStringLiteral() ast.Expression {
 	}
 }
 
-func (p *Parser) parseArrayLiteral() ast.Expression {
-	return &ast.ArrayLiteral{
-		Token:    p.curToken,
-		Elements: p.parseExpressionList(token.RBRACKET),
-	}
-}
-
 func (p *Parser) parseIndexExpression(left ast.Expression) ast.Expression {
 	tok := p.curToken // '['
 
@@ -606,58 +550,6 @@ func (p *Parser) parseIndexExpression(left ast.Expression) ast.Expression {
 	}
 
 	return expr
-}
-
-func (p *Parser) parseHashLiteral() ast.Expression {
-	hash := &ast.HashLiteral{
-		Token: p.curToken,
-		Pairs: make(map[ast.Expression]ast.Expression),
-	}
-
-	for !p.peekTokenIs(token.RBRACE) {
-		p.nextToken()
-		key := p.parseExpression(LOWEST)
-
-		if !p.expectPeek(token.COLON) {
-			return nil
-		}
-
-		p.nextToken()
-		value := p.parseExpression(LOWEST)
-		hash.Pairs[key] = value
-
-		if !p.peekTokenIs(token.RBRACE) && !p.expectPeek(token.COMMA) {
-			return nil
-		}
-	}
-
-	if !p.expectPeek(token.RBRACE) {
-		return nil
-	}
-
-	return hash
-}
-
-func (p *Parser) parseMacroLiteral() ast.Expression {
-	tok := p.curToken
-
-	if !p.expectPeek(token.LPAREN) {
-		return nil
-	}
-
-	params := p.parseFunctionParameters()
-
-	if !p.expectPeek(token.LBRACE) {
-		return nil
-	}
-
-	body := p.parseBlockStatement()
-
-	return &ast.MacroLiteral{
-		Token:      tok,
-		Parameters: params,
-		Body:       body,
-	}
 }
 
 func (p *Parser) isTypeToken(t token.TokenType) bool {

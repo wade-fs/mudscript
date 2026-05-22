@@ -35,12 +35,6 @@ const (
 	BuiltinType = "Builtin"
 	// ArrayType represents a type of arrays.
 	ArrayType = "Array"
-	// HashType represents a type of hashes.
-	HashType = "Hash"
-	// QuoteType represents a type of quotes used for macros.
-	QuoteType = "Quote"
-	// MacroType represents a type of macros.
-	MacroType = "Macro"
 
 	////////////////////////////////////////////
 	// mudscript
@@ -211,20 +205,7 @@ func (f *Function) TokenType() TokenType {
 
 // Inspect returns a string representation of the Function.
 func (f *Function) Inspect() string {
-	var out bytes.Buffer
-
-	params := make([]string, 0, len(f.Parameters))
-	for _, p := range f.Parameters {
-		params = append(params, p.String())
-	}
-
-	out.WriteString("fn(")
-	out.WriteString(strings.Join(params, ", "))
-	out.WriteString(") {\n")
-	out.WriteString(f.Body.String())
-	out.WriteString("\n}")
-
-	return out.String()
+	return fmt.Sprintf("<function defined in %s>", f.OriginFile)
 }
 
 func (f *Function) HashKey() HashKey {
@@ -312,89 +293,16 @@ func (a *Array) Inspect() string {
 	}
 
 	var out bytes.Buffer
-	out.WriteString("[")
+	out.WriteString("({ ")
 	out.WriteString(strings.Join(elements, ", "))
-	out.WriteString("]")
+	out.WriteString(" })")
 	return out.String()
 }
 
-// HashPair represents a key-value pair in a hash.
+// HashPair represents a key-value pair in a mapping.
 type HashPair struct {
 	Key   Object
 	Value Object
-}
-
-// Hash represents a hash.
-type Hash struct {
-	Pairs map[HashKey]HashPair
-}
-
-// TokenType returns the type of the Hash.
-func (*Hash) TokenType() TokenType {
-	return HashType
-}
-
-// Inspect returns a string representation of the Hash.
-func (h *Hash) Inspect() string {
-	if h == nil {
-		return ""
-	}
-
-	pairs := make([]string, 0, len(h.Pairs))
-	for _, pair := range h.Pairs {
-		pairs = append(pairs, pair.Key.Inspect()+": "+pair.Value.Inspect())
-	}
-
-	var out bytes.Buffer
-	out.WriteString("{")
-	out.WriteString(strings.Join(pairs, ", "))
-	out.WriteString("}")
-	return out.String()
-}
-
-// Quote represents a quote, i.e. an unevaluated expression.
-type Quote struct {
-	ast.Node
-}
-
-// TokenType returns the type of `q`.
-func (q *Quote) TokenType() TokenType {
-	return QuoteType
-}
-
-// Inspect returns a string representation of `q`.
-func (q *Quote) Inspect() string {
-	return fmt.Sprintf("%s(%s)", QuoteType, q.Node.String())
-}
-
-// Macro represents a macro.
-type Macro struct {
-	Parameters []*ast.Ident
-	Body       *ast.BlockStatement
-	Env        Environment
-}
-
-// TokenType returns the type of `m`.
-func (m *Macro) TokenType() TokenType {
-	return MacroType
-}
-
-// Inspect returns a string representation of `m`.
-func (m *Macro) Inspect() string {
-	var out bytes.Buffer
-
-	params := make([]string, 0, len(m.Parameters))
-	for _, p := range m.Parameters {
-		params = append(params, p.String())
-	}
-
-	out.WriteString("macro(")
-	out.WriteString(strings.Join(params, ", "))
-	out.WriteString(") {\n")
-	out.WriteString(m.Body.String())
-	out.WriteString("\n}")
-
-	return out.String()
 }
 
 ////////////////////////////////////////////////

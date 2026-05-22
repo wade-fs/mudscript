@@ -13,11 +13,10 @@ import (
 
 const prompt = ">> "
 
-// Start starts Monkey REPL.
+// Start starts MudScript REPL.
 func Start(in io.Reader, out io.Writer) {
 	scanner := bufio.NewScanner(in)
 	env := object.NewEnvironment()
-	macroEnv := object.NewEnvironment()
 
 	for {
 		fmt.Print(prompt)
@@ -35,12 +34,8 @@ func Start(in io.Reader, out io.Writer) {
 			continue
 		}
 
-		// Process macros
-		evaluator.DefineMacros(program, macroEnv)
-		expanded := evaluator.ExpandMacros(program, macroEnv)
-
 		// Evaluate AST
-		evaluated := evaluator.Eval(expanded, env)
+		evaluated := evaluator.Eval(program, env)
 		if evaluated == nil {
 			continue
 		}

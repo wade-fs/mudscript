@@ -48,36 +48,6 @@ func (p *Program) String() string {
 	return out.String()
 }
 
-// LetStatement represents a let statement.
-type LetStatement struct {
-	Token token.Token // the token.LET token
-	Name  *Ident
-	Value Expression
-}
-
-func (ls *LetStatement) statementNode() {}
-
-// TokenLiteral returns a token literal of let statement.
-func (ls *LetStatement) TokenLiteral() string {
-	return ls.Token.Literal
-}
-
-func (ls *LetStatement) String() string {
-	var out bytes.Buffer
-
-	out.WriteString(ls.TokenLiteral() + " ")
-	out.WriteString(ls.Name.String())
-	out.WriteString(" = ")
-
-	if ls.Value != nil {
-		out.WriteString(ls.Value.String())
-	}
-
-	out.WriteString(";")
-
-	return out.String()
-}
-
 // Ident represents an identifier.
 type Ident struct {
 	Token token.Token // the token.IDENT token
@@ -301,41 +271,10 @@ func (bs *BlockStatement) String() string {
 	return out.String()
 }
 
-// FunctionLiteral represents a fuction literal.
-type FunctionLiteral struct {
-	Token      token.Token
-	Parameters []*Ident
-	Body       *BlockStatement
-}
-
-func (fl *FunctionLiteral) expressionNode() {}
-
-// TokenLiteral returns a token literal of function.
-func (fl *FunctionLiteral) TokenLiteral() string {
-	return fl.Token.Literal
-}
-
-func (fl *FunctionLiteral) String() string {
-	var out bytes.Buffer
-
-	params := make([]string, 0, len(fl.Parameters))
-	for _, p := range fl.Parameters {
-		params = append(params, p.String())
-	}
-
-	out.WriteString(fl.TokenLiteral())
-	out.WriteString("(")
-	out.WriteString(strings.Join(params, ", "))
-	out.WriteString(") ")
-	out.WriteString(fl.Body.String())
-
-	return out.String()
-}
-
 // CallExpression represents a function call expression.
 type CallExpression struct {
 	Token     token.Token // the '(' token
-	Function  Expression  // Ident or FunctionLiteral
+	Function  Expression  // Ident or ClosureLiteral
 	Arguments []Expression
 }
 
@@ -384,7 +323,7 @@ func (sl *StringLiteral) String() string {
 
 // ArrayLiteral represents an array literal.
 type ArrayLiteral struct {
-	Token    token.Token // the '[' token
+	Token    token.Token // the '({ ' token
 	Elements []Expression
 }
 
@@ -410,9 +349,9 @@ func (al *ArrayLiteral) String() string {
 
 	var out bytes.Buffer
 
-	out.WriteString("[")
+	out.WriteString("({ ")
 	out.WriteString(strings.Join(elements, ", "))
-	out.WriteString("]")
+	out.WriteString(" })")
 
 	return out.String()
 }
@@ -473,70 +412,6 @@ func (se *SliceExpression) String() string {
 		out.WriteString(se.EndIndex.String())
 	}
 	out.WriteString("])")
-	return out.String()
-}
-
-// HashLiteral represents a hash literal.
-type HashLiteral struct {
-	Token token.Token // the '{' token
-	Pairs map[Expression]Expression
-}
-
-func (*HashLiteral) expressionNode() {}
-
-// TokenLiteral returns a token literal of hash.
-func (hl *HashLiteral) TokenLiteral() string {
-	if hl == nil {
-		return ""
-	}
-	return hl.Token.Literal
-}
-
-func (hl *HashLiteral) String() string {
-	if hl == nil {
-		return ""
-	}
-
-	pairs := make([]string, len(hl.Pairs))
-	for key, value := range hl.Pairs {
-		pairs = append(pairs, key.String()+": "+value.String())
-	}
-
-	var out bytes.Buffer
-	out.WriteString("{")
-	out.WriteString(strings.Join(pairs, ", "))
-	out.WriteString("}")
-	return out.String()
-}
-
-// MacroLiteral represents a macro literal.
-type MacroLiteral struct {
-	Token      token.Token
-	Parameters []*Ident
-	Body       *BlockStatement
-}
-
-func (ml *MacroLiteral) expressionNode() {}
-
-// TokenLiteral returns a token literal of function.
-func (ml *MacroLiteral) TokenLiteral() string {
-	return ml.Token.Literal
-}
-
-func (ml *MacroLiteral) String() string {
-	var out bytes.Buffer
-
-	params := make([]string, 0, len(ml.Parameters))
-	for _, p := range ml.Parameters {
-		params = append(params, p.String())
-	}
-
-	out.WriteString(ml.TokenLiteral())
-	out.WriteString("(")
-	out.WriteString(strings.Join(params, ", "))
-	out.WriteString(") ")
-	out.WriteString(ml.Body.String())
-
 	return out.String()
 }
 

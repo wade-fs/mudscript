@@ -44,13 +44,6 @@ func Eval(node ast.Node, env object.Environment) object.Object {
 	case *ast.BlockStatement:
 		return evalBlockStatement(node, env)
 
-	case *ast.LetStatement:
-		value := Eval(node.Value, env)
-		if isError(value) {
-			return value
-		}
-		env.Set(node.Name.Value, value)
-
 	// Expressions
 
 	case *ast.IntegerLiteral:
@@ -88,13 +81,6 @@ func Eval(node ast.Node, env object.Environment) object.Object {
 
 	case *ast.Ident:
 		return evalIdent(node, env)
-
-	case *ast.FunctionLiteral:
-		return &object.Function{
-			Parameters: node.Parameters,
-			Body:	   node.Body,
-			Env:		env,
-		}
 
 	case *ast.CallExpression:
 		// 攔截 catch 錯誤捕捉
@@ -142,9 +128,6 @@ func Eval(node ast.Node, env object.Environment) object.Object {
 
 	case *ast.SliceExpression:
 		return evalSliceExpression(node, env)
-
-	case *ast.HashLiteral:
-		return evalHashLiteral(node, env)
 
 	// 處理強型別變數宣告 (int x = 10;)
 	case *ast.TypedVarDecl:
@@ -743,8 +726,6 @@ func evalIndexExpression(left, index object.Object) object.Object {
 	switch {
 	case left.TokenType() == object.ArrayType && index.TokenType() == object.IntegerType:
 		return evalArrayIndexExpression(left, index)
-	case left.TokenType() == object.HashType:
-		return evalHashIndexExpression(left, index)
 	case left.TokenType() == object.MAPPING_OBJ:
 		return evalMappingIndexExpression(left, index)
 	case left.TokenType() == object.StringType && index.TokenType() == object.IntegerType:
@@ -836,48 +817,6 @@ func evalArrayIndexExpression(array, index object.Object) object.Object {
 	}
 
 	return arrObj.Elements[idx]
-}
-
-func evalHashLiteral(node *ast.HashLiteral, env object.Environment) object.Object {
-	pairs := make(map[object.HashKey]object.HashPair, len(node.Pairs))
-
-	for keyNode, valueNode := range node.Pairs {
-		key := Eval(keyNode, env)
-		if isError(key) {
-			return key
-		}
-
-		hashKey, ok := key.(object.Hashable)
-		if !ok {
-			return newError("unusable as hash key: %s", key.TokenType())
-		}
-
-		value := Eval(valueNode, env)
-		if isError(value) {
-			return value
-		}
-
-		hashed := hashKey.HashKey()
-		pairs[hashed] = object.HashPair{
-			Key:   key,
-			Value: value,
-		}
-	}
-
-	return &object.Hash{Pairs: pairs}
-}
-
-func evalHashIndexExpression(left, index object.Object) object.Object {
-	key, ok := index.(object.Hashable)
-	if !ok {
-		return newError("unusable as hash key: %s", index.TokenType())
-	}
-
-	hashObj := left.(*object.Hash)
-	if pair, exists := hashObj.Pairs[key.HashKey()]; exists {
-		return pair.Value
-	}
-	return NilValue
 }
 
 /////////////////////////////////////////////////////

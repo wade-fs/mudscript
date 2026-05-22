@@ -32,25 +32,10 @@ func Modify(node Node, modifier ModifierFunc) Node {
 		}
 	case *ReturnStatement:
 		node.ReturnValue = Modify(node.ReturnValue, modifier).(Expression)
-	case *LetStatement:
-		node.Value = Modify(node.Value, modifier).(Expression)
-	case *FunctionLiteral:
-		for i, param := range node.Parameters {
-			node.Parameters[i] = Modify(param, modifier).(*Ident)
-		}
-		node.Body = Modify(node.Body, modifier).(*BlockStatement)
 	case *ArrayLiteral:
 		for i, elem := range node.Elements {
 			node.Elements[i] = Modify(elem, modifier).(Expression)
 		}
-	case *HashLiteral:
-		newPairs := make(map[Expression]Expression, len(node.Pairs))
-		for key, val := range node.Pairs {
-			newKey := Modify(key, modifier).(Expression)
-			newVal := Modify(val, modifier).(Expression)
-			newPairs[newKey] = newVal
-		}
-		node.Pairs = newPairs
 	}
 
 	return modifier(node)

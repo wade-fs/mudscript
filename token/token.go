@@ -76,10 +76,6 @@ const (
 	// Slice operator
 	DOTDOT       = ".."
 
-	// FUNCTION is a token type for functions.
-	FUNCTION = "FUNCTION"
-	// LET is a token type for lets.
-	LET = "LET"
 	// TRUE is a token type for true.
 	TRUE = "TRUE"
 	// FALSE is a token type for false.
@@ -90,8 +86,6 @@ const (
 	ELSE = "ELSE"
 	// RETURN is a token type for return.
 	RETURN = "RETURN"
-	// MACRO is a token type for macros.
-	MACRO = "MACRO"
 
 	/////////////////////////////////////////////////
 	// Mudscript
@@ -155,14 +149,11 @@ const (
 
 // Language keywords
 var keywords = map[string]TokenType{
-	"fn":     FUNCTION,
-	"let":    LET,
 	"true":   TRUE,
 	"false":  FALSE,
 	"if":     IF,
 	"else":   ELSE,
 	"return": RETURN,
-	"macro":  MACRO,
 
 	/////////////////////////////////////////////////
 	// Mudscript 加入 LPC 的關鍵字
