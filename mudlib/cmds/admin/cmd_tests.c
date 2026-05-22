@@ -14,7 +14,8 @@ int main(object me, string verb, string arg) {
     string *test_files = ({
         "/tests/test_syntax.c",
         "/tests/test_logic.c",
-        "/tests/test_security.c"
+        "/tests/test_security.c",
+        "/tests/test_language.c"
     });
 
     int total = 0;

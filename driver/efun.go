@@ -15,6 +15,7 @@ import (
 	"strings"
 	"time"
 
+	"mudscript/evaluator"
 	"mudscript/object"
 )
 
@@ -1103,6 +1104,215 @@ func (d *Driver) registerDataStructures(obj *object.LPCObject) {
 			return &object.Integer{Value: -1}
 		},
 	})
+
+	// 語法: mapping filter_mapping(mapping m, string|closure func, [mixed args...])
+	obj.Vars.Set("filter_mapping", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 2 { return object.NewError("filter_mapping 至少需要 2 個參數") }
+			m, ok := args[0].(*object.Mapping)
+			if !ok { return object.NewError("filter_mapping 第一個參數必須是 mapping") }
+			
+			fnArg := args[1]
+			var extraArgs []object.Object
+			if len(args) > 2 { extraArgs = args[2:] }
+
+			newPairs := make(map[object.HashKey]object.HashPair)
+			for hKey, pair := range m.Pairs {
+				callArgs := append([]object.Object{pair.Key, pair.Value}, extraArgs...)
+				res := d.executeCallback(obj, fnArg, callArgs)
+				if isLPCTrue(res) {
+					newPairs[hKey] = pair
+				}
+			}
+			return &object.Mapping{Pairs: newPairs}
+		},
+	})
+
+	// 語法: mapping map_mapping(mapping m, string|closure func, [mixed args...])
+	obj.Vars.Set("map_mapping", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 2 { return object.NewError("map_mapping 至少需要 2 個參數") }
+			m, ok := args[0].(*object.Mapping)
+			if !ok { return object.NewError("map_mapping 第一個參數必須是 mapping") }
+			
+			fnArg := args[1]
+			var extraArgs []object.Object
+			if len(args) > 2 { extraArgs = args[2:] }
+
+			newPairs := make(map[object.HashKey]object.HashPair)
+			for hKey, pair := range m.Pairs {
+				callArgs := append([]object.Object{pair.Key, pair.Value}, extraArgs...)
+				res := d.executeCallback(obj, fnArg, callArgs)
+				newPairs[hKey] = object.HashPair{Key: pair.Key, Value: res}
+			}
+			return &object.Mapping{Pairs: newPairs}
+		},
+	})
+
+	// 語法: mixed *filter_array(mixed *arr, string|closure func, [mixed args...])
+	obj.Vars.Set("filter_array", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 2 { return object.NewError("filter_array 至少需要 2 個參數") }
+			arr, ok := args[0].(*object.Array)
+			if !ok { return object.NewError("filter_array 第一個參數必須是 array") }
+			
+			fnArg := args[1]
+			var extraArgs []object.Object
+			if len(args) > 2 { extraArgs = args[2:] }
+
+			var newElems []object.Object
+			for _, el := range arr.Elements {
+				callArgs := append([]object.Object{el}, extraArgs...)
+				res := d.executeCallback(obj, fnArg, callArgs)
+				if isLPCTrue(res) {
+					newElems = append(newElems, el)
+				}
+			}
+			return &object.Array{Elements: newElems}
+		},
+	})
+
+	// 語法: mixed *map_array(mixed *arr, string|closure func, [mixed args...])
+	obj.Vars.Set("map_array", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 2 { return args[0] }
+			arr, ok := args[0].(*object.Array)
+			if !ok { return args[0] }
+			
+			fnArg := args[1]
+			var extraArgs []object.Object
+			if len(args) > 2 { extraArgs = args[2:] }
+
+			newElems := make([]object.Object, len(arr.Elements))
+			for i, el := range arr.Elements {
+				callArgs := append([]object.Object{el}, extraArgs...)
+				res := d.executeCallback(obj, fnArg, callArgs)
+				newElems[i] = res
+			}
+			return &object.Array{Elements: newElems}
+		},
+	})
+
+	// 語法: mixed filter(mixed coll, string|closure func, [mixed args...])
+	// 說明: 通用過濾函式，支援 Array 與 Mapping。
+	obj.Vars.Set("filter", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 2 { return args[0] }
+			if _, ok := args[0].(*object.Array); ok {
+				return obj.Vars.GetMust("filter_array").(*object.Builtin).Fn(args...)
+			}
+			if _, ok := args[0].(*object.Mapping); ok {
+				return obj.Vars.GetMust("filter_mapping").(*object.Builtin).Fn(args...)
+			}
+			return args[0]
+		},
+	})
+
+	// 語法: mixed map(mixed coll, string|closure func, [mixed args...])
+	// 說明: 通用映射函式，支援 Array 與 Mapping。
+	obj.Vars.Set("map", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 2 { return args[0] }
+			if _, ok := args[0].(*object.Array); ok {
+				return obj.Vars.GetMust("map_array").(*object.Builtin).Fn(args...)
+			}
+			if _, ok := args[0].(*object.Mapping); ok {
+				return obj.Vars.GetMust("map_mapping").(*object.Builtin).Fn(args...)
+			}
+			return args[0]
+		},
+	})
+
+	// 語法: mixed *unique_array(mixed *arr, string|closure func, [mixed args...])
+	// 說明: 根據 callback 回傳值將陣列分組。回傳一個二維陣列。
+	obj.Vars.Set("unique_array", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 2 { return args[0] }
+			arr, ok := args[0].(*object.Array)
+			if !ok { return args[0] }
+
+			fnArg := args[1]
+			var extraArgs []object.Object
+			if len(args) > 2 { extraArgs = args[2:] }
+
+			groups := make(map[string][]object.Object)
+			var keys []string
+
+			for _, el := range arr.Elements {
+				callArgs := append([]object.Object{el}, extraArgs...)
+				res := d.executeCallback(obj, fnArg, callArgs)
+				key := res.Inspect()
+				if _, exists := groups[key]; !exists {
+					keys = append(keys, key)
+				}
+				groups[key] = append(groups[key], el)
+			}
+
+			var result []object.Object
+			for _, k := range keys {
+				result = append(result, &object.Array{Elements: groups[k]})
+			}
+			return &object.Array{Elements: result}
+		},
+	})
+
+	// 語法: mixed *sort_array(mixed *arr, string|closure func, [mixed args...])
+	// 說明: 排序陣列。callback(a, b) 回傳 >0 代表 a > b, <0 代表 a < b, 0 代表相等。
+	obj.Vars.Set("sort_array", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 2 { return args[0] }
+			arr, ok := args[0].(*object.Array)
+			if !ok { return args[0] }
+
+			fnArg := args[1]
+			var extraArgs []object.Object
+			if len(args) > 2 { extraArgs = args[2:] }
+
+			// 複製陣列避免原地修改
+			newElems := make([]object.Object, len(arr.Elements))
+			copy(newElems, arr.Elements)
+
+			sort.Slice(newElems, func(i, j int) bool {
+				callArgs := append([]object.Object{newElems[i], newElems[j]}, extraArgs...)
+				res := d.executeCallback(obj, fnArg, callArgs)
+				if val, ok := res.(*object.Integer); ok {
+					return val.Value < 0 // 昇序排列：當 res < 0 時代表 i 應在 j 前面
+				}
+				return false
+			})
+
+			return &object.Array{Elements: newElems}
+		},
+	})
+}
+
+// executeCallback 支援傳入函式名稱 (string) 或 函式指標 (closure)
+func (d *Driver) executeCallback(obj *object.LPCObject, fnArg object.Object, args []object.Object) object.Object {
+	switch v := fnArg.(type) {
+	case *object.String:
+		return d.CallFunction(obj, v.Value, args)
+	case *object.Closure:
+		// 🚀 執行 Lambda
+		if v.Lambda != nil {
+			// 建立一個閉包環境，繼承自定義時的環境
+			lambdaEnv := object.NewEnclosedEnvironment(v.Env)
+			// 注入 $1, $2, $3...
+			for i, arg := range args {
+				lambdaEnv.Set(fmt.Sprintf("$%d", i+1), arg)
+			}
+			// 執行 Lambda 表達式
+			return evaluator.Eval(v.Lambda, lambdaEnv)
+		}
+
+		target := v.Target
+		if target == nil { target = obj }
+		// 合併綁定參數與傳入參數
+		callArgs := append([]object.Object{}, v.BoundArgs...)
+		callArgs = append(callArgs, args...)
+		return d.CallFunction(target, v.FuncName, callArgs)
+	default:
+		return object.NewError("callback 必須是字串或 closure")
+	}
 }
 
 // ==========================================

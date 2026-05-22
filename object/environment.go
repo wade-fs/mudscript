@@ -5,6 +5,7 @@ import "sync"
 // Environment associates values with variable names.
 type Environment interface {
 	Get(name string) (Object, bool)
+	GetMust(name string) Object // 🚀 新增：取得變數，若不存在則拋出 Panic
 	Set(name string, val Object) Object
 	Assign(name string, val Object) bool
 	GetAll() map[string]Object
@@ -32,6 +33,14 @@ func (e *environment) Get(name string) (Object, bool) {
 		obj, exists = e.outer.Get(name)
 	}
 	return obj, exists
+}
+
+func (e *environment) GetMust(name string) Object {
+	obj, ok := e.Get(name)
+	if !ok {
+		panic("系統錯誤：找不到必要的環境變數: " + name)
+	}
+	return obj
 }
 
 func (e *environment) Set(name string, val Object) Object {

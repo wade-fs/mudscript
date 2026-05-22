@@ -192,31 +192,57 @@ func Eval(node ast.Node, env object.Environment) object.Object {
 		// 5. 執行！
 		return builtin.Fn(finalArgs...)
 	case *ast.ClosureLiteral:
+		// 🚀 關鍵強化：區分 Lambda 與一般閉包
+		if len(node.Elements) == 1 {
+			elem := node.Elements[0]
+
+			// 如果是簡單的 Ident 或 String，可能是函式指標
+			isSimple := false
+			switch elem.(type) {
+			case *ast.Ident, *ast.StringLiteral:
+				isSimple = true
+			}
+
+			if isSimple {
+				val := Eval(elem, env)
+				if str, ok := val.(*object.String); ok {
+					return &object.Closure{FuncName: str.Value, BoundArgs: []object.Object{}}
+				}
+				// 若不是字串，則退回當作 Lambda
+			}
+
+			// 當作 Lambda 處理：不立即執行，存下 AST 與當前環境
+			return &object.Closure{
+				Lambda: elem,
+				Env:    env,
+			}
+		}
+
+		// 多個參數的情況：(: obj, "func", args... :) 或 (: "func", args... :)
 		elements := evalExpressions(node.Elements, env)
 		if len(elements) == 1 && isError(elements[0]) { return elements[0] }
 		if len(elements) == 0 { return newError("閉包不能為空") }
 
 		closure := &object.Closure{}
 
-		// 判斷第一項參數是什麼型別
 		if str, ok := elements[0].(*object.String); ok {
-			// 語法: (: "func_name", arg1, arg2 :)
-			closure.Target = nil // 延遲綁定為當前物件
+			closure.Target = nil
 			closure.FuncName = str.Value
 			closure.BoundArgs = elements[1:]
 		} else if target, ok := elements[0].(*object.LPCObject); ok {
-			// 語法: (: obj, "func_name", arg1, arg2 :)
 			if len(elements) < 2 { return newError("跨物件閉包必須提供函式名稱") }
 			str, ok := elements[1].(*object.String)
 			if !ok { return newError("跨物件閉包的第二個參數必須是字串 (函式名稱)") }
-			
 			closure.Target = target
 			closure.FuncName = str.Value
 			closure.BoundArgs = elements[2:]
 		} else {
+			// 如果第一個參數不是字串也不是物件，那它可能是一個被 eval 過的 Lambda 結果？
+			// 不對，我們上面已經攔截了 1 個元素的情況。這裡應該報錯。
 			return newError("不合法的閉包格式，第一個參數必須是字串或物件")
 		}
 		return closure
+
 	case *ast.ForEachStatement:
 		collection := Eval(node.Collection, env)
 		if isError(collection) { return collection }

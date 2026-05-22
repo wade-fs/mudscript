@@ -208,24 +208,30 @@
 - **範例**: `member_array("b", ({"a", "b", "c"})) -> 1`
 
 ### `filter()`
-- **語法**: `mixed *filter(mixed *arr, string func, [object target])`
-- **說明**: 遍歷陣列，將元素傳入指定的函式，若回傳為真 (非 0) 則保留該元素。
-- **範例**: `object *players = filter(users(), "is_admin", this_object());`
+- **語法**: `mixed filter(mixed coll, string|closure func, [mixed args...])`
+- **說明**: 通用過濾函式，支援 Array 與 Mapping。根據函式回傳值(真/假)決定是否保留元素。
+- **範例**: `filter(({1, 2, 3}), (: $1 > 1 :)) -> ({2, 3})`
+
+### `filter_array()` / `filter_mapping()`
+- **說明**: `filter()` 的特定型別版本。
 
 ### `map()`
-- **語法**: `mixed *map(mixed *arr, string func, [object target])`
-- **說明**: 遍歷陣列，將每個元素傳入指定的函式，並用回傳值取代原本的元素。
-- **範例**: `string *names = map(users(), "query_name");`
+- **語法**: `mixed map(mixed coll, string|closure func, [mixed args...])`
+- **說明**: 通用映射函式，支援 Array 與 Mapping。將每個元素傳入函式，並以其回傳值取代。
+- **範例**: `map(([ "a": 1 ]), (: $2 + 1 :)) -> ([ "a": 2 ])`
+
+### `map_array()` / `map_mapping()`
+- **說明**: `map()` 的特定型別版本。
 
 ### `sort_array()`
-- **語法**: `mixed *sort_array(mixed *arr, string func, [object target])`
-- **說明**: 使用自訂的比較函式對陣列進行排序。函式需接收兩個元素，並回傳 1, 0 或 -1。
-- **範例**: `sort_array(items, "compare_value", this_object());`
+- **語法**: `mixed *sort_array(mixed *arr, string|closure func, [mixed args...])`
+- **說明**: 使用自訂比較函式排序。callback(a, b) 回傳 < 0 代表 a 應排在 b 前面。
+- **範例**: `sort_array(({3, 1, 2}), (: $1 - $2 :)) -> ({1, 2, 3})`
 
 ### `unique_array()`
-- **語法**: `mixed *unique_array(mixed *arr)`
-- **說明**: 移除陣列中重複的元素，回傳一個只包含唯一元素的新陣列。
-- **範例**: `unique_array(({ 1, 2, 2, 3 })) -> ({ 1, 2, 3 })`
+- **語法**: `mixed *unique_array(mixed *arr, string|closure func, [mixed args...])`
+- **說明**: 根據 callback 的回傳值對陣列元素進行分組。回傳一個二維陣列。
+- **範例**: `unique_array(({1, 2, 3, 4}), (: $1 % 2 :)) -> ({ ({1, 3}), ({ 2, 4 }) })`
 
 ### `json_encode()`
 - **語法**: `string json_encode(mixed data)`
@@ -316,6 +322,16 @@
 - **語法**: `int file_size(string file)`
 - **說明**: 取得檔案大小。若不存在回傳 -1，若為目錄回傳 -2。
 - **範例**: `if (file_size("/data/user/wade.o") > 0) { ... }`
+
+### `getenv()`
+- **語法**: `string getenv(string var)`
+- **說明**: 取得作業系統環境變數。
+- **範例**: `if (getenv("MUD_TEST_MODE")) { ... }`
+
+### `shutdown()`
+- **語法**: `void shutdown([int exit_code])`
+- **說明**: 關閉 MUD 伺服器並結束進程。可選傳入結束代碼 (預設 0)。
+- **範例**: `shutdown(1);`
 
 ## 10. 持久化 (Persistence)
 
