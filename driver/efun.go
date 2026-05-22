@@ -1115,7 +1115,7 @@ func (d *Driver) registerStringEfuns(obj *object.LPCObject) {
 	//       - 支援萬用字元，例如 "/cmds/*.c"
 	//       - 若為目錄，回傳的名稱結尾會帶有 "/" 方便判斷
 	//       - recursive = 1 時，會遞迴往下掃描所有子目錄 (此模式下不支援萬用字元，需傳入明確目錄)
-	// 範例: 
+	// 範例:
 	//   get_dir("/cmds/")          -> ({ "cmd_info.c", "cmd_look.c", "login.c", ... })
 	//   get_dir("/data/user/*.o")  -> ({ "wade.o", "admin.o" })
 	//   get_dir("/cmds/", 1)       -> ({ "cmd_info.c", "admin/cmd_shutdown.c", ... })
@@ -1127,6 +1127,15 @@ func (d *Driver) registerStringEfuns(obj *object.LPCObject) {
 			pathArg, ok := args[0].(*object.String)
 			if !ok {
 				return object.NewError("get_dir 的第一個參數必須是字串")
+			}
+
+			// 🚀 權限檢查
+			allowed, errMsg := d.checkReadPermission(obj, pathArg.Value, "get_dir")
+			if !allowed {
+				if p := d.GetCurrentPlayer(); p != nil {
+					p.Send(fmt.Sprintf("\r\n⚠️ 系統安全攔截：%s\r\n", errMsg))
+				}
+				return &object.Array{Elements: []object.Object{}}
 			}
 
 			recursive := false
@@ -1446,6 +1455,50 @@ func (d *Driver) registerStringEfuns(obj *object.LPCObject) {
 	})
 }
 
+// checkReadPermission 呼叫 LPC 的 valid_read 來判定權限
+func (d *Driver) checkReadPermission(caller *object.LPCObject, path string, efunName string) (bool, string) {
+	cleanPath := filepath.Clean(path)
+	cleanPath = filepath.ToSlash(cleanPath)
+	if !strings.HasPrefix(cleanPath, "/") {
+		cleanPath = "/" + cleanPath
+	}
+
+	validOb, err := d.LoadObject("/secure/valid.c")
+	if err != nil {
+		return true, "" // 若沒寫 valid.c 則預設允許
+	}
+
+	player := d.GetCurrentPlayer()
+	var userObj object.Object = &object.Nil{}
+	if player != nil && player.Object != nil {
+		userObj = player.Object
+	} else if caller != nil {
+		// 🚀 關鍵強化：偵測是否為具有 Role 的使用者物件 (即使非互動連線)
+		if caller.Vars != nil {
+			if r, ok := caller.Vars.Get("role"); ok && r.TokenType() != object.NilType {
+				userObj = caller
+			} else if caller.IsInteractive {
+				userObj = caller
+			}
+		}
+	}
+
+	res := d.CallFunction(validOb, "valid_read", []object.Object{
+		&object.String{Value: cleanPath},
+		userObj,
+		&object.String{Value: efunName},
+	})
+
+	switch v := res.(type) {
+	case *object.Integer:
+		return v.Value != 0, "權限拒絕：無法讀取該路徑。"
+	case *object.String:
+		return false, v.Value
+	default:
+		return true, ""
+	}
+}
+
 // checkWritePermission 呼叫 LPC 的 valid_write 來判定權限
 // 回傳值: (是否允許寫入 bool, 錯誤訊息 string)
 func (d *Driver) checkWritePermission(caller *object.LPCObject, path string, efunName string) (bool, string) {
@@ -1466,9 +1519,15 @@ func (d *Driver) checkWritePermission(caller *object.LPCObject, path string, efu
 	var userObj object.Object = &object.Nil{}
 	if player != nil && player.Object != nil {
 		userObj = player.Object
-	} else if caller != nil && caller.IsInteractive {
-		// 🚀 關鍵修正：若無當前玩家上下文，但呼叫者本身是互動玩家 (如死掉的玩家)，則使用呼叫者身分
-		userObj = caller
+	} else if caller != nil {
+		// 🚀 關鍵強化：偵測是否為具有 Role 的使用者物件 (即使非互動連線)
+		if caller.Vars != nil {
+			if r, ok := caller.Vars.Get("role"); ok && r.TokenType() != object.NilType {
+				userObj = caller
+			} else if caller.IsInteractive {
+				userObj = caller
+			}
+		}
 	}
 
 	// 3. 呼叫 LPC
@@ -1645,6 +1704,15 @@ func (d *Driver) registerSystemAndFiles(obj *object.LPCObject) {
 			if len(args) < 1 { return &object.Nil{} }
 			fileName, ok := args[0].(*object.String)
 			if !ok { return object.NewError("read_file 需要字串參數") }
+
+			// 🚀 權限檢查
+			allowed, errMsg := d.checkReadPermission(obj, fileName.Value, "read_file")
+			if !allowed {
+				if p := d.GetCurrentPlayer(); p != nil {
+					p.Send(fmt.Sprintf("\r\n⚠️ 系統安全攔截：%s\r\n", errMsg))
+				}
+				return &object.Nil{}
+			}
 
 			content, err := d.ReadFile(fileName.Value)
 			if err != nil { return &object.Nil{} }
