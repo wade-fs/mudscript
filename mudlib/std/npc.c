@@ -431,6 +431,15 @@ void heart_beat() {
 void do_attack() {
     if (!combat_target || is_dead) { return; }
 
+    // 🚀 新增：攻擊時損耗武器耐久度 (1% 機率損耗 1 點)
+    if (equip_weapon && random(100) < 1) {
+        equip_weapon->damage_durability(1);
+        if (equip_weapon->query_durability() <= 0) {
+            tell_object(this_object(), HIW("你的 " + equip_weapon->query_name() + " 損壞了！\n"));
+            recalc_stats(); // 重新計算屬性
+        }
+    }
+
     // 特殊攻擊判定
     if (special_atk != "" && random(100) < special_atk_chance) {
         do_special_attack();
@@ -495,6 +504,19 @@ void do_special_attack() {
 void attacked_by(object attacker) {
     if (is_dead) { return; }
     
+    // 🚀 新增：被攻擊時隨機損耗一件防具耐久度 (1% 機率)
+    if (random(100) < 1) {
+        mixed slots = ({ SLOT_HEAD, SLOT_BODY, SLOT_LEGS, SLOT_HANDS, SLOT_FEET, SLOT_SHIELD });
+        object armour = query_equip(slots[random(sizeof(slots))]);
+        if (armour) {
+            armour->damage_durability(1);
+            if (armour->query_durability() <= 0) {
+                tell_object(this_object(), HIW("你的 " + armour->query_name() + " 損壞了！\n"));
+                recalc_stats();
+            }
+        }
+    }
+
     // 🚀 記住最後一個攻擊者
     if (userp(attacker)) {
         last_attacker = attacker;

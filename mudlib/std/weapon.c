@@ -44,7 +44,12 @@ void set_ammo_type(int v)       { ammo_type      = v; }
 void set_magic_level(int v)     { magic_level    = v; }
 void set_element(string e)      { element        = e; }
 
-int    query_attack()          { return attack_bonus; }
+int    query_attack() { 
+    if (query_max_durability() > 0 && query_durability() <= 0) {
+        return 0; // 武器損壞，沒有加成
+    }
+    return attack_bonus; 
+}
 string query_slot()            { return SLOT_WEAPON; }
 string query_weapon_type()     { return weapon_type; }
 int    query_two_handed()      { return two_handed; }
