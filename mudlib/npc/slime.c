@@ -19,6 +19,10 @@ void create() {
     set_exp_reward(30);
     set_gold_reward(5);
     set_drop_list(({"/item/consumable/health_potion.c"}));
+    set_harvest_data(([
+        "file": "/item/material/slime_jelly.c",
+        "chance": 90
+    ]));
     set_respawn(30);
     set_aggro_msg("史萊姆發出「咕嚕咕嚕」的聲音，彈向你！\n");
 }

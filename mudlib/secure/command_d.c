@@ -54,7 +54,9 @@ void create() {
         "revoke"   : "/cmds/admin/cmd_revoke.c",
         "shutdown" : "/cmds/admin/cmd_shutdown.c",
         "tests"    : "/cmds/admin/cmd_tests.c",
-        "quest"    : "/cmds/cmd_quest.c"
+        "quest"    : "/cmds/cmd_quest.c",
+        "gather"   : "/cmds/cmd_gather.c",
+        "collect"  : "/cmds/cmd_gather.c"
     ]);
 }
 

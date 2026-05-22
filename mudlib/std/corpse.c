@@ -6,12 +6,15 @@
 
 inherit "/std/container.c";
 
+mapping harvest_data; // 🚀 新增：可採集物資
+
 void create() {
     ::create();
     set_name("無名屍體");
     set_short("一具無名屍體");
     set_long("這是一具死後的屍體，看起來有些蒼白。\n");
     set_id(({"corpse", "corpse_id", "屍體", "死體"}));
+    harvest_data = ([]);
     
     // 預設 10 秒後自動消失
     call_out("destruct_me", 10);
@@ -23,6 +26,9 @@ void set_owner(string owner_name) {
     set_short(owner_name + " 的" + RED("死體"));
     set_long("這是一具 " + owner_name + " 的屍體，隨著時間流逝正在漸漸變冷。\n");
 }
+
+void set_harvest_data(mapping d) { harvest_data = d; }
+mapping query_harvest_data()     { return harvest_data; }
 
 
 void destruct_me() {

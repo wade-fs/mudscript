@@ -25,5 +25,9 @@ void create() {
     set_exp_reward(55);
     set_gold_reward(8);
     set_drop_list(({"/item/consumable/health_potion.c"}));
+    set_harvest_data(([
+        "file": "/item/material/snake_venom.c",
+        "chance": 70
+    ]));
     set_respawn(45);
 }

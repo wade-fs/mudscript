@@ -8,6 +8,7 @@ inherit "/std/living.c";
 int     exp_reward;    // 擊殺後給予的經驗值
 int     gold_reward;   // 掉落金幣數量
 mixed   drop_list;     // 掉落物清單：({"/path/item.c", ...})
+mapping harvest_data;  // 🚀 新增：可採集的物資 ([ "file": "...", "msg": "...", "chance": 100 ])
 int     respawn_time;  // 重生時間（秒），0 = 不重生
 string  aggro_msg;     // 主動攻擊時的訊息
 
@@ -52,6 +53,7 @@ void create() {
     exp_reward  = 50;
     gold_reward = 10;
     drop_list   = ({});
+    harvest_data = ([]);
     respawn_time= 0;
     aggro_msg   = "";
 
@@ -95,6 +97,7 @@ void init() {
 void set_exp_reward(int v)         { exp_reward        = v; }
 void set_gold_reward(int v)        { gold_reward       = v; }
 void set_drop_list(mixed l)        { drop_list         = l; }
+void set_harvest_data(mapping d)   { harvest_data      = d; }
 void set_respawn(int v)            { respawn_time      = v; }
 void set_aggro_msg(string s)       { aggro_msg         = s; }
 void set_habitat(string h)         { habitat           = h; }
@@ -548,6 +551,10 @@ void on_death() {
     object corpse = clone_object("/std/corpse.c");
     if (corpse) {
         corpse->set_owner(query_name());
+        // 🚀 新增：轉移採集資料
+        if (mapp(harvest_data)) {
+            corpse->set_harvest_data(harvest_data);
+        }
         move_object(corpse, environment(this_object()));
 
         // 將遺物移入屍體

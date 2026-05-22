@@ -26,6 +26,37 @@ void create() {
                 "exp": 500,
                 "gold": 200
             ])
+        ]),
+        "collect_fur": ([
+            "name": "毛皮需求",
+            "desc": "收集 3 張狼皮交給防具店老闆。",
+            "level": 3,
+            "goal": ([ "type": "item", "target": "狼皮", "count": 3 ]),
+            "reward": ([
+                "exp": 300,
+                "gold": 150,
+                "item": "/item/armour/leather_belt.c"
+            ])
+        ]),
+        "slime_medicine": ([
+            "name": "藥劑材料",
+            "desc": "收集 5 團史萊姆黏液交給藥劑師。",
+            "level": 1,
+            "goal": ([ "type": "item", "target": "史萊姆黏液", "count": 5 ]),
+            "reward": ([
+                "exp": 200,
+                "gold": 80
+            ])
+        ]),
+        "crab_armour": ([
+            "name": "加固甲殼",
+            "desc": "收集 2 塊螃蟹殼交給鐵匠。",
+            "level": 2,
+            "goal": ([ "type": "item", "target": "螃蟹殼", "count": 2 ]),
+            "reward": ([
+                "exp": 250,
+                "gold": 100
+            ])
         ])
     ]);
 }
@@ -66,6 +97,29 @@ int complete_quest(object me, string qid) {
 
     mapping info = query_quest_info(qid);
     
+    // 🚀 如果是蒐集任務，檢查並扣除物品
+    if (info["goal"] && info["goal"]["type"] == "item") {
+        string target_name = info["goal"]["target"];
+        int req_count = info["goal"]["count"];
+        
+        object *inv = all_inventory(me);
+        object *found = ({});
+        foreach (object ob in inv) {
+            if (ob->query_name() == target_name) found += ({ ob });
+        }
+        
+        if (sizeof(found) < req_count) {
+            write("你身上的 " + target_name + " 數量不足 (" + sizeof(found) + "/" + req_count + ")。\n");
+            return 0;
+        }
+        
+        // 扣除物品
+        for (int i = 0; i < req_count; i++) {
+            destruct(found[i]);
+        }
+        write("你交出了 " + req_count + " 個 " + target_name + "。\n");
+    }
+
     // 給予獎勵
     mapping reward = info["reward"];
     if (reward["exp"]) me->gain_exp(reward["exp"]);
@@ -75,6 +129,13 @@ int complete_quest(object me, string qid) {
         if (badge) {
             write("你獲得了 " + badge->query_short() + "！\n");
             move_object(badge, me);
+        }
+    }
+    if (reward["item"]) {
+        object ob = clone_object(reward["item"]);
+        if (ob) {
+            write("你獲得了獎勵物品：" + ob->query_short() + "！\n");
+            if (!move_object(ob, me)) move_object(ob, environment(me));
         }
     }
 

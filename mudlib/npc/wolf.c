@@ -19,6 +19,10 @@ void create() {
     set_exp_reward(90);
     set_gold_reward(15);
     set_drop_list(({"/item/weapon/short_sword.c"}));
+    set_harvest_data(([
+        "file": "/item/material/wolf_fur.c",
+        "chance": 80
+    ]));
     set_respawn(60);
     set_aggro_msg("野狼嗥叫一聲，露出鋒利的牙齒！\n");
 }
