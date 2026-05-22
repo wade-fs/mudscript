@@ -1775,7 +1775,11 @@ func (d *Driver) registerSystemAndFiles(obj *object.LPCObject) {
 	obj.Vars.Set("shutdown", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
 			fmt.Println("🛑 收到關閉指令，伺服器準備關閉...")
-			os.Exit(0)
+			// 延遲一秒讓廣播訊息與最後的 write 有時間送達客戶端
+			go func() {
+				time.Sleep(1 * time.Second)
+				os.Exit(0)
+			}()
 			return &object.Nil{}
 		},
 	})

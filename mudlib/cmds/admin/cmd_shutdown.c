@@ -3,7 +3,7 @@
 
 #include "/include/ansi.h"
 
-int main(object me, string arg) {
+int main(object me, string verb, string arg) {
     if (me->query_role() != "god") {
         write("只有管理員可以使用此指令。\n");
         return 1;
