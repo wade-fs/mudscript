@@ -12,6 +12,7 @@ string id, password, role;
 string nature;
 string *write_paths;
 mapping aliases;
+mapping quests; // 🚀 新增：任務紀錄
 string *saved_inventory = ({ });
 string last_location;
 
@@ -38,11 +39,13 @@ void init_aliases() {
 
 void create() {
     ::create();
+    if (!quests) quests = ([]);
     init_aliases();
 }
 
 // ── 登入初始化 ───────────────────────────────────────────
 void setup() {
+    if (!quests) quests = ([]);
     init_aliases();
     set_heart_beat(1);
     enable_commands();
