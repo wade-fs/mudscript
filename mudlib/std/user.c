@@ -10,6 +10,7 @@ inherit "/std/combat.c";
 // ── 屬性宣告 ────────────────────────────────────────────
 string id, password, role;
 string nature;
+string guild; // 🚀 新增：職業/公會
 string *write_paths;
 mapping aliases;
 mapping quests; // 🚀 新增：任務紀錄
@@ -138,6 +139,8 @@ void set_password(string p) { password = p; }
 string get_password() { return password; }
 string query_role() { return role; }
 void set_role(string r) { if (r == "god" || r == "wizard" || r == "user") role = r; }
+void set_guild(string g) { guild = g; }
+string query_guild() { return guild; }
 void set_nickname(string n) { set_name(n); }
 
 void set_nature(string n) { nature = n; }

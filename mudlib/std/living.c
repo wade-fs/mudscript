@@ -280,6 +280,8 @@ void stop_combat() {
     combat_target = 0;
 }
 
+object query_combat_target() { return combat_target; }
+
 void attacked_by(object attacker) {
     if (is_dead) return;
     

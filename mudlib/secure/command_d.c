@@ -63,7 +63,8 @@ void create() {
         "craft"    : "/cmds/cmd_mix.c",
         "learn"    : "/cmds/cmd_learn.c",
         "practice" : "/cmds/cmd_practice.c",
-        "skills"   : "/cmds/cmd_skills.c"
+        "skills"   : "/cmds/cmd_skills.c",
+        "perform"  : "/cmds/cmd_perform.c"
     ]);
 }
 
