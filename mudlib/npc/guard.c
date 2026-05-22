@@ -14,4 +14,9 @@ void create() {
     set_stat(STAT_CON, 22);
     recalc_stats();
     hp = max_hp;
+
+    // 🚀 新增：重生與走動
+    set_respawn(30);      // 30秒重生 (守衛補位要快)
+    set_wander_chance(5); // 5% 機率走動
+    set_move_range(5);    // 守衛巡邏範圍較大
 }

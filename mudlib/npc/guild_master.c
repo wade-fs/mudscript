@@ -14,7 +14,8 @@ void create() {
     set_stat(STAT_CON, 25);
     recalc_stats();
 	set_move_range(2);
-	set_wander_chance(50);
+	set_wander_chance(2); // 調低機率，免得老是不在公會
+	set_respawn(60);
 	set_behaviour(BEHAV_PASSIVE|BEHAV_WANDER);
 	set_flee_hp_pct(15);
 	set_flee_chance(80);

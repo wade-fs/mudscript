@@ -1,0 +1,32 @@
+#include "/include/config.h"
+#include "/include/ansi.h"
+inherit "/std/npc.c";
+
+void create() {
+    ::create();
+    set_name("教官 凱爾");
+    set_short(HIC("經驗豐富的訓練教官") + " 凱爾");
+    set_long("凱爾曾是一名王國衛隊的隊長，退休後回到新手村擔任教官。\n他身材魁梧，眼神銳利，身上佈滿了戰鬥留下的傷疤。\n");
+    set_id(({"kyle", "trainer", "instructor", "教官"}));
+    set_race("human");
+    set_level(25);
+    set_stat(STAT_STR, 28);
+    set_stat(STAT_DEX, 25);
+    recalc_stats();
+    hp = max_hp;
+
+    // 🚀 重生與走動
+    set_respawn(60);
+    set_wander_chance(1); // 教官很嚴肅，很少走動
+    set_move_range(1);
+
+    add_response(({ "戰鬥", "fight", "combat" }), ({
+        "戰鬥不是兒戲，隨時保持警惕！",
+        "力量與速度的結合才是取勝的關鍵。",
+        "如果你想變強，就去外面找些怪物練練手吧。"
+    }));
+    add_response(({ "練習", "train", "practice" }), ({
+        "去攻擊那邊的木人，我看你的姿勢正不正確。",
+        "勤奮的練習是不會背叛你的。"
+    }));
+}

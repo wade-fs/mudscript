@@ -14,8 +14,7 @@ void create() {
     add_exit("east",  "/area/newbie/room_5_4.c");
 
     // 廣場守衛
-    object ob = clone_object("/npc/guard.c");
-    if (ob) move_object(ob, this_object());
+    spawn_npc("/npc/guard.c");
 
     // 廣場上的野生風精靈（白天出現，被動）
     object sprite = clone_object("/npc/creature/wind_sprite.c");

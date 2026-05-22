@@ -11,6 +11,6 @@ void create() {
     add_exit("east", "/area/newbie/room_4_4.c");
     add_exit("west", "/area/newbie/room_2_4.c");
     
-    object ob = clone_object("/npc/blacksmith.c");
-    if (ob) move_object(ob, this_object());
+    // 產生老闆
+    spawn_npc("/npc/blacksmith.c");
 }

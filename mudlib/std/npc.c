@@ -545,15 +545,14 @@ void on_death() {
         combat_target->gain_gold(gold_reward);
     }
 
-    if (respawn_time > 0) {
-        call_out("respawn", respawn_time);
+    if (respawn_time > 0 && home_room != "") {
+        object home = find_object(home_room);
+        if (!home) home = load_object(home_room);
+        
+        if (home) {
+            home->call_out("spawn_npc", respawn_time, base_name(this_object()));
+        }
     }
 
     destruct(this_object());
-}
-
-
-// ── 重生 ─────────────────────────────────────────────────────────
-void respawn() {
-    // TODO
 }

@@ -15,6 +15,11 @@ void create() {
     recalc_stats();
     hp = max_hp;
 
+    // 🚀 新增：重生與走動
+    set_respawn(60);      // 60秒重生
+    set_wander_chance(5); // 5% 機率走動
+    set_move_range(3);    // 最多離家 3 格
+
     add_response(({ "武器", "weapon" }), ({
         "想要好武器？你找對人了！",
         "我打造的劍可以輕易劈開史萊姆的皮。",

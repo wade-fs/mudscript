@@ -4,17 +4,15 @@ inherit "/std/room.c";
 
 void create() {
     ::create();
-    set_short("低窪水塘旁");
-    set_long("平民區一角有個低窪的小水塘，雨水長期積存讓這裡泥濘不堪。水塘邊的蘆葦叢中不時傳出嘶嘶聲——那裡不太安全。\n");
+    set_short(HIC("新兵訓練場"));
+    set_long("這是一塊平整的空地，地面被踩得很實。四周擺放著一些木質的人偶和練習用的木劍。\n訓練教官正在這裡指導新兵們如何進行基礎的戰鬥。\n");
+    set_no_combat(1);
     set_coordinate(1, 1, 0);
     add_exit("east",  "/area/newbie/room_2_1.c");
     add_exit("west",  "/area/newbie/room_0_1.c");
     add_exit("north", "/area/newbie/room_1_2.c");
     add_exit("south", "/area/newbie/room_1_0.c");
 
-    object snake = clone_object("/npc/creature/water_snake.c");
-    if (snake) move_object(snake, this_object());
-
-    object crab = clone_object("/npc/creature/mud_crab.c");
-    if (crab) move_object(crab, this_object());
+    // 產生老闆
+    spawn_npc("/npc/trainer.c");
 }

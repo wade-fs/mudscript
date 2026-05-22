@@ -15,6 +15,11 @@ void create() {
     recalc_stats();
     hp = max_hp;
 
+    // 🚀 新增：重生與走動
+    set_respawn(60);      // 60秒重生
+    set_wander_chance(3); // 3% 機率走動
+    set_move_range(2);    // 最多離家 2 格
+
     add_response(({ "藥水", "potion", "藥劑" }), ({
         "如果你需要治療，我的藥水是全村最好的。",
         "調配藥劑需要極大的耐心與專注。",
