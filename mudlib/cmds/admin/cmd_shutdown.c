@@ -1,0 +1,24 @@
+// /cmds/admin/cmd_shutdown.c
+// 關閉伺服器指令
+
+#include "/include/ansi.h"
+
+int main(object me, string arg) {
+    if (me->query_role() != "god") {
+        write("只有管理員可以使用此指令。\n");
+        return 1;
+    }
+
+    write(HIR("🛑 正在關閉伺服器...\n"));
+    shout(HIW("系統管理員關閉了伺服器。\n"));
+    
+    // 呼叫 Driver 的 shutdown efun
+    shutdown();
+
+    return 1;
+}
+
+string help() {
+    return "【管理指令】\n" +
+           "  shutdown    關閉 MUD 伺服器進程\n";
+}

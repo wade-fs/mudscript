@@ -1768,6 +1768,17 @@ func (d *Driver) registerSystemAndFiles(obj *object.LPCObject) {
 			return &object.Integer{Value: 0}
 		},
 	})
+
+	// 語法: void shutdown()
+	// 說明: 關閉 MUD 伺服器並結束進程。
+	// 範例: shutdown();
+	obj.Vars.Set("shutdown", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			fmt.Println("🛑 收到關閉指令，伺服器準備關閉...")
+			os.Exit(0)
+			return &object.Nil{}
+		},
+	})
 }
 
 // ==========================================

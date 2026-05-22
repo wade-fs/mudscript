@@ -51,7 +51,8 @@ void create() {
         "promote"  : "/cmds/admin/cmd_promote.c",
         "demote"   : "/cmds/admin/cmd_demote.c",
         "grant"    : "/cmds/admin/cmd_grant.c",
-        "revoke"   : "/cmds/admin/cmd_revoke.c"
+        "revoke"   : "/cmds/admin/cmd_revoke.c",
+        "shutdown" : "/cmds/admin/cmd_shutdown.c"
     ]);
 }
 
