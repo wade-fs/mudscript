@@ -42,3 +42,15 @@ jobs:
       with:
         name: mudscript-binaries
         path: bin/
+
+    - name: Create Release
+      if: startsWith(github.ref, 'refs/tags/v')
+      uses: softprops/action-gh-release@v2
+      with:
+        files: |
+          bin/fsmud
+          bin/fsmud.exe
+        draft: false
+        prerelease: false
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
