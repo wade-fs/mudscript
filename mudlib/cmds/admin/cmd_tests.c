@@ -34,7 +34,7 @@ int main(object me, string verb, string arg) {
         destruct(test_ob);
     }
 
-    write("\n" + BOLD_WHT("==========================================") + "\n");
+    write(BOLD_WHT("==========================================") + "\n");
     if (passed == total) {
         write(BOLD_GRN("✨ 恭喜！所有核心測試全部通過！(" + passed + "/" + total + ")") + "\n");
     } else {
@@ -42,7 +42,7 @@ int main(object me, string verb, string arg) {
     }
     write(BOLD_WHT("==========================================") + "\n");
 
-    return 1;
+    return total - passed; // 回傳失敗次數
 }
 
 string help() {

@@ -34,9 +34,11 @@ MudScript is a high-performance MUD engine that combines a Go-based driver with 
 
 ## 🛠️ Development Workflows
 
-### Build Commands
-- **Linux**: `make fsmud` (binary in `bin/fsmud`)
-- **Windows**: `make fsmud.exe` (binary in `bin/fsmud.exe`)
+### Build & Test Commands
+- **Build Linux**: `make fsmud` (binary in `bin/fsmud`)
+- **Build Windows**: `make fsmud.exe` (binary in `bin/fsmud.exe`)
+- **Run Tests**: `make test` (Runs automated LPC core verification)
+- **Start Server**: `make run` (Starts the server in normal mode)
 - **Cleanup**: `make clean`
 
 ### Scripting Conventions

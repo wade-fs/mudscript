@@ -33,6 +33,11 @@ jobs:
     - name: Tidy Go Modules
       run: go mod tidy
 
+    - name: Run MudScript Core Tests
+      run: |
+        go build -o bin/fsmud ./cmd/fsmud
+        MUD_TEST_MODE=1 ./bin/fsmud
+
     - name: Build Linux Version
       run: |
         mkdir -p bin

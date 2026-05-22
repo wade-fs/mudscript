@@ -1769,18 +1769,37 @@ func (d *Driver) registerSystemAndFiles(obj *object.LPCObject) {
 		},
 	})
 
-	// 語法: void shutdown()
-	// 說明: 關閉 MUD 伺服器並結束進程。
-	// 範例: shutdown();
+	// 語法: void shutdown([int exit_code])
+	// 說明: 關閉 MUD 伺服器並結束進程。可選傳入結束代碼 (預設 0)。
+	// 範例: shutdown(); 或 shutdown(1);
 	obj.Vars.Set("shutdown", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
-			fmt.Println("🛑 收到關閉指令，伺服器準備關閉...")
+			exitCode := 0
+			if len(args) > 0 {
+				if i, ok := args[0].(*object.Integer); ok {
+					exitCode = int(i.Value)
+				}
+			}
+			fmt.Printf("🛑 收到關閉指令 (Code: %d)，伺服器準備關閉...\n", exitCode)
 			// 延遲一秒讓廣播訊息與最後的 write 有時間送達客戶端
 			go func() {
-				time.Sleep(1 * time.Second)
-				os.Exit(0)
+				time.Sleep(500 * time.Millisecond)
+				os.Exit(exitCode)
 			}()
 			return &object.Nil{}
+		},
+	})
+	// 語法: string getenv(string var)
+	// 說明: 取得系統環境變數。
+	// 範例: if (getenv("MUD_TEST_MODE")) { ... }
+	obj.Vars.Set("getenv", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 1 { return &object.Nil{} }
+			varName, ok := args[0].(*object.String)
+			if !ok { return &object.Nil{} }
+			val := os.Getenv(varName.Value)
+			if val == "" { return &object.Nil{} }
+			return &object.String{Value: val}
 		},
 	})
 }

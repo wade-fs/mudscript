@@ -6,6 +6,30 @@ void create() {
     write("===================================\n");
     write("  MudScript Master Object 啟動成功 \n");
     write("===================================\n");
+
+    if (getenv("MUD_TEST_MODE")) {
+        call_out("run_test_mode", 1);
+    }
+}
+
+void run_test_mode() {
+    object test_cmd = load_object("/cmds/admin/cmd_tests.c");
+    if (test_cmd) {
+        object fake_me = clone_object("/std/user.c");
+        fake_me->set_role("god");
+        int failures = test_cmd->main(fake_me, "tests", "");
+        destruct(fake_me);
+
+        // 如果失敗次數 > 0，則以結束代碼 1 關閉
+        if (failures > 0) {
+            shutdown(1);
+        } else {
+            shutdown(0);
+        }
+    } else {
+        write("無法載入測試指令，測試失敗。\n");
+        shutdown(1);
+    }
 }
 
 // ==========================================

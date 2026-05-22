@@ -1,4 +1,20 @@
-- 轉移至 github
+  1. 核心功能驗證 (Verification)                                                                                       
+   * 指令： 既然移除了許多語法，建議對 mudlib 現有的複雜物件（如戰鬥系統 combat.c 或登入流程 login.c）進行全面測試。   
+   * 目標： 確保移除 let / fn 等語法後，沒有任何隱藏的腳本錯誤。                                                       
+                                                                                                                       
+  2. 安全性與權限審核 (Security)                                                                                       
+   * 指令： 實作 valid_read 與 valid_write 的完整邏輯。                                                                
+   * 目標： 目前雖然有權限檢查框架，但可以針對 shutdown 或 rm 等高風險 efun 建立更嚴密的「管理員 (god)                 
+     判定機制」，防止一般玩家越權。                                                                                    
+                                                                                                                       
+  3. 擴展 LPC 語言特性 (Language Expansion)                                                                            
+   * 指令： 實作 call_out（延遲呼叫）或更完整的 mapping 操作函式（如 filter_mapping, map_mapping）。                   
+   * 目標： 雖然精簡了核心，但 LPC 強大的地方在於其豐富的內建函式庫（Efuns），這能讓 mudlib 開發更輕鬆。               
+                                                                                                                       
+  4. 內容開發 (World Building)                                                                                         
+   * 指令： 利用目前的自動編譯機制，開始增加新的區域（Area）、更複雜的 NPC 互動任務。                                  
+   * 目標： 測試在大量物件載入時，Go Driver 的效能表現與記憶體管理是否穩定。
+
 - 玩家:
 	- 可以組隊, 自動 follow
 - npc: 
