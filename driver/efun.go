@@ -1551,6 +1551,10 @@ func (d *Driver) registerStringEfuns(obj *object.LPCObject) {
 
 			var goArgs []interface{}
 			for _, arg := range args[1:] {
+				if arg == nil {
+					goArgs = append(goArgs, "nil")
+					continue
+				}
 				switch a := arg.(type) {
 				case *object.Integer: goArgs = append(goArgs, a.Value)
 				case *object.String:  goArgs = append(goArgs, a.Value)

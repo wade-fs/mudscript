@@ -1,9 +1,10 @@
 // item/consumable/health_potion.c
 #include "/include/config.h"
-inherit "/std/object.c";
+inherit "/std/item.c";
 
 void create() {
     ::create();
+    set_name("初級恢復藥水");
     set_short("一瓶紅色藥水");
     set_long("這是一瓶散發著淡淡香味的紅色藥水，能恢復生命力。\n");
     set_id(({"potion","health potion","紅藥水","藥水"}));

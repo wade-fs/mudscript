@@ -18,6 +18,8 @@ int x;
 int y;
 int z;
 int no_combat;         // 🚀 禁止戰鬥屬性
+int has_forge;         // 🚀 鍛造設施
+int has_lab;           // 🚀 煉金設施
 
 void create() {
     ::create();
@@ -30,6 +32,8 @@ void create() {
     y = 0;
     z = 0;
     no_combat = 0;
+    has_forge = 0;
+    has_lab   = 0;
 }
 
 // 判斷物件是否可以進入房間 (房間預設允許所有人進入)
@@ -52,6 +56,8 @@ mixed query_coordinate() {
 void set_short(string s) { short_desc = s; }
 void set_long(string s)  { long_desc  = s; }
 void set_no_combat(int v){ no_combat = v; }
+void set_has_forge(int v){ has_forge = v; }
+void set_has_lab(int v)  { has_lab   = v; }
 
 void add_exit(string dir, string path) {
     exits[dir] = path;
@@ -78,6 +84,8 @@ string query_short() { return short_desc; }
 string query_long()  { return long_desc; }
 mapping query_exits(){ return exits; }
 int query_no_combat(){ return no_combat; }
+int query_has_forge(){ return has_forge; }
+int query_has_lab()  { return has_lab; }
 
 // ── 顯示房間 ────────────────────────────────────────────
 void look_room() {

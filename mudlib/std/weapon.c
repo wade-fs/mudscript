@@ -64,7 +64,9 @@ string query_element()         { return element; }
 string query_range_desc() {
     switch(range_type) {
         case RANGE_MELEE:   return "近戰";
-        case RANGE_THROWN:  return can_fly == 2 ? "投擲（回旋）" : "投擲";
+        case RANGE_THROWN:  
+            if (can_fly == 2) return "投擲（回旋）";
+            return "投擲";
         case RANGE_RANGED:  return "遠程 " + range_distance + " 格";
         case RANGE_MAGIC:   return "魔法射程 " + range_distance + " 格";
         default:            return "";

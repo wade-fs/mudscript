@@ -58,7 +58,9 @@ void create() {
         "gather"   : "/cmds/cmd_gather.c",
         "collect"  : "/cmds/cmd_gather.c",
         "party"    : "/cmds/cmd_party.c",
-        "follow"   : "/cmds/cmd_follow.c"
+        "follow"   : "/cmds/cmd_follow.c",
+        "mix"      : "/cmds/cmd_mix.c",
+        "craft"    : "/cmds/cmd_mix.c"
     ]);
 }
 
