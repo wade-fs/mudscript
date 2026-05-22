@@ -1491,9 +1491,14 @@ func (d *Driver) checkReadPermission(caller *object.LPCObject, path string, efun
 
 	switch v := res.(type) {
 	case *object.Integer:
-		return v.Value != 0, "權限拒絕：無法讀取該路徑。"
+		if v.Value != 0 {
+			return true, ""
+		}
+		return false, "權限拒絕：無法讀取該路徑。"
 	case *object.String:
 		return false, v.Value
+	case *object.Nil:
+		return true, ""
 	default:
 		return true, ""
 	}
