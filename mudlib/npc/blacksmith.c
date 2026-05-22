@@ -20,6 +20,9 @@ void create() {
     set_wander_chance(5); // 5% 機率走動
     set_move_range(3);    // 最多離家 3 格
 
+    // 🚀 新增：傳授技能
+    set_skill_to_teach("forging", 30);
+
     add_response(({ "武器", "weapon" }), ({
         "想要好武器？你找對人了！",
         "我打造的劍可以輕易劈開史萊姆的皮。",

@@ -11,7 +11,8 @@ int     level;
 int     exp;
 int     exp_to_next;
 int     gold;
-mapping skills;
+int     potential; // 🚀 新增：潛能點數 (用於學習技能)
+mapping skills;    // 格式變更：([ "id": ([ "level": 1, "exp": 0 ]) ])
 
 // ── 六圍屬性 ─────────────────────────────────────────────
 int     stat_str;   // 力量
@@ -57,6 +58,7 @@ void create() {
     combat_target  = 0;
     is_dead        = 0;
     gold           = 0;
+    potential      = 0;
     skills         = ([]);
 
     recalc_stats();
@@ -80,10 +82,19 @@ void recalc_stats() {
     attack  = BASE_ATTACK  + stat_str * 2;
     defence = BASE_DEFENCE + stat_con;
 
-    // 套上武器加成
+    // 🚀 新增：技能加成
     if (equip_weapon) {
-        attack = attack + equip_weapon->query_attack();
+        string w_type = equip_weapon->query_weapon_type();
+        attack += query_skill(w_type);
+        attack += equip_weapon->query_attack();
+    } else {
+        attack += query_skill("unarmed");
     }
+
+    // 防禦加成 (閃避與招架)
+    defence += query_skill("dodge") / 2;
+    defence += query_skill("parry") / 2;
+
     // 套上防具加成
     int armour_def = 0;
     if (equip_head)   { armour_def = armour_def + equip_head->query_defence(); }
@@ -289,14 +300,34 @@ void add_gold(int g) { gold += g; }
 void gain_gold(int g) { gold += g; }
 int query_gold() { return gold; }
 
+void gain_potential(int v) { potential += v; }
+int query_potential() { return potential; }
+
+// ── 技能管理介面 ──────────────────────────────────────────
 void set_skill(string s, int v) {
     if (!skills) skills = ([]);
-    skills[s] = v;
+    if (!skills[s]) skills[s] = ([ "level": 0, "exp": 0 ]);
+    skills[s]["level"] = v;
 }
 
 int query_skill(string s) {
-    if (!skills) return 0;
-    return skills[s];
+    if (!skills || !skills[s]) return 0;
+    return skills[s]["level"];
+}
+
+int query_skill_exp(string s) {
+    if (!skills || !skills[s]) return 0;
+    return skills[s]["exp"];
+}
+
+void improve_skill(string s, int v) {
+    if (!skills) skills = ([]);
+    if (!skills[s]) skills[s] = ([ "level": 0, "exp": 0 ]);
+    
+    skills[s]["exp"] += v;
+    
+    // 呼叫 Skill Daemon 判斷是否升級
+    load_object("/secure/skill_d.c")->check_upgrade(this_object(), s);
 }
 
 mapping query_skills() { return skills; }

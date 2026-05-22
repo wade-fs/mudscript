@@ -17,6 +17,11 @@ void create() {
 	set_wander_chance(2); // 調低機率，免得老是不在公會
 	set_respawn(60);
 	set_behaviour(BEHAV_PASSIVE|BEHAV_WANDER);
+
+    // 🚀 新增：傳授技能
+    set_skill_to_teach("unarmed", 20);
+    set_skill_to_teach("magic", 20);
+
 	set_flee_hp_pct(15);
 	set_flee_chance(80);
 

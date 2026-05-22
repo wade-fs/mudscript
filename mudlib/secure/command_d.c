@@ -60,7 +60,10 @@ void create() {
         "party"    : "/cmds/cmd_party.c",
         "follow"   : "/cmds/cmd_follow.c",
         "mix"      : "/cmds/cmd_mix.c",
-        "craft"    : "/cmds/cmd_mix.c"
+        "craft"    : "/cmds/cmd_mix.c",
+        "learn"    : "/cmds/cmd_learn.c",
+        "practice" : "/cmds/cmd_practice.c",
+        "skills"   : "/cmds/cmd_skills.c"
     ]);
 }
 

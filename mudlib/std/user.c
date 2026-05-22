@@ -60,6 +60,13 @@ void setup() {
 
     recalc_stats();
 
+	// 🚀 新增：賦予種族天性
+	if (race == "dwarf") {
+		set_skill("forging", 5);
+	} else if (race == "elf") {
+		set_skill("magic", 5);
+	}
+
 	// 恢復背包物品
 	call_other(this_object(), "restore_inventory");
 

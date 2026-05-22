@@ -9,6 +9,7 @@ int     exp_reward;    // 擊殺後給予的經驗值
 int     gold_reward;   // 掉落金幣數量
 mixed   drop_list;     // 掉落物清單：({"/path/item.c", ...})
 mapping harvest_data;  // 🚀 新增：可採集的物資 ([ "file": "...", "msg": "...", "chance": 100 ])
+mapping skills_to_teach; // 🚀 新增：可傳授的技能 ([ "sid": max_level ])
 int     respawn_time;  // 重生時間（秒），0 = 不重生
 string  aggro_msg;     // 主動攻擊時的訊息
 
@@ -54,6 +55,7 @@ void create() {
     gold_reward = 10;
     drop_list   = ({});
     harvest_data = ([]);
+    skills_to_teach = ([]);
     respawn_time= 0;
     aggro_msg   = "";
 
@@ -98,6 +100,7 @@ void set_exp_reward(int v)         { exp_reward        = v; }
 void set_gold_reward(int v)        { gold_reward       = v; }
 void set_drop_list(mixed l)        { drop_list         = l; }
 void set_harvest_data(mapping d)   { harvest_data      = d; }
+void set_skill_to_teach(string s, int lv) { if(!skills_to_teach) skills_to_teach = ([]); skills_to_teach[s] = lv; }
 void set_respawn(int v)            { respawn_time      = v; }
 void set_aggro_msg(string s)       { aggro_msg         = s; }
 void set_habitat(string h)         { habitat           = h; }
@@ -118,6 +121,7 @@ void set_aggressive(int v)         { aggressive        = v; }
 
 string  query_habitat()       { return habitat; }
 int     query_behaviour()     { return behaviour; }
+mapping query_skills_to_teach(){ return skills_to_teach; }
 int     query_aggro_range()   { return aggro_range; }
 string  query_home_room()     { return home_room; }
 int     query_move_range()    { return move_range; }
@@ -569,8 +573,13 @@ void on_death() {
 
     if (combat_target && living(combat_target)) {
         combat_target->gain_exp(exp_reward);
+        // 🚀 新增：潛能獎勵 (經驗值的 10%)
+        int pot_gain = exp_reward / 10;
+        if (pot_gain < 1) pot_gain = 1;
+        combat_target->gain_potential(pot_gain);
+        
         tell_object(combat_target,
-            "你獲得了 " + gold_reward + " 枚金幣。\n");
+            "你獲得了 " + gold_reward + " 枚金幣與 " + pot_gain + " 點潛能。\n");
         combat_target->gain_gold(gold_reward);
 
         // 🚀 新增：任務進度通知

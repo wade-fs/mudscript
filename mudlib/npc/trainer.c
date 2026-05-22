@@ -20,6 +20,12 @@ void create() {
     set_wander_chance(1); // 教官很嚴肅，很少走動
     set_move_range(1);
 
+    // 🚀 新增：傳授技能
+    set_skill_to_teach("sword", 40);
+    set_skill_to_teach("unarmed", 40);
+    set_skill_to_teach("dodge", 40);
+    set_skill_to_teach("parry", 40);
+
     add_response(({ "戰鬥", "fight", "combat" }), ({
         "戰鬥不是兒戲，隨時保持警惕！",
         "力量與速度的結合才是取勝的關鍵。",
