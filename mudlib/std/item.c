@@ -11,6 +11,7 @@ int     durability;    // 當前耐久度 (0 = 無限)
 int     max_durability;// 最大耐久度
 int     level_req;     // 等級需求
 int     identified;    // 是否已鑑定
+int     indestructible;// 🚀 新增：是否不可破壞 (如徽章、裝飾品)
 
 void create() {
     ::create();
@@ -22,6 +23,7 @@ void create() {
     max_durability  = 100;
     level_req      = 1;
     identified     = 1; // 預設普通物品自動鑑定，稀有物品可設為 0
+    indestructible = 0;
 }
 
 // ── 設定函式 ────────────────────────────────────────────
@@ -33,6 +35,7 @@ void set_durability(int v)     { durability = v; }
 void set_max_durability(int v) { max_durability = v; durability = v; }
 void set_level_req(int v)      { level_req = v; }
 void set_identified(int v)     { identified = v; }
+void set_indestructible(int v) { indestructible = v; }
 
 // ── 查詢函式 ────────────────────────────────────────────
 string query_item_type() { return item_type; }
@@ -43,11 +46,12 @@ int    query_durability()     { return durability; }
 int    query_max_durability() { return max_durability; }
 int    query_level_req()      { return level_req; }
 int    query_identified()     { return identified; }
+int    query_indestructible() { return indestructible; }
 
 // ── 功能函式 ────────────────────────────────────────────
 // 損耗耐久度
 void damage_durability(int v) {
-    if (max_durability <= 0) return;
+    if (indestructible || max_durability <= 0) return;
     durability -= v;
     if (durability < 0) durability = 0;
 }

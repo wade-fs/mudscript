@@ -16,6 +16,10 @@ void create() {
     // 廣場守衛
     spawn_npc("/npc/guard.c");
 
+    // 🚀 新增：裝飾性雕像
+    object statue = clone_object("/item/newbie_statue.c");
+    if (statue) move_object(statue, this_object());
+
     // 廣場上的野生風精靈（白天出現，被動）
     object sprite = clone_object("/npc/creature/wind_sprite.c");
     if (sprite) move_object(sprite, this_object());
