@@ -795,6 +795,22 @@ func (d *Driver) registerEnvironmentEfuns(obj *object.LPCObject) {
 			return &object.Nil{}
 		},
 	})
+	// 語法: string base_name(object ob)
+	// 說明: 取得物件的原始檔案路徑 (去除 #clone_id)。
+	// 範例: base_name(find_player("wade")) -> "/std/user.c"
+	obj.Vars.Set("base_name", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 1 { return &object.Nil{} }
+			target, ok := args[0].(*object.LPCObject)
+			if !ok { return &object.Nil{} }
+			
+			name := target.Filename
+			if pos := strings.Index(name, "#"); pos != -1 {
+				name = name[:pos]
+			}
+			return &object.String{Value: name}
+		},
+	})
 }
 
 // ==========================================

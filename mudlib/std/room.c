@@ -10,6 +10,9 @@ string  long_desc;     // 房間描述
 mapping exits;         // 出口表：([ "north": "/area/..." ])
 mixed   item_ids;      // 房間內可互動的裝飾物描述表
 
+// 🚀 新增：隱藏元素 (用於 search)
+mapping hidden_elements; // ([ "id": ([ "type": "exit/item", "value": "...", "msg": "..." ]) ])
+
 // 🚀 新增空間座標 (注意：配合 Go 解析器限制，逐行宣告)
 int x;
 int y;
@@ -22,6 +25,7 @@ void create() {
     long_desc  = "這裡什麼都沒有，只有無盡的虛空。\n";
     exits      = ([]);
     item_ids   = ([]);
+    hidden_elements = ([]);
     x = 0;
     y = 0;
     z = 0;
@@ -55,6 +59,18 @@ void add_exit(string dir, string path) {
 
 void add_item(string id, string desc) {
     item_ids[id] = desc;
+}
+
+void add_hidden_element(string id, mapping data) {
+    hidden_elements[id] = data;
+}
+
+// ── NPC 產生與重生 ─────────────────────────────────────
+void spawn_npc(string file) {
+    object ob = clone_object(file);
+    if (ob) {
+        move_object(ob, this_object());
+    }
 }
 
 // ── 查詢函式 ────────────────────────────────────────────
@@ -149,6 +165,9 @@ void init() {
     }
     add_action("do_go", "go");
 
+    add_action("do_search", "search");
+    add_action("do_search", "搜尋");
+
     // 🚩 性能優化：當玩家進入房間時，喚醒房間內所有 NPC 的心跳
     if (userp(this_player())) {
         object *inv = all_inventory(this_object());
@@ -183,6 +202,49 @@ int do_go(string dir) {
     me->move_object(dest);
     say(my_name + " 從 " + cmd + " 方向來到了這裡。\n");
     dest->look_room();
+    return 1;
+}
+
+// ── 互動：搜尋 ──────────────────────────────────────────
+int do_search(string arg) {
+    write("你開始在房間裡四處搜尋...\n");
+    say(this_player()->query_name() + " 開始在房間裡四處搜尋。\n");
+
+    if (!hidden_elements || sizeof(hidden_elements) == 0) {
+        write("你搜了半天，什麼都沒有發現。\n");
+        return 1;
+    }
+
+    mixed ks = keys(hidden_elements);
+    int found = 0;
+    
+    foreach (string key in ks) {
+        mapping data = hidden_elements[key];
+        
+        // 這裡可以加入機率或屬性判定
+        if (random(100) < 50) { // 50% 機率搜到
+            write(data["msg"] + "\n");
+            
+            if (data["type"] == "exit") {
+                add_exit(key, data["value"]);
+            } else if (data["type"] == "item") {
+                object ob = clone_object(data["value"]);
+                if (ob) {
+                    write("你找到了一件物品：" + ob->query_short() + "\n");
+                    move_object(ob, this_object());
+                }
+            }
+            
+            // 搜到後移除隱藏標記
+            m_delete(hidden_elements, key);
+            found = 1;
+        }
+    }
+
+    if (!found) {
+        write("你搜了半天，什麼都沒有發現。\n");
+    }
+
     return 1;
 }
 

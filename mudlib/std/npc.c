@@ -28,6 +28,10 @@ string  home_room;     // 出生點 (房間路徑)
 int     move_range;    // 可移動的最大距離 (Manhattan Distance, 0=固定)
 int     wander_chance; // 每次心跳隨機移動的機率 (0~100)
 
+// 🚀 新增：記憶與好鬥屬性
+int     aggressive;    // 是否主動攻擊玩家
+object  last_attacker; // 記住最後一個戰鬥的玩家
+
 void create() {
     ::create();
     enable_commands();
@@ -67,6 +71,9 @@ void create() {
     move_range       = 0;
     wander_chance    = 0;
 
+    aggressive       = 0;
+    last_attacker    = 0;
+
     set_heart_beat(1);
 }
 
@@ -104,6 +111,7 @@ void set_special_atk(string s, int pct) {
 void set_home_room(string r)       { home_room         = r; }
 void set_move_range(int v)         { move_range        = v; }
 void set_wander_chance(int v)      { wander_chance     = v; }
+void set_aggressive(int v)         { aggressive        = v; }
 
 string  query_habitat()       { return habitat; }
 int     query_behaviour()     { return behaviour; }
@@ -357,6 +365,7 @@ void heart_beat() {
     if (is_dead) { return; }
 
 	object mob = this_object();
+    object env = environment(mob);
 
     if (in_combat && combat_target) {
         if (combat_target->query_hp() <= 0) {
@@ -365,7 +374,7 @@ void heart_beat() {
         }
         
         // 🚀 檢查目標是否還在同一個房間
-        if (environment(combat_target) != environment(this_object())) {
+        if (environment(combat_target) != env) {
             stop_combat();
             return;
         }
@@ -382,7 +391,27 @@ void heart_beat() {
         return;
     }
 
+    // 🚀 1. 檢查主動攻擊 (Aggressive) 或 宿敵重逢 (Memory)
+    if (env && !env->query_no_combat()) {
+        object *inv = all_inventory(env);
+        foreach (object ob in inv) {
+            if (!userp(ob) || ob->query_hp() <= 0) continue;
+
+            // 判斷是否主動攻擊，或是遇到宿敵且血量過半
+            if (aggressive || (ob == last_attacker && hp * 100 / max_hp > 50)) {
+                if (aggro_msg && aggro_msg != "") {
+                    say(aggro_msg);
+                } else {
+                    say(query_name() + " 咆哮一聲，對 " + ob->query_name() + " 發起了主動攻擊！\n");
+                }
+                attacked_by(ob);
+                return;
+            }
+        }
+    }
+
     // 🚀 使用 bitwise & 檢查行為旗標，可疊加多種行為
+
     
     // 1. 巡邏行為
     if ((behaviour & BEHAV_PATROL) && sizeof(patrol_rooms) > 0) {
@@ -466,6 +495,11 @@ void do_special_attack() {
 void attacked_by(object attacker) {
     if (is_dead) { return; }
     
+    // 🚀 記住最後一個攻擊者
+    if (userp(attacker)) {
+        last_attacker = attacker;
+    }
+
     object env = environment(this_object());
     if (env && env->query_no_combat()) return;
 

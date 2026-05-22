@@ -39,20 +39,59 @@ int do_inventory(object me, string arg) {
 
 int do_get(object me, string arg) {
     if (!arg) { write("撿起什麼？\n"); return 1; }
-    object here = environment(me);
-    object item = present(arg, here);
+
+    object container = environment(me);
+    string item_id = arg;
+
+    // 支援 get item from container
+    if (strsrch(arg, " from ") != -1) {
+        string *parts = explode(arg, " from ");
+        item_id = parts[0];
+        string cont_id = parts[1];
+        
+        container = present(cont_id, environment(me));
+        if (!container) container = present(cont_id, me);
+        
+        if (!container) {
+            write("這裡沒有叫「" + cont_id + "」的容器。\n");
+            return 1;
+        }
+        if (container->query_closed()) {
+            write(container->query_short() + " 是關著的。\n");
+            return 1;
+        }
+    }
+
+    object item = present(item_id, container);
     if (!item) {
-        write("這裡沒有叫「" + arg + "」的東西。\n");
+        write((container == environment(me) ? "這裡" : container->query_short()) + 
+              " 沒有叫「" + item_id + "」的東西。\n");
         return 1;
     }
+
     if (living(item)) {
         write("你不能撿起活物。\n");
         return 1;
     }
-    move_object(item, me);
-    me->save(); // 立即存檔
-    write("你撿起了 " + item->query_short() + "。\n");
-    say(me->query_name() + " 撿起了 " + item->query_short() + "。\n");
+
+    if (item->query_no_get()) {
+        write(item->query_short() + " 太重了，或者是被固定住了，你拿不起來。\n");
+        return 1;
+    }
+
+    if (!me->can_receive(item)) {
+        write("你的背包裝不下了。\n");
+        return 1;
+    }
+
+    if (move_object(item, me)) {
+        me->save(); // 立即存檔
+        write("你從 " + (container == environment(me) ? "地上" : container->query_short()) + 
+              " 撿起了 " + item->query_short() + "。\n");
+        say(me->query_name() + " 撿起了 " + item->query_short() + "。\n");
+    } else {
+        write("你無法拿走這個物品。\n");
+    }
     return 1;
 }
 
@@ -63,11 +102,20 @@ int do_drop(object me, string arg) {
         write("你身上沒有叫「" + arg + "」的東西。\n");
         return 1;
     }
+
+    if (item->query_no_drop()) {
+        write(item->query_short() + " 似乎黏在你的手上了，丟不掉！\n");
+        return 1;
+    }
+
     object here = environment(me);
-    move_object(item, here);
-    me->save(); // 立即存檔
-    write("你放下了 " + item->query_short() + "。\n");
-    say(me->query_name() + " 放下了 " + item->query_short() + "。\n");
+    if (move_object(item, here)) {
+        me->save(); // 立即存檔
+        write("你放下了 " + item->query_short() + "。\n");
+        say(me->query_name() + " 放下了 " + item->query_short() + "。\n");
+    } else {
+        write("你現在沒辦法丟下這個東西。\n");
+    }
     return 1;
 }
 
