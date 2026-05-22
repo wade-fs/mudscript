@@ -178,9 +178,36 @@
    2. 任務接取：到防具店找凱文說 任務，接下收集毛皮任務。
    3. 任務交付：湊齊 3 張狼皮後，回到防具店說 回報，您將失去狼皮並獲得一條腰帶。
 
+  👥 組隊與跟隨系統改動摘要：                                                                                          
+                                                                                                                       
+   1. 移動機制重構 (std/living.c & std/room.c)：                                                                       
+       * 移動鉤子 (Movement Hook)：在 living.c 中新增了 move(dest, dir) 函式。這不僅處理 move_object                   
+         efun，還作為觸發「拉動跟隨者」的中心點。                                                                      
+       * 同步移動：當一個生物移動成功後，它會自動遍歷其 followers 清單，並命令他們移動到同一個目的地。                 
+   2. 實作組隊守護進程 (secure/party_d.c)：                                                                            
+       * 隊伍管理：負責處理隊伍的建立、邀請、加入與解散邏輯。                                                          
+       * 安全驗證：確保只有隊長可以邀請隊員，且玩家不能同時加入多個隊伍。                                              
+   3. 玩家互動指令：
+       * party 指令：
+           * party create：建立新隊伍。
+           * party invite <ID>：邀請附近或線上的玩家。
+           * party join <ID>：接受邀請。
+           * party status：查看隊伍成員。
+           * party leave / disband：離開或解散。
+       * follow 指令：
+           * follow <ID>：簡單的跟隨功能，不需要正式組隊也能使用（例如跟隨 NPC 或朋友）。
+           * follow (不帶參數)：停止跟隨。
 
-- 玩家:
-	- 可以組隊, 自動 follow
+  🚀 您可以進行的驗證：
+   1. 測試簡單跟隨：找一個會走動的老闆 NPC，輸入 follow
+      <ID>。當老闆走出店門口時，您應該會自動被「拉著走」，並看到訊息：你緊跟著 XXX 往 north 走了過去。
+   2. 測試組隊：
+       * 玩家 A 輸入 party create。
+       * 玩家 A 輸入 party invite B。
+       * 玩家 B 輸入 party join A。
+       * 此時 A 往任何方向移動，B 都會自動跟上。
+
+
 - item
 	- 升級、鑲嵌
 	- 清單顯示

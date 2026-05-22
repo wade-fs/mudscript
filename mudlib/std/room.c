@@ -199,9 +199,12 @@ int do_go(string dir) {
     string my_name = me->query_name();
 
     say(my_name + " 往 " + cmd + " 方向離開了。\n");
-    me->move_object(dest);
-    say(my_name + " 從 " + cmd + " 方向來到了這裡。\n");
-    dest->look_room();
+    if (me->move(dest, cmd)) {
+        say(my_name + " 從 " + cmd + " 方向來到了這裡。\n");
+        dest->look_room();
+    } else {
+        write("你往 " + cmd + " 走不過去。\n");
+    }
     return 1;
 }
 

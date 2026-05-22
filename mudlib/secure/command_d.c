@@ -56,7 +56,9 @@ void create() {
         "tests"    : "/cmds/admin/cmd_tests.c",
         "quest"    : "/cmds/cmd_quest.c",
         "gather"   : "/cmds/cmd_gather.c",
-        "collect"  : "/cmds/cmd_gather.c"
+        "collect"  : "/cmds/cmd_gather.c",
+        "party"    : "/cmds/cmd_party.c",
+        "follow"   : "/cmds/cmd_follow.c"
     ]);
 }
 

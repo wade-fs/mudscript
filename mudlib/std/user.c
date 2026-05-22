@@ -13,6 +13,8 @@ string nature;
 string *write_paths;
 mapping aliases;
 mapping quests; // 🚀 新增：任務紀錄
+object  leader; // 🚀 新增：跟隨目標
+object *followers; // 🚀 新增：跟隨者清單
 string *saved_inventory = ({ });
 string last_location;
 
@@ -40,12 +42,14 @@ void init_aliases() {
 void create() {
     ::create();
     if (!quests) quests = ([]);
+    if (!followers) followers = ({});
     init_aliases();
 }
 
 // ── 登入初始化 ───────────────────────────────────────────
 void setup() {
     if (!quests) quests = ([]);
+    if (!followers) followers = ({});
     init_aliases();
     set_heart_beat(1);
     enable_commands();
@@ -144,6 +148,13 @@ void update_quest_progress(string qid, string key, mixed val) {
     quests[qid]["progress"][key] = val;
 }
 mapping query_quest(string qid) { return quests[qid]; }
+
+// ── 組隊與跟隨介面 ─────────────────────────────────────────────
+object  query_leader() { return leader; }
+void    set_leader(object ob) { leader = ob; }
+object *query_followers() { return followers; }
+void    add_follower(object ob) { if (member_array(ob, followers) == -1) followers += ({ ob }); }
+void    remove_follower(object ob) { followers -= ({ ob }); }
 
 string *query_write_paths() { return write_paths; }
 void add_write_path(string p) {

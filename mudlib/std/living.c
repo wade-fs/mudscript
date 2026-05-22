@@ -139,7 +139,31 @@ void set_stat(string s, int v) {
     recalc_stats();
 }
 
-// ── HP / MP 操作 ───────────────────────────────────────────
+// ── 功能函式 ────────────────────────────────────────────
+int move(mixed dest, string dir) {
+    object me = this_object();
+    object old_env = environment(me);
+    
+    move_object(dest);
+    
+    object new_env = environment(me);
+    if (new_env == old_env) return 0; // 移動失敗
+
+    // 🚀 處理跟隨者
+    object *f_list = me->query_followers();
+    if (f_list && sizeof(f_list) > 0) {
+        foreach (object f in f_list) {
+            // 避免無限遞迴 (雖然正常情況下不會)
+            if (!f || f == me || environment(f) != old_env) continue;
+            
+            tell_object(f, "你緊跟著 " + me->query_name() + " 往 " + dir + " 走了過去。\n");
+            f->move(new_env, dir);
+        }
+    }
+    
+    return 1;
+}
+
 int heal_hp(int amount) {
     hp = hp + amount;
     if (hp > max_hp) { hp = max_hp; }
