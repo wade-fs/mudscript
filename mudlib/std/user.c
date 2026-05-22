@@ -16,6 +16,7 @@ int    guild_exp;  // 🚀 新增：公會貢獻/經驗
 string *write_paths;
 mapping aliases;
 mapping quests; // 🚀 新增：任務紀錄
+mapping muted_channels; // 🚀 新增：屏蔽的頻道
 object  leader; // 🚀 新增：跟隨目標
 object *followers; // 🚀 新增：跟隨者清單
 string *saved_inventory = ({ });
@@ -45,6 +46,7 @@ void init_aliases() {
 void create() {
     ::create();
     if (!quests) quests = ([]);
+    if (!muted_channels) muted_channels = ([]);
     if (!followers) followers = ({});
     init_aliases();
 }
@@ -52,6 +54,7 @@ void create() {
 // ── 登入初始化 ───────────────────────────────────────────
 void setup() {
     if (!quests) quests = ([]);
+    if (!muted_channels) muted_channels = ([]);
     if (!followers) followers = ({});
     init_aliases();
     set_heart_beat(1);
@@ -148,6 +151,18 @@ string query_guild_rank() { return guild_rank; }
 void add_guild_exp(int v) { guild_exp += v; }
 int query_guild_exp() { return guild_exp; }
 void set_nickname(string n) { set_name(n); }
+
+// ── 頻道管理 ─────────────────────────────────────────────
+int is_channel_open(string ch) {
+    if (!muted_channels) return 1;
+    return !muted_channels[ch];
+}
+void set_channel_status(string ch, int open) {
+    if (!muted_channels) muted_channels = ([]);
+    if (open) m_delete(muted_channels, ch);
+    else muted_channels[ch] = 1;
+}
+mapping query_muted_channels() { return muted_channels; }
 
 void set_nature(string n) { nature = n; }
 string query_nature() { return nature; }

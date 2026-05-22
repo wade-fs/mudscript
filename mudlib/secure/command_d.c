@@ -65,7 +65,12 @@ void create() {
         "practice" : "/cmds/cmd_practice.c",
         "skills"   : "/cmds/cmd_skills.c",
         "perform"  : "/cmds/cmd_perform.c",
-        "guild"    : "/cmds/cmd_guild.c"
+        "guild"    : "/cmds/cmd_guild.c",
+        "chat"     : "/cmds/cmd_chat.c",
+        "area"     : "/cmds/cmd_chat.c",
+        "gsay"     : "/cmds/cmd_chat.c",
+        "ttell"    : "/cmds/cmd_chat.c",
+        "channel"  : "/cmds/cmd_channel.c"
     ]);
 }
 
