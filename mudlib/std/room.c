@@ -232,19 +232,7 @@ void init() {
     }
 }
 
-// ── 方向輔助 ────────────────────────────────────────────
-string query_reverse_dir(string dir) {
-    switch(dir) {
-        case "north": return "south";
-        case "south": return "north";
-        case "east":  return "west";
-        case "west":  return "east";
-        case "up":    return "down";
-        case "down":  return "up";
-    }
-    return "here";
-}
-
+// ── 移動 ───────────────────────────────────────────────
 int do_go(string dir) {
     mixed cmd = dir;
     if (!cmd) {

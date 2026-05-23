@@ -2,7 +2,7 @@
 
 inherit "/std/object";
 
-int main(object me, string arg) {
+int main(object me, string verb, string arg) {
     if (me->query_role() != "god") {
         write("只有 god 可以降低權限。\n");
         return 1;

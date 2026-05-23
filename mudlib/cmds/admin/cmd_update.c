@@ -5,7 +5,7 @@ inherit "/std/object";
 
 #include "/include/ansi.h"
 
-int main(object me, string arg) {
+int main(object me, string verb, string arg) {
     if (!arg) {
         write("請指定要更新的檔案路徑。\n");
         return 1;

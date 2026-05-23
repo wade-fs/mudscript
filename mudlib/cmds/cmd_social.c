@@ -3,9 +3,6 @@
 
 inherit "/std/object";
 
-int do_say_cmd(object me, string arg);
-int do_emote(object me, string arg);
-
 int main(object me, string verb, string arg) {
     if (verb == "say" || verb == "'") {
         return do_say_cmd(me, arg);

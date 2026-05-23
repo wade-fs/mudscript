@@ -373,10 +373,12 @@ void do_wander() {
     // 廣播離開訊息
     lang_d->broadcast_event(env, "say_leave", ([ "$name": query_name(), "$dir": dir ]));
     
-    move_object(dest);
-
-    // 廣播抵達訊息
-    lang_d->broadcast_event(dest, "say_arrive", ([ "$name": query_name(), "$dir": "here" ]));
+    if (this_object()->move(dest, dir)) {
+        // 廣播抵達訊息
+        // 🚀 關鍵修正：抵達訊息應該顯示「反向」
+        string from_dir = query_reverse_dir(dir);
+        lang_d->broadcast_event(dest, "say_arrive", ([ "$name": query_name(), "$dir": from_dir ]));
+    }
 }
 
 // ── 巡邏邏輯 ─────────────────────────────────────────────────────
