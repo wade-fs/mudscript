@@ -48,6 +48,10 @@ int     is_dead;
 int     pk_score;      // PK 分數 (正值代表殺害無辜次數)
 int     pk_timer;      // 紅名倒數計時 (Unix Time)
 
+// 🚀 新增：組隊與跟隨
+object  leader; 
+object *followers;
+
 void create() {
     ::create();
     name       = "無名氏";
@@ -65,6 +69,7 @@ void create() {
     money_balance  = 0;
     potential      = 0;
     skills         = ([]);
+    followers      = ({});
 
     recalc_stats();
     enable_commands();
@@ -139,10 +144,15 @@ int query_stat(string s)  {
 }
 string query_display_name() {
     string id = query_key_id();
+    string res = query_name();
     if (id && id != "" && id != query_name()) {
-        return query_name() + "(" + id + ")";
+        res = query_name() + "(" + id + ")";
     }
-    return query_name();
+    // 🚀 新增：騎乘狀態顯示
+    if (is_riding && active_pet) {
+        res += HIY(" <騎乘中: " + active_pet->query_name() + ">");
+    }
+    return res;
 }
 
 void set_stat(string s, int v) {
@@ -164,6 +174,14 @@ int move(mixed dest, string dir) {
     
     object new_env = environment(me);
     if (new_env == old_env) return 0; // 移動失敗
+
+    // 🚀 處理寵物同步移動
+    if (active_pet && environment(active_pet) == old_env) {
+        active_pet->move_object(new_env);
+        if (is_riding) {
+            tell_object(me, HIY("你騎著 " + active_pet->query_name() + " 抵達了目的地。\n"));
+        }
+    }
 
     // 🚀 處理跟隨者
     object *f_list = me->query_followers();
@@ -336,6 +354,13 @@ string query_money_string() {
 
 void gain_potential(int v) { potential += v; }
 int query_potential() { return potential; }
+
+// ── 組隊與跟隨介面 ─────────────────────────────────────────────
+object  query_leader() { return leader; }
+void    set_leader(object ob) { leader = ob; }
+object *query_followers() { return followers; }
+void    add_follower(object ob) { if (member_array(ob, followers) == -1) followers += ({ ob }); }
+void    remove_follower(object ob) { followers -= ({ ob }); }
 
 // ── PK 系統介面 ─────────────────────────────────────────────
 int query_pk_score() { return pk_score; }

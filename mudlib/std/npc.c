@@ -11,6 +11,7 @@ mixed   drop_list;     // 掉落物清單：({"/path/item.c", ...})
 mapping harvest_data;  // 🚀 新增：可採集的物資 ([ "file": "...", "msg": "...", "chance": 100 ])
 mapping skills_to_teach; // 🚀 新增：可傳授的技能 ([ "sid": max_level ])
 int     respawn_time;  // 重生時間（秒），0 = 不重生
+int     is_tamable;    // 🚀 新增：是否可被馴服
 string  aggro_msg;     // 主動攻擊時的訊息
 
 // ── 棲息地與行為模式 ──────────────────────────────────────
@@ -102,6 +103,7 @@ void set_drop_list(mixed l)        { drop_list         = l; }
 void set_harvest_data(mapping d)   { harvest_data      = d; }
 void set_skill_to_teach(string s, int lv) { if(!skills_to_teach) skills_to_teach = ([]); skills_to_teach[s] = lv; }
 void set_respawn(int v)            { respawn_time      = v; }
+void set_tamable(int v)            { is_tamable        = v; }
 void set_aggro_msg(string s)       { aggro_msg         = s; }
 void set_habitat(string h)         { habitat           = h; }
 void set_behaviour(int b)          { behaviour         = b; }
@@ -125,6 +127,7 @@ mapping query_skills_to_teach(){ return skills_to_teach; }
 int     query_aggro_range()   { return aggro_range; }
 string  query_home_room()     { return home_room; }
 int     query_move_range()    { return move_range; }
+int     query_tamable()       { return is_tamable; }
 
 // ── 輔助：計算兩個房間之間的距離 ─────────────────────
 int calculate_distance(object room1, object room2) {

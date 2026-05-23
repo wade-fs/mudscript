@@ -22,7 +22,8 @@ int main(object me, string verb, string arg) {
         "/tests/test_combat_classes.c",
         "/tests/test_guilds.c",
         "/tests/test_combat_team.c",
-        "/tests/test_currency_chat.c"
+        "/tests/test_currency_chat.c",
+        "/tests/test_pets_mounts.c"
     });
 
     int total = 0;

@@ -72,7 +72,11 @@ void create() {
         "ttell"    : "/cmds/cmd_chat.c",
         "fchat"    : "/cmds/cmd_chat.c",
         "channel"  : "/cmds/cmd_channel.c",
-        "bank"     : "/cmds/cmd_bank.c"
+        "bank"     : "/cmds/cmd_bank.c",
+        "tame"     : "/cmds/cmd_tame.c",
+        "ride"     : "/cmds/cmd_ride.c",
+        "unride"   : "/cmds/cmd_ride.c",
+        "dismount" : "/cmds/cmd_ride.c"
     ]);
 }
 

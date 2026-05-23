@@ -19,8 +19,8 @@ string *write_paths;
 mapping aliases;
 mapping quests; // 🚀 新增：任務紀錄
 mapping muted_channels; // 🚀 新增：屏蔽的頻道
-object  leader; // 🚀 新增：跟隨目標
-object *followers; // 🚀 新增：跟隨者清單
+object  active_pet; // 🚀 新增：當前寵物
+int     is_riding;  // 🚀 新增：正在騎乘
 string *saved_inventory = ({ });
 string last_location;
 
@@ -49,7 +49,6 @@ void create() {
     ::create();
     if (!quests) quests = ([]);
     if (!muted_channels) muted_channels = ([]);
-    if (!followers) followers = ({});
     init_aliases();
 }
 
@@ -57,7 +56,6 @@ void create() {
 void setup() {
     if (!quests) quests = ([]);
     if (!muted_channels) muted_channels = ([]);
-    if (!followers) followers = ({});
     if (!last_bank_time) last_bank_time = time();
     init_aliases();
     set_heart_beat(1);
@@ -191,12 +189,11 @@ void update_quest_progress(string qid, string key, mixed val) {
 }
 mapping query_quest(string qid) { return quests[qid]; }
 
-// ── 組隊與跟隨介面 ─────────────────────────────────────────────
-object  query_leader() { return leader; }
-void    set_leader(object ob) { leader = ob; }
-object *query_followers() { return followers; }
-void    add_follower(object ob) { if (member_array(ob, followers) == -1) followers += ({ ob }); }
-void    remove_follower(object ob) { followers -= ({ ob }); }
+// ── 寵物與坐騎介面 ─────────────────────────────────────────────
+object query_pet() { return active_pet; }
+void   set_pet(object ob) { active_pet = ob; }
+int    query_riding() { return is_riding; }
+void   set_riding(int v) { is_riding = v; }
 
 string *query_write_paths() { return write_paths; }
 void add_write_path(string p) {
