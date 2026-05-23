@@ -9,6 +9,7 @@ inherit "/std/container.c";
 mapping harvest_data; // 🚀 新增：可採集物資
 string  team_owner;   // 🚀 新增：屍體歸屬 (團隊 ID)
 int     expire_time;  // 🚀 新增：歸屬過期時間
+mapping penalty_data; // 🚀 新增：死亡懲罰資料 (用於跑屍恢復)
 
 void create() {
     ::create();
@@ -17,6 +18,7 @@ void create() {
     set_long("這是一具死後的屍體，看起來有些蒼白。\n");
     set_id(({"corpse", "corpse_id", "屍體", "死體"}));
     harvest_data = ([]);
+    penalty_data = ([]);
     team_owner = "";
     expire_time = 0;
     
@@ -33,6 +35,9 @@ void set_owner(string owner_name) {
 
 void set_harvest_data(mapping d) { harvest_data = d; }
 mapping query_harvest_data()     { return harvest_data; }
+
+void set_penalty_data(mapping d) { penalty_data = d; }
+mapping query_penalty_data()     { return penalty_data; }
 
 void set_team_owner(string tid) { 
     team_owner = tid; 

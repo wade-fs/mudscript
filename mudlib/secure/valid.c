@@ -56,10 +56,11 @@ mixed valid_write(string path, object user, string func)
         }
     }
 
-    // 4. 特殊例外：允許使用者備份自己的存檔 (suicide 用)
-    if (strsrch(path, "/data/backup/user/") == 0) {
+    // 4. 特殊例外
+    // 允許使用者儲存自己的資料 (/data/user/) 或 備份 (/data/backup/user/)
+    if (strsrch(path, "/data/user/") == 0 || strsrch(path, "/data/backup/user/") == 0) {
         string uid = user->get_id();
-        if (uid && strsrch(path, uid) != -1) {
+        if (uid && uid != "" && strsrch(path, uid) != -1) {
             return 1;
         }
     }

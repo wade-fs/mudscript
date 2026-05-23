@@ -285,17 +285,116 @@ void gain_exp(int amount) {
 // ── 死亡處理 ───────────────────────────────────────────────
 void die() {
     if (is_dead) { return; }
-    is_dead     = 1;
-    in_combat   = 0;
+
+    object me = this_object();
+    object env = environment(me);
+    
+    write(HIR("\n👻 你感覺到靈魂正在脫離肉體... 你死了。\n\n"));
+    say(HIR(query_name() + " 的呼吸停止了，靈魂飄向了另一個世界。\n"));
+
+    // 1. 產生屍體
+    object corpse = clone_object("/std/corpse.c");
+    if (corpse) {
+        corpse->set_owner(query_name());
+        if (env) {
+            move_object(corpse, env);
+        } else {
+            // 如果是在測試或特殊情況下死亡且無環境，則先不移動屍體
+        }
+
+        // 🚀 掉落物品 (排除 no_drop)
+        object *inv = all_inventory(me);
+        foreach (object ob in inv) {
+            if (ob && !ob->query_no_drop()) {
+                move_object(ob, corpse);
+            }
+        }
+
+        // 🚀 掉落金錢 (身上所有銅幣)
+        int drop_cash = query_money();
+        if (drop_cash > 0) {
+            add_money(-drop_cash);
+            object money_ob = clone_object("/std/object.c");
+            if (money_ob) {
+                money_ob->set_name("銅幣袋");
+                money_ob->set_short(YEL("一袋銅幣 (" + drop_cash + ")"));
+                money_ob->set_id(({"money bag", "bag", "錢袋"}));
+                money_ob->set_money_value(drop_cash);
+                move_object(money_ob, corpse);
+            }
+        }
+
+        // 2. 🚀 死亡懲罰計算
+        // 損失當前等級升級所需總額的 5%
+        int lost_exp = exp_to_next / 20; 
+        int lost_pot = potential / 5; // 損失潛能的 20%
+        if (lost_exp < 1) lost_exp = 1;
+        
+        int lv_down = 0;
+        if (random(100) < 20) lv_down = 1;
+
+        // 紀錄懲罰資料，用於跑屍恢復
+        mapping penalty = ([
+            "owner": me->get_id(),
+            "exp": lost_exp,
+            "pot": lost_pot,
+            "level_down": lv_down
+        ]);
+        corpse->set_penalty_data(penalty);
+
+        // 執行懲罰
+        exp -= lost_exp;
+        if (exp < 0) exp = 0;
+        potential -= lost_pot;
+        if (lv_down && level > 1) {
+            level--;
+            write(HIR("你的等級下降了！現在是等級 " + level + "。\n"));
+        }
+
+        // 🚀 技能熟練度下降 (所有學過的技能隨機掉 1~5% 熟練度)
+        if (mapp(skills)) {
+            mixed ks = keys(skills);
+            foreach (string sid in ks) {
+                int s_exp = skills[sid]["exp"];
+                skills[sid]["exp"] = s_exp * 95 / 100;
+            }
+        }
+    }
+
+    // 3. 🚀 清除紅名 (死亡贖罪)
+    if (pk_score > 0) {
+        pk_score = 0;
+        pk_timer = 0;
+        write(HIG("你的罪孽在死亡中得到了洗贖，你不再是紅名了。\n"));
+    }
+
+    is_dead = 1;
+    in_combat = 0;
     combat_target = 0;
     set_heart_beat(0);
-    on_death();
+    
+    recalc_stats();
+    me->save();
+
+    // 4. 傳送到起始點或靈魂神殿
+    call_out("revive", 2);
 }
 
-void on_death() {
-    // 子類別覆寫此函式來定義死亡行為
-    write(name + " 倒下了！\n");
+void revive() {
+    is_dead = 0;
+    hp = max_hp / 10; // 復活時只有 10% 血量
+    mp = max_mp / 10;
+    set_heart_beat(1);
+    
+    object start = load_object(START_ROOM);
+    if (start) {
+        move_object(start);
+        write(HIW("你在祈禱室緩緩睜開雙眼，感覺身體非常虛弱。\n"));
+        start->look_room();
+    }
+    this_object()->save();
 }
+
 
 // ── 戰鬥基礎 ─────────────────────────────────────────────
 void stop_combat() {
@@ -396,6 +495,12 @@ int query_skill(string s) {
 int query_skill_exp(string s) {
     if (!skills || !skills[s]) return 0;
     return skills[s]["exp"];
+}
+
+void set_skill_level(string s, int v) {
+    if (!skills) skills = ([]);
+    if (!skills[s]) skills[s] = ([ "level": 0, "exp": 0 ]);
+    skills[s]["level"] = v;
 }
 
 void improve_skill(string s, int v) {

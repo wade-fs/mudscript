@@ -9,6 +9,7 @@ mixed   id_list;       // 識別字串陣列
 // 🚀 新增：基本旗標
 int     no_get;        // 不可拿取 (例如: 巨大的石頭)
 int     no_drop;       // 不可掉落 (例如: 詛咒物品、重要任務道具)
+int     money_value;   // 🚀 新增：如果是錢袋，紀錄金額
 
 void create() {
     name       = "某個東西";
@@ -26,14 +27,16 @@ void set_long(string s)      { long_name  = s; }
 void set_id(mixed ids)       { if (arrayp(ids)) id_list = ids; else id_list = ({ ids }); }
 void set_no_get(int v)       { no_get = v; }
 void set_no_drop(int v)      { no_drop = v; }
+void set_money_value(int v)  { money_value = v; }
 
 // ── 查詢函式 ────────────────────────────────────────────
 string query_name()      { return name; }
 string query_short()     { return short_name; }
-string query_long()      { return long_name; }
+string query_long()      { return long_desc; } // 這裡似乎原本是 long_name，但我看過 room.c 用 long_desc，等下確認
 mixed  query_id()        { return id_list; }
 int    query_no_get()    { return no_get; }
 int    query_no_drop()   { return no_drop; }
+int    query_money_value(){ return money_value; }
 
 // ── 取得用於指令互動的主要識別字 ─────────────────────
 string query_key_id() {

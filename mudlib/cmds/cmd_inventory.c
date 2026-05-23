@@ -2,6 +2,7 @@
 // 物品指令守護進程：inventory / i / get / drop / wear / wield / remove
 
 #include "/include/config.h"
+#include "/include/ansi.h"
 
 int main(object me, string verb, string arg) {
     switch (verb) {
@@ -26,17 +27,16 @@ int main(object me, string verb, string arg) {
 }
 
 int do_inventory(object me, string arg) {
-    write("=== 背包 ===\n");
-    mixed inv = all_inventory(me);
-    if (sizeof(inv) == 0) {
-        write("（空的）\n");
-    } else {
-        int i;
-        for (i = 0; i < sizeof(inv); i++) {
-            write("  " + inv[i]->query_short() + "\n");
-        }
+    object *inv = all_inventory(me);
+    if (!inv || sizeof(inv) == 0) {
+        write("你身上沒有任何東西。\n");
+        return 1;
     }
-    write("持有金幣：" + sprintf("%d", me->query_gold()) + "\n");
+
+    write("你身上帶著以下物品：\n");
+    for (int i = 0; i < sizeof(inv); i++) {
+        write("  " + inv[i]->query_short() + "\n");
+    }
     return 1;
 }
 
@@ -67,8 +67,11 @@ int do_get(object me, string arg) {
 
     object item = present(item_id, container);
     if (!item) {
-        write((container == environment(me) ? "這裡" : container->query_short()) + 
-              " 沒有叫「" + item_id + "」的東西。\n");
+        string loc_name = "這裡";
+        if (container != environment(me)) {
+            loc_name = container->query_short();
+        }
+        write(loc_name + " 沒有叫「" + item_id + "」的東西。\n");
         return 1;
     }
 
@@ -86,7 +89,13 @@ int do_get(object me, string arg) {
     string owner_tid = container->query_team_owner();
     if (owner_tid != "") {
         object my_leader = me->query_leader();
-        string my_tid = (my_leader ? my_leader->get_id() : me->get_id());
+        string my_tid;
+        if (my_leader) {
+            my_tid = my_leader->get_id();
+        } else {
+            my_tid = me->get_id();
+        }
+        
         if (my_tid != owner_tid) {
             write(HIR("這具屍體的戰利品暫時受保護，你目前無法拿取。\n"));
             return 1;
@@ -98,10 +107,38 @@ int do_get(object me, string arg) {
         return 1;
     }
 
+    // 🚀 跑屍機制：如果從自己的屍體撿東西
+    if (strsrch(object_name(container), "/std/corpse.c") != -1) {
+        mapping penalty = container->query_penalty_data();
+        if (penalty && penalty["owner"] == me->get_id()) {
+            int back_exp = penalty["exp"] / 2;
+            int back_pot = penalty["pot"] / 2;
+            if (back_exp > 0 || back_pot > 0) {
+                me->gain_exp(back_exp);
+                me->gain_potential(back_pot);
+                write(HIY("✨ 你取回了自己的遺物，靈魂感到一陣充實，恢復了部分損失的經驗與潛能。\n"));
+                // 清除屍體上的懲罰紀錄，避免重複領取
+                container->set_penalty_data(([]));
+            }
+        }
+    }
+
+    // 🚀 新增：錢袋處理
+    if (item->query_money_value() > 0) {
+        int m = item->query_money_value();
+        me->add_money(m);
+        write(HIG("你打開了錢袋，獲得了 " + m + " 銅幣。\n"));
+        destruct(item);
+        return 1;
+    }
+
     if (move_object(item, me)) {
         me->save(); // 立即存檔
-        write("你從 " + (container == environment(me) ? "地上" : container->query_short()) + 
-              " 撿起了 " + item->query_short() + "。\n");
+        string from_name = "地上";
+        if (container != environment(me)) {
+            from_name = container->query_short();
+        }
+        write("你從 " + from_name + " 撿起了 " + item->query_short() + "。\n");
         say(me->query_name() + " 撿起了 " + item->query_short() + "。\n");
     } else {
         write("你無法拿走這個物品。\n");
@@ -207,7 +244,7 @@ int do_appraise(object me, string arg) {
 
     write("你仔細觀察 " + item->query_short() + "...\n");
     
-    if (!item->query_identified()) {
+    if (item->query_identified() == 0) {
         write("這件物品尚未被鑑定，你看不出它的具體深淺。\n");
         return 1;
     }
@@ -221,7 +258,9 @@ int do_appraise(object me, string arg) {
 
     if (item->query_item_type() == ITEM_WEAPON) {
         desc += "  攻擊力：+" + sprintf("%d", item->query_attack()) + "\n";
-        desc += "  屬性：" + (item->query_element() != "" ? item->query_element() : "無") + "\n";
+        string attr = item->query_element();
+        if (attr == "") attr = "無";
+        desc += "  屬性：" + attr + "\n";
     } else if (item->query_item_type() == ITEM_ARMOUR) {
         desc += "  防禦力：+" + sprintf("%d", item->query_defence()) + "\n";
         desc += "  部位：" + item->query_slot_name() + "\n";
