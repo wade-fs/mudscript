@@ -173,16 +173,17 @@ func (h *Hub) Run() {
 					// 路由策略：
 					// 1. 如果目標是 P2P 節點：一律轉發 (包含發送者，作為回信確認)
 					// 2. 如果目標是 Web 玩家：只有在對方「不是」發送者時才轉發
-					//    (註：Hub 本身的 Web 玩家已經在階段 1 看到了，所以這裡其實主要針對 Peer 上的 Web 玩家)
-					
 					if peer.IsP2P {
-						// P2P 節點需要收到訊息來同步其本地 MUD
-						// 這裡發送回給原始發送節點，讓該節點的玩家看到自己的 fs 訊息
-						peer.Send <- msg
-					} else {
-						// 普通 Web 客戶端：如果不是發送者才發送
-						if id != msg.From {
-							peer.Send <- msg
+						// P2P 節點：非阻塞發送
+						select {
+						case peer.Send <- msg:
+						default:
+						}
+					} else if id != msg.From {
+						// Web 玩家：非阻塞發送
+						select {
+						case peer.Send <- msg:
+						default:
 						}
 					}
 				}
@@ -191,7 +192,6 @@ func (h *Hub) Run() {
 					select {
 					case peer.Send <- msg:
 					default:
-						fmt.Printf("⚠️ 警告：無法轉發 WebRTC 信令給 %s (佇列已滿)\n", msg.To)
 					}
 				}
 			}
