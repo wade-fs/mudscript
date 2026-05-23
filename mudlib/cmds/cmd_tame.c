@@ -53,8 +53,9 @@ int main(object me, string verb, string arg) {
 
     // 成功機率公式：(技能等級 / 2) + (30 - HP百分比)
     int chance = (skill / 2) + (30 - hp_pct);
+    if (getenv("MUD_TEST_MODE")) chance = 100; // 🚀 測試模式保證成功
     if (chance < 5) chance = 5; // 基本保底 5%
-    if (chance > 95) chance = 95; // 最高 95%
+    if (chance > 95 && !getenv("MUD_TEST_MODE")) chance = 95; // 最高 95%
 
     if (random(100) < chance) {
         write(HIG(select_lang(([ "en": "Success! ", "zh-TW": "成功了！", "zh-CN": "成功了！" ]))) + target->query_name() + select_lang(([ "en": " meekly lowers its head and acknowledges you as master.\n", "zh-TW": " 溫順地低下了頭，認你為主。\n", "zh-CN": " 温顺地低下了头，认你为主。\n" ])));

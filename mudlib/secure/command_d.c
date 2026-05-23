@@ -82,7 +82,9 @@ void create() {
         "unride"   : "/cmds/cmd_ride.c",
         "dismount" : "/cmds/cmd_ride.c",
         "map"      : "/cmds/cmd_map.c",
-        "time"     : "/cmds/cmd_time.c"
+        "time"     : "/cmds/cmd_time.c",
+        "interstellar": "/cmds/cmd_p2p.c",
+        "is"       : "/cmds/cmd_p2p.c"
     ]);
 }
 

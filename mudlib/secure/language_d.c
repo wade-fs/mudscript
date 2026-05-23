@@ -134,7 +134,14 @@ void create() {
             "weather_cloudy": "A few dark clouds float by, and the sky becomes gloomy.",
             "weather_rainy": "Mist-like rain starts to fall from the sky, washing the dust of the world.",
             "weather_foggy": "A thick fog gradually rises around, making distant views blurry.",
-            "weather_snowy": "Crystal snowflakes fall gracefully from the sky."
+            "weather_snowy": "Crystal snowflakes fall gracefully from the sky.",
+            "desc_clear_day": "Sunny",
+            "desc_clear_night": "Starlit",
+            "desc_cloudy": "Cloudy",
+            "desc_rainy": "Rainy",
+            "desc_foggy": "Foggy",
+            "desc_snowy": "Snowy",
+            "weather_time_format": "[ %s / %s ]"
         ]),
         "zh-TW": ([
             "welcome": "歡迎回來，$name。",
@@ -259,7 +266,14 @@ void create() {
             "weather_cloudy": "幾朵烏雲飄過，天空變得陰沉了下來。",
             "weather_rainy": "天空下起了綿綿細雨，洗滌著塵世。",
             "weather_foggy": "四周漸漸騰起一陣濃霧，遠方的景物變得模糊不清。",
-            "weather_snowy": "晶瑩的雪花從天空紛紛揚揚地落下。"
+            "weather_snowy": "晶瑩的雪花從天空紛紛揚揚地落下。",
+            "desc_clear_day": "晴朗",
+            "desc_clear_night": "星光燦爛",
+            "desc_cloudy": "多雲",
+            "desc_rainy": "下雨",
+            "desc_foggy": "濃霧",
+            "desc_snowy": "下雪",
+            "weather_time_format": "【 %s / %s 】"
         ]),
         "zh-CN": ([
             "welcome": "欢迎回來，$name。",
@@ -296,7 +310,7 @@ void create() {
             "say_get": "捡起了",
             "get_fail": "你无法拿走这个物品。",
             "drop_what": "丢下什么？",
-            "no_item_inv": "你身上没有叫「$id」的东西。",
+            "no_item_inv": "你身上没有叫「$id」的東西。",
             "no_drop_err": "似乎黏在你的手上了，丢不掉！",
             "drop_success": "你放下了 $item。",
             "say_drop": "放下了",
@@ -384,7 +398,14 @@ void create() {
             "weather_cloudy": "几朵乌云飘过，天空变得阴沉了下來。",
             "weather_rainy": "天空下起了绵绵细雨，洗涤着尘世。",
             "weather_foggy": "四周渐渐騰起一阵浓雾，远方的景物变得模糊不清。",
-            "weather_snowy": "晶莹的雪花从天空纷纷扬扬地落下。"
+            "weather_snowy": "晶莹的雪花从天空纷纷扬扬地落下。",
+            "desc_clear_day": "晴朗",
+            "desc_clear_night": "星光灿烂",
+            "desc_cloudy": "多云",
+            "desc_rainy": "下雨",
+            "desc_foggy": "浓雾",
+            "desc_snowy": "下雪",
+            "weather_time_format": "【 %s / %s 】"
         ])
     ]);
 }
@@ -404,12 +425,23 @@ string translate(string key, string lang) {
 
 mapping query_all_translations() { return translations; }
 
-// 🚀 新增：廣播事件訊息給房間內的所有玩家 (自動按玩家語系翻譯)
+// 廣播事件訊息給房間內的所有玩家 (自動按玩家語系翻譯)
 void broadcast_event(object room, string key, mapping params) {
     if (!room) return;
     
     object *inv = all_inventory(room);
     if (!inv || sizeof(inv) == 0) return;
+
+    // 方向本地化字典
+    mapping dir_map = ([
+        "north": ([ "en": "the north", "zh-TW": "北方", "zh-CN": "北方" ]),
+        "south": ([ "en": "the south", "zh-TW": "南方", "zh-CN": "南方" ]),
+        "east":  ([ "en": "the east",  "zh-TW": "東方", "zh-CN": "东方" ]),
+        "west":  ([ "en": "the west",  "zh-TW": "西方", "zh-CN": "西方" ]),
+        "up":    ([ "en": "above",     "zh-TW": "上方", "zh-CN": "上方" ]),
+        "down":  ([ "en": "below",     "zh-TW": "下方", "zh-CN": "下方" ]),
+        "here":  ([ "en": "somewhere", "zh-TW": "附近", "zh-CN": "附近" ])
+    ]);
     
     foreach (object ob in inv) {
         if (!userp(ob) || !is_interactive(ob)) continue;
@@ -418,13 +450,20 @@ void broadcast_event(object room, string key, mapping params) {
         if (!lang) lang = "en";
         
         string msg = translate(key, lang);
-        if (msg == key) continue; // 找不到翻譯則不發送或發送 key
+        if (msg == key) continue;
         
         // 替換參數
         if (mapp(params)) {
             string *ks = keys(params);
             foreach (string p_key in ks) {
-                msg = replace_string(msg, p_key, to_string(params[p_key]));
+                mixed p_val = params[p_key];
+                
+                // 🚀 特殊處理 $dir：如果值在方向字典中，則進行翻譯
+                if (p_key == "$dir" && stringp(p_val) && dir_map[p_val]) {
+                    p_val = dir_map[p_val][lang] ? dir_map[p_val][lang] : dir_map[p_val]["en"];
+                }
+                
+                msg = replace_string(msg, p_key, to_string(p_val));
             }
         }
         

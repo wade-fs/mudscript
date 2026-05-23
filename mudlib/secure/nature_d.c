@@ -138,12 +138,15 @@ string query_weather_string() {
     string weather_desc = "";
     
     switch(current_weather) {
-        case "clear":  weather_desc = is_day() ? "晴朗" : "星光燦爛"; break;
-        case "cloudy": weather_desc = "多雲"; break;
-        case "rainy":  weather_desc = "下雨"; break;
-        case "foggy":  weather_desc = "濃霧"; break;
-        case "snowy":  weather_desc = "下雪"; break;
+        case "clear":  weather_desc = _t(is_day() ? "desc_clear_day" : "desc_clear_night"); break;
+        case "cloudy": weather_desc = _t("desc_cloudy"); break;
+        case "rainy":  weather_desc = _t("desc_rainy"); break;
+        case "foggy":  weather_desc = _t("desc_foggy"); break;
+        case "snowy":  weather_desc = _t("desc_snowy"); break;
     }
 
-    return sprintf("【%s / %s】", time_desc, weather_desc);
+    string fmt = _t("weather_time_format");
+    if (fmt == "weather_time_format") fmt = "[ %s / %s ]";
+    
+    return sprintf(fmt, time_desc, weather_desc);
 }

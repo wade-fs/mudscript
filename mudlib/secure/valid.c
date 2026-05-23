@@ -9,19 +9,26 @@ void create() {
 
 // valid_read: 控制檔案讀取權限
 mixed valid_read(string path, object user, string func) {
-    if (!user) return 1; // 系統內部讀取允許
+    if (!user || user == 0) return 1; // 系統內部讀取允許
+    
+    // 🚀 核心修正：如果是系統物件 (位於 /secure/ 或 /std/) 讀取，直接允許
+    // 這樣 login.c 才能檢查玩家是否存在
+    string creator = base_name(user);
+    if (strsrch(creator, "/secure/") == 0 || strsrch(creator, "/std/") == 0) {
+        return 1;
+    }
     
     string role = user->query_role();
     if (role == "god") return 1;
 
     // 保護敏感目錄
     if (strsrch(path, "/secure/") == 0 || strsrch(path, "/data/user/") == 0) {
-        if (role == "wizard") return 1; // 巫師可以讀取，但不能隨意寫入
+        if (role == "wizard") return 1; 
         
         // 玩家只能讀取自己的資料
         if (strsrch(path, "/data/user/") == 0) {
             string uid = user->get_id();
-            if (uid && strsrch(path, uid) != -1) return 1;
+            if (uid && uid != "" && strsrch(path, "/" + uid + ".o") != -1) return 1;
         }
         return "拒絕讀取：該路徑包含敏感資訊。";
     }

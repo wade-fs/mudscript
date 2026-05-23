@@ -232,6 +232,19 @@ void init() {
     }
 }
 
+// ── 方向輔助 ────────────────────────────────────────────
+string query_reverse_dir(string dir) {
+    switch(dir) {
+        case "north": return "south";
+        case "south": return "north";
+        case "east":  return "west";
+        case "west":  return "east";
+        case "up":    return "down";
+        case "down":  return "up";
+    }
+    return "here";
+}
+
 int do_go(string dir) {
     mixed cmd = dir;
     if (!cmd) {
@@ -259,7 +272,9 @@ int do_go(string dir) {
 
     if (me->move(dest, cmd)) {
         // 廣播抵達訊息 (給新房間的人)
-        lang_d->broadcast_event(dest, "say_arrive", ([ "$name": my_name, "$dir": cmd ]));
+        // 🚀 關鍵修正：抵達訊息應該顯示「反向」
+        string from_dir = query_reverse_dir(cmd);
+        lang_d->broadcast_event(dest, "say_arrive", ([ "$name": my_name, "$dir": from_dir ]));
         dest->look_room(me);
     } else {
         string fail_msg = _t("move_fail_err");

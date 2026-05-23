@@ -194,8 +194,13 @@ func (h *Hub) Run() {
 					h.mudDriver.RunCommand(p, p.Object, "process_input", []object.Object{&object.String{Value: input}})
 				}
 			} else if msg.Type == "chat" {
+				// 🚀 關鍵修正：將來自 P2P 網路的訊息轉發給本地 MUD
+				if msg.From != "local" && h.mudDriver != nil && h.mudDriver.OnP2PMessage != nil {
+					h.mudDriver.OnP2PMessage(msg.Username, msg.Payload)
+				}
+
 				for id, peer := range h.clients {
-					// 不要把訊息發回給自己 (msg.From 在 client.go 的 readLoop 已經自動被填上了)
+					// 不要把訊息發回給自己 (如果是從本地發送的，msg.From 會是 "local")
 					if id != msg.From {
 						peer.Send <- msg
 					}
@@ -207,5 +212,15 @@ func (h *Hub) Run() {
 				}
 			}
 		}
+	}
+}
+
+// 🚀 新增：供本地 MUD 呼叫的廣播方法
+func (h *Hub) BroadcastChat(sender, content string) {
+	h.forward <- Message{
+		Type:     "chat",
+		From:     "local",
+		Username: sender,
+		Payload:  content,
 	}
 }

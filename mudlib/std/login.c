@@ -25,15 +25,24 @@ string _t(string key) {
 }
 
 void logon() {
-    string lang = browser_lang;
-    if (!lang || lang == "") lang = "en";
-    if (strsrch(lang, "zh-") == 0) {
-        if (lang == "zh-CN") lang = "zh-CN";
-        else lang = "zh-TW";
-    } else {
-        lang = "en";
+    write("\n" + HIW("Welcome to MudScript World!") + "\n");
+    write("Please select your language / 請選擇您的語系：\n");
+    write("[1] English\n");
+    write("[2] 繁體中文 (Traditional Chinese)\n");
+    write("[3] 简体中文 (Simplified Chinese)\n");
+    write("Selection: ");
+    input_to("get_language");
+}
+
+void get_language(string input) {
+    switch(input) {
+        case "1": browser_lang = "en"; break;
+        case "2": browser_lang = "zh-TW"; break;
+        case "3": browser_lang = "zh-CN"; break;
+        default:  browser_lang = "en"; break;
     }
 
+    string lang = browser_lang;
     string issue = read_file(ISSUE_FILE + "." + lang);
     if (!issue) issue = read_file(ISSUE_FILE);
 
@@ -96,14 +105,12 @@ void check_pass(string pass) {
         }
 
         if (exec(user, this_object())) {
+            // 🚀 關鍵修正：不論舊檔語系為何，一律強制同步為本次登入所選語系
+            user->set_lang(browser_lang);
+            
             user->setup();
 			if (!user->query_name()) {
                 user->set_name(user->get_id());
-            }
-            
-            // 🚀 新增：初始化語系
-            if (!user->query_lang()) {
-                user->set_lang(browser_lang);
             }
 
             string msg_login = load_object("/secure/language_d.c")->translate("login_success", user->query_lang());
@@ -134,7 +141,7 @@ void new_pass(string pass) {
 }
 
 void get_nickname(string nick) {
-    if (!nick) {
+    if (!nick || nick == "") {
         write(RED("暱稱不能為空") + "，請重新輸入您的暱稱：");
         input_to("get_nickname");
         return;
@@ -144,7 +151,7 @@ void get_nickname(string nick) {
     // 開始選擇種族
     write("\n" + BOLD_WHT("── 選擇您的種族 ──") + "\n");
     mapping races = RACE_DATA;
-    string *ks = keys(races);
+    string *ks = sort_array(keys(races), 1);
     for (int i = 0; i < sizeof(ks); i++) {
         write(sprintf("[%d] %-10s : %s\n", i + 1, races[ks[i]]["name"], races[ks[i]]["desc"]));
     }
@@ -154,7 +161,7 @@ void get_nickname(string nick) {
 
 void get_race(string input) {
     mapping races = RACE_DATA;
-    string *ks = keys(races);
+    string *ks = sort_array(keys(races), 1);
     int idx = to_int(input);
 
     if (idx > 0 && idx <= sizeof(ks)) {
@@ -172,7 +179,7 @@ void get_race(string input) {
     // 開始選擇天性
     write("\n" + BOLD_WHT("── 選擇您的天性 ──") + "\n");
     mapping natures = NATURE_DATA;
-    string *n_ks = keys(natures);
+    string *n_ks = sort_array(keys(natures), 1);
     for (int i = 0; i < sizeof(n_ks); i++) {
         write(sprintf("[%d] %-10s : %s\n", i + 1, natures[n_ks[i]]["name"], natures[n_ks[i]]["desc"]));
     }
@@ -182,7 +189,7 @@ void get_race(string input) {
 
 void get_nature(string input) {
     mapping natures = NATURE_DATA;
-    string *ks = keys(natures);
+    string *ks = sort_array(keys(natures), 1);
     int idx = to_int(input);
 
     if (idx > 0 && idx <= sizeof(ks)) {
@@ -207,7 +214,7 @@ void create_character() {
     user->set_nickname(current_nick);
     user->set_race(current_race);
     user->set_nature(current_nature);
-    user->set_lang(browser_lang); // 🚀 繼承瀏覽器語系
+    user->set_lang(browser_lang); // 🚀 繼承選擇語系
 
     // 套用種族與天性的屬性加成
     mapping r_data = RACE_DATA[current_race];
@@ -248,9 +255,9 @@ void create_character() {
 
     if (exec(user, this_object())) {
         string lang = user->query_lang() ? user->query_lang() : browser_lang;
-        string msg = load_object("/secure/language_d.c")->translate("login_success", lang);
-        msg = replace_string(msg, "$name", current_nick);
-        write("\n" + GREEN(msg) + "\n");
+        string msg_login = load_object("/secure/language_d.c")->translate("login_success", lang);
+        msg_login = replace_string(msg_login, "$name", user->query_name());
+        write("\n" + GREEN(msg_login) + "\n");
         user->save();
         user->setup();
         destruct(this_object());

@@ -27,7 +27,6 @@ string *saved_inventory = ({ });
 string last_location;
 
 // ── 查詢 ──────────────────────────────────────────────────
-int userp(object ob) { return 1; }
 
 // ── 初始化 ───────────────────────────────────────────────
 void init_aliases() {

@@ -236,6 +236,10 @@ type Driver struct {
 	// 使用 Goroutine ID 來追蹤當前正在執行的玩家
 	playerContexts     sync.Map
 	interactiveObjects sync.Map
+
+	// 🚀 P2P 整合
+	OnP2PMessage func(sender, content string)
+	P2PSendChat  func(sender, content string)
 }
 
 func New(config DriverConfig) *Driver {

@@ -28,3 +28,4 @@ mudscript
 bin
 *.zip
 mudlib/data/user
+mudlib/data/nature.o
