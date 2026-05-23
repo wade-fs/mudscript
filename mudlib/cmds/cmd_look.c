@@ -4,7 +4,7 @@
 int main(object me, string verb, string arg) {
     object here = environment(me);
     if (!here) {
-        write("你飄浮在虛空中。\n");
+        write(load_object("/secure/language_d.c")->translate("void", me->query_lang()) + "\n");
         return 1;
     }
 
@@ -34,7 +34,9 @@ int main(object me, string verb, string arg) {
         return 1;
     }
 
-    write("你看不到叫「" + arg + "」的東西。\n");
+    string not_found = load_object("/secure/language_d.c")->translate("not_found", me->query_lang());
+    not_found = replace_string(not_found, "$arg", arg);
+    write(not_found + "\n");
     return 1;
 }
 

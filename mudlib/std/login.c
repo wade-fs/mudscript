@@ -2,6 +2,8 @@
 #include "/include/ansi.h"
 #include "/include/race.h"
 
+inherit "/std/object";
+
 string current_id;
 string current_pass;
 string current_nick;
@@ -10,24 +12,32 @@ string current_nature;
 string browser_lang; // 🚀 新增
 
 void create() {
+    ::create();
 }
 
 void set_browser_lang(string lang) { browser_lang = lang; }
+
+// 🚀 新增：覆寫 _t 以便在登入階段正確使用偵測到的語系
+string _t(string key) {
+    string l = browser_lang;
+    if (!l) l = "en";
+    return load_object("/secure/language_d.c")->translate(key, l);
+}
 
 void logon() {
     string issue = read_file(ISSUE_FILE);
     if (issue) {
         write(issue);
     } else {
-        write("\n" + CYAN("連線成功！歡迎來到 MudScript 測試伺服器！") + "\n");
+        write("\n" + CYAN(_t("welcome")) + "\n");
     }
-    write("\n請輸入您的帳號名稱 (" + YELLOW("若無帳號將自動註冊") + ")：");
+    write("\n" + _t("prompt_id") + " ");
     input_to("get_id");
 }
 
 void get_id(string id) {
-    if (!id) {
-        write(RED("帳號不能為空") + "，請重新輸入：");
+    if (!id || id == "") {
+        write(RED(_t("prompt_id_empty")) + " ");
         input_to("get_id");
         return;
     }
@@ -48,10 +58,12 @@ void get_id(string id) {
     temp_user->set_id(id);
     
     if (temp_user->restore() == 1) {
-        write("歡迎回來，" + GREEN(id) + "！請輸入密碼：");
+        write(_t("prompt_pass") + " ");
         input_to("check_pass", 1);
     } else {
-        write("歡迎新玩家 " + YELLOW(id) + "！為您的帳號設定密碼：");
+        string msg = _t("prompt_new_pass");
+        msg = replace_string(msg, "$id", YELLOW(id));
+        write(msg + " ");
         input_to("new_pass", 1);
     }
     
@@ -83,22 +95,24 @@ void check_pass(string pass) {
                 user->set_lang(browser_lang);
             }
 
-            write("\n" + GREEN("登入成功！歡迎回來，" + user->query_name() + "。") + "\n");
+            string msg = _t("login_success");
+            msg = replace_string(msg, "$name", user->query_name());
+            write("\n" + GREEN(msg) + "\n");
             destruct(this_object());
         } else {
             write(RED("系統錯誤：無法轉移連線。") + "\n");
             destruct(user);
         }
     } else {
-        write(RED("密碼錯誤") + "，請重新輸入密碼：");
+        write(RED(_t("prompt_pass_wrong")) + " ");
         destruct(user);
         input_to("check_pass", 1);
     }
 }
 
 void new_pass(string pass) {
-    if (!pass) {
-        write(RED("密碼不能為空") + "，請重新設定密碼：");
+    if (!pass || pass == "") {
+        write(RED(_t("prompt_new_pass_empty")) + " ");
         input_to("new_pass", 1);
         return;
     }

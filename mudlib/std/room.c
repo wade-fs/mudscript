@@ -80,8 +80,8 @@ void spawn_npc(string file) {
 }
 
 // ── 查詢函式 ────────────────────────────────────────────
-string query_short() { return short_desc; }
-string query_long()  { return long_desc; }
+string query_short() { return select_lang(short_desc); }
+string query_long()  { return select_lang(long_desc); }
 mapping query_exits(){ return exits; }
 int query_no_combat(){ return no_combat; }
 int query_has_forge(){ return has_forge; }
@@ -89,8 +89,8 @@ int query_has_lab()  { return has_lab; }
 
 // ── 顯示房間 ────────────────────────────────────────────
 void look_room() {
-    write("【" + short_desc + "】\n");
-    write(long_desc + "\n");
+    write("【" + query_short() + "】\n");
+    write(query_long() + "\n");
 
     mixed exit_dirs = keys(exits);
     if (exit_dirs) {
@@ -99,9 +99,9 @@ void look_room() {
         for (int i = 0; i < sizeof(exit_dirs); i++) {
             formatted_exits += ({ "[" + exit_dirs[i] + "]" });
         }
-        write("出口：" + implode(formatted_exits, "  ") + "\n");
+        write(_t("exits") + "：" + implode(formatted_exits, "  ") + "\n");
     } else {
-        write("出口：（無）\n");
+        write(_t("exits") + "：（無）\n");
     }
 
     mixed here_inv = all_inventory(this_object());
@@ -119,7 +119,7 @@ void look_room() {
     }
 
     if (sizeof(items_in_room) > 0) {
-        write("物品：\n");
+        write(_t("inventory") + "：\n");
         int j;
         for (j = 0; j < sizeof(items_in_room); j++) {
             object item = items_in_room[j];
@@ -129,7 +129,7 @@ void look_room() {
     }
 
     if (sizeof(livings_in_room) > 0) {
-        write("這裡有：\n");
+        write(_t("livings") + "：\n");
         int k;
         for (k = 0; k < sizeof(livings_in_room); k++) {
             object liv = livings_in_room[k];

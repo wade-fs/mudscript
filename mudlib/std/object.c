@@ -29,10 +29,28 @@ void set_no_get(int v)       { no_get = v; }
 void set_no_drop(int v)      { no_drop = v; }
 void set_money_value(int v)  { money_value = v; }
 
+// ── 輔助函式：根據玩家語系選擇字串 ─────────────────────
+string select_lang(mixed data) {
+    if (stringp(data)) return data;
+    if (!mapp(data)) return to_string(data);
+
+    object tp = this_player();
+    string lang = "en";
+    if (tp) lang = tp->query_lang();
+    
+    if (data[lang]) return data[lang];
+    if (data["en"]) return data["en"];
+    
+    // 沒找到則回傳第一項
+    mixed ks = keys(data);
+    if (sizeof(ks) > 0) return data[ks[0]];
+    return "None";
+}
+
 // ── 查詢函式 ────────────────────────────────────────────
-string query_name()      { return name; }
-string query_short()     { return short_name; }
-string query_long()      { return long_desc; } // 這裡原本是 long_name，但我看過 room.c 用 long_desc，等下確認
+string query_name()      { return select_lang(name); }
+string query_short()     { return select_lang(short_name); }
+string query_long()      { return select_lang(long_name); }
 mixed  query_id()        { return id_list; }
 int    query_no_get()    { return no_get; }
 int    query_no_drop()   { return no_drop; }
