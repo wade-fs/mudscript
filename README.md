@@ -86,6 +86,7 @@ MudScript 支援 P2P 模式，讓多個在本機執行的伺服器能夠互相�
 - `/web/static`: 前端網頁資源。
 - [**Efuns 參考手冊**](docs/README-efuns.md)：完整的內建函式清單與用法說明。
 
+## Link: https://wade-fs-fsmud-hub.hf.space
 ## 📜 授權
 
 本專案基於 MIT 授權協議開放原始碼。
