@@ -24,6 +24,7 @@ int has_bank;          // 🚀 銀行設施
 int has_tavern;        // 🚀 酒館設施
 int has_guild;         // 🚀 公會設施
 int has_shop;          // 🚀 商店設施
+int is_outdoor;        // 🚀 是否為室外
 
 void create() {
     ::create();
@@ -42,6 +43,7 @@ void create() {
     has_tavern= 0;
     has_guild = 0;
     has_shop  = 0;
+    is_outdoor = 1; // 預設皆為室外
 }
 
 // 判斷物件是否可以進入房間 (房間預設允許所有人進入)
@@ -70,6 +72,7 @@ void set_has_bank(int v) { has_bank  = v; }
 void set_has_tavern(int v){ has_tavern = v; }
 void set_has_guild(int v){ has_guild = v; }
 void set_has_shop(int v) { has_shop  = v; }
+void set_is_outdoor(int v){ is_outdoor = v; }
 
 void add_exit(string dir, string path) {
     exits[dir] = path;
@@ -102,10 +105,17 @@ int query_has_bank() { return has_bank; }
 int query_has_tavern(){ return has_tavern; }
 int query_has_guild(){ return has_guild; }
 int query_has_shop() { return has_shop; }
+int query_is_outdoor(){ return is_outdoor; }
 
 // ── 顯示房間 ────────────────────────────────────────────
 void look_room(object who) {
     if (!who) who = this_player();
+
+    // 顯示天氣與時間 (僅限室外)
+    if (is_outdoor) {
+        write(HIG(load_object("/secure/nature_d.c")->query_weather_string()) + "\n");
+    }
+
     write("【" + query_short() + "】\n");
     write(query_long() + "\n");
 
@@ -183,6 +193,16 @@ void look_room(object who) {
     }
     map_data["exits"] = keys(exits); // 同時保留可用出口資訊給前端使用
     write(sprintf("{\"ui\": \"minimap\", \"data\": %s}", json_encode(map_data)));
+
+    // 🚀 新增：發送天氣資訊給前端
+    object nature_d = load_object("/secure/nature_d.c");
+    mapping nature_data = ([
+        "weather": nature_d->query_weather(),
+        "is_day": nature_d->is_day(),
+        "hour": nature_d->query_hour(),
+        "season": nature_d->query_season()
+    ]);
+    write(sprintf("{\"ui\": \"nature\", \"data\": %s}", json_encode(nature_data)));
 }
 
 // ── 移動指令 ────────────────────────────────────────────

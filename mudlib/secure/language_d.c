@@ -124,7 +124,11 @@ void create() {
             "label_hp": "HP",
             "label_mp": "MP",
             "label_wealth": "Wealth",
-            "label_atk": "Attack"
+            "label_atk": "Attack",
+            "coin_copper": "copper coins",
+            "coin_silver": "silver coins",
+            "coin_gold": "gold coins",
+            "coin_cool_gold": "cool gold coins"
         ]),
         "zh-TW": ([
             "welcome": "歡迎回來，$name。",
@@ -239,7 +243,11 @@ void create() {
             "label_hp": "生命",
             "label_mp": "法力",
             "label_wealth": "財富",
-            "label_atk": "攻擊"
+            "label_atk": "攻擊",
+            "coin_copper": "銅幣",
+            "coin_silver": "銀幣",
+            "coin_gold": "金幣",
+            "coin_cool_gold": "酷金幣"
         ]),
         "zh-CN": ([
             "welcome": "欢迎回來，$name。",
@@ -317,7 +325,7 @@ void create() {
             "available_langs": "可用语系",
             "lang_usage": "用法",
             "unsupported_lang": "不支持的语系",
-            "guild_already_joined": "你已经有所属的组织了，必须先退出才能加入新公會。",
+            "guild_already_joined": "你已经有所屬的組織了，必須先退出才能加入新公會。",
             "level_low_err": "你的等级不足，无法加入 $guild。",
             "stat_low_err": "你的 $stat 不足，無法加入 $guild。",
             "guild_join_success": "🎉 恭喜！你正式加入了 $guild！",
@@ -354,7 +362,11 @@ void create() {
             "label_hp": "生命",
             "label_mp": "法力",
             "label_wealth": "财富",
-            "label_atk": "攻击"
+            "label_atk": "攻击",
+            "coin_copper": "铜币",
+            "coin_silver": "银币",
+            "coin_gold": "金币",
+            "coin_cool_gold": "酷金币"
         ])
     ]);
 }

@@ -285,6 +285,72 @@
             renderCmdList(ui.data, ui.title);
         } else if (ui.ui === "minimap") {
             renderMiniMap(ui.data); 
+        } else if (ui.ui === "nature") {
+            handleNatureData(ui.data);
+        }
+    }
+
+    function handleNatureData(data) {
+        const body = document.body;
+        
+        // 1. 處理日夜背景
+        if (data.is_day) {
+            body.style.background = "linear-gradient(to bottom, #1a2a6c, #b21f1f, #fdbb2d)"; // 黎明/白天感
+            body.style.backgroundAttachment = "fixed";
+        } else {
+            body.style.background = "linear-gradient(to bottom, #000000, #0f0c29, #000000)"; // 深夜感
+            body.style.backgroundAttachment = "fixed";
+        }
+
+        // 2. 處理天氣特效
+        renderWeatherEffect(data.weather);
+    }
+
+    let weatherInterval;
+    function renderWeatherEffect(weather) {
+        const container = document.getElementById("look-area");
+        // 清除舊的天氣元素 (保留星星)
+        const oldParticles = container.querySelectorAll(".weather-particle");
+        oldParticles.forEach(p => p.remove());
+
+        if (weather === "clear" || weather === "cloudy") return;
+
+        let char = "·";
+        let color = "#fff";
+        if (weather === "rainy") { char = "│"; color = "#55f"; }
+        if (weather === "snowy") { char = "❄"; color = "#fff"; }
+        if (weather === "foggy") { 
+            container.style.filter = "blur(2px) grayscale(50%)";
+            return;
+        } else {
+            container.style.filter = "none";
+        }
+
+        for (let i = 0; i < 30; i++) {
+            const p = document.createElement("div");
+            p.className = "weather-particle";
+            p.innerText = char;
+            p.style.position = "absolute";
+            p.style.color = color;
+            p.style.left = Math.random() * 100 + "%";
+            p.style.top = "-20px";
+            p.style.fontSize = (Math.random() * 10 + 10) + "px";
+            p.style.opacity = Math.random();
+            p.style.pointerEvents = "none";
+            
+            const duration = Math.random() * 2 + 1;
+            p.style.transition = `top ${duration}s linear, opacity ${duration}s ease-in`;
+            
+            container.appendChild(p);
+
+            // 動畫
+            setTimeout(() => {
+                p.style.top = "100%";
+                p.style.opacity = "0";
+            }, 100);
+
+            // 移除
+            setTimeout(() => p.remove(), duration * 1000 + 200);
         }
     }
 

@@ -442,12 +442,12 @@ string query_money_string() {
     int c  = rem;
 
     string res = "";
-    if (cg > 0) res += HIY(to_string(cg) + " 酷金幣 ");
-    if (g  > 0) res += HIY(to_string(g)  + " 金幣 ");
-    if (s  > 0) res += WHT(to_string(s)  + " 銀幣 ");
-    if (c  > 0) res += YEL(to_string(c)  + " 銅幣 ");
+    if (cg > 0) res += HIY(to_string(cg) + " " + _t("coin_cool_gold") + " ");
+    if (g  > 0) res += HIY(to_string(g)  + " " + _t("coin_gold") + " ");
+    if (s  > 0) res += WHT(to_string(s)  + " " + _t("coin_silver") + " ");
+    if (c  > 0) res += YEL(to_string(c)  + " " + _t("coin_copper") + " ");
     
-    if (res == "") return YEL("0 銅幣");
+    if (res == "") return YEL("0 " + _t("coin_copper"));
     return res;
 }
 
@@ -463,12 +463,12 @@ string query_money_plain() {
     int c  = rem;
 
     string res = "";
-    if (cg > 0) res += to_string(cg) + " 酷金幣 ";
-    if (g  > 0) res += to_string(g)  + " 金幣 ";
-    if (s  > 0) res += to_string(s)  + " 銀幣 ";
-    if (c  > 0) res += to_string(c)  + " 銅幣 ";
+    if (cg > 0) res += to_string(cg) + " " + _t("coin_cool_gold") + " ";
+    if (g  > 0) res += to_string(g)  + " " + _t("coin_gold") + " ";
+    if (s  > 0) res += to_string(s)  + " " + _t("coin_silver") + " ";
+    if (c  > 0) res += to_string(c)  + " " + _t("coin_copper") + " ";
     
-    if (res == "") return "0 銅幣";
+    if (res == "") return "0 " + _t("coin_copper");
     return res;
 }
 

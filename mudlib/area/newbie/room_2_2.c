@@ -16,6 +16,7 @@ void create() {
     ]));
     set_no_combat(1);
     set_has_lab(1);
+    set_is_outdoor(0);
     set_coordinate(2, 2, 0);
     add_exit("east",  "/area/newbie/room_3_2.c");
     add_exit("west",  "/area/newbie/room_1_2.c");

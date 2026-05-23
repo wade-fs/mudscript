@@ -16,6 +16,7 @@ void create() {
     ]));
     set_no_combat(1);
     set_has_guild(1);
+    set_is_outdoor(0);
     set_coordinate(4, 5, 0);
     add_exit("east",  "/area/newbie/room_5_5.c");
     add_exit("west",  "/area/newbie/room_3_5.c");
