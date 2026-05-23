@@ -115,7 +115,7 @@ void create() {
         }
         load_object("/secure/quest_d.c")->accept_quest(tp, "newbie_badge");
         return "很好，有志氣！只要你大聲喊出『我有勇氣』，我就把這枚徽章送給你。";
-    :));
+    :)
 
     add_response(({ "report", "回報" }), (:
         object tp = this_player();
@@ -134,7 +134,7 @@ void create() {
         }
         
         return "你目前沒有什麼可以向我回報的。";
-    :));
+    :)
 
     // 2. 教官處提供獵狼任務
     add_response(({ "hunt", "打獵", "獵狼" }), (:
@@ -142,7 +142,7 @@ void create() {
         if (tp->query_quest("wolf_hunter")) return "你已經領過獵狼任務了。";
         load_object("/secure/quest_d.c")->accept_quest(tp, "wolf_hunter");
         return "很好，去消滅 3 隻飢餓的野狼，回來向我『回報』。";
-    :));
+    :)
 
     // 🚀 新增：加入公會
     add_response(({ "join", "加入" }), (:
@@ -150,7 +150,7 @@ void create() {
         if (tp->query_guild()) return "你已經是 " + load_object("/secure/guild_d.c")->query_guild_info(tp->query_guild())["name"] + " 的成員了。";
         load_object("/secure/guild_d.c")->join_guild(tp, "adventurer");
         return "很好！從今天起，你就是我們冒險者公會的一員了。";
-    :));
+    :)
 
     add_response(({ "wolf", "野狼" }), "最近東邊的草原野狼氾濫，如果你想練手，可以找我承接『獵狼』任務。");
 }

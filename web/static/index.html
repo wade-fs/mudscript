@@ -166,7 +166,49 @@
     let historyCmds = [];
     let histIdx = -1;
 
-    window.onload = () => { connect(); };
+    window.onload = () => { 
+        initLocalization();
+        connect(); 
+    };
+
+    function initLocalization() {
+        const lang = navigator.language || navigator.userLanguage;
+        const isZH = lang.startsWith('zh');
+        const isCN = lang === 'zh-CN';
+        
+        let msg1 = ">>> System initialization complete...";
+        let msg2 = ">>> Connecting to the interstellar network...";
+        let msg3 = ">>> Welcome to the future fantasy world.";
+        let note = "[ This system is for development and testing purposes only ]";
+
+        if (isZH) {
+            if (isCN) {
+                msg1 = ">>> 系统初始化完成...";
+                msg2 = ">>> 连结星际网络中...";
+                msg3 = ">>> 欢迎來到未来的幻想世界。";
+                note = "[ 本系统仅供开发与测试使用 ]";
+            } else {
+                msg1 = ">>> 系統初始化完成...";
+                msg2 = ">>> 連結星際網路中...";
+                msg3 = ">>> 歡迎來到未來的幻想世界。";
+                note = "[ 本系統僅供開發與測試使用 ]";
+            }
+        }
+
+        const container = document.getElementById("init-msgs");
+        if (container) {
+            container.innerHTML = `
+                <div class="typing-text" style="color: #00ff00;">${msg1}</div><br>
+                <div class="typing-text" style="color: #00ff00; animation-delay: 1s;">${msg2}</div><br>
+                <div class="typing-text" style="color: #00ff00; animation-delay: 2s;">${msg3}</div>
+            `;
+        }
+
+        const noteElem = document.getElementById("dev-note");
+        if (noteElem) {
+            noteElem.innerText = note;
+        }
+    }
 
     const msgInput = document.getElementById("msg");
     msgInput.onkeydown = (e) => {

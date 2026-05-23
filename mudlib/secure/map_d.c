@@ -37,7 +37,8 @@ string draw_map(object me, int range) {
         "zh-TW": "=== 區域地圖 (",
         "zh-CN": "=== 区域地图 ("
     ]));
-    string out = "\n" + HIW(title + cur_x + "," + cur_y + ") ===") + "\n";
+    string map_header = title + cur_x + "," + cur_y + ") ===";
+    string out = "\n" + HIW(map_header) + "\n";
     
     // 從北到南 (y 遞減)
     for (int y = cur_y + range; y >= cur_y - range; y--) {

@@ -25,7 +25,18 @@ string _t(string key) {
 }
 
 void logon() {
-    string issue = read_file(ISSUE_FILE);
+    string lang = browser_lang;
+    if (!lang || lang == "") lang = "en";
+    if (strsrch(lang, "zh-") == 0) {
+        if (lang == "zh-CN") lang = "zh-CN";
+        else lang = "zh-TW";
+    } else {
+        lang = "en";
+    }
+
+    string issue = read_file(ISSUE_FILE + "." + lang);
+    if (!issue) issue = read_file(ISSUE_FILE);
+
     if (issue) {
         write(issue);
     } else {

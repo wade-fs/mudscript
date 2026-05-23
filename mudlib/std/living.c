@@ -483,24 +483,31 @@ int is_red_name() {
 // ── 技能管理介面 ──────────────────────────────────────────
 void set_skill(string s, int v) {
     if (!skills) skills = ([]);
-    if (!skills[s] || intp(skills[s])) {
-        // 為了相容舊存檔 (舊存檔中 skills[s] 只是個 int)
-        skills[s] = ([ "level": v, "exp": 0 ]);
-    } else {
-        skills[s]["level"] = v;
+    
+    int old_level = 0;
+    mixed existing = skills[s];
+    if (existing) {
+        if (intp(existing)) old_level = existing;
+        else old_level = existing["level"];
     }
+    
+    skills[s] = ([ "level": v, "exp": 0 ]);
 }
 
 int query_skill(string s) {
-    if (!skills || !skills[s]) return 0;
-    if (intp(skills[s])) return skills[s]; // 舊存檔相容
-    return skills[s]["level"];
+    if (!skills) return 0;
+    mixed existing = skills[s];
+    if (!existing) return 0;
+    if (intp(existing)) return existing;
+    return existing["level"];
 }
 
 int query_skill_exp(string s) {
-    if (!skills || !skills[s]) return 0;
-    if (intp(skills[s])) return 0; // 舊存檔相容
-    return skills[s]["exp"];
+    if (!skills) return 0;
+    mixed existing = skills[s];
+    if (!existing) return 0;
+    if (intp(existing)) return 0;
+    return existing["exp"];
 }
 
 void set_skill_level(string s, int v) {
@@ -509,13 +516,20 @@ void set_skill_level(string s, int v) {
 
 void improve_skill(string s, int v) {
     if (!skills) skills = ([]);
-    if (!skills[s] || intp(skills[s])) {
-        int old_level = 0;
-        if (skills[s] && intp(skills[s])) old_level = skills[s];
-        skills[s] = ([ "level": old_level, "exp": 0 ]);
+    
+    int old_level = 0;
+    int old_exp = 0;
+    mixed existing = skills[s];
+    if (existing) {
+        if (intp(existing)) {
+            old_level = existing;
+        } else {
+            old_level = existing["level"];
+            old_exp = existing["exp"];
+        }
     }
 
-    skills[s]["exp"] += v;
+    skills[s] = ([ "level": old_level, "exp": old_exp + v ]);
 
     // 呼叫 Skill Daemon 判斷是否升級
     load_object("/secure/skill_d.c")->check_upgrade(this_object(), s);

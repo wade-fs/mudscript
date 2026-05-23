@@ -749,6 +749,7 @@ func unwrapReturnValue(obj object.Object) object.Object {
 }
 
 func evalIndexExpression(left, index object.Object) object.Object {
+	if left == nil { return &object.Integer{Value: 0} }
 	switch {
 	case left.TokenType() == object.ArrayType && index.TokenType() == object.IntegerType:
 		return evalArrayIndexExpression(left, index)
@@ -834,12 +835,13 @@ func evalSliceExpression(node *ast.SliceExpression, env object.Environment) obje
 }
 
 func evalArrayIndexExpression(array, index object.Object) object.Object {
+	if array == nil || index == nil { return &object.Integer{Value: 0} }
 	arrObj := array.(*object.Array)
 	idx := index.(*object.Integer).Value
 	max := int64(len(arrObj.Elements) - 1)
 
 	if idx < 0 || idx > max {
-		return NilValue
+		return &object.Integer{Value: 0}
 	}
 
 	return arrObj.Elements[idx]
