@@ -3,8 +3,8 @@
 inherit "/std/weapon.c";
 void create() {
     ::create();
-    set_short("一根閃電法杖");
-    set_long("這根法杖頂端鑲嵌著藍色晶石，空氣中瀰漫著輕微的靜電，靠近時頭髮都會豎起來。\n");
+    set_short(([ "en": "A lightning staff", "zh-TW": "一根閃電法杖", "zh-CN": "一根闪电法杖" ]));
+    set_long(([ "en": "The top of this staff is inlaid with a blue crystal. The air is filled with static electricity, and your hair will stand up when near.\n", "zh-TW": "這根法杖頂端鑲嵌著藍色晶石，空氣中瀰漫著輕微的靜電，靠近時頭髮都會豎起來。\n", "zh-CN": "这根法杖顶端镶嵌著蓝色晶石，空气中弥漫著轻微的静电，靠近时头发都会竖起来。\n" ]));
     set_id(({"lightning staff", "閃電法杖", "法杖", "staff"}));
     set_attack(14);
     set_weapon_type(WPN_STAFF);

@@ -5,9 +5,17 @@ inherit "/std/npc.c";
 
 void create() {
     ::create();
-    set_name("導師 薩魯曼");
-    set_short(HIC("資深魔法導師") + " 薩魯曼");
-    set_long("他是一位白鬍子垂到腰間的老者，雙眼深邃，彷彿能洞察世間一切真理。\n");
+    set_name(([ "en": "Saruman", "zh-TW": "導師 薩魯曼", "zh-CN": "导师 萨鲁曼" ]));
+    set_short(([
+        "en": HIC("Senior Magic Mentor") + " Saruman",
+        "zh-TW": HIC("資深魔法導師") + " 薩魯曼",
+        "zh-CN": HIC("资深魔法导师") + " 萨鲁曼"
+    ]));
+    set_long(([
+        "en": "He is an old man with a white beard reaching down to his waist. His eyes are deep, as if they can insight into all the truths of the world.\n",
+        "zh-TW": "他是一位白鬍子垂到腰間的老者，雙眼深邃，彷彿能洞察世間一切真理。\n",
+        "zh-CN": "他是一位白胡子垂到腰间的老者，双眼深邃，仿佛能洞察世间一切真理。\n"
+    ]));
     set_id(({"saruman", "mage", "teacher", "導師"}));
     
     set_level(40);

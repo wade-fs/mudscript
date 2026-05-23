@@ -21,9 +21,9 @@ void create() {
 }
 
 // ── 設定函式 ────────────────────────────────────────────
-void set_name(string n)      { name = n; }
-void set_short(string s)     { short_name = s; }
-void set_long(string s)      { long_name  = s; }
+void set_name(mixed n)       { name = n; }
+void set_short(mixed s)      { short_name = s; }
+void set_long(mixed s)       { long_name  = s; }
 void set_id(mixed ids)       { if (arrayp(ids)) id_list = ids; else id_list = ({ ids }); }
 void set_no_get(int v)       { no_get = v; }
 void set_no_drop(int v)      { no_drop = v; }
@@ -61,10 +61,9 @@ string _t(string key) {
     object tp = this_player();
     string lang = "en";
     
-    if (tp) {
+    if (tp && userp(tp)) {
         lang = tp->query_lang();
-    } else if (this_object()->query_lang()) {
-        // 🚀 關鍵強化：如果是對 User 物件本身調用 (例如在測試中)
+    } else if (userp(this_object())) {
         lang = this_object()->query_lang();
     }
     

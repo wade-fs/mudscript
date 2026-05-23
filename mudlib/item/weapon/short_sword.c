@@ -4,8 +4,8 @@ inherit "/std/weapon.c";
 
 void create() {
     ::create();
-    set_short("一把短劍");
-    set_long("這是一把做工普通的鐵製短劍，刃口還算鋒利。\n");
+    set_short(([ "en": "A short sword", "zh-TW": "一把短劍", "zh-CN": "一把短剑" ]));
+    set_long(([ "en": "This is an ordinary iron short sword. Its edge is still somewhat sharp.\n", "zh-TW": "這是一把做工普通的鐵製短劍，刃口還算鋒利。\n", "zh-CN": "这是一把做工普通的铁制短剑，刃口还算锋利。\n" ]));
     set_id(({"sword","short sword","短劍"}));
     set_attack(8);
     set_weapon_type(WPN_SWORD);

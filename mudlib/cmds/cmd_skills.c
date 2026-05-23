@@ -1,16 +1,18 @@
 // /cmds/cmd_skills.c
 // 技能查看指令
 
+inherit "/std/object";
+
 #include "/include/ansi.h"
 
 int main(object me, string verb, string arg) {
     mapping skills = me->query_skills();
     object skill_d = load_object("/secure/skill_d.c");
 
-    write(HIW("\n=== 技能狀態 (潛能: " + me->query_potential() + ") ===\n"));
+    write(HIW(select_lang(([ "en": "\n=== Skills Status (Potential: ", "zh-TW": "\n=== 技能狀態 (潛能: ", "zh-CN": "\n=== 技能状态 (潜能: " ])) + me->query_potential() + select_lang(([ "en": ") ===\n", "zh-TW": ") ===\n", "zh-CN": ") ===\n" ]))));
 
     if (!skills || sizeof(skills) == 0) {
-        write("你目前尚未學會任何技能。\n");
+        write(select_lang(([ "en": "You have not learned any skills yet.\n", "zh-TW": "你目前尚未學會任何技能。\n", "zh-CN": "你目前尚未学会任何技能。\n" ])));
     } else {
         mixed ks = keys(skills);
         foreach (string sid in ks) {
@@ -20,7 +22,7 @@ int main(object me, string verb, string arg) {
             int req = skill_d->query_upgrade_exp(lv);
             
             string progress = sprintf("%d/%d", exp, req);
-            write(sprintf("  %-12s：等級 %3d  (進度 %s)\n", 
+            write(sprintf(select_lang(([ "en": "  %-12s: Level %3d  (Progress %s)\n", "zh-TW": "  %-12s：等級 %3d  (進度 %s)\n", "zh-CN": "  %-12s：等级 %3d  (进度 %s)\n" ])), 
                 skill_d->query_skill_name(sid), lv, progress));
         }
     }
@@ -30,6 +32,9 @@ int main(object me, string verb, string arg) {
 }
 
 string help() {
-    return "【指令】\n" +
-           "  skills    查看你目前所具備的各項技能等級與潛能點數。\n";
+    return select_lang(([
+        "en": "【Command】\n  skills    View your current skill levels and potential points.\n",
+        "zh-TW": "【指令】\n  skills    查看你目前所具備的各項技能等級與潛能點數。\n",
+        "zh-CN": "【指令】\n  skills    查看你目前所具备的各项技能等级与潜能点数。\n"
+    ]));
 }

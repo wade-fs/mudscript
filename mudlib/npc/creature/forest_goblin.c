@@ -4,9 +4,9 @@ inherit "/std/npc.c";
 
 void create() {
     ::create();
-    set_name("森林哥布林");
-    set_short("一隻嘰嘰喳喳的哥布林");
-    set_long("這隻矮小的綠皮哥布林揮舞著生鏽的彎刀，用刺耳的嗓音喊著你聽不懂的語言。\n");
+    set_name(([ "en": "Forest Goblin", "zh-TW": "森林哥布林", "zh-CN": "森林哥布林" ]));
+    set_short(([ "en": "A chattering goblin", "zh-TW": "一隻嘰嘰喳喳的哥布林", "zh-CN": "一只叽叽喳喳的哥布林" ]));
+    set_long(([ "en": "This short, green-skinned goblin brandishes a rusty scimitar, shouting in a language you don't understand with a piercing voice.\n", "zh-TW": "這隻矮小的綠皮哥布林揮舞著生鏽的彎刀，用刺耳的嗓音喊著你聽不懂的語言。\n", "zh-CN": "这只矮小的绿皮哥布林挥舞著生锈的弯刀，用刺耳的嗓音喊著你听不懂的语言。\n" ]));
     set_id(({"goblin", "哥布林", "forest_goblin", "森林哥布林"}));
 
     level    = 2;

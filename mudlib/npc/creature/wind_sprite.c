@@ -4,9 +4,9 @@ inherit "/std/npc.c";
 
 void create() {
     ::create();
-    set_name("風之精靈");
-    set_short("一隻飄逸的風之精靈");
-    set_long("這隻精靈半透明的身軀隨風搖曳，能聽見它發出輕柔的哼鳴聲，彷彿在訴說著天空的故事。\n");
+    set_name(([ "en": "Wind Sprite", "zh-TW": "風之精靈", "zh-CN": "风之精灵" ]));
+    set_short(([ "en": "An ethereal wind sprite", "zh-TW": "一隻飄逸的風之精靈", "zh-CN": "一只飘逸的风之精灵" ]));
+    set_long(([ "en": "This sprite's translucent body sways with the wind. One can hear it emitting a soft hum, as if recounting tales of the sky.\n", "zh-TW": "這隻精靈半透明的身軀隨風搖曳，能聽見它發出輕柔的哼鳴聲，彷彿在訴說著天空的故事。\n", "zh-CN": "这只精灵半透明的身躯随风摇曳，能听见它发出轻柔的哼鸣声，仿佛在诉说著天空的故事。\n" ]));
     set_id(({"wind_sprite", "風之精靈", "精靈", "風精靈"}));
 
     level    = 2;

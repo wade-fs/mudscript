@@ -483,36 +483,43 @@ int is_red_name() {
 // ── 技能管理介面 ──────────────────────────────────────────
 void set_skill(string s, int v) {
     if (!skills) skills = ([]);
-    if (!skills[s]) skills[s] = ([ "level": 0, "exp": 0 ]);
-    skills[s]["level"] = v;
+    if (!skills[s] || intp(skills[s])) {
+        // 為了相容舊存檔 (舊存檔中 skills[s] 只是個 int)
+        skills[s] = ([ "level": v, "exp": 0 ]);
+    } else {
+        skills[s]["level"] = v;
+    }
 }
 
 int query_skill(string s) {
     if (!skills || !skills[s]) return 0;
+    if (intp(skills[s])) return skills[s]; // 舊存檔相容
     return skills[s]["level"];
 }
 
 int query_skill_exp(string s) {
     if (!skills || !skills[s]) return 0;
+    if (intp(skills[s])) return 0; // 舊存檔相容
     return skills[s]["exp"];
 }
 
 void set_skill_level(string s, int v) {
-    if (!skills) skills = ([]);
-    if (!skills[s]) skills[s] = ([ "level": 0, "exp": 0 ]);
-    skills[s]["level"] = v;
+    set_skill(s, v);
 }
 
 void improve_skill(string s, int v) {
     if (!skills) skills = ([]);
-    if (!skills[s]) skills[s] = ([ "level": 0, "exp": 0 ]);
-    
+    if (!skills[s] || intp(skills[s])) {
+        int old_level = 0;
+        if (skills[s] && intp(skills[s])) old_level = skills[s];
+        skills[s] = ([ "level": old_level, "exp": 0 ]);
+    }
+
     skills[s]["exp"] += v;
-    
+
     // 呼叫 Skill Daemon 判斷是否升級
     load_object("/secure/skill_d.c")->check_upgrade(this_object(), s);
 }
-
 mapping query_skills() { return skills; }
 
 // catch_tell：活物收到訊息，預設不做任何事（子類別可覆寫）

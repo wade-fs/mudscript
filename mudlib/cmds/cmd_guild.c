@@ -1,6 +1,8 @@
 // /cmds/cmd_guild.c
 // 公會資訊指令
 
+inherit "/std/object";
+
 #include "/include/ansi.h"
 
 int main(object me, string verb, string arg) {
@@ -8,8 +10,8 @@ int main(object me, string verb, string arg) {
     object guild_d = load_object("/secure/guild_d.c");
 
     if (!gid) {
-        write("你目前尚未加入任何公會或組織。\n");
-        write("可用的公會：\n");
+        write(select_lang(([ "en": "You haven't joined any guild or organization yet.\n", "zh-TW": "你目前尚未加入任何公會或組織。\n", "zh-CN": "你目前尚未加入任何公会或组织。\n" ])));
+        write(select_lang(([ "en": "Available guilds:\n", "zh-TW": "可用的公會：\n", "zh-CN": "可用的公会：\n" ])));
         mapping all = guild_d->query_all_guilds();
         mixed ks = keys(all);
         foreach (string k in ks) {
@@ -19,11 +21,11 @@ int main(object me, string verb, string arg) {
     }
 
     mapping info = guild_d->query_guild_info(gid);
-    write(HIW("\n=== 所屬公會資訊 ===\n"));
-    write("名稱：" + info["name"] + "\n");
-    write("職位：" + me->query_guild_rank() + "\n");
-    write("貢獻：" + me->query_guild_exp() + "\n");
-    write("描述：" + info["desc"] + "\n");
+    write(HIW(select_lang(([ "en": "\n=== Guild Information ===\n", "zh-TW": "\n=== 所屬公會資訊 ===\n", "zh-CN": "\n=== 所属公会资讯 ===\n" ]))));
+    write(select_lang(([ "en": "Name: ", "zh-TW": "名稱：", "zh-CN": "名称：" ])) + info["name"] + "\n");
+    write(select_lang(([ "en": "Rank: ", "zh-TW": "職位：", "zh-CN": "职位：" ])) + me->query_guild_rank() + "\n");
+    write(select_lang(([ "en": "Contribution: ", "zh-TW": "貢獻：", "zh-CN": "贡献：" ])) + me->query_guild_exp() + "\n");
+    write(select_lang(([ "en": "Description: ", "zh-TW": "描述：", "zh-CN": "描述：" ])) + info["desc"] + "\n");
     write(HIW("====================\n\n"));
 
     if (arg == "promote") {
@@ -34,7 +36,9 @@ int main(object me, string verb, string arg) {
 }
 
 string help() {
-    return "【指令】\n" +
-           "  guild            查看目前所屬公會的資訊與職位。\n" +
-           "  guild promote    嘗試向公會申請晉升職位。\n";
+    return select_lang(([
+        "en": "【Command】\n  guild            View current guild information and rank.\n  guild promote    Attempt to apply for promotion within the guild.\n",
+        "zh-TW": "【指令】\n  guild            查看目前所屬公會的資訊與職位。\n  guild promote    嘗試向公會申請晉升職位。\n",
+        "zh-CN": "【指令】\n  guild            查看目前所属公会的资讯与职位。\n  guild promote    尝试向公会申请晋升职位。\n"
+    ]));
 }

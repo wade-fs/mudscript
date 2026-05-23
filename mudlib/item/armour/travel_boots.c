@@ -3,8 +3,8 @@
 inherit "/std/armour.c";
 void create() {
     ::create();
-    set_short("一雙旅行靴");
-    set_long("這雙靴子鞋底厚實，鞋幫高至腳踝，是長途跋涉的好選擇。\n");
+    set_short(([ "en": "A pair of travel boots", "zh-TW": "一雙旅行靴", "zh-CN": "一双旅行靴" ]));
+    set_long(([ "en": "These boots have thick soles and uppers that reach the ankle. They are a good choice for long treks.\n", "zh-TW": "這雙靴子鞋底厚實，鞋幫高至腳踝，是長途跋涉的好選擇。\n", "zh-CN": "这双靴子鞋底厚实，鞋帮高至脚踝，是长途跋涉的好选择。\n" ]));
     set_id(({"boots", "travel boots", "旅行靴", "靴子"}));
     set_defence(2);
     set_slot(SLOT_FEET);

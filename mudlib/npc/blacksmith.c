@@ -4,9 +4,13 @@ inherit "/std/npc.c";
 
 void create() {
     ::create();
-    set_name("鐵匠 索林");
-    set_short(YEL("粗壯的矮人鐵匠") + " 索林");
-    set_long("這是一位典型的矮人，紅色的鬍鬚紮成辮子，手臂肌肉隆起。\n他正滿頭大汗地敲打著一塊通紅的生鐵。\n");
+    set_name(([ "en": "Thorin the Blacksmith", "zh-TW": "鐵匠 索林", "zh-CN": "铁匠 索林" ]));
+    set_short(([ "en": YEL("Stout Dwarf Blacksmith") + " Thorin", "zh-TW": YEL("粗壯的矮人鐵匠") + " 索林", "zh-CN": YEL("粗壮的矮人铁匠") + " 索林" ]));
+    set_long(([
+        "en": "This is a typical dwarf, with a red beard tied in braids and bulging arm muscles.\nHe is sweating profusely while hammering a piece of glowing red pig iron.\n",
+        "zh-TW": "這是一位典型的矮人，紅色的鬍鬚紮成辮子，手臂肌肉隆起。\n他正滿頭大汗地敲打著一塊通紅的生鐵。\n",
+        "zh-CN": "这是一位典型的矮人，红色的胡须扎成辫子，手臂肌肉隆起。\n他正满头大汗地敲打着一块通红的生铁。\n"
+    ]));
     set_id(({"thorin", "blacksmith", "dwarf", "鐵匠"}));
     set_race("dwarf");
     set_level(25);

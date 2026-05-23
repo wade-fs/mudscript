@@ -4,9 +4,9 @@ inherit "/std/npc.c";
 
 void create() {
     ::create();
-    set_name("泥蟹");
-    set_short("一隻橫行的大泥蟹");
-    set_long("這隻泥蟹外殼覆滿乾泥，兩把大螯不停揮舞，橫衝直撞地爬行著。\n");
+    set_name(([ "en": "Mud Crab", "zh-TW": "泥蟹", "zh-CN": "泥蟹" ]));
+    set_short(([ "en": "A large scuttling mud crab", "zh-TW": "一隻橫行的大泥蟹", "zh-CN": "一只横行的大泥蟹" ]));
+    set_long(([ "en": "This mud crab's shell is covered in dried mud. It waves its two large pincers constantly as it scuttles about recklessly.\n", "zh-TW": "這隻泥蟹外殼覆滿乾泥，兩把大螯不停揮舞，橫衝直撞地爬行著。\n", "zh-CN": "这只泥蟹外壳覆满干泥，两把大螯不停挥舞，横冲直撞地爬行著。\n" ]));
     set_id(({"mud_crab", "泥蟹", "蟹", "螃蟹"}));
 
     level    = 2;

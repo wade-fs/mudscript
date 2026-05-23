@@ -4,9 +4,9 @@ inherit "/std/armour";
 
 void create() {
     ::create();
-    set_name("加固木盾");
-    set_short("一面加固過的木盾");
-    set_long("這是一面原本普通的木盾，表面覆蓋了一層堅硬的螃蟹殼，防禦力大幅提升。\n");
+    set_name(([ "en": "Reinforced Wooden Shield", "zh-TW": "加固木盾", "zh-CN": "加固木盾" ]));
+    set_short(([ "en": "A reinforced wooden shield", "zh-TW": "一面加固過的木盾", "zh-CN": "一面加固过的木盾" ]));
+    set_long(([ "en": "This is a formerly ordinary wooden shield covered with a layer of hard crab shell. Its defense has been greatly improved.\n", "zh-TW": "這是一面原本普通的木盾，表面覆蓋了一層堅硬的螃蟹殼，防禦力大幅提升。\n", "zh-CN": "这是一面原本普通的木盾，表面覆盖了一层坚硬的螃蟹壳，防御力大幅提升。\n" ]));
     set_id(({"shield", "wood shield", "木盾", "盾"}));
     set_slot(SLOT_SHIELD);
     set_defence(12);

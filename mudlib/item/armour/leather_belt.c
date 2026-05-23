@@ -3,8 +3,8 @@
 inherit "/std/armour.c";
 void create() {
     ::create();
-    set_short("一條皮製腰帶");
-    set_long("這條厚實的皮腰帶可以掛上小袋子，有幾個金屬鉤環，既實用又有型。\n");
+    set_short(([ "en": "A leather belt", "zh-TW": "一條皮製腰帶", "zh-CN": "一条皮制腰带" ]));
+    set_long(([ "en": "This thick leather belt can have pouches hung from it. It features several metal hooks, making it both practical and stylish.\n", "zh-TW": "這條厚實的皮腰帶可以掛上小袋子，有幾個金屬鉤環，既實用又有型。\n", "zh-CN": "这条厚实的皮腰带可以挂上小袋子，有几个金属钩环，既实用又有型。\n" ]));
     set_id(({"belt", "leather belt", "腰帶", "皮腰帶"}));
     set_defence(1);
     set_slot(SLOT_WAIST);

@@ -3,8 +3,8 @@
 inherit "/std/weapon.c";
 void create() {
     ::create();
-    set_short("一把短弓");
-    set_long("這是一把用柔韌木材製成的短弓，拉力適中，適合初學者練習遠程射擊。\n");
+    set_short(([ "en": "A short bow", "zh-TW": "一把短弓", "zh-CN": "一把短弓" ]));
+    set_long(([ "en": "This is a short bow made of flexible wood. Its draw weight is moderate, making it suitable for beginners to practice archery.\n", "zh-TW": "這是一把用柔韌木材製成的短弓，拉力適中，適合初學者練習遠程射擊。\n", "zh-CN": "这是一把用柔韧木材制成的短弓，拉力适中，适合初学者练习远程射击。\n" ]));
     set_id(({"bow", "short bow", "短弓"}));
     set_attack(6);
     set_weapon_type(WPN_BOW);

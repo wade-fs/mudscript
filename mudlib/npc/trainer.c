@@ -4,9 +4,17 @@ inherit "/std/npc.c";
 
 void create() {
     ::create();
-    set_name("教官 凱爾");
-    set_short(HIC("經驗豐富的訓練教官") + " 凱爾");
-    set_long("凱爾曾是一名王國衛隊的隊長，退休後回到新手村擔任教官。\n他身材魁梧，眼神銳利，身上佈滿了戰鬥留下的傷疤。\n");
+    set_name(([ "en": "Kyle", "zh-TW": "教官 凱爾", "zh-CN": "教官 凯尔" ]));
+    set_short(([
+        "en": HIC("Experienced Training Instructor") + " Kyle",
+        "zh-TW": HIC("經驗豐富的訓練教官") + " 凱爾",
+        "zh-CN": HIC("经验丰富的训练教官") + " 凯尔"
+    ]));
+    set_long(([
+        "en": "Kyle was once a captain of the Royal Guard. After retiring, he returned to the Newbie Village to serve as an instructor.\nHe is burly with sharp eyes, and his body is covered in scars from battle.\n",
+        "zh-TW": "凱爾曾是一名王國衛隊的隊長，退休後回到新手村擔任教官。\n他身材魁梧，眼神銳利，身上佈滿了戰鬥留下的傷疤。\n",
+        "zh-CN": "凯尔曾是一名王国卫队的队长，退休后回到新手村担任教官。\n他身材魁梧，眼神锐利，身上布满了战斗留下的伤疤。\n"
+    ]));
     set_id(({"kyle", "trainer", "instructor", "教官"}));
     set_race("human");
     set_level(25);

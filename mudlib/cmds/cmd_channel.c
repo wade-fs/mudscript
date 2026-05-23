@@ -1,23 +1,25 @@
 // /cmds/cmd_channel.c
 // 頻道管理指令
 
+inherit "/std/object";
+
 #include "/include/ansi.h"
 
 int main(object me, string verb, string arg) {
     if (!arg || arg == "") {
-        write(HIW("\n=== 頻道訂閱狀態 ===\n"));
+        write(HIW(select_lang(([ "en": "\n=== Channel Subscription Status ===\n", "zh-TW": "\n=== 頻道訂閱狀態 ===\n", "zh-CN": "\n=== 频道订阅状态 ===\n" ]))));
         string *chs = ({ "chat", "area", "guild", "team" });
         foreach (string ch in chs) {
             int open = me->is_channel_open(ch);
-            write(sprintf("  %-10s : %s\n", ch, (open ? HIG("開啟") : HIR("關閉"))));
+            write(sprintf("  %-10s : %s\n", ch, (open ? HIG(select_lang(([ "en": "ON", "zh-TW": "開啟", "zh-CN": "开启" ]))) : HIR(select_lang(([ "en": "OFF", "zh-TW": "關閉", "zh-CN": "关闭" ]))))));
         }
-        write("用法：channel <頻道ID> on/off\n");
+        write(select_lang(([ "en": "Usage: channel <channel ID> on/off\n", "zh-TW": "用法：channel <頻道ID> on/off\n", "zh-CN": "用法：channel <频道ID> on/off\n" ])));
         return 1;
     }
 
     string *parts = explode(arg, " ");
     if (sizeof(parts) < 2) {
-        write("用法：channel <頻道ID> on/off\n");
+        write(select_lang(([ "en": "Usage: channel <channel ID> on/off\n", "zh-TW": "用法：channel <頻道ID> on/off\n", "zh-CN": "用法：channel <频道ID> on/off\n" ])));
         return 1;
     }
 
@@ -26,16 +28,16 @@ int main(object me, string verb, string arg) {
 
     if (status == "on" || status == "開啟") {
         me->set_channel_status(ch, 1);
-        write(HIG("你開啟了 " + ch + " 頻道。\n"));
+        write(HIG(select_lang(([ "en": "You have opened the ", "zh-TW": "你開啟了 ", "zh-CN": "你开启了 " ])) + ch + select_lang(([ "en": " channel.\n", "zh-TW": " 頻道。\n", "zh-CN": " 频道。\n" ]))));
     } else if (status == "off" || status == "關閉") {
         me->set_channel_status(ch, 0);
-        write(HIR("你關閉了 " + ch + " 頻道。\n"));
+        write(HIR(select_lang(([ "en": "You have closed the ", "zh-TW": "你關閉了 ", "zh-CN": "你关闭了 " ])) + ch + select_lang(([ "en": " channel.\n", "zh-TW": " 頻道。\n", "zh-CN": " 频道。\n" ]))));
     } else if (status == "join" || status == "加入") {
         load_object("/secure/channel_d.c")->join_friend_channel(me, ch);
     } else if (status == "leave" || status == "離開") {
         load_object("/secure/channel_d.c")->leave_friend_channel(me, ch);
     } else {
-        write("未知狀態，請使用 on/off 或 join/leave。\n");
+        write(select_lang(([ "en": "Unknown status, please use on/off or join/leave.\n", "zh-TW": "未知狀態，請使用 on/off 或 join/leave。\n", "zh-CN": "未知状态，请使用 on/off 或 join/leave。\n" ])));
     }
 
     me->save();
@@ -43,10 +45,9 @@ int main(object me, string verb, string arg) {
 }
 
 string help() {
-    return "【頻道管理】\n" +
-           "  channel                查看所有頻道的開關狀態\n" +
-           "  channel <ID> on        開啟指定頻道\n" +
-           "  channel <ID> off       關閉指定頻道\n" +
-           "  channel <ID> join      加入好友自建頻道\n" +
-           "  channel <ID> leave     離開好友自建頻道\n";
+    return select_lang(([
+        "en": "【Channel Management】\n  channel                View all channel statuses\n  channel <ID> on        Open specific channel\n  channel <ID> off       Close specific channel\n  channel <ID> join      Join a friend's custom channel\n  channel <ID> leave     Leave a friend's custom channel\n",
+        "zh-TW": "【頻道管理】\n  channel                查看所有頻道的開關狀態\n  channel <ID> on        開啟指定頻道\n  channel <ID> off       關閉指定頻道\n  channel <ID> join      加入好友自建頻道\n  channel <ID> leave     離開好友自建頻道\n",
+        "zh-CN": "【频道管理】\n  channel                查看所有频道的开关状态\n  channel <ID> on        开启指定频道\n  channel <ID> off       关闭指定频道\n  channel <ID> join      加入好友自建频道\n  channel <ID> leave     离开好友自建频道\n"
+    ]));
 }

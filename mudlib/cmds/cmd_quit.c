@@ -1,11 +1,13 @@
 // mudlib/cmds/cmd_quit.c
 // 離開指令守護進程：quit / exit
 
+inherit "/std/object";
+
 int main(object me, string verb, string arg) {
     me->save();
-    write("存檔完畢，下次見。\n");
-    write("再見，" + me->query_name() + "！你化為一道光消逝了...\n");
-    say(me->query_name() + " 離開了遊戲。\n");
+    write(select_lang(([ "en": "Saved. See you next time.\n", "zh-TW": "存檔完畢，下次見。\n", "zh-CN": "存档完毕，下次见。\n" ])));
+    write(select_lang(([ "en": "Goodbye, ", "zh-TW": "再見，", "zh-CN": "再见，" ])) + me->query_name() + select_lang(([ "en": "! You fade away into light...\n", "zh-TW": "！你化為一道光消逝了...\n", "zh-CN": "！你化为一道光消逝了...\n" ])));
+    say(me->query_name() + select_lang(([ "en": " has left the game.\n", "zh-TW": " 離開了遊戲。\n", "zh-CN": " 离开了游戏。\n" ])));
     
     // 建立一個新的登入物件
     object login_ob = clone_object("/std/login.c");
@@ -24,7 +26,9 @@ int main(object me, string verb, string arg) {
 }
 
 string help() {
-    return "【離開指令】\n" +
-           "  用法：quit 或 exit\n" +
-           "  功能：儲存角色資料並安全地登出遊戲。\n";
+    return select_lang(([
+        "en": "【Quit Command】\n  Usage: quit or exit\n  Function: Save character data and safely log out of the game.\n",
+        "zh-TW": "【離開指令】\n  用法：quit 或 exit\n  功能：儲存角色資料並安全地登出遊戲。\n",
+        "zh-CN": "【离开指令】\n  用法：quit 或 exit\n  功能：储存角色资料并安全地登出游戏。\n"
+    ]));
 }

@@ -1,6 +1,8 @@
 // mudlib/cmds/cmd_help.c
 // 幫助指令守護進程：help / ?
 
+inherit "/std/object";
+
 int main(object me, string verb, string arg) {
     if (verb == "help_list_json") {
         return do_help_list(me, arg);
@@ -10,30 +12,30 @@ int main(object me, string verb, string arg) {
     mapping cmd_map = cmd_d->query_cmd_map();
 
     if (!arg) {
-        write("=== 📚 幫助系統中心 ===\n");
-        write("您可以輸入 help <指令名稱> 來查看具體用法。\n\n");
+        write(select_lang(([ "en": "=== 📚 Help Center ===\n", "zh-TW": "=== 📚 幫助系統中心 ===\n", "zh-CN": "=== 📚 帮助系统中心 ===\n" ])));
+        write(select_lang(([ "en": "You can type help <command name> to view specific usage.\n\n", "zh-TW": "您可以輸入 help <指令名稱> 來查看具體用法。\n\n", "zh-CN": "您可以输入 help <指令名称> 来查看具体用法。\n\n" ])));
         
         mapping categories = ([
-            "🚩 移動" : ({ "north", "south", "east", "west", "up", "down", "go" }),
-            "🔍 查看" : ({ "look", "l", "examine", "ex", "score", "status", "inventory", "i" }),
-            "📦 物品" : ({ "get", "drop", "wear", "wield", "remove" }),
-            "💬 社交" : ({ "say", "'", "emote", ":", "nickname", "nick" }),
-            "⚙️ 系統" : ({ "help", "?", "alias", "unalias", "quit", "exit" })
+            select_lang(([ "en": "🚩 Movement", "zh-TW": "🚩 移動", "zh-CN": "🚩 移动" ])) : ({ "north", "south", "east", "west", "up", "down", "go" }),
+            select_lang(([ "en": "🔍 View", "zh-TW": "🔍 查看", "zh-CN": "🔍 查看" ])) : ({ "look", "l", "examine", "ex", "score", "status", "inventory", "i" }),
+            select_lang(([ "en": "📦 Item", "zh-TW": "📦 物品", "zh-CN": "📦 物品" ])) : ({ "get", "drop", "wear", "wield", "remove" }),
+            select_lang(([ "en": "💬 Social", "zh-TW": "💬 社交", "zh-CN": "💬 社交" ])) : ({ "say", "'", "emote", ":", "nickname", "nick" }),
+            select_lang(([ "en": "⚙️ System", "zh-TW": "⚙️ 系統", "zh-CN": "⚙️ 系统" ])) : ({ "help", "?", "alias", "unalias", "quit", "exit" })
         ]);
 
         string *cats = keys(categories);
         int i, j;
         for (i = 0; i < sizeof(cats); i++) {
-            write(cats[i] + "：\n  ");
+            write(cats[i] + select_lang(([ "en": ":\n  ", "zh-TW": "：\n  ", "zh-CN": "：\n  " ])));
             string *cmds = categories[cats[i]];
             write(implode(cmds, ", ") + "\n");
         }
         
         if (me->query_role() == "god" || me->query_role() == "wizard") {
-            write("\n🧙 管理指令：\n  promote, demote, grant, revoke\n");
+            write(select_lang(([ "en": "\n🧙 Admin Commands:\n  promote, demote, grant, revoke\n", "zh-TW": "\n🧙 管理指令：\n  promote, demote, grant, revoke\n", "zh-CN": "\n🧙 管理指令：\n  promote, demote, grant, revoke\n" ])));
         }
         
-        write("\n提示：主題說明可輸入 help move, help look, help item, help social\n");
+        write(select_lang(([ "en": "\nTip: For topic explanations, you can type help move, help look, help item, help social\n", "zh-TW": "\n提示：主題說明可輸入 help move, help look, help item, help social\n", "zh-CN": "\n提示：主题说明可输入 help move, help look, help item, help social\n" ])));
         return 1;
     }
 
@@ -57,23 +59,25 @@ int main(object me, string verb, string arg) {
     if (arg == "system") { return main(me, "score"); }
     if (arg == "alias") { return main(me, "alias"); }
 
-    write("找不到關於「" + arg + "」的說明。輸入 help 查看指令清單。\n");
+    write(select_lang(([ "en": "Cannot find help on '", "zh-TW": "找不到關於「", "zh-CN": "找不到关于「" ])) + arg + select_lang(([ "en": "'. Type help to see the list of commands.\n", "zh-TW": "」的說明。輸入 help 查看指令清單。\n", "zh-CN": "」的说明。输入 help 查看指令清单。\n" ])));
     return 1;
 }
 
 int do_help_list(object me, string arg) {
     mapping data = ([
-        "移動" : ({ "north", "south", "east", "west", "up", "down" }),
-        "查看" : ({ "look", "score", "inventory", "status" }),
-        "社交" : ({ "say", "emote", "nick" }),
-        "系統" : ({ "help", "quit", "alias" })
+        select_lang(([ "en": "Movement", "zh-TW": "移動", "zh-CN": "移动" ])) : ({ "north", "south", "east", "west", "up", "down" }),
+        select_lang(([ "en": "View", "zh-TW": "查看", "zh-CN": "查看" ])) : ({ "look", "score", "inventory", "status" }),
+        select_lang(([ "en": "Social", "zh-TW": "社交", "zh-CN": "社交" ])) : ({ "say", "emote", "nick" }),
+        select_lang(([ "en": "System", "zh-TW": "系統", "zh-CN": "系统" ])) : ({ "help", "quit", "alias" })
     ]);
     write(sprintf("{\"ui\": \"cmd_list\", \"data\": %s}", json_encode(data)));
     return 1;
 }
 
 string help() {
-    return "【幫助指令】\n" +
-           "  用法：help <指令名稱> 或 help <主題>\n" +
-           "  功能：顯示指令的詳細用法或系統功能說明。\n";
+    return select_lang(([
+        "en": "【Help Command】\n  Usage: help <command name> or help <topic>\n  Function: Display detailed usage of commands or system functions.\n",
+        "zh-TW": "【幫助指令】\n  用法：help <指令名稱> 或 help <主題>\n  功能：顯示指令的詳細用法或系統功能說明。\n",
+        "zh-CN": "【帮助指令】\n  用法：help <指令名称> 或 help <主题>\n  功能：显示指令的详细用法或系统功能说明。\n"
+    ]));
 }

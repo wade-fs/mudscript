@@ -3,8 +3,8 @@
 inherit "/std/armour.c";
 void create() {
     ::create();
-    set_short("一件旅行者斗篷");
-    set_long("這件深棕色斗篷既能擋風遮雨，又能略微偽裝身形，是江湖旅人的必備之物。\n");
+    set_short(([ "en": "A traveler's cloak", "zh-TW": "一件旅行者斗篷", "zh-CN": "一件旅行者斗篷" ]));
+    set_long(([ "en": "This dark brown cloak provides shelter from wind and rain, while slightly disguising the wearer's figure. It is an essential item for travelers.\n", "zh-TW": "這件深棕色斗篷既能擋風遮雨，又能略微偽裝身形，是江湖旅人的必備之物。\n", "zh-CN": "这件深棕色斗篷既能挡风遮雨，又能略微伪装身形，是江湖旅人的必备之物。\n" ]));
     set_id(({"cloak", "traveler cloak", "斗篷", "旅行斗篷"}));
     set_defence(2);
     set_slot(SLOT_BACK);

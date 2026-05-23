@@ -1,6 +1,8 @@
 // mudlib/cmds/cmd_alias.c
 // 別名指令守護進程：alias / unalias
 
+inherit "/std/object";
+
 int main(object me, string verb, string arg) {
     if (verb == "alias") {
         return do_alias(me, arg);
@@ -19,10 +21,10 @@ int do_alias(object me, string arg) {
     if (!arg) {
         mixed ks = keys(al);
         if (!ks) {
-            write("你沒有設定任何別名。\n");
+            write(select_lang(([ "en": "You haven't set any aliases.\n", "zh-TW": "你沒有設定任何別名。\n", "zh-CN": "你没有设定任何别名。\n" ])));
             return 1;
         }
-        write("=== 目前的別名 ===\n");
+        write(select_lang(([ "en": "=== Current Aliases ===\n", "zh-TW": "=== 目前的別名 ===\n", "zh-CN": "=== 目前的别名 ===\n" ])));
         int i;
         for (i = 0; i < sizeof(ks); i++) {
             write("  " + ks[i] + "  ->  " + al[ks[i]] + "\n");
@@ -36,7 +38,7 @@ int do_alias(object me, string arg) {
         if (member_array(arg, ks2) >= 0) {
             write("alias " + arg + "  ->  " + al[arg] + "\n");
         } else {
-            write("沒有叫「" + arg + "」的別名。\n");
+            write(select_lang(([ "en": "No alias named '", "zh-TW": "沒有叫「", "zh-CN": "没有叫「" ])) + arg + select_lang(([ "en": "'.\n", "zh-TW": "」的別名。\n", "zh-CN": "」的别名。\n" ])));
         }
         return 1;
     }
@@ -45,14 +47,14 @@ int do_alias(object me, string arg) {
     string alias_cmd  = substr(arg, sp + 1, strlen(arg) - sp - 1);
 
     if (alias_name == "quit" || alias_name == "alias" || alias_name == "unalias") {
-        write("「" + alias_name + "」是系統保留指令，無法設定為別名。\n");
+        write(select_lang(([ "en": "'", "zh-TW": "「", "zh-CN": "「" ])) + alias_name + select_lang(([ "en": "' is a reserved command and cannot be set as an alias.\n", "zh-TW": "」是系統保留指令，無法設定為別名。\n", "zh-CN": "」是系统保留指令，无法设定为别名。\n" ])));
         return 1;
     }
 
     // 呼叫玩家的介面寫入資料
     me->set_alias(alias_name, alias_cmd);
     me->save(); // 立即存檔
-    write("別名設定：" + alias_name + "  ->  " + alias_cmd + "\n");
+    write(select_lang(([ "en": "Alias set: ", "zh-TW": "別名設定：", "zh-CN": "别名设定：" ])) + alias_name + "  ->  " + alias_cmd + "\n");
     return 1;
 }
 
@@ -60,26 +62,26 @@ int do_unalias(object me, string arg) {
     mapping al = me->query_aliases();
 
     if (!arg) {
-        write("用法：unalias <別名名稱>\n");
+        write(select_lang(([ "en": "Usage: unalias <alias name>\n", "zh-TW": "用法：unalias <別名名稱>\n", "zh-CN": "用法：unalias <别名名称>\n" ])));
         return 1;
     }
 
     mixed ks = keys(al);
     if (member_array(arg, ks) < 0) {
-        write("沒有叫「" + arg + "」的別名。\n");
+        write(select_lang(([ "en": "No alias named '", "zh-TW": "沒有叫「", "zh-CN": "没有叫「" ])) + arg + select_lang(([ "en": "'.\n", "zh-TW": "」的別名。\n", "zh-CN": "」的别名。\n" ])));
         return 1;
     }
 
     me->remove_alias(arg);
     me->save(); // 立即存檔
-    write("別名「" + arg + "」已刪除。\n");
+    write(select_lang(([ "en": "Alias '", "zh-TW": "別名「", "zh-CN": "别名「" ])) + arg + select_lang(([ "en": "' has been deleted.\n", "zh-TW": "」已刪除。\n", "zh-CN": "」已删除。\n" ])));
     return 1;
 }
 
 string help() {
-    return "【別名指令】\n" +
-           "  alias                  列出所有別名\n" +
-           "  alias <名稱> <指令>    設定別名，例如：alias n north\n" +
-           "  alias <名稱>           查看指定別名\n" +
-           "  unalias <名稱>         刪除別名\n";
+    return select_lang(([
+        "en": "【Alias Command】\n  alias                  List all aliases\n  alias <name> <cmd>     Set alias, e.g.: alias n north\n  alias <name>           View specific alias\n  unalias <name>         Delete alias\n",
+        "zh-TW": "【別名指令】\n  alias                  列出所有別名\n  alias <名稱> <指令>    設定別名，例如：alias n north\n  alias <名稱>           查看指定別名\n  unalias <名稱>         刪除別名\n",
+        "zh-CN": "【别名指令】\n  alias                  列出所有别名\n  alias <名称> <指令>    设定别名，例如：alias n north\n  alias <名称>           查看指定别名\n  unalias <名称>         删除别名\n"
+    ]));
 }

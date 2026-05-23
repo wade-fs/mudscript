@@ -3,6 +3,8 @@
 
 #include "/include/ansi.h"
 
+inherit "/std/object";
+
 int main(object me, string verb, string arg) {
     string cmd, target_id;
     if (!arg || arg == "") cmd = "status";
@@ -24,15 +26,15 @@ int main(object me, string verb, string arg) {
             return party_d->create_party(me);
         
         case "invite":
-            if (target_id == "") { write("用法：party invite <玩家ID>\n"); return 1; }
+            if (target_id == "") { write(select_lang(([ "en": "Usage: party invite <player ID>\n", "zh-TW": "用法：party invite <玩家ID>\n", "zh-CN": "用法：party invite <玩家ID>\n" ]))); return 1; }
             object invitee = find_player(target_id);
-            if (!invitee) { write("找不到玩家 " + target_id + "。\n"); return 1; }
+            if (!invitee) { write(select_lang(([ "en": "Cannot find player ", "zh-TW": "找不到玩家 ", "zh-CN": "找不到玩家 " ])) + target_id + select_lang(([ "en": ".\n", "zh-TW": "。\n", "zh-CN": "。\n" ]))); return 1; }
             return party_d->invite_player(me, invitee);
         
         case "join":
-            if (target_id == "") { write("用法：party join <隊長ID>\n"); return 1; }
+            if (target_id == "") { write(select_lang(([ "en": "Usage: party join <leader ID>\n", "zh-TW": "用法：party join <隊長ID>\n", "zh-CN": "用法：party join <队长ID>\n" ]))); return 1; }
             object leader = find_player(target_id);
-            if (!leader) { write("找不到玩家 " + target_id + "。\n"); return 1; }
+            if (!leader) { write(select_lang(([ "en": "Cannot find player ", "zh-TW": "找不到玩家 ", "zh-CN": "找不到玩家 " ])) + target_id + select_lang(([ "en": ".\n", "zh-TW": "。\n", "zh-CN": "。\n" ]))); return 1; }
             return party_d->join_party(me, leader);
         
         case "leave":
@@ -43,14 +45,14 @@ int main(object me, string verb, string arg) {
         default:
             object my_leader = me->query_leader();
             if (!my_leader) {
-                write("你目前不在任何隊伍中。\n");
+                write(select_lang(([ "en": "You are not in any party right now.\n", "zh-TW": "你目前不在任何隊伍中。\n", "zh-CN": "你目前不在任何队伍中。\n" ])));
             } else {
-                write(HIW("\n=== 隊伍狀態 ===\n"));
-                write("隊長：" + my_leader->query_name() + "\n");
+                write(HIW(select_lang(([ "en": "\n=== Party Status ===\n", "zh-TW": "\n=== 隊伍狀態 ===\n", "zh-CN": "\n=== 队伍状态 ===\n" ]))));
+                write(select_lang(([ "en": "Leader: ", "zh-TW": "隊長：", "zh-CN": "队长：" ])) + my_leader->query_name() + "\n");
                 object *members = my_leader->query_followers();
-                write("隊員：\n");
+                write(select_lang(([ "en": "Members:\n", "zh-TW": "隊員：\n", "zh-CN": "队员：\n" ])));
                 foreach (object m in members) {
-                    string role = (m == my_leader ? "[隊長]" : "[隊員]");
+                    string role = (m == my_leader ? select_lang(([ "en": "[Leader]", "zh-TW": "[隊長]", "zh-CN": "[队长]" ])) : select_lang(([ "en": "[Member]", "zh-TW": "[隊員]", "zh-CN": "[队员]" ])));
                     write("  " + role + " " + m->query_name() + "\n");
                 }
                 write(HIW("================\n\n"));
@@ -60,11 +62,9 @@ int main(object me, string verb, string arg) {
 }
 
 string help() {
-    return "【組隊指令】\n" +
-           "  party create           建立新隊伍\n" +
-           "  party invite <ID>      邀請玩家加入隊伍\n" +
-           "  party join <ID>        接受邀請加入隊伍\n" +
-           "  party leave            離開當前隊伍\n" +
-           "  party disband          解散隊伍 (僅限隊長)\n" +
-           "  party status           查看隊伍成員與狀態\n";
+    return select_lang(([
+        "en": "【Party Commands】\n  party create           Create a new party\n  party invite <ID>      Invite a player to the party\n  party join <ID>        Accept an invitation to join a party\n  party leave            Leave the current party\n  party disband          Disband the party (Leader only)\n  party status           View party members and status\n",
+        "zh-TW": "【組隊指令】\n  party create           建立新隊伍\n  party invite <ID>      邀請玩家加入隊伍\n  party join <ID>        接受邀請加入隊伍\n  party leave            離開當前隊伍\n  party disband          解散隊伍 (僅限隊長)\n  party status           查看隊伍成員與狀態\n",
+        "zh-CN": "【组队指令】\n  party create           建立新队伍\n  party invite <ID>      邀请玩家加入队伍\n  party join <ID>        接受邀请加入队伍\n  party leave            离开当前队伍\n  party disband          解散队伍 (仅限队长)\n  party status           查看队伍成员与状态\n"
+    ]));
 }

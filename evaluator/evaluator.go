@@ -1220,20 +1220,24 @@ func evalMappingLiteral(node *ast.MappingLiteral, env object.Environment) object
 }
 func evalMappingIndexExpression(left, index object.Object) object.Object {
 	mapping := left.(*object.Mapping)
+	if mapping == nil {
+		return &object.Integer{Value: 0}
+	}
 
 	hashKey, ok := index.(object.Hashable)
 	if !ok {
 		return newError("無法作為 mapping 的 key: %s", index.TokenType())
 	}
 
-	if pair, exists := mapping.Pairs[hashKey.HashKey()]; exists {
-		return pair.Value
+	if mapping.Pairs != nil {
+		if pair, exists := mapping.Pairs[hashKey.HashKey()]; exists {
+			return pair.Value
+		}
 	}
-	
-	// 找不到時回傳 0 (相容 LPC)
-	return &object.Integer{Value: 0} 
-}
 
+	// 找不到時回傳 0 (相容 LPC)
+	return &object.Integer{Value: 0}
+}
 func evalCallOtherExpression(node *ast.CallOtherExpression, env object.Environment) object.Object {
 	// 1. 求出目標物件
 	target := Eval(node.Object, env)

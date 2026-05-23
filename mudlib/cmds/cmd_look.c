@@ -1,10 +1,12 @@
 // mudlib/cmds/cmd_look.c
 // 查看指令守護進程：look / l / examine / ex
 
+inherit "/std/object";
+
 int main(object me, string verb, string arg) {
     object here = environment(me);
     if (!here) {
-        write(load_object("/secure/language_d.c")->translate("void", me->query_lang()) + "\n");
+        write(_t("void") + "\n");
         return 1;
     }
 
@@ -34,7 +36,7 @@ int main(object me, string verb, string arg) {
         return 1;
     }
 
-    string not_found = load_object("/secure/language_d.c")->translate("not_found", me->query_lang());
+    string not_found = _t("not_found");
     not_found = replace_string(not_found, "$arg", arg);
     write(not_found + "\n");
     return 1;

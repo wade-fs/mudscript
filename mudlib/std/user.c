@@ -20,6 +20,7 @@ string *write_paths;
 mapping aliases;
 mapping quests; // 🚀 新增：任務紀錄
 mapping muted_channels; // 🚀 新增：屏蔽的頻道
+mapping explored_rooms; // 🚀 新增：已探索房間 ([ "room_file": 1 ])
 object  active_pet; // 🚀 新增：當前寵物
 int     is_riding;  // 🚀 新增：正在騎乘
 string *saved_inventory = ({ });
@@ -50,6 +51,7 @@ void create() {
     ::create();
     if (!quests) quests = ([]);
     if (!muted_channels) muted_channels = ([]);
+    if (!explored_rooms) explored_rooms = ([]);
     init_aliases();
 }
 
@@ -57,6 +59,7 @@ void create() {
 void setup() {
     if (!quests) quests = ([]);
     if (!muted_channels) muted_channels = ([]);
+    if (!explored_rooms) explored_rooms = ([]);
     if (!last_bank_time) last_bank_time = time();
     init_aliases();
     set_heart_beat(1);
@@ -199,6 +202,17 @@ object query_pet() { return active_pet; }
 void   set_pet(object ob) { active_pet = ob; }
 int    query_riding() { return is_riding; }
 void   set_riding(int v) { is_riding = v; }
+
+// ── 地圖探索介面 ─────────────────────────────────────────────
+mapping query_explored_rooms() { return explored_rooms; }
+void record_exploration(string room_file) {
+    if (!explored_rooms) explored_rooms = ([]);
+    // 取得基礎路徑避免 clone_id 影響
+    string base = load_object("/secure/language_d.c")->translate("", "en"); // 其實這行是廢話，我只需要 efun
+    // 用 base_name efun
+    string bn = base_name(find_object(room_file) || load_object(room_file));
+    explored_rooms[bn] = 1;
+}
 
 string *query_write_paths() { return write_paths; }
 void add_write_path(string p) {

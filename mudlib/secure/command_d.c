@@ -77,7 +77,8 @@ void create() {
         "tame"     : "/cmds/cmd_tame.c",
         "ride"     : "/cmds/cmd_ride.c",
         "unride"   : "/cmds/cmd_ride.c",
-        "dismount" : "/cmds/cmd_ride.c"
+        "dismount" : "/cmds/cmd_ride.c",
+        "map"      : "/cmds/cmd_map.c"
     ]);
 }
 

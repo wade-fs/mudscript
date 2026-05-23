@@ -3,8 +3,8 @@
 inherit "/std/armour.c";
 void create() {
     ::create();
-    set_short("一枚發光的魔法戒指");
-    set_long("這枚戒指鑲嵌著淡藍色寶石，戴上後能感受到一股暖意包圍全身，對魔法傷害有一定抵抗力。\n");
+    set_short(([ "en": "A glowing magic ring", "zh-TW": "一枚發光的魔法戒指", "zh-CN": "一枚发光的魔法戒指" ]));
+    set_long(([ "en": "This ring is inlaid with a pale blue gem. When worn, one feels a warmth surrounding the entire body, granting a certain resistance to magic damage.\n", "zh-TW": "這枚戒指鑲嵌著淡藍色寶石，戴上後能感受到一股暖意包圍全身，對魔法傷害有一定抵抗力。\n", "zh-CN": "这枚戒指镶嵌著淡蓝色宝石，戴上后能感受到一股暖意包围全身，对魔法伤害有一定抵抗力。\n" ]));
     set_id(({"ring", "magic ring", "魔法戒指", "戒指"}));
     set_defence(1);
     set_magic_resist(15);

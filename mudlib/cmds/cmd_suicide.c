@@ -1,19 +1,21 @@
 // mudlib/cmds/cmd_suicide.c
 // 自殺指令：suicide (徹底刪除角色並備份)
 
+inherit "/std/object";
+
 #include "/include/config.h"
 #include "/include/ansi.h"
 
 int main(object me, string verb, string arg) {
     if (arg != "-f") {
-        write(HIR("【極度危險】此指令將徹底刪除您的角色資料！\n"));
-        write("您的物品將被清空，存檔將被移至備份區，您必須重新註冊才能再次遊戲。\n");
-        write("如果您確定要這麼做，請輸入：suicide -f\n");
+        write(HIR(select_lang(([ "en": "【EXTREME DANGER】 This command will completely delete your character data!\n", "zh-TW": "【極度危險】此指令將徹底刪除您的角色資料！\n", "zh-CN": "【极度危险】此指令将彻底删除您的角色资料！\n" ]))));
+        write(select_lang(([ "en": "Your items will be cleared, your save file will be moved to backup, and you must re-register to play again.\n", "zh-TW": "您的物品將被清空，存檔將被移至備份區，您必須重新註冊才能再次遊戲。\n", "zh-CN": "您的物品将被清空，存档将被移至备份区，您必须重新注册才能再次游戏。\n" ])));
+        write(select_lang(([ "en": "If you are absolutely sure, enter: suicide -f\n", "zh-TW": "如果您確定要這麼做，請輸入：suicide -f\n", "zh-CN": "如果您确定要这么做，请输入：suicide -f\n" ])));
         return 1;
     }
 
-    write(RED("\n你感覺到生命力正在飛速流逝... 這是一場真正的終結。\n"));
-    write(HIW("正在清理物品...\n"));
+    write(RED(select_lang(([ "en": "\nYou feel your life force draining rapidly... This is a true end.\n", "zh-TW": "\n你感覺到生命力正在飛速流逝... 這是一場真正的終結。\n", "zh-CN": "\n你感觉到生命力正在飞速流逝... 这是一场真正的终结。\n" ]))));
+    write(HIW(select_lang(([ "en": "Clearing items...\n", "zh-TW": "正在清理物品...\n", "zh-CN": "正在清理物品...\n" ]))));
     
     // 1. 東西全清光
     object *inv = all_inventory(me);
@@ -27,23 +29,23 @@ int main(object me, string verb, string arg) {
     string old_file = me->query_save_file() + ".o";
     string backup_file = "/data/backup/user/" + id + "_" + date + ".o";
 
-    write(HIW("正在備份角色資料至 ") + backup_file + " ...\n");
+    write(HIW(select_lang(([ "en": "Backing up character data to ", "zh-TW": "正在備份角色資料至 ", "zh-CN": "正在备份角色资料至 " ]))) + backup_file + " ...\n");
     
     // 3. 玩家資料檔移至備份區
     // 先儲存一次最新的 (雖然東西清光了)
     me->save();
     
     if (rename(old_file, backup_file)) {
-        write(GRN("備份完成。\n"));
+        write(GRN(select_lang(([ "en": "Backup completed.\n", "zh-TW": "備份完成。\n", "zh-CN": "备份完成。\n" ]))));
     } else {
-        write(RED("備份失敗！但為了安全，我們仍將嘗試刪除原始存檔。\n"));
+        write(RED(select_lang(([ "en": "Backup failed! For safety, we will still attempt to delete the original save.\n", "zh-TW": "備份失敗！但為了安全，我們仍將嘗試刪除原始存檔。\n", "zh-CN": "备份失败！但为了安全，我们仍将尝试删除原始存档。\n" ]))));
         rm(old_file);
     }
 
-    write(HIR("再見了，" + me->query_name() + "。希望在另一個輪迴還能見到你。\n"));
+    write(HIR(select_lang(([ "en": "Goodbye, ", "zh-TW": "再見了，", "zh-CN": "再见了，" ])) + me->query_name() + select_lang(([ "en": ". Hope to see you in another incarnation.\n", "zh-TW": "。希望在另一個輪迴還能見到你。\n", "zh-CN": "。希望在另一个轮回还能见到你。\n" ]))));
     
     // 4. 延遲 3 秒後返回登入畫面 (使用毫秒級 sleep efun)
-    write(CYN("\n(系統將在 3 秒後自動返回登入介面...)\n"));
+    write(CYN(select_lang(([ "en": "\n(System will automatically return to login screen in 3 seconds...)\n", "zh-TW": "\n(系統將在 3 秒後自動返回登入介面...)\n", "zh-CN": "\n(系统将在 3 秒后自动返回登入介面...)\n" ]))));
     
     sleep(3000);
     
@@ -63,8 +65,9 @@ int main(object me, string verb, string arg) {
 }
 
 string help() {
-    return "【自殺指令】\n" +
-           "  suicide -f     徹底刪除當前角色（資料將備份後移除）\n" +
-           "\n" +
-           "  警告：這不是一般的死亡，這會讓您失去整個角色存檔！\n";
+    return select_lang(([
+        "en": "【Suicide Command】\n  suicide -f     Completely delete current character (data backed up then removed)\n\n  Warning: This is not a normal death, you will lose your entire character save!\n",
+        "zh-TW": "【自殺指令】\n  suicide -f     徹底刪除當前角色（資料將備份後移除）\n\n  警告：這不是一般的死亡，這會讓您失去整個角色存檔！\n",
+        "zh-CN": "【自杀指令】\n  suicide -f     彻底删除当前角色（资料将备份后移除）\n\n  警告：这不是一般的死亡，这会让您失去整个角色存档！\n"
+    ]));
 }

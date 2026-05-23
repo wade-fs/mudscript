@@ -1,10 +1,12 @@
 // mudlib/cmds/cmd_movement.c
 // 移動指令守護進程：north / south / east / west / up / down / go
 
+inherit "/std/object";
+
 int main(object me, string verb, string arg) {
     object here = environment(me);
     if (!here) {
-        write("你不在任何地方。\n");
+        write(_t("void") + "\n");
         return 1;
     }
 
@@ -12,7 +14,7 @@ int main(object me, string verb, string arg) {
 
     if (verb == "go") {
         if (!arg) {
-            write("要往哪裡去？例如：go north\n");
+            write(_t("go_where") + "\n");
             return 1;
         }
         dir = arg;

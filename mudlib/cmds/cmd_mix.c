@@ -3,9 +3,11 @@
 
 #include "/include/ansi.h"
 
+inherit "/std/object";
+
 int main(object me, string verb, string arg) {
     if (!arg || arg == "") {
-        write("用法：mix <物品1>, <物品2>, ...\n");
+        write(select_lang(([ "en": "Usage: mix <item1>, <item2>, ...\n", "zh-TW": "用法：mix <物品1>, <物品2>, ...\n", "zh-CN": "用法：mix <物品1>, <物品2>, ...\n" ])));
         return 1;
     }
 
@@ -19,14 +21,14 @@ int main(object me, string verb, string arg) {
         
         object ob = present(name, me);
         if (!ob) {
-            write("你身上沒有「" + name + "」。\n");
+            write(select_lang(([ "en": "You do not have \"", "zh-TW": "你身上沒有「", "zh-CN": "你身上没有「" ])) + name + select_lang(([ "en": "\".\n", "zh-TW": "」。\n", "zh-CN": "」。\n" ])));
             return 1;
         }
         items += ({ ob });
     }
 
     if (sizeof(items) < 2) {
-        write("你至少需要放入兩樣物品。\n");
+        write(select_lang(([ "en": "You need to put in at least two items.\n", "zh-TW": "你至少需要放入兩樣物品。\n", "zh-CN": "你至少需要放入两样物品。\n" ])));
         return 1;
     }
 
@@ -36,10 +38,10 @@ int main(object me, string verb, string arg) {
 
     if (env->query_has_forge()) {
         type = "forge";
-        write("你借用鐵匠鋪的熔爐開始鍛造...\n");
+        write(select_lang(([ "en": "You borrow the forge in the blacksmith shop to start forging...\n", "zh-TW": "你借用鐵匠鋪的熔爐開始鍛造...\n", "zh-CN": "你借用铁匠铺的熔炉开始锻造...\n" ])));
     } else if (env->query_has_lab()) {
         type = "alchemy";
-        write("你利用實驗台的設備開始調配...\n");
+        write(select_lang(([ "en": "You use the lab equipment to start mixing...\n", "zh-TW": "你利用實驗台的設備開始調配...\n", "zh-CN": "你利用实验台的设备开始调配...\n" ])));
     } else {
         // 檢查是否有鑲嵌寶石
         int has_gem = 0;
@@ -51,9 +53,9 @@ int main(object me, string verb, string arg) {
         }
         if (has_gem) {
             type = "socket";
-            write("你拿出工具，嘗試進行鑲嵌...\n");
+            write(select_lang(([ "en": "You take out your tools and try to socket...\n", "zh-TW": "你拿出工具，嘗試進行鑲嵌...\n", "zh-CN": "你拿出工具，尝试进行镶嵌...\n" ])));
         } else {
-            write("你嘗試將這些東西胡亂湊在一起...\n");
+            write(select_lang(([ "en": "You try to mix these things randomly together...\n", "zh-TW": "你嘗試將這些東西胡亂湊在一起...\n", "zh-CN": "你尝试将这些东西胡乱凑在一起...\n" ])));
         }
     }
 
@@ -68,7 +70,9 @@ int main(object me, string verb, string arg) {
 }
 
 string help() {
-    return "【合成指令】\n" +
-           "  mix <物品1>, <物品2>, ...    將指定物品進行合成、鍛造或鑲嵌。\n" +
-           "  (提示：在鐵匠鋪或實驗室會有不同的合成效果)\n";
+    return select_lang(([
+        "en": "【Mix Command】\n  mix <item1>, <item2>, ...    Combine, forge or socket specified items.\n  (Hint: There will be different crafting effects in the blacksmith or laboratory)\n",
+        "zh-TW": "【合成指令】\n  mix <物品1>, <物品2>, ...    將指定物品進行合成、鍛造或鑲嵌。\n  (提示：在鐵匠鋪或實驗室會有不同的合成效果)\n",
+        "zh-CN": "【合成指令】\n  mix <物品1>, <物品2>, ...    将指定物品进行合成、锻造或镶嵌。\n  (提示：在铁匠铺或实验室会有不同的合成效果)\n"
+    ]));
 }

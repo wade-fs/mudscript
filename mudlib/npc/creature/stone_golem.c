@@ -4,9 +4,9 @@ inherit "/std/npc.c";
 
 void create() {
     ::create();
-    set_name("石頭傀儡");
-    set_short("一座緩步移動的石頭傀儡");
-    set_long("這座由古代魔法驅動的石頭傀儡，沉默地在廢墟間巡視，每一步都讓地面微微震動。\n");
+    set_name(([ "en": "Stone Golem", "zh-TW": "石頭傀儡", "zh-CN": "石头傀儡" ]));
+    set_short(([ "en": "A slowly moving stone golem", "zh-TW": "一座緩步移動的石頭傀儡", "zh-CN": "一座缓步移动的石头傀儡" ]));
+    set_long(([ "en": "Driven by ancient magic, this stone golem silently patrols the ruins. Each of its steps makes the ground tremble slightly.\n", "zh-TW": "這座由古代魔法驅動的石頭傀儡，沉默地在廢墟間巡視，每一步都讓地面微微震動。\n", "zh-CN": "这座由古代魔法驱动的石头傀儡，沉默地在废墟间巡视，每一步都让地面微微震动。\n" ]));
     set_id(({"stone_golem", "石頭傀儡", "傀儡", "石傀儡"}));
 
     level    = 5;

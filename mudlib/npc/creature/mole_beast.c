@@ -4,9 +4,9 @@ inherit "/std/npc.c";
 
 void create() {
     ::create();
-    set_name("掘土獸");
-    set_short("一頭凶猛的掘土獸");
-    set_long("這頭掘土獸形似巨鼴，鋒利的爪子在地面留下深深的溝痕，一雙失去光感的眼睛在黑暗中發著微光。\n");
+    set_name(([ "en": "Mole Beast", "zh-TW": "掘土獸", "zh-CN": "掘土兽" ]));
+    set_short(([ "en": "A ferocious mole beast", "zh-TW": "一頭凶猛的掘土獸", "zh-CN": "一头凶猛的掘土兽" ]));
+    set_long(([ "en": "This mole beast resembles a giant mole. Its sharp claws leave deep furrows in the ground, and a pair of light-insensitive eyes glows faintly in the dark.\n", "zh-TW": "這頭掘土獸形似巨鼴，鋒利的爪子在地面留下深深的溝痕，一雙失去光感的眼睛在黑暗中發著微光。\n", "zh-CN": "这头掘土兽形似巨鼹，锋利的爪子在地面留下深深的沟痕，一双失去光感的眼睛在黑暗中发著微光。\n" ]));
     set_id(({"mole_beast", "掘土獸", "鼴鼠獸"}));
 
     level    = 4;

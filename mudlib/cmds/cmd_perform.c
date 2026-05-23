@@ -1,11 +1,13 @@
 // /cmds/cmd_perform.c
 // 施展特殊招式指令
 
+inherit "/std/object";
+
 #include "/include/ansi.h"
 
 int main(object me, string verb, string arg) {
     if (!arg || arg == "") {
-        write("你要施展什麼招式？用法：perform <招式ID> [目標]\n");
+        write(select_lang(([ "en": "What skill do you want to perform? Usage: perform <skill_id> [target]\n", "zh-TW": "你要施展什麼招式？用法：perform <招式ID> [目標]\n", "zh-CN": "你要施展什么招式？用法：perform <招式ID> [目标]\n" ])));
         return 1;
     }
 
@@ -23,7 +25,9 @@ int main(object me, string verb, string arg) {
 }
 
 string help() {
-    return "【戰鬥指令】\n" +
-           "  perform <招式> [目標]    施展職業專屬的強大招式或法術。\n" +
-           "  (例如：perform bash, perform fireball, perform heal)\n";
+    return select_lang(([
+        "en": "【Combat Command】\n  perform <skill> [target]    Perform powerful class-specific skills or spells.\n  (e.g.: perform bash, perform fireball, perform heal)\n",
+        "zh-TW": "【戰鬥指令】\n  perform <招式> [目標]    施展職業專屬的強大招式或法術。\n  (例如：perform bash, perform fireball, perform heal)\n",
+        "zh-CN": "【战斗指令】\n  perform <招式> [目标]    施展职业专属的强大招式或法术。\n  (例如：perform bash, perform fireball, perform heal)\n"
+    ]));
 }

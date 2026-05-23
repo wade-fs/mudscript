@@ -3,8 +3,8 @@
 inherit "/std/armour.c";
 void create() {
     ::create();
-    set_short("一件皮革護腿");
-    set_long("這是用厚實獸皮縫製的護腿，延展性不錯，不會影響奔跑。\n");
+    set_short(([ "en": "Leather leggings", "zh-TW": "一件皮革護腿", "zh-CN": "一件皮革护腿" ]));
+    set_long(([ "en": "These leggings are sewn from thick animal hide. Their elasticity is good and they do not hinder running.\n", "zh-TW": "這是用厚實獸皮縫製的護腿，延展性不錯，不會影響奔跑。\n", "zh-CN": "这是用厚实兽皮缝制的护腿，延展性不错，不会影响奔跑。\n" ]));
     set_id(({"leggings", "leather leggings", "皮護腿", "護腿"}));
     set_defence(3);
     set_slot(SLOT_LEGS);

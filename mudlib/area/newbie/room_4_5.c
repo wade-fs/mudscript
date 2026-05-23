@@ -4,8 +4,16 @@ inherit "/std/room.c";
 
 void create() {
     ::create();
-    set_short(HIW("冒險者公會"));
-    set_long("這裡是新手村的公會大廳，天花板很高，四周掛著各種戰利品與地圖。\n幾名冒險者正坐在長椅上休息，氣氛顯得既嚴肅又熱鬧。\n");
+    set_short(([
+        "en": HIW("Adventurers Guild"),
+        "zh-TW": HIW("冒險者公會"),
+        "zh-CN": HIW("冒险者公会")
+    ]));
+    set_long(([
+        "en": "This is the guild hall of the Newbie Village. The ceiling is high, and the walls are decorated with various trophies and maps.\nSeveral adventurers are resting on the benches, and the atmosphere is both serious and lively.\n",
+        "zh-TW": "這裡是新手村的公會大廳，天花板很高，四周掛著各種戰利品與地圖。\n幾名冒險者正坐在長椅上休息，氣氛顯得既嚴肅又熱鬧。\n",
+        "zh-CN": "这里是新手村的公会大厅，天花板很高，四周挂着各种战利品与地图。\n几名冒险者正坐在长椅上休息，气氛显得既严肃又热闹。\n"
+    ]));
     set_no_combat(1);
     set_coordinate(4, 5, 0);
     add_exit("east",  "/area/newbie/room_5_5.c");

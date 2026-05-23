@@ -4,9 +4,9 @@ inherit "/std/npc.c";
 
 void create() {
     ::create();
-    set_name("水蛇");
-    set_short("一條滑溜溜的水蛇");
-    set_long("這是一條盤繞在水邊的灰綠色水蛇，鱗片在陽光下閃著冷光，吐著分叉的舌頭。\n");
+    set_name(([ "en": "Water Snake", "zh-TW": "水蛇", "zh-CN": "水蛇" ]));
+    set_short(([ "en": "A slippery water snake", "zh-TW": "一條滑溜溜的水蛇", "zh-CN": "一条滑溜溜的水蛇" ]));
+    set_long(([ "en": "This is a grey-green water snake coiled by the water's edge. Its scales shimmer coldly in the sunlight as it flicks its forked tongue.\n", "zh-TW": "這是一條盤繞在水邊的灰綠色水蛇，鱗片在陽光下閃著冷光，吐著分叉的舌頭。\n", "zh-CN": "这是一条盘绕在水边的灰绿色水蛇，鳞片在阳光下闪著冷光，吐著分叉的舌头。\n" ]));
     set_id(({"water_snake", "水蛇", "蛇"}));
 
     level    = 2;

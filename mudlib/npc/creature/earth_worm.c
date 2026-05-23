@@ -4,9 +4,9 @@ inherit "/std/npc.c";
 
 void create() {
     ::create();
-    set_name("巨型土蚯蚓");
-    set_short("一條從地底鑽出的巨型土蚯蚓");
-    set_long("這條土蚯蚓足有成人手臂般粗，從潮濕的泥土中鑽出，黏液滴落在地面上。\n");
+    set_name(([ "en": "Giant Earthworm", "zh-TW": "巨型土蚯蚓", "zh-CN": "巨型土蚯蚓" ]));
+    set_short(([ "en": "A giant earthworm emerging from the ground", "zh-TW": "一條從地底鑽出的巨型土蚯蚓", "zh-CN": "一条从地底钻出的巨型土蚯蚓" ]));
+    set_long(([ "en": "This earthworm is as thick as an adult's arm, emerging from damp soil with mucus dripping onto the ground.\n", "zh-TW": "這條土蚯蚓足有成人手臂般粗，從潮濕的泥土中鑽出，黏液滴落在地面上。\n", "zh-CN": "这条土蚯蚓足有成人手臂般粗，从潮湿的泥土中钻出，黏液滴落在地面上。\n" ]));
     set_id(({"earth_worm", "土蚯蚓", "蚯蚓", "巨型蚯蚓"}));
 
     level    = 3;

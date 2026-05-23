@@ -9,27 +9,19 @@ mapping recipes;
 void create() {
     recipes = ([
         // ── 製藥 (Alchemy) ──
-        "potion_healing": ([
+        "health_potion": ([
             "type": "alchemy",
             "name": "初級恢復藥水",
-            "materials": ([ "史萊姆黏液": 2, "雜草": 1 ]),
+            "materials": ([ "/item/material/slime_jelly.c": 2, "/item/material/wood.c": 1 ]),
             "result": "/item/consumable/health_potion.c",
             "msg": "你將黏液與草藥混合攪拌，瓶中泛起了紅色的微光。"
         ]),
-        
-        "potion_antidote": ([
-            "type": "alchemy",
-            "name": "初級解毒劑",
-            "materials": ([ "毒蛇牙": 1, "史萊姆黏液": 1 ]),
-            "result": "/item/consumable/antidote.c",
-            "msg": "你小心地提取蛇牙中的毒液並與黏液中和，製成了透明的解毒劑。"
-        ]),
 
         // ── 鍛造 (Forging) ──
-        "iron_shield": ([
+        "crab_shield": ([
             "type": "forge",
             "name": "加固木盾",
-            "materials": ([ "螃蟹殼": 2, "木材": 1 ]),
+            "materials": ([ "/item/material/crab_shell.c": 2, "/item/material/wood.c": 1 ]),
             "result": "/item/armour/reinforced_shield.c",
             "msg": "你利用堅硬的螃蟹殼加固了護盾，防禦力大幅提升。"
         ]),
@@ -38,7 +30,7 @@ void create() {
         "socket_fire": ([
             "type": "socket",
             "name": "火焰鑲嵌",
-            "materials": ([ "火焰碎石": 1 ]),
+            "materials": ([ "/item/gem/fire_shard.c": 1 ]),
             "msg": "裝備散發出熾熱的紅光！",
             "apply_func": "apply_socket_fire"
         ])
@@ -49,7 +41,17 @@ void create() {
 void apply_socket_fire(object target) {
     target->set_element("fire");
     target->set_attack(target->query_attack() + 5);
-    target->set_name("火焰之" + target->query_name());
+
+    // 這裡暫時維持簡單的字串串接，實務上可根據語系修改
+    object tp = this_player();
+    string lang = "en";
+    if (tp) {
+        lang = tp->query_lang();
+    }
+    
+    if (lang == "zh-TW") target->set_name("火焰之" + target->query_name());
+    else if (lang == "zh-CN") target->set_name("火焰之" + target->query_name());
+    else target->set_name("Flame " + target->query_name());
 }
 
 mapping query_recipe(string id) { return recipes[id]; }
@@ -58,11 +60,11 @@ mapping query_recipe(string id) { return recipes[id]; }
 mixed do_craft(object me, string type, object *items) {
     if (!items || sizeof(items) < 2) return "你至少需要兩樣東西才能進行合成。";
 
-    // 1. 收集投入物品的名稱分布
+    // 1. 收集投入物品的分布 (改用 base_name)
     mapping inputs = ([]);
     for (int i = 0; i < sizeof(items); i++) {
         object ob = items[i];
-        string n = ob->query_name();
+        string n = base_name(ob);
         int count = inputs[n];
         if (!count) {
             inputs[n] = 1;

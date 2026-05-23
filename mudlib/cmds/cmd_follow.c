@@ -1,17 +1,19 @@
 // /cmds/cmd_follow.c
 // 跟隨指令
 
+inherit "/std/object";
+
 #include "/include/ansi.h"
 
 int main(object me, string verb, string arg) {
     if (!arg || arg == "") {
         object leader = me->query_leader();
         if (leader) {
-            write("你停止跟隨 " + leader->query_name() + "。\n");
+            write(select_lang(([ "en": "You stop following ", "zh-TW": "你停止跟隨 ", "zh-CN": "你停止跟随 " ])) + leader->query_name() + select_lang(([ "en": ".\n", "zh-TW": "。\n", "zh-CN": "。\n" ])));
             leader->remove_follower(me);
             me->set_leader(0);
         } else {
-            write("你要跟隨誰？用法：follow <ID>\n");
+            write(select_lang(([ "en": "Who do you want to follow? Usage: follow <ID>\n", "zh-TW": "你要跟隨誰？用法：follow <ID>\n", "zh-CN": "你要跟随谁？用法：follow <ID>\n" ])));
         }
         return 1;
     }
@@ -20,12 +22,12 @@ int main(object me, string verb, string arg) {
     if (!target) target = present(arg, environment(me));
     
     if (!target) {
-        write("這裡沒有「" + arg + "」這個人。\n");
+        write(select_lang(([ "en": "There is no one named '", "zh-TW": "這裡沒有「", "zh-CN": "这里没有「" ])) + arg + select_lang(([ "en": "' here.\n", "zh-TW": "」這個人。\n", "zh-CN": "」这个人。\n" ])));
         return 1;
     }
     
     if (target == me) {
-        write("你不能跟隨你自己。\n");
+        write(select_lang(([ "en": "You cannot follow yourself.\n", "zh-TW": "你不能跟隨你自己。\n", "zh-CN": "你不能跟随你自己。\n" ])));
         return 1;
     }
 
@@ -36,13 +38,16 @@ int main(object me, string verb, string arg) {
     me->set_leader(target);
     target->add_follower(me);
     
-    write("你開始跟隨 " + target->query_name() + "。\n");
-    tell_object(target, me->query_name() + " 開始跟隨你。\n");
+    write(select_lang(([ "en": "You start following ", "zh-TW": "你開始跟隨 ", "zh-CN": "你开始跟随 " ])) + target->query_name() + select_lang(([ "en": ".\n", "zh-TW": "。\n", "zh-CN": "。\n" ])));
+    tell_object(target, me->query_name() + select_lang(([ "en": " starts following you.\n", "zh-TW": " 開始跟隨你。\n", "zh-CN": " 开始跟随你。\n" ])));
 
     return 1;
 }
 
 string help() {
-    return "【指令】\n" +
-           "  follow <ID>    跟隨指定玩家或 NPC。不帶參數則停止跟隨。\n";
+    return select_lang(([
+        "en": "【Command】\n  follow <ID>    Follow a specific player or NPC. No arguments to stop following.\n",
+        "zh-TW": "【指令】\n  follow <ID>    跟隨指定玩家或 NPC。不帶參數則停止跟隨。\n",
+        "zh-CN": "【指令】\n  follow <ID>    跟随指定玩家或 NPC。不带参数则停止跟随。\n"
+    ]));
 }

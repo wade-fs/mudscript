@@ -4,9 +4,13 @@ inherit "/std/npc.c";
 
 void create() {
     ::create();
-    set_name("史萊姆");
-    set_short("一隻藍色史萊姆");
-    set_long("這是一隻圓滾滾的藍色史萊姆，看起來弱不禁風，卻讓人有點噁心。\n");
+    set_name(([ "en": "Slime", "zh-TW": "史萊姆", "zh-CN": "史莱姆" ]));
+    set_short(([ "en": "a blue slime", "zh-TW": "一隻藍色史萊姆", "zh-CN": "一只蓝色史莱姆" ]));
+    set_long(([
+        "en": "This is a round blue slime. It looks weak but a bit disgusting.\n",
+        "zh-TW": "這是一隻圓滾滾的藍色史萊姆，看起來弱不禁風，卻讓人有點噁心。\n",
+        "zh-CN": "这是一只圆滚滚的蓝色史莱姆，看起来弱不禁风，却让人有点恶心。\n"
+    ]));
     set_id(({"slime","史萊姆","藍色史萊姆"}));
 
     level    = 1;

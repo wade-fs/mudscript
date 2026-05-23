@@ -4,9 +4,9 @@ inherit "/std/item.c";
 
 void create() {
     ::create();
-    set_name("初級恢復藥水");
-    set_short("一瓶紅色藥水");
-    set_long("這是一瓶散發著淡淡香味的紅色藥水，能恢復生命力。\n");
+    set_name(([ "en": "Minor Health Potion", "zh-TW": "初級恢復藥水", "zh-CN": "初级恢复药水" ]));
+    set_short(([ "en": "A red potion", "zh-TW": "一瓶紅色藥水", "zh-CN": "一瓶红色药水" ]));
+    set_long(([ "en": "This is a red potion exuding a faint fragrance, capable of restoring vitality.\n", "zh-TW": "這是一瓶散發著淡淡香味的紅色藥水，能恢復生命力。\n", "zh-CN": "这是一瓶散发著淡淡香味的红色药水，能恢复生命力。\n" ]));
     set_id(({"potion","health potion","紅藥水","藥水"}));
     set_item_type(ITEM_CONSUMABLE);
     set_weight(200);

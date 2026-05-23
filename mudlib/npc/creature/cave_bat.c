@@ -4,9 +4,9 @@ inherit "/std/npc.c";
 
 void create() {
     ::create();
-    set_name("洞窟蝙蝠");
-    set_short("一隻黑翼蝙蝠");
-    set_long("這隻蝙蝠掛在陰暗角落，一被驚動就在空中亂竄，發出令人不舒服的尖嘯。\n");
+    set_name(([ "en": "Cave Bat", "zh-TW": "洞窟蝙蝠", "zh-CN": "洞窟蝙蝠" ]));
+    set_short(([ "en": "A black-winged bat", "zh-TW": "一隻黑翼蝙蝠", "zh-CN": "一只黑翼蝙蝠" ]));
+    set_long(([ "en": "This bat hangs in dark corners. Once disturbed, it darts wildly through the air, emitting an uncomfortable screech.\n", "zh-TW": "這隻蝙蝠掛在陰暗角落，一被驚動就在空中亂竄，發出令人不舒服的尖嘯。\n", "zh-CN": "这只蝙蝠挂在阴暗角落，一被惊动就在空中乱窜，发出令人不舒服的尖啸。\n" ]));
     set_id(({"cave_bat", "蝙蝠", "洞窟蝙蝠"}));
 
     level    = 1;

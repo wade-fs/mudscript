@@ -157,10 +157,12 @@ void look_room() {
     }
 
     // 🚀 新增：發送小地圖的 JSON 資料給前端
-    mapping map_data = ([
-        "center_name": short_desc,
-        "exits": keys(exits)
-    ]);
+    object map_d = load_object("/secure/map_d.c");
+    mapping map_data = ([]);
+    if (map_d) {
+        map_data = map_d->get_map_json(this_player(), 2); // 取得 5x5 的網格資料
+    }
+    map_data["exits"] = keys(exits); // 同時保留可用出口資訊給前端使用
     write(sprintf("{\"ui\": \"minimap\", \"data\": %s}", json_encode(map_data)));
 }
 
@@ -175,6 +177,12 @@ void init() {
 
     add_action("do_search", "search");
     add_action("do_search", "搜尋");
+
+    // 🚀 新增：地圖探索紀錄
+    object tp = this_player();
+    if (tp && userp(tp)) {
+        tp->record_exploration(object_name(this_object()));
+    }
 
     // 🚩 性能優化：當玩家進入房間時，喚醒房間內所有 NPC 的心跳
     if (userp(this_player())) {
@@ -192,26 +200,35 @@ int do_go(string dir) {
     }
 
     if (!exits[cmd]) {
-        write("那個方向沒有出路。\n");
+        write(_t("no_exit_err") + "\n");
         return 1;
     }
 
     string dest_path = exits[cmd];
     object dest = load_object(dest_path);
     if (!dest) {
-        write("目的地不存在。\n");
+        write(_t("dest_missing_err") + "\n");
         return 1;
     }
 
     object me = this_player();
     string my_name = me->query_name();
 
-    say(my_name + " 往 " + cmd + " 方向離開了。\n");
+    string leave_msg = _t("say_leave");
+    leave_msg = replace_string(leave_msg, "$name", my_name);
+    leave_msg = replace_string(leave_msg, "$dir", cmd);
+    say(leave_msg + "\n");
+
     if (me->move(dest, cmd)) {
-        say(my_name + " 從 " + cmd + " 方向來到了這裡。\n");
+        string arrive_msg = _t("say_arrive");
+        arrive_msg = replace_string(arrive_msg, "$name", my_name);
+        arrive_msg = replace_string(arrive_msg, "$dir", cmd);
+        say(arrive_msg + "\n");
         dest->look_room();
     } else {
-        write("你往 " + cmd + " 走不過去。\n");
+        string fail_msg = _t("move_fail_err");
+        fail_msg = replace_string(fail_msg, "$dir", cmd);
+        write(fail_msg + "\n");
     }
     return 1;
 }

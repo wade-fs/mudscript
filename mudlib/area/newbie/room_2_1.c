@@ -4,8 +4,16 @@ inherit "/std/room.c";
 
 void create() {
     ::create();
-    set_short("平民區");
-    set_long("這裡是一排排整齊的石造民居。\n");
+    set_short(([
+        "en": "Residential Area",
+        "zh-TW": "平民區",
+        "zh-CN": "平民区"
+    ]));
+    set_long(([
+        "en": "Rows of neat stone houses stand here.\n",
+        "zh-TW": "這裡是一排排整齊的石造民居。\n",
+        "zh-CN": "这里是一排排整齐的石造民居。\n"
+    ]));
     set_coordinate(2, 1, 0);
     add_exit("west", "/area/newbie/room_1_1.c");
     add_exit("east", "/area/newbie/room_3_1.c");
