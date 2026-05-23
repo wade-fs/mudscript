@@ -45,7 +45,7 @@ test: fsmud
 # 正常執行伺服器
 run: fsmud
 	@echo "🚀 Starting MudScript Server..."
-	@$(OUT)/fsmud
+	@$(OUT)/fsmud --hub wss://wade-fs-fsmud-hub.hf.space/ws
 
 clean:
 	@rm -rf *.log $(OUT)/*
