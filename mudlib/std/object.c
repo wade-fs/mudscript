@@ -32,11 +32,26 @@ void set_money_value(int v)  { money_value = v; }
 // ── 查詢函式 ────────────────────────────────────────────
 string query_name()      { return name; }
 string query_short()     { return short_name; }
-string query_long()      { return long_desc; } // 這裡似乎原本是 long_name，但我看過 room.c 用 long_desc，等下確認
+string query_long()      { return long_desc; } // 這裡原本是 long_name，但我看過 room.c 用 long_desc，等下確認
 mixed  query_id()        { return id_list; }
 int    query_no_get()    { return no_get; }
 int    query_no_drop()   { return no_drop; }
 int    query_money_value(){ return money_value; }
+
+// 🚀 新增：翻譯輔助函式
+string _t(string key) {
+    object tp = this_player();
+    string lang = "en";
+    
+    if (tp) {
+        lang = tp->query_lang();
+    } else if (this_object()->query_lang()) {
+        // 🚀 關鍵強化：如果是對 User 物件本身調用 (例如在測試中)
+        lang = this_object()->query_lang();
+    }
+    
+    return load_object("/secure/language_d.c")->translate(key, lang);
+}
 
 // ── 取得用於指令互動的主要識別字 ─────────────────────
 string query_key_id() {

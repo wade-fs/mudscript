@@ -7,9 +7,12 @@ string current_pass;
 string current_nick;
 string current_race;
 string current_nature;
+string browser_lang; // 🚀 新增
 
 void create() {
 }
+
+void set_browser_lang(string lang) { browser_lang = lang; }
 
 void logon() {
     string issue = read_file(ISSUE_FILE);
@@ -74,6 +77,12 @@ void check_pass(string pass) {
 			if (!user->query_name()) {
                 user->set_name(user->get_id());
             }
+            
+            // 🚀 新增：初始化語系
+            if (!user->query_lang()) {
+                user->set_lang(browser_lang);
+            }
+
             write("\n" + GREEN("登入成功！歡迎回來，" + user->query_name() + "。") + "\n");
             destruct(this_object());
         } else {
@@ -173,6 +182,7 @@ void create_character() {
     user->set_nickname(current_nick);
     user->set_race(current_race);
     user->set_nature(current_nature);
+    user->set_lang(browser_lang); // 🚀 繼承瀏覽器語系
 
     // 套用種族與天性的屬性加成
     mapping r_data = RACE_DATA[current_race];

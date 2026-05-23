@@ -73,6 +73,7 @@ void create() {
         "fchat"    : "/cmds/cmd_chat.c",
         "channel"  : "/cmds/cmd_channel.c",
         "bank"     : "/cmds/cmd_bank.c",
+        "lang"     : "/cmds/cmd_lang.c",
         "tame"     : "/cmds/cmd_tame.c",
         "ride"     : "/cmds/cmd_ride.c",
         "unride"   : "/cmds/cmd_ride.c",

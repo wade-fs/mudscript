@@ -52,7 +52,7 @@ func (h *Hub) Run() {
 			}
 
             // C. 向 Master Object 請求登入物件 (這會執行 master.c 的 connect())
-			userObj := h.mudDriver.AcceptConnection(pConn)
+			userObj := h.mudDriver.AcceptConnection(pConn, client.Language)
 			if userObj != nil {
 				pConn.Object = userObj
 				// 註冊互動狀態
@@ -190,11 +190,8 @@ func (h *Hub) Run() {
 				}
 
 				// 🚀 階段 4：最後才交給 process_input
-				if !found {
-					res := h.mudDriver.RunCommand(p, p.Object, "process_input", []object.Object{&object.String{Value: input}})
-					if i, ok := res.(*object.Integer); ok && i.Value == 0 {
-						p.Send("什麼？\r\n")
-					}
+				if (!found) {
+					h.mudDriver.RunCommand(p, p.Object, "process_input", []object.Object{&object.String{Value: input}})
 				}
 			} else if msg.Type == "chat" {
 				for id, peer := range h.clients {

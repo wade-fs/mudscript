@@ -36,15 +36,17 @@ void run_test_mode() {
 // 1. 玩家連線入口 (非常重要)
 // ==========================================
 // 當玩家透過 TCP 連線時，Driver 的 AcceptConnection 會呼叫此函式
-object connect() {
+object connect(string lang) {
     object login_ob;
     
     // 複製一個 login 物件來處理後續的登入流程
-    // (對應我們剛剛寫的 /std/login.c)
     login_ob = clone_object("/std/login.c");
     
+    if (login_ob) {
+        login_ob->set_browser_lang(lang);
+    }
+
     // 將這個 login 物件回傳給 Driver
-    // Driver 收到後，會正式把玩家的網路連線掛載到這個 login_ob 身上
     return login_ob;
 }
 

@@ -12,6 +12,7 @@ string id, password, role;
 string nature;
 string guild; // 🚀 新增：職業/公會
 string guild_rank; // 🚀 新增：公會職位
+string lang; // 🚀 新增：語系設定
 int    guild_exp;  // 🚀 新增：公會貢獻/經驗
 int    bank_balance; // 🚀 新增：銀行存款
 int    last_bank_time; // 🚀 新增：上次計算利息時間
@@ -125,7 +126,9 @@ int process_input(string input) {
     int res = cmd_d->execute(this_object(), verb, arg);
     if (res) return res;
 
-    return 0;
+    // 🚀 新增：多語系「什麼？」訊息
+    write(_t("what") + "\n");
+    return 1;
 }
 
 void move_to_start() {
@@ -149,6 +152,8 @@ void set_guild(string g) { guild = g; }
 string query_guild() { return guild; }
 void set_guild_rank(string r) { guild_rank = r; }
 string query_guild_rank() { return guild_rank; }
+void set_lang(string l) { lang = l; }
+string query_lang() { return lang; }
 void add_guild_exp(int v) { guild_exp += v; }
 int query_guild_exp() { return guild_exp; }
 

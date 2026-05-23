@@ -18,6 +18,7 @@ var upgrader = websocket.Upgrader{
 type Client struct {
 	ID       string
 	Username string
+	Language string // 🚀 新增：瀏覽器語言
 	Conn     *websocket.Conn
 	Hub      *Hub
 	Send     chan Message
@@ -36,9 +37,19 @@ func HandleWS(hub *Hub, w http.ResponseWriter, r *http.Request) {
 		username = "Anonymous" // 如果沒填，給個預設值
 	}
 
+	// 🚀 新增：獲取瀏覽器語言 (Accept-Language)
+	lang := r.Header.Get("Accept-Language")
+	if lang != "" {
+		// 簡化處理：取第一個主要語言標籤，例如 "zh-TW,zh;q=0.9" -> "zh-TW"
+		if pos := strings.Index(lang, ","); pos != -1 {
+			lang = lang[:pos]
+		}
+	}
+
 	client := &Client{
 		ID:       uuid.NewString(),
-		Username: username, // 2. 存入 Client 結構
+		Username: username,
+		Language: lang, // 存入 Client
 		Conn:     conn,
 		Hub:      hub,
 		Send:     make(chan Message, 256),
