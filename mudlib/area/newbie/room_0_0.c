@@ -17,4 +17,5 @@ void create() {
     set_coordinate(0, 0, 0);
     add_exit("east", "/area/newbie/room_1_0.c");
     add_exit("north", "/area/newbie/room_0_1.c");
+    add_exit("down", "/area/cave/cave_0_0_minus1.c");
 }

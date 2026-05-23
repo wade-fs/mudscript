@@ -18,4 +18,5 @@ void create() {
     add_exit("west", "/area/newbie/room_0_0.c");
     add_exit("east", "/area/newbie/room_2_0.c");
     add_exit("north", "/area/newbie/room_1_1.c");
+    add_exit("southeast", "/area/water/lake_0_0_0.c");
 }
