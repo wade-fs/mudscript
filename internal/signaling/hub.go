@@ -3,7 +3,6 @@ package signaling
 import (
 	"fmt"
 	"strings"
-	"time"
 
 	"mudscript/driver"
 	"mudscript/object"
@@ -164,24 +163,27 @@ func (h *Hub) Run() {
 					h.mudDriver.RunCommand(p, p.Object, "process_input", []object.Object{&object.String{Value: input}})
 				}
 			} else if msg.Type == "chat" {
-				// 🚀 階段 1：將訊息轉發給本地 MUD 驅動
+				// 🚀 階段 1：將訊息轉發給本地 MUD 驅動 (給 Hub 本身的玩家看)
 				if h.mudDriver != nil && h.mudDriver.OnP2PMessage != nil {
 					h.mudDriver.OnP2PMessage(msg.Username, msg.Payload)
 				}
 
-				// 🚀 階段 2：轉發給其他連線中的客戶端
+				// 🚀 階段 2：轉發給其他連線中的節點
 				for id, peer := range h.clients {
-					// 關鍵：絕對不要發送回給原始發送者 (msg.From)
-					if id == msg.From {
-						continue
-					}
-
-					targetMsg := msg
-					// 非阻塞發送
-					select {
-					case peer.Send <- targetMsg:
-					case <-time.After(10 * time.Millisecond):
-						fmt.Printf("⚠️ 警告：無法發送訊息給 %s (佇列已滿)\n", id)
+					// 路由策略：
+					// 1. 如果目標是 P2P 節點：一律轉發 (包含發送者，作為回信確認)
+					// 2. 如果目標是 Web 玩家：只有在對方「不是」發送者時才轉發
+					//    (註：Hub 本身的 Web 玩家已經在階段 1 看到了，所以這裡其實主要針對 Peer 上的 Web 玩家)
+					
+					if peer.IsP2P {
+						// P2P 節點需要收到訊息來同步其本地 MUD
+						// 這裡發送回給原始發送節點，讓該節點的玩家看到自己的 fs 訊息
+						peer.Send <- msg
+					} else {
+						// 普通 Web 客戶端：如果不是發送者才發送
+						if id != msg.From {
+							peer.Send <- msg
+						}
 					}
 				}
 			} else {
