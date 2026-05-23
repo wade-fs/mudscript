@@ -17,6 +17,7 @@ type Node struct {
 	ID        string
 	Driver    *driver.Driver
 	Signaler  *websocket.Conn
+	Send      chan signaling.Message // 🚀 新增：WebSocket 發送通道
 	Peers     map[string]*Peer
 	mu        sync.RWMutex
 	
@@ -33,6 +34,7 @@ func NewNode(d *driver.Driver, hubURL string) *Node {
 	return &Node{
 		Driver:   d,
 		Peers:    make(map[string]*Peer),
+		Send:     make(chan signaling.Message, 256), // 初始化通道
 		HubURL:   hubURL,
 	}
 }
@@ -56,6 +58,7 @@ func (n *Node) Start() error {
 	n.Signaler = c
 
 	go n.readLoop()
+	go n.writeLoop() // 🚀 啟動寫入迴圈
 	return nil
 }
 
@@ -92,6 +95,17 @@ func (n *Node) readLoop() {
 	}
 }
 
+// 🚀 新增：寫入迴圈，解決並發寫入 WebSocket 的 panic 問題
+func (n *Node) writeLoop() {
+	for msg := range n.Send {
+		err := n.Signaler.WriteJSON(msg)
+		if err != nil {
+			log.Println("❌ Signaling write error:", err)
+			return
+		}
+	}
+}
+
 func (n *Node) createOffer(targetID string) {
 	pc, err := pion.NewPeerConnection(webrtc.Config())
 	if err != nil {
@@ -109,24 +123,24 @@ func (n *Node) createOffer(targetID string) {
 
 	pc.OnICECandidate(func(c *pion.ICECandidate) {
 		if c == nil { return }
-		n.Signaler.WriteJSON(signaling.Message{
+		n.Send <- signaling.Message{
 			Type: "candidate",
 			To:   targetID,
 			From: n.ID,
 			Candidate: c.ToJSON().Candidate,
-		})
+		}
 	})
 
 	offer, err := pc.CreateOffer(nil)
 	if err != nil { return }
 	pc.SetLocalDescription(offer)
 
-	n.Signaler.WriteJSON(signaling.Message{
+	n.Send <- signaling.Message{
 		Type: "offer",
 		To:   targetID,
 		From: n.ID,
 		SDP:  offer.SDP,
-	})
+	}
 
 	n.mu.Lock()
 	n.Peers[targetID] = &Peer{ID: targetID, PC: pc}
@@ -143,24 +157,24 @@ func (n *Node) handleOffer(msg signaling.Message) {
 
 	pc.OnICECandidate(func(c *pion.ICECandidate) {
 		if c == nil { return }
-		n.Signaler.WriteJSON(signaling.Message{
+		n.Send <- signaling.Message{
 			Type: "candidate",
 			To:   msg.From,
 			From: n.ID,
 			Candidate: c.ToJSON().Candidate,
-		})
+		}
 	})
 
 	pc.SetRemoteDescription(pion.SessionDescription{Type: pion.SDPTypeOffer, SDP: msg.SDP})
 	answer, _ := pc.CreateAnswer(nil)
 	pc.SetLocalDescription(answer)
 
-	n.Signaler.WriteJSON(signaling.Message{
+	n.Send <- signaling.Message{
 		Type: "answer",
 		To:   msg.From,
 		From: n.ID,
 		SDP:  answer.SDP,
-	})
+	}
 
 	n.mu.Lock()
 	n.Peers[msg.From] = &Peer{ID: msg.From, PC: pc}
@@ -215,11 +229,11 @@ func (n *Node) broadcastToMUD(content, sender string) {
 
 func (n *Node) SendChat(sender, content string) {
 	// 🚀 關鍵修正：透過信令伺服器廣播，確保穩定性與全域覆蓋
-	n.Signaler.WriteJSON(signaling.Message{
+	n.Send <- signaling.Message{
 		Type:     "chat",
 		Username: sender,
 		Payload:  content,
-	})
+	}
 
 	// 額外發送到 P2P DataChannel (如果已建立)
 	msg := map[string]string{
