@@ -15,6 +15,7 @@ void create() {
         "zh-CN": "酒馆内人声鼎沸，充满了廉价麦酒的味道。几张粗糙的木桌旁坐满了吹牛的冒险者。\n老板巴克正忙着擦拭吧台上的杯子。\n"
     ]));
     set_no_combat(1);
+    set_has_tavern(1);
     set_coordinate(4, 3, 0);
     add_exit("north", "/area/newbie/room_4_4.c");
     add_exit("south", "/area/newbie/room_4_2.c");

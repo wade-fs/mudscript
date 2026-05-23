@@ -15,6 +15,7 @@ void create() {
         "zh-CN": "店内陈列着各种皮甲与锁子甲，散发着皮革与金属的味道。墙上挂着几面装饰华丽的盾牌。\n"
     ]));
     set_no_combat(1);
+    set_has_shop(1);
     set_coordinate(5, 4, 0);
     add_exit("west", "/area/newbie/room_4_4.c");
     add_exit("east", "/area/newbie/room_6_4.c");

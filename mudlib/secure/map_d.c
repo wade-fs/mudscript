@@ -48,61 +48,102 @@ string draw_map(object me, int range) {
     
     mapping explored = me->query_explored_rooms();
     string title = select_lang(([
-        "en": "=== Area Map (",
+        "en": "=== Minimap (",
         "zh-TW": "=== 區域地圖 (",
-        "zh-CN": "=== 区域地图 ("
+        "zh-CN": "=== 區域地圖 ("
     ]));
-    string map_header = title + cur_x + "," + cur_y + ") ===";
-    string out = "\n" + HIW(map_header) + "\n";
+    string map_header = title + cur_x + "," + cur_y + "," + cur_z + ") ===";
+    string out = "\n" + BOLD_WHT(map_header) + "\n";
     
     // 從北到南 (y 遞減)
     for (int y = cur_y + range; y >= cur_y - range; y--) {
-        string line = "  ";
+        string room_line = "  ";
+        string path_line = "  ";
+        
         // 從西到東 (x 遞增)
         for (int x = cur_x - range; x <= cur_x + range; x++) {
-            if (x == cur_x && y == cur_y) {
-                line += HIY("[★]"); // 當前位置
-                continue;
-            }
-            
             string r_file = get_room_file(x, y, cur_z);
-            if (!r_file) {
-                line += "   "; // 邊界外
-                continue;
+            string r_key = r_file;
+            if (r_key && substr(r_key, strlen(r_key)-2, 2) == ".c") r_key = substr(r_key, 0, strlen(r_key)-2);
+
+            // 1. 繪製房間符號
+            if (x == cur_x && y == cur_y) {
+                room_line += HIY("[★]"); // 當前位置
+            } else if (!r_file) {
+                room_line += "   "; // 空位
+            } else if (explored && explored[r_key]) {
+                object r_ob = load_object(r_file);
+                if (r_ob->query_has_bank()) room_line += HIW("[B]");
+                else if (r_ob->query_has_shop()) room_line += HIY("[A]"); // Armourer/Store
+                else if (r_ob->query_has_tavern()) room_line += MAG("[T]");
+                else if (r_ob->query_has_guild()) room_line += HIB("[G]");
+                else if (r_ob->query_has_forge()) room_line += YEL("[F]");
+                else if (r_ob->query_has_lab()) room_line += HIG("[L]");
+                else if (r_ob->query_no_combat()) room_line += HIC("[S]"); // Safe
+                else room_line += WHT("[#]"); // 普通房間
+            } else {
+                room_line += " ? "; // 未探索
             }
             
-            string r_key = r_file;
-            if (substr(r_key, strlen(r_key)-2, 2) == ".c") r_key = substr(r_key, 0, strlen(r_key)-2);
-            if (explored && explored[r_key]) {
-                // 已探索，顯示符號
-                object r_ob = find_object(r_file);
-                if (!r_ob) r_ob = load_object(r_file);
-                
-                if (r_ob->query_no_combat()) line += HIC("[S]"); // 安全區
-                else if (r_ob->query_has_forge()) line += HIY("[F]"); // 鐵匠
-                else if (r_ob->query_has_lab()) line += HIG("[L]"); // 藥劑
-                else line += WHT("[#]"); // 普通房間
-            } else {
-                line += " ? "; // 未探索 (Fog of War)
+            // 2. 繪製水平連接 (向東)
+            if (x < cur_x + range) {
+                string next_file = get_room_file(x+1, y, cur_z);
+                if (r_file && next_file) {
+                    object r1 = load_object(r_file);
+                    mapping e1 = r1->query_exits();
+                    int connected = 0;
+                    if (mapp(e1) && e1["east"]) {
+                        string target = e1["east"];
+                        if (strsrch(target, next_file) != -1) connected = 1;
+                    }
+                    if (connected) room_line += "-"; else room_line += " ";
+                } else {
+                    room_line += " ";
+                }
+            }
+            
+            // 3. 繪製垂直連接 (向南)
+            if (y > cur_y - range) {
+                string south_file = get_room_file(x, y-1, cur_z);
+                if (r_file && south_file) {
+                    object r1 = load_object(r_file);
+                    mapping e1 = r1->query_exits();
+                    int connected = 0;
+                    if (mapp(e1) && e1["south"]) {
+                        string target = e1["south"];
+                        if (strsrch(target, south_file) != -1) connected = 1;
+                    }
+                    if (connected) path_line += " | "; else path_line += "   ";
+                } else {
+                    path_line += "   ";
+                }
+                if (x < cur_x + range) path_line += " "; // 與水平連接對齊
             }
         }
-        out += line + "\n";
+        out += room_line + "\n";
+        if (y > cur_y - range) out += path_line + "\n";
     }
     
+    string compass = 
+        "      N      \n" +
+        "    W + E    \n" +
+        "      S      \n";
+        
     string legend = select_lang(([
-        "en": "Legend: " + HIY("[★] You  ") + WHT("[#] Room  ") + HIC("[S] Safe  ") + HIY("[F] Forge  ") + HIG("[L] Lab\n"),
-        "zh-TW": "圖例: " + HIY("[★] 你  ") + WHT("[#] 房間  ") + HIC("[S] 安全  ") + HIY("[F] 鐵匠  ") + HIG("[L] 藥劑\n"),
-        "zh-CN": "图例: " + HIY("[★] 你  ") + WHT("[#] 房间  ") + HIC("[S] 安全  ") + HIY("[F] 铁匠  ") + HIG("[L] 药剂\n")
+        "en": "Legend: " + HIY("[★] You ") + WHT("[#] Room ") + HIC("[S] Safe ") + YEL("[F] Forge ") + HIG("[L] Lab ") + HIW("[B] Bank ") + MAG("[T] Tavern ") + HIY("[A] Shop\n"),
+        "zh-TW": "圖例: " + HIY("[★] 你 ") + WHT("[#] 房間 ") + HIC("[S] 安全 ") + YEL("[F] 鐵匠 ") + HIG("[L] 藥劑 ") + HIW("[B] 銀行 ") + MAG("[T] 酒館 ") + HIY("[A] 商店\n"),
+        "zh-CN": "图例: " + HIY("[★] 你 ") + WHT("[#] 房间 ") + HIC("[S] 安全 ") + YEL("[F] 铁匠 ") + HIG("[L] 药剂 ") + HIW("[B] 银行 ") + MAG("[T] 酒馆 ") + HIY("[A] 商店\n")
     ]));
 
-    out += HIW("======================") + "\n";
+    out += BOLD_WHT("----------------------") + "\n";
+    out += CYN(compass);
     out += legend;
     return out;
 }
 
 // 提供給 Web UI 的 JSON 資料
 mapping get_map_json(object me, int range) {
-    mapping res = ([ "center_name": "", "grid": ({}) ]);
+    mapping res = ([ "center_name": "", "grid": ({}), "connections": ({}) ]);
     if (!me) return res;
     
     object me_env2 = environment(me);
@@ -120,40 +161,63 @@ mapping get_map_json(object me, int range) {
     
     mapping explored = me->query_explored_rooms();
     mixed grid = ({});
+    mixed connections = ({});
     
     // 從北到南 (y 遞減)
     for (int y = cur_y + range; y >= cur_y - range; y--) {
         mixed row = ({});
-        // 從西到東 (x 遞增)
         for (int x = cur_x - range; x <= cur_x + range; x++) {
-            if (x == cur_x && y == cur_y) {
-                row += ({ "player" });
-                continue;
-            }
-            
+            string type = "void";
             string r_file = get_room_file(x, y, cur_z);
-            if (!r_file) {
-                row += ({ "void" });
-                continue;
-            }
             
-            string r_key2 = r_file;
-            if (substr(r_key2, strlen(r_key2)-2, 2) == ".c") r_key2 = substr(r_key2, 0, strlen(r_key2)-2);
-            if (explored && explored[r_key2]) {
-                object r_ob = find_object(r_file);
-                if (!r_ob) r_ob = load_object(r_file);
-                
-                if (r_ob->query_no_combat()) row += ({ "safe" });
-                else if (r_ob->query_has_forge()) row += ({ "forge" });
-                else if (r_ob->query_has_lab()) row += ({ "lab" });
-                else row += ({ "room" });
-            } else {
-                row += ({ "fog" });
+            if (x == cur_x && y == cur_y) {
+                type = "player";
+            } else if (r_file) {
+                string r_key2 = r_file;
+                if (substr(r_key2, strlen(r_key2)-2, 2) == ".c") r_key2 = substr(r_key2, 0, strlen(r_key2)-2);
+                if (explored && explored[r_key2]) {
+                    object r_ob = load_object(r_file);
+                    if (r_ob->query_has_bank()) type = "bank";
+                    else if (r_ob->query_has_shop()) type = "shop";
+                    else if (r_ob->query_has_tavern()) type = "tavern";
+                    else if (r_ob->query_has_guild()) type = "guild";
+                    else if (r_ob->query_has_forge()) type = "forge";
+                    else if (r_ob->query_has_lab()) type = "lab";
+                    else if (r_ob->query_no_combat()) type = "safe";
+                    else type = "room";
+                } else {
+                    type = "fog";
+                }
+            }
+            row += ({ type });
+
+            // Check horizontal connection
+            if (x < cur_x + range) {
+                string next_f = get_room_file(x+1, y, cur_z);
+                if (r_file && next_f) {
+                    object r1 = load_object(r_file);
+                    mapping e1 = r1->query_exits();
+                    if (mapp(e1) && e1["east"] && strsrch(e1["east"], next_f) != -1) {
+                        connections += ({ ({ x, y, x+1, y }) });
+                    }
+                }
+            }
+            // Check vertical connection
+            if (y > cur_y - range) {
+                string south_f = get_room_file(x, y-1, cur_z);
+                if (r_file && south_f) {
+                    object r1 = load_object(r_file);
+                    mapping e1 = r1->query_exits();
+                    if (mapp(e1) && e1["south"] && strsrch(e1["south"], south_f) != -1) {
+                        connections += ({ ({ x, y, x, y-1 }) });
+                    }
+                }
             }
         }
         grid += ({ row });
     }
     
     res["grid"] = grid;
+    res["connections"] = connections;
     return res;
 }

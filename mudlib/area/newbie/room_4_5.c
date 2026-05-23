@@ -15,6 +15,7 @@ void create() {
         "zh-CN": "这里是新手村的公会大厅，天花板很高，四周挂着各种战利品与地图。\n几名冒险者正坐在长椅上休息，气氛显得既严肃又热闹。\n"
     ]));
     set_no_combat(1);
+    set_has_guild(1);
     set_coordinate(4, 5, 0);
     add_exit("east",  "/area/newbie/room_5_5.c");
     add_exit("west",  "/area/newbie/room_3_5.c");

@@ -76,8 +76,9 @@ type Parser struct {
 	l      lexer.Lexer
 	errors []string
 
-	curToken  token.Token
-	peekToken token.Token
+	curToken      token.Token
+	peekToken     token.Token
+	peekPeekToken token.Token
 
 	prefixParseFns map[token.TokenType]prefixParseFn
 	infixParseFns  map[token.TokenType]infixParseFn
@@ -155,13 +156,15 @@ func New(l lexer.Lexer) *Parser {
 
 	p.nextToken()
 	p.nextToken()
+	p.nextToken()
 
 	return p
 }
 
 func (p *Parser) nextToken() {
 	p.curToken = p.peekToken
-	p.peekToken = p.l.NextToken()
+	p.peekToken = p.peekPeekToken
+	p.peekPeekToken = p.l.NextToken()
 }
 
 func (p *Parser) Errors() []string {
@@ -1053,26 +1056,46 @@ func (p *Parser) parseCallOtherExpression(left ast.Expression) ast.Expression {
 func (p *Parser) parseClosureLiteral() ast.Expression {
 	lit := &ast.ClosureLiteral{Token: p.curToken}
 
-	for !p.peekTokenIs(token.RPAREN) && !p.peekTokenIs(token.EOF) {
+	for !p.peekTokenIs(token.EOF) {
+		// 1. 檢查結束符號 :) 或 )
+		if p.peekTokenIs(token.COLON) && p.peekPeekToken.TokenType == token.RPAREN {
+			p.nextToken() // cur = :
+			p.nextToken() // cur = )
+			return lit
+		}
+		if p.peekTokenIs(token.RPAREN) {
+			p.nextToken() // cur = )
+			return lit
+		}
+
+		// 2. 前進到下一個 token
 		p.nextToken()
 
-		// 支援 return 語句在 Closure 內
+		// 3. 忽略空語句或多餘的分隔符
+		if p.curTokenIs(token.SEMICOLON) || p.curTokenIs(token.COMMA) {
+			continue
+		}
+
+		// 4. 解析 Return 語句或表達式
 		if p.curTokenIs(token.RETURN) {
 			lit.Elements = append(lit.Elements, p.parseReturnStatement())
+		} else if p.isTypeToken(p.curToken.TokenType) {
+			// 支援型別宣告 (例如 mapping qdata = ...;)
+			lit.Elements = append(lit.Elements, p.parseTypePrefix())
 		} else {
-			lit.Elements = append(lit.Elements, p.parseExpression(LOWEST))
+			expr := p.parseExpression(LOWEST)
+			if expr != nil {
+				lit.Elements = append(lit.Elements, expr)
+			}
 		}
-
-		if p.peekTokenIs(token.COMMA) || p.peekTokenIs(token.COLON) || p.peekTokenIs(token.SEMICOLON) {
+		
+		// 5. 如果下一個是分隔符，可以在下一次循環處理它 (或在這裡跳過以提高效率)
+		for p.peekTokenIs(token.SEMICOLON) || p.peekTokenIs(token.COMMA) || 
+		    (p.peekTokenIs(token.COLON) && p.peekPeekToken.TokenType != token.RPAREN) {
 			p.nextToken()
-		} else {
-			break
 		}
 	}
 
-	if !p.expectPeek(token.RPAREN) {
-		return nil
-	}
 	return lit
 }
 

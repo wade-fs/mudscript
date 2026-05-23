@@ -20,6 +20,10 @@ int z;
 int no_combat;         // 🚀 禁止戰鬥屬性
 int has_forge;         // 🚀 鍛造設施
 int has_lab;           // 🚀 煉金設施
+int has_bank;          // 🚀 銀行設施
+int has_tavern;        // 🚀 酒館設施
+int has_guild;         // 🚀 公會設施
+int has_shop;          // 🚀 商店設施
 
 void create() {
     ::create();
@@ -34,6 +38,10 @@ void create() {
     no_combat = 0;
     has_forge = 0;
     has_lab   = 0;
+    has_bank  = 0;
+    has_tavern= 0;
+    has_guild = 0;
+    has_shop  = 0;
 }
 
 // 判斷物件是否可以進入房間 (房間預設允許所有人進入)
@@ -58,6 +66,10 @@ void set_long(string s)  { long_desc  = s; }
 void set_no_combat(int v){ no_combat = v; }
 void set_has_forge(int v){ has_forge = v; }
 void set_has_lab(int v)  { has_lab   = v; }
+void set_has_bank(int v) { has_bank  = v; }
+void set_has_tavern(int v){ has_tavern = v; }
+void set_has_guild(int v){ has_guild = v; }
+void set_has_shop(int v) { has_shop  = v; }
 
 void add_exit(string dir, string path) {
     exits[dir] = path;
@@ -86,6 +98,10 @@ mapping query_exits(){ return exits; }
 int query_no_combat(){ return no_combat; }
 int query_has_forge(){ return has_forge; }
 int query_has_lab()  { return has_lab; }
+int query_has_bank() { return has_bank; }
+int query_has_tavern(){ return has_tavern; }
+int query_has_guild(){ return has_guild; }
+int query_has_shop() { return has_shop; }
 
 // ── 顯示房間 ────────────────────────────────────────────
 void look_room(object who) {

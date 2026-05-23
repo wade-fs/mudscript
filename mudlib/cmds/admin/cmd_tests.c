@@ -17,6 +17,7 @@ int main(object me, string verb, string arg) {
         "/tests/test_closure_type.c",
         "/tests/test_logic.c",
         "/tests/test_coords.c",
+        "/tests/test_map.c",
         "/tests/test_ternary.c",
         "/tests/test_security.c",
         "/tests/test_language.c",

@@ -21,6 +21,9 @@ var (
 
 // Eval evaluates the given node and returns an evaluated object.
 func Eval(node ast.Node, env object.Environment) object.Object {
+	if node == nil {
+		return NilValue
+	}
 	switch node := node.(type) {
 	// Statements
 
@@ -244,16 +247,25 @@ func Eval(node ast.Node, env object.Environment) object.Object {
 		}
 
 		// 2. 判斷是否為傳統的 (: obj, "func", ... :) 或 (: "func", ... :)
-		// 只有當符合特定型別模式時才視為傳統閉包
+		// 預先 Eval 前幾個元素來決定
+		var evaluatedElements []object.Object
+		if len(node.Elements) > 0 {
+			maxEval := 2
+			if len(node.Elements) < maxEval { maxEval = len(node.Elements) }
+			for i := 0; i < maxEval; i++ {
+				val := Eval(node.Elements[i], env)
+				if isError(val) { return val }
+				evaluatedElements = append(evaluatedElements, val)
+			}
+		}
+
 		isTraditional := false
-		if len(node.Elements) >= 1 {
-			firstElem := Eval(node.Elements[0], env)
-			if !isError(firstElem) {
-				if _, ok := firstElem.(*object.String); ok {
-					isTraditional = true
-				} else if firstElem.TokenType() == object.LPC_OBJECT_OBJ && len(node.Elements) >= 2 {
-					secondElem := Eval(node.Elements[1], env)
-					if _, ok := secondElem.(*object.String); ok {
+		if len(evaluatedElements) >= 1 && evaluatedElements[0] != nil {
+			if _, ok := evaluatedElements[0].(*object.String); ok {
+				isTraditional = true
+			} else if evaluatedElements[0].TokenType() == object.LPC_OBJECT_OBJ && len(node.Elements) >= 2 {
+				if len(evaluatedElements) >= 2 && evaluatedElements[1] != nil {
+					if _, ok := evaluatedElements[1].(*object.String); ok {
 						isTraditional = true
 					}
 				}
@@ -262,17 +274,29 @@ func Eval(node ast.Node, env object.Environment) object.Object {
 
 		if isTraditional {
 			// 符合傳統閉包格式
-			elements := evalExpressions(node.Elements, env)
-			if len(elements) == 1 && isError(elements[0]) { return elements[0] }
+			// 補充剩餘的元素
+			for i := len(evaluatedElements); i < len(node.Elements); i++ {
+				val := Eval(node.Elements[i], env)
+				if isError(val) { return val }
+				evaluatedElements = append(evaluatedElements, val)
+			}
 
 			closure := &object.Closure{}
-			if str, ok := elements[0].(*object.String); ok {
+			if str, ok := evaluatedElements[0].(*object.String); ok {
 				closure.FuncName = str.Value
-				closure.BoundArgs = elements[1:]
-			} else if target, ok := elements[0].(*object.LPCObject); ok {
+				closure.BoundArgs = evaluatedElements[1:]
+			} else if target, ok := evaluatedElements[0].(*object.LPCObject); ok {
 				closure.Target = target
-				closure.FuncName = elements[1].(*object.String).Value
-				closure.BoundArgs = elements[2:]
+				if len(evaluatedElements) >= 2 {
+					if str, ok := evaluatedElements[1].(*object.String); ok {
+						closure.FuncName = str.Value
+						closure.BoundArgs = evaluatedElements[2:]
+					} else {
+						return newError("跨物件閉包的第二個參數必須是字串 (函式名稱)")
+					}
+				} else {
+					return newError("跨物件閉包必須提供函式名稱")
+				}
 			}
 			return closure
 		}
@@ -392,10 +416,10 @@ func evalMinusPrefixOperatorExpression(right object.Object) object.Object {
 }
 
 func evalInfixExpression(operator string, left, right object.Object) object.Object {
-	if left == nil {
+	if left == nil || left.TokenType() == object.NilType {
 		left = &object.Integer{Value: 0}
 	}
-	if right == nil {
+	if right == nil || right.TokenType() == object.NilType {
 		right = &object.Integer{Value: 0}
 	}
 
@@ -607,7 +631,7 @@ func evalIfExpression(ie *ast.IfExpression, env object.Environment) object.Objec
 }
 
 func isTruthy(obj object.Object) bool {
-	if obj == NilValue || obj == FalseValue {
+	if obj == NilValue || obj == FalseValue || obj == nil {
 		return false
 	}
 	if i, ok := obj.(*object.Integer); ok && i.Value == 0 {
@@ -789,7 +813,7 @@ func unwrapReturnValue(obj object.Object) object.Object {
 }
 
 func evalIndexExpression(left, index object.Object) object.Object {
-	if left == nil { return &object.Integer{Value: 0} }
+	if left == nil || index == nil { return &object.Integer{Value: 0} }
 	switch {
 	case left.TokenType() == object.ArrayType && index.TokenType() == object.IntegerType:
 		return evalArrayIndexExpression(left, index)
