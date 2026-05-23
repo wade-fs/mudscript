@@ -1,3 +1,12 @@
+---
+title: FSMUD Hub
+emoji: 🌌
+colorFrom: indigo
+colorTo: blue
+sdk: docker
+pinned: false
+---
+
 # MudScript: Fantasy Space MUD Engine
 
 MudScript 是一個基於 Go 語言實作的高效能 MUD (Multi-User Dungeon) 引擎，結合了傳統 LPC 腳本語言的彈性與現代 Web 技術。它不僅僅是一個直譯器，更是一個完整的虛擬世界伺服器。
