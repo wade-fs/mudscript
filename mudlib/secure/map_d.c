@@ -36,11 +36,7 @@ string draw_map(object me, int range) {
     
     object me_env = environment(me);
     mixed coords = me_env ? me_env->query_coordinate() : 0;
-    if (!coords) return select_lang(([
-        "en": "You cannot draw a map from your current location.\n",
-        "zh-TW": "你目前所在的位置無法繪製地圖。\n",
-        "zh-CN": "你目前所在的位置无法绘制地图。\n"
-    ]));
+    if (!coords) return _t("map_not_found") + "\n";
     
     int cur_x = coords[0];
     int cur_y = coords[1];
@@ -49,13 +45,13 @@ string draw_map(object me, int range) {
     mapping explored = me->query_explored_rooms();
     string room_name = me_env->query_short();
     
-    string title = select_lang(([
-        "en": "=== Minimap: " + room_name + " (",
-        "zh-TW": "=== 區域地圖：" + room_name + " (",
-        "zh-CN": "=== 区域地图：" + room_name + " ("
-    ]));
-    string map_header = title + cur_x + "," + cur_y + "," + cur_z + ") ===";
-    string out = "\n" + BOLD_WHT(map_header) + "\n";
+    string title = _t("minimap_title");
+    title = replace_string(title, "$room", room_name);
+    title = replace_string(title, "$x", sprintf("%d", cur_x));
+    title = replace_string(title, "$y", sprintf("%d", cur_y));
+    title = replace_string(title, "$z", sprintf("%d", cur_z));
+    
+    string out = "\n" + BOLD_WHT(title) + "\n";
     
     // 從北到南 (y 遞減)
     for (int y = cur_y + range; y >= cur_y - range; y--) {
@@ -171,15 +167,11 @@ string draw_map(object me, int range) {
         "    W + E    \n" +
         "      S      \n";
         
-    string legend = select_lang(([
-        "en": "Legend: " + HIY(" * ") + " You " + WHT(" # ") + " Visited " + HIC(" S ") + " Safe " + YEL(" F ") + " Forge " + HIG(" L ") + " Lab " + HIW(" B ") + " Bank " + MAG(" T ") + " Tavern " + HIY(" A ") + " Shop " + " ?  Unknown\n",
-        "zh-TW": "圖例: " + HIY(" * ") + " 你 " + WHT(" # ") + " 已探索 " + HIC(" S ") + " 安全 " + YEL(" F ") + " 鐵匠 " + HIG(" L ") + " 藥劑 " + HIW(" B ") + " 銀行 " + MAG(" T ") + " 酒館 " + HIY(" A ") + " 商店 " + " ?  未探索\n",
-        "zh-CN": "图例: " + HIY(" * ") + " 你 " + WHT(" # ") + " 已探索 " + HIC(" S ") + " 安全 " + YEL(" F ") + " 铁匠 " + HIG(" L ") + " 药剂 " + HIW(" B ") + " 银行 " + MAG(" T ") + " 酒馆 " + HIY(" A ") + " 商店 " + " ?  未探索\n"
-    ]));
+    string legend = _t("minimap_legend");
 
     out += BOLD_WHT("----------------------") + "\n";
     out += CYN(compass);
-    out += legend;
+    out += legend + "\n";
     return out;
 }
 

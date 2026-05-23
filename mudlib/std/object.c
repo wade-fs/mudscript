@@ -34,9 +34,19 @@ string select_lang(mixed data) {
     if (stringp(data)) return data;
     if (!mapp(data)) return to_string(data);
 
-    object tp = this_player();
     string lang = "en";
-    if (tp) lang = tp->query_lang();
+    object tp = this_player();
+    
+    // 優先順序：1. 目前執行此函式的物件如果是玩家 2. this_player() 3. 預設 en
+    if (userp(this_object())) {
+        lang = this_object()->query_lang();
+    } else if (tp && userp(tp)) {
+        lang = tp->query_lang();
+    }
+    
+    // write("DEBUG: select_lang for " + object_name(this_object()) + " lang=" + lang + "\n");
+    
+    if (!lang || lang == "0") lang = "en";
     
     if (data[lang]) return data[lang];
     if (data["en"]) return data["en"];

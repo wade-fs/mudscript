@@ -149,15 +149,15 @@
 <body class="space-bg">
 
 <div id="wrapper">
-    <div id="cmds-area">載入指令中...</div>
+    <div id="cmds-area">Loading commands...</div>
     <div id="look-area">
         <div id="minimap-container"></div>
         <div id="look-content"></div>
     </div>
-    <div id="info-area">等待狀態更新...</div>
+    <div id="info-area">Waiting for updates...</div>
     <div id="send-area">
-        <input id="msg" placeholder="輸入指令..." autocomplete="off">
-        <button onclick="sendMsg()">發送</button>
+        <input id="msg" placeholder="Type command..." autocomplete="off" autofocus>
+        <button onclick="sendMsg()" id="btn-send">Send</button>
     </div>
 </div>
 
@@ -180,6 +180,10 @@
         let msg2 = ">>> Connecting to the interstellar network...";
         let msg3 = ">>> Welcome to the future fantasy world.";
         let note = "[ This system is for development and testing purposes only ]";
+        let loading_cmds = "Loading commands...";
+        let waiting_info = "Waiting for updates...";
+        let placeholder = "Type command...";
+        let btn_send = "Send";
 
         if (isZH) {
             if (isCN) {
@@ -187,13 +191,33 @@
                 msg2 = ">>> 连结星际网络中...";
                 msg3 = ">>> 欢迎來到未来的幻想世界。";
                 note = "[ 本系统仅供开发与测试使用 ]";
+                loading_cmds = "载入指令中...";
+                waiting_info = "等待状态更新...";
+                placeholder = "输入指令...";
+                btn_send = "发送";
             } else {
                 msg1 = ">>> 系統初始化完成...";
                 msg2 = ">>> 連結星際網路中...";
                 msg3 = ">>> 歡迎來到未來的幻想世界。";
                 note = "[ 本系統僅供開發與測試使用 ]";
+                loading_cmds = "載入指令中...";
+                waiting_info = "等待狀態更新...";
+                placeholder = "輸入指令...";
+                btn_send = "發送";
             }
         }
+
+        const cmdsArea = document.getElementById("cmds-area");
+        if (cmdsArea) cmdsArea.innerText = loading_cmds;
+        
+        const infoArea = document.getElementById("info-area");
+        if (infoArea) infoArea.innerText = waiting_info;
+        
+        const msgInp = document.getElementById("msg");
+        if (msgInp) msgInp.placeholder = placeholder;
+        
+        const btnSend = document.getElementById("btn-send");
+        if (btnSend) btnSend.innerText = btn_send;
 
         const container = document.getElementById("init-msgs");
         if (container) {
@@ -252,21 +276,22 @@
         if (ui.ui === "score") {
             const data = ui.data;
             document.getElementById("info-area").innerHTML = `
-                <div class="stat-box"><span class="stat-label">❤️ HP</span><span class="stat-value">${data.hp}/${data.max_hp}</span></div>
-                <div class="stat-box"><span class="stat-label">✨ MP</span><span class="stat-value">${data.mp}/${data.max_mp}</span></div>
-                <div class="stat-box"><span class="stat-label">💰 GOLD</span><span class="stat-value">${data.gold}</span></div>
-                <div class="stat-box"><span class="stat-label">⚔️ ATK</span><span class="stat-value">${data.atk}</span></div>
+                <div class="stat-box"><span class="stat-label">❤️ ${data.label_hp || 'HP'}</span><span class="stat-value">${data.hp}/${data.max_hp}</span></div>
+                <div class="stat-box"><span class="stat-label">✨ ${data.label_mp || 'MP'}</span><span class="stat-value">${data.mp}/${data.max_mp}</span></div>
+                <div class="stat-box"><span class="stat-label">💰 ${data.label_wealth || 'GOLD'}</span><span class="stat-value">${data.money}</span></div>
+                <div class="stat-box"><span class="stat-label">⚔️ ${data.label_atk || 'ATK'}</span><span class="stat-value">${data.atk}</span></div>
             `;
         } else if (ui.ui === "cmd_list") {
-            renderCmdList(ui.data);
+            renderCmdList(ui.data, ui.title);
         } else if (ui.ui === "minimap") {
             renderMiniMap(ui.data); 
         }
     }
 
-    function renderCmdList(categories) {
+    function renderCmdList(categories, title) {
         const area = document.getElementById("cmds-area");
-        area.innerHTML = "<h4>📜 指令列表</h4>";
+        const listTitle = title || "📜 Command List";
+        area.innerHTML = `<h4>${listTitle}</h4>`;
         for (let cat in categories) {
             let div = document.createElement("div");
             div.className = "cmd-group";

@@ -451,6 +451,27 @@ string query_money_string() {
     return res;
 }
 
+// 取得無顏色標籤的貨幣字串 (用於 UI)
+string query_money_plain() {
+    int rem = money_balance;
+    int cg = rem / COIN_COOL_GOLD;
+    rem = rem % COIN_COOL_GOLD;
+    int g  = rem / COIN_GOLD;
+    rem = rem % COIN_GOLD;
+    int s  = rem / COIN_SILVER;
+    rem = rem % COIN_SILVER;
+    int c  = rem;
+
+    string res = "";
+    if (cg > 0) res += to_string(cg) + " 酷金幣 ";
+    if (g  > 0) res += to_string(g)  + " 金幣 ";
+    if (s  > 0) res += to_string(s)  + " 銀幣 ";
+    if (c  > 0) res += to_string(c)  + " 銅幣 ";
+    
+    if (res == "") return "0 銅幣";
+    return res;
+}
+
 void gain_potential(int v) { potential += v; }
 int query_potential() { return potential; }
 

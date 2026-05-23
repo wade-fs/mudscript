@@ -3,26 +3,44 @@
 
 #include "/include/ansi.h"
 
+inherit "/std/object";
+
 mapping guilds;
 
 void create() {
+    ::create();
     guilds = ([
         "adventurer": ([
-            "name": "冒險者公會",
-            "desc": "歡迎所有志在四方的冒險者，這裡是你的第一個家。",
-            "ranks": ({ "新手冒險者", "正式冒險者", "資深冒險者", "傳奇冒險者" }),
+            "name": ([ "en": "Adventurers Guild", "zh-TW": "冒險者公會", "zh-CN": "冒险者公会" ]),
+            "desc": ([ "en": "Welcome all adventurers, this is your first home.", "zh-TW": "歡迎所有志在四方的冒險者，這裡是你的第一個家。", "zh-CN": "欢迎所有志在四方的冒险者，这里是你的第一个家。" ]),
+            "ranks": ({ 
+                ([ "en": "Novice Adventurer", "zh-TW": "新手冒險者", "zh-CN": "新手冒险者" ]),
+                ([ "en": "Official Adventurer", "zh-TW": "正式冒險者", "zh-CN": "正式冒险者" ]),
+                ([ "en": "Senior Adventurer", "zh-TW": "資深冒險者", "zh-CN": "资深冒险者" ]),
+                ([ "en": "Legendary Adventurer", "zh-TW": "傳奇冒險者", "zh-CN": "传奇冒险者" ])
+            }),
             "req": ([ "level": 1, "int": 10, "str": 10 ])
         ]),
         "mage": ([
-            "name": "魔法師集會",
-            "desc": "追求真理與奧法力量的殿堂。",
-            "ranks": ({ "魔法學徒", "初級法師", "大法師", "賢者" }),
+            "name": ([ "en": "Mages Circle", "zh-TW": "魔法師集會", "zh-CN": "魔法师集会" ]),
+            "desc": ([ "en": "The hall for pursuing truth and arcane power.", "zh-TW": "追求真理與奧法力量的殿堂。", "zh-CN": "追求真理与奥法力量的殿堂。" ]),
+            "ranks": ({ 
+                ([ "en": "Apprentice", "zh-TW": "魔法學徒", "zh-CN": "魔法学徒" ]),
+                ([ "en": "Junior Mage", "zh-TW": "初級法師", "zh-CN": "初级法师" ]),
+                ([ "en": "Archmage", "zh-TW": "大法師", "zh-CN": "大法师" ]),
+                ([ "en": "Sage", "zh-TW": "賢者", "zh-CN": "贤者" ])
+            }),
             "req": ([ "level": 5, "int": 20 ])
         ]),
         "fighter": ([
-            "name": "戰士盟約",
-            "desc": "力量與榮耀的歸宿，磨練鋼鐵般的意志。",
-            "ranks": ({ "見習鬥士", "勇猛戰士", "戰場統帥", "戰神" }),
+            "name": ([ "en": "Warriors Covenant", "zh-TW": "戰士盟約", "zh-CN": "战士盟约" ]),
+            "desc": ([ "en": "The home of strength and glory, hone your iron will.", "zh-TW": "力量與榮耀的歸宿，磨練鋼鐵般的意志。", "zh-CN": "力量与荣耀的归宿，磨练钢铁般的意志。" ]),
+            "ranks": ({ 
+                ([ "en": "Trainee Fighter", "zh-TW": "見習鬥士", "zh-CN": "见习斗士" ]),
+                ([ "en": "Brave Warrior", "zh-TW": "勇猛戰士", "zh-CN": "勇猛战士" ]),
+                ([ "en": "Battle Commander", "zh-TW": "戰場統帥", "zh-CN": "战场统帅" ]),
+                ([ "en": "War God", "zh-TW": "戰神", "zh-CN": "战神" ])
+            }),
             "req": ([ "level": 5, "str": 20 ])
         ])
     ]);
@@ -35,30 +53,47 @@ int join_guild(object me, string gid) {
     if (!info) return 0;
 
     if (me->query_guild()) {
-        write("你已經有所屬的組織了，必須先退出才能加入新公會。\n");
+        if (me->query_guild() == gid) return 1; // 🚀 靜默處理：如果已經在該公會，直接回傳成功
+        write(_t("guild_already_joined") + "\n");
         return 0;
     }
 
     mapping req = info["req"];
+    string guild_name = to_string(select_lang(info["name"]));
+
     if (me->query_level() < req["level"]) {
-        write("你的等級不足，無法加入 " + info["name"] + "。\n");
+        string err = to_string(_t("level_low_err"));
+        err = replace_string(err, "$guild", guild_name);
+        write(err + "\n");
         return 0;
     }
     if (req["int"] && me->query_stat("int") < req["int"]) {
-        write("你的智力不足，無法理解 " + info["name"] + " 的深奧教義。\n");
+        string err = to_string(_t("stat_low_err"));
+        err = replace_string(err, "$stat", to_string(_t("stat_int")));
+        err = replace_string(err, "$guild", guild_name);
+        write(err + "\n");
         return 0;
     }
     if (req["str"] && me->query_stat("str") < req["str"]) {
-        write("你的力量不足，無法通過 " + info["name"] + " 的體能考驗。\n");
+        string err = to_string(_t("stat_low_err"));
+        err = replace_string(err, "$stat", to_string(_t("stat_str")));
+        err = replace_string(err, "$guild", guild_name);
+        write(err + "\n");
         return 0;
     }
 
     me->set_guild(gid);
-    me->set_guild_rank(info["ranks"][0]);
+    me->set_guild_rank(to_string(select_lang(info["ranks"][0])));
     me->set_guild_exp(0);
+
+    string success = to_string(_t("guild_join_success"));
+    success = replace_string(success, "$guild", guild_name);
+    write(HIW(success) + "\n");
+
+    string rank_msg = to_string(_t("guild_rank_is"));
+    rank_msg = replace_string(rank_msg, "$rank", to_string(me->query_guild_rank()));
+    write(rank_msg + "\n");
     
-    write(HIW("🎉 恭喜！你正式加入了 ") + info["name"] + HIW("！\n"));
-    write("你現在的身分是：" + me->query_guild_rank() + "\n");
     me->save();
     return 1;
 }
@@ -68,23 +103,37 @@ int promote_member(object me) {
     if (!gid) return 0;
     
     mapping info = guilds[gid];
-    string *ranks = info["ranks"];
+    mixed *ranks = info["ranks"];
     
-    int current_idx = member_array(me->query_guild_rank(), ranks);
+    // 找出目前職位在數組中的索引
+    int current_idx = -1;
+    for (int i = 0; i < sizeof(ranks); i++) {
+        if (select_lang(ranks[i]) == me->query_guild_rank()) {
+            current_idx = i;
+            break;
+        }
+    }
+
     if (current_idx == -1 || current_idx >= sizeof(ranks) - 1) {
-        write("你已經達到了公會的最高職位。\n");
+        write(_t("guild_max_rank") + "\n");
         return 0;
     }
 
     int req_exp = (current_idx + 1) * 1000;
     if (me->query_guild_exp() < req_exp) {
-        write("你的公會貢獻度不足 (需要 " + req_exp + ")，無法晉升。\n");
+        string err = _t("guild_exp_low");
+        err = replace_string(err, "$req", sprintf("%d", req_exp));
+        write(err + "\n");
         return 0;
     }
 
-    string next_rank = ranks[current_idx + 1];
+    string next_rank = select_lang(ranks[current_idx + 1]);
     me->set_guild_rank(next_rank);
-    write(HIY("✨ 你的職位提升了！你現在是 ") + next_rank + HIY("。\n"));
+    
+    string success = _t("guild_promote_success");
+    success = replace_string(success, "$rank", next_rank);
+    write(HIY(success) + "\n");
+    
     me->save();
     return 1;
 }

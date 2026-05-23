@@ -3,13 +3,16 @@
 
 #include "/include/ansi.h"
 
+inherit "/std/object";
+
 mapping quest_list;
 
 void create() {
+    ::create();
     quest_list = ([
         "newbie_badge": ([
-            "name": "新手證明",
-            "desc": "向公會會長證明你的勇氣。",
+            "name": ([ "en": "Newbie Proof", "zh-TW": "新手證明", "zh-CN": "新手证明" ]),
+            "desc": ([ "en": "Prove your courage to the Guild Master.", "zh-TW": "向公會會長證明你的勇氣。", "zh-CN": "向公会会长证明你的勇气。" ]),
             "level": 1,
             "reward": ([
                 "exp": 100,
@@ -18,8 +21,8 @@ void create() {
             ])
         ]),
         "wolf_hunter": ([
-            "name": "獵狼行動",
-            "desc": "消滅 3 隻飢餓的野狼。",
+            "name": ([ "en": "Wolf Hunting", "zh-TW": "獵狼行動", "zh-CN": "猎狼行动" ]),
+            "desc": ([ "en": "Eliminate 3 hungry wolves.", "zh-TW": "消滅 3 隻飢餓的野狼。", "zh-CN": "消灭 3 只饥饿的野狼。" ]),
             "level": 3,
             "goal": ([ "type": "kill", "target": "wolf", "count": 3 ]),
             "reward": ([
@@ -28,8 +31,8 @@ void create() {
             ])
         ]),
         "collect_fur": ([
-            "name": "毛皮需求",
-            "desc": "收集 3 張狼皮交給防具店老闆。",
+            "name": ([ "en": "Fur Collection", "zh-TW": "毛皮需求", "zh-CN": "毛皮需求" ]),
+            "desc": ([ "en": "Collect 3 wolf furs and give them to the armourer.", "zh-TW": "收集 3 張狼皮交給防具店老闆。", "zh-CN": "收集 3 张狼皮交给防具店老板。" ]),
             "level": 3,
             "goal": ([ "type": "item", "target": "狼皮", "count": 3 ]),
             "reward": ([
@@ -39,8 +42,8 @@ void create() {
             ])
         ]),
         "slime_medicine": ([
-            "name": "藥劑材料",
-            "desc": "收集 5 團史萊姆黏液交給藥劑師。",
+            "name": ([ "en": "Medicine Ingredients", "zh-TW": "藥劑材料", "zh-CN": "药剂材料" ]),
+            "desc": ([ "en": "Collect 5 globs of slime jelly and give them to the herbalist.", "zh-TW": "收集 5 團史萊姆黏液交給藥劑師。", "zh-CN": "收集 5 团史莱姆黏液交给药剂师。" ]),
             "level": 1,
             "goal": ([ "type": "item", "target": "史萊姆黏液", "count": 5 ]),
             "reward": ([
@@ -49,8 +52,8 @@ void create() {
             ])
         ]),
         "crab_armour": ([
-            "name": "加固甲殼",
-            "desc": "收集 2 塊螃蟹殼交給鐵匠。",
+            "name": ([ "en": "Crab Armour", "zh-TW": "加固甲殼", "zh-CN": "加固甲壳" ]),
+            "desc": ([ "en": "Collect 2 crab shells and give them to the blacksmith.", "zh-TW": "收集 2 塊螃蟹殼交給鐵匠。", "zh-CN": "收集 2 块螃蟹壳交给铁匠。" ]),
             "level": 2,
             "goal": ([ "type": "item", "target": "螃蟹殼", "count": 2 ]),
             "reward": ([
@@ -70,12 +73,12 @@ int accept_quest(object me, string qid) {
     if (!info) return 0;
 
     if (me->query_level() < info["level"]) {
-        write("你的等級不足，無法承接此任務。\n");
+        write(to_string(_t("level_low_err")) + "\n");
         return 0;
     }
 
     if (me->query_quest(qid)) {
-        write("你已經承接過這個任務了。\n");
+        write(to_string(_t("quest_already_accepted")) + "\n");
         return 0;
     }
 
@@ -85,8 +88,14 @@ int accept_quest(object me, string qid) {
         "progress": ([ "count": 0 ])
     ]));
     
-    write(HIG("你承接了任務：") + info["name"] + "\n");
-    write("任務描述：" + info["desc"] + "\n");
+    string accept_msg = to_string(_t("quest_accept"));
+    accept_msg = replace_string(accept_msg, "$quest", to_string(select_lang(info["name"])));
+    write(HIG(accept_msg) + "\n");
+    
+    string desc_msg = to_string(_t("quest_desc"));
+    desc_msg = replace_string(desc_msg, "$desc", to_string(select_lang(info["desc"])));
+    write(desc_msg + "\n");
+    
     me->save();
     return 1;
 }
@@ -109,7 +118,11 @@ int complete_quest(object me, string qid) {
         }
         
         if (sizeof(found) < req_count) {
-            write("你身上的 " + target_name + " 數量不足 (" + sizeof(found) + "/" + req_count + ")。\n");
+            string err = to_string(_t("quest_item_missing"));
+            err = replace_string(err, "$item", to_string(target_name));
+            err = replace_string(err, "$got", sprintf("%d", sizeof(found)));
+            err = replace_string(err, "$req", sprintf("%d", req_count));
+            write(err + "\n");
             return 0;
         }
         
@@ -117,7 +130,10 @@ int complete_quest(object me, string qid) {
         for (int i = 0; i < req_count; i++) {
             destruct(found[i]);
         }
-        write("你交出了 " + req_count + " 個 " + target_name + "。\n");
+        string give_msg = to_string(_t("quest_item_give"));
+        give_msg = replace_string(give_msg, "$count", sprintf("%d", req_count));
+        give_msg = replace_string(give_msg, "$item", to_string(target_name));
+        write(give_msg + "\n");
     }
 
     // 給予獎勵
@@ -130,20 +146,26 @@ int complete_quest(object me, string qid) {
         int gexp = reward["exp"] / 5; // 預設貢獻度為經驗值的 20%
         if (gexp < 1) gexp = 1;
         me->add_guild_exp(gexp);
-        tell_object(me, HIG("你的公會貢獻度提升了 " + gexp + " 點。\n"));
+        tell_object(me, HIG(sprintf("%s%d\n", to_string(_t("guild_exp_gain")), gexp)));
     }
 
     if (reward["badge"]) {
         object badge = clone_object(reward["badge"]);
         if (badge) {
-            write("你獲得了 " + badge->query_short() + "！\n");
+            string msg = to_string(_t("quest_reward_get"));
+            if (msg == "quest_reward_get") msg = "你獲得了 $item！";
+            msg = replace_string(msg, "$item", to_string(badge->query_short()));
+            write(msg + "\n");
             move_object(badge, me);
         }
     }
     if (reward["item"]) {
         object ob = clone_object(reward["item"]);
         if (ob) {
-            write("你獲得了獎勵物品：" + ob->query_short() + "！\n");
+            string msg = to_string(_t("quest_reward_item"));
+            if (msg == "quest_reward_item") msg = "你獲得了獎勵物品：$item！";
+            msg = replace_string(msg, "$item", to_string(ob->query_short()));
+            write(msg + "\n");
             if (!move_object(ob, me)) move_object(ob, environment(me));
         }
     }
@@ -152,7 +174,10 @@ int complete_quest(object me, string qid) {
     qdata["end_time"] = time();
     me->set_quest(qid, qdata);
     
-    write(HIY("✨ 任務完成：") + info["name"] + "！\n");
+    string complete_msg = to_string(_t("quest_complete"));
+    complete_msg = replace_string(complete_msg, "$quest", to_string(select_lang(info["name"])));
+    write(HIY(complete_msg) + "\n");
+    
     me->save();
     return 1;
 }
@@ -176,10 +201,15 @@ void check_kill_progress(object me, string monster_file) {
             int total = info["goal"]["count"];
             
             me->update_quest_progress(qid, "count", current);
-            tell_object(me, HIG("【任務進度】") + info["name"] + "：" + current + " / " + total + "\n");
+            string progress_msg = to_string(_t("quest_progress"));
+            if (progress_msg == "quest_progress") progress_msg = HIG("【任務進度】") + "$quest：$current / $total";
+            progress_msg = replace_string(progress_msg, "$quest", to_string(select_lang(info["name"])));
+            progress_msg = replace_string(progress_msg, "$current", sprintf("%d", current));
+            progress_msg = replace_string(progress_msg, "$total", sprintf("%d", total));
+            tell_object(me, progress_msg + "\n");
 
             if (current >= total) {
-                tell_object(me, HIY("你已經達成了任務目標，快回去回報吧！\n"));
+                tell_object(me, HIY(to_string(_t("quest_goal_met")) + "\n"));
             }
         }
     }

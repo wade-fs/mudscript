@@ -5,9 +5,9 @@
 
 int main(object me, string verb, string arg) {
     if (!arg || arg == "") {
-        write("當前語系：" + me->query_lang() + "\n");
-        write("可用語系：en (English), zh-TW (繁體中文), zh-CN (简体中文)\n");
-        write("用法：lang <語系ID>\n");
+        write(_t("current_lang") + "：" + me->query_lang() + "\n");
+        write(_t("available_langs") + "：en (English), zh-TW (繁體中文), zh-CN (简体中文)\n");
+        write(_t("lang_usage") + "：lang <語系ID>\n");
         return 1;
     }
 
@@ -17,13 +17,16 @@ int main(object me, string verb, string arg) {
         write(load_object("/secure/language_d.c")->translate("login_success", arg) + "\n");
         me->save();
     } else {
-        write("不支援的語系： " + arg + "\n");
+        write(_t("unsupported_lang") + "： " + arg + "\n");
     }
 
     return 1;
 }
 
 string help() {
-    return "【指令】\n" +
-           "  lang <語系>    切換個人偏好的語言介面。\n";
+    return select_lang(([
+        "en": "【Command】\n  lang <lang_id>    Switch your preferred interface language.\n",
+        "zh-TW": "【指令】\n  lang <語系>    切換個人偏好的語言介面。\n",
+        "zh-CN": "【指令】\n  lang <语系>    切换个人偏好的语言界面。\n"
+    ]));
 }

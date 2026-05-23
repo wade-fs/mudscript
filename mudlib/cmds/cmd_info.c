@@ -17,23 +17,27 @@ int main(object me, string verb, string arg) {
         "max_hp": me->query_max_hp(),
         "mp"   : me->query_mp(),
         "max_mp": me->query_max_mp(),
-        "money": me->query_money_string(),
+        "money": me->query_money_plain(),
         "pk"   : pk_str,
         "atk"  : me->query_attack(),
-        "def"  : me->query_defence()
+        "def"  : me->query_defence(),
+        "label_hp": _t("label_hp"),
+        "label_mp": _t("label_mp"),
+        "label_wealth": _t("label_wealth"),
+        "label_atk": _t("label_atk")
     ]);
 
     // 2. 建立指令清單 (分類顯示)
     mapping cmds = ([
-        select_lang((["en": "Basic", "zh-TW": "基本", "zh-CN": "基本"])) : ({ "look", "inventory", "score", "quit", "help" }),
-        select_lang((["en": "Social", "zh-TW": "社交", "zh-CN": "社交"])) : ({ "say", "emote", "nickname", "ask" }),
-        select_lang((["en": "Combat", "zh-TW": "戰鬥", "zh-CN": "战斗"])) : ({ "kill", "skills", "flee" }),
-        select_lang((["en": "Special", "zh-TW": "特殊", "zh-CN": "特殊"])) : ({ "alias", "suicide" })
+        _t("cat_basic")   : ({ "look", "inventory", "score", "map", "quest", "quit", "help" }),
+        _t("cat_social")  : ({ "say", "emote", "nickname", "ask", "channel", "chat", "lang" }),
+        _t("cat_combat")  : ({ "kill", "skills", "perform", "flee", "practice" }),
+        _t("cat_special") : ({ "alias", "follow", "gather", "mix", "party", "ride", "tame", "suicide" })
     ]);
 
     // 3. 組合完整的 UI 更新封包
     string score_payload = sprintf("{\"ui\": \"score\", \"data\": %s}", json_encode(data));
-    string cmd_payload = sprintf("{\"ui\": \"cmd_list\", \"data\": %s}", json_encode(cmds));
+    string cmd_payload = sprintf("{\"ui\": \"cmd_list\", \"title\": \"%s\", \"data\": %s}", _t("cmd_list"), json_encode(cmds));
     
     write(score_payload);
     write(cmd_payload);

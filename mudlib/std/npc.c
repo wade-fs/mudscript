@@ -295,27 +295,49 @@ int do_chat(object me, string topic) {
                 final_msg = options;
             }
             if (final_msg != "") {
-                tell_object(me, my_name + " 告訴你：「" + final_msg + "」\n");
+                if (mapp(final_msg)) final_msg = select_lang(final_msg);
+                string npc_say = _t("npc_says");
+                npc_say = replace_string(npc_say, "$name", my_name);
+                npc_say = replace_string(npc_say, "$msg", final_msg);
+                tell_object(me, npc_say + "\n");
                 return 1;
             }
         }
     }
 
     if (topic == "here" || topic == "這裡") {
-        tell_object(me, my_name + " 說：「這裡是個好地方。」\n");
+        string msg = _t("npc_good_place");
+        string npc_say = _t("npc_says");
+        npc_say = replace_string(npc_say, "$name", my_name);
+        npc_say = replace_string(npc_say, "$msg", msg);
+        tell_object(me, npc_say + "\n");
         return 1;
     }
     if (topic == "name" || topic == "名字") {
-        tell_object(me, my_name + " 說：「我叫 " + my_name + "，請多指教。」\n");
+        string msg = _t("npc_name_is");
+        msg = replace_string(msg, "$name", my_name);
+        string npc_say = _t("npc_says");
+        npc_say = replace_string(npc_say, "$name", my_name);
+        npc_say = replace_string(npc_say, "$msg", msg);
+        tell_object(me, npc_say + "\n");
         return 1;
     }
     if (lc_topic == "topics" || topic == "話題" || topic == "topic") {
         mixed t_keys = keys(all_resp);
         if (sizeof(t_keys) == 0) {
-            tell_object(me, my_name + " 搖搖頭說：「我沒什麼好說的。」\n");
+            string msg = _t("npc_no_topics");
+            string npc_say = _t("npc_says");
+            npc_say = replace_string(npc_say, "$name", my_name);
+            npc_say = replace_string(npc_say, "$msg", msg);
+            tell_object(me, npc_say + "\n");
         } else {
-            string list = implode(t_keys, "、");
-            tell_object(me, my_name + " 說：「你可以問我關於：" + list + "。」\n");
+            string list = implode(t_keys, ", ");
+            string msg = _t("npc_topics_list");
+            msg = replace_string(msg, "$list", list);
+            string npc_say = _t("npc_says");
+            npc_say = replace_string(npc_say, "$name", my_name);
+            npc_say = replace_string(npc_say, "$msg", msg);
+            tell_object(me, npc_say + "\n");
         }
         return 1;
     }

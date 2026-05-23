@@ -198,7 +198,7 @@ func Eval(node ast.Node, env object.Environment) object.Object {
 		// 5. 執行！
 		return builtin.Fn(finalArgs...)
 	case *ast.ClosureLiteral:
-		// 🚀 關鍵強化：區分 Lambda 與一般閉包
+		// 🚀 關鍵強化：區分 Lambda 與一般閉包 (避免提前執行造成副作用)
 		
 		// 1. 檢查是否為具名型別參數的 Lambda (例如 (: (object x) : x->foo() :) )
 		params := []*ast.TypedVarDecl{}
@@ -213,7 +213,6 @@ func Eval(node ast.Node, env object.Environment) object.Object {
 		}
 
 		if len(params) > 0 {
-			// 如果有參數宣告，則是具名參數 Lambda
 			return &object.Closure{
 				Parameters:  params,
 				Expressions: node.Elements[bodyIdx:],
@@ -221,81 +220,45 @@ func Eval(node ast.Node, env object.Environment) object.Object {
 			}
 		}
 
-		// 如果只有一個元素
-		if len(node.Elements) == 1 {
-			elem := node.Elements[0]
-
-			// 如果是簡單的 Ident 或 StringLiteral，可能是函式指標
-			isSimple := false
-			switch elem.(type) {
-			case *ast.Ident, *ast.StringLiteral:
-				isSimple = true
-			}
-
-			if isSimple {
-				val := Eval(elem, env)
-				if str, ok := val.(*object.String); ok {
-					return &object.Closure{FuncName: str.Value, BoundArgs: []object.Object{}}
-				}
-				// 若不是字串，則退回當作 Lambda
-			}
-
-			return &object.Closure{
-				Lambda: elem,
-				Env:    env,
-			}
-		}
-
 		// 2. 判斷是否為傳統的 (: obj, "func", ... :) 或 (: "func", ... :)
-		// 預先 Eval 前幾個元素來決定
-		var evaluatedElements []object.Object
-		if len(node.Elements) > 0 {
-			maxEval := 2
-			if len(node.Elements) < maxEval { maxEval = len(node.Elements) }
-			for i := 0; i < maxEval; i++ {
-				val := Eval(node.Elements[i], env)
-				if isError(val) { return val }
-				evaluatedElements = append(evaluatedElements, val)
-			}
-		}
-
+		// 我們不直接 Eval，改用 AST 結構初步判斷，必要時才 Eval 常數項
 		isTraditional := false
-		if len(evaluatedElements) >= 1 && evaluatedElements[0] != nil {
-			if _, ok := evaluatedElements[0].(*object.String); ok {
-				isTraditional = true
-			} else if evaluatedElements[0].TokenType() == object.LPC_OBJECT_OBJ && len(node.Elements) >= 2 {
-				if len(evaluatedElements) >= 2 && evaluatedElements[1] != nil {
-					if _, ok := evaluatedElements[1].(*object.String); ok {
+		if len(node.Elements) >= 1 && len(node.Elements) <= 10 { // 限制長度
+			first := node.Elements[0]
+			switch first.(type) {
+			case *ast.StringLiteral, *ast.Ident:
+				// 可能是 (: "func" :) 或 (: obj, "func" :)
+				val := Eval(first, env)
+				if !isError(val) {
+					if _, ok := val.(*object.String); ok {
 						isTraditional = true
+					} else if val.TokenType() == object.LPC_OBJECT_OBJ && len(node.Elements) >= 2 {
+						// 檢查第二個參數
+						second := Eval(node.Elements[1], env)
+						if _, ok := second.(*object.String); ok {
+							isTraditional = true
+						}
 					}
 				}
 			}
 		}
 
 		if isTraditional {
-			// 符合傳統閉包格式
-			// 補充剩餘的元素
-			for i := len(evaluatedElements); i < len(node.Elements); i++ {
-				val := Eval(node.Elements[i], env)
-				if isError(val) { return val }
-				evaluatedElements = append(evaluatedElements, val)
-			}
+			// 符合傳統閉包格式，此時才安全地 Eval 所有元素
+			elements := evalExpressions(node.Elements, env)
+			if len(elements) > 0 && isError(elements[0]) { return elements[0] }
 
 			closure := &object.Closure{}
-			if str, ok := evaluatedElements[0].(*object.String); ok {
+			if str, ok := elements[0].(*object.String); ok {
 				closure.FuncName = str.Value
-				closure.BoundArgs = evaluatedElements[1:]
-			} else if target, ok := evaluatedElements[0].(*object.LPCObject); ok {
+				closure.BoundArgs = elements[1:]
+			} else if target, ok := elements[0].(*object.LPCObject); ok {
 				closure.Target = target
-				if len(evaluatedElements) >= 2 {
-					if str, ok := evaluatedElements[1].(*object.String); ok {
+				if len(elements) >= 2 {
+					if str, ok := elements[1].(*object.String); ok {
 						closure.FuncName = str.Value
-						closure.BoundArgs = evaluatedElements[2:]
-					} else {
-						return newError("跨物件閉包的第二個參數必須是字串 (函式名稱)")
+						closure.BoundArgs = elements[2:]
 					}
-				} else {
-					return newError("跨物件閉包必須提供函式名稱")
 				}
 			}
 			return closure

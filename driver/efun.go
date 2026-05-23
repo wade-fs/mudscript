@@ -182,8 +182,8 @@ func (d *Driver) registerTypeCasting(obj *object.LPCObject) {
 	// 範例: to_string(123) -> "123"; to_string(({1, 2})) -> "[1, 2]"
 	obj.Vars.Set("to_string", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
-			if len(args) < 1 {
-				return &object.String{Value: ""}
+			if len(args) < 1 || args[0] == nil {
+				return &object.String{Value: "0"}
 			}
 			if s, ok := args[0].(*object.String); ok {
 				return s
