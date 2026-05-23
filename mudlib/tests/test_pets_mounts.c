@@ -1,7 +1,7 @@
 // /tests/test_pets_mounts.c
 inherit "/std/test_case";
 
-void run_tests() {
+void run_tests(object me) {
     start_test("寵物與坐騎系統驗證");
 
     object me = this_player();

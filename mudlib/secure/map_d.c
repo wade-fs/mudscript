@@ -10,11 +10,25 @@ void create() {
     ::create();
 }
 
-// 根據坐標取得房間路徑 (專為 newbie 區域設計)
+// 根據坐標取得房間路徑
 string get_room_file(int x, int y, int z) {
-    if (z != 0) return 0;
-    if (x < 0 || x > 7 || y < 0 || y > 7) return 0;
-    return sprintf("/area/newbie/room_%d_%d.c", x, y);
+    // 地面區域
+    if (z == 0) {
+        if (x >= 0 && x <= 7 && y >= 0 && y <= 7)
+            return sprintf("/area/newbie/room_%d_%d.c", x, y);
+        if (x == 10 && y == 0)
+            return "/area/water/lake_0_0_0.c";
+    }
+    // 地下區域 (z = -1)
+    if (z == -1) {
+        if (x == 0 && y == 0) return "/area/cave/cave_0_0_minus1.c";
+        if (x == 0 && y == 1) return "/area/cave/cave_0_1_minus1.c";
+    }
+    // 高塔區域 (z > 0)
+    if (z == 0 && x == 0 && y == 5) return "/area/tower/tower_1f.c";
+    if (z == 1 && x == 0 && y == 5) return "/area/tower/tower_2f.c";
+    
+    return 0;
 }
 
 string draw_map(object me, int range) {

@@ -4,7 +4,7 @@ inherit "/std/test_case";
 int is_even(int x) { return x % 2 == 0; }
 int multiply_by_two(int x) { return x * 2; }
 
-void run_tests() {
+void run_tests(object me) {
     start_test("LPC 語言特性擴展");
 
     // 1. Array 操作 (filter_array, map_array)

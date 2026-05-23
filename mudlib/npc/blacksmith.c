@@ -39,26 +39,29 @@ void create() {
     add_response("索林", "沒錯，我就是索林。想要委託打造什麼嗎？");
 
     // 🚀 新增：任務互動
-    add_response(({ "quest", "任務" }), (:
-        object tp = this_player();
-        if (tp->query_quest("crab_armour")) {
-            if (tp->query_quest("crab_armour")["status"] == "active") {
-                return "快去幫我找 2 塊螃蟹殼回來，我好用來加固那些防具。";
-            } else {
-                return "多虧了你帶回來的螃蟹殼，最近的防具品質提升了不少。";
-            }
-        }
-        load_object("/secure/quest_d.c")->accept_quest(tp, "crab_armour");
-        return "如果你想幫忙，去水邊打些泥螃蟹，帶 2 塊『螃蟹殼』回來給我。";
-    :));
+    add_response(({ "quest", "任務" }), "handle_quest_request");
+    add_response(({ "report", "回報" }), "handle_quest_report");
+}
 
-    add_response(({ "report", "回報" }), (:
-        object tp = this_player();
-        if (tp->query_quest("crab_armour") && tp->query_quest("crab_armour")["status"] == "active") {
-            if (load_object("/secure/quest_d.c")->complete_quest(tp, "crab_armour")) {
-                return "太好了，這正是我需要的材料！這是給你的報酬。";
-            }
+string handle_quest_request() {
+    object tp = this_player();
+    if (tp->query_quest("crab_armour")) {
+        if (tp->query_quest("crab_armour")["status"] == "active") {
+            return "快去幫我找 2 塊螃蟹殼回來，我好用來加固那些防具。";
+        } else {
+            return "多虧了你帶回來的螃蟹殼，最近的防具品質提升了不少。";
         }
-        return "等你湊齊了 2 塊螃蟹殼再來說吧。";
-    :));
+    }
+    load_object("/secure/quest_d.c")->accept_quest(tp, "crab_armour");
+    return "如果你想幫忙，去水邊打些泥螃蟹，帶 2 塊『螃蟹殼』回來給我。";
+}
+
+string handle_quest_report() {
+    object tp = this_player();
+    if (tp->query_quest("crab_armour") && tp->query_quest("crab_armour")["status"] == "active") {
+        if (load_object("/secure/quest_d.c")->complete_quest(tp, "crab_armour")) {
+            return "太好了，這正是我需要的材料！這是給你的報酬。";
+        }
+    }
+    return "等你湊齊了 2 塊螃蟹殼再來說吧。";
 }

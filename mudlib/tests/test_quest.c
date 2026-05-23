@@ -1,7 +1,7 @@
 // /tests/test_quest.c
 inherit "/std/test_case";
 
-void run_tests() {
+void run_tests(object me) {
     start_test("任務系統驗證");
 
     object me = clone_object("/std/user.c");

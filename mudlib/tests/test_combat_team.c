@@ -1,7 +1,7 @@
 // /tests/test_combat_team.c
 inherit "/std/test_case";
 
-void run_tests() {
+void run_tests(object me) {
     start_test("戰鬥團隊與 PK 保護驗證");
 
     object leader = clone_object("/std/user.c");

@@ -31,26 +31,29 @@ void create() {
     }));
 
     // 🚀 新增：任務互動
-    add_response(({ "quest", "任務" }), (:
-        object tp = this_player();
-        if (tp->query_quest("collect_fur")) {
-            if (tp->query_quest("collect_fur")["status"] == "active") {
-                return "我還在等那 3 張狼皮來趕製這批訂單呢。";
-            } else {
-                return "上次那些狼皮幫了大忙，現在我的存貨很充足。";
-            }
-        }
-        load_object("/secure/quest_d.c")->accept_quest(tp, "collect_fur");
-        return "我想做一件暖和的斗篷，你能幫我找 3 張『狼皮』來嗎？我會給你一條不錯的腰帶作為報酬。";
-    :));
+    add_response(({ "quest", "任務" }), "handle_quest_request");
+    add_response(({ "report", "回報" }), "handle_quest_report");
+}
 
-    add_response(({ "report", "回報" }), (:
-        object tp = this_player();
-        if (tp->query_quest("collect_fur") && tp->query_quest("collect_fur")["status"] == "active") {
-            if (load_object("/secure/quest_d.c")->complete_quest(tp, "collect_fur")) {
-                return "喔！好漂亮的毛皮。這是答應給你的腰帶。";
-            }
+string handle_quest_request() {
+    object tp = this_player();
+    if (tp->query_quest("collect_fur")) {
+        if (tp->query_quest("collect_fur")["status"] == "active") {
+            return "我還在等那 3 張狼皮來趕製這批訂單呢。";
+        } else {
+            return "上次那些狼皮幫了大忙，現在我的存貨很充足。";
         }
-        return "沒有 3 張狼皮的話，我可沒辦法完成工作。";
-    :));
+    }
+    load_object("/secure/quest_d.c")->accept_quest(tp, "collect_fur");
+    return "我想做一件暖和的斗篷，你能幫我找 3 張『狼皮』來嗎？我會給你一條不錯的腰帶作為報酬。";
+}
+
+string handle_quest_report() {
+    object tp = this_player();
+    if (tp->query_quest("collect_fur") && tp->query_quest("collect_fur")["status"] == "active") {
+        if (load_object("/secure/quest_d.c")->complete_quest(tp, "collect_fur")) {
+            return "喔！好漂亮的毛皮。這是答應給你的腰帶。";
+        }
+    }
+    return "沒有 3 張狼皮的話，我可沒辦法完成工作。";
 }

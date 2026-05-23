@@ -14,6 +14,7 @@ int main(object me, string verb, string arg) {
     string *test_files = ({
         "/tests/test_syntax.c",
         "/tests/test_logic.c",
+        "/tests/test_coords.c",
         "/tests/test_ternary.c",
         "/tests/test_security.c",
         "/tests/test_language.c",
@@ -39,7 +40,7 @@ int main(object me, string verb, string arg) {
             continue;
         }
         
-        test_ob->run_tests();
+        test_ob->run_tests(me);
         total += test_ob->query_total();
         passed += test_ob->query_passed();
         

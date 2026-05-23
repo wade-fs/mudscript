@@ -1,7 +1,7 @@
 // /tests/test_crafting.c
 inherit "/std/test_case";
 
-void run_tests() {
+void run_tests(object me) {
     start_test("合成、鍛造與鑲嵌驗證");
 
     object me = clone_object("/std/user.c");

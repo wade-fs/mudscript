@@ -1,7 +1,7 @@
 // /tests/test_i18n.c
 inherit "/std/test_case";
 
-void run_tests() {
+void run_tests(object me) {
     start_test("多語系系統驗證");
 
     object me = clone_object("/std/user.c");

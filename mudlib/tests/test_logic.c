@@ -1,7 +1,7 @@
 // /tests/test_logic.c
 inherit "/std/test_case";
 
-void run_tests() {
+void run_tests(object me) {
     start_test("邏輯控制流");
 
     // 1. If-Else

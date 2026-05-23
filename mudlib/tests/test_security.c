@@ -7,7 +7,7 @@ string get_id() { return "test_wizard"; }
 string query_role() { return role; }
 string *query_write_paths() { return ({}); }
 
-void run_tests() {
+void run_tests(object me) {
     start_test("安全性與權限審核");
 
     object me = this_object();

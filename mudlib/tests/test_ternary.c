@@ -1,7 +1,7 @@
 // /tests/test_ternary.c
 inherit "/std/test_case";
 
-void run_tests() {
+void run_tests(object me) {
     start_test("三元運算子");
 
     int a = 10;

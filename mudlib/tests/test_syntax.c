@@ -1,7 +1,7 @@
 // /tests/test_syntax.c
 inherit "/std/test_case";
 
-void run_tests() {
+void run_tests(object me) {
     start_test("基礎語法與型別");
 
     // 1. 基本型別宣告
