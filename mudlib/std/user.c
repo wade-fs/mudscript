@@ -222,16 +222,21 @@ void remove_write_path(string p) {
 }
 
 // ── 心跳 ─────────────────────────────────────────────────
+int heart_beat_count = 0;
 void heart_beat() {
     if (is_dead) return;
     
     // 執行戰鬥回合
     combat_heart_beat();
 
-    // 🚀 定期發送狀態資訊給前端 UI
-    object cmd_info = load_object("/cmds/cmd_info.c");
-    if (cmd_info) {
-        cmd_info->main(this_object(), "score", "");
+    // 🚀 每 5 秒發送一次狀態資訊給前端 UI (減少洗頻)
+    heart_beat_count++;
+    if (heart_beat_count >= 5) {
+        heart_beat_count = 0;
+        object cmd_info = load_object("/cmds/cmd_info.c");
+        if (cmd_info) {
+            cmd_info->main(this_object(), "score", "");
+        }
     }
 }
 

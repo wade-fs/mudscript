@@ -159,7 +159,8 @@ void look_room(object who) {
             
             if (userp(liv)) {
                 liv_id = liv->get_id();
-                display_name = HIG("[玩家] ") + display_name;
+                // 🚀 關鍵修正：不要在 [ ] 內嵌套 [ ]，會導致前端 regex 誤判
+                display_name = "(玩家) " + display_name;
             } else {
                 // 從 ID 列表抓取第一個可用 ID
                 mixed ids = liv->query_id();
@@ -169,6 +170,7 @@ void look_room(object who) {
             
             if (!liv_id || liv_id == "0") liv_id = "living";
             
+            // 統一輸出格式：[顯示名稱(id)|指令]
             write("  [" + display_name + "(" + liv_id + ")|look " + liv_id + "]\n");
         }
     }
