@@ -22,9 +22,9 @@ void receive_p2p_message(string sender, string content, string type) {
     string full_msg;
     
     if (type == "system") {
-        full_msg = HIW("【星際廣播】") + content + "\n";
+        full_msg = HIW("【FS 廣播】") + content + "\n";
     } else {
-        string prefix = HIM(select_lang(([ "en": "[Interstellar] ", "zh-TW": "【星際】", "zh-CN": "【星际】" ])));
+        string prefix = HIM(select_lang(([ "en": "[Fantasy Space] ", "zh-TW": "【Fantasy Space】", "zh-CN": "【Fantasy Space】" ])));
         full_msg = prefix + sender + "：" + content + "\n";
     }
     

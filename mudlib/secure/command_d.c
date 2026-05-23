@@ -84,7 +84,7 @@ void create() {
         "map"      : "/cmds/cmd_map.c",
         "time"     : "/cmds/cmd_time.c",
         "interstellar": "/cmds/cmd_p2p.c",
-        "is"       : "/cmds/cmd_p2p.c"
+        "fs"       : "/cmds/cmd_p2p.c"
     ]);
 }
 

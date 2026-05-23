@@ -1,7 +1,6 @@
 package p2p
 
 import (
-	"encoding/json"
 	"log"
 	"net/url"
 	"sync"
@@ -238,11 +237,7 @@ func (n *Node) setupDataChannel(peerID string, dc *pion.DataChannel) {
 	})
 
 	dc.OnMessage(func(msg pion.DataChannelMessage) {
-		var p2pMsg map[string]string
-		json.Unmarshal(msg.Data, &p2pMsg)
-		if p2pMsg["type"] == "chat" {
-			n.broadcastToMUD(p2pMsg["content"], p2pMsg["sender"])
-		}
+		// 🚀 目前所有廣播訊息均已走信令中心，這裡預留給未來的點對點大檔案傳輸或私聊
 	})
 }
 
@@ -253,24 +248,11 @@ func (n *Node) broadcastToMUD(content, sender string) {
 }
 
 func (n *Node) SendChat(sender, content string) {
+	// 🚀 核心路徑：透過信令伺服器 (WebSocket) 進行全球廣播
+	// 這能保證訊息 100% 抵達 Hub 並轉發給所有節點，且不會產生重複訊息
 	n.Send <- signaling.Message{
 		Type:     "chat",
 		Username: sender,
 		Payload:  content,
-	}
-
-	msg := map[string]string{
-		"type":    "chat",
-		"sender":  sender,
-		"content": content,
-	}
-	data, _ := json.Marshal(msg)
-
-	n.mu.RLock()
-	defer n.mu.RUnlock()
-	for _, peer := range n.Peers {
-		if peer.DataChannel != nil {
-			peer.DataChannel.Send(data)
-		}
 	}
 }

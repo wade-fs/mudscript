@@ -164,22 +164,24 @@ func (h *Hub) Run() {
 					h.mudDriver.RunCommand(p, p.Object, "process_input", []object.Object{&object.String{Value: input}})
 				}
 			} else if msg.Type == "chat" {
+				// 🚀 階段 1：將訊息轉發給本地 MUD 驅動
 				if h.mudDriver != nil && h.mudDriver.OnP2PMessage != nil {
 					h.mudDriver.OnP2PMessage(msg.Username, msg.Payload)
 				}
 
+				// 🚀 階段 2：轉發給其他連線中的客戶端
 				for id, peer := range h.clients {
-					// 路由策略：
-					// 1. 如果目標是 P2P 節點：一律轉發 (包含發送者，以便回傳確認)
-					// 2. 如果目標是 Web 玩家：只有在對方不是發送者時才轉發
+					// 關鍵：絕對不要發送回給原始發送者 (msg.From)
+					if id == msg.From {
+						continue
+					}
+
 					targetMsg := msg
-					if peer.IsP2P || id != msg.From {
-						// 🚀 關鍵修正：非阻塞發送，避免被單一慢速客戶端拖垮全服
-						select {
-						case peer.Send <- targetMsg:
-						case <-time.After(10 * time.Millisecond):
-							fmt.Printf("⚠️ 警告：無法發送訊息給 %s (佇列已滿)\n", id)
-						}
+					// 非阻塞發送
+					select {
+					case peer.Send <- targetMsg:
+					case <-time.After(10 * time.Millisecond):
+						fmt.Printf("⚠️ 警告：無法發送訊息給 %s (佇列已滿)\n", id)
 					}
 				}
 			} else {

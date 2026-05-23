@@ -70,7 +70,15 @@ func main() {
 	}
 
 	// B. 連結 MUD -> P2P (發送訊息)
-	if *hubURL != "" && *hubURL != "none" {
+	isRemoteHub := *hubURL != "" && *hubURL != "none"
+	
+	// 🚀 安全檢查：如果目前是在 Hugging Face 上執行且 URL 指向自己，則不連線 (避免重複)
+	if os.Getenv("SPACE_ID") != "" && strings.Contains(*hubURL, os.Getenv("SPACE_ID")) {
+		log.Println("ℹ️ 偵測到於雲端 Hub 執行，略過自我 P2P 連線以避免重複訊息。")
+		isRemoteHub = false
+	}
+
+	if isRemoteHub {
 		node := p2p.NewNode(d, *hubURL)
 		
 		d.P2PSendChat = func(sender, content string) {

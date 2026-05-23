@@ -7,7 +7,7 @@ inherit "/std/object";
 
 int main(object me, string verb, string arg) {
     if (!arg || arg == "") {
-        write("用法：i <訊息>\n");
+        write("用法：fs <訊息>\n");
         return 1;
     }
 
@@ -17,5 +17,5 @@ int main(object me, string verb, string arg) {
 
 string help() {
     return "【指令】\n" +
-           "  i <訊息>    在星際網路（跨伺服器 P2P 頻道）發送訊息。\n";
+           "  fs <訊息>    在星際網路（Fantasy Space 跨服頻道）發送訊息。\n";
 }
