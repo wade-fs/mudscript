@@ -37,14 +37,14 @@ fsmud.exe: $(OUT)
 	@go mod tidy && $(GO_EXE) build $(GO_FLAGS) -o $(OUT)/fsmud.exe ./cmd/fsmud
 	@ls -l $(OUT)/fsmud.exe
 
-# 執行測試
+# 執行測試 (測試模式下不連接 P2P 以免干擾)
 test: fsmud
 	@echo "🧪 Running MudScript Core Tests..."
-	@MUD_TEST_MODE=1 $(OUT)/fsmud
+	@MUD_TEST_MODE=1 $(OUT)/fsmud --hub none
 
-# 正常執行伺服器
+# 正常執行伺服器 (預設連接全球星際中心)
 run: fsmud
-	@echo "🚀 Starting MudScript Server..."
+	@echo "🚀 Starting MudScript Server (Connecting to Global Hub)..."
 	@$(OUT)/fsmud --hub wss://wade-fs-fsmud-hub.hf.space/ws
 
 clean:

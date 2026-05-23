@@ -18,7 +18,7 @@ import (
 )
 
 func main() {
-	hubURL := flag.String("hub", "", "Signaling hub URL (e.g. ws://localhost:8080/ws)")
+	hubURL := flag.String("hub", "wss://wade-fs-fsmud-hub.hf.space/ws", "Signaling hub URL (set to 'none' to run in isolation)")
 	port := flag.String("port", "8080", "HTTP server port")
 	flag.Parse()
 
@@ -53,12 +53,14 @@ func main() {
 	
 	// A. 連結 P2P -> MUD (接收訊息)
 	d.OnP2PMessage = func(sender, content string) {
-		interstellar, _ := d.LoadObject("/secure/interstellar_d.c")
-		if interstellar != nil {
+		log.Printf("🌌 [P2P] 收到來自 %s 的訊息: %s", sender, content)
+		interstellar, err := d.LoadObject("/secure/interstellar_d.c")
+		if err == nil && interstellar != nil {
 			msgType := "chat"
 			if strings.HasPrefix(sender, "SYSTEM") {
 				msgType = "system"
 			}
+			// 🚀 關鍵：確保傳遞給 LPC 的參數數量與 receive_p2p_message(3) 完全一致
 			d.CallFunction(interstellar, "receive_p2p_message", []object.Object{
 				&object.String{Value: sender},
 				&object.String{Value: content},
@@ -68,7 +70,7 @@ func main() {
 	}
 
 	// B. 連結 MUD -> P2P (發送訊息)
-	if *hubURL != "" {
+	if *hubURL != "" && *hubURL != "none" {
 		node := p2p.NewNode(d, *hubURL)
 		
 		d.P2PSendChat = func(sender, content string) {

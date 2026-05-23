@@ -84,9 +84,13 @@ func (c *Client) readLoop() {
 			continue
 		}
 
-		// 3. 伺服器強制覆蓋 From 與 Username，防止前端偽造身分
+		// 3. 伺服器安全性處理
 		msg.From = c.ID
-		msg.Username = c.Username
+		// 🚀 關鍵修正：如果是 P2P 節點，我們信任它傳來的 Username (角色暱稱)
+		// 如果是普通 Web 客戶端，則維持強制覆蓋，防止偽造身分
+		if !c.IsP2P {
+			msg.Username = c.Username
+		}
 
 		c.Hub.forward <- msg
 	}

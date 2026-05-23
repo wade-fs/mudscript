@@ -10,9 +10,14 @@ void create() {
     ::create();
 }
 
-// 當收到來自 P2P 網路的訊息時，由 Driver 呼叫此函式
+// 🚀 強大且具相容性的接收函式
+// 參數 1: 發送者名稱
+// 參數 2: 訊息內容
+// 參數 3: 訊息類型 (chat / system) - 預設為 chat
 void receive_p2p_message(string sender, string content, string type) {
     if (!content || content == "") return;
+    if (!sender || sender == "") sender = "Unknown";
+    if (!type || type == "") type = "chat";
     
     string full_msg;
     
@@ -27,7 +32,8 @@ void receive_p2p_message(string sender, string content, string type) {
     if (!users) return;
 
     foreach (object u in users) {
-        if (u && userp(u)) {
+        // 只要是正在連線的玩家都發送
+        if (u && userp(u) && interactive(u)) {
             tell_object(u, full_msg);
         }
     }
