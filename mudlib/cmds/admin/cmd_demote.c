@@ -1,5 +1,7 @@
 // mudlib/cmds/admin/cmd_demote.c
 
+inherit "/std/object";
+
 int main(object me, string arg) {
     if (me->query_role() != "god") {
         write("只有 god 可以降低權限。\n");

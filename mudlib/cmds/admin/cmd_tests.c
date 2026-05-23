@@ -1,6 +1,8 @@
 // /cmds/admin/cmd_tests.c
 // 執行系統自動化測試指令
 
+inherit "/std/object";
+
 #include "/include/ansi.h"
 
 int main(object me, string verb, string arg) {
@@ -21,6 +23,8 @@ int main(object me, string verb, string arg) {
         "/tests/test_logic.c",
         "/tests/test_coords.c",
         "/tests/test_map.c",
+        "/tests/test_nature.c",
+        "/tests/test_save.c",
         "/tests/test_ternary.c",
         "/tests/test_security.c",
         "/tests/test_language.c",

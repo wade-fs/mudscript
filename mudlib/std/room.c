@@ -252,17 +252,14 @@ int do_go(string dir) {
 
     object me = this_player();
     string my_name = me->query_name();
+    object lang_d = load_object("/secure/language_d.c");
 
-    string leave_msg = _t("say_leave");
-    leave_msg = replace_string(leave_msg, "$name", my_name);
-    leave_msg = replace_string(leave_msg, "$dir", cmd);
-    say(leave_msg + "\n");
+    // 廣播離開訊息 (給原本房間的人)
+    lang_d->broadcast_event(this_object(), "say_leave", ([ "$name": my_name, "$dir": cmd ]));
 
     if (me->move(dest, cmd)) {
-        string arrive_msg = _t("say_arrive");
-        arrive_msg = replace_string(arrive_msg, "$name", my_name);
-        arrive_msg = replace_string(arrive_msg, "$dir", cmd);
-        say(arrive_msg + "\n");
+        // 廣播抵達訊息 (給新房間的人)
+        lang_d->broadcast_event(dest, "say_arrive", ([ "$name": my_name, "$dir": cmd ]));
         dest->look_room(me);
     } else {
         string fail_msg = _t("move_fail_err");

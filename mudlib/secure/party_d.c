@@ -5,7 +5,10 @@
 
 mapping invitations; // ([ "invitee_id": "inviter_id" ])
 
+inherit "/std/object";
+
 void create() {
+    ::create();
     invitations = ([]);
 }
 

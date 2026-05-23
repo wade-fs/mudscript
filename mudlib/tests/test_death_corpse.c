@@ -5,8 +5,8 @@ void run_tests(object me) {
     start_test("死亡懲罰與跑屍系統驗證");
 
     object me = clone_object("/std/user.c");
-    me->set_name("不幸的冒險者");
     me->set_id("unlucky_hero");
+    me->set_name("不幸的冒險者");
     me->set_role("user");
     me->set_level(5);
     me->gain_exp(200); // 🚀 確保有非零經驗

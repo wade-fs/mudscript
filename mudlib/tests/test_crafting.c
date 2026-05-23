@@ -5,6 +5,7 @@ void run_tests(object me) {
     start_test("合成、鍛造與鑲嵌驗證");
 
     object me = clone_object("/std/user.c");
+    me->set_id("tester");
     me->set_name("合成大師");
     me->set_lang("zh-TW"); // 🚀 確保名稱驗證符合預期
 

@@ -7,6 +7,7 @@ void run_tests(object me) {
     object me = this_player();
     if (!me) {
         me = clone_object("/std/user.c");
+        me->set_id("tester");
         me->set_name("測試馬夫");
     }
     me->set_skill("taming", 200); 

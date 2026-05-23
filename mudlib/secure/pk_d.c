@@ -3,6 +3,12 @@
 
 #include "/include/ansi.h"
 
+inherit "/std/object";
+
+void create() {
+    ::create();
+}
+
 // 檢查 A 攻擊 B 是否屬於「合法自衛」或「團隊保護」
 int is_legal_attack(object a, object b) {
     // 1. 攻擊怪物永遠合法

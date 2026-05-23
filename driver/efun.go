@@ -294,6 +294,18 @@ func (d *Driver) registerCoreIOEfuns(obj *object.LPCObject) {
 		},
 	})
 
+	// 語法: int is_interactive(object ob)
+	// 說明: 判斷該物件是否為連線中的玩家。
+	obj.Vars.Set("is_interactive", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			target := getTarget(args, obj)
+			if target.IsInteractive {
+				return &object.Integer{Value: 1}
+			}
+			return &object.Integer{Value: 0}
+		},
+	})
+
 	// 語法: string query_verb()
 	// 說明: 回傳當前觸發指令的動詞。
 	// 範例: 若輸入 "go north"，query_verb() 回傳 "go"。
@@ -489,7 +501,7 @@ func (d *Driver) registerCoreIOEfuns(obj *object.LPCObject) {
 	                msg = args[0].Inspect()
 	            }
 	        }
-	        
+
 	        p := d.GetCurrentPlayer()
 	        // 👉 關鍵修正：若無全域玩家上下文 (如 NPC 心跳中)，但呼叫者是玩家物件，則自動導向該玩家
 	        if p == nil && obj.IsInteractive {
@@ -497,19 +509,19 @@ func (d *Driver) registerCoreIOEfuns(obj *object.LPCObject) {
 	        }
 
 	        // 只要玩家物件存在且處於活動狀態，就呼叫 p.Send
-	        // 不要檢查 p.Conn != nil，因為 WebSocket 模式下 Conn 是 nil
-	        if p != nil && p.IsActive { 
+	        if p != nil && p.IsActive {
 	            safeMsg := strings.ReplaceAll(msg, "\r\n", "\n")
 	            safeMsg = strings.ReplaceAll(safeMsg, "\n", "\r\n")
 	            p.Send(safeMsg)
 	        } else {
 	            // 只有在找不到玩家上下文時（例如系統背景執行），才印到伺服器終端機
-	            fmt.Print(msg)
+				// 在終端機模式下，我們嘗試轉換 {r} 標籤為 ANSI
+				processed := d.ProcessAnsi(msg)
+	            fmt.Print(processed)
 	        }
 	        return &object.Nil{}
 	    },
 	})
-
 	// 語法: object this_player()
 	// 說明: 取得觸發當前執行緒的玩家物件。若無則回傳 0。
 	// 範例: if (me == this_player()) continue; // skip self

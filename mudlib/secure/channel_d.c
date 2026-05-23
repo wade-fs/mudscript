@@ -6,7 +6,10 @@
 
 mapping friend_channels; // 🚀 新增：自建/好友頻道 ([ "cid": ({ member_ids }) ])
 
+inherit "/std/object";
+
 void create() {
+    ::create();
     friend_channels = ([]);
 }
 

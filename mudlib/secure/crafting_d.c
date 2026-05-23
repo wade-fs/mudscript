@@ -6,7 +6,10 @@
 
 mapping recipes;
 
+inherit "/std/object";
+
 void create() {
+    ::create();
     recipes = ([
         // ── 製藥 (Alchemy) ──
         "health_potion": ([

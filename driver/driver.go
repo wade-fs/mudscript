@@ -530,7 +530,7 @@ func (d *Driver) processHeartBeats() {
 	d.mu.RLock()
 	targets := make([]*object.LPCObject, 0, len(d.Heartbeats))
 	for obj := range d.Heartbeats {
-		if obj != nil && !obj.IsDestructed && strings.Contains(obj.Filename, "#") {
+		if obj != nil && !obj.IsDestructed {
 			targets = append(targets, obj)
 		}
 	}
@@ -598,6 +598,27 @@ func (d *Driver) SetHeartBeat(obj *object.LPCObject, enable bool) {
 	}
 }
 
+// ProcessAnsi 將自定義的 {r} 標籤轉換為 ANSI 色碼 (用於終端機)
+func (d *Driver) ProcessAnsi(text string) string {
+	colorMap := map[string]string{
+		"r":  "\x1b[31m",
+		"g":  "\x1b[32m",
+		"y":  "\x1b[33m",
+		"b":  "\x1b[34m",
+		"m":  "\x1b[35m",
+		"c":  "\x1b[36m",
+		"w":  "\x1b[37m",
+		"gr": "\x1b[90m",
+		"n":  "\x1b[0m",
+	}
+
+	res := text
+	for tag, code := range colorMap {
+		res = strings.ReplaceAll(res, "{"+tag+"}", code)
+	}
+	return res
+}
+
 type callFrame struct {
 	File     string
 	Function string
@@ -606,9 +627,6 @@ type callFrame struct {
 func (d *Driver) CallFunction(obj *object.LPCObject, funcName string, args []object.Object) object.Object {
 	if obj == nil || obj.IsDestructed {
 		return &object.Integer{Value: 0}
-	}
-	if funcName == "heart_beat" && !strings.Contains(obj.Filename, "#") {
-		return nil
 	}
 	frame := callFrame{File: obj.Filename, Function: funcName}
 	d.pushFrame(frame)

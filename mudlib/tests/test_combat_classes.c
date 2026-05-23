@@ -5,6 +5,7 @@ void run_tests(object me) {
     start_test("戰鬥體系與職業分化驗證");
 
     object me = clone_object("/std/user.c");
+    me->set_id("tester");
     object target = clone_object("/npc/slime.c");
     
     me->set_name("測試鬥士");

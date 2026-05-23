@@ -4,7 +4,10 @@
 
 mapping cmd_map;
 
+inherit "/std/object";
+
 void create() {
+    ::create();
     cmd_map = ([
         "look"     : "/cmds/cmd_look.c",
         "l"        : "/cmds/cmd_look.c",
@@ -78,7 +81,8 @@ void create() {
         "ride"     : "/cmds/cmd_ride.c",
         "unride"   : "/cmds/cmd_ride.c",
         "dismount" : "/cmds/cmd_ride.c",
-        "map"      : "/cmds/cmd_map.c"
+        "map"      : "/cmds/cmd_map.c",
+        "time"     : "/cmds/cmd_time.c"
     ]);
 }
 

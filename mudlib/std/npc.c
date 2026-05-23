@@ -368,9 +368,15 @@ void do_wander() {
         }
     }
 
-    say(query_name() + " 往 " + dir + " 走了過去。\n");
+    object lang_d = load_object("/secure/language_d.c");
+    
+    // 廣播離開訊息
+    lang_d->broadcast_event(env, "say_leave", ([ "$name": query_name(), "$dir": dir ]));
+    
     move_object(dest);
-    say(query_name() + " 走了過來。\n");
+
+    // 廣播抵達訊息
+    lang_d->broadcast_event(dest, "say_arrive", ([ "$name": query_name(), "$dir": "here" ]));
 }
 
 // ── 巡邏邏輯 ─────────────────────────────────────────────────────
@@ -386,7 +392,12 @@ void do_patrol() {
 
 // ── 逃跑邏輯 ─────────────────────────────────────────────────────
 void do_flee() {
-    say(query_name() + " 見勢不妙，拔腿逃跑！\n");
+    string msg = select_lang(([
+        "en": query_name() + " senses danger and flees!",
+        "zh-TW": query_name() + " 見勢不妙，拔腿逃跑！",
+        "zh-CN": query_name() + " 见势 not 妙，拔腿逃跑！"
+    ]));
+    say(msg + "\n");
     stop_combat();
     // 嘗試隨機往相鄰房間移動
     object env = environment(this_object());

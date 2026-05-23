@@ -5,6 +5,7 @@ void run_tests(object me) {
     start_test("任務系統驗證");
 
     object me = clone_object("/std/user.c");
+    me->set_id("tester");
     me->set_name("測試英雄");
     me->set_level(10); // 確保等級足夠
     

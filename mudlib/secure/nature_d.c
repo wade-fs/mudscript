@@ -17,12 +17,19 @@ int last_update;        // 上次更新天氣的時間
 // 天氣清單
 string *weather_types = ({ "clear", "cloudy", "rainy", "foggy", "snowy" });
 
+string query_save_file() { return "/data/nature"; }
+
 void create() {
     ::create();
     game_time = 0;
     current_weather = "clear";
     last_update = time();
+    
+    // 嘗試載入舊有的時間狀態
+    restore_object(query_save_file());
+    
     set_heart_beat(1);
+    write("DEBUG: nature_d started, game_time=" + game_time + "\n");
 }
 
 // ── 時間處理 ─────────────────────────────────────────────
@@ -93,21 +100,17 @@ void update_weather() {
     }
 
     if (old_weather != current_weather) {
-        // 發送天氣變化訊息給所有人 (戶外)
-        string msg = "";
-        switch(current_weather) {
-            case "clear": msg = HIY("天空逐漸放晴，陽光灑滿了大地的每一個角落。"); break;
-            case "cloudy": msg = WHT("幾朵烏雲飄過，天空變得陰沉了下來。"); break;
-            case "rainy": msg = HIB("天空下起了綿綿細雨，洗滌著塵世。"); break;
-            case "foggy": msg = CYN("四周漸漸騰起一陣濃霧，遠方的景物變得模糊不清。"); break;
-            case "snowy": msg = HIW("晶瑩的雪花從天空紛紛揚揚地落下。"); break;
-        }
-        
         object *users = users();
-        foreach (object user in users) {
-            object env = environment(user);
-            if (env && env->query_is_outdoor()) {
-                tell_object(user, "\n" + msg + "\n");
+        if (users) {
+            foreach (object user in users) {
+                object env = environment(user);
+                if (env && env->query_is_outdoor()) {
+                    string lang = user->query_lang();
+                    if (!lang) lang = "en";
+                    
+                    string msg = load_object("/secure/language_d.c")->translate("weather_" + current_weather, lang);
+                    tell_object(user, "\n" + HIW(msg) + "\n");
+                }
             }
         }
     }
@@ -116,9 +119,14 @@ void update_weather() {
 // ── 心跳邏輯 ─────────────────────────────────────────────
 
 void heart_beat() {
-    game_time += 1; // 每一真實秒推進一遊戲分鐘
+    game_time = game_time + 1; // 使用標準賦值以防 += 支援度問題
+    
+    // 每 5 遊戲分鐘存檔一次
+    if (game_time % 5 == 0) {
+        save_object(query_save_file());
+    }
 
-    // 每 10 遊戲分鐘 (真實 10 秒) 更新一次天氣判定
+    // 每 10 遊戲分鐘 (真實 20 秒) 更新一次天氣判定
     if (game_time % 10 == 0) {
         update_weather();
     }

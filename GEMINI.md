@@ -48,15 +48,24 @@ MudScript is a high-performance MUD engine that combines a Go-based driver with 
 
 ## 📏 Coding Standards
 
-### Go Code
+### 🛡️ System Integrity & Testing
+- **Mandatory Testing**: ALWAYS run `make test` after any code change or update to ensure system stability and verify that no regressions were introduced.
+- **Holistic Consistency**: Avoid "bandage fixes" (patching only one instance while leaving others inconsistent). Prioritize architectural cleanliness and project-wide uniformity.
+
+### 📜 LPC Scripts
+- **Modular Design**: Keep scripts modular. Prefer inheritance over large, monolithic files.
+- **Color Codes**: Use `ansi.h` and the `{r}` tag system for all colorized output.
+- **Internationalization (i18n)**: 
+    - If a change is related to language or localization, it MUST be applied comprehensively across ALL affected rooms, objects, commands, and NPCs.
+    - Use `select_lang()` and `_t()` for all player-facing strings.
+- **Command Consistency**: 
+    - If a change affects command handling or base functionality, it MUST be updated in all relevant command files in `/cmds`.
+- **Directory Structure**: NPCs in `/npc`, items in `/item`, rooms in `/area`, etc.
+
+### 🐹 Go Code
 - Follow idiomatic Go (Effective Go).
 - Use `sync.Mutex` for protecting shared state in the driver.
 - Ensure all new Efuns are documented in `docs/README-efuns.md`.
-
-### LPC Scripts
-- Keep scripts modular. Prefer inheritance over large, monolithic files.
-- Use `ansi.h` for color codes.
-- Follow the directory structure: NPCs in `/npc`, items in `/item`, etc.
 
 ## 🔍 Key Files
 - `driver/driver.go`: Main driver loop and object management.

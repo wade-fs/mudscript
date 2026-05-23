@@ -18,6 +18,7 @@ void create() {
 "
     ]));
     set_coordinate(0, 0, -1);
+    set_is_outdoor(0);
     
     // 這裡設一個出口到地面（z=0）
     add_exit("up", "/area/newbie/room_0_0.c");

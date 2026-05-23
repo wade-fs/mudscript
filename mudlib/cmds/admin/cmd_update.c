@@ -1,6 +1,8 @@
 // /cmds/admin/cmd_update.c
 // 重新載入物件指令：update <檔名>
 
+inherit "/std/object";
+
 #include "/include/ansi.h"
 
 int main(object me, string arg) {

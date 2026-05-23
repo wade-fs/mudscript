@@ -278,7 +278,7 @@
             document.getElementById("info-area").innerHTML = `
                 <div class="stat-box"><span class="stat-label">❤️ ${data.label_hp || 'HP'}</span><span class="stat-value">${data.hp}/${data.max_hp}</span></div>
                 <div class="stat-box"><span class="stat-label">✨ ${data.label_mp || 'MP'}</span><span class="stat-value">${data.mp}/${data.max_mp}</span></div>
-                <div class="stat-box"><span class="stat-label">💰 ${data.label_wealth || 'GOLD'}</span><span class="stat-value">${data.money}</span></div>
+                <div class="stat-box"><span class="stat-label">💰 ${data.label_wealth || 'GOLD'}</span><span class="stat-value">${parseColorTags(data.money)}</span></div>
                 <div class="stat-box"><span class="stat-label">⚔️ ${data.label_atk || 'ATK'}</span><span class="stat-value">${data.atk}</span></div>
             `;
         } else if (ui.ui === "cmd_list") {
@@ -478,33 +478,8 @@
                                          .replace(/>/g, "&gt;");
         }
 
-        // 3. Color Tags: {r}text{n} - 使用更精確的匹配
-        const colorMap = {
-            'r': '#ff5555', 'g': '#55ff55', 'b': '#5555ff',
-            'y': '#ffff55', 'c': '#55ffff', 'm': '#ff55ff',
-            'w': '#ffffff', 'gr': '#888888', 'n': 'inherit'
-        };
-
-        let openSpans = 0;
-        processedText = processedText.replace(/\{([rgbymcwgn]|gr)\}/g, (match, tag) => {
-            if (tag === 'n') {
-                if (openSpans > 0) {
-                    openSpans--;
-                    return '</span>';
-                }
-                return '';
-            }
-            if (colorMap[tag]) {
-                openSpans++;
-                return `<span style="color: ${colorMap[tag]}">`;
-            }
-            return match;
-        });
-
-        while (openSpans > 0) {
-            processedText += '</span>';
-            openSpans--;
-        }
+        // 3. Color Tags: {r}text{n}
+        processedText = parseColorTags(processedText);
 
         // 4. Command links: [顯示名稱|指令]
         processedText = processedText.replace(/\[(.*?)\]/g, (match, p1) => {
@@ -530,6 +505,40 @@
         setTimeout(() => {
             area.scrollTop = area.scrollHeight;
         }, 10);
+    }
+
+    function parseColorTags(text) {
+        if (typeof text !== 'string') return text;
+        
+        const colorMap = {
+            'r': '#ff5555', 'g': '#55ff55', 'b': '#5555ff',
+            'y': '#ffff55', 'c': '#55ffff', 'm': '#ff55ff',
+            'w': '#ffffff', 'gr': '#888888', 'n': 'inherit'
+        };
+
+        let processed = text;
+        let openSpans = 0;
+        processed = processed.replace(/\{([rgbymcwgn]|gr)\}/g, (match, tag) => {
+            if (tag === 'n') {
+                let res = '';
+                while (openSpans > 0) {
+                    res += '</span>';
+                    openSpans--;
+                }
+                return res;
+            }
+            if (colorMap[tag]) {
+                openSpans++;
+                return `<span style="color: ${colorMap[tag]}">`;
+            }
+            return match;
+        });
+
+        while (openSpans > 0) {
+            processed += '</span>';
+            openSpans--;
+        }
+        return processed;
     }
 
     function initStars() {

@@ -7,6 +7,12 @@ void create() {
     write("  MudScript Master Object 啟動成功 \n");
     write("===================================\n");
 
+    // 啟動全域守護進程
+    load_object("/secure/nature_d.c");
+    load_object("/secure/quest_d.c");
+    load_object("/secure/guild_d.c");
+    load_object("/secure/channel_d.c");
+
     if (getenv("MUD_TEST_MODE")) {
         call_out("run_test_mode", 1);
     }
@@ -16,6 +22,7 @@ void run_test_mode() {
     object test_cmd = load_object("/cmds/admin/cmd_tests.c");
     if (test_cmd) {
         object fake_me = clone_object("/std/user.c");
+        fake_me->set_id("tester");
         fake_me->set_role("god");
         int failures = test_cmd->main(fake_me, "tests", "");
         destruct(fake_me);

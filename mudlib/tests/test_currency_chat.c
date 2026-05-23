@@ -5,6 +5,7 @@ void run_tests(object me) {
     start_test("貨幣系統與頻道收費驗證");
 
     object tester = clone_object("/std/user.c");
+    tester->set_id("tester");
     tester->set_name("測試富豪");
     tester->set_lang("zh-TW"); // 🚀 設定語系以匹配斷言
     

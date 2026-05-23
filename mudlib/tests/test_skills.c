@@ -5,6 +5,7 @@ void run_tests(object me) {
     start_test("技能系統驗證");
 
     object me = clone_object("/std/user.c");
+    me->set_id("tester");
     me->set_name("測試學徒");
     me->set_stat("int", 20); // 聰明的學員
     me->gain_potential(100);

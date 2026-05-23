@@ -18,6 +18,7 @@ void create() {
 "
     ]));
     set_coordinate(0, 5, 0);
+    set_is_outdoor(0);
     
     add_exit("south", "/area/newbie/room_0_1.c");
     add_exit("up", "/area/tower/tower_2f.c");

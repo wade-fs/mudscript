@@ -6,7 +6,10 @@
 
 mapping skills;
 
+inherit "/std/object";
+
 void create() {
+    ::create();
     skills = ([
         // ── 鬥士 (Fighter) 技能 ──
         "bash": ([

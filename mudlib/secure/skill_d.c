@@ -5,7 +5,10 @@
 
 mapping skill_list;
 
+inherit "/std/object";
+
 void create() {
+    ::create();
     skill_list = ([
         "unarmed": ([ "name": "拳腳功夫", "type": "combat" ]),
         "sword":   ([ "name": "基本劍法", "type": "combat" ]),

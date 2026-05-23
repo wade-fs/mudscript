@@ -7,7 +7,11 @@
 // 利息時率 0.001% (0.00001)
 #define INTEREST_RATE_HOUR 0.00001
 
-void create() {}
+inherit "/std/object";
+
+void create() {
+    ::create();
+}
 
 // 更新利息
 void update_interest(object me) {

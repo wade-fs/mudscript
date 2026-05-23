@@ -5,6 +5,7 @@ void run_tests(object me) {
     start_test("公會與勢力系統驗證");
 
     object tester = clone_object("/std/user.c");
+    tester->set_id("tester");
     tester->set_lang("zh-TW"); // 🚀 設定語系以匹配斷言
     tester->set_name("測試志願者");
     tester->set_level(10);

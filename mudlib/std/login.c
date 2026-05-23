@@ -106,9 +106,9 @@ void check_pass(string pass) {
                 user->set_lang(browser_lang);
             }
 
-            string msg = _t("login_success");
-            msg = replace_string(msg, "$name", user->query_name());
-            write("\n" + GREEN(msg) + "\n");
+            string msg_login = load_object("/secure/language_d.c")->translate("login_success", user->query_lang());
+            msg_login = replace_string(msg_login, "$name", user->query_name());
+            write("\n" + GREEN(msg_login) + "\n");
             destruct(this_object());
         } else {
             write(RED("系統錯誤：無法轉移連線。") + "\n");
@@ -247,7 +247,10 @@ void create_character() {
     }
 
     if (exec(user, this_object())) {
-        write("\n" + GREEN("角色創建成功！歡迎來到這個世界，" + current_nick + "！") + "\n");
+        string lang = user->query_lang() ? user->query_lang() : browser_lang;
+        string msg = load_object("/secure/language_d.c")->translate("login_success", lang);
+        msg = replace_string(msg, "$name", current_nick);
+        write("\n" + GREEN(msg) + "\n");
         user->save();
         user->setup();
         destruct(this_object());

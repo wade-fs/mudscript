@@ -76,7 +76,7 @@ void create() {
             "type": "Type",
             "weight": "Weight",
             "value": "Value",
-            "coin_gold": "Gold Coins",
+            "coin_gold": "gold coins",
             "durability": "Durability",
             "lv_req": "Level Req",
             "atk_bonus": "Attack Bonus",
@@ -127,8 +127,14 @@ void create() {
             "label_atk": "Attack",
             "coin_copper": "copper coins",
             "coin_silver": "silver coins",
-            "coin_gold": "gold coins",
-            "coin_cool_gold": "cool gold coins"
+            "coin_cool_gold": "cool gold coins",
+            "current_game_time": "Current Game Time",
+            "total_game_minutes": "Total Game Minutes",
+            "weather_clear": "The sky gradually clears, and sunlight bathes every corner of the earth.",
+            "weather_cloudy": "A few dark clouds float by, and the sky becomes gloomy.",
+            "weather_rainy": "Mist-like rain starts to fall from the sky, washing the dust of the world.",
+            "weather_foggy": "A thick fog gradually rises around, making distant views blurry.",
+            "weather_snowy": "Crystal snowflakes fall gracefully from the sky."
         ]),
         "zh-TW": ([
             "welcome": "歡迎回來，$name。",
@@ -246,8 +252,14 @@ void create() {
             "label_atk": "攻擊",
             "coin_copper": "銅幣",
             "coin_silver": "銀幣",
-            "coin_gold": "金幣",
-            "coin_cool_gold": "酷金幣"
+            "coin_cool_gold": "酷金幣",
+            "current_game_time": "目前時間",
+            "total_game_minutes": "遊戲總分鐘",
+            "weather_clear": "天空逐漸放晴，陽光灑滿了大地的每一個角落。",
+            "weather_cloudy": "幾朵烏雲飄過，天空變得陰沉了下來。",
+            "weather_rainy": "天空下起了綿綿細雨，洗滌著塵世。",
+            "weather_foggy": "四周漸漸騰起一陣濃霧，遠方的景物變得模糊不清。",
+            "weather_snowy": "晶瑩的雪花從天空紛紛揚揚地落下。"
         ]),
         "zh-CN": ([
             "welcome": "欢迎回來，$name。",
@@ -325,7 +337,7 @@ void create() {
             "available_langs": "可用语系",
             "lang_usage": "用法",
             "unsupported_lang": "不支持的语系",
-            "guild_already_joined": "你已经有所屬的組織了，必須先退出才能加入新公會。",
+            "guild_already_joined": "你已经有所属的组织了，必须先退出才能加入新公會。",
             "level_low_err": "你的等级不足，无法加入 $guild。",
             "stat_low_err": "你的 $stat 不足，無法加入 $guild。",
             "guild_join_success": "🎉 恭喜！你正式加入了 $guild！",
@@ -365,8 +377,14 @@ void create() {
             "label_atk": "攻击",
             "coin_copper": "铜币",
             "coin_silver": "银币",
-            "coin_gold": "金币",
-            "coin_cool_gold": "酷金币"
+            "coin_cool_gold": "酷金币",
+            "current_game_time": "目前时间",
+            "total_game_minutes": "游戏总分钟",
+            "weather_clear": "天空逐渐放晴，阳光洒满了大地的每一个角落。",
+            "weather_cloudy": "几朵乌云飘过，天空变得阴沉了下來。",
+            "weather_rainy": "天空下起了绵绵细雨，洗涤着尘世。",
+            "weather_foggy": "四周渐渐騰起一阵浓雾，远方的景物变得模糊不清。",
+            "weather_snowy": "晶莹的雪花从天空纷纷扬扬地落下。"
         ])
     ]);
 }
@@ -385,3 +403,31 @@ string translate(string key, string lang) {
 }
 
 mapping query_all_translations() { return translations; }
+
+// 🚀 新增：廣播事件訊息給房間內的所有玩家 (自動按玩家語系翻譯)
+void broadcast_event(object room, string key, mapping params) {
+    if (!room) return;
+    
+    object *inv = all_inventory(room);
+    if (!inv || sizeof(inv) == 0) return;
+    
+    foreach (object ob in inv) {
+        if (!userp(ob) || !is_interactive(ob)) continue;
+        
+        string lang = ob->query_lang();
+        if (!lang) lang = "en";
+        
+        string msg = translate(key, lang);
+        if (msg == key) continue; // 找不到翻譯則不發送或發送 key
+        
+        // 替換參數
+        if (mapp(params)) {
+            string *ks = keys(params);
+            foreach (string p_key in ks) {
+                msg = replace_string(msg, p_key, to_string(params[p_key]));
+            }
+        }
+        
+        tell_object(ob, msg + "\n");
+    }
+}

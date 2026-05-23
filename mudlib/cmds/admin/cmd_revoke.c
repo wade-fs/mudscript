@@ -1,5 +1,7 @@
 // mudlib/cmds/admin/cmd_revoke.c
 
+inherit "/std/object";
+
 int main(object me, string arg) {
     if (me->query_role() != "god" && me->query_role() != "wizard") {
         write("權限不足。\n");

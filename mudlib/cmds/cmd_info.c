@@ -29,7 +29,7 @@ int main(object me, string verb, string arg) {
 
     // 2. 建立指令清單 (分類顯示)
     mapping cmds = ([
-        _t("cat_basic")   : ({ "look", "inventory", "score", "map", "quest", "quit", "help" }),
+        _t("cat_basic")   : ({ "look", "inventory", "score", "map", "time", "quest", "quit", "help" }),
         _t("cat_social")  : ({ "say", "emote", "nickname", "ask", "channel", "chat", "lang" }),
         _t("cat_combat")  : ({ "kill", "skills", "perform", "flee", "practice" }),
         _t("cat_special") : ({ "alias", "follow", "gather", "mix", "party", "ride", "tame", "suicide" })

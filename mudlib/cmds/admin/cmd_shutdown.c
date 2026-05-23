@@ -1,6 +1,8 @@
 // /cmds/admin/cmd_shutdown.c
 // 關閉伺服器指令
 
+inherit "/std/object";
+
 #include "/include/ansi.h"
 
 int main(object me, string verb, string arg) {

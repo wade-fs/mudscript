@@ -1,6 +1,8 @@
 // /cmds/cmd_lang.c
 // 語系切換指令
 
+inherit "/std/object";
+
 #include "/include/ansi.h"
 
 int main(object me, string verb, string arg) {
@@ -14,7 +16,9 @@ int main(object me, string verb, string arg) {
     arg = trim(arg);
     if (arg == "en" || arg == "zh-TW" || arg == "zh-CN") {
         me->set_lang(arg);
-        write(load_object("/secure/language_d.c")->translate("login_success", arg) + "\n");
+        string msg = load_object("/secure/language_d.c")->translate("login_success", arg);
+        msg = replace_string(msg, "$name", me->query_name());
+        write(msg + "\n");
         me->save();
     } else {
         write(_t("unsupported_lang") + "： " + arg + "\n");

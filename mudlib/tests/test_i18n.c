@@ -5,6 +5,7 @@ void run_tests(object me) {
     start_test("多語系系統驗證");
 
     object me = clone_object("/std/user.c");
+    me->set_id("tester");
     me->set_name("多語系測試員");
     
     // 1. 測試預設語系 (en)
@@ -23,6 +24,16 @@ void run_tests(object me) {
     object cmd_lang = load_object("/cmds/cmd_lang.c");
     cmd_lang->main(me, "lang", "en");
     assert_equal("en", me->query_lang(), "執行 lang en 指令後語系應變更");
+
+    // 5. 測試帶有佔位符的翻譯
+    object lang_d = load_object("/secure/language_d.c");
+    string res = lang_d->translate("login_success", "en");
+    res = replace_string(res, "$name", "Wade");
+    assert_equal("Login successful! Welcome, Wade.", res, "英文登入訊息佔位符替換");
+
+    res = lang_d->translate("login_success", "zh-TW");
+    res = replace_string(res, "$name", "小明");
+    assert_equal("登入成功！歡迎來到這個世界，小明。", res, "繁中登入訊息佔位符替換");
 
     report_results();
     destruct(me);
