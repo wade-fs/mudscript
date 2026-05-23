@@ -79,6 +79,10 @@ func (h *Hub) Run() {
 				}
 			}
 
+			if client.IsP2P {
+				h.BroadcastChat("SYSTEM", "一個新的 MUD 伺服器節點已加入星際網路。")
+			}
+
 		case client := <-h.unregister:
 			if _, ok := h.clients[client.ID]; ok {
 				delete(h.clients, client.ID)
@@ -159,16 +163,11 @@ func (h *Hub) Run() {
 					h.mudDriver.RunCommand(p, p.Object, "process_input", []object.Object{&object.String{Value: input}})
 				}
 			} else if msg.Type == "chat" {
-				// 🚀 關鍵修正：將來自 P2P 網路的訊息轉發給本地 MUD (包含本地發出的)
-				// 這樣本地玩家才能透過 interstellar_d 看到自己發出的訊息 (統一顯示格式)
 				if h.mudDriver != nil && h.mudDriver.OnP2PMessage != nil {
 					h.mudDriver.OnP2PMessage(msg.Username, msg.Payload)
 				}
 
 				for id, peer := range h.clients {
-					// 路由策略：
-					// 1. 如果目標是 P2P 節點：一律轉發 (包含發送者，以便回傳確認)
-					// 2. 如果目標是 Web 玩家：只有在對方不是發送者時才轉發 (Web 玩家通常只看 MUD 文本)
 					if peer.IsP2P {
 						peer.Send <- msg
 					} else if id != msg.From {

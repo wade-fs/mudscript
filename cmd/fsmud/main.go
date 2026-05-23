@@ -8,6 +8,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strings"
 
 	"mudscript" // 導入根目錄 package 以取得 Assets
 	"mudscript/driver"
@@ -54,9 +55,14 @@ func main() {
 	d.OnP2PMessage = func(sender, content string) {
 		interstellar, _ := d.LoadObject("/secure/interstellar_d.c")
 		if interstellar != nil {
+			msgType := "chat"
+			if strings.HasPrefix(sender, "SYSTEM") {
+				msgType = "system"
+			}
 			d.CallFunction(interstellar, "receive_p2p_message", []object.Object{
 				&object.String{Value: sender},
 				&object.String{Value: content},
+				&object.String{Value: msgType},
 			})
 		}
 	}
