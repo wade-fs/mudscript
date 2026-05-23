@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/url"
 	"sync"
+	"time"
 
 	"github.com/gorilla/websocket"
 	pion "github.com/pion/webrtc/v4"
@@ -17,11 +18,12 @@ type Node struct {
 	ID        string
 	Driver    *driver.Driver
 	Signaler  *websocket.Conn
-	Send      chan signaling.Message // 🚀 新增：WebSocket 發送通道
+	Send      chan signaling.Message
 	Peers     map[string]*Peer
 	mu        sync.RWMutex
 	
 	HubURL    string
+	stopped   bool
 }
 
 type Peer struct {
@@ -34,18 +36,41 @@ func NewNode(d *driver.Driver, hubURL string) *Node {
 	return &Node{
 		Driver:   d,
 		Peers:    make(map[string]*Peer),
-		Send:     make(chan signaling.Message, 256), // 初始化通道
+		Send:     make(chan signaling.Message, 256),
 		HubURL:   hubURL,
 	}
 }
 
-func (n *Node) Start() error {
+func (n *Node) Start() {
+	go n.connectLoop()
+	go n.writeLoop()
+}
+
+func (n *Node) connectLoop() {
+	for !n.stopped {
+		err := n.connect()
+		if err != nil {
+			log.Printf("⚠️ Signaling connection failed: %v. Retrying in 5s...", err)
+			time.Sleep(5 * time.Second)
+			continue
+		}
+
+		// readLoop blocks until connection is lost
+		n.readLoop()
+		
+		if !n.stopped {
+			log.Println("🔄 Signaling connection lost. Reconnecting in 3s...")
+			time.Sleep(3 * time.Second)
+		}
+	}
+}
+
+func (n *Node) connect() error {
 	u, err := url.Parse(n.HubURL)
 	if err != nil {
 		return err
 	}
 
-	// 🚀 關鍵修正：加上 p2p=true 標記，讓 Hub 知道這不是真人玩家
 	q := u.Query()
 	q.Set("p2p", "true")
 	u.RawQuery = q.Encode()
@@ -56,21 +81,30 @@ func (n *Node) Start() error {
 		return err
 	}
 	n.Signaler = c
-
-	go n.readLoop()
-	go n.writeLoop() // 🚀 啟動寫入迴圈
 	return nil
 }
 
 func (n *Node) readLoop() {
 	defer n.Signaler.Close()
 
+	// 🚀 新增：啟動 Ping 保持連線
+	ticker := time.NewTicker(30 * time.Second)
+	defer ticker.Stop()
+
+	go func() {
+		for range ticker.C {
+			if n.Signaler == nil { return }
+			err := n.Signaler.WriteMessage(websocket.PingMessage, nil)
+			if err != nil { return }
+		}
+	}()
+
 	for {
 		var msg signaling.Message
 		err := n.Signaler.ReadJSON(&msg)
 		if err != nil {
 			log.Println("❌ Signaling read error:", err)
-			return
+			break
 		}
 
 		switch msg.Type {
@@ -78,8 +112,10 @@ func (n *Node) readLoop() {
 			n.ID = msg.To
 			log.Printf("🆔 Node registered with ID: %s", n.ID)
 		case "peer-joined":
-			// New peer joined the hub, let's initiate connection
-			if msg.From != n.ID {
+			// 🚀 關鍵修正：Polite Peer 邏輯
+			// 只有當我的 ID 比對方小時，才主動發起 Offer。這能避免雙向重複建立連線
+			if msg.From != n.ID && n.ID < msg.From {
+				log.Printf("🤝 Initiating P2P connection with %s", msg.From)
 				n.createOffer(msg.From)
 			}
 		case "offer":
@@ -89,35 +125,27 @@ func (n *Node) readLoop() {
 		case "candidate":
 			n.handleCandidate(msg)
 		case "chat":
-			// Local bridge for interstellar chat
 			n.broadcastToMUD(msg.Payload, msg.Username)
 		}
 	}
 }
 
-// 🚀 新增：寫入迴圈，解決並發寫入 WebSocket 的 panic 問題
 func (n *Node) writeLoop() {
 	for msg := range n.Send {
+		if n.Signaler == nil { continue }
 		err := n.Signaler.WriteJSON(msg)
 		if err != nil {
 			log.Println("❌ Signaling write error:", err)
-			return
 		}
 	}
 }
 
 func (n *Node) createOffer(targetID string) {
 	pc, err := pion.NewPeerConnection(webrtc.Config())
-	if err != nil {
-		log.Println("PC Error:", err)
-		return
-	}
+	if err != nil { return }
 
 	dc, err := pc.CreateDataChannel("mud-data", nil)
-	if err != nil {
-		log.Println("DC Error:", err)
-		return
-	}
+	if err != nil { return }
 
 	n.setupDataChannel(targetID, dc)
 
@@ -210,10 +238,8 @@ func (n *Node) setupDataChannel(peerID string, dc *pion.DataChannel) {
 	})
 
 	dc.OnMessage(func(msg pion.DataChannelMessage) {
-		// Handle P2P message
 		var p2pMsg map[string]string
 		json.Unmarshal(msg.Data, &p2pMsg)
-		
 		if p2pMsg["type"] == "chat" {
 			n.broadcastToMUD(p2pMsg["content"], p2pMsg["sender"])
 		}
@@ -221,21 +247,18 @@ func (n *Node) setupDataChannel(peerID string, dc *pion.DataChannel) {
 }
 
 func (n *Node) broadcastToMUD(content, sender string) {
-	// 透過信令收到的 chat 已經在 hub.go 處理了，這裡主要處理來自 DataChannel 的直接訊息
 	if n.Driver.OnP2PMessage != nil {
 		n.Driver.OnP2PMessage(sender, content)
 	}
 }
 
 func (n *Node) SendChat(sender, content string) {
-	// 🚀 關鍵修正：透過信令伺服器廣播，確保穩定性與全域覆蓋
 	n.Send <- signaling.Message{
 		Type:     "chat",
 		Username: sender,
 		Payload:  content,
 	}
 
-	// 額外發送到 P2P DataChannel (如果已建立)
 	msg := map[string]string{
 		"type":    "chat",
 		"sender":  sender,

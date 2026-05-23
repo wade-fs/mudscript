@@ -3,6 +3,7 @@ package signaling
 import (
 	"fmt"
 	"strings"
+	"time"
 
 	"mudscript/driver"
 	"mudscript/object"
@@ -168,15 +169,26 @@ func (h *Hub) Run() {
 				}
 
 				for id, peer := range h.clients {
-					if peer.IsP2P {
-						peer.Send <- msg
-					} else if id != msg.From {
-						peer.Send <- msg
+					// 路由策略：
+					// 1. 如果目標是 P2P 節點：一律轉發 (包含發送者，以便回傳確認)
+					// 2. 如果目標是 Web 玩家：只有在對方不是發送者時才轉發
+					targetMsg := msg
+					if peer.IsP2P || id != msg.From {
+						// 🚀 關鍵修正：非阻塞發送，避免被單一慢速客戶端拖垮全服
+						select {
+						case peer.Send <- targetMsg:
+						case <-time.After(10 * time.Millisecond):
+							fmt.Printf("⚠️ 警告：無法發送訊息給 %s (佇列已滿)\n", id)
+						}
 					}
 				}
 			} else {
 				if peer, ok := h.clients[msg.To]; ok {
-					peer.Send <- msg
+					select {
+					case peer.Send <- msg:
+					default:
+						fmt.Printf("⚠️ 警告：無法轉發 WebRTC 信令給 %s (佇列已滿)\n", msg.To)
+					}
 				}
 			}
 		}

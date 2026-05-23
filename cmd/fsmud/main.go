@@ -77,11 +77,8 @@ func main() {
 			node.SendChat(sender, content)
 		}
 
-		if err := node.Start(); err != nil {
-			log.Printf("⚠️ P2P 啟動失敗: %v", err)
-		} else {
-			log.Println("🚀 P2P 節點已啟動，連接至:", *hubURL)
-		}
+		node.Start()
+		log.Println("🚀 P2P 節點已啟動，連接至:", *hubURL)
 	} else {
 		// 如果自己是信令中心，直接透過 hub 廣播
 		d.P2PSendChat = func(sender, content string) {
