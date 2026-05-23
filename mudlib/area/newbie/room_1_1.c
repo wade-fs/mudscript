@@ -15,6 +15,7 @@ void create() {
         "zh-CN": "这是一块平整的空地，地面被踩得很实。四周摆放着一些木质的人偶和练习用的木剑。\n训练教官正在这里指导新兵们如何进行基础的战斗。\n"
     ]));
     set_no_combat(1);
+    set_is_outdoor(0);
     set_coordinate(1, 1, 0);
     add_exit("east",  "/area/newbie/room_2_1.c");
     add_exit("west",  "/area/newbie/room_0_1.c");

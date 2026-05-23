@@ -7,6 +7,7 @@ void create() {
     set_long("山洞內部陰冷潮濕，石壁上掛著點點水珠。\n" +
              "洞穴深處似乎有一雙眼睛在黑暗中注視著你。\n");
     
+    set_is_outdoor(0);
     set_coordinate(10, 11, 0);
     
     add_exit("south", "/area/newbie/secret_entrance.c");
