@@ -47,10 +47,12 @@ string draw_map(object me, int range) {
     int cur_z = coords[2];
     
     mapping explored = me->query_explored_rooms();
+    string room_name = me_env->query_short();
+    
     string title = select_lang(([
-        "en": "=== Minimap (",
-        "zh-TW": "=== 區域地圖 (",
-        "zh-CN": "=== 區域地圖 ("
+        "en": "=== Minimap: " + room_name + " (",
+        "zh-TW": "=== 區域地圖：" + room_name + " (",
+        "zh-CN": "=== 区域地图：" + room_name + " ("
     ]));
     string map_header = title + cur_x + "," + cur_y + "," + cur_z + ") ===";
     string out = "\n" + BOLD_WHT(map_header) + "\n";
@@ -66,23 +68,53 @@ string draw_map(object me, int range) {
             string r_key = r_file;
             if (r_key && substr(r_key, strlen(r_key)-2, 2) == ".c") r_key = substr(r_key, 0, strlen(r_key)-2);
 
+            // 判斷是否為「可見」房間
+            // 可見條件：1. 是當前位置 2. 已探索 3. 鄰接已探索房間且有通路
+            int visible = 0;
+            if (x == cur_x && y == cur_y) visible = 1;
+            else if (r_key && explored && explored[r_key]) visible = 1;
+            else if (r_file) {
+                // 檢查周圍是否有已探索房間且有通路連向這裡
+                string *dirs = ({ "north", "south", "east", "west" });
+                int *dx = ({ 0, 0, 1, -1 });
+                int *dy = ({ 1, -1, 0, 0 });
+                string *opp = ({ "south", "north", "west", "east" });
+                
+                for (int i = 0; i < 4; i++) {
+                    int nx = x + dx[i];
+                    int ny = y + dy[i];
+                    string neighbor_file = get_room_file(nx, ny, cur_z);
+                    string n_key = neighbor_file;
+                    if (n_key && substr(n_key, strlen(n_key)-2, 2) == ".c") n_key = substr(n_key, 0, strlen(n_key)-2);
+                    
+                    if (neighbor_file && ((nx == cur_x && ny == cur_y) || (explored && explored[n_key]))) {
+                        object n_ob = load_object(neighbor_file);
+                        mapping n_exits = n_ob->query_exits();
+                        if (mapp(n_exits) && n_exits[opp[i]] && strsrch(n_exits[opp[i]], r_file) != -1) {
+                            visible = 1;
+                            break;
+                        }
+                    }
+                }
+            }
+
             // 1. 繪製房間符號
             if (x == cur_x && y == cur_y) {
-                room_line += HIY("[★]"); // 當前位置
-            } else if (!r_file) {
-                room_line += "   "; // 空位
+                room_line += HIY("[*]"); // 當前位置 (使用星號避免寬度問題)
+            } else if (!visible) {
+                room_line += "   "; // 不可見則留白
             } else if (explored && explored[r_key]) {
                 object r_ob = load_object(r_file);
                 if (r_ob->query_has_bank()) room_line += HIW("[B]");
-                else if (r_ob->query_has_shop()) room_line += HIY("[A]"); // Armourer/Store
+                else if (r_ob->query_has_shop()) room_line += HIY("[A]");
                 else if (r_ob->query_has_tavern()) room_line += MAG("[T]");
                 else if (r_ob->query_has_guild()) room_line += HIB("[G]");
                 else if (r_ob->query_has_forge()) room_line += YEL("[F]");
                 else if (r_ob->query_has_lab()) room_line += HIG("[L]");
-                else if (r_ob->query_no_combat()) room_line += HIC("[S]"); // Safe
-                else room_line += WHT("[#]"); // 普通房間
+                else if (r_ob->query_no_combat()) room_line += HIC("[S]");
+                else room_line += WHT("[#]");
             } else {
-                room_line += " ? "; // 未探索
+                room_line += " ? "; // 看得到通路但未進入過
             }
             
             // 2. 繪製水平連接 (向東)
@@ -96,7 +128,14 @@ string draw_map(object me, int range) {
                         string target = e1["east"];
                         if (strsrch(target, next_file) != -1) connected = 1;
                     }
-                    if (connected) room_line += "-"; else room_line += " ";
+                    
+                    // 只有當其中一端是可見時才繪製連線
+                    int next_visible = 0;
+                    string n_key = next_file;
+                    if (n_key && substr(n_key, strlen(n_key)-2, 2) == ".c") n_key = substr(n_key, 0, strlen(n_key)-2);
+                    if ((x+1 == cur_x && y == cur_y) || (explored && explored[n_key])) next_visible = 1;
+                    
+                    if (connected && (visible || next_visible)) room_line += "-"; else room_line += " ";
                 } else {
                     room_line += " ";
                 }
@@ -105,6 +144,13 @@ string draw_map(object me, int range) {
             // 3. 繪製垂直連接 (向南)
             if (y > cur_y - range) {
                 string south_file = get_room_file(x, y-1, cur_z);
+                int south_visible = 0;
+                if (south_file) {
+                    string s_key = south_file;
+                    if (s_key && substr(s_key, strlen(s_key)-2, 2) == ".c") s_key = substr(s_key, 0, strlen(s_key)-2);
+                    if ((x == cur_x && y-1 == cur_y) || (explored && explored[s_key])) south_visible = 1;
+                }
+
                 if (r_file && south_file) {
                     object r1 = load_object(r_file);
                     mapping e1 = r1->query_exits();
@@ -113,11 +159,11 @@ string draw_map(object me, int range) {
                         string target = e1["south"];
                         if (strsrch(target, south_file) != -1) connected = 1;
                     }
-                    if (connected) path_line += " | "; else path_line += "   ";
+                    if (connected && (visible || south_visible)) path_line += " | "; else path_line += "   ";
                 } else {
                     path_line += "   ";
                 }
-                if (x < cur_x + range) path_line += " "; // 與水平連接對齊
+                if (x < cur_x + range) path_line += " ";
             }
         }
         out += room_line + "\n";
@@ -130,9 +176,9 @@ string draw_map(object me, int range) {
         "      S      \n";
         
     string legend = select_lang(([
-        "en": "Legend: " + HIY("[★] You ") + WHT("[#] Room ") + HIC("[S] Safe ") + YEL("[F] Forge ") + HIG("[L] Lab ") + HIW("[B] Bank ") + MAG("[T] Tavern ") + HIY("[A] Shop\n"),
-        "zh-TW": "圖例: " + HIY("[★] 你 ") + WHT("[#] 房間 ") + HIC("[S] 安全 ") + YEL("[F] 鐵匠 ") + HIG("[L] 藥劑 ") + HIW("[B] 銀行 ") + MAG("[T] 酒館 ") + HIY("[A] 商店\n"),
-        "zh-CN": "图例: " + HIY("[★] 你 ") + WHT("[#] 房间 ") + HIC("[S] 安全 ") + YEL("[F] 铁匠 ") + HIG("[L] 药剂 ") + HIW("[B] 银行 ") + MAG("[T] 酒馆 ") + HIY("[A] 商店\n")
+        "en": "Legend: " + HIY("[*] You ") + WHT("[#] Room ") + HIC("[S] Safe ") + YEL("[F] Forge ") + HIG("[L] Lab ") + HIW("[B] Bank ") + MAG("[T] Tavern ") + HIY("[A] Shop ") + " ?  Unknown\n",
+        "zh-TW": "圖例: " + HIY("[*] 你 ") + WHT("[#] 房間 ") + HIC("[S] 安全 ") + YEL("[F] 鐵匠 ") + HIG("[L] 藥劑 ") + HIW("[B] 銀行 ") + MAG("[T] 酒館 ") + HIY("[A] 商店 ") + " ?  未探索\n",
+        "zh-CN": "图例: " + HIY("[*] 你 ") + WHT("[#] 房间 ") + HIC("[S] 安全 ") + YEL("[F] 铁匠 ") + HIG("[L] 药剂 ") + HIW("[B] 银行 ") + MAG("[T] 酒馆 ") + HIY("[A] 商店 ") + " ?  未探索\n"
     ]));
 
     out += BOLD_WHT("----------------------") + "\n";

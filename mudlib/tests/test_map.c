@@ -20,7 +20,7 @@ void run_tests(object me) {
     // 1. Test basic drawing
     string map_str = load_object("/secure/map_d.c")->draw_map(me, 1);
     assert_true(strlen(map_str) > 0, "Map should not be empty");
-    assert_true(strsrch(map_str, "[★]") != -1, "Map should contain player marker [★]");
+    assert_true(strsrch(map_str, "[*]") != -1, "Map should contain player marker [*]");
     assert_true(strsrch(map_str, "|") != -1 || strsrch(map_str, "-") != -1, "Map should contain connection markers");
 
     // 2. Test JSON output
