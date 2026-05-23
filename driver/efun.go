@@ -486,6 +486,19 @@ func (d *Driver) registerCoreIOEfuns(obj *object.LPCObject) {
 		},
 	})
 
+	// 語法: void set_living_name(string name)
+	// 說明: 設定生物的對外名稱，並同步至連線資訊中。
+	obj.Vars.Set("set_living_name", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 1 { return evaluator.NilValue }
+			name, ok := args[0].(*object.String)
+			if !ok { return evaluator.NilValue }
+			
+			d.UpdatePlayerUsername(obj, name.Value)
+			return evaluator.NilValue
+		},
+	})
+
 	// 語法: void add_action(string func_name, string verb)
 	// 說明: 為玩家註冊一個指令，當玩家輸入 verb 時，會呼叫 func_name。
 	// 範例: add_action("do_look", "look");

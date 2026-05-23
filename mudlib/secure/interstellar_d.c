@@ -14,11 +14,14 @@ void create() {
 void receive_p2p_message(string sender, string content) {
     if (!content || content == "") return;
     
-    string full_msg = HIM("【星際】") + sender + "：" + content + "\n";
+    string prefix = HIM(select_lang(([ "en": "[Interstellar] ", "zh-TW": "【星際】", "zh-CN": "【星际】" ])));
+    string full_msg = prefix + sender + "：" + content + "\n";
     
     object *users = users();
+    if (!users) return;
+
     foreach (object u in users) {
-        if (u && is_interactive(u)) {
+        if (u && userp(u)) {
             tell_object(u, full_msg);
         }
     }

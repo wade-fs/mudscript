@@ -43,6 +43,11 @@ func main() {
 	hub := signaling.NewHub(d) 
 	go hub.Run()
 
+	// 🚀 新增：同步玩家名稱至信令中心
+	d.OnUsernameUpdate = func(sid, newName string) {
+		hub.UpdateClientUsername(sid, newName)
+	}
+
 	// 4. 🚀 P2P 整合核心：雙向連結驅動與信令系統
 	
 	// A. 連結 P2P -> MUD (接收訊息)

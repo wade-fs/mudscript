@@ -47,6 +47,8 @@ int     is_dead;
 // 🚀 新增：PK 系統
 int     pk_score;      // PK 分數 (正值代表殺害無辜次數)
 int     pk_timer;      // 紅名倒數計時 (Unix Time)
+object  active_pet;    // 🚀 新增：當前寵物
+int     is_riding;     // 🚀 新增：正在騎乘
 
 // 🚀 新增：組隊與跟隨
 object  leader; 
@@ -70,6 +72,8 @@ void create() {
     potential      = 0;
     skills         = ([]);
     followers      = ({});
+    active_pet     = 0;
+    is_riding      = 0;
 
     recalc_stats();
     enable_commands();

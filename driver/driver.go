@@ -88,6 +88,7 @@ type ScheduledCall struct {
 }
 
 type PlayerConnection struct {
+	SessionID      string // 🚀 新增：WebSocket 工作階段 ID
 	Conn           net.Conn
 	Object         *object.LPCObject
 	Username       string
@@ -210,6 +211,21 @@ func (d *Driver) UnregisterInteractive(obj *object.LPCObject) {
 	obj.IsInteractive = false
 }
 
+// 🚀 新增：更新玩家顯示名稱到連線中
+func (d *Driver) UpdatePlayerUsername(obj *object.LPCObject, name string) {
+	if obj == nil { return }
+	if val, ok := d.interactiveObjects.Load(obj.Filename); ok {
+		if conn, ok := val.(*PlayerConnection); ok && conn != nil {
+			conn.Username = name
+
+			// 🚀 通知信令中心同步名稱
+			if d.OnUsernameUpdate != nil {
+				d.OnUsernameUpdate(conn.SessionID, name)
+			}
+		}
+	}
+}
+
 func (d *Driver) GetConnectionFromObject(obj *object.LPCObject) *PlayerConnection {
 	if obj == nil {
 		return nil
@@ -238,8 +254,9 @@ type Driver struct {
 	interactiveObjects sync.Map
 
 	// 🚀 P2P 整合
-	OnP2PMessage func(sender, content string)
-	P2PSendChat  func(sender, content string)
+	OnP2PMessage     func(sender, content string)
+	P2PSendChat      func(sender, content string)
+	OnUsernameUpdate func(sid string, newName string)
 }
 
 func New(config DriverConfig) *Driver {

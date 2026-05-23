@@ -21,8 +21,6 @@ mapping aliases;
 mapping quests; // 🚀 新增：任務紀錄
 mapping muted_channels; // 🚀 新增：屏蔽的頻道
 mapping explored_rooms; // 🚀 新增：已探索房間 ([ "room_file": 1 ])
-object  active_pet; // 🚀 新增：當前寵物
-int     is_riding;  // 🚀 新增：正在騎乘
 string *saved_inventory = ({ });
 string last_location;
 

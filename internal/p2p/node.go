@@ -43,6 +43,11 @@ func (n *Node) Start() error {
 		return err
 	}
 
+	// 🚀 關鍵修正：加上 p2p=true 標記，讓 Hub 知道這不是真人玩家
+	q := u.Query()
+	q.Set("p2p", "true")
+	u.RawQuery = q.Encode()
+
 	log.Printf("📡 Connecting to signaling hub: %s", u.String())
 	c, _, err := websocket.DefaultDialer.Dial(u.String(), nil)
 	if err != nil {

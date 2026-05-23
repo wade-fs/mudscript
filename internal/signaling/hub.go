@@ -31,61 +31,45 @@ func (h *Hub) Run() {
 	for {
 		select {
 		case client := <-h.register:
-			// 1. 將新客戶端加入列表
 			h.clients[client.ID] = client
 
-			// ==========================================
-			// 🚀 MUD 整合：玩家登入流程
-			// ==========================================
-			
-			// A. 建立一個專屬於此 WebSocket 的 PlayerConnection
-			// 這裡的 conn 傳 nil，因為我們不用傳統 TCP
-			pConn := driver.NewPlayerConnection(nil, nil) 
-			pConn.Username = "New Connection"
-			
-			pConn.OutputCallback = func(mudText string) {
-			    // 確保 client 還在線上
-			    client.Send <- Message{
-			        Type:    "mud_text",
-			        Payload: mudText,
-			    }
-			}
-
-            // C. 向 Master Object 請求登入物件 (這會執行 master.c 的 connect())
-			userObj := h.mudDriver.AcceptConnection(pConn, client.Language)
-			if userObj != nil {
-				pConn.Object = userObj
-				// 註冊互動狀態
-				h.mudDriver.RegisterInteractive(userObj, pConn)
-				// 觸發 Logon 函數
-				h.mudDriver.RunCommand(pConn, userObj, "logon", nil)
+			if !client.IsP2P {
+				pConn := driver.NewPlayerConnection(nil, nil) 
+				pConn.SessionID = client.ID
+				pConn.Username = client.Username
 				
-				// 為了方便後續查詢，把這個 pConn 存進 WebSocket Client 裡
-				// (您需要在 signaling.Client 結構中新增一個 MudConn *driver.PlayerConnection 欄位)
-				client.MudConn = pConn 
-			} else {
-				fmt.Println("⚠️ 系統拒絕了", client.Username, "的連線")
-				// 可以在這裡發送錯誤訊息給 Client 並關閉連線
+				pConn.OutputCallback = func(mudText string) {
+					client.Send <- Message{
+						Type:    "mud_text",
+						Payload: mudText,
+					}
+				}
+
+				userObj := h.mudDriver.AcceptConnection(pConn, client.Language)
+				if userObj != nil {
+					pConn.Object = userObj
+					h.mudDriver.RegisterInteractive(userObj, pConn)
+					h.mudDriver.RunCommand(pConn, userObj, "logon", nil)
+					client.MudConn = pConn 
+				} else {
+					fmt.Println("⚠️ 系統拒絕了", client.Username, "的連線")
+				}
 			}
 
-			// 2. 告訴新客戶端他自己的 ID (歡迎訊息)
 			client.Send <- Message{
 				Type: "welcome",
 				To:   client.ID,
 				Username: client.Username,
 			}
 
-			// 3. 雙向廣播：讓新舊客戶端互相認識
 			for id, peer := range h.clients {
 				if id != client.ID {
-					// 告訴舊成員：有新人加入
 					peer.Send <- Message{
 						Type: "peer-joined",
 						From: client.ID,
 						To:   id,
 						Username: client.Username,
 					}
-					// 告訴新人：目前在線上的舊成員有哪些
 					client.Send <- Message{
 						Type: "peer-joined",
 						From: id,
@@ -96,26 +80,17 @@ func (h *Hub) Run() {
 			}
 
 		case client := <-h.unregister:
-			// 1. 從列表中移除
 			if _, ok := h.clients[client.ID]; ok {
 				delete(h.clients, client.ID)
-				close(client.Send) // 關閉 channel，讓 writeLoop 安全退出
+				close(client.Send)
 			}
 
-			// ==========================================
-			// 🚀 MUD 整合：玩家斷線流程
-			// ==========================================
 			if client.MudConn != nil && client.MudConn.Object != nil {
-				// 觸發 user.c 中的斷線處理邏輯 (通常是 net_dead 或 quit)
 				h.mudDriver.RunCommand(client.MudConn, client.MudConn.Object, "net_dead", nil)
-				
-				// 解除註冊
 				h.mudDriver.UnregisterInteractive(client.MudConn.Object)
 				client.MudConn.IsActive = false
 			}
-			// ==========================================
 
-			// 2. 廣播給剩下的所有人：有人離開了
 			for id, peer := range h.clients {
 				peer.Send <- Message{
 					Type: "peer-left",
@@ -137,7 +112,6 @@ func (h *Hub) Run() {
 					continue
 				}
 
-				// 🚀 階段 1：處理 input_to (密碼或對話)
 				if p.NextInputFunc != "" {
 					funcName := p.NextInputFunc
 					p.NextInputFunc = ""
@@ -146,14 +120,11 @@ func (h *Hub) Run() {
 					continue
 				}
 
-				// 🚀 階段 2：處理 Alias 展開
-				// 呼叫 user.c 中的 expand_alias 函式
 				expanded := h.mudDriver.RunCommand(p, p.Object, "expand_alias", []object.Object{&object.String{Value: input}})
 				if s, ok := expanded.(*object.String); ok {
 					input = s.Value
 				}
 
-				// 解析動詞與參數
 				input = strings.TrimSpace(input)
 				verb := ""
 				arg := ""
@@ -172,41 +143,39 @@ func (h *Hub) Run() {
 					}
 				}
 
-				p.CurrentVerb = verb // 🚀 設定當前動詞
+				p.CurrentVerb = verb
 
-				// 🚀 階段 3：檢查 Actions 表 (add_action 註冊的指令)
 				found := false
 				if p.Object.Actions != nil {
 					if action, exists := p.Object.Actions[verb]; exists {
-						// 執行指令 (要在 Provider 上執行，而不是 player 本身)
-						// 始終傳遞參數字串，即使是空的 (避免後續 LPC 收到 Nil 而在 mapping 索引時崩潰)
 						res := h.mudDriver.RunCommand(p, action.Provider, action.FuncName, []object.Object{&object.String{Value: arg}})
-						
-						// 若回傳非 0 整數，代表指令處理成功
 						if i, ok := res.(*object.Integer); ok && i.Value != 0 {
 							found = true
 						}
 					}
 				}
 
-				// 🚀 階段 4：最後才交給 process_input
 				if (!found) {
 					h.mudDriver.RunCommand(p, p.Object, "process_input", []object.Object{&object.String{Value: input}})
 				}
 			} else if msg.Type == "chat" {
-				// 🚀 關鍵修正：將來自 P2P 網路的訊息轉發給本地 MUD
-				if msg.From != "local" && h.mudDriver != nil && h.mudDriver.OnP2PMessage != nil {
+				// 🚀 關鍵修正：將來自 P2P 網路的訊息轉發給本地 MUD (包含本地發出的)
+				// 這樣本地玩家才能透過 interstellar_d 看到自己發出的訊息 (統一顯示格式)
+				if h.mudDriver != nil && h.mudDriver.OnP2PMessage != nil {
 					h.mudDriver.OnP2PMessage(msg.Username, msg.Payload)
 				}
 
 				for id, peer := range h.clients {
-					// 不要把訊息發回給自己 (如果是從本地發送的，msg.From 會是 "local")
-					if id != msg.From {
+					// 路由策略：
+					// 1. 如果目標是 P2P 節點：一律轉發 (包含發送者，以便回傳確認)
+					// 2. 如果目標是 Web 玩家：只有在對方不是發送者時才轉發 (Web 玩家通常只看 MUD 文本)
+					if peer.IsP2P {
+						peer.Send <- msg
+					} else if id != msg.From {
 						peer.Send <- msg
 					}
 				}
 			} else {
-				// 原本的邏輯：點對點的 WebRTC Signaling (Offer/Answer/Candidate)
 				if peer, ok := h.clients[msg.To]; ok {
 					peer.Send <- msg
 				}
@@ -215,7 +184,12 @@ func (h *Hub) Run() {
 	}
 }
 
-// 🚀 新增：供本地 MUD 呼叫的廣播方法
+func (h *Hub) UpdateClientUsername(id, newName string) {
+	if client, ok := h.clients[id]; ok {
+		client.Username = newName
+	}
+}
+
 func (h *Hub) BroadcastChat(sender, content string) {
 	h.forward <- Message{
 		Type:     "chat",

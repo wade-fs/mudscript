@@ -20,6 +20,7 @@ type Client struct {
 	ID       string
 	Username string
 	Language string // 🚀 新增：瀏覽器語言
+	IsP2P    bool   // 🚀 新增：標記是否為 P2P 節點
 	Conn     *websocket.Conn
 	Hub      *Hub
 	Send     chan Message
@@ -32,11 +33,13 @@ func HandleWS(hub *Hub, w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// 1. 從 URL 查詢參數中獲取 username
-	username := r.URL.Query().Get("username")
+	// 1. 從 URL 查詢參數中獲取資訊
+	q := r.URL.Query()
+	username := q.Get("username")
 	if username == "" {
-		username = "Anonymous" // 如果沒填，給個預設值
+		username = "Anonymous"
 	}
+	isP2P := q.Get("p2p") == "true"
 
 	// 🚀 新增：獲取瀏覽器語言 (Accept-Language)
 	lang := r.Header.Get("Accept-Language")
@@ -50,7 +53,8 @@ func HandleWS(hub *Hub, w http.ResponseWriter, r *http.Request) {
 	client := &Client{
 		ID:       uuid.NewString(),
 		Username: username,
-		Language: lang, // 存入 Client
+		Language: lang, 
+		IsP2P:    isP2P, // 存入 Client
 		Conn:     conn,
 		Hub:      hub,
 		Send:     make(chan Message, 256),

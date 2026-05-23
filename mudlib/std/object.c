@@ -21,7 +21,12 @@ void create() {
 }
 
 // ── 設定函式 ────────────────────────────────────────────
-void set_name(mixed n)       { name = n; }
+void set_name(mixed n) { 
+    name = n; 
+    if (is_living()) {
+        set_living_name(to_string(select_lang(n)));
+    }
+}
 void set_short(mixed s)      { short_name = s; }
 void set_long(mixed s)       { long_name  = s; }
 void set_id(mixed ids)       { if (arrayp(ids)) id_list = ids; else id_list = ({ ids }); }

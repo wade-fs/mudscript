@@ -12,7 +12,6 @@ int main(object me, string verb, string arg) {
     }
 
     p2p_broadcast(arg);
-    write(HIM("你對星際網路說：") + arg + "\n");
     return 1;
 }
 
