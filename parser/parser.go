@@ -14,6 +14,7 @@ const (
 	_ int = iota
 	LOWEST
 	ASSIGN      // = += -= *= /=
+	TERNARY     // ? :
 	LOGICAL_OR	// ||
 	LOGICAL_AND	// &&
 	BIT_OR      // |
@@ -53,14 +54,15 @@ var precedences = map[token.TokenType]int{
 	token.LPAREN:   CALL,
 	token.LBRACKET: INDEX,
 	token.ARROW:    CALL,
-
-	token.ASSIGN:          ASSIGN,
-	token.PLUS_EQUALS:     ASSIGN,
-	token.MINUS_EQUALS:    ASSIGN,
-	token.ASTERISK_EQUALS: ASSIGN,
-	token.SLASH_EQUALS:    ASSIGN,
-	token.INC:             POSTFIX,
-	token.DEC:             POSTFIX,
+token.ASSIGN:          ASSIGN,
+token.PLUS_EQUALS:     ASSIGN,
+token.MINUS_EQUALS:    ASSIGN,
+token.ASTERISK_EQUALS: ASSIGN,
+token.SLASH_EQUALS:    ASSIGN,
+token.MOD_EQUALS:      ASSIGN,
+token.QUESTION:        TERNARY,
+token.INC:             POSTFIX,
+token.DEC:             POSTFIX,
 	token.SCOPE:           SCOPE_PREC,
 }
 
@@ -127,8 +129,9 @@ func New(l lexer.Lexer) *Parser {
 		token.ASTERISK_EQUALS: p.parseAssignExpression,
 		token.SLASH_EQUALS:    p.parseAssignExpression,
 		token.MOD_EQUALS:      p.parseAssignExpression,
-		token.INC:      p.parsePostfixExpression,
-		token.DEC:      p.parsePostfixExpression,
+		token.QUESTION:        p.parseTernaryExpression,
+		token.INC:             p.parsePostfixExpression,
+		token.DEC:             p.parsePostfixExpression,
 
 		token.SCOPE:    p.parseInfixScope,
 		token.ARROW:    p.parseCallOtherExpression,
@@ -1079,4 +1082,23 @@ func (p *Parser) parseLPCArrayLiteral() ast.Expression {
 		return nil
 	}
 	return lit
+}
+
+func (p *Parser) parseTernaryExpression(condition ast.Expression) ast.Expression {
+	expression := &ast.TernaryExpression{
+		Token:     p.curToken,
+		Condition: condition,
+	}
+
+	p.nextToken()
+	expression.TrueResult = p.parseExpression(TERNARY)
+
+	if !p.expectPeek(token.COLON) {
+		return nil
+	}
+
+	p.nextToken()
+	expression.FalseResult = p.parseExpression(TERNARY)
+
+	return expression
 }

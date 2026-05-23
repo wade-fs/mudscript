@@ -50,6 +50,8 @@ const (
 
 	// COMMA is a token type for commas.
 	COMMA = ","
+	// QUESTION is a token type for question marks.
+	QUESTION = "?"
 	// SEMICOLON is a token type for semicolons.
 	SEMICOLON = ";"
 	// COLON is a token type for colons.

@@ -194,9 +194,17 @@ mapping query_all_responses() {
 }
 
 // 執行回應
-void do_respond(string msg) {
+void do_respond(mixed msg) {
     if (!msg || msg == "") return;
-    say(query_name() + " 說：「" + msg + "」\n");
+    
+    string final_msg = "";
+    if (mapp(msg)) {
+        final_msg = select_lang(msg);
+    } else {
+        final_msg = msg;
+    }
+    
+    say(query_name() + " 說：「" + final_msg + "」\n");
 }
 
 // 攔截聽到的訊息
@@ -265,6 +273,7 @@ int do_chat(object me, string topic) {
             final_msg = options;
         }
         if (final_msg != "") {
+            if (mapp(final_msg)) final_msg = select_lang(final_msg);
             tell_object(me, my_name + " 告訴你：「" + final_msg + "」\n");
             return 1;
         }

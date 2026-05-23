@@ -135,7 +135,7 @@ void add_response(mixed keyword, mixed response) {
     }
 
     if (!responses[keyword]) responses[keyword] = ({});
-    if (stringp(response)) {
+    if (stringp(response) || mapp(response)) {
         responses[keyword] += ({ response });
     } else if (arrayp(response)) {
         responses[keyword] += response;

@@ -79,6 +79,9 @@ func Eval(node ast.Node, env object.Environment) object.Object {
 	case *ast.IfExpression:
 		return evalIfExpression(node, env)
 
+	case *ast.TernaryExpression:
+		return evalTernaryExpression(node, env)
+
 	case *ast.Ident:
 		return evalIdent(node, env)
 
@@ -1446,4 +1449,17 @@ func evalArrayInfixExpression(operator string, left, right object.Object) object
 	default:
 		return newError("陣列不支援此運算子：%s %s %s", left.TokenType(), operator, right.TokenType())
 	}
+}
+
+func evalTernaryExpression(node *ast.TernaryExpression, env object.Environment) object.Object {
+	condition := Eval(node.Condition, env)
+	if isError(condition) {
+		return condition
+	}
+
+	if isTruthy(condition) {
+		return Eval(node.TrueResult, env)
+	}
+
+	return Eval(node.FalseResult, env)
 }

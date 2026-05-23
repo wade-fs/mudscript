@@ -126,6 +126,8 @@ func (l *lexer) NextToken() token.Token {
 		}
 	case ';':
 		tok = l.newToken(token.SEMICOLON, l.ch)
+	case '?':
+		tok = l.newToken(token.QUESTION, l.ch)
 	case ',':
 		tok = l.newToken(token.COMMA, l.ch)
 	case '+':
