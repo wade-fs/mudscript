@@ -71,7 +71,8 @@ type ReturnStatement struct {
 	ReturnValue Expression
 }
 
-func (rs *ReturnStatement) statementNode() {}
+func (rs *ReturnStatement) statementNode()  {}
+func (rs *ReturnStatement) expressionNode() {}
 
 // TokenLiteral returns a token literal of return statement.
 func (rs *ReturnStatement) TokenLiteral() string {
@@ -426,6 +427,7 @@ type TypedVarDecl struct {
 }
 
 func (tvd *TypedVarDecl) statementNode()       {}
+func (tvd *TypedVarDecl) expressionNode()      {}
 func (tvd *TypedVarDecl) TokenLiteral() string { return tvd.Token.Literal }
 func (tvd *TypedVarDecl) String() string {
 	var out bytes.Buffer

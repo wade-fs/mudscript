@@ -391,8 +391,10 @@ type Closure struct {
 	BoundArgs []Object   // 預先綁定的參數 (Currying)
 	
 	// 🚀 新增：支援 Lambda
-	Lambda    ast.Expression // 如果不為 nil，則這是一個 Lambda 閉包
-	Env       Environment    // Lambda 執行時的環境上下文
+	Lambda      ast.Expression   // 如果不為 nil，則這是一個單一表達式的 Lambda
+	Expressions []ast.Expression // 支援多個表達式
+	Parameters  []*ast.TypedVarDecl // 支援具名型別參數
+	Env         Environment      // Lambda 執行時的環境上下文
 }
 func (c *Closure) TokenType() TokenType { return ClosureType }
 func (c *Closure) Inspect() string {

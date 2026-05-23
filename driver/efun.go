@@ -89,6 +89,7 @@ func (d *Driver) SetupEfuns(obj *object.LPCObject) {
 	d.registerEnvironmentEfuns(obj)
 	d.registerTimeAndScheduling(obj)
 	d.registerDataStructures(obj)
+	d.registerFunctionalEfuns(obj)
 	d.registerStringEfuns(obj)
 	d.registerSystemAndFiles(obj)
 	d.registerPersistenceEfuns(obj)
@@ -1309,15 +1310,40 @@ func (d *Driver) executeCallback(obj *object.LPCObject, fnArg object.Object, arg
 		return d.CallFunction(obj, v.Value, args)
 	case *object.Closure:
 		// 🚀 執行 Lambda
-		if v.Lambda != nil {
+		if v.Lambda != nil || len(v.Expressions) > 0 || len(v.Parameters) > 0 {
 			// 建立一個閉包環境，繼承自定義時的環境
 			lambdaEnv := object.NewEnclosedEnvironment(v.Env)
-			// 注入 $1, $2, $3...
+
+			// 1. 注入具名型別參數 (如果有的話)
+			if len(v.Parameters) > 0 {
+				for i, param := range v.Parameters {
+					if i < len(args) {
+						lambdaEnv.Set(param.Name.Value, args[i])
+					} else {
+						// 如果參數不足，給予預設值
+						lambdaEnv.Set(param.Name.Value, evaluator.GetDefaultLPCValue(param.Token.Literal))
+					}
+				}
+			}
+
+			// 2. 注入 $1, $2, $3... (傳統 Lambda 參數)
 			for i, arg := range args {
 				lambdaEnv.Set(fmt.Sprintf("$%d", i+1), arg)
 			}
-			// 執行 Lambda 表達式
-			return evaluator.Eval(v.Lambda, lambdaEnv)
+
+			// 3. 執行 Lambda
+			if v.Lambda != nil {
+				return evaluator.Eval(v.Lambda, lambdaEnv)
+			}
+
+			var result object.Object
+			for _, expr := range v.Expressions {
+				result = evaluator.Eval(expr, lambdaEnv)
+				if result != nil && result.TokenType() == object.ReturnValueType {
+					return result.(*object.ReturnValue).Value
+				}
+			}
+			return result
 		}
 
 		target := v.Target
@@ -1329,6 +1355,26 @@ func (d *Driver) executeCallback(obj *object.LPCObject, fnArg object.Object, arg
 	default:
 		return object.NewError("callback 必須是字串或 closure")
 	}
+}
+
+func (d *Driver) registerFunctionalEfuns(obj *object.LPCObject) {
+	// 語法: mixed evaluate(mixed cl, [mixed args...])
+	// 說明: 執行閉包 (closure) 或呼叫函式名稱。
+	obj.Vars.Set("evaluate", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 1 { return evaluator.NilValue }
+			return d.executeCallback(obj, args[0], args[1:])
+		},
+	})
+
+	// 語法: mixed apply(mixed cl, [mixed args...])
+	// 說明: 同 evaluate，執行閉包或呼叫函式名稱。
+	obj.Vars.Set("apply", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 1 { return evaluator.NilValue }
+			return d.executeCallback(obj, args[0], args[1:])
+		},
+	})
 }
 
 // ==========================================

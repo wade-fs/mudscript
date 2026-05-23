@@ -347,7 +347,7 @@ func (l *lexer) readNumber() string {
 
 func (l *lexer) readNumberToken() token.Token {
 	intPart := l.readNumber()
-	if l.ch != '.' {
+	if l.ch != '.' || l.peekChar() == '.' {
 		return token.Token{
 			TokenType: token.INT,
 			Literal:   intPart,

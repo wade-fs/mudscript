@@ -56,6 +56,13 @@ int    query_no_get()    { return no_get; }
 int    query_no_drop()   { return no_drop; }
 int    query_money_value(){ return money_value; }
 
+// 🚀 新增：取得坐標 (若自身無坐標則向環境查詢)
+mixed query_coordinate() {
+    object env = environment(this_object());
+    if (env) return env->query_coordinate();
+    return 0;
+}
+
 // 🚀 新增：翻譯輔助函式
 string _t(string key) {
     object tp = this_player();

@@ -3,6 +3,8 @@
 
 #include "/include/ansi.h"
 
+inherit "/std/object.c";
+
 int total_tests = 0;
 int passed_tests = 0;
 string current_test_name = "";

@@ -5,15 +5,18 @@ void run_tests(object me) {
     start_test("座標同步測試");
 
     if (!me) {
-        write("錯誤：找不到用戶物件。
-");
+        write("錯誤：找不到用戶物件。\n");
         return;
+    }
+    
+    // 如果玩家不在房間中，先移入起始點
+    if (!environment(me)) {
+        me->move(load_object("/area/newbie/room_0_0.c"), "teleport");
     }
     
     mixed start_coords = me->query_coordinate();
     if (!start_coords) {
-        write("錯誤：玩家坐標為 nil。
-");
+        write("錯誤：玩家坐標為 nil。\n");
         return;
     }
     

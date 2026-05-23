@@ -165,6 +165,14 @@
 - **說明**: 移除排程中準備呼叫的 func_name。回傳移除的數量。
 - **範例**: remove_call_out("respawn");
 
+### `evaluate()` / `apply()`
+- **語法**: `mixed evaluate(mixed cl, [mixed args...])`
+- **語法**: `mixed apply(mixed cl, [mixed args...])`
+- **說明**: 執行閉包 (closure) 或呼叫函式名稱。支持 Lambda、具名參數與 $1, $2 等參數。
+- **範例**: 
+  - `evaluate((: $1 + 1 :), 10) -> 11`
+  - `evaluate((: (object x) : x->query_name() :), this_player())`
+
 ### `set_heart_beat()`
 - **語法**: `int set_heart_beat(int flag)`
 - **說明**: 開啟(1)或關閉(0)物件的心跳機制 (每秒觸發一次 heart_beat 函式)。

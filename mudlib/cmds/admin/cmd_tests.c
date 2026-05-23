@@ -13,6 +13,8 @@ int main(object me, string verb, string arg) {
 
     string *test_files = ({
         "/tests/test_syntax.c",
+        "/tests/test_slice.c",
+        "/tests/test_closure_type.c",
         "/tests/test_logic.c",
         "/tests/test_coords.c",
         "/tests/test_ternary.c",

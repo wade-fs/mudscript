@@ -107,6 +107,15 @@ func New(l lexer.Lexer) *Parser {
 		token.LBRACKET_MAP: p.parseMappingLiteral,
 		token.SCOPE:        p.parsePrefixScope,
 		token.LPAREN_COLON: p.parseClosureLiteral,
+
+		// 支援型別開頭的表達式 (用於 Closure 內的變數宣告或型別標記)
+		token.INT_TYPE:     p.parseTypePrefix,
+		token.STRING_TYPE:  p.parseTypePrefix,
+		token.FLOAT_TYPE:   p.parseTypePrefix,
+		token.OBJECT_TYPE:  p.parseTypePrefix,
+		token.MAPPING_TYPE: p.parseTypePrefix,
+		token.MIXED_TYPE:   p.parseTypePrefix,
+		token.CLOSURE_TYPE: p.parseTypePrefix,
 	}
 
 	p.infixParseFns = map[token.TokenType]infixParseFn{
@@ -522,8 +531,8 @@ func (p *Parser) parseIndexExpression(left ast.Expression) ast.Expression {
 		p.nextToken() // Skip '..'
 		if !p.curTokenIs(token.RBRACKET) {
 			slice.EndIndex = p.parseExpression(LOWEST)
+			if !p.expectPeek(token.RBRACKET) { return nil }
 		}
-		if !p.expectPeek(token.RBRACKET) { return nil }
 		return slice
 	}
 
@@ -537,8 +546,8 @@ func (p *Parser) parseIndexExpression(left ast.Expression) ast.Expression {
 		
 		if !p.curTokenIs(token.RBRACKET) {
 			slice.EndIndex = p.parseExpression(LOWEST)
+			if !p.expectPeek(token.RBRACKET) { return nil }
 		}
-		if !p.expectPeek(token.RBRACKET) { return nil }
 		return slice
 	}
 
@@ -559,7 +568,8 @@ func (p *Parser) parseIndexExpression(left ast.Expression) ast.Expression {
 func (p *Parser) isTypeToken(t token.TokenType) bool {
 	switch t {
 	case token.INT_TYPE, token.STRING_TYPE, token.OBJECT_TYPE, 
-	     token.MAPPING_TYPE, token.FLOAT_TYPE, token.MIXED_TYPE, token.VOID_TYPE:
+	     token.MAPPING_TYPE, token.FLOAT_TYPE, token.MIXED_TYPE, 
+		 token.VOID_TYPE, token.CLOSURE_TYPE:
 		return true
 	default:
 		return false
@@ -925,6 +935,35 @@ func (p *Parser) parseSwitchStatement() ast.Statement {
 	return stmt
 }
 
+func (p *Parser) parseTypePrefix() ast.Expression {
+	typeToken := p.curToken
+	isArray := false
+	if p.peekTokenIs(token.ASTARISK) {
+		p.nextToken()
+		isArray = true
+	}
+
+	if !p.expectPeek(token.IDENT) {
+		return nil
+	}
+
+	name := &ast.Ident{Token: p.curToken, Value: p.curToken.Literal}
+
+	decl := &ast.TypedVarDecl{
+		Token:   typeToken,
+		IsArray: isArray,
+		Name:    name,
+	}
+
+	if p.peekTokenIs(token.ASSIGN) {
+		p.nextToken()
+		p.nextToken()
+		decl.Value = p.parseExpression(LOWEST)
+	}
+
+	return decl
+}
+
 func (p *Parser) parseMappingLiteral() ast.Expression {
 	mapping := &ast.MappingLiteral{
 		Token: p.curToken,
@@ -1013,7 +1052,24 @@ func (p *Parser) parseCallOtherExpression(left ast.Expression) ast.Expression {
 
 func (p *Parser) parseClosureLiteral() ast.Expression {
 	lit := &ast.ClosureLiteral{Token: p.curToken}
-	lit.Elements = p.parseExpressionList(token.COLON)
+
+	for !p.peekTokenIs(token.RPAREN) && !p.peekTokenIs(token.EOF) {
+		p.nextToken()
+
+		// 支援 return 語句在 Closure 內
+		if p.curTokenIs(token.RETURN) {
+			lit.Elements = append(lit.Elements, p.parseReturnStatement())
+		} else {
+			lit.Elements = append(lit.Elements, p.parseExpression(LOWEST))
+		}
+
+		if p.peekTokenIs(token.COMMA) || p.peekTokenIs(token.COLON) || p.peekTokenIs(token.SEMICOLON) {
+			p.nextToken()
+		} else {
+			break
+		}
+	}
+
 	if !p.expectPeek(token.RPAREN) {
 		return nil
 	}

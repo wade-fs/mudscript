@@ -98,6 +98,7 @@ const (
 	MAPPING_TYPE = "MAPPING_TYPE" // mapping
 	MIXED_TYPE   = "MIXED_TYPE"   // mixed
 	VOID_TYPE    = "VOID_TYPE"    // void
+	CLOSURE_TYPE = "CLOSURE_TYPE" // closure
 
 	// LPC 新增的關鍵字
 	INHERIT      = "INHERIT"
@@ -167,6 +168,7 @@ var keywords = map[string]TokenType{
 	"mapping": MAPPING_TYPE,
 	"mixed":   MIXED_TYPE,
 	"void":    VOID_TYPE,
+	"closure": CLOSURE_TYPE,
 	"inherit": INHERIT,
 	"new":     NEW,
 

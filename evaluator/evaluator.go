@@ -196,10 +196,33 @@ func Eval(node ast.Node, env object.Environment) object.Object {
 		return builtin.Fn(finalArgs...)
 	case *ast.ClosureLiteral:
 		// 🚀 關鍵強化：區分 Lambda 與一般閉包
+		
+		// 1. 檢查是否為具名型別參數的 Lambda (例如 (: (object x) : x->foo() :) )
+		params := []*ast.TypedVarDecl{}
+		bodyIdx := 0
+		for i, elem := range node.Elements {
+			if tvd, ok := elem.(*ast.TypedVarDecl); ok && tvd.Value == nil {
+				params = append(params, tvd)
+				bodyIdx = i + 1
+			} else {
+				break
+			}
+		}
+
+		if len(params) > 0 {
+			// 如果有參數宣告，則是具名參數 Lambda
+			return &object.Closure{
+				Parameters:  params,
+				Expressions: node.Elements[bodyIdx:],
+				Env:         env,
+			}
+		}
+
+		// 如果只有一個元素
 		if len(node.Elements) == 1 {
 			elem := node.Elements[0]
 
-			// 如果是簡單的 Ident 或 String，可能是函式指標
+			// 如果是簡單的 Ident 或 StringLiteral，可能是函式指標
 			isSimple := false
 			switch elem.(type) {
 			case *ast.Ident, *ast.StringLiteral:
@@ -214,37 +237,51 @@ func Eval(node ast.Node, env object.Environment) object.Object {
 				// 若不是字串，則退回當作 Lambda
 			}
 
-			// 當作 Lambda 處理：不立即執行，存下 AST 與當前環境
 			return &object.Closure{
 				Lambda: elem,
 				Env:    env,
 			}
 		}
 
-		// 多個參數的情況：(: obj, "func", args... :) 或 (: "func", args... :)
-		elements := evalExpressions(node.Elements, env)
-		if len(elements) == 1 && isError(elements[0]) { return elements[0] }
-		if len(elements) == 0 { return newError("閉包不能為空") }
-
-		closure := &object.Closure{}
-
-		if str, ok := elements[0].(*object.String); ok {
-			closure.Target = nil
-			closure.FuncName = str.Value
-			closure.BoundArgs = elements[1:]
-		} else if target, ok := elements[0].(*object.LPCObject); ok {
-			if len(elements) < 2 { return newError("跨物件閉包必須提供函式名稱") }
-			str, ok := elements[1].(*object.String)
-			if !ok { return newError("跨物件閉包的第二個參數必須是字串 (函式名稱)") }
-			closure.Target = target
-			closure.FuncName = str.Value
-			closure.BoundArgs = elements[2:]
-		} else {
-			// 如果第一個參數不是字串也不是物件，那它可能是一個被 eval 過的 Lambda 結果？
-			// 不對，我們上面已經攔截了 1 個元素的情況。這裡應該報錯。
-			return newError("不合法的閉包格式，第一個參數必須是字串或物件")
+		// 2. 判斷是否為傳統的 (: obj, "func", ... :) 或 (: "func", ... :)
+		// 只有當符合特定型別模式時才視為傳統閉包
+		isTraditional := false
+		if len(node.Elements) >= 1 {
+			firstElem := Eval(node.Elements[0], env)
+			if !isError(firstElem) {
+				if _, ok := firstElem.(*object.String); ok {
+					isTraditional = true
+				} else if firstElem.TokenType() == object.LPC_OBJECT_OBJ && len(node.Elements) >= 2 {
+					secondElem := Eval(node.Elements[1], env)
+					if _, ok := secondElem.(*object.String); ok {
+						isTraditional = true
+					}
+				}
+			}
 		}
-		return closure
+
+		if isTraditional {
+			// 符合傳統閉包格式
+			elements := evalExpressions(node.Elements, env)
+			if len(elements) == 1 && isError(elements[0]) { return elements[0] }
+
+			closure := &object.Closure{}
+			if str, ok := elements[0].(*object.String); ok {
+				closure.FuncName = str.Value
+				closure.BoundArgs = elements[1:]
+			} else if target, ok := elements[0].(*object.LPCObject); ok {
+				closure.Target = target
+				closure.FuncName = elements[1].(*object.String).Value
+				closure.BoundArgs = elements[2:]
+			}
+			return closure
+		}
+
+		// 3. 其他情況視為多表達式 Lambda
+		return &object.Closure{
+			Expressions: node.Elements,
+			Env:         env,
+		}
 
 	case *ast.ForEachStatement:
 		collection := Eval(node.Collection, env)
@@ -879,7 +916,7 @@ func evalTypedVarDecl(node *ast.TypedVarDecl, env object.Environment) object.Obj
 		if node.IsArray {
 			lpcType = "array"
 		}
-		val = getDefaultLPCValue(lpcType)
+		val = GetDefaultLPCValue(lpcType)
 	}
 
 	// 3. 將變數存入環境中
@@ -924,13 +961,15 @@ func checkTypeMatch(lpcType string, obj object.Object) bool {
         return tt == object.ArrayType || 
                tt == object.NilType || 
                tt == object.IntegerType // 0 可以指派給 array
+	case "closure":
+		return obj.TokenType() == object.ClosureType
 	default:
 		return true // TODO: 應該是false
 	}
 }
 
-// 輔助函式：取得 LPC 的預設值
-func getDefaultLPCValue(lpcType string) object.Object {
+// GetDefaultLPCValue 取得 LPC 的預設值
+func GetDefaultLPCValue(lpcType string) object.Object {
 	switch lpcType {
 	case "int":
 		return &object.Integer{Value: 0}
