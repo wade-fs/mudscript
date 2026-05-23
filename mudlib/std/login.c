@@ -9,7 +9,8 @@ string current_pass;
 string current_nick;
 string current_race;
 string current_nature;
-string browser_lang; // 🚀 新增
+string browser_lang;
+string *menu_keys; // 🚀 新增：追蹤當前選單的 Key 順序
 
 void create() {
     ::create();
@@ -151,9 +152,12 @@ void get_nickname(string nick) {
     // 開始選擇種族
     write("\n" + BOLD_WHT("── 選擇您的種族 ──") + "\n");
     mapping races = RACE_DATA;
-    string *ks = sort_array(keys(races), 1);
-    for (int i = 0; i < sizeof(ks); i++) {
-        write(sprintf("[%d] %-10s : %s\n", i + 1, races[ks[i]]["name"], races[ks[i]]["desc"]));
+    // 🚀 關鍵修正：使用穩定的排序，並將結果存入變數
+    menu_keys = sort_array(keys(races), (: $1 > $2 ? 1 : -1 :));
+    
+    for (int i = 0; i < sizeof(menu_keys); i++) {
+        string k = menu_keys[i];
+        write(sprintf("[%d] %-10s : %s\n", i + 1, races[k]["name"], races[k]["desc"]));
     }
     write("請輸入編號或名稱選擇種族：");
     input_to("get_race");
@@ -161,12 +165,11 @@ void get_nickname(string nick) {
 
 void get_race(string input) {
     mapping races = RACE_DATA;
-    string *ks = sort_array(keys(races), 1);
     int idx = to_int(input);
 
-    if (idx > 0 && idx <= sizeof(ks)) {
-        current_race = ks[idx - 1];
-    } else if (member_array(input, ks) != -1) {
+    if (idx > 0 && idx <= sizeof(menu_keys)) {
+        current_race = menu_keys[idx - 1];
+    } else if (member_array(input, menu_keys) != -1) {
         current_race = input;
     } else {
         write(RED("無效的選擇，請重新輸入："));
@@ -179,9 +182,12 @@ void get_race(string input) {
     // 開始選擇天性
     write("\n" + BOLD_WHT("── 選擇您的天性 ──") + "\n");
     mapping natures = NATURE_DATA;
-    string *n_ks = sort_array(keys(natures), 1);
-    for (int i = 0; i < sizeof(n_ks); i++) {
-        write(sprintf("[%d] %-10s : %s\n", i + 1, natures[n_ks[i]]["name"], natures[n_ks[i]]["desc"]));
+    // 🚀 關鍵修正：更新為天性的排序 Key
+    menu_keys = sort_array(keys(natures), (: $1 > $2 ? 1 : -1 :));
+    
+    for (int i = 0; i < sizeof(menu_keys); i++) {
+        string k = menu_keys[i];
+        write(sprintf("[%d] %-10s : %s\n", i + 1, natures[k]["name"], natures[k]["desc"]));
     }
     write("請輸入編號或名稱選擇天性：");
     input_to("get_nature");
@@ -189,12 +195,11 @@ void get_race(string input) {
 
 void get_nature(string input) {
     mapping natures = NATURE_DATA;
-    string *ks = sort_array(keys(natures), 1);
     int idx = to_int(input);
 
-    if (idx > 0 && idx <= sizeof(ks)) {
-        current_nature = ks[idx - 1];
-    } else if (member_array(input, ks) != -1) {
+    if (idx > 0 && idx <= sizeof(menu_keys)) {
+        current_nature = menu_keys[idx - 1];
+    } else if (member_array(input, menu_keys) != -1) {
         current_nature = input;
     } else {
         write(RED("無效的選擇，請重新輸入："));
