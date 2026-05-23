@@ -173,7 +173,13 @@ func (l *lexer) NextToken() token.Token {
 			tok = l.newToken(token.SLASH, l.ch)
 		}
 	case '%':
-		tok = l.newToken(token.MOD, l.ch)
+		if l.peekChar() == '=' {
+			ch := l.ch
+			l.readChar()
+			tok = token.Token{TokenType: token.MOD_EQUALS, Literal: string(ch) + string(l.ch), Line: currentLine}
+		} else {
+			tok = l.newToken(token.MOD, l.ch)
+		}
 	case '<':
 		if l.peekChar() == '=' {
 			ch := l.ch

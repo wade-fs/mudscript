@@ -70,7 +70,9 @@ void create() {
         "area"     : "/cmds/cmd_chat.c",
         "gsay"     : "/cmds/cmd_chat.c",
         "ttell"    : "/cmds/cmd_chat.c",
-        "channel"  : "/cmds/cmd_channel.c"
+        "fchat"    : "/cmds/cmd_chat.c",
+        "channel"  : "/cmds/cmd_channel.c",
+        "bank"     : "/cmds/cmd_bank.c"
     ]);
 }
 

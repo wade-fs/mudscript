@@ -68,6 +68,12 @@
 #define BEHAV_WANDER       8    // 隨機移動
 #define BEHAV_FLEE        16    // 逃跑
 
+// ── 幣值常數 ────────────────────────────────────────────
+#define COIN_COPPER     1
+#define COIN_SILVER     100
+#define COIN_GOLD       10000
+#define COIN_COOL_GOLD  1000000
+
 // ── 經驗值與等級 ────────────────────────────────────────
 #define MAX_LEVEL       50
 #define BASE_EXP_PER_LV 1000

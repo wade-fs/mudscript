@@ -109,6 +109,7 @@ const (
 	MINUS_EQUALS    = "-="
 	ASTERISK_EQUALS = "*="
 	SLASH_EQUALS    = "/="
+	MOD_EQUALS      = "%="
 	INC             = "++"
 	DEC             = "--"
 

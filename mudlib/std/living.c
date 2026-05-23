@@ -1,6 +1,7 @@
 // std/living.c - 所有活物（玩家、NPC）的基底類別
 
 #include "/include/config.h"
+#include "/include/ansi.h"
 
 inherit "/std/container.c";
 inherit "/std/interactive.c";
@@ -10,7 +11,7 @@ string  race;
 int     level;
 int     exp;
 int     exp_to_next;
-int     gold;
+int     money_balance; // 🚀 變更：總財產 (以銅幣為單位)
 int     potential; // 🚀 新增：潛能點數 (用於學習技能)
 mapping skills;    // 格式變更：([ "id": ([ "level": 1, "exp": 0 ]) ])
 
@@ -61,7 +62,7 @@ void create() {
     in_combat      = 0;
     combat_target  = 0;
     is_dead        = 0;
-    gold           = 0;
+    money_balance  = 0;
     potential      = 0;
     skills         = ([]);
 
@@ -302,10 +303,36 @@ void attacked_by(object attacker) {
     }
 }
 
-// ── 金幣與技能 ───────────────────────────────────────────
-void add_gold(int g) { gold += g; }
-void gain_gold(int g) { gold += g; }
-int query_gold() { return gold; }
+// ── 貨幣、金幣與技能 ───────────────────────────────────────────
+void add_money(int v) { money_balance += v; if (money_balance < 0) money_balance = 0; }
+void gain_money(int v) { money_balance += v; }
+int query_money() { return money_balance; }
+
+// 相容舊代碼 (1 金幣 = 10,000 銅幣)
+void add_gold(int g) { add_money(g * COIN_GOLD); }
+void gain_gold(int g) { add_money(g * COIN_GOLD); }
+int query_gold() { return money_balance / COIN_GOLD; }
+
+// 取得貨幣顯示字串
+string query_money_string() {
+    int rem = money_balance;
+    int cg = rem / COIN_COOL_GOLD;
+    rem = rem % COIN_COOL_GOLD;
+    int g  = rem / COIN_GOLD;
+    rem = rem % COIN_GOLD;
+    int s  = rem / COIN_SILVER;
+    rem = rem % COIN_SILVER;
+    int c  = rem;
+
+    string res = "";
+    if (cg > 0) res += HIY(to_string(cg) + " 酷金幣 ");
+    if (g  > 0) res += HIY(to_string(g)  + " 金幣 ");
+    if (s  > 0) res += WHT(to_string(s)  + " 銀幣 ");
+    if (c  > 0) res += YEL(to_string(c)  + " 銅幣 ");
+    
+    if (res == "") return YEL("0 銅幣");
+    return res;
+}
 
 void gain_potential(int v) { potential += v; }
 int query_potential() { return potential; }

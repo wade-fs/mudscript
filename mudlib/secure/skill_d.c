@@ -13,7 +13,8 @@ void create() {
         "parry":   ([ "name": "基本招架", "type": "combat" ]),
         "magic":   ([ "name": "基本魔法", "type": "magic" ]),
         "alchemy": ([ "name": "煉金術",   "type": "craft" ]),
-        "forging": ([ "name": "鍛造術",   "type": "craft" ])
+        "forging": ([ "name": "鍛造術",   "type": "craft" ]),
+        "taming":  ([ "name": "馴獸術",   "type": "special" ])
     ]);
 }
 

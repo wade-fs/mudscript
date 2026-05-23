@@ -30,8 +30,12 @@ int main(object me, string verb, string arg) {
     } else if (status == "off" || status == "關閉") {
         me->set_channel_status(ch, 0);
         write(HIR("你關閉了 " + ch + " 頻道。\n"));
+    } else if (status == "join" || status == "加入") {
+        load_object("/secure/channel_d.c")->join_friend_channel(me, ch);
+    } else if (status == "leave" || status == "離開") {
+        load_object("/secure/channel_d.c")->leave_friend_channel(me, ch);
     } else {
-        write("未知狀態，請使用 on 或 off。\n");
+        write("未知狀態，請使用 on/off 或 join/leave。\n");
     }
 
     me->save();
@@ -40,7 +44,9 @@ int main(object me, string verb, string arg) {
 
 string help() {
     return "【頻道管理】\n" +
-           "  channel            查看所有頻道的開關狀態\n" +
-           "  channel <ID> on    開啟指定頻道\n" +
-           "  channel <ID> off   關閉指定頻道\n";
+           "  channel                查看所有頻道的開關狀態\n" +
+           "  channel <ID> on        開啟指定頻道\n" +
+           "  channel <ID> off       關閉指定頻道\n" +
+           "  channel <ID> join      加入好友自建頻道\n" +
+           "  channel <ID> leave     離開好友自建頻道\n";
 }

@@ -10,7 +10,7 @@ int main(object me, string verb, string arg) {
         "max_hp": me->query_max_hp(),
         "mp"   : me->query_mp(),
         "max_mp": me->query_max_mp(),
-        "gold" : me->query_gold(),
+        "money": me->query_money_string(),
         "pk"   : (me->is_red_name() ? "紅名" : "普通"),
         "atk"  : me->query_attack(),
         "def"  : me->query_defence()

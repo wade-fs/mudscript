@@ -13,6 +13,8 @@ string nature;
 string guild; // 🚀 新增：職業/公會
 string guild_rank; // 🚀 新增：公會職位
 int    guild_exp;  // 🚀 新增：公會貢獻/經驗
+int    bank_balance; // 🚀 新增：銀行存款
+int    last_bank_time; // 🚀 新增：上次計算利息時間
 string *write_paths;
 mapping aliases;
 mapping quests; // 🚀 新增：任務紀錄
@@ -56,6 +58,7 @@ void setup() {
     if (!quests) quests = ([]);
     if (!muted_channels) muted_channels = ([]);
     if (!followers) followers = ({});
+    if (!last_bank_time) last_bank_time = time();
     init_aliases();
     set_heart_beat(1);
     enable_commands();
@@ -150,6 +153,14 @@ void set_guild_rank(string r) { guild_rank = r; }
 string query_guild_rank() { return guild_rank; }
 void add_guild_exp(int v) { guild_exp += v; }
 int query_guild_exp() { return guild_exp; }
+
+// ── 銀行系統介面 ─────────────────────────────────────────────
+int query_bank_balance() { return bank_balance; }
+void set_bank_balance(int v) { bank_balance = v; }
+void add_bank_balance(int v) { bank_balance += v; if (bank_balance < 0) bank_balance = 0; }
+int query_last_bank_time() { return last_bank_time; }
+void set_last_bank_time(int v) { last_bank_time = v; }
+
 void set_nickname(string n) { set_name(n); }
 
 // ── 頻道管理 ─────────────────────────────────────────────

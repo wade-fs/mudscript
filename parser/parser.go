@@ -126,6 +126,7 @@ func New(l lexer.Lexer) *Parser {
 		token.MINUS_EQUALS:    p.parseAssignExpression,
 		token.ASTERISK_EQUALS: p.parseAssignExpression,
 		token.SLASH_EQUALS:    p.parseAssignExpression,
+		token.MOD_EQUALS:      p.parseAssignExpression,
 		token.INC:      p.parsePostfixExpression,
 		token.DEC:      p.parsePostfixExpression,
 
