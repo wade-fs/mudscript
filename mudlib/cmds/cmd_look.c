@@ -11,7 +11,7 @@ int main(object me, string verb, string arg) {
     }
 
     if (!arg) {
-        here->look_room();
+        here->look_room(me);
         return 1;
     }
 

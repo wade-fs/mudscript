@@ -390,7 +390,7 @@ void revive() {
     if (start) {
         move_object(start);
         write(HIW("你在祈禱室緩緩睜開雙眼，感覺身體非常虛弱。\n"));
-        start->look_room();
+        start->look_room(this_object());
     }
     this_object()->save();
 }

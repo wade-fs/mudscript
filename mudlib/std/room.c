@@ -88,7 +88,8 @@ int query_has_forge(){ return has_forge; }
 int query_has_lab()  { return has_lab; }
 
 // ── 顯示房間 ────────────────────────────────────────────
-void look_room() {
+void look_room(object who) {
+    if (!who) who = this_player();
     write("【" + query_short() + "】\n");
     write(query_long() + "\n");
 
@@ -133,7 +134,7 @@ void look_room() {
         int k;
         for (k = 0; k < sizeof(livings_in_room); k++) {
             object liv = livings_in_room[k];
-            if (!liv || liv == this_player()) continue; // 不看自己
+            if (!liv || liv == who) continue; // 不看自己
             
             string liv_id = "living";
             string display_name = liv->query_name();
@@ -160,7 +161,7 @@ void look_room() {
     object map_d = load_object("/secure/map_d.c");
     mapping map_data = ([]);
     if (map_d) {
-        map_data = map_d->get_map_json(this_player(), 2); // 取得 5x5 的網格資料
+        map_data = map_d->get_map_json(who, 2); // 取得 5x5 的網格資料
     }
     map_data["exits"] = keys(exits); // 同時保留可用出口資訊給前端使用
     write(sprintf("{\"ui\": \"minimap\", \"data\": %s}", json_encode(map_data)));
@@ -224,7 +225,7 @@ int do_go(string dir) {
         arrive_msg = replace_string(arrive_msg, "$name", my_name);
         arrive_msg = replace_string(arrive_msg, "$dir", cmd);
         say(arrive_msg + "\n");
-        dest->look_room();
+        dest->look_room(me);
     } else {
         string fail_msg = _t("move_fail_err");
         fail_msg = replace_string(fail_msg, "$dir", cmd);

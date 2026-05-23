@@ -34,7 +34,8 @@ string get_room_file(int x, int y, int z) {
 string draw_map(object me, int range) {
     if (!me) return "";
     
-    mixed coords = me->query_coordinate();
+    object me_env = environment(me);
+    mixed coords = me_env ? me_env->query_coordinate() : 0;
     if (!coords) return select_lang(([
         "en": "You cannot draw a map from your current location.\n",
         "zh-TW": "你目前所在的位置無法繪製地圖。\n",
@@ -70,7 +71,9 @@ string draw_map(object me, int range) {
                 continue;
             }
             
-            if (explored && explored[r_file]) {
+            string r_key = r_file;
+            if (substr(r_key, strlen(r_key)-2, 2) == ".c") r_key = substr(r_key, 0, strlen(r_key)-2);
+            if (explored && explored[r_key]) {
                 // 已探索，顯示符號
                 object r_ob = find_object(r_file);
                 if (!r_ob) r_ob = load_object(r_file);
@@ -102,7 +105,8 @@ mapping get_map_json(object me, int range) {
     mapping res = ([ "center_name": "", "grid": ({}) ]);
     if (!me) return res;
     
-    mixed coords = me->query_coordinate();
+    object me_env2 = environment(me);
+    mixed coords = me_env2 ? me_env2->query_coordinate() : 0;
     if (!coords) return res;
     
     int cur_x = coords[0];
@@ -133,7 +137,9 @@ mapping get_map_json(object me, int range) {
                 continue;
             }
             
-            if (explored && explored[r_file]) {
+            string r_key2 = r_file;
+            if (substr(r_key2, strlen(r_key2)-2, 2) == ".c") r_key2 = substr(r_key2, 0, strlen(r_key2)-2);
+            if (explored && explored[r_key2]) {
                 object r_ob = find_object(r_file);
                 if (!r_ob) r_ob = load_object(r_file);
                 

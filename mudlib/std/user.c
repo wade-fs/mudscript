@@ -86,7 +86,7 @@ void setup() {
         object loc = load_object(last_location);
         if (loc) {
             move_object(loc);
-            loc->look_room();
+            loc->look_room(this_object());
         } else {
             move_to_start();
         }
@@ -138,7 +138,7 @@ void move_to_start() {
     object start = load_object(START_ROOM);
     if (start) {
         move_object(start);
-        start->look_room();
+        start->look_room(this_object());
     } else {
         write("致命錯誤：找不到起始點 " + START_ROOM + "\n");
     }
@@ -207,11 +207,8 @@ void   set_riding(int v) { is_riding = v; }
 mapping query_explored_rooms() { return explored_rooms; }
 void record_exploration(string room_file) {
     if (!explored_rooms) explored_rooms = ([]);
-    // 取得基礎路徑避免 clone_id 影響
-    string base = load_object("/secure/language_d.c")->translate("", "en"); // 其實這行是廢話，我只需要 efun
-    // 用 base_name efun
-    string bn = base_name(find_object(room_file) || load_object(room_file));
-    explored_rooms[bn] = 1;
+    // room_file 已由 room.c 用 object_name(this_object()) 傳入，直接當 key 用
+    explored_rooms[room_file] = 1;
 }
 
 string *query_write_paths() { return write_paths; }
