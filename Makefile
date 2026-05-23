@@ -7,9 +7,12 @@ VERSION := $(COMMIT)-$(DATE)
 
 TOP=$(shell pwd)
 OUT=$(TOP)/bin
-GOPATH := $(HOME)/go-1.26.2
-GOROOT := /usr/local/go-1.26.2
+GOPATH ?= $(HOME)/go-1.26.2
+GOROOT ?= /usr/local/go-1.26.2
 GO_FLAGS := -ldflags="-s -w"
+
+# 🚀 根據 GOROOT 是否存在來決定 Go 執行檔路徑
+GO_EXE := $(shell if [ -f $(GOROOT)/bin/go ]; then echo $(GOROOT)/bin/go; else echo go; fi)
 
 ENV  := GOPATH=$(GOPATH) GOROOT=$(GOROOT) CGO_CFLAGS="-Wno-return-local-addr"
 ENVW := $(ENV) CGO_ENABLED=1 CGO_CFLAGS="-Wno-return-local-addr" GOOS=windows GOARCH=amd64 CC="x86_64-w64-mingw32-gcc -fno-stack-protector -D_FORTIFY_SOURCE=0 -lssp"
@@ -25,13 +28,13 @@ $(OUT):
 # 編譯 Linux 版本 (不自動執行)
 fsmud: $(OUT)
 	@echo "🔨 Building Linux version..."
-	@export $(ENV) && go mod tidy && $(GOROOT)/bin/go build $(GO_FLAGS) -o $(OUT)/fsmud ./cmd/fsmud
+	@go mod tidy && $(GO_EXE) build $(GO_FLAGS) -o $(OUT)/fsmud ./cmd/fsmud
 	@ls -l $(OUT)/fsmud
 
 # 編譯 Windows 版本
 fsmud.exe: $(OUT)
 	@echo "🔨 Building Windows version..."
-	@export $(ENVW) && go mod tidy && $(GOROOT)/bin/go build $(GO_FLAGS) -o $(OUT)/fsmud.exe ./cmd/fsmud
+	@go mod tidy && $(GO_EXE) build $(GO_FLAGS) -o $(OUT)/fsmud.exe ./cmd/fsmud
 	@ls -l $(OUT)/fsmud.exe
 
 # 執行測試
