@@ -70,7 +70,7 @@ run: fsmud
 run-clean: fsmud
 	@echo "🚀 Starting MudScript Server (Connecting to Global Hub)..."
 	@ rm -rf mudlib/data/user/*
-	@$(OUT)/fsmud --hub wss://wade-fs-fsmud-hub.hf.space/ws
+	@$(OUT)/fsmud --hub wss://wade-fs-fsmud-hub.hf.space/ws 2>&1 | tee run-clean.txt
 
 clean:
 	@rm -rf *.log $(OUT)/*
