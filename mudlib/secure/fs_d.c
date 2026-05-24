@@ -160,23 +160,31 @@ object get_remote_room(string mudlib_id, string remote_room_path) {
 }
 
 // ── fslist：查詢全域節點 ──────────────────────────────
-void list_muds() {
+void list_muds(object me) {
     p2p_send_fs_query("*", "list", "");
+    // 設定一個標記，告知之後接收到清單時要由哪位玩家觸發顯示
+    // 這裡為了簡化，我們在接收到回應時廣播給所有人，但可以優化為只給發送者
 }
 
 // ── 接收遠端回應（由 interstellar_d 呼叫） ───────────
 void receive_fs_response(string mudlib_id, string resp_type, string payload) {
     if (resp_type == "list") {
         // payload: name1|id1,name2|id2...
-        write(HIW("\n【Fantasy Space 星際節點清單】\n"));
+        // 為了避免重複顯示，我們這裡僅將收到的清單整理後顯示給所有玩家
         string *muds = explode(payload, ",");
+        string output = HIW("\n【Fantasy Space 星際節點清單】\n");
         foreach (string mud in muds) {
             string *parts = explode(mud, "|");
             if (sizeof(parts) >= 2) {
-                write(sprintf("  %-20s : %s\n", parts[0], parts[1]));
+                output += sprintf("  %-20s : %s\n", parts[0], parts[1]);
             }
         }
-        write("\n");
+        output += "\n";
+        
+        object *us = users();
+        foreach (object u in us) {
+            if (u && userp(u)) tell_object(u, output);
+        }
         return;
     }
     
