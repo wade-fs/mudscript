@@ -26,5 +26,7 @@ string query_mudlib_id() {
 void set_mudlib_name(string name, string id) {
     mudlib_name = name;
     mudlib_id = id;
+    // 這裡我們需要使用本物件來取得寫入權限，但 efun 預設會拿 current_player
+    // 我們在 valid.c 中已經特別放行了 login.c，所以可以存檔
     save_object("/data/system.o");
 }
