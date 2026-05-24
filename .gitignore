@@ -29,3 +29,4 @@ bin
 *.zip
 mudlib/data/user
 mudlib/data/nature.o
+mudlib/data/system.o

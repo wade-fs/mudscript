@@ -17,11 +17,30 @@ GO_EXE := $(shell if [ -f $(GOROOT)/bin/go ]; then echo $(GOROOT)/bin/go; else e
 ENV  := GOPATH=$(GOPATH) GOROOT=$(GOROOT) CGO_CFLAGS="-Wno-return-local-addr"
 ENVW := $(ENV) CGO_ENABLED=1 CGO_CFLAGS="-Wno-return-local-addr" GOOS=windows GOARCH=amd64 CC="x86_64-w64-mingw32-gcc -fno-stack-protector -D_FORTIFY_SOURCE=0 -lssp"
 
-.PHONY: all clean test fsmud fsmud.exe run
+.PHONY: all clean test fsmud fsmud.exe run push
 
 all: fsmud fsmud.exe
 
+# 🚀 推送到 GitHub (乾淨的原始碼)
+push-github:
+	@echo "📤 Pushing to origin (GitHub)..."
+	@git push origin main
+
+# 🚀 推送到 HuggingFace (包含 wade.o 與 system.o 進行部署)
+push-hf:
+	@echo "📤 Pushing to hf (HuggingFace)..."
+	@git checkout -B hf-deploy
+	@-if [ -f mudlib/data/user/wade.o ]; then git add mudlib/data/user/wade.o -f; fi
+	@-if [ -f mudlib/data/system.o ]; then git add mudlib/data/system.o -f; fi
+	@git commit -m "Deploy to HF with local data" || true
+	@git push hf hf-deploy:main --force
+	@git checkout main
+
+# 🚀 一鍵雙推
+push: push-github push-hf
+
 # 建立編譯目錄
+
 $(OUT):
 	@mkdir -p $(OUT)
 
