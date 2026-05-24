@@ -162,13 +162,20 @@ object get_remote_room(string mudlib_id, string remote_room_path) {
 // ── 接收遠端回應（由 interstellar_d 呼叫） ───────────
 void receive_fs_response(string mudlib_id, string resp_type, string payload) {
     if (resp_type == "info") {
-        // payload: JSON-like 格式，目前簡化為 "name|entrance_room"
-        // 例如 "Other World|/area/start/room_0_0.c"
+        // payload: JSON-like 格式，格式：mudlib_id|info|name|entrance_room
+        // 例如 "fantasy.space|info|fantasy space|/area/newbie/room_4_4.c"
+        // 我們接收到的 payload 已經是 "info|name|entrance_room" (被 interstellar_d 去掉 mudlib_id)
+        
+        string *parts = explode(payload, "|");
+        if (sizeof(parts) < 3) return;
+        
         if (!joined_muds[mudlib_id]) return;
         joined_muds[mudlib_id]["status"] = "active";
+        joined_muds[mudlib_id]["name"] = parts[1];
+        joined_muds[mudlib_id]["entrance"] = parts[2];
 
         // 廣播給本地玩家
-        string msg = HIM("[Fantasy Space] ") + mudlib_id + " 已上線，使用 fsjoin 後可透過傳送門進入。\n";
+        string msg = HIM("[Fantasy Space] ") + mudlib_id + " (" + parts[1] + ") 已上線，使用 fsgoto " + mudlib_id + " 進入。\n";
         object *us = users();
         foreach (object u in us) {
             if (u && userp(u)) tell_object(u, msg);
