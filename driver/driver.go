@@ -315,25 +315,51 @@ func (d *Driver) RunCommand(p *PlayerConnection, obj *object.LPCObject, funcName
 	return d.CallFunction(obj, funcName, args)
 }
 
-// 🚀 新增：路徑解析 (支援 ./ 與 ../)
+// 🚀 新增：路徑解析 (支援 ./ 與 ../，以及跨服沙盒自動映射)
 func (d *Driver) ResolvePath(basePath, relPath string) string {
-	if !strings.HasPrefix(relPath, ".") {
-		if !strings.HasPrefix(relPath, "/") {
-			return "/" + relPath
+	// 1. 處理相對路徑
+	if strings.HasPrefix(relPath, ".") {
+		dir := filepath.Dir(basePath)
+		resolved := filepath.Join(dir, relPath)
+		res := filepath.ToSlash(resolved)
+		if !strings.HasPrefix(res, "/") {
+			res = "/" + res
 		}
-		return relPath
+		return res
 	}
 
-	// 使用 path 包處理 LPC 虛擬路徑 (始終為 /)
-	dir := filepath.Dir(basePath)
-	resolved := filepath.Join(dir, relPath)
-	
-	// 轉回斜線格式並確保開頭有 /
-	res := filepath.ToSlash(resolved)
-	if !strings.HasPrefix(res, "/") {
-		res = "/" + res
+	// 2. 處理絕對路徑 (關鍵：跨服沙盒自動重導向)
+	// 如果發起呼叫的物件 (basePath) 位於遠端緩存目錄中
+	// 例如：/data/fs_cache/fantasy.space/area/newbie/room_0_0.c
+	if strings.HasPrefix(basePath, "/data/fs_cache/") {
+		// 提取 mudlib_id
+		parts := strings.Split(strings.TrimPrefix(basePath, "/data/fs_cache/"), "/")
+		if len(parts) > 0 {
+			mudlibID := parts[0]
+			sandboxPrefix := "/data/fs_cache/" + mudlibID
+
+			// 如果目標路徑是以 / 開頭的絕對路徑，且不在「全域白名單」中
+			if strings.HasPrefix(relPath, "/") {
+				// 白名單：不需要重導向的目錄
+				if !strings.HasPrefix(relPath, "/std/") &&
+					!strings.HasPrefix(relPath, "/secure/") &&
+					!strings.HasPrefix(relPath, "/include/") &&
+					!strings.HasPrefix(relPath, "/cmds/") &&
+					!strings.HasPrefix(relPath, "/data/fs_cache/") {
+					
+					// 自動加上沙盒前綴
+					// 例如：/area/newbie/... -> /data/fs_cache/fantasy.space/area/newbie/...
+					return sandboxPrefix + relPath
+				}
+			}
+		}
 	}
-	return res
+
+	// 3. 一般絕對路徑處理
+	if !strings.HasPrefix(relPath, "/") {
+		return "/" + relPath
+	}
+	return relPath
 }
 
 // 🚀 新增：混合模式讀取檔案

@@ -106,10 +106,14 @@ mixed valid_write(string path, object user, string func)
     }
 
     // 5. 特殊例外
-    // 允許 system_d.c 儲存系統設定
+    // 允許 system_d 儲存系統設定，以及 fs_d 寫入緩存
     string caller_file = base_name(user);
-    if (caller_file == "/secure/system_d.c" || caller_file == "/std/login.c") {
+    if (caller_file == "/secure/system_d" || caller_file == "/std/login") {
         if (path == "/data/system.o") return 1;
+    }
+    
+    if (caller_file == "/secure/fs_d") {
+        if (strsrch(path, FS_CACHE_DIR) == 0) return 1;
     }
 
     // 允許使用者儲存自己的資料 (/data/user/) 或 備份 (/data/backup/user/)

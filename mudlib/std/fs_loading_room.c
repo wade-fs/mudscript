@@ -29,8 +29,10 @@ void heart_beat() {
     string virt_path = FS_CACHE_DIR + "/" + target_mudlib + target_room;
     object dest = find_object(virt_path);
     if (!dest) {
-        // 嘗試 load
-        dest = load_object(virt_path);
+        // 🚀 關鍵修正：先檢查檔案是否存在，避免 load_object 噴 runtime error
+        if (file_size(virt_path) > 0) {
+            dest = load_object(virt_path);
+        }
     }
     if (!dest) return;
 

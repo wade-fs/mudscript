@@ -122,7 +122,7 @@ func (d *Driver) registerP2PEfuns(obj *object.LPCObject) {
 					} else {
 						// 🚀 關鍵修正：若無當前玩家，則代表是系統驅動的通訊 (如 fs_d)
 						// 這裡應該優先取用 system_d 定義的 FS_MUDLIB_ID
-						systemD, err := d.LoadObject("/secure/system_d.c")
+						systemD, err := d.LoadObject("/secure/system_d")
 						if err == nil && systemD != nil {
 							if res := d.CallFunction(systemD, "query_mudlib_id", nil); res != nil {
 								if s, ok := res.(*object.String); ok {
