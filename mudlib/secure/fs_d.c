@@ -134,7 +134,7 @@ void remove_cached_rooms(string mudlib_id) {
     mixed loaded = all_objects();
     if (!loaded) return;
     foreach (ob in loaded) {
-        if (!ob) continue;
+        if (!ob || ob == this_object()) continue; // 🚩 安全檢查
         string oname = object_name(ob);
         if (oname && strsrch(oname, prefix) == 0) {
             destruct(ob);

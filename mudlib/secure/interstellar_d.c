@@ -26,6 +26,9 @@ void receive_p2p_message(string sender, string content, string type) {
     string msg_key = sender + ":" + content;
     int now = time();
     
+    // 🚀 DEBUG
+    write("DEBUG: Interstellar received: " + sender + " -> " + content + "\n");
+    
     if (mapp(last_messages[msg_key]) && (now - last_messages[msg_key]["time"] < 2)) {
         // write("DEBUG: 攔截到重複星際訊息。\n");
         return;

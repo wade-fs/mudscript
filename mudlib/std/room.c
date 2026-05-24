@@ -245,7 +245,23 @@ int do_go(string dir) {
     }
 
     string dest_path = exits[cmd];
-    object dest = load_object(dest_path);
+    object dest;
+    
+    // 檢查是否為遠端出口
+    object fs_d = find_object("/secure/fs_d.c");
+    if (fs_d) {
+        mapping exit_map = fs_d->query_exit_map();
+        string current_path = object_name(this_object());
+        string exit_key = current_path + ":" + cmd;
+        if (exit_map[exit_key]) {
+            dest = fs_d->get_remote_room(exit_map[exit_key]["mudlib"], exit_map[exit_key]["room"]);
+        }
+    }
+    
+    if (!dest) {
+        dest = load_object(dest_path);
+    }
+    
     if (!dest) {
         write(_t("dest_missing_err") + "\n");
         return 1;
