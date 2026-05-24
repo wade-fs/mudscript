@@ -253,6 +253,10 @@ void create_character() {
         user->set_role("god");
         user->add_write_path("/");
         write(MAGENTA("【創世神】您是本服第一位玩家，已自動獲得 god 權限！") + "\n");
+        // Fantasy Space：顯示本 mudlib 識別字
+        write(HIW("[Fantasy Space] ") + "本 mudlib 識別字為：" + HIY(FS_MUDLIB_ID) + "\n");
+        write(HIW("[Fantasy Space] ") + "你的跨服身份為：" + HIY(user->query_id() + "@" + FS_MUDLIB_ID) + "\n");
+        write(HIW("[Fantasy Space] ") + "使用 fsjoin <mudlib_id> 連接其他伺服器。\n");
     } else {
         user->set_role("user");
 		user->add_write_path(user->query_save_file());

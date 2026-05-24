@@ -82,3 +82,14 @@
 #define START_ROOM      "/area/newbie/room_4_4.c"
 #define MASTER_FILE     "/master.c"
 #define ISSUE_FILE      "/etc/issue"
+
+// ── Fantasy Space P2P 識別 ─────────────────────────────
+// mudlib 名稱：英文單字，最多四個，總長最多64字母
+// 識別字格式：以點分隔，例如 "fantasy.space"
+// 玩家 identity 格式：username@mudlib_id，例如 wade@fantasy.space
+#define FS_MUDLIB_NAME   "fantasy space"
+#define FS_MUDLIB_ID     "fantasy.space"
+#define FS_HUB_URL       "wss://wade-fs-fsmud-hub.hf.space/ws"
+
+// 遠端 clone 緩存路徑
+#define FS_CACHE_DIR     "/data/fs_cache"

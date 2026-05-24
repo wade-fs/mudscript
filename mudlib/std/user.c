@@ -9,6 +9,7 @@ inherit "/std/combat.c";
 
 // ── 屬性宣告 ────────────────────────────────────────────
 string id, password, role;
+string full_id;  // Fantasy Space 全域識別字：username@mudlib_id，例如 wade@fantasy.space
 string nature;
 string guild; // 🚀 新增：職業/公會
 string guild_rank; // 🚀 新增：公會職位
@@ -150,6 +151,11 @@ string get_id() { return id; }
 void set_password(string p) { password = p; }
 string get_password() { return password; }
 string query_role() { return role; }
+string query_full_id() {
+    if (full_id && full_id != "") return full_id;
+    return id + "@" + FS_MUDLIB_ID;
+}
+void set_full_id(string fid) { full_id = fid; }
 void set_role(string r) { if (r == "god" || r == "wizard" || r == "user") role = r; }
 void set_guild(string g) { guild = g; }
 string query_guild() { return guild; }

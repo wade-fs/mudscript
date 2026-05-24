@@ -84,7 +84,10 @@ void create() {
         "map"      : "/cmds/cmd_map.c",
         "time"     : "/cmds/cmd_time.c",
         "interstellar": "/cmds/cmd_p2p.c",
-        "fs"       : "/cmds/cmd_p2p.c"
+        "fs"       : "/cmds/cmd_p2p.c",
+        "fsjoin"   : "/cmds/cmd_fsjoin.c",
+        "fsleave"  : "/cmds/cmd_fsleave.c",
+        "fsflush"  : "/cmds/cmd_fsflush.c"
     ]);
 }
 

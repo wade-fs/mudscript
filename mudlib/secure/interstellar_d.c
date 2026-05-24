@@ -1,3 +1,4 @@
+#include "/include/config.h"
 // /secure/interstellar_d.c
 // 星際網路守護進程 (Interstellar Daemon)
 // 負責處理跨伺服器 (P2P) 的通訊，具備重複訊息過濾功能
@@ -19,6 +20,55 @@ void receive_p2p_message(string sender, string content, string type) {
     if (!content || content == "") return;
     if (!sender || sender == "") sender = "Unknown";
     if (!type || type == "") type = "chat";
+
+    // ── Fantasy Space 跨服協議路由 ──────────────────────
+    // 格式 1：fs_query|from_mudlib|to_mudlib|type|payload
+    // 格式 2：fs_resp|from_mudlib|to_mudlib|type|payload...
+    if (strsrch(content, "fs_query|") == 0 || strsrch(content, "fs_resp|") == 0) {
+        object fs_d = load_object("/secure/fs_d.c");
+        if (!fs_d) return;
+
+        // 解析：type_tag|from|to|query_type|payload
+        string tag = "";
+        string from_mudlib = "";
+        string to_mudlib = "";
+        string query_type = "";
+        string payload = "";
+
+        // 簡單 split by | (最多5段，payload 可含 |)
+        string work = content;
+        int p1 = strsrch(work, "|");
+        if (p1 < 0) return;
+        tag = substr(work, 0, p1);
+        work = substr(work, p1 + 1, strlen(work) - p1 - 1);
+
+        int p2 = strsrch(work, "|");
+        if (p2 < 0) return;
+        from_mudlib = substr(work, 0, p2);
+        work = substr(work, p2 + 1, strlen(work) - p2 - 1);
+
+        int p3 = strsrch(work, "|");
+        if (p3 < 0) return;
+        to_mudlib = substr(work, 0, p3);
+        work = substr(work, p3 + 1, strlen(work) - p3 - 1);
+
+        int p4 = strsrch(work, "|");
+        if (p4 < 0) {
+            query_type = work;
+            payload = "";
+        } else {
+            query_type = substr(work, 0, p4);
+            payload = substr(work, p4 + 1, strlen(work) - p4 - 1);
+        }
+
+        // 決定是否處理（to_mudlib 是本 mudlib 或廣播）
+        if (tag == "fs_query" && (to_mudlib == FS_MUDLIB_ID || to_mudlib == "*")) {
+            fs_d->handle_fs_query(from_mudlib, query_type, payload);
+        } else if (tag == "fs_resp" && (to_mudlib == FS_MUDLIB_ID || to_mudlib == "*")) {
+            fs_d->receive_fs_response(from_mudlib, query_type, payload);
+        }
+        return; // fs 訊息不走一般聊天流程
+    }
     
     // 🚀 關鍵：重複訊息過濾 (De-bounce)
     // 針對同一個發送者，若 2 秒內傳來完全相同的內容，則視為重複路由，予以忽略
