@@ -103,6 +103,7 @@ func New(l lexer.Lexer) *Parser {
 		token.LPAREN:   p.parseGroupedExpression,
 		token.IF:       p.parseIfExpression,
 		token.STRING:   p.parseStringLiteral,
+		token.CHAR:     p.parseStringLiteral, // [新增] 將 CHAR 視為單字元字串處理
 		token.LARRAY:   p.parseLPCArrayLiteral,
 
 		token.LBRACKET_MAP: p.parseMappingLiteral,
