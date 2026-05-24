@@ -181,3 +181,28 @@ mapping query_responses() {
     if (!responses) return ([]);
     return responses;
 }
+
+// ── 生命週期管理：垃圾回收 ─────────────────────────────
+int clean_up(int inherited_count) {
+    // 1. 如果是被繼承的基底類別，不清理
+    if (inherited_count > 0) return 1;
+
+    // 2. 如果是藍圖物件 (Blueprint)，且非緩存資源，則不輕易清理
+    string oname = object_name(this_object());
+    if (strsrch(oname, "#") == -1 && strsrch(oname, FS_CACHE_DIR) != 0) return 1;
+
+    // 3. 如果物件目前在某個生物身上 (玩家背包或裝備中)，不清理
+    object env = environment(this_object());
+    if (env && living(env)) return 1;
+
+    // 4. 如果物件內部還有東西，不清理
+    if (sizeof(all_inventory(this_object())) > 0) return 1;
+
+    // 5. 物件若閒置超過 15 分鐘 (900秒)，則自動銷毀以釋放資源
+    if (query_idle(this_object()) > 900) {
+        destruct(this_object());
+        return 0;
+    }
+
+    return 1;
+}

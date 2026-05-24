@@ -9,6 +9,7 @@ import (
 	"net/http"
 	"os"
 	"strings"
+	"time"
 
 	"mudscript" // 導入根目錄 package 以取得 Assets
 	"mudscript/driver"
@@ -26,10 +27,11 @@ func main() {
 
 	// 1. 準備 MUD 引擎配置
 	config := driver.DriverConfig{
-		MudLibPath:    "./mudlib",
-		MasterFile:    "/master.c",
-		HeartBeatTick: 0, 
-		EmbeddedFS:    mudscript.Assets, 
+		MudLibPath:      "./mudlib",
+		MasterFile:      "/master.c",
+		HeartBeatTick:   0, 
+		CleanUpInterval: 5 * time.Minute, // 🚀 新增：5分鐘執行一次 GC
+		EmbeddedFS:      mudscript.Assets, 
 	}
 
 	// 2. 初始化 MUD 腳本引擎

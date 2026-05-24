@@ -62,3 +62,23 @@ void repair_item(int v) {
     if (durability > max_durability) durability = max_durability;
 }
 
+
+// ── 物品專用垃圾回收 (掉地消失機制) ─────────────────────
+int clean_up(int inherited_count) {
+    if (inherited_count > 0) return 1;
+
+    // 1. 如果物品在生物身上，不清理
+    object env = environment(this_object());
+    if (env && living(env)) return 1;
+
+    // 2. 如果在房間地上，閒置超過 10 分鐘 (600秒) 則回收
+    if (query_idle(this_object()) > 600) {
+        // 如果是藍圖，不清理
+        if (strsrch(object_name(this_object()), "#") == -1) return 1;
+        
+        destruct(this_object());
+        return 0;
+    }
+
+    return 1;
+}

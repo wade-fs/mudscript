@@ -1998,6 +1998,22 @@ func (d *Driver) registerSystemAndFiles(obj *object.LPCObject) {
 		},
 	})
 
+	// 語法: int query_idle(object ob)
+	// 說明: 傳回物件自最後一次活動（函式呼叫）以來經過的秒數。
+	obj.Vars.Set("query_idle", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			target := obj
+			if len(args) > 0 {
+				if t, ok := args[0].(*object.LPCObject); ok {
+					target = t
+				}
+			}
+			if target == nil { return &object.Integer{Value: 0} }
+			idle := time.Now().Unix() - target.LastActivity
+			return &object.Integer{Value: idle}
+		},
+	})
+
 	// 語法: string resolve_path(string base, string rel)
 	// 說明: 將相對路徑轉換為絕對路徑。
 	// 範例: resolve_path("/area/newbie/room_0_0.c", "./room_0_1.c") -> "/area/newbie/room_0_1.c"

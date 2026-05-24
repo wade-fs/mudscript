@@ -74,10 +74,11 @@ func (e *RuntimeError) Error() string {
 
 // DriverConfig 運行時期的配置
 type DriverConfig struct {
-	MudLibPath    string
-	MasterFile    string
-	HeartBeatTick time.Duration
-	EmbeddedFS    fs.FS // 🚀 新增：支援嵌入式檔案系統
+	MudLibPath      string
+	MasterFile      string
+	HeartBeatTick   time.Duration
+	CleanUpInterval time.Duration // 🚀 新增：垃圾回收間隔
+	EmbeddedFS      fs.FS
 }
 
 type ScheduledCall struct {
@@ -264,6 +265,9 @@ func New(config DriverConfig) *Driver {
 	if config.HeartBeatTick == 0 {
 		config.HeartBeatTick = 2 * time.Second
 	}
+	if config.CleanUpInterval == 0 {
+		config.CleanUpInterval = 5 * time.Minute // 🚀 預設 5 分鐘
+	}
 	return &Driver{
 		ObjectTable: make(map[string]*object.LPCObject),
 		Heartbeats:  make(map[*object.LPCObject]bool),
@@ -423,10 +427,11 @@ func (d *Driver) LoadObject(filename string) (*object.LPCObject, error) {
 
 	env := object.NewEnvironment()
 	lpcObj := &object.LPCObject{
-		Filename:  filename,
-		Vars:      env,
-		Functions: make(map[string]*object.Function),
-		Inherits:  make([]*object.LPCObject, 0),
+		Filename:     filename,
+		Vars:         env,
+		Functions:    make(map[string]*object.Function),
+		Inherits:     make([]*object.LPCObject, 0),
+		LastActivity: time.Now().Unix(),
 	}
 
 	// 🚩 關鍵：先註冊到 ObjectTable 再初始化，防止循環繼承/移動导致的崩潰
@@ -485,10 +490,11 @@ func (d *Driver) CloneObject(filename string) (*object.LPCObject, error) {
 	}
 
 	clone := &object.LPCObject{
-		Filename:  filename + "#" + generateCloneID(),
-		Vars:      object.NewEnvironment(),
-		Functions: blueprint.Functions,
-		Inherits:  blueprint.Inherits,
+		Filename:     filename + "#" + generateCloneID(),
+		Vars:         object.NewEnvironment(),
+		Functions:    blueprint.Functions,
+		Inherits:     blueprint.Inherits,
+		LastActivity: time.Now().Unix(),
 	}
 
 	d.SetupEfuns(clone)
@@ -562,9 +568,9 @@ func (d *Driver) Start() error {
 
 	fmt.Printf("✅ Master 載入成功 (RootUID: %s, BackboneUID: %s)\n", d.RootUID, d.BackboneUID)
 	go d.runGameLoop()
+	go d.runCleanUpLoop() // 🚀 啟動垃圾回收
 	return nil
-}
-
+	}
 func (d *Driver) DiscoverMasterFile() string {
 	configPath := filepath.Join(d.Config.MudLibPath, "include/config.h")
 	content, err := os.ReadFile(configPath)
@@ -702,9 +708,14 @@ type callFrame struct {
 
 func (d *Driver) CallFunction(obj *object.LPCObject, funcName string, args []object.Object) object.Object {
 	if obj == nil || obj.IsDestructed {
-		return &object.Integer{Value: 0}
+	        return &object.Integer{Value: 0}
 	}
+
+	// 🚀 更新活動時間
+	obj.LastActivity = time.Now().Unix()
+
 	frame := callFrame{File: obj.Filename, Function: funcName}
+
 	d.pushFrame(frame)
 	defer d.popFrame()
 
@@ -968,6 +979,49 @@ func (d *Driver) TellRoom(room *object.LPCObject, msg string, exclude []*object.
 
 		if !shouldExclude {
 			d.TellObject(item, msg)
+		}
+	}
+}
+
+func (d *Driver) runCleanUpLoop() {
+	ticker := time.NewTicker(d.Config.CleanUpInterval)
+	defer ticker.Stop()
+	for {
+		select {
+		case <-ticker.C:
+			d.processCleanUp()
+		case <-d.shutdownCh:
+			return
+		}
+	}
+}
+
+func (d *Driver) processCleanUp() {
+	d.mu.Lock()
+	objs := make([]*object.LPCObject, 0, len(d.ObjectTable))
+	for _, obj := range d.ObjectTable {
+		if obj != nil && !obj.IsDestructed {
+			objs = append(objs, obj)
+		}
+	}
+	d.mu.Unlock()
+
+	now := time.Now().Unix()
+	for _, obj := range objs {
+		// 如果是 Master Object 或正在線上的玩家，不清理
+		if obj == d.MasterObject || obj.IsInteractive {
+			continue
+		}
+
+		// 呼叫 LPC 層級的 clean_up(inherited_count)
+		// 這裡傳入 0 代表目前不追蹤繼承計數 (或是可以簡單實作)
+		d.CallFunction(obj, "clean_up", []object.Object{&object.Integer{Value: 0}})
+		
+		// 檢查是否最後活動時間過久 (預設 30 分鐘沒活動)
+		// 這只是個保險，真正的清理邏輯應該在 LPC 的 clean_up 中決定是否 destruct
+		if now - obj.LastActivity > 1800 {
+			// 如果物件沒人(Inventory為空) 且是 Clone，則考慮主動回收
+			// 這部分通常交給 LPC 的 clean_up 實作會更精確
 		}
 	}
 }

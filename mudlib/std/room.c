@@ -332,3 +332,26 @@ string look_at_item(string id) {
 }
 
 void catch_tell(string msg) {}
+
+// ── 房間專用垃圾回收 ──────────────────────────────────
+int clean_up(int inherited_count) {
+    if (inherited_count > 0) return 1;
+
+    // 1. 如果房間內有玩家，絕對不清理
+    object *inv = all_inventory(this_object());
+    foreach (object ob in inv) {
+        if (userp(ob)) return 1;
+    }
+
+    // 2. 如果是本機的藍圖房間，不清理 (保持世界連貫性)
+    string oname = object_name(this_object());
+    if (strsrch(oname, "#") == -1 && strsrch(oname, FS_CACHE_DIR) != 0) return 1;
+
+    // 3. 閒置超過 20 分鐘 (1200秒) 則回收 (包含異世界緩存房間)
+    if (query_idle(this_object()) > 1200) {
+        destruct(this_object());
+        return 0;
+    }
+
+    return 1;
+}

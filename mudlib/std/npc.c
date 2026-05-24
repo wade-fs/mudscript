@@ -679,3 +679,31 @@ void on_death() {
 
     destruct(this_object());
 }
+
+// ── NPC 專用垃圾回收 ──────────────────────────────────
+int clean_up(int inherited_count) {
+    if (inherited_count > 0) return 1;
+
+    // 1. 如果正在戰鬥中，不清理
+    if (this_object()->query_combat_target()) return 1;
+
+    // 2. 如果環境中有玩家，不清理
+    object env = environment(this_object());
+    if (env) {
+        object *here = all_inventory(env);
+        foreach (object ob in here) {
+            if (userp(ob)) return 1;
+        }
+    }
+
+    // 3. 閒置超過 15 分鐘則回收 (通常用於回收走遠的怪物)
+    if (query_idle(this_object()) > 900) {
+        // 藍圖不清理
+        if (strsrch(object_name(this_object()), "#") == -1) return 1;
+        
+        destruct(this_object());
+        return 0;
+    }
+
+    return 1;
+}
