@@ -1,0 +1,21 @@
+2026/05/24 20:56:10 正在初始化 WebMUD 伺服器 (Hybrid 模式)...
+🚀 Driver 啟動中... 準備載入 Master Object: /master.c
+===================================
+  MudScript Master Object 啟動成功 
+===================================
+DEBUG: nature_d started, game_time=12810
+✅ Master 載入成功 (RootUID: Root, BackboneUID: Backbone)
+2026/05/24 20:56:10 MUD 引擎啟動成功！
+2026/05/24 20:56:10 🚀 P2P 節點已啟動，連接至: wss://wade-fs-fsmud-hub.hf.space/ws
+2026/05/24 20:56:10 🌐 [WEB] 使用外部磁碟網頁檔案 (支援熱更新)
+2026/05/24 20:56:10 Web 伺服器監聽中 :8080
+2026/05/24 20:56:10 📡 Connecting to signaling hub: wss://wade-fs-fsmud-hub.hf.space/ws?p2p=true&username=fs.mud
+2026/05/24 20:56:11 🆔 Node registered with ID: af80fbd5-42c3-44db-8da9-2dea5b74d3ce
+2026/05/24 20:56:11 🌌 [P2P] 收到來自 SYSTEM 的訊息: 一個新的 MUD 伺服器節點已加入星際網路。
+DEBUG: Interstellar received: SYSTEM -> 一個新的 MUD 伺服器節點已加入星際網路。
+2026/05/24 20:56:29 🌌 [P2P] 收到來自 Anonymous 的訊息: fs_query|fs.mud|*|list|
+DEBUG: Interstellar received: Anonymous -> fs_query|fs.mud|*|list|
+2026/05/24 20:56:29 🌌 [P2P] 收到來自 fantasy.space 的訊息: fs_resp|fantasy.space|fs.mud|list|fantasy space|fantasy.space
+DEBUG: Interstellar received: fantasy.space -> fs_resp|fantasy.space|fs.mud|list|fantasy space|fantasy.space
+2026/05/24 20:56:29 🌌 [P2P] 收到來自 fs.mud 的訊息: fs_resp|fs.mud|fs.mud|list|fs.mud|fs.mud
+DEBUG: Interstellar received: fs.mud -> fs_resp|fs.mud|fs.mud|list|fs.mud|fs.mud

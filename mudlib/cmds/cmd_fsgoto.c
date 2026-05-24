@@ -24,33 +24,8 @@ int main(object me, string verb, string arg) {
         return 1;
     }
 
-    mapping joined = fs_d->query_joined_muds();
-    if (!joined || !joined[arg]) {
-        write("你尚未加入 " + arg + "，請先使用 fsjoin 指令加入。\n");
-        return 1;
-    }
-
-    if (joined[arg]["status"] != "active") {
-        write("該伺服器尚未完全上線或正在同步中，請稍後再試。\n");
-        return 1;
-    }
-
-    string entrance = joined[arg]["entrance"];
-    if (!entrance || entrance == "") {
-        write("無法取得該伺服器的入口點。\n");
-        return 1;
-    }
-
-    write(HIM("【傳送門】你踏入了一陣扭曲的光芒中，前往了星際網路的彼端...\n"));
-    
-    // 呼叫 get_remote_room 進行懶加載或取得房間
-    object dest = fs_d->get_remote_room(arg, entrance);
-    if (dest) {
-        me->move(dest, "portal");
-        dest->look_room(me);
-    } else {
-        write(RED("傳送失敗：無法載入目標房間。\n"));
-    }
+    string res = fs_d->init_fsgoto(me, arg);
+    if (res != "") write(res);
 
     return 1;
 }

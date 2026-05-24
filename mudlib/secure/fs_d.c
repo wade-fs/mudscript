@@ -16,13 +16,14 @@ mapping joined_muds;
 // room_cache: ([ "other.mud:/area/newbie/room_0_0": lpc_source_string ])
 mapping room_cache;
 
-// exit_map 已移除：緩存 room 的 add_exit 路徑直接指向 FS_CACHE_DIR，無需額外 mapping
+// 🚀 新增：等待傳送的玩家清單 ([ "mudlib_id": ({ player_objects }) ])
+mapping pending_travel;
 
 void create() {
     ::create();
     if (!joined_muds) joined_muds = ([]);
     if (!room_cache)  room_cache  = ([]);
-
+    if (!pending_travel) pending_travel = ([]);
 }
 
 // ── 查詢 ──────────────────────────────────────────────
@@ -30,7 +31,41 @@ mapping query_joined_muds() { return joined_muds; }
 mapping query_room_cache()  { return room_cache; }
 
 int is_joined(string mudlib_id) {
-    return (joined_muds && mapp(joined_muds[mudlib_id]));
+    return (joined_muds && mapp(joined_muds[mudlib_id]) && joined_muds[mudlib_id]["status"] == "active");
+}
+
+// ── fsgoto：合併 join 與傳送功能 ──────────────────────
+string init_fsgoto(object me, string mudlib_id) {
+    if (!mudlib_id || mudlib_id == "")
+        return "用法：fsgoto <mudlib_id>\n";
+
+    if (mudlib_id == FS_MUDLIB_ID)
+        return "你已經在本機伺服器了。\n";
+
+    // 1. 若已經加入且 active，直接傳送
+    if (is_joined(mudlib_id)) {
+        string entrance = joined_muds[mudlib_id]["entrance"];
+        if (!entrance || entrance == "") return "無法取得該伺服器的入口點。\n";
+
+        write(HIM("【傳送門】你踏入了一陣扭曲的光芒中，前往了星際網路的彼端...\n"));
+        object dest = get_remote_room(mudlib_id, entrance);
+        if (dest) {
+            me->move(dest, "portal");
+            dest->look_room(me);
+            return "";
+        }
+        return RED("傳送失敗：無法載入目標房間。\n");
+    }
+
+    // 2. 若尚未加入或 pending，則加入 pending_travel 並觸發 join
+    if (!pending_travel[mudlib_id]) pending_travel[mudlib_id] = ({});
+    pending_travel[mudlib_id] += ({ me });
+
+    if (!joined_muds[mudlib_id]) {
+        do_join(me, mudlib_id);
+    }
+
+    return HIW("[Fantasy Space] ") + "正在查詢 " + mudlib_id + " 的資訊並準備傳送...\n";
 }
 
 // ── fsjoin：登記遠端 mudlib ───────────────────────────
@@ -226,6 +261,16 @@ void receive_fs_response(string mudlib_id, string resp_type, string payload) {
                 joined_muds[mudlib_id]["status"] = "active";
                 joined_muds[mudlib_id]["name"] = parts[2];
                 joined_muds[mudlib_id]["entrance"] = parts[3];
+
+                // 🚀 關鍵：處理等待傳送的玩家
+                if (pending_travel[mudlib_id]) {
+                    foreach (object p in pending_travel[mudlib_id]) {
+                        if (p && environment(p)) {
+                            init_fsgoto(p, mudlib_id);
+                        }
+                    }
+                    map_delete(pending_travel, mudlib_id);
+                }
             }
         }
     } else if (resp_type == "room") {

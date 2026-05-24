@@ -14,6 +14,7 @@ void create() {
     set_short(HIY("傳送門（載入中）"));
     set_long("你站在一個閃爍的傳送門中。目的地的資料正在從星際網路載入，請稍候...\n");
     set_coordinate(-1, -1, -1);
+    set_heart_beat(1);
 }
 
 void set_target_mudlib(string m) { target_mudlib = m; }

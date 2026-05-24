@@ -48,12 +48,48 @@ void init_aliases() {
     }
 }
 
+// 🚀 新增：跨服狀態追蹤
+string current_mudlib; // 目前所在的 mudlib ID，空代表本機
+string data_base_path; // 當前資料庫相對路徑，本機為 "/mudlib/data/"，遠端為 "/mudlib/data/fs_cache/<id>/"
+
 void create() {
     ::create();
     if (!quests) quests = ([]);
     if (!muted_channels) muted_channels = ([]);
     if (!explored_rooms) explored_rooms = ([]);
     init_aliases();
+    
+    current_mudlib = "";
+    data_base_path = "/mudlib/data/";
+}
+
+// ── 查詢函式 ────────────────────────────────────────────
+string query_current_mudlib() { return current_mudlib; }
+string query_data_base_path() { return data_base_path; }
+
+// 當環境改變時，自動更新跨服狀態
+int move(mixed dest, string dir) {
+    int res = ::move(dest, dir);
+    if (res) {
+        object env = environment(this_object());
+        if (env) {
+            string ename = object_name(env);
+            // 判斷是否為遠端緩存路徑，格式如：/data/fs_cache/mudlib_id/area/...
+            if (strsrch(ename, FS_CACHE_DIR) == 0) {
+                // 提取 mudlib_id
+                string rel = substr(ename, strlen(FS_CACHE_DIR) + 1, strlen(ename));
+                int slash = strsrch(rel, "/");
+                if (slash != -1) {
+                    current_mudlib = substr(rel, 0, slash);
+                    data_base_path = FS_CACHE_DIR + "/" + current_mudlib + "/";
+                }
+            } else {
+                current_mudlib = "";
+                data_base_path = "/mudlib/data/";
+            }
+        }
+    }
+    return res;
 }
 
 // ── 登入初始化 ───────────────────────────────────────────
