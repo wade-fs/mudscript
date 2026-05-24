@@ -26,13 +26,14 @@ push-github:
 	@echo "📤 Pushing to origin (GitHub)..."
 	@git push origin main
 
-# 🚀 推送到 HuggingFace (包含 wade.o 與 system.o 進行部署)
+# 🚀 推送到 HuggingFace (強制寫入官方 fantasy.space 識別字與 wade.o 存檔)
 push-hf:
 	@echo "📤 Pushing to hf (HuggingFace)..."
+	@echo '{"mudlib_id":"fantasy.space","mudlib_name":"fantasy space"}' > mudlib/data/system.o
 	@git checkout -B hf-deploy
 	@-if [ -f mudlib/data/user/wade.o ]; then git add mudlib/data/user/wade.o -f; fi
-	@-if [ -f mudlib/data/system.o ]; then git add mudlib/data/system.o -f; fi
-	@git commit -m "Deploy to HF with local data" || true
+	@git add mudlib/data/system.o -f
+	@git commit -m "Deploy to HF with official identity and local data" || true
 	@git push hf hf-deploy:main --force
 	@git checkout main
 
