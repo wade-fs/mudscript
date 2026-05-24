@@ -159,28 +159,28 @@ object get_remote_room(string mudlib_id, string remote_room_path) {
     return get_loading_placeholder(mudlib_id, remote_room_path);
 }
 
+// ── fslist：查詢全域節點 ──────────────────────────────
+void list_muds() {
+    p2p_send_fs_query("*", "list", "");
+}
+
 // ── 接收遠端回應（由 interstellar_d 呼叫） ───────────
 void receive_fs_response(string mudlib_id, string resp_type, string payload) {
-    if (resp_type == "info") {
-        // payload: JSON-like 格式，格式：mudlib_id|info|name|entrance_room
-        // 例如 "fantasy.space|info|fantasy space|/area/newbie/room_4_4.c"
-        // 我們接收到的 payload 已經是 "info|name|entrance_room" (被 interstellar_d 去掉 mudlib_id)
-        
-        string *parts = explode(payload, "|");
-        if (sizeof(parts) < 3) return;
-        
-        if (!joined_muds[mudlib_id]) return;
-        joined_muds[mudlib_id]["status"] = "active";
-        joined_muds[mudlib_id]["name"] = parts[1];
-        joined_muds[mudlib_id]["entrance"] = parts[2];
-
-        // 廣播給本地玩家
-        string msg = HIM("[Fantasy Space] ") + mudlib_id + " (" + parts[1] + ") 已上線，使用 fsgoto " + mudlib_id + " 進入。\n";
-        object *us = users();
-        foreach (object u in us) {
-            if (u && userp(u)) tell_object(u, msg);
+    if (resp_type == "list") {
+        // payload: name1|id1,name2|id2...
+        write(HIW("\n【Fantasy Space 星際節點清單】\n"));
+        string *muds = explode(payload, ",");
+        foreach (string mud in muds) {
+            string *parts = explode(mud, "|");
+            if (sizeof(parts) >= 2) {
+                write(sprintf("  %-20s : %s\n", parts[0], parts[1]));
+            }
         }
-
+        write("\n");
+        return;
+    }
+    
+    if (resp_type == "info") {
     } else if (resp_type == "room") {
         // payload: room path + "|" + LPC source
         int sep = strsrch(payload, "|");
@@ -262,6 +262,17 @@ void handle_fs_query(string from_mudlib, string query_type, string query_payload
         string msg = "fs_resp|" + FS_MUDLIB_ID + "|" + from_mudlib + "|info|" + resp;
         p2p_broadcast(msg);
 
+    } else if (query_type == "list") {
+        // 回傳所有節點資訊
+        string resp = "";
+        mixed keys = keys(joined_muds);
+        // 加入自己
+        resp = FS_MUDLIB_NAME + "|" + FS_MUDLIB_ID;
+        foreach (string mid in keys) {
+            resp += "," + joined_muds[mid]["name"] + "|" + mid;
+        }
+        string msg = "fs_resp|" + FS_MUDLIB_ID + "|" + from_mudlib + "|list|" + resp;
+        p2p_broadcast(msg);
     } else if (query_type == "room") {
         // query_payload 應該是類似 "/area/newbie/room_0_0.c"
         // 為了確保安全與正確，我們加上 "/mudlib" 前綴

@@ -88,7 +88,8 @@ void create() {
         "fsjoin"   : "/cmds/cmd_fsjoin.c",
         "fsleave"  : "/cmds/cmd_fsleave.c",
         "fsflush"  : "/cmds/cmd_fsflush.c",
-        "fsgoto"   : "/cmds/cmd_fsgoto.c"
+        "fsgoto"   : "/cmds/cmd_fsgoto.c",
+        "fslist"   : "/cmds/cmd_fslist.c"
     ]);
 }
 

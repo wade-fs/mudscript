@@ -1,0 +1,24 @@
+// /cmds/cmd_fslist.c
+// 查詢星際網路中已上線的 mudlib
+
+#include "/include/ansi.h"
+
+inherit "/std/object";
+
+int main(object me, string verb, string arg) {
+    object fs_d = load_object("/secure/fs_d.c");
+    if (!fs_d) {
+        write("Fantasy Space 系統暫時無法使用。\n");
+        return 1;
+    }
+
+    // 發送 list 查詢給 Hub
+    fs_d->list_muds();
+    
+    write(HIW("[Fantasy Space] ") + "正在向星際中心查詢在線節點...\n");
+    return 1;
+}
+
+string help() {
+    return "【指令】\n  fslist    查詢星際網路中目前已上線的所有 mudlib。\n";
+}
