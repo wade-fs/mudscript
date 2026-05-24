@@ -11,6 +11,13 @@ int main(object me, string verb, string arg) {
         return 1;
     }
 
+    // 🚀 特化處理：去除雙引號，並將空格轉換為點（ID 格式）
+    arg = trim(arg);
+    if (strlen(arg) > 2 && arg[0] == '"' && arg[strlen(arg)-1] == '"') {
+        arg = substr(arg, 1, strlen(arg)-2);
+    }
+    arg = replace_string(arg, " ", ".");
+
     object fs_d = load_object("/secure/fs_d.c");
     if (!fs_d) {
         write("系統錯誤：無法載入跨服守護進程。\n");

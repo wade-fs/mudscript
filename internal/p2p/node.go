@@ -9,6 +9,7 @@ import (
 	"github.com/gorilla/websocket"
 	pion "github.com/pion/webrtc/v4"
 	"mudscript/driver"
+	driver_object "mudscript/object"
 	"mudscript/internal/signaling"
 	"mudscript/internal/webrtc"
 )
@@ -72,6 +73,18 @@ func (n *Node) connect() error {
 
 	q := u.Query()
 	q.Set("p2p", "true")
+	
+	// 🚀 新增：帶上本機的 mudlib_id 作為初始 username
+	// 這樣信令中心才會知道這個 Anonymous 是誰
+	systemD, err := n.Driver.LoadObject("/secure/system_d.c")
+	if err == nil && systemD != nil {
+		if res := n.Driver.CallFunction(systemD, "query_mudlib_id", nil); res != nil {
+			if s, ok := res.(*driver_object.String); ok {
+				q.Set("username", s.Value)
+			}
+		}
+	}
+
 	u.RawQuery = q.Encode()
 
 	log.Printf("📡 Connecting to signaling hub: %s", u.String())

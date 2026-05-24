@@ -109,16 +109,31 @@ func (d *Driver) registerP2PEfuns(obj *object.LPCObject) {
 			if !ok { return evaluator.NilValue }
 
 			if d.P2PSendChat != nil {
-				sender := "Unknown"
+				sender := ""
 				if len(args) > 1 {
 					if customSender, ok := args[1].(*object.String); ok && customSender.Value != "" {
 						sender = customSender.Value
 					}
-				} else {
+				}
+				
+				if sender == "" {
 					if p := d.GetCurrentPlayer(); p != nil {
 						sender = p.Username
 					} else {
-						sender = obj.Filename
+						// 🚀 關鍵修正：若無當前玩家，則代表是系統驅動的通訊 (如 fs_d)
+						// 這裡應該優先取用 system_d 定義的 FS_MUDLIB_ID
+						systemD, err := d.LoadObject("/secure/system_d.c")
+						if err == nil && systemD != nil {
+							if res := d.CallFunction(systemD, "query_mudlib_id", nil); res != nil {
+								if s, ok := res.(*object.String); ok {
+									sender = s.Value
+								}
+							}
+						}
+						// 備援：若連 system_d 都沒法回傳，才用 Filename
+						if sender == "" {
+							sender = obj.Filename
+						}
 					}
 				}
 				d.P2PSendChat(sender, content.Value)

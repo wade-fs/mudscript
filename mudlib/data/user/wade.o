@@ -15,11 +15,11 @@
     "w": "go west",
     "west": "go west"
   },
-  "attack": 48,
+  "attack": 40,
   "bank_balance": 0,
   "can_open": 0,
   "combat_target": 0,
-  "defence": 20,
+  "defence": 18,
   "equip_body": null,
   "equip_feet": null,
   "equip_hands": null,
@@ -35,7 +35,7 @@
   "guild_exp": 0,
   "guild_rank": "",
   "heart_beat_count": 0,
-  "hp": 155,
+  "hp": 135,
   "id": "wade",
   "id_list": [
     "wade"
@@ -50,13 +50,13 @@
   "leader": null,
   "level": 1,
   "long_name": "這是一個沒有描述的東西。",
-  "max_hp": 155,
+  "max_hp": 135,
   "max_items": 20,
-  "max_mp": 57,
+  "max_mp": 99,
   "max_weight": 10000,
   "money_balance": 0,
   "money_value": 0,
-  "mp": 57,
+  "mp": 99,
   "muted_channels": {},
   "name": "wade",
   "nature": "brave",
@@ -67,7 +67,7 @@
   "pk_timer": 0,
   "potential": 0,
   "quests": {},
-  "race": "orc",
+  "race": "human",
   "responses": {},
   "role": "god",
   "saved_inventory": [],
@@ -78,12 +78,12 @@
       "level": 1
     }
   },
-  "stat_cha": 8,
-  "stat_con": 15,
+  "stat_cha": 12,
+  "stat_con": 13,
   "stat_dex": 12,
-  "stat_int": 6,
-  "stat_str": 19,
-  "stat_wis": 8,
+  "stat_int": 12,
+  "stat_str": 15,
+  "stat_wis": 12,
   "write_paths": [
     "/"
   ]
