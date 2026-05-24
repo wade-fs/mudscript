@@ -39,6 +39,9 @@ int main(object me, string verb, string arg) {
     return 1;
 }
 
+string *query_verbs() { return ({ "update" }); }
+string query_category() { return "Admin"; }
+
 string help() {
     return "【管理指令】\n" +
            "  update <路徑>    重新編譯並載入指定的 LPC 檔案\n";

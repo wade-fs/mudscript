@@ -31,3 +31,11 @@ string help() {
         "zh-CN": "【战斗指令】\n  perform <招式> [目标]    施展职业专属的强大招式或法术。\n  (例如：perform bash, perform fireball, perform heal)\n"
     ]));
 }
+
+string *query_verbs() {
+    return ({ "perform" });
+}
+
+string query_category() {
+    return select_lang(([ "en": "Combat", "zh-TW": "戰鬥", "zh-CN": "战斗" ]));
+}

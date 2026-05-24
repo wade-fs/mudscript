@@ -37,3 +37,6 @@ string help() {
            "  用法：promote <玩家帳號>\n" +
            "  功能：將指定的玩家提升為 wizard (巫師) 權限。\n";
 }
+
+string *query_verbs() { return ({ "promote" }); }
+string query_category() { return "Admin"; }

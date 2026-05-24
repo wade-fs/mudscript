@@ -77,3 +77,6 @@ string help() {
     return "【管理指令】\n" +
            "  tests    執行系統核心功能自動化測試，驗證直譯器正確性\n";
 }
+
+string *query_verbs() { return ({ "tests" }); }
+string query_category() { return "Admin"; }

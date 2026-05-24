@@ -94,3 +94,11 @@ string help() {
         "zh-CN": "【指令】\n  tame <对象>    尝试收服虚弱的野外生物作为宠物。\n  (提示：对象血量越低，成功率越高)\n"
     ]));
 }
+
+string *query_verbs() {
+    return ({ "tame" });
+}
+
+string query_category() {
+    return select_lang(([ "en": "Special", "zh-TW": "特殊", "zh-CN": "特殊" ]));
+}

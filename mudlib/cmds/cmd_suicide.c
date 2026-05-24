@@ -67,7 +67,16 @@ int main(object me, string verb, string arg) {
 string help() {
     return select_lang(([
         "en": "【Suicide Command】\n  suicide -f     Completely delete current character (data backed up then removed)\n\n  Warning: This is not a normal death, you will lose your entire character save!\n",
-        "zh-TW": "【自殺指令】\n  suicide -f     徹底刪除當前角色（資料將備份後移除）\n\n  警告：這不是一般的死亡，這會讓您失去整個角色存檔！\n",
-        "zh-CN": "【自杀指令】\n  suicide -f     彻底删除当前角色（资料将备份后移除）\n\n  警告：这不是一般的死亡，这会让您失去整个角色存档！\n"
-    ]));
+        "zh-TW": "【自殺指令】\n  suicide -f     徹底刪除當前角色（資料將備份後移除）\n\n  警告：這不是一 般的死亡，這會讓您失去整個角色存檔！\n",
+        "zh-CN": "【自杀指令】\n  suicide -f     彻底删除当前角色（资料将备份后移除）\n\n  警告：这不是一 般的死亡，这会让您失去整个角色存档！\n"
+        ]));
 }
+
+string *query_verbs() {
+    return ({ "suicide" });
+}
+
+string query_category() {
+    return select_lang(([ "en": "Special", "zh-TW": "特殊", "zh-CN": "特殊" ]));
+}
+

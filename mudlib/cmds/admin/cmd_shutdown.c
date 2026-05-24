@@ -24,3 +24,6 @@ string help() {
     return "【管理指令】\n" +
            "  shutdown    關閉 MUD 伺服器進程\n";
 }
+
+string *query_verbs() { return ({ "shutdown" }); }
+string query_category() { return "Admin"; }

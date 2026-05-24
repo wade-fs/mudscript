@@ -73,6 +73,15 @@ string help() {
     return select_lang(([
         "en": "【Mix Command】\n  mix <item1>, <item2>, ...    Combine, forge or socket specified items.\n  (Hint: There will be different crafting effects in the blacksmith or laboratory)\n",
         "zh-TW": "【合成指令】\n  mix <物品1>, <物品2>, ...    將指定物品進行合成、鍛造或鑲嵌。\n  (提示：在鐵匠鋪或實驗室會有不同的合成效果)\n",
-        "zh-CN": "【合成指令】\n  mix <物品1>, <物品2>, ...    将指定物品进行合成、锻造或镶嵌。\n  (提示：在铁匠铺或实验室会有不同的合成效果)\n"
-    ]));
+        "zh-CN": "【合成指令】\n  mix <物品1>, <物品2>, ...    將指定物品进行合成、锻造或镶嵌。\n  (提示：在铁匠铺或实验室会有不同的合成效果)\n"
+        ]));
 }
+
+string *query_verbs() {
+    return ({ "mix", "craft" });
+}
+
+string query_category() {
+    return select_lang(([ "en": "Special", "zh-TW": "特殊", "zh-CN": "特殊" ]));
+}
+

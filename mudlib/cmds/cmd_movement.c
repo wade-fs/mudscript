@@ -25,6 +25,14 @@ int main(object me, string verb, string arg) {
     return here->do_go(dir);
 }
 
+string *query_verbs() {
+    return ({ "north", "south", "east", "west", "up", "down", "go" });
+}
+
+string query_category() {
+    return select_lang(([ "en": "Movement", "zh-TW": "移動", "zh-CN": "移动" ]));
+}
+
 string help() {
     return "【移動指令】\n" +
            "  north / south / east / west  往四個方向移動\n" +

@@ -55,3 +55,11 @@ string help() {
         "zh-CN": "【聊天指令】\n  chat <讯息>    全局频道发言\n  area <讯息>    当前区域发言\n  gsay <讯息>    公会频道发言\n  ttell <讯息>   团队频道发言\n  fchat <ID> <讯息> 好友频道发言\n"
     ]));
 }
+
+string *query_verbs() {
+    return ({ "chat", "area", "gsay", "ttell", "fchat" });
+}
+
+string query_category() {
+    return select_lang(([ "en": "Social", "zh-TW": "社交", "zh-CN": "社交" ]));
+}

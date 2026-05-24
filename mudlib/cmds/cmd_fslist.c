@@ -22,3 +22,11 @@ int main(object me, string verb, string arg) {
 string help() {
     return "【指令】\n  fslist    查詢星際網路中目前已上線的所有 mudlib。\n";
 }
+
+string *query_verbs() {
+    return ({ "fslist" });
+}
+
+string query_category() {
+    return select_lang(([ "en": "Fantasy Space", "zh-TW": "星際網路", "zh-CN": "星际网络" ]));
+}

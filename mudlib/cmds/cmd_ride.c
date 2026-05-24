@@ -53,3 +53,11 @@ string help() {
         "zh-CN": "【指令】\n  ride      骑上你的宠物\n  unride    从座骑下来\n"
     ]));
 }
+
+string *query_verbs() {
+    return ({ "ride", "unride", "dismount" });
+}
+
+string query_category() {
+    return select_lang(([ "en": "Special", "zh-TW": "特殊", "zh-CN": "特殊" ]));
+}

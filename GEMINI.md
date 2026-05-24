@@ -10,11 +10,14 @@ MudScript is a high-performance MUD engine that combines a Go-based driver with 
 ### 1. The Go Driver (`/driver`)
 - **Role**: The engine's heart. Manages networking, heartbeats, object lifecycle, and provides "Efuns" (External Functions) to the scripting layer.
 - **Efuns**: Go functions exposed to LPC scripts (e.g., `write`, `say`, `move_object`). Defined in `driver/efun.go`.
+- **Smart Sandboxing**: The Driver's `ResolvePath` automatically redirects absolute paths (e.g., `/area/`) to a remote world's cache if the calling object is from another Mudlib, ensuring complete isolation.
+- **Extension Agnostic**: All file Efuns (load, clone, inherit) automatically handle the `.c` extension, making it optional for developers.
 - **Concurrency**: Thread-safe environment management and non-blocking I/O.
 
 ### 2. The Streamlined LPC Interpreter (`/lexer`, `/parser`, `/evaluator`, `/ast`, `/object`)
 - **Lexer**: Tokenizes LPC script files (ANSI C based).
 - **Parser**: Builds an Abstract Syntax Tree (AST) focused strictly on LPC structures.
+    - **Syntax Flexibility**: Supports single-statement control structures (`if`, `for`, `while`, `foreach`) without requiring braces `{}`.
 - **Evaluator**: A tree-walking interpreter optimized for LPC execution patterns.
 - **Object System**: Defines LPC runtime types: Integer, String, Array `({ })`, Mapping `([ ])`, LPCObject, and Closures `(: :)`.
 - **Note**: All legacy elements (e.g., `let`, `fn`, `macro` keywords, and `[]` array style) have been removed to ensure a lean, standard-compliant core.

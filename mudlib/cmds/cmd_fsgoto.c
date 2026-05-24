@@ -33,3 +33,11 @@ int main(object me, string verb, string arg) {
 string help() {
     return "【指令】\n  fsgoto <mudlib_id>   透過星際傳送門前往已加入的遠端伺服器。\n";
 }
+
+string *query_verbs() {
+    return ({ "fsgoto" });
+}
+
+string query_category() {
+    return select_lang(([ "en": "Fantasy Space", "zh-TW": "星際網路", "zh-CN": "星际网络" ]));
+}

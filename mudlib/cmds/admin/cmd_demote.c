@@ -37,3 +37,6 @@ string help() {
            "  用法：demote <玩家帳號>\n" +
            "  功能：將指定的玩家權限降回 user (一般玩家)。\n";
 }
+
+string *query_verbs() { return ({ "demote" }); }
+string query_category() { return "Admin"; }

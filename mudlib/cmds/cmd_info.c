@@ -45,6 +45,14 @@ int main(object me, string verb, string arg) {
     return 1;
 }
 
+string *query_verbs() {
+    return ({ "info", "score", "status" });
+}
+
+string query_category() {
+    return select_lang(([ "en": "View", "zh-TW": "查看", "zh-CN": "查看" ]));
+}
+
 string help() {
     return select_lang(([
         "en": "【Status Commands】\n  score / status  View detailed character status, including HP, MP, level and attributes.\n",

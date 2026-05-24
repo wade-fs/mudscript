@@ -64,3 +64,11 @@ string help() {
                  "  heal            施放治疗术\n"
     ]));
 }
+
+string *query_verbs() {
+    return ({ "kill", "attack", "flee", "fireball", "heal" });
+}
+
+string query_category() {
+    return select_lang(([ "en": "Combat", "zh-TW": "戰鬥", "zh-CN": "战斗" ]));
+}

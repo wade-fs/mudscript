@@ -74,11 +74,19 @@ int do_unalias(object me, string arg) {
 
     me->remove_alias(arg);
     me->save(); // 立即存檔
-    write(select_lang(([ "en": "Alias '", "zh-TW": "別名「", "zh-CN": "别名「" ])) + arg + select_lang(([ "en": "' has been deleted.\n", "zh-TW": "」已刪除。\n", "zh-CN": "」已删除。\n" ])));
+    write(select_lang(([ "en": "Alias '", "zh-TW": "別名「", "zh-CN": "别名「" ])) + arg + select_lang(([ "en": "' has been deleted.\n", "zh-TW": "」已刪除。\n", "zh-CN": "」已刪除。\n" ])));
     return 1;
-}
+    }
 
-string help() {
+    string *query_verbs() {
+    return ({ "alias" });
+    }
+
+    string query_category() {
+    return select_lang(([ "en": "System", "zh-TW": "系統", "zh-CN": "系统" ]));
+    }
+
+    string help() {
     return select_lang(([
         "en": "【Alias Command】\n  alias                  List all aliases\n  alias <name> <cmd>     Set alias, e.g.: alias n north\n  alias <name>           View specific alias\n  unalias <name>         Delete alias\n",
         "zh-TW": "【別名指令】\n  alias                  列出所有別名\n  alias <名稱> <指令>    設定別名，例如：alias n north\n  alias <名稱>           查看指定別名\n  unalias <名稱>         刪除別名\n",

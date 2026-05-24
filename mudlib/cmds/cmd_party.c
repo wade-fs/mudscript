@@ -68,3 +68,11 @@ string help() {
         "zh-CN": "【组队指令】\n  party create           建立新队伍\n  party invite <ID>      邀请玩家加入队伍\n  party join <ID>        接受邀请加入队伍\n  party leave            离开当前队伍\n  party disband          解散队伍 (仅限队长)\n  party status           查看队伍成员与状态\n"
     ]));
 }
+
+string *query_verbs() {
+    return ({ "party" });
+}
+
+string query_category() {
+    return select_lang(([ "en": "Social", "zh-TW": "社交", "zh-CN": "社交" ]));
+}

@@ -11,8 +11,21 @@ int main(object me, string verb, string arg) {
     if (verb == "emote" || verb == ":") {
         return do_emote(me, arg);
     }
+
+    if (verb == "social") {
+        write(help());
+        return 1;
+    }
     
     return 0;
+}
+
+string *query_verbs() {
+    return ({ "say", "'", "emote", ":", "social" });
+}
+
+string query_category() {
+    return select_lang(([ "en": "Social", "zh-TW": "社交", "zh-CN": "社交" ]));
 }
 
 int do_say_cmd(object me, string arg) {

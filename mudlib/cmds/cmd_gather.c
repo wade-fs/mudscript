@@ -63,3 +63,11 @@ string help() {
         "zh-CN": "【指令】\n  gather <尸体>    从生物尸体上采集物资 (如狼皮、黏液等)\n"
     ]));
 }
+
+string *query_verbs() {
+    return ({ "gather", "collect" });
+}
+
+string query_category() {
+    return select_lang(([ "en": "Special", "zh-TW": "特殊", "zh-CN": "特殊" ]));
+}

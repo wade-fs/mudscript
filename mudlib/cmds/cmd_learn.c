@@ -77,3 +77,11 @@ string help() {
         "zh-CN": "【指令】\n  learn <技能> from <NPC> [数量]    消耗潜能向 NPC 学习技能。\n"
     ]));
 }
+
+string *query_verbs() {
+    return ({ "learn" });
+}
+
+string query_category() {
+    return select_lang(([ "en": "Combat", "zh-TW": "戰鬥", "zh-CN": "战斗" ]));
+}

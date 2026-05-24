@@ -27,3 +27,11 @@ string help() {
     return "【指令】\n" +
            "  fs <訊息>    在星際網路（Fantasy Space 跨服頻道）發送訊息。\n";
 }
+
+string *query_verbs() {
+    return ({ "fs", "interstellar" });
+}
+
+string query_category() {
+    return select_lang(([ "en": "Fantasy Space", "zh-TW": "星際網路", "zh-CN": "星际网络" ]));
+}

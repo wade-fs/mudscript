@@ -51,3 +51,11 @@ string help() {
         "zh-CN": "【频道管理】\n  channel                查看所有频道的开关状态\n  channel <ID> on        开启指定频道\n  channel <ID> off       关闭指定频道\n  channel <ID> join      加入好友自建频道\n  channel <ID> leave     离开好友自建频道\n"
     ]));
 }
+
+string *query_verbs() {
+    return ({ "channel" });
+}
+
+string query_category() {
+    return select_lang(([ "en": "Social", "zh-TW": "社交", "zh-CN": "社交" ]));
+}

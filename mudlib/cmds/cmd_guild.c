@@ -42,3 +42,11 @@ string help() {
         "zh-CN": "【指令】\n  guild            查看目前所属公会的资讯与职位。\n  guild promote    尝试向公会申请晋升职位。\n"
     ]));
 }
+
+string *query_verbs() {
+    return ({ "guild" });
+}
+
+string query_category() {
+    return select_lang(([ "en": "Social", "zh-TW": "社交", "zh-CN": "社交" ]));
+}

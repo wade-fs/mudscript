@@ -6,99 +6,49 @@ mapping cmd_map;
 
 inherit "/std/object";
 
+int rehash() {
+    string *dirs = ({ "/cmds/", "/cmds/admin/" });
+    cmd_map = ([]);
+    int count = 0;
+
+    foreach (string dir in dirs) {
+        string *files = get_dir(dir);
+        if (!files) continue;
+
+        foreach (string file in files) {
+            if (strlen(file) < 3 || substr(file, strlen(file)-2, 2) != ".c") continue;
+            
+            string full_path = dir + file;
+            object cmd_ob = find_object(full_path);
+            if (!cmd_ob) cmd_ob = load_object(full_path);
+            if (!cmd_ob) continue;
+
+            mixed verbs = cmd_ob->query_verbs();
+            if (!verbs || !sizeof(verbs)) {
+                string v = file;
+                if (strsrch(v, "cmd_") == 0) v = substr(v, 4, strlen(v)-4);
+                v = substr(v, 0, strlen(v)-2);
+                verbs = ({ v });
+            }
+
+            foreach (string v in verbs) {
+                cmd_map[v] = full_path;
+                count++;
+            }
+        }
+    }
+    return count;
+}
+
 void create() {
     ::create();
-    cmd_map = ([
-        "look"     : "/cmds/cmd_look.c",
-        "l"        : "/cmds/cmd_look.c",
-        "examine"  : "/cmds/cmd_look.c",
-        "ex"       : "/cmds/cmd_look.c",
-        "north"    : "/cmds/cmd_movement.c",
-        "south"    : "/cmds/cmd_movement.c",
-        "east"     : "/cmds/cmd_movement.c",
-        "west"     : "/cmds/cmd_movement.c",
-        "up"       : "/cmds/cmd_movement.c",
-        "down"     : "/cmds/cmd_movement.c",
-        "go"       : "/cmds/cmd_movement.c",
-        "get"      : "/cmds/cmd_inventory.c",
-        "drop"     : "/cmds/cmd_inventory.c",
-        "wear"     : "/cmds/cmd_inventory.c",
-        "wield"    : "/cmds/cmd_inventory.c",
-        "remove"   : "/cmds/cmd_inventory.c",
-        "inventory": "/cmds/cmd_inventory.c",
-        "i"        : "/cmds/cmd_inventory.c",
-        "help"     : "/cmds/cmd_help.c",
-        "alias"    : "/cmds/cmd_alias.c",
-        "unalias"  : "/cmds/cmd_unalias.c",
-        "info"     : "/cmds/cmd_info.c",
-        "score"    : "/cmds/cmd_info.c",
-        "status"   : "/cmds/cmd_info.c",
-        "quit"     : "/cmds/cmd_quit.c",
-        "exit"     : "/cmds/cmd_quit.c",
-        "say"      : "/cmds/cmd_social.c",
-        "'"        : "/cmds/cmd_social.c",
-        "emote"    : "/cmds/cmd_social.c",
-        ":"        : "/cmds/cmd_social.c",
-        "social"   : "/cmds/cmd_social.c",
-        "nickname" : "/cmds/cmd_nickname.c",
-        "nick"     : "/cmds/cmd_nickname.c",
-        "suicide"  : "/cmds/cmd_suicide.c",
-		"ask"      : "/cmds/cmd_ask.c",
-        "kill"     : "/cmds/cmd_combat.c",
-        "attack"   : "/cmds/cmd_combat.c",
-        "flee"     : "/cmds/cmd_combat.c",
-        "skills"   : "/cmds/cmd_combat.c",
-        "fireball" : "/cmds/cmd_combat.c",
-        "heal"     : "/cmds/cmd_combat.c",
-		"update"   : "/cmds/admin/cmd_update.c",
-        "promote"  : "/cmds/admin/cmd_promote.c",
-        "demote"   : "/cmds/admin/cmd_demote.c",
-        "grant"    : "/cmds/admin/cmd_grant.c",
-        "revoke"   : "/cmds/admin/cmd_revoke.c",
-        "shutdown" : "/cmds/admin/cmd_shutdown.c",
-        "tests"    : "/cmds/admin/cmd_tests.c",
-        "quest"    : "/cmds/cmd_quest.c",
-        "gather"   : "/cmds/cmd_gather.c",
-        "collect"  : "/cmds/cmd_gather.c",
-        "party"    : "/cmds/cmd_party.c",
-        "follow"   : "/cmds/cmd_follow.c",
-        "mix"      : "/cmds/cmd_mix.c",
-        "craft"    : "/cmds/cmd_mix.c",
-        "learn"    : "/cmds/cmd_learn.c",
-        "practice" : "/cmds/cmd_practice.c",
-        "skills"   : "/cmds/cmd_skills.c",
-        "perform"  : "/cmds/cmd_perform.c",
-        "guild"    : "/cmds/cmd_guild.c",
-        "chat"     : "/cmds/cmd_chat.c",
-        "area"     : "/cmds/cmd_chat.c",
-        "gsay"     : "/cmds/cmd_chat.c",
-        "ttell"    : "/cmds/cmd_chat.c",
-        "fchat"    : "/cmds/cmd_chat.c",
-        "channel"  : "/cmds/cmd_channel.c",
-        "bank"     : "/cmds/cmd_bank.c",
-        "lang"     : "/cmds/cmd_lang.c",
-        "tame"     : "/cmds/cmd_tame.c",
-        "ride"     : "/cmds/cmd_ride.c",
-        "unride"   : "/cmds/cmd_ride.c",
-        "dismount" : "/cmds/cmd_ride.c",
-        "map"      : "/cmds/cmd_map.c",
-        "time"     : "/cmds/cmd_time.c",
-        "interstellar": "/cmds/cmd_p2p.c",
-        "fs"       : "/cmds/cmd_p2p.c",
-        "fsjoin"   : "/cmds/cmd_fsjoin.c",
-        "fsleave"  : "/cmds/cmd_fsleave.c",
-        "fsflush"  : "/cmds/cmd_fsflush.c",
-        "fsgoto"   : "/cmds/cmd_fsgoto.c",
-        "fslist"   : "/cmds/cmd_fslist.c"
-    ]);
+    rehash();
 }
 
 int execute(object me, string verb, string arg) {
     mixed cmd_file = cmd_map[verb];
     
-    if (!cmd_file) {
-        return 0; 
-    }
+    if (!cmd_file) return 0; 
 
     object cmd_ob = load_object(cmd_file);
     if (!cmd_ob) {
@@ -106,10 +56,34 @@ int execute(object me, string verb, string arg) {
         return 1;
     }
 
-    // 支援傳遞 verb 給 main
     return cmd_ob->main(me, verb, arg);
 }
 
-mapping query_cmd_map() {
-    return cmd_map;
+mapping query_cmd_map() { return cmd_map; }
+
+// 🚀 新增：提供給 UI 使用的分類指令清單
+mapping query_categorized_commands() {
+    mapping res = ([]);
+    string *verbs = sort_array(keys(cmd_map), 1);
+    
+    foreach (string v in verbs) {
+        string file = cmd_map[v];
+        object ob = find_object(file);
+        if (!ob) ob = load_object(file);
+        
+        string cat = "Other";
+        if (ob) {
+            mixed c = ob->query_category();
+            if (stringp(c)) cat = c;
+        }
+        
+        // 排除管理指令（除非是巫師）
+        if (strsrch(file, "/cmds/admin/") == 0) {
+            cat = "Admin";
+        }
+
+        if (!res[cat]) res[cat] = ({});
+        res[cat] += ({ v });
+    }
+    return res;
 }

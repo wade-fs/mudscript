@@ -38,3 +38,11 @@ string help() {
         "zh-CN": "【指令】\n  skills    查看你目前所具备的各项技能等级与潜能点数。\n"
     ]));
 }
+
+string *query_verbs() {
+    return ({ "skills" });
+}
+
+string query_category() {
+    return select_lang(([ "en": "Combat", "zh-TW": "戰鬥", "zh-CN": "战斗" ]));
+}

@@ -40,3 +40,11 @@ string help() {
         "zh-CN": "【指令】\n  fsflush <mudlib_id>   重新从远端 mudlib 拉取所有已缓存的房间。\n"
     ]));
 }
+
+string *query_verbs() {
+    return ({ "fsflush" });
+}
+
+string query_category() {
+    return select_lang(([ "en": "Fantasy Space", "zh-TW": "星際網路", "zh-CN": "星际网络" ]));
+}

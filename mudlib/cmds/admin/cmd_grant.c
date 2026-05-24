@@ -42,3 +42,6 @@ string help() {
            "  用法：grant <玩家帳號> <路徑>\n" +
            "  功能：授予指定玩家對特定目錄或檔案的寫入權限。\n";
 }
+
+string *query_verbs() { return ({ "grant" }); }
+string query_category() { return "Admin"; }

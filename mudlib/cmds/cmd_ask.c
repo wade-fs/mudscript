@@ -58,3 +58,11 @@ string help() {
         "zh-CN": "【询问指令】\n  ask <目标> about <话题>    向 NPC 询问特定的资讯\n  ask <目标> <话题>          询问的简写方式\n\n  范例：ask master about job\n  范例：ask 会长 about 公会\n  范例：ask master topics     （查看可询问的话题）\n"
     ]));
 }
+
+string *query_verbs() {
+    return ({ "ask" });
+}
+
+string query_category() {
+    return select_lang(([ "en": "Social", "zh-TW": "社交", "zh-CN": "社交" ]));
+}

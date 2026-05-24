@@ -325,6 +325,14 @@ int do_appraise(object me, string arg) {
     return 1;
 }
 
+string *query_verbs() {
+    return ({ "inventory", "i", "get", "drop", "wear", "wield", "remove" });
+}
+
+string query_category() {
+    return select_lang(([ "en": "Item", "zh-TW": "物品", "zh-CN": "物品" ]));
+}
+
 string help() {
     return "【物品指令】\n" +
            "  inventory (i)   查看背包內容\n" +

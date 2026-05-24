@@ -52,3 +52,11 @@ string help() {
         "zh-CN": "【指令】\n  practice <技能>    消耗体力与法力自行练习已学会的技能。\n"
     ]));
 }
+
+string *query_verbs() {
+    return ({ "practice" });
+}
+
+string query_category() {
+    return select_lang(([ "en": "Combat", "zh-TW": "戰鬥", "zh-CN": "战斗" ]));
+}

@@ -25,6 +25,14 @@ int main(object me, string verb, string arg) {
     return 1;
 }
 
+string *query_verbs() {
+    return ({ "quit", "exit" });
+}
+
+string query_category() {
+    return select_lang(([ "en": "System", "zh-TW": "系統", "zh-CN": "系统" ]));
+}
+
 string help() {
     return select_lang(([
         "en": "【Quit Command】\n  Usage: quit or exit\n  Function: Save character data and safely log out of the game.\n",

@@ -42,6 +42,14 @@ int main(object me, string verb, string arg) {
     return 1;
 }
 
+string *query_verbs() {
+    return ({ "look", "l", "examine", "ex" });
+}
+
+string query_category() {
+    return select_lang(([ "en": "View", "zh-TW": "查看", "zh-CN": "查看" ]));
+}
+
 string help() {
     return "【查看指令】\n" +
            "  look (l)              查看目前房間\n" +

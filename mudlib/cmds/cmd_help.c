@@ -64,14 +64,26 @@ int main(object me, string verb, string arg) {
 }
 
 int do_help_list(object me, string arg) {
-    mapping data = ([
-        select_lang(([ "en": "Movement", "zh-TW": "移動", "zh-CN": "移动" ])) : ({ "north", "south", "east", "west", "up", "down" }),
-        select_lang(([ "en": "View", "zh-TW": "查看", "zh-CN": "查看" ])) : ({ "look", "score", "inventory", "status" }),
-        select_lang(([ "en": "Social", "zh-TW": "社交", "zh-CN": "社交" ])) : ({ "say", "emote", "nick" }),
-        select_lang(([ "en": "System", "zh-TW": "系統", "zh-CN": "系统" ])) : ({ "help", "quit", "alias" })
-    ]);
+    object cmd_d = load_object("/secure/command_d");
+    if (!cmd_d) return 0;
+
+    mapping data = cmd_d->query_categorized_commands();
+    
+    // 進行一些 UI 過濾：如果是 Admin 類別且玩家不是巫師，則隱藏
+    if (me->query_role() != "god" && me->query_role() != "wizard") {
+        m_delete(data, "Admin");
+    }
+
     write(sprintf("{\"ui\": \"cmd_list\", \"data\": %s}", json_encode(data)));
     return 1;
+}
+
+string *query_verbs() {
+    return ({ "help", "?" });
+}
+
+string query_category() {
+    return select_lang(([ "en": "System", "zh-TW": "系統", "zh-CN": "系统" ]));
 }
 
 string help() {

@@ -49,3 +49,11 @@ string help() {
         "zh-CN": "【指令】\n  fsleave <mudlib_id>   离开远端 mudlib 并清空缓存。\n"
     ]));
 }
+
+string *query_verbs() {
+    return ({ "fsleave" });
+}
+
+string query_category() {
+    return select_lang(([ "en": "Fantasy Space", "zh-TW": "星際網路", "zh-CN": "星际网络" ]));
+}
