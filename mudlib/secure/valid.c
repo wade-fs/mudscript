@@ -78,6 +78,12 @@ mixed valid_write(string path, object user, string func)
     }
 
     // 5. 特殊例外
+    // 允許 system_d.c 儲存系統設定
+    string caller_file = base_name(user);
+    if (caller_file == "/secure/system_d.c" || caller_file == "/std/login.c") {
+        if (path == "/data/system.o") return 1;
+    }
+
     // 允許使用者儲存自己的資料 (/data/user/) 或 備份 (/data/backup/user/)
     if (strsrch(path, "/data/user/") == 0 || strsrch(path, "/data/backup/user/") == 0) {
         string uid = user->get_id();

@@ -238,6 +238,14 @@ void get_mudlib_name(string input) {
     string id = lower_case(input);
     id = replace_string(id, " ", ".");
 
+    // 🛑 核心驗證：保留字元與官方伺服器防撞名
+    if (id == "fantasy.space") {
+        write(RED("⚠️ 註冊失敗：『fantasy.space』為官方星際中心保留名稱，請使用其他名稱！\n"));
+        write("請重新輸入伺服器名稱：");
+        input_to("get_mudlib_name");
+        return;
+    }
+
     object system_d = load_object("/secure/system_d.c");
     if (system_d) {
         system_d->set_mudlib_name(input, id);
@@ -290,7 +298,7 @@ void create_character() {
         write(MAGENTA("【創世神】您是本服第一位玩家，已自動獲得 god 權限！") + "\n");
         string id = load_object("/secure/system_d.c")->query_mudlib_id();
         write(HIW("[Fantasy Space] ") + "本 mudlib 識別字為：" + HIY(id) + "\n");
-        write(HIW("[Fantasy Space] ") + "你的跨服身份為：" + HIY(user->query_id() + "@" + id) + "\n");
+        write(HIW("[Fantasy Space] ") + "你的跨服身份為：" + HIY(user->get_id() + "@" + id) + "\n");
         write(HIW("[Fantasy Space] ") + "使用 fsjoin <mudlib_id> 連接其他伺服器。\n");
     } else {
         user->set_role("user");
