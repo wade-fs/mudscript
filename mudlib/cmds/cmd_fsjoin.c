@@ -8,7 +8,8 @@ inherit "/std/object";
 
 int main(object me, string verb, string arg) {
     if (!arg || arg == "") {
-        write(select_lang(([\n"en": "Usage: fsjoin <mudlib_id>  e.g. fsjoin other.mud\n",
+        write(select_lang(([
+            "en": "Usage: fsjoin <mudlib_id>  e.g. fsjoin other.mud\n",
             "zh-TW": "用法：fsjoin <mudlib_id>  例如：fsjoin other.mud\n",
             "zh-CN": "用法：fsjoin <mudlib_id>  例如：fsjoin other.mud\n"
         ])));
@@ -32,7 +33,8 @@ int main(object me, string verb, string arg) {
 }
 
 string help() {
-    return select_lang(([\n"en": "【Command】\n  fsjoin <mudlib_id>   Join a remote Fantasy Space mudlib.\n  e.g.  fsjoin other.mud\n",
+    return select_lang(([
+        "en": "【Command】\n  fsjoin <mudlib_id>   Join a remote Fantasy Space mudlib.\n  e.g.  fsjoin other.mud\n",
         "zh-TW": "【指令】\n  fsjoin <mudlib_id>   加入遠端 Fantasy Space mudlib。\n  例如：fsjoin other.mud\n",
         "zh-CN": "【指令】\n  fsjoin <mudlib_id>   加入远端 Fantasy Space mudlib。\n  例如：fsjoin other.mud\n"
     ]));

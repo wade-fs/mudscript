@@ -36,7 +36,8 @@ int main(object me, string verb, string arg) {
 }
 
 string help() {
-    return select_lang(([\n"en": "【Command】\n  fsleave <mudlib_id>   Leave a remote mudlib and clear its cache.\n",
+    return select_lang(([
+        "en": "【Command】\n  fsleave <mudlib_id>   Leave a remote mudlib and clear its cache.\n",
         "zh-TW": "【指令】\n  fsleave <mudlib_id>   離開遠端 mudlib 並清空緩存。\n",
         "zh-CN": "【指令】\n  fsleave <mudlib_id>   离开远端 mudlib 并清空缓存。\n"
     ]));
