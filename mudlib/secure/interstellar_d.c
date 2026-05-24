@@ -21,6 +21,24 @@ void receive_p2p_message(string sender, string content, string type) {
     if (!sender || sender == "") sender = "Unknown";
     if (!type || type == "") type = "chat";
 
+    // 🚀 關鍵：重複訊息過濾 (De-bounce)
+    // 針對同一個發送者，若 2 秒內傳來完全相同的內容，則視為重複路由，予以忽略
+    string msg_key = sender + ":" + content;
+    int now = time();
+    
+    if (mapp(last_messages[msg_key]) && (now - last_messages[msg_key]["time"] < 2)) {
+        // write("DEBUG: 攔截到重複星際訊息。\n");
+        return;
+    }
+    
+    // 更新緩存
+    last_messages[msg_key] = ([ "time": now ]);
+    
+    // 定期清理緩存 (避免記憶體洩漏)
+    if (sizeof(last_messages) > 100) {
+        last_messages = ([]);
+    }
+
     // ── Fantasy Space 跨服協議路由 ──────────────────────
     // 格式 1：fs_query|from_mudlib|to_mudlib|type|payload
     // 格式 2：fs_resp|from_mudlib|to_mudlib|type|payload...
@@ -68,24 +86,6 @@ void receive_p2p_message(string sender, string content, string type) {
             fs_d->receive_fs_response(from_mudlib, query_type, payload);
         }
         return; // fs 訊息不走一般聊天流程
-    }
-    
-    // 🚀 關鍵：重複訊息過濾 (De-bounce)
-    // 針對同一個發送者，若 2 秒內傳來完全相同的內容，則視為重複路由，予以忽略
-    string msg_key = sender + ":" + content;
-    int now = time();
-    
-    if (mapp(last_messages[msg_key]) && (now - last_messages[msg_key]["time"] < 2)) {
-        // write("DEBUG: 攔截到重複星際訊息。\n");
-        return;
-    }
-    
-    // 更新緩存
-    last_messages[msg_key] = ([ "time": now ]);
-    
-    // 定期清理緩存 (避免記憶體洩漏)
-    if (sizeof(last_messages) > 100) {
-        last_messages = ([]);
     }
 
     string full_msg;
