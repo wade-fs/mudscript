@@ -53,31 +53,23 @@ void receive_p2p_message(string sender, string content, string type) {
         string query_type = "";
         string payload = "";
 
-        // 簡單 split by | (最多5段，payload 可含 |)
-        string work = content;
-        int p1 = strsrch(work, "|");
-        if (p1 < 0) return;
-        tag = substr(work, 0, p1);
-        work = substr(work, p1 + 1, strlen(work) - p1 - 1);
-
-        int p2 = strsrch(work, "|");
-        if (p2 < 0) return;
-        from_mudlib = substr(work, 0, p2);
-        work = substr(work, p2 + 1, strlen(work) - p2 - 1);
-
-        int p3 = strsrch(work, "|");
-        if (p3 < 0) return;
-        to_mudlib = substr(work, 0, p3);
-        work = substr(work, p3 + 1, strlen(work) - p3 - 1);
-
-        int p4 = strsrch(work, "|");
-        if (p4 < 0) {
-            query_type = work;
-            payload = "";
-        } else {
-            query_type = substr(work, 0, p4);
-            payload = substr(work, p4 + 1, strlen(work) - p4 - 1);
+        // 使用一個更安全的字串拆分方法，避免 payload 內部有 |
+        // 格式：tag|from|to|query_type|payload
+        string *parts = explode(content, "|");
+        if (sizeof(parts) < 4) return;
+        
+        tag = parts[0];
+        from_mudlib = parts[1];
+        to_mudlib = parts[2];
+        query_type = parts[3];
+        
+        // 重新組裝 payload（若有多個 |）
+        payload = "";
+        for (int i = 4; i < sizeof(parts); i++) {
+            payload += parts[i];
+            if (i < sizeof(parts) - 1) payload += "|";
         }
+
 
         // 決定是否處理（to_mudlib 是本 mudlib 或廣播）
         if (tag == "fs_query" && (to_mudlib == FS_MUDLIB_ID || to_mudlib == "*")) {
