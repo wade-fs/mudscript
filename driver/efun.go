@@ -100,7 +100,7 @@ func (d *Driver) SetupEfuns(obj *object.LPCObject) {
 // 🚀 P2P 擴充 (P2P Extensions)
 // ==========================================
 func (d *Driver) registerP2PEfuns(obj *object.LPCObject) {
-	// 語法: void p2p_broadcast(string content)
+	// 語法: void p2p_broadcast(string content, [string sender_id])
 	// 說明: 將訊息發送到全球 P2P 網路（星際網路）。
 	obj.Vars.Set("p2p_broadcast", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
@@ -110,10 +110,16 @@ func (d *Driver) registerP2PEfuns(obj *object.LPCObject) {
 
 			if d.P2PSendChat != nil {
 				sender := "Unknown"
-				if p := d.GetCurrentPlayer(); p != nil {
-					sender = p.Username
+				if len(args) > 1 {
+					if customSender, ok := args[1].(*object.String); ok && customSender.Value != "" {
+						sender = customSender.Value
+					}
 				} else {
-					sender = obj.Filename
+					if p := d.GetCurrentPlayer(); p != nil {
+						sender = p.Username
+					} else {
+						sender = obj.Filename
+					}
 				}
 				d.P2PSendChat(sender, content.Value)
 			}

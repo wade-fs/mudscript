@@ -11,7 +11,15 @@ int main(object me, string verb, string arg) {
         return 1;
     }
 
-    p2p_broadcast(arg);
+    // 取得玩家的跨服識別字
+    string sender_id = me->query_full_id();
+    if (!sender_id || sender_id == "") {
+        sender_id = me->query_name();
+    }
+
+    // 將 sender_id 作為第二個參數傳遞給 Go Driver，這樣就能乾淨地替換掉發送者名稱
+    p2p_broadcast(arg, sender_id);
+    
     return 1;
 }
 
