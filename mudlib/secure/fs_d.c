@@ -266,13 +266,49 @@ string rewrite_assets(string src, string mudlib_id, string current_file_path) {
 // ── 接收遠端回應（由 interstellar_d 呼叫） ───────────
 void receive_fs_response(string mudlib_id, string resp_type, string payload) {
     if (resp_type == "list") {
-        // ... (原有 list 邏輯不變)
+        // payload: name1|id1,name2|id2...
+        // 為了避免重複顯示，我們這裡僅將收到的清單整理後顯示給所有玩家
+        string *muds = explode(payload, ",");
+        string output = HIW("\n【Fantasy Space 星際節點清單】\n");
+        foreach (string mud in muds) {
+            string *parts = explode(mud, "|");
+            if (sizeof(parts) >= 2) {
+                output += sprintf("  %-20s : %s\n", parts[0], parts[1]);
+            }
+        }
+        output += "\n";
+
+        object *us = users();
+        foreach (object u in us) {
+            if (u && userp(u)) tell_object(u, output);
+        }
         return;
     }
 
     if (resp_type == "info") {
-        // ... (原有 info 邏輯不變)
-        // ... (原有 pending_travel 邏輯不變)
+        // payload: mudlib_id|info|name|entrance_room
+        string *parts = explode(payload, "|");
+        if (sizeof(parts) >= 4) {
+            if (!joined_muds[mudlib_id]) {
+                joined_muds[mudlib_id] = ([
+                    "hub_url":   FS_HUB_URL,
+                    "joined_at": time(),
+                ]);
+            }
+            joined_muds[mudlib_id]["status"] = "active";
+            joined_muds[mudlib_id]["name"] = parts[2];
+            joined_muds[mudlib_id]["entrance"] = parts[3];
+
+            // 🚀 關鍵：處理等待傳送的玩家
+            if (pending_travel[mudlib_id]) {
+                foreach (object p in pending_travel[mudlib_id]) {
+                    if (p && environment(p)) {
+                        init_fsgoto(p, mudlib_id);
+                    }
+                }
+                map_delete(pending_travel, mudlib_id);
+            }
+        }
     } else if (resp_type == "room") {
         // payload: room path + "|" + LPC source
         int sep = strsrch(payload, "|");

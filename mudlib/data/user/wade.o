@@ -15,13 +15,13 @@
     "w": "go west",
     "west": "go west"
   },
-  "attack": 40,
+  "attack": 48,
   "bank_balance": 0,
   "can_open": 0,
   "combat_target": 0,
   "current_mudlib": "",
   "data_base_path": "/mudlib/data/",
-  "defence": 23,
+  "defence": 20,
   "equip_body": null,
   "equip_feet": null,
   "equip_hands": null,
@@ -37,7 +37,7 @@
   "guild_exp": 0,
   "guild_rank": "",
   "heart_beat_count": 0,
-  "hp": 185,
+  "hp": 155,
   "id": "wade",
   "id_list": [
     "wade"
@@ -52,16 +52,16 @@
   "leader": null,
   "level": 1,
   "long_name": "這是一個沒有描述的東西。",
-  "max_hp": 185,
+  "max_hp": 155,
   "max_items": 20,
-  "max_mp": 81,
+  "max_mp": 57,
   "max_weight": 10000,
   "money_balance": 0,
   "money_value": 0,
-  "mp": 81,
+  "mp": 57,
   "muted_channels": {},
   "name": "wade",
-  "nature": "tough",
+  "nature": "brave",
   "no_drop": 0,
   "no_get": 0,
   "password": "de3bbd0fd7945e42581643b18cdf28dd3ed61d9c3d541b7b016081564b65a3f3",
@@ -69,23 +69,23 @@
   "pk_timer": 0,
   "potential": 0,
   "quests": {},
-  "race": "dwarf",
+  "race": "orc",
   "responses": {},
   "role": "god",
   "saved_inventory": [],
   "short_name": "某個東西",
   "skills": {
-    "endurance": {
+    "power_strike": {
       "exp": 0,
       "level": 1
     }
   },
-  "stat_cha": 10,
-  "stat_con": 18,
-  "stat_dex": 9,
-  "stat_int": 9,
-  "stat_str": 15,
-  "stat_wis": 11,
+  "stat_cha": 8,
+  "stat_con": 15,
+  "stat_dex": 12,
+  "stat_int": 6,
+  "stat_str": 19,
+  "stat_wis": 8,
   "write_paths": [
     "/"
   ]
