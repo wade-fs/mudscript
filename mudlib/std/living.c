@@ -390,7 +390,12 @@ void revive() {
     mp = max_mp / 10;
     set_heart_beat(1);
     
-    object start = load_object(START_ROOM);
+    string start_path = START_ROOM;
+    if (userp(this_object())) {
+        start_path = this_object()->query_start_room();
+    }
+    
+    object start = load_object(start_path);
     if (start) {
         move_object(start);
         write(HIW("你在祈禱室緩緩睜開雙眼，感覺身體非常虛弱。\n"));

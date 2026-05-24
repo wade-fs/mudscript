@@ -67,6 +67,25 @@ void create() {
 string query_current_mudlib() { return current_mudlib; }
 string query_data_base_path() { return data_base_path; }
 
+// 🚀 新增：動態取得起始點 (支援跨服)
+string query_start_room() {
+    if (current_mudlib != "") {
+        object fs_d = find_object("/secure/fs_d.c");
+        if (fs_d) {
+            mapping joined = fs_d->query_joined_muds();
+            if (joined && joined[current_mudlib]) {
+                string ent = joined[current_mudlib]["entrance"];
+                if (ent && ent != "") {
+                    return FS_CACHE_DIR + "/" + current_mudlib + ent;
+                }
+            }
+        }
+        // 若找不到遠端入口，退而求其次回傳緩存目錄的預設起始點
+        return FS_CACHE_DIR + "/" + current_mudlib + START_ROOM;
+    }
+    return START_ROOM;
+}
+
 // 當環境改變時，自動更新跨服狀態
 int move(mixed dest, string dir) {
     int res = ::move(dest, dir);
@@ -172,12 +191,13 @@ int process_input(string input) {
 }
 
 void move_to_start() {
-    object start = load_object(START_ROOM);
+    string start_path = query_start_room();
+    object start = load_object(start_path);
     if (start) {
         move_object(start);
         start->look_room(this_object());
     } else {
-        write("致命錯誤：找不到起始點 " + START_ROOM + "\n");
+        write("致命錯誤：找不到起始點 " + start_path + "\n");
     }
 }
 

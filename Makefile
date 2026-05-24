@@ -37,8 +37,11 @@ push-hf:
 	@git push hf hf-deploy:main --force
 	@git checkout main
 
+clean-txt:
+	@ rm -f *txt *log
+
 # 🚀 一鍵雙推
-push: push-github push-hf
+push: clean-txt push-github push-hf
 
 # 建立編譯目錄
 
