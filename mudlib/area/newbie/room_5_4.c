@@ -18,8 +18,8 @@ void create() {
     set_has_shop(1);
     set_is_outdoor(0);
     set_coordinate(5, 4, 0);
-    add_exit("west", "/area/newbie/room_4_4.c");
-    add_exit("east", "/area/newbie/room_6_4.c");
+    add_exit("west", "./room_4_4.c");
+    add_exit("east", "./room_6_4.c");
 
     // 產生老闆
     spawn_npc("/npc/armourer.c");

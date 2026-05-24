@@ -16,8 +16,8 @@ void create() {
         "zh-CN": "这里是一片广阔的草原，微风拂过，草浪起伏。\n远处可以看到几匹野马正在悠闲地吃草。\n"
     ]));
     set_coordinate(6, 6, 0);
-    add_exit("west", "/area/newbie/room_5_6.c");
-    add_exit("south", "/area/newbie/room_6_5.c");
+    add_exit("west", "./room_5_6.c");
+    add_exit("south", "./room_6_5.c");
 
     spawn_npc("/npc/horse.c");
 }

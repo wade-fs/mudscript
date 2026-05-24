@@ -10,7 +10,7 @@ void create() {
     set_is_outdoor(0);
     set_coordinate(10, 11, 0);
     
-    add_exit("south", "/area/newbie/secret_entrance.c");
+    add_exit("south", "./secret_entrance.c");
 
     // 放置主動攻擊的野狼
     object wolf = clone_object("/npc/wolf.c");

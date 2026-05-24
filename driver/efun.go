@@ -788,7 +788,8 @@ func (d *Driver) registerEnvironmentEfuns(obj *object.LPCObject) {
 			if len(args) != 1 || args[0].TokenType() != object.StringType {
 				return object.NewError("clone_object 需要 string 參數")
 			}
-			clonedObj, err := d.CloneObject(args[0].(*object.String).Value)
+			path := d.ResolvePath(obj.Filename, args[0].(*object.String).Value)
+			clonedObj, err := d.CloneObject(path)
 			if err != nil { return object.NewError("clone error: %s", err.Error()) }
 			return clonedObj
 		},
@@ -1459,8 +1460,10 @@ func (d *Driver) registerStringEfuns(obj *object.LPCObject) {
 				return object.NewError("get_dir 的第一個參數必須是字串")
 			}
 
+			resolvedPath := d.ResolvePath(obj.Filename, pathArg.Value)
+
 			// 🚀 權限檢查
-			allowed, errMsg := d.checkReadPermission(obj, pathArg.Value, "get_dir")
+			allowed, errMsg := d.checkReadPermission(obj, resolvedPath, "get_dir")
 			if !allowed {
 				if p := d.GetCurrentPlayer(); p != nil {
 					p.Send(fmt.Sprintf("\r\n⚠️ 系統安全攔截：%s\r\n", errMsg))
@@ -1476,7 +1479,7 @@ func (d *Driver) registerStringEfuns(obj *object.LPCObject) {
 			}
 
 			// 處理路徑與安全防護 (防止 ../ 跳出 MudLib 目錄)
-			searchPath := pathArg.Value
+			searchPath := resolvedPath
 			if !strings.HasPrefix(searchPath, "/") {
 				searchPath = "/" + searchPath
 			}
@@ -1902,7 +1905,8 @@ func (d *Driver) registerSystemAndFiles(obj *object.LPCObject) {
 			file, ok := args[0].(*object.String)
 			if !ok { return &object.Integer{Value: 0} }
 
-			allowed, errMsg := d.checkWritePermission(obj, file.Value, "rm")
+			resolvedPath := d.ResolvePath(obj.Filename, file.Value)
+			allowed, errMsg := d.checkWritePermission(obj, resolvedPath, "rm")
 			if !allowed {
 				if p := d.GetCurrentPlayer(); p != nil {
 					p.Send(fmt.Sprintf("\r\n⚠️ 系統安全攔截：%s\r\n", errMsg))
@@ -1910,7 +1914,7 @@ func (d *Driver) registerSystemAndFiles(obj *object.LPCObject) {
 				return &object.Integer{Value: 0}
 			}
 
-			fullPath := filepath.Join(d.Config.MudLibPath, file.Value)
+			fullPath := filepath.Join(d.Config.MudLibPath, resolvedPath)
 			err := os.Remove(fullPath)
 			if err != nil { return &object.Integer{Value: 0} }
 			return &object.Integer{Value: 1}
@@ -1926,20 +1930,23 @@ func (d *Driver) registerSystemAndFiles(obj *object.LPCObject) {
 			to, ok2 := args[1].(*object.String)
 			if !ok1 || !ok2 { return &object.Integer{Value: 0} }
 
+			resolvedFrom := d.ResolvePath(obj.Filename, from.Value)
+			resolvedTo := d.ResolvePath(obj.Filename, to.Value)
+
 			// 兩邊都要檢查權限
-			allowed, errMsg := d.checkWritePermission(obj, from.Value, "rename_from")
+			allowed, errMsg := d.checkWritePermission(obj, resolvedFrom, "rename_from")
 			if !allowed {
 				if p := d.GetCurrentPlayer(); p != nil { p.Send(fmt.Sprintf("\r\n⚠️ 來源權限拒絕：%s\r\n", errMsg)) }
 				return &object.Integer{Value: 0}
 			}
-			allowed, errMsg = d.checkWritePermission(obj, to.Value, "rename_to")
+			allowed, errMsg = d.checkWritePermission(obj, resolvedTo, "rename_to")
 			if !allowed {
 				if p := d.GetCurrentPlayer(); p != nil { p.Send(fmt.Sprintf("\r\n⚠️ 目標權限拒絕：%s\r\n", errMsg)) }
 				return &object.Integer{Value: 0}
 			}
 
-			fullFrom := filepath.Join(d.Config.MudLibPath, from.Value)
-			fullTo := filepath.Join(d.Config.MudLibPath, to.Value)
+			fullFrom := filepath.Join(d.Config.MudLibPath, resolvedFrom)
+			fullTo := filepath.Join(d.Config.MudLibPath, resolvedTo)
 
 			os.MkdirAll(filepath.Dir(fullTo), 0755)
 			err := os.Rename(fullFrom, fullTo)
@@ -1968,10 +1975,31 @@ func (d *Driver) registerSystemAndFiles(obj *object.LPCObject) {
 		Fn: func(args ...object.Object) object.Object {
 			if len(args) == 0 { return &object.Nil{} }
 			if path, ok := args[0].(*object.String); ok {
-				res, err := d.LoadObject(path.Value)
+				resolvedPath := d.ResolvePath(obj.Filename, path.Value)
+				res, err := d.LoadObject(resolvedPath)
 				if err == nil { return res }
 			}
 			return &object.Nil{}
+		},
+	})
+
+	// 語法: string resolve_path(string base, string rel)
+	// 說明: 將相對路徑轉換為絕對路徑。
+	// 範例: resolve_path("/area/newbie/room_0_0.c", "./room_0_1.c") -> "/area/newbie/room_0_1.c"
+	obj.Vars.Set("resolve_path", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 1 { return &object.Nil{} }
+			rel, ok := args[0].(*object.String)
+			if !ok { return &object.Nil{} }
+			
+			base := obj.Filename
+			if len(args) > 1 {
+				if b, ok := args[1].(*object.String); ok {
+					base = b.Value
+				}
+			}
+			
+			return &object.String{Value: d.ResolvePath(base, rel.Value)}
 		},
 	})
 
@@ -1985,7 +2013,8 @@ func (d *Driver) registerSystemAndFiles(obj *object.LPCObject) {
 			text, ok2 := args[1].(*object.String)
 			if !ok1 || !ok2 { return &object.Integer{Value: 0} }
 
-			allowed, errMsg := d.checkWritePermission(obj, file.Value, "write_file")
+			resolvedPath := d.ResolvePath(obj.Filename, file.Value)
+			allowed, errMsg := d.checkWritePermission(obj, resolvedPath, "write_file")
 			if !allowed {
 				// 直接將錯誤訊息印給當前玩家
 				if p := d.GetCurrentPlayer(); p != nil {
@@ -2003,7 +2032,7 @@ func (d *Driver) registerSystemAndFiles(obj *object.LPCObject) {
 				}
 			}
 
-			fullPath := filepath.Join(d.Config.MudLibPath, file.Value)
+			fullPath := filepath.Join(d.Config.MudLibPath, resolvedPath)
 
 			os.MkdirAll(filepath.Dir(fullPath), 0755)
 			f, err := os.OpenFile(fullPath, flag, 0644)
@@ -2028,8 +2057,9 @@ func (d *Driver) registerSystemAndFiles(obj *object.LPCObject) {
 				path = args[0].Inspect()
 			}
 			
-			if !strings.HasSuffix(path, ".c") { path += ".c" }
-			res, err := d.LoadObject(path)
+			resolvedPath := d.ResolvePath(obj.Filename, path)
+			if !strings.HasSuffix(resolvedPath, ".c") { resolvedPath += ".c" }
+			res, err := d.LoadObject(resolvedPath)
 			if err != nil { return object.NewError("%s", err.Error()) }
 			return res
 		},
@@ -2044,8 +2074,9 @@ func (d *Driver) registerSystemAndFiles(obj *object.LPCObject) {
 			fileName, ok := args[0].(*object.String)
 			if !ok { return object.NewError("read_file 需要字串參數") }
 
+			resolvedPath := d.ResolvePath(obj.Filename, fileName.Value)
 			// 🚀 權限檢查
-			allowed, errMsg := d.checkReadPermission(obj, fileName.Value, "read_file")
+			allowed, errMsg := d.checkReadPermission(obj, resolvedPath, "read_file")
 			if !allowed {
 				if p := d.GetCurrentPlayer(); p != nil {
 					p.Send(fmt.Sprintf("\r\n⚠️ 系統安全攔截：%s\r\n", errMsg))
@@ -2053,7 +2084,7 @@ func (d *Driver) registerSystemAndFiles(obj *object.LPCObject) {
 				return &object.Nil{}
 			}
 
-			content, err := d.ReadFile(fileName.Value)
+			content, err := d.ReadFile(resolvedPath)
 			if err != nil { return &object.Nil{} }
 			return &object.String{Value: string(content)}
 		},
@@ -2068,11 +2099,10 @@ func (d *Driver) registerSystemAndFiles(obj *object.LPCObject) {
 			fileName, ok := args[0].(*object.String)
 			if !ok { return &object.Integer{Value: -1} }
 
-			searchPath := fileName.Value
-			if !strings.HasPrefix(searchPath, "/") { searchPath = "/" + searchPath }
+			resolvedPath := d.ResolvePath(obj.Filename, fileName.Value)
 			
 			// 1. 優先檢查實體磁碟
-			fullPath := filepath.Join(d.Config.MudLibPath, searchPath)
+			fullPath := filepath.Join(d.Config.MudLibPath, resolvedPath)
 			if info, err := os.Stat(fullPath); err == nil {
 				if info.IsDir() { return &object.Integer{Value: -2} }
 				return &object.Integer{Value: info.Size()}
@@ -2080,7 +2110,7 @@ func (d *Driver) registerSystemAndFiles(obj *object.LPCObject) {
 			
 			// 2. 備援檢查嵌入檔案
 			if d.Config.EmbeddedFS != nil {
-				embedPath := filepath.Join("mudlib", strings.TrimPrefix(searchPath, "/"))
+				embedPath := filepath.Join("mudlib", strings.TrimPrefix(resolvedPath, "/"))
 				if info, err := fs.Stat(d.Config.EmbeddedFS, embedPath); err == nil {
 					if info.IsDir() { return &object.Integer{Value: -2} }
 					return &object.Integer{Value: info.Size()}

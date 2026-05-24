@@ -16,6 +16,6 @@ void create() {
     ]));
     set_no_combat(1);
     set_coordinate(5, 5, 0);
-    add_exit("west", "/area/newbie/room_4_5.c");
-    add_exit("south", "/area/newbie/room_5_4.c");
+    add_exit("west", "./room_4_5.c");
+    add_exit("south", "./room_5_4.c");
 }

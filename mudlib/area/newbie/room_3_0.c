@@ -15,7 +15,7 @@ void create() {
         "zh-CN": "这里是一条安静的街道，偶尔有居民走过。\n"
     ]));
     set_coordinate(3, 0, 0);
-    add_exit("west", "/area/newbie/room_2_0.c");
-    add_exit("east", "/area/newbie/room_4_0.c");
-    add_exit("north", "/area/newbie/room_3_1.c");
+    add_exit("west", "./room_2_0.c");
+    add_exit("east", "./room_4_0.c");
+    add_exit("north", "./room_3_1.c");
 }

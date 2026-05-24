@@ -15,7 +15,7 @@ void create() {
         "zh-CN": "这是城镇的西侧入口，厚重的木门平时敞开着。这里是防御外部野兽威胁的第一线。\n"
     ]));
     set_coordinate(0, 4, 0);
-    add_exit("east", "/area/newbie/room_1_4.c");
+    add_exit("east", "./room_1_4.c");
     
     object ob = clone_object("/npc/guard.c");
     if (ob) move_object(ob, this_object());

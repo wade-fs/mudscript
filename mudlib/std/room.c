@@ -75,7 +75,7 @@ void set_has_shop(int v) { has_shop  = v; }
 void set_is_outdoor(int v){ is_outdoor = v; }
 
 void add_exit(string dir, string path) {
-    exits[dir] = path;
+    exits[dir] = resolve_path(path, object_name(this_object()));
 }
 
 void add_item(string id, string desc) {
@@ -88,7 +88,7 @@ void add_hidden_element(string id, mapping data) {
 
 // ── NPC 產生與重生 ─────────────────────────────────────
 void spawn_npc(string file) {
-    object ob = clone_object(file);
+    object ob = clone_object(resolve_path(file, object_name(this_object())));
     if (ob) {
         move_object(ob, this_object());
     }
@@ -247,19 +247,13 @@ int do_go(string dir) {
     string dest_path = exits[cmd];
     object dest;
     
-    // 檢查是否為遠端出口
-    object fs_d = find_object("/secure/fs_d.c");
-    if (fs_d) {
-        mapping exit_map = fs_d->query_exit_map();
-        string current_path = object_name(this_object());
-        string exit_key = current_path + ":" + cmd;
-        if (exit_map[exit_key]) {
-            dest = fs_d->get_remote_room(exit_map[exit_key]["mudlib"], exit_map[exit_key]["room"]);
-        }
-    }
-    
+    // dest_path 若為緩存路徑（/data/fs_cache/...），load_object 直接載入遠端緩存 room
+    // 若尚未緩存，load_object 會失敗，再透過 fs_d 懶加載
+    dest = load_object(dest_path);
     if (!dest) {
-        dest = load_object(dest_path);
+        // 嘗試判斷是否為遠端路徑（/area/... 但緩存不存在）
+        // 這種情況代表玩家在未完整緩存的遠端區域移動，不做額外處理
+        // 正常情況下不應發生（緩存 room 的 exits 應已指向 FS_CACHE_DIR）
     }
     
     if (!dest) {

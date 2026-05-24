@@ -18,10 +18,10 @@ void create() {
     set_has_guild(1);
     set_is_outdoor(0);
     set_coordinate(4, 5, 0);
-    add_exit("east",  "/area/newbie/room_5_5.c");
-    add_exit("west",  "/area/newbie/room_3_5.c");
-    add_exit("north", "/area/newbie/room_4_6.c");
-    add_exit("south", "/area/newbie/room_4_4.c"); // 連接中央廣場
+    add_exit("east",  "./room_5_5.c");
+    add_exit("west",  "./room_3_5.c");
+    add_exit("north", "./room_4_6.c");
+    add_exit("south", "./room_4_4.c"); // 連接中央廣場
 
     // 產生老闆
     spawn_npc("/npc/guild_master.c");

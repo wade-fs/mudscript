@@ -15,7 +15,7 @@ void create() {
         "zh-CN": "宽阔的街道两旁开满了各式小店。\n"
     ]));
     set_coordinate(7, 4, 0);
-    add_exit("west", "/area/newbie/room_6_4.c");
-    add_exit("south", "/area/newbie/room_7_3.c");
-    add_exit("north", "/area/newbie/room_7_5.c");
+    add_exit("west", "./room_6_4.c");
+    add_exit("south", "./room_7_3.c");
+    add_exit("north", "./room_7_5.c");
 }

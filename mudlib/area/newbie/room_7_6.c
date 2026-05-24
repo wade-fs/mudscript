@@ -15,9 +15,9 @@ void create() {
         "zh-CN": "这是城镇东北角的一块废弃空地，地面凹凸不平，几根断裂的石柱东倒西歪。石柱上有古老符文的痕迹，空气中有股说不出来的压迫感。\n"
     ]));
     set_coordinate(7, 6, 0);
-    add_exit("north", "/area/newbie/room_7_7.c");
-    add_exit("west",  "/area/newbie/room_6_6.c");
-    add_exit("south", "/area/newbie/room_7_5.c");
+    add_exit("north", "./room_7_7.c");
+    add_exit("west",  "./room_6_6.c");
+    add_exit("south", "./room_7_5.c");
 
     object golem = clone_object("/npc/creature/stone_golem.c");
     if (golem) move_object(golem, this_object());

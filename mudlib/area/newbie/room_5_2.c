@@ -15,10 +15,10 @@ void create() {
         "zh-CN": "这里是通往城镇南边的岔路口，路旁的矮林浓密阴暗，有几个像是小脚印的凹坑——哥布林最爱在这种地方埋伏。\n"
     ]));
     set_coordinate(5, 2, 0);
-    add_exit("east",  "/area/newbie/room_6_2.c");
-    add_exit("west",  "/area/newbie/room_4_2.c");
-    add_exit("north", "/area/newbie/room_5_3.c");
-    add_exit("south", "/area/newbie/room_5_1.c");
+    add_exit("east",  "./room_6_2.c");
+    add_exit("west",  "./room_4_2.c");
+    add_exit("north", "./room_5_3.c");
+    add_exit("south", "./room_5_1.c");
 
     object goblin = clone_object("/npc/creature/forest_goblin.c");
     if (goblin) move_object(goblin, this_object());

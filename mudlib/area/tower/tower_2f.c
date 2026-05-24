@@ -19,5 +19,5 @@ void create() {
     ]));
     set_coordinate(0, 5, 1);
     set_is_outdoor(0);
-    add_exit("down", "/area/tower/tower_1f.c");
+    add_exit("down", "./tower_1f.c");
 }

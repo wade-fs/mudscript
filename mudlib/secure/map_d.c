@@ -82,9 +82,12 @@ string draw_map(object me, int range) {
                         object n_ob = find_object(neighbor_file);
                         if (!n_ob) n_ob = load_object(neighbor_file);
                         mapping n_exits = n_ob->query_exits();
-                        if (mapp(n_exits) && n_exits[opp[i]] && strsrch(n_exits[opp[i]], r_file) != -1) {
-                            visible = 1;
-                            break;
+                        if (mapp(n_exits) && n_exits[opp[i]]) {
+                            string target = resolve_path(n_exits[opp[i]], neighbor_file);
+                            if (target == r_file) {
+                                visible = 1;
+                                break;
+                            }
                         }
                     }
                 }
@@ -120,8 +123,8 @@ string draw_map(object me, int range) {
                     mapping e1 = r1->query_exits();
                     int connected = 0;
                     if (mapp(e1) && e1["east"]) {
-                        string target = e1["east"];
-                        if (strsrch(target, next_file) != -1) connected = 1;
+                        string target = resolve_path(e1["east"], r_file);
+                        if (target == next_file) connected = 1;
                     }
                     
                     // 只有當其中一端是可見時才繪製連線
@@ -148,8 +151,8 @@ string draw_map(object me, int range) {
                     mapping e1 = r1->query_exits();
                     int connected = 0;
                     if (mapp(e1) && e1["south"]) {
-                        string target = e1["south"];
-                        if (strsrch(target, south_file) != -1) connected = 1;
+                        string target = resolve_path(e1["south"], r_file);
+                        if (target == south_file) connected = 1;
                     }
                     if (connected && (visible || south_visible)) path_line += " | "; else path_line += "   ";
                 } else {
@@ -230,8 +233,11 @@ mapping get_map_json(object me, int range) {
                 if (r_file && next_f) {
                     object r1 = load_object(r_file);
                     mapping e1 = r1->query_exits();
-                    if (mapp(e1) && e1["east"] && strsrch(e1["east"], next_f) != -1) {
-                        connections += ({ ({ x, y, x+1, y }) });
+                    if (mapp(e1) && e1["east"]) {
+                        string target = resolve_path(e1["east"], r_file);
+                        if (target == next_f) {
+                            connections += ({ ({ x, y, x+1, y }) });
+                        }
                     }
                 }
             }
@@ -241,8 +247,11 @@ mapping get_map_json(object me, int range) {
                 if (r_file && south_f) {
                     object r1 = load_object(r_file);
                     mapping e1 = r1->query_exits();
-                    if (mapp(e1) && e1["south"] && strsrch(e1["south"], south_f) != -1) {
-                        connections += ({ ({ x, y, x, y-1 }) });
+                    if (mapp(e1) && e1["south"]) {
+                        string target = resolve_path(e1["south"], r_file);
+                        if (target == south_f) {
+                            connections += ({ ({ x, y, x, y-1 }) });
+                        }
                     }
                 }
             }

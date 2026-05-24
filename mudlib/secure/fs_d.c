@@ -16,21 +16,18 @@ mapping joined_muds;
 // room_cache: ([ "other.mud:/area/newbie/room_0_0": lpc_source_string ])
 mapping room_cache;
 
-// exit_map: 本地出口 -> 遠端 mudlib room
-// ([ "/area/newbie/room_4_4.c:portal_east": ([ "mudlib": "other.mud", "room": "/area/newbie/room_0_0.c" ]) ])
-mapping exit_map;
+// exit_map 已移除：緩存 room 的 add_exit 路徑直接指向 FS_CACHE_DIR，無需額外 mapping
 
 void create() {
     ::create();
     if (!joined_muds) joined_muds = ([]);
     if (!room_cache)  room_cache  = ([]);
-    if (!exit_map)    exit_map    = ([]);
+
 }
 
 // ── 查詢 ──────────────────────────────────────────────
 mapping query_joined_muds() { return joined_muds; }
 mapping query_room_cache()  { return room_cache; }
-mapping query_exit_map()    { return exit_map; }
 
 int is_joined(string mudlib_id) {
     return (joined_muds && mapp(joined_muds[mudlib_id]));
@@ -80,16 +77,6 @@ string do_leave(object me, string mudlib_id) {
     }
     foreach (string k in keys_to_del) {
         map_delete(room_cache, k);
-    }
-
-    // 清空 exit_map 中屬於該 mudlib 的出口
-    keys_to_del = ({});
-    foreach (string k in keys(exit_map)) {
-        if (exit_map[k] && exit_map[k]["mudlib"] == mudlib_id)
-            keys_to_del += ({ k });
-    }
-    foreach (string k in keys_to_del) {
-        map_delete(exit_map, k);
     }
 
     // 移除已 clone 的遠端 room 物件
@@ -166,6 +153,49 @@ void list_muds(object me) {
     // 這裡為了簡化，我們在接收到回應時廣播給所有人，但可以優化為只給發送者
 }
 
+// ── 改寫遠端 room 的 add_exit 路徑 ──────────────────────
+// 把 add_exit("dir", "/area/...") 的路徑前面加上緩存目錄
+// 這樣玩家在緩存 room 內移動時，load_object 會直接載入緩存版
+// 若目標路徑以 /area/ 開頭才改寫（避免動到相對路徑或特殊出口）
+string rewrite_exits(string src, string mudlib_id) {
+    string prefix = FS_CACHE_DIR + "/" + mudlib_id;
+    string result = "";
+    string *lines = explode(src, "\n");
+    int i;
+    for (i = 0; i < sizeof(lines); i++) {
+        string line = lines[i];
+        // 找 add_exit(  行
+        if (strsrch(line, "add_exit") != -1) {
+            // 找第二個字串引數（路徑）
+            // 格式：add_exit("dir", "/area/...");
+            int q1 = strsrch(line, "\"");
+            if (q1 >= 0) {
+                int q2 = strsrch(line, "\"", q1 + 1);
+                if (q2 > q1) {
+                    int q3 = strsrch(line, "\"", q2 + 1);
+                    if (q3 > q2) {
+                        int q4 = strsrch(line, "\"", q3 + 1);
+                        if (q4 > q3) {
+                            string exit_path = substr(line, q3 + 1, q4 - q3 - 1);
+                            // 只改寫以 /area/ 或 / 開頭的絕對路徑
+                            if (strlen(exit_path) > 1 && exit_path[0] == '/') {
+                                string new_path = prefix + exit_path;
+                                // 把原始路徑換成緩存路徑
+                                line = substr(line, 0, q3) + "\"" + new_path + "\"" + substr(line, q4 + 1, strlen(line) - q4 - 1);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        if (i < sizeof(lines) - 1)
+            result += line + "\n";
+        else
+            result += line;
+    }
+    return result;
+}
+
 // ── 接收遠端回應（由 interstellar_d 呼叫） ───────────
 void receive_fs_response(string mudlib_id, string resp_type, string payload) {
     if (resp_type == "list") {
@@ -207,13 +237,15 @@ void receive_fs_response(string mudlib_id, string resp_type, string payload) {
         if (!lpc_src || lpc_src == "") return;
 
         string cache_key = mudlib_id + ":" + room_path;
-        room_cache[cache_key] = lpc_src;
+
+        // ── 改寫 add_exit 路徑：出口指向緩存版本而非本機 ──
+        string rewritten_src = rewrite_exits(lpc_src, mudlib_id);
+
+        room_cache[cache_key] = rewritten_src;
 
         // 寫入緩存檔案供 load_object 使用
-        string dir  = FS_CACHE_DIR + "/" + mudlib_id;
-        string file = dir + room_path;
-        // 確保目錄存在（MudScript 的 write_file 會自動建立）
-        write_file(file, lpc_src);
+        string file = FS_CACHE_DIR + "/" + mudlib_id + room_path;
+        write_file(file, rewritten_src);
 
         // 通知等在傳送門的玩家房間已就緒
         notify_waiting_players(mudlib_id, room_path);

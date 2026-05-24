@@ -21,8 +21,8 @@ void create() {
     set_is_outdoor(0);
     
     // 這裡設一個出口到地面（z=0）
-    add_exit("up", "/area/newbie/room_0_0.c");
-    add_exit("north", "/area/cave/cave_0_1_minus1.c");
+    add_exit("up", "../newbie/room_0_0.c");
+    add_exit("north", "./cave_0_1_minus1.c");
 }
 
 void reset() {

@@ -16,10 +16,10 @@ void create() {
     ]));
     set_no_combat(1);
     set_coordinate(4, 4, 0);
-    add_exit("north", "/area/newbie/room_4_5.c");
-    add_exit("south", "/area/newbie/room_4_3.c");
-    add_exit("west",  "/area/newbie/room_3_4.c");
-    add_exit("east",  "/area/newbie/room_5_4.c");
+    add_exit("north", "./room_4_5.c");
+    add_exit("south", "./room_4_3.c");
+    add_exit("west",  "./room_3_4.c");
+    add_exit("east",  "./room_5_4.c");
 
     // 廣場守衛
     spawn_npc("/npc/guard.c");

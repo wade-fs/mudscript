@@ -19,7 +19,7 @@ void create() {
     ]));
     set_coordinate(10, 0, 0);
     
-    add_exit("west", "/area/newbie/room_1_0.c");
+    add_exit("west", "../newbie/room_1_0.c");
 }
 
 void reset() {

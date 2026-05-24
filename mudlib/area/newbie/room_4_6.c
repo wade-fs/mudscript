@@ -19,8 +19,8 @@ void create() {
     set_has_lab(1);
     set_is_outdoor(0);
     set_coordinate(4, 6, 0);
-    add_exit("south", "/area/newbie/room_4_5.c");
-    add_exit("north", "/area/newbie/room_4_7.c");
+    add_exit("south", "./room_4_5.c");
+    add_exit("north", "./room_4_7.c");
 
     spawn_npc("/npc/mage_teacher.c");
 }

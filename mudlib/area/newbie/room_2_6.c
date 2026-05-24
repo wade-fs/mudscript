@@ -15,10 +15,10 @@ void create() {
         "zh-CN": "广场北方一块开阔的空地，几棵老树枝干横斜。仰头望去，空中盘旋着一只硕大的猛禽，它的影子在地面掠过——让人不敢大意。\n"
     ]));
     set_coordinate(2, 6, 0);
-    add_exit("west",  "/area/newbie/room_1_6.c");
-    add_exit("east",  "/area/newbie/room_3_6.c");
-    add_exit("north", "/area/newbie/room_2_7.c");
-    add_exit("south", "/area/newbie/room_2_5.c");
+    add_exit("west",  "./room_1_6.c");
+    add_exit("east",  "./room_3_6.c");
+    add_exit("north", "./room_2_7.c");
+    add_exit("south", "./room_2_5.c");
 
     object hawk = clone_object("/npc/creature/sky_hawk.c");
     if (hawk) move_object(hawk, this_object());

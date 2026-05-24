@@ -15,8 +15,8 @@ void create() {
         "zh-CN": "这里是一排排整齐的石造民居。\n"
     ]));
     set_coordinate(1, 2, 0);
-    add_exit("west", "/area/newbie/room_0_2.c");
-    add_exit("east", "/area/newbie/room_2_2.c");
-    add_exit("south", "/area/newbie/room_1_1.c");
-    add_exit("north", "/area/newbie/room_1_3.c");
+    add_exit("west", "./room_0_2.c");
+    add_exit("east", "./room_2_2.c");
+    add_exit("south", "./room_1_1.c");
+    add_exit("north", "./room_1_3.c");
 }

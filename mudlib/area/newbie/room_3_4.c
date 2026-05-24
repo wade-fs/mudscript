@@ -18,8 +18,8 @@ void create() {
     set_has_forge(1);
     set_is_outdoor(0);
     set_coordinate(3, 4, 0);
-    add_exit("east", "/area/newbie/room_4_4.c");
-    add_exit("west", "/area/newbie/room_2_4.c");
+    add_exit("east", "./room_4_4.c");
+    add_exit("west", "./room_2_4.c");
     
     // 產生老闆
     spawn_npc("/npc/blacksmith.c");

@@ -15,8 +15,8 @@ void create() {
         "zh-CN": "一条整洁的石板路，贯穿城镇南北。\n"
     ]));
     set_coordinate(4, 1, 0);
-    add_exit("west", "/area/newbie/room_3_1.c");
-    add_exit("east", "/area/newbie/room_5_1.c");
-    add_exit("south", "/area/newbie/room_4_0.c");
-    add_exit("north", "/area/newbie/room_4_2.c");
+    add_exit("west", "./room_3_1.c");
+    add_exit("east", "./room_5_1.c");
+    add_exit("south", "./room_4_0.c");
+    add_exit("north", "./room_4_2.c");
 }

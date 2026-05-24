@@ -17,10 +17,10 @@ void create() {
     set_no_combat(1);
     set_is_outdoor(0);
     set_coordinate(1, 1, 0);
-    add_exit("east",  "/area/newbie/room_2_1.c");
-    add_exit("west",  "/area/newbie/room_0_1.c");
-    add_exit("north", "/area/newbie/room_1_2.c");
-    add_exit("south", "/area/newbie/room_1_0.c");
+    add_exit("east",  "./room_2_1.c");
+    add_exit("west",  "./room_0_1.c");
+    add_exit("north", "./room_1_2.c");
+    add_exit("south", "./room_1_0.c");
 
     // 產生老闆
     spawn_npc("/npc/trainer.c");

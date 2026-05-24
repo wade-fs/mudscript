@@ -9,12 +9,12 @@ void create() {
     
     set_coordinate(10, 10, 0);
     
-    add_exit("south", "/area/newbie/room_0_0.c"); // 假設連接回起點
+    add_exit("south", "./room_0_0.c"); // 假設連接回起點
     
     // 加入隱藏出口
     add_hidden_element("north", ([
         "type": "exit",
-        "value": "/area/newbie/hidden_cave.c",
+        "value": "./hidden_cave.c",
         "msg": "你撥開了一叢茂密的雜草，發現後方竟然隱藏著一個狹窄的山洞入口！"
     ]));
 

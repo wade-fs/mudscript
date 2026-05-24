@@ -15,9 +15,9 @@ void create() {
         "zh-CN": "城镇西侧古老石墙的脚下，地面有多处隆起和裂缝，这里的土壤被什么东西从地底掀翻了。踩在松软的泥土上，偶尔能感受到地面微微震动。\n"
     ]));
     set_coordinate(0, 2, 0);
-    add_exit("east",  "/area/newbie/room_1_2.c");
-    add_exit("north", "/area/newbie/room_0_3.c");
-    add_exit("south", "/area/newbie/room_0_1.c");
+    add_exit("east",  "./room_1_2.c");
+    add_exit("north", "./room_0_3.c");
+    add_exit("south", "./room_0_1.c");
 
     object beast = clone_object("/npc/creature/mole_beast.c");
     if (beast) move_object(beast, this_object());

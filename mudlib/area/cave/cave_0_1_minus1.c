@@ -19,7 +19,7 @@ void create() {
     ]));
     set_coordinate(0, 1, -1);
     set_is_outdoor(0);
-    add_exit("south", "/area/cave/cave_0_0_minus1.c");
+    add_exit("south", "./cave_0_0_minus1.c");
 }
 
 void reset() {

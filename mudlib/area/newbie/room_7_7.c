@@ -15,8 +15,8 @@ void create() {
         "zh-CN": "城镇边缘安静的角落，种满了奇异的花草。靠近墙角的石缝间偶尔有蝙蝠的翅膀声，花丛中传来低沉的喘息声，这里并不像表面看起来那么平静。\n"
     ]));
     set_coordinate(7, 7, 0);
-    add_exit("west",  "/area/newbie/room_6_7.c");
-    add_exit("south", "/area/newbie/room_7_6.c");
+    add_exit("west",  "./room_6_7.c");
+    add_exit("south", "./room_7_6.c");
 
     object bat = clone_object("/npc/creature/cave_bat.c");
     if (bat) move_object(bat, this_object());

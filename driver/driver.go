@@ -315,6 +315,27 @@ func (d *Driver) RunCommand(p *PlayerConnection, obj *object.LPCObject, funcName
 	return d.CallFunction(obj, funcName, args)
 }
 
+// 🚀 新增：路徑解析 (支援 ./ 與 ../)
+func (d *Driver) ResolvePath(basePath, relPath string) string {
+	if !strings.HasPrefix(relPath, ".") {
+		if !strings.HasPrefix(relPath, "/") {
+			return "/" + relPath
+		}
+		return relPath
+	}
+
+	// 使用 path 包處理 LPC 虛擬路徑 (始終為 /)
+	dir := filepath.Dir(basePath)
+	resolved := filepath.Join(dir, relPath)
+	
+	// 轉回斜線格式並確保開頭有 /
+	res := filepath.ToSlash(resolved)
+	if !strings.HasPrefix(res, "/") {
+		res = "/" + res
+	}
+	return res
+}
+
 // 🚀 新增：混合模式讀取檔案
 func (d *Driver) ReadFile(filename string) ([]byte, error) {
 	relPath := strings.TrimPrefix(filename, "/")
@@ -381,7 +402,7 @@ func (d *Driver) LoadObject(filename string) (*object.LPCObject, error) {
 
 	for _, stmt := range program.Statements {
 		if inheritStmt, ok := stmt.(*ast.InheritStatement); ok {
-			parentFile := inheritStmt.Path
+			parentFile := d.ResolvePath(filename, inheritStmt.Path)
 			if !strings.HasSuffix(parentFile, ".c") {
 				parentFile += ".c"
 			}

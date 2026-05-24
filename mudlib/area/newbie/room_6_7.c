@@ -15,7 +15,7 @@ void create() {
         "zh-CN": "城镇边缘安静的角落，种满了奇异的花草。\n"
     ]));
     set_coordinate(6, 7, 0);
-    add_exit("west", "/area/newbie/room_5_7.c");
-    add_exit("east", "/area/newbie/room_7_7.c");
-    add_exit("south", "/area/newbie/room_6_6.c");
+    add_exit("west", "./room_5_7.c");
+    add_exit("east", "./room_7_7.c");
+    add_exit("south", "./room_6_6.c");
 }
