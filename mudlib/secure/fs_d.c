@@ -263,8 +263,14 @@ void handle_fs_query(string from_mudlib, string query_type, string query_payload
         p2p_broadcast(msg);
 
     } else if (query_type == "room") {
-        // 回傳指定 room 的 LPC 原始碼
-        string src = read_file(query_payload);
+        // query_payload 應該是類似 "/area/newbie/room_0_0.c"
+        // 為了確保安全與正確，我們加上 "/mudlib" 前綴
+        string real_path = "/mudlib" + query_payload;
+        string src = read_file(real_path);
+        if (!src) {
+             // 嘗試直接讀取
+             src = read_file(query_payload);
+        }
         if (!src) src = "";
         // 把回應傳回去
         string msg = "fs_resp|" + FS_MUDLIB_ID + "|" + from_mudlib + "|room|" + query_payload + "|" + src;
