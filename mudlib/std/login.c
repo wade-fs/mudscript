@@ -252,7 +252,7 @@ void create_character() {
         write("\n" + HIW("【系統初始化】") + "\n");
         write("偵測到您是本伺服器第一位玩家，請為您的 MUD 伺服器命名。\n");
         write("命名規則：最多四個英文單字，總長最多 64 個字母。\n");
-        write("例如：fantasy space\n");
+        write("例如：fantasy space2\n");
         write("請輸入伺服器名稱：");
         input_to("get_mudlib_name", user);
         return;
