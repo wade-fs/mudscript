@@ -43,6 +43,11 @@ int do_inventory(object me, string arg) {
 }
 
 int do_get(object me, string arg) {
+    // 🚀 幻影模式攔截
+    if (me->query_current_mudlib() != "") {
+        write("你目前處於幻影狀態，無法干涉這個世界的物質。\n");
+        return 1;
+    }
     if (!arg) { write(_t("get_what") + "\n"); return 1; }
 
     object container = environment(me);
@@ -159,6 +164,11 @@ int do_get(object me, string arg) {
 }
 
 int do_drop(object me, string arg) {
+    // 🚀 幻影模式攔截
+    if (me->query_current_mudlib() != "") {
+        write("你目前處於幻影狀態，無法拋棄現實世界的負擔。\n");
+        return 1;
+    }
     if (!arg) { write(_t("drop_what") + "\n"); return 1; }
     object item = present(arg, me);
     if (!item) {

@@ -1,6 +1,8 @@
 // /secure/valid.c
 // 權限管理物件
 
+#include "/include/config.h"
+
 inherit "/std/object";
 
 void create() {
@@ -41,6 +43,32 @@ mixed valid_write(string path, object user, string func)
 {
     string role;
     string *paths;
+
+    // 🚀 關鍵：深度沙盒與幻影模式
+    if (user && user != 0) {
+        string caller_file = base_name(user);
+        // 1. 如果呼叫者是來自遠端緩存的物件，嚴格禁止寫入緩存目錄以外的地方
+        if (strsrch(caller_file, FS_CACHE_DIR) == 0) {
+            // 提取該物件所屬的 mudlib_id
+            string rel = substr(caller_file, strlen(FS_CACHE_DIR) + 1, strlen(caller_file));
+            int slash = strsrch(rel, "/");
+            if (slash != -1) {
+                string mid = substr(rel, 0, slash);
+                string my_sandbox = FS_CACHE_DIR + "/" + mid + "/";
+                // 只允許寫入自己的沙盒內部或日誌
+                if (strsrch(path, my_sandbox) == 0 || strsrch(path, "/log/") == 0) {
+                    return 1;
+                }
+                return "遠端物件沙盒攔截：禁止跨目錄寫入。";
+            }
+        }
+
+        // 2. 如果是玩家物件且處於幻影模式 (在遠端世界)
+        if (userp(user) && user->query_current_mudlib() != "") {
+             // 幻影禁止任何寫入操作
+             return "幻影模式攔截：你目前處於虛幻狀態，無法對現實世界造成永久改變。";
+        }
+    }
 
     // 1. 如果沒有使用者物件，可能是系統守護進程（如 nature_d）在背景存檔
     if (!user || user == 0) {

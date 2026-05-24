@@ -82,6 +82,11 @@ void combat_heart_beat() {
 
 // ── 指令：kill / attack ──────────────────────────────────────
 int do_kill(string arg) {
+    // 🚀 幻影模式攔截
+    if (this_object()->query_current_mudlib() != "") {
+        write("你目前處於幻影狀態，無法干涉這個世界的因果。\n");
+        return 1;
+    }
     if (!arg) {
         write("你要攻擊誰？用法：kill <對象>\n");
         return 1;
@@ -158,6 +163,11 @@ int do_skills(string arg) {
 
 // ── 技能：fire ball ──────────────────────────────────────────
 int do_fireball(string arg) {
+    // 🚀 幻影模式攔截
+    if (this_object()->query_current_mudlib() != "") {
+        write("你目前處於幻影狀態，無法施展破壞性的法術。\n");
+        return 1;
+    }
     int mp_cost = 20;
     if (!arg) { write("用法：fireball <目標>\n"); return 1; }
     
