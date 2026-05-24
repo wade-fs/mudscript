@@ -22,7 +22,9 @@ int main(object me, string verb, string arg) {
         "/tests/test_closure_type.c",
         "/tests/test_logic.c",
         "/tests/test_coords.c",
-        "/tests/test_map.c",
+        "/tests/test_control_flow.c",
+        "/tests/test_logic.c",
+
         "/tests/test_nature.c",
         "/tests/test_save.c",
         "/tests/test_ternary.c",

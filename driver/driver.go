@@ -363,25 +363,33 @@ func (d *Driver) ResolvePath(basePath, relPath string) string {
 }
 
 // 🚀 新增：混合模式讀取檔案
+// 🚀 新增：混合模式讀取檔案 (支援 .c 尾碼自動修復)
 func (d *Driver) ReadFile(filename string) ([]byte, error) {
-	relPath := strings.TrimPrefix(filename, "/")
-	
-	// 1. 優先從實體磁碟讀取
-	fullPath := filepath.Join(d.Config.MudLibPath, relPath)
-	if _, err := os.Stat(fullPath); err == nil {
-		return os.ReadFile(fullPath)
+	tryFiles := []string{filename}
+	if !strings.HasSuffix(filename, ".c") {
+		tryFiles = append(tryFiles, filename+".c")
 	}
-	
-	// 2. 備援從嵌入式系統讀取
-	if d.Config.EmbeddedFS != nil {
-		// embed.FS 的路徑通常包含根目錄 (假設為 mudlib)
-		embedPath := filepath.Join("mudlib", relPath)
-		return fs.ReadFile(d.Config.EmbeddedFS, embedPath)
+
+	for _, f := range tryFiles {
+		relPath := strings.TrimPrefix(f, "/")
+
+		// 1. 優先從實體磁碟讀取
+		fullPath := filepath.Join(d.Config.MudLibPath, relPath)
+		if _, err := os.Stat(fullPath); err == nil {
+			return os.ReadFile(fullPath)
+		}
+
+		// 2. 備援從嵌入式系統讀取
+		if d.Config.EmbeddedFS != nil {
+			embedPath := filepath.Join("mudlib", relPath)
+			if content, err := fs.ReadFile(d.Config.EmbeddedFS, embedPath); err == nil {
+				return content, nil
+			}
+		}
 	}
-	
+
 	return nil, fmt.Errorf("file not found: %s", filename)
 }
-
 func (d *Driver) LoadObject(filename string) (*object.LPCObject, error) {
 	d.mu.RLock()
 	if obj, exists := d.ObjectTable[filename]; exists {

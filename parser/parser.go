@@ -823,8 +823,19 @@ func (p *Parser) parseWhileStatement() ast.Statement {
 	p.nextToken()
 	stmt.Condition = p.parseExpression(LOWEST)
 	if !p.expectPeek(token.RPAREN) { return nil }
-	if !p.expectPeek(token.LBRACE) { return nil }
-	stmt.Body = p.parseBlockStatement()
+
+	if p.peekTokenIs(token.LBRACE) {
+		p.nextToken()
+		stmt.Body = p.parseBlockStatement()
+	} else {
+		// 支援單行 while (例如: while(x) i++;)
+		p.nextToken()
+		bodyStmt := p.parseStatement()
+		stmt.Body = &ast.BlockStatement{
+			Token:      p.curToken,
+			Statements: []ast.Statement{bodyStmt},
+		}
+	}
 	return stmt
 }
 
@@ -886,18 +897,38 @@ func (p *Parser) parseForStatement() ast.Statement {
 	}
 
 	// 4. 解析 Body
-	if !p.expectPeek(token.LBRACE) {
-		return nil
+	if p.peekTokenIs(token.LBRACE) {
+		p.nextToken()
+		stmt.Body = p.parseBlockStatement()
+	} else {
+		// 支援單行 for (例如: for(i=0;i<10;i++) write(i);)
+		p.nextToken()
+		bodyStmt := p.parseStatement()
+		stmt.Body = &ast.BlockStatement{
+			Token:      p.curToken,
+			Statements: []ast.Statement{bodyStmt},
+		}
 	}
-	stmt.Body = p.parseBlockStatement()
 
 	return stmt
 }
 
 func (p *Parser) parseDoWhileStatement() ast.Statement {
 	stmt := &ast.DoWhileStatement{Token: p.curToken}
-	if !p.expectPeek(token.LBRACE) { return nil }
-	stmt.Body = p.parseBlockStatement()
+	
+	if p.peekTokenIs(token.LBRACE) {
+		p.nextToken()
+		stmt.Body = p.parseBlockStatement()
+	} else {
+		// 支援單行 do (例如: do i++; while(i<10);)
+		p.nextToken()
+		bodyStmt := p.parseStatement()
+		stmt.Body = &ast.BlockStatement{
+			Token:      p.curToken,
+			Statements: []ast.Statement{bodyStmt},
+		}
+	}
+
 	if !p.expectPeek(token.WHILE) { return nil }
 	if !p.expectPeek(token.LPAREN) { return nil }
 	p.nextToken()
@@ -1146,9 +1177,19 @@ func (p *Parser) parseForEachStatement() ast.Statement {
 	stmt.Collection = p.parseExpression(LOWEST)
 
 	if !p.expectPeek(token.RPAREN) { return nil }
-	if !p.expectPeek(token.LBRACE) { return nil }
-
-	stmt.Body = p.parseBlockStatement()
+	
+	if p.peekTokenIs(token.LBRACE) {
+		p.nextToken()
+		stmt.Body = p.parseBlockStatement()
+	} else {
+		// 支援單行 foreach (例如: foreach(s in list) write(s);)
+		p.nextToken()
+		bodyStmt := p.parseStatement()
+		stmt.Body = &ast.BlockStatement{
+			Token:      p.curToken,
+			Statements: []ast.Statement{bodyStmt},
+		}
+	}
 
 	return stmt
 }

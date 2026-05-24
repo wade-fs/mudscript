@@ -32,7 +32,7 @@ int main(object me, string verb, string arg) {
     }
     arg = replace_string(arg, " ", ".");
 
-    object fs_d = load_object("/secure/fs_d.c");
+    object fs_d = load_object("/secure/fs_d");
     if (!fs_d) {
         write("Fantasy Space 系統暫時無法使用。\n");
         return 1;
