@@ -209,6 +209,42 @@ void get_nature(string input) {
 
     write("\n您選擇了 " + CYAN(natures[current_nature]["name"]) + "。\n");
     
+    string *files = get_dir("/data/user/*.o");
+    if (!sizeof(files)) {
+        write("\n" + HIW("【系統初始化】") + "\n");
+        write("偵測到您是本伺服器第一位玩家，請為您的 MUD 伺服器命名。\n");
+        write("命名規則：最多四個英文單字，總長最多 64 個字母。\n");
+        write("例如：fantasy space\n");
+        write("請輸入伺服器名稱：");
+        input_to("get_mudlib_name");
+        return;
+    }
+    
+    create_character();
+}
+
+void get_mudlib_name(string input) {
+    if (!input || input == "") {
+        write(RED("名稱不能為空，請重新輸入："));
+        input_to("get_mudlib_name");
+        return;
+    }
+    if (strlen(input) > 64) {
+        write(RED("名稱太長（最多 64 字母），請重新輸入："));
+        input_to("get_mudlib_name");
+        return;
+    }
+
+    string id = lower_case(input);
+    id = replace_string(id, " ", ".");
+
+    object system_d = load_object("/secure/system_d.c");
+    if (system_d) {
+        system_d->set_mudlib_name(input, id);
+    }
+
+    write(HIW("[Fantasy Space] ") + "伺服器已命名為：" + HIY(input) + "，識別字為：" + HIY(id) + "\n");
+    
     create_character();
 }
 
@@ -249,52 +285,17 @@ void create_character() {
 
     string *files = get_dir("/data/user/*.o");
     if (!sizeof(files)) {
-        write("\n" + HIW("【系統初始化】") + "\n");
-        write("偵測到您是本伺服器第一位玩家，請為您的 MUD 伺服器命名。\n");
-        write("命名規則：最多四個英文單字，總長最多 64 個字母。\n");
-        write("例如：fantasy space2\n");
-        write("請輸入伺服器名稱：");
-        input_to("get_mudlib_name", user);
-        return;
+        user->set_role("god");
+        user->add_write_path("/");
+        write(MAGENTA("【創世神】您是本服第一位玩家，已自動獲得 god 權限！") + "\n");
+        string id = load_object("/secure/system_d.c")->query_mudlib_id();
+        write(HIW("[Fantasy Space] ") + "本 mudlib 識別字為：" + HIY(id) + "\n");
+        write(HIW("[Fantasy Space] ") + "你的跨服身份為：" + HIY(user->query_id() + "@" + id) + "\n");
+        write(HIW("[Fantasy Space] ") + "使用 fsjoin <mudlib_id> 連接其他伺服器。\n");
     } else {
         user->set_role("user");
         user->add_write_path(user->query_save_file());
     }
-
-    finish_create_character(user);
-}
-
-void get_mudlib_name(string input, object user) {
-    if (!input || input == "") {
-        write(RED("名稱不能為空，請重新輸入："));
-        input_to("get_mudlib_name", user);
-        return;
-    }
-    if (strlen(input) > 64) {
-        write(RED("名稱太長（最多 64 字母），請重新輸入："));
-        input_to("get_mudlib_name", user);
-        return;
-    }
-
-    string id = lower_case(input);
-    id = replace_string(id, " ", ".");
-
-    object system_d = load_object("/secure/system_d.c");
-    if (system_d) {
-        system_d->set_mudlib_name(input, id);
-    }
-
-    write(HIW("[Fantasy Space] ") + "伺服器已命名為：" + HIY(input) + "，識別字為：" + HIY(id) + "\n");
-    // 這裡預留向 Hub 發送驗證的邏輯
-    // object fs_d = load_object("/secure/fs_d.c");
-    // if (fs_d) fs_d->register_mudlib(input, id);
-
-    user->set_role("god");
-    user->add_write_path("/");
-    write(MAGENTA("【創世神】您是本服第一位玩家，已自動獲得 god 權限！") + "\n");
-    write(HIW("[Fantasy Space] ") + "本 mudlib 識別字為：" + HIY(id) + "\n");
-    write(HIW("[Fantasy Space] ") + "你的跨服身份為：" + HIY(user->query_id() + "@" + id) + "\n");
-    write(HIW("[Fantasy Space] ") + "使用 fsjoin <mudlib_id> 連接其他伺服器。\n");
 
     finish_create_character(user);
 }
