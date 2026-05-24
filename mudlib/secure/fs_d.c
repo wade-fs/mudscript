@@ -189,6 +189,15 @@ void receive_fs_response(string mudlib_id, string resp_type, string payload) {
     }
     
     if (resp_type == "info") {
+        // payload: mudlib_id|info|name|entrance_room
+        string *parts = explode(payload, "|");
+        if (sizeof(parts) >= 4) {
+            if (joined_muds[mudlib_id]) {
+                joined_muds[mudlib_id]["status"] = "active";
+                joined_muds[mudlib_id]["name"] = parts[2];
+                joined_muds[mudlib_id]["entrance"] = parts[3];
+            }
+        }
     } else if (resp_type == "room") {
         // payload: room path + "|" + LPC source
         int sep = strsrch(payload, "|");

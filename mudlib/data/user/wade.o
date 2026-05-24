@@ -15,11 +15,11 @@
     "w": "go west",
     "west": "go west"
   },
-  "attack": 34,
+  "attack": 40,
   "bank_balance": 0,
   "can_open": 0,
   "combat_target": 0,
-  "defence": 17,
+  "defence": 18,
   "equip_body": null,
   "equip_feet": null,
   "equip_hands": null,
@@ -35,7 +35,7 @@
   "guild_exp": 0,
   "guild_rank": "",
   "heart_beat_count": 0,
-  "hp": 125,
+  "hp": 135,
   "id": "wade",
   "id_list": [
     "wade"
@@ -50,7 +50,7 @@
   "leader": null,
   "level": 1,
   "long_name": "這是一個沒有描述的東西。",
-  "max_hp": 125,
+  "max_hp": 135,
   "max_items": 20,
   "max_mp": 99,
   "max_weight": 10000,
@@ -59,7 +59,7 @@
   "mp": 99,
   "muted_channels": {},
   "name": "wade",
-  "nature": "agile",
+  "nature": "brave",
   "no_drop": 0,
   "no_get": 0,
   "password": "de3bbd0fd7945e42581643b18cdf28dd3ed61d9c3d541b7b016081564b65a3f3",
@@ -73,16 +73,16 @@
   "saved_inventory": [],
   "short_name": "某個東西",
   "skills": {
-    "dodge": {
+    "power_strike": {
       "exp": 0,
       "level": 1
     }
   },
-  "stat_cha": 13,
-  "stat_con": 12,
-  "stat_dex": 15,
+  "stat_cha": 12,
+  "stat_con": 13,
+  "stat_dex": 12,
   "stat_int": 12,
-  "stat_str": 12,
+  "stat_str": 15,
   "stat_wis": 12,
   "write_paths": [
     "/"
