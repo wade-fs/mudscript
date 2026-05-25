@@ -87,6 +87,9 @@ int id(string str) {
     return 0;
 }
 
+// 🚀 新增：初始化掛接 (用於註冊指令 add_action)
+void init() {}
+
 // 判斷是否為生物
 int is_living() { return 0; }
 

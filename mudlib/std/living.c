@@ -89,6 +89,31 @@ int can_receive(object ob) {
 // 判斷是否為生物
 int is_living() { return 1; }
 
+// ── 指令處理 ──────────────────────────────────────────
+int process_input(string input) {
+    string verb, arg;
+    
+    input = trim(input);
+    if (!input) return 0;
+
+    // 解析動詞與參數
+    int sp = strsrch(input, " ");
+    if (sp < 0) {
+        verb = input;
+        arg = "";
+    } else {
+        verb = substr(input, 0, sp);
+        arg = substr(input, sp + 1, strlen(input) - sp - 1);
+    }
+    
+    // 呼叫指令守護進程執行全域指令
+    object cmd_d = load_object("/secure/command_d.c");
+    if (cmd_d) {
+        return cmd_d->execute(this_object(), verb, arg);
+    }
+    return 0;
+}
+
 // ── 重算衍生屬性 ──────────────────────────────────────────
 void recalc_stats() {
     max_hp  = stat_con * MAX_HP_PER_CON + level * 5;

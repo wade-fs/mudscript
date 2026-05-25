@@ -207,6 +207,7 @@ void look_room(object who) {
 
 // ── 移動指令 ────────────────────────────────────────────
 void init() {
+    ::init();
     mixed dirs = keys(exits);
     int i;
     for (i = 0; i < sizeof(dirs); i++) {

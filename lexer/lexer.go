@@ -371,10 +371,32 @@ func isDigit(ch byte) bool {
 }
 
 func (l *lexer) readCharLiteral() string {
-	l.readChar() 
-	char := l.ch
+	l.readChar() // skip first '
+	
+	var char byte
+	if l.ch == '\\' {
+		l.readChar()
+		switch l.ch {
+		case 'n':
+			char = '\n'
+		case 't':
+			char = '\t'
+		case 'r':
+			char = '\r'
+		case '\\':
+			char = '\\'
+		case '\'':
+			char = '\''
+		default:
+			char = l.ch
+		}
+	} else {
+		char = l.ch
+	}
+	
 	l.readChar() 
 	if l.ch == '\'' {
+		// correctly closed
 	}
 	return string(char)
 }

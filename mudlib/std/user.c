@@ -159,35 +159,24 @@ int process_input(string input) {
     input = trim(input);
     if (!input) return 0;
 
+    // 1. 處理特殊符號指令 (如 ' 代表 say, : 代表 emote)
     if (substr(input, 0, 1) == "'") {
         verb = "'";
         arg = substr(input, 1, strlen(input) - 1);
+        return ::process_input("say " + arg);
     } else if (substr(input, 0, 1) == ":") {
         verb = ":";
         arg = substr(input, 1, strlen(input) - 1);
-    } else {
-        int sp = strsrch(input, " ");
-        if (sp < 0) {
-            verb = input;
-            arg = "";
-        } else {
-            verb = substr(input, 0, sp);
-            arg = substr(input, sp + 1, strlen(input) - sp - 1);
-        }
-    }
+        return ::process_input("emote " + arg);
+    } 
     
-    object cmd_d = load_object("/secure/command_d.c");
-    if (!cmd_d) {
-        write("系統錯誤：無法載入指令守護進程。\n");
-        return 1;
-    }
-
-    int res = cmd_d->execute(this_object(), verb, arg);
+    // 2. 呼叫基底類別處理 (含 command_d 呼叫)
+    int res = ::process_input(input);
     if (res) return res;
 
-    // 🚀 新增：多語系「什麼？」訊息
+    // 3. 失敗訊息
     write(_t("what") + "\n");
-    return 1;
+    return 0;
 }
 
 void move_to_start() {

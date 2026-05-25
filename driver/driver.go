@@ -324,6 +324,41 @@ func (d *Driver) GetThisObject() *object.LPCObject {
 	return nil
 }
 
+// 🚀 新增：暫時設定玩家上下文，回傳恢復函式
+func (d *Driver) setPlayerContext(p *PlayerConnection) func() {
+	gid := getGID()
+	old, ok := d.playerContexts.Load(gid)
+	d.playerContexts.Store(gid, p)
+	return func() {
+		if ok {
+			d.playerContexts.Store(gid, old)
+		} else {
+			d.playerContexts.Delete(gid)
+		}
+	}
+}
+
+// 🚀 新增：尋找物件對應的網路連線
+func (d *Driver) getPlayerConnection(obj *object.LPCObject) *PlayerConnection {
+	if obj == nil {
+		return nil
+	}
+	if val, ok := d.interactiveObjects.Load(obj.Filename); ok {
+		return val.(*PlayerConnection)
+	}
+	// 備援：全域掃描
+	var found *PlayerConnection
+	d.interactiveObjects.Range(func(key, value interface{}) bool {
+		p := value.(*PlayerConnection)
+		if p.Object == obj {
+			found = p
+			return false
+		}
+		return true
+	})
+	return found
+}
+
 // 取得當前 Goroutine 對應的玩家
 func (d *Driver) GetCurrentPlayer() *PlayerConnection {
 	if p, ok := d.playerContexts.Load(getGID()); ok {
@@ -876,9 +911,76 @@ func (d *Driver) MoveObject(item *object.LPCObject, dest *object.LPCObject) {
 		return
 	}
 
-	d.CallFunction(item, "init", nil)
-	if dest != nil && !dest.IsDestructed {
-		d.CallFunction(dest, "init", nil)
+	// 🚀 改良版 init 觸發機制 (接近 MudOS 標準)
+
+	// 1. 如果移動的是生物，清除其 Actions (指令集) 並準備重建
+	if item.IsLiving {
+		item.Actions = make(map[string]*object.Action)
+	}
+
+	// A. 如果 item 是生物，它進入了一個新環境
+	if item.IsLiving {
+		pConn := d.getPlayerConnection(item)
+		if pConn == nil {
+			pConn = &PlayerConnection{Object: item, IsActive: true}
+		}
+
+		restore := d.setPlayerContext(pConn)
+		// item->init() 在 dest 與 dest 內的所有物件
+		if dest != nil {
+			d.CallFunction(dest, "init", nil)
+			// 注意：這裡要預先複製一份 inventory，避免 init 過程中 inventory 變動導致 iterator 崩潰
+			inv := make([]*object.LPCObject, len(dest.Inventory))
+			copy(inv, dest.Inventory)
+			for _, obj := range inv {
+				if obj != item && obj != nil && !obj.IsDestructed {
+					d.CallFunction(obj, "init", nil)
+				}
+			}
+		}
+		// item 也要 init 自己身上的東西 (例如包包裡的物品要註冊指令給玩家)
+		invSelf := make([]*object.LPCObject, len(item.Inventory))
+		copy(invSelf, item.Inventory)
+		for _, obj := range invSelf {
+			if obj != nil && !obj.IsDestructed {
+				d.CallFunction(obj, "init", nil)
+			}
+		}
+		restore()
+	}
+
+	// B. 如果 dest 是生物 (例如物品進了玩家背包)
+	if dest != nil && dest.IsLiving {
+		pConn := d.getPlayerConnection(dest)
+		if pConn == nil {
+			pConn = &PlayerConnection{Object: dest, IsActive: true}
+		}
+
+		restore := d.setPlayerContext(pConn)
+		d.CallFunction(item, "init", nil)
+		restore()
+	}
+
+	// C. 如果 item 進入一個環境 dest，且環境內有其他生物 O (且 item 不是 O)
+	if dest != nil {
+		inv := make([]*object.LPCObject, len(dest.Inventory))
+		copy(inv, dest.Inventory)
+		for _, o := range inv {
+			if o != nil && o != item && o.IsLiving && !o.IsDestructed {
+				pConn := d.getPlayerConnection(o)
+				if pConn == nil {
+					pConn = &PlayerConnection{Object: o, IsActive: true}
+				}
+
+				restore := d.setPlayerContext(pConn)
+				d.CallFunction(item, "init", nil)
+				// 如果 item 也是生物，則 O 也要在 item 身上 init (互看)
+				if item.IsLiving {
+					d.CallFunction(o, "init", nil)
+				}
+				restore()
+			}
+		}
 	}
 }
 

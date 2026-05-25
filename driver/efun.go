@@ -586,6 +586,73 @@ func (d *Driver) registerCoreIOEfuns(obj *object.LPCObject) {
 		},
 	})
 
+	// 語法: int command(string cmd)
+	// 說明: 以當前物件的身分執行一條指令。回傳 1 表示執行成功，0 表示失敗。
+	// 範例: command("say hello");
+	obj.Vars.Set("command", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) != 1 || args[0].TokenType() != object.StringType {
+				return object.NewError("command 需 1 個字串參數")
+			}
+			input := strings.TrimSpace(args[0].(*object.String).Value)
+			if input == "" {
+				return &object.Integer{Value: 0}
+			}
+
+			// 解析動詞與參數
+			verb := ""
+			arg := ""
+			parts := strings.SplitN(input, " ", 2)
+			verb = parts[0]
+			if len(parts) > 1 {
+				arg = parts[1]
+			}
+
+			// 1. 優先檢查 add_action 註冊的指令
+			if obj.Actions != nil {
+				if action, exists := obj.Actions[verb]; exists {
+					// 設定玩家上下文以便執行指令
+					pConn := d.getPlayerConnection(obj)
+					if pConn == nil {
+						pConn = &PlayerConnection{Object: obj, IsActive: true}
+					}
+					
+					// 🚀 使用 RunCommand 封裝以確保 GetCurrentPlayer 正常
+					res := d.RunCommand(pConn, action.Provider, action.FuncName, []object.Object{&object.String{Value: arg}})
+					
+					if i, ok := res.(*object.Integer); ok && i.Value != 0 {
+						return &object.Integer{Value: 1}
+					}
+					return &object.Integer{Value: 1} // 只要有對應 Action 就算成功
+				}
+			}
+
+			// 2. 備援：呼叫物件本身的 process_input (通常在 user.c 或 npc.c 實作)
+			res := d.CallFunction(obj, "process_input", []object.Object{&object.String{Value: input}})
+			if i, ok := res.(*object.Integer); ok && i.Value != 0 {
+				return &object.Integer{Value: 1}
+			}
+
+			return &object.Integer{Value: 0}
+		},
+	})
+
+	// 語法: void throw(mixed msg)
+	// 說明: 主動拋出一個執行期錯誤，可被 catch() 攔截。
+	// 範例: if (!arg) throw("參數不能為空！\n");
+	obj.Vars.Set("throw", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			msg := "LPC Error"
+			if len(args) > 0 {
+				msg = args[0].Inspect()
+				if s, ok := args[0].(*object.String); ok {
+					msg = s.Value
+				}
+			}
+			return object.NewError(msg)
+		},
+	})
+
 	// 語法: void write(string msg)
 	// 說明: 發送訊息給觸發當前行為的玩家。
 	// 範例: write("你看了看四周。\n");

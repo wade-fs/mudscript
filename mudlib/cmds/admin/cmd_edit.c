@@ -6,8 +6,6 @@
 
 inherit "/std/object";
 
-void edit_loop(object me, string input);
-
 int main(object me, string verb, string arg) {
     if (me->query_role() != "god" && me->query_role() != "wizard") {
         return 0;
