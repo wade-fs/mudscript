@@ -15,28 +15,53 @@ int main(object me, string verb, string arg) {
         return 1;
     }
 
-    // 處理方向縮寫
-    switch(arg) {
-        case "n": arg = "north"; break;
-        case "s": arg = "south"; break;
-        case "e": arg = "east";  break;
-        case "w": arg = "west";  break;
-        case "u": arg = "up";    break;
-        case "d": arg = "down";  break;
-    }
+    arg = lower_case(arg);
 
-    // 檢查方向
-    mapping exits = here->query_exits();
-    if (exits && exits[arg]) {
-        object dest = load_object(exits[arg]);
-        if (dest) {
-            write(select_lang(([
-                "en": "You look to the " + arg + ":\n",
-                "zh-TW": "你往 " + arg + " 看了看：\n",
-                "zh-CN": "你往 " + arg + " 看了看：\n"
-            ])));
-            write("  " + dest->query_short() + "\n");
-            return 1;
+    // 方向正規化與中文支援
+    mapping dir_map = ([
+        "n": "north", "north": "north", "北": "north", "北方": "north",
+        "s": "south", "south": "south", "南": "south", "南方": "south",
+        "e": "east",  "east": "east",   "東": "east",  "東方": "east",
+        "w": "west",  "west": "west",   "西": "west",  "西方": "west",
+        "u": "up",    "up": "up",       "上": "up",    "上方": "up",
+        "d": "down",  "down": "down",   "下": "down",  "下方": "down"
+    ]);
+
+    string dir = dir_map[arg];
+    if (dir) {
+        mixed exits = here->query_exits();
+        if (mapp(exits)) {
+            mixed dest_path = exits[dir];
+            if (dest_path) {
+                object dest = load_object(dest_path);
+                if (dest) {
+                    write(select_lang(([
+                        "en": "You look to the " + dir + ":\n",
+                        "zh-TW": "你往 " + dir + " 看了看：\n",
+                        "zh-CN": "你往 " + dir + " 看了看：\n"
+                    ])));
+                    write("  " + dest->query_short() + "\n");
+                    return 1;
+                } else {
+                    write(select_lang(([
+                        "en": "You look to the " + dir + ", but it is too dark to see anything.\n",
+                        "zh-TW": "你往 " + dir + " 看了看，但那裡太暗了，什麼都看不清楚。\n",
+                        "zh-CN": "你往 " + dir + " 看了看，但那里太暗了，什么都看不清楚。\n"
+                    ])));
+                    if (me->query_role() == "god" || me->query_role() == "wizard") {
+                        write(sprintf("DEBUG: Failed to load dest room: %O\n", dest_path));
+                    }
+                    return 1;
+                }
+            } else {
+                if (me->query_role() == "god" || me->query_role() == "wizard") {
+                    write(sprintf("DEBUG: Direction '%s' not found in exits keys: %O\n", dir, keys(exits)));
+                }
+            }
+        } else {
+            if (me->query_role() == "god" || me->query_role() == "wizard") {
+                write(sprintf("DEBUG: here->query_exits() returned non-mapping: %O\n", exits));
+            }
         }
     }
 
