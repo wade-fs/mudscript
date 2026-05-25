@@ -475,6 +475,74 @@ func (d *Driver) registerCoreIOEfuns(obj *object.LPCObject) {
 		},
 	})
 
+	// 語法: string query_ip_number(object ob)
+	// 說明: 取得玩家連線的 IP 位址。
+	obj.Vars.Set("query_ip_number", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			target := obj
+			if len(args) > 0 {
+				if o, ok := args[0].(*object.LPCObject); ok {
+					target = o
+				} else {
+					return &object.String{Value: ""}
+				}
+			}
+			if conn := d.GetConnectionFromObject(target); conn != nil && conn.Conn != nil {
+				addr := conn.Conn.RemoteAddr().String()
+				// Remove port if present
+				if colonIdx := strings.LastIndex(addr, ":"); colonIdx != -1 {
+					return &object.String{Value: addr[:colonIdx]}
+				}
+				return &object.String{Value: addr}
+			}
+			return &object.String{Value: "127.0.0.1"}
+		},
+	})
+
+	// 語法: string query_ip_name(object ob)
+	// 說明: 取得玩家連線的 Hostname (暫以 IP 代替)。
+	obj.Vars.Set("query_ip_name", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			target := obj
+			if len(args) > 0 {
+				if o, ok := args[0].(*object.LPCObject); ok {
+					target = o
+				} else {
+					return &object.String{Value: ""}
+				}
+			}
+			if conn := d.GetConnectionFromObject(target); conn != nil && conn.Conn != nil {
+				addr := conn.Conn.RemoteAddr().String()
+				if colonIdx := strings.LastIndex(addr, ":"); colonIdx != -1 {
+					return &object.String{Value: addr[:colonIdx]}
+				}
+				return &object.String{Value: addr}
+			}
+			return &object.String{Value: "localhost"}
+		},
+	})
+
+	// 語法: int is_web_client(object ob)
+	// 說明: 判斷玩家是否使用 Web 介面連線。
+	obj.Vars.Set("is_web_client", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			target := obj
+			if len(args) > 0 {
+				if o, ok := args[0].(*object.LPCObject); ok {
+					target = o
+				} else {
+					return &object.Integer{Value: 0}
+				}
+			}
+			if conn := d.GetConnectionFromObject(target); conn != nil {
+				if conn.OutputCallback != nil {
+					return &object.Integer{Value: 1}
+				}
+			}
+			return &object.Integer{Value: 0}
+		},
+	})
+
 	// 語法: void shout(string msg)
 	// 說明: 對全伺服器所有連線中的玩家廣播訊息 (會自動排除自己)。
 	// 範例: shout("【謠言】" + query_name() + " 登入了遊戲！\\n");
@@ -1068,6 +1136,28 @@ func (d *Driver) registerTimeAndScheduling(obj *object.LPCObject) {
 		},
 	})
 
+	// 語法: int find_call_out(string func_name)
+	// 說明: 尋找指定排程函式還有多少秒會執行。若找不到回傳 -1。
+	// 範例: int left = find_call_out("respawn");
+	obj.Vars.Set("find_call_out", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 1 { return &object.Integer{Value: -1} }
+			funcName, ok := args[0].(*object.String)
+			if !ok { return &object.Integer{Value: -1} }
+
+			d.mu.Lock()
+			defer d.mu.Unlock()
+			for _, call := range d.CallOuts {
+				if call.Caller == obj && call.FuncName == funcName.Value {
+					timeLeft := int64(time.Until(call.FireTime).Seconds())
+					if timeLeft < 0 { timeLeft = 0 }
+					return &object.Integer{Value: timeLeft}
+				}
+			}
+			return &object.Integer{Value: -1}
+		},
+	})
+
 	// 語法: mixed *call_out_info()
 	// 說明: 取得目前所有排程中 (call_out) 的詳細清單。
 	// 範例: mixed *info = call_out_info();
@@ -1341,7 +1431,7 @@ func (d *Driver) registerDataStructures(obj *object.LPCObject) {
 		},
 	})
 
-	// 語法: int member_array(mixed item, mixed *arr)
+	// 語法: int member_array(mixed item, mixed *arr, [int start])
 	// 說明: 尋找 item 在陣列中的索引位置。若找不到回傳 -1。
 	// 範例: member_array("b", ({"a", "b", "c"})) -> 1
 	obj.Vars.Set("member_array", &object.Builtin{
@@ -1351,8 +1441,18 @@ func (d *Driver) registerDataStructures(obj *object.LPCObject) {
 			arr, ok := args[1].(*object.Array)
 			if !ok { return &object.Integer{Value: -1} }
 
-			for i, el := range arr.Elements {
-				if isEqual(val, el) { return &object.Integer{Value: int64(i)} }
+			start := 0
+			if len(args) > 2 {
+				if startInt, ok := args[2].(*object.Integer); ok {
+					start = int(startInt.Value)
+				}
+			}
+
+			if start < 0 { start = 0 }
+			if start >= len(arr.Elements) { return &object.Integer{Value: -1} }
+
+			for i := start; i < len(arr.Elements); i++ {
+				if isEqual(val, arr.Elements[i]) { return &object.Integer{Value: int64(i)} }
 			}
 			return &object.Integer{Value: -1}
 		},

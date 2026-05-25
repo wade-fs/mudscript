@@ -53,6 +53,30 @@ varargs string select_lang(mixed data, string lang) {
     return "None";
 }
 
+// === 陣列工具 ===
+mixed *shuffle(mixed *arr) {
+    if (!arrayp(arr)) return ({});
+    mixed *tmp = copy(arr);
+    int i = sizeof(tmp);
+    while (i > 0) {
+        int j = random(i);
+        i--;
+        mixed t = tmp[i];
+        tmp[i] = tmp[j];
+        tmp[j] = t;
+    }
+    return tmp;
+}
+
+mixed element_of(mixed *arr) {
+    if (!arrayp(arr) || sizeof(arr) == 0) return 0;
+    return arr[random(sizeof(arr))];
+}
+
+mixed random_element(mixed *arr) {
+    return element_of(arr);
+}
+
 // 翻譯輔助函式
 string _t(string key) {
     string lang = "en";

@@ -35,12 +35,28 @@ int main(object me, string verb, string arg) {
         _t("cat_special") : ({ "alias", "follow", "gather", "mix", "party", "ride", "tame", "suicide" })
     ]);
 
-    // 3. 組合完整的 UI 更新封包
-    string score_payload = sprintf("{\"ui\": \"score\", \"data\": %s}", json_encode(data));
-    string cmd_payload = sprintf("{\"ui\": \"cmd_list\", \"title\": \"%s\", \"data\": %s}", _t("cmd_list"), json_encode(cmds));
-    
-    write(score_payload);
-    write(cmd_payload);
+    // 3. 組合完整的 UI 更新封包或純文字輸出
+    if (is_web_client(me)) {
+        string score_payload = sprintf("{\"ui\": \"score\", \"data\": %s}", json_encode(data));
+        string cmd_payload = sprintf("{\"ui\": \"cmd_list\", \"title\": \"%s\", \"data\": %s}", _t("cmd_list"), json_encode(cmds));
+        
+        write(score_payload);
+        write(cmd_payload);
+    } else {
+        // 如果是從指令主動輸入 (verb == "score" 或 "status" 或 "info")，才顯示純文字
+        // 這樣可以避免 heart_beat 背景更新一直洗頻
+        if (verb && verb != "") {
+            write("\n" + HIW("【角色資訊】 " + data["name"]) + "\n");
+            write(sprintf("  %-10s : %d\n", "等級", data["level"]));
+            write(sprintf("  %-10s : %d / %d\n", data["label_hp"], data["hp"], data["max_hp"]));
+            write(sprintf("  %-10s : %d / %d\n", data["label_mp"], data["mp"], data["max_mp"]));
+            write(sprintf("  %-10s : %d\n", data["label_wealth"], data["money"]));
+            write(sprintf("  %-10s : %s\n", "狀態", data["pk"]));
+            write(sprintf("  %-10s : %d\n", data["label_atk"], data["atk"]));
+            write(sprintf("  %-10s : %d\n", "防禦力", data["def"]));
+            write("\n");
+        }
+    }
     
     return 1;
 }
