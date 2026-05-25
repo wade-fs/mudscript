@@ -1,0 +1,260 @@
+// /cmds/cmd_mc.c  ── Light Minecraft 互動指令 ────────────────
+// 負責在世界內的操作：move / dig / place / map / pos / inv / help
+// 觸發詞：mc
+// 需在 /area/lm/world.c 環境中才能執行大部分子指令
+
+#include "/include/config.h"
+#include "/include/ansi.h"
+
+inherit "/std/object.c";
+
+#define LM_WORLD "/area/lm/world"
+
+object get_world() {
+    object w = find_object(LM_WORLD);
+    if (!w) w = load_object(LM_WORLD);
+    return w;
+}
+
+int in_lm(object me) {
+    object w = get_world();
+    return (w && environment(me) == w);
+}
+
+int main(object me, string verb, string arg) {
+
+    if (!arg || arg == "") arg = "help";
+    string *parts = explode(trim(lower_case(arg)), " ");
+    string sub = parts[0];
+
+    // ── mc help ─────────────────────────────────────────────
+    if (sub == "help") {
+        write(
+            HIW("\n═══ Light Minecraft 指令 ═══\n") +
+            "  " + CYAN("mc map") +                    "                重新整理地圖視窗\n" +
+            "  " + CYAN("mc move n|s|e|w") +           "        移動（可用 WASD 快速鍵）\n" +
+            "  " + CYAN("mc dig <x> <y>") +            "         挖掘指定座標方塊\n" +
+            "  " + CYAN("mc place <x> <y> <類型>") +   " 放置方塊\n" +
+            "  " + CYAN("mc pos") +                    "                顯示目前座標\n" +
+            "  " + CYAN("mc inv") +                    "                列出背包方塊\n" +
+            "  " + CYAN("mc give <類型> <數量>") +      "   給自己方塊（測試用）\n" +
+            "  " + CYAN("mc leave") +                  "              離開創界\n" +
+            "\n方塊類型：grass dirt stone log planks leaves sand coal iron gold brick\n\n"
+        );
+        return 1;
+    }
+
+    // ── mc leave（不需在世界裡）───────────────────────────
+    if (sub == "leave") {
+        if (in_lm(me)) {
+            get_world()->player_leave(me);
+        }
+        object dest = load_object("/area/newbie/room_0_0.c");
+        if (dest) {
+            me->move(dest);
+            dest->look_room(me);
+        } else {
+            write(RED("找不到目的地。\n"));
+        }
+        return 1;
+    }
+
+    // ── 以下需在創界內 ──────────────────────────────────────
+    if (!in_lm(me)) {
+        write(YEL("你必須在創界中才能使用此指令。輸入 ") +
+              CYAN("lm") + YEL(" 進入，或 ") +
+              CYAN("mc help") + YEL(" 查看說明。\n"));
+        return 1;
+    }
+
+    object world = get_world();
+
+    // ── mc build ──────────────────────────────────────────────
+    if (sub == "build") {
+        string role = me->query_role();
+        if (role != "god" && role != "wizard") {
+            write(RED("你沒有此指令的權限。\n")); return 1;
+        }
+        if (sizeof(parts) < 2) {
+            write("用法：mc build <檔案路徑>\n"); return 1;
+        }
+        string file = parts[1];
+        if (file[0..0] != "/") file = "/" + file;
+        
+        string content = read_file(file);
+        if (!content || content == "") {
+            write(RED("無法讀取檔案或檔案為空。\n")); return 1;
+        }
+        
+        int *pos = world->query_player_pos(me);
+        if (!pos) pos = ({ SPAWN_X, SPAWN_Y });
+        
+        world->import_map(content, pos[0], pos[1]);
+        write(GREEN("地圖建構完成！\n"));
+        return 1;
+    }
+
+    // ── mc import ─────────────────────────────────────────────
+    if (sub == "import") {
+        string role = me->query_role();
+        if (role != "god" && role != "wizard") {
+            write(RED("你沒有此指令的權限。\n")); return 1;
+        }
+        if (sizeof(parts) < 2) {
+            write("用法：mc import <資料>\n"); return 1;
+        }
+        string data = arg[7..]; // 移除 "import "
+        // 把 \n 轉換為真正的換行，因為從網頁傳來可能會變成單行或 JSON 編碼
+        data = replace_string(data, "\\n", "\n");
+
+        int *pos = world->query_player_pos(me);
+        if (!pos) pos = ({ SPAWN_X, SPAWN_Y });
+        
+        world->import_map(data, pos[0], pos[1]);
+        write(GREEN("地圖導入完成！\n"));
+        return 1;
+    }
+
+    // ── mc map ──────────────────────────────────────────────
+    if (sub == "map") {
+        world->broadcast_map(me);
+        return 1;
+    }
+
+    // ── mc pos ──────────────────────────────────────────────
+    if (sub == "pos") {
+        int *pos = world->query_player_pos(me);
+        if (!pos) {
+            write("座標未知，請輸入 mc map 重新同步。\n");
+        } else {
+            write(sprintf("你目前在座標 " + CYAN("(%d, %d)") + "。\n",
+                pos[0], pos[1]));
+        }
+        return 1;
+    }
+
+    // ── mc inv ──────────────────────────────────────────────
+    if (sub == "inv") {
+        object *items = filter(all_inventory(me),
+            (: objectp($1) && strsrch(base_name($1), "/area/lm/block_item") == 0 :));
+        if (!sizeof(items)) {
+            write("背包中沒有任何方塊。\n");
+            return 1;
+        }
+        mapping counts = ([]);
+        foreach (object it in items) {
+            string t = it->query_block_type();
+            m_add(counts, t, (counts[t] ? counts[t] : 0) + 1);
+        }
+        write(CYAN("【方塊背包】\n"));
+        foreach (string t in sort_array(keys(counts), 1)) {
+            write(sprintf("  %-10s x%d\n", t, counts[t]));
+        }
+        return 1;
+    }
+
+    // ── mc move ─────────────────────────────────────────────
+    if (sub == "move") {
+        if (sizeof(parts) < 2) {
+            write("用法：mc move n|s|e|w\n"); return 1;
+        }
+        int dx = 0, dy = 0;
+        // n = 畫面上方 = y+1；s = 畫面下方 = y-1
+        switch(parts[1]) {
+            case "n": case "north": case "up":    dy =  1; break;
+            case "s": case "south": case "down":  dy = -1; break;
+            case "e": case "east":  case "right": dx =  1; break;
+            case "w": case "west":  case "left":  dx = -1; break;
+            default:
+                write("方向請輸入 n/s/e/w\n"); return 1;
+        }
+        int r = world->move_player(me, dx, dy);
+        if (r == 1) write("已到達世界邊界。\n");
+        else if (r == 2) write("前方有方塊擋路！試試 " + CYAN("mc dig") + " 挖掘。\n");
+        return 1;
+    }
+
+    // ── mc dig ──────────────────────────────────────────────
+    if (sub == "dig") {
+        if (sizeof(parts) < 3) {
+            write("用法：mc dig <x> <y>\n"); return 1;
+        }
+        int x = to_int(parts[1]);
+        int y = to_int(parts[2]);
+        int r = world->dig_block(me, x, y);
+        switch(r) {
+            case 0: write(GREEN("挖掘成功！方塊已加入背包。\n")); break;
+            case 1: write(RED("座標超出世界範圍（0~59, 0~39）。\n")); break;
+            case 2: write(YEL("那個位置沒有方塊。\n")); break;
+            case 3: write(YEL("水不能挖掘。\n")); break;
+        }
+        return 1;
+    }
+
+    // ── mc place ────────────────────────────────────────────
+    if (sub == "place") {
+        if (sizeof(parts) < 4) {
+            write("用法：mc place <x> <y> <類型>\n"); return 1;
+        }
+        int x = to_int(parts[1]);
+        int y = to_int(parts[2]);
+        string btype = parts[3];
+        int r = world->place_block(me, x, y, btype);
+        switch(r) {
+            case 0: write(GREEN("放置成功！\n")); break;
+            case 1: write(RED("座標超出世界範圍。\n")); break;
+            case 2: write(YEL("那個位置已有方塊。\n")); break;
+            case 3: write(YEL("背包裡沒有 " + btype + " 方塊。先用 mc dig 取得。\n")); break;
+        }
+        return 1;
+    }
+
+    // ── mc give（測試/管理指令）─────────────────────────────
+    if (sub == "give") {
+        string role = me->query_role();
+        if (role != "god" && role != "wizard") {
+            write(RED("你沒有此指令的權限。\n")); return 1;
+        }
+        if (sizeof(parts) < 2) {
+            write("用法：mc give <類型> [數量]\n"); return 1;
+        }
+        string btype = parts[1];
+        int amount = (sizeof(parts) >= 3) ? to_int(parts[2]) : 1;
+        if (amount < 1) amount = 1;
+        if (amount > 64) amount = 64;
+
+        int i;
+        for (i = 0; i < amount; i++) {
+            object item = clone_object("/area/lm/block_item");
+            if (item) {
+                item->set_block_type(btype);
+                move_object(item, me);
+            }
+        }
+        write(GREEN(sprintf("給予 %s x%d。\n", btype, amount)));
+        return 1;
+    }
+
+    write("未知子指令。輸入 " + CYAN("mc help") + " 查看說明。\n");
+    return 1;
+}
+
+string *query_verbs() { return ({ "mc" }); }
+
+string query_category() {
+    return select_lang(([ "en": "World", "zh-TW": "創界", "zh-CN": "创界" ]));
+}
+
+string help() {
+    return "【mc 創界指令】\n" +
+           "  mc map              開啟 2D 地圖視窗\n" +
+           "  mc move n|s|e|w     在世界中移動（WASD 快速鍵）\n" +
+           "  mc dig <x> <y>      挖掘指定位置方塊\n" +
+           "  mc place <x> <y> <類型>  放置方塊\n" +
+           "  mc pos              顯示目前座標\n" +
+           "  mc inv              列出背包方塊\n" +
+           "  mc give <類型> [數]  給予方塊（god/wizard）\n" +
+           "  mc build <檔案>     從伺服器檔案匯入地圖\n" +
+           "  mc import <資料>    直接匯入地圖文字\n" +
+           "  mc leave            離開創界\n";
+}

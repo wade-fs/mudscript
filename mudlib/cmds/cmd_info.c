@@ -41,22 +41,24 @@ int main(object me, string verb, string arg) {
         string score_payload = sprintf("{\"ui\": \"score\", \"data\": %s}", json_encode(data));
         string cmd_payload = sprintf("{\"ui\": \"cmd_list\", \"title\": \"%s\", \"data\": %s}", _t("cmd_list"), json_encode(cmds));
         
-        write(score_payload);
-        write(cmd_payload);
-    } else {
-        // 如果是從指令主動輸入 (verb == "score" 或 "status" 或 "info")，才顯示純文字
-        // 這樣可以避免 heart_beat 背景更新一直洗頻
-        if (verb && verb != "") {
-            write("\n" + HIW("【角色資訊】 " + data["name"]) + "\n");
-            write(sprintf("  %-10s : %d\n", "等級", data["level"]));
-            write(sprintf("  %-10s : %d / %d\n", data["label_hp"], data["hp"], data["max_hp"]));
-            write(sprintf("  %-10s : %d / %d\n", data["label_mp"], data["mp"], data["max_mp"]));
-            write(sprintf("  %-10s : %d\n", data["label_wealth"], data["money"]));
-            write(sprintf("  %-10s : %s\n", "狀態", data["pk"]));
-            write(sprintf("  %-10s : %d\n", data["label_atk"], data["atk"]));
-            write(sprintf("  %-10s : %d\n", "防禦力", data["def"]));
-            write("\n");
-        }
+        // 🚀 使用 tell_object 確保訊息發送給正確的玩家連線，
+        // 且不會在背景更新時（沒有 player context）噴到 server console。
+        tell_object(me, score_payload);
+        tell_object(me, cmd_payload);
+    } 
+    
+    // 只有當玩家主動輸入指令 (如 score, status) 時，才顯示文字版
+    // 如果 verb 為空 (代表由 heart_beat 或系統背景觸發)，則不顯示文字
+    if (verb && verb != "") {
+        write("\n" + HIW("【角色資訊】 " + data["name"]) + "\n");
+        write(sprintf("  %-10s : %d\n", "等級", data["level"]));
+        write(sprintf("  %-10s : %d / %d\n", data["label_hp"], data["hp"], data["max_hp"]));
+        write(sprintf("  %-10s : %d / %d\n", data["label_mp"], data["mp"], data["max_mp"]));
+        write(sprintf("  %-10s : %s\n", data["label_wealth"], data["money"]));
+        write(sprintf("  %-10s : %s\n", "狀態", data["pk"]));
+        write(sprintf("  %-10s : %d\n", "攻擊力", data["atk"]));
+        write(sprintf("  %-10s : %d\n", "防禦力", data["def"]));
+        write("\n");
     }
     
     return 1;

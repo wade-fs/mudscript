@@ -53,7 +53,8 @@ $(OUT):
 	@mkdir -p $(OUT)
 
 # 編譯 Linux 版本 (不自動執行)
-fsmud: $(OUT) inject-hash
+# fsmud: $(OUT) inject-hash
+fsmud: $(OUT)
 	@echo "🔨 Building Linux version..."
 	@go mod tidy && $(GO_EXE) build $(GO_FLAGS) -o $(OUT)/fsmud ./cmd/fsmud
 	@ls -l $(OUT)/fsmud
@@ -85,6 +86,6 @@ clean:
 zip:
 	@ mv .git ../GIT
 	@ rm -f bin/fsmud mudscript.zip
-	@ zip -r mudscript .
+	@ zip -r mudscript driver object web mudlib/npc mudlib/cmds/admin mudlib/std mudlib/secure mudlib/include mudlib/cmds/cmd_lm.c mudlib/cmds/cmd_mc.c
 	@ mv ../GIT .git
 	@ ls -l mudscript.zip

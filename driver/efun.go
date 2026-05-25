@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/fs"
+	"log"
 	"math/rand"
 	"os"
 	"path/filepath"
@@ -961,22 +962,21 @@ func (d *Driver) registerEnvironmentEfuns(obj *object.LPCObject) {
 		},
 	})
 
-	// 語法: void move_object(object dest) / void move_object(object item, object dest)
-	// 說明: 將物件移動到目標物件(房間或容器)之內。
+	// 語法: int move_object(object dest) / int move_object(object item, object dest)
+	// 說明: 將物件移動到目標物件(房間或容器)之內。回傳 1 成功。
 	// 範例: move_object(load_object("/d/city/square"));
 	obj.Vars.Set("move_object", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
 			if len(args) == 1 && args[0].TokenType() == object.LPC_OBJECT_OBJ {
 				d.MoveObject(obj, args[0].(*object.LPCObject))
-				return &object.Nil{}
+				return &object.Integer{Value: 1}
 			} else if len(args) == 2 && args[0].TokenType() == object.LPC_OBJECT_OBJ && args[1].TokenType() == object.LPC_OBJECT_OBJ {
 				d.MoveObject(args[0].(*object.LPCObject), args[1].(*object.LPCObject))
-				return &object.Nil{}
+				return &object.Integer{Value: 1}
 			}
 			return object.NewError("move_object 參數錯誤，需要 1 或 2 個 object 參數")
 		},
 	})
-
 	// 語法: object clone_object(string file)
 	// 說明: 根據腳本路徑，複製並產生一個新的物件實體 (Clone)。
 	// 範例: object sword = clone_object("/obj/weapon/sword");
@@ -2263,45 +2263,40 @@ func (d *Driver) checkWritePermission(caller *object.LPCObject, path string, efu
 	}
 
 	// 2. 載入權限管理物件
-	validOb, err := d.LoadObject("/secure/valid.c")
+	validOb, err := d.LoadObject("/secure/valid")
 	if err != nil {
-		return false, "系統嚴重錯誤：找不到 /secure/valid.c，安全鎖定啟動。"
+		return false, "系統嚴重錯誤：找不到 /secure/valid，安全鎖定啟動。"
 	}
 
-	player := d.GetCurrentPlayer()
-	var userObj object.Object = &object.Nil{}
-	if player != nil && player.Object != nil {
-		userObj = player.Object
-	} else if caller != nil {
-		// 🚀 關鍵強化：偵測是否為具有 Role 的使用者物件 (即使非互動連線)
-		if caller.Vars != nil {
-			if r, ok := caller.Vars.Get("role"); ok && r.TokenType() != object.NilType {
-				userObj = caller
-			} else if caller.IsInteractive {
-				userObj = caller
-			}
-		}
-	}
-
-	// 3. 呼叫 LPC
+	// 🚀 關鍵修正：直接傳遞發起寫入的「物件」 (caller) 給 valid_write
+	// 權限系統應根據此物件的身分（路徑或內部 Role）來判定
 	res := d.CallFunction(validOb, "valid_write", []object.Object{
 		&object.String{Value: cleanPath},
-		userObj,
+		caller,
 		&object.String{Value: efunName},
 	})
 
 	// 4. 【解析動態錯誤訊息】：判斷回傳型別
+	allowed := false
+	errMsg := "權限不足：寫入拒絕。"
+
 	switch v := res.(type) {
 	case *object.Integer:
 		if v.Value != 0 {
-			return true, "" // 回傳非 0 整數代表允許
+			allowed = true
+			errMsg = ""
 		}
-		return false, "權限拒絕：未授權的操作。"
 	case *object.String:
-		return false, v.Value // 回傳字串代表拒絕，並附帶原因
-	default:
-		return false, "權限系統異常：valid_write 回傳了未知的型別。"
+		allowed = false
+		errMsg = v.Value
 	}
+
+	// 🚀 背景日誌：方便追蹤所有的權限行為
+	if !allowed {
+		log.Printf("🛡️ [Permission] Denied msg: %s", errMsg)
+	}
+
+	return allowed, errMsg
 }
 
 // ==========================================

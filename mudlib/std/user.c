@@ -296,9 +296,9 @@ void heart_beat() {
     heart_beat_count++;
     if (heart_beat_count >= 5) {
         heart_beat_count = 0;
-        object cmd_info = load_object("/cmds/cmd_info.c");
+        object cmd_info = load_object("/cmds/cmd_info");
         if (cmd_info) {
-            cmd_info->main(this_object(), "score", "");
+            cmd_info->main(this_object(), "", "");
         }
     }
 }

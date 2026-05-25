@@ -97,6 +97,12 @@ int is_living() { return 0; }
 // catch_tell(string msg) - 收到訊息（預設不處理）
 void catch_tell(string msg) {}
 
+// 🚀 新增：標準移動函式
+int move(mixed dest) {
+    if (!dest) return 0;
+    return move_object(this_object(), dest);
+}
+
 // ── 關鍵字互動系統 ──────────────────────────────────────
 mapping temp_vars;
 mapping responses;
