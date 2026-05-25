@@ -351,13 +351,12 @@
 ### `get_dir()`
 - **語法**: `string *get_dir(string path, [int recursive])`
 - **說明**: 取得指定路徑下的所有檔案與目錄清單。
-	- 支援萬用字元，例如 "/cmds/*.c"
-    - 若為目錄，回傳的名稱結尾會帶有 "/" 方便判斷
-    - recursive = 1 時，會遞迴往下掃描所有子目錄 (此模式下不支援萬用字元，需傳入明確目>錄)
+	- 支援萬用字元，例如 "/cmds/*.c"。
+    - 若為目錄，回傳的名稱結尾會帶有 "/"。
+    - 若 `recursive=1`，則會遞迴掃描子目錄。
 - **範例**:
-	- get_dir("/cmds/")          -> ({ "cmd_info.c", "cmd_look.c", "login.c", ... })
-    - get_dir("/data/user/*.o")  -> ({ "wade.o", "admin.o" })
-    - get_dir("/cmds/", 1)       -> ({ "cmd_info.c", "admin/cmd_shutdown.c", ... })
+	- `get_dir("/cmds/")` -> `({ "cmd_info.c", "cmd_look.c", ... })`
+    - `get_dir("/cmds/", 1)` -> `({ "cmd_info.c", "admin/cmd_shutdown.c", ... })`
 
 ### `read_file()`
 - **語法**: `string read_file(string file)`

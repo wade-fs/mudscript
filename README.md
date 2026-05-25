@@ -18,6 +18,7 @@ MudScript is a high-performance MUD (Multi-User Dungeon) engine implemented in G
 ### 🚀 Core Features
 
 - **Powerful LPC Interpreter**: Optimized for LPC syntax, supporting multiple inheritance, complex macros (including parameterized ones), and LPC-style array/string slicing `[start..end]`. Non-LPC elements have been removed to ensure a lean and efficient core.
+- **Light Minecraft (LM) System**: A built-in sandbox world system supporting 2D canvas rendering, real-time block interaction (dig/place), and **Emoji-based World Building**. You can import complex terrains and NPC layouts directly from text strings or files. See [**LM System Guide**](docs/README-lm.md) for details.
 - **Hybrid Filesystem (Hybrid FS)**: Supports embedding the entire `mudlib` into the executable for "single-file distribution," while retaining an external disk overlay mechanism for hot-reloading and development.
 - **Modern Web Interface**: Built-in WebSocket-based frontend supporting clickable interactions, automatic ID tagging, and mini-map displays.
 - **High-performance NPC System**: Features intelligent heartbeats (active only when players are present), multi-race attribute bonuses, and a topic-based `ask` interaction system.
@@ -82,6 +83,7 @@ In MudScript, you don't need to type long names manually.
 - `/mudlib`: Game content (rooms, NPCs, commands, headers).
 - `/web/static`: Frontend web resources.
 - [**Efuns Reference**](docs/README-efuns.md): Complete list of built-in functions.
+- [**LM System Guide**](docs/README-lm.md): Documentation for the Light Minecraft sandbox world.
 
 ---
 
