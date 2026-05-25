@@ -68,7 +68,8 @@ test: fsmud
 # 正常執行伺服器 (預設連接全球星際中心)
 run: fsmud
 	@echo "🚀 Starting MudScript Server (Connecting to Global Hub)..."
-	@$(OUT)/fsmud --hub wss://wade-fs-fsmud-hub.hf.space/ws 2>&1 | tee run.txt
+	@ # $(OUT)/fsmud --hub wss://wade-fs-fsmud-hub.hf.space/ws 2>&1 | tee run.txt
+	@ $(OUT)/fsmud 2>&1 | tee run.txt
 
 run-clean: fsmud
 	@echo "🚀 Starting MudScript Server (Connecting to Global Hub)..."

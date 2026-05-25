@@ -94,7 +94,23 @@ int is_living() { return 0; }
 void catch_tell(string msg) {}
 
 // ── 關鍵字互動系統 ──────────────────────────────────────
+mapping temp_vars;
 mapping responses;
+
+void set_temp(string key, mixed val) {
+    if (!temp_vars) temp_vars = ([]);
+    temp_vars[key] = val;
+}
+
+mixed query_temp(string key) {
+    if (!temp_vars) return 0;
+    return temp_vars[key];
+}
+
+void delete_temp(string key) {
+    if (temp_vars) m_delete(temp_vars, key);
+}
+
 
 void add_response(mixed keyword, mixed response) {
     if (!responses) responses = ([]);
