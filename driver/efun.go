@@ -10,6 +10,7 @@ import (
 	"math/rand"
 	"os"
 	"path/filepath"
+	"regexp"
 	"sort"
 	"strconv"
 	"strings"
@@ -94,6 +95,30 @@ func (d *Driver) SetupEfuns(obj *object.LPCObject) {
 	d.registerSystemAndFiles(obj)
 	d.registerPersistenceEfuns(obj)
 	d.registerP2PEfuns(obj)
+
+	// 🚀 新增：註冊 SimulEfuns
+	d.RegisterSimulEfuns(obj)
+}
+
+// RegisterSimulEfuns 掃描 SimulEfun 物件並將其函式注入目標物件
+func (d *Driver) RegisterSimulEfuns(obj *object.LPCObject) {
+	if d.SimulEfunObj == nil || obj == d.SimulEfunObj {
+		return
+	}
+
+	// 遍歷 SimulEfun 物件的所有變數/函式
+	for name, val := range d.SimulEfunObj.Vars.GetAll() {
+		// 只注入函式 (Function)，不注入一般變數
+		if _, ok := val.(*object.Function); ok {
+			// 使用閉包包裝呼叫，確保執行時的 context 正確
+			funcName := name // 捕獲變數
+			obj.Vars.Set(funcName, &object.Builtin{
+				Fn: func(args ...object.Object) object.Object {
+					return d.CallFunction(d.SimulEfunObj, funcName, args)
+				},
+			})
+		}
+	}
 }
 
 // ==========================================
@@ -194,6 +219,18 @@ func (d *Driver) registerTypePredicates(obj *object.LPCObject) {
 	register("pointerp", object.ArrayType) // 🚀 別名
 	register("nullp", object.NilType)
 	register("errorp", object.ErrorType)
+
+	// functionp 判斷是否為函式指標或閉包
+	obj.Vars.Set("functionp", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 1 { return &object.Integer{Value: 0} }
+			tt := args[0].TokenType()
+			if tt == object.FunctionType || tt == object.ClosureType || tt == object.BuiltinType {
+				return &object.Integer{Value: 1}
+			}
+			return &object.Integer{Value: 0}
+		},
+	})
 }
 
 // ==========================================
@@ -954,12 +991,84 @@ func (d *Driver) registerTimeAndScheduling(obj *object.LPCObject) {
 			return &object.Integer{Value: int64(removedCount)}
 		},
 	})
+
+	// 語法: mixed *call_out_info()
+	// 說明: 取得目前所有排程中 (call_out) 的詳細清單。
+	// 範例: mixed *info = call_out_info();
+	obj.Vars.Set("call_out_info", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			d.mu.Lock()
+			defer d.mu.Unlock()
+			
+			var elements []object.Object
+			for _, call := range d.CallOuts {
+				// 格式: ({ object caller, string function, int time_left })
+				timeLeft := int64(time.Until(call.FireTime).Seconds())
+				if timeLeft < 0 { timeLeft = 0 }
+				
+				elements = append(elements, &object.Array{Elements: []object.Object{
+					call.Caller,
+					&object.String{Value: call.FuncName},
+					&object.Integer{Value: timeLeft},
+				}})
+			}
+			return &object.Array{Elements: elements}
+		},
+	})
 }
 
 // ==========================================
 // 7. 資料結構操作 (Arrays, Mappings)
 // ==========================================
 func (d *Driver) registerDataStructures(obj *object.LPCObject) {
+	// 語法: mixed allocate(int size)
+	// 說明: 預分配指定長度的陣列。
+	// 範例: mixed *arr = allocate(10);
+	obj.Vars.Set("allocate", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 1 { return &object.Array{Elements: []object.Object{}} }
+			size, ok := args[0].(*object.Integer)
+			if !ok { return &object.Array{Elements: []object.Object{}} }
+			
+			elements := make([]object.Object, size.Value)
+			for i := range elements {
+				elements[i] = &object.Integer{Value: 0}
+			}
+			return &object.Array{Elements: elements}
+		},
+	})
+
+	// 語法: mixed copy(mixed arg)
+	// 說明: 深層複製一個物件、陣列或 Mapping。
+	// 範例: mapping m2 = copy(m1);
+	obj.Vars.Set("copy", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 1 { return &object.Nil{} }
+			return deepCopyLPCValue(args[0])
+		},
+	})
+
+	// 語法: mapping m_add(mapping m, mixed key, mixed val)
+	// 說明: 在 mapping 中加入一對 key-value。
+	obj.Vars.Set("m_add", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 2 { return object.NewError("m_add 需要至少 2 個參數") }
+			m, ok := args[0].(*object.Mapping)
+			if !ok { return object.NewError("m_add 第一個參數必須是 mapping") }
+			
+			key := args[1]
+			val := object.Object(&object.Integer{Value: 0})
+			if len(args) > 2 {
+				val = args[2]
+			}
+			
+			if h, ok := key.(object.Hashable); ok {
+				m.Pairs[h.HashKey()] = object.HashPair{Key: key, Value: val}
+			}
+			return m
+		},
+	})
+
 	// 語法: string json_encode(mixed data)
 	// 說明: 將物件轉成 JSON
 	// 範例: payload = sprintf("{\"ui\": \"score\", \"data\": %s}", json_encode(data));
@@ -1734,6 +1843,79 @@ func (d *Driver) registerStringEfuns(obj *object.LPCObject) {
 		},
 	})
 
+	// 語法: mixed regexp(mixed list, string pattern)
+	// 說明: 若 list 為字串，則回傳 1 (匹配) 或 0 (不匹配)。
+	//       若 list 為字串陣列，則回傳包含所有匹配元素的子陣列。
+	// 範例: regexp(({ "apple", "banana", "pear" }), "a") -> ({ "apple", "banana", "pear" })
+	//       regexp("apple", "a") -> 1
+	obj.Vars.Set("regexp", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 2 { return object.NewError("regexp 需 2 個參數") }
+			patternObj, ok := args[1].(*object.String)
+			if !ok { return object.NewError("regexp 第二個參數必須是字串") }
+
+			re, err := regexp.Compile(patternObj.Value)
+			if err != nil { return object.NewError("regexp 格式錯誤: %v", err) }
+
+			switch list := args[0].(type) {
+			case *object.String:
+				if re.MatchString(list.Value) { return &object.Integer{Value: 1} }
+				return &object.Integer{Value: 0}
+			case *object.Array:
+				var result []object.Object
+				for _, el := range list.Elements {
+					if s, ok := el.(*object.String); ok {
+						if re.MatchString(s.Value) { result = append(result, s) }
+					}
+				}
+				return &object.Array{Elements: result}
+			default:
+				return object.NewError("regexp 第一個參數必須是字串或陣列")
+			}
+		},
+	})
+
+	// 語法: string break_string(string str, int width, [int indent])
+	// 說明: 將字串按指定寬度折行。
+	// 範例: break_string(long_desc, 78)
+	obj.Vars.Set("break_string", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 2 { return args[0] }
+			str, ok1 := args[0].(*object.String)
+			width, ok2 := args[1].(*object.Integer)
+			if !ok1 || !ok2 { return args[0] }
+
+			indent := ""
+			if len(args) > 2 {
+				if i, ok := args[2].(*object.String); ok { indent = i.Value }
+				if i, ok := args[2].(*object.Integer); ok { indent = strings.Repeat(" ", int(i.Value)) }
+			}
+
+			w := int(width.Value)
+			if w < 1 { w = 80 }
+			
+			words := strings.Fields(str.Value)
+			if len(words) == 0 { return &object.String{Value: ""} }
+
+			var result strings.Builder
+			currentLine := indent
+			for _, word := range words {
+				if len(currentLine)+len(word)+1 > w {
+					result.WriteString(currentLine + "\n")
+					currentLine = indent + word
+				} else {
+					if currentLine == indent {
+						currentLine += word
+					} else {
+						currentLine += " " + word
+					}
+				}
+			}
+			result.WriteString(currentLine + "\n")
+			return &object.String{Value: result.String()}
+		},
+	})
+
 	// 語法: int strsrch(string str, string pattern, [int reverse])
 	// 說明: 尋找 pattern 在 str 中第一次出現的位置，若無則回傳 -1。
 	// 範例: strsrch("hello", "l") -> 2
@@ -1965,6 +2147,86 @@ func (d *Driver) registerSystemAndFiles(obj *object.LPCObject) {
 
 			os.MkdirAll(filepath.Dir(fullTo), 0755)
 			err := os.Rename(fullFrom, fullTo)
+			if err != nil { return &object.Integer{Value: 0} }
+			return &object.Integer{Value: 1}
+		},
+	})
+
+	// 語法: int mkdir(string path)
+	// 說明: 建立目錄。回傳 1 成功，0 失敗。
+	obj.Vars.Set("mkdir", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 1 { return &object.Integer{Value: 0} }
+			path, ok := args[0].(*object.String)
+			if !ok { return &object.Integer{Value: 0} }
+
+			resolvedPath := d.ResolvePath(obj.Filename, path.Value)
+			allowed, errMsg := d.checkWritePermission(obj, resolvedPath, "mkdir")
+			if !allowed {
+				if p := d.GetCurrentPlayer(); p != nil { p.Send(fmt.Sprintf("\r\n⚠️ 系統安全攔截：%s\r\n", errMsg)) }
+				return &object.Integer{Value: 0}
+			}
+
+			fullPath := filepath.Join(d.Config.MudLibPath, resolvedPath)
+			err := os.MkdirAll(fullPath, 0755)
+			if err != nil { return &object.Integer{Value: 0} }
+			return &object.Integer{Value: 1}
+		},
+	})
+
+	// 語法: int rmdir(string path)
+	// 說明: 移除目錄。回傳 1 成功，0 失敗。
+	obj.Vars.Set("rmdir", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 1 { return &object.Integer{Value: 0} }
+			path, ok := args[0].(*object.String)
+			if !ok { return &object.Integer{Value: 0} }
+
+			resolvedPath := d.ResolvePath(obj.Filename, path.Value)
+			allowed, errMsg := d.checkWritePermission(obj, resolvedPath, "rmdir")
+			if !allowed {
+				if p := d.GetCurrentPlayer(); p != nil { p.Send(fmt.Sprintf("\r\n⚠️ 系統安全攔截：%s\r\n", errMsg)) }
+				return &object.Integer{Value: 0}
+			}
+
+			fullPath := filepath.Join(d.Config.MudLibPath, resolvedPath)
+			err := os.Remove(fullPath)
+			if err != nil { return &object.Integer{Value: 0} }
+			return &object.Integer{Value: 1}
+		},
+	})
+
+	// 語法: int cp(string from, string to)
+	// 說明: 複製檔案。回傳 1 成功，0 失敗。
+	obj.Vars.Set("cp", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 2 { return &object.Integer{Value: 0} }
+			from, ok1 := args[0].(*object.String)
+			to, ok2 := args[1].(*object.String)
+			if !ok1 || !ok2 { return &object.Integer{Value: 0} }
+
+			resolvedFrom := d.ResolvePath(obj.Filename, from.Value)
+			resolvedTo := d.ResolvePath(obj.Filename, to.Value)
+
+			allowed, errMsg := d.checkReadPermission(obj, resolvedFrom, "cp_from")
+			if !allowed {
+				if p := d.GetCurrentPlayer(); p != nil { p.Send(fmt.Sprintf("\r\n⚠️ 來源權限拒絕：%s\r\n", errMsg)) }
+				return &object.Integer{Value: 0}
+			}
+			allowed, errMsg = d.checkWritePermission(obj, resolvedTo, "cp_to")
+			if !allowed {
+				if p := d.GetCurrentPlayer(); p != nil { p.Send(fmt.Sprintf("\r\n⚠️ 目標權限拒絕：%s\r\n", errMsg)) }
+				return &object.Integer{Value: 0}
+			}
+
+			fullFrom := filepath.Join(d.Config.MudLibPath, resolvedFrom)
+			fullTo := filepath.Join(d.Config.MudLibPath, resolvedTo)
+
+			content, err := os.ReadFile(fullFrom)
+			if err != nil { return &object.Integer{Value: 0} }
+			
+			os.MkdirAll(filepath.Dir(fullTo), 0755)
+			err = os.WriteFile(fullTo, content, 0644)
 			if err != nil { return &object.Integer{Value: 0} }
 			return &object.Integer{Value: 1}
 		},

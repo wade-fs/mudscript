@@ -11,7 +11,10 @@
 - `floatp(mixed arg)`: 判斷是否為浮點數。
 - `objectp(mixed arg)`: 判斷是否為 LPC 物件。
 - `mappingp(mixed arg)`: 判斷是否為 Mapping (鍵值對)。
-- `arrayp(mixed arg)`: 判斷是否為陣列。
+- `mapp(mixed arg)`: `mappingp` 的別名。
+- `arrayp(mixed arg)`: 判斷是否為 陣列。
+- `pointerp(mixed arg)`: `arrayp` 的別名，判斷是否為陣列。
+- `functionp(mixed arg)`: 判斷是否為函式指標、閉包 (Closure) 或內建函式。
 - `nullp(mixed arg)`: 判斷是否為 `nil` 或整數 `0`。
 - `errorp(mixed arg)`: 判斷是否為系統錯誤物件。
 
@@ -63,8 +66,13 @@
 
 ### `enable_commands()`
 - **語法**: `void enable_commands()`
-- **說明**: 將當前物件標記為生物 (Living)，使其可以接收與執行 add_action 註冊的指令。
-- **範例**: enable_commands();
+- **說明**: 將當前物件標記為生物 (Living)，使其可以接收與執行 `add_action` 註冊的指令。
+- **範例**: `enable_commands();`
+
+### `add_action()`
+- **語法**: `void add_action(string func_name, string verb)`
+- **說明**: 為玩家註冊一個指令，當玩家輸入 `verb` 時，會呼叫 `func_name`。
+- **範例**: `add_action("do_look", "look");`
 
 ### `living()`
 - **語法**: `int living(object ob)`
@@ -165,6 +173,11 @@
 - **說明**: 移除排程中準備呼叫的 func_name。回傳移除的數量。
 - **範例**: remove_call_out("respawn");
 
+### `call_out_info()`
+- **語法**: `mixed *call_out_info()`
+- **說明**: 取得目前所有排程中 (call_out) 的詳細清單。每個元素為 `({ object caller, string function, int time_left })`。
+- **範例**: `mixed *info = call_out_info();`
+
 ### `evaluate()` / `apply()`
 - **語法**: `mixed evaluate(mixed cl, [mixed args...])`
 - **語法**: `mixed apply(mixed cl, [mixed args...])`
@@ -194,6 +207,21 @@
 - **語法**: `mixed *values(mapping m)`
 - **說明**: 取得 Mapping 中所有的 Value，回傳為陣列。
 - **範例**: `values((["hp": 100, "mp": 50])) -> ({ 100, 50 })`
+
+### `allocate()`
+- **語法**: `mixed *allocate(int size)`
+- **說明**: 預分配指定長度的陣列，初始值為 0。
+- **範例**: `mixed *arr = allocate(10);`
+
+### `copy()`
+- **語法**: `mixed copy(mixed arg)`
+- **說明**: 深層複製一個物件、陣列或 Mapping。
+- **範例**: `mapping m2 = copy(m1);`
+
+### `m_add()`
+- **語法**: `mapping m_add(mapping m, mixed key, [mixed val])`
+- **說明**: 在 Mapping 中加入或更新一對 key-value。
+- **範例**: `m_add(my_map, "gold", 100);`
 
 ### `m_delete()`
 - **語法**: `mapping m_delete(mapping m, mixed key)`
@@ -288,6 +316,21 @@
 - **說明**: 將字串 str 中的所有 pattern 替換為 replace。
 - **範例**: `replace_string("hello world", "world", "mud") -> "hello mud"`
 
+### `sscanf()`
+- **語法**: `int sscanf(string str, string format, mixed var1, mixed var2, ...)`
+- **說明**: 格式化輸入解析。將字串按 format 解析並賦值給後續變數。支援 `%d` (整數), `%s` (字串), `%f` (浮點數)。支援陣列索引賦值。回傳成功匹配的數量。
+- **範例**: `sscanf("give 10 gold", "give %d %s", amt, item);`
+
+### `regexp()`
+- **語法**: `mixed regexp(mixed list, string pattern)`
+- **說明**: 正規表達式匹配。若 list 為字串，則回傳 1 (匹配) 或 0 (不匹配)。若 list 為字串陣列，則回傳包含所有匹配元素的子陣列。
+- **範例**: `regexp(({ "apple", "banana" }), "pp") -> ({ "apple" })`
+
+### `break_string()`
+- **語法**: `string break_string(string str, int width, [mixed indent])`
+- **說明**: 將字串按指定寬度折行。`indent` 可為字串或整數空白。
+- **範例**: `break_string(long_desc, 78, 2);`
+
 ### `sprintf()`
 - **語法**: `string sprintf(string format, ...)`
 - **說明**: C 語言風格的字串格式化。
@@ -326,6 +369,31 @@
 - **說明**: 將文字寫入實體硬碟的檔案中。預設為接續寫入(Append)，若 overwrite=1 則覆寫。
 - **範例**: `write_file("/log/debug.log", "發生錯誤\\n");`
 
+### `rm()`
+- **語法**: `int rm(string file)`
+- **說明**: 刪除指定檔案。成功回傳 1，失敗回傳 0。
+- **範例**: `rm("/tmp/temp.txt");`
+
+### `rename()`
+- **語法**: `int rename(string from, string to)`
+- **說明**: 移動或重新命名檔案。成功回傳 1，失敗回傳 0。
+- **範例**: `rename("/data/old.o", "/data/new.o");`
+
+### `mkdir()`
+- **語法**: `int mkdir(string path)`
+- **說明**: 建立目錄。成功回傳 1，失敗回傳 0。
+- **範例**: `mkdir("/data/user/a/");`
+
+### `rmdir()`
+- **語法**: `int rmdir(string path)`
+- **說明**: 移除空目錄。成功回傳 1，失敗回傳 0。
+- **範例**: `rmdir("/tmp/empty_dir");`
+
+### `cp()`
+- **語法**: `int cp(string from, string to)`
+- **說明**: 複製檔案。成功回傳 1，失敗回傳 0。
+- **範例**: `cp("/std/user.c", "/tmp/user.bak");`
+
 ### `file_size()`
 - **語法**: `int file_size(string file)`
 - **說明**: 取得檔案大小。若不存在回傳 -1，若為目錄回傳 -2。
@@ -357,4 +425,9 @@
 - **語法**: `int exec(object target, object src)`
 - **說明**: 將 TCP 連線狀態從來源物件(src)轉移到目標物件(target)上。常用於登入系統連線切換。
 - **範例**: `exec(user_ob, this_object());`
+
+### `input_to()`
+- **語法**: `int input_to(string func_name, [int hidden])`
+- **說明**: 攔截玩家的下一次終端機輸入，強制將輸入的字串丟給指定的函式處理。若 `hidden=1` 則終端機會隱藏輸入。
+- **範例**: `write("請輸入密碼:"); input_to("get_pass", 1);`
 

@@ -400,6 +400,8 @@ func evalInfixExpression(operator string, left, right object.Object) object.Obje
 		return evalStringInfixExpression(operator, left, right)
 	case left.TokenType() == object.ArrayType && right.TokenType() == object.ArrayType:
 		return evalArrayInfixExpression(operator, left, right)
+	case left.TokenType() == object.MAPPING_OBJ && right.TokenType() == object.MAPPING_OBJ:
+		return evalMappingInfixExpression(operator, left, right)
 	case operator == "==":
 		return nativeBoolToBooleanObject(evalEquality(left, right))
 	case operator == "!=":
@@ -446,7 +448,7 @@ func evalEquality(left, right object.Object) bool {
 		return !left.(*object.Boolean).Value
 	}
 	if left.TokenType() == object.NilType && right.TokenType() == object.BooleanType {
-		return !right.(*object.Boolean).Value
+		return !left.(*object.Boolean).Value
 	}
 	return false
 }
@@ -621,9 +623,6 @@ func evalBangOperatorExpression(right object.Object) object.Object {
 
 func newError(format string, a ...interface{}) *object.Error {
 	return &object.Error{Message: fmt.Sprintf(format, a...)}
-	msg := fmt.Sprintf(format, a...)
-	// TODO: 可以這裡記錄呼叫位置（進階）
-	return &object.Error{Message: msg}
 }
 
 func isError(obj object.Object) bool {
@@ -1348,20 +1347,41 @@ func evalSscanf(node *ast.CallExpression, env object.Environment) object.Object 
 		return newError("sscanf 的前兩個參數必須是字串")
 	}
 
-	// 2. 將 LPC 的格式字串 (例如 "give %d %s to %s") 轉換為正規表達式
-	// 使用 QuoteMeta 防止格式中的特殊符號干擾
-	regexStr := regexp.QuoteMeta(formatStr.Value)
+	// 2. 解析格式字串並建立對應的 regex
+	var formats []string
+	var regexStr strings.Builder
+	regexStr.WriteString("^")
 	
-	regexStr = strings.ReplaceAll(regexStr, "%d", "(-?\\d+)")
-	regexStr = strings.ReplaceAll(regexStr, "%s", "(.*?)")
-	
-	// LPC 特性：如果最後一個是 %s，它會把剩下的字串全吃掉 (貪婪模式)
-	if strings.HasSuffix(formatStr.Value, "%s") {
-		regexStr = strings.TrimSuffix(regexStr, "(.*?)") + "(.*)"
+	fStr := formatStr.Value
+	for j := 0; j < len(fStr); j++ {
+		if fStr[j] == '%' && j+1 < len(fStr) {
+			switch fStr[j+1] {
+			case 'd':
+				regexStr.WriteString("(-?\\d+)")
+				formats = append(formats, "int")
+				j++
+			case 's':
+				if j+2 == len(fStr) {
+					regexStr.WriteString("(.*)")
+				} else {
+					regexStr.WriteString("(.*?)")
+				}
+				formats = append(formats, "string")
+				j++
+			case 'f':
+				regexStr.WriteString("(-?\\d+\\.\\d+|-?\\d+)")
+				formats = append(formats, "float")
+				j++
+			default:
+				regexStr.WriteString(regexp.QuoteMeta(string(fStr[j])))
+			}
+		} else {
+			regexStr.WriteString(regexp.QuoteMeta(string(fStr[j])))
+		}
 	}
-	
-	// 頭尾完全匹配
-	re, err := regexp.Compile("^" + regexStr + "$")
+	regexStr.WriteString("$")
+
+	re, err := regexp.Compile(regexStr.String())
 	if err != nil {
 		return newError("sscanf 格式編譯失敗: %v", err)
 	}
@@ -1369,42 +1389,65 @@ func evalSscanf(node *ast.CallExpression, env object.Environment) object.Object 
 	// 3. 進行字串配對
 	matches := re.FindStringSubmatch(inputStr.Value)
 	if matches == nil {
-		return &object.Integer{Value: 0} // 配對失敗回傳 0
+		return &object.Integer{Value: 0}
 	}
 
-	// matches[0] 是完整字串，matches[1:] 才是括號捕捉到的變數
 	capturedGroups := matches[1:]
 	matchedCount := 0
 
-	// 4. 將捕捉到的值「強制覆寫」回傳入的變數中 (傳址的魔法)
-	// 從 node.Arguments 的第 2 個開始，就是接收變數 (例如 amt, item)
+	// 4. 將捕捉到的值賦值給參數
 	for i := 2; i < len(node.Arguments); i++ {
-		if i-2 >= len(capturedGroups) {
-			break // 捕捉群組用完了
+		if i-2 >= len(capturedGroups) || i-2 >= len(formats) {
+			break
 		}
 
-		ident, ok := node.Arguments[i].(*ast.Ident)
-		if !ok {
-			return newError("sscanf 的接收變數必須是識別字 (Identifier)")
+		arg := node.Arguments[i]
+		valStr := capturedGroups[i-2]
+		fmtType := formats[i-2]
+
+		var newVal object.Object
+		switch fmtType {
+		case "int":
+			if v, err := strconv.ParseInt(valStr, 10, 64); err == nil {
+				newVal = &object.Integer{Value: v}
+			} else {
+				newVal = &object.Integer{Value: 0}
+			}
+		case "float":
+			if v, err := strconv.ParseFloat(valStr, 64); err == nil {
+				newVal = &object.Float{Value: v}
+			} else {
+				newVal = &object.Float{Value: 0.0}
+			}
+		default:
+			newVal = &object.String{Value: valStr}
 		}
 
-		valueStr := capturedGroups[i-2]
-
-		// 判斷當初這個位置是 %d 還是 %s
-		// (這裡用簡單的位置推算，真實 LPC 引擎會有更嚴謹的對應)
-		if valInt, err := strconv.ParseInt(valueStr, 10, 64); err == nil {
-			// 存入整數
-			env.Assign(ident.Value, &object.Integer{Value: valInt})
-		} else {
-			// 存入字串
-			env.Assign(ident.Value, &object.String{Value: valueStr})
-		}
-		
+		res := assignToLValue(arg, newVal, env)
+		if isError(res) { return res }
 		matchedCount++
 	}
 
-	// 回傳成功匹配並賦值的變數數量
 	return &object.Integer{Value: int64(matchedCount)}
+}
+
+// 輔助函式：將值賦給左值表達式 (Ident 或 IndexExpression)
+func assignToLValue(lvalue ast.Expression, val object.Object, env object.Environment) object.Object {
+	switch node := lvalue.(type) {
+	case *ast.Ident:
+		if !env.Assign(node.Value, val) {
+			return newError("變數未宣告或不存在: %s", node.Value)
+		}
+		return val
+	case *ast.IndexExpression:
+		leftObj := Eval(node.Left, env)
+		if isError(leftObj) { return leftObj }
+		indexObj := Eval(node.Index, env)
+		if isError(indexObj) { return indexObj }
+		return assignToIndex(leftObj, indexObj, val)
+	default:
+		return newError("sscanf 不支援的接收目標: %s", lvalue.String())
+	}
 }
 
 func evalCatch(node *ast.CallExpression, env object.Environment) object.Object {
@@ -1474,6 +1517,33 @@ func evalArrayInfixExpression(operator string, left, right object.Object) object
 		
 	default:
 		return newError("陣列不支援此運算子：%s %s %s", left.TokenType(), operator, right.TokenType())
+	}
+}
+
+func evalMappingInfixExpression(operator string, left, right object.Object) object.Object {
+	leftVal := left.(*object.Mapping).Pairs
+	rightVal := right.(*object.Mapping).Pairs
+
+	switch operator {
+	case "+":
+		// Mapping 相加：合併兩個 Mapping，若 Key 重複則以右邊為準
+		newPairs := make(map[object.HashKey]object.HashPair)
+		for k, v := range leftVal { newPairs[k] = v }
+		for k, v := range rightVal { newPairs[k] = v }
+		return &object.Mapping{Pairs: newPairs}
+		
+	case "-":
+		// Mapping 相減：從左邊移除所有存在於右邊的 Key
+		newPairs := make(map[object.HashKey]object.HashPair)
+		for k, v := range leftVal {
+			if _, exists := rightVal[k]; !exists {
+				newPairs[k] = v
+			}
+		}
+		return &object.Mapping{Pairs: newPairs}
+		
+	default:
+		return newError("Mapping 不支援此運算子：%s %s %s", left.TokenType(), operator, right.TokenType())
 	}
 }
 

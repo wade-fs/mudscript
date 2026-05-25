@@ -247,6 +247,7 @@ type Driver struct {
 	shutdownCh   chan struct{}
 
 	MasterObject *object.LPCObject
+	SimulEfunObj *object.LPCObject // 🚀 新增：模擬 Efun 物件
 	RootUID      string
 	BackboneUID  string
 
@@ -567,6 +568,22 @@ func (d *Driver) Start() error {
 	}
 
 	fmt.Printf("✅ Master 載入成功 (RootUID: %s, BackboneUID: %s)\n", d.RootUID, d.BackboneUID)
+
+	// 🚀 新增：從 Master 物件詢問 SimulEfun 路徑並載入
+	if res := d.CallFunction(master, "get_simul_efun", nil); res != nil {
+		if s, ok := res.(*object.String); ok && s.Value != "" {
+			simul, err := d.LoadObject(s.Value)
+			if err == nil {
+				d.mu.Lock()
+				d.SimulEfunObj = simul
+				d.mu.Unlock()
+				fmt.Printf("✅ SimulEfun 載入成功: %s\n", s.Value)
+			} else {
+				fmt.Printf("⚠️ 無法載入 SimulEfun (%s): %v\n", s.Value, err)
+			}
+		}
+	}
+
 	go d.runGameLoop()
 	go d.runCleanUpLoop() // 🚀 啟動垃圾回收
 	return nil
@@ -726,6 +743,10 @@ func (d *Driver) CallFunction(obj *object.LPCObject, funcName string, args []obj
 	}
 	fnObj, ok := obj.Vars.Get(funcName)
 	if !ok {
+		// 🚀 關鍵：如果當前物件找不到函式，且有設定 SimulEfun 物件，則去那裡找
+		if d.SimulEfunObj != nil && obj != d.SimulEfunObj {
+			return d.CallFunction(d.SimulEfunObj, funcName, args)
+		}
 		return nil
 	}
 	if builtin, ok := fnObj.(*object.Builtin); ok {
