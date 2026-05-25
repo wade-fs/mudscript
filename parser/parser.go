@@ -581,14 +581,18 @@ func (p *Parser) isTypeToken(t token.TokenType) bool {
 }
 
 func (p *Parser) parseStatement() ast.Statement {
+	isVarargs := false
 	for p.curTokenIs(token.PRIVATE) || p.curTokenIs(token.STATIC) ||
 		p.curTokenIs(token.PROTECTED) || p.curTokenIs(token.VARARGS) ||
 		p.curTokenIs(token.NOSAVE) || p.curTokenIs(token.NOMASK) {
+		if p.curTokenIs(token.VARARGS) {
+			isVarargs = true
+		}
 		p.nextToken()
 	}
 
 	if p.isTypeToken(p.curToken.TokenType) {
-		return p.parseTypedDeclarationStatement()
+		return p.parseTypedDeclarationStatement(isVarargs)
 	}
 
 	switch p.curToken.TokenType {
@@ -616,7 +620,7 @@ func (p *Parser) parseStatement() ast.Statement {
 	return p.parseExpressionStatement()
 }
 
-func (p *Parser) parseTypedDeclarationStatement() ast.Statement {
+func (p *Parser) parseTypedDeclarationStatement(isVarargs bool) ast.Statement {
 	typeToken := p.curToken 
 
 	isArray := false
@@ -632,7 +636,7 @@ func (p *Parser) parseTypedDeclarationStatement() ast.Statement {
 	name := &ast.Ident{Token: p.curToken, Value: p.curToken.Literal}
 
 	if p.peekTokenIs(token.LPAREN) {
-		return p.parseFunctionDefinition(typeToken, isArray, name)
+		return p.parseFunctionDefinition(typeToken, isArray, name, isVarargs)
 	}
 
 	return p.parseTypedVariableDeclaration(typeToken, isArray, name)
@@ -699,11 +703,12 @@ func (p *Parser) parseTypedVariableDeclaration(typeToken token.Token, isArray bo
 	}
 }
 
-func (p *Parser) parseFunctionDefinition(typeToken token.Token, isArray bool, name *ast.Ident) ast.Statement {
+func (p *Parser) parseFunctionDefinition(typeToken token.Token, isArray bool, name *ast.Ident, isVarargs bool) ast.Statement {
 	stmt := &ast.FunctionDef{
-		Token:   typeToken,
-		IsArray: isArray,
-		Name:    name,
+		Token:     typeToken,
+		IsArray:   isArray,
+		IsVarargs: isVarargs,
+		Name:      name,
 	}
 
 	if !p.expectPeek(token.LPAREN) {

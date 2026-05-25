@@ -24,6 +24,10 @@ func Eval(node ast.Node, env object.Environment) object.Object {
 	if node == nil {
 		return NilValue
 	}
+	
+	// 如果環境標記為暫停，直接返回
+	// (需要設計一個機制讓 evaluator 知道我們處於暫停狀態)
+	
 	switch node := node.(type) {
 	// Statements
 
@@ -109,8 +113,12 @@ func Eval(node ast.Node, env object.Environment) object.Object {
 			return args[0]
 		}
 
-		return applyFunction(function, args)
-
+		res := applyFunction(function, args)
+		// 攔截 AsyncPause，向外冒泡
+		if res.TokenType() == object.AsyncPauseType {
+			return res
+		}
+		return res
 	case *ast.StringLiteral:
 		return &object.String{Value: node.Value}
 
@@ -327,12 +335,19 @@ func evalProgram(program *ast.Program, env object.Environment) object.Object {
 
 	for _, stmt := range program.Statements {
 		result = Eval(stmt, env)
+		if result == nil {
+			continue
+		}
 
 		switch result := result.(type) {
 		case *object.ReturnValue:
 			return result.Value
 		case *object.Error:
 			return result
+		default:
+			if result.TokenType() == object.AsyncPauseType {
+				return result
+			}
 		}
 	}
 
@@ -571,12 +586,12 @@ func evalBlockStatement(block *ast.BlockStatement, env object.Environment) objec
 		}
 
 		rt := result.TokenType()
-		// 遇到 Return、Error、Break、Continue 都要立刻把訊號往上傳
+		// 遇到 Return、Error、Break、Continue 或 AsyncPause 都要立刻把訊號往上傳
 		if rt == object.ReturnValueType || rt == object.ErrorType || 
-		   rt == object.BREAK_VALUE_OBJ || rt == object.CONTINUE_VALUE_OBJ {
+		   rt == object.BREAK_VALUE_OBJ || rt == object.CONTINUE_VALUE_OBJ ||
+		   rt == object.AsyncPauseType {
 			return result
-		}
-	}
+		}	}
 
 	return result
 }
@@ -746,7 +761,18 @@ func extendFunctionEnv(fn *object.Function, args []object.Object) object.Environ
 	env := object.NewEnclosedEnvironment(fn.Env)
 
 	for i, param := range fn.Parameters {
-		env.Set(param.Value, args[i])
+		if i < len(args) {
+			env.Set(param.Value, args[i])
+		} else {
+			env.Set(param.Value, &object.Integer{Value: 0})
+		}
+	}
+
+	if fn.IsVarargs {
+		// 讓 LPC 層可感知實際參數數量，注入特殊的變數
+		// 在 LPC 中，為了讓開發者可以存取多出來的參數，我們將實際傳入的參數全部放到 __ARGS__ 陣列中
+		// 或者提供 sizeof_args 等 efun，這裡我們將其注入為隱藏變數
+		env.Set("__ARGS__", &object.Array{Elements: args})
 	}
 
 	return env
@@ -989,10 +1015,11 @@ func evalFunctionDef(node *ast.FunctionDef, env object.Environment) object.Objec
 	}
 
 	fn := &object.Function{
+		IsVarargs:  node.IsVarargs,
 		Parameters: params,
-		Env:		env,
-		Body:	   node.Body,
-		OriginFile: origin, // 🚀 記錄來源
+		Env:        env,
+		Body:       node.Body,
+		OriginFile: origin,
 	}
 
 	env.Set(node.Name.Value, fn)
@@ -1355,25 +1382,58 @@ func evalSscanf(node *ast.CallExpression, env object.Environment) object.Object 
 	fStr := formatStr.Value
 	for j := 0; j < len(fStr); j++ {
 		if fStr[j] == '%' && j+1 < len(fStr) {
+			isSkip := false
+			if fStr[j+1] == '*' && j+2 < len(fStr) {
+				isSkip = true
+				j++
+			}
 			switch fStr[j+1] {
 			case 'd':
-				regexStr.WriteString("(-?\\d+)")
-				formats = append(formats, "int")
+				if isSkip {
+					regexStr.WriteString("(?:-?\\d+)")
+				} else {
+					regexStr.WriteString("(-?\\d+)")
+					formats = append(formats, "int")
+				}
 				j++
 			case 's':
-				if j+2 == len(fStr) {
-					regexStr.WriteString("(.*)")
+				if isSkip {
+					if j+2 == len(fStr) {
+						regexStr.WriteString("(?:.*)")
+					} else {
+						regexStr.WriteString("(?:.*?)")
+					}
 				} else {
-					regexStr.WriteString("(.*?)")
+					if j+2 == len(fStr) {
+						regexStr.WriteString("(.*)")
+					} else {
+						regexStr.WriteString("(.*?)")
+					}
+					formats = append(formats, "string")
 				}
-				formats = append(formats, "string")
 				j++
 			case 'f':
-				regexStr.WriteString("(-?\\d+\\.\\d+|-?\\d+)")
-				formats = append(formats, "float")
+				if isSkip {
+					regexStr.WriteString("(?:-?\\d+\\.\\d+|-?\\d+)")
+				} else {
+					regexStr.WriteString("(-?\\d+\\.\\d+|-?\\d+)")
+					formats = append(formats, "float")
+				}
+				j++
+			case 'c':
+				if isSkip {
+					regexStr.WriteString("(?:(?s:.))")
+				} else {
+					regexStr.WriteString("((?s:.))")
+					formats = append(formats, "char")
+				}
 				j++
 			default:
-				regexStr.WriteString(regexp.QuoteMeta(string(fStr[j])))
+				if isSkip {
+					regexStr.WriteString(regexp.QuoteMeta("%*"))
+				} else {
+					regexStr.WriteString(regexp.QuoteMeta(string(fStr[j])))
+				}
 			}
 		} else {
 			regexStr.WriteString(regexp.QuoteMeta(string(fStr[j])))
@@ -1418,6 +1478,13 @@ func evalSscanf(node *ast.CallExpression, env object.Environment) object.Object 
 				newVal = &object.Float{Value: v}
 			} else {
 				newVal = &object.Float{Value: 0.0}
+			}
+		case "char":
+			if len(valStr) > 0 {
+				runes := []rune(valStr)
+				newVal = &object.Integer{Value: int64(runes[0])}
+			} else {
+				newVal = &object.Integer{Value: 0}
 			}
 		default:
 			newVal = &object.String{Value: valStr}

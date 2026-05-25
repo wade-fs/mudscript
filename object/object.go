@@ -6,6 +6,7 @@ import (
 	"hash/fnv"
 	"strconv"
 	"strings"
+	"time"
 
 	"mudscript/ast"
 )
@@ -42,14 +43,22 @@ const (
 	MAPPING_OBJ    = "MAPPING"
 	BREAK_VALUE_OBJ    = "BREAK_VALUE"
 	CONTINUE_VALUE_OBJ = "CONTINUE_VALUE"
-)
+	AsyncPauseType     = "ASYNC_PAUSE"
+	)
 
-// Object represents an object of Monkey language.
-type Object interface {
+	// Object represents an object of Monkey language.
+	type Object interface {
 	TokenType() TokenType
 	Inspect() string
-}
+	}
 
+	// AsyncPause represents a non-blocking pause.
+	type AsyncPause struct {
+	Duration time.Duration
+	}
+
+	func (ap *AsyncPause) TokenType() TokenType { return AsyncPauseType }
+	func (ap *AsyncPause) Inspect() string      { return fmt.Sprintf("AsyncPause(%v)", ap.Duration) }
 // HashKey represents a key of a hash.
 type HashKey struct {
 	TokenType  TokenType
@@ -192,6 +201,7 @@ func (e *Error) Inspect() string {
 
 // Function represents a function.
 type Function struct {
+	IsVarargs  bool // 🚀 新增：是否支援不定長度參數
 	Parameters []*ast.Ident
 	Body       *ast.BlockStatement
 	Env        Environment

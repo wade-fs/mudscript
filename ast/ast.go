@@ -448,11 +448,12 @@ func (tvd *TypedVarDecl) String() string {
 
 // 函式定義 (例如: int main(string arg) { ... })
 type FunctionDef struct {
-	Token  token.Token    // 記錄回傳型別的 Token
-	IsArray bool           // 回傳值是否為陣列
-	Name   *Ident         // 函式名稱 (使用 *Ident)
-	Params []*TypedParam  // 帶有型別的參數清單
-	Body   *BlockStatement
+	Token      token.Token    // 記錄回傳型別的 Token
+	IsArray    bool           // 回傳值是否為陣列
+	IsVarargs  bool           // 是否宣告為 varargs
+	Name       *Ident         // 函式名稱 (使用 *Ident)
+	Params     []*TypedParam  // 帶有型別的參數清單
+	Body       *BlockStatement
 }
 
 func (fd *FunctionDef) statementNode()       {}

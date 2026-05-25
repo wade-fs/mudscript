@@ -78,3 +78,10 @@ run-clean: fsmud
 
 clean:
 	@rm -rf *.log $(OUT)/*
+
+zip:
+	@ mv .git ../GIT
+	@ rm -f bin/fsmud mudscript.zip
+	@ zip -r mudscript .
+	@ mv ../GIT .git
+	@ ls -l mudscript.zip

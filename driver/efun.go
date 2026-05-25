@@ -2,8 +2,6 @@
 package driver
 
 import (
-	"crypto/sha256"
-	"encoding/hex"
 	"encoding/json"
 	"fmt"
 	"io/fs"
@@ -16,6 +14,7 @@ import (
 	"strings"
 	"time"
 
+	"golang.org/x/crypto/bcrypt"
 	"mudscript/evaluator"
 	"mudscript/object"
 )
@@ -1022,7 +1021,7 @@ func (d *Driver) registerTimeAndScheduling(obj *object.LPCObject) {
 		Fn: func(args ...object.Object) object.Object {
 			if len(args) < 1 { return &object.Nil{} }
 			if ms, ok := args[0].(*object.Integer); ok {
-				time.Sleep(time.Duration(ms.Value) * time.Millisecond)
+				return &object.AsyncPause{Duration: time.Duration(ms.Value) * time.Millisecond}
 			}
 			return &object.Nil{}
 		},
@@ -1261,29 +1260,6 @@ func (d *Driver) registerDataStructures(obj *object.LPCObject) {
 		},
 	})
 
-	// 語法: mixed *unique_array(mixed *arr)
-	// 說明: 移除陣列中重複的元素，回傳一個只包含唯一元素的新陣列。
-	// 範例: unique_array(({ 1, 2, 2, 3 })) -> ({ 1, 2, 3 })
-	obj.Vars.Set("unique_array", &object.Builtin{
-		Fn: func(args ...object.Object) object.Object {
-			if len(args) < 1 { return &object.Array{Elements: []object.Object{}} }
-			arr, ok := args[0].(*object.Array)
-			if !ok { return args[0] }
-
-			var unique []object.Object
-			for _, el := range arr.Elements {
-				found := false
-				for _, u := range unique {
-					if isEqual(el, u) {
-						found = true
-						break
-					}
-				}
-				if !found { unique = append(unique, el) }
-			}
-			return &object.Array{Elements: unique}
-		},
-	})
 
 	// 語法: int sizeof(mixed target)
 	// 說明: 回傳陣列元素數量、字串長度，或是 Mapping 鍵值對數量。
@@ -1500,14 +1476,31 @@ func (d *Driver) registerDataStructures(obj *object.LPCObject) {
 		},
 	})
 
-	// 語法: mixed *unique_array(mixed *arr, string|closure func, [mixed args...])
-	// 說明: 根據 callback 回傳值將陣列分組。回傳一個二維陣列。
+	// 語法: mixed *unique_array(mixed *arr, [string|closure func], [mixed args...])
+	// 說明: 若提供 callback，則根據 callback 回傳值將陣列分組，回傳一個二維陣列。若無 callback，則移除重複元素。
 	obj.Vars.Set("unique_array", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
-			if len(args) < 2 { return args[0] }
+			if len(args) < 1 { return &object.Array{Elements: []object.Object{}} }
 			arr, ok := args[0].(*object.Array)
 			if !ok { return args[0] }
 
+			// 只有一個參數，執行去重
+			if len(args) == 1 {
+				var unique []object.Object
+				for _, el := range arr.Elements {
+					found := false
+					for _, u := range unique {
+						if isEqual(el, u) {
+							found = true
+							break
+						}
+					}
+					if !found { unique = append(unique, el) }
+				}
+				return &object.Array{Elements: unique}
+			}
+
+			// 兩個參數以上，執行分組
 			fnArg := args[1]
 			var extraArgs []object.Object
 			if len(args) > 2 { extraArgs = args[2:] }
@@ -1533,8 +1526,8 @@ func (d *Driver) registerDataStructures(obj *object.LPCObject) {
 		},
 	})
 
-	// 語法: mixed *sort_array(mixed *arr, string|closure func, [mixed args...])
-	// 說明: 排序陣列。callback(a, b) 回傳 >0 代表 a > b, <0 代表 a < b, 0 代表相等。
+	// 語法: mixed *sort_array(mixed *arr, string|closure|int func, [mixed args...])
+	// 說明: 排序陣列。callback(a, b) 回傳 >0 代表 a > b, <0 代表 a < b, 0 代表相等。傳入整數 1 為升序，-1 為降序。
 	obj.Vars.Set("sort_array", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
 			if len(args) < 2 { return args[0] }
@@ -1549,7 +1542,34 @@ func (d *Driver) registerDataStructures(obj *object.LPCObject) {
 			newElems := make([]object.Object, len(arr.Elements))
 			copy(newElems, arr.Elements)
 
-			sort.Slice(newElems, func(i, j int) bool {
+			sort.SliceStable(newElems, func(i, j int) bool {
+				if direction, isInt := fnArg.(*object.Integer); isInt {
+					a, b := newElems[i], newElems[j]
+					var cmp int
+					if a.TokenType() == object.IntegerType && b.TokenType() == object.IntegerType {
+						av := a.(*object.Integer).Value
+						bv := b.(*object.Integer).Value
+						if av < bv { cmp = -1 } else if av > bv { cmp = 1 }
+					} else if a.TokenType() == object.StringType && b.TokenType() == object.StringType {
+						av := a.(*object.String).Value
+						bv := b.(*object.String).Value
+						if av < bv { cmp = -1 } else if av > bv { cmp = 1 }
+					} else if a.TokenType() == object.FloatType && b.TokenType() == object.FloatType {
+						av := a.(*object.Float).Value
+						bv := b.(*object.Float).Value
+						if av < bv { cmp = -1 } else if av > bv { cmp = 1 }
+					} else {
+						av := a.Inspect()
+						bv := b.Inspect()
+						if av < bv { cmp = -1 } else if av > bv { cmp = 1 }
+					}
+					
+					if direction.Value > 0 {
+						return cmp < 0
+					}
+					return cmp > 0
+				}
+
 				callArgs := append([]object.Object{newElems[i], newElems[j]}, extraArgs...)
 				res := d.executeCallback(obj, fnArg, callArgs)
 				if val, ok := res.(*object.Integer); ok {
@@ -2052,16 +2072,32 @@ func (d *Driver) registerStringEfuns(obj *object.LPCObject) {
 		},
 	})
 
-	// 語法: string crypt(string str)
-	// 說明: 使用 SHA-256 對字串進行單向雜湊加密，常用於密碼儲存。
-	// 範例: crypt("1234") -> "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4"
+	// 語法: string|int crypt(string str, [string seed])
+	// 說明: 使用 bcrypt 進行密碼雜湊。若無傳入 seed，則產生一組新的雜湊字串。若有傳入，則比對密碼是否相符，相符回傳 seed，不符回傳 0。
+	// 範例: crypt("1234") -> 產生 bcrypt 雜湊。crypt("1234", hash) == hash 可用來驗證。
 	obj.Vars.Set("crypt", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
 			if len(args) < 1 { return &object.String{Value: ""} }
 			str, ok := args[0].(*object.String)
 			if !ok { return &object.String{Value: ""} }
-			hash := sha256.Sum256([]byte(str.Value))
-			return &object.String{Value: hex.EncodeToString(hash[:])}
+			
+			if len(args) > 1 {
+				if hash, isStr := args[1].(*object.String); isStr {
+					// 進行比對
+					err := bcrypt.CompareHashAndPassword([]byte(hash.Value), []byte(str.Value))
+					if err == nil {
+						return hash // 驗證成功回傳原本的 hash
+					}
+					return &object.Integer{Value: 0} // 驗證失敗回傳 0
+				}
+			}
+
+			// 產生新雜湊
+			hashBytes, err := bcrypt.GenerateFromPassword([]byte(str.Value), bcrypt.DefaultCost)
+			if err != nil {
+				return &object.String{Value: ""}
+			}
+			return &object.String{Value: string(hashBytes)}
 		},
 	})
 }

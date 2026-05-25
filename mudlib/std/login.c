@@ -121,11 +121,10 @@ void check_pass(string pass) {
     user->restore();
     
     string saved_pass = user->get_password();
-    string hashed_pass = crypt(pass);
 
-    if (saved_pass == hashed_pass || saved_pass == pass) {
+    if (crypt(pass, saved_pass) == saved_pass || saved_pass == pass) {
         if (saved_pass == pass) {
-            user->set_password(hashed_pass);
+            user->set_password(crypt(pass));
             user->save();
         }
 
@@ -323,7 +322,7 @@ void create_character() {
         string id = load_object("/secure/system_d.c")->query_mudlib_id();
         write(HIW("[Fantasy Space] ") + "本 mudlib 識別字為：" + HIY(id) + "\n");
         write(HIW("[Fantasy Space] ") + "你的跨服身份為：" + HIY(user->get_id() + "@" + id) + "\n");
-        write(HIW("[Fantasy Space] ") + "使用 fsjoin <mudlib_id> 連接其他伺服器。\n");
+        write(HIW("[Fantasy Space] ") + "使用 fsgoto <mudlib_id> 連接其他伺服器。\n");
     } else {
         user->set_role("user");
         user->add_write_path(user->query_save_file());
