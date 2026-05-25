@@ -151,6 +151,13 @@ void setup() {
     }
 
     call_other(load_object("/cmds/cmd_help.c"), "do_help_list", this_object(), "");
+
+    // 🚀 新增：發送 UI 初始化資訊給前端
+    mapping socials = load_object("/secure/social_d.c")->get_ui_list();
+    write(sprintf("{\"ui\": \"socials\", \"data\": %s}", json_encode(socials)));
+
+    mapping cmds = load_object("/secure/command_d.c")->query_categorized_commands();
+    write(sprintf("{\"ui\": \"commands\", \"data\": %s}", json_encode(cmds)));
 }
 
 int process_input(string input) {

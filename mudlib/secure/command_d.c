@@ -48,15 +48,20 @@ void create() {
 int execute(object me, string verb, string arg) {
     mixed cmd_file = cmd_map[verb];
     
-    if (!cmd_file) return 0; 
+    if (cmd_file) {
+        object cmd_ob = load_object(cmd_file);
+        if (cmd_ob) {
+            return cmd_ob->main(me, verb, arg);
+        }
+    }
 
-    object cmd_ob = load_object(cmd_file);
-    if (!cmd_ob) {
-        write("系統錯誤：找不到指令實作檔案 " + cmd_file + "\n");
+    // 🚀 備援：檢查是否為社交動作 (Socials)
+    object social_d = load_object("/secure/social_d.c");
+    if (social_d && social_d->execute_social(me, verb, arg)) {
         return 1;
     }
 
-    return cmd_ob->main(me, verb, arg);
+    return 0;
 }
 
 mapping query_cmd_map() { return cmd_map; }
