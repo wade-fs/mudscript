@@ -34,34 +34,6 @@ void set_no_get(int v)       { no_get = v; }
 void set_no_drop(int v)      { no_drop = v; }
 void set_money_value(int v)  { money_value = v; }
 
-// ── 輔助函式：根據玩家語系選擇字串 ─────────────────────
-string select_lang(mixed data) {
-    if (stringp(data)) return data;
-    if (!mapp(data)) return to_string(data);
-
-    string lang = "en";
-    object tp = this_player();
-    
-    // 優先順序：1. 目前執行此函式的物件如果是玩家 2. this_player() 3. 預設 en
-    if (userp(this_object())) {
-        lang = this_object()->query_lang();
-    } else if (tp && userp(tp)) {
-        lang = tp->query_lang();
-    }
-    
-    // write("DEBUG: select_lang for " + object_name(this_object()) + " lang=" + lang + "\n");
-    
-    if (!lang || lang == "0") lang = "en";
-    
-    if (data[lang]) return data[lang];
-    if (data["en"]) return data["en"];
-    
-    // 沒找到則回傳第一項
-    mixed ks = keys(data);
-    if (sizeof(ks) > 0) return data[ks[0]];
-    return "None";
-}
-
 // ── 方向輔助 ────────────────────────────────────────────
 string query_reverse_dir(string dir) {
     switch(dir) {
@@ -91,20 +63,6 @@ mixed query_coordinate() {
     return 0;
 }
 
-// 🚀 新增：翻譯輔助函式
-string _t(string key) {
-    object tp = this_player();
-    string lang = "en";
-    
-    if (tp && userp(tp)) {
-        lang = tp->query_lang();
-    } else if (userp(this_object())) {
-        lang = this_object()->query_lang();
-    }
-    
-    return load_object("/secure/language_d.c")->translate(key, lang);
-}
-
 // ── 取得用於指令互動的主要識別字 ─────────────────────
 string query_key_id() {
 	if (arrayp(id_list) && sizeof(id_list) > 0) {
@@ -114,31 +72,9 @@ string query_key_id() {
         return id_list;
     }
 
-    // 最後防線：只取檔名，不帶路徑和 .c
-    string fname = object_name(this_object());
-    int pos = strsrch(fname, "#");
-    if (pos != -1) {
-        fname = substr(fname, 0, pos);
-    }
-    
-    // 如果結尾是 .c，去掉它
-    if (strlen(fname) > 2) {
-        string tail = substr(fname, strlen(fname)-2, 2);
-        if (tail == ".c") {
-            fname = substr(fname, 0, strlen(fname)-2);
-        }
-    }
-
-    // 取得最後一個 / 之後的內容 (模仿 basename)
-    // 由於沒有 strrchr，我們用簡單的方式處理
-    string *parts = explode(fname, "/");
-    if (sizeof(parts) > 0) {
-        return parts[sizeof(parts)-1];
-    }
-
-    return fname;
+    // 最後防線：使用 simul_efun 的 get_name
+    return get_name(this_object());
 }
-
 // id(string str) - 判斷這個物件是否符合指定識別詞
 int id(string str) {
     if (!str) { return 0; }

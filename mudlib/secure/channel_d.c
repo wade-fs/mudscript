@@ -73,7 +73,7 @@ void broadcast(string type, object sender, string msg, string cid) {
     string prefix = get_channel_prefix(type, cid);
     string sender_name = "系統";
     if (sender) {
-        sender_name = sender->query_name();
+        sender_name = get_name(sender);
     }
     string full_msg = prefix + sender_name + "：" + msg + "\n";
 

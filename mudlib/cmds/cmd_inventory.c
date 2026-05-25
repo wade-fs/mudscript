@@ -36,8 +36,8 @@ int do_inventory(object me, string arg) {
     }
 
     write(_t("inv_header") + "\n");
-    for (int i = 0; i < sizeof(inv); i++) {
-        write("  " + inv[i]->query_short() + "\n");
+    foreach (object ob in inv) {
+        write("  " + ob->query_short() + "\n");
     }
     return 1;
 }
@@ -51,14 +51,10 @@ int do_get(object me, string arg) {
     if (!arg) { write(_t("get_what") + "\n"); return 1; }
 
     object container = environment(me);
-    string item_id = arg;
+    string item_id, cont_id;
 
-    // 支援 get item from container
-    if (strsrch(arg, " from ") != -1) {
-        string *parts = explode(arg, " from ");
-        item_id = parts[0];
-        string cont_id = parts[1];
-        
+    // 支援 get item from container (使用新版 sscanf 支援)
+    if (sscanf(arg, "%s from %s", item_id, cont_id) == 2) {
         container = present(cont_id, environment(me));
         if (!container) container = present(cont_id, me);
         
@@ -72,6 +68,8 @@ int do_get(object me, string arg) {
             write(container->query_short() + " " + _t("is_closed") + "\n");
             return 1;
         }
+    } else {
+        item_id = arg;
     }
 
     object item = present(item_id, container);

@@ -1,10 +1,16 @@
 // /secure/simul_efun.c
+// 全域模擬內建函式 (SimulEfuns)
+
+#include "/include/ansi.h"
 
 // 讓物件名稱更漂亮
 string get_name(object ob) {
     if (!ob) return "無名物";
-    // 嘗試呼叫物件的 query("name")
-    mixed name = ob->query("name");
+    
+    // 嘗試呼叫物件的 query_name() 或 query("name")
+    mixed name = ob->query_name();
+    if (!name) name = ob->query("name");
+    
     if (stringp(name)) return name;
     
     // 或是 query_id()
@@ -12,22 +18,66 @@ string get_name(object ob) {
     if (stringp(ids)) return ids;
     if (arrayp(ids) && sizeof(ids) > 0) return ids[0];
     
-    return object_name(ob);
+    // 最後手段：使用檔名
+    string fname = object_name(ob);
+    int pos = strsrch(fname, "#");
+    if (pos != -1) fname = substr(fname, 0, pos);
+    string *parts = explode(fname, "/");
+    return sizeof(parts) > 0 ? parts[sizeof(parts)-1] : fname;
 }
 
-// 取得中文化的時間
+// 根據當前玩家語系選擇字串
+string select_lang(mixed data) {
+    if (stringp(data)) return data;
+    if (!mapp(data)) return to_string(data);
+
+    string lang = "en";
+    object ob = previous_object();
+    if (!ob || !userp(ob)) ob = this_player();
+
+    if (ob && userp(ob)) {
+        lang = ob->query_lang();
+    }
+
+    if (!lang || lang == "0") lang = "en";
+
+    if (data[lang]) return data[lang];
+    if (data["en"]) return data["en"];
+
+    mixed ks = keys(data);
+    if (sizeof(ks) > 0) return data[ks[0]];
+    return "None";
+}
+
+// 翻譯輔助函式
+string _t(string key) {
+    string lang = "en";
+    object ob = previous_object();
+    if (!ob || !userp(ob)) ob = this_player();
+
+    if (ob && userp(ob)) {
+        lang = ob->query_lang();
+    }
+
+    return load_object("/secure/language_d.c")->translate(key, lang);
+}
+
+// 取得中文化的時間 (範例)
 string chinese_time() {
-    // 這裡只是簡單範例，實務上可根據 ctime 解析
     return ctime(time());
 }
 
-// 簡單的訊息包裝
-void message(string category, string msg, mixed target) {
+// 訊息發送封裝
+varargs void message(string category, string msg, mixed target, mixed exclude) {
     if (objectp(target)) {
         tell_object(target, msg);
     } else if (arrayp(target)) {
         foreach (object ob in target) {
             if (objectp(ob)) tell_object(ob, msg);
         }
+    } else if (!target) {
+        // 預設發送給目前房間
+        object env = environment(this_player());
+        if (env) tell_room(env, msg, exclude);
     }
 }

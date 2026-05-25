@@ -638,6 +638,16 @@ func (d *Driver) registerCoreIOEfuns(obj *object.LPCObject) {
 		Fn: func(args ...object.Object) object.Object { return obj },
 	})
 
+	// 語法: object previous_object()
+	// 說明: 取得呼叫當前函式的物件。
+	obj.Vars.Set("previous_object", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			prev := d.GetPreviousObject()
+			if prev != nil { return prev }
+			return &object.Nil{}
+		},
+	})
+
 	// 語法: void say(string msg, [mixed exclude])
 	// 說明: 將訊息廣播給與當前物件處於同一環境(房間)內的所有其他物件。
 	// 範例: say("一陣微風吹過。\n");

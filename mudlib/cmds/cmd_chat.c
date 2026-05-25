@@ -30,19 +30,11 @@ int main(object me, string verb, string arg) {
 }
 
 int do_fchat(object me, string arg) {
-    if (!arg || arg == "") {
+    string cid, msg;
+    if (!arg || sscanf(arg, "%s %s", cid, msg) != 2) {
         write(select_lang(([ "en": "Usage: fchat <channel ID> <message>\n", "zh-TW": "用法：fchat <頻道ID> <訊息>\n", "zh-CN": "用法：fchat <频道ID> <讯息>\n" ])));
         return 1;
     }
-
-    int sp = strsrch(arg, " ");
-    if (sp == -1) {
-        write(select_lang(([ "en": "Usage: fchat <channel ID> <message>\n", "zh-TW": "用法：fchat <頻道ID> <訊息>\n", "zh-CN": "用法：fchat <频道ID> <讯息>\n" ])));
-        return 1;
-    }
-
-    string cid = substr(arg, 0, sp);
-    string msg = substr(arg, sp + 1, strlen(arg) - sp - 1);
 
     load_object("/secure/channel_d.c")->broadcast("friend", me, msg, cid);
     return 1;

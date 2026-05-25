@@ -29,33 +29,61 @@ type RuntimeError struct {
 	Stack    []string // 呼叫堆疊
 }
 
-var callStack = struct {
-	sync.Mutex
-	frames []callFrame
-}{}
+type callFrame struct {
+	File     string
+	Function string
+	Object   *object.LPCObject // 🚀 新增：執行此框架的物件
+}
+
+func (d *Driver) getCallStack() []callFrame {
+	gid := getGID()
+	if val, ok := d.callStacks.Load(gid); ok {
+		return val.([]callFrame)
+	}
+	return nil
+}
 
 func (d *Driver) pushFrame(f callFrame) {
-	callStack.Lock()
-	callStack.frames = append(callStack.frames, f)
-	callStack.Unlock()
+	gid := getGID()
+	stack := d.getCallStack()
+	d.callStacks.Store(gid, append(stack, f))
 }
 
 func (d *Driver) popFrame() {
-	callStack.Lock()
-	if len(callStack.frames) > 0 {
-		callStack.frames = callStack.frames[:len(callStack.frames)-1]
+	gid := getGID()
+	stack := d.getCallStack()
+	if len(stack) > 0 {
+		d.callStacks.Store(gid, stack[:len(stack)-1])
+	} else {
+		d.callStacks.Delete(gid)
 	}
-	callStack.Unlock()
 }
 
 func (d *Driver) buildCallStack() []string {
-	callStack.Lock()
-	defer callStack.Unlock()
+	stack := d.getCallStack()
 	var s []string
-	for _, f := range callStack.frames {
+	for _, f := range stack {
 		s = append(s, fmt.Sprintf("%s::%s()", f.File, f.Function))
 	}
 	return s
+}
+
+func (d *Driver) GetPreviousObject() *object.LPCObject {
+	stack := d.getCallStack()
+	if len(stack) < 2 {
+		return nil
+	}
+	
+	// 堆疊頂端是目前正在執行的 (this_object)
+	// 前一個就是 previous_object
+	// 但要排除連續在同一個物件內的函式呼叫
+	currentObj := stack[len(stack)-1].Object
+	for i := len(stack) - 2; i >= 0; i-- {
+		if stack[i].Object != currentObj {
+			return stack[i].Object
+		}
+	}
+	return nil
 }
 
 func (e *RuntimeError) Error() string {
@@ -254,6 +282,7 @@ type Driver struct {
 	// 使用 Goroutine ID 來追蹤當前正在執行的玩家
 	playerContexts     sync.Map
 	interactiveObjects sync.Map
+	callStacks         sync.Map // 🚀 新增：goroutine ID -> []callFrame
 
 	// 🚀 P2P 整合
 	OnP2PMessage     func(sender, content string)
@@ -318,6 +347,15 @@ func (d *Driver) RunCommand(p *PlayerConnection, obj *object.LPCObject, funcName
 		}
 	}()
 	return d.CallFunction(obj, funcName, args)
+}
+
+func (d *Driver) NormalizePath(path string) string {
+	cleanPath := filepath.Clean(path)
+	cleanPath = filepath.ToSlash(cleanPath)
+	if !strings.HasPrefix(cleanPath, "/") {
+		cleanPath = "/" + cleanPath
+	}
+	return cleanPath
 }
 
 // 🚀 新增：路徑解析 (支援 ./ 與 ../，以及跨服沙盒自動映射)
@@ -395,7 +433,19 @@ func (d *Driver) ReadFile(filename string) ([]byte, error) {
 
 	return nil, fmt.Errorf("file not found: %s", filename)
 }
+// LoadObject 載入並編譯一個 LPC 檔案成為藍圖物件 (含執行 create)
 func (d *Driver) LoadObject(filename string) (*object.LPCObject, error) {
+	obj, err := d.loadObjectInternal(filename)
+	if err != nil {
+		return nil, err
+	}
+	
+	d.CallFunction(obj, "create", nil)
+	return obj, nil
+}
+
+func (d *Driver) loadObjectInternal(filename string) (*object.LPCObject, error) {
+	filename = d.NormalizePath(filename)
 	d.mu.RLock()
 	if obj, exists := d.ObjectTable[filename]; exists {
 		d.mu.RUnlock()
@@ -446,7 +496,7 @@ func (d *Driver) LoadObject(filename string) (*object.LPCObject, error) {
 			if !strings.HasSuffix(parentFile, ".c") {
 				parentFile += ".c"
 			}
-			parentObj, err := d.LoadObject(parentFile)
+			parentObj, err := d.loadObjectInternal(parentFile)
 			if err != nil {
 				return nil, fmt.Errorf("無法繼承 %s: %v", parentFile, err)
 			}
@@ -480,7 +530,6 @@ func (d *Driver) LoadObject(filename string) (*object.LPCObject, error) {
 		return nil, fmt.Errorf("evaluation error in %s: %s", filename, errObj.Message)
 	}
 
-	d.CallFunction(lpcObj, "create", nil)
 	return lpcObj, nil
 }
 
@@ -547,7 +596,8 @@ func (d *Driver) Start() error {
 	}
 
 	fmt.Println("🚀 Driver 啟動中... 準備載入 Master Object:", masterFile)
-	master, err := d.LoadObject(masterFile)
+	// 1. 只載入不執行 create
+	master, err := d.loadObjectInternal(masterFile)
 	if err != nil {
 		return fmt.Errorf("致命錯誤: 無法載入 master.c: %v", err)
 	}
@@ -556,6 +606,28 @@ func (d *Driver) Start() error {
 	d.MasterObject = master
 	d.mu.Unlock()
 
+	// 2. 從 Master 物件詢問 SimulEfun 路徑並載入
+	if res := d.CallFunction(master, "get_simul_efun", nil); res != nil {
+		if s, ok := res.(*object.String); ok && s.Value != "" {
+			simul, err := d.loadObjectInternal(s.Value)
+			if err == nil {
+				d.mu.Lock()
+				d.SimulEfunObj = simul
+				d.mu.Unlock()
+				fmt.Printf("✅ SimulEfun 載入成功: %s\n", s.Value)
+				
+				// 注入 SimulEfuns 到已經載入的 master (因為 master 載入時 SimulEfunObj 還沒設定)
+				d.RegisterSimulEfuns(master)
+				
+				// 執行 SimulEfun 的 create
+				d.CallFunction(simul, "create", nil)
+			} else {
+				fmt.Printf("⚠️ 無法載入 SimulEfun (%s): %v\n", s.Value, err)
+			}
+		}
+	}
+
+	// 3. 取得 UIDs (在執行 create 之前)
 	if res := d.CallFunction(master, "get_root_uid", nil); res != nil {
 		if s, ok := res.(*object.String); ok {
 			d.RootUID = s.Value
@@ -567,27 +639,15 @@ func (d *Driver) Start() error {
 		}
 	}
 
-	fmt.Printf("✅ Master 載入成功 (RootUID: %s, BackboneUID: %s)\n", d.RootUID, d.BackboneUID)
-
-	// 🚀 新增：從 Master 物件詢問 SimulEfun 路徑並載入
-	if res := d.CallFunction(master, "get_simul_efun", nil); res != nil {
-		if s, ok := res.(*object.String); ok && s.Value != "" {
-			simul, err := d.LoadObject(s.Value)
-			if err == nil {
-				d.mu.Lock()
-				d.SimulEfunObj = simul
-				d.mu.Unlock()
-				fmt.Printf("✅ SimulEfun 載入成功: %s\n", s.Value)
-			} else {
-				fmt.Printf("⚠️ 無法載入 SimulEfun (%s): %v\n", s.Value, err)
-			}
-		}
-	}
+	fmt.Printf("✅ Master 準備就緒 (RootUID: %s, BackboneUID: %s)，開始執行初始化...\n", d.RootUID, d.BackboneUID)
+	
+	// 4. 執行 Master 的 create
+	d.CallFunction(master, "create", nil)
 
 	go d.runGameLoop()
 	go d.runCleanUpLoop() // 🚀 啟動垃圾回收
 	return nil
-	}
+}
 func (d *Driver) DiscoverMasterFile() string {
 	configPath := filepath.Join(d.Config.MudLibPath, "include/config.h")
 	content, err := os.ReadFile(configPath)
@@ -718,11 +778,6 @@ func (d *Driver) ProcessAnsi(text string) string {
 	return res
 }
 
-type callFrame struct {
-	File     string
-	Function string
-}
-
 func (d *Driver) CallFunction(obj *object.LPCObject, funcName string, args []object.Object) object.Object {
 	if obj == nil || obj.IsDestructed {
 	        return &object.Integer{Value: 0}
@@ -731,7 +786,7 @@ func (d *Driver) CallFunction(obj *object.LPCObject, funcName string, args []obj
 	// 🚀 更新活動時間
 	obj.LastActivity = time.Now().Unix()
 
-	frame := callFrame{File: obj.Filename, Function: funcName}
+	frame := callFrame{File: obj.Filename, Function: funcName, Object: obj}
 
 	d.pushFrame(frame)
 	defer d.popFrame()
