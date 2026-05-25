@@ -9,6 +9,7 @@ import (
 	"os"
 	"path/filepath"
 	"regexp"
+	"runtime"
 	"sort"
 	"strconv"
 	"strings"
@@ -2473,6 +2474,23 @@ func (d *Driver) registerSystemAndFiles(obj *object.LPCObject) {
 		},
 	})
 
+	// 語法: object *all_objects()
+	// 說明: 回傳目前記憶體中載入的所有物件（包含藍圖與副本）。
+	obj.Vars.Set("objects", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			d.mu.RLock()
+			defer d.mu.RUnlock()
+
+			var objs []object.Object
+			for _, ob := range d.ObjectTable {
+				if ob != nil && !ob.IsDestructed {
+					objs = append(objs, ob)
+				}
+			}
+			return &object.Array{Elements: objs}
+		},
+	})
+
 	// 語法: int query_idle(object ob)
 	// 說明: 傳回物件自最後一次活動（函式呼叫）以來經過的秒數。
 	obj.Vars.Set("query_idle", &object.Builtin{
@@ -2486,6 +2504,95 @@ func (d *Driver) registerSystemAndFiles(obj *object.LPCObject) {
 			if target == nil { return &object.Integer{Value: 0} }
 			idle := time.Now().Unix() - target.LastActivity
 			return &object.Integer{Value: idle}
+		},
+	})
+
+	// 語法: object *livings()
+	// 說明: 回傳目前記憶體中所有的活物 (IsLiving == true)。
+	obj.Vars.Set("livings", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			d.mu.RLock()
+			defer d.mu.RUnlock()
+			var res []object.Object
+			for _, ob := range d.ObjectTable {
+				if ob != nil && ob.IsLiving && !ob.IsDestructed {
+					res = append(res, ob)
+				}
+			}
+			return &object.Array{Elements: res}
+		},
+	})
+
+	// 語法: int pcre_match(string text, string pattern)
+	// 說明: 使用正規表示式進行比對。
+	obj.Vars.Set("pcre_match", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 2 { return &object.Integer{Value: 0} }
+			text, ok1 := args[0].(*object.String)
+			pattern, ok2 := args[1].(*object.String)
+			if !ok1 || !ok2 { return &object.Integer{Value: 0} }
+			
+			matched, err := regexp.MatchString(pattern.Value, text.Value)
+			if err != nil || !matched { return &object.Integer{Value: 0} }
+			return &object.Integer{Value: 1}
+		},
+	})
+
+	// 語法: string pcre_replace(string text, string pattern, string replacement)
+	// 說明: 使用正規表示式進行替換。
+	obj.Vars.Set("pcre_replace", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 3 { return args[0] }
+			text, ok1 := args[0].(*object.String)
+			pattern, ok2 := args[1].(*object.String)
+			repl, ok3 := args[2].(*object.String)
+			if !ok1 || !ok2 || !ok3 { return args[0] }
+			
+			re, err := regexp.Compile(pattern.Value)
+			if err != nil { return text }
+			res := re.ReplaceAllString(text.Value, repl.Value)
+			return &object.String{Value: res}
+		},
+	})
+
+	// 輔助：時間轉換為 Mapping
+	timeToMap := func(t time.Time) *object.Mapping {
+		m := &object.Mapping{Pairs: make(map[object.HashKey]object.HashPair)}
+		set := func(k string, v int) {
+			ks := &object.String{Value: k}
+			vs := &object.Integer{Value: int64(v)}
+			m.Pairs[ks.HashKey()] = object.HashPair{Key: ks, Value: vs}
+		}
+		set("sec", t.Second())
+		set("min", t.Minute())
+		set("hour", t.Hour())
+		set("mday", t.Day())
+		set("mon", int(t.Month())-1) // LPC mon 0-11
+		set("year", t.Year())
+		set("wday", int(t.Weekday()))
+		set("yday", t.YearDay())
+		return m
+	}
+
+	// 語法: mapping localtime(int timestamp)
+	obj.Vars.Set("localtime", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			ts := time.Now().Unix()
+			if len(args) > 0 {
+				if i, ok := args[0].(*object.Integer); ok { ts = i.Value }
+			}
+			return timeToMap(time.Unix(ts, 0).Local())
+		},
+	})
+
+	// 語法: mapping gmtime(int timestamp)
+	obj.Vars.Set("gmtime", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			ts := time.Now().Unix()
+			if len(args) > 0 {
+				if i, ok := args[0].(*object.Integer); ok { ts = i.Value }
+			}
+			return timeToMap(time.Unix(ts, 0).UTC())
 		},
 	})
 
@@ -2680,6 +2787,66 @@ func (d *Driver) registerSystemAndFiles(obj *object.LPCObject) {
 				return true
 			})
 			return &object.Array{Elements: userObjs}
+		},
+	})
+
+	// 語法: string mud_status()
+	obj.Vars.Set("mud_status", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			d.mu.RLock()
+			objCount := len(d.ObjectTable)
+			hbCount := len(d.Heartbeats)
+			coCount := len(d.CallOuts)
+			d.mu.RUnlock()
+			
+			var stats runtime.MemStats
+			runtime.ReadMemStats(&stats)
+			
+			res := fmt.Sprintf("MUD Status:\n  Objects: %d\n  Heartbeats: %d\n  Pending CallOuts: %d\n  Goroutines: %d\n  Allocated Memory: %v MB\n",
+				objCount, hbCount, coCount, runtime.NumGoroutine(), stats.Alloc / 1024 / 1024)
+			return &object.String{Value: res}
+		},
+	})
+
+	// 語法: mapping memory_summary()
+	obj.Vars.Set("memory_summary", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			var stats runtime.MemStats
+			runtime.ReadMemStats(&stats)
+			
+			m := &object.Mapping{Pairs: make(map[object.HashKey]object.HashPair)}
+			set := func(k string, v int64) {
+				ks := &object.String{Value: k}
+				vs := &object.Integer{Value: v}
+				m.Pairs[ks.HashKey()] = object.HashPair{Key: ks, Value: vs}
+			}
+			set("alloc", int64(stats.Alloc))
+			set("total_alloc", int64(stats.TotalAlloc))
+			set("sys", int64(stats.Sys))
+			set("num_gc", int64(stats.NumGC))
+			set("objects", int64(stats.HeapObjects))
+			return m
+		},
+	})
+
+	// 語法: void replace_program(string path)
+	// 說明: 將當前物件的所有函式替換為指定物件的函式。通常用於節省記憶體。
+	obj.Vars.Set("replace_program", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 1 { return evaluator.NilValue }
+			path, ok := args[0].(*object.String)
+			if !ok { return evaluator.NilValue }
+			
+			resolved := d.ResolvePath(obj.Filename, path.Value)
+			target, err := d.LoadObject(resolved)
+			if err != nil { return object.NewError("replace_program error: %s", err.Error()) }
+			
+			// 🚀 關鍵操作：置換函式表與繼承鏈
+			obj.Functions = target.Functions
+			obj.Inherits = target.Inherits
+			// 同時保留原有的 Vars，但函式行為已變。
+			
+			return evaluator.NilValue
 		},
 	})
 

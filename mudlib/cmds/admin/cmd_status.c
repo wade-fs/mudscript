@@ -11,7 +11,7 @@ int main(object me, string verb, string arg) {
         return 0;
     }
 
-    object *obs = all_objects();
+    object *obs = objects();
     int total = sizeof(obs);
     int rooms = 0;
     int npcs = 0;
