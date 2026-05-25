@@ -38,15 +38,15 @@ mixed valid_read(string path, object user, string func) {
     return 1; // 預設允許讀取
 }
 
-// valid_write: 控制檔案寫入與刪除權限
 mixed valid_write(string path, object user, string func)
 {
     string role;
     string *paths;
+    string caller_file = "";
+    if (user && user != 0) caller_file = base_name(user);
 
     // 🚀 關鍵：深度沙盒與幻影模式
     if (user && user != 0) {
-        string caller_file = base_name(user);
         // 1. 如果呼叫者是來自遠端緩存的物件，嚴格禁止寫入緩存目錄以外的地方
         if (strsrch(caller_file, FS_CACHE_DIR) == 0) {
             // 提取該物件所屬的 mudlib_id
@@ -107,13 +107,16 @@ mixed valid_write(string path, object user, string func)
 
     // 5. 特殊例外
     // 允許 system_d 儲存系統設定，以及 fs_d 寫入緩存
-    string caller_file = base_name(user);
     if (caller_file == "/secure/system_d" || caller_file == "/std/login") {
         if (path == "/data/system.o") return 1;
     }
     
     if (caller_file == "/secure/fs_d") {
         if (strsrch(path, FS_CACHE_DIR) == 0) return 1;
+    }
+
+    if (caller_file == "/area/lm/world") {
+        if (strsrch(path, "/data/world/") == 0) return 1;
     }
 
     // 允許使用者儲存自己的資料 (/data/user/) 或 備份 (/data/backup/user/)
@@ -125,5 +128,8 @@ mixed valid_write(string path, object user, string func)
     }
 
     // 若全數不匹配
+    if (strsrch(path, "/data/world/") == 0 || strsrch(path, "newbie_world") != -1) {
+        write("DEBUG: valid_write failed for [" + path + "] caller=[" + caller_file + "] func=" + func + "\n");
+    }
     return "拒絕寫入：目標路徑 (" + path + ") 不在你的授權範圍內。";
 }

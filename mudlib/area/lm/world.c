@@ -1,6 +1,5 @@
 // mudlib/area/lm/world.c
-// Light Minecraft (LM) 世界核心
-// 採取「單一房間即世界」設計
+// Light Minecraft (LM) 世界核心 - 修復版
 
 #include "/include/config.h"
 #include "/include/ansi.h"
@@ -19,8 +18,6 @@ mapping blocks;
 // 玩家位置：key = player_id，value = ({ x, y })
 mapping player_pos;
 
-// ── 地圖初始化 ──────────────────────────────
-
 void save_world() {
     save_object(SAVE_FILE);
 }
@@ -29,17 +26,14 @@ void init_default_world() {
     blocks = ([]);
     int x, y;
     
-    // 底部兩層是石頭
     for (x = 0; x < WORLD_W; x++) {
         for (y = 0; y < 2; y++) {
             m_add(blocks, sprintf("%d,%d", x, y), "stone");
         }
     }
-    // 地表是草地
     for (x = 0; x < WORLD_W; x++) {
         m_add(blocks, sprintf("%d,%d", x, 2), "grass");
     }
-    // 幾棵樹（木頭方塊）
     m_add(blocks, "3,3", "wood");
     m_add(blocks, "3,4", "wood");
     m_add(blocks, "3,5", "leaves");
@@ -54,21 +48,19 @@ int restore_world() {
     return restore_object(SAVE_FILE);
 }
 
-// ── 核心：廣播地圖給一個或所有玩家 ──────────
-
 void broadcast_map(object target_player) {
     if (!target_player || !userp(target_player)) return;
     
     string pid = target_player->get_id();
-    
-    // 收集所有在線玩家位置
     mapping online_players = ([]);
     object *here = all_inventory(this_object());
+    
     foreach (object p in here) {
         if (userp(p)) {
             string oid = p->get_id();
-            if (mapp(player_pos) && player_pos[oid]) {
-                m_add(online_players, oid, player_pos[oid]);
+            mixed pos = player_pos[oid];
+            if (pos) {
+                m_add(online_players, oid, pos);
             }
         }
     }
@@ -102,13 +94,10 @@ void create() {
     player_pos = ([]);
     blocks = ([]);
     
-    // 嘗試從磁碟還原地圖
     if (!restore_world()) {
         init_default_world();
     }
 }
-
-// ── 玩家進出 ────────────────────────────────
 
 void init() {
     ::init();
@@ -118,12 +107,9 @@ void init() {
         if (!player_pos[pid]) {
             m_add(player_pos, pid, ({ SPAWN_X, SPAWN_Y }));
         }
-        // 延遲一下再廣播，確保玩家已經進入房間
         call_out("broadcast_map", 1, me);
     }
 }
-
-// ── 方塊操作 API（供指令呼叫）───────────────
 
 int dig_block(object player, int x, int y) {
     if (x < 0 || x >= WORLD_W || y < 0 || y >= WORLD_H) return 1;
@@ -134,7 +120,6 @@ int dig_block(object player, int x, int y) {
     m_delete(blocks, key);
     save_world();
     
-    // 給玩家一個對應的物品
     object item = clone_object("/area/lm/block_item");
     if (item) {
         item->set_block_type(btype);
@@ -152,16 +137,22 @@ int place_block(object player, int x, int y, string btype) {
     string key = sprintf("%d,%d", x, y);
     if (blocks[key]) return 2;
     
-    // 確認玩家背包有這種方塊物品
-    object found = 0;
     object *inv = all_inventory(player);
+    object found = 0;
     foreach (object item in inv) {
-        if (item->query_block_type() == btype) {
-            found = item;
-            break;
+        // 🚀 關鍵：確保物件具備 query_block_type 函式
+        if (function_exists("query_block_type", item)) {
+            if (item->query_block_type() == btype) {
+                found = item;
+                break;
+            }
         }
     }
-    if (!found) return 3;
+    
+    if (!found) {
+        tell_object(player, YEL("【系統提示】你身上沒有 " + btype + " 方塊物品。\n"));
+        return 3;
+    }
     
     destruct(found);
     m_add(blocks, key, btype);
@@ -172,7 +163,7 @@ int place_block(object player, int x, int y, string btype) {
 
 int move_player(object player, int dx, int dy) {
     string pid = player->get_id();
-    int *pos = player_pos[pid];
+    mixed pos = player_pos[pid];
     if (!pos) pos = ({ SPAWN_X, SPAWN_Y });
     
     int nx = pos[0] + dx;
@@ -180,7 +171,6 @@ int move_player(object player, int dx, int dy) {
     
     if (nx < 0 || nx >= WORLD_W || ny < 0 || ny >= WORLD_H) return 1;
     
-    // 檢查是否有阻擋方塊
     string key = sprintf("%d,%d", nx, ny);
     if (blocks[key]) return 2;
     
@@ -189,11 +179,6 @@ int move_player(object player, int dx, int dy) {
     return 0;
 }
 
-// 給指令用的查詢函式
 int *query_player_pos(object player) {
     return player_pos[player->get_id()];
-}
-
-string query_block(int x, int y) {
-    return blocks[sprintf("%d,%d", x, y)];
 }

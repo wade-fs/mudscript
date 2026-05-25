@@ -61,9 +61,9 @@ int main(object me, string verb, string arg) {
         int y = to_int(parts[2]);
         int result = world->dig_block(me, x, y);
         switch(result) {
-            case 0: write(HIG("挖掘成功！") + "\n"); break;
-            case 1: write("座標超出世界範圍。\n"); break;
-            case 2: write("那個位置沒有方塊。\n"); break;
+            case 0: break; // 成功不需文字
+            case 1: write(RED("挖掘失敗：座標超出世界範圍。\n")); break;
+            case 2: write(YEL("挖掘失敗：那個位置沒有方塊。\n")); break;
         }
         return 1;
     }
@@ -78,10 +78,10 @@ int main(object me, string verb, string arg) {
         string btype = parts[3];
         int result = world->place_block(me, x, y, btype);
         switch(result) {
-            case 0: write(HIG("放置成功！") + "\n"); break;
-            case 1: write("座標超出世界範圍。\n"); break;
-            case 2: write("那個位置已有方塊。\n"); break;
-            case 3: write("背包裡沒有 " + btype + " 方塊。\n"); break;
+            case 0: break; // 成功不需文字
+            case 1: write(RED("放置失敗：座標超出世界範圍。\n")); break;
+            case 2: write(YEL("放置失敗：那個位置已有方塊。\n")); break;
+            case 3: /* 訊息已由 world.c 發送 */ break;
         }
         return 1;
     }
