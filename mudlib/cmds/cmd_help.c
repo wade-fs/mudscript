@@ -67,11 +67,14 @@ int do_help_list(object me, string arg) {
     object cmd_d = load_object("/secure/command_d");
     if (!cmd_d) return 0;
 
-    mapping data = cmd_d->query_categorized_commands();
+    string lang = me->query_lang();
+    mapping data = cmd_d->query_categorized_commands(lang);
     
     // 進行一些 UI 過濾：如果是 Admin 類別且玩家不是巫師，則隱藏
     if (me->query_role() != "god" && me->query_role() != "wizard") {
-        m_delete(data, "Admin");
+        object lang_d = load_object("/secure/language_d.c");
+        string admin_cat = lang_d->translate("cat_admin", lang);
+        m_delete(data, admin_cat);
     }
 
     write(sprintf("{\"ui\": \"cmd_list\", \"data\": %s}", json_encode(data)));

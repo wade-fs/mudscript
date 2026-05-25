@@ -131,9 +131,9 @@
     }    function updateSuggestActive(items) {
         items.forEach((it, idx) => it.classList.toggle("active", idx === suggestIdx));
     }
-    function renderSocials(socials) {
+    function renderSocials(socials, title) {
         const area = document.getElementById("socials-area");
-        area.innerHTML = "<h4>🎭 Actions</h4><div id='socials-grid'></div>";
+        area.innerHTML = `<h4>${title || "🎭 Actions"}</h4><div id='socials-grid'></div>`;
         const grid = document.getElementById("socials-grid");
         for (let k in socials) {
             const btn = document.createElement("button");
@@ -152,7 +152,33 @@
             if (msg.type === "mud_text") {
                 const p = msg.payload.trim();
                 if (p === "__INPUT_HIDDEN__") { msgInput.type = "password"; return; }
-                if (p.startsWith("{") && p.endsWith("}")) { try { handleUIData(JSON.parse(p)); } catch (err) { appendLook(p); } }
+                if (p.startsWith("{") && p.endsWith("}")) { 
+                    try { 
+                        handleUIData(JSON.parse(p)); 
+                    } catch (err) { 
+                        try {
+                            const fixedP = p.replace(/\}\s*\{/g, "}\n{");
+                            const lines = fixedP.split('\n');
+                            let allParsed = true;
+                            let parsedLines = [];
+                            for (let line of lines) {
+                                line = line.trim();
+                                if (line.startsWith("{") && line.endsWith("}")) {
+                                    parsedLines.push(JSON.parse(line));
+                                } else if (line) {
+                                    allParsed = false; break;
+                                }
+                            }
+                            if (allParsed && parsedLines.length > 0) {
+                                parsedLines.forEach(d => handleUIData(d));
+                            } else {
+                                appendLook(p);
+                            }
+                        } catch (err2) {
+                            appendLook(p);
+                        }
+                    } 
+                }
                 else appendLook(p);
             }
         };
@@ -161,8 +187,8 @@
         if (ui.ui === "score") {
             const d = ui.data;
             document.getElementById("info-area").innerHTML = `<div class="stat-box"><span class="stat-label">❤️ HP</span><span class="stat-value">${d.hp}/${d.max_hp}</span></div><div class="stat-box"><span class="stat-label">✨ MP</span><span class="stat-value">${d.mp}/${d.max_mp}</span></div><div class="stat-box"><span class="stat-label">💰 GOLD</span><span class="stat-value">${parseColorTags(d.money)}</span></div>`;
-        } else if (ui.ui === "commands") { renderCmdList(ui.data); window.allCommands = ui.data; }
-        else if (ui.ui === "socials") { renderSocials(ui.data); window.allSocials = ui.data; }
+        } else if (ui.ui === "commands") { renderCmdList(ui.data, ui.title); window.allCommands = ui.data; }
+        else if (ui.ui === "socials") { renderSocials(ui.data, ui.title); window.allSocials = ui.data; }
         else if (ui.ui === "minimap") renderMiniMap(ui.data);
         else if (ui.ui === "nature") handleNatureData(ui.data);
     }
@@ -182,9 +208,9 @@
             c.appendChild(p); setTimeout(() => { p.style.top = "100%"; p.style.opacity = "0"; }, 100); setTimeout(() => p.remove(), dur * 1000 + 200);
         }
     }
-    function renderCmdList(cats) {
+    function renderCmdList(cats, title) {
         const area = document.getElementById("cmds-area");
-        area.innerHTML = "<h4>📜 Commands</h4>";
+        area.innerHTML = `<h4>${title || "📜 Commands"}</h4>`;
         for (let c in cats) {
             let div = document.createElement("div"); div.className = "cmd-group"; div.innerHTML = `<b>${c}</b>`;
             cats[c].forEach(cmd => {

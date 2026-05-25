@@ -27,11 +27,17 @@ string _t(string key) {
 
 void logon() {
     // 🚀 新增：立即發送 UI 初始化資訊給前端，不需要等登入完成
-    mapping socials = load_object("/secure/social_d.c")->get_ui_list();
-    write(sprintf("{\"ui\": \"socials\", \"data\": %s}", json_encode(socials)));
+    string l = browser_lang;
+    if (!l) l = "en";
+    object lang_d = load_object("/secure/language_d.c");
 
-    mapping cmds = load_object("/secure/command_d.c")->query_categorized_commands();
-    write(sprintf("{\"ui\": \"commands\", \"data\": %s}", json_encode(cmds)));
+    mapping socials = load_object("/secure/social_d.c")->get_ui_list();
+    write(sprintf("{\"ui\": \"socials\", \"title\": \"%s\", \"data\": %s}", 
+        lang_d->translate("label_actions", l), json_encode(socials)));
+
+    mapping cmds = load_object("/secure/command_d.c")->query_categorized_commands(l);
+    write(sprintf("{\"ui\": \"commands\", \"title\": \"%s\", \"data\": %s}", 
+        lang_d->translate("label_commands", l), json_encode(cmds)));
 
     write("\n" + HIW("Welcome to MudScript World!") + "\n");
     write("Please select your language / 請選擇您的語系：\n");
@@ -51,6 +57,17 @@ void get_language(string input) {
     }
 
     string lang = browser_lang;
+
+    // 🚀 關鍵修正：語系切換後立即更新 UI 標籤
+    object lang_d = load_object("/secure/language_d.c");
+    mapping socials = load_object("/secure/social_d.c")->get_ui_list();
+    write(sprintf("{\"ui\": \"socials\", \"title\": \"%s\", \"data\": %s}", 
+        lang_d->translate("label_actions", lang), json_encode(socials)));
+
+    mapping cmds = load_object("/secure/command_d.c")->query_categorized_commands(lang);
+    write(sprintf("{\"ui\": \"commands\", \"title\": \"%s\", \"data\": %s}", 
+        lang_d->translate("label_commands", lang), json_encode(cmds)));
+
     string issue = read_file(ISSUE_FILE + "." + lang);
     if (!issue) issue = read_file(ISSUE_FILE);
 

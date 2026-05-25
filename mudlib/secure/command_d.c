@@ -67,9 +67,11 @@ int execute(object me, string verb, string arg) {
 mapping query_cmd_map() { return cmd_map; }
 
 // 🚀 新增：提供給 UI 使用的分類指令清單
-mapping query_categorized_commands() {
+mapping query_categorized_commands(string lang) {
     mapping res = ([]);
     string *verbs = sort_array(keys(cmd_map), 1);
+    object lang_d = find_object("/secure/language_d.c");
+    if (!lang_d) lang_d = load_object("/secure/language_d.c");
     
     foreach (string v in verbs) {
         string file = cmd_map[v];
@@ -87,8 +89,13 @@ mapping query_categorized_commands() {
             cat = "Admin";
         }
 
-        if (!res[cat]) res[cat] = ({});
-        res[cat] += ({ v });
+        // 🚀 新增：分類名稱本地化
+        string cat_key = "cat_" + lower_case(cat);
+        string localized_cat = lang_d->translate(cat_key, lang);
+        if (localized_cat == cat_key) localized_cat = cat; // 若無翻譯則用原名
+
+        if (!res[localized_cat]) res[localized_cat] = ({});
+        res[localized_cat] += ({ v });
     }
     return res;
 }

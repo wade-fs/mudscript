@@ -151,6 +151,18 @@ void setup() {
     }
 
     call_other(load_object("/cmds/cmd_help.c"), "do_help_list", this_object(), "");
+
+    // 🚀 新增：發送 UI 初始化資訊給前端
+    string l = query_lang();
+    object lang_d = load_object("/secure/language_d.c");
+
+    mapping socials = load_object("/secure/social_d.c")->get_ui_list();
+    write(sprintf("{\"ui\": \"socials\", \"title\": \"%s\", \"data\": %s}", 
+        lang_d->translate("label_actions", l), json_encode(socials)));
+
+    mapping cmds = load_object("/secure/command_d.c")->query_categorized_commands(l);
+    write(sprintf("{\"ui\": \"commands\", \"title\": \"%s\", \"data\": %s}", 
+        lang_d->translate("label_commands", l), json_encode(cmds)));
 }
 
 int process_input(string input) {
