@@ -70,14 +70,18 @@ mixed valid_write(string path, object user, string func)
         }
     }
 
-    // 1. 如果沒有使用者物件，可能是系統守護進程（如 nature_d）在背景存檔
+    // 1. 沒有使用者物件 → 系統守護進程背景呼叫
     if (!user || user == 0) {
-        // 允許寫入 /data/ 及其子目錄，這是系統資料存放區
         if (strsrch(path, "/data/") == 0) return 1;
-        // 允許寫入日誌
         if (strsrch(path, "/log/") == 0) return 1;
-        
         return "拒絕：找不到使用者物件，無法驗證身分。";
+    }
+
+    // 2. /secure/ 守護進程（nature_d, quest_d, guild_d 等）白名單
+    //    這些物件在有玩家 context 下被呼叫時，caller_file 是 /secure/xxx
+    if (strsrch(caller_file, "/secure/") == 0) {
+        if (strsrch(path, "/data/") == 0) return 1;
+        if (strsrch(path, "/log/") == 0) return 1;
     }
 
     role = user->query_role();
@@ -106,22 +110,20 @@ mixed valid_write(string path, object user, string func)
     }
 
     // 5. 特殊例外
-    // 允許系統守護進程儲存設定
-    if (strsrch(caller_file, "/secure/system_d") == 0 || caller_file == "/std/login") {
+    // 允許 system_d 儲存系統設定，以及 fs_d 寫入緩存
+    if (caller_file == "/secure/system_d" || caller_file == "/std/login") {
         if (path == "/data/system.o") return 1;
     }
     
-    if (strsrch(caller_file, "/secure/nature_d") == 0) {
-        if (path == "/data/nature.o") return 1;
-    }
-    
-    if (strsrch(caller_file, "/secure/fs_d") == 0) {
+    if (caller_file == "/secure/fs_d") {
         if (strsrch(path, FS_CACHE_DIR) == 0) return 1;
     }
-
-    if (strsrch(caller_file, "/area/lm/world") == 0) {
-        if (strsrch(path, "/data/world/") == 0) return 1;
+    // LM 世界存檔
+    if (strsrch(caller_file, "/area/lm/") == 0) {
+        // 允許 /data/lm 目錄本身（mkdir 時 path 沒有結尾斜線）及其子路徑
+        if (strsrch(path, "/data/lm") == 0) return 1;
     }
+
 
     // 允許使用者儲存自己的資料 (/data/user/) 或 備份 (/data/backup/user/)
     if (strsrch(path, "/data/user/") == 0 || strsrch(path, "/data/backup/user/") == 0) {
@@ -130,7 +132,6 @@ mixed valid_write(string path, object user, string func)
             return 1;
         }
     }
-
-    // 若全數不匹配
     return "拒絕寫入：目標路徑 (" + path + ") 不在你的授權範圍內。";
 }
+

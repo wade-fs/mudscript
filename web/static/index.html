@@ -48,9 +48,6 @@
 
         #mc-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #000; display: none; flex-direction: column; z-index: 200; }
         #mc-canvas { flex: 1; cursor: crosshair; image-rendering: pixelated; }
-        #mc-msg-overlay { position: absolute; top: 60px; left: 20px; width: 300px; pointer-events: none; z-index: 250; }
-        .mc-msg { background: rgba(0,0,0,0.7); color: #fff; padding: 5px 10px; margin-bottom: 5px; border-left: 3px solid #4CAF50; font-size: 14px; animation: fadeOut 5s forwards; }
-        @keyframes fadeOut { 0% { opacity:1; } 80% { opacity:1; } 100% { opacity:0; } }
         #mc-ui { height: 45px; background: #222; display: flex; align-items: center; padding: 0 15px; gap: 15px; border-bottom: 1px solid #444; }
         .mc-btn { background: #333; border: 1px solid #555; color: #fff; padding: 4px 12px; cursor: pointer; font-size: 13px; border-radius: 4px; }
         .mc-btn.active { background: #4CAF50; border-color: #fff; }
@@ -100,14 +97,17 @@
                 <button class="mc-btn active" onclick="setMCAction('dig', this)">Dig (Click)</button>
                 <button class="mc-btn" onclick="setMCAction('place', this)">Place (Click)</button>
                 <select id="mc-block-type" style="background:#333; color:#fff; border:1px solid #666; padding:3px; border-radius:4px;">
-                    <option value="stone">Stone</option>
-                    <option value="grass">Grass</option>
-                    <option value="wood">Wood</option>
-                    <option value="leaves">Leaves</option>
+                    <option value="grass">🟩 Grass</option>
+                    <option value="dirt">🟫 Dirt</option>
+                    <option value="stone">⬜ Stone</option>
+                    <option value="log">🪵 Log</option>
+                    <option value="planks">🟨 Planks</option>
+                    <option value="leaves">🌿 Leaves</option>
+                    <option value="sand">🏜️ Sand</option>
+                    <option value="brick">🧱 Brick</option>
                 </select>
                 <button class="mc-btn" onclick="toggleMCMode(false)" style="margin-left:auto; background:#833; border-color:#a55;">Exit World</button>
             </div>
-            <div id="mc-msg-overlay"></div>
             <canvas id="mc-canvas"></canvas>
         </div>
         <div id="look-content"></div>
@@ -123,7 +123,13 @@
 <script>
     let ws, historyCmds = [], histIdx = -1, msgInput, suggestIdx = -1;
     let mcData = null, mcMode = false, mcAction = 'dig', mcZoom = 32;
-    const mcColors = { stone: '#777', grass: '#4CAF50', wood: '#795548', leaves: '#2E7D32', player: '#2196F3', self: '#FFEB3B' };
+    const mcColors = {
+        grass:'#4CAF50', dirt:'#795548', stone:'#9E9E9E',
+        wood:'#8D6E63', log:'#5D4037', planks:'#FFCC80',
+        leaves:'#2E7D32', sand:'#FDD835', water:'#1E88E5',
+        coal:'#37474F', iron:'#B0BEC5', gold:'#FFD600',
+        brick:'#BF360C', player:'#2196F3', self:'#FFEB3B'
+    };
 
     window.onload = () => {
         msgInput = document.getElementById("msg");
@@ -265,27 +271,85 @@
     function renderMCMap() {
         const canvas = document.getElementById('mc-canvas'); if (!canvas) return;
         const ctx = canvas.getContext('2d');
-        const { width, height, blocks, players, self_id } = mcData;
-        const selfPos = players[self_id] || [10, 10];
-        ctx.fillStyle = '#000'; ctx.fillRect(0, 0, canvas.width, canvas.height);
-        const centerX = canvas.width / 2, centerY = canvas.height / 2;
+        const { width, height, blocks, block_colors, players, self_id } = mcData;
+        const colors = Object.assign({}, mcColors, block_colors || {});
+        const selfPos = players[self_id] || [Math.floor(width/2), Math.floor(height/2)];
+        const cw = canvas.width, ch = canvas.height;
+        const centerX = cw / 2, centerY = ch / 2;
+
+        // 背景（天空）
+        ctx.fillStyle = '#0d1b2a'; ctx.fillRect(0, 0, cw, ch);
+
+        // 世界邊界虛線
+        const wx0 = centerX + (0 - selfPos[0]) * mcZoom;
+        const wy0 = centerY - (0 - selfPos[1]) * mcZoom;
+        const wx1 = centerX + (width - selfPos[0]) * mcZoom;
+        const wy1 = centerY - (height - selfPos[1]) * mcZoom;
+        ctx.strokeStyle = 'rgba(255,100,100,0.5)'; ctx.lineWidth = 2;
+        ctx.setLineDash([6, 4]);
+        ctx.strokeRect(wx0, wy1, wx1 - wx0, wy0 - wy1);
+        ctx.setLineDash([]);
+
+        // 格線（只在 zoom >= 20 時顯示）
+        if (mcZoom >= 20) {
+            ctx.strokeStyle = 'rgba(255,255,255,0.04)'; ctx.lineWidth = 0.5;
+            const startX = Math.floor((0 - centerX / mcZoom) + selfPos[0]);
+            const startY = Math.floor((0 - centerY / mcZoom) + selfPos[1]);
+            for (let gx = startX; gx < startX + Math.ceil(cw/mcZoom)+2; gx++) {
+                const sx = centerX + (gx - selfPos[0]) * mcZoom;
+                ctx.beginPath(); ctx.moveTo(sx, 0); ctx.lineTo(sx, ch); ctx.stroke();
+            }
+            for (let gy = startY; gy < startY + Math.ceil(ch/mcZoom)+2; gy++) {
+                const sy = centerY - (gy - selfPos[1]) * mcZoom;
+                ctx.beginPath(); ctx.moveTo(0, sy); ctx.lineTo(cw, sy); ctx.stroke();
+            }
+        }
+
+        // 方塊
         for (let key in blocks) {
             const [bx, by] = key.split(',').map(Number);
-            const screenX = centerX + (bx - selfPos[0]) * mcZoom;
-            const screenY = centerY - (by - selfPos[1]) * mcZoom;
-            ctx.fillStyle = mcColors[blocks[key]] || '#fff';
-            ctx.fillRect(screenX, screenY - mcZoom, mcZoom, mcZoom);
-            ctx.strokeStyle = 'rgba(0,0,0,0.2)'; ctx.strokeRect(screenX, screenY - mcZoom, mcZoom, mcZoom);
+            const sx = centerX + (bx - selfPos[0]) * mcZoom;
+            const sy = centerY - (by - selfPos[1]) * mcZoom;
+            if (sx < -mcZoom || sx > cw || sy < -mcZoom || sy > ch) continue;
+            ctx.fillStyle = colors[blocks[key]] || '#aaa';
+            ctx.fillRect(sx, sy - mcZoom, mcZoom, mcZoom);
+            if (mcZoom >= 16) {
+                ctx.strokeStyle = 'rgba(0,0,0,0.25)'; ctx.lineWidth = 0.5;
+                ctx.strokeRect(sx, sy - mcZoom, mcZoom, mcZoom);
+            }
+            // 方塊名稱（zoom >= 40 才顯示）
+            if (mcZoom >= 40) {
+                ctx.fillStyle = 'rgba(255,255,255,0.7)';
+                ctx.font = Math.max(8, mcZoom/4) + 'px monospace';
+                ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+                ctx.fillText(blocks[key], sx + mcZoom/2, sy - mcZoom/2);
+            }
         }
+
+        // 玩家
         for (let pid in players) {
             const ppos = players[pid];
-            const screenX = centerX + (ppos[0] - selfPos[0]) * mcZoom;
-            const screenY = centerY - (ppos[1] - selfPos[1]) * mcZoom;
-            ctx.fillStyle = (pid === self_id) ? mcColors.self : mcColors.player;
-            ctx.beginPath(); ctx.arc(screenX + mcZoom/2, screenY - mcZoom/2, mcZoom/3, 0, Math.PI * 2); ctx.fill();
-            ctx.fillStyle = '#fff'; ctx.font = '12px Consolas'; ctx.textAlign = 'center';
-            ctx.fillText(pid, screenX + mcZoom/2, screenY - mcZoom - 5);
+            const sx = centerX + (ppos[0] - selfPos[0]) * mcZoom;
+            const sy = centerY - (ppos[1] - selfPos[1]) * mcZoom;
+            const r = Math.max(4, mcZoom * 0.35);
+            const isSelf = (pid === self_id);
+            // 身體
+            ctx.fillStyle = isSelf ? '#FFEB3B' : '#2196F3';
+            ctx.beginPath(); ctx.arc(sx + mcZoom/2, sy - mcZoom/2, r, 0, Math.PI*2); ctx.fill();
+            // 外框
+            ctx.strokeStyle = isSelf ? '#fff' : '#90CAF9'; ctx.lineWidth = 1.5;
+            ctx.beginPath(); ctx.arc(sx + mcZoom/2, sy - mcZoom/2, r, 0, Math.PI*2); ctx.stroke();
+            // 名字
+            ctx.fillStyle = isSelf ? '#FFD600' : '#fff';
+            ctx.font = 'bold ' + Math.max(10, mcZoom/3) + 'px monospace';
+            ctx.textAlign = 'center'; ctx.textBaseline = 'bottom';
+            ctx.fillText(pid, sx + mcZoom/2, sy - mcZoom - 2);
         }
+
+        // 座標 HUD（左上角）
+        ctx.fillStyle = 'rgba(0,0,0,0.55)'; ctx.fillRect(6, 6, 160, 22);
+        ctx.fillStyle = '#adf'; ctx.font = '12px monospace'; ctx.textAlign = 'left'; ctx.textBaseline = 'top';
+        ctx.fillText(`pos (${selfPos[0]}, ${selfPos[1]})  zoom ${mcZoom}px`, 10, 10);
     }
 
     function renderMiniMap(d) {
@@ -310,11 +374,6 @@
     }
 
     function appendLook(t) {
-        // 🚀 核心優化：在 MC 模式下，不要在懸浮視窗顯示命令回饋 (>> ...)
-        if (mcMode && !t.includes('>> ')) {
-            popMCMessage(t);
-        }
-
         const area = document.getElementById("look-area"), content = document.getElementById("look-content");
         let p = t; const hasTags = /<[a-z/][^>]*>/i.test(t);
         if (hasTags) p = p.replace(/<script\b[^>]*>([\s\S]*?)<\/script>/gmi, " [Blocked] ").replace(/\bon\w+\s*=\s*("[^"]*"|'[^']*'|[^\s>]*)/gmi, "");
@@ -385,17 +444,6 @@
         mcAction = a;
         document.querySelectorAll('.mc-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
-    }
-
-    function popMCMessage(msg) {
-        const container = document.getElementById('mc-msg-overlay');
-        if (!container) return;
-        const div = document.createElement('div');
-        div.className = 'mc-msg';
-        // 簡單過濾 HTML 與 ANSI 標籤
-        div.innerText = msg.replace(/<[^>]*>?/gm, '').replace(/\{[a-z]{1,2}\}/g, '');
-        container.appendChild(div);
-        setTimeout(() => div.remove(), 5000);
     }
 </script>
 </body>
