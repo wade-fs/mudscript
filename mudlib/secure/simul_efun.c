@@ -33,10 +33,14 @@ string select_lang(mixed data) {
 
     string lang = "en";
     object ob = previous_object();
-    if (!ob || !userp(ob)) ob = this_player();
-
-    if (ob && userp(ob)) {
-        lang = ob->query_lang();
+    
+    // 優先從呼叫者取得語系 (適用於 ob->query_name() 這種呼叫)
+    if (ob) lang = ob->query_lang();
+    
+    // 如果呼叫者沒語系，試試 this_player()
+    if (!lang || lang == "0") {
+        object tp = this_player();
+        if (tp) lang = tp->query_lang();
     }
 
     if (!lang || lang == "0") lang = "en";
@@ -53,11 +57,15 @@ string select_lang(mixed data) {
 string _t(string key) {
     string lang = "en";
     object ob = previous_object();
-    if (!ob || !userp(ob)) ob = this_player();
 
-    if (ob && userp(ob)) {
-        lang = ob->query_lang();
+    if (ob) lang = ob->query_lang();
+    
+    if (!lang || lang == "0") {
+        object tp = this_player();
+        if (tp) lang = tp->query_lang();
     }
+    
+    if (!lang || lang == "0") lang = "en";
 
     return load_object("/secure/language_d.c")->translate(key, lang);
 }

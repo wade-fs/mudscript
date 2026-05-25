@@ -1,6 +1,8 @@
 // std/object.c - 所有物件的基底類別
 // 提供 id、名稱、描述等最基本的屬性
 
+#include "/include/config.h"
+
 string  name;          // 內部名稱/名稱
 string  short_name;    // 短描述
 string  long_name;     // 長描述
