@@ -23,7 +23,7 @@ all: fsmud fsmud.exe
 
 inject-hash:
 	@echo "Injecting HEAD hash $(COMMIT) into index.html..."
-	@sed -i 's/HEAD: [a-f0-9]*/HEAD: $(COMMIT)/g' web/static/index.html
+	@sed -i 's/Fantasy Space MUD/Fantasy Space MUD: $(COMMIT)/g' web/static/index.html
 
 # 🚀 推送到 GitHub (乾淨的原始碼)
 push-github:
