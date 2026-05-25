@@ -26,6 +26,13 @@ string _t(string key) {
 }
 
 void logon() {
+    // 🚀 新增：立即發送 UI 初始化資訊給前端，不需要等登入完成
+    mapping socials = load_object("/secure/social_d.c")->get_ui_list();
+    write(sprintf("{\"ui\": \"socials\", \"data\": %s}", json_encode(socials)));
+
+    mapping cmds = load_object("/secure/command_d.c")->query_categorized_commands();
+    write(sprintf("{\"ui\": \"commands\", \"data\": %s}", json_encode(cmds)));
+
     write("\n" + HIW("Welcome to MudScript World!") + "\n");
     write("Please select your language / 請選擇您的語系：\n");
     write("[1] English\n");

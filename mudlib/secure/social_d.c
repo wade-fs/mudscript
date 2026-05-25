@@ -11,66 +11,33 @@ mapping socials;
 void create() {
     ::create();
     socials = ([
-        "smile": ([
-            "en": "You smile broadly.",
-            "zh-TW": "你露出了燦爛的笑容。",
-            "zh-CN": "你露出了灿烂的笑容。",
-            "icon": "😊"
-        ]),
-        "laugh": ([
-            "en": "You laugh out loud.",
-            "zh-TW": "你哈哈大笑了起來。",
-            "zh-CN": "你哈哈大笑了起来。",
-            "icon": "😆"
-        ]),
-        "nod": ([
-            "en": "You nod in agreement.",
-            "zh-TW": "你點了點頭表示贊同。",
-            "zh-CN": "你点了点表表示赞同。",
-            "icon": "👍"
-        ]),
-        "shake": ([
-            "en": "You shake your head slowly.",
-            "zh-TW": "你緩緩地搖了搖頭。",
-            "zh-CN": "你缓缓地摇了摇头。",
-            "icon": "👎"
-        ]),
-        "cry": ([
-            "en": "You sob quietly.",
-            "zh-TW": "你低聲抽泣著。",
-            "zh-CN": "你低声抽泣著。",
-            "icon": "😭"
-        ]),
-        "wave": ([
-            "en": "You wave goodbye.",
-            "zh-TW": "你揮了揮手打招呼。",
-            "zh-CN": "你挥了挥手打招呼。",
-            "icon": "👋"
-        ]),
-        "shrug": ([
-            "en": "You shrug your shoulders.",
-            "zh-TW": "你聳了聳肩表示無奈。",
-            "zh-CN": "你耸了耸肩表示无奈。",
-            "icon": "🤷"
-        ]),
-        "sigh": ([
-            "en": "You let out a long sigh.",
-            "zh-TW": "你長長地嘆了一口氣。",
-            "zh-CN": "你长长地叹了一口气。",
-            "icon": "😔"
-        ]),
-        "think": ([
-            "en": "You seem lost in thought.",
-            "zh-TW": "你陷入了沉思之中。",
-            "zh-CN": "你陷入了沉思之中。",
-            "icon": "🤔"
-        ]),
-        "dance": ([
-            "en": "You dance around happily.",
-            "zh-TW": "你開心地手舞足蹈。",
-            "zh-CN": "你开心地手舞足蹈。",
-            "icon": "💃"
-        ])
+        "smile": ([ "en": "You smile broadly.", "zh-TW": "你露出了燦爛的笑容。", "icon": "😊" ]),
+        "laugh": ([ "en": "You laugh out loud.", "zh-TW": "你哈哈大笑了起來。", "icon": "😆" ]),
+        "nod": ([ "en": "You nod in agreement.", "zh-TW": "你點了點頭表示贊同。", "icon": "👍" ]),
+        "shake": ([ "en": "You shake your head slowly.", "zh-TW": "你緩緩地搖了搖頭。", "icon": "👎" ]),
+        "cry": ([ "en": "You sob quietly.", "zh-TW": "你低聲抽泣著。", "icon": "😭" ]),
+        "wave": ([ "en": "You wave goodbye.", "zh-TW": "你揮了揮手打招呼。", "icon": "👋" ]),
+        "shrug": ([ "en": "You shrug your shoulders.", "zh-TW": "你聳了聳肩表示無奈。", "icon": "🤷" ]),
+        "sigh": ([ "en": "You let out a long sigh.", "zh-TW": "你長長地嘆了一口氣。", "icon": "😔" ]),
+        "think": ([ "en": "You seem lost in thought.", "zh-TW": "你陷入了沉思之中。", "icon": "🤔" ]),
+        "dance": ([ "en": "You dance around happily.", "zh-TW": "你開心地手舞足蹈。", "icon": "💃" ]),
+        "wink": ([ "en": "You wink playfully.", "zh-TW": "你頑皮地眨了眨眼。", "icon": "😉" ]),
+        "hug": ([ "en": "You give a warm hug.", "zh-TW": "你給了一個溫暖的擁抱。", "icon": "🤗" ]),
+        "kiss": ([ "en": "You blow a kiss.", "zh-TW": "你送出了一個飛吻。", "icon": "😘" ]),
+        "angry": ([ "en": "You look very angry!", "zh-TW": "你看起來非常生氣！", "icon": "😠" ]),
+        "scared": ([ "en": "You look frightened.", "zh-TW": "你一臉驚恐的樣子。", "icon": "😨" ]),
+        "sleep": ([ "en": "You fall asleep.", "zh-TW": "你沉沉地睡著了。", "icon": "😴" ]),
+        "love": ([ "en": "You send some love.", "zh-TW": "你充滿愛心地看著四周。", "icon": "❤️" ]),
+        "pray": ([ "en": "You pray silently.", "zh-TW": "你虔誠地祈禱著。", "icon": "🙏" ]),
+        "cool": ([ "en": "You look cool.", "zh-TW": "你帥氣地擺了個姿勢。", "icon": "😎" ]),
+        "clap": ([ "en": "You clap your hands.", "zh-TW": "你熱烈地鼓掌。", "icon": "👏" ]),
+        "jump": ([ "en": "You jump up and down.", "zh-TW": "你興奮地跳了起來。", "icon": "🆙" ]),
+        "point": ([ "en": "You point forward.", "zh-TW": "你指了指前方。", "icon": "👉" ]),
+        "hide": ([ "en": "You hide your face.", "zh-TW": "你不好意思地遮住了臉。", "icon": "🙈" ]),
+        "stare": ([ "en": "You stare blankly.", "zh-TW": "你盯著某處發呆。", "icon": "👀" ]),
+        "blush": ([ "en": "You blush deeply.", "zh-TW": "你羞紅了臉。", "icon": "😳" ]),
+        "vomit": ([ "en": "You feel sick.", "zh-TW": "你覺得一陣噁心想吐。", "icon": "🤮" ]),
+        "confused": ([ "en": "You look confused.", "zh-TW": "你一臉困惑的樣子。", "icon": "😕" ])
     ]);
 }
 
