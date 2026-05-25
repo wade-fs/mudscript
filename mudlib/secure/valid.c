@@ -106,16 +106,20 @@ mixed valid_write(string path, object user, string func)
     }
 
     // 5. 特殊例外
-    // 允許 system_d 儲存系統設定，以及 fs_d 寫入緩存
-    if (caller_file == "/secure/system_d" || caller_file == "/std/login") {
+    // 允許系統守護進程儲存設定
+    if (strsrch(caller_file, "/secure/system_d") == 0 || caller_file == "/std/login") {
         if (path == "/data/system.o") return 1;
     }
     
-    if (caller_file == "/secure/fs_d") {
+    if (strsrch(caller_file, "/secure/nature_d") == 0) {
+        if (path == "/data/nature.o") return 1;
+    }
+    
+    if (strsrch(caller_file, "/secure/fs_d") == 0) {
         if (strsrch(path, FS_CACHE_DIR) == 0) return 1;
     }
 
-    if (caller_file == "/area/lm/world") {
+    if (strsrch(caller_file, "/area/lm/world") == 0) {
         if (strsrch(path, "/data/world/") == 0) return 1;
     }
 
@@ -128,8 +132,5 @@ mixed valid_write(string path, object user, string func)
     }
 
     // 若全數不匹配
-    if (strsrch(path, "/data/world/") == 0 || strsrch(path, "newbie_world") != -1) {
-        write("DEBUG: valid_write failed for [" + path + "] caller=[" + caller_file + "] func=" + func + "\n");
-    }
     return "拒絕寫入：目標路徑 (" + path + ") 不在你的授權範圍內。";
 }

@@ -123,9 +123,8 @@ int dig_block(object player, int x, int y) {
     object item = clone_object("/area/lm/block_item");
     if (item) {
         item->set_block_type(btype);
-        if (!item->move(player)) {
-            move_object(item, this_object());
-        }
+        // 🚀 關鍵修正：現在 move() 會正確回傳 1
+        item->move(player);
     }
     
     broadcast_map_all();
@@ -140,17 +139,16 @@ int place_block(object player, int x, int y, string btype) {
     object *inv = all_inventory(player);
     object found = 0;
     foreach (object item in inv) {
-        // 🚀 關鍵：確保物件具備 query_block_type 函式
-        if (function_exists("query_block_type", item)) {
-            if (item->query_block_type() == btype) {
-                found = item;
-                break;
-            }
+        if (!item) continue;
+        if (item->id(btype) || item->id(btype + "_block") || 
+            (function_exists("query_block_type", item) && item->query_block_type() == btype)) {
+            found = item;
+            break;
         }
     }
     
     if (!found) {
-        tell_object(player, YEL("【系統提示】你身上沒有 " + btype + " 方塊物品。\n"));
+        tell_object(player, YEL("【創世神系統】你身上沒有 " + btype + " 方塊物品。\n"));
         return 3;
     }
     

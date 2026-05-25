@@ -962,22 +962,21 @@ func (d *Driver) registerEnvironmentEfuns(obj *object.LPCObject) {
 		},
 	})
 
-	// 語法: void move_object(object dest) / void move_object(object item, object dest)
-	// 說明: 將物件移動到目標物件(房間或容器)之內。
+	// 語法: int move_object(object dest) / int move_object(object item, object dest)
+	// 說明: 將物件移動到目標物件(房間或容器)之內。回傳 1 成功。
 	// 範例: move_object(load_object("/d/city/square"));
 	obj.Vars.Set("move_object", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
 			if len(args) == 1 && args[0].TokenType() == object.LPC_OBJECT_OBJ {
 				d.MoveObject(obj, args[0].(*object.LPCObject))
-				return &object.Nil{}
+				return &object.Integer{Value: 1}
 			} else if len(args) == 2 && args[0].TokenType() == object.LPC_OBJECT_OBJ && args[1].TokenType() == object.LPC_OBJECT_OBJ {
 				d.MoveObject(args[0].(*object.LPCObject), args[1].(*object.LPCObject))
-				return &object.Nil{}
+				return &object.Integer{Value: 1}
 			}
 			return object.NewError("move_object 參數錯誤，需要 1 或 2 個 object 參數")
 		},
 	})
-
 	// 語法: object clone_object(string file)
 	// 說明: 根據腳本路徑，複製並產生一個新的物件實體 (Clone)。
 	// 範例: object sword = clone_object("/obj/weapon/sword");
