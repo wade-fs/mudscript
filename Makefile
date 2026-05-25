@@ -53,7 +53,8 @@ $(OUT):
 	@mkdir -p $(OUT)
 
 # 編譯 Linux 版本 (不自動執行)
-fsmud: $(OUT) inject-hash
+# fsmud: $(OUT) inject-hash
+fsmud: $(OUT)
 	@echo "🔨 Building Linux version..."
 	@go mod tidy && $(GO_EXE) build $(GO_FLAGS) -o $(OUT)/fsmud ./cmd/fsmud
 	@ls -l $(OUT)/fsmud
