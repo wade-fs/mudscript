@@ -69,7 +69,7 @@ string do_join(object me, string mudlib_id) {
 void remove_cached_rooms(string mudlib_id) {
     string prefix = "/fs_remote/" + mudlib_id;
     object ob;
-    foreach (ob in all_objects()) {
+    foreach (ob in objects()) {
         if (!ob || ob == this_object()) continue; 
         if (strsrch(object_name(ob), prefix) == 0) destruct(ob);
     }

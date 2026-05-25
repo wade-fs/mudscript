@@ -2474,7 +2474,7 @@ func (d *Driver) registerSystemAndFiles(obj *object.LPCObject) {
 		},
 	})
 
-	// 語法: object *all_objects()
+	// 語法: object *objects()
 	// 說明: 回傳目前記憶體中載入的所有物件（包含藍圖與副本）。
 	obj.Vars.Set("objects", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
