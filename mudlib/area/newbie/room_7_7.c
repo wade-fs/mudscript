@@ -18,6 +18,5 @@ void create() {
     add_exit("west",  "./room_6_7.c");
     add_exit("south", "./room_7_6.c");
 
-    object bat = clone_object("/npc/creature/cave_bat.c");
-    if (bat) move_object(bat, this_object());
+    spawn_npc("/npc/creature/cave_bat.c");
 }

@@ -24,8 +24,5 @@ void create() {
 
 void reset() {
     ::reset();
-    if (!present("bat", this_object())) {
-        clone_object("/npc/creature/bat.c")->move(this_object());
-        clone_object("/npc/creature/bat.c")->move(this_object());
-    }
+    spawn_npc("/npc/creature/bat.c");
 }

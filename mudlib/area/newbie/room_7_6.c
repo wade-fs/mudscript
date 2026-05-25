@@ -19,6 +19,5 @@ void create() {
     add_exit("west",  "./room_6_6.c");
     add_exit("south", "./room_7_5.c");
 
-    object golem = clone_object("/npc/creature/stone_golem.c");
-    if (golem) move_object(golem, this_object());
+    spawn_npc("/npc/creature/stone_golem.c");
 }

@@ -24,7 +24,5 @@ void create() {
 
 void reset() {
     ::reset();
-    if (!present("water spirit", this_object())) {
-        clone_object("/npc/water/water_spirit.c")->move(this_object());
-    }
+    spawn_npc("/npc/water/water_spirit.c");
 }

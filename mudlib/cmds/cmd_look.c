@@ -15,6 +15,31 @@ int main(object me, string verb, string arg) {
         return 1;
     }
 
+    // 處理方向縮寫
+    switch(arg) {
+        case "n": arg = "north"; break;
+        case "s": arg = "south"; break;
+        case "e": arg = "east";  break;
+        case "w": arg = "west";  break;
+        case "u": arg = "up";    break;
+        case "d": arg = "down";  break;
+    }
+
+    // 檢查方向
+    mapping exits = here->query_exits();
+    if (exits && exits[arg]) {
+        object dest = load_object(exits[arg]);
+        if (dest) {
+            write(select_lang(([
+                "en": "You look to the " + arg + ":\n",
+                "zh-TW": "你往 " + arg + " 看了看：\n",
+                "zh-CN": "你往 " + arg + " 看了看：\n"
+            ])));
+            write("  " + dest->query_short() + "\n");
+            return 1;
+        }
+    }
+
     // 看房間裡的物件
     object target = present(arg, here);
     if (target) {
@@ -54,5 +79,6 @@ string help() {
     return "【查看指令】\n" +
            "  look (l)              查看目前房間\n" +
            "  look <目標>           查看房間或背包中的物品\n" +
+           "  look <方向>           查看該方向的情況\n" +
            "  examine (ex) <目標>   同 look，更仔細地檢視\n";
 }

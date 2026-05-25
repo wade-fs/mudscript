@@ -87,11 +87,22 @@ void add_hidden_element(string id, mapping data) {
 }
 
 // ── NPC 產生與重生 ─────────────────────────────────────
-void spawn_npc(string file) {
-    object ob = clone_object(resolve_path(file, object_name(this_object())));
+object spawn_npc(string file) {
+    string path = resolve_path(file, object_name(this_object()));
+    
+    // 🚀 安全檢查：避免重複產生相同的 NPC
+    object *inv = all_inventory(this_object());
+    if (inv) {
+        for (int i = 0; i < sizeof(inv); i++) {
+            if (base_name(inv[i]) == path) return inv[i];
+        }
+    }
+
+    object ob = clone_object(path);
     if (ob) {
         move_object(ob, this_object());
     }
+    return ob;
 }
 
 // ── 查詢函式 ────────────────────────────────────────────

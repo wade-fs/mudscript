@@ -20,6 +20,5 @@ void create() {
     add_exit("north", "./room_2_7.c");
     add_exit("south", "./room_2_5.c");
 
-    object hawk = clone_object("/npc/creature/sky_hawk.c");
-    if (hawk) move_object(hawk, this_object());
+    spawn_npc("/npc/creature/sky_hawk.c");
 }

@@ -470,28 +470,30 @@ func (d *Driver) ReadFile(filename string) ([]byte, error) {
 }
 // LoadObject 載入並編譯一個 LPC 檔案成為藍圖物件 (含執行 create)
 func (d *Driver) LoadObject(filename string) (*object.LPCObject, error) {
-	obj, err := d.loadObjectInternal(filename)
+	obj, newlyLoaded, err := d.loadObjectInternal(filename)
 	if err != nil {
 		return nil, err
 	}
 	
-	d.CallFunction(obj, "create", nil)
+	if newlyLoaded {
+		d.CallFunction(obj, "create", nil)
+	}
 	return obj, nil
 }
 
-func (d *Driver) loadObjectInternal(filename string) (*object.LPCObject, error) {
+func (d *Driver) loadObjectInternal(filename string) (*object.LPCObject, bool, error) {
 	filename = d.NormalizePath(filename)
 	d.mu.RLock()
 	if obj, exists := d.ObjectTable[filename]; exists {
 		d.mu.RUnlock()
-		return obj, nil
+		return obj, false, nil
 	}
 	d.mu.RUnlock()
 
 	// 使用混合模式讀取檔案內容
 	content, err := d.ReadFile(filename)
 	if err != nil {
-		return nil, err
+		return nil, false, err
 	}
 
 	pp := preprocessor.New(d.Config.MudLibPath)
@@ -500,7 +502,7 @@ func (d *Driver) loadObjectInternal(filename string) (*object.LPCObject, error) 
 	}
 	processedContent, err := pp.Process(filename, string(content))
 	if err != nil {
-		return nil, fmt.Errorf("preprocessor error: %v", err)
+		return nil, false, fmt.Errorf("preprocessor error: %v", err)
 	}
 
 	l := lexer.New(processedContent)
@@ -508,7 +510,7 @@ func (d *Driver) loadObjectInternal(filename string) (*object.LPCObject, error) 
 	program := p.ParseProgram()
 
 	if len(p.Errors()) > 0 {
-		return nil, d.formatParserErrors(filename, p.Errors())
+		return nil, false, d.formatParserErrors(filename, p.Errors())
 	}
 
 	env := object.NewEnvironment()
@@ -531,10 +533,15 @@ func (d *Driver) loadObjectInternal(filename string) (*object.LPCObject, error) 
 			if !strings.HasSuffix(parentFile, ".c") {
 				parentFile += ".c"
 			}
-			parentObj, err := d.loadObjectInternal(parentFile)
+			parentObj, parentNewlyLoaded, err := d.loadObjectInternal(parentFile)
 			if err != nil {
-				return nil, fmt.Errorf("無法繼承 %s: %v", parentFile, err)
+				return nil, false, fmt.Errorf("無法繼承 %s: %v", parentFile, err)
 			}
+			
+			if parentNewlyLoaded {
+				d.CallFunction(parentObj, "create", nil)
+			}
+			
 			lpcObj.Inherits = append(lpcObj.Inherits, parentObj)
 
 			for k, v := range parentObj.Vars.GetAll() {
@@ -562,10 +569,10 @@ func (d *Driver) loadObjectInternal(filename string) (*object.LPCObject, error) 
 
 	res := evaluator.Eval(program, env)
 	if errObj, ok := res.(*object.Error); ok {
-		return nil, fmt.Errorf("evaluation error in %s: %s", filename, errObj.Message)
+		return nil, false, fmt.Errorf("evaluation error in %s: %s", filename, errObj.Message)
 	}
 
-	return lpcObj, nil
+	return lpcObj, true, nil
 }
 
 func (d *Driver) CloneObject(filename string) (*object.LPCObject, error) {
@@ -632,7 +639,7 @@ func (d *Driver) Start() error {
 
 	fmt.Println("🚀 Driver 啟動中... 準備載入 Master Object:", masterFile)
 	// 1. 只載入不執行 create
-	master, err := d.loadObjectInternal(masterFile)
+	master, _, err := d.loadObjectInternal(masterFile)
 	if err != nil {
 		return fmt.Errorf("致命錯誤: 無法載入 master.c: %v", err)
 	}
@@ -644,16 +651,16 @@ func (d *Driver) Start() error {
 	// 2. 從 Master 物件詢問 SimulEfun 路徑並載入
 	if res := d.CallFunction(master, "get_simul_efun", nil); res != nil {
 		if s, ok := res.(*object.String); ok && s.Value != "" {
-			simul, err := d.loadObjectInternal(s.Value)
+			simul, _, err := d.loadObjectInternal(s.Value)
 			if err == nil {
 				d.mu.Lock()
 				d.SimulEfunObj = simul
 				d.mu.Unlock()
 				fmt.Printf("✅ SimulEfun 載入成功: %s\n", s.Value)
-				
+
 				// 注入 SimulEfuns 到已經載入的 master (因為 master 載入時 SimulEfunObj 還沒設定)
 				d.RegisterSimulEfuns(master)
-				
+
 				// 執行 SimulEfun 的 create
 				d.CallFunction(simul, "create", nil)
 			} else {
@@ -661,7 +668,6 @@ func (d *Driver) Start() error {
 			}
 		}
 	}
-
 	// 3. 取得 UIDs (在執行 create 之前)
 	if res := d.CallFunction(master, "get_root_uid", nil); res != nil {
 		if s, ok := res.(*object.String); ok {

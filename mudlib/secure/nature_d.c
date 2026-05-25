@@ -29,7 +29,6 @@ void create() {
     restore_object(query_save_file());
     
     set_heart_beat(1);
-    write("DEBUG: nature_d started, game_time=" + game_time + "\n");
 }
 
 // ── 時間處理 ─────────────────────────────────────────────

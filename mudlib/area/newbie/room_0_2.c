@@ -19,6 +19,5 @@ void create() {
     add_exit("north", "./room_0_3.c");
     add_exit("south", "./room_0_1.c");
 
-    object beast = clone_object("/npc/creature/mole_beast.c");
-    if (beast) move_object(beast, this_object());
+    spawn_npc("/npc/creature/mole_beast.c");
 }

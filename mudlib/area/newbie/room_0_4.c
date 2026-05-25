@@ -17,6 +17,5 @@ void create() {
     set_coordinate(0, 4, 0);
     add_exit("east", "./room_1_4.c");
     
-    object ob = clone_object("/npc/guard.c");
-    if (ob) move_object(ob, this_object());
+    spawn_npc("/npc/guard.c");
 }

@@ -13,12 +13,11 @@ void create() {
     add_exit("south", "./secret_entrance.c");
 
     // 放置主動攻擊的野狼
-    object wolf = clone_object("/npc/wolf.c");
+    object wolf = spawn_npc("/npc/wolf.c");
     if (wolf) {
         wolf->set_name("飢餓的野狼");
         wolf->set_aggressive(1); // 設為好鬥
         wolf->set_aggro_msg("野狼發出一聲長嘯，猛地朝你撲了過來！\n");
-        move_object(wolf, this_object());
     }
 
     // 放置一個隱藏的寶箱

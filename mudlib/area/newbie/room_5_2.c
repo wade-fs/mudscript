@@ -20,6 +20,5 @@ void create() {
     add_exit("north", "./room_5_3.c");
     add_exit("south", "./room_5_1.c");
 
-    object goblin = clone_object("/npc/creature/forest_goblin.c");
-    if (goblin) move_object(goblin, this_object());
+    spawn_npc("/npc/creature/forest_goblin.c");
 }
