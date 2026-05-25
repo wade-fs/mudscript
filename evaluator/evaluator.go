@@ -114,6 +114,9 @@ func Eval(node ast.Node, env object.Environment) object.Object {
 		}
 
 		res := applyFunction(function, args)
+		if res == nil {
+			return &object.Integer{Value: 0}
+		}
 		// 攔截 AsyncPause，向外冒泡
 		if res.TokenType() == object.AsyncPauseType {
 			return res
@@ -787,7 +790,11 @@ func applyFunction(fn object.Object, args []object.Object) object.Object {
 		evaluated := Eval(fn.Body, extendedEnv)
 		return unwrapReturnValue(evaluated)
 	case *object.Builtin:
-		return fn.Fn(args...)
+		res := fn.Fn(args...)
+		if res == nil {
+			return &object.Integer{Value: 0}
+		}
+		return res
 	default:
 		return newError("not a function: %s", fn.TokenType())
 	}
