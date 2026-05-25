@@ -69,6 +69,52 @@ int main(object me, string verb, string arg) {
 
     object world = get_world();
 
+    // ── mc build ──────────────────────────────────────────────
+    if (sub == "build") {
+        string role = me->query_role();
+        if (role != "god" && role != "wizard") {
+            write(RED("你沒有此指令的權限。\n")); return 1;
+        }
+        if (sizeof(parts) < 2) {
+            write("用法：mc build <檔案路徑>\n"); return 1;
+        }
+        string file = parts[1];
+        if (file[0..0] != "/") file = "/" + file;
+        
+        string content = read_file(file);
+        if (!content || content == "") {
+            write(RED("無法讀取檔案或檔案為空。\n")); return 1;
+        }
+        
+        int *pos = world->query_player_pos(me);
+        if (!pos) pos = ({ SPAWN_X, SPAWN_Y });
+        
+        world->import_map(content, pos[0], pos[1]);
+        write(GREEN("地圖建構完成！\n"));
+        return 1;
+    }
+
+    // ── mc import ─────────────────────────────────────────────
+    if (sub == "import") {
+        string role = me->query_role();
+        if (role != "god" && role != "wizard") {
+            write(RED("你沒有此指令的權限。\n")); return 1;
+        }
+        if (sizeof(parts) < 2) {
+            write("用法：mc import <資料>\n"); return 1;
+        }
+        string data = arg[7..]; // 移除 "import "
+        // 把 \n 轉換為真正的換行，因為從網頁傳來可能會變成單行或 JSON 編碼
+        data = replace_string(data, "\\n", "\n");
+
+        int *pos = world->query_player_pos(me);
+        if (!pos) pos = ({ SPAWN_X, SPAWN_Y });
+        
+        world->import_map(data, pos[0], pos[1]);
+        write(GREEN("地圖導入完成！\n"));
+        return 1;
+    }
+
     // ── mc map ──────────────────────────────────────────────
     if (sub == "map") {
         world->broadcast_map(me);
@@ -208,5 +254,7 @@ string help() {
            "  mc pos              顯示目前座標\n" +
            "  mc inv              列出背包方塊\n" +
            "  mc give <類型> [數]  給予方塊（god/wizard）\n" +
+           "  mc build <檔案>     從伺服器檔案匯入地圖\n" +
+           "  mc import <資料>    直接匯入地圖文字\n" +
            "  mc leave            離開創界\n";
 }

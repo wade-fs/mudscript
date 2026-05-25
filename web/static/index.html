@@ -106,6 +106,7 @@
                     <option value="sand">🏜️ Sand</option>
                     <option value="brick">🧱 Brick</option>
                 </select>
+                <button class="mc-btn" onclick="promptImportMap()" style="background:#1976D2; border-color:#2196F3;">📥 Import Map</button>
                 <button class="mc-btn" onclick="toggleMCMode(false)" style="margin-left:auto; background:#833; border-color:#a55;">Exit World</button>
             </div>
             <canvas id="mc-canvas"></canvas>
@@ -346,10 +347,32 @@
             ctx.fillText(pid, sx + mcZoom/2, sy - mcZoom - 2);
         }
 
+        // NPCs
+        if (mcData.npcs) {
+            for (let nid in mcData.npcs) {
+                const npos = mcData.npcs[nid];
+                const sx = centerX + (npos[0] - selfPos[0]) * mcZoom;
+                const sy = centerY - (npos[1] - selfPos[1]) * mcZoom;
+                
+                // icon
+                const icon = npos[2] || '👾';
+                ctx.font = Math.max(12, mcZoom * 0.8) + 'px sans-serif';
+                ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+                ctx.fillText(icon, sx + mcZoom/2, sy - mcZoom/2);
+            }
+        }
+
         // 座標 HUD（左上角）
         ctx.fillStyle = 'rgba(0,0,0,0.55)'; ctx.fillRect(6, 6, 160, 22);
         ctx.fillStyle = '#adf'; ctx.font = '12px monospace'; ctx.textAlign = 'left'; ctx.textBaseline = 'top';
         ctx.fillText(`pos (${selfPos[0]}, ${selfPos[1]})  zoom ${mcZoom}px`, 10, 10);
+    }
+
+    function promptImportMap() {
+        const input = prompt("請貼上 Emoji 地圖內容 (多行):\n(注意：將會從你目前的座標開始向右上蓋出)");
+        if (input) {
+            sendCmd(`mc import ${input}`);
+        }
     }
 
     function renderMiniMap(d) {

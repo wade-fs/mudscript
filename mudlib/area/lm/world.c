@@ -22,8 +22,9 @@ inherit "/std/room.c";
 
 mapping blocks;      // "x,y" -> 方塊類型
 mapping player_pos;  // player_id -> ({ x, y })
+mapping npc_pos;     // npc_id -> ({ x, y })
 
-// ── 顏色定義（同步給前端用）────────────────────────────────
+// ── 顏色定義與 Emoji 映射（同步給前端用）────────────────────────────────
 mapping block_colors() {
     return ([
         "grass":  "#4CAF50",
@@ -41,6 +42,48 @@ mapping block_colors() {
         "brick":  "#BF360C"
     ]);
 }
+
+mapping emoji_to_block() {
+    return ([
+        "🟩": "grass",
+        "🟫": "dirt",
+        "🪨": "stone",
+        "🪵": "log",
+        "🌲": "log",
+        "🌳": "log",
+        "🌿": "leaves",
+        "☘️": "leaves",
+        "🍀": "leaves",
+        "🟨": "sand",
+        "🏖️": "sand",
+        "🟦": "water",
+        "🌊": "water",
+        "🧱": "brick",
+        "⬜": "stone",
+        "⬛": "coal",
+        "⚙️": "iron",
+        "💰": "gold"
+    ]);
+}
+
+mapping emoji_to_npc() {
+    return ([
+        "🐑": "sheep",
+        "🐰": "rabbit",
+        "🐄": "cow",
+        "🐐": "goat",
+        "🐺": "wolf",
+        "🐻": "bear",
+        "🐅": "tiger",
+        "🐆": "leopard",
+        "🦉": "owl",
+        "🦇": "bat",
+        "👾": "slime",
+        "🐟": "fish",
+        "🚶": "villager"
+    ]);
+}
+
 
 // ── 地圖初始化 ───────────────────────────────────────────────
 void save_world() {
@@ -127,6 +170,7 @@ void create() {
     add_exit("out", "/area/newbie/room_0_0.c");
 
     player_pos = ([]);
+    npc_pos = ([]);
 
     if (!restore_world()) {
         init_default_world();
@@ -182,6 +226,7 @@ void broadcast_map(object target) {
         "blocks"      : blocks,
         "block_colors": block_colors(),
         "players"     : online,
+        "npcs"        : npc_pos,
         "self_id"     : pid,
         "width"       : WORLD_W,
         "height"      : WORLD_H
@@ -197,6 +242,53 @@ void broadcast_map_all() {
     foreach (object p in all_inventory(this_object())) {
         if (userp(p)) broadcast_map(p);
     }
+}
+
+// ── 導入地圖 ───────────────────────────────────────────────
+int import_map(string content, int sx, int sy) {
+    string *lines = explode(content, "\n");
+    int h = sizeof(lines);
+    mapping e2b = emoji_to_block();
+    mapping e2n = emoji_to_npc();
+    int mob_idx = 1;
+
+    for (int i = 0; i < h; i++) {
+        int y = sy + (h - 1 - i); // Y 從下往上
+        if (y < 0 || y >= WORLD_H) continue;
+        
+        string line = trim(lines[i], "\r\n");
+        string *chars = explode(line, "");
+        int w = sizeof(chars);
+        
+        for (int j = 0; j < w; j++) {
+            int x = sx + j;
+            if (x < 0 || x >= WORLD_W) continue;
+            
+            string char = chars[j];
+            string key = sprintf("%d,%d", x, y);
+            
+            if (e2b[char]) {
+                m_add(blocks, key, e2b[char]);
+            } else if (e2n[char]) {
+                // 放生 NPC
+                string nid = sprintf("%s_%d", e2n[char], mob_idx++);
+                m_add(npc_pos, nid, ({ x, y, char })); // [x, y, icon]
+                // 清空原位置方塊，避免 NPC 卡在牆裡
+                m_delete(blocks, key);
+            } else if (char == " " || char == "🟦" || char == "☁️") {
+                // 當作天空/水清除該方塊
+                if (char == "🟦" || char == "🌊") {
+                    m_add(blocks, key, "water");
+                } else {
+                    m_delete(blocks, key);
+                }
+            }
+        }
+    }
+    
+    save_world();
+    broadcast_map_all();
+    return 1;
 }
 
 // 文字通知房間內其他人（排除自己）
