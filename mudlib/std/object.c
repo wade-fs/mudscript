@@ -51,6 +51,7 @@ string query_reverse_dir(string dir) {
 
 // ── 查詢函式 ────────────────────────────────────────────
 string query_name()      { return select_lang(name); }
+string query_localized_name(string lang) { return select_lang(name, lang); }
 string query_short()     { return select_lang(short_name); }
 string query_long()      { return select_lang(long_name); }
 mixed  query_id()        { return id_list; }

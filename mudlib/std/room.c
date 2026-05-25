@@ -274,17 +274,16 @@ int do_go(string dir) {
     }
 
     object me = this_player();
-    string my_name = me->query_name();
     object lang_d = load_object("/secure/language_d.c");
 
     // 廣播離開訊息 (給原本房間的人)
-    lang_d->broadcast_event(this_object(), "say_leave", ([ "$name": my_name, "$dir": cmd ]));
+    lang_d->broadcast_event(this_object(), "say_leave", ([ "$name": me, "$dir": cmd ]));
 
     if (me->move(dest, cmd)) {
         // 廣播抵達訊息 (給新房間的人)
         // 🚀 關鍵修正：抵達訊息應該顯示「反向」
         string from_dir = query_reverse_dir(cmd);
-        lang_d->broadcast_event(dest, "say_arrive", ([ "$name": my_name, "$dir": from_dir ]));
+        lang_d->broadcast_event(dest, "say_arrive", ([ "$name": me, "$dir": from_dir ]));
         dest->look_room(me);
     } else {
         string fail_msg = _t("move_fail_err");

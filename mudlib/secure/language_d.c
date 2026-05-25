@@ -43,13 +43,13 @@ void create() {
             "get_money": "You opened the money bag and obtained $m copper coins.",
             "ground": "the ground",
             "get_success": "You picked up $item from $from.",
-            "say_get": "picked up",
+            "say_get": "$name picked up $item.",
             "get_fail": "You failed to take that item.",
             "drop_what": "Drop what?",
             "no_item_inv": "You don't have any '$id' in your inventory.",
             "no_drop_err": "seems stuck to your hands, you cannot drop it!",
             "drop_success": "You dropped $item.",
-            "say_drop": "dropped",
+            "say_drop": "$name dropped $item.",
             "drop_fail": "You cannot drop that item right now.",
             "go_where": "Go where? (e.g. go north)",
             "no_exit_err": "There is no exit in that direction.",
@@ -102,6 +102,8 @@ void create() {
             "quest_item_missing": "You don't have enough $item ($got/$req).",
             "quest_item_give": "You handed over $count $item.",
             "npc_says": "$name tells you: \"$msg\"",
+            "say_msg": "$name says: \"$msg\"",
+            "emote_msg": "$name $msg",
             "npc_good_place": "This is a good place.",
             "npc_name_is": "My name is $name, nice to meet you.",
             "npc_no_topics": "I have nothing to say.",
@@ -175,13 +177,13 @@ void create() {
             "get_money": "你打開了錢袋，獲得了 $m 銅幣。",
             "ground": "地上",
             "get_success": "你從 $from 撿起了 $item。",
-            "say_get": "撿起了",
+            "say_get": "$name 撿起了 $item。",
             "get_fail": "你無法拿走這個物品。",
             "drop_what": "丟下什麼？",
             "no_item_inv": "你身上沒有叫「$id」的東西。",
             "no_drop_err": "似乎黏在你的手上了，丟不掉！",
             "drop_success": "你放下了 $item。",
-            "say_drop": "放下了",
+            "say_drop": "$name 放下了 $item。",
             "drop_fail": "你現在沒辦法丟下這個東西。",
             "go_where": "要往哪裡去？例如：go north",
             "no_exit_err": "那個方向沒有出路。",
@@ -234,6 +236,8 @@ void create() {
             "quest_item_missing": "你身上的 $item 數量不足 ($got/$req)。",
             "quest_item_give": "你交出了 $count 個 $item。",
             "npc_says": "$name 告訴你：「$msg」",
+            "say_msg": "$name 說：「$msg」",
+            "emote_msg": "$name $msg",
             "npc_good_place": "這裡是個好地方。",
             "npc_name_is": "我叫 $name，請多指教。",
             "npc_no_topics": "我沒什麼好說的。",
@@ -307,13 +311,13 @@ void create() {
             "get_money": "你打开了钱袋，获得了 $m 铜币。",
             "ground": "地上",
             "get_success": "你从 $from 捡起了 $item。",
-            "say_get": "捡起了",
+            "say_get": "$name 捡起了 $item。",
             "get_fail": "你无法拿走这个物品。",
             "drop_what": "丢下什么？",
             "no_item_inv": "你身上没有叫「$id」的東西。",
             "no_drop_err": "似乎黏在你的手上了，丢不掉！",
             "drop_success": "你放下了 $item。",
-            "say_drop": "放下了",
+            "say_drop": "$name 放下了 $item。",
             "drop_fail": "你现在没办法丟下这个东西。",
             "go_where": "要往哪里去？例如：go north",
             "no_exit_err": "那个方向没有出路。",
@@ -365,11 +369,13 @@ void create() {
             "quest_already_accepted": "你已经承接过這個任務了。",
             "quest_item_missing": "你身上 的 $item 數量不足 ($got/$req)。",
             "quest_item_give": "你交出了 $count 個 $item。",
-            "npc_says": "$name 告訴你：「$msg」",
-            "npc_good_place": "這裡是個好地方。",
-            "npc_name_is": "我叫 $name，請多指教。",
-            "npc_no_topics": "我沒什麼好說的。",
-            "npc_topics_list": "你可以問我關於：$list",
+            "npc_says": "$name 告诉你：“$msg”",
+            "say_msg": "$name 说：“$msg”",
+            "emote_msg": "$name $msg",
+            "npc_good_place": "这里是个好地方。",
+            "npc_name_is": "我叫 $name，请多指教。",
+            "npc_no_topics": "我没什么好说的。",
+            "npc_topics_list": "你可以问我关于：$list",
             "minimap_title": "=== 区域地图：$room ($x,$y,$z) ===",
             "minimap_legend": "图例:  *  你  #  已探索  S  安全  F  铁匠  L  药剂  B  银行  T  酒馆  A  商店   ?   未探索",
             "cmd_list": "指令列表",
@@ -458,8 +464,11 @@ void broadcast_event(object room, string key, mapping params) {
             foreach (string p_key in ks) {
                 mixed p_val = params[p_key];
                 
-                // 🚀 特殊處理 $dir：如果值在方向字典中，則進行翻譯
-                if (p_key == "$dir" && stringp(p_val) && dir_map[p_val]) {
+                // 🚀 關鍵修正：支援物件本地化名稱
+                if (objectp(p_val)) {
+                    p_val = p_val->query_localized_name(lang);
+                } else if (p_key == "$dir" && stringp(p_val) && dir_map[p_val]) {
+                    // 🚀 特殊處理 $dir：如果值在方向字典中，則進行翻譯
                     p_val = dir_map[p_val][lang] ? dir_map[p_val][lang] : dir_map[p_val]["en"];
                 }
                 

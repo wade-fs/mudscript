@@ -371,13 +371,13 @@ void do_wander() {
     object lang_d = load_object("/secure/language_d.c");
     
     // 廣播離開訊息
-    lang_d->broadcast_event(env, "say_leave", ([ "$name": query_name(), "$dir": dir ]));
+    lang_d->broadcast_event(env, "say_leave", ([ "$name": this_object(), "$dir": dir ]));
     
     if (this_object()->move(dest, dir)) {
         // 廣播抵達訊息
         // 🚀 關鍵修正：抵達訊息應該顯示「反向」
         string from_dir = query_reverse_dir(dir);
-        lang_d->broadcast_event(dest, "say_arrive", ([ "$name": query_name(), "$dir": from_dir ]));
+        lang_d->broadcast_event(dest, "say_arrive", ([ "$name": this_object(), "$dir": from_dir ]));
     }
 }
 

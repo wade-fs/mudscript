@@ -35,10 +35,8 @@ int do_say_cmd(object me, string arg) {
     write(select_lang(([ "en": "You say: \"", "zh-TW": "你說：「", "zh-CN": "你说：“" ])) + arg + select_lang(([ "en": "\"\n", "zh-TW": "」\n", "zh-CN": "”\n" ])));
 
     // 房間內其他人（包含玩家與 NPC）看到這行
-    // 底層 say() 已修正：
-    // 1. 自動排除發話者 (this_player)
-    // 2. 主動觸發 NPC 的 catch_tell
-    say(me->query_name() + select_lang(([ "en": " says: \"", "zh-TW": " 說：「", "zh-CN": " 说：“" ])) + arg + select_lang(([ "en": "\"\n", "zh-TW": "」\n", "zh-CN": "”\n" ])));
+    // 使用 broadcast_event 以便為每個接收者本地化姓名
+    load_object("/secure/language_d.c")->broadcast_event(environment(me), "say_msg", ([ "$name": me, "$msg": arg ]));
 
     return 1;
 }
@@ -46,11 +44,11 @@ int do_say_cmd(object me, string arg) {
 int do_emote(object me, string arg) {
     if (!arg) { write(select_lang(([ "en": "Do what emote?\n", "zh-TW": "做什麼動作？\n", "zh-CN": "做什么动作？\n" ]))); return 1; }
     
-    string msg = me->query_name() + " " + arg + "\n";
     write(select_lang(([ "en": "You ", "zh-TW": "你 ", "zh-CN": "你 " ])) + arg + "\n");
     
-    // say 會自動排除發話者並觸發 NPC
-    say(msg);
+    // 使用 broadcast_event 以便為每個接收者本地化姓名
+    load_object("/secure/language_d.c")->broadcast_event(environment(me), "emote_msg", ([ "$name": me, "$msg": arg ]));
+    
     return 1;
 }
 

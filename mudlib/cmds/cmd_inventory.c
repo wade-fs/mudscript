@@ -154,7 +154,8 @@ int do_get(object me, string arg) {
         msg = replace_string(msg, "$from", from_name);
         msg = replace_string(msg, "$item", item->query_short());
         write(msg + "\n");
-        say(me->query_name() + " " + _t("say_get") + " " + item->query_short() + "。\n");
+        
+        load_object("/secure/language_d.c")->broadcast_event(environment(me), "say_get", ([ "$name": me, "$item": item ]));
     } else {
         write(_t("get_fail") + "\n");
     }
@@ -187,7 +188,8 @@ int do_drop(object me, string arg) {
         string msg = _t("drop_success");
         msg = replace_string(msg, "$item", item->query_short());
         write(msg + "\n");
-        say(me->query_name() + " " + _t("say_drop") + " " + item->query_short() + "。\n");
+        
+        load_object("/secure/language_d.c")->broadcast_event(here, "say_drop", ([ "$name": me, "$item": item ]));
     } else {
         write(_t("drop_fail") + "\n");
     }
