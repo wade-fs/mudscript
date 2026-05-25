@@ -17,9 +17,13 @@ GO_EXE := $(shell if [ -f $(GOROOT)/bin/go ]; then echo $(GOROOT)/bin/go; else e
 ENV  := GOPATH=$(GOPATH) GOROOT=$(GOROOT) CGO_CFLAGS="-Wno-return-local-addr"
 ENVW := $(ENV) CGO_ENABLED=1 CGO_CFLAGS="-Wno-return-local-addr" GOOS=windows GOARCH=amd64 CC="x86_64-w64-mingw32-gcc -fno-stack-protector -D_FORTIFY_SOURCE=0 -lssp"
 
-.PHONY: all clean test fsmud fsmud.exe run push
+.PHONY: all clean test fsmud fsmud.exe run push inject-hash
 
 all: fsmud fsmud.exe
+
+inject-hash:
+	@echo "Injecting HEAD hash $(COMMIT) into index.html..."
+	@sed -i 's/HEAD: [a-f0-9]*/HEAD: $(COMMIT)/g' web/static/index.html
 
 # 🚀 推送到 GitHub (乾淨的原始碼)
 push-github:
@@ -49,13 +53,13 @@ $(OUT):
 	@mkdir -p $(OUT)
 
 # 編譯 Linux 版本 (不自動執行)
-fsmud: $(OUT)
+fsmud: $(OUT) inject-hash
 	@echo "🔨 Building Linux version..."
 	@go mod tidy && $(GO_EXE) build $(GO_FLAGS) -o $(OUT)/fsmud ./cmd/fsmud
 	@ls -l $(OUT)/fsmud
 
 # 編譯 Windows 版本
-fsmud.exe: $(OUT)
+fsmud.exe: $(OUT) inject-hash
 	@echo "🔨 Building Windows version..."
 	@go mod tidy && $(GO_EXE) build $(GO_FLAGS) -o $(OUT)/fsmud.exe ./cmd/fsmud
 	@ls -l $(OUT)/fsmud.exe
