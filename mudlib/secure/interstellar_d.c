@@ -26,9 +26,9 @@ void receive_p2p_message(string sender, string content, string type) {
     string msg_key = sender + ":" + content;
     int now = time();
     
-    mixed is_rpc = (strsrch(content, "dist_msg|") == 0);
+    int is_rpc = (strsrch(content, "dist_msg|") == 0);
     
-    if (is_rpc == 0 && mapp(last_messages[msg_key]) && (now - last_messages[msg_key]["time"] < 2)) {
+    if (!is_rpc && mapp(last_messages[msg_key]) && (now - last_messages[msg_key]["time"] < 2)) {
         return;
     }
     
@@ -36,6 +36,16 @@ void receive_p2p_message(string sender, string content, string type) {
     
     if (sizeof(last_messages) > 200) {
         last_messages = ([]);
+    }
+
+    // ── Interstellar SSH Session 協議路由 ───────────────────
+    // 格式：fs_session|from_mudlib|to_mudlib|msg_type|session_id|payload
+    if (strsrch(content, "fs_session|") == 0) {
+        object ssh_d = load_object("/secure/ssh_d.c");
+        if (ssh_d) {
+            ssh_d->receive_fs_session(content);
+        }
+        return;
     }
 
     // ── Fantasy Space 跨服協議路由 ──────────────────────────

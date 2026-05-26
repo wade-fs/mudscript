@@ -7,8 +7,16 @@
 inherit "/std/object";
 
 int main(object me, string verb, string arg) {
-    object env = environment(me);
+    if (me->query_temp("ssh_session_id") || me->query_temp("ssh_pending")) {
+        object ssh_d = find_object("/secure/ssh_d.c");
+        if (!ssh_d) ssh_d = load_object("/secure/ssh_d.c");
+        if (ssh_d) {
+            ssh_d->client_send_disconnect(me);
+            return 1;
+        }
+    }
 
+    object env = environment(me);
     if (!env || !env->is_proxy_room()) {
         write("你目前不在任何遠端伺服器中。\n");
         return 1;

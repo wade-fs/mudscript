@@ -14,9 +14,9 @@ var (
 	// NilValue represents a value of nil reference.
 	NilValue = &object.Nil{}
 	// TrueValue represents a value of true literals.
-	TrueValue = &object.Boolean{Value: true}
+	TrueValue object.Object = &object.Integer{Value: 1}
 	// FalseValue represents a value of false literals.
-	FalseValue = &object.Boolean{Value: false}
+	FalseValue object.Object = &object.Integer{Value: 0}
 )
 
 // Eval evaluates the given node and returns an evaluated object.
@@ -357,7 +357,7 @@ func evalProgram(program *ast.Program, env object.Environment) object.Object {
 	return result
 }
 
-func nativeBoolToBooleanObject(input bool) *object.Boolean {
+func nativeBoolToBooleanObject(input bool) object.Object {
 	if input {
 		return TrueValue
 	}

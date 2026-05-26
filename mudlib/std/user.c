@@ -220,6 +220,21 @@ int process_input(string input) {
     } 
     
     // 🚀 新增：分散式物件代理攔截 (SSH-like mode)
+    if (query_temp("ssh_session_id") || query_temp("ssh_pending")) {
+        // 如果輸入以 "!" 開頭，代表強制在本機執行 (類似 SSH 的 ~)
+        if (substr(input, 0, 1) == "!") {
+            input = substr(input, 1, strlen(input) - 1);
+            write(CYN("【本機指令】") + input + "\n");
+        } else {
+            object ssh_d = find_object("/secure/ssh_d.c");
+            if (ssh_d) {
+                ssh_d->client_send_input(this_object(), input);
+                return 1;
+            }
+        }
+    }
+    
+    // 舊版 proxy_room 相容 (即將被淘汰)
     object env = environment(this_object());
     if (env && env->is_proxy_room()) {
         // 如果輸入以 "!" 開頭，代表強制在本機執行 (類似 SSH 的 ~)

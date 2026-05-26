@@ -34,13 +34,13 @@ int main(object me, string verb, string arg) {
         return 1;
     }
 
-    object dist_d = load_object("/secure/dist_d.c");
-    if (!dist_d) {
-        write(RED("系統錯誤：無法載入 dist_d。\n"));
+    object ssh_d = load_object("/secure/ssh_d.c");
+    if (!ssh_d) {
+        write(RED("系統錯誤：無法載入 ssh_d。\n"));
         return 1;
     }
 
-    dist_d->start_fsgoto(me, arg);
+    ssh_d->start_session(me, arg);
     return 1;
 }
 
