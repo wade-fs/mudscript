@@ -55,5 +55,12 @@ void quit() {
 
 // 接收來自 ssh_d 的指令，使用 command() 確保觸發 LPC 內部正確的身分綁定
 void do_remote_cmd(string cmd) {
+    if (cmd == "look" || cmd == "l") {
+        object env = environment(this_object());
+        if (env) {
+            env->look_room(this_object());
+            return;
+        }
+    }
     command(cmd);
 }
