@@ -27,8 +27,8 @@ string generate_uuid() {
 // ──────────────────────────────────────────────────────────
 // 共用網路傳輸層
 // ──────────────────────────────────────────────────────────
-void send_msg(string msg) {
-    p2p_broadcast(msg, FS_MUDLIB_ID);
+void send_msg(string target_mudlib, string msg) {
+    p2p_broadcast(msg, target_mudlib);
 }
 
 // ──────────────────────────────────────────────────────────
@@ -47,7 +47,7 @@ void start_session(object player, string target_mudlib) {
 
     string payload = player->query_id() + "|" + player->query_name();
     string msg = "fs_session|" + FS_MUDLIB_ID + "|" + target_mudlib + "|connect|" + session_id + "|" + payload;
-    send_msg(msg);
+    send_msg(target_mudlib, msg);
 }
 
 void client_send_input(object player, string cmd) {
@@ -56,7 +56,7 @@ void client_send_input(object player, string cmd) {
     if (!session_id || !target) return;
 
     string msg = "fs_session|" + FS_MUDLIB_ID + "|" + target + "|input|" + session_id + "|" + cmd;
-    send_msg(msg);
+    send_msg(target, msg);
 }
 
 void client_send_disconnect(object player) {
@@ -66,7 +66,7 @@ void client_send_disconnect(object player) {
     if (!session_id || !target) return;
 
     string msg = "fs_session|" + FS_MUDLIB_ID + "|" + target + "|disconnect|" + session_id + "|Client closed";
-    send_msg(msg);
+    send_msg(target, msg);
 
     map_delete(client_sessions, session_id);
     player->delete_temp("ssh_session_id");
@@ -80,12 +80,12 @@ void client_send_disconnect(object player) {
 // ──────────────────────────────────────────────────────────
 void server_send_output(string target_mudlib, string session_id, string text) {
     string msg = "fs_session|" + FS_MUDLIB_ID + "|" + target_mudlib + "|output|" + session_id + "|" + text;
-    send_msg(msg);
+    send_msg(target_mudlib, msg);
 }
 
 void server_send_disconnect(string target_mudlib, string session_id, string reason) {
     string msg = "fs_session|" + FS_MUDLIB_ID + "|" + target_mudlib + "|disconnect|" + session_id + "|" + reason;
-    send_msg(msg);
+    send_msg(target_mudlib, msg);
     
     object guest = server_sessions[session_id];
     if (guest) {
@@ -192,7 +192,7 @@ void receive_fs_session(string content) {
         server_sessions[session_id] = guest;
 
         string welcome = HIG("歡迎來到 " + FS_MUDLIB_ID + "！這是一個全新的世界。\n");
-        send_msg("fs_session|" + FS_MUDLIB_ID + "|" + from_mudlib + "|ack|" + session_id + "|" + welcome);
+        send_msg(from_mudlib, "fs_session|" + FS_MUDLIB_ID + "|" + from_mudlib + "|ack|" + session_id + "|" + welcome);
 
         guest->move_to_start(); 
         tell_room(environment(guest), guest->query_name() + "化作一道光芒降臨此地。\n", ({ guest }));
