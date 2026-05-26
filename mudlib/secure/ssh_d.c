@@ -212,5 +212,9 @@ void receive_fs_session(string content) {
 }
 
 void do_guest_look(object guest) {
-    if (guest) guest->do_remote_cmd("look");
+    if (!guest) return;
+    object old_tp = this_player();
+    set_this_player(guest);
+    guest->do_remote_cmd("look");
+    set_this_player(old_tp);
 }
