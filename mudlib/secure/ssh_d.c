@@ -194,9 +194,11 @@ void receive_fs_session(string content) {
         string welcome = HIG("歡迎來到 " + FS_MUDLIB_ID + "！這是一個全新的世界。\n");
         send_msg("fs_session|" + FS_MUDLIB_ID + "|" + from_mudlib + "|ack|" + session_id + "|" + welcome);
 
-        guest->move_to_start(); // 這個需要 guest 物件支援
+        guest->move_to_start(); 
         tell_room(environment(guest), guest->query_name() + "化作一道光芒降臨此地。\n", ({ guest }));
-        guest->look_room(guest); // 手動觸發一次 look，文字會被 guest 的 catch_tell 攔截並轉發 output
+        // 為了確保 command() 裡能觸發 catch_tell，需要透過一個延遲來讓環境就緒
+        // 使用 call_out 來觸發 look，給物件一點時間初始化
+        call_out("do_guest_look", 1, guest);
         return;
     }
     if (msg_type == "input") {
@@ -207,4 +209,8 @@ void receive_fs_session(string content) {
         }
         return;
     }
+}
+
+void do_guest_look(object guest) {
+    if (guest) guest->do_remote_cmd("look");
 }
