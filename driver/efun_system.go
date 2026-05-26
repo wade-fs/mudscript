@@ -1,0 +1,518 @@
+// driver/efun_system.go
+package driver
+
+import (
+	"fmt"
+	"io/fs"
+	"os"
+	"path/filepath"
+	"regexp"
+	"runtime"
+	"strings"
+	"time"
+
+	"mudscript/evaluator"
+	"mudscript/object"
+)
+
+// ==========================================
+// 9. 系統與檔案 (System & Files)
+// ==========================================
+func (d *Driver) registerSystemAndFiles(obj *object.LPCObject) {
+	// 語法: int rm(string file)
+	// 說明: 刪除檔案。回傳 1 成功，0 失敗。
+	// 範例: rm("/log/old.log");
+	obj.Vars.Set("rm", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 1 { return &object.Integer{Value: 0} }
+			file, ok := args[0].(*object.String)
+			if !ok { return &object.Integer{Value: 0} }
+
+			resolvedPath := d.ResolvePath(obj.Filename, file.Value)
+			allowed, errMsg := d.checkWritePermission(obj, resolvedPath, "rm")
+			if !allowed {
+				if p := d.GetCurrentPlayer(); p != nil {
+					p.Send(fmt.Sprintf("\r\n⚠️ 系統安全攔截：%s\r\n", errMsg))
+				}
+				return &object.Integer{Value: 0}
+			}
+
+			fullPath := filepath.Join(d.Config.MudLibPath, resolvedPath)
+			err := os.Remove(fullPath)
+			if err != nil { return &object.Integer{Value: 0} }
+			return &object.Integer{Value: 1}
+		},
+	})
+
+	// 語法: int rename(string from, string to)
+	// 說明: 移動或重新命名檔案。回傳 1 成功，0 失敗。
+	// 範例: rename("/tmp/test", "/data/test");
+	obj.Vars.Set("rename", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 2 { return &object.Integer{Value: 0} }
+			from, ok1 := args[0].(*object.String)
+			to, ok2 := args[1].(*object.String)
+			if !ok1 || !ok2 { return &object.Integer{Value: 0} }
+
+			resolvedFrom := d.ResolvePath(obj.Filename, from.Value)
+			resolvedTo := d.ResolvePath(obj.Filename, to.Value)
+
+			allowed, errMsg := d.checkWritePermission(obj, resolvedFrom, "rename_from")
+			if !allowed {
+				if p := d.GetCurrentPlayer(); p != nil { p.Send(fmt.Sprintf("\r\n⚠️ 來源權限拒絕：%s\r\n", errMsg)) }
+				return &object.Integer{Value: 0}
+			}
+			allowed, errMsg = d.checkWritePermission(obj, resolvedTo, "rename_to")
+			if !allowed {
+				if p := d.GetCurrentPlayer(); p != nil { p.Send(fmt.Sprintf("\r\n⚠️ 目標權限拒絕：%s\r\n", errMsg)) }
+				return &object.Integer{Value: 0}
+			}
+
+			fullFrom := filepath.Join(d.Config.MudLibPath, resolvedFrom)
+			fullTo := filepath.Join(d.Config.MudLibPath, resolvedTo)
+
+			os.MkdirAll(filepath.Dir(fullTo), 0755)
+			err := os.Rename(fullFrom, fullTo)
+			if err != nil { return &object.Integer{Value: 0} }
+			return &object.Integer{Value: 1}
+		},
+	})
+
+	// 語法: int mkdir(string path)
+	// 說明: 建立目錄。回傳 1 成功，0 失敗。
+	// 範例: mkdir("/data/new_dir");
+	obj.Vars.Set("mkdir", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 1 { return &object.Integer{Value: 0} }
+			path, ok := args[0].(*object.String)
+			if !ok { return &object.Integer{Value: 0} }
+
+			resolvedPath := d.ResolvePath(obj.Filename, path.Value)
+			allowed, errMsg := d.checkWritePermission(obj, resolvedPath, "mkdir")
+			if !allowed {
+				if p := d.GetCurrentPlayer(); p != nil { p.Send(fmt.Sprintf("\r\n⚠️ 系統安全攔截：%s\r\n", errMsg)) }
+				return &object.Integer{Value: 0}
+			}
+
+			fullPath := filepath.Join(d.Config.MudLibPath, resolvedPath)
+			err := os.MkdirAll(fullPath, 0755)
+			if err != nil { return &object.Integer{Value: 0} }
+			return &object.Integer{Value: 1}
+		},
+	})
+
+	// 語法: int rmdir(string path)
+	// 說明: 移除目錄。回傳 1 成功，0 失敗。
+	// 範例: rmdir("/data/old_dir");
+	obj.Vars.Set("rmdir", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 1 { return &object.Integer{Value: 0} }
+			path, ok := args[0].(*object.String)
+			if !ok { return &object.Integer{Value: 0} }
+
+			resolvedPath := d.ResolvePath(obj.Filename, path.Value)
+			allowed, errMsg := d.checkWritePermission(obj, resolvedPath, "rmdir")
+			if !allowed {
+				if p := d.GetCurrentPlayer(); p != nil { p.Send(fmt.Sprintf("\r\n⚠️ 系統安全攔截：%s\r\n", errMsg)) }
+				return &object.Integer{Value: 0}
+			}
+
+			fullPath := filepath.Join(d.Config.MudLibPath, resolvedPath)
+			err := os.Remove(fullPath)
+			if err != nil { return &object.Integer{Value: 0} }
+			return &object.Integer{Value: 1}
+		},
+	})
+
+	// 語法: int cp(string from, string to)
+	// 說明: 複製檔案。回傳 1 成功，0 失敗。
+	// 範例: cp("/tmp/test", "/data/test");
+	obj.Vars.Set("cp", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 2 { return &object.Integer{Value: 0} }
+			from, ok1 := args[0].(*object.String)
+			to, ok2 := args[1].(*object.String)
+			if !ok1 || !ok2 { return &object.Integer{Value: 0} }
+
+			resolvedFrom := d.ResolvePath(obj.Filename, from.Value)
+			resolvedTo := d.ResolvePath(obj.Filename, to.Value)
+
+			allowed, errMsg := d.checkReadPermission(obj, resolvedFrom, "cp_from")
+			if !allowed {
+				if p := d.GetCurrentPlayer(); p != nil { p.Send(fmt.Sprintf("\r\n⚠️ 來源權限拒絕：%s\r\n", errMsg)) }
+				return &object.Integer{Value: 0}
+			}
+			allowed, errMsg = d.checkWritePermission(obj, resolvedTo, "cp_to")
+			if !allowed {
+				if p := d.GetCurrentPlayer(); p != nil { p.Send(fmt.Sprintf("\r\n⚠️ 目標權限拒絕：%s\r\n", errMsg)) }
+				return &object.Integer{Value: 0}
+			}
+
+			fullFrom := filepath.Join(d.Config.MudLibPath, resolvedFrom)
+			fullTo := filepath.Join(d.Config.MudLibPath, resolvedTo)
+
+			content, err := os.ReadFile(fullFrom)
+			if err != nil { return &object.Integer{Value: 0} }
+			
+			os.MkdirAll(filepath.Dir(fullTo), 0755)
+			err = os.WriteFile(fullTo, content, 0644)
+			if err != nil { return &object.Integer{Value: 0} }
+			return &object.Integer{Value: 1}
+		},
+	})
+
+	// 語法: string object_name(object ob)
+	// 說明: 取得該實體物件的檔案路徑與識別名稱。
+	// 範例: write(object_name(this_player()));
+	obj.Vars.Set("object_name", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) == 0 { return &object.String{Value: obj.Filename} }
+			if o, ok := args[0].(*object.LPCObject); ok {
+				return &object.String{Value: o.Filename}
+			}
+			return &object.String{Value: ""}
+		},
+	})
+
+	// 語法: object find_object(string path)
+	// 說明: 尋找記憶體中是否已經載入該路徑的藍圖物件。
+	// 範例: object room = find_object("/d/city/square");
+	obj.Vars.Set("find_object", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) == 0 { return &object.Nil{} }
+			if path, ok := args[0].(*object.String); ok {
+				resolvedPath := d.ResolvePath(obj.Filename, path.Value)
+				res, err := d.LoadObject(resolvedPath)
+				if err == nil { return res }
+			}
+			return &object.Nil{}
+		},
+	})
+
+	// 語法: object *objects()
+	// 說明: 回傳目前記憶體中載入的所有物件。
+	// 範例: object *obs = objects();
+	obj.Vars.Set("objects", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			d.mu.RLock()
+			defer d.mu.RUnlock()
+
+			var objs []object.Object
+			for _, ob := range d.ObjectTable {
+				if ob != nil && !ob.IsDestructed {
+					objs = append(objs, ob)
+				}
+			}
+			return &object.Array{Elements: objs}
+		},
+	})
+
+	// 語法: int query_idle(object ob)
+	// 說明: 傳回物件自最後一次活動以來經過的秒數。
+	// 範例: write("Idle: " + query_idle(this_player()));
+	obj.Vars.Set("query_idle", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			target := obj
+			if len(args) > 0 {
+				if t, ok := args[0].(*object.LPCObject); ok {
+					target = t
+				}
+			}
+			if target == nil { return &object.Integer{Value: 0} }
+			idle := time.Now().Unix() - target.LastActivity
+			return &object.Integer{Value: idle}
+		},
+	})
+
+	// 語法: object *livings()
+	// 說明: 回傳目前記憶體中所有的活物。
+	// 範例: object *all_livings = livings();
+	obj.Vars.Set("livings", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			d.mu.RLock()
+			defer d.mu.RUnlock()
+			var res []object.Object
+			for _, ob := range d.ObjectTable {
+				if ob != nil && ob.IsLiving && !ob.IsDestructed {
+					res = append(res, ob)
+				}
+			}
+			return &object.Array{Elements: res}
+		},
+	})
+
+	// 語法: int pcre_match(string text, string pattern)
+	// 說明: 使用正規表示式進行比對。
+	// 範例: if (pcre_match(input, "^[a-z]+$")) {}
+	obj.Vars.Set("pcre_match", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 2 { return &object.Integer{Value: 0} }
+			text, ok1 := args[0].(*object.String)
+			pattern, ok2 := args[1].(*object.String)
+			if !ok1 || !ok2 { return &object.Integer{Value: 0} }
+			
+			matched, err := regexp.MatchString(pattern.Value, text.Value)
+			if err != nil || !matched { return &object.Integer{Value: 0} }
+			return &object.Integer{Value: 1}
+		},
+	})
+
+	// 語法: string pcre_replace(string text, string pattern, string replacement)
+	// 說明: 使用正規表示式進行替換。
+	// 範例: pcre_replace("Hello 123", "[0-9]+", "World") -> "Hello World"
+	obj.Vars.Set("pcre_replace", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 3 { return args[0] }
+			text, ok1 := args[0].(*object.String)
+			pattern, ok2 := args[1].(*object.String)
+			repl, ok3 := args[2].(*object.String)
+			if !ok1 || !ok2 || !ok3 { return args[0] }
+			
+			re, err := regexp.Compile(pattern.Value)
+			if err != nil { return text }
+			res := re.ReplaceAllString(text.Value, repl.Value)
+			return &object.String{Value: res}
+		},
+	})
+
+	// 語法: string resolve_path(string base, string rel)
+	// 說明: 將相對路徑轉換為絕對路徑。
+	// 範例: resolve_path("/area/newbie/room_0_0.c", "./room_0_1.c") -> "/area/newbie/room_0_1.c"
+	obj.Vars.Set("resolve_path", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 1 { return &object.Nil{} }
+			rel, ok := args[0].(*object.String)
+			if !ok { return &object.Nil{} }
+			
+			base := obj.Filename
+			if len(args) > 1 {
+				if b, ok := args[1].(*object.String); ok {
+					base = b.Value
+				}
+			}
+			
+			return &object.String{Value: d.ResolvePath(base, rel.Value)}
+		},
+	})
+
+	// 語法: int write_file(string file, string text, [int overwrite])
+	// 說明: 將文字寫入實體硬碟的檔案中。
+	// 範例: write_file("/log/debug.log", "發生錯誤\n");
+	obj.Vars.Set("write_file", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 2 { return &object.Integer{Value: 0} }
+			file, ok1 := args[0].(*object.String)
+			text, ok2 := args[1].(*object.String)
+			if !ok1 || !ok2 { return &object.Integer{Value: 0} }
+
+			resolvedPath := d.ResolvePath(obj.Filename, file.Value)
+			allowed, errMsg := d.checkWritePermission(obj, resolvedPath, "write_file")
+			if !allowed {
+				if p := d.GetCurrentPlayer(); p != nil {
+					p.Send(fmt.Sprintf("\r\n⚠️ 系統安全攔截：%s\r\n", errMsg))
+				} else {
+					fmt.Printf("🚫 寫入拒絕: %s\n", errMsg)
+				}
+				return &object.Integer{Value: 0}
+			}
+
+			flag := os.O_APPEND | os.O_CREATE | os.O_WRONLY
+			if len(args) > 2 {
+				if i, ok := args[2].(*object.Integer); ok && i.Value == 1 {
+					flag = os.O_TRUNC | os.O_CREATE | os.O_WRONLY
+				}
+			}
+
+			fullPath := filepath.Join(d.Config.MudLibPath, resolvedPath)
+			os.MkdirAll(filepath.Dir(fullPath), 0755)
+			f, err := os.OpenFile(fullPath, flag, 0644)
+			if err != nil { return &object.Integer{Value: 0} }
+			defer f.Close()
+
+			f.WriteString(text.Value)
+			return &object.Integer{Value: 1}
+		},
+	})
+
+	// 語法: object load_object(string file)
+	// 說明: 載入並回傳指定路徑的藍圖物件。
+	// 範例: object room = load_object("/d/city/square");
+	obj.Vars.Set("load_object", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 1 { return &object.Nil{} }
+			path := ""
+			if s, ok := args[0].(*object.String); ok { path = s.Value } else { path = args[0].Inspect() }
+			
+			resolvedPath := d.ResolvePath(obj.Filename, path)
+			if !strings.HasSuffix(resolvedPath, ".c") { resolvedPath += ".c" }
+			res, err := d.LoadObject(resolvedPath)
+			if err != nil { return object.NewError("%s", err.Error()) }
+			return res
+		},
+	})
+
+	// 語法: string read_file(string file)
+	// 說明: 讀取並回傳檔案的完整文字內容。
+	// 範例: string issue = read_file(ISSUE_FILE);
+	obj.Vars.Set("read_file", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 1 { return &object.Nil{} }
+			fileName, ok := args[0].(*object.String)
+			if !ok { return object.NewError("read_file 需要字串參數") }
+
+			resolvedPath := d.ResolvePath(obj.Filename, fileName.Value)
+			allowed, errMsg := d.checkReadPermission(obj, resolvedPath, "read_file")
+			if !allowed {
+				if p := d.GetCurrentPlayer(); p != nil { p.Send(fmt.Sprintf("\r\n⚠️ 系統安全攔截：%s\r\n", errMsg)) }
+				return &object.Nil{}
+			}
+
+			content, err := d.ReadFile(resolvedPath)
+			if err != nil { return &object.Nil{} }
+			return &object.String{Value: string(content)}
+		},
+	})
+
+	// 語法: int file_size(string file)
+	// 說明: 取得檔案大小。若不存在回傳 -1，若為目錄回傳 -2。
+	// 範例: if (file_size("/data/user/wade.o") > 0) { ... }
+	obj.Vars.Set("file_size", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 1 { return &object.Integer{Value: -1} }
+			fileName, ok := args[0].(*object.String)
+			if !ok { return &object.Integer{Value: -1} }
+
+			resolvedPath := d.ResolvePath(obj.Filename, fileName.Value)
+			fullPath := filepath.Join(d.Config.MudLibPath, resolvedPath)
+			if info, err := os.Stat(fullPath); err == nil {
+				if info.IsDir() { return &object.Integer{Value: -2} }
+				return &object.Integer{Value: info.Size()}
+			}
+			if d.Config.EmbeddedFS != nil {
+				embedPath := filepath.Join("mudlib", strings.TrimPrefix(resolvedPath, "/"))
+				if info, err := fs.Stat(d.Config.EmbeddedFS, embedPath); err == nil {
+					if info.IsDir() { return &object.Integer{Value: -2} }
+					return &object.Integer{Value: info.Size()}
+				}
+			}
+			return &object.Integer{Value: -1}
+		},
+	})
+
+	// 語法: object *users()
+	// 說明: 回傳目前線上所有玩家的實體物件陣列。
+	// 範例: object *onlines = users();
+	obj.Vars.Set("users", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			var userObjs []object.Object
+			d.interactiveObjects.Range(func(key, value interface{}) bool {
+				if conn, ok := value.(*PlayerConnection); ok && conn.IsActive {
+					userObjs = append(userObjs, conn.Object)
+				}
+				return true
+			})
+			return &object.Array{Elements: userObjs}
+		},
+	})
+
+	// 語法: string mud_status()
+	// 說明: 回傳 MUD 伺服器的運行狀態資訊。
+	// 範例: write(mud_status());
+	obj.Vars.Set("mud_status", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			d.mu.RLock()
+			objCount := len(d.ObjectTable)
+			hbCount := len(d.Heartbeats)
+			coCount := len(d.CallOuts)
+			d.mu.RUnlock()
+			var stats runtime.MemStats
+			runtime.ReadMemStats(&stats)
+			res := fmt.Sprintf("MUD Status:\n  Objects: %d\n  Heartbeats: %d\n  Pending CallOuts: %d\n  Goroutines: %d\n  Allocated Memory: %v MB\n",
+				objCount, hbCount, coCount, runtime.NumGoroutine(), stats.Alloc / 1024 / 1024)
+			return &object.String{Value: res}
+		},
+	})
+
+	// 語法: mapping memory_summary()
+	// 說明: 回傳記憶體使用狀況摘要。
+	// 範例: mapping mem = memory_summary();
+	obj.Vars.Set("memory_summary", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			var stats runtime.MemStats
+			runtime.ReadMemStats(&stats)
+			m := &object.Mapping{Pairs: make(map[object.HashKey]object.HashPair)}
+			set := func(k string, v int64) {
+				ks := &object.String{Value: k}; vs := &object.Integer{Value: v}
+				m.Pairs[ks.HashKey()] = object.HashPair{Key: ks, Value: vs}
+			}
+			set("alloc", int64(stats.Alloc)); set("total_alloc", int64(stats.TotalAlloc))
+			set("sys", int64(stats.Sys)); set("num_gc", int64(stats.NumGC)); set("objects", int64(stats.HeapObjects))
+			return m
+		},
+	})
+
+	// 語法: void replace_program(string path)
+	// 說明: 將當前物件的所有函式替換為指定物件的函式。
+	// 範例: replace_program("/std/room");
+	obj.Vars.Set("replace_program", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 1 { return evaluator.NilValue }
+			path, ok := args[0].(*object.String)
+			if !ok { return evaluator.NilValue }
+			resolved := d.ResolvePath(obj.Filename, path.Value)
+			target, err := d.LoadObject(resolved)
+			if err != nil { return object.NewError("replace_program error: %s", err.Error()) }
+			obj.Functions = target.Functions; obj.Inherits = target.Inherits
+			return evaluator.NilValue
+		},
+	})
+
+	// 語法: int input_to(string func_name, [int hidden])
+	// 說明: 攔截玩家的下一次終端機輸入。
+	// 範例: write("請輸入密碼:"); input_to("get_pass", 1);
+	obj.Vars.Set("input_to", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 1 { return object.NewError("input_to 需要函式字串作為參數") }
+			p := d.GetCurrentPlayer()
+			if p == nil && obj.IsInteractive { p = d.GetConnectionFromObject(obj) }
+			if p == nil { return &object.Integer{Value: 0} }
+			if funcName, ok := args[0].(*object.String); ok {
+				p.NextInputFunc = funcName.Value; p.InputHidden = false
+				if len(args) > 1 {
+					if flag, ok := args[1].(*object.Integer); ok && flag.Value != 0 {
+						p.InputHidden = true; p.Send("__INPUT_HIDDEN__")
+					}
+				}
+				return &object.Integer{Value: 1}
+			}
+			return &object.Integer{Value: 0}
+		},
+	})
+
+	// 語法: void shutdown([int exit_code])
+	// 說明: 關閉 MUD 伺服器並結束進程。
+	// 範例: shutdown();
+	obj.Vars.Set("shutdown", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			exitCode := 0
+			if len(args) > 0 { if i, ok := args[0].(*object.Integer); ok { exitCode = int(i.Value) } }
+			fmt.Printf("🛑 收到關閉指令 (Code: %d)，伺服器準備關閉...\n", exitCode)
+			go func() { time.Sleep(500 * time.Millisecond); os.Exit(exitCode) }()
+			return &object.Nil{}
+		},
+	})
+
+	// 語法: string getenv(string var)
+	// 說明: 取得系統環境變數。
+	// 範例: if (getenv("MUD_TEST_MODE")) { ... }
+	obj.Vars.Set("getenv", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 1 { return &object.Nil{} }
+			varName, ok := args[0].(*object.String)
+			if !ok { return &object.Nil{} }
+			val := os.Getenv(varName.Value)
+			if val == "" { return &object.Nil{} }
+			return &object.String{Value: val}
+		},
+	})
+}
