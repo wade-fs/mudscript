@@ -3,6 +3,7 @@ package driver
 
 import (
 	"encoding/json"
+	"fmt"
 	"sort"
 	"strings"
 
@@ -80,6 +81,30 @@ func (d *Driver) registerDataStructures(obj *object.LPCObject) {
             return &object.String{Value: string(jsonData)}
         },
     })
+
+	// 語法: mixed json_decode(string json)
+	// 說明: 將 JSON 字串轉回 LPC 物件
+	// 範例: mixed data = json_decode(payload);
+	obj.Vars.Set("json_decode", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 1 {
+				return &object.Nil{}
+			}
+			jsonStr, ok := args[0].(*object.String)
+			if !ok {
+				return &object.Nil{}
+			}
+
+			var raw interface{}
+			err := json.Unmarshal([]byte(jsonStr.Value), &raw)
+			if err != nil {
+				fmt.Printf("⚠️ json_decode error: %v\n", err)
+				return &object.Nil{}
+			}
+
+			return goToLPCValue(raw)
+		},
+	})
 	// 語法: mixed *values(mapping m)
 	// 說明: 取得 Mapping 中所有的 Value，回傳為陣列。
 	// 範例: values((["hp": 100, "mp": 50])) -> ({ 100, 50 })
