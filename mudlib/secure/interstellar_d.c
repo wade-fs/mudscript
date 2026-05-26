@@ -104,7 +104,10 @@ void receive_p2p_message(string sender, string content, string type) {
     // 格式：dist_msg|from|to|action|json
     if (strsrch(content, "dist_msg|") == 0) {
         object dist_d = load_object("/secure/dist_d.c");
-        if (!dist_d) return;
+        if (!dist_d) {
+            printf("❌ [Interstellar] 無法載入 dist_d，忽略 RPC。\n");
+            return;
+        }
 
         string *parts = explode(content, "|");
         if (sizeof(parts) < 4) return;
@@ -122,6 +125,7 @@ void receive_p2p_message(string sender, string content, string type) {
 
         if (to_mudlib == FS_MUDLIB_ID || to_mudlib == "*") {
             if (from_mudlib != FS_MUDLIB_ID) {
+                printf("🛸 [Interstellar] 路由 RPC 至 dist_d: %s\n", action);
                 dist_d->handle_dist_msg(from_mudlib, action, json);
             }
         }

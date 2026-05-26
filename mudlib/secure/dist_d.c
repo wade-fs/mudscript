@@ -46,7 +46,12 @@ void send_dist_msg(string to_mudlib, string action, mixed payload) {
 // 處理接收到的分散式訊息
 void handle_dist_msg(string from_mudlib, string action, string json) {
     mixed payload = json_decode(json);
-    if (!payload) return;
+    if (!payload) {
+        printf("⚠️ [DistD] 無法解析來自 %s 的 JSON 訊息。\n", from_mudlib);
+        return;
+    }
+
+    printf("📡 [DistD] 收到來自 %s 的 RPC: %s\n", from_mudlib, action);
 
     switch (action) {
         case "connect":
@@ -142,8 +147,8 @@ void sync_room_to_remote(string to_mudlib, object room, string target_uuid) {
     mapping data = ([
         "target_uuid": target_uuid, // 哪個 Proxy 要更新
         "uuid": query_uuid(room),
-        "short": room->query_short(),
-        "long": room->query_long(),
+        "short": room->short(),
+        "long": room->long(),
         "exits": room->query_exits(), // ([ "north": "/area/..." ])
         "items": ({})
     ]);
