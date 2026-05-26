@@ -1,6 +1,7 @@
 // /cmds/cmd_fsgoto.c
-// 跨服傳送指令：fsgoto <mudlib_id>
-// 讓玩家真正「出現」在遠方世界中，而非只能透過 fs 頻道說話。
+// 跨服傳送：fsgoto <mudlib_id>
+// 模型：SSH / 轉世 — 本機玩家身體留在 proxy room，
+//        所有指令送遠端的 shadow_player 執行，結果傳回本機顯示。
 
 #include "/include/config.h"
 #include "/include/ansi.h"
@@ -13,19 +14,26 @@ int main(object me, string verb, string arg) {
     if (!arg || arg == "") {
         write(HIW("【Fantasy Space 跨服傳送】\n") +
               "用法：fsgoto <mudlib_id>\n\n" +
-              "效果：你將被傳送到指定 mudlib 的入口，並真正出現在那個世界中。\n" +
-              "      對方的玩家將能看見你、和你說話、看到你的行動。\n\n" +
-              "使用 " + CYAN("fs list") + " 查詢可抵達的星際節點。\n");
+              "  抵達後，你的所有指令都在遠端執行，就像轉世投胎。\n" +
+              "  輸入 " + CYN("fsleave") + " 返回本機。\n" +
+              "  輸入 " + CYN("!<指令>") + " 強制在本機執行。\n\n" +
+              "  使用 " + CYN("fslist") + " 查詢可抵達的星際節點。\n");
         return 1;
     }
 
-    // 特殊指令：fsgoto home — 返回本機
-    if (arg == "home" || arg == "back") {
-        _do_return_home(me);
+    if (arg == FS_MUDLIB_ID) {
+        write("你已經在本機伺服器了。\n");
         return 1;
     }
 
-    // 使用新的 Distributed Object Model
+    // 不允許重複跨服（已在 proxy room 裡）
+    object env = environment(me);
+    if (env && env->is_proxy_room()) {
+        write(YEL("你已經在 ") + env->query_remote_mud() +
+              YEL(" 裡了。請先 fsleave 返回本機再跨服。\n"));
+        return 1;
+    }
+
     object dist_d = load_object("/secure/dist_d.c");
     if (!dist_d) {
         write(RED("系統錯誤：無法載入 dist_d。\n"));
@@ -36,33 +44,13 @@ int main(object me, string verb, string arg) {
     return 1;
 }
 
-// 返回本機
-void _do_return_home(object me) {
-    object env = environment(me);
-    if (env && env->is_proxy_room()) {
-        write(HIM("【傳送門】你切斷了分散式連結，返回了本地伺服器...\n"));
-        object home = load_object(START_ROOM);
-        if (home) {
-            me->move(home, "portal");
-            home->look_room(me);
-        }
-        // 銷毀 Proxy Room
-        destruct(env);
-        return;
-    }
-
-    // 備援：原有的 fs_d 邏輯
-    object fs_d = find_object("/secure/fs_d.c");
-
 string *query_verbs() { return ({ "fsgoto" }); }
-string query_category() { return "Travel"; }
+string query_category() {
+    return select_lang(([ "en": "Fantasy Space", "zh-TW": "星際網路" ]));
+}
 
 string help() {
-    return "【Fantasy Space 跨服傳送】\n" +
-           "  fsgoto <mudlib_id>   傳送到指定的遠端伺服器，真正出現在那個世界中。\n" +
-           "  fsgoto home          返回本機伺服器。\n\n" +
-           "進入遠端世界後：\n" +
-           "  - 你會在對方房間的 inventory 中顯示為「星際旅人」\n" +
-           "  - 你說的話會出現在對方的房間裡\n" +
-           "  - 你可以看到對方房間已有的本地玩家和遠端旅人\n";
+    return HIW("【fsgoto】跨服傳送\n") +
+           "  fsgoto <mudlib_id>   連接到指定的遠端伺服器。\n" +
+           "  進入後所有指令在遠端執行，fsleave 返回本機。\n";
 }
