@@ -74,6 +74,7 @@ func (d *Driver) loadObjectInternal(filename string) (*object.LPCObject, bool, e
 	// 🚩 關鍵：先註冊到 ObjectTable 再初始化，防止循環繼承/移動导致的崩潰
 	d.mu.Lock()
 	d.ObjectTable[filename] = lpcObj
+	d.UUIDTable[lpcObj.UUID] = lpcObj
 	d.mu.Unlock()
 
 	for _, stmt := range program.Statements {
@@ -138,6 +139,11 @@ func (d *Driver) CloneObject(filename string) (*object.LPCObject, error) {
 		Inherits:     blueprint.Inherits,
 		LastActivity: time.Now().Unix(),
 	}
+
+	d.mu.Lock()
+	d.ObjectTable[clone.Filename] = clone
+	d.UUIDTable[clone.UUID] = clone
+	d.mu.Unlock()
 
 	d.SetupEfuns(clone)
 	for k, v := range blueprint.Vars.GetAll() {

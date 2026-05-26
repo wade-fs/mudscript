@@ -22,10 +22,13 @@ void receive_p2p_message(string sender, string content, string type) {
     if (!type || type == "") type = "chat";
 
     // 🚀 關鍵：重複訊息過濾 (De-bounce)
+    // 對於 Distributed Object RPC (dist_msg)，我們放寬過濾，由 dist_d 自行處理序列
     string msg_key = sender + ":" + content;
     int now = time();
     
-    if (mapp(last_messages[msg_key]) && (now - last_messages[msg_key]["time"] < 2)) {
+    int is_rpc = (strsrch(content, "dist_msg|") == 0);
+    
+    if (!is_rpc && mapp(last_messages[msg_key]) && (now - last_messages[msg_key]["time"] < 2)) {
         return;
     }
     

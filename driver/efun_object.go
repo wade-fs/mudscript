@@ -158,10 +158,8 @@ func (d *Driver) registerEnvironmentEfuns(obj *object.LPCObject) {
 
 			d.mu.RLock()
 			defer d.mu.RUnlock()
-			for _, o := range d.ObjectTable {
-				if o.UUID == uuidArg.Value {
-					return o
-				}
+			if o, exists := d.UUIDTable[uuidArg.Value]; exists {
+				return o
 			}
 			return &object.Nil{}
 		},

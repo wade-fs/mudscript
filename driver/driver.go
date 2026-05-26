@@ -25,6 +25,7 @@ type DriverConfig struct {
 type Driver struct {
 	mu           sync.RWMutex
 	ObjectTable  map[string]*object.LPCObject
+	UUIDTable    map[string]*object.LPCObject // 🚀 新增：UUID 快速索引表
 	Heartbeats   map[*object.LPCObject]bool
 	CallOuts     []*ScheduledCall
 	Config       DriverConfig
@@ -56,6 +57,7 @@ func New(config DriverConfig) *Driver {
 	}
 	return &Driver{
 		ObjectTable: make(map[string]*object.LPCObject),
+		UUIDTable:   make(map[string]*object.LPCObject),
 		Heartbeats:  make(map[*object.LPCObject]bool),
 		CallOuts:    make([]*ScheduledCall, 0),
 		Config:      config,
