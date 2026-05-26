@@ -28,13 +28,24 @@ int main(object me, string verb, string arg) {
         "label_atk": _t("label_atk")
     ]);
 
-    // 2. 建立指令清單 (分類顯示)
-    mapping cmds = ([
-        _t("cat_basic")   : ({ "look", "inventory", "score", "map", "time", "quest", "quit", "help" }),
-        _t("cat_social")  : ({ "say", "emote", "nickname", "ask", "channel", "chat", "lang" }),
-        _t("cat_combat")  : ({ "kill", "skills", "perform", "flee", "practice" }),
-        _t("cat_special") : ({ "alias", "follow", "gather", "mix", "party", "ride", "tame", "suicide" })
-    ]);
+    // 2. 建立指令清單 (從 command_d 動態取得，避免被截斷)
+    object cmd_d = load_object("/secure/command_d");
+    mapping cmds = ([]);
+    if (cmd_d) {
+        cmds = cmd_d->query_categorized_commands(me->query_lang());
+        
+        // 如果不是巫師，過濾掉管理類別
+        if (me->query_role() != "god" && me->query_role() != "wizard") {
+            object lang_d = load_object("/secure/language_d.c");
+            string admin_cat = lang_d->translate("cat_admin", me->query_lang());
+            m_delete(cmds, admin_cat);
+        }
+    } else {
+        // 備援：若抓不到 daemon 則顯示簡易版
+        cmds = ([
+            _t("cat_basic") : ({ "look", "inventory", "score", "help" })
+        ]);
+    }
 
     // 3. 組合完整的 UI 更新封包或純文字輸出
     if (is_web_client(me)) {

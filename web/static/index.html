@@ -7,23 +7,25 @@
         html, body { height: 100%; margin: 0; background: #000; color: #ccc; font-family: 'Consolas', monospace; overflow: hidden; }
         #wrapper { display: grid; grid-template-areas: "look" "send"; grid-template-rows: 1fr 60px; height: 100vh; width: 100vw; position: relative; }
         
-        /* 🚀 覆蓋式面板設計 */
+        /* 🚀 側邊滑出面板設計 */
         .overlay-panel { 
-            position: absolute; bottom: 70px; left: 15px; width: 320px; max-height: 70vh; 
-            background: rgba(20, 20, 20, 0.95); border: 1px solid #4CAF50; border-radius: 8px;
+            position: absolute; top: 0; left: 0; width: 320px; height: calc(100vh - 60px); 
+            background: rgba(20, 20, 20, 0.98); border-right: 2px solid #4CAF50;
             display: none; flex-direction: column; overflow: hidden; z-index: 500;
-            box-shadow: 0 0 30px rgba(0,0,0,0.8);
+            box-shadow: 10px 0 30px rgba(0,0,0,0.8);
+            animation: slideIn 0.3s ease-out;
         }
+        @keyframes slideIn { from { transform: translateX(-100%); } to { transform: translateX(0); } }
         .overlay-panel.active { display: flex; }
         .panel-header { background: #333; padding: 10px 15px; font-weight: bold; color: #4CAF50; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #444; }
         .panel-content { flex: 1; overflow-y: auto; padding: 15px; }
 
-        #look-area { grid-area: look; background: #000; overflow-y: auto; padding: 20px; font-size: 18px; line-height: 1.6; position: relative; }
-        #send-area { grid-area: send; background: #111; display: flex; align-items: center; padding: 0 15px; gap: 10px; position: relative; border-top: 1px solid #333; }
+        #look-area { grid-area: look; background: #000; overflow-y: auto; padding: 20px; font-size: 18px; line-height: 1.6; position: relative; scroll-behavior: smooth; }
+        #look-content { padding-bottom: 20px; }
+        #send-area { grid-area: send; background: #111; display: flex; align-items: center; padding: 0 15px; gap: 10px; position: relative; border-top: 1px solid #333; z-index: 1200; }
         
-        /* 🚀 下方工具列 */
-        #toolbar { position: absolute; bottom: 60px; left: 15px; display: flex; gap: 5px; z-index: 1000; }
-        .tool-btn { background: #222; border: 1px solid #4CAF50; color: #fff; padding: 5px 15px; border-radius: 6px 6px 0 0; cursor: pointer; font-size: 13px; transition: all 0.2s; border-bottom: none; }
+        #toolbar { position: absolute; bottom: 70px; left: 15px; display: flex; gap: 5px; z-index: 1000; }
+        .tool-btn { background: rgba(34, 34, 34, 0.8); border: 1px solid #4CAF50; color: #fff; padding: 5px 12px; border-radius: 4px; cursor: pointer; font-size: 12px; transition: all 0.2s; backdrop-filter: blur(4px); }
         .tool-btn:hover { background: #333; color: #4CAF50; }
         .tool-btn.active { background: #4CAF50; color: #fff; font-weight: bold; }
 
@@ -45,6 +47,14 @@
 
         #msg { flex: 1; background: #000; border: 1px solid #4CAF50; color: #00ff00; padding: 12px; font-size: 18px; outline: none; border-radius: 4px; }
         #btn-send { background: #4CAF50; color: #fff; border: none; padding: 10px 20px; cursor: pointer; border-radius: 4px; font-weight: bold; }
+
+        /* 🚀 強力抗填充密技：隱藏文字，但 type 維持 text */
+        #msg.mask-mode { -webkit-text-security: disc !timportant; }
+
+        #history-box { position: absolute; bottom: 60px; left: 15px; right: 15px; background: #1a1a1a; border: 1px solid #4CAF50; border-radius: 8px 8px 0 0; max-height: 200px; overflow-y: auto; display: none; z-index: 1100; box-shadow: 0 -5px 20px rgba(0,0,0,0.5); }
+        .history-item { padding: 10px 20px; cursor: pointer; border-bottom: 1px solid #333; color: #0f0; font-family: monospace; }
+        .history-item:hover { background: #333; }
+        .history-header { background: #333; color: #888; padding: 5px 15px; font-size: 11px; display: flex; justify-content: space-between; }
 
         #mc-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #000; display: none; flex-direction: column; z-index: 200; }
         #mc-canvas { flex: 1; cursor: crosshair; image-rendering: pixelated; }
@@ -116,13 +126,29 @@
 
     <div id="send-area">
         <div id="suggestion-box"></div>
-        <input id="msg" placeholder="Type command..." autocomplete="off" autofocus>
+        <div id="history-box"></div>
+        
+        <!-- 🚀 最終防線指令輸入框：
+             1. 始終維持 type="text"，徹底讓 Chrome 失去掃描目標
+             2. 使用 readonly 動態切換法，阻斷自動填充引擎的掛接
+        -->
+        <input id="msg" 
+               type="text"
+               placeholder="Type command..." 
+               autocomplete="off"
+               readonly
+               onfocus="this.removeAttribute('readonly');"
+               onmousedown="this.removeAttribute('readonly');"
+               name="terminal_input_stream" 
+               spellcheck="false"
+               autofocus>
+        
         <button onclick="sendMsg()" id="btn-send">Send</button>
     </div>
 </div>
 
 <script>
-    let ws, historyCmds = [], histIdx = -1, msgInput, suggestIdx = -1;
+    let ws, historyCmds = [], histIdx = -1, msgInput, suggestIdx = -1, isInputHidden = false;
     let mcData = null, mcMode = false, mcAction = 'dig', mcZoom = 32;
     const mcColors = {
         grass:'#4CAF50', dirt:'#795548', stone:'#9E9E9E',
@@ -157,12 +183,12 @@
     function initLocalization() {
         const isZH = (navigator.language || navigator.userLanguage).startsWith('zh');
         if (isZH) {
-            msgInput.placeholder = "輸入指令...";
+            msgInput.placeholder = "點擊查看歷史或輸入指令...";
             document.getElementById("btn-send").innerText = "發送";
             document.querySelector('.tool-btn[onclick*="info"]').innerText = "📊 狀態";
             document.querySelector('.tool-btn[onclick*="cmds"]').innerText = "📜 指令";
             document.querySelector('.tool-btn[onclick*="socials"]').innerText = "🎭 社交";
-            document.querySelector('.mc-btn[onclick*="toggleMCMode"], .mc-btn[onclick*="sendCmd(\'back\')"]').innerText = "離開創界";
+            document.querySelector('.mc-btn[onclick*="sendCmd(\'back\')"]').innerText = "離開創界";
         }
     }
 
@@ -173,7 +199,11 @@
             const msg = JSON.parse(e.data);
             if (msg.type === "mud_text") {
                 const p = msg.payload.trim();
-                if (p === "__INPUT_HIDDEN__") { msgInput.type = "password"; return; }
+                if (p === "__INPUT_HIDDEN__") { 
+                    isInputHidden = true;
+                    msgInput.style.webkitTextSecurity = "disc";
+                    return; 
+                }
                 if (p.startsWith("{") && p.endsWith("}")) { 
                     try { handleUIData(JSON.parse(p)); } catch (err) { handleMultiJSON(p); }
                 } else appendLook(p);
@@ -201,7 +231,7 @@
         else if (ui.ui === "minimap") renderMiniMap(ui.data);
         else if (ui.ui === "nature") handleNatureData(ui.data);
         else if (ui.ui === "mc_map") handleMCMap(ui.data);
-        else if (ui.ui === "mc_exit") toggleMCMode(false); // 🚀 新增：強制結束 MC 模式
+        else if (ui.ui === "mc_exit") toggleMCMode(false); 
     }
 
     function renderCmdList(cats, title) {
@@ -280,10 +310,8 @@
         const cw = canvas.width, ch = canvas.height;
         const centerX = cw / 2, centerY = ch / 2;
 
-        // 背景（天空）
         ctx.fillStyle = '#0d1b2a'; ctx.fillRect(0, 0, cw, ch);
 
-        // 世界邊界虛線
         const wx0 = centerX + (0 - selfPos[0]) * mcZoom;
         const wy0 = centerY - (0 - selfPos[1]) * mcZoom;
         const wx1 = centerX + (width - selfPos[0]) * mcZoom;
@@ -293,7 +321,6 @@
         ctx.strokeRect(wx0, wy1, wx1 - wx0, wy0 - wy1);
         ctx.setLineDash([]);
 
-        // 格線（只在 zoom >= 20 時顯示）
         if (mcZoom >= 20) {
             ctx.strokeStyle = 'rgba(255,255,255,0.04)'; ctx.lineWidth = 0.5;
             const startX = Math.floor((0 - centerX / mcZoom) + selfPos[0]);
@@ -308,7 +335,6 @@
             }
         }
 
-        // 方塊
         for (let key in blocks) {
             const [bx, by] = key.split(',').map(Number);
             const sx = centerX + (bx - selfPos[0]) * mcZoom;
@@ -320,7 +346,6 @@
                 ctx.strokeStyle = 'rgba(0,0,0,0.25)'; ctx.lineWidth = 0.5;
                 ctx.strokeRect(sx, sy - mcZoom, mcZoom, mcZoom);
             }
-            // 方塊名稱（zoom >= 40 才顯示）
             if (mcZoom >= 40) {
                 ctx.fillStyle = 'rgba(255,255,255,0.7)';
                 ctx.font = Math.max(8, mcZoom/4) + 'px monospace';
@@ -329,34 +354,27 @@
             }
         }
 
-        // 玩家
         for (let pid in players) {
             const ppos = players[pid];
             const sx = centerX + (ppos[0] - selfPos[0]) * mcZoom;
             const sy = centerY - (ppos[1] - selfPos[1]) * mcZoom;
             const r = Math.max(4, mcZoom * 0.35);
             const isSelf = (pid === self_id);
-            // 身體
             ctx.fillStyle = isSelf ? '#FFEB3B' : '#2196F3';
             ctx.beginPath(); ctx.arc(sx + mcZoom/2, sy - mcZoom/2, r, 0, Math.PI*2); ctx.fill();
-            // 外框
             ctx.strokeStyle = isSelf ? '#fff' : '#90CAF9'; ctx.lineWidth = 1.5;
             ctx.beginPath(); ctx.arc(sx + mcZoom/2, sy - mcZoom/2, r, 0, Math.PI*2); ctx.stroke();
-            // 名字
             ctx.fillStyle = isSelf ? '#FFD600' : '#fff';
             ctx.font = 'bold ' + Math.max(10, mcZoom/3) + 'px monospace';
             ctx.textAlign = 'center'; ctx.textBaseline = 'bottom';
             ctx.fillText(pid, sx + mcZoom/2, sy - mcZoom - 2);
         }
 
-        // NPCs
         if (mcData.npcs) {
             for (let nid in mcData.npcs) {
                 const npos = mcData.npcs[nid];
                 const sx = centerX + (npos[0] - selfPos[0]) * mcZoom;
                 const sy = centerY - (npos[1] - selfPos[1]) * mcZoom;
-                
-                // icon
                 const icon = npos[2] || '👾';
                 ctx.font = Math.max(12, mcZoom * 0.8) + 'px sans-serif';
                 ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
@@ -364,7 +382,6 @@
             }
         }
 
-        // 座標 HUD（左上角）
         ctx.fillStyle = 'rgba(0,0,0,0.55)'; ctx.fillRect(6, 6, 160, 22);
         ctx.fillStyle = '#adf'; ctx.font = '12px monospace'; ctx.textAlign = 'left'; ctx.textBaseline = 'top';
         ctx.fillText(`pos (${selfPos[0]}, ${selfPos[1]})  zoom ${mcZoom}px`, 10, 10);
@@ -393,9 +410,14 @@
     }
 
     function sendCmd(cmd) {
-        if (!cmd) return; historyCmds.push(cmd); histIdx = historyCmds.length;
+        if (!cmd) return; 
+        if (historyCmds.length === 0 || historyCmds[historyCmds.length - 1] !== cmd) {
+            historyCmds.push(cmd);
+        }
+        histIdx = historyCmds.length;
+        hideHistory();
         ws.send(JSON.stringify({ type: "cmd", payload: cmd }));
-        appendLook("<span style='color: #888;'>>> " + (msgInput.type === "password" ? "******" : cmd) + "</span>");
+        appendLook("<span style='color: #888;'>>> " + (isInputHidden ? "******" : cmd) + "</span>");
     }
 
     function appendLook(t) {
@@ -426,42 +448,61 @@
             const s = document.createElement("div"); s.className = "star";
             const sz = (Math.random() * 2 + 1) + "px"; s.style.width = sz; s.style.height = sz;
             s.style.left = Math.random() * 100 + "%"; s.style.top = Math.random() * 100 + "%";
-            s.setProperty("--duration", (Math.random() * 3 + 2) + "s"); area.appendChild(s);
+            s.style.setProperty("--duration", (Math.random() * 3 + 2) + "s"); area.appendChild(s);
         }
     }
 
     function initInputHandlers() {
-        // 🚀 核心：全域鍵盤監聽 (處理 WASD 移動)
+        msgInput.onclick = (e) => {
+            e.stopPropagation();
+            if (historyCmds.length > 0) showHistory();
+        };
+
         window.addEventListener('keydown', (e) => {
             if (mcMode) {
-                // 如果正在輸入框打字，則不觸發 WASD 移動 (Enter 除外，讓它走下面的發送邏輯)
                 if (document.activeElement === msgInput && msgInput.value !== "" && e.key !== "Enter") return;
-                
                 const key = e.key.toLowerCase();
                 let dir = { w: 'n', s: 's', a: 'w', d: 'e', arrowup: 'n', arrowdown: 's', arrowleft: 'w', arrowright: 'e' }[key];
-                
-                if (dir) {
-                    e.preventDefault();
-                    sendCmd(`mc move ${dir}`);
-                    return;
-                }
+                if (dir) { e.preventDefault(); sendCmd(`mc move ${dir}`); return; }
             }
 
-            // 原有的輸入框邏輯
             if (document.activeElement === msgInput) {
-                if (e.key === "ArrowUp") { if (histIdx > 0) { histIdx--; msgInput.value = historyCmds[histIdx]; } }
-                else if (e.key === "ArrowDown") { if (histIdx < historyCmds.length - 1) { histIdx++; msgInput.value = historyCmds[histIdx]; } else { histIdx = historyCmds.length; msgInput.value = ""; } }
+                if (e.key === "ArrowUp") { e.preventDefault(); if (histIdx > 0) { histIdx--; msgInput.value = historyCmds[histIdx]; } }
+                else if (e.key === "ArrowDown") { e.preventDefault(); if (histIdx < historyCmds.length - 1) { histIdx++; msgInput.value = historyCmds[histIdx]; } else { histIdx = historyCmds.length; msgInput.value = ""; } }
                 else if (e.key === "Enter") sendMsg();
+                else if (e.key === "Escape") hideHistory();
             }
         });
     }
 
-    function sendMsg() { const v = msgInput.value.trim(); if (!v) return; sendCmd(v); msgInput.value = ""; msgInput.type = "text"; msgInput.focus(); }
+    function showHistory() {
+        const box = document.getElementById("history-box");
+        let html = '<div class="history-header"><span>Command History</span><span onclick="hideHistory()" style="cursor:pointer">×</span></div>';
+        const recent = historyCmds.slice(-10).reverse();
+        recent.forEach(cmd => {
+            html += `<div class="history-item" onclick="useHistory('${cmd.replace(/'/g, "\\'")}')">${cmd}</div>`;
+        });
+        box.innerHTML = html; box.style.display = "block";
+    }
+
+    function hideHistory() { document.getElementById("history-box").style.display = "none"; }
+    function useHistory(cmd) { msgInput.value = cmd; hideHistory(); msgInput.focus(); }
+
+    function sendMsg() { 
+        const v = msgInput.value.trim(); 
+        if (!v) return; 
+        sendCmd(v); 
+        msgInput.value = ""; 
+        isInputHidden = false;
+        msgInput.style.webkitTextSecurity = "none";
+        msgInput.focus(); 
+    }
     function fillInput(c) { msgInput.value = c + " "; msgInput.focus(); }
     function handleNatureData(d) {
         document.body.style.background = d.is_day ? "linear-gradient(to bottom, #1a2a6c, #b21f1f, #fdbb2d)" : "linear-gradient(to bottom, #000000, #0f0c29, #000000)";
     }
     document.addEventListener('click', (e) => {
+        hideHistory();
         if (['INPUT','BUTTON','A','SELECT','OPTION'].includes(e.target.tagName) || e.target.classList.contains('cmd-link') || e.target.classList.contains('map-exit')) return;
         if (!window.getSelection().toString() && msgInput) msgInput.focus();
     });
