@@ -265,6 +265,15 @@ string query_full_id() {
 }
 void set_full_id(string fid) { full_id = fid; }
 void set_role(string r) { if (r == "god" || r == "wizard" || r == "user") role = r; }
+
+// 供 Proxy Room 使用：執行初始的 look
+void remote_look() {
+    object env = environment(this_object());
+    if (env && env->is_proxy_room()) {
+        env->look_room(this_object());
+    }
+}
+
 void set_guild(string g) { guild = g; }
 string query_guild() { return guild; }
 void set_guild_rank(string r) { guild_rank = r; }

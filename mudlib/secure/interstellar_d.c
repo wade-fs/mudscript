@@ -100,7 +100,7 @@ void receive_p2p_message(string sender, string content, string type) {
     // ── Distributed Object Model (dist_msg) 路由 ───────────
     // 格式：dist_msg|from|to|action|json
     if (strsrch(content, "dist_msg|") == 0) {
-        object dist_d = find_object("/secure/dist_d.c");
+        object dist_d = load_object("/secure/dist_d.c");
         if (!dist_d) return;
 
         string *parts = explode(content, "|");

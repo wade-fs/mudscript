@@ -114,6 +114,8 @@ private void handle_connect(string from_mudlib, mapping payload) {
         
         // 同步房間資訊給遠端 Proxy
         sync_room_to_remote(from_mudlib, start_room, visitor_uuid);
+        // 同步影子玩家的背包
+        sync_inventory_to_remote(from_mudlib, shadow, visitor_uuid);
     }
 }
 
@@ -128,6 +130,7 @@ private void handle_connect_reply(string from_mudlib, mapping payload) {
         if (env && env->is_proxy_room()) {
             env->set_shadow_uuid(shadow_uuid);
             write(HIG("[DistD] 分散式連結成功，影子 ID: " + shadow_uuid + "\n"));
+            me->remote_look();
         }
     }
 }
@@ -159,9 +162,6 @@ void sync_room_to_remote(string to_mudlib, object room, string target_uuid) {
     }
 
     send_dist_msg(to_mudlib, "sync_room", data);
-    
-    // 同步影子玩家的背包 (Distributed Inventory)
-    sync_inventory_to_remote(to_mudlib, room, target_uuid);
 }
 
 // 同步影子玩家的背包
