@@ -18,7 +18,6 @@ inherit "/std/room.c";
 #define WORLD_H   40
 #define SPAWN_X   30
 #define SPAWN_Y   15
-#define SAVE_FILE "/data/lm/world"
 
 mapping blocks;      // "x,y" -> 方塊類型
 mapping player_pos;  // player_id -> ({ x, y })
@@ -85,15 +84,23 @@ mapping emoji_to_npc() {
 }
 
 
+// ── 取得存檔路徑 (根據檔案名稱動態產生) ───────────────────────
+string query_save_file() {
+    string path = base_name(this_object());
+    // 例如：/area/lm/forest -> /data/lm/forest
+    return replace_string(path, "/area/lm/", "/data/lm/");
+}
+
 // ── 地圖初始化 ───────────────────────────────────────────────
 void save_world() {
     if (file_size("/data/lm/") < 0) mkdir("/data/lm/");
-    save_object(SAVE_FILE);
+    save_object(query_save_file());
 }
 
 int restore_world() {
-    if (file_size(SAVE_FILE + ".o") <= 0) return 0;
-    return restore_object(SAVE_FILE);
+    string file = query_save_file();
+    if (file_size(file + ".o") <= 0) return 0;
+    return restore_object(file);
 }
 
 void init_default_world() {
@@ -189,6 +196,12 @@ void init() {
     add_action("do_back_compat", "out");
     add_action("do_back_compat", "leave");
 
+    // 🚀 核心優化：如果玩家是透過出口進來的，自動紀錄回程點
+    string last_loc = me->query_temp("last_location");
+    if (last_loc && !me->query_temp("lm_return_room") && strsrch(last_loc, "/area/lm/") == -1) {
+        me->set_temp("lm_return_room", last_loc);
+    }
+
     string pid = me->get_id();
     // 如果玩家沒有座標，給出生點；確保不站在方塊上
     if (!player_pos[pid]) {
@@ -202,10 +215,19 @@ void init() {
     call_out("push_map_delayed", 1, me);
 }
 
+// ── 移動 ───────────────────────────────────────────────
+int do_go(string dir) {
+    if (dir == "back" || dir == "out" || dir == "leave") {
+        return do_back_compat("");
+    }
+    return ::do_go(dir);
+}
+
 // ── 指令相容性備援 ─────────────────────────────────────────
 int do_back_compat(string arg) {
     object mc_cmd = load_object("/cmds/cmd_mc");
     if (mc_cmd) {
+        // 強制執行 mc back 邏輯
         return mc_cmd->main(this_player(), "mc", "back");
     }
     return 0;
@@ -400,6 +422,8 @@ void player_leave(object player) {
     );
     broadcast_map_all();
 }
+
+int query_is_lm_world() { return 1; }
 
 // 查詢
 int *query_player_pos(object player) {

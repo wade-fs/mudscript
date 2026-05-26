@@ -276,6 +276,9 @@ int do_go(string dir) {
     object me = this_player();
     object lang_d = load_object("/secure/language_d.c");
 
+    // 🚀 核心優化：移動前紀錄當前位置，方便目標房間查詢來源
+    me->set_temp("last_location", base_name(this_object()));
+
     // 廣播離開訊息 (給原本房間的人)
     lang_d->broadcast_event(this_object(), "say_leave", ([ "$name": me, "$dir": cmd ]));
 

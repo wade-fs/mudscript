@@ -8,17 +8,9 @@
 
 inherit "/std/object.c";
 
-#define LM_WORLD "/area/lm/world"
-
-object get_world() {
-    object w = find_object(LM_WORLD);
-    if (!w) w = load_object(LM_WORLD);
-    return w;
-}
-
 int in_lm(object me) {
-    object w = get_world();
-    return (w && environment(me) == w);
+    object env = environment(me);
+    return (env && env->query_is_lm_world());
 }
 
 int main(object me, string verb, string arg) {
@@ -56,15 +48,18 @@ int main(object me, string verb, string arg) {
 
     // ── mc leave（不需在世界裡，改稱為 back）───────────────────────────
     if (sub == "leave" || sub == "back") {
+        // 🚀 關鍵同步：第一時間通知前端關閉 MC 介面
+        tell_object(me, "{\"ui\": \"mc_exit\"}\n");
+
         if (in_lm(me)) {
-            get_world()->player_leave(me);
+            environment(me)->player_leave(me);
         }
-        
+
         // 🚀 核心優化：嘗試回到進入前的房間
         string return_path = me->query_temp("lm_return_room");
         object dest;
         
-        if (return_path) {
+        if (return_path && strsrch(return_path, "/std/") == -1) {
             dest = load_object(return_path);
             me->delete_temp("lm_return_room");
         }
@@ -88,13 +83,11 @@ int main(object me, string verb, string arg) {
 
     // ── 以下需在創界內 ──────────────────────────────────────
     if (!in_lm(me)) {
-        write(YEL("你必須在創界中才能使用此指令。輸入 ") +
-              CYAN("lm") + YEL(" 進入，或 ") +
-              CYAN("mc help") + YEL(" 查看說明。\n"));
+        write(YEL("你必須在創界中才能使用此指令。\n"));
         return 1;
     }
 
-    object world = get_world();
+    object world = environment(me);
 
     // ── mc build ──────────────────────────────────────────────
     if (sub == "build") {
@@ -266,7 +259,7 @@ int main(object me, string verb, string arg) {
     return 1;
 }
 
-string *query_verbs() { return ({ "mc", "back", "go" }); }
+string *query_verbs() { return ({ "mc" }); }
 
 string query_category() {
     return select_lang(([ "en": "World", "zh-TW": "創界", "zh-CN": "创界" ]));

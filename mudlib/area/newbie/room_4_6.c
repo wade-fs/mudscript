@@ -21,6 +21,7 @@ void create() {
     set_coordinate(4, 6, 0);
     add_exit("south", "./room_4_5.c");
     add_exit("north", "./room_4_7.c");
+	add_exit("lm",    "/area/lm/world.c");
 
     spawn_npc("/npc/mage_teacher.c");
 }

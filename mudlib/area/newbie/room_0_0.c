@@ -19,6 +19,5 @@ void create() {
     add_exit("east", "./room_1_0.c");
     add_exit("north", "./room_0_1.c");
     add_exit("out", "./room_4_4.c");
-    add_exit("west", "/area/lm/world.c");
     add_exit("down", "../cave/cave_0_0_minus1.c");
 }

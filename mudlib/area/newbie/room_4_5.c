@@ -22,6 +22,7 @@ void create() {
     add_exit("west",  "./room_3_5.c");
     add_exit("north", "./room_4_6.c");
     add_exit("south", "./room_4_4.c"); // 連接中央廣場
+    add_exit("lm",    "/area/lm/guild_world.c");
 
     // 產生老闆
     spawn_npc("/npc/guild_master.c");

@@ -20,6 +20,7 @@ void create() {
     add_exit("south", "./room_4_3.c");
     add_exit("west",  "./room_3_4.c");
     add_exit("east",  "./room_5_4.c");
+    add_exit("lm",    "/area/lm/center_world.c");
 
     // 廣場守衛
     spawn_npc("/npc/guard.c");
