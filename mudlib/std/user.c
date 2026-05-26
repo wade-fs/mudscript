@@ -66,8 +66,6 @@ void create() {
 // ── 查詢函式 ────────────────────────────────────────────
 string query_current_mudlib() { return current_mudlib; }
 string query_data_base_path() { return data_base_path; }
-
-// 🚀 新增：動態取得起始點 (支援跨服)
 string query_start_room() {
     if (current_mudlib != "") {
         object fs_d = find_object("/secure/fs_d.c");
@@ -80,7 +78,6 @@ string query_start_room() {
                 }
             }
         }
-        // 若找不到遠端入口，退而求其次回傳緩存目錄的預設起始點
         return FS_CACHE_DIR + "/" + current_mudlib + START_ROOM;
     }
     return START_ROOM;
