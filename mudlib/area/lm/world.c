@@ -167,7 +167,8 @@ void create() {
         "WASD 鍵可直接移動，滾輪縮放地圖。\n"
     );
     set_no_combat(1);
-    add_exit("out", "/area/newbie/room_0_0.c");
+    // 🚀 移除靜態出口，改由指令系統統一處理離開邏輯
+    // add_exit("out", "/area/newbie/room_0_0.c");
 
     player_pos = ([]);
     npc_pos = ([]);
@@ -183,6 +184,11 @@ void init() {
     object me = this_player();
     if (!me || !userp(me)) return;
 
+    // 🚀 安全備援：在房間層級註冊離開關鍵字，防止全域指令失效
+    add_action("do_back_compat", "back");
+    add_action("do_back_compat", "out");
+    add_action("do_back_compat", "leave");
+
     string pid = me->get_id();
     // 如果玩家沒有座標，給出生點；確保不站在方塊上
     if (!player_pos[pid]) {
@@ -194,6 +200,15 @@ void init() {
 
     // 稍後推送地圖（避免 init 期間 write 時序問題）
     call_out("push_map_delayed", 1, me);
+}
+
+// ── 指令相容性備援 ─────────────────────────────────────────
+int do_back_compat(string arg) {
+    object mc_cmd = load_object("/cmds/cmd_mc");
+    if (mc_cmd) {
+        return mc_cmd->main(this_player(), "mc", "back");
+    }
+    return 0;
 }
 
 void push_map_delayed(object player) {

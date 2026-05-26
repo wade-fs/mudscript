@@ -32,6 +32,12 @@ int main(object me, string verb, string arg) {
         HIW("╚══════════════════════════════╝\n")
     );
 
+    // 🚀 核心優化：紀錄進入前的房間路徑，以便稍後返回
+    object current_room = environment(me);
+    if (current_room && base_name(current_room) != LM_WORLD) {
+        me->set_temp("lm_return_room", base_name(current_room));
+    }
+
     if (me->move(world)) {
         world->look_room(me);
         write(HIG("歡迎來到輕量創界！\n") +

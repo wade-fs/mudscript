@@ -107,7 +107,7 @@
                     <option value="brick">🧱 Brick</option>
                 </select>
                 <button class="mc-btn" onclick="promptImportMap()" style="background:#1976D2; border-color:#2196F3;">📥 Import Map</button>
-                <button class="mc-btn" onclick="toggleMCMode(false)" style="margin-left:auto; background:#833; border-color:#a55;">Exit World</button>
+                <button class="mc-btn" onclick="sendCmd('back')" style="margin-left:auto; background:#833; border-color:#a55;">Exit World</button>
             </div>
             <canvas id="mc-canvas"></canvas>
         </div>
@@ -162,6 +162,7 @@
             document.querySelector('.tool-btn[onclick*="info"]').innerText = "📊 狀態";
             document.querySelector('.tool-btn[onclick*="cmds"]').innerText = "📜 指令";
             document.querySelector('.tool-btn[onclick*="socials"]').innerText = "🎭 社交";
+            document.querySelector('.mc-btn[onclick*="toggleMCMode"], .mc-btn[onclick*="sendCmd(\'back\')"]').innerText = "離開創界";
         }
     }
 
@@ -200,6 +201,7 @@
         else if (ui.ui === "minimap") renderMiniMap(ui.data);
         else if (ui.ui === "nature") handleNatureData(ui.data);
         else if (ui.ui === "mc_map") handleMCMap(ui.data);
+        else if (ui.ui === "mc_exit") toggleMCMode(false); // 🚀 新增：強制結束 MC 模式
     }
 
     function renderCmdList(cats, title) {
@@ -424,7 +426,7 @@
             const s = document.createElement("div"); s.className = "star";
             const sz = (Math.random() * 2 + 1) + "px"; s.style.width = sz; s.style.height = sz;
             s.style.left = Math.random() * 100 + "%"; s.style.top = Math.random() * 100 + "%";
-            s.style.setProperty("--duration", (Math.random() * 3 + 2) + "s"); area.appendChild(s);
+            s.setProperty("--duration", (Math.random() * 3 + 2) + "s"); area.appendChild(s);
         }
     }
 
@@ -432,8 +434,8 @@
         // 🚀 核心：全域鍵盤監聽 (處理 WASD 移動)
         window.addEventListener('keydown', (e) => {
             if (mcMode) {
-                // 如果正在輸入框打字，則不觸發 WASD 移動
-                if (document.activeElement === msgInput && msgInput.value !== "") return;
+                // 如果正在輸入框打字，則不觸發 WASD 移動 (Enter 除外，讓它走下面的發送邏輯)
+                if (document.activeElement === msgInput && msgInput.value !== "" && e.key !== "Enter") return;
                 
                 const key = e.key.toLowerCase();
                 let dir = { w: 'n', s: 's', a: 'w', d: 'e', arrowup: 'n', arrowdown: 's', arrowleft: 'w', arrowright: 'e' }[key];

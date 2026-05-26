@@ -23,6 +23,16 @@ int in_lm(object me) {
 
 int main(object me, string verb, string arg) {
 
+    // 🚀 核心修正：統一攔截離開指令 (改為 back)
+    if (in_lm(me)) {
+        if (verb == "back" || (verb == "go" && arg == "back")) {
+            arg = "leave";
+        }
+    } else if (verb == "back" || verb == "go") {
+        // 不在創界內，回退給系統處理
+        return 0;
+    }
+
     if (!arg || arg == "") arg = "help";
     string *parts = explode(trim(lower_case(arg)), " ");
     string sub = parts[0];
@@ -38,19 +48,36 @@ int main(object me, string verb, string arg) {
             "  " + CYAN("mc pos") +                    "                顯示目前座標\n" +
             "  " + CYAN("mc inv") +                    "                列出背包方塊\n" +
             "  " + CYAN("mc give <類型> <數量>") +      "   給自己方塊（測試用）\n" +
-            "  " + CYAN("mc leave") +                  "              離開創界\n" +
+            "  " + CYAN("mc back") +                   "               離開創界 (回到原處)\n" +
             "\n方塊類型：grass dirt stone log planks leaves sand coal iron gold brick\n\n"
         );
         return 1;
     }
 
-    // ── mc leave（不需在世界裡）───────────────────────────
-    if (sub == "leave") {
+    // ── mc leave（不需在世界裡，改稱為 back）───────────────────────────
+    if (sub == "leave" || sub == "back") {
         if (in_lm(me)) {
             get_world()->player_leave(me);
         }
-        object dest = load_object("/area/newbie/room_0_0.c");
+        
+        // 🚀 核心優化：嘗試回到進入前的房間
+        string return_path = me->query_temp("lm_return_room");
+        object dest;
+        
+        if (return_path) {
+            dest = load_object(return_path);
+            me->delete_temp("lm_return_room");
+        }
+        
+        // 備援：若無紀錄則回到預設新手村
+        if (!dest) {
+            dest = load_object("/area/newbie/room_0_0.c");
+        }
+
         if (dest) {
+            // 🚀 關鍵同步：通知前端關閉 MC 介面
+            tell_object(me, "{\"ui\": \"mc_exit\"}\n");
+            
             me->move(dest);
             dest->look_room(me);
         } else {
@@ -239,7 +266,7 @@ int main(object me, string verb, string arg) {
     return 1;
 }
 
-string *query_verbs() { return ({ "mc" }); }
+string *query_verbs() { return ({ "mc", "back", "go" }); }
 
 string query_category() {
     return select_lang(([ "en": "World", "zh-TW": "創界", "zh-CN": "创界" ]));
@@ -256,5 +283,5 @@ string help() {
            "  mc give <類型> [數]  給予方塊（god/wizard）\n" +
            "  mc build <檔案>     從伺服器檔案匯入地圖\n" +
            "  mc import <資料>    直接匯入地圖文字\n" +
-           "  mc leave            離開創界\n";
+           "  mc back             離開創界 (回到進入前房間)\n";
 }
