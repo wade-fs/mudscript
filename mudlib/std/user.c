@@ -87,7 +87,25 @@ string query_start_room() {
 }
 
 // 當環境改變時，自動更新跨服狀態
+// 當環境改變時，自動更新跨服狀態並廣播 presence 事件
 int move(mixed dest, string dir) {
+    // ── 離開前：記錄目前所在的跨服資訊 ──────────────────────
+    string old_mudlib = current_mudlib;
+    string old_room_path = "";
+    if (current_mudlib != "") {
+        object old_env = environment(this_object());
+        if (old_env) {
+            string oname = object_name(old_env);
+            if (strsrch(oname, FS_CACHE_DIR) == 0) {
+                string rel2 = substr(oname, strlen(FS_CACHE_DIR) + 1, strlen(oname));
+                int sl2 = strsrch(rel2, "/");
+                if (sl2 != -1) {
+                    old_room_path = substr(rel2, sl2, strlen(rel2) - sl2);
+                }
+            }
+        }
+    }
+
     int res = ::move(dest, dir);
     if (res) {
         object env = environment(this_object());
@@ -99,10 +117,29 @@ int move(mixed dest, string dir) {
                 string rel = substr(ename, strlen(FS_CACHE_DIR) + 1, strlen(ename));
                 int slash = strsrch(rel, "/");
                 if (slash != -1) {
-                    current_mudlib = substr(rel, 0, slash);
+                    string new_mudlib = substr(rel, 0, slash);
+                    string new_room   = substr(rel, slash, strlen(rel) - slash);
+                    current_mudlib = new_mudlib;
                     data_base_path = FS_CACHE_DIR + "/" + current_mudlib + "/";
+
+                    // 廣播 leave 給舊房間（若有）
+                    if (old_mudlib != "" && old_room_path != "" &&
+                        (old_mudlib != new_mudlib || old_room_path != new_room)) {
+                        object fs_d = find_object("/secure/fs_d.c");
+                        if (fs_d) fs_d->on_player_leave_remote(this_object(), old_mudlib, old_room_path);
+                    }
+                    // 廣播 enter 給新房間
+                    if (old_mudlib != new_mudlib || old_room_path != new_room) {
+                        object fs_d2 = find_object("/secure/fs_d.c");
+                        if (fs_d2) fs_d2->_do_enter_remote(this_object(), new_mudlib, new_room);
+                    }
                 }
             } else {
+                // 離開跨服區域 → 通知遠端 leave
+                if (old_mudlib != "" && old_room_path != "") {
+                    object fs_d = find_object("/secure/fs_d.c");
+                    if (fs_d) fs_d->on_player_leave_remote(this_object(), old_mudlib, old_room_path);
+                }
                 current_mudlib = "";
                 data_base_path = "/mudlib/data/";
             }

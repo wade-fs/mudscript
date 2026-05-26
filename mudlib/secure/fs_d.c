@@ -1,6 +1,10 @@
 // /secure/fs_d.c
 // Fantasy Space P2P 跨服守護進程 - Driver 聯動版
 // 核心邏輯：依賴 Driver 的 ResolvePath 進行自動沙盒映射
+//
+// 跨服 presence 訊息格式（新增）：
+//   fs_presence|from_mudlib|to_mudlib|action|player_name|room_path|extra
+//   action: enter / leave / say / emote / look_reply
 
 #include "/include/config.h"
 #include "/include/ansi.h"
@@ -11,19 +15,32 @@ mapping joined_muds;
 mapping room_cache;
 mapping pending_travel;
 
+// 遠端玩家影子表：([ "name@mudlib": ghost_object ])
+mapping ghost_objects;
+
+// 本地跨服玩家目前所在的遠端房間：([ player_name: ([ "mudlib": ..., "room": ... ]) ])
+mapping remote_presence;
+
 void create() {
     ::create();
-    if (!joined_muds) joined_muds = ([]);
-    if (!room_cache)  room_cache  = ([]);
+    if (!joined_muds)    joined_muds    = ([]);
+    if (!room_cache)     room_cache     = ([]);
     if (!pending_travel) pending_travel = ([]);
+    if (!ghost_objects)  ghost_objects  = ([]);
+    if (!remote_presence) remote_presence = ([]);
 }
 
-mapping query_joined_muds() { return joined_muds; }
+mapping query_joined_muds()  { return joined_muds; }
+mapping query_ghost_objects(){ return ghost_objects; }
 
 int is_joined(string mudlib_id) {
     if (!joined_muds || !mapp(joined_muds[mudlib_id])) return 0;
     return (joined_muds[mudlib_id]["status"] == "active");
 }
+
+// ══════════════════════════════════════════════════════════════
+// fsgoto：跨服傳送入口
+// ══════════════════════════════════════════════════════════════
 
 string init_fsgoto(object me, string mudlib_id) {
     if (!mudlib_id || mudlib_id == "") return "用法：fsgoto <mudlib_id>\n";
@@ -36,8 +53,13 @@ string init_fsgoto(object me, string mudlib_id) {
         write(HIM("【傳送門】你踏入了一陣扭曲的光芒中，前往了星際網路的彼端...\n"));
         object dest = get_remote_room(mudlib_id, entrance);
         if (dest) {
+            // 通知遠端：本玩家進入
+            _do_enter_remote(me, mudlib_id, entrance);
             me->move(dest, "portal");
             dest->look_room(me);
+
+            // 顯示該房間裡的遠端玩家（ghost）
+            _show_remote_players_in_room(me, mudlib_id, entrance);
             return "";
         }
         return RED("傳送失敗：無法載入目標房間。\n");
@@ -52,6 +74,243 @@ string init_fsgoto(object me, string mudlib_id) {
 
     return HIW("[Fantasy Space] ") + "正在查詢 " + mudlib_id + " 的資訊並準備傳送...\n";
 }
+
+// 當本地玩家離開跨服房間時，通知遠端
+void on_player_leave_remote(object me, string mudlib_id, string room_path) {
+    if (!me || !mudlib_id || mudlib_id == "") return;
+    string player_name = me->query_name();
+    if (!player_name || player_name == "") return;
+
+    // 清理 remote_presence 記錄
+    m_delete(remote_presence, player_name);
+
+    // 廣播 leave 給遠端
+    p2p_send_fs_presence(mudlib_id, "leave", player_name, room_path, "");
+}
+
+// 進入遠端後，廣播 enter 給遠端，並向遠端請求房間內玩家清單
+void _do_enter_remote(object me, string mudlib_id, string room_path) {
+    string player_name = me->query_name();
+    if (!player_name || player_name == "") return;
+
+    // 記錄本地玩家的遠端位置
+    remote_presence[player_name] = ([
+        "mudlib": mudlib_id,
+        "room":   room_path,
+        "object": me
+    ]);
+
+    // 廣播 enter
+    p2p_send_fs_presence(mudlib_id, "enter", player_name, room_path, "");
+
+    // 請求遠端：房間裡目前有哪些玩家 (look_request)
+    p2p_send_fs_presence(mudlib_id, "look_request", player_name, room_path, "");
+}
+
+// 顯示跨服房間裡已有的遠端影子玩家
+void _show_remote_players_in_room(object me, string mudlib_id, string room_path) {
+    // 掃描 ghost_objects，看看有沒有同在這個房間的
+    string cache_key_prefix = mudlib_id + ":" + room_path;
+    string *ghost_keys = keys(ghost_objects);
+    int count = 0;
+    foreach (string gk in ghost_keys) {
+        object gh = ghost_objects[gk];
+        if (!gh || !environment(gh)) continue;
+        string gm = gh->query_remote_mudlib();
+        string gr = gh->query_remote_room();
+        if (gm == mudlib_id && gr == room_path) count++;
+    }
+    if (count == 0) {
+        write(GRA("（這個跨服空間目前沒有其他來自遠方的旅人。）\n"));
+    }
+}
+
+// ══════════════════════════════════════════════════════════════
+// 遠端影子管理：建立 / 移除
+// ══════════════════════════════════════════════════════════════
+
+// 在本地的快取房間中，為遠端玩家建立影子
+void create_ghost(string remote_mudlib, string player_name, string room_path) {
+    string gkey = player_name + "@" + remote_mudlib;
+
+    // 若已存在，先移除舊的
+    if (ghost_objects[gkey]) {
+        object old = ghost_objects[gkey];
+        if (old && !old->is_destructed()) destruct(old);
+        m_delete(ghost_objects, gkey);
+    }
+
+    // 確認本地是否已快取這個房間
+    string local_path = FS_CACHE_DIR + "/" + remote_mudlib + room_path;
+    object room_ob;
+
+    // 先嘗試找到已載入的
+    room_ob = find_object(local_path);
+    if (!room_ob && file_size(local_path) > 0) {
+        room_ob = load_object(local_path);
+    }
+
+    // 若本地沒有快取此房間，放進 placeholder
+    if (!room_ob) {
+        room_ob = get_loading_placeholder(remote_mudlib, room_path);
+    }
+
+    object ghost = clone_object("/std/fs_ghost.c");
+    if (!ghost) return;
+
+    ghost->set_remote_name(player_name);
+    ghost->set_remote_mudlib(remote_mudlib);
+    ghost->set_remote_room(room_path);
+
+    move_object(ghost, room_ob);
+    ghost_objects[gkey] = ghost;
+
+    // 通知本地房間內的玩家
+    string arrive_msg = HIM("[Fantasy Space] ") + HIY(player_name) +
+                        GRA(" @" + remote_mudlib) + " 從星際網路抵達了這個空間。\n";
+
+    object *inv = all_inventory(room_ob);
+    foreach (object ob in inv) {
+        if (ob && userp(ob) && interactive(ob) && !ob->is_fs_ghost()) {
+            tell_object(ob, arrive_msg);
+        }
+    }
+}
+
+// 移除影子
+void destroy_ghost(string remote_mudlib, string player_name, string room_path) {
+    string gkey = player_name + "@" + remote_mudlib;
+    object ghost = ghost_objects[gkey];
+    if (!ghost) return;
+
+    object env = environment(ghost);
+
+    // 通知房間裡的本地玩家
+    if (env) {
+        string leave_msg = HIM("[Fantasy Space] ") + HIY(player_name) +
+                           GRA(" @" + remote_mudlib) + " 離開了這個跨服空間。\n";
+        object *inv = all_inventory(env);
+        foreach (object ob in inv) {
+            if (ob && userp(ob) && interactive(ob) && !ob->is_fs_ghost()) {
+                tell_object(ob, leave_msg);
+            }
+        }
+    }
+
+    if (!ghost->is_destructed()) destruct(ghost);
+    m_delete(ghost_objects, gkey);
+}
+
+// ══════════════════════════════════════════════════════════════
+// 跨服 say / emote 轉播
+// ══════════════════════════════════════════════════════════════
+
+// 本地跨服玩家說話 → 廣播給遠端
+void player_remote_say(object me, string msg) {
+    string player_name = me->query_name();
+    if (!remote_presence[player_name]) return;
+
+    string mudlib_id = remote_presence[player_name]["mudlib"];
+    string room_path = remote_presence[player_name]["room"];
+
+    p2p_send_fs_presence(mudlib_id, "say",
+        player_name, room_path, msg);
+}
+
+// 收到遠端玩家 say → 在本地快取房間廣播
+void receive_remote_say(string from_mudlib, string player_name,
+                        string room_path, string msg) {
+    string gkey = player_name + "@" + from_mudlib;
+    object ghost = ghost_objects[gkey];
+    if (!ghost) return;
+
+    string display = HIM("[" + from_mudlib + "] ") +
+                     HIY(player_name) + " 說道：" + msg + "\n";
+    ghost->receive_remote_say(display);
+}
+
+// ══════════════════════════════════════════════════════════════
+// look_reply：遠端回傳房間裡的玩家清單
+// ══════════════════════════════════════════════════════════════
+
+// 收到遠端的 look_reply：payload = "player1,player2,..."
+void receive_look_reply(string from_mudlib, string room_path, string payload) {
+    if (!payload || payload == "") return;
+    string *names = explode(payload, ",");
+    foreach (string pname in names) {
+        if (pname && pname != "") {
+            create_ghost(from_mudlib, pname, room_path);
+        }
+    }
+}
+
+// 處理遠端的 look_request：回傳本地房間裡目前在線的本地玩家
+void handle_look_request(string from_mudlib, string requester, string room_path) {
+    // 找到本地快取路徑對應的房間
+    string local_path = FS_CACHE_DIR + "/" + from_mudlib + room_path;
+    object room_ob = find_object(local_path);
+
+    // 也考慮本地自己的房間（如果 from_mudlib 就是本服）
+    // 實際上遠端請求本服入口房間
+    object orig_room = find_object(room_path);
+    if (!orig_room) orig_room = load_object(room_path);
+
+    string *local_players = ({});
+    if (orig_room) {
+        object *inv = all_inventory(orig_room);
+        foreach (object ob in inv) {
+            if (ob && userp(ob) && interactive(ob)) {
+                string pn = ob->query_name();
+                if (pn && pn != "") local_players += ({ pn });
+            }
+        }
+    }
+
+    string payload = implode(local_players, ",");
+    p2p_send_fs_presence(from_mudlib, "look_reply", requester, room_path, payload);
+}
+
+// ══════════════════════════════════════════════════════════════
+// P2P presence 訊息收發
+// ══════════════════════════════════════════════════════════════
+
+// 傳送 presence 訊息
+void p2p_send_fs_presence(string to_mudlib, string action,
+                          string player_name, string room_path, string extra) {
+    string msg = "fs_presence|" + FS_MUDLIB_ID + "|" + to_mudlib + "|" +
+                 action + "|" + player_name + "|" + room_path + "|" + extra;
+    p2p_broadcast(msg);
+}
+
+// 處理收到的 presence 訊息（由 interstellar_d 路由過來）
+void handle_fs_presence(string from_mudlib, string action,
+                        string player_name, string room_path, string extra) {
+    if (action == "enter") {
+        // 遠端玩家進入了對應本服的快取房間 → 在快取房建立影子
+        create_ghost(from_mudlib, player_name, room_path);
+
+    } else if (action == "leave") {
+        // 遠端玩家離開 → 移除影子
+        destroy_ghost(from_mudlib, player_name, room_path);
+
+    } else if (action == "say") {
+        // 遠端玩家說話 → 轉播給本地房間
+        receive_remote_say(from_mudlib, player_name, room_path, extra);
+
+    } else if (action == "look_request") {
+        // 遠端玩家問本服房間裡有誰 → 回傳
+        handle_look_request(from_mudlib, player_name, room_path);
+
+    } else if (action == "look_reply") {
+        // 收到本服玩家清單 → 建立影子
+        // player_name 此處是請求方的名字（可不用），room_path 是目標房間
+        receive_look_reply(from_mudlib, room_path, extra);
+    }
+}
+
+// ══════════════════════════════════════════════════════════════
+// 原有邏輯（join / room 快取 / etc.）
+// ══════════════════════════════════════════════════════════════
 
 string do_join(object me, string mudlib_id) {
     if (joined_muds[mudlib_id]) return "";
@@ -111,8 +370,8 @@ void receive_fs_response(string mudlib_id, string resp_type, string payload) {
             if (!joined_muds[mudlib_id]) {
                 joined_muds[mudlib_id] = ([ "hub_url": FS_HUB_URL, "joined_at": time() ]);
             }
-            joined_muds[mudlib_id]["status"] = "active";
-            joined_muds[mudlib_id]["name"] = parts[2];
+            joined_muds[mudlib_id]["status"]   = "active";
+            joined_muds[mudlib_id]["name"]     = parts[2];
             joined_muds[mudlib_id]["entrance"] = parts[3];
 
             if (pending_travel[mudlib_id]) {
@@ -184,8 +443,11 @@ void notify_waiting_players(string mudlib_id, string room_path) {
             if (file_size(file) > 0) {
                 object dest = load_object(file);
                 if (dest) {
+                    // 進入真正的跨服房間後，廣播 enter
+                    _do_enter_remote(u, mudlib_id, room_path);
                     u->move(dest, "portal");
                     dest->look_room(u);
+                    _show_remote_players_in_room(u, mudlib_id, room_path);
                 }
             }
         }

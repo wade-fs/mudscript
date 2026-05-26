@@ -22,67 +22,82 @@ void receive_p2p_message(string sender, string content, string type) {
     if (!type || type == "") type = "chat";
 
     // 🚀 關鍵：重複訊息過濾 (De-bounce)
-    // 針對同一個發送者，若 2 秒內傳來完全相同的內容，則視為重複路由，予以忽略
     string msg_key = sender + ":" + content;
     int now = time();
     
-    // 🚀 DEBUG
-    write("DEBUG: Interstellar received: " + sender + " -> " + content + "\n");
-    
     if (mapp(last_messages[msg_key]) && (now - last_messages[msg_key]["time"] < 2)) {
-        // write("DEBUG: 攔截到重複星際訊息。\n");
         return;
     }
     
-    // 更新緩存
     last_messages[msg_key] = ([ "time": now ]);
     
-    // 定期清理緩存 (避免記憶體洩漏)
-    if (sizeof(last_messages) > 100) {
+    if (sizeof(last_messages) > 200) {
         last_messages = ([]);
     }
 
-    // ── Fantasy Space 跨服協議路由 ──────────────────────
-    // 格式 1：fs_query|from_mudlib|to_mudlib|type|payload
-    // 格式 2：fs_resp|from_mudlib|to_mudlib|type|payload...
+    // ── Fantasy Space 跨服協議路由 ──────────────────────────
+
+    // 格式：fs_query|from|to|query_type|payload
     if (strsrch(content, "fs_query|") == 0 || strsrch(content, "fs_resp|") == 0) {
         object fs_d = load_object("/secure/fs_d.c");
         if (!fs_d) return;
 
-        // 解析：type_tag|from|to|query_type|payload
-        string tag = "";
-        string from_mudlib = "";
-        string to_mudlib = "";
-        string query_type = "";
-        string payload = "";
-
-        // 使用一個更安全的字串拆分方法，避免 payload 內部有 |
-        // 格式：tag|from|to|query_type|payload
         string *parts = explode(content, "|");
         if (sizeof(parts) < 4) return;
         
-        tag = parts[0];
-        from_mudlib = parts[1];
-        to_mudlib = parts[2];
-        query_type = parts[3];
+        string tag        = parts[0];
+        string from_mudlib= parts[1];
+        string to_mudlib  = parts[2];
+        string query_type = parts[3];
         
-        // 重新組裝 payload（若有多個 |）
-        payload = "";
+        string payload = "";
         for (int i = 4; i < sizeof(parts); i++) {
             payload += parts[i];
             if (i < sizeof(parts) - 1) payload += "|";
         }
 
-
-        // 決定是否處理（to_mudlib 是本 mudlib 或廣播）
         if (tag == "fs_query" && (to_mudlib == FS_MUDLIB_ID || to_mudlib == "*")) {
             fs_d->handle_fs_query(from_mudlib, query_type, payload);
         } else if (tag == "fs_resp" && (to_mudlib == FS_MUDLIB_ID || to_mudlib == "*")) {
             fs_d->receive_fs_response(from_mudlib, query_type, payload);
         }
-        return; // fs 訊息不走一般聊天流程
+        return;
     }
 
+    // ── Fantasy Space presence 協議路由 ─────────────────────
+    // 格式：fs_presence|from_mudlib|to_mudlib|action|player_name|room_path|extra
+    if (strsrch(content, "fs_presence|") == 0) {
+        object fs_d = load_object("/secure/fs_d.c");
+        if (!fs_d) return;
+
+        string *parts = explode(content, "|");
+        // 最少需要：fs_presence | from | to | action | player_name | room_path
+        if (sizeof(parts) < 6) return;
+
+        string from_mudlib  = parts[1];
+        string to_mudlib    = parts[2];
+        string action       = parts[3];
+        string player_name  = parts[4];
+        string room_path    = parts[5];
+
+        // extra 可能含有 | (例如 say 訊息)，需重新組裝
+        string extra = "";
+        for (int i = 6; i < sizeof(parts); i++) {
+            extra += parts[i];
+            if (i < sizeof(parts) - 1) extra += "|";
+        }
+
+        // 只處理目標是本 mudlib（或廣播 *）的訊息
+        if (to_mudlib == FS_MUDLIB_ID || to_mudlib == "*") {
+            // 不處理自己廣播給自己的訊息
+            if (from_mudlib != FS_MUDLIB_ID) {
+                fs_d->handle_fs_presence(from_mudlib, action, player_name, room_path, extra);
+            }
+        }
+        return;
+    }
+
+    // ── 一般跨服聊天訊息 ─────────────────────────────────────
     string full_msg;
     
     if (type == "system") {
@@ -92,11 +107,10 @@ void receive_p2p_message(string sender, string content, string type) {
         full_msg = prefix + sender + "：" + content + "\n";
     }
     
-    object *users = users();
-    if (!users) return;
+    object *users_list = users();
+    if (!users_list) return;
 
-    foreach (object u in users) {
-        // 只發送給正在線上的真人玩家
+    foreach (object u in users_list) {
         if (u && userp(u) && interactive(u)) {
             tell_object(u, full_msg);
         }

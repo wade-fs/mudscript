@@ -86,6 +86,6 @@ clean:
 zip:
 	@ mv .git ../GIT
 	@ rm -f bin/fsmud mudscript.zip
-	@ zip -r mudscript driver object web mudlib/npc mudlib/cmds/admin mudlib/std mudlib/secure mudlib/include mudlib/cmds/cmd_lm.c mudlib/cmds/cmd_mc.c
+	@ zip -r mudscript driver object web mudlib/npc mudlib/cmds/admin mudlib/std mudlib/secure mudlib/include mudlib/cmds/cmd_lm.c mudlib/cmds/cmd_mc.c mudlib/cmds/cmd_fs* cmd/fsmud/main.go
 	@ mv ../GIT .git
 	@ ls -l mudscript.zip
