@@ -25,47 +25,34 @@ int main(object me, string verb, string arg) {
         return 1;
     }
 
-    object fs_d = load_object("/secure/fs_d.c");
-    if (!fs_d) {
-        write(RED("系統錯誤：無法載入 fs_d。\n"));
+    // 使用新的 Distributed Object Model
+    object dist_d = load_object("/secure/dist_d.c");
+    if (!dist_d) {
+        write(RED("系統錯誤：無法載入 dist_d。\n"));
         return 1;
     }
 
-    string result = fs_d->init_fsgoto(me, arg);
-    if (result && result != "") write(result);
+    dist_d->start_fsgoto(me, arg);
     return 1;
 }
 
 // 返回本機
 void _do_return_home(object me) {
-    // 通知 fs_d 離開遠端
-    object fs_d = find_object("/secure/fs_d.c");
-    if (fs_d) {
-        object env = environment(me);
-        if (env) {
-            string ename = object_name(env);
-            if (strsrch(ename, FS_CACHE_DIR) == 0) {
-                // 從快取路徑提取 mudlib_id 和 room_path
-                string rel = substr(ename, strlen(FS_CACHE_DIR) + 1, strlen(ename));
-                int slash = strsrch(rel, "/");
-                if (slash != -1) {
-                    string mudlib_id = substr(rel, 0, slash);
-                    string room_path = substr(rel, slash, strlen(rel) - slash);
-                    fs_d->on_player_leave_remote(me, mudlib_id, room_path);
-                }
-            }
+    object env = environment(me);
+    if (env && env->is_proxy_room()) {
+        write(HIM("【傳送門】你切斷了分散式連結，返回了本地伺服器...\n"));
+        object home = load_object(START_ROOM);
+        if (home) {
+            me->move(home, "portal");
+            home->look_room(me);
         }
+        // 銷毀 Proxy Room
+        destruct(env);
+        return;
     }
 
-    write(HIM("【傳送門】你踏入了回程的光芒，返回了本地伺服器...\n"));
-    object home = load_object(START_ROOM);
-    if (home) {
-        me->move(home, "portal");
-        home->look_room(me);
-    } else {
-        write(RED("無法找到本地起始點。\n"));
-    }
-}
+    // 備援：原有的 fs_d 邏輯
+    object fs_d = find_object("/secure/fs_d.c");
 
 string *query_verbs() { return ({ "fsgoto" }); }
 string query_category() { return "Travel"; }

@@ -97,6 +97,34 @@ void receive_p2p_message(string sender, string content, string type) {
         return;
     }
 
+    // ── Distributed Object Model (dist_msg) 路由 ───────────
+    // 格式：dist_msg|from|to|action|json
+    if (strsrch(content, "dist_msg|") == 0) {
+        object dist_d = find_object("/secure/dist_d.c");
+        if (!dist_d) return;
+
+        string *parts = explode(content, "|");
+        if (sizeof(parts) < 4) return;
+
+        string from_mudlib = parts[1];
+        string to_mudlib   = parts[2];
+        string action      = parts[3];
+        
+        // json 可能含有 |，需重新組裝
+        string json = "";
+        for (int i = 4; i < sizeof(parts); i++) {
+            json += parts[i];
+            if (i < sizeof(parts) - 1) json += "|";
+        }
+
+        if (to_mudlib == FS_MUDLIB_ID || to_mudlib == "*") {
+            if (from_mudlib != FS_MUDLIB_ID) {
+                dist_d->handle_dist_msg(from_mudlib, action, json);
+            }
+        }
+        return;
+    }
+
     // ── 一般跨服聊天訊息 ─────────────────────────────────────
     string full_msg;
     

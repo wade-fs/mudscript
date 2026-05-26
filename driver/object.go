@@ -6,8 +6,10 @@ import (
 	"strings"
 	"time"
 
+	"github.com/google/uuid"
 	"mudscript/ast"
 	"mudscript/evaluator"
+
 	"mudscript/lexer"
 	"mudscript/object"
 	"mudscript/parser"
@@ -61,6 +63,7 @@ func (d *Driver) loadObjectInternal(filename string) (*object.LPCObject, bool, e
 
 	env := object.NewEnvironment()
 	lpcObj := &object.LPCObject{
+		UUID:         uuid.New().String(),
 		Filename:     filename,
 		Vars:         env,
 		Functions:    make(map[string]*object.Function),
@@ -128,6 +131,7 @@ func (d *Driver) CloneObject(filename string) (*object.LPCObject, error) {
 	}
 
 	clone := &object.LPCObject{
+		UUID:         uuid.New().String(),
 		Filename:     filename + "#" + generateCloneID(),
 		Vars:         object.NewEnvironment(),
 		Functions:    blueprint.Functions,

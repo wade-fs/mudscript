@@ -31,3 +31,6 @@ mudlib/data/user
 mudlib/data/nature.o
 mudlib/data/system.o
 fs_cache/
+mudlib/data/lm/
+mudlib/std/proxy/
+mudlib/data/test_save.o

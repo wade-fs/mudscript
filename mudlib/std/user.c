@@ -219,6 +219,20 @@ int process_input(string input) {
         return ::process_input("emote " + arg);
     } 
     
+    // 🚀 新增：分散式物件代理攔截 (SSH-like mode)
+    object env = environment(this_object());
+    if (env && env->is_proxy_room()) {
+        // 如果輸入以 "!" 開頭，代表強制在本機執行 (類似 SSH 的 ~)
+        if (substr(input, 0, 1) == "!") {
+            input = substr(input, 1, strlen(input) - 1);
+            write(CYN("【本機指令】") + input + "\n");
+        } else {
+            if (env->do_proxy_cmd(input)) {
+                return 1;
+            }
+        }
+    }
+    
     // 2. 呼叫基底類別處理 (含 command_d 呼叫)
     int res = ::process_input(input);
     if (res) return res;

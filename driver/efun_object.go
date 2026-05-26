@@ -123,7 +123,7 @@ func (d *Driver) registerEnvironmentEfuns(obj *object.LPCObject) {
 			if len(args) < 1 { return &object.Nil{} }
 			target, ok := args[0].(*object.LPCObject)
 			if !ok { return &object.Nil{} }
-			
+
 			name := target.Filename
 			if pos := strings.Index(name, "#"); pos != -1 {
 				name = name[:pos]
@@ -131,8 +131,42 @@ func (d *Driver) registerEnvironmentEfuns(obj *object.LPCObject) {
 			return &object.String{Value: name}
 		},
 	})
-}
 
+	// 語法: string query_uuid([object target])
+	// 說明: 取得物件的 UUID。
+	// 範例: string uid = query_uuid(this_player());
+	obj.Vars.Set("query_uuid", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			target := obj
+			if len(args) > 0 {
+				if t, ok := args[0].(*object.LPCObject); ok {
+					target = t
+				}
+			}
+			return &object.String{Value: target.UUID}
+		},
+	})
+
+	// 語法: object find_by_uuid(string uuid)
+	// 說明: 透過 UUID 尋找記憶體中的物件。
+	// 範例: object target = find_by_uuid("...");
+	obj.Vars.Set("find_by_uuid", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 1 { return &object.Nil{} }
+			uuidArg, ok := args[0].(*object.String)
+			if !ok { return &object.Nil{} }
+
+			d.mu.RLock()
+			defer d.mu.RUnlock()
+			for _, o := range d.ObjectTable {
+				if o.UUID == uuidArg.Value {
+					return o
+				}
+			}
+			return &object.Nil{}
+		},
+	})
+	}
 func (d *Driver) registerPersistenceEfuns(obj *object.LPCObject) {
 	// 語法: int save_object(string file)
 	// 說明: 將當前物件內的所有變數狀態，以 JSON 格式儲存至硬碟。

@@ -327,8 +327,10 @@ type Action struct {
 
 // LPCObject: 代表一個載入記憶體中的 LPC 物件實體 (.c 檔)
 type LPCObject struct {
-	Filename    string
-	Vars        Environment
+UUID        string // 🚀 新增：全域唯一識別碼
+Filename    string
+Vars        Environment
+
 	Functions   map[string]*Function
 	Inherits    []*LPCObject
 	

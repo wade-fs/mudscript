@@ -11,6 +11,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/google/uuid"
 	"mudscript/evaluator"
 	"mudscript/object"
 )
@@ -513,6 +514,15 @@ func (d *Driver) registerSystemAndFiles(obj *object.LPCObject) {
 			val := os.Getenv(varName.Value)
 			if val == "" { return &object.Nil{} }
 			return &object.String{Value: val}
+		},
+	})
+
+	// 語法: string generate_uuid()
+	// 說明: 產生一個隨機的 UUID。
+	// 範例: string id = generate_uuid();
+	obj.Vars.Set("generate_uuid", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			return &object.String{Value: uuid.New().String()}
 		},
 	})
 }
