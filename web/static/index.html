@@ -99,6 +99,20 @@
         <div id="socials-area" class="panel-content"></div>
     </div>
 
+    <div id="panel-import" class="overlay-panel">
+        <div class="panel-header">Import Emoji Map <span onclick="togglePanel('panel-import')" style="cursor:pointer">×</span></div>
+        <div class="panel-content" style="display:flex; flex-direction:column; gap:10px;">
+            <div style="font-size:12px; color:#888;">貼上多行 Emoji 地圖，將從您目前座標往右上建構：</div>
+            <textarea id="import-area" 
+                      style="flex:1; min-height:200px; background:#000; color:#fff; border:1px solid #4CAF50; font-family:monospace; padding:10px; font-size:14px; line-height:1.2;"
+                      placeholder="🟩🟩🟩\n🟩🚶🟩\n🟦🟦🟦"></textarea>
+            <div style="display:flex; gap:10px;">
+                <button class="mc-btn" onclick="document.getElementById('import-area').value=''" style="flex:1;">Clear</button>
+                <button class="mc-btn" onclick="submitMapImport()" style="flex:2; background:#4CAF50;">Confirm Import</button>
+            </div>
+        </div>
+    </div>
+
     <div id="look-area">
         <div id="minimap-container"></div>
         <div id="mc-container">
@@ -391,9 +405,14 @@
     }
 
     function promptImportMap() {
-        const input = prompt("請貼上 Emoji 地圖內容 (多行):\n(注意：將會從你目前的座標開始向右上蓋出)");
+        togglePanel('panel-import');
+    }
+
+    function submitMapImport() {
+        const input = document.getElementById("import-area").value;
         if (input) {
             sendCmd(`mc import ${input}`);
+            togglePanel('panel-import');
         }
     }
 
