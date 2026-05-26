@@ -364,13 +364,6 @@ func nativeBoolToBooleanObject(input bool) *object.Boolean {
 	return FalseValue
 }
 
-func nativeBoolToLPCInt(input bool) *object.Integer {
-	if input {
-		return &object.Integer{Value: 1}
-	}
-	return &object.Integer{Value: 0}
-}
-
 func evalPrefixExpression(operator string, right object.Object) object.Object {
 	switch operator {
 	case "!":
@@ -428,9 +421,9 @@ func evalInfixExpression(operator string, left, right object.Object) object.Obje
 	case left.TokenType() == object.MAPPING_OBJ && right.TokenType() == object.MAPPING_OBJ:
 		return evalMappingInfixExpression(operator, left, right)
 	case operator == "==":
-		return nativeBoolToLPCInt(evalEquality(left, right))
+		return nativeBoolToBooleanObject(evalEquality(left, right))
 	case operator == "!=":
-		return nativeBoolToLPCInt(!evalEquality(left, right))
+		return nativeBoolToBooleanObject(!evalEquality(left, right))
 	case left.TokenType() != right.TokenType():
 		return newError("type mismatch: %s %s %s", left.TokenType(), operator, right.TokenType())
 	default:
@@ -497,17 +490,17 @@ func evalIntegerInfixExpression(operator string, left, right object.Object) obje
 		}
 		return &object.Integer{Value: leftVal % rightVal}
 	case "<":
-		return nativeBoolToLPCInt(leftVal < rightVal)
+		return nativeBoolToBooleanObject(leftVal < rightVal)
 	case ">":
-		return nativeBoolToLPCInt(leftVal > rightVal)
+		return nativeBoolToBooleanObject(leftVal > rightVal)
 	case "<=":
-		return nativeBoolToLPCInt(leftVal <= rightVal)
+		return nativeBoolToBooleanObject(leftVal <= rightVal)
 	case ">=":
-		return nativeBoolToLPCInt(leftVal >= rightVal)
+		return nativeBoolToBooleanObject(leftVal >= rightVal)
 	case "==":
-		return nativeBoolToLPCInt(leftVal == rightVal)
+		return nativeBoolToBooleanObject(leftVal == rightVal)
 	case "!=":
-		return nativeBoolToLPCInt(leftVal != rightVal)
+		return nativeBoolToBooleanObject(leftVal != rightVal)
 	case "&":
 		return &object.Integer{Value: leftVal & rightVal}
 	case "|":
@@ -554,17 +547,17 @@ func evalFloatInfixExpression(operator string, left, right object.Object) object
 	case "/":
 		return &object.Float{Value: leftVal / rightVal}
 	case "<":
-		return nativeBoolToLPCInt(leftVal < rightVal)
+		return nativeBoolToBooleanObject(leftVal < rightVal)
 	case ">":
-		return nativeBoolToLPCInt(leftVal > rightVal)
+		return nativeBoolToBooleanObject(leftVal > rightVal)
 	case "<=":
-		return nativeBoolToLPCInt(leftVal <= rightVal)
+		return nativeBoolToBooleanObject(leftVal <= rightVal)
 	case ">=":
-		return nativeBoolToLPCInt(leftVal >= rightVal)
+		return nativeBoolToBooleanObject(leftVal >= rightVal)
 	case "==":
-		return nativeBoolToLPCInt(leftVal == rightVal)
+		return nativeBoolToBooleanObject(leftVal == rightVal)
 	case "!=":
-		return nativeBoolToLPCInt(leftVal != rightVal)
+		return nativeBoolToBooleanObject(leftVal != rightVal)
 	default:
 		return newError("unknown operator: %s %s %s", left.TokenType(), operator, right.TokenType())
 	}
@@ -578,9 +571,9 @@ func evalStringInfixExpression(operator string, left, right object.Object) objec
 	case "+":
 		return &object.String{Value: leftVal + rightVal}
 	case "==":
-		return nativeBoolToLPCInt(leftVal == rightVal)
+		return nativeBoolToBooleanObject(leftVal == rightVal)
 	case "!=":
-		return nativeBoolToLPCInt(leftVal != rightVal)
+		return nativeBoolToBooleanObject(leftVal != rightVal)
 	default:
 		return newError("unknown operator: %s %s %s", left.TokenType(), operator, right.TokenType())
 	}
@@ -641,9 +634,9 @@ func isTruthy(obj object.Object) bool {
 
 func evalBangOperatorExpression(right object.Object) object.Object {
 	if isTruthy(right) {
-		return &object.Integer{Value: 0} // 如果是真，! 之後就變成 0 (假)
+		return FalseValue // 如果是真，! 之後就變成假
 	}
-	return &object.Integer{Value: 1} // 如果是假，! 之後就變成 1 (真)
+	return TrueValue
 }
 
 func newError(format string, a ...interface{}) *object.Error {
@@ -936,11 +929,6 @@ func evalTypedVarDecl(node *ast.TypedVarDecl, env object.Environment) object.Obj
 			return newError("type mismatch: cannot assign %s to %s variable '%s'",
 				val.TokenType(), expectedType, node.Name.Value)
 		}
-
-		// 🚀 關鍵強化：隱式型別轉換 (Boolean -> Integer)
-		if expectedType == "int" && val.TokenType() == object.BooleanType {
-			val = nativeBoolToLPCInt(val.(*object.Boolean).Value)
-		}
 	} else {
 		// 2. 如果沒有賦值，給予預設值
 		lpcType := node.Token.Literal
@@ -962,7 +950,7 @@ func checkTypeMatch(lpcType string, obj object.Object) bool {
     }
 	switch lpcType {
 	case "int":
-		return obj.TokenType() == object.IntegerType || obj.TokenType() == object.BooleanType
+		return obj.TokenType() == object.IntegerType
 	case "string":
 		tt := obj.TokenType()
 		// 🚀 彈性處理：允許 Nil 或 0 指派給字串
@@ -1560,7 +1548,7 @@ func evalLogicalExpression(node *ast.InfixExpression, env object.Environment) ob
 
 	if node.Operator == "&&" {
 		if !isTruthy(left) {
-			return &object.Integer{Value: 0} // 左邊為假，直接中斷回傳 0
+			return FalseValue // 左邊為假，直接中斷回傳假
 		}
 		return Eval(node.Right, env)
 	} else if node.Operator == "||" {

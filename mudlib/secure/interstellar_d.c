@@ -28,7 +28,7 @@ void receive_p2p_message(string sender, string content, string type) {
     
     int is_rpc = (strsrch(content, "dist_msg|") == 0);
     
-    if (!is_rpc && mapp(last_messages[msg_key]) && (now - last_messages[msg_key]["time"] < 2)) {
+    if (is_rpc == 0 && mapp(last_messages[msg_key]) && (now - last_messages[msg_key]["time"] < 2)) {
         return;
     }
     
