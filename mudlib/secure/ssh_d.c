@@ -202,8 +202,8 @@ void receive_fs_session(string content) {
     if (msg_type == "input") {
         object guest = server_sessions[session_id];
         if (guest) {
-            // 使用 command_d 或 process_input 執行
-            guest->process_input(payload);
+            // 使用 command() 以確保正確綁定 this_player() 狀態
+            guest->do_remote_cmd(payload);
         }
         return;
     }

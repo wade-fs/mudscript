@@ -47,5 +47,7 @@ void quit() {
     destruct(this_object());
 }
 
-// 指令處理 (接收到來自 ssh_d 的 input 時，會呼叫此函式)
-// 我們直接讓它繼承 user.c 的 process_input，它會處理所有正常指令
+// 接收來自 ssh_d 的指令，使用 command() 確保觸發 LPC 內部正確的身分綁定
+void do_remote_cmd(string cmd) {
+    command(cmd);
+}

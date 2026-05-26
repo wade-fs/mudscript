@@ -211,19 +211,18 @@
         ws = new WebSocket(protocol + "//" + location.host + "/ws");
         ws.onmessage = (e) => {
             const msg = JSON.parse(e.data);
-            if (msg.type === "mud_text") {
-                const p = msg.payload.trim();
-                if (p === "__INPUT_HIDDEN__") { 
+            if (msg.type === "mud_text" || msg.type === "chat") {
+                const p = (msg.type === "chat" ? (msg.username + ": " + msg.payload) : msg.payload).trim();
+                if (p === "__INPUT_HIDDEN__") {
                     isInputHidden = true;
                     msgInput.style.webkitTextSecurity = "disc";
-                    return; 
+                    return;
                 }
-                if (p.startsWith("{") && p.endsWith("}")) { 
+                if (p.startsWith("{") && p.endsWith("}")) {
                     try { handleUIData(JSON.parse(p)); } catch (err) { handleMultiJSON(p); }
                 } else appendLook(p);
             }
-        };
-    }
+        };    }
 
     function handleMultiJSON(p) {
         const fixedP = p.replace(/\}\s*\{/g, "}\n{");

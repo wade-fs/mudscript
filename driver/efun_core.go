@@ -324,11 +324,14 @@ func (d *Driver) registerCoreEfuns(obj *object.LPCObject) {
 			}
 
 			// 2. 備援：呼叫物件本身的 process_input (通常在 user.c 或 npc.c 實作)
-			res := d.CallFunction(obj, "process_input", []object.Object{&object.String{Value: input}})
-			if i, ok := res.(*object.Integer); ok && i.Value != 0 {
-				return &object.Integer{Value: 1}
+			pConn := d.getPlayerConnection(obj)
+			if pConn == nil {
+			        pConn = &PlayerConnection{Object: obj, IsActive: true}
 			}
-
+			res := d.RunCommand(pConn, obj, "process_input", []object.Object{&object.String{Value: input}})
+			if i, ok := res.(*object.Integer); ok && i.Value != 0 {
+			        return &object.Integer{Value: 1}
+			}
 			return &object.Integer{Value: 0}
 		},
 	})
