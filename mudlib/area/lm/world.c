@@ -19,6 +19,7 @@ inherit "/std/room.c";
 #define SPAWN_X   30
 #define SPAWN_Y   15
 
+string custom_name;
 mapping blocks;      // "x,y" -> 方塊類型
 mapping player_pos;  // player_id -> ({ x, y })
 mapping npc_pos;     // npc_id -> ({ x, y })
@@ -83,6 +84,17 @@ mapping emoji_to_npc() {
     ]);
 }
 
+
+// ── 設定與查詢 ──────────────────────────────────────────
+void set_world_name(string name) {
+    custom_name = name;
+    save_world();
+}
+
+string query_short() {
+    if (custom_name && custom_name != "") return custom_name;
+    return ::query_short();
+}
 
 // ── 取得存檔路徑 (根據檔案名稱動態產生) ───────────────────────
 string query_save_file() {
@@ -260,6 +272,7 @@ void broadcast_map(object target) {
     }
 
     mapping payload = ([
+        "world_name"  : query_short(),
         "blocks"      : blocks,
         "block_colors": block_colors(),
         "players"     : online,

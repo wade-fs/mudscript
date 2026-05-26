@@ -265,6 +265,9 @@
     function handleMCMap(data) {
         if (!mcMode) toggleMCMode(true);
         mcData = data;
+        if (data.world_name) {
+            document.querySelector("#mc-ui span").innerText = data.world_name;
+        }
         renderMCMap();
     }
 
