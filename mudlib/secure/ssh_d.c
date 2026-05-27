@@ -17,7 +17,7 @@ string generate_uuid() {
 }
 
 void send_msg(string target_mudlib, string msg) {
-    p2p_broadcast(msg, target_mudlib);
+    p2p_broadcast(msg);
 }
 
 // ──────────────────────────────────────────────────────────
@@ -175,9 +175,11 @@ void receive_fs_session(string content) {
         send_msg(from_mudlib, "fs_session|" + FS_MUDLIB_ID + "|" + from_mudlib +
                  "|ack|" + session_id + "|" + welcome);
 
-        guest->move_to_start();
+        // 🚀 關鍵修正：使用 call_out (delay 0) 觸發移動與顯示，
+        // 這樣會由 Driver 的 processCallOuts 執行，並自動帶上 PlayerContext。
+        call_out("do_guest_setup", 0, guest);
+        
         tell_room(environment(guest), guest->query_name() + "化作一道光芒降臨此地。\n", ({ guest }));
-        call_out("do_guest_look", 1, guest);
         return;
     }
 
@@ -187,6 +189,12 @@ void receive_fs_session(string content) {
             guest->do_remote_cmd(payload);
         }
         return;
+    }
+}
+
+void do_guest_setup(object guest) {
+    if (guest) {
+        guest->move_to_start();
     }
 }
 

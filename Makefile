@@ -43,9 +43,17 @@ push-hf:
 
 clean-txt:
 	@ rm -f *txt *log
+	@ mkdir -p /tmp/fsmud
+	@ cp mudlib/data/user/wade.o /tmp/fsmud
+	@ mv mudlib/data/system.o /tmp/fsmud
+	@ rm mudlib/data/*.o mudlib/data/user/*
+
+recover:
+	@ cp -a /tmp/fsmud/system.o mudlib/data
+	@ cp -a /tmp/fsmud/wade.o mudlib/data/user
 
 # 🚀 一鍵雙推
-push: clean-txt push-github push-hf
+push: clean-txt push-github push-hf recover
 
 # 建立編譯目錄
 

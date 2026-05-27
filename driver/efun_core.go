@@ -107,6 +107,28 @@ func (d *Driver) registerCoreEfuns(obj *object.LPCObject) {
 		},
 	})
 
+	// 語法: void set_interactive(object ob, int flag)
+	// 說明: 手動將物件標記為互動式 (1) 或非互動式 (0)。主要用於 P2P Guest。
+	// 範例: set_interactive(this_object(), 1);
+	obj.Vars.Set("set_interactive", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			target := obj
+			if len(args) > 0 {
+				if o, ok := args[0].(*object.LPCObject); ok {
+					target = o
+				}
+			}
+			flag := int64(1)
+			if len(args) > 1 {
+				if i, ok := args[1].(*object.Integer); ok {
+					flag = i.Value
+				}
+			}
+			target.IsInteractive = (flag > 0)
+			return &object.Integer{Value: flag}
+		},
+	})
+
 	// 語法: int interactive(object ob)
 	// 說明: 判斷該物件是否為正在連線中的玩家 (有網路 Socket 綁定)。
 	// 範例: if (interactive(target)) { write("玩家在線上。\n"); }

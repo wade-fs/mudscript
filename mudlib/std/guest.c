@@ -13,8 +13,8 @@ void create() {
     ::create();
     set_name("未知訪客");
     enable_commands();
-    // 設定為互動物件，這樣 write() efun 才會將輸出導向此物件
-    set_temp("is_interactive", 1); 
+    // 🚀 關鍵修正：呼叫 efun 真正將此物件標記為互動式
+    set_interactive(this_object(), 1); 
 }
 
 void set_temp(string key, mixed val) {
