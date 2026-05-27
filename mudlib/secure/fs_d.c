@@ -75,6 +75,49 @@ string init_fsgoto(object me, string mudlib_id) {
     return HIW("[Fantasy Space] ") + "正在查詢 " + mudlib_id + " 的資訊並準備傳送...\n";
 }
 
+// 輔助：發送 JSON 格式的協議訊息
+private void send_protocol_msg(mapping data) {
+    data["from"] = FS_MUDLIB_ID;
+    p2p_broadcast(json_encode(data), FS_MUDLIB_ID, 1);
+}
+
+// ══════════════════════════════════════════════════════════════
+// fsgoto：跨服傳送入口
+// ══════════════════════════════════════════════════════════════
+
+string init_fsgoto(object me, string mudlib_id) {
+    if (!mudlib_id || mudlib_id == "") return "用法：fsgoto <mudlib_id>\n";
+    if (mudlib_id == FS_MUDLIB_ID) return "你已經在本機伺服器了。\n";
+
+    if (is_joined(mudlib_id)) {
+        string entrance = joined_muds[mudlib_id]["entrance"];
+        if (!entrance || entrance == "") return "無法取得該伺服器的入口點。\n";
+
+        write(HIM("【傳送門】你踏入了一陣扭曲的光芒中，前往了星際網路的彼端...\n"));
+        object dest = get_remote_room(mudlib_id, entrance);
+        if (dest) {
+            // 通知遠端：本玩家進入
+            _do_enter_remote(me, mudlib_id, entrance);
+            me->move(dest, "portal");
+            dest->look_room(me);
+
+            // 顯示該房間裡的遠端玩家（ghost）
+            _show_remote_players_in_room(me, mudlib_id, entrance);
+            return "";
+        }
+        return RED("傳送失敗：無法載入目標房間。\n");
+    }
+
+    if (!pending_travel[mudlib_id]) pending_travel[mudlib_id] = ({});
+    pending_travel[mudlib_id] += ({ me });
+
+    if (!joined_muds[mudlib_id]) {
+        do_join(me, mudlib_id);
+    }
+
+    return HIW("[Fantasy Space] ") + "正在查詢 " + mudlib_id + " 的資訊並準備傳送...\n";
+}
+
 // 當本地玩家離開跨服房間時，通知遠端
 void on_player_leave_remote(object me, string mudlib_id, string room_path) {
     if (!me || !mudlib_id || mudlib_id == "") return;
@@ -277,9 +320,14 @@ void handle_look_request(string from_mudlib, string requester, string room_path)
 // 傳送 presence 訊息
 void p2p_send_fs_presence(string to_mudlib, string action,
                           string player_name, string room_path, string extra) {
-    string msg = "fs_presence|" + FS_MUDLIB_ID + "|" + to_mudlib + "|" +
-                 action + "|" + player_name + "|" + room_path + "|" + extra;
-    p2p_broadcast(msg);
+    send_protocol_msg(([
+        "tag":    "fs_presence",
+        "to":     to_mudlib,
+        "action": action,
+        "player": player_name,
+        "room":   room_path,
+        "extra":  extra
+    ]));
 }
 
 // 處理收到的 presence 訊息（由 interstellar_d 路由過來）
@@ -348,9 +396,12 @@ void list_muds(object me) {
     p2p_send_fs_query("*", "list", "");
 }
 
-void receive_fs_response(string mudlib_id, string resp_type, string payload) {
+void receive_fs_response(string mudlib_id, string resp_type, mixed payload) {
     if (resp_type == "list") {
-        string *muds = explode(payload, ",");
+        string *muds;
+        if (stringp(payload)) muds = explode(payload, ",");
+        else muds = payload; // 可能直接收到陣列
+
         string output = HIW("\n【Fantasy Space 星際節點清單】\n");
         foreach (string mud in muds) {
             string *parts = explode(mud, "|");
@@ -365,14 +416,23 @@ void receive_fs_response(string mudlib_id, string resp_type, string payload) {
     }
 
     if (resp_type == "info") {
-        string *parts = explode(payload, "|");
-        if (sizeof(parts) >= 4) {
+        mapping info_data;
+        if (stringp(payload)) {
+            string *parts = explode(payload, "|");
+            if (sizeof(parts) >= 4) {
+                info_data = ([ "name": parts[2], "entrance": parts[3] ]);
+            }
+        } else {
+            info_data = payload;
+        }
+
+        if (info_data) {
             if (!joined_muds[mudlib_id]) {
                 joined_muds[mudlib_id] = ([ "hub_url": FS_HUB_URL, "joined_at": time() ]);
             }
             joined_muds[mudlib_id]["status"]   = "active";
-            joined_muds[mudlib_id]["name"]     = parts[2];
-            joined_muds[mudlib_id]["entrance"] = parts[3];
+            joined_muds[mudlib_id]["name"]     = info_data["name"];
+            joined_muds[mudlib_id]["entrance"] = info_data["entrance"];
 
             if (pending_travel[mudlib_id]) {
                 foreach (object p in pending_travel[mudlib_id]) { 
@@ -382,12 +442,19 @@ void receive_fs_response(string mudlib_id, string resp_type, string payload) {
             }
         }
     } else if (resp_type == "room") {
-        int sep = strsrch(payload, "|");
-        if (sep < 0) return;
-        
-        string room_path = substr(payload, 0, sep);
-        string lpc_src   = substr(payload, sep + 1, strlen(payload) - sep - 1);
-        if (!lpc_src || lpc_src == "") return;
+        string room_path, lpc_src;
+        if (stringp(payload)) {
+            int sep = strsrch(payload, "|");
+            if (sep >= 0) {
+                room_path = substr(payload, 0, sep);
+                lpc_src   = substr(payload, sep + 1, strlen(payload) - sep - 1);
+            }
+        } else {
+            room_path = payload["path"];
+            lpc_src   = payload["src"];
+        }
+
+        if (!room_path || !lpc_src) return;
 
         string file = FS_CACHE_DIR + "/" + mudlib_id + room_path;
         
@@ -455,24 +522,44 @@ void notify_waiting_players(string mudlib_id, string room_path) {
 }
 
 void p2p_send_fs_query(string mudlib_id, string type, string payload) {
-    p2p_broadcast("fs_query|" + FS_MUDLIB_ID + "|" + mudlib_id + "|" + type + "|" + payload);
+    send_protocol_msg(([
+        "tag":     "fs_query",
+        "to":      mudlib_id,
+        "type":    type,
+        "payload": payload
+    ]));
 }
 
-void handle_fs_query(string from_mudlib, string type, string payload) {
+void handle_fs_query(string from_mudlib, string type, mixed payload) {
     if (type == "info") {
-        string resp = FS_MUDLIB_ID + "|info|" + FS_MUDLIB_NAME + "|" + START_ROOM;
-        p2p_broadcast("fs_resp|" + FS_MUDLIB_ID + "|" + from_mudlib + "|info|" + resp);
+        send_protocol_msg(([
+            "tag":     "fs_resp",
+            "to":      from_mudlib,
+            "type":    "info",
+            "payload": ([ "name": FS_MUDLIB_NAME, "entrance": START_ROOM ])
+        ]));
     } else if (type == "list") {
         string resp = FS_MUDLIB_NAME + "|" + FS_MUDLIB_ID;
         mixed ks = keys(joined_muds);
         foreach (string mid in ks) {
             resp += "," + joined_muds[mid]["name"] + "|" + mid;
         }
-        p2p_broadcast("fs_resp|" + FS_MUDLIB_ID + "|" + from_mudlib + "|list|" + resp);
+        send_protocol_msg(([
+            "tag":     "fs_resp",
+            "to":      from_mudlib,
+            "type":    "list",
+            "payload": resp
+        ]));
     } else if (type == "room") {
         string src = read_file("/mudlib" + payload);
         if (!src) src = read_file(payload);
         if (!src) src = "";
-        p2p_broadcast("fs_resp|" + FS_MUDLIB_ID + "|" + from_mudlib + "|room|" + payload + "|" + src);
+        
+        send_protocol_msg(([
+            "tag":     "fs_resp",
+            "to":      from_mudlib,
+            "type":    "room",
+            "payload": ([ "path": payload, "src": src ])
+        ]));
     }
 }

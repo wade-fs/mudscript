@@ -18,6 +18,7 @@ void create() {
 // 當收到來自 P2P 網路的訊息時，由 Driver 呼叫此函式
 void receive_p2p_message(string sender, string content, string type) {
     if (!content || content == "") return;
+    
     if (!sender || sender == "") sender = "Unknown";
     if (!type || type == "") type = "chat";
 
@@ -26,7 +27,7 @@ void receive_p2p_message(string sender, string content, string type) {
     string msg_key = sender + ":" + content;
     int now = time();
     
-    int is_rpc = (strsrch(content, "dist_msg|") == 0);
+    int is_rpc = (strsrch(content, "dist_msg|") == 0) || (strsrch(content, "{\"tag\":\"dist_msg\"") == 0);
     
     if (!is_rpc && mapp(last_messages[msg_key]) && (now - last_messages[msg_key]["time"] < 2)) {
         return;
@@ -38,7 +39,43 @@ void receive_p2p_message(string sender, string content, string type) {
         last_messages = ([]);
     }
 
-    // ── Interstellar SSH Session 協議路由 ───────────────────
+    // ── JSON 格式協議解析 ───────────────────────────────────
+    if (content[0..0] == "{") {
+        mixed data = json_decode(content);
+        if (mapp(data)) {
+            string tag = data["tag"];
+            
+            // 路由 JSON 協議
+            if (tag == "fs_session") {
+                object ssh_d = load_object("/secure/ssh_d.c");
+                if (ssh_d) ssh_d->receive_fs_session(data);
+                return;
+            }
+            
+            if (tag == "fs_query" || tag == "fs_resp") {
+                object fs_d = load_object("/secure/fs_d.c");
+                if (fs_d) {
+                    if (tag == "fs_query") fs_d->handle_fs_query(data["from"], data["type"], data["payload"]);
+                    else fs_d->receive_fs_response(data["from"], data["type"], data["payload"]);
+                }
+                return;
+            }
+
+            if (tag == "fs_presence") {
+                object fs_d = load_object("/secure/fs_d.c");
+                if (fs_d) fs_d->handle_fs_presence(data["from"], data["action"], data["player"], data["room"], data["extra"]);
+                return;
+            }
+
+            if (tag == "dist_msg") {
+                object dist_d = load_object("/secure/dist_d.c");
+                if (dist_d) dist_d->handle_dist_msg(data["from"], data["action"], data["payload"]);
+                return;
+            }
+        }
+    }
+
+    // ── 舊版 Pipe 格式協議路由 (相容用) ─────────────────────
     // 格式：fs_session|from_mudlib|to_mudlib|msg_type|session_id|payload
     if (strsrch(content, "fs_session|") == 0) {
         object ssh_d = load_object("/secure/ssh_d.c");

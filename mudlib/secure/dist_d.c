@@ -36,18 +36,21 @@ mapping query_shadow_players() { return shadow_players; }
 // ══════════════════════════════════════════════════════════════
 
 // 傳送分散式訊息
-// 格式：dist_msg|from|to|action|payload(json)
+// 格式：JSON mapping 透過 json_encode 廣播
 void send_dist_msg(string to_mudlib, string action, mixed payload) {
-    string json = json_encode(payload);
-    string msg = "dist_msg|" + FS_MUDLIB_ID + "|" + to_mudlib + "|" + action + "|" + json;
-    p2p_broadcast(msg);
+    p2p_broadcast(json_encode(([
+        "tag":     "dist_msg",
+        "to":      to_mudlib,
+        "from":    FS_MUDLIB_ID,
+        "action":  action,
+        "payload": payload
+    ])), FS_MUDLIB_ID, 1);
 }
 
 // 處理接收到的分散式訊息
-void handle_dist_msg(string from_mudlib, string action, string json) {
-    mixed payload = json_decode(json);
+void handle_dist_msg(string from_mudlib, string action, mixed payload) {
     if (!payload) {
-        printf("⚠️ [DistD] 無法解析來自 %s 的 JSON 訊息。\n", from_mudlib);
+        printf("⚠️ [DistD] 無效的 RPC 內容，來源：%s\n", from_mudlib);
         return;
     }
 

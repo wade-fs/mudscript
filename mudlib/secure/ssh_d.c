@@ -16,8 +16,9 @@ string generate_uuid() {
         random(65536), random(65536), random(65536));
 }
 
-void send_msg(string target_mudlib, string msg) {
-    p2p_broadcast(msg, FS_MUDLIB_ID, 1);
+void send_msg(string target_mudlib, mapping data) {
+    data["from"] = FS_MUDLIB_ID;
+    p2p_broadcast(json_encode(data), FS_MUDLIB_ID, 1);
 }
 
 // ──────────────────────────────────────────────────────────
@@ -34,9 +35,14 @@ void start_session(object player, string target_mudlib) {
 
     tell_object(player, HIM("[Fantasy Space] ") + "正在請求連線至 " + target_mudlib + "...\n");
 
-    string msg = "fs_session|" + FS_MUDLIB_ID + "|" + target_mudlib +
-                 "|connect|" + session_id + "|" + player->get_id() + "|" + player->query_name();
-    send_msg(target_mudlib, msg);
+    send_msg(target_mudlib, ([
+        "tag": "fs_session",
+        "to": target_mudlib,
+        "type": "connect",
+        "sid": session_id,
+        "p_id": player->get_id(),
+        "p_name": player->query_name()
+    ]));
 }
 
 void client_send_input(object player, string cmd) {
@@ -44,9 +50,13 @@ void client_send_input(object player, string cmd) {
     string target     = player->query_temp("ssh_target");
     if (!session_id || !target) return;
 
-    string msg = "fs_session|" + FS_MUDLIB_ID + "|" + target +
-                 "|input|" + session_id + "|" + cmd;
-    send_msg(target, msg);
+    send_msg(target, ([
+        "tag": "fs_session",
+        "to": target,
+        "type": "input",
+        "sid": session_id,
+        "payload": cmd
+    ]));
 }
 
 void client_send_disconnect(object player) {
@@ -55,9 +65,13 @@ void client_send_disconnect(object player) {
     string target = player->query_temp("ssh_target");
     if (!session_id || !target) return;
 
-    string msg = "fs_session|" + FS_MUDLIB_ID + "|" + target +
-                 "|disconnect|" + session_id + "|Client closed";
-    send_msg(target, msg);
+    send_msg(target, ([
+        "tag": "fs_session",
+        "to": target,
+        "type": "disconnect",
+        "sid": session_id,
+        "payload": "Client closed"
+    ]));
 
     player->delete_temp("ssh_session_id");
     player->delete_temp("ssh_pending");
@@ -69,45 +83,57 @@ void client_send_disconnect(object player) {
 // SERVER ROLE
 // ──────────────────────────────────────────────────────────
 void server_send_output(string target_mudlib, string session_id, string text) {
-    string msg = "fs_session|" + FS_MUDLIB_ID + "|" + target_mudlib +
-                 "|output|" + session_id + "|" + text;
-    send_msg(target_mudlib, msg);
+    send_msg(target_mudlib, ([
+        "tag": "fs_session",
+        "to": target_mudlib,
+        "type": "output",
+        "sid": session_id,
+        "payload": text
+    ]));
 }
 
 void server_send_disconnect(string target_mudlib, string session_id, string reason) {
-    string msg = "fs_session|" + FS_MUDLIB_ID + "|" + target_mudlib +
-                 "|disconnect|" + session_id + "|" + reason;
-    send_msg(target_mudlib, msg);
+    send_msg(target_mudlib, ([
+        "tag": "fs_session",
+        "to": target_mudlib,
+        "type": "disconnect",
+        "sid": session_id,
+        "payload": reason
+    ]));
 }
 
 // ──────────────────────────────────────────────────────────
 // 封包接收解析 (由 interstellar_d 呼叫)
 // ──────────────────────────────────────────────────────────
-void receive_fs_session(string content) {
-    // DEBUG
-    object wade = find_player("wade");
-    if (wade) tell_object(wade, GRN("DEBUG P2P IN: ") + content + "\n");
+void receive_fs_session(mixed content) {
+    string from_mudlib, to_mudlib, msg_type, session_id, payload;
+    mapping data;
 
-    string *parts = explode(content, "|");
-    if (sizeof(parts) < 5) return;
+    if (mapp(content)) {
+        // ── JSON 模式 ──
+        data = content;
+        from_mudlib = data["from"];
+        to_mudlib   = data["to"];
+        msg_type    = data["type"];
+        session_id  = data["sid"];
+        payload     = data["payload"];
+    } else {
+        // ── 舊版 Pipe 模式 (相容) ──
+        string *parts = explode(content, "|");
+        if (sizeof(parts) < 5) return;
 
-    string from_mudlib = trim(parts[1]);
-    string to_mudlib   = trim(parts[2]);
-    string msg_type    = trim(parts[3]);
-    string session_id  = trim(parts[4]);
+        from_mudlib = trim(parts[1]);
+        to_mudlib   = trim(parts[2]);
+        msg_type    = trim(parts[3]);
+        session_id  = trim(parts[4]);
+
+        if (sizeof(parts) >= 6) {
+            payload = implode(parts[5..], "|");
+        }
+    }
 
     if (to_mudlib != FS_MUDLIB_ID && to_mudlib != "*") return;
     
-    // 🚀 關鍵修正：不再僅靠 from_mudlib == FS_MUDLIB_ID 來過濾，
-    // 因為在單機測試（兩邊 ID 相同）時這會導致訊息被捨棄。
-    // 改為透過 session_id 與角色狀態進行更精確的過濾。
-
-    string payload = "";
-    for (int i = 5; i < sizeof(parts); i++) {
-        payload += parts[i];
-        if (i < sizeof(parts) - 1) payload += "|";
-    }
-
     // ── Client role ─────────────────────────────────────
     if (msg_type == "ack") {
         // 從所有在線玩家裡找有 ssh_pending == session_id 的那個
@@ -162,14 +188,25 @@ void receive_fs_session(string content) {
 
     // ── Server role ─────────────────────────────────────
     if (msg_type == "connect") {
-        string *user_info = explode(payload, "|");
-        string p_id   = (sizeof(user_info) > 0) ? user_info[0] : "guest";
-        string p_name = (sizeof(user_info) > 1) ? user_info[1] : "Guest";
+        string p_id, p_name;
+        if (mapp(data)) {
+            p_id   = data["p_id"];
+            p_name = data["p_name"];
+        } else {
+            string *user_info = explode(payload, "|");
+            p_id   = (sizeof(user_info) > 0) ? user_info[0] : "guest";
+            p_name = (sizeof(user_info) > 1) ? user_info[1] : "Guest";
+        }
 
         object guest = clone_object("/std/guest.c");
         if (!guest) {
-            send_msg(from_mudlib, "fs_session|" + FS_MUDLIB_ID + "|" + from_mudlib +
-                     "|deny|" + session_id + "|無法建立訪客實體");
+            send_msg(from_mudlib, ([
+                "tag": "fs_session",
+                "to": from_mudlib,
+                "type": "deny",
+                "sid": session_id,
+                "payload": "無法建立訪客實體"
+            ]));
             return;
         }
 
@@ -179,13 +216,17 @@ void receive_fs_session(string content) {
         guest->set_temp("ssh_remote_mud",  from_mudlib);
 
         string welcome = HIG("歡迎來到 " + FS_MUDLIB_ID + "！這是一個全新的世界。\n");
-        send_msg(from_mudlib, "fs_session|" + FS_MUDLIB_ID + "|" + from_mudlib +
-                 "|ack|" + session_id + "|" + welcome);
+        send_msg(from_mudlib, ([
+            "tag": "fs_session",
+            "to": from_mudlib,
+            "type": "ack",
+            "sid": session_id,
+            "payload": welcome
+        ]));
 
         // 🚀 關鍵修正：使用 call_out (delay 0) 觸發移動與顯示，
         // 這樣會由 Driver 的 processCallOuts 執行，並自動帶上 PlayerContext。
         call_out("do_guest_setup", 0, guest);
-        
         return;
     }
 
