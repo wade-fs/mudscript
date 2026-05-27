@@ -27,9 +27,6 @@ void set_temp(string key, mixed val) {
 void catch_tell(string msg) {
     if (!msg || msg == "") return;
     
-    // 除錯日誌：查看是否有訊息進入 catch_tell
-    printf("DEBUG [Guest]: Received msg: %s\n", msg);
-    
     if (!session_id || !remote_mudlib) return;
 
     object ssh_d = load_object("/secure/ssh_d.c");
