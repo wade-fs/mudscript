@@ -84,6 +84,10 @@ void server_send_disconnect(string target_mudlib, string session_id, string reas
 // 封包接收解析 (由 interstellar_d 呼叫)
 // ──────────────────────────────────────────────────────────
 void receive_fs_session(string content) {
+    // DEBUG
+    object wade = find_player("wade");
+    if (wade) tell_object(wade, GRN("DEBUG P2P IN: ") + content + "\n");
+
     string *parts = explode(content, "|");
     if (sizeof(parts) < 5) return;
 
