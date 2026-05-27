@@ -3,8 +3,10 @@ package signaling
 import (
 	"encoding/json"
 	"net/http"
+	"strings"
 	"sync"
 
+	"github.com/google/uuid"
 	"github.com/gorilla/websocket"
 	"mudscript/driver"
 )
@@ -30,7 +32,42 @@ type Client struct {
 }
 
 func HandleWS(hub *Hub, w http.ResponseWriter, r *http.Request) {
-// ... (keep HandleWS same, but remember to initialize mu if needed, but it's default)
+	conn, err := upgrader.Upgrade(w, r, nil)
+	if err != nil {
+		return
+	}
+
+	// 1. 從 URL 查詢參數中獲取資訊
+	q := r.URL.Query()
+	username := q.Get("username")
+	if username == "" {
+		username = "Anonymous"
+	}
+	isP2P := q.Get("p2p") == "true"
+
+	// 🚀 新增：獲取瀏覽器語言 (Accept-Language)
+	lang := r.Header.Get("Accept-Language")
+	if lang != "" {
+		// 簡化處理：取第一個主要語言標籤，例如 "zh-TW,zh;q=0.9" -> "zh-TW"
+		if pos := strings.Index(lang, ","); pos != -1 {
+			lang = lang[:pos]
+		}
+	}
+
+	client := &Client{
+		ID:       uuid.NewString(),
+		Username: username,
+		Language: lang, 
+		IsP2P:    isP2P, // 存入 Client
+		Conn:     conn,
+		Hub:      hub,
+		Send:     make(chan Message, 256),
+	}
+
+	hub.register <- client
+
+	go client.writeLoop()
+	go client.readLoop()
 }
 
 func (c *Client) SafeSend(msg Message) {

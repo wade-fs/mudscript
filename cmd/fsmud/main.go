@@ -42,27 +42,28 @@ func main() {
 	}
 	log.Println("MUD 引擎啟動成功！")
 
-	// 3. 初始化 WebSocket 與 P2P 信令中心 (若為 Hub 模式)
-	spaceID := os.Getenv("SPACE_ID")
-	normalizedSpaceID := strings.ReplaceAll(spaceID, "/", "-")
-	isHubMode := spaceID != "" && (strings.Contains(*hubURL, normalizedSpaceID) || strings.Contains(*hubURL, "localhost") || *hubURL == "none")
+	// 3. 初始化 WebSocket 與 P2P 信令中心 (每個節點都有一套，處理自己的 Web 玩家)
+	hub := signaling.NewHub(d)
+	go hub.Run()
 
-	var hub *signaling.Hub
-	if isHubMode {
-		hub = signaling.NewHub(d)
-		go hub.Run()
-		log.Println("🌟 偵測到雲端環境，啟動本地星際信令中心 (Signaling Hub) 於 /ws")
-
-		// 🚀 只有在 Hub 模式下才需要同步玩家名稱到全域
-		d.OnUsernameUpdate = func(sid, newName string) {
-			if hub != nil {
-				hub.UpdateClientUsername(sid, newName)
-			}
-		}
+	// 🚀 新增：同步玩家名稱至信令中心
+	d.OnUsernameUpdate = func(sid, newName string) {
+		hub.UpdateClientUsername(sid, newName)
 	}
 
 	// 4. 🚀 P2P 整合核心：雙向連結驅動與信令系統
 	var node *p2p.Node
+
+	// A. 偵測是否為雲端 Hub 模式 (決定是否要對外連線)
+	// Hugging Face 的 SPACE_ID 可能是 "user/space-name"，但 URL 會是 "user-space-name.hf.space"
+	spaceID := os.Getenv("SPACE_ID")
+	normalizedSpaceID := strings.ReplaceAll(spaceID, "/", "-")
+	
+	// 如果 hubURL 包含自己的 SpaceID，或者指向 localhost，或者設為 none，我們就認定自己是 Hub 中心
+	isHubMode := spaceID != "" && strings.Contains(*hubURL, normalizedSpaceID)
+	if *hubURL == "none" || strings.Contains(*hubURL, "localhost") {
+		isHubMode = true
+	}
 
 	// 連結 P2P -> MUD (接收訊息)
 	d.OnP2PMessage = func(senderID, senderName, content string) {
@@ -105,9 +106,8 @@ func main() {
 	}
 
 	// B. 連結 MUD -> P2P (發送訊息)
-	isRemoteHub := *hubURL != "" && *hubURL != "none" && !isHubMode
-	
-	if isRemoteHub {
+	// 如果不是 Hub 模式且 URL 不是 none，則建立連線到遠端 Hub
+	if !isHubMode && *hubURL != "" && *hubURL != "none" {
 		node = p2p.NewNode(d, *hubURL)
 		
 		d.P2PSendChat = func(sender, content string) {
@@ -117,20 +117,17 @@ func main() {
 		node.Start()
 		log.Println("🚀 P2P 節點已啟動，連接至:", *hubURL)
 	} else {
-		// 如果自己是信令中心，直接透過 hub 廣播
+		// 如果自己是信令中心，直接透過自己的 hub 廣播
+		log.Println("🌟 以星際信令中心 (Signaling Hub) 模式執行。")
 		d.P2PSendChat = func(sender, content string) {
-			if hub != nil {
-				hub.BroadcastChat(sender, content)
-			}
+			hub.BroadcastChat(sender, content)
 		}
 	}
 
 	// 5. 設定 HTTP 與 WebSocket 路由
-	if hub != nil {
-		http.HandleFunc("/ws", func(w http.ResponseWriter, r *http.Request) {
-			signaling.HandleWS(hub, w, r)
-		})
-	}
+	http.HandleFunc("/ws", func(w http.ResponseWriter, r *http.Request) {
+		signaling.HandleWS(hub, w, r)
+	})
 
 	// 🚀 混合模式網頁服務
 	setupStaticServer()
