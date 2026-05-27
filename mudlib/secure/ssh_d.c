@@ -224,39 +224,20 @@ void receive_fs_session(mixed content) {
             "payload": welcome
         ]));
 
-        // 🚀 關鍵修正：使用 call_out (delay 0) 觸發移動與顯示，
-        // 這樣會由 Driver 的 processCallOuts 執行，並自動帶上 PlayerContext。
-        call_out("do_guest_setup", 0, guest);
+        // 🚀 關鍵修正：由 Guest 自己發起 call_out，這樣 Driver 在執行時
+        // 就會判定 Caller 是 Guest，進而自動帶上 PlayerContext！
+        guest->call_out("do_guest_setup", 0);
         return;
     }
 
     if (msg_type == "input") {
         object guest = _find_guest_by_session(session_id);
         if (guest) {
-            // 🚀 關鍵修正：改用 call_out 觸發指令，確保 Driver 帶入 PlayerContext
-            call_out("do_guest_cmd", 0, guest, payload);
+            // 同理，由 Guest 發起指令執行的 call_out
+            guest->call_out("do_remote_cmd", 0, payload);
         }
         return;
     }
-}
-
-void do_guest_cmd(object guest, string cmd) {
-    if (!guest) {
-        return;
-    }
-    guest->do_remote_cmd(cmd);
-}
-
-void do_guest_setup(object guest) {
-    if (guest) {
-        guest->move_to_start();
-        tell_room(environment(guest), guest->query_name() + "化作一道光芒降臨此地。\n", ({ guest }));
-        call_out("do_guest_look", 1, guest);
-    }
-}
-
-void do_guest_look(object guest) {
-    if (guest) guest->do_remote_cmd("look");
 }
 
 // ──────────────────────────────────────────────────────────
