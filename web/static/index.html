@@ -214,12 +214,16 @@
         ws.onmessage = (e) => {
             const msg = JSON.parse(e.data);
             if (msg.type === "mud_text" || msg.type === "chat") {
-                const p = (msg.type === "chat" ? (msg.username + ": " + msg.payload) : msg.payload).trim();
-                if (p === "__INPUT_HIDDEN__") {
+                let p = (msg.type === "chat" ? (msg.username + ": " + msg.payload) : msg.payload);
+                
+                // 🚀 關鍵修正：改用關鍵字過濾模式，避免因訊息合併導致偵測失效或遺失文字
+                if (p.includes("__INPUT_HIDDEN__")) {
                     isInputHidden = true;
                     msgInput.style.webkitTextSecurity = "disc";
-                    return;
+                    p = p.replace("__INPUT_HIDDEN__", "").trim();
+                    if (!p) return; // 若移除後無內容則不顯示
                 }
+                
                 if (p.startsWith("{") && p.endsWith("}")) {
                     try { handleUIData(JSON.parse(p)); } catch (err) { handleMultiJSON(p); }
                 } else appendLook(p);
