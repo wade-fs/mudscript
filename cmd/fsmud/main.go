@@ -82,15 +82,38 @@ func main() {
 		}
 
 		log.Printf("🌌 [P2P] 收到來自 %s(%s) 的訊息: %s", senderName, senderID, content)
-		// Hub 模式：只處理一般聊天，不處理協議封包 (避免重複處理)
+		
+		// Hub 路由過濾策略：
+		// 1. 如果本機是 Hub 中心，且這是一則協議封包 (fs_session, fs_query 等)
+		// 2. 且該封包的「目標」不是本機也不是廣播，則 Hub 僅負責轉發，不送入本機 MUD 處理以免重複。
 		if isHubMode && (strings.HasPrefix(content, "fs_session|") ||
 			strings.HasPrefix(content, "fs_query|") ||
 			strings.HasPrefix(content, "fs_resp|") ||
 			strings.HasPrefix(content, "fs_presence|") ||
 			strings.HasPrefix(content, "dist_msg|") ||
-			strings.Contains(content, "\"tag\":\"")) {
-			return
+			strings.Contains(content, "\"tag\":")) {
+			
+			// 🚀 關鍵判定：檢查 JSON 中的 "to" 欄位
+			// 如果目標不是本機 MUD ID (例如 "fantasy.space") 且不是廣播 "*"，則略過
+			// 這裡為了效能，簡單判定：如果內容中沒出現自己的 mudlib_id 或 "*"，就略過
+			// (注意：這裡的判定較為寬鬆，後續在 interstellar_d.c 還會有一層精確比對)
+			systemD, _ := d.LoadObject("/secure/system_d.c")
+			myID := "unnamed.mud"
+			if systemD != nil {
+				if res := d.CallFunction(systemD, "query_mudlib_id", nil); res != nil {
+					if s, ok := res.(*object.String); ok {
+						myID = s.Value
+					}
+				}
+			}
+
+			// 如果是協議封包且目標不是我，則 Hub 只負責轉發（Hub 核心已在 signaling/hub.go 轉發了），這裡直接 return
+			if !strings.Contains(content, "\""+myID+"\"") && !strings.Contains(content, "\"*\"") &&
+			   !strings.Contains(content, "|"+myID+"|") && !strings.Contains(content, "|*|") {
+				return
+			}
 		}
+
 		interstellar, err := d.LoadObject("/secure/interstellar_d.c")
 		if err == nil && interstellar != nil {
 			msgType := "chat"
