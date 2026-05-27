@@ -40,6 +40,10 @@ int main(object me, string verb, string arg) {
         return 1;
     }
 
+    // 記錄出發前的房間，fsleave 時原路返回
+    object env = environment(me);
+    if (env) me->set_temp("ssh_origin_room", object_name(env));
+
     ssh_d->start_session(me, arg);
     return 1;
 }

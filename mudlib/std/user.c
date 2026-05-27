@@ -252,36 +252,32 @@ int process_input(string input) {
         return ::process_input("emote " + arg);
     } 
     
-    // 🚀 新增：分散式物件代理攔截 (SSH-like mode)
-    string _sid = query_temp("ssh_session_id");
-    string _spd = query_temp("ssh_pending");
+    // 🚀 SSH-like 攔截：只對 client role 生效
+    // guest (server role) 有 ssh_session_id 但沒有 ssh_target，不攔截
     string _tgt = query_temp("ssh_target");
-    if (_sid || _spd) {
-        // 如果輸入以 "!" 開頭，或者指令是 "fsleave"，代表強制在本機執行
-        if (substr(input, 0, 1) == "!" || input == "fsleave") {
-            if (substr(input, 0, 1) == "!") {
-                input = substr(input, 1, strlen(input) - 1);
+    if (_tgt && _tgt != "") {
+        string _sid = query_temp("ssh_session_id");
+        string _spd = query_temp("ssh_pending");
+        if (_sid || _spd) {
+            // "!" 開頭或 fsleave 強制在本機執行
+            if (substr(input, 0, 1) == "!" || input == "fsleave") {
+                if (substr(input, 0, 1) == "!") {
+                    input = substr(input, 1, strlen(input) - 1);
+                }
+                if (input != "fsleave") {
+                    write(CYN("【本機指令】") + input + "\n");
+                }
+            } else {
+                if (!_sid) {
+                    write(GRA("（等待遠端確認連線，請稍候...）\n"));
+                    return 1;
+                }
+                object ssh_d = load_object("/secure/ssh_d.c");
+                if (ssh_d) {
+                    ssh_d->client_send_input(this_object(), input);
+                    return 1;
+                }
             }
-            if (input != "fsleave") {
-                write(CYN("【本機指令】") + input + "\n");
-            }
-        } else {
-            if (!_sid) {
-                // 仍在等待 ack，緩衝指令
-                write(GRA("（等待遠端確認連線，請稍候...）\n"));
-                return 1;
-            }
-            if (!_tgt) {
-                write(RED("【錯誤】ssh_target 遺失，無法送出指令。請 fsleave 後重試。\n"));
-                return 1;
-            }
-            object ssh_d = load_object("/secure/ssh_d.c");
-            if (ssh_d) {
-                ssh_d->client_send_input(this_object(), input);
-                return 1;
-            }
-            write(RED("【錯誤】無法載入 ssh_d。\n"));
-            return 1;
         }
     }
     
