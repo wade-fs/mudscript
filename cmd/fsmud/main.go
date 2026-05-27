@@ -72,9 +72,16 @@ func main() {
 		if strings.HasPrefix(content, "__P2P_IGNORE__") {
 			content = strings.TrimPrefix(content, "__P2P_IGNORE__")
 			
-			// 只有當發送者 UUID 等於本機 UUID 時才略過
-			// (注意：如果是 Hub 本身發出的系統訊息，senderID 會是 "local")
-			isSelf := (node != nil && senderID == node.ID) || (senderID == "local")
+			// 🚀 核心邏輯：判定是否為「回環」訊息
+			isSelf := false
+			if node != nil && senderID == node.ID {
+				// 情況 A：訊息是從本機 P2P Node 發出並繞回來的
+				isSelf = true
+			} else if isHubMode && senderID == "local" {
+				// 情況 B：訊息是本機 Hub 廣播中心發出的
+				isSelf = true
+			}
+
 			if isSelf {
 				log.Printf("🌌 [P2P] 略過本機發出的訊息: %s", content)
 				return
