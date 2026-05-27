@@ -3,9 +3,8 @@ package signaling
 import (
 	"encoding/json"
 	"net/http"
-	"strings"
+	"sync"
 
-	"github.com/google/uuid"
 	"github.com/gorilla/websocket"
 	"mudscript/driver"
 )
@@ -25,52 +24,49 @@ type Client struct {
 	Hub      *Hub
 	Send     chan Message
 	MudConn  *driver.PlayerConnection
+	
+	mu       sync.Mutex
+	closed   bool
 }
 
 func HandleWS(hub *Hub, w http.ResponseWriter, r *http.Request) {
-	conn, err := upgrader.Upgrade(w, r, nil)
-	if err != nil {
+// ... (keep HandleWS same, but remember to initialize mu if needed, but it's default)
+}
+
+func (c *Client) SafeSend(msg Message) {
+	c.mu.Lock()
+	defer c.mu.Unlock()
+	if c.closed {
 		return
 	}
-
-	// 1. 從 URL 查詢參數中獲取資訊
-	q := r.URL.Query()
-	username := q.Get("username")
-	if username == "" {
-		username = "Anonymous"
+	select {
+	case c.Send <- msg:
+	default:
+		// 如果 Buffer 滿了，則捨棄訊息以避免阻塞 Hub 核心迴圈
 	}
-	isP2P := q.Get("p2p") == "true"
+}
 
-	// 🚀 新增：獲取瀏覽器語言 (Accept-Language)
-	lang := r.Header.Get("Accept-Language")
-	if lang != "" {
-		// 簡化處理：取第一個主要語言標籤，例如 "zh-TW,zh;q=0.9" -> "zh-TW"
-		if pos := strings.Index(lang, ","); pos != -1 {
-			lang = lang[:pos]
-		}
+func (c *Client) Close() {
+	c.mu.Lock()
+	if c.closed {
+		c.mu.Unlock()
+		return
 	}
-
-	client := &Client{
-		ID:       uuid.NewString(),
-		Username: username,
-		Language: lang, 
-		IsP2P:    isP2P, // 存入 Client
-		Conn:     conn,
-		Hub:      hub,
-		Send:     make(chan Message, 256),
+	c.closed = true
+	close(c.Send)
+	c.mu.Unlock()
+	
+	if c.Conn != nil {
+		c.Conn.Close()
 	}
-
-	hub.register <- client
-
-	go client.writeLoop()
-	go client.readLoop()
 }
 
 func (c *Client) readLoop() {
 	defer func() {
 		c.Hub.unregister <- c
-		c.Conn.Close()
+		c.Close()
 	}()
+// ...
 
 	for {
 		_, data, err := c.Conn.ReadMessage()

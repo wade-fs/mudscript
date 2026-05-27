@@ -39,10 +39,10 @@ func (h *Hub) Run() {
 				pConn.Username = client.Username
 				
 				pConn.OutputCallback = func(mudText string) {
-					client.Send <- Message{
+					client.SafeSend(Message{
 						Type:    "mud_text",
 						Payload: mudText,
-					}
+					})
 				}
 
 				userObj := h.mudDriver.AcceptConnection(pConn, client.Language)
@@ -56,26 +56,26 @@ func (h *Hub) Run() {
 				}
 			}
 
-			client.Send <- Message{
+			client.SafeSend(Message{
 				Type: "welcome",
 				To:   client.ID,
 				Username: client.Username,
-			}
+			})
 
 			for id, peer := range h.clients {
 				if id != client.ID {
-					peer.Send <- Message{
+					peer.SafeSend(Message{
 						Type: "peer-joined",
 						From: client.ID,
 						To:   id,
 						Username: client.Username,
-					}
-					client.Send <- Message{
+					})
+					client.SafeSend(Message{
 						Type: "peer-joined",
 						From: id,
 						To:   client.ID,
 						Username: peer.Username,
-					}
+					})
 				}
 			}
 
@@ -86,7 +86,7 @@ func (h *Hub) Run() {
 		case client := <-h.unregister:
 			if _, ok := h.clients[client.ID]; ok {
 				delete(h.clients, client.ID)
-				close(client.Send)
+				client.Close()
 			}
 
 			if client.MudConn != nil && client.MudConn.Object != nil {
@@ -96,12 +96,12 @@ func (h *Hub) Run() {
 			}
 
 			for id, peer := range h.clients {
-				peer.Send <- Message{
+				peer.SafeSend(Message{
 					Type: "peer-left",
 					From: client.ID,
 					To:   id,
 					Username: client.Username,
-				}
+				})
 			}
 
 		case msg := <-h.forward:
@@ -169,30 +169,19 @@ func (h *Hub) Run() {
 				}
 
 				// 🚀 階段 2：轉發給其他連線中的節點
-				for id, peer := range h.clients {
+				for _, peer := range h.clients {
 					// 路由策略：
 					// 1. 如果目標是 P2P 節點：一律轉發 (包含發送者，作為回信確認)
 					// 2. 如果目標是 Web 玩家：只有在對方「不是」發送者時才轉發
 					if peer.IsP2P {
-						// P2P 節點：非阻塞發送
-						select {
-						case peer.Send <- msg:
-						default:
-						}
-					} else if id != msg.From {
-						// Web 玩家：非阻塞發送
-						select {
-						case peer.Send <- msg:
-						default:
-						}
+						peer.SafeSend(msg)
+					} else if peer.ID != msg.From {
+						peer.SafeSend(msg)
 					}
 				}
 			} else {
 				if peer, ok := h.clients[msg.To]; ok {
-					select {
-					case peer.Send <- msg:
-					default:
-					}
+					peer.SafeSend(msg)
 				}
 			}
 		}
