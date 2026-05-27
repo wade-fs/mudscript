@@ -56,16 +56,29 @@ func (d *Driver) registerCommEfuns(obj *object.LPCObject) {
 	            p = d.GetConnectionFromObject(obj)
 	        }
 
-	        // 只要玩家物件存在且處於活動狀態，就呼叫 p.Send
-	        if p != nil && p.IsActive {
+	        // 只要玩家物件存在且處於活動狀態且有實體連線，就呼叫 p.Send
+	        if p != nil && p.IsActive && p.sendChan != nil {
 	            safeMsg := strings.ReplaceAll(msg, "\r\n", "\n")
 	            safeMsg = strings.ReplaceAll(safeMsg, "\n", "\r\n")
 	            p.Send(safeMsg)
 	        } else {
-	            // 只有在找不到玩家上下文時（例如系統背景執行），才印到伺服器終端機
-				// 在終端機模式下，我們嘗試轉換 {r} 標籤為 ANSI
-				processed := d.ProcessAnsi(msg)
-	            fmt.Print(processed)
+				// 🚀 虛擬玩家支援：尋找可能的輸出對象
+				tp := d.CallFunction(obj, "this_player", nil)
+				var target *object.LPCObject
+				if tpObj, ok := tp.(*object.LPCObject); ok && tpObj != nil {
+					target = tpObj
+				} else if obj.IsInteractive {
+					// 若無 this_player 但呼叫物件本身是互動式 (例如 Guest 初始化中)，則導向自己
+					target = obj
+				}
+
+				if target != nil {
+					d.CallFunction(target, "catch_tell", []object.Object{&object.String{Value: msg}})
+				} else {
+					// 只有在完全找不到任何玩家上下文時，才印到伺服器終端機
+					processed := d.ProcessAnsi(msg)
+					fmt.Print(processed)
+				}
 	        }
 	        return &object.Nil{}
 	    },
