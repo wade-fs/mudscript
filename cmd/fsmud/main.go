@@ -58,6 +58,14 @@ func main() {
 	// 不把 fs_session / ssh 訊息送進自己的 interstellar_d，避免重複處理。
 	isHubMode := os.Getenv("SPACE_ID") != "" && strings.Contains(*hubURL, os.Getenv("SPACE_ID"))
 	d.OnP2PMessage = func(sender, content string) {
+		// 🚀 關鍵修正：支援 __P2P_IGNORE__ 標記
+		// 如果訊息是以此標記開頭，代表是本機發出且不希望本機再次處理 (避免 loop)
+		if strings.HasPrefix(content, "__P2P_IGNORE__") {
+			content = strings.TrimPrefix(content, "__P2P_IGNORE__")
+			log.Printf("🌌 [P2P] 略過本機發出的訊息: %s", content)
+			return
+		}
+
 		log.Printf("🌌 [P2P] 收到來自 %s 的訊息: %s", sender, content)
 		// Hub 模式：只處理一般聊天，不處理 session/query/presence 協議封包
 		if isHubMode && (strings.HasPrefix(content, "fs_session|") ||

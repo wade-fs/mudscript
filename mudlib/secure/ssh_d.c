@@ -17,7 +17,7 @@ string generate_uuid() {
 }
 
 void send_msg(string target_mudlib, string msg) {
-    p2p_broadcast(msg, FS_MUDLIB_ID);
+    p2p_broadcast(msg, FS_MUDLIB_ID, 1);
 }
 
 // ──────────────────────────────────────────────────────────
@@ -93,7 +93,10 @@ void receive_fs_session(string content) {
     string session_id  = trim(parts[4]);
 
     if (to_mudlib != FS_MUDLIB_ID && to_mudlib != "*") return;
-    if (from_mudlib == FS_MUDLIB_ID) return;
+    
+    // 🚀 關鍵修正：不再僅靠 from_mudlib == FS_MUDLIB_ID 來過濾，
+    // 因為在單機測試（兩邊 ID 相同）時這會導致訊息被捨棄。
+    // 改為透過 session_id 與角色狀態進行更精確的過濾。
 
     string payload = "";
     for (int i = 5; i < sizeof(parts); i++) {
