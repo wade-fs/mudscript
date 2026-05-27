@@ -120,9 +120,9 @@ func (h *Hub) Run() {
 					funcName := p.NextInputFunc
 					p.NextInputFunc = ""
 					p.InputHidden = false
-					// 🚀 關鍵修正：必須使用 RunCommand 並傳入 p，確保 LPC 內的 input_to 呼叫能正確透過 GetCurrentPlayer() 找到連線
+					// fmt.Printf("[DEBUG] Handling input_to: %s for %s\n", funcName, p.Username)
 					h.mudDriver.RunCommand(p, p.Object, funcName, []object.Object{&object.String{Value: input}})
-					continue // 🚀 重要：處理完 NextInputFunc 後必須繼續下一輪循環
+					continue 
 				}
 
 				expanded := h.mudDriver.RunCommand(p, p.Object, "expand_alias", []object.Object{&object.String{Value: input}})
@@ -150,25 +150,40 @@ func (h *Hub) Run() {
 
 				p.CurrentVerb = verb
 
-				// 🚀 關鍵修正：優先呼叫 process_input，這樣才能讓 user.c 的 SSH 攔截生效
+				// 🚀 安全檢查：確保物件依然存在
+				if p.Object == nil {
+					continue
+				}
+
+				// 🚀 關鍵修正：優先呼叫 process_input，讓 user.c 的 SSH 攔截生效
 				// 如果 process_input 回傳 1 (已處理)，則跳過 Actions
 				res := h.mudDriver.RunCommand(p, p.Object, "process_input", []object.Object{&object.String{Value: input}})
-				if i, ok := res.(*object.Integer); ok && i.Value != 0 {
-					continue
+				if res != nil {
+					if i, ok := res.(*object.Integer); ok && i.Value != 0 {
+						continue
+					}
 				}
 
 				found := false
 				if p.Object.Actions != nil {
 					if action, exists := p.Object.Actions[verb]; exists {
 						res := h.mudDriver.RunCommand(p, action.Provider, action.FuncName, []object.Object{&object.String{Value: arg}})
-						if i, ok := res.(*object.Integer); ok && i.Value != 0 {
-							found = true
+						if res != nil {
+							if i, ok := res.(*object.Integer); ok && i.Value != 0 {
+								found = true
+							}
 						}
 					}
 				}
 
 				if (!found) {
-					// 已在上方呼叫過 process_input 並處理過 Actions，若都未處理則結束
+					// 🚀 Fallback：若都未處理，則輸出錯誤訊息 (自動按語系翻譯)
+					tRes := h.mudDriver.RunCommand(p, p.Object, "_t", []object.Object{&object.String{Value: "what"}})
+					msg := "什麼？\n"
+					if s, ok := tRes.(*object.String); ok {
+						msg = s.Value + "\n"
+					}
+					h.mudDriver.RunCommand(p, p.Object, "write", []object.Object{&object.String{Value: msg}})
 				}
 			} else if msg.Type == "chat" {
 				// 🚀 階段 1：將訊息轉發給本地 MUD 驅動 (給 Hub 本身的玩家看)

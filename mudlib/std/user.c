@@ -300,12 +300,7 @@ int process_input(string input) {
     }
     
     // 2. 呼叫基底類別處理 (含 command_d 呼叫)
-    int res = ::process_input(input);
-    if (res) return res;
-
-    // 3. 失敗訊息
-    write(_t("what") + "\n");
-    return 0;
+    return ::process_input(input);
 }
 
 void move_to_start() {

@@ -533,12 +533,12 @@
         const v = msgInput.value.trim(); 
         if (!v) return; 
         
-        // 🚀 關鍵修正：先解除遮罩標記，再發送，這樣 local log 才會顯示正確明文
-        const wasHidden = isInputHidden;
+        sendCmd(v); 
+        
+        // 🚀 關鍵修正：在發送並記錄 log 之後，才重置遮罩狀態
         isInputHidden = false;
         msgInput.style.webkitTextSecurity = "none";
         
-        sendCmd(v); 
         msgInput.value = ""; 
         msgInput.focus(); 
     }
