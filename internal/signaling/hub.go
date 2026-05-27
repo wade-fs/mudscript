@@ -149,6 +149,13 @@ func (h *Hub) Run() {
 
 				p.CurrentVerb = verb
 
+				// 🚀 關鍵修正：優先呼叫 process_input，這樣才能讓 user.c 的 SSH 攔截生效
+				// 如果 process_input 回傳 1 (已處理)，則跳過 Actions
+				res := h.mudDriver.RunCommand(p, p.Object, "process_input", []object.Object{&object.String{Value: input}})
+				if i, ok := res.(*object.Integer); ok && i.Value != 0 {
+					continue
+				}
+
 				found := false
 				if p.Object.Actions != nil {
 					if action, exists := p.Object.Actions[verb]; exists {
@@ -160,7 +167,10 @@ func (h *Hub) Run() {
 				}
 
 				if (!found) {
-					h.mudDriver.RunCommand(p, p.Object, "process_input", []object.Object{&object.String{Value: input}})
+					// 由於上面已經呼叫過 process_input 且 res 為 0，代表指令未被攔截且非 Action
+					// 這裡其實不需要再次呼叫 process_input，因為 RunCommand(process_input) 已經執行過了
+					// 但為了保證 LPC 層的邏輯連貫性 (某些 MUD 可能依賴多次嘗試)，
+					// 在這裡我們可以選擇不做事，或者寫個註釋。
 				}
 			} else if msg.Type == "chat" {
 				// 🚀 階段 1：將訊息轉發給本地 MUD 驅動 (給 Hub 本身的玩家看)

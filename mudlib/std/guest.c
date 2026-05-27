@@ -54,8 +54,6 @@ void quit() {
 void do_guest_setup() {
     move_to_start();
     tell_room(environment(this_object()), query_name() + "化作一道光芒降臨此地。\n", ({ this_object() }));
-    // 延遲一下再看，確保房間已載入且上下文穩固
-    call_out("do_remote_cmd", 1, "look");
 }
 
 // 接收來自 ssh_d 的指令，使用 command() 確保觸發 LPC 內部正確的身分綁定

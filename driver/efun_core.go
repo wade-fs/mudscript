@@ -326,7 +326,18 @@ func (d *Driver) registerCoreEfuns(obj *object.LPCObject) {
 				arg = parts[1]
 			}
 
-			// 1. 優先檢查 add_action 註冊的指令
+			// 1. 優先：呼叫物件本身的 process_input (通常在 user.c 或 npc.c 實作)
+			// 🚀 關鍵修正：必須先呼叫 process_input，這樣才能讓 user.c 的 SSH 攔截生效
+			pConn := d.getPlayerConnection(obj)
+			if pConn == nil {
+				pConn = &PlayerConnection{Object: obj, IsActive: true}
+			}
+			res := d.RunCommand(pConn, obj, "process_input", []object.Object{&object.String{Value: input}})
+			if i, ok := res.(*object.Integer); ok && i.Value != 0 {
+				return &object.Integer{Value: 1}
+			}
+
+			// 2. 備援：檢查 add_action 註冊的指令
 			if obj.Actions != nil {
 				if action, exists := obj.Actions[verb]; exists {
 					// 設定玩家上下文以便執行指令
@@ -343,16 +354,6 @@ func (d *Driver) registerCoreEfuns(obj *object.LPCObject) {
 					}
 					return &object.Integer{Value: 1} // 只要有對應 Action 就算成功
 				}
-			}
-
-			// 2. 備援：呼叫物件本身的 process_input (通常在 user.c 或 npc.c 實作)
-			pConn := d.getPlayerConnection(obj)
-			if pConn == nil {
-			        pConn = &PlayerConnection{Object: obj, IsActive: true}
-			}
-			res := d.RunCommand(pConn, obj, "process_input", []object.Object{&object.String{Value: input}})
-			if i, ok := res.(*object.Integer); ok && i.Value != 0 {
-			        return &object.Integer{Value: 1}
 			}
 			return &object.Integer{Value: 0}
 		},

@@ -137,6 +137,9 @@ void receive_fs_session(mixed content) {
 
     if (to_mudlib != FS_MUDLIB_ID && to_mudlib != "*") return;
     
+    // 🚀 關鍵修正：不處理自己廣播出去後又收回來的訊息
+    if (from_mudlib == FS_MUDLIB_ID) return;
+    
     // ── Client role ─────────────────────────────────────
     if (msg_type == "ack") {
         // 從所有在線玩家裡找有 ssh_pending == session_id 的那個
