@@ -43,7 +43,7 @@ push-hf:
 
 clean-txt:
 	@ rm -f *txt *log
-	@ mkdir -p /tmp/fsmud
+	@ mkdir -p /tmp/fsmud || true
 	@ cp mudlib/data/user/wade.o /tmp/fsmud
 	@ mv mudlib/data/system.o /tmp/fsmud
 	@ rm mudlib/data/*.o mudlib/data/user/*

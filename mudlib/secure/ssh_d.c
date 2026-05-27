@@ -17,7 +17,7 @@ string generate_uuid() {
 }
 
 void send_msg(string target_mudlib, string msg) {
-    p2p_broadcast(msg);
+    p2p_broadcast(msg, FS_MUDLIB_ID);
 }
 
 // ──────────────────────────────────────────────────────────
@@ -87,10 +87,10 @@ void receive_fs_session(string content) {
     string *parts = explode(content, "|");
     if (sizeof(parts) < 5) return;
 
-    string from_mudlib = parts[1];
-    string to_mudlib   = parts[2];
-    string msg_type    = parts[3];
-    string session_id  = parts[4];
+    string from_mudlib = trim(parts[1]);
+    string to_mudlib   = trim(parts[2]);
+    string msg_type    = trim(parts[3]);
+    string session_id  = trim(parts[4]);
 
     if (to_mudlib != FS_MUDLIB_ID && to_mudlib != "*") return;
     if (from_mudlib == FS_MUDLIB_ID) return;
@@ -179,7 +179,6 @@ void receive_fs_session(string content) {
         // 這樣會由 Driver 的 processCallOuts 執行，並自動帶上 PlayerContext。
         call_out("do_guest_setup", 0, guest);
         
-        tell_room(environment(guest), guest->query_name() + "化作一道光芒降臨此地。\n", ({ guest }));
         return;
     }
 
@@ -195,6 +194,8 @@ void receive_fs_session(string content) {
 void do_guest_setup(object guest) {
     if (guest) {
         guest->move_to_start();
+        tell_room(environment(guest), guest->query_name() + "化作一道光芒降臨此地。\n", ({ guest }));
+        call_out("do_guest_look", 1, guest);
     }
 }
 
