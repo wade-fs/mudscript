@@ -223,7 +223,7 @@ int process_input(string input) {
             input = substr(input, 1, strlen(input) - 1);
             write(CYN("【本機指令】") + input + "\n");
         } else {
-            object ssh_d = find_object("/secure/ssh_d.c");
+            object ssh_d = load_object("/secure/ssh_d.c");
             if (ssh_d) {
                 ssh_d->client_send_input(this_object(), input);
                 return 1;

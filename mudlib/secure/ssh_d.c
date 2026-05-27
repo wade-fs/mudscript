@@ -2,60 +2,50 @@
 #include "/include/ansi.h"
 
 // /secure/ssh_d.c
-// SSH Daemon (Interstellar Network SSH-like Sessions)
+// SSH Daemon — 完全無狀態設計
+// session 狀態存在 player/guest 物件的 temp 裡，ssh_d 本身不持有任何 mapping。
+// 這樣 ssh_d 被 GC 後重新載入也不會遺失任何連線。
 
 inherit "/std/object";
-
-mapping client_sessions;
-mapping server_sessions;
-
-void create() {
-    ::create();
-    client_sessions = ([]);
-    server_sessions = ([]);
-}
 
 string generate_uuid() {
     return sprintf("%04x%04x-%04x-%04x-%04x-%04x%04x%04x",
         random(65536), random(65536),
-        random(65536),
-        random(65536),
+        random(65536), random(65536),
         random(65536),
         random(65536), random(65536), random(65536));
 }
 
-// ──────────────────────────────────────────────────────────
-// 共用網路傳輸層
-// ──────────────────────────────────────────────────────────
 void send_msg(string target_mudlib, string msg) {
     p2p_broadcast(msg, target_mudlib);
 }
 
 // ──────────────────────────────────────────────────────────
-// CLIENT ROLE: 本機發起連線至遠端
+// CLIENT ROLE
 // ──────────────────────────────────────────────────────────
 void start_session(object player, string target_mudlib) {
     if (!player || !userp(player)) return;
 
     string session_id = generate_uuid();
-    client_sessions[session_id] = player;
 
-    player->set_temp("ssh_pending", session_id);
-    player->set_temp("ssh_target", target_mudlib);
-    
+    player->set_temp("ssh_pending",   session_id);
+    player->set_temp("ssh_target",    target_mudlib);
+    player->set_temp("ssh_player_id", object_name(player)); // 備援索引
+
     tell_object(player, HIM("[Fantasy Space] ") + "正在請求連線至 " + target_mudlib + "...\n");
 
-    string payload = player->get_id() + "|" + player->query_name();
-    string msg = "fs_session|" + FS_MUDLIB_ID + "|" + target_mudlib + "|connect|" + session_id + "|" + payload;
+    string msg = "fs_session|" + FS_MUDLIB_ID + "|" + target_mudlib +
+                 "|connect|" + session_id + "|" + player->get_id() + "|" + player->query_name();
     send_msg(target_mudlib, msg);
 }
 
 void client_send_input(object player, string cmd) {
     string session_id = player->query_temp("ssh_session_id");
-    string target = player->query_temp("ssh_target");
+    string target     = player->query_temp("ssh_target");
     if (!session_id || !target) return;
 
-    string msg = "fs_session|" + FS_MUDLIB_ID + "|" + target + "|input|" + session_id + "|" + cmd;
+    string msg = "fs_session|" + FS_MUDLIB_ID + "|" + target +
+                 "|input|" + session_id + "|" + cmd;
     send_msg(target, msg);
 }
 
@@ -65,10 +55,10 @@ void client_send_disconnect(object player) {
     string target = player->query_temp("ssh_target");
     if (!session_id || !target) return;
 
-    string msg = "fs_session|" + FS_MUDLIB_ID + "|" + target + "|disconnect|" + session_id + "|Client closed";
+    string msg = "fs_session|" + FS_MUDLIB_ID + "|" + target +
+                 "|disconnect|" + session_id + "|Client closed";
     send_msg(target, msg);
 
-    map_delete(client_sessions, session_id);
     player->delete_temp("ssh_session_id");
     player->delete_temp("ssh_pending");
     player->delete_temp("ssh_target");
@@ -76,29 +66,24 @@ void client_send_disconnect(object player) {
 }
 
 // ──────────────────────────────────────────────────────────
-// SERVER ROLE: 遠端連入的 Guest 處理
+// SERVER ROLE
 // ──────────────────────────────────────────────────────────
 void server_send_output(string target_mudlib, string session_id, string text) {
-    string msg = "fs_session|" + FS_MUDLIB_ID + "|" + target_mudlib + "|output|" + session_id + "|" + text;
+    string msg = "fs_session|" + FS_MUDLIB_ID + "|" + target_mudlib +
+                 "|output|" + session_id + "|" + text;
     send_msg(target_mudlib, msg);
 }
 
 void server_send_disconnect(string target_mudlib, string session_id, string reason) {
-    string msg = "fs_session|" + FS_MUDLIB_ID + "|" + target_mudlib + "|disconnect|" + session_id + "|" + reason;
+    string msg = "fs_session|" + FS_MUDLIB_ID + "|" + target_mudlib +
+                 "|disconnect|" + session_id + "|" + reason;
     send_msg(target_mudlib, msg);
-    
-    object guest = server_sessions[session_id];
-    if (guest) {
-        destruct(guest);
-    }
-    map_delete(server_sessions, session_id);
 }
 
 // ──────────────────────────────────────────────────────────
 // 封包接收解析 (由 interstellar_d 呼叫)
 // ──────────────────────────────────────────────────────────
 void receive_fs_session(string content) {
-    // fs_session | from | to | msg_type | session_id | payload...
     string *parts = explode(content, "|");
     if (sizeof(parts) < 5) return;
 
@@ -106,10 +91,8 @@ void receive_fs_session(string content) {
     string to_mudlib   = parts[2];
     string msg_type    = parts[3];
     string session_id  = parts[4];
-    
-    // 只處理目標是本機 (或 *)
+
     if (to_mudlib != FS_MUDLIB_ID && to_mudlib != "*") return;
-    // 忽略自己發給自己的廣播
     if (from_mudlib == FS_MUDLIB_ID) return;
 
     string payload = "";
@@ -118,10 +101,11 @@ void receive_fs_session(string content) {
         if (i < sizeof(parts) - 1) payload += "|";
     }
 
-    // -- Client Role --
+    // ── Client role ─────────────────────────────────────
     if (msg_type == "ack") {
-        object player = client_sessions[session_id];
-        if (player && player->query_temp("ssh_pending") == session_id) {
+        // 從所有在線玩家裡找有 ssh_pending == session_id 的那個
+        object player = _find_player_by_temp("ssh_pending", session_id);
+        if (player) {
             player->delete_temp("ssh_pending");
             player->set_temp("ssh_session_id", session_id);
             tell_object(player, HIM("[Fantasy Space] ") + "連線成功！你已登臨異界！\n\n");
@@ -129,82 +113,77 @@ void receive_fs_session(string content) {
         }
         return;
     }
+
     if (msg_type == "deny") {
-        object player = client_sessions[session_id];
+        object player = _find_player_by_temp("ssh_pending", session_id);
         if (player) {
             player->delete_temp("ssh_pending");
             player->delete_temp("ssh_target");
             tell_object(player, RED("連線被拒絕：" + payload + "\n"));
-            map_delete(client_sessions, session_id);
-        }
-        return;
-    }
-    if (msg_type == "output") {
-        object player = client_sessions[session_id];
-        if (player) {
-            tell_object(player, payload); // 原始文字直出
         }
         return;
     }
 
-    // -- Server / Client 雙向 --
+    if (msg_type == "output") {
+        // 從 session_id 找玩家（用 ssh_session_id temp）
+        object player = _find_player_by_temp("ssh_session_id", session_id);
+        if (player) {
+            tell_object(player, payload);
+        }
+        return;
+    }
+
     if (msg_type == "disconnect") {
-        // 作為 Client 收到：
-        object player = client_sessions[session_id];
+        // 作為 Client 收到
+        object player = _find_player_by_temp("ssh_session_id", session_id);
+        if (!player) player = _find_player_by_temp("ssh_pending", session_id);
         if (player) {
             tell_object(player, RED("\n【遠端伺服器中斷連線】" + payload + "\n"));
             player->delete_temp("ssh_session_id");
             player->delete_temp("ssh_pending");
             player->delete_temp("ssh_target");
-            map_delete(client_sessions, session_id);
             return;
         }
-        // 作為 Server 收到：
-        object guest = server_sessions[session_id];
+        // 作為 Server 收到：銷毀 guest
+        object guest = _find_guest_by_session(session_id);
         if (guest) {
             tell_room(environment(guest), guest->query_name() + "化作一道光芒消失了。\n", ({ guest }));
             destruct(guest);
-            map_delete(server_sessions, session_id);
         }
         return;
     }
 
-    // -- Server Role --
+    // ── Server role ─────────────────────────────────────
     if (msg_type == "connect") {
         string *user_info = explode(payload, "|");
-        string p_id = (sizeof(user_info) > 0) ? user_info[0] : "guest";
+        string p_id   = (sizeof(user_info) > 0) ? user_info[0] : "guest";
         string p_name = (sizeof(user_info) > 1) ? user_info[1] : "Guest";
 
-        // 可以根據黑白名單決定要不要 deny
-        // 這裡預設允許
-        
         object guest = clone_object("/std/guest.c");
         if (!guest) {
-            send_msg("fs_session|" + FS_MUDLIB_ID + "|" + from_mudlib + "|deny|" + session_id + "|無法建立訪客實體");
+            send_msg(from_mudlib, "fs_session|" + FS_MUDLIB_ID + "|" + from_mudlib +
+                     "|deny|" + session_id + "|無法建立訪客實體");
             return;
         }
 
         guest->set_id(p_id);
-        guest->set_name(p_name + "@" + from_mudlib); // wade@wade.mud
-        guest->set_temp("ssh_session_id", session_id);
-        guest->set_temp("ssh_remote_mud", from_mudlib);
-        
-        server_sessions[session_id] = guest;
+        guest->set_name(p_name + "@" + from_mudlib);
+        guest->set_temp("ssh_session_id",  session_id);
+        guest->set_temp("ssh_remote_mud",  from_mudlib);
 
         string welcome = HIG("歡迎來到 " + FS_MUDLIB_ID + "！這是一個全新的世界。\n");
-        send_msg(from_mudlib, "fs_session|" + FS_MUDLIB_ID + "|" + from_mudlib + "|ack|" + session_id + "|" + welcome);
+        send_msg(from_mudlib, "fs_session|" + FS_MUDLIB_ID + "|" + from_mudlib +
+                 "|ack|" + session_id + "|" + welcome);
 
-        guest->move_to_start(); 
+        guest->move_to_start();
         tell_room(environment(guest), guest->query_name() + "化作一道光芒降臨此地。\n", ({ guest }));
-        // 為了確保 command() 裡能觸發 catch_tell，需要透過一個延遲來讓環境就緒
-        // 使用 call_out 來觸發 look，給物件一點時間初始化
         call_out("do_guest_look", 1, guest);
         return;
     }
+
     if (msg_type == "input") {
-        object guest = server_sessions[session_id];
+        object guest = _find_guest_by_session(session_id);
         if (guest) {
-            // 使用 command() 以確保正確綁定 this_player() 狀態
             guest->do_remote_cmd(payload);
         }
         return;
@@ -213,4 +192,28 @@ void receive_fs_session(string content) {
 
 void do_guest_look(object guest) {
     if (guest) guest->do_remote_cmd("look");
+}
+
+// ──────────────────────────────────────────────────────────
+// 輔助：掃描在線物件找到有特定 temp 值的玩家
+// ──────────────────────────────────────────────────────────
+private object _find_player_by_temp(string key, string val) {
+    object *all = users();
+    foreach (object u in all) {
+        if (u && userp(u) && u->query_temp(key) == val) return u;
+    }
+    return 0;
+}
+
+// 掃描所有物件找 guest（guest 繼承 user，但不在 users() 裡）
+private object _find_guest_by_session(string session_id) {
+    // guest 物件的 filename 是 /std/guest.c#N
+    foreach (object ob in objects()) {
+        if (!ob || ob->is_destructed()) continue;
+        string fn = object_name(ob);
+        if (strsrch(fn, "/std/guest.c#") == 0) {
+            if (ob->query_temp("ssh_session_id") == session_id) return ob;
+        }
+    }
+    return 0;
 }

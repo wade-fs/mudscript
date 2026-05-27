@@ -30,13 +30,15 @@
   "equip_weapon": null,
   "exp": 0,
   "exp_to_next": 1000,
-  "explored_rooms": {},
+  "explored_rooms": {
+    "/area/newbie/room_0_0.c": 1
+  },
   "followers": [],
   "full_id": "",
   "guild": "",
   "guild_exp": 0,
   "guild_rank": "",
-  "heart_beat_count": 0,
+  "heart_beat_count": 1,
   "hp": 135,
   "id": "wade",
   "id_list": [
@@ -47,8 +49,8 @@
   "is_dead": 0,
   "is_riding": 0,
   "lang": "zh-TW",
-  "last_bank_time": 0,
-  "last_location": "",
+  "last_bank_time": 1779841152,
+  "last_location": "/area/newbie/room_0_0.c",
   "leader": null,
   "level": 1,
   "long_name": "這是一個沒有描述的東西。",
