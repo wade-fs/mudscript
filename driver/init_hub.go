@@ -51,7 +51,7 @@ func (d *Driver) InitializeHubData() {
   "lang": "zh-TW",
   "long_name": "創世神。菠蘿麵包",
   "name": "菠蘿麵包",
-  "password": "a0/Ds.eM5QBqiGufGeHbf9BuAnmSDrNEGCweAkYfqltobKCHG",
+  "password": "$2a$10$fxjmas/Ds.eM5QBqiGufGeHbf9BuAnmSDrNEGCweAkYfqltobKCHG",
   "role": "god",
   "short_name": "wade",
   "write_paths": [ "/" ]
