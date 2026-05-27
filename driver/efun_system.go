@@ -481,7 +481,13 @@ func (d *Driver) registerSystemAndFiles(obj *object.LPCObject) {
 				p.NextInputFunc = funcName.Value; p.InputHidden = false
 				if len(args) > 1 {
 					if flag, ok := args[1].(*object.Integer); ok && flag.Value != 0 {
-						p.InputHidden = true; p.Send("__INPUT_HIDDEN__")
+						p.InputHidden = true
+						// 🚀 關鍵修正：若有 OutputCallback (Web 玩家)，主動發送隱藏指令
+						if p.OutputCallback != nil {
+							p.OutputCallback("__INPUT_HIDDEN__")
+						} else {
+							p.Send("__INPUT_HIDDEN__")
+						}
 					}
 				}
 				return &object.Integer{Value: 1}

@@ -120,6 +120,7 @@ func (h *Hub) Run() {
 					funcName := p.NextInputFunc
 					p.NextInputFunc = ""
 					p.InputHidden = false
+					// 🚀 關鍵修正：必須使用 RunCommand 並傳入 p，確保 LPC 內的 input_to 呼叫能正確透過 GetCurrentPlayer() 找到連線
 					h.mudDriver.RunCommand(p, p.Object, funcName, []object.Object{&object.String{Value: input}})
 					continue // 🚀 重要：處理完 NextInputFunc 後必須繼續下一輪循環
 				}
