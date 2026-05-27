@@ -165,7 +165,7 @@ func (h *Hub) Run() {
 			} else if msg.Type == "chat" {
 				// 🚀 階段 1：將訊息轉發給本地 MUD 驅動 (給 Hub 本身的玩家看)
 				if h.mudDriver != nil && h.mudDriver.OnP2PMessage != nil {
-					h.mudDriver.OnP2PMessage(msg.Username, msg.Payload)
+					h.mudDriver.OnP2PMessage(msg.From, msg.Username, msg.Payload)
 				}
 
 				// 🚀 階段 2：轉發給其他連線中的節點

@@ -52,21 +52,28 @@ func main() {
 	}
 
 	// 4. 🚀 P2P 整合核心：雙向連結驅動與信令系統
-	
+	var node *p2p.Node
+
 	// A. 連結 P2P -> MUD (接收訊息)
 	// 若本機是 Hub (SPACE_ID 存在且 hub URL 指向自己)，則 Hub 只負責廣播，
 	// 不把 fs_session / ssh 訊息送進自己的 interstellar_d，避免重複處理。
 	isHubMode := os.Getenv("SPACE_ID") != "" && strings.Contains(*hubURL, os.Getenv("SPACE_ID"))
-	d.OnP2PMessage = func(sender, content string) {
+	d.OnP2PMessage = func(senderID, senderName, content string) {
 		// 🚀 關鍵修正：支援 __P2P_IGNORE__ 標記
-		// 如果訊息是以此標記開頭，代表是本機發出且不希望本機再次處理 (避免 loop)
+		// 如果訊息是以此標記開頭，代表是發送者不希望自己重複處理 (避免 loop)
 		if strings.HasPrefix(content, "__P2P_IGNORE__") {
 			content = strings.TrimPrefix(content, "__P2P_IGNORE__")
-			log.Printf("🌌 [P2P] 略過本機發出的訊息: %s", content)
-			return
+			
+			// 只有當發送者 UUID 等於本機 UUID 時才略過
+			// (注意：如果是 Hub 本身發出的系統訊息，senderID 會是 "local")
+			isSelf := (node != nil && senderID == node.ID) || (senderID == "local")
+			if isSelf {
+				log.Printf("🌌 [P2P] 略過本機發出的訊息: %s", content)
+				return
+			}
 		}
 
-		log.Printf("🌌 [P2P] 收到來自 %s 的訊息: %s", sender, content)
+		log.Printf("🌌 [P2P] 收到來自 %s(%s) 的訊息: %s", senderName, senderID, content)
 		// Hub 模式：只處理一般聊天，不處理 session/query/presence 協議封包
 		if isHubMode && (strings.HasPrefix(content, "fs_session|") ||
 			strings.HasPrefix(content, "fs_query|") ||
@@ -78,11 +85,11 @@ func main() {
 		interstellar, err := d.LoadObject("/secure/interstellar_d.c")
 		if err == nil && interstellar != nil {
 			msgType := "chat"
-			if strings.HasPrefix(sender, "SYSTEM") {
+			if strings.HasPrefix(senderName, "SYSTEM") {
 				msgType = "system"
 			}
 			d.CallFunction(interstellar, "receive_p2p_message", []object.Object{
-				&object.String{Value: sender},
+				&object.String{Value: senderName},
 				&object.String{Value: content},
 				&object.String{Value: msgType},
 			})
@@ -99,7 +106,7 @@ func main() {
 	}
 
 	if isRemoteHub {
-		node := p2p.NewNode(d, *hubURL)
+		node = p2p.NewNode(d, *hubURL)
 		
 		d.P2PSendChat = func(sender, content string) {
 			node.SendChat(sender, content)
