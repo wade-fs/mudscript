@@ -42,22 +42,29 @@ func main() {
 	}
 	log.Println("MUD 引擎啟動成功！")
 
-	// 3. 初始化 WebSocket 與 P2P 信令中心
-	hub := signaling.NewHub(d) 
-	go hub.Run()
+	// 3. 初始化 WebSocket 與 P2P 信令中心 (若為 Hub 模式)
+	spaceID := os.Getenv("SPACE_ID")
+	normalizedSpaceID := strings.ReplaceAll(spaceID, "/", "-")
+	isHubMode := spaceID != "" && (strings.Contains(*hubURL, normalizedSpaceID) || strings.Contains(*hubURL, "localhost") || *hubURL == "none")
 
-	// 🚀 新增：同步玩家名稱至信令中心
-	d.OnUsernameUpdate = func(sid, newName string) {
-		hub.UpdateClientUsername(sid, newName)
+	var hub *signaling.Hub
+	if isHubMode {
+		hub = signaling.NewHub(d)
+		go hub.Run()
+		log.Println("🌟 偵測到雲端環境，啟動本地星際信令中心 (Signaling Hub) 於 /ws")
+
+		// 🚀 只有在 Hub 模式下才需要同步玩家名稱到全域
+		d.OnUsernameUpdate = func(sid, newName string) {
+			if hub != nil {
+				hub.UpdateClientUsername(sid, newName)
+			}
+		}
 	}
 
 	// 4. 🚀 P2P 整合核心：雙向連結驅動與信令系統
 	var node *p2p.Node
 
-	// A. 連結 P2P -> MUD (接收訊息)
-	// 若本機是 Hub (SPACE_ID 存在且 hub URL 指向自己)，則 Hub 只負責廣播，
-	// 不把 fs_session / ssh 訊息送進自己的 interstellar_d，避免重複處理。
-	isHubMode := os.Getenv("SPACE_ID") != "" && strings.Contains(*hubURL, os.Getenv("SPACE_ID"))
+	// 連結 P2P -> MUD (接收訊息)
 	d.OnP2PMessage = func(senderID, senderName, content string) {
 		// 🚀 關鍵修正：支援 __P2P_IGNORE__ 標記
 		// 如果訊息是以此標記開頭，代表是發送者不希望自己重複處理 (避免 loop)
@@ -74,12 +81,13 @@ func main() {
 		}
 
 		log.Printf("🌌 [P2P] 收到來自 %s(%s) 的訊息: %s", senderName, senderID, content)
-		// Hub 模式：只處理一般聊天，不處理 session/query/presence 協議封包
+		// Hub 模式：只處理一般聊天，不處理協議封包 (避免重複處理)
 		if isHubMode && (strings.HasPrefix(content, "fs_session|") ||
 			strings.HasPrefix(content, "fs_query|") ||
 			strings.HasPrefix(content, "fs_resp|") ||
 			strings.HasPrefix(content, "fs_presence|") ||
-			strings.HasPrefix(content, "dist_msg|")) {
+			strings.HasPrefix(content, "dist_msg|") ||
+			strings.Contains(content, "\"tag\":\"")) {
 			return
 		}
 		interstellar, err := d.LoadObject("/secure/interstellar_d.c")
@@ -97,14 +105,8 @@ func main() {
 	}
 
 	// B. 連結 MUD -> P2P (發送訊息)
-	isRemoteHub := *hubURL != "" && *hubURL != "none"
+	isRemoteHub := *hubURL != "" && *hubURL != "none" && !isHubMode
 	
-	// 🚀 安全檢查：如果目前是在 Hugging Face 上執行且 URL 指向自己，則不連線 (避免重複)
-	if os.Getenv("SPACE_ID") != "" && strings.Contains(*hubURL, os.Getenv("SPACE_ID")) {
-		log.Println("ℹ️ 偵測到於雲端 Hub 執行，略過自我 P2P 連線以避免重複訊息。")
-		isRemoteHub = false
-	}
-
 	if isRemoteHub {
 		node = p2p.NewNode(d, *hubURL)
 		
@@ -117,14 +119,18 @@ func main() {
 	} else {
 		// 如果自己是信令中心，直接透過 hub 廣播
 		d.P2PSendChat = func(sender, content string) {
-			hub.BroadcastChat(sender, content)
+			if hub != nil {
+				hub.BroadcastChat(sender, content)
+			}
 		}
 	}
 
 	// 5. 設定 HTTP 與 WebSocket 路由
-	http.HandleFunc("/ws", func(w http.ResponseWriter, r *http.Request) {
-		signaling.HandleWS(hub, w, r)
-	})
+	if hub != nil {
+		http.HandleFunc("/ws", func(w http.ResponseWriter, r *http.Request) {
+			signaling.HandleWS(hub, w, r)
+		})
+	}
 
 	// 🚀 混合模式網頁服務
 	setupStaticServer()
