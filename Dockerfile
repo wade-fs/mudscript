@@ -33,4 +33,4 @@ COPY --from=builder /app/web /app/web
 EXPOSE 7860
 
 # 啟動指令：作為 Hub 執行，並監聽 7860
-CMD ["./fsmud", "--port", "7860"]
+CMD ["./fsmud", "--port", "7860", "--hub", "none"]

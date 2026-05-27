@@ -59,9 +59,11 @@ func main() {
 	spaceID := os.Getenv("SPACE_ID")
 	normalizedSpaceID := strings.ReplaceAll(spaceID, "/", "-")
 	
-	// 如果 hubURL 包含自己的 SpaceID，或者指向 localhost，或者設為 none，我們就認定自己是 Hub 中心
-	isHubMode := spaceID != "" && strings.Contains(*hubURL, normalizedSpaceID)
-	if *hubURL == "none" || strings.Contains(*hubURL, "localhost") {
+	// 判斷邏輯：
+	// 1. 如果 hubURL 為 "none"，代表進入獨立運作模式 (Standalone Hub)
+	// 2. 如果處於 Hugging Face 環境且 hubURL 包含自己的 SpaceID，代表自己就是該 Hub 中心
+	isHubMode := (*hubURL == "none")
+	if spaceID != "" && normalizedSpaceID != "" && strings.Contains(*hubURL, normalizedSpaceID) {
 		isHubMode = true
 	}
 
