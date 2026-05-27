@@ -18,7 +18,9 @@ string generate_uuid() {
 
 void send_msg(string target_mudlib, mapping data) {
     data["from"] = FS_MUDLIB_ID;
-    p2p_broadcast(json_encode(data), FS_MUDLIB_ID, 1);
+    // 不加 p2p_ignore，讓接收方正常處理
+    // 重複處理由 receive_fs_session 內的 from == FS_MUDLIB_ID 過濾
+    p2p_broadcast(json_encode(data), FS_MUDLIB_ID);
 }
 
 // ──────────────────────────────────────────────────────────

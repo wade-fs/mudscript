@@ -27,7 +27,11 @@ void receive_p2p_message(string sender, string content, string type) {
     string msg_key = sender + ":" + content;
     int now = time();
     
-    int is_rpc = (strsrch(content, "dist_msg|") == 0) || (strsrch(content, "{\"tag\":\"dist_msg\"") == 0);
+    // fs_session 訊息不做 de-bounce（同一玩家可能連續送相同指令）
+    int is_rpc = (strsrch(content, "dist_msg|") == 0) || 
+                 (strsrch(content, "{\"tag\":\"dist_msg\"") == 0) ||
+                 (strsrch(content, "fs_session|") == 0) ||
+                 (strsrch(content, "{\"tag\":\"fs_session\"") == 0);
     
     if (!is_rpc && mapp(last_messages[msg_key]) && (now - last_messages[msg_key]["time"] < 2)) {
         return;
