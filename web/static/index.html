@@ -532,10 +532,14 @@
     function sendMsg() { 
         const v = msgInput.value.trim(); 
         if (!v) return; 
-        sendCmd(v); 
-        msgInput.value = ""; 
+        
+        // 🚀 關鍵修正：先解除遮罩標記，再發送，這樣 local log 才會顯示正確明文
+        const wasHidden = isInputHidden;
         isInputHidden = false;
         msgInput.style.webkitTextSecurity = "none";
+        
+        sendCmd(v); 
+        msgInput.value = ""; 
         msgInput.focus(); 
     }
     function fillInput(c) { msgInput.value = c + " "; msgInput.focus(); }

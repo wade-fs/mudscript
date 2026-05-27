@@ -121,7 +121,7 @@ func (h *Hub) Run() {
 					p.NextInputFunc = ""
 					p.InputHidden = false
 					h.mudDriver.RunCommand(p, p.Object, funcName, []object.Object{&object.String{Value: input}})
-					continue
+					continue // 🚀 重要：處理完 NextInputFunc 後必須繼續下一輪循環
 				}
 
 				expanded := h.mudDriver.RunCommand(p, p.Object, "expand_alias", []object.Object{&object.String{Value: input}})
@@ -167,10 +167,7 @@ func (h *Hub) Run() {
 				}
 
 				if (!found) {
-					// 由於上面已經呼叫過 process_input 且 res 為 0，代表指令未被攔截且非 Action
-					// 這裡其實不需要再次呼叫 process_input，因為 RunCommand(process_input) 已經執行過了
-					// 但為了保證 LPC 層的邏輯連貫性 (某些 MUD 可能依賴多次嘗試)，
-					// 在這裡我們可以選擇不做事，或者寫個註釋。
+					// 已在上方呼叫過 process_input 並處理過 Actions，若都未處理則結束
 				}
 			} else if msg.Type == "chat" {
 				// 🚀 階段 1：將訊息轉發給本地 MUD 驅動 (給 Hub 本身的玩家看)
@@ -182,11 +179,19 @@ func (h *Hub) Run() {
 				for _, peer := range h.clients {
 					// 路由策略：
 					// 1. 如果目標是 P2P 節點：一律轉發 (包含發送者，作為回信確認)
-					// 2. 如果目標是 Web 玩家：只有在對方「不是」發送者時才轉發
+					// 2. 如果目標是 Web 玩家：只有在對方「不是」發送者，且訊息「不是」協議封包時才轉發
 					if peer.IsP2P {
 						peer.SafeSend(msg)
 					} else if peer.ID != msg.From {
-						peer.SafeSend(msg)
+						// 🚀 關鍵過濾：不要把 protocol 封包轉發給 Web 玩家，避免 GUI 顯示亂碼/除錯訊息
+						isProtocol := strings.HasPrefix(msg.Payload, "{") || 
+									 strings.HasPrefix(msg.Payload, "fs_") ||
+									 strings.HasPrefix(msg.Payload, "dist_") ||
+									 strings.Contains(msg.Payload, "__P2P_IGNORE__")
+						
+						if !isProtocol {
+							peer.SafeSend(msg)
+						}
 					}
 				}
 			} else {

@@ -89,12 +89,12 @@ func main() {
 			}
 
 			if isSelf {
-				log.Printf("🌌 [P2P] 略過本機發出的訊息: %s", content)
+				// log.Printf("🌌 [P2P] 略過本機發出的訊息: %s", content)
 				return
 			}
 		}
 
-		log.Printf("🌌 [P2P] 收到來自 %s(%s) 的訊息: %s", senderName, senderID, content)
+		// log.Printf("🌌 [P2P] 收到來自 %s(%s) 的訊息: %s", senderName, senderID, content)
 		
 		// Hub 路由過濾策略：
 		// 1. 如果本機是 Hub 中心，且這是一則協議封包 (fs_session, fs_query 等)
