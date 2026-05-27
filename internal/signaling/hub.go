@@ -120,9 +120,8 @@ func (h *Hub) Run() {
 					funcName := p.NextInputFunc
 					p.NextInputFunc = ""
 					p.InputHidden = false
-					// fmt.Printf("[DEBUG] Handling input_to: %s for %s\n", funcName, p.Username)
 					h.mudDriver.RunCommand(p, p.Object, funcName, []object.Object{&object.String{Value: input}})
-					continue 
+					continue // 🚀 重要：處理完 NextInputFunc 後必須繼續下一輪循環
 				}
 
 				expanded := h.mudDriver.RunCommand(p, p.Object, "expand_alias", []object.Object{&object.String{Value: input}})
@@ -150,28 +149,24 @@ func (h *Hub) Run() {
 
 				p.CurrentVerb = verb
 
-				// 🚀 安全檢查：確保物件依然存在
+				// 🚀 安全檢查
 				if p.Object == nil {
 					continue
 				}
 
-				// 🚀 關鍵修正：優先呼叫 process_input，讓 user.c 的 SSH 攔截生效
+				// 🚀 關鍵修正：優先呼叫 process_input，這樣才能讓 user.c 的 SSH 攔截生效
 				// 如果 process_input 回傳 1 (已處理)，則跳過 Actions
 				res := h.mudDriver.RunCommand(p, p.Object, "process_input", []object.Object{&object.String{Value: input}})
-				if res != nil {
-					if i, ok := res.(*object.Integer); ok && i.Value != 0 {
-						continue
-					}
+				if i, ok := res.(*object.Integer); ok && i.Value != 0 {
+					continue
 				}
 
 				found := false
 				if p.Object.Actions != nil {
 					if action, exists := p.Object.Actions[verb]; exists {
 						res := h.mudDriver.RunCommand(p, action.Provider, action.FuncName, []object.Object{&object.String{Value: arg}})
-						if res != nil {
-							if i, ok := res.(*object.Integer); ok && i.Value != 0 {
-								found = true
-							}
+						if i, ok := res.(*object.Integer); ok && i.Value != 0 {
+							found = true
 						}
 					}
 				}
@@ -199,7 +194,7 @@ func (h *Hub) Run() {
 					if peer.IsP2P {
 						peer.SafeSend(msg)
 					} else if peer.ID != msg.From {
-						// 🚀 關鍵過濾：不要把 protocol 封包轉發給 Web 玩家，避免 GUI 顯示亂碼/除錯訊息
+						// 🚀 關鍵過濾：不要把 protocol 封包轉發給 Web 玩家，避免 GUI 顯示除錯訊息
 						isProtocol := strings.HasPrefix(msg.Payload, "{") || 
 									 strings.HasPrefix(msg.Payload, "fs_") ||
 									 strings.HasPrefix(msg.Payload, "dist_") ||

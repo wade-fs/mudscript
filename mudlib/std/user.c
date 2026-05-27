@@ -299,7 +299,7 @@ int process_input(string input) {
         }
     }
     
-    // 2. 呼叫基底類別處理 (含 command_d 呼叫)
+    // 2. 呼叫基底類別處理 (含 command_d 呼叫)。
     return ::process_input(input);
 }
 
