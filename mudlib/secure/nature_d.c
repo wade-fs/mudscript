@@ -115,6 +115,16 @@ void update_weather() {
     }
 }
 
+// 供玩家介面同步使用
+mapping query_nature_data() {
+    return ([
+        "is_day": is_day(),
+        "hour": query_hour(),
+        "weather": current_weather,
+        "season": query_season()
+    ]);
+}
+
 // ── 心跳邏輯 ─────────────────────────────────────────────
 
 void heart_beat() {

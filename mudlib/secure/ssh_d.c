@@ -77,6 +77,7 @@ void client_send_disconnect(object player) {
     player->delete_temp("ssh_pending");
     player->delete_temp("ssh_target");
     tell_object(player, HIM("[Fantasy Space] ") + "連線已關閉，你回到了現實。\n");
+    player->sync_remote_ui();
 }
 
 // ──────────────────────────────────────────────────────────
@@ -143,6 +144,7 @@ void receive_fs_session(mixed content) {
             player->set_temp("ssh_session_id", session_id);
             tell_object(player, HIM("[Fantasy Space] ") + "連線成功！你已登臨異界！\n\n");
             if (payload != "") tell_object(player, payload + "\n");
+            player->sync_remote_ui();
         }
         return;
     }
@@ -153,6 +155,7 @@ void receive_fs_session(mixed content) {
             player->delete_temp("ssh_pending");
             player->delete_temp("ssh_target");
             tell_object(player, RED("連線被拒絕：" + payload + "\n"));
+            player->sync_remote_ui();
         }
         return;
     }
@@ -175,6 +178,7 @@ void receive_fs_session(mixed content) {
             player->delete_temp("ssh_session_id");
             player->delete_temp("ssh_pending");
             player->delete_temp("ssh_target");
+            player->sync_remote_ui();
             return;
         }
         // 作為 Server 收到：銷毀 guest
