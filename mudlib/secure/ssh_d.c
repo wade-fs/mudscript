@@ -241,7 +241,12 @@ void receive_fs_session(mixed content) {
 }
 
 void do_guest_cmd(object guest, string cmd) {
-    if (guest) guest->do_remote_cmd(cmd);
+    if (!guest) {
+        printf("DEBUG [ssh_d]: do_guest_cmd failed, guest is null.\n");
+        return;
+    }
+    printf("DEBUG [ssh_d]: Routing cmd [%s] to guest %s\n", cmd, guest->query_name());
+    guest->do_remote_cmd(cmd);
 }
 
 void do_guest_setup(object guest) {
