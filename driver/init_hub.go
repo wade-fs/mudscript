@@ -13,7 +13,7 @@ func (d *Driver) InitializeHubData() {
 	// 1. 建立 system.o (原為 server.o，但 user 要求 system.o 內容為 server.o 格式)
 	systemPath := filepath.Join(d.Config.MudLibPath, "data/system.o")
 	if _, err := os.Stat(systemPath); os.IsNotExist(err) {
-		content := `{"mudlib_id":"fantasy.space","mudlib_name":"fantasy space"}`
+		content := `{"mudlib_id":"fantasy.space","mudlib_name":"狂想空間II"}`
 		if err := os.WriteFile(systemPath, []byte(content), 0644); err != nil {
 			log.Printf("❌ 無法建立 %s: %v", systemPath, err)
 		} else {

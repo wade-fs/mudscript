@@ -1,5 +1,5 @@
 // /cmds/admin/cmd_rename_world.c
-// 管理指令：為世界重新命名
+// 管理指令：為全域 MUD 重新命名
 
 #include "/include/ansi.h"
 
@@ -11,34 +11,35 @@ int main(object me, string verb, string arg) {
     }
 
     if (!arg || arg == "") {
-        write("用法：\n");
-        write("  rename_world -global <名稱> <ID>  重新命名全域 MUD\n");
-        write("  rename_world <名稱>              重新命名目前的創界地圖\n");
+        write("用法：rename_world <mudlib_id> <mudlib_name>\n");
+        write("範例：\n");
+        write("  rename_world fantasy.space \"Fantasy Space\"\n");
+        write("  rename_world my.mud MyMud\n");
         return 1;
     }
 
-    // 1. 處理全域重新命名
-    string gname, gid;
-    if (sscanf(arg, "-global %s %s", gname, gid) == 2) {
-        object system_d = load_object("/secure/system_d");
-        if (system_d) {
-            system_d->set_mudlib_name(gname, gid);
-            write(HIG("全域 MUD 重新命名為：") + gname + " (" + gid + ")\n");
-            return 1;
+    string gid, gname;
+    // 優先處理帶引號的情況
+    if (sscanf(arg, "%s \"%s\"", gid, gname) == 2) {
+        // 移除結尾可能存在的引號
+        if (strlen(gname) > 0 && gname[strlen(gname)-1..strlen(gname)-1] == "\"") {
+            gname = gname[0..strlen(gname)-2];
         }
-    }
-
-    // 2. 處理創界重新命名
-    object env = environment(me);
-    if (env && env->query_is_lm_world()) {
-        env->set_world_name(arg);
-        write(HIG("目前的創界地圖已重新命名為：") + arg + "\n");
-        // 強制廣播給所有人更新 UI (包含標題)
-        env->broadcast_map_all();
+    } else if (sscanf(arg, "%s %s", gid, gname) != 2) {
+        write("語法錯誤！用法：rename_world <mudlib_id> <mudlib_name>\n");
         return 1;
     }
 
-    write(RED("這裡不是創界地圖，無法進行局部命名。\n"));
+    object system_d = load_object("/secure/system_d");
+    if (system_d) {
+        system_d->set_mudlib_name(gname, gid);
+        write(HIG("✅ 全域 MUD 重新命名成功：") + "\n");
+        write("   ID  : " + gid + "\n");
+        write("   名稱: " + gname + "\n");
+        return 1;
+    }
+
+    write(RED("❌ 錯誤：無法載入 system_d。\n"));
     return 1;
 }
 
@@ -47,9 +48,11 @@ string query_category() { return "Admin"; }
 
 string help() {
     return "【管理指令：rename_world】\n\n" +
-           "此指令僅限 God 使用。\n\n" +
-           "1. 修改全域 MUD 名稱 (影響 P2P):\n" +
-           "   rename_world -global <名稱> <ID>\n\n" +
-           "2. 修改當前所在的創界地圖名稱:\n" +
-           "   rename_world <名稱>\n";
+           "此指令僅限 God 使用，用於修改全域 MUD 的識別 ID 與顯示名稱。\n\n" +
+           "語法：\n" +
+           "  rename_world <mudlib_id> <mudlib_name>\n\n" +
+           "範例：\n" +
+           "  rename_world fantasy.space \"Fantasy Space\"\n" +
+           "  rename_world test.mud TestMUD\n\n" +
+           "注意：如果名稱中包含空白，請務必使用雙引號 \"\" 括起來。\n";
 }

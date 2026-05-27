@@ -65,6 +65,10 @@ func main() {
 		isHubMode = true
 	}
 
+	if isHubMode {
+		d.InitializeHubData()
+	}
+
 	// 連結 P2P -> MUD (接收訊息)
 	d.OnP2PMessage = func(senderID, senderName, content string) {
 		// 🚀 關鍵修正：支援 __P2P_IGNORE__ 標記
