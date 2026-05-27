@@ -45,7 +45,7 @@ void start_session(object player, string target_mudlib) {
     
     tell_object(player, HIM("[Fantasy Space] ") + "正在請求連線至 " + target_mudlib + "...\n");
 
-    string payload = player->query_id() + "|" + player->query_name();
+    string payload = player->get_id() + "|" + player->query_name();
     string msg = "fs_session|" + FS_MUDLIB_ID + "|" + target_mudlib + "|connect|" + session_id + "|" + payload;
     send_msg(target_mudlib, msg);
 }

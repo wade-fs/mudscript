@@ -54,15 +54,25 @@ func main() {
 	// 4. 🚀 P2P 整合核心：雙向連結驅動與信令系統
 	
 	// A. 連結 P2P -> MUD (接收訊息)
+	// 若本機是 Hub (SPACE_ID 存在且 hub URL 指向自己)，則 Hub 只負責廣播，
+	// 不把 fs_session / ssh 訊息送進自己的 interstellar_d，避免重複處理。
+	isHubMode := os.Getenv("SPACE_ID") != "" && strings.Contains(*hubURL, os.Getenv("SPACE_ID"))
 	d.OnP2PMessage = func(sender, content string) {
 		log.Printf("🌌 [P2P] 收到來自 %s 的訊息: %s", sender, content)
+		// Hub 模式：只處理一般聊天，不處理 session/query/presence 協議封包
+		if isHubMode && (strings.HasPrefix(content, "fs_session|") ||
+			strings.HasPrefix(content, "fs_query|") ||
+			strings.HasPrefix(content, "fs_resp|") ||
+			strings.HasPrefix(content, "fs_presence|") ||
+			strings.HasPrefix(content, "dist_msg|")) {
+			return
+		}
 		interstellar, err := d.LoadObject("/secure/interstellar_d.c")
 		if err == nil && interstellar != nil {
 			msgType := "chat"
 			if strings.HasPrefix(sender, "SYSTEM") {
 				msgType = "system"
 			}
-			// 🚀 關鍵：確保傳遞給 LPC 的參數數量與 receive_p2p_message(3) 完全一致
 			d.CallFunction(interstellar, "receive_p2p_message", []object.Object{
 				&object.String{Value: sender},
 				&object.String{Value: content},
