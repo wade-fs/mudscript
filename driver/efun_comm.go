@@ -68,7 +68,8 @@ func (d *Driver) registerCommEfuns(obj *object.LPCObject) {
 				if tpObj, ok := tp.(*object.LPCObject); ok && tpObj != nil {
 					target = tpObj
 				} else if obj.IsInteractive {
-					// 若無 this_player 但呼叫物件本身是互動式 (例如 Guest 初始化中)，則導向自己
+					// 🚀 關鍵修正：若無 this_player 執行緒，但呼叫物件本身是互動式 (例如 Guest 執行指令中)
+					// 則強制將輸出導向自己。這解決了 P2P 指令無 this_player context 的問題。
 					target = obj
 				}
 
@@ -244,6 +245,36 @@ func (d *Driver) registerCommEfuns(obj *object.LPCObject) {
 				}
 			}
 			return &object.Nil{}
+		},
+	})
+
+	// 語法: void printf(string fmt, mixed arg1, ...)
+	// 說明: 格式化輸出訊息給當前玩家。
+	// 範例: printf("你的經驗值是 %d 點。\n", exp);
+	obj.Vars.Set("printf", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 1 { return &object.Nil{} }
+			fmtStr, ok := args[0].(*object.String)
+			if !ok { return object.NewError("printf 第一個參數必須是格式字串") }
+
+			var goArgs []interface{}
+			for _, arg := range args[1:] {
+				switch v := arg.(type) {
+				case *object.String: goArgs = append(goArgs, v.Value)
+				case *object.Integer: goArgs = append(goArgs, v.Value)
+				case *object.Float: goArgs = append(goArgs, v.Value)
+				case *object.Nil: goArgs = append(goArgs, "nil")
+				default: goArgs = append(goArgs, v.Inspect())
+				}
+			}
+
+			formatted := fmt.Sprintf(fmtStr.Value, goArgs...)
+			
+			// 直接複用 write efun 的發送邏輯
+			writeObj, exists := obj.Vars.Get("write")
+			if !exists { return &object.Nil{} }
+			writeFn := writeObj.(*object.Builtin).Fn
+			return writeFn(&object.String{Value: formatted})
 		},
 	})
 }

@@ -216,6 +216,11 @@
 - **說明**: 發送訊息給當前玩家。支援 {r} 等 ANSI 顏色標籤。
 - **範例**: `write("{r}你好！{n}\n");`
 
+### `printf()`
+- **語法**: `void printf(string fmt, mixed arg1, ...)`
+- **說明**: 格式化輸出訊息給當前玩家。
+- **範例**: `printf("你的經驗值是 %d 點。\n", exp);`
+
 ### `shout()`
 - **語法**: `void shout(string msg)`
 - **說明**: 對全服線上玩家廣播。
