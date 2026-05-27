@@ -36,7 +36,24 @@ func main() {
 
 	// 2. 初始化 MUD 腳本引擎
 	d := driver.New(config)
-	
+
+	// A. 偵測是否為雲端 Hub 模式 (決定是否要對外連線)
+	// Hugging Face 的 SPACE_ID 可能是 "user/space-name"，但 URL 會是 "user-space-name.hf.space"
+	spaceID := os.Getenv("SPACE_ID")
+	normalizedSpaceID := strings.ReplaceAll(spaceID, "/", "-")
+
+	// 判斷邏輯：
+	// 1. 如果 hubURL 為 "none"，代表進入獨立運作模式 (Standalone Hub)
+	// 2. 如果處於 Hugging Face 環境且 hubURL 包含自己的 SpaceID，代表自己就是該 Hub 中心
+	isHubMode := (*hubURL == "none")
+	if spaceID != "" && normalizedSpaceID != "" && strings.Contains(*hubURL, normalizedSpaceID) {
+		isHubMode = true
+	}
+
+	if isHubMode {
+		d.InitializeHubData()
+	}
+
 	if err := d.Start(); err != nil {
 		panic(err)
 	}
@@ -54,22 +71,6 @@ func main() {
 	// 4. 🚀 P2P 整合核心：雙向連結驅動與信令系統
 	var node *p2p.Node
 
-	// A. 偵測是否為雲端 Hub 模式 (決定是否要對外連線)
-	// Hugging Face 的 SPACE_ID 可能是 "user/space-name"，但 URL 會是 "user-space-name.hf.space"
-	spaceID := os.Getenv("SPACE_ID")
-	normalizedSpaceID := strings.ReplaceAll(spaceID, "/", "-")
-	
-	// 判斷邏輯：
-	// 1. 如果 hubURL 為 "none"，代表進入獨立運作模式 (Standalone Hub)
-	// 2. 如果處於 Hugging Face 環境且 hubURL 包含自己的 SpaceID，代表自己就是該 Hub 中心
-	isHubMode := (*hubURL == "none")
-	if spaceID != "" && normalizedSpaceID != "" && strings.Contains(*hubURL, normalizedSpaceID) {
-		isHubMode = true
-	}
-
-	if isHubMode {
-		d.InitializeHubData()
-	}
 
 	// 連結 P2P -> MUD (接收訊息)
 	d.OnP2PMessage = func(senderID, senderName, content string) {
