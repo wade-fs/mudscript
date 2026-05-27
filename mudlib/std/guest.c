@@ -54,6 +54,10 @@ void quit() {
 void do_remote_cmd(string cmd) {
     if (!cmd || cmd == "") return;
     
+    // DEBUG
+    object wade = find_player("wade");
+    if (wade) tell_object(wade, CYN("DEBUG Guest Executing: ") + cmd + "\n");
+
     // 使用 command() 會觸發 Go Driver 設定 PlayerContext
     // 這樣 write() 才能正確透過 this_player() 找到 Guest 物件並觸發 catch_tell
     command(cmd);

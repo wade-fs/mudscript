@@ -233,10 +233,15 @@ void receive_fs_session(mixed content) {
     if (msg_type == "input") {
         object guest = _find_guest_by_session(session_id);
         if (guest) {
-            guest->do_remote_cmd(payload);
+            // 🚀 關鍵修正：改用 call_out 觸發指令，確保 Driver 帶入 PlayerContext
+            call_out("do_guest_cmd", 0, guest, payload);
         }
         return;
     }
+}
+
+void do_guest_cmd(object guest, string cmd) {
+    if (guest) guest->do_remote_cmd(cmd);
 }
 
 void do_guest_setup(object guest) {
