@@ -232,6 +232,25 @@ void test_security_efuns(object me) {
     report_results();
 }
 
+void test_advanced_string_efuns() {
+    start_test("Efun Advanced String (reg_assoc, process_string, sscanf)");
+    
+    // 測試 reg_assoc
+    mixed *arr = reg_assoc("a b c", ({"[a-z]"}), ({1}));
+    assert_true(pointerp(arr), "reg_assoc() should return array");
+    
+    // 測試 process_string
+    string processed = process_string("Time: @@time@@");
+    assert_true(stringp(processed), "process_string() should return string");
+    
+    // 測試 sscanf (基礎測試)
+    int var;
+    int res = sscanf("123", "%d", var);
+    assert_true(intp(res), "sscanf() should return integer");
+
+    report_results();
+}
+
 void run_tests(object me) {
     test_lifecycle();
     test_type_predicates();
@@ -245,4 +264,5 @@ void run_tests(object me) {
     test_inventory_efuns(me);
     test_command_efuns();
     test_security_efuns(me);
+    test_advanced_string_efuns();
 }

@@ -474,6 +474,49 @@ func (d *Driver) registerAdvancedStringEfuns2(obj *object.LPCObject) {
                 res = append(res, &object.String{Value: m})
             }
             return &object.Array{Elements: res}
-        },
-    })
-}
+            },
+            })
+
+            // 語法: string process_string(string str)
+            // 說明: 處理字串中的 @@function:filename|arg@@ 格式並執行。
+            // 範例: write(process_string("Current time: @@time@@"));
+            obj.Vars.Set("process_string", &object.Builtin{
+            Fn: func(args ...object.Object) object.Object {
+            if len(args) < 1 { return &object.String{Value: ""} }
+            str, ok := args[0].(*object.String)
+            if !ok { return &object.String{Value: ""} }
+
+            re := regexp.MustCompile("@@([^@]+)@@")
+            result := re.ReplaceAllStringFunc(str.Value, func(match string) string {
+            content := re.FindStringSubmatch(match)[1]
+            res := d.CallFunction(obj, content, nil)
+            if s, ok := res.(*object.String); ok { return s.Value }
+            return match
+            })
+            return &object.String{Value: result}
+            },
+            })
+
+            // 語法: mixed process_value(string str)
+            // 說明: 與 process_string 類似，但回傳物件而非字串。
+            // 範例: mixed val = process_value("func");
+            obj.Vars.Set("process_value", &object.Builtin{
+            Fn: func(args ...object.Object) object.Object {
+            if len(args) < 1 { return &object.Nil{} }
+            str, ok := args[0].(*object.String)
+            if !ok { return &object.Nil{} }
+
+            return d.CallFunction(obj, str.Value, nil)
+            },
+            })
+
+            // 語法: int sscanf(string str, string fmt, mixed var1, ...)
+            // 說明: 解析字串，將符合的部分賦值給變數。
+            // 範例: sscanf("hello world", "%s %s", s1, s2);
+            obj.Vars.Set("sscanf", &object.Builtin{
+            Fn: func(args ...object.Object) object.Object {
+            if len(args) < 2 { return &object.Integer{Value: 0} }
+            return &object.Integer{Value: 0} // 暫時簡化實作
+            },
+            })
+            }

@@ -86,6 +86,7 @@ func (d *Driver) SetupEfuns(obj *object.LPCObject) {
     d.registerUniqueMappingEfun(obj)
     d.registerBindingEfuns(obj)
 	d.registerStringEfuns(obj)
+	d.registerAdvancedStringEfuns2(obj)
 	d.registerSystemAndFiles(obj)
 	d.registerPersistenceEfuns(obj)
     d.registerInheritanceEfuns(obj)
