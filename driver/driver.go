@@ -30,9 +30,10 @@ type Driver struct {
 	CallOuts     []*ScheduledCall
 	Config       DriverConfig
 	shutdownCh   chan struct{}
-
-	MasterObject *object.LPCObject
-	SimulEfunObj *object.LPCObject // 🚀 新增：模擬 Efun 物件
+MasterObject *object.LPCObject
+SimulEfunObj *object.LPCObject // 🚀 新增：模擬 Efun 物件
+StartTime    time.Time
+}
 	RootUID      string
 	BackboneUID  string
 
@@ -62,8 +63,9 @@ func New(config DriverConfig) *Driver {
 		CallOuts:    make([]*ScheduledCall, 0),
 		Config:      config,
 		shutdownCh:  make(chan struct{}),
-	}
-}
+		StartTime:   time.Now(),
+		}
+		}
 
 func (d *Driver) Start() error {
 	masterFile := d.Config.MasterFile

@@ -59,7 +59,7 @@ func (d *Driver) GetPreviousObject() *object.LPCObject {
 	if len(stack) < 2 {
 		return nil
 	}
-	
+
 	// 堆疊頂端是目前正在執行的 (this_object)
 	// 前一個就是 previous_object
 	// 但要排除連續在同一個物件內的函式呼叫

@@ -10,7 +10,7 @@ import (
 	"mudscript/object"
 )
 
-//取得當前 Goroutine ID
+// 取得當前 Goroutine ID
 func getGID() uint64 {
 	b := make([]byte, 64)
 	b = b[:runtime.Stack(b, false)]

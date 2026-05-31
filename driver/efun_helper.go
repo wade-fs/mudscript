@@ -55,7 +55,9 @@ func (d *Driver) executeCallback(obj *object.LPCObject, fnArg object.Object, arg
 		}
 
 		target := v.Target
-		if target == nil { target = obj }
+		if target == nil {
+			target = obj
+		}
 		// 合併綁定參數與傳入參數
 		callArgs := append([]object.Object{}, v.BoundArgs...)
 		callArgs = append(callArgs, args...)

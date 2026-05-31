@@ -133,10 +133,10 @@ func (d *Driver) processCleanUp() {
 		// 呼叫 LPC 層級的 clean_up(inherited_count)
 		// 這裡傳入 0 代表目前不追蹤繼承計數 (或是可以簡單實作)
 		d.CallFunction(obj, "clean_up", []object.Object{&object.Integer{Value: 0}})
-		
+
 		// 檢查是否最後活動時間過久 (預設 30 分鐘沒活動)
 		// 這只是個保險，真正的清理邏輯應該在 LPC 的 clean_up 中決定是否 destruct
-		if now - obj.LastActivity > 1800 {
+		if now-obj.LastActivity > 1800 {
 			// 如果物件沒人(Inventory為空) 且是 Clone，則考慮主動回收
 			// 這部分通常交給 LPC 的 clean_up 實作會更精確
 		}

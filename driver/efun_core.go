@@ -15,11 +15,15 @@ func (d *Driver) registerCoreEfuns(obj *object.LPCObject) {
 	obj.Vars.Set("userp", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
 			if len(args) == 0 {
-				if obj.IsInteractive { return &object.Integer{Value: 1} }
+				if obj.IsInteractive {
+					return &object.Integer{Value: 1}
+				}
 				return &object.Integer{Value: 0}
 			}
 			if o, ok := args[0].(*object.LPCObject); ok {
-				if o.IsInteractive { return &object.Integer{Value: 1} }
+				if o.IsInteractive {
+					return &object.Integer{Value: 1}
+				}
 				if strings.HasPrefix(o.Filename, "/std/user.c") || strings.HasPrefix(o.Filename, "/data/user/") {
 					return &object.Integer{Value: 1}
 				}
@@ -59,10 +63,14 @@ func (d *Driver) registerCoreEfuns(obj *object.LPCObject) {
 	// 範例: call_other(this_player(), "set_" + prop_name, value);
 	obj.Vars.Set("call_other", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
-			if len(args) < 2 { return &object.Nil{} }
+			if len(args) < 2 {
+				return &object.Nil{}
+			}
 			target, ok1 := args[0].(*object.LPCObject)
 			funcName, ok2 := args[1].(*object.String)
-			if !ok1 || !ok2 { return &object.Nil{} }
+			if !ok1 || !ok2 {
+				return &object.Nil{}
+			}
 			return d.CallFunction(target, funcName.Value, args[2:])
 		},
 	})
@@ -87,10 +95,14 @@ func (d *Driver) registerCoreEfuns(obj *object.LPCObject) {
 	// 範例: object user = find_player(arg);
 	obj.Vars.Set("find_player", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
-			if len(args) == 0 { return &object.Nil{} }
+			if len(args) == 0 {
+				return &object.Nil{}
+			}
 			idStr, ok := args[0].(*object.String)
-			if !ok { return &object.Nil{} }
-			
+			if !ok {
+				return &object.Nil{}
+			}
+
 			var target object.Object = &object.Nil{}
 			d.interactiveObjects.Range(func(key, value interface{}) bool {
 				conn, ok := value.(*PlayerConnection)
@@ -203,11 +215,15 @@ func (d *Driver) registerCoreEfuns(obj *object.LPCObject) {
 	// 範例: if (living(inv[i])) inv[i]->set_heart_beat(1);
 	obj.Vars.Set("set_heart_beat", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
-			if len(args) < 1 { return object.NewError("set_heart_beat 需要 1 個整數參數") }
+			if len(args) < 1 {
+				return object.NewError("set_heart_beat 需要 1 個整數參數")
+			}
 			flag, ok := args[0].(*object.Integer)
-			if !ok { return object.NewError("set_heart_beat 參數必須是整數") }
+			if !ok {
+				return object.NewError("set_heart_beat 參數必須是整數")
+			}
 			enable := flag.Value > 0
-			
+
 			// 🚀 修正：直接使用傳入的 obj，確保是設定在 NPC 自己身上
 			// 而不是誤設在當前發話的玩家 (GetThisObject) 身上。
 			d.SetHeartBeat(obj, enable)
@@ -215,17 +231,17 @@ func (d *Driver) registerCoreEfuns(obj *object.LPCObject) {
 		},
 	})
 
-		// 語法: int query_heart_beat([object ob])
+	// 語法: int query_heart_beat([object ob])
 	// 說明: 查詢物件的心跳狀態，回傳該物件設定的 heart_beat 頻率 (或 0 代表關閉)。
 	// 範例: if (query_heart_beat(me)) write("心跳運作中\n");
 	obj.Vars.Set("query_heart_beat", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
 			target := getTarget(args, obj)
-			
+
 			d.mu.RLock()
 			_, exists := d.Heartbeats[target]
 			d.mu.RUnlock()
-			
+
 			if exists {
 				return &object.Integer{Value: 1}
 			}
@@ -262,10 +278,14 @@ func (d *Driver) registerCoreEfuns(obj *object.LPCObject) {
 	// 範例: set_living_name("wade");
 	obj.Vars.Set("set_living_name", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
-			if len(args) < 1 { return evaluator.NilValue }
+			if len(args) < 1 {
+				return evaluator.NilValue
+			}
 			name, ok := args[0].(*object.String)
-			if !ok { return evaluator.NilValue }
-			
+			if !ok {
+				return evaluator.NilValue
+			}
+
 			d.UpdatePlayerUsername(obj, name.Value)
 			return evaluator.NilValue
 		},
@@ -276,10 +296,14 @@ func (d *Driver) registerCoreEfuns(obj *object.LPCObject) {
 	// 範例: add_action("do_look", "look");
 	obj.Vars.Set("add_action", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
-			if len(args) < 2 { return object.NewError("add_action 需 2 個字串參數") }
+			if len(args) < 2 {
+				return object.NewError("add_action 需 2 個字串參數")
+			}
 			funcName, ok1 := args[0].(*object.String)
 			verb, ok2 := args[1].(*object.String)
-			if !ok1 || !ok2 { return object.NewError("add_action 參數型別錯誤") }
+			if !ok1 || !ok2 {
+				return object.NewError("add_action 參數型別錯誤")
+			}
 
 			playerObj := obj
 			if p := d.GetCurrentPlayer(); p != nil && p.Object != nil {
@@ -330,10 +354,10 @@ func (d *Driver) registerCoreEfuns(obj *object.LPCObject) {
 					if pConn == nil {
 						pConn = &PlayerConnection{Object: obj, IsActive: true}
 					}
-					
+
 					// 🚀 使用 RunCommand 封裝以確保 GetCurrentPlayer 正常
 					res := d.RunCommand(pConn, action.Provider, action.FuncName, []object.Object{&object.String{Value: arg}})
-					
+
 					if i, ok := res.(*object.Integer); ok && i.Value != 0 {
 						return &object.Integer{Value: 1}
 					}
@@ -344,11 +368,11 @@ func (d *Driver) registerCoreEfuns(obj *object.LPCObject) {
 			// 2. 備援：呼叫物件本身的 process_input (通常在 user.c 或 npc.c 實作)
 			pConn := d.getPlayerConnection(obj)
 			if pConn == nil {
-			        pConn = &PlayerConnection{Object: obj, IsActive: true}
+				pConn = &PlayerConnection{Object: obj, IsActive: true}
 			}
 			res := d.RunCommand(pConn, obj, "process_input", []object.Object{&object.String{Value: input}})
 			if i, ok := res.(*object.Integer); ok && i.Value != 0 {
-			        return &object.Integer{Value: 1}
+				return &object.Integer{Value: 1}
 			}
 			return &object.Integer{Value: 0}
 		},
@@ -376,7 +400,9 @@ func (d *Driver) registerCoreEfuns(obj *object.LPCObject) {
 	obj.Vars.Set("this_player", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
 			p := d.GetCurrentPlayer()
-			if p != nil && p.Object != nil { return p.Object }
+			if p != nil && p.Object != nil {
+				return p.Object
+			}
 			return &object.Nil{}
 		},
 	})
@@ -394,22 +420,26 @@ func (d *Driver) registerCoreEfuns(obj *object.LPCObject) {
 	obj.Vars.Set("previous_object", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
 			prev := d.GetPreviousObject()
-			if prev != nil { return prev }
+			if prev != nil {
+				return prev
+			}
 			return &object.Nil{}
 		},
 	})
 }
 
 func (d *Driver) registerErrorEfun(obj *object.LPCObject) {
-    obj.Vars.Set("error", &object.Builtin{
-        Fn: func(args ...object.Object) object.Object {
-            msg := "未知錯誤"
-            if len(args) > 0 {
-                if s, ok := args[0].(*object.String); ok { msg = s.Value }
-            }
-            return object.NewError(msg)
-        },
-    })
+	obj.Vars.Set("error", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			msg := "未知錯誤"
+			if len(args) > 0 {
+				if s, ok := args[0].(*object.String); ok {
+					msg = s.Value
+				}
+			}
+			return object.NewError(msg)
+		},
+	})
 }
 
 func (d *Driver) registerSetQueryEfuns(obj *object.LPCObject) {
@@ -418,22 +448,30 @@ func (d *Driver) registerSetQueryEfuns(obj *object.LPCObject) {
 	// 範例: set("hp", 100);
 	obj.Vars.Set("set", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
-			if len(args) < 2 { return &object.Nil{} }
+			if len(args) < 2 {
+				return &object.Nil{}
+			}
 			key, ok1 := args[0].(*object.String)
-			if !ok1 { return &object.Nil{} }
+			if !ok1 {
+				return &object.Nil{}
+			}
 			obj.Vars.Set(key.Value, args[1])
 			return &object.Nil{}
 		},
 	})
-    
-    // 語法: mixed query(string key)
+
+	// 語法: mixed query(string key)
 	// 說明: 查詢物件的屬性值。
 	// 範例: int hp = query("hp");
 	obj.Vars.Set("query", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
-			if len(args) < 1 { return &object.Nil{} }
+			if len(args) < 1 {
+				return &object.Nil{}
+			}
 			key, ok := args[0].(*object.String)
-			if !ok { return &object.Nil{} }
+			if !ok {
+				return &object.Nil{}
+			}
 			if val, exists := obj.Vars.Get(key.Value); exists {
 				return val
 			}
@@ -446,10 +484,14 @@ func (d *Driver) registerSetQueryEfuns(obj *object.LPCObject) {
 	// 範例: remove_action("look");
 	obj.Vars.Set("remove_action", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
-			if len(args) < 1 { return &object.Integer{Value: 0} }
+			if len(args) < 1 {
+				return &object.Integer{Value: 0}
+			}
 			verb, ok := args[0].(*object.String)
-			if !ok { return &object.Integer{Value: 0} }
-			
+			if !ok {
+				return &object.Integer{Value: 0}
+			}
+
 			if obj.Actions != nil {
 				delete(obj.Actions, verb.Value)
 				return &object.Integer{Value: 1}
@@ -480,10 +522,14 @@ func (d *Driver) registerSetQueryEfuns(obj *object.LPCObject) {
 	// 範例: notify_fail("你不知道該怎麼做。\n");
 	obj.Vars.Set("notify_fail", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
-			if len(args) < 1 { return &object.Nil{} }
+			if len(args) < 1 {
+				return &object.Nil{}
+			}
 			msg, ok := args[0].(*object.String)
-			if !ok { return &object.Nil{} }
-			
+			if !ok {
+				return &object.Nil{}
+			}
+
 			pConn := d.GetConnectionFromObject(obj)
 			if pConn != nil {
 				pConn.NotifyFail = msg.Value
@@ -507,104 +553,118 @@ func (d *Driver) registerSetQueryEfuns(obj *object.LPCObject) {
 // 說明: 尋找第一個標記為 living 且 id 符合 str 的生物。
 // 範例: object npc = find_living("guard");
 func (d *Driver) registerFindLivingEfun(obj *object.LPCObject) {
-    obj.Vars.Set("find_living", &object.Builtin{
-        Fn: func(args ...object.Object) object.Object {
-            if len(args) < 1 { return &object.Nil{} }
-            idStr, ok := args[0].(*object.String)
-            if !ok { return &object.Nil{} }
-            
-            d.mu.RLock()
-            defer d.mu.RUnlock()
-            for _, ob := range d.ObjectTable {
-                if ob != nil && ob.IsLiving && !ob.IsDestructed {
-                    res := d.CallFunction(ob, "id", []object.Object{idStr})
-                    if isLPCTrue(res) { return ob }
-                }
-            }
-            return &object.Nil{}
-        },
-    })
+	obj.Vars.Set("find_living", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 1 {
+				return &object.Nil{}
+			}
+			idStr, ok := args[0].(*object.String)
+			if !ok {
+				return &object.Nil{}
+			}
+
+			d.mu.RLock()
+			defer d.mu.RUnlock()
+			for _, ob := range d.ObjectTable {
+				if ob != nil && ob.IsLiving && !ob.IsDestructed {
+					res := d.CallFunction(ob, "id", []object.Object{idStr})
+					if isLPCTrue(res) {
+						return ob
+					}
+				}
+			}
+			return &object.Nil{}
+		},
+	})
 }
 
 func (d *Driver) registerSecurityEfuns(obj *object.LPCObject) {
-    // 語法: string getuid(object ob)
-    obj.Vars.Set("getuid", &object.Builtin{
-        Fn: func(args ...object.Object) object.Object {
-            // target := obj // unused
-            // 簡化實作：假設 LPC 物件有個 UID 屬性，或從檔案名稱推斷
-            // 這裡先回傳 placeholder
-            return &object.String{Value: "root"}
-        },
-    })
-    
-    // 語法: string geteuid(object ob)
-    obj.Vars.Set("geteuid", &object.Builtin{
-        Fn: func(args ...object.Object) object.Object {
-            return &object.String{Value: "root"}
-        },
-    })
+	// 語法: string getuid(object ob)
+	obj.Vars.Set("getuid", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			// target := obj // unused
+			// 簡化實作：假設 LPC 物件有個 UID 屬性，或從檔案名稱推斷
+			// 這裡先回傳 placeholder
+			return &object.String{Value: "root"}
+		},
+	})
 
-    // 語法: int seteuid(string euid)
-    obj.Vars.Set("seteuid", &object.Builtin{
-        Fn: func(args ...object.Object) object.Object {
-            // 權限檢查邏輯通常由 Master 物件控制，這裡簡化處理
-            return &object.Integer{Value: 1}
-        },
-    })
+	// 語法: string geteuid(object ob)
+	obj.Vars.Set("geteuid", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			return &object.String{Value: "root"}
+		},
+	})
 
-    // 語法: int export_uid(object ob)
-    obj.Vars.Set("export_uid", &object.Builtin{
-        Fn: func(args ...object.Object) object.Object {
-            return &object.Integer{Value: 1}
-        },
-    })
+	// 語法: int seteuid(string euid)
+	obj.Vars.Set("seteuid", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			// 權限檢查邏輯通常由 Master 物件控制，這裡簡化處理
+			return &object.Integer{Value: 1}
+		},
+	})
 
-    // 語法: object master()
-    obj.Vars.Set("master", &object.Builtin{
-        Fn: func(args ...object.Object) object.Object {
-            return d.MasterObject
-        },
-    })
+	// 語法: int export_uid(object ob)
+	obj.Vars.Set("export_uid", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			return &object.Integer{Value: 1}
+		},
+	})
+
+	// 語法: object master()
+	obj.Vars.Set("master", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			return d.MasterObject
+		},
+	})
 }
 
 func (d *Driver) registerPrivilegeEfuns(obj *object.LPCObject) {
-    // 語法: void set_privs(object ob, string privs)
-    // 說明: 設定物件的特權字串。
-    // 範例: set_privs(this_object(), "wizard");
-    obj.Vars.Set("set_privs", &object.Builtin{
-        Fn: func(args ...object.Object) object.Object {
-            if len(args) < 2 { return &object.Nil{} }
-            target, ok1 := args[0].(*object.LPCObject)
-            privs, ok2 := args[1].(*object.String)
-            if !ok1 || !ok2 { return &object.Nil{} }
-            target.Vars.Set("_privs", privs)
-            return &object.Nil{}
-        },
-    })
-    
-    // 語法: string query_privs(object ob)
-    // 說明: 查詢物件的特權字串。
-    // 範例: string privs = query_privs(this_object());
-    obj.Vars.Set("query_privs", &object.Builtin{
-        Fn: func(args ...object.Object) object.Object {
-            target := obj
-            if len(args) > 0 {
-                if t, ok := args[0].(*object.LPCObject); ok { target = t }
-            }
-            if val, exists := target.Vars.Get("_privs"); exists {
-                if s, ok := val.(*object.String); ok { return s }
-            }
-            return &object.String{Value: ""}
-        },
-    })
-    
-    // 語法: object *all_previous_objects()
-    // 說明: 回傳呼叫鏈中所有前置物件的陣列。
-    // 範例: object *objs = all_previous_objects();
-    obj.Vars.Set("all_previous_objects", &object.Builtin{
-        Fn: func(args ...object.Object) object.Object {
-            // 此處需要 Driver 的 CallStack 支援，目前簡化處理
-            return &object.Array{Elements: []object.Object{}}
-        },
-    })
+	// 語法: void set_privs(object ob, string privs)
+	// 說明: 設定物件的特權字串。
+	// 範例: set_privs(this_object(), "wizard");
+	obj.Vars.Set("set_privs", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 2 {
+				return &object.Nil{}
+			}
+			target, ok1 := args[0].(*object.LPCObject)
+			privs, ok2 := args[1].(*object.String)
+			if !ok1 || !ok2 {
+				return &object.Nil{}
+			}
+			target.Vars.Set("_privs", privs)
+			return &object.Nil{}
+		},
+	})
+
+	// 語法: string query_privs(object ob)
+	// 說明: 查詢物件的特權字串。
+	// 範例: string privs = query_privs(this_object());
+	obj.Vars.Set("query_privs", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			target := obj
+			if len(args) > 0 {
+				if t, ok := args[0].(*object.LPCObject); ok {
+					target = t
+				}
+			}
+			if val, exists := target.Vars.Get("_privs"); exists {
+				if s, ok := val.(*object.String); ok {
+					return s
+				}
+			}
+			return &object.String{Value: ""}
+		},
+	})
+
+	// 語法: object *all_previous_objects()
+	// 說明: 回傳呼叫鏈中所有前置物件的陣列。
+	// 範例: object *objs = all_previous_objects();
+	obj.Vars.Set("all_previous_objects", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			// 此處需要 Driver 的 CallStack 支援，目前簡化處理
+			return &object.Array{Elements: []object.Object{}}
+		},
+	})
 }

@@ -16,7 +16,7 @@ import (
 // 8. 字串操作 (Strings)
 // ==========================================
 func (d *Driver) registerStringEfuns(obj *object.LPCObject) {
-	
+
 	// 語法: string *get_dir(string path, [int recursive])
 	// 說明: 取得指定路徑下的所有檔案與目錄清單。
 	//       - 支援萬用字元，例如 "/cmds/*.c"
@@ -71,14 +71,18 @@ func (d *Driver) registerStringEfuns(obj *object.LPCObject) {
 				info, err := os.Stat(fullPath)
 				if err == nil && info.IsDir() {
 					filepath.WalkDir(fullPath, func(path string, entry os.DirEntry, err error) error {
-						if err != nil { return nil }
-						if path == fullPath { return nil } // 略過根目錄自己
-						
+						if err != nil {
+							return nil
+						}
+						if path == fullPath {
+							return nil
+						} // 略過根目錄自己
+
 						// 取得相對於目標目錄的路徑
 						rel, _ := filepath.Rel(fullPath, path)
 						// 統一轉換路徑斜線為 LPC 習慣的 "/"
 						rel = filepath.ToSlash(rel)
-						
+
 						if entry.IsDir() {
 							results = append(results, rel+"/")
 						} else {
@@ -95,7 +99,9 @@ func (d *Driver) registerStringEfuns(obj *object.LPCObject) {
 					if err == nil {
 						for _, match := range matches {
 							info, err := os.Stat(match)
-							if err != nil { continue }
+							if err != nil {
+								continue
+							}
 							_, name := filepath.Split(match)
 							if info.IsDir() {
 								results = append(results, name+"/")
@@ -141,7 +147,9 @@ func (d *Driver) registerStringEfuns(obj *object.LPCObject) {
 	// 範例: lower_case("HELLO") -> "hello"
 	obj.Vars.Set("lower_case", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
-			if len(args) == 0 { return &object.String{Value: ""} }
+			if len(args) == 0 {
+				return &object.String{Value: ""}
+			}
 			if s, ok := args[0].(*object.String); ok {
 				return &object.String{Value: strings.ToLower(s.Value)}
 			}
@@ -154,7 +162,9 @@ func (d *Driver) registerStringEfuns(obj *object.LPCObject) {
 	// 範例: upper_case("hello") -> "HELLO"
 	obj.Vars.Set("upper_case", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
-			if len(args) == 0 { return &object.String{Value: ""} }
+			if len(args) == 0 {
+				return &object.String{Value: ""}
+			}
 			if s, ok := args[0].(*object.String); ok {
 				return &object.String{Value: strings.ToUpper(s.Value)}
 			}
@@ -167,7 +177,9 @@ func (d *Driver) registerStringEfuns(obj *object.LPCObject) {
 	// 範例: capitalize("apple") -> "Apple"
 	obj.Vars.Set("capitalize", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
-			if len(args) == 0 { return &object.String{Value: ""} }
+			if len(args) == 0 {
+				return &object.String{Value: ""}
+			}
 			if s, ok := args[0].(*object.String); ok && len(s.Value) > 0 {
 				runes := []rune(s.Value)
 				runes[0] = []rune(strings.ToUpper(string(runes[0])))[0]
@@ -182,9 +194,13 @@ func (d *Driver) registerStringEfuns(obj *object.LPCObject) {
 	// 範例: trim("  hello  ") -> "hello"
 	obj.Vars.Set("trim", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
-			if len(args) == 0 { return &object.String{Value: ""} }
+			if len(args) == 0 {
+				return &object.String{Value: ""}
+			}
 			s, ok := args[0].(*object.String)
-			if !ok { return &object.String{Value: ""} }
+			if !ok {
+				return &object.String{Value: ""}
+			}
 			if len(args) > 1 {
 				if cutset, ok := args[1].(*object.String); ok {
 					return &object.String{Value: strings.Trim(s.Value, cutset.Value)}
@@ -199,11 +215,15 @@ func (d *Driver) registerStringEfuns(obj *object.LPCObject) {
 	// 範例: replace_string("hello world", "world", "mud") -> "hello mud"
 	obj.Vars.Set("replace_string", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
-			if len(args) < 3 { return object.NewError("replace_string 需要 3 個參數") }
+			if len(args) < 3 {
+				return object.NewError("replace_string 需要 3 個參數")
+			}
 			str, ok1 := args[0].(*object.String)
 			pattern, ok2 := args[1].(*object.String)
 			repl, ok3 := args[2].(*object.String)
-			if !ok1 || !ok2 || !ok3 { return object.NewError("replace_string 的參數必須都是字串") }
+			if !ok1 || !ok2 || !ok3 {
+				return object.NewError("replace_string 的參數必須都是字串")
+			}
 			return &object.String{Value: strings.ReplaceAll(str.Value, pattern.Value, repl.Value)}
 		},
 	})
@@ -213,9 +233,13 @@ func (d *Driver) registerStringEfuns(obj *object.LPCObject) {
 	// 範例: sprintf("HP: %d/%d", 10, 20) -> "HP: 10/20"
 	obj.Vars.Set("sprintf", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
-			if len(args) == 0 { return object.NewError("sprintf 需要參數") }
+			if len(args) == 0 {
+				return object.NewError("sprintf 需要參數")
+			}
 			formatObj, ok := args[0].(*object.String)
-			if !ok { return object.NewError("第一個參數必須是字串") }
+			if !ok {
+				return object.NewError("第一個參數必須是字串")
+			}
 
 			var goArgs []interface{}
 			for _, arg := range args[1:] {
@@ -224,10 +248,14 @@ func (d *Driver) registerStringEfuns(obj *object.LPCObject) {
 					continue
 				}
 				switch a := arg.(type) {
-				case *object.Integer: goArgs = append(goArgs, a.Value)
-				case *object.String:  goArgs = append(goArgs, a.Value)
-				case *object.Float:   goArgs = append(goArgs, a.Value)
-				default:              goArgs = append(goArgs, a.Inspect())
+				case *object.Integer:
+					goArgs = append(goArgs, a.Value)
+				case *object.String:
+					goArgs = append(goArgs, a.Value)
+				case *object.Float:
+					goArgs = append(goArgs, a.Value)
+				default:
+					goArgs = append(goArgs, a.Inspect())
 				}
 			}
 			formatStr := strings.ReplaceAll(formatObj.Value, "%O", "%s")
@@ -241,7 +269,9 @@ func (d *Driver) registerStringEfuns(obj *object.LPCObject) {
 	// 範例: strlen("hello") -> 5
 	obj.Vars.Set("strlen", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
-			if len(args) != 1 { return &object.Integer{Value: 0} }
+			if len(args) != 1 {
+				return &object.Integer{Value: 0}
+			}
 			if str, ok := args[0].(*object.String); ok {
 				return &object.Integer{Value: int64(len([]rune(str.Value)))}
 			}
@@ -254,17 +284,27 @@ func (d *Driver) registerStringEfuns(obj *object.LPCObject) {
 	// 範例: substr("hello", 1, 3) -> "ell"
 	obj.Vars.Set("substr", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
-			if len(args) < 2 { return object.NewError("substr 需 2 個參數") }
+			if len(args) < 2 {
+				return object.NewError("substr 需 2 個參數")
+			}
 			str, ok1 := args[0].(*object.String)
 			start, ok2 := args[1].(*object.Integer)
-			if !ok1 || !ok2 { return object.NewError("substr 型別錯誤") }
+			if !ok1 || !ok2 {
+				return object.NewError("substr 型別錯誤")
+			}
 
 			runes := []rune(str.Value)
 			length := len(runes)
 			sIdx := int(start.Value)
-			if sIdx < 0 { sIdx = length + sIdx }
-			if sIdx < 0 { sIdx = 0 }
-			if sIdx >= length { return &object.String{Value: ""} }
+			if sIdx < 0 {
+				sIdx = length + sIdx
+			}
+			if sIdx < 0 {
+				sIdx = 0
+			}
+			if sIdx >= length {
+				return &object.String{Value: ""}
+			}
 
 			eIdx := length
 			if len(args) > 2 {
@@ -272,8 +312,12 @@ func (d *Driver) registerStringEfuns(obj *object.LPCObject) {
 					eIdx = sIdx + int(l.Value)
 				}
 			}
-			if eIdx > length { eIdx = length }
-			if eIdx < sIdx { return &object.String{Value: ""} }
+			if eIdx > length {
+				eIdx = length
+			}
+			if eIdx < sIdx {
+				return &object.String{Value: ""}
+			}
 
 			return &object.String{Value: string(runes[sIdx:eIdx])}
 		},
@@ -284,22 +328,32 @@ func (d *Driver) registerStringEfuns(obj *object.LPCObject) {
 	// 範例: regexp(({ "apple", "banana" }), "a") -> ({ "apple", "banana" })
 	obj.Vars.Set("regexp", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
-			if len(args) < 2 { return object.NewError("regexp 需 2 個參數") }
+			if len(args) < 2 {
+				return object.NewError("regexp 需 2 個參數")
+			}
 			patternObj, ok := args[1].(*object.String)
-			if !ok { return object.NewError("regexp 第二個參數必須是字串") }
+			if !ok {
+				return object.NewError("regexp 第二個參數必須是字串")
+			}
 
 			re, err := regexp.Compile(patternObj.Value)
-			if err != nil { return object.NewError("regexp 格式錯誤: %v", err) }
+			if err != nil {
+				return object.NewError("regexp 格式錯誤: %v", err)
+			}
 
 			switch list := args[0].(type) {
 			case *object.String:
-				if re.MatchString(list.Value) { return &object.Integer{Value: 1} }
+				if re.MatchString(list.Value) {
+					return &object.Integer{Value: 1}
+				}
 				return &object.Integer{Value: 0}
 			case *object.Array:
 				var result []object.Object
 				for _, el := range list.Elements {
 					if s, ok := el.(*object.String); ok {
-						if re.MatchString(s.Value) { result = append(result, s) }
+						if re.MatchString(s.Value) {
+							result = append(result, s)
+						}
 					}
 				}
 				return &object.Array{Elements: result}
@@ -314,22 +368,34 @@ func (d *Driver) registerStringEfuns(obj *object.LPCObject) {
 	// 範例: break_string(long_desc, 78)
 	obj.Vars.Set("break_string", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
-			if len(args) < 2 { return args[0] }
+			if len(args) < 2 {
+				return args[0]
+			}
 			str, ok1 := args[0].(*object.String)
 			width, ok2 := args[1].(*object.Integer)
-			if !ok1 || !ok2 { return args[0] }
+			if !ok1 || !ok2 {
+				return args[0]
+			}
 
 			indent := ""
 			if len(args) > 2 {
-				if i, ok := args[2].(*object.String); ok { indent = i.Value }
-				if i, ok := args[2].(*object.Integer); ok { indent = strings.Repeat(" ", int(i.Value)) }
+				if i, ok := args[2].(*object.String); ok {
+					indent = i.Value
+				}
+				if i, ok := args[2].(*object.Integer); ok {
+					indent = strings.Repeat(" ", int(i.Value))
+				}
 			}
 
 			w := int(width.Value)
-			if w < 1 { w = 80 }
-			
+			if w < 1 {
+				w = 80
+			}
+
 			words := strings.Fields(str.Value)
-			if len(words) == 0 { return &object.String{Value: ""} }
+			if len(words) == 0 {
+				return &object.String{Value: ""}
+			}
 
 			var result strings.Builder
 			currentLine := indent
@@ -355,22 +421,32 @@ func (d *Driver) registerStringEfuns(obj *object.LPCObject) {
 	// 範例: strsrch("hello", "l") -> 2
 	obj.Vars.Set("strsrch", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
-			if len(args) < 2 { return object.NewError("strsrch 需 2 個參數") }
+			if len(args) < 2 {
+				return object.NewError("strsrch 需 2 個參數")
+			}
 			str, ok1 := args[0].(*object.String)
 			pattern, ok2 := args[1].(*object.String)
-			if !ok1 || !ok2 { return object.NewError("strsrch 參數必須是字串") }
+			if !ok1 || !ok2 {
+				return object.NewError("strsrch 參數必須是字串")
+			}
 
 			reverse := false
 			if len(args) > 2 {
 				if flag, ok := args[2].(*object.Integer); ok && flag.Value != 0 {
-					reverse = true 
+					reverse = true
 				}
 			}
 
 			var byteIdx int
-			if reverse { byteIdx = strings.LastIndex(str.Value, pattern.Value) } else { byteIdx = strings.Index(str.Value, pattern.Value) }
+			if reverse {
+				byteIdx = strings.LastIndex(str.Value, pattern.Value)
+			} else {
+				byteIdx = strings.Index(str.Value, pattern.Value)
+			}
 
-			if byteIdx == -1 { return &object.Integer{Value: -1} }
+			if byteIdx == -1 {
+				return &object.Integer{Value: -1}
+			}
 			runeIdx := len([]rune(str.Value[:byteIdx]))
 			return &object.Integer{Value: int64(runeIdx)}
 		},
@@ -381,18 +457,28 @@ func (d *Driver) registerStringEfuns(obj *object.LPCObject) {
 	// 範例: pad_str("攻擊", 10) -> "攻擊      "
 	obj.Vars.Set("pad_str", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
-			if len(args) < 2 { return &object.String{Value: ""} }
+			if len(args) < 2 {
+				return &object.String{Value: ""}
+			}
 			str, ok1 := args[0].(*object.String)
 			width, ok2 := args[1].(*object.Integer)
-			if !ok1 || !ok2 { return &object.String{Value: ""} }
+			if !ok1 || !ok2 {
+				return &object.String{Value: ""}
+			}
 
 			s := str.Value
 			targetWidth := int(width.Value)
 			currentWidth := 0
 			for _, r := range s {
-				if r > 127 { currentWidth += 2 } else { currentWidth += 1 }
+				if r > 127 {
+					currentWidth += 2
+				} else {
+					currentWidth += 1
+				}
 			}
-			if currentWidth < targetWidth { s += strings.Repeat(" ", targetWidth-currentWidth) }
+			if currentWidth < targetWidth {
+				s += strings.Repeat(" ", targetWidth-currentWidth)
+			}
 			return &object.String{Value: s}
 		},
 	})
@@ -402,19 +488,27 @@ func (d *Driver) registerStringEfuns(obj *object.LPCObject) {
 	// 範例: crypt("1234")
 	obj.Vars.Set("crypt", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
-			if len(args) < 1 { return &object.String{Value: ""} }
+			if len(args) < 1 {
+				return &object.String{Value: ""}
+			}
 			str, ok := args[0].(*object.String)
-			if !ok { return &object.String{Value: ""} }
-			
+			if !ok {
+				return &object.String{Value: ""}
+			}
+
 			if len(args) > 1 {
 				if hash, isStr := args[1].(*object.String); isStr {
 					err := bcrypt.CompareHashAndPassword([]byte(hash.Value), []byte(str.Value))
-					if err == nil { return hash }
+					if err == nil {
+						return hash
+					}
 					return &object.Integer{Value: 0}
 				}
 			}
 			hashBytes, err := bcrypt.GenerateFromPassword([]byte(str.Value), bcrypt.DefaultCost)
-			if err != nil { return &object.String{Value: ""} }
+			if err != nil {
+				return &object.String{Value: ""}
+			}
 			return &object.String{Value: string(hashBytes)}
 		},
 	})
@@ -423,37 +517,44 @@ func (d *Driver) registerStringEfuns(obj *object.LPCObject) {
 	// 說明: 格式化輸出到當前物件。
 	// 範例: printf("等級: %d", level);
 	obj.Vars.Set("printf", &object.Builtin{
-	    Fn: func(args ...object.Object) object.Object {
-	        if len(args) < 1 { return &object.Nil{} }
-	        fmtStr, ok := args[0].(*object.String)
-	        if !ok { return &object.Nil{} }
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 1 {
+				return &object.Nil{}
+			}
+			fmtStr, ok := args[0].(*object.String)
+			if !ok {
+				return &object.Nil{}
+			}
 
-	        // 簡易處理 %O：在格式化前先將 Object 轉為 Inspect() 字串，並將 %O 替換為 %s
-	        format := fmtStr.Value
-	        var fmtArgs []interface{}
-	        argIdx := 1
+			// 簡易處理 %O：在格式化前先將 Object 轉為 Inspect() 字串，並將 %O 替換為 %s
+			format := fmtStr.Value
+			var fmtArgs []interface{}
+			argIdx := 1
 
-	        // 簡單處理格式化，不使用原始的 fmt.Sprintf，避免 %O 處理問題
-	        // 註：這是一個非常基礎的實作
-	        result := format
-	        for strings.Contains(result, "%O") && argIdx < len(args) {
-	            result = strings.Replace(result, "%O", "%s", 1)
-	            fmtArgs = append(fmtArgs, args[argIdx].Inspect())
-	            argIdx++
-	        }
+			// 簡單處理格式化，不使用原始的 fmt.Sprintf，避免 %O 處理問題
+			// 註：這是一個非常基礎的實作
+			result := format
+			for strings.Contains(result, "%O") && argIdx < len(args) {
+				result = strings.Replace(result, "%O", "%s", 1)
+				fmtArgs = append(fmtArgs, args[argIdx].Inspect())
+				argIdx++
+			}
 
-	        for _, arg := range args[argIdx:] {
-	            switch v := arg.(type) {
-	            case *object.Integer: fmtArgs = append(fmtArgs, v.Value)
-	            case *object.String: fmtArgs = append(fmtArgs, v.Value)
-	            default: fmtArgs = append(fmtArgs, arg.Inspect())
-	            }
-	        }
+			for _, arg := range args[argIdx:] {
+				switch v := arg.(type) {
+				case *object.Integer:
+					fmtArgs = append(fmtArgs, v.Value)
+				case *object.String:
+					fmtArgs = append(fmtArgs, v.Value)
+				default:
+					fmtArgs = append(fmtArgs, arg.Inspect())
+				}
+			}
 
-	        msg := fmt.Sprintf(result, fmtArgs...)
-	        d.TellObject(obj, msg)
-	        return &object.Nil{}
-	    },
+			msg := fmt.Sprintf(result, fmtArgs...)
+			d.TellObject(obj, msg)
+			return &object.Nil{}
+		},
 	})
 }
 
@@ -461,96 +562,116 @@ func (d *Driver) registerStringEfuns(obj *object.LPCObject) {
 // 說明: 使用正則表達式陣列分割字串，並將其關聯到對應的 Token。
 // 範例: reg_assoc("a b c", ({"[a-z]"}), ({1}), 0);
 func (d *Driver) registerAdvancedStringEfuns2(obj *object.LPCObject) {
-    obj.Vars.Set("reg_assoc", &object.Builtin{
-        Fn: func(args ...object.Object) object.Object {
-            if len(args) < 3 { return &object.Array{Elements: []object.Object{}} }
-            str, ok1 := args[0].(*object.String)
-            patArr, ok2 := args[1].(*object.Array)
-            tokArr, ok3 := args[2].(*object.Array)
-            if !ok1 || !ok2 || !ok3 { return &object.Array{Elements: []object.Object{}} }
-            
-            // 簡化實作：MudOS 的 reg_assoc 非常複雜，這裡提供一個基礎相容介面
-            // 僅支援單一模式匹配
-            _ = tokArr // 標記為使用
-            pattern := ""
-            if len(patArr.Elements) > 0 {
-            	if p, ok := patArr.Elements[0].(*object.String); ok {
-            		pattern = p.Value
-            	}
-            }
-            
-            re, err := regexp.Compile(pattern)
-            if err != nil { return &object.Array{Elements: []object.Object{}} }
-            
-            matches := re.FindAllString(str.Value, -1)
-            var res []object.Object
-            for _, m := range matches {
-                res = append(res, &object.String{Value: m})
-            }
-            return &object.Array{Elements: res}
-        },
-    })
+	obj.Vars.Set("reg_assoc", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 3 {
+				return &object.Array{Elements: []object.Object{}}
+			}
+			str, ok1 := args[0].(*object.String)
+			patArr, ok2 := args[1].(*object.Array)
+			tokArr, ok3 := args[2].(*object.Array)
+			if !ok1 || !ok2 || !ok3 {
+				return &object.Array{Elements: []object.Object{}}
+			}
+
+			// 簡化實作：MudOS 的 reg_assoc 非常複雜，這裡提供一個基礎相容介面
+			// 僅支援單一模式匹配
+			_ = tokArr // 標記為使用
+			pattern := ""
+			if len(patArr.Elements) > 0 {
+				if p, ok := patArr.Elements[0].(*object.String); ok {
+					pattern = p.Value
+				}
+			}
+
+			re, err := regexp.Compile(pattern)
+			if err != nil {
+				return &object.Array{Elements: []object.Object{}}
+			}
+
+			matches := re.FindAllString(str.Value, -1)
+			var res []object.Object
+			for _, m := range matches {
+				res = append(res, &object.String{Value: m})
+			}
+			return &object.Array{Elements: res}
+		},
+	})
 
 	// 語法: string process_string(string str)
 	// 說明: 處理字串中的 @@function:filename|arg@@ 格式並執行。
 	// 範例: write(process_string("Current time: @@time@@"));
-    obj.Vars.Set("process_string", &object.Builtin{
-        Fn: func(args ...object.Object) object.Object {
-            if len(args) < 1 { return &object.String{Value: ""} }
-            str, ok := args[0].(*object.String)
-            if !ok { return &object.String{Value: ""} }
+	obj.Vars.Set("process_string", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 1 {
+				return &object.String{Value: ""}
+			}
+			str, ok := args[0].(*object.String)
+			if !ok {
+				return &object.String{Value: ""}
+			}
 
-            re := regexp.MustCompile("@@([^@]+)@@")
-            result := re.ReplaceAllStringFunc(str.Value, func(match string) string {
-                content := re.FindStringSubmatch(match)[1]
-                res := d.CallFunction(obj, content, nil)
-                if s, ok := res.(*object.String); ok { return s.Value }
-                return match
-            })
-            return &object.String{Value: result}
-        },
-    })
+			re := regexp.MustCompile("@@([^@]+)@@")
+			result := re.ReplaceAllStringFunc(str.Value, func(match string) string {
+				content := re.FindStringSubmatch(match)[1]
+				res := d.CallFunction(obj, content, nil)
+				if s, ok := res.(*object.String); ok {
+					return s.Value
+				}
+				return match
+			})
+			return &object.String{Value: result}
+		},
+	})
 
 	// 語法: mixed process_value(string str)
 	// 說明: 與 process_string 類似，但回傳物件而非字串。
 	// 範例: mixed val = process_value("func");
-    obj.Vars.Set("process_value", &object.Builtin{
-        Fn: func(args ...object.Object) object.Object {
-            if len(args) < 1 { return &object.Nil{} }
-            str, ok := args[0].(*object.String)
-            if !ok { return &object.Nil{} }
+	obj.Vars.Set("process_value", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 1 {
+				return &object.Nil{}
+			}
+			str, ok := args[0].(*object.String)
+			if !ok {
+				return &object.Nil{}
+			}
 
-            return d.CallFunction(obj, str.Value, nil)
-        },
-    })
+			return d.CallFunction(obj, str.Value, nil)
+		},
+	})
 
-    // 語法: int sscanf(string str, string fmt, mixed var1, ...)
-    // 說明: 解析字串，將符合的部分賦值給變數。
-    // 範例: sscanf("hello world", "%s %s", s1, s2);
-    obj.Vars.Set("sscanf", &object.Builtin{
-        Fn: func(args ...object.Object) object.Object {
-            if len(args) < 3 { return &object.Integer{Value: 0} }
-            str, ok1 := args[0].(*object.String)
-            fmtStr, ok2 := args[1].(*object.String)
-            if !ok1 || !ok2 { return &object.Integer{Value: 0} }
+	// 語法: int sscanf(string str, string fmt, mixed var1, ...)
+	// 說明: 解析字串，將符合的部分賦值給變數。
+	// 範例: sscanf("hello world", "%s %s", s1, s2);
+	obj.Vars.Set("sscanf", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 3 {
+				return &object.Integer{Value: 0}
+			}
+			str, ok1 := args[0].(*object.String)
+			fmtStr, ok2 := args[1].(*object.String)
+			if !ok1 || !ok2 {
+				return &object.Integer{Value: 0}
+			}
 
-            // 簡易實作：支援 "%*s#%d"
-            if strings.Contains(fmtStr.Value, "#") {
-                parts := strings.Split(fmtStr.Value, "#")
-                if len(parts) == 2 && parts[0] == "%*s" && parts[1] == "%d" {
-                    idx := strings.Index(str.Value, "#")
-                    if idx != -1 {
-                        valStr := str.Value[idx+1:]
-                        var val int
-                        fmt.Sscanf(valStr, "%d", &val)
-                        if v, ok := args[2].(*object.Integer); ok {
-                            v.Value = int64(val)
-                            return &object.Integer{Value: 1}
-                        }
-                    }
-                }
-            }
-            return &object.Integer{Value: 0}
-        },
-    })
+			// 簡易實作：支援 "%*s#%d"
+			if strings.Contains(fmtStr.Value, "#") {
+				parts := strings.Split(fmtStr.Value, "#")
+				if len(parts) == 2 && parts[0] == "%*s" && parts[1] == "%d" {
+					idx := strings.Index(str.Value, "#")
+					if idx != -1 {
+						valStr := str.Value[idx+1:]
+						var val int
+						fmt.Sscanf(valStr, "%d", &val)
+						if v, ok := args[2].(*object.Integer); ok {
+							v.Value = int64(val)
+							return &object.Integer{Value: 1}
+						}
+					}
+				}
+			}
+			return &object.Integer{Value: 0}
+		},
+	})
 }

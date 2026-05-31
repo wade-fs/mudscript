@@ -14,10 +14,14 @@ func (d *Driver) registerCommEfuns(obj *object.LPCObject) {
 	// 範例: shout("【謠言】" + query_name() + " 登入了遊戲！\n");
 	obj.Vars.Set("shout", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
-			if len(args) == 0 { return &object.Nil{} }
+			if len(args) == 0 {
+				return &object.Nil{}
+			}
 			msg := args[0].Inspect()
-			if s, ok := args[0].(*object.String); ok { msg = s.Value }
-			
+			if s, ok := args[0].(*object.String); ok {
+				msg = s.Value
+			}
+
 			tp := d.GetCurrentPlayer()
 			if tp == nil && obj.IsInteractive {
 				tp = d.GetConnectionFromObject(obj)
@@ -40,35 +44,35 @@ func (d *Driver) registerCommEfuns(obj *object.LPCObject) {
 	// 說明: 發送訊息給觸發當前行為的玩家。
 	// 範例: write("你看了看四周。\n");
 	obj.Vars.Set("write", &object.Builtin{
-	    Fn: func(args ...object.Object) object.Object {
-	        msg := ""
-	        if len(args) > 0 {
-	            if s, ok := args[0].(*object.String); ok {
-	                msg = s.Value
-	            } else {
-	                msg = args[0].Inspect()
-	            }
-	        }
+		Fn: func(args ...object.Object) object.Object {
+			msg := ""
+			if len(args) > 0 {
+				if s, ok := args[0].(*object.String); ok {
+					msg = s.Value
+				} else {
+					msg = args[0].Inspect()
+				}
+			}
 
-	        p := d.GetCurrentPlayer()
-	        // 👉 關鍵修正：若無全域玩家上下文 (如 NPC 心跳中)，但呼叫者是玩家物件，則自動導向該玩家
-	        if p == nil && obj.IsInteractive {
-	            p = d.GetConnectionFromObject(obj)
-	        }
+			p := d.GetCurrentPlayer()
+			// 👉 關鍵修正：若無全域玩家上下文 (如 NPC 心跳中)，但呼叫者是玩家物件，則自動導向該玩家
+			if p == nil && obj.IsInteractive {
+				p = d.GetConnectionFromObject(obj)
+			}
 
-	        // 只要玩家物件存在且處於活動狀態，就呼叫 p.Send
-	        if p != nil && p.IsActive {
-	            safeMsg := strings.ReplaceAll(msg, "\r\n", "\n")
-	            safeMsg = strings.ReplaceAll(safeMsg, "\n", "\r\n")
-	            p.Send(safeMsg)
-	        } else {
-	            // 只有在找不到玩家上下文時（例如系統背景執行），才印到伺服器終端機
+			// 只要玩家物件存在且處於活動狀態，就呼叫 p.Send
+			if p != nil && p.IsActive {
+				safeMsg := strings.ReplaceAll(msg, "\r\n", "\n")
+				safeMsg = strings.ReplaceAll(safeMsg, "\n", "\r\n")
+				p.Send(safeMsg)
+			} else {
+				// 只有在找不到玩家上下文時（例如系統背景執行），才印到伺服器終端機
 				// 在終端機模式下，我們嘗試轉換 {r} 標籤為 ANSI
 				processed := d.ProcessAnsi(msg)
-	            fmt.Print(processed)
-	        }
-	        return &object.Nil{}
-	    },
+				fmt.Print(processed)
+			}
+			return &object.Nil{}
+		},
 	})
 
 	// 語法: void say(string msg, [mixed exclude])
@@ -76,14 +80,18 @@ func (d *Driver) registerCommEfuns(obj *object.LPCObject) {
 	// 範例: say("一陣微風吹過。\n");
 	obj.Vars.Set("say", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
-			if len(args) == 0 { return &object.Nil{} }
+			if len(args) == 0 {
+				return &object.Nil{}
+			}
 			msgStr := args[0].Inspect()
-			if s, ok := args[0].(*object.String); ok { msgStr = s.Value }
+			if s, ok := args[0].(*object.String); ok {
+				msgStr = s.Value
+			}
 
 			var exclude []*object.LPCObject
-			
+
 			// 1. 預設排除執行此程式碼的物件 (例如指令物件)
-			exclude = append(exclude, obj) 
+			exclude = append(exclude, obj)
 
 			// 2. 獲取當前玩家連線
 			tp := d.GetCurrentPlayer()
@@ -109,12 +117,16 @@ func (d *Driver) registerCommEfuns(obj *object.LPCObject) {
 			if env == nil && tp != nil && tp.Object != nil {
 				env = tp.Object.Location
 			}
-			
-			if env == nil { return &object.Nil{} }
+
+			if env == nil {
+				return &object.Nil{}
+			}
 
 			// 4. 🚀 核心邏輯：遍歷房間
 			for _, ob := range env.Inventory {
-				if ob == nil || ob.IsDestructed { continue }
+				if ob == nil || ob.IsDestructed {
+					continue
+				}
 
 				// 檢查排除清單
 				isExcluded := false
@@ -124,7 +136,7 @@ func (d *Driver) registerCommEfuns(obj *object.LPCObject) {
 						break
 					}
 				}
-				
+
 				// 🚀 終極排除：如果這個物件對應的連線就是當前發話者的連線，排除之！
 				if tp != nil {
 					obConn := d.GetConnectionFromObject(ob)
@@ -133,7 +145,9 @@ func (d *Driver) registerCommEfuns(obj *object.LPCObject) {
 					}
 				}
 
-				if isExcluded { continue }
+				if isExcluded {
+					continue
+				}
 
 				// A. 判定是否為玩家
 				isUser := false
@@ -144,7 +158,9 @@ func (d *Driver) registerCommEfuns(obj *object.LPCObject) {
 				// B. 判定是否為生物
 				isLiving := false
 				res := d.CallFunction(ob, "is_living", nil)
-				if isLPCTrue(res) { isLiving = true }
+				if isLPCTrue(res) {
+					isLiving = true
+				}
 
 				if isUser {
 					// 發送訊息到玩家終端 (TellObject 會處理 Socket 發送)
@@ -168,12 +184,18 @@ func (d *Driver) registerCommEfuns(obj *object.LPCObject) {
 	// 範例: tell_object(user, "你感受到一股強大的力量。\n");
 	obj.Vars.Set("tell_object", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
-			if len(args) < 2 { return object.NewError("tell_object 需要 2 個參數") }
+			if len(args) < 2 {
+				return object.NewError("tell_object 需要 2 個參數")
+			}
 			targetObj, ok := args[0].(*object.LPCObject)
-			if !ok { return object.NewError("tell_object 的第一個參數必須是 object") }
+			if !ok {
+				return object.NewError("tell_object 的第一個參數必須是 object")
+			}
 
 			msg := args[1].Inspect()
-			if s, isStr := args[1].(*object.String); isStr { msg = s.Value }
+			if s, isStr := args[1].(*object.String); isStr {
+				msg = s.Value
+			}
 
 			d.TellObject(targetObj, msg)
 			return &object.Nil{}
@@ -185,12 +207,18 @@ func (d *Driver) registerCommEfuns(obj *object.LPCObject) {
 	// 範例: tell_room(room, "天空中閃過一道雷電。\n");
 	obj.Vars.Set("tell_room", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
-			if len(args) < 2 { return object.NewError("tell_room 需要 2 個參數") }
+			if len(args) < 2 {
+				return object.NewError("tell_room 需要 2 個參數")
+			}
 			roomObj, ok := args[0].(*object.LPCObject)
-			if !ok { return object.NewError("tell_room 的第一個參數必須是 object") }
+			if !ok {
+				return object.NewError("tell_room 的第一個參數必須是 object")
+			}
 
 			msg := args[1].Inspect()
-			if s, isStr := args[1].(*object.String); isStr { msg = s.Value }
+			if s, isStr := args[1].(*object.String); isStr {
+				msg = s.Value
+			}
 
 			var exclude []*object.LPCObject
 			if len(args) > 2 {
@@ -209,8 +237,10 @@ func (d *Driver) registerCommEfuns(obj *object.LPCObject) {
 			tp := d.GetCurrentPlayer()
 
 			for _, item := range roomObj.Inventory {
-				if item == nil || item.IsDestructed { continue }
-				
+				if item == nil || item.IsDestructed {
+					continue
+				}
+
 				shouldExclude := false
 				for _, ex := range exclude {
 					if item == ex || (ex != nil && item.Filename == ex.Filename) {
@@ -218,14 +248,14 @@ func (d *Driver) registerCommEfuns(obj *object.LPCObject) {
 						break
 					}
 				}
-				
+
 				if tp != nil {
 					itemConn := d.GetConnectionFromObject(item)
 					if itemConn != nil && itemConn == tp {
 						shouldExclude = true
 					}
 				}
-				
+
 				if !shouldExclude {
 					d.TellObject(item, msg)
 				}
@@ -239,10 +269,14 @@ func (d *Driver) registerCommEfuns(obj *object.LPCObject) {
 	// 範例: message("say", "你對大家說：哈囉。\n", environment(me), me);
 	obj.Vars.Set("message", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
-			if len(args) < 3 { return object.NewError("message 至少需要 3 個參數") }
+			if len(args) < 3 {
+				return object.NewError("message 至少需要 3 個參數")
+			}
 			target := args[2]
 			msg := ""
-			if s, ok := args[1].(*object.String); ok { msg = s.Value }
+			if s, ok := args[1].(*object.String); ok {
+				msg = s.Value
+			}
 
 			if room, ok := target.(*object.LPCObject); ok {
 				d.TellRoom(room, msg, nil)
@@ -264,12 +298,18 @@ func (d *Driver) registerCommEfuns(obj *object.LPCObject) {
 	// 範例: this_player()->receive("系統訊息：伺服器即將重啟。\n");
 	obj.Vars.Set("receive", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
-			if len(args) < 1 { return &object.Integer{Value: 0} }
+			if len(args) < 1 {
+				return &object.Integer{Value: 0}
+			}
 			msg, ok := args[0].(*object.String)
-			if !ok { return &object.Integer{Value: 0} }
+			if !ok {
+				return &object.Integer{Value: 0}
+			}
 
 			d.TellObject(obj, msg.Value)
-			if obj.IsInteractive { return &object.Integer{Value: 1} }
+			if obj.IsInteractive {
+				return &object.Integer{Value: 1}
+			}
 			return &object.Integer{Value: 0}
 		},
 	})
@@ -288,20 +328,28 @@ func (d *Driver) registerInteractiveEfuns(obj *object.LPCObject) {
 			return &object.Nil{}
 		},
 	})
-    
+
 	// 語法: int get_char(string func, [int flag])
 	// 說明: 獲取玩家下一個輸入字元並傳給指定的函式。若 flag 為 1，則隱藏輸入內容。
 	// 範例: get_char("do_choice", 1);
 	obj.Vars.Set("get_char", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
-			if len(args) < 1 { return &object.Integer{Value: 0} }
+			if len(args) < 1 {
+				return &object.Integer{Value: 0}
+			}
 			funcName, ok := args[0].(*object.String)
-			if !ok { return &object.Integer{Value: 0} }
-			
+			if !ok {
+				return &object.Integer{Value: 0}
+			}
+
 			p := d.GetCurrentPlayer()
-			if p == nil && obj.IsInteractive { p = d.GetConnectionFromObject(obj) }
-			if p == nil { return &object.Integer{Value: 0} }
-			
+			if p == nil && obj.IsInteractive {
+				p = d.GetConnectionFromObject(obj)
+			}
+			if p == nil {
+				return &object.Integer{Value: 0}
+			}
+
 			p.NextInputFunc = funcName.Value
 			p.InputHidden = false
 			if len(args) > 1 {

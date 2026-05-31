@@ -18,7 +18,9 @@ func (d *Driver) registerEnvironmentEfuns(obj *object.LPCObject) {
 	obj.Vars.Set("environment", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
 			target := getTarget(args, obj)
-			if target.Location != nil { return target.Location }
+			if target.Location != nil {
+				return target.Location
+			}
 			return &object.Nil{}
 		},
 	})
@@ -49,7 +51,9 @@ func (d *Driver) registerEnvironmentEfuns(obj *object.LPCObject) {
 			}
 			path := d.ResolvePath(obj.Filename, args[0].(*object.String).Value)
 			clonedObj, err := d.CloneObject(path)
-			if err != nil { return object.NewError("clone error: %s", err.Error()) }
+			if err != nil {
+				return object.NewError("clone error: %s", err.Error())
+			}
 			return clonedObj
 		},
 	})
@@ -92,15 +96,21 @@ func (d *Driver) registerEnvironmentEfuns(obj *object.LPCObject) {
 	// 範例: object sword = present("sword", this_player());
 	obj.Vars.Set("present", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
-			if len(args) < 1 { return object.NewError("present 至少需要 1 個參數") }
+			if len(args) < 1 {
+				return object.NewError("present 至少需要 1 個參數")
+			}
 			container := obj
 			if len(args) > 1 {
-				if c, ok := args[1].(*object.LPCObject); ok { container = c }
+				if c, ok := args[1].(*object.LPCObject); ok {
+					container = c
+				}
 			}
 
 			if targetObj, isObj := args[0].(*object.LPCObject); isObj {
 				for _, item := range container.Inventory {
-					if item == targetObj { return item }
+					if item == targetObj {
+						return item
+					}
 				}
 				return &object.Nil{}
 			}
@@ -108,66 +118,84 @@ func (d *Driver) registerEnvironmentEfuns(obj *object.LPCObject) {
 			if idStr, isStr := args[0].(*object.String); isStr {
 				for _, item := range container.Inventory {
 					res := d.CallFunction(item, "id", []object.Object{idStr})
-					if isLPCTrue(res) { return item }
+					if isLPCTrue(res) {
+						return item
+					}
 				}
 			}
 			return &object.Nil{}
-			},
-			})
+		},
+	})
 
-			// 語法: object first_inventory([object ob])
-			// 說明: 回傳指定物件庫存中的第一個物品。若無則回傳 0。
-			// 範例: object item = first_inventory(this_object());
-			obj.Vars.Set("first_inventory", &object.Builtin{
-			Fn: func(args ...object.Object) object.Object {
+	// 語法: object first_inventory([object ob])
+	// 說明: 回傳指定物件庫存中的第一個物品。若無則回傳 0。
+	// 範例: object item = first_inventory(this_object());
+	obj.Vars.Set("first_inventory", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
 			target := getTarget(args, obj)
-			if len(target.Inventory) > 0 { return target.Inventory[0] }
-			return &object.Nil{}
-			},
-			})
-
-			// 語法: object next_inventory(object ob)
-			// 說明: 回傳指定物品在同容器中的下一個物品。若無則回傳 0。
-			// 範例: object next_item = next_inventory(item);
-			obj.Vars.Set("next_inventory", &object.Builtin{
-			Fn: func(args ...object.Object) object.Object {
-			if len(args) < 1 { return &object.Nil{} }
-			item, ok := args[0].(*object.LPCObject)
-			if !ok { return &object.Nil{} }
-
-			env := item.Location
-			if env == nil { return &object.Nil{} }
-
-			for i, invItem := range env.Inventory {
-			        if invItem == item && i+1 < len(env.Inventory) {
-			                return env.Inventory[i+1]
-			        }
+			if len(target.Inventory) > 0 {
+				return target.Inventory[0]
 			}
 			return &object.Nil{}
-			},
-			})
+		},
+	})
 
-			// 語法: int set_light(int adjustment)
-			// 說明: 設定物件的光照度。若傳入 0 則僅查詢當前光照度。
-			// 範例: set_light(1); // 增加 1 點光照
-			obj.Vars.Set("set_light", &object.Builtin{
-			Fn: func(args ...object.Object) object.Object {
-			if len(args) < 1 { return &object.Integer{Value: int64(obj.Light)} }
+	// 語法: object next_inventory(object ob)
+	// 說明: 回傳指定物品在同容器中的下一個物品。若無則回傳 0。
+	// 範例: object next_item = next_inventory(item);
+	obj.Vars.Set("next_inventory", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 1 {
+				return &object.Nil{}
+			}
+			item, ok := args[0].(*object.LPCObject)
+			if !ok {
+				return &object.Nil{}
+			}
+
+			env := item.Location
+			if env == nil {
+				return &object.Nil{}
+			}
+
+			for i, invItem := range env.Inventory {
+				if invItem == item && i+1 < len(env.Inventory) {
+					return env.Inventory[i+1]
+				}
+			}
+			return &object.Nil{}
+		},
+	})
+
+	// 語法: int set_light(int adjustment)
+	// 說明: 設定物件的光照度。若傳入 0 則僅查詢當前光照度。
+	// 範例: set_light(1); // 增加 1 點光照
+	obj.Vars.Set("set_light", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 1 {
+				return &object.Integer{Value: int64(obj.Light)}
+			}
 			adj, ok := args[0].(*object.Integer)
-			if !ok { return &object.Integer{Value: int64(obj.Light)} }
+			if !ok {
+				return &object.Integer{Value: int64(obj.Light)}
+			}
 			obj.Light += int(adj.Value)
 			return &object.Integer{Value: int64(obj.Light)}
-			},
-			})
+		},
+	})
 
-			// 語法: string base_name(object ob)
+	// 語法: string base_name(object ob)
 	// 說明: 取得物件的原始檔案路徑 (去除 #clone_id)。
 	// 範例: base_name(find_player("wade")) -> "/std/user.c"
 	obj.Vars.Set("base_name", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
-			if len(args) < 1 { return &object.Nil{} }
+			if len(args) < 1 {
+				return &object.Nil{}
+			}
 			target, ok := args[0].(*object.LPCObject)
-			if !ok { return &object.Nil{} }
+			if !ok {
+				return &object.Nil{}
+			}
 
 			name := target.Filename
 			if pos := strings.Index(name, "#"); pos != -1 {
@@ -197,9 +225,13 @@ func (d *Driver) registerEnvironmentEfuns(obj *object.LPCObject) {
 	// 範例: object target = find_by_uuid("...");
 	obj.Vars.Set("find_by_uuid", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
-			if len(args) < 1 { return &object.Nil{} }
+			if len(args) < 1 {
+				return &object.Nil{}
+			}
 			uuidArg, ok := args[0].(*object.String)
-			if !ok { return &object.Nil{} }
+			if !ok {
+				return &object.Nil{}
+			}
 
 			d.mu.RLock()
 			defer d.mu.RUnlock()
@@ -209,19 +241,25 @@ func (d *Driver) registerEnvironmentEfuns(obj *object.LPCObject) {
 			return &object.Nil{}
 		},
 	})
-	}
+}
 func (d *Driver) registerPersistenceEfuns(obj *object.LPCObject) {
 	// 語法: int save_object(string file)
 	// 說明: 將當前物件內的所有變數狀態，以 JSON 格式儲存至硬碟。
 	// 範例: save_object("/data/user/" + id);
 	obj.Vars.Set("save_object", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
-			if len(args) < 1 { return &object.Integer{Value: 0} }
+			if len(args) < 1 {
+				return &object.Integer{Value: 0}
+			}
 			fileArg, ok := args[0].(*object.String)
-			if !ok { return object.NewError("save_object 需要字串參數") }
+			if !ok {
+				return object.NewError("save_object 需要字串參數")
+			}
 
 			fileName := fileArg.Value
-			if !strings.HasSuffix(fileName, ".o") { fileName += ".o" }
+			if !strings.HasSuffix(fileName, ".o") {
+				fileName += ".o"
+			}
 
 			allowed, errMsg := d.checkWritePermission(obj, fileName, "save_object")
 			if !allowed {
@@ -237,17 +275,25 @@ func (d *Driver) registerPersistenceEfuns(obj *object.LPCObject) {
 
 			saveData := make(map[string]interface{})
 			for k, v := range obj.Vars.GetAll() {
-				if strings.HasPrefix(k, "_") { continue }
-				if v.TokenType() == object.FunctionType || v.TokenType() == object.BuiltinType || v.TokenType() == object.ClosureType { continue }
+				if strings.HasPrefix(k, "_") {
+					continue
+				}
+				if v.TokenType() == object.FunctionType || v.TokenType() == object.BuiltinType || v.TokenType() == object.ClosureType {
+					continue
+				}
 				saveData[k] = lpcToGoValue(v)
 			}
 
 			os.MkdirAll(filepath.Dir(fullPath), 0755)
 			jsonData, err := json.MarshalIndent(saveData, "", "  ")
-			if err != nil { return &object.Integer{Value: 0} }
+			if err != nil {
+				return &object.Integer{Value: 0}
+			}
 
 			err = os.WriteFile(fullPath, jsonData, 0644)
-			if err != nil { return &object.Integer{Value: 0} }
+			if err != nil {
+				return &object.Integer{Value: 0}
+			}
 			return &object.Integer{Value: 1}
 		},
 	})
@@ -257,20 +303,30 @@ func (d *Driver) registerPersistenceEfuns(obj *object.LPCObject) {
 	// 範例: if(restore_object("/data/user/" + id)) { write("讀檔成功"); }
 	obj.Vars.Set("restore_object", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
-			if len(args) < 1 { return &object.Integer{Value: 0} }
+			if len(args) < 1 {
+				return &object.Integer{Value: 0}
+			}
 			fileArg, ok := args[0].(*object.String)
-			if !ok { return object.NewError("restore_object 需要字串參數") }
+			if !ok {
+				return object.NewError("restore_object 需要字串參數")
+			}
 
 			fileName := fileArg.Value
-			if !strings.HasSuffix(fileName, ".o") { fileName += ".o" }
+			if !strings.HasSuffix(fileName, ".o") {
+				fileName += ".o"
+			}
 			fullPath := filepath.Join(d.Config.MudLibPath, fileName)
 
 			jsonData, err := os.ReadFile(fullPath)
-			if err != nil { return &object.Integer{Value: 0} }
+			if err != nil {
+				return &object.Integer{Value: 0}
+			}
 
 			var loadedData map[string]interface{}
 			err = json.Unmarshal(jsonData, &loadedData)
-			if err != nil { return &object.Integer{Value: 0} }
+			if err != nil {
+				return &object.Integer{Value: 0}
+			}
 
 			for k, v := range loadedData {
 				obj.Vars.Set(k, goToLPCValue(v))
@@ -284,35 +340,51 @@ func (d *Driver) registerPersistenceEfuns(obj *object.LPCObject) {
 	// 範例: exec(user_ob, this_object());
 	obj.Vars.Set("exec", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
-			if len(args) < 2 { return object.NewError("exec 需要兩個 object 參數") }
+			if len(args) < 2 {
+				return object.NewError("exec 需要兩個 object 參數")
+			}
 			target, ok1 := args[0].(*object.LPCObject)
 			src, ok2 := args[1].(*object.LPCObject)
-			if !ok1 || !ok2 { return object.NewError("exec 參數必須是 object") }
+			if !ok1 || !ok2 {
+				return object.NewError("exec 參數必須是 object")
+			}
 
 			success := d.TransferConnection(target, src)
-			if success { return &object.Integer{Value: 1} }
+			if success {
+				return &object.Integer{Value: 1}
+			}
 			return &object.Integer{Value: 0}
 		},
 	})
 
 	obj.Vars.Set("save_variable", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
-			if len(args) < 1 { return &object.String{Value: ""} }
+			if len(args) < 1 {
+				return &object.String{Value: ""}
+			}
 			data := lpcToGoValue(args[0])
 			jsonData, err := json.Marshal(data)
-			if err != nil { return &object.String{Value: ""} }
+			if err != nil {
+				return &object.String{Value: ""}
+			}
 			return &object.String{Value: string(jsonData)}
 		},
 	})
 
 	obj.Vars.Set("restore_variable", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
-			if len(args) < 1 { return &object.Nil{} }
+			if len(args) < 1 {
+				return &object.Nil{}
+			}
 			str, ok := args[0].(*object.String)
-			if !ok { return &object.Nil{} }
+			if !ok {
+				return &object.Nil{}
+			}
 			var data interface{}
 			err := json.Unmarshal([]byte(str.Value), &data)
-			if err != nil { return &object.Nil{} }
+			if err != nil {
+				return &object.Nil{}
+			}
 			return goToLPCValue(data)
 		},
 	})
@@ -323,21 +395,31 @@ func (d *Driver) registerPersistenceEfuns(obj *object.LPCObject) {
 // ==========================================
 
 func lpcToGoValue(o object.Object) interface{} {
-	if o == nil { return nil }
+	if o == nil {
+		return nil
+	}
 	switch v := o.(type) {
-	case *object.Integer: return v.Value
-	case *object.Float: return v.Value
-	case *object.String: return v.Value
-	case *object.Boolean: return v.Value
+	case *object.Integer:
+		return v.Value
+	case *object.Float:
+		return v.Value
+	case *object.String:
+		return v.Value
+	case *object.Boolean:
+		return v.Value
 	case *object.Array:
 		arr := make([]interface{}, len(v.Elements))
-		for i, el := range v.Elements { arr[i] = lpcToGoValue(el) }
+		for i, el := range v.Elements {
+			arr[i] = lpcToGoValue(el)
+		}
 		return arr
 	case *object.Mapping:
 		m := make(map[string]interface{})
 		for _, pair := range v.Pairs {
 			keyStr := pair.Key.Inspect()
-			if s, ok := pair.Key.(*object.String); ok { keyStr = s.Value }
+			if s, ok := pair.Key.(*object.String); ok {
+				keyStr = s.Value
+			}
 			m[keyStr] = lpcToGoValue(pair.Value)
 		}
 		return m
@@ -347,9 +429,11 @@ func lpcToGoValue(o object.Object) interface{} {
 }
 
 func goToLPCValue(v interface{}) object.Object {
-	if v == nil { return &object.Nil{} }
+	if v == nil {
+		return &object.Nil{}
+	}
 	switch val := v.(type) {
-	case float64: 
+	case float64:
 		if val == float64(int64(val)) {
 			return &object.Integer{Value: int64(val)}
 		}
@@ -360,7 +444,9 @@ func goToLPCValue(v interface{}) object.Object {
 		return &object.Boolean{Value: val}
 	case []interface{}:
 		arr := make([]object.Object, len(val))
-		for i, el := range val { arr[i] = goToLPCValue(el) }
+		for i, el := range val {
+			arr[i] = goToLPCValue(el)
+		}
 		return &object.Array{Elements: arr}
 	case map[string]interface{}:
 		m := &object.Mapping{Pairs: make(map[object.HashKey]object.HashPair)}
@@ -375,26 +461,30 @@ func goToLPCValue(v interface{}) object.Object {
 }
 
 func (d *Driver) registerFunctionExistsEfun(obj *object.LPCObject) {
-        obj.Vars.Set("function_exists", &object.Builtin{
-                Fn: func(args ...object.Object) object.Object {
-                        if len(args) < 2 { return &object.Nil{} }
-                        funcName, ok1 := args[0].(*object.String)
-                        target, ok2 := args[1].(*object.LPCObject)
-                        if !ok1 || !ok2 { return &object.Nil{} }
+	obj.Vars.Set("function_exists", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 2 {
+				return &object.Nil{}
+			}
+			funcName, ok1 := args[0].(*object.String)
+			target, ok2 := args[1].(*object.LPCObject)
+			if !ok1 || !ok2 {
+				return &object.Nil{}
+			}
 
-                        // 檢查物件本身的函式與 Efun
-                        if _, exists := target.Functions[funcName.Value]; exists {
-                        	return &object.String{Value: target.Filename}
-                        }
-                        if _, exists := target.Vars.Get(funcName.Value); exists {
-                        	return &object.String{Value: "efun"}
-                        }
-                        if _, exists := target.Vars.Get("efun::" + funcName.Value); exists {
-                        	return &object.String{Value: "efun"}
-                        }
-                        return &object.Nil{}
-                },
-        })
+			// 檢查物件本身的函式與 Efun
+			if _, exists := target.Functions[funcName.Value]; exists {
+				return &object.String{Value: target.Filename}
+			}
+			if _, exists := target.Vars.Get(funcName.Value); exists {
+				return &object.String{Value: "efun"}
+			}
+			if _, exists := target.Vars.Get("efun::" + funcName.Value); exists {
+				return &object.String{Value: "efun"}
+			}
+			return &object.Nil{}
+		},
+	})
 }
 
 func (d *Driver) registerLifecycleEfuns(obj *object.LPCObject) {
@@ -408,7 +498,9 @@ func (d *Driver) registerLifecycleEfuns(obj *object.LPCObject) {
 			}
 			path := d.ResolvePath(obj.Filename, args[0].(*object.String).Value)
 			clonedObj, err := d.CloneObject(path)
-			if err != nil { return object.NewError("clone error: %s", err.Error()) }
+			if err != nil {
+				return object.NewError("clone error: %s", err.Error())
+			}
 			return clonedObj
 		},
 	})
@@ -442,105 +534,127 @@ func (d *Driver) registerMemoryEfuns(obj *object.LPCObject) {
 }
 
 func (d *Driver) registerInheritanceEfuns(obj *object.LPCObject) {
-    // 語法: string *inherit_list(object ob)
-    // 說明: 取得物件直接繼承的檔案列表。
-    // 範例: string *parents = inherit_list(this_object());
-    obj.Vars.Set("inherit_list", &object.Builtin{
-        Fn: func(args ...object.Object) object.Object {
-            target := obj
-            if len(args) > 0 {
-                if t, ok := args[0].(*object.LPCObject); ok { target = t }
-            }
-            var result []object.Object
-            for _, inh := range target.Inherits {
-                result = append(result, &object.String{Value: inh.Filename})
-            }
-            return &object.Array{Elements: result}
-        },
-    })
-    
-    // 語法: string *deep_inherit_list(object ob)
-    // 說明: 遞迴取得物件繼承的所有檔案列表 (包含繼承鏈)。
-    // 範例: string *parents = deep_inherit_list(this_object());
-    obj.Vars.Set("deep_inherit_list", &object.Builtin{
-        Fn: func(args ...object.Object) object.Object {
-            target := obj
-            if len(args) > 0 {
-                if t, ok := args[0].(*object.LPCObject); ok { target = t }
-            }
-            var result []object.Object
-            var visited = make(map[string]bool)
-            var traverse func(*object.LPCObject)
-            traverse = func(cur *object.LPCObject) {
-                for _, inh := range cur.Inherits {
-                    if !visited[inh.Filename] {
-                        visited[inh.Filename] = true
-                        result = append(result, &object.String{Value: inh.Filename})
-                        traverse(inh)
-                    }
-                }
-            }
-            traverse(target)
-            return &object.Array{Elements: result}
-        },
-    })
+	// 語法: string *inherit_list(object ob)
+	// 說明: 取得物件直接繼承的檔案列表。
+	// 範例: string *parents = inherit_list(this_object());
+	obj.Vars.Set("inherit_list", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			target := obj
+			if len(args) > 0 {
+				if t, ok := args[0].(*object.LPCObject); ok {
+					target = t
+				}
+			}
+			var result []object.Object
+			for _, inh := range target.Inherits {
+				result = append(result, &object.String{Value: inh.Filename})
+			}
+			return &object.Array{Elements: result}
+		},
+	})
 
-    // 語法: int inherits(string file, object ob)
-    // 說明: 判斷物件是否繼承了指定的檔案。
-    // 範例: if (inherits("/std/char", me)) ...
-    obj.Vars.Set("inherits", &object.Builtin{
-        Fn: func(args ...object.Object) object.Object {
-            if len(args) < 2 { return &object.Integer{Value: 0} }
-            file, ok1 := args[0].(*object.String)
-            target, ok2 := args[1].(*object.LPCObject)
-            if !ok1 || !ok2 { return &object.Integer{Value: 0} }
-            
-            // 簡化：檢查直接繼承
-            for _, inh := range target.Inherits {
-                if strings.HasSuffix(inh.Filename, file.Value) || strings.HasSuffix(inh.Filename, file.Value + ".c") {
-                    return &object.Integer{Value: 1}
-                }
-            }
-            return &object.Integer{Value: 0}
-        },
-    })
+	// 語法: string *deep_inherit_list(object ob)
+	// 說明: 遞迴取得物件繼承的所有檔案列表 (包含繼承鏈)。
+	// 範例: string *parents = deep_inherit_list(this_object());
+	obj.Vars.Set("deep_inherit_list", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			target := obj
+			if len(args) > 0 {
+				if t, ok := args[0].(*object.LPCObject); ok {
+					target = t
+				}
+			}
+			var result []object.Object
+			var visited = make(map[string]bool)
+			var traverse func(*object.LPCObject)
+			traverse = func(cur *object.LPCObject) {
+				for _, inh := range cur.Inherits {
+					if !visited[inh.Filename] {
+						visited[inh.Filename] = true
+						result = append(result, &object.String{Value: inh.Filename})
+						traverse(inh)
+					}
+				}
+			}
+			traverse(target)
+			return &object.Array{Elements: result}
+		},
+	})
+
+	// 語法: int inherits(string file, object ob)
+	// 說明: 判斷物件是否繼承了指定的檔案。
+	// 範例: if (inherits("/std/char", me)) ...
+	obj.Vars.Set("inherits", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 2 {
+				return &object.Integer{Value: 0}
+			}
+			file, ok1 := args[0].(*object.String)
+			target, ok2 := args[1].(*object.LPCObject)
+			if !ok1 || !ok2 {
+				return &object.Integer{Value: 0}
+			}
+
+			// 簡化：檢查直接繼承
+			for _, inh := range target.Inherits {
+				if strings.HasSuffix(inh.Filename, file.Value) || strings.HasSuffix(inh.Filename, file.Value+".c") {
+					return &object.Integer{Value: 1}
+				}
+			}
+			return &object.Integer{Value: 0}
+		},
+	})
 }
 
 // 語法: void reload_object(object ob)
 // 說明: 重新載入物件的定義。
 // 範例: reload_object(this_object());
 func (d *Driver) registerReloadObjectEfun(obj *object.LPCObject) {
-    obj.Vars.Set("reload_object", &object.Builtin{
-        Fn: func(args ...object.Object) object.Object {
-            if len(args) < 1 { return &object.Nil{} }
-            target, ok := args[0].(*object.LPCObject)
-            if !ok { return &object.Nil{} }
-            d.LoadObject(target.Filename)
-            return &object.Nil{}
-        },
-    })
+	obj.Vars.Set("reload_object", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 1 {
+				return &object.Nil{}
+			}
+			target, ok := args[0].(*object.LPCObject)
+			if !ok {
+				return &object.Nil{}
+			}
+			d.LoadObject(target.Filename)
+			return &object.Nil{}
+		},
+	})
 
-    // 語法: object shadow(object ob, int flag)
-    // 說明: 讓當前物件 shadow (代理) 指定物件。
-    obj.Vars.Set("shadow", &object.Builtin{
-        Fn: func(args ...object.Object) object.Object {
-            if len(args) < 1 { return &object.Nil{} }
-            target, ok := args[0].(*object.LPCObject)
-            if !ok { return &object.Nil{} }
-            obj.ShadowedObject = target
-            return target
-        },
-    })
-    
-    // 語法: object query_shadowing(object ob)
-    // 說明: 查詢物件是否正在被 shadow。
-    obj.Vars.Set("query_shadowing", &object.Builtin{
-        Fn: func(args ...object.Object) object.Object {
-            if len(args) < 1 { return &object.Nil{} }
-            target, ok := args[0].(*object.LPCObject)
-            if !ok { return &object.Nil{} }
-            if target.ShadowedObject != nil { return target.ShadowedObject }
-            return &object.Nil{}
-        },
-    })
+	// 語法: object shadow(object ob, int flag)
+	// 說明: 讓當前物件 shadow (代理) 指定物件。
+	obj.Vars.Set("shadow", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 1 {
+				return &object.Nil{}
+			}
+			target, ok := args[0].(*object.LPCObject)
+			if !ok {
+				return &object.Nil{}
+			}
+			obj.ShadowedObject = target
+			return target
+		},
+	})
+
+	// 語法: object query_shadowing(object ob)
+	// 說明: 查詢物件是否正在被 shadow。
+	obj.Vars.Set("query_shadowing", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 1 {
+				return &object.Nil{}
+			}
+			target, ok := args[0].(*object.LPCObject)
+			if !ok {
+				return &object.Nil{}
+			}
+			if target.ShadowedObject != nil {
+				return target.ShadowedObject
+			}
+			return &object.Nil{}
+		},
+	})
 }

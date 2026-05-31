@@ -15,9 +15,13 @@ func (d *Driver) registerP2PEfuns(obj *object.LPCObject) {
 	// 範例: p2p_broadcast("Hello World");
 	obj.Vars.Set("p2p_broadcast", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
-			if len(args) < 1 { return evaluator.NilValue }
+			if len(args) < 1 {
+				return evaluator.NilValue
+			}
 			content, ok := args[0].(*object.String)
-			if !ok { return evaluator.NilValue }
+			if !ok {
+				return evaluator.NilValue
+			}
 
 			if d.P2PSendChat != nil {
 				sender := ""
@@ -26,7 +30,7 @@ func (d *Driver) registerP2PEfuns(obj *object.LPCObject) {
 						sender = customSender.Value
 					}
 				}
-				
+
 				if sender == "" {
 					if p := d.GetCurrentPlayer(); p != nil {
 						sender = p.Username

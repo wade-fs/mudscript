@@ -49,7 +49,7 @@ func (d *Driver) ResolvePath(basePath, relPath string) string {
 					!strings.HasPrefix(relPath, "/include/") &&
 					!strings.HasPrefix(relPath, "/cmds/") &&
 					!strings.HasPrefix(relPath, "/data/fs_cache/") {
-					
+
 					// 自動加上沙盒前綴
 					// 例如：/area/newbie/... -> /data/fs_cache/fantasy.space/area/newbie/...
 					return sandboxPrefix + relPath
