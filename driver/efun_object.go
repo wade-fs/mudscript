@@ -308,21 +308,53 @@ func goToLPCValue(v interface{}) object.Object {
 }
 
 func (d *Driver) registerFunctionExistsEfun(obj *object.LPCObject) {
-	obj.Vars.Set("function_exists", &object.Builtin{
+        obj.Vars.Set("function_exists", &object.Builtin{
+                Fn: func(args ...object.Object) object.Object {
+                        if len(args) < 2 { return &object.Nil{} }
+                        funcName, ok1 := args[0].(*object.String)
+                        target, ok2 := args[1].(*object.LPCObject)
+                        if !ok1 || !ok2 { return &object.Nil{} }
+
+                        // 檢查物件本身的函式與 Efun
+                        if _, exists := target.Functions[funcName.Value]; exists {
+                                return &object.String{Value: target.Filename}
+                        }
+                        if _, exists := target.Vars.Get("efun::" + funcName.Value); exists {
+                                return &object.String{Value: "efun"}
+                        }
+                        return &object.Nil{}
+                },
+        })
+}
+
+func (d *Driver) registerLifecycleEfuns(obj *object.LPCObject) {
+	// 語法: object new(string file)
+	// 說明: 根據腳本路徑，複製並產生一個新的物件實體。
+	// 範例: object sword = new("/obj/weapon/sword");
+	obj.Vars.Set("new", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
-			if len(args) < 2 { return &object.Nil{} }
-			funcName, ok1 := args[0].(*object.String)
-			target, ok2 := args[1].(*object.LPCObject)
-			if !ok1 || !ok2 { return &object.Nil{} }
-			
-			// 檢查物件本身的函式與 Efun
-			if _, exists := target.Functions[funcName.Value]; exists {
-				return &object.String{Value: target.Filename}
+			if len(args) != 1 || args[0].TokenType() != object.StringType {
+				return object.NewError("new 需要 string 參數")
 			}
-			if _, exists := target.Vars.Get("efun::" + funcName.Value); exists {
-				return &object.String{Value: "efun"}
+			path := d.ResolvePath(obj.Filename, args[0].(*object.String).Value)
+			clonedObj, err := d.CloneObject(path)
+			if err != nil { return object.NewError("clone error: %s", err.Error()) }
+			return clonedObj
+		},
+	})
+
+	// 語法: string file_name([object ob])
+	// 說明: 取得物件的完整檔案名稱。
+	// 範例: write(file_name(this_object()));
+	obj.Vars.Set("file_name", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			target := obj
+			if len(args) > 0 {
+				if t, ok := args[0].(*object.LPCObject); ok {
+					target = t
+				}
 			}
-			return &object.Nil{}
+			return &object.String{Value: target.Filename}
 		},
 	})
 }
