@@ -566,3 +566,45 @@ func (d *Driver) registerSecurityEfuns(obj *object.LPCObject) {
         },
     })
 }
+
+func (d *Driver) registerPrivilegeEfuns(obj *object.LPCObject) {
+    // 語法: void set_privs(object ob, string privs)
+    // 說明: 設定物件的特權字串。
+    // 範例: set_privs(this_object(), "wizard");
+    obj.Vars.Set("set_privs", &object.Builtin{
+        Fn: func(args ...object.Object) object.Object {
+            if len(args) < 2 { return &object.Nil{} }
+            target, ok1 := args[0].(*object.LPCObject)
+            privs, ok2 := args[1].(*object.String)
+            if !ok1 || !ok2 { return &object.Nil{} }
+            target.Vars.Set("_privs", privs)
+            return &object.Nil{}
+        },
+    })
+    
+    // 語法: string query_privs(object ob)
+    // 說明: 查詢物件的特權字串。
+    // 範例: string privs = query_privs(this_object());
+    obj.Vars.Set("query_privs", &object.Builtin{
+        Fn: func(args ...object.Object) object.Object {
+            target := obj
+            if len(args) > 0 {
+                if t, ok := args[0].(*object.LPCObject); ok { target = t }
+            }
+            if val, exists := target.Vars.Get("_privs"); exists {
+                if s, ok := val.(*object.String); ok { return s }
+            }
+            return &object.String{Value: ""}
+        },
+    })
+    
+    // 語法: object *all_previous_objects()
+    // 說明: 回傳呼叫鏈中所有前置物件的陣列。
+    // 範例: object *objs = all_previous_objects();
+    obj.Vars.Set("all_previous_objects", &object.Builtin{
+        Fn: func(args ...object.Object) object.Object {
+            // 此處需要 Driver 的 CallStack 支援，目前簡化處理
+            return &object.Array{Elements: []object.Object{}}
+        },
+    })
+}

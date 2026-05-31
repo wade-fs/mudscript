@@ -72,6 +72,7 @@ func (d *Driver) SetupEfuns(obj *object.LPCObject) {
 	d.registerTypeCasting(obj)
 	d.registerMathEfuns(obj)
 	d.registerCoreEfuns(obj)
+    d.registerPrivilegeEfuns(obj)
     d.registerSecurityEfuns(obj)
     d.registerFindLivingEfun(obj)
     d.registerSetQueryEfuns(obj)
