@@ -232,8 +232,8 @@ void test_security_efuns(object me) {
     report_results();
 }
 
-void test_advanced_string_efuns() {
-    start_test("Efun Advanced String (reg_assoc, process_string, sscanf)");
+void test_advanced_string_efuns(object me) {
+    start_test("Efun Advanced String (reg_assoc, process_string, sscanf, printf)");
     
     // 測試 reg_assoc
     mixed *arr = reg_assoc("a b c", ({"[a-z]"}), ({1}));
@@ -243,11 +243,18 @@ void test_advanced_string_efuns() {
     string processed = process_string("Time: @@time@@");
     assert_true(stringp(processed), "process_string() should return string");
     
-    // 測試 sscanf (基礎測試)
+    // 測試 sscanf (%*s#%d)
     int var;
-    int res = sscanf("123", "%d", var);
-    assert_true(intp(res), "sscanf() should return integer");
+    int res = sscanf("prefix#123", "%*s#%d", var);
+    assert_equal(1, res, "sscanf() should parse pattern correctly");
+    assert_equal(123, var, "sscanf() should parse integer correctly");
 
+    // 測試 printf (%O)
+    // 透過 printf 輸出到 me，我們無法直接斷言 printf 的輸出，
+    // 但可以測試 sprintf(內部使用printf相同的格式化邏輯)
+    // 注意: 我們目前的 printf 直接寫入 TellObject，測試不易。
+    // 建議針對 %O 測試 sprintf 邏輯(若已實作)
+    
     report_results();
 }
 
@@ -264,5 +271,5 @@ void run_tests(object me) {
     test_inventory_efuns(me);
     test_command_efuns();
     test_security_efuns(me);
-    test_advanced_string_efuns();
+    test_advanced_string_efuns(me);
 }

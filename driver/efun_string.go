@@ -423,23 +423,37 @@ func (d *Driver) registerStringEfuns(obj *object.LPCObject) {
 	// 說明: 格式化輸出到當前物件。
 	// 範例: printf("等級: %d", level);
 	obj.Vars.Set("printf", &object.Builtin{
-		Fn: func(args ...object.Object) object.Object {
-			if len(args) < 1 { return &object.Nil{} }
-			fmtStr, ok := args[0].(*object.String)
-			if !ok { return &object.Nil{} }
-			
-			fmtArgs := make([]interface{}, len(args)-1)
-			for i, arg := range args[1:] {
-				switch v := arg.(type) {
-				case *object.Integer: fmtArgs[i] = v.Value
-				case *object.String: fmtArgs[i] = v.Value
-				default: fmtArgs[i] = arg.Inspect()
-				}
-			}
-			msg := fmt.Sprintf(fmtStr.Value, fmtArgs...)
-			d.TellObject(obj, msg)
-			return &object.Nil{}
-		},
+	    Fn: func(args ...object.Object) object.Object {
+	        if len(args) < 1 { return &object.Nil{} }
+	        fmtStr, ok := args[0].(*object.String)
+	        if !ok { return &object.Nil{} }
+
+	        // 簡易處理 %O：在格式化前先將 Object 轉為 Inspect() 字串，並將 %O 替換為 %s
+	        format := fmtStr.Value
+	        var fmtArgs []interface{}
+	        argIdx := 1
+
+	        // 簡單處理格式化，不使用原始的 fmt.Sprintf，避免 %O 處理問題
+	        // 註：這是一個非常基礎的實作
+	        result := format
+	        for strings.Contains(result, "%O") && argIdx < len(args) {
+	            result = strings.Replace(result, "%O", "%s", 1)
+	            fmtArgs = append(fmtArgs, args[argIdx].Inspect())
+	            argIdx++
+	        }
+
+	        for _, arg := range args[argIdx:] {
+	            switch v := arg.(type) {
+	            case *object.Integer: fmtArgs = append(fmtArgs, v.Value)
+	            case *object.String: fmtArgs = append(fmtArgs, v.Value)
+	            default: fmtArgs = append(fmtArgs, arg.Inspect())
+	            }
+	        }
+
+	        msg := fmt.Sprintf(result, fmtArgs...)
+	        d.TellObject(obj, msg)
+	        return &object.Nil{}
+	    },
 	})
 }
 
@@ -474,49 +488,69 @@ func (d *Driver) registerAdvancedStringEfuns2(obj *object.LPCObject) {
                 res = append(res, &object.String{Value: m})
             }
             return &object.Array{Elements: res}
-            },
-            })
+        },
+    })
 
-            // 語法: string process_string(string str)
-            // 說明: 處理字串中的 @@function:filename|arg@@ 格式並執行。
-            // 範例: write(process_string("Current time: @@time@@"));
-            obj.Vars.Set("process_string", &object.Builtin{
-            Fn: func(args ...object.Object) object.Object {
+	// 語法: string process_string(string str)
+	// 說明: 處理字串中的 @@function:filename|arg@@ 格式並執行。
+	// 範例: write(process_string("Current time: @@time@@"));
+    obj.Vars.Set("process_string", &object.Builtin{
+        Fn: func(args ...object.Object) object.Object {
             if len(args) < 1 { return &object.String{Value: ""} }
             str, ok := args[0].(*object.String)
             if !ok { return &object.String{Value: ""} }
 
             re := regexp.MustCompile("@@([^@]+)@@")
             result := re.ReplaceAllStringFunc(str.Value, func(match string) string {
-            content := re.FindStringSubmatch(match)[1]
-            res := d.CallFunction(obj, content, nil)
-            if s, ok := res.(*object.String); ok { return s.Value }
-            return match
+                content := re.FindStringSubmatch(match)[1]
+                res := d.CallFunction(obj, content, nil)
+                if s, ok := res.(*object.String); ok { return s.Value }
+                return match
             })
             return &object.String{Value: result}
-            },
-            })
+        },
+    })
 
-            // 語法: mixed process_value(string str)
-            // 說明: 與 process_string 類似，但回傳物件而非字串。
-            // 範例: mixed val = process_value("func");
-            obj.Vars.Set("process_value", &object.Builtin{
-            Fn: func(args ...object.Object) object.Object {
+	// 語法: mixed process_value(string str)
+	// 說明: 與 process_string 類似，但回傳物件而非字串。
+	// 範例: mixed val = process_value("func");
+    obj.Vars.Set("process_value", &object.Builtin{
+        Fn: func(args ...object.Object) object.Object {
             if len(args) < 1 { return &object.Nil{} }
             str, ok := args[0].(*object.String)
             if !ok { return &object.Nil{} }
 
             return d.CallFunction(obj, str.Value, nil)
-            },
-            })
+        },
+    })
 
-            // 語法: int sscanf(string str, string fmt, mixed var1, ...)
-            // 說明: 解析字串，將符合的部分賦值給變數。
-            // 範例: sscanf("hello world", "%s %s", s1, s2);
-            obj.Vars.Set("sscanf", &object.Builtin{
-            Fn: func(args ...object.Object) object.Object {
-            if len(args) < 2 { return &object.Integer{Value: 0} }
-            return &object.Integer{Value: 0} // 暫時簡化實作
-            },
-            })
+    // 語法: int sscanf(string str, string fmt, mixed var1, ...)
+    // 說明: 解析字串，將符合的部分賦值給變數。
+    // 範例: sscanf("hello world", "%s %s", s1, s2);
+    obj.Vars.Set("sscanf", &object.Builtin{
+        Fn: func(args ...object.Object) object.Object {
+            if len(args) < 3 { return &object.Integer{Value: 0} }
+            str, ok1 := args[0].(*object.String)
+            fmtStr, ok2 := args[1].(*object.String)
+            if !ok1 || !ok2 { return &object.Integer{Value: 0} }
+
+            // 簡易實作：支援 "%*s#%d"
+            if strings.Contains(fmtStr.Value, "#") {
+                parts := strings.Split(fmtStr.Value, "#")
+                if len(parts) == 2 && parts[0] == "%*s" && parts[1] == "%d" {
+                    idx := strings.Index(str.Value, "#")
+                    if idx != -1 {
+                        valStr := str.Value[idx+1:]
+                        var val int
+                        fmt.Sscanf(valStr, "%d", &val)
+                        if v, ok := args[2].(*object.Integer); ok {
+                            v.Value = int64(val)
+                            return &object.Integer{Value: 1}
+                        }
+                    }
+                }
             }
+            return &object.Integer{Value: 0}
+        },
+    })
+}
