@@ -440,3 +440,68 @@ func (d *Driver) registerMemoryEfuns(obj *object.LPCObject) {
 		},
 	})
 }
+
+func (d *Driver) registerInheritanceEfuns(obj *object.LPCObject) {
+    // 語法: string *inherit_list(object ob)
+    // 說明: 取得物件直接繼承的檔案列表。
+    // 範例: string *parents = inherit_list(this_object());
+    obj.Vars.Set("inherit_list", &object.Builtin{
+        Fn: func(args ...object.Object) object.Object {
+            target := obj
+            if len(args) > 0 {
+                if t, ok := args[0].(*object.LPCObject); ok { target = t }
+            }
+            var result []object.Object
+            for _, inh := range target.Inherits {
+                result = append(result, &object.String{Value: inh.Filename})
+            }
+            return &object.Array{Elements: result}
+        },
+    })
+    
+    // 語法: string *deep_inherit_list(object ob)
+    // 說明: 遞迴取得物件繼承的所有檔案列表 (包含繼承鏈)。
+    // 範例: string *parents = deep_inherit_list(this_object());
+    obj.Vars.Set("deep_inherit_list", &object.Builtin{
+        Fn: func(args ...object.Object) object.Object {
+            target := obj
+            if len(args) > 0 {
+                if t, ok := args[0].(*object.LPCObject); ok { target = t }
+            }
+            var result []object.Object
+            var visited = make(map[string]bool)
+            var traverse func(*object.LPCObject)
+            traverse = func(cur *object.LPCObject) {
+                for _, inh := range cur.Inherits {
+                    if !visited[inh.Filename] {
+                        visited[inh.Filename] = true
+                        result = append(result, &object.String{Value: inh.Filename})
+                        traverse(inh)
+                    }
+                }
+            }
+            traverse(target)
+            return &object.Array{Elements: result}
+        },
+    })
+
+    // 語法: int inherits(string file, object ob)
+    // 說明: 判斷物件是否繼承了指定的檔案。
+    // 範例: if (inherits("/std/char", me)) ...
+    obj.Vars.Set("inherits", &object.Builtin{
+        Fn: func(args ...object.Object) object.Object {
+            if len(args) < 2 { return &object.Integer{Value: 0} }
+            file, ok1 := args[0].(*object.String)
+            target, ok2 := args[1].(*object.LPCObject)
+            if !ok1 || !ok2 { return &object.Integer{Value: 0} }
+            
+            // 簡化：檢查直接繼承
+            for _, inh := range target.Inherits {
+                if strings.HasSuffix(inh.Filename, file.Value) || strings.HasSuffix(inh.Filename, file.Value + ".c") {
+                    return &object.Integer{Value: 1}
+                }
+            }
+            return &object.Integer{Value: 0}
+        },
+    })
+}

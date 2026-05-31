@@ -525,3 +525,44 @@ func (d *Driver) registerFindLivingEfun(obj *object.LPCObject) {
         },
     })
 }
+
+func (d *Driver) registerSecurityEfuns(obj *object.LPCObject) {
+    // 語法: string getuid(object ob)
+    obj.Vars.Set("getuid", &object.Builtin{
+        Fn: func(args ...object.Object) object.Object {
+            // target := obj // unused
+            // 簡化實作：假設 LPC 物件有個 UID 屬性，或從檔案名稱推斷
+            // 這裡先回傳 placeholder
+            return &object.String{Value: "root"}
+        },
+    })
+    
+    // 語法: string geteuid(object ob)
+    obj.Vars.Set("geteuid", &object.Builtin{
+        Fn: func(args ...object.Object) object.Object {
+            return &object.String{Value: "root"}
+        },
+    })
+
+    // 語法: int seteuid(string euid)
+    obj.Vars.Set("seteuid", &object.Builtin{
+        Fn: func(args ...object.Object) object.Object {
+            // 權限檢查邏輯通常由 Master 物件控制，這裡簡化處理
+            return &object.Integer{Value: 1}
+        },
+    })
+
+    // 語法: int export_uid(object ob)
+    obj.Vars.Set("export_uid", &object.Builtin{
+        Fn: func(args ...object.Object) object.Object {
+            return &object.Integer{Value: 1}
+        },
+    })
+
+    // 語法: object master()
+    obj.Vars.Set("master", &object.Builtin{
+        Fn: func(args ...object.Object) object.Object {
+            return d.MasterObject
+        },
+    })
+}

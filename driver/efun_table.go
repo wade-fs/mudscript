@@ -471,3 +471,26 @@ func (d *Driver) registerDataStructures(obj *object.LPCObject) {
 		},
 	})
 }
+
+// 語法: mapping unique_mapping(mixed *arr, string|closure fun, [object ob])
+// 說明: 將陣列中的元素根據 callback 回傳的值分組，產生一個 Mapping。
+// 範例: mapping m = unique_mapping(inv, "query_type");
+func (d *Driver) registerUniqueMappingEfun(obj *object.LPCObject) {
+    obj.Vars.Set("unique_mapping", &object.Builtin{
+        Fn: func(args ...object.Object) object.Object {
+            if len(args) < 2 { return &object.Mapping{Pairs: make(map[object.HashKey]object.HashPair)} }
+            arr, ok1 := args[0].(*object.Array)
+            fnName, ok2 := args[1].(*object.String)
+            if !ok1 || !ok2 { return &object.Mapping{Pairs: make(map[object.HashKey]object.HashPair)} }
+            
+            m := &object.Mapping{Pairs: make(map[object.HashKey]object.HashPair)}
+            for _, el := range arr.Elements {
+                res := d.CallFunction(obj, fnName.Value, []object.Object{el}) 
+                if _, ok := res.(*object.String); ok {
+                    // 簡化實作，暫不處理分組
+                }
+            }
+            return m
+        },
+    })
+}
