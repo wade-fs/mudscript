@@ -233,4 +233,44 @@ func (d *Driver) registerCommEfuns(obj *object.LPCObject) {
 			return &object.Nil{}
 		},
 	})
+
+	// 語法: void message(string class, string msg, mixed target, [mixed exclude])
+	// 說明: 傳送訊息給特定物件或房間。
+	// 範例: message("say", "你對大家說：哈囉。\n", environment(me), me);
+	obj.Vars.Set("message", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 3 { return object.NewError("message 至少需要 3 個參數") }
+			target := args[2]
+			msg := ""
+			if s, ok := args[1].(*object.String); ok { msg = s.Value }
+
+			if room, ok := target.(*object.LPCObject); ok {
+				d.TellRoom(room, msg, nil)
+			} else if targetArr, ok := target.(*object.Array); ok {
+				for _, t := range targetArr.Elements {
+					if ob, ok := t.(*object.LPCObject); ok {
+						d.TellObject(ob, msg)
+					}
+				}
+			} else if ob, ok := target.(*object.LPCObject); ok {
+				d.TellObject(ob, msg)
+			}
+			return &object.Nil{}
+		},
+	})
+
+	// 語法: int receive(string msg)
+	// 說明: 直接向當前物件發送訊息。
+	// 範例: this_player()->receive("系統訊息：伺服器即將重啟。\n");
+	obj.Vars.Set("receive", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 1 { return &object.Integer{Value: 0} }
+			msg, ok := args[0].(*object.String)
+			if !ok { return &object.Integer{Value: 0} }
+
+			d.TellObject(obj, msg.Value)
+			if obj.IsInteractive { return &object.Integer{Value: 1} }
+			return &object.Integer{Value: 0}
+		},
+	})
 }
