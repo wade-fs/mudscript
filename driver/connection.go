@@ -21,7 +21,8 @@ type PlayerConnection struct {
 	InputHidden    bool
 	OutputCallback func(msg string)
 	CurrentVerb    string // 🚀 新增：儲存當前執行的指令動詞
-}
+	NotifyFail     string // 🚀 新增：指令執行失敗訊息
+	}
 
 func NewPlayerConnection(conn net.Conn, obj *object.LPCObject) *PlayerConnection {
 	p := &PlayerConnection{

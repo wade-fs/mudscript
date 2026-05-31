@@ -422,4 +422,65 @@ func (d *Driver) registerSetQueryEfuns(obj *object.LPCObject) {
 			return &object.Nil{}
 		},
 	})
+
+	// 語法: int remove_action(string verb)
+	// 說明: 移除先前透過 add_action 註冊的指令。
+	// 範例: remove_action("look");
+	obj.Vars.Set("remove_action", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 1 { return &object.Integer{Value: 0} }
+			verb, ok := args[0].(*object.String)
+			if !ok { return &object.Integer{Value: 0} }
+			
+			if obj.Actions != nil {
+				delete(obj.Actions, verb.Value)
+				return &object.Integer{Value: 1}
+			}
+			return &object.Integer{Value: 0}
+		},
+	})
+
+	// 語法: mapping commands()
+	// 說明: 回傳當前物件所有註冊的指令。
+	// 範例: mapping cmds = commands();
+	obj.Vars.Set("commands", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			m := &object.Mapping{Pairs: make(map[object.HashKey]object.HashPair)}
+			if obj.Actions != nil {
+				for verb, act := range obj.Actions {
+					k := &object.String{Value: verb}
+					v := &object.String{Value: act.FuncName}
+					m.Pairs[k.HashKey()] = object.HashPair{Key: k, Value: v}
+				}
+			}
+			return m
+		},
+	})
+
+	// 語法: void notify_fail(string msg)
+	// 說明: 設定指令執行失敗時回傳的訊息。
+	// 範例: notify_fail("你不知道該怎麼做。\n");
+	obj.Vars.Set("notify_fail", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 1 { return &object.Nil{} }
+			msg, ok := args[0].(*object.String)
+			if !ok { return &object.Nil{} }
+			
+			pConn := d.GetConnectionFromObject(obj)
+			if pConn != nil {
+				pConn.NotifyFail = msg.Value
+			}
+			return &object.Nil{}
+		},
+	})
+
+	// 語法: void disable_commands()
+	// 說明: 將當前物件標記為不可互動。
+	// 範例: disable_commands();
+	obj.Vars.Set("disable_commands", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			obj.IsLiving = false
+			return &object.Nil{}
+		},
+	})
 }

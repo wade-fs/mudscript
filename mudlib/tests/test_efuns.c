@@ -195,6 +195,29 @@ void test_inventory_efuns(object me) {
     report_results();
 }
 
+void test_command_efuns() {
+    start_test("Efun Command (add_action, remove_action, command, notify_fail)");
+    
+    // 測試 add_action
+    add_action("do_test_cmd", "testcmd");
+    assert_true(mapp(commands()), "commands() should return mapping");
+    assert_true(commands()["testcmd"] == "do_test_cmd", "add_action() should register command");
+    
+    // 測試 command
+    notify_fail("failed");
+    assert_true(command("testcmd") == 1, "command() should execute action");
+    
+    // 測試 remove_action
+    remove_action("testcmd");
+    assert_true(sizeof(commands()) == 0, "remove_action() should remove command");
+    
+    report_results();
+}
+
+void do_test_cmd() {
+    write("testcmd executed\n");
+}
+
 void run_tests(object me) {
     test_lifecycle();
     test_type_predicates();
@@ -206,4 +229,5 @@ void run_tests(object me) {
     test_array_mapping_efuns();
     test_conversion_efuns();
     test_inventory_efuns(me);
+    test_command_efuns();
 }
