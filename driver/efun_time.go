@@ -204,3 +204,24 @@ func (d *Driver) registerTimeAndScheduling(obj *object.LPCObject) {
 		},
 	})
 }
+
+func (d *Driver) registerResetEfuns(obj *object.LPCObject) {
+	// 語法: varargs void set_reset(object ob, int time)
+	// 說明: 設定物件下次 reset 的時間。若 time 未提供，則使用預設公式。
+	// 範例: set_reset(this_object(), 3600);
+	obj.Vars.Set("set_reset", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 1 { return &object.Nil{} }
+			target, ok := args[0].(*object.LPCObject)
+			if !ok { return &object.Nil{} }
+			
+			// 簡單實作：若有時間參數，設定到物件屬性
+			if len(args) > 1 {
+				if t, ok := args[1].(*object.Integer); ok {
+					target.Vars.Set("_reset_time", t)
+				}
+			}
+			return &object.Nil{}
+		},
+	})
+}

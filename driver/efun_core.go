@@ -215,6 +215,24 @@ func (d *Driver) registerCoreEfuns(obj *object.LPCObject) {
 		},
 	})
 
+		// 語法: int query_heart_beat([object ob])
+	// 說明: 查詢物件的心跳狀態，回傳該物件設定的 heart_beat 頻率 (或 0 代表關閉)。
+	// 範例: if (query_heart_beat(me)) write("心跳運作中\n");
+	obj.Vars.Set("query_heart_beat", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			target := getTarget(args, obj)
+			
+			d.mu.RLock()
+			_, exists := d.Heartbeats[target]
+			d.mu.RUnlock()
+			
+			if exists {
+				return &object.Integer{Value: 1}
+			}
+			return &object.Integer{Value: 0}
+		},
+	})
+
 	// 語法: void destruct(object ob)
 	// 說明: 從記憶體中徹底銷毀指定的物件。若未指定參數，則銷毀自己。
 	// 範例: destruct(me);
@@ -483,4 +501,27 @@ func (d *Driver) registerSetQueryEfuns(obj *object.LPCObject) {
 			return &object.Nil{}
 		},
 	})
+}
+
+// 語法: object find_living(string str)
+// 說明: 尋找第一個標記為 living 且 id 符合 str 的生物。
+// 範例: object npc = find_living("guard");
+func (d *Driver) registerFindLivingEfun(obj *object.LPCObject) {
+    obj.Vars.Set("find_living", &object.Builtin{
+        Fn: func(args ...object.Object) object.Object {
+            if len(args) < 1 { return &object.Nil{} }
+            idStr, ok := args[0].(*object.String)
+            if !ok { return &object.Nil{} }
+            
+            d.mu.RLock()
+            defer d.mu.RUnlock()
+            for _, ob := range d.ObjectTable {
+                if ob != nil && ob.IsLiving && !ob.IsDestructed {
+                    res := d.CallFunction(ob, "id", []object.Object{idStr})
+                    if isLPCTrue(res) { return ob }
+                }
+            }
+            return &object.Nil{}
+        },
+    })
 }

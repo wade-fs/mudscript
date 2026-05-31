@@ -428,3 +428,15 @@ func (d *Driver) registerLifecycleEfuns(obj *object.LPCObject) {
 		},
 	})
 }
+
+func (d *Driver) registerMemoryEfuns(obj *object.LPCObject) {
+	// 語法: void swap(object ob)
+	// 說明: 強制將物件交換至虛擬記憶體或清除記憶體佔用。
+	// 範例: swap(this_object());
+	obj.Vars.Set("swap", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			// 目前實作為 No-op
+			return &object.Nil{}
+		},
+	})
+}
