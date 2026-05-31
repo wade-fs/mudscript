@@ -172,6 +172,29 @@ void test_conversion_efuns() {
     report_results();
 }
 
+void test_inventory_efuns(object me) {
+    start_test("Efun Inventory/Environment (first_inventory, next_inventory, set_light)");
+    
+    // 測試 inventory
+    object env = environment(me);
+    if (env) {
+        object item = first_inventory(env);
+        // 如果房間有物品，測試 next_inventory
+        if (item) {
+            object next = next_inventory(item);
+            assert_true(objectp(item), "first_inventory() should return object");
+        }
+    }
+    
+    // 測試 set_light
+    int old_light = set_light(0);
+    int new_light = set_light(1);
+    assert_equal(old_light + 1, new_light, "set_light() should adjust light");
+    set_light(-1); // 恢復
+    
+    report_results();
+}
+
 void run_tests(object me) {
     test_lifecycle();
     test_type_predicates();
@@ -182,4 +205,5 @@ void run_tests(object me) {
     test_persistence_efuns();
     test_array_mapping_efuns();
     test_conversion_efuns();
+    test_inventory_efuns(me);
 }

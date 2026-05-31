@@ -112,10 +112,55 @@ func (d *Driver) registerEnvironmentEfuns(obj *object.LPCObject) {
 				}
 			}
 			return &object.Nil{}
-		},
-	})
+			},
+			})
 
-	// 語法: string base_name(object ob)
+			// 語法: object first_inventory([object ob])
+			// 說明: 回傳指定物件庫存中的第一個物品。若無則回傳 0。
+			// 範例: object item = first_inventory(this_object());
+			obj.Vars.Set("first_inventory", &object.Builtin{
+			Fn: func(args ...object.Object) object.Object {
+			target := getTarget(args, obj)
+			if len(target.Inventory) > 0 { return target.Inventory[0] }
+			return &object.Nil{}
+			},
+			})
+
+			// 語法: object next_inventory(object ob)
+			// 說明: 回傳指定物品在同容器中的下一個物品。若無則回傳 0。
+			// 範例: object next_item = next_inventory(item);
+			obj.Vars.Set("next_inventory", &object.Builtin{
+			Fn: func(args ...object.Object) object.Object {
+			if len(args) < 1 { return &object.Nil{} }
+			item, ok := args[0].(*object.LPCObject)
+			if !ok { return &object.Nil{} }
+
+			env := item.Location
+			if env == nil { return &object.Nil{} }
+
+			for i, invItem := range env.Inventory {
+			        if invItem == item && i+1 < len(env.Inventory) {
+			                return env.Inventory[i+1]
+			        }
+			}
+			return &object.Nil{}
+			},
+			})
+
+			// 語法: int set_light(int adjustment)
+			// 說明: 設定物件的光照度。若傳入 0 則僅查詢當前光照度。
+			// 範例: set_light(1); // 增加 1 點光照
+			obj.Vars.Set("set_light", &object.Builtin{
+			Fn: func(args ...object.Object) object.Object {
+			if len(args) < 1 { return &object.Integer{Value: int64(obj.Light)} }
+			adj, ok := args[0].(*object.Integer)
+			if !ok { return &object.Integer{Value: int64(obj.Light)} }
+			obj.Light += int(adj.Value)
+			return &object.Integer{Value: int64(obj.Light)}
+			},
+			})
+
+			// 語法: string base_name(object ob)
 	// 說明: 取得物件的原始檔案路徑 (去除 #clone_id)。
 	// 範例: base_name(find_player("wade")) -> "/std/user.c"
 	obj.Vars.Set("base_name", &object.Builtin{
