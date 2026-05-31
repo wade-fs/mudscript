@@ -471,6 +471,9 @@ func (d *Driver) registerSystemAndFiles(obj *object.LPCObject) {
 	// 語法: int input_to(string func_name, [int hidden])
 	// 說明: 攔截玩家的下一次終端機輸入。
 	// 範例: write("請輸入密碼:"); input_to("get_pass", 1);
+	// 語法: void input_to(string func, [int flag])
+	// 說明: 設定玩家下一個輸入將會傳遞給指定的函式處理。若 flag 為 1，則隱藏輸入內容 (如密碼)。
+	// 範例: write("請輸入密碼: "); input_to("check_password", 1);
 	obj.Vars.Set("input_to", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
 			if len(args) < 1 { return object.NewError("input_to 需要函式字串作為參數") }

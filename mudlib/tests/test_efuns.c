@@ -123,8 +123,24 @@ void test_persistence_efuns() {
 }
 
 void test_array_mapping_efuns() {
-    start_test("Efun Array/Mapping (allocate_mapping, sizeof, member_array)");
+    start_test("Efun Array/Mapping (allocate, sort_array, unique_array, allocate_mapping, sizeof, member_array)");
     
+    // 測試 allocate
+    mixed *arr = allocate(3);
+    assert_true(pointerp(arr), "allocate() should return array");
+    assert_equal(3, sizeof(arr), "allocate() should return array of correct size");
+    
+    // 測試 sort_array
+    mixed *arr2 = ({ 3, 1, 2 });
+    mixed *sorted = sort_array(arr2, 1);
+    assert_equal(1, sorted[0], "sort_array() should sort ascending");
+    assert_equal(3, sorted[2], "sort_array() should sort ascending");
+    
+    // 測試 unique_array
+    mixed *arr3 = ({ 1, 2, 1, 3, 2 });
+    mixed *unq = unique_array(arr3);
+    assert_equal(3, sizeof(unq), "unique_array() should return unique elements");
+
     // 測試 allocate_mapping
     mapping m = allocate_mapping(5);
     assert_true(mapp(m), "allocate_mapping() should return mapping");
@@ -135,9 +151,9 @@ void test_array_mapping_efuns() {
     assert_equal(1, sizeof(m), "sizeof() on mapping should be 1");
     
     // 測試 member_array
-    mixed *arr = ({ "a", "b", "c" });
-    assert_equal(1, member_array("b", arr), "member_array() should return index");
-    assert_equal(-1, member_array("d", arr), "member_array() should return -1");
+    mixed *arr_mem = ({ "a", "b", "c" });
+    assert_equal(1, member_array("b", arr_mem), "member_array() should return index");
+    assert_equal(-1, member_array("d", arr_mem), "member_array() should return -1");
     
     report_results();
 }

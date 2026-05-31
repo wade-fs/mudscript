@@ -276,6 +276,9 @@ func (d *Driver) registerCommEfuns(obj *object.LPCObject) {
 }
 
 func (d *Driver) registerInteractiveEfuns(obj *object.LPCObject) {
+	// 語法: object this_interactive()
+	// 說明: 回傳當前互動的玩家物件。如果不是互動連線，則回傳 0。
+	// 範例: if (this_interactive() == me) ...
 	obj.Vars.Set("this_interactive", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
 			p := d.GetCurrentPlayer()
@@ -286,6 +289,9 @@ func (d *Driver) registerInteractiveEfuns(obj *object.LPCObject) {
 		},
 	})
     
+	// 語法: int get_char(string func, [int flag])
+	// 說明: 獲取玩家下一個輸入字元並傳給指定的函式。若 flag 為 1，則隱藏輸入內容。
+	// 範例: get_char("do_choice", 1);
 	obj.Vars.Set("get_char", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
 			if len(args) < 1 { return &object.Integer{Value: 0} }

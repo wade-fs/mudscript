@@ -418,4 +418,27 @@ func (d *Driver) registerStringEfuns(obj *object.LPCObject) {
 			return &object.String{Value: string(hashBytes)}
 		},
 	})
+
+	// 語法: void printf(string format, ...)
+	// 說明: 格式化輸出到當前物件。
+	// 範例: printf("等級: %d", level);
+	obj.Vars.Set("printf", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 1 { return &object.Nil{} }
+			fmtStr, ok := args[0].(*object.String)
+			if !ok { return &object.Nil{} }
+			
+			fmtArgs := make([]interface{}, len(args)-1)
+			for i, arg := range args[1:] {
+				switch v := arg.(type) {
+				case *object.Integer: fmtArgs[i] = v.Value
+				case *object.String: fmtArgs[i] = v.Value
+				default: fmtArgs[i] = arg.Inspect()
+				}
+			}
+			msg := fmt.Sprintf(fmtStr.Value, fmtArgs...)
+			d.TellObject(obj, msg)
+			return &object.Nil{}
+		},
+	})
 }

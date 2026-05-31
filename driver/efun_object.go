@@ -339,10 +339,13 @@ func (d *Driver) registerFunctionExistsEfun(obj *object.LPCObject) {
 
                         // 檢查物件本身的函式與 Efun
                         if _, exists := target.Functions[funcName.Value]; exists {
-                                return &object.String{Value: target.Filename}
+                        	return &object.String{Value: target.Filename}
+                        }
+                        if _, exists := target.Vars.Get(funcName.Value); exists {
+                        	return &object.String{Value: "efun"}
                         }
                         if _, exists := target.Vars.Get("efun::" + funcName.Value); exists {
-                                return &object.String{Value: "efun"}
+                        	return &object.String{Value: "efun"}
                         }
                         return &object.Nil{}
                 },
