@@ -28,6 +28,8 @@ const (
 	ReturnValueType = "ReturnValue"
 	// ErrorType represents a type of errors.
 	ErrorType = "Error"
+	// BufferType represents a type of buffers.
+	BufferType TokenType = "Buffer"
 	// FunctionType represents a type of functions.
 	FunctionType = "Function"
 	// StringType represents a type of strings.

@@ -57,6 +57,8 @@ func (d *Driver) registerTypePredicates(obj *object.LPCObject) {
 	register("arrayp", object.ArrayType)
 	register("pointerp", object.ArrayType) // 🚀 別名
 	register("nullp", object.NilType)
+	register("undefinedp", object.NilType)
+	register("bufferp", object.BufferType)
 	register("errorp", object.ErrorType)
 
 	// 語法: int functionp(mixed arg)
