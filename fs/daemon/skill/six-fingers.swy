@@ -1,0 +1,393 @@
+// six-fingers by Onion
+// 大幅改寫 by xboy
+// 有ppl反應太強 我先照skill_rules修正  Swy 98/9/27
+#include <combat.h>
+#include <ansi.h>
+inherit SKILL;
+void hurt(object me, object victim, object weapon, int damage);
+void block(object me, object victim, object weapon, int damage);
+void conti(object me, object victim, object weapon, int damage);
+void sp1(object me, object victim, object weapon, int damage);
+void sp2(object me, object victim, object weapon, int damage);
+void sp3(object me, object victim, object weapon, int damage);
+
+mapping *action = ({
+
+//1
+([ "action":
+"$N拇指一拈﹐體內真氣流轉﹐使出"HIW"『少商劍』"NOR"中的"HIY"『穿雲裂石』"NOR"﹐其雄勁的劍路﹐霸道的向$n$l激射而去﹐頗有石破天驚﹐風雨大至之勢",
+        "dodge": -30,
+        "parry": -20,
+        "damage": 20,
+        "force":  100,
+        "damage_type":  "刺傷",
+        "weapon": "拇指劍氣",
+]),
+
+//2
+([ "action":
+"$N勁透指尖﹐使出一招"HIG"『嶽峙淵渟』"NOR"﹐一道雄渾劍氣直刺$n$l﹐其嚴謹中正之姿﹐正符合"HIW"『少商劍』"NOR"大開大闔﹐氣派雄偉的劍意",
+        "dodge": -30,
+        "parry": -20,
+        "damage": 20,
+        "force":  100,
+        "damage_type":  "刺傷",
+        "weapon": "拇指劍氣",
+]),
+
+//3
+([ "action":
+"$N雙指齊出﹐兩股無形劍氣互相激盪﹐直奔$n$l而去﹐正是"HIW"『商陽劍』"NOR"中的絕招"HIR"『日月同耀』"NOR,
+        "dodge": -40,
+        "parry": -15,
+        "damage": 40,
+        "force": 100,
+        "damage_type": "刺傷",
+        "weapon": "食指劍氣",
+]),
+
+//4
+([ "action":
+"$N身形斗轉﹐一招"HIC"『霧捲雲湧』"NOR"幻化出無數身影﹐$n頓時籠罩在"HIW"『商陽劍』"NOR"無形劍氣之下",
+        "dodge": -40,
+        "parry": -15,
+        "damage": 40,
+        "force": 100,
+        "damage_type": "刺傷",
+        "weapon": "食指劍氣",
+]),
+
+//5
+([ "action":
+"$N坦然地彈出中指﹐使出"HIW"『中衝劍』"NOR"中的"CYN"『千古人龍』"NOR"﹐其劍勢大開大闔﹐有如天外飛龍般﹐劍氣凌厲地朝向$n$l而去",
+        "dodge": -35,
+        "parry": -20,
+        "damage": 50,
+        "force": 100,
+        "damage_type": "刺傷",
+        "weapon": "中指劍氣",
+        "post_action": (: block :),
+]),
+
+//6
+([ "action":
+"$N伸出中指﹐一招"HIW"『中衝劍』"BLU"『雷震九重天』"NOR"射向$n$l﹐其聲勢如落雷驚天﹐叫人不敢逼視",
+        "dodge": -35,
+        "parry": -20,
+        "damage": 50,
+        "force": 100,
+        "damage_type": "刺傷",
+        "weapon": "中指劍氣",
+        "post_action": (: block :),
+]),
+
+//7
+([ "action":
+"$N緩緩的伸出無名指﹐「絲絲」聲起﹐正是"HIW"『關衝劍』"NOR"中的"HIY"『壯志凌雲』"NOR"﹐其拙滯古樸的劍勢籠罩住$n全身﹐直直的撞向其$l  ",
+        "dodge": 25,
+        "parry": 0,
+        "damage": 60,
+        "force": 120,
+        "damage_type": "刺傷",
+        "weapon": "無名指劍氣",
+]),
+
+//8
+([ "action":
+"$N潛運內力﹐以靜制動﹐一招"HIG"『時雨春風』"NOR"指向$n正面三十六大穴﹐其勢古樸﹐正是"HIW"『關衝劍』"NOR"裡的高招",
+        "dodge": 25,
+        "parry": 0,
+        "damage": 60,
+          "force": 100,
+        "damage_type": "刺傷",
+        "weapon": "無名指劍氣",
+]),
+
+//9
+([ "action":
+"$N小指靈巧的轉動﹐一招"HIW"『少衝劍』"HIR"『雪泥鴻爪』"NOR"刁鑽的朝$n$l飛去﹐其勢詭奇﹐叫人捉模不定",
+        "dodge": -50,
+        "parry": -20,
+        "damage": 70,
+        "force": 100,
+        "damage_type": "刺傷",
+        "weapon": "小指劍氣",
+        "post_action": (: hurt :),
+]),
+
+//10
+([ "action":
+"$N一招"HIW"『少衝劍』"NOR"刺向$n胸口﹐尚有許\尺﹐一斜身﹐小指迴轉﹐向$n$l削落﹐正是六脈神劍裡的妙招"HIM"『分花拂柳』"NOR,
+        "dodge": -50,
+        "parry": -20,
+        "damage": 70,
+        "force": 100,
+        "damage_type": "割傷",
+        "weapon": "小指劍氣",
+]),
+
+//11
+([ "action":
+"$N輕巧的轉動小指﹐使出一招"HIC"『飛雁迴翔』"NOR"﹐只見"HIW"『少澤劍』"NOR"忽來忽去﹐有如靈蛇般的斜射$n$l",
+        "dodge": -50,
+        "parry": -20,
+        "damage": 130,
+        "force": 100,
+        "damage_type": "刺傷",
+        "weapon": "小指劍氣",
+]),
+
+//12
+([ "action":
+"$N展開架式﹐身法輕靈﹐無形劍氣左一拐﹐右一彎﹐越轉越急﹐鶩然間一劍刺向$n$l﹐正是"HIW"『少澤劍』"NOR"中的奇招"HIW"『非假非空』"NOR,
+        "dodge": -50,
+        "parry": -20,
+        "damage": 130,
+        "force": 100,
+        "damage_type": "刺傷",
+        "weapon": "小指劍氣",
+        "post_action": (: hurt :),
+]),
+
+//13
+([ "action":
+HIW"$N大喝一聲﹐鼓動全身真氣﹐內勁流轉﹐雙手六劍齊發﹐十指分彈﹐霎時劍氣縱橫﹐似有無數迅雷疾風互衝激盪向$n而去"NOR,
+        "dodge": -50,
+        "parry": -20,
+        "damage": 130,
+        "force": 100,
+        "damage_type": "刺傷",
+        "weapon": "無形劍氣",
+        "post_action": (: conti :),
+]),
+
+//14奧義(一)
+([ "action":
+HIY"\n$N眼中精光大盛﹐大喝:\n\n"
+HIW"             『\n"
+HIR"                奪命"HIW"～"HIG"連環"HIW"～"HIM"六絕劍"HIW"!!\n"
+"                                     』\n"
+"$N突然急運『一陽心法』﹐氣勁滿盈﹐一個箭步﹐向$n縱身飛去\n"NOR,
+        "dodge": 80,
+        "parry": 50,
+        "damage": 130,
+        "force": 100,
+        "damage_type": "創傷",
+        "post_action": (: sp1 :),
+]),
+
+//15奧義(二)
+([ "action":
+HIY"\n$N緩緩念道:\n\n"NOR
+GRN"                   『 兩腳踏翻塵世路﹐一肩擔盡古今愁 』\n\n"
+HIW"配合『凌波微步』的精妙步法﹐幻化成無數人影包圍$n﹐雙手疾射﹐六劍齊發﹐霎時
+間$n陷入無形劍氣的狂亂劍網之中﹐劍氣激盪﹐竟是要將$n全身撕裂﹐此招正是
+大理段氏的禁用殺招\n\n"
+"                         ～ "HIY" 無"HIM" 常"HIW" ．"RED" 恨"HIC" 蒼"BLU" 天 "HIW" ～\n\n"NOR,
+        "dodge": 80,
+        "parry": 50,
+        "damage": 130,
+          "force": 100,
+        "damage_type": "刺傷",
+        "post_action": (: sp2 :),
+]),
+
+
+//16奧義(三)
+([ "action":
+HIY"\n$N回身收步長吟道:\n\n"NOR
+YEL"                   『 明月浮雲相半掩﹐七星不落耀長空 』\n\n"
+HIW"忽然間高高躍起﹐身形掩空﹐左掌撫胸﹐右手連發七道無形劍氣﹐疾向$n周身要穴而
+去﹐昏暗之中﹐只見七道劍芒金光耀眼﹐乃是大理段氏六脈神劍中的絕學\n\n"
+"                           ～"HIM" 七"HIY" 星"HIC" 落"HIG" 長"HIR" 空"HIW" ～\n\n"NOR,
+        "dodge": 80,
+        "parry": 50,
+        "damage": 130,
+          "force": 100,
+        "damage_type": "刺傷",
+        "post_action": (: sp3 :),
+]),
+});
+
+void hurt(object me, object victim, object weapon, int damage)
+{
+        int force;
+        if( me->query("force_factor") > 0 && !me->query_temp("conti",1))
+//if(random(500)<me->query_skill("force")+me->query_skill("six-fingers",1))
+  if(random(100)>70)  {
+          force = me->query_skill("sunforce");
+          if(force > 150) force=150;
+victim->receive_damage("kee",force);
+          message_vision(sprintf(HIM"$N六脈神劍詭異的氣勁鑽入$n體內﹐$n臉上突然一陣青白﹐看來已受了不小的內傷。\n"NOR),me,victim);
+          if(damage <=0 )
+          COMBAT_D->report_status(victim);
+          me->add("force",-force);
+        }
+}
+void block(object me, object victim, object weapon, int damage)
+{
+        int force;
+//        if(damage > 40 && !me->query_temp("conti",1)&&random(100)>70)
+        if(random(100)>70)
+        {
+          force = (int)(me->query_skill("sunforce"));
+          force = random(force/3);
+          victim->apply_condition("blockade",5);
+// random(me->query_skill("sunforce")+me->query_skill("six-fingers") )/20 );
+          message_vision(sprintf(HIY"$N六脈神劍暗藏一陽指手法﹐反手點中$n的膻中大穴。\n"NOR),me,victim);
+          victim->start_busy(1);
+          COMBAT_D->report_status(victim);
+        }
+}
+void conti(object me, object victim, object weapon, int damage)
+{
+        int i,time = 3;
+if(me->query("force_factor") >= 10&&me->query("family/family_name") == "段家")
+        {
+          if( me->query_temp("conti") == 0 )
+          {
+                 me->delete_temp("super");
+            me->set_temp("conti",1);
+      message_vision(sprintf("\n[1;33m$N忽然頓悟六脈神劍[1;5;36m氣遊百穴[0m、[1;5;36m連綿不絕[0m[1;33m的要訣, 劍氣自然而然的破體而出, 欲罷不能!![0m\n"),me);
+              for(i=0;i<=time;i++)
+              COMBAT_D->do_attack(me, victim, me->query_temp("weapon"), TYPE_QUICK);
+            me->delete_temp("conti");
+          }
+        }
+}
+
+void sp1(object me, object victim, object weapon, int damage)
+{
+int i,vic_kee;
+//vic_kee = victim->query("eff_kee")/30;
+{
+  for(i=1;i<=6;i++)
+  {
+    switch(i)
+    {
+     case 1:
+message_vision(sprintf("$N領悟了"HIW"『少商劍』"HIY"『氣湧如山﹐席捲天下』"NOR"的真意﹐向$n當頭斬下!\n"),me,victim);
+     break;
+     case 2:
+message_vision(sprintf("\n$N領悟了"HIW"『商陽劍』"HIG"『身形靈動﹐勢若流雲』"NOR"的真意﹐對$n四肢砍落!\n"),me,victim);
+     break;
+     case 3:
+message_vision(sprintf("\n$N領悟了"HIW"『中衝劍』"HIC"『劍氣沖天﹐盈不可久』"NOR"的真意﹐往$n胸前疾刺!\n"),me,victim);
+     break;
+     case 4:
+message_vision(sprintf("\n$N領悟了"HIW"『關衝劍』"HIM"『氣凝丹田﹐以靜制動』"NOR"的真意﹐鶩然間刺向$n!\n"),me,victim);
+     break;
+     case 5:
+message_vision(sprintf("\n$N領悟了"HIW"『少衝劍』"NOR""CYN"『應左則右﹐虛幻不定』"NOR"的真意﹐劍影包圍住$n!\n"),me,victim);
+     break;
+     case 6:
+message_vision(sprintf("\n$N領悟了"HIW"『少澤劍』"BLU"『雲譎波詭﹐亦幻亦真』"NOR"的真意﹐劍氣疾射向$n!\n"),me,victim);
+     break;
+     }
+//if(me->query_skill("sunforce")+me->query_skill("six-fingers") >random(180))
+//     {
+message_vision(sprintf(HIR"$N確實命中$n要害，$n頓時血流滿地。\n"NOR),me,victim);
+          victim->receive_wound("kee",30);
+          COMBAT_D->report_status(victim, 1);
+          me->add("force",-20);
+//      }
+//       else
+//      {
+//message_vision(sprintf("結果$n迅速地避開這招。\n"),me,victim);
+//      }
+   }
+message_vision(sprintf(HIW"\n$N使力過度, 一時之間無力再戰!\n"NOR),me,victim);
+me->start_busy(2);
+  }
+}
+void sp2(object me, object victim, object weapon, int damage)
+{
+        int six, force;
+        six = me->query_skill("six-fingers");
+        force = me->query_skill("sunforce");
+          message_vision(sprintf(HIG"$N縱聲長嘯﹐雙手混元歸一中宮直入﹐無數道劍氣在$n身上對穿而過!!\n"NOR),me,victim);
+          victim->receive_damage("kee",six*3/2);
+          victim->apply_condition("bleeding",random(six/20));
+          COMBAT_D->report_status(victim);
+}
+
+void sp3(object me, object victim, object weapon, int damage)
+{
+        int force;
+        force = me->query_skill("sunforce");
+          message_vision(sprintf(HIC"$n先前內傷受到$N無形劍氣牽引﹐$n的傷勢更加重了!!\n"NOR),me,victim);
+          victim->receive_damage("kee",150);
+              victim->start_busy(1);
+          COMBAT_D->report_status(victim);
+}
+
+
+mapping query_action(object me, object weapon)
+{
+        int level=(int)(me->query_skill("six-fingers",1));
+
+        if ( level < 10 )
+           return action [random(2)];
+        else if ( level < 20 )
+           return action [random(4)];
+        else if ( level < 30 )
+           return action [random(6)];
+        else if ( level < 40 )
+           return action [random(8)];
+        else if ( level < 50 )
+           return action [random(10)];
+        else if ( level < 60 )
+           return action [random(6)+6];
+        else if ( level < 70 )
+           return action [random(7)+6];
+        else if ( level >= 70 && me->query_temp("super",1))
+           return action [12];
+        else if ( level <= 100 && me->query("marks/six_sp") ==1 && me->query("family/family_name") == "段家")
+           return action [random(12)+2];
+        else if ( level <= 100 && me->query("marks/six_sp")==2 && me->query("family/family_name") == "段家")
+           return action [random(11)+4];
+        else if ( level >= 100 && me->query("marks/six_sp")==3 && me->query("family/family_name") == "段家")
+           return action [random(12)+4];
+        else
+           return action [random(13)];
+}
+
+int valid_learn(object me)
+{
+        if( me->query_temp("weapon") || me->query_temp("secondary_weapon") )
+          return notify_fail("練六脈神劍還是要空手吧....\n");
+        if(me->query_skill("force")*3<=me->query_skill("six-fingers",1))
+          return notify_fail("你的基本內力技能不足, 無法練六脈神劍。\n");
+        if(me->query_skill("literate")*3<=me->query_skill("six-fingers",1))
+          return notify_fail("你的知識不足﹐無法體會六脈神劍裡﹐全身經脈運行之道的精要變化。\n");
+        return 1;
+}
+
+int valid_enable(string usage)
+{
+      if(this_player()->query_skill("six-fingers",1) >= 45)
+         {
+            return (usage=="unarmed"||usage=="stabber")||(usage=="parry");
+         }
+          return (usage=="unarmed");
+}
+
+int practice_skill(object me)
+{
+        if( me->query_temp("weapon") || me->query_temp("secondary_weapon") )
+          return notify_fail("練六脈神劍還是要空手吧....\n");
+        if( (int)me->query("gin") < 5 )
+          return notify_fail("你的精不夠﹐無法練習。\n");
+        if( (int)me->query("kee") < 30 )
+          return notify_fail("體力不夠囉,休息一下再繼續練吧.\n");
+        if( (int)me->query("force") < 1 )
+          return notify_fail("目前內力不足,休息一會兒再練吧.\n");
+        me->receive_damage("gin", 5);
+        me->receive_damage("kee", 30);
+        me->add("force", -1);
+        return 1;
+}
+string perform_action_file(string action)
+{
+        return CLASS_D("scholar")+"/six-fingers/"+action;
+}

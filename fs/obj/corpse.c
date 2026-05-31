@@ -1,0 +1,76 @@
+// corpse.c
+
+inherit ITEM;
+
+int decayed;
+
+void create()
+{
+        set_name("無名屍體", ({ "corpse" }) );
+        set("long", "這是一具無名屍體。\n");
+        set("unit", "具" );
+        decayed = 0;
+        if( clonep(this_object()) ) call_out("decay", 120, 1);
+        setup();
+}
+
+int is_corpse() { return decayed < 2; }
+int is_character() { return ((decayed < 1) || query("time")); }
+int is_container() { return 1; }
+
+string short() { return name() + "(" + capitalize(query("id")) + ")"; }
+
+void decay(int phase)
+{
+        decayed = phase;
+        if(query("time")){
+          this_object()->add("time",-1);
+          if(query("time")){
+            call_out("decay",120,1);
+            return ;
+          }
+        }
+        switch(phase) {
+                case 1:
+                        set("no_save_die",1);
+                        say( query("name") + "開始腐爛了﹐發出一股難聞的惡臭。\n" );
+                        switch(query("gender")) {
+                                case "男性":
+                                        set_name("腐爛的男屍", ({ "corpse", "屍體" }) );
+                                case "女性":
+                                        set_name("腐爛的女屍", ({ "corpse", "屍體" }) );
+                                default:
+                                        set_name("腐爛的屍體", ({ "corpse", "屍體" }) );
+                        }
+                        set("long",     "這具屍體顯然已經躺在這裡有一段時間了﹐正散發著一股腐屍的味道。\n");
+                        call_out("decay", 120, phase + 1);
+                        break;
+                case 2:
+                        say( query("name") + "被風吹乾了﹐變成一具骸骨。\n" );
+
+set_name("一具枯\乾的骸骨", ({ "skeleton","corpse","骸骨" }) );
+                        set("long", "這副骸骨已經躺在這裡很久了。\n");
+                        call_out("decay", 60, phase + 1);
+                        break;
+                case 3:
+                        say( "一陣風吹過﹐把" + query("name") + "化成骨灰吹散了。\n" );
+                        destruct(this_object());
+                        break;
+        }
+}
+
+object animate(object who, int time)
+{
+        object zombie;
+
+        if( !environment() ) return 0;
+
+        seteuid(getuid());
+        zombie = new("/obj/npc/zombie");
+        zombie->set_name( (string)query("victim_name") + "的殭屍", ({ "zombie" }) );
+        zombie->move(environment());
+        zombie->animate(who, time);
+
+        destruct(this_object());
+        return zombie;
+}

@@ -1,0 +1,34 @@
+// story:laojun
+
+#include <ansi.h>
+
+string give_gift();
+
+private mixed *story = ({
+        "岳不群：最近真倒霉....",
+        "岳夫人說道：倒什麼霉？",
+        "岳不群：最近真倒霉....",
+        "岳不群歎了一口氣道：最近辟邪劍法沒練成， 雞雞到沒了......。",
+        "岳夫人：.........",
+        "岳夫人：" HIY "本門有一種吃了可以變好運的神藥！" NOR,
+        "岳不群：快拿來....", 
+        "岳夫人：" HIG "不好，掉下了華山！" NOR,
+        (: give_gift :)
+});
+
+void create()
+{
+        seteuid(getuid());
+}
+
+mixed query_story_message(int step)
+{
+        return step < sizeof(story) ? story[step] : 0;
+}
+
+string give_gift()
+{
+        STORY_D->give_gift("/clone/gift/karwan", 1,
+                           HIM "\n「啪」的一聲一枚仙丹掉到你面前。\n\n" NOR);
+        return HIM "聽說華山派遺落了一枚仙丹。\n" NOR;
+}

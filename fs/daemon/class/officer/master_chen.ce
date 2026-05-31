@@ -1,0 +1,215 @@
+// class_level: 多一些官制(清).... :>      ccat
+// 縣令從窮縣升到富縣,玩家可能會出現重複稱號,但只是好玩,應沒差... :>
+#include <ansi.h>
+#include "/open/open.h"
+#define max "max"
+#define min "min"
+inherit NPC;
+inherit F_MASTER;
+mapping class_level = ([
+        "翰林院編修"      : ([ max : 25 , min : 0 ]),
+        "平楊縣師爺"      : ([ max : 50 , min : 25 ]),
+        "平陽縣令"        : ([ max : 100 , min : 50 ]),
+        "大同縣令"        : ([ max : 150 , min : 100 ]),
+        "鳳祥縣令"        : ([ max : 200 , min : 150 ]),
+        "晉陽縣令"        : ([ max : 300 , min : 200 ]),
+        "桐城縣令"        : ([ max : 400 , min : 300 ]),
+        "杭州令"          : ([ max : 500 , min : 400 ]),
+        "杭州知府"        : ([ max : 600 , min : 500 ]),
+        "開封知府"        : ([ max : 700 , min : 600 ]),
+        "廣州知府"        : ([ max : 800 , min : 700 ]),
+        "南京知府"        : ([ max : 900 , min : 800 ]),
+        "九門提督"        : ([ max : 1000 , min : 900 ]),
+        "雲貴總督"        : ([ max : 2000 , min : 1000 ]),
+        "兩廣總督"        : ([ max : 3000 , min : 2000 ]),
+        "兩江總督"        : ([ max : 4000 , min : 3000 ]),
+        "禮部尚書員外郎"  : ([ max : 5000 , min : 4000 ]),
+        "禮部尚書"        : ([ max : 6000 , min : 5000 ]), 
+        "戶部尚書"        : ([ max : 7000 , min : 6000 ]),
+        "欽賜龍圖閣大學士": ([ max : 8000 , min : 7000 ]), 
+        "左丞相"          : ([ max : 9000 , min : 8000 ]),
+        "右丞相"          : ([ max : 10000 , min : 9000 ]),
+        "欽賜一等千里伯"  : ([ max : 15000 , min : 10000 ]),
+        "欽賜二等萬戶侯"  : ([ max : 20000 , min : 15000 ]),
+        "欽賜一等定北侯"  : ([ max : 25000 , min : 20000 ]),
+        "欽賜二等護國公"  : ([ max : 30000 , min : 25000 ]),
+        "欽賜一等鹿鼎公"  : ([ max : 40000 , min : 30000 ]),
+        "欽賜特等平西王"  : ([ max : 50000 , min : 40000 ]),
+        ]);
+void create()
+{
+        set_name("陳知衡",({"master chen","chen"}));
+        set("long",
+        "他是本朝刑部兼吏部高官,主掌大理寺,負責全國司法與官員升等。\n"+ 
+        "有關當官的一些指令以及制度等等的說明請(help officer).\n");
+        set("gender","男性");
+        set("class","officer");
+        set("title","大理寺正卿");
+        set("officer_class","大理寺正卿");
+        set("officer_power",150);
+        set("max_officer_power",150);
+        set("guild_master",1);
+        set("office_exp",10000);
+        set("nickname","執法如山");
+        set("officer_att","good");
+        set("combat_exp",1500000);
+        set("attitude","heroism");
+        set("age",55);
+        set("str", 30);
+        set("con", 30);
+        set("cps", 30);
+        set("max_force",2500);
+        set("force",2500);
+        set("max_kee",3500);
+        set("kee",3500);
+        set_temp("apply/armor",150);
+        set_skill("literate",80);
+        set_skill("force",30);
+        set_skill("dodge",40);
+        set_skill("parry",60);
+        set_skill("unarmed",40);
+        set_skill("dagger",90);
+        set_skill("be-officer",120);
+        set_skill("security",120);
+        map_skill("be-officer","security");
+        set_skill("dragon-dagger",90);
+        map_skill("dagger","dragon-dagger");
+        set_skill("chen-steps",60);
+        map_skill("dodge","chen-steps");
+        set_skill("oneforce",40);
+        set_skill("chen-steps",60);
+        map_skill("force","oneforce");
+        map_skill("dodge","chen-steps");
+        set("force_factor",10);
+        setup();
+        create_family("陳知衡",1," ");
+        carry_object("/open/capital/obj/chen_dagger")->wield();
+}
+
+  void attempt_apprentice(object ob)
+{
+        command("l "+ob->query("id"));
+        command("recruit "+ob->query("id"));
+        ob->set("officer_class","大理寺郎中");
+        ob->set("officer_power",10);
+        ob->set("max_officer_power",10);
+        ob->set("title","大理寺郎中");
+        ob->set("relation/master chen/value",30);
+        ob->set("relation/master chen/name","陳知衡");
+        command("say 很好 ! 當了官就要知道如何當官﹐你先看看(help officer)吧。");
+}
+int check_class_level()
+{
+        string *cls = keys(class_level);
+        object me = this_player();
+        mapping limit;
+        int i;
+        for( i = 0 ; i < sizeof(cls) ; i ++ )
+        {
+          limit = class_level[cls[i]];
+          if( me->query("title") != cls[i] && me->query("officer_class") == cls[i] ) 
+             me->set("title",cls[i]);
+          if( me->query("officer_class") == cls[i] ) continue;
+          if( me->query("max_officer_power") >= limit["min"] && me->query("max_officer_power") < limit["max"] )
+          {
+             command("say 接聖旨!!!!");
+             command("say 皇命召曰:  察 "+me->name(1)+" 任上表現良好,\n"+
+                     "            特升任為 "+cls[i]+",欽此!!!");
+             command("say 恭喜大人!!! 賀喜大人!!!");
+             me->set("officer_class",cls[i]);
+             me->set("title",cls[i]);
+             return 1;
+           }
+        }
+        // 自己的徒弟不宜稱呼大人
+        command("say 嗯 ! 你回來了 ! 很好 !");
+        return 1;
+}
+void init()
+{
+   add_action("do_return","return");
+// if( this_player()->query("family/master_id") == "master chen" )
+   if( this_player()->query("class")=="officer" && userp(this_player()) )
+     call_out("check_class_level",1);
+}
+int accept_kill(object me) 
+{
+  command("cmd askgod "+me->query("id"));
+  return 1;
+}
+int accept_fight(object me)
+{
+    command("cmd askgod "+me->query("id"));
+
+  return 1;
+}
+int do_return()
+{
+        if( this_player()->query("class") != "officer" ) return 0;
+//      if( this_player()->query("family/master_id")!="master chen") return 0;
+    if( this_player()->query("age") < 18 ) {
+                command("say 小伙子 ! 你還年輕﹐這麼就想隱退﹐恐怕聖上會不允准哦 !");
+                return 1;
+                }
+if( this_player()->query_skill("be-officer",1)< 50 ) {
+                command("say 小伙子 ! 才當個那麼一下官就想走了 ? 分明是沒把老夫放在眼裡 !");
+                command("say 不行不行 ! 老夫不准 !");
+                return 1;
+        }
+        if( this_player()->query_temp("return") == 0 )
+        {
+                command("say 你真的不想當官了嗎 ? ");
+                tell_object( this_player() , "請再下一次 (return) 確認。\n");
+                this_player()->set_temp("return",1);
+                return 1;
+        }
+        command("say 那麼 .. 再會吧 !");
+        this_player()->delete("class");
+        tell_object( this_player() , "從今天起﹐你已經變成一個庶民。\n");
+        this_player()->delete_skill("be-officer");
+        this_player()->delete_skill("security");
+        this_player()->delete("max_officer_power");
+        this_player()->delete("officer_power");
+        this_player()->set("return",1);
+        this_player()->delete("family");
+        this_player()->set("have_officer",1);
+        this_player()->delete("relation");
+        this_player()->set("title","普通百姓");
+      this_player()->reset_action();
+        return 1;
+}
+
+void die()
+{    
+	object winner = query_temp("last_damage_from");
+	int j;
+	if(!winner)
+	{
+	::die();
+	return ;
+	}
+    if(userp(winner) && winner->query_temp("not_robot") > 1 )
+    {
+	if( winner->query_temp("bless")==1 )
+	{
+	j=random(-1);
+	  if( j==7 || j==77 || j== 777 || j==1111 || j==55 || j==555 || j==1000 || j==4000 || j==3333 || j==2222 )
+	  {
+	  new("/open/sky/obj11/hiblue-crystal")->move(environment(winner));
+	  message_vision(HIM"\n從陳知衡的身上掉下了一件奇怪的東西!!\n"NOR,winner);
+          write_file("/log/sky/obj11/hiblue_crystal",sprintf("%s(%s) 讓陳知衡掉下了靛色光晶於 %s\n",
+	  winner->name(1),winner->query("id"),ctime(time())));
+	  }
+	}else{
+	j=random(-1);
+	  if( j==5 || j==15 || j== 150 || j==1500 || j==10 || j==100 || j==1000 || j==4000 || j==6666 || j==7777 )
+	  {
+	  new("/open/sky/obj11/hiblue-crystal")->move(environment(winner));
+	  message_vision(HIM"\n從陳知衡的身上掉下了一件奇怪的東西!!\n"NOR,winner);
+          write_file("/log/sky/obj11/hiblue_crystal",sprintf("%s(%s) 讓陳知衡掉下了靛色光晶於 %s\n",
+	  winner->name(1),winner->query("id"),ctime(time())));
+	  }
+	}
+	}
+	::die();
+}

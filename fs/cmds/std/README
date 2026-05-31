@@ -1,0 +1,104 @@
+// 標準命令.
+[溝通用指令]
+ask		問生物問題
+followup	回答已貼的布告
+post		貼布告
+reply		回話			
+say		說話
+semote		列出可以用的動作
+song		唱歌
+tell		針對某人說話
+tune		取消通訊頻道
+
+[探險用指令]
+brief		顯示短訊息
+buy		買東西
+close		關門
+drink		喝水, 喝酒等等
+drop		丟物品
+eat		吃東西
+fill		替容器裝滿液體
+follow		跟隨某人或生物
+get		拿東西
+give		給其他生物東西
+go		走路
+light		點燃火把
+lock		鎖門
+look		看四週
+open		開門
+put		放東西
+search		搜尋所在房間
+team		跟隊伍相關命令
+unlight		熄滅火把
+unlock		打開鎖
+
+[查詢用指令]
+date		中原標準時間
+finger		查詢特定玩家
+functions	查詢你的特殊功能
+guild		查看目前開放的門派
+help		取得輔助訊息
+hp		看自己的身體狀況
+id		查物品的英文名稱
+inventory	列出身上攜帶的物件
+groups		群組的命令
+query		查詢技能工會及門派
+quests		查詢任務
+score		查自己的一些狀態
+skills		查詢自己的技巧
+time		查看現在的 mud 時間
+uptime		查看開機時間
+who		查看線上玩家
+wizlist		查詢現有的巫師
+
+[戰鬥用指令]
+apprentice	拜某人為師
+abandon		放棄技能
+cast		使用法力施法或施咒語
+cmd		門派命令的前導命令
+conjure		使用靈力顯神通
+enable		指定要用的技能
+enchant		指定要用的靈力強度
+enforce		指定要用的內力強度
+exercise	運氣練功
+exert		使用內力做特異功能
+expell		開除不成才的弟子
+fight		與其他人討教武功
+flee		緊急時逃跑
+kill		攻擊其他生物
+learn		向別人請教技能
+meditate	靜坐冥思以增加法力
+perform		使用武功中的特殊招式
+pkla		跟其他人互砍(不會死)
+practice	練習某項技能
+recruit		收某人為弟子
+remove		脫掉身上的防具
+respirate	打坐修行, 增加靈力
+surrender	fight 當中投降
+unwield		放下手中的武器
+study		從秘笈中學技能
+wear		穿上防具
+wield		裝備手中的武器
+wimpy		逃跑
+wimpydir	設定逃跑方向
+
+[個人用命令]
+alias		以字串取代複雜的命令
+auc		拍賣物品
+bet		賭博
+describe	替自己美容
+do		把一堆命令當成一個
+gage		鎖住某人的訊息
+hell		貯存或載入在魔界的進度
+ident		對物品做鑑定的工作
+nick		替自己取外號
+passwd		更改密碼
+quit		離開本遊戲
+save		儲存遊戲進度
+secure		保護特定物件
+set		特殊的設定
+sig		簽名檔
+suicide		把自己的資料徹底清掉
+to		讓某些溝通命令顯示多行
+unsecure	取消保護物件
+unset		取消設定

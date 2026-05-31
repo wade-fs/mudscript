@@ -1,0 +1,281 @@
+// new nuiverse by xboy
+#include <combat.h>
+#include <ansi.h>
+inherit SKILL;
+void attack(object me, object victim, object weapon, int damage);
+void conti(object me, object victim, object weapon, int damage);
+/*
+void sp1(object me, object victim, object weapon, int damage);
+void sp2(object me, object victim, object weapon, int damage);
+void sp3(object me, object victim, object weapon, int damage);
+void sp4(object me, object victim, object weapon, int damage);
+void sp5(object me, object victim, object weapon, int damage); */
+
+mapping *action = ({
+
+//1
+([ "action":
+"$N運起『先天乾坤功\』第一絕『乾坤無定』, 雙手隱含太極陰陽之勢, 向$n$l擊去,其掌力吞吐不定, 另人難以捉摸!!",
+        "dodge": -30,
+        "parry": -20,
+        "damage": 20,
+        "force":  100,
+        "damage_type":  "內傷",
+        "weapon": "雙手",
+        "post_action": (: attack :),
+]),
+
+//2
+([ "action":
+"$N運起『先天乾坤功\』第二絕『震驚百里』, 雙掌蓄勁, 鶩然間向$n$l發勁擊去, 只見四周生物受到$N強大氣勁壓迫, 皆受重傷!!",
+        "dodge": -30,
+        "parry": -20,
+        "damage": 20,
+        "force":  100,
+        "damage_type":  "震傷",
+        "weapon": "雙掌",
+        "post_action": (: attack :),
+]),
+
+//3
+([ "action":
+"$N使出『先天乾坤功\』第三絕『天火燎原』, 只見$N全身透出天火飛揚之狀, 如九天烈火般掃向$n, 其勢浩大, 令人心驚!!",
+        "dodge": -40,
+        "parry": -15,
+        "damage": 40,
+        "force": 100,
+        "damage_type": "天火灼身之傷",
+        "weapon": "天火",
+        "post_action": (: attack :),
+]),
+
+//4
+([ "action":
+"$N運起『先天乾坤功\』第四絕『天道循環』, 雙手合抱太極之勢, 強勁內力產生一股真空漩渦, 將$n攻勢盡數擊潰, 氣勁籠罩$n全身!!",
+        "dodge": -40,
+        "parry": -15,
+        "damage": 40,
+        "force": 100,
+        "damage_type": "絞傷",
+        "weapon": "真空氣旋",
+        "post_action": (: attack :),
+]),
+
+//5
+([ "action":
+"$N忽地高高躍起, 擊出『先天乾坤功\』第五絕『雷動九天』, 其雙掌隱含先天八卦之形, 如天網般罩住$n全身, $n心中一寒, 只有祭出十成功\力勉力一檔!!",
+        "dodge": -35,
+        "parry": -20,
+        "damage": 50,
+        "force": 100,
+        "damage_type": "經斷脈絕之傷",
+        "weapon": "雷霆卦象",
+        "post_action": (: conti :),
+]),
+
+//6
+([ "action":
+"$N掌含無限卦象, 擊出『先天乾坤功\』之『乾坤無量』, 你登時被散發出的$N渾厚掌力激的真氣一滯, 只見$N手中的乾坤氣勁不斷的襲向$n, 其勢銳不可檔!!",
+        "dodge": -35,
+        "parry": -20,
+        "damage": 50,
+        "force": 100,
+        "damage_type": "無量之傷",
+        "weapon": "乾坤氣勁",
+        "post_action": (: attack :),
+]),
+
+//先天乾坤功究極絕招----天驚地動----共五招
+//7-1
+([ "action":"
+                                ～～天驚地動～～
+
+                                第一擊  風兮破地
+
+                $N全身發出凜冽無匹的罡\氣, 令人氣息窒礙,割面生痛,
+                只見$N身形如風, 氣勁如尖銳鐵錐般疾擊$n$l!!\n",
+        "dodge": 80,
+        "parry": 50,
+        "damage": 100,
+        "force": 100,
+        "damage_type": "內傷",
+        "weapon": "天地之氣",
+//        "post_action": (: sp1 :),
+]),
+
+//7-2
+([ "action":"
+                                ～～天驚地動～～
+
+                                第二擊  水兮滔天
+
+                霎時間, 只見$N渾身氣勁如海濤巨浪, 洶湧澎湃, 雙拳
+                隱含巨嘯狂浪吞天襲地之勢, 向$n$l攻去!!\n",
+        "dodge": 80,
+        "parry": 50,
+        "damage": 160,
+        "force": 160,
+        "damage_type": "內傷",
+        "weapon":"怒濤狂浪",
+//        "post_action": (: sp2 :),
+]),
+
+
+//7-3
+([ "action":"
+                                ～～天驚地動～～
+
+                                第三擊  火兮焚野
+
+                 $N四肢狂舞, 卦像如虹, 引動無數火焰, 只見$N形如
+                 火龍, 凌空打出無數火爪, 火影連連, $n試圖躲避, 但
+                 $N身形飄忽無定, 瞬息間烈火向$n周身捲去!!\n",
+        "dodge": 80,
+        "parry": 50,
+        "damage": 160,
+        "force": 160,
+        "damage_type": "業火之傷",
+        "weapon":"焚天火爪",
+//        "post_action": (: sp3 :),
+]),
+
+
+//7-4
+([ "action":"
+                                ～～天驚地動～～
+
+                               第四擊  山兮鬼神驚
+
+              $N身形凝重, 山勢磅礡, 一股強大的氣流壓迫著$n, $N憑
+              藉著五嶽山神之力, 意在拳先, 朝$n$l轟去,!!\n",
+        "dodge": 80,
+        "parry": 50,
+        "damage": 160,
+        "force": 160,
+        "damage_type": "壓傷",
+        "weapon":"五嶽靈氣",
+//        "post_action": (: sp4 :),
+]),
+
+
+//7-5
+([ "action":"
+                                ～～天驚地動～～
+
+                               第五擊  雷兮天地碎
+
+               $N雙手結印對天, 將聚集的天地之氣回射, 鶩然一股真氣自
+               $N手中衝出, 將層層雲霧破開一個大洞, 直衝天際, 一陣沈
+               默之後, 一團狂雷自天際墜落, 直奔$n, 勢如破竹!!\n",
+        "dodge": 80,
+        "parry": 50,
+        "damage": 160,
+        "force": 160,
+        "damage_type": "天雷之傷",
+        "weapon":"九天狂雷",
+//        "post_action": (: sp5 :),
+]),
+});
+
+void attack(object me, object victim, object weapon, int damage)
+{
+       int a,lv=me->query_skill("universe");
+       if ( lv >= 80) a=6;
+       else a=4;
+       switch(random(a))
+       {
+          case 1:
+                    damage = 100 + random(lv);
+                    message_vision("
+
+$N覷中$n舊力已盡, 新力未生之際, 雙掌接連拍出「地雷復」「剝地山」「澤風破」等招, $n閃無可閃, 登時元氣大傷!!\n",me,victim);
+                    victim->receive_wound("kee",damage);
+                    break;
+
+          case 2:
+                    message_vision("$N雙掌蓄力, 卻被$n看破搶攻, 只好棄攻為守!!\n",me,victim);
+                    break;
+
+          case 3:
+                    message_vision("
+$N雙掌一錯, 突然使出先天乾坤功\的變招～以腿代掌勢～, $n被此妙招一擾, 登時鬧了個手忙腳亂\n",me,victim);
+                    victim->start_busy(1);
+                    break;
+
+          case 4:
+                    message_vision("$N突使奇招, 卻被看破反擊, 不得不回身防禦!!\n",me,victim);
+                    break;
+
+          case 5:
+                    damage = victim->query("force_factor")*20;
+                    message_vision("
+
+           $N突然逆轉氣勁, 借$n之力合併本身內力一起回擊$n自身, 
+           此招正是『先天乾坤功\』第六絕
+                    
+                               『逆轉乾坤』\n\n",me,victim);
+
+                   victim->receive_wound("kee",damage);
+                   break;
+
+          case 6:
+                    message_vision("$N逆轉氣勁, 卻無法氣隨意轉, 不得不暫緩攻勢!!\n",me,victim);
+                    break;
+        }
+        COMBAT_D->report_status(victim);
+}
+
+void conti(object me, object victim, object weapon, int damage)
+{
+        int a;
+        for( a=1;a<=6;a++)
+        {
+             message_vision("$N掌含天地風雷之威, 不斷向$n周身破綻擊去!\n",me,victim);
+             victim->receive_wound("kee",67);
+             COMBAT_D->report_status(victim);
+        }
+        message_vision("你因為不斷擊發九天狂雷, 大耗真力, 暫時無法動彈!\n",me,victim);
+        me->start_busy(1);
+}
+
+
+mapping query_action(object me, object weapon)
+{
+           return action [random(11)];
+}
+
+int valid_learn(object me)
+{
+        if( me->query_temp("weapon") || me->query_temp("secondary_weapon") )
+          return notify_fail("練六脈神劍還是要空手吧....\n");
+        if(me->query_skill("force")*3<=me->query_skill("six-fingers",1))
+          return notify_fail("你的基本內力技能不足, 無法練六脈神劍。\n");
+        if(me->query_skill("literate")*3<=me->query_skill("six-fingers",1))
+          return notify_fail("你的知識不足﹐無法體會六脈神劍裡﹐全身經脈運行之道的精要變化。\n");
+        return 1;
+}
+
+int valid_enable(string usage)
+{
+          return (usage=="unarmed");
+}
+
+int practice_skill(object me)
+{
+        if( me->query_temp("weapon") || me->query_temp("secondary_weapon") )
+          return notify_fail("練六脈神劍還是要空手吧....\n");
+        if( (int)me->query("gin") < 5 )
+          return notify_fail("你的精不夠﹐無法練習。\n");
+        if( (int)me->query("kee") < 30 )
+          return notify_fail("體力不夠囉,休息一下再繼續練吧.\n");
+        if( (int)me->query("force") < 1 )
+          return notify_fail("目前內力不足,休息一會兒再練吧.\n");
+        me->receive_damage("gin", 5);
+        me->receive_damage("kee", 30);
+        me->add("force", -1);
+        return 1;
+}
+string perform_action_file(string action)
+{
+        return CLASS_D("prayer")+"/universe/"+action;
+}

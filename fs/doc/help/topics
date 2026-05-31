@@ -1,0 +1,21 @@
+狂想空間的說明文件大部份都有重新寫過的﹐如果你覺得有什麼地方有疏
+失或錯別字﹐請利用留言板告訴巫師﹐以下是說明文件幾個主要的部份﹐
+你可以用 help <主題> 得到更進一步的說明﹐如﹕help cmds
+
+help about         有關狂想空間版權聲明﹐和遊戲無關。
+help cmds          列出所有的指令﹐每個指令都有其說明﹐例如﹕help fight,help kill
+help newbie        指導新手如何上手的說明文件。
+help fsstoryx      x=1﹐2..等﹐狂想空間的小說﹐有空的人可以看看哦!!!
+help player_rules  遊戲規則﹐跟您的權益關係重大﹐不可不看!!!
+help 門派簡介      介紹現在狂想的門派﹐也可以從裏面得到更詳細的說明哦!!!
+help wizard        想一起展狂想空間的玩家可以看一下﹐當巫師的條件哦!!!
+help pk            狂想不禁pk但您要注意!!! pk時發生的後果!!!
+help pkla          狂想可以讓你1 VS 1的單挑﹐且有潛能及替身可以拿哦!!!
+help 公式          狂想經驗值、氣、精、神、內力數值的算法!!!(新手定要看)!!!
+help multipk       若不想1 VS 1單挑﹐也可以在特定的區域﹐打群架哦﹗
+help fslib         有關狂想空間(fs lib)的相關說明
+help 路徑          介紹狂想空間重要據點的走法。(同help way)
+help mob           練功打怪指南 (by andyabc)
+
+Chan@FS 11/29/98
+調整為現有的help說明 by blazakira 2011/2/15

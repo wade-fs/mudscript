@@ -1,0 +1,144 @@
+#include <ansi.h>
+ 
+// 取得第一個逗號的位置
+int parse (string arg)
+{
+  int  i, k;
+  int n;
+
+  i = 0; k = 0; n = strlen (arg);
+  arg += ",";   // 這樣才可以讓 ,, 的判斷正常
+
+  for (i=0; i<n; i++) {
+    if (arg[i] == '"')
+        if (arg[i+1] == '"') {
+          i++;
+          continue;
+        }
+        else k = !k;
+    else if (arg[i] != ',') continue;
+    else if (k) continue;
+    else if (arg[i+1] == ',')
+        i++;
+    else break;
+  }
+
+  return i-1;
+}
+
+// 跳過空白部份, 使得 "l,hp", "l, hp" 跟 "l,     hp" 都可以用
+int skip_space(string arg)
+{
+  int           i, n;
+
+  i = 0; 
+  n = strlen (arg);
+
+  while ( i<n && arg[i] == ' ') i++;
+  return i;
+}
+
+// 放棄特殊字元, 如兩個雙括號, 以及兩個逗號其實只是一個逗號而已
+string discard (string arg)
+{
+  string msg;
+  int   i, n;
+
+  if (!arg || arg == "") return arg;
+  n = strlen(arg);
+  arg += ",";   // 這理由跟 parse() 裡的一樣
+  msg = "";
+  for (i=0; i<n; i++)
+    if ((arg[i] == ',' && arg[i+1] == ',') ||
+        (arg[i] == '"' && arg[i+1] == '"'))
+    {
+        i++;
+        msg += arg[i..i];
+    }
+    else if (arg[i] == '"') continue;
+    else msg += arg[i..i];
+  return msg;
+}
+
+int main(object me, string cmds, int depth, int in_do)
+{
+  string        cmd, other;
+  int           i, j, n;
+
+  // if(!wizardp(me) && !me->query("use_do")) return 0;
+  if (!cmds || cmds == "") return 0;
+  if(me->is_busy()) return 0;
+  // 最多十二層 by bss
+  if (depth >= 19) return 0;
+
+  // 取出第一個逗號位置
+  if (cmds == "") return 1;
+  i = parse(cmds);
+  if (i == -1) return 0;
+  j = skip_space(cmds);
+  if (i<j) return 0;
+  // 順便保留其他部份
+  cmd = cmds[j..i];
+  if ((i+2) < (n=strlen(cmds))) other = cmds[i+2..n-1];
+  cmd = discard(cmd);
+ 
+  // 此時 cmd 已經是 do 裡的內容, 我們不允許 do 裡還有 do
+  if( cmd[0..1] == "do") return 0;
+
+  // 硬性規定在 do 裡頭的一定是 brief mode
+  if (!in_do) {
+    n = me->query_temp("brief_mode");
+    me->set_temp("brief_mode",1);
+  }
+
+  // 每個命令本身可能是 alias, 所以先送去 alias.c 裡的 process_input 處理過
+  // 然後再送進 /feature/commamd.c 處理
+	me->do_command( me->process_input(cmd) );
+
+  if ( other && other != "" )
+    // 最後的參數 1 代表在 do 命令裡, 這是為了 brief mode 用的
+    // call_other(this_object(),"main", me, other, depth+1, 1);
+    if( me ) // 玩家有可能下太多指令被踢出去, 要檢查	arthur
+      main (me, other, depth+1, 1);
+    else return 1;
+
+  // 把 brief mode 還原
+  if(me)
+    me->set_temp("brief_mode",n);
+
+  if(me)
+    me->set_temp("doTime",time());
+  return 1;
+}
+ 
+int help(object me)
+{
+        write(@HELP
+指令格式 : do
+指令說明 :
+           這個指令可以讓你以更方便的方式下命令，
+     1.  do: 你可以用 do 來一次下多個命命，如:
+           do e,e,e,s,e,n,e
+     2.  你可以下 10 e 代替連按十次 e
+           4 e 跟 do e,e,e,e 是一樣的意思
+     3.  以上兩種會在說話或者 channel 中有逗號時發生問題
+           do 'hello, wade, smile
+         解決之道是用雙引號，或者雙逗號
+           do '"hello, wade",smile
+           do 'hello,, wade, smile
+     4.  如果要用到雙括號，解法就是用兩個連續雙括號，
+         譬如你要說 "你" 則可以用:
+           do '""你"" 是大笨蛋,giggle
+     5.  執行上一命令: 請直接用 !
+         如果驚嘆號後面有東西, 會加進去, 例如你原來是:
+           smile           <-- 後來發現應該加個對象 wade
+           ! wade          <-- 等於 smile wade
+         注意喔，是一個驚嘆號喔
+     6.  修改, 例如你原先想打 smile 卻不小心打成 smille
+           ^ll^l           <-- 把所有 ll 改成 l
+其他參考 :
+           tune，alias，semote
+HELP
+    );
+    return 1;
+}

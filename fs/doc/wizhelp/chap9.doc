@@ -1,0 +1,325 @@
+
+第九、十章：
+                       物品的編寫說明
+
+前言：
+　　　總算到最後二章了，感謝rsk及shb能支持到最後，讓我完成最後的二章
+，原則上物品的種類極多，我主要分成防具、武器及用品三類，採用的方法是
+直接實例介紹哦!
+
+一、武器:::::
+武器的部份我分成二個例子來說明::::
+一、簡單的武器:
+// 葉狂的武器...狂龍翔天破....
+#include <weapon.h>           //要先include 武器的函數
+#include <ansi.h>             //定義色碼..之前說過了....
+inherit UNARMED;              //定義是空手的武器..哦...
+                      // 原則上不管什麼武器都要定義給他是做什麼用的
+void create()
+{
+ seteuid(getuid());    //設定一些系統的參數.
+ set_name(HIY "狂龍翔天破" NOR,({"dragon ring","ring"}));
+ set_weight(3000);
+ if( clonep() )        //系統的參數..設定....
+         set_default_object(__FILE__);
+ else {
+ set("unit", "把");    //單位
+ set("long","這是一把傳說中由神打造的武器，其威力無從得知!!\n");
+ set("value",10000);
+ set("material", "steel");   //屬性....武器
+ set("wield_msg", "$N戴上$n，狂龍的鬥氣從$N身上散發出來。\n");
+ set("unwield_msg", "$N你將手上的$n卸了下來後，龍的鬥氣隨之消逝。 \n");}
+ init_unarmed(65);           //裝上後加攻擊力..65
+ set("weapon_prop/unarmed", 10);      //加 enable 技能10
+ set("weapon_prop/force",10);        //加enable 技能 10
+ setup();
+}
+二、複雜的武器
+//邪雲神扇
+#include <ansi.h>
+#include <weapon.h>
+inherit STABBER;
+object user;           //我們在另外使用變數時要先定義出來....
+int sp,pp;
+void create()
+{
+     set_name( "邪雲神扇",({"evil_fan"}) );
+     set_weight(20000);
+     if( clonep() )
+               set_default_object(__FILE__);
+     else {
+            set("long","產於南蠻的鐵扇,受過邪神的祝福,會於戰鬥中招來閃電.\n");
+            set("unit", "件");
+            set("value",2000);
+            set("material","steal");
+           }
+        init_stabber(15);
+        setup();
+}
+void init()                     //用法在room篇說過了....
+{
+     add_action("do_drop","drop");
+     add_action("do_auc","auc");
+     add_action("do_wield","wield");
+     add_action("do_give","give");
+     add_action("do_unwield","unwield");
+}
+int do_wield(string str)
+{
+     int my_int,my_per,my_literate;
+     ::wield();
+     if( query("equipped") )
+     {
+        user = this_player();     // 取得使用者
+        my_int = user->query("int",1);
+        my_per = user->query("per",1);
+  my_literate = user->query_skill("literate",1);
+        if(my_literate > 60)
+        my_literate = 60;
+        sp = my_per*2 + my_literate;  // 特攻率
+        pp = my_literate + my_int*2 ;  // 強度
+        message_vision("邪雲神扇感受到$N的智慧,泛起一道藍光.\n",user);
+        set_heart_beat(1);
+     }
+}
+int do_drop(string str)
+{
+   if(str=="ruby_ring" || str=="all")
+     if( query("equipped") )
+     {
+        message_vision("$N卸下了邪雲神扇,邪雲神扇變回一把普通的扇子.\n",user);
+        set_heart_beat(0);
+     }
+}
+ int do_give(string str)
+{
+ if(str=="ruby_ring" || str=="all")
+     if( query("equipped") )
+     {
+        message_vision("$N卸下了邪雲神扇,邪雲神扇變回一把普通的扇子.\n",user);
+        set_heart_beat(0);
+     }
+}
+int do_unwield(string str)
+{
+   if(str=="ruby_ring" || str=="all")
+     if( query("equipped") )
+     {
+        message_vision("$N卸下了邪雲神扇,邪雲神扇變回一把普通的扇子.\n",user);
+        set_heart_beat(0);
+     }
+}
+int do_auc(string str)
+{
+  if(str=="ruby_ring" || str=="all")
+     if( query("equipped") )
+{
+     {
+        message_vision("$N卸下了邪雲神扇,邪雲神扇變回一把普通的扇子.\n",user);
+        set_heart_beat(0);
+     }
+}
+void heart_beat()
+{
+  object *enemy,who;
+  int i;
+
+ if ( !objectp(user) )
+        {
+        set_heart_beat(0);
+        return;
+        }
+ if( user->is_fighting() && query("equipped") )
+  {
+    if( sp > random(260) )
+    {
+     enemy=user->query_enemy();
+     i=random(sizeof(enemy));
+     if( environment(user) == environment(enemy[i]) )
+      if( random(300) > enemy[i]->query_skill("dodge") )
+     {
+      message_vision(HIB+"邪雲神扇化做一道閃電,射向$N的心臟!!!\n"+NOR,enemy[i]);
+      enemy[i]->receive_damage("kee",pp,user);
+      COMBAT_D->report_status(enemy[i], 0);      //顯示狀態....
+     }else
+      message_vision(HIB+"邪雲神扇化做一道閃電,射向$N的心臟!...但是沒中...\n"
+                     +NOR,enemy[i]);
+     }
+  }
+  return;
+}
+
+三、防具::::::
+防具的種類非常的多..我一樣舉二個例子出來.......
+#include <armor.h>
+inherit CLOTH;                    //上衣
+void create()
+{
+        set_name( "蒼煌羽", ({ "pale brighten plumage","plumage"}) );
+        set("long",
+                   "此為傳說中以「青函星」與「天仙羽」合鑄的神袍，\n"
+                   "如此罕見的奇物輕如天羽、堅如星煌，同時不斷地散\n"
+                   "發蒼色之光輝，照耀人間。\n");
+        set_weight(1000);               //重量
+        if( clonep() )
+                set_default_object(__FILE__);
+        else {
+                set("unit"              , "件");
+                set("material"          , "crimsonsteel");
+                set("value"             , 100000);    //價值
+                  set("armor_prop/armor"  ,20);     //增加的防禦力..
+                set("armor_prop/dodge"  ,  7);
+                set("armor_prop/unarmed",  5);
+                set("armor/type", "cloth");       ///在這裏定出這是件上衣
+              }
+
+        setup();                //我們可定義穿上及不穿時的message
+}
+/* 以下是穿著時會發光，脫卸時便黯淡的程式
+void init()
+{
+        add_action("do_wear","wear");
+        add_action("do_remove","remove");
+}
+int do_wear(string str)
+{
+        this_player()->set_temp("light_up",1);
+        wear();
+        set("wear_msg","$N穿起$n時，$n因$N的靈力而散發蒼色的光芒！\n");
+        return 1;
+}
+int do_remove(string str)
+{
+        this_player()->delete_temp("light_up");
+        unequip();
+        set("unequip_msg","$N脫下$n之後，$n的光芒逐漸消失。\n");
+        return 1;
+} */
+另外一個大家熟悉的ring.....
+#include <ansi.h>
+#include <armor.h>
+inherit EQUIP;
+object user;
+int cor;
+void create()
+{
+     set_name( "紅寶石指戒" ,({"ruby_ring", "ring"}));
+     set_weight(2500);
+     if( clonep() )
+               set_default_object(__FILE__);
+     else {
+            set("long","一只產於南蠻的神奇紅寶石指戒,閃爍著奇異的紅色光芒.\n");
+            set("unit", "件");
+            set("value",5000);
+            set("material","steal");
+            set("no_sell", 1);         //不然就得多攔 action sell
+            set("armor_type","finger");  //設定種類是戒指....
+            set("armor_prop/armor",7);
+           }
+        setup();
+}
+void init()
+{
+     add_action("do_drop","drop");
+     add_action("do_auc","auc");
+     add_action("do_wear","wear");
+     add_action("do_give","give");
+     add_action("do_remove","remove");
+}
+int do_wear(string str)
+{
+
+     ::wear();
+     if( query("equipped") )
+     {
+        user = this_player();     // 取得使用者
+        cor = user->query("cor");
+        cor = cor *2;
+        message_vision("$N戴上了紅寶石指戒,四周亮起了淡淡紅光.\n",user);
+        set_heart_beat(1);
+     }
+}
+int do_drop(string str)
+{
+   if(str=="ruby_ring" || str=="all")
+     if( query("equipped") )
+     {
+        message_vision("$N脫下了紅寶石指戒,紅寶石奇異的紅光也隨之消逝.\n",user);
+        set_heart_beat(0);
+     }
+}
+ int do_give(string str)
+{
+  if(str=="ruby_ring" || str=="all")
+     if( query("equipped") )
+     {
+        message_vision("$N脫下了紅寶石指戒,紅寶石奇異的紅光也隨之消逝.\n",user)
+        set_heart_beat(0);
+     }
+}
+int do_remove(string str)
+{
+   if(str=="ruby_ring" || str=="all")
+     if( query("equipped") )
+     {
+        message_vision("$N脫下了紅寶石指戒,紅寶石奇異的紅光也隨之消逝.\n",user);
+        set_heart_beat(0);
+     }
+}
+int do_auc(string str)
+{
+  if(str=="ruby_ring" || str=="all")
+     if( query("equipped") )
+     {
+        message_vision("$N脫下了紅寶石指戒,紅寶石奇異的紅光也隨之消逝.\n",user);
+        set_heart_beat(0);
+     }
+}
+void heart_beat()
+{
+  if( !objectp(user) )
+        {
+        set_heart_beat(0);
+        return;
+        }
+  if( user->is_fighting() && query("equipped") )
+  {
+    if( random(100) > 80)
+    {
+    user->receive_curing("kee",cor);
+    user->receive_heal("kee",cor);
+    message_vision(HIM+"紅寶石指戒發出一道紅光壟罩著$N,$N的傷口合癒了.\n"+NOR,u
+    }
+  }
+  return;
+}
+
+四、物品::::
+物品的編法..其實跟前面都一樣..我舉一個例子讓大家了解一下..
+inherit ITEM;       //定義這是個物品...
+void create()
+{
+        set_name("夜明珠", ({ "pearl" }) );
+        set("unit", "顆");
+        set("long", "這是一顆大夜明珠。\n");
+        set("light_up",-1);
+        set("value", 2500);
+        setup();
+}
+         //如果沒有定義是防具及武器的話..一律是物品..物品可以不用來...
+        //加上以下二行....
+//        if( clonep() )
+//                set_default_object(__FILE__);
+
+結論:::
+  以上就是物品的簡單製作方式..物品的製作千變萬化但是基本的是不會變的
+裏面還有一些函數，我並沒有說明.如果有問題的話可以在board裏面發問問題
+我會儘量幫各位解答的......
+補充一下:::
+  製作的房間及人物及物品一定要經qc才能夠放上去...而且每項物品都有其限
+制..一定要看armor_rules及weapon_rules 各位可以打help 看..哦....
+
+                                                        by Chan 7/30/98
+
+
+

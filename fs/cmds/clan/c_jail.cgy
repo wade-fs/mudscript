@@ -1,0 +1,50 @@
+// c_jail.c by ACKY
+
+#include <ansi.h>
+
+inherit F_CLEAN_UP;
+
+int help( object me );
+
+int main( object me, string id )
+{
+	object	user;
+
+	if( !me->query("clan" ) ) return 0;
+	if( !id )
+		return notify_fail( "請問您想將誰放逐?\n" );
+	if( me->query("clan/rank" ) > 4 )
+		return notify_fail( "您無權使用此指令。\n" );
+	if( me->query("id" ) == id )
+		return notify_fail( "您瘋了嗎?\n" );
+	if( !user = find_player( id ) )
+		return notify_fail( "此人目前不在線上。\n" );
+	if( user->query("clan/id") != me->query("clan/id") )
+		return notify_fail( "此人並非貴幫之幫眾。\n" );
+	if( me -> query( "clan/rank" ) >= user -> query( "clan/rank" ) )
+		return notify_fail( "只能放逐位階比您低的幫眾。\n" );
+	if( user->is_fighting() || user->is_ghost() || user->query_temp("pk_fight") )
+		return notify_fail( "此人正忙著呢。\n" );
+	if( environment(user)->query("no_transmit") && CLAN_D->what_clan_area(user)=="NULL" )
+		return notify_fail( "此人正藏匿於異常凶險之處, 目前暫時無法將其逮捕。\n" );
+	if( environment(user)->query("evil") )
+		return notify_fail( "此人正藏匿於異常凶險之處, 目前暫時無法將其逮捕。\n" );
+	CHANNEL_D->do_channel( me, "ct",
+		"\n\t我 -「"HIW+me->query("clan/title")+HIY"」嚴正地宣佈……\n\t將"+
+		HIR + user->query("name") + HIY"("HIR+user->query("id")+ HIY")關進"HIB +
+		CLAN_D->clan_query( me->query("clan/id"), "jail" )->short() + HIY", 好好自我反省。"NOR );
+	user->move( CLAN_D->clan_query( me->query("clan/id"), "jail" ) );
+	user->set( "startroom", CLAN_D->clan_query( me->query("clan/id"), "jail" ) );
+	return 1;
+}
+
+int help( object me )
+{
+	write("
+	c_jail <ID> : 將幫眾關進幫派監獄。
+
+						by ACKY 2000/10/10
+");
+        return 1;
+}
+

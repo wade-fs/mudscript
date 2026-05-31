@@ -25,8 +25,10 @@ void create() {
     current_weather = "clear";
     last_update = time();
     
-    // 嘗試載入舊有的時間狀態
-    restore_object(query_save_file());
+    // 嘗試載入舊有的時間狀態，增加錯誤檢查
+    if (file_size(query_save_file() + ".o") > 0) {
+        restore_object(query_save_file());
+    }
     
     set_heart_beat(1);
 }

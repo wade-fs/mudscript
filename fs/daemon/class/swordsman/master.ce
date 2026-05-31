@@ -1,0 +1,800 @@
+// 新增解迷<<皆傳之證>>要素  by frequency  2003/1/18
+// 新增劍魔二轉解失敗可以回仙劍的quest by Alucard 2009/August
+#include <ansi.h>
+#include "/open/open.h"
+inherit NPC;
+inherit F_MASTER;
+#include <basic_skill.h>
+string sword_book();
+string ask_gonfu();
+int ask_reko();
+int ask_yan();
+int ask_bloodking();
+int sha_array3();
+int sha_array4();
+int sha_array8();
+int ask_wawafish();
+string return_sha1();
+string return_sha2();
+string return_sha3();
+string return_sha4();
+int abandon_skill1();
+int abandon_skill2();
+int check_quest(object me)
+{
+if(!me) return 1;
+if (environment(me)!=environment())
+{
+ command("think");
+ me->delete_temp("appo");
+ }
+else
+{
+command("hmm");
+call_out("check_quest1",10,me);
+}
+
+}
+ int check_quest1(object me)
+{
+if(!me) return 1;
+if (environment(me)!=environment())
+{
+ command("think");
+ me->delete_temp("appo");
+ }
+else
+{
+ command("say 在你拿到「麗玉蝶蘭」之後, 我想也不該再瞞你！");
+   call_out("check_quest2",20,me);
+}
+}
+ int check_quest2(object me)
+{
+if(!me) return 1;
+if (environment(me)!=environment())
+{
+ command("think");
+ me->delete_temp("appo");
+ }
+else
+{
+ command("say 「開天三靈器」是血魔復出武林後,祖師爺消遙子為了封印血魔");
+ command("say 而將其配劍,也就是傳說中的「仙劍連陽」送給大劍師"HIW"龍鐵心"NOR"！");
+    call_out("check_quest3",30,me);
+}
+}
+ int check_quest3(object me)
+{
+if(!me) return 1;
+if (environment(me)!=environment())
+{
+ command("think");
+ me->delete_temp("appo");
+ }
+else
+{
+ command("say 而龍鐵心則融合天外礦石將仙劍連陽分鑄成靈劍、靈刀及靈筆！");
+    call_out("check_quest4",15,me);
+}
+}
+ int check_quest4(object me)
+{
+if(!me) return 1;
+if (environment(me)!=environment())
+{
+ command("think");
+ me->delete_temp("appo");
+ }
+ else
+{
+ command("say 祖師爺拿到開天三靈器之後，便召集當時的刀神，與儒俠利用開天三才陣！");
+ command("say 經過三天三夜的戰鬥後，血魔因為真氣不繼因而被開天三才陣困在天門奇陣中！");
+    call_out("check_quest5",20,me);
+}
+}
+ int check_quest5(object me)
+{
+if(!me) return 1;
+if (environment(me)!=environment())
+{
+ command("think");
+ me->delete_temp("appo");
+ }
+else
+{
+ command("say 這是我由師父那聽來的，不過真實情形，還得問風青雲師叔才會知道！");
+ me->set("quests/shasword",2);
+ me->delete_temp("quests/shasword");
+}
+}
+int check_mogi(object me)
+{ 
+ command("fear");
+ message_vision(HIY"
+$N驚恐的說：你這是中了魔域的恐怖奇毒「入滅」！中此毒者因入滅之毒
+滯留腦內每隔一段時間會頭痛而嘔血不止，時間一長必定會送命，當今只有「
+千墳之水」能化解此毒！\n"NOR,this_object());
+}
+
+string check_damage()
+{
+        object me = this_player();
+        if( me->query("quests/kill-dugur") && !me->query("quests/cure-star") )
+        return "你中的是雪蒼派的絕招「枯\葉殘星掌」﹐這一掌勁道十分強﹐可見此人非汎汎之輩。\n";
+        return "你有受傷嗎 ?";
+}
+string cure_damage()
+{
+        object me = this_player();
+        if( me->query("quests/kill-dugur") && !me->query("quests/cure-star") )
+        return "對於這個傷﹐我並沒有把握﹐但是﹐據我所知﹐魔刀有研究過這部功\夫。\n";
+        return "你有受傷嗎 ?";
+}
+void create()
+{
+set_name("鄭士欣",({"master teng","teng","master"}));
+set("long","他就是武林第一大宗師 :鄭士欣。現正執掌仙劍門戶，
+同時身為劍士公會總會長。近十餘年來，因仙劍七俠已
+能獨當一面，分擔派內事務；而公會事務也由三長老柳
+毅全權負責，鄭士欣每天除了至藏經閣精研武學外，就
+是在此接見外賓。\n");
+	set("gender","男性");
+        set("class","swordsman");
+        set("nickname","無極真人");
+	set("family/family_name","仙劍派");
+	set("combat_exp",3000000);
+	set("attitude","heroism");
+	set("dragon-sword",1);
+	set("bellicosity", 490);
+	set("age",76);
+	set("title","仙劍派第三代掌門人");
+	set("str", 44);
+	set("cor", 42);
+	set("cps", 18);
+	set("con", 24);
+	set("int", 42);
+	set("max_gin", 10000);
+	set("gin",10000);
+	set("max_sen", 10000);
+	set("sen",10000);
+	set("max_kee", 10000);
+	set("kee",10000);
+	set("s_kee",1000);
+	set("max_s_kee",1000);
+	set("sec_kee","god");
+	set("force",10000);
+	set("max_force",10000);
+	set("functions/sha_kee/level",100);
+	set("functions/swordkee/level",100);
+	set_skill("literate",40);
+	set_skill("cure",50);
+	set_skill("magic",20);
+	set_skill("spells",20);
+	set_skill("shasword",100);
+	set_skill("shaforce",80);
+	set_skill("sha-steps",100);
+	set_skill("sha-array",100); 
+        set_skill("array",100);
+        set_skill("move",80);
+	set_skill("force",70);
+        set_skill("dodge",80);
+        set_skill("parry",120);
+        set_skill("sword",120);
+        map_skill("array","sha-array");
+        map_skill("dodge","sha-steps");
+        map_skill("move","sha-steps");
+        map_skill("force","shaforce");
+        map_skill("sword","shasword");
+        map_skill("parry","shasword");
+        set("force_factor",29);
+        set("inquiry",([
+  "仙劍後三式" : (: ask_gonfu :),
+  "專用武器" : (: ask_reko :),
+  "三才密招" : (: sha_array3 :),
+  "四龍崩月" : (: sha_array4 :),
+  "禁斷連斬訣" : (: sha_array8 :),
+  "天劍宗"   : (: sword_book :),
+  "開天三才陣" : "這是傳說中的陣法，據說得利用刀神，劍聖及儒俠三聖之力，才能使用。\n",
+  "鎖元盒" : "這樣東西似乎在二十年前左右就失落了﹐而它最後出現的地方好像是在雪蒼山上。\n",
+  "我的傷" : (: check_damage :),
+  "療傷" : (: cure_damage :),
+  "風青雲" : (:ask_yan :),
+  "血魔" : (: ask_bloodking :),
+  "誠意" : (: return_sha1 :),
+  "重返仙劍" : (: return_sha2 :),
+  "血魔印記" : (: return_sha3 :),
+  "聖水" : (: return_sha4 :),
+  "天門奇陣" : "這是困住血魔的不世陣法,當世似乎無人能破解\n",
+  "仙劍劍陣" : "劍陣因人數不同有其不同陣招，「三才密招」「四龍崩月」「禁斷連斬訣」等招 !!\n",
+  "枯\葉殘星掌" : "這招是雪蒼派的禁招之一﹐威力十分驚人﹐但是﹐這部功\夫似乎在獨孤愁死後就已經失傳了。\n",
+  "入滅" : "我年輕時對抗魔域入侵時曾中過此毒，九死一生幸得一顆「千墳之水」解之，但是，唉...\n",
+  "千墳之水" : "千墳之水乃魔域某守衛心臟內凝結之血, 劇毒無比. 但卻有解除入滅奇毒的奇效\n",
+  "連陽劍" : "...就是我手上這把阿...這是當初師父直傳給我的。\n",
+  "夜千鳥" : "這是開天三靈器的靈刀阿，我只知道當時是交給了風雨樓的人，至於是誰，我就不知道了....\n",
+  "麗玉蝶蘭" : "那是靈筆呀....聽師父說...當初是傳入儒門手中，只是當初儒門內鬨之時....好似被其他人奪走了......\n",
+  "龍鐵心" : "你說龍鐵心ㄚ~~他是當時將先劍鑄成三靈器的大劍師，我只聽師父說過龍鐵心劍師好像在魔界，不過就不確定在魔界哪了。\n"
+
+        ]));
+	set("get_sha_sp", 1);
+	set("quests/sunfire",1);
+	set("quest/sun_fire_sword",1);
+	set("bounds", 4000000);
+	set_temp("roared",1);
+	set("chat_chance_combat",90);
+	set("chat_msg_combat",({
+	(: perform_action,"sword.sha_kee" :)
+	}));
+	setup();
+
+	carry_object("/open/gsword/obj/dragon-sword.c")->wield();
+	add_money("gold",10);
+	carry_object("/open/gsword/obj/dragon-cloth.c")->wear();
+	create_family("仙劍派",3,"掌門人");
+}
+
+void init()
+{
+  object me = this_player();
+  if(me->query_condition("mogi"))
+  call_out("check_mogi",1,me);
+  if(me->query("quests/shasword")==1 &&!me->query_temp("appo"))
+  {
+  me->set_temp("appo",1);
+  call_out("check_quest",50,me);
+}
+        add_action("do_select","select");
+        add_action("do_verify","verify");
+		add_action("do_answer","answer");
+		::init();
+}
+
+int accept_fight(object who)
+{
+
+object guard, guard1;
+ command("cmd god_kee");
+ fight_ob(who);
+ command("perform sword.sha_kee");
+ return 1;
+}
+
+int accept_kill(object who)
+{
+ object guard, guard1;
+
+ command("say 讓你知道連陽劍的厲害！\n");
+ set("have_kill_me",1);
+ kill_ob(who);
+ command("cmd god_kee");
+ command("perform sword.sha_kee");
+/*
+command("say 隨風 ,語柔出來替老夫收拾這小伙子 !!");
+        guard=new("/daemon/class/swordsman/boy.c");
+        guard->move( environment() );
+        guard1=new("/daemon/class/swordsman/girl.c");
+        guard1->move( environment() );
+        guard1->kill_ob(who);
+        guard->kill_ob(who);
+*/
+ return 1;
+}
+
+int do_verify(string arg)
+{
+ object me,ob;
+ me=this_player();
+ ob=new("open/gsword/obj/b1");
+ if( arg!="sword")
+{
+    write("你要申請什麼\n");
+    return 1;
+   }
+if(me->query("family/family_name")!="仙劍派")
+  {
+    write("只有仙劍門徒才會有信物\n");
+    return 1;
+  }
+
+ if( present(ob,me) )
+  {
+    write("你已經申請過了\n");
+    return 1;
+   }
+   else
+    {
+     write("鄭士欣說：這是仙劍派的信物 ,望你好好保存 ,切勿遺失了\n");
+     ob->move(me);
+     return 1;
+    }
+}
+
+void attempt_apprentice(object ob)
+{
+        if(ob->query("marks/仙劍七俠")==1)
+        {
+        if((int)this_player()->query("combat_exp")<=100000)
+        {
+        command("? " +ob ->query("id"));
+        command("say 你不是拜過我的弟子了?");
+        command("say 以你的程度還不須我親自指導!");
+        command("say 好好跟著你師父多學幾年吧!");
+        return 0;
+        }
+        command("look "+ob->query("id"));
+        command("smile");
+        command("say 好,你果然是可造之才,從今後就由老夫親自指導!");
+        // Modify By Oda
+        // 為了避免叛師被扣 skill, 先將玩家的 family 去掉
+        ob->delete("family");
+        command("recruit "+this_player()->query("id"));
+        message("system",HIW"鄭士欣縱聲大笑: 
+哈哈哈哈....老夫實在太高興啦!
+英雄出少年 ,"+this_player()->name()+": 今後就由老夫親授於你.\n"NOR,users());
+        return ;
+        }
+      command("hmm");
+      command("say 我老啦 ,你去拜我的七個徒弟吧 !");
+      command("say 我的七個弟子是 張乘風 張乘雲 唐鈺 趙鶴 梅影 何雙雙 李逍遙");
+      command("say 你想拜(select)誰呢?");
+      ob->set_temp("allow_select",1);
+}
+
+        int do_select(string str)
+        {
+        object who;
+        who=this_player();
+        if(!who->query_temp("allow_select"))
+        {
+        command("say 我又沒答應讓你挑? ");
+        return 1;
+        }
+        if(who->query_temp("have_say")==1)
+        {
+        message_vision(sprintf(HIC"$N說道﹕"+str+"\n"NOR),who);
+        command("say 你不是挑過了?");
+        return 1;
+        }
+        if(str=="張乘風" ||  str == "chen fon" || str == "fon")
+            {
+         message_vision(HIC"$N說道﹕張乘風\n"NOR,who);
+         this_player()->set_temp("allow_1",1);
+         command("smile");
+         command("say 嗯 ,你就拜我的首徒張乘風吧!");
+         this_player()->set_temp("have_say",1);
+         return 1;
+        }
+        if(str == "張乘雲" || str == "chen un" || str == "un")
+        {
+        message_vision(HIC"$N說道﹕張乘雲\n"NOR,who);
+        this_player()->set_temp("allow_2",1);
+        command("smile");
+        command("say 嗯 ,你就拜我的次徒張乘雲吧!");
+        this_player()->set_temp("have_say",1);
+        return 1;
+        }
+        if(str == "唐鈺" || str == "teng yu" || str == "yu")
+        {
+        message_vision(HIC"$N說道﹕唐鈺\n"NOR,who);
+        this_player()->set_temp("allow_3",1);
+        command("smile");
+        command("say 嗯 ,你就拜我的三弟子唐鈺吧!");
+        this_player()->set_temp("have_say",1);
+        return 1;
+        }
+        if(str == "趙鶴" || str == "san hu" || str == "hu")
+        {
+        message_vision(HIC"$N說道﹕趙鶴\n"NOR,who);
+        this_player()->set_temp("allow_4",1);
+        command("smile");
+        command("say 嗯 ,你就拜我的四弟子趙鶴吧!");
+        this_player()->set_temp("have_say",1);
+        return 1;
+        }
+        if(str == "梅影" || str == "may ying" || str == "may")
+        {
+        message_vision(HIC"$N說道﹕梅影\n"NOR,who);
+        this_player()->set_temp("allow_5",1);
+        command("smile");
+        command("say 嗯 ,你就拜我的女弟子梅影吧!");
+        this_player()->set_temp("have_say",1);
+        return 1;
+        }
+        if(str == "何雙雙" || str == "cute girl" || str == "girl")
+        {
+        message_vision(HIC"$N說道﹕何雙雙\n",who);
+        this_player()->set_temp("allow_6",1);
+        command("smile");
+        command("say 嗯 ,你就拜我的女弟子何雙雙吧!");
+        this_player()->set_temp("have_say",1);
+        return 1;
+        }
+        if(str == "李逍遙" || str == "shou_yau" || str == "yau")
+        {
+        message_vision(HIC"$N說道﹕李逍遙\n"NOR,who);
+        this_player()->set_temp("allow_7",1);
+        command("smile");
+        command("say 嗯 ,你就拜我的七弟子李逍遙吧!");
+        this_player()->set_temp("have_say",1);
+        return 1;
+        }
+        command("say 沒這人!");
+        return 1;
+        }
+
+int  ask_reko()
+{
+  object me;
+  me=this_player();
+  if( me->query("id") != "reko")
+        return 0;
+  else 
+  {
+    if (!present("reko sword",this_player()) )  //檢查玩家是否有
+             new("/autoload/killer/reko_sword.c")->move(me);
+    write("天殺的小鬼，下次在弄丟就抓來打屁屁\n");
+    return 1;
+  }
+}
+  
+string ask_gonfu()
+{
+  object me;
+  me=this_player();
+if(me->query("family/family_name")!="仙劍派")
+ return ("你非仙劍弟子, 你要做什麼。");
+  if( me->query_skill("shasword",1) < 80 )
+return(" 你武功\需要再加強些 ,不要胡思亂想\n ");
+ if(me->query("get_sha_sp")==1)
+return(" 你已經學會啦...還想做什麼!!\n");
+ else if(me->query("bounds",1) < 4000 )
+return("你對本派貢獻還不足 ,等夠了我再告訴你吧\n");
+ else 
+    {
+     write("好像有這功\夫 ,不過百年前已經失傳 ,這樣好了 ,你去藏經閣找找吧\n");
+     new("/open/gsword/obj/pass")->move(me);
+     write("這張通行証你拿去給乘雲看 ,他就會讓你進去的. \n");
+     me->set_temp("allow_pass",1);
+}
+}
+
+int ask_bloodking()
+{
+  object me;
+  me=this_player();
+  if( me->query("bloodsword") != 1 )
+command("say 血魔ㄚ...他在上次大戰中已被封印在天門奇陣中了內了\n ");
+  else
+    {
+   command("angry");
+   command("say 你還說....血魔就是被你放出的...你還問我他到那去\n");
+     me->set("kyaoo",2);
+    }
+     return 1;
+}
+int  sha_array3()
+{
+  object me;
+  me=this_player();
+  if( me->query("family/family_name") !="仙劍派")
+  command("say 你非仙劍弟子，恕不奉告");
+  else command("say 其實這是我憑空想出來的，如果有一天有三個人同時會使用仙劍後三式
+的話，試試此招也許\可以融成絕招也說不定，前提是三人的劍陣修為必須要夠。");
+  return 1;
+}       
+int  sha_array4()
+{
+  object me;
+  me=this_player();
+  if( me->query("family/family_name") !="仙劍派" )
+  command("say 你非仙劍弟子，恕不奉告");
+  else command("say 老夫因某種原因不使用雙十旋龍斬，但我仍然想過將四人雙
+十同時施展如何合一的方法，但我自己也沒試驗過。");
+  return 1;
+}
+int ask_yan()
+{
+  object me;
+  me=this_player();
+  if( me->query("get_sha_sp")==1) command("say 風青雲師叔～之前被你從焚天魔域救出之後..就到密室去了。\n ");
+  return 1;
+}
+int  sha_array8()
+{
+  object me;
+  me=this_player();
+  if( me->query("family/family_name") !="仙劍派" )
+  command("say 你非仙劍弟子，恕不奉告");
+  else command("say 此招融合仙劍七俠的禁斷絕招和老夫的劍訣，但我的弟子的平均
+功\力不夠，所以此招列為仙劍的禁招之一。");
+  return 1;
+}
+
+void heart_beat()
+{
+	object me=this_object();
+	int i=me->query_busy(),j=i-1;
+
+	if( me->is_fighting() && me->is_busy() )
+	{
+	  if( ( 5 > random(10) ) && ( random(5) == 2 ) )
+	  {
+	  message_vision(HIR"$N連陽氣勁貫通全身任督二脈，竟然解開了身上部份被封的穴道。\n"NOR,me);
+	  me->delete_busy();
+	  me->start_busy(j);
+	  }
+	}
+    set_heart_beat(1);
+	::heart_beat();
+}
+
+void unconcious()
+{
+   object winner = query_temp("last_damage_from");
+   if(!winner){
+:: unconcious();
+   return ;
+   }
+   tell_object(users(),HIW"鄭士欣吟道：\n\n\n            "HIW"『"HIC"狂歌羨煞紅塵客      笑歎人間幾許\愁 \n
+              曉霧迷濛秋漸冷      只恨雲深願未酬"HIW"』\n\n\n"HIW"今日敗於"HIY+winner->query("name")+HIW"少俠之手，老夫心悅誠服，盼少俠能以一身絕學振興武林!!\n"NOR);
+   :: unconcious();
+}
+
+void die()
+{
+        object winner = query_temp("last_damage_from");
+	int j;
+        if(!winner)
+	{
+	::die();
+	return ;
+        }
+    if(userp(winner) && winner->query_temp("not_robot") > 1 )
+    {
+	if ( winner->query_temp("bless")==1 )
+	{
+	j=random(-1);
+	  if( j==7 || j==77 || j== 777 || j==1111 || j==55 || j==555 || j==1000 || j==4000 || j==3333 || j==2222 )
+	  {      
+	  new("/open/sky/obj2/justice_stone")->move(environment(winner));
+	  message_vision(HIM"\n從鄭士欣的身上掉下了一件奇怪的東西!!\n"NOR,winner);
+          write_file("/log/sky/obj2/justice_stone",sprintf("%s(%s) 讓鄭士欣掉下了正義石於 %s\n",winner->name(1),winner->query("id"),ctime(time())));
+	  }
+	}else{
+	j=random(-1);
+	  if( j==5 || j==15 || j== 150 || j==1500 || j==10 || j==100 || j==1000 || j==4000 || j==6666 || j==7777 ) 
+	  {      
+	  new("/open/sky/obj2/justice_stone")->move(environment(winner));
+	  message_vision(HIM"\n從鄭士欣的身上掉下了一件奇怪的東西!!\n"NOR,winner);
+          write_file("/log/sky/obj2/justice_stone",sprintf("%s(%s) 讓鄭士欣掉下了正義石於 %s\n",winner->name(1),winner->query("id"),ctime(time())));
+	  }
+	}
+    }
+        tell_object(users(),HIM"\n\n只見蜀山上朵朵"HIY"彩雲"HIM"冉冉升起，剎為奇觀\n\n\n"HIW"    一代劍術宗師「"HIC"鄭士欣"HIW"」嗑然長逝了...\n\n"NOR);
+
+        :: die();
+}               
+
+string sword_book()
+{
+object me = this_player();
+if(me->query_temp("ask_sword"))
+{
+   me->set_temp("know_sword",1);
+   command("sigh");
+   return "天劍宗宗主漢通神其實是我多年前在論劍大會上結識的好友，而當武聖劍光芒找上
+            他時，我早已知道英雄新經背後所隱藏的陰謀，因此百般勸告漢通神，千萬不可
+            傾囊相授，因此他不但未將最高深的虛空馭天劍奧義公開，甚至交由我派劍術最
+            精湛的第四代弟子保管，這師姪的劍技已達天下無敵之境界，唯性列如火，你若
+            要找他，可去聚靈山莊尋找，但千萬小心...\n";
+}else{
+   command("stare "+ me->query("id"));
+   return "????你什麼都不知道!?別亂問喔!!";
+}
+}
+
+void greeting(object me)
+{
+ me = this_player();
+ if(me->query("family/family_name") =="血魔一派" && !me->query_temp("quest/return_sha"))
+		{
+		command("snort");
+		command("say 你這叛徒，如今還有臉來見我這個師父!?你真有誠意想回來嗎!?");
+		me->set_temp("quest/return_sha",1);
+		return;
+		}
+
+ if(me->query_temp("quest/return_sha")==8)
+ {
+  message("system",HIW"鄭士欣嘆道: 
+既然"+me->query("name")+"以行動展現重回仙劍派的決心,
+老夫就重新收為徒弟，以利日後對抗血魔的入侵.\n"NOR,users());
+  me->set("family/family_name","仙劍派");
+  me->delete_temp("quest/return_sha");
+  if(me->query("return_sha")) me->add("return_sha",1);
+  else me->set("return_sha",1);
+  me->delete("return");
+  return;
+ }
+}
+
+string return_sha1()
+{
+object me = this_player();
+if(!me->query_temp("quest/return_sha"))
+;
+else if(me->query_temp("quest/return_sha")<3)
+ {
+  if(me->query("return_sha")>4)
+        {
+		command("spit");
+		command("chat "+me->query("name")+"你到底會不會解迷啊!?解那麼多次根本一點誠意都沒有嘛!!");
+		}
+  else if(me->query("return_sha")>2)
+        {
+		command("cow");
+		command("chat 他馬的"+me->query("name")+"你又判派!!我看不出你誠意在哪啊!!");
+		}
+ command("say 先廢掉武功\來證明你的誠意吧!!");
+ command("say 你確定要這麼做嗎!? (answer yes or no)");
+ me->set_temp("quest/return_sha",2);
+ } else command("say 廢過了還想再廢!?你真的是廢人嗎!?");
+ return"";
+}
+
+int do_answer(string arg)
+{
+object me = this_player();
+ if(!me->query_temp("quest/return_sha") || me->query_temp("quest/return_sha")!=2)
+ {
+  command("say 我又沒叫你回答問題!!");
+  return 1;
+ }
+ if(!arg || (arg!="yes" && arg!="no"))
+  {
+  command("say 我問什麼,你就給我回答什麼!! yes or no ??");
+  return 1;
+  }
+  if(arg == "no")
+  {
+   command("say 好吧,當我沒說過......");
+   me->delete_temp("quest/return_sha");
+   return 1;
+  }
+  if(arg == "yes")
+  {
+   command("say 好極了!!");
+   me->start_busy(15);
+   message_vision(HIW"鄭士欣潛運內勁,聚於雙指,在"+me->query("name")+"周身大穴輕輕拂過,並在天靈蓋\上輕輕一拍。\n"NOR,me);
+   call_out("abandon_skill1",3,me);
+   return 1;
+  }
+}
+
+int abandon_skill1()
+{
+ object me = this_player();
+ message_vision(HIW"$N感到陣陣酸麻，彷彿電流竄過，身軀顫抖，腰間拱了起來，雙眼微睜，不由自主的微微喘息...\n\n"NOR,me);
+ call_out("abandon_skill2",3,me);
+ return 1;
+}
+
+int abandon_skill2()
+{
+ object me = this_player();
+ int i,j,k,l,m;
+ string *bskill,*myskill;
+ bskill=keys(basic_skill);
+ myskill=keys(me->query_skills());
+ i= sizeof(bskill);
+ j= sizeof(myskill);
+ for(k=0;k<j;k++)
+ {
+  m=0;
+  for(l=0;l<i;l++)
+  {
+   if(myskill[k]==bskill[l])
+   {
+    m=1;
+   }
+   //message_vision(myskill[l]+"\n",me);
+  }
+   if(m!=1) 
+   {
+    me->delete_skill(myskill[k]);
+   }
+ }
+ me->map_skill("force",0);
+ me->map_skill("move",0);
+ me->map_skill("dodge",0);
+ me->map_skill("parry",0);
+ me->map_skill("sword",0);
+ me->map_skill("spells",0);
+ me->map_skill("magic",0);
+ me->map_skill("unarmed",0);
+ command("sweat");
+ command("say 現在你武功\盡失，已經有資格以清白之身重返仙劍了");
+ me->set_temp("quest/return_sha",3);
+ me->delete_busy();
+}
+
+string return_sha2()
+{
+ object me = this_player();
+ if(me->query_temp("quest/return_sha")==3)
+ {
+ command("say 想修習本門武技，你尚需破除身上的血魔印記，否則兩股異種真氣將在你體內衝突，導致走火入魔。");
+ me->set_temp("quest/return_sha",4);
+ } else if(me->query_temp("quest/return_sha")>3)
+ {
+ command("say 會走火入魔啦!!要講幾次才聽得懂!?");
+ }
+ return"";
+}
+
+string return_sha3()
+{
+ object me = this_player();
+  if(me->query_temp("quest/return_sha")==4)
+ {
+ command("say 血魔力量來於死界,需要能破除魔力的聖水。");
+ me->set_temp("quest/return_sha",5);
+ } else if(me->query_temp("quest/return_sha")>4)
+ {
+ command("say 叫你去找水啦!!");
+ }
+ return"";
+}
+
+string return_sha4()
+{
+ object me = this_player();
+  if(me->query_temp("quest/return_sha")==5)
+ {
+ command("say 這東西可神了，只需一滴便可令已死之物生返，更可破除死亡的力量，但早消失許\久，最後一次面世是在長白山簏。");
+ command("say 但也有傳聞已被當今聖上派人尋得，供奉於皇族陵寢之中。");
+ me->set_temp("quest/return_sha",6);
+ } else if(me->query_temp("quest/return_sha")>5)
+ {
+ command("say 爬山或盜墓隨你啦!!");
+ }
+ return"";
+}
+
+int accept_object(object me,object ob)
+{
+ me = this_player();
+ if(ob->query("id")=="living-water")
+ {
+  if(!me->query_temp("quest/return_sha") || me->query_temp("quest/return_sha") < 6) 
+   {
+    command("pig "+me->query("id"));
+    command("say 我有叫你去拿這個嗎!?");
+    return 1;
+   }
+  else if(me->query_temp("quest/return_sha")==7)
+   {
+    command("angry");
+	command("say 你利用bug跑出來，誠意不足還想進去，重解吧!!");
+	me->delete_temp("return_sha");
+	me->move("/open/wiz/courthouse");
+	return 1;
+   }
+  else if(!ob->query_temp("finder") || ob->query_temp("finder")!= me->query("id"))
+   {
+    command("spit");
+    command("say 這不是你自己打的吧。");
+    return 1;
+   }
+  else {
+       ob->move(me);
+       command("spank "+me->query("id"));
+	   command("say 就是這個東西，想不到你真的找到了，接下來只要把它灑(cover)在血魔身上，就可以解除你身上的印記了。");
+	   command("say 不過你現在武功\盡失，硬要從天邪峰前往血魔堡實在太危險，幸好先師為了對抗血魔，早已秘密興建一密道。");
+	   command("say 我這就送你過去，密道的盡頭就是血魔堡，記得水灑了之後立即逃跑，以你現時功\力還不是血魔對手。");
+	   me->set_temp("quest/return_sha",7);
+	   me->move("/open/gsword/return_sha/room/tunnel_00.c");
+	   //me->move(__DIR__"room/tunnel_00");
+       } 
+ }
+}
