@@ -349,7 +349,9 @@ Vars        Environment
 	
 	// 🚀 新增：生命週期管理
 	LastActivity int64 // 最後活動時間 (Unix Timestamp)
-}
+
+	ShadowedObject *LPCObject // 🚀 Shadowed 物件
+	}
 
 // TokenType implements Object interface
 func (o *LPCObject) TokenType() TokenType {

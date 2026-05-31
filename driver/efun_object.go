@@ -519,4 +519,28 @@ func (d *Driver) registerReloadObjectEfun(obj *object.LPCObject) {
             return &object.Nil{}
         },
     })
+
+    // 語法: object shadow(object ob, int flag)
+    // 說明: 讓當前物件 shadow (代理) 指定物件。
+    obj.Vars.Set("shadow", &object.Builtin{
+        Fn: func(args ...object.Object) object.Object {
+            if len(args) < 1 { return &object.Nil{} }
+            target, ok := args[0].(*object.LPCObject)
+            if !ok { return &object.Nil{} }
+            obj.ShadowedObject = target
+            return target
+        },
+    })
+    
+    // 語法: object query_shadowing(object ob)
+    // 說明: 查詢物件是否正在被 shadow。
+    obj.Vars.Set("query_shadowing", &object.Builtin{
+        Fn: func(args ...object.Object) object.Object {
+            if len(args) < 1 { return &object.Nil{} }
+            target, ok := args[0].(*object.LPCObject)
+            if !ok { return &object.Nil{} }
+            if target.ShadowedObject != nil { return target.ShadowedObject }
+            return &object.Nil{}
+        },
+    })
 }
