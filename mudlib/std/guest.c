@@ -13,8 +13,8 @@ void create() {
     ::create();
     set_name("未知訪客");
     enable_commands();
-    // 🚀 關鍵修正：呼叫 efun 真正將此物件標記為互動式
-    set_interactive(this_object(), 1); 
+    // 設定為互動物件，這樣 write() efun 才會將輸出導向此物件
+    set_temp("is_interactive", 1); 
 }
 
 void set_temp(string key, mixed val) {
@@ -27,9 +27,12 @@ void set_temp(string key, mixed val) {
 void catch_tell(string msg) {
     if (!msg || msg == "") return;
     
+    // 除錯日誌：查看是否有訊息進入 catch_tell
+    printf("DEBUG [Guest]: Received msg: %s\n", msg);
+    
     if (!session_id || !remote_mudlib) return;
 
-    object ssh_d = load_object("/secure/ssh_d.c");
+    object ssh_d = find_object("/secure/ssh_d.c");
     if (ssh_d) {
         ssh_d->server_send_output(remote_mudlib, session_id, msg);
     }
@@ -41,7 +44,7 @@ int save() {
 }
 
 void quit() {
-    object ssh_d = load_object("/secure/ssh_d.c");
+    object ssh_d = find_object("/secure/ssh_d.c");
     if (ssh_d) {
         ssh_d->server_send_disconnect(remote_mudlib, session_id, "Guest quit");
     }
@@ -50,17 +53,14 @@ void quit() {
     destruct(this_object());
 }
 
-// 🚀 虛擬玩家初始化
-void do_guest_setup() {
-    move_to_start();
-    tell_room(environment(this_object()), query_name() + "化作一道光芒降臨此地。\n", ({ this_object() }));
-}
-
 // 接收來自 ssh_d 的指令，使用 command() 確保觸發 LPC 內部正確的身分綁定
 void do_remote_cmd(string cmd) {
-    if (!cmd || cmd == "") return;
-    
-    // 使用 command() 會觸發 Go Driver 設定 PlayerContext
-    // 這樣 write() 才能正確透過 this_player() 找到 Guest 物件並觸發 catch_tell
+    if (cmd == "look" || cmd == "l") {
+        object env = environment(this_object());
+        if (env) {
+            env->look_room(this_object());
+            return;
+        }
+    }
     command(cmd);
 }

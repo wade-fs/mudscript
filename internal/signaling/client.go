@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"net/http"
 	"strings"
-	"sync"
 
 	"github.com/google/uuid"
 	"github.com/gorilla/websocket"
@@ -26,9 +25,6 @@ type Client struct {
 	Hub      *Hub
 	Send     chan Message
 	MudConn  *driver.PlayerConnection
-	
-	mu       sync.Mutex
-	closed   bool
 }
 
 func HandleWS(hub *Hub, w http.ResponseWriter, r *http.Request) {
@@ -70,40 +66,11 @@ func HandleWS(hub *Hub, w http.ResponseWriter, r *http.Request) {
 	go client.readLoop()
 }
 
-func (c *Client) SafeSend(msg Message) {
-	c.mu.Lock()
-	defer c.mu.Unlock()
-	if c.closed {
-		return
-	}
-	select {
-	case c.Send <- msg:
-	default:
-		// 如果 Buffer 滿了，則捨棄訊息以避免阻塞 Hub 核心迴圈
-	}
-}
-
-func (c *Client) Close() {
-	c.mu.Lock()
-	if c.closed {
-		c.mu.Unlock()
-		return
-	}
-	c.closed = true
-	close(c.Send)
-	c.mu.Unlock()
-	
-	if c.Conn != nil {
-		c.Conn.Close()
-	}
-}
-
 func (c *Client) readLoop() {
 	defer func() {
 		c.Hub.unregister <- c
-		c.Close()
+		c.Conn.Close()
 	}()
-// ...
 
 	for {
 		_, data, err := c.Conn.ReadMessage()

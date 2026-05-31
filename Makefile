@@ -29,31 +29,23 @@ inject-hash:
 push-github:
 	@echo "📤 Pushing to origin (GitHub)..."
 	@git push origin main
-# 🚀 推送到 HuggingFace (乾淨的原始碼)
+
+# 🚀 推送到 HuggingFace (強制寫入官方 fantasy.space 識別字與 wade.o 存檔)
 push-hf:
 	@echo "📤 Pushing to hf (HuggingFace)..."
+	@echo '{"mudlib_id":"fantasy.space","mudlib_name":"fantasy space"}' > mudlib/data/system.o
 	@git checkout -B hf-deploy
-	@# 確保不包含 wade.o 與 system.o
-	@git rm --cached mudlib/data/user/wade.o 2>/dev/null || true
-	@git rm --cached mudlib/data/system.o 2>/dev/null || true
-	@git commit -m "Deploy to HF (clean mode)" || true
+	@-if [ -f mudlib/data/user/wade.o ]; then git add mudlib/data/user/wade.o -f; fi
+	@git add mudlib/data/system.o -f
+	@git commit -m "Deploy to HF with official identity and local data" || true
 	@git push hf hf-deploy:main --force
 	@git checkout main
 
-
 clean-txt:
 	@ rm -f *txt *log
-	@ mkdir -p /tmp/fsmud || true
-	@ [ -f mudlib/data/user/wade.o ] && cp mudlib/data/user/wade.o /tmp/fsmud/ || true
-	@ [ -f mudlib/data/system.o ] && mv mudlib/data/system.o /tmp/fsmud/ || true
-	@ rm -rf mudlib/data/*.o mudlib/data/user/*
-
-recover:
-	@ cp -a /tmp/fsmud/system.o mudlib/data
-	@ cp -a /tmp/fsmud/wade.o mudlib/data/user
 
 # 🚀 一鍵雙推
-push: clean-txt push-github push-hf recover
+push: clean-txt push-github push-hf
 
 # 建立編譯目錄
 
@@ -94,6 +86,6 @@ clean:
 zip:
 	@ mv .git ../GIT
 	@ rm -f bin/fsmud mudscript.zip
-	@ zip -r mudscript driver object web mudlib/npc mudlib/cmds/admin mudlib/std mudlib/secure mudlib/include mudlib/cmds/cmd_lm.c mudlib/cmds/cmd_mc.c mudlib/cmds/cmd_fs* cmd/fsmud/main.go mudlib/proxy/
+	@ zip -r mudscript driver object web mudlib/npc mudlib/cmds/admin mudlib/std mudlib/secure mudlib/include mudlib/cmds/cmd_lm.c mudlib/cmds/cmd_mc.c mudlib/cmds/cmd_fs* cmd/fsmud/main.go
 	@ mv ../GIT .git
 	@ ls -l mudscript.zip

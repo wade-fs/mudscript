@@ -119,28 +119,6 @@ func (d *Driver) registerCoreEfuns(obj *object.LPCObject) {
 		},
 	})
 
-	// 語法: void set_interactive(object ob, int flag)
-	// 說明: 手動將物件標記為互動式 (1) 或非互動式 (0)。主要用於 P2P Guest。
-	// 範例: set_interactive(this_object(), 1);
-	obj.Vars.Set("set_interactive", &object.Builtin{
-		Fn: func(args ...object.Object) object.Object {
-			target := obj
-			if len(args) > 0 {
-				if o, ok := args[0].(*object.LPCObject); ok {
-					target = o
-				}
-			}
-			flag := int64(1)
-			if len(args) > 1 {
-				if i, ok := args[1].(*object.Integer); ok {
-					flag = i.Value
-				}
-			}
-			target.IsInteractive = (flag > 0)
-			return &object.Integer{Value: flag}
-		},
-	})
-
 	// 語法: int interactive(object ob)
 	// 說明: 判斷該物件是否為正在連線中的玩家 (有網路 Socket 綁定)。
 	// 範例: if (interactive(target)) { write("玩家在線上。\n"); }
@@ -368,18 +346,7 @@ func (d *Driver) registerCoreEfuns(obj *object.LPCObject) {
 				arg = parts[1]
 			}
 
-			// 1. 優先：呼叫物件本身的 process_input (通常在 user.c 或 npc.c 實作)
-			// 🚀 關鍵修正：必須先呼叫 process_input，這樣才能讓 user.c 的 SSH 攔截生效
-			pConn := d.getPlayerConnection(obj)
-			if pConn == nil {
-				pConn = &PlayerConnection{Object: obj, IsActive: true}
-			}
-			res := d.RunCommand(pConn, obj, "process_input", []object.Object{&object.String{Value: input}})
-			if i, ok := res.(*object.Integer); ok && i.Value != 0 {
-				return &object.Integer{Value: 1}
-			}
-
-			// 2. 備援：檢查 add_action 註冊的指令
+			// 1. 優先檢查 add_action 註冊的指令
 			if obj.Actions != nil {
 				if action, exists := obj.Actions[verb]; exists {
 					// 設定玩家上下文以便執行指令

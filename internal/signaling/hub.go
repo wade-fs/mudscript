@@ -39,10 +39,10 @@ func (h *Hub) Run() {
 				pConn.Username = client.Username
 				
 				pConn.OutputCallback = func(mudText string) {
-					client.SafeSend(Message{
+					client.Send <- Message{
 						Type:    "mud_text",
 						Payload: mudText,
-					})
+					}
 				}
 
 				userObj := h.mudDriver.AcceptConnection(pConn, client.Language)
@@ -56,26 +56,26 @@ func (h *Hub) Run() {
 				}
 			}
 
-			client.SafeSend(Message{
+			client.Send <- Message{
 				Type: "welcome",
 				To:   client.ID,
 				Username: client.Username,
-			})
+			}
 
 			for id, peer := range h.clients {
 				if id != client.ID {
-					peer.SafeSend(Message{
+					peer.Send <- Message{
 						Type: "peer-joined",
 						From: client.ID,
 						To:   id,
 						Username: client.Username,
-					})
-					client.SafeSend(Message{
+					}
+					client.Send <- Message{
 						Type: "peer-joined",
 						From: id,
 						To:   client.ID,
 						Username: peer.Username,
-					})
+					}
 				}
 			}
 
@@ -86,7 +86,7 @@ func (h *Hub) Run() {
 		case client := <-h.unregister:
 			if _, ok := h.clients[client.ID]; ok {
 				delete(h.clients, client.ID)
-				client.Close()
+				close(client.Send)
 			}
 
 			if client.MudConn != nil && client.MudConn.Object != nil {
@@ -96,12 +96,12 @@ func (h *Hub) Run() {
 			}
 
 			for id, peer := range h.clients {
-				peer.SafeSend(Message{
+				peer.Send <- Message{
 					Type: "peer-left",
 					From: client.ID,
 					To:   id,
 					Username: client.Username,
-				})
+				}
 			}
 
 		case msg := <-h.forward:
@@ -121,7 +121,7 @@ func (h *Hub) Run() {
 					p.NextInputFunc = ""
 					p.InputHidden = false
 					h.mudDriver.RunCommand(p, p.Object, funcName, []object.Object{&object.String{Value: input}})
-					continue // 🚀 重要：處理完 NextInputFunc 後必須繼續下一輪循環
+					continue
 				}
 
 				expanded := h.mudDriver.RunCommand(p, p.Object, "expand_alias", []object.Object{&object.String{Value: input}})
@@ -149,18 +149,6 @@ func (h *Hub) Run() {
 
 				p.CurrentVerb = verb
 
-				// 🚀 安全檢查
-				if p.Object == nil {
-					continue
-				}
-
-				// 🚀 關鍵修正：優先呼叫 process_input，這樣才能讓 user.c 的 SSH 攔截生效
-				// 如果 process_input 回傳 1 (已處理)，則跳過 Actions
-				res := h.mudDriver.RunCommand(p, p.Object, "process_input", []object.Object{&object.String{Value: input}})
-				if i, ok := res.(*object.Integer); ok && i.Value != 0 {
-					continue
-				}
-
 				found := false
 				if p.Object.Actions != nil {
 					if action, exists := p.Object.Actions[verb]; exists {
@@ -172,42 +160,39 @@ func (h *Hub) Run() {
 				}
 
 				if (!found) {
-					// 🚀 Fallback：若都未處理，則輸出錯誤訊息 (自動按語系翻譯)
-					tRes := h.mudDriver.RunCommand(p, p.Object, "_t", []object.Object{&object.String{Value: "what"}})
-					msg := "什麼？\n"
-					if s, ok := tRes.(*object.String); ok {
-						msg = s.Value + "\n"
-					}
-					h.mudDriver.RunCommand(p, p.Object, "write", []object.Object{&object.String{Value: msg}})
+					h.mudDriver.RunCommand(p, p.Object, "process_input", []object.Object{&object.String{Value: input}})
 				}
 			} else if msg.Type == "chat" {
 				// 🚀 階段 1：將訊息轉發給本地 MUD 驅動 (給 Hub 本身的玩家看)
 				if h.mudDriver != nil && h.mudDriver.OnP2PMessage != nil {
-					h.mudDriver.OnP2PMessage(msg.From, msg.Username, msg.Payload)
+					h.mudDriver.OnP2PMessage(msg.Username, msg.Payload)
 				}
 
 				// 🚀 階段 2：轉發給其他連線中的節點
-				for _, peer := range h.clients {
+				for id, peer := range h.clients {
 					// 路由策略：
 					// 1. 如果目標是 P2P 節點：一律轉發 (包含發送者，作為回信確認)
-					// 2. 如果目標是 Web 玩家：只有在對方「不是」發送者，且訊息「不是」協議封包時才轉發
+					// 2. 如果目標是 Web 玩家：只有在對方「不是」發送者時才轉發
 					if peer.IsP2P {
-						peer.SafeSend(msg)
-					} else if peer.ID != msg.From {
-						// 🚀 關鍵過濾：不要把 protocol 封包轉發給 Web 玩家，避免 GUI 顯示除錯訊息
-						isProtocol := strings.HasPrefix(msg.Payload, "{") || 
-									 strings.HasPrefix(msg.Payload, "fs_") ||
-									 strings.HasPrefix(msg.Payload, "dist_") ||
-									 strings.Contains(msg.Payload, "__P2P_IGNORE__")
-						
-						if !isProtocol {
-							peer.SafeSend(msg)
+						// P2P 節點：非阻塞發送
+						select {
+						case peer.Send <- msg:
+						default:
+						}
+					} else if id != msg.From {
+						// Web 玩家：非阻塞發送
+						select {
+						case peer.Send <- msg:
+						default:
 						}
 					}
 				}
 			} else {
 				if peer, ok := h.clients[msg.To]; ok {
-					peer.SafeSend(msg)
+					select {
+					case peer.Send <- msg:
+					default:
+					}
 				}
 			}
 		}

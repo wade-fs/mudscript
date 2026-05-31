@@ -4,7 +4,6 @@ package driver
 import (
 	"net"
 	"strings"
-	"sync"
 
 	"mudscript/object"
 )
@@ -42,13 +41,16 @@ func NewPlayerConnection(conn net.Conn, obj *object.LPCObject) *PlayerConnection
 
 // 背景發送迴圈 (Write Pump)
 func (p *PlayerConnection) writePump() {
-	defer func() {
-		if p.Conn != nil {
-			p.Conn.Close()
-		}
-	}()
+	// 如果是傳統 TCP 連線，才需要 defer 關閉
+	if p.Conn != nil {
+		defer p.Conn.Close()
+	}
 
 	for msg := range p.sendChan {
+		if !p.IsActive {
+			break
+		}
+
 		// 👉 優先判定：如果有設定 Callback，就走 WebSocket 輸出
 		if p.OutputCallback != nil {
 			p.OutputCallback(msg)
@@ -59,7 +61,7 @@ func (p *PlayerConnection) writePump() {
 		if p.Conn != nil {
 			_, err := p.Conn.Write([]byte(msg))
 			if err != nil {
-				p.Close()
+				p.IsActive = false
 				break
 			}
 		}
@@ -67,9 +69,7 @@ func (p *PlayerConnection) writePump() {
 }
 
 func (p *PlayerConnection) Send(msg string) {
-	p.mu.Lock()
-	defer p.mu.Unlock()
-	if !p.IsActive || p.closed {
+	if !p.IsActive {
 		return
 	}
 
@@ -79,18 +79,6 @@ func (p *PlayerConnection) Send(msg string) {
 	default:
 		// 緩衝區滿了 (彈性丟棄)
 	}
-}
-
-func (p *PlayerConnection) Close() {
-	p.mu.Lock()
-	if p.closed {
-		p.mu.Unlock()
-		return
-	}
-	p.closed = true
-	p.IsActive = false
-	close(p.sendChan)
-	p.mu.Unlock()
 }
 
 // 處理命令歷史與 ! 展開

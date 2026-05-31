@@ -137,7 +137,7 @@ func (n *Node) readLoop() {
 		case "candidate":
 			n.handleCandidate(msg)
 		case "chat":
-			n.broadcastToMUD(msg.Payload, msg.Username, msg.From)
+			n.broadcastToMUD(msg.Payload, msg.Username)
 		}
 	}
 }
@@ -254,9 +254,9 @@ func (n *Node) setupDataChannel(peerID string, dc *pion.DataChannel) {
 	})
 }
 
-func (n *Node) broadcastToMUD(content, sender, senderID string) {
+func (n *Node) broadcastToMUD(content, sender string) {
 	if n.Driver.OnP2PMessage != nil {
-		n.Driver.OnP2PMessage(senderID, sender, content)
+		n.Driver.OnP2PMessage(sender, content)
 	}
 }
 

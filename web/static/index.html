@@ -45,7 +45,6 @@
         .btn-social { background: #222; border: 1px solid #333; border-radius: 6px; color: #fff; padding: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 22px; transition: all 0.2s; }
         .btn-social:hover { background: #4CAF50; border-color: #fff; }
 
-        #prompt-prefix { color: #4CAF50; font-weight: bold; white-space: nowrap; display: none; }
         #msg { flex: 1; background: #000; border: 1px solid #4CAF50; color: #00ff00; padding: 12px; font-size: 18px; outline: none; border-radius: 4px; }
         #btn-send { background: #4CAF50; color: #fff; border: none; padding: 10px 20px; cursor: pointer; border-radius: 4px; font-weight: bold; }
 
@@ -143,7 +142,6 @@
         <div id="suggestion-box"></div>
         <div id="history-box"></div>
         
-        <span id="prompt-prefix"></span>
         <!-- 🚀 最終防線指令輸入框：
              1. 始終維持 type="text"，徹底讓 Chrome 失去掃描目標
              2. 使用 readonly 動態切換法，阻斷自動填充引擎的掛接
@@ -214,16 +212,12 @@
         ws.onmessage = (e) => {
             const msg = JSON.parse(e.data);
             if (msg.type === "mud_text" || msg.type === "chat") {
-                let p = (msg.type === "chat" ? (msg.username + ": " + msg.payload) : msg.payload);
-                
-                // 🚀 關鍵修正：改用關鍵字過濾模式，避免因訊息合併導致偵測失效或遺失文字
-                if (p.includes("__INPUT_HIDDEN__")) {
+                const p = (msg.type === "chat" ? (msg.username + ": " + msg.payload) : msg.payload).trim();
+                if (p === "__INPUT_HIDDEN__") {
                     isInputHidden = true;
                     msgInput.style.webkitTextSecurity = "disc";
-                    p = p.replace("__INPUT_HIDDEN__", "").trim();
-                    if (!p) return; // 若移除後無內容則不顯示
+                    return;
                 }
-                
                 if (p.startsWith("{") && p.endsWith("}")) {
                     try { handleUIData(JSON.parse(p)); } catch (err) { handleMultiJSON(p); }
                 } else appendLook(p);
@@ -251,24 +245,6 @@
         else if (ui.ui === "nature") handleNatureData(ui.data);
         else if (ui.ui === "mc_map") handleMCMap(ui.data);
         else if (ui.ui === "mc_exit") toggleMCMode(false); 
-        else if (ui.ui === "prompt_prefix") handlePromptPrefix(ui.data);
-        else if (ui.ui === "background") handleBackgroundUpdate(ui.data);
-    }
-
-    function handlePromptPrefix(data) {
-        const p = document.getElementById("prompt-prefix");
-        if (data && data !== "") {
-            p.innerText = data + "> ";
-            p.style.display = "inline";
-        } else {
-            p.style.display = "none";
-        }
-    }
-
-    function handleBackgroundUpdate(data) {
-        if (data && data !== "") {
-            document.body.style.background = data;
-        }
     }
 
     function renderCmdList(cats, title) {
@@ -536,14 +512,10 @@
     function sendMsg() { 
         const v = msgInput.value.trim(); 
         if (!v) return; 
-        
         sendCmd(v); 
-        
-        // 🚀 關鍵修正：在發送並記錄 log 之後，才重置遮罩狀態。
+        msgInput.value = ""; 
         isInputHidden = false;
         msgInput.style.webkitTextSecurity = "none";
-        
-        msgInput.value = ""; 
         msgInput.focus(); 
     }
     function fillInput(c) { msgInput.value = c + " "; msgInput.focus(); }

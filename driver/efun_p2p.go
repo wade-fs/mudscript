@@ -10,10 +10,9 @@ import (
 // 🚀 P2P 擴充 (P2P Extensions)
 // ==========================================
 func (d *Driver) registerP2PEfuns(obj *object.LPCObject) {
-	// 語法: void p2p_broadcast(string content, [string sender_id, int p2p_ignore])
+	// 語法: void p2p_broadcast(string content, [string sender_id])
 	// 說明: 將訊息發送到全球 P2P 網路（星際網路）。
-	//       - p2p_ignore: 若為 1，則本機驅動不處理此訊息 (避免 loop)。
-	// 範例: p2p_broadcast("Hello World", "my_mud", 1);
+	// 範例: p2p_broadcast("Hello World");
 	obj.Vars.Set("p2p_broadcast", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
 			if len(args) < 1 {
@@ -52,14 +51,6 @@ func (d *Driver) registerP2PEfuns(obj *object.LPCObject) {
 						}
 					}
 				}
-
-				// 🚀 P2P Ignore 支援：若設定為 1，則在 OnP2PMessage 中略過此訊息
-				if len(args) > 2 {
-					if ignore, ok := args[2].(*object.Integer); ok && ignore.Value == 1 {
-						content.Value = "__P2P_IGNORE__" + content.Value
-					}
-				}
-
 				d.P2PSendChat(sender, content.Value)
 			}
 			return evaluator.NilValue

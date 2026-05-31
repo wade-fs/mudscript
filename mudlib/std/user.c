@@ -84,41 +84,8 @@ string query_start_room() {
 }
 
 // 當環境改變時，自動更新跨服狀態
-void sync_remote_ui() {
-    if (!userp(this_object())) return;
-
-    string target = current_mudlib;
-    string bg = "";
-    
-    // SSH 模式優先
-    string ssh_target = query_temp("ssh_target");
-    if (ssh_target && ssh_target != "") {
-        target = ssh_target;
-        bg = "linear-gradient(to bottom, #200, #000)"; // 異界背景色 (暗紅)
-    } else if (target != "") {
-        bg = "linear-gradient(to bottom, #002, #000)"; // 創界/跨服背景色 (暗藍)
-    }
-
-    write(sprintf("{\"ui\": \"prompt_prefix\", \"data\": \"%s\"}", target));
-    if (bg != "") {
-        write(sprintf("{\"ui\": \"background\", \"data\": \"%s\"}", bg));
-    } else {
-        // 回到本機，恢復自然背景 (若 nature_d 有提供)
-        object nature_d = find_object("/secure/nature_d.c");
-        if (nature_d) {
-            mapping nd = nature_d->query_nature_data();
-            if (nd["is_day"]) {
-                write("{\"ui\": \"background\", \"data\": \"linear-gradient(to bottom, #1a2a6c, #b21f1f, #fdbb2d)\"}");
-            } else {
-                write("{\"ui\": \"background\", \"data\": \"linear-gradient(to bottom, #000000, #0f0c29, #000000)\"}");
-            }
-        }
-    }
-}
-
 // 當環境改變時，自動更新跨服狀態並廣播 presence 事件
 int move(mixed dest, string dir) {
-    // ... (rest of move logic)
     // ── 離開前：記錄目前所在的跨服資訊 ──────────────────────
     string old_mudlib = current_mudlib;
     string old_room_path = "";
@@ -173,7 +140,6 @@ int move(mixed dest, string dir) {
                 current_mudlib = "";
                 data_base_path = "/mudlib/data/";
             }
-            sync_remote_ui();
         }
     }
     return res;
@@ -231,8 +197,6 @@ void setup() {
     mapping cmds = load_object("/secure/command_d.c")->query_categorized_commands(l);
     write(sprintf("{\"ui\": \"commands\", \"title\": \"%s\", \"data\": %s}", 
         lang_d->translate("label_commands", l), json_encode(cmds)));
-
-    sync_remote_ui();
 }
 
 int process_input(string input) {
@@ -252,31 +216,17 @@ int process_input(string input) {
         return ::process_input("emote " + arg);
     } 
     
-    // 🚀 SSH-like 攔截：只對 client role 生效
-    // guest (server role) 有 ssh_session_id 但沒有 ssh_target，不攔截
-    string _tgt = query_temp("ssh_target");
-    if (_tgt && _tgt != "") {
-        string _sid = query_temp("ssh_session_id");
-        string _spd = query_temp("ssh_pending");
-        if (_sid || _spd) {
-            // "!" 開頭或 fsleave 強制在本機執行
-            if (substr(input, 0, 1) == "!" || input == "fsleave") {
-                if (substr(input, 0, 1) == "!") {
-                    input = substr(input, 1, strlen(input) - 1);
-                }
-                if (input != "fsleave") {
-                    write(CYN("【本機指令】") + input + "\n");
-                }
-            } else {
-                if (!_sid) {
-                    write(GRA("（等待遠端確認連線，請稍候...）\n"));
-                    return 1;
-                }
-                object ssh_d = load_object("/secure/ssh_d.c");
-                if (ssh_d) {
-                    ssh_d->client_send_input(this_object(), input);
-                    return 1;
-                }
+    // 🚀 新增：分散式物件代理攔截 (SSH-like mode)
+    if (query_temp("ssh_session_id") || query_temp("ssh_pending")) {
+        // 如果輸入以 "!" 開頭，代表強制在本機執行 (類似 SSH 的 ~)
+        if (substr(input, 0, 1) == "!") {
+            input = substr(input, 1, strlen(input) - 1);
+            write(CYN("【本機指令】") + input + "\n");
+        } else {
+            object ssh_d = find_object("/secure/ssh_d.c");
+            if (ssh_d) {
+                ssh_d->client_send_input(this_object(), input);
+                return 1;
             }
         }
     }
@@ -284,14 +234,10 @@ int process_input(string input) {
     // 舊版 proxy_room 相容 (即將被淘汰)
     object env = environment(this_object());
     if (env && env->is_proxy_room()) {
-        // 如果輸入以 "!" 開頭，或者指令是 "fsleave"，代表強制在本機執行
-        if (substr(input, 0, 1) == "!" || input == "fsleave") {
-            if (substr(input, 0, 1) == "!") {
-                input = substr(input, 1, strlen(input) - 1);
-            }
-            if (input != "fsleave") {
-                write(CYN("【本機指令】") + input + "\n");
-            }
+        // 如果輸入以 "!" 開頭，代表強制在本機執行 (類似 SSH 的 ~)
+        if (substr(input, 0, 1) == "!") {
+            input = substr(input, 1, strlen(input) - 1);
+            write(CYN("【本機指令】") + input + "\n");
         } else {
             if (env->do_proxy_cmd(input)) {
                 return 1;
@@ -299,8 +245,13 @@ int process_input(string input) {
         }
     }
     
-    // 2. 呼叫基底類別處理 (含 command_d 呼叫)。
-    return ::process_input(input);
+    // 2. 呼叫基底類別處理 (含 command_d 呼叫)
+    int res = ::process_input(input);
+    if (res) return res;
+
+    // 3. 失敗訊息
+    write(_t("what") + "\n");
+    return 0;
 }
 
 void move_to_start() {

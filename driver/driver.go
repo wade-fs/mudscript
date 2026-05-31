@@ -42,7 +42,7 @@ type Driver struct {
 	callStacks         sync.Map // 🚀 新增：goroutine ID -> []callFrame
 
 	// 🚀 P2P 整合
-	OnP2PMessage     func(senderID, senderName, content string)
+	OnP2PMessage     func(sender, content string)
 	P2PSendChat      func(sender, content string)
 	OnUsernameUpdate func(sid string, newName string)
 }

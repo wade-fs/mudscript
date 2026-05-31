@@ -42,16 +42,9 @@ func (d *Driver) processHeartBeats() {
 		if obj.IsDestructed {
 			continue
 		}
-		
-		pConn := d.GetConnectionFromObject(obj)
-		if pConn == nil && obj.IsInteractive {
-			// 🚀 虛擬玩家支援：為沒有實體連線的互動式物件 (如 Guest) 建立臨時上下文
-			pConn = &PlayerConnection{Object: obj, IsActive: true}
-		}
-
-		if pConn != nil {
+		if conn := d.GetConnectionFromObject(obj); conn != nil {
 			gid := getGID()
-			d.playerContexts.Store(gid, pConn)
+			d.playerContexts.Store(gid, conn)
 			d.CallFunction(obj, "heart_beat", nil)
 			d.playerContexts.Delete(gid)
 		} else {
@@ -83,15 +76,9 @@ func (d *Driver) processCallOuts() {
 	d.CallOuts = pending
 	d.mu.Unlock()
 	for _, call := range ready {
-		pConn := d.GetConnectionFromObject(call.Caller)
-		if pConn == nil && call.Caller != nil && call.Caller.IsInteractive {
-			// 🚀 虛擬玩家支援：為沒有實體連線的互動式物件 (如 Guest) 建立臨時上下文
-			pConn = &PlayerConnection{Object: call.Caller, IsActive: true}
-		}
-
-		if pConn != nil {
+		if conn := d.GetConnectionFromObject(call.Caller); conn != nil {
 			gid := getGID()
-			d.playerContexts.Store(gid, pConn)
+			d.playerContexts.Store(gid, conn)
 			d.CallFunction(call.Caller, call.FuncName, call.Args)
 			d.playerContexts.Delete(gid)
 		} else {

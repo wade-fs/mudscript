@@ -39,18 +39,13 @@ int main(object me, string verb, string arg) {
     write(HIM("【傳送門】") + "你從 " + HIY(remote_mud) +
           " 離線，意識回到了本機...\n");
 
-    // 回到 fsgoto 前的房間；若找不到則回到 START_ROOM
-    string origin = me->query_temp("ssh_origin_room");
-    me->delete_temp("ssh_origin_room");
-    object home;
-    if (origin && origin != "") home = find_object(origin);
-    if (!home && origin && origin != "") home = load_object(origin);
-    if (!home) home = load_object(START_ROOM);
+    // 把玩家移回本機起始點
+    object home = load_object(START_ROOM);
     if (home) {
         me->move(home, "portal");
         home->look_room(me);
     } else {
-        write(RED("警告：找不到本機起始點。\n"));
+        write(RED("警告：找不到本機起始點 " + START_ROOM + "\n"));
     }
 
     // 銷毀 proxy room
