@@ -155,6 +155,10 @@ void test_array_mapping_efuns() {
     assert_equal(1, member_array("b", arr_mem), "member_array() should return index");
     assert_equal(-1, member_array("d", arr_mem), "member_array() should return -1");
     
+    // 測試 unique_mapping
+    mapping m_unq = unique_mapping(({ "a", "b", "a" }), "id");
+    assert_true(mapp(m_unq), "unique_mapping() should return mapping");
+    
     report_results();
 }
 
@@ -218,6 +222,16 @@ void do_test_cmd() {
     write("testcmd executed\n");
 }
 
+void test_security_efuns(object me) {
+    start_test("Efun Security (getuid, geteuid, master, previous_object)");
+    
+    assert_true(stringp(getuid(me)), "getuid() should return string");
+    assert_true(stringp(geteuid(me)), "geteuid() should return string");
+    assert_true(objectp(master()), "master() should return object");
+    
+    report_results();
+}
+
 void run_tests(object me) {
     test_lifecycle();
     test_type_predicates();
@@ -230,4 +244,5 @@ void run_tests(object me) {
     test_conversion_efuns();
     test_inventory_efuns(me);
     test_command_efuns();
+    test_security_efuns(me);
 }
