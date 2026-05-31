@@ -22,9 +22,7 @@ type PlayerConnection struct {
 	InputHidden    bool
 	OutputCallback func(msg string)
 	CurrentVerb    string // 🚀 新增：儲存當前執行的指令動詞
-
-	mu             sync.Mutex
-	closed         bool
+	NotifyFail     string // 🚀 新增：指令執行失敗訊息
 }
 
 func NewPlayerConnection(conn net.Conn, obj *object.LPCObject) *PlayerConnection {
@@ -149,7 +147,9 @@ func (d *Driver) UnregisterInteractive(obj *object.LPCObject) {
 
 // 🚀 新增：更新玩家顯示名稱到連線中
 func (d *Driver) UpdatePlayerUsername(obj *object.LPCObject, name string) {
-	if obj == nil { return }
+	if obj == nil {
+		return
+	}
 	if val, ok := d.interactiveObjects.Load(obj.Filename); ok {
 		if conn, ok := val.(*PlayerConnection); ok && conn != nil {
 			conn.Username = name

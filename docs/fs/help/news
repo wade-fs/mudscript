@@ -1,0 +1,24 @@
+* 要再看本訊息請 help news, 舊的 help news 現在改用 help news.old
+* 拿掉 fanset 需玩遊戲的限制，雖然我並不喜歡這把扇子。
+* 目前已經拿掉 con 會限制練基本內功的限制，特殊內功仍有限制。
+* 基本內功等級的限制已經拿掉，現在已經沒有等級限制了。
+* 可能改成依某種公式，短期內不會再動就是了。
+* 賭博的限制已經拿掉了，並修正「上限」問題。
+* wade     2002-12-26 login 時，同一個 IP 最多三個人上線。
+* wade     2002-12-26 重新訂定 player rules，請 help player_rules
+* kalin    2002-12-30 新的替身制度於2003-1-1實施，詳情請help 替身。
+* wade     2002-12-31 雕像室修訂完成，在入口處的 statue 方向，請記得立雕像。
+* wade     2002-12-31 今日起，同一 IP 的不同 char 不能合組一個 team。
+* caesar   2003-01-05 即日起，restore不post在recall e，不予受理。 
+* kalin    2003-01-14 戰功武器和防具修改完畢。
+* enis     2003-01-19 help map 更新
+* wade     2003-03-18 於 12:00 完成移機。
+* neverend 2003-04-18 即日起NPC身上所能攜帶的金錢有最大限制，並降低人頭的賞金。
+* neverend 2003-04-20 wade的網站網址 http://tpe.adsldns.org/~wade/modules/newbb/
+* pana     2003-05-10 丐幫(beggar)正式開放。
+*frequency 2003-06-27 開始限制multi login數，全時段同一IP只能login兩個char。
+* neverend 2004-11-07 tin force 請愛用「do」指令，現在為勸導期，未來將強制改正。
+* neverend 2004-11-07 tin force 請不要站在同一格，可以減少資源的耗損。未來將強制改正。
+
+
+

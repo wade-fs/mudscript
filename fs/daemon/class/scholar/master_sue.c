@@ -1,0 +1,432 @@
+//增加儒門quest 線索(標顏色XD) 額外做打死雪魂 但沒拿笛子的補救方式(為了段家quest 所需) by blazakira 2011/4/10
+
+#include <ansi.h>
+#include "/open/open.h"
+inherit NPC;
+inherit F_MASTER;
+inherit SSERVER;
+
+string ask_test()
+{
+  if(this_player()->query("quests/yan")==3)
+  {
+    if(this_player()->query("quests/fear_fighting",1) && this_player()->query("quests/yantestmark2",1) )
+    {
+      command("say 謝謝您的幫忙.我願意將appo給我的印記傳到你身上!\n");
+      tell_object(this_player(),HIW"瞬間由聖賢書將手搭在你的肩上..你頓時覺得\n一股暖意由聖賢書的手中傳過來\n"NOR);
+      this_player()->delete("quests/2ndtest",i);
+      this_player()->set("quests/yantestmark3",1);
+      return("這是最後一個了...你趕快去完成你的測驗吧~\n");
+    }
+    else if (this_player()->query("quests/yantestmark3")>1)
+      return ("我已經把印記給你了..你還要做什麼\n");
+    else
+      return ("解決我的問題..我就跟你說印記在哪\n");
+  }
+  else
+    return ("啥印記..你在說什麼?\n");
+}
+
+string so()
+{
+  if( this_player()->query("quests/kill-snow") && !this_player()->query("quests/dragon-kee")) {
+    call_out("finish",1,this_player());
+    return "";
+  }
+  if( this_player()->query("quests/kill-snow") ) return " ??";
+  this_player()->set_temp("ask_so",1);
+  return "因此我想請人代我前去﹐不知閣下是否肯幫在下這個忙﹐聖某當有重酬﹗（nod/shake）\n";
+}
+
+string liyu()
+{
+  object me,ob;
+  me = this_player();
+  if (me->query("liyu") != 4)
+  {
+    command("say 你說開天三靈器之一呀....原本他是在儒門中沒錯....不過....在先前綠毛老祖率眾入侵時....不小心遺失了.....記得當時好像是被七位不知名的人士給偷走.....如果你想知道是誰拿走的.....你去找諸葛神算他可以幫你算算看....");
+    me->set("liyu",1);
+  }
+  else
+  {
+    command("say 我才剛剛拿回麗玉蝶蘭...你就..唉算了.物贈有緣人..你去拿吧.. 就在此處的enter");
+    me->set("liyu",5);
+  }
+}
+
+string book()
+{
+  object ob;
+  if( this_player()->query_skill("god-plan",1) < 1 )
+    return "你沒有學諸葛神算﹐要孔明兵法作什麼 ?\n";
+  if( present( "war book" , this_player() ) )
+    return "你不是有了嗎 ?\n";
+  if( this_player()->query("combat_exp") < 100000 )
+    return "你的經驗還不足以讀通此兵書。\n";
+  if( !this_player()->query("quests/god-plan") )
+  {
+    this_player()->set_temp("scholar_god_plan",1);
+    return "嗯，看來你已經有資格讀此兵法了，"HIW"不過"CYN"...\n";
+  }
+  else
+  {
+    ob = new("/daemon/class/scholar/book");
+    ob->move(this_player());
+    message_vision("$N給$n一本"+ob->name()+"\n",this_object(),this_player());
+    return "這本兵法﹐你好好地看吧。\n";
+  }
+}
+
+int finish( object me )
+{
+  object obj ;
+  command("say 十分感謝閣下的相助﹐這有一支青龍之笛﹐乃聖某家傳之寶。");
+  message_vision("$N給$n一支笛子。\n",this_object(),me);
+  obj = new("/open/snow/obj/de");
+  obj->move( me );
+  me->set("quests/fear_fighting",1);
+}
+
+string ask_picture()
+{
+  if( present( "snow picture" , this_player() ) )
+    return "由於諸葛臥龍的八陣圖非常的玄妙﹐所以你如果沒仔細看清楚路觀圖是沒辦法找到路口的。\n";
+  return "你問我 ? 我問誰啊 ?\n";
+}
+
+string ask_place()
+{
+  object ob;
+  command("say 諸葛臥龍就隱居在雪蒼山腳﹐但是一般人是無法輕易找到他的。");
+  command("say 因為他在外面佈下了「八陣圖」﹐若無特殊方法是找不到的。\n");
+  command("say 這有一張路觀圖﹐你拿去吧。");
+  ob = new( "/open/snow/obj/picture" );
+  ob->move( this_player() );
+  message_vision("$N給$n一張"HIW"路觀圖"NOR"。\n",this_object(),this_player());
+  return "祝你好運 ... ";
+}
+
+string ask_plan()
+{
+  if( this_player()->query_temp("scholar_god_plan")==1 ) {
+  command("sigh");
+  this_player()->set_temp("scholar_god_plan",2);
+  call_out("do_plan2",3,this_player());
+  return "因為孔明兵法都是交由小徒保管，不料他前天生了一場大病，\n至今仍未恢復神智，所以我也不知道該怎麼把兵書拿給你...\n";
+  }
+}
+
+string ask_ball()
+{
+  if(!this_player()->query_temp("swordtime"))
+  {
+    return ("對不起﹐你問的事我實在沒有印象。");
+  }
+  else
+  {
+    if (this_player()->query("class")=="scholar"&&this_player()->query_temp("swordquest/findball")==3)
+    {
+      this_player()->set_temp("swordquest/findball",4);
+      return ("在金風細雨樓樓主林靜詩尚在武林之際﹐在下曾有幸目睹該寶珠﹐但在其隱遁後﹐似乎曾在京城看過它的鋒芒。\n");
+    }
+    else return ("對不起﹐你問的事我實在沒有印象。");
+  }
+}
+
+string ask_confuse()
+{
+  if(this_player()->query("family/family_name") != "儒門")
+    return "對不起，這是本門私事，不方便告知您。\n";
+  if(this_player()->query_temp("quests/confuse"))
+    return "這件事，我剛剛已經跟你說過囉。\n";
+  this_player()->set_temp("quests/confuse",1);
+
+  return CYN"這個為師的師父只有教導"HIW"陳平"CYN"師兄一個人，師父說他的資質比較足夠，所以為師的也不懂這個計謀。\n"NOR;
+}
+
+string ask_chen()
+{
+  if(this_player()->query("family/family_name") != "儒門")
+    return "對不起，這是本門私事，不方便告知您。\n";
+  if(this_player()->query_temp("quests/confuse") != 1)
+    return "這件事，我不能隨便說。\n";
+  this_player()->set_temp("quests/confuse",2);
+
+  return "陳平師兄自從師父過世後，不知道得了什麼病，就一直昏睡中，對於外界都沒反應。\n"
+    +"所以我將他安置在後山的"HIW"小屋"CYN"裡，並派一個"HIW"小童"CYN"去照料他。不過你還是不要隨便打擾他。\n"NOR;
+
+}
+
+void create()
+{
+        set_name("聖賢書",({"master sue","sue"}));
+        set("long","他是一個十分儒雅的年輕人﹐但卻是武林中的有名的俠客。\n");
+        set("gender","男性");
+        set("class","scholar");
+        set("nickname","九指書生");
+        set("combat_exp",3000000);
+        set("attitude","heroism");
+        set("age",26);
+        set("str", 44);
+        set("cor", 45);
+        set("cps", 18);
+        set("per", 24);
+        set("int", 42);
+        set("max_gin",10000);
+        set("s_kee",1000);
+        set("max_s_kee",1000);
+        set("sec_kee","god");
+        set("force",5000);
+        set("max_force",5000);
+        set("max_kee",10000);
+        set("kee",10000);
+        set("max_sen",10000);
+        set("sen",10000);
+        set_skill("literate",120);
+        set_skill("cure",60);
+        set("force_factor",10);
+        set_skill("force",80);
+        set_skill("stabber",120);
+        set_skill("dodge",70);
+        set_skill("knowpen",100);
+        map_skill("stabber","knowpen");
+        set_skill("parry",70);
+        set_skill("poetforce",80);
+        map_skill("force","poetforce");
+        map_skill("parry","knowpen");
+        set_skill("unarmed",20);
+        set_skill("move",70);
+        set_skill("plan",120);
+        set_skill("winter-steps",100);
+        map_skill("dodge","winter-steps");
+        set_skill("god-plan",100);
+        map_skill("plan","god-plan");
+        set("functions/movedown/level",100);
+        set("functions/finger/level",100);
+        set("plan-quest/ko-fire-king",1);
+        set("chat_chance_combat", 100);
+        set("inquiry",([
+        "挑戰書"       : CYN"最近莫名奇妙地接到了一張挑戰書﹐真是令人"HIW"困擾"CYN"。\n"NOR,
+        "困擾"         : CYN"我早就不問紅塵世事了﹐但是不去赴約﹐又恐為天下人所恥笑﹐"HIW"因此"CYN"...\n"NOR,
+        "因此"         : (: so :),
+        "青龍之笛"     : "此乃家傳之寶﹐據家父說使用此笛(use)可以召喚出傳說中的青龍﹐但是必須在特定之處使用﹐至於要在那裡使用﹐我就不得而知。",
+        "血魔"         : "ㄚ~~~你問這個.....該不會血魔已經破封了.....唉..蒼生不幸....",
+        "儒俠"         : "這是當年夫子的不傳弟子..不過已經消失一陣子了\n",
+        "麗玉蝶蘭"     : (: liyu :),
+        "血魔封印"     : "當初為了將血魔封印...仙劍逍遙子將其配劍[仙劍連陽]請劍師龍鐵心鑄成開天三靈器...一傳刀神..一傳儒俠..一傳其傳人.並利用三靈器的聖氣壓制血魔魔氣",
+        "逍遙子"       : "仙劍祖師爺ㄚ~~~仙魔戰後已不知去向....",
+        "龍鐵心"       : "先師說是天下間最有才華的鑄劍師了...由於個性古怪..所以一般材料他都看不上眼....真不曉得[仙劍連陽]是怎麼做成的...",
+        "去老還童術"   : "我有聽說過武林中有一個寶物「鎖元盒」﹐用這個寶物再加上青龍之氣就能產生返老還童的效果﹐但是方法如果我並不清楚。\n",
+        "鎖元盒"       : "這樣寶物似乎早在二十年前左右就已經失落。\n",
+        "邢賢書"       : "嗯 ... 不瞞閣下﹐在下本姓邢﹐後改姓聖﹐「邢賢書」乃是在下早名也。\n",
+        "試煉印記"     : (: ask_test :),
+        "麗玉蝶蘭晶珠" : (: ask_ball :),
+        "六韜奇略"     : "六韜奇略是兵法家黃石公收集戰國奇略所寫之書, 不過他行事乖僻, 很難找到他。\n",
+        "孔明兵法"     : (: book :),
+        "不過"         : (: ask_plan :),
+        "神算先生"     : CYN"此人複姓"HIW"諸葛"CYN"名"HIW"臥龍"CYN"﹐乃當今知識之奇葩﹐無論是兵法、文學、政治、卜卦、醫術﹐他樣樣精通。\n"NOR,
+        "諸葛臥龍"     : CYN"此人雖有蓋\世之才﹐然不得時也﹐如今此人隱居於"HIW"雪蒼山下"CYN"。\n"NOR,
+        "雪蒼山下"     : (: ask_place :),
+        "路觀圖"       : (: ask_picture :),
+        "拋磚引玉"     : (: ask_confuse:),
+        "陳平"         : (: ask_chen:),
+        "小屋"         : "陳平師兄還在昏睡中，沒事不要打擾他。\n",
+        "小童"         : "就一個小朋友，就叫他去照顧陳平而已，跟你應該沒什麼關系吧。\n",
+        ]));
+        set("chat_msg_combat",({
+        (: perform_action,"stabber.movedown" :),
+        (: perform_action,"stabber.finger" :),
+        (: perform_action,"plan.lock-link" :)
+        }));
+        setup();
+        create_family("儒門",16,"弟子");
+        carry_object(START_OBJ"ten_pen")->wield();
+        carry_object(START_OBJ"k_cloth")->wear();
+}
+
+void attempt_apprentice(object ob)
+{
+  if(this_player()->query("class")!="scholar")
+  {
+    command("say 汝非儒生也﹐焉能收汝為徒乎 ?\n");
+    return;
+  }
+  command(":)");
+  command("recruit "+ob->query("id"));
+}
+
+void init()
+{
+  object me = this_player();
+  if( me->query("quests/kill-snow") && !me->query("quests/fear_fighting") )
+    call_out("finish",1,me);
+  add_action("do_nod","nod");
+  add_action("do_ok","ok");
+  add_action("do_shake","shake");
+}
+
+int do_nod()
+{
+  object ob = this_object() , me = this_player();
+  object obj;
+  if( me->query("quests/kill-snow") ) return 0;
+  if( !me->query_temp("ask_so") ) return 0;
+  if( me->query_temp("get_letter") ) return 0;
+  command("say 那麼 .... 就煩勞你了。");
+  obj = new("/daemon/class/scholar/letter");
+  obj->move( me );
+  message_vision("$N給了$n一張書信。\n",ob,me);
+  me->set_temp("get_letter",1);
+  return 1;
+}
+
+int do_ok()
+{
+  object ob = this_object() , me = this_player();
+  object obj;
+  if( me->query_temp("scholar_god_plan") != 3 )
+  {
+    return 0;
+  }
+  else if( !this_player()->query_temp("scholar_godplan_gi_dguger_letter") )
+  {
+    obj = new("/daemon/class/scholar/obj/help-letter");
+    obj->move( this_player() );
+//    command("say 當你遇到神算先生時，你就將此封信交給他，他就知道了你的來意了，拜託你了.....");
+    message_vision(CYN"聖賢書說道﹕當你遇到"HIW"神算先生"CYN"時，你就將此封信交給他，他就知道了你的來意了，拜託你了.....\n"NOR,ob,me);
+    message_vision("$N給了$n一封信。\n",ob,me);
+    this_player()->set_temp("scholar_godplan_gi_dguger_letter",1);
+  }
+  return 0;
+}
+
+int do_shake()
+{
+  object me = this_player();
+  if( me->query_temp("scholar_god_plan") == 3 && !me->query_temp("scholar_godplan_gi_dguger_letter") ||
+      me->query_temp("ask_so") && !me->query_temp("get_letter") )
+  {
+    command("say 這樣啊...");
+	me->delete_temp("scholar_god_plan");
+	me->delete_temp("ask_so");
+  }
+  return 0;
+}
+
+int accept_fight(object who)
+{
+  command("cmd god_kee");
+  fight_ob(who);
+  command("perform plan.fire");
+  return 1;
+}
+
+void die()
+{
+        object winner = query_temp("last_damage_from");
+        int j;
+        if(!winner)
+        {
+        ::die();
+        return ;
+        }
+        if(winner->query("family/family_name")=="仙劍派" && winner->query("killyao")==1 && winner->query("bloodsword")==1)
+        {
+        object me,ob;
+        me = this_player();
+        ob=new("/open/gsword/obj1/brain.c");
+        tell_object(winner,HIR"你從屍體上挖出了一顆血淋淋的大腦.."NOR);
+        ob->move(winner);
+        winner->set_temp("swordbrain",1);
+        }
+    if(userp(winner) && winner->query_temp("not_robot") > time() )
+    {
+        if ( winner->query_temp("bless")==1 )
+        {
+        j=random(-1);
+          if( j==7 || j==77 || j== 777 || j==1111 || j==55 || j==555 || j==1000 || j==4000 || j==3333 || j==2222 )
+          {      
+          new("/open/sky/obj3/water_feather")->move(environment(winner));
+          message_vision(HIM"\n從聖賢書的身上掉下了一件奇怪的東西!!\n"NOR,winner);
+          write_file("/log/sky/obj3/water_feather",sprintf("%s(%s) 讓聖賢書掉下了水之流羽於 %s\n",
+          winner->name(1),winner->query("id"),ctime(time())));
+          }
+        }else{
+        j=random(-1);
+          if( j==5 || j==15 || j== 150 || j==1500 || j==10 || j==100 || j==1000 || j==4000 || j==6666 || j==7777 ) 
+          {      
+          new("/open/sky/obj3/water_feather")->move(environment(winner));
+          message_vision(HIM"\n從聖賢書的身上掉下了一件奇怪的東西!!\n"NOR,winner);
+          write_file("/log/sky/obj3/water_feather",sprintf("%s(%s) 讓聖賢書掉下了水之流羽於 %s\n",
+          winner->name(1),winner->query("id"),ctime(time())));
+          }
+        }
+    }
+        tell_object(users(),HIW"\n
+儒門"HIR"傳來了如洪鐘般的嘆息...\n
+             "HIG"『 經 綸 百 世 路 綿 延 ， 
+                    觸 念 塵 緣 不 計 年 ； 
+                        慈 心 解 去 風 雨 衣 ，
+                            明 燈 長 照 九 重 天 。 』\n"HIY"
+                    「"HIW"風雅書"HIY"..."HIW"廣文書"HIY"...汝等要替我報仇也...」\n"HIR"
+            儒門九代令公之首「"HIY"聖賢書"HIR"」如今竟不幸命葬於"HIG+winner->name()+HIR"之手....\n\n"NOR);
+
+        ::die();
+}
+
+int do_plan2()
+{
+  if( this_player()->query_temp("scholar_god_plan") == 2 ) {
+  command("ah");
+  command("say 對了，神算先生或許\有方法能治好小徒的怪病，你能幫我聯絡他嗎？（ok/shake）");
+  this_player()->set_temp("scholar_god_plan",3);
+  return 1;
+  }
+}
+
+int accept_object(object me,object ob)
+{
+  if(ob->query("id")== "boombo" && this_player()->query_temp("quests/confuse") == 11)
+  {
+    command("say 太好了，這真的是失落已久的拋磚引玉之計，沒想到你竟然拿到了！");
+    command("say 我想，這個計法就交給你發揚光大了");
+    message("system",HIW"\n"+this_object()->name()+"說道：本門失傳已久的拋磚引玉之計由"+this_player()->name()+"尋回，我想此計就交給他當成唯一傳人，希望"+this_player()->name()+"利用此計好好扺抗外敵。\n"NOR,users());
+    this_player()->set("quests/confused",1);
+    this_player()->delete_temp("quests/confuse");
+    destruct(ob);
+    return 0;
+  }
+
+  if(ob->query("id")=="dguger-dan" && this_player()->query_temp("scholar_godplan_get_dan",1))
+  {
+    command("say 太好了！我現在就拿去給小徒服用。(聖賢書一個轉身就進內房去了...)");
+    message("system",HIW"\n聖賢書小心翼翼的將靈丹塞到儒門小童嘴裡。\n"NOR,users());
+    this_player()->set("quests/god-plan",1);
+    call_out("do_plan3",3,ob);
+  }
+}
+
+int do_plan3(object ob)
+{
+  message("system",CYN"\n(一個時辰後.....)\n"NOR,users());
+  call_out("do_plan4",3,ob); 
+}
+
+int do_plan4(object ob)
+{
+  message("system",HIC"\n原本面目呆滯，眼神恍惚的小童大叫一聲："HIW"阿呀！我怎麼會躺在這裡？\n"NOR,users());
+  call_out("do_plan5",3,ob); 
+}
+
+int do_plan5(object ob)
+{
+  message("system",HIY"\n聖賢書對著小童說道：還不快將孔明兵法交給"+this_player()->name()+"，他是你的救命恩人耶...\n"NOR,users());
+  call_out("do_plan6",3,ob); 
+}
+
+int do_plan6(object ob)
+{
+  message("system",HIC"\n小童從內房裡走了出來，對著"+this_player()->name()+"叩了三聲響頭，說道："HIW"恩人，真感謝你，這本兵法就交給你了！\n\n"NOR,users());
+  ob = new("/daemon/class/scholar/book");
+  ob->move(this_player());
+}

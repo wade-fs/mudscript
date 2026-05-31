@@ -76,17 +76,17 @@ fsmud.exe: $(OUT) inject-hash
 # 執行測試 (測試模式下不連接 P2P 以免干擾)
 test: fsmud
 	@echo "🧪 Running MudScript Core Tests..."
-	@MUD_TEST_MODE=1 $(OUT)/fsmud --hub none
+	@MUD_TEST_MODE=1 $(OUT)/fsmud --hub none 2>&1 | tee /tmp/test.txt
 
 # 正常執行伺服器 (預設連接全球星際中心)
 run: fsmud
 	@echo "🚀 Starting MudScript Server (Connecting to Global Hub)..."
-	@ $(OUT)/fsmud 2>&1 | tee run.txt
+	@ $(OUT)/fsmud 2>&1 | tee /tmp/run.txt
 
 run-clean: fsmud
 	@echo "🚀 Starting MudScript Server (Connecting to Global Hub)..."
 	@ rm -rf mudlib/data/user/*
-	@$(OUT)/fsmud --hub wss://wade-fs-fsmud-hub.hf.space/ws 2>&1 | tee run-clean.txt
+	@$(OUT)/fsmud --hub wss://wade-fs-fsmud-hub.hf.space/ws 2>&1 | tee /tmp/run-clean.txt
 
 clean:
 	@rm -rf *.log $(OUT)/*

@@ -1,0 +1,221 @@
+#include <combat.h>
+#include <ansi.h>A
+inherit SKILL;
+void sp_att3(object me, object victim, object  weapon, int damage);
+void sp_att1(object me, object victim, object  weapon, int damage);
+void sp_att2(object me, object victim, object  weapon, int damage);
+int kar=this_player()->query("kar",1);
+int cps=this_player()->query("cps",1);
+int str=this_player()->query("str",1);
+int cor=this_player()->query("cor",1);
+int int1=this_player()->query("int",1);
+int spi=this_player()->query("spi",1);
+int i;
+
+mapping *action = ({
+      ([      "action":
+"$N¤â¤¤$w¤@Â½¡M¤@©Û¡u"HIC"¦"HIW"æ"HIC"¶"HIW"³"HIC"¬"HIW"y"HIC"¤"HIW"ô"NOR"¡v¤â¸Ìªº$w¦p¤@±øªøÀs¬yÂà¡M©¹$n$l¨ë¥h",
+        "damage": 50,
+        "dodge":        -50,
+        "parry":        -20,
+        "damage_type":  "¨ë¶Ë",
+        ]),
+      ([      "action":
+"$N¬Ý·Ç$nªº¨Ó¶Õ¡M±N¤â¤¤$w¶X»Ø§ð¤J¡M¤@©Û¡u"HIB"¶"HIW"¶"HIB"¤"HIW"ô"HIB"±"HIW"À"HIB"¦"HIW"à"NOR"¡v¤â¸Ìªº$w¦p¶¶¬y¤§¦à¡M©¹$n$l«æ³t¨ë¥h",
+        "damage": 50,
+        "dodge":        -50,
+        "parry":        -20,
+        "damage_type":  "¨ë¶Ë",
+        ]),
+      ([      "action":
+"$N½w½w¹B¦æÅé¤º¯u®ð¡M¯u®ð±a°Ê¥|©P±j­·´­°_¨F¹Ð¡M¤@©Û¡u"HIY"Á"HIW"c"HIY"¬"HIW"P"HIY"Â"HIW"I"HIY"Â"HIW"I"NOR"¡v¤â¸Ìªº$w¦p¦P¶Â©]Ác¬P¡Mµ§¼v¦p¦P¬P¥ú©¹$n$l¨ë¥h",
+        "damage": 40,
+        "dodge":        -40,
+        "parry":        -20,
+        "damage_type":  "¨ë¶Ë",
+        ]),
+      ([ "action":
+"$N¨­§Î¬yÂà¡M³s½ò¤C¨B¡M¤â¤¤$w¤@©Û¡u"HIM"¤"HIW"C"HIM"¨"HIW"B"HIM"¦"HIW"¨"HIM"¸"HIW"Ö"NOR"¡v©¹$nÂI¥h",
+           "damage":           30,
+           "dodge":           20,   
+           "parry":          -30,
+           "damage_type":  "¨ë¶Ë"      
+          ]),
+              ([         "action":
+"$N¤â¤¤$w·n®Ì¡M¨Bªk·L¹y¡M°¿¦a¤@©Û¡u"HIG"§"HIW"â"HIG"°"HIW"s"HIG"°"HIW"Ý"HIG"¤"HIW"Ñ"NOR"¡v±N$w´§¥X¡M³s¥X¤T¤U©¹$nÂI¥h",
+           "damage":         80,     
+           "dodge":          0,
+           "parry":         -50,
+           "force":          100,
+            "damage_type":  "¨ë¶Ë"
+           ]),
+           ([      "action":
+"$N±N¤â¸Ìªº$w°ª°ªÁ|°_¡M©¿¦a¤â¤¤$w«æÅÜ©Û¼Æ¡M¤@©Û¡u"HIR"µ"HIW"â"HIR"¶"HIW"é"HIR"º"HIW"É"HIR"¿"HIW"³"NOR"¡v³sºø¤£µ´ªº©¹$n«æÂI",
+           "damage":        70,
+           "dodge":        -30,
+           "parry":         10,
+              "damage_type": "¨ë¶Ë"
+            ]),
+           ([       "action":
+"$N±N´¤$w´«¦¨®³¤M¤§ºA¡A©¿¦a$w¤Û¤Æ¦¨¤M¡A·Ç³Æ¨Ï¥X¾§ªùÂí±Ðµ´¦¡¤§¤@\n"
+"$N©|¥¼§¹¥þ´x´¤¤M·N¡A¤M¶Õµê¹ê¤£©w¡A$n¥u¯à¬Ý³z³¡¥÷¤M¶Õ¡C",
+           "damage":        60,
+           "dodge":        -30,
+           "parry":         10,
+           "post_action":  (: sp_att1 :),
+              "damage_type":"¬å¶Ë"
+          ]),  
+           ([        "action":
+"$NºCºC±N¯u®ð¹B¦æ¥þ¨­±a°Ê¥|©P®ð¬y¡A½w½w¦¬°_$w¡A·Ç³Æ¨Ï¥X¾§ªùÂí±Ðµ´¦¡¤§¤@\n"
+"$Nªº¯u®ð¬ðµMºCºC®ø¥¢¡A´x¤O¶¶®É­°¦Ü¤T¤À¡A$n¥u¦³ÂI©Û¬[¤£¦í¡C",
+           "damage":        70,
+           "dodge":        -30,
+           "parry":         10,
+           "post_action":  (: sp_att2 :),
+              "damage_type":"·ï¶Ë"
+            ]),
+           ([         "action":
+"$N±N´¤$w´«¦¨®³¼C¤§ºA¡A©¿¦a¤â¤¤¤Û¤Æ¦¨¼C¡A·Ç³Æ¨Ï¥X¾§±ÐÂí±Ðµ´¦¡¤§¤@\n"
+"$N¦]µLªk´x´¤¦í»¤§x±þ·À¥|¶µ¼C·N¡A$n¦ü¥G¦³ÂI¬Ý¬ï¯}©Û¤§ªk¡C", 
+           "damage":        70,
+           "dodge":        -30,
+           "parry":         10,
+           "post_action":  (: sp_att3 :),
+              "damage_type":"³Î¶Ë"
+            ]),
+
+});
+
+// valid_learn ¥u¬OÀË¬d¬O§_¥i¥H¾Ç, ¤£¯à¦b¦¹¥[ skill
+int valid_learn(object me)
+{
+  if ((int)me->query_skill("literate")*2<(int)me->query_skill("knowpen"))
+    return notify_fail("§AªºÅª®ÑÃÑ¦rµ{«×¤£°÷¡M¤£¯à»â®©¨ä¤¤ªº¹D²z¡C\n");
+  return 1;
+}
+
+int valid_enable(string usage)
+{
+        return (usage=="stabber")||(usage=="parry");
+}
+
+mapping query_action(object me, object weapon)
+{
+        return action[random(sizeof(action))];
+}
+
+void movedown(object me,object target, object weapon,int damage)
+{
+        if(random(8)>1)
+               return;
+        if(me->query("force")<20) return;
+        me->add("force",-20);
+          message_vision(HIG "$N¨Ï¥X¦æ¶³¬y¤ôµ§ªk¤¤ªº¡u¤C¬P«Ê¥Þ¡v©¹$n¨­¤Wªº¥Þ¹D³sÂI¡T\n"NOR,me,target);
+        if
+(random(target->query("combat_exp"))<random(me->query("combat_exp")))
+          {
+               message_vision( GRN "µ²ªG$n³Q$NÂI¤¤¡M¥Þ¹D³Q«Ê¡T\n"NOR,me,target);
+                target->start_busy(me->query_skill("knowpen",1)/20);
+          }
+           else
+              message_vision(   GRN
+"µ²ªG³Q$nÃÑ¯}¡M¨S¦³©R¤¤¡C\n"NOR,me,target);
+}
+
+// ³o­Ó¥u¬O¬d¸ß¬O§_¥i¥H½m²ß, ¼W¥[ skill ¤£¬O¦b³o¨à.
+int practice_skill(object me)
+{
+  object weapon;
+
+  me->receive_damage("sen",30);
+  if (me->query_skill("literate")*2<me->query_skill("knowpen"))
+    return notify_fail("§AªºÅª®ÑÃÑ¦r¤£°÷¡M¤£¯à»â®©¨ä¤¤ªº¹D²z¡C\n");
+  if( !objectp(weapon = me->query_temp("weapon")) ||(string)weapon->query("skill_type")!="stabber")
+  {
+    return notify_fail("§A­n¦³¾A¦XªºªZ¾¹¤~¯à½m¦æ¶³¬y¤ôµ§ªk¡C\n");
+  }
+
+  if ((int)me->query("sen")<30)
+    return notify_fail("§Aªº¯«¤£°÷¡M¤£¯à½m¦æ¶³¬y¤ôµ§ªk¡C\n");
+  return 1;
+}
+
+string perform_action_file(string action)
+{
+        return CLASS_D("scholar")+"/knowpen/"+action;
+}
+
+void sp_att1(object me, object victim, object weapon, int damage)
+{
+    if(weapon->query("id")=="bird_pen")
+{
+message_vision(
+""HIW"$N¤w¸g´x´¤¦íµê¹ê¤§ÄÆ½z¤M·N¡A¤M¶Õ¦b$n¥|©P³vº¥§Î¦¨¾§ªùÂí±Ð¯µ¦¡"NOR"\n"
+""HIW"        ¡y¡ã¾§¡ã±Ð¡ã¦Ü¡ã©Û¡ã"HIY"¤"HIW"é"HIW"¡ã"HIY"¥"HIW"ú"HIW"¡ã"HIY"¶"HIW"³"HIW"¡ã"HIY"¼"HIW"v"HIW"¡ã¡z"NOR"\n"
+""HIW"ÄÆ½z¤M·N»P¤M·N¿Ä¬°¤@Åé¡A¤M¶ÕÄÆ½zµê¹ê¤£©w¡A$nµLªk¬Ý³z¤M·N¨ü¨ì­«³Ð¡C"NOR"\n",me,victim);
+victim->receive_wound("kee",me->query_skill("newpen",1)*2);
+         COMBAT_D->report_status(victim, 1);
+}
+       else
+{
+          victim->receive_wound("kee",me->query_skill("newpen",1)*1);
+          COMBAT_D->report_status(victim, 1);
+        }
+          me->add("force",-50);
+ }
+void sp_att2(object me, object victim, object weapon, int damage)
+{
+    if(weapon->query("id")=="wind_pen")
+{
+message_vision(
+""HIW"$N¦A½w½w±N¯u®ð¹BÂà¤J¥ô·þ¤G¯ß¡A¶¶®É¯u®ð¥R¬Õ©ó¥þ¨­¤§¤¤¡A¨Ï¥X¾§ªùÂí±Ð¯µ©Û"NOR"\n"
+""HIW"               ¡y¡ã¾§¡ã±Ð¡ã·¥¡ã©Û¡ã"HIC"§"HIW"g"HIW"¡ã"HIC"¤"HIW"l"HIW"¡ã"HIC"­"HIW"·"HIW"¡ã¡z"NOR"\n"
+""HIW"$N¯u®ðÀH´x¦Ó¥h¡A¨Ã±a°Ê¥|©P®ð¬yÀ»¦V$n¡A$n¦p¥¢½u¤§­·ºå¨ü³Ð­¸°_¡C"NOR"\n",me,victim);
+         victim->receive_wound("kee",me->query_skill("newpen",1)*2);
+         victim->apply_condition("wind-stial",3);
+         COMBAT_D->report_status(victim, 1);
+}
+       else
+{
+          victim->receive_wound("kee",me->query_skill("newpen",1)*1);
+          COMBAT_D->report_status(victim, 1);
+        }
+          me->add("force",-100);
+ }
+void sp_att3(object me, object victim, object weapon, int damage)
+{
+    if(weapon->query("id")=="bird_sword_pen")
+{
+int i;
+for(i=1;i<=4;i++)
+{
+message_vision(HIW"§A´¤°_¤â¤¤¤§½Ñ»ñ¼Cµ§¡A¥Hµ§¥N¼C¡A¶¶®ÉÂI¯}µ´¦¡ºë§®¤§³B¡A¤Q¤À¬yºZªº¨Ï¥X¼C©Û¡I\n"NOR,me,victim);
+switch(i)
+{
+case 1:
+message_vision(sprintf("$N¨Ï¥X¡y"HIC"¼C¡ã¼v¡ã»¤¡ã¼Ä"NOR"¡z¡A¥HµL¼Æµê©Û°g´b$n¡C\n"),me,victim);
+break;
+case 2:
+message_vision(sprintf("$N¨Ï¥X¡y"HIC"¼C¡ã¶Õ¡ã§x¡ã¼Ä"NOR"¡z¡A¥HµL¼Æ¼C¶Õ§x¦í$n¡C\n"),me,victim);
+break;
+case 3:
+message_vision(sprintf("$N¨Ï¥X¡y"HIC"¼C¡ã©Û¡ã±þ¡ã¼Ä"NOR"¡z¡A¥HµL¼Æ¼C©Û±þ¦V$n¡C\n"),me,victim
+);
+break;
+case 4:
+message_vision(sprintf("$N¨Ï¥X¡y"HIC"¼C¡ã¾W¡ã·À¡ã¼Ä"NOR"¡z¡A¥H¾W§Q¼C¾W±þ·À$n¡C\n"),me,victim
+);
+break;
+}
+         victim->receive_wound("kee",50);
+ COMBAT_D->report_status(victim, 1);
+}
+}
+       else
+{
+          victim->receive_wound("kee",me->query_skill("newpen",1)*1);
+          COMBAT_D->report_status(victim, 1);
+        }
+          me->add("force",-100);
+ }
+      

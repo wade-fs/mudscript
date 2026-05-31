@@ -1,0 +1,24 @@
+□展伯承的煩惱
+
+一  地點: 蜀中城
+
+二  目的: 幫展伯承找回被竊之畫
+
+三  過程:  從伯承那可知到畫掉在旅館,
+           搜索旅館需搜所令,
+           蜀中左侍衛處可買搜所令,
+           由婦女身上可知地板有問題,
+           搜索地板旅館老闆會和你戰鬥,
+           打贏老闆即可從老闆身上得畫.
+
+四  報酬: money 1 gold ; 金刀門出入通行權
+	  金刀弟子 : money 1 gold ; exp 200
+
+五  檔案: in /open/gsword/mob/ 
+        bochen.c,  bandit.c,  zhang.c,  l_guard.c,  zouzhen.c  woman.c
+        
+            /open/gsword/room/
+        restroom.c
+           /open/gblade/obj/
+        picture.c 
+    

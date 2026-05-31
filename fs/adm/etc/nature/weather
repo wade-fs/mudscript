@@ -1,0 +1,80 @@
+#
+#  The definition of 天氣
+#  Format:
+#	length		每種氣候的持續秒數
+#			0   表一定變好天
+#			-1  則不一定，也許是亂數，也許是變好天
+#	reather_msg	當天氣變化時, 送給室外人的訊息
+#	desc_msg	用 look 看的訊息
+#	event_fun	當新天氣開始的時候, NATURE_D 會呼叫的函數
+#
+#  天氣 總是從 天空中萬里無雲 開始
+#
+#  Note 每個氣候的 length 是實際上的一分鐘, 在 call_out 時是秒
+#
+
+# 底下的格式定義如下
+#
+#  field1:field2:field3....
+#  format1:format2:format3....
+#
+
+length:reather_msg:desc_msg:event_fun
+%d:%s:%s:%s
+
+# 底下的是資料, 有文字的行會被轉成每筆記錄的一欄
+
+180
+天空中剩下的雲漸漸消失的無影無蹤
+天空中萬里無雲
+event_good_reather
+
+160
+天空中的雲漸漸被風吹散開來
+幾朵淡淡的雲彩妝點著的天空
+event_good_reather
+
+140
+白雲在天空中飄來飄去
+白雲在天空中飄來飄去
+event_good_reather
+
+120
+陣陣微風吹來，令人心曠神怡
+微風徐徐吹來，天上的雲層也有點兒飄忽不定
+event_good_reather
+
+100
+厚厚的雲層堆積在天邊
+厚厚黑黑的雲層，壓得人喘不過氣來
+event_good_reather
+
+-1
+天空中烏雲密佈，遠處傳來陣陣雷聲
+厚厚的雲層，似乎快下雨了
+event_thunder
+
+30
+水氣開始瀰漫著大地
+大地到處霧濛濛的，所有景像都變模糊了
+event_water_reather
+
+-1
+頭頂被天上掉下來的冰塊打中
+一陣ㄎ哩誇啦的聲響，下起冰苞來了
+event_ice_rain
+
+30
+幾滴雨滴落在你的臉上
+淅瀝瀝地，天空開始漂起雨來了
+event_light_rain
+
+30
+豆大的雨滴弄的身上到處都濕了
+嘩啦啦地，大雨大雨一直下
+event_heave_rain
+
+0
+狂風大作，豪雨成災
+颱風吹的人站也站不穩
+event_super_bad_reather

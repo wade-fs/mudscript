@@ -1,0 +1,26 @@
+// Room: /d/snow/mstreet2.c
+
+inherit ROOM;
+
+void create ()
+{
+  set ("short", "[1;35m過去時空[0m 雪亭鎮街道");
+  set ("long", @LONG
+你現在正走在雪亭鎮的大街﹐往南直走不遠處是鎮上的廣場﹐在你
+的東邊是一間大宅院﹐不過正門不在這個方向﹐往西是一家打鐵舖子﹐
+叮叮噹噹的聲音大老遠可以聽得到﹐街道往北邊一直通往鎮外。
+LONG);
+
+  set("objects", ([ /* sizeof() == 2 */
+  __DIR__"npc/scavenger" : 1,
+  __DIR__"npc/drunk" : 1,
+]));
+  set("outdoors", "snow");
+  set("exits", ([ /* sizeof() == 3 */
+  "west" : __DIR__"smithy",
+  "south" : __DIR__"mstreet1",
+  "north" : __DIR__"mstreet3",
+]));
+
+  setup();
+}

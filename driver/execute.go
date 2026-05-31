@@ -57,7 +57,7 @@ func (d *Driver) RunCommand(p *PlayerConnection, obj *object.LPCObject, funcName
 
 func (d *Driver) CallFunction(obj *object.LPCObject, funcName string, args []object.Object) object.Object {
 	if obj == nil || obj.IsDestructed {
-	        return &object.Integer{Value: 0}
+		return &object.Integer{Value: 0}
 	}
 
 	// 🚀 更新活動時間
@@ -130,7 +130,7 @@ func (d *Driver) AcceptConnection(pConn *PlayerConnection, lang string) *object.
 	gid := getGID()
 	d.playerContexts.Store(gid, pConn)
 	defer d.playerContexts.Delete(gid)
-	
+
 	args := []object.Object{&object.String{Value: lang}}
 	result := d.CallFunction(d.MasterObject, "connect", args)
 	if loginObj, ok := result.(*object.LPCObject); ok {

@@ -23,7 +23,9 @@ func (d *Driver) registerTimeAndScheduling(obj *object.LPCObject) {
 	// 範例: sleep(3000); // 暫停 3 秒
 	obj.Vars.Set("sleep", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
-			if len(args) < 1 { return &object.Nil{} }
+			if len(args) < 1 {
+				return &object.Nil{}
+			}
 			if ms, ok := args[0].(*object.Integer); ok {
 				return &object.AsyncPause{Duration: time.Duration(ms.Value) * time.Millisecond}
 			}
@@ -36,12 +38,18 @@ func (d *Driver) registerTimeAndScheduling(obj *object.LPCObject) {
 	// 範例: call_out("destroy_self", 5); // 5秒後呼叫 destroy_self()
 	obj.Vars.Set("call_out", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
-			if len(args) < 2 { return object.NewError("call_out 至少需要 2 個參數") }
+			if len(args) < 2 {
+				return object.NewError("call_out 至少需要 2 個參數")
+			}
 			funcName, ok := args[0].(*object.String)
-			if !ok { return object.NewError("call_out 第一個參數必須是字串") }
+			if !ok {
+				return object.NewError("call_out 第一個參數必須是字串")
+			}
 			delay, ok := args[1].(*object.Integer)
-			if !ok { return object.NewError("call_out 第二個參數必須是整數") }
-			
+			if !ok {
+				return object.NewError("call_out 第二個參數必須是整數")
+			}
+
 			d.CallOut(obj, funcName.Value, time.Duration(delay.Value)*time.Second, args[2:]...)
 			return &object.Nil{}
 		},
@@ -52,9 +60,13 @@ func (d *Driver) registerTimeAndScheduling(obj *object.LPCObject) {
 	// 範例: remove_call_out("respawn");
 	obj.Vars.Set("remove_call_out", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
-			if len(args) < 1 { return &object.Integer{Value: 0} }
+			if len(args) < 1 {
+				return &object.Integer{Value: 0}
+			}
 			funcName, ok := args[0].(*object.String)
-			if !ok { return &object.Integer{Value: 0} }
+			if !ok {
+				return &object.Integer{Value: 0}
+			}
 
 			d.mu.Lock()
 			defer d.mu.Unlock()
@@ -77,16 +89,22 @@ func (d *Driver) registerTimeAndScheduling(obj *object.LPCObject) {
 	// 範例: int left = find_call_out("respawn");
 	obj.Vars.Set("find_call_out", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
-			if len(args) < 1 { return &object.Integer{Value: -1} }
+			if len(args) < 1 {
+				return &object.Integer{Value: -1}
+			}
 			funcName, ok := args[0].(*object.String)
-			if !ok { return &object.Integer{Value: -1} }
+			if !ok {
+				return &object.Integer{Value: -1}
+			}
 
 			d.mu.Lock()
 			defer d.mu.Unlock()
 			for _, call := range d.CallOuts {
 				if call.Caller == obj && call.FuncName == funcName.Value {
 					timeLeft := int64(time.Until(call.FireTime).Seconds())
-					if timeLeft < 0 { timeLeft = 0 }
+					if timeLeft < 0 {
+						timeLeft = 0
+					}
 					return &object.Integer{Value: timeLeft}
 				}
 			}
@@ -101,13 +119,15 @@ func (d *Driver) registerTimeAndScheduling(obj *object.LPCObject) {
 		Fn: func(args ...object.Object) object.Object {
 			d.mu.Lock()
 			defer d.mu.Unlock()
-			
+
 			var elements []object.Object
 			for _, call := range d.CallOuts {
 				// 格式: ({ object caller, string function, int time_left })
 				timeLeft := int64(time.Until(call.FireTime).Seconds())
-				if timeLeft < 0 { timeLeft = 0 }
-				
+				if timeLeft < 0 {
+					timeLeft = 0
+				}
+
 				elements = append(elements, &object.Array{Elements: []object.Object{
 					call.Caller,
 					&object.String{Value: call.FuncName},
@@ -144,7 +164,9 @@ func (d *Driver) registerTimeAndScheduling(obj *object.LPCObject) {
 		Fn: func(args ...object.Object) object.Object {
 			ts := time.Now().Unix()
 			if len(args) > 0 {
-				if i, ok := args[0].(*object.Integer); ok { ts = i.Value }
+				if i, ok := args[0].(*object.Integer); ok {
+					ts = i.Value
+				}
 			}
 			return timeToMap(time.Unix(ts, 0).Local())
 		},
@@ -157,7 +179,9 @@ func (d *Driver) registerTimeAndScheduling(obj *object.LPCObject) {
 		Fn: func(args ...object.Object) object.Object {
 			ts := time.Now().Unix()
 			if len(args) > 0 {
-				if i, ok := args[0].(*object.Integer); ok { ts = i.Value }
+				if i, ok := args[0].(*object.Integer); ok {
+					ts = i.Value
+				}
 			}
 			return timeToMap(time.Unix(ts, 0).UTC())
 		},
@@ -170,13 +194,17 @@ func (d *Driver) registerTimeAndScheduling(obj *object.LPCObject) {
 		Fn: func(args ...object.Object) object.Object {
 			format := "%Y%m%d_%H%M%S"
 			if len(args) > 0 {
-				if s, ok := args[0].(*object.String); ok { format = s.Value }
+				if s, ok := args[0].(*object.String); ok {
+					format = s.Value
+				}
 			}
 			ts := time.Now().Unix()
 			if len(args) > 1 {
-				if i, ok := args[1].(*object.Integer); ok { ts = i.Value }
+				if i, ok := args[1].(*object.Integer); ok {
+					ts = i.Value
+				}
 			}
-			
+
 			// 轉換 Go 的 time format
 			t := time.Unix(ts, 0)
 			f := format
@@ -186,7 +214,7 @@ func (d *Driver) registerTimeAndScheduling(obj *object.LPCObject) {
 			f = strings.ReplaceAll(f, "%H", "15")
 			f = strings.ReplaceAll(f, "%M", "04")
 			f = strings.ReplaceAll(f, "%S", "05")
-			
+
 			return &object.String{Value: t.Format(f)}
 		},
 	})
@@ -198,9 +226,36 @@ func (d *Driver) registerTimeAndScheduling(obj *object.LPCObject) {
 		Fn: func(args ...object.Object) object.Object {
 			ts := time.Now().Unix()
 			if len(args) > 0 {
-				if i, ok := args[0].(*object.Integer); ok { ts = i.Value }
+				if i, ok := args[0].(*object.Integer); ok {
+					ts = i.Value
+				}
 			}
 			return &object.String{Value: time.Unix(ts, 0).Format("Mon Jan _2 15:04:05 2006")}
+		},
+	})
+}
+
+func (d *Driver) registerResetEfuns(obj *object.LPCObject) {
+	// 語法: varargs void set_reset(object ob, int time)
+	// 說明: 設定物件下次 reset 的時間。若 time 未提供，則使用預設公式。
+	// 範例: set_reset(this_object(), 3600);
+	obj.Vars.Set("set_reset", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 1 {
+				return &object.Nil{}
+			}
+			target, ok := args[0].(*object.LPCObject)
+			if !ok {
+				return &object.Nil{}
+			}
+
+			// 簡單實作：若有時間參數，設定到物件屬性
+			if len(args) > 1 {
+				if t, ok := args[1].(*object.Integer); ok {
+					target.Vars.Set("_reset_time", t)
+				}
+			}
+			return &object.Nil{}
 		},
 	})
 }

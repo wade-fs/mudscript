@@ -1,0 +1,150 @@
+#include "/open/gsword/npc/attack_bloodsword.h"
+
+#include <ansi.h>
+inherit NPC;
+inherit F_MASTER;
+#include <ansi.h>
+void create()
+{
+        set_name("何雙雙", ({"cute girl","girl"}));
+        set("long","
+何雙雙外剛內柔，看到這天仙般的容貌，你簡直不敢相信 -- 她
+竟是仙劍七俠之一跟梅影同時進入仙劍派，個性和梅影不同較為
+活潑開朗。但最近似乎有點悶悶不樂，眼神微微有憂愁的影子...\n");
+        set("gender","女性");
+        set("combat_exp",500000);
+        set("attitude","heroism");
+        set("age",18);
+        set("nickname",HIC"纖雲弄巧"NOR);
+        set("class","swordsman");
+        set("title","仙劍派第四代女劍俠");
+        create_family("仙劍派",4,"弟子");
+        set("inquiry",([        
+        "憂愁" : "唉...三師哥好像比較喜歡五師姐...只好祝福他們了...\n",
+        ]));
+        set("sha-stop-6",1);
+        set("score",100000);
+        set("force",1000);
+        set("max_force",1000);
+        set("force_factor",10);
+        set("max_kee",1200);
+        set("kee",1200);
+        set("gin",1200);
+        set("max_gin",1200);
+        set("sen",1200);
+        set("max_sen",1200);
+        set_skill("array",60);
+        set_skill("literate",40);
+        set_skill("shasword",80);
+        set_skill("shaforce",50);
+        set_skill("parry",70);
+        set_skill("dodge",80);
+        set_skill("sword",70);
+        set_skill("move",90);
+        set_skill("sha-array",60);     
+        set_skill("force",50);
+        set_skill("sha-steps",80);
+        map_skill("array","sha-array");
+        map_skill("sword","shasword");
+        map_skill("parry","shasword");
+        map_skill("force","shaforce");
+        map_skill("dodge","sha-steps");
+        map_skill("move","sha-steps");
+        set("str",25);
+        set("cor", 30);
+        set("per", 40);
+        set("int", 40);
+        set("cps",20);
+        set("con", 30);
+        set("spi", 15);
+        set("kar", 30);
+        setup();
+        carry_object("/open/gsword/obj/sword-6")->wield();
+        add_money("gold",5);
+        carry_object("/open/gsword/obj/yuboots")->wear();
+        carry_object("/open/gsword/obj/yubracelet")->wear();
+        carry_object("/open/gsword/obj/yugem")->wear();
+        carry_object("/open/gsword/obj/yucloth")->wear();
+        carry_object("/open/gsword/obj/yuskirt")->wear();
+}
+ int accept_fight(object me)
+  {
+  if((int)me->query("combat_exp")<=40000)
+  {
+   command("smile");
+   command("say 不好吧 !");
+   return 0;
+  }
+  command("say 好 ,我就領教你的高招 !");
+  return 1;
+  }
+void attempt_apprentice(object ob)
+{
+        if(!ob->query_temp("allow_6"))
+        {
+        command("say 沒師父的同意,我不敢自做主張!");
+        return 0;
+        }
+        command("blush");
+        command("smile");
+        command("say 以後可要乖乖聽師父的話喔 !");
+        command("giggle");
+        command("recruit "+ob->query("id"));
+        ob->set("marks/仙劍七俠",1);
+
+}
+
+void die()
+{
+	object head,winner = query_temp("last_damage_from");
+	int j;
+        if(!winner)
+	{
+	::die();
+	return ;
+        }
+
+	if(winner->query_temp("head") == 3 )
+	{//要求解第三進職的玩家，一定要自己殺死七子之一
+	//所以設下head 4，如果不是在解第三進職的玩家，並不會拿到人頭
+	message_vision(HIY"可惡！居然會敗在你的手下,看來武林將有一陣腥風血雨\n"NOR,this_object());
+	message_vision("說完之後他就倒下了。。。。\n",this_object());
+	winner->set_temp("head",4);
+	head=new("/open/killer/headkill/obj/sword_head.c");
+	head->move(this_object());
+	}
+	if ((winner->query("class") == "killer") && (winner->query_temp("head") != 4))
+	{//避免條件連續兩次成立（因為解headkill之謎的一定是殺手）
+	//想將七子的人頭家在殺人名單中，所以是殺手來砍七子，亦可以得到人頭
+	//但是因為不是在解第三進職，所以並不會設定步驟值
+	message_vision(HIY"可惡！居然會敗在你的手下,看來武林將有一陣腥風血雨\n"NOR,this_object());
+	message_vision("說完之後他就倒下了。。。。\n",this_object());
+	head=new("/open/killer/headkill/obj/sword_head.c");
+	head->move(this_object());
+	}
+    if(userp(winner) && winner->query_temp("not_robot") > time() )
+    {
+	if ( winner->query_temp("bless")==1 )
+	{
+	j=random(-1);
+	  if( j==7 || j==77 || j== 777 || j==1111 || j==55 || j==555 || j==1000 || j==4000 || j==3333 || j==2222 )
+	  {      
+	  new("/open/sky/obj6/moon_diamond")->move(environment(winner));
+	  message_vision(HIM"\n從何雙雙的身上掉下了一件奇怪的東西!!\n"NOR,winner);
+          write_file("/log/sky/obj6/moon_diamond",sprintf("%s(%s) 讓何雙雙掉下了月亮之柔鑽於 %s\n",
+	  winner->name(1),winner->query("id"),ctime(time())));
+	  }
+	}else{
+	j=random(-1);
+	  if( j==5 || j==15 || j== 150 || j==1500 || j==10 || j==100 || j==1000 || j==4000 || j==6666 || j==7777 ) 
+	  {      
+	  new("/open/sky/obj6/moon_diamond")->move(environment(winner));
+	  message_vision(HIM"\n從何雙雙的身上掉下了一件奇怪的東西!!\n"NOR,winner);
+          write_file("/log/sky/obj6/moon_diamond",sprintf("%s(%s) 讓何雙雙掉下了月亮之柔鑽於 %s\n",
+	  winner->name(1),winner->query("id"),ctime(time())));
+	  }
+	}
+	}
+   ::die();
+}
+

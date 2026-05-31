@@ -1,0 +1,23 @@
+ □  六韜奇略
+
+      名稱            指令             備註
+   =========    ============    ==============
+    振軍計       bell-soldier
+
+    火龍計       firedragon       可以set 大火計
+
+    草船借箭     getweapon
+
+    背水之計     no-fear
+
+    策免計       no-plan
+
+    寂靜計       quiet
+
+    運天行道     usesky
+
+    勁水計       water
+
+ 使用方式：perform sixgod-plan.指令  (例如：振軍計 perform sixgod-plan.bell-soldier)
+
+ By Kalin (2003-06-17)

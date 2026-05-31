@@ -22,7 +22,7 @@ func (d *Driver) LoadObject(filename string) (*object.LPCObject, error) {
 	if err != nil {
 		return nil, err
 	}
-	
+
 	if newlyLoaded {
 		d.CallFunction(obj, "create", nil)
 	}
@@ -87,11 +87,11 @@ func (d *Driver) loadObjectInternal(filename string) (*object.LPCObject, bool, e
 			if err != nil {
 				return nil, false, fmt.Errorf("無法繼承 %s: %v", parentFile, err)
 			}
-			
+
 			if parentNewlyLoaded {
 				d.CallFunction(parentObj, "create", nil)
 			}
-			
+
 			lpcObj.Inherits = append(lpcObj.Inherits, parentObj)
 
 			for k, v := range parentObj.Vars.GetAll() {

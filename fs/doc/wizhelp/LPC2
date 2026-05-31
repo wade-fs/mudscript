@@ -1,0 +1,817 @@
+LPC 進階－１：各種資料型態
+
+一、陣列：
+
+  LPC 是一個程式語言，目前用來在 MudOS(及 LPmud)作業系統下撰寫物件，
+  LPC 的陣列不是由型態關鍵字宣告，有兩種方法可以讓使用陣列：
+
+	int	*a = ({ 1, 2, 3 });
+
+  上面宣告整數陣列 a，並且給予初始值 ({ 1, 2, 3 })，注意陣列是用({})
+把陣列的元素括起來，這一點請特別記住。
+
+	mixed	a;
+	a = allocate (3);
+	a = ({ 1, 2, 3 });
+
+  配備記憶體給二維陣列跟宣告的方式可以如下:
+
+        mixed   a;
+        a = allocate(10);
+        a[0] = allocate(10);
+        a[1] = allocate(10);
+        ...等等...
+
+    如果這樣宣告, 你可以把二維陣列想成陣列的陣列,
+  也就是一維陣列的每個元素又是一個陣列, 因此可以如下的方式使用:
+
+        i = a[0][0]             //  <-- 第 0 維陣列的第 0 個元素.
+
+    就算是使用 * 宣告, 你也無法直接宣告超過一維的陣列, 如:
+        int     *a;
+    但是你卻可以像上面的方式, 而擁有並使用超過一維的陣列,
+  也就是透過 mixed 的方式, 讓編譯器不檢查資料型態而達到目的.
+
+    底下是另外一種宣告並使用二維陣列的例子:
+
+        mixed a;
+        a = ({ ({ 1, 2, 3 }), ({ 4, 5, 6 }) });
+
+    以上面的例子來說, a[0] 會是 ({ 1, 2, 3 }), 而 a[0][2] 則是 3.
+
+    底下也是一個合法的使用方式:
+
+        mixed a;
+        a = ({ 0, 0, 0, 0 });  // 這樣只是讓陣列大小為 4
+        a[0] = ({ 1, 2, 3 });  // 改變 a[0] 從 0 變成 ({ 1, 2, 3 })
+        a[1] = ({ 1, 2, 3 });  // 改變 a[1] 從 0 變成 ({ 1, 2, 3 })
+        ...等等...
+
+  不知各位有沒有發現我們是利用 mixed 型態?
+  如果您想利用 int *a[]; 或 int **a; 都會出錯
+  只有 mixed 可以解決, 因為 mixed 的型態, 是告訴系統說,
+  這個變數(也可以是函數)的型態你不要去管,
+  我高興傳 int, string, array, mapping 都好,
+  既然有這種特性, 我們就給它來個二維陣列,
+  就是這樣
+
+  至於 allocate() 是要求記憶空間的意思, 如果像下面這樣就不行了
+
+  mixed a;
+  a[0] = ({ xxx, xxx, xxx .... });
+
+  因為 a 還沒給它記憶空間, 所以 a[0] 會出錯
+
+  但是
+  mixed a;
+  a = ({ ....... });
+  則可以, 那樣系統會自動給它記憶空間, 怪吧, 上面的方式跟下面的一模一樣:
+  mixed a = ({ .... });
+
+  如: mixed a = ({ ({ 0, 1, 2 }), ({ 2, 4, 6 }), ({ 1, 5, 10 }) });
+  上面是個 3X3 的二維陣列
+
+二、buffer
+
+  buffer 是 LPC 特有的資料型態。
+    buffer 是有點類似陣列跟字串的混合, 它可以讓人很容易就處理二進位資
+  料. 值得注意的是, buffer 模式不是以零值當結尾(跟字串的方式不同), 那
+  麼 buffer 如何知道長度或者說是哪裡是結尾? buffer 在最前面記錄了 buffer
+  的長度, 這一點跟 Pascal 的字串的使用方式一樣. buffer 可以看成是位元
+  組的陣列, 也就是 buffer 的元素大小是位元組. 底下有幾個使用例子:
+        buf[0] = x;
+        x = buf[0];
+        i = sizeof(buf);
+        if (bufferp(buf)) return;
+        str = buf[i..j];
+        buf = read_buffer(file_name, ...);      // 跟 read_bytes() 一樣
+        buf = buf1 + buf2;
+        buf = allocate_buffer(100);
+
+三、浮點數：
+
+    LPC 提供了單精度的浮點數, 精確度約有七位有效數字, 宣告方式如下:
+        float pi;
+        float r;
+    底下是幾個使用的例子:
+        pi = 3.1415926;
+        r = 1.0;
+        area = pi * r * r;
+
+    基本上, 浮點數的運算方式跟整數幾乎沒差別, 除了一些像三角函數之類的以外.
+
+四、函數指標：
+
+    LPC 提供了 function 這種變數型態, 可以用來方便的指向函數.
+  也許你會想要把函數傳給某些 efun, 例如某些過濾的函數. 函數的
+  指標可以用 (: 函數名稱 :) 來引用, 配合函數變數則:
+
+        function f = (: local_func :);
+
+    你可以把 f 當成變數傳給其它函數, 或者是把它當成函數指標:
+
+        foo(f);                         // 當成變數.
+        map_array( ({ 1, 2 }), f);      // 當成指標.
+
+    或者, 有一個更強的用法, 在後來的時機裡再"求值":
+
+        x = evaluate(f, "hi");
+
+When the last line is run, the function that f points to is called, and "hi"
+is passed to it.  This will create the same effect as if you had done:
+    執行到上一行的時候, 實際上會呼叫 f 所指的函數去, 並傳 "hi" 給它當參數.
+  上面的方式跟下面的程式碼意義相同:
+
+        x = local_func("hi");
+
+    以函數變數來指向函數的好處是, 你可以改變指標, 讓它指向別的函數.
+  尤其是配合 evaluate() 時, 在此, 先提醒一下, 如果傳給 evaluate() 的
+  參數不是函數指標的話, 會傳回它的值, 因此下列方式可見函數變數的優點:
+
+        void set_short(mixed x) { short = x; }
+        mixed query_short() { return evaluate(short); }
+
+    如上面的宣告, 你可以如下的使用 set_short():
+        set_short("Whatever");
+        set_short( (: short_func :) );
+
+    如此一來, 物件可以自己定義 short_func(), 可增加許多彈性.
+
+
+各種函數變數或指標
+------------------
+
+  １、
+    最簡單的函數指標的使用已經如上所述, 即: (: 函數名稱 :), 這種
+  方式可以方便的用在同一物件的函數上, 也可以把參數包括進來, 如:
+ 
+        string foo(string a, string b)
+        {
+          return "(" + a "," + b + ")";
+        }
+
+        void create()
+        {
+          function f = (: foo, "left" :);
+
+          printf( "%s %s\n", evaluate(f), evaluate(f, "right") );
+        }
+
+        ==> 結果: (left,0) (left,right)
+
+　２、
+    第二種用法是 efun 指標, 跟同一物件裡的局部函數指標很類似. 例如:
+  objects() 會傳回所有 mud 載入的物件, 只要該物件滿足某函數, 如:
+
+        objects( (: clonep :) )
+
+  因為所有物件都是 "clonep", 也就是, 所有物件 ob->clonep() 都傳回非 0 值,
+  因此上述例子會傳回所有的物件陣列.
+
+    底下再示範一個例子:
+
+        void create()
+        {
+          int i;
+          function f = (: write, "Hello, world!\n" :);
+
+          for (i=0; i<3; i++) { evaluate(f); }
+        }
+
+    結果是:
+        Hello, world!
+        Hello, world!
+        Hello, world!
+
+    simul_efun 會跟 efun 一樣的效果(否則怎會稱為 simul_efun?!).
+    而 efun 會跟局部的函數很像, 是因為 efun 是整體性的函數, 因此
+  可以想成是跟局部的函數同樣地位.
+
+  ３、
+    第三種型式的是 call_other 函數指標。它很類似於 MudOS 所支援的函數
+  指標的用法, 格式是:
+
+        (: 物件, 函數名稱 :)
+
+  假如有參數的話, 可以把所有參數組成陣列加在函數名稱之後. 例如:
+
+        void create()
+        {
+          string *ret;
+          function f = (: this_player(), "query" :);
+
+          ret = map( ({ "name", "short", "long" }), f );
+          write(implode(ret, "\n"));
+        }
+
+    上面的程式片斷相當於:
+        this_player()->query("name");
+        this_player()->query("short");
+        this_player()->query("long");
+
+    如果要讓函數指標直接指向 query("short") 的話, 可以是:
+
+        f = (: this_player(), ({ "query", "short" }) :)
+
+        (: 物件, 函數名稱 :)
+
+  假如有參數的話, 可以把所有參數組成陣列加在函數名稱之後. 例如:
+
+        void create()
+        {
+          string *ret;
+          function f = (: this_player(), "query" :);
+
+          ret = map( ({ "name", "short", "long" }), f );
+          write(implode(ret, "\n"));
+        }
+
+    上面的程式片斷相當於:
+        this_player()->query("name");
+        this_player()->query("short");
+        this_player()->query("long");
+
+    如果要讓函數指標直接指向 query("short") 的話, 可以是:
+
+        f = (: this_player(), ({ "query", "short" }) :)
+
+    底下的例子跟上面的一模一樣, 供你做參考:
+
+        f = (: call_other, this_player(), "query", "short" :)
+        // 透過指向 call_other efun, 來呼叫定義在 this_player() 物件中
+        // 的 query("short")
+
+        f = (: this_player()->query("short") :)
+        // 這是函數的表示式, 見底下的說明.
+
+　４、
+　　第四種用法是「函數指標運算式」。這種用法是透過 (: 運算式 :) 達成。
+在函數指標運算式中，參數可以用 $1, $2, $3,... 參考到。舉例來看：
+
+    evaluate( (: $1 + $2 :), 3, 4)  // 傳回 7
+
+    這種方式可以在使用 sort_array() 時非常方便，舉例來看：
+
+top_ten = sort_array( player_list,
+          (: $2->query_level() - $1->query_level() :) )[0..9];
+ 
+
+  ５、
+　　第五種用法稱為「無名函數」：
+
+void create() {
+    // 底下的 f 是一個函數指標，指向的函數其實並沒有名稱
+    function f = function(int x) {
+        int y;
+
+        switch(x) {
+        case 1: y = 3;
+        case 2: y = 5;
+        }
+        return y - 2;
+    };
+
+    printf("%i %i %i\n", (*f)(1), (*f)(2), (*f)(3));
+}
+
+    會印出： 1 3 -2
+    值得注意的是 (*f)(...) 跟 evaluate(f, ...) 一樣。
+
+
+五、對應：
+
+  對應的關鍵字是「mapping」， 有點類似陣列，我們可以稱為關聯陣列，其
+語法很簡單：mapping 識別字。對應的初始值有兩種方法：
+
+  mapping	x;
+
+  x = ([ ]);	<-- 空對應
+  x = ([ key0 : value0,
+	 key1 : value1,
+	 .
+	 .
+      ]);
+
+  注意對應一定要透過上面兩種方法之一初始化，否則無法給對應任何新值。
+
+  mapping	x;
+
+  x[key0] = value0;
+
+  上面這種用法是錯的，原因就是沒有初始化。
+  誠如上例，事實上若該對應有先初始化，則給對應新值的方法是對的，所以
+
+  mapping	x;
+
+  x = ([ ]);
+  x[key0] = value0;
+
+  是正常用法。不過讀者要知道的是，上述作法對驅動程式而言其實頗為複雜
+首先，對應 x  初始成空的，下一敘述則指定 (key0, value0) 給它，但驅動
+程式找不到此對應，且找不到 key0 這個鍵（key）， 該對應目前沒空間存新
+對應，會產生一個新對應，其大小為１，並設定鍵 key0， 其值為 value0，
+最後，清掉原先的空對應。
+  若對應大小常常改變，驅動程式會常常利用 allocate() 配置記憶體，如此
+會造成沒效率，最好的改良方法是事先利用 allocate() 給定足夠空間，如：
+
+  x = (mapping)allocate (10);
+
+  對應的引用法如下：
+
+  write (x[key0] + "\n");	--> 會印出 value0
+
+  有了設定對應值的方法，也該知道刪除的方法：
+
+  map_delete(x, key0);
+
+  若用上面的方法刪除對應鍵 key0 之後， x[key0] 就找不到值，下面的值
+會是 1：
+
+  undefinedp (x[key0])
+
+  現在舉個實例：
+
+   mixed idx;
+   map x;
+
+   x = ([ "x" : 3, "y" : 4]);
+   idx = keys(x);
+
+  此時 idx 會等於 ({ "x", "y" })，注意到 keys() 函數了吧，這是取得對
+應中所有鍵的方法。事實上， idx 的元素順序會是隨機的，因為對應是以
+hash table  法儲存的。下面的例子則繼承上例：
+
+   mixed value;
+   value = values (x);
+
+  上例的 value 值是 ({ 3, 4 })。此是利用 values() 函取得鍵值，其順序
+會跟 keys() 傳回的值的順序相對應。
+
+  注意，若我們要處理對應的每一個元素，利用 each() 是不錯的選擇：
+
+   mixed *pair;
+
+   while ((pair = each(x)) != ({})) {
+      write("key   = " + pair[0] + "\n");
+      write("value = " + pair[1] + "\n");
+   }
+
+  不過要讓 each() 運作的話，每一對應會增加 12 bit 的記憶空間。
+  就如開頭所讓的，對應也稱為關聯陣列，它也可以是多維的，方法同陣列。
+
+   mapping x, y;
+
+   x = ([]);
+   y = ([]);
+
+   y["a"] = "c";
+   x["b"] = y;
+
+   write (x["b"]["a"]);
+
+  上例中會印出 "c" 來。對應的增加除了先前的方法外，還可以用加法：
+
+  mapping x, y, z;
+
+  x = ([ "x" : 1 ]);
+  y = ([ "y" : 2 ]);
+
+  z = x + y;
+
+  上例 z == ([ "x" : 1, "y" : 2 ])，就如同陣列一樣。不過，我們也可以
+運用 += 運算子：
+
+  a += ([ "x" : 1 ]);
+
+  上面的例子很像先前的例子：
+
+  a["x"] = 1;
+
+  不過，兩者比較起來，後者通常會比較有效率，因前者很肯定會產生新對應
+當然，會有記憶體配置動作，因此我們希望大家使用後者。
+
+  對應還可以用 * 運算元做複合（composed）運算，如：
+
+   mapping r1, r2, a;
+
+   r1 = ([]);
+   r2 = ([]);
+
+   r1["driver"] = "mudlib";
+   r2["mudlib"] = "castle";
+
+   a = r1 * r2;
+
+　上例的 a["driver"] == "castle"。
+
+  最後，對應的元素個數可以用 sizeof() 來取得。
+
+六、字串與子結構：
+
+  字串可看成字元的陣列，我們不特別說明字串，此處我們用陣列泛指字串與
+陣列深入探討子結構。所謂子結構是泛指「子字串」、「子陣列」，在此我們
+引用英文的兩個詞：
+
+  indexing	<-- 索引，由
+
+		LPC Substructures 
+
+
+1. Indexing and Ranging - General Introduction
+----------------------------------------------
+
+	Since v20.25a6, MudOS provides a way of indexing or getting
+slices (which I will, following common use, call 'ranging') of 
+strings/buffers/arrays/mappings (for mappings only indexing is 
+available) as well as means of changing the values of data 
+via lvalues (i.e. 'assignable values') formed by indexing/ranging.
+
+	As an example, if we set str as "abcdefg", str[0] will 
+be 'a', str[1] 'b' etc. Similarly, the nth element of an array 
+arr is accessed via arr[n-1], and the value corresponding to 
+key x of mapping m, m[x]. The '<' token can be used to denote
+indexing from the right, i.e. str[<x] means str[strlen(str) - x]
+if str is a string. More generally arr[<x] means arr[sizeof(arr)-x].
+(Note that sizeof(arr) is the same as strlen if arr is a string).
+
+	Indexed values are reasonable lvalues, so one could do for e.g.
+str[0] = 'g' to change the 1st character of str to g. Although it is
+possible to use ({ 1,2 })[1] as a value (which is currently optimized
+in MudOS to compile to 2 directly), it is not possible to use it as an
+lvalue. It is similarly not possible to use ([ "a" : "b" ])["c"] as an
+lvalue (Even if we did support it, it would be useless, since there
+is no other reference to the affected mapping). I will describe in
+more detail later what are the actually allowed lvalues.
+
+	Another method of obtaining a subpart of an LPC value is via
+ranging. An example of this is str[1..2], where for str being
+"abcdefg", gives "bc". In general str[n1..n2] returns a substring
+consisting of the (n1+1) to (n2+1)th characters of str. If n1 or n2
+is negative, and the driver is compiled with OLD_RANGE_BEHAVIOR
+defined, then it would take the negative indices to mean counting
+from the end. Unlike indexing though, ranges with indexes which are 
+out of bounds do not give an error. Instead if a maximal subrange 
+can be found within the range requested that lies within the bounds
+of the indexed value, it will be used. So for e.g., without 
+OLD_RANGE_BEHAVIOR, str[-1..2] is the same as str[0..2]. All other 
+out of bounds ranges will return "" instead, which corresponds
+to the idea that there is no (hence there is one, namely the empty one)
+subrange within the range provided that is within bounds. Similarly,
+for array elements, arr[n1..n2] represents the slice of the array
+with elements (n1+1) to (n2+1), unless out of bounds occur. 
+OLD_RANGE_BEHAVIOR is only supported for buffers and strings. However,
+I suggest you not use it since it maybe confusing at times (i.e. in
+str[x..y] when x is not known at hand, it may lead to an unexpected
+result if x is negative). One can however, also use < in ranging 
+to mean counting from the end. So str[<x..<y] means 
+str[strlen(str)-x..strlen(str)-y]. 
+
+/* Remark: If OLD_RANGE_BEHAVIOR is defined, then the priority of <
+	   is higher than the priority of checking if it's negative.
+           That is, if you do str[<x..y], it will mean the same
+	   as str[strlen(str)-x..y], meaning therefore that it will
+	   check only now if strlen(str)-x is negative and if so,
+	   takes it to be from the end, leading you back to x again 
+ */
+
+Thus far, str[<x..<y], str[<x..y], str[x..<y], str[<x..] (meaning the
+same as str[<x..<1]) and str[x..] (same as str[x..<1]) are supported.
+The same holds for arrays/buffers.
+
+	Perhaps this might seem strange at first, but ranges also
+are allowed to be lvalues! The meaning of doing
+
+	str[x..y] = foo;  (1)
+
+is basically 'at least' doing
+
+	str = str[0..x-1] + foo + str[y+1..];  (2)
+
+	Here x can range from 0..sizeof(str) and y from -1 to 
+sizeof(str) - 1. The reason for these bounds is because, if I 
+wanted to add foo to the front,
+
+	str = foo + str;
+
+this is essentially the same as
+
+	str = str[0..-1] + foo + str;
+
+since str[0..-1] is just "".
+
+/* Remark: As far as range lvalues are concerned, negative indexes
+	   do not translate into counting from the end even if 
+	   OLD_RANGE_BEHAVIOR is defined. Perhaps this is confusing, 
+	   but there is no good way of allowing for range lvalue 
+           assignments which essentially result in the addition 
+	   of foo to the front as above otherwise
+ */
+
+Hence, that's the same as doing
+	
+	str = str[0..0-1] + foo + str[0..];
+	
+or, what's the same
+
+	str = str[0..0-1] + foo + str[-1+1..];
+
+Now if you compare this to (1) and (2) you see finally that that
+conforms to the prescription there if we do str[0..-1] = foo!! (Yes,
+those exclamation marks are not part of the code, and neither is 
+this :))
+
+	Similarly, I will leave it to you to verify that 
+
+	str[sizeof(str)..sizeof(str)-1] = foo; (3)
+	
+would lead to str = str + foo. Now, we can use < in range lvalues 
+as well, so (3) could have been written as
+
+	str[<0..<1] = foo; (4)
+
+or even
+
+	str[<0..] = foo; (5)
+
+which is more compact and faster.
+
+/* Remark: The code for str[<0..] = foo; is generated at compile time
+	   to be identical to that for str[<0..<1] = foo; so neither
+	   should be faster than the other (in principle) at runtime,
+	   but (4) is faster than (3).
+ */
+
+Now we come to the part where I mentioned 'at least' above. For strings,
+we know that when we do x = "abc"; y = x;, y has a new copy of the string
+"abc". (This isn't always done immediately in the driver, but whenever
+y does not have a new copy, and a change is to be made to y, then y
+will make a new copy of itself, hence effectively, y has a new copy
+in that all simple direct changes to it such as y[0] = 'g' does not
+change x) For buffers and arrays, however, when we do y = x, we don't get
+a new copy. So what happens is if we change one, we could potentially
+change the other. This is indeed true (as has always been) for assignments
+to indexed lvalues (i.e. lvalues of the form y[0]). For range lvalues
+(i.e. x[n1..n2]), the rule is if the change of the lvalue will not
+affect it's size (determined by sizeof for e.g.), i.e. essentially if
+n1 and n2 are within x's bounds and the value on the right hand side
+has size n2 - n1 + 1, then indeed changing x affects y, otherwise 
+it will not (i.e. if you do x[0..-1] = ({ 2,3 }). This only applies 
+to arrays/buffers, for strings it will never affect y if we assign to a 
+range of x.
+
+2. More complex lvalues and applications
+----------------------------------------
+
+	Since arrays/mappings can contain other arrays/mappings, it 
+is possible in principle to index them twice or more. So for e.g.
+if arr is ({ ({ 1,"foo",3 }),4 }) then arr[0][1] (read as the 2nd
+element of arr[0], which is the 1st element of arr) is "foo". If we
+do, for e.g. arr[0][2] = 5, then arr will be ({ ({ 1, "foo", 5 }), 4 }).
+
+/* Remark: by the 'will be' or 'is' above, I mean technically: recursively
+	   equal. (This is just if some people are confused)
+ */
+
+	Similarly, arr[0][1][1] = 'g' changes arr to ({ ({ 1, "fgo", 3 }),
+4 }), and arr[0][1][0..1] = "heh" (note that the right hand side can 
+have a different length, imagine this being like taking the 1st two
+characters out from arr[0][1], which is currently "foo", and putting
+"heh" in place, resulting in "heho") gives arr as ({ ({ 1, "heho", 3 }),
+4 }). You should now be able to generate more examples at your fancy.
+
+	Now I want to discuss some simple applications. 
+
+	Some of you may know that when we are doing 
+
+	sscanf("This is a test", "This %s %s test", x, y) (6)
+
+that x and y are technically lvalues. This is since what the driver
+does is to parse the original string into the format you give, and
+then tries to assign the results (once all of them are parsed) to
+the lvalues that you give (here x and y). So, now that we have more
+general lvalues, we may do
+
+	x = "simmetry";
+	arr = ({ 1, 2, 3, ({ "This is " }) });
+
+	sscanf("Written on a roadside: the char for 'y' has value 121\n",
+	       "Written on %sside: the char for 'y' has value %d\n",
+	       arr[3][0][<0..], x[1]);   
+	                                                   (7)
+
+will result in arr being ({ 1, 2, 3, ({ "This is a road" }) }) and
+x being "symmetry". (See how we have extended the string in arr[3][0]
+via sscanf?) The driver essentially parses the string to gives the
+matches "a road" and 121, it then does the assignments to the lvalues,
+which is how we got them as above.
+
+	The ++,--,+= and -= operators are supported for char lvalues,
+i.e. lvalues obtained by indexing strings. Thus for e.g. to get
+an array consisting of 26 elements "test.a","test.b", .., "test.z",
+one might use a global var tmp as follows:
+
+	mixed tmp;
+
+	create(){
+	   string *arr;
+	 
+	   ...
+
+	   tmp = "test.`";
+	   arr = map_array(allocate(26), (: tmp[4]++ && tmp :));
+
+	   ...
+        }
+
+							  (8)
+
+3. General syntax of valid lvalues
+----------------------------------
+
+	Finally, as a reference, I will just put here the grammar of
+valid lvalues accepted by the driver.
+
+	By a basic lvalue I mean a global or local variable name, or a 
+parameter in a functional function pointer such as $2. 
+
+	A basic lvalue is a valid lvalue, and so are indexed lvalues of
+basic or indexed lvalues. (Notice that I did not say indexed lvalues of 
+just basic lvalues to allow for a[1][2]). I will generally call an lvalue 
+obtained from a basic lvalue by indexing only indexed lvalues. 
+
+	The following lvalues are also valid at compile time:
+
+	   (<basic lvalue> <assignment token> <rhs>)[a_1][a_2]...[a_n] 
+	   (<indexed lvalue> <assignment token> <rhs>)[a_1][a_2]...[a_n]
+	
+	                                                        (9)
+	/* Remark: n >= 1 here */
+
+	assignment token is one of +=, -=, *=, &=, /=, %=, ^=, |=, =, <<=,
+>>=.
+	
+	However, because of the same reason that when we assign to a 
+string, we obtain a new copy, (x = "foo")[2] = 'a' is invalidated at
+runtime. (One way to think about this is, essentially, assignment leaves
+the rhs as a return value, so x = "foo" returns "foo", the right hand
+side, which is not the same "foo" as the one in x. For arrays/buffers
+this is no problem because by assigning, we share the array/buffer)
+
+        Call the lvalues in (9) complex lvalues. Then the following is
+also a valid lvalue:
+
+	(<complex lvalue> <assignment token> <rhs>)[a_1][a_2]...[a_n]
+	
+	                                                         (10)
+ 
+and if we now call the above lvalues also complex lvalues, it would
+still be consistent, i.e. (((a[0] = b)[1] = c)[2] = d)[3] is an okay
+lvalue (though I wouldn't suggest using it for clarity's sake :)).
+
+	Now, the last class of valid lvalues are range lvalues, which
+are denoted by ranging either a basic, indexed or complex lvalue:
+
+	<basic lvalue>[n1..n2]
+	<indexed lvalue>[n1..n2]
+	<complex lvalue>[n1..n2] 
+	
+	plus other ranges such as [<n1..<n2] etc.
+             	                                                 (11)	
+
+	There is maximally only one 'range' you can take to obtain a
+valid lvalue, i.e. arr[2..3][0..1] is not a valid lvalue (note that
+a naive interpretation of this syntax is one equivalent to using 
+arr[2..3] itself)
+
+	
+4. Compile-time errors that occur and what they mean
+----------------------------------------------------
+
+	Here I put some notes on compile-time errors for valid lvalues,
+hopefully to be useful for you.
+
+Err 1: Can't do range lvalue of range lvalue
+
+Diagnosis: You have done 'ranging' twice, e.g. something like
+	   x[2][0..<2][1..2] isn't a valid lvalue
+
+Err 2: Can't do indexed lvalue of range lvalue.
+
+Diagnosis: Something like x[0..<2][3] was done.
+
+Err 3: Illegal lvalue, a possible lvalue is (x <assign> y)[a]
+
+Diagnosis: Something like (x = foo)[2..3] or (x = foo) was taken to
+	   be an lvalue.
+
+Err 4: Illegal to have (x[a..b] <assign> y) to be the beginning of 
+       an lvalue
+
+Diagnosis: You did something as described, i.e. (x[1..6] = foo)[3] is
+	   not allowed.
+
+Err 5: Illegal lvalue
+
+Diagnosis: Oops, we are out of luck here :) Try looking at your lvalue
+	   more carefully, and see that it obeys the rules described 
+	   in section 3 above.
+
+
+5. Coming attractions
+---------------------
+
+	Perhaps a pointer type will be introduced to allow passing
+by reference into functions. Mappings may be multivalued and
+multi-indexable.
+
+
+Author       : Symmetry@Tmi-2, IdeaExchange
+Last Updated : Tue Jan 10 11:02:40 EST 1995
+
+
+
+七、運算子：
+
+  底下以優先順序列出所有運算子的語法：
+
+expr1 , expr2   先計算 'expr1' 再計算 'expr2'。傳回值為 expr2 的結果
+
+var = expr      計算 'expr'，再指定給變數 var，傳回值為 var 的新值。
+
+var += expr     計算 'var' + 'expr'，再指定給 'var'，相當於：
+                var = var + expr
+
+  底下的部份都類似 += 運算子：
+var -= expr
+var &= expr
+var |= expr
+var ^= expr
+var <<= expr
+var >>= expr
+var *= expr
+var %= expr
+var /= expr
+
+expr1 || expr2  當 expr1 為非○（真）時，其值為「真」（expr1），且
+		expr2 的值不會被計算到，若 expr1 的值為 0， 則其值
+		expr2， 此時才會計算到 expr2。
+
+expr1 && expr2  The result is true i 'expr1' and 'expr2' is true. 'expr2' is
+                not evaluated if 'expr1' was false.
+
+expr1 | expr2   The result is the bitwise or of 'expr1' and 'expr2'.
+
+expr1 ^ expr2   The result is the bitwise xor of 'expr1' and 'expr2'.
+
+expr1 & expr2   The result is the bitwise and of 'expr1' and 'expr2'.
+
+expr1 == expr2  Compare values. Valid for strings and numbers.
+
+expr1 != expr1  Compare values. Valid for strings and numbers.
+
+expr1 > expr2   Valid for strings and numbers.
+
+expr1 >= expr2  Valid for strings and numbers.
+
+expr1 < expr2   Valid for strings and numbers.
+
+expr1 <= expr2  Valid for strings and numbers.
+
+expr1 << expr2  Shift 'expr1' left 'expr2' bits.
+
+expr1 >> expr2  Shift 'expr1' right 'expr2' bits.
+
+expr1 + expr2   Add 'expr1' and 'expr2'. If numbers, then arithmetic addition
+                is used. If one of the expressions are a string, then that
+                string is concatenated with the other value.
+
+expr1 - expr2   Subtract 'expr2' from 'expr1'. Only valid for numeric values.
+
+expr1 * expr2   Multiply 'expr1' with 'expr2'.
+
+expr1 % expr2   The modulo operator of numeric arguments.
+
+expr1 / expr2   Integer division.
+
+++ var          Icrement the value of variable 'var', and return the new
+                value.
+
+-- var          Decrement the value of variable 'var', and return the new
+                value.
+
+- var           Compute the negative value of 'var'.
+
+! var           Compute the logical 'not' of an integer.
+
+~ var           The boolean 'not' of an integer.
+
+var++           Increment the value of variable 'var', and return the old
+                value.
+ 
+var--           Decrement the value of variable 'var', and return the old
+                value.
+
+expr1[expr2]    The array given by 'expr1' is indexed by 'expr2'.
+
+expr1->name(...) 'expr1' gives either an object or a string which is converted
+                to an object, and calls the function 'name' in this object.

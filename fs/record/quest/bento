@@ -1,0 +1,17 @@
+□農婦的便當
+
+一﹑地點：(start)凌雲村 
+
+二﹑凌雲村內有位婦女正為著某件事而煩惱，你能幫助她嗎？
+
+三﹑建議combat_exp：0
+
+四﹑找到woman ask woman about bento(or便當) 
+    她會給你個便當, 請你送去給他丈夫
+
+五﹑若偷吃便當則送去時會被責罵，必需再重新要一個才能完成任務
+    ps. 第二次要到的便當沒辦法偷吃
+
+六﹑結果
+    1.give the bento to woman's 丈夫: add combat_exp 20
+    2.任務完成﹕set("quests/bento",1);

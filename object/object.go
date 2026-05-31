@@ -28,6 +28,8 @@ const (
 	ReturnValueType = "ReturnValue"
 	// ErrorType represents a type of errors.
 	ErrorType = "Error"
+	// BufferType represents a type of buffers.
+	BufferType TokenType = "Buffer"
 	// FunctionType represents a type of functions.
 	FunctionType = "Function"
 	// StringType represents a type of strings.
@@ -343,10 +345,13 @@ Vars        Environment
 	IsLiving      bool               // 是否為活物 (可以接收指令)
 	IsInteractive bool               // 是否為線上玩家 (背後有 TCP 連線)
 	Actions       map[string]*Action // 該生物目前可用的指令表
+	Light         int                // 🚀 新增：光照度
 	
 	// 🚀 新增：生命週期管理
 	LastActivity int64 // 最後活動時間 (Unix Timestamp)
-}
+
+	ShadowedObject *LPCObject // 🚀 Shadowed 物件
+	}
 
 // TokenType implements Object interface
 func (o *LPCObject) TokenType() TokenType {

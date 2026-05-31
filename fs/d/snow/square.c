@@ -1,0 +1,23 @@
+// Room: /d/snow/square.c
+
+inherit ROOM;
+
+void create ()
+{
+  set ("short", "[1;35m過去時空[0m 廣場");
+  set ("long", @LONG
+這裡是雪亭鎮鎮前廣場的空地﹐地上整齊地鋪著大石板。廣場中央有
+一個木頭搭的架子﹐經過多年的風吹日曬雨淋﹐看來非常破舊。四周建築
+林立。往西你可以看到一間客棧﹐看來生意似乎很好。
+LONG);
+
+  set("exits", ([ /* sizeof() == 4 */
+  "south" : __DIR__"sroad1",
+  "west" : __DIR__"inn",
+  "north" : __DIR__"mstreet1",
+  "east" : __DIR__"temple",
+]));
+  set("outdoors", "snow");
+
+  setup();
+}

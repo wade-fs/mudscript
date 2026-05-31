@@ -1,0 +1,559 @@
+// 編改master_ba , 增加進入邪靈界的限制string ask_evil(), 2001/8/8 write by Firedancer
+// 新增解迷<<皆傳之證>>要素  by frequency  2003/1/18
+#include <ansi.h>
+#include "/open/open.h"
+inherit NPC;
+inherit F_MASTER;
+string ask_blade();
+string ask_yuan();
+string ask_test();
+string blade_book();
+string ask_yan();
+string ask_lotch();
+string ask_mogi();
+string do_special_fight();
+string ask_evil();
+string ask_ball();
+void create()
+{
+        set_name("王元霸",({"master ba","ba","master"}));
+        set("long","他就是名震江湖的金刀無敵王元霸。\n");
+        set("gender","男性");
+        set("class","blademan");
+          create_family("金刀門",5,"門主");
+        set("nickname","金刀無敵");
+        set("combat_exp",2000000);
+        set("attitude","heroism");
+        set("env/連擊","YES");
+        set("age", 50);
+        set("str", 45);
+        set("cor", 30);
+        set("cps", 30);
+        set("per", 20);
+        set("int", 40);
+        set("max_gin", 5000);
+        set("gin", 5000);
+        set("max_kee", 5000);
+        set("kee", 5000);
+        set("max_sen", 5000);
+        set("sen", 5000);
+        set("force",4000);
+        set("functions/gold-dest/level",100);
+        set("functions/fast-dest/level",100);
+        set_skill("literate",40);
+        set("max_force",4000);
+        set_skill("magic",20);
+        set_skill("spells",20);
+        set_skill("move",60);
+        set_skill("force",90);
+        set_skill("dodge",60);
+        set_skill("parry",90);
+        set_skill("blade",120);
+        set_skill("riding",100);
+        set_skill("gold-blade",100);
+        set_skill("sixforce",100);
+        set_skill("cure", 60);
+        set_skill("fast-blade", 100);
+        map_skill("blade","fast-blade");
+        map_skill("parry","gold-blade");
+        map_skill("force","sixforce");
+        set_temp("apply/armor",100);
+        set("force_factor",15);
+        set("inquiry",([
+        "煉妖壺"   :  (: ask_lotch :),
+       "試煉印記" : (:ask_test:),
+        "陳元貴"   :  (: ask_yuan :),
+        "血魔"     :  "你說那大魔頭ㄚ~~~我聽先師說過已被仙劍祖師同先師與儒道兩家合力封印~~~不過該場戰役下來....仙劍祖師就不知所蹤...而其後繼者則慘遭血魔弟子焚天囚禁...而儒道兩家的情況如何...這就不得而知了~~~",
+        "風青雲"   :  (: ask_yan :),
+        "龍虎刀"   :  (: ask_blade :),
+        "九字真言" :  (: ask_mogi :),
+	"震邪道"   :  (: ask_evil :),
+        "柳葉山莊" :  (: blade_book :),
+        "夜千鳥晶珠" : (:ask_ball:),
+        ]));
+        set("chat_chance_combat",80);
+        set("chat_msg_combat",({
+        (: do_special_fight :),
+    }));
+        setup();
+        carry_object("/daemon/class/blademan/obj/gold-blade")->wield();
+        add_money("gold",10);
+}
+
+void init()
+{
+        object ob;
+        ::init();
+        if(interactive(ob =this_player()) && !is_fighting() ) 
+	{
+           remove_call_out("greeting");
+           call_out("greeting",2,ob);
+        }
+}
+
+string ask_evil()
+{
+object me,ob;
+	me=this_player();
+	ob=this_object();
+	message_vision(
+HIY"$N露出十分訝異的表情～\n"NOR"
+
+"HIW"$N說道：$n想闖〔震邪道〕嗎？嗯～我先考慮一下...\n\n"NOR,ob,me);
+	call_out("do_evil",2,me);
+return "......\n";
+}
+
+int do_evil()
+{
+object me,ob;
+string arg;
+int exp;
+	me=this_player();
+	ob=this_object();
+	exp=(int)me->query("combat_exp");
+	if(me->query_temp("evil/g_temp/ask"))
+	{
+		arg="王元霸不耐煩的說：你還缺";
+		if(!me->query_temp("evil/g_temp/gold"))
+			arg = arg +" 100 兩黃金 ";
+		if(!me->query_temp("evil/g_temp/iron"))
+			arg = arg +" 百煉丹金 ";
+		if(!me->query_temp("evil/g_temp/tooth"))
+			arg = arg +" 紅身狼牙 ";
+		arg = arg +"沒給我...\n";
+		message_vision(arg+"\n
+\n$N說道：如果找不到，就不要浪費我的時間，我可忙的很～\n",ob);
+		return 0;
+	}
+	if(exp <= 500000)
+	{
+		message_vision("
+$N說道：我考慮好了～你的能力還不夠，我不能讓你白白送死！
+
+              抱歉，恕我不能答應你，$n請回吧。\n",ob,me);
+	}
+	else
+	{
+		message_vision("
+$N說道：嗯～$n的能力應該夠了，不過我還是要測試一下。
+
+　　　　　　　如果$n能將〔百煉丹金〕與〔赤身狼牙〕帶來給我，再加上100兩黃金的話...
+
+	      我就將通關物品--黃金印給你。\n",ob,me);
+		me->set_temp("evil/g_temp/ask",1);
+	}
+return 1;
+}
+
+
+string do_special_fight()
+{
+
+        if( query_skill_mapped("blade") == "fast-blade" ) {
+            command("perform blade.fast-dest");
+            map_skill("blade", "gold-blade");
+        }
+        else if( query_skill_mapped("blade") == "gold-blade" ) { 
+            command("perform blade.gold-dest");
+            map_skill("blade", "fast-blade");
+        }
+        command("perform blade.gold-dest");
+        return "";
+}
+
+void attempt_apprentice(object ob)
+{
+if(this_player()->query("class")!="blademan")
+        {
+                command("say 你不是我們刀客 ,老夫焉能授藝於你 ?\n");
+                return;
+        }
+if(this_player()->query("family/family_name")=="魔刀門"||this_player()->query("family/family_name")=="魔刀莫測")
+{
+        command("say 你是魔刀人，所以我不能收你。\n");
+            return;
+}
+        command("smile");
+       command("recruit "+ob->query("id"));
+        ob->set_temp("being-apprentice",1);
+        call_out("do_act1",2,this_player());
+}
+        int do_act1(object ob)
+    {
+    say("王元霸雙掌拍了幾下 .\n");
+        call_out("do_act3",1,ob);
+    }
+        int do_act2(object ob)
+    {
+    say("一個小童捧了個盤子從內室走出 .\n");
+        call_out("do_act3",1,ob);
+    }
+        int do_act3(object ob)
+    {
+    object boy;
+    boy=new("/open/gblade/npc/boy");
+        say("一個小童捧了個盤子從內室走出 .\n");
+        boy->move("/open/gblade/room/gblade");
+        call_out("do_act4",6,ob);
+    }
+        int do_act4(object ob)
+    {
+     say("王元霸接過盤子 ,左手一揮 ,說道 : 退下吧 !\n");
+        call_out("do_act6",4,ob);
+    }
+        int do_act5(object ob)
+    {
+        object money;
+     message_vision("王元罷從盤子中取出一兩銀子 ,交給$N !\n",ob);
+        command("say 這就當做見面禮吧 !");
+        money=new("/obj/money/gold");
+        money->move(ob);
+        call_out("do_act6",4,ob);
+    }
+        int do_act6(object ob)
+{
+        object blade;
+        blade=new("/open/gblade/obj/g-blade");
+        blade->move(ob);
+        message_vision("王元霸從盤子裡取出一把金光閃閃的小刀 ,放在$N手中 .\n",ob);
+     command("say 這是咱們金刀門的信物 ,務必妥善保存 !");
+        call_out("do_act7",3,ob);
+    }
+    int do_act7(object ob)
+    {
+command("say 金刀門一向主持正義 ,除暴安良 .");
+command("say 尤其是魔教徒 ,以後遇上了 ,絕對不可放過 ,知道嗎 ?");
+        call_out("do_act8",3,ob);
+      }
+      int do_act8(object ob)
+      {
+        command("smile "+ob->query("id"));
+    command("say 好啦 ,以後好好認真跟我學習吧 !");
+        ob->delete_temp("being-apprentice");
+   return 1;
+    }
+void greeting(object ob)
+{
+   if(!ob) return ;
+  if(ob->query("family/family_name")=="金刀門")
+  {
+  if(!present("gold blade",ob))
+  {
+  new("/open/gblade/obj/g-blade")->move(ob);
+        command("hmm");
+        command("say 你把小金刀弄丟了吧 ?");
+        command("say 再給你一把 , 別再弄丟囉 !");
+        message_vision("王元霸從懷中取出一把小金刀 , 交到$N手中\n",ob);
+  }
+  }
+}
+string ask_lotch()
+{
+        if(!present("lotch",this_player())&&this_player()->query("quests/lotch"))
+        {
+        command("say 唉 , 年輕人真不小心 , 如果煉妖壺為邪魔歪道所得 , 那就遭囉 !");
+        command("say 還好小徒孝虹檢了回來 !");
+        new("/open/gblade/mob/lotch")->move(this_player());
+        message_vision("王元霸將煉妖壺交給了$N .\n",this_player());
+        return "希望你能好好看好此物 , 別再弄不見啦 !\n";
+        }
+            if(this_player()->query("quests/lotch") )
+        return "希望你能善用煉妖壺的神力 , 行善天下 !\n";
+        if(this_player()->query("lotch")>3)
+        return "原來煉妖壺已經被偷走啦 ! 該不會又是那逆徒 !";
+        if(this_player()->query("lotch")<1)
+        return "你問這個幹麻 ?";
+        return "那是我王家祖傳之物 , 因為不祥 , 我把它藏於 ...";
+}
+string ask_yan()
+{
+  object me;
+  me=this_player();
+  if( me->query("fyan")==2)
+{
+command("say 仙劍長者風青雲,前幾天他才來找過我,並請我援助一齊對抗血魔,之後又聽他還要在去請其他門派幫忙,接著就走了,我也不清處他去那了。\n ");
+me->set("fyan",3);
+}
+  else
+    {
+   command("say 我不清處呦~。\n");
+    }
+}
+string ask_yuan()
+{
+        if(this_player()->query_temp("can_help_yuan") && this_player()->query("marks/還龍虎刀") )
+        {
+        command("say 既然龍虎刀已找回 , 那逆徒又有悔意 !");
+        this_player()->delete_temp("can_help_yuan");
+        this_player()->set_temp("help_yuan",1);
+        return "我便惘開一面吧 !\n";
+        }
+        if(this_player()->query("lotch")>4 || this_player()->query("quests/lotch") )
+        return "嗯 , 他果然改過向上了 !";
+        return "哼 , 以後在我面前 , 休再提起這個竊刀逆徒 !\n";
+}
+string ask_test()
+{
+ if(this_player()->query("quests/yan")==3)
+ {
+ if(this_player()->query("quests/lotch",1)&&this_player()->query("quests/yantestmark1",1)  && this_player()->query("quests/2ndtest",3))
+  {
+  int i;
+  i=6+random(5);
+  command("say 謝謝您的幫忙.我願意將appo給我的印記傳到你身上!\n");
+  tell_object(this_player(),HIW"瞬間由王元霸將手搭在你的肩上..你頓時覺得一股暖意由王元霸的手中傳過來\n"NOR);
+  this_player()->set("quests/2ndtest",i);
+  this_player()->set("quests/yantestmark2",1);
+  return("最後一個印記在聖賢書手上,你可以去找他問問了\n");
+  }
+ else if (this_player()->query("quests/yantestmark2")>1)
+  return ("我已經把印記給你了..你還要做什麼\n");
+ else
+  return ("去當我把煉妖壺找出來我就跟你說印記在哪。\n");
+ }
+else
+ return ("啥印記..你在說什麼?\n");
+}
+string ask_blade()
+{
+        if(this_player()->query("quests/lotch")||this_player()->query("marks/還龍虎刀") )
+        return "真謝謝你幫我金刀門尋回至寶 !\n";
+        if(this_player()->query("lotch")<2)
+        return "那是我金刀至寶 !";
+        if(this_player()->query("lotch")>3)
+        return "原來你已經幫我找回龍虎刀啦 , 還不快還我 !";
+        this_player()->set("lotch",3);
+        command("say 龍虎刀已被陳元貴那逆徒所盜 , 那逆徒為了躲我 ,逃到蜀山去了 ");
+        return "希望你能幫我金刀門奪回寶刀 !";
+}
+int accept_object(object me,object ob)
+{
+        string ob_id;
+        ob_id = ob->query("id");
+	me=this_player();
+	if(ob->query("id")=="gold")
+	{
+		if(me->query_temp("evil/g_temp/ask") && ob->value() >= 1000000 )
+		{
+		command("say 很好..那我就收下了這些黃金。\n\n");
+		me->set_temp("evil/g_temp/gold",1);
+		call_out("evil_check",1,me);
+		destruct(ob);
+		return 1;
+		}
+		else
+		{
+		command("say 錢數不夠...你耍我嗎!!\n");
+		command("angry");
+		destruct(ob);
+		return 0;
+		}
+	}
+	if(ob->query("id")=="good iron")
+	{
+		if(me->query_temp("evil/g_temp/ask"))
+		{
+		command("say 很好..那我就收下了這百煉丹金。\n\n");
+		me->set_temp("evil/g_temp/iron",1);
+		call_out("evil_check",1,me);
+		destruct(ob);
+		return 1;
+		}
+	}
+	if(ob->query("id")=="red-wolf tooth")
+	{
+		if(me->query_temp("evil/g_temp/ask"))
+		{
+		command("say 很好..那我就收下了這赤身狼牙。\n\n");
+		me->set_temp("evil/g_temp/tooth",1);
+		call_out("evil_check",1,me);
+		destruct(ob);
+		return 1;
+		}
+	}
+        if(ob_id=="dragon-tiger blade")
+        {
+        if(me->query("lotch")<4)
+                {
+                command("give "+me->query("id")+" dragon-tiger blade");
+                command("say 感謝你幫我金刀門找回此至寶 , 龍虎刀可借你一用 !");
+                return 1;
+                }
+        if(me->query("lotch")>3)
+                {
+                command("say 真是太感激了 , 在你找到煉妖壺後再來找我 !");
+                me->set("marks/還龍虎刀",1);
+                return 1;
+                }
+        return 1;
+        }
+        if(ob_id=="lotch")
+        {
+                if(me->query("quests/lotch") )
+                {
+                command("say 你不要嗎? 還是留著吧 !");
+                command("give "+me->query("id")+" lotch");
+                return 1;
+                }
+                if(!me->query("marks/還龍虎刀") )
+                {
+                command("say 如果你能幫我找回龍虎刀 , 我便授你煉妖壺咒 !");
+                command("give "+me->query("id")+" lotch");
+                command("say 你還是自己留著吧!");
+                return 1;
+                }
+        if(me->query("lotch")>5)
+                {
+                command("say 此物不祥 , 既然你找到了 , 這就是你的 !");
+                command("give "+me->query("id")+" lotch");
+                command("say 我便傳你這煉妖壺咒語 , 希望你能善用之 !");
+        message_vision(sprintf(HIW"王元霸傳授$N幾句咒語 !\n"NOR),me);
+        message("system",HIY "王元霸大聲說道 :\n
+煉妖壺重現江湖 ,"+me->name()+": 希望你能憑藉妖壺神力
+拯救天下蒼生 !\n\n"NOR,users());
+                me->set("quests/lotch",1);
+                me->delete("lotch");
+                me->delete("marks/得龍虎刀");
+                me->delete("marks/還龍虎刀");
+                return 1;
+                }
+        command("give "+me->query("id")+" lotch");
+        command("say 無緣無故給我這個東西幹麻 !");
+        return 1;
+        }
+return 1;
+}
+
+int evil_check()
+{
+object me,ob,obj;
+string arg;
+	me=this_player();
+	ob=this_object();
+	if(me->query_temp("evil/g_temp/gold") && me->query_temp("evil/g_temp/iron") && me->query_temp("evil/g_temp/tooth"))
+	{
+		message_vision("
+$N笑道：呵呵～果然我沒看錯人～
+
+　　　　　　　這個黃金印拿去吧。\n\n",ob);
+		obj=new("/open/evil-area/npc/obj/golden_seal");
+		obj->move(me);
+		message_vision("$N將"+obj->query("name")+"交給了$n。\n",ob,me);
+		me->delete_temp("evil/g_temp");
+		me->set_temp("evil/g_enter");
+	}
+	if(me->query_temp("evil/g_temp/ask"))
+	{
+		arg="王元霸說：你還缺";
+		if(!me->query_temp("evil/g_temp/gold"))
+			arg = arg +" 100 兩黃金 ";
+		if(!me->query_temp("evil/g_temp/iron"))
+			arg = arg +" 百煉丹金 ";
+		if(!me->query_temp("evil/g_temp/tooth"))
+			arg = arg +" 紅身狼牙 ";
+		arg = arg +"沒給我...\n";
+		message_vision(arg+"\n\n$N說道：快去找吧～\n",ob);
+	}
+return 1;
+}
+
+string ask_mogi()
+{
+        object me = this_player();
+
+        if( me->query("mogi/ask_quest") >= 2 )
+            return "我已經把知道的都告訴你了。\n";
+        if( me->query("mogi/ask_quest") < 1 )
+            return "你問我這個作什麼?\n";
+
+        me->add("mogi/ask_quest", 1);
+        me->add("mogi/desc", CYN+name()+"說道: 這是傳說中一種可以用來驅魔避邪的符紙。\n"NOR);
+        me->add("mogi/desc", CYN+name()+"說道: 它們是由上古時候伏羲氏用千百種奇珍異獸的鮮血所提煉繪製的, 具有極強的驅邪功\用。\n"NOR);
+        me->add("mogi/desc", CYN+name()+"說道: 想到當今天下紛亂, 妖魔作祟, 真不知道這些符紙如今下落如何...\n"NOR);
+        me->add("mogi/desc", CYN+name()+"說道: 或許\你可以去街上逛逛, 四處打探一下魔界的消息。\n"NOR);
+
+        write(CYN+name()+"說道: 這是傳說中一種可以用來驅魔避邪的符紙。\n"NOR);
+        write(CYN+name()+"說道: 它們是由上古時候伏羲氏用千百種奇珍異獸的鮮血所"+
+                         "提煉繪製的, 具有極強的驅邪功\用。\n"NOR);
+        write(CYN+name()+"說道: 想到當今天下紛亂, 妖魔作祟, 真不知道這些符紙"+
+                         "如今下落如何...\n"NOR);
+        return "或許\你可以去街上逛逛, 四處打探一下魔界的消息。\n";
+}
+
+void die()
+{    
+        object winner = query_temp("last_damage_from");
+        int j;
+        if(!winner)
+        {
+        ::die();
+        return ;
+        }
+        tell_object(users(),HIG
+"\n\t『想我"HIY"金刀無敵"HIR"王元霸"HIG"享譽武林刀界多年，\n\n\t  今日竟敗於"HIC+winner->query("name")+""HIG"之手!!當真後生可畏，後生可畏啊～』\n\n\t"HIM"將星隕落!!   "HIW"一代刀中霸者終於結束了他傳奇的一生...\n\n"NOR);
+
+	if(userp(winner) && winner->query_temp("not_robot") > 1 )
+    {
+        if ( winner->query_temp("bless")==1 )
+        {
+        j=random(-1);
+          if( j==7 || j==77 || j== 777 || j==1111 || j==55 || j==555 || j==1000 || j==4000 || j==3333 || j==2222 )
+          {
+//          new("/open/sky/obj9/happy-charm")->move(environment(winner));
+          message_vision(HIM"\n從王元霸的身上掉下了一件奇怪的東西!!\n"NOR,winner);
+          write_file("/log/sky/obj9/happy_charm",sprintf("%s(%s) 讓王元霸掉下了快樂之符於 %s\n",
+          winner->name(1),winner->query("id"),ctime(time())));
+          }
+        }else{
+        j=random(-1);
+          if( j==5 || j==15 || j== 150 || j==1500 || j==10 || j==100 || j==1000 || j==4000 || j==6666 || j==7777 )
+          {
+//          new("/open/sky/obj9/happy-charm")->move(environment(winner));
+          message_vision(HIM"\n從王元霸的身上掉下了一件奇怪的東西!!\n"NOR,winner);
+          write_file("/log/sky/obj9/happy_charm",sprintf("%s(%s) 讓王元霸掉下了快樂之符於 %s\n",
+          winner->name(1),winner->query("id"),ctime(time())));
+          }
+        }
+	}
+        ::die();
+}
+
+string blade_book()
+{
+object me = this_player();
+if(me->query_temp("ask_blade"))
+{
+   me->set_temp("know_blade",1);
+   command("hmm");
+   return "你知道為何我們會和柳葉山莊結盟嗎!?實乃因為我小師妹的關係，她原為柳葉山莊
+            莊主的獨生女，柳葉山莊在五百年前雖為武林頂尖五大派之一，卻也非代代都是
+            練武的料，前代莊主只練到木刀境界，祖傳的最高境界『聚葉成刀』百年來已無
+            人練成，我小師妹天資聰慧，刀法造詣已在我之上，因此在獲悉英雄正宗欲奪取
+            各派秘笈之後，便到聚靈山莊領悟其家傳刀法去了...\n";
+}else{
+   command("stare "+ me->query("id"));
+   return "????你什麼都不知道!?別亂問喔!!";
+}
+}
+string ask_ball()
+{
+ if(!this_player()->query_temp("swordtime"))
+ {
+  return ("對不起﹐你問的事我實在沒有印象。");
+  }
+ else
+  {
+  if (this_player()->query("class")=="blademan"&&this_player()->query_temp("swordquest/findball")==2)
+    {
+    this_player()->set_temp("swordquest/findball",3);
+    return ("嗯....這我可不清楚﹐你最好問問別人吧。\n");
+   }
+  else if (this_player()->query("class")=="blademan"&&this_player()->query_temp("swordquest/findball")==4)
+    {
+    this_player()->set_temp("swordquest/findball",5);
+    return ("夜千鳥晶珠﹐好像有聽說在金風細雨樓出現過﹐但..似乎早已不在當地了。\n");
+   }
+else return ("對不起﹐你問的事我實在沒有印象。");
+ }
+}

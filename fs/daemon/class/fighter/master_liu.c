@@ -1,0 +1,469 @@
+// 編改master_liu , 增加進入邪靈界的限制string ask_evil(), 2001/8/8 write by Firedancer
+// 重新設計master_liu by Chan
+// 增加許多功用
+// 增加關鍵字 【准許】 by blazakira 2010/9/29
+#include <ansi.h>
+#include "/open/open.h"
+inherit NPC;
+inherit F_MASTER;
+string book();
+string ask_yan();
+string icef();
+string test();
+string super_fighter();
+string ask_evil();
+string ask_title();
+
+void create()
+{
+   set_name("劉全書",({"master liu","liu"}));
+   set("long","他是雪蒼三俠之首『黑影鬼腳』劉全書，一雙鐵腳，縱橫武林。\n");
+   set("gender","男性");
+   set("guild_master",1);
+   set("class","fighter");
+   set("nickname","黑影鬼腳");
+   set("combat_exp",5000000);
+   set("attitude","heroism");
+   set("age",47);
+   set("title","雪蒼派第四代掌門人");
+   set("str", 50);
+   set("cor", 24);
+   set("cps", 18);
+   set("per", 24);
+   set("int", 42);
+   set("force", 15000);
+   set("max_kee",30000);
+//   set("kee",30000); //因為有額外的加成 所以不固定此數值
+   set("quests/read_snow",3);
+   set("max_gin",15000);
+//   set("gin",15000); //因為有額外的加成 所以不固定此數值
+//   set("sen",15000); //因為有額外的加成 所以不固定此數值
+   set("max_sen",15000);
+   set("s_kee",1000);
+   set("max_s_kee",1000);
+   set("sec_kee","tiger");
+   set_temp("roared", 1 );
+   set("inquiry",([
+        "天邪石"  :   "師父臨終前曾交給我這樣寶物﹐他說此物當贈與有緣人。",
+        "有緣人"  :   "能說出十年前武林三大高手者﹐即為有緣人。\n",
+        "准許\"   :   "你說你想研讀藏經閣裡面的秘笈？你確定你夠資格了嗎？\n",
+        "藏經閣"  : (: book :),
+        "玄天聖地": (: super_fighter :),
+        "貢獻"    : (: test :),
+        "風青雲"  : (: ask_yan :),
+//      "玉門關"  : (: ask_sec :),
+        "震邪道"  : (: ask_evil :),
+        "稱號"    : (: ask_title :),
+          ]));
+   set_skill("literate",30);
+   set("force_factor", 70);
+   set("max_force",15000);
+   set_skill("snow-kee",100);
+   set_skill("cure",40);
+   set_skill("move",50);
+   set_skill("force",120);
+   set_skill("magic",20);
+   set_skill("dodge",50);
+   set_skill("parry",50);
+   set("functions/ice-fingers/level",100);
+   set("functions/snow-powerup/level",100);
+   set_skill("spells",20);
+   set_skill("unarmed",120);
+   set_skill("snowforce",100);
+   map_skill("force","snowforce");
+   set_skill("black-steps",100);
+   set_skill("snow-martial",100);
+   map_skill("unarmed","snow-martial");
+   map_skill("dodge","black-steps");
+   map_skill("parry","snow-kee");
+   set("chat_chance_combat",60);
+   set("chat_msg_combat",({
+   (: icef :),
+   }));
+   setup();
+   create_family("雪蒼派",4,"掌門人");
+   carry_object(SNOW_OBJ"figring")->wield();
+   carry_object("/open/snow/obj/liucloth.c")->wear();
+}
+
+void init()
+{
+        object ob;
+/*
+        object me = this_player();
+        if( me->query("quests/kill-dugur") && !me->query("quests/cure-star") )
+                call_out("do_check",1,me);
+*/
+        add_action("do_say","say");
+/*
+        add_action("do_nod","nod");
+*/
+        add_action("do_join","join");
+}
+
+// by babe
+void heart_beat()
+{
+        if( !is_fighting() ) {
+        if( query("sen") < query("eff_sen") ) // 125
+                        command( "exert refresh" );
+                if( query("force") < query("max_force") ) // 1 -> 5.035
+                        command( "ex 160" );
+                if( query("eff_kee") < query("max_kee") ) // 35
+                        command( "10 exert heal" );
+                if( query("gin") < query("eff_gin") ) // 125
+                        command( "exert regenerate" );
+                if( query("kee") < query("eff_kee") ) // 125 -> 300
+                        command( "3 exert recover" );
+                
+        }
+		if(is_busy() ){
+		if(30>random(100)){
+		message_vision(HIW"\n只見$N暴起所有"HIY"真氣內勁"HIW"，$N全身籠罩在一股"HIC"綻藍氣勁"HIW"中，赫然已解開身上被封的穴道。\n"NOR,this_object());
+        delete_busy();
+		}
+		}
+        ::heart_beat();
+}
+
+void attempt_apprentice(object ob)
+{
+
+
+        if(this_player()->query("class")!="fighter")
+        {
+                command("say 你不是武者﹐我不能收你。\n");
+                return;
+        }
+      if((int)ob->query("str")<20) {
+          command("say 雪蒼武學要力量大的人才能學，我看你請回吧!\n");
+          return;
+      }
+      command("hmm");
+      command("recruit "+ob->query("id"));
+}
+
+int accept_fight(object who)
+{
+ who=this_player();
+ command("say 果然英雄出少年。\n");
+ fight_ob(who);
+ command("charge "+who->query("id"));
+ command("perform snow-kee.snow-powerup");
+ command("cmd usekee "+who->query("id"));
+ return 1;
+}
+
+int accept_kill(object who)
+{
+who=this_player();
+ command("say 死吧~~~~\n");
+ kill_ob(who);
+command("charge "+who->query("id"));
+ command("perform snow-kee.snow-powerup");
+command("cmd usekee "+who->query("id"));
+ return 1;
+}
+
+string ask_evil()
+{
+object me,ob;
+        me=this_player();
+        ob=this_object();
+        call_out("do_evil",1,me);
+        return "嗯...\n\n";
+}
+
+int do_evil()
+{
+object me,ob,obj;
+int i=sizeof(users());
+        me=this_player();
+        ob=this_object();
+        i=i/4;
+        if(i < 1)
+                i=3;
+        if(i > 6)
+                i=6;
+        if(me->query_temp("evil/w_temp/ask"))
+        {
+                tell_object(me,
+"劉全書說：老納已經將考驗告訴你了～
+           
+           當然，如果你將老納給你的帖子遺失，那老納也愛莫能助。\n");
+                return 0;
+        }
+        message_vision("
+$N說道：老納想要考驗一下$N的仁德品行，如果通過老納的考驗，那老納就答應你的請求。
+
+$N走道房內...過一段時間後，拿著一張帖子出來。
+
+$N說道：考驗很簡單，只要你收集到 "+i+" 位人士的簽證，老納就答應讓你去。\n
+
+$N將帖子交給了$n。\n\n",ob,me);
+        obj=new("/open/evil-area/npc/obj/paper");
+        obj->set_temp("paper_count",i);
+        obj->set_temp("paper_owner",me->query("id"));
+        obj->move(me);
+        me->set_temp("evil/w_temp/ask",1);
+return 1;
+}
+
+string ask_title()
+{
+   object me=this_player();
+   if ( me->query("class") != "fighter" )
+   return("你不是武者，請先加入武者才有資格領取稱號!!");
+   if ( me->query("family/family_name") != "雪蒼派" )
+   return("你不是雪蒼派的，我沒辦法給你稱號，請去找別人要稱號吧!!");
+   if ( me->query("combat_exp") >= 5000000 && me->query("final/ko_king") == 1 )
+   {
+        me->set("title",HIY"玄天武尊"NOR);
+        return("給你稱號囉，請多加油為雪蒼派爭光!!");
+   }
+   if( me->query("quests/read_snow") >=1 )
+   {
+        me->set("title","雪蒼絕學傳人");
+        return("給你稱號囉，請多加油為雪蒼派爭光!!");
+   }
+   return("你對雪蒼派沒任何貢獻，等你有貢獻再來跟我要稱號吧!!");
+}
+
+int do_say(string str,object ob)
+{
+     object who;
+        who=this_player();
+if(who->query("combat_exp") < 1000 ) return 0;
+        if(this_object()->query_temp("get_stone")==1&&(str=="陳蝶衣"||str=="黃雲"||str=="復活邪神"))
+        	{
+        	 command("say 我父親留給我的傳家之寶-"HIC"天邪石"HIY"已經給予上一位有緣人了，你來遲了一步...");
+           return 0;
+          }  //記得很久之前lum就要我改成這三個ppl的名字了這些人也算是歷史
+        else //了...除了sula這老賊..so...再把他改成這三個..........cgy 
+        	{             
+    if (str=="陳蝶衣")  this_player()->set_temp("say_1",1);
+    if (str=="黃雲")    this_player()->set_temp("say_2",1);
+    if (str=="復活邪神")  this_player()->set_temp("say_3",1);
+    if(this_player()->query_temp("say_1")==1&&this_player()->query_temp("say_2")==1&&this_player()->query_temp("say_3")==1)
+     {
+      command("smile");
+      command("say 你果然是有緣人。\n");
+      
+        this_object()->set_temp("get_stone",1);
+                call_out("do_gs",1,ob);
+      }
+    return 0;
+}}
+int do_gs(object ob)
+    {
+        object stone;
+        command("say 天邪石拿去吧 !");
+        new("/open/snow/obj/stone")->move(this_player());
+        this_player()->delete_temp("say_1");        
+        this_player()->delete_temp("say_2");  
+        this_player()->delete_temp("say_3");  
+        return 1;
+    }
+string ask_yan()
+{
+  object me;
+  me=this_player();
+  if( me->query("fyan")==6)
+{
+command("say 風青雲前輩丫,昨晚他雪蒼山一趟並全力邀請我加入對抗血魔的行列..談完後..他就回仙劍去了。\n ");
+me->set("fyan",7);
+}
+  else
+    {
+   command("say 我不清楚喲～\n");
+    }
+}
+string icef()
+{       
+        command("perform snow-martial.ice-fingers");
+        return "\n";
+}
+string book()
+{
+   object me=this_player();
+   if(me->query("allow_study")==1)
+          return "嗯...不是跟你說過了嗎？\n";
+   command("say 此乃本派藏書重地﹐裡面有本派重要秘笈。");
+   if(me->query("family/family_name")!="雪蒼派")
+          return "你不是本派的弟子﹐沒資格讀本派的書。\n";
+   if(me->query("combat_exp")<150000)
+          return "以你這種程度要讀藏經閣的書﹐還早的很。\n";
+    return "只有為武林有重大的貢獻的雪蒼派弟子才能入藏經閣研讀!!!\n";
+}
+
+int do_join()
+{
+        if(this_player()->query("class"))
+                return notify_fail("你已經加入其他工會了。\n");
+        this_player()->set("class","fighter");
+        message("system",
+        HIC "天生英才.....\n\n一代武者"+this_player()->name()+"誕生了 !!!\n" NOR,users());
+        return 1;
+}
+string test()
+{
+ object me;
+ me=this_player();
+ if(me->query("family/family_name") != "雪蒼派")
+  {
+   return "劉全書道:這是雪蒼派的事,別的門派不用過問!!!!\n";
+  }
+if((int)me->query_skill("snow-martial",1)<70)
+{
+return "你的雪蒼武學..尚未熟練!!!我看算了..吧..\n";
+}
+ say("劉全書沈吟一下!!!\n");
+ say("劉全書道:最近瀧山派的掌門任正晴來函,請我協助消滅在平南城附近的獨角虎!!!\n");
+ say("劉全道續道:這個任務就交給你吧....!!!\n");
+ me->set("snow_test",1);
+}
+
+int accept_object(object who, object ob)
+{
+        if(ob->query("id")=="paper")
+        {
+                if(ob->query_temp("paper_owner")!=who->query("id"))
+                {
+                message_vision(
+"$N說：這個$n不是你的吧...讓老納暫時先將它收起來...\n\n
+$N說完便把$n給收起來了。\n",this_object(),ob);
+                destruct(ob);
+                return notify_fail("還有什麼事情嗎？\n");
+                }
+                if((int)ob->query_temp("paper_count_times") > (int)ob->query_temp("paper_count"))
+                {
+                message_vision(
+"$N說：好吧，既然你也通過我的考驗了。老納應承你，讓你可以通過〔符紋陣〕的水之陣。\n
+
+"HIW"$N運起雪蒼心法，結霜於掌，猛然擊向$n，$n的額頭陡然浮現出一個〔水〕字。\n"NOR,this_object(),who);
+                who->set_temp("evil/w_enter",1);
+                who->delete_temp("evil/w_temp");
+                destruct(ob);
+                return notify_fail("這樣就行了。\n");
+                }
+                else
+                {
+                message_vision("$N說道：很抱歉，帖子上的人數尚未到達老納所定的標準...施主請回吧。\n",ob,who);
+                who->delete_temp("evil/w_temp");
+                destruct(ob);
+                return notify_fail("施主請回吧。\n");
+                }
+        }
+  if( ob->query("id") == "tiger-head")
+  {
+    destruct(ob);
+    if((who->query("family/family_name") == "雪蒼派") && (who->query("snow_test") != 1))
+     {
+      say("劉全書仔細的看了看!!,說:這不是獨角虎的頭!!。\n");
+    return 0;
+     }
+    if((who->query("family/family_name") != "雪蒼派") || who->query("read_ok"))
+     {
+     say("劉全書仔細的看了看!!,說道:果然是惡獸的頭!!感謝你為武林除此大害。\n");
+  return 1;
+     }
+   say("劉全書仔細的看了看!!說道:這果然是殘害無數百姓惡獸--獨角虎--的頭。\n");
+   if(!who->query("allow_study"))
+   {
+    who->set("allow_study",1);
+say("好吧！我准你讀藏經閣內的書﹐但是雪蒼秘錄、枯\葉殘星祕笈、和黑影殘風錄三本書只准讀一本﹐而且僅此一次。\n");
+   }
+   if(who->query("allow_study")==1)
+    say("嗯...不是跟你說過了嗎？\n");
+return 1;
+  }
+}
+string super_fighter()
+{
+ object me;
+ me=this_player();
+ if((me->query("class") != "fighter") || (!me->query("ask_super_fighter")) )
+  {
+   return "劉全書道:此地為武者傳說聖地,恕難奉告!!!!\n";
+  }
+ if((me->query("family/family_name") == "瀧山派") && (me->query("title") != "瀧山奧義傳人"))
+  {
+   return "劉全書怒道:連自己門派的秘奧義都沒有學會了,問那麼多做什麼!!!\n";
+  }
+ if((me->query("family/family_name") == "雪蒼派") && (me->query("title") != "雪蒼絕學傳人"))
+  {
+   return "劉全書怒道:連自己門派的絕學都沒有學會了,問那麼多做什麼!!!\n";
+  }
+ say("劉全書沈思了一下!!!\n");
+ say("劉全書吟詩道:------仙~雲~護~氣~凌、身~在~聖~地~中-----\n");
+ say("劉全書續道:上二句你就去問任正晴吧。!!\n");
+ say("劉全書最後道:句中的涵意就自己體會吧。!!\n");
+ me->set("ask_super_fighter",1);
+}
+
+void reset()
+{
+	this_object()->delete_temp("get_stone");
+}
+
+void die()
+{
+        object winner = query_temp("last_damage_from");
+        int j;
+        if(!winner)
+        {
+        ::die();
+        return ;
+        }
+        tell_object(users(),
+   "\n\t[1m想我[1;36m劉全書[1;37m闖盪武林數十載,從無一敗今天竟被[33m"+winner->query("name")+"[1;37m所敗!!真是佩服!!佩服!![0m\n");
+    if(userp(winner) && winner->query_temp("not_robot") > time() )
+    {
+        if ( winner->query_temp("bless")==1 )
+        {
+        j=random(-1);
+          if( j==7 || j==77 || j== 777 || j==1111 || j==55 || j==555 || j==1000 || j==4000 || j==3333 || j==2222 )
+          {      
+          new("/open/sky/obj1/ice_emblem")->move(environment(winner));
+          message_vision(HIM"\n從劉全書的身上掉下了一件奇怪的東西!!\n"NOR,winner);
+          write_file("/log/sky/obj1/ice_emblem",sprintf("%s(%s) 讓劉全書掉下了冰之紋章於 %s\n",
+          winner->name(1),winner->query("id"),ctime(time())));
+          }
+        }else{
+        j=random(-1);
+          if( j==5 || j==15 || j== 150 || j==1500 || j==10 || j==100 || j==1000 || j==4000 || j==6666 || j==7777 ) 
+          {      
+          new("/open/sky/obj1/ice_emblem")->move(environment(winner));
+          message_vision(HIM"\n從劉全書的身上掉下了一件奇怪的東西!!\n"NOR,winner);
+          write_file("/log/sky/obj1/ice_emblem",sprintf("%s(%s) 讓劉全書掉下了冰之紋章於 %s\n",
+          winner->name(1),winner->query("id"),ctime(time())));
+          }
+        }
+        }
+ :: die();
+}
+/*
+// 以前的quests後來取消了,十里追殺令!!!!
+string ask_sec()
+{
+        if( !this_player()->query("quests/to-kill-1") )
+                return "你在說些什麼 ?\n";
+        this_player()->set("quests/to-kill-2",1);
+        return "好吧 ! 我就告訴你好了 ! 黑仙羅漢就是李靈 !\n";
+}
+//好像是返老還童之quests  取消中 by chan
+int do_check( object me )
+{
+        command("say "+(me->query("gender")=="男性" ? "壯士" : "姑娘")+" ! 你看了似乎受到了極重的內傷﹐讓我替你看看吧 ?");
+}
+int do_nod()
+{
+        object me = this_player() , ob = this_object();
+        if( !me->query("quests/kill-dugur") || me->query("quests/cure-star") ) return 0;
+        message_vision("$N看了看$n身上的傷痕。\n",this_object(),this_player());
+        command("sign");
+        command("say 老夫無能為力﹐傷你之人的根基遠在老夫之上﹐當今世上﹐恐怕只有鄭士欣有這種實力。");
+        command("say 快去找他來幫你看「你的傷」並請他幫你「療傷」。");
+        return 1;
+}
+*/

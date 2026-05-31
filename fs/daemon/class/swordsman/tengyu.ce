@@ -1,0 +1,154 @@
+#include "/open/gsword/npc/attack_bloodsword.h"
+#include <ansi.h>
+inherit NPC;
+inherit F_MASTER;
+#include <ansi.h>
+void create()
+{
+        set_name("唐鈺", ({"teng yu","yu"}));
+        set("long","
+鄭士欣三弟子，為人溫和內心熱情奔放但外表卻不善表達。仙劍的各種
+武功\他都已經學到了相當高的程度，所以平日負責教導第五代弟子劍
+法。但近日卻似乎有點意志消沈，似乎與他的兩個師妹有關。\n");
+        set("gender","男性");
+        set("combat_exp",500000);
+        set("attitude","heroism");
+        set("age",21);
+        set("class","swordsman");
+        set("nickname",HIW"氣寒西北"NOR);
+        set("title","仙劍派第四代三弟子");
+        create_family("仙劍派",4,"弟子");
+        set("inquiry",([        
+    "梅影" : "她為什麼不肯接受我呢...我等她那麼久了...\n",
+    "何雙雙" : "她是我的好師妹...但是我愛梅影在先...\n",
+        ]));
+        set("score",100000);
+        set("kee",1500);
+        set("max_kee",1500);
+        set("gin",1500);
+        set("max_gin",1500);
+        set("sen",1500);
+        set("max_sen",1500); 
+        set("force",1000);
+        set("max_force",1000);
+        set("force_factor",10);
+        set("sha-stop-3",1);
+        set_skill("sword",90);
+        set_skill("dodge",70);
+        set_skill("sha-steps",90);
+        set_skill("sha-array",80);
+        set_skill("shasword",90);
+        set_skill("shaforce",60);
+        set_skill("parry",90);
+        set_skill("literate",40);
+        set_skill("move",80);
+        set_skill("force",50);
+        set_skill("array",70);
+        set_skill("unarmed",40);
+        map_skill("array","sha-array");
+        map_skill("dodge","sha-steps");
+        map_skill("move","sha-steps");
+        map_skill("sword","shasword");
+        map_skill("force","shaforce");
+        set("str", 30);
+        set("cor", 30);
+        set("per", 25);
+        set("int", 30);
+        set("cps", 20);
+        set("con", 30);
+        set("spi", 15);
+        set("kar", 30);
+        setup();
+        carry_object("/open/gsword/obj/sword-3.c")->wield();
+        carry_object("/open/gsword/obj/yu_cloak")->wear();
+        carry_object("/open/gsword/obj/yu-armband")->wear();
+        carry_object("/open/gsword/obj/yu-legging")->wear();
+}
+ int accept_fight(object me)
+  {
+  if((int)me->query("combat_exp")<=60000)
+  {
+  command("say 不是我不跟你打,我怕出手太重會取你性命");
+  return 0;
+  }
+ command("say 好,我也很久沒跟人家過招了,拔劍吧!");
+  return 1;
+  }
+
+int accept_kill(object who)
+{
+ who = this_player();
+ set_skill("shasword",92);
+ set("bellicosity",800);
+ command("sigh");
+ write(HIY"唐鈺眼中閃著異樣的光彩：我劍一出手就是你的死期！！\n"NOR);
+ return 1;
+}
+         
+void attempt_apprentice(object ob)
+{
+        if(!ob->query_temp("allow_3"))
+        {
+        command("say 師父說過,要收徒必需他的同意!");
+        return 0;
+        }
+        command("hmm");
+        command("say 好,我就收你為徒!");
+        command("recruit "+ob->query("id"));
+        ob->set("marks/仙劍七俠",1);
+}
+
+void die()
+{
+	object head,winner = query_temp("last_damage_from");
+	int j;
+        if(!winner)
+	{
+	::die();
+	return ;
+        }
+
+	if(winner->query_temp("head") == 3 )
+	{//要求解第三進職的玩家，一定要自己殺死七子之一
+	//所以設下head 4，如果不是在解第三進職的玩家，並不會拿到人頭
+	message_vision(HIY"可惡！居然會敗在你的手下,看來武林將有一陣腥風血雨\n"NOR,this_object());
+	message_vision("說完之後他就倒下了。。。。\n",this_object());
+	winner->set_temp("head",4);
+	head=new("/open/killer/headkill/obj/sword_head.c");
+	head->move(this_object());
+	}
+	if ((winner->query("class") == "killer") && (winner->query_temp("head") != 4))
+	{//避免條件連續兩次成立（因為解headkill之謎的一定是殺手）
+	//想將七子的人頭家在殺人名單中，所以是殺手來砍七子，亦可以得到人頭
+	//但是因為不是在解第三進職，所以並不會設定步驟值
+	message_vision(HIY"可惡！居然會敗在你的手下,看來武林將有一陣腥風血雨\n"NOR,this_object());
+	message_vision("說完之後他就倒下了。。。。\n",this_object());
+	head=new("/open/killer/headkill/obj/sword_head.c");
+	head->move(this_object());
+	}
+    if(userp(winner) && winner->query_temp("not_robot") > 1 )
+    {
+	if ( winner->query_temp("bless")==1 )
+	{
+	j=random(-1);
+	  if( j==7 || j==77 || j== 777 || j==1111 || j==55 || j==555 || j==1000 || j==4000 || j==3333 || j==2222 )
+	  {      
+	  new("/open/sky/obj6/sky_diamond")->move(environment(winner));
+	  message_vision(HIM"\n從唐鈺的身上掉下了一件奇怪的東西!!\n"NOR,winner);
+          write_file("/log/sky/obj6/sky_diamond",sprintf("%s(%s) 讓唐鈺掉下了天空之潔鑽於 %s\n",
+	  winner->name(1),winner->query("id"),ctime(time())));
+	  }
+	}else{
+	j=random(-1);
+	  if( j==5 || j==15 || j== 150 || j==1500 || j==10 || j==100 || j==1000 || j==4000 || j==6666 || j==7777 ) 
+	  {      
+	  new("/open/sky/obj6/sky_diamond")->move(environment(winner));
+	  message_vision(HIM"\n從唐鈺的身上掉下了一件奇怪的東西!!\n"NOR,winner);
+          write_file("/log/sky/obj6/sky_diamond",sprintf("%s(%s) 讓唐鈺掉下了天空之潔鑽於 %s\n",
+	  winner->name(1),winner->query("id"),ctime(time())));
+	  }
+	}
+	}
+   ::die();
+}
+

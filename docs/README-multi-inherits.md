@@ -1,0 +1,30 @@
+- fs/include/globals.h
+	- #define NPC             "/std/char/new_npc"
+	- #define CHARACTER       "/std/char"
+	- #define F_SKILL         "/feature/skill.c"
+	- #define SKILL           "/std/skill"
+- fs/open/clan/area/killer-wu.c
+	- inherit NPC;
+- fs/std/char/new_npc.c
+	- inherit CHARACTER;
+	- inherit F_CLEAN_UP;
+- fs/std/char.c:
+	- inherit F_DBASE;
+	- inherit F_ACTION;
+	- inherit F_APPRENTICE;
+	- inherit F_ATTACK;
+	- inherit F_COMMAND;
+	- inherit F_CONDITION;
+	- inherit F_DAMAGE;
+	- inherit F_FINANCE;
+	- inherit F_MOVE;
+	- inherit F_NAME;
+	- inherit F_SKILL;
+	- inherit F_MLIST;
+	- inherit F_SPELL;
+	- inherit F_FUNCTION;
+	- inherit F_TEAM;
+	- inherit F_PLACE;
+	- inherit F_ATTRIBUTE;
+- fs/daemon/skill/dodge.c
+	- inherit SKILL;

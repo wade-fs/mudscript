@@ -26,7 +26,9 @@ func (d *Driver) registerTypePredicates(obj *object.LPCObject) {
 
 				arg := args[0]
 				if arg == nil {
-					if expectedType == object.NilType { return &object.Integer{Value: 1} }
+					if expectedType == object.NilType {
+						return &object.Integer{Value: 1}
+					}
 					return &object.Integer{Value: 0}
 				}
 
@@ -57,6 +59,8 @@ func (d *Driver) registerTypePredicates(obj *object.LPCObject) {
 	register("arrayp", object.ArrayType)
 	register("pointerp", object.ArrayType) // 🚀 別名
 	register("nullp", object.NilType)
+	register("undefinedp", object.NilType)
+	register("bufferp", object.BufferType)
 	register("errorp", object.ErrorType)
 
 	// 語法: int functionp(mixed arg)
@@ -64,12 +68,45 @@ func (d *Driver) registerTypePredicates(obj *object.LPCObject) {
 	// 範例: functionp((: write :)) -> 1
 	obj.Vars.Set("functionp", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
-			if len(args) < 1 { return &object.Integer{Value: 0} }
+			if len(args) < 1 {
+				return &object.Integer{Value: 0}
+			}
 			tt := args[0].TokenType()
 			if tt == object.FunctionType || tt == object.ClosureType || tt == object.BuiltinType {
 				return &object.Integer{Value: 1}
 			}
 			return &object.Integer{Value: 0}
+		},
+	})
+
+	// 語法: string typeof(mixed arg)
+	// 說明: 回傳變數型別的字串名稱。
+	// 範例: typeof(1) -> "int"
+	obj.Vars.Set("typeof", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 1 {
+				return &object.String{Value: "void"}
+			}
+			switch args[0].TokenType() {
+			case object.IntegerType:
+				return &object.String{Value: "int"}
+			case object.StringType:
+				return &object.String{Value: "string"}
+			case object.FloatType:
+				return &object.String{Value: "float"}
+			case object.LPC_OBJECT_OBJ:
+				return &object.String{Value: "object"}
+			case object.MAPPING_OBJ:
+				return &object.String{Value: "mapping"}
+			case object.ArrayType:
+				return &object.String{Value: "array"}
+			case object.BufferType:
+				return &object.String{Value: "buffer"}
+			case object.ErrorType:
+				return &object.String{Value: "error"}
+			default:
+				return &object.String{Value: "unknown"}
+			}
 		},
 	})
 }
