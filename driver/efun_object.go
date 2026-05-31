@@ -505,3 +505,18 @@ func (d *Driver) registerInheritanceEfuns(obj *object.LPCObject) {
         },
     })
 }
+
+// 語法: void reload_object(object ob)
+// 說明: 重新載入物件的定義。
+// 範例: reload_object(this_object());
+func (d *Driver) registerReloadObjectEfun(obj *object.LPCObject) {
+    obj.Vars.Set("reload_object", &object.Builtin{
+        Fn: func(args ...object.Object) object.Object {
+            if len(args) < 1 { return &object.Nil{} }
+            target, ok := args[0].(*object.LPCObject)
+            if !ok { return &object.Nil{} }
+            d.LoadObject(target.Filename)
+            return &object.Nil{}
+        },
+    })
+}

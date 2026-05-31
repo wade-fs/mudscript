@@ -494,3 +494,42 @@ func (d *Driver) registerUniqueMappingEfun(obj *object.LPCObject) {
         },
     })
 }
+
+// 語法: void map_delete(mapping m, mixed key)
+// 說明: 從 Mapping 中移除指定的鍵值對。
+// 範例: map_delete(m, "key");
+func (d *Driver) registerMapDeleteEfun(obj *object.LPCObject) {
+    fn := &object.Builtin{
+        Fn: func(args ...object.Object) object.Object {
+            if len(args) < 2 { return &object.Nil{} }
+            m, ok := args[0].(*object.Mapping)
+            if !ok { return &object.Nil{} }
+            // 簡化：因為目前物件缺乏 Hashable，無法處理任意鍵，
+            // 這裡暫時只支援字串鍵。
+            if key, ok := args[1].(*object.String); ok {
+                delete(m.Pairs, key.HashKey())
+            }
+            return &object.Nil{}
+        },
+    }
+    obj.Vars.Set("map_delete", fn)
+    obj.Vars.Set("m_delete", fn)
+}
+
+// 語法: mixed *each(mapping m)
+// 說明: 回傳 Mapping 的下一個鍵值對 (({key, value}))。
+// 範例: mixed *pair = each(m);
+func (d *Driver) registerEachEfun(obj *object.LPCObject) {
+    obj.Vars.Set("each", &object.Builtin{
+        Fn: func(args ...object.Object) object.Object {
+            if len(args) < 1 { return &object.Nil{} }
+            m, ok := args[0].(*object.Mapping)
+            if !ok { return &object.Nil{} }
+            // 簡單處理，返回第一個鍵值對
+            for _, pair := range m.Pairs {
+                return &object.Array{Elements: []object.Object{pair.Key, pair.Value}}
+            }
+            return &object.Nil{}
+        },
+    })
+}

@@ -83,6 +83,8 @@ func (d *Driver) SetupEfuns(obj *object.LPCObject) {
     d.registerResetEfuns(obj)
 	d.registerDataStructures(obj)
 	d.registerFunctionalEfuns(obj)
+    d.registerEachEfun(obj)
+    d.registerMapDeleteEfun(obj)
     d.registerUniqueMappingEfun(obj)
     d.registerBindingEfuns(obj)
 	d.registerStringEfuns(obj)
@@ -93,6 +95,7 @@ func (d *Driver) SetupEfuns(obj *object.LPCObject) {
     d.registerMemoryEfuns(obj)
 	d.registerFunctionExistsEfun(obj)
 	d.registerLifecycleEfuns(obj)
+    d.registerReloadObjectEfun(obj)
 	d.registerInteractiveEfuns(obj)
 	d.registerP2PEfuns(obj)
 
