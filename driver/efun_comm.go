@@ -274,3 +274,37 @@ func (d *Driver) registerCommEfuns(obj *object.LPCObject) {
 		},
 	})
 }
+
+func (d *Driver) registerInteractiveEfuns(obj *object.LPCObject) {
+	obj.Vars.Set("this_interactive", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			p := d.GetCurrentPlayer()
+			if p != nil && p.Object != nil && p.IsActive {
+				return p.Object
+			}
+			return &object.Nil{}
+		},
+	})
+    
+	obj.Vars.Set("get_char", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 1 { return &object.Integer{Value: 0} }
+			funcName, ok := args[0].(*object.String)
+			if !ok { return &object.Integer{Value: 0} }
+			
+			p := d.GetCurrentPlayer()
+			if p == nil && obj.IsInteractive { p = d.GetConnectionFromObject(obj) }
+			if p == nil { return &object.Integer{Value: 0} }
+			
+			p.NextInputFunc = funcName.Value
+			p.InputHidden = false
+			if len(args) > 1 {
+				if flag, ok := args[1].(*object.Integer); ok && flag.Value != 0 {
+					p.InputHidden = true
+					p.Send("__INPUT_HIDDEN__")
+				}
+			}
+			return &object.Integer{Value: 1}
+		},
+	})
+}
