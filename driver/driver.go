@@ -30,10 +30,9 @@ type Driver struct {
 	CallOuts     []*ScheduledCall
 	Config       DriverConfig
 	shutdownCh   chan struct{}
-MasterObject *object.LPCObject
-SimulEfunObj *object.LPCObject // 🚀 新增：模擬 Efun 物件
-StartTime    time.Time
-}
+	MasterObject *object.LPCObject
+	SimulEfunObj *object.LPCObject // 🚀 新增：模擬 Efun 物件
+	StartTime    time.Time
 	RootUID      string
 	BackboneUID  string
 
