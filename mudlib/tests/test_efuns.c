@@ -266,6 +266,19 @@ void test_advanced_string_efuns(object me) {
     report_results();
 }
 
+void test_math_efuns() {
+    start_test("Efun Math (abs, random, sqrt, pow)");
+    
+    assert_equal(5, abs(-5), "abs() should return positive");
+    assert_true(random(10) < 10, "random() should return < max");
+    
+    // 測試浮點數運算
+    float s = sqrt(4.0);
+    assert_equal(2.0, s, "sqrt(4.0) should be 2.0");
+    
+    report_results();
+}
+
 void run_tests(object me) {
     test_lifecycle();
     test_type_predicates();
@@ -280,4 +293,5 @@ void run_tests(object me) {
     test_command_efuns();
     test_security_efuns(me);
     test_advanced_string_efuns(me);
+    test_math_efuns();
 }

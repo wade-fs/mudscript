@@ -2,6 +2,7 @@
 package driver
 
 import (
+	"math"
 	"math/rand"
 
 	"mudscript/object"
@@ -57,4 +58,64 @@ func (d *Driver) registerMathEfuns(obj *object.LPCObject) {
 			return &object.Integer{Value: rand.Int63n(max)}
 		},
 	})
+
+    // 語法: float sqrt(float n) / pow(float n, float m) / log(float n) / exp(float n)
+    obj.Vars.Set("sqrt", &object.Builtin{
+        Fn: func(args ...object.Object) object.Object {
+            if len(args) < 1 { return &object.Float{Value: 0.0} }
+            v, ok := args[0].(*object.Float)
+            if !ok { return &object.Float{Value: 0.0} }
+            return &object.Float{Value: math.Sqrt(v.Value)}
+        },
+    })
+    obj.Vars.Set("pow", &object.Builtin{
+        Fn: func(args ...object.Object) object.Object {
+            if len(args) < 2 { return &object.Float{Value: 0.0} }
+            v1, ok1 := args[0].(*object.Float)
+            v2, ok2 := args[1].(*object.Float)
+            if !ok1 || !ok2 { return &object.Float{Value: 0.0} }
+            return &object.Float{Value: math.Pow(v1.Value, v2.Value)}
+        },
+    })
+    obj.Vars.Set("log", &object.Builtin{
+        Fn: func(args ...object.Object) object.Object {
+            if len(args) < 1 { return &object.Float{Value: 0.0} }
+            v, ok := args[0].(*object.Float)
+            if !ok { return &object.Float{Value: 0.0} }
+            return &object.Float{Value: math.Log(v.Value)}
+        },
+    })
+    obj.Vars.Set("exp", &object.Builtin{
+        Fn: func(args ...object.Object) object.Object {
+            if len(args) < 1 { return &object.Float{Value: 0.0} }
+            v, ok := args[0].(*object.Float)
+            if !ok { return &object.Float{Value: 0.0} }
+            return &object.Float{Value: math.Exp(v.Value)}
+        },
+    })
+
+    // Trigonometry
+    for _, name := range []string{"sin", "cos", "tan", "asin", "acos", "atan", "floor", "ceil"} {
+        funcName := name
+        obj.Vars.Set(funcName, &object.Builtin{
+            Fn: func(args ...object.Object) object.Object {
+                if len(args) < 1 { return &object.Float{Value: 0.0} }
+                v, ok := args[0].(*object.Float)
+                if !ok { return &object.Float{Value: 0.0} }
+                
+                var res float64
+                switch funcName {
+                case "sin": res = math.Sin(v.Value)
+                case "cos": res = math.Cos(v.Value)
+                case "tan": res = math.Tan(v.Value)
+                case "asin": res = math.Asin(v.Value)
+                case "acos": res = math.Acos(v.Value)
+                case "atan": res = math.Atan(v.Value)
+                case "floor": res = math.Floor(v.Value)
+                case "ceil": res = math.Ceil(v.Value)
+                }
+                return &object.Float{Value: res}
+            },
+        })
+    }
 }
