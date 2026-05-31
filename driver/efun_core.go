@@ -381,3 +381,15 @@ func (d *Driver) registerCoreEfuns(obj *object.LPCObject) {
 		},
 	})
 }
+
+func (d *Driver) registerErrorEfun(obj *object.LPCObject) {
+    obj.Vars.Set("error", &object.Builtin{
+        Fn: func(args ...object.Object) object.Object {
+            msg := "未知錯誤"
+            if len(args) > 0 {
+                if s, ok := args[0].(*object.String); ok { msg = s.Value }
+            }
+            return object.NewError(msg)
+        },
+    })
+}
