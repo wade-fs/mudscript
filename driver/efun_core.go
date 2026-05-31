@@ -393,3 +393,33 @@ func (d *Driver) registerErrorEfun(obj *object.LPCObject) {
         },
     })
 }
+
+func (d *Driver) registerSetQueryEfuns(obj *object.LPCObject) {
+	// 語法: void set(string key, mixed val)
+	// 說明: 設定物件的屬性值。
+	// 範例: set("hp", 100);
+	obj.Vars.Set("set", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 2 { return &object.Nil{} }
+			key, ok1 := args[0].(*object.String)
+			if !ok1 { return &object.Nil{} }
+			obj.Vars.Set(key.Value, args[1])
+			return &object.Nil{}
+		},
+	})
+    
+    // 語法: mixed query(string key)
+	// 說明: 查詢物件的屬性值。
+	// 範例: int hp = query("hp");
+	obj.Vars.Set("query", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 1 { return &object.Nil{} }
+			key, ok := args[0].(*object.String)
+			if !ok { return &object.Nil{} }
+			if val, exists := obj.Vars.Get(key.Value); exists {
+				return val
+			}
+			return &object.Nil{}
+		},
+	})
+}
