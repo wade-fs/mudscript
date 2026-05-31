@@ -31,6 +31,15 @@ func (d *Driver) registerDataStructures(obj *object.LPCObject) {
 	// 語法: mixed copy(mixed arg)
 	// 說明: 深層複製一個物件、陣列或 Mapping。
 	// 範例: mapping m2 = copy(m1);
+	// 語法: mapping allocate_mapping(int size)
+	// 說明: 建立一個指定大小的空 mapping。
+	// 範例: mapping m = allocate_mapping(10);
+	obj.Vars.Set("allocate_mapping", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			return &object.Mapping{Pairs: make(map[object.HashKey]object.HashPair)}
+		},
+	})
+
 	obj.Vars.Set("copy", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
 			if len(args) < 1 { return &object.Nil{} }

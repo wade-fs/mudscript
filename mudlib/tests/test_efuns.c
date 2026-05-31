@@ -122,6 +122,40 @@ void test_persistence_efuns() {
     report_results();
 }
 
+void test_array_mapping_efuns() {
+    start_test("Efun Array/Mapping (allocate_mapping, sizeof, member_array)");
+    
+    // 測試 allocate_mapping
+    mapping m = allocate_mapping(5);
+    assert_true(mapp(m), "allocate_mapping() should return mapping");
+    
+    // 測試 sizeof
+    assert_equal(0, sizeof(m), "sizeof() on empty mapping should be 0");
+    m["a"] = 1;
+    assert_equal(1, sizeof(m), "sizeof() on mapping should be 1");
+    
+    // 測試 member_array
+    mixed *arr = ({ "a", "b", "c" });
+    assert_equal(1, member_array("b", arr), "member_array() should return index");
+    assert_equal(-1, member_array("d", arr), "member_array() should return -1");
+    
+    report_results();
+}
+
+void test_conversion_efuns() {
+    start_test("Efun Conversion (time, ctime)");
+    
+    // 測試 time
+    int t = time();
+    assert_true(intp(t), "time() should return integer");
+    
+    // 測試 ctime
+    string ct = ctime(t);
+    assert_true(stringp(ct), "ctime() should return string");
+    
+    report_results();
+}
+
 void run_tests(object me) {
     test_lifecycle();
     test_type_predicates();
@@ -130,4 +164,6 @@ void run_tests(object me) {
     test_interactive_efuns(me);
     test_filesystem_efuns();
     test_persistence_efuns();
+    test_array_mapping_efuns();
+    test_conversion_efuns();
 }
