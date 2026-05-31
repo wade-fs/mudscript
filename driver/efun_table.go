@@ -195,28 +195,31 @@ func (d *Driver) registerDataStructures(obj *object.LPCObject) {
 	// 語法: mapping m_delete(mapping m, mixed key)
 	// 說明: 從 Mapping 中刪除指定的 Key 與其對應的 Value。
 	// 範例: m_delete(my_map, "hp");
-	obj.Vars.Set("m_delete", &object.Builtin{
-		Fn: func(args ...object.Object) object.Object {
-			if len(args) < 2 { return object.NewError("m_delete() 需要 2 個參數") }
-			m, ok := args[0].(*object.Mapping)
-			if !ok { return object.NewError("m_delete() 參數必須是 mapping") }
-			key := args[1]
-			hashable, ok := key.(object.Hashable)
-			if !ok { return object.NewError("無法作為 mapping 的 key") }
-			delete(m.Pairs, hashable.HashKey())
-			return m 
-		},
-	})
+	fn_delete := &object.Builtin{
+	        Fn: func(args ...object.Object) object.Object {
+	                if len(args) < 2 { return object.NewError("m_delete() 需要 2 個參數") }
+	                m, ok := args[0].(*object.Mapping)
+	                if !ok { return object.NewError("m_delete() 參數必須是 mapping") }
+	                key := args[1]
+	                hashable, ok := key.(object.Hashable)
+	                if !ok { return object.NewError("無法作為 mapping 的 key") }
+	                delete(m.Pairs, hashable.HashKey())
+	                return m 
+	        },
+	}
+	obj.Vars.Set("m_delete", fn_delete)
+	obj.Vars.Set("map_delete", fn_delete)
 
 	// 語法: int member_array(mixed item, mixed *arr, [int start])
 	// 說明: 尋找 item 在陣列中的索引位置。若找不到回傳 -1。
 	// 範例: member_array("b", ({"a", "b", "c"})) -> 1
 	obj.Vars.Set("member_array", &object.Builtin{
-		Fn: func(args ...object.Object) object.Object {
-			if len(args) < 2 { return &object.Integer{Value: -1} }
-			val := args[0]
-			arr, ok := args[1].(*object.Array)
-			if !ok { return &object.Integer{Value: -1} }
+	        Fn: func(args ...object.Object) object.Object {
+	                if len(args) < 2 { return &object.Integer{Value: -1} }
+	                val := args[0]
+	                arr, ok := args[1].(*object.Array)
+	                if !ok { return &object.Integer{Value: -1} }
+
 
 			start := 0
 			if len(args) > 2 {
@@ -491,45 +494,6 @@ func (d *Driver) registerUniqueMappingEfun(obj *object.LPCObject) {
                 }
             }
             return m
-        },
-    })
-}
-
-// 語法: void map_delete(mapping m, mixed key)
-// 說明: 從 Mapping 中移除指定的鍵值對。
-// 範例: map_delete(m, "key");
-func (d *Driver) registerMapDeleteEfun(obj *object.LPCObject) {
-    fn := &object.Builtin{
-        Fn: func(args ...object.Object) object.Object {
-            if len(args) < 2 { return &object.Nil{} }
-            m, ok := args[0].(*object.Mapping)
-            if !ok { return &object.Nil{} }
-            // 簡化：因為目前物件缺乏 Hashable，無法處理任意鍵，
-            // 這裡暫時只支援字串鍵。
-            if key, ok := args[1].(*object.String); ok {
-                delete(m.Pairs, key.HashKey())
-            }
-            return &object.Nil{}
-        },
-    }
-    obj.Vars.Set("map_delete", fn)
-    obj.Vars.Set("m_delete", fn)
-}
-
-// 語法: mixed *each(mapping m)
-// 說明: 回傳 Mapping 的下一個鍵值對 (({key, value}))。
-// 範例: mixed *pair = each(m);
-func (d *Driver) registerEachEfun(obj *object.LPCObject) {
-    obj.Vars.Set("each", &object.Builtin{
-        Fn: func(args ...object.Object) object.Object {
-            if len(args) < 1 { return &object.Nil{} }
-            m, ok := args[0].(*object.Mapping)
-            if !ok { return &object.Nil{} }
-            // 簡單處理，返回第一個鍵值對
-            for _, pair := range m.Pairs {
-                return &object.Array{Elements: []object.Object{pair.Key, pair.Value}}
-            }
-            return &object.Nil{}
         },
     })
 }

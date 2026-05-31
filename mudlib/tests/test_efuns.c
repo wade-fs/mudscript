@@ -12,8 +12,16 @@ void test_lifecycle() {
 }
 
 void test_type_predicates() {
-    start_test("Efun Type Predicates (bufferp, undefinedp)");
+    start_test("Efun Type Predicates (bufferp, undefinedp, nullp, errorp, typeof)");
+    
+    // 既有測試
     assert_true(intp(undefinedp(0)), "undefinedp(0) should be int");
+    
+    // 新增測試
+    assert_true(intp(nullp(0)), "nullp(0) should be true (int)");
+    assert_true(intp(errorp(catch(error("test")))), "errorp() should return int");
+    assert_true(stringp(typeof(1)), "typeof(int) should return 'int'");
+    
     report_results();
 }
 
