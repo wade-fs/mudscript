@@ -80,6 +80,7 @@ func (d *Driver) SetupEfuns(obj *object.LPCObject) {
 	d.registerStringEfuns(obj)
 	d.registerSystemAndFiles(obj)
 	d.registerPersistenceEfuns(obj)
+	d.registerFunctionExistsEfun(obj)
 	d.registerP2PEfuns(obj)
 
 	// 🚀 新增：註冊 SimulEfuns

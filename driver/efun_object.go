@@ -306,3 +306,23 @@ func goToLPCValue(v interface{}) object.Object {
 		return &object.Nil{}
 	}
 }
+
+func (d *Driver) registerFunctionExistsEfun(obj *object.LPCObject) {
+	obj.Vars.Set("function_exists", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 2 { return &object.Nil{} }
+			funcName, ok1 := args[0].(*object.String)
+			target, ok2 := args[1].(*object.LPCObject)
+			if !ok1 || !ok2 { return &object.Nil{} }
+			
+			// 檢查物件本身的函式與 Efun
+			if _, exists := target.Functions[funcName.Value]; exists {
+				return &object.String{Value: target.Filename}
+			}
+			if _, exists := target.Vars.Get("efun::" + funcName.Value); exists {
+				return &object.String{Value: "efun"}
+			}
+			return &object.Nil{}
+		},
+	})
+}

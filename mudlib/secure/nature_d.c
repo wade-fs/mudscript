@@ -26,7 +26,8 @@ void create() {
     last_update = time();
     
     // 嘗試載入舊有的時間狀態，增加錯誤檢查
-    if (file_size(query_save_file() + ".o") > 0) {
+    // 確保只在 restore_object 可用時才呼叫
+    if (function_exists("restore_object", this_object()) && file_size(query_save_file() + ".o") > 0) {
         restore_object(query_save_file());
     }
     

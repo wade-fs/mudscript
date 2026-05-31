@@ -1,0 +1,6 @@
+1. cmd holdup arrow with bow --> 將箭搭在弓上
+2. cmd unhold <弓箭> with bow --> 把箭卸下，須打箭全名
+3. cmd bcheck bow --> 檢查弓上還剩多少箭
+4. cmd mark mob --> 在mob身上留下超遠距攻擊的狙擊點
+4. ride horse --> 騎馬
+5. dismount --> 下馬
