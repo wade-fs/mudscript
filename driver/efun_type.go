@@ -74,6 +74,26 @@ func (d *Driver) registerTypePredicates(obj *object.LPCObject) {
 			return &object.Integer{Value: 0}
 		},
 	})
+    
+    // 語法: string typeof(mixed arg)
+    // 說明: 回傳變數型別的字串名稱。
+    // 範例: typeof(1) -> "int"
+    obj.Vars.Set("typeof", &object.Builtin{
+        Fn: func(args ...object.Object) object.Object {
+            if len(args) < 1 { return &object.String{Value: "void"} }
+            switch args[0].TokenType() {
+            case object.IntegerType: return &object.String{Value: "int"}
+            case object.StringType: return &object.String{Value: "string"}
+            case object.FloatType: return &object.String{Value: "float"}
+            case object.LPC_OBJECT_OBJ: return &object.String{Value: "object"}
+            case object.MAPPING_OBJ: return &object.String{Value: "mapping"}
+            case object.ArrayType: return &object.String{Value: "array"}
+            case object.BufferType: return &object.String{Value: "buffer"}
+            case object.ErrorType: return &object.String{Value: "error"}
+            default: return &object.String{Value: "unknown"}
+            }
+        },
+    })
 }
 
 // ==========================================
