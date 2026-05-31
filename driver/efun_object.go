@@ -249,6 +249,28 @@ func (d *Driver) registerPersistenceEfuns(obj *object.LPCObject) {
 			return &object.Integer{Value: 0}
 		},
 	})
+
+	obj.Vars.Set("save_variable", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 1 { return &object.String{Value: ""} }
+			data := lpcToGoValue(args[0])
+			jsonData, err := json.Marshal(data)
+			if err != nil { return &object.String{Value: ""} }
+			return &object.String{Value: string(jsonData)}
+		},
+	})
+
+	obj.Vars.Set("restore_variable", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 1 { return &object.Nil{} }
+			str, ok := args[0].(*object.String)
+			if !ok { return &object.Nil{} }
+			var data interface{}
+			err := json.Unmarshal([]byte(str.Value), &data)
+			if err != nil { return &object.Nil{} }
+			return goToLPCValue(data)
+		},
+	})
 }
 
 // ==========================================

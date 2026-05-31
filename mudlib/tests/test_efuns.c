@@ -106,6 +106,22 @@ void test_filesystem_efuns() {
     report_results();
 }
 
+void test_persistence_efuns() {
+    start_test("Efun Persistence (save_variable, restore_variable)");
+    
+    // 測試變數儲存與還原
+    mixed data = ([ "a": 1, "b": "hello" ]);
+    string saved = save_variable(data);
+    assert_true(stringp(saved), "save_variable() should return string");
+    
+    mixed restored = restore_variable(saved);
+    assert_true(mapp(restored), "restore_variable() should return mapping");
+    assert_equal(data["a"], restored["a"], "restored mapping should be equal to original");
+    assert_equal(data["b"], restored["b"], "restored mapping should be equal to original");
+    
+    report_results();
+}
+
 void run_tests(object me) {
     test_lifecycle();
     test_type_predicates();
@@ -113,4 +129,5 @@ void run_tests(object me) {
     test_io_efuns(me);
     test_interactive_efuns(me);
     test_filesystem_efuns();
+    test_persistence_efuns();
 }
