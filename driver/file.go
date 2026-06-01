@@ -119,9 +119,5 @@ func (d *Driver) formatParserErrors(filename string, errors []string) error {
 	for i, err := range errors {
 		sb.WriteString(fmt.Sprintf("   %2d. %s\n", i+1, err))
 	}
-	sb.WriteString("\n💡 提示：常見原因：\n")
-	sb.WriteString("   • mapping 寫法錯誤 → 應使用 ([ key: value ])\n")
-	sb.WriteString("   • closure 寫法錯誤 → (: this_object, \"func\" :)\n")
-	sb.WriteString("   • 缺少分號、括號不匹配、型別宣告錯誤\n")
 	return fmt.Errorf("%s", sb.String())
 }

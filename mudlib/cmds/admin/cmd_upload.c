@@ -41,11 +41,11 @@ int main(object me, string verb, string arg) {
 
 void upload_loop(object me, string input) {
     string file = me->query_temp("upload_file");
-    string *buffer = me->query_temp("upload_buffer");
+    string *lines = me->query_temp("upload_buffer");
 
     if (input == "." || input == "__END__") {
-        string content = implode(buffer, "\n");
-        if (sizeof(buffer) > 0) content += "\n";
+        string content = implode(lines, "\n");
+        if (sizeof(lines) > 0) content += "\n";
         
         if (write_file(file, content, 1)) {
             write(HIG(select_lang(([
@@ -57,7 +57,7 @@ void upload_loop(object me, string input) {
             write(HIR(select_lang(([
                 "en": "File write failed! Please check path and permissions.\n",
                 "zh-TW": "檔案寫入失敗！請檢查路徑與權限。\n",
-                "zh-CN": "文件写入失败！请检查路径与权限。\n"
+                "zh-CN": "文件写入失败！请检查路径 with 权限。\n"
             ]))));
         }
         me->delete_temp("upload_file");
@@ -65,8 +65,8 @@ void upload_loop(object me, string input) {
         return;
     }
 
-    buffer += ({ input });
-    me->set_temp("upload_buffer", buffer);
+    lines += ({ input });
+    me->set_temp("upload_buffer", lines);
     input_to("upload_loop");
 }
 

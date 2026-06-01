@@ -660,11 +660,127 @@ func (d *Driver) registerSystemAndFiles(obj *object.LPCObject) {
 }
 
 func (d *Driver) registerMonitorEfuns(obj *object.LPCObject) {
-	// 語法: int rusage()
+	// 語法: mapping rusage()
 	obj.Vars.Set("rusage", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
-			// 簡化實作
+			var stats runtime.MemStats
+			runtime.ReadMemStats(&stats)
+			m := &object.Mapping{Pairs: make(map[object.HashKey]object.HashPair)}
+			set := func(k string, v int64) {
+				ks := &object.String{Value: k}
+				vs := &object.Integer{Value: v}
+				m.Pairs[ks.HashKey()] = object.HashPair{Key: ks, Value: vs}
+			}
+			set("utime", time.Now().Unix()) // Placeholder for user time
+			set("stime", time.Now().Unix()) // Placeholder for system time
+			set("maxrss", int64(stats.Alloc))
+			return m
+		},
+	})
+
+	// 語法: int clonep(object ob)
+	obj.Vars.Set("clonep", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			target := getTarget(args, obj)
+			if strings.Contains(target.Filename, "#") {
+				return &object.Integer{Value: 1}
+			}
 			return &object.Integer{Value: 0}
+		},
+	})
+
+	// 語法: object *children(string path)
+	obj.Vars.Set("children", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 1 {
+				return &object.Array{Elements: []object.Object{}}
+			}
+			path, ok := args[0].(*object.String)
+			if !ok {
+				return &object.Array{Elements: []object.Object{}}
+			}
+
+			resolved := d.ResolvePath(obj.Filename, path.Value)
+			if !strings.HasSuffix(resolved, ".c") {
+				resolved += ".c"
+			}
+
+			d.mu.RLock()
+			defer d.mu.RUnlock()
+
+			var elements []object.Object
+			for _, ob := range d.ObjectTable {
+				if ob != nil && !ob.IsDestructed && strings.HasPrefix(ob.Filename, resolved) {
+					elements = append(elements, ob)
+				}
+			}
+			return &object.Array{Elements: elements}
+		},
+	})
+
+	// 語法: void reclaim_objects()
+	obj.Vars.Set("reclaim_objects", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			runtime.GC()
+			return &object.Nil{}
+		},
+	})
+
+	// 語法: mixed stat(string path)
+	obj.Vars.Set("stat", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 1 {
+				return &object.Nil{}
+			}
+			path, ok := args[0].(*object.String)
+			if !ok {
+				return &object.Nil{}
+			}
+
+			resolved := d.ResolvePath(obj.Filename, path.Value)
+			fullPath := filepath.Join(d.Config.MudLibPath, resolved)
+			info, err := os.Stat(fullPath)
+			if err != nil {
+				return &object.Nil{}
+			}
+
+			// 回傳格式: ({ size, mtime, is_dir })
+			isDir := 0
+			if info.IsDir() {
+				isDir = 1
+			}
+			return &object.Array{Elements: []object.Object{
+				&object.Integer{Value: info.Size()},
+				&object.Integer{Value: info.ModTime().Unix()},
+				&object.Integer{Value: int64(isDir)},
+			}}
+		},
+	})
+
+	// 語法: void tail(string path)
+	obj.Vars.Set("tail", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 1 {
+				return &object.Nil{}
+			}
+			path, ok := args[0].(*object.String)
+			if !ok {
+				return &object.Nil{}
+			}
+
+			resolved := d.ResolvePath(obj.Filename, path.Value)
+			content, err := d.ReadFile(resolved)
+			if err != nil {
+				return &object.Nil{}
+			}
+
+			lines := strings.Split(string(content), "\n")
+			start := len(lines) - 10
+			if start < 0 {
+				start = 0
+			}
+			d.TellObject(obj, strings.Join(lines[start:], "\n"))
+			return &object.Nil{}
 		},
 	})
 

@@ -55,7 +55,7 @@ int main(object me, string verb, string arg) {
 }
 
 void edit_loop(object me, string input) {
-    string *buffer = me->query_temp("edit_buffer");
+    string *lines = me->query_temp("edit_buffer");
     string file = me->query_temp("edit_file");
 
     if (!input) {
@@ -65,8 +65,8 @@ void edit_loop(object me, string input) {
     }
 
     if (input == "." || input == ".x") {
-        string content = implode(buffer, "\n");
-        if (sizeof(buffer) > 0 && content[strlen(content)-1] != '\n') {
+        string content = implode(lines, "\n");
+        if (sizeof(lines) > 0 && content[strlen(content)-1] != '\n') {
             content += "\n";
         }
         if (write_file(file, content, 1)) {
@@ -131,8 +131,8 @@ void edit_loop(object me, string input) {
     }
 
     if (input == ".l") {
-        for (int i = 0; i < sizeof(buffer); i++) {
-            write(sprintf(HIY("%4d") + ": %s\n", i + 1, buffer[i]));
+        for (int i = 0; i < sizeof(lines); i++) {
+            write(sprintf(HIY("%4d") + ": %s\n", i + 1, lines[i]));
         }
         input_to("edit_loop");
         write("* ");
@@ -141,7 +141,7 @@ void edit_loop(object me, string input) {
 
     if (substr(input, 0, 3) == ".d ") {
         int n = to_int(substr(input, 3, strlen(input)-3));
-        if (n < 1 || n > sizeof(buffer)) {
+        if (n < 1 || n > sizeof(lines)) {
             write(RED(select_lang(([
                 "en": "Invalid line number.\n",
                 "zh-TW": "無效的行號。\n",
@@ -153,10 +153,10 @@ void edit_loop(object me, string input) {
                 "zh-TW": "已刪除第 " + n + " 行。\n",
                 "zh-CN": "已删除第 " + n + " 行。\n"
             ]))));
-            if (n == 1) buffer = buffer[1..];
-            else if (n == sizeof(buffer)) buffer = buffer[0..sizeof(buffer)-2];
-            else buffer = buffer[0..n-2] + buffer[n..];
-            me->set_temp("edit_buffer", buffer);
+            if (n == 1) lines = lines[1..];
+            else if (n == sizeof(lines)) lines = lines[0..sizeof(lines)-2];
+            else lines = lines[0..n-2] + lines[n..];
+            me->set_temp("edit_buffer", lines);
         }
         input_to("edit_loop");
         write("* ");
@@ -176,13 +176,13 @@ void edit_loop(object me, string input) {
             int n = to_int(substr(rest, 0, sp));
             string text = substr(rest, sp + 1, strlen(rest) - sp - 1);
             if (n < 1) n = 1;
-            if (n > sizeof(buffer) + 1) n = sizeof(buffer) + 1;
+            if (n > sizeof(lines) + 1) n = sizeof(lines) + 1;
             
-            if (n == 1) buffer = ({ text }) + buffer;
-            else if (n > sizeof(buffer)) buffer += ({ text });
-            else buffer = buffer[0..n-2] + ({ text }) + buffer[n-1..];
+            if (n == 1) lines = ({ text }) + lines;
+            else if (n > sizeof(lines)) lines += ({ text });
+            else lines = lines[0..n-2] + ({ text }) + lines[n-1..];
             
-            me->set_temp("edit_buffer", buffer);
+            me->set_temp("edit_buffer", lines);
             write(HIG(select_lang(([
                 "en": "Inserted text at line " + n + ".\n",
                 "zh-TW": "已於第 " + n + " 行插入文字。\n",
@@ -195,8 +195,8 @@ void edit_loop(object me, string input) {
     }
 
     if (input == ".s") {
-        string content = implode(buffer, "\n");
-        if (sizeof(buffer) > 0 && content[strlen(content)-1] != '\n') {
+        string content = implode(lines, "\n");
+        if (sizeof(lines) > 0 && content[strlen(content)-1] != '\n') {
             content += "\n";
         }
         if (write_file(file, content, 1)) {
@@ -218,8 +218,8 @@ void edit_loop(object me, string input) {
     }
 
     // 預設為新增一行
-    buffer += ({ input });
-    me->set_temp("edit_buffer", buffer);
+    lines += ({ input });
+    me->set_temp("edit_buffer", lines);
     input_to("edit_loop");
     write("* ");
 }

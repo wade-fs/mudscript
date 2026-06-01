@@ -101,6 +101,8 @@ func (d *Driver) SetupEfuns(obj *object.LPCObject) {
 	d.registerBitEfuns(obj)
 	d.registerWizardEfuns(obj)
 	d.registerParseEfuns(obj)
+	d.registerDebugEfuns(obj)
+	d.registerPerformanceEfuns(obj)
 
 	// 🚀 新增：註冊 SimulEfuns
 	d.RegisterSimulEfuns(obj)
