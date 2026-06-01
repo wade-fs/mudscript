@@ -254,11 +254,15 @@ func processInput(d *driver.Driver, p *driver.PlayerConnection, input string) {
 		}
 
 		var callback object.Object
+		callbackName := p.NextInputFunc
 		if p.NextInputClosure != nil {
 			callback = p.NextInputClosure
+			callbackName = "<closure>"
 		} else {
 			callback = &object.String{Value: p.NextInputFunc}
 		}
+
+		log.Printf("DEBUG: processInput - Executing callback '%s' on object %s\n", callbackName, targetObj.Filename)
 
 		// 準備參數：[輸入字串, 額外參數...]
 		callbackArgs := []object.Object{&object.String{Value: input}}
@@ -266,12 +270,13 @@ func processInput(d *driver.Driver, p *driver.PlayerConnection, input string) {
 			callbackArgs = append(callbackArgs, p.NextInputArgs...)
 		}
 
+		// 備份狀態後清除，避免重複呼叫
 		p.NextInputFunc = ""
 		p.NextInputObj = nil
 		p.NextInputClosure = nil
 		p.NextInputArgs = nil // 🚀 使用後清除
 		p.InputHidden = false
-		log.Printf("DEBUG: processInput - State Reset, NextInputFunc cleared, InputHidden set to false\n")
+		log.Printf("DEBUG: processInput - State Reset\n")
 
 		// 執行 callback
 		res := d.ExecuteCallback(targetObj, callback, callbackArgs)

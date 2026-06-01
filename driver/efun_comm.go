@@ -3,7 +3,6 @@ package driver
 
 import (
 	"fmt"
-	"log"
 	"strings"
 
 	"mudscript/object"
