@@ -54,34 +54,31 @@ $(OUT):
 
 # 編譯 Linux 版本 (不自動執行)
 # fsmud: $(OUT) inject-hash
-fsmud: $(OUT)
-	@echo "🔨 Building Linux version..."
-	@go mod tidy && $(GO_EXE) build $(GO_FLAGS) -o $(OUT)/fsmud ./cmd/fsmud
-	@ls -l $(OUT)/fsmud
-
-# 編譯 Windows 版本
-fsmud.exe: $(OUT) inject-hash
-	@echo "🔨 Building Windows version..."
-	@go mod tidy && $(GO_EXE) build $(GO_FLAGS) -o $(OUT)/fsmud.exe ./cmd/fsmud
-	@ls -l $(OUT)/fsmud.exe
+fs fs.exe fsmud fsmud.exe: $(OUT)
+	@echo "🔨 Building $@..."
+	@go mod tidy && $(GO_EXE) build $(GO_FLAGS) -o $(OUT)/$@ ./cmd/$@
+	@ls -l $(OUT)/$@
 
 # 執行測試 (測試模式下不連接 P2P 以免干擾)
 test: fsmud
 	@echo "🧪 Running MudScript Core Tests..."
 	@MUD_TEST_MODE=1 $(OUT)/fsmud --hub none 2>&1 | tee /tmp/test.txt
 
+test-fs: fs
+	@ echo "🧪 Running MudScript Core Tests for fs/..."
+	@ pkill -f $(OUT)/fs || true
+	@ MUD_TEST_MODE=1  GUEST_TEST=1 $(OUT)/fs 2>&1 | tee /tmp/test-fs.txt
+
 # 正常執行伺服器 (預設連接全球星際中心)
 run: fsmud
 	@echo "🚀 Starting MudScript Server (Connecting to Global Hub)..."
 	@ $(OUT)/fsmud 2>&1 | tee /tmp/run.txt
 
-run-clean: fsmud
-	@echo "🚀 Starting MudScript Server (Connecting to Global Hub)..."
-	@ rm -rf mudlib/data/user/*
-	@$(OUT)/fsmud --hub wss://wade-fs-fsmud-hub.hf.space/ws 2>&1 | tee /tmp/run-clean.txt
+run-fs: fs
+	@ $(OUT)/fs 2>&1 | tee /tmp/run-fs.txt
 
 clean:
-	@rm -rf *.log $(OUT)/*
+	@rm -rf *.log *txt $(OUT)/*
 
 zip:
 	@ mv .git ../GIT

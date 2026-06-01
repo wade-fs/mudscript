@@ -123,7 +123,7 @@ func (d *Driver) CallFunction(obj *object.LPCObject, funcName string, args []obj
 	return evaluated
 }
 
-func (d *Driver) AcceptConnection(pConn *PlayerConnection, lang string) *object.LPCObject {
+func (d *Driver) AcceptConnection(pConn *PlayerConnection, arg interface{}) *object.LPCObject {
 	if d.MasterObject == nil {
 		return nil
 	}
@@ -131,7 +131,17 @@ func (d *Driver) AcceptConnection(pConn *PlayerConnection, lang string) *object.
 	d.playerContexts.Store(gid, pConn)
 	defer d.playerContexts.Delete(gid)
 
-	args := []object.Object{&object.String{Value: lang}}
+	var lpcArg object.Object
+	switch v := arg.(type) {
+	case int:
+		lpcArg = &object.Integer{Value: int64(v)}
+	case string:
+		lpcArg = &object.String{Value: v}
+	default:
+		lpcArg = &object.Nil{}
+	}
+
+	args := []object.Object{lpcArg}
 	result := d.CallFunction(d.MasterObject, "connect", args)
 	if loginObj, ok := result.(*object.LPCObject); ok {
 		return loginObj

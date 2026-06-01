@@ -19,6 +19,9 @@ type DriverConfig struct {
 	HeartBeatTick   time.Duration
 	CleanUpInterval time.Duration // 🚀 新增：垃圾回收間隔
 	EmbeddedFS      fs.FS
+	EmbeddedPath    string // 🚀 新增：嵌入式路徑前綴
+	GlobalInclude   string // 🚀 新增：全域自動引入標頭檔
+	SimulEfunFile   string // 🚀 新增：指定 SimulEfun 檔案路徑
 }
 
 // Driver MUD 伺服器核心
@@ -83,24 +86,32 @@ func (d *Driver) Start() error {
 	d.MasterObject = master
 	d.mu.Unlock()
 
-	// 2. 從 Master 物件詢問 SimulEfun 路徑並載入
-	if res := d.CallFunction(master, "get_simul_efun", nil); res != nil {
-		if s, ok := res.(*object.String); ok && s.Value != "" {
-			simul, _, err := d.loadObjectInternal(s.Value)
-			if err == nil {
-				d.mu.Lock()
-				d.SimulEfunObj = simul
-				d.mu.Unlock()
-				fmt.Printf("✅ SimulEfun 載入成功: %s\n", s.Value)
+	simulFile := d.Config.SimulEfunFile
 
-				// 注入 SimulEfuns 到已經載入的 master (因為 master 載入時 SimulEfunObj 還沒設定)
-				d.RegisterSimulEfuns(master)
-
-				// 執行 SimulEfun 的 create
-				d.CallFunction(simul, "create", nil)
-			} else {
-				fmt.Printf("⚠️ 無法載入 SimulEfun (%s): %v\n", s.Value, err)
+	// 2. 如果 Config 沒指定，則從 Master 物件詢問 SimulEfun 路徑
+	if simulFile == "" {
+		if res := d.CallFunction(master, "get_simul_efun", nil); res != nil {
+			if s, ok := res.(*object.String); ok && s.Value != "" {
+				simulFile = s.Value
 			}
+		}
+	}
+
+	if simulFile != "" {
+		simul, _, err := d.loadObjectInternal(simulFile)
+		if err == nil {
+			d.mu.Lock()
+			d.SimulEfunObj = simul
+			d.mu.Unlock()
+			fmt.Printf("✅ SimulEfun 載入成功: %s\n", simulFile)
+
+			// 注入 SimulEfuns 到已經載入的 master
+			d.RegisterSimulEfuns(master)
+
+			// 執行 SimulEfun 的 create
+			d.CallFunction(simul, "create", nil)
+		} else {
+			fmt.Printf("⚠️ 無法載入 SimulEfun (%s): %v\n", simulFile, err)
 		}
 	}
 	// 3. 取得 UIDs (在執行 create 之前)

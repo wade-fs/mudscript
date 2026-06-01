@@ -20,9 +20,10 @@ type Macro struct {
 }
 
 type Preprocessor struct {
-	MudLibPath string
-	Macros     map[string]Macro
-	EmbeddedFS fs.FS // 🚀 新增：支援嵌入式檔案系統
+	MudLibPath    string
+	Macros        map[string]Macro
+	EmbeddedFS    fs.FS  // 🚀 新增：支援嵌入式檔案系統
+	GlobalInclude string // 🚀 新增：全域自動引入標頭檔
 }
 
 func New(mudLibPath string) *Preprocessor {
@@ -44,6 +45,11 @@ type condState struct {
 }
 
 func (p *Preprocessor) Process(filename, input string) (string, error) {
+	// 🚀 新增：全域自動引入處理 (避免無窮遞迴引入自己)
+	if p.GlobalInclude != "" && filename != p.GlobalInclude && !strings.HasSuffix(filename, "/"+p.GlobalInclude) {
+		input = "#include <" + p.GlobalInclude + ">\n" + input
+	}
+
 	var output strings.Builder
 	scanner := bufio.NewScanner(strings.NewReader(input))
 	

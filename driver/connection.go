@@ -17,12 +17,22 @@ type PlayerConnection struct {
 	History        []string
 	MaxHist        int
 	sendChan       chan string
-	NextInputFunc  string
-	InputHidden    bool
-	OutputCallback func(msg string)
-	CurrentVerb    string // 🚀 新增：儲存當前執行的指令動詞
-	NotifyFail     string // 🚀 新增：指令執行失敗訊息
-	SnoopedBy      *PlayerConnection // 🚀 新增：被誰監看 (Snoop)
+	NextInputFunc    string
+	NextInputClosure object.Object     // 🚀 新增：支援閉包回傳
+	NextInputObj     *object.LPCObject // 🚀 新增：支援指定物件回傳
+	NextInputArgs    []object.Object   // 🚀 新增：支援額外參數
+	InputHidden      bool
+	OutputCallback   func(msg string)
+	CurrentVerb      string            // 🚀 新增：儲存當前執行的指令動詞
+	NotifyFail       string            // 🚀 新增：指令執行失敗訊息
+	SnoopedBy        *PlayerConnection // 🚀 新增：被誰監看 (Snoop)
+}
+
+func (p *PlayerConnection) Close() {
+	if p.Conn != nil {
+		p.Conn.Close()
+	}
+	p.IsActive = false
 }
 
 func NewPlayerConnection(conn net.Conn, obj *object.LPCObject) *PlayerConnection {

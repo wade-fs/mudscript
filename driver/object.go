@@ -45,6 +45,7 @@ func (d *Driver) loadObjectInternal(filename string) (*object.LPCObject, bool, e
 	}
 
 	pp := preprocessor.New(d.Config.MudLibPath)
+	pp.GlobalInclude = d.Config.GlobalInclude
 	if d.Config.EmbeddedFS != nil {
 		pp.SetEmbeddedFS(d.Config.EmbeddedFS)
 	}
