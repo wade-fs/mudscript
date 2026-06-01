@@ -229,7 +229,6 @@ func (p *Parser) ParseProgram() *ast.Program {
 	for !p.curTokenIs(token.EOF) {
 		stmt := p.parseStatement(true)
 		if stmt != nil {
-			// fmt.Printf("DEBUG: Parsed statement: %T\n", stmt)
 			program.Statements = append(program.Statements, stmt)
 		}
 		p.nextToken()

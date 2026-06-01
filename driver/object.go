@@ -40,8 +40,6 @@ func (d *Driver) loadObjectInternal(filename string) (*object.LPCObject, bool, e
 	}
 	d.mu.RUnlock()
 
-	log.Printf("DEBUG: Loading Object: %s\n", filename)
-
 	// 使用混合模式讀取檔案內容
 	content, err := d.ReadFile(filename)
 	if err != nil {
@@ -58,11 +56,9 @@ func (d *Driver) loadObjectInternal(filename string) (*object.LPCObject, bool, e
 		return nil, false, fmt.Errorf("preprocessor error: %v", err)
 	}
 
-	log.Printf("DEBUG: Parsing Program: %s\n", filename)
 	l := lexer.New(processedContent)
 	p := parser.New(l)
 	program := p.ParseProgram()
-	log.Printf("DEBUG: Parsing Done: %s\n", filename)
 
 	if len(p.Errors()) > 0 {
 		for _, err := range p.Errors() {
@@ -70,7 +66,6 @@ func (d *Driver) loadObjectInternal(filename string) (*object.LPCObject, bool, e
 		}
 		debugPath := "debug_" + strings.ReplaceAll(strings.TrimPrefix(filename, "/"), "/", "_")
 		os.WriteFile(debugPath, []byte(processedContent), 0644)
-		log.Printf("DEBUG: Preprocessed content written to %s\n", debugPath)
 		return nil, false, d.formatParserErrors(filename, p.Errors())
 	}
 

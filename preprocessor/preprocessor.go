@@ -6,7 +6,6 @@ import (
 	"bufio"
 	"fmt"
 	"io/fs"
-//	"log" // 🚀 改用 log 以確保輸出的即時性
 	"os"
 	"path/filepath"
 	"regexp"
@@ -57,7 +56,6 @@ type condState struct {
 }
 
 func (p *Preprocessor) Process(filename, input string) (string, error) {
-//	log.Printf("DEBUG: Preprocessor.Process: %s (%d bytes)\n", filename, len(input))
 	return p.processInternal(filename, input, 0)
 }
 
@@ -506,7 +504,6 @@ func (p *Preprocessor) processInternal(filename, input string, depth int) (strin
 		output.WriteString(outLine + "\n")
 	}
 
-//	log.Printf("DEBUG: Preprocessed: %s\n", filename)
 	return output.String(), nil
 }
 
