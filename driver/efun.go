@@ -9,7 +9,8 @@ import (
 // 輔助工具函式 (Internal Helpers)
 // ==========================================
 
-// isLPCTrue 判斷 LPC 中的真假值 (符合現代語言習慣：0, "", [], ([]) 皆為假)
+// isLPCTrue 判斷 LPC 中的真假值
+// 🚀 關鍵相容：在 MudOS/LPC 中，只有整數 0 為假，其餘 (包含空字串、空陣列、空 Mapping) 皆為真！
 func isLPCTrue(o object.Object) bool {
 	if o == nil || o.TokenType() == object.NilType {
 		return false
@@ -17,23 +18,15 @@ func isLPCTrue(o object.Object) bool {
 	if i, ok := o.(*object.Integer); ok && i.Value == 0 {
 		return false
 	}
-	if s, ok := o.(*object.String); ok && s.Value == "" {
-		return false
-	}
-	if a, ok := o.(*object.Array); ok && len(a.Elements) == 0 {
-		return false
-	}
-	if m, ok := o.(*object.Mapping); ok && len(m.Pairs) == 0 {
-		return false
-	}
 	if b, ok := o.(*object.Boolean); ok && !b.Value {
 		return false
 	}
-	if _, ok := o.(*object.Error); ok {
-		return false
+	if r, ok := o.(*object.ReturnValue); ok {
+		return isLPCTrue(r.Value)
 	}
 	return true
 }
+
 
 // isEqual 比較兩個 LPC 物件是否相等 (給 member_array 等使用)
 func isEqual(a, b object.Object) bool {

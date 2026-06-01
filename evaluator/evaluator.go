@@ -2,7 +2,6 @@ package evaluator
 
 import (
 	"fmt"
-	"log"
 	"regexp"
 	"strconv"
 	"strings"
@@ -118,33 +117,39 @@ func Eval(node ast.Node, env object.Environment) object.Object {
 		}
 
 		// 🚀 關鍵修正：若變數遮蔽了 Efun，嘗試降級為尋找 Efun
-		if function != nil && function.TokenType() != object.FunctionType && function.TokenType() != object.BuiltinType {
+		if function == nil || (function.TokenType() != object.FunctionType && function.TokenType() != object.BuiltinType) {
 			if ident, ok := node.Function.(*ast.Ident); ok {
+				// 優先從 this_object 的原始 Efun 表找
 				if thisObjVal, ok := env.Get("this_object"); ok {
-					if lpcObj, ok := thisObjVal.(*object.LPCObject); ok && lpcObj.Efuns != nil {
+					var lpcObj *object.LPCObject
+					if obj, ok := thisObjVal.(*object.LPCObject); ok {
+						lpcObj = obj
+					} else if builtin, ok := thisObjVal.(*object.Builtin); ok {
+						res := builtin.Fn()
+						if obj, ok := res.(*object.LPCObject); ok {
+							lpcObj = obj
+						}
+					}
+					if lpcObj != nil && lpcObj.Efuns != nil {
 						if efun, exists := lpcObj.Efuns.Get(ident.Value); exists {
 							function = efun
 						}
-					} else if builtin, ok := thisObjVal.(*object.Builtin); ok {
-						res := builtin.Fn()
-						if lpcObj, ok := res.(*object.LPCObject); ok && lpcObj.Efuns != nil {
-							if efun, exists := lpcObj.Efuns.Get(ident.Value); exists {
-								function = efun
-							}
-						}
+					}
+				}
+				// 若還是沒找到，找全域 Builtins
+				if function == nil || (function.TokenType() != object.FunctionType && function.TokenType() != object.BuiltinType) {
+					if builtin, ok := builtins[ident.Value]; ok {
+						function = builtin
 					}
 				}
 			}
 		}
 
 		if function == nil {
-			log.Printf("DEBUG evalCallExpression: function %s is nil! (ident value)", node.Function.String())
 			if ident, ok := node.Function.(*ast.Ident); ok {
 				return newError("not a function: %s", ident.Value)
 			}
 			return newError("not a function")
-		} else {
-			log.Printf("DEBUG evalCallExpression: function %s resolved to type %s", node.Function.String(), function.TokenType())
 		}
 
 		args := evalExpressions(node.Arguments, env)
@@ -986,7 +991,9 @@ func evalIndexExpression(left, index object.Object) object.Object {
 		if !ok || idx < 0 || idx >= int64(len(str)) {
 			return &object.Integer{Value: 0}
 		}
+		// 🚀 關鍵修正：單一字元索引回傳字元碼 (Integer)
 		return &object.Integer{Value: int64(str[idx])}
+
 	default:
 		return newError("index operator not supported: %s", left.TokenType())
 	}
@@ -1159,14 +1166,12 @@ func GetDefaultLPCValue(lpcType string) object.Object {
 		return &object.String{Value: ""}
 	case "float":
 		return &object.Float{Value: 0.0}
-	
 	case "mapping":
-		// [修正] 使用全新的 HashKey 與 HashPair 結構來初始化空 Mapping
 		return &object.Mapping{Pairs: make(map[object.HashKey]object.HashPair)}
-		
 	case "array":
 		return &object.Array{Elements: []object.Object{}}
-		
+	case "object", "closure", "mixed", "buffer", "void":
+		return NilValue
 	default:
 		return NilValue
 	}
@@ -1547,18 +1552,23 @@ func evalStringConcatExpression(left, right object.Object) object.Object {
 }
 
 func evalSscanf(node *ast.CallExpression, env object.Environment) object.Object {
-	if len(node.Arguments) < 3 {
-		return newError("sscanf 至少需要 3 個參數: sscanf(字串, 格式, 變數...)")
+	if len(node.Arguments) < 2 {
+		return newError("sscanf 至少需要 2 個參數: sscanf(字串, 格式, [變數...])")
 	}
 
 	// 1. 正常評估前兩個參數 (輸入字串 與 格式)
 	inputObj := Eval(node.Arguments[0], env)
 	formatObj := Eval(node.Arguments[1], env)
 
+	// 如果其中一個是 Nil，則視為不符合
+	if inputObj == NilValue || formatObj == NilValue {
+		return &object.Integer{Value: 0}
+	}
+
 	inputStr, ok1 := inputObj.(*object.String)
 	formatStr, ok2 := formatObj.(*object.String)
 	if !ok1 || !ok2 {
-		return newError("sscanf 的前兩個參數必須是字串")
+		return &object.Integer{Value: 0}
 	}
 
 	// 2. 解析格式字串並建立對應的 regex
@@ -1607,20 +1617,9 @@ func evalSscanf(node *ast.CallExpression, env object.Environment) object.Object 
 					formats = append(formats, "float")
 				}
 				j++
-			case 'c':
-				if isSkip {
-					regexStr.WriteString("(?:(?s:.))")
-				} else {
-					regexStr.WriteString("((?s:.))")
-					formats = append(formats, "char")
-				}
-				j++
 			default:
-				if isSkip {
-					regexStr.WriteString(regexp.QuoteMeta("%*"))
-				} else {
-					regexStr.WriteString(regexp.QuoteMeta(string(fStr[j])))
-				}
+				regexStr.WriteString(regexp.QuoteMeta(string(fStr[j+1])))
+				j++
 			}
 		} else {
 			regexStr.WriteString(regexp.QuoteMeta(string(fStr[j])))
@@ -1630,7 +1629,7 @@ func evalSscanf(node *ast.CallExpression, env object.Environment) object.Object 
 
 	re, err := regexp.Compile(regexStr.String())
 	if err != nil {
-		return newError("sscanf 格式編譯失敗: %v", err)
+		return &object.Integer{Value: 0}
 	}
 
 	// 3. 進行字串配對
@@ -1678,7 +1677,9 @@ func evalSscanf(node *ast.CallExpression, env object.Environment) object.Object 
 		}
 
 		res := assignToLValue(arg, newVal, env)
-		if isError(res) { return res }
+		if isError(res) {
+			return res
+		}
 		matchedCount++
 	}
 

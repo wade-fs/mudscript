@@ -171,13 +171,14 @@ func (d *Driver) registerDataStructures(obj *object.LPCObject) {
 	// 範例: explode("a,b,c", ",") -> ({"a", "b", "c"})
 	obj.Vars.Set("explode", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
-			if len(args) != 2 {
-				return object.NewError("explode 需要 2 個字串")
+			if len(args) < 2 {
+				return &object.Integer{Value: 0}
 			}
 			str, ok1 := args[0].(*object.String)
 			delim, ok2 := args[1].(*object.String)
 			if !ok1 || !ok2 {
-				return object.NewError("explode 需要字串")
+				// 🚀 關鍵相容：LPC 中若傳入非字串，通常回傳 0 或錯誤。這裡回傳 0 避免當機。
+				return &object.Integer{Value: 0}
 			}
 
 			parts := strings.Split(str.Value, delim.Value)

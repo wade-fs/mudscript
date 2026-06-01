@@ -83,6 +83,11 @@ string trans_color(string arg)
   return arg;
 }
 
+string ansi(string arg)
+{
+  return trans_color(arg);
+}
+
 string trans_spc_color(string arg)
 {
   string        *color;

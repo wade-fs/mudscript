@@ -612,16 +612,15 @@ func (d *Driver) registerSystemAndFiles(obj *object.LPCObject) {
 		},
 	})
 
-	// 語法: int input_to(string func_name, [int hidden])
-	// 說明: 攔截玩家的下一次終端機輸入。
-	// 範例: write("請輸入密碼:"); input_to("get_pass", 1);
-	// 語法: void input_to(string func, [int flag])
-	// 說明: 設定玩家下一個輸入將會傳遞給指定的函式處理。若 flag 為 1，則隱藏輸入內容 (如密碼)。
-	// 範例: write("請輸入密碼: "); input_to("check_password", 1);
+	// 語法: void input_to(mixed func, [int flag, ...args])
+	// 說明: 設定玩家下一個輸入將會傳遞給指定的函式處理。
+	// func 可以是字串 (函式名稱) 或 閉包 (Closure)。
+	// 範例: input_to("check_password", 1);
+	// 範例: input_to((: get_id :), 0, ob, 1);
 	obj.Vars.Set("input_to", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
 			if len(args) < 1 {
-				return object.NewError("input_to 需要函式字串作為參數")
+				return object.NewError("input_to 需要函式名稱或閉包作為參數")
 			}
 			p := d.GetCurrentPlayer()
 			if p == nil && obj.IsInteractive {
@@ -630,18 +629,37 @@ func (d *Driver) registerSystemAndFiles(obj *object.LPCObject) {
 			if p == nil {
 				return &object.Integer{Value: 0}
 			}
-			if funcName, ok := args[0].(*object.String); ok {
-				p.NextInputFunc = funcName.Value
-				p.InputHidden = false
-				if len(args) > 1 {
-					if flag, ok := args[1].(*object.Integer); ok && flag.Value != 0 {
-						p.InputHidden = true
-						p.Send("__INPUT_HIDDEN__")
-					}
-				}
-				return &object.Integer{Value: 1}
+
+			// 處理第一個參數 (字串或閉包)
+			switch fn := args[0].(type) {
+			case *object.String:
+				p.NextInputFunc = fn.Value
+				p.NextInputClosure = nil
+				p.NextInputObj = obj // 🚀 關鍵修正：記錄發起呼叫的物件
+			case *object.Closure:
+				p.NextInputFunc = ""
+				p.NextInputClosure = fn
+				p.NextInputObj = nil // 閉包本身包含物件資訊
+			default:
+				return object.NewError("input_to 第一個參數必須是字串或閉包")
 			}
-			return &object.Integer{Value: 0}
+
+			p.InputHidden = false
+			// 處理其餘參數
+			p.NextInputArgs = nil
+			if len(args) > 1 {
+				// 第二個參數如果是整數且不為 0，則隱藏輸入
+				if flag, ok := args[1].(*object.Integer); ok && flag.Value != 0 {
+					p.InputHidden = true
+					p.Send("__INPUT_HIDDEN__")
+				}
+				// 第三個參數開始為傳遞給 callback 的額外參數
+				if len(args) > 2 {
+					p.NextInputArgs = args[2:]
+				}
+			}
+
+			return &object.Integer{Value: 1}
 		},
 	})
 

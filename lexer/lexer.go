@@ -482,17 +482,13 @@ func (l *lexer) readHeredoc(marker string) string {
 				}
 			}
 
-			// 如果字串相符，且後面沒有跟著其他文字 (只有空白或換行)
+			// 如果字串相符，且後面沒有跟著其他文字 (只有空白或換行或符號)
 			if match {
 				nextPos := l.position + len(marker)
 				if nextPos >= len(l.input) || (!isLetter(l.input[nextPos]) && !isDigit(l.input[nextPos])) {
 					// 確認這就是結尾 marker
-					// 略過這個 marker
+					// 略過這個 marker，但不略過後面的符號 (例如 );)
 					for i := 0; i < len(marker); i++ {
-						l.readChar()
-					}
-					// 略過結尾的殘餘字元 (到換行為止)
-					for l.ch != '\n' && l.ch != 0 {
 						l.readChar()
 					}
 					break // 結束 heredoc 讀取

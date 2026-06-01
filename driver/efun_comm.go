@@ -55,8 +55,6 @@ func (d *Driver) registerCommEfuns(obj *object.LPCObject) {
 				}
 			}
 
-			log.Printf("DEBUG EFUN WRITE: '%s'", msg)
-
 			p := d.GetCurrentPlayer()
 			// 👉 關鍵修正：若無全域玩家上下文 (如 NPC 心跳中)，但呼叫者是玩家物件，則自動導向該玩家
 			if p == nil && obj.IsInteractive {

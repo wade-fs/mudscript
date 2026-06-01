@@ -78,10 +78,10 @@ func (d *Driver) CallFunction(obj *object.LPCObject, funcName string, args []obj
 	if !ok {
 		// 🚀 關鍵：如果當前物件找不到函式，且有設定 SimulEfun 物件，則去那裡找
 		if d.SimulEfunObj != nil && obj != d.SimulEfunObj {
-			log.Printf("DEBUG: %s::%s not found, checking SimulEfunObj\n", obj.Filename, funcName)
+			// log.Printf("DEBUG: %s::%s not found, checking SimulEfunObj\n", obj.Filename, funcName)
 			return d.CallFunction(d.SimulEfunObj, funcName, args)
 		}
-		log.Printf("DEBUG: %s::%s not found anywhere\n", obj.Filename, funcName)
+		// log.Printf("DEBUG: %s::%s not found anywhere\n", obj.Filename, funcName)
 		return nil
 	}
 	if builtin, ok := fnObj.(*object.Builtin); ok {

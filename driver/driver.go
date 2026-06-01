@@ -9,6 +9,7 @@ import (
 	"sync"
 	"time"
 
+	"mudscript/evaluator"
 	"mudscript/object"
 )
 
@@ -58,6 +59,25 @@ func New(config DriverConfig) *Driver {
 	if config.CleanUpInterval == 0 {
 		config.CleanUpInterval = 5 * time.Minute // 🚀 預設 5 分鐘
 	}
+
+	// 🚀 初始化全域內建函式表 (用於變數遮蔽時的 fallback)
+	evaluator.RegisterBuiltin("time", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			return &object.Integer{Value: time.Now().Unix()}
+		},
+	})
+	evaluator.RegisterBuiltin("ctime", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 1 {
+				return &object.String{Value: ""}
+			}
+			if t, ok := args[0].(*object.Integer); ok {
+				return &object.String{Value: time.Unix(t.Value, 0).Format(time.ANSIC)}
+			}
+			return &object.String{Value: ""}
+		},
+	})
+
 	return &Driver{
 		ObjectTable: make(map[string]*object.LPCObject),
 		UUIDTable:   make(map[string]*object.LPCObject),

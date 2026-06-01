@@ -75,9 +75,8 @@ func (d *Driver) checkReadPermission(caller *object.LPCObject, path string, efun
 		cleanPath = "/" + cleanPath
 	}
 
-	validOb, err := d.LoadObject("/secure/valid.c")
-	if err != nil {
-		return true, "" // 若沒寫 valid.c 則預設允許
+	if d.MasterObject == nil {
+		return true, "" // 若沒 master 則預設允許
 	}
 
 	player := d.GetCurrentPlayer()
@@ -95,7 +94,7 @@ func (d *Driver) checkReadPermission(caller *object.LPCObject, path string, efun
 		}
 	}
 
-	res := d.CallFunction(validOb, "valid_read", []object.Object{
+	res := d.CallFunction(d.MasterObject, "valid_read", []object.Object{
 		&object.String{Value: cleanPath},
 		userObj,
 		&object.String{Value: efunName},
@@ -126,15 +125,13 @@ func (d *Driver) checkWritePermission(caller *object.LPCObject, path string, efu
 		cleanPath = "/" + cleanPath
 	}
 
-	// 2. 載入權限管理物件
-	validOb, err := d.LoadObject("/secure/valid")
-	if err != nil {
-		return false, "系統嚴重錯誤：找不到 /secure/valid，安全鎖定啟動。"
+	if d.MasterObject == nil {
+		return true, "" // 若沒 master 則預設允許
 	}
 
 	// 🚀 關鍵修正：直接傳遞發起寫入的「物件」 (caller) 給 valid_write
 	// 權限系統應根據此物件的身分（路徑或內部 Role）來判定
-	res := d.CallFunction(validOb, "valid_write", []object.Object{
+	res := d.CallFunction(d.MasterObject, "valid_write", []object.Object{
 		&object.String{Value: cleanPath},
 		caller,
 		&object.String{Value: efunName},
