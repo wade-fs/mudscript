@@ -118,6 +118,7 @@ func New(l lexer.Lexer) *Parser {
 		token.MAPPING_TYPE: p.parseTypePrefix,
 		token.MIXED_TYPE:   p.parseTypePrefix,
 		token.CLOSURE_TYPE: p.parseTypePrefix,
+		token.BUFFER_TYPE:  p.parseTypePrefix,
 	}
 
 	p.infixParseFns = map[token.TokenType]infixParseFn{
@@ -573,7 +574,7 @@ func (p *Parser) isTypeToken(t token.TokenType) bool {
 	switch t {
 	case token.INT_TYPE, token.STRING_TYPE, token.OBJECT_TYPE, 
 	     token.MAPPING_TYPE, token.FLOAT_TYPE, token.MIXED_TYPE, 
-		 token.VOID_TYPE, token.CLOSURE_TYPE:
+		 token.VOID_TYPE, token.CLOSURE_TYPE, token.BUFFER_TYPE:
 		return true
 	default:
 		return false

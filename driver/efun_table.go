@@ -159,6 +159,8 @@ func (d *Driver) registerDataStructures(obj *object.LPCObject) {
 				return &object.Integer{Value: int64(len(arg.Value))}
 			case *object.Mapping:
 				return &object.Integer{Value: int64(len(arg.Pairs))}
+			case *object.Buffer:
+				return &object.Integer{Value: int64(len(arg.Value))}
 			}
 			return &object.Integer{Value: 0}
 		},

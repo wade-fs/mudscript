@@ -45,7 +45,8 @@ int main(object me, string verb, string arg) {
         "/tests/test_new_efuns.c",
         "/tests/test_init_action.c",
         "/tests/test_look_dir.c",
-        "/tests/test_localization.c"
+        "/tests/test_localization.c",
+        "/tests/p3_test.c"
     });
 
     int total = 0;
