@@ -67,6 +67,7 @@ func (d *Driver) loadObjectInternal(filename string) (*object.LPCObject, bool, e
 		return nil, false, d.formatParserErrors(filename, p.Errors())
 	}
 
+
 	env := object.NewEnvironment()
 	lpcObj := &object.LPCObject{
 		UUID:         uuid.New().String(),

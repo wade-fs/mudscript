@@ -227,8 +227,9 @@ func (p *Parser) ParseProgram() *ast.Program {
 	}
 
 	for !p.curTokenIs(token.EOF) {
-		stmt := p.parseStatement()
+		stmt := p.parseStatement(true)
 		if stmt != nil {
+			// fmt.Printf("DEBUG: Parsed statement: %T\n", stmt)
 			program.Statements = append(program.Statements, stmt)
 		}
 		p.nextToken()
@@ -410,7 +411,7 @@ func (p *Parser) parseIfExpression() ast.Expression {
 	} else {
 		// 處理單行 if (例如: if(x) return 1;)
 		p.nextToken()
-		stmt := p.parseStatement()
+		stmt := p.parseStatement(false)
 		expression.Consequence = &ast.BlockStatement{
 			Token:      p.curToken,
 			Statements: []ast.Statement{stmt},
@@ -438,7 +439,7 @@ func (p *Parser) parseIfExpression() ast.Expression {
 		} else {
 			// ▼ [關鍵修正]：處理單行 else (例如: else return 0;)
 			p.nextToken()
-			stmt := p.parseStatement()
+			stmt := p.parseStatement(false)
 			expression.Alternative = &ast.BlockStatement{
 				Token:      p.curToken,
 				Statements: []ast.Statement{stmt},
@@ -450,19 +451,16 @@ func (p *Parser) parseIfExpression() ast.Expression {
 }
 
 func (p *Parser) parseBlockStatement() *ast.BlockStatement {
-	block := &ast.BlockStatement{
-		Token:      p.curToken,
-		Statements: []ast.Statement{},
-	}
+	block := &ast.BlockStatement{Token: p.curToken}
+	block.Statements = []ast.Statement{}
 
 	p.nextToken()
 
 	for !p.curTokenIs(token.RBRACE) && !p.curTokenIs(token.EOF) {
-		stmt := p.parseStatement()
+		stmt := p.parseStatement(false)
 		if stmt != nil {
 			block.Statements = append(block.Statements, stmt)
 		}
-
 		p.nextToken()
 	}
 
@@ -608,7 +606,7 @@ func (p *Parser) isTypeToken(t token.TokenType) bool {
 	}
 }
 
-func (p *Parser) parseStatement() ast.Statement {
+func (p *Parser) parseStatement(topLevel bool) ast.Statement {
 	isVarargs := false
 	for p.curTokenIs(token.PRIVATE) || p.curTokenIs(token.STATIC) ||
 		p.curTokenIs(token.PROTECTED) || p.curTokenIs(token.VARARGS) ||
@@ -621,6 +619,15 @@ func (p *Parser) parseStatement() ast.Statement {
 
 	if p.isTypeToken(p.curToken.TokenType) {
 		return p.parseTypedDeclarationStatement(isVarargs)
+	}
+
+	// 🚀 [關鍵修正] 支援省略回傳型別的函式定義 (預設為 mixed)
+	// 語法: [modifiers] name(args) { ... }
+	// 注意：這只應該發生在 top-level
+	if topLevel && p.curTokenIs(token.IDENT) && p.peekTokenIs(token.LPAREN) {
+		typeToken := token.Token{TokenType: token.MIXED_TYPE, Literal: "mixed", Line: p.curToken.Line}
+		name := &ast.Ident{Token: p.curToken, Value: p.curToken.Literal}
+		return p.parseFunctionDefinition(typeToken, false, name, isVarargs)
 	}
 
 	switch p.curToken.TokenType {
@@ -745,6 +752,12 @@ func (p *Parser) parseFunctionDefinition(typeToken token.Token, isArray bool, na
 
 	stmt.Params = p.parseTypedParameters()
 
+	// 🚀 支援函數原型 (Prototype): int foo();
+	if p.peekTokenIs(token.SEMICOLON) {
+		p.nextToken()
+		return nil // 目前跳過原型宣告，不加入 AST
+	}
+
 	if !p.expectPeek(token.LBRACE) {
 		return nil
 	}
@@ -863,7 +876,7 @@ func (p *Parser) parseWhileStatement() ast.Statement {
 	} else {
 		// 支援單行 while (例如: while(x) i++;)
 		p.nextToken()
-		bodyStmt := p.parseStatement()
+		bodyStmt := p.parseStatement(false)
 		stmt.Body = &ast.BlockStatement{
 			Token:      p.curToken,
 			Statements: []ast.Statement{bodyStmt},
@@ -882,7 +895,7 @@ func (p *Parser) parseForStatement() ast.Statement {
 
 	// 1. 解析 Init (可能是 int i = 0; 或是空 ;)
 	if !p.curTokenIs(token.SEMICOLON) {
-		stmt.Init = p.parseStatement()
+		stmt.Init = p.parseStatement(false)
 	}
 	
 	// 處理分號：由於 parseStatement 有時會吃掉結尾的分號，我們必須彈性判斷
@@ -936,7 +949,7 @@ func (p *Parser) parseForStatement() ast.Statement {
 	} else {
 		// 支援單行 for (例如: for(i=0;i<10;i++) write(i);)
 		p.nextToken()
-		bodyStmt := p.parseStatement()
+		bodyStmt := p.parseStatement(false)
 		stmt.Body = &ast.BlockStatement{
 			Token:      p.curToken,
 			Statements: []ast.Statement{bodyStmt},
@@ -955,7 +968,7 @@ func (p *Parser) parseDoWhileStatement() ast.Statement {
 	} else {
 		// 支援單行 do (例如: do i++; while(i<10);)
 		p.nextToken()
-		bodyStmt := p.parseStatement()
+		bodyStmt := p.parseStatement(false)
 		stmt.Body = &ast.BlockStatement{
 			Token:      p.curToken,
 			Statements: []ast.Statement{bodyStmt},
@@ -991,7 +1004,7 @@ func (p *Parser) parseSwitchStatement() ast.Statement {
 			p.nextToken()
 			
 			for !p.curTokenIs(token.CASE) && !p.curTokenIs(token.DEFAULT) && !p.curTokenIs(token.RBRACE) && !p.curTokenIs(token.EOF) {
-				s := p.parseStatement()
+				s := p.parseStatement(false)
 				if s != nil { caseStmt.Body = append(caseStmt.Body, s) }
 				p.nextToken()
 			}
@@ -1218,7 +1231,7 @@ func (p *Parser) parseForEachStatement() ast.Statement {
 	} else {
 		// 支援單行 foreach (例如: foreach(s in list) write(s);)
 		p.nextToken()
-		bodyStmt := p.parseStatement()
+		bodyStmt := p.parseStatement(false)
 		stmt.Body = &ast.BlockStatement{
 			Token:      p.curToken,
 			Statements: []ast.Statement{bodyStmt},
