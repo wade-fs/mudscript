@@ -206,6 +206,21 @@ type Buffer struct {
 	Value []byte
 }
 
+// ReverseIndex represents a reverse index (e.g. <1)
+type ReverseIndex struct {
+	Value int64
+}
+
+// TokenType returns the type of the ReverseIndex.
+func (ri *ReverseIndex) TokenType() TokenType {
+	return "REVERSE_INDEX"
+}
+
+// Inspect returns a string representation of the ReverseIndex.
+func (ri *ReverseIndex) Inspect() string {
+	return fmt.Sprintf("<%d", ri.Value)
+}
+
 // TokenType returns the type of the Buffer.
 func (b *Buffer) TokenType() TokenType {
 	return BufferType

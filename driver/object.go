@@ -3,7 +3,7 @@ package driver
 
 import (
 	"fmt"
-	"log" // 🚀 改用 log 以確保輸出的即時性 (Unbuffered)
+//	"log" // 🚀 改用 log 以確保輸出的即時性 (Unbuffered)
 	"strings"
 	"time"
 
@@ -39,7 +39,7 @@ func (d *Driver) loadObjectInternal(filename string) (*object.LPCObject, bool, e
 	}
 	d.mu.RUnlock()
 
-	log.Printf("DEBUG: Loading Object: %s\n", filename)
+	// log.Printf("DEBUG: Loading Object: %s\n", filename)
 
 	// 使用混合模式讀取檔案內容
 	content, err := d.ReadFile(filename)
@@ -57,11 +57,11 @@ func (d *Driver) loadObjectInternal(filename string) (*object.LPCObject, bool, e
 		return nil, false, fmt.Errorf("preprocessor error: %v", err)
 	}
 
-	log.Printf("DEBUG: Parsing Program: %s\n", filename)
+	// log.Printf("DEBUG: Parsing Program: %s\n", filename)
 	l := lexer.New(processedContent)
 	p := parser.New(l)
 	program := p.ParseProgram()
-	log.Printf("DEBUG: Parsing Done: %s\n", filename)
+	// log.Printf("DEBUG: Parsing Done: %s\n", filename)
 
 	if len(p.Errors()) > 0 {
 		return nil, false, d.formatParserErrors(filename, p.Errors())

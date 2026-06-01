@@ -13,6 +13,7 @@ import (
 const (
 	_ int = iota
 	LOWEST
+	COMMA       // ,
 	ASSIGN      // = += -= *= /=
 	TERNARY     // ? :
 	LOGICAL_OR	// ||
@@ -63,9 +64,9 @@ token.MOD_EQUALS:      ASSIGN,
 token.QUESTION:        TERNARY,
 token.INC:             POSTFIX,
 token.DEC:             POSTFIX,
-	token.SCOPE:           SCOPE_PREC,
+token.SCOPE:           SCOPE_PREC,
+token.COMMA:           COMMA,
 }
-
 type (
 	prefixParseFn func() ast.Expression
 	infixParseFn  func(ast.Expression) ast.Expression
@@ -105,6 +106,9 @@ func New(l lexer.Lexer) *Parser {
 		token.STRING:   p.parseStringLiteral,
 		token.CHAR:     p.parseStringLiteral, // [新增] 將 CHAR 視為單字元字串處理
 		token.LARRAY:   p.parseLPCArrayLiteral,
+		token.LT:       p.parsePrefixExpression, // [新增] 支援 <n 語法 (從末尾索引)
+		token.NEW:      p.parsePrefixExpression, // [新增] 支援 new(path)
+		token.CATCH:    p.parsePrefixExpression, // [新增] 支援 catch(expr)
 
 		token.LBRACKET_MAP: p.parseMappingLiteral,
 		token.SCOPE:        p.parsePrefixScope,
@@ -154,6 +158,7 @@ func New(l lexer.Lexer) *Parser {
 		token.BIT_XOR: p.parseInfixExpression,
 		token.LSHIFT:  p.parseInfixExpression,
 		token.RSHIFT:  p.parseInfixExpression,
+		token.COMMA:   p.parseInfixExpression,
 	}
 
 	p.nextToken()
@@ -370,6 +375,17 @@ func (p *Parser) parseBoolean() ast.Expression {
 func (p *Parser) parseGroupedExpression() ast.Expression {
 	p.nextToken()
 
+	// 🚀 新增：支援 (type)expr 強制轉型語法 (例如 (string)ob->query("name"))
+	if p.isTypeToken(p.curToken.TokenType) {
+		// 檢查下一個是否為 ')'
+		if p.peekTokenIs(token.RPAREN) {
+			p.nextToken() // Skip type
+			p.nextToken() // Skip ')'
+			// 這裡目前將轉型視為 No-op，直接解析後續表達式
+			return p.parseExpression(PREFIX)
+		}
+	}
+
 	expr := p.parseExpression(LOWEST)
 
 	if !p.expectPeek(token.RPAREN) {
@@ -495,14 +511,17 @@ func (p *Parser) parseExpressionList(end token.TokenType) []ast.Expression {
 	}
 
 	p.nextToken()
-	list = append(list, p.parseExpression(LOWEST))
+	list = append(list, p.parseExpression(COMMA))
 
 	for p.peekTokenIs(token.COMMA) {
-		p.nextToken() 
 		p.nextToken()
-		list = append(list, p.parseExpression(LOWEST))
+		if p.peekTokenIs(end) {
+			p.nextToken() // Skip the trailing comma and move to end token
+			return list
+		}
+		p.nextToken()
+		list = append(list, p.parseExpression(COMMA))
 	}
-
 	if !p.expectPeek(end) {
 		return nil
 	}
@@ -519,10 +538,18 @@ func (p *Parser) parseCallExpression(function ast.Expression) ast.Expression {
 }
 
 func (p *Parser) parseStringLiteral() ast.Expression {
-	return &ast.StringLiteral{
+	lit := &ast.StringLiteral{
 		Token: p.curToken,
 		Value: p.curToken.Literal,
 	}
+
+	// 🚀 新增：支援相鄰字串自動串接 (ANSI C 風格)
+	for p.peekTokenIs(token.STRING) {
+		p.nextToken()
+		lit.Value += p.curToken.Literal
+	}
+
+	return lit
 }
 
 func (p *Parser) parseIndexExpression(left ast.Expression) ast.Expression {
@@ -656,7 +683,7 @@ func (p *Parser) parseTypedVariableDeclaration(typeToken token.Token, isArray bo
 	if p.peekTokenIs(token.ASSIGN) {
 		p.nextToken()
 		p.nextToken()
-		stmt.Value = p.parseExpression(LOWEST)
+		stmt.Value = p.parseExpression(COMMA)
 	}
 	statements = append(statements, stmt)
 
@@ -1011,24 +1038,25 @@ func (p *Parser) parseMappingLiteral() ast.Expression {
 		Pairs: make(map[ast.Expression]ast.Expression),
 	}
 
-	for !p.peekTokenIs(token.RBRACKET) { 
+	for !p.peekTokenIs(token.RBRACKET) {
 		p.nextToken()
-		
-		key := p.parseExpression(LOWEST)
+
+		key := p.parseExpression(COMMA) // 🚀 改為 COMMA，遇到 : 或 , 會停止
 
 		if !p.expectPeek(token.COLON) {
 			return nil
 		}
 
 		p.nextToken()
-		value := p.parseExpression(LOWEST)
+		value := p.parseExpression(COMMA) // 🚀 改為 COMMA，遇到 , 或 ] 會停止
 		mapping.Pairs[key] = value
 
-		if !p.peekTokenIs(token.RBRACKET) && !p.expectPeek(token.COMMA) { 
-			return nil
+		if !p.peekTokenIs(token.RBRACKET) {
+			if !p.expectPeek(token.COMMA) {
+				return nil
+			}
 		}
 	}
-
 	if !p.expectPeek(token.RBRACKET) { 
 		return nil
 	}

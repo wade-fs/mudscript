@@ -6,7 +6,7 @@ import (
 	"bufio"
 	"fmt"
 	"io/fs"
-	"log" // 🚀 改用 log 以確保輸出的即時性
+//	"log" // 🚀 改用 log 以確保輸出的即時性
 	"os"
 	"path/filepath"
 	"regexp"
@@ -57,8 +57,163 @@ type condState struct {
 }
 
 func (p *Preprocessor) Process(filename, input string) (string, error) {
-	log.Printf("DEBUG: Preprocessor.Process: %s (%d bytes)\n", filename, len(input))
+//	log.Printf("DEBUG: Preprocessor.Process: %s (%d bytes)\n", filename, len(input))
 	return p.processInternal(filename, input, 0)
+}
+
+// replaceMacros 執行巨集替換，但會避開字串內容
+func (p *Preprocessor) replaceMacros(line string) string {
+	if len(p.Macros) == 0 {
+		return line
+	}
+
+	// 1. 先處理函式型巨集 (目前簡化，仍使用 Regex)
+	for name, m := range p.Macros {
+		if len(m.Args) > 0 {
+			line = p.replaceFuncMacro(line, name, m)
+		}
+	}
+
+	// 2. 處理一般巨集，但必須避開字串
+	var result strings.Builder
+	inString := false
+
+	for i := 0; i < len(line); i++ {
+		if line[i] == '"' && (i == 0 || line[i-1] != '\\') {
+			inString = !inString
+			result.WriteByte(line[i])
+			continue
+		}
+
+		if inString {
+			result.WriteByte(line[i])
+			continue
+		}
+
+		// 尋找巨集名稱
+		// 檢查目前的 i 是否為巨集的起始點
+		found := false
+		for name, m := range p.Macros {
+			if len(m.Args) == 0 && strings.HasPrefix(line[i:], name) {
+				// 檢查邊界
+				endIdx := i + len(name)
+				isStartWord := (i == 0 || !isAlphaNumeric(line[i-1]))
+				isEndWord := (endIdx == len(line) || !isAlphaNumeric(line[endIdx]))
+				
+				if isStartWord && isEndWord {
+					result.WriteString(m.Body)
+					i = endIdx - 1 // 跳過巨集名稱 (迴圈會再 +1)
+					found = true
+					break
+				}
+			}
+		}
+
+		if !found {
+			result.WriteByte(line[i])
+		}
+	}
+
+	return result.String()
+}
+
+func (p *Preprocessor) replaceFuncMacro(line, name string, m Macro) string {
+	outLine := line
+	searchIdx := 0
+	for {
+		idx := strings.Index(outLine[searchIdx:], name)
+		if idx == -1 {
+			break
+		}
+		idx += searchIdx
+
+		// 檢查是否在字串內 (簡單判斷)
+		if p.isInString(outLine, idx) {
+			searchIdx = idx + 1
+			continue
+		}
+
+		// 檢查是否為獨立單字
+		isWord := true
+		if idx > 0 && isAlphaNumeric(outLine[idx-1]) {
+			isWord = false
+		}
+		if idx+len(name) < len(outLine) && isAlphaNumeric(outLine[idx+len(name)]) {
+			isWord = false
+		}
+
+		if !isWord {
+			searchIdx = idx + 1
+			continue
+		}
+
+		// 尋找 '('
+		rest := outLine[idx+len(name):]
+		lparenIdx := strings.Index(rest, "(")
+		if lparenIdx == -1 || strings.TrimSpace(rest[:lparenIdx]) != "" {
+			searchIdx = idx + 1
+			continue
+		}
+
+		// 尋找成對的 ')' (支援巢狀括號)
+		start := idx + len(name) + lparenIdx + 1
+		depth := 1
+		rparenIdx := -1
+		for i := start; i < len(outLine); i++ {
+			if outLine[i] == '(' {
+				depth++
+			} else if outLine[i] == ')' {
+				depth--
+				if depth == 0 {
+					rparenIdx = i
+					break
+				}
+			}
+		}
+
+		if rparenIdx == -1 {
+			searchIdx = idx + 1
+			continue
+		}
+
+		// 提取參數並拆分
+		argStr := outLine[start:rparenIdx]
+		providedArgs := splitMacroArgs(argStr)
+
+		if len(providedArgs) != len(m.Args) {
+			searchIdx = rparenIdx + 1
+			continue
+		}
+
+		// 執行替換
+		finalBody := m.Body
+		for i, argName := range m.Args {
+			val := strings.TrimSpace(providedArgs[i])
+			argRe := p.getRegex(argName)
+			finalBody = argRe.ReplaceAllString(finalBody, val)
+		}
+
+		// 組裝回原字串
+		outLine = outLine[:idx] + finalBody + outLine[rparenIdx+1:]
+
+		// 🚀 關鍵修正：確保 searchIdx 至少前進 1，防止 body 為空時陷入無限迴圈
+		advance := len(finalBody)
+		if advance == 0 {
+			advance = 1
+		}
+		searchIdx = idx + advance
+	}
+	return outLine
+}
+
+func (p *Preprocessor) isInString(line string, pos int) bool {
+	inString := false
+	for i := 0; i < pos; i++ {
+		if line[i] == '"' && (i == 0 || line[i-1] != '\\') {
+			inString = !inString
+		}
+	}
+	return inString
 }
 
 func (p *Preprocessor) processInternal(filename, input string, depth int) (string, error) {
@@ -278,12 +433,16 @@ func (p *Preprocessor) processInternal(filename, input string, depth int) (strin
 		// 3. 處理檔案引入 (#include)
 		// ==========================================
 		if strings.HasPrefix(trimmed, "#include ") {
-			pathStr := strings.TrimSpace(trimmed[9:])
-			pathStr = strings.Trim(pathStr, "\"<>")
+			includeBody := strings.TrimSpace(trimmed[9:])
+			isSystem := strings.HasPrefix(includeBody, "<")
+			pathStr := strings.Trim(includeBody, "\"<>")
 
 			var relPath string
 			if strings.HasPrefix(pathStr, "/") {
 				relPath = strings.TrimPrefix(pathStr, "/")
+			} else if isSystem {
+				// 🚀 新增：系統引入優先尋找 /include/
+				relPath = "include/" + pathStr
 			} else {
 				dir := filepath.Dir(filename)
 				relPath = filepath.Join(dir, pathStr)
@@ -320,97 +479,11 @@ func (p *Preprocessor) processInternal(filename, input string, depth int) (strin
 		// ==========================================
 		// 4. 處理一般程式碼：替換巨集
 		// ==========================================
-		outLine := cleanLine
-		if len(p.Macros) > 0 {
-			// 先處理函式型巨集
-			for name, m := range p.Macros {
-				if len(m.Args) > 0 {
-					searchIdx := 0
-					for {
-						idx := strings.Index(outLine[searchIdx:], name)
-						if idx == -1 { break }
-						idx += searchIdx
-						
-						// 檢查是否為獨立單字
-						isWord := true
-						if idx > 0 && isAlphaNumeric(outLine[idx-1]) { isWord = false }
-						if idx+len(name) < len(outLine) && isAlphaNumeric(outLine[idx+len(name)]) { isWord = false }
-						
-						if !isWord {
-							searchIdx = idx + 1
-							continue
-						}
-
-						// 尋找 '('
-						rest := outLine[idx+len(name):]
-						lparenIdx := strings.Index(rest, "(")
-						if lparenIdx == -1 || strings.TrimSpace(rest[:lparenIdx]) != "" {
-							searchIdx = idx + 1
-							continue
-						}
-						
-						// 尋找成對的 ')' (支援巢狀括號)
-						start := idx + len(name) + lparenIdx + 1
-						depth := 1
-						rparenIdx := -1
-						for i := start; i < len(outLine); i++ {
-							if outLine[i] == '(' { depth++ } else if outLine[i] == ')' {
-								depth--
-								if depth == 0 {
-									rparenIdx = i
-									break
-								}
-							}
-						}
-
-						if rparenIdx == -1 {
-							searchIdx = idx + 1
-							continue
-						}
-
-						// 提取參數並拆分 (考慮到參數內可能也有逗號，如函數呼叫)
-						argStr := outLine[start:rparenIdx]
-						providedArgs := splitMacroArgs(argStr)
-						
-						if len(providedArgs) != len(m.Args) {
-							searchIdx = rparenIdx + 1
-							continue
-						}
-
-						// 執行替換
-						finalBody := m.Body
-						for i, argName := range m.Args {
-							val := strings.TrimSpace(providedArgs[i])
-							argRe := p.getRegex(argName)
-							finalBody = argRe.ReplaceAllString(finalBody, val)
-						}
-						
-						// 組裝回原字串
-						outLine = outLine[:idx] + finalBody + outLine[rparenIdx+1:]
-						
-						// 🚀 關鍵修正：確保 searchIdx 至少前進 1，防止 body 為空時陷入無限迴圈
-						advance := len(finalBody)
-						if advance == 0 {
-							advance = 1
-						}
-						searchIdx = idx + advance
-					}
-				}
-			}
-
-			// 再處理一般巨集
-			for name, m := range p.Macros {
-				if len(m.Args) == 0 {
-					re := p.getRegex(name)
-					outLine = re.ReplaceAllString(outLine, m.Body)
-				}
-			}
-		}
-
+		outLine := p.replaceMacros(cleanLine)
 		output.WriteString(outLine + "\n")
 	}
 
-	log.Printf("DEBUG: Preprocessed: %s\n", filename)
+//	log.Printf("DEBUG: Preprocessed: %s\n", filename)
 	return output.String(), nil
 }
 

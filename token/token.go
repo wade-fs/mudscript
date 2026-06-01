@@ -104,6 +104,7 @@ const (
 	// LPC 新增的關鍵字
 	INHERIT      = "INHERIT"
 	NEW          = "NEW"
+	CATCH        = "CATCH"
 
 	// LPC 專屬符號
 	ARROW        = "->" // call_other
@@ -173,6 +174,7 @@ var keywords = map[string]TokenType{
 	"buffer":  BUFFER_TYPE,
 	"inherit": INHERIT,
 	"new":     NEW,
+	"catch":   CATCH,
 
 	"for":      FOR,
 	"while":    WHILE,

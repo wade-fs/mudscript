@@ -63,11 +63,19 @@ func Eval(node ast.Node, env object.Environment) object.Object {
 		return nativeBoolToBooleanObject(node.Value)
 
 	case *ast.PrefixExpression:
+		if node.Operator == "catch" {
+			// 🚀 關鍵：catch 必須延後評估其內容
+			res := Eval(node.Right, env)
+			if err, ok := res.(*object.Error); ok {
+				return &object.String{Value: err.Message}
+			}
+			return &object.Integer{Value: 0}
+		}
 		right := Eval(node.Right, env)
 		if isError(right) {
 			return right
 		}
-		return evalPrefixExpression(node.Operator, right)
+		return evalPrefixExpression(node.Operator, right, env)
 
 	case *ast.InfixExpression:
 		if node.Operator == "&&" || node.Operator == "||" {
@@ -364,7 +372,7 @@ func nativeBoolToBooleanObject(input bool) object.Object {
 	return FalseValue
 }
 
-func evalPrefixExpression(operator string, right object.Object) object.Object {
+func evalPrefixExpression(operator string, right object.Object, env object.Environment) object.Object {
 	switch operator {
 	case "!":
 		return evalBangOperatorExpression(right)
@@ -372,6 +380,23 @@ func evalPrefixExpression(operator string, right object.Object) object.Object {
 		return evalMinusPrefixOperatorExpression(right)
 	case "~":
 		return evalBitNotPrefixOperatorExpression(right)
+	case "<":
+		if right.TokenType() != object.IntegerType {
+			return newError("unknown operator: <%s", right.TokenType())
+		}
+		return &object.ReverseIndex{Value: right.(*object.Integer).Value}
+	case "new":
+		// new(path) -> clone_object(path)
+		cloneFn, ok := env.Get("clone_object")
+		if !ok { return newError("找不到 clone_object 內建函式") }
+		builtin := cloneFn.(*object.Builtin)
+		return builtin.Fn(right)
+	case "catch":
+		// catch(expr) -> 攔截錯誤
+		// 注意：prefix 模式下 right 已經被 Eval 過了！
+		// 這是個問題，因為 catch 應該延後 Eval。
+		// 所以我們需要在 Eval() 中攔截 *ast.PrefixExpression
+		return right
 	default:
 		return newError("unknown operator: %s%s", operator, right.TokenType())
 	}
@@ -420,6 +445,8 @@ func evalInfixExpression(operator string, left, right object.Object) object.Obje
 		return evalArrayInfixExpression(operator, left, right)
 	case left.TokenType() == object.MAPPING_OBJ && right.TokenType() == object.MAPPING_OBJ:
 		return evalMappingInfixExpression(operator, left, right)
+	case operator == ",":
+		return right
 	case operator == "==":
 		return nativeBoolToBooleanObject(evalEquality(left, right))
 	case operator == "!=":
@@ -807,18 +834,37 @@ func unwrapReturnValue(obj object.Object) object.Object {
 	return obj
 }
 
+func resolveIndex(obj object.Object, length int64) (int64, bool) {
+	switch v := obj.(type) {
+	case *object.Integer:
+		idx := v.Value
+		if idx < 0 {
+			idx = length + idx
+		}
+		return idx, true
+	case *object.ReverseIndex:
+		return length - v.Value, true
+	}
+	return 0, false
+}
+
 func evalIndexExpression(left, index object.Object) object.Object {
 	if left == nil || index == nil { return &object.Integer{Value: 0} }
-	switch {
-	case left.TokenType() == object.ArrayType && index.TokenType() == object.IntegerType:
-		return evalArrayIndexExpression(left, index)
-	case left.TokenType() == object.MAPPING_OBJ:
+	switch l := left.(type) {
+	case *object.Array:
+		idx, ok := resolveIndex(index, int64(len(l.Elements)))
+		if !ok || idx < 0 || idx >= int64(len(l.Elements)) {
+			return &object.Integer{Value: 0}
+		}
+		return l.Elements[idx]
+	case *object.Mapping:
 		return evalMappingIndexExpression(left, index)
-	case left.TokenType() == object.StringType && index.TokenType() == object.IntegerType:
-		// 🚀 新增：支援字串索引
-		str := left.(*object.String).Value
-		idx := index.(*object.Integer).Value
-		if idx < 0 || idx >= int64(len(str)) { return &object.Integer{Value: 0} }
+	case *object.String:
+		str := l.Value
+		idx, ok := resolveIndex(index, int64(len(str)))
+		if !ok || idx < 0 || idx >= int64(len(str)) {
+			return &object.Integer{Value: 0}
+		}
 		return &object.Integer{Value: int64(str[idx])}
 	default:
 		return newError("index operator not supported: %s", left.TokenType())
@@ -829,25 +875,14 @@ func evalSliceExpression(node *ast.SliceExpression, env object.Environment) obje
 	left := Eval(node.Left, env)
 	if isError(left) { return left }
 
-	var start, end int64
-	var hasStart, hasEnd bool
-
+	var startVal, endVal object.Object
 	if node.StartIndex != nil {
-		s := Eval(node.StartIndex, env)
-		if isError(s) { return s }
-		if si, ok := s.(*object.Integer); ok {
-			start = si.Value
-			hasStart = true
-		}
+		startVal = Eval(node.StartIndex, env)
+		if isError(startVal) { return startVal }
 	}
-
 	if node.EndIndex != nil {
-		e := Eval(node.EndIndex, env)
-		if isError(e) { return e }
-		if ei, ok := e.(*object.Integer); ok {
-			end = ei.Value
-			hasEnd = true
-		}
+		endVal = Eval(node.EndIndex, env)
+		if isError(endVal) { return endVal }
 	}
 
 	switch l := left.(type) {
@@ -855,12 +890,15 @@ func evalSliceExpression(node *ast.SliceExpression, env object.Environment) obje
 		str := l.Value
 		length := int64(len(str))
 		
-		if !hasStart { start = 0 }
-		if !hasEnd { end = length - 1 }
+		start, ok1 := resolveIndex(startVal, length)
+		if startVal == nil { start, ok1 = 0, true }
 		
-		// 負數索引處理 (LPC 風格：從末尾計算)
-		if start < 0 { start = length + start }
-		if end < 0 { end = length + end }
+		end, ok2 := resolveIndex(endVal, length)
+		if endVal == nil { end, ok2 = length - 1, true }
+
+		if !ok1 || !ok2 {
+			return newError("invalid slice indices")
+		}
 		
 		// 邊界安全
 		if start < 0 { start = 0 }
@@ -874,11 +912,15 @@ func evalSliceExpression(node *ast.SliceExpression, env object.Environment) obje
 		elems := l.Elements
 		length := int64(len(elems))
 		
-		if !hasStart { start = 0 }
-		if !hasEnd { end = length - 1 }
+		start, ok1 := resolveIndex(startVal, length)
+		if startVal == nil { start, ok1 = 0, true }
 		
-		if start < 0 { start = length + start }
-		if end < 0 { end = length + end }
+		end, ok2 := resolveIndex(endVal, length)
+		if endVal == nil { end, ok2 = length - 1, true }
+
+		if !ok1 || !ok2 {
+			return newError("invalid slice indices")
+		}
 		
 		if start < 0 { start = 0 }
 		if end >= length { end = length - 1 }
