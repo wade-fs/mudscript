@@ -316,7 +316,7 @@ func (d *Driver) registerDataStructures(obj *object.LPCObject) {
 			newPairs := make(map[object.HashKey]object.HashPair)
 			for hKey, pair := range m.Pairs {
 				callArgs := append([]object.Object{pair.Key, pair.Value}, extraArgs...)
-				res := d.executeCallback(obj, fnArg, callArgs)
+				res := d.ExecuteCallback(obj, fnArg, callArgs)
 				if isLPCTrue(res) {
 					newPairs[hKey] = pair
 				}
@@ -347,7 +347,7 @@ func (d *Driver) registerDataStructures(obj *object.LPCObject) {
 			newPairs := make(map[object.HashKey]object.HashPair)
 			for hKey, pair := range m.Pairs {
 				callArgs := append([]object.Object{pair.Key, pair.Value}, extraArgs...)
-				res := d.executeCallback(obj, fnArg, callArgs)
+				res := d.ExecuteCallback(obj, fnArg, callArgs)
 				newPairs[hKey] = object.HashPair{Key: pair.Key, Value: res}
 			}
 			return &object.Mapping{Pairs: newPairs}
@@ -376,7 +376,7 @@ func (d *Driver) registerDataStructures(obj *object.LPCObject) {
 			var newElems []object.Object
 			for _, el := range arr.Elements {
 				callArgs := append([]object.Object{el}, extraArgs...)
-				res := d.executeCallback(obj, fnArg, callArgs)
+				res := d.ExecuteCallback(obj, fnArg, callArgs)
 				if isLPCTrue(res) {
 					newElems = append(newElems, el)
 				}
@@ -407,7 +407,7 @@ func (d *Driver) registerDataStructures(obj *object.LPCObject) {
 			newElems := make([]object.Object, len(arr.Elements))
 			for i, el := range arr.Elements {
 				callArgs := append([]object.Object{el}, extraArgs...)
-				res := d.executeCallback(obj, fnArg, callArgs)
+				res := d.ExecuteCallback(obj, fnArg, callArgs)
 				newElems[i] = res
 			}
 			return &object.Array{Elements: newElems}
@@ -528,7 +528,7 @@ func (d *Driver) registerDataStructures(obj *object.LPCObject) {
 
 			for _, el := range arr.Elements {
 				callArgs := append([]object.Object{el}, extraArgs...)
-				res := d.executeCallback(obj, fnArg, callArgs)
+				res := d.ExecuteCallback(obj, fnArg, callArgs)
 				key := res.Inspect()
 				if _, exists := groups[key]; !exists {
 					keys = append(keys, key)
@@ -612,7 +612,7 @@ func (d *Driver) registerDataStructures(obj *object.LPCObject) {
 				}
 
 				callArgs := append([]object.Object{newElems[i], newElems[j]}, extraArgs...)
-				res := d.executeCallback(obj, fnArg, callArgs)
+				res := d.ExecuteCallback(obj, fnArg, callArgs)
 				if val, ok := res.(*object.Integer); ok {
 					return val.Value < 0 // 昇序排列：當 res < 0 時代表 i 應在 j 前面
 				}

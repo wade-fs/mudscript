@@ -42,24 +42,24 @@ func main() {
 	}()
 
 	port := flag.String("port", "4000", "Telnet server port")
-	mudlib := flag.String("mudlib", "./fs", "mudlib path")
+	ml := flag.String("mudlib", "./fs", "mudlib path")
 	master := flag.String("master", "adm/obj/master.c", "master.c relative to mudlib")
 	flag.Parse()
 
-	log.Println("正在初始化 Legacy MUD 伺服器 in ", *mudlib, "/", *master)
+	log.Println("正在初始化 Legacy MUD 伺服器 in ", *ml, "/", *master)
 
 	// 動態決定 EmbeddedPath，例如 "./fs" -> "fs"
-	embeddedPath := strings.TrimPrefix(*mudlib, "./")
+	embeddedPath := strings.TrimPrefix(*ml, "./")
 
 	// 1. 準備 MUD 引擎配置
 	config := driver.DriverConfig{
-		MudLibPath:      *mudlib,
+		MudLibPath:      *ml,
 		MasterFile:      *master,
 		HeartBeatTick:   2 * time.Second, 
 		CleanUpInterval: 15 * time.Minute,
 		EmbeddedFS:      fs.Assets, 
 		EmbeddedPath:    embeddedPath,
-		GlobalInclude:   "globals.h", // 🚀 Legacy Mudlib 需要自動引入 globals.h
+		GlobalInclude:   "/include/globals.h",     // 🚀 Legacy Mudlib 需要自動引入 globals.h
 		SimulEfunFile:   "/adm/obj/simul_efun.c", // 🚀 指定 SimulEfun 路徑
 	}
 

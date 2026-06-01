@@ -6,6 +6,7 @@ import (
 	"bufio"
 	"fmt"
 	"io/fs"
+	"log" // 🚀 改用 log 以確保輸出的即時性
 	"os"
 	"path/filepath"
 	"regexp"
@@ -24,13 +25,24 @@ type Preprocessor struct {
 	Macros        map[string]Macro
 	EmbeddedFS    fs.FS  // 🚀 新增：支援嵌入式檔案系統
 	GlobalInclude string // 🚀 新增：全域自動引入標頭檔
+	regexCache    map[string]*regexp.Regexp // 🚀 新增：快取 Regex 以提升效能
 }
 
 func New(mudLibPath string) *Preprocessor {
 	return &Preprocessor{
 		MudLibPath: mudLibPath,
 		Macros:     make(map[string]Macro),
+		regexCache: make(map[string]*regexp.Regexp),
 	}
+}
+
+func (p *Preprocessor) getRegex(name string) *regexp.Regexp {
+	if re, ok := p.regexCache[name]; ok {
+		return re
+	}
+	re := regexp.MustCompile(`\b` + regexp.QuoteMeta(name) + `\b`)
+	p.regexCache[name] = re
+	return re
 }
 
 // SetEmbeddedFS 設定嵌入式檔案系統
@@ -45,8 +57,23 @@ type condState struct {
 }
 
 func (p *Preprocessor) Process(filename, input string) (string, error) {
-	// 🚀 新增：全域自動引入處理 (避免無窮遞迴引入自己)
-	if p.GlobalInclude != "" && filename != p.GlobalInclude && !strings.HasSuffix(filename, "/"+p.GlobalInclude) {
+	log.Printf("DEBUG: Preprocessor.Process: %s (%d bytes)\n", filename, len(input))
+	return p.processInternal(filename, input, 0)
+}
+
+func (p *Preprocessor) processInternal(filename, input string, depth int) (string, error) {
+	if depth > 50 {
+		return "", fmt.Errorf("preprocessor recursion limit exceeded: %s", filename)
+	}
+
+	// 🚀 統一處理路徑格式，確保比對正確
+	if !strings.HasPrefix(filename, "/") {
+		filename = "/" + filename
+	}
+
+	// 🚀 新增：全域自動引入處理 (只對非標頭檔且非自己進行)
+	// 避免無窮遞迴引入自己，且通常標頭檔不應再自動引入 globals.h
+	if p.GlobalInclude != "" && filename != p.GlobalInclude && !strings.HasSuffix(filename, ".h") {
 		input = "#include <" + p.GlobalInclude + ">\n" + input
 	}
 
@@ -156,8 +183,21 @@ func (p *Preprocessor) Process(filename, input string) (string, error) {
 		}
 
 		// ==========================================
-		// 2. 處理巨集定義 (#define)
+		// 2. 處理巨集定義 (#define, #undef) 與 #pragma
 		// ==========================================
+		if strings.HasPrefix(trimmed, "#undef ") {
+			macroName := strings.TrimSpace(trimmed[7:])
+			delete(p.Macros, macroName)
+			output.WriteString("\n")
+			continue
+		}
+
+		if strings.HasPrefix(trimmed, "#pragma ") {
+			// 目前僅略過 #pragma，保留行號
+			output.WriteString("\n")
+			continue
+		}
+
 		if strings.HasPrefix(trimmed, "#define ") {
 			fullDefine := trimmed
 			// 支援多行定義 (結尾帶有 \)
@@ -269,7 +309,7 @@ func (p *Preprocessor) Process(filename, input string) (string, error) {
 				return "", fmt.Errorf("前處理器錯誤: %v", err)
 			}
 
-			includedContent, err := p.Process(relPath, string(content))
+			includedContent, err := p.processInternal(relPath, string(content), depth+1)
 			if err != nil {
 				return "", err
 			}
@@ -341,13 +381,19 @@ func (p *Preprocessor) Process(filename, input string) (string, error) {
 						finalBody := m.Body
 						for i, argName := range m.Args {
 							val := strings.TrimSpace(providedArgs[i])
-							argRe := regexp.MustCompile(`\b` + regexp.QuoteMeta(argName) + `\b`)
+							argRe := p.getRegex(argName)
 							finalBody = argRe.ReplaceAllString(finalBody, val)
 						}
 						
 						// 組裝回原字串
 						outLine = outLine[:idx] + finalBody + outLine[rparenIdx+1:]
-						searchIdx = idx + len(finalBody)
+						
+						// 🚀 關鍵修正：確保 searchIdx 至少前進 1，防止 body 為空時陷入無限迴圈
+						advance := len(finalBody)
+						if advance == 0 {
+							advance = 1
+						}
+						searchIdx = idx + advance
 					}
 				}
 			}
@@ -355,7 +401,7 @@ func (p *Preprocessor) Process(filename, input string) (string, error) {
 			// 再處理一般巨集
 			for name, m := range p.Macros {
 				if len(m.Args) == 0 {
-					re := regexp.MustCompile(`\b` + regexp.QuoteMeta(name) + `\b`)
+					re := p.getRegex(name)
 					outLine = re.ReplaceAllString(outLine, m.Body)
 				}
 			}
@@ -364,6 +410,7 @@ func (p *Preprocessor) Process(filename, input string) (string, error) {
 		output.WriteString(outLine + "\n")
 	}
 
+	log.Printf("DEBUG: Preprocessed: %s\n", filename)
 	return output.String(), nil
 }
 
@@ -401,7 +448,7 @@ func (p *Preprocessor) evalCondition(condStr string) bool {
 	// 1. 先把條件式裡面的巨集替換為真實的數值字串
 	for k, v := range p.Macros {
 		// 使用 \b 確保只替換獨立的單字
-		re := regexp.MustCompile(`\b` + regexp.QuoteMeta(k) + `\b`)
+		re := p.getRegex(k)
 		// 如果巨集沒有值 (例如 #define MODE_A)，預設替換為 "1"
 		replaceVal := v.Body
 		if replaceVal == "" {

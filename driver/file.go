@@ -65,7 +65,6 @@ func (d *Driver) ResolvePath(basePath, relPath string) string {
 	return relPath
 }
 
-// 🚀 新增：混合模式讀取檔案
 // 🚀 新增：混合模式讀取檔案 (支援 .c 尾碼自動修復)
 func (d *Driver) ReadFile(filename string) ([]byte, error) {
 	tryFiles := []string{filename}
@@ -77,7 +76,14 @@ func (d *Driver) ReadFile(filename string) ([]byte, error) {
 		relPath := strings.TrimPrefix(f, "/")
 
 		// 1. 優先從實體磁碟讀取
+		// 🚀 關鍵：確保路徑不會逃脫 MudLibPath (Virtual Chroot)
 		fullPath := filepath.Join(d.Config.MudLibPath, relPath)
+		cleanMudLib := filepath.Clean(d.Config.MudLibPath)
+		cleanFull := filepath.Clean(fullPath)
+		if !strings.HasPrefix(cleanFull, cleanMudLib) {
+			return nil, fmt.Errorf("chroot violation: %s", f)
+		}
+
 		if _, err := os.Stat(fullPath); err == nil {
 			return os.ReadFile(fullPath)
 		}

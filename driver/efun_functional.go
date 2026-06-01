@@ -15,7 +15,7 @@ func (d *Driver) registerFunctionalEfuns(obj *object.LPCObject) {
 			if len(args) < 1 {
 				return evaluator.NilValue
 			}
-			return d.executeCallback(obj, args[0], args[1:])
+			return d.ExecuteCallback(obj, args[0], args[1:])
 		},
 	})
 
@@ -27,7 +27,7 @@ func (d *Driver) registerFunctionalEfuns(obj *object.LPCObject) {
 			if len(args) < 1 {
 				return evaluator.NilValue
 			}
-			return d.executeCallback(obj, args[0], args[1:])
+			return d.ExecuteCallback(obj, args[0], args[1:])
 		},
 	})
 }

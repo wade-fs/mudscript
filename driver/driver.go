@@ -66,8 +66,8 @@ func New(config DriverConfig) *Driver {
 		Config:      config,
 		shutdownCh:  make(chan struct{}),
 		StartTime:   time.Now(),
-		}
-		}
+	}
+}
 
 func (d *Driver) Start() error {
 	masterFile := d.Config.MasterFile

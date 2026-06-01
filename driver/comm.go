@@ -75,3 +75,66 @@ func (d *Driver) TellRoom(room *object.LPCObject, msg string, exclude []*object.
 		}
 	}
 }
+
+// ProcessCommand 處理玩家輸入的指令。回傳 true 代表指令被成功處理，false 代表指令不存在或執行失敗。
+func (d *Driver) ProcessCommand(pConn *PlayerConnection, input string) bool {
+	if pConn == nil || pConn.Object == nil {
+		return false
+	}
+	obj := pConn.Object
+
+	input = strings.TrimSpace(input)
+	if input == "" {
+		return true
+	}
+
+	// 處理動詞歷史與 ! 展開
+	input = pConn.ExpandHistory(input)
+	if input == "" {
+		return true
+	}
+
+	// 解析動詞與參數
+	verb := ""
+	arg := ""
+	parts := strings.SplitN(input, " ", 2)
+	verb = parts[0]
+	if len(parts) > 1 {
+		arg = parts[1]
+	}
+
+	pConn.CurrentVerb = verb
+
+	// 1. 優先檢查 add_action 註冊的指令
+	if obj.Actions != nil {
+		if action, exists := obj.Actions[verb]; exists {
+			// 🚀 使用 RunCommand 封裝以確保 GetCurrentPlayer 正常
+			res := d.RunCommand(pConn, action.Provider, action.FuncName, []object.Object{&object.String{Value: arg}})
+
+			// 回傳值處理
+			if res != nil {
+				if i, ok := res.(*object.Integer); ok && i.Value == 0 {
+					// 如果回傳 0，代表指令雖然匹配但拒絕處理 (由 notify_fail 接手)
+					return false
+				}
+				// 否則視為成功
+				return true
+			}
+			return true
+		}
+	}
+
+	// 2. 備援：呼叫物件本身的 process_input (通常在 user.c 或 npc.c 實作)
+	res := d.RunCommand(pConn, obj, "process_input", []object.Object{&object.String{Value: input}})
+	if res != nil {
+		if i, ok := res.(*object.Integer); ok && i.Value != 0 {
+			return true
+		}
+		if s, ok := res.(*object.String); ok && s.Value != "" {
+			// 如果回傳字串，通常代表指令已被改寫並成功處理
+			return true
+		}
+	}
+
+	return false
+}

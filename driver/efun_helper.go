@@ -12,7 +12,7 @@ import (
 )
 
 // executeCallback 支援傳入函式名稱 (string) 或 函式指標 (closure)
-func (d *Driver) executeCallback(obj *object.LPCObject, fnArg object.Object, args []object.Object) object.Object {
+func (d *Driver) ExecuteCallback(obj *object.LPCObject, fnArg object.Object, args []object.Object) object.Object {
 	switch v := fnArg.(type) {
 	case *object.String:
 		return d.CallFunction(obj, v.Value, args)
