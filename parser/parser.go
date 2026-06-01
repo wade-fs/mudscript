@@ -649,6 +649,8 @@ func (p *Parser) parseStatement(topLevel bool) ast.Statement {
 		return p.parseContinueStatement()
 	case token.FOREACH:
 		return p.parseForEachStatement()
+	case token.LBRACE:
+		return p.parseBlockStatement()
 	default:
 		return p.parseExpressionStatement()
 	}

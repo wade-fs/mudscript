@@ -2,6 +2,7 @@ package evaluator
 
 import (
 	"fmt"
+	"log"
 	"regexp"
 	"strconv"
 	"strings"
@@ -114,6 +115,36 @@ func Eval(node ast.Node, env object.Environment) object.Object {
 		function := Eval(node.Function, env)
 		if isError(function) {
 			return function
+		}
+
+		// 🚀 關鍵修正：若變數遮蔽了 Efun，嘗試降級為尋找 Efun
+		if function != nil && function.TokenType() != object.FunctionType && function.TokenType() != object.BuiltinType {
+			if ident, ok := node.Function.(*ast.Ident); ok {
+				if thisObjVal, ok := env.Get("this_object"); ok {
+					if lpcObj, ok := thisObjVal.(*object.LPCObject); ok && lpcObj.Efuns != nil {
+						if efun, exists := lpcObj.Efuns.Get(ident.Value); exists {
+							function = efun
+						}
+					} else if builtin, ok := thisObjVal.(*object.Builtin); ok {
+						res := builtin.Fn()
+						if lpcObj, ok := res.(*object.LPCObject); ok && lpcObj.Efuns != nil {
+							if efun, exists := lpcObj.Efuns.Get(ident.Value); exists {
+								function = efun
+							}
+						}
+					}
+				}
+			}
+		}
+
+		if function == nil {
+			log.Printf("DEBUG evalCallExpression: function %s is nil! (ident value)", node.Function.String())
+			if ident, ok := node.Function.(*ast.Ident); ok {
+				return newError("not a function: %s", ident.Value)
+			}
+			return newError("not a function")
+		} else {
+			log.Printf("DEBUG evalCallExpression: function %s resolved to type %s", node.Function.String(), function.TokenType())
 		}
 
 		args := evalExpressions(node.Arguments, env)
@@ -1443,9 +1474,26 @@ func evalCallOtherExpression(node *ast.CallOtherExpression, env object.Environme
 		return &object.Integer{Value: 0}
 	}
 
-	targetObj, ok := target.(*object.LPCObject)
-	if !ok {
-		return newError("-> 運算子只能用於物件 (LPCObject), 得到的是 %s", target.TokenType())
+	var targetObj *object.LPCObject
+	if obj, ok := target.(*object.LPCObject); ok {
+		targetObj = obj
+	} else if strObj, ok := target.(*object.String); ok {
+		// 如果目標是字串，嘗試呼叫 load_object
+		if callOtherVal, exists := env.Get("call_other"); exists {
+			if builtin, ok := callOtherVal.(*object.Builtin); ok {
+				// 使用 call_other("file", "method", ...args)
+				args := evalExpressions(node.Arguments, env)
+				if len(args) == 1 && isError(args[0]) {
+					return args[0]
+				}
+				finalArgs := []object.Object{strObj, &object.String{Value: node.Method.Value}}
+				finalArgs = append(finalArgs, args...)
+				return builtin.Fn(finalArgs...)
+			}
+		}
+		return newError("-> 運算子無法將字串轉換為物件")
+	} else {
+		return newError("-> 運算子只能用於物件 (LPCObject) 或字串, 得到的是 %s", target.TokenType())
 	}
 
 	// 2. 求出傳入的參數

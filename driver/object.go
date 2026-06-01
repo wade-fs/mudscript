@@ -4,6 +4,7 @@ package driver
 import (
 	"fmt"
 	"log" // 🚀 改用 log 以確保輸出的即時性 (Unbuffered)
+	"os"
 	"strings"
 	"time"
 
@@ -64,6 +65,12 @@ func (d *Driver) loadObjectInternal(filename string) (*object.LPCObject, bool, e
 	log.Printf("DEBUG: Parsing Done: %s\n", filename)
 
 	if len(p.Errors()) > 0 {
+		for _, err := range p.Errors() {
+			log.Printf("PARSER ERROR in %s: %s\n", filename, err)
+		}
+		debugPath := "debug_" + strings.ReplaceAll(strings.TrimPrefix(filename, "/"), "/", "_")
+		os.WriteFile(debugPath, []byte(processedContent), 0644)
+		log.Printf("DEBUG: Preprocessed content written to %s\n", debugPath)
 		return nil, false, d.formatParserErrors(filename, p.Errors())
 	}
 

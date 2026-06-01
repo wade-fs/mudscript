@@ -280,8 +280,9 @@ func (p *Preprocessor) processInternal(filename, input string, depth int) (strin
 		// ==========================================
 		// 1. 處理條件編譯
 		// ==========================================
-		if strings.HasPrefix(trimmed, "#ifdef ") {
-			macroName := strings.TrimSpace(trimmed[7:])
+		if strings.HasPrefix(trimmed, "#ifdef ") || strings.HasPrefix(trimmed, "#ifdef\t") {
+			firstSpace := strings.IndexAny(trimmed, " \t")
+			macroName := strings.TrimSpace(trimmed[firstSpace:])
 			_, exists := p.Macros[macroName]
 			condStack = append(condStack, condState{
 				isSkipping: !exists,
@@ -289,8 +290,9 @@ func (p *Preprocessor) processInternal(filename, input string, depth int) (strin
 			})
 			output.WriteString("\n")
 			continue
-		} else if strings.HasPrefix(trimmed, "#ifndef ") {
-			macroName := strings.TrimSpace(trimmed[8:])
+		} else if strings.HasPrefix(trimmed, "#ifndef ") || strings.HasPrefix(trimmed, "#ifndef\t") {
+			firstSpace := strings.IndexAny(trimmed, " \t")
+			macroName := strings.TrimSpace(trimmed[firstSpace:])
 			_, exists := p.Macros[macroName]
 			condStack = append(condStack, condState{
 				isSkipping: exists,
@@ -298,8 +300,9 @@ func (p *Preprocessor) processInternal(filename, input string, depth int) (strin
 			})
 			output.WriteString("\n")
 			continue
-		} else if strings.HasPrefix(trimmed, "#if ") { // [新增] 支援 #if 表達式
-			condStr := strings.TrimSpace(trimmed[4:])
+		} else if strings.HasPrefix(trimmed, "#if ") || strings.HasPrefix(trimmed, "#if\t") { // [新增] 支援 #if 表達式
+			firstSpace := strings.IndexAny(trimmed, " \t")
+			condStr := strings.TrimSpace(trimmed[firstSpace:])
 			isTrue := p.evalCondition(condStr)
 			condStack = append(condStack, condState{
 				isSkipping: !isTrue,
@@ -307,9 +310,10 @@ func (p *Preprocessor) processInternal(filename, input string, depth int) (strin
 			})
 			output.WriteString("\n")
 			continue
-		} else if strings.HasPrefix(trimmed, "#elif ") { // [升級] 讓 #elif 也支援表達式
+		} else if strings.HasPrefix(trimmed, "#elif ") || strings.HasPrefix(trimmed, "#elif\t") { // [升級] 讓 #elif 也支援表達式
 			if len(condStack) > 0 {
-				condStr := strings.TrimSpace(trimmed[6:])
+				firstSpace := strings.IndexAny(trimmed, " \t")
+				condStr := strings.TrimSpace(trimmed[firstSpace:])
 				top := &condStack[len(condStack)-1]
 
 				if top.hasMatched {
@@ -340,7 +344,7 @@ func (p *Preprocessor) processInternal(filename, input string, depth int) (strin
 			}
 			output.WriteString("\n")
 			continue
-		} else if trimmed == "#endif" {
+		} else if strings.HasPrefix(trimmed, "#endif") {
 			if len(condStack) > 0 {
 				condStack = condStack[:len(condStack)-1] // 彈出最後一層
 			}
@@ -351,20 +355,20 @@ func (p *Preprocessor) processInternal(filename, input string, depth int) (strin
 		// ==========================================
 		// 2. 處理巨集定義 (#define, #undef) 與 #pragma
 		// ==========================================
-		if strings.HasPrefix(trimmed, "#undef ") {
-			macroName := strings.TrimSpace(trimmed[7:])
+		if strings.HasPrefix(trimmed, "#undef ") || strings.HasPrefix(trimmed, "#undef\t") {
+			macroName := strings.TrimSpace(trimmed[6:])
 			delete(p.Macros, macroName)
 			output.WriteString("\n")
 			continue
 		}
 
-		if strings.HasPrefix(trimmed, "#pragma ") {
+		if strings.HasPrefix(trimmed, "#pragma ") || strings.HasPrefix(trimmed, "#pragma\t") {
 			// 目前僅略過 #pragma，保留行號
 			output.WriteString("\n")
 			continue
 		}
 
-		if strings.HasPrefix(trimmed, "#define ") {
+		if strings.HasPrefix(trimmed, "#define ") || strings.HasPrefix(trimmed, "#define\t") {
 			fullDefine := trimmed
 			// 支援多行定義 (結尾帶有 \)
 			for strings.HasSuffix(strings.TrimSpace(fullDefine), "\\") {
@@ -390,7 +394,14 @@ func (p *Preprocessor) processInternal(filename, input string, depth int) (strin
 				}
 			}
 
-			defineBody := strings.TrimSpace(fullDefine[8:])
+			// 找出第一個空白或 tab 的位置
+			firstSpace := strings.IndexAny(fullDefine, " \t")
+			if firstSpace == -1 {
+				output.WriteString("\n")
+				continue
+			}
+
+			defineBody := strings.TrimSpace(fullDefine[firstSpace:])
 			if defineBody == "" {
 				output.WriteString("\n")
 				continue
@@ -443,8 +454,9 @@ func (p *Preprocessor) processInternal(filename, input string, depth int) (strin
 		// ==========================================
 		// 3. 處理檔案引入 (#include)
 		// ==========================================
-		if strings.HasPrefix(trimmed, "#include ") {
-			includeBody := strings.TrimSpace(trimmed[9:])
+		if strings.HasPrefix(trimmed, "#include ") || strings.HasPrefix(trimmed, "#include\t") {
+			firstSpace := strings.IndexAny(trimmed, " \t")
+			includeBody := strings.TrimSpace(trimmed[firstSpace:])
 			isSystem := strings.HasPrefix(includeBody, "<")
 			pathStr := strings.Trim(includeBody, "\"<>")
 

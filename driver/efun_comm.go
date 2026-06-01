@@ -3,6 +3,7 @@ package driver
 
 import (
 	"fmt"
+	"log"
 	"strings"
 
 	"mudscript/object"
@@ -53,6 +54,8 @@ func (d *Driver) registerCommEfuns(obj *object.LPCObject) {
 					msg = args[0].Inspect()
 				}
 			}
+
+			log.Printf("DEBUG EFUN WRITE: '%s'", msg)
 
 			p := d.GetCurrentPlayer()
 			// 👉 關鍵修正：若無全域玩家上下文 (如 NPC 心跳中)，但呼叫者是玩家物件，則自動導向該玩家
@@ -278,16 +281,54 @@ func (d *Driver) registerCommEfuns(obj *object.LPCObject) {
 				msg = s.Value
 			}
 
+			var excludeList []*object.LPCObject
+			if len(args) > 3 {
+				if exObj, ok := args[3].(*object.LPCObject); ok {
+					excludeList = append(excludeList, exObj)
+				} else if exArr, ok := args[3].(*object.Array); ok {
+					for _, t := range exArr.Elements {
+						if ob, ok := t.(*object.LPCObject); ok {
+							excludeList = append(excludeList, ob)
+						}
+					}
+				}
+			}
+
 			if room, ok := target.(*object.LPCObject); ok {
-				d.TellRoom(room, msg, nil)
+				conn := d.GetConnectionFromObject(room)
+				isChar := d.CallFunction(room, "is_character", nil)
+				isLiving := d.CallFunction(room, "is_living", nil)
+
+				if conn != nil || isLPCTrue(isChar) || isLPCTrue(isLiving) {
+					// 檢查是否在排除名單
+					isExcluded := false
+					for _, ex := range excludeList {
+						if ex == room {
+							isExcluded = true
+							break
+						}
+					}
+					if !isExcluded {
+						d.TellObject(room, msg)
+					}
+				} else {
+					d.TellRoom(room, msg, excludeList)
+				}
 			} else if targetArr, ok := target.(*object.Array); ok {
 				for _, t := range targetArr.Elements {
 					if ob, ok := t.(*object.LPCObject); ok {
-						d.TellObject(ob, msg)
+						isExcluded := false
+						for _, ex := range excludeList {
+							if ex == ob {
+								isExcluded = true
+								break
+							}
+						}
+						if !isExcluded {
+							d.TellObject(ob, msg)
+						}
 					}
 				}
-			} else if ob, ok := target.(*object.LPCObject); ok {
-				d.TellObject(ob, msg)
 			}
 			return &object.Nil{}
 		},

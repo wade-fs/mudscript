@@ -58,17 +58,31 @@ func (d *Driver) registerCoreEfuns(obj *object.LPCObject) {
 		},
 	})
 
-	// 語法: mixed call_other(object ob, string func, [mixed args...])
+	// 語法: mixed call_other(mixed ob, string func, [mixed args...])
 	// 說明: 動態呼叫物件上的函式。當函式名稱是變數時非常有用。
 	// 範例: call_other(this_player(), "set_" + prop_name, value);
+	// 範例: call_other("/adm/daemons/logind", "logon", this_object());
 	obj.Vars.Set("call_other", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
 			if len(args) < 2 {
 				return &object.Nil{}
 			}
-			target, ok1 := args[0].(*object.LPCObject)
+
+			var target *object.LPCObject
+			if targetFile, ok := args[0].(*object.String); ok {
+				var err error
+				target, err = d.LoadObject(targetFile.Value)
+				if err != nil || target == nil {
+					return &object.Nil{}
+				}
+			} else if targetObj, ok := args[0].(*object.LPCObject); ok {
+				target = targetObj
+			} else {
+				return &object.Nil{}
+			}
+
 			funcName, ok2 := args[1].(*object.String)
-			if !ok1 || !ok2 {
+			if !ok2 {
 				return &object.Nil{}
 			}
 			return d.CallFunction(target, funcName.Value, args[2:])

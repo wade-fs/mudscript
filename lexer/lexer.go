@@ -229,6 +229,16 @@ func (l *lexer) NextToken() token.Token {
 		tok.TokenType = token.CHAR
 		tok.Literal = l.readCharLiteral()
 		tok.Line = currentLine
+	case '@':
+		l.readChar()
+		if isLetter(l.ch) {
+			marker := l.readIdent()
+			tok.TokenType = token.STRING
+			tok.Literal = l.readHeredoc(marker)
+			tok.Line = currentLine
+			return tok
+		}
+		tok = l.newToken(token.ILLEGAL, '@')
 	case 0:
 		tok.Literal = ""
 		tok.TokenType = token.EOF
@@ -445,6 +455,57 @@ func (l *lexer) readCharLiteral() string {
 
 func isHexDigit(ch byte) bool {
 	return isDigit(ch) || ('a' <= ch && ch <= 'f') || ('A' <= ch && ch <= 'F')
+}
+
+// 🚀 支援 LPC Heredoc 語法 (@TEXT ... TEXT)
+func (l *lexer) readHeredoc(marker string) string {
+	var out []byte
+
+	// 1. 吃掉 @TEXT 之後到行尾的所有東西
+	for l.ch != '\n' && l.ch != 0 {
+		l.readChar()
+	}
+	if l.ch == '\n' {
+		l.readChar()
+	}
+
+	// 2. 逐行讀取，直到遇見 marker
+	lineStart := true
+	for l.ch != 0 {
+		if lineStart {
+			// 檢查前方是否剛好為 marker
+			match := true
+			for i := 0; i < len(marker); i++ {
+				if l.position+i >= len(l.input) || l.input[l.position+i] != marker[i] {
+					match = false
+					break
+				}
+			}
+
+			// 如果字串相符，且後面沒有跟著其他文字 (只有空白或換行)
+			if match {
+				nextPos := l.position + len(marker)
+				if nextPos >= len(l.input) || (!isLetter(l.input[nextPos]) && !isDigit(l.input[nextPos])) {
+					// 確認這就是結尾 marker
+					// 略過這個 marker
+					for i := 0; i < len(marker); i++ {
+						l.readChar()
+					}
+					// 略過結尾的殘餘字元 (到換行為止)
+					for l.ch != '\n' && l.ch != 0 {
+						l.readChar()
+					}
+					break // 結束 heredoc 讀取
+				}
+			}
+		}
+
+		out = append(out, l.ch)
+		lineStart = (l.ch == '\n')
+		l.readChar()
+	}
+
+	return string(out)
 }
 
 func (l *lexer) skipWhitespaceAndComments() {

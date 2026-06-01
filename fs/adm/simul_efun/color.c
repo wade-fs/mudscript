@@ -74,7 +74,7 @@ string trans_color(string arg)
 {
   string	*color;
   int	i;
-  return ansi(arg);
+
   if (!arg || arg=="") return arg;
 
   color = keys(color_map);

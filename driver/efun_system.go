@@ -436,9 +436,9 @@ func (d *Driver) registerSystemAndFiles(obj *object.LPCObject) {
 		},
 	})
 
-	// 語法: string read_file(string file)
-	// 說明: 讀取並回傳檔案的完整文字內容。
-	// 範例: string issue = read_file(ISSUE_FILE);
+	// 語法: string read_file(string file, [int start, int lines])
+	// 說明: 讀取並回傳檔案的文字內容。可以指定起始行號和讀取行數。
+	// 範例: string issue = read_file(ISSUE_FILE, 1, 10);
 	obj.Vars.Set("read_file", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
 			if len(args) < 1 {
@@ -462,6 +462,39 @@ func (d *Driver) registerSystemAndFiles(obj *object.LPCObject) {
 			if err != nil {
 				return &object.Nil{}
 			}
+
+			// 處理可選的 start 和 lines 參數
+			startLine := 1
+			lineCount := -1
+
+			if len(args) > 1 {
+				if start, ok := args[1].(*object.Integer); ok {
+					startLine = int(start.Value)
+				}
+			}
+			if len(args) > 2 {
+				if lines, ok := args[2].(*object.Integer); ok {
+					lineCount = int(lines.Value)
+				}
+			}
+
+			if startLine > 1 || lineCount >= 0 {
+				lines := strings.Split(string(content), "\n")
+				
+				// 調整 startLine (1-based)
+				startIdx := startLine - 1
+				if startIdx < 0 { startIdx = 0 }
+				if startIdx >= len(lines) { return &object.String{Value: ""} }
+
+				endIdx := len(lines)
+				if lineCount >= 0 {
+					endIdx = startIdx + lineCount
+					if endIdx > len(lines) { endIdx = len(lines) }
+				}
+
+				return &object.String{Value: strings.Join(lines[startIdx:endIdx], "\n") + "\n"}
+			}
+
 			return &object.String{Value: string(content)}
 		},
 	})
