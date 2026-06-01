@@ -201,6 +201,32 @@ func (e *Error) Inspect() string {
 	return "Error: " + e.Message
 }
 
+// Buffer represents a buffer.
+type Buffer struct {
+	Value []byte
+}
+
+// TokenType returns the type of the Buffer.
+func (b *Buffer) TokenType() TokenType {
+	return BufferType
+}
+
+// Inspect returns a string representation of the Buffer.
+func (b *Buffer) Inspect() string {
+	return fmt.Sprintf("<buffer:%d>", len(b.Value))
+}
+
+// HashKey returns a hash key object for b.
+func (b *Buffer) HashKey() HashKey {
+	h := fnv.New64a()
+	h.Write(b.Value)
+
+	return HashKey{
+		TokenType: b.TokenType(),
+		Value:     h.Sum64(),
+	}
+}
+
 // Function represents a function.
 type Function struct {
 	IsVarargs  bool // 🚀 新增：是否支援不定長度參數
@@ -344,6 +370,7 @@ Vars        Environment
 	// 生物與互動標籤
 	IsLiving      bool               // 是否為活物 (可以接收指令)
 	IsInteractive bool               // 是否為線上玩家 (背後有 TCP 連線)
+	IsWizard      bool               // 🚀 新增：是否為巫師 (管理者)
 	Actions       map[string]*Action // 該生物目前可用的指令表
 	Light         int                // 🚀 新增：光照度
 	

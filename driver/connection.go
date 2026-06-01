@@ -22,6 +22,7 @@ type PlayerConnection struct {
 	OutputCallback func(msg string)
 	CurrentVerb    string // 🚀 新增：儲存當前執行的指令動詞
 	NotifyFail     string // 🚀 新增：指令執行失敗訊息
+	SnoopedBy      *PlayerConnection // 🚀 新增：被誰監看 (Snoop)
 }
 
 func NewPlayerConnection(conn net.Conn, obj *object.LPCObject) *PlayerConnection {
@@ -71,6 +72,11 @@ func (p *PlayerConnection) writePump() {
 func (p *PlayerConnection) Send(msg string) {
 	if !p.IsActive {
 		return
+	}
+
+	// 🚀 Snoop 功能：如果有人正在監看此玩家，同步發送
+	if p.SnoopedBy != nil && p.SnoopedBy.IsActive {
+		p.SnoopedBy.Send("%" + msg) // Snoop 訊息通常加個前綴
 	}
 
 	select {

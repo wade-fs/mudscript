@@ -97,6 +97,10 @@ func (d *Driver) SetupEfuns(obj *object.LPCObject) {
 	d.registerReloadObjectEfun(obj)
 	d.registerInteractiveEfuns(obj)
 	d.registerP2PEfuns(obj)
+	d.registerBufferEfuns(obj)
+	d.registerBitEfuns(obj)
+	d.registerWizardEfuns(obj)
+	d.registerParseEfuns(obj)
 
 	// 🚀 新增：註冊 SimulEfuns
 	d.RegisterSimulEfuns(obj)
