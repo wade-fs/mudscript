@@ -674,4 +674,28 @@ func (d *Driver) registerAdvancedStringEfuns2(obj *object.LPCObject) {
 			return &object.Integer{Value: 0}
 		},
 	})
+
+	// 語法: string terminal_colour(string str, mapping m)
+	obj.Vars.Set("terminal_colour", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 2 {
+				return args[0]
+			}
+			str, ok1 := args[0].(*object.String)
+			m, ok2 := args[1].(*object.Mapping)
+			if !ok1 || !ok2 {
+				return args[0]
+			}
+
+			res := str.Value
+			for _, pair := range m.Pairs {
+				key, kOk := pair.Key.(*object.String)
+				val, vOk := pair.Value.(*object.String)
+				if kOk && vOk {
+					res = strings.ReplaceAll(res, key.Value, val.Value)
+				}
+			}
+			return &object.String{Value: res}
+		},
+	})
 }

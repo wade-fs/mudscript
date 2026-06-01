@@ -649,6 +649,37 @@ func (d *Driver) registerSystemAndFiles(obj *object.LPCObject) {
 		},
 	})
 
+	// 語法: int link(string from, string to)
+	obj.Vars.Set("link", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 2 {
+				return &object.Integer{Value: 0}
+			}
+			from, ok1 := args[0].(*object.String)
+			to, ok2 := args[1].(*object.String)
+			if !ok1 || !ok2 {
+				return &object.Integer{Value: 0}
+			}
+
+			resolvedFrom := d.ResolvePath(obj.Filename, from.Value)
+			resolvedTo := d.ResolvePath(obj.Filename, to.Value)
+
+			allowed, _ := d.checkReadPermission(obj, resolvedFrom, "link_from")
+			if !allowed { return &object.Integer{Value: 0} }
+			allowed, _ = d.checkWritePermission(obj, resolvedTo, "link_to")
+			if !allowed { return &object.Integer{Value: 0} }
+
+			fullFrom := filepath.Join(d.Config.MudLibPath, resolvedFrom)
+			fullTo := filepath.Join(d.Config.MudLibPath, resolvedTo)
+
+			err := os.Link(fullFrom, fullTo)
+			if err != nil {
+				return &object.Integer{Value: 0}
+			}
+			return &object.Integer{Value: 1}
+		},
+	})
+
 	// 語法: string generate_uuid()
 	// 說明: 產生一個隨機的 UUID。
 	// 範例: string id = generate_uuid();

@@ -401,7 +401,9 @@ func (o *LPCObject) HashKey() HashKey {
 
 // Mapping: LPC 專用的 mapping 結構
 type Mapping struct {
-	Pairs map[HashKey]HashPair
+	Pairs    map[HashKey]HashPair
+	Iterator []HashKey // 🚀 新增：支援 each() 的迭代器狀態
+	Idx      int       // 🚀 新增：目前迭代到的位置
 }
 
 // TokenType implements Object interface

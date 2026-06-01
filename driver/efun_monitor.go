@@ -60,10 +60,67 @@ func (d *Driver) registerPerformanceEfuns(obj *object.LPCObject) {
 		},
 	})
 
+	// 語法: int max_eval_cost()
+	obj.Vars.Set("max_eval_cost", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			return &object.Integer{Value: 1000000} // Placeholder for max eval cost
+		},
+	})
+
 	// 語法: void reset_eval_cost()
 	obj.Vars.Set("reset_eval_cost", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
 			return evaluator.NilValue
+		},
+	})
+
+	// 語法: mapping author_stats()
+	obj.Vars.Set("author_stats", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			return &object.Mapping{Pairs: make(map[object.HashKey]object.HashPair)}
+		},
+	})
+
+	// 語法: mapping domain_stats()
+	obj.Vars.Set("domain_stats", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			return &object.Mapping{Pairs: make(map[object.HashKey]object.HashPair)}
+		},
+	})
+
+	// 語法: void set_author(string name)
+	obj.Vars.Set("set_author", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			return evaluator.NilValue
+		},
+	})
+
+	// 語法: void opcprof([string file])
+	obj.Vars.Set("opcprof", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			d.TellObject(obj, "Opcode profiling is not supported in this version.\n")
+			return &object.Nil{}
+		},
+	})
+
+	// 語法: void trace(int level)
+	obj.Vars.Set("trace", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			return &object.Nil{}
+		},
+	})
+
+	// 語法: void traceprefix(string prefix)
+	obj.Vars.Set("traceprefix", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			return &object.Nil{}
+		},
+	})
+
+	// 語法: void moncontrol(int flag)
+	obj.Vars.Set("moncontrol", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			return &object.Nil{}
 		},
 	})
 }

@@ -313,6 +313,31 @@ func (d *Driver) registerCommEfuns(obj *object.LPCObject) {
 			return &object.Integer{Value: 0}
 		},
 	})
+	// 語法: int in_input(object ob)
+	obj.Vars.Set("in_input", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			target := getTarget(args, obj)
+			if conn := d.GetConnectionFromObject(target); conn != nil {
+				if conn.NextInputFunc != "" {
+					return &object.Integer{Value: 1}
+				}
+			}
+			return &object.Integer{Value: 0}
+		},
+	})
+
+	// 語法: int in_edit(object ob)
+	obj.Vars.Set("in_edit", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			target := getTarget(args, obj)
+			if conn := d.GetConnectionFromObject(target); conn != nil {
+				if strings.Contains(conn.NextInputFunc, "edit_loop") {
+					return &object.Integer{Value: 1}
+				}
+			}
+			return &object.Integer{Value: 0}
+		},
+	})
 }
 
 func (d *Driver) registerInteractiveEfuns(obj *object.LPCObject) {

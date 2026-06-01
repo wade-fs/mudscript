@@ -414,6 +414,41 @@ func (d *Driver) registerDataStructures(obj *object.LPCObject) {
 		},
 	})
 
+	// 語法: mixed *each(mapping m)
+	// 說明: 循序傳回 Mapping 的下一個鍵值對 ({ key, value })。若已到末尾回傳 0。
+	// 範例: while(pair = each(m)) { ... }
+	obj.Vars.Set("each", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 1 {
+				return &object.Integer{Value: 0}
+			}
+			m, ok := args[0].(*object.Mapping)
+			if !ok {
+				return &object.Integer{Value: 0}
+			}
+
+			// 初始化或重置迭代器
+			if m.Iterator == nil || m.Idx >= len(m.Iterator) {
+				m.Iterator = make([]object.HashKey, 0, len(m.Pairs))
+				for k := range m.Pairs {
+					m.Iterator = append(m.Iterator, k)
+				}
+				m.Idx = 0
+			}
+
+			if len(m.Iterator) == 0 || m.Idx >= len(m.Iterator) {
+				m.Iterator = nil // 重置
+				return &object.Integer{Value: 0}
+			}
+
+			key := m.Iterator[m.Idx]
+			pair := m.Pairs[key]
+			m.Idx++
+
+			return &object.Array{Elements: []object.Object{pair.Key, pair.Value}}
+		},
+	})
+
 	// 語法: mixed filter(mixed coll, string|closure func, [mixed args...])
 	// 說明: 通用過濾函式，支援 Array 與 Mapping。
 	// 範例: filter(coll, "is_valid");

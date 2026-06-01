@@ -19,6 +19,7 @@ type callFrame struct {
 	File     string
 	Function string
 	Object   *object.LPCObject // 🚀 新增：執行此框架的物件
+	Origin   int               // 🚀 新增：呼叫來源類型
 }
 
 func (d *Driver) getCallStack() []callFrame {

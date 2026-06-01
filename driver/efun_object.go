@@ -582,7 +582,7 @@ func (d *Driver) registerInheritanceEfuns(obj *object.LPCObject) {
 	})
 
 	// 語法: int inherits(string file, object ob)
-	// 說明: 判斷物件是否繼承了指定的檔案。
+	// 說明: 判斷物件是否繼承了指定的檔案 (包含間接繼承)。
 	// 範例: if (inherits("/std/char", me)) ...
 	obj.Vars.Set("inherits", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
@@ -595,13 +595,42 @@ func (d *Driver) registerInheritanceEfuns(obj *object.LPCObject) {
 				return &object.Integer{Value: 0}
 			}
 
-			// 簡化：檢查直接繼承
-			for _, inh := range target.Inherits {
-				if strings.HasSuffix(inh.Filename, file.Value) || strings.HasSuffix(inh.Filename, file.Value+".c") {
-					return &object.Integer{Value: 1}
+			path := file.Value
+			if !strings.HasSuffix(path, ".c") {
+				path += ".c"
+			}
+
+			var checkInherits func(ob *object.LPCObject) bool
+			checkInherits = func(ob *object.LPCObject) bool {
+				for _, inh := range ob.Inherits {
+					if inh.Filename == path || strings.HasSuffix(inh.Filename, "/"+path) {
+						return true
+					}
+					if checkInherits(inh) {
+						return true
+					}
 				}
+				return false
+			}
+
+			if checkInherits(target) {
+				return &object.Integer{Value: 1}
 			}
 			return &object.Integer{Value: 0}
+		},
+	})
+	// 語法: int virtualp(object ob)
+	obj.Vars.Set("virtualp", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			// 目前尚無虛擬物件系統，先傳回 0
+			return &object.Integer{Value: 0}
+		},
+	})
+
+	// 語法: void set_hide(int flag)
+	obj.Vars.Set("set_hide", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			return &object.Nil{}
 		},
 	})
 }

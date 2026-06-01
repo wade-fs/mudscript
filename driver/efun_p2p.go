@@ -56,4 +56,15 @@ func (d *Driver) registerP2PEfuns(obj *object.LPCObject) {
 			return evaluator.NilValue
 		},
 	})
+
+	// 語法: void p2p_send_direct(string target_sid, string content)
+	obj.Vars.Set("p2p_send_direct", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 2 {
+				return evaluator.NilValue
+			}
+			// 此處僅為接口佔位，完整實作需 WebRTC/DataChannel 支持
+			return evaluator.NilValue
+		},
+	})
 }
