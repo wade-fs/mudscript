@@ -96,9 +96,12 @@ mixed valid_write(string path, object user, string func)
             strsrch(path, "/npc/") == 0 || 
             strsrch(path, "/item/") == 0 ||
             strsrch(path, "/cmds/") == 0 ||
-            strsrch(path, "/log/") == 0) {
+            strsrch(path, "/log/") == 0 ||
+            strsrch(path, "/open/") == 0 ||
+            strsrch(path, "/tests/") == 0) {
             return 1;
-        }
+            }
+
     }
 
     // 4. 檢查個別授權的路徑 (透過 add_write_path 給予的)
@@ -110,7 +113,12 @@ mixed valid_write(string path, object user, string func)
     }
 
     // 5. 特殊例外
-    // 允許 system_d 儲存系統設定，以及 fs_d 寫入緩存
+    // 允許測試目錄寫入 /open/ 以便進行驗證
+    if (strsrch(caller_file, "/tests/") == 0) {
+        if (strsrch(path, "/open/") == 0) return 1;
+    }
+
+    // 允許 system_d 儲存系統設定
     if (caller_file == "/secure/system_d" || caller_file == "/std/login") {
         if (path == "/data/system.o") return 1;
     }

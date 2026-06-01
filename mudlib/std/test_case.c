@@ -32,8 +32,6 @@ void assert_true(int condition, string msg) {
 
 void start_test(string name) {
     current_test_name = name;
-    total_tests = 0;
-    passed_tests = 0;
     write(HIY("\n👉 正在執行測試組: ") + name + "\n");
 }
 
