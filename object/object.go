@@ -373,6 +373,7 @@ type LPCObject struct {
 UUID        string // 🚀 新增：全域唯一識別碼
 Filename    string
 Vars        Environment
+Efuns       Environment // 🚀 新增：原始 Efun 表 (用於 efun:: 呼叫)
 
 	Functions   map[string]*Function
 	Inherits    []*LPCObject

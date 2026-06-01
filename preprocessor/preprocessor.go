@@ -61,60 +61,71 @@ func (p *Preprocessor) Process(filename, input string) (string, error) {
 	return p.processInternal(filename, input, 0)
 }
 
-// replaceMacros 執行巨集替換，但會避開字串內容
+// replaceMacros 執行巨集替換，支援遞迴替換
 func (p *Preprocessor) replaceMacros(line string) string {
 	if len(p.Macros) == 0 {
 		return line
 	}
 
-	// 1. 先處理函式型巨集 (目前簡化，仍使用 Regex)
-	for name, m := range p.Macros {
-		if len(m.Args) > 0 {
-			line = p.replaceFuncMacro(line, name, m)
-		}
-	}
-
-	// 2. 處理一般巨集，但必須避開字串
-	var result strings.Builder
-	inString := false
-
-	for i := 0; i < len(line); i++ {
-		if line[i] == '"' && (i == 0 || line[i-1] != '\\') {
-			inString = !inString
-			result.WriteByte(line[i])
-			continue
-		}
-
-		if inString {
-			result.WriteByte(line[i])
-			continue
-		}
-
-		// 尋找巨集名稱
-		// 檢查目前的 i 是否為巨集的起始點
-		found := false
+	// 🚀 關鍵修正：支援遞迴巨集替換 (例如 BLK -> ESC + "[0;30m" -> "\x1b" + "[0;30m")
+	// 我們最多嘗試 10 次，避免無窮遞迴
+	currentLine := line
+	for depth := 0; depth < 10; depth++ {
+		// 1. 先處理函式型巨集 (目前簡化，仍使用 Regex)
 		for name, m := range p.Macros {
-			if len(m.Args) == 0 && strings.HasPrefix(line[i:], name) {
-				// 檢查邊界
-				endIdx := i + len(name)
-				isStartWord := (i == 0 || !isAlphaNumeric(line[i-1]))
-				isEndWord := (endIdx == len(line) || !isAlphaNumeric(line[endIdx]))
-				
-				if isStartWord && isEndWord {
-					result.WriteString(m.Body)
-					i = endIdx - 1 // 跳過巨集名稱 (迴圈會再 +1)
-					found = true
-					break
-				}
+			if len(m.Args) > 0 {
+				currentLine = p.replaceFuncMacro(currentLine, name, m)
 			}
 		}
 
-		if !found {
-			result.WriteByte(line[i])
+		// 2. 處理一般巨集，但必須避開字串
+		var result strings.Builder
+		inString := false
+		changed := false
+
+		for i := 0; i < len(currentLine); i++ {
+			if currentLine[i] == '"' && (i == 0 || currentLine[i-1] != '\\') {
+				inString = !inString
+				result.WriteByte(currentLine[i])
+				continue
+			}
+
+			if inString {
+				result.WriteByte(currentLine[i])
+				continue
+			}
+
+			// 尋找巨集名稱
+			found := false
+			for name, m := range p.Macros {
+				if len(m.Args) == 0 && strings.HasPrefix(currentLine[i:], name) {
+					// 檢查邊界
+					endIdx := i + len(name)
+					isStartWord := (i == 0 || !isAlphaNumeric(currentLine[i-1]))
+					isEndWord := (endIdx == len(currentLine) || !isAlphaNumeric(currentLine[endIdx]))
+					
+					if isStartWord && isEndWord {
+						result.WriteString(m.Body)
+						i = endIdx - 1 // 跳過巨集名稱 (迴圈會再 +1)
+						found = true
+						changed = true
+						break
+					}
+				}
+			}
+
+			if !found {
+				result.WriteByte(currentLine[i])
+			}
+		}
+
+		currentLine = result.String()
+		if !changed {
+			break
 		}
 	}
 
-	return result.String()
+	return currentLine
 }
 
 func (p *Preprocessor) replaceFuncMacro(line, name string, m Macro) string {

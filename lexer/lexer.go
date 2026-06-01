@@ -1,6 +1,9 @@
 package lexer
 
-import "mudscript/token"
+import (
+	"mudscript/token"
+	"strconv"
+)
 
 // Lexer represents a lexer for Monkey programming language.
 type Lexer interface {
@@ -295,11 +298,33 @@ func (l *lexer) readString() string {
 		if l.ch == '\\' {
 			l.readChar()
 			switch l.ch {
-			case 'n': out = append(out, '\n')
-			case 't': out = append(out, '\t')
-			case 'r': out = append(out, '\r')
-			case '"': out = append(out, '"')
-			case '\\': out = append(out, '\\')
+			case 'n':
+				out = append(out, '\n')
+			case 't':
+				out = append(out, '\t')
+			case 'r':
+				out = append(out, '\r')
+			case '"':
+				out = append(out, '"')
+			case '\\':
+				out = append(out, '\\')
+			case 'x':
+				// 🚀 支援 \xHH 十六進位逸脫字元
+				h1 := l.peekChar()
+				if isHexDigit(h1) {
+					l.readChar()
+					h2 := l.peekChar()
+					if isHexDigit(h2) {
+						l.readChar()
+						val, _ := strconv.ParseUint(string([]byte{h1, h2}), 16, 8)
+						out = append(out, byte(val))
+					} else {
+						val, _ := strconv.ParseUint(string(h1), 16, 8)
+						out = append(out, byte(val))
+					}
+				} else {
+					out = append(out, '\\', 'x')
+				}
 			default:
 				out = append(out, '\\', l.ch)
 			}
@@ -387,6 +412,23 @@ func (l *lexer) readCharLiteral() string {
 			char = '\\'
 		case '\'':
 			char = '\''
+		case 'x':
+			// 🚀 支援 \xHH 十六進位逸脫字元
+			h1 := l.peekChar()
+			if isHexDigit(h1) {
+				l.readChar()
+				h2 := l.peekChar()
+				if isHexDigit(h2) {
+					l.readChar()
+					val, _ := strconv.ParseUint(string([]byte{h1, h2}), 16, 8)
+					char = byte(val)
+				} else {
+					val, _ := strconv.ParseUint(string(h1), 16, 8)
+					char = byte(val)
+				}
+			} else {
+				char = 'x'
+			}
 		default:
 			char = l.ch
 		}

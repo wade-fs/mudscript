@@ -68,6 +68,9 @@ func getTarget(args []object.Object, defaultObj *object.LPCObject) *object.LPCOb
 
 // SetupEfuns 為每個載入的 LPC 物件注入專屬的內建函式
 func (d *Driver) SetupEfuns(obj *object.LPCObject) {
+	// 🚀 新增：初始化 Efuns 環境，用於儲存原始 Efun (不被 SimulEfun 覆蓋)
+	obj.Efuns = object.NewEnvironment()
+
 	d.registerTypePredicates(obj)
 	d.registerTypeCasting(obj)
 	d.registerMathEfuns(obj)
@@ -103,6 +106,13 @@ func (d *Driver) SetupEfuns(obj *object.LPCObject) {
 	d.registerParseEfuns(obj)
 	d.registerDebugEfuns(obj)
 	d.registerPerformanceEfuns(obj)
+
+	// 🚩 關鍵修正：將所有剛註冊進 Vars 的 Builtin (原始 Efun) 備份到 Efuns 中
+	for k, v := range obj.Vars.GetAll() {
+		if _, ok := v.(*object.Builtin); ok {
+			obj.Efuns.Set(k, v)
+		}
+	}
 
 	// 🚀 新增：註冊 SimulEfuns
 	d.RegisterSimulEfuns(obj)

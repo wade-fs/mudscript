@@ -91,6 +91,9 @@ func (d *Driver) CallFunction(obj *object.LPCObject, funcName string, args []obj
 
 	extendedEnv := object.NewEnclosedEnvironment(obj.Vars)
 	extendedEnv.Set("__origin_file", &object.String{Value: fn.OriginFile})
+	if d.SimulEfunObj != nil {
+		extendedEnv.Set("__simul_efun_obj", d.SimulEfunObj)
+	}
 
 	for i, param := range fn.Parameters {
 		if i < len(args) {

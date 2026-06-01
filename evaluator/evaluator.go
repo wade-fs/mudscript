@@ -674,93 +674,183 @@ func isError(obj object.Object) bool {
 	return obj != nil && obj.TokenType() == object.ErrorType
 }
 
+func findInheritedFunction(lpcObj *object.LPCObject, funcName string, env object.Environment) object.Object {
+	originFile := ""
+	if val, ok := env.Get("__origin_file"); ok {
+		if s, ok := val.(*object.String); ok {
+			originFile = s.Value
+		}
+	}
+
+	// 移除可能存在的 clone 編號
+	originFile = strings.Split(originFile, "#")[0]
+
+	// 輔助函式：在繼承樹中尋找特定檔案對應的節點
+	var findNode func(cur *object.LPCObject) *object.LPCObject
+	findNode = func(cur *object.LPCObject) *object.LPCObject {
+		curName := strings.Split(cur.Filename, "#")[0]
+		if curName == originFile {
+			return cur
+		}
+		for _, p := range cur.Inherits {
+			if res := findNode(p); res != nil {
+				return res
+			}
+		}
+		return nil
+	}
+
+	targetNode := lpcObj
+	if originFile != "" {
+		if found := findNode(lpcObj); found != nil {
+			targetNode = found
+		}
+	}
+
+	// 從目標節點的「直接父類別」開始往下找
+	for _, parent := range targetNode.Inherits {
+		if fnObj, exists := parent.Vars.Get(funcName); exists {
+			// 🚀 關鍵修正：繼承呼叫必須重新「綁定」到目前的物件變數環境 (lpcObj.Vars)
+			if fn, ok := fnObj.(*object.Function); ok {
+				return &object.Function{
+					Parameters: fn.Parameters,
+					Body:       fn.Body,
+					Env:        lpcObj.Vars,
+					OriginFile: fn.OriginFile,
+				}
+			}
+			return fnObj
+		}
+
+		// 遞迴尋找父類別的父類別
+		var findInParents func(*object.LPCObject) object.Object
+		findInParents = func(p *object.LPCObject) object.Object {
+			for _, gp := range p.Inherits {
+				if fnObj, ex := gp.Vars.Get(funcName); ex {
+					if fn, ok := fnObj.(*object.Function); ok {
+						return &object.Function{
+							Parameters: fn.Parameters,
+							Body:       fn.Body,
+							Env:        lpcObj.Vars,
+							OriginFile: fn.OriginFile,
+						}
+					}
+					return fnObj
+				}
+				if f := findInParents(gp); f != nil {
+					return f
+				}
+			}
+			return nil
+		}
+		if f := findInParents(parent); f != nil {
+			return f
+		}
+	}
+	return nil
+}
+
+func findParentFunction(lpcObj *object.LPCObject, parentName string, funcName string) object.Object {
+	var findInTree func(cur *object.LPCObject) object.Object
+	findInTree = func(cur *object.LPCObject) object.Object {
+		for _, p := range cur.Inherits {
+			pName := strings.Split(p.Filename, ".")[0]
+			// 支援檔名比對 (例如 "room" 或 "/std/room")
+			if strings.HasSuffix(pName, "/"+parentName) || pName == parentName || strings.HasSuffix(pName, parentName) {
+				if fn, exists := p.Vars.Get(funcName); exists {
+					if f, ok := fn.(*object.Function); ok {
+						return &object.Function{
+							Parameters: f.Parameters,
+							Body:       f.Body,
+							Env:        lpcObj.Vars,
+							OriginFile: f.OriginFile,
+						}
+					}
+					return fn
+				}
+			}
+			if res := findInTree(p); res != nil {
+				return res
+			}
+		}
+		return nil
+	}
+	return findInTree(lpcObj)
+}
+
 func evalIdent(node *ast.Ident, env object.Environment) object.Object {
 	name := node.Value
 
-	// 支援 ::func() 繼承呼叫
-	if (strings.HasPrefix(name, "::")) {
-		funcName := strings.TrimPrefix(name, "::")
-		if thisObjVal, ok := env.Get("this_object"); ok {
-			var lpcObj *object.LPCObject
+	// 支援 efun::, simul_efun::, 或 Parent:: 前綴呼叫
+	if strings.Contains(name, "::") {
+		parts := strings.Split(name, "::")
+		if len(parts) == 2 {
+			prefix := parts[0]
+			funcName := parts[1]
 
-			// 判斷 this_object 是直接的物件，還是回傳物件的 Builtin
-			if obj, ok := thisObjVal.(*object.LPCObject); ok {
-				lpcObj = obj
-			} else if builtin, ok := thisObjVal.(*object.Builtin); ok {
-				res := builtin.Fn()
-				if obj, ok := res.(*object.LPCObject); ok {
-					lpcObj = obj
-				}
-			}
-
-			if lpcObj != nil {
-				originFile := ""
-				if val, ok := env.Get("__origin_file"); ok {
-					if s, ok := val.(*object.String); ok { originFile = s.Value }
-				}
-
-				// 移除可能存在的 clone 編號
-				originFile = strings.Split(originFile, "#")[0]
-
-				// 輔助函式：在繼承樹中尋找特定檔案對應的節點
-				var findNode func(cur *object.LPCObject) *object.LPCObject
-				findNode = func(cur *object.LPCObject) *object.LPCObject {
-					curName := strings.Split(cur.Filename, "#")[0]
-					if curName == originFile { return cur }
-					for _, p := range cur.Inherits {
-						if res := findNode(p); res != nil { return res }
-					}
-					return nil
-				}
-
-				targetNode := lpcObj
-				if originFile != "" {
-					if found := findNode(lpcObj); found != nil {
-						targetNode = found
-					}
-				}
-
-				// 從目標節點的「直接父類別」開始往下找
-				for _, parent := range targetNode.Inherits {
-					if fnObj, exists := parent.Vars.Get(funcName); exists {
-						// 🚀 關鍵修正：繼承呼叫必須重新「綁定」到目前的物件變數環境 (lpcObj.Vars)
-						// 這樣 inherited methods 才能正確修改到實體物件的狀態
-						if fn, ok := fnObj.(*object.Function); ok {
-							return &object.Function{
-								Parameters: fn.Parameters,
-								Body:       fn.Body,
-								Env:        lpcObj.Vars,
-								OriginFile: fn.OriginFile,
-							}
+			if prefix == "efun" {
+				if thisObjVal, ok := env.Get("this_object"); ok {
+					var lpcObj *object.LPCObject
+					if obj, ok := thisObjVal.(*object.LPCObject); ok {
+						lpcObj = obj
+					} else if builtin, ok := thisObjVal.(*object.Builtin); ok {
+						res := builtin.Fn()
+						if obj, ok := res.(*object.LPCObject); ok {
+							lpcObj = obj
 						}
-						return fnObj
 					}
-					
-					// 遞迴尋找父類別的父類別
-					var findInParents func(*object.LPCObject) object.Object
-					findInParents = func(p *object.LPCObject) object.Object {
-						for _, gp := range p.Inherits {
-							if fnObj, ex := gp.Vars.Get(funcName); ex {
-								if fn, ok := fnObj.(*object.Function); ok {
-									return &object.Function{
-										Parameters: fn.Parameters,
-										Body:       fn.Body,
-										Env:        lpcObj.Vars,
-										OriginFile: fn.OriginFile,
-									}
-								}
-								return fnObj
-							}
-							if f := findInParents(gp); f != nil { return f }
+					if lpcObj != nil && lpcObj.Efuns != nil {
+						if efun, exists := lpcObj.Efuns.Get(funcName); exists {
+							return efun
 						}
-						return nil
 					}
-					if f := findInParents(parent); f != nil { return f }
+				}
+			} else if prefix == "simul_efun" {
+				if simulObjVal, ok := env.Get("__simul_efun_obj"); ok {
+					if simulObj, ok := simulObjVal.(*object.LPCObject); ok {
+						if fn, exists := simulObj.Vars.Get(funcName); exists {
+							return fn
+						}
+					}
+				}
+			} else if prefix == "" { // 支援 ::func() 繼承呼叫
+				if thisObjVal, ok := env.Get("this_object"); ok {
+					var lpcObj *object.LPCObject
+					if obj, ok := thisObjVal.(*object.LPCObject); ok {
+						lpcObj = obj
+					} else if builtin, ok := thisObjVal.(*object.Builtin); ok {
+						res := builtin.Fn()
+						if obj, ok := res.(*object.LPCObject); ok {
+							lpcObj = obj
+						}
+					}
+					if lpcObj != nil {
+						if res := findInheritedFunction(lpcObj, funcName, env); res != nil {
+							return res
+						}
+					}
+				}
+			} else {
+				// 支援 ParentName::func() 呼叫
+				if thisObjVal, ok := env.Get("this_object"); ok {
+					var lpcObj *object.LPCObject
+					if obj, ok := thisObjVal.(*object.LPCObject); ok {
+						lpcObj = obj
+					} else if builtin, ok := thisObjVal.(*object.Builtin); ok {
+						res := builtin.Fn()
+						if obj, ok := res.(*object.LPCObject); ok {
+							lpcObj = obj
+						}
+					}
+					if lpcObj != nil {
+						if res := findParentFunction(lpcObj, prefix, funcName); res != nil {
+							return res
+						}
+					}
 				}
 			}
 		}
 	}
-
 
 	if val, ok := env.Get(name); ok {
 		return val
