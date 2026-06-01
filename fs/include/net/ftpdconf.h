@@ -138,30 +138,11 @@
 -----------------------------------------------
 */
 
-/* undefine this to disable all logging */
-#define LOGGING
-
-#ifdef LOGGING
-/* define this to log all connections */
-#define LOG_CONNECT
-/* define this to determine where to log all file xfers */
-#define LOG_FILE        "FTPD"
-/* define this to put a time stamp before all log entries */
-#define LOG_TIME
-/* define this to log cd's, time stamp, and file size commands */
-#define LOG_CD_SIZE
-/* define this to log failed connections */
-#define LOG_NO_CONNECT
-
-#else
-
 #undef LOG_CONNECT
 #undef LOG_FILE
 #undef LOG_CD_SIZE
 #undef LOG_TIME
 #undef LOG_NO_CONNECT
-
-#endif /* LOGGING */
 
 /*
 -----------------------------------------------

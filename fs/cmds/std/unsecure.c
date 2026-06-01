@@ -16,9 +16,7 @@ int main(object me, string arg)
 
   else if (obj = present(arg, me)) {
     obj->delete_temp("secured");
-#ifdef SAVEEQ
     obj->delete ("autoload");
-#endif
   }
   else return notify_fail ("沒有這樣物品.\n");
   return 1;

@@ -155,12 +155,9 @@
 
 // 自動 reboot 用的
 #define REBOOT_PLACE "/u/w/wade/workroom"
-#define WEATHER
 #define LIGHT	// 火把系統
-#undef FUZZY_LOOK // ....
 #undef SEND_MONEY // 發錢系統
 #undef FIND_ROBBOT // 找機器人
-#define SAVEEQ	// 可以在 quit 時自動儲三件裝備，但是要先 wear + secure 才行
 
 // wade 修正的
 #undef FANSET	// 加上這個的話，喚雲扇需要「玩遊戲」之後才能用 fanset

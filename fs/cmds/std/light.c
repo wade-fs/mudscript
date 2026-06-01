@@ -1,4 +1,3 @@
-#ifdef WEATHER
 // light
 // 由 wade 撰寫
 // 要點亮的物件上必須有一變數: (int)light_up
@@ -47,4 +46,3 @@ HELP
     );
     return 1;
 }
-#endif

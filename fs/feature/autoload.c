@@ -43,9 +43,6 @@ void restore_autoload()
   object ob;
   mixed file, param, err;
   mixed extra_power;
-#ifndef SAVEEQ
-  string *autodir;
-#endif
 //tell_object(find_player("whatup"),sprintf("%O\n",autoload));
   if( !pointerp(autoload) ) return;
 
@@ -67,16 +64,6 @@ void restore_autoload()
 		extra_power = autoload[i]["extra_power"];
 	}
 	
-#ifndef SAVEEQ
-/*
-    autodir = explode (file, "/");
-    if (autodir[0] != "obj" &&
-        (autodir[0] != "data" || autodir[0] != "autoload")) {
-      write ("你有一個自動載入的物件沒放在該放的地方："+file+"\n");
-      continue;
-    }
-	*/
-#endif
     err = catch(ob = new(file));
     if( err || !ob ) {
       write("你覺得似乎失落了什麼重要的東西﹐最好通知一下巫師。\n");

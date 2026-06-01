@@ -8,6 +8,7 @@ inherit F_SAVE;
 void create() {seteuid(getuid());}
 void logon()
 {
+	write("DEBUG: /obj/login.c logon() is executing!\n");
 	call_out( "time_out", LOGIN_TIMEOUT );
         load_object(LOGIN_D);
 	LOGIN_D->logon( this_object() );

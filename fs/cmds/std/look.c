@@ -96,11 +96,7 @@ int look_room( object me, object env, int light )
             env->short(),
             env->query("owner")? "("+capitalize(env->query("owner"))+")" : "",
             wizardp(me)? file_name(env) : "",
-#ifdef FUZZY_LOOK
-            (light==-1) ? fuzzy_long(tmp) : tmp,
-#else
             tmp,
-#endif
             env->query("outdoors") ? NATURE_D->outdoor_room_description() : ""
             );
     }
@@ -600,29 +596,6 @@ string power_level(int power)
                 lvl = sizeof(power_level_desc)-1;
         return power_level_desc[((int)lvl)];
 }
-
-#ifdef FUZZY_LOOK
-string fuzzy_long (string long)
-{
-  int           i, ln;
-
-  ln = sizeof (long);
-  for (i=0; i<ln-1; i++) {
-    if (random(2)) {
-      if (long[i] > 126) i++;
-    }
-    else if (!(long[i] > 0 && long[i] < ' ')) {
-      if (!(long[i] > 32 && long[i] <127)) {
-        long[i] = '.';
-        long[i+1] = '.'; i++;
-      }
-      else
-        long[i] = '.';
-    }
-  }
-  return long;
-}
-#endif
 
 int help (object me)
 {

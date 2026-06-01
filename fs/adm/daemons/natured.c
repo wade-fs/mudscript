@@ -4,7 +4,6 @@
 #include <ansi.h>
 #include <login.h>
 #define INTERMAIL_I "/data/intermail_i"
-#ifdef WEATHER
 static int current_day_phase;
 static int current_weather=0;
 static int c=0;
@@ -17,7 +16,6 @@ mapping *read_table(string file);
 void init_day_phase();
 void init_weather();
 void check_heart_beat();
-#endif
 
 int     clan_30min, clan_1hr, clan_2hr, clan_12hr;
 void    clan();
@@ -38,13 +36,11 @@ int reboot_flag=0;
 
 void create()
 {
-#ifdef WEATHER
         day_phase = read_table("/adm/etc/nature/day_phase");
         init_day_phase();
 
         weather = read_table("/adm/etc/nature/weather");
         init_weather();
-#endif
 #ifdef SEND_MONEY
         send_money();
 #endif
@@ -611,7 +607,6 @@ void find_the_best()
 }
 #endif
 
-#ifdef WEATHER
 void init_day_phase()
 {
         mixed *local;
@@ -770,14 +765,12 @@ string outdoor_room_description()
         msg += "    " + day_phase[current_day_phase]["desc_msg"] + "。\n";
   return msg;
 }
-#endif
 
 string game_time()
 {
         return CHINESE_D->chinese_date(time()*60);
 }
 
-#ifdef WEATHER
 // This function is to read a regular type of data table for day_phase and
 // etc.
 mapping *read_table(string file)
@@ -822,7 +815,6 @@ void event_light_rain ()        { weather_hurt = 1; weather_light = -1; }
 void event_heave_rain ()        { weather_hurt = 2; weather_light = 0; }
 void event_ice_rain ()          { weather_hurt = 3; weather_light = 1; }
 void event_super_bad_weather () { weather_hurt = 4; weather_light = 0; }
-#endif
 
 int vision(object me)
 {
@@ -843,7 +835,6 @@ int vision(object me)
 
   if (wizardp(me)) return 1;
 
-#ifdef WEATHER
   // light 代表人物身上是否有照明設備, 變數名稱取跟房間一樣
   light = all_inventory(me);
   for (result=0; result<sizeof(light); result++)
@@ -860,7 +851,6 @@ int vision(object me)
     else rlight = -1;
   // 壞天氣就視線模糊
   else rlight = weather_light;
-#endif
 
   // 表示室內或室外
   if (env->query("outdoors")) outdoors = 1;
@@ -870,11 +860,7 @@ int vision(object me)
   else room = env->query("light_up");
 
   user = 0;
-#ifdef WEATHER
   if (outdoors) user = rlight;
-#else
-  if (outdoors) user = 1;
-#endif
   else user = room;
 
   return user;

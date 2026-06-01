@@ -163,7 +163,6 @@ void heart_beat()
   if (userp(me=this_object())) {
     me->set_temp("cmd_cnt",0);
     // 照明系統
-#ifdef WEATHER
     obs = all_inventory(me);
     for (i=0; i<sizeof(obs); i++)
       if (obs[i]->query("had_light") ) {
@@ -186,16 +185,13 @@ void heart_beat()
          // destruct(obs[i]);   
         }
       }
-#endif
  
-#ifdef WEATHER
     // 冰苞系統
     if (environment(me) && environment(me)->query("outdoors")) {
       hurt = NATURE_D->query_reather_hurt();
       if (interactive(this_object()) && !query_temp("rain_cover"))
         receive_damage ("kee", hurt);
     }
-#endif
   }
  
   if( !query_heart_beat(me) ) set_heart_beat(1);
