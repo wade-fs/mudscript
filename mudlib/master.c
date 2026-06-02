@@ -1,7 +1,10 @@
 // master.c
 // 這是 MUD 引擎啟動後第一個載入的總管物件
 
+inherit "/secure/valid.c";
+
 void create() {
+    ::create();
     // 伺服器啟動時，可以在這裡做一些全域的初始化
     write("===================================\n");
     write("  MudScript Master Object 啟動成功 \n");

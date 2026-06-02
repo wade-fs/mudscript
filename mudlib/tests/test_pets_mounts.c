@@ -25,8 +25,6 @@ void run_tests(object me) {
     horse->recalc_stats();
     horse->set_hp(1); 
     
-    write("DEBUG: Horse HP=" + horse->query_hp() + ", MaxHP=" + horse->query_max_hp() + "\n");
-    
     // 模擬 tame 指令邏輯
     object cmd_tame = load_object("/cmds/cmd_tame.c");
     cmd_tame->main(me, "tame", "test_horse");
