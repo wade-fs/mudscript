@@ -109,7 +109,7 @@ func New(l lexer.Lexer) *Parser {
 		token.LPAREN:   p.parseGroupedExpression,
 		token.IF:       p.parseIfExpression,
 		token.STRING:   p.parseStringLiteral,
-		token.CHAR:     p.parseStringLiteral, // [新增] 將 CHAR 視為單字元字串處理
+		token.CHAR:     p.parseCharLiteral, // [修正] 將 CHAR 正確解析為整數
 		token.LARRAY:   p.parseLPCArrayLiteral,
 		token.LT:       p.parsePrefixExpression, // [新增] 支援 <n 語法 (從末尾索引)
 		token.NEW:      p.parsePrefixExpression, // [新增] 支援 new(path)
@@ -547,11 +547,23 @@ func (p *Parser) parseStringLiteral() ast.Expression {
 	}
 
 	// 🚀 新增：支援相鄰字串自動串接 (ANSI C 風格)
-	for p.peekTokenIs(token.STRING) {
+	for p.peekTokenIs(token.STRING) || p.peekTokenIs(token.CHAR) {
 		p.nextToken()
 		lit.Value += p.curToken.Literal
 	}
 
+	return lit
+}
+
+func (p *Parser) parseCharLiteral() ast.Expression {
+	lit := &ast.IntegerLiteral{Token: p.curToken}
+	if len(p.curToken.Literal) > 0 {
+		lit.Value = int64(p.curToken.Literal[0])
+	}
+	// 如果後面緊接著字串或字元，則轉向字串解析 (相鄰串接)
+	if p.peekTokenIs(token.STRING) || p.peekTokenIs(token.CHAR) {
+		return p.parseStringLiteral()
+	}
 	return lit
 }
 
@@ -798,11 +810,14 @@ func (p *Parser) parseTypedParameters() []*ast.TypedParam {
 			paramIsArray = true
 		}
 
-		if !p.expectPeek(token.IDENT) {
-			return nil
+		var paramName *ast.Ident
+		if p.peekTokenIs(token.IDENT) {
+			p.nextToken()
+			paramName = &ast.Ident{Token: p.curToken, Value: p.curToken.Literal}
+		} else {
+			// 🚀 支援原型宣告中的無名參數 (例如: func(string, int))
+			paramName = &ast.Ident{Token: p.curToken, Value: fmt.Sprintf("__arg%d", len(params))}
 		}
-		
-		paramName := &ast.Ident{Token: p.curToken, Value: p.curToken.Literal}
 
 		params = append(params, &ast.TypedParam{
 			TypeToken: paramType,

@@ -479,9 +479,17 @@ func (d *Driver) registerStringEfuns(obj *object.LPCObject) {
 				return object.NewError("strsrch 需 2 個參數")
 			}
 			str, ok1 := args[0].(*object.String)
-			pattern, ok2 := args[1].(*object.String)
-			if !ok1 || !ok2 {
-				return object.NewError("strsrch 參數必須是字串")
+			if !ok1 {
+				return object.NewError("strsrch 第一個參數必須是字串")
+			}
+
+			var patternStr string
+			if p, ok := args[1].(*object.String); ok {
+				patternStr = p.Value
+			} else if p, ok := args[1].(*object.Integer); ok {
+				patternStr = string(byte(p.Value))
+			} else {
+				return object.NewError("strsrch 第二個參數必須是字串或整數")
 			}
 
 			reverse := false
@@ -493,9 +501,9 @@ func (d *Driver) registerStringEfuns(obj *object.LPCObject) {
 
 			var byteIdx int
 			if reverse {
-				byteIdx = strings.LastIndex(str.Value, pattern.Value)
+				byteIdx = strings.LastIndex(str.Value, patternStr)
 			} else {
-				byteIdx = strings.Index(str.Value, pattern.Value)
+				byteIdx = strings.Index(str.Value, patternStr)
 			}
 
 			if byteIdx == -1 {

@@ -9,6 +9,7 @@ import (
 	"os"
 	"path/filepath"
 	"regexp"
+	"sort"
 	"strconv"
 	"strings"
 )
@@ -66,9 +67,20 @@ func (p *Preprocessor) replaceMacros(line string) string {
 		return line
 	}
 
-	// 🚀 關鍵修正：支援遞迴巨集替換 (例如 BLK -> ESC + "[0;30m" -> "\x1b" + "[0;30m")
-	// 我們最多嘗試 10 次，避免無窮遞迴
+	// 🚀 關鍵修正：支援遞迴巨集替換
 	currentLine := line
+
+	// 取得所有巨集名稱並按長度排序 (由長到短)，避免 prefix 提早被取代
+	var macroNames []string
+	for name, m := range p.Macros {
+		if len(m.Args) == 0 {
+			macroNames = append(macroNames, name)
+		}
+	}
+	sort.Slice(macroNames, func(i, j int) bool {
+		return len(macroNames[i]) > len(macroNames[j])
+	})
+
 	for depth := 0; depth < 10; depth++ {
 		// 1. 先處理函式型巨集 (目前簡化，仍使用 Regex)
 		for name, m := range p.Macros {
@@ -84,8 +96,8 @@ func (p *Preprocessor) replaceMacros(line string) string {
 
 		for i := 0; i < len(currentLine); i++ {
 			if currentLine[i] == '"' && (i == 0 || currentLine[i-1] != '\\') {
-				inString = !inString
 				result.WriteByte(currentLine[i])
+				inString = !inString
 				continue
 			}
 
@@ -96,8 +108,9 @@ func (p *Preprocessor) replaceMacros(line string) string {
 
 			// 尋找巨集名稱
 			found := false
-			for name, m := range p.Macros {
-				if len(m.Args) == 0 && strings.HasPrefix(currentLine[i:], name) {
+			for _, name := range macroNames {
+				m := p.Macros[name]
+				if strings.HasPrefix(currentLine[i:], name) {
 					// 檢查邊界
 					endIdx := i + len(name)
 					isStartWord := (i == 0 || !isAlphaNumeric(currentLine[i-1]))
@@ -466,6 +479,7 @@ func (p *Preprocessor) processInternal(filename, input string, depth int) (strin
 			}
 
 			p.Macros[name] = Macro{Name: name, Args: args, Body: body}
+			fmt.Printf("DEBUG: Defined macro %s = %s\n", name, body)
 			output.WriteString("\n")
 			continue
 		}
@@ -584,7 +598,7 @@ func (p *Preprocessor) stripModifiers(line string) string {
 }
 
 func isAlphaNumeric(c byte) bool {
-	return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '_'
+	return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '_' || c == '$'
 }
 
 func splitMacroArgs(s string) []string {

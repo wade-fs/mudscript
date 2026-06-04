@@ -86,7 +86,7 @@ func (d *Driver) loadObjectInternal(filename string) (*object.LPCObject, bool, e
 		for _, err := range p.Errors() {
 			log.Printf("PARSER ERROR in %s: %s\n", filename, err)
 		}
-		debugPath := "debug_" + strings.ReplaceAll(strings.TrimPrefix(filename, "/"), "/", "_")
+		debugPath := "debug_" + strings.ReplaceAll(strings.TrimPrefix(filename, "/"), "/", "_") + ".txt"
 		os.WriteFile(debugPath, []byte(processedContent), 0644)
 		return nil, false, d.formatParserErrors(filename, p.Errors())
 	}
