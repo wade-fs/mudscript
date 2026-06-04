@@ -17,9 +17,9 @@ GO_EXE := $(shell if [ -f $(GOROOT)/bin/go ]; then echo $(GOROOT)/bin/go; else e
 ENV  := GOPATH=$(GOPATH) GOROOT=$(GOROOT) CGO_CFLAGS="-Wno-return-local-addr"
 ENVW := $(ENV) CGO_ENABLED=1 CGO_CFLAGS="-Wno-return-local-addr" GOOS=windows GOARCH=amd64 CC="x86_64-w64-mingw32-gcc -fno-stack-protector -D_FORTIFY_SOURCE=0 -lssp"
 
-.PHONY: all clean test-fsmud fsmud fsmud.exe run push inject-hash
+.PHONY: all clean test-fsmud fsmud fsmud.exe fs fs.exe run push inject-hash
 
-all: fsmud fsmud.exe
+all: fsmud fsmud.exe fs fs.exe
 
 inject-hash:
 	@echo "Injecting HEAD hash $(COMMIT) into index.html..."
@@ -54,7 +54,7 @@ $(OUT):
 
 # 編譯 Linux 版本 (不自動執行)
 # fsmud: $(OUT) inject-hash
-fsmud fsmud.exe: $(OUT)
+fsmud fsmud.exe fs fs.exe: $(OUT)
 	@echo "🔨 Building $@..."
 	@go mod tidy && $(GO_EXE) build $(GO_FLAGS) -o $(OUT)/$@ ./cmd/$@
 	@ls -l $(OUT)/$@
@@ -65,16 +65,24 @@ test-fsmud: fsmud
 	@MUD_TEST_MODE=1 $(OUT)/fsmud --hub none 2>&1 | tee /tmp/test.txt
 
 # 正常執行伺服器 (預設連接全球星際中心)
-run: fsmud
+run-fsmud: fsmud
 	@echo "🚀 Starting MudScript Server (Connecting to Global Hub)..."
-	@ $(OUT)/fsmud 2>&1 | tee /tmp/run.txt
+	@ $(OUT)/fsmud 2>&1 | tee /tmp/run-fsmud.txt
+
+# 正常執行 Legacy FS 伺服器
+run-fs: fs
+	@echo "🚀 Starting Legacy FS MudScript Server..."
+	@ $(OUT)/fs 2>&1 | tee /tmp/run-fs.txt
 
 clean:
 	@rm -rf *.log *txt $(OUT)/*
 
 zip:
-	@ mv .git ../GIT
 	@ rm -f bin/fsmud mudscript.zip
 	@ zip -r mudscript driver object web mudlib/npc mudlib/cmds/admin mudlib/std mudlib/secure mudlib/include mudlib/cmds/cmd_lm.c mudlib/cmds/cmd_mc.c mudlib/cmds/cmd_fs* cmd/fsmud/main.go
-	@ mv ../GIT .git
+	@ ls -l mudscript.zip
+
+zip-fs:
+	@ rm -f bin/fs mudscript.zip
+	@ zip -r mudscript driver object preprocessor fs/adm 
 	@ ls -l mudscript.zip

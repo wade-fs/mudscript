@@ -19,6 +19,36 @@
 - 補充：我的想法只是每個 Edge Site 就像私人的後花園，可以請別人來玩，當然也可以禁止特定玩家來玩，不是完全開放的
 - 身分格式： wade@wade.mud（訪客在遠端以此身分存在）
 
+---
+
+# 遺留系統相容計畫 (Legacy fs/ Mudlib Compatibility)
+
+為了讓具有 30 年歷史的 `fs/` (MudOS 0.9.20 架構) 能夠在 MudScript 引擎上運行，後續開發步驟如下：
+
+## 1. 驅動程式擴展 (Go Driver)
+- **啟動參數增強**：
+  - [ ] 在 `cmd/fsmud/main.go` 增加 `-global_include` 參數，對應 `config.GlobalInclude`。
+  - [ ] 增加 `-simul_efun` 參數，允許手動指定 `simul_efun.c` 的路徑。
+- **內建函式 (Efuns) 補完**：
+  - [ ] 支援 `efun::` 語法空間。
+  - [ ] 實作或 Stub 掉 `fs/` 依賴的關鍵內建函式（如 `read_bytes`, `write_bytes`, `resolve_path` 等）。
+- **權限與 UID 系統**：
+  - [ ] 強化目前的 `getuid`/`geteuid` 模擬邏輯，使其能與 `fs/` 的安全機制對接。
+
+## 2. Mudlib 腳本調整 (LPC Scripts)
+- **入口函式相容**：
+  - [ ] 調整 `fs/adm/obj/master.c` 的 `connect` 函式，使其能處理引擎傳入的 `string` 型別參數。
+- **錯誤排除 (Bug Fixing)**：
+  - [ ] 針對啟動時的 Runtime Error 進行逐一排除，修復因語法微差導致的解析問題。
+
+## 3. 環境與部署
+- **啟動指令範例**：
+  ```bash
+  go run ./cmd/fsmud -mudlib=fs -master=/adm/obj/master.c -global_include=globals.h -simul_efun=/adm/obj/simul_efun.c
+  ```
+- **編碼檢查**：
+  - [ ] 確認所有 `.c` 與 `.o` 檔案已正確轉換為 UTF-8 編碼。
+
 # 協定設計
 ## 連線生命週期：
 1. HANDSHAKE    本機 → hub → 遠端：請求建立 session
