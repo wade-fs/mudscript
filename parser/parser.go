@@ -641,11 +641,12 @@ func (p *Parser) parseStatement(topLevel bool) ast.Statement {
 	// 語法: [modifiers] name(args) { ... }
 	// 注意：這只應該發生在 top-level
 	if topLevel && p.curTokenIs(token.IDENT) && p.peekTokenIs(token.LPAREN) {
-		typeToken := token.Token{TokenType: token.MIXED_TYPE, Literal: "mixed", Line: p.curToken.Line}
-		name := &ast.Ident{Token: p.curToken, Value: p.curToken.Literal}
-		return p.parseFunctionDefinition(typeToken, false, name, isVarargs)
-	}
+	        fmt.Printf("DEBUG: Found function definition candidate: %s\n", p.curToken.Literal)
+	        typeToken := token.Token{TokenType: token.MIXED_TYPE, Literal: "mixed", Line: p.curToken.Line}
 
+	        name := &ast.Ident{Token: p.curToken, Value: p.curToken.Literal}
+	        return p.parseFunctionDefinition(typeToken, false, name, isVarargs)
+	}
 	switch p.curToken.TokenType {
 	case token.RETURN:
 		return p.parseReturnStatement()
@@ -692,9 +693,9 @@ func (p *Parser) parseTypedDeclarationStatement(isVarargs bool) ast.Statement {
 	name := &ast.Ident{Token: p.curToken, Value: p.curToken.Literal}
 
 	if p.peekTokenIs(token.LPAREN) {
-		return p.parseFunctionDefinition(typeToken, isArray, name, isVarargs)
+	        fmt.Printf("DEBUG: parseTypedDeclarationStatement calling parseFunctionDefinition for %s\n", name.Value)
+	        return p.parseFunctionDefinition(typeToken, isArray, name, isVarargs)
 	}
-
 	return p.parseTypedVariableDeclaration(typeToken, isArray, name)
 }
 
@@ -799,24 +800,29 @@ func (p *Parser) parseTypedParameters() []*ast.TypedParam {
 	p.nextToken()
 
 	for {
-		if !p.isTypeToken(p.curToken.TokenType) {
-			return nil
-		}
-		paramType := p.curToken
-
+		var paramType token.Token
 		paramIsArray := false
-		if p.peekTokenIs(token.ASTARISK) {
-			p.nextToken()
-			paramIsArray = true
-		}
-
 		var paramName *ast.Ident
-		if p.peekTokenIs(token.IDENT) {
-			p.nextToken()
+
+		if p.isTypeToken(p.curToken.TokenType) {
+			paramType = p.curToken
+			if p.peekTokenIs(token.ASTARISK) {
+				p.nextToken()
+				paramIsArray = true
+			}
+			if p.peekTokenIs(token.IDENT) {
+				p.nextToken()
+				paramName = &ast.Ident{Token: p.curToken, Value: p.curToken.Literal}
+			} else {
+				// 🚀 支援原型宣告中的無名參數 (例如: func(string, int))
+				paramName = &ast.Ident{Token: p.curToken, Value: fmt.Sprintf("__arg%d", len(params))}
+			}
+		} else if p.curTokenIs(token.IDENT) {
+			// 🚀 支援省略型別的參數 (預設為 mixed)
+			paramType = token.Token{TokenType: token.MIXED_TYPE, Literal: "mixed", Line: p.curToken.Line}
 			paramName = &ast.Ident{Token: p.curToken, Value: p.curToken.Literal}
 		} else {
-			// 🚀 支援原型宣告中的無名參數 (例如: func(string, int))
-			paramName = &ast.Ident{Token: p.curToken, Value: fmt.Sprintf("__arg%d", len(params))}
+			return nil
 		}
 
 		params = append(params, &ast.TypedParam{
@@ -832,7 +838,6 @@ func (p *Parser) parseTypedParameters() []*ast.TypedParam {
 			break
 		}
 	}
-
 	if !p.expectPeek(token.RPAREN) {
 		return nil
 	}

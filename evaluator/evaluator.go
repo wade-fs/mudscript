@@ -782,10 +782,15 @@ func findInheritedFunction(lpcObj *object.LPCObject, funcName string, env object
 	// 輔助函式：在繼承樹中尋找特定檔案對應的節點
 	var findNode func(cur *object.LPCObject) *object.LPCObject
 	findNode = func(cur *object.LPCObject) *object.LPCObject {
-		curName := strings.Split(cur.Filename, "#")[0]
-		if curName == originFile {
-			return cur
-		}
+	        curName := strings.Split(cur.Filename, "#")[0]
+	        curName = strings.TrimSuffix(curName, ".c")
+
+	        normOrigin := strings.TrimSuffix(originFile, ".c")
+
+	        if curName == normOrigin {
+	                return cur
+	        }
+
 		for _, p := range cur.Inherits {
 			if res := findNode(p); res != nil {
 				return res
@@ -796,14 +801,20 @@ func findInheritedFunction(lpcObj *object.LPCObject, funcName string, env object
 
 	targetNode := lpcObj
 	if originFile != "" {
-		if found := findNode(lpcObj); found != nil {
-			targetNode = found
-		}
+	        if found := findNode(lpcObj); found != nil {
+	                fmt.Printf("DEBUG: findNode found target: %s\n", found.Filename)
+	                targetNode = found
+	        }
 	}
+
+	fmt.Printf("DEBUG: starting search from %s, has %d inherits\n", targetNode.Filename, len(targetNode.Inherits))
 
 	// 從目標節點的「直接父類別」開始往下找
 	for _, parent := range targetNode.Inherits {
-		if fnObj, exists := parent.Vars.Get(funcName); exists {
+
+	        fmt.Printf("DEBUG: Searching for %s in parent %s\n", funcName, parent.Filename)
+	        if fnObj, exists := parent.Vars.Get(funcName); exists {
+
 			// 🚀 關鍵修正：繼承呼叫必須重新「綁定」到目前的物件變數環境 (lpcObj.Vars)
 			if fn, ok := fnObj.(*object.Function); ok {
 				return &object.Function{
@@ -874,9 +885,11 @@ func findParentFunction(lpcObj *object.LPCObject, parentName string, funcName st
 
 func evalIdent(node *ast.Ident, env object.Environment) object.Object {
 	name := node.Value
+    // fmt.Printf("DEBUG: evalIdent: %s\n", name)
 
 	// 支援 efun::, simul_efun::, 或 Parent:: 前綴呼叫
 	if strings.Contains(name, "::") {
+        fmt.Printf("DEBUG: evalIdent found :: in %s\n", name)
 		parts := strings.Split(name, "::")
 		if len(parts) == 2 {
 			prefix := parts[0]
@@ -918,8 +931,11 @@ func evalIdent(node *ast.Ident, env object.Environment) object.Object {
 					}
 				}
 			} else if prefix == "" { // 支援 ::func() 繼承呼叫
-				if thisObjVal, ok := env.Get("this_object"); ok {
-					var lpcObj *object.LPCObject
+			        fmt.Printf("DEBUG: evalIdent entering :: branch for %s\n", funcName)
+			        if thisObjVal, ok := env.Get("this_object"); ok {
+			                fmt.Printf("DEBUG: evalIdent found this_object\n")
+			                var lpcObj *object.LPCObject
+
 					if obj, ok := thisObjVal.(*object.LPCObject); ok {
 						lpcObj = obj
 					} else if builtin, ok := thisObjVal.(*object.Builtin); ok {
@@ -929,7 +945,9 @@ func evalIdent(node *ast.Ident, env object.Environment) object.Object {
 						}
 					}
 					if lpcObj != nil {
-						if res := findInheritedFunction(lpcObj, funcName, env); res != nil {
+					        fmt.Printf("DEBUG: calling findInheritedFunction for %s on %s\n", funcName, lpcObj.Filename)
+					        if res := findInheritedFunction(lpcObj, funcName, env); res != nil {
+
 							return res
 						}
 					}

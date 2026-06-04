@@ -9,24 +9,12 @@
 
 inherit F_DBASE;
 
-void create()
-{
-	seteuid(getuid()); // This is required to pass intermud access check.
-	set_temp("channel_id", "頻道精靈");
-}
-void reset()
-{
-CHANNEL_D->do_channel(this_object(),"sys",HIG + "物件重生了!!" + NOR);
-}
-
-
 string myclass, myclan;
 string record;
 
 mapping channels = ([
-	"sys"     : (["msg_speak" : "【系統】%s"+NOR+": %s\n",
+        "sys"     : (["msg_speak" : "【系統】%s"+NOR+": %s\n",
                       "arch_only" : 1 ]),
-
         "wiz"     : (["msg_speak" : HIW + "【" + HIY + "眾神會議" + HIW + "】" + HIY + "%s說道: %s\n" + NOR,
                       "wiz_only" : 1 ]),
 
@@ -67,7 +55,7 @@ mapping channels = ([
 
         "war"     : (["msg_speak": "【" + HIR + "戰爭"+NOR+"】" + HIR + "%s喝道: %s\n" + NOR]),
 
-        "ct"     : (["msg_speak": "【" + HIY + "幫會"+NOR+"】" + HIY + "%s說道: %s\n" + NOR]),
+        "ht"      : (["msg_speak":  "【" + HIY + "狂想互助"+NOR+"】" + HIY + "%s說道: %s\n" + NOR ]),
 
         "gt"     : (["msg_speak": GRN + "【" + HIG + "公會" + GRN + "】" + HIG + "%s說道: %s\n" + NOR]),
 
@@ -112,6 +100,17 @@ mapping channels = ([
         "ot*"     : (["msg_speak": HIB + "【夜總會】" + HIG]),
 ]);
 
+void create()
+{
+        seteuid(getuid()); // This is required to pass intermud access check.
+        set_temp("channel_id", "頻道精靈");
+}
+
+void reset()
+{
+CHANNEL_D->do_channel(this_object(),"sys",HIG + "物件重生了!!" + NOR);
+}
+
 varargs int do_channel( object me, string verb, string arg, int emote )
 {
 	string *tuned_ch, who, emote_verb, emote_arg, cls , type;
@@ -119,27 +118,11 @@ varargs int do_channel( object me, string verb, string arg, int emote )
 	int exp, clanrank, age;
   // 作頻道內的分類
   sscanf(verb,"%s:%s",verb,type);
-	if( undefinedp(channels[verb]) && !mapp(channels) )
+	if( (!mapp(channels)) || (undefinedp(channels[verb])) )
 		return notify_fail("無任何頻道存在。\n");
 	if(!channels[verb])
  		return 0;
 
-	/*
-  if( wizardp(me) && verb == "record" ) {
-		if (!arg)
-			tell_object( me, "現在錄音況狀是: "+record+"\n");
-		else if( arg == "stop" )
-			record = 0;
-		else if( arg == "wiz" || arg == "chat" ) {
-			if( write_file("/log/RECORD/"+arg,
-				me->query("id")+" 啟動錄音："+ctime(time()), 1)) {
-				record = arg;
-				tell_object( me, "現在錄音開始錄 " + arg + " 頻道。\n");
-			}
-		}
-		return 1;
-	}
-*/
 	if( userp(me) ) { //玩家使用頻道的限制
 		exp=me->query("combat_exp");
       		clanrank = me->query("clan/rank");
@@ -211,15 +194,6 @@ if( (verb=="shout" || verb=="sex" || verb=="music" || verb=="rumor" || verb=="ch
 
 	}
 
-//以下change by bss,試試看另一種寫法
-/*
-	// 使用後自動打開該頻道
-  	if( pointerp(tuned_ch) )
-		if( member_array(verb, tuned_ch)==-1 )
-        		me->set_temp("channels", tuned_ch + ({ verb }) );
-  	else
-     		me->set_temp( "channels", ({ verb }) );
-*/
      tuned_ch=me->query_temp("channels");
      if(!pointerp(tuned_ch))
        me->set_temp("channels",({verb}));
@@ -313,14 +287,6 @@ if( (verb=="shout" || verb=="sex" || verb=="music" || verb=="rumor" || verb=="ch
 		channels[verb]["intermud"]->send_msg(channels[verb]["channel"],
             		me->query("id"),me->name(1),arg,0,channels[verb]["filter"] );
 	return 1;
-	return 0;
-/*
-  if( channels[verb]
-   && !undefinedp(channels[verb]["intermud"])
-   &&  base_name(me) != channels[verb]["intermud"] )
-    channels[verb]["intermud"]->send_msg(channels[verb]["channel"],
-           me->query("id"),me->name(1),arg,0,channels[verb]["filter"] );
-    return 1; */
 }
 
 // 處理玩家是否接收訊息

@@ -108,6 +108,11 @@ func (d *Driver) loadObjectInternal(filename string) (*object.LPCObject, bool, e
 	d.UUIDTable[lpcObj.UUID] = lpcObj
 	d.mu.Unlock()
 
+	d.SetupEfuns(lpcObj)
+	env.Set("__file__", &object.String{Value: filename})
+
+	// 🚀 [修正] 兩階段初始化：第一階段先處理繼承、函式宣告與變數名稱 (Hoisting)
+	// 這樣頂層變數初始化時才能正確參照到後面才定義的函式，且變數名稱已存在於環境中。
 	for _, stmt := range program.Statements {
 		if inheritStmt, ok := stmt.(*ast.InheritStatement); ok {
 			parentFile := d.ResolvePath(filename, inheritStmt.Path)
@@ -129,6 +134,11 @@ func (d *Driver) loadObjectInternal(filename string) (*object.LPCObject, bool, e
 				if _, isBuiltin := v.(*object.Builtin); isBuiltin {
 					continue
 				}
+				// 🚀 [修正] 不要繼承父物件的特殊系統變數
+				if k == "__file__" || k == "this_object" || k == "__simul_efun_obj" {
+					continue
+				}
+
 				var copiedVal object.Object
 				if fn, ok := v.(*object.Function); ok {
 					copiedVal = &object.Function{
@@ -142,12 +152,21 @@ func (d *Driver) loadObjectInternal(filename string) (*object.LPCObject, bool, e
 				}
 				env.Set(k, copiedVal)
 			}
+		} else if funcDef, ok := stmt.(*ast.FunctionDef); ok {
+			// 提前註冊函式 (Hoisting)
+			res := evaluator.Eval(funcDef, env)
+			if fn, ok := res.(*object.Function); ok {
+				fmt.Printf("DEBUG: Hoisting function %s in %s, origin %s\n", funcDef.Name.Value, filename, fn.OriginFile)
+			}
+		} else if varDecl, ok := stmt.(*ast.TypedVarDecl); ok {
+			// 提前註冊變數名稱，初始值設為 Nil (Hoisting)
+			if _, exists := env.Get(varDecl.Name.Value); !exists {
+				env.Set(varDecl.Name.Value, &object.Nil{})
+			}
 		}
 	}
 
-	d.SetupEfuns(lpcObj)
-	env.Set("__file__", &object.String{Value: filename})
-
+	// 🚀 第二階段：執行所有頂層陳述式 (變數初始化等)
 	res := evaluator.Eval(program, env)
 	if errObj, ok := res.(*object.Error); ok {
 		return nil, false, fmt.Errorf("evaluation error in %s: %s", filename, errObj.Message)

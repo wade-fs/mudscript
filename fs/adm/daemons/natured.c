@@ -43,7 +43,7 @@ void create()
         	war_start();
                 do_full();
                 sp_boss();
-                sys_init(-1);
+//                sys_init(-1);
                 //call_out( "check_heart_beat", 10 );
         }
 
@@ -127,7 +127,8 @@ varargs void sys_init(int start)
             continue ;
           load_object(dir+files[i][0]);
           if(i%30 == 0 ) {
-            call_out("sys_init",1,i);
+            //      call_out("sys_init", 1, -1);
+
             break;
           }
         }

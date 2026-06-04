@@ -62,13 +62,14 @@ func (p *Preprocessor) Process(filename, input string) (string, error) {
 }
 
 // replaceMacros 執行巨集替換，支援遞迴替換
-func (p *Preprocessor) replaceMacros(line string) string {
+func (p *Preprocessor) replaceMacros(line string, initialInString bool) (string, bool) {
 	if len(p.Macros) == 0 {
-		return line
+		return line, initialInString
 	}
 
-	// 🚀 關鍵修正：支援遞迴巨集替換
+	// 🚀 關鍵修正：支援遞迴替換並追蹤字串狀態
 	currentLine := line
+	finalInString := initialInString
 
 	// 取得所有巨集名稱並按長度排序 (由長到短)，避免 prefix 提早被取代
 	var macroNames []string
@@ -91,7 +92,7 @@ func (p *Preprocessor) replaceMacros(line string) string {
 
 		// 2. 處理一般巨集，但必須避開字串
 		var result strings.Builder
-		inString := false
+		inString := initialInString
 		changed := false
 
 		for i := 0; i < len(currentLine); i++ {
@@ -115,7 +116,7 @@ func (p *Preprocessor) replaceMacros(line string) string {
 					endIdx := i + len(name)
 					isStartWord := (i == 0 || !isAlphaNumeric(currentLine[i-1]))
 					isEndWord := (endIdx == len(currentLine) || !isAlphaNumeric(currentLine[endIdx]))
-					
+
 					if isStartWord && isEndWord {
 						result.WriteString(m.Body)
 						i = endIdx - 1 // 跳過巨集名稱 (迴圈會再 +1)
@@ -131,15 +132,16 @@ func (p *Preprocessor) replaceMacros(line string) string {
 			}
 		}
 
+
 		currentLine = result.String()
+		finalInString = inString
 		if !changed {
 			break
 		}
 	}
 
-	return currentLine
+	return currentLine, finalInString
 }
-
 func (p *Preprocessor) replaceFuncMacro(line, name string, m Macro) string {
 	outLine := line
 	searchIdx := 0
@@ -270,13 +272,18 @@ func (p *Preprocessor) processInternal(filename, input string, depth int) (strin
 		return false
 	}
 	inBlockComment := false
+	inString := false
 
 	for scanner.Scan() {
 		line := scanner.Text()
 
 		// 🚩 處理註解，支援 // 與 /* */
 		var cleanLineBuilder strings.Builder
-		inString := false
+		
+		// 🚀 關鍵：在剝離註解時，我們也需要追蹤字串狀態，
+		// 但這只是「暫時」的，為了確保註解辨識正確。
+		// 真正的持續性 inString 狀態會由 replaceMacros 維持。
+		tempInString := inString
 
 		for i := 0; i < len(line); i++ {
 			// 1. 處理區塊註解結束
@@ -288,14 +295,14 @@ func (p *Preprocessor) processInternal(filename, input string, depth int) (strin
 				continue
 			}
 
-			// 2. 處理字串切換
+			// 2. 處理字串切換 (暫時性，僅用於註解過濾)
 			if line[i] == '"' && (i == 0 || line[i-1] != '\\') {
-				inString = !inString
+				tempInString = !tempInString
 				cleanLineBuilder.WriteByte(line[i])
 				continue
 			}
 
-			if !inString {
+			if !tempInString {
 				// 3. 處理區塊註解開始
 				if i < len(line)-1 && line[i] == '/' && line[i+1] == '*' {
 					inBlockComment = true
@@ -479,7 +486,7 @@ func (p *Preprocessor) processInternal(filename, input string, depth int) (strin
 			}
 
 			p.Macros[name] = Macro{Name: name, Args: args, Body: body}
-			fmt.Printf("DEBUG: Defined macro %s = %s\n", name, body)
+			// fmt.Printf("DEBUG: Defined macro %s = %s\n", name, body)
 			output.WriteString("\n")
 			continue
 		}
@@ -501,16 +508,21 @@ func (p *Preprocessor) processInternal(filename, input string, depth int) (strin
 
 			var relPath string
 			if strings.HasPrefix(pathStr, "/") {
-				relPath = strings.TrimPrefix(pathStr, "/")
-			} else if isSystem {
-				// 🚀 新增：系統引入優先尋找 /include/
-				relPath = "include/" + pathStr
+			        relPath = strings.TrimPrefix(pathStr, "/")
 			} else {
-				dir := filepath.Dir(filename)
-				relPath = filepath.Join(dir, pathStr)
+			        // 先嘗試相對路徑
+			        dir := filepath.Dir(strings.TrimPrefix(filename, "/"))
+			        relPath = filepath.Join(dir, pathStr)
+
+			        // 如果是系統引入，或者是相對路徑找不到，則嘗試 /include/
+			        fullPath := filepath.Join(p.MudLibPath, relPath)
+			        if _, statErr := os.Stat(fullPath); statErr != nil {
+			            if isSystem || strings.Index(pathStr, "/") == -1 {
+			                relPath = filepath.Join("include", pathStr)
+			            }
+			        }
 			}
 			relPath = strings.TrimPrefix(relPath, "/")
-
 			var content []byte
 			var err error
 
@@ -541,11 +553,13 @@ func (p *Preprocessor) processInternal(filename, input string, depth int) (strin
 		// ==========================================
 		// 4. 處理一般程式碼：替換巨集與修飾詞剝除
 		// ==========================================
-		outLine := p.replaceMacros(cleanLine)
+		var outLine string
+		outLine, inString = p.replaceMacros(cleanLine, inString)
 		if p.StripModifiers {
 			outLine = p.stripModifiers(outLine)
 		}
 		output.WriteString(outLine + "\n")
+
 	}
 
 	return output.String(), nil
