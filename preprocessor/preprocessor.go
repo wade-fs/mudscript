@@ -256,24 +256,50 @@ func (p *Preprocessor) processInternal(filename, input string, depth int) (strin
 		}
 		return false
 	}
+	inBlockComment := false
 
 	for scanner.Scan() {
 		line := scanner.Text()
-		
-		// 🚩 先移除註解，但要避開字串內部的 // (如網址)
-		// 使用 strings.Builder 與 WriteByte 確保不破壞 UTF-8 字節流
+
+		// 🚩 處理註解，支援 // 與 /* */
 		var cleanLineBuilder strings.Builder
 		inString := false
+
 		for i := 0; i < len(line); i++ {
+			// 1. 處理區塊註解結束
+			if inBlockComment {
+				if i < len(line)-1 && line[i] == '*' && line[i+1] == '/' {
+					inBlockComment = false
+					i++ // 跳過 '/'
+				}
+				continue
+			}
+
+			// 2. 處理字串切換
 			if line[i] == '"' && (i == 0 || line[i-1] != '\\') {
 				inString = !inString
+				cleanLineBuilder.WriteByte(line[i])
+				continue
 			}
-			if !inString && i < len(line)-1 && line[i] == '/' && line[i+1] == '/' {
-				break // 遇到註解，本行後續捨棄
+
+			if !inString {
+				// 3. 處理區塊註解開始
+				if i < len(line)-1 && line[i] == '/' && line[i+1] == '*' {
+					inBlockComment = true
+					i++ // 跳過 '*'
+					continue
+				}
+				// 4. 處理單行註解
+				if i < len(line)-1 && line[i] == '/' && line[i+1] == '/' {
+					break // 遇到單行註解，本行後續捨棄
+				}
 			}
+
 			cleanLineBuilder.WriteByte(line[i])
 		}
+
 		cleanLine := cleanLineBuilder.String()
+
 		trimmed := strings.TrimSpace(cleanLine)
 
 		// ==========================================

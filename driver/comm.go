@@ -2,6 +2,7 @@
 package driver
 
 import (
+	"log"
 	"strings"
 
 	"mudscript/object"
@@ -82,6 +83,9 @@ func (d *Driver) ProcessCommand(pConn *PlayerConnection, input string) bool {
 		return false
 	}
 	obj := pConn.Object
+
+	// 🚀 新增：記錄玩家輸入
+	log.Printf("📥 [Input] %s (%s): %s", pConn.Username, obj.Filename, input)
 
 	input = strings.TrimSpace(input)
 	if input == "" {
