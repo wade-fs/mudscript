@@ -147,12 +147,23 @@ func (d *Driver) Start() error {
 		}
 	}
 
-	fmt.Printf("✅ Master 準備就緒 (RootUID: %s, BackboneUID: %s)，開始執行初始化...\n", d.RootUID, d.BackboneUID)
-	
-	// 4. 執行 Master 的 create
+	// 🚀 新增：執行 Master 的 create
 	d.CallFunction(master, "create", nil)
 
-	go d.runGameLoop()
+	fmt.Printf("✅ Master 準備就緒 (RootUID: %s, BackboneUID: %s)，開始執行初始化...\n", d.RootUID, d.BackboneUID)
+
+	// 4. 回呼 Master 的 epilog 取得 preload 列表
+	if res := d.CallFunction(master, "epilog", []object.Object{&object.Integer{Value: 0}}); res != nil {
+		if arr, ok := res.(*object.Array); ok {
+			for _, item := range arr.Elements {
+				if s, ok := item.(*object.String); ok && s.Value != "" {
+					d.CallFunction(master, "preload", []object.Object{s})
+				}
+			}
+		}
+	}
+
+	go d.runGameLoop()    // 🚀 啟動遊戲主迴圈
 	go d.runCleanUpLoop() // 🚀 啟動垃圾回收
 	return nil
 }

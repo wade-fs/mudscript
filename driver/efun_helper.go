@@ -154,8 +154,9 @@ func (d *Driver) checkWritePermission(caller *object.LPCObject, path string, efu
 
 	// 🚀 背景日誌：方便追蹤所有的權限行為
 	if !allowed {
-		log.Printf("🛡️ [Permission] Denied msg: %s", errMsg)
+		log.Printf("🛡️  [Permission] Denied: %s (by %s in %s)", path, efunName, caller.Filename)
 	}
+
 
 	return allowed, errMsg
 }

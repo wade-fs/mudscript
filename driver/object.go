@@ -33,6 +33,7 @@ func (d *Driver) LoadObject(filename string) (*object.LPCObject, error) {
 
 func (d *Driver) loadObjectInternal(filename string) (*object.LPCObject, bool, error) {
 	filename = d.NormalizePath(filename)
+	log.Printf("🔍 [Loading] %s", filename)
 	d.mu.RLock()
 	if obj, exists := d.ObjectTable[filename]; exists {
 		d.mu.RUnlock()

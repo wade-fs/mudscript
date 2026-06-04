@@ -53,6 +53,7 @@ func (d *Driver) RunCommand(p *PlayerConnection, obj *object.LPCObject, funcName
 			d.playerContexts.Delete(gid)
 		}
 	}()
+	log.Printf("🎮 [Command] %s->%s(%v)", obj.Filename, funcName, args)
 	return d.CallFunction(obj, funcName, args)
 }
 
