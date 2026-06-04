@@ -96,6 +96,7 @@ func (d *Driver) SetupEfuns(obj *object.LPCObject) {
 	d.registerBufferEfuns(obj)
 	d.registerBitEfuns(obj)
 	d.registerWizardEfuns(obj)
+	d.registerNetworkEfuns(obj) // 🚀 新增：Stub Network Efuns
 	d.registerParseEfuns(obj)
 	d.registerDebugEfuns(obj)
 	d.registerPerformanceEfuns(obj)

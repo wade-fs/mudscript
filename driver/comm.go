@@ -106,6 +106,18 @@ func (d *Driver) ProcessCommand(pConn *PlayerConnection, input string) bool {
 		finalArgs := append([]object.Object{&object.String{Value: input}}, args...)
 
 		if closure != nil {
+			// 🚀 關鍵修正：必須綁定 Context，否則 write() 等 efun 會找不到目標
+			gid := getGID()
+			oldContext, hasOld := d.playerContexts.Load(gid)
+			d.playerContexts.Store(gid, pConn)
+			defer func() {
+				if hasOld {
+					d.playerContexts.Store(gid, oldContext)
+				} else {
+					d.playerContexts.Delete(gid)
+				}
+			}()
+
 			d.ExecuteCallback(obj, closure, finalArgs)
 		} else if targetObj != nil {
 			d.RunCommand(pConn, targetObj, funcName, finalArgs)

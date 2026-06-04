@@ -32,7 +32,7 @@ seteuid(getuid());
     }
     me->set_temp ("song/歌名", name);
     write ("原唱者: ");
-    input_to ("set_songer", me);
+    input_to ("set_songer", 0, me);
   }
   else if (arg == "-d") {       // 清除歌曲
     song->delete_song (name, me);

@@ -596,17 +596,31 @@ func (d *Driver) registerSecurityEfuns(obj *object.LPCObject) {
 	// 語法: string getuid(object ob)
 	obj.Vars.Set("getuid", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
-			// target := obj // unused
-			// 簡化實作：假設 LPC 物件有個 UID 屬性，或從檔案名稱推斷
-			// 這裡先回傳 placeholder
-			return &object.String{Value: "root"}
+			// 如果有傳入物件，應該回傳該物件的 uid (簡化處理)
+			if len(args) > 0 {
+				if t, ok := args[0].(*object.LPCObject); ok {
+					if t.Filename == d.MasterObject.Filename || strings.HasPrefix(t.Filename, "/adm/") {
+						return &object.String{Value: d.RootUID}
+					}
+					return &object.String{Value: "User"}
+				}
+			}
+			return &object.String{Value: d.RootUID}
 		},
 	})
 
 	// 語法: string geteuid(object ob)
 	obj.Vars.Set("geteuid", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
-			return &object.String{Value: "root"}
+			if len(args) > 0 {
+				if t, ok := args[0].(*object.LPCObject); ok {
+					if t.Filename == d.MasterObject.Filename || strings.HasPrefix(t.Filename, "/adm/") {
+						return &object.String{Value: d.RootUID}
+					}
+					return &object.String{Value: "User"}
+				}
+			}
+			return &object.String{Value: d.RootUID}
 		},
 	})
 

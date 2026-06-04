@@ -61,14 +61,16 @@ func (p *Preprocessor) Process(filename, input string) (string, error) {
 }
 
 // replaceMacros 執行巨集替換，支援遞迴替換
-func (p *Preprocessor) replaceMacros(line string) string {
+func (p *Preprocessor) replaceMacros(line string, initialInString bool) (string, bool) {
 	if len(p.Macros) == 0 {
-		return line
+		return line, initialInString
 	}
 
 	// 🚀 關鍵修正：支援遞迴巨集替換 (例如 BLK -> ESC + "[0;30m" -> "\x1b" + "[0;30m")
 	// 我們最多嘗試 10 次，避免無窮遞迴
 	currentLine := line
+	finalInString := initialInString
+
 	for depth := 0; depth < 10; depth++ {
 		// 1. 先處理函式型巨集 (目前簡化，仍使用 Regex)
 		for name, m := range p.Macros {
@@ -79,7 +81,7 @@ func (p *Preprocessor) replaceMacros(line string) string {
 
 		// 2. 處理一般巨集，但必須避開字串
 		var result strings.Builder
-		inString := false
+		inString := initialInString
 		changed := false
 
 		for i := 0; i < len(currentLine); i++ {
@@ -104,6 +106,7 @@ func (p *Preprocessor) replaceMacros(line string) string {
 					isEndWord := (endIdx == len(currentLine) || !isAlphaNumeric(currentLine[endIdx]))
 					
 					if isStartWord && isEndWord {
+						// log.Printf("🚀 [Macro] %s -> %s", name, m.Body)
 						result.WriteString(m.Body)
 						i = endIdx - 1 // 跳過巨集名稱 (迴圈會再 +1)
 						found = true
@@ -119,12 +122,13 @@ func (p *Preprocessor) replaceMacros(line string) string {
 		}
 
 		currentLine = result.String()
+		finalInString = inString
 		if !changed {
 			break
 		}
 	}
 
-	return currentLine
+	return currentLine, finalInString
 }
 
 func (p *Preprocessor) replaceFuncMacro(line, name string, m Macro) string {
@@ -257,16 +261,17 @@ func (p *Preprocessor) processInternal(filename, input string, depth int) (strin
 		return false
 	}
 	inBlockComment := false
+	inString := false
 
 	for scanner.Scan() {
 		line := scanner.Text()
 
 		// 🚩 處理註解，支援 // 與 /* */
 		var cleanLineBuilder strings.Builder
-		inString := false
 
 		for i := 0; i < len(line); i++ {
 			// 1. 處理區塊註解結束
+
 			if inBlockComment {
 				if i < len(line)-1 && line[i] == '*' && line[i+1] == '/' {
 					inBlockComment = false
@@ -527,23 +532,24 @@ func (p *Preprocessor) processInternal(filename, input string, depth int) (strin
 		// ==========================================
 		// 4. 處理一般程式碼：替換巨集與修飾詞剝除
 		// ==========================================
-		outLine := p.replaceMacros(cleanLine)
+		outLine, nextInString := p.replaceMacros(cleanLine, inString)
 		if p.StripModifiers {
-			outLine = p.stripModifiers(outLine)
+			outLine, nextInString = p.stripModifiers(outLine, nextInString)
 		}
 		output.WriteString(outLine + "\n")
+		inString = nextInString
 	}
 
 	return output.String(), nil
 }
 
-func (p *Preprocessor) stripModifiers(line string) string {
+func (p *Preprocessor) stripModifiers(line string, initialInString bool) (string, bool) {
 	// 定義需要被移除的 LPC 修飾詞
 	modifiers := []string{"static", "varargs", "nomask", "private", "protected", "public"}
 
 	currentLine := line
 	var result strings.Builder
-	inString := false
+	inString := initialInString
 
 	for i := 0; i < len(currentLine); i++ {
 		// 🚩 避開字串內容
@@ -580,7 +586,7 @@ func (p *Preprocessor) stripModifiers(line string) string {
 			result.WriteByte(currentLine[i])
 		}
 	}
-	return result.String()
+	return result.String(), inString
 }
 
 func isAlphaNumeric(c byte) bool {

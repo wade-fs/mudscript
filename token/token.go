@@ -99,6 +99,7 @@ const (
 	MIXED_TYPE   = "MIXED_TYPE"   // mixed
 	VOID_TYPE    = "VOID_TYPE"    // void
 	CLOSURE_TYPE = "CLOSURE_TYPE" // closure
+	FUNCTION_TYPE = "FUNCTION_TYPE" // function
 	BUFFER_TYPE  = "BUFFER_TYPE"  // buffer
 
 	// LPC 新增的關鍵字
@@ -171,6 +172,7 @@ var keywords = map[string]TokenType{
 	"mixed":   MIXED_TYPE,
 	"void":    VOID_TYPE,
 	"closure": CLOSURE_TYPE,
+	"function": FUNCTION_TYPE,
 	"buffer":  BUFFER_TYPE,
 	"inherit": INHERIT,
 	"new":     NEW,

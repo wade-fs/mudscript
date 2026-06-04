@@ -545,17 +545,59 @@ func evalInfixExpression(operator string, left, right object.Object) object.Obje
 		return nativeBoolToBooleanObject(evalEquality(left, right))
 	case operator == "!=":
 		return nativeBoolToBooleanObject(!evalEquality(left, right))
+
+	// 🚀 關鍵相容：處理不同型別的比較 (將 Nil 視為 0)
 	case left.TokenType() != right.TokenType():
+		// 1. 如果其中一邊是 Nil，將其轉為 0
+		if left.TokenType() == object.NilType {
+			return evalInfixExpression(operator, &object.Integer{Value: 0}, right)
+		}
+		if right.TokenType() == object.NilType {
+			return evalInfixExpression(operator, left, &object.Integer{Value: 0})
+		}
+
+		// 2. 數值混合比較 (Integer vs Float)
+		if left.TokenType() == object.IntegerType && right.TokenType() == object.FloatType {
+			return evalFloatInfixExpression(operator, &object.Float{Value: float64(left.(*object.Integer).Value)}, right)
+		}
+		if left.TokenType() == object.FloatType && right.TokenType() == object.IntegerType {
+			return evalFloatInfixExpression(operator, left, &object.Float{Value: float64(right.(*object.Integer).Value)})
+		}
+
+		// 3. 🚀 關鍵相容：混合比較 (Integer vs String)
+		// 嘗試將字串轉為整數進行比較
+		if left.TokenType() == object.IntegerType && right.TokenType() == object.StringType {
+			if rVal, err := strconv.ParseInt(right.(*object.String).Value, 10, 64); err == nil {
+				return evalIntegerInfixExpression(operator, left, &object.Integer{Value: rVal})
+			}
+		}
+		if left.TokenType() == object.StringType && right.TokenType() == object.IntegerType {
+			if lVal, err := strconv.ParseInt(left.(*object.String).Value, 10, 64); err == nil {
+				return evalIntegerInfixExpression(operator, &object.Integer{Value: lVal}, right)
+			}
+		}
+
 		return newError("type mismatch: %s %s %s", left.TokenType(), operator, right.TokenType())
+
 	default:
 		return newError("unknown operator: %s %s %s", left.TokenType(), operator, right.TokenType())
 	}
 }
 
 func evalEquality(left, right object.Object) bool {
+	log.Printf("⚖️  [Compare] %s == %s", left.Inspect(), right.Inspect())
 	if left == right {
 		return true
 	}
+	// 🚀 關鍵相容：Integer 數值比較
+	if left.TokenType() == object.IntegerType && right.TokenType() == object.IntegerType {
+		return left.(*object.Integer).Value == right.(*object.Integer).Value
+	}
+	// 🚀 關鍵相容：String 字串內容比較
+	if left.TokenType() == object.StringType && right.TokenType() == object.StringType {
+		return left.(*object.String).Value == right.(*object.String).Value
+	}
+
 	// Integer vs Boolean (0 == false, non-zero == true)
 	if left.TokenType() == object.IntegerType && right.TokenType() == object.BooleanType {
 		lval := left.(*object.Integer).Value
@@ -1224,22 +1266,9 @@ func checkTypeMatch(lpcType string, obj object.Object) bool {
 
 // GetDefaultLPCValue 取得 LPC 的預設值
 func GetDefaultLPCValue(lpcType string) object.Object {
-	switch lpcType {
-	case "int":
-		return &object.Integer{Value: 0}
-	case "string":
-		return &object.String{Value: ""}
-	case "float":
-		return &object.Float{Value: 0.0}
-	case "mapping":
-		return &object.Mapping{Pairs: make(map[object.HashKey]object.HashPair)}
-	case "array":
-		return &object.Array{Elements: []object.Object{}}
-	case "object", "closure", "mixed", "buffer", "void":
-		return NilValue
-	default:
-		return NilValue
-	}
+	// 🚀 關鍵相容：在 MudOS/LPC 中，所有未初始化的變數預設值皆為整數 0
+	// 即使是 string, object, mapping 或 array 類型也是如此
+	return &object.Integer{Value: 0}
 }
 
 func evalFunctionDef(node *ast.FunctionDef, env object.Environment) object.Object {
@@ -1737,14 +1766,12 @@ func evalSscanf(node *ast.CallExpression, env object.Environment) object.Object 
 
 	re, err := regexp.Compile(regexStr.String())
 	if err != nil {
-		log.Printf("⚠️  [sscanf] Regex compile error: %v", err)
 		return &object.Integer{Value: 0}
 	}
 
 	// 3. 進行字串配對
 	matches := re.FindStringSubmatch(inputStr.Value)
 	if matches == nil {
-		// log.Printf("🔍 [sscanf] No match: '%s' vs '%s'", inputStr.Value, regexStr.String())
 		return &object.Integer{Value: 0}
 	}
 

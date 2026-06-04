@@ -250,7 +250,7 @@ void confirm_copy(string yn, mapping mail)
 	if( yn[0]=='y' || yn[0]=='Y' ) receive_mail(mail);
 	send_mail(mail["to"], mail);
 	write ("請問還有要寄給誰嗎(y/n) ? [n]");
-	input_to ("confirm_other", mail);
+	input_to ("confirm_other", 0, mail);
 }
 
 void get_id (string str, mapping mail)
@@ -270,7 +270,7 @@ void get_id (string str, mapping mail)
         else
          write ("無此人\n");
 	write ("請問還有要寄給誰嗎(y/n) ? [n]");
-	input_to ("confirm_other", mail);
+	input_to ("confirm_other", 0, mail);
 }
 
 void confirm_other(string yn, mapping mail)

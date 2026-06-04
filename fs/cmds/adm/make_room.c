@@ -274,13 +274,13 @@ int do_mkroom(string arg)
   
   if (arg == here) {
     write ("請輸入檔名, 請勿命名為 "+here+" : ");
-    input_to ( "get_file_name" );
+    input_to ( "get_file_name", 0 );
   }
   else {
     tmp["file_name"] = arg;
     write ("file name is "+arg+"\n");
     write ("請輸入 no_fight 的值 (0 預設為可戰鬥) : ");
-    input_to ( "get_no_fight" );
+    input_to ( "get_no_fight", 0 );
   }
   return 1;
 }
@@ -292,7 +292,7 @@ int get_file_name (string rep)
   if (rep == ".") { write ("你放棄本次編輯。\n"); return 1; }
   else if (rep=="") {
     write ("不可以沒有檔名, 請再輸入一次, 放棄編輯請按句點 . 結束\n");
-    input_to ( "get_file_name" );
+    input_to ( "get_file_name", 0 );
     return 1;
   }
   else {
@@ -304,7 +304,7 @@ int get_file_name (string rep)
   }
 
   write ("請輸入 no_fight 的值 (0 預設為可戰鬥) : ");
-  input_to ( "get_no_fight" );
+  input_to ( "get_no_fight", 0 );
   return 1;
 }
 
@@ -315,12 +315,12 @@ int get_no_fight (string rep)
   else if (sscanf (rep, "%d", tmp["no_fight"]) != 1) {
     write ("你的輸入不是數字, 應該是 0 或 1\n");
     write ("請輸入 no_fight 的值 (0 預設為可戰鬥) : ");
-    input_to ( "get_no_fight" );
+    input_to ( "get_no_fight", 0 );
     return 1;
   }
 
   write ("請輸入 no_magic 的值 (0 預設為可施魔法) : ");
-  input_to ( "get_no_magic" );
+  input_to ( "get_no_magic", 0 );
 
   return 1;
 }
@@ -332,12 +332,12 @@ int get_no_magic (string rep)
   else if (sscanf (rep, "%d", tmp["no_magic"]) != 1) {
     write ("你的輸入不是數字, 應該是 0 或 1\n");
     write ("請輸入 no_magic 的值 (0 預設為可施魔法) : ");
-    input_to ( "get_no_magic" );
+    input_to ( "get_no_magic", 0 );
     return 1;
   }
 
   write ("請輸入 light_up 的值 (0 預設為沒燈光的房間) : ");
-  input_to ( "get_light_up" );
+  input_to ( "get_light_up", 0 );
 
   return 1;
 }
@@ -349,12 +349,12 @@ int get_light_up (string rep)
   else if (sscanf (rep, "%d", tmp["light_up"]) != 1) {
     write ("你的輸入不是數字, 應該是 0 或 1\n");
     write ("請輸入 light_up 的值 (0 預設為可施魔法) : ");
-    input_to ( "get_light_up" );
+    input_to ( "get_light_up", 0 );
     return 1;
   }
 
   write ("請輸入 no_clean_up 的值 (0 預設為要 reborn) : ");
-  input_to ( "get_no_clean_up" );
+  input_to ( "get_no_clean_up", 0 );
 
   return 1;
 }
@@ -366,12 +366,12 @@ int get_no_clean_up (string rep)
   else if (sscanf (rep, "%d", tmp["no_clean_up"]) != 1) {
     write ("你的輸入不是數字, 應該是 0 或 1\n");
     write ("請輸入 no_clean_up 的值 (0 預設為可施魔法) : ");
-    input_to ( "get_no_clean_up" );
+    input_to ( "get_no_clean_up", 0 );
     return 1;
   }
 
   write ("請輸入 valid_startroom 的值 (0 預設為本房間不可當起點) : ");
-  input_to ( "get_valid_startroom" );
+  input_to ( "get_valid_startroom", 0 );
   return 1;
 }
 
@@ -382,12 +382,12 @@ int get_valid_startroom (string rep)
   else if (sscanf (rep, "%d", tmp["no_clean_up"]) != 1) {
     write ("你的輸入不是數字, 應該是 0 或 1\n");
     write ("請輸入 valid_startroom 的值 (0 預設為本房間不可當起點) : ");
-    input_to ( "get_valid_startroom" );
+    input_to ( "get_valid_startroom", 0 );
     return 1;
   }
 
   write ("請輸入房間名稱 short (空房間) : ");
-  input_to ( "get_short", "空房間" );
+  input_to ( "get_short", "空房間", 0 );
   return 1;
 }
 
@@ -411,7 +411,7 @@ int get_long (string arg, string rep)
   else tmp["long"] = rep;
 
   write ("是戶外嗎? (y) : ");
-  input_to ( "confirm_outdoors", "y" );
+  input_to ( "confirm_outdoors", 0, "y" );
   return 1;
 }
 
@@ -422,20 +422,20 @@ int confirm_outdoors (string rep, string arg)
   if (rep == ".") { write ("你放棄本次編輯。\n"); return 1; }
   else if (rep == "n") {
         write ("請輸入景觀 item_desc 的名稱, 如果想結束景觀, 請直接按 enter : ");
-        input_to ( "get_item_desc_name" );
+        input_to ( "get_item_desc_name", 0 );
         return 1;
  }
   else if ( arg == "y" && (rep == "" || rep[0] == 'y' || rep[0] == 'Y') ) {
     d = "/"+implode( explode(this_player()->query("cwd"), "/")[0..1], "/");
     write ("戶外是屬於哪一個目錄? ("+d+") : ");
-    input_to ( "confirm_outdoors", d );
+    input_to ( "confirm_outdoors", 0, d );
     return 1;
   }
   else if (rep=="") tmp["outdoors"] = arg;
   else tmp["outdoors"] = rep;
 
   write ("請輸入景觀 item_desc 的名稱, 如果想結束景觀, 請直接按 enter : ");
-  input_to ( "get_item_desc_name" );
+  input_to ( "get_item_desc_name", 0 );
   return 1;
 }
 
@@ -444,7 +444,7 @@ int get_item_desc_name (string rep)
   if (rep == ".") { write ("你放棄本次編輯。\n"); return 1; }
   else if (rep=="") {
     write ("請設定出口 exits 的連結方向, 想結束設定, 請直接按 enter : ");
-    input_to ( "get_exits" );
+    input_to ( "get_exits", 0 );
     return 1;
   }
 
@@ -459,12 +459,12 @@ int get_item_desc (string arg, string rep)
   if (rep != "") {
     tmp["item_desc"][arg] = rep;
     write ("請輸入下一景觀 item_desc 的名稱, 想結束景觀, 請直接按 enter : ");
-    input_to ( "get_item_desc_name" );
+    input_to ( "get_item_desc_name", 0 );
     return 1;
   }
 
   write ("請設定出口 exits 的連結方向, 想結束設定, 請直接按 enter : ");
-  input_to ( "get_exits" );
+  input_to ( "get_exits", 0 );
   return 1;
 }
 
@@ -474,17 +474,17 @@ int get_exits (string rep)
   else if (rep=="") {
     if (tmp["exits"][""]) map_delete(tmp["exits"], "");
     write ("請設定物件 objects 的檔名, 想結束設定, 請直接按 enter :\n");
-    input_to ( "get_objects" );
+    input_to ( "get_objects", 0 );
     return 1;
   }
   if (!rep || (rep = abbrdir (rep)) == "") {
     write ("請設定出口 exits 的方向, 想結束設定, 請直接按 enter : ");
-    input_to ( "get_exits" );
+    input_to ( "get_exits", 0 );
   }
   else {
     write ("請輸入 "+rep+" 的連結房間檔名, 可以採用相對路徑法 : ");
     tmp["exits"][rep] = "";
-    input_to ( "get_exit", rep );
+    input_to ( "get_exit", 0, rep );
   }
   return 1;
 }
@@ -494,12 +494,12 @@ int get_exit (string rep, string arg)
   if (rep != "") {
     tmp["exits"][arg] = resolve_path(this_player()->query("cwd"), rep);
     write ("請設定出口 exits 的方向, 想結束設定, 請直接按 enter : ");
-    input_to ( "get_exits" );
+    input_to ( "get_exits", 0 );
     return 1;
   }
 
   write ("請設定物件 objects 的檔名, 想結束設定, 請直接按 enter : ");
-  input_to ( "get_objects" );
+  input_to ( "get_objects", 0 );
   return 1;
 }
 
@@ -518,7 +518,7 @@ int get_objects (string rep)
   if (!ob) {
     write ("系統告訴你: 沒那個物件: "+rep+"。\n");
     write ("請設定物件 objects 的檔名, 想結束設定, 請直接按 enter : ");
-    input_to ( "get_objects" );
+    input_to ( "get_objects", 0 );
     return 1;
   }
     
@@ -526,7 +526,7 @@ int get_objects (string rep)
 
   write ("請輸入 "+rep+" 的物件個數 : ");
   tmp["objects"][rep] = 1;
-  input_to ( "get_object", rep );
+  input_to ( "get_object", 0, rep );
   return 1;
 }
 
@@ -537,13 +537,13 @@ int get_object (string rep, string arg)
   if (rep != "") {
     if (sscanf (rep, "%d", n) != 1) {
       write ("你輸的值不合法, 請重新輸入 "+arg+" 的物件個數 : ");
-      input_to ( "get_object", arg );
+      input_to ( "get_object", 0, arg );
       return 1;
     }
     else {
       tmp["objects"][arg] = n;
       write ("請設定物件 objects 的檔名, 想結束設定, 請直接按 enter : ");
-      input_to ( "get_objects" );
+      input_to ( "get_objects", 0 );
       return 1;
     }
   }

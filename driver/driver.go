@@ -46,6 +46,9 @@ type Driver struct {
 	interactiveObjects sync.Map
 	callStacks         sync.Map // 🚀 新增：goroutine ID -> []callFrame
 
+	// 🚀 權限檢查遞迴防護
+	inPermissionCheck sync.Map // goroutine ID -> bool
+
 	// 🚀 P2P 整合
 	OnP2PMessage     func(sender, content string)
 	P2PSendChat      func(sender, content string)
@@ -76,6 +79,28 @@ func New(config DriverConfig) *Driver {
 				return &object.String{Value: time.Unix(t.Value, 0).Format(time.ANSIC)}
 			}
 			return &object.String{Value: ""}
+		},
+	})
+
+	// 🚀 標準巨集與環境變數
+	evaluator.RegisterBuiltin("__VERSION__", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			return &object.String{Value: "MudScript 1.0 (LPC Compatible)"}
+		},
+	})
+	evaluator.RegisterBuiltin("__SAVE_EXTENSION__", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			return &object.String{Value: ".o"}
+		},
+	})
+	evaluator.RegisterBuiltin("__ARCH__", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			return &object.String{Value: "Linux"}
+		},
+	})
+	evaluator.RegisterBuiltin("MUD_NAME", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			return &object.String{Value: "Fantasy Space"}
 		},
 	})
 

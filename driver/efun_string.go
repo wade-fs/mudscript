@@ -48,9 +48,14 @@ func (d *Driver) registerStringEfuns(obj *object.LPCObject) {
 			}
 
 			recursive := false
+			detailMode := false
 			if len(args) > 1 {
-				if flag, ok := args[1].(*object.Integer); ok && flag.Value > 0 {
-					recursive = true
+				if flag, ok := args[1].(*object.Integer); ok {
+					if flag.Value > 0 {
+						recursive = true
+					} else if flag.Value == -1 {
+						detailMode = true
+					}
 				}
 			}
 
@@ -64,7 +69,12 @@ func (d *Driver) registerStringEfuns(obj *object.LPCObject) {
 				return object.NewError("get_dir 權限錯誤：無法存取根目錄以外的檔案")
 			}
 
-			var results []string
+			type fileInfo struct {
+				Name  string
+				Size  int64
+				MTime int64
+			}
+			var results []fileInfo
 
 			if recursive {
 				// ── 模式 1：遞迴掃描目錄 ──
@@ -83,10 +93,11 @@ func (d *Driver) registerStringEfuns(obj *object.LPCObject) {
 						// 統一轉換路徑斜線為 LPC 習慣的 "/"
 						rel = filepath.ToSlash(rel)
 
+						fInfo, _ := entry.Info()
 						if entry.IsDir() {
-							results = append(results, rel+"/")
+							results = append(results, fileInfo{Name: rel + "/", Size: -2, MTime: fInfo.ModTime().Unix()})
 						} else {
-							results = append(results, rel)
+							results = append(results, fileInfo{Name: rel, Size: fInfo.Size(), MTime: fInfo.ModTime().Unix()})
 						}
 						return nil
 					})
@@ -104,9 +115,9 @@ func (d *Driver) registerStringEfuns(obj *object.LPCObject) {
 							}
 							_, name := filepath.Split(match)
 							if info.IsDir() {
-								results = append(results, name+"/")
+								results = append(results, fileInfo{Name: name + "/", Size: -2, MTime: info.ModTime().Unix()})
 							} else {
-								results = append(results, name)
+								results = append(results, fileInfo{Name: name, Size: info.Size(), MTime: info.ModTime().Unix()})
 							}
 						}
 					}
@@ -115,10 +126,11 @@ func (d *Driver) registerStringEfuns(obj *object.LPCObject) {
 					entries, err := os.ReadDir(fullPath)
 					if err == nil {
 						for _, entry := range entries {
+							info, _ := entry.Info()
 							if entry.IsDir() {
-								results = append(results, entry.Name()+"/")
+								results = append(results, fileInfo{Name: entry.Name() + "/", Size: -2, MTime: info.ModTime().Unix()})
 							} else {
-								results = append(results, entry.Name())
+								results = append(results, fileInfo{Name: entry.Name(), Size: info.Size(), MTime: info.ModTime().Unix()})
 							}
 						}
 					} else {
@@ -126,7 +138,7 @@ func (d *Driver) registerStringEfuns(obj *object.LPCObject) {
 						info, err := os.Stat(fullPath)
 						if err == nil && !info.IsDir() {
 							_, name := filepath.Split(fullPath)
-							results = append(results, name)
+							results = append(results, fileInfo{Name: name, Size: info.Size(), MTime: info.ModTime().Unix()})
 						}
 					}
 				}
@@ -135,7 +147,17 @@ func (d *Driver) registerStringEfuns(obj *object.LPCObject) {
 			// 轉換為 LPC Array 回傳
 			elements := make([]object.Object, len(results))
 			for i, res := range results {
-				elements[i] = &object.String{Value: res}
+				if detailMode {
+					// 回傳 ({ name, size, mtime })
+					detail := &object.Array{Elements: []object.Object{
+						&object.String{Value: res.Name},
+						&object.Integer{Value: res.Size},
+						&object.Integer{Value: res.MTime},
+					}}
+					elements[i] = detail
+				} else {
+					elements[i] = &object.String{Value: res.Name}
+				}
 			}
 
 			return &object.Array{Elements: elements}
@@ -416,7 +438,7 @@ func (d *Driver) registerStringEfuns(obj *object.LPCObject) {
 		},
 	})
 
-	// 語法: int strsrch(string str, string pattern, [int reverse])
+	// 語法: int strsrch(string str, string pattern | int char, [int reverse])
 	// 說明: 尋找 pattern 在 str 中第一次出現的位置。
 	// 範例: strsrch("hello", "l") -> 2
 	obj.Vars.Set("strsrch", &object.Builtin{
@@ -425,9 +447,17 @@ func (d *Driver) registerStringEfuns(obj *object.LPCObject) {
 				return object.NewError("strsrch 需 2 個參數")
 			}
 			str, ok1 := args[0].(*object.String)
-			pattern, ok2 := args[1].(*object.String)
-			if !ok1 || !ok2 {
-				return object.NewError("strsrch 參數必須是字串")
+			if !ok1 {
+				return object.NewError("strsrch 參數 1 必須是字串")
+			}
+			
+			var patternStr string
+			if pStr, ok := args[1].(*object.String); ok {
+				patternStr = pStr.Value
+			} else if pInt, ok := args[1].(*object.Integer); ok {
+				patternStr = string(rune(pInt.Value))
+			} else {
+				return object.NewError("strsrch 參數 2 必須是字串或整數字元碼")
 			}
 
 			reverse := false
@@ -439,9 +469,9 @@ func (d *Driver) registerStringEfuns(obj *object.LPCObject) {
 
 			var byteIdx int
 			if reverse {
-				byteIdx = strings.LastIndex(str.Value, pattern.Value)
+				byteIdx = strings.LastIndex(str.Value, patternStr)
 			} else {
-				byteIdx = strings.Index(str.Value, pattern.Value)
+				byteIdx = strings.Index(str.Value, patternStr)
 			}
 
 			if byteIdx == -1 {

@@ -38,13 +38,14 @@ func (d *Driver) loadObjectInternal(filename string) (*object.LPCObject, bool, e
 	}
 	filename = d.NormalizePath(filename)
 	
-	log.Printf("🔍 [Loading] %s", filename)
 	d.mu.RLock()
 	if obj, exists := d.ObjectTable[filename]; exists {
 		d.mu.RUnlock()
 		return obj, false, nil
 	}
 	d.mu.RUnlock()
+
+	log.Printf("🔍 [Loading] %s", filename)
 
 	// 使用混合模式讀取檔案內容
 	content, err := d.ReadFile(filename)

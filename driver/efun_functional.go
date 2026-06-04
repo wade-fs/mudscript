@@ -11,12 +11,18 @@ func (d *Driver) registerFunctionalEfuns(obj *object.LPCObject) {
 	// 說明: 執行閉包 (closure) 或呼叫函式名稱。
 	// 範例: evaluate((: write, "Hello" :));
 	obj.Vars.Set("evaluate", &object.Builtin{
-		Fn: func(args ...object.Object) object.Object {
-			if len(args) < 1 {
-				return evaluator.NilValue
-			}
-			return d.ExecuteCallback(obj, args[0], args[1:])
-		},
+	        Fn: func(args ...object.Object) object.Object {
+	                if len(args) < 1 {
+	                        return evaluator.NilValue
+	                }
+	// 🚀 關鍵相容：若不是 closure，則直接回傳該值
+	if args[0].TokenType() != object.ClosureType {
+	// 實際上 MudOS 中 evaluate(3) 回傳 3。
+	// evaluate("string") 回傳 "string"。
+	return args[0]
+	}
+	                return d.ExecuteCallback(obj, args[0], args[1:])
+	        },
 	})
 
 	// 語法: mixed apply(mixed cl, [mixed args...])

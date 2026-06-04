@@ -60,7 +60,17 @@ func (d *Driver) ExecuteCallback(obj *object.LPCObject, fnArg object.Object, arg
 		if target == nil {
 			target = obj
 		}
-		log.Printf("🎮 [Callback] %s->%s(%v) [via closure]", target.Filename, v.FuncName, args)
+		
+		argStrs := make([]string, len(args))
+		for i, arg := range args {
+			if arg != nil {
+				argStrs[i] = arg.Inspect()
+			} else {
+				argStrs[i] = "nil"
+			}
+		}
+		log.Printf("🎮 [Callback] %s->%s(%s) [via closure]", target.Filename, v.FuncName, strings.Join(argStrs, ", "))
+
 		// 合併綁定參數與傳入參數
 		callArgs := append([]object.Object{}, v.BoundArgs...)
 		callArgs = append(callArgs, args...)
@@ -72,6 +82,14 @@ func (d *Driver) ExecuteCallback(obj *object.LPCObject, fnArg object.Object, arg
 
 // checkReadPermission 呼叫 LPC 的 valid_read 來判定權限
 func (d *Driver) checkReadPermission(caller *object.LPCObject, path string, efunName string) (bool, string) {
+	// 🚀 遞迴防護：防止在 valid_read 內部呼叫 load_object 導致無限循環
+	gid := getGID()
+	if _, already := d.inPermissionCheck.Load(gid); already {
+		return true, ""
+	}
+	d.inPermissionCheck.Store(gid, true)
+	defer d.inPermissionCheck.Delete(gid)
+
 	cleanPath := filepath.Clean(path)
 	cleanPath = filepath.ToSlash(cleanPath)
 	if !strings.HasPrefix(cleanPath, "/") {
@@ -121,6 +139,14 @@ func (d *Driver) checkReadPermission(caller *object.LPCObject, path string, efun
 // checkWritePermission 呼叫 LPC 的 valid_write 來判定權限
 // 回傳值: (是否允許寫入 bool, 錯誤訊息 string)
 func (d *Driver) checkWritePermission(caller *object.LPCObject, path string, efunName string) (bool, string) {
+	// 🚀 遞迴防護：防止在 valid_write 內部再次觸發寫入檢查導致無限循環
+	gid := getGID()
+	if _, already := d.inPermissionCheck.Load(gid); already {
+		return true, ""
+	}
+	d.inPermissionCheck.Store(gid, true)
+	defer d.inPermissionCheck.Delete(gid)
+
 	// 1. 【路徑正規化】：防禦 ../ 目錄穿越攻擊
 	cleanPath := filepath.Clean(path)
 	cleanPath = filepath.ToSlash(cleanPath) // 確保跨平台都使用 MUD 習慣的 "/"

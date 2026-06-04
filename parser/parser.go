@@ -106,10 +106,11 @@ func New(l lexer.Lexer) *Parser {
 		token.DEC:      p.parsePrefixExpression, // [新增] --X
 		token.TRUE:     p.parseBoolean,
 		token.FALSE:    p.parseBoolean,
-		token.LPAREN:   p.parseGroupedExpression,
+		token.LPAREN:   p.parseGroupedOrCallExpression, // [修正] 支援 grouping 和 function pointer calls
 		token.IF:       p.parseIfExpression,
 		token.STRING:   p.parseStringLiteral,
-		token.CHAR:     p.parseStringLiteral, // [新增] 將 CHAR 視為單字元字串處理
+		token.CHAR:      p.parseCharacterLiteral, // [修正] 將 CHAR 視為整數 (ASCII/UTF-8 碼)
+
 		token.LARRAY:   p.parseLPCArrayLiteral,
 		token.LT:       p.parsePrefixExpression, // [新增] 支援 <n 語法 (從末尾索引)
 		token.NEW:      p.parsePrefixExpression, // [新增] 支援 new(path)
@@ -304,6 +305,32 @@ func (p *Parser) parseIdent() ast.Expression {
 	}
 }
 
+func (p *Parser) parseCharacterLiteral() ast.Expression {
+	lit := &ast.IntegerLiteral{Token: p.curToken}
+	content := p.curToken.Literal
+	if len(content) == 0 {
+		lit.Value = 0
+	} else if len(content) == 1 {
+		lit.Value = int64(content[0])
+	} else if content[0] == '\\' && len(content) >= 2 {
+		// 處理跳脫字元
+		switch content[1] {
+		case 'n': lit.Value = '\n'
+		case 'r': lit.Value = '\r'
+		case 't': lit.Value = '\t'
+		case 'e', '': lit.Value = 27
+		default: lit.Value = int64(content[1])
+		}
+	} else {
+		// UTF-8 處理
+		runes := []rune(content)
+		if len(runes) > 0 {
+			lit.Value = int64(runes[0])
+		}
+	}
+	return lit
+}
+
 func (p *Parser) parseIntegerLiteral() ast.Expression {
 	lit := &ast.IntegerLiteral{Token: p.curToken}
 
@@ -378,8 +405,35 @@ func (p *Parser) parseBoolean() ast.Expression {
 	}
 }
 
-func (p *Parser) parseGroupedExpression() ast.Expression {
-	p.nextToken()
+func (p *Parser) parseGroupedOrCallExpression() ast.Expression {
+	p.nextToken() // Skip '('
+
+	// 🚀 關鍵強化：支援 Legacy 函式指標呼叫 (*callback)(...)
+	if p.curTokenIs(token.ASTERISK) {
+		p.nextToken() // Skip '*'
+		if !p.curTokenIs(token.IDENT) {
+			return nil
+		}
+		
+		ident := &ast.Ident{Token: p.curToken, Value: p.curToken.Literal}
+		
+		if !p.expectPeek(token.RPAREN) {
+			return nil
+		}
+		
+		// 這裡必須跟隨 '(' 即將開始參數解析
+		if !p.peekTokenIs(token.LPAREN) {
+			return nil
+		}
+		p.nextToken() // '('
+		
+		call := &ast.CallExpression{
+			Token:     p.curToken,
+			Function:  ident,
+			Arguments: p.parseExpressionList(token.RPAREN),
+		}
+		return call
+	}
 
 	// 🚀 新增：支援 (type)expr 強制轉型語法 (例如 (string)ob->query("name"))
 	if p.isTypeToken(p.curToken.TokenType) {
@@ -397,7 +451,6 @@ func (p *Parser) parseGroupedExpression() ast.Expression {
 	if !p.expectPeek(token.RPAREN) {
 		return nil
 	}
-
 	return expr
 }
 
@@ -601,10 +654,11 @@ func (p *Parser) parseIndexExpression(left ast.Expression) ast.Expression {
 
 func (p *Parser) isTypeToken(t token.TokenType) bool {
 	switch t {
-	case token.INT_TYPE, token.STRING_TYPE, token.OBJECT_TYPE, 
-	     token.MAPPING_TYPE, token.FLOAT_TYPE, token.MIXED_TYPE, 
-		 token.VOID_TYPE, token.CLOSURE_TYPE, token.BUFFER_TYPE:
+	case token.INT_TYPE, token.STRING_TYPE, token.OBJECT_TYPE,
+	     token.MAPPING_TYPE, token.FLOAT_TYPE, token.MIXED_TYPE,
+		 token.VOID_TYPE, token.CLOSURE_TYPE, token.FUNCTION_TYPE, token.BUFFER_TYPE:
 		return true
+
 	default:
 		return false
 	}
@@ -728,7 +782,7 @@ func (p *Parser) parseTypedVariableDeclaration(typeToken token.Token, isArray bo
 		if p.peekTokenIs(token.ASSIGN) {
 			p.nextToken()
 			p.nextToken()
-			nextStmt.Value = p.parseExpression(LOWEST)
+			nextStmt.Value = p.parseExpression(COMMA) // 🚀 使用 COMMA 優先權，避免吞掉後續變數
 		}
 		statements = append(statements, nextStmt)
 	}
