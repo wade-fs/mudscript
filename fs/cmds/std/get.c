@@ -30,7 +30,7 @@ int main(object me, string arg)
 		// by acky
 		if( env->is_corpse() && env->query("victim_id") ) {
 			if( obj = find_player(env->query("victim_id")) )
-				tell_object( obj, HIB"你突然有陣怪怪的感覺, " + me->name(1) + "(" + getuid(me) + ")正在挖你的屍體。\n"NOR );
+				tell_object( obj, HIB + "你突然有陣怪怪的感覺, " + me->name(1) + "(" + getuid(me) + ")正在挖你的屍體。\n" + NOR );
 		}
 	}
   	else

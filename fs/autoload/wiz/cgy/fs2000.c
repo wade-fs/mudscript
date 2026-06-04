@@ -7,7 +7,7 @@ object me=this_player();
 
 void create()
 {
-	set_name(HIC"FS2000"HIW"紀念戒"NOR,({"fs2000"}));
+	set_name(HIC + "FS2000" + HIW + "紀念戒" + NOR,({"fs2000"}));
 	set("long","這是狂想空間2000年網聚紀念品，只有當天參加的人才能擁有，可以用來照明及基本技能之增加。\n");
 	set_weight(10);
 	set("unit", "只");
@@ -49,7 +49,7 @@ int do_wear(string str)
      if( query("equipped") )
      {
         
-message_vision(HIY"$N戴上了"HIC"FS2000"HIW"紀念戒"HIY"後，一股神聖的力量保護著$N。\n"NOR,me);
+message_vision(HIY + "$N戴上了" + HIC + "FS2000" + HIW + "紀念戒" + HIY + "後，一股神聖的力量保護著$N。\n" + NOR,me);
         set_heart_beat(1);
      }
 }
@@ -58,7 +58,7 @@ int do_remove(string str)
    if(str=="fs2000" || str=="all")
      if( query("equipped") )
      {
-message_vision(HIC"$N脫下了"HIC"FS2000"HIW"紀念戒"HIC"頓時失去了神力的庇護。\n"NOR,me);
+message_vision(HIC + "$N脫下了" + HIC + "FS2000" + HIW + "紀念戒" + HIC + "頓時失去了神力的庇護。\n" + NOR,me);
         set_heart_beat(0);
      }
 }
@@ -69,7 +69,7 @@ int doo_light(string str)
 
     if(str!="fs2000")
     return 1;
-    message_vision("$N使出特殊能力點亮了"HIC"FS2000"HIW"紀念戒"NOR"煞時間"HIC"FS2000"HIW"紀念戒"NOR"發出了七彩的光芒。\n",me);
+    message_vision("$N使出特殊能力點亮了" + HIC + "FS2000" + HIW + "紀念戒" + NOR + "煞時間" + HIC + "FS2000" + HIW + "紀念戒" + NOR + "發出了七彩的光芒。\n",me);
     return 0;
 }
 void heart_beat()
@@ -86,12 +86,12 @@ int i;
 if(me->query("id")=="cgy") 
  {
     me->delete_busy();
-message_vision(HIC+"FS2000"HIW"紀念戒"NOR"發出了神聖的力量，使$N感到活力充沛。\n"+NOR,me);
+message_vision(HIC+"FS2000" + HIW + "紀念戒" + NOR + "發出了神聖的力量，使$N感到活力充沛。\n"+NOR,me);
     }
 else if( random(100) > 60 )  
     {
     me->delete_busy();
-message_vision(HIC+"FS2000"HIW"紀念戒"NOR"發出了神聖的力量，使$N感到活力充沛。\n"+NOR,me);
+message_vision(HIC+"FS2000" + HIW + "紀念戒" + NOR + "發出了神聖的力量，使$N感到活力充沛。\n"+NOR,me);
     }
   }
   return;

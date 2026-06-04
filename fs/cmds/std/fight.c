@@ -44,10 +44,10 @@ if( !userp(obj) && !obj->accept_fight(me) ) return
 			+ me->name() + "﹐領教"
 			+ RANK_D->query_respect(obj) + "的高招﹗\n\n", me, obj);
 		if( objectp(old_target = me->query_temp("pending/fight")) )
-			tell_object(old_target, YEL + me->name() + "取消了和你比試的念頭。\n" NOR);
+			tell_object(old_target, YEL + me->name() + "取消了和你比試的念頭。\n" + NOR);
 		me->set_temp("pending/fight", obj);
-		tell_object(obj, YEL "如果你願意和對方進行比試﹐請你也對" + me->name() + "("+(string)me->query("id")+")"+ "下一次 fight 指令。\n" NOR);
-		write(YEL "由於對方是由玩家控制的人物﹐你必須等對方同意才能進行比試。\n" NOR);
+		tell_object(obj, YEL + "如果你願意和對方進行比試﹐請你也對" + me->name() + "("+(string)me->query("id")+")"+ "下一次 fight 指令。\n" + NOR);
+		write(YEL + "由於對方是由玩家控制的人物﹐你必須等對方同意才能進行比試。\n" + NOR);
 		return 1;
 	}
 

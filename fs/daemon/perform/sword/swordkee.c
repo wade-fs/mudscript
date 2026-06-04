@@ -23,7 +23,7 @@ if(!objectp(weapon=me->query_temp("weapon")) || (string)weapon->query("skill_typ
   return notify_fail("要有劍才能發劍氣。\n");
 if(fun==100) 
  {
-    message_vision(HIC"$N大喝一聲發出所有劍氣!!!\n\n"HIB"一招"HIR"劍氣"HIW"破敵"HIY"---"HIG"  『"HIR"石破天驚"HIG"』!!!\n\n"NOR,me);
+    message_vision(HIC + "$N大喝一聲發出所有劍氣!!!\n\n" + HIB + "一招" + HIR + "劍氣" + HIW + "破敵" + HIY + "---" + HIG + "  『" + HIR + "石破天驚" + HIG + "』!!!\n\n" + NOR,me);
 damage=me->query_skill("sword",1)*7+random(200);
  }
 else if(fun<=20) 
@@ -60,13 +60,13 @@ if(environment(me)!=environment(enemy[i])) continue;
     if(random(me->query_skill("sword"))*10>enemy[i]->query_skill("dodge")+enemy[i]->query_skill("parry"))
       {
         enemy[i]->receive_wound("kee",damage);
-        message_vision(HIR"$N閃躲不及﹐劍氣已在其身上劃出一道血淋淋的傷痕！\n"NOR,enemy[i]);
+        message_vision(HIR + "$N閃躲不及﹐劍氣已在其身上劃出一道血淋淋的傷痕！\n" + NOR,enemy[i]);
         enemy[i]->start_busy(1);
         COMBAT_D->report_status(enemy[i],1);
       }
     else 
 {
-message_vision(YEL"$N側身一閃﹐避開了劍氣！\n"NOR,enemy[i]);
+message_vision(YEL + "$N側身一閃﹐避開了劍氣！\n" + NOR,enemy[i]);
 }
           }
 if(fun<100) { function_improved("swordkee",random(300));}

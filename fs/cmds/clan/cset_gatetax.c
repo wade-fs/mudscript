@@ -15,8 +15,8 @@ int main( object me,string str )
 		return notify_fail("關稅不能是負的。\n");
 	CLAN_D->clan_set(me->query("clan/id"),"gatetax",num);
 	CHANNEL_D->do_channel(me, "ct",
-		"\n\t我 -「"HIW+me->query("clan/title")+HIY"」鄭重的宣佈……\n\t本幫關稅調為"+
-		CHINESE_D->chinese_number(num)+"兩黃金，\n\t稅收將收入幫派錢莊，作為壯大本幫之用。"NOR);
+		"\n\t我 -「" + HIW+me->query("clan/title")+HIY + "」鄭重的宣佈……\n\t本幫關稅調為"+
+		CHINESE_D->chinese_number(num)+"兩黃金，\n\t稅收將收入幫派錢莊，作為壯大本幫之用。" + NOR);
     return 1;
 }
 

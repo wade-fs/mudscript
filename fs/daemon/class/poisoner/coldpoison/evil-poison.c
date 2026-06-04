@@ -47,14 +47,13 @@ int perform(object me, object target)
   if(funlv < 25)
   {
    message_vision(
-"               "HIG"$N食下一攤黑色血水，突然變得面目可憎˙˙˙˙˙˙\n"NOR
-"           "HIR"只見一道青煙自"HIW"$N"HIR"的"HIY"靈台穴"HIR"竄出，使$N的力量源源不絕˙˙˙˙˙˙\n"
-"                "HIB"【"HIM"※※※※※"HIY"真"HIB"˙"HIG"毒蠱蠶心  初毒醒"HIM"※※※※※ "HIB"】\n"NOR,me);
+"               " + HIG + "$N食下一攤黑色血水，突然變得面目可憎˙˙˙˙˙˙\n" + NOR + "           " + HIR + "只見一道青煙自" + HIW + "$N" + HIR + "的" + HIY + "靈台穴" + HIR + "竄出，使$N的力量源源不絕˙˙˙˙˙˙\n"
+"                " + HIB + "【" + HIM + "※※※※※" + HIY + "真" + HIB + "˙" + HIG + "毒蠱蠶心  初毒醒" + HIM + "※※※※※ " + HIB + "】\n" + NOR,me);
          me->add_temp("apply/attack",adup);
          me->start_call_out( (: call_other, __FILE__, "remove_effect", me, adup, funlv, qpoi :), funlv);
          if( me->is_fighting() ) 
          {
-           message_vision(RED"$N急於在戰鬥中食蠱，身體一陣蠱動，暫時無法動彈!!\n"NOR,me);
+           message_vision(RED + "$N急於在戰鬥中食蠱，身體一陣蠱動，暫時無法動彈!!\n" + NOR,me);
            me->start_busy(3);
          }
          return 1;
@@ -62,55 +61,51 @@ int perform(object me, object target)
   } else if ( funlv < 50 && funlv >= 25)
   {
    message_vision(
-"               "HIC"$N食下一之巨大蜘蛛，突然變得面目可憎˙˙˙˙˙˙\n"NOR
-"          "HIR"只見一道青煙自"HIW"$N"HIR"的"HIY"靈台穴"HIR"竄出，使$N的力量源源不絕˙˙˙˙˙˙\n"
-"              "HIB"【"HIM"※※※※※"HIY"真"HIB"˙"HIG"毒蠱蠶心  "HIC"仲蠶牲"HIM"※※※※※"HIB"】\n"NOR,me);
+"               " + HIC + "$N食下一之巨大蜘蛛，突然變得面目可憎˙˙˙˙˙˙\n" + NOR + "          " + HIR + "只見一道青煙自" + HIW + "$N" + HIR + "的" + HIY + "靈台穴" + HIR + "竄出，使$N的力量源源不絕˙˙˙˙˙˙\n"
+"              " + HIB + "【" + HIM + "※※※※※" + HIY + "真" + HIB + "˙" + HIG + "毒蠱蠶心  " + HIC + "仲蠶牲" + HIM + "※※※※※" + HIB + "】\n" + NOR,me);
          me->add_temp("apply/attack",adup);
          me->start_call_out( (: call_other, __FILE__, "remove_effect", me, adup, funlv, qpoi :), funlv);
          if( me->is_fighting() ) 
          {
-           message_vision(RED"$N急於在戰鬥中食蠱，身體一陣蠱動，暫時無法動彈!!\n"NOR,me);
+           message_vision(RED + "$N急於在戰鬥中食蠱，身體一陣蠱動，暫時無法動彈!!\n" + NOR,me);
            me->start_busy(3);
          }
          return 1;
   } else if ( funlv < 75 && funlv >= 50)
   { 
    message_vision(
-"               "HIB"$N食下數隻劇毒蜈蚣，突然變得面目可憎˙˙˙˙˙˙\n"NOR
-"         "HIR"只見一道青煙自"HIW"$N"HIR"的"HIY"靈台穴"HIR"竄出，使$N的力量源源不絕˙˙˙˙˙˙\n"
-"                "HIB"【"HIM"※※※※※"HIY"真"HIB"˙"HIG"毒蠱蠶心  "HIY"季邪續"HIM"※※※※※"HIB"】\n"NOR,me);
+"               " + HIB + "$N食下數隻劇毒蜈蚣，突然變得面目可憎˙˙˙˙˙˙\n" + NOR + "         " + HIR + "只見一道青煙自" + HIW + "$N" + HIR + "的" + HIY + "靈台穴" + HIR + "竄出，使$N的力量源源不絕˙˙˙˙˙˙\n"
+"                " + HIB + "【" + HIM + "※※※※※" + HIY + "真" + HIB + "˙" + HIG + "毒蠱蠶心  " + HIY + "季邪續" + HIM + "※※※※※" + HIB + "】\n" + NOR,me);
          me->add_temp("apply/attack",adup);
          me->add_temp("apply/defense",adup);
          me->add_temp("apply/whip",adup);
          me->start_call_out( (: call_other, __FILE__, "remove_effect", me, adup, funlv, qpoi :), funlv);
           if( me->is_fighting() ) 
          {
-           message_vision(RED"$N急於在戰鬥中食蠱，身體一陣蠱動，暫時無法動彈!!\n"NOR,me);
+           message_vision(RED + "$N急於在戰鬥中食蠱，身體一陣蠱動，暫時無法動彈!!\n" + NOR,me);
            me->start_busy(3);
          }
          return 1;
   } else if ( funlv < 100 && funlv >= 75)
   { 
    message_vision(
-"               "HBGRN"$N食下萬條紅血蠱蟲，突然變得面目可憎˙˙˙˙˙˙\n"NOR
-"         "HIR"只見一道青煙自"HIW"$N"HIR"的"HIY"靈台穴"HIR"竄出，使$N的力量源源不絕˙˙˙˙˙˙\n"
-"                "HIB"【"HIM"※※※※※"HIY"真"HIB"˙"HIG"毒蠱蠶心  "HIC"末釹懾"HIM"※※※※※"HIB"】\n"NOR,me);
+"               " + HBGRN + "$N食下萬條紅血蠱蟲，突然變得面目可憎˙˙˙˙˙˙\n" + NOR + "         " + HIR + "只見一道青煙自" + HIW + "$N" + HIR + "的" + HIY + "靈台穴" + HIR + "竄出，使$N的力量源源不絕˙˙˙˙˙˙\n"
+"                " + HIB + "【" + HIM + "※※※※※" + HIY + "真" + HIB + "˙" + HIG + "毒蠱蠶心  " + HIC + "末釹懾" + HIM + "※※※※※" + HIB + "】\n" + NOR,me);
          me->add_temp("apply/attack",adup);
          me->add_temp("apply/defense",adup);
          me->add_temp("apply/whip",adup);
          me->start_call_out( (: call_other, __FILE__, "remove_effect", me, adup, funlv, qpoi :), funlv);
           if( me->is_fighting() ) 
          {
-           message_vision(RED"$N急於在戰鬥中食蠱，身體一陣蠱動，暫時無法動彈!!\n"NOR,me);
+           message_vision(RED + "$N急於在戰鬥中食蠱，身體一陣蠱動，暫時無法動彈!!\n" + NOR,me);
            me->start_busy(3);
          }
          return 1;
 }  else if ( funlv >= 100 )
   {
    message_vision(
-"           "HIC"$N食下蜈蚣，蜘蛛及數隻毒蛇，大吼大叫，萬蠱蠶心術最及至˙˙˙˙˙˙\n"NOR
-"          "HIR"只見一道青煙自"HIW"$N"HIR"的"HIY"靈台穴"HIR"竄出，使$N的力量源源不絕˙˙˙˙˙˙\n"
-"           "HIB"【"HIM"※※※※※"HIY"真"HIB"˙"HIG"毒蠱蠶心  "HIR"萬蠱蠶其身而不死  終蠱破"HIM"※※※※※"HIB"】\n"NOR,me);
+"           " + HIC + "$N食下蜈蚣，蜘蛛及數隻毒蛇，大吼大叫，萬蠱蠶心術最及至˙˙˙˙˙˙\n" + NOR + "          " + HIR + "只見一道青煙自" + HIW + "$N" + HIR + "的" + HIY + "靈台穴" + HIR + "竄出，使$N的力量源源不絕˙˙˙˙˙˙\n"
+"           " + HIB + "【" + HIM + "※※※※※" + HIY + "真" + HIB + "˙" + HIG + "毒蠱蠶心  " + HIR + "萬蠱蠶其身而不死  終蠱破" + HIM + "※※※※※" + HIB + "】\n" + NOR,me);
          me->add_temp("apply/attack",adup);
          me->add_temp("apply/defense",adup);
          me->add_temp("apply/whip",adup);
@@ -118,7 +113,7 @@ int perform(object me, object target)
          me->start_call_out( (: call_other, __FILE__, "remove_effect", me, adup, funlv, qpoi :), funlv);
          if( me->is_fighting() ) 
          {
-           message_vision(RED"$N急於在戰鬥中食蠱，身體一陣蠱動，暫時無法動彈!!\n"NOR,me);
+           message_vision(RED + "$N急於在戰鬥中食蠱，身體一陣蠱動，暫時無法動彈!!\n" + NOR,me);
            me->start_busy(3);
          }
          return 1;
@@ -128,7 +123,7 @@ int perform(object me, object target)
  void remove_effect(object me, int adup,int funlv,int qpoi)
  { 
   me->delete_temp("evil-poison");
-  message_vision(BLU"$N"HIR"毒蠱蠶心"BLU"的效果消失了。\n"NOR,me);
+  message_vision(BLU + "$N" + HIR + "毒蠱蠶心" + BLU + "的效果消失了。\n" + NOR,me);
    if(funlv<100) function_improved("evil-poison",funlv*2+random(300));
   if(funlv<25)
   {
@@ -153,7 +148,7 @@ int perform(object me, object target)
   } 
   else
   {
-    message_vision(HIW"蠱毒的毒素還殘留餘$N的身體中，毒素並無損失太多。\n"NOR,me);
+    message_vision(HIW + "蠱毒的毒素還殘留餘$N的身體中，毒素並無損失太多。\n" + NOR,me);
     me->add_temp("apply/attack",-adup);
     me->add_temp("apply/defense",-adup);
     me->add_temp("apply/whip",-adup);

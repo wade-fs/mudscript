@@ -3,15 +3,15 @@
 inherit HANDS;
 void create()
 {
-set_name(""HIY"¥"HIW"ú"HIY"¤"HIW"§"HIY"Å"HIW"@"HIY"¤"HIW"â"NOR"",({"light_gloves","gloves"}));
+set_name("" + HIY + "" + HIW + "" + HIY + "" + HIW + "" + HIY + "" + HIW + "@" + HIY + "" + HIW + "" + NOR + "",({"light_gloves","gloves"}));
         set_weight(3000);
         if( clonep() )
                 set_default_object(__FILE__);
         else {
                  set("long",
-                 "¥~­±¬Ý°_¨ÓÁöµM²@¤£°_²´ , ¦ý¬O·í§AÀ¹¤W¥L®É\n"
-                 "´N·|µo½÷¥XµL»P­Û¤ñªº«Â¤O ¡C\n");
-                set("unit","¥ó");
+                 "~Ý°_M@_ , OAWL\n"
+                 "N|oXLPÛ¤ñªº«Â¤O C\n");
+                set("unit","");
                 set("no_sell",1);
                 set("no_give", 1);
                 set("no_auc",1);
@@ -22,7 +22,7 @@ set_name(""HIY"¥"HIW"ú"HIY"¤"HIW"§"HIY"Å"HIW"@"HIY"¤"HIW"â"NOR"",({"light_gloves
                 set("armor_prop/armor",15);
                 set("armor_prop/parry",10);
                 set("armor_prop/force",5);
-set("wear_msg","¥|©P¥ú¨~©¿µM»E¶°¨ì$NªºÂù¤â¡A$n¤w¦b§A¤â¤W§Î¦¨¤@¹D«OÅ@¡C\n");
+set("wear_msg","|P~ME$NA$nwbAWÎ¦@DO@C\n");
  }
         setup();
 }

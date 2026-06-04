@@ -11,7 +11,7 @@ int do_descend();
 
 void create()
 {
-  set_name(HIY"皮卡丘"NOR, ({ "pe-ca","ca" }) );
+  set_name(HIY + "皮卡丘" + NOR, ({ "pe-ca","ca" }) );
 set("long",@LONG
 你所看到的是神奇寶貝皮卡丘
 牠是電擊型的神奇寶貝
@@ -69,7 +69,7 @@ int do_ascend(object me)
                return notify_fail("你無法騎在別人的座騎身上呀。\n");
 message_vision(HIY+"$N"+HIY+"大聲叫道:上吧!"+this_object()->query("name")+HIY+",
 一道閃光從神奇寶貝球裡出現,
-"+this_object()->query("name")+HIY+"出現在$N"HIY"眼前!!\n"NOR,me);
+"+this_object()->query("name")+HIY+"出現在$N" + HIY + "眼前!!\n" + NOR,me);
         me->set_temp("marks/ascend",1);
         me->add_temp("apply/dodge",30);
         me->add_temp("apply/parry",30);
@@ -82,7 +82,7 @@ message_vision(HIY+"$N"+HIY+"大聲叫道:上吧!"+this_object()->query("name")+
         this_object()->set("master",me);
         set_heart_beat(1);
         if(!query_heart_beat()) tell_object(me,"心跳啟動失敗!!\n");
-        me->add_temp("ride_name",HIW"(正騎著"NOR+this_object()->name()+HIW")"NOR);
+        me->add_temp("ride_name",HIW + "(正騎著" + NOR+this_object()->name()+HIW + ")" + NOR);
         return 1;
 }
 
@@ -103,8 +103,8 @@ int do_descend()
         }
         if ( !me->query_temp("marks/ascend") )
                 return notify_fail("你沒在座騎上耶。\n");
-message_vision(HIG"$N"HIG"向"+this_object()->query("name")+HIG"丟出了神奇寶貝球,
-"+this_object()->query("name")+HIG"化成一道閃光消失在寶貝球裡!!\n"NOR,me);
+message_vision(HIG + "$N" + HIG + "向"+this_object()->query("name")+HIG + "丟出了神奇寶貝球,
+"+this_object()->query("name")+HIG + "化成一道閃光消失在寶貝球裡!!\n" + NOR,me);
         me->delete_temp("marks/ascend");
         me->delete_temp("ride_name");
         if(me->query_temp("apply")){
@@ -144,9 +144,9 @@ void heart_beat()
   }
   if(!present(geteuid(user),environment(this_object())) && environment(user))
   {
-    message_vision("$N"HIY"化成一道黃光，往天際飛去!!!\n"NOR,this_object());
+    message_vision("$N" + HIY + "化成一道黃光，往天際飛去!!!\n" + NOR,this_object());
     this_object()->move(environment(user));
-    message_vision(HIY"一道黃光由天空降下，$N"HIY"出現在眾人眼前!!\n"NOR,this_object());
+    message_vision(HIY + "一道黃光由天空降下，$N" + HIY + "出現在眾人眼前!!\n" + NOR,this_object());
   }
 
  /* if( user->is_fighting() )

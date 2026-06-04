@@ -6,7 +6,7 @@ inherit LEGGINGS;
 
 void create()
 {
-  set_name(MAG"忍者護膝"NOR,({"ninja legging","legging"}));
+  set_name(MAG + "忍者護膝" + NOR,({"ninja legging","legging"}));
   set_weight(2000);
   if( clonep() )
     set_default_object(__FILE__);

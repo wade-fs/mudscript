@@ -45,7 +45,7 @@ int perform(object me, object target)
            me->kill_ob(count[i]);
            }
            else{
-            message_vision(HIW+ count[i]->query("name")+ "中了$N的借刀殺人之計, 開始朝"+ target->query("name")+ "發動猛烈的攻擊。\n"NOR, me);
+            message_vision(HIW+ count[i]->query("name")+ "中了$N的借刀殺人之計, 開始朝"+ target->query("name")+ "發動猛烈的攻擊。\n" + NOR, me);
             count[i]->kill_ob( target);
             target->kill_ob( count[ i]);  
 // 用來判斷是否有任何的 NPC 發動攻擊了, 若為 0 則表示房間內無人中過誘敵之計...
@@ -67,13 +67,13 @@ int perform(object me, object target)
 // 如果是曾經有中過誘敵之計的, 就開始對 me 攻擊...
          if( count[ i]->query_temp("follow")==1 )
          {
-            message_vision(HIW+ target->query("name")+ "識破了$N的的借刀殺人之計, 與"+ count[ i]->query("name")+ "聯手朝你發動猛烈的攻勢。\n"NOR, me);
+            message_vision(HIW+ target->query("name")+ "識破了$N的的借刀殺人之計, 與"+ count[ i]->query("name")+ "聯手朝你發動猛烈的攻勢。\n" + NOR, me);
             count[i]->kill_ob( me);
 // 用來判斷是否有任何的 NPC 發動攻擊了, 若為 0 則表示房間內無人中過誘敵之計...
             test++;
          }
       }
-      message_vision(HIW+ target->query("name")+ "識破了$N的的借刀殺人之計, 朝你發動猛烈的攻勢。\n"NOR, me);
+      message_vision(HIW+ target->query("name")+ "識破了$N的的借刀殺人之計, 朝你發動猛烈的攻勢。\n" + NOR, me);
       target->kill_ob( me);
    }
    return 1;

@@ -41,7 +41,7 @@ void init()
         if(!query("belong")){
            if(userp(environment())) set("belong",geteuid(environment()));
         }
-        set_name(me->name(1)+ "的"HIG"毒囊袋"NOR, ({ "poison_bag" }));
+        set_name(me->name(1)+ "的" + HIG + "毒囊袋" + NOR, ({ "poison_bag" }));
         add_action("do_gather","gather");
         add_action("do_list","list");
         add_action("do_take","take");
@@ -93,15 +93,15 @@ int do_take(string str)
                 if( me->query_skill("poison",1) < 100 )
                    return notify_fail(TITLE+"對於下毒技巧不足的人, 是不給用的。\n");
                 if (amount > before)
-                   return notify_fail("你並沒有存這麼多毒哩。\n"NOR);
+                   return notify_fail("你並沒有存這麼多毒哩。\n" + NOR);
                 if(amount <= 0)
-                   return notify_fail("別鬧了, 這樣你是要怎麼拿啊！\n"NOR);  
+                   return notify_fail("別鬧了, 這樣你是要怎麼拿啊！\n" + NOR);  
                 if(item2 == "faint poison")             { poison_type = obj1; } 
                   else if(item2 == "rose poison")       { poison_type = obj2; }
                   else if(item2 == "five poison")       { poison_type = obj3; }
                   else if(item2 == "dark poison")       { poison_type = obj4; }
                   else if(item2 == "scorpion poison")   { poison_type = obj5; }
-                  else return notify_fail("你打算拿什麼東西出來用啊??\n"NOR);
+                  else return notify_fail("你打算拿什麼東西出來用啊??\n" + NOR);
                 if(!poison_now)
                 {
                  poison_type->move(me);
@@ -146,9 +146,9 @@ int do_gather(string str)
                 if(undefinedp(valid_types[item]) )
                    return notify_fail(TITLE+"你只能把毒放在毒囊袋而已說。\n");
                 if (poison_a > obj->query_amount())
-                   return notify_fail("你並沒有這麼多"+obj->query("name")+"。\n"NOR);
+                   return notify_fail("你並沒有這麼多"+obj->query("name")+"。\n" + NOR);
                 if(poison_a <= 0)
-                   return notify_fail("別鬧了, 這樣你是要怎麼放啊！\n"NOR); 
+                   return notify_fail("別鬧了, 這樣你是要怎麼放啊！\n" + NOR); 
                 if(obj->query_amount() - poison_a  <= 0)
                    {
                     message_vision("$N將身上全部的"+obj->query("name")+"放置於毒囊袋中。\n",me);

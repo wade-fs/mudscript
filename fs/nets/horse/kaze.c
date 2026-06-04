@@ -7,7 +7,7 @@ inherit NPC;
 
 void create()
 {
-set_name(HIC"聖獸"HIR"牙炎"NOR, ({ "god dragon ","dragon" }) );
+set_name(HIC + "聖獸" + HIR + "牙炎" + NOR, ({ "god dragon ","dragon" }) );
 set("long","傳說中操縱火焰的聖獸，只有他所承認的繼承人可以召喚他，\n"
            "擁有不可估計的神秘力量，似乎還能騎上去唷(ride)\n");
 set("no_drop", 1);
@@ -75,7 +75,7 @@ message_vision("在火焰的魔法陣中，"+this_object()->name()+"伴隨著熊
         me->add_temp("apply/damage",30);
         me->add_temp("apply/armor", 30);
         this_object()->set_leader(me);
-        me->add_temp("apply/name",({ me->name()+ HIW"(正騎著"NOR+this_object()->name()+HIW")"NOR}));
+        me->add_temp("apply/name",({ me->name()+ HIW + "(正騎著" + NOR+this_object()->name()+HIW + ")" + NOR}));
         move(me);
         me->set_heart_beat(1);
         return 1;

@@ -60,13 +60,13 @@ if(random(100) > 50)
 {
 if(random(9) >= 5)
 {
-message_vision(HIY"守塔者把刀一晃，你為了閃避，冷不防的被打了一拳！\n"NOR,me);
+message_vision(HIY + "守塔者把刀一晃，你為了閃避，冷不防的被打了一拳！\n" + NOR,me);
 for(j=0;j < i;j++) {
 target[j]->add("kee",-300); }
    }
    else
    {
-message_vision(HIC"守塔者仰天一笑，瞬時內息穩固。\n"NOR,me);
+message_vision(HIC + "守塔者仰天一笑，瞬時內息穩固。\n" + NOR,me);
 if(random(9) >= 5) {
 me->receive_curing("kee",2000);
 me->receive_heal("kee",1000);

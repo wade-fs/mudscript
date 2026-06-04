@@ -4,8 +4,8 @@ inherit ITEM;
 #include <command.h>
 void create()
 {
-set_name(HIY"劍聖裝備"NOR,({"kensai-eq"}));
-  set("long",HIY"由大劍師龍鐵心所鑄成的整套劍聖裝備(open kensai or close kensai)。"NOR);
+set_name(HIY + "劍聖裝備" + NOR,({"kensai-eq"}));
+  set("long",HIY + "由大劍師龍鐵心所鑄成的整套劍聖裝備(open kensai or close kensai)。" + NOR);
   set("unit","套");
 set("no_auc",1);
 set("no_put",1);
@@ -26,7 +26,7 @@ void init()
 {       object me=this_player();
         object ob;
         ob=present("kensai-eq",me);
-if(ob&&ob->name()==HIY"劍聖裝備"NOR)
+if(ob&&ob->name()==HIY + "劍聖裝備" + NOR)
 {
  add_action("do_open","open");
  add_action("do_close","close");
@@ -47,7 +47,7 @@ object ob;
   ob=present("kensai-eq",me);
 if(ob->query_temp("kensai")==1)
   return notify_fail("劍聖裝備已分化了﹗\n");
-message_vision(HIY"\n$N運起元功\，身上劍聖之氣浮動打開了身後之劍聖裝備。\n\n"NOR,this_player());
+message_vision(HIY + "\n$N運起元功\，身上劍聖之氣浮動打開了身後之劍聖裝備。\n\n" + NOR,this_player());
   eq01 = new("/open/gsword/obj1/kshield");
   eq02 = new("/open/gsword/obj1/kboots");
   eq03 = new("/open/gsword/obj1/karmband");
@@ -124,7 +124,7 @@ destruct(present("kensai shield",me));
 destruct(present("sevensun_sword",me));
 me->delete_temp("kensai");
 ob->delete_temp("kensai");
-message_vision(HIW"\n$N收起身上所散出之聖力，頓時身上裝備被震落，收回$N身後。\n\n"NOR,me);
+message_vision(HIW + "\n$N收起身上所散出之聖力，頓時身上裝備被震落，收回$N身後。\n\n" + NOR,me);
 }
 return 1;
 }

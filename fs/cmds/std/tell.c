@@ -49,7 +49,7 @@ int main( object me, string arg )
           	else if(!me->query("env/can_tell_wiz"))
            		return notify_fail(obj->name()+"現在不想受打擾。\n");
         if( obj->query_temp("netdead") )
-          return notify_fail (GRN+ obj->name(1)+"斷線中...\n" NOR);
+          return notify_fail (GRN+ obj->name(1)+"斷線中...\n" + NOR);
 
         stat = "";
         if( in_input(obj) )
@@ -63,14 +63,14 @@ int main( object me, string arg )
         else
           id = me->query("id");
 
-write("『"+HIW+"密談"+NOR+"』"HBRED+stat + "你用千里傳音告訴" + obj->name(1) +": " + msg+"\n"NOR); 
-tell_object(obj, sprintf("『"HIW"密談"NOR"』"HBRED"%s用千里傳音告訴你: %s\n"NOR,
+write("『"+HIW+"密談"+NOR+"』" + HBRED+stat + "你用千里傳音告訴" + obj->name(1) +": " + msg+"\n" + NOR); 
+tell_object(obj, sprintf("『" + HIW + "密談" + NOR + "』" + HBRED + "%s用千里傳音告訴你: %s\n" + NOR,
                 me->name(1)+"("+id+")", msg));
 	if( obj->query("away") )
     {
     len=sizeof(obj->query("away"));
 		if( obj->query("away")[0..0]=="1" )
-		        tell_object( me, sprintf( HBGRN"%s用千里傳音告訴你: %s\n"NOR,
+		        tell_object( me, sprintf( HBGRN + "%s用千里傳音告訴你: %s\n" + NOR,
                     obj->name(1)+"("+obj->query("id")+")", obj->query("away")[1..len-1] ));
 
     }
@@ -84,10 +84,10 @@ int remote_tell(string cname, string from, string mud, string to, string msg)
 
         if( ob = find_player(to) ) {
                 if( cname )
-                        tell_object(ob, sprintf(HIG "%s(%s@%s)告訴你﹕%s\n" NOR,
+                        tell_object(ob, sprintf(HIG + "%s(%s@%s)告訴你﹕%s\n" + NOR,
                                 cname, capitalize(from), mud, msg ));
                 else
-                        tell_object(ob, sprintf(HIG "%s@%s 告訴你﹕%s\n" NOR,
+                        tell_object(ob, sprintf(HIG + "%s@%s 告訴你﹕%s\n" + NOR,
                                 capitalize(from), mud, msg ));
                 ob->set_temp("reply", from + "@" + mud);
                 return 1;

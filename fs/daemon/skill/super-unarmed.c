@@ -22,15 +22,15 @@ int kar, cps , str , cor , int1 , spi ,
 int sp_value;
 
 string *unarmed_parry_msg = ({
-"\n$n暗運"HIG"玄宇宙心法"NOR"中之"HIG"『化劫』"NOR"，只見$n身邊浮現出綠色氣罩將$N攻勢檔開！\n"NOR,
-"\n$n暗運"HIW"白雲煙心法"NOR"中之"HIC"『雲煙嬝嬝』"NOR"，只見$n周身籠罩無限雲煙讓$N無法捉摸\n",
-"\n$n暗運"MAG"紫星河心法"NOR"中之"MAG"『星河氣旋』"NOR"，$N身形被一道紫色氣流所牽引\n",
+"\n$n暗運" + HIG + "玄宇宙心法" + NOR + "中之" + HIG + "『化劫』" + NOR + "，只見$n身邊浮現出綠色氣罩將$N攻勢檔開！\n" + NOR,
+"\n$n暗運" + HIW + "白雲煙心法" + NOR + "中之" + HIC + "『雲煙嬝嬝』" + NOR + "，只見$n周身籠罩無限雲煙讓$N無法捉摸\n",
+"\n$n暗運" + MAG + "紫星河心法" + NOR + "中之" + MAG + "『星河氣旋』" + NOR + "，$N身形被一道紫色氣流所牽引\n",
         });
 
 mapping *action = ({
 //1
         ([      
-                "action"     :               HIW"$N將體內真氣緩運周身，使出了渾天寶鑑第一式『白雲煙』，瞬時$N真氣化做嬝嬝雲煙籠罩住$n"NOR,
+                "action"     :               HIW + "$N將體內真氣緩運周身，使出了渾天寶鑑第一式『白雲煙』，瞬時$N真氣化做嬝嬝雲煙籠罩住$n" + NOR,
                 "dodge"      :               -100,
                 "parry"      :               -100,
                 "damage"     :                400,
@@ -40,7 +40,7 @@ mapping *action = ({
         ]),
 //2
         ([     
-                "action"     :               HIW"$N凝聚真氣於雙掌，使出渾天寶鑑第二式"HIM"『玫蕩霞』"HIW"，掌中真氣化成一道霞光迅速的逼向$n"NOR,
+                "action"     :               HIW + "$N凝聚真氣於雙掌，使出渾天寶鑑第二式" + HIM + "『玫蕩霞』" + HIW + "，掌中真氣化成一道霞光迅速的逼向$n" + NOR,
                 "dodge"      :                -100,
                 "parry"      :                -100,
                 "damage"     :                400,
@@ -50,7 +50,7 @@ mapping *action = ({
         ]),
 //3
         ([   
-                "action"     :               HIW"$N將內勁化成一股柔勁暗運於地上，使出了渾天寶鑑第三式"HIY"『土崑崙』"HIW"，暗勁猛然由地底爆發將$n籠罩其中 "NOR,
+                "action"     :               HIW + "$N將內勁化成一股柔勁暗運於地上，使出了渾天寶鑑第三式" + HIY + "『土崑崙』" + HIW + "，暗勁猛然由地底爆發將$n籠罩其中 " + NOR,
                 "dodge"      :                -100,
                 "parry"      :                -100,
                 "damage"     :                400,
@@ -60,7 +60,7 @@ mapping *action = ({
         ]),
 //4
         ([  
-                "action"     :               HIW"$N凝聚體內陰寒內勁，使出了渾天寶鑑第四式"HIC"『碧雪冰』"HIW"，周遭水氣化成數道寒冰如刃向$n疾射而去"NOR,
+                "action"     :               HIW + "$N凝聚體內陰寒內勁，使出了渾天寶鑑第四式" + HIC + "『碧雪冰』" + HIW + "，周遭水氣化成數道寒冰如刃向$n疾射而去" + NOR,
                 "dodge"      :                -100,
                 "parry"      :                -100,
                 "damage"     :                400,
@@ -70,7 +70,7 @@ mapping *action = ({
         ]),
 //5
         ([ 
-                "action"     :               HIW"$N雙掌朝天暗運渾天心法，使出了渾天寶鑑第五式"MAG"『紫星河』"HIW"，只見天上落下紫色星辰纏繞在$n周遭"NOR,
+                "action"     :               HIW + "$N雙掌朝天暗運渾天心法，使出了渾天寶鑑第五式" + MAG + "『紫星河』" + HIW + "，只見天上落下紫色星辰纏繞在$n周遭" + NOR,
                 "dodge"      :                -100,
                 "parry"      :                -100,
                 "damage"     :                400,
@@ -80,7 +80,7 @@ mapping *action = ({
         ]),
 //6
         ([
-                "action"     :               HIW"$N體內的真氣有如盤古開天地一般，真氣亂竄，使出渾天寶鑑第六式"WHT"『玄混沌』"HIW"，瞬時$n周遭只見一片黑暗，無法掌握$N之攻勢"NOR,
+                "action"     :               HIW + "$N體內的真氣有如盤古開天地一般，真氣亂竄，使出渾天寶鑑第六式" + WHT + "『玄混沌』" + HIW + "，瞬時$n周遭只見一片黑暗，無法掌握$N之攻勢" + NOR,
                 "dodge"      :                -100,
                 "parry"      :                -100,
                 "damage"     :                400,
@@ -89,7 +89,7 @@ mapping *action = ({
                 "damage_type":               "內傷"
         ]),
 //7
-         ([     "action"     :               HIW"$N周遭澎湃的氣勁如海嘯般翻騰，使出渾天寶鑑第七式"HIB"『靛滄海』"HIW"，氣勁如浪般一波一波的襲向$n"NOR,
+         ([     "action"     :               HIW + "$N周遭澎湃的氣勁如海嘯般翻騰，使出渾天寶鑑第七式" + HIB + "『靛滄海』" + HIW + "，氣勁如浪般一波一波的襲向$n" + NOR,
                 "parry"      :                -100,
                 "dodge"      :                -100,
                 "damage"     :                400,
@@ -98,7 +98,7 @@ mapping *action = ({
                 "damage_type":                "內傷",
            ]),
 //8
-         ([     "action"     :               HIW"$N突然金光閃閃，光華奪目，金色的真氣在身旁旋繞，使出渾天寶鑑第八式"HIY"『金晨曦』"HIW"，$n瞬時被光華所惑，一時不知所措"NOR,
+         ([     "action"     :               HIW + "$N突然金光閃閃，光華奪目，金色的真氣在身旁旋繞，使出渾天寶鑑第八式" + HIY + "『金晨曦』" + HIW + "，$n瞬時被光華所惑，一時不知所措" + NOR,
                 "parry"      :                -100,
                 "dodge"      :                -100,
                 "damage"     :                400,
@@ -107,7 +107,7 @@ mapping *action = ({
                 "damage_type":                "內傷",
            ]),
 //9
-         ([     "action"     :               HIW"$N$N凝聚穹蒼血勁，周遭化成一片血紅，使出渾天寶鑑第九式"HIR"『血穹蒼』"HIW"，$n自覺彷彿陷入了修羅地獄般呆立著"NOR,
+         ([     "action"     :               HIW + "$N$N凝聚穹蒼血勁，周遭化成一片血紅，使出渾天寶鑑第九式" + HIR + "『血穹蒼』" + HIW + "，$n自覺彷彿陷入了修羅地獄般呆立著" + NOR,
                 "parry"      :                -100,
                 "dodge"      :                -100,
                 "damage"     :                400,
@@ -116,7 +116,7 @@ mapping *action = ({
                 "damage_type":                "內傷",
            ]),
 //10
-         ([     "action"     :               HIW"$N暗運渾天心法，使出渾天寶鑑最終式"HIG"『玄宇宙』"HIW"，瞬時天空昏暗，萬星繁動，全身各條經脈均充滿了星晨所付予的氣勁，將氣勁化成一道無形氣團朝$n襲去"NOR,
+         ([     "action"     :               HIW + "$N暗運渾天心法，使出渾天寶鑑最終式" + HIG + "『玄宇宙』" + HIW + "，瞬時天空昏暗，萬星繁動，全身各條經脈均充滿了星晨所付予的氣勁，將氣勁化成一道無形氣團朝$n襲去" + NOR,
                 "parry"      :                -100,
                 "dodge"      :                -100,
                 "damage"     :                400,
@@ -213,12 +213,12 @@ void sp_attack1(object me, object victim, object  weapon, int damage)
 {
   int i;
   sp_value =((ice/50)+(spi/5));   
-  message_vision(HIW"瞬間只見嬝嬝雲煙籠罩著$n，$n突然動彈不得\n"NOR,me,victim);
+  message_vision(HIW + "瞬間只見嬝嬝雲煙籠罩著$n，$n突然動彈不得\n" + NOR,me,victim);
   if( weapon->query("id")=="green-crystal") {
-    message_vision(HIC"
-天晶配合著渾天心法中的"HIW"『白雲煙』"HIC"，水晶彷彿與心法互相應和
+    message_vision(HIC + "
+天晶配合著渾天心法中的" + HIW + "『白雲煙』" + HIC + "，水晶彷彿與心法互相應和
 $N周遭嬝嬝雲煙瞬時已籠罩在方圓十里，$n自覺自己身處在一片雲海之中
-\n"NOR,me,victim);
+\n" + NOR,me,victim);
     victim->receive_wound("kee",ice*5,me);
     victim->start_busy(sp_value/2);
     COMBAT_D->report_status(victim);
@@ -234,12 +234,12 @@ void sp_attack2(object me, object victim, object  weapon, int damage)
 {
   int i;
   sp_value =(nine+spi);   
-  message_vision(HIM"$n只見一片霞光朝自己迎面而來\n"NOR,me,victim);
+  message_vision(HIM + "$n只見一片霞光朝自己迎面而來\n" + NOR,me,victim);
   if( weapon->query("id")=="green-crystal") {
-    message_vision(HIC"
-天晶配合著渾天心法中的"HIM"『玫蕩霞』"HIC"，水晶彷彿與心法互相應和
+    message_vision(HIC + "
+天晶配合著渾天心法中的" + HIM + "『玫蕩霞』" + HIC + "，水晶彷彿與心法互相應和
 一道道霞光從天晶向$n狂襲而去，只見$n心神不寧
-\n"NOR,me,victim);
+\n" + NOR,me,victim);
     victim->receive_wound("kee",nine*10,me);
     victim->receive_damage("gin",sp_value*5,me);
     victim->receive_damage("sen",sp_value*5,me);
@@ -261,12 +261,12 @@ void sp_attack3(object me, object victim, object  weapon, int damage)
 {
   int i;
   sp_value =((ice/50)+(spi/5));   
-  message_vision(HIY"瞬間只見嬝嬝雲煙籠罩著$n，$n突然動彈不得\n"NOR,me,victim);
+  message_vision(HIY + "瞬間只見嬝嬝雲煙籠罩著$n，$n突然動彈不得\n" + NOR,me,victim);
   if( weapon->query("id")=="green-crystal") {
-    message_vision(HIY"
+    message_vision(HIY + "
 天晶配合著渾天心法中的『白雲煙』，水晶彷彿與心法互相應和
 $N周遭嬝嬝雲煙瞬時已籠罩在方圓十里，$n自覺自己身處在一片雲海之中
-      \n"NOR,me,victim);
+      \n" + NOR,me,victim);
     victim->receive_wound("kee",ice*5,me);
     victim->start_busy(ice/2);
     COMBAT_D->report_status(victim);
@@ -282,12 +282,12 @@ void sp_attack4(object me, object victim, object  weapon, int damage)
 {
   int i;
   sp_value =((ice/50)+(spi/5));   
-  message_vision(HIY"瞬間只見嬝嬝雲煙籠罩著$n，$n突然動彈不得\n"NOR,me,victim);
+  message_vision(HIY + "瞬間只見嬝嬝雲煙籠罩著$n，$n突然動彈不得\n" + NOR,me,victim);
   if( weapon->query("id")=="green-crystal") {
-    message_vision(HIY"
+    message_vision(HIY + "
 天晶配合著渾天心法中的『白雲煙』，水晶彷彿與心法互相應和
 $N周遭嬝嬝雲煙瞬時已籠罩在方圓十里，$n自覺自己身處在一片雲海之中
-      \n"NOR,me,victim);
+      \n" + NOR,me,victim);
     victim->receive_wound("kee",ice*5,me);
     victim->start_busy(ice/2);
     COMBAT_D->report_status(victim);
@@ -303,12 +303,12 @@ void sp_attack5(object me, object victim, object  weapon, int damage)
 {
   int i;
   sp_value =((ice/50)+(spi/5));   
-  message_vision(HIY"瞬間只見嬝嬝雲煙籠罩著$n，$n突然動彈不得\n"NOR,me,victim);
+  message_vision(HIY + "瞬間只見嬝嬝雲煙籠罩著$n，$n突然動彈不得\n" + NOR,me,victim);
   if( weapon->query("id")=="green-crystal") {
-    message_vision(HIY"
+    message_vision(HIY + "
 天晶配合著渾天心法中的『白雲煙』，水晶彷彿與心法互相應和
 $N周遭嬝嬝雲煙瞬時已籠罩在方圓十里，$n自覺自己身處在一片雲海之中
-      \n"NOR,me,victim);
+      \n" + NOR,me,victim);
     victim->receive_wound("kee",ice*5,me);
     victim->start_busy(ice/2);
     COMBAT_D->report_status(victim);
@@ -324,12 +324,12 @@ void sp_attack6(object me, object victim, object  weapon, int damage)
 {
   int i;
   sp_value =((ice/50)+(spi/5));   
-  message_vision(HIY"瞬間只見嬝嬝雲煙籠罩著$n，$n突然動彈不得\n"NOR,me,victim);
+  message_vision(HIY + "瞬間只見嬝嬝雲煙籠罩著$n，$n突然動彈不得\n" + NOR,me,victim);
   if( weapon->query("id")=="green-crystal") {
-    message_vision(HIY"
+    message_vision(HIY + "
 天晶配合著渾天心法中的『白雲煙』，水晶彷彿與心法互相應和
 $N周遭嬝嬝雲煙瞬時已籠罩在方圓十里，$n自覺自己身處在一片雲海之中
-      \n"NOR,me,victim);
+      \n" + NOR,me,victim);
     victim->receive_wound("kee",ice*5,me);
     victim->start_busy(ice/2);
     COMBAT_D->report_status(victim);
@@ -345,12 +345,12 @@ void sp_attack7(object me, object victim, object  weapon, int damage)
 {
   int i;
   sp_value =((ice/50)+(spi/5));   
-  message_vision(HIY"瞬間只見嬝嬝雲煙籠罩著$n，$n突然動彈不得\n"NOR,me,victim);
+  message_vision(HIY + "瞬間只見嬝嬝雲煙籠罩著$n，$n突然動彈不得\n" + NOR,me,victim);
   if( weapon->query("id")=="green-crystal") {
-    message_vision(HIY"
+    message_vision(HIY + "
 天晶配合著渾天心法中的『白雲煙』，水晶彷彿與心法互相應和
 $N周遭嬝嬝雲煙瞬時已籠罩在方圓十里，$n自覺自己身處在一片雲海之中
-      \n"NOR,me,victim);
+      \n" + NOR,me,victim);
     victim->receive_wound("kee",ice*5,me);
     victim->start_busy(ice/2);
     COMBAT_D->report_status(victim);
@@ -366,12 +366,12 @@ void sp_attack8(object me, object victim, object  weapon, int damage)
 {
   int i;
   sp_value =((ice/50)+(spi/5));   
-  message_vision(HIY"瞬間只見嬝嬝雲煙籠罩著$n，$n突然動彈不得\n"NOR,me,victim);
+  message_vision(HIY + "瞬間只見嬝嬝雲煙籠罩著$n，$n突然動彈不得\n" + NOR,me,victim);
   if( weapon->query("id")=="green-crystal") {
-    message_vision(HIY"
+    message_vision(HIY + "
 天晶配合著渾天心法中的『白雲煙』，水晶彷彿與心法互相應和
 $N周遭嬝嬝雲煙瞬時已籠罩在方圓十里，$n自覺自己身處在一片雲海之中
-      \n"NOR,me,victim);
+      \n" + NOR,me,victim);
     victim->receive_wound("kee",ice*5,me);
     victim->start_busy(ice/2);
     COMBAT_D->report_status(victim);
@@ -387,12 +387,12 @@ void sp_attack9(object me, object victim, object  weapon, int damage)
 {
   int i;
   sp_value =((ice/50)+(spi/5));   
-  message_vision(HIY"瞬間只見嬝嬝雲煙籠罩著$n，$n突然動彈不得\n"NOR,me,victim);
+  message_vision(HIY + "瞬間只見嬝嬝雲煙籠罩著$n，$n突然動彈不得\n" + NOR,me,victim);
   if( weapon->query("id")=="green-crystal") {
-    message_vision(HIY"
+    message_vision(HIY + "
 天晶配合著渾天心法中的『白雲煙』，水晶彷彿與心法互相應和
 $N周遭嬝嬝雲煙瞬時已籠罩在方圓十里，$n自覺自己身處在一片雲海之中
-      \n"NOR,me,victim);
+      \n" + NOR,me,victim);
     victim->receive_wound("kee",ice*5,me);
     victim->start_busy(ice/2);
     COMBAT_D->report_status(victim);
@@ -408,12 +408,12 @@ void sp_attack10(object me, object victim, object  weapon, int damage)
 {
   int i;
   sp_value =((ice/50)+(spi/5));   
-  message_vision(HIY"瞬間只見嬝嬝雲煙籠罩著$n，$n突然動彈不得\n"NOR,me,victim);
+  message_vision(HIY + "瞬間只見嬝嬝雲煙籠罩著$n，$n突然動彈不得\n" + NOR,me,victim);
   if( weapon->query("id")=="green-crystal") {
-    message_vision(HIY"
+    message_vision(HIY + "
 天晶配合著渾天心法中的『白雲煙』，水晶彷彿與心法互相應和
 $N周遭嬝嬝雲煙瞬時已籠罩在方圓十里，$n自覺自己身處在一片雲海之中
-      \n"NOR,me,victim);
+      \n" + NOR,me,victim);
     victim->receive_wound("kee",ice*5,me);
     victim->start_busy(ice/2);
     COMBAT_D->report_status(victim);

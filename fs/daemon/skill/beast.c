@@ -90,14 +90,14 @@ void sound(object me, object victim, object  weapon, int damage)
   object room = environment(me);
   if(me->query_temp("earthkill")!=1)
   {
-   message_vision(HIG"\n$N發出一聲攝人的怒吼，整個"+room->query("short")+""HIG"因而震動。\n"NOR,me,victim);
+   message_vision(HIG + "\n$N發出一聲攝人的怒吼，整個"+room->query("short")+"" + HIG + "因而震動。\n" + NOR,me,victim);
    if(random(2)!=1)
    {
-    message_vision(HIR"$n首當其衝，頓時神智不清，幾欲昏厥。\n"NOR,me,victim);
+    message_vision(HIR + "$n首當其衝，頓時神智不清，幾欲昏厥。\n" + NOR,me,victim);
     victim->receive_wound("kee",200+random(200));
     COMBAT_D->report_status(victim);
    }else{
-    message_vision(HIW"$n運足內功\強抗，毫髮無傷。\n"NOR,me,victim);
+    message_vision(HIW + "$n運足內功\強抗，毫髮無傷。\n" + NOR,me,victim);
     victim->add("force",-100);
         }
   }
@@ -108,14 +108,14 @@ void punch(object me, object victim, object  weapon, int damage)
   object room = environment(me);
   if(me->query_temp("earthkill")!=1)
   {
-   message_vision(HIM"\n$N突然提高速度，以排山倒海般的氣勢向$n衝去。\n"NOR,me,victim);
+   message_vision(HIM + "\n$N突然提高速度，以排山倒海般的氣勢向$n衝去。\n" + NOR,me,victim);
    if(random(2)!=1)
      {
-      message_vision(HIB"$n被撞個滿懷，強大的衝擊力使得$n一時無法動彈。\n"NOR,me,victim);
+      message_vision(HIB + "$n被撞個滿懷，強大的衝擊力使得$n一時無法動彈。\n" + NOR,me,victim);
       victim->add("kee",-200-random(200));
       COMBAT_D->report_status(victim);
      }else{
-           message_vision(HIW"$n及時閃過這要命的衝撞，嚇出一身冷汗。\n"NOR,me,victim);
+           message_vision(HIW + "$n及時閃過這要命的衝撞，嚇出一身冷汗。\n" + NOR,me,victim);
            victim->add("gin",-50);
           }
   }

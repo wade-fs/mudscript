@@ -5,7 +5,7 @@ inherit NECK;
 object me=this_player();
 void create()
 {
-     set_name(HIB"魔龍牙墜"NOR , ({"mdragon gem","gem"}) );
+     set_name(HIB + "魔龍牙墜" + NOR , ({"mdragon gem","gem"}) );
      set_weight(1000);
      if ( clonep() )
               set_default_object(__FILE__);

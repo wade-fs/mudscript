@@ -18,7 +18,7 @@ string reattack()
         react = (me->query_skill("g-steps",1) / 4) +5;
 	target = offensive_target(me);
 	target->receive_damage("kee",react);
-	msg = me->query("name") + "使出一招" + HIR "逆轉乾坤" NOR + "將" +
+	msg = me->query("name") + "使出一招" + HIR + "逆轉乾坤" + NOR + "將" +
 	target->query("name") + "反擊回去。\n";
 	return msg;
 }	

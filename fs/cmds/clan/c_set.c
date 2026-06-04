@@ -67,8 +67,8 @@ void ask( string arg, object me )
 
 	CLAN_D->clan_set( me->query("clan/id"), arg, base_name(environment(me)) );
 	CHANNEL_D->do_channel( me, "ct",
-			"\n\t我 -「"HIW + me->query("clan/title") + HIY"」鄭重的宣佈……\n\t" +
-			"將本幫之"HIG + msg + HIY"設於"HIC + environment(me)->short() + HIY"。"NOR );
+			"\n\t我 -「" + HIW + me->query("clan/title") + HIY + "」鄭重的宣佈……\n\t" +
+			"將本幫之" + HIG + msg + HIY + "設於" + HIC + environment(me)->short() + HIY + "。" + NOR );
 }
 
 int help( object me )

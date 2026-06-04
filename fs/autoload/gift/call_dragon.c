@@ -8,14 +8,14 @@ object me = this_player();
 object horse = new("/autoload/gift/evil_dragon");
 void create()
 {
-  set_name(HIW"「"HIY"惡龍召喚"HIW"」"HIB"冥龍號角"NOR,({"call-dragon"}));
-  set("long",HIC"駕馭傳說之剎影冥龍所需的器具。
-                使用方法如下"HIW"
+  set_name(HIW + "「" + HIY + "惡龍召喚" + HIW + "」" + HIB + "冥龍號角" + NOR,({"call-dragon"}));
+  set("long",HIC + "駕馭傳說之剎影冥龍所需的器具。
+                使用方法如下" + HIW + "
                         sumdragon - 召喚冥龍
                         fanset - 設定飛行點
                         fanshow - 查看設定之飛行點
                         waveto - 飛到哪個飛行點(其餘飛行點設定和fan相同)
-                        waveto mogi - 可飛到魔界\n"NOR);
+                        waveto mogi - 可飛到魔界\n" + NOR);
   set("unit","條");  
   set("no_auc",1);
   set("no_sell",1);
@@ -43,8 +43,8 @@ int do_summonhorse()
   if(!horse)
   {
    horse = new("/autoload/gift/evil_dragon");
-   message_vision(HIB"$N取出身上的喚龍角，對空一鳴!!$n"HIB"便展開雙翅疾速飛來。\n"NOR,me,horse);
-   message_vision(HIB"$N"HIB"雙翅一展，朝主人所在的方位疾飛而去。\n"NOR,horse);
+   message_vision(HIB + "$N取出身上的喚龍角，對空一鳴!!$n" + HIB + "便展開雙翅疾速飛來。\n" + NOR,me,horse);
+   message_vision(HIB + "$N" + HIB + "雙翅一展，朝主人所在的方位疾飛而去。\n" + NOR,horse);
    horse->move(environment(me));
    horse->set_leader(me);
    horse->set("family/family_name",me->query("family/family_name"));
@@ -64,16 +64,16 @@ int do_summonhorse()
   }
   if(me->query_temp("have_horse") && environment(me) != environment(horse))
   {
-   message_vision(HIB"$N取出身上的喚龍角，對空一鳴!!$n"HIB"便展開雙翅疾速飛來。\n"NOR,me,horse);
-   message_vision(HIB"$N"HIB"雙翅一展，朝主人所在的方位疾飛而去。\n"NOR,horse);
+   message_vision(HIB + "$N取出身上的喚龍角，對空一鳴!!$n" + HIB + "便展開雙翅疾速飛來。\n" + NOR,me,horse);
+   message_vision(HIB + "$N" + HIB + "雙翅一展，朝主人所在的方位疾飛而去。\n" + NOR,horse);
    horse->move(environment(me));
    horse->set_heart_beat(1);
    return 1;
   }
   else if(!me->query_temp("have_horse"))
   {
-   message_vision(HIB"$N取出身上的喚龍角，對空一鳴!!$n"HIB"便展開雙翅疾速飛來。\n"NOR,me,horse);
-   message_vision(HIB"$N"HIB"雙翅一展，朝主人所在的方位疾飛而去。\n"NOR,horse);
+   message_vision(HIB + "$N取出身上的喚龍角，對空一鳴!!$n" + HIB + "便展開雙翅疾速飛來。\n" + NOR,me,horse);
+   message_vision(HIB + "$N" + HIB + "雙翅一展，朝主人所在的方位疾飛而去。\n" + NOR,horse);
    horse->move(environment(me));
    horse->set_leader(me);
    horse->set("family/family_name",me->query("family/family_name"));

@@ -32,21 +32,21 @@ int conjure(object me, object target)
   me->add("atman", -70);
   me->receive_damage("gin", 10);
 
-  write (HIG"\n                       妳忽然領悟了夜夢天舞中夢幻之舞的絕學。\n"NOR);
-  msg  = HIC"\n                     $N忽然翩然起舞，眼前只見那美麗的身影幻化出" NOR;
-  msg += HIC"\n                     無數美妙的舞步，$N舉手投足間令人看得如癡如" NOR;
-  msg += HIC"\n                         醉，好似天仙下凡，猶如身處幻夢之中。\n\n" NOR;
+  write (HIG + "\n                       妳忽然領悟了夜夢天舞中夢幻之舞的絕學。\n" + NOR);
+  msg  = HIC + "\n                     $N忽然翩然起舞，眼前只見那美麗的身影幻化出" + NOR;
+  msg += HIC + "\n                     無數美妙的舞步，$N舉手投足間令人看得如癡如" + NOR;
+  msg += HIC + "\n                         醉，好似天仙下凡，猶如身處幻夢之中。\n\n" + NOR;
   message_vision(msg, me, target);
 
   if( 80>random(100) ) {
-    write (HIG"\n                             結果成功\的施展出夢幻之舞。\n"NOR);
-    say (HIM"                     "+target->query("name")+"露出如癡如醉的表情，整個人像失了魂似的!!\n"NOR,me);
+    write (HIG + "\n                             結果成功\的施展出夢幻之舞。\n" + NOR);
+    say (HIM + "                     "+target->query("name")+"露出如癡如醉的表情，整個人像失了魂似的!!\n" + NOR,me);
     target->start_busy(k);
 //    if ( me->query_skill("dremagic",1) < 100 ) {
     me->improve_skill("dremagic", 1); //}
   } else {
-  write (HIR"\n                           結果絲毫起不了作用令妳暗自惋昔。\n"NOR);
-  say (HIG"                             但是"+target->query("name")+"絲毫不為所動。\n"NOR,me);
+  write (HIR + "\n                           結果絲毫起不了作用令妳暗自惋昔。\n" + NOR);
+  say (HIG + "                             但是"+target->query("name")+"絲毫不為所動。\n" + NOR,me);
   }
 
   if ( fun < 100 )

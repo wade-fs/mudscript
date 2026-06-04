@@ -6,7 +6,7 @@ inherit F_CLEAN_UP;
 
 int balance( object me )
 {
-	write( sprintf( HIG"《"HIC"%|10s"HIG"》"HIY"幫派錢莊 "NOR"-\n\n"HIW"\t擁有%s錠黃金。\n"NOR,
+	write( sprintf( HIG + "《" + HIC + "%|10s" + HIG + "》" + HIY + "幫派錢莊 " + NOR + "-\n\n" + HIW + "\t擁有%s錠黃金。\n" + NOR,
 		me->query("clan/name"), chinese_number(me->query("clan/bank")) ) );
 	return 1;
 }

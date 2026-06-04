@@ -29,7 +29,7 @@ int main(object me, string arg)
         if ( i >=0 ) {
         me->add("force",-i);
         } else { me->add("force",i); }
-        message_vision(HIC"$N運起功\力企圖改變殺意。\n"NOR,me);
+        message_vision(HIC + "$N運起功\力企圖改變殺意。\n" + NOR,me);
         me->start_call_out((:call_other, __FILE__, "bell_change",me,i:),1);
         me->set_temp("BC","USED");
         return 1;
@@ -38,16 +38,16 @@ void bell_change(object me,int i)
 {
          int b=random(me->query_kar());
   //     if( random(me->query_kar()) + 3 > random(me->query_cor()) + random(me->query_str()) ){
-  //          message_vision(YEL"$N的轉換失敗 內力流失了。\n"NOR,me); }
+  //          message_vision(YEL + "$N的轉換失敗 內力流失了。\n" + NOR,me); }
   //      else {
    
     if ( i >= 0 ) {
     me->add("bellicosity",i-b);
-    message_vision(YEL"$N的殺氣提升約"+chinese_number(i)+"點。\n"NOR,me);
+    message_vision(YEL + "$N的殺氣提升約"+chinese_number(i)+"點。\n" + NOR,me);
          }
     else { 
     me->add("bellicosity",i+b);
-    message_vision(YEL"$N的殺氣下降約"+chinese_number(-i)+"點。\n"NOR,me);
+    message_vision(YEL + "$N的殺氣下降約"+chinese_number(-i)+"點。\n" + NOR,me);
         }
             
    // }

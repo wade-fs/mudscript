@@ -12,18 +12,18 @@ int main(object me, string arg)
 
         if(!arg) return help(me);
         if(me->query("sen") <50) return notify_fail("風之精靈聽不到你任何的呼喚!!\n");
-        printf(HIC"你請風之精靈幫你找尋%s這個人!!\n"NOR,arg);
+        printf(HIC + "你請風之精靈幫你找尋%s這個人!!\n" + NOR,arg);
         who=find_player(arg);
         if(!who)
           who= FINGER_D->acquire_login_ob(arg);
         if(!who)
           return notify_fail("風之精靈回答你:在狂想的世界中似乎沒有這號人物的存在!!\n");
         if(wizardp(who) && !wizardp(me)){
-          tell_object(who,sprintf(HIY"風之精靈告訴你:%s 這個人似乎在找你喔!!\n"NOR,geteuid(me)));
+          tell_object(who,sprintf(HIY + "風之精靈告訴你:%s 這個人似乎在找你喔!!\n" + NOR,geteuid(me)));
           return notify_fail("風之精靈回答你:在狂想的世界中似乎沒有這號人物的存在!!\n");
         }
         if(find_player(arg))
-        tell_object(who,sprintf(HIY"風之精靈告訴你:%s 這個人似乎在找你喔!!\n"NOR,geteuid(me)));
+        tell_object(who,sprintf(HIY + "風之精靈告訴你:%s 這個人似乎在找你喔!!\n" + NOR,geteuid(me)));
         printf("
 風之精靈回答你說: 找到 %s 這個人了
 %s 的名字叫做: %s

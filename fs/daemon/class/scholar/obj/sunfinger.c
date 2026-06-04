@@ -72,13 +72,13 @@ int do_sp(string str)
                 return 0;
 
         if(!str || str!="fan")
-                return notify_fail(HIC"你要把一陽指氣鍊化到那裡去阿??\n"NOR);
+                return notify_fail(HIC + "你要把一陽指氣鍊化到那裡去阿??\n" + NOR);
 
         if(!present("finger fan",me))
-                return notify_fail(HIC"你的手中沒有飄陽扇，再怎麼鍊化下去也沒用!!\n"NOR);
+                return notify_fail(HIC + "你的手中沒有飄陽扇，再怎麼鍊化下去也沒用!!\n" + NOR);
 
         if(me->is_fighting())
-                return notify_fail(HIG"戰鬥中是無法將一陽指氣進行鍊化的!!\n"NOR);
+                return notify_fail(HIG + "戰鬥中是無法將一陽指氣進行鍊化的!!\n" + NOR);
 
         fun=me->query("functions/fan-finger/level");
         switch(fun){
@@ -120,16 +120,16 @@ int do_sp(string str)
             break;
         }
         if(me->query_temp("fan-finger") >= fun)
-          return notify_fail(HIM"你一次只可以鍊化"+CHINESE_D->chinese_number(fun)+"束一陽指氣進入飄陽扇中。\n"NOR);
+          return notify_fail(HIM + "你一次只可以鍊化"+CHINESE_D->chinese_number(fun)+"束一陽指氣進入飄陽扇中。\n" + NOR);
 
         if(query("equipped"))
-                return notify_fail(HIY"你現在正裝備著一陽指氣，所以無法將其鍊化。\n"NOR);
+                return notify_fail(HIY + "你現在正裝備著一陽指氣，所以無法將其鍊化。\n" + NOR);
 
-        message_vision(HIC"
-$N"HIC"將真氣聚於手上，臉上的顏色由紅轉白，又由白轉紅，全身汗流夾背，
-$N"HIC"忽然間眼放精光，手指竄出一道指氣流入了飄陽扇中!!!\n
+        message_vision(HIC + "
+$N" + HIC + "將真氣聚於手上，臉上的顏色由紅轉白，又由白轉紅，全身汗流夾背，
+$N" + HIC + "忽然間眼放精光，手指竄出一道指氣流入了飄陽扇中!!!\n
 
-"HIR"$N"HIR"因為用勁過度，暫時無法行動。\n"NOR,me);
+" + HIR + "$N" + HIR + "因為用勁過度，暫時無法行動。\n" + NOR,me);
 
         me->start_busy(2);
         me->add_temp("fan-finger",fun/10);

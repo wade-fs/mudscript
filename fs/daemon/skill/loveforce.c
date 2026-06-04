@@ -16,7 +16,7 @@ int practice_skill(object me)
 }
 void skill_improved(object me)
 {
-        tell_object(me,HIW"一陣冰箔籠罩你的全身，你的情傾七式更加熟練了!! \n"NOR);
+        tell_object(me,HIW + "一陣冰箔籠罩你的全身，你的情傾七式更加熟練了!! \n" + NOR);
 
 }
 string exert_function_file(string act)

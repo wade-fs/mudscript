@@ -126,11 +126,11 @@ int main( object me, string arg )
 	me->add( "food", -1 );
 
 	if( name == "NONE" )
-		message_vision( HIY"$N拿了一" + obj->query("unit") + "$n"HIY"敲敲打打, 正在努力建造"
-			+ short + HIY"。\n"NOR, me, obj );
+		message_vision( HIY + "$N拿了一" + obj->query("unit") + "$n" + HIY + "敲敲打打, 正在努力建造"
+			+ short + HIY + "。\n" + NOR, me, obj );
 	else
-		message_vision( HIY"$N拿了一" + obj->query("unit") + "以" + name + "製成的$n"HIY"敲敲打打, 正在努力建造"
-			+ short + HIY"。\n"NOR, me, obj );
+		message_vision( HIY + "$N拿了一" + obj->query("unit") + "以" + name + "製成的$n" + HIY + "敲敲打打, 正在努力建造"
+			+ short + HIY + "。\n" + NOR, me, obj );
 
 	me->add_temp( "c_build", 1 );
 	call_out( "delay_build", 2, me );

@@ -83,7 +83,7 @@ string long()
 		  while (n-->0) tmp+=".";
 		}
 		tmp += " "+notes[i]["author"];
-		msg += sprintf("%s[%02d][%|2d次]" NOR " %s (%s)\n",
+		msg += sprintf("%s[%02d][%|2d次]" + NOR + " %s (%s)\n",
 			( notes[i]["time"] > last_time_read ? HIY: ""),
 			i+1,
       notes[i]["count"],
@@ -135,8 +135,7 @@ int do_read(string arg)
 			tmp += " ";
 	}
 	me->start_more(
-		sprintf( "["HIY"%|3d"NOR"] %s"HIW"%s"HIM"(%s)\n"
-		      HIR"────────────────────────────────[觀看次數%|2d次]\n"NOR,
+		sprintf( "[" + HIY + "%|3d" + NOR + "] %s" + HIW + "%s" + HIM + "(%s)\n" + HIR + "────────────────────────────────[觀看次數%|2d次]\n" + NOR,
 		num + 1, tmp, notes[num]["author"], ctime(notes[num]["time"])[0..9] 
     ,notes[num]["count"]
     )

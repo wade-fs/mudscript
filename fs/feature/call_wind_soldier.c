@@ -20,10 +20,9 @@ int call_soldier(string call_class)
 	obj->set_leader(me);
 	str = obj->name();
 	message_vision(
-	CYN "$N說道﹕風雨令在此，我需要一名"+str+"，請即刻速辦。\n" NOR+this_object()->name()+"立刻叫人去找人。\n"+
+	CYN + "$N說道﹕風雨令在此，我需要一名"+str+"，請即刻速辦。\n" + NOR+this_object()->name()+"立刻叫人去找人。\n"+
 	"$n接到命令，飛身來到$N的面前。\n"+
-	CYN
-	"$n對著$N說道﹕下在為持有風雨令的人效命 ! 有任何差遣，找下在就是。\n" NOR,me,obj);
+	CYN + "$n對著$N說道﹕下在為持有風雨令的人效命 ! 有任何差遣，找下在就是。\n" + NOR,me,obj);
 	obj->set("commander",me->query("id") );
 	obj->set("name",me->name()+"的"+str);
 	return 1;

@@ -17,7 +17,7 @@ int main(object me)
     return notify_fail("佛法不是這樣練的。\n");
 
       message_vision(
-          HIG + "$N體內真力貫入護身靈氣之中﹐使$N靈氣增強。\n" NOR,me);
+          HIG + "$N體內真力貫入護身靈氣之中﹐使$N靈氣增強。\n" + NOR,me);
 	me->add("s_kee",me->query_spi()/10);
 	me->add("atman",-10);
 	if(me->query("s_kee")>me->query("max_s_kee")*2)
@@ -33,7 +33,7 @@ int main(object me)
                     }
 	  me->add("max_s_kee",1);
                     me->set("s_kee",me->query("max_s_kee"));
-                    tell_object(me,HIY "你的靈氣增強了﹗\n" NOR);
+                    tell_object(me,HIY + "你的靈氣增強了﹗\n" + NOR);
 	  return 1;
                 }
 		if(me->query("max_s_kee")>=me->query_spi()*2+me->query("max_atman")/20)
@@ -45,7 +45,7 @@ int main(object me)
 		}
 		me->add("max_s_kee",1);
 		me->set("s_kee",me->query("max_s_kee"));
-		tell_object(me,HIY "你的靈氣增強了﹗\n" NOR);
+		tell_object(me,HIY + "你的靈氣增強了﹗\n" + NOR);
 	}
 	return 1;
 }

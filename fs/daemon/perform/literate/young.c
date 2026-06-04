@@ -46,9 +46,8 @@ int perform(object me, object target)
 
 	new_age = skil*86400;
 
-	message_vision(HIC
-	"\n\t$N閉目接著口中念著咒語,$N的面容及體力發生了化學變化,就像抹了歐雷一樣."
-	"\n\t                     $N變年輕了!!           \n"NOR,me);
+	message_vision(HIC + "\n\t$N閉目接著口中念著咒語,$N的面容及體力發生了化學變化,就像抹了歐雷一樣."
+	"\n\t                     $N變年輕了!!           \n" + NOR,me);
 
 	me->add("mud_age",-new_age);
 	me->set("new_age",new_age);
@@ -80,9 +79,8 @@ int perform(object me, object target)
 	    new_age = skil*86400;
 	    }
 
-	  message_vision(HIC
-	  "\n\t$N閉目接著口中念著咒語，$N的面容透晰著純淨的靈光，就像用了SKII一樣。"
-	  "\n\t                     $N變年輕了!!           \n"NOR,me);
+	  message_vision(HIC + "\n\t$N閉目接著口中念著咒語，$N的面容透晰著純淨的靈光，就像用了SKII一樣。"
+	  "\n\t                     $N變年輕了!!           \n" + NOR,me);
 
 	  me->add("mud_age",-new_age);
 	  me->set("new_age",new_age);
@@ -98,16 +96,16 @@ int perform(object me, object target)
 	        if( pot < skil*2+5000 )
 		{
 	        function_improved("young",random(500));
-	        message_vision(HIW"\t$N潛能不夠，無法激發潛能與經驗來倍升熟練度。\n"NOR,me);
+	        message_vision(HIW + "\t$N潛能不夠，無法激發潛能與經驗來倍升熟練度。\n" + NOR,me);
 		}else{
 	        me->add("potential",-skil*8);
 	        me->add("combat_exp",-skil*8);
 	        function_improved("young",random(500)*8); 
-	        message_vision(HIW"\t$N激發了本身潛能與經驗來換取熟練度之倍升。\n"NOR,me);
+	        message_vision(HIW + "\t$N激發了本身潛能與經驗來換取熟練度之倍升。\n" + NOR,me);
 	        }
 	      }else{
 	      function_improved("young",random(500));
-	      message_vision(HIW"\t$N經驗值不夠，無法激發潛能與經驗來倍升熟練度。\n"NOR,me);
+	      message_vision(HIW + "\t$N經驗值不夠，無法激發潛能與經驗來倍升熟練度。\n" + NOR,me);
 	      }
 	    }else{
 	      {
@@ -124,9 +122,8 @@ int perform(object me, object target)
 //	  message_vision("skil2="+skil2+"  young_time="+young_time+"\n",me);
 	  new_age = skil2*86400;
 
-	  message_vision(HIC
-	  "\n\t$N閉目接著口中念著咒語，$N的面容透晰著純淨的靈光，就像用了SKII一樣。"
-	  "\n\t                     $N變年輕了!!           \n"NOR,me);
+	  message_vision(HIC + "\n\t$N閉目接著口中念著咒語，$N的面容透晰著純淨的靈光，就像用了SKII一樣。"
+	  "\n\t                     $N變年輕了!!           \n" + NOR,me);
 
 	  me->add("mud_age",-new_age);
 	  me->set("new_age",new_age);
@@ -136,7 +133,7 @@ int perform(object me, object target)
 	}else{
 	  if( skil > 100 )
 	  {
-	  message_vision(HIR"$N未解謎完成無法使用進階的返老還童術，技能值恢復為100等級。\n"NOR,me);
+	  message_vision(HIR + "$N未解謎完成無法使用進階的返老還童術，技能值恢復為100等級。\n" + NOR,me);
 	  me->set("functions/young/level",100);
 	  me->set("functions/young/learned",108161);
 	  }

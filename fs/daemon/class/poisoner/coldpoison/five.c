@@ -26,7 +26,7 @@ int perform(object me, object target)
     return notify_fail("你不是魔教徒。\n");
   if(me->query_temp("is_five"))
     return notify_fail("你正在使用。\n");
-  msg=HIC "$N吸納五毒，聚精會神伺機而動。\n"NOR;
+  msg=HIC + "$N吸納五毒，聚精會神伺機而動。\n" + NOR;
   message_vision(msg, me);
   ob->add_amount(-1);
   me->set_temp("is_five",1);
@@ -45,7 +45,7 @@ int act1(string msg,object target,object me) {
   if(!living(target)) return notify_fail("敵人已死了。\n"); 
   if(80>random(100))
   {
-    msg=HIR "$N見機「碰」的一聲，$n身上已留下一個黑掌印。\n" NOR;
+    msg=HIR + "$N見機「碰」的一聲，$n身上已留下一個黑掌印。\n" + NOR;
     target->apply_condition("five_poison",5);
     target->receive_damage("kee",me->query("functions/five/level"),me);
     target->set("five",me->query("functions/five/level")*10);   
@@ -57,7 +57,7 @@ int act1(string msg,object target,object me) {
     if(target->query("id")=="degu sa") target->set_temp("five-1",1); //替獨孤嵊(degu sa)加上保護
     target->kill_ob(me);
     me->kill_ob(target);
-  } else msg= HIG "$N見機「碰」的一聲，$n見情勢危急，急防躲開。\n"NOR;
+  } else msg= HIG + "$N見機「碰」的一聲，$n見情勢危急，急防躲開。\n" + NOR;
   message_vision(msg, me, target);
   if(fun<100) function_improved("five",random(700));
   return 1;

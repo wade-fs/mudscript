@@ -1,6 +1,6 @@
-//Beggar Perform ­°Às¤Q¤K´x by Guetenr 2003/5/13
-//¥»perform §Q¥Îcall out¨Ó§@¯S§ðªº»²§U
-//§Q¥Î®É¶¡¶¡¹j§@¥X³s¥X18´xªº®ÄªG
+//Beggar Perform sQKx by Guetenr 2003/5/13
+//perform Qcall outÓ§@Sðªº»U
+//QÎ®É¶j@XsX18xÄªG
 inherit F_FUNCTION;
 inherit SKILL;
 inherit SSERVER;
@@ -11,10 +11,10 @@ int count;
 
 
 string *ATTACK_MSG=({
-BLU"$NÂù¤â¦¨«ý, ªZ¾§¨°¿³, ¥¿¬°­°Às¤Q¤K´x¤§ --------- \n"NOR,
-RED"$N¤â¹º¤K¨ö, ®ðº¡¦À¥Ð, ²ö¥¡¤G¥Þ, Âà¨­¤@¹D­°Às¤Q¤K´x¤§ ---- \n"NOR,
-HIR"$N¨­§Î¦ü­·, ¤@¤â¤@¹D¯uªZ¹º­·, ¥¿¬O­°Às¤Q¤K´x¤¤¤§---------- \n"NOR,
-HIG"$N¤@¹D¯u®ð¦Û´x¤¤´å¥X, ®ð«lª½¹G¹ï¤â¯Ý«e, ¤f¤¤³Û¹D­°Às¤Q¤K´x¤¤¤§ -------- \n"NOR,
+BLU + "$Nâ¦¨, Z, sQKx --------- \n" + NOR,
+RED + "$Nâ¹ºK, ðº¡¦, G, à¨­@DsQKx ---- \n" + NOR,
+HIR + "$NÎ¦, @@DuZ, OsQKx---------- \n" + NOR,
+HIG + "$N@DuÛ´xX, lGÝ«e, fÛ¹DsQKx -------- \n" + NOR,
 
 });
 
@@ -26,37 +26,37 @@ int perform(object me,object target)
         object who = this_player();
         count = 0;
         if(me->is_busy()) 
-        return notify_fail("§A²{¦bµLªk¨Ï¥Î­°Às¤Q¤K´x!!\n");
+        return notify_fail("A{bLkÏ¥Î­sQKx!!\n");
         if(!me->is_fighting())
-        return notify_fail("­°Às¤Q¤K´x¥u¯à¦b¾Ô°«¤¤¨Ï¥Î¡C\n");
+        return notify_fail("sQKxubÔ°Ï¥Î¡C\n");
         if(me->query_temp("dragon_kee"))
-        return notify_fail("§A¤w¸g¦b¬I®i­°Às¤Q¤K´x¤F, ¦¹®É¬O¤£¥i¥H¹B°_ªº!!\n");
-        if( me->query("family/family_name") != "¤¢À°")
-        return notify_fail("§A¤£¬O¤¢À°¤£¯à¥Î³á¡I¡I^_^\n");
+        return notify_fail("AwgbIisQKxF, É¬OiHB_!!\n");
+        if( me->query("family/family_name") != "")
+        return notify_fail("AOÎ³II^_^\n");
         if ((int)me->query("force",1) < 500)
-        return notify_fail("§A¤º¤O¤£°÷¡AµLªk¨Ï¥Î¡I\n");
+        return notify_fail("AOALkÏ¥Î¡I\n");
 
         me->add("force",-500);
-        message_vision(HIW"
-                       $N¬ðµM¨­®§¤@»E, ²´¤¤Åã²{ª÷¥ú!!
-                           Âù¤â¥ß¤Ñ,¨­¿Õµ{äÕ -- ¤j©I "HIC"
+        message_vision(HIW + "
+                       $NM@E, {!!
+                           ß¤,Õµ{ -- jI " + HIC + "
        .......     -4&&e.                       ....... &&&&c
-        .&&&&??&&&e.d&bec.CC..                  .e&&&???&&&eJ^^^&ec "HIW"±j¯Pªº¯u®ð«l"HIC"
-        4&&bd ..^?&&&e.&&&&&&&&&&&&&&&&eeed&P?.d&&&E..dbcJC&&&&&&&&P"HIW"¤£Â_ªº¦Û$N"HIC"
-     .  .3&&&.?& ..^^)C$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$PFF^?^?^^ "HIW"ªº´x¤¤µo¥X!!"HIC"
-   &&F d&&&&&&e   .z&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&P^^.ee z&b e& "HIW"§Î¦¨¦h¹D¯u"HIC"
-   ^P  ^&&&&&&&&&&&&&&&&&&&&&&&&&&&P^^^ ^^^^???????^^  &&&&P &&^dF  "HIW"   ®ð«l!!"HIC"
-e&%.e&&&&&&&&&&&&&&&&&&&&&&&&&&P^^ 4&&&   4&be   ee&P  4&&P^z^ ^    "HIW"       ¡w  "HIC"
-P^e&&&&&&&P^CCC^^^^?&&&&&&&&PF^.er   ^P^   4P^    &&^   &P^         "HIY"       ¯u  "HIC"
- e&&&?3&F   ?&P    d&b  4ee   &P                                    "HIY"       ¶ø  "HIC"
-4&&&^e&&      ^   ^^    P`        &&e     e.                        "HIY"  ­°   ¸q  "HIC"
-&&&F &&&   d&. 4&.         &&=  ......   d&b     .dF   .&F e zr     "HIY"  Às   ¡¯  "HIC"
-?&&&.`?f ......J^?  .&&   ^Lz&&&&&&&&&&&&&e..   'd&&% -d&&^ ^...e   "HIY"  ¤Q       "HIC"
-`&&&&  z&&&&&&&&&&&&&&&&&&&&&&&&&&&&7e. ^^^.zd&&eeeeeed&&&&&&&P^    "HIY"  ¤K       "HIC"
-  ?&&&&&&&&&&&&&&&&&&&&&&&&P????????????^^^^^^^^^^^^^^^^^^^^^       "HIY"  ´x       "HIC"
-    `??&&&&&&&&&&&&&&&&&&P^.eeeeeeee&&&&&&&&^^^^^^^^^               "HIW"  ¡x       "NOR"
+        .&&&&??&&&e.d&bec.CC..                  .e&&&???&&&eJ^^^&ec " + HIW + "jPul" + HIC + "
+        4&&bd ..^?&&&e.&&&&&&&&&&&&&&&&eeed&P?.d&&&E..dbcJC&&&&&&&&P" + HIW + "_$N" + HIC + "
+     .  .3&&&.?& ..^^)C$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$PFF^?^?^^ " + HIW + "xoX!!" + HIC + "
+   &&F d&&&&&&e   .z&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&P^^.ee z&b e& " + HIW + "Î¦hDu" + HIC + "
+   ^P  ^&&&&&&&&&&&&&&&&&&&&&&&&&&&P^^^ ^^^^???????^^  &&&&P &&^dF  " + HIW + "   l!!" + HIC + "
+e&%.e&&&&&&&&&&&&&&&&&&&&&&&&&&P^^ 4&&&   4&be   ee&P  4&&P^z^ ^    " + HIW + "       w  " + HIC + "
+P^e&&&&&&&P^CCC^^^^?&&&&&&&&PF^.er   ^P^   4P^    &&^   &P^         " + HIY + "       u  " + HIC + "
+ e&&&?3&F   ?&P    d&b  4ee   &P                                    " + HIY + "         " + HIC + "
+4&&&^e&&      ^   ^^    P`        &&e     e.                        " + HIY + "     q  " + HIC + "
+&&&F &&&   d&. 4&.         &&=  ......   d&b     .dF   .&F e zr     " + HIY + "  s     " + HIC + "
+?&&&.`?f ......J^?  .&&   ^Lz&&&&&&&&&&&&&e..   'd&&% -d&&^ ^...e   " + HIY + "  Q       " + HIC + "
+`&&&&  z&&&&&&&&&&&&&&&&&&&&&&&&&&&&7e. ^^^.zd&&eeeeeed&&&&&&&P^    " + HIY + "  K       " + HIC + "
+  ?&&&&&&&&&&&&&&&&&&&&&&&&P????????????^^^^^^^^^^^^^^^^^^^^^       " + HIY + "  x       " + HIC + "
+    `??&&&&&&&&&&&&&&&&&&P^.eeeeeeee&&&&&&&&^^^^^^^^^               " + HIW + "  x       " + NOR + "
 
-             "HIW"²r¯Pªº±j¯P®ð«l´Â¥|­±À°¤è¨g©b¦Ó¥h!!!!!!!!\n\n"+NOR+""NOR,me,all[i] );
+             " + HIW + "rPjPlÂ¥|gbÓ¥h!!!!!!!!\n\n"+NOR+"" + NOR,me,all[i] );
         me->start_busy(1);
         all[i]->start_busy(2);
         call_out("again",3,me);
@@ -79,7 +79,7 @@ int again(object me)
         if ((int)me->query("force",1) < 500) 
         {
           me->delete_temp("dragon_kee");
-          message_vision(HIR"\n$N¤º¤O¤£¨¬, µLªkÄ~Äò¨Ï¥Î­°Às¤Q¤K´x!!\n"NOR,me,all[i] );
+          message_vision(HIR + "\n$NO, Lk~Ï¥Î­sQKx!!\n" + NOR,me,all[i] );
           return 1;
         }
 
@@ -88,7 +88,7 @@ int again(object me)
         if(count>n || !me->is_fighting())
         {
           me->delete_temp("dragon_kee");
-          message_vision(HIR"\n$N¨Ï¥Î­°Às¤Q¤K´x«á½Õ¾ã®ð®§, «æ¹B¤º®§, ­«·s¶}©l!!"NOR,me,all[i] );
+          message_vision(HIR + "\n$NÏ¥Î­sQKxÕ¾, B, s}l!!" + NOR,me,all[i] );
           return 1;
         }
           me->set_temp("dragon_kee",1);
@@ -99,8 +99,8 @@ int again(object me)
                 {
                   case 0:
                   {
-                  message_vision("[0;1;33m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1;37m¡[1my[1;36m±[1mK[1m [1m [1m [0m[0;1;34m«[1mB[1m [1m [1m [1;36m¤[1m£[1m [1m [1m [1;34m¶[1m³[1;37m¡[1mz[1;33m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[0m
-                         "HIR"®ð«l¥´À»¦b$n¨­¤W, Åý$n­W¤£³ô¨¥!!!\n"NOR,me,all[i]);
+                  message_vision("[0;1;33m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1;37m[1my[1;36m[1mK[1m [1m [1m [0m[0;1;34m[1mB[1m [1m [1m [1;36m[1m[1m [1m [1m [1;34m[1m[1;37m[1mz[1;33m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[0m
+                         " + HIR + "lb$nW, $nW!!!\n" + NOR,me,all[i]);
 
                   me->add("force",-300);
                   all[i]->receive_wound( "kee" ,300);
@@ -112,7 +112,7 @@ int again(object me)
 
                   case 1:
                   {
-                  message_vision( HIC"µ²ªGµLªk¥´¤¤$n!!\n"NOR , me ,all[i] );                    
+                  message_vision( HIC + "GLk$n!!\n" + NOR , me ,all[i] );                    
                   me->add("force",-300);
                   me->start_busy(1);
                   if(fun<100) {function_improved("dragon-kee",random(50));}
@@ -121,8 +121,8 @@ int again(object me)
                
                   case 2:
                   {
-                  message_vision("[0;1;33m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1;37m¡[1my[1;34m®[1mÉ[1m [1m [1m [0m­¼   [0;1m¤[1m»[1m [1m [1m [0mÀs[0;1m¡[1mz[1;33m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[0m
-                     "HIR"®ð«l¤À¦V¤»¤èª½½Ä$nªº¸£³U, Åý$n¯«®ðµA´²!!!\n"NOR,me,all[i]);
+                  message_vision("[0;1;33m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1;37m[1my[1;34m[1m[1m [1m [1m [0m   [0;1m[1m[1m [1m [1m [0ms[0;1m[1mz[1;33m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[0m
+                     " + HIR + "lVèª½$nU, $nA!!!\n" + NOR,me,all[i]);
                   me->add("force",-500);
 
                   all[i]->receive_wound( "kee" ,300);
@@ -134,8 +134,8 @@ int again(object me)
                           
                   case 3:
                   {
-                  message_vision("[0;1;33m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1;37m¡[1my[1mÂ[1mù[1m [1m [1m [1mÀ[1ms[1m [1m [1m [1m¨[1mú[1m [1m [1m [0m[0;1m¤[1mô[1m¡[1mz[1;33m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[0m
-                           "HIR"­°Às®ð«l¥´¶Ã¤F¹ï¤âªº¤º¤O¹B¦æ!!!\n"NOR,me,all[i]);
+                  message_vision("[0;1;33m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1;37m[1my[1m[1m[1m [1m [1m [1m[1ms[1m [1m [1m [1m[1m[1m [1m [1m [0m[0;1m[1m[1m[1mz[1;33m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[0m
+                           " + HIR + "slÃ¤FâªºOB!!!\n" + NOR,me,all[i]);
                   me->add("force",-300);
                   all[i]->add("force",-1000);
                   COMBAT_D->report_status( all[i] );
@@ -145,8 +145,8 @@ int again(object me)
 
                   case 4:
                   {
-                  message_vision("[0;1;33m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1;37m¡[1my[1;33m¯[1m«[1m [1m [1m [1mÀ[1ms[1m [1m [1m [0m·n   [0;1;33m [0m[0;1;33m§[1mÀ[1;37m¡[1mz[1;33m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[0m
-                       "HIR"®ð«l¬¤´é¶ÃÂ«, Åý¹ï¤âµLªk°Ê¼u, ¨­¨ü®ð¶Ë!!!\n"NOR,me,all[i]);
+                  message_vision("[0;1;33m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1;37m[1my[1;33m[1m[1m [1m [1m [1m[1ms[1m [1m [1m [0mn   [0;1;33m [0m[0;1;33m[1m[1;37m[1mz[1;33m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[0m
+                       " + HIR + "lÂ«, LkÊ¼u, !!!\n" + NOR,me,all[i]);
 
                   me->add("force",-700);
                   all[i]->receive_wound( "kee" ,fun*5+500);
@@ -158,9 +158,9 @@ int again(object me)
      
                   case 5:               
                   {
-                  message_vision("[0;1;33m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1;37m¡[1my[1;32m©[1mÎ[0m   ÅD[0;1m [1m [1m [1m¦[1mb[0m   ²W[0;1m¡[1mz[1;33m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[0m
+                  message_vision("[0;1;33m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1;37m[1my[1;32m[1m[0m   D[0;1m [1m [1m [1m[1mb[0m   W[0;1m[1mz[1;33m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[0m
 
-                       "HIR"®ð«l¬¤´é¶ÃÂ«, Åý¼Ä¤HµLªk°Ê¼u, ¯«´¼±Y¶Ã!!!\n"NOR,me,all[i]);
+                       " + HIR + "lÂ«, Ä¤HLkÊ¼u, Y!!!\n" + NOR,me,all[i]);
                   me->add("force",-700);
                   all[i]->receive_wound( "kee" ,fun*6+500);
                   all[i]->start_busy(1);
@@ -171,8 +171,8 @@ int again(object me)
 
                   case 6:
                   {
-                  message_vision("[0;1;33m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1;37m¡[1my[1;32m¾[1m_[1m [1m [1m [1mÅ[1må[1m [1m [1m [1m¦[1mÊ[1m [1m [1m [0m[0;1;32m¨[1m½[1;37m¡[1mz[1;33m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[0m
-                     "HIR"¦¹©Û®ð¶Õ¤¿´c, Åý¹ï¤â¹¡¨ü¦×Åé©Mºë®ð¤Wªº½ÄÀ»!!!\n"NOR,me,all[i]);
+                  message_vision("[0;1;33m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1;37m[1my[1;32m[1m_[1m [1m [1m [1m[1m[1m [1m [1m [1m[1m[1m [1m [1m [0m[0;1;32m[1m[1;37m[1mz[1;33m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[0m
+                     " + HIR + "Û®Õ¤c, â¹¡MW!!!\n" + NOR,me,all[i]);
                   me->add("force",-700);
                   all[i]->add("force",-1000);
                   all[i]->receive_wound( "kee" ,fun*7+500);
@@ -183,8 +183,8 @@ int again(object me)
 
                   case 7:     
                   {
-                  message_vision("[0;1;33m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1;37m¡[1my[1;31m¬[1mð[1m [1m [1m [1m¦[1mp[1m [1m [1m [1m¨[1mä[1m [1m [1m [0m[0;1;31m¨[1mÓ[1;37m¡[1mz[1;33m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[0m
-                           "HIR"®ð«l¤Æ¬°¯«Âê, Åý¼Ä¤HµLªk°Ê¼u!!!\n"NOR,me,all[i]);
+                  message_vision("[0;1;33m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1;37m[1my[1;31m[1m[1m [1m [1m [1m[1mp[1m [1m [1m [1m[1m[1m [1m [1m [0m[0;1;31m[1m[1;37m[1mz[1;33m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[0m
+                           " + HIR + "lÆ¬, Ä¤HLkÊ¼u!!!\n" + NOR,me,all[i]);
                   me->add("force",-700);
                   all[i]->add("force",-1000);
                   all[i]->receive_wound( "kee" ,fun*8+500);
@@ -197,9 +197,9 @@ int again(object me)
                 
                   case 8:               
                   {
-                  message_vision("[0;1;33m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1;37m¡[1my[1m§[1mQ[0m   ¯A[0;1m [1m [1m [1m¤[1mj[0m   ¤t[0;1m¡[1mz[1;33m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[0m
+                  message_vision("[0;1;33m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1;37m[1my[1m[1mQ[0m   A[0;1m [1m [1m [1m[1mj[0m   t[0;1m[1mz[1;33m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[0m
 
-                 "HIR"¹ï¤â¨ü¨ì­°Às¯u®ðªº¥´À», ¤º¤O©Mºë¯«³£¨ü¨ì¤F½ÄÀ»,µLªk°Ê¼u!!\n"NOR,me,all[i]);
+                 " + HIR + "ì­°suðªº¥, OMë¯«F,LkÊ¼u!!\n" + NOR,me,all[i]);
                   me->add("force",-700);
                   all[i]->add("force",-1000);
                   all[i]->receive_damage("gin",fun*3+500,me);
@@ -210,8 +210,8 @@ int again(object me)
                   
                   case 9:               
                   {
-                  message_vision("[0;1;33m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1;37m¡[1my[1;33m¼[1mç[1;31m [1m [1m [1mÀ[1ms[1;32m [1m [1m [1m¤[1mÅ[1;36m [1m [1m [0m[0;1;36m¥[1mÎ[1;37m¡[1mz[1;33m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[0m
-               "HIR"¹ï¤â¨ü¦Ü©ó­°Às¯u®ðªº­­¨î, ¤£¦ý¨­¨ü³Ð¶ËÁÙµLªk°Ê¼u!!!\n"NOR,me,all[i]);
+                  message_vision("[0;1;33m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1;37m[1my[1;33m[1m[1;31m [1m [1m [1m[1ms[1;32m [1m [1m [1m[1m[1;36m [1m [1m [0m[0;1;36m[1m[1;37m[1mz[1;33m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[0m
+               " + HIR + "Ü©suðªº­, Ð¶ÙµLkÊ¼u!!!\n" + NOR,me,all[i]);
 
                   me->add("force",-700);
                   all[i]->add("force",-1000);
@@ -224,8 +224,8 @@ int again(object me)
                 
                   case 10:
                   {
-                  message_vision("[0;1;33m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1;37m¡[1my[1;31m¾[1mÔ[0m   Às[0;1m [1m [1m [1m¦[1mb[0m   ³¥[0;1m¡[1mz[1;33m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[0m
-               "HIR"¦¹©Û¨g¦p¥¨®ö¯ëªº®ð«l´Â¹ï¤â´é¨Ó!!Åý$n¨­¨üµL¤ñªº¥´À»!!!\n"NOR,me,all[i]);
+                  message_vision("[0;1;33m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1;37m[1my[1;31m[1m[0m   s[0;1m [1m [1m [1m[1mb[0m   [0;1m[1mz[1;33m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[0m
+               " + HIR + "Û¨gpëªºlÂ¹!!$nLñªº¥!!!\n" + NOR,me,all[i]);
                   me->add("force",-700);
                   all[i]->add("force",-1000);
                   all[i]->start_busy(1);
@@ -237,9 +237,9 @@ int again(object me)
                                        
                   case 11:
                   {
-                  message_vision("[0;1;33m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1;37m¡[1my[1;33m¤[1m®[1;37m [1m [1m [1mÀ[1ms[1;33m [1m [1m [1m¦[1m³[1;37m [1m [1m [0m[0;1m®[1m¬[1m¡[1mz[1;33m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[0m
+                  message_vision("[0;1;33m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1;37m[1my[1;33m[1m[1;37m [1m [1m [1m[1ms[1;33m [1m [1m [1m[1m[1;37m [1m [1m [0m[0;1m[1m[1m[1mz[1;33m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[1m*[0m
 
-               [0;1;31m¦[1m¹[1m©[1mÛ[1m¨[1mg[1m¦[1mp[1m¥[1m¨[1m®[1mö[1m¯[1më[1mª[1mº[1m®[1mð[1m«[1ml[1m´[1mÂ[1m$[1mn[1m´[1mé[1m¨[1mÓ[1m![1m![1mÅ[1mý[1m$[1mn[1m¨[1m­[1m¨[1mü[1mµ[1mL[1m¤[1mñ[1mª[1mº[1m¥[1m´[1mÀ[1m»[1m![1m![1m![0m\n",me,all[i]);
+               [0;1;31m[1m[1m[1m[1m[1mg[1m[1mp[1m[1m[1m[1m[1m[1m[1m[1m[1m[1m[1m[1ml[1m[1m[1m$[1mn[1m[1m[1m[1m[1m![1m![1m[1m[1m$[1mn[1m[1m[1m[1m[1m[1mL[1m[1m[1m[1m[1m[1m[1m[1m[1m![1m![1m![0m\n",me,all[i]);
                   me->add("force",-700);
                   all[i]->add("force",-3000);
                   all[i]->receive_wound( "kee" ,1000);

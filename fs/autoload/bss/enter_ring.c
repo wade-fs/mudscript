@@ -16,7 +16,7 @@ power_change 點數可以讓你身上的點數轉換為內力(1:5)
 string NAME;
 void create()
 {
-     set_name(HIC"魔封環"NOR ,({"mo_fon_hoan", "hoan"}));
+     set_name(HIC + "魔封環" + NOR ,({"mo_fon_hoan", "hoan"}));
      set_weight(2500);
      set("no_auc",1);
      set("no_sell",1);

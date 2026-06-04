@@ -118,7 +118,7 @@ mapping query_action(object me,object weapon)
   if(me->query("bellicosity") < 50 && random(100) < 30 && limit > 7 )
   {
     me->set_temp("rulais",1);
-    message_vision(HIC"\n\n$N臉露慈笑，一陣祥和之氣從$N的身上顯現出來，但手中的掌力卻越摧越強！\n"NOR,me,victim);
+    message_vision(HIC + "\n\n$N臉露慈笑，一陣祥和之氣從$N的身上顯現出來，但手中的掌力卻越摧越強！\n" + NOR,me,victim);
     COMBAT_D->do_attack(me,victim , weapon, TYPE_QUICK);
     me->delete_temp("rulais",1);
   }

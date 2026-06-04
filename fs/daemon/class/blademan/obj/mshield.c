@@ -5,7 +5,7 @@ inherit SHIELD;
 object me=this_player();
 void create()
 {
-        set_name(HIB"魔龍甲盾"NOR,({"mdragon shield","shield"}));
+        set_name(HIB + "魔龍甲盾" + NOR,({"mdragon shield","shield"}));
         set_weight(2000);
         if( clonep() )
                 set_default_object(__FILE__);

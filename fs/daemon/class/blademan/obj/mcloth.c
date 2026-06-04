@@ -7,7 +7,7 @@ int cor;
 int ekee=me->query("max_kee",1);
 void create()
 {
-        set_name( HIB "魔龍血鎧" NOR ,({"mdragon cloth","cloth"}));
+        set_name( HIB + "魔龍血鎧" + NOR ,({"mdragon cloth","cloth"}));
         set_weight(3000);
         if( clonep() )
                 set_default_object(__FILE__);
@@ -46,7 +46,7 @@ int do_wear(string str)
      {
         cor = me->query_kar(1);
         cor = cor *2;
-message_vision(HIB"$N穿上了魔龍血鎧一股無窮的力量湧上心頭。\n"NOR,me);
+message_vision(HIB + "$N穿上了魔龍血鎧一股無窮的力量湧上心頭。\n" + NOR,me);
         set_heart_beat(1);
      }
 }
@@ -55,7 +55,7 @@ int do_remove(string str)
    if(str=="mdragon cloth" || str=="all" || str=="cloth")
      if( query("equipped") )
      {
-message_vision(YEL"$N脫下了魔龍血鎧神秘的力量頓時消失。\n"NOR,me);
+message_vision(YEL + "$N脫下了魔龍血鎧神秘的力量頓時消失。\n" + NOR,me);
         set_heart_beat(0);
      }
 }

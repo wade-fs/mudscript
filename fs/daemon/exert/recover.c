@@ -27,8 +27,8 @@ int exert( object me, object target )
 	if( me->is_fighting() ) {
 		me->start_busy(1);
 		if( random(100) < 1 ) {
-			message_vision( MAG"$N感到內息一陣混亂, 看來是走火入魔了!\n"NOR, me );
-			message_vision( HIM"$N行動一滯, 空門大漏!\n"NOR, me );
+			message_vision( MAG + "$N感到內息一陣混亂, 看來是走火入魔了!\n" + NOR, me );
+			message_vision( HIM + "$N行動一滯, 空門大漏!\n" + NOR, me );
 			me->start_busy(2);
 		}
 	}

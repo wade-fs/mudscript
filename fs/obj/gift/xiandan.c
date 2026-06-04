@@ -6,7 +6,7 @@ inherit ITEM;
 
 void create()
 {
-	set_name(HIY "仙丹" NOR, ({ "dan", "xian dan", "xiandan" }) );
+	set_name(HIY + "仙丹" + NOR, ({ "dan", "xian dan", "xiandan" }) );
 	set_weight(200);
 	if( clonep() )
 		set_default_object(__FILE__);
@@ -45,7 +45,7 @@ int do_eat(string arg)
                 tell_object(me, "不過你覺得好像沒什麼作用。\n");
         } else
         {
-                tell_object(me, HIG "一股火熱驀然從腦中升起，"
+                tell_object(me, HIG + "一股火熱驀然從腦中升起，"
                             "你頭痛欲裂，恰在此時一股清涼之意油然而起，頓感舒泰無比。\n");
                 me->add("int", 1);
                 me->add("setgift/int",1);

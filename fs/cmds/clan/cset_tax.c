@@ -18,8 +18,8 @@ int main( object me,string str )
 		return notify_fail("稅率不得高於90%。\n");
 	CLAN_D->clan_set(me->query("clan/id"),"tax",num);
 	CHANNEL_D->do_channel(me, "ct",
-		"\n\t我 -「"HIW+me->query("clan/title")+HIY"」鄭重的宣佈……\n\t本幫稅率調為百分之"+
-		CHINESE_D->chinese_number(num)+"，\n\t稅收將收入幫派錢莊，作為壯大本幫之用。"NOR);
+		"\n\t我 -「" + HIW+me->query("clan/title")+HIY + "」鄭重的宣佈……\n\t本幫稅率調為百分之"+
+		CHINESE_D->chinese_number(num)+"，\n\t稅收將收入幫派錢莊，作為壯大本幫之用。" + NOR);
     return 1;
 }
 

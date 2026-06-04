@@ -5,7 +5,7 @@ inherit WAIST;
 object me=this_player();
 void create()
 {
-    set_name(HIB"魔龍筋帶"NOR, ({"mdragon belt","belt"}) );
+    set_name(HIB + "魔龍筋帶" + NOR, ({"mdragon belt","belt"}) );
     set_weight(1000);
      if ( clonep() )
               set_default_object(__FILE__);

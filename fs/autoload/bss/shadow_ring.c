@@ -10,7 +10,7 @@ int kar,cor;
 void create()
 {
         seteuid(getuid());
-        set_name(HIC"影神戒"NOR ,({"shadow ring", "ring"}));
+        set_name(HIC + "影神戒" + NOR ,({"shadow ring", "ring"}));
         set_weight(2500);
         set("no_auc",1);
         set("no_sell",1);
@@ -148,7 +148,7 @@ int do_sp1(string arg)
       man=new("/u/b/bss/arraier.c");
       man->set("name",man->query("name")+CHINESE_D->chinese_number(i)+"號");
       man->set("combat_exp",me->query("combat_exp"));
-      message_vision(HIM"一道紫光由$N"HIM"射出，$n"HIM"出現在眾人的眼前!!\n"NOR,this_object(),man);
+      message_vision(HIM + "一道紫光由$N" + HIM + "射出，$n" + HIM + "出現在眾人的眼前!!\n" + NOR,this_object(),man);
       man->move(environment(me));
       sub=man->query("id");
       master=me->query("id");
@@ -178,7 +178,7 @@ int do_sp2()
       if(!inv[i]) continue;
       if(!inv[i]->query_temp("call_by_"+me->query("id")))
         continue;
-      message_vision(HIM"一道紫光由$N"HIM"射出，$n"HIM"消失在眾人眼前!!\n"NOR,this_object(),inv[i]);
+      message_vision(HIM + "一道紫光由$N" + HIM + "射出，$n" + HIM + "消失在眾人眼前!!\n" + NOR,this_object(),inv[i]);
       destruct(inv[i]);
     }
     write("ok.\n");

@@ -31,7 +31,7 @@ skill=this_player()->query("functions/black/level");
 
         me->set_temp("black",1);
         message_vision(
-        HIC "$N運起渾天心法第六層[30m玄混沌[36m﹐面泛黑氣﹐全身的內勁增加了有數倍之多!!\n" NOR,me);
+        HIC + "$N運起渾天心法第六層[30m玄混沌[36m﹐面泛黑氣﹐全身的內勁增加了有數倍之多!!\n" + NOR,me);
 
         me->add_temp("apply/parry", 15);
         me->add_temp("apply/force", 5);

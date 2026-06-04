@@ -109,11 +109,11 @@ return ;
         command("recruit "+this_player()->query("id"));
 if(this_player()->query("m_blade")==1) {
 this_player()->set("title","[1;31m魔刀[1;37m『三斬歸元』[1;35m傳人[0m"); } else {
-        this_player()->set("title",HIC"魔刀絕世傳人"NOR);
+        this_player()->set("title",HIC + "魔刀絕世傳人" + NOR);
 }
         this_player()->set("no_recruit", 1);
-        message("system",HIB"魔刀莫測縱聲狂笑:
-\n哈哈哈哈～～魔刀一出～～血流成河～～無所匹敵。\n"NOR,users());
+        message("system",HIB + "魔刀莫測縱聲狂笑:
+\n哈哈哈哈～～魔刀一出～～血流成河～～無所匹敵。\n" + NOR,users());
         return ;
         }
 int accept_object(object who,object ob)
@@ -155,10 +155,8 @@ if(who->query_temp("give_1")==1&&who->query_temp("give_2")==1&&who->query("quest
 {
     command("say 太好了！");
     message_vision(
-             HIY
-"$n將天邪石的神力注入金鱗蟒邪之中，然後運勁一砍，將腳銬砍斷。\n" NOR,this_player(),this_object());
-    CHANNEL_D->do_channel(this_object(),"mud",HIR
-"遠處傳來魔刀莫測的大喝:\n我自由了！哈哈哈哈！\n獨孤愁！你這個老賊等著吧！我要一雪這十幾年禁錮之恨！\n"NOR);
+             HIY + "$n將天邪石的神力注入金鱗蟒邪之中，然後運勁一砍，將腳銬砍斷。\n" + NOR,this_player(),this_object());
+    CHANNEL_D->do_channel(this_object(),"mud",HIR + "遠處傳來魔刀莫測的大喝:\n我自由了！哈哈哈哈！\n獨孤愁！你這個老賊等著吧！我要一雪這十幾年禁錮之恨！\n" + NOR);
            command("say 感謝你釋放了我，我這就去宰了獨孤老賊。");
            command("say 不過看在你曾幫我，好吧，我將部分內力傳給你。");
            this_player()->add("max_force",100);
@@ -210,7 +208,7 @@ int i,j;
 me=this_object();
 if( me->is_fighting() && random(100) > 60 && !me->query_temp("fast-dest") ) 
 {
-message_vision(HIC"\n魔刀莫測吃起藥丸補充血氣。\n"NOR,me);
+message_vision(HIC + "\n魔刀莫測吃起藥丸補充血氣。\n" + NOR,me);
 me->receive_curing("kee",1500);
 me->receive_heal("kee",1500);
 me->delete_busy();
@@ -228,8 +226,8 @@ void die()
 	return ;
 	}
    if (winner && userp(winner))  {
-tell_object(users(),HIR"\n\n魔刀莫測仰天怒吼：\n\n\t想當年老夫刀法名震武林卻敗於"+winner->name()+HIR"手上！
-\n\t沒想到竟然有比獨孤老賊更利害得人物！罷了罷了！\n\n"NOR);
+tell_object(users(),HIR + "\n\n魔刀莫測仰天怒吼：\n\n\t想當年老夫刀法名震武林卻敗於"+winner->name()+HIR + "手上！
+\n\t沒想到竟然有比獨孤老賊更利害得人物！罷了罷了！\n\n" + NOR);
    }
         :: die();
 }

@@ -6,7 +6,7 @@ inherit SHIELD;
 
 void create()
 {
-  set_name(MAG"忍者護盾"NOR,({"ninja shield","shield"}));
+  set_name(MAG + "忍者護盾" + NOR,({"ninja shield","shield"}));
   set_weight(2000);
   if( clonep() )
     set_default_object(__FILE__);

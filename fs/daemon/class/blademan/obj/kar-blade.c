@@ -3,7 +3,7 @@
 inherit BLADE;
 void create()
 {
-set_name(HIW"狂龍刀"NOR,({"kar-blade","blade"}));
+set_name(HIW + "狂龍刀" + NOR,({"kar-blade","blade"}));
 set_weight(10000);
 if(clonep())
 set_default_object(__FILE__);

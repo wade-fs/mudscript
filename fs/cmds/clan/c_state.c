@@ -93,21 +93,21 @@ int main( object me )
 	if(CLAN_D->clan_query(id,"alert"))
 		str="警戒中";
 
-	list+=sprintf(HIM"\n	　　.__________"HIY"%s(%s)狀態一覽表"HIM"__________.\n\n",me->query("clan/name"), id );
-	list+=sprintf(HIW"□ 人事 -\n");
-	list+=sprintf(HIW"	階級- １："NOR"%s。\n",CLAN_D->clan_query(id, "master"));
-	list+=sprintf(HIW"	階級- ２："NOR"%s\n",get_rank_list(id, 2));
-	list+=sprintf(HIW"	階級- ３："NOR"%s\n",get_rank_list(id, 3));
-	list+=sprintf(HIW"	階級- ４："NOR"%s\n",get_rank_list(id, 4));
-	list+=sprintf(HIW"	玩家人數："NOR"%4d人\n",sizeof(CLAN_D->clan_query(id, "members")));
-	list+=sprintf(HIW"	幫眾人數："NOR"%4d人\n\n",sizeof(get_dir(CLAN_D->get_clan_dir(me)+"npc/")));
-	list+=sprintf(HIY"□ 財務 -\n");
-	list+=sprintf(HIY"	幫派存款總額："NOR"共計黃金%10d兩\n",CLAN_D->clan_query(id,"gold"));
+	list+=sprintf(HIM + "\n	　　.__________" + HIY + "%s(%s)狀態一覽表" + HIM + "__________.\n\n",me->query("clan/name"), id );
+	list+=sprintf(HIW + "□ 人事 -\n");
+	list+=sprintf(HIW + "	階級- １：" + NOR + "%s。\n",CLAN_D->clan_query(id, "master"));
+	list+=sprintf(HIW + "	階級- ２：" + NOR + "%s\n",get_rank_list(id, 2));
+	list+=sprintf(HIW + "	階級- ３：" + NOR + "%s\n",get_rank_list(id, 3));
+	list+=sprintf(HIW + "	階級- ４：" + NOR + "%s\n",get_rank_list(id, 4));
+	list+=sprintf(HIW + "	玩家人數：" + NOR + "%4d人\n",sizeof(CLAN_D->clan_query(id, "members")));
+	list+=sprintf(HIW + "	幫眾人數：" + NOR + "%4d人\n\n",sizeof(get_dir(CLAN_D->get_clan_dir(me)+"npc/")));
+	list+=sprintf(HIY + "□ 財務 -\n");
+	list+=sprintf(HIY + "	幫派存款總額：" + NOR + "共計黃金%10d兩\n",CLAN_D->clan_query(id,"gold"));
 	i = CLAN_D->clan_query(id,"member_gold")/(CLAN_D->clan_query(id,"gold")/100+1);
 	if( i > 100 )
 		i = 100;
-	list+=sprintf(HIY"	幫眾存款比率："NOR"佔總存款%10d％\n", i );
-	list+=sprintf(HIY"	幫派目前稅率："NOR"每回徵收%10d％\n",CLAN_D->clan_query(id,"tax"));
+	list+=sprintf(HIY + "	幫眾存款比率：" + NOR + "佔總存款%10d％\n", i );
+	list+=sprintf(HIY + "	幫派目前稅率：" + NOR + "每回徵收%10d％\n",CLAN_D->clan_query(id,"tax"));
 	money = 0;
 	glist=users();
 	for(i=0;i<sizeof(users());i++)
@@ -116,24 +116,24 @@ int main( object me )
 			if( bank > 0 )
 				money += bank/10000*CLAN_D->clan_query(id,"tax")/100;
 		}
-	list+=sprintf(HIY"	此次徵得稅收："NOR"共計黃金%10d兩\n", money );
-	list+=sprintf(HIY"	幫派目前關稅："NOR"每回黃金%10d兩\n",CLAN_D->clan_query(id,"gatetax"));
-	list+=sprintf(HIY"	幫派基本開銷："NOR"每月黃金%10d兩\n",CLAN_D->clan_query(id,"cost"));
-	list+=sprintf(HIY"	幫派發展經費："NOR"每月黃金%10d兩\n\n",CLAN_D->clan_query(id,"prestige"));
-	list+=sprintf(HIG"□ 發展 -\n");
-	list+=sprintf(HIG"	幫派威望："NOR"%6s級\n\n",level(id,"develop") );
-	list+=sprintf(HIC"□ 區域 -\n");
-	list += sprintf(HIC"\t區域規模: "NOR"%d\n", sizeof(get_dir("/open/clan/"+id+"/room/")) );
-	list += HIC  "\t幫派核心: "NOR + room( id, "home" );
-	list += HIC"\n\t幫派錢莊: "NOR + room( id, "bank" );
-	list += HIC"\n\t幫派兵營: "NOR + room( id, "npc_room" );
-	list += HIC"\n\t幫派閘門: "NOR + room( id, "gate" );
-	list += HIC"\n\t幫派監獄: "NOR + room( id, "jail" );
-	list+=sprintf(HIR"\n\n□ 外交 -\n");
-	list+=sprintf(HIR"	同盟友好幫派："NOR"%s\n", ally( id ) );
-	list+=sprintf(HIR"	幫派警戒狀態："NOR"%s\n",str);
-	list+=sprintf(HIR"	幫派戰勝次數："NOR"%s回\n",CHINESE_D->chinese_number(CLAN_D->clan_query(id,"win")) );
-	list+=sprintf(HIR"	幫派戰敗次數："NOR"%s回\n",CHINESE_D->chinese_number(CLAN_D->clan_query(id,"lose")) );
+	list+=sprintf(HIY + "	此次徵得稅收：" + NOR + "共計黃金%10d兩\n", money );
+	list+=sprintf(HIY + "	幫派目前關稅：" + NOR + "每回黃金%10d兩\n",CLAN_D->clan_query(id,"gatetax"));
+	list+=sprintf(HIY + "	幫派基本開銷：" + NOR + "每月黃金%10d兩\n",CLAN_D->clan_query(id,"cost"));
+	list+=sprintf(HIY + "	幫派發展經費：" + NOR + "每月黃金%10d兩\n\n",CLAN_D->clan_query(id,"prestige"));
+	list+=sprintf(HIG + "□ 發展 -\n");
+	list+=sprintf(HIG + "	幫派威望：" + NOR + "%6s級\n\n",level(id,"develop") );
+	list+=sprintf(HIC + "□ 區域 -\n");
+	list += sprintf(HIC + "\t區域規模: " + NOR + "%d\n", sizeof(get_dir("/open/clan/"+id+"/room/")) );
+	list += HIC + "\t幫派核心: " + NOR + room( id, "home" );
+	list += HIC + "\n\t幫派錢莊: " + NOR + room( id, "bank" );
+	list += HIC + "\n\t幫派兵營: " + NOR + room( id, "npc_room" );
+	list += HIC + "\n\t幫派閘門: " + NOR + room( id, "gate" );
+	list += HIC + "\n\t幫派監獄: " + NOR + room( id, "jail" );
+	list+=sprintf(HIR + "\n\n□ 外交 -\n");
+	list+=sprintf(HIR + "	同盟友好幫派：" + NOR + "%s\n", ally( id ) );
+	list+=sprintf(HIR + "	幫派警戒狀態：" + NOR + "%s\n",str);
+	list+=sprintf(HIR + "	幫派戰勝次數：" + NOR + "%s回\n",CHINESE_D->chinese_number(CLAN_D->clan_query(id,"win")) );
+	list+=sprintf(HIR + "	幫派戰敗次數：" + NOR + "%s回\n",CHINESE_D->chinese_number(CLAN_D->clan_query(id,"lose")) );
 	me->start_more(list);
 	return 1;
 }

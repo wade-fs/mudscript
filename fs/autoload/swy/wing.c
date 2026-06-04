@@ -3,7 +3,7 @@ inherit ITEM;
 inherit F_GUILDCMDS;
 void create()
 {
-        set_name(HIW"神羽翼"NOR,({ "swy-wing","wing" }) );
+        set_name(HIW + "神羽翼" + NOR,({ "swy-wing","wing" }) );
         set_weight(10);
         if( clonep() )
                 set_default_object(__FILE__);

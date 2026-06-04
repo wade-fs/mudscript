@@ -12,8 +12,8 @@ int perform(object me, object target)
         return notify_fail("戰鬥中不能使用。\n");
         if( me->query_temp("usesky") == 1 )
         return notify_fail("天時地利人合已經被你掌握住了。\n");
-message_vision(HIC"$N以六韜奇略中的觀星說文之計，將自己立於不敗之地。\n"NOR,me);
-message_vision(HIC"$N感到自己刺術技巧又更上一層了。\n"NOR,me);
+message_vision(HIC + "$N以六韜奇略中的觀星說文之計，將自己立於不敗之地。\n" + NOR,me);
+message_vision(HIC + "$N感到自己刺術技巧又更上一層了。\n" + NOR,me);
         me->add_temp("apply/stabber",30);
         me->set_temp("usesky",1);
         me->add("force",-500);

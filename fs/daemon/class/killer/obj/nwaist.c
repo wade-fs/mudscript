@@ -6,7 +6,7 @@ inherit WAIST;
 
 void create()
 {
-  set_name(MAG"忍者鬥氣腰帶"NOR, ({"ninja belt","belt"}) );
+  set_name(MAG + "忍者鬥氣腰帶" + NOR, ({"ninja belt","belt"}) );
   set_weight(1000);
   if ( clonep() )
     set_default_object(__FILE__);

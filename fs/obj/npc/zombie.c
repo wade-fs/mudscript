@@ -61,7 +61,7 @@ int heal_up()
 	if( objectp(master = query("possessed")) 
 	&&	(int)master->query("atman") > 10 ) {
 		message("tell",
-			HIR + name() + "告訴你﹕我...需...要...你...的...力...量...\n" NOR,
+			HIR + name() + "告訴你﹕我...需...要...你...的...力...量...\n" + NOR,
 			master );
 		master->add("atman", -10);
 		master->receive_damage("gin", 1);

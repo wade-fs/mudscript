@@ -6,7 +6,7 @@ inherit EQUIP;
 
 void create()
 {
-        set_name(HIR"麒麟火鎧"NOR,({"fire armor","armor"}) );
+        set_name(HIR + "麒麟火鎧" + NOR,({"fire armor","armor"}) );
 	set_weight(7000);
         set("no_sell",1);
         set("no_auc",1);
@@ -26,8 +26,8 @@ void create()
 	set("armor_prop/unarmed",7);
         set("armor_prop/parry",7);
 		set("need_exp",3000000);
-set("wear_msg", HIY"$N穿上$n"HIY"，呼然一聲烈火已將$N的四周護住\n"NOR);
-set("remove_msg", HIY"$N將$n卸了下來"HIY"，四周的火焰也慢慢消失了。\n"NOR);
+set("wear_msg", HIY + "$N穿上$n" + HIY + "，呼然一聲烈火已將$N的四周護住\n" + NOR);
+set("remove_msg", HIY + "$N將$n卸了下來" + HIY + "，四周的火焰也慢慢消失了。\n" + NOR);
         }
         setup();
 }

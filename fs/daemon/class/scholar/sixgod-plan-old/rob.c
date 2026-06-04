@@ -1,32 +1,32 @@
-//Written By AceLan 98.7.22 ¶X¤õ¥´§T¤§­p...
+//Written By AceLan 98.7.22 XTp...
 
 #include <ansi.h>
 
 int perform(object me, object target)
 {
-   if( !target ) return notify_fail("§A­n¹ï½Ö¥Î­p¡H\n");
+   if( !target ) return notify_fail("AnÖ¥Î­pH\n");
 
    if( !target->is_fighting() || !target->is_killing())
-      return notify_fail("¶X¤õ¥´§T¤§­p¥u¯à¶X¼Ä¤H³´¤J¦M¾Ô¤§®É¡A¶X¨ä¤£³Æ¡Aµo°Ê§ðÀ»¡C\n");
+      return notify_fail("XTpuXÄ¤HJMÔ¤É¡AXä¤£Æ¡AoÊ§C\n");
 
    if( me->is_fighting() || me->is_killing())
-      return notify_fail("ªdµÐÂÄ¹L¦¿¡A¦Û¨­Ãø«O¤F¡A«ç»òÁÙ·|¦³¾l¤O¨Ó¶X¤õ¥´§T©O¡H\n");
+      return notify_fail("dÄ¹LAÛ¨OFAÙ·|lOÓ¶XTOH\n");
 
    if( me->query("sen") < 20 )
-      return notify_fail("§Aªººë¯«¤O¤£°÷¡MµLªk¥Î­p¡C\n");
+      return notify_fail("Aë¯«OMLkÎ­pC\n");
 
 if(target->query_temp("rob")==1)
-return notify_fail("¦P¤@­p¿Ñ¥u¯à¥Î¤@¦¸¡I¡I\n");
+return notify_fail("P@pÑ¥uÎ¤@II\n");
    if( me->query_skill("plan",1) < 30)
-      return notify_fail("§Aªº¿Ñ²¤¯à¤O¤£°÷¡C\n");
-// ¤£¬O¾§ªù
-   if( me->query("family/family_name") != "¾§ªù")
-    return notify_fail("¤£¬O¾§¥Í¡A¤£µ¹§A¥Î«¨¡I¡I^_^\n");
+      return notify_fail("AÑ²OC\n");
+// O
+   if( me->query("family/family_name") != "")
+    return notify_fail("OÍ¡AAÎ«II^_^\n");
    me->add("sen",-20);
    target->start_busy(3);
   target->set_temp("rob",1);
-      message_vision(HIY"$N¨Ï¥X¶X¤õ¥´§T¤§­p, ¶X¼Ä¤§¦M, ´N¶Õ¨ú§Q, ¦V¼Ä¤Hµo°Ê²r§ð\n"NOR, me);
+      message_vision(HIY + "$NÏ¥XXTp, XÄ¤M, NÕ¨Q, VÄ¤HoÊ²r\n" + NOR, me);
       me->fight_ob( target);
    return 1;
 }
-ÿ
+

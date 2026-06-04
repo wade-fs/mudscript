@@ -42,9 +42,9 @@ int perform(object me)
     return notify_fail("你的內力不夠。\n");
   if(me->query("kee") < 500)
     return notify_fail("你的氣不夠。\n");
-  message_vision(HIB" $N縱身一躍，體內暗運內勁，身體浮沈於半空之中，突然間周圍草木由聳動而漸漸
-        劍拔弩張，一根根成為蓄勢待發的利器。\n"NOR,me,target[0]);
-  message_vision(HIW"\n\n         $N指成劍姿大喝一聲   『"HIY"劍影連陽 朝陽再現"HIW"』   瞬間四周萬劍齊發..﹗\n\n\n"NOR,me,target[0]);
+  message_vision(HIB + " $N縱身一躍，體內暗運內勁，身體浮沈於半空之中，突然間周圍草木由聳動而漸漸
+        劍拔弩張，一根根成為蓄勢待發的利器。\n" + NOR,me,target[0]);
+  message_vision(HIW + "\n\n         $N指成劍姿大喝一聲   『" + HIY + "劍影連陽 朝陽再現" + HIW + "』   瞬間四周萬劍齊發..﹗\n\n\n" + NOR,me,target[0]);
   // 劍氣100 及sha_kee 加強威力
   if (kee_lv==100 && swordkee_lv==100)
   {
@@ -60,7 +60,7 @@ int perform(object me)
     write("\n你耗費大量真力，得休息一回合才能繼續攻擊。\n");
     for(j=0;j < i;j++) {
       if(!target[j]) continue;
-      message_vision(HIR"$N面對此情境已完全喪失招架能力任由劍氣在其身上劃出無數的傷痕！\n"NOR,target[j]);
+      message_vision(HIR + "$N面對此情境已完全喪失招架能力任由劍氣在其身上劃出無數的傷痕！\n" + NOR,target[j]);
       target[j]->receive_damage("kee",(sha_value*5+kee_lv*5+sword_lv*6),me);
       COMBAT_D->report_status(target[j]);
       target[j]->start_busy(1);
@@ -70,9 +70,9 @@ int perform(object me)
   }
   else if ( ski_value <  5 ) {
     me->add("force",-kee_lv);
-    write(HIM"\n 不過一把都沒有命中，你當場羞紅了臉將劍收回。\n"NOR);
+    write(HIM + "\n 不過一把都沒有命中，你當場羞紅了臉將劍收回。\n" + NOR);
     COMBAT_D->report_status(me);
-    say(HIM" 你發現空中亂劍飛舞，不過就是沒有命中敵人，不禁指著"+me->query("name")+"的鼻子大笑\n"NOR);
+    say(HIM + " 你發現空中亂劍飛舞，不過就是沒有命中敵人，不禁指著"+me->query("name")+"的鼻子大笑\n" + NOR);
   }
   else if( ski_value < 20  )
   {
@@ -82,9 +82,9 @@ int perform(object me)
       target[j]->receive_damage("kee",(sha_value/2+kee_lv*2+sword_lv*2),me);
       COMBAT_D->report_status(target[j]);
     }
-    write (HIM" 你發現大部分的劍都朝地上打去，甚至還打向自己，你發誓要好好練劍
-                   將來方能完全駕馭。\n"NOR);
-    say(HIM" 你看到空中一堆劍朝你射來，媽啊～快閃..發現原來是"+me->query("name")+"這個傢伙在舞劍。\n"NOR);
+    write (HIM + " 你發現大部分的劍都朝地上打去，甚至還打向自己，你發誓要好好練劍
+                   將來方能完全駕馭。\n" + NOR);
+    say(HIM + " 你看到空中一堆劍朝你射來，媽啊～快閃..發現原來是"+me->query("name")+"這個傢伙在舞劍。\n" + NOR);
   }
   else if( ski_value < 40 )
   {
@@ -94,8 +94,8 @@ int perform(object me)
       target[j]->receive_damage("kee",(sha_value/2+kee_lv*2+sword_lv*2),me);
       COMBAT_D->report_status(target[j]);
     }
-    write (HIM" 已有一些能準確命中敵人，使的敵人受創不小。\n"NOR);
-    say(HIM" 你看見空中一些氣劍任"+me->query("name")+"揮灑自如，心中暗暗欽佩。\n"NOR);
+    write (HIM + " 已有一些能準確命中敵人，使的敵人受創不小。\n" + NOR);
+    say(HIM + " 你看見空中一些氣劍任"+me->query("name")+"揮灑自如，心中暗暗欽佩。\n" + NOR);
   }
   else if( ski_value < 60)
   {
@@ -105,8 +105,8 @@ int perform(object me)
       target[j]->receive_damage("kee",(sha_value+kee_lv*3+sword_lv*3),me);
       COMBAT_D->report_status(target[j]);
     }
-    write(HIM"\n 十之八九的氣劍朝敵人激射而去，使敵人受到嚴重的創傷。\n"NOR);
-    say(HIM"\n 成千上萬的氣劍群集朝一目標射去，看的你瞠目結舌，半晌說不出話來。\n"NOR);
+    write(HIM + "\n 十之八九的氣劍朝敵人激射而去，使敵人受到嚴重的創傷。\n" + NOR);
+    say(HIM + "\n 成千上萬的氣劍群集朝一目標射去，看的你瞠目結舌，半晌說不出話來。\n" + NOR);
   }
   else
   {
@@ -120,13 +120,13 @@ int perform(object me)
       target[j]->receive_damage("kee",(sha_value*3+kee_lv*4+sword_lv*4),me);
     }
 
-    write(HIY" 在你雙手揮舞之下，萬劍均命中敵人，穿體而過，敵人痛苦的嘶吼著。\n"NOR);
-    say(HIY" 你不敢相信眼前滂勃的氣勢，群天的氣劍掩蓋\了耀眼的陽光，卻發出一股
-                更為絢麗的光芒。\n"NOR);
+    write(HIY + " 在你雙手揮舞之下，萬劍均命中敵人，穿體而過，敵人痛苦的嘶吼著。\n" + NOR);
+    say(HIY + " 你不敢相信眼前滂勃的氣勢，群天的氣劍掩蓋\了耀眼的陽光，卻發出一股
+                更為絢麗的光芒。\n" + NOR);
     write("\n你耗費大量真力，得休息一回合才能繼續攻擊。\n");
     while(i--) {
       if(target[i])
-        message_vision(HIR"$N面對此情境已完全喪失招架能力任由劍氣在其身上劃出無數的傷痕！\n"NOR,target[i]);
+        message_vision(HIR + "$N面對此情境已完全喪失招架能力任由劍氣在其身上劃出無數的傷痕！\n" + NOR,target[i]);
       COMBAT_D->report_status(target[i]);
     }
   }

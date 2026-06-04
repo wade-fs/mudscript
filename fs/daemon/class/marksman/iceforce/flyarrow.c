@@ -19,15 +19,15 @@ int exert(object me, object target)
   return notify_fail ("你已經在御箭飛行了。\n");
 /* if(fun<=70)
   {
-  me->set("title",HIW"箭狂人"NOR);
+  me->set("title",HIW + "箭狂人" + NOR);
   }
   if(fun>=71)
   {
-  me->set("title",HIC"【"HIR"勁弓箭霸"HIC"】"NOR);
+  me->set("title",HIC + "【" + HIR + "勁弓箭霸" + HIC + "】" + NOR);
   }   */
 if(fun>=71)
 {
-message_vision (  HIC"$N施展"HIW"『"HIR"道遠流虛"HIW"』"HIC"，自在駕馭心箭，變化萬千。\n"NOR, me);
+message_vision (  HIC + "$N施展" + HIW + "『" + HIR + "道遠流虛" + HIW + "』" + HIC + "，自在駕馭心箭，變化萬千。\n" + NOR, me);
       me->add("force",-150);
       me->set_temp ("sort1", 1);
       me->set_temp ("flyarrow", 1);
@@ -36,7 +36,7 @@ message_vision (  HIC"$N施展"HIW"『"HIR"道遠流虛"HIW"』"HIC"，自在駕
       me->start_call_out((: call_other, __FILE__, "remove_effect", me :), fun+20);
 } else if(fun>=36&&fun<=70)
 {
-message_vision (  HIC"$N施展"HIW"『"HIR"法空靈岸"HIW"』"HIC"，頓時飛沙走石，陣陣漩風迎領而上。 \n"NOR, me);
+message_vision (  HIC + "$N施展" + HIW + "『" + HIR + "法空靈岸" + HIW + "』" + HIC + "，頓時飛沙走石，陣陣漩風迎領而上。 \n" + NOR, me);
       me->add("force",-150);
       me->set_temp ("sort1", 2);
       me->set_temp ("flyarrow", 1);
@@ -45,7 +45,7 @@ message_vision (  HIC"$N施展"HIW"『"HIR"法空靈岸"HIW"』"HIC"，頓時飛
       me->start_call_out((: call_other, __FILE__, "remove_effect", me :), fun+20);
 } else 
 {
-message_vision (  HIC"$N施展"HIW"『"HIR"輕湮飛漫"HIW"』"HIC"，四周散起陣陣白煙，籠罩著$N。\n"NOR, me);
+message_vision (  HIC + "$N施展" + HIW + "『" + HIR + "輕湮飛漫" + HIW + "』" + HIC + "，四周散起陣陣白煙，籠罩著$N。\n" + NOR, me);
       me->add("force",-150);
       me->set_temp ("sort1", 3);
       me->set_temp ("flyarrow", 1);
@@ -75,7 +75,7 @@ else
   me->add_temp ("apply/attack", -20);
   }
   me->delete_temp("flyarrow");
-  tell_object (me, HIW"你感到氣勁緩緩消散了。\n"NOR);
+  tell_object (me, HIW + "你感到氣勁緩緩消散了。\n" + NOR);
   if(fun < 100)
   function_improved ("flyarrow",random(500));
 }

@@ -6,7 +6,7 @@ inherit EQUIP;
 
 void create()
 {
-  set_name(HIR"赤"+HIG"麟"+HIC"肩甲"NOR,({"Red chilin armband","armband"}));
+  set_name(HIR + "赤"+HIG + "麟"+HIC + "肩甲" + NOR,({"Red chilin armband","armband"}));
   set_weight(3000);
   if( clonep() )
     set_default_object(__FILE__);
@@ -27,8 +27,8 @@ void create()
     set("no_get",1);
     set("no_steal",1);
     set("no_save",1); 
-    set("wear_msg","$n"HIM"不住的震動，彷彿期待即將來臨的戰鬥...\n"NOR+HIR"赤麟凶性引發了$N"HIR"的鬥心，$N"HIR"的膽識增加了!!\n"NOR);
-    set("unequip_msg",HIR"赤麟的獸性逐漸平息下來!!\n"NOR);
+    set("wear_msg","$n" + HIM + "不住的震動，彷彿期待即將來臨的戰鬥...\n" + NOR+HIR + "赤麟凶性引發了$N" + HIR + "的鬥心，$N" + HIR + "的膽識增加了!!\n" + NOR);
+    set("unequip_msg",HIR + "赤麟的獸性逐漸平息下來!!\n" + NOR);
   }
   setup();
 }
@@ -49,8 +49,8 @@ int wear()
       me->set("cor",me->query("origional_cor"));
       me->delete("origional_cor");
     }
-//    message_vision("$n"HIM"不住的震動，彷彿期待即將來臨的戰鬥...\n"NOR,me,this_object());
-//    message_vision(HIR"赤麟凶性引發了$N的鬥心，$N的膽識增加了!!\n"NOR,me);
+//    message_vision("$n" + HIM + "不住的震動，彷彿期待即將來臨的戰鬥...\n" + NOR,me,this_object());
+//    message_vision(HIR + "赤麟凶性引發了$N的鬥心，$N的膽識增加了!!\n" + NOR,me);
     k = (me->query("combat_exp"))/1000000;
     if( me->query("combat_exp") > 245000000 )
       k = 245+(me->query("combat_exp")-245000000)/5000000;
@@ -121,7 +121,7 @@ int unequip()
   int result = ::unequip();
   if( !query("equipped") )
   {
-//    message_vision(HIR"赤麟的獸性逐漸平息下來!!\n"NOR,me);
+//    message_vision(HIR + "赤麟的獸性逐漸平息下來!!\n" + NOR,me);
     me->delete("armband_add_gift");
     if(me->query_temp("apply/cor_red_chilin_armband")) {
       me->add_temp("apply/cor",-me->query_temp("apply/cor_red_chilin_armband"));

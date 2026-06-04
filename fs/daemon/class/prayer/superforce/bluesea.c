@@ -31,7 +31,7 @@ skill=this_player()->query("functions/bluesea/level");
 
         me->set_temp("bluesea",1);
         message_vision(
-        HIC "$N運起渾天心法第七層"HIB"[靛滄海]"HIC"﹐真氣流竄﹐暮地周圍出現"HIB"海嘯般的內勁"HIB"!!\n" NOR,me);
+        HIC + "$N運起渾天心法第七層" + HIB + "[靛滄海]" + HIC + "﹐真氣流竄﹐暮地周圍出現" + HIB + "海嘯般的內勁" + HIB + "!!\n" + NOR,me);
 
         me->add_temp("apply/parry", 30);
         me->add_temp("apply/unarmed", -20);

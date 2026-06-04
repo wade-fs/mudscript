@@ -53,14 +53,14 @@ void create()
 
 void greeting(object me)
 {
- write(HIY"
+ write(HIY + "
  神秘老者發出懾人心神聲音：「來者是誰!?」
 「能來到這裡，真不簡單！不過刀塚進入方法，我是不會跟你說的！」
-"NOR); 
+" + NOR); 
 }
 int accept_fight(object who)
 {
- write(HIY"神秘老者冷冷的說：「要命的話就快走吧！」\n"NOR);
+ write(HIY + "神秘老者冷冷的說：「要命的話就快走吧！」\n" + NOR);
  return 0;
 }
 
@@ -80,11 +80,11 @@ void die()
    string name = winner->query("name");
 log_file("mblade/KILL_OLD_MAN", sprintf("%s(%s) 打敗 神秘老者 on %s\n"
 ,name,winner->query("id"), ctime(time()) ));
-   tell_object(winner,HIG"\n
+   tell_object(winner,HIG + "\n
 神秘老者說：好吧...既然你已經贏了我了，我就把進入刀塚
 的方法交給你了，反正這麼多年來我雖知方法卻沒有六行石
 也是無功\於返，其入刀塚方法就是在此處(to-jump hole)。
-\n"NOR);
+\n" + NOR);
    winner->set_temp("can_jump",1);
   :: die();
 }                    
@@ -100,14 +100,14 @@ if(random(100) > 30)
 {
 if(random(9) >= 4)
 {
-message_vision(HIY"神秘老者仰天長嘯，頓時你被強力的音波一掃腦門！\n"NOR,me);
+message_vision(HIY + "神秘老者仰天長嘯，頓時你被強力的音波一掃腦門！\n" + NOR,me);
 for(j=0;j < i;j++) {
 target[j]->start_busy(1);
 target[j]->add("kee",-1500); }
    }
    else
    {
-message_vision(HIC"神秘老者仰天一笑，瞬時內息穩固。\n"NOR,me);
+message_vision(HIC + "神秘老者仰天一笑，瞬時內息穩固。\n" + NOR,me);
 me->receive_curing("kee",2500);
 me->receive_heal("kee",2500);
     me->delete_busy();

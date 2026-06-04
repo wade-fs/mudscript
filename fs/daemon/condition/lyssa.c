@@ -14,7 +14,7 @@ int update_condition( object me, int duration )
 
      if( 1 ) {
          me->clear_condition("lyssa");
-		message_vision( HIW"$N突然不停地顫抖, $N的狂犬病痊癒了。\n"NOR, me );
+		message_vision( HIW + "$N突然不停地顫抖, $N的狂犬病痊癒了。\n" + NOR, me );
 		return 0;
         }
 
@@ -31,13 +31,13 @@ int update_condition( object me, int duration )
 		EMOTE_D->do_emote( me, "dog" );
 		break;
 	case  2 :
-		tell_room( environment(me), HIR + me->query("name") + "不停地滴口水, 你在" + me->query("name") + "的眼裡, 似乎是根美味的大骨頭。\n"NOR, me );
+		tell_room( environment(me), HIR + me->query("name") + "不停地滴口水, 你在" + me->query("name") + "的眼裡, 似乎是根美味的大骨頭。\n" + NOR, me );
 		break;
 	case  3 :
-		tell_room( environment(me), HIR + me->query("name") + "朝著你狂吠, 似乎想把你給撕裂一般。\n"NOR, me );
+		tell_room( environment(me), HIR + me->query("name") + "朝著你狂吠, 似乎想把你給撕裂一般。\n" + NOR, me );
 		break;
 	default :
-		message_vision( HIR"$N流著口水, 嗤牙咧嘴的, 顯然是狂犬病發作了。\n"NOR, me );
+		message_vision( HIR + "$N流著口水, 嗤牙咧嘴的, 顯然是狂犬病發作了。\n" + NOR, me );
 	}
 
 	// 注意! 程式有點小複雜, { } 弄錯的話, 邏輯上會有很大的差異!
@@ -50,9 +50,7 @@ int update_condition( object me, int duration )
 				// no_lyssa 者免疫
 				if( inv[i]->query( "no_lyssa" ) )
 					if( random(2) ) {
-						message_vision( HIR"$N狠狠地咬了$n一口!\n\n"NOR
-								   "$n驚道: 糟了, 是狂犬病!\n"
-								CYN"$n趕緊運起天邪神功\, 體內不斷冒出陣陣黑氣。\n"NOR, me, inv[i] );
+						message_vision( HIR + "$N狠狠地咬了$n一口!\n\n" + NOR + "$n驚道: 糟了, 是狂犬病!\n" + CYN + "$n趕緊運起天邪神功\, 體內不斷冒出陣陣黑氣。\n" + NOR, me, inv[i] );
 						if( inv[i]->query("force") >= 100 )
 							inv[i]->add( "force", -100 );
 						else
@@ -60,12 +58,10 @@ int update_condition( object me, int duration )
 						tell_object( inv[i], "你成功\地逼出狂犬病之病毒。\n" );
 					}
 					else
-						message_vision( HIR"$N突然瘋狂地撲向$n!\n\n"NOR
-								   "$n輕輕一閃, 結果$N撲了空, 跌個狗吃屎。\n\n"
-								CYN"$n笑道: 就憑這麼笨拙的身法也想咬我, 哈～\n"NOR, me, inv[i] );
+						message_vision( HIR + "$N突然瘋狂地撲向$n!\n\n" + NOR + "$n輕輕一閃, 結果$N撲了空, 跌個狗吃屎。\n\n" + CYN + "$n笑道: 就憑這麼笨拙的身法也想咬我, 哈～\n" + NOR, me, inv[i] );
 				// 傳染成功
 				else {
-					message_vision( HIR"$N狠狠地咬了$n一口, $n被傳染了狂犬病。\n"NOR, me, inv[i] );
+					message_vision( HIR + "$N狠狠地咬了$n一口, $n被傳染了狂犬病。\n" + NOR, me, inv[i] );
 					if( me->query_condition("lyssa")*2 > 200 )
 						inv[i]->apply_condition( "lyssa", 200 );
 					else
@@ -83,7 +79,7 @@ int update_condition( object me, int duration )
 			    me->query("combat_exp")*2 > inv[i]->query("combat_exp") 	&& // 被咬對象之EXP介於 
 			    me->query("combat_exp")/2 < inv[i]->query("combat_exp") 	&& // 自己(0.5~2)倍之間
 			    !me->is_fighting(inv[i]) ) {				   // 非fight狀態
-				message_vision( HIR"$N突然瘋狂地撲向$n!\n"NOR, me, inv[i] );
+				message_vision( HIR + "$N突然瘋狂地撲向$n!\n" + NOR, me, inv[i] );
 				me->fight_ob(inv[i]);
 			}
 

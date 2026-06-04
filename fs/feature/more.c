@@ -44,7 +44,7 @@ void more( string cmd, string *text, int line )
 			write( ((mono) ? remove_ansi(text[line]) : text[line] )+ "\n" );
 			return;
 	}
-	printf( BCYN""HIW" P.%d %d/%d(%d%%) [H]首頁 [P]上頁 [R]本頁 [ENTER]下頁 [E]尾頁 [Q]結束 [ ]行數 "NOR,
+	printf( BCYN + "" + HIW + " P.%d %d/%d(%d%%) [H]首頁 [P]上頁 [R]本頁 [ENTER]下頁 [E]尾頁 [Q]結束 [ ]行數 " + NOR,
 		line/23, line, n, line*100/n+1 );
 	input_to( "more", 0, text, line );
 }
@@ -84,7 +84,7 @@ void more_file( string cmd, string file, int line )
 		line += 23;
 		write(buf);
 		if( read_file( file, line, 1 ) ) {
-			write( BCYN""HIW" [H]首頁 [P]上頁 [R]本頁 [ENTER]下頁 [Q]結束 "NOR );
+			write( BCYN + "" + HIW + " [H]首頁 [P]上頁 [R]本頁 [ENTER]下頁 [Q]結束 " + NOR );
 			input_to( "more_file", 0, file, line );
 		}
 	}

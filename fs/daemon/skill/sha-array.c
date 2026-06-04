@@ -66,7 +66,7 @@ int form_array(object leader)
           if(leader->query_skill("sha-array",1) >= 30){
             if( leader->query("sen",1) >= 40)
             { 
-              message_vision( HIG "$N帶領眾人展開陰陽兩儀劍陣。\n" NOR, leader);
+              message_vision( HIG + "$N帶領眾人展開陰陽兩儀劍陣。\n" + NOR, leader);
                 leader->add("sen",-40);
                 leader->set_temp("form_mean",mean);
                 leader->set_temp("form_number",number);
@@ -85,7 +85,7 @@ int form_array(object leader)
           if(leader->query_skill("sha-array",1) >= 50){
             if( leader->query("sen",1) >= 60)
             { 
-              message_vision( HIG "$N帶領眾人展開三才天地人劍陣。\n" NOR, leader);
+              message_vision( HIG + "$N帶領眾人展開三才天地人劍陣。\n" + NOR, leader);
                 leader->add("sen",-60);
                 leader->set_temp("form_mean",mean);
                 leader->set_temp("form_number",number);
@@ -103,7 +103,7 @@ int form_array(object leader)
           if(leader->query_skill("sha-array",1) >= 60){
             if( leader->query("sen",1) >= 100)
             { 
-              message_vision( HIG "$N帶領眾人展開四象旋磯劍陣。\n" NOR, leader);
+              message_vision( HIG + "$N帶領眾人展開四象旋磯劍陣。\n" + NOR, leader);
                 leader->add("sen",-100);
                 leader->set_temp("form_mean",mean);
                 leader->set_temp("form_number",number);
@@ -121,7 +121,7 @@ int form_array(object leader)
           if(leader->query_skill("sha-array",1) >= 80){
             if( leader->query("sen",1) >= 200)
             {
-              message_vision( HIG "$N帶領眾人展開八卦游龍劍陣。\n" NOR, leader);
+              message_vision( HIG + "$N帶領眾人展開八卦游龍劍陣。\n" + NOR, leader);
                 leader->add("sen",-200);
                 leader->set_temp("form_mean",mean);
                 leader->set_temp("form_number",number);

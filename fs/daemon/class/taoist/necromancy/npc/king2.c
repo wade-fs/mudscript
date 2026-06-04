@@ -127,7 +127,7 @@ void unconcious ()
   object who = query_leader ();
   if (who)
     who->add_temp ("invocation", -INVCOST);
-  message_vision (HIB"$N慘叫一聲啊！消失得無影無蹤。\n", this_object ());
+  message_vision (HIB + "$N慘叫一聲啊！消失得無影無蹤。\n", this_object ());
   destruct (this_object ());
 }
 

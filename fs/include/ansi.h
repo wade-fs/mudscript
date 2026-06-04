@@ -51,21 +51,21 @@
 
 // by babe
 #define NOR "\x1b[0m"		/* Puts everything back to normal */
-#define BOLD ESC+"[1m"          /* Turn on bold mode */
-#define CLR ESC+"[2J"           /* Clear the screen  */
-#define HOME ESC+"[H"           /* Send cursor to home position */
+#define BOLD "\x1b[1m"          /* Turn on bold mode */
+#define CLR "\x1b[2J"           /* Clear the screen  */
+#define HOME "\x1b[H"           /* Send cursor to home position */
 #define REF CLR+HOME            /* Clear screen and home cursor */
-#define BIGTOP ESC+"#3"         /* Dbl height characters, top half */
-#define BIGBOT ESC+"#4"         /* Dbl height characters, bottem half */
-#define SAVEC ESC+"[s"          /* Save cursor position */
-#define REST ESC+"[u"           /* Restore cursor to saved position */
-#define REVINDEX ESC+"M"        /* Scroll screen in opposite direction */
-#define SINGW ESC+"#5"          /* Normal, single-width characters */
-#define DBL ESC+"#6"            /* Creates double-width characters */
-#define FRTOP ESC+"[2;25r"      /* Freeze top line */
-#define FRBOT ESC+"[1;24r"      /* Freeze bottom line */
-#define UNFR ESC+"[r"           /* Unfreeze top and bottom lines */
-#define BLINK ESC+"[5m"         /* Initialize blink mode */
-#define U ESC+"[4m"             /* Initialize underscore mode */
-#define REV ESC+"[7m"           /* Turns reverse video mode on */
-#define HIREV ESC+"[1,7m"       /* Hi intensity reverse video  */
+#define BIGTOP "\x1b#3"         /* Dbl height characters, top half */
+#define BIGBOT "\x1b#4"         /* Dbl height characters, bottem half */
+#define SAVEC "\x1b[s"          /* Save cursor position */
+#define REST "\x1b[u"           /* Restore cursor to saved position */
+#define REVINDEX "\x1bM"        /* Scroll screen in opposite direction */
+#define SINGW "\x1b#5"          /* Normal, single-width characters */
+#define DBL "\x1b#6"            /* Creates double-width characters */
+#define FRTOP "\x1b[2;25r"      /* Freeze top line */
+#define FRBOT "\x1b[1;24r"      /* Freeze bottom line */
+#define UNFR "\x1b[r"           /* Unfreeze top and bottom lines */
+#define BLINK "\x1b[5m"         /* Initialize blink mode */
+#define U "\x1b[4m"             /* Initialize underscore mode */
+#define REV "\x1b[7m"           /* Turns reverse video mode on */
+#define HIREV "\x1b[1,7m"       /* Hi intensity reverse video  */

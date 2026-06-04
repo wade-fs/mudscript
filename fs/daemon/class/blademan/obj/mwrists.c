@@ -5,7 +5,7 @@ inherit WRISTS;
 object me=this_player();
 void create()
 {
-     set_name(HIB"魔龍骨鍊"NOR , ({"mdragon bracelet","bracelet"}) );
+     set_name(HIB + "魔龍骨鍊" + NOR , ({"mdragon bracelet","bracelet"}) );
      set_weight(2000);
      if ( clonep() )
               set_default_object(__FILE__);

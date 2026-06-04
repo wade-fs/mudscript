@@ -39,7 +39,7 @@ CODE;
 	write_file( room, file, 1 );
 	C_ROOM->update_room( room, me );
 
-	message_vision( HIY"$N花了壹千兩黃金建造佈告欄。\n"NOR, me );
+	message_vision( HIY + "$N花了壹千兩黃金建造佈告欄。\n" + NOR, me );
 	CLAN_D->add_money( clan, -1000 );
 	CLAN_D->add_clanset( clan, "board", -1 );
 }
@@ -61,7 +61,7 @@ int main( object me )
 	}
 	if( CLAN_D->clan_query( clan, "gold" ) < 1000 )
 		return notify_fail( "幫派存款不足。\n" );
-	write( "請輸入佈告欄的英文名稱(ID), 輸入 Enter 設為預設值: board\n"HIY">"NOR );
+	write( "請輸入佈告欄的英文名稱(ID), 輸入 Enter 設為預設值: board\n" + HIY + ">" + NOR );
 	input_to( "input_id" , 0, me );
 	return 1;
 }
@@ -96,14 +96,14 @@ void ask_yn( string str, object me )
 void input_id( string str, object me )
 {
 	id = ( str=="" ? "board" : str );
-	write( "\n請輸入佈告欄的中文名稱(short), 輸入 Enter 設為預設值: " + me->query("clan/name") + "佈告欄\n"HIY">"NOR );
+	write( "\n請輸入佈告欄的中文名稱(short), 輸入 Enter 設為預設值: " + me->query("clan/name") + "佈告欄\n" + HIY + ">" + NOR );
 	input_to( "input_short" , 0, me );
 }
 
 void input_short( string str, object me )
 {
 	short = ( str=="" ? me->query("clan/name") + "佈告欄" : str );
-	write( "\n請輸入佈告欄的中文敘述(long), 輸入 Enter 設為預設值: " + me->query("clan/name") + "佈告欄\n"HIY">"NOR );
+	write( "\n請輸入佈告欄的中文敘述(long), 輸入 Enter 設為預設值: " + me->query("clan/name") + "佈告欄\n" + HIY + ">" + NOR );
 	input_to( "input_long" , 0, me );
 }
 

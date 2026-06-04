@@ -2,7 +2,7 @@ inherit BULLETIN_BOARD;
 #include <ansi.h>
 void create()
 {
-set_name(HIG"恰吉收聽站"NOR, ({"poloer baord", "board"}));
+set_name(HIG + "恰吉收聽站" + NOR, ({"poloer baord", "board"}));
         set("location","/u/p/poloer/workroom.c");
         set("board_id","poloer_b");
         set("long", @LONG

@@ -52,9 +52,9 @@ int main(object me)
 	area     = sort_array( clan_idt, "sort_area"   , this_object() );
 	member   = sort_array( clan_idt, "sort_member" , this_object() );
 
-	list = sprintf(HIC"\n     　幫派名稱        "NOR + CYN"英文名稱        "HIW+
-		"幫主            "+HIY"人數   "HIG"簡介   "HIR"閘門\n"NOR +
-		"      ====================================================================\n"NOR);
+	list = sprintf(HIC + "\n     　幫派名稱        " + NOR + CYN + "英文名稱        " + HIW+
+		"幫主            "+HIY + "人數   " + HIG + "簡介   " + HIR + "閘門\n" + NOR +
+		"      ====================================================================\n" + NOR);
 
 	for( o=0 ; o<clan_sum; o++ )
 		CLAN_D->clan_set( clan_idt[o], "score", 0 );
@@ -71,8 +71,8 @@ int main(object me)
 		default  : gate = "----"; break;
 		}
 
-		list = sprintf("%s"HIC"     　%-16s"NOR + CYN"%-16s"HIW"%-16s"HIY"%4d" +
-			HIG"%6s"HIR"%8s"NOR"\n",
+		list = sprintf("%s" + HIC + "     　%-16s" + NOR + CYN + "%-16s" + HIW + "%-16s" + HIY + "%4d" +
+			HIG + "%6s" + HIR + "%8s" + NOR + "\n",
 			list,
 			clan_name,
 			clan_id,
@@ -108,13 +108,12 @@ int main(object me)
 			CLAN_D->clan_set( prestige[i], "prestige_best" , 0 );
 	}
 
-	sort = sprintf(HIM"\n\t\t     ._______"HIW"ＦＳ"NOR"目前共有 "HIW"%d "NOR"個幫派"HIM"_______.\n\n"+
-		HIW"\t\t\t      幫派龍頭 - %s\n\n"
-		HIR"  幫派戰績排行榜"NOR" -   "HIY" 幫派財產排行榜 "NOR"-   "HIC" 幫派威望排行榜 "NOR"-   "HIG" 幫派區域排行榜 "NOR"-\n"+
+	sort = sprintf(HIM + "\n\t\t     ._______" + HIW + "ＦＳ" + NOR + "目前共有 " + HIW + "%d " + NOR + "個幫派" + HIM + "_______.\n\n"+
+		HIW + "\t\t\t      幫派龍頭 - %s\n\n" + HIR + "  幫派戰績排行榜" + NOR + " -   " + HIY + " 幫派財產排行榜 " + NOR + "-   " + HIC + " 幫派威望排行榜 " + NOR + "-   " + HIG + " 幫派區域排行榜 " + NOR + "-\n"+
 		" ==================  ==================  ==================  ==================\n",
 		clan_sum, CLAN_D->clan_query(prestige[0],"name") );
 	for( i=0; i<clan_sum; i++ ) {
-		sort += sprintf("  ("HIY"%2d"NOR") "HIC"%-13s "NOR" ("HIY"%2d"NOR") "HIC"%-13s "NOR" ("HIY"%2d"NOR") "HIC"%-13s "NOR" ("HIY"%2d"NOR") "HIC"%-13s"NOR"\n",
+		sort += sprintf("  (" + HIY + "%2d" + NOR + ") " + HIC + "%-13s " + NOR + " (" + HIY + "%2d" + NOR + ") " + HIC + "%-13s " + NOR + " (" + HIY + "%2d" + NOR + ") " + HIC + "%-13s " + NOR + " (" + HIY + "%2d" + NOR + ") " + HIC + "%-13s" + NOR + "\n",
 		i+1, CLAN_D->clan_query(    war[i],"name"), i+1, CLAN_D->clan_query(money[i],"name"),
 		i+1, CLAN_D->clan_query(develop[i],"name"), i+1, CLAN_D->clan_query( area[i],"name"),
 		);

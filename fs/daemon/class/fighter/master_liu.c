@@ -119,7 +119,7 @@ void heart_beat()
         }
 		if(is_busy() ){
 		if(30>random(100)){
-		message_vision(HIW"\n只見$N暴起所有"HIY"真氣內勁"HIW"，$N全身籠罩在一股"HIC"綻藍氣勁"HIW"中，赫然已解開身上被封的穴道。\n"NOR,this_object());
+		message_vision(HIW + "\n只見$N暴起所有" + HIY + "真氣內勁" + HIW + "，$N全身籠罩在一股" + HIC + "綻藍氣勁" + HIW + "中，赫然已解開身上被封的穴道。\n" + NOR,this_object());
         delete_busy();
 		}
 		}
@@ -218,7 +218,7 @@ string ask_title()
    return("你不是雪蒼派的，我沒辦法給你稱號，請去找別人要稱號吧!!");
    if ( me->query("combat_exp") >= 5000000 && me->query("final/ko_king") == 1 )
    {
-        me->set("title",HIY"玄天武尊"NOR);
+        me->set("title",HIY + "玄天武尊" + NOR);
         return("給你稱號囉，請多加油為雪蒼派爭光!!");
    }
    if( me->query("quests/read_snow") >=1 )
@@ -236,7 +236,7 @@ int do_say(string str,object ob)
 if(who->query("combat_exp") < 1000 ) return 0;
         if(this_object()->query_temp("get_stone")==1&&(str=="陳蝶衣"||str=="黃雲"||str=="復活邪神"))
         	{
-        	 command("say 我父親留給我的傳家之寶-"HIC"天邪石"HIY"已經給予上一位有緣人了，你來遲了一步...");
+        	 command("say 我父親留給我的傳家之寶-" + HIC + "天邪石" + HIY + "已經給予上一位有緣人了，你來遲了一步...");
            return 0;
           }  //記得很久之前lum就要我改成這三個ppl的名字了這些人也算是歷史
         else //了...除了sula這老賊..so...再把他改成這三個..........cgy 
@@ -302,7 +302,7 @@ int do_join()
                 return notify_fail("你已經加入其他工會了。\n");
         this_player()->set("class","fighter");
         message("system",
-        HIC "天生英才.....\n\n一代武者"+this_player()->name()+"誕生了 !!!\n" NOR,users());
+        HIC + "天生英才.....\n\n一代武者"+this_player()->name()+"誕生了 !!!\n" + NOR,users());
         return 1;
 }
 string test()
@@ -340,7 +340,7 @@ $N說完便把$n給收起來了。\n",this_object(),ob);
                 message_vision(
 "$N說：好吧，既然你也通過我的考驗了。老納應承你，讓你可以通過〔符紋陣〕的水之陣。\n
 
-"HIW"$N運起雪蒼心法，結霜於掌，猛然擊向$n，$n的額頭陡然浮現出一個〔水〕字。\n"NOR,this_object(),who);
+" + HIW + "$N運起雪蒼心法，結霜於掌，猛然擊向$n，$n的額頭陡然浮現出一個〔水〕字。\n" + NOR,this_object(),who);
                 who->set_temp("evil/w_enter",1);
                 who->delete_temp("evil/w_temp");
                 destruct(ob);
@@ -425,7 +425,7 @@ void die()
           if( j==7 || j==77 || j== 777 || j==1111 || j==55 || j==555 || j==1000 || j==4000 || j==3333 || j==2222 )
           {      
           new("/open/sky/obj1/ice_emblem")->move(environment(winner));
-          message_vision(HIM"\n從劉全書的身上掉下了一件奇怪的東西!!\n"NOR,winner);
+          message_vision(HIM + "\n從劉全書的身上掉下了一件奇怪的東西!!\n" + NOR,winner);
           write_file("/log/sky/obj1/ice_emblem",sprintf("%s(%s) 讓劉全書掉下了冰之紋章於 %s\n",
           winner->name(1),winner->query("id"),ctime(time())));
           }
@@ -434,7 +434,7 @@ void die()
           if( j==5 || j==15 || j== 150 || j==1500 || j==10 || j==100 || j==1000 || j==4000 || j==6666 || j==7777 ) 
           {      
           new("/open/sky/obj1/ice_emblem")->move(environment(winner));
-          message_vision(HIM"\n從劉全書的身上掉下了一件奇怪的東西!!\n"NOR,winner);
+          message_vision(HIM + "\n從劉全書的身上掉下了一件奇怪的東西!!\n" + NOR,winner);
           write_file("/log/sky/obj1/ice_emblem",sprintf("%s(%s) 讓劉全書掉下了冰之紋章於 %s\n",
           winner->name(1),winner->query("id"),ctime(time())));
           }

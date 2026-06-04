@@ -159,7 +159,7 @@ void check_file(string file)
   lines = regexp(explode(str,"\n"),"query\\(\"(kar|str|con|cor|int|spi|per|cps)\"");
   if(sizeof(lines))
   {
-    write(HIR"！！注意！！：\n"HIW);
+    write(HIR + "！！注意！！：\n" + HIW);
     write(@DOC
         天賦取得方式已經更改，更改如下：
         query_kar()  => query_kar()

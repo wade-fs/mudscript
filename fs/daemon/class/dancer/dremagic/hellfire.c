@@ -26,12 +26,12 @@ if(me->query("atman") < 2500 )
 return notify_fail("你的靈力不足!!\n");
 if(me->query_temp("hellfire")==1)
 return notify_fail("你施展魔法後心思尚未集中!!\n");
-message_vision(HIY"
-   $N閉目凝神,意守丹田,使出"HIG"夜舞"HIM"夢蝶"HIY"之最高境界
-                   "HIB"地獄"HIC"雷"HIR"火"HIY"術
-        "HIG"※ "HIW"天"HIY"～"HIC"雷"HIY"～"HIG"地"HIY"～"HIR"火"HIY"～"HIB"聽"HIY"～"HIB"我"HIY"～"HIB"號"HIY"～"HIB"令 "HIG"※"HIW"
+message_vision(HIY + "
+   $N閉目凝神,意守丹田,使出" + HIG + "夜舞" + HIM + "夢蝶" + HIY + "之最高境界
+                   " + HIB + "地獄" + HIC + "雷" + HIR + "火" + HIY + "術
+        " + HIG + "※ " + HIW + "天" + HIY + "～" + HIC + "雷" + HIY + "～" + HIG + "地" + HIY + "～" + HIR + "火" + HIY + "～" + HIB + "聽" + HIY + "～" + HIB + "我" + HIY + "～" + HIB + "號" + HIY + "～" + HIB + "令 " + HIG + "※" + HIW + "
 \n剎那間日月無光,狂風大作,一陣刺眼的強光向$n急奔而去\n
-"NOR, me,target);
+" + NOR, me,target);
 me->add("atman",-(500*fun));
 me->set_temp("hellfire",1);
 me->start_busy(1);
@@ -41,10 +41,10 @@ for ( l=0 ; l < fun ; l ++)
 r=random(100);
 if (r >= 60) 
 {
-message_vision(HIR"
-      "HIB"玄陰"HIR"地火"HIW"幻化成一條"HIR"浴血"HIM"鳳凰"HIW"直逼$N的身體
-        $N全身冒起"RED"熊熊火燄"HIW","HIR"浴血"HIM"鳳凰"HIW"破腦而出\n
-"NOR,target);
+message_vision(HIR + "
+      " + HIB + "玄陰" + HIR + "地火" + HIW + "幻化成一條" + HIR + "浴血" + HIM + "鳳凰" + HIW + "直逼$N的身體
+        $N全身冒起" + RED + "熊熊火燄" + HIW + "," + HIR + "浴血" + HIM + "鳳凰" + HIW + "破腦而出\n
+" + NOR,target);
 for ( j=0 ; j < i ; j++ )
 {
 if(!enemy[j]) continue;
@@ -58,10 +58,10 @@ COMBAT_D->report_status(enemy[j]);
 else if (r>=20)
 
 {
-message_vision(HIY"
-      "HIC"九天真雷"HIW"幻化成一條"HIY"黃金火龍"HIW"直逼$N的腦部
-        $N被急馳而至的"HIC"九天真雷"HIW"轟得面目焦黑\n
-"NOR,target);
+message_vision(HIY + "
+      " + HIC + "九天真雷" + HIW + "幻化成一條" + HIY + "黃金火龍" + HIW + "直逼$N的腦部
+        $N被急馳而至的" + HIC + "九天真雷" + HIW + "轟得面目焦黑\n
+" + NOR,target);
 for ( j=0 ; j < i ; j++ )
 {
 if(!enemy[j]) continue;
@@ -74,7 +74,7 @@ COMBAT_D->report_status(enemy[j]);
 }
 else 
 {
-message_vision(HIG"      $N以極快的速度閃過了攻擊\n"NOR,target);
+message_vision(HIG + "      $N以極快的速度閃過了攻擊\n" + NOR,target);
 for ( j=0 ; j < i ; j++ )
 {
 if(!enemy[j]) continue;
@@ -88,7 +88,7 @@ int act1(object me)
 {
 if(!me) return 1;
 me->delete_temp("hellfire");
-tell_object(me,HIG"你精神一振, 彷彿天雷地火再度環繞於體內!!\n"NOR);
+tell_object(me,HIG + "你精神一振, 彷彿天雷地火再度環繞於體內!!\n" + NOR);
 if(me->query("spells/hellfire/level")<100) spell_improved("hellfire",random(100));
 return 1;
 }

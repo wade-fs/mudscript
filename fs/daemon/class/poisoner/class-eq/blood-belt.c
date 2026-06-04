@@ -4,7 +4,7 @@
 inherit WAIST;
 void create()
 {
-    set_name(HIY"《"HIR"冥蠱復仇者之擁"HIY"》"NOR, ({"blood belt"}) );
+    set_name(HIY + "《" + HIR + "冥蠱復仇者之擁" + HIY + "》" + NOR, ({"blood belt"}) );
     set_weight(1000);
      if ( clonep() )
               set_default_object(__FILE__);

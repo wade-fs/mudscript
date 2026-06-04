@@ -55,6 +55,6 @@ int make(object me,string name)
 		weapon = new("/obj/weapon/"+name);
 		weapon->move(me);
 	message("system",
-	HIC "\n\n一代工匠"+me->name()+"打造出一把絕世兵器"+HIY+"「"+make_name[name]+"」\n\n" NOR,users());
+	HIC + "\n\n一代工匠"+me->name()+"打造出一把絕世兵器"+HIY+"「"+make_name[name]+"」\n\n" + NOR,users());
 	return 1;
 }

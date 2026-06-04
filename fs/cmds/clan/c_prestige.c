@@ -18,8 +18,7 @@ int main( object me, string str )
 		return notify_fail("目前幫內並無那麼多錢。\n");
 	CLAN_D->clan_set(me->query("clan/id"),"prestige",num);
 	CHANNEL_D->do_channel(me, "ct",
-		"\n\t我 - "HIW+me->query("clan/title")+HIY
-		"鄭重地宣佈\n\t將投注"HIC+CHINESE_D->chinese_number(num)+HIY"兩黃金, 用來建立本幫之威望。"NOR);
+		"\n\t我 - " + HIW+me->query("clan/title")+HIY + "鄭重地宣佈\n\t將投注" + HIC+CHINESE_D->chinese_number(num)+HIY + "兩黃金, 用來建立本幫之威望。" + NOR);
 	return 1;
 }
 

@@ -30,9 +30,9 @@ int main( object me, string id )
 	if( environment(user)->query("evil") )
 		return notify_fail( "此人正藏匿於異常凶險之處, 目前暫時無法將其逮捕。\n" );
 	CHANNEL_D->do_channel( me, "ct",
-		"\n\t我 -「"HIW+me->query("clan/title")+HIY"」嚴正地宣佈……\n\t將"+
-		HIR + user->query("name") + HIY"("HIR+user->query("id")+ HIY")關進"HIB +
-		CLAN_D->clan_query( me->query("clan/id"), "jail" )->short() + HIY", 好好自我反省。"NOR );
+		"\n\t我 -「" + HIW+me->query("clan/title")+HIY + "」嚴正地宣佈……\n\t將"+
+		HIR + user->query("name") + HIY + "(" + HIR+user->query("id")+ HIY + ")關進" + HIB +
+		CLAN_D->clan_query( me->query("clan/id"), "jail" )->short() + HIY + ", 好好自我反省。" + NOR );
 	user->move( CLAN_D->clan_query( me->query("clan/id"), "jail" ) );
 	user->set( "startroom", CLAN_D->clan_query( me->query("clan/id"), "jail" ) );
 	return 1;

@@ -11,7 +11,7 @@ int update_condition(object me, int duration)
 			environment(me), me);
 
 	} else if( duration > 6 ) {
-		message("vision", me->name() + HIR"身上燃燒著詭異的黑火。\n"NOR,
+		message("vision", me->name() + HIR + "身上燃燒著詭異的黑火。\n" + NOR,
 			environment(me), me);
 		me->receive_damage("kee",300);
 		me->receive_damage("sen",300);
@@ -25,7 +25,7 @@ int update_condition(object me, int duration)
 		me->receive_damage("gin",200);
 
 	} else {
-                tell_object(me, HIR"黑火漸漸熄滅。\n"NOR);
+                tell_object(me, HIR + "黑火漸漸熄滅。\n" + NOR);
                 message("vision", me->name() + "身上的黑色火燄漸漸熄滅。\n",
                         environment(me), me);
                 me->receive_damage("kee",100);

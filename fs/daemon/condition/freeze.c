@@ -6,8 +6,8 @@ int update_condition(object me, int duration)
         if( !living(me) ) {
                 message("vision", me->name()+"似乎承受不住寒冷，而縮在地上不住發抖。\n", environment(me), me);
         } else if( duration > 5 ) {
-                tell_object(me, HIW"你覺得全身寒冷無比，手腳漸漸發冷。\n"NOR);
-                message("vision", me->name()+HIC"看起來似乎坐立難安，被涷得口中很飢渴的樣子。\n"NOR, environment(me), me);
+                tell_object(me, HIW + "你覺得全身寒冷無比，手腳漸漸發冷。\n" + NOR);
+                message("vision", me->name()+HIC + "看起來似乎坐立難安，被涷得口中很飢渴的樣子。\n" + NOR, environment(me), me);
                 me->receive_damage("gin",20);
                 if( (int)me->query("water")==0 ) {
                 tell_object(me, "你感到口乾舌燥，最好趕快喝水。\n");
@@ -17,7 +17,7 @@ int update_condition(object me, int duration)
                 else
                         me->set("water", 0);
         } else if( duration > 0 ) {
-                tell_object(me, HIW"你仍覺得口渴無比，不過寒氣似乎漸漸消退了。\n"NOR);
+                tell_object(me, HIW + "你仍覺得口渴無比，不過寒氣似乎漸漸消退了。\n" + NOR);
                 message("vision", me->name()+"全身漸漸結冷。\n",
                         environment(me), me);
                 me->receive_damage("gin", 10);

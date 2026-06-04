@@ -181,7 +181,7 @@ void ask_question(object ppl)
             sprintf("『請用 ans 回答以下是甚麼數字？』\n%s", paper(""+ans)) );
     ppl->set( "robot/ans", ""+ans );
     tell_object( ppl,
-            HIW+"***************************************************************\n"NOR);
+            HIW+"***************************************************************\n" + NOR);
 }
 void robot_ans()
 {
@@ -289,9 +289,9 @@ void three_evil()
    mob2->set_temp("no_die_soon",1);
    mob3->set_temp("no_die_soon",1);
    shout(
-HIG"南方三霸"HIM"狂笑道：\n"+
-                          HIY"隱居南蠻苦練數載，今日應是我們報仇的時刻了！哈哈哈！！！\n\n"+
-                                                  "\t\t\t\n\n"NOR);
+HIG + "南方三霸" + HIM + "狂笑道：\n"+
+                          HIY + "隱居南蠻苦練數載，今日應是我們報仇的時刻了！哈哈哈！！！\n\n"+
+                                                  "\t\t\t\n\n" + NOR);
 
 if (i==0)
 {
@@ -370,21 +370,21 @@ string *place = ({ "/open/capital/room/r08",
 "/open/capital/room/tower","/open/capital/room/r11","/open/capital/room/r70"
 ,"/open/capital/room/D04",
 });
-	shout(HIG"\n狂想空間北邊關卡附近傳來一聲淒慘的哀嚎聲\n\n"+
-HIR"鎮國侯奄奄一息的說道：\n\n"+
+	shout(HIG + "\n狂想空間北邊關卡附近傳來一聲淒慘的哀嚎聲\n\n"+
+HIR + "鎮國侯奄奄一息的說道：\n\n"+
                              "臣鎮守邊關數十年，誓死保衛國家太平\n"+
                              "如今邊關被破，臣有負皇上重託，唯有一死以謝天下\n\n"+
-HIY"神秘劍客冷笑道：\n"+
-                          HIC"流放邊疆數十年，如今讓我們重回中土，看來天下又要大亂了！哈哈哈！！！\n\n"+
+HIY + "神秘劍客冷笑道：\n"+
+                          HIC + "流放邊疆數十年，如今讓我們重回中土，看來天下又要大亂了！哈哈哈！！！\n\n"+
 
 
-HIB"黃帝病大怒：\n"+
-                          HIM"哼！只要有我在的一天，你們這些叛徒就休想染指中原！\n\n"+
+HIB + "黃帝病大怒：\n"+
+                          HIM + "哼！只要有我在的一天，你們這些叛徒就休想染指中原！\n\n"+
 
 
-HIG"天威滅神大笑：\n"+
-                          HIW"藏身天界數千年的歲月，終於等到自由的這一刻，十二天靈狩們與我一同創造這世界的新秩序吧！\n\n"+
-						  "\t\t\t\n\n"NOR);
+HIG + "天威滅神大笑：\n"+
+                          HIW + "藏身天界數千年的歲月，終於等到自由的這一刻，十二天靈狩們與我一同創造這世界的新秩序吧！\n\n"+
+						  "\t\t\t\n\n" + NOR);
 
 if (i==0)
 {
@@ -485,11 +485,11 @@ void sp_boss()
         object npc1,npc2,npc3;
 
         if( uptime() > 34800 ) {
-            shout(HIC"\n陣陣天驚地動... 英雄魂之道的武士們現世了\n\n"+
+            shout(HIC + "\n陣陣天驚地動... 英雄魂之道的武士們現世了\n\n"+
    "\t     其手中的劍向天下發出強勢氣壓..\n"+
    "\t只見他傲視全狂想的一片大地, 感嘆無人為其十合之眾\n"+
    "\t狂想的勇士們來挑戰他吧～～～～\n\n"+
-   "\t\t\t\n\n"NOR);
+   "\t\t\t\n\n" + NOR);
 
             npc1 = new("/u/a/anmy/king/pope");
             npc2 = new("/u/a/anmy/king/master_teng");
@@ -513,10 +513,10 @@ void send_money()
 
         if( uptime()/(10800-150*sizeof(users())) > send_money_time ) {
 //
-            shout(HIY"\n奉天承運, 皇帝召曰:\n\n"+
+            shout(HIY + "\n奉天承運, 皇帝召曰:\n\n"+
                   "\t宣  近日各地傳德政頻頻, 為獎賞各地父母官, 特加\n"+
                   "\t薪餉, 各地錢莊亦加 1% 利息, 以回饋各地武林好友。\n\n"+
-                  "\t\t\t\t\t\t\t欽此\n\n"NOR);
+                  "\t\t\t\t\t\t\t欽此\n\n" + NOR);
 //
             send_money_time++;
             user = users();
@@ -570,10 +570,10 @@ void find_the_best()
             if( user[i]->query("combat_exp") > best->query("combat_exp") )
                 best = user[i];
         }
-        shout(HIY"㊣稅官㊣：恭喜FS最強的玩家"+HIW+best->name()+HIY+
+        shout(HIY + "㊣稅官㊣：恭喜FS最強的玩家"+HIW+best->name()+HIY+
               ", 由於受到皇上的賞識, 賞賜五十兩黃金及五百點潛能, "+
               "希望"+HIW+best->name()+HIW+"能夠繼續努力, 創造出更好"+
-              "的成績。"NOR);
+              "的成績。" + NOR);
         best->add("potential", 500);
         user[i]->pay_player(500000);
 }

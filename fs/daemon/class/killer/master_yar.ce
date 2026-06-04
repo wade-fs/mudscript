@@ -134,7 +134,7 @@ string to_hurt()
    command("?");
    return "$N在說什麼呀？";
  }
- tell_object(me,HIY"你中的不是魔氣殺，而是天魔解體大法的陰性氣指，目前只有莊靜柔會使用。\n");
+ tell_object(me,HIY + "你中的不是魔氣殺，而是天魔解體大法的陰性氣指，目前只有莊靜柔會使用。\n");
  tell_object(me,"因此，我想天魔解體大法被她拿走了吧\n");
  tell_object(me,"唉。。。看來她還是找上門來了，這是六年前的事情了。。。\n");
  tell_object(me,"當年柴榮受了說法大長老之託，假裝背叛而忍痛離開了莊靜柔\n");
@@ -149,7 +149,7 @@ string to_hurt()
  tell_object(me,"以免引起黑牙聯與冥蠱魔教的全面對決，才使事件平靜了下來\n");
  tell_object(me,"但是，靜柔她並不原諒柴榮，因為她的心已死\n");
  tell_object(me,"或許\你將他們的定情信物-滅神匕首。交給靜柔她，也許\她會想起當時的甜蜜\n");
- tell_object(me,"滅神匕首在三樓的北邊房間，我派了一個屍魂人守住，殺了他就可以得到\n"NOR);
+ tell_object(me,"滅神匕首在三樓的北邊房間，我派了一個屍魂人守住，殺了他就可以得到\n" + NOR);
  me->set_temp("god",1);
  return "$N在三樓調查一下，可以找到進去的開關";
 }
@@ -175,21 +175,21 @@ string retitle()
  {
    tell_object(me,"稱號怎麼不見了呢？該小心一點。\n");
    tell_object(me,"就讓為師的來回復你的稱號吧！\n");
-   me->set("title",HIR"當"+HIG"代"+HIY"殺"+HIB"手"NOR);
+   me->set("title",HIR + "當"+HIG + "代"+HIY + "殺"+HIB + "手" + NOR);
    return "好好的加油吧！！！";
  }
  if (me->query("quest/memory") == 1)
  {
    tell_object(me,"稱號怎麼不見了呢？該小心一點。\n");
    tell_object(me,"就讓為師的來回復你的稱號吧！\n");
-   me->set("title",HIM"新生代特級殺手"NOR);
+   me->set("title",HIM + "新生代特級殺手" + NOR);
    return "好好的加油吧！！！";
  }
  if (me->query("quest/rain") == 1)
  {
    tell_object(me,"稱號怎麼不見了呢？該小心一點。\n");
    tell_object(me,"就讓為師的來回復你的稱號吧！\n");
-   me->set("title",HIG"黑牙聯超上級殺手"NOR);
+   me->set("title",HIG + "黑牙聯超上級殺手" + NOR);
    return "好好的加油吧！！！";
  }
  return "幹嘛。。。小孩子還想有地位？";
@@ -363,7 +363,7 @@ if( me->query_temp("head") != 10)
 command("nod");
 command("chat* spank "+me->query("id"));
 command("say 好小子，居然讓你完成這項任務，就讓我賜你當代殺手之名吧！！");
-me->set("title",HIR"當"+HIG"代"+HIY"殺"+HIB"手"NOR);
+me->set("title",HIR + "當"+HIG + "代"+HIY + "殺"+HIB + "手" + NOR);
 me->set("quest/head-kill",1);
 command("say 老夫為了獎勵你，就傳你殺意魔氣吧！");
 message_vision("$N由掌心竄出一道紫氣射入$n體內。\n",this_object(),this_player());
@@ -372,7 +372,7 @@ command("say 你已經資格知道到藍鳳組所在地，就是在地下水道�
 command("say 等小渡一段時間，他把藍鳳組機關做好，或許\喬小雨就會同意你去吧！");
 message("system",
 HIM "葉秀殺大笑：『哈哈。。。江山代有才人出！一代新人換舊人\n\n"+me->query("name")
-    +"你就代替老夫在武林裡面，將與黑牙聯作對的人一一消滅吧！』\n"NOR,users());
+    +"你就代替老夫在武林裡面，將與黑牙聯作對的人一一消滅吧！』\n" + NOR,users());
 }
 
 string ask_blade()
@@ -390,7 +390,7 @@ string ask_blood()
 {
  object ob,me=this_player();
  
-//if( me->query("title") != HIR"殺手全力追殺的人頭"NOR )
+//if( me->query("title") != HIR + "殺手全力追殺的人頭" + NOR )
 if (!me->query("killyar"))
  return "沒事接受什麼血的試煉？?";
 message_vision("$N夠勇氣，閉上眼睛，我送你去吧！。\n",me);
@@ -403,12 +403,12 @@ void unconcious()
 {
        object hu_fa;
 	object winner = query_temp("last_damage_from");
-       message("system",HIM"想不到我葉秀殺，居然會敗在"+winner->query("name")+"
+       message("system",HIM + "想不到我葉秀殺，居然會敗在"+winner->query("name")+"
 手中\n"+
 		"看來"+winner->query("id")+"你是皮在癢了！！！！\n",users());
        message("system"
-		,HIR"可惡！！紅葉組，銀狼組！把"+winner->query("name")+"人頭提來
-見我！\n"NOR,users());
+		,HIR + "可惡！！紅葉組，銀狼組！把"+winner->query("name")+"人頭提來
+見我！\n" + NOR,users());
 
        hu_fa = new("/open/killer/npc/silnpc2.c");
        hu_fa->move(environment(winner));
@@ -456,19 +456,19 @@ void die()
 	if (winner->query("class") != "killer")
 	{
 	message("system",HIR "超級殺手柴容放聲大叫，\n各位殺手聽著，"+winner->query("name")+
-		"把葉秀殺給掛了\n各位殺手給我全力追殺，"+winner->query("id")+"！！\n"NOR,users());
+		"把葉秀殺給掛了\n各位殺手給我全力追殺，"+winner->query("id")+"！！\n" + NOR,users());
 		if(userp(winner))
 		{		
 			if(winner->query("combat_exp") > 450000)
 			{	
 				winner->set("killyar",1);
-				winner->set("title",HIR"殺手全力追殺的人頭"NOR);
+				winner->set("title",HIR + "殺手全力追殺的人頭" + NOR);
 			}
 			else
-				winner->set("title",HBRED"靠別人殺葉秀殺的爛人"NOR);
+				winner->set("title",HBRED + "靠別人殺葉秀殺的爛人" + NOR);
 		}
 		else
-			winner->set("title",HIG"大白癡"NOR);
+			winner->set("title",HIG + "大白癡" + NOR);
 	}
     if(userp(winner) && winner->query_temp("not_robot") > 1 )
     {
@@ -478,7 +478,7 @@ void die()
 	  if( j==7 || j==77 || j== 777 || j==1111 || j==55 || j==555 || j==1000 || j==4000 || j==3333 || j==2222 )
 	  {      
 	  new("/open/sky/obj4/will_shells")->move(environment(winner));
-	  message_vision(HIM"\n從葉秀殺的身上掉下了一件奇怪的東西!!\n"NOR,winner);
+	  message_vision(HIM + "\n從葉秀殺的身上掉下了一件奇怪的東西!!\n" + NOR,winner);
           write_file("/log/sky/obj4/will_shells",sprintf("%s(%s) 讓葉秀殺掉下了意念之貝殼於 %s\n",
 	  winner->name(1),winner->query("id"),ctime(time())));
 	  }
@@ -487,7 +487,7 @@ void die()
 	  if( j==5 || j==15 || j== 150 || j==1500 || j==10 || j==100 || j==1000 || j==4000 || j==6666 || j==7777 ) 
 	  {      
 	  new("/open/sky/obj4/will_shells")->move(environment(winner));
-	  message_vision(HIM"\n從葉秀殺的身上掉下了一件奇怪的東西!!\n"NOR,winner);
+	  message_vision(HIM + "\n從葉秀殺的身上掉下了一件奇怪的東西!!\n" + NOR,winner);
           write_file("/log/sky/obj4/will_shells",sprintf("%s(%s) 讓葉秀殺掉下了意念之貝殼於 %s\n",
 	  winner->name(1),winner->query("id"),ctime(time())));
 	  }

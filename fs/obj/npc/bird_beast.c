@@ -8,13 +8,13 @@ string fight()
 {
 	object ob = query_leader();
 	if( environment(ob) != environment(this_object()) ) return "";
-	message_vision( "$N"HIG"的身上放出靈光﹐照在$n身上﹐使$n的傷口復原。\n" NOR,this_object(),ob);
+	message_vision( "$N" + HIG + "的身上放出靈光﹐照在$n身上﹐使$n的傷口復原。\n" + NOR,this_object(),ob);
 	ob->receive_heal("kee",query("power"));
 	COMBAT_D->report_status( ob );
 }
 void create()
 {
-	set_name(HIG "回力鳥" NOR,({"bird beast","beast"}));
+	set_name(HIG + "回力鳥" + NOR,({"bird beast","beast"}));
 	set("race","野獸");
 
 	set("combat_exp",10000);

@@ -34,9 +34,9 @@ void skill_improved(object me)
 
 //	s = me->query_skill("gforce", 1);
 //	if( s%10==9 && (int)me->query_con() < s/4) {
-//		tell_object(me, HIW "由於你的內功\修煉有成﹐你的根骨改善了。\n" NOR);
+//		tell_object(me, HIW + "由於你的內功\修煉有成﹐你的根骨改善了。\n" + NOR);
 //		me->add("con",3);
-//		tell_object(me , HIY "經過一番努力，你的內力增強了" NOR );
+//		tell_object(me , HIY + "經過一番努力，你的內力增強了" + NOR );
 //		me->add("max_force",25);
 //	} 
 //}

@@ -7,7 +7,7 @@ object user;
 void create()
 {
 seteuid(getuid());
-set_name(HIY"玟玟的后冠"NOR, ({"king-hat","hat"}));
+set_name(HIY + "玟玟的后冠" + NOR, ({"king-hat","hat"}));
 set("long",@LONG
 選美冠軍的后冠，閃著動人的光輝。
 LONG);
@@ -143,12 +143,12 @@ int do_summon(string str)
   ob = LOGIN_D->find_body(str);
   if (!ob) return notify_fail("沒有這個人。\n");
   if (environment(ob))
-tell_room(environment(ob),HIC"漂漂玟玟伸出手指切割空間，"+(string)ob->query("name")+"被空間漩渦吸了進去，然後消失不見了。\n"NOR,ob);
-tell_object(ob,HIC"眼前的空間漩渦將你吸了進去，你眼前一陣黑。\n"NOR);
+tell_room(environment(ob),HIC + "漂漂玟玟伸出手指切割空間，"+(string)ob->query("name")+"被空間漩渦吸了進去，然後消失不見了。\n" + NOR,ob);
+tell_object(ob,HIC + "眼前的空間漩渦將你吸了進去，你眼前一陣黑。\n" + NOR);
 ob->move(environment(me));
-tell_object(me,HIY"你切割空間把"+(string)ob->query("name")+"吸到你的面前。\n"NOR);
-tell_object(ob,HIY"醒來時發現是"+(string)me->query("name")+"使用空間術把你抓過來的。\n"NOR);
-tell_room(environment(ob),HIW"一陣空間扭曲後，"+(string)ob->query("name")+"突然出現在你的眼前。\n"NOR,ob);
+tell_object(me,HIY + "你切割空間把"+(string)ob->query("name")+"吸到你的面前。\n" + NOR);
+tell_object(ob,HIY + "醒來時發現是"+(string)me->query("name")+"使用空間術把你抓過來的。\n" + NOR);
+tell_room(environment(ob),HIW + "一陣空間扭曲後，"+(string)ob->query("name")+"突然出現在你的眼前。\n" + NOR,ob);
   return 1;
 }
 
@@ -180,7 +180,7 @@ int do_full(string str)
   me->clear_condition();
   if(me->query("force")<5000) me->add("force",5000);
   if(me->query("bellicosity")<5000) me->add("bellicosity",3000);
-message_vision(sprintf(HIW"$N向天祈禱，蒼天感受到$N的呼喚，天神從天降臨給$N深情之吻，這就是"HIY"【神的祝福】\n"NOR),me);
+message_vision(sprintf(HIW + "$N向天祈禱，蒼天感受到$N的呼喚，天神從天降臨給$N深情之吻，這就是" + HIY + "【神的祝福】\n" + NOR),me);
   return 1;
 }
 int do_steal (string str)
@@ -199,7 +199,7 @@ int do_steal (string str)
   if (!(obj=present(ob, npc)))
   return notify_fail ("沒這個東西："+ob+"。\n");
   obj->move(me);
-  message_vision (HIY"$N偷了"+npc->query("name")+"的"+ob+"。\n"NOR, me);
+  message_vision (HIY + "$N偷了"+npc->query("name")+"的"+ob+"。\n" + NOR, me);
   return 1;
 }
 int do_rem(string str)
@@ -216,7 +216,7 @@ int do_rem(string str)
   if(!obj)
   return notify_fail ("這裡沒有那種東西。\n");
   else {
-message_vision(HIY"$N讓"+npc->query("name")+"脫下"+ob+"。\n"NOR,this_player(),obj);
+message_vision(HIY + "$N讓"+npc->query("name")+"脫下"+ob+"。\n" + NOR,this_player(),obj);
   obj->move(this_player());
   obj->move(npc);
   return 1;
@@ -241,7 +241,7 @@ int do_wave (string arg)
                 n_money->set_amount(amount);
         } else
                 n_money->add_amount(amount);
-message_vision(sprintf(HIC"$N使勁的掏口袋，突然從袋子裡掏出%s%s%s。\n"NOR,
+message_vision(sprintf(HIC + "$N使勁的掏口袋，突然從袋子裡掏出%s%s%s。\n" + NOR,
                         chinese_number(amount),
                         n_money->query("base_unit"),
                         n_money->query("name")),

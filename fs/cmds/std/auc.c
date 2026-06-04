@@ -70,10 +70,10 @@ int main( object me, string arg )
 	  if( value <= 1800000000 )
 	  {
           tell_object (me, "你打電話告訴黑市老闆說，你願意用"+
-                           CHINESE_D->cvalue(value)+HIG"搶標。\n"NOR);
+                           CHINESE_D->cvalue(value)+HIG + "搶標。\n" + NOR);
           call_other(boss, "do_buy", me, value);
 //	  me->pay_money(value);
-	  }else tell_object(me, HIG"㊣黑市交易㊣目前規定單筆最大交易金額為十八粒鑽石，搶標下次請早！\n"NOR);;
+	  }else tell_object(me, HIG + "㊣黑市交易㊣目前規定單筆最大交易金額為十八粒鑽石，搶標下次請早！\n" + NOR);;
 	}
 	else tell_object (me, "喝! 感情是騙吃騙喝的啊!!\n");
 	return 1;

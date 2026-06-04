@@ -5,8 +5,8 @@ inherit ITEM;
 
 void create()
 {
-  set_name(MAG"忍者裝束"NOR,({"ninja-eq"}));
-  set("long",HIC"這是傳說中被封印的忍者裝備(open ninja or close ninja)。"NOR);
+  set_name(MAG + "忍者裝束" + NOR,({"ninja-eq"}));
+  set("long",HIC + "這是傳說中被封印的忍者裝備(open ninja or close ninja)。" + NOR);
   set("unit","套");
   set("no_auc",1);
   set("no_put",1);
@@ -29,7 +29,7 @@ void init()
   object me=this_player();
   object ob;
   ob=present("ninja-eq",me);
-  if(ob&&ob->name()==MAG"忍者裝束"NOR)
+  if(ob&&ob->name()==MAG + "忍者裝束" + NOR)
   {
     add_action("do_open","open");
     add_action("do_close","close");
@@ -49,7 +49,7 @@ int do_open(string str)
   ob=present("ninja-eq",me);
   if(ob->query_temp("ninjaeq/open")==1)
     return notify_fail("忍者裝束的封印已經解除了﹗\n");
-  message_vision(HIC"\n$N運用忍術解除封印, $N的忍者裝束漸漸換化成\許\多裝備。\n\n"NOR,me);
+  message_vision(HIC + "\n$N運用忍術解除封印, $N的忍者裝束漸漸換化成\許\多裝備。\n\n" + NOR,me);
   eq01 = new(__DIR__"nshield");
   eq02 = new(__DIR__"nboots");
   eq03 = new(__DIR__"narmband");
@@ -127,7 +127,7 @@ int do_close(string str)
     if (me->query("ninjaeq/getshield")==1) destruct(present("ninja shield",me));
     me->delete_temp("ninjaeq/open");
     ob->delete_temp("ninjaeq/open"); 
-    message_vision(HIC"\n$N利用忍術再度將忍者裝束封印起來。\n\n"NOR,me);
+    message_vision(HIC + "\n$N利用忍術再度將忍者裝束封印起來。\n\n" + NOR,me);
   }
   return 1;
 }

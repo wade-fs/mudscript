@@ -10,7 +10,7 @@ void skill_improved(object me)
 
 	s = me->query_skill("force", 1);
 	if( s%10==9 && (int)me->query_str() < s/4) {
-		tell_object(me, HIW "由於你勤練武藝﹐你的膂力提高了。\n" NOR);
+		tell_object(me, HIW + "由於你勤練武藝﹐你的膂力提高了。\n" + NOR);
 		me->add("str", 2);
 	}
 }

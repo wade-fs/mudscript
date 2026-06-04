@@ -6,7 +6,7 @@ inherit HEAD;
 object me=this_player();
 void create()
 {
-  set_name(MAG"忍者面罩"NOR,({"ninja helmet","helmet"}));
+  set_name(MAG + "忍者面罩" + NOR,({"ninja helmet","helmet"}));
   set_weight(1000);
     if( clonep() )
   set_default_object(__FILE__);

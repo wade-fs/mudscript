@@ -1,18 +1,18 @@
 #include <ansi.h>
 inherit F_GUILDCMDS;
 string *status = ({
-	HIR "你死我亡" NOR,
-	HIR "水火不容" NOR,
-	RED "意見不合" NOR,
-	RED "印象不好" NOR,
-	BLU "初探門路" NOR,
-	HIB "些微交往" NOR,
-	HIB "略有往來" NOR,
-	CYN "交情尚可" NOR,
-	CYN "往來頻繁" NOR,
-	HIC "關係非凡" NOR,
-	HIC "非比尋常" NOR,
-	HIW "不可告人" NOR,
+	HIR + "你死我亡" + NOR,
+	HIR + "水火不容" + NOR,
+	RED + "意見不合" + NOR,
+	RED + "印象不好" + NOR,
+	BLU + "初探門路" + NOR,
+	HIB + "些微交往" + NOR,
+	HIB + "略有往來" + NOR,
+	CYN + "交情尚可" + NOR,
+	CYN + "往來頻繁" + NOR,
+	HIC + "關係非凡" + NOR,
+	HIC + "非比尋常" + NOR,
+	HIW + "不可告人" + NOR,
 	});
 string get_status(int value);
 int main(object me,string arg)

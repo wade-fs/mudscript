@@ -16,7 +16,7 @@ int exert(object me)
  return notify_fail("你已經在用了。\n");  
 	me->add("force",-50-me->query_skill("blade")/10);
 	message_vision(
-	HIR "$N發出一陣狂吼﹐將真力貫入手中的[0m$n[1;31m﹐使[0m$n[1;31m發出一陣輕爆聲。\n" NOR,me,weapon);
+	HIR + "$N發出一陣狂吼﹐將真力貫入手中的[0m$n[1;31m﹐使[0m$n[1;31m發出一陣輕爆聲。\n" + NOR,me,weapon);
 me->set_temp("usebladekee",1);
 	me->add_temp("apply/damage",me->query_skill("force")/10+me->query_skill("blade")/5+15);
 	weapon->set_temp("focuskee",1);

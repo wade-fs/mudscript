@@ -38,11 +38,11 @@ int perform(object me, object target)
   if(!fforce) fforce=0;
   if(random(level)>94 || (level>94 && wizardp(me)) || me->query("break-sun")>1) //最大招發動機率，在fun練滿時為0.5%
   {
-    message_vision(HIW"\n$N將"HIR"極火功\"HIW"與"HIC"冰心訣"HIW"同時谷摧至極限，縱聲高喊：\n\n
+    message_vision(HIW + "\n$N將" + HIR + "極火功\" + HIW + "與" + HIC + "冰心訣" + HIW + "同時谷摧至極限，縱聲高喊：\n\n
   
-  \t\t\t「"HIR"天火焚身"HIW"～"HIC"玄冰滅世"HIW"～"HIM"弓神附體"HIW"～"HIY"箭嵐再現"HIW"～」\n
+  \t\t\t「" + HIR + "天火焚身" + HIW + "～" + HIC + "玄冰滅世" + HIW + "～" + HIM + "弓神附體" + HIW + "～" + HIY + "箭嵐再現" + HIW + "～」\n
                       
-  "HIM"箭神"HIG"后羿"HIW"的身影依稀出現在$N身後，$n以為眼花，揉揉雙眼，再睜開時，滿天箭矢已飛至面前!!\n\n"NOR,me,target);
+  " + HIM + "箭神" + HIG + "后羿" + HIW + "的身影依稀出現在$N身後，$n以為眼花，揉揉雙眼，再睜開時，滿天箭矢已飛至面前!!\n\n" + NOR,me,target);
     time = 2+(level-95);
     skill=me->query_skill("archery",1);
     hurt = 2*(skill*5+fforce+iforce+level*3);
@@ -52,7 +52,7 @@ int perform(object me, object target)
     if((!target->query_temp("no_die_soon") && !target->query_temp("no_badroar_max") && !target->query_temp("todie")) || userp(target))
     for(k=0;k<time;k++)
     {
-      message_vision(HIY"融合"HIW"冰"HIR"火"HIY"兩極神功\的無匹箭氣，瞬間貫穿了$n的身體!!\n"NOR,me,target);
+      message_vision(HIY + "融合" + HIW + "冰" + HIR + "火" + HIY + "兩極神功\的無匹箭氣，瞬間貫穿了$n的身體!!\n" + NOR,me,target);
       target->receive_wound("kee",hurt,me);  
     } else {//以下為不云許dieup、maxbadroar之非玩家敵人傷害計算 打30%
       gin = 3*target->query("max_gin")/70;
@@ -60,7 +60,7 @@ int perform(object me, object target)
       sen = 3*target->query("max_sen")/70;
       for(k=0;k<7;k++)
       {
-        message_vision(HIY"融合"HIW"冰"HIR"火"HIY"兩極神功\的無匹箭氣，瞬間貫破$n的身體!!\n"NOR,me,target);
+        message_vision(HIY + "融合" + HIW + "冰" + HIR + "火" + HIY + "兩極神功\的無匹箭氣，瞬間貫破$n的身體!!\n" + NOR,me,target);
         target->receive_wound("gin",gin,me);
         target->receive_wound("kee",kee,me);
         target->receive_wound("sen",sen,me);
@@ -75,26 +75,26 @@ int perform(object me, object target)
   }
   else if(random(skill) < 24)
   {
-    message_vision(HIB"\n$N嚐試發動箭雨，但箭技不夠熟練，以致於天地靈氣潰散四逸。\n"NOR,me);
+    message_vision(HIB + "\n$N嚐試發動箭雨，但箭技不夠熟練，以致於天地靈氣潰散四逸。\n" + NOR,me);
     num = num-10;
     wp->set("arrow/amount",num);
   }
   else
   {
     hurt = 20*skill;
-    message_vision(CYN"\n$N高喊："HIW"「"HIY"箭雨！"HIW"」
-"+arrow+CYN"直指$n"CYN"，這招正是"HIM"箭神"HIG"后羿"CYN"的傳說奧義\n\n
-                        "HIM"《"HBYEL""HIB"破"NOR"～"HBBLU""HIY"日"NOR"～"HBGRN""HIW"驚"NOR"～"BRED""HIC"天"NOR"～"HIM"》\n\n
-  "CYN"箭頭未至，箭勁已如巨浪般席捲而至。\n\n"NOR,me,target);
+    message_vision(CYN + "\n$N高喊：" + HIW + "「" + HIY + "箭雨！" + HIW + "」
+"+arrow+CYN + "直指$n" + CYN + "，這招正是" + HIM + "箭神" + HIG + "后羿" + CYN + "的傳說奧義\n\n
+                        " + HIM + "《" + HBYEL + "" + HIB + "破" + NOR + "～" + HBBLU + "" + HIY + "日" + NOR + "～" + HBGRN + "" + HIW + "驚" + NOR + "～" + BRED + "" + HIC + "天" + NOR + "～" + HIM + "》\n\n
+  " + CYN + "箭頭未至，箭勁已如巨浪般席捲而至。\n\n" + NOR,me,target);
 
     if(att_w == "fire")
     {
       if(att_e == "gold" && level > 60) 
       {
-        message_vision(HIR"箭上強烈的焰氣摜破了$n的氣海，$n感到氣血翻騰，五內俱焚!!\n"NOR,me,target);
+        message_vision(HIR + "箭上強烈的焰氣摜破了$n的氣海，$n感到氣血翻騰，五內俱焚!!\n" + NOR,me,target);
         hurt = 3*hurt;
         hurt = hurt/2;
-      } else message_vision(HIR"箭上強烈的焰氣燒灼著$n的身體，$n感到氣血翻騰，炙熱難當!!\n"NOR,me,target);
+      } else message_vision(HIR + "箭上強烈的焰氣燒灼著$n的身體，$n感到氣血翻騰，炙熱難當!!\n" + NOR,me,target);
       if(49<random(level)) target->apply_condition("burn",2+random(level/25));
     }
 
@@ -102,10 +102,10 @@ int perform(object me, object target)
     {
       if(att_e == "wood" && level > 60) 
       {
-        message_vision(HIY"高硬度的銳利箭頭摜破了$n的氣海，$n感到氣血翻騰，腹痛如絞!!\n"NOR,me,target);
+        message_vision(HIY + "高硬度的銳利箭頭摜破了$n的氣海，$n感到氣血翻騰，腹痛如絞!!\n" + NOR,me,target);
         hurt = 3*hurt;
         hurt = hurt/2;
-      } else message_vision(HIY"高硬度的銳利箭頭在$n身上劃出無數割痕，$n頓時遍體鱗傷，!!\n"NOR,me,target);
+      } else message_vision(HIY + "高硬度的銳利箭頭在$n身上劃出無數割痕，$n頓時遍體鱗傷，!!\n" + NOR,me,target);
       if(49<random(level)) target->apply_condition("bleeding",2+random(level/25));
     }
 
@@ -113,35 +113,35 @@ int perform(object me, object target)
     {
       if(att_e == "soil" && level > 60) 
       {
-        message_vision(HIG"箭上木靈彷彿得到生命般鑽入$n的氣海，吸收了$n的內勁，接著破體而出!!\n"NOR,me,target);
+        message_vision(HIG + "箭上木靈彷彿得到生命般鑽入$n的氣海，吸收了$n的內勁，接著破體而出!!\n" + NOR,me,target);
         hurt = 3*hurt;
         hurt = hurt/2;
-      } else message_vision(HIG"箭上木靈彷彿得到生命般鑽入$n的氣海，吸收了內勁，$n感到一陣噁心。!!\n"NOR,me,target);
+      } else message_vision(HIG + "箭上木靈彷彿得到生命般鑽入$n的氣海，吸收了內勁，$n感到一陣噁心。!!\n" + NOR,me,target);
     }
 
     if(att_w == "soil")
     {
       if(att_e == "water" && level > 60) 
       {
-        message_vision(YEL"$n感到渾厚氣牆隨著箭頭襲來，運勁強抗卻如入泥沼，接著被氣牆重重轟中!!\n"NOR,me,target);
+        message_vision(YEL + "$n感到渾厚氣牆隨著箭頭襲來，運勁強抗卻如入泥沼，接著被氣牆重重轟中!!\n" + NOR,me,target);
         hurt = 3*hurt;
         hurt = hurt/2;
-      } else message_vision(YEL"$n感到渾厚氣牆隨著箭頭襲來，難以抵擋，被撞個正著!!\n"NOR,me,target);
+      } else message_vision(YEL + "$n感到渾厚氣牆隨著箭頭襲來，難以抵擋，被撞個正著!!\n" + NOR,me,target);
     }
 
     if(att_w == "water")
     {
       if(att_e == "fire" && level > 60) 
       {
-        message_vision(HIW"箭頭挾帶的水氣驟轉為強烈凍氣，$n的內勁有如受到冰封，頓時暈頭轉向!!\n"NOR,me,target);
+        message_vision(HIW + "箭頭挾帶的水氣驟轉為強烈凍氣，$n的內勁有如受到冰封，頓時暈頭轉向!!\n" + NOR,me,target);
         hurt = 3*hurt;
         hurt = hurt/2;
-      } else message_vision(HIW"箭頭挾帶的水氣驟轉為強烈凍氣，$n頓時全身發抖，臉色發白!!\n"NOR,me,target);
+      } else message_vision(HIW + "箭頭挾帶的水氣驟轉為強烈凍氣，$n頓時全身發抖，臉色發白!!\n" + NOR,me,target);
       if(49<random(level)) target->apply_condition("cold",2+random(level/25));
     }
     if(random(level) > 69)
     {
-      message_vision(HIB"箭上竟塗有失傳秘藥「蒙汗」，$n頓時內息滯空!!\n"NOR,me,target);   
+      message_vision(HIB + "箭上竟塗有失傳秘藥「蒙汗」，$n頓時內息滯空!!\n" + NOR,me,target);   
       target->apply_condition("block_sweat",2+random(level/20));
     }
     target->receive_wound("kee",hurt,me);

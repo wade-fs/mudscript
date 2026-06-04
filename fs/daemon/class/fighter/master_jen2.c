@@ -142,7 +142,7 @@ int accept_object(object who, object ob)
        {
         say("你為武林除去這萬惡魔頭，立下如此大的功\勞!!\n"
             "嗯!!好吧!!我將部份內力傳授給你吧!!\n");
-        message_vision(HIC"任正晴將雙手按住$N檀中穴，真氣瞬時間打通$N的任督二脈\n",who);
+        message_vision(HIC + "任正晴將雙手按住$N檀中穴，真氣瞬時間打通$N的任督二脈\n",who);
         who->add("max_force",200);
         who->set("get_force",1);
        }
@@ -245,7 +245,7 @@ void heart_beat()
         }
 		if(is_busy() ){
 		if(30>random(100)){
-		message_vision(HIW"\n只見$N暴起所有"HIY"真氣內勁"HIW"，$N全身隴罩在一股"HIC"綻藍氣勁"HIW"中，赫然已解開身上被封的穴道。\n"NOR,this_object());
+		message_vision(HIW + "\n只見$N暴起所有" + HIY + "真氣內勁" + HIW + "，$N全身隴罩在一股" + HIC + "綻藍氣勁" + HIW + "中，赫然已解開身上被封的穴道。\n" + NOR,this_object());
         delete_busy();
 		}
 		}
@@ -339,7 +339,7 @@ void die()
 	  if( j==7 || j==77 || j== 777 || j==1111 || j==55 || j==555 || j==1000 || j==4000 || j==3333 || j==5555 )
 	  {      
 	  new("/open/sky/obj3/fire_feather")->move(environment(winner));
-	  message_vision(HIM"\n從任正晴的身上掉下了一件奇怪的東西!!\n"NOR,winner);
+	  message_vision(HIM + "\n從任正晴的身上掉下了一件奇怪的東西!!\n" + NOR,winner);
           write_file("/log/sky/fire_feather",sprintf("%s(%s) 讓任正晴掉下了火之焰羽於 %s\n",
 	  winner->name(1),winner->query("id"),ctime(time())));
 	  }
@@ -348,7 +348,7 @@ void die()
 	  if( j==5 || j==15 || j== 150 || j==1500 || j==10 || j==100 || j==1000 || j==4000 || j==6666 || j==7777 ) 
 	  {      
 	  new("/open/sky/obj3/fire_feather")->move(environment(winner));
-	  message_vision(HIM"\n從任正晴的身上掉下了一件奇怪的東西!!\n"NOR,winner);
+	  message_vision(HIM + "\n從任正晴的身上掉下了一件奇怪的東西!!\n" + NOR,winner);
           write_file("/log/sky/fire_feather",sprintf("%s(%s) 讓任正晴掉下了火之焰羽於 %s\n",
 	  winner->name(1),winner->query("id"),ctime(time())));
 	  }

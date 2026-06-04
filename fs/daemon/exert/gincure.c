@@ -15,11 +15,11 @@ int exert(object me, object target)
 		if(target->query("max_gin") <= target->query("eff_gin"))
 		    return notify_fail("已經不用再療精了！\n");
 	if( target==me ){
-message_vision(HIC"$N盤腿而坐，連運內息之後，精力充足。\n"NOR, me);
+message_vision(HIC + "$N盤腿而坐，連運內息之後，精力充足。\n" + NOR, me);
 	}
 	else{
 
-message_vision(HIC"$N運行全身內力幫助$n凝氣療傷，幾個內息之後，$n已慢慢精力充足起來。\n"NOR, me, target);
+message_vision(HIC + "$N運行全身內力幫助$n凝氣療傷，幾個內息之後，$n已慢慢精力充足起來。\n" + NOR, me, target);
                 power = power/2;
 	}
         target->receive_curing("gin", power );

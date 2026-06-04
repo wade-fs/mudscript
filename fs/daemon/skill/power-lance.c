@@ -16,7 +16,7 @@ mapping *action = ({
 
    ([
         "action":
-"$N使出爆力美學基本式﹐一招"HIR"「爆裂殘擊」"NOR"﹐對準$n的肚子狠狠的一捅",
+"$N使出爆力美學基本式﹐一招" + HIR + "「爆裂殘擊」" + NOR + "﹐對準$n的肚子狠狠的一捅",
 
         "dodge"      :               -25,
 
@@ -31,7 +31,7 @@ mapping *action = ({
    ]),
   ([
         "action"     :
-"$N猶如屠夫般發展攻勢﹐使出一招"HIM"「暴徒狂殺」"NOR"拿起$w來一直往$n身上攻去",
+"$N猶如屠夫般發展攻勢﹐使出一招" + HIM + "「暴徒狂殺」" + NOR + "拿起$w來一直往$n身上攻去",
 
         "dodge"      :               -50,
 
@@ -46,7 +46,7 @@ mapping *action = ({
    ]),
   ([
         "action"     :
-"$N狂亂鬼叫﹐傢伙一提﹐使出一招"HIC"「狂爆傲喉」"NOR"往$n的喉部一槍刺去",
+"$N狂亂鬼叫﹐傢伙一提﹐使出一招" + HIC + "「狂爆傲喉」" + NOR + "往$n的喉部一槍刺去",
 
         "dodge"      :               -10,
 
@@ -61,7 +61,7 @@ mapping *action = ({
 
   ([
         "action"     :
-"$N聚集所有力量﹐使出爆力美學的"HIY"「爆舞煽掛」"NOR"$N舞起$w來分別擊向$n的頭喉心",
+"$N聚集所有力量﹐使出爆力美學的" + HIY + "「爆舞煽掛」" + NOR + "$N舞起$w來分別擊向$n的頭喉心",
 
         "dodge"      :               -30,
 
@@ -78,7 +78,7 @@ mapping *action = ({
   ([
 
         "action"     :
-"$N氣運丹田手中$w高舉於頭上﹐一招"HIG"「爆岩斬」"NOR"將力氣慣於雙臂﹐突乎其然斬向$n",
+"$N氣運丹田手中$w高舉於頭上﹐一招" + HIG + "「爆岩斬」" + NOR + "將力氣慣於雙臂﹐突乎其然斬向$n",
          "dodge"      :               -30,
 
          "parry"      :               -30,
@@ -92,7 +92,7 @@ mapping *action = ({
    ]),
 ([
          "action"     :
-"$N運起全身功\力﹐氣集於$w使出一招"BLINK+HIR"「爆炎槍尖屠」"NOR"尖上的"HIR"火舌緩緩蠕動"NOR"煞那間"HIR"火舌"NOR"突乎其然奔向$n",
+"$N運起全身功\力﹐氣集於$w使出一招"BLINK+HIR + "「爆炎槍尖屠」" + NOR + "尖上的" + HIR + "火舌緩緩蠕動" + NOR + "煞那間" + HIR + "火舌" + NOR + "突乎其然奔向$n",
          "dodge"      :               -20,
 
          "parry"      :               -45,
@@ -108,7 +108,7 @@ mapping *action = ({
   ([
 
          "action"     :
-"$N橫起槍來﹐使出爆力美學一式「"HIC"超"HIR"爆"HIW"裂"HIY"狂嘯擊」"NOR"﹐使出了前所未有的超爆狂力朝$n身上狂刺過去",
+"$N橫起槍來﹐使出爆力美學一式「" + HIC + "超" + HIR + "爆" + HIW + "裂" + HIY + "狂嘯擊」" + NOR + "﹐使出了前所未有的超爆狂力朝$n身上狂刺過去",
 
          "dodge"      :               -50,
 
@@ -125,10 +125,9 @@ mapping *action = ({
   ]),
 
  ([      "action"     :             "$N使出爆力美學火爆式\n"
-                              "<<"HIR"『爆能格鬥殺人法』"NOR">>\n"
-                        HIY"$N單手拿著$w疾步奔向$n，連環使出殺人技巧\n"
+                              "<<" + HIR + "『爆能格鬥殺人法』" + NOR + ">>\n" + HIY + "$N單手拿著$w疾步奔向$n，連環使出殺人技巧\n"
                               "『 連蹴轉身空烈閃身單翼衝 』\n"
-                              "$N像暴徒般向$n使出爆裂攻擊\n"NOR,
+                              "$N像暴徒般向$n使出爆裂攻擊\n" + NOR,
                  "dodge"     :                80,
 
                  "parry"     :                50,
@@ -143,10 +142,9 @@ mapping *action = ({
 
   ]),
  ([      "action"     :       "$N使出爆力美學超爆式\n"
-                          "<<"HIY"『浮身亂彈擊』"NOR">>\n"
-              HIC"$N將全身能量，準備一次爆發出來﹐此時$N全身充滿了力氣\n"
+                          "<<" + HIY + "『浮身亂彈擊』" + NOR + ">>\n" + HIC + "$N將全身能量，準備一次爆發出來﹐此時$N全身充滿了力氣\n"
                      "$N感覺到全身向著了火一樣﹐全身爆出無數光芒\n"
-                        "$N像飢虎直衝$n﹐狂亂般的攻擊$n\n"NOR,
+                        "$N像飢虎直衝$n﹐狂亂般的攻擊$n\n" + NOR,
                  "dodge"     :                80,
 
                  "parry"     :                50,
@@ -230,7 +228,7 @@ void booldk(object me, object victim, object  weapon, int damage)
 
 	  {
             me->set_temp("booldk",1);
-message_vision(sprintf(BLINK+HIM"$N藉由鮮血,使自身殺氣提升到最高峰,槍槍直取死穴。\n"NOR),me);
+message_vision(sprintf(BLINK+HIM + "$N藉由鮮血,使自身殺氣提升到最高峰,槍槍直取死穴。\n" + NOR),me);
 
 	    for(i=0;i<=time;i++)
 
@@ -259,7 +257,7 @@ void busyk(object me, object victim, object weapon, int damage)
 
   me->add("force",-50);
 
-  message_vision(sprintf(BLINK+HIY"$N趁著$n招架不住時,繼續出招,槍勢之疾$n已快撐不住了.\n"NOR),me,victim);
+  message_vision(sprintf(BLINK+HIY + "$N趁著$n招架不住時,繼續出招,槍勢之疾$n已快撐不住了.\n" + NOR),me,victim);
 
 }
 
@@ -289,7 +287,7 @@ void power(object me, object victim, object  weapon, int damage)
 
                         message_vision(
 
-                       HIG"$N使出爆力美學之超爆式『浮身亂彈擊』﹐拿起傢伙狂亂般的捅向$n。\n"NOR , me, victim);
+                       HIG + "$N使出爆力美學之超爆式『浮身亂彈擊』﹐拿起傢伙狂亂般的捅向$n。\n" + NOR , me, victim);
 
                         victim->add("kee",-1*pow1);
 

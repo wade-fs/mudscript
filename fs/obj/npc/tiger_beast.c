@@ -9,7 +9,7 @@ string fight()
 }
 void create()
 {
-	set_name(HIY "天牙虎" NOR,({"tiger beast","beast"}));
+	set_name(HIY + "天牙虎" + NOR,({"tiger beast","beast"}));
 	set("race","野獸");
 
 	set("combat_exp",10000);

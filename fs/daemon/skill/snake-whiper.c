@@ -103,14 +103,14 @@ int i,j,k;
 
 	if( i < random(j) )
 	{
-		message_vision(HIR+"$N"+HIR+"鞭法突然雜亂無章...$n"+HIR+"一個躲避不及～被鞭子劃過了身旁～\n"NOR,me,victim);
+		message_vision(HIR+"$N"+HIR+"鞭法突然雜亂無章...$n"+HIR+"一個躲避不及～被鞭子劃過了身旁～\n" + NOR,me,victim);
 		victim->receive_wound("kee",100);
 		COMBAT_D->report_status(victim,1);
 	}
 	
 	if( (int)victim->query_busy() < 2 && random(100) < 20 )
 	{
-		message_vision(HIY+"$N"+HIY+"的鞭法捆住了$n"+HIY+"，令$n"+HIY+"頓時無法動彈～\n"NOR,me,victim);
+		message_vision(HIY+"$N"+HIY+"的鞭法捆住了$n"+HIY+"，令$n"+HIY+"頓時無法動彈～\n" + NOR,me,victim);
 		victim->start_busy(1);
 	}
 }

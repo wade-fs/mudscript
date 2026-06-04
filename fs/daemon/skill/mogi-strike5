@@ -17,7 +17,7 @@ string *parry_msg= ({
 });
 
 mapping *action = ({
-([ "action" : HIB"$N身上魔氤滿溢陰氳陣陣，頓時黑光閃閃，一式葬列剖墳手中的"HIM"『剖墳舔屍』"HIB"挾著厚重的毒氣襲向$n的腦門\n"NOR,
+([ "action" : HIB + "$N身上魔氤滿溢陰氳陣陣，頓時黑光閃閃，一式葬列剖墳手中的" + HIM + "『剖墳舔屍』" + HIB + "挾著厚重的毒氣襲向$n的腦門\n" + NOR,
         "dodge":   20,
         "parry":   20,
         "damage":   180,
@@ -27,7 +27,7 @@ mapping *action = ({
         
 ]),
 
-([ "action" :HIB"$N使出一式"HIM"『送葬哀歌』"HIB"激出魔風陣陣，呼嘯之聲悲慟惱人，侵人心神，就在$n失魂之際，$N一掌打向$n\n"NOR,
+([ "action" :HIB + "$N使出一式" + HIM + "『送葬哀歌』" + HIB + "激出魔風陣陣，呼嘯之聲悲慟惱人，侵人心神，就在$n失魂之際，$N一掌打向$n\n" + NOR,
         "dodge":   30,
         "parry":   30,
         "damage":   180,
@@ -36,7 +36,7 @@ mapping *action = ({
         "damage_type" : "毒傷"
 ]),
 
-([ "action" :HIB"$N壓身直奔$n，就在$n欲發招之際的瞬間高高躍起，使出葬列剖墳手中的一式"HIM"『鴉佇髏\眼』"HIB"同時向$n的雙眼及喉間連發掌氣\n"NOR,
+([ "action" :HIB + "$N壓身直奔$n，就在$n欲發招之際的瞬間高高躍起，使出葬列剖墳手中的一式" + HIM + "『鴉佇髏\眼』" + HIB + "同時向$n的雙眼及喉間連發掌氣\n" + NOR,
         "dodge":   30,
         "parry":    30,
         "damage":   180,
@@ -45,7 +45,7 @@ mapping *action = ({
         "damage_type" : "毒傷"
 ]),
 
-([ "action" :HIB"$N雙掌一拍，煞時寒光眩目，一式"HIM"『屍淚\白燭』"HIB"連續擊出五道掌氣，直搗$n的腦喉心胸腹五大死穴\n"NOR,
+([ "action" :HIB + "$N雙掌一拍，煞時寒光眩目，一式" + HIM + "『屍淚\白燭』" + HIB + "連續擊出五道掌氣，直搗$n的腦喉心胸腹五大死穴\n" + NOR,
         "dodge":    30,
         "parry":    30,
         "damage":   180,
@@ -54,7 +54,7 @@ mapping *action = ({
         "damage_type" : "毒傷"
 ]),
 
-([ "action" :HIB"$N魔氣驟發，以指為掌，使出葬列剖墳手中的一式"HIM"『血骨殘肉』"HIB"，掌氣利如刀鋒旋裂直逼$n\n"NOR,
+([ "action" :HIB + "$N魔氣驟發，以指為掌，使出葬列剖墳手中的一式" + HIM + "『血骨殘肉』" + HIB + "，掌氣利如刀鋒旋裂直逼$n\n" + NOR,
         "dodge":   100,
         "parry":   100,
         "damage":   180,

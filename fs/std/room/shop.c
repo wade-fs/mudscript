@@ -75,7 +75,7 @@ int do_value(string arg)
   inv=all_inventory(this_player());
   if(!inv)
   return notify_fail("你身上沒有任何東西可供估價。\n");
-  printf(HIC "你身上帶著這些東西：\n%s" NOR,
+  printf(HIC + "你身上帶著這些東西：\n%s" + NOR,
     implode(map_array(inv,"ob_value",this_object()),"") );
   return 1;
 }
@@ -171,7 +171,7 @@ varargs int sell_ob(object ob, int trade_lv , int sys)
         cvalue(valu) );
 
   me->pay_player(valu);
-  message_vision(HIC "$N賣掉一"+ob->query("unit")+ob->query("name")+"\n" NOR,
+  message_vision(HIC + "$N賣掉一"+ob->query("unit")+ob->query("name")+"\n" + NOR,
     me );
 	
     if(      me->query_skill("trade",1)
@@ -244,7 +244,7 @@ int do_buy(string arg)
       me->improve_skill("trade",random( me->query_int() + per/2 ) );
     }
     else {
-      tell_object(me,HIB "你沒有適合的貨幣來買" NOR+
+      tell_object(me,HIB + "你沒有適合的貨幣來買" + NOR+
       sells[arg]+"\n");
     }
   }
@@ -264,7 +264,7 @@ void do_more(object me, string cmd , int line )
     case "":
     if( sizeof(k) < 24 ) {
         for(i = line; line<sizeof(k); line++)
-            list += sprintf("%-50s"NOR"\t\t價格：%s\n",sells[k[line]],
+            list += sprintf("%-50s" + NOR + "\t\t價格：%s\n",sells[k[line]],
                             cvalue(v[k[line]]) );
         me->start_more(list);
         if( line >= sizeof(k) ) return;
@@ -272,7 +272,7 @@ void do_more(object me, string cmd , int line )
     }
     else {
         for(i = line + 20; line<sizeof(k) && line<i; line++)
-            list += sprintf("%-50s"NOR"\t\t價格：%s\n", sells[k[line]],
+            list += sprintf("%-50s" + NOR + "\t\t價格：%s\n", sells[k[line]],
                             cvalue(v[k[line]]) );
         if( line >=sizeof(k) ) return;
         me->start_more(list);
@@ -282,7 +282,7 @@ void do_more(object me, string cmd , int line )
         line = line - 40;
         if(line<-19) return;
         for(i=line + 20; line < i;line++)
-            list += sprintf("%-50s"NOR"\t\t價格：%s\n", sells[k[line]],
+            list += sprintf("%-50s" + NOR + "\t\t價格：%s\n", sells[k[line]],
                             cvalue(v[k[line]]) );
         break;
     case "q":
@@ -373,12 +373,12 @@ int new_list(object ppl,string arg)
     for(i=start;i<end;i++)
     {
       ob=new(final[i]);
-        list += sprintf("%10s%-30s"NOR"%10s：%-30s 還剩%d%s\n", ob->query("name"),"("+ob->query("id")+")","價格",
+        list += sprintf("%10s%-30s" + NOR + "%10s：%-30s 還剩%d%s\n", ob->query("name"),"("+ob->query("id")+")","價格",
                       cvalue(ob->query("value")),total[ob->query("id")],ob->query("unit"));
     }
     if(!page) page=1;
     if(goods_amount > end)
-      list+=sprintf(HIY"因為商品太多了，沒辦法一次全部列出，你可以使用list %s %d來查看剩下的(%s)。\n"NOR,arg,page+1,KIND_NAME[arg]);
+      list+=sprintf(HIY + "因為商品太多了，沒辦法一次全部列出，你可以使用list %s %d來查看剩下的(%s)。\n" + NOR,arg,page+1,KIND_NAME[arg]);
     write("在這你可以買到的("+KIND_NAME[arg]+")有:\n");
     ppl->start_more(list);
     return 1;

@@ -44,7 +44,7 @@ int update_condition(object ob, int duration)
                                 ob->set_temp("adv_insect","earth");
                         if( ob->query_temp("adv_insect") )
                         {
-                                message_vision(HIY"\n$N的身體開始產生變化。\n\n"NOR,ob);
+                                message_vision(HIY + "\n$N的身體開始產生變化。\n\n" + NOR,ob);
                                 ob->clear_condition("pet_adv");
                                 ob->clear_condition("pet_cond");
                                 do_adv(ob);

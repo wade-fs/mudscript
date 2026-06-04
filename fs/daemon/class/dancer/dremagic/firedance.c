@@ -28,21 +28,21 @@ int conjure(object me, object target)
   me->add("atman", -150);
   me->receive_damage("gin", 10, me);
 
-  write( HIG"\n            妳領悟了夜夢天舞及夢玄法鑑的精髓，預備施展"HIR"火鳳飛翔"HIG"之術。\n"NOR);
-  msg = HIC "\n                   $N的身體漸漸的被火燄包圍，而$N的身形也漸" NOR;
-  msg += HIY "\n                     漸的幻化為一隻鳳凰，只見一隻火鳳凰迅速的" NOR;
-  msg += HIG "\n                       向著$n飛去，令$n不及招架。\n\n" NOR;
+  write( HIG + "\n            妳領悟了夜夢天舞及夢玄法鑑的精髓，預備施展" + HIR + "火鳳飛翔" + HIG + "之術。\n" + NOR);
+  msg = HIC + "\n                   $N的身體漸漸的被火燄包圍，而$N的身形也漸" + NOR;
+  msg += HIY + "\n                     漸的幻化為一隻鳳凰，只見一隻火鳳凰迅速的" + NOR;
+  msg += HIG + "\n                       向著$n飛去，令$n不及招架。\n\n" + NOR;
   message_vision(msg, me, target);
   if( 80 > random(100) ) {
-    write( HIG"\n                     結果成功\的施展出火鳳飛翔。\n"NOR);
-    say( HIR"                     "+target->query("name")+HIR+"閃躲不及，渾身上下都著了火，痛苦異常!!\n"NOR);
+    write( HIG + "\n                     結果成功\的施展出火鳳飛翔。\n" + NOR);
+    say( HIR + "                     "+target->query("name")+HIR+"閃躲不及，渾身上下都著了火，痛苦異常!!\n" + NOR);
     target->receive_damage("kee",(fun*9+250),me);
     target->apply_condition("burn",random(15) +fun/10);
     if ( fun < 100)
       me->spell_improved("firedance",random(700));
   } else {
-    write(HIR"\n                     結果絲毫起不了作用令妳暗自惋昔。 \n"NOR);
-    say( HIG"               只見"+target->query("name")+HIG+"以迅雷不及掩耳之速閃過攻擊。\n"NOR);
+    write(HIR + "\n                     結果絲毫起不了作用令妳暗自惋昔。 \n" + NOR);
+    say( HIG + "               只見"+target->query("name")+HIG+"以迅雷不及掩耳之速閃過攻擊。\n" + NOR);
     if (fun < 100)
     me->spell_improved("firedance",random(700));
   }

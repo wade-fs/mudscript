@@ -95,7 +95,7 @@ void check_password(string passwd, object me, int forever)
  
         if (forever) {
                 tell_object( me,
-                        HIR "\n\n你決定要自殺了﹐永別了!!!!\n\n\n" NOR);
+                        HIR + "\n\n你決定要自殺了﹐永別了!!!!\n\n\n" + NOR);
         link_ob = me->query_temp("link_ob");
         if( !link_ob ) return 0;
         seteuid(getuid());
@@ -124,7 +124,7 @@ int slow_suicide(object me)
         stage = me->query_temp("suicide_countdown");
         me->add_temp("suicide_countdown", -1);
         if( stage > 0 ) {
-                tell_object(me, HIR "你還有 " + (stage-1) + " 秒的時間可以後悔。\n" NOR);
+                tell_object(me, HIR + "你還有 " + (stage-1) + " 秒的時間可以後悔。\n" + NOR);
                 return 1;
         }
  

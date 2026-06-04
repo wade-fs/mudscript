@@ -34,8 +34,7 @@ if(!arg||arg!="dragon pill")return notify_fail("你要幹啥?\n");
  me->set("force_factor",29);
  me->set("enforceup",1);
        }else{
- message_vision(HIR
- "$N突然覺得五臟六腑一陣劇痛﹐鮮血由七竅狂噴而出！\n"NOR, me);
+ message_vision(HIR + "$N突然覺得五臟六腑一陣劇痛﹐鮮血由七竅狂噴而出！\n" + NOR, me);
  me->die();
  }
    add_amount(-1);

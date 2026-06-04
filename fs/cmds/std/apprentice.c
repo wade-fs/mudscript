@@ -126,7 +126,7 @@ if((me->query("family/family_name")=="血魔一派" || me->query("swordskill/blo
                 message_vision("$N想要拜$n為師。\n", me, ob);
                 me->set_temp("pending/apprentice", ob );
                 if( userp(ob) ) {
-                        tell_object(ob, YEL "如果你願意收" + me->name() + "為弟子﹐用 recruit 指令。\n" NOR);
+                        tell_object(ob, YEL + "如果你願意收" + me->name() + "為弟子﹐用 recruit 指令。\n" + NOR);
                 } else {
                         ob->attempt_apprentice(me);
                        }
@@ -167,23 +167,23 @@ int ppl_ppl(object me,object ob)
  i=random(5);
  if(i==0)
  {
-  tell_object(users(), HIY"\n~~號外 號外~~\n\n\t"HIW + ob->query("family/family_name") +HIB " 的 "HIW + ob->query("name") +HIC " 收了一個新弟子 "HIW+ me->query("name")+HIG"\n\n\t\t\t讓我們為 "HIW+ ob->query("family/family_name") +HIG" 的壯大而喝采吧\n"NOR"\n");
+  tell_object(users(), HIY + "\n~~號外 號外~~\n\n\t" + HIW + ob->query("family/family_name") +HIB + " 的 " + HIW + ob->query("name") +HIC + " 收了一個新弟子 " + HIW+ me->query("name")+HIG + "\n\n\t\t\t讓我們為 " + HIW+ ob->query("family/family_name") +HIG + " 的壯大而喝采吧\n" + NOR + "\n");
  }
  else if(i==1)
  {
-    tell_object(users(), HIY"\n在歷經多年的奮鬥後\n\n\t"HIW + ob->query("family/family_name") + HIB" 的 "HIW + ob->query("name") +HIG" 終於成宗立派\n\n\t\t\t"HIR"並記取 "HIW+ me->query("name") +HIR" 為其嫡傳弟子\n"NOR"\n");
+    tell_object(users(), HIY + "\n在歷經多年的奮鬥後\n\n\t" + HIW + ob->query("family/family_name") + HIB + " 的 " + HIW + ob->query("name") +HIG + " 終於成宗立派\n\n\t\t\t" + HIR + "並記取 " + HIW+ me->query("name") +HIR + " 為其嫡傳弟子\n" + NOR + "\n");
  }
  else if(i==2)
  {
-    tell_object(users(), HIW + where->query("short") + HIC" 傳來一陣喝采\n\n\t"HIY"只見 "HIW + me->query("name") + HIY" 跪地斟茶\n\n\t\t"HIY"正式拜 "HIW + ob->query("family/family_name") + HIB" 的 "HIW+ ob->query("name")+HIY" 為師學習武學\n"NOR"\n");
+    tell_object(users(), HIW + where->query("short") + HIC + " 傳來一陣喝采\n\n\t" + HIY + "只見 " + HIW + me->query("name") + HIY + " 跪地斟茶\n\n\t\t" + HIY + "正式拜 " + HIW + ob->query("family/family_name") + HIB + " 的 " + HIW+ ob->query("name")+HIY + " 為師學習武學\n" + NOR + "\n");
  }
  else if(i==3)
  {
-    tell_object(users(), HIR"\n無數戰鬥後\n\n\t"HIW + me->query("name") + HIM" 終於獲得  "HIW + ob->query("family/family_name") + HIB" 的 "+ HIW+ ob->query("name")+ HIG" 認可\n\n\t\t"HIC"得與於  "HIW + ob->query("name")+HIC" 下拜師學藝\n"NOR"\n");
+    tell_object(users(), HIR + "\n無數戰鬥後\n\n\t" + HIW + me->query("name") + HIM + " 終於獲得  " + HIW + ob->query("family/family_name") + HIB + " 的 "+ HIW+ ob->query("name")+ HIG + " 認可\n\n\t\t" + HIC + "得與於  " + HIW + ob->query("name")+HIC + " 下拜師學藝\n" + NOR + "\n");
  }
  else
  {
-  tell_object(users(), HIC"\n~~狂賀 狂賀~~\n\n\t"HIW + ob->query("family/family_name") + HIB" 的 "HIW + ob->query("name") + HIY" 正式收了 "HIW+ me->query("name")+HIY" 為弟子了\n\n\t\t\t"HIG"大家來為 "HIW+me->query("name")+HIG" 成為米蟲來大聲恭喜吧\n"NOR"\n");
+  tell_object(users(), HIC + "\n~~狂賀 狂賀~~\n\n\t" + HIW + ob->query("family/family_name") + HIB + " 的 " + HIW + ob->query("name") + HIY + " 正式收了 " + HIW+ me->query("name")+HIY + " 為弟子了\n\n\t\t\t" + HIG + "大家來為 " + HIW+me->query("name")+HIG + " 成為米蟲來大聲恭喜吧\n" + NOR + "\n");
  }
  return 1;
 }
@@ -264,7 +264,7 @@ int mailto_master(object me,object ob,int old)
        mbox->receive_mail(mail);
        if(find_player(master->query("id"))) {
          mbox = master->query_temp("mbox_ob");
-         tell_object(master, GRN"\n冰胖用千里傳音跟您說﹕有您的信﹗請去收信﹗\n\n"NOR);
+         tell_object(master, GRN + "\n冰胖用千里傳音跟您說﹕有您的信﹗請去收信﹗\n\n" + NOR);
        }
        else MAIL_D->send_mail2(master->query("id"));
      }

@@ -47,7 +47,7 @@ int main(object me, string arg)
 		if( msg=="" )
 			return 1;
 		else {
-       	        	message_vision( CYN "$n說道﹕" + msg + "\n" NOR, me, ob);
+       	        	message_vision( CYN + "$n說道﹕" + msg + "\n" + NOR, me, ob);
 			return 1;
 		}
 

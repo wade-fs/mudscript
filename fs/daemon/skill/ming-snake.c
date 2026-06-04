@@ -122,7 +122,7 @@ mapping query_action(object me, object weapon)
           {
             target->apply_condition(poison,1);
             me->add("poison",-5);
-            message_vision(HIB"\n纏繞在"HIR"血龍鞭"HIB"上的毒氣的順著鞭子的纏到$n的身上\n"NOR,me,target);
+            message_vision(HIB + "\n纏繞在" + HIR + "血龍鞭" + HIB + "上的毒氣的順著鞭子的纏到$n的身上\n" + NOR,me,target);
             
             
           }

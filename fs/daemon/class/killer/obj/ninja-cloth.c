@@ -7,7 +7,7 @@ inherit CLOTH;
 
 void create()
 {
-  set_name(MAG"伊賀忍者服" NOR ,({"ninja-cloth","cloth"}));
+  set_name(MAG + "伊賀忍者服" + NOR ,({"ninja-cloth","cloth"}));
   set_weight(3000);
   if( clonep() )
     set_default_object(__FILE__);
@@ -25,8 +25,8 @@ void create()
     set("no_save",1);
     set("need_class","killer");
     set("armor_prop/armor", 10);
-    set("wear_msg",MAG"$N"MAG"穿起$n"MAG"，將自己容貌隱藏起來。\n"NOR);
-    set("unequip_msg",MAG"$N"MAG"脫下$n"MAG"，露出原來面貌。\n"NOR);
+    set("wear_msg",MAG + "$N" + MAG + "穿起$n" + MAG + "，將自己容貌隱藏起來。\n" + NOR);
+    set("unequip_msg",MAG + "$N" + MAG + "脫下$n" + MAG + "，露出原來面貌。\n" + NOR);
   }
   setup();
 }
@@ -48,7 +48,7 @@ int wear()
 //      user->set("name","忍者");
       user->set_temp("apply/name",({"忍者"}));
       user->delete("nickname");
-      user->set("title",GRN"伊賀流忍者"NOR);
+      user->set("title",GRN + "伊賀流忍者" + NOR);
       user->set("ninja/change",1);
     }
     set_heart_beat(1);
@@ -86,7 +86,7 @@ int do_wear(string str,object user)
   if( query("equipped") )
   {
     user = environment();
-    message_vision(MAG"$N穿起伊賀忍者服, 將自己容貌隱藏起來。\n"NOR,user);
+    message_vision(MAG + "$N穿起伊賀忍者服, 將自己容貌隱藏起來。\n" + NOR,user);
     if (user->query("ninja/change") != 1)
     {
       user->set("ninja/old_id",user->query("id"));
@@ -96,7 +96,7 @@ int do_wear(string str,object user)
       user->set("id","japan ninja");
       user->set("name","忍者");
       user->delete("nickname");
-      user->set("title",GRN"伊賀流忍者"NOR);
+      user->set("title",GRN + "伊賀流忍者" + NOR);
       user->set("ninja/change",1);
     }
     set_heart_beat(1);
@@ -109,7 +109,7 @@ int do_remove(string str)
   if(str=="ninja-cloth" || str=="all" || str=="cloth")
     if( query("equipped") )
     {
-      message_vision(MAG"$N脫下伊賀忍者服, 露出原來面貌。\n"NOR,user);
+      message_vision(MAG + "$N脫下伊賀忍者服, 露出原來面貌。\n" + NOR,user);
       user->set("id",user->query("ninja/old_id"));
       user->set("name",user->query("ninja/old_name"));
       user->set("nickname",user->query("ninja/old_nickname"));
@@ -133,9 +133,9 @@ void heart_beat()
     room=environment(user);
     if( random(100) > 95 && user->query_temp("evil-body")==1 )
     {
-      message_vision(MAG"\n$N雙眼泛紅，全身散發出死亡般的氣息。\n"NOR,user);
-      message_vision(MAG"\n～ ～  "HIW"天  魔  解  體  大  法  "MAG"～ ～\n"NOR,user);
-      message_vision(HIW"\n$N生命力瞬間爆增數萬，功\力徒增數倍!!\n"NOR,user);
+      message_vision(MAG + "\n$N雙眼泛紅，全身散發出死亡般的氣息。\n" + NOR,user);
+      message_vision(MAG + "\n～ ～  " + HIW + "天  魔  解  體  大  法  " + MAG + "～ ～\n" + NOR,user);
+      message_vision(HIW + "\n$N生命力瞬間爆增數萬，功\力徒增數倍!!\n" + NOR,user);
       user->add("max_kee",50000);
       user->add("max_gin",50000);
       user->add("max_sen",50000);

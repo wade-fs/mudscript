@@ -16,7 +16,7 @@ int exert(object me, object target)
                 return 1;
         }
 
-        write( HIC "你抖抖身體，將身上仙劍元氣發揮至極限，頓時將萬劍訣反噬的威力完全消除。\n" NOR);
+        write( HIC + "你抖抖身體，將身上仙劍元氣發揮至極限，頓時將萬劍訣反噬的威力完全消除。\n" + NOR);
         message("vision",me->name()+"運起體內元氣，臉色頓時輕鬆無比\n",environment(me), me);
 
      me->apply_condition("shakeeload",0);

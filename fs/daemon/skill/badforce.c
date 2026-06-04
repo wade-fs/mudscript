@@ -28,10 +28,10 @@ void skill_improved(object me)
 {
 	int s;
 
-	tell_object(me, HIW "一股邪氣自你頭上冒出，你的惡化魔功\更加惡毒了!! \n" NOR);
+	tell_object(me, HIW + "一股邪氣自你頭上冒出，你的惡化魔功\更加惡毒了!! \n" + NOR);
 	s = me->query_skill("badforce", 1);
 	if( s%10==9 && random(s)>(int)me->query("max_force")/30) {
-		tell_object(me, HIW "有鑑於你行惡有功\，你體內的邪惡力量被激發出來了。\n" NOR);
+		tell_object(me, HIW + "有鑑於你行惡有功\，你體內的邪惡力量被激發出來了。\n" + NOR);
 		me->add("max_force", random((int)s/30)+1);
 	}
 }

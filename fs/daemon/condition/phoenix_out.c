@@ -7,13 +7,13 @@ int update_condition(object me, int duration)
       me->start_busy(1);
      me->apply_condition("phoenix_out",duration-1);
          message_vision("
-          "HIM"$N忽然從體內衝出一道靈氣
+          " + HIM + "$N忽然從體內衝出一道靈氣
 
-"HIR"
+" + HIR + "
   :                       .
    ::                      :   :
    :::.                    :: ::
-   ::"HIY"*"HIR":.
+   ::" + HIY + "*" + HIR + ":.
    ::::::.                :::.::: ::
    ::`:`: `.             :::.:::.:::  :
    ::    `  `           ::::::::.:::.::
@@ -30,7 +30,7 @@ int update_condition(object me, int duration)
     ::   `::::::::::::'                  `::::.          ``::.      ::'
     ` :.                                     `::::. .         :: .
 
-\n" NOR,me);
+\n" + NOR,me);
         if( duration < 1 ) return 0;
         return 1;
 }

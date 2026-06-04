@@ -7,7 +7,7 @@ inherit STAFF;
 
 void create()
 {
-  set_name(HIW "治療之杖" NOR,({"cure staff","staff"}));
+  set_name(HIW + "治療之杖" + NOR,({"cure staff","staff"}));
   set_weight(1000);
   if( clonep() )
     set_default_object(__FILE__);
@@ -23,7 +23,7 @@ void create()
     set("no_steal",1);
     set("sharp",10);
     set("material","crimsonsteel");
-    set("long","由天界掉落人世間的奇異之杖。\n使用方法：請在戰鬥中打 cure。\n"NOR);
+    set("long","由天界掉落人世間的奇異之杖。\n使用方法：請在戰鬥中打 cure。\n" + NOR);
   }
   init_staff(0);
   set("weapon_prop/dodge", 15);
@@ -57,14 +57,14 @@ void heart_beat()
     {
       for(j=0;j<i;j++)
       {
-        message_vision(HIW"\n一道白光由$N"HIW"手中的治療之杖射向$n"HIW"，$n"HIW"發現傷勢逐漸復原了。\n"NOR,me,target[j]);
+        message_vision(HIW + "\n一道白光由$N" + HIW + "手中的治療之杖射向$n" + HIW + "，$n" + HIW + "發現傷勢逐漸復原了。\n" + NOR,me,target[j]);
         target[j]->receive_curing("kee",200);
         target[j]->receive_heal("kee",200);
         COMBAT_D->report_status(target[j]);
       }
     } else {          
       set_heart_beat(0);
-      message_vision(HIB"\n$N"HIB"注入治療之杖的能源已經用盡，"HIW"白色聖光"HIB"逐漸黯淡下來。\n"NOR,me);
+      message_vision(HIB + "\n$N" + HIB + "注入治療之杖的能源已經用盡，" + HIW + "白色聖光" + HIB + "逐漸黯淡下來。\n" + NOR,me);
     }
   }
   return;
@@ -88,8 +88,8 @@ int do_perform()
       target[j]->receive_heal("kee",(target[j]->query("max_kee"))/10);
       me->add("force",-100);
       me->start_busy(1);
-      message_vision(HIY"\n$N"HIY"潛運內力，緩緩送入治療之杖，只見治療之杖"HIW"白光"HIY"大盛，\n"
-        "沐浴在"HIW"白色聖光"HIY"下的$n"HIY"感覺有如重生。\n"NOR,me,target[j]);
+      message_vision(HIY + "\n$N" + HIY + "潛運內力，緩緩送入治療之杖，只見治療之杖" + HIW + "白光" + HIY + "大盛，\n"
+        "沐浴在" + HIW + "白色聖光" + HIY + "下的$n" + HIY + "感覺有如重生。\n" + NOR,me,target[j]);
       COMBAT_D->report_status(target[j]);
     }
   } else {

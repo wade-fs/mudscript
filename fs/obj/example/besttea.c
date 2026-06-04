@@ -49,6 +49,6 @@ int extra_func()
 int drink_func()
 {
   object me = this_player();
-  message_vision( HIC"$N拿出純喫茶, 張口輕輕運勁, 一道清涼的水柱噴進$P嘴裡, 哇, 真是透心涼啊。\n"NOR, me );
+  message_vision( HIC + "$N拿出純喫茶, 張口輕輕運勁, 一道清涼的水柱噴進$P嘴裡, 哇, 真是透心涼啊。\n" + NOR, me );
   return 1;
 }

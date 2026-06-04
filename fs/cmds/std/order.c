@@ -32,8 +32,8 @@ if(cmd[0..3]=="quit") return notify_fail("沒有這種指令！\n");
 if(cmd[0..3]=="save") return notify_fail("沒有這種指令！\n"); 
 if(cmd[0..3]=="join") return notify_fail("沒有這種指令！\n");
 if(cmd[0..3]=="team") return notify_fail("沒有這種指令！\n");   
-message_vision(HIC"$N用馬術駕御馬兒，達到人馬合一！\n"NOR,me);
-message_vision(HIC"馬兒聽到指揮而作出"+cmd+"的動作。\n"NOR,me);
+message_vision(HIC + "$N用馬術駕御馬兒，達到人馬合一！\n" + NOR,me);
+message_vision(HIC + "馬兒聽到指揮而作出"+cmd+"的動作。\n" + NOR,me);
 ob->force_me(cmd);
 if(verb=="k"||verb=="ki"||verb=="kil"||verb=="kill"||
 verb=="f"||verb=="fi"||verb=="fig"||verb=="figh"||verb=="fight")

@@ -5,7 +5,7 @@ inherit MONEY;
 
 void create()
 {
-	set_name(HIW"鑽石"NOR, ({"diamond","diamond_money"}));
+	set_name(HIW + "鑽石" + NOR, ({"diamond","diamond_money"}));
 	if( clonep() )
 		set_default_object(__FILE__);
 	else {

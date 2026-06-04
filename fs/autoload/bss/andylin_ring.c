@@ -15,7 +15,7 @@ doshoot xxx是讓xxx死,條件是hoan裡的能量要大於xxx的exp
 string NAME;
 void create()
 {
-     set_name(HIC"魔封環"NOR ,({"mo_fon_hoan", "hoan"}));
+     set_name(HIC + "魔封環" + NOR ,({"mo_fon_hoan", "hoan"}));
      set_weight(2500);
      set("no_auc",1);
      set("no_sell",1);

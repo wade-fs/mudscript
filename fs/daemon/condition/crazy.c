@@ -7,7 +7,7 @@ enemy = all_inventory( environment(me) );
         if(me->query_temp("crazy")) 
         {
           if( environment(me)->query("no_kill") || environment(me)->query("no_fight") ) return 0;
-          message_vision(HIG"$N陷入野蠻的原始獸性之中，對四周所有活物展開瘋狂殺戮。\n" NOR,me);
+          message_vision(HIG + "$N陷入野蠻的原始獸性之中，對四周所有活物展開瘋狂殺戮。\n" + NOR,me);
           for(j=0;j < sizeof(enemy);j++)
           {       
             if (enemy[j]->is_character() && !enemy[j]->is_corpse() && enemy[j]->query("id") != "judge ice"

@@ -6,7 +6,7 @@ inherit WRISTS;
 
 void create()
 {
-  set_name(MAG"忍者殺意手環"NOR, ({"ninja bracelet","bracelet"}) );
+  set_name(MAG + "忍者殺意手環" + NOR, ({"ninja bracelet","bracelet"}) );
   set_weight(1000);
   if ( clonep() )
     set_default_object(__FILE__);
@@ -61,7 +61,7 @@ void heart_beat()
   }
   if(random(100) > 55 && me->query("bellicosity") > 5000 && me->is_busy())
   {
-    message_vision(MAG"\n$N憑藉強大的鬥氣掙脫了外界的束縛，行動恢復正常。\n"NOR,me);
+    message_vision(MAG + "\n$N憑藉強大的鬥氣掙脫了外界的束縛，行動恢復正常。\n" + NOR,me);
     me->add("bellicosity",-100); //機率太高了 所以額外增限 by blazakira
     me->delete_busy();
   }

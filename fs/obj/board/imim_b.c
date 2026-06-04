@@ -2,7 +2,7 @@
 inherit BULLETIN_BOARD;
 void create()
 {
-set_name(HIC"添增吾邪留言板"NOR,({"imim board","board"}));
+set_name(HIC + "添增吾邪留言板" + NOR,({"imim board","board"}));
 set("location","/u/i/imim/workroom");
 set("board_id","imim_b");
 set("long","添增吾邪給人留話的板子。\n");

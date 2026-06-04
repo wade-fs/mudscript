@@ -6,7 +6,7 @@ inherit FINGER;
 
 void create()
 {
-  set_name(MAG"忍者治癒戒"NOR,({"ninja ring","ring"}));
+  set_name(MAG + "忍者治癒戒" + NOR,({"ninja ring","ring"}));
   set_weight(200);
   if( clonep() )
     set_default_object(__FILE__);

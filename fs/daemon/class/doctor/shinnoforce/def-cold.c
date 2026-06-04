@@ -20,14 +20,14 @@ int perform( object me )
                 me->start_busy(2);
         if( random(100)+fun < random(150) )
         {
-        message_vision( HIW"$N心有旁騖, 運勁失敗!!\n"NOR, me );
+        message_vision( HIW + "$N心有旁騖, 運勁失敗!!\n" + NOR, me );
       if(fun < 100)   me->start_busy(1);
         return 1;
         }
-        message_vision( HIW"$N運起神農琉璃心法中的"HIC"「凍氣訣」"HIW"!!\n"NOR, me ); 
+        message_vision( HIW + "$N運起神農琉璃心法中的" + HIC + "「凍氣訣」" + HIW + "!!\n" + NOR, me ); 
         for( i=0; i<sizeof(enemy); i++ )
                 if( enemy[i]->is_character() && !enemy[i]->is_corpse() && living(enemy[i]) && enemy[i]->query_temp("def_cold")!=1 ) {
-                        message_vision( HIW"$N的凍氣訣提高了$n對冰雪的防護"HIW"!!\n"NOR, me, enemy[i] );
+                        message_vision( HIW + "$N的凍氣訣提高了$n對冰雪的防護" + HIW + "!!\n" + NOR, me, enemy[i] );
                         enemy[i]->set_temp( "def_cold", 1 );
                         me->add( "force", -300 );
                         call_out( "remove_effect", 120+fun, enemy[i] );
@@ -43,7 +43,7 @@ void remove_effect( object me )
 {
         if(!me) return ;
         me->delete_temp("def_cold");
-        tell_object( me, HIC"你覺得你對冰雪的防護消失了。\n"NOR );
+        tell_object( me, HIC + "你覺得你對冰雪的防護消失了。\n" + NOR );
         return;
 }
 

@@ -2,7 +2,7 @@ inherit ITEM;
 #include <ansi.h>
 void create()
 {
-        set_name(HIW "孔明兵法" NOR,({"war book","book"}));
+        set_name(HIW + "孔明兵法" + NOR,({"war book","book"}));
         set("long","這是儒門的寶典「孔明兵法」﹐你可以用(read book 頁數)來觀看。\n");
         set("unit","本");
 set("no_get", 1);

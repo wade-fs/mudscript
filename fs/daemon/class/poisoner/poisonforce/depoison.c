@@ -63,7 +63,7 @@ int exert(object me, object target)
                 need = need / factor;
                 if(my_force < need) {
                         message_vision(
-HIG"$N運起冥蠱心法，費盡內力逼出一些"+poison_name[type]+"。\n");
+HIG + "$N運起冥蠱心法，費盡內力逼出一些"+poison_name[type]+"。\n");
                         me->set("force",0);
                         
 target->apply_condition(poison_type[type],total-(int)my_force*factor/fp_cost[type]);
@@ -71,7 +71,7 @@ target->apply_condition(poison_type[type],total-(int)my_force*factor/fp_cost[typ
                 else {
                     message_vision(
                     
-HIW"$N運起冥蠱心法把"+poison_name[type]+"給逼了出來。\n"NOR, me);
+HIW + "$N運起冥蠱心法把"+poison_name[type]+"給逼了出來。\n" + NOR, me);
                     me->add("force", -need);
 		    target->apply_condition(poison_type[type], 0);
                     }

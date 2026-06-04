@@ -20,7 +20,7 @@ int perform (object me, object target, object  weapon)
         if(!(ob=me->query_temp("weapon")) || (string)ob->query("skill_type") != "staff")
            return notify_fail("你沒拿武器哦！\n");
         if (!target->query_temp("weapon"))
-           {message_vision(HIC"對手已經沒有武器了，快攻擊吧！\n"NOR,me);
+           {message_vision(HIC + "對手已經沒有武器了，快攻擊吧！\n" + NOR,me);
             me->delete_busy();return 1;}
         else
         {
@@ -31,18 +31,18 @@ int perform (object me, object target, object  weapon)
            if (random(me->query_str(1)) > random(target->query_str(1)))
               {
                 weaponn->unequip();
-                message_vision(HIR"$N暗地運勁，把$n的"+weaponn->query("name")+"給震掉了\n"NOR,me,target);
-                tell_object(RED"你的武器鬆手了，快點裝上吧！\n"NOR,me);
+                message_vision(HIR + "$N暗地運勁，把$n的"+weaponn->query("name")+"給震掉了\n" + NOR,me,target);
+                tell_object(RED + "你的武器鬆手了，快點裝上吧！\n" + NOR,me);
                }
             else if (random(5) > 3)
                {
-                 message_vision(HIB"$N的武器被$n打掉了！\n"NOR,target,me);
-                 tell_object(target,HIY"你的武器被敵人打掉了，快撿起來吧。\n"NOR);
+                 message_vision(HIB + "$N的武器被$n打掉了！\n" + NOR,target,me);
+                 tell_object(target,HIY + "你的武器被敵人打掉了，快撿起來吧。\n" + NOR);
                  weaponn->move(environment(me));
                 }
              else
                 {
-                  message_vision(HIR"$N企圖想打掉$n的武器，可惜被發現了\n"NOR,me,target);
+                  message_vision(HIR + "$N企圖想打掉$n的武器，可惜被發現了\n" + NOR,me,target);
                 }
                   return 1;
          }

@@ -36,8 +36,8 @@ int main(object me, string arg)
     ob->set_temp("marked",me);
     ob->set_temp("be_shooted",1);
 
-        message_vision(HIR"$N運起"HIG"【"HIC"冰心訣"HIG"】"HIR"最高功\力，"HIG"《"HIC"六月飛霜"HIG"》"HIR"！\n\n"NOR,me, ob);
-        message_vision(HIW"只見天上降下大雪，其中數片雪花在$n身上凝聚成了一小撮清晰的記號。\n\n"NOR,me, ob);
+        message_vision(HIR + "$N運起" + HIG + "【" + HIC + "冰心訣" + HIG + "】" + HIR + "最高功\力，" + HIG + "《" + HIC + "六月飛霜" + HIG + "》" + HIR + "！\n\n" + NOR,me, ob);
+        message_vision(HIW + "只見天上降下大雪，其中數片雪花在$n身上凝聚成了一小撮清晰的記號。\n\n" + NOR,me, ob);
         if(me->query_cps() < random (50))
         ob->kill_ob(me);
         return 1;

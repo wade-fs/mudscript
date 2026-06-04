@@ -34,7 +34,7 @@ int main( object me, string arg )
 		me->set( "clan/title", "新進幫眾" );
 		me->set( "clan/rank", 6 );
 		CLAN_D->is_member_or_add( ob->query("clan/id"), me->query("id"), 1 );
-		message_vision( HIG"$N決定加入" + me->query("clan/name") + "。\n"NOR, me );
+		message_vision( HIG + "$N決定加入" + me->query("clan/name") + "。\n" + NOR, me );
 		log_file( "clan/cjoin", sprintf("[%s] %s %s 收 %s\n",
 			ctime(time())[0..15], ob->query("clan/name"), ob->query("id"), me->query("id") ) );
 		CHANNEL_D->do_channel( me, "ct",
@@ -50,7 +50,7 @@ int main( object me, string arg )
 	if( ob->query("clan/name") )
 		return notify_fail( "對方已經是" + ob->query("clan/name") + "的幫眾。\n" );
 	me->set_temp( "c_join", ob->query("id") );
-	message_vision( HIY"$N誠摯地邀請$n加入" + me->query("clan/name") + "。\n"NOR, me, ob );
-	tell_object( ob, HIC"如果願意, 請以 c_join " + me->query("id") + " 加入" + me->query("clan/name") + "。\n"NOR );
+	message_vision( HIY + "$N誠摯地邀請$n加入" + me->query("clan/name") + "。\n" + NOR, me, ob );
+	tell_object( ob, HIC + "如果願意, 請以 c_join " + me->query("id") + " 加入" + me->query("clan/name") + "。\n" + NOR );
 	return 1;
 }

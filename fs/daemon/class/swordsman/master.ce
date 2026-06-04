@@ -60,7 +60,7 @@ if (environment(me)!=environment())
 else
 {
  command("say 「開天三靈器」是血魔復出武林後,祖師爺消遙子為了封印血魔");
- command("say 而將其配劍,也就是傳說中的「仙劍連陽」送給大劍師"HIW"龍鐵心"NOR"！");
+ command("say 而將其配劍,也就是傳說中的「仙劍連陽」送給大劍師" + HIW + "龍鐵心" + NOR + "！");
     call_out("check_quest3",30,me);
 }
 }
@@ -111,10 +111,10 @@ else
 int check_mogi(object me)
 { 
  command("fear");
- message_vision(HIY"
+ message_vision(HIY + "
 $N驚恐的說：你這是中了魔域的恐怖奇毒「入滅」！中此毒者因入滅之毒
 滯留腦內每隔一段時間會頭痛而嘔血不止，時間一長必定會送命，當今只有「
-千墳之水」能化解此毒！\n"NOR,this_object());
+千墳之水」能化解此毒！\n" + NOR,this_object());
 }
 
 string check_damage()
@@ -328,9 +328,9 @@ void attempt_apprentice(object ob)
         // 為了避免叛師被扣 skill, 先將玩家的 family 去掉
         ob->delete("family");
         command("recruit "+this_player()->query("id"));
-        message("system",HIW"鄭士欣縱聲大笑: 
+        message("system",HIW + "鄭士欣縱聲大笑: 
 哈哈哈哈....老夫實在太高興啦!
-英雄出少年 ,"+this_player()->name()+": 今後就由老夫親授於你.\n"NOR,users());
+英雄出少年 ,"+this_player()->name()+": 今後就由老夫親授於你.\n" + NOR,users());
         return ;
         }
       command("hmm");
@@ -351,13 +351,13 @@ void attempt_apprentice(object ob)
         }
         if(who->query_temp("have_say")==1)
         {
-        message_vision(sprintf(HIC"$N說道﹕"+str+"\n"NOR),who);
+        message_vision(sprintf(HIC + "$N說道﹕"+str+"\n" + NOR),who);
         command("say 你不是挑過了?");
         return 1;
         }
         if(str=="張乘風" ||  str == "chen fon" || str == "fon")
             {
-         message_vision(HIC"$N說道﹕張乘風\n"NOR,who);
+         message_vision(HIC + "$N說道﹕張乘風\n" + NOR,who);
          this_player()->set_temp("allow_1",1);
          command("smile");
          command("say 嗯 ,你就拜我的首徒張乘風吧!");
@@ -366,7 +366,7 @@ void attempt_apprentice(object ob)
         }
         if(str == "張乘雲" || str == "chen un" || str == "un")
         {
-        message_vision(HIC"$N說道﹕張乘雲\n"NOR,who);
+        message_vision(HIC + "$N說道﹕張乘雲\n" + NOR,who);
         this_player()->set_temp("allow_2",1);
         command("smile");
         command("say 嗯 ,你就拜我的次徒張乘雲吧!");
@@ -375,7 +375,7 @@ void attempt_apprentice(object ob)
         }
         if(str == "唐鈺" || str == "teng yu" || str == "yu")
         {
-        message_vision(HIC"$N說道﹕唐鈺\n"NOR,who);
+        message_vision(HIC + "$N說道﹕唐鈺\n" + NOR,who);
         this_player()->set_temp("allow_3",1);
         command("smile");
         command("say 嗯 ,你就拜我的三弟子唐鈺吧!");
@@ -384,7 +384,7 @@ void attempt_apprentice(object ob)
         }
         if(str == "趙鶴" || str == "san hu" || str == "hu")
         {
-        message_vision(HIC"$N說道﹕趙鶴\n"NOR,who);
+        message_vision(HIC + "$N說道﹕趙鶴\n" + NOR,who);
         this_player()->set_temp("allow_4",1);
         command("smile");
         command("say 嗯 ,你就拜我的四弟子趙鶴吧!");
@@ -393,7 +393,7 @@ void attempt_apprentice(object ob)
         }
         if(str == "梅影" || str == "may ying" || str == "may")
         {
-        message_vision(HIC"$N說道﹕梅影\n"NOR,who);
+        message_vision(HIC + "$N說道﹕梅影\n" + NOR,who);
         this_player()->set_temp("allow_5",1);
         command("smile");
         command("say 嗯 ,你就拜我的女弟子梅影吧!");
@@ -402,7 +402,7 @@ void attempt_apprentice(object ob)
         }
         if(str == "何雙雙" || str == "cute girl" || str == "girl")
         {
-        message_vision(HIC"$N說道﹕何雙雙\n",who);
+        message_vision(HIC + "$N說道﹕何雙雙\n",who);
         this_player()->set_temp("allow_6",1);
         command("smile");
         command("say 嗯 ,你就拜我的女弟子何雙雙吧!");
@@ -411,7 +411,7 @@ void attempt_apprentice(object ob)
         }
         if(str == "李逍遙" || str == "shou_yau" || str == "yau")
         {
-        message_vision(HIC"$N說道﹕李逍遙\n"NOR,who);
+        message_vision(HIC + "$N說道﹕李逍遙\n" + NOR,who);
         this_player()->set_temp("allow_7",1);
         command("smile");
         command("say 嗯 ,你就拜我的七弟子李逍遙吧!");
@@ -519,7 +519,7 @@ void heart_beat()
 	{
 	  if( ( 5 > random(10) ) && ( random(5) == 2 ) )
 	  {
-	  message_vision(HIR"$N連陽氣勁貫通全身任督二脈，竟然解開了身上部份被封的穴道。\n"NOR,me);
+	  message_vision(HIR + "$N連陽氣勁貫通全身任督二脈，竟然解開了身上部份被封的穴道。\n" + NOR,me);
 	  me->delete_busy();
 	  me->start_busy(j);
 	  }
@@ -535,8 +535,8 @@ void unconcious()
 :: unconcious();
    return ;
    }
-   tell_object(users(),HIW"鄭士欣吟道：\n\n\n            "HIW"『"HIC"狂歌羨煞紅塵客      笑歎人間幾許\愁 \n
-              曉霧迷濛秋漸冷      只恨雲深願未酬"HIW"』\n\n\n"HIW"今日敗於"HIY+winner->query("name")+HIW"少俠之手，老夫心悅誠服，盼少俠能以一身絕學振興武林!!\n"NOR);
+   tell_object(users(),HIW + "鄭士欣吟道：\n\n\n            " + HIW + "『" + HIC + "狂歌羨煞紅塵客      笑歎人間幾許\愁 \n
+              曉霧迷濛秋漸冷      只恨雲深願未酬" + HIW + "』\n\n\n" + HIW + "今日敗於" + HIY+winner->query("name")+HIW + "少俠之手，老夫心悅誠服，盼少俠能以一身絕學振興武林!!\n" + NOR);
    :: unconcious();
 }
 
@@ -557,7 +557,7 @@ void die()
 	  if( j==7 || j==77 || j== 777 || j==1111 || j==55 || j==555 || j==1000 || j==4000 || j==3333 || j==2222 )
 	  {      
 	  new("/open/sky/obj2/justice_stone")->move(environment(winner));
-	  message_vision(HIM"\n從鄭士欣的身上掉下了一件奇怪的東西!!\n"NOR,winner);
+	  message_vision(HIM + "\n從鄭士欣的身上掉下了一件奇怪的東西!!\n" + NOR,winner);
           write_file("/log/sky/obj2/justice_stone",sprintf("%s(%s) 讓鄭士欣掉下了正義石於 %s\n",winner->name(1),winner->query("id"),ctime(time())));
 	  }
 	}else{
@@ -565,12 +565,12 @@ void die()
 	  if( j==5 || j==15 || j== 150 || j==1500 || j==10 || j==100 || j==1000 || j==4000 || j==6666 || j==7777 ) 
 	  {      
 	  new("/open/sky/obj2/justice_stone")->move(environment(winner));
-	  message_vision(HIM"\n從鄭士欣的身上掉下了一件奇怪的東西!!\n"NOR,winner);
+	  message_vision(HIM + "\n從鄭士欣的身上掉下了一件奇怪的東西!!\n" + NOR,winner);
           write_file("/log/sky/obj2/justice_stone",sprintf("%s(%s) 讓鄭士欣掉下了正義石於 %s\n",winner->name(1),winner->query("id"),ctime(time())));
 	  }
 	}
     }
-        tell_object(users(),HIM"\n\n只見蜀山上朵朵"HIY"彩雲"HIM"冉冉升起，剎為奇觀\n\n\n"HIW"    一代劍術宗師「"HIC"鄭士欣"HIW"」嗑然長逝了...\n\n"NOR);
+        tell_object(users(),HIM + "\n\n只見蜀山上朵朵" + HIY + "彩雲" + HIM + "冉冉升起，剎為奇觀\n\n\n" + HIW + "    一代劍術宗師「" + HIC + "鄭士欣" + HIW + "」嗑然長逝了...\n\n" + NOR);
 
         :: die();
 }               
@@ -606,9 +606,9 @@ void greeting(object me)
 
  if(me->query_temp("quest/return_sha")==8)
  {
-  message("system",HIW"鄭士欣嘆道: 
+  message("system",HIW + "鄭士欣嘆道: 
 既然"+me->query("name")+"以行動展現重回仙劍派的決心,
-老夫就重新收為徒弟，以利日後對抗血魔的入侵.\n"NOR,users());
+老夫就重新收為徒弟，以利日後對抗血魔的入侵.\n" + NOR,users());
   me->set("family/family_name","仙劍派");
   me->delete_temp("quest/return_sha");
   if(me->query("return_sha")) me->add("return_sha",1);
@@ -665,7 +665,7 @@ object me = this_player();
   {
    command("say 好極了!!");
    me->start_busy(15);
-   message_vision(HIW"鄭士欣潛運內勁,聚於雙指,在"+me->query("name")+"周身大穴輕輕拂過,並在天靈蓋\上輕輕一拍。\n"NOR,me);
+   message_vision(HIW + "鄭士欣潛運內勁,聚於雙指,在"+me->query("name")+"周身大穴輕輕拂過,並在天靈蓋\上輕輕一拍。\n" + NOR,me);
    call_out("abandon_skill1",3,me);
    return 1;
   }
@@ -674,7 +674,7 @@ object me = this_player();
 int abandon_skill1()
 {
  object me = this_player();
- message_vision(HIW"$N感到陣陣酸麻，彷彿電流竄過，身軀顫抖，腰間拱了起來，雙眼微睜，不由自主的微微喘息...\n\n"NOR,me);
+ message_vision(HIW + "$N感到陣陣酸麻，彷彿電流竄過，身軀顫抖，腰間拱了起來，雙眼微睜，不由自主的微微喘息...\n\n" + NOR,me);
  call_out("abandon_skill2",3,me);
  return 1;
 }

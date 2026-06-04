@@ -43,7 +43,7 @@ int do_command(object me,object ob,string arg)
           pill->move(me);
           pill->add_amount( (5-i)*5 );
 	message_vision(
-	CYN "$N說道﹕我需要補給﹐馬上給我準備。\n" NOR,me);
+	CYN + "$N說道﹕我需要補給﹐馬上給我準備。\n" + NOR,me);
 	message_vision(
 	    "$N說道﹕大人這是您要的補給。\n$N拿了些補給給$n。\n",ob,me);
 	for(i=0;i<5;i++)

@@ -30,11 +30,11 @@ void live_snake(object,object,object,int);
 void shock_wave(object,object,object,int);
 
 mapping *action = ({
-        (["action":HIW"$N氣集丹田，手中的$w閃出異樣的光芒，"+
+        (["action":HIW + "$N氣集丹田，手中的$w閃出異樣的光芒，"+
                         "$n感到一陣不安，彷彿危機四伏\n"+
                         "然而一切似乎都太晚，因為$w化成一到光芒，"+
                         "朝著$n而去，一切都是那麼的快令人無法置信\n"+
-                        "$N施展傳說中的漫天花雨手法----"+HIM+"『電光一閃』"NOR,
+                        "$N施展傳說中的漫天花雨手法----"+HIM+"『電光一閃』" + NOR,
                 "dodge":        -20,
                 "damage":       250,
                 "force":         50,
@@ -42,12 +42,12 @@ mapping *action = ({
                 "damage_type" : "燒傷",
                 "post_action":  (: thunder_shot :),
         ]),
-        (["action":HIW"$n眼前一花，已經失去了$N的身影，"+
+        (["action":HIW + "$n眼前一花，已經失去了$N的身影，"+
                         "$n定睛往四周搜尋而去，想要發現$N的存在\n"+
                         "正當搜尋之時，$n發現自己犯了一個很大的錯誤"+
                         "因為背後已經出現兩道破空之聲!!!\n"+
                         "$N利用這一個空檔，氣運雙手的$w之上，\n"+
-                        "使出漫天花雨手法----"+HIM+"『冰炎雙龍』"NOR,
+                        "使出漫天花雨手法----"+HIM+"『冰炎雙龍』" + NOR,
                 "dodge":        -20,
                 "damage":       250,
                 "force":        50,
@@ -55,12 +55,12 @@ mapping *action = ({
                 "damage_type" : "凍傷",
                 "post_action":(: double_dragon :),
         ]),
-        (["action":HIW"$N利用分功\化影神功\幻化出數道身影，"+
+        (["action":HIW + "$N利用分功\化影神功\幻化出數道身影，"+
             "消失在$n眼前了!!!!\n"+
             "正當$n為眼前變化所驚嚇到時，$N身影已經出現在高空中\n"+
             "手中已經出現武林傳說中的強力火器『$w』蓄勢待發!!!!\n"+
             "$n發現情況不妙，然而$N已經施展漫天花雨手法----"+
-                HIM"『雷霆旋風』\n"NOR,
+                HIM + "『雷霆旋風』\n" + NOR,
                 "dodge":        -20,
                 "damage":       150,
                 "force":        50,
@@ -68,9 +68,9 @@ mapping *action = ({
             "damage_type" : "燒傷",
                 "post_action":(: pilibomb :),
         ]),
-(["action":HIW"$N怒吼一聲，混和體內的殺氣與鬥氣，爆出強烈鬥氣運轉全身\n"+
+(["action":HIW + "$N怒吼一聲，混和體內的殺氣與鬥氣，爆出強烈鬥氣運轉全身\n"+
         "$N看來打算施展武林傳說中的神技，漫天花雨手法---"+HIM+
-        "『絕世花雨』\n"NOR,
+        "『絕世花雨』\n" + NOR,
                 "dodge":        -10,
                 "damage":       150,
                 "force":        100,
@@ -78,10 +78,10 @@ mapping *action = ({
             "damage_type" : "燒傷",
                 "post_action":(: world_rain :),
         ]),
-(["action":HIW"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"+
-        "$N用漫天花雨手法--"+HIM+"『漫游天際』"+HIW"去操控手中的$w \n"+
+(["action":HIW + "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"+
+        "$N用漫天花雨手法--"+HIM+"『漫游天際』"+HIW + "去操控手中的$w \n"+
         "$w宛如靈蛇出洞一般，詭異的行動令$n，備感壓力，難以反應\n"+
-        "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"NOR,
+        "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n" + NOR,
                 "dodge":        -10,
                 "damage":       350,
                 "force":        100,
@@ -89,10 +89,10 @@ mapping *action = ({
                 "damage_type" : "射傷",
                 "post_action":(: live_snake :),
         ]),
-(["action":HIW"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"+
-        HIW"$N將鬥氣施展於$w，配合漫天花雨手法--"+HIM+"『天地無用』\n"+
-        HIW"$w高速的旋轉起來，並且閃耀著魔幻般的光芒，令人目不瑕己\n"+
-        HIW"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"NOR,
+(["action":HIW + "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"+
+        HIW + "$N將鬥氣施展於$w，配合漫天花雨手法--"+HIM+"『天地無用』\n"+
+        HIW + "$w高速的旋轉起來，並且閃耀著魔幻般的光芒，令人目不瑕己\n"+
+        HIW + "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n" + NOR,
                 "dodge":        -10,
                 "damage":       400,
                 "force":        100,
@@ -200,10 +200,10 @@ void thunder_shot(object me, object victim, object weapon, int damage)
                 //輕型武器，以命中度為主，傷害力為輔，發動後，命中度95%
                 if ( random(100)  < 94)
                 {
-                message_vision(sprintf(HIG"光芒在空氣中引起異樣的燃燒"+
+                message_vision(sprintf(HIG + "光芒在空氣中引起異樣的燃燒"+
                         "，出乎意料之外的轉向天空，衝破雲層"+
                         "異常的波動，\n引起了天地的變動"+weapon->query("name")
-                +HIG"引爆閃電擊向$n，面對此變化$n根本無法反應!!!!\n"NOR)
+                +HIG + "引爆閃電擊向$n，面對此變化$n根本無法反應!!!!\n" + NOR)
                                 ,me,victim);
                  victim->receive_damage("kee",50+5*sk_lv);
                  victim->start_busy(1);
@@ -240,11 +240,11 @@ void double_dragon(object me, object victim, object weapon, int damage)
                 //輕型武器，以命中度為主，傷害力為輔，發動後，命中度90%
                 if ( random(100)  < 89)
                 {
-                message_vision(sprintf(HIG"$n立刻轉身，打算閃躲開這一招"
+                message_vision(sprintf(HIG + "$n立刻轉身，打算閃躲開這一招"
                         +"，然而這又是所犯下的第二個錯誤!\n"
-                        +HIR"火熱的紅光，由右側快速的接近$n，彷彿一條正在吐火的火龍\n"
-                        +HIB"異樣的凍氣，由左側迅速的接近$n，彷彿一條渾身凍氣的冰龍\n"
-                        +HIM"雙龍合為一體，衝向$n，給予$n難以置信的創傷\n"NOR),me,victim);
+                        +HIR + "火熱的紅光，由右側快速的接近$n，彷彿一條正在吐火的火龍\n"
+                        +HIB + "異樣的凍氣，由左側迅速的接近$n，彷彿一條渾身凍氣的冰龍\n"
+                        +HIM + "雙龍合為一體，衝向$n，給予$n難以置信的創傷\n" + NOR),me,victim);
                  victim->receive_damage("kee",100+7*sk_lv);
                  victim->receive_wound("kee",500);
                  victim->start_busy(1);
@@ -288,10 +288,10 @@ void pilibomb(object me, object victim, object weapon, int damage)
         {
                 //發動之後，自己為了活命，必須要閃躲，所以會busy (2)
                 message_vision(sprintf(weapon->query("name")+
-        HIC"彷彿有生命似的，在場中迅速的旋轉起來，形成一層層由氣勁所構成的旋風\n"
+        HIC + "彷彿有生命似的，在場中迅速的旋轉起來，形成一層層由氣勁所構成的旋風\n"
         +"除了飛身到空中的$N之外，場內的人無一可以脫離此旋風氣場\n"
         +"眾人受制於旋風氣場無法逃離，且不斷被迫到旋風中心\n"
-        +"這時候"+weapon->query("name")+"化成一道光球，由旋風中心擊下爆發!!!\n"NOR)
+        +"這時候"+weapon->query("name")+"化成一道光球，由旋風中心擊下爆發!!!\n" + NOR)
                                 ,me,victim);
          for(j=0;j<i;j++)
          {//威力暫定如此，等以後的真.黑牙神功，分功化影神功出現後，再調整公式
@@ -306,11 +306,11 @@ void pilibomb(object me, object victim, object weapon, int damage)
         else
         {//大部分應該是沒有發動的狀態，主要是用來嚇對手，讓對手busy
                 message_vision(sprintf(weapon->query("name")+
-        HIC"彷彿有生命似的，在場中迅速的旋轉起來，形成一層層由氣勁所構成的旋風\n"
+        HIC + "彷彿有生命似的，在場中迅速的旋轉起來，形成一層層由氣勁所構成的旋風\n"
         +"除了飛身到空中的$N之外，場內的人無一可以脫離此旋風氣場\n"
         +"眾人受制於旋風氣場無法逃離，且不斷被迫到旋風中心\n"
-        +"這時候"+weapon->query("name")+HIC"化成一道光球，被$N收回手中\n"
-        +"場內所有人嚇出一身冷汗，久久不能自己\n"NOR),me,victim);
+        +"這時候"+weapon->query("name")+HIC + "化成一道光球，被$N收回手中\n"
+        +"場內所有人嚇出一身冷汗，久久不能自己\n" + NOR),me,victim);
          for(j=0;j<i;j++)
          {//威力暫定如此，等以後的真.黑牙神功，分功化影神功出現後，再調整公式
                 target[j]->receive_damage("sen",random(3*sk_lv));
@@ -356,12 +356,12 @@ void world_rain(object me, object victim, object weapon, int damage)
         {
                 //發動之後，自己為了活命，必須要閃躲，所以會busy (2)
                 message_vision(sprintf(
-                HIW"$N手中的"+weapon->query("name")+"化成四道不同色彩的光影射出\n"
-                +HIR"場內的空氣似乎開始燃燒起來了，帶著高熱火焰的朱雀出現了!!!\n"
-                +HIB"一道光影射入地下，並沒有爆發，但是卻引起強烈的地震!!\n"
-                +HIG"在場地的另外一邊，破空之聲狂嘯而出，青龍光影幻化而現\n"
-                +HIC"隨著青龍的出現，光影也幻化出白虎而出\n"
-                +HIM"宛如幻影般的四道光影合為一體，在場內引起強烈的爆炸!!!\n"NOR)
+                HIW + "$N手中的"+weapon->query("name")+"化成四道不同色彩的光影射出\n"
+                +HIR + "場內的空氣似乎開始燃燒起來了，帶著高熱火焰的朱雀出現了!!!\n"
+                +HIB + "一道光影射入地下，並沒有爆發，但是卻引起強烈的地震!!\n"
+                +HIG + "在場地的另外一邊，破空之聲狂嘯而出，青龍光影幻化而現\n"
+                +HIC + "隨著青龍的出現，光影也幻化出白虎而出\n"
+                +HIM + "宛如幻影般的四道光影合為一體，在場內引起強烈的爆炸!!!\n" + NOR)
                                 ,me,victim);
          for(j=0;j<i;j++)
          {//威力暫定如此，等以後的真.黑牙神功，分功化影神功出現後，再調整公式
@@ -375,14 +375,14 @@ void world_rain(object me, object victim, object weapon, int damage)
         }
         else
         {//大部分應該是沒有發動的狀態，主要是用來嚇對手，讓對手busy
-                message_vision(sprintf(HIW"$N手中的"+weapon->query("name")
+                message_vision(sprintf(HIW + "$N手中的"+weapon->query("name")
                 +"化成四道不同色彩的光影射出\n"
-                +HIR"場內的空氣似乎開始燃燒起來了，帶著高熱火焰的朱雀出現了!!!\n"
-                +HIB"一道光影射入地下，並沒有爆發，但是卻引起強烈的地震!!\n"
-                +HIG"在場地的另外一邊，破空之聲狂嘯而出，青龍光影幻化而現\n"
-                +HIC"隨著青龍的出現，光影也幻化出白虎而出\n"
-                +HIM"然而宛如幻影般的四道光影，再次回到$N手中，\n一點事情都沒有發生"
-                +HIM"不過場內的眾人早已被如此影像所驚嚇，幾乎無力再戰\n"NOR)
+                +HIR + "場內的空氣似乎開始燃燒起來了，帶著高熱火焰的朱雀出現了!!!\n"
+                +HIB + "一道光影射入地下，並沒有爆發，但是卻引起強烈的地震!!\n"
+                +HIG + "在場地的另外一邊，破空之聲狂嘯而出，青龍光影幻化而現\n"
+                +HIC + "隨著青龍的出現，光影也幻化出白虎而出\n"
+                +HIM + "然而宛如幻影般的四道光影，再次回到$N手中，\n一點事情都沒有發生"
+                +HIM + "不過場內的眾人早已被如此影像所驚嚇，幾乎無力再戰\n" + NOR)
                                 ,me,victim);
          for(j=0;j<i;j++)
          {//威力暫定如此，等以後的真.黑牙神功，分功化影神功出現後，再調整公式
@@ -413,9 +413,9 @@ void live_snake(object me, object victim, object weapon, int damage)
                 if ( random(100)  < 70)
                 {
                 message_vision(sprintf(weapon->query("name")
-                +HIG"在$N的操控下，突然爆出強烈氣勁，將$n的武器彈開!!!!\n"
-                +HIG"一股強大的壓力，宛如排山倒海一般"
-                +"，朝$n而去，無從閃避，完全命中\n"NOR)
+                +HIG + "在$N的操控下，突然爆出強烈氣勁，將$n的武器彈開!!!!\n"
+                +HIG + "一股強大的壓力，宛如排山倒海一般"
+                +"，朝$n而去，無從閃避，完全命中\n" + NOR)
                                 ,me,victim);
                  victim->receive_damage("kee",100+6*sk_lv);
                  victim->start_busy(1);
@@ -442,13 +442,13 @@ void shock_wave(object me, object victim, object weapon, int damage)
                 if ( random(100)  < 70)
                 {
                 message_vision(sprintf(weapon->query("name")
-                +HIG"越轉越快，已經無法分辨到底是何種東西，"
+                +HIG + "越轉越快，已經無法分辨到底是何種東西，"
                 +"只見到一道光影在$n上空旋轉\n"
                 +"$n感到難以呼吸，整個空氣被逐漸壓縮起來"
                 +"，身體也越來越難以動彈\n"
                 +"忽然"+weapon->query("name")+HIG+"靜止在空中不動了？\n"
                 +"被壓縮的空氣，瞬間被釋放開來，"
-                +"轉換成強大的衝擊波能量，將$N擊飛到空中!\n"NOR)
+                +"轉換成強大的衝擊波能量，將$N擊飛到空中!\n" + NOR)
                                 ,me,victim);
                  victim->receive_damage("kee",100+6*sk_lv);
                  victim->start_busy(1);

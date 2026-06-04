@@ -6,7 +6,7 @@ object me=this_player();
 int cor,kar,intt,spi,cps;
 void create()
 {
-        set_name(HIB"魔龍睛戒"NOR,({"mdragon ring","ring"}) );
+        set_name(HIB + "魔龍睛戒" + NOR,({"mdragon ring","ring"}) );
         set_weight(2000);
         if( clonep() )
                 set_default_object(__FILE__);
@@ -49,7 +49,7 @@ int do_wear(string str)
         cps = me->query_cps(1);
         spi = me->query_spi(1);
         intt = me->query_int(1);
-message_vision(HIB"戴上了魔龍睛戒後，一股邪惡的力量隴罩了$N。\n"NOR,me);
+message_vision(HIB + "戴上了魔龍睛戒後，一股邪惡的力量隴罩了$N。\n" + NOR,me);
         set_heart_beat(1);
      }
 }
@@ -58,7 +58,7 @@ int do_remove(string str)
    if(str=="mdragon ring" || str=="all" || str=="ring")
      if( query("equipped") )
      {
-message_vision(YEL"$N脫下了魔龍睛戒邪惡的力量頓時消失。\n"NOR,me);
+message_vision(YEL + "$N脫下了魔龍睛戒邪惡的力量頓時消失。\n" + NOR,me);
         set_heart_beat(0);
      }
 }

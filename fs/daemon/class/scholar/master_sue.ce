@@ -11,8 +11,8 @@ if(this_player()->query("quests/fear_fighting",1) && this_player()->query("quest
   {
 
   command("say 謝謝您的幫忙.我願意將appo給我的印記傳到你身上!\n");
-  tell_object(this_player(),HIW"瞬間由聖賢書將手搭在你的肩上..你頓時覺得
-一股暖意由聖賢書的手中傳過來\n"NOR);
+  tell_object(this_player(),HIW + "瞬間由聖賢書將手搭在你的肩上..你頓時覺得
+一股暖意由聖賢書的手中傳過來\n" + NOR);
   this_player()->delete("quests/2ndtest",i);
   this_player()->set("quests/yantestmark3",1);
   return("這是最後一個了...你趕快去完成你的測驗吧~\n");
@@ -106,7 +106,7 @@ string ask_plan()
         command("sigh");
         this_player()->set_temp("plan2",1);
         call_out("do_plan2",3,this_player());
-        return HIY"因為孔明兵法都是交由小徒保管，不料他前天生了一場大病，至今仍未恢復神智，所以我也不知道該怎麼把兵書拿給你...\n"NOR;
+        return HIY + "因為孔明兵法都是交由小徒保管，不料他前天生了一場大病，至今仍未恢復神智，所以我也不知道該怎麼把兵書拿給你...\n" + NOR;
 }
 string ask_ball()
 {
@@ -305,7 +305,7 @@ void die()
         object me,ob;
         me = this_player();
         ob=new("/open/gsword/obj1/brain.c");
-        tell_object(winner,HIR"你從屍體上挖出了一顆血淋淋的大腦.."NOR);
+        tell_object(winner,HIR + "你從屍體上挖出了一顆血淋淋的大腦.." + NOR);
         ob->move(winner);
         winner->set_temp("swordbrain",1);
         }
@@ -317,7 +317,7 @@ void die()
           if( j==7 || j==77 || j== 777 || j==1111 || j==55 || j==555 || j==1000 || j==4000 || j==3333 || j==2222 )
           {      
           new("/open/sky/obj3/water_feather")->move(environment(winner));
-          message_vision(HIM"\n從聖賢書的身上掉下了一件奇怪的東西!!\n"NOR,winner);
+          message_vision(HIM + "\n從聖賢書的身上掉下了一件奇怪的東西!!\n" + NOR,winner);
           write_file("/log/sky/obj3/water_feather",sprintf("%s(%s) 讓聖賢書掉下了水之流羽於 %s\n",
           winner->name(1),winner->query("id"),ctime(time())));
           }
@@ -326,20 +326,20 @@ void die()
           if( j==5 || j==15 || j== 150 || j==1500 || j==10 || j==100 || j==1000 || j==4000 || j==6666 || j==7777 ) 
           {      
           new("/open/sky/obj3/water_feather")->move(environment(winner));
-          message_vision(HIM"\n從聖賢書的身上掉下了一件奇怪的東西!!\n"NOR,winner);
+          message_vision(HIM + "\n從聖賢書的身上掉下了一件奇怪的東西!!\n" + NOR,winner);
           write_file("/log/sky/obj3/water_feather",sprintf("%s(%s) 讓聖賢書掉下了水之流羽於 %s\n",
           winner->name(1),winner->query("id"),ctime(time())));
           }
         }
 	}
-        tell_object(users(),HIW"\n
-儒門"HIR"傳來了如洪鐘般的嘆息...\n
-             "HIG"『 經 綸 百 世 路 綿 延 ， 
+        tell_object(users(),HIW + "\n
+儒門" + HIR + "傳來了如洪鐘般的嘆息...\n
+             " + HIG + "『 經 綸 百 世 路 綿 延 ， 
                     觸 念 塵 緣 不 計 年 ； 
                         慈 心 解 去 風 雨 衣 ，
-                            明 燈 長 照 九 重 天 。 』\n"HIY"
-                    「"HIW"風雅書"HIY"..."HIW"廣文書"HIY"...汝等要替我報仇也...」\n"HIR"
-            儒門九代令公之首「"HIY"聖賢書"HIR"」如今竟不幸命葬於"HIG+winner->name()+HIR"之手....\n\n"NOR);
+                            明 燈 長 照 九 重 天 。 』\n" + HIY + "
+                    「" + HIW + "風雅書" + HIY + "..." + HIW + "廣文書" + HIY + "...汝等要替我報仇也...」\n" + HIR + "
+            儒門九代令公之首「" + HIY + "聖賢書" + HIR + "」如今竟不幸命葬於" + HIG+winner->name()+HIR + "之手....\n\n" + NOR);
 
         ::die();
 }
@@ -359,7 +359,7 @@ int accept_object(object me,object ob)
   {
     command("say 太好了，這真的是失落已久的拋磚引玉之計，沒想到你竟然拿到了！");
     command("say 我想，這個計法就交給你發揚光大了");
- message("system",HIW"\n"+this_object()->name()+"說道：本門失傳已久的拋磚引玉之計由"+this_player()->name()+"尋回，我想此計就交給他當成唯一傳人，希望"+this_player()->name()+"利用此計好好扺抗外敵。\n"NOR,users());
+ message("system",HIW + "\n"+this_object()->name()+"說道：本門失傳已久的拋磚引玉之計由"+this_player()->name()+"尋回，我想此計就交給他當成唯一傳人，希望"+this_player()->name()+"利用此計好好扺抗外敵。\n" + NOR,users());
     this_player()->set("quests/confused",1);
     this_player()->delete_temp("quests/confuse");
     destruct(ob);
@@ -368,29 +368,29 @@ int accept_object(object me,object ob)
   if(ob->query("id")=="dguger-dan" && this_player()->query_temp("scholar_godplan_get_dan",1))
   {
        command("say 太好了！我現在就拿去給小徒服用。(聖賢書一個轉身就進內房去了...)");
-       message("system",HIW"\n聖賢書小心翼翼的將靈丹塞到儒門小童嘴裡，\n"NOR,users());
+       message("system",HIW + "\n聖賢書小心翼翼的將靈丹塞到儒門小童嘴裡，\n" + NOR,users());
        this_player()->set("quests/god-plan",1);
        call_out("do_plan3",3,ob);
   }
 }
 int do_plan3(object ob)
 {
-  message("system",CYN"\n(一個時辰後.....)\n"NOR,users());
+  message("system",CYN + "\n(一個時辰後.....)\n" + NOR,users());
   call_out("do_plan4",3,ob); 
 }
 int do_plan4(object ob)
 {
-  message("system",HIC"\n原本面目呆滯，眼神恍惚的小童大叫一聲："HIW"阿呀！我怎麼會躺在這裡？\n"NOR,users());
+  message("system",HIC + "\n原本面目呆滯，眼神恍惚的小童大叫一聲：" + HIW + "阿呀！我怎麼會躺在這裡？\n" + NOR,users());
   call_out("do_plan5",3,ob); 
 }
 int do_plan5(object ob)
 {
-  message("system",HIY"\n聖賢書對著小童說道：還不快將孔明兵法交給"+this_player()->name()+"，他是你的救命恩人耶...\n"NOR,users());
+  message("system",HIY + "\n聖賢書對著小童說道：還不快將孔明兵法交給"+this_player()->name()+"，他是你的救命恩人耶...\n" + NOR,users());
   call_out("do_plan6",3,ob); 
 }
 int do_plan6(object ob)
 {
-  message("system",HIW"\n小童從內房裡走了出來，對著"+this_player()->name()+"叩了三聲響頭，說道:恩人，真感謝你，這本兵法就交給你了！\n"NOR,users());
+  message("system",HIW + "\n小童從內房裡走了出來，對著"+this_player()->name()+"叩了三聲響頭，說道:恩人，真感謝你，這本兵法就交給你了！\n" + NOR,users());
   ob = new("/daemon/class/scholar/book");
   ob->move(this_player());
 }

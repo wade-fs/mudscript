@@ -27,7 +27,7 @@ int exert(object me, object target)
 	if( me->query_condition("mogi") )
         return notify_fail("[1;32m身上的入滅之毒忽然發作,使內息受到影響無法運氣療傷[0m\n");
 
-        write( HIR "你席地運起『極火功\』中的療傷心法，一股火焰在身上不停燃燒，內傷已漸漸化解。\n" NOR);
+        write( HIR + "你席地運起『極火功\』中的療傷心法，一股火焰在身上不停燃燒，內傷已漸漸化解。\n" + NOR);
         message("vision",me->name()+"運起『極火功\』中的療傷心法，一股火焰在身上不停燃燒，不久，吐出一口瘀血，看起來好多了。\n",environment(me), me);
 
         me->receive_curing("kee", ( 10 + (int)me->query_skill("force")/20 + (int)me->query_skill("fireforce")/10 ));

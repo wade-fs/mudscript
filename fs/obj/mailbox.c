@@ -92,7 +92,7 @@ void send_mail(string rcvr, mapping mail)
                  printf("寄件人的英文ID:%s\n信寄出去了.\n",ppl->query("id"));
                 else
 		 write ("您請冰胖通知 " + rcvr + " 收信!\n");
-		tell_object(ppl, GRN"\n冰胖用千里傳音跟您說﹕有您的信﹗請去收信﹗\n\n"NOR);
+		tell_object(ppl, GRN + "\n冰胖用千里傳音跟您說﹕有您的信﹗請去收信﹗\n\n" + NOR);
                 if(me->query("combat_exp")<10000) ppl->add_temp("mailspam",1);//增加exp<10000的人寄給ppl的次數
 	}
 	else 

@@ -7,7 +7,7 @@ int help( object me );
 
 int wait_kill( object me , object obj )
 {
-        message_vision( HIY "$n遭到$N突如其來攻擊﹐頓時驚訝萬分﹐不知所措﹗\n" NOR,me,obj);
+        message_vision( HIY + "$n遭到$N突如其來攻擊﹐頓時驚訝萬分﹐不知所措﹗\n" + NOR,me,obj);
      obj->start_busy(1); //修正..因為躲起來下kill話會busy三回..修正為一回 by chan
         me->delete_temp("invis");
 }

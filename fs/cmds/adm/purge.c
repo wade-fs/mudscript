@@ -42,7 +42,7 @@ int main(object me, string arg)
         rm(DATA_DIR + "mail/" + name[0..0] + "/" + name + __SAVE_EXTENSION__);
         write( "使用者 " + capitalize(name) + " 刪除掉了。\n");
 
-tell_object(users(),"【"HIC"閒聊"NOR"】"HIC"清秀小嵐美眉(Anmy)說道:"HIC+ capitalize(name) +HIC"受到"HIW"天譴"HIC"，消失於狂想空間了。\n"NOR);
+tell_object(users(),"【" + HIC + "閒聊" + NOR + "】" + HIC + "清秀小嵐美眉(Anmy)說道:" + HIC+ capitalize(name) +HIC + "受到" + HIW + "天譴" + HIC + "，消失於狂想空間了。\n" + NOR);
         log_file("static/PURGE", sprintf("[%s] %s purged %s because %s.\n",
                 ctime(time())[0..15], geteuid(this_player(1)), name, reason));
 

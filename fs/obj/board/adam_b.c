@@ -3,10 +3,10 @@ inherit BULLETIN_BOARD;
 
 void create()
 {
-  set_name(HIC"梵竹石碑"NOR, ({"board"}));
+  set_name(HIC + "梵竹石碑" + NOR, ({"board"}));
   set("location","/u/a/adam/workroom.c");
   set("board_id","adam_b");
-  set("long",HIC"古色古香的石碑,可以讓你盡情刻字...\n"NOR);
+  set("long",HIC + "古色古香的石碑,可以讓你盡情刻字...\n" + NOR);
     setup();
 set("capacity", 80);
   set("master",({"adam"}));

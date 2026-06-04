@@ -24,7 +24,7 @@ int main(object tp, string str)
       if(inv[i]->query("no_sac")) continue;
       if(userp(inv[i])) continue;
       if(inv[i]->query("capacity")) continue;
-      message_vision(HIC"$N將"+inv[i]->short()+HIC"奉獻給大神。\n"NOR, tp);
+      message_vision(HIC + "$N將"+inv[i]->short()+HIC + "奉獻給大神。\n" + NOR, tp);
       destruct(inv[i]);
     }
     return 1;
@@ -40,7 +40,7 @@ int main(object tp, string str)
     return notify_fail("留言板不能奉獻!!!!\n");
   if (in_edit(ob) || in_input(ob) || ob->query_temp("netdead"))
     return notify_fail (ob->name() +"正在忙呢..\n");
-  message_vision(HIC"$N以很遺憾的心情將"+ob->short()+HIC"歸入塵土風逝。\n"NOR,tp);
+  message_vision(HIC + "$N以很遺憾的心情將"+ob->short()+HIC + "歸入塵土風逝。\n" + NOR,tp);
 //修正sac的人可以拿到潛能...一點.以提高sac的情形
   write(tp->name()+"的善心, 大神給你一文錢做為賞賜。\n");
   foreach(object obj in all_inventory(ob))

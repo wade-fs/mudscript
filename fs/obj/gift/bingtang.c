@@ -12,7 +12,7 @@ void init()
 
 void create()
 {
-        set_name(HIM"冰糖葫蘆"NOR, ({"ling zhi", "zhi"}));
+        set_name(HIM + "冰糖葫蘆" + NOR, ({"ling zhi", "zhi"}));
         if (clonep())
                 set_default_object(__FILE__);
         else {

@@ -53,9 +53,9 @@ int cast(object me, object target)
 
 	if( skill < 10 )
 	{
-	message_vision(""HIY"$N聚起了一個小氣團朝"HIW+target->query("name")+HIY"撲去，正是乃是紫星河心法之\n"HIG"
-	－－－＊  仙風雲體術 － 起手第一式  ＊－－－"HIR"
-	     ξ　天 罡\ 戰 氣 ˙ 一 氣 飛 昇　ξ\n"NOR,me,target);
+	message_vision("" + HIY + "$N聚起了一個小氣團朝" + HIW+target->query("name")+HIY + "撲去，正是乃是紫星河心法之\n" + HIG + "
+	－－－＊  仙風雲體術 － 起手第一式  ＊－－－" + HIR + "
+	     ξ　天 罡\ 戰 氣 ˙ 一 氣 飛 昇　ξ\n" + NOR,me,target);
 	me->receive_damage("kee",me->query("max_kee")/i);
 	me->add("mana",-skill*10);
 	spell_improved ("godfight", random(skill+3));
@@ -64,9 +64,9 @@ int cast(object me, object target)
 
 	if( skill >= 10 && skill < 20 )
 	{
-	message_vision(""HIY"$N聚起了二個小氣團急速推向"HIW+target->query("name")+HIY"，正是乃是紫星河心法之\n"HIG"
-	－－－＊  仙風雲體術 － 流轉第二式  ＊－－－"HIR"
-	     ξ　天 罡\ 戰 氣 ˙ 氣 分 雙 星　ξ\n"NOR,me,target);
+	message_vision("" + HIY + "$N聚起了二個小氣團急速推向" + HIW+target->query("name")+HIY + "，正是乃是紫星河心法之\n" + HIG + "
+	－－－＊  仙風雲體術 － 流轉第二式  ＊－－－" + HIR + "
+	     ξ　天 罡\ 戰 氣 ˙ 氣 分 雙 星　ξ\n" + NOR,me,target);
 	me->receive_damage("kee",me->query("max_kee")/i);
 	me->add("mana",-skill*10);
 	spell_improved ("godfight", random(skill+5));
@@ -75,9 +75,9 @@ int cast(object me, object target)
 
 	if( skill >= 20 && skill < 30 )
 	{
-	message_vision(""HIY"$N聚起了三個小氣團分做三個方向朝"HIW+target->query("name")+HIY"射去，正是乃是紫星河心法之\n"HIG"
-	－－－＊  仙風雲體術 － 流轉第三式  ＊－－－"HIR"
-	     ξ　天 罡\ 戰 氣 ˙ 三 元 擊 氣　ξ\n"NOR,me,target);
+	message_vision("" + HIY + "$N聚起了三個小氣團分做三個方向朝" + HIW+target->query("name")+HIY + "射去，正是乃是紫星河心法之\n" + HIG + "
+	－－－＊  仙風雲體術 － 流轉第三式  ＊－－－" + HIR + "
+	     ξ　天 罡\ 戰 氣 ˙ 三 元 擊 氣　ξ\n" + NOR,me,target);
 	me->receive_damage("kee",me->query("max_kee")/i);
 	me->add("mana",-skill*10);
 	spell_improved ("godfight", random(skill+7));
@@ -86,9 +86,9 @@ int cast(object me, object target)
 
 	if( skill >= 30 && skill < 40 )
 	{
-	message_vision(""HIY"$N聚起了數個小氣團急速推向"HIW+target->query("name")+HIY"，正是乃是紫星河心法之\n"HIG"
-	－－－＊  仙風雲體術 － 流轉第四式  ＊－－－"HIR"
-	     ξ　天 罡\ 戰 氣 ˙ 氣 象 四 歸　ξ\n"NOR,me,target);
+	message_vision("" + HIY + "$N聚起了數個小氣團急速推向" + HIW+target->query("name")+HIY + "，正是乃是紫星河心法之\n" + HIG + "
+	－－－＊  仙風雲體術 － 流轉第四式  ＊－－－" + HIR + "
+	     ξ　天 罡\ 戰 氣 ˙ 氣 象 四 歸　ξ\n" + NOR,me,target);
 	me->receive_damage("kee",me->query("max_kee")/i);
 	me->add("mana",-skill*10);
 	spell_improved ("godfight", random(skill+9));
@@ -97,9 +97,9 @@ int cast(object me, object target)
 
 	if( skill >= 40 && skill < 50 )
 	{
-	message_vision(""HIY"$N聚起了無數個小氣團分向"HIW+target->query("name")+HIY"急速撲去，正是乃是紫星河心法之\n"HIG"
-	－－－＊  仙風雲體術 － 流轉第五式  ＊－－－"HIR"
-	     ξ　天 罡\ 戰 氣 ˙ 氣 靈 五 轉　ξ\n"NOR,me,target);
+	message_vision("" + HIY + "$N聚起了無數個小氣團分向" + HIW+target->query("name")+HIY + "急速撲去，正是乃是紫星河心法之\n" + HIG + "
+	－－－＊  仙風雲體術 － 流轉第五式  ＊－－－" + HIR + "
+	     ξ　天 罡\ 戰 氣 ˙ 氣 靈 五 轉　ξ\n" + NOR,me,target);
 	me->receive_damage("kee",me->query("max_kee")/i);
 	me->add("mana",-skill*10);
 	spell_improved ("godfight", random(skill+11));
@@ -108,9 +108,9 @@ int cast(object me, object target)
 
 	if( skill >= 50 && skill < 60 )
 	{
-	message_vision(""HIY"$N體悟了精要的一式，氣走全身盈滿的真氣轉化為一擊攻向"HIW+target->query("name")+HIY"，正是乃是紫星河心法之\n"HIG"
-	－－－＊  仙風雲體術 － 流轉第六式  ＊－－－"HIR"
-	     ξ　天 罡\ 戰 氣 ˙ 氣 吞 六 神　ξ\n"NOR,me,target);
+	message_vision("" + HIY + "$N體悟了精要的一式，氣走全身盈滿的真氣轉化為一擊攻向" + HIW+target->query("name")+HIY + "，正是乃是紫星河心法之\n" + HIG + "
+	－－－＊  仙風雲體術 － 流轉第六式  ＊－－－" + HIR + "
+	     ξ　天 罡\ 戰 氣 ˙ 氣 吞 六 神　ξ\n" + NOR,me,target);
 	me->receive_damage("kee",me->query("max_kee")/i);
 	me->add("mana",-skill*10);
 	spell_improved ("godfight", random(skill+13));
@@ -119,9 +119,9 @@ int cast(object me, object target)
 
 	if( skill >= 60 && skill < 70 )
 	{
-	message_vision(""HIY"$N聚精會神的凝起了數個氣勁，轉化為實質可見的氣團一一擊向"HIW+target->query("name")+HIY"，正是乃是紫星河心法之\n"HIG"
-	－－－＊  仙風雲體術 － 流轉第七式  ＊－－－"HIR"
-	     ξ　天 罡\ 戰 氣 ˙ 氣 迴 七 穹　ξ\n"NOR,me,target);
+	message_vision("" + HIY + "$N聚精會神的凝起了數個氣勁，轉化為實質可見的氣團一一擊向" + HIW+target->query("name")+HIY + "，正是乃是紫星河心法之\n" + HIG + "
+	－－－＊  仙風雲體術 － 流轉第七式  ＊－－－" + HIR + "
+	     ξ　天 罡\ 戰 氣 ˙ 氣 迴 七 穹　ξ\n" + NOR,me,target);
 	me->receive_damage("kee",me->query("max_kee")/i);
 	me->add("mana",-skill*10);
 	spell_improved ("godfight", random(skill+15));
@@ -130,9 +130,9 @@ int cast(object me, object target)
 
 	if( skill >= 70 && skill < 80 )
 	{
-	message_vision(""HIY"$N氣走全身，周身大穴皆凝聚無數真氣，蓄勢待發的一擊，迅速的擊向"HIW+target->query("name")+HIY"，正是乃是紫星河心法之\n"HIG"
-	－－－＊  仙風雲體術 － 流轉第八式  ＊－－－"HIR"
-	     ξ　天 罡\ 戰 氣 ˙ 氣 游 八 仙　ξ\n"NOR,me,target);
+	message_vision("" + HIY + "$N氣走全身，周身大穴皆凝聚無數真氣，蓄勢待發的一擊，迅速的擊向" + HIW+target->query("name")+HIY + "，正是乃是紫星河心法之\n" + HIG + "
+	－－－＊  仙風雲體術 － 流轉第八式  ＊－－－" + HIR + "
+	     ξ　天 罡\ 戰 氣 ˙ 氣 游 八 仙　ξ\n" + NOR,me,target);
 	me->receive_damage("kee",me->query("max_kee")/i);
 	me->add("mana",-skill*10);
 	spell_improved ("godfight", random(skill+17));
@@ -141,9 +141,9 @@ int cast(object me, object target)
 
 	if( skill >= 80 && skill < 90 )
 	{
-	message_vision(""HIY"$N真氣凝聚全身，一身的氣勁充盈不吐不快，身隨心轉氣隨意發擊向"HIW+target->query("name")+HIY"，正是乃是紫星河心法之\n"HIG"
-	－－－＊  仙風雲體術 － 流轉第九式  ＊－－－"HIR"
-	     ξ　天 罡\ 戰 氣 ˙ 氣 貫 九 天　ξ\n"NOR,me,target);
+	message_vision("" + HIY + "$N真氣凝聚全身，一身的氣勁充盈不吐不快，身隨心轉氣隨意發擊向" + HIW+target->query("name")+HIY + "，正是乃是紫星河心法之\n" + HIG + "
+	－－－＊  仙風雲體術 － 流轉第九式  ＊－－－" + HIR + "
+	     ξ　天 罡\ 戰 氣 ˙ 氣 貫 九 天　ξ\n" + NOR,me,target);
 	me->receive_damage("kee",me->query("max_kee")/i);
 	me->add("mana",-skill*10);
 	spell_improved ("godfight", random(skill+19));
@@ -152,9 +152,9 @@ int cast(object me, object target)
 
 	if( skill >= 90 && skill < 100 )
 	{
-	message_vision(""HIY"$N氣貫全身聚起了數道氣流圍繞周身，轉瞬間已朝"HIW+target->query("name")+HIY"衝去，正是乃是紫星河心法之\n"HIG"
-	－－－＊  仙風雲體術 － 流轉第十式  ＊－－－"HIR"
-	     ξ　天 罡\ 戰 氣 ˙ 霸 氣 匯 宗　ξ\n"NOR,me,target);
+	message_vision("" + HIY + "$N氣貫全身聚起了數道氣流圍繞周身，轉瞬間已朝" + HIW+target->query("name")+HIY + "衝去，正是乃是紫星河心法之\n" + HIG + "
+	－－－＊  仙風雲體術 － 流轉第十式  ＊－－－" + HIR + "
+	     ξ　天 罡\ 戰 氣 ˙ 霸 氣 匯 宗　ξ\n" + NOR,me,target);
 	me->receive_damage("kee",me->query("max_kee")/i);
 	me->add("mana",-skill*10);
 	spell_improved ("godfight", random(skill+21));
@@ -163,9 +163,9 @@ int cast(object me, object target)
 
 	if( skill == 100 )
 	{
-	message_vision(""HIY"$N氣貫全身，以渾厚的內力氣通任督二脈，全身散發出一道道強大盛大的氣流聚集在$N四周圍繞成一氣團\n$N身形倏然跋起，在半空中環旋了三周半，有如一氣柱往"HIW+target->query("name")+HIY"俯衝，正是乃是紫星河心法之\n"HIG"
-	－－－＊  仙風雲體術 － 終極破壞式  ＊－－－"HIR"
-	     ξ　天 罡\ 戰 氣 ˙ 氣 撼 山 河　ξ\n"NOR,me,target);
+	message_vision("" + HIY + "$N氣貫全身，以渾厚的內力氣通任督二脈，全身散發出一道道強大盛大的氣流聚集在$N四周圍繞成一氣團\n$N身形倏然跋起，在半空中環旋了三周半，有如一氣柱往" + HIW+target->query("name")+HIY + "俯衝，正是乃是紫星河心法之\n" + HIG + "
+	－－－＊  仙風雲體術 － 終極破壞式  ＊－－－" + HIR + "
+	     ξ　天 罡\ 戰 氣 ˙ 氣 撼 山 河　ξ\n" + NOR,me,target);
 
 	me->receive_damage("kee",me->query("max_kee")/i);
 	me->add("mana",-skill*10);
@@ -183,18 +183,18 @@ int cast(object me, object target)
 
 	if( random(cexp) < 80 )
 	{
-//	message_vision("\n"+target->name()+HIC"來不及反應，已被天罡\戰氣擊中，痛苦萬分。\n"NOR,me,target);
-	message_vision("\n"HIC"$n來不及反應，已被天罡\戰氣擊中，痛苦萬分。\n"NOR,me,target);
+//	message_vision("\n"+target->name()+HIC + "來不及反應，已被天罡\戰氣擊中，痛苦萬分。\n" + NOR,me,target);
+	message_vision("\n" + HIC + "$n來不及反應，已被天罡\戰氣擊中，痛苦萬分。\n" + NOR,me,target);
 	target->receive_damage("kee",( me->query("max_kee")/i)*2 + random((me->query("max_kee")/i)*3) );
 	target->receive_damage("sen",( me->query("max_sen")/i) + random((me->query("max_sen")/i)) );
 
 	COMBAT_D->report_status(target);
 	}else{
-	message_vision(YEL"\n$n在直覺反應下猛然一閃，躲開了攻擊。\n"NOR,me,target);
+	message_vision(YEL + "\n$n在直覺反應下猛然一閃，躲開了攻擊。\n" + NOR,me,target);
 	}
 
-	tell_object(me,HIR"使出『天罡\戰氣』後，大耗體力，要先休息一下。\n"NOR);
-//	message_vision(HIW"$N使出『天罡\戰氣』後，大耗體力，要先休息一下。\n"NOR,me,target);
+	tell_object(me,HIR + "使出『天罡\戰氣』後，大耗體力，要先休息一下。\n" + NOR);
+//	message_vision(HIW + "$N使出『天罡\戰氣』後，大耗體力，要先休息一下。\n" + NOR,me,target);
 	return 1;
   }
  
@@ -202,7 +202,7 @@ void remove_effect(object me,object target)
 {
 
 	me->delete_temp("godfight");
-	tell_object(me,HIW"體內的真氣開始盈滿了。\n"NOR);
+	tell_object(me,HIW + "體內的真氣開始盈滿了。\n" + NOR);
 //	message_vision("$N體內的真氣開始盈滿了。\n",me);
 	return;
 }

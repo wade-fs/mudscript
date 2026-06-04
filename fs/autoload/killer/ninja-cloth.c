@@ -6,7 +6,7 @@ void faint(object user);
 void create(object user)
 {
         user = this_player();
-        set_name(MAG"伊賀忍者服" NOR ,({"ninja-cloth","cloth"}));
+        set_name(MAG + "伊賀忍者服" + NOR ,({"ninja-cloth","cloth"}));
         set_weight(3000);
         if( clonep() )
                 set_default_object(__FILE__);
@@ -41,7 +41,7 @@ int do_wear(string str,object user)
  if( query("equipped") )
  {
    user = this_player();
-   message_vision(MAG"$N穿起伊賀忍者服, 將自己容貌隱藏起來。\n"NOR,user);
+   message_vision(MAG + "$N穿起伊賀忍者服, 將自己容貌隱藏起來。\n" + NOR,user);
    if (user->query("change") != 1)
    {
    user->set("old_id",user->query("id"));
@@ -51,7 +51,7 @@ int do_wear(string str,object user)
    user->set("id","japan ninja");
    user->set("name","忍者");
    user->delete("nickname");
-   user->set("title",GRN"伊賀流忍者"NOR);
+   user->set("title",GRN + "伊賀流忍者" + NOR);
    user->set("change",1);
    }
    set_heart_beat(1);
@@ -62,7 +62,7 @@ int do_remove(string str)
    if(str=="ninja-cloth" || str=="all" || str=="cloth")
      if( query("equipped") )
      {
-   message_vision(MAG"$N脫下伊賀忍者服, 露出原來面貌。\n"NOR,user);
+   message_vision(MAG + "$N脫下伊賀忍者服, 露出原來面貌。\n" + NOR,user);
    user->set("id",user->query("old_id"));
    user->set("name",user->query("old_name"));
    user->set("nickname",user->query("old_nickname"));
@@ -79,9 +79,9 @@ object room;
 room=environment(user);
  if( random(100) > 95 && user->query_temp("evil-body")==1 )
    {
-message_vision(MAG"\n$N雙眼泛紅, 全身散發出死亡搬的氣息。\n"NOR,user);
-message_vision(MAG"\n～ ～  "HIW"天  魔  解  體  大  法  "MAG"～ ～\n"NOR,user);
-message_vision(HIW"\n$N生命力瞬間爆增數萬, 功\力徒增數倍!!\n"NOR,user);
+message_vision(MAG + "\n$N雙眼泛紅, 全身散發出死亡搬的氣息。\n" + NOR,user);
+message_vision(MAG + "\n～ ～  " + HIW + "天  魔  解  體  大  法  " + MAG + "～ ～\n" + NOR,user);
+message_vision(HIW + "\n$N生命力瞬間爆增數萬, 功\力徒增數倍!!\n" + NOR,user);
 user->add("max_kee",50000);
 user->add("max_gin",50000);
 user->add("max_sen",50000);

@@ -7,7 +7,7 @@ inherit EQUIP;
 
 void create()
 {
-  set_name(HIW"聖靈戰甲"NOR,({"Holy Ghost Plate","plate"}) );
+  set_name(HIW + "聖靈戰甲" + NOR,({"Holy Ghost Plate","plate"}) );
   set_weight(5000);
   if( clonep() )
     set_default_object(__FILE__);
@@ -33,8 +33,8 @@ void create()
     set("long","
 這套戰甲是由波斯王國所製，受過波斯勇者鮮血的灌溉，上下都散發出
 一股霸氣，據說穿上之人可以橫掃戰場，所向披靡。\n");
-    set("wear_msg","$n"HIM"內傳出一陣聖潔的天音...\n"NOR+HIW"聖靈的力量源源不斷湧入$N"HIW"內心，$N"HIW"的靈性增加了!!\n"NOR);
-    set("unequip_msg",HIW"靈氣逐漸回歸聖靈戰甲!!\n"NOR);
+    set("wear_msg","$n" + HIM + "內傳出一陣聖潔的天音...\n" + NOR+HIW + "聖靈的力量源源不斷湧入$N" + HIW + "內心，$N" + HIW + "的靈性增加了!!\n" + NOR);
+    set("unequip_msg",HIW + "靈氣逐漸回歸聖靈戰甲!!\n" + NOR);
   }
   setup();
 }
@@ -55,8 +55,8 @@ int wear()
       me->set("spi",me->query("origional_spi"));
       me->delete("origional_spi");
     }
-//    message_vision("$n"HIM"內傳出一陣聖潔的天音...\n"NOR,me,this_object());
-//    message_vision(HIW"聖靈的力量源源不斷湧入$N內心，$N的靈性增加了!!\n"NOR,me);
+//    message_vision("$n" + HIM + "內傳出一陣聖潔的天音...\n" + NOR,me,this_object());
+//    message_vision(HIW + "聖靈的力量源源不斷湧入$N內心，$N的靈性增加了!!\n" + NOR,me);
     k = (me->query("combat_exp"))/1000000;
     if( me->query("combat_exp") > 245000000 )
       k = 245+(me->query("combat_exp")-245000000)/5000000;
@@ -127,7 +127,7 @@ int unequip()
   int result = ::unequip();
   if( !query("equipped") )
   {
-//    message_vision(HIW"靈氣逐漸回歸聖靈戰甲!!\n"NOR,me);
+//    message_vision(HIW + "靈氣逐漸回歸聖靈戰甲!!\n" + NOR,me);
     me->delete("plate_add_gift");
     if(me->query_temp("apply/spi_holy_ghost_plate")) {
       me->add_temp("apply/spi",-me->query_temp("apply/spi_holy_ghost_plate"));

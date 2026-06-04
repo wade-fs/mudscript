@@ -30,7 +30,7 @@ if(me->query("class")!="prayer")
   if(me->is_fighting() && !wizardp(me)) me->start_busy(1);
   message_vision ("$N使出玄宇宙中的「化劫」\n",me);
   me->add ("force", -50);
-  message_vision (HBRED+HIC"$N的身體散發出一股藍光，在身體的外層佈滿了氣勁!!。\n"NOR, me);
+  message_vision (HBRED+HIC + "$N的身體散發出一股藍光，在身體的外層佈滿了氣勁!!。\n" + NOR, me);
   me->set_temp ("hwa_je", 1);
   me->start_call_out((: call_other, __FILE__, "remove_effect",me:),fun+10);
   return 1;
@@ -38,7 +38,7 @@ if(me->query("class")!="prayer")
 void remove_effect (object me)
 {
   me->delete_temp ("hwa_je");
-  tell_object (me, HBGRN+HIY"在你身旁的護身真氣逐漸消散於空氣之中了!!。\n"NOR);
+  tell_object (me, HBGRN+HIY + "在你身旁的護身真氣逐漸消散於空氣之中了!!。\n" + NOR);
   if( me->query("functions/hwa_je/level") < 100 )
      function_improved ("hwa_je",random(500));
   if( me->query("kee") > 40)

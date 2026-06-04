@@ -33,7 +33,7 @@ int i;
 
 		if( !me->is_fighting()  )
 		{
-			message_vision(HIR"$N嘶喊著：積魯啊～撲魯撒馬～！\n"NOR,me);
+			message_vision(HIR + "$N嘶喊著：積魯啊～撲魯撒馬～！\n" + NOR,me);
 			me->do_command("up");
 		}
         }

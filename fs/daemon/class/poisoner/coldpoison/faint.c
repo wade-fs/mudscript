@@ -28,15 +28,15 @@ int perform(object me, object target)
         if(target->is_busy())
                 return notify_fail("敵人 BUSY 中，快攻擊吧\n");
 
-        msg=HIY "$N從口中放出迷煙﹐往$n吹去﹗\n" NOR;
+        msg=HIY + "$N從口中放出迷煙﹐往$n吹去﹗\n" + NOR;
         if(80>random(100)) 
           {
-            msg+= GRN "$n一不留神﹐吸到迷煙，行動變緩了。\n" NOR;
+            msg+= GRN + "$n一不留神﹐吸到迷煙，行動變緩了。\n" + NOR;
             target->start_busy(3);
           } 
           else 
           {
-             msg+=HIG "$n識破了$N的毒招﹐身子一側﹐避了開去。\n" NOR;
+             msg+=HIG + "$n識破了$N的毒招﹐身子一側﹐避了開去。\n" + NOR;
           }
          message_vision(msg, me, target);
          me->kill_ob(target);
@@ -71,10 +71,10 @@ int sp_perform(object me)
       {message_vision("$n已在迷炫中, 迷魂香暫時對$n無效...\n",me,enemy[i]);}
       else
       {
-      message_vision("\n"HIW"$N"HIG"的迷魂香在"HIC"「萬蠱蠶心術」"HIG"下啟動，$n"HIY"招架不及。\n"NOR,me,enemy[i]);
+      message_vision("\n" + HIW + "$N" + HIG + "的迷魂香在" + HIC + "「萬蠱蠶心術」" + HIG + "下啟動，$n" + HIY + "招架不及。\n" + NOR,me,enemy[i]);
       if(80>random(100))
       {
-        message_vision(RED"$N將$n給迷炫在迷魂鄉中!!!\n"NOR,me,enemy[i]);
+        message_vision(RED + "$N將$n給迷炫在迷魂鄉中!!!\n" + NOR,me,enemy[i]);
         enemy[i]->start_busy(3);
       }
       else

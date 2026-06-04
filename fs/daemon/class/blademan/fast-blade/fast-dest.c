@@ -23,10 +23,9 @@ int perform( object me, object target )
 	return notify_fail( "你的內力不夠, 使不出無影狂刀斬。\n" );
 	if( me->query_temp("fast-dest")==1 )
 	return notify_fail( "太累了, 無力使用無影狂刀斬...\n" );
-	message_vision( HIW"只見$N手中的刀越舞越快, 身法隨著刀法極速加快,\n"
+	message_vision( HIW + "只見$N手中的刀越舞越快, 身法隨著刀法極速加快,\n"
 		           "身影也愈來愈糢糊, $N身旁的人已無法看清楚$N的位置,\n" 
-                           "$N忽然大喝一聲,"HIY"「～～無影狂刀斬～～」\n"
-                        HIW"接著開始無聲無息地攻擊各個敵人。\n" NOR, me );
+                           "$N忽然大喝一聲," + HIY + "「～～無影狂刀斬～～」\n" + HIW + "接著開始無聲無息地攻擊各個敵人。\n" + NOR, me );
         me->add( "force", -300 );
         while(i--) {
         if(enemy[i])
@@ -56,7 +55,7 @@ int again(object me)
         if(!me->query_temp("a")) {
         me->set_temp("a",a+1); }
         if(me->query_temp("fast-times")==me->query_temp("a")) {
-        tell_object(me,sprintf(HIC"你的無影狂刀斬消失了。\n"NOR));
+        tell_object(me,sprintf(HIC + "你的無影狂刀斬消失了。\n" + NOR));
         me->delete_temp("fast-dest");
         me->delete_temp("a");
         me->delete_temp("fast-times");
@@ -64,13 +63,13 @@ int again(object me)
         return 1; }
         while(i--) {
         if(!me||!enemy[i]) continue;
-        message_vision(HIC"$N使出幔羅千葉刀法的精華 --- 無影狂刀斬，偷偷的向$n砍了一刀。\n" NOR, me, enemy[i]);
+        message_vision(HIC + "$N使出幔羅千葉刀法的精華 --- 無影狂刀斬，偷偷的向$n砍了一刀。\n" + NOR, me, enemy[i]);
         if( environment(me) != environment(enemy[i]) )
-        tell_object(enemy[i],sprintf(HIC"%s使出幔羅千葉刀法的精華 --- 無影狂刀斬，偷偷的向你砍了過來。\n" NOR,me->name()));
+        tell_object(enemy[i],sprintf(HIC + "%s使出幔羅千葉刀法的精華 --- 無影狂刀斬，偷偷的向你砍了過來。\n" + NOR,me->name()));
         if( 80 > random(100) ) {
-        message_vision(HIR"$n閃躲不及，被$N的無影狂刀斬砍了一個大傷口，血流如注。\n" NOR, me, enemy[i]);
+        message_vision(HIR + "$n閃躲不及，被$N的無影狂刀斬砍了一個大傷口，血流如注。\n" + NOR, me, enemy[i]);
         if( environment(me) != environment(enemy[i]) )
-        tell_object(enemy[i], sprintf(HIR"你閃躲不及，被%s的無影狂刀斬砍了一個大傷口，血流如注。\n"NOR, me->name()));
+        tell_object(enemy[i], sprintf(HIR + "你閃躲不及，被%s的無影狂刀斬砍了一個大傷口，血流如注。\n" + NOR, me->name()));
         if(me->is_fighting(enemy[i])) {
         kee = enemy[i]->query("kee")/35;
         if(kee > 150) kee=150;
@@ -90,9 +89,9 @@ int again(object me)
         COMBAT_D->report_status(enemy[i]);
         }
         } else {
-        message_vision(HIG "$n巧妙的閃過了$N的無影狂刀斬。\n" NOR, me, enemy[i]);
+        message_vision(HIG + "$n巧妙的閃過了$N的無影狂刀斬。\n" + NOR, me, enemy[i]);
         if( environment(me) != environment(enemy[i]) )
-        tell_object(enemy[i], sprintf(HIG "你巧妙的閃過了%s的無影狂刀斬。\n" NOR, me->name()));
+        tell_object(enemy[i], sprintf(HIG + "你巧妙的閃過了%s的無影狂刀斬。\n" + NOR, me->name()));
         }
         }
         me->add_temp("fast-times",1);

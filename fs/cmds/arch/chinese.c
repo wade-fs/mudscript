@@ -1,22 +1,22 @@
 #include <ansi.h>
 inherit F_CLEAN_UP;
 mapping use_color = ([
-	"BLK":BLK,
-	"RED":RED,
-	"GRN":GRN,
-	"YEL":YEL,
-	"BLU":BLU,
-	"MAG":MAG,
-	"CYN":CYN,
-	"WHT":WHT,
-	"NOR":NOR,
-	"HIR":HIR,
-	"HIG":HIG,
-	"HIY":HIY,
-	"HIB":HIB,
-	"HIM":HIM,
-	"HIC":HIC,
-	"HIW":HIW,
+	" + BLK + ":BLK,
+	" + RED + ":RED,
+	" + GRN + ":GRN,
+	" + YEL + ":YEL,
+	" + BLU + ":BLU,
+	" + MAG + ":MAG,
+	" + CYN + ":CYN,
+	" + WHT + ":WHT,
+	" + NOR + ":NOR,
+	" + HIR + ":HIR,
+	" + HIG + ":HIG,
+	" + HIY + ":HIY,
+	" + HIB + ":HIB,
+	" + HIM + ":HIM,
+	" + HIC + ":HIC,
+	" + HIW + ":HIW,
 	]);
 
 int main(object me, string arg)

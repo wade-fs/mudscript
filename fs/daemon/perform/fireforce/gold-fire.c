@@ -30,7 +30,7 @@ int perform(object me, object target)
         me->set_temp("gold-fire",1);
 if (skill < 14){
         message_vision(
-        HIM "$N運起極火金身第一層「天極身」，全身四周籠罩在一股紫色的護身氣勁內！。\n" NOR,me);
+        HIM + "$N運起極火金身第一層「天極身」，全身四周籠罩在一股紫色的護身氣勁內！。\n" + NOR,me);
 	me->add_temp("apply/defense",skill);
         me->start_call_out( (: call_other, __FILE__, "remove_effect", me, skill:), skill);
         if( me->is_fighting() ) me->start_busy(3);
@@ -39,7 +39,7 @@ if (skill < 14){
                        }
 if (skill >=14 && skill < 28){
         message_vision(
-        HIG "$N運起極火金身第二層「地極身」，全身四周籠罩在一股綠色的護身氣勁內！。\n" NOR,me);
+        HIG + "$N運起極火金身第二層「地極身」，全身四周籠罩在一股綠色的護身氣勁內！。\n" + NOR,me);
 	me->add_temp("apply/defense",skill);
         me->start_call_out( (: call_other, __FILE__, "remove_effect", me, skill:), skill);
         if( me->is_fighting() ) me->start_busy(3);
@@ -48,7 +48,7 @@ if (skill >=14 && skill < 28){
                        }
 if (skill >= 28 && skill < 42){
         message_vision(
-        HIW "$N運起極火金身第三層「人極身」，全身四周籠罩在一股白色的護身氣勁內！。\n" NOR,me);
+        HIW + "$N運起極火金身第三層「人極身」，全身四周籠罩在一股白色的護身氣勁內！。\n" + NOR,me);
 	me->add_temp("apply/defense",skill);
         me->start_call_out( (: call_other, __FILE__, "remove_effect", me, skill:), skill);
         if( me->is_fighting() ) me->start_busy(3);
@@ -57,7 +57,7 @@ if (skill >= 28 && skill < 42){
                        }
 if (skill >=42 && skill < 56){
         message_vision(
-        HIB "$N運起極火金身第四層「魔極身」，全身四周籠罩在一股藍色的護身氣勁內！。\n" NOR,me);
+        HIB + "$N運起極火金身第四層「魔極身」，全身四周籠罩在一股藍色的護身氣勁內！。\n" + NOR,me);
 	me->add_temp("apply/defense",skill);
         me->start_call_out( (: call_other, __FILE__, "remove_effect", me, skill:), skill);
         if( me->is_fighting() ) me->start_busy(3);
@@ -66,7 +66,7 @@ if (skill >=42 && skill < 56){
                        }
 if (skill >=56 && skill < 70){
         message_vision(
-        HIC "$N運起極火金身第五層「龍極身」，全身四周籠罩在一股青色的護身氣勁內！。\n" NOR,me);
+        HIC + "$N運起極火金身第五層「龍極身」，全身四周籠罩在一股青色的護身氣勁內！。\n" + NOR,me);
 	me->add_temp("apply/defense",skill);
         me->start_call_out( (: call_other, __FILE__, "remove_effect", me, skill:), skill);
         if( me->is_fighting() ) me->start_busy(3);
@@ -75,7 +75,7 @@ if (skill >=56 && skill < 70){
                        }
 if (skill >=70 && skill < 84){
         message_vision(
-        HIR "$N運起極火金身第六層「火極身」，全身四周籠罩在一股火紅的護身氣勁內！。\n" NOR,me);
+        HIR + "$N運起極火金身第六層「火極身」，全身四周籠罩在一股火紅的護身氣勁內！。\n" + NOR,me);
 	me->add_temp("apply/defense",skill);
         me->start_call_out( (: call_other, __FILE__, "remove_effect", me, skill:), skill);
         if( me->is_fighting() ) me->start_busy(3);
@@ -84,7 +84,7 @@ if (skill >=70 && skill < 84){
                        }
 if (skill >=84){
         message_vision(
-        HIY "$N運起極火金身頂級功\力「極火金身」，四周金光暴現，並有熊熊烈火環繞在$N的四周！。\n" NOR,me);
+        HIY + "$N運起極火金身頂級功\力「極火金身」，四周金光暴現，並有熊熊烈火環繞在$N的四周！。\n" + NOR,me);
 	me->add_temp("apply/defense",skill);
         me->start_call_out( (: call_other, __FILE__, "remove_effect", me, skill:), skill);
         if( me->is_fighting() ) me->start_busy(3);

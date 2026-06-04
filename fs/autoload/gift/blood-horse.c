@@ -3,8 +3,8 @@
 inherit NPC;
 inherit SSERVER;
 void create() {
-set_name(HIR"汗血寶馬"NOR,({"blood horse" , "horse"}));  
-set("title", HIW"〒"HIY"神駒"HIW"〒"NOR);
+set_name(HIR + "汗血寶馬" + NOR,({"blood horse" , "horse"}));  
+set("title", HIW + "〒" + HIY + "神駒" + HIW + "〒" + NOR);
 set("long", "每隔千年才出現一次的傳說之神駒。\n");
 set("str",50);
 set("cor",50);
@@ -95,7 +95,7 @@ int do_dismount() {
         me->add_temp("apply/dodge",-60);
         me->add_temp("apply/move",-110);
 	me->delete_temp("ride_name");
-        message_vision(HIW"$N一個翻身下了馬來！\n"NOR,me);
+        message_vision(HIW + "$N一個翻身下了馬來！\n" + NOR,me);
         return 1;
 }
 
@@ -120,7 +120,7 @@ int do_freehorse()
 {
         object me;
         me = find_living((string)this_object()->query_temp("my_boss"));
-        message_vision(HIG"$N在$n"HIG"背上一拍，摸摸$n"HIG"的頭，$n"HIG"高興地朝著廣大的草原飛奔而去。\n"NOR,me,this_object());
+        message_vision(HIG + "$N在$n" + HIG + "背上一拍，摸摸$n" + HIG + "的頭，$n" + HIG + "高興地朝著廣大的草原飛奔而去。\n" + NOR,me,this_object());
         if(me->query_temp("is_riding"))
          {
            me->add_temp("apply/attack",-60);
@@ -192,9 +192,9 @@ if( random(100) > 85)
     if(!target) return;
     if( env == environment(target) )
     {
-message_vision(HIR"
+message_vision(HIR + "
 汗血寶馬突然人立起來，發出震撼人心的狂野嘶吼，$N心神受到強烈音波衝擊，
-耳裡頓時嗡嗡作響，丹田氣血翻湧，無法自制。\n"NOR,target);
+耳裡頓時嗡嗡作響，丹田氣血翻湧，無法自制。\n" + NOR,target);
       target->start_busy(1);
       COMBAT_D->report_status(target,1);
     }
@@ -206,7 +206,7 @@ message_vision(HIR"
   {
    if(random(3) == 1)
    {
-      message_vision(HIR"就在$N性命危急的時候，$n奮不顧身的將$N揹起，馬蹄一振，像道紅光般消失在眾人面前。\n"NOR,me,mob);
+      message_vision(HIR + "就在$N性命危急的時候，$n奮不顧身的將$N揹起，馬蹄一振，像道紅光般消失在眾人面前。\n" + NOR,me,mob);
       me-> move ("/open/common/room/inn");
       mob-> move ("/open/common/room/inn");
    }

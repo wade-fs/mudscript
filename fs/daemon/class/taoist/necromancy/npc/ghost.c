@@ -89,8 +89,8 @@ void leave()
   if (who)
     who->add_temp ("invocation", -INVCOST);
    if(this_object()){
-  message_vision (HIB"$N說道﹕本鬼奉法主召喚﹐現在已經完成任務﹐就此告辭！\n" +
-		  "一陣陰風吹過，$N的身形隨之不見了。\n" NOR, this_object());
+  message_vision (HIB + "$N說道﹕本鬼奉法主召喚﹐現在已經完成任務﹐就此告辭！\n" +
+		  "一陣陰風吹過，$N的身形隨之不見了。\n" + NOR, this_object());
   destruct (this_object());
   }
 }
@@ -100,7 +100,7 @@ void unconcious ()
   object who = query_leader ();
   if (who)
     who->add_temp ("invocation", -INVCOST);
-  message_vision (HIB"$N慘叫一聲：啊！化為灰燼。\n" NOR, this_object());
+  message_vision (HIB + "$N慘叫一聲：啊！化為灰燼。\n" + NOR, this_object());
   destruct (this_object ());
 }
 
@@ -110,8 +110,8 @@ void besummon(object who,object room)
 	object *enemy;
 	room2=room;
 
-	message_vision (HIB "一陣陰風吹過﹐走出一個面目猙獰的$N。\n" +
-			"$N喝道﹕何人打攪於我？﹗\n" NOR, this_object());
+	message_vision (HIB + "一陣陰風吹過﹐走出一個面目猙獰的$N。\n" +
+			"$N喝道﹕何人打攪於我？﹗\n" + NOR, this_object());
 	bell = (int)who->query ("bellicosity");
 	set("combat_exp",who->query("combat_exp"));
 	set_skill("whip",who->query_skill("whip",1));
@@ -129,7 +129,7 @@ void besummon(object who,object room)
 	  }
 	else
 	  {
-	    message_vision (HIR"$N怒喝：本事不到家居然敢消遣本大鬼。\n", this_object ());
+	    message_vision (HIR + "$N怒喝：本事不到家居然敢消遣本大鬼。\n", this_object ());
 	     kill_ob (who);
 	     set_leader (who);
 	  }

@@ -6,7 +6,7 @@ inherit ARMBANDS;
 
 void create()
 {
-  set_name(MAG"忍者臂甲"NOR,({"ninja armband","armband"}) );
+  set_name(MAG + "忍者臂甲" + NOR,({"ninja armband","armband"}) );
   set_weight(1000);
   if( clonep() )
     set_default_object(__FILE__);

@@ -56,33 +56,33 @@ int main(object me, string arg)
   {
     case 0:
       report = 1;
-      str = YEL"嗯..."+name+"看來只是一點小小的傷風感冒，喝點水休息一會就好了！\n"NOR;
+      str = YEL + "嗯..."+name+"看來只是一點小小的傷風感冒，喝點水休息一會就好了！\n" + NOR;
       ob->receive_damage("kee",(random(50)+50),me);
       break;
     case 1:
-      str = HIY"喔～"+name+"的腸胃相當不好唷！要注意少吃點刺激性的食物哪！\n"NOR;
+      str = HIY + "喔～"+name+"的腸胃相當不好唷！要注意少吃點刺激性的食物哪！\n" + NOR;
       ob->set("food",random(ob->query("food")));
       ob->set("water",random(ob->query("water")));
       break;
     case 2:
-      str = HIC"唷喝！"+name+"的脈像四平八穩，毫不紊亂，身強體健，沒有瑕疵，不錯吶！\n"NOR;
+      str = HIC + "唷喝！"+name+"的脈像四平八穩，毫不紊亂，身強體健，沒有瑕疵，不錯吶！\n" + NOR;
       break;
     case 3:
-      str = WHT"哎呀！"+name+"面無血色，手腳冰冷，看來是陰陽不合，氣血失調唷！\n"NOR;
+      str = WHT + "哎呀！"+name+"面無血色，手腳冰冷，看來是陰陽不合，氣血失調唷！\n" + NOR;
       ob->receive_damage("kee",random(sk),me);
       ob->apply_condition("ff_poison",(int)sk/20);
       break;
     case 4:
-      str = HIM"嘿嘿！"+name+"臉泛潮紅，目露色光，看來是慾火高漲，寂寞難耐哪！\n"NOR;
+      str = HIM + "嘿嘿！"+name+"臉泛潮紅，目露色光，看來是慾火高漲，寂寞難耐哪！\n" + NOR;
       ob->apply_condition("spring",(int)sk/20);
       break;
     case 5:
-      str = CYN"嗯..."+name+"額冒虛汗，全身無力，看來是肝弱膽衰，虛火上升！\n"NOR;
+      str = CYN + "嗯..."+name+"額冒虛汗，全身無力，看來是肝弱膽衰，虛火上升！\n" + NOR;
       ob->receive_damage("gin",(random(50)+50),me);
       ob->receive_damage("kee",(random(50)+50),me);
       ob->receive_damage("sen",(random(50)+50),me);
     case 6:
-      str = MAG"不得了！"+name+"臉色泛青，嘴唇發紫，一看就知道是被蛇咬傷，中了蛇毒唷！\n"NOR;
+      str = MAG + "不得了！"+name+"臉色泛青，嘴唇發紫，一看就知道是被蛇咬傷，中了蛇毒唷！\n" + NOR;
       ob->receive_damage("kee",random(sk),me);
       if(ob->query_temp("poison/snake_poison"))
         ob->set_temp("poison/snake_poison",ob->query_temp("poison/snake_poison") - ({ me }) - ({ 0 }) + ({ me }) );
@@ -91,38 +91,38 @@ int main(object me, string arg)
       ob->apply_condition("snake_poison",(int)sk/20);
       break;
     case 7:
-      str = HIR"ㄟ..."+name+"額頭發燙，頭暈目眩，想來必是日照過多，一不小心就中暑了！\n"NOR;
+      str = HIR + "ㄟ..."+name+"額頭發燙，頭暈目眩，想來必是日照過多，一不小心就中暑了！\n" + NOR;
       ob->receive_damage("kee",random(sk),me);
       ob->apply_condition("burn",(int)sk/20);
       break;
     case 8:
-      str = HIB"咿！"+name+"全身發冷，不停顫抖，推斷應是體濕吹風，受了風寒，無啥大礙也！\n"NOR;
+      str = HIB + "咿！"+name+"全身發冷，不停顫抖，推斷應是體濕吹風，受了風寒，無啥大礙也！\n" + NOR;
       ob->receive_damage("kee",random(sk),me);
       ob->apply_condition("cold",(int)sk/20);
       break;
     case 9:
-      str = GRN"去..."+name+"看來不過就只是酒喝太多，有點酒後微醺，神智不清而已！\n"NOR;
+      str = GRN + "去..."+name+"看來不過就只是酒喝太多，有點酒後微醺，神智不清而已！\n" + NOR;
       ob->apply_condition("drunk",(int)sk/20);
       break;
     case 10:
-      str = HIG"嘖嘖！"+name+"的身體居然健壯如牛，毫無病痛，真是恭喜恭喜！\n"NOR;
+      str = HIG + "嘖嘖！"+name+"的身體居然健壯如牛，毫無病痛，真是恭喜恭喜！\n" + NOR;
       break;
     case 11:
-      str = RED"天呀！"+name+"的心肝脾肺腎全爛光了，看來還是回家準備料理後事吧！\n\n"HIB"沒想到"+name+"聞言，居然「咚」的一聲，暈死過去了！\n"NOR;
+      str = RED + "天呀！"+name+"的心肝脾肺腎全爛光了，看來還是回家準備料理後事吧！\n\n" + HIB + "沒想到"+name+"聞言，居然「咚」的一聲，暈死過去了！\n" + NOR;
       ob->unconcious();
       ob->set("gin",mg);
       ob->set("kee",mk);
       ob->set("sen",ms);
       break;
   }
-  message_vision(HIW"$N抓著$n的手，聚精會神的為$n把把脈，開始看診了起來！\n\n"NOR,me, ob);
-  message_vision(HIW"過了良久......\n\n$N終於開口說道："+str+"\n",me, ob);
+  message_vision(HIW + "$N抓著$n的手，聚精會神的為$n把把脈，開始看診了起來！\n\n" + NOR,me, ob);
+  message_vision(HIW + "過了良久......\n\n$N終於開口說道："+str+"\n",me, ob);
   ob->set_temp("for_vet",1);
   amount = random(sk/3)+30;
   coco = new("/obj/money/silver");
   coco->add_amount(amount);
   coco->move(me);
-  message_vision(HIW"$N幫$n看完診，酌收費用"+CHINESE_D->chinese_number(amount)+"文錢！\n"NOR,me, ob);
+  message_vision(HIW + "$N幫$n看完診，酌收費用"+CHINESE_D->chinese_number(amount)+"文錢！\n" + NOR,me, ob);
   me->receive_damage("gin",50,me);
   me->receive_damage("sen",50,me);
   return 1;

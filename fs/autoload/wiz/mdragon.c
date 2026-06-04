@@ -5,8 +5,8 @@ inherit ITEM;
 #include <command.h>
 void create()
 {
-  set_name(HIB"魔龍裝備"NOR,({"mdragon eq","mdragon"}));
-  set("long",HIY"這是整套的魔龍裝備(open mdragon or close mdragon)。\n"NOR);
+  set_name(HIB + "魔龍裝備" + NOR,({"mdragon eq","mdragon"}));
+  set("long",HIY + "這是整套的魔龍裝備(open mdragon or close mdragon)。\n" + NOR);
   set("unit","套");  
         set("no_sell",1);
         set("no_auc",1);
@@ -38,7 +38,7 @@ int do_open(string str)
           return 0;
   if(me->query_temp("mdragon",1))
   return notify_fail("你已經把魔龍裝備分化了﹗\n");
-  message_vision(HIY"$N的魔龍裝備，由一套分裂成各件。\n"NOR,this_player());
+  message_vision(HIY + "$N的魔龍裝備，由一套分裂成各件。\n" + NOR,this_player());
   me->set_temp("mdragon",1);
   room=environment(me);
   eq01 = new("/daemon/class/blademan/obj/mblade");

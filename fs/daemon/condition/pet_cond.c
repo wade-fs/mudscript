@@ -22,7 +22,7 @@ int update_condition(object ob, int duration)
 		target = find_player(owner);
 		if( env != environment(target) )
 		{
-			message_vision("\n$N由於缺乏人照顧，漸漸地化成一攤黑色的血水～\n\n"NOR,ob);
+			message_vision("\n$N由於缺乏人照顧，漸漸地化成一攤黑色的血水～\n\n" + NOR,ob);
 			ob->die();
 		}
 		if( (int)ob->query("age") > live_age )
@@ -44,13 +44,13 @@ int update_condition(object ob, int duration)
 			target->receive_damage("sen",sen);
         		COMBAT_D->report_status(target,1);
 			ob->add_temp("can_feed",1);
-			ob->set("title",HIR"( 嗜血 )"NOR);
+			ob->set("title",HIR + "( 嗜血 )" + NOR);
                 }
 		else
-			message_vision("\n$N正處於熟睡的狀態～\n\n"NOR,ob);
+			message_vision("\n$N正處於熟睡的狀態～\n\n" + NOR,ob);
 
 		if( !ob->query_temp("can_feed") )
-			ob->set("title",YEL"( 熟睡 )"NOR);
+			ob->set("title",YEL + "( 熟睡 )" + NOR);
 
 		ob->add("age",1);
 		return 1;

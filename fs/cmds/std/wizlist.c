@@ -43,7 +43,7 @@ int main(object me, string arg)
 			if(wizardp(me))
 			if(!ob->query("env/隱身") || wiz_level(ob) <= my_level)
 				ch = '*';
-		printf("%c%s%-10s%s"NOR, ch, popu(update),list[i] ,((j++)%7==6) ? "\n  " : "");
+		printf("%c%s%-10s%s" + NOR, ch, popu(update),list[i] ,((j++)%7==6) ? "\n  " : "");
 	}
         printf("\n----------------------------  "+HIM+"混世魔王    羅煞女王  "+NOR+"----------------------------\n  ");
 	for(i=0, j=0; i<sizeof(list); i++)
@@ -56,7 +56,7 @@ int main(object me, string arg)
 			if(wizardp(me))
 			if(!ob->query("env/隱身") || wiz_level(ob) <= my_level)
 				ch = '*';
-		printf("%c%s%-10s%s"NOR, ch, popu(update),list[i] ,((j++)%7==6) ? "\n  " : "");
+		printf("%c%s%-10s%s" + NOR, ch, popu(update),list[i] ,((j++)%7==6) ? "\n  " : "");
 
 	}
 printf("\n----------------------------    "+HIC+"玉帝       修羅王"+NOR+"   ----------------------------\n  ");
@@ -70,7 +70,7 @@ printf("\n----------------------------    "+HIC+"玉帝       修羅王"+NOR+"  
 			if(wizardp(me))
 			if(!ob->query("env/隱身") || wiz_level(ob) <= my_level)
 				ch = '*';
-		printf("%c%s%-10s%s"NOR, ch, popu(update),list[i] ,((j++)%7==6) ? "\n  " : "");
+		printf("%c%s%-10s%s" + NOR, ch, popu(update),list[i] ,((j++)%7==6) ? "\n  " : "");
 	}
         printf("\n----------------------------    "+HIY+"菩薩       夜叉王   "+NOR+"----------------------------\n  ");
 	for(i=0, j=0; i<sizeof(list); i++)
@@ -83,7 +83,7 @@ printf("\n----------------------------    "+HIC+"玉帝       修羅王"+NOR+"  
 			if(wizardp(me))
 			if(!ob->query("env/隱身") || wiz_level(ob) <= my_level)
 				ch = '*';
-		printf("%c%s%-10s%s"NOR, ch, popu(update),list[i] ,((j++)%7==6) ? "\n  " : "");
+		printf("%c%s%-10s%s" + NOR, ch, popu(update),list[i] ,((j++)%7==6) ? "\n  " : "");
 
 	}
         printf("\n----------------------------    "+HIG+"天仙        判官"+NOR+"    ----------------------------\n  ");
@@ -97,7 +97,7 @@ printf("\n----------------------------    "+HIC+"玉帝       修羅王"+NOR+"  
 			if(wizardp(me))
 			if(!ob->query("env/隱身") || wiz_level(ob) <= my_level)
 				ch = '*';
-		printf("%c%s%-10s%s"NOR, ch, popu(update),list[i] ,((j++)%7==6) ? "\n  " : "");
+		printf("%c%s%-10s%s" + NOR, ch, popu(update),list[i] ,((j++)%7==6) ? "\n  " : "");
 	}
         printf("\n----------------------------    "+HIR+"護法        無常"+NOR+"    ----------------------------\n  ");
 	for(i=0, j=0; i<sizeof(list); i++)
@@ -110,12 +110,12 @@ printf("\n----------------------------    "+HIC+"玉帝       修羅王"+NOR+"  
 			if(wizardp(me))
 			if(!ob->query("env/隱身") || wiz_level(ob) <= my_level)
 				ch = '*';
-		printf("%c%s%-10s%s"NOR, ch, popu(update),list[i] ,((j++)%7==6) ? "\n  " : "");
+		printf("%c%s%-10s%s" + NOR, ch, popu(update),list[i] ,((j++)%7==6) ? "\n  " : "");
 	}
         printf("\n----------------------------  "+HIB+"天兵天將    牛頭馬面"+NOR+"  ----------------------------\n  ");
 	for(i=0, j=0; i<sizeof(list); i++)
 	if(SECURITY_D->get_status(list[i])=="(immortal)")
-		printf("%c%s%-10s%s"NOR, (find_player(list[i])) ? ch:' ', popu(update) ,list[i], ((j++)%7==6) ? "\n  " : "");
+		printf("%c%s%-10s%s" + NOR, (find_player(list[i])) ? ch:' ', popu(update) ,list[i], ((j++)%7==6) ? "\n  " : "");
 	write("\n\n");
   printf("  說明：%s無活動%s/%s少量活動%s/%s大量活動%s/%s沒事就動%s/%s用機器人寫程式%s\n",
       popu(0),NOR,

@@ -51,8 +51,8 @@ if(sizeof(all_inventory(user))) all_inventory(user)->set("autoload",1);
 	if( me -> query( "clan/rank" ) >= user -> query( "clan/rank" ) )
 		return notify_fail( "只能將位階比您低的幫眾逐出。\n" );
 	CHANNEL_D->do_channel(me, "ct",
-		"\n\t我 -「"HIW+me->query("clan/title")+HIY"」遺憾地宣佈……\n\t將"+
-		HIR+ user->query("name")+HIY"("HIR+user->query("id")+HIY")逐出"+me->query("clan/name")+"。"NOR);
+		"\n\t我 -「" + HIW+me->query("clan/title")+HIY + "」遺憾地宣佈……\n\t將"+
+		HIR+ user->query("name")+HIY + "(" + HIR+user->query("id")+HIY + ")逐出"+me->query("clan/name")+"。" + NOR);
 	CLAN_D->clan_promote( clan_id, user->query("id"), "banish", user->query("clan/bank") );
 	user -> delete( "clan" );
 	user -> save();

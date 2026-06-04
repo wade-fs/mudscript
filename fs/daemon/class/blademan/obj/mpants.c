@@ -4,7 +4,7 @@
 inherit PANTS;
 void create()
 {
-       set_name(HIB "魔龍束甲" NOR, ({ "mdragon pants" ,"pants" }) );
+       set_name(HIB + "魔龍束甲" + NOR, ({ "mdragon pants" ,"pants" }) );
        set_weight(2000);
         if( clonep() )
                 set_default_object(__FILE__);

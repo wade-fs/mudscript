@@ -4,9 +4,9 @@ inherit F_SPELL;
 inherit SSERVER;
 int count;
 string *ATTACK_MSG=({
-HIW"      $N閉上雙眼，口中唸道『創世之力，隨之震裂』四周的空氣突然沉重了起來\n"NOR,
-HIW"      $N手中結印，地面突然浮現巨大八卦之陣，由陣心向外擴散一鼓強大的重力 \n"NOR,
-HIW"      $N揮動手中超級法寶盤古幡，天頂居然顯現四相圖，使得四中空氣劇烈無比\n"NOR,
+HIW + "      $N閉上雙眼，口中唸道『創世之力，隨之震裂』四周的空氣突然沉重了起來\n" + NOR,
+HIW + "      $N手中結印，地面突然浮現巨大八卦之陣，由陣心向外擴散一鼓強大的重力 \n" + NOR,
+HIW + "      $N揮動手中超級法寶盤古幡，天頂居然顯現四相圖，使得四中空氣劇烈無比\n" + NOR,
 
 });
 
@@ -40,10 +40,10 @@ int cast(object me,object target)
         me->add("atman",-300);
         me->add("mana",-300);   
         message_vision(
-    HIR"        $N大喊 - 通天法寶盤古幡啊!!讓世人見識看看你的力量吧!!\n
+    HIR + "        $N大喊 - 通天法寶盤古幡啊!!讓世人見識看看你的力量吧!!\n
 
-   "HIG"                $N"HIY"緊閉雙眼, 口中念念有詞, 四周突然發出巨響\n\n
-   "HIW"                      ◤"HIC"驚動大地  隨我道來"HIW"◢\n\n"NOR,me);
+   " + HIG + "                $N" + HIY + "緊閉雙眼, 口中念念有詞, 四周突然發出巨響\n\n
+   " + HIW + "                      ◤" + HIC + "驚動大地  隨我道來" + HIW + "◢\n\n" + NOR,me);
   
 
         me->start_busy(random(2));
@@ -70,21 +70,21 @@ int again(object me,object target)
         if ((int)me->query("mana",1) < 500) 
         {
           me->delete_temp("use_gravity");
-          message_vision(HIR"\n$N法力不足, 無法繼續使用重力倍增之術!!\n"NOR,me);
+          message_vision(HIR + "\n$N法力不足, 無法繼續使用重力倍增之術!!\n" + NOR,me);
           return 1;
         }
         if(count> n || !me->is_fighting())
         {
           me->delete_temp("use_gravity");
-          message_vision(HIR"\n$N大地在一片震動當中回歸元始, 重力倍增的效果消失了!!\n"NOR,me);
+          message_vision(HIR + "\n$N大地在一片震動當中回歸元始, 重力倍增的效果消失了!!\n" + NOR,me);
           return 1;
         }
         damage = value*100+random(500);
         if(damage > 2000) {damage = 2000;}
         me->set_temp("use_gravity",1);
         message_vision("\n"+ATTACK_MSG[action]+"\n",me);
-        message_vision("                                "HIB"元"HIG"始"HIY"天"HIR"尊"HIW"˙"BYEL""HIW"盤古現世\n\n"NOR,me);
-        message_vision(HIY"  忽然有股金色光芒包圍著$N,四周重力加倍了!!極其可怕重壓往四周擴散, 大地一片碎裂!!\n\n"NOR,me);
+        message_vision("                                " + HIB + "元" + HIG + "始" + HIY + "天" + HIR + "尊" + HIW + "˙" + BYEL + "" + HIW + "盤古現世\n\n" + NOR,me);
+        message_vision(HIY + "  忽然有股金色光芒包圍著$N,四周重力加倍了!!極其可怕重壓往四周擴散, 大地一片碎裂!!\n\n" + NOR,me);
           me->add("atman",-500-random(300));
           me->add("mana",-300-random(200));
         for(i=0;i<sizeof(enemy);i++)

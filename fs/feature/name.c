@@ -104,15 +104,15 @@ varargs string short(int raw)
 
 
           if( !raw ) {
-                if( this_object()->is_ghost() ) str = HIB "(鬼氣) " NOR + str;
-                if( this_object()->is_fighting() ) str += " " HIY+BMAG "<戰鬥中>" NOR;
-                if( query_temp("netdead") ) str += HIG " <斷線中>" NOR;
-                if( query_temp("shit") ) str += HIY "〈大便中〉" NOR;
-                if( in_input() ) str += HIC " <輸入文字中>" NOR;
-                if( in_edit() ) str += HIY " <編輯檔案中>" NOR;
-                if( query("inv") ) str = HIB"(隱身中)"NOR + str;
+                if( this_object()->is_ghost() ) str = HIB + "(鬼氣) " + NOR + str;
+                if( this_object()->is_fighting() ) str += " " + HIY+BMAG + "<戰鬥中>" + NOR;
+                if( query_temp("netdead") ) str += HIG + " <斷線中>" + NOR;
+                if( query_temp("shit") ) str += HIY + "〈大便中〉" + NOR;
+                if( in_input() ) str += HIC + " <輸入文字中>" + NOR;
+                if( in_edit() ) str += HIY + " <編輯檔案中>" + NOR;
+                if( query("inv") ) str = HIB + "(隱身中)" + NOR + str;
                 if( interactive(this_object())
-                &&      query_idle( this_object() ) > 120 ) str += HIM " <發呆中>" NOR;
+                &&      query_idle( this_object() ) > 120 ) str += HIM + " <發呆中>" + NOR;
                 if( !living(this_object()) ) str += HIR + query("disable_type") + NOR;
           }
         }
@@ -122,19 +122,19 @@ varargs string short(int raw)
           if(ex_def=this_object()->query("ex_def_power")){
             switch(ex_def){
               case 1..2:
-                str+=sprintf(NOR"+%d",ex_def);
+                str+=sprintf(NOR + "+%d",ex_def);
                 break;
               case 3..4:
-                str+=sprintf(HIG"+%d"NOR,ex_def);
+                str+=sprintf(HIG + "+%d" + NOR,ex_def);
                 break;
               case 5..7:
-                str+=sprintf(HIR"+%d"NOR,ex_def);
+                str+=sprintf(HIR + "+%d" + NOR,ex_def);
                 break;
               case 8..10:
-                str+=sprintf(HIY"+%d"NOR,ex_def);
+                str+=sprintf(HIY + "+%d" + NOR,ex_def);
                 break;
               case 11..12:
-                str+=sprintf(HBRED+HIY"+%d"NOR,ex_def);
+                str+=sprintf(HBRED+HIY + "+%d" + NOR,ex_def);
                 break;
               default:
                 break;
@@ -142,10 +142,10 @@ varargs string short(int raw)
           }
           if(ex_add=this_object()->query("ex_add_def")){
             if(ex_add >=1 && ex_add <=4)
-              str+=sprintf(HIC"追%d"NOR,ex_add*4);
+              str+=sprintf(HIC + "追%d" + NOR,ex_add*4);
           }
           if(this_object()->query("ex_lucky"))
-            str+=HIM"幸運裝備"NOR;
+            str+=HIM + "幸運裝備" + NOR;
           str +="(" + capitalize(query("id")) + ")";
 
         }    

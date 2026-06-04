@@ -3,7 +3,7 @@ inherit BULLETIN_BOARD;
 
 void create()
 {
-set_name(HIC"玄天冰晶"NOR, ({"mysterious crystal","board"}));
+set_name(HIC + "玄天冰晶" + NOR, ({"mysterious crystal","board"}));
 set("location","/open/clan/area/home/clan.c");
 set("board_id","babe_a1");
   set("long","

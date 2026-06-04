@@ -52,8 +52,8 @@ int main( object me, string arg )
 			implode( strs[i+1..<0], "\n" ) + "\n";
 		env->delete("owner");
 		CHANNEL_D->do_channel( me, "ct",
-			"\n\t我 -「"HIW + me->query("clan/title") + HIY"」即日起取消……\n\t" +
-			who->query("name") + "於"HIC + environment(me)->query("short") + HIY"的專屬使用權。"NOR );
+			"\n\t我 -「" + HIW + me->query("clan/title") + HIY + "」即日起取消……\n\t" +
+			who->query("name") + "於" + HIC + environment(me)->query("short") + HIY + "的專屬使用權。" + NOR );
 	}
 	else {
 	        for( i=0; i<sizeof(strs); i++ )
@@ -62,8 +62,7 @@ int main( object me, string arg )
 		file = implode( strs, "\n" ) + "\n";
 		env->set( "owner", arg );
 		CHANNEL_D->do_channel( me, "ct",
-			"\n\t我 -「"HIW + me->query("clan/title") + HIY"」鄭重的宣佈……\n\t"
-			HIC + environment(me)->query("short") + HIY"為" + who->query("name") + "的專屬區域。"NOR );
+			"\n\t我 -「" + HIW + me->query("clan/title") + HIY + "」鄭重的宣佈……\n\t" + HIC + environment(me)->query("short") + HIY + "為" + who->query("name") + "的專屬區域。" + NOR );
 	}
 
 	write_file( filename, file, 1 );

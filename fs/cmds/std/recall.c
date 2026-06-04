@@ -44,13 +44,11 @@ int main(object me, string arg)
 	  return notify_fail("程式有問題喔！請通知大神處理～\n");
 	          }
 
-	message_vision(HIC"$P請求著天神將$P傳送回起點﹗\n"
-HIW"突然由空中降下一道耀眼的光﹐罩住$P後消失不見了...\n"NOR,ob);
+	message_vision(HIC + "$P請求著天神將$P傳送回起點﹗\n" + HIW + "突然由空中降下一道耀眼的光﹐罩住$P後消失不見了...\n" + NOR,ob);
 
 	            ob->move(filep);
               me->move(filep,1);
-message_vision(HIW"突然由天上降下一道耀眼的光﹗\n"
-	            HIY"$N由光芒內緩緩的走出來....\n"NOR,ob);
+message_vision(HIW + "突然由天上降下一道耀眼的光﹗\n" + HIY + "$N由光芒內緩緩的走出來....\n" + NOR,ob);
 	              return 1;
 }
 

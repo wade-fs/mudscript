@@ -49,18 +49,18 @@ int main(object me, string arg)
   if(power==max_power || max_power > 50000)
     return notify_fail("你的權力已達上限。\n");
   me->add("sen",-50);
-  message_vision(CYN "$N說道﹕$n大人﹐能否為下官在皇上面前美言幾句 ?\n",me,ob);
+  message_vision(CYN + "$N說道﹕$n大人﹐能否為下官在皇上面前美言幾句 ?\n",me,ob);
   if(me->query("relation/"+ob->query("id")+"/value")+25<ob->query("officer_power")/2)
   {
-    message_vision("$n臉色上似乎有難言之隱。\n" NOR,me,ob);
+    message_vision("$n臉色上似乎有難言之隱。\n" + NOR,me,ob);
     return 1;
   }
   if(ob->query("officer_power")<50)
   {
-    message_vision("$n說道﹕下官官職卑微﹐恐怕幫不了你。\n" NOR,me,ob);
+    message_vision("$n說道﹕下官官職卑微﹐恐怕幫不了你。\n" + NOR,me,ob);
     return 1;
   }
-  message_vision(CYN "$n說道﹕沒問題﹐包在我身上。\n" NOR,me,ob);
+  message_vision(CYN + "$n說道﹕沒問題﹐包在我身上。\n" + NOR,me,ob);
   msg=HIR+ob->name()+"上奏天子﹕\n";
   msg+=HIY+me->query("officer_class")+me->name()+report[random(sizeof(report))];
   msg+=ob->name()+"﹕";

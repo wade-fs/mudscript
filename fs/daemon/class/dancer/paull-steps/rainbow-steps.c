@@ -17,11 +17,11 @@ if (sk<80)
 
 if( me->is_fighting() ) me->start_busy(1); //在戰鬥中使用,要busy自己一回合 by chan
 
-  message_vision ("\n"HIW"$N"NOR"結合月影微步與夜夢天舞的精要縱身飛起使出終極舞步"HIM"「七彩幻夢」"NOR"\n",me,target);
+  message_vision ("\n" + HIW + "$N" + NOR + "結合月影微步與夜夢天舞的精要縱身飛起使出終極舞步" + HIM + "「七彩幻夢」" + NOR + "\n",me,target);
   me->add ("force", -50);
 
        
-  message_vision (HIG"剎時間$N整個人變的身輕如燕。\n"NOR, me,target);
+  message_vision (HIG + "剎時間$N整個人變的身輕如燕。\n" + NOR, me,target);
 
 // 設這個mark後就有dodge_sp 了
   me->set_temp ("rainbow-steps", 1);
@@ -36,7 +36,7 @@ void remove_effect (object me)
 // 刪除 manashield   
 int fun=me->query("functions/rainbow-steps/level");
   me->delete_temp ("rainbow-steps");
-  tell_object (me, NOR"妳覺得自己的身體沈重下來了。\n"NOR);
+  tell_object (me, NOR + "妳覺得自己的身體沈重下來了。\n" + NOR);
   if(fun<100) function_improved("rainbow-steps",random(500)+sk);   
   return;
 }

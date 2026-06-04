@@ -36,7 +36,7 @@ int main(object me, string arg)
                  return notify_fail("你已經使用了化影術\n");
              if (me->query_temp("step-share") ||  !me->query_temp("step-shadow"))
              {
-                 message_vision(HIC"$N默運化影術的步法......。\n"NOR,me);
+                 message_vision(HIC + "$N默運化影術的步法......。\n" + NOR,me);
                  me->set_temp("step-shadow",1);
                  me->delete_temp("step-share",1);
                  return notify_fail("分功\術的效用逐漸失去\n");
@@ -50,7 +50,7 @@ int main(object me, string arg)
                  return notify_fail("你已經使用分功\術\n");
              if (me->query_temp("step-shadow")|| !me->query_temp("step-share"))
              {
-                 message_vision(HIC"$N默運分功\術的步法......。\n"NOR,me);
+                 message_vision(HIC + "$N默運分功\術的步法......。\n" + NOR,me);
                  me->set_temp("step-share",1);
                  me->delete_temp("step-shadow",1);
                  return notify_fail("化影術的效用逐漸失去\n");

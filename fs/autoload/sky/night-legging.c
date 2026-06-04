@@ -29,8 +29,8 @@ void create()
     set("no_save",1);
     set("no_get",1);
     set("need_exp",1000000);
-    set("wear_msg",HIW"$N"HIW"感受到來自$n"HIW"的暗夜之氣。\n"NOR);
-    set("unequip_msg",HIW"星"HIY"月"NOR"的力量逐漸散去!!\n");
+    set("wear_msg",HIW + "$N" + HIW + "感受到來自$n" + HIW + "的暗夜之氣。\n" + NOR);
+    set("unequip_msg",HIW + "星" + HIY + "月" + NOR + "的力量逐漸散去!!\n");
   }
   setup();
 }
@@ -100,9 +100,9 @@ int do_wear(string str)
     exp = me->query("combat_exp");
     if( exp < 1000000 )
     {
-      message_vision("$N的武功\尚未大成，強行配帶將招致夜影反嗜!!\n"NOR,me);
+      message_vision("$N的武功\尚未大成，強行配帶將招致夜影反嗜!!\n" + NOR,me);
     } else {
-      message_vision(HIW"$N"HIW"感受到來自"+eq->query("name")+HIW"的暗夜之氣。!!\n"NOR,me);
+      message_vision(HIW + "$N" + HIW + "感受到來自"+eq->query("name")+HIW + "的暗夜之氣。!!\n" + NOR,me);
       set_heart_beat(1);
     }
   }
@@ -124,7 +124,7 @@ int do_remove(string str)
         me->add_temp("apply/attack",-add);
         me->add_temp("apply/dodge",-add);
         me->add_temp("apply/parry",-add);
-        message_vision(HIW"星"HIY"月"NOR"的力量逐漸散去!!\n",me);
+        message_vision(HIW + "星" + HIY + "月" + NOR + "的力量逐漸散去!!\n",me);
         set_heart_beat(0);
       }
     }
@@ -163,8 +163,8 @@ void heart_beat()
 */
     if(!me->query_temp("night-legging/day")) //尚未使用裝備附加能力時（白晝）
     {
-      message_vision(HIR"白日照耀之下，$n"HIR"幾欲分崩離析，$N"HIR"趕緊以元神強行聚合。\n"NOR,me,eq);
-//      message_vision(YEL"由於$N"YEL"的元神過度集中，因此基本內功\(force)有所增長。\n"NOR,me);
+      message_vision(HIR + "白日照耀之下，$n" + HIR + "幾欲分崩離析，$N" + HIR + "趕緊以元神強行聚合。\n" + NOR,me,eq);
+//      message_vision(YEL + "由於$N" + YEL + "的元神過度集中，因此基本內功\(force)有所增長。\n" + NOR,me);
 //      me->add_temp("apply/force",add/10);
 //      me->set_temp("apply/force_night_legging",add/10); //作為增加的紀錄
       me->set_temp("night-legging/day",1); //使用效果（白晝）
@@ -201,7 +201,7 @@ void heart_beat()
     eq->delete_temp("can_not_remove"); //此時可以脫下裝備
     if(!me->query_temp("night-legging/night")) //尚未使用裝備附加能力時（夜間）
     {
-      message_vision("$n"HIC"和月光星空產生共鳴，暗夜之力頓時籠罩了$N"HIC"!!\n"NOR,me,eq);
+      message_vision("$n" + HIC + "和月光星空產生共鳴，暗夜之力頓時籠罩了$N" + HIC + "!!\n" + NOR,me,eq);
       me->set_temp("night-legging/night",1); //使用效果（夜間）
       if(me->query_temp("night-legging/day")) //在白晝有扣過攻防的，要加1.2倍，才達到夜間強化的效果。 //例如 +12後現值為+10
       {

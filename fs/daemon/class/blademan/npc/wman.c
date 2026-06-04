@@ -67,13 +67,13 @@ if(random(100) > 30)
 {
 if(random(9) >= 4)
 {
-message_vision(HIY"木者招喚群樹，把你刺的遍體淋傷！\n"NOR,me);
+message_vision(HIY + "木者招喚群樹，把你刺的遍體淋傷！\n" + NOR,me);
 for(j=0;j < i;j++) {
 target[j]->add("kee",-800); }
    }
    else
    {
-message_vision(HIC"木者仰天一笑，瞬時內息穩固。\n"NOR,me);
+message_vision(HIC + "木者仰天一笑，瞬時內息穩固。\n" + NOR,me);
 me->receive_curing("kee",1200);
 me->receive_heal("kee",1200);
     me->delete_busy();

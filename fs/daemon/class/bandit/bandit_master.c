@@ -83,7 +83,7 @@ int do_join()
   if( who->query("class") )
     return notify_fail("蔣風不耐煩道﹕你已經是公會成員了，別來煩我！\n");
   who->set("class", "bandit");
-  tell_object(users(),HIC"惡人公會盜賊頭子蔣風縱聲大叫﹕又有個壞傢伙加入咱賊道啦！！！\n"NOR);
+  tell_object(users(),HIC + "惡人公會盜賊頭子蔣風縱聲大叫﹕又有個壞傢伙加入咱賊道啦！！！\n" + NOR);
   return 1;
 }
 
@@ -93,28 +93,28 @@ void greeting(object ob)
   {
     if ( ob->query("quests/steal") == 1 ) //神手妙取之術 (steal) 判斷mark
     {
-      message_vision(HIW"蔣風笑道﹕嗯？偷得還過癮吧？？\n"NOR,ob);
+      message_vision(HIW + "蔣風笑道﹕嗯？偷得還過癮吧？？\n" + NOR,ob);
     }
     else if (ob->query("combat_exp") > 100000 && ob->query_kar() >= 30 ) //因為可以當官後轉惡人所以增加大於30的可能 by blazakira
     {
-      message_vision(HIG"蔣風像似看到稀罕物般﹕哎呦！這麼強運的人已經很少看到了，
-我就特地教你怎麼偷摸（steal）別人的東西吧！\n"NOR,ob);
+      message_vision(HIG + "蔣風像似看到稀罕物般﹕哎呦！這麼強運的人已經很少看到了，
+我就特地教你怎麼偷摸（steal）別人的東西吧！\n" + NOR,ob);
       ob->set("quests/steal",1);
     }
     else if(ob->query("quests/karup") == 1)
     {
-      message_vision(HIG"蔣風拍了拍$N的肩說道﹕做得好啊！真是有出息，
-那我就教你怎麼去偷東西吧（steal）！\n"NOR,ob);
+      message_vision(HIG + "蔣風拍了拍$N的肩說道﹕做得好啊！真是有出息，
+那我就教你怎麼去偷東西吧（steal）！\n" + NOR,ob);
       ob->set("quests/steal",1);
     }
     else if (ob->query_temp("marks/karup",1))
     {
-      message_vision(HIG"蔣風看了看$N欲言又止的模樣﹕怎麼還是老樣子？再不努力點，我可不管你了！\n"NOR,ob);
+      message_vision(HIG + "蔣風看了看$N欲言又止的模樣﹕怎麼還是老樣子？再不努力點，我可不管你了！\n" + NOR,ob);
     }
     else if (ob->query("combat_exp") > 135000 && ob->query_kar() < 30 )
     {
-      message_vision(HIG"蔣風嘖嘖稱奇地對$N說道﹕嗯，看來你有資格讓我傳授你一些東西，
-但你的運氣未免差了點，想辦法讓運勢再加強點吧！\n"NOR,ob);
+      message_vision(HIG + "蔣風嘖嘖稱奇地對$N說道﹕嗯，看來你有資格讓我傳授你一些東西，
+但你的運氣未免差了點，想辦法讓運勢再加強點吧！\n" + NOR,ob);
       ob->set_temp("marks/karup",1);
     }
   }

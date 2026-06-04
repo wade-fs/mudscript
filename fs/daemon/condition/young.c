@@ -10,7 +10,7 @@ int update_condition(object me, int duration)
     me->delete("age_young");
     me->add("mud_age",me->query("new_age"));
     me->delete("new_age");
-    message_vision(HIC"$N的面貌瞬間\蒼\老\許\多\，行動也漸漸緩慢。\n"NOR,me);
+    message_vision(HIC + "$N的面貌瞬間\蒼\老\許\多\，行動也漸漸緩慢。\n" + NOR,me);
     return 0;
   }
   me->apply_condition("young",duration-1);

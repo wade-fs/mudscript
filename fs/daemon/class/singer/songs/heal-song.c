@@ -12,7 +12,7 @@ int perform(object me)
         if ( !valuecheck(me) )  return notify_fail("你沒有受傷。\n");
 
         me->set_temp("singing",1);
-        message_vision(HIW"$N雙手五指相接，五指空握處，散發著零星的光芒！\n"NOR,me);
+        message_vision(HIW + "$N雙手五指相接，五指空握處，散發著零星的光芒！\n" + NOR,me);
         me->receive_heal("gin",funlv*20);
         me->receive_heal("kee",funlv*20);
         me->receive_heal("sen",funlv*20);

@@ -9,7 +9,7 @@ void power2(object me, object victim, object weapon, int damage);
 mapping *action = ({
    ([
         "action":
-"只見$N一步躍空,使出了"HIW"『白虎落山』"NOR",手中$w氣勢滂漙有開劈石之勢直向$n逼去",
+"只見$N一步躍空,使出了" + HIW + "『白虎落山』" + NOR + ",手中$w氣勢滂漙有開劈石之勢直向$n逼去",
         "dodge"      :                25,
         "parry"      :                25,
         "damage"     :                80,
@@ -18,7 +18,7 @@ mapping *action = ({
    ]),
   ([
         "action"     :
-"$N身子緩緩打斜縱身躍出,藉由旋轉之勢,打出了"HIB"『惡蛟渡江』"NOR"強大的氣勁挾帶著滾滾風沙,$w宛如惡蛟般地兇猛,直撲$n而去",
+"$N身子緩緩打斜縱身躍出,藉由旋轉之勢,打出了" + HIB + "『惡蛟渡江』" + NOR + "強大的氣勁挾帶著滾滾風沙,$w宛如惡蛟般地兇猛,直撲$n而去",
         "dodge"      :                20,
         "parry"      :                20,
         "damage"     :                90,
@@ -27,7 +27,7 @@ mapping *action = ({
    ]),
   ([
         "action"     :
-"$N神情從容,手裡$w心隨意轉,一轉眼已攻至$n眼前,$N才緩緩道出"HIR"『血燕歸巢』"NOR"這招名稱",
+"$N神情從容,手裡$w心隨意轉,一轉眼已攻至$n眼前,$N才緩緩道出" + HIR + "『血燕歸巢』" + NOR + "這招名稱",
         "dodge"      :                15,
         "parry"      :                15,
         "damage"     :                 90,
@@ -36,7 +36,7 @@ mapping *action = ({
    ]),
   ([
         "action"     :
-"$N大喝一聲,眼中充滿血光,霎那間腦海裡只有殺,一時間將山賊的本性完全顯露出來,手握$w無情地向$n砍殺,一招"HIC"『怒斬修羅』"NOR"連神也躲不過",
+"$N大喝一聲,眼中充滿血光,霎那間腦海裡只有殺,一時間將山賊的本性完全顯露出來,手握$w無情地向$n砍殺,一招" + HIC + "『怒斬修羅』" + NOR + "連神也躲不過",
         "dodge"      :                10,
         "parry"      :                10,
         "damage"     :                100,
@@ -45,7 +45,7 @@ mapping *action = ({
    ]),
   ([
         "action"     :
-"$N將手中$w一攔,以極快的手法向$n攻去,正是"HIG"『疾 狼 斬』"NOR"～",
+"$N將手中$w一攔,以極快的手法向$n攻去,正是" + HIG + "『疾 狼 斬』" + NOR + "～",
          "dodge"      :                5,
          "parry"      :                5,
          "damage"     :                110,
@@ -54,7 +54,7 @@ mapping *action = ({
    ]),
 ([
          "action"     :
-"$N運起全身勁力﹐勁貫$w﹐使出一招"BLINK+HIW"『袍丁宰牛』"NOR"$N以全身勁力砍向$n$l",
+"$N運起全身勁力﹐勁貫$w﹐使出一招"BLINK+HIW + "『袍丁宰牛』" + NOR + "$N以全身勁力砍向$n$l",
          "dodge"      :               -5,
          "parry"      :               -5,
          "damage"     :                130,
@@ -63,7 +63,7 @@ mapping *action = ({
    ]),
   ([
          "action"     :
-"$N縱身躍起﹐行如影、快如風﹐一招"HIY"『金燕橫空』"NOR"﹐分別劈向$n四肢",
+"$N縱身躍起﹐行如影、快如風﹐一招" + HIY + "『金燕橫空』" + NOR + "﹐分別劈向$n四肢",
          "dodge"      :               -10,
          "parry"      :               -10,
          "damage"     :                140,
@@ -73,7 +73,7 @@ mapping *action = ({
   ]),
 ([
          "action"     :
-"$N運起全身功\力,氣集於$w使出一招"BLINK+HIR"『鬼氣貫腦』"NOR"斧勁極快的的波及到$n",
+"$N運起全身功\力,氣集於$w使出一招"BLINK+HIR + "『鬼氣貫腦』" + NOR + "斧勁極快的的波及到$n",
          "dodge"      :               -15,
          "parry"      :               -15,
          "damage"     :                150,
@@ -82,7 +82,7 @@ mapping *action = ({
    ]),
   ([
          "action"     :
-"$N橫起$w﹐氣貫丹田、反轉$w﹐使出一招"HIR"『驚天狂龍破』"NOR"﹐$w的瑞氣朝$n身上四射過去",
+"$N橫起$w﹐氣貫丹田、反轉$w﹐使出一招" + HIR + "『驚天狂龍破』" + NOR + "﹐$w的瑞氣朝$n身上四射過去",
          "dodge"      :               -20,
          "parry"      :               -20,
          "damage"     :                170,
@@ -92,7 +92,7 @@ mapping *action = ({
   ]),
   ([
          "action"     :
-"$N舉起$w來﹐內力一提、勁貫雙手﹐頓時飛沙走石、狂風四起﹐$N使出一招"HIB"『擂鼓震山川』"NOR"﹐使出了前所未有的超爆狂力朝$n身上狂劈過去",
+"$N舉起$w來﹐內力一提、勁貫雙手﹐頓時飛沙走石、狂風四起﹐$N使出一招" + HIB + "『擂鼓震山川』" + NOR + "﹐使出了前所未有的超爆狂力朝$n身上狂劈過去",
          "dodge"      :               -30,
          "parry"      :               -30,
          "damage"     :                190,
@@ -116,25 +116,25 @@ int i;
 {
 
 case 1:
-message_vision(sprintf("$N見$n的攻勢瓦解決定使出獨門招式之"HIY"『春秋詩斷愁』"NOR"，直取$n的四處要害。\n"),me);
+message_vision(sprintf("$N見$n的攻勢瓦解決定使出獨門招式之" + HIY + "『春秋詩斷愁』" + NOR + "，直取$n的四處要害。\n"),me);
 
 
-message_vision(sprintf("$N步伐如醉，使出『春秋詩斷愁』－－－"BLINK+HIB"【 春 風 拂 人 醉 】"NOR"，直劈$n的胸部。\n"),me,victim);
+message_vision(sprintf("$N步伐如醉，使出『春秋詩斷愁』－－－"BLINK+HIB + "【 春 風 拂 人 醉 】" + NOR + "，直劈$n的胸部。\n"),me,victim);
 break;
 
 
 case 2:
-message_vision(sprintf("$N身輕如燕，使出『春秋詩斷愁』－－－"BLINK+HIY"【 飛 花 逐 人 香 】"NOR"，砍向$n的背部。\n"),me,victim);
+message_vision(sprintf("$N身輕如燕，使出『春秋詩斷愁』－－－"BLINK+HIY + "【 飛 花 逐 人 香 】" + NOR + "，砍向$n的背部。\n"),me,victim);
 break;
 
 
 case 3:
-message_vision(sprintf("$N深鎖緊眉，使出『春秋詩斷愁』－－－"BLINK+HIC"【 秋 意 愁 不 斷 】"NOR"，直取$n的頭部。\n"),me,victim);
+message_vision(sprintf("$N深鎖緊眉，使出『春秋詩斷愁』－－－"BLINK+HIC + "【 秋 意 愁 不 斷 】" + NOR + "，直取$n的頭部。\n"),me,victim);
 break;
 
 
 case 4:
-message_vision(sprintf("$N行如快風，使出『春秋詩斷愁』－－－"BLINK+HIW"【 柳 葉 隨 人 癡 】"NOR"，斬向$n的咽喉。\n"),me,victim);
+message_vision(sprintf("$N行如快風，使出『春秋詩斷愁』－－－"BLINK+HIW + "【 柳 葉 隨 人 癡 】" + NOR + "，斬向$n的咽喉。\n"),me,victim);
 break;
 }
      if(me->query_skill("snow-martial",1)>random(150))

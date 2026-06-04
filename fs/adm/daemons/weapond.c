@@ -155,8 +155,8 @@ void bash_weapon(object me, object victim, object weapon, int damage)
                         + (int)victim->query_str();
                 wap = random(wap);
                 if( wap > 2 * wdp ) {
-                        message_vision(HIW "只聽見「啪」地一聲﹐$N手中的" + ob->name()
-                                + "已經斷為兩截﹗\n" NOR, victim );
+                        message_vision(HIW + "只聽見「啪」地一聲﹐$N手中的" + ob->name()
+                                + "已經斷為兩截﹗\n" + NOR, victim );
                         ob->unequip();
                         ob->move(environment(victim));
                         ob->set("name", "斷掉的" + ob->query("name"));
@@ -164,7 +164,7 @@ void bash_weapon(object me, object victim, object weapon, int damage)
                         ob->set("weapon_prop", 0);
                         victim->reset_action();
                 } else if( wap > wdp ) {
-                        message_vision(HIW "$N只覺得手中" + ob->name() + "把持不定﹐脫手飛出﹗\n" NOR,
+                        message_vision(HIW + "$N只覺得手中" + ob->name() + "把持不定﹐脫手飛出﹗\n" + NOR,
                                 victim);
                         ob->unequip();
                         ob->move(environment(victim));

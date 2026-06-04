@@ -5,16 +5,16 @@ inherit SKILL;
 
 string delay();
 string *parry_msg = ({
-  HIW"$n"HIW"一招"HIY"『禮敬如來』"HIW"，雙掌一合，擋住了$N"HIW"的殺招。\n"NOR,
-  HIC"$n"HIC"足跟不動，足尖左磨，成右引左箭步，輕輕巧巧的卸開了$N"HIC"的攻勢。\n"NOR,
-  HIW"$n"HIW"袖袍一拂，一股輕柔渾和的氣旋，把$N"HIW"攻擊的力道化為無形。\n"NOR,
+  HIW + "$n" + HIW + "一招" + HIY + "『禮敬如來』" + HIW + "，雙掌一合，擋住了$N" + HIW + "的殺招。\n" + NOR,
+  HIC + "$n" + HIC + "足跟不動，足尖左磨，成右引左箭步，輕輕巧巧的卸開了$N" + HIC + "的攻勢。\n" + NOR,
+  HIW + "$n" + HIW + "袖袍一拂，一股輕柔渾和的氣旋，把$N" + HIW + "攻擊的力道化為無形。\n" + NOR,
 });
 
 string delay()
 {
   object enemy = call_stack(1)[<1];
   enemy->start_busy(1);
-  return HIC"$n"HIC"緩過氣來緊接著將另一袖袍也使出【袖裡乾坤】一拂，一股渾重的氣旋，把$N"HIY"攻擊的身形再度一滯。\n\n"NOR;
+  return HIC + "$n" + HIC + "緩過氣來緊接著將另一袖袍也使出【袖裡乾坤】一拂，一股渾重的氣旋，把$N" + HIY + "攻擊的身形再度一滯。\n\n" + NOR;
 }
 
 int valid_enable(string usage)
@@ -46,7 +46,7 @@ string query_parry_msg(string limb,object me,object attacker)
   {
     attacker->start_busy(1);
     me->add("force",-50);
-    d += HIY"但$n"HIY"袖袍一拂使出【袖裡乾坤】，一股渾重的氣旋，讓$N"HIY"的身形一滯。\n"NOR;
+    d += HIY + "但$n" + HIY + "袖袍一拂使出【袖裡乾坤】，一股渾重的氣旋，讓$N" + HIY + "的身形一滯。\n" + NOR;
     if( me->query_skill("saulin-kee",1)-60 > random(100) ) //前述已限制80 此時機率為 80~100-60 > random(100) = 20%~40%
       d += delay();
   }
@@ -54,7 +54,7 @@ string query_parry_msg(string limb,object me,object attacker)
 //魚缸@台北 說: call_stack(1)[<1] 就是把一路 call 過的物件中取最後一個，還是最前面一個
   if( ppl && me->query("id")=="blazakira" ) {
 //    tell_object(ppl,sprintf("%O",call_stack(1))); //此參數於此處時 可查看相關物件來debug by blazakira
-    tell_object( ppl,RED+BYEL"\n目前對手 "+attacker->query("name")+"("+attacker->query("id")+") 來自少林護身勁的 busy回合為："+attacker->query_busy()+"\n\n"NOR );
+    tell_object( ppl,RED+BYEL + "\n目前對手 "+attacker->query("name")+"("+attacker->query("id")+") 來自少林護身勁的 busy回合為："+attacker->query_busy()+"\n\n" + NOR );
   }
   return d;
 }

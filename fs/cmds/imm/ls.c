@@ -79,7 +79,7 @@ int main(object me, string arg)
                 if(file_size(dir+file[i][0])==-1) file[i][1]=-3;
                 len=sizeof(file[i][0]);
                 if( file[i][1]==-2 )
-                        file[i][0] = HIC+file[i][0]+"/"NOR;
+                        file[i][0] = HIC+file[i][0]+"/" + NOR;
                 else if( file[i][0][len-2..len-1] == ".c" )
                         file[i][0] = HIG+file[i][0]+NOR;
                 else if( file[i][0][len-2..len-1] == ".h" )
@@ -94,7 +94,7 @@ int main(object me, string arg)
         w   = 79 / col -5;
 
         if( sizeof(file) ) {
-                msg = HIW"目錄﹕"HIY + dir + "\n"NOR;
+                msg = HIW + "目錄﹕" + HIY + dir + "\n" + NOR;
                 for(i=0, j = sizeof(file); i<j; i++)
                 {
                         len=sizeof(file[i][0]);
@@ -104,7 +104,7 @@ int main(object me, string arg)
                         msg += sprintf( "%3d%s%-*s%s",
                                 ( file[i][1]/1024/1024 )? file[i][1]/1024/1024 : file[i][1]/1024 + 1,
                                 ( file[i][1]/1024/1024 )? "M" : " ", w,
-                                ( find_object(dir+file[i][0][7..len-5] )? file[i][0][0..len-5]+NOR"*" : file[i][0]),
+                                ( find_object(dir+file[i][0][7..len-5] )? file[i][0][0..len-5]+NOR + "*" : file[i][0]),
                                 ( (i+1)%col )? "" : "\n" );
                 }
                 msg += "\n";

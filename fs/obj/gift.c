@@ -4,7 +4,7 @@ inherit ITEM;
 
 void create()
 {
-    set_name(HIR"聖誕小襪襪"NOR, ({"X'mas sock","sock"}));
+    set_name(HIR + "聖誕小襪襪" + NOR, ({"X'mas sock","sock"}));
     set_weight(100);
     set("no_sell",1);
     set("no_give",1);
@@ -28,40 +28,40 @@ int do_open(string arg)
         int force = (int)me->query_skill("force",1);
         
         if(me->query("id") != ob->query("geter"))
-                return notify_fail(HIR"耐吉小精靈質問你道：你怎麼可以偷人家的小襪襪咧？\n"NOR);
+                return notify_fail(HIR + "耐吉小精靈質問你道：你怎麼可以偷人家的小襪襪咧？\n" + NOR);
         switch(random(7))
         {
         case 0:
-                arg = HIW"珍珠十顆"NOR;
+                arg = HIW + "珍珠十顆" + NOR;
                 ob2 = new("/obj/money/pearl")->set_amount(10);
                 ob2->move(me);
                 break;
         case 1:
-                arg = HIR"替身二個"NOR;
+                arg = HIR + "替身二個" + NOR;
                 me->add("standby",1);
                 break;
         case 2:
-                arg = HIG"潛能十萬點"NOR;
+                arg = HIG + "潛能十萬點" + NOR;
                 me->add("potential",100000);
                 break;
         case 3:
-                arg = HIC"經驗值五萬點"NOR;
+                arg = HIC + "經驗值五萬點" + NOR;
                 me->add("combat_exp",50000);
                 break;
         case 4:
-                arg = HIB"銘謝惠顧一張"NOR;
+                arg = HIB + "銘謝惠顧一張" + NOR;
                 ob2 = new("/obj/gift/x'mas/obj/paper")->move(me);
                 break;
         case 5:
-                arg = HIM"評價一萬點"NOR;
+                arg = HIM + "評價一萬點" + NOR;
                 me->add("score",10000);
                 break;
         case 6:
-                arg = HIM"基本內功\二十級"NOR;
+                arg = HIM + "基本內功\二十級" + NOR;
                 me->set_skill("force",force+10);
                 break;
         }
-                message_vision(HIW"$N開心的打開小襪襪，發現裡頭原來是「"+arg+"」ㄚ！\n"NOR,me);
+                message_vision(HIW + "$N開心的打開小襪襪，發現裡頭原來是「"+arg+"」ㄚ！\n" + NOR,me);
                 me->set("gift/x'mas/get_gift",1);
                 destruct(ob);
                 return 1;

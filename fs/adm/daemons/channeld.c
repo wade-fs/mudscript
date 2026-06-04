@@ -16,7 +16,7 @@ void create()
 }
 void reset()
 {
-CHANNEL_D->do_channel(this_object(),"sys",HIG"物件重生了!!"NOR);
+CHANNEL_D->do_channel(this_object(),"sys",HIG + "物件重生了!!" + NOR);
 }
 
 
@@ -24,25 +24,25 @@ string myclass, myclan;
 string record;
 
 mapping channels = ([
-	"sys"     : (["msg_speak" : "【系統】%s"NOR": %s\n",
+	"sys"     : (["msg_speak" : "【系統】%s"+NOR+": %s\n",
                       "arch_only" : 1 ]),
 
-        "wiz"     : (["msg_speak" : HIW"【"HIY"眾神會議"HIW"】"HIY"%s說道: %s\n"NOR,
+        "wiz"     : (["msg_speak" : HIW + "【" + HIY + "眾神會議" + HIW + "】" + HIY + "%s說道: %s\n" + NOR,
                       "wiz_only" : 1 ]),
 
-        "gwiz"    : (["msg_speak" : "【"HIG"網際巫師"NOR"】"HIG"%s說道: %s\n"NOR,
+        "gwiz"    : (["msg_speak" : "【" + HIG + "網際巫師"+NOR+"】" + HIG + "%s說道: %s\n" + NOR,
                       "wiz_only": 1,
                       "intermud": GWIZ,
                       "channel" : "CREATOR",
                       "filter" : 1 ]),
 
-        "es"      : (["msg_speak":  "【"HIR"狂想空間"NOR"】"HIR"%s說道: %s\n"NOR,
+        "es"      : (["msg_speak":  "【" + HIR + "狂想空間"+NOR+"】" + HIR + "%s說道: %s\n" + NOR,
                       "intermud": GCHANNEL,
                       "channel": "es",
                       "filter": (: $1["MUDLIB"]=="Eastern Stories" :) ]),
 
 	// 增加IP by ACKY
-	"twiz"    : (["msg_speak": "【"HIW"台灣巫師"NOR"】"HIW"%s說道: %s\n"NOR,
+	"twiz"    : (["msg_speak": "【" + HIW + "台灣巫師"+NOR+"】" + HIW + "%s說道: %s\n" + NOR,
                       "wiz_only":1,
                       "intermud": GCHANNEL,
                       "channel": "twiz",
@@ -55,61 +55,61 @@ mapping channels = ([
 				   $1["HOSTADDRESS"][0..2]=="211"
 			:)]),
 
-        "chat"    : (["msg_speak": "【"HIC"閒聊"NOR"】"HIC"%s說道: %s\n"NOR]),
+        "chat"    : (["msg_speak": "【" + HIC + "閒聊"+NOR+"】" + HIC + "%s說道: %s\n" + NOR]),
 
-	"sex"	  : (["msg_speak": HIY"【"HIR"十八禁頻道"HIY"】%s說道: %s\n"NOR]),
+	"sex"	  : (["msg_speak": HIY + "【" + HIR + "十八禁頻道" + HIY + "】%s說道: %s\n" + NOR]),
 
-        "music"   : (["msg_speak": GRN"【"HIG"天籟"GRN"】"HIG"%s唱道: %s\n"NOR]),
+        "music"   : (["msg_speak": GRN + "【" + HIG + "天籟" + GRN + "】" + HIG + "%s唱道: %s\n" + NOR]),
 
-        "cb"      : (["msg_speak": HIC"【"HIW"幫會協商"HIC"】"HIW"%s談道: %s\n"NOR]),
+        "cb"      : (["msg_speak": HIC + "【" + HIW + "幫會協商" + HIC + "】" + HIW + "%s談道: %s\n" + NOR]),
 
-        "dead"    : (["msg_speak": HIB"【死亡快報】%s%s\n"NOR]),
+        "dead"    : (["msg_speak": HIB + "【死亡快報】%s%s\n" + NOR]),
 
-        "war"     : (["msg_speak": "【"HIR"戰爭"NOR"】"HIR"%s喝道: %s\n"NOR]),
+        "war"     : (["msg_speak": "【" + HIR + "戰爭"+NOR+"】" + HIR + "%s喝道: %s\n" + NOR]),
 
-        "ct"     : (["msg_speak": "【"HIY"幫會"NOR"】"HIY"%s說道: %s\n"NOR]),
+        "ct"     : (["msg_speak": "【" + HIY + "幫會"+NOR+"】" + HIY + "%s說道: %s\n" + NOR]),
 
-        "gt"     : (["msg_speak": GRN"【"HIG"公會"GRN"】"HIG"%s說道: %s\n"NOR]),
+        "gt"     : (["msg_speak": GRN + "【" + HIG + "公會" + GRN + "】" + HIG + "%s說道: %s\n" + NOR]),
 
-        "ut"      : (["msg_speak": HIM"【"HIW"至尊"HIM"】"HIW"%s冥想: %s\n"NOR]),
+        "ut"      : (["msg_speak": HIM + "【" + HIW + "至尊" + HIM + "】" + HIW + "%s冥想: %s\n" + NOR]),
 
-        "ht"      : (["msg_speak": HIY"【"HIM"英雄論談"HIY"】"HIM"%s談道: %s\n"NOR]),
+        "ht"      : (["msg_speak": HIY + "【" + HIM + "英雄論談" + HIY + "】" + HIM + "%s談道: %s\n" + NOR]),
 
-        "mt"      : (["msg_speak": HIY"【"HIG"肉腳對話"HIY"】"HIG"%s說道: %s\n"NOR]),
+        "mt"      : (["msg_speak": HIY + "【" + HIG + "肉腳對話" + HIY + "】" + HIG + "%s說道: %s\n" + NOR]),
 
-        "ot"     : (["msg_speak": HIB"【夜總會】"HIG"%s冥想: %s\n"NOR]),
+        "ot"     : (["msg_speak": HIB + "【夜總會】" + HIG + "%s冥想: %s\n" + NOR]),
 
-        "shout"   : (["msg_speak": HIR"%s縱聲大叫: %s\n"NOR]),
+        "shout"   : (["msg_speak": HIR + "%s縱聲大叫: %s\n" + NOR]),
 
         "gamble"  : (["msg_speak": "%s\n",
                       "mud_only": 1, ]),
 
-        "mud"     : (["msg_speak": HIG"%s\n"NOR,
+        "mud"     : (["msg_speak": HIG + "%s\n" + NOR,
                       "mud_only": 1, ]),
 
-        "rumor"   : (["msg_speak": BLU"【"HIB"謠言"BLU"】"HIB"%s: %s\n"NOR,
+        "rumor"   : (["msg_speak": BLU + "【" + HIB + "謠言" + BLU + "】" + HIB + "%s: %s\n" + NOR,
                       "anonymous": "某人", ]),
 
-        "ct*"     : (["msg_speak": "【"HIY"幫會"NOR"】"HIY""]),
+        "ct*"     : (["msg_speak": "【" + HIY + "幫會"+NOR+"】" + HIY + ""]),
 
-        "wiz*"    : (["msg_speak": HIW"【"HIY"眾神會議"HIW"】"HIY"",
+        "wiz*"    : (["msg_speak": HIW + "【" + HIY + "眾神會議" + HIW + "】" + HIY + "",
                       "wiz_only": 1 ]),
 
-	"sex*"	  : (["msg_speak": HIY"【"HIR"十八禁頻道"HIY"】"]),
+	"sex*"	  : (["msg_speak": HIY + "【" + HIR + "十八禁頻道" + HIY + "】"]),
 
-        "chat*"   : (["msg_speak": "【"HIC"閒聊"NOR"】"HIC""]),
+        "chat*"   : (["msg_speak": "【" + HIC + "閒聊"+NOR+"】" + HIC + ""]),
 
-        "gt*"     : (["msg_speak": GRN"【"HIG"公會"NOR"】"GRN""]),
+        "gt*"     : (["msg_speak": GRN + "【" + HIG + "公會"+NOR+"】" + GRN + ""]),
 
-        "ut*"     : (["msg_speak": HIM"【"HIW"至尊"HIM"】"HIW]),
+        "ut*"     : (["msg_speak": HIM + "【" + HIW + "至尊" + HIM + "】" + HIW]),
 
-        "ht*"     : (["msg_speak": HIY"【"HIM"英雄論談"HIY"】"HIM]),
+        "ht*"     : (["msg_speak": HIY + "【" + HIM + "英雄論談" + HIY + "】" + HIM]),
 
-        "mt*"     : (["msg_speak": HIY"【"HIG"肉腳對話"HIY"】"HIG]),
+        "mt*"     : (["msg_speak": HIY + "【" + HIG + "肉腳對話" + HIY + "】" + HIG]),
 
-        "cb*"     : (["msg_speak": HIC"【"HIW"幫會協商"HIC"】"HIW]),
+        "cb*"     : (["msg_speak": HIC + "【" + HIW + "幫會協商" + HIC + "】" + HIW]),
 
-        "ot*"     : (["msg_speak": HIB"【夜總會】"HIG]),
+        "ot*"     : (["msg_speak": HIB + "【夜總會】" + HIG]),
 ]);
 
 varargs int do_channel( object me, string verb, string arg, int emote )
@@ -255,7 +255,7 @@ if( (verb=="shout" || verb=="sex" || verb=="music" || verb=="rumor" || verb=="ch
 		cls = (me->query("gender") == "女性") ?
 			to_chinese("f_"+myclass) : to_chinese(myclass);
 		message( "class_channel",
-			sprintf(HIG"%s"NOR"%s說道: %s\n"NOR, cls, who, arg ),
+			sprintf(HIG + "%s"+NOR+"%s說道: %s\n" + NOR, cls, who, arg ),
 			usr );
 		return 1;
 	}
@@ -263,7 +263,7 @@ if( (verb=="shout" || verb=="sex" || verb=="music" || verb=="rumor" || verb=="ch
 	// 幫會頻道
 	if( verb == "ct" ) {
 		message( "clan_channel",
-			sprintf("【"HIC"%s"NOR"】"HIY"%s說道: %s\n"NOR, myclan, who, arg ),
+			sprintf("【" + HIC + "%s"+NOR+"】" + HIY + "%s說道: %s\n" + NOR, myclan, who, arg ),
 			usr );
 		return 1;
 	}
@@ -271,7 +271,7 @@ if( (verb=="shout" || verb=="sex" || verb=="music" || verb=="rumor" || verb=="ch
 	// 幫會戰爭頻道
 	if( verb == "war" ) {
 		message( "clan_channel",
-			sprintf("【"HIR"%s"NOR"】"HIR"%s喝道: %s\n"NOR, myclan, who, arg ),
+			sprintf("【" + HIR + "%s"+NOR+"】" + HIR + "%s喝道: %s\n" + NOR, myclan, who, arg ),
 			usr );
 		return 1;
 	}

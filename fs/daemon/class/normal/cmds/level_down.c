@@ -11,7 +11,7 @@ int main(object me, string arg)
     if(me->query_temp("leveluping")) return notify_fail("這時候散去鬥氣會走火入魔喔!!\n");
     if(!me->query_temp("level")) return notify_fail("你並沒有集氣!!\n");
     now_level=me->query_temp("level/now_level");
-    message_vision(HIG"$N輕輕呼出一口氣，把原本聚集在自己身旁的鬥氣散去!!\n"NOR,me);
+    message_vision(HIG + "$N輕輕呼出一口氣，把原本聚集在自己身旁的鬥氣散去!!\n" + NOR,me);
     me->delete_temp("level");
     me->delete_temp("leveluping");
     me->delete_temp("ride_name");

@@ -2,7 +2,7 @@ inherit COMBINED_ITEM;
 #include <ansi.h>
 void create ()
 {
-        set_name(HIY" 蜂 笛 "NOR,({"bee flute","flute"}));
+        set_name(HIY + " 蜂 笛 " + NOR,({"bee flute","flute"}));
         set_weight(1000);
         if( clonep() )
                 set_default_object(__FILE__);
@@ -67,7 +67,7 @@ int i,sk,t_sk,limit;
 	t_sk = (int)target->query_skill("dodge");
 	if( t_sk == 0 )
 		t_sk = 2;
-	d_msg = HIW" 吹奏著 \n\n"NOR;
+	d_msg = HIW + " 吹奏著 \n\n" + NOR;
 	i = random(100);
 
 	if( random(sk) > random(t_sk) )
@@ -78,21 +78,21 @@ int i,sk,t_sk,limit;
 			d_msg = d_msg + HIC+"～　"+HIG+"＠ "+HIM+"幻 曲 "+HIG+"＠  "+HIC+"～"+HIG+"  ＠  "+HIY+"蜂    王    篇"+HIG+"  ＠  "+HIW+"～\n\n"+NOR;
 			if( i == 77 )
 			{
-				d_msg = d_msg + "     "+HIC+"	神 "+HIW+"	☆ "+HIM+"	形 "+HIW+"	☆ "+HIY+"	俱 "+HIW+"	☆ "+HIG+"	滅     \n"NOR;
+				d_msg = d_msg + "     "+HIC+"	神 "+HIW+"	☆ "+HIM+"	形 "+HIW+"	☆ "+HIY+"	俱 "+HIW+"	☆ "+HIG+"	滅     \n" + NOR;
 				limit = (int)target->query("max_kee")/10;
 				if( limit < 1500 )
 					limit = 1500;
 			}
 			if( 90 > i > 80 )
 			{
-				d_msg = d_msg + "     "+HIC+"	雷 "+HIW+"	ξ "+HIM+"	蜂 "+HIW+"	ξ "+HIY+"	破 "+HIW+"	ξ "+HIG+"	魔     \n"NOR;
+				d_msg = d_msg + "     "+HIC+"	雷 "+HIW+"	ξ "+HIM+"	蜂 "+HIW+"	ξ "+HIY+"	破 "+HIW+"	ξ "+HIG+"	魔     \n" + NOR;
 				limit = (int)target->query("max_gin")/10;
 				if( limit < 800 )
 					limit = 800;
 			}
 			if( 40 > i > 30 )
 			{
-				d_msg = d_msg + "     "+HIC+"	火 "+HIW+"	＊ "+HIM+"	蜂 "+HIW+"	＊ "+HIY+"	降 "+HIW+"	＊ "+HIG+"	妖     \n"NOR;
+				d_msg = d_msg + "     "+HIC+"	火 "+HIW+"	＊ "+HIM+"	蜂 "+HIW+"	＊ "+HIY+"	降 "+HIW+"	＊ "+HIG+"	妖     \n" + NOR;
 				limit = (int)target->query("max_sen")/10;
 				if( limit < 500 )
 					limit = 500;
@@ -118,19 +118,19 @@ int i,sk,t_sk,limit;
 			d_msg = d_msg + HIY+"～　"+HIC+"神 調  "+HIY+"～"+HIG+"     蜂   "+HIW+"□   "+HIG+"后   "+HIW+"□   "+HIG+"律\n\n"+NOR;
 			if( i >= 40 )
 			{
-				d_msg = d_msg +HIC"   補   精"+NOR;
+				d_msg = d_msg +HIC + "   補   精"+NOR;
 				limit = (int)me->query("max_gin")/10;
 				me->receive_curing("gin",random(limit));
 				me->receive_heal("gin",random(limit));
 			}
 			if( i >= 70 )
 			{
-				d_msg = d_msg +HIY"   回   氣"+NOR;
+				d_msg = d_msg +HIY + "   回   氣"+NOR;
 				limit = (int)me->query("max_kee")/10;
 				me->receive_curing("kee",random(limit));
 				me->receive_heal("kee",random(limit));
 			}
-			d_msg = d_msg +HIM"   療   神"+NOR;
+			d_msg = d_msg +HIM + "   療   神"+NOR;
 			limit = (int)me->query("max_sen")/10;
 			me->receive_curing("sen",random(limit));
 			me->receive_heal("sen",random(limit));
@@ -143,15 +143,15 @@ int i,sk,t_sk,limit;
 		limit = random(200)+sk;
 		if( i > 70 )
 		{
-			d_msg = d_msg +HIM"   擾   神"+NOR;
+			d_msg = d_msg +HIM + "   擾   神"+NOR;
 			target->receive_damage("gin",limit,me);		
 		}
 		if( i > 40 )
 		{
-			d_msg = d_msg +HIC"   吸   精"+NOR;
+			d_msg = d_msg +HIC + "   吸   精"+NOR;
 			target->receive_damage("gin",limit,me);
 		}
-		d_msg = d_msg +HIY"   損   氣"+NOR;
+		d_msg = d_msg +HIY + "   損   氣"+NOR;
 		target->receive_damage("kee",limit,me);
 		message_vision(HIW+"$N對著$n"+d_msg+"\n",me,target);
 		COMBAT_D->report_status(target);
@@ -160,7 +160,7 @@ int i,sk,t_sk,limit;
 	}
 	else
 	{
-		message_vision(HIR+"$N"+HIR+"對著$n"+HIR+"吹奏著蜂笛，可惜並無呼喚出任何的蜜蜂出來。\n"NOR,me,target);
+		message_vision(HIR+"$N"+HIR+"對著$n"+HIR+"吹奏著蜂笛，可惜並無呼喚出任何的蜜蜂出來。\n" + NOR,me,target);
 		call_out("do_dest",1,me);
 	return 1;
 	}

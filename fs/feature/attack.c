@@ -50,7 +50,7 @@ void kill_ob(object ob)
         if( killer && (member_array(ob->query("id"), killer)==-1) )
                 killer += ({ ob->query("id") });
 
-        tell_object(ob, HIR "看起來" + this_object()->name() + "想殺死你﹗\n" NOR);
+        tell_object(ob, HIR + "看起來" + this_object()->name() + "想殺死你﹗\n" + NOR);
 
         fight_ob(ob);
 }

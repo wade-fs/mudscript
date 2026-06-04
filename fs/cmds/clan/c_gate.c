@@ -21,23 +21,23 @@ int main( object me , string arg )
 	switch( n ) {
 	case 1:
 		CHANNEL_D->do_channel( me, "ct",
-			"\n\t我 -「"HIW+me->query("clan/title")+HIY"」鄭重的宣佈……\n\t" +
-			"將本幫閘門警戒層級設為"HIC"[關閉]"HIY"，以防閒雜人等隨意進入。"NOR );
+			"\n\t我 -「" + HIW+me->query("clan/title")+HIY + "」鄭重的宣佈……\n\t" +
+			"將本幫閘門警戒層級設為" + HIC + "[關閉]" + HIY + "，以防閒雜人等隨意進入。" + NOR );
 		break;
 	case 2:
 		CHANNEL_D->do_channel( me, "ct",
-			"\n\t我 -「"HIW + me->query("clan/title") + HIY"」鄭重的宣佈……\n\t" +
-			"將本幫閘門警戒層級設為"HIC"[幫眾]"HIY"，只准許\本幫幫眾進出。"NOR );
+			"\n\t我 -「" + HIW + me->query("clan/title") + HIY + "」鄭重的宣佈……\n\t" +
+			"將本幫閘門警戒層級設為" + HIC + "[幫眾]" + HIY + "，只准許\本幫幫眾進出。" + NOR );
 		break;
 	case 3:
 		CHANNEL_D->do_channel( me, "ct",
-			"\n\t我 -「"HIW + me->query("clan/title") + HIY"」鄭重的宣佈……\n\t" +
-			"將本幫閘門警戒層級設為"HIC"[盟友]"HIY"，讓盟友可自由進出，以便交流互通有無。\n"NOR );
+			"\n\t我 -「" + HIW + me->query("clan/title") + HIY + "」鄭重的宣佈……\n\t" +
+			"將本幫閘門警戒層級設為" + HIC + "[盟友]" + HIY + "，讓盟友可自由進出，以便交流互通有無。\n" + NOR );
 		break;
 	case 4:
 		CHANNEL_D->do_channel( me, "ct",
-			"\n\t我 -「"HIW + me->query("clan/title") + HIY"」鄭重的宣佈……\n\t" +
-			"將本幫閘門警戒層級設為"HIC"[開放]"HIY"，讓各幫各派可自由進出，以便交流互通有無。\n"NOR);
+			"\n\t我 -「" + HIW + me->query("clan/title") + HIY + "」鄭重的宣佈……\n\t" +
+			"將本幫閘門警戒層級設為" + HIC + "[開放]" + HIY + "，讓各幫各派可自由進出，以便交流互通有無。\n" + NOR);
 		break;
 	default :
 	}

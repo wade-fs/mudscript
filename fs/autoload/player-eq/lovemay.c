@@ -7,7 +7,7 @@ inherit CLOTH;
 
 void create()
 {
-	set_name( HIM"誘"HIR"惑"HIY"魅"HIC"影"NOR , ({"sex cloth", "cloth" }) );
+	set_name( HIM + "誘" + HIR + "惑" + HIY + "魅" + HIC + "影" + NOR , ({"sex cloth", "cloth" }) );
 	set_weight(3000);
 	if( clonep() )
 		set_default_object(__FILE__);

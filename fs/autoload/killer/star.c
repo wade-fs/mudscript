@@ -50,8 +50,8 @@ LONG);
      set("no_auc",1);
    }
    init_unarmed(1);
-   set("wield_msg", HIG"$N裝備上$n，萬點星光在$n閃耀著。\n"NOR);
-   set("unwield_msg", HIG"$N放下$n，$n也漸漸失去光芒。\n"NOR);
+   set("wield_msg", HIG + "$N裝備上$n，萬點星光在$n閃耀著。\n" + NOR);
+   set("unwield_msg", HIG + "$N放下$n，$n也漸漸失去光芒。\n" + NOR);
    //更新原有的攻擊力
        if (this_player()->query("dag/sun/lv") > 2)
    	  this_object()->set("weapon_prop/damage",this_player()->query("dag/sun/at"));
@@ -98,7 +98,7 @@ int feed_dag(string arg)
 	return notify_fail("少年的。。。。給點時間消化，之前送入的內力！\n");
    this_object()->set("qktime",me->query("mud_age"));
 
-   message_vision(HIG"$N將內力源源不斷的送入"+this_object()->name()+"之中。\n"NOR,me);
+   message_vision(HIG + "$N將內力源源不斷的送入"+this_object()->name()+"之中。\n" + NOR,me);
    me->add("force",-limit_force);
 
 //這裡是檢查是否第一次鍛鍊這一把武器
@@ -126,8 +126,8 @@ int feed_dag(string arg)
 	me->add("dag/dark/lv",-1);
 	me->set("dag/dark/at",(me->query("dag/dark/lv")/2)+1);
      }
-     message_vision(HIC"$N手中的"+this_object()->name()+"發出神聖的光輝。\n"+
-		"看來威力更上一層樓了\n"NOR,user);
+     message_vision(HIC + "$N手中的"+this_object()->name()+"發出神聖的光輝。\n"+
+		"看來威力更上一層樓了\n" + NOR,user);
      me->set("dag/sun/lv",daglv);
      me->set("dag/sun/at",(daglv/2)+1);
      me->set("dag/sun/power",1);
@@ -170,18 +170,18 @@ int target_absorb(string str)
 		this_player()->start_busy(1);
 		return notify_fail("敵人仍然生命力旺盛 , 你無機可趁 !\n");
 	}
-	message_vision(HIM"$N揚起$n,殺氣凝聚於$n，幻出紫氣 \n"NOR,this_player(),this_object());
+	message_vision(HIM + "$N揚起$n,殺氣凝聚於$n，幻出紫氣 \n" + NOR,this_player(),this_object());
 	exp1= (int)ob->query("combat_exp");
 	//太弱小，不可以吸收
 	if ( exp1 < 50000)
         {
-		message_vision(HIR"$N太弱小，不足以增強暗系力量\n"NOR,ob);
+		message_vision(HIR + "$N太弱小，不足以增強暗系力量\n" + NOR,ob);
 		return 1;
 	}
 	exp2=(int)this_player()->query("combat_exp");
 	if( random(exp2) > random(exp1)/2 )
 	{
-	   message_vision(HIM"結果成功\的把$N吸收\n"NOR,ob);
+	   message_vision(HIM + "結果成功\的把$N吸收\n" + NOR,ob);
 	//這裡是檢查是否第一次鍛鍊這一把武器
 	//沒有的話，就為玩家座第一次的資料設定
 	   if (!me->query("dag/dark/lv"))
@@ -215,8 +215,8 @@ int target_absorb(string str)
                 }
 		me->set("dag/dark/at",(daglv/2) +1);
 		me->set("dag/dark/power",1);
-                message_vision(HIM"$N手中的"+this_object()->name()+"發出紫色的光輝。\n"+
-		"看來威力更上一層樓了\n"NOR,user);
+                message_vision(HIM + "$N手中的"+this_object()->name()+"發出紫色的光輝。\n"+
+		"看來威力更上一層樓了\n" + NOR,user);
 	        this_object()->delete("weapon_prop/damage");
                 this_object()->set("weapon_prop/damage",this_player()->query("dag/dark/at"));
 		// me->add("max_force",-5");
@@ -228,7 +228,7 @@ int target_absorb(string str)
 	   this_player()->add("bellicosity",-5);
 	   return 1;
 	}
-	message_vision(HIB"結果$N在千鈞一髮之際 , 躲了開去\n"NOR,ob);
+	message_vision(HIB + "結果$N在千鈞一髮之際 , 躲了開去\n" + NOR,ob);
 	this_player()->add("bellicosity",-1);
 	return 1;      
 }
@@ -288,8 +288,8 @@ mixed hit_ob( object me,object victim)
 	  //基本上還可以根據匕首等級的不同，有不一樣的特攻
 	  //甚至連特攻的屬性都不一樣
 	  //或許連武器上都可以做自己決定要用的特攻魔法
-      		message_vision(HBCYN"化出聖光氣,籠罩住$N!!"NOR,enemy[i]);
-		message_vision(HBCYN"聖光氣由$N身上，回到$n的體內!!"NOR,enemy[i],user);
+      		message_vision(HBCYN + "化出聖光氣,籠罩住$N!!" + NOR,enemy[i]);
+		message_vision(HBCYN + "聖光氣由$N身上，回到$n的體內!!" + NOR,enemy[i],user);
 		enemy[i]->receive_damage("kee",random(sunlv*2),user);
 	        COMBAT_D->report_status(enemy[i], 0);
 		user->add("kee",random(sunlv/2));
@@ -299,8 +299,8 @@ mixed hit_ob( object me,object victim)
          }
 	 case 2:
 	 {
-      		message_vision(HBMAG"化出數道鬼影，衝向$N!!！！"NOR,enemy[i]);
-		message_vision(HBMAG"$N在精神層面上受到很大的打擊!!"NOR,enemy[i]);
+      		message_vision(HBMAG + "化出數道鬼影，衝向$N!!！！" + NOR,enemy[i]);
+		message_vision(HBMAG + "$N在精神層面上受到很大的打擊!!" + NOR,enemy[i]);
 		enemy[i]->add("sen",-random(darklv));
 		enemy[i]->add("gin",-random(darklv));
 	        COMBAT_D->report_status(enemy[i], 0);
@@ -309,7 +309,7 @@ mixed hit_ob( object me,object victim)
 	} // switch block
    }
    else
-      message_vision(HIW"$N巧妙的躲開攻擊\n"NOR,enemy[i]);
+      message_vision(HIW + "$N巧妙的躲開攻擊\n" + NOR,enemy[i]);
   }
 }
 

@@ -20,9 +20,9 @@ int main(object me, string arg)
                         return notify_fail("他並沒有在天牢裡阿!!\n");
                 player->set("have_get_rest",0);
                 player->set("startroom",STARTROOM);
-                tell_room(environment(player),HIM"
+                tell_room(environment(player),HIM + "
 忽然有兩名神將出現在眾人眼前，對眾人說道:吾等奉命釋放
-"+HIY+player->query("name")+HIM+"並將其送回人間!!\n"NOR);
+"+HIY+player->query("name")+HIM+"並將其送回人間!!\n" + NOR);
                 player->move(STARTROOM);
                 player->save();
         }

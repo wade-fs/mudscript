@@ -30,7 +30,7 @@ skill=this_player()->query("functions/nine/level");
 
         me->set_temp("nine",1);
         message_vision(
-        HIC "$N運起渾天心法第二層的"CYN"玫蕩霞"HIC"﹐身上發出如晚霞般的光茫形成無數的氣流!!\n" NOR,me);
+        HIC + "$N運起渾天心法第二層的" + CYN + "玫蕩霞" + HIC + "﹐身上發出如晚霞般的光茫形成無數的氣流!!\n" + NOR,me);
 
         me->add_temp("apply/force", 3);
         me->add_temp("apply/move", 3);

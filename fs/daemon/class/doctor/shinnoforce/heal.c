@@ -21,7 +21,7 @@ return notify_fail ("你的經驗不足!\n");
 if (me->query ("force") < 2000)
 return notify_fail ("你的內力不足!\n");
 if( me->is_fighting() ) me->start_busy(2);
-message_vision (HIW"$N運起神農琉璃心法中的"HIY"「神農治癒術」"HIW"!!"NOR"\n",me); 
+message_vision (HIW + "$N運起神農琉璃心法中的" + HIY + "「神農治癒術」" + HIW + "!!" + NOR + "\n",me); 
 me->add ("force", -2000);
 me->set_temp("cure",1);
 call_out("out",20,me);

@@ -6,32 +6,32 @@ void conti(object me, object victim, object  weapon, int damage);
 void hurt(object me, object victim, object  weapon, int damage);
 mapping *action = ({
 //1
-(["action":HIG"《魔鷹蝕日》"NOR"
-$N使一招魔日劍法中的"HIG"「魔鷹蝕日」"NOR"，手中$w如一條老鷹般直直刺向$n的$l。",
+(["action":HIG + "《魔鷹蝕日》" + NOR + "
+$N使一招魔日劍法中的" + HIG + "「魔鷹蝕日」" + NOR + "，手中$w如一條老鷹般直直刺向$n的$l。",
         "dodge":-20,
         "parry":-10,
         "force": 70,
         "damage":30,
         "damage_type":"刺傷",
 ]),//2
-(["action":HIR"《日光無影》"NOR"
-$N使出魔日劍法中的"HIR"「日光無影」"NOR"，劍光霍霍斬向$n的$l。",
+(["action":HIR + "《日光無影》" + NOR + "
+$N使出魔日劍法中的" + HIR + "「日光無影」" + NOR + "，劍光霍霍斬向$n的$l。",
         "dodge":-20,
         "parry":-10,
         "force": 80,
         "damage":50,
         "damage_type":"割傷",
 ]),//3
-(["action":HIY"《御風而行》"NOR"
-$N一招"HIY+"「御風而行」"NOR"，身形陡然滑出數尺，手中$w斬向$n的$l，然而此乃招中有招。",
+(["action":HIY + "《御風而行》" + NOR + "
+$N一招" + HIY+"「御風而行」" + NOR + "，身形陡然滑出數尺，手中$w斬向$n的$l，然而此乃招中有招。",
         "dodge":-30,
         "parry":-10,
         "force": 90,
         "damage":70,
         "damage_type":"割傷",
 ]),//4
-(["action":HIB"《日落西山》"NOR"
-$N手中$w中宮直進，一式"HIB"「日落西山」"NOR"對準$n的$l狠狠刺出數劍。",
+(["action":HIB + "《日落西山》" + NOR + "
+$N手中$w中宮直進，一式" + HIB + "「日落西山」" + NOR + "對準$n的$l狠狠刺出數劍。",
         "dodge":-40,
         "parry":-20,
         "force":100,
@@ -39,16 +39,16 @@ $N手中$w中宮直進，一式"HIB"「日落西山」"NOR"對準$n的$l狠狠�
         "damage_type":"刺傷",
         "post_action": (: hurt :),
 ]),//5
-(["action":HIY"《金光瀉地》"NOR"
-$N將氣勁灌入手中$w，縱身一躍，使一手"HIY"「金光瀉地」"NOR"頓時一片金光罩住$n全身。",
+(["action":HIY + "《金光瀉地》" + NOR + "
+$N將氣勁灌入手中$w，縱身一躍，使一手" + HIY + "「金光瀉地」" + NOR + "頓時一片金光罩住$n全身。",
         "dodge":-40,
         "parry":-20,
         "force":110,
         "damage":100,
         "damage_type":"刺傷",
 ]),//6
-(["action":HIM"《豔陽高照》"NOR"
-$N將$w憑空一指，一招魔日劍法中的"HIM"「豔陽高照」"NOR"快速的刺向$n的$l。",
+(["action":HIM + "《豔陽高照》" + NOR + "
+$N將$w憑空一指，一招魔日劍法中的" + HIM + "「豔陽高照」" + NOR + "快速的刺向$n的$l。",
         "dodge":20,
         "parry":-30,
         "damage":100,
@@ -56,16 +56,16 @@ $N將$w憑空一指，一招魔日劍法中的"HIM"「豔陽高照」"NOR"快速
         "damage_type":"刺傷",
         "post_action": (: berserk :),
 ]),//7
-(["action":HIC"《柳暗花明》"NOR"
-$N手中$w向外一分，使一招"HIC"「柳暗花明」"NOR"反手對準$n$l一劍刺去。",
+(["action":HIC + "《柳暗花明》" + NOR + "
+$N手中$w向外一分，使一招" + HIC + "「柳暗花明」" + NOR + "反手對準$n$l一劍刺去。",
         "dodge":-20,
         "parry":30,
         "force":130,
         "damage":110,
         "damage_type":"刺傷",
 ]),//8
-(["action":HIY"《旭日東升》"NOR"
-$N橫劍上前，身形一轉手中$w使一招魔日劍法中的"HIY"「旭日東升」"NOR"畫出一道光弧斬向$n的$l。",
+(["action":HIY + "《旭日東升》" + NOR + "
+$N橫劍上前，身形一轉手中$w使一招魔日劍法中的" + HIY + "「旭日東升」" + NOR + "畫出一道光弧斬向$n的$l。",
         "dodge":-30,
         "parry":-20,
         "force":140,
@@ -73,16 +73,16 @@ $N橫劍上前，身形一轉手中$w使一招魔日劍法中的"HIY"「旭日�
         "damage_type":"割傷",
         "post_action": (: conti :),
 ]),//9
-(["action":HIB"《撥雲見日》"NOR"
-$N一轉身，使出一招魔日劍法中的"HIB"「撥雲見日」"NOR"，手中$w對準$n的$l刺出數劍。",
+(["action":HIB + "《撥雲見日》" + NOR + "
+$N一轉身，使出一招魔日劍法中的" + HIB + "「撥雲見日」" + NOR + "，手中$w對準$n的$l刺出數劍。",
         "dodge":-20,
         "parry":-40,
         "force":150,
         "damage":130,
         "damage_type":"刺傷",
 ]),//10
-(["action":HIR"《天虹貫日》"NOR"
-$N手中$w朝地一揮，使一招"HIR"「天虹貫日」"NOR"，地面裂出一道道劍痕，數道劍氣迅速的往$n身上砍去。",
+(["action":HIR + "《天虹貫日》" + NOR + "
+$N手中$w朝地一揮，使一招" + HIR + "「天虹貫日」" + NOR + "，地面裂出一道道劍痕，數道劍氣迅速的往$n身上砍去。",
         "dodge":-20,
         "parry":-10,
         "force":160,
@@ -90,8 +90,8 @@ $N手中$w朝地一揮，使一招"HIR"「天虹貫日」"NOR"，地面裂出一
         "damage_type":"刺傷",
         "post_action": (: berserk :),
 ]),//11
-(["action":HIW"《偷天換日》"NOR"
-$N手中$w朝天空一丟，使一招"HIW"「偷天換日」"NOR"，$w射出萬丈光芒，擊出一道劍氣擊向$n。",
+(["action":HIW + "《偷天換日》" + NOR + "
+$N手中$w朝天空一丟，使一招" + HIW + "「偷天換日」" + NOR + "，$w射出萬丈光芒，擊出一道劍氣擊向$n。",
         "dodge":-20,
         "parry":-30,
         "damage":150,
@@ -131,7 +131,7 @@ void hurt(object me, object victim, object  weapon, int damage)
         if( random(10) >= 3 && !me->query_temp("conti"))
         {
           victim->receive_damage("kee", damage ,me);
-message_vision(sprintf(BLU"$N將全身之勁力注入劍中，順勢將劍刺向$n，$n瞬間被$N擊中數劍！！！\n"NOR),me,victim);
+message_vision(sprintf(BLU + "$N將全身之勁力注入劍中，順勢將劍刺向$n，$n瞬間被$N擊中數劍！！！\n" + NOR),me,victim);
           COMBAT_D->report_status(victim);
           me->add("force",-5*bellpower);
         }
@@ -139,17 +139,17 @@ message_vision(sprintf(BLU"$N將全身之勁力注入劍中，順勢將劍刺向
 void berserk(object me, object victim, object  weapon, int damage)
 {
 
-     message_vision( sprintf(HIW"$N真氣凝聚，準備使出"HIC+"「魔日裂風斬」"HIW"，$N身體四周爆發出一股旋風！！\n"NOR),me,victim);
-     message_vision(sprintf(HIW"$N四周劍氣越轉越急，「咻」一聲化作一道光束朝$n激射而去。\n"NOR),me,victim);
+     message_vision( sprintf(HIW + "$N真氣凝聚，準備使出" + HIC+"「魔日裂風斬」" + HIW + "，$N身體四周爆發出一股旋風！！\n" + NOR),me,victim);
+     message_vision(sprintf(HIW + "$N四周劍氣越轉越急，「咻」一聲化作一道光束朝$n激射而去。\n" + NOR),me,victim);
      if( random(10) >= 3 && !me->query_temp("conti") )
         {
-            message_vision(sprintf(HIR"劍氣直接命中$n，$n應聲而倒。\n"NOR), me ,victim);
+            message_vision(sprintf(HIR + "劍氣直接命中$n，$n應聲而倒。\n" + NOR), me ,victim);
             victim->start_busy(1);
             me->add("force",-100);
         }
         else
         {
-             message_vision(sprintf(HIR"敵人縱身急避，躲開了這致命的一擊。\n"NOR),me,victim);
+             message_vision(sprintf(HIR + "敵人縱身急避，躲開了這致命的一擊。\n" + NOR),me,victim);
              me->add("force",-100);
         }
 }
@@ -163,7 +163,7 @@ void conti(object me, object victim, object weapon, int damage)
           {
             lose = (int)me->query_skill("badsword", 1)/50+2+bellpower;
             me->set_temp("conti",1);
-message_vision("\n\n\t\t\t"BRED+HIW"☆魔★日☆再★現☆"NOR"\n\n"NOR, me, victim);
+message_vision("\n\n\t\t\t" + BRED+HIW + "☆魔★日☆再★現☆" + NOR + "\n\n" + NOR, me, victim);
             for(i=0;i<=lose;i++)      {
             COMBAT_D->do_attack(me,victim,me->query_temp("weapon"),TYPE_QUICK);
             }

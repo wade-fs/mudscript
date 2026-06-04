@@ -56,7 +56,7 @@ LONG + NOR , me , target );
       if(dam1>2500)
       dam1=2500;
       j=who->query_skill("plan",1)*3;
-     message_vision(HIW"$N熟知兵法運計之要，將"HIR"儒門火計"HIW"以及"HIG"六韜奇略"HIW"中大熱之計，和而為一，\n$n驟時發現身旁業火亂竄，竟然是赤壁之戰時所用之"HIR"『"HIC"火    龍    計"HIR"』"HIW"!\n\n"NOR , me , all[i] );
+     message_vision(HIW + "$N熟知兵法運計之要，將" + HIR + "儒門火計" + HIW + "以及" + HIG + "六韜奇略" + HIW + "中大熱之計，和而為一，\n$n驟時發現身旁業火亂竄，竟然是赤壁之戰時所用之" + HIR + "『" + HIC + "火    龍    計" + HIR + "』" + HIW + "!\n\n" + NOR , me , all[i] );
       all[i]->apply_condition("burn",30);  
       all[i]->receive_wound( "kee" ,dam1);
       all[i]->receive_wound( "sen" ,j);
@@ -101,7 +101,7 @@ if (me->query("env/大火計"))
     }
     me->add("bellicosity",-5);
     //加入temp
-    message_vision( HIY"$N大喊  : "HIC"『"HIW"六韜奇略，烈火焚天 "HIG"- "HIR"炬火計"HIC"』"HIY"一個巨大的火陣在眾人面前展開!!\n"NOR , me );
+    message_vision( HIY + "$N大喊  : " + HIC + "『" + HIW + "六韜奇略，烈火焚天 " + HIG + "- " + HIR + "炬火計" + HIC + "』" + HIY + "一個巨大的火陣在眾人面前展開!!\n" + NOR , me );
     for(i=0;i<sizeof(all);i++)
     {
         if(random(100) <80)

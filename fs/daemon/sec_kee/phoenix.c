@@ -25,8 +25,8 @@ if(msk > 500) msk=500;
  tell_object(me,"敵人已被火鳳靈氣纏繞，無法在動了。\n");
  return 1; }
       message_vision(
-         HIC + "$N口中緩緩唸出一串真言，只見一隻火鳳凰迅速破空降下﹗\n" NOR,me);
-         message_vision(  HIR "火鳳凰迅速飛向$n，並隱入$N的體內。\n" NOR,me,target);
+         HIC + "$N口中緩緩唸出一串真言，只見一隻火鳳凰迅速破空降下﹗\n" + NOR,me);
+         message_vision(  HIR + "火鳳凰迅速飛向$n，並隱入$N的體內。\n" + NOR,me,target);
         target->receive_damage("kee",me->query("max_atman")/5);
         target->start_busy(1);
         target->add_temp("phoenix",1);

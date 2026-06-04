@@ -19,7 +19,7 @@ void create()
   set("attitude","heroism");
   set("age",35);
   set("class","blademan");
-  set("nickname",HIR"復仇魔刀"NOR);
+  set("nickname",HIR + "復仇魔刀" + NOR);
   set("title","魔刀門第二代掌門");
   create_family("魔刀門",2,"掌門");
   set("score",100000);
@@ -58,9 +58,9 @@ void create()
   map_skill("force","powerforce");
   set("chat_chance",40);
   set("chat_msg",({
-    HIW"唉！都找不到我父親～魔刀莫測…\n"NOR,
-    HIW"我的狂龍刀法已達上限，但和父親比起來又差了一截。\n"NOR,
-    HIY"聽說我父親有一把鎮教之寶，不過詳情也只有我父親知道。\n"NOR,
+    HIW + "唉！都找不到我父親～魔刀莫測…\n" + NOR,
+    HIW + "我的狂龍刀法已達上限，但和父親比起來又差了一截。\n" + NOR,
+    HIY + "聽說我父親有一把鎮教之寶，不過詳情也只有我父親知道。\n" + NOR,
   }));
   set("inquiry",([
     "魔龍訣"  : (: do_mdragon :),
@@ -102,7 +102,7 @@ void greeting(object ob)
       command( "say 你竟然把我門的鎮教之寶給弄丟了!" );
       command( "waggle "+ob->query("id") );
       command( "say 要是下回再弄丟, 可就不管你!" );
-      message_vision( HIY"莫無愁從身旁拿出妖刀交到$N手中!\n"NOR, ob );
+      message_vision( HIY + "莫無愁從身旁拿出妖刀交到$N手中!\n" + NOR, ob );
       command( "say 請好好保管好吧!" );
     }
   }
@@ -111,7 +111,7 @@ void greeting(object ob)
 void attempt_apprentice(object obj)
 {
   command("l "+obj->query("id"));
-  if(obj->query("title") == HIR"殺手全力追殺的人頭"NOR)
+  if(obj->query("title") == HIR + "殺手全力追殺的人頭" + NOR)
   {
     command(" say 死小孩....又想來作弊！！");
     return ;
@@ -131,9 +131,9 @@ void attempt_apprentice(object obj)
   if(this_player()->query("m_blade")==1) {
     this_player()->set("title","[1;31m魔刀[1;37m『三斬歸元』[1;35m傳人[0m");
   }
-  message("system",HIW"莫無愁縱聲長笑:
-\n哈哈哈哈～～魔刀復仇將至。"NOR,users());
-  message("system",HIR"\n\n今後"+this_player()->name()+"將會替我血洗獨孤老賊。\n"NOR,users());
+  message("system",HIW + "莫無愁縱聲長笑:
+\n哈哈哈哈～～魔刀復仇將至。" + NOR,users());
+  message("system",HIR + "\n\n今後"+this_player()->name()+"將會替我血洗獨孤老賊。\n" + NOR,users());
   this_player()->set("no_recruit", 1);
   return ;
 }
@@ -242,10 +242,10 @@ int accept_object(object who, object ob)
         say("沒想到你竟能殺的了他，好吧，算你對本派有所貢獻。\n"
             "我將魔刀的『三斬歸元』心法傳授給你吧。\n"
             "至於如何運用，自己去體會吧，哈哈哈！\n");
-        message("system",HIC"莫無愁詭異笑道：\n"HIW"
-                魔刀『三斬歸元』"HIC"終於後繼有人了\n
-                看來剷平雪蒼之日不遠呀！\n"HIR"
-        哈！哈！哈！"+this_player()->name()+"魔刀復仇全靠你了！\n"NOR,users());
+        message("system",HIC + "莫無愁詭異笑道：\n" + HIW + "
+                魔刀『三斬歸元』" + HIC + "終於後繼有人了\n
+                看來剷平雪蒼之日不遠呀！\n" + HIR + "
+        哈！哈！哈！"+this_player()->name()+"魔刀復仇全靠你了！\n" + NOR,users());
         who->set("m_blade",1);
         who->set("title","[1;31m魔刀[1;37m『三斬歸元』[1;35m傳人[0m");
         log_file("mblade/m_blade",sprintf("%s解到魔刀後三\n",who->short()));
@@ -260,7 +260,7 @@ int accept_object(object who, object ob)
       who->add("standby",1);
       who->add("t_standby",1);
     }
-    else message_vision( HIW"\n小雪球說道：你曾經擁有的替身總數已達上限，無法再增加，我無法幫助你。\n\n"NOR, who );
+    else message_vision( HIW + "\n小雪球說道：你曾經擁有的替身總數已達上限，無法再增加，我無法幫助你。\n\n" + NOR, who );
 */
   }
   else
@@ -269,7 +269,7 @@ int accept_object(object who, object ob)
     {
       say("沒想到我魔刀門的宿敵，竟會被你所殺，看來天意難違。\n"
           "好！既然人是你殺，我就傳我部份靈力和法力給你吧。\n");
-      message_vision(HIC"莫無愁將手指向$N眉心，瞬時靈氣貫頂，$N身上散發出陰靈之氣。\n"NOR,who);
+      message_vision(HIC + "莫無愁將手指向$N眉心，瞬時靈氣貫頂，$N身上散發出陰靈之氣。\n" + NOR,who);
       who->add("max_atman",200);
       who->add("max_mana",200);
       who->add("atman",200);
@@ -285,7 +285,7 @@ int accept_object(object who, object ob)
       who->add("standby",1);
       who->add("t_standby",1);
     }
-    else message_vision( HIW"\n小雪球說道：你曾經擁有的替身總數已達上限，無法再增加，我無法幫助你。\n\n"NOR, who );
+    else message_vision( HIW + "\n小雪球說道：你曾經擁有的替身總數已達上限，無法再增加，我無法幫助你。\n\n" + NOR, who );
 */
     }
   }
@@ -305,10 +305,10 @@ void heart_beat()
       if(target)
       if( env == environment(target) )
       {
-        message_vision(HIY"
+        message_vision(HIY + "
 莫無愁施展出魔刀『三斬歸元～魚龍嗜元』\n"+
 "．．．『魚龍毒鴆～～煌嵐叢滅』．．．\n"+
-"$N閃避不及，被打中要害，血流滿地\n"NOR,target);
+"$N閃避不及，被打中要害，血流滿地\n" + NOR,target);
         target->receive_damage("kee",600,mob);
         COMBAT_D->report_status(target,1);
       }
@@ -362,12 +362,12 @@ void die()
   }
 
   if (winner && userp(winner)) {
-    tell_object(users(),HIR"\n\n莫無愁仰天怒吼：\n\n\t可恨的"+winner->name()+HIR"竟阻礙我復仇大業！
-\n\t老子會再回來報仇的！等著吧！\n\n"NOR);
+    tell_object(users(),HIR + "\n\n莫無愁仰天怒吼：\n\n\t可恨的"+winner->name()+HIR + "竟阻礙我復仇大業！
+\n\t老子會再回來報仇的！等著吧！\n\n" + NOR);
   }
   if (winner && winner->query("assassin")) {
-    tell_object(users(),HIR"\n\n莫無愁仰天怒吼：\n\n\t可恨的"+winner->name()+HIR"竟阻礙我復仇大業！
-\n\t老子會再回來報仇的！等著吧！\n\n"NOR);
+    tell_object(users(),HIR + "\n\n莫無愁仰天怒吼：\n\n\t可恨的"+winner->name()+HIR + "竟阻礙我復仇大業！
+\n\t老子會再回來報仇的！等著吧！\n\n" + NOR);
   }
   if(userp(winner) && winner->query_temp("not_robot") > time() )
   {
@@ -377,7 +377,7 @@ void die()
       if( j==7 || j==77 || j== 777 || j==1111 || j==55 || j==555 || j==1000 || j==4000 || j==3333 || j==2222 )
       {
         new("/open/sky/obj11/orange-crystal")->move(environment(winner));
-        message_vision(HIM"\n從莫無愁的身上掉下了一件奇怪的東西!!\n"NOR,winner);
+        message_vision(HIM + "\n從莫無愁的身上掉下了一件奇怪的東西!!\n" + NOR,winner);
         write_file("/log/sky/obj11/orange_crystal",sprintf("%s(%s) 讓莫無愁掉下了橙色光晶於 %s\n",
           winner->name(1),winner->query("id"),ctime(time())));
       }
@@ -386,7 +386,7 @@ void die()
       if( j==5 || j==15 || j== 150 || j==1500 || j==10 || j==100 || j==1000 || j==4000 || j==6666 || j==7777 )
       {
         new("/open/sky/obj11/orange-crystal")->move(environment(winner));
-        message_vision(HIM"\n從莫無愁的身上掉下了一件奇怪的東西!!\n"NOR,winner);
+        message_vision(HIM + "\n從莫無愁的身上掉下了一件奇怪的東西!!\n" + NOR,winner);
         write_file("/log/sky/obj11/orange_crystal",sprintf("%s(%s) 讓莫無愁掉下了橙色光晶於 %s\n",
           winner->name(1),winner->query("id"),ctime(time())));
       }

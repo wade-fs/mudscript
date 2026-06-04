@@ -16,7 +16,7 @@ int main(object me, string arg)
   if( arg=="vis" ) {
     if( !me->query_temp("invis") )
       return notify_fail("幹嘛？你又沒在藏起來。\n");
-    message_vision(HIY"$N從房間的角落中走了出來。\n"NOR,me,target);
+    message_vision(HIY + "$N從房間的角落中走了出來。\n" + NOR,me,target);
     me->delete_temp("invis");
   }
   if( arg=="invis" ) {
@@ -31,7 +31,7 @@ int main(object me, string arg)
       if( userp(inv[i]) && inv[i]!=me )
         return notify_fail("這裡還有別人在，現在藏匿會被發現的。\n");
     }
-    tell_object(me,HIY"你找到一個隱密的角落，藏匿了起來。\n"NOR);
+    tell_object(me,HIY + "你找到一個隱密的角落，藏匿了起來。\n" + NOR);
     me->set_temp("invis",1); 
   } 
   if( arg == "vis" || arg == "invis" ) return 1;
@@ -46,16 +46,16 @@ int main(object me, string arg)
       (string)weapon1->query("skill_type") != "dagger") &&
       (!(weapon2= me->query_temp("secondary_weapon")) ||
       (string)weapon2->query("skill_type") != "dagger") ) {
-    return notify_fail(HIY"你沒拿匕首，沒有辦法刺殺敵人。\n"NOR);
+    return notify_fail(HIY + "你沒拿匕首，沒有辦法刺殺敵人。\n" + NOR);
     return 1;
   }
   if( environment(me)->query("no_fight") ) {
-    return notify_fail(HIY"這裡不准戰鬥。\n"NOR);
+    return notify_fail(HIY + "這裡不准戰鬥。\n" + NOR);
   }
   if(wizardp(target) && !wizardp(me)) {
-    return notify_fail(HIY"傻孩子，你打不贏巫師的。\n"NOR);
+    return notify_fail(HIY + "傻孩子，你打不贏巫師的。\n" + NOR);
   }
-  if(target==me) return notify_fail (HIY"要刺殺自己，你瘋啦。\n"NOR);
+  if(target==me) return notify_fail (HIY + "要刺殺自己，你瘋啦。\n" + NOR);
   call_out("do_kill", 1, me, target);
   call_out("do_fkill", 1, me, target);
   return 1;
@@ -69,11 +69,11 @@ void do_kill(object me,object target)
   if(!me || !target) return ;
   if( !me->is_fighting() && target->query("kee") > 0 ) {     
     if( !me->query_temp("invis") ) {
-      tell_object(me,HIY"你沒藏匿起來，會被發現的。\n"NOR);
+      tell_object(me,HIY + "你沒藏匿起來，會被發現的。\n" + NOR);
       return 0;
     }
     if( me->query("max_sen")!=me->query("sen") ) {
-      tell_object(me,HIY"你沒有足夠的神，去做再一次的刺殺。\n"NOR);
+      tell_object(me,HIY + "你沒有足夠的神，去做再一次的刺殺。\n" + NOR);
       return 0;
     }
     if( target !=me )
@@ -159,15 +159,15 @@ void do_fkill(object me,object target)
   if( me->is_fighting(target) )
   {
     if( bel < 20 ) {
-      tell_object(me,HIY"你的殺氣不夠喔！\n"NOR);
+      tell_object(me,HIY + "你的殺氣不夠喔！\n" + NOR);
       return 0;
     }
     if( me->query("force") < 20 ) {
-      tell_object(me,HIY"你的內力不夠喔！\n"NOR);
+      tell_object(me,HIY + "你的內力不夠喔！\n" + NOR);
       return 0;
     }
     if( me->is_busy() ) {
-      tell_object(me,HIY"你的還沒有準備好做下一波的刺殺。\n"NOR);
+      tell_object(me,HIY + "你的還沒有準備好做下一波的刺殺。\n" + NOR);
       return 0;
     }
 

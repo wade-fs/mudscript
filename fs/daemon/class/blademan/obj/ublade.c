@@ -4,7 +4,7 @@
 inherit BLADE;
 void create()
 {
-    set_name(HIY"魚龍"NOR,({"ublade","blade"}));
+    set_name(HIY + "魚龍" + NOR,({"ublade","blade"}));
     set_weight(10000);
     if(clonep())
 	set_default_object(__FILE__);

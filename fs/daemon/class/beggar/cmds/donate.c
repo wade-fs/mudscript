@@ -17,7 +17,7 @@ int main(object me, string arg)
         if( arg=="cancel" ) {
                 if( !me->query_temp("募捐中") )
                         return notify_fail("怎啦,你還沒準備好募捐吧..\n");
-                tell_object(me, HIW"你開始收起破碗公,離開這裡。\n"NOR);
+                tell_object(me, HIW + "你開始收起破碗公,離開這裡。\n" + NOR);
                 me->delete("greeting_msg");
                 me->set("id", me->query("old_id"));
                 me->set("name", me->query("old_name"));
@@ -50,7 +50,7 @@ int main(object me, string arg)
                 me->set("old_title", me->query("title"));
                 me->set("id", "buddha");
                 me->set("name", "佛陀");
-                me->set("title", HIY"傳道．授業．解惑也"NOR);
+                me->set("title", HIY + "傳道．授業．解惑也" + NOR);
                 me->delete("nickname");
         }
         me->set_temp("募捐中", 1);
@@ -85,13 +85,13 @@ void do_donate(object bandit, object ob)
 {
         int face, money, kee;
 
-        tell_object(bandit,HIW"\n 你正盤坐在地上, 微笑的對著"+ob->name()+"說：\n\n『阿彌陀佛, 我佛慈悲, 施主是否能施捨點錢, 以便重建天龍寺』\n\n"NOR);
+        tell_object(bandit,HIW + "\n 你正盤坐在地上, 微笑的對著"+ob->name()+"說：\n\n『阿彌陀佛, 我佛慈悲, 施主是否能施捨點錢, 以便重建天龍寺』\n\n" + NOR);
 
         face =( bandit->query_skill("change",1)+bandit->query_kar() < random(ob->query("combat_exp")/10000)+ob->query_int() );
-        if( face )  tell_object(bandit,HIW"啊, 對方已看穿以是假冒的。\n"NOR);
+        if( face )  tell_object(bandit,HIW + "啊, 對方已看穿以是假冒的。\n" + NOR);
 
 
-        tell_object(ob,HIC"\n你往下一看，"+(face?bandit->query("old_name"):"一個和尚")+"正微笑的看著你說：\n\n『阿彌陀佛, 我佛慈悲, 施主是否能施捨點錢, 以便重建天龍寺』\n\n"NOR);
+        tell_object(ob,HIC + "\n你往下一看，"+(face?bandit->query("old_name"):"一個和尚")+"正微笑的看著你說：\n\n『阿彌陀佛, 我佛慈悲, 施主是否能施捨點錢, 以便重建天龍寺』\n\n" + NOR);
 
         money = ( ob->query("combat_exp")/5000 + 1 ) * 100;
 
@@ -101,20 +101,20 @@ tell_object(ob,"於是和尚對你敘說著種種道理，你似乎有開悟的�
                 if( ob->can_afford(money) ) {
                         ob->pay_money(money);
                         bandit->pay_player(money);
-                        tell_object(ob,HIC"你捐給"+(face?bandit->query("old_name"):"和尚")+"一些心意。\n"NOR);
-                        tell_object(bandit,HIC""+ob->name()+"捐給一點心意。\n"NOR);
-                        tell_object(ob,HIW""+(face?bandit->query("old_name"):"和尚")+"微笑的說道：施主此行大恩大德, 改日另行感謝\n"NOR);
-                        tell_object(bandit,HIW"你微笑的說道：施主此行大恩大德,改日另行感謝\n"NOR);
+                        tell_object(ob,HIC + "你捐給"+(face?bandit->query("old_name"):"和尚")+"一些心意。\n" + NOR);
+                        tell_object(bandit,HIC + ""+ob->name()+"捐給一點心意。\n" + NOR);
+                        tell_object(ob,HIW + ""+(face?bandit->query("old_name"):"和尚")+"微笑的說道：施主此行大恩大德, 改日另行感謝\n" + NOR);
+                        tell_object(bandit,HIW + "你微笑的說道：施主此行大恩大德,改日另行感謝\n" + NOR);
                 } else {
                         tell_object(ob,(face?bandit->query("old_name"):"和尚")+"看你身上好似沒錢，微笑的說: 讓和尚我為您強健身筋吧。\n");
                         tell_object(bandit,"你看著"+ob->name()+"身上好似沒錢，微笑的說: 和尚我來教你點強身之道吧。\n");
                         kee = ob->query("eff_kee")*3/4;
                         ob->set("eff_kee", kee);
 
-tell_object(ob,HIC""+(face?bandit->query("old_name"):"和尚")+"教了你一些基本基礎的功\夫, 你發覺快累垮了。\n"NOR);
-                        tell_object(bandit,HIC"你教了"+ob->name()+"一點基本的功\夫。\n"NOR);
-                        tell_object(ob,HIY""+(face?bandit->query("old_name"):"和尚")+"對著你微笑：行走江湖要小心點, 以免受傷\n"NOR);
-tell_object(bandit,HIY"你對著"+ob->name()+"微笑: 行走江湖要小心點\n"NOR);
+tell_object(ob,HIC + ""+(face?bandit->query("old_name"):"和尚")+"教了你一些基本基礎的功\夫, 你發覺快累垮了。\n" + NOR);
+                        tell_object(bandit,HIC + "你教了"+ob->name()+"一點基本的功\夫。\n" + NOR);
+                        tell_object(ob,HIY + ""+(face?bandit->query("old_name"):"和尚")+"對著你微笑：行走江湖要小心點, 以免受傷\n" + NOR);
+tell_object(bandit,HIY + "你對著"+ob->name()+"微笑: 行走江湖要小心點\n" + NOR);
                 }
         } else {
                 if( bandit->can_afford(money) ) {
@@ -122,19 +122,19 @@ tell_object(ob,"和尚說著種種道理,你絲毫沒有聽進去,只看著和�
 tell_object(bandit,"你說著種種道理,"+ob->name()+"絲毫沒有聽進去,只看著你的碗公有錢,於是"+ob->name()+"就心存邪念,搶了你的錢。\n");
                         bandit->pay_money(money);
                         ob->pay_player(money);
-tell_object(ob,HIY""+bandit->query("old_name")+"施捨了點錢給你。\n"NOR);
+tell_object(ob,HIY + ""+bandit->query("old_name")+"施捨了點錢給你。\n" + NOR);
 
-tell_object(bandit,HIY"你施捨了"+ob->name()+"一些錢。\n"NOR);
+tell_object(bandit,HIY + "你施捨了"+ob->name()+"一些錢。\n" + NOR);
                 } else {
 tell_object(ob,"和尚說著種種道理,你絲毫沒有聽進去,只看著和尚的碗公有錢,於是你就心存邪念,搶了可憐和尚的錢。\n");
 tell_object(bandit,"你說著種種道理,"+ob->name()+"絲毫沒有聽進去,只看著你的碗公有錢,於是"+ob->name()+"就心存邪念,搶了你的錢。\n");
                         kee = bandit->query("eff_kee")*3/4;
                         bandit->set("eff_kee", kee);
-                        tell_object(ob,HIC"你將"+bandit->query("old_name")+"的錢狠狠的全拿光。\n"NOR);
-                        tell_object(bandit,HIC""+ob->name()+"將你的錢拿光了。\n"NOR);
+                        tell_object(ob,HIC + "你將"+bandit->query("old_name")+"的錢狠狠的全拿光。\n" + NOR);
+                        tell_object(bandit,HIC + ""+ob->name()+"將你的錢拿光了。\n" + NOR);
                 }
-                tell_object(ob,HIC"你仰天長笑說："+bandit->query("old_name")+"算你倒霉,本大人信耶穌不信佛\n"NOR);
-                tell_object(bandit,HIC""+ob->name()+"仰天長笑著說："+bandit->query("old_name")+"算你倒霉, 本大人信耶穌不信佛的啦, 哇哈哈哈哈哈哈哈哈..\n"NOR);
+                tell_object(ob,HIC + "你仰天長笑說："+bandit->query("old_name")+"算你倒霉,本大人信耶穌不信佛\n" + NOR);
+                tell_object(bandit,HIC + ""+ob->name()+"仰天長笑著說："+bandit->query("old_name")+"算你倒霉, 本大人信耶穌不信佛的啦, 哇哈哈哈哈哈哈哈哈..\n" + NOR);
         }
 
         ob->delete_temp("不准走");

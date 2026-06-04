@@ -16,7 +16,7 @@ int perform(object me,object ob)
   if(me->query_temp("wind") ==1 ) return notify_fail("你已經使用清風術了!!\n");
   if(me->query("class") !="killer" ) return notify_fail("你的職業無法使用!!\n");
   if(me->is_fighting()) me->start_busy(1);
-  message_vision(HIC"$N運起分功\化影之清風術，身形步伐頓時變得輕快起來!!\n"NOR,me);
+  message_vision(HIC + "$N運起分功\化影之清風術，身形步伐頓時變得輕快起來!!\n" + NOR,me);
   me->add("force",-500);
   me->set_temp("wind",1);
   me->add_temp("apply/dodge",lv);
@@ -32,7 +32,7 @@ int wind(object me,int lv)
 {
   if(!me) return 1;
   lv=me->query("functions/wind-steps/level");
-  message_vision(HIY"$N"HIY"身邊的清風漸漸消散, $N"HIY"行動也變得遲緩起來!!\n"NOR,me);
+  message_vision(HIY + "$N" + HIY + "身邊的清風漸漸消散, $N" + HIY + "行動也變得遲緩起來!!\n" + NOR,me);
   me->delete_temp("wind",1);
   me->add_temp("apply/dodge",-lv);
   me->add_temp("apply/move",-lv);

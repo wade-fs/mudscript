@@ -11,7 +11,7 @@ inherit SWORD;
 void create()
 {
   seteuid(getuid());
-  set_name(HIM"金風舞夢旋"NOR,({ "golden-wind" }));
+  set_name(HIM + "金風舞夢旋" + NOR,({ "golden-wind" }));
   set_weight(7000);
   if( clonep() )
     set_default_object(__FILE__);
@@ -56,8 +56,8 @@ int wield()
   object ob=this_object(),me=environment(ob);
   int ret=::wield();
   string str="";
-//  if(me->query("combat_exp") < 5000000) return notify_fail(HIC"你的江湖歷練並不足以駕馭這樣的靈動神器!!\n"NOR); //裝備武器之前可以做額外的限制
-//  set("wield_msg",HIM"$n"HIM"散出一股異樣的光芒，流散在$N"HIM"的周身!!\n"NOR);
+//  if(me->query("combat_exp") < 5000000) return notify_fail(HIC + "你的江湖歷練並不足以駕馭這樣的靈動神器!!\n" + NOR); //裝備武器之前可以做額外的限制
+//  set("wield_msg",HIM + "$n" + HIM + "散出一股異樣的光芒，流散在$N" + HIM + "的周身!!\n" + NOR);
 //  str+=ob->query("wield_msg");
   if( !query("original_name") ) { //為不指定武器型態時 也就是基礎狀態下
     delete("wield_msg");
@@ -67,15 +67,15 @@ int wield()
   }
   else if( ob->query("change") == 1 ) 
   {
-    str+=HIW"$N"HIW"拿起$n"HIW"，$N"HIW"覺得自己的財富之路似乎又接近了一些!!\n"NOR;
+    str+=HIW + "$N" + HIW + "拿起$n" + HIW + "，$N" + HIW + "覺得自己的財富之路似乎又接近了一些!!\n" + NOR;
   }
   else if( ob->query("change") == 2 )
   {
-    str+=HIW"$N"HIW"拿起$n"HIW"，$N"HIW"覺得自己的潛藏能量似乎又提升了一些!!\n"NOR;
+    str+=HIW + "$N" + HIW + "拿起$n" + HIW + "，$N" + HIW + "覺得自己的潛藏能量似乎又提升了一些!!\n" + NOR;
   }
   else if( ob->query("change") == 3 )
   {
-    str+=HIW"$N"HIW"拿起$n"HIW"，$N"HIW"覺得自己的武學之道似乎又變強了一些!!\n"NOR;
+    str+=HIW + "$N" + HIW + "拿起$n" + HIW + "，$N" + HIW + "覺得自己的武學之道似乎又變強了一些!!\n" + NOR;
   }
   else { //有指定武器型態(original_name存在時) 但是不想使用武器用途時
     delete("wield_msg");
@@ -83,7 +83,7 @@ int wield()
       set_heart_beat(0);
     return ret;
   }
-  set("wield_msg",str+HIM"$n"HIM"散出一股異樣的光芒，流散在$N"HIM"的周身!!\n"NOR); //指定用途時的通用方式
+  set("wield_msg",str+HIM + "$n" + HIM + "散出一股異樣的光芒，流散在$N" + HIM + "的周身!!\n" + NOR); //指定用途時的通用方式
   if( query("equipped") && !query_heart_beat() ) {
     set_heart_beat(1);
   }
@@ -94,8 +94,7 @@ int unequip()
 {
   object ob=this_object(),me=environment(ob);
   int ret = ::unequip();
-  set("unwield_msg","灌注在$n的內力中斷，$n流散在$N周身的光芒漸漸消散，回歸為最初的型態"
-                 HIW"「"HIM"金風舞夢旋"HIW"」"NOR"了!!\n$N不捨的將$n小心的收起放好。\n");
+  set("unwield_msg","灌注在$n的內力中斷，$n流散在$N周身的光芒漸漸消散，回歸為最初的型態" + HIW + "「" + HIM + "金風舞夢旋" + HIW + "」" + NOR + "了!!\n$N不捨的將$n小心的收起放好。\n");
 //  set_heart_beat(0); //交由心跳函數來判斷
   if( query("original_name") && !ob->query("change") ) { //為指定武器型態時 但是沒有指定用途時
     delete("unwield_msg");
@@ -107,8 +106,8 @@ int unequip()
   }
 //其他 即指指定武器用途時(ob->query("change"))
 //  message_vision("$N不捨的將$n小心的收起放好。\n",me,ob);
-//  message_vision("灌注在$n的內力中斷，漸漸回歸為最初的型態"HIW"「"HIM"金風舞夢旋"HIW"」"NOR"了!!\n",me,ob);
-//  ob->set_name( HIM"金風舞夢旋"NOR,({"golden-wind"}) );
+//  message_vision("灌注在$n的內力中斷，漸漸回歸為最初的型態" + HIW + "「" + HIM + "金風舞夢旋" + HIW + "」" + NOR + "了!!\n",me,ob);
+//  ob->set_name( HIM + "金風舞夢旋" + NOR,({"golden-wind"}) );
 /* //暫時不取消好了
   if( query("arrow/id") ) {
     ob->delete("can_hold");
@@ -125,22 +124,22 @@ int do_change(string str) //武器型態
   {
     case "unarmed":
       set("skill_type", "unarmed");
-      set_name( "爪"NOR,({"money-claw"}));
-      ob->set("original_name","爪"NOR);
+      set_name( "爪" + NOR,({"money-claw"}));
+      ob->set("original_name","爪" + NOR);
       ob->change2(); //改名字 但是第一次時為!ob->query("change")的情況
       message_vision("強烈的光芒過後，凝聚在$N手中的赫然是一把$n。\n",me,ob);
       break;
     case "sword":
       set("skill_type", "sword");
-      set_name( "劍"NOR,({"money-sword"}));
-      ob->set("original_name","劍"NOR);
+      set_name( "劍" + NOR,({"money-sword"}));
+      ob->set("original_name","劍" + NOR);
       ob->change2();
       message_vision("強烈的光芒過後，凝聚在$N手中的赫然是一把$n。\n",me,ob);
       break;
     case "archery":
       set("skill_type", "archery");
-      set_name( "弓"NOR,({"money-bow"}));
-      ob->set("original_name","弓"NOR);
+      set_name( "弓" + NOR,({"money-bow"}));
+      ob->set("original_name","弓" + NOR);
       //直接套用inherit BOW的內容 by blazakira
       if( !query("arrow/id") ) {
         set("can_hold",1);
@@ -155,64 +154,64 @@ int do_change(string str) //武器型態
       break;    
     case "blade":
       set("skill_type", "blade");
-      set_name( "刀"NOR,({"money-blade"}));
-      ob->set("original_name","刀"NOR);
+      set_name( "刀" + NOR,({"money-blade"}));
+      ob->set("original_name","刀" + NOR);
       ob->change2();
       message_vision("強烈的光芒過後，凝聚在$N手中的赫然是一把$n。\n",me,ob);
       break;
     case "dagger":
       set("skill_type", "dagger");
-      set_name( "刃"NOR,({"money-dagger"}));
-      ob->set("original_name","刃"NOR);
+      set_name( "刃" + NOR,({"money-dagger"}));
+      ob->set("original_name","刃" + NOR);
       ob->change2();
       message_vision("強烈的光芒過後，凝聚在$N手中的赫然是一把$n。\n",me,ob);
       break;
     case "throwing":
       set("skill_type", "throwing");
-      set_name( "翼"NOR,({"money-wing"}));
-      ob->set("original_name","翼"NOR);
+      set_name( "翼" + NOR,({"money-wing"}));
+      ob->set("original_name","翼" + NOR);
       ob->change2();
       message_vision("強烈的光芒過後，凝聚在$N手中的赫然是一把$n。\n",me,ob);
       break;      
     case "whip":
       set("skill_type", "whip");
-      set_name( "鍊"NOR,({"money-chain"}));
-      ob->set("original_name","鍊"NOR);
+      set_name( "鍊" + NOR,({"money-chain"}));
+      ob->set("original_name","鍊" + NOR);
       ob->change2();
       message_vision("強烈的光芒過後，凝聚在$N手中的赫然是一把$n。\n",me,ob);
       break;
     case "needle":
       set("skill_type", "stabber");
-      set_name( "針"NOR,({"money-needle"}) );
-      ob->set("original_name","針"NOR);
+      set_name( "針" + NOR,({"money-needle"}) );
+      ob->set("original_name","針" + NOR);
       ob->change2();
       message_vision("強烈的光芒過後，凝聚在$N手中的赫然是一把$n。\n",me,ob);
       break;
     case "fan":
       set("skill_type", "stabber");
-      set_name( "扇"NOR,({"money-fan"}) );
-      ob->set("original_name","扇"NOR);
+      set_name( "扇" + NOR,({"money-fan"}) );
+      ob->set("original_name","扇" + NOR);
       ob->change2();
       message_vision("強烈的光芒過後，凝聚在$N手中的赫然是一把$n。\n",me,ob);
       break;
     case "staff":
       set("skill_type", "staff");
-      set_name( "鎚"NOR,({"money-star"}) );
-      ob->set("original_name","鎚"NOR);
+      set_name( "鎚" + NOR,({"money-star"}) );
+      ob->set("original_name","鎚" + NOR);
       ob->change2();
       message_vision("強烈的光芒過後，凝聚在$N手中的赫然是一把$n。\n",me,ob);
       break;
     case "lance":
       set("skill_type", "lance");
-      set_name( "槍"NOR,({"money-lance"}) );
-      ob->set("original_name","槍"NOR);
+      set_name( "槍" + NOR,({"money-lance"}) );
+      ob->set("original_name","槍" + NOR);
       ob->change2();
       message_vision("強烈的光芒過後，凝聚在$N手中的赫然是一把$n。\n",me,ob);
       break;
     case "axe":
       set("skill_type", "axe");
-      set_name( "斧"NOR,({"money-axe"}) );
-      ob->set("original_name","斧"NOR);
+      set_name( "斧" + NOR,({"money-axe"}) );
+      ob->set("original_name","斧" + NOR);
       ob->change2();
       message_vision("強烈的光芒過後，凝聚在$N手中的赫然是一把$n。\n",me,ob);
       break;
@@ -241,12 +240,12 @@ int change1(string str) //武器效果
     {
       if( ob->query("change") == 1 )
       {
-        tell_object(me,ob->query("name")+"已經是"HIC"搖錢"NOR"狀態了！\n");
+        tell_object(me,ob->query("name")+"已經是" + HIC + "搖錢" + NOR + "狀態了！\n");
         return 1;
       } else {
         ob->set("change",1);
         me->set_temp("money_change",1);
-        message_vision(HIW"$N"HIW"灌注一股內力至藍色的晶珠之中，轉瞬間$n"HIW"已漸漸變化為搖錢狀態了。\n"NOR,me,ob);
+        message_vision(HIW + "$N" + HIW + "灌注一股內力至藍色的晶珠之中，轉瞬間$n" + HIW + "已漸漸變化為搖錢狀態了。\n" + NOR,me,ob);
         ob->change2();
         if(!query_heart_beat() && query("equipped") ) //如果穿上武器時 也能轉換型態 所以取消轉換型態時會脫下武器的問題 //但是心跳問題??
           set_heart_beat(1); //改為 如果拿起武器時轉換型態就直接給予心跳功能
@@ -256,19 +255,19 @@ int change1(string str) //武器效果
     {
       if( ob->query("change") == 2 )
       {
-        tell_object(me,ob->query("name")+"已經是"HIY"聚能"NOR"狀態了！\n");
+        tell_object(me,ob->query("name")+"已經是" + HIY + "聚能" + NOR + "狀態了！\n");
         return 1;
       } else {
         if( me->query("weapon/change2") == 1 )
         {
           ob->set("change",2);
           me->set_temp("money_change",2);
-          message_vision(HIW"$N"HIW"灌注一股內力至黃色的晶珠之中，轉瞬間$n"HIW"已漸漸變化為聚能狀態了。\n"NOR,me,ob);
+          message_vision(HIW + "$N" + HIW + "灌注一股內力至黃色的晶珠之中，轉瞬間$n" + HIW + "已漸漸變化為聚能狀態了。\n" + NOR,me,ob);
           ob->change2();
           if(!query_heart_beat() && query("equipped") )
             set_heart_beat(1); //改為 如果拿起武器時轉換型態就直接給予心跳功能
         } else {
-          message_vision("$N還無法領悟這種型態變化的奧秘。\n"NOR,me,ob);
+          message_vision("$N還無法領悟這種型態變化的奧秘。\n" + NOR,me,ob);
           return 1;
         }
       }
@@ -277,25 +276,25 @@ int change1(string str) //武器效果
     {
       if( ob->query("change") == 3 )
       {
-        tell_object(me,ob->query("name")+"已經是"HIR"狂邪"NOR"狀態了！\n");
+        tell_object(me,ob->query("name")+"已經是" + HIR + "狂邪" + NOR + "狀態了！\n");
         return 1;
       } else {
         if( me->query("weapon/change3") == 1 )
         {
           ob->set("change",3);
           me->set_temp("money_change",3);
-          message_vision(HIW"$N"HIW"灌注一股內力至紅色的晶珠之中，轉瞬間$n"HIW"已漸漸變化為狂邪狀態了。\n"NOR,me,ob);
+          message_vision(HIW + "$N" + HIW + "灌注一股內力至紅色的晶珠之中，轉瞬間$n" + HIW + "已漸漸變化為狂邪狀態了。\n" + NOR,me,ob);
           ob->change2();
           if(!query_heart_beat() && query("equipped") )
             set_heart_beat(1); //改為 如果拿起武器時轉換型態就直接給予心跳功能
         } else {
-          message_vision("$N還無法領悟這種型態變化的奧秘。\n"NOR,me,ob);
+          message_vision("$N還無法領悟這種型態變化的奧秘。\n" + NOR,me,ob);
         return 1;
         }
       }
     }
   } else {
-    message_vision(HIW"請選擇一個正確的型態(「搖錢」或「聚能」或「狂邪」)\n"NOR,me);
+    message_vision(HIW + "請選擇一個正確的型態(「搖錢」或「聚能」或「狂邪」)\n" + NOR,me);
   }
   return 1;
 }
@@ -304,22 +303,22 @@ int change2() //更改武器名稱
 {
   object ob=this_object();
   if( !ob->query("change") && !ob->query("original_name") ) //沒有指定用途且沒有指定型態 則使用預設名稱
-    ob->set_name( HIM"金風舞夢旋"NOR,({"golden-wind"}) );
+    ob->set_name( HIM + "金風舞夢旋" + NOR,({"golden-wind"}) );
   else if( ob->query("change") == 1 )
   {
-    ob->set("name",HIC"搖"HIB"錢"HIC"樹"HIB"靈"HIC+ob->query("original_name"));
+    ob->set("name",HIC + "搖" + HIB + "錢" + HIC + "樹" + HIB + "靈" + HIC+ob->query("original_name"));
   }
   else if( ob->query("change") == 2 )
   {
-    ob->set("name",HIY"聚"NOR+YEL"能"HIY"樹"NOR+YEL"靈"HIY+ob->query("original_name"));
+    ob->set("name",HIY + "聚" + NOR+YEL + "能" + HIY + "樹" + NOR+YEL + "靈" + HIY+ob->query("original_name"));
   }
   else if( ob->query("change") == 3 )
   {
-    ob->set("name",HIR"狂"NOR+RED"邪"HIR"樹"NOR+RED"靈"HIR+ob->query("original_name"));
+    ob->set("name",HIR + "狂" + NOR+RED + "邪" + HIR + "樹" + NOR+RED + "靈" + HIR+ob->query("original_name"));
   }
   else //改變型態 但是未指定用途時 就給予預設名稱
   {
-    ob->set("name",HIC"搖"HIB"錢"HIC"樹"HIB"靈"HIC+ob->query("original_name"));
+    ob->set("name",HIC + "搖" + HIB + "錢" + HIC + "樹" + HIB + "靈" + HIC+ob->query("original_name"));
   }
   return 1;
 }
@@ -327,14 +326,14 @@ int change2() //更改武器名稱
 int do_check(string str) //檢查狂邪力
 {
   object ob=this_object(),me=environment(ob);
-  tell_object(me,ob->query("name")+HIW"已經吸取了【"HIM+me->query("weapon/money_point")+HIW"】點狂邪力。\n"NOR);
+  tell_object(me,ob->query("name")+HIW + "已經吸取了【" + HIM+me->query("weapon/money_point")+HIW + "】點狂邪力。\n" + NOR);
   return 1;
 }
 
 int delt(object ob)
 {
   ob=this_object();
-  message_vision(ob->query("name")+HIW"消耗的能量，已漸漸回歸至能量充足狀態。\n"NOR,ob);
+  message_vision(ob->query("name")+HIW + "消耗的能量，已漸漸回歸至能量充足狀態。\n" + NOR,ob);
   ob->delete("money_crazy");
   return 1;
 }
@@ -375,11 +374,11 @@ void heart_beat()
     {
       if( me->query("weapon/money_point") >= 500 && me->query("weapon/money_point") < 1000)
       {
-        message_vision(ob->query("name")+HIC"發出一陣微鳴想吸取$N"HIC"身上的"HIR"狂邪力"HIC"能量，卻已漸漸無從著力。\n"NOR,me);
+        message_vision(ob->query("name")+HIC + "發出一陣微鳴想吸取$N" + HIC + "身上的" + HIR + "狂邪力" + HIC + "能量，卻已漸漸無從著力。\n" + NOR,me);
         me->add("weapon/money_point",-500);
         me->apply_condition("money_crazy",me->query_condition("money_crazy")+10);
       } else {
-        message_vision(ob->query("name")+HIC"發出一陣微鳴吸取了$N"HIC"身上的"HIR"狂邪力"HIC"能量後，不斷輕微地顫抖著。\n"NOR,me);
+        message_vision(ob->query("name")+HIC + "發出一陣微鳴吸取了$N" + HIC + "身上的" + HIR + "狂邪力" + HIC + "能量後，不斷輕微地顫抖著。\n" + NOR,me);
         me->add("weapon/money_point",-500);
         me->apply_condition("money_crazy",me->query_condition("money_crazy")+10);
       }
@@ -417,7 +416,7 @@ void heart_beat()
         {
           a1=a1-1;
           m1->set_amount(a1);
-          message_vision(ob->query("name")+HIC"吸取了$n"HIC"身上的一文錢並轉化為二文錢回歸到"HIW"$N"HIC"。\n"NOR,me,enemy[i]);
+          message_vision(ob->query("name")+HIC + "吸取了$n" + HIC + "身上的一文錢並轉化為二文錢回歸到" + HIW + "$N" + HIC + "。\n" + NOR,me,enemy[i]);
           c1=new("/obj/money/coin.c");
           c1->set_amount(2);
           c1->move(me);
@@ -426,7 +425,7 @@ void heart_beat()
         {
           a2=a2-1;
           m2->set_amount(a2);
-          message_vision(ob->query("name")+HIC"吸取了$n"HIC"身上的一兩銀子並轉化為二兩銀子回歸到"HIW"$N"HIC"。\n"NOR,me,enemy[i]);
+          message_vision(ob->query("name")+HIC + "吸取了$n" + HIC + "身上的一兩銀子並轉化為二兩銀子回歸到" + HIW + "$N" + HIC + "。\n" + NOR,me,enemy[i]);
           c2=new("/obj/money/silver.c");
           c2->set_amount(2);
           c2->move(me);
@@ -435,7 +434,7 @@ void heart_beat()
         {
           a3=a3-1;
           m3->set_amount(a3);
-          message_vision(ob->query("name")+HIC"吸取了$n"HIC"身上的一兩金子並轉化為二兩金子回歸到"HIW"$N"HIC"。\n"NOR,me,enemy[i]);
+          message_vision(ob->query("name")+HIC + "吸取了$n" + HIC + "身上的一兩金子並轉化為二兩金子回歸到" + HIW + "$N" + HIC + "。\n" + NOR,me,enemy[i]);
           c3=new("/obj/money/gold.c");
           c3->set_amount(2);
           c3->move(me);
@@ -444,7 +443,7 @@ void heart_beat()
         {
           a4=a4-1;
           m4->set_amount(a4);
-          message_vision(ob->query("name")+HIC"吸取了$n"HIC"身上的一張萬兩銀票並轉化為二張萬兩銀票回歸到"HIW"$N"HIC"。\n"NOR,me,enemy[i]);
+          message_vision(ob->query("name")+HIC + "吸取了$n" + HIC + "身上的一張萬兩銀票並轉化為二張萬兩銀票回歸到" + HIW + "$N" + HIC + "。\n" + NOR,me,enemy[i]);
           c4=new("/obj/money/cash.c");
           c4->set_amount(2);
           c4->move(me);
@@ -464,29 +463,29 @@ void heart_beat()
         c2->move(me);
         break;
       case 9501..9750:
-        message_vision(HIY"忽然由$n"HIY"裏掉出了一兩金子，結結實實的打在$N身上!!\n"NOR,me,ob);
+        message_vision(HIY + "忽然由$n" + HIY + "裏掉出了一兩金子，結結實實的打在$N身上!!\n" + NOR,me,ob);
         c3=new("/obj/money/gold.c");
         c3->move(me);
         break;
       case 9751..9985:
-        message_vision(HIW"忽然由$n"HIW"裏掉出了一張萬兩銀票，結結實實的打在$N身上!!\n"NOR,me,ob);
+        message_vision(HIW + "忽然由$n" + HIW + "裏掉出了一張萬兩銀票，結結實實的打在$N身上!!\n" + NOR,me,ob);
         c4=new("/obj/money/cash.c");
         c4->move(me);
         break;
       case 9986..9992:
-        message_vision(HIW"忽然由$n"HIW"裏掉出了十張萬兩銀票，結結實實的打在$N身上!!\n"NOR,me,ob);
+        message_vision(HIW + "忽然由$n" + HIW + "裏掉出了十張萬兩銀票，結結實實的打在$N身上!!\n" + NOR,me,ob);
         c5=new("/obj/money/cash.c");
         c5->set_amount(10);
         c5->move(me);
         break;
       case 9993..9998:
-        message_vision(HIC"忽然由$n"HIG"裏掉出了五十張萬兩銀票，結結實實的打在$N身上!!\n"NOR,me,ob);
+        message_vision(HIC + "忽然由$n" + HIG + "裏掉出了五十張萬兩銀票，結結實實的打在$N身上!!\n" + NOR,me,ob);
         c6=new("/obj/money/cash.c");
         c6->set_amount(50);
         c6->move(me);
         break;
       case 9999..10000:
-        message_vision(HIC"忽然由$n"HIC"裏掉出了一粒鑽石，結結實實的打在$N身上!!\n"NOR,me,ob);
+        message_vision(HIC + "忽然由$n" + HIC + "裏掉出了一粒鑽石，結結實實的打在$N身上!!\n" + NOR,me,ob);
         c7=new("/obj/money/diamond.c");
         c7->move(me);
         break;
@@ -524,28 +523,28 @@ void heart_beat()
         {
           a1=a1-1;
           m1->set_amount(a1);
-          message_vision(ob->query("name")+HIY"吸取了$n"HIY"身上的一文錢並轉化為一點能量回歸到"HIW"$N"HIY"。\n"NOR,me,enemy[i]);
+          message_vision(ob->query("name")+HIY + "吸取了$n" + HIY + "身上的一文錢並轉化為一點能量回歸到" + HIW + "$N" + HIY + "。\n" + NOR,me,enemy[i]);
           me->add("weapon/money_point",1);
         }
         if( a2 >= 1 && random(2) == 1 )
         {
           a2=a2-1;
           m2->set_amount(a2);
-          message_vision(ob->query("name")+HIY"吸取了$n"HIY"身上的一兩銀子並轉化為二點能量回歸到"HIW"$N"HIY"。\n"NOR,me,enemy[i]);
+          message_vision(ob->query("name")+HIY + "吸取了$n" + HIY + "身上的一兩銀子並轉化為二點能量回歸到" + HIW + "$N" + HIY + "。\n" + NOR,me,enemy[i]);
           me->add("weapon/money_point",2);
         }
         if( a3 >= 1 && random(2) == 1 )
         {
           a3=a3-1;
           m3->set_amount(a3);
-          message_vision(ob->query("name")+HIY"吸取了$n"HIY"身上的一兩金子並轉化為十點能量回歸到"HIW"$N"HIY"。\n"NOR,me,enemy[i]);
+          message_vision(ob->query("name")+HIY + "吸取了$n" + HIY + "身上的一兩金子並轉化為十點能量回歸到" + HIW + "$N" + HIY + "。\n" + NOR,me,enemy[i]);
           me->add("weapon/money_point",5);
         }
         if( a4 >= 1 && random(2) == 1 )
         {
           a4=a4-1;
           m4->set_amount(a4);
-          message_vision(ob->query("name")+HIY"吸取了$n"HIY"身上的一張萬兩銀票並轉化為五十點能量回歸到"HIW"$N"HIY"。\n"NOR,me,enemy[i]);
+          message_vision(ob->query("name")+HIY + "吸取了$n" + HIY + "身上的一張萬兩銀票並轉化為五十點能量回歸到" + HIW + "$N" + HIY + "。\n" + NOR,me,enemy[i]);
           me->add("weapon/money_point",50);
         }
       }
@@ -581,7 +580,7 @@ void heart_beat()
         {
           a1=a1-1;
           m1->set_amount(a1);
-          message_vision(ob->query("name")+HIR"感召了$N"HIR"身上的一文錢轉化成一點光能朝"HIW"$n"HIR"激射。\n"NOR,me,enemy[i]);
+          message_vision(ob->query("name")+HIR + "感召了$N" + HIR + "身上的一文錢轉化成一點光能朝" + HIW + "$n" + HIR + "激射。\n" + NOR,me,enemy[i]);
           me->add("weapon/money_point",-fun);
           enemy[i]->receive_damage("kee",fun*10,me);//damage(10-100)
           COMBAT_D->report_status(enemy[i]);
@@ -594,7 +593,7 @@ void heart_beat()
       {
         if( a1 >= 3 )
         {
-          message_vision(ob->query("name")+HIR"感召了$N"HIR"身上的一文錢轉化成一點光能朝"HIW"$n"HIR"激射。\n"NOR,me,enemy[i]);
+          message_vision(ob->query("name")+HIR + "感召了$N" + HIR + "身上的一文錢轉化成一點光能朝" + HIW + "$n" + HIR + "激射。\n" + NOR,me,enemy[i]);
           for( l=0;l<3;l++ )
           {
             a1=a1-1;
@@ -612,7 +611,7 @@ void heart_beat()
       {
         if( a1 >= 5 )
         {
-          message_vision(ob->query("name")+HIR"感召了$N"HIR"身上的一文錢轉化成一點光能朝"HIW"$n"HIR"激射。\n"NOR,me,enemy[i]);
+          message_vision(ob->query("name")+HIR + "感召了$N" + HIR + "身上的一文錢轉化成一點光能朝" + HIW + "$n" + HIR + "激射。\n" + NOR,me,enemy[i]);
           for( l=0;l<5;l++ )
           {
             a1=a1-1;
@@ -630,7 +629,7 @@ void heart_beat()
       {
         if( a2 >= 3 )
         {
-          message_vision(ob->query("name")+HIR"感召了$N"HIR"身上的一兩銀子轉化成十點光能朝"HIW"$n"HIR"激射。\n"NOR,me,enemy[i]);
+          message_vision(ob->query("name")+HIR + "感召了$N" + HIR + "身上的一兩銀子轉化成十點光能朝" + HIW + "$n" + HIR + "激射。\n" + NOR,me,enemy[i]);
           for( l=0;l<3;l++ )
           {
             a2=a2-1;
@@ -649,7 +648,7 @@ void heart_beat()
         if( a2 >= 5 )
         {
           for( l=0;l<5;l++ )
-          message_vision(ob->query("name")+HIR"感召了$N"HIR"身上的一兩銀子轉化成十點光能朝"HIW"$n"HIR"激射。\n"NOR,me,enemy[i]);
+          message_vision(ob->query("name")+HIR + "感召了$N" + HIR + "身上的一兩銀子轉化成十點光能朝" + HIW + "$n" + HIR + "激射。\n" + NOR,me,enemy[i]);
           {
             a2=a2-1;
             m2->set_amount(a2);
@@ -666,7 +665,7 @@ void heart_beat()
       {
         if( a2 >= 7 )
         {
-          message_vision(ob->query("name")+HIR"感召了$N"HIR"身上的一兩銀子轉化成十點光能朝"HIW"$n"HIR"激射。\n"NOR,me,enemy[i]);
+          message_vision(ob->query("name")+HIR + "感召了$N" + HIR + "身上的一兩銀子轉化成十點光能朝" + HIW + "$n" + HIR + "激射。\n" + NOR,me,enemy[i]);
           for( l=0;l<7;l++ )
           {
             a2=a2-1;
@@ -684,7 +683,7 @@ void heart_beat()
       {
         if( a3 >= 5 )
         {
-          message_vision(ob->query("name")+HIR"感召了$N"HIR"身上的一兩金子轉化成百點光能朝"HIW"$n"HIR"激射。\n"NOR,me,enemy[i]);
+          message_vision(ob->query("name")+HIR + "感召了$N" + HIR + "身上的一兩金子轉化成百點光能朝" + HIW + "$n" + HIR + "激射。\n" + NOR,me,enemy[i]);
           for( l=0;l<5;l++ )
           {
             a3=a3-1;
@@ -702,7 +701,7 @@ void heart_beat()
       {
         if( a3 >= 7 )
         {
-          message_vision(ob->query("name")+HIR"感召了$N"HIR"身上的一兩金子轉化成百點光能朝"HIW"$n"HIR"激射。\n"NOR,me,enemy[i]);
+          message_vision(ob->query("name")+HIR + "感召了$N" + HIR + "身上的一兩金子轉化成百點光能朝" + HIW + "$n" + HIR + "激射。\n" + NOR,me,enemy[i]);
           for( l=0;l<7;l++ )
           {
             a3=a3-1;
@@ -720,7 +719,7 @@ void heart_beat()
       {
         if( a3 >= 9 )
         {
-          message_vision(ob->query("name")+HIR"感召了$N"HIR"身上的一兩金子轉化成百點光能朝"HIW"$n"HIR"激射。\n"NOR,me,enemy[i]);
+          message_vision(ob->query("name")+HIR + "感召了$N" + HIR + "身上的一兩金子轉化成百點光能朝" + HIW + "$n" + HIR + "激射。\n" + NOR,me,enemy[i]);
           for( l=0;l<9;l++ )
           {
             a3=a3-1;
@@ -738,7 +737,7 @@ void heart_beat()
       {
         if( a4 >= 7 )
         {
-          message_vision(ob->query("name")+HIR"感召了$N"HIR"身上的一張萬兩銀票轉化成千點光能朝"HIW"$n"HIR"激射。\n"NOR,me,enemy[i]);
+          message_vision(ob->query("name")+HIR + "感召了$N" + HIR + "身上的一張萬兩銀票轉化成千點光能朝" + HIW + "$n" + HIR + "激射。\n" + NOR,me,enemy[i]);
           for( l=0;l<7;l++ )
           {
             a4=a4-1;
@@ -757,7 +756,7 @@ void heart_beat()
         if( a4 >= 9 )
         {
           for( l=0;l<9;l++ )
-          message_vision(ob->query("name")+HIR"感召了$N"HIR"身上的一張萬兩銀票轉化成千點光能朝"HIW"$n"HIR"激射。\n"NOR,me,enemy[i]);
+          message_vision(ob->query("name")+HIR + "感召了$N" + HIR + "身上的一張萬兩銀票轉化成千點光能朝" + HIW + "$n" + HIR + "激射。\n" + NOR,me,enemy[i]);
           {
             a4=a4-1;
             m4->set_amount(a4);
@@ -775,7 +774,7 @@ void heart_beat()
         if( a4 >= 11 )
         {
           for( l=0;l<11;l++ )
-          message_vision(ob->query("name")+HIR"感召了$N"HIR"身上的一張萬兩銀票轉化成千點光能朝"HIW"$n"HIR"激射。\n"NOR,me,enemy[i]);
+          message_vision(ob->query("name")+HIR + "感召了$N" + HIR + "身上的一張萬兩銀票轉化成千點光能朝" + HIW + "$n" + HIR + "激射。\n" + NOR,me,enemy[i]);
           {
             a4=a4-1;
             m4->set_amount(a4);
@@ -792,7 +791,7 @@ void heart_beat()
       {
         if( a4 >= 13 )
         {
-          message_vision(ob->query("name")+HIR"感召了$N"HIR"身上的一張萬兩銀票轉化成千點光能朝"HIW"$n"HIR"激射。\n"NOR,me,enemy[i]);
+          message_vision(ob->query("name")+HIR + "感召了$N" + HIR + "身上的一張萬兩銀票轉化成千點光能朝" + HIW + "$n" + HIR + "激射。\n" + NOR,me,enemy[i]);
           for( l=0;l<13;l++ )
           {
             a4=a4-1;
@@ -812,7 +811,7 @@ void heart_beat()
         {
           a5=a5-1;
           m5->set_amount(a5);
-          message_vision(ob->query("name")+HIR"感召了$N"HIR"身上的一粒鑽石轉化成萬點光能朝"HIW"$n"HIR"激射。\n"NOR,me,enemy[i]);
+          message_vision(ob->query("name")+HIR + "感召了$N" + HIR + "身上的一粒鑽石轉化成萬點光能朝" + HIW + "$n" + HIR + "激射。\n" + NOR,me,enemy[i]);
           for( l=0;l<13;l++ )
           {
             me->add("weapon/money_point",-14*fun);
@@ -858,7 +857,7 @@ void heart_beat()
         {
           a1=a1-1;
           m1->set_amount(a1);
-          message_vision(ob->query("name")+HIR"感召了$N"HIR"身上的"NOR"一文錢"HIR"轉化成一點光能朝"HIW"$n"HIR"激射。\n"NOR,me,enemy[i]);
+          message_vision(ob->query("name")+HIR + "感召了$N" + HIR + "身上的" + NOR + "一文錢" + HIR + "轉化成一點光能朝" + HIW + "$n" + HIR + "激射。\n" + NOR,me,enemy[i]);
           me->add("weapon/money_point",-fun*10);
           enemy[i]->receive_damage("kee",fun*10,me);//damage max(15*10)
           COMBAT_D->report_status(enemy[i]);
@@ -870,7 +869,7 @@ void heart_beat()
         {
           a2=a2-1;
           m2->set_amount(a2);
-          message_vision(ob->query("name")+HIR"感召了$N"HIR"身上的"NOR"一兩銀子"HIR"轉化成數十點光能朝"HIW"$n"HIR"激射。\n"NOR,me,enemy[i]);
+          message_vision(ob->query("name")+HIR + "感召了$N" + HIR + "身上的" + NOR + "一兩銀子" + HIR + "轉化成數十點光能朝" + HIW + "$n" + HIR + "激射。\n" + NOR,me,enemy[i]);
           me->add("weapon/money_point",-fun*10);
           enemy[i]->receive_damage("kee",fun*10+random(501),me);//damage max(45*10+500)
           COMBAT_D->report_status(enemy[i]);
@@ -882,7 +881,7 @@ void heart_beat()
         {
           a3=a3-1;
           m3->set_amount(a3);
-          message_vision(ob->query("name")+HIR"感召了$N"HIR"身上的"HIY"一兩金子"HIR"轉化成數百點光能朝"HIW"$n"HIR"激射。\n"NOR,me,enemy[i]);
+          message_vision(ob->query("name")+HIR + "感召了$N" + HIR + "身上的" + HIY + "一兩金子" + HIR + "轉化成數百點光能朝" + HIW + "$n" + HIR + "激射。\n" + NOR,me,enemy[i]);
           me->add("weapon/money_point",-fun*10);
           enemy[i]->receive_damage("kee",fun*5+random(501),me);
           enemy[i]->receive_wound("kee",fun*5+random(501),me);//damage max(90*10+1000)
@@ -895,7 +894,7 @@ void heart_beat()
         {
           a4=a4-1;
           m1->set_amount(a5);
-          message_vision(ob->query("name")+HIR"感召了$N"HIR"身上的"NOR"一張萬兩銀票"HIR"轉化成數華點光能朝"HIW"$n"HIR"激射。\n"NOR,me,enemy[i]);
+          message_vision(ob->query("name")+HIR + "感召了$N" + HIR + "身上的" + NOR + "一張萬兩銀票" + HIR + "轉化成數華點光能朝" + HIW + "$n" + HIR + "激射。\n" + NOR,me,enemy[i]);
           me->add("weapon/money_point",-fun*10);
           enemy[i]->receive_damage("kee",fun*5+random(1501),me);
           enemy[i]->receive_wound("kee",fun*5+random(1501),me);//damage max(150*10+3000)
@@ -908,7 +907,7 @@ void heart_beat()
         {
           a5=a5-1;
           m5->set_amount(a5);
-          message_vision(ob->query("name")+HIR"感召了$N"HIR"身上的"HIW"一粒鑽石"NOR"轉化成數萬點光能朝"HIW"$n"HIR"激射。\n"NOR,me,enemy[i]);
+          message_vision(ob->query("name")+HIR + "感召了$N" + HIR + "身上的" + HIW + "一粒鑽石" + NOR + "轉化成數萬點光能朝" + HIW + "$n" + HIR + "激射。\n" + NOR,me,enemy[i]);
           me->add("weapon/money_point",-fun*10);
           enemy[i]->receive_wound("kee",fun*10+random(5001),me);//damage max(lv*10+5000)
           COMBAT_D->report_status(enemy[i]);

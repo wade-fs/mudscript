@@ -18,7 +18,7 @@ int main(object me, string arg)
     if( ob->query("skill_type") != "archery" )
     return notify_fail("看清楚那不是弓 .....﹗\n");
     if(ob->query("arrow/id") != "none")
-    write("剩餘箭數﹕" HIC + ob->query("arrow/amount") + NOR "支"
+    write("剩餘箭數﹕" + HIC + ob->query("arrow/amount") + NOR + "支"
     +ob->query("arrow/name")+ "(" +ob->query("arrow/id")+ ")\n" );
     else  write("現在"+ob->query("name")+"上沒有任何弓箭\n");
 

@@ -3,11 +3,11 @@ int update_condition(object me, int duration,int j)
 {
      if(duration==0) 
      {  
-     message_vision(HIW"$N身上長白山千年靈芝的神奇藥效漸漸消失!!\n"NOR,me);
+     message_vision(HIW + "$N身上長白山千年靈芝的神奇藥效漸漸消失!!\n" + NOR,me);
      return 0;
      }
      me->apply_condition("mon_pill",duration-1);
-     message_vision(HIW"長白山千年靈芝的神奇藥效迅速治療$N的傷勢!!\n"NOR,me);
+     message_vision(HIW + "長白山千年靈芝的神奇藥效迅速治療$N的傷勢!!\n" + NOR,me);
      me->receive_curing("kee",1000);
      me->receive_heal("kee",1000);
      me->receive_curing("gin",1000);

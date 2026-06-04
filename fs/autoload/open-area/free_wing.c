@@ -8,7 +8,7 @@ string color;
 
 void create()
 {
-  set_name(HIW"自由之翼"NOR,({"free_wing","fw"}));
+  set_name(HIW + "自由之翼" + NOR,({"free_wing","fw"}));
   set_weight(5000);
   if( clonep() )
     set_default_object(__FILE__);
@@ -16,7 +16,7 @@ void create()
     set("long","由片片符彔組成，每ㄧ道符彔，就如蔚藍的天空，深邃的大海，約有數十萬的符彔組成這一\n"
       "對翅膀，每ㄧ片符彔之中，都是ㄧ個小小的世界，其中龐大的力量奔騰著，隨意扇動之間，\n"
       "上面就出現無數追求自由的身影，ㄧ個個的身影，前仆後繼，殺生成仁，為自由消遙，捨生\n"
-      "忘死。\n\n傳聞中得到這一對翅膀，就可以不受任何規則羈絆！(help free wing)\n"NOR);
+      "忘死。\n\n傳聞中得到這一對翅膀，就可以不受任何規則羈絆！(help free wing)\n" + NOR);
     set("unit","對");
     set("value",3000);
     set("material","crimsonsteel");
@@ -33,9 +33,9 @@ void create()
     set("no_get",1);
     set("no_steal",1);
     set("no_save",1);
-    set("wear_msg",HIW"輕觸胸前的項鍊將能量灌注其中，光芒閃耀！"HIY"$N"HIW"的背後閃現出一對寬大的翅膀，\n"
-      "翅膀出現的剎那，"HIY"$N"HIW"似乎已經感受不到任何的羈絆，擁有了真正的自由。\n"NOR);
-    set("unequip_msg",HIW"背後的翅膀化為無數光點消失，"HIY"$N"HIW"似乎又回到了人世間感受到了滾滾紅塵。\n"NOR);
+    set("wear_msg",HIW + "輕觸胸前的項鍊將能量灌注其中，光芒閃耀！" + HIY + "$N" + HIW + "的背後閃現出一對寬大的翅膀，\n"
+      "翅膀出現的剎那，" + HIY + "$N" + HIW + "似乎已經感受不到任何的羈絆，擁有了真正的自由。\n" + NOR);
+    set("unequip_msg",HIW + "背後的翅膀化為無數光點消失，" + HIY + "$N" + HIW + "似乎又回到了人世間感受到了滾滾紅塵。\n" + NOR);
   }
   setup();
 }
@@ -127,7 +127,7 @@ void init()
     add_action("do_gmove", "gmove");
     add_action("do_help", "help");
     this_object()->color_change();
-    if( k && color ) set("name",color+"( "+chinese_number(k*2)+"翼 )"NOR+HIW"自由之翼"NOR);
+    if( k && color ) set("name",color+"( "+chinese_number(k*2)+"翼 )" + NOR+HIW + "自由之翼" + NOR);
   }
 }
 
@@ -137,28 +137,28 @@ int color_change()
   string color_select;
   color_select=me->query("weapon/fwing/color");
   switch(color_select) {
-    case "YEL":
+    case " + YEL + ":
       color="[0;33m";
       break;
-    case "CYN":
+    case " + CYN + ":
       color="[0;36m";
       break;
-    case "HIK":
+    case " + HIK + ":
       color="[1;30m";
       break;
-    case "HIR":
+    case " + HIR + ":
       color="[1;31m";
       break;
-    case "HIY":
+    case " + HIY + ":
       color="[1;33m";
       break;
-    case "HIB":
+    case " + HIB + ":
       color="[1;34m";
       break;
-    case "HIC":
+    case " + HIC + ":
       color="[1;36m";
       break;
-    case "HIW":
+    case " + HIW + ":
       color="[1;37m";
       break;
     default : 
@@ -284,7 +284,7 @@ int do_waveto(string arg)
     default:
       return notify_fail("抱歉，沒有你所要去的地點。\n");
   }
-  message_vision( HIY"$N"HIW"背後的翅膀猛然ㄧ搧，瞬間穿越了無盡的時空而去。\n"NOR ,me);
+  message_vision( HIY + "$N" + HIW + "背後的翅膀猛然ㄧ搧，瞬間穿越了無盡的時空而去。\n" + NOR ,me);
 
   if( me->query_temp("gmove") )
   {
@@ -304,7 +304,7 @@ int do_waveto(string arg)
         count[i]->move(room);
     }
 
-    message_vision(HIW"前方的空間忽然出現ㄧ陣波紋，眼前一花，"HIY"$N"HIW"帶領大家突兀的降臨了。\n"+NOR,me);
+    message_vision(HIW + "前方的空間忽然出現ㄧ陣波紋，眼前一花，" + HIY + "$N" + HIW + "帶領大家突兀的降臨了。\n"+NOR,me);
     me->add("bank/coin", -10000);
     return 1;
   }
@@ -312,7 +312,7 @@ int do_waveto(string arg)
   if( room && !me->move(room) )
     return notify_fail("目的地無法到達。\n");
 
-  message_vision(HIW"前方的空間忽然出現ㄧ陣波紋，眼前一花，"HIY"$N"HIW"突兀的降臨了。\n"+NOR,me);
+  message_vision(HIW + "前方的空間忽然出現ㄧ陣波紋，眼前一花，" + HIY + "$N" + HIW + "突兀的降臨了。\n"+NOR,me);
   me->add("bank/coin",-10000);
   return 1;
 }

@@ -76,9 +76,9 @@ if(me->query("m_blade")==1 &&
             COMBAT_D->report_status(enemy[j],1);
          }
       else
-         message_vision(YEL"$n在危急時刻猛然一閃，躲開了魔龍刀氣。\n"NOR,me,enemy[j]);
+         message_vision(YEL + "$n在危急時刻猛然一閃，躲開了魔龍刀氣。\n" + NOR,me,enemy[j]);
    }
-   message_vision(HIW"『魔龍訣』使出後，大耗真氣，氣息紊亂。\n"NOR,me);
+   message_vision(HIW + "『魔龍訣』使出後，大耗真氣，氣息紊亂。\n" + NOR,me);
    if(fun<100) 
        function_improved("mdragon-dest",random(500)); 
    return 1;

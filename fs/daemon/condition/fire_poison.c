@@ -5,7 +5,7 @@ int update_condition(object me, int duration)
   if(duration==0) {    
     if(poison(me))
     {
-      message_vision(HIR"$N搖搖晃晃，全身火紅。\n"NOR,me);
+      message_vision(HIR + "$N搖搖晃晃，全身火紅。\n" + NOR,me);
 
     }
     me->delete_temp("poison/fire_poison");
@@ -15,8 +15,8 @@ int update_condition(object me, int duration)
   me->receive_wound("kee",300);
   me->apply_condition("fire_poison",duration-1);
   me->start_busy(1);
-  tell_object(me,HIG "你身上的" HIR "火雲邪毒" HIG "發作了﹗\n" NOR);
-  message_vision(HIR"$N搖搖晃晃，全身火紅。\n"NOR,me);
+  tell_object(me,HIG + "你身上的" + HIR + "火雲邪毒" + HIG + "發作了﹗\n" + NOR);
+  message_vision(HIR + "$N搖搖晃晃，全身火紅。\n" + NOR,me);
 
   if( duration < 1 ) return 0;
   return 1;

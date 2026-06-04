@@ -132,7 +132,7 @@ int do_waveto(string arg)
     string room="";
     me = this_player();
     if( me->query_temp("unconcious") )          return 0;
-    message_vision( RED+"只見一道閃電劃過，"HIR"$N"RED"消失的無影無蹤。\n"+NOR ,me);
+    message_vision( RED+"只見一道閃電劃過，" + HIR + "$N" + RED + "消失的無影無蹤。\n"+NOR ,me);
     switch(arg)
     {
        case "1":
@@ -176,7 +176,7 @@ int do_waveto(string arg)
      // 檢查 room 是否存在, gmove on|off 都得用,故放此
      env = environment(me);
      if( !me->move(room) ){
-       write (" 喚雲扇說: 不要玩我，根本沒這地方..."HIC"-_-;\n"NOR);
+       write (" 喚雲扇說: 不要玩我，根本沒這地方..." + HIC + "-_-;\n" + NOR);
         return 1;
      }
 
@@ -198,9 +198,9 @@ int do_waveto(string arg)
 
      if( gmove )
      {
-        message_vision(RED+"一陣雷電交加後，"HIR"$N"RED"帶領大家出現在此!!\n"+NOR,me);
+        message_vision(RED+"一陣雷電交加後，" + HIR + "$N" + RED + "帶領大家出現在此!!\n"+NOR,me);
      }else
-        message_vision(RED+"一陣雷電交加後，"HIR"$N"RED"在此降臨!!\n"+NOR,me);
+        message_vision(RED+"一陣雷電交加後，" + HIR + "$N" + RED + "在此降臨!!\n"+NOR,me);
 
      me->set("bank/coin",money-500);
      return 1;

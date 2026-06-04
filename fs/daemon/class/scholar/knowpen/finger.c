@@ -22,16 +22,14 @@ int perform(object me,object target)
 	me->add("kee",-50);
 	me->add("force",-100);
         message_vision(
-""HIW"$N突然從招式中的變化領悟到了行雲流水筆法的最終奧義
-"HIR" ==================================================
- ==============   "HIM"儒   門   幻   指 "HIR" ==============
- ==================================================\n"
-NOR,me,target);
+"" + HIW + "$N突然從招式中的變化領悟到了行雲流水筆法的最終奧義
+" + HIR + " ==================================================
+ ==============   " + HIM + "儒   門   幻   指 " + HIR + " ==============
+ ==================================================\n" + NOR,me,target);
 	if( 80 > random(100))
 	{
 	message_vision(
-""HIC"$n無法摸清儒門幻指的破綻﹐被幻指所困惑﹐令$n的精神渙散﹗\n"
-NOR,me,target);
+"" + HIC + "$n無法摸清儒門幻指的破綻﹐被幻指所困惑﹐令$n的精神渙散﹗\n" + NOR,me,target);
 	k1=target->query("max_gin")/5;
 	k2=target->query("max_kee")/5;
 	k3=target->query("max_sen")/5;
@@ -43,7 +41,7 @@ NOR,me,target);
 	target->receive_damage("sen",(fun*4+k3));
 	}else{
 	message_vision(
-""HIC"$n看透了幻指中精妙的變化﹐剛好從$n身邊擦過。\n"NOR,me,target);
+"" + HIC + "$n看透了幻指中精妙的變化﹐剛好從$n身邊擦過。\n" + NOR,me,target);
 	}
 	if(fun<100)
 	function_improved("finger",random(500));

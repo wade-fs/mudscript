@@ -7,11 +7,11 @@ int update_condition(object me, int duration)
   if(!environment(me)) return 0;
    if(duration<=0) return 0; 
         if( duration > 2 ) {
-                tell_object(me, HIB"你努力的將毒素納入丹田。\n"NOR);
+                tell_object(me, HIB + "你努力的將毒素納入丹田。\n" + NOR);
                 message("vision", me->name() + "身上冰箔片片，正在行功\險時。 \n",
                         environment(me), me);
         } else if( duration > 1 ) {
-                tell_object(me, HIY"你行功\漸緩，以吸收大半毒素。 \n"NOR);
+                tell_object(me, HIY + "你行功\漸緩，以吸收大半毒素。 \n" + NOR);
                 message("vision", me->name() + "似乎好多了 \n",
                         environment(me), me);
         } else if( duration > 0 ) {

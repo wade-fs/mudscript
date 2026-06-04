@@ -34,11 +34,11 @@ int main(object me, string arg)
   if(userp(obj)&&obj->query("age")<16) return notify_fail("不能對玩者用。\n");
   if( me->is_fighting() ) me->start_busy(1);
   message_vision(
-      HIG "$N從袖口拿出一包"+ob->name()+"往$n撒去﹗\n" NOR,me,obj);
+      HIG + "$N從袖口拿出一包"+ob->name()+"往$n撒去﹗\n" + NOR,me,obj);
   if(50>random(100))
   {
     message_vision(
-        GRN "$n閃躲不及﹐被"+ob->name()+"撒中﹗\n" NOR,me,obj);
+        GRN + "$n閃躲不及﹐被"+ob->name()+"撒中﹗\n" + NOR,me,obj);
     po = ob->query("poison_type");
     
     if(obj->query_temp("poison/"+po))
@@ -55,8 +55,8 @@ int main(object me, string arg)
   else
   {
     message_vision(
-        //          GRN "$n急忙中一閃﹐有驚無險的避了開去，並對$N開始展開攻擊。\n" NOR,me,obj);
-      GRN "$n急忙中一閃﹐有驚無險的避了開去。\n" NOR,me,obj);
+        //          GRN + "$n急忙中一閃﹐有驚無險的避了開去，並對$N開始展開攻擊。\n" + NOR,me,obj);
+      GRN + "$n急忙中一閃﹐有驚無險的避了開去。\n" + NOR,me,obj);
     //          obj->kill_ob(me);
   }
   ob->add_amount(-1);        

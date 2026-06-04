@@ -29,17 +29,17 @@ int conjure(object me, object target)
 
   me->add("atman", -300);
   me->receive_damage("gin", 30);
-  msg = CYN "$N突然將雙手向上高舉口中唸著：\n" NOR ;
-  msg += HIC "天上的星辰啊！傾聽我的請求！用妳的烈焰燃燒一切邪惡！" NOR ;
-  msg += HIW "終極火焰術"HIR"  流  星  雨  \n" NOR;
-//  msg += HIR ": : : : : : : : : : : : : : : : : : : : : : : : : :: : : : : : : : : : : : : : : : : : : : : \n" NOR;
-//  msg += HIR ": : : : : : : : : : : : : : : : : : : : : : : : : :: : : : : : : : : : : : : : : : : : : : : \n" NOR;
-//  msg += HIR ": : : : : : : : : : : : : : : : : : : : : : : : : :: : : : : : : : : : : : : : : : : : : : : \n" NOR;
-//  msg += HIR ": : : : : : : : : : : : : : : : : : : : : : : : : :: : : : : : : : : : : : : : : : : : : : : \n" NOR;
-//  msg += HIR ": : : : : : : : : : : : : : : : : : : : : : : : : :: : : : : : : : : : : : : : : : : : : : : \n" NOR;
-//  msg += HIR ": : : : : : : : : : : : : : : : : : : : : : : : : :: : : : : : : : : : : : : : : : : : : : : \n" NOR;
-//  msg += HIR ": : : : : : : : : : : : : : : : : : : : : : : : : :: : : : : : : : : : : : : : : : : : : : : \n" NOR;
-//  msg += HIR ": : : : : : : : : : : : : : : : : : : : : : : : : :: : : : : : : : : : : : : : : : : : : : : \n" NOR;
+  msg = CYN + "$N突然將雙手向上高舉口中唸著：\n" + NOR ;
+  msg += HIC + "天上的星辰啊！傾聽我的請求！用妳的烈焰燃燒一切邪惡！" + NOR ;
+  msg += HIW + "終極火焰術" + HIR + "  流  星  雨  \n" + NOR;
+//  msg += HIR + ": : : : : : : : : : : : : : : : : : : : : : : : : :: : : : : : : : : : : : : : : : : : : : : \n" + NOR;
+//  msg += HIR + ": : : : : : : : : : : : : : : : : : : : : : : : : :: : : : : : : : : : : : : : : : : : : : : \n" + NOR;
+//  msg += HIR + ": : : : : : : : : : : : : : : : : : : : : : : : : :: : : : : : : : : : : : : : : : : : : : : \n" + NOR;
+//  msg += HIR + ": : : : : : : : : : : : : : : : : : : : : : : : : :: : : : : : : : : : : : : : : : : : : : : \n" + NOR;
+//  msg += HIR + ": : : : : : : : : : : : : : : : : : : : : : : : : :: : : : : : : : : : : : : : : : : : : : : \n" + NOR;
+//  msg += HIR + ": : : : : : : : : : : : : : : : : : : : : : : : : :: : : : : : : : : : : : : : : : : : : : : \n" + NOR;
+//  msg += HIR + ": : : : : : : : : : : : : : : : : : : : : : : : : :: : : : : : : : : : : : : : : : : : : : : \n" + NOR;
+//  msg += HIR + ": : : : : : : : : : : : : : : : : : : : : : : : : :: : : : : : : : : : : : : : : : : : : : : \n" + NOR;
   message_vision(msg, me, target);
   me->set_temp("meteor",1);
   call_out("act1",1,msg,target,me,fun,fk);
@@ -63,7 +63,7 @@ int act1(string msg,object target,object me,int fun,int fk)
 //      {
     if(random(fk)>10)
     {
-      msg = HIM "結果"+enemy[i]->query("name")+"被從天而降的隕石打中！\n" NOR;
+      msg = HIM + "結果"+enemy[i]->query("name")+"被從天而降的隕石打中！\n" + NOR;
 //      enemy[i]->kill_ob(me);
 //      me->kill_ob(enemy[i]);
       enemy[i]->receive_damage("kee", fun*9+100,me);  
@@ -72,7 +72,7 @@ int act1(string msg,object target,object me,int fun,int fk)
     } 
     else 
     {
-      msg = CYN "可是"+enemy[i]->query("name")+"以極快的速度躲開了隕石。\n" NOR;
+      msg = CYN + "可是"+enemy[i]->query("name")+"以極快的速度躲開了隕石。\n" + NOR;
       message_vision(msg, me, target);
       COMBAT_D->report_status(enemy[i]);
     }

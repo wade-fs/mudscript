@@ -19,7 +19,7 @@ int perform( object me )
                 return notify_fail( "你的內力不足!\n" );
         if( me->is_fighting() )
                 me->start_busy(1);
-        message_vision( HIW"$N憑著高深的內力修為, 將體內部分內勁轉化成氣!!\n"NOR, me ); 
+        message_vision( HIW + "$N憑著高深的內力修為, 將體內部分內勁轉化成氣!!\n" + NOR, me ); 
         me->add("force", -(i*3/2) );
         me->add("max_kee",i+200);
 		me->add("eff_kee",i+200);
@@ -41,7 +41,7 @@ void remove_effect( object me )
         me->add("max_kee",-(i+200));
         me->set("eff_kee",me->query("max_kee"));
         me->delete_temp("keeup");
-        tell_object( me, HIR"你體內的氣勁漸漸消失了。\n"NOR );
+        tell_object( me, HIR + "你體內的氣勁漸漸消失了。\n" + NOR );
         if( fun < 100 )
                 me->function_improved( "extra-kee", random(300) ); 
         }

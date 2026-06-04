@@ -6,7 +6,7 @@ inherit HANDS;
 
 void create()
 {
-  set_name(MAG"忍者血手"NOR,({"ninja hands","hands"}));
+  set_name(MAG + "忍者血手" + NOR,({"ninja hands","hands"}));
   set_weight(2000);
   if( clonep() )
     set_default_object(__FILE__);
@@ -66,7 +66,7 @@ void heart_beat()
   {
     if(random(100) > 85)
     {
-      message_vision(RED"\n$N手中的血手發出紅光, $N瞬時精神一振, 全身充滿殺氣。\n"NOR,me);
+      message_vision(RED + "\n$N手中的血手發出紅光, $N瞬時精神一振, 全身充滿殺氣。\n" + NOR,me);
       me->receive_curing("kee",100);
       me->receive_heal("kee",100);
       me->add("bellicosity",50);

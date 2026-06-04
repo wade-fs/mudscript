@@ -16,7 +16,7 @@ int perform(object me,object target)
                 return notify_fail("以你的內力不足以用此計。\n");
         if( me->query_temp("no-plan") == 1 )
         return notify_fail("你已經使出策免計了。\n");
-message_vision(HIY"$N以六韜奇略中的策免計，使自己不怕別的計謀。\n"NOR,me);
+message_vision(HIY + "$N以六韜奇略中的策免計，使自己不怕別的計謀。\n" + NOR,me);
         me->set_temp("speed",1);
         me->set_temp("empty",1);
         me->set_temp("mount",1);

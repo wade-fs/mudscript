@@ -14,7 +14,7 @@ void init()
 
 void create()
 {
-        set_name(HIY"貢品"NOR, ({"gon pon", "pon"}));
+        set_name(HIY + "貢品" + NOR, ({"gon pon", "pon"}));
         if (clonep())
                 set_default_object(__FILE__);
         else {
@@ -46,7 +46,7 @@ int do_eat(string arg)
                 tell_object(me, "不過你覺得好像沒什麼作用。\n");
         } else
         {
-                tell_object(me, HIM "霎時間你覺得運氣增加百分百，一個開心就暈了過去。\n" NOR);
+                tell_object(me, HIM + "霎時間你覺得運氣增加百分百，一個開心就暈了過去。\n" + NOR);
                 me->add("kar", 1);
                 me->add("setgift/kar",1);
                 me->unconcious();

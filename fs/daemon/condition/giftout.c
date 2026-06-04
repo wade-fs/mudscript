@@ -52,15 +52,15 @@ int update_condition(object me, int duration)
       if(wname) wname->delete("nodrop");
       if(me->query("family/family_name") == "金刀門")
       {
-        message_vision(HIW"$N覺得凝聚落葉的刀勁消散了。\n"NOR,me);
+        message_vision(HIW + "$N覺得凝聚落葉的刀勁消散了。\n" + NOR,me);
       }
-      else {message_vision(HIW"$N覺的刀的血氣消失了。\n"NOR,me);}
+      else {message_vision(HIW + "$N覺的刀的血氣消失了。\n" + NOR,me);}
       if(fun<100) { function_improved("addbasic",random(700)); }
     }
     return 0;
   }
-  tell_object(me,HIW"你『"HIG"筋骨異常"HIW"』，漫延全身似乎變了一個人。\n"NOR);
-  message("vision",HIC+me->name()+"全身『"HIG"筋骨異常"HIC"』漫延全身，附近的人都快認不出來了。\n"NOR,environment(me),me);
+  tell_object(me,HIW + "你『" + HIG + "筋骨異常" + HIW + "』，漫延全身似乎變了一個人。\n" + NOR);
+  message("vision",HIC+me->name()+"全身『" + HIG + "筋骨異常" + HIC + "』漫延全身，附近的人都快認不出來了。\n" + NOR,environment(me),me);
   me->apply_condition("giftout",duration-1);
   return 1;
 }

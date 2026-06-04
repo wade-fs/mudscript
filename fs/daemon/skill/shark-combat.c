@@ -23,14 +23,14 @@ mapping *action = ({
 
 void bite(object me, object victim,object weapon, int damage)
 {
-        message_vision(HIR"$N張開大口猛咬一口, 在$n的身上狠狠的咬了一塊肉下來!!\n"NOR,me,victim);
+        message_vision(HIR + "$N張開大口猛咬一口, 在$n的身上狠狠的咬了一塊肉下來!!\n" + NOR,me,victim);
 	victim->receive_wound("kee",3000);
 	COMBAT_D->report_status(victim);
 }
 
 void bite2(object me, object victim,object weapon, int damage)
 {
-        message_vision(HIR"$N張開大口猛咬一口, 在$n的身上狠狠的咬了一塊肉下來!!\n"NOR,me,victim);
+        message_vision(HIR + "$N張開大口猛咬一口, 在$n的身上狠狠的咬了一塊肉下來!!\n" + NOR,me,victim);
 	victim->receive_wound("kee",3000);
 	COMBAT_D->report_status(victim);
 }

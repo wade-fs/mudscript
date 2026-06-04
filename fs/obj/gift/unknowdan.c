@@ -6,7 +6,7 @@ inherit ITEM;
 
 void create()
 {
-        set_name(HIR "仙丹" NOR, ({ "dan", "xian dan", "xiandan" }) );
+        set_name(HIR + "仙丹" + NOR, ({ "dan", "xian dan", "xiandan" }) );
         set_weight(200);
         if( clonep() )
                 set_default_object(__FILE__);
@@ -43,7 +43,7 @@ int do_eat(string arg)
                 tell_object(me, "不過你覺得好像沒什麼作用。\n");
         } else
         {
-                tell_object(me, HIM "霎時間你覺得頭痛欲裂，一時疼痛難忍，暈了過去。\n" NOR);
+                tell_object(me, HIM + "霎時間你覺得頭痛欲裂，一時疼痛難忍，暈了過去。\n" + NOR);
                 me->add("spi", 1);
                 me->add("segift/spi",1);
                 me->unconcious();

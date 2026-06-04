@@ -4,7 +4,7 @@ inherit BULLETIN_BOARD;
 #include <ansi.h>
 void create()
 {
-  set_name(HIC"風雷幫的幫派討論區"NOR, ({"board"}));
+  set_name(HIC + "風雷幫的幫派討論區" + NOR, ({"board"}));
   set("location","/open/clam/wind.c");
    set("board_id","clam_1");
   set("long","

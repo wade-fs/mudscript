@@ -46,10 +46,10 @@ void create()
 
 	set("chat_chance_combat", 40);
 	set("chat_msg_combat", ({
-		CYN "安惜邇似笑非笑地望著你﹐臉上的神氣古理古怪﹐不知道在想些什麼﹖\n" NOR,
-		CYN "安惜邇的身影晃了一下﹐似乎在你身上各處大穴摸了一下﹐不過也許\是你的錯覺。\n" NOR,
-		CYN "安惜邇神情忽然嚴肅了起來﹐不過好像是在想自己的事﹐與你無關。\n" NOR,
-		CYN "安惜邇忽然呵呵呵地笑了起來﹐卻不知道在笑些什麼....\n" NOR,
+		CYN + "安惜邇似笑非笑地望著你﹐臉上的神氣古理古怪﹐不知道在想些什麼﹖\n" + NOR,
+		CYN + "安惜邇的身影晃了一下﹐似乎在你身上各處大穴摸了一下﹐不過也許\是你的錯覺。\n" + NOR,
+		CYN + "安惜邇神情忽然嚴肅了起來﹐不過好像是在想自己的事﹐與你無關。\n" + NOR,
+		CYN + "安惜邇忽然呵呵呵地笑了起來﹐卻不知道在笑些什麼....\n" + NOR,
 		(: perform_action, "sword.counterattack" :),
 		(: cast_spell, "drainerbolt" :),
 		(: cast_spell, "feeblebolt" :),

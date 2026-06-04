@@ -43,19 +43,19 @@ int perform(object me, object target)
     i = 4;
   }
 
-  message_vision(HIG"
+  message_vision(HIG + "
                 $N運起全身真勁，使得全身的骨骼不斷的霹啪作響，
-                大喝一聲:"+BLINK+HIC+"「北冥神功\」"NOR+HIG"，右手開始不斷的在身前繞
+                大喝一聲:"+BLINK+HIC+"「北冥神功\」" + NOR+HIG + "，右手開始不斷的在身前繞
                 圈，越繞越快，漸漸地形成了一個漩渦力場，四週的
                 人只覺得一股極大的吸力從力場中心發出，身體不由
-                自主的朝力場投去。\n"NOR,me);
+                自主的朝力場投去。\n" + NOR,me);
   while (i--) {
     if (fun <= 20 && fun >=0) {
       if (30 > random(100) || enemy[i]->is_busy()){
         e_force=enemy[i]->query("force");
         if (e_force > 10) {
-          message_vision(HIR"
-$N"HIR"一時之間慌了手腳，竟被$n"HIR"吸走了自身內力中的一成!!!\n"NOR,enemy[i],me);
+          message_vision(HIR + "
+$N" + HIR + "一時之間慌了手腳，竟被$n" + HIR + "吸走了自身內力中的一成!!!\n" + NOR,enemy[i],me);
           flag = flag + 1;
           e_force=e_force*1/10;
           enemy[i]->add("force",-(e_force));
@@ -68,16 +68,16 @@ $N"HIR"一時之間慌了手腳，竟被$n"HIR"吸走了自身內力中的一成
         }
       }
       else {
-        message_vision(HIY"
-$N"HIY"看準了$n"HIY"所引發力場的破綻，一個閃身，躲開了$n"HIY"這次攻擊。\n"NOR,enemy[i],me);
+        message_vision(HIY + "
+$N" + HIY + "看準了$n" + HIY + "所引發力場的破綻，一個閃身，躲開了$n" + HIY + "這次攻擊。\n" + NOR,enemy[i],me);
       }
     }
     else if (fun <= 40 && fun >20) {
       if (45 > random(100) || enemy[i]->is_busy()) {
         e_force=enemy[i]->query("force");
         if (e_force > 10) {
-          message_vision(HIR"
-$N"HIR"一時之間慌了手腳，竟被$n"HIR"吸走了自身內力中的兩成!!!\n"NOR,enemy[i],me);
+          message_vision(HIR + "
+$N" + HIR + "一時之間慌了手腳，竟被$n" + HIR + "吸走了自身內力中的兩成!!!\n" + NOR,enemy[i],me);
           flag = flag + 1;
           e_force=e_force*2/10;
           enemy[i]->add("force",-(e_force));
@@ -90,16 +90,16 @@ $N"HIR"一時之間慌了手腳，竟被$n"HIR"吸走了自身內力中的兩成
         }
       }
       else {
-        message_vision(HIY"
-$N"HIY"看準了$n"HIY"所引發力場的破綻，一個閃身，躲開了$n"HIY"這次攻擊。\n"NOR,enemy[i],me);
+        message_vision(HIY + "
+$N" + HIY + "看準了$n" + HIY + "所引發力場的破綻，一個閃身，躲開了$n" + HIY + "這次攻擊。\n" + NOR,enemy[i],me);
       }
     }
     else if (fun <= 60 && fun >40) {
       if (60 > random(100) || enemy[i]->is_busy()) {
         e_force=enemy[i]->query("force");
         if (e_force > 10) {
-          message_vision(HIR"
-$N"HIR"一時之間慌了手腳，竟被$n"HIR"吸走了自身內力中的三成!!!\n"NOR,enemy[i],me);
+          message_vision(HIR + "
+$N" + HIR + "一時之間慌了手腳，竟被$n" + HIR + "吸走了自身內力中的三成!!!\n" + NOR,enemy[i],me);
           flag=flag+1;
           e_force=e_force*3/10;
           enemy[i]->add("force",-(e_force));
@@ -113,16 +113,16 @@ $N"HIR"一時之間慌了手腳，竟被$n"HIR"吸走了自身內力中的三成
         }
       }
       else {
-        message_vision(HIY"
-$N"HIY"看準了$n"HIY"所引發力場的破綻，一個閃身，躲開了$n"HIY"這次攻擊。\n"NOR,enemy[i],me);
+        message_vision(HIY + "
+$N" + HIY + "看準了$n" + HIY + "所引發力場的破綻，一個閃身，躲開了$n" + HIY + "這次攻擊。\n" + NOR,enemy[i],me);
       }
     }
     else if (fun <= 80 && fun >60) {
       if (75 > random(100) || enemy[i]->is_busy()) {
         e_force=enemy[i]->query("force");
         if (e_force > 10) {
-          message_vision(HIR"
-$N"HIR"一時之間慌了手腳，竟被$n"HIR"吸走了自身內力中的四成!!!\n"NOR,enemy[i],me);
+          message_vision(HIR + "
+$N" + HIR + "一時之間慌了手腳，竟被$n" + HIR + "吸走了自身內力中的四成!!!\n" + NOR,enemy[i],me);
           flag=flag+1;
           e_force=e_force*4/10;
           enemy[i]->add("force",-(e_force));
@@ -135,16 +135,16 @@ $N"HIR"一時之間慌了手腳，竟被$n"HIR"吸走了自身內力中的四成
         }
       }
       else {
-        message_vision(HIY"
-$N"HIY"看準了$n"HIY"所引發力場的破綻，一個閃身，躲開了$n"HIY"這次攻擊。\n"NOR,enemy[i],me);
+        message_vision(HIY + "
+$N" + HIY + "看準了$n" + HIY + "所引發力場的破綻，一個閃身，躲開了$n" + HIY + "這次攻擊。\n" + NOR,enemy[i],me);
       }
     }
     else if(fun > 80) {
       if(80 > random(100) || enemy[i]-> is_busy()) {
         e_force=enemy[i]->query("force");
         if (e_force > 10) {
-          message_vision(HIR"
-$N"HIR"一時之間慌了手腳，竟被$n"HIR"吸走了自身內力中的五成!!!\n"NOR,enemy[i],me);
+          message_vision(HIR + "
+$N" + HIR + "一時之間慌了手腳，竟被$n" + HIR + "吸走了自身內力中的五成!!!\n" + NOR,enemy[i],me);
           flag=flag+1;
           e_force=e_force*5/10;
           enemy[i]->add("force",-(e_force));
@@ -161,8 +161,8 @@ $N"HIR"一時之間慌了手腳，竟被$n"HIR"吸走了自身內力中的五成
           if (e_kee < 100) {
             e_kee = 100;
           }
-          message_vision(HIR"
-$n"HIR"吸完$N"HIR"的內力之後卻不放手，深吸了一口氣，$N"HIR"又被$n"HIR"吸走了一成的氣!!!\n"NOR,enemy[i],me);
+          message_vision(HIR + "
+$n" + HIR + "吸完$N" + HIR + "的內力之後卻不放手，深吸了一口氣，$N" + HIR + "又被$n" + HIR + "吸走了一成的氣!!!\n" + NOR,enemy[i],me);
           enemy[i]->receive_wound("kee",e_kee,me);
           enemy[i]->receive_damage("kee",e_kee,me);
           COMBAT_D->report_status(enemy[i]);
@@ -173,14 +173,14 @@ $n"HIR"吸完$N"HIR"的內力之後卻不放手，深吸了一口氣，$N"HIR"�
         }
       }
       else {
-        message_vision(HIY"
-$N"HIY"看準了$n"HIY"所引發力場的破綻，一個閃身，躲開了$n"HIY"這次攻擊。\n"NOR,enemy[i],me);
+        message_vision(HIY + "
+$N" + HIY + "看準了$n" + HIY + "所引發力場的破綻，一個閃身，躲開了$n" + HIY + "這次攻擊。\n" + NOR,enemy[i],me);
       }
     }
   }
   if (!have_get_kee && userp (me)) {
     me->add("kee",-random(200));
-    message_vision(HIR"$N"HIR"因為使出"HIC"「北冥神功\」"HIR"中的吸功\法，消耗了部分的氣!!!\n"NOR,me);
+    message_vision(HIR + "$N" + HIR + "因為使出" + HIC + "「北冥神功\」" + HIR + "中的吸功\法，消耗了部分的氣!!!\n" + NOR,me);
     COMBAT_D->report_status(me);
   }
   if (!flag) flag=1;
@@ -278,12 +278,12 @@ void NorthForceSpPerformEnd (object me, int fun)
     else {
       my["force"] += force;
     }
-    message_vision(HIY"
-                $N張開雙眼，成功\的轉換天地靈氣成為內力\n"NOR,me);
+    message_vision(HIY + "
+                $N張開雙眼，成功\的轉換天地靈氣成為內力\n" + NOR,me);
   }
   else {
-    message_vision(HIY"
-                $N張開雙眼，成功\的利用天地靈氣治療了身體的損傷\n"NOR,me);
+    message_vision(HIY + "
+                $N張開雙眼，成功\的利用天地靈氣治療了身體的損傷\n" + NOR,me);
     COMBAT_D->report_kee (me);
     COMBAT_D->report_status (me);
   }
@@ -345,8 +345,8 @@ int NorthForceSpPerform (object me, int fun)
       delay = 10;
       break;
   }
-  message_vision(HIY"
-                $N盤膝坐下，闔上雙眼，利用北冥神功\開始吸取天地靈氣\n"NOR,me);
+  message_vision(HIY + "
+                $N盤膝坐下，闔上雙眼，利用北冥神功\開始吸取天地靈氣\n" + NOR,me);
   my["force"]-= ((((150 - fun) / 10) + 1) * 100);
   me->set_temp("NorthForceInUse",1);
   me->start_call_out( (: call_other, __FILE__, "NorthForceSpPerformEnd", me, fun:), delay);

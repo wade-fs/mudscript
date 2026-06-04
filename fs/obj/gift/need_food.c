@@ -31,6 +31,6 @@ mixed query_story_message(int step)
 string give_gift()
 {
         STORY_D->give_gift("/obj/gift/kardan", 1,
-                           HIM "\n貢品滾啊滾啊滾到你的腳邊。\n\n" NOR);
+                           HIM + "\n貢品滾啊滾啊滾到你的腳邊。\n\n" + NOR);
         return "土地公說道：哎呀，這些都是信徒給我的貢品啊啊啊啊。";
 }

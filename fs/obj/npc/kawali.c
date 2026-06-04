@@ -92,9 +92,8 @@ private void start_shutdown()
           "\n你聽到從中央驛站傳來一陣咆哮 ....\n\n"
           "阿香用震耳欲聾的聲音喊道﹕\n\n"
           "\t\t全 天 下 的 眾 生 給 我 仔 細 聽 著 ﹗\n\n"
-          "\t\t限你們"+HIY+chinese_number(time)+NOR
-          "分鐘內把阿獠給我找回來 ﹗\n\n"
-          "\t\t不 然 的 話 ....就等著吃我的槌子吧 ﹗\n\n" NOR,users() );
+          "\t\t限你們"+HIY+chinese_number(time)+NOR + "分鐘內把阿獠給我找回來 ﹗\n\n"
+          "\t\t不 然 的 話 ....就等著吃我的槌子吧 ﹗\n\n" + NOR,users() );
   call_out("countdown", 60);
 }
 
@@ -128,16 +127,15 @@ private void countdown()
     {
       message("system",
               "\n中央驛站傳來阿香的聲音喊道﹕\n\n"
-              "\t\t"+HIY +chinese_number(time)+NOR "分鐘內把阿獠給我找出來﹗\n\n"
-              "\t\t你  們  再  混  就  給  我  試  試  看  ﹗\n\n" NOR,users() );
+              "\t\t"+HIY +chinese_number(time)+NOR + "分鐘內把阿獠給我找出來﹗\n\n"
+              "\t\t你  們  再  混  就  給  我  試  試  看  ﹗\n\n" + NOR,users() );
       call_out("countdown", 60);
     } 
     else 
     {
       message("system",
-              "\n中央驛站傳來阿香的聲音喊道﹕\n\n"
-              HIB"\t\t可惡啊，你們給我混！\n\n"
-              "\t\t你們要倒大楣了！\n\n" NOR,users() );
+              "\n中央驛站傳來阿香的聲音喊道﹕\n\n" + HIB + "\t\t可惡啊，你們給我混！\n\n"
+              "\t\t你們要倒大楣了！\n\n" + NOR,users() );
        call_out("do_shutdown", 3);
     }
   }

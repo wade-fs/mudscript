@@ -7,7 +7,7 @@ inherit NPC;
 
 void create()
 {
-set_name(HIW"的盧馬"NOR, ({ "de horse","horse" }) );
+set_name(HIW + "的盧馬" + NOR, ({ "de horse","horse" }) );
 set("long","此馬是三國時代趙雲斬了盜賊守領後所得。\n"
            "似乎還能騎上去唷(ride)\n");
 set("no_drop", 1);
@@ -74,7 +74,7 @@ message_vision("$N翻身上馬，"+this_object()->name()+"感受到你的威勢�
         me->add_temp("apply/damage",30);
         me->add_temp("apply/armor", 30);
         this_object()->set_leader(me);
-        me->add_temp("apply/name",({ me->name()+ HIW"(正騎著"NOR+this_object()->name()+HIW")"NOR}));
+        me->add_temp("apply/name",({ me->name()+ HIW + "(正騎著" + NOR+this_object()->name()+HIW + ")" + NOR}));
         move(me);
         me->set_heart_beat(1);
         return 1;

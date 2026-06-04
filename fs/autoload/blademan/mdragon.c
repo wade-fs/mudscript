@@ -5,8 +5,8 @@ inherit ITEM;
 #include <command.h>
 void create()
 {
-set_name(HIB"魔龍裝備"NOR,({"mdragon-eq"}));
-  set("long",HIY"這是整套的魔龍裝備(open mdragon or close mdragon)。"NOR);
+set_name(HIB + "魔龍裝備" + NOR,({"mdragon-eq"}));
+  set("long",HIY + "這是整套的魔龍裝備(open mdragon or close mdragon)。" + NOR);
   set("unit","套");  
         set("no_auc",1);
 set("no_put",1);
@@ -25,7 +25,7 @@ void init()
 {       object me=this_player();
         object ob;
         ob=present("mdragon-eq",me);
-if(ob&&ob->name()==HIB"魔龍裝備"NOR)
+if(ob&&ob->name()==HIB + "魔龍裝備" + NOR)
 {
  add_action("do_open","open");
  add_action("do_close","close");
@@ -45,7 +45,7 @@ object ob;
   ob=present("mdragon-eq",me);
 if(ob->query_temp("mdragon")==1)
   return notify_fail("魔龍裝備已分化了﹗\n");
-message_vision(HIY"\n$N的魔龍裝備不自主的猛烈震動，由一套鎧化成各部份的裝備。\n\n"NOR,this_player());
+message_vision(HIY + "\n$N的魔龍裝備不自主的猛烈震動，由一套鎧化成各部份的裝備。\n\n" + NOR,this_player());
   eq01 = new("/daemon/class/blademan/obj/mshield");
   eq02 = new("/daemon/class/blademan/obj/mboots");
   eq03 = new("/daemon/class/blademan/obj/marmband");
@@ -114,7 +114,7 @@ destruct(present("mdragon boots",me));
 destruct(present("mdragon shield",me));
 me->delete_temp("mdragon");
 ob->delete_temp("mdragon"); 
-message_vision(HIW"\n$N運起真元憤力一震，頓時身上裝備被震開收縮成最原始的形態。\n\n"NOR,me);
+message_vision(HIW + "\n$N運起真元憤力一震，頓時身上裝備被震開收縮成最原始的形態。\n\n" + NOR,me);
 }
 return 1;
 }

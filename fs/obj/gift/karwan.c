@@ -6,7 +6,7 @@ inherit ITEM;
 
 void create()
 {
-	set_name(HIG "福緣丹" NOR, ({ "fu wan", "wan"}) );
+	set_name(HIG + "福緣丹" + NOR, ({ "fu wan", "wan"}) );
 	set_weight(200);
 	if( clonep() )
 		set_default_object(__FILE__);
@@ -43,7 +43,7 @@ int do_eat(string arg)
                 tell_object(me, "不過你覺得好像沒什麼作用。\n");
         } else
         {
-                tell_object(me, HIR "你覺得似乎自己運氣好了一些。\n" NOR);
+                tell_object(me, HIR + "你覺得似乎自己運氣好了一些。\n" + NOR);
                 me->add("kar", 1);
         }
 

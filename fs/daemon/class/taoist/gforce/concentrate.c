@@ -28,8 +28,7 @@ int exert(object me, object target)
   me->receive_damage("sen", 10);
 
   message_vision(
-	HIY "$N閉目凝神﹐用紫星河心法運轉了一次「靈神訣」...\n"
-	HIG"一股青氣從$N身上散出﹐匯聚在$P的頂心﹐然後緩緩淡去。\n" NOR, me);
+	HIY + "$N閉目凝神﹐用紫星河心法運轉了一次「靈神訣」...\n" + HIG + "一股青氣從$N身上散出﹐匯聚在$P的頂心﹐然後緩緩淡去。\n" + NOR, me);
   if( (int)me->query("mana") > (int)me->query("max_mana") * max_m) {
    if( (int)me->query("max_mana") >= (int)me->query_skill("spells")*10 ) {
      write("當你的法力增加的瞬間你忽然覺得腦中一片混亂，似乎法力的提昇已經到了瓶頸。\n");

@@ -6,8 +6,8 @@ int update_condition(object me, int duration)
   if(duration==0) {
     if(poison(me))
     {
-      tell_object(me, HIG "你中的" HIR "火玫瑰毒" HIG "發作了﹗\n" NOR );
-      message_vision("$N身上浮現出玫瑰花紋，渾身通紅。\n"NOR,me);
+      tell_object(me, HIG + "你中的" + HIR + "火玫瑰毒" + HIG + "發作了﹗\n" + NOR );
+      message_vision("$N身上浮現出玫瑰花紋，渾身通紅。\n" + NOR,me);
 
     }
     me->delete("suck");
@@ -29,8 +29,8 @@ int update_condition(object me, int duration)
 
   me->start_busy(1);
   me->apply_condition("rose_poison", duration - 1);
-  tell_object(me, HIG "你中的" HIR "火玫瑰毒" HIG "發作了﹗\n" NOR );
-  message_vision("$N身上浮現出玫瑰花紋，渾身通紅。\n"NOR,me);
+  tell_object(me, HIG + "你中的" + HIR + "火玫瑰毒" + HIG + "發作了﹗\n" + NOR );
+  message_vision("$N身上浮現出玫瑰花紋，渾身通紅。\n" + NOR,me);
   if( duration < 1 ) return 0;
   return 1;
 }

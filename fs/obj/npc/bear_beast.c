@@ -6,7 +6,7 @@ inherit __DIR__"team";
 
 void create()
 {
-	set_name(YEL "剛熊" NOR,({"bear beast","beast"}));
+	set_name(YEL + "剛熊" + NOR,({"bear beast","beast"}));
 	set("race","野獸");
 
 	set("combat_exp",10000);

@@ -117,29 +117,29 @@ mapping query_action(object me, object weapon)
 void movedown1(object me,object target, object weapon,int damage)
 {
   if( !me || !target || me->query("force") < 30 ) return;
-  message_vision(HIG"$N"HIG"身形快速，十指其點，頓時把$n"HIG"的內息給封閉起來！\n"NOR,me,target);
+  message_vision(HIG + "$N" + HIG + "身形快速，十指其點，頓時把$n" + HIG + "的內息給封閉起來！\n" + NOR,me,target);
   if(70>=random(100)) {
     me->add("force",-30);
-    message_vision(GRN"結果$n"GRN"內息走岔，登時不能動彈！\n"NOR,me,target);
+    message_vision(GRN + "結果$n" + GRN + "內息走岔，登時不能動彈！\n" + NOR,me,target);
     target->start_busy(1);
   }
   else {
-    message_vision(GRN"結果$n"GRN"往後一躍，躲了過去。\n"NOR,me,target);
+    message_vision(GRN + "結果$n" + GRN + "往後一躍，躲了過去。\n" + NOR,me,target);
   }
 }
 
 void movedown2(object me,object target, object weapon, int damage)
 {
   if( !me || !target || me->query("force") < 50 ) return;
-  message_vision(HIR"$N"HIR"的千斤閘內勁已暴走於$n"HIR"體內之中！\n"NOR,me,target);
+  message_vision(HIR + "$N" + HIR + "的千斤閘內勁已暴走於$n" + HIR + "體內之中！\n" + NOR,me,target);
   if(70>=random(100)&&me->query("force_factor",1)>=5)
   {
-    message_vision(GRN"結果$n"GRN"內勁煩亂，登時狂吐鮮血！\n"NOR,me,target);
+    message_vision(GRN + "結果$n" + GRN + "內勁煩亂，登時狂吐鮮血！\n" + NOR,me,target);
     target->receive_damage("kee",300,me);
     COMBAT_D->report_status(target);
     me->add("force",-50);
   } else
-    message_vision(sprintf(GRN"結果$N的內勁被$n"GRN"化解。\n"NOR),me,target);
+    message_vision(sprintf(GRN + "結果$N的內勁被$n" + GRN + "化解。\n" + NOR),me,target);
 }
 
 void movedown3(object me,object target, object weapon, int damage)
@@ -147,15 +147,15 @@ void movedown3(object me,object target, object weapon, int damage)
   int fa;
   if( !me || !target || me->query("force") < 70 ) return;
   fa=target->query("force_factor",1)*20+100;
-  message_vision(HIY"$N軟玄功\的柔勁已借彼之力加上己之力全數打在$n"HIY"身上！\n"NOR,me,target);
+  message_vision(HIY + "$N軟玄功\的柔勁已借彼之力加上己之力全數打在$n" + HIY + "身上！\n" + NOR,me,target);
   if(70>=random(100)&&me->query("force_factor",1)>=10)
   {
-    message_vision(GRN"結果$n"GRN"譁然重創，登時倒地狂吐鮮血！\n"NOR,me,target);
+    message_vision(GRN + "結果$n" + GRN + "譁然重創，登時倒地狂吐鮮血！\n" + NOR,me,target);
     target->receive_damage("kee",fa,me);
     COMBAT_D->report_status(target);
     me->add("force",-70);
   } else
-    message_vision(sprintf(GRN"結果$N"GRN"的柔勁偏了準頭。\n"NOR),me,target);
+    message_vision(sprintf(GRN + "結果$N" + GRN + "的柔勁偏了準頭。\n" + NOR),me,target);
 }
 //此技能沒有per 所以暫時關閉此段 by blazakira
 /*

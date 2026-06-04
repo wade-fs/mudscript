@@ -7,7 +7,7 @@ inherit NPC;
 
 void create()
 {
-set_name(HIY"諸神的黃昏"NOR, ({ "god horse","horse" }) );
+set_name(HIY + "諸神的黃昏" + NOR, ({ "god horse","horse" }) );
 set("long","這是生存在仙界九天之上的仙龍, 是巫師們賞賜給人們的\n似乎還能騎上去唷(ride)\n");
 set("no_drop", 1);
 set("no_auc", 1);
@@ -63,8 +63,8 @@ int do_ascend()
         if ( me->query_temp("marks/ascend") )
                return notify_fail("你無法騎在別人的仙龍身上呀。\n");
 
-message_vision(""HIY"$N口中默念幾句咒語，突然間狂風大作，金光暴現，"+this_object()->name()+""HIY"在\n"
-               "天空中幻化成一匹金黃色的巨獸。\n"NOR"",me);
+message_vision("" + HIY + "$N口中默念幾句咒語，突然間狂風大作，金光暴現，"+this_object()->name()+"" + HIY + "在\n"
+               "天空中幻化成一匹金黃色的巨獸。\n" + NOR + "",me);
         me->set_temp("marks/ascend",1);
         me->add_temp("apply/dodge",30);
         me->add_temp("apply/parry",30);
@@ -74,7 +74,7 @@ message_vision(""HIY"$N口中默念幾句咒語，突然間狂風大作，金光
         me->add_temp("apply/damage",30);
         me->add_temp("apply/armor", 30);
         this_object()->set_leader(me);
-        me->add_temp("apply/name",({ me->name()+ HIW"(正騎著"NOR+this_object()->name()+HIW")"NOR}));
+        me->add_temp("apply/name",({ me->name()+ HIW + "(正騎著" + NOR+this_object()->name()+HIW + ")" + NOR}));
         move(me);
         me->set_heart_beat(1);
         return 1;
@@ -88,9 +88,9 @@ int do_descend()
         me=this_player();
         if ( !me->query_temp("marks/ascend") )
                 return notify_fail("你沒在龍上耶。\n");
-message_vision(""HIY"$N隨手將背上的劍翹往天空中一丟，巨獸隨即往劍翹衝去，\n"
+message_vision("" + HIY + "$N隨手將背上的劍翹往天空中一丟，巨獸隨即往劍翹衝去，\n"
                "煞時間天空中閃過一道金色光芒，只見"+this_object()->name()+"隨著劍翹巧\n"
-               "妙的落回$N背上。\n"NOR"",me);
+               "妙的落回$N背上。\n" + NOR + "",me);
         me->delete_temp("marks/ascend");   
         me->delete_temp("apply/name",name);
         me->add_temp("apply/dodge",-30);

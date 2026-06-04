@@ -15,7 +15,7 @@ void create()
         set("combat_exp",500000);
         set("attitude","heroism");
         set("age",18);
-        set("nickname",HIC"纖雲弄巧"NOR);
+        set("nickname",HIC + "纖雲弄巧" + NOR);
         set("class","swordsman");
         set("title","仙劍派第四代女劍俠");
         create_family("仙劍派",4,"弟子");
@@ -107,7 +107,7 @@ void die()
 	if(winner->query_temp("head") == 3 )
 	{//要求解第三進職的玩家，一定要自己殺死七子之一
 	//所以設下head 4，如果不是在解第三進職的玩家，並不會拿到人頭
-	message_vision(HIY"可惡！居然會敗在你的手下,看來武林將有一陣腥風血雨\n"NOR,this_object());
+	message_vision(HIY + "可惡！居然會敗在你的手下,看來武林將有一陣腥風血雨\n" + NOR,this_object());
 	message_vision("說完之後他就倒下了。。。。\n",this_object());
 	winner->set_temp("head",4);
 	head=new("/open/killer/headkill/obj/sword_head.c");
@@ -117,7 +117,7 @@ void die()
 	{//避免條件連續兩次成立（因為解headkill之謎的一定是殺手）
 	//想將七子的人頭家在殺人名單中，所以是殺手來砍七子，亦可以得到人頭
 	//但是因為不是在解第三進職，所以並不會設定步驟值
-	message_vision(HIY"可惡！居然會敗在你的手下,看來武林將有一陣腥風血雨\n"NOR,this_object());
+	message_vision(HIY + "可惡！居然會敗在你的手下,看來武林將有一陣腥風血雨\n" + NOR,this_object());
 	message_vision("說完之後他就倒下了。。。。\n",this_object());
 	head=new("/open/killer/headkill/obj/sword_head.c");
 	head->move(this_object());
@@ -130,7 +130,7 @@ void die()
 	  if( j==7 || j==77 || j== 777 || j==1111 || j==55 || j==555 || j==1000 || j==4000 || j==3333 || j==2222 )
 	  {      
 	  new("/open/sky/obj6/moon_diamond")->move(environment(winner));
-	  message_vision(HIM"\n從何雙雙的身上掉下了一件奇怪的東西!!\n"NOR,winner);
+	  message_vision(HIM + "\n從何雙雙的身上掉下了一件奇怪的東西!!\n" + NOR,winner);
           write_file("/log/sky/obj6/moon_diamond",sprintf("%s(%s) 讓何雙雙掉下了月亮之柔鑽於 %s\n",
 	  winner->name(1),winner->query("id"),ctime(time())));
 	  }
@@ -139,7 +139,7 @@ void die()
 	  if( j==5 || j==15 || j== 150 || j==1500 || j==10 || j==100 || j==1000 || j==4000 || j==6666 || j==7777 ) 
 	  {      
 	  new("/open/sky/obj6/moon_diamond")->move(environment(winner));
-	  message_vision(HIM"\n從何雙雙的身上掉下了一件奇怪的東西!!\n"NOR,winner);
+	  message_vision(HIM + "\n從何雙雙的身上掉下了一件奇怪的東西!!\n" + NOR,winner);
           write_file("/log/sky/obj6/moon_diamond",sprintf("%s(%s) 讓何雙雙掉下了月亮之柔鑽於 %s\n",
 	  winner->name(1),winner->query("id"),ctime(time())));
 	  }

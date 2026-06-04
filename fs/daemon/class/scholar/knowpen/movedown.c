@@ -1,5 +1,5 @@
-//°Ñ·Ó¤FswyªºÅ]¤MÅ]Às³Z¤è¦¡§ó§ï¤F³¡¥÷code
-//­Yswy§ó°Ê¨ì³o®É¡A¦A¥H§Aªº·Ç«h¨Ó­×¥¿§a  by Neverend
+//Ñ·Ó¤Fswy]M]sZè¦¡Fcode
+//YswyÊ¨oÉ¡AAHAÇ«hÓ­×¥a  by Neverend
 #include <ansi.h>
 #include <combat.h>
 inherit F_FUNCTION;
@@ -15,28 +15,28 @@ int perform(object me,object target)
 	if( fun>=20 && fun < 70) k=random(2)+1;
 	if( fun >= 70) k=random(3)+1;
 	if( !target ) target = offensive_target(me);
-  if( !target) return notify_fail("¨S¦³¥ô¦óªº¹ï¤â\n");
+  if( !target) return notify_fail("Sóªº¹\n");
 	if(!me->is_fighting(target))
-	return notify_fail("¤C¬P«Ê¥Ş¥u¯à¦b¾Ô°«¤¤¨Ï¥Î¡C\n");
+	return notify_fail("CPÊ¥Ş¥ubÔ°Ï¥Î¡C\n");
 	if(!(weapon=me->query_temp("weapon")) || (string)weapon->query("skill_type")!= "stabber" )
-	return notify_fail("­n¦³¾A¦XªºªZ¾¹¤~¯à¥Î¤C¬P«Ê¥Ş¡C\n");
+	return notify_fail("nAXZ~Î¤CPÊ¥Ş¡C\n");
 	if(me->query("force") < 100)
-	return notify_fail("§Aªº¤º¤O¤£°÷¡C\n");
-	if( me->query("family/family_name") != "¾§ªù")
-	return notify_fail("¤£¬O¾§¥Í¡A¤£µ¹§A¥Î«¨¡I¡I^_^\n");
+	return notify_fail("AOC\n");
+	if( me->query("family/family_name") != "")
+	return notify_fail("OÍ¡AAÎ«II^_^\n");
 	if( target->is_busy())
-	return notify_fail("¼Ä¤H²{¦b¤£¯à°Ê,§Ö§ğÀ»§a!!!!\n");
+	return notify_fail("Ä¤H{b,Ö§a!!!!\n");
 	me->add("force",-100);
-        message_vision(HIG "$N¨Ï¥X¦æ¶³¬y¤ôµ§ªk¤¤ªº¡u¤C¬P«Ê¥Ş¡v©¹$n¨­¤Wªº¥Ş¹D³sÂI¡T\n" NOR,me,target);
+        message_vision(HIG + "$NÏ¥Xæ¶³ykuCPÊ¥Ş¡v$nWŞ¹DsIT\n" + NOR,me,target);
 
       message_vision("\n
  [34m    .   .[0m....
- [34m   ......[0m......[36m¢z¢i¢iùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùù¢ª[0m¢@
- [34m    .....[0m......[36m¢x[0;1;32m¢[1mi[1mù[1mø[1m [1m [1m [1m [1m [1m [1m [1m [1m [1m [1m [1m [1m [1m [1m [1m [1m [1m [1m [1m [1m [1m [1m [1m [1m [1m [1m [1m [1m [1m [1m [1m [1m [1m [1m [1m [1m [1m [1m [1m [1m [1m [1m [1m [1m [1m [1m [1m [1m [1m [1m [1m [1m [1mù[1mø[1m¢[1mx[1m¢[1m¡[0m
-[0;1m [1;34m [1m [1m [1m [1m [1m [1m.[1m.[1m.[0m......[36m¢|¢i¢iùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùùù¢¨[0m¡ş 
+ [34m   ......[0m......[36mzii[0m@
+ [34m    .....[0m......[36mx[0;1;32m[1mi[1m[1m[1m [1m [1m [1m [1m [1m [1m [1m [1m [1m [1m [1m [1m [1m [1m [1m [1m [1m [1m [1m [1m [1m [1m [1m [1m [1m [1m [1m [1m [1m [1m [1m [1m [1m [1m [1m [1m [1m [1m [1m [1m [1m [1m [1m [1m [1m [1m [1m [1m [1m [1m [1m [1m [1m[1m[1m[1mx[1m[1m[0m
+[0;1m [1;34m [1m [1m [1m [1m [1m [1m.[1m.[1m.[0m......[36m|ii[0m 
  [34m        .[0m....                                                            
 
-      " NOR,me,target);
+      " + NOR,me,target);
 
 
 	for( i = 0; i < sizeof(all); i++ ) 
@@ -44,11 +44,11 @@ int perform(object me,object target)
 	if(environment(me)!=environment(all[i])) continue;  
 	  if(random(100) < 80) 
 	  {
-          message_vision(HIW"\n("HIC"µ²ªG$n³Q$NÂI¤¤¡A¥Ş¹D³Q«Ê¡I"HIW")\n" NOR,me,target);
+          message_vision(HIW + "\n(" + HIC + "G$nQ$NIAŞ¹DQÊ¡I" + HIW + ")\n" + NOR,me,target);
      //      all[i]->start_busy(random(3)+1);
       all[i]->start_busy(random(2)+2);
 	  }else{
-      message_vision(HIW"\n("HIC"µ²ªG³Q$nÃÑ¯}¡M¨S¦³©R¤¤¡C"HIW")\n" NOR,me,target);
+      message_vision(HIW + "\n(" + HIC + "GQ$nÑ¯}MSRC" + HIW + ")\n" + NOR,me,target);
 	  }
 	}
 	if(fun<100 && me)

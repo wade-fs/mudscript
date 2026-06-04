@@ -7,7 +7,7 @@ inherit NPC;
 
 void create()
 {
-set_name(HIY"痞子馬"NOR, ({ "bloodblade-horse","horse" }) );
+set_name(HIY + "痞子馬" + NOR, ({ "bloodblade-horse","horse" }) );
 set("long","這是狄雲的座騎，全身白如雪，三頭身的牠，兩個鼻孔大的能塞進\n"
            "好幾個壽司，尾巴短小，而痞子馬這名子是狄雲給牠取的似乎還能\n"
            "騎上去唷(ride)\n");
@@ -76,7 +76,7 @@ message_vision("$N仰天長笑，向天空翻轉了三圈後輕巧的騎在"+thi
         me->add_temp("apply/damage",30);
         me->add_temp("apply/armor", 30);
         this_object()->set_leader(me);
-        me->add_temp("apply/name",({ me->name()+ HIW"(正騎著"NOR+this_object()->name()+HIW")"NOR}));
+        me->add_temp("apply/name",({ me->name()+ HIW + "(正騎著" + NOR+this_object()->name()+HIW + ")" + NOR}));
         move(me);
         me->set_heart_beat(1);
         return 1;

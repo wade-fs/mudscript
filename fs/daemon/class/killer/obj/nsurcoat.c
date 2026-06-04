@@ -6,7 +6,7 @@ inherit CAPE;
 
 void create()
 {
-  set_name(MAG"忍者披風"NOR,({"ninja surcoat","surcoat"}));
+  set_name(MAG + "忍者披風" + NOR,({"ninja surcoat","surcoat"}));
   set_weight(1000);
   if( clonep() )
     set_default_object(__FILE__);

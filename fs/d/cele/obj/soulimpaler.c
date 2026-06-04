@@ -7,7 +7,7 @@ inherit SWORD;
 
 void create()
 {
-	set_name( HIW "邪劍穿靈" NOR, ({ "soulimpaler", "sword" }) );
+	set_name( HIW + "邪劍穿靈" + NOR, ({ "soulimpaler", "sword" }) );
 	set_weight(7000);
 	if( clonep() )
 		set_default_object(__FILE__);

@@ -13,8 +13,8 @@ void setup()
     set("no_fight",1);
     set("no_transmit",1);
     if(!query("outdoors")) set("outdoors","/open/trans/room");
-    set("long",query("long")+HIY"
-在這裡，你可以使用(transfer)指令前往你以前曾經去過的驛站!!\n\n"NOR);
+    set("long",query("long")+HIY + "
+在這裡，你可以使用(transfer)指令前往你以前曾經去過的驛站!!\n\n" + NOR);
 
     ::setup();
 }
@@ -84,9 +84,9 @@ int ch_trans(string num,object me)
     short=call_other(file_name,"query","short");
     if(file_name==base_name(environment(me))+".c")
       return notify_fail("你已經在"+short+"了。\n");
-    message_vision(HIY"$N騎上快馬，往"+short+HIY+"狂奔而去。\n"NOR,me);
+    message_vision(HIY + "$N騎上快馬，往"+short+HIY+"狂奔而去。\n" + NOR,me);
     me->move(file_name);
-    message_vision(HIG"一陣急促的馬蹄聲傳來，$N騎著一匹快馬來到了"+short+HIG+"。\n"NOR,me);
+    message_vision(HIG + "一陣急促的馬蹄聲傳來，$N騎著一匹快馬來到了"+short+HIG+"。\n" + NOR,me);
     tell_object(me,"你下了馬，馬兒乖乖的往驛站後方走去!!\n");
     return 1;
 }

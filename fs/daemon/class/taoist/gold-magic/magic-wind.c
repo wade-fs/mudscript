@@ -15,13 +15,13 @@ int conjure (object me)
   if(!enemy)
     return notify_fail("你目前沒有戰鬥對手!!\n");
     
-  message_vision(HIW"
+  message_vision(HIW + "
   $N大喝：『風～給我風!!』
 
-    "HIW"ζ"HIY+BRED"魔界金典"NOR""HIW"ζ"HIC"天地神通"HIW"之《"HIG"風變化"HIW"》
+    " + HIW + "ζ" + HIY+BRED + "魔界金典" + NOR + "" + HIW + "ζ" + HIC + "天地神通" + HIW + "之《" + HIG + "風變化" + HIW + "》
 
   $N不但藉由風勢掙脫$n的束縛，更趁勢捲起一股巨大的氣流，
-  "HIM"$n的重心被颶風吹得東倒西歪，完全無法維持基本武學架式。\n"NOR,me,enemy[i]);
+  " + HIM + "$n的重心被颶風吹得東倒西歪，完全無法維持基本武學架式。\n" + NOR,me,enemy[i]);
 
   for(i=0;i<j;i++)
   {

@@ -24,7 +24,7 @@ void skill_improved( object me )
     if(me->is_ghost()) return ;
 	s = me->query_skill( "force", 1 );
     if( s > 60 && s%10==9 && (int)me->query_con() < 34 ) {
-		tell_object( me, HIW "由於你的內功\修煉有成﹐你的體質改善了。\n" NOR );
+		tell_object( me, HIW + "由於你的內功\修煉有成﹐你的體質改善了。\n" + NOR );
 		me->add( "con", 2 );
         if(me->query_con() > 35)
           me->set("con",35);

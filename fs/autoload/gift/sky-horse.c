@@ -4,8 +4,8 @@
 inherit NPC;
 inherit SSERVER;
 void create() {
-set_name(HIW"佩加薩斯"NOR,({"sky horse" , "horse"}));  
-set("title", HIC"天馬"NOR);
+set_name(HIW + "佩加薩斯" + NOR,({"sky horse" , "horse"}));  
+set("title", HIC + "天馬" + NOR);
 set("long", "能在天空自由飛翔的傳說神駒。\n");
 set("class","blademan");
 set("str",50);
@@ -110,7 +110,7 @@ int do_dismount() {
         me->add_temp("apply/dodge",-60);
         me->add_temp("apply/move",-60);
 	me->delete_temp("ride_name");
-        message_vision(HIW"$N一個翻身下了馬來！\n"NOR,me);
+        message_vision(HIW + "$N一個翻身下了馬來！\n" + NOR,me);
         set_heart_beat(1);
         return 1;
 }
@@ -137,7 +137,7 @@ int do_freehorse()
         object me;
         me = find_living((string)this_object()->query_temp("my_boss"));
         if(me->query("id") != "alucard" && me->query("id") != "frequency")  return 0;
-        message_vision(HIB"$N在$n"HIB"背上一拍，摸摸$n"HIB"的頭，$n"HIB"高興地朝著廣大的天空疾飛而去。\n"NOR,me,this_object());
+        message_vision(HIB + "$N在$n" + HIB + "背上一拍，摸摸$n" + HIB + "的頭，$n" + HIB + "高興地朝著廣大的天空疾飛而去。\n" + NOR,me,this_object());
         if(me->query_temp("is_riding"))
          {
            me->add_temp("apply/attack",-60);
@@ -193,7 +193,7 @@ void heart_beat()
  env = environment(me);
 if(me->query("kee") < 5000 && random(3) == 2)
  {
- message_vision("$N"HIY"眼見小命不保，連嚼了幾口"HIG"世界樹之葉"HIY"，傷勢頓時痊癒許\多。\n"NOR,me);
+ message_vision("$N" + HIY + "眼見小命不保，連嚼了幾口" + HIG + "世界樹之葉" + HIY + "，傷勢頓時痊癒許\多。\n" + NOR,me);
  me->receive_heal("kee",3000);
  me->receive_curing("kee",3000+random(2000));
  }
@@ -203,8 +203,8 @@ if( random(100) > 85)
     i=sizeof(target);
     if(target && me->is_fighting())
     {
-message_vision(HIC"\n佩加薩斯突然人立起來，發出震撼人心的狂野嘶吼，令人心神受到強烈音波衝擊，
-耳裡頓時嗡嗡作響，丹田氣血翻湧，無法自制。\n"NOR,me);    
+message_vision(HIC + "\n佩加薩斯突然人立起來，發出震撼人心的狂野嘶吼，令人心神受到強烈音波衝擊，
+耳裡頓時嗡嗡作響，丹田氣血翻湧，無法自制。\n" + NOR,me);    
     for(j=0;j<i;j++)
     {
       target[j]->start_busy(random(2)+1);

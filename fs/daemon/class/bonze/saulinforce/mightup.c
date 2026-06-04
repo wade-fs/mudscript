@@ -33,7 +33,7 @@ int perform(object me, object target)
         skill = (temp+temp)/2;
 		att1=msk * skill /1000; //為佛法 1/10 的增加倍率
 		if (att1 >80) att1=80; //限制 增加數值若超過80 則以80計算 //假設佛法蹲到1000的值 則攻擊力仍為 +80
-		message_vision(HBCYN "$N靜心凝神運起羅漢伏魔神功\，使身體活化，肌肉賁起。\n" NOR,me);
+		message_vision(HBCYN + "$N靜心凝神運起羅漢伏魔神功\，使身體活化，肌肉賁起。\n" + NOR,me);
         if( skill >= saulinforce ) skill = saulinforce; //若技能等級超過內功心法則以心法為準
         if (skill > 100) skill = 100; //直接鎖死數值
 		me->add("force",-msk/2);

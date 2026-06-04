@@ -23,7 +23,7 @@ if (me->query_condition("poison") > 0 )
    return notify_fail("吸太急會要人命喔 !\n");
 if(sk<60)
 return notify_fail("你天冰奇毒還沒練到一定等級多加油吧。\n");
-message_vision(HIW"$N伸出右手, 運功\吸納了"+target->name()+"的毒性。\n"NOR,me);
+message_vision(HIW + "$N伸出右手, 運功\吸納了"+target->name()+"的毒性。\n" + NOR,me);
 me->add("poison",random(30));
 me->apply_condition("poison",3+(int)(fun/10));  
 target->add_amount(-1);

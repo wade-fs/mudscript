@@ -49,7 +49,7 @@ void besummon(object who,object room)
 	object me = this_object ();
 	room2=room;
 
-	message_vision (MAG"一陣冷風吹過，一隻$N緩緩地現形。\n" NOR, me);
+	message_vision (MAG + "一陣冷風吹過，一隻$N緩緩地現形。\n" + NOR, me);
 	pp=who->query("combat_exp");
 	set("combat_exp",pp*3/2);
 	if( pp > 500000 )	
@@ -60,7 +60,7 @@ void besummon(object who,object room)
         bell = who->query ("bellicosity");
 	if (bell > bell_small)
 	{
-	    message_vision (HIB"$N冷笑道:就憑你?\n", me);
+	    message_vision (HIB + "$N冷笑道:就憑你?\n", me);
 	    kill_ob (who);
 	    set_leader (who);
 	    return;
@@ -108,7 +108,7 @@ void leave()
   object who = query_leader ();
 	if( environment() )
   message_vision (
-		  MAG"一陣冷風吹過，$N的身形再度隱入黑暗之中～～～\n" NOR, this_object ());
+		  MAG + "一陣冷風吹過，$N的身形再度隱入黑暗之中～～～\n" + NOR, this_object ());
   if (who)
     who->add_temp ("invocation", -INVCOST);
   destruct(this_object());
@@ -119,7 +119,7 @@ void unconcious ()
   object who = query_leader ();
   if (who)
     who->add_temp ("invocation", -INVCOST);
-  message_vision (HIG"$N慘叫一聲啊！消失得無影無蹤。\n", this_object ());
+  message_vision (HIG + "$N慘叫一聲啊！消失得無影無蹤。\n", this_object ());
   destruct (this_object ());
 }
 
@@ -144,8 +144,8 @@ int special_att ()
   object *enemy = me->query_enemy (), victim;
   int i = sizeof (enemy);
   victim = enemy[random(i)];
-message_vision (HIG"$N忽地一聲長嘯，一道異光自眼中電射而出～～～～～～\n\n"NOR, me);   
-message_vision (HIC"$N頓時感到一陣迷惘，昏昏沈沈地不知所措。\n"NOR, victim);  
+message_vision (HIG + "$N忽地一聲長嘯，一道異光自眼中電射而出～～～～～～\n\n" + NOR, me);   
+message_vision (HIC + "$N頓時感到一陣迷惘，昏昏沈沈地不知所措。\n" + NOR, victim);  
   victim->start_busy(3);  
   me->start_busy (1);
   return 1;

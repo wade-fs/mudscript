@@ -14,7 +14,7 @@ int main( object me )
 			cmds[o] = file[i][0];
 			o++;
 		}
-	list += sprintf(HIM"\n                 .__________"HIW"幫派說明文件"HIM"__________.\n\n"NOR);
+	list += sprintf(HIM + "\n                 .__________" + HIW + "幫派說明文件" + HIM + "__________.\n\n" + NOR);
 	for( i=0; i<sizeof(cmds); i++ )
 		list += sprintf("%-20s%s", cmds[i],(i%4==3) ? "\n" : "" );
 	me->start_more(list);

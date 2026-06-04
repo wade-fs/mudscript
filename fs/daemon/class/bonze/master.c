@@ -126,7 +126,7 @@ string mission1() //少林廚藝學院
   if(me->query_temp("quests/bonze/mission") == 1) {
     me->set_temp("quests/bonze/food_pass",1);
     command("say 哎呀，老衲的記性這麼差，忘了給施主你「進入伙房的許\可」了。");
-    message_vision(HIY"只見慈恩聖僧點頭示意一旁的小沙彌，小沙彌拱手後便向廚房奔去。\n"NOR,me);
+    message_vision(HIY + "只見慈恩聖僧點頭示意一旁的小沙彌，小沙彌拱手後便向廚房奔去。\n" + NOR,me);
     command("say 我已經吩咐廚房允許\讓施主進入了，還請施主見諒。");
 	return "";
   }

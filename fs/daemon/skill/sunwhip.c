@@ -94,7 +94,7 @@ void hurt(object me, object victim, object weapon, int damage)
         if( random(150) < random(lv))
         {
           victim->receive_damage("kee",lv*age/30);
-          message_vision(HIM"$N將真氣灌入鞭中射向$n，$n一陣哀嚎，顯然受了不小的內傷。\n"NOR,me,victim);
+          message_vision(HIM + "$N將真氣灌入鞭中射向$n，$n一陣哀嚎，顯然受了不小的內傷。\n" + NOR,me,victim);
           COMBAT_D->report_status(victim);
         }
 }

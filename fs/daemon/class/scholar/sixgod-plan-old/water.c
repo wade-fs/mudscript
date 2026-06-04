@@ -24,7 +24,7 @@ $N使用六韜奇略中的勁水計，只見大水似猛虎出閘般淹到$n的�
 LONG + NOR , me , all[i] );
     for( i = 0 ; i < sizeof(all) ; i ++ ) 
     {
-         if(all[i]->query("no_water")>2)         message_vision( HIR "$n已看破$N的詭計，一個轉身躲過了濤濤洪水。\n"NOR,me,all[i]);
+         if(all[i]->query("no_water")>2)         message_vision( HIR + "$n已看破$N的詭計，一個轉身躲過了濤濤洪水。\n" + NOR,me,all[i]);
           if(all[i]->query("no_water")>2)  continue;
 all[i]->add("no_water",1);
       if(random(100)<80)

@@ -7,7 +7,7 @@ inherit NPC;
 void create()
 {
 
-      set_name(HIR "天魔" NOR,({"ghost"}));
+      set_name(HIR + "天魔" + NOR,({"ghost"}));
 	set("attitude", "friendly");
 
 	set("max_gin", 1000);
@@ -46,7 +46,7 @@ int heal_up()
 void leave()
 {
       message_vision(
-       HIR "天魔的身影漸漸消失了。\n" NOR,this_player());
+       HIR + "天魔的身影漸漸消失了。\n" + NOR,this_player());
 	destruct(this_object());
 }
 
@@ -56,7 +56,7 @@ void invocation(object who)
 	object *enemy;
 
 	message("vision",
-             HIY "天魔之氣化身成天魔。\n" NOR,this_player());
+             HIY + "天魔之氣化身成天魔。\n" + NOR,this_player());
 	enemy = who->query_enemy();
 	i = sizeof(enemy);
 	while(i--) {

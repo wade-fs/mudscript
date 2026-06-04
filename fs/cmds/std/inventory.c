@@ -67,8 +67,8 @@ varargs int main( object me, string arg, int mode )
     if(tmp[i]->query("equipped") && me->query("env/no_eq")) continue;
 	  j = tmp[i]->query_temp("inv_num");
 	  printf("%s%s%s%s%s\n",
-		  tmp[i]->query_temp("secured")?HIY "*" NOR:" ",
-	tmp[i]->query("equipped")? HIC"ˇ"NOR : "  ",
+		  tmp[i]->query_temp("secured")?HIY + "*" + NOR:" ",
+	tmp[i]->query("equipped")? HIC + "ˇ" + NOR : "  ",
 		  j==1 ? "" : chinese_number(j)+tmp[i]->query("unit"),
 		  tmp[i]->short(),
 		  wizardp(me)? " ("+(string)base_name(tmp[i])+")":""

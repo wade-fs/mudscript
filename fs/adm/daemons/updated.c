@@ -23,11 +23,11 @@ void check_user(object ob)
     ob->delete("spells/feeblebolt/level",100);
 
     ob->set("spells/feeblebolt/level",100);
-    tell_object(ob,HIR"你的蒼冥之箭等級不正常，將回復至等級 100 。\n"NOR);
+    tell_object(ob,HIR + "你的蒼冥之箭等級不正常，將回復至等級 100 。\n" + NOR);
   }
  if(ob->query("class") != "taoist" && ob->query("spells/missible/level") > 100)
  {
-    tell_object(ob,HIR"你的紫幽之箭等級不正常，將回復至等級 100 。\n"NOR);
+    tell_object(ob,HIR + "你的紫幽之箭等級不正常，將回復至等級 100 。\n" + NOR);
     ob->delete("spells/missible/level",100);
     ob->set("spells/missible/level",100);
 

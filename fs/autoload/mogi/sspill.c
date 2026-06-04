@@ -6,7 +6,7 @@ inherit COMBINED_ITEM;
 
 void create()
 {
-  set_name(HIR"生生造化丹"NOR, ({"sen sen pill","pill"}) );
+  set_name(HIR + "生生造化丹" + NOR, ({"sen sen pill","pill"}) );
   set("long","奇異丹藥，可解毒、續命、填補內力。\n");
   set("unit", "盒");
   set("no_steal",1);
@@ -34,7 +34,7 @@ int eat_pill(string arg)
   if( !ob = present(arg,me) ) return 0;
   if( ob != this_object() ) return 0;
   if(me->query_temp("crazy")) return 0;
-  message_vision("$N吃下一粒"HIR"生生造化丹"NOR"，只覺得全身神清氣爽，功\力立復。\n",me);
+  message_vision("$N吃下一粒" + HIR + "生生造化丹" + NOR + "，只覺得全身神清氣爽，功\力立復。\n",me);
   me->set("kee",maxkee);
   me->set("eff_kee",maxkee);
   me->set("force",maxforce);

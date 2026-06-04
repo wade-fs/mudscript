@@ -9,49 +9,49 @@ int kar,cps,str,cor,int1,spi;
 
 mapping *action = ({
 //1
-  (["action"     : HIW"$N一招"HIR"「星火燎原」"HIW"，舉起$w"HIW"，擊向$n的列缺穴。"NOR,
+  (["action"     : HIW + "$N一招" + HIR + "「星火燎原」" + HIW + "，舉起$w" + HIW + "，擊向$n的列缺穴。" + NOR,
     "damage"     : 150,
     "force"      : 150,
     "post_action": (: call_other,__FILE__,"attack" :),
     "damage_type": "穴傷",
   ]),
 //2
-  (["action"     : HIW"$N一招"HIG"「星羅棋布」"HIW"，挺起$w"HIW"，擊向$n的太淵穴。"NOR,
+  (["action"     : HIW + "$N一招" + HIG + "「星羅棋布」" + HIW + "，挺起$w" + HIW + "，擊向$n的太淵穴。" + NOR,
     "damage"     : 150,
     "force"      : 150,
     "post_action": (: call_other,__FILE__,"attack" :),
     "damage_type": "穴傷",
    ]),
 //3
-  (["action"     : HIW"$N一招"HIY"「星曜九天」"HIW"，拿起$w"HIW"，擊向$n的百會穴。"NOR,
+  (["action"     : HIW + "$N一招" + HIY + "「星曜九天」" + HIW + "，拿起$w" + HIW + "，擊向$n的百會穴。" + NOR,
     "damage"     : 200,
     "force"      : 200,
     "post_action": (: call_other,__FILE__,"attack" :),
     "damage_type":  "穴傷",
   ]),
 //4
-  (["action"     : HIW"$N一招"HIM"「流星追月」"HIW"，架起$w"HIW"，擊向$n的淵液穴。"NOR,
+  (["action"     : HIW + "$N一招" + HIM + "「流星追月」" + HIW + "，架起$w" + HIW + "，擊向$n的淵液穴。" + NOR,
     "damage"     : 200,
     "force"      : 200,
     "post_action": (: call_other,__FILE__,"attack" :),
     "damage_type":  "穴傷",
   ]),
 //5
-  (["action"     : HIW"$N一招"HIB"「披星戴月」"HIW"，舉起$w"HIW"，擊向$n的陰谷穴。"NOR,
+  (["action"     : HIW + "$N一招" + HIB + "「披星戴月」" + HIW + "，舉起$w" + HIW + "，擊向$n的陰谷穴。" + NOR,
     "damage"     : 250,
     "force"      : 250,
     "post_action": (: call_other,__FILE__,"attack" :),
     "damage_type":  "穴傷",
   ]),
 //6
-  (["action"     : HIC"$N一招"HIW"「日換星移」"HIC"，挺起$w"HIC"，擊向$n的中府穴。"NOR,
+  (["action"     : HIC + "$N一招" + HIW + "「日換星移」" + HIC + "，挺起$w" + HIC + "，擊向$n的中府穴。" + NOR,
     "damage"     : 250,
     "force"      : 250,
     "post_action": (: call_other,__FILE__,"attack" :),
     "damage_type":  "穴傷",
   ]),
 //7
-  (["action"     : HIC"$N一招"HIB"「風離星散」"HIC"，拿起$w"HIC"，擊向$n的曲池穴。"NOR,
+  (["action"     : HIC + "$N一招" + HIB + "「風離星散」" + HIC + "，拿起$w" + HIC + "，擊向$n的曲池穴。" + NOR,
     "damage"     : 250,
     "force"      : 250,
     "post_action": (: call_other,__FILE__,"attack" :),
@@ -59,21 +59,21 @@ mapping *action = ({
   ]),
 //8
 
-  (["action"     : HIC"$N一招"HIM"「風馳電擎」"HIC"，架起$w"HIC"，擊向$n的關元穴。"NOR,
+  (["action"     : HIC + "$N一招" + HIM + "「風馳電擎」" + HIC + "，架起$w" + HIC + "，擊向$n的關元穴。" + NOR,
     "damage"     : 300,
     "force"      : 300,
     "post_action": (: call_other,__FILE__,"attack" :),
     "damage_type": "穴傷",
   ]),
 //9
-  (["action"     : HIC"$N一招"HIY"「雲湧星迴」"HIC"，舉起$w"HIC"，擊向$n的氣海穴。"NOR,
+  (["action"     : HIC + "$N一招" + HIY + "「雲湧星迴」" + HIC + "，舉起$w" + HIC + "，擊向$n的氣海穴。" + NOR,
     "damage"     : 300,
     "force"      : 300,
     "post_action": (: call_other,__FILE__,"attack" :),
     "damage_type": "穴傷",
   ]),
 //10
-  (["action"     : HIC"$N一招「"HIG"星辰"HIR"再現"HIC"」，挺起$w"HIC"，擊向$n的印堂穴。"NOR,
+  (["action"     : HIC + "$N一招「" + HIG + "星辰" + HIR + "再現" + HIC + "」，挺起$w" + HIC + "，擊向$n的印堂穴。" + NOR,
     "damage"     : 300,
     "force"      : 300,
     "post_action": (: call_other,__FILE__,"attack" :),
@@ -134,7 +134,7 @@ void attack(object me, object victim, object weapon, int damage)
   switch(j)
   {
     case 0:
-      message_vision(sprintf(HIR"\n$N奮力往$n的要穴點去，頓時$n內息走岔，行動變緩。\n"NOR),me,victim);
+      message_vision(sprintf(HIR + "\n$N奮力往$n的要穴點去，頓時$n內息走岔，行動變緩。\n" + NOR),me,victim);
       victim->start_busy(1);
       COMBAT_D->report_status(victim);
       break;
@@ -143,7 +143,7 @@ void attack(object me, object victim, object weapon, int damage)
       break;
     case 2:
       damage = (str+cor+cps+kar+spi+int1)*2+50;
-      message_vision(sprintf(HIR"\n$N雄厚內勁打擊$n的要穴，只覺的內息一震，已受了嚴重內傷。\n"NOR),me,victim);
+      message_vision(sprintf(HIR + "\n$N雄厚內勁打擊$n的要穴，只覺的內息一震，已受了嚴重內傷。\n" + NOR),me,victim);
       victim->receive_damage("kee",damage,me);
       victim->apply_condition("hart",5);
       COMBAT_D->report_status(victim);
@@ -153,7 +153,7 @@ void attack(object me, object victim, object weapon, int damage)
       break;
     case 4:
       damage=(cps+int1+str+cor+kar+spi)*2+50;
-      message_vision(HIW"\n$N眼見$n露出破綻，機不可失，朝$n身上各大穴狂點而去，重創了$n。\n"NOR,me,victim);
+      message_vision(HIW + "\n$N眼見$n露出破綻，機不可失，朝$n身上各大穴狂點而去，重創了$n。\n" + NOR,me,victim);
       if( me->query_temp("conti") == 0 )
       {
         me->set_temp("conti",1);

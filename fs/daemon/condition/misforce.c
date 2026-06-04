@@ -13,7 +13,7 @@ int update_condition(object me, int duration)
     me->apply_condition("misforce",duration-1);
     me->start_busy(3);
      me->set("force", 0);
-    tell_object(me,HIC "你走火入魔, 內力大減, 無法動彈, 氣息大亂。\n" NOR);
+    tell_object(me,HIC + "你走火入魔, 內力大減, 無法動彈, 氣息大亂。\n" + NOR);
   }
   return 1;
 }

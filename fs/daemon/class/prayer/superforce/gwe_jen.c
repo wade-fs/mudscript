@@ -38,7 +38,7 @@ if( fun5 < 130 ) return notify_fail ("你的玄宇宙等級不足。\n");
         if(!parry_skill) stat+=2;
         if(stat==3) return notify_fail("這個對手沒辦法用歸真，或已經被你打得失去了閃避及招架的能力了!!!\n");
         me->add("force",-40*((fun/10)+1));
-        message_vision(HBGRN+HIY"$N使出「玄宇宙」中的歸真，一掌往$n的腦袋打去!!\n"NOR,me,target);
+        message_vision(HBGRN+HIY + "$N使出「玄宇宙」中的歸真，一掌往$n的腦袋打去!!\n" + NOR,me,target);
         if(fun >=0 && fun <25)
         {
                 if(10 > random(100)){
@@ -46,13 +46,13 @@ if( fun5 < 130 ) return notify_fail ("你的玄宇宙等級不足。\n");
                   {
                       case 0:
                         if(random(2)){
-                        message_vision(HIR"結果一擊命中，$n的頭腦因為被$N內功\中的奇異真氣侵入，頓時變得昏昏沉沉，像是失去了閃躲的能力了!!!\n"NOR,me,target);
+                        message_vision(HIR + "結果一擊命中，$n的頭腦因為被$N內功\中的奇異真氣侵入，頓時變得昏昏沉沉，像是失去了閃躲的能力了!!!\n" + NOR,me,target);
                         target->set_temp("no_en_dodge",1);
                         target->map_skill("dodge");
                         target->reset_action();
                         }
                         else{
-                        message_vision(HIR"結果一擊命中，$n的頭腦因為被$N內功\中的奇異真氣侵入，頓時變得昏昏沉沉，像是失去了招架的能力了!!!\n"NOR,me,target);
+                        message_vision(HIR + "結果一擊命中，$n的頭腦因為被$N內功\中的奇異真氣侵入，頓時變得昏昏沉沉，像是失去了招架的能力了!!!\n" + NOR,me,target);
                         target->set_temp("no_en_parry",1);
                         target->map_skill("parry");
                         target->reset_action();
@@ -63,7 +63,7 @@ if( fun5 < 130 ) return notify_fail ("你的玄宇宙等級不足。\n");
                         COMBAT_D->report_status(target);
                         break;
                       case 1:
-                        message_vision(HIR"結果一擊命中，$n的頭腦因為被$N內功\中的奇異真氣侵入，頓時變得昏昏沉沉，像是失去了招架的能力了!!!\n"NOR,me,target);
+                        message_vision(HIR + "結果一擊命中，$n的頭腦因為被$N內功\中的奇異真氣侵入，頓時變得昏昏沉沉，像是失去了招架的能力了!!!\n" + NOR,me,target);
                         target->set_temp("no_en_parry",1);
                         target->map_skill("parry");
                         target->reset_action();
@@ -73,7 +73,7 @@ if( fun5 < 130 ) return notify_fail ("你的玄宇宙等級不足。\n");
                         COMBAT_D->report_status(target);
                         break;
                       case 2:
-                        message_vision(HIR"結果一擊命中，$n的頭腦因為被$N內功\中的奇異真氣侵入，頓時變得昏昏沉沉，像是失去了閃躲的能力了!!!\n"NOR,me,target);
+                        message_vision(HIR + "結果一擊命中，$n的頭腦因為被$N內功\中的奇異真氣侵入，頓時變得昏昏沉沉，像是失去了閃躲的能力了!!!\n" + NOR,me,target);
                         target->set_temp("no_en_dodge",1);
                         target->map_skill("dodge");
                         target->reset_action();
@@ -90,7 +90,7 @@ if( fun5 < 130 ) return notify_fail ("你的玄宇宙等級不足。\n");
                   }
                 }
                 else{
-                        message_vision(HIY"$n看準了$N掌勢的漏洞，急運身法，閃開了這一擊!!\n"NOR,me,target);
+                        message_vision(HIY + "$n看準了$N掌勢的漏洞，急運身法，閃開了這一擊!!\n" + NOR,me,target);
                         flag=1;
                         COMBAT_D->report_status(target);
                 }
@@ -102,13 +102,13 @@ if( fun5 < 130 ) return notify_fail ("你的玄宇宙等級不足。\n");
                   {
                       case 0:
                         if(random(2)){
-                        message_vision(HIR"結果一擊命中，$n的頭腦因為被$N內功\中的奇異真氣侵入，頓時變得昏昏沉沉，像是失去了閃躲的能力了!!!\n"NOR,me,target);
+                        message_vision(HIR + "結果一擊命中，$n的頭腦因為被$N內功\中的奇異真氣侵入，頓時變得昏昏沉沉，像是失去了閃躲的能力了!!!\n" + NOR,me,target);
                         target->set_temp("no_en_dodge",1);
                         target->map_skill("dodge");
                         target->reset_action();
                         }
                         else{
-                        message_vision(HIR"結果一擊命中，$n的頭腦因為被$N內功\中的奇異真氣侵入，頓時變得昏昏沉沉，像是失去了招架的能力了!!!\n"NOR,me,target);
+                        message_vision(HIR + "結果一擊命中，$n的頭腦因為被$N內功\中的奇異真氣侵入，頓時變得昏昏沉沉，像是失去了招架的能力了!!!\n" + NOR,me,target);
                         target->set_temp("no_en_parry",1);
                         target->map_skill("parry");
                         target->reset_action();
@@ -119,7 +119,7 @@ if( fun5 < 130 ) return notify_fail ("你的玄宇宙等級不足。\n");
                         COMBAT_D->report_status(target);
                         break;
                       case 1:
-                        message_vision(HIR"結果一擊命中，$n的頭腦因為被$N內功\中的奇異真氣侵入，頓時變得昏昏沉沉，像是失去了招架的能力了!!!\n"NOR,me,target);
+                        message_vision(HIR + "結果一擊命中，$n的頭腦因為被$N內功\中的奇異真氣侵入，頓時變得昏昏沉沉，像是失去了招架的能力了!!!\n" + NOR,me,target);
                         target->set_temp("no_en_parry",1);
                         target->map_skill("parry");
                         target->reset_action();
@@ -129,7 +129,7 @@ if( fun5 < 130 ) return notify_fail ("你的玄宇宙等級不足。\n");
                         COMBAT_D->report_status(target);
                         break;
                       case 2:
-                        message_vision(HIR"結果一擊命中，$n的頭腦因為被$N內功\中的奇異真氣侵入，頓時變得昏昏沉沉，像是失去了閃躲的能力了!!!\n"NOR,me,target);
+                        message_vision(HIR + "結果一擊命中，$n的頭腦因為被$N內功\中的奇異真氣侵入，頓時變得昏昏沉沉，像是失去了閃躲的能力了!!!\n" + NOR,me,target);
                         target->set_temp("no_en_dodge",1);
                         target->map_skill("dodge");
                         target->reset_action();
@@ -146,7 +146,7 @@ if( fun5 < 130 ) return notify_fail ("你的玄宇宙等級不足。\n");
                   }
                 }
                 else{
-                        message_vision(HIY"$n看準了$N掌勢的漏洞，急運身法，閃開了這一擊!!\n"NOR,me,target);
+                        message_vision(HIY + "$n看準了$N掌勢的漏洞，急運身法，閃開了這一擊!!\n" + NOR,me,target);
                         flag=1;
                         COMBAT_D->report_status(target);
                 }
@@ -158,13 +158,13 @@ if( fun5 < 130 ) return notify_fail ("你的玄宇宙等級不足。\n");
                   {
                       case 0:
                         if(random(2)){
-                        message_vision(HIR"結果一擊命中，$n的頭腦因為被$N內功\中的奇異真氣侵入，頓時變得昏昏沉沉，像是失去了閃躲的能力了!!!\n"NOR,me,target);
+                        message_vision(HIR + "結果一擊命中，$n的頭腦因為被$N內功\中的奇異真氣侵入，頓時變得昏昏沉沉，像是失去了閃躲的能力了!!!\n" + NOR,me,target);
                         target->set_temp("no_en_dodge",1);
                         target->map_skill("dodge");
                         target->reset_action();
                         }
                         else{
-                        message_vision(HIR"結果一擊命中，$n的頭腦因為被$N內功\中的奇異真氣侵入，頓時變得昏昏沉沉，像是失去了招架的能力了!!!\n"NOR,me,target);
+                        message_vision(HIR + "結果一擊命中，$n的頭腦因為被$N內功\中的奇異真氣侵入，頓時變得昏昏沉沉，像是失去了招架的能力了!!!\n" + NOR,me,target);
                         target->set_temp("no_en_parry",1);
                         target->map_skill("parry");
                         target->reset_action();
@@ -175,7 +175,7 @@ if( fun5 < 130 ) return notify_fail ("你的玄宇宙等級不足。\n");
                         COMBAT_D->report_status(target);
                         break;
                       case 1:
-                        message_vision(HIR"結果一擊命中，$n的頭腦因為被$N內功\中的奇異真氣侵入，頓時變得昏昏沉沉，像是失去了招架的能力了!!!\n"NOR,me,target);
+                        message_vision(HIR + "結果一擊命中，$n的頭腦因為被$N內功\中的奇異真氣侵入，頓時變得昏昏沉沉，像是失去了招架的能力了!!!\n" + NOR,me,target);
                         target->set_temp("no_en_parry",1);
                         target->map_skill("parry");
                         target->reset_action();
@@ -185,7 +185,7 @@ if( fun5 < 130 ) return notify_fail ("你的玄宇宙等級不足。\n");
                         COMBAT_D->report_status(target);
                         break;
                       case 2:
-                        message_vision(HIR"結果一擊命中，$n的頭腦因為被$N內功\中的奇異真氣侵入，頓時變得昏昏沉沉，像是失去了閃躲的能力了!!!\n"NOR,me,target);
+                        message_vision(HIR + "結果一擊命中，$n的頭腦因為被$N內功\中的奇異真氣侵入，頓時變得昏昏沉沉，像是失去了閃躲的能力了!!!\n" + NOR,me,target);
                         target->set_temp("no_en_dodge",1);
                         target->map_skill("dodge");
                         target->reset_action();
@@ -202,7 +202,7 @@ if( fun5 < 130 ) return notify_fail ("你的玄宇宙等級不足。\n");
                   }
                 }
                 else{
-                        message_vision(HIY"$n看準了$N掌勢的漏洞，急運身法，閃開了這一擊!!\n"NOR,me,target);
+                        message_vision(HIY + "$n看準了$N掌勢的漏洞，急運身法，閃開了這一擊!!\n" + NOR,me,target);
                         flag=1;
                         COMBAT_D->report_status(target);
                 }
@@ -214,13 +214,13 @@ if( fun5 < 130 ) return notify_fail ("你的玄宇宙等級不足。\n");
                   {
                       case 0:
                         if(random(2)){
-                        message_vision(HIR"結果一擊命中，$n的頭腦因為被$N內功\中的奇異真氣侵入，頓時變得昏昏沉沉，像是失去了閃躲的能力了!!!\n"NOR,me,target);
+                        message_vision(HIR + "結果一擊命中，$n的頭腦因為被$N內功\中的奇異真氣侵入，頓時變得昏昏沉沉，像是失去了閃躲的能力了!!!\n" + NOR,me,target);
                         target->set_temp("no_en_dodge",1);
                         target->map_skill("dodge");
                         target->reset_action();
                         }
                         else{
-                        message_vision(HIR"結果一擊命中，$n的頭腦因為被$N內功\中的奇異真氣侵入，頓時變得昏昏沉沉，像是失去了招架的能力了!!!\n"NOR,me,target);
+                        message_vision(HIR + "結果一擊命中，$n的頭腦因為被$N內功\中的奇異真氣侵入，頓時變得昏昏沉沉，像是失去了招架的能力了!!!\n" + NOR,me,target);
                         target->set_temp("no_en_parry",1);
                         target->map_skill("parry");
                         target->reset_action();
@@ -231,7 +231,7 @@ if( fun5 < 130 ) return notify_fail ("你的玄宇宙等級不足。\n");
                         COMBAT_D->report_status(target);
                         break;
                       case 1:
-                        message_vision(HIR"結果一擊命中，$n的頭腦因為被$N內功\中的奇異真氣侵入，頓時變得昏昏沉沉，像是失去了招架的能力了!!!\n"NOR,me,target);
+                        message_vision(HIR + "結果一擊命中，$n的頭腦因為被$N內功\中的奇異真氣侵入，頓時變得昏昏沉沉，像是失去了招架的能力了!!!\n" + NOR,me,target);
                         target->set_temp("no_en_parry",1);
                         target->map_skill("parry");
                         target->reset_action();
@@ -241,7 +241,7 @@ if( fun5 < 130 ) return notify_fail ("你的玄宇宙等級不足。\n");
                         COMBAT_D->report_status(target);
                         break;
                       case 2:
-                        message_vision(HIR"結果一擊命中，$n的頭腦因為被$N內功\中的奇異真氣侵入，頓時變得昏昏沉沉，像是失去了閃躲的能力了!!!\n"NOR,me,target);
+                        message_vision(HIR + "結果一擊命中，$n的頭腦因為被$N內功\中的奇異真氣侵入，頓時變得昏昏沉沉，像是失去了閃躲的能力了!!!\n" + NOR,me,target);
                         target->set_temp("no_en_dodge",1);
                         target->map_skill("dodge");
                         target->reset_action();
@@ -258,7 +258,7 @@ if( fun5 < 130 ) return notify_fail ("你的玄宇宙等級不足。\n");
                   }
                 }
                 else{
-                        message_vision(HIY"$n看準了$N掌勢的漏洞，急運身法，閃開了這一擊!!\n"NOR,me,target);
+                        message_vision(HIY + "$n看準了$N掌勢的漏洞，急運身法，閃開了這一擊!!\n" + NOR,me,target);
                         flag=1;
                         COMBAT_D->report_status(target);
                 }
@@ -270,13 +270,13 @@ if(fun >= 100)
                   {
                       case 0:
                         if(random(2)){
-                        message_vision(HIR"結果一擊命中，$n的頭腦因為被$N內功\中的奇異真氣侵入，頓時變得昏昏沉沉，像是失去了閃躲的能力了!!!\n"NOR,me,target);
+                        message_vision(HIR + "結果一擊命中，$n的頭腦因為被$N內功\中的奇異真氣侵入，頓時變得昏昏沉沉，像是失去了閃躲的能力了!!!\n" + NOR,me,target);
                         target->set_temp("no_en_dodge",1);
                         target->map_skill("dodge");
                         target->reset_action();
                         }
                         else{
-                        message_vision(HIR"結果一擊命中，$n的頭腦因為被$N內功\中的奇異真氣侵入，頓時變得昏昏沉沉，像是失去了招架的能力了!!!\n"NOR,me,target);
+                        message_vision(HIR + "結果一擊命中，$n的頭腦因為被$N內功\中的奇異真氣侵入，頓時變得昏昏沉沉，像是失去了招架的能力了!!!\n" + NOR,me,target);
                         target->set_temp("no_en_parry",1);
                         target->map_skill("parry");
                         target->reset_action();
@@ -287,7 +287,7 @@ if(fun >= 100)
                         COMBAT_D->report_status(target);
                         break;
                       case 1:
-                        message_vision(HIR"結果一擊命中，$n的頭腦因為被$N內功\中的奇異真氣侵入，頓時變得昏昏沉沉，像是失去了招架的能力了!!!\n"NOR,me,target);
+                        message_vision(HIR + "結果一擊命中，$n的頭腦因為被$N內功\中的奇異真氣侵入，頓時變得昏昏沉沉，像是失去了招架的能力了!!!\n" + NOR,me,target);
                         target->set_temp("no_en_parry",1);
                         target->map_skill("parry");
                         target->reset_action();
@@ -297,7 +297,7 @@ if(fun >= 100)
                         COMBAT_D->report_status(target);
                         break;
                       case 2:
-                        message_vision(HIR"結果一擊命中，$n的頭腦因為被$N內功\中的奇異真氣侵入，頓時變得昏昏沉沉，像是失去了閃躲的能力了!!!\n"NOR,me,target);
+                        message_vision(HIR + "結果一擊命中，$n的頭腦因為被$N內功\中的奇異真氣侵入，頓時變得昏昏沉沉，像是失去了閃躲的能力了!!!\n" + NOR,me,target);
                         target->set_temp("no_en_dodge",1);
                         target->map_skill("dodge");
                         target->reset_action();
@@ -314,12 +314,12 @@ if(fun >= 100)
                   }
                 }
                 else{
-                        message_vision(HIY"$n看準了$N掌勢的漏洞，急運身法，閃開了這一擊!!\n"NOR,me,target);
+                        message_vision(HIY + "$n看準了$N掌勢的漏洞，急運身法，閃開了這一擊!!\n" + NOR,me,target);
                         flag=1;
                         COMBAT_D->report_status(target);
                 }
         }
-        message_vision(HIG"$N因為使出了這非常耗真勁的一掌，不得不閉目養神，以求快速的恢復!!\n"NOR,me);
+        message_vision(HIG + "$N因為使出了這非常耗真勁的一掌，不得不閉目養神，以求快速的恢復!!\n" + NOR,me);
         me->start_busy(1);
         if(!flag) flag=1;
         if( fun < 100 )

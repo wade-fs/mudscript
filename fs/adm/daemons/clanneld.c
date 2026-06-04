@@ -29,66 +29,66 @@ mapping channels = ([
         "sys":  (["msg_speak": "【系統】%s: %s\n",
                   "wiz_only": 1 ]),
 
-        "wiz":  (["msg_speak": "【"HIY"眾神會議"NOR"】"HIY"%s: %s\n"NOR,
+        "wiz":  (["msg_speak": "【" + HIY + "眾神會議" + NOR + "】" + HIY + "%s: %s\n" + NOR,
                   "wiz_only": 1 ]),
 
-        "gwiz": (["msg_speak": "【"HIG"網際巫師"NOR"】"HIG"%s﹕%s\n"NOR,
+        "gwiz": (["msg_speak": "【" + HIG + "網際巫師" + NOR + "】" + HIG + "%s﹕%s\n" + NOR,
                   "wiz_only": 1,
                   "intermud": GWIZ,
                   "channel": "CREATOR",
                   "filter": 1 ]),
 
-        "es":   (["msg_speak":  "【"HIR"狂想空間"NOR"】"HIR"%s﹕%s\n"NOR,
+        "es":   (["msg_speak":  "【" + HIR + "狂想空間" + NOR + "】" + HIR + "%s﹕%s\n" + NOR,
                   "intermud": GCHANNEL,
                   "channel": "es",
                   "filter": (: $1["MUDLIB"]=="Eastern Stories" :) ]),
 
-        "twiz": (["msg_speak":  "【"HIW"台灣巫師"NOR"】"HIW"%s﹕%s\n"NOR,
+        "twiz": (["msg_speak":  "【" + HIW + "台灣巫師" + NOR + "】" + HIW + "%s﹕%s\n" + NOR,
                   "wiz_only":1,
                   "intermud": GCHANNEL,
                   "channel": "twiz",
                   "filter": (: $1["HOSTADDRESS"][0..2]=="140" :) ]),
 
-        "chat":  (["msg_speak": "【"HIC"閒聊"NOR"】"HIC"%s說道: %s\n"NOR]),
+        "chat":  (["msg_speak": "【" + HIC + "閒聊" + NOR + "】" + HIC + "%s說道: %s\n" + NOR]),
 
 
-        "music":  (["msg_speak": "【"HIG"天籟"NOR"】"HIG"%s 唱道: %s\n"NOR]),
+        "music":  (["msg_speak": "【" + HIG + "天籟" + NOR + "】" + HIG + "%s 唱道: %s\n" + NOR]),
 
-        "cb":  (["msg_speak": HIC"【"HIW"幫派協商"HIW"】"HIC"%s 談道: %s\n"NOR]),
+        "cb":  (["msg_speak": HIC + "【" + HIW + "幫派協商" + HIW + "】" + HIC + "%s 談道: %s\n" + NOR]),
 
-        "dead":  (["msg_speak": "【"HIR"死亡快報"NOR"】"HIR"%s 爽快地公諸於世 ： %s\n"NOR]),
+        "dead":  (["msg_speak": "【" + HIR + "死亡快報" + NOR + "】" + HIR + "%s 爽快地公諸於世 ： %s\n" + NOR]),
 
-        "ht":   (["msg_speak": HIY"【"+HIG+"大俠廣播"+HIY"】大俠 %s說道: %s\n"NOR]),
+        "ht":   (["msg_speak": HIY + "【"+HIG+"大俠廣播"+HIY + "】大俠 %s說道: %s\n" + NOR]),
         
-        "shout":(["msg_speak": HIR"%s縱聲大叫: %s\n"NOR]),
+        "shout":(["msg_speak": HIR + "%s縱聲大叫: %s\n" + NOR]),
 
         "gamble":(["msg_speak": "%s\n",
                    "mud_only": 1, ]),
 
-        "mud":  (["msg_speak": HIG"%s\n"NOR,
+        "mud":  (["msg_speak": HIG + "%s\n" + NOR,
                   "mud_only": 1, ]),
 
-        "rumor":(["msg_speak": "【"HIM"謠言"NOR"】"HIM"%s: %s\n"NOR,
+        "rumor":(["msg_speak": "【" + HIM + "謠言" + NOR + "】" + HIM + "%s: %s\n" + NOR,
                   "anonymous": "某人", ]),
 
-        "rumor*":(["msg_speak": "【"HIM"謠言"NOR"】"HIM""]),
+        "rumor*":(["msg_speak": "【" + HIM + "謠言" + NOR + "】" + HIM + ""]),
 
-        "ct*":(["msg_speak": "【"HIY"幫派"NOR"】"HIY""]),
+        "ct*":(["msg_speak": "【" + HIY + "幫派" + NOR + "】" + HIY + ""]),
 
-        "wiz*": (["msg_speak": "【"HIY"眾神會議"NOR"】"HIY"",
+        "wiz*": (["msg_speak": "【" + HIY + "眾神會議" + NOR + "】" + HIY + "",
                   "wiz_only": 1        ]),
 
-        "chat*":  (["msg_speak": "【"HIC"閒聊"NOR"】"HIC""]),
+        "chat*":  (["msg_speak": "【" + HIC + "閒聊" + NOR + "】" + HIC + ""]),
 
-        "gt*":(["msg_speak": "【"HIG"公會"NOR"】"HIG""]),
+        "gt*":(["msg_speak": "【" + HIG + "公會" + NOR + "】" + HIG + ""]),
 
-        "gt":(["msg_speak": "【"HIG"公會"NOR"】"]),
+        "gt":(["msg_speak": "【" + HIG + "公會" + NOR + "】"]),
         
-        "ct":(["msg_speak": "【"HIY"幫派"NOR"】"]),
+        "ct":(["msg_speak": "【" + HIY + "幫派" + NOR + "】"]),
 
-        "ht*":   (["msg_speak": HIY"【"+HIG+"大俠廣播"+HIY"】"]),
+        "ht*":   (["msg_speak": HIY + "【"+HIG+"大俠廣播"+HIY + "】"]),
 
-        "cb*":  (["msg_speak": HIC"【"HIW"幫派協商"HIC"】"]),
+        "cb*":  (["msg_speak": HIC + "【" + HIW + "幫派協商" + HIC + "】"]),
 
 ]);
 
@@ -221,7 +221,7 @@ varargs int do_channel(object me, string verb, string arg, int emote)
       cls = (me->query("gender") == "女性") ? to_chinese("f_"+myclass) :
                                                 to_chinese(myclass) ;
       message( "class_channel",
-               sprintf(HIG"%s"NOR"%s說道: %s\n"NOR, cls, who, arg ),
+               sprintf(HIG + "%s" + NOR + "%s說道: %s\n" + NOR, cls, who, arg ),
                usr );
       return 1;
   }
@@ -230,7 +230,7 @@ varargs int do_channel(object me, string verb, string arg, int emote)
   if( verb == "ct" )
   { 
       message( "clan_channel",
-               sprintf(HIY"【"HIC"%s"HIY"】%s說道: %s\n"NOR, myclan, who, arg ),
+               sprintf(HIY + "【" + HIC + "%s" + HIY + "】%s說道: %s\n" + NOR, myclan, who, arg ),
                usr );
       return 1;
   }  

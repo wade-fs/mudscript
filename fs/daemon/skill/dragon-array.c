@@ -42,7 +42,7 @@ int form_array(object leader)
 	if(0>1)
 	if(num!=4) return notify_fail("海龍陣要四人才能排﹐個多一個、少一個都不行。\n");
 	message_vision(
-	HIC "$N與眾人排成一列﹐排出了海龍陣。\n" NOR,leader);
+	HIC + "$N與眾人排成一列﹐排出了海龍陣。\n" + NOR,leader);
 	member[max_man]->add_temp("apply/damage",total/10);
 	for(i=0;i<sizeof(member);i++)
 		if(present(member[i]->query("id"),environment(leader)))

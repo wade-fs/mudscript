@@ -1,71 +1,71 @@
 
-²Ä¤»³¹¡G
-                       ¶i¶¥©Ð¶¡½s¿è»¡©ú
+Ä¤G
+                       iÐ¶sè»¡
 
-«e¨¥¡G
-¡@¡@¡@¸g¹L¤W¤@¶gªº¬~Â§¡A§Ú­Ì¤j®aÀ³«Ü¤F¸Ñ¡A§Å®vªº§@¥Î¡BFTP¡BEDIT¤ÎRoom
-maker¨Ó½s¼gÂ²³æªº©Ð¶¡¡A¤@¯ë¨Ó»¡¸û½ÆÂøªº©Ð¶¡§Ú¤@¯ë³£¬O§âÀÉ®×¦bPC½s¦n«á
-¶Ç°e¤W¨Ó¡A¦³°ÝÃDªº¸Ü.¤p°ÝÃD´Nª½±µ¦b½u¤W¥ÎEDIT§ï¤F¡A¤j°ÝÃDªº¸Ü´N¦bPC¤U
-¶Ç«á­«·s§ï¡C³o¸`¥D­n¬O±Ð¾É©Ð¶¡ªº½s¿è(¥ÎROOMMAKER©Ò¤£¯à¹F¨ìªº)¡C
+eG
+@@@gLW@g~Â§AÚ­Ì¤jaÜ¤FÑ¡AÅ®v@Î¡BFTPBEDITRoom
+makerÓ½sgÂ²æªºÐ¶A@Ó»Ð¶Ú¤@ë³£OÉ®×¦bPCsn
+Ç°eWÓ¡AD.pDNbuWEDITFAjDÜ´NbPCU
+Ç«á­«sCo`DnOÐ¾É©Ð¶s(ROOMMAKERÒ¤Fìªº)C
 
-»¡©ú:
-¤@¡Broommanerªº©Ð¶¡Â²¤¶¡C
-    ¤@¯ë¨Ó»¡§Ú­Ì¦pªG¥ÎRoommaker¨Ó½sªº¸Ü¡A¥Lªº©Ð¶¡¬O¤@­Ó«ÜÂ²³æªº©Ð¶¡
-¦Ó¥B¨S¦³ÃC¦â¡C(­n¦³¤]¥i¥Hª½±µ¥Î¦â½X±±¨î¡A´N¬O^[[1;xm)¤£¹L§Ú­Ì¤@¯ëªºÃC
-¦â±±¨îªºfunctions´N¨S¦³¥Î¤F¡C
-¥H¤U´N¬O¥Îroommaker½s¼gªº©Ð¶¡:
+:
+@BroommanerÐ¶Â²C
+    @Ó»Ú­Ì¦pGRoommakerÓ½sÜ¡ALÐ¶O@Ó«Â²æªºÐ¶
+Ó¥BSCC(n]iHÎ¦XANO^[[1;xm)LÚ­Ì¤@ëªºC
+â±±îªºfunctionsNSÎ¤FC
+HUNOroommakersgÐ¶:
 
 // Room: /u/c/chan/cl_room.c
-#include <room.h>            //½s¼g®É­n¥ý©w¸q¤@¤U³o­Óª«¥ó¬O©Ð¶¡
-inherit ROOM;               //³o¼Ë¥L¤~·|§â©Ð¶¡ªº¤@¨ÇfunctionsÅý§A¨Ï¥Î
-void create ()              //¥Dµ{¦¡¬q
+#include <room.h>            //sgÉ­nwq@UoÓªOÐ¶
+inherit ROOM;               //oË¥L~|Ð¶@functionsAÏ¥
+void create ()              //D{q
 {
-  set ("short", "[1;37mÀ°¬£¨t²Î°Q½×«Ç[2;37;0m");  //µu±Ô­z
-  set ("long", @LONG                               //ªø±Ô­z
+  set ("short", "[1;37mtÎ°Q×«[2;37;0m");  //uÔ­z
+  set ("long", @LONG                               //Ô­z
 
-               À°   ¬£   ¨t   ²Î   °Q   ½×   «Ç
+                     t      Q      
 
-  ³oùØ¬OÅý¨g·QªºÀ°¬£¨t²Î¡B»s§@¤Î¨ä¥Lªº°ÝÃDªº°Q½×©Ð¶¡¡A¹ï©óÀ°¬£¦³¥ô
-  ¦óªº°ÝÃD¤Î«ØÄ³¡AÅwªï¤j®a¤@°_±´°Q¡B¬ã¨s¡C
+  oØ¬OgQtÎ¡Bs@Î¨LDQ×©Ð¶A
+  óªº°DÎ«Ä³Awja@_QBsC
   
 LONG);
 
-  set("exits", ([ /* sizeof() == 5 */          //³]©w¥X¤f
+  set("exits", ([ /* sizeof() == 5 */          //]wXf
   "acelan" : "/u/a/acelan/workroom.c",
   "up" : "/open/wiz/hall1.c",
   "swy" : "/u/s/swy/workroom.c",
   "anmy" : "/u/a/anmy/workroom.c",
   "chan" : __DIR__"workroom.c",
-]));                                          //³]©w¤@¨Ç°Ñ¼Æ
-  set("no_fight", 1);                        //ªí¥Ü¤£¯à¾Ô°«¡B¤£¯à¥ÎÅ]ªk
-  set("light_up", 1);                        //¤Î³o¬O«Ç¤º
+]));                                          //]w@Ç°Ñ¼
+  set("no_fight", 1);                        //Ü¤Ô°B]k
+  set("light_up", 1);                        //Î³oOÇ¤
   set("no_magic", 1);
-  setup();                                      //ªí¥Ü±N¤W¼gªº°Ñ¼Æ§¹¥þ¥[¤J
+  setup();                                      //Ü±NWgÑ¼Æ§[J
 }
 
-¤G¡B¤£¥ÎRoommaker½s¼g©Ð¶¡:
-    ¥Ñ©ó¥ÎRoommaker½s¼g©Ð¶¡¡A©Ò½s¥X¨Óªº©Ð¶¡¤ÓÂ²³æ¤F¡A¦³®É§Ú­Ì­n¼g¤@¨ÇÁ¼
-¤Ï¦Ó¹F¤£¨ì§Ú­Ìªº­n¨D©Ò¥H§Ú¤@¦V½s½ÆÂøªº©Ð¶¡¤@¦V¦bPC¤U½s«á¦b¤W¶Ç¤W¨Ó¡C
-    ¥H¤U´N¬O§ÚÂ²³æªº¤¶²Ð:::
+GBRoommakersgÐ¶:
+    Ñ©RoommakersgÐ¶AÒ½sXÓªÐ¶Â²FAÉ§Ú­Ì­ng@
+Ï¦Ó¹FÚ­ÌªnDÒ¥HÚ¤@VsÐ¶@VbPCUsbWÇ¤WÓ¡C
+    HUNOÂ²æªº:::
 
 // Room: /u/c/chan/workroom.c
-#include <command.h>   //INCLUDE ¤@¨Ç¥²­nªº¨ç¼Æ
+#include <command.h>   //INCLUDE @Ç¥n
 #include <mudlib.h>
 #include <room.h>
-#include <ansi.h>     //¥NªíÃC¦âªº¨ç¼Æ
-inherit ROOM;         //«Å§i©Ð¶¡
+#include <ansi.h>     //NCâªº
+inherit ROOM;         //Å§iÐ¶
 void create ()
 {
-  set ("short", "[1;37m¥¬¦ç©~[1;0m");    //¤£¥Î¦b¦h»¡¤F§a....
-  set ("long", "  //¥Ñ©ó§Ú­Ì¦³¥ÎANSI.H©Ò¥H§Ú­Ì¥i¥H¥ÎHICµ¥ªº¨ç¼Æ¨Ó©w¸qÃC¦â
-  ³o¬O¥¬¦ç©Ò³]­p¥þ³¡¥Ñ"HIC"¥È¤Ñ¦B´¹"NOR"¥´³y¦Ó¦¨ªº°ª¬ì§Þ¤u§@¯¸¡C
-  ¦³µÛºë±Kªº°ª¬ì§Þ¸Ë³Æ:\n"               //°O±oLONG´N¨S¦³¤F®@...
-  HIW"  ¤H¤u´¼¼zªº¶W¯Å¹q¸£"NOR"(list)\n"
-  HIY"  ½Ã¬P¶Ç¿éªºµø°T³q«H¸Ë³Æ\n"
-  HIC"  ¶W¥ý¶i¬ì§ÞªººÊ¬Ý¹q²´"NOR"(snop)\n"
-  HIR"  ¶W®£©Èªº§ðÀ»ªZ¾¹¡y"HIW"´á®ð¹p®g"HIR"¡z\n"
-  HIC"  ¦Û°ÊÅã¥Ü«¬ªº¤ô´¹°O¿ý¥Û"NOR"
-  «nÃä¬O¥¬¦çªº¥ð®§©Ò¦b¦a¡C\n");
+  set ("short", "[1;37m~[1;0m");    //Î¦bhFa....
+  set ("long", "  //Ñ©Ú­Ì¦ANSI.HÒ¥HÚ­Ì¥iHHICÆ¨Ó©wqC
+  oOÒ³]p" + HIC + "È¤Ñ¦B" + NOR + "yÓ¦Þ¤u@C
+  ÛºKÞ¸Ë³:\n"               //OoLONGNSF@...
+  HIW + "  HuzWÅ¹q" + NOR + "(list)\n"
+  HIY + "  Ã¬PÇ¿éªºTqHË³\n"
+  HIC + "  WiÞªÊ¬Ý¹q" + NOR + "(snop)\n"
+  HIR + "  WÈªZy" + HIW + "pg" + HIR + "z\n"
+  HIC + "  Û°Ü«O" + NOR + "
+  nOçªºð®§©Ò¦baC\n");
   set("exits", ([
   "snow" : "/open/snow/room/room2.c",
   "cage" : "/u/c/cage/workroom.c",
@@ -78,25 +78,25 @@ void create ()
 ]));
   set("light_up", 1);
   setup();
-  call_other("/obj/board/chan_b","???");    //¥[¤J§ÚªºBOARD
+  call_other("/obj/board/chan_b","???");    //[JÚªBOARD
 }
-void init()                //INIT()ªº«ü¥O¥D­n¬O¨Ó§ì¡Aª±®a¦pªG¦³«ö¬Y«ü¥Oªº¸Ü´N
-{                          //°õ¦æ¬Y¨ç¼Æ
-add_action("list_array","list");    //¨Ò¦p«öLIST¤ÎSNOP´N°õ¦æ..LIST_ARRAY¤Î
-add_action("snop_array","snop");     //SNOP_ARRAYªº¨ç¼Æ
+void init()                //INIT()ODnOÓ§AapGYOÜ´N
+{                          //Y
+add_action("list_array","list");    //Ò¦pLISTSNOPN..LIST_ARRAY
+add_action("snop_array","snop");     //SNOP_ARRAY
 }
-int list_array(string str)        //LIST_ARRAYªº¨ç¼Æ¡ASTR¥Nªí¤@­Ó¦r¦ê¥i¦³¥iµL
-{                                //¦]¬°¨S¦³¥Î¨ì
+int list_array(string str)        //LIST_ARRAYÆ¡ASTRN@Ó¦riiL
+{                                //]SÎ¨
 int i,j=0;
 int n;
-object *glist,room;             //¦]¬°§Ú­Ì§ì¸ê®Æªº«¬ºAªºÃö¨t¡A©Ò¥H­n©w¸q
-glist=users();                 //§ì¥X¸ê®Æ«á¦C¥X
+object *glist,room;             //]Ú­Ì§ÆªAtAÒ¥Hnwq
+glist=users();                 //XÆ«CX
 n=sizeof(glist);
-message_vision(HIW"¡y"HIC"ªZªÌ"HIW"¡zª±®a¤@Äýªí\n"NOR,this_player());
-message_vision(HIR"<<---------------------------------->>\n"NOR,this_player());
+message_vision(HIW + "y" + HIC + "Z" + HIW + "za@\n" + NOR,this_player());
+message_vision(HIR + "<<---------------------------------->>\n" + NOR,this_player());
   for(i=n-1;i>=0;i--){
   if(glist[i]->query("class") == "fighter" ){
-   message_vision(glist[i]->query("name")+glist[i]->query("id")+"ªù¬£:"+glist[i]->query("family/family_name")+"\n",this_player());
+   message_vision(glist[i]->query("name")+glist[i]->query("id")+":"+glist[i]->query("family/family_name")+"\n",this_player());
                                             }
                      }
 return 1;
@@ -107,8 +107,8 @@ int query_autoload()
 {
 if (this_player()->query("id") == "chan"  )
   {
-   message_vision(HIR"¤Ñ¤W¶Ç¤U«ã§q¤§Án!!!³ºµM·QºÊÅ¥¤j¯«¥¬¦ç!!!¥h¦º§a\n"NOR,this_player());
-   message_vision(HIR"¤@¹D¬õ¦âªº¦º¥ú¦V$N®g¥h\n"NOR,this_player());
+   message_vision(HIR + "Ñ¤WÇ¤Uqn!!!MQÅ¥j!!!ha\n" + NOR,this_player());
+   message_vision(HIR + "@DâªºV$Ngh\n" + NOR,this_player());
    this_player()->set("kee",-100);
   }
    return 1;
@@ -117,19 +117,19 @@ if (this_player()->query("id") == "chan"  )
 int snop_array(string arg)
 {
      object ob,me;
-     me=this_player();          //¥Nªí¦Û¤v
+     me=this_player();          //NÛ¤v
      if(me->query("id") != "chan")
-       return notify_fail("¥u¦³¤j¯«¥¬¦ç¤~¯àºÊÅ¥¡C\n");
+       return notify_fail("uj~Å¥C\n");
      if( !arg )
       {
-       if( objectp(ob = query_snooping(me)) ) //ob¥Nªíª±®a
-         write("§A²{¦b¥¿¦bºÊÅ¥" + ob->query("name") + "©Ò¦¬¨ìªº°T®§¡C\n");
+       if( objectp(ob = query_snooping(me)) ) //obNa
+         write("A{bbÅ¥" + ob->query("name") + "Ò¦ìªºTC\n");
          return 1;
       }
    if( arg=="none" )
        {
    if( objectp(ob = query_snooping(me)))
-       write("§A°±¤îºÊÅ¥"+ob->query("name")+"©Ò¦¬¨ìªº°T®§¡C\n");
+       write("AÅ¥"+ob->query("name")+"Ò¦ìªºTC\n");
        snoop(me);
        return 1;
        }
@@ -137,30 +137,30 @@ int snop_array(string arg)
 
    if (!ob) ob = find_object(arg);
 if(!ob)
-return notify_fail("¨S¦³³o­Ó¤H¡C\n");
+return notify_fail("SoÓ¤HC\n");
 if (ob->query("id") == "chan"  )
   {
-   message_vision(HIR"¤Ñ¤W¶Ç¤U«ã§q¤§Án!!!³ºµM·QºÊÅ¥¤j¯«¥¬¦ç!!!¥h¦º§a\n"NOR,this_player());
-   message_vision(HIC"¤@¹D´á®ð¹p®g¯¥¦V$N®g¥h¥i©Èªº¥ú½u\n"NOR,this_player());
+   message_vision(HIR + "Ñ¤WÇ¤Uqn!!!MQÅ¥j!!!ha\n" + NOR,this_player());
+   message_vision(HIC + "@DpgV$NghiÈªu\n" + NOR,this_player());
    this_player()->set("kee",-100);
    return 1;
   }
-   if( me==ob ) return notify_fail("½Ð¥Î snop none ¸Ñ°£ºÊÅ¥¡C\n");
+   if( me==ob ) return notify_fail("Ð¥ snop none Ñ°Å¥C\n");
      snoop(me, ob);
      return 1;
 }
-¦b¸É¥R¤@­Ó®×¨Ò::
+bÉ¥R@Ó®×¨::
 inherit ROOM;
 #include <room.h>
 #include <ansi.h>
 void create ()
 {
   seteuid(getuid());
-        set("short",CYN"¦a¨c"NOR);
-        set("long", @LONG            //¦pªG§Ú­Ì¤£¦bªø±Ô­z¤W¥[ÃC¦âªº¸Ü´N³o¼Ë¼g
-§A¨«¶i¤@¶¡³±·t¼éÀãªº¤p©Ð¶¡¡A­è¶i©Ð¶¡®É§AÄ±±o¤@¤ùº£¶Â¡Aµ¥§A
-²´·úºCºC²ßºD¶Â·t«á¡A§A»®µMµoÄ±¦³­Ó¤H³QÂê¦b³o¸Ì¡A¥L¥|ªÏ³QÅKÁåÂê
-¦í¡Aµ\µ]°©¤]³QÅKÁå³e¬ï¡A¥L§CµÛÀY°Ê¤]¤£°Ê¡A¥O§A¤£ª¾¥L¬O¦º¬O¬¡..
+        set("short",CYN + "ac" + NOR);
+        set("long", @LONG            //pGÚ­Ì¤bÔ­zW[CâªºÜ´NoË¼g
+Ai@tãªºpÐ¶AiÐ¶É§AÄ±o@Â¡AA
+CCßºDÂ·tAAMoÄ±Ó¤HQboÌ¡AL|Ï³QK
+A\]]QKeALCYÊ¤]Ê¡AOALOO..
 LONG
         );
         set("exits", ([ /* sizeof() == 1 */
@@ -169,9 +169,9 @@ LONG
   set("light_up", 1);
   set("no_transmit",1);
   set("no_auc",1);
-  set("need_key/south",1);       //³]©wdoorªº©Ð¦V¤Îkey®@
-  create_door("south",HIB"ÂÅ¦âÅKªù"NOR,"north",DOOR_LOCKED);
-  set("objects", ([ /* sizeof() == 1 */    //¥[¤J¤@­Óª«¥ó ¸­¨g
+  set("need_key/south",1);       //]wdoorÐ¦Vkey@
+  create_door("south",HIB + "Å¦K" + NOR,"north",DOOR_LOCKED);
+  set("objects", ([ /* sizeof() == 1 */    //[J@Óª g
   "/open/wu/obj/ya1" : 1,
 ]));
   setup();
@@ -185,13 +185,13 @@ int free_ya(string str)
 {
   object ob,ob1;
   ob=this_player();
-  if(!present("ya",environment(ob)))       //me¬O¥Nªí¦Û¤v©Îª±®a ob¥Nªíª«¥ó®@
-    return notify_fail("¤H¥h¼ÓªÅ¤F¡A§AÁÙ©ñ¤°»ò¡C\n");
+  if(!present("ya",environment(ob)))       //meONÛ¤vÎªa obN@
+    return notify_fail("HhÓªÅ¤FAAÙ©ñ¤°»C\n");
   if( str!="ya")
-    return notify_fail("§A­nÄÀ©ñ½Ö§r¡C\n");
+    return notify_fail("AnÖ§rC\n");
   if( ob->query("force") > 1500)
   {
-  message_vision(HIW"$N¹B°_¥þ¨­¤º¤O§èÂ_"HIC"´H¦BÅKÁå"HIW".........\n"NOR,ob);
+  message_vision(HIW + "$NB_O_" + HIC + "HBK" + HIW + ".........\n" + NOR,ob);
 ob->set("get_head",1);
   write("\n");
      ob1=present("ya",this_object());
@@ -201,7 +201,7 @@ ob->set("get_head",1);
   }
   else
   {
-   message_vision(HIW"$N¹B°_¤º¤O·Q­n§èÂ_"HIC"´H¦BÅKÁå"NOR"¡A¥Ñ©ó¤º¤O¤£¨¬³QÅKÁå¤Wªº´H®ð©Ò«I!!\n"NOR,ob);
+   message_vision(HIW + "$NB_OQn_" + HIC + "HBK" + NOR + "AÑ©ó¤º¤OQKWHÒ«I!!\n" + NOR,ob);
    ob->add("kee",-150);
    return 0;
   }
@@ -209,20 +209,20 @@ ob->set("get_head",1);
 int msg1(object ob)
 {
  message_vision("\n",ob);
- message_vision("¥u¨£¸­¨g¹B°_¤º¤O¡A¨­¤Wµo¥XÃzµõ¯ëªºÁn­µ\n",ob);
+ message_vision("ugB_OAWoXzëªºn\n",ob);
   call_out("msg2",3,ob);
   return 1;
 }
 int msg2(object ob)
 {
   object ob1;
-  message_vision("¸­¨g¹D: ¤p¤lÁÂÁÂ§A°Õ.....\n",ob);
-  message_vision("¸­¨gÂù¤â¦V¤W¤@À»¡AÅFªº¤@Án!!¦a¨c¤W¤è³Q¥´¥X¤@­Ó¤j¬}¡A¨«¤F¥X¥h¡C\n", ob) ;
+  message_vision("gD: plÂ§A.....\n",ob);
+  message_vision("gVW@AF@n!!acWQX@Ó¤j}AFXhC\n", ob) ;
   set("exits/up","/open/ping/room/road4");
   ob1=new("/open/wu/npc/ya");
   ob1->move("/open/main/room/m11");
   ob1->set("get_head",1);
-  message("mud",HIC"¸­¨g¤jÁn§q¹D:"HIW"§Ú¦Û¥Ñ¤F!!§Ú¦Û¥Ñ¤F!!´_¤³ªº®É¨è²×©ó¨ÓÁ{¤F\n"NOR,users());
+  message("mud",HIC + "gjnqD:" + HIW + "Ú¦Û¥Ñ¤F!!Ú¦Û¥Ñ¤F!!_É¨×©{F\n" + NOR,users());
   call_out("msg3",3,ob);
   return 1;
 }
@@ -243,20 +243,20 @@ int msg3(object ob)
  new("/open/wu/npc/badnit")->move("/open/wu/room/luroom7");
  new("/open/wu/npc/badnit")->move("/open/wu/room/luroom7");
  new("/open/wu/npc/badnit")->move("/open/wu/room/luroom4");
- message("mud",HIC"§ù ±þ§q¹D:"HIW
-               "´c¤H¨¦ªºÅoÅo­Ì!!!±Nò]¤s±qªZªL¤¤°£¦W§a!!!!"NOR,users());
+ message("mud",HIC + " qD:" + HIW
+               "cHoo!!!N]sqZLWa!!!!" + NOR,users());
   call_out("msg4",3,ob);
   return 1;
  }
 int msg4(object ob)
 {
-message("mud",HIR"\n¾G¤hªY¹Ä¹D:
-         ½Ö¥i¥H®¾±Ï³oªZªL¯E§T©O¡H¡H¡H\n"NOR,users());
+message("mud",HIR + "\nGhYÄ¹D:
+         Ö¥iHÏ³oZLETOHHH\n" + NOR,users());
   return 1;
 }
 
-³Ì«á::
-    ¬Ý¹L¥H¤Wªº©Ð¶¡¤¶²Ð¬Û«H§A¦Û¤vÀ³¸Ó³£·|¤F...³o¼Ë¤l..©Ð¶¡ªº³¡¥÷´N
-µ²§ô¤F......
+Ì«::
+    Ý¹LHWÐ¶Ð¬Û«HAÛ¤vÓ³|F...oË¤l..Ð¶N
+F......
                                                         by Chan 07/27/98
-ª`·N::¦¹¤å¥ó¶È¨ÑFSªºWIZ°Ñ¦Ò¥Î..­Y«D¸gChan³\¥i.¸T¤î¬y¥X....§_«h...
+`N::È¨FSWIZÑ¦Ò¥..YDgChan\i.TyX...._h...

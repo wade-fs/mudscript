@@ -22,7 +22,7 @@ int exert(object me)
         if (!me->is_fighting())
         {
                 if (force > 10) force =10;
-                message_vision(HIB"$N氣運單田，再將真氣運至全身，只見青筋漸漸浮現....\n"NOR,me);
+                message_vision(HIB + "$N氣運單田，再將真氣運至全身，只見青筋漸漸浮現....\n" + NOR,me);
                 me->set_temp("check-shanwu",1);
                 me->set("force_factor",force+enf);
                 me->add("force",-100);
@@ -38,7 +38,7 @@ void remove_effect(object me)
 
     me->set("force_factor",10);
     me->delete_temp("check-shanwu");
-    message_vision(HIB"$N身上異常的青筋已漸漸消去....\n"NOR,me);
+    message_vision(HIB + "$N身上異常的青筋已漸漸消去....\n" + NOR,me);
 
 }
 

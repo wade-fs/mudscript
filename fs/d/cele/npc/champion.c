@@ -103,12 +103,12 @@ int do_accept(string arg)
 		say("\n於蘭天武哈哈大笑﹐說道﹕今日老夫終於覓得一個可造之才﹗\n\n");
 		command("recruit " + this_player()->query("id") );
 
-                message("system",HIY"一陣如雷吼般渾厚聲音破空而出
+                message("system",HIY + "一陣如雷吼般渾厚聲音破空而出
               就好似從遠古所傳來的訊息.....
 
        百年前的武林第一人 於蘭天武縱聲長笑著 :
        英雄出少年 ,"+this_player()->name()+"
-       本\傳\功\使\會\將\所\知\的\武學全部好好傳授給你.\n"NOR,users());
+       本\傳\功\使\會\將\所\知\的\武學全部好好傳授給你.\n" + NOR,users());
         }
 		return 1;
 	}

@@ -31,6 +31,6 @@ mixed query_story_message(int step)
 int give_gift()
 {
         STORY_D->give_gift("/obj/gift/unknowdan", 1,
-                           HIM "\n「啪」的一聲一顆仙丹掉到你面前。\n\n" NOR);
+                           HIM + "\n「啪」的一聲一顆仙丹掉到你面前。\n\n" + NOR);
         return 1;
 }

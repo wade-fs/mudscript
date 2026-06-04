@@ -173,23 +173,23 @@ void logon (object ob)
   }
   if(file_size("/data/player") >0){
     sscanf( read_file("data/player", 1, 1 ), "%d %d %d", player_week, player_day, day );
-    printf("今日上線人次: "HIG"%d"NOR", 本週上線人次: "HIY"%d"NOR" 。\n", player_day, player_week );
+    printf("今日上線人次: " + HIG + "%d" + NOR + ", 本週上線人次: " + HIY + "%d" + NOR + " 。\n", player_day, player_week );
   }
   // konn..
   nowtime = (time() + 28800) % 86400;
   if( nowtime > 28800 ) {
-    printf ("此時段人數上限為 "+HIM+MAX_USERS+NOR" 人, 線上共有 "HIC"%d"NOR" 位玩家, 以及 "HIR"%d"NOR" 位使用者嘗試連線中。\n",
+    printf ("此時段人數上限為 "+HIM+MAX_USERS+NOR + " 人, 線上共有 " + HIC + "%d" + NOR + " 位玩家, 以及 " + HIR + "%d" + NOR + " 位使用者嘗試連線中。\n",
     ppl_cnt, login_cnt );
   }
   else {
-    printf("此時段人數上限為 "+HIM+MAX_USERS_2+NOR" 人, 線上共有 "HIC"%d"NOR" 位玩家, 以及 "HIR"%d"NOR" 位使用者嘗試連線中。\n",
+    printf("此時段人數上限為 "+HIM+MAX_USERS_2+NOR + " 人, 線上共有 " + HIC + "%d" + NOR + " 位玩家, 以及 " + HIR + "%d" + NOR + " 位使用者嘗試連線中。\n",
     ppl_cnt, login_cnt );
   }
 
   CHANNEL_D->do_channel( this_object(), "sys:login", sprintf("(%s) IP:%-15s 嘗試連線中。",
     ctime(time())[4..15],query_ip_number()) );
 
-  printf( HIY"您正以位址 %s 連線中, 歡迎來到狂想空間。\n"NOR, query_ip_number() );
+  printf( HIY + "您正以位址 %s 連線中, 歡迎來到狂想空間。\n" + NOR, query_ip_number() );
   write("請輸入您的英文名字或以(guest)帳號參觀: ");
   input_to( (: get_id :), 0, ob, 1 );
 }
@@ -844,7 +844,7 @@ void press_enter(string arg, object ob, object user)
 
   if (CMAIL_D->check_mail(user)) {
     tell_object (user, BLINK+
-                 HIY"<<武威鏢局附設文書部有你的信喔,請趕快去看!!!!>>\n"NOR);
+                 HIY + "<<武威鏢局附設文書部有你的信喔,請趕快去看!!!!>>\n" + NOR);
     CMAIL_D->del_mail(user);
   }
   if(!user->query("first_login")){
@@ -858,8 +858,8 @@ void press_enter(string arg, object ob, object user)
 
     user->set("first_login",time());
     tell_object(user,
-      sprintf(HBRED+HIY"請牢記住自己的生日時刻為「"+HIW+"%d"+HIY+"」,"+
-        " 這關係到日後若角色被竊的認證問題!!\n"NOR,user->query("birthday")));
+      sprintf(HBRED+HIY + "請牢記住自己的生日時刻為「"+HIW+"%d"+HIY+"」,"+
+        " 這關係到日後若角色被竊的認證問題!!\n" + NOR,user->query("birthday")));
   }
   if(user->query("id")=="guest"){
       user->set("food", user->max_food_capacity());
@@ -871,7 +871,7 @@ void press_enter(string arg, object ob, object user)
     mixed data = board->query("notes");
     int k = 0;
 
-      string str = HIR "\t\t\t最新消息：\n" NOR "\n===================================================\n";
+      string str = HIR + "\t\t\t最新消息：\n" + NOR + "\n===================================================\n";
     for(int i = sizeof(data)-1 ; i  > -1 ; i--)
     {
       if(k++ > 4) break;
@@ -940,9 +940,9 @@ varargs void enter_world(object ob, object user)
   if(!user) return;
   if( !CLAN_D->have_clan( user->query("clan/id") ) )
     user->delete("clan");
-  if( user->query("PKNAME")==HIC"(小淫賊)"NOR )
+  if( user->query("PKNAME")==HIC + "(小淫賊)" + NOR )
     user->set( "PKNAME", " " );
-  if( user->query("title")==HIC"(小淫賊)"NOR || !user->query("title") )
+  if( user->query("title")==HIC + "(小淫賊)" + NOR || !user->query("title") )
     user->set( "title", user->query("PKNAME") );
 
   // In case of new player, we save them here right after setup
@@ -972,15 +972,15 @@ tell_object(user,"你的"+gift[gift_key[i]]+"過高﹐系統將它改為 35。\n
       }
   if (stringp (cname=user->query("couples/id"))) {
     if (coup = find_player (cname)) {
-      tell_object (user, HIR"嘿嘿, 你的另一半在線上喔.\n"NOR);
-      tell_object (coup, HIR"嘿嘿, 你的另一半來囉!\n"NOR);
+      tell_object (user, HIR + "嘿嘿, 你的另一半在線上喔.\n" + NOR);
+      tell_object (coup, HIR + "嘿嘿, 你的另一半來囉!\n" + NOR);
     }
     else if (file_size (sprintf ("/data/login/%s/%s.o", cname[0..0], cname)) <= 0) {
       user->delete ("couples");
-      tell_object (user, HIR"慘了, 你另一半自殺了, 就放你自由飛翔吧.\n"NOR);
+      tell_object (user, HIR + "慘了, 你另一半自殺了, 就放你自由飛翔吧.\n" + NOR);
     }
     else
-      tell_object (user, HIR"啊..另一半沒上線, 放你孤單一個人在這兒.\n"NOR);
+      tell_object (user, HIR + "啊..另一半沒上線, 放你孤單一個人在這兒.\n" + NOR);
   }
   check_log(user);
   write ("-- 請按 Enter 鍵繼續 --\n");
@@ -1090,7 +1090,7 @@ void new_destruct(object ob)
   if(query(query_ip_number(ob)) > 30 && !wizlocklevel){
     RELOG_IP->add_ip(sprintf("%s:%d",query_ip_number(ob),(time()+86400*3)));
     delete(query_ip_number(ob));
-    CHANNEL_D->do_channel( this_object(), "sys:login", sprintf(HIG"(%s) IP:%-15s 不當連續連線, 已被ban。"NOR,
+    CHANNEL_D->do_channel( this_object(), "sys:login", sprintf(HIG + "(%s) IP:%-15s 不當連續連線, 已被ban。" + NOR,
     ctime(time())[4..15],query_ip_number(ob)) );
   }
   destruct(ob);

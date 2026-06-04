@@ -23,13 +23,13 @@ if (!me->query("spells/dreamwings/level"))
 
 if( me->is_fighting() ) me->start_busy(1); //在戰鬥中使用,要busy自己一回合 by chan
 
-  message_vision ("$N使出夢玄法鑑中的"HIC"「幻夢之翼」"NOR"\n",me,target);
+  message_vision ("$N使出夢玄法鑑中的" + HIC + "「幻夢之翼」" + NOR + "\n",me,target);
   me->add ("atman", -50);
 
 if( me->query_temp("ref_shield"))    //同時使用dreamwinds和reflection時的增幅效果  by frequency 2003 /4/29
   {
-  message_vision(HIY"$N身上的"HIW"幻夢之翼"HIY"和"HIC"玄冰結界"HIY"發生強烈的共鳴，形成了"HIR"『"HIM"水月神鏡"HIR"』"HIG"。\n"NOR,me);
-  message_vision(HIY"一道皎潔的月光由天上降下，$N頓時受到太陰之氣的庇護。\n"NOR,me);
+  message_vision(HIY + "$N身上的" + HIW + "幻夢之翼" + HIY + "和" + HIC + "玄冰結界" + HIY + "發生強烈的共鳴，形成了" + HIR + "『" + HIM + "水月神鏡" + HIR + "』" + HIG + "。\n" + NOR,me);
+  message_vision(HIY + "一道皎潔的月光由天上降下，$N頓時受到太陰之氣的庇護。\n" + NOR,me);
   me->delete_temp("ref_shield");
   me->delete_temp("mana_shield");
   me->start_call_out((: call_other, __FILE__, "remove_effect2",me:),me->query("spells/absorb/level")+20);
@@ -39,7 +39,7 @@ if( me->query_temp("ref_shield"))    //同時使用dreamwinds和reflection時的
   return 1;
   }    
 
-  message_vision (HIG"$N感到有一股神秘的力量保護著自己。\n"NOR, me,target);
+  message_vision (HIG + "$N感到有一股神秘的力量保護著自己。\n" + NOR, me,target);
 // 設這個mark後就有manashield 了
   if(me->query("class")=="dancer")
   {
@@ -80,7 +80,7 @@ if(!me->query_temp("absorb"))
    me->delete_temp("mana_shield2");
    me->delete_temp("mana_shield3");
    me->delete_temp("mana_shield4");
-  tell_object (me, NOR"妳覺得自己變虛弱了。\n"NOR);
+  tell_object (me, NOR + "妳覺得自己變虛弱了。\n" + NOR);
   if(fun<100) spell_improved("dreamwings",random(500));   
  }
   return;
@@ -91,7 +91,7 @@ void remove_effect2 (object me)
 // 刪除 absorb  
 int fun=me->query("spells/absorb/level");
   me->delete_temp ("absorb");
-  tell_object (me, NOR"太陰之氣逐漸從你身上消散，回歸天庭。\n"NOR);
+  tell_object (me, NOR + "太陰之氣逐漸從你身上消散，回歸天庭。\n" + NOR);
   if(fun<100) spell_improved("absorb",random(300));   
   return;
 }

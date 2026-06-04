@@ -131,14 +131,14 @@ void berserk(object me, object victim, object  weapon, int damage)
                           un = random(10)+1;
                           un1 = un1+0.5*un;
                         me->set_temp("apply/attack", un1);
-                        message_vision(HIC"$N隨意使來就是〔玉女劍法〕的數式合一，侖快的劍招左飄右盪, 讓$n招架不已。\n"NOR, me, victim);
+                        message_vision(HIC + "$N隨意使來就是〔玉女劍法〕的數式合一，侖快的劍招左飄右盪, 讓$n招架不已。\n" + NOR, me, victim);
                         victim->receive_damage("kee",2*un1);
                         me->add("force",-3);
            COMBAT_D->report_status(victim);
                 }
                 me->delete_temp("apply/attack");
                 me->delete_temp("berserk");
-                message_vision(HIW"使出數十招後，$N內息一時調不回來，杵著劍站在原地休息休息。\n"NOR,me);
+                message_vision(HIW + "使出數十招後，$N內息一時調不回來，杵著劍站在原地休息休息。\n" + NOR,me);
                 me->start_busy(2);
         }
 }

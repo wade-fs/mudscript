@@ -45,7 +45,7 @@ int do_join()
         this_player()->set("class","blademan");
         message("system",HIY "雷一鳴縱聲大笑：\n
 我們刀客又多了個生力軍" +this_player()->name()+ "囉！\n
-各位夥伴們，一起歡迎他吧！\n\n"NOR,users());
+各位夥伴們，一起歡迎他吧！\n\n" + NOR,users());
         command("smile "+this_player()->query("id"));
         command("say 希望你能好好努力，壯大我刀客陣容！\n");
         return 1;
@@ -68,7 +68,7 @@ void die()
 	  if( j==7 || j==77 || j== 777 || j==1111 || j==55 || j==555 || j==1000 || j==4000 || j==3333 || j==2222 )
 	  {      
 	  //new("/open/sky/obj10/palm_yin")->move(environment(winner));
-	  message_vision(HIM"\n從雷一鳴的身上掉下了一件奇怪的東西!!\n"NOR,winner);
+	  message_vision(HIM + "\n從雷一鳴的身上掉下了一件奇怪的東西!!\n" + NOR,winner);
           write_file("/log/sky/obj10/palm_yin",sprintf("%s(%s) 讓雷一鳴掉下了棕靈之印於 %s\n",
 	  winner->name(1),winner->query("id"),ctime(time())));
 	  }
@@ -77,7 +77,7 @@ void die()
 	  if( j==5 || j==15 || j== 150 || j==1500 || j==10 || j==100 || j==1000 || j==4000 || j==6666 || j==7777 ) 
 	  {      
 	 // new("/open/sky/obj10/palm_yin")->move(environment(winner));
-	  message_vision(HIM"\n從雷一鳴的身上掉下了一件奇怪的東西!!\n"NOR,winner);
+	  message_vision(HIM + "\n從雷一鳴的身上掉下了一件奇怪的東西!!\n" + NOR,winner);
           write_file("/log/sky/obj10/palm_yin",sprintf("%s(%s) 讓雷一鳴掉下了棕靈之印於 %s\n",
 	  winner->name(1),winner->query("id"),ctime(time())));
 	  }

@@ -17,7 +17,7 @@ int update_condition(object me, int duration)
   switch(now_level){
     case 1:
       if(!me->query_temp("leveluping"))
-      message_vision(HIY"金色的鬥氣不斷的在$N身邊翻滾著!!\n"NOR,me);
+      message_vision(HIY + "金色的鬥氣不斷的在$N身邊翻滾著!!\n" + NOR,me);
       me->delete_busy();
       me->clear_condition("mogi");
       me->clear_condition();
@@ -25,7 +25,7 @@ int update_condition(object me, int duration)
       break;
     case 2:
       if(!me->query_temp("leveluping"))
-      message_vision(HIC"藍色的鬥氣不斷的在$N身邊翻滾著!!\n"NOR,me);
+      message_vision(HIC + "藍色的鬥氣不斷的在$N身邊翻滾著!!\n" + NOR,me);
       me->delete_busy();
       me->clear_condition("mogi");
       me->clear_condition();
@@ -33,7 +33,7 @@ int update_condition(object me, int duration)
       break;
     case 3:
       if(!me->query_temp("leveluping"))
-      message_vision(HIM"紫色的鬥氣不斷的在$N身邊翻滾著!!\n"NOR,me);
+      message_vision(HIM + "紫色的鬥氣不斷的在$N身邊翻滾著!!\n" + NOR,me);
       me->delete_busy();
       me->clear_condition("mogi");
       me->clear_condition();
@@ -41,7 +41,7 @@ int update_condition(object me, int duration)
       break;
     case 4:
       if(!me->query_temp("leveluping"))
-      message_vision(HBRED+HIW"紅色和白色的鬥氣不斷的在$N身邊翻滾著!!\n"NOR,me);
+      message_vision(HBRED+HIW + "紅色和白色的鬥氣不斷的在$N身邊翻滾著!!\n" + NOR,me);
       me->delete_busy();
       me->clear_condition("mogi");
       me->clear_condition();
@@ -49,7 +49,7 @@ int update_condition(object me, int duration)
       break;
     case 5:
       if(!me->query_temp("leveluping"))
-      message_vision(HBRED+HIY"紅色和金色的鬥氣不斷的在$N身邊翻滾著!!\n"NOR,me);
+      message_vision(HBRED+HIY + "紅色和金色的鬥氣不斷的在$N身邊翻滾著!!\n" + NOR,me);
       me->delete_busy();
       me->clear_condition("mogi");
       me->clear_condition();
@@ -57,7 +57,7 @@ int update_condition(object me, int duration)
       break;
     case 6:
       if(!me->query_temp("leveluping"))
-      message_vision(HBRED+HIC"紅色和藍色的鬥氣不斷的在$N身邊翻滾著!!\n"NOR,me);
+      message_vision(HBRED+HIC + "紅色和藍色的鬥氣不斷的在$N身邊翻滾著!!\n" + NOR,me);
       me->delete_busy();
       me->clear_condition("mogi");
       me->clear_condition();
@@ -65,7 +65,7 @@ int update_condition(object me, int duration)
       break;
     case 7:
       if(!me->query_temp("leveluping"))
-      message_vision(HBRED+HIM"紅色和紫色的鬥氣不斷的在$N身邊翻滾著!!\n"NOR,me);
+      message_vision(HBRED+HIM + "紅色和紫色的鬥氣不斷的在$N身邊翻滾著!!\n" + NOR,me);
       me->delete_busy();
       me->clear_condition("mogi");
       me->clear_condition();
@@ -73,7 +73,7 @@ int update_condition(object me, int duration)
       break;
     case 8:
       if(!me->query_temp("leveluping"))
-      message_vision(HBCYN+HIW"藍色和白色的鬥氣不斷的在$N身邊翻滾著!!\n"NOR,me);
+      message_vision(HBCYN+HIW + "藍色和白色的鬥氣不斷的在$N身邊翻滾著!!\n" + NOR,me);
       me->delete_busy();
       me->clear_condition("mogi");
       me->clear_condition();
@@ -81,7 +81,7 @@ int update_condition(object me, int duration)
       break;
     case 9:
       if(!me->query_temp("leveluping"))
-      message_vision(HBCYN+HIY"藍色和金色的鬥氣不斷的在$N身邊翻滾著!!\n"NOR,me);
+      message_vision(HBCYN+HIY + "藍色和金色的鬥氣不斷的在$N身邊翻滾著!!\n" + NOR,me);
       me->delete_busy();
       me->clear_condition("mogi");
       me->clear_condition();
@@ -89,7 +89,7 @@ int update_condition(object me, int duration)
       break;
     case 10:
       if(!me->query_temp("leveluping"))
-      message_vision(HBCYN+HIM"藍色和紫色的鬥氣不斷的在$N身邊翻滾著!!\n"NOR,me);
+      message_vision(HBCYN+HIM + "藍色和紫色的鬥氣不斷的在$N身邊翻滾著!!\n" + NOR,me);
       me->delete_busy();
       me->clear_condition("mogi");
       me->clear_condition();
@@ -107,7 +107,7 @@ int update_condition(object me, int duration)
         else
           enemy[i]->start_busy(now_level);
     }
-    message_vision(BLINK+HIY"$N身邊的敵人受到$N身旁鬥氣的影響，行動受到了牽制!!\n"NOR,me);
+    message_vision(BLINK+HIY + "$N身邊的敵人受到$N身旁鬥氣的影響，行動受到了牽制!!\n" + NOR,me);
   }
         return 1;
 }

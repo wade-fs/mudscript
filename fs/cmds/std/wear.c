@@ -53,20 +53,20 @@ int do_wear(object me, object ob)
         case "cloth":
         case "armor":
         case "boots":
-          str = YEL "$N穿上一" + ob->query("unit") + "$n"YEL"。\n" NOR;
+          str = YEL + "$N穿上一" + ob->query("unit") + "$n" + YEL + "。\n" + NOR;
           break;
         case "head":
         case "neck":
         case "wrists":
         case "finger":
         case "hands":
-          str = YEL "$N戴上一" + ob->query("unit") + "$n"YEL"。\n" NOR;
+          str = YEL + "$N戴上一" + ob->query("unit") + "$n" + YEL + "。\n" + NOR;
           break;
         case "waist":
-          str = YEL "$N將一" + ob->query("unit") + "$n"YEL"綁在腰間。\n" NOR;
+          str = YEL + "$N將一" + ob->query("unit") + "$n" + YEL + "綁在腰間。\n" + NOR;
           break;
         default:
-          str = YEL "$N裝備$n"YEL"。\n" NOR;
+          str = YEL + "$N裝備$n" + YEL + "。\n" + NOR;
         }
       if( me->is_fighting() && userp(me) ) me->start_busy(1);
       message_vision(str, me, ob);

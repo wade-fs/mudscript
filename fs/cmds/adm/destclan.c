@@ -19,7 +19,7 @@ int main( object me, string clan_id )
 	if( !CLAN_D->have_clan( clan_id ) )
 		return notify_fail("無此幫派。\n");
 
-	CHANNEL_D->do_channel( me, "mud", HIR"\n忽然一道黑色火焰呼嘯著衝上雲端...\n"NOR );
+	CHANNEL_D->do_channel( me, "mud", HIR + "\n忽然一道黑色火焰呼嘯著衝上雲端...\n" + NOR );
 /*
 	直接處裡玩家資料, 但所費時間滿長的, 有必要時才使用!
 	dir = get_dir( "/data/login/" );
@@ -57,8 +57,8 @@ int main( object me, string clan_id )
 void step2( object me, string clan_id )
 {
 	CHANNEL_D->do_channel( me, "mud", sprintf( 
-	     HIR"\n天上突然傳來震耳欲聾的聲音, %s喊道:\n\n" +
-		"\t\t哼! 無知的%s, 全部通通給我下地獄去吧!\n\n"NOR,
+	     HIR + "\n天上突然傳來震耳欲聾的聲音, %s喊道:\n\n" +
+		"\t\t哼! 無知的%s, 全部通通給我下地獄去吧!\n\n" + NOR,
 		me->query("name"), CLAN_D->clan_query( clan_id, "name" ) ) );
 	call_out( "step3", 5, me, clan_id );
 }
@@ -66,7 +66,7 @@ void step2( object me, string clan_id )
 void step3( object me, string clan_id )
 {
 	CHANNEL_D->do_channel( me, "mud", sprintf( 
-	     HIB"\n【%s】受到"HIW"天譴"HIB", 消失於狂想空間。\n\n"NOR,
+	     HIB + "\n【%s】受到" + HIW + "天譴" + HIB + ", 消失於狂想空間。\n\n" + NOR,
 		CLAN_D->clan_query( clan_id, "name" ) ) );
 	log_file( "clan/DESTCLAN", sprintf( "%s %s(%s)將【%s】徹底毀滅。\n",
 		ctime(time()), me->query("name"), me->query("id"), CLAN_D->clan_query( clan_id, "name" ) ) );

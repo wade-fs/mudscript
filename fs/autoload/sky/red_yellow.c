@@ -2,7 +2,7 @@ inherit ITEM;
 #include <ansi.h>
 void create()
 {
-        set_name(HIR"紅"HIY"黃"HIC"晶魂"NOR, ({"red_yellow","red","yellow"}) );
+        set_name(HIR + "紅" + HIY + "黃" + HIC + "晶魂" + NOR, ({"red_yellow","red","yellow"}) );
         set("long","天靈地界中，「金風舞夢旋」所缺的紅色與黃色晶魂。(鑲魂方式 insert )\n");
         set("no_auc",1);
         set("no_sell",1);
@@ -38,14 +38,14 @@ int do_insert(string str)
           if( aob[j]->query("red_yellow") )
           ob1 = aob[j];
         }
-        message_vision(ob->query("name")+HIW"漸漸的與$N手中的"+ob1->query("name")+HIW"融合成一體。\n\n"NOR,me);
-        message_vision(ob1->query("name")+HIW"上的"HIR"紅"HIW"、"HIY"黃"HIW"、"HIC"藍"HIW"三色晶發出了奪目的光彩。\n\n"NOR,me);
-        message_vision(HIW"光彩過後"+ob->query("name")+HIW"漸漸的消失無蹤了。\n\n"NOR,me);
+        message_vision(ob->query("name")+HIW + "漸漸的與$N手中的"+ob1->query("name")+HIW + "融合成一體。\n\n" + NOR,me);
+        message_vision(ob1->query("name")+HIW + "上的" + HIR + "紅" + HIW + "、" + HIY + "黃" + HIW + "、" + HIC + "藍" + HIW + "三色晶發出了奪目的光彩。\n\n" + NOR,me);
+        message_vision(HIW + "光彩過後"+ob->query("name")+HIW + "漸漸的消失無蹤了。\n\n" + NOR,me);
         me->set("weapon/change2",1);
         me->set("weapon/change3",1);
         destruct(ob);
         }else{
-        message_vision(ob->query("name")+HIW"在$N手中使不上力的感覺。\n"NOR,me);
+        message_vision(ob->query("name")+HIW + "在$N手中使不上力的感覺。\n" + NOR,me);
         }
         return 1;     
 }

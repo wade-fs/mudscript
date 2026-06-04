@@ -63,8 +63,8 @@ mapping *action = ({
                 "damage_type":               "瘀傷",
         ]),
         ([
-                 "action"     :               ""HIR"☆☆☆☆☆"HIC"配合著夜夢天舞 舞著奇妙的步伐, 舞姿之曼妙彷如貂蟬再世"HIR"☆☆☆☆☆
-　　　　"HIC"令$n看得入神 忽地$N幻化成熾熱的"HIR"朱雀"HIC" 無情的灼傷$n"NOR"",
+                 "action"     :               "" + HIR + "☆☆☆☆☆" + HIC + "配合著夜夢天舞 舞著奇妙的步伐, 舞姿之曼妙彷如貂蟬再世" + HIR + "☆☆☆☆☆
+　　　　" + HIC + "令$n看得入神 忽地$N幻化成熾熱的" + HIR + "朱雀" + HIC + " 無情的灼傷$n" + NOR + "",
                 "dodge"      :                45,
                 "parry"      :                25,
                 "damage"     :                200,
@@ -73,8 +73,8 @@ mapping *action = ({
                 "post_action" : (: dance :),
         ]),
         ([
-                "action"     :               ""HIW"◎◎◎◎◎"HIG"$N感受到王昭君下嫁匈奴的無奈 引起$N的殺意"HIW"◎◎◎◎◎
-　　　　　"HIG" 急速旋轉自身形成一股怨憤之風 撲殺一切.."NOR"",
+                "action"     :               "" + HIW + "◎◎◎◎◎" + HIG + "$N感受到王昭君下嫁匈奴的無奈 引起$N的殺意" + HIW + "◎◎◎◎◎
+　　　　　" + HIG + " 急速旋轉自身形成一股怨憤之風 撲殺一切.." + NOR + "",
                 "dodge"      :                45,
                 "parry"      :                25,
                 "damage"     :                220,
@@ -83,8 +83,8 @@ mapping *action = ({
                 "post_action" : (: dance :),
         ]),
         ([
-               "action"     :               ""HIM"※※※※※"HIY"竇娥的冤屈突如其來湧入$N的心頭 一陣苦痛激起$N"HIM"※※※※※
-　　　　　   "HIY"的潛能發揮夜夢法鑑的極致"HIC" 滿天飛雪"HIY"侵襲$n...."NOR"",
+               "action"     :               "" + HIM + "※※※※※" + HIY + "竇娥的冤屈突如其來湧入$N的心頭 一陣苦痛激起$N" + HIM + "※※※※※
+　　　　　   " + HIY + "的潛能發揮夜夢法鑑的極致" + HIC + " 滿天飛雪" + HIY + "侵襲$n...." + NOR + "",
                 "dodge"      :                50,
                 "parry"      :               35,
                 "damage"     :                240,
@@ -116,7 +116,7 @@ void dance(object me, object victim, object weapon)
 if (me->query("combat_exp") > 1000000 && me->query_temp("dance1")!=1 && me->query_temp("rainbow-steps")&& random(100) < me->query("functions/rainbow-steps/level"))
 {
 if (me->query_temp("dance1")!=1) me->set_temp("dance1",1);
-message_vision(HIW"\n$N踏著舞步不斷的向$n發動攻擊。\n"NOR,me,victim);
+message_vision(HIW + "\n$N踏著舞步不斷的向$n發動攻擊。\n" + NOR,me,victim);
 COMBAT_D->do_attack(me, victim, me->query_temp("weapon"), TYPE_QUICK);
 me->delete_temp("dance1");
 }
@@ -138,44 +138,44 @@ if((me->query("class")=="dancer")&&(weapon->query("id")=="maple ribbon"))
 {
 if(me->query("id")==("cgy"))
 {
-message_vision(HIY"\n  $N手上的"HIW "楓"HIG"之"HIM"舞"HIY"和$N產生感應,剎那間$N領悟了夜夢天舞的奧秘!!\n"NOR,me,victim);
-message_vision(HIY"使出了究極奧義"HIR" 秋 "HIW" 風 "HIG" 掃 "HIC" 落 "HIM" 葉 "HIY"$N手上的"HIW "楓"HIG"之"HIM"舞"HIY"向著$n急速席捲纏繞而去!!\n\n"NOR,me,victim);
-message_vision(HIR"        ＊         "HIY"        ＊         "HIC"        ＊         "HIG"        ＊        \n"NOR,me,victim);
-message_vision(HIR"      ＊＊＊       "HIY"      ＊＊＊       "HIC"      ＊＊＊       "HIG"      ＊＊＊      \n"NOR,me,victim);
-message_vision(HIR"  ＊  ＊＊＊  ＊   "HIY"  ＊  ＊＊＊  ＊   "HIC"  ＊  ＊＊＊  ＊   "HIG"  ＊  ＊＊＊  ＊  \n"NOR,me,victim);
-message_vision(HIR"＊＊＊ ＊＊ ＊＊＊ "HIY"＊＊＊ ＊＊ ＊＊＊ "HIC"＊＊＊ ＊＊ ＊＊＊ "HIG"＊＊＊ ＊＊ ＊＊＊\n"NOR,me,victim);
-message_vision(HIR" ＊＊＊＊＊＊＊＊  "HIY" ＊＊＊＊＊＊＊＊  "HIC" ＊＊＊＊＊＊＊＊  "HIG" ＊＊＊＊＊＊＊＊ \n"NOR,me,victim);
-message_vision(HIR"   ＊＊＊＊＊＊    "HIY"   ＊＊＊＊＊＊    "HIC"   ＊＊＊＊＊＊    "HIG"   ＊＊＊＊＊＊   \n"NOR,me,victim);
-message_vision(HIR"      ＊＊＊       "HIY"      ＊＊＊       "HIC"      ＊＊＊       "HIG"      ＊＊＊      \n\n"NOR,me,victim);
+message_vision(HIY + "\n  $N手上的" + HIW + "楓" + HIG + "之" + HIM + "舞" + HIY + "和$N產生感應,剎那間$N領悟了夜夢天舞的奧秘!!\n" + NOR,me,victim);
+message_vision(HIY + "使出了究極奧義" + HIR + " 秋 " + HIW + " 風 " + HIG + " 掃 " + HIC + " 落 " + HIM + " 葉 " + HIY + "$N手上的" + HIW + "楓" + HIG + "之" + HIM + "舞" + HIY + "向著$n急速席捲纏繞而去!!\n\n" + NOR,me,victim);
+message_vision(HIR + "        ＊         " + HIY + "        ＊         " + HIC + "        ＊         " + HIG + "        ＊        \n" + NOR,me,victim);
+message_vision(HIR + "      ＊＊＊       " + HIY + "      ＊＊＊       " + HIC + "      ＊＊＊       " + HIG + "      ＊＊＊      \n" + NOR,me,victim);
+message_vision(HIR + "  ＊  ＊＊＊  ＊   " + HIY + "  ＊  ＊＊＊  ＊   " + HIC + "  ＊  ＊＊＊  ＊   " + HIG + "  ＊  ＊＊＊  ＊  \n" + NOR,me,victim);
+message_vision(HIR + "＊＊＊ ＊＊ ＊＊＊ " + HIY + "＊＊＊ ＊＊ ＊＊＊ " + HIC + "＊＊＊ ＊＊ ＊＊＊ " + HIG + "＊＊＊ ＊＊ ＊＊＊\n" + NOR,me,victim);
+message_vision(HIR + " ＊＊＊＊＊＊＊＊  " + HIY + " ＊＊＊＊＊＊＊＊  " + HIC + " ＊＊＊＊＊＊＊＊  " + HIG + " ＊＊＊＊＊＊＊＊ \n" + NOR,me,victim);
+message_vision(HIR + "   ＊＊＊＊＊＊    " + HIY + "   ＊＊＊＊＊＊    " + HIC + "   ＊＊＊＊＊＊    " + HIG + "   ＊＊＊＊＊＊   \n" + NOR,me,victim);
+message_vision(HIR + "      ＊＊＊       " + HIY + "      ＊＊＊       " + HIC + "      ＊＊＊       " + HIG + "      ＊＊＊      \n\n" + NOR,me,victim);
  for(i=0;i<10;i++)
 {
-message_vision(HIR"$n但覺眼前所見盡是無窮無盡的楓葉飛舞,瞬時$n被火紅的楓葉所席捲,全身痛苦不己。\n"NOR,me,victim);
+message_vision(HIR + "$n但覺眼前所見盡是無窮無盡的楓葉飛舞,瞬時$n被火紅的楓葉所席捲,全身痛苦不己。\n" + NOR,me,victim);
 victim->receive_damage("kee",10000,me);
 victim->apply_condition("burn",random(10));
 COMBAT_D->report_status(victim);
 }
-message_vision(HIY"$N手上的"HIW "楓"HIG"之"HIM"舞"HIY"回復了原狀纏繞於$N手上。\n"NOR,me);
+message_vision(HIY + "$N手上的" + HIW + "楓" + HIG + "之" + HIM + "舞" + HIY + "回復了原狀纏繞於$N手上。\n" + NOR,me);
 me->add("force",-50);
 }
 else if((k>80)&&(skill_level>80))
 {
-message_vision(HIY"\n  $N手上的"HIW "楓"HIG"之"HIM"舞"HIY"和$N產生感應,剎那間$N領悟了夜夢天舞的奧秘!!\n"NOR,me,victim);
-message_vision(HIY"使出了究極奧義"HIR" 秋 "HIW" 風 "HIG" 掃 "HIC" 落 "HIM" 葉 "HIY"$N手上的"HIW "楓"HIG"之"HIM"舞"HIY"向著$n急速席捲纏繞而去!!\n\n"NOR,me,victim);
-message_vision(RED"        ＊         "YEL"        ＊         "RED"        ＊         "YEL"        ＊        \n"NOR,me,victim);
-message_vision(RED"      ＊＊＊       "YEL"      ＊＊＊       "RED"      ＊＊＊       "YEL"      ＊＊＊      \n"NOR,me,victim);
-message_vision(RED"  ＊  ＊＊＊  ＊   "YEL"  ＊  ＊＊＊  ＊   "RED"  ＊  ＊＊＊  ＊   "YEL"  ＊  ＊＊＊  ＊  \n"NOR,me,victim);
-message_vision(RED"＊＊＊ ＊＊ ＊＊＊ "YEL"＊＊＊ ＊＊ ＊＊＊ "RED"＊＊＊ ＊＊ ＊＊＊ "YEL"＊＊＊ ＊＊ ＊＊＊\n"NOR,me,victim);
-message_vision(RED" ＊＊＊＊＊＊＊＊  "YEL" ＊＊＊＊＊＊＊＊  "RED" ＊＊＊＊＊＊＊＊  "YEL" ＊＊＊＊＊＊＊＊ \n"NOR,me,victim);
-message_vision(RED"   ＊＊＊＊＊＊    "YEL"   ＊＊＊＊＊＊    "RED"   ＊＊＊＊＊＊    "YEL"   ＊＊＊＊＊＊   \n"NOR,me,victim);
-message_vision(RED"      ＊＊＊       "YEL"      ＊＊＊       "RED"      ＊＊＊       "YEL"      ＊＊＊      \n\n"NOR,me,victim);
+message_vision(HIY + "\n  $N手上的" + HIW + "楓" + HIG + "之" + HIM + "舞" + HIY + "和$N產生感應,剎那間$N領悟了夜夢天舞的奧秘!!\n" + NOR,me,victim);
+message_vision(HIY + "使出了究極奧義" + HIR + " 秋 " + HIW + " 風 " + HIG + " 掃 " + HIC + " 落 " + HIM + " 葉 " + HIY + "$N手上的" + HIW + "楓" + HIG + "之" + HIM + "舞" + HIY + "向著$n急速席捲纏繞而去!!\n\n" + NOR,me,victim);
+message_vision(RED + "        ＊         " + YEL + "        ＊         " + RED + "        ＊         " + YEL + "        ＊        \n" + NOR,me,victim);
+message_vision(RED + "      ＊＊＊       " + YEL + "      ＊＊＊       " + RED + "      ＊＊＊       " + YEL + "      ＊＊＊      \n" + NOR,me,victim);
+message_vision(RED + "  ＊  ＊＊＊  ＊   " + YEL + "  ＊  ＊＊＊  ＊   " + RED + "  ＊  ＊＊＊  ＊   " + YEL + "  ＊  ＊＊＊  ＊  \n" + NOR,me,victim);
+message_vision(RED + "＊＊＊ ＊＊ ＊＊＊ " + YEL + "＊＊＊ ＊＊ ＊＊＊ " + RED + "＊＊＊ ＊＊ ＊＊＊ " + YEL + "＊＊＊ ＊＊ ＊＊＊\n" + NOR,me,victim);
+message_vision(RED + " ＊＊＊＊＊＊＊＊  " + YEL + " ＊＊＊＊＊＊＊＊  " + RED + " ＊＊＊＊＊＊＊＊  " + YEL + " ＊＊＊＊＊＊＊＊ \n" + NOR,me,victim);
+message_vision(RED + "   ＊＊＊＊＊＊    " + YEL + "   ＊＊＊＊＊＊    " + RED + "   ＊＊＊＊＊＊    " + YEL + "   ＊＊＊＊＊＊   \n" + NOR,me,victim);
+message_vision(RED + "      ＊＊＊       " + YEL + "      ＊＊＊       " + RED + "      ＊＊＊       " + YEL + "      ＊＊＊      \n\n" + NOR,me,victim);
  for(i=0;i<5;i++)
 {
-message_vision(HIR"$n但覺眼前所見盡是無窮無盡的楓葉飛舞,瞬時$n被火紅的楓葉所席捲,全身痛苦不己。\n"NOR,me,victim);
+message_vision(HIR + "$n但覺眼前所見盡是無窮無盡的楓葉飛舞,瞬時$n被火紅的楓葉所席捲,全身痛苦不己。\n" + NOR,me,victim);
 victim->receive_damage("kee", 100,me);
 victim->apply_condition("burn",random(10));
 COMBAT_D->report_status(victim);
 }
-message_vision(HIY"$N手上的"HIW "楓"HIG"之"HIM"舞"HIY"回復了原狀纏繞於$N手上。\n"NOR,me);
+message_vision(HIY + "$N手上的" + HIW + "楓" + HIG + "之" + HIM + "舞" + HIY + "回復了原狀纏繞於$N手上。\n" + NOR,me);
 me->add("force",-50);
 }
 }

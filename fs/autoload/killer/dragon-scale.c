@@ -5,7 +5,7 @@ object me=this_player();
 int cor,kar,intt,spi,cps;
 void create()
 {
-  set_name(HIR"火龍之鱗"NOR,({"fire-dragon ring","fring", "ring"}) );
+  set_name(HIR + "火龍之鱗" + NOR,({"fire-dragon ring","fring", "ring"}) );
   set_weight(2000);
   if( clonep() )
     set_default_object(__FILE__);
@@ -28,8 +28,8 @@ void create()
   set("armor_prop/force", 10);
   set("armor_prop/magic", 10);
   set("armor_prop/armor", 10);
-  set("wear_msg",HIR"戴上了$n"HIR"後，一股強烈的焰氣籠罩了$N"HIR"。\n"NOR);
-  set("unequip_msg",HIR"$N"HIR"脫下了$n"HIR"週遭的火焰立刻消散。\n"NOR);
+  set("wear_msg",HIR + "戴上了$n" + HIR + "後，一股強烈的焰氣籠罩了$N" + HIR + "。\n" + NOR);
+  set("unequip_msg",HIR + "$N" + HIR + "脫下了$n" + HIR + "週遭的火焰立刻消散。\n" + NOR);
 }
 
 int query_autoload()
@@ -51,7 +51,7 @@ int wear()
   if( query("equipped"))
   {
     me=environment();
-//    message_vision(HIR"戴上了火龍之鱗後，一股強烈的焰氣隴罩了$N。\n"NOR,me);
+//    message_vision(HIR + "戴上了火龍之鱗後，一股強烈的焰氣隴罩了$N。\n" + NOR,me);
     me->set_temp("def_fire1",1);
   }
   return result;
@@ -63,7 +63,7 @@ int unequip()
   int result = ::unequip();
   if( !query("equipped") )
   {
-//    message_vision(HIR"$N脫下了火龍之鱗週遭的火焰立刻消散。\n"NOR,me);
+//    message_vision(HIR + "$N脫下了火龍之鱗週遭的火焰立刻消散。\n" + NOR,me);
     me->delete_temp("def_fire1");
   }
   return result;
@@ -73,7 +73,7 @@ int do_identify(string str)
 {
    int ringlev=this_player()->query("ring_type");
    if(str=="fire")
-   message_vision(HIR"$N鑑定身上的火龍之麟等級為第"+ringlev+"級。\n"NOR,this_player());
+   message_vision(HIR + "$N鑑定身上的火龍之麟等級為第"+ringlev+"級。\n" + NOR,this_player());
    return 1;
 
 }

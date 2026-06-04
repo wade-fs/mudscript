@@ -63,23 +63,23 @@ int main( object me, string clan )
 		else
 			return notify_fail( "餓得全身無力, 動不了了。\n" );
 	}
-	message_vision( HIY"$N使出卓絕的輕功\, 向"HIC +
+	message_vision( HIY + "$N使出卓絕的輕功\, 向" + HIC +
 		( to ? trans_color( to->short() ) : CLAN_D->clan_query( clan , "name" ) )
-		+ HIY"直奔而去。\n"NOR, me );
+		+ HIY + "直奔而去。\n" + NOR, me );
 	from = environment(me);
 	if( CLAN_D->what_clan_area(me)== "NULL" )
 		me->set( "clan/out", file_name(from) );
 	me->move(to);
-	tell_room( to, HIC"一道強風襲來！！" + me->query("name") + "的身影突然出現。\n"NOR, me );
+	tell_room( to, HIC + "一道強風襲來！！" + me->query("name") + "的身影突然出現。\n" + NOR, me );
 	war = CLAN_D->clan_query( clan , "war" );
 	if( !war ) {
 		num = CLAN_D->clan_query( clan , "gatetax");
                 if( me->query("clan/id") != clan )      {
                         if( me->query("bank/coin") < num*10000 && !wizardp(me) ){
-                                message_vision(HIY"幫派閘門守衛說道：沒錢還敢來？！\n"NOR,me);
-                                message_vision(NOR"幫派閘門守衛運勁用力一踢，$N被踢得又高又遠～～\n"NOR,me);
+                                message_vision(HIY + "幫派閘門守衛說道：沒錢還敢來？！\n" + NOR,me);
+                                message_vision(NOR + "幫派閘門守衛運勁用力一踢，$N被踢得又高又遠～～\n" + NOR,me);
                                 me->move(from);
-                                message_vision(HIR"$N突然從天上墬了下來！！！\n"NOR,me);
+                                message_vision(HIR + "$N突然從天上墬了下來！！！\n" + NOR,me);
 
                                 return 1;
                         }
@@ -87,7 +87,7 @@ int main( object me, string clan )
                                 me->add("bank/coin",-num*10000);
                                 CLAN_D->add_money( clan , num );
                         }
-                        message_vision(HIY"幫派閘門守衛向$N收取關稅"+CHINESE_D->chinese_number(num)+"兩黃金。\n"NOR,me);
+                        message_vision(HIY + "幫派閘門守衛向$N收取關稅"+CHINESE_D->chinese_number(num)+"兩黃金。\n" + NOR,me);
                 }
         }
 

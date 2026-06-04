@@ -17,7 +17,7 @@ string *parry_msg=({
 mapping *action = ({
         ([
                 "action"     :
-"$N施展出浣花劍派絕招"HIY"「倒飛劍」"NOR"，突然間轉過身來，身形騰起，唰的一劍，
+"$N施展出浣花劍派絕招" + HIY + "「倒飛劍」" + NOR + "，突然間轉過身來，身形騰起，唰的一劍，
 往$n胸前直刺，速度飛快，眼看$n就要中招了。",
                 "dodge"      :                -500,
                 "damage"     :                750,
@@ -182,55 +182,55 @@ void berserk2(object me, object victim, object  weapon, int damage)
     if(weapon->query("id")=="dragon sword")
      {
        message_vision(
-         sprintf(HIW"\n$N忽然眼放精光，大喝一聲「風雲連續劍」，剎那間四週湧起一道黑雲，使$n完全失去$N的蹤影!!\n\n"NOR),me ,victim);
+         sprintf(HIW + "\n$N忽然眼放精光，大喝一聲「風雲連續劍」，剎那間四週湧起一道黑雲，使$n完全失去$N的蹤影!!\n\n" + NOR),me ,victim);
        message_vision(
-         sprintf(HIW"\n$N以傳音之術對$n說到:「接招吧」，招式如狂風般朝$n襲至!!\n\n"NOR),me ,victim);
+         sprintf(HIW + "\n$N以傳音之術對$n說到:「接招吧」，招式如狂風般朝$n襲至!!\n\n" + NOR),me ,victim);
        message_vision(
- sprintf(HIW"\n風雲連續劍第一式"HIB"『行雲流水』"HIW"，"HIY"神龍劍"HIW"有如流水般朝$n攻去，使人目不暇己\n"NOR),me ,victim,weapon);
+ sprintf(HIW + "\n風雲連續劍第一式" + HIB + "『行雲流水』" + HIW + "，" + HIY + "神龍劍" + HIW + "有如流水般朝$n攻去，使人目不暇己\n" + NOR),me ,victim,weapon);
          victim->receive_wound("kee",bound,me);
          COMBAT_D->report_status(victim, 1);
        message_vision(
- sprintf(HIW"\n風雲連續劍第二式"HIB"『披星戴月』"HIW"，"HIY"神龍劍"HIW"忽然朝$n直刺過去，刺中了$n身上幾大要穴\n"NOR), me ,victim,weapon);
+ sprintf(HIW + "\n風雲連續劍第二式" + HIB + "『披星戴月』" + HIW + "，" + HIY + "神龍劍" + HIW + "忽然朝$n直刺過去，刺中了$n身上幾大要穴\n" + NOR), me ,victim,weapon);
          victim->receive_wound("kee",bound,me);
          COMBAT_D->report_status(victim, 1);
        message_vision(
- sprintf(HIW"\n風雲連續劍第三式"HIB"『翻雲覆雨』"HIW"，"HIY"神龍劍"HIW"如風車般在$N身旁轉了起來，$n被劍招所產生的\n\n螺漩氣流所侵，受了重傷\n"NOR), me ,victim,weapon);
+ sprintf(HIW + "\n風雲連續劍第三式" + HIB + "『翻雲覆雨』" + HIW + "，" + HIY + "神龍劍" + HIW + "如風車般在$N身旁轉了起來，$n被劍招所產生的\n\n螺漩氣流所侵，受了重傷\n" + NOR), me ,victim,weapon);
          victim->receive_wound("kee",bound,me);
          COMBAT_D->report_status(victim, 1);
        message_vision(
- sprintf(HIW"\n風雲連續劍第四式"HIB"『排山倒海』"HIW"，$N將"HIY"神龍劍"HIW"插入土地，跟著用力拔起，隨"HIY"神龍劍"HIW"而飛起的土石\n\n擊中了$n\n"NOR), me ,victim,weapon);
+ sprintf(HIW + "\n風雲連續劍第四式" + HIB + "『排山倒海』" + HIW + "，$N將" + HIY + "神龍劍" + HIW + "插入土地，跟著用力拔起，隨" + HIY + "神龍劍" + HIW + "而飛起的土石\n\n擊中了$n\n" + NOR), me ,victim,weapon);
          victim->receive_wound("kee",bound,me);
          COMBAT_D->report_status(victim, 1);
        message_vision(
- sprintf(HIW"\n風雲連續劍第五式"HIB"『重雲深鎖』"HIW"，$N用手中"HIY"神龍劍"HIW"在$n身上畫了十幾個小圓圈，$n\n\n忽然身體一震，動彈不得\n\n"NOR), me ,victim,weapon);
+ sprintf(HIW + "\n風雲連續劍第五式" + HIB + "『重雲深鎖』" + HIW + "，$N用手中" + HIY + "神龍劍" + HIW + "在$n身上畫了十幾個小圓圈，$n\n\n忽然身體一震，動彈不得\n\n" + NOR), me ,victim,weapon);
          victim->receive_wound("kee",bound,me);
          COMBAT_D->report_status(victim, 1);
       message_vision(
- sprintf(HIW"\n風雲連續劍第六式"HIB"『風捲殘樓』"HIW"，$N拔身而起，劍隨身轉，如一道龍捲風般朝$n攻去\n"NOR), me ,victim,weapon);
+ sprintf(HIW + "\n風雲連續劍第六式" + HIB + "『風捲殘樓』" + HIW + "，$N拔身而起，劍隨身轉，如一道龍捲風般朝$n攻去\n" + NOR), me ,victim,weapon);
          victim->receive_wound("kee",bound,me);
          COMBAT_D->report_status(victim, 1);
        message_vision(
- sprintf(HIW"\n風雲連續劍第七式"HIB"『狂風暴雨』"HIW"，劍招連綿不絕的朝$n攻去，使$n身受重創\n"NOR), me ,victim,weapon);
+ sprintf(HIW + "\n風雲連續劍第七式" + HIB + "『狂風暴雨』" + HIW + "，劍招連綿不絕的朝$n攻去，使$n身受重創\n" + NOR), me ,victim,weapon);
          victim->receive_wound("kee",bound,me);
          COMBAT_D->report_status(victim, 1);
        message_vision(
- sprintf(HIW"\n風雲連續劍第八式"HIB"『神風怒嚎』"HIW"，"HIY"神龍劍"HIW"在空間中快速的砍劈，使四週產生了巨大的破空聲\n"NOR), me ,victim,weapon);
+ sprintf(HIW + "\n風雲連續劍第八式" + HIB + "『神風怒嚎』" + HIW + "，" + HIY + "神龍劍" + HIW + "在空間中快速的砍劈，使四週產生了巨大的破空聲\n" + NOR), me ,victim,weapon);
          victim->receive_wound("kee",bound,me);
          COMBAT_D->report_status(victim, 1);
        message_vision(
- sprintf(HIW"\n風雲連續劍第九式"HIB"『撕天排雲』"HIW"，"HIY"神龍劍"HIW"迅速的向左右各劈了兩下，劍氣快速地攻向$n\n"NOR), me ,victim,weapon);
+ sprintf(HIW + "\n風雲連續劍第九式" + HIB + "『撕天排雲』" + HIW + "，" + HIY + "神龍劍" + HIW + "迅速的向左右各劈了兩下，劍氣快速地攻向$n\n" + NOR), me ,victim,weapon);
  victim->receive_wound("kee",bound,me);
          COMBAT_D->report_status(victim, 1);
        message_vision(
- sprintf(HIW"\n風雲連續劍第十式"HIB"『雲海波濤』"HIW"，劍氣如巨浪狂湧而至，$n連閃避的機會也沒有\n"NOR), me ,victim,weapon);
+ sprintf(HIW + "\n風雲連續劍第十式" + HIB + "『雲海波濤』" + HIW + "，劍氣如巨浪狂湧而至，$n連閃避的機會也沒有\n" + NOR), me ,victim,weapon);
          victim->receive_wound("kee",bound,me);
          COMBAT_D->report_status(victim, 1);
        message_vision(
- sprintf(HIW"\n風雲連續劍第十一式"HIB"『殃雲天絳』"HIW"，$N躍至空中，手中"HIY"神龍劍"HIW"朝$n直劈而去，劍氣充斥著這整個空間\n"NOR), me ,victim,weapon);
+ sprintf(HIW + "\n風雲連續劍第十一式" + HIB + "『殃雲天絳』" + HIW + "，$N躍至空中，手中" + HIY + "神龍劍" + HIW + "朝$n直劈而去，劍氣充斥著這整個空間\n" + NOR), me ,victim,weapon);
          victim->receive_wound("kee",bound,me);
          COMBAT_D->report_status(victim, 1);
      message_vision(
- sprintf(HIW"\n$N使完劍法一十一式後，週圍的黑雲漸漸地消散了。\n\n"NOR), me ,victim);
+ sprintf(HIW + "\n$N使完劍法一十一式後，週圍的黑雲漸漸地消散了。\n\n" + NOR), me ,victim);
 
 }
 }

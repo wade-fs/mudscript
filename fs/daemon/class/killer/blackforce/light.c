@@ -35,7 +35,7 @@ int exert(object me, object target)
         tell_object(me,"你只能對非生物使用咒文。\n"); return 1; }
 
         me->receive_damage("sen",25); 
-	message_vision(HIR"$N集中精神﹐專心地吟唱起『"HIW"激光術"HIR"』...。\n"NOR,me);
+	message_vision(HIR + "$N集中精神﹐專心地吟唱起『" + HIW + "激光術" + HIR + "』...。\n" + NOR,me);
 
 	if( random(ski_lv + fun_lv)  < random(fun_lv)+random(ski_lv) )
         {
@@ -44,11 +44,11 @@ int exert(object me, object target)
 
    target->add("light_up",(fun_lv*x)+(target->query_weight()/100));
    me->add("force",- (me->query("force"))/5 );  
-   message_vision(HIW"\n從$N手中射出一道強烈的光芒注入$n中。\n"NOR,me,target);
+   message_vision(HIW + "\n從$N手中射出一道強烈的光芒注入$n中。\n" + NOR,me,target);
         call_out("been_light", 3+random(fun_lv/4), me, target);
         me->start_busy(random(x)/3);
         } else {
-	message_vision(YEL"\n$N吟唱完咒文後卻甚麼事也沒發生。\n"NOR,me);
+	message_vision(YEL + "\n$N吟唱完咒文後卻甚麼事也沒發生。\n" + NOR,me);
         me->add("force",-fun_lv);  
         me->start_busy(random(x)/3);
         }
@@ -63,10 +63,10 @@ int been_light(object me, object target)
         weight=target->query_weight();
         fun_lv = me->query("functions/light/level");
         if( weight < 0 ) {
-   message_vision(HIY"\n$n的能量已經被$N搾乾了而消失啦。\n"NOR,me,target);
+   message_vision(HIY + "\n$n的能量已經被$N搾乾了而消失啦。\n" + NOR,me,target);
         destruct(target);
         } else {
-   message_vision(HIY"\n$n的能量被$N激發出來﹐發出強烈的光茫。\n"NOR,me,target);
+   message_vision(HIY + "\n$n的能量被$N激發出來﹐發出強烈的光茫。\n" + NOR,me,target);
       if ( weight > 1000 ) {
         target->set_weight(weight-fun_lv*ski_lv/3);  }
       else { target->set_weight(weight-ski_lv*2); }

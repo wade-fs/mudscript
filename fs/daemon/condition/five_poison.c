@@ -9,8 +9,8 @@ int update_condition(object me, int duration)
   if(duration==0) {
     if(poison(me))
     {
-      message_vision( HIY "$N中了五毒神掌﹐毒性開始發作﹗\n" NOR,me);
-      message_vision(HIW"$N中了五毒神掌﹐內力開始流失。\n" NOR,me);  
+      message_vision( HIY + "$N中了五毒神掌﹐毒性開始發作﹗\n" + NOR,me);
+      message_vision(HIW + "$N中了五毒神掌﹐內力開始流失。\n" + NOR,me);  
 
 
     }
@@ -32,8 +32,8 @@ int update_condition(object me, int duration)
   me->add("force",-(100+(fun)));
   me->start_busy(1);
   me->apply_condition("five_poison",duration-1);
-  message_vision( HIY "$N中了五毒神掌﹐毒性開始發作﹗\n" NOR,me);
-  message_vision(HIW"$N中了五毒神掌﹐內力開始流失。\n" NOR,me);  
+  message_vision( HIY + "$N中了五毒神掌﹐毒性開始發作﹗\n" + NOR,me);
+  message_vision(HIW + "$N中了五毒神掌﹐內力開始流失。\n" + NOR,me);  
   if( duration < 1 ) return 0;
   return 1;
 }

@@ -72,94 +72,94 @@ int conjure (object me, object target)
   {
     case 0:
       npcs ="/open/dancer/npc/master_yua.c";
-      msg=BLINK+HIM"$N說﹕乖徒兒，為師來助$n一臂之力。\n"NOR;
+      msg=BLINK+HIM + "$N說﹕乖徒兒，為師來助$n一臂之力。\n" + NOR;
       //msg2=;
       break;
     case 1:
       npcs ="/open/doctor/npc/master_tor.c";
-      msg=BLINK+HIW"$N說﹕老夫一把老骨頭了，禁不住$n這女娃兒刺激刺激。\n"NOR;
+      msg=BLINK+HIW + "$N說﹕老夫一把老骨頭了，禁不住$n這女娃兒刺激刺激。\n" + NOR;
       //msg2=;
       break;
     case 2:
       npcs ="/daemon/class/taoist/master_lu.c";
-      msg=BLINK+HIW"$N說﹕老夫一把老骨頭了，禁不住$n這女娃兒刺激刺激。\n"NOR;
+      msg=BLINK+HIW + "$N說﹕老夫一把老骨頭了，禁不住$n這女娃兒刺激刺激。\n" + NOR;
       //msg2=;
       break;
     case 3:
       npcs ="/daemon/class/scholar/master_duan.c";
-      msg=BLINK+"$N"+BLINK+HIY"說﹕大叔我只是打醬油路過的…\n"NOR;
+      msg=BLINK+"$N"+BLINK+HIY + "說﹕大叔我只是打醬油路過的…\n" + NOR;
       //msg2=;
       break;
     case 4:
       npcs ="/daemon/class/scholar/master_sue.c";
-      msg=BLINK+"$N"+BLINK+HIY"說﹕找在下有事嗎？\n"NOR; //文士的語氣 朝宜調琴，暮宜鼓瑟；舊雨適至，新雨初來。
-      msg2=BLINK+"$N"+BLINK+HIY"說﹕\n"NOR; //吟詩而去 藝花邀蝶，栽松邀風，矚水邀萍，築臺邀月，種蕉邀雨，植柳邀蟬
+      msg=BLINK+"$N"+BLINK+HIY + "說﹕找在下有事嗎？\n" + NOR; //文士的語氣 朝宜調琴，暮宜鼓瑟；舊雨適至，新雨初來。
+      msg2=BLINK+"$N"+BLINK+HIY + "說﹕\n" + NOR; //吟詩而去 藝花邀蝶，栽松邀風，矚水邀萍，築臺邀月，種蕉邀雨，植柳邀蟬
       break;
     case 5:
       npcs ="/open/poison/npc/masterl.c";
-      msg=BLINK+HIR"$N說﹕老娘就是看不慣$n這女孩兒被人欺負。\n"NOR;
+      msg=BLINK+HIR + "$N說﹕老娘就是看不慣$n這女孩兒被人欺負。\n" + NOR;
       //msg2=;
       break;
     case 6:
       npcs ="/daemon/class/bandit/master_du.c";
-      msg=BLINK+"$N"+BLINK+HIY"說﹕大叔我只是打醬油路過的…\n"NOR;
-      msg2=BLINK+"$N"+BLINK+HIY"說﹕別吵，山寨那邊還有一件大買賣等著老子勒，沒空跟$N瞎攪和。\n"NOR;
+      msg=BLINK+"$N"+BLINK+HIY + "說﹕大叔我只是打醬油路過的…\n" + NOR;
+      msg2=BLINK+"$N"+BLINK+HIY + "說﹕別吵，山寨那邊還有一件大買賣等著老子勒，沒空跟$N瞎攪和。\n" + NOR;
       break;
     case 7:
       npcs ="/daemon/class/officer/master_chen.c";
-      msg=BLINK+"$N"+BLINK+HIY"說﹕大叔我只是打醬油路過的…\n"NOR;
+      msg=BLINK+"$N"+BLINK+HIY + "說﹕大叔我只是打醬油路過的…\n" + NOR;
       //msg2=;
       break;
     case 8:
       npcs ="/daemon/class/killer/master_yar.c";
-      msg=BLINK+"$N"+BLINK+HIY"說﹕大叔我只是打醬油路過的…\n"NOR;
+      msg=BLINK+"$N"+BLINK+HIY + "說﹕大叔我只是打醬油路過的…\n" + NOR;
       //msg2=;
       break;
     case 9:
       npcs ="/daemon/class/blademan/master_ba.c";
-      msg=BLINK+"$N"+BLINK+HIY"說﹕大叔我只是打醬油路過的…\n"NOR;
+      msg=BLINK+"$N"+BLINK+HIY + "說﹕大叔我只是打醬油路過的…\n" + NOR;
       //msg2=;
       break;
     case 10:
       npcs ="/daemon/class/beggar/master_su.c";
-      msg=BLINK+"$N"+BLINK+HIY"說﹕喲，有生意上門了是嗎。\n"NOR;
-      msg2=BLINK+"$N"+BLINK+HIY"說﹕嘖，沒賺頭買賣別找老丐。\n"NOR;
+      msg=BLINK+"$N"+BLINK+HIY + "說﹕喲，有生意上門了是嗎。\n" + NOR;
+      msg2=BLINK+"$N"+BLINK+HIY + "說﹕嘖，沒賺頭買賣別找老丐。\n" + NOR;
       break;
     case 11:
       npcs ="/daemon/class/swordsman/master.c";
-      msg=BLINK+"$N"+BLINK+HIY"說﹕大叔我只是打醬油路過的…\n"NOR;
+      msg=BLINK+"$N"+BLINK+HIY + "說﹕大叔我只是打醬油路過的…\n" + NOR;
       //msg2=;
       break;
     case 12:
 //      npcs ="/open/marksman/npc/master_t.c";
       npcs ="/u/b/blazakira/fix/master_t.c";
-      msg=BLINK+HIW"$N說﹕老夫一把老骨頭了，禁不住$n這女娃兒刺激刺激。\n"NOR;
+      msg=BLINK+HIW + "$N說﹕老夫一把老骨頭了，禁不住$n這女娃兒刺激刺激。\n" + NOR;
       //msg2=;
       break;
     case 13:
       npcs ="/daemon/class/blademan/master_mou.c";
-      msg=BLINK+"$N"+BLINK+HIY"說﹕大叔我只是打醬油路過的…\n"NOR;
+      msg=BLINK+"$N"+BLINK+HIY + "說﹕大叔我只是打醬油路過的…\n" + NOR;
       //msg2=;
       break;
     case 14:
       npcs ="/daemon/class/fighter/master_jen.c";
-      msg=BLINK+"$N"+BLINK+HIY"說﹕哇哈哈，果然跟$N這女娃有意思，就算是獅子搏兔也會盡全力，讓有瀧山奇俠之稱的俺來助$N一臂之力吧。看招！\n"NOR;
-      msg2=BLINK+"$N"+BLINK+HIY"說﹕俺去了！\n"NOR;
+      msg=BLINK+"$N"+BLINK+HIY + "說﹕哇哈哈，果然跟$N這女娃有意思，就算是獅子搏兔也會盡全力，讓有瀧山奇俠之稱的俺來助$N一臂之力吧。看招！\n" + NOR;
+      msg2=BLINK+"$N"+BLINK+HIY + "說﹕俺去了！\n" + NOR;
       break;
     case 15:
       npcs ="/daemon/class/fighter/master_liu.c";
-      msg=BLINK+"$N"+BLINK+HIY"說﹕大叔我只是打醬油路過的…\n"NOR;
+      msg=BLINK+"$N"+BLINK+HIY + "說﹕大叔我只是打醬油路過的…\n" + NOR;
       //msg2=;
       break;
     case 16:
       npcs ="/open/prayer/npc/pope.c";
-      msg=BLINK+HIW"$N說﹕本皇\n"NOR;
+      msg=BLINK+HIW + "$N說﹕本皇\n" + NOR;
       //msg2=;
       break;
     case 17:
       npcs ="/open/gsword/npc1/bloodking.c";
-      msg=BLINK+"$N"+BLINK+HIY"說﹕老夫十二恨天下無敵啦。\n"NOR;
-      msg2=BLINK+"$N"+BLINK+HIY"說﹕老夫去找逍遙子的麻煩啦。\n"NOR;
+      msg=BLINK+"$N"+BLINK+HIY + "說﹕老夫十二恨天下無敵啦。\n" + NOR;
+      msg2=BLINK+"$N"+BLINK+HIY + "說﹕老夫去找逍遙子的麻煩啦。\n" + NOR;
       break;
 //    case 18:
 //      npcs ="/daemon/class/bonze/master.c"; //少林未完成
@@ -195,7 +195,7 @@ int conjure (object me, object target)
   }
 
   if (msg2) { message_vision(msg2,mob,me); } //有個人特色訊息時
-  else { message_vision(BLINK+HIY"哎呀！醬油忘記拿了…\n"NOR,me,target); }
+  else { message_vision(BLINK+HIY + "哎呀！醬油忘記拿了…\n" + NOR,me,target); }
 
   destruct(present(mob->query("id"),environment(me)));
 
@@ -216,13 +216,13 @@ int act1(string msg,object target,object me,int fun,int k)
 /*  if(me->is_fighting(target)) {
     if(80>random(100))
     {
-      msg = HIM "結果$p被$P的火球術擊中！\n" NOR;
+      msg = HIM + "結果$p被$P的火球術擊中！\n" + NOR;
       target->receive_wound("kee",k+200,me);
       target->apply_condition("burn",random(10) +fun/10);
     } 
     else
     {
-      msg = CYN "結果$p躲過了$P的火球術。\n" NOR;
+      msg = CYN + "結果$p躲過了$P的火球術。\n" + NOR;
     }
       me->add("atman",-50);
       message_vision(msg, me, target);

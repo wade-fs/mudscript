@@ -9,8 +9,8 @@ object me = this_player();
 object horse = new("/autoload/gift/sky-horse");
 void create()
 {
-  set_name(HIC"天"HIW"馬"HIB"韁繩"NOR,({"sky-horse-halter"}));
-  set("long",HIC"駕馭傳說之天馬所需的器具。\n"NOR);
+  set_name(HIC + "天" + HIW + "馬" + HIB + "韁繩" + NOR,({"sky-horse-halter"}));
+  set("long",HIC + "駕馭傳說之天馬所需的器具。\n" + NOR);
   set("unit","條");  
   set("no_auc",1);
   set("no_sell",1);
@@ -41,8 +41,8 @@ int do_summonhorse()
     if(!horse)
     {
     horse = new("/autoload/gift/sky-horse");
-    message_vision(HIB"$N撮唇一聲清嘯，"HIC"天馬"HIW"佩加薩斯"HIB"由遙遠的天際疾飛而來。\n"NOR,me);
-    message_vision(HIC"天馬"HIW"佩加薩斯"HIG"雙翅一展，朝主人所在的方位疾飛而去。\n"NOR,horse);
+    message_vision(HIB + "$N撮唇一聲清嘯，" + HIC + "天馬" + HIW + "佩加薩斯" + HIB + "由遙遠的天際疾飛而來。\n" + NOR,me);
+    message_vision(HIC + "天馬" + HIW + "佩加薩斯" + HIG + "雙翅一展，朝主人所在的方位疾飛而去。\n" + NOR,horse);
     horse->move(environment(me));
     horse->set_leader(me);
     horse->set("family/family_name",me->query("family/family_name"));
@@ -62,16 +62,16 @@ int do_summonhorse()
     }
     if(me->query_temp("have_horse") && environment(me) != environment(horse))
     {
-    message_vision(HIY"$N撮唇一聲清嘯，"HIC"天馬"HIW"佩加薩斯"HIY"由遙遠的天際疾飛而來。\n"NOR,me);
-    message_vision(HIC"天馬"HIW"佩加薩斯"HIG"雙翅一展，朝著主人所在的方位疾飛而去。\n"NOR,horse);
+    message_vision(HIY + "$N撮唇一聲清嘯，" + HIC + "天馬" + HIW + "佩加薩斯" + HIY + "由遙遠的天際疾飛而來。\n" + NOR,me);
+    message_vision(HIC + "天馬" + HIW + "佩加薩斯" + HIG + "雙翅一展，朝著主人所在的方位疾飛而去。\n" + NOR,horse);
     horse->move(environment(me));
     horse->set_heart_beat(1);
     return 1;
     }
     else if(!me->query_temp("have_horse"))
     {
-    message_vision(HIB"$N撮唇一聲清嘯，"HIC"天馬"HIW"佩加薩斯"HIB"由遙遠的天際疾飛而來。\n"NOR,me);
-    message_vision(HIC"天馬"HIW"佩加薩斯"HIG"雙翅一展，朝主人所在的方位疾飛而去。\n"NOR,horse);
+    message_vision(HIB + "$N撮唇一聲清嘯，" + HIC + "天馬" + HIW + "佩加薩斯" + HIB + "由遙遠的天際疾飛而來。\n" + NOR,me);
+    message_vision(HIC + "天馬" + HIW + "佩加薩斯" + HIG + "雙翅一展，朝主人所在的方位疾飛而去。\n" + NOR,horse);
     horse->move(environment(me));
     horse->set_leader(me);
     horse->set("family/family_name",me->query("family/family_name"));
@@ -83,7 +83,7 @@ int do_summonhorse()
     }
     else
     {
-    message_vision("$N已經有一匹馬了。\n"NOR,me);
+    message_vision("$N已經有一匹馬了。\n" + NOR,me);
     return 1;
     }
     return 1;
@@ -237,7 +237,7 @@ int do_waveto(string arg)
         if( room && !me->move(room) )
                 return notify_fail("目的地無法到達。\n");
 
-        message_vision(HIW+"白光閃過,"HIC"佩加薩斯"HIW"載著$N由天而降。\n"+NOR,me);
+        message_vision(HIW+"白光閃過," + HIC + "佩加薩斯" + HIW + "載著$N由天而降。\n"+NOR,me);
         horse->move(room);
         horse->set_heart_beat(1);
         return 1;

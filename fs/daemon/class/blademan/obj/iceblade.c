@@ -4,7 +4,7 @@
 inherit BLADE;
 void create()
 {
-set_name(HIC"雪影"NOR,({"iceblade","blade"}));
+set_name(HIC + "雪影" + NOR,({"iceblade","blade"}));
 set_weight(19000);
 if(clonep())
 set_default_object(__FILE__);

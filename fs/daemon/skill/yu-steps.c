@@ -27,10 +27,10 @@ string delay()
   if(ppl)
     tell_object(ppl,sprintf("%O",call_stack(1))); //此參數於此處時 可查看相關物件來debug by blazakira
 */
-  return HIC"\n$n眼見$N狂攻而至，雙腿連環，霎時之間連踢六腿，盡數中在$N心口，正是少林
-七十二絕技之一的"HIY"『[1;37m如影隨形腿[0m"HIY"』"HIC"，一腿既出，第二腿如影隨形，緊跟而至，第二
+  return HIC + "\n$n眼見$N狂攻而至，雙腿連環，霎時之間連踢六腿，盡數中在$N心口，正是少林
+七十二絕技之一的" + HIY + "『[1;37m如影隨形腿[0m" + HIY + "』" + HIC + "，一腿既出，第二腿如影隨形，緊跟而至，第二
 腿隨即自影而變為形，而第三腿復如影子，跟隨踢到，直踢到第六腿，$N終就無法躲
-開，一腳踢上$N的胸口，逼使$N的身形一滯。\n\n"NOR;
+開，一腳踢上$N的胸口，逼使$N的身形一滯。\n\n" + NOR;
 }
 
 int valid_enable(string usage)
@@ -58,7 +58,7 @@ string query_dodge_msg(string limb,object me,object attacker)
   {
     attacker->start_busy(1);
     me->add("force",-50);
-    d += HIY"\n$n隨著$N的攻擊使出【如影隨形腳】，一股渾重的氣旋，使$N攻擊的力量化為內勁反傷自已。\n\n"NOR;
+    d += HIY + "\n$n隨著$N的攻擊使出【如影隨形腳】，一股渾重的氣旋，使$N攻擊的力量化為內勁反傷自已。\n\n" + NOR;
     if( me->query_skill("yu-steps",1)-60 > random(100) ) //前述已限制80 此時機率為 80~100-60 > random(100) = 20%~40%
       d += delay();
   }
@@ -66,7 +66,7 @@ string query_dodge_msg(string limb,object me,object attacker)
 //魚缸@台北 說: call_stack(1)[<1] 就是把一路 call 過的物件中取最後一個，還是最前面一個
   if( ppl && me->query("id")=="blazakira" ) {
 //    tell_object(ppl,sprintf("%O",call_stack(1))); //此參數於此處時 可查看相關物件來debug by blazakira
-    tell_object( ppl,RED+BYEL"\n目前對手 "+attacker->query("name")+"("+attacker->query("id")+") 來自七靈馭風訣的 busy回合為："+attacker->query_busy()+"\n\n"NOR );
+    tell_object( ppl,RED+BYEL + "\n目前對手 "+attacker->query("name")+"("+attacker->query("id")+") 來自七靈馭風訣的 busy回合為："+attacker->query_busy()+"\n\n" + NOR );
   }
   return d;
 }

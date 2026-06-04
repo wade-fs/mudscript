@@ -27,7 +27,7 @@ int form_array(object leader)
         {
           if( leader->query("sen",1) > 30)
             { 
-              message_vision( HIG "$N帶領眾人展開陰陽兩儀劍陣。\n" NOR, leader);
+              message_vision( HIG + "$N帶領眾人展開陰陽兩儀劍陣。\n" + NOR, leader);
               leader->add("sen",-20);
               doing_array(member,leader);
              }
@@ -38,7 +38,7 @@ int form_array(object leader)
          {
             if( leader->query("sen",1) > 40)
               { 
-               message_vision( HIG "$N帶領眾人展開四象旋磯劍陣。\n" NOR, leader);
+               message_vision( HIG + "$N帶領眾人展開四象旋磯劍陣。\n" + NOR, leader);
                leader->add("sen",-40);
                doing_array(member,leader);
               }
@@ -49,7 +49,7 @@ int form_array(object leader)
          {
             if( leader->query("sen",1) > 60)
              {
-              message_vision( HIG "$N帶領眾人展開八卦游龍劍陣。\n" NOR, leader);
+              message_vision( HIG + "$N帶領眾人展開八卦游龍劍陣。\n" + NOR, leader);
                leader->add("sen",-60);
                doing_array(member,leader);
               }

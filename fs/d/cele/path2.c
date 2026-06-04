@@ -2,7 +2,7 @@ inherit ROOM;
 #include <ansi.h>
 void create ()
 {
-  set ("short", HIM"過去時空"NOR" 山坡小徑");
+  set ("short", HIM + "過去時空" + NOR + " 山坡小徑");
   set ("long", @LONG
 你現在正走在一條山坡小徑上﹐東邊不遠處可以望見水煙閣琉璃色的
 屋瓦﹐小徑東北是一道白石階梯通往山巔的虹台﹐往西則是「水煙十景」

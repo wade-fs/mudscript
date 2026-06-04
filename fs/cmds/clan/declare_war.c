@@ -42,7 +42,7 @@ int main( object me,string str )
     CLAN_D->clan_set(me->query("clan/id"),"clan_war",ob->query("clan/id"));
     CLAN_D->clan_set(ob->query("clan/id"),"war",1);
     CLAN_D->clan_set(ob->query("clan/id"),"clan_war",me->query("clan/id"));
-    shout(HIR"快報!!快報!!中原武林中的二大幫派"+me->query("clan/name")+"及"+ob->query("clan/name")+"爆發出驚天動地的幫派大戰了!!!\n"NOR);
+    shout(HIR + "快報!!快報!!中原武林中的二大幫派"+me->query("clan/name")+"及"+ob->query("clan/name")+"爆發出驚天動地的幫派大戰了!!!\n" + NOR);
    log_file("clan/time",sprintf("%s和%s發動了幫派戰爭的時間%d及結束時間%d\n"
                 ,me->query("clan/name"),ob->query("clan/name"),time(),time));
     CLAN_D->add_money(me->query("clan/id"),-50000);

@@ -4,7 +4,7 @@ inherit BULLETIN_BOARD;
 #include <ansi.h>
 void create()
 {
-  set_name(HIC"小希希的梳妝台"NOR, ({"board"}));
+  set_name(HIC + "小希希的梳妝台" + NOR, ({"board"}));
   set("location","/u/c/cccc/workroom.c");
    set("board_id","cccc_b1");
   set("long","

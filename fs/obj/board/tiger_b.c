@@ -2,7 +2,7 @@
 inherit BULLETIN_BOARD;
 void create()
 {
-set_name(HIC"虎"HIB"虎"BLU"虎"HIW" 留言板 "NOR,({"tiger board","board"}));
+set_name(HIC + "虎" + HIB + "虎" + BLU + "虎" + HIW + " 留言板 " + NOR,({"tiger board","board"}));
 set("location","/u/b/blacktiger/workroom");
 set("board_id","tiger_b");
 set("long","想被老虎咬嗎？不想的趕快跑。\n");

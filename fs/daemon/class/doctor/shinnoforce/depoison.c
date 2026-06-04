@@ -57,12 +57,12 @@ int exert(object me, object target)
 {
 need = need / factor;
 if(my_force < need) {
-message_vision(HIW"$N運起"HIY"琉璃心訣"HIW"，費盡內力幫$n逼出一些"+poison_name[type]+"。\n",me,target);
+message_vision(HIW + "$N運起" + HIY + "琉璃心訣" + HIW + "，費盡內力幫$n逼出一些"+poison_name[type]+"。\n",me,target);
 me->set("force",0);
 target->apply_condition(poison_type[type],total-(int)my_force*factor/fp_cost[type]);
                         }
                 else {
-message_vision(HIW"$N席地盤腿而坐,運起心法中的奧義"HIY"琉璃心訣"HIW"把"+poison_name[type]+"給逼出體外。\n"NOR, me);
+message_vision(HIW + "$N席地盤腿而坐,運起心法中的奧義" + HIY + "琉璃心訣" + HIW + "把"+poison_name[type]+"給逼出體外。\n" + NOR, me);
        me->add("force", -need);
        target->apply_condition(poison_type[type], 0);
                     }

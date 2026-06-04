@@ -26,7 +26,7 @@ void create()
 {
         seteuid( getuid() );
 
-        set_name( HIC "三合一投票專用箱" NOR, ({ "ballot box", "box", "ballot" }) );
+        set_name( HIC + "三合一投票專用箱" + NOR, ({ "ballot box", "box", "ballot" }) );
         set("no_get", 1);
         set("no_sac",1);
         set("no_clean_up", 1 );
@@ -41,27 +41,27 @@ string short()
         ballots = query("ballots");
 
         if( !query("voting") )
-                return HIC "投票專用箱 " NOR "(box) [ " HIR "沒有投票活動 " NOR "]";
+                return HIC + "投票專用箱 " + NOR + "(box) [ " + HIR + "沒有投票活動 " + NOR + "]";
         if( !arrayp( ballots ) || !sizeof( ballots ) )
-                return HIC "投票專用箱 " NOR "(box) [ " HIG "投票中" NOR ", " HIM "沒有任何選票 " NOR "]";
+                return HIC + "投票專用箱 " + NOR + "(box) [ " + HIG + "投票中" + NOR + ", " + HIM + "沒有任何選票 " + NOR + "]";
         if( this_player() ) {
                 if( query("voting_start_time") > time() ) {
-                        return sprintf("%s " NOR "[ %s, " HIM "投票尚未開始 " NOR "]",
-                        HIC "投票專用箱 " NOR "(box)",
+                        return sprintf("%s " + NOR + "[ %s, " + HIM + "投票尚未開始 " + NOR + "]",
+                        HIC + "投票專用箱 " + NOR + "(box)",
                         ( query("final_nominate_time") > time()
-                        ? HIM "提名中" NOR : HIR "提名截止" NOR ) );
+                        ? HIM + "提名中" + NOR : HIR + "提名截止" + NOR ) );
                 } else if( this_player()->query("vote/id") == query("voting_id")
                         && this_player()->query("vote/voted_option") ) {
-                        return sprintf("%s " NOR "[ %s, " HIW "%d 投票人次" NOR ", " HIB "您已投票 " NOR "]",
-                        HIC "投票專用箱 " NOR "(box)",
+                        return sprintf("%s " + NOR + "[ %s, " + HIW + "%d 投票人次" + NOR + ", " + HIB + "您已投票 " + NOR + "]",
+                        HIC + "投票專用箱 " + NOR + "(box)",
                         ( query("final_nominate_time") > time()
-                        ? HIM "提名中" NOR : HIR "提名截止" NOR ),
+                        ? HIM + "提名中" + NOR : HIR + "提名截止" + NOR ),
                         query("voters_count") );
                 } else {
-                        return sprintf("%s [ %s" NOR ", " HIW "%d 投票人次, " HIC "您未投票 " NOR "]",
-                        HIC "投票專用箱 " NOR "(box)",
+                        return sprintf("%s [ %s" + NOR + ", " + HIW + "%d 投票人次, " + HIC + "您未投票 " + NOR + "]",
+                        HIC + "投票專用箱 " + NOR + "(box)",
                         ( query("final_nominate_time") > time()
-                        ? HIM "提名中" NOR : HIR "提名截止" NOR ),
+                        ? HIM + "提名中" + NOR : HIR + "提名截止" + NOR ),
                         query("voters_count") );
                 }
         }
@@ -75,11 +75,11 @@ string long()
         int *player_ballots;
         int *new_array;
 
-        long = HIY "  [ 投票專用箱 ]" NOR "\n";
+        long = HIY + "  [ 投票專用箱 ]" + NOR + "\n";
         long += " 要投票請按 vote xxx\n";
         long += " 要取消投票請按 cancel xxx\n";
         if( !query("voting") )
-                return long + HIR "目前沒有任何投票活動" NOR "\n";
+                return long + HIR + "目前沒有任何投票活動" + NOR + "\n";
 
         options = query("options");
 
@@ -104,30 +104,30 @@ string long()
         player_ballots = this_player()->query("vote/ballots");
 
         long += query("desc") + "\n";
-        long += HIW " <提名狀況> " HIY "[開始時間] " NOR + ctime( query("voting_setup_time") ) + "\n";
-        long += "            " HIY "[截止時間] " NOR + ctime( query("final_nominate_time") ) + "\n";
-        long += "            " + ( time() < query("final_nominate_time") ? HIG "提名中" NOR "\n" : HIR "提名截止" NOR "\n" );
+        long += HIW + " <提名狀況> " + HIY + "[開始時間] " + NOR + ctime( query("voting_setup_time") ) + "\n";
+        long += "            " + HIY + "[截止時間] " + NOR + ctime( query("final_nominate_time") ) + "\n";
+        long += "            " + ( time() < query("final_nominate_time") ? HIG + "提名中" + NOR + "\n" : HIR + "提名截止" + NOR + "\n" );
 
-        long += HIW " <投票狀態> " NOR;
-        long += HIY "[投票開始時間] " NOR + ctime( query("voting_start_time")) + "\n";
-        long += "            " + ( time() < query("voting_start_time") ? HIR "投票尚未開始" NOR "\n" : HIG "投票開始" NOR "\n" );
+        long += HIW + " <投票狀態> " + NOR;
+        long += HIY + "[投票開始時間] " + NOR + ctime( query("voting_start_time")) + "\n";
+        long += "            " + ( time() < query("voting_start_time") ? HIR + "投票尚未開始" + NOR + "\n" : HIG + "投票開始" + NOR + "\n" );
         if( query("max_voter_option") == 0 )
-                long += HIC "            不限票數\n";
+                long += HIC + "            不限票數\n";
         else
-                long += sprintf( HIC "            每人最高票數: " NOR "%s\n", query("max_voter_option")
+                long += sprintf( HIC + "            每人最高票數: " + NOR + "%s\n", query("max_voter_option")
                         ? sprintf("%d", query("max_voter_option")) : "不限票數" );
 
-        long += HIW " <目前選項>" NOR "\n";
+        long += HIW + " <目前選項>" + NOR + "\n";
 
         for( i = 0; i < sizeof( options ); i++ ) {
-                long += sprintf("%s" NOR "(" CYN "%2d" NOR ") %s\n",player_ballots[i] > 0 ? HIY "ˇ" NOR : "  ", i + 1, options[i] );
+                long += sprintf("%s" + NOR + "(" + CYN + "%2d" + NOR + ") %s\n",player_ballots[i] > 0 ? HIY + "ˇ" + NOR : "  ", i + 1, options[i] );
         }
-        long += HIW " <投票情形>" NOR "\n";
-        long += sprintf(HIC "  %d 投票人次" NOR ", ", query("voters_count") );
+        long += HIW + " <投票情形>" + NOR + "\n";
+        long += sprintf(HIC + "  %d 投票人次" + NOR + ", ", query("voters_count") );
         if( this_player()->query("vote/id") == query("voting_id")
                 && this_player()->query("vote/voted_option") )
-                long += HIG "您已投票" NOR "\n";
-        else    long += HIR "您未投票" NOR "\n";
+                long += HIG + "您已投票" + NOR + "\n";
+        else    long += HIR + "您未投票" + NOR + "\n";
 
         return long;
 }
@@ -252,7 +252,7 @@ int do_nominate( string arg )
 
         this_player()->set("vote/ballots", player_ballots );
 
-        message_vision("$N " CYN "在" HIC "投票專用箱" NOR CYN "內丟入一張紙, 上面寫著:\n" HIW + arg + NOR "\n", this_player() );
+        message_vision("$N " + CYN + "在" + HIC + "投票專用箱" + NOR + CYN + "內丟入一張紙, 上面寫著:\n" + HIW + arg + NOR + "\n", this_player() );
 
         save();
         return 1;
@@ -339,7 +339,7 @@ int do_vote( string arg )
         this_player()->set("vote/voted_option", voted_option );
         this_player()->set("vote/ballots", player_ballots );
 
-        message_vision("$N " CYN "把一張選票扔進" HIC "三合一投票專用箱" NOR CYN "裡." NOR "\n", this_player() );
+        message_vision("$N " + CYN + "把一張選票扔進" + HIC + "三合一投票專用箱" + NOR + CYN + "裡." + NOR + "\n", this_player() );
 
         save();
         return 1;
@@ -415,7 +415,7 @@ int do_cancel( string arg )
         if( this_player()->query("vote/voted_option") == 0 )
                 set("voters_count", voters_count - 1 );
 
-        message_vision("$N " CYN "把一張選票丟進" HIC "投票專用箱" NOR CYN "裡消掉了." NOR "\n", this_player() );
+        message_vision("$N " + CYN + "把一張選票丟進" + HIC + "投票專用箱" + NOR + CYN + "裡消掉了." + NOR + "\n", this_player() );
 
         save();
         return 1;
@@ -438,15 +438,15 @@ int do_statistics( string arg )
         options = query("options");
         ballots = query("ballots");
 
-        stat = HIW " <目前投票統計>" NOR "\n";
+        stat = HIW + " <目前投票統計>" + NOR + "\n";
 
         if( !arg ) {
                 for( i = 0; i < sizeof( options ); i ++ ) {
-                        stat += sprintf(" (" CYN "%2d" NOR ") " GRN "[" HIW "%4d " GRN "票] " NOR "%s\n", i + 1, ballots[i], options[i] );
+                        stat += sprintf(" (" + CYN + "%2d" + NOR + ") " + GRN + "[" + HIW + "%4d " + GRN + "票] " + NOR + "%s\n", i + 1, ballots[i], options[i] );
                 }
 
                 write( stat );
-                message_vision("$N " CYN "打開" HIC "投票專用箱" NOR CYN "偷看選票." NOR "\n", this_player() );
+                message_vision("$N " + CYN + "打開" + HIC + "投票專用箱" + NOR + CYN + "偷看選票." + NOR + "\n", this_player() );
 
                 return 1;
         }
@@ -456,24 +456,24 @@ int do_statistics( string arg )
 
         if( wizardp( this_player() ) ) {
                 stat += query("desc") + "\n";
-                stat += HIW " <提名狀況> " HIG "[開始時間] " NOR + ctime( query("voting_setup_time") ) + "\n";
-                stat += "            " HIG "[截止時間] " NOR + ctime( query("final_nominate_time") ) + "\n";
-                stat += "            " + ( time() < query("final_nominate_time") ? HIG "提名中" NOR "\n" : HIR "提名截止" NOR "\n" );
+                stat += HIW + " <提名狀況> " + HIG + "[開始時間] " + NOR + ctime( query("voting_setup_time") ) + "\n";
+                stat += "            " + HIG + "[截止時間] " + NOR + ctime( query("final_nominate_time") ) + "\n";
+                stat += "            " + ( time() < query("final_nominate_time") ? HIG + "提名中" + NOR + "\n" : HIR + "提名截止" + NOR + "\n" );
 
                 if( query("max_voter_option") == 0 )
-                        stat += HIW " <投票狀態> " HIC "不限票數\n";
+                        stat += HIW + " <投票狀態> " + HIC + "不限票數\n";
                 else
-                        stat += sprintf(HIW " <投票狀態> " HIC "每人最高票數: " NOR "%s\n", query("max_voter_option")
+                        stat += sprintf(HIW + " <投票狀態> " + HIC + "每人最高票數: " + NOR + "%s\n", query("max_voter_option")
                                 ? sprintf("%d", query("max_voter_option")) : "不限票數" );
 
-                stat += HIW " <目前選項>" NOR "\n";
+                stat += HIW + " <目前選項>" + NOR + "\n";
 
                 for( i = 0; i < sizeof( options ); i ++ ) {
-                        stat += sprintf(" (" CYN "%2d" NOR ") " GRN "[" HIW "%4d " GRN "票] " NOR "%s\n", i + 1, ballots[i], options[i] );
+                        stat += sprintf(" (" + CYN + "%2d" + NOR + ") " + GRN + "[" + HIW + "%4d " + GRN + "票] " + NOR + "%s\n", i + 1, ballots[i], options[i] );
                 }
 
-                stat += HIW " <投票情形>" NOR "\n";
-                stat += sprintf(HIC "  %d 投票人次\n" NOR, query("voters_count") );
+                stat += HIW + " <投票情形>" + NOR + "\n";
+                stat += sprintf(HIC + "  %d 投票人次\n" + NOR, query("voters_count") );
 
                 write_file( file, stat );
                 write("目前的投票統計結果已存入: "+ file +"\n");
