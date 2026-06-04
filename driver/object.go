@@ -32,7 +32,12 @@ func (d *Driver) LoadObject(filename string) (*object.LPCObject, error) {
 }
 
 func (d *Driver) loadObjectInternal(filename string) (*object.LPCObject, bool, error) {
+	// 🚀 關鍵強化：強制進行 .c 尾碼正規化
+	if !strings.HasSuffix(filename, ".c") && !strings.Contains(filename, "#") {
+		filename += ".c"
+	}
 	filename = d.NormalizePath(filename)
+	
 	log.Printf("🔍 [Loading] %s", filename)
 	d.mu.RLock()
 	if obj, exists := d.ObjectTable[filename]; exists {
@@ -44,14 +49,15 @@ func (d *Driver) loadObjectInternal(filename string) (*object.LPCObject, bool, e
 	// 使用混合模式讀取檔案內容
 	content, err := d.ReadFile(filename)
 	if err != nil {
-		// 🚀 關鍵強化：虛擬物件 (Virtual Objects) 支援
-		// 當找不到實體檔案時，嘗試呼叫 Master 標記的 compile_object()
+		// 🚀 虛擬物件 (Virtual Objects) 支援
+		// 只有當確定不是實體 .c 檔案時，才回呼 Master
 		if d.MasterObject != nil && filename != d.Config.MasterFile {
+			// 去除 .c 尾碼再詢問，因為虛擬路徑通常不帶 .c
+			virtualPath := strings.TrimSuffix(filename, ".c")
 			res := d.CallFunction(d.MasterObject, "compile_object", []object.Object{
-				&object.String{Value: filename},
+				&object.String{Value: virtualPath},
 			})
 			if virtualObj, ok := res.(*object.LPCObject); ok && virtualObj != nil {
-				// 成功取得虛擬物件，將其註冊到 ObjectTable (以原請求檔名作為 key)
 				d.mu.Lock()
 				d.ObjectTable[filename] = virtualObj
 				d.mu.Unlock()

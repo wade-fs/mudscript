@@ -10,6 +10,7 @@ import (
 type ScheduledCall struct {
 	Caller   *object.LPCObject
 	FuncName string
+	Closure  *object.Closure // 🚀 新增：支援直接呼叫閉包
 	Args     []object.Object
 	FireTime time.Time
 }
@@ -62,6 +63,16 @@ func (d *Driver) CallOut(caller *object.LPCObject, funcName string, delay time.D
 	})
 }
 
+// 🚀 新增：支援閉包排程
+func (d *Driver) CallOutClosure(caller *object.LPCObject, closure *object.Closure, delay time.Duration, args ...object.Object) {
+	fireTime := time.Now().Add(delay)
+	d.mu.Lock()
+	defer d.mu.Unlock()
+	d.CallOuts = append(d.CallOuts, &ScheduledCall{
+		Caller: caller, Closure: closure, Args: args, FireTime: fireTime,
+	})
+}
+
 func (d *Driver) processCallOuts() {
 	now := time.Now()
 	d.mu.Lock()
@@ -79,10 +90,18 @@ func (d *Driver) processCallOuts() {
 		if conn := d.GetConnectionFromObject(call.Caller); conn != nil {
 			gid := getGID()
 			d.playerContexts.Store(gid, conn)
-			d.CallFunction(call.Caller, call.FuncName, call.Args)
+			if call.Closure != nil {
+				d.ExecuteCallback(call.Caller, call.Closure, call.Args)
+			} else {
+				d.CallFunction(call.Caller, call.FuncName, call.Args)
+			}
 			d.playerContexts.Delete(gid)
 		} else {
-			d.CallFunction(call.Caller, call.FuncName, call.Args)
+			if call.Closure != nil {
+				d.ExecuteCallback(call.Caller, call.Closure, call.Args)
+			} else {
+				d.CallFunction(call.Caller, call.FuncName, call.Args)
+			}
 		}
 	}
 }

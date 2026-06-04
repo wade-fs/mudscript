@@ -36,3 +36,4 @@ mudlib/data/lm/
 mudlib/std/proxy/
 mudlib/data/test_save.o
 run.txt
+debug_*

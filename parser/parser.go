@@ -23,10 +23,11 @@ const (
 	BIT_AND     // &
 	EQUALS      // == !=
 	LESSGREATER // > < >= <=
+	RANGE       // ..
 	SHIFT       // << >>
 	SUM         // + -
 	PRODUCT     // * / %
-	PREFIX      // -X or !X or ~X
+	PREFIX      // -X or !X or ~X or ++X or --X
 	CALL        // myFunction(X)
 	INDEX       // array[index]
 	SCOPE_PREC  // 作用域解析的優先權極高
@@ -45,6 +46,7 @@ var precedences = map[token.TokenType]int{
 	token.GT:       LESSGREATER,
 	token.GTE:      LESSGREATER,
 	token.LTE:      LESSGREATER,
+	token.DOTDOT:   RANGE,
 	token.LSHIFT:   SHIFT,
 	token.RSHIFT:   SHIFT,
 	token.PLUS:     SUM,
@@ -55,17 +57,18 @@ var precedences = map[token.TokenType]int{
 	token.LPAREN:   CALL,
 	token.LBRACKET: INDEX,
 	token.ARROW:    CALL,
-token.ASSIGN:          ASSIGN,
-token.PLUS_EQUALS:     ASSIGN,
-token.MINUS_EQUALS:    ASSIGN,
-token.ASTERISK_EQUALS: ASSIGN,
-token.SLASH_EQUALS:    ASSIGN,
-token.MOD_EQUALS:      ASSIGN,
-token.QUESTION:        TERNARY,
-token.INC:             POSTFIX,
-token.DEC:             POSTFIX,
-token.SCOPE:           SCOPE_PREC,
-token.COMMA:           COMMA,
+	token.ASSIGN:          ASSIGN,
+	token.PLUS_EQUALS:     ASSIGN,
+	token.MINUS_EQUALS:    ASSIGN,
+	token.ASTERISK_EQUALS: ASSIGN,
+	token.SLASH_EQUALS:    ASSIGN,
+	token.MOD_EQUALS:      ASSIGN,
+	token.QUESTION:        TERNARY,
+	token.COLON:           LOWEST, // 🚀 新增：冒號優先權最低
+	token.INC:             POSTFIX,
+	token.DEC:             POSTFIX,
+	token.SCOPE:           SCOPE_PREC,
+	token.COMMA:           COMMA,
 }
 type (
 	prefixParseFn func() ast.Expression
@@ -99,6 +102,8 @@ func New(l lexer.Lexer) *Parser {
 		token.BANG:     p.parsePrefixExpression,
 		token.MINUS:    p.parsePrefixExpression,
 		token.BIT_NOT:  p.parsePrefixExpression,
+		token.INC:      p.parsePrefixExpression, // [新增] ++X
+		token.DEC:      p.parsePrefixExpression, // [新增] --X
 		token.TRUE:     p.parseBoolean,
 		token.FALSE:    p.parseBoolean,
 		token.LPAREN:   p.parseGroupedExpression,
@@ -137,6 +142,7 @@ func New(l lexer.Lexer) *Parser {
 		token.GT:       p.parseInfixExpression,
 		token.LTE:      p.parseInfixExpression,
 		token.GTE:      p.parseInfixExpression,
+		token.DOTDOT:   p.parseRangeExpression, // [新增] X..Y
 		token.LPAREN:   p.parseCallExpression,
 		token.LBRACKET: p.parseIndexExpression,
 		token.ASSIGN:   p.parseAssignExpression,
@@ -566,20 +572,19 @@ func (p *Parser) parseIndexExpression(left ast.Expression) ast.Expression {
 	}
 
 	// 2. [start..] or [start..end] or [index]
-	idx := p.parseExpression(LOWEST)
-	
+	idx := p.parseExpression(RANGE) // 🚀 使用 RANGE 優先權，遇到 .. 會停止而不吞掉它
+
 	if p.peekTokenIs(token.DOTDOT) {
 		slice := &ast.SliceExpression{Token: tok, Left: left, StartIndex: idx}
 		p.nextToken() // Move to '..'
 		p.nextToken() // Skip '..'
-		
+
 		if !p.curTokenIs(token.RBRACKET) {
 			slice.EndIndex = p.parseExpression(LOWEST)
 			if !p.expectPeek(token.RBRACKET) { return nil }
 		}
 		return slice
 	}
-
 	// 一般索引 [index]
 	expr := &ast.IndexExpression{
 		Token: tok,
@@ -1260,14 +1265,28 @@ func (p *Parser) parseTernaryExpression(condition ast.Expression) ast.Expression
 	}
 
 	p.nextToken()
-	expression.TrueResult = p.parseExpression(TERNARY)
+	// 🚀 關鍵：在三元運算子的分支中，應該允許較低優先權的表達式 (如賦值)
+	expression.TrueResult = p.parseExpression(COMMA)
 
 	if !p.expectPeek(token.COLON) {
 		return nil
 	}
 
 	p.nextToken()
-	expression.FalseResult = p.parseExpression(TERNARY)
+	expression.FalseResult = p.parseExpression(COMMA)
+
+	return expression
+}
+
+func (p *Parser) parseRangeExpression(left ast.Expression) ast.Expression {
+	expression := &ast.RangeExpression{
+		Token: p.curToken,
+		Start: left,
+	}
+
+	precedence := p.curPrecedence()
+	p.nextToken()
+	expression.End = p.parseExpression(precedence)
 
 	return expression
 }

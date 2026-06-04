@@ -71,6 +71,12 @@ func Eval(node ast.Node, env object.Environment) object.Object {
 			}
 			return &object.Integer{Value: 0}
 		}
+
+		// 🚩 關鍵：自增減有副作用，必須特殊處理
+		if node.Operator == "++" || node.Operator == "--" {
+			return evalPrefixIncDecExpression(node, env)
+		}
+
 		right := Eval(node.Right, env)
 		if isError(right) {
 			return right
@@ -90,6 +96,15 @@ func Eval(node ast.Node, env object.Environment) object.Object {
 			return right
 		}
 		return evalInfixExpression(node.Operator, left, right)
+
+	case *ast.RangeExpression:
+		// RangeExpression 在 switch case 或 slice 中使用
+		// 這裡我們暫時只處理其左右值，但在特定場合會由呼叫者特殊處理
+		start := Eval(node.Start, env)
+		if isError(start) { return start }
+		end := Eval(node.End, env)
+		if isError(end) { return end }
+		return &object.Array{Elements: []object.Object{start, end}} // 用 Array 暫存，或直接在 switch 裡處理 ast
 
 	case *ast.IfExpression:
 		return evalIfExpression(node, env)
@@ -1413,17 +1428,33 @@ func evalSwitchStatement(node *ast.SwitchStatement, env object.Environment) obje
 		if caseStmt.Value == nil {
 			match = true // 這是 default
 		} else if !isFallthrough {
-			caseVal := Eval(caseStmt.Value, env)
-			if isError(caseVal) { return caseVal }
-			
-			// 使用現有的 Infix 比較邏輯
-			cmp := evalInfixExpression("==", val, caseVal)
-			if cmp == TrueValue { match = true }
+			// 🚀 關鍵強化：支援 case 0..10 這種 RangeExpression
+			if rangeNode, ok := caseStmt.Value.(*ast.RangeExpression); ok {
+				start := Eval(rangeNode.Start, env)
+				if isError(start) { return start }
+				end := Eval(rangeNode.End, env)
+				if isError(end) { return end }
+
+				// 只要是整數範圍就進行比對
+				if val.TokenType() == object.IntegerType && start.TokenType() == object.IntegerType && end.TokenType() == object.IntegerType {
+					v := val.(*object.Integer).Value
+					s := start.(*object.Integer).Value
+					e := end.(*object.Integer).Value
+					if v >= s && v <= e { match = true }
+				}
+			} else {
+				caseVal := Eval(caseStmt.Value, env)
+				if isError(caseVal) { return caseVal }
+
+				// 使用現有的 Infix 比較邏輯
+				cmp := evalInfixExpression("==", val, caseVal)
+				if cmp == TrueValue { match = true }
+			}
 		}
 
 		if match || isFallthrough {
 			isFallthrough = true // 除非遇到 break，否則 C/LPC 預設會 isFallthrough
-			
+
 			for _, stmt := range caseStmt.Body {
 				result = Eval(stmt, env)
 				if result != nil {
@@ -1438,6 +1469,30 @@ func evalSwitchStatement(node *ast.SwitchStatement, env object.Environment) obje
 	return NilValue
 }
 
+func evalPrefixIncDecExpression(node *ast.PrefixExpression, env object.Environment) object.Object {
+	leftIdent, ok := node.Right.(*ast.Ident)
+	if !ok { return newError("目前前綴自增減僅支援變數") }
+
+	currentVal, exists := env.Get(leftIdent.Value)
+	if !exists { return newError("變數不存在: %s", leftIdent.Value) }
+
+	if currentVal.TokenType() != object.IntegerType {
+		return newError("自增減運算子只能用於整數")
+	}
+
+	oldInt := currentVal.(*object.Integer).Value
+	var newInt int64
+	if node.Operator == "++" {
+		newInt = oldInt + 1
+	} else {
+		newInt = oldInt - 1
+	}
+
+	newObj := &object.Integer{Value: newInt}
+	env.Assign(leftIdent.Value, newObj)
+	// 前綴運算子 (++x) 會回傳「新」的值
+	return newObj
+}
 func evalMappingLiteral(node *ast.MappingLiteral, env object.Environment) object.Object {
 	pairs := make(map[object.HashKey]object.HashPair)
 

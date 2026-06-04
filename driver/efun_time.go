@@ -33,24 +33,37 @@ func (d *Driver) registerTimeAndScheduling(obj *object.LPCObject) {
 		},
 	})
 
-	// 語法: void call_out(string func_name, int delay, [mixed args...])
-	// 說明: 延遲 delay 秒後，自動呼叫 func_name 函式，並可傳入參數。
+	// 語法: void call_out(mixed func, int delay, [mixed args...])
+	// 說明: 延遲 delay 秒後，自動呼叫 func 函式 (字串或閉包)，並可傳入參數。
 	// 範例: call_out("destroy_self", 5); // 5秒後呼叫 destroy_self()
+	// 範例: call_out((: destruct :), 5, this_object());
 	obj.Vars.Set("call_out", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
 			if len(args) < 2 {
 				return object.NewError("call_out 至少需要 2 個參數")
 			}
-			funcName, ok := args[0].(*object.String)
-			if !ok {
-				return object.NewError("call_out 第一個參數必須是字串")
-			}
+
 			delay, ok := args[1].(*object.Integer)
 			if !ok {
 				return object.NewError("call_out 第二個參數必須是整數")
 			}
 
-			d.CallOut(obj, funcName.Value, time.Duration(delay.Value)*time.Second, args[2:]...)
+			// 處理第一個參數 (字串或閉包)
+			switch fn := args[0].(type) {
+			case *object.String:
+				d.CallOut(obj, fn.Value, time.Duration(delay.Value)*time.Second, args[2:]...)
+			case *object.Closure:
+				// 🚀 關鍵強化：支援閉包呼叫
+				// 我們將閉包包裝成一個匿名的 Builtin 函式存入，或者擴充 ScheduledCall 結構
+				// 這裡我們先用一個簡單的技巧：在當前物件暫時註冊一個隨機名稱的 Function 指向該閉包
+				// 但更好的做法是讓 CallOut 結構支援直接執行 Closure。
+				// 為了保持穩定，我們暫時只實作字串形式，若要支援閉包則需修改 ScheduledCall。
+				// 既然 fs/ 常用，我們來擴充 ScheduledCall 吧。
+				d.CallOutClosure(obj, fn, time.Duration(delay.Value)*time.Second, args[2:]...)
+			default:
+				return object.NewError("call_out 第一個參數必須是字串或閉包")
+			}
+
 			return &object.Nil{}
 		},
 	})

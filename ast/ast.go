@@ -416,6 +416,19 @@ func (se *SliceExpression) String() string {
 	return out.String()
 }
 
+// RangeExpression represents a range, e.g. 1..10
+type RangeExpression struct {
+	Token token.Token // The '..' token
+	Start Expression
+	End   Expression
+}
+
+func (re *RangeExpression) expressionNode()      {}
+func (re *RangeExpression) TokenLiteral() string { return re.Token.Literal }
+func (re *RangeExpression) String() string {
+	return re.Start.String() + ".." + re.End.String()
+}
+
 ////////////////////////////////////////////////
 // mudscript
 // 變數宣告 (例如: int x = 1; 或 int x;)
