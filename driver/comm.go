@@ -87,6 +87,32 @@ func (d *Driver) ProcessCommand(pConn *PlayerConnection, input string) bool {
 	// 🚀 新增：記錄玩家輸入
 	log.Printf("📥 [Input] %s (%s): %s", pConn.Username, obj.Filename, input)
 
+	// ==========================================
+	// 0. 優先處理 input_to 攔截
+	// ==========================================
+	if pConn.NextInputFunc != "" || pConn.NextInputClosure != nil {
+		funcName := pConn.NextInputFunc
+		closure := pConn.NextInputClosure
+		targetObj := pConn.NextInputObj
+		args := pConn.NextInputArgs
+
+		// 清除攔截器 (以免遞迴或重複執行)
+		pConn.NextInputFunc = ""
+		pConn.NextInputClosure = nil
+		pConn.NextInputObj = nil
+		pConn.NextInputArgs = nil
+
+		// 準備傳遞給 callback 的參數：[玩家輸入, ...其餘預設參數]
+		finalArgs := append([]object.Object{&object.String{Value: input}}, args...)
+
+		if closure != nil {
+			d.ExecuteCallback(obj, closure, finalArgs)
+		} else if targetObj != nil {
+			d.RunCommand(pConn, targetObj, funcName, finalArgs)
+		}
+		return true
+	}
+
 	input = strings.TrimSpace(input)
 	if input == "" {
 		return true

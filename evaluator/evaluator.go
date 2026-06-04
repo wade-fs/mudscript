@@ -2,6 +2,7 @@ package evaluator
 
 import (
 	"fmt"
+	"log"
 	"regexp"
 	"strconv"
 	"strings"
@@ -290,35 +291,74 @@ func Eval(node ast.Node, env object.Environment) object.Object {
 			}
 		}
 
-		// 2. 判斷是否為傳統的 (: obj, "func", ... :) 或 (: "func", ... :)
+		// 2. 判斷是否為傳統的 (: obj, "func", ... :) 或 (: "func", ... :) 或 (: func :)
 		// 我們不直接 Eval，改用 AST 結構初步判斷，必要時才 Eval 常數項
 		isTraditional := false
-		if len(node.Elements) >= 1 && len(node.Elements) <= 10 { // 限制長度
-			first := node.Elements[0]
-			switch first.(type) {
-			case *ast.StringLiteral, *ast.Ident:
-				// 可能是 (: "func" :) 或 (: obj, "func" :)
-				val := Eval(first, env)
-				if !isError(val) {
-					if _, ok := val.(*object.String); ok {
-						isTraditional = true
-					} else if val.TokenType() == object.LPC_OBJECT_OBJ && len(node.Elements) >= 2 {
-						// 檢查第二個參數
-						second := Eval(node.Elements[1], env)
-						if _, ok := second.(*object.String); ok {
-							isTraditional = true
+		var funcName string
+		var targetObj *object.LPCObject
+
+		if len(node.Elements) == 1 {
+			// 🚀 關鍵強化：支援 (: get_id :) 這種直接寫函式名稱的格式
+			if ident, ok := node.Elements[0].(*ast.Ident); ok {
+				funcName = ident.Value
+				isTraditional = true
+				// 預設綁定到當前物件
+				if thisObjVal, ok := env.Get("this_object"); ok {
+					if obj, ok := thisObjVal.(*object.LPCObject); ok {
+						targetObj = obj
+					} else if builtin, ok := thisObjVal.(*object.Builtin); ok {
+						// 🚀 關鍵修正：this_object 可能是個 Builtin 函式
+						res := builtin.Fn()
+						if obj, ok := res.(*object.LPCObject); ok {
+							targetObj = obj
 						}
 					}
 				}
 			}
 		}
 
-		if isTraditional {
+		if !isTraditional && len(node.Elements) >= 1 && len(node.Elements) <= 10 {
+			first := node.Elements[0]
+			switch first.(type) {
+			case *ast.StringLiteral, *ast.Ident:
+				// 可能是 (: "func" :) 或 (: obj, "func" :)
+				val := Eval(first, env)
+				if !isError(val) {
+					if s, ok := val.(*object.String); ok {
+						isTraditional = true
+						funcName = s.Value
+						if thisObjVal, ok := env.Get("this_object"); ok {
+							if obj, ok := thisObjVal.(*object.LPCObject); ok {
+								targetObj = obj
+							} else if builtin, ok := thisObjVal.(*object.Builtin); ok {
+								res := builtin.Fn()
+								if obj, ok := res.(*object.LPCObject); ok {
+									targetObj = obj
+								}
+							}
+						}
+					} else if val.TokenType() == object.LPC_OBJECT_OBJ && len(node.Elements) >= 2 {
+						// 檢查第二個參數
+						second := Eval(node.Elements[1], env)
+						if s, ok := second.(*object.String); ok {
+							isTraditional = true
+							funcName = s.Value
+							targetObj = val.(*object.LPCObject)
+						}
+					}
+				}
+			}
+		}
+
+		if isTraditional && funcName != "" {
 			// 符合傳統閉包格式，此時才安全地 Eval 所有元素
 			elements := evalExpressions(node.Elements, env)
 			if len(elements) > 0 && isError(elements[0]) { return elements[0] }
 
-			closure := &object.Closure{}
+			closure := &object.Closure{
+				Target: targetObj,
+				Env:    env,
+			}
 			if str, ok := elements[0].(*object.String); ok {
 				closure.FuncName = str.Value
 				closure.BoundArgs = elements[1:]
@@ -330,6 +370,9 @@ func Eval(node ast.Node, env object.Environment) object.Object {
 						closure.BoundArgs = elements[2:]
 					}
 				}
+			} else if len(elements) == 1 && funcName != "" {
+				// 🚀 處理單一 IDENT 的情況
+				closure.FuncName = funcName
 			}
 			return closure
 		}
@@ -1103,7 +1146,6 @@ func evalArrayIndexExpression(array, index object.Object) object.Object {
 
 /////////////////////////////////////////////////////
 // mudscript
-
 func evalTypedVarDecl(node *ast.TypedVarDecl, env object.Environment) object.Object {
 	var val object.Object
 
@@ -1113,24 +1155,21 @@ func evalTypedVarDecl(node *ast.TypedVarDecl, env object.Environment) object.Obj
 		if isError(val) {
 			return val
 		}
-
-		// 執行型別檢查！
-		expectedType := node.Token.Literal
-		if node.IsArray {
-			expectedType = "array"
-		}
-
-		if !checkTypeMatch(expectedType, val) {
-			return newError("type mismatch: cannot assign %s to %s variable '%s'",
-				val.TokenType(), expectedType, node.Name.Value)
-		}
 	} else {
-		// 2. 如果沒有賦值，給予預設值
-		lpcType := node.Token.Literal
-		if node.IsArray {
-			lpcType = "array"
-		}
-		val = GetDefaultLPCValue(lpcType)
+		// 2. 如果沒有賦值，給予預設值 (LPC 慣例：int 為 0, string 為 0 或 "", mapping 為 ([]) 等)
+		// 目前我們先簡單給 NilValue，後續可依型別給予不同初始值
+		val = NilValue 
+	}
+
+	// 執行型別檢查！
+	expectedType := node.Token.Literal
+	if node.IsArray {
+		expectedType = "array"
+	}
+
+	if !checkTypeMatch(expectedType, val) {
+		return newError("type mismatch: cannot assign %s to %s variable '%s'",
+			val.TokenType(), expectedType, node.Name.Value)
 	}
 
 	// 3. 將變數存入環境中
@@ -1140,11 +1179,12 @@ func evalTypedVarDecl(node *ast.TypedVarDecl, env object.Environment) object.Obj
 
 // 輔助函式：判斷指派的值是否符合宣告的型別
 func checkTypeMatch(lpcType string, obj object.Object) bool {
-	if obj == nil {
-        return true // nil 可以指派給 object / mixed 等
-    }
+	if obj == nil || obj.TokenType() == object.NilType {
+		return true // 🚀 關鍵相容：允許未初始化的變數 (Nil) 通過型別檢查
+	}
 	switch lpcType {
 	case "int":
+		// 🚀 關鍵相容：在 LPC 中 0 也可以代表空的物件或對象，部分 Mudlib 會混用
 		return obj.TokenType() == object.IntegerType
 	case "string":
 		tt := obj.TokenType()
@@ -1639,6 +1679,8 @@ func evalSscanf(node *ast.CallExpression, env object.Environment) object.Object 
 	// 2. 解析格式字串並建立對應的 regex
 	var formats []string
 	var regexStr strings.Builder
+	// 🚀 移除強制的 ^ 與 $，使 sscanf 更接近 C/LPC 的寬容度
+	// 但為了捕獲變數，我們依然需要從開頭匹配
 	regexStr.WriteString("^")
 	
 	fStr := formatStr.Value
@@ -1690,16 +1732,19 @@ func evalSscanf(node *ast.CallExpression, env object.Environment) object.Object 
 			regexStr.WriteString(regexp.QuoteMeta(string(fStr[j])))
 		}
 	}
-	regexStr.WriteString("$")
+	// 🚀 關鍵：允許結尾有空白或 \r (Windows 換行符)
+	regexStr.WriteString("[\\s\\r]*$")
 
 	re, err := regexp.Compile(regexStr.String())
 	if err != nil {
+		log.Printf("⚠️  [sscanf] Regex compile error: %v", err)
 		return &object.Integer{Value: 0}
 	}
 
 	// 3. 進行字串配對
 	matches := re.FindStringSubmatch(inputStr.Value)
 	if matches == nil {
+		// log.Printf("🔍 [sscanf] No match: '%s' vs '%s'", inputStr.Value, regexStr.String())
 		return &object.Integer{Value: 0}
 	}
 

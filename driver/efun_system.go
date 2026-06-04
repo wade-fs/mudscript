@@ -4,6 +4,7 @@ package driver
 import (
 	"fmt"
 	"io/fs"
+	"log"
 	"os"
 	"path/filepath"
 	"regexp"
@@ -450,6 +451,7 @@ func (d *Driver) registerSystemAndFiles(obj *object.LPCObject) {
 			}
 
 			resolvedPath := d.ResolvePath(obj.Filename, fileName.Value)
+			log.Printf("📖 [Read] %s by %s", resolvedPath, obj.Filename)
 			allowed, errMsg := d.checkReadPermission(obj, resolvedPath, "read_file")
 			if !allowed {
 				if p := d.GetCurrentPlayer(); p != nil {

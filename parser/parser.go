@@ -655,6 +655,9 @@ func (p *Parser) parseStatement(topLevel bool) ast.Statement {
 		return p.parseForEachStatement()
 	case token.LBRACE:
 		return p.parseBlockStatement()
+	case token.SEMICOLON:
+		// 🚀 新增：支援空語句 (Lone Semicolon)
+		return &ast.ExpressionStatement{Token: p.curToken}
 	default:
 		return p.parseExpressionStatement()
 	}

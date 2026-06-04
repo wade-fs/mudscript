@@ -79,6 +79,11 @@ run-fs: fs
 	@echo "🚀 Starting Legacy FS MudScript Server..."
 	@ $(OUT)/fs 2>&1 | tee /tmp/run-fs.txt
 
+# 執行 Legacy FS 連線測試
+test-fs: fs
+	@echo "🧪 Running Connection Test on Legacy FS..."
+	@go run ./cmd/test-fs/main.go 2>&1 | tee test-fs.log
+
 clean:
 	@rm -rf *.log *txt $(OUT)/*
 

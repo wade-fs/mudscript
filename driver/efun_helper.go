@@ -11,14 +11,16 @@ import (
 	"mudscript/object"
 )
 
-// executeCallback 支援傳入函式名稱 (string) 或 函式指標 (closure)
+// ExecuteCallback 支援傳入函式名稱 (string) 或 函式指標 (closure)
 func (d *Driver) ExecuteCallback(obj *object.LPCObject, fnArg object.Object, args []object.Object) object.Object {
 	switch v := fnArg.(type) {
 	case *object.String:
+		log.Printf("🎮 [Callback] %s->%s(%v)", obj.Filename, v.Value, args)
 		return d.CallFunction(obj, v.Value, args)
 	case *object.Closure:
 		// 🚀 執行 Lambda
 		if v.Lambda != nil || len(v.Expressions) > 0 || len(v.Parameters) > 0 {
+			log.Printf("🎮 [Callback] %s-><lambda>(%v)", obj.Filename, args)
 			// 建立一個閉包環境，繼承自定義時的環境
 			lambdaEnv := object.NewEnclosedEnvironment(v.Env)
 
@@ -58,6 +60,7 @@ func (d *Driver) ExecuteCallback(obj *object.LPCObject, fnArg object.Object, arg
 		if target == nil {
 			target = obj
 		}
+		log.Printf("🎮 [Callback] %s->%s(%v) [via closure]", target.Filename, v.FuncName, args)
 		// 合併綁定參數與傳入參數
 		callArgs := append([]object.Object{}, v.BoundArgs...)
 		callArgs = append(callArgs, args...)

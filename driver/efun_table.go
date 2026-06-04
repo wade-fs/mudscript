@@ -181,6 +181,10 @@ func (d *Driver) registerDataStructures(obj *object.LPCObject) {
 				return &object.Integer{Value: 0}
 			}
 
+			if str.Value == "" {
+				return &object.Array{Elements: []object.Object{}}
+			}
+
 			parts := strings.Split(str.Value, delim.Value)
 			elements := make([]object.Object, len(parts))
 			for i, p := range parts {
