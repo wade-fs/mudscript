@@ -17,7 +17,7 @@ GO_EXE := $(shell if [ -f $(GOROOT)/bin/go ]; then echo $(GOROOT)/bin/go; else e
 ENV  := GOPATH=$(GOPATH) GOROOT=$(GOROOT) CGO_CFLAGS="-Wno-return-local-addr"
 ENVW := $(ENV) CGO_ENABLED=1 CGO_CFLAGS="-Wno-return-local-addr" GOOS=windows GOARCH=amd64 CC="x86_64-w64-mingw32-gcc -fno-stack-protector -D_FORTIFY_SOURCE=0 -lssp"
 
-.PHONY: all clean test fsmud fsmud.exe run push inject-hash
+.PHONY: all clean test-fsmud fsmud fsmud.exe run push inject-hash
 
 all: fsmud fsmud.exe
 
@@ -54,28 +54,20 @@ $(OUT):
 
 # 編譯 Linux 版本 (不自動執行)
 # fsmud: $(OUT) inject-hash
-fs fs.exe fsmud fsmud.exe: $(OUT)
+fsmud fsmud.exe: $(OUT)
 	@echo "🔨 Building $@..."
 	@go mod tidy && $(GO_EXE) build $(GO_FLAGS) -o $(OUT)/$@ ./cmd/$@
 	@ls -l $(OUT)/$@
 
 # 執行測試 (測試模式下不連接 P2P 以免干擾)
-test: fsmud
-	@echo "🧪 Running MudScript Core Tests..."
+test-fsmud: fsmud
+	@echo "🧪 Running MudScript Core Tests on fsmud/ mudlib..."
 	@MUD_TEST_MODE=1 $(OUT)/fsmud --hub none 2>&1 | tee /tmp/test.txt
-
-test-fs: fs
-	@ echo "🧪 Running MudScript Core Tests for fs/..."
-	@ pkill -f $(OUT)/fs || true
-	@ MUD_TEST_MODE=1  GUEST_TEST=1 $(OUT)/fs 2>&1 | tee /tmp/test-fs.txt
 
 # 正常執行伺服器 (預設連接全球星際中心)
 run: fsmud
 	@echo "🚀 Starting MudScript Server (Connecting to Global Hub)..."
 	@ $(OUT)/fsmud 2>&1 | tee /tmp/run.txt
-
-run-fs: fs
-	@ $(OUT)/fs 2>&1 | tee /tmp/run-fs.txt
 
 clean:
 	@rm -rf *.log *txt $(OUT)/*
