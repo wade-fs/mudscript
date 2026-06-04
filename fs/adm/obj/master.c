@@ -420,83 +420,6 @@ int valid_read( string file, mixed user, string func )
 
         return 1;
 }
-void after_write(string to, string from ,object obj, string func)
-{
-  string *idirs ;
-  string username ,dir; 
-  object me;
-  idirs = ({
-      "u","log","data","bin","ftp","player","autoload"
-      });
-  me = (this_player()) ? this_player() : obj;
-  username = " --encoding big5 -m '' --username "+getuid(me);
-  switch(func)
-  {
-    case "mkdir":
-    case "rmdir":
-    case "remove_file":
-    case "write_file":
-    case "write_bytes":
-      dir = explode(to,"/")[0];
-      break;
-    case "copy":
-    case "move":
-    case "copy_file":
-      dir = explode(from,"/")[0];
-
-      break;
-
-  }
-  if(member_array(dir,idirs) != -1) return ;
-  if(to[0] == '/') to = to[1..<1];
-  if(from[0] == '/') from = from[1..<1];
-  switch(func)
-  {
-    case "mkdir":
-      "/adm/daemons/scmd_d.c"->send_command("svn add "+to);
-      "/adm/daemons/scmd_d.c"->send_command("svn ci "+to + username);
-    break;
-    case "rmdir":
-      "/adm/daemons/scmd_d.c"->send_command("svn rm "+to);
-      "/adm/daemons/scmd_d.c"->send_command("svn ci "+to + username);
-
-      break;
-    case "remove_file":
-      "/adm/daemons/scmd_d.c"->send_command("svn rm "+to);
-      "/adm/daemons/scmd_d.c"->send_command("svn ci "+to + username);
-
-      break;
-    case "write_file":
-      "/adm/daemons/scmd_d.c"->send_command("svn add "+to);
-      "/adm/daemons/scmd_d.c"->send_command("svn ci "+to + username);
-      break;
-    case "write_bytes":
-      "/adm/daemons/scmd_d.c"->send_command("svn add "+to);
-      "/adm/daemons/scmd_d.c"->send_command("svn ci "+to + username);
-      break;
-    case "copy":
-      write("copy = ");
-
-      break;
-    case "move":
-      write("move = ");
-      "/adm/daemons/scmd_d.c"->send_command("svn mv "+to + " " + from);
-      "/adm/daemons/scmd_d.c"->send_command("svn add "+ from);
-      "/adm/daemons/scmd_d.c"->send_command("svn rm "+ to);
-      "/adm/daemons/scmd_d.c"->send_command("svn ci "+from +" "+ to +  username);
-
-      break;
-    case "copy_file":
-      write("copy_file = ");
-      "/adm/daemons/scmd_d.c"->send_command("svn add "+from);
-      "/adm/daemons/scmd_d.c"->send_command("svn ci "+from + username);
-
-      break;
-
-
-    default:
-  }
-}
 string object_name(object ob)
 {
         if( ob ) return ob->name();
@@ -506,17 +429,6 @@ void create()
 {
 efun::write("master: loaded successfully.\n");
  
-//should be NULL
-/*
-        object ob;
-
-        write("master: loaded successfully.\n");
-        seteuid(getuid());
-        if( ob = find_object(SIMUL_EFUN_OB) ) {
-                efun::destruct(ob);
-                call_other(SIMUL_EFUN_OB, "???");
-        }
-*/
 }
 
 int valid_bind(object binder, object old_owner, object new_owner)

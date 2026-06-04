@@ -825,6 +825,7 @@ func evalIdent(node *ast.Ident, env object.Environment) object.Object {
 			funcName := parts[1]
 
 			if prefix == "efun" {
+				// 優先從當前物件的 Efuns 表找 (原始 Efun)
 				if thisObjVal, ok := env.Get("this_object"); ok {
 					var lpcObj *object.LPCObject
 					if obj, ok := thisObjVal.(*object.LPCObject); ok {
@@ -841,10 +842,19 @@ func evalIdent(node *ast.Ident, env object.Environment) object.Object {
 						}
 					}
 				}
+				// 備援：從全域 Builtins 找
+				if b, ok := builtins[funcName]; ok {
+					return b
+				}
 			} else if prefix == "simul_efun" {
 				if simulObjVal, ok := env.Get("__simul_efun_obj"); ok {
 					if simulObj, ok := simulObjVal.(*object.LPCObject); ok {
+						// 優先從 Vars 找 (可能包含包裝後的 Efun 或 Function)
 						if fn, exists := simulObj.Vars.Get(funcName); exists {
+							return fn
+						}
+						// 再從 Functions 找
+						if fn, exists := simulObj.Functions[funcName]; exists {
 							return fn
 						}
 					}
