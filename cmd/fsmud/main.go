@@ -21,14 +21,16 @@ import (
 func main() {
 	hubURL := flag.String("hub", "wss://wade-fs-fsmud-hub.hf.space/ws", "Signaling hub URL (set to 'none' to run in isolation)")
 	port := flag.String("port", "8080", "HTTP server port")
+	mudlib := flag.String("mudlib", "fsmud", "mudlib directory")
+	master := flag.String("master", "master.c", "Master of world in mudlib directory")
 	flag.Parse()
 
 	log.Println("正在初始化 WebMUD 伺服器 (Hybrid 模式)...")
 
 	// 1. 準備 MUD 引擎配置
 	config := driver.DriverConfig{
-		MudLibPath:      "./mudlib",
-		MasterFile:      "/master.c",
+		MudLibPath:      *mudlib,
+		MasterFile:      *master,
 		HeartBeatTick:   0, 
 		CleanUpInterval: 5 * time.Minute, // 🚀 新增：5分鐘執行一次 GC
 		EmbeddedFS:      mudscript.Assets, 
