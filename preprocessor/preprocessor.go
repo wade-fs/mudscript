@@ -24,6 +24,7 @@ type Preprocessor struct {
 	Macros        map[string]Macro
 	EmbeddedFS    fs.FS  // 🚀 新增：支援嵌入式檔案系統
 	GlobalInclude string // 🚀 新增：全域自動引入標頭檔
+	StripModifiers bool   // 🚀 新增：是否移除 static, varargs, nomask 等修飾詞
 	regexCache    map[string]*regexp.Regexp // 🚀 新增：快取 Regex 以提升效能
 }
 
@@ -498,13 +499,62 @@ func (p *Preprocessor) processInternal(filename, input string, depth int) (strin
 		}
 
 		// ==========================================
-		// 4. 處理一般程式碼：替換巨集
+		// 4. 處理一般程式碼：替換巨集與修飾詞剝除
 		// ==========================================
 		outLine := p.replaceMacros(cleanLine)
+		if p.StripModifiers {
+			outLine = p.stripModifiers(outLine)
+		}
 		output.WriteString(outLine + "\n")
 	}
 
 	return output.String(), nil
+}
+
+func (p *Preprocessor) stripModifiers(line string) string {
+	// 定義需要被移除的 LPC 修飾詞
+	modifiers := []string{"static", "varargs", "nomask", "private", "protected", "public"}
+
+	currentLine := line
+	var result strings.Builder
+	inString := false
+
+	for i := 0; i < len(currentLine); i++ {
+		// 🚩 避開字串內容
+		if currentLine[i] == '"' && (i == 0 || currentLine[i-1] != '\\') {
+			inString = !inString
+			result.WriteByte(currentLine[i])
+			continue
+		}
+
+		if inString {
+			result.WriteByte(currentLine[i])
+			continue
+		}
+
+		// 檢查是否遇到關鍵修飾詞
+		found := false
+		for _, mod := range modifiers {
+			if strings.HasPrefix(currentLine[i:], mod) {
+				endIdx := i + len(mod)
+				// 必須是獨立單字 (前後非字母數字)
+				isStart := (i == 0 || !isAlphaNumeric(currentLine[i-1]))
+				isEnd := (endIdx == len(currentLine) || !isAlphaNumeric(currentLine[endIdx]))
+
+				if isStart && isEnd {
+					// 🚀 找到修飾詞，跳過它
+					i = endIdx - 1
+					found = true
+					break
+				}
+			}
+		}
+
+		if !found {
+			result.WriteByte(currentLine[i])
+		}
+	}
+	return result.String()
 }
 
 func isAlphaNumeric(c byte) bool {

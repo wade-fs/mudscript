@@ -23,6 +23,7 @@ type DriverConfig struct {
 	EmbeddedPath    string // 🚀 新增：嵌入式路徑前綴
 	GlobalInclude   string // 🚀 新增：全域自動引入標頭檔
 	SimulEfunFile   string // 🚀 新增：指定 SimulEfun 檔案路徑
+	StripModifiers  bool   // 🚀 新增：是否移除 static, varargs, nomask 等修飾詞 (用於相容 Legacy fs)
 }
 
 // Driver MUD 伺服器核心

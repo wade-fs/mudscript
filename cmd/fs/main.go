@@ -29,6 +29,7 @@ func main() {
 		MasterFile:      *master,
 		SimulEfunFile:   *simul,
 		GlobalInclude:   *gInclude,
+		StripModifiers:  true, // 🚀 關鍵：針對 Legacy FS 剝除函式修飾詞
 		HeartBeatTick:   2 * time.Second, 
 		CleanUpInterval: 15 * time.Minute,
 		EmbeddedFS:      mudscript.Assets, 
