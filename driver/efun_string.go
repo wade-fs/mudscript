@@ -48,9 +48,14 @@ func (d *Driver) registerStringEfuns(obj *object.LPCObject) {
 			}
 
 			recursive := false
+			details := false
 			if len(args) > 1 {
-				if flag, ok := args[1].(*object.Integer); ok && flag.Value > 0 {
-					recursive = true
+				if flag, ok := args[1].(*object.Integer); ok {
+					if flag.Value > 0 {
+						recursive = true
+					} else if flag.Value == -1 {
+						details = true
+					}
 				}
 			}
 
@@ -64,7 +69,14 @@ func (d *Driver) registerStringEfuns(obj *object.LPCObject) {
 				return object.NewError("get_dir 權限錯誤：無法存取根目錄以外的檔案")
 			}
 
-			var results []string
+			// 定義結果結構
+			type fileInfo struct {
+				Name  string
+				Size  int64
+				MTime int64
+				IsDir bool
+			}
+			var results []fileInfo
 
 			if recursive {
 				// ── 模式 1：遞迴掃描目錄 ──
@@ -83,11 +95,24 @@ func (d *Driver) registerStringEfuns(obj *object.LPCObject) {
 						// 統一轉換路徑斜線為 LPC 習慣的 "/"
 						rel = filepath.ToSlash(rel)
 
-						if entry.IsDir() {
-							results = append(results, rel+"/")
-						} else {
-							results = append(results, rel)
+						info, _ := entry.Info()
+						var size, mtime int64
+						if info != nil {
+							size = info.Size()
+							mtime = info.ModTime().Unix()
 						}
+
+						name := rel
+						if entry.IsDir() {
+							name += "/"
+						}
+
+						results = append(results, fileInfo{
+							Name:  name,
+							Size:  size,
+							MTime: mtime,
+							IsDir: entry.IsDir(),
+						})
 						return nil
 					})
 				}
@@ -104,10 +129,14 @@ func (d *Driver) registerStringEfuns(obj *object.LPCObject) {
 							}
 							_, name := filepath.Split(match)
 							if info.IsDir() {
-								results = append(results, name+"/")
-							} else {
-								results = append(results, name)
+								name += "/"
 							}
+							results = append(results, fileInfo{
+								Name:  name,
+								Size:  info.Size(),
+								MTime: info.ModTime().Unix(),
+								IsDir: info.IsDir(),
+							})
 						}
 					}
 				} else {
@@ -115,18 +144,34 @@ func (d *Driver) registerStringEfuns(obj *object.LPCObject) {
 					entries, err := os.ReadDir(fullPath)
 					if err == nil {
 						for _, entry := range entries {
-							if entry.IsDir() {
-								results = append(results, entry.Name()+"/")
-							} else {
-								results = append(results, entry.Name())
+							info, _ := entry.Info()
+							var size, mtime int64
+							if info != nil {
+								size = info.Size()
+								mtime = info.ModTime().Unix()
 							}
+							name := entry.Name()
+							if entry.IsDir() {
+								name += "/"
+							}
+							results = append(results, fileInfo{
+								Name:  name,
+								Size:  size,
+								MTime: mtime,
+								IsDir: entry.IsDir(),
+							})
 						}
 					} else {
 						// 如果不是目錄但檔案存在，就回傳它自己
 						info, err := os.Stat(fullPath)
 						if err == nil && !info.IsDir() {
 							_, name := filepath.Split(fullPath)
-							results = append(results, name)
+							results = append(results, fileInfo{
+								Name:  name,
+								Size:  info.Size(),
+								MTime: info.ModTime().Unix(),
+								IsDir: false,
+							})
 						}
 					}
 				}
@@ -135,7 +180,16 @@ func (d *Driver) registerStringEfuns(obj *object.LPCObject) {
 			// 轉換為 LPC Array 回傳
 			elements := make([]object.Object, len(results))
 			for i, res := range results {
-				elements[i] = &object.String{Value: res}
+				if details {
+					// 回傳 ({ name, size, mtime })
+					elements[i] = &object.Array{Elements: []object.Object{
+						&object.String{Value: res.Name},
+						&object.Integer{Value: res.Size},
+						&object.Integer{Value: res.MTime},
+					}}
+				} else {
+					elements[i] = &object.String{Value: res.Name}
+				}
 			}
 
 			return &object.Array{Elements: elements}

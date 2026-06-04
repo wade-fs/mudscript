@@ -4,7 +4,7 @@
 #include <ansi.h>
 #include <login.h>
 #define INTERMAIL_I "/data/intermail_i"
-static int current_day_phase;
+static int current_day_phase = 0;
 static int current_weather=0;
 static int c=0;
 static int weather_hurt=0, weather_light=1;

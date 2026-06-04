@@ -202,7 +202,10 @@ void logon (object ob)
 void get_id(string arg, object ob, int times)
 {
   write(sprintf("DEBUG: get_id called with arg: %s\n", arg));
-  int all_players=0, all_wizs=0, i, max_users;
+  int all_players=0;
+  int all_wizs=0;
+  int i;
+  int max_users;
   int *save_keys, sock, sock2, sock3, sock4, sock5, ok = 0;
   object *all_user;
   object  ppl,user;
