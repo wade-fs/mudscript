@@ -43,6 +43,20 @@ func (d *Driver) loadObjectInternal(filename string) (*object.LPCObject, bool, e
 	// 使用混合模式讀取檔案內容
 	content, err := d.ReadFile(filename)
 	if err != nil {
+		// 🚀 關鍵強化：虛擬物件 (Virtual Objects) 支援
+		// 當找不到實體檔案時，嘗試呼叫 Master 標記的 compile_object()
+		if d.MasterObject != nil && filename != d.Config.MasterFile {
+			res := d.CallFunction(d.MasterObject, "compile_object", []object.Object{
+				&object.String{Value: filename},
+			})
+			if virtualObj, ok := res.(*object.LPCObject); ok && virtualObj != nil {
+				// 成功取得虛擬物件，將其註冊到 ObjectTable (以原請求檔名作為 key)
+				d.mu.Lock()
+				d.ObjectTable[filename] = virtualObj
+				d.mu.Unlock()
+				return virtualObj, false, nil
+			}
+		}
 		return nil, false, err
 	}
 
