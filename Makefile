@@ -54,9 +54,14 @@ $(OUT):
 
 # 編譯 Linux 版本 (不自動執行)
 # fsmud: $(OUT) inject-hash
-fsmud fsmud.exe fs fs.exe: $(OUT)
+fsmud fsmud.exe: $(OUT)
 	@echo "🔨 Building $@..."
-	@go mod tidy && $(GO_EXE) build $(GO_FLAGS) -o $(OUT)/$@ ./cmd/$@
+	@go mod tidy && $(GO_EXE) build $(GO_FLAGS) -tags fsmud -o $(OUT)/$@ ./cmd/fsmud
+	@ls -l $(OUT)/$@
+
+fs fs.exe: $(OUT)
+	@echo "🔨 Building $@..."
+	@go mod tidy && $(GO_EXE) build $(GO_FLAGS) -tags fs -o $(OUT)/$@ ./cmd/fs
 	@ls -l $(OUT)/$@
 
 # 執行測試 (測試模式下不連接 P2P 以免干擾)

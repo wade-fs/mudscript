@@ -115,14 +115,14 @@ func main() {
 }
 
 func setupStaticServer() {
-	diskPath := "./web/static"
+	diskPath := "./fsmud/web/static"
 	
 	if info, err := os.Stat(diskPath); err == nil && info.IsDir() {
 		log.Println("🌐 [WEB] 使用外部磁碟網頁檔案 (支援熱更新)")
 		http.Handle("/", http.FileServer(http.Dir(diskPath)))
 	} else {
 		log.Println("📦 [WEB] 使用內建嵌入網頁檔案")
-		subFS, err := fs.Sub(mudscript.Assets, "web/static")
+		subFS, err := fs.Sub(mudscript.Assets, "fsmud/web/static")
 		if err != nil {
 			panic(fmt.Sprintf("無法開啟嵌入網頁目錄: %v", err))
 		}

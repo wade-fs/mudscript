@@ -4,10 +4,8 @@ package main
 import (
 	"flag"
 	"fmt"
-	"io/fs"
 	"log"
 	"net/http"
-	"os"
 	"time"
 
 	"mudscript" // 導入根目錄 package 以取得 Assets
@@ -53,29 +51,14 @@ func main() {
 		signaling.HandleWS(hub, w, r)
 	})
 
-	// 🚀 靜態網頁服務
-	setupStaticServer()
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		fmt.Fprintf(w, "Legacy FS Server is running. Connect to /ws for websocket.")
+	})
 
 	// 5. 啟動 Web 伺服器
-	log.Printf("Legacy FS Web 伺服器監聽中 :%s\n", *port)
+	log.Printf("Legacy FS 伺服器監聽中 :%s\n", *port)
 	err := http.ListenAndServe(":"+*port, nil)
 	if err != nil {
 		panic(err)
-	}
-}
-
-func setupStaticServer() {
-	diskPath := "./web/static"
-	
-	if info, err := os.Stat(diskPath); err == nil && info.IsDir() {
-		log.Println("🌐 [WEB] 使用外部磁碟網頁檔案")
-		http.Handle("/", http.FileServer(http.Dir(diskPath)))
-	} else {
-		log.Println("📦 [WEB] 使用內建嵌入網頁檔案")
-		subFS, err := fs.Sub(mudscript.Assets, "web/static")
-		if err != nil {
-			panic(fmt.Sprintf("無法開啟嵌入網頁目錄: %v", err))
-		}
-		http.Handle("/", http.FileServer(http.FS(subFS)))
 	}
 }
