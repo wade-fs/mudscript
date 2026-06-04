@@ -129,14 +129,11 @@ void logon (object ob)
   int i, t, wiz_cnt, ppl_cnt, login_cnt, *save_keys,time;
 
   // by ACKY
-#define LOGIN_TOO_FAST
-#ifdef LOGIN_TOO_FAST
   if( blocks[query_ip_number(ob)] > time() ) {
     write("請勿連續嘗試﹐請您稍後再連線。\n");
     new_destruct(ob);
     return;
   }
-#endif
 
   // by konn
   if (CBIP_D->check_ip(ob)) {
@@ -174,7 +171,6 @@ void logon (object ob)
     else if( wizardp(usr[i]) ) wiz_cnt++;
     else if( !usr[i]->query_temp("netdead") ) ppl_cnt++;
   }
-#ifdef MAX_USERS
   if(file_size("/data/player") >0){
     sscanf( read_file("data/player", 1, 1 ), "%d %d %d", player_week, player_day, day );
     printf("今日上線人次: "HIG"%d"NOR", 本週上線人次: "HIY"%d"NOR" 。\n", player_day, player_week );
@@ -189,15 +185,6 @@ void logon (object ob)
     printf("此時段人數上限為 "+HIM+MAX_USERS_2+NOR" 人, 線上共有 "HIC"%d"NOR" 位玩家, 以及 "HIR"%d"NOR" 位使用者嘗試連線中。\n",
     ppl_cnt, login_cnt );
   }
-#else
-  if(file_size("/data/player") >0){
-    sscanf (read_file("data/player", 1, 1 ), "%d %d %d",
-            player_week, player_day, day );
-    printf ("今日上線人次: "HIG"%d"NOR", 本週上線人次: "HIY"%d"NOR
-           ", 線上 "HIC"%d"NOR", 以及 "HIR"%d"NOR" 位使用者連線中。\n",
-           player_day, player_week, ppl_cnt, login_cnt);
-  }
-#endif
 
   CHANNEL_D->do_channel( this_object(), "sys:login", sprintf("(%s) IP:%-15s 嘗試連線中。",
     ctime(time())[4..15],query_ip_number()) );
@@ -235,8 +222,6 @@ void get_id(string arg, object ob, int times)
     input_to("get_id", 0, ob, times+1);
     return;
   }
-
-#ifdef MAX_USERS
 
   all_user = users();
   all_wizs = 0;
@@ -278,7 +263,6 @@ void get_id(string arg, object ob, int times)
       return;
     }
   }
-#endif
 
   if( (string)ob->set("id", arg) != arg ) {
     write("Failed setting user name.\n");
@@ -288,11 +272,7 @@ void get_id(string arg, object ob, int times)
 
   if( arg=="guest" ) {
     if ( wizlocklevel > 0) {
-#ifdef WIZ_LOCK
   write (HIY+WIZ_LOCK+NOR);
-#else
-  write (HIY+"系統禁止你 login, sorry.\n"+NOR);
-#endif
   destruct(ob);
   return;
     }
@@ -352,11 +332,7 @@ void get_id(string arg, object ob, int times)
   }
   else {
       if (wiz_level (ob) < wizlocklevel) {
-#ifdef WIZ_LOCK
   write (HIR+WIZ_LOCK+NOR);
-#else
-  write (HIY+"目前只允許\巫師上線,請耐心等候.\n"+NOR);
-#endif
   new_destruct(ob);
       }
     for (i=0; i<sizeof(banned_id); i++) {
@@ -416,19 +392,16 @@ void get_passwd(string pass, object ob)
     return;
   }
 
-#ifdef CHECK_PASSWD_SIMPLE
   if (!check_passwd (pass)) {
     write ("您的密碼過於簡單, 請進入後更換密碼,\n"
      "至少含有普通英文非非英文字母各一個.\n");
   }
-#endif
 
   // Check if we are already playing.
   id = ob->query("id");
   if (user=find_body(ob->query("id"))) {
       // by konn
       // mark by bss,現在沒有流量限制了,先mark
-#ifdef NET_FLOW
       if( !wizardp(user) ) {
         if( time() - user->query("net_count/date") > 86400 ) {
     user->set("net_count/unit", 0);
@@ -444,7 +417,6 @@ void get_passwd(string pass, object ob)
         }
 
       }
-#endif
     if (environment(user)) {
       if (user->query_temp("netdead")) {
         reconnect (ob, user);
@@ -462,7 +434,6 @@ void get_passwd(string pass, object ob)
   if( objectp(user = make_body(ob)) ) {
     if( user->restore() ) {
       // by konn
-#ifdef NET_FLOW
       if( !wizardp(user) ) {
         if( time() - user->query("net_count/date") > 86400 ) {
           user->set("net_count/unit", 0);
@@ -478,7 +449,6 @@ void get_passwd(string pass, object ob)
           return ;
         }
       }
-#endif
       log_file( "USAGE", sprintf("%s(%s) logined from %s (%s)\n",
       user->query("name"), id,
       query_ip_number(ob), ctime(time()) ) );
@@ -938,11 +908,7 @@ varargs void enter_world(object ob, object user)
       user->save();
     }
       if (wiz_level(user) < wizlocklevel) {
-#ifdef WIZ_LOCK
   write (HIY+WIZ_LOCK+NOR);
-#else
-  write (HIY+"系統禁止你 login, sorry.\n"+NOR);
-#endif
   destruct(ob);
   destruct(user);
   return;

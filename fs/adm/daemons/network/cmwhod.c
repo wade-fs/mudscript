@@ -30,23 +30,15 @@
 
 #include <net/socket.h> /* includes socket_errors.h indirectly */
 
+// ... production settings ...
+
+#include <net/socket.h> /* includes socket_errors.h indirectly */
+
 #define DAEMON_IP "128.83.194.11" /* actlab */
 #define PASSWORD "spin,ach"
 
-// undefine this if you don't want logging of errors
-#define LOG_INFO
-// only has an effect if LOG_INFO is defined
-#undef LOG_CALL_OUTS
-
-// change QUERY_NAME and QUERY_LOGIN_TIME to mesh with your mudlib
-
-#ifdef BASIS /* for Basis-derived mudlibs */
-#define QUERY_NAME query(a_cap_name)
-#define QUERY_LOGIN_TIME query(a_create_time)
-#else
 #define QUERY_NAME query("cap_name")
 #define QUERY_LOGIN_TIME query("last_on")
-#endif
 
 // these values should be okay as long as you are talking to the Portals daemon
 #define REFRESH_INTERVAL 390
@@ -70,22 +62,18 @@ static int socket;
 void
 log_info(string error)
 {
-#ifdef LOG_INFO
 	log_file("cmwhod", ctime(time()) + "\n" + error);
-#endif
 }
 
 static void
 send_data(string datagram)
 {
-#ifdef INTERMUD
 	int rc;
 
 	rc = socket_write(socket, datagram, mwhod_addr);
 	if (rc != EESUCCESS) {
 		log_info("socket_write: " + socket_error(rc) + "\n");
 	}
-#endif /* INTERMUD */
 }
 
 static string
@@ -93,50 +81,8 @@ header(string op)
 {
 	return op + TAB + mudname + TAB + PASSWORD;
 }
-
-static void
-set_keepalive_message()
-{
-	/* uptime() is an efun that returns # of seconds the driver has been up */
-	keepalive_message = header("M") + TAB + mudname + TAB +
-		(time() - uptime()) + TAB + GENERATION + TAB + comments;
-}
-
-static void
-set_boot_message()
-{
-	boot_message = header("U") + TAB + mudname + TAB +
-		(time() - uptime()) + TAB + GENERATION + TAB + comments;
-}
-
-static void
-set_comments()
-{
-	comments = __VERSION__ + "/" + CLIENT_VERSION;
-}
-
-void
-add_user(object user, int which)
-{
-	string name, datagram;
-	int userid, login_time;
-
-	if (!user) {
-		return;
-	}
-	userid = getoid(user);
-	/* refresh approx. 1/PARTITIONS of list each time */
-	if ((userid % PARTITIONS) != which) {
-		return;
-	}
-	login_time = (int)user->QUERY_LOGIN_TIME;
-	name = (string)user->QUERY_NAME;
-	datagram =
-		header("A")+TAB+mudname+TAB+userid+"@"+MUD_NAME+TAB+login_time+TAB+GENERATION
-			+TAB+name;
-	send_data(datagram);
-}
-
+// ...
+// ...
 void
 add_all_users(int which)
 {
@@ -154,9 +100,6 @@ refresh(int which)
 {
 	string err;
 
-#ifdef LOG_CALL_OUTS
-	log_info("call_out: refresh " + which + "\n");
-#endif
 	// do the catch() so the call_out won't be lost in case of runtime error.
 	err = catch(add_all_users(which));
 	if (err) {
@@ -198,35 +141,7 @@ create()
 void
 keepalive()
 {
-#ifdef LOG_CALL_OUTS
-	log_info("call_out: keepalive:\n" + keepalive_message + "\n");
-#endif
 	/* shouldn't be able to get a runtime error here */
 	send_data(keepalive_message);
 	call_out("keepalive", KEEPALIVE_INTERVAL);
-}
-
-void
-boot()
-{
-	log_info("booting");
-	send_data(boot_message);
-}
-
-void
-halt()
-{
-	log_info("halting");
-	send_data(header("D"));
-}
-
-void
-remove_user(object user)
-{
-	string datagram;
-	int userid;
-
-	userid = getoid(user); /* get number following # in file_name(user) */
-	datagram = header("Z") + TAB + mudname + TAB + userid+"@"+MUD_NAME;
-	send_data(datagram);
 }

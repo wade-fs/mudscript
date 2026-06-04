@@ -7,11 +7,7 @@
 */
 
 #include <exec/types.h>
-#ifdef INCLUDE_VERSION
-#include <dos/dos.h>
-#else
 #include <libraries/dos.h>
-#endif
 #include "nsignal.h"
 extern __stkargs ULONG SetSignal(unsigned long newSignals, unsigned long signalSet);
 

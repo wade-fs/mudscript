@@ -22,16 +22,6 @@ int do_command( string cmd )
 	string  verb, arg, cmd1;
 	int     repeat = 0;
 
-#ifdef PROFILE_COMMANDS
-        int mem, utime, stime;
-        mapping info;
-
-        mem = memory_info();
-        info = rusage();
-        utime = info["utime"];
-        stime = info["stime"];
-#endif
-
 	if( !cmd || cmd=="" )
 		return 0;
 	if( sscanf( cmd, "%s %s", verb, arg ) != 2 )
@@ -70,11 +60,6 @@ int do_command( string cmd )
                 ;
         else return 0;
 
-#ifdef PROFILE_COMMANDS
-        info = rusage();
-        PROFILE_D->log_command(verb, memory_info() - mem, info["stime"] - stime,
-        info["utime"] - utime);
-#endif
         return 1;
 }
 

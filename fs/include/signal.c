@@ -34,14 +34,7 @@
 #include <exec/tasks.h>
 #include <exec/interrupts.h>
 #include <devices/timer.h>
-#ifdef INCLUDE_VERSION
-#include <dos/dos.h>
-#include <clib/alib_protos.h>
-#include <clib/dos_protos.h>
-#include <clib/exec_protos.h>
-#else
 #include <libraries/dos.h>
-#endif
 #include <errno.h>
 #include <stdlib.h>
 #include <stdio.h>

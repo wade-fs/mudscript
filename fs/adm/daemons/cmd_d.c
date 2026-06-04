@@ -12,12 +12,9 @@ void create()
 }
 
 // 這邊是列出不能縮寫的指令...by avgirl 00/10/18
-string *no_com=({"wield","unwield","team"
-                ,"remove","wear","save","quit"
-                ,"wizlist","shutdown"
-,"purge"
-,"abandon"
-                ,"reboot","passwd"});
+string *no_com=({
+ "s",
+});
 
 void rehash(string dir)
 {
@@ -25,47 +22,36 @@ void rehash(string dir)
         string *cmds;
 
         if( dir[sizeof(dir)-1]!='/' ) dir += "/";
+
         cmds = get_dir(dir);
+        write(sprintf("DEBUG: COMMAND_D: rehash(%s) found %d files\n", dir, sizeof(cmds)));
         i = sizeof(cmds);
         while(i--)
                 if( !sscanf(cmds[i], "%s.c", cmds[i]) ) {
-                        if( i==0 ) cmds = cmds[1..sizeof(cmds)];
-                        else if( i==sizeof(cmds) ) cmds = cmds[0..<2];
+                        if( i==0 ) cmds = cmds[1..<1];
                         else cmds = cmds[0..i-1] + cmds[i+1..<1];
                 }
-        if( sizeof(cmds) )
+        write(sprintf("DEBUG: COMMAND_D: rehash(%s) after sscanf has %d files\n", dir, sizeof(cmds)));
+        if( sizeof(cmds) ) {
                 search[dir] = cmds;
-}
-string find_commands(string verb, string *path)
-{
-        int i;
-
-        if( !pointerp(path) ) return 0;
-
-        i = sizeof(path);
-        while(i--) {
-            if( undefinedp(search[path[i]]) ) rehash(path[i]);
-            if( undefinedp(search[path[i]]) ) continue;
-            if( member_array(verb, search[path[i]])!=-1 )
-                return path[i] + verb;
+                write(sprintf("DEBUG: COMMAND_D: saved to search[%s]\n", dir));
         }
-        return 0;
 }
+
 string find_command(string verb, string *path)
 {
-        object wiz;
         string *str;
         int i;
 
         if( !pointerp(path) ) return 0;
-//        foreach( string filter in "`^$*+?\\[].()")
-//                  verb=replace_string(verb, sprintf("%c",filter),"");
+
         i = sizeof(path);
         while(i--) {
-            if( undefinedp(search[path[i]]) ) rehash(path[i]);
-            if( undefinedp(search[path[i]]) ) continue;
-            if( member_array(verb, search[path[i]])!=-1 )
-                return path[i] + verb;
+                // write(sprintf("DEBUG: COMMAND_D: searching verb %s in path %s\n", verb, path[i]));
+                if( undefinedp(search[path[i]]) ) rehash(path[i]);
+                if( undefinedp(search[path[i]]) ) continue;
+                if( member_array(verb, search[path[i]])!=-1 )
+                        return path[i] + verb;
         }
 
         if( sizeof(EMOTE_D->query_emote(verb)) ) return 0;
@@ -74,7 +60,6 @@ string find_command(string verb, string *path)
         while(i--) {
             str = search[path[i]];
               if(cmp_cmds(str,verb)){
-// 擋掉某些不要簡寫的字串...by avgirl 00/10/18
                 if( member_array(cmp_cmds(str,verb), no_com)!=-1
                  && member_array(verb, no_com)==-1) return 0;
                 return path[i] + cmp_cmds(str,verb);
@@ -85,18 +70,10 @@ string find_command(string verb, string *path)
 
 void clean_cmds()
 {
-
         total_cmds = 0;
         call_out("clean_cmds", 1);
 }
 
-// by konni
-void add_cmds(int i)
-{
-        total_cmds += i;
-}
-// by konni
-int query_cmds() {       return total_cmds;      }
 string cmp_cmds(string *str,string verb)
 {
     int i,j,flag;
@@ -117,4 +94,3 @@ string cmp_cmds(string *str,string verb)
     else
       return 0;
 }
-

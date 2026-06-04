@@ -4,10 +4,6 @@
 #ifndef __NET__DNS_H
 #define __NET__DNS_H
  
-#ifndef NETWORK_MASTER
-#include <net/daemons.h>
-#endif
- 
 #define AUX_PATH "/adm/daemons/network/services/"
  
 #define PING_Q		(AUX_PATH+"ping_q")

@@ -48,19 +48,11 @@ remote_finger(object source, string user, string mud)
     }
   msvc = (int)DNS_MASTER->query_service_method(mud, "finger");
 
-#if PREF_FINGER & SVC_TCP
+  // Modernized logic: assume TCP availability
   if(msvc & SVC_TCP)
     tcp_finger(source, user, mud);
   else if(msvc & SVC_UDP)
     udp_finger(source, user, mud);
-#elif PREF_FINGER & SVC_UDP
-  if(msvc & SVC_UDP)
-    udp_finger(source, user, mud);
-  else if(msvc & SVC_TCP)
-    tcp_finger(source, user, mud);
-#else
-  if(0) ; //force the following else to be taken
-#endif
   else
      tell_object(source, "fingerd: cannot determine protocol\n");
 }

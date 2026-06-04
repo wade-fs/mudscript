@@ -150,7 +150,6 @@ remove()
 } // remove
  
 
-#if 1		// XXX: enable for debugging only - Zak
 void	set_mqi(mixed m)	{ mqi = m; }
 string *query_mqi()		{ return mqi; }
 
@@ -163,7 +162,6 @@ clear_mail_queue()
     mail_queue = ([ ]);
     save_object(MAILDIR + MS_SAVE);
 } // clear_mail_queue
-#endif
 
  
 void

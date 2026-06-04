@@ -23,8 +23,8 @@
 // config file, which must be larger than MAX_USER to allow users
 // including wizards and admins have chance to connect.
 // By Annihilator (02-22-95)
-//#define MAX_USERS    500 // 平時人數上限
-//#define MAX_USERS_2  500 // tintin人數上限
+#define MAX_USERS    500 // 平時人數上限
+#define MAX_USERS_2  500 // tintin人數上限
 
 // multi login 人數限制 by ACKY
 // multi login 人數限制 fix by frequency
@@ -46,5 +46,8 @@
 
 // this is magic word for some connection.
 #define MAGIC_WORD "FS_MAGIC_WORD"
+
+#define CHECK_PASSWD_SIMPLE
+#define NET_FLOW
 
 #endif

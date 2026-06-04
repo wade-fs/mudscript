@@ -4,8 +4,6 @@
 
 // by Annihilator (06/15/95)
 
-#undef DEBUG
-
 #include <net/macros.h>
 #include <net/dns.h>
 #include <net/daemons.h>
@@ -29,10 +27,6 @@ void send_msg(string channel, string id, string name, string msg, int emoted,
 	if( !this_player()		// Prevent from being called by ourself.
 	||	!ACCESS_CHECK(previous_object())) return;
 
-#ifdef DEBUG
-	set("channel_id", "網路頻道精靈");
-	CHANNEL_D->do_channel(this_object(), "sys", "prepare to send gchannel message.");
-#endif
 	muds = (mapping)DNS_MASTER->query_muds();
 	svcs = (mapping)DNS_MASTER->query_svc();
 	msg = replace_string(msg, "|", "");
@@ -48,11 +42,6 @@ void send_msg(string channel, string id, string name, string msg, int emoted,
 			if(!mapp(minfo) || !mapp(svcs[names[i]])
 			|| !(svcs[names[i]]["gwizmsg"] & SVC_UDP))
 				continue;
-#ifdef DEBUG
-	set("channel_id", "網路頻道精靈");
-	CHANNEL_D->do_channel(this_object(), "sys",
-		sprintf("gchannel message sent to %s.", minfo["NAME"]));
-#endif
 			DNS_MASTER->send_udp(minfo["HOSTADDRESS"], minfo["PORTUDP"],
 				"@@@" + DNS_GCHANNEL +
 				"||NAME:" + Mud_name() +

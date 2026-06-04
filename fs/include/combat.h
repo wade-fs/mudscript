@@ -1,8 +1,5 @@
 // combat.h
 
-#ifndef __COMBAT__
-#define __COMBAT__
-
 #define TYPE_REGULAR	0
 #define TYPE_RIPOSTE	1
 #define TYPE_QUICK		2
@@ -21,4 +18,3 @@
 
 #define STATUS(x) "/cmds/std/hp"->status_color( me->query(x), me->query( "max_" + x ) )
 
-#endif

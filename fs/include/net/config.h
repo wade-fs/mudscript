@@ -1,10 +1,6 @@
 #ifndef __NET__CONFIG_H
 #define __NET__CONFIG_H
 
-#ifndef SVC_TCP
-#include <net/services.h>
-#endif
-
 /* These are the primary and secondry hosts to use as boot servers
  * for the DNS.  It is better to set to the primary to be a mud on
  * the same continent.

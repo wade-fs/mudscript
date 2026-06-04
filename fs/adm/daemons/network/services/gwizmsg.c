@@ -11,8 +11,6 @@
 
 // Ported to ES2 mudlib by Annihilator (06/15/95)
 
-#undef DEBUG
-
 #include <net/macros.h>
 #include <net/dns.h>
 #include <net/daemons.h>
@@ -34,10 +32,6 @@ void send_msg(string channel, string id, string name, string msg, int emoted)
 
 	if( !this_player()		// Prevent from being called by ourself.
 	||	!ACCESS_CHECK(previous_object())) return;
-#ifdef DEBUG
-	set("channel_id", "網際巫師頻道精靈");
-	CHANNEL_D->do_channel(this_object(), "sys", "prepare to send gwizmsg");
-#endif
 	muds = (mapping)DNS_MASTER->query_muds();
 	svcs = (mapping)DNS_MASTER->query_svc();
 	msg = replace_string(msg, "|", "");
@@ -69,10 +63,6 @@ void incoming_request(mapping info)
 	mapping minfo;
 	string tmsg;
 
-#ifdef DEBUG
-	set("channel_id", "網際巫師頻道精靈");
-	CHANNEL_D->do_channel(this_object(), "sys", "gwizmsg received from " + info["NAME"]);
-#endif
 	if(!ACCESS_CHECK(previous_object())) return;
 
 	if (info["NAME"]) {

@@ -1,23 +1,4 @@
 // file.c
-#ifdef SVN_FILE_SYSTEM
-int rmdir(string file)
-{
-
-  if(!SECURITY_D->valid_write(file,previous_object(),"rmdir") )
-    return 0;
-  MASTER_OB-> after_write(file[1..<1], "" ,previous_object(), "rmdir");
-  return 1;
-}
-int rename(string to,string from)
-{
-
-  if(!SECURITY_D->valid_write(file,previous_object(),"move") )
-    return 0;
-  MASTER_OB-> after_write(to, from ,previous_object(), "rmdir");
-  return 1;
-}
-
-#endif
 int file_power(string file)
 {
     object me;

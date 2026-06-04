@@ -314,17 +314,6 @@ if(me->query("must_heart_beat") ) return ;
         //       remember how much time has passed since last call.
         me->update_age();
 		me->save();
- 
-#ifdef IDLE_TIMEOUT
-        if (wizardp(me)) {
-          if(query_idle(me) > 10*IDLE_TIMEOUT)
-                user_dump(DUMP_IDLE, IDLE_TIMEOUT);
-        }
-        else if(query_idle(me) > IDLE_TIMEOUT) {
-          write("斷線");
-                user_dump(DUMP_IDLE, IDLE_TIMEOUT);
-        }
-#endif
 }
  
 int visible(object ob)

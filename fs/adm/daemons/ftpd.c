@@ -51,49 +51,16 @@ int check_valid_read( string fname, int fd )
 	res = (int) master() -> valid_read(fname, this_object(), "read_file");
 	seteuid( getuid() );
 
-	/*
-	 * This rather complicated looking section of code handles the
-	 * various read levels available.  See ftpdconf.h for READ_LEVEL
-	 * definitions of these flags.
-	 */
-#ifdef READ_LEVEL
-#if READ_LEVEL == VALID_READ
+	// READ_LEVEL is VALID_READ (0)
 	return res;
-#elif READ_LEVEL == RESTRICTED_READ
-	if (strncmp(fname, HOME_DIR( UNAME ), strlen(HOME_DIR( UNAME ))) == 0
-#ifdef PUB_DIR
-		  || strncmp(fname, PUB_DIR, strlen(PUB_DIR)) == 0
-#endif
-#ifdef FTP_DIR
-		  || strncmp(fname, FTP_DIR, strlen(FTP_DIR)) == 0
-#endif
-#ifdef TMP_DIR
-		  || strncmp(fname, TMP_DIR, strlen(TMP_DIR)) == 0
-#endif
-		  )
-		return res;
-	else
-		return 0;
-#elif READ_LEVEL == WRITE_LIMIT_READ
-	return check_valid_write( fname, fd );
-#else
-	// default
-	return res;
-#endif
-#else
-	// default
-	return res;
-#endif
 }
 
 int check_valid_write( string fname, int fd )
 {
 	int res;
 
-#ifdef MESSAGE_FILES
 	// Prevent removing .message file from ftp connection.
 	if( fname[<8..<0] == "/.message") return 0;
-#endif
 
 	seteuid( socket_info[ fd ][ USER_NAME ] );
 	res = (int) master() -> valid_write(fname, this_object(), "write_file");
@@ -104,34 +71,13 @@ int check_valid_write( string fname, int fd )
 	 * various write levels available.  See ftpdconf.h for WRITE_LEVEL
 	 * definitions of these flags.
 	 */
-#ifdef WRITE_LEVEL
-#if WRITE_LEVEL == VALID_WRITE
-	return res;
-#elif WRITE_LEVEL == RESTRICTED_WRITE
 	if (strncmp(fname, HOME_DIR( UNAME ), strlen(HOME_DIR( UNAME ))) == 0
-#ifdef PUB_DIR
 		  || strncmp(fname, PUB_DIR, strlen(PUB_DIR)) == 0
-#endif
-#ifdef FTP_DIR
 		  || strncmp(fname, FTP_DIR, strlen(FTP_DIR)) == 0
-#endif
-#ifdef TMP_DIR
-		  || strncmp(fname, TMP_DIR, strlen(TMP_DIR)) == 0
-#endif
 		  )
 		return res;
 	else
 		return 0;
-#elif WRITE_LEVEL == READ_ONLY
-	return 0;
-#else
-	// default
-	return res;
-#endif
-#else
-	// default
-	return res;
-#endif
 }
 
 mapping query_sinfo() { return socket_info; }
@@ -221,11 +167,7 @@ void in_write_callback( int fd )
 
 		res = socket_write( fd,
 			  sprintf( "220- %s FTP server (Version %s (MudOS/LPC)) ready.\n"
-#ifdef ANONYMOUS_FTP
 					   "220  Please login as yourself or 'anonymous'.\n",
-#else
-					   "220  Please login as yourself.\n",
-#endif
 					   THE_MUD_NAME, FTPD_VERSION ) );
 
 		/*
@@ -424,10 +366,6 @@ void data_write_callback( int fd )
 		case EECALLBACK:	// data transfer busy (LPC -> MudOS)
 			return;
 		default:		
-#ifdef DEBUG_REPORT
-			CHANNEL_D->do_channel(this_object(), "sys",
-				"data_write_callback: error " + ret_val + ", wait until next callback.");
-#endif
 			while ( remove_call_out( "data_write_callback" ) != -1 );
 	}
 }
@@ -576,10 +514,6 @@ void data_close_callback( int fd )
 
 		size = stringp( UDATA ) ? strlen( UDATA ) : sizeof( UDATA );
 
-#ifdef FILE_LOCKING
-		flock_wrapper( socket_info[ fd ][ PATH ], F_UNLOCK,
-			  socket_info[ fd ][ PARENT_FD ]);
-#endif
 
 		if ( socket_info[ fd ][ APPEND ] == -1)
 			socket_write( socket_info[ fd ][ PARENT_FD ],
@@ -605,16 +539,8 @@ static void logout( int fd )
 {
 	socket_info[ fd ][ LOGGED_IN ] = 0;
 	if ( UNAME ) {
-#ifdef LOG_TIME
-		log_file( LOG_FILE, FTP_TIME );
-#endif
-
-#ifdef LOG_CONNECT
-		log_file( LOG_FILE, sprintf("%s logged out from %s.\n", UNAME, USITE) );
-#endif
-
 	}
-}  /* logout() */
+	}  /* logout() */
 
 
 /*
@@ -656,21 +582,12 @@ static void parse_comm( int fd, string str )
 			if ( !check_access( command[ 1 ] ) ) {
 				socket_write( fd, sprintf("530 User %s access denied.\n",
 					  command[ 1 ]) );
-#ifdef LOG_TIME
-				log_file( LOG_FILE, FTP_TIME );
-#endif
 
-#ifdef LOG_NO_CONNECT
-				log_file( LOG_FILE, sprintf("%s denied access from %s.\n",
-					  command[ 1 ], USITE) );
-#endif
 			} else {
-#ifdef ANONYMOUS_FTP
 				if ( command[ 1 ] == "anonymous" )
 					socket_write( fd,
 	"331 Guest login ok, send your complete E-mail address as password.\n" );
 				else
-#endif
 					socket_write( fd, sprintf(
 						  "331 Password required for %s.\n", command[ 1 ]) );
 				UNAME = command[ 1 ];
@@ -684,91 +601,36 @@ static void parse_comm( int fd, string str )
 
 			if ( !check_password( socket_info[fd][ USER_NAME ],
 				  implode( command[ 1..sizeof( command ) - 1 ], " " ) ) ) {
-#ifdef ANONYMOUS_FTP
 				if (UNAME == "anonymous")
 					socket_write( fd,
 "530 Login failed.  Please send your complete E-mail address as password.\n" );
 				else
-#endif
 					socket_write( fd, "530 Login incorrect.\n" );
 
-#ifdef LOG_TIME
-				log_file( LOG_FILE, FTP_TIME );
-#endif
 
-#ifdef LOG_NO_CONNECT
-				log_file( LOG_FILE, sprintf(
-					  "%s failed/incorrect login from %s.\n", UNAME, USITE) );
-#endif
 				UNAME = 0;
 			} else
-#ifdef CHECK_SITE
-			if (!check_site( UNAME, fd )) {
-				/*
-				 * Note: this particular response of 530 is not mentioned
-				 * as a possible response to the PASS command in RFC959,
-				 * because site checking is TMI specific.
-				 */
-				socket_write( fd, sprintf("530 User %s: Can't login from %s.\n",
-					  UNAME, USITE) );
-#ifdef LOG_TIME
-				log_file( LOG_FILE, FTP_TIME );
-#endif
-
-#ifdef LOG_NO_CONNECT
-				log_file( LOG_FILE, sprintf("%s refused login from %s.\n",
-					  UNAME, USITE) );
-#endif
-				UNAME = 0;
-				lose_user( fd );
-			} else
-#endif
 			{
 				socket_info[ fd ][ LOGGED_IN ] = 1;
-#ifdef ANONYMOUS_FTP
 				if ( UNAME == "anonymous" )
 					UCWD = FTP_DIR;
 				else
-#endif
 					UCWD = HOME_DIR( UNAME );
-#ifdef LOG_TIME
-				log_file( LOG_FILE, FTP_TIME );
-#endif
-
-#ifdef LOG_CONNECT
-#ifdef ANONYMOUS_FTP
-				if (UNAME == "anonymous")
-					log_file( LOG_FILE, sprintf("%s (%s) connected from %s.\n",
-						  UNAME, str[strlen(command[0]) + 1..<1], USITE) );
-				else
-#endif
-					log_file( LOG_FILE, sprintf("%s connected from %s.\n",
-						  UNAME, USITE) );
-#endif
 
 				if ( !directory_exists( UCWD ) ) {
 					socket_write( fd, "230 No directory! Logging in with home="
-#ifdef GUEST_WIZARD_FTP
 						  PUB_DIR ".\n" );
 					socket_info[ fd ][ CWD ] = PUB_DIR;
-#else
-						  "/\n" );
-					socket_info[ fd ][ CWD ] = "/";
-#endif
 				} else {
-#ifdef LOGIN_MSG
 					tmp = read_file( LOGIN_MSG );
 					tmp = tmp[0..<2];
 					tmp = sprintf("230- %s\n",
 						  replace_string( tmp, "\n", "\n230- " ) );
 					socket_write( fd, tmp );
-#endif
-#ifdef ANONYMOUS_FTP
 					if (UNAME == "anonymous")
 						socket_write( fd,
 					  "230 Guest login ok, access restrictions apply.\n" );
 					else
-#endif ANONYMOUS_FTP
 					socket_write( fd, sprintf(
 						  "230 User %s logged in successfully.\n", UNAME) );
 				}
@@ -794,14 +656,7 @@ static void parse_comm( int fd, string str )
 			} else if ( !check_valid_read( tmp, fd ) )  {
 				PERMISSION_DENIED550(command[ 1 ]);
 			} else {
-#ifdef LOG_TIME
-				log_file( LOG_FILE, FTP_TIME );
-#endif
 
-#ifdef LOG_FILE
-				log_file( LOG_FILE, sprintf("%s retr %s (%s).\n",
-					  UNAME, tmp, (UTYPE == BINARY ? "BINARY" : "ASCII") ) );
-#endif
 				data_conn( fd, tmp, command[ 1 ], FILE );
 			}
 			break;
@@ -817,24 +672,9 @@ static void parse_comm( int fd, string str )
 				}
 				if (i) {
 					tmp = sprintf("%s%d", tmp, i);
-#ifdef FILE_LOCKING
-					if (flock_wrapper(tmp, F_LOCK, fd)) {   /* parent fd */
-#endif
 
-#ifdef LOG_TIME
-						log_file( LOG_FILE, FTP_TIME );
-#endif
 
-#ifdef LOG_FILE
-						log_file( LOG_FILE, sprintf("%s stou %s (%s).\n", UNAME,
-							  tmp, (UTYPE == BINARY ? "BINARY" : "ASCII") ) );
-#endif
 						read_connection( fd, tmp, -1 );
-#ifdef FILE_LOCKING
-					} else {
-						PERMISSION_DENIED550(command[ 1 ]);
-					}
-#endif
 				} else {
 					socket_write( fd, "452 Unique file name cannot be created.\n");
 				}
@@ -847,24 +687,9 @@ static void parse_comm( int fd, string str )
 			CHECK_CMD(1);
 			tmp = get_path( fd, command[ 1 ] );
 			if ( file_size(tmp) != -2 && check_valid_write( tmp, fd ) ) {
-#ifdef FILE_LOCKING
-				if (flock_wrapper(tmp, F_LOCK, fd)) {   /* parent fd */
-#endif
 
-#ifdef LOG_TIME
-					log_file( LOG_FILE, FTP_TIME );
-#endif
 
-#ifdef LOG_FILE
-					log_file( LOG_FILE, sprintf("%s stor %s (%s).\n", UNAME,
-						  tmp, (UTYPE == BINARY ? "BINARY" : "ASCII") ) );
-#endif
 					read_connection( fd, tmp, 0 );
-#ifdef FILE_LOCKING
-				} else {
-					PERMISSION_DENIED550(command[ 1 ]);
-				}
-#endif
 			} else {
 				PERMISSION_DENIED553(command[ 1 ]);
 			}
@@ -874,24 +699,9 @@ static void parse_comm( int fd, string str )
 			CHECK_CMD(1);
 			tmp = get_path( fd, command[ 1 ] );
 			if ( file_size(tmp) >= 0 && check_valid_write( tmp, fd ) ) {
-#ifdef FILE_LOCKING
-				if (flock_wrapper(tmp, F_LOCK, fd)) {   /* parent fd */
-#endif
 
-#ifdef LOG_TIME
-					log_file( LOG_FILE, FTP_TIME );
-#endif
 
-#ifdef LOG_FILE
-					log_file( LOG_FILE, sprintf("%s appe %s (%s).\n", UNAME,
-						  tmp, (UTYPE == BINARY ? "BINARY" : "ASCII") ) );
-#endif
 					read_connection( fd, tmp, 1 );
-#ifdef FILE_LOCKING
-				} else {
-					PERMISSION_DENIED550(command[ 1 ]);
-				}
-#endif
 			} else {
 				PERMISSION_DENIED553(command[ 1 ]);
 			}
@@ -907,29 +717,14 @@ static void parse_comm( int fd, string str )
 				socket_write( fd, sprintf(
 					  "550 %s: No such file or directory.\n", command[1]));
 			} else if ( check_valid_write( tmp, fd ) ) {
-#ifdef FILE_LOCKING
-				if (flock_wrapper(tmp, F_LOCK, fd)) {   /* parent fd */
-#endif
 
-#ifdef LOG_TIME
-					log_file( LOG_FILE, FTP_TIME );
-#endif
 
-#ifdef LOG_FILE
-					log_file( LOG_FILE, sprintf("%s dele %s.\n", UNAME, tmp) );
-#endif
 					catch( i = rm(tmp) );
 					if (i)
 						socket_write( fd, "250 DELE command successful.\n" );
 					else
 						socket_write( fd, sprintf(
 							  "550 Permission denied to %s.\n", command[ 1 ]) );
-#ifdef FILE_LOCKING
-					flock_wrapper(tmp, F_UNLOCK, fd);   /* parent fd */
-				} else {
-					PERMISSION_DENIED550(command[ 1 ]);
-				}
-#endif
 			} else {
 				PERMISSION_DENIED553(command[ 1 ]);
 			}
@@ -953,13 +748,7 @@ static void parse_comm( int fd, string str )
 						  tmp2[20..23], member_array(tmp2[4..6], MONTHS),
 						  tmp2[8] == ' ' ? '0' : tmp2[8],
 						  tmp2[11..12], tmp2[14..15], tmp2[17..18]);
-#ifdef LOG_TIME
-					log_file( LOG_FILE, FTP_TIME );
-#endif
 
-#ifdef LOG_CD_SIZE
-					log_file( LOG_FILE, sprintf("%s mdtm %s.\n", UNAME, tmp) );
-#endif
 					socket_write( fd, sprintf("213 %s\n", tmp2) );
 				}
 			} else
@@ -978,14 +767,7 @@ static void parse_comm( int fd, string str )
 						socket_write( fd, sprintf("550 %s does not exist.\n",
 							  command[ 1 ]) );
 					else {
-#ifdef LOG_TIME
-						log_file( LOG_FILE, FTP_TIME );
-#endif
 
-#ifdef LOG_CD_SIZE
-						log_file( LOG_FILE, sprintf("%s size %s.\n",
-							  UNAME, tmp) );
-#endif
 						socket_write( fd, sprintf("215 %d\n", file_size( tmp )) );
 					}
 			} else
@@ -1059,15 +841,8 @@ static void parse_comm( int fd, string str )
 					socket_write( fd, sprintf("550 %s: Not a directory.\n", tmp) );
 					break;
 				}
-#ifdef LOG_TIME
-				log_file( LOG_FILE, FTP_TIME );
-#endif
 
-#ifdef LOG_CD_SIZE
-				log_file( LOG_FILE, sprintf("%s cd to %s.\n", UNAME, tmp) );
-#endif
 				socket_info[ fd ][ CWD ] = tmp;
-#ifdef MESSAGE_FILES
 				if (file_size(tmp + "/.message") > 0) {
 					tmp = read_file(tmp + "/.message");
 					tmp = tmp[0..<2];
@@ -1075,7 +850,6 @@ static void parse_comm( int fd, string str )
 						  replace_string(tmp, "\n", "\n250- "), command[0]);
 					socket_write(fd, tmp);
 				} else
-#endif
 				socket_write( fd, sprintf("250 %s command successful.\n",
 					  command[0]) );
 			} else
@@ -1130,11 +904,6 @@ static void parse_comm( int fd, string str )
 			if ( socket_info[ fd ][ DATA_FD ] ) {
 				socket_write( fd,
 					  "426 Transfer aborted. Data connection closed.\n");
-#ifdef FILE_LOCKING
-				if ( (socket_info[ fd ][ DATA_FD ])[ TYPE ] == DOWNLOAD )
-					flock_wrapper( (socket_info[ fd ][ DATA_FD ])[ PATH ],
-						  F_UNLOCK, socket_info[ fd ] );
-#endif
 				socket_close( socket_info[ fd ][ DATA_FD ] );
 				map_delete( socket_info[fd], DATA_FD );
 			}
@@ -1151,14 +920,7 @@ static void parse_comm( int fd, string str )
 			if (file_size( tmp ) == -1) {
 				if (check_valid_write(tmp, fd)) {
 					if (mkdir(tmp)) {
-#ifdef LOG_TIME
-						log_file( LOG_FILE, FTP_TIME );
-#endif
 
-#ifdef LOG_FILE
-						log_file( LOG_FILE, sprintf("%s mkd %s.\n",
-							  UNAME, tmp) );
-#endif
 						socket_write(fd, sprintf("257 %s command successful.\n",
 							  command[ 0 ]) );
 					} else
@@ -1179,14 +941,7 @@ static void parse_comm( int fd, string str )
 			if (file_size( tmp ) == -2) {
 				if (check_valid_write(tmp, fd)) {
 					if (rmdir(tmp)) {
-#ifdef LOG_TIME
-						log_file( LOG_FILE, FTP_TIME );
-#endif
 
-#ifdef LOG_FILE
-						log_file( LOG_FILE, sprintf("%s rmd %s.\n",
-							  UNAME, tmp) );
-#endif
 						socket_write(fd, sprintf("250 %s command successful.\n",
 							  command[ 0 ]) );
 					} else
@@ -1307,37 +1062,14 @@ static void parse_comm( int fd, string str )
 						PERMISSION_DENIED550(tmp2);
 						socket_info[fd][FROMNAME] = 0;
 					} else {
-#ifdef FILE_LOCKING
-						if (flock_wrapper(tmp, F_LOCK, fd)) {
-							if (flock_wrapper(tmp2, F_LOCK, fd)) {
-#endif
 
-#ifdef LOG_TIME
-								log_file( LOG_FILE, FTP_TIME );
-#endif
 
-#ifdef LOG_FILE
-								log_file( LOG_FILE, sprintf("%s rnfr %s "
-									  "rnto %s.\n", UNAME, tmp2, tmp) );
-#endif
 								if (catch( i = rename(tmp2, tmp) ) || i)
 									socket_write(fd,
 										  "550 RNTO command failed.\n");
 								else
 									socket_write(fd,
 										  "250 RNTO command successful.\n");
-#ifdef FILE_LOCKING
-								flock_wrapper(tmp2, F_UNLOCK, fd);
-								flock_wrapper(tmp, F_UNLOCK, fd);
-								socket_info[fd][FROMNAME] = 0;
-							} else {
-								PERMISSION_DENIED550(tmp2);
-								flock_wrapper(tmp, F_UNLOCK, fd);
-							}
-						} else {
-							PERMISSION_DENIED550(command[ 1 ]);
-						}
-#endif
 					}
 				}
 			}
@@ -1449,10 +1181,9 @@ static string get_path( int fd, string str )
 
 	apath = resolve_path(socket_info[fd][CWD], str);
 
-#ifdef ANONYMOUS_FTP
+	// Production configuration: ANONYMOUS_FTP is enabled
 	if( UNAME == "anonymous" &&	strsrch(apath, FTP_DIR)!=0 )
 		apath = FTP_DIR + apath;
-#endif
 
 	return apath;
 }
@@ -1491,13 +1222,6 @@ static void check_connections()
 		if (!undefinedp( socket_info[ sockets[i] ][ PARENT_FD ] )) {
 			pfd = socket_info[ sockets[i] ][ PARENT_FD ];
 			if (undefinedp(socket_info[ pfd ])) {
-#ifdef FILE_LOCKING
-				if (!undefinedp(socket_info[ sockets[i] ][ TYPE ]) &&
-					  socket_info[ sockets[i] ][ TYPE ] == DOWNLOAD ) {
-					flock_wrapper( socket_info[ sockets[i] ][ PATH ], F_UNLOCK,
-						  sockets[i] );
-				}
-#endif
 				lose_connection( sockets[i] );
 			}
 		}
@@ -1515,14 +1239,8 @@ void resolve_callback( string address, string resolved, int key )
 	 *   update the ftpd daemon while a user is logging in
 	 */
 	if ( undefinedp( id = temp_map[ key ] ) ) {
-#ifdef LOG_FILE
-		log_file( LOG_FILE, sprintf("No such key in temp_map: %d.\n", key) )
-#endif
 		;
 	} else if ( undefinedp( socket_info[ id ] )) {
-#ifdef LOG_FILE
-		log_file( LOG_FILE, sprintf("No such fd in socket_info: %d.\n", id) )
-#endif
 		;
 	} else {
 		if ( address && address != "" )

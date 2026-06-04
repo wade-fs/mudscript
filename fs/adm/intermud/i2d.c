@@ -19,14 +19,8 @@
 #include <socket_err.h>
 #include <origin.h>
 
-#undef LOG_UDP
-#undef LOG_TRAFFIC
-#define SAVE_MUDLIST
-
 inherit F_DBASE;
-#ifdef	SAVE_MUDLIST
 inherit F_SAVE;
-#endif	/* SAVE_MUDLIST */
 
 private void update();
 private void startup();
@@ -61,9 +55,7 @@ create()
     seteuid(getuid());
     set("channel_id", "網路精靈");
 
-#ifdef	SAVE_MUDLIST
     restore();
-#endif	/* SAVE_MUDLIST */
 
     udp_port = INTERMUD_UDP_PORT;
     if( (udp_socket = socket_create(DATAGRAM, "read_callback")) < 0 )
@@ -75,13 +67,11 @@ create()
     call_out((:startup:), 1);
 }
 
-#ifdef SAVE_MUDLIST
 string
 query_save_file()
 {
     return DATA_DIR + "intermud-2";
 }
-#endif	/* SAVE_MUDLIST */
 
 private void
 update()
@@ -117,9 +107,7 @@ remove()
 	error("Permission denied\n");
     socket_close(udp_socket);
 
-#ifdef	SAVE_MUDLIST
     save();
-#endif	/* SAVE_MUDLIST */
 
 }
 
@@ -129,11 +117,6 @@ read_callback(int socket, string msg, string addr)
     string *info, p, v;
     mixed* handler;
     mapping args;
-
-#ifdef LOG_UDP
-    log_file("intermud/udp.log", sprintf("[%s] from %s (size=%d): %s\n",
-	ctime(time()), addr, strlen(msg), msg) );
-#endif
 
     if( !sscanf(msg, "@@@%s@@@%*s", msg) ) return;
 
@@ -147,11 +130,6 @@ read_callback(int socket, string msg, string addr)
 
     sscanf(addr, "%s %*d", addr);
     args["HOSTADDRESS"] = addr;
-
-#ifdef LOG_TRAFFIC
-    log_file("intermud/traffic.log", sprintf("[%s] '%s' from %s (size=%d)\n",
-	ctime(time()), info[0], addr, strlen(msg)) );
-#endif
 
     call_other(handler[0], handler[1], args);
 }
@@ -251,10 +229,6 @@ send_event(string dest, int port, string event, mapping args)
     }
 
     // 送出訊息。
-#ifdef LOG_TRAFFIC
-    log_file("intermud/traffic.log", sprintf("[%s] '%s' sent to %s (size=%d)\n",
-	ctime(time()), event, dest + " " + port, strlen(msg)+6) );
-#endif
 
     socket_write(sock, "@@@" + msg + "@@@", dest + " " + port);
     socket_close(sock);

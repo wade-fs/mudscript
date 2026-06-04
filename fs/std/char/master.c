@@ -3,7 +3,5 @@
 
 void reset()
 {
-#ifdef ROBOT_CHECK
 	delete_temp("learned");
-#endif
 }

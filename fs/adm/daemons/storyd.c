@@ -7,7 +7,6 @@ inherit F_DBASE;
 
 int test_flag;
 private string *story_name = ({//選擇故事
-#if 1
         "caishen",
         "caishen2",
         "guanzhang",
@@ -18,7 +17,6 @@ private string *story_name = ({//選擇故事
         "zagang",
         "food_god",
         "need_food",
-#endif
         "normal",
 });
 

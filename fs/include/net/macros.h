@@ -4,10 +4,6 @@
 
 #include <mudlib.h>
 
-#ifndef DNS_MASTER
-#include <net/daemons.h>
-#endif
-
 // for converting hostnames in the host representation to the
 // network representation and vice-versa
 #define htonn(x) replace_string(lower_case((x)?(x):"")," ",".")
@@ -24,9 +20,7 @@
 #define index_call(x,y)  (int)DNS_MASTER->idx_callback((x),(y))
 
 // for security checking
-#ifndef ROOT_UID
 #include <uid.h>
-#endif
 
 #define ACCESS_CHECK(x) ((!x)||(geteuid((x)) == ROOT_UID)||(geteuid((x))=="annihilator"))
 

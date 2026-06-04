@@ -20,10 +20,6 @@ void check_heart_beat();
 int     clan_30min, clan_1hr, clan_2hr, clan_12hr;
 void    clan();
 
-#ifdef SEND_MONEY
-void send_money();
-static int send_money_time=0;
-#endif
 void auto_reboot();
 void sp_boss();
 void init_mail();
@@ -40,19 +36,16 @@ void create()
         init_day_phase();
 
         weather = read_table("/adm/etc/nature/weather");
-        init_weather();
-#ifdef SEND_MONEY
-        send_money();
-#endif
-        clan();
-        init_mail();
-        auto_reboot();
-	war_start();
-        do_full();
-        sp_boss();
-        sys_init(-1);
-        //call_out( "check_heart_beat", 10 );
-}
+        // ... code without SEND_MONEY ...
+                clan();
+                init_mail();
+                auto_reboot();
+        	war_start();
+                do_full();
+                sp_boss();
+                sys_init(-1);
+                //call_out( "check_heart_beat", 10 );
+        }
 
 // /*
 void init_mail()
@@ -513,7 +506,6 @@ void sp_boss()
 // FS 發錢系統
 // made by konn
 //
-#ifdef SEND_MONEY
 void send_money()
 {
         object *user;
@@ -540,33 +532,13 @@ void send_money()
                 }
 
                 money = 0;
-                /* 二十萬兩黃金的銀票取消
-                t_money = user[i]->query("bank/silver");
-                while( t_money-- ) {
-                    money += 20000000;
-                    if( money >= 2000000000 ) {
-                        user[i]->add("bank/silver", 1);
-                        money -= 2000000000;
-                    }
-                }
-                */
                 t_money = user[i]->query("bank/coin");
                 t_money += t_money / 100;
 
                 if( t_money >= 2000000000 ) {
-                  /*原本的
-                    user[i]->add("bank/silver", 1);
-                    t_money -= 2000000000;
-                  */
                     user[i]->set("bank/coin",2000000000);
                 }
                 if( (t_money+money) <= 0 || (t_money+money) >= 2000000000 ) {
-                /*
-                    sub = 2000000000 - t_money;
-                    money -= sub;
-                    user[i]->set("bank/coin", money);
-                    user[i]->add("bank/silver", 1);
-                */
                     user[i]->set("bank/coin",2000000000);
                 }
                 else user[i]->set("bank/coin", money+t_money);
@@ -605,7 +577,6 @@ void find_the_best()
         best->add("potential", 500);
         user[i]->pay_player(500000);
 }
-#endif
 
 void init_day_phase()
 {

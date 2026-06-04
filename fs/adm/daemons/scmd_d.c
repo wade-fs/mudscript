@@ -20,9 +20,6 @@ void create()
 {
         set("channel_id", "指令精靈");
         seteuid(getuid());
-#ifdef DEBUG
-    TELL(sprintf("[%s]啟始完成。",ctime(time() ) ));
-#endif
     call_out((: create_command_channel :),1);
 }
 
@@ -53,15 +50,9 @@ protected void read_callback(int fd,mixed message) {
   if(functionp(fun)) {
     evaluate(fun,message);
   }
-#ifdef DEBUG
-  TELL(message);
-#endif
 }
 void send_command( string cmd , mixed l_fun) {
   // need to be security check
-#ifdef DEBUG
-  TELL(cmd);
-#endif
   socket_write(fd,cmd +"\n");
   fun = l_fun;
 }

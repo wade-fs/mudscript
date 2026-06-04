@@ -278,11 +278,7 @@
  *   config files by default.  If you don't wish to use this define, you may
  *   always specify a full path to the config file when starting the driver.
  */
-#ifndef LATTICE
-#define CONFIG_FILE_DIR "/usr/local/mud/mudos/etc"
-#else
 #define CONFIG_FILE_DIR "etc:"
-#endif
 
 /* DEFAULT_PRAGMAS:  This should be a sum of pragmas you want to always
  * be on, i.e.

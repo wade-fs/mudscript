@@ -101,11 +101,9 @@ int look_room( object me, object env, int light )
             );
     }
 
-#ifdef LIGHT
     if( light == -1 )
         str += "    四周到處模模糊糊的, 看也看不清出口。\n";
     else
-#endif
     if( mapp(exits = env->query("exits")) ) {
         dirs = keys(exits);
         for(i=0; i<sizeof(dirs); i++){

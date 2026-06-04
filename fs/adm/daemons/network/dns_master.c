@@ -57,14 +57,6 @@ int bootsrv_retry;
 int seq_ctr;
 mapping seq_entries;
 
-// Used for debugging
-#ifdef DEBUG
-#  define debug(x) if(monitor) message("diagnostic", (x), monitor)
-static object monitor = 0;
-#else
-#  define debug(x)
-#endif
-
 /* prototypes */
 // udp communication functions
 int startup_udp();
@@ -94,14 +86,6 @@ mapping query_svc();
 varargs int idx_request(function f);
 void sequence_callback(int idx, mixed param);
 void sequence_clean_up();
-
-#ifdef DEBUG
-// debugging functions
-mixed * query_bootsrv();
-void dump_sequencer();
-void set_monitor(object ob);
-object query_monitor();
-#endif
 
 // misc functions
 void restore_euid();
@@ -149,8 +133,6 @@ void send_udp(string host, int port, string msg)
     && file_name(previous_object())[0..strlen(AUX_PATH) - 1] != AUX_PATH)
                 return;
 
-        debug("DNS: Sending " + msg);
-
         sock = socket_create(DATAGRAM, "read_callback", "close_callback");
         if (sock <= 0) {
             log("Failed to open socket to " + host + " " + port + "\n");
@@ -170,8 +152,6 @@ void read_callback(int sock, string msg, string addr)
         int i;
 
 //      if(previous_object()) return;
-
-        debug("DNS: Got " + msg);
 
         // get the function from the packet
         if( !sscanf(msg, "@@@%s||%s@@@%*s", func, rest)) {
@@ -512,38 +492,28 @@ void support_q_callback(mapping info)
 // What is queries for is dependant on config.h
 void query_services(string mud, string address, string port, string tcp)
 {
-#ifdef PREF_MAIL
+  // PREF_MAIL enabled
   if (!(mud_svc[mud]["mail"] & SVC_KNOWN))
     {
-#if PREF_MAIL & SVC_TCP
       if (tcp == TCP_SOME && !(mud_svc[mud]["mail"] & (SVC_TCP | SVC_NO_TCP)))
         SUPPORT_Q->send_support_q(address, port, "tcp", "mail");
-#elif PREF_MAIL & SVC_UDP
-      if (!(mud_svc[mud]["mail"] & (SVC_UDP | SVC_NO_UDP)))
+      else if (!(mud_svc[mud]["mail"] & (SVC_UDP | SVC_NO_UDP)))
         SUPPORT_Q->send_support_q(address, port, "mail");
-#endif
     }
-#endif // PREF_MAIL
 
-#ifdef PREF_FINGER
+  // PREF_FINGER enabled
   if (!(mud_svc[mud]["finger"] & SVC_KNOWN))
     {
-#if PREF_FINGER & SVC_TCP
       if (tcp == TCP_SOME && !(mud_svc[mud]["finger"] & (SVC_TCP | SVC_NO_TCP)))
         SUPPORT_Q->send_support_q(address, port, "tcp", "finger");
-#endif
     }
-#endif // PREF_FINGER
 
-#ifdef PREF_TELL
+  // PREF_TELL enabled
   if (!(mud_svc[mud]["tell"] & SVC_KNOWN))
     {
-#if PREF_TELL & SVC_TCP
       if (tcp == TCP_SOME && !(mud_svc[mud]["tell"] & (SVC_TCP | SVC_NO_TCP)))
         SUPPORT_Q->send_support_q(address, port, "tcp", "tell");
-#endif
     }
-#endif // PREF_TELL
 
   return;
 }
@@ -682,48 +652,6 @@ void sequence_clean_up()
       }
   call_out("sequence_clean_up", SEQ_CLEAN_INTERVAL);
 }
-
-/*----------------------------------------------------------------------------
- * general debugging stuff
- */
-#ifdef DEBUG
-mixed *
-query_bootsrv()
-{
-        return bootsrv;
-}
-
-void dump_sequencer()
-{
-        printf("counter: %d\n\n%O\n", seq_ctr, seq_entries);
-}
-
-void dump_svc()
-{
-        printf("%O\n", mud_svc);
-}
-
-void dump_mud_keys()
-{
-        printf("%O\n", keys(muds));
-}
-
-void dump_svc_keys()
-{
-        printf("%O\n", keys(mud_svc));
-}
-
-void set_monitor(object ob)
-{
-        monitor = ob;
-}
-
-object
-query_monitor()
-{
-  return monitor;
-}
-#endif // DEBUG
 
 /*----------------------------------------------------------------------------
  * some misc functions

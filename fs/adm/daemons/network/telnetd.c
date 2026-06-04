@@ -52,10 +52,6 @@ int telnet_permission(object caller, string func, mixed *info) {
    string eff_user, tmp1, tmp2, tmp3;
    int loop;
  
-#if 0
-   log_file("telnetd","Caller: " + identify(caller) + "  Func: " + identify(func) + "  Info: " + identify(info) + "\n");
-#endif
- 
    //	If approved sites aren't loaded yet ... load em.
  
    if(!SITES)  load_sites();
