@@ -89,7 +89,7 @@ V$n$lC",
 "damage_type" : "",
 ]),
 //9
-(["action":"$NΦprX]Aۡu"+HIY + "s\\" + NOR+"vIXAHYϤ@AAV$n$lC",
+(["action":"$NΦprX]Aۡu"+HIY + "s" + NOR+"vIXAHYϤ@AAV$n$lC",
 "dodge":-100,
 "parry":90,
 "force":110,
@@ -282,7 +282,7 @@ void again1(object me, object victim, object weapon, int damage)
   message_vision("$Nk}_AbbxAV$nhAu"+HIY + "sť" + NOR+"v۷N馱aAPɦVع_Ak_A{סC\n",me,victim);
   break;
   case 4:
-  message_vision("$NΦprX]Aۡu"+HIY + "s\\" + NOR+"vIXAHYϤ@AAV$nC\n",me,victim);
+  message_vision("$NΦprX]Aۡu"+HIY + "s" + NOR+"vIXAHYϤ@AAV$nC\n",me,victim);
   break;
   case 5:
   message_vision("$NxݡAۦ\\ӤءA⼻x@XAu"+HIY + "sb" + NOR+"vV$nC\n",me,victim);

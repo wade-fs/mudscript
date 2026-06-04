@@ -39,7 +39,7 @@
   } else if ( skill < 50 )
   {
   message_vision(
-"               $NB_~gĤGh\\O" + HIW + "С" + HIG + "WsЫl\\" + HIW + "ס" + NOR + "               sq$N᳻BzXA$Nlpgܯ@ij@i\n",me);
+"               $NB_~gĤGh\\O" + HIW + "С" + HIG + "WsЫl" + HIW + "ס" + NOR + "               sq$N᳻BzXA$Nlpgܯ@ij@i\n",me);
          me->add_temp("apply/attack",skill);
          me->add("force_factor",skill/10);
         me->start_call_out( (: call_other, __FILE__, "remove_effect", me, skill :), skill);

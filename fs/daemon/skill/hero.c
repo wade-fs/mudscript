@@ -71,7 +71,7 @@ void sword(object me, object victim, object weapon, int damage)
   if(random(2)==1 && me->query_skill("hero",1) >= 100)
   {
     j = 1 + random(7);
-    message_vision(HIY + "\n $N以" + HIW + "『" + HIM + "本來無一物神功\" + HIW + "』" + HIY + "推動" + HIW + "「" + CYN + "虛空御天劍" + HIW + "」" + HIY + "化氣為劍，使出劍道最高境界之" + HIW + "『" + HIC + "本來無一劍" + HIW + "』\n\n" + NOR,me);
+    message_vision(HIY + "\n $N以" + HIW + "『" + HIM + "本來無一物神功" + HIW + "』" + HIY + "推動" + HIW + "「" + CYN + "虛空御天劍" + HIW + "」" + HIY + "化氣為劍，使出劍道最高境界之" + HIW + "『" + HIC + "本來無一劍" + HIW + "』\n\n" + NOR,me);
     for(i=0;i<j;i++)
     {
       message_vision(HIB + "滿天劍氣縱橫交錯，密密麻麻的劍網將$N割得遍體鱗傷。\n" + NOR,victim);
@@ -90,7 +90,7 @@ void blade(object me, object victim, object weapon, int damage)
     j = 1 + random(7);
     message_vision(HIC + "\n《" + GRN + "刀，可大、可小、可近、可遠，霸道與飄逸，兩者兼得" + HIC + "》" + HIY + "
   
-   $N" + HIW + "『" + HIM + "本來無一物神功\" + HIW + "』" + HIY + "更上一層，迫出刀法巔峰之境的" + HIW + "『" + HIG + "柳葉霸刀" + HIW + "』\n\n" + NOR,me);
+   $N" + HIW + "『" + HIM + "本來無一物神功" + HIW + "』" + HIY + "更上一層，迫出刀法巔峰之境的" + HIW + "『" + HIG + "柳葉霸刀" + HIW + "』\n\n" + NOR,me);
 
     for(i=0;i<j;i++)
     {

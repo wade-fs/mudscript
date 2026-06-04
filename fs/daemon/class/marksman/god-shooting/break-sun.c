@@ -38,7 +38,7 @@ int perform(object me, object target)
   if(!fforce) fforce=0;
   if(random(level)>94 || (level>94 && wizardp(me)) || me->query("break-sun")>1) //最大招發動機率，在fun練滿時為0.5%
   {
-    message_vision(HIW + "\n$N將" + HIR + "極火功\" + HIW + "與" + HIC + "冰心訣" + HIW + "同時谷摧至極限，縱聲高喊：\n\n
+    message_vision(HIW + "\n$N將" + HIR + "極火功" + HIW + "與" + HIC + "冰心訣" + HIW + "同時谷摧至極限，縱聲高喊：\n\n
   
   \t\t\t「" + HIR + "天火焚身" + HIW + "～" + HIC + "玄冰滅世" + HIW + "～" + HIM + "弓神附體" + HIW + "～" + HIY + "箭嵐再現" + HIW + "～」\n
                       

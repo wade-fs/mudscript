@@ -366,7 +366,7 @@ break;
 if((me->query("quests/read_snow")==3) && skill >= 70 &&
 (me->query("family/family_name")=="雪蒼派") && (me->query("force",1) > 500)){
      if(random(100) > 80 && victim){
- message_vision(HIW + "\n\n$N對$n使出了雪蒼武學之絕招 ---『 " + HIY + "枯\" + HIB + " 葉" + HIM + " 殘" + HIG + " 星" + HIW + " 掌 』" + NOR + "!!
+ message_vision(HIW + "\n\n$N對$n使出了雪蒼武學之絕招 ---『 " + HIY + "枯" + HIB + " 葉" + HIM + " 殘" + HIG + " 星" + HIW + " 掌 』" + NOR + "!!
 
             " + HIC + "$N體內的寒氣驀然爆發，忽然間一團星狀之真氣快速飛向$n
             剎那間$n的胸前立刻出現了一個紫黑色的傷痕，全身打顫不已!
@@ -441,7 +441,7 @@ message_vision(HIY + "            ---『暴風滅影腳』---" + NOR + "
            COMBAT_D->report_status(victim);
 break;
 case 8:
-message_vision(HIW + "            ---『 " + HIY + "枯\" + HIB + " 葉" + HIM + "殘" + HIG + " 星" + HIW + " 掌 』---" + NOR + "
+message_vision(HIW + "            ---『 " + HIY + "枯" + HIB + " 葉" + HIM + "殘" + HIG + " 星" + HIW + " 掌 』---" + NOR + "
 " + HIC + "    $N體內的寒氣驀然爆發，忽然間一團星狀之真氣快速飛向$n" + NOR + "
 " + HIC + "    剎那間$n的胸前立刻出現了一個紫黑色的傷痕，全身打顫不已。\n\n" + NOR,me,victim);
      victim->receive_wound("kee",dam*2,me);
