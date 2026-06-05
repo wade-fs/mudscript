@@ -931,7 +931,7 @@ func evalIdent(node *ast.Ident, env object.Environment) object.Object {
 
 	// 支援 efun::, simul_efun::, 或 Parent:: 前綴呼叫
 	if strings.Contains(name, "::") {
-        fmt.Printf("DEBUG: evalIdent found :: in %s\n", name)
+        fmt.Printf("DEBUG: evalIdent found :: in %s\n", name) // Keep debug for now
 		parts := strings.Split(name, "::")
 		if len(parts) == 2 {
 			prefix := parts[0]
@@ -973,9 +973,9 @@ func evalIdent(node *ast.Ident, env object.Environment) object.Object {
 					}
 				}
 			} else if prefix == "" { // 支援 ::func() 繼承呼叫
-			        fmt.Printf("DEBUG: evalIdent entering :: branch for %s\n", funcName)
+			        fmt.Printf("DEBUG: evalIdent entering :: branch for %s\n", funcName) // Keep debug for now
 			        if thisObjVal, ok := env.Get("this_object"); ok {
-			                fmt.Printf("DEBUG: evalIdent found this_object\n")
+			                fmt.Printf("DEBUG: evalIdent found this_object\n") // Keep debug for now
 			                var lpcObj *object.LPCObject
 
 					if obj, ok := thisObjVal.(*object.LPCObject); ok {
@@ -987,7 +987,7 @@ func evalIdent(node *ast.Ident, env object.Environment) object.Object {
 						}
 					}
 					if lpcObj != nil {
-					        fmt.Printf("DEBUG: calling findInheritedFunction for %s on %s\n", funcName, lpcObj.Filename)
+					        fmt.Printf("DEBUG: calling findInheritedFunction for %s on %s\n", funcName, lpcObj.Filename) // Keep debug for now
 					        if res := findInheritedFunction(lpcObj, funcName, env); res != nil {
 
 							return res
@@ -1016,15 +1016,26 @@ func evalIdent(node *ast.Ident, env object.Environment) object.Object {
 		}
 	}
 
+	// 1. 查找當前環境的變數
 	if val, ok := env.Get(name); ok {
 		return val
 	}
 
+	// 2. 查找繼承鏈中的函式 (重要修正)
+	if thisObjVal, ok := env.Get("this_object"); ok {
+		if lpcObj, ok := thisObjVal.(*object.LPCObject); ok {
+			if inheritedFn := findInheritedFunction(lpcObj, name, env); inheritedFn != nil {
+				return inheritedFn
+			}
+		}
+	}
+
+	// 3. 查找內建函式
 	if builtin, ok := builtins[name]; ok {
 		return builtin
 	}
 
-	// 隱式宣告：若找不到則自動宣告為 0
+	// 4. 隱式宣告 (最後手段)
 	zero := &object.Integer{Value: 0}
 	env.Set(name, zero)
 	return zero
