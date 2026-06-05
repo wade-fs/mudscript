@@ -1126,7 +1126,7 @@ void check_log(object ppl)
 
  stone = present("original stone",ppl);
  diamond = present("diamond_money",ppl);
- if(!ID=ppl->query("old_id"))
+ if(!(ID=ppl->query("old_id")))
    ID = ppl->query("id");
  if(ID!="guest") {
    file = sprintf("login/%s/%s", ID[0..0], ID);

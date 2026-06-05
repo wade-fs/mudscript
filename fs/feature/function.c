@@ -24,7 +24,7 @@ int function_improved(string key,int point)
 		tell_object(this_player(),"你的"+to_chinese(key)+"功\力更上一層。\n" + NOR);
 		//以下加上紀錄function進步時間  以便日後bug查詢  by frequency
                 //id = geteuid(this_player());
-                if(!id=this_player()->query("old_id"))
+                if(!(id=this_player()->query("old_id")))
                   id = this_player()->query("id");
                 file = sprintf("function/%s/%s", id[0..0], id);
                 if(userp(this_player()))

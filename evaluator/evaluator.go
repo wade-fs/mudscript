@@ -1024,10 +1024,8 @@ func evalIdent(node *ast.Ident, env object.Environment) object.Object {
 		return builtin
 	}
 
-	// 4. 隱式宣告 (最後手段)
-	zero := &object.Integer{Value: 0}
-	env.Set(name, zero)
-	return zero
+	// 4. 若皆未找到，回傳 Nil (不進行隱式宣告，避免污染環境)
+	return NilValue
 }
 
 func evalExpressions(exprs []ast.Expression, env object.Environment) []object.Object {
@@ -1357,7 +1355,7 @@ func evalAssignExpression(node *ast.AssignExpression, env object.Environment) ob
 	// ==========================================
 	leftIdent, ok := node.Left.(*ast.Ident)
 	if !ok {
-		return newError("賦值的左側必須是變數或索引 (例如 x 或 arr[0])")
+		return newError("賦值的左側必須是變數或索引 (例如 x 或 arr[0])，但得到了 %T: %s", node.Left, node.Left.String())
 	}
 
 	if node.Operator == "=" {
@@ -1698,11 +1696,25 @@ func evalStringConcatExpression(left, right object.Object) object.Object {
 	leftStr := left.Inspect()
 	if l, ok := left.(*object.String); ok {
 		leftStr = l.Value
+	} else if lBuiltin, ok := left.(*object.Builtin); ok {
+		// 🚀 關鍵相容：自動展開常數型 Builtin (例如 __SAVE_EXTENSION__)
+		if res := lBuiltin.Fn(); res != nil {
+			if s, ok := res.(*object.String); ok {
+				leftStr = s.Value
+			}
+		}
 	}
 
 	rightStr := right.Inspect()
 	if r, ok := right.(*object.String); ok {
 		rightStr = r.Value
+	} else if rBuiltin, ok := right.(*object.Builtin); ok {
+		// 🚀 關鍵相容：自動展開常數型 Builtin (例如 __SAVE_EXTENSION__)
+		if res := rBuiltin.Fn(); res != nil {
+			if s, ok := res.(*object.String); ok {
+				rightStr = s.Value
+			}
+		}
 	}
 
 	return &object.String{Value: leftStr + rightStr}

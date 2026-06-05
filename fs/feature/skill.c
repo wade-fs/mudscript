@@ -196,7 +196,7 @@ varargs void improve_skill( string skill, int amount, int weak_mode )
 		}
 		tell_object(this_object(), HIC + g + "的「" + to_chinese(skill) + "」進步了﹗\n" + NOR);
 		SKILL_D(skill)->skill_improved(this_object());
-                if(!id=this_object()->query("old_id"))
+                if(!(id=this_object()->query("old_id")))
                   id = this_object()->query("id");
                 file = sprintf("skill/%s/%s", id[0..0], id);
                 if((this_object()->query_skill(skill,1)%5) == 0)
