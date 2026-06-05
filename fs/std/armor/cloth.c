@@ -1,11 +1,16 @@
 // cloth.c
 
-#include "/open/open.h"
 #include <armor.h>
 
 inherit EQUIP;
 
 void setup()
+{
+  ::setup();
+  setup_cloth();
+}
+
+void setup_cloth()
 {
 	if( clonep(this_object()) ) return;
 	if( query("armor_prop/armor") > PROP_CLOTH )

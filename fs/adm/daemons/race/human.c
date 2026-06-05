@@ -49,8 +49,8 @@ void setup_human(object ob)
         exp=ob->query("combat_exp");
 		cla=ob->query("class");
         level=exp;
-        ob->set("default_actions", (: call_other, __FILE__, "query_action" :));
-        
+        ob->set("default_actions", (: call_other, "/adm/daemons/race/human.c", "query_action" :));
+
         if( undefinedp(my["age"]) ) my["age"] = random(30) + 15;
         if( undefinedp(my["str"]) ) my["str"] = random(21) + 10;
         if( undefinedp(my["cor"]) ) my["cor"] = random(21) + 10;
@@ -138,7 +138,7 @@ void setup_human(object ob)
               if(exp >0) my["max_sen"] += (man_base + (man_value/man_add));
         }
 
-        ob->set_default_object(__FILE__);
+        ob->set_default_object("/adm/daemons/race/human.c");
         if( !ob->query_weight() ) ob->set_weight(BASE_WEIGHT + (my["str"] - 10)* 2000);
         switch(ob->query("class")) {
           case "bandit":

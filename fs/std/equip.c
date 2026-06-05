@@ -6,6 +6,7 @@ inherit F_EQUIP;
 
 void setup()
 {
+    ::setup();
     int value,i,cnt,total;
     string *name;
     mapping in_data=([ ]);

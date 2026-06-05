@@ -172,7 +172,10 @@ void logon (object ob)
     else if( !usr[i]->query_temp("netdead") ) ppl_cnt++;
   }
   if(file_size("/data/player") >0){
-    sscanf( read_file("data/player", 1, 1 ), "%d %d %d", player_week, player_day, day );
+    string data_content = read_file("data/player", 1, 1);
+    if (data_content != "") {
+      sscanf(data_content, "%d %d %d", player_week, player_day, day);
+    }
     printf("今日上線人次: " + HIG + "%d" + NOR + ", 本週上線人次: " + HIY + "%d" + NOR + " 。\n", player_day, player_week );
   }
   // konn..
@@ -187,7 +190,7 @@ void logon (object ob)
   }
 
   CHANNEL_D->do_channel( this_object(), "sys:login", sprintf("(%s) IP:%-15s 嘗試連線中。",
-    ctime(time())[4..15],query_ip_number()) );
+  ctime(time()),query_ip_number()) );
 
   printf( HIY + "您正以位址 %s 連線中, 歡迎來到狂想空間。\n" + NOR, query_ip_number() );
   write("請輸入您的英文名字或以(guest)帳號參觀: ");
@@ -717,7 +720,7 @@ else
   user->set("combat_exp",30);
 // 將原本食物飲水剛進入時為 0 改成 Full by  anmy
   user->set("food", user->max_food_capacity() * 2);
-  user->set("water", user->max_water_capacity()) * 2;
+  user->set("water", user->max_water_capacity() * 2);
 return user;
 }
 
@@ -822,7 +825,8 @@ void press_enter(string arg, object ob, object user)
                user->name(),user->query("id"), query_ip_number(user)));
   }
 
-  delete(query_ip_number(user));
+  string ip = query_ip_number(user);
+  delete(ip);
   tuned_ch = user->query_temp("channels");
   user->delete("brief");
 
@@ -900,7 +904,8 @@ varargs void enter_world(object ob, object user)
       master=find_player(user->query("family/master_id"));
       i=0;
       if(!master) {
-	if(master= FINGER_D->acquire_login_ob(user->query("family/master_id")))
+	master = FINGER_D->acquire_login_ob(user->query("family/master_id"));
+	if(master)
           i=1;
       }
       if(master) user->set("family/master_is_ppl",1);
@@ -926,7 +931,8 @@ varargs void enter_world(object ob, object user)
 //      Modify by ICE... add e-mail address..
 //
 //  modified by wade .. 配合 pk rules....
-  if( user->query("break_away") && officer = find_living("pkla officer") )
+  officer = find_living("pkla officer");
+  if( user->query("break_away") && officer )
       officer->break_away(user);
   if(userp(user)) {
     // for 冬眠(sleep) 命令。   by wade 87/8/11
@@ -1088,10 +1094,11 @@ void new_destruct(object ob)
     if(!break_connect_flag) add(query_ip_number(ob),1);
   }
   if(query(query_ip_number(ob)) > 30 && !wizlocklevel){
-    RELOG_IP->add_ip(sprintf("%s:%d",query_ip_number(ob),(time()+86400*3)));
-    delete(query_ip_number(ob));
+    string ip = query_ip_number(ob);
+    RELOG_IP->add_ip(sprintf("%s:%d",ip,(time()+86400*3)));
+    delete(ip);
     CHANNEL_D->do_channel( this_object(), "sys:login", sprintf(HIG + "(%s) IP:%-15s 不當連續連線, 已被ban。" + NOR,
-    ctime(time())[4..15],query_ip_number(ob)) );
+    ctime(time()),ip) );
   }
   destruct(ob);
 }
@@ -1112,7 +1119,10 @@ void check_log(object ppl)
  string ID,file;
  object diamond,stone;
  int num1,num2,num3,num4;
- num1=num2=num3=num4=0;
+ num1 = 0;
+ num2 = 0;
+ num3 = 0;
+ num4 = 0;
 
  stone = present("original stone",ppl);
  diamond = present("diamond_money",ppl);
