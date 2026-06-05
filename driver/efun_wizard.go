@@ -37,6 +37,30 @@ func (d *Driver) registerWizardEfuns(obj *object.LPCObject) {
 		},
 	})
 
+	// 語法: string wizhood(object ob)
+	// 說明: 回傳物件的身分組字串 (如 "(admin)", "(wizard)", "(player)")。
+	obj.Vars.Set("wizhood", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			target := getTarget(args, obj)
+			// 🚀 關鍵相容：回傳符合 Mudlib 預期的標籤
+			// 這裡目前簡化處理：UID 為 Root 則是 admin，有 IsWizard 則是 wizard，否則為 player
+			if target.UID == "Root" {
+				return &object.String{Value: "(admin)"}
+			}
+			if target.IsWizard {
+				return &object.String{Value: "(wizard)"}
+			}
+			// 根據 ID 特殊處理
+			id, _ := target.Vars.Get("id")
+			if idStr, ok := id.(*object.String); ok {
+				if idStr.Value == "guest" {
+					return &object.String{Value: "(guest)"}
+				}
+			}
+			return &object.String{Value: "(player)"}
+		},
+	})
+
 	// 語法: int snoop(object snooper, object snoopee)
 	// 說明: 讓 snooper 監看 snoopee 的輸入與輸出。若 snoopee 為空，則停止 snooper 的所有監看。
 	obj.Vars.Set("snoop", &object.Builtin{

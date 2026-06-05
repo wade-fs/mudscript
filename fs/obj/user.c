@@ -51,6 +51,8 @@ int save()
 {
 	int res;
 	if (getuid() == "guest") return 1;
+	// 🚀 關鍵修正：若尚未設定個人身分 (仍為 Root)，則不存檔，避免產生 Root.o
+	if (geteuid() == ROOT_UID || !geteuid()) return 1;
 
 	save_autoload();
 	res = ::save();

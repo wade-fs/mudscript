@@ -18,7 +18,7 @@ void setup()
 	if( stringp( loc = query("location") ) )
 		move(loc);
 	else {
-		write( "這個板子不知道要擺\在哪兒。\n" );
+		write( "這個板子不知道要擺在哪兒。\n" );
 		return;
 	}
 	set( "no_get", 1 );
