@@ -281,7 +281,16 @@ func (d *Driver) MoveObject(item *object.LPCObject, dest *object.LPCObject) {
 	// 🚀 改良版 init 觸發機制 (接近 MudOS 標準)
 
 	// 1. 如果移動的是生物，清除其 Actions (指令集) 並準備重建
-	if item.IsLiving {
+	// 🚀 關鍵相容性修正：只清除來自環境或其他物件的指令，保留物件自身註冊的指令
+	if item.IsLiving && item.Actions != nil {
+		newActions := make(map[string]*object.Action)
+		for verb, act := range item.Actions {
+			if act.Provider == item {
+				newActions[verb] = act
+			}
+		}
+		item.Actions = newActions
+	} else if item.IsLiving {
 		item.Actions = make(map[string]*object.Action)
 	}
 

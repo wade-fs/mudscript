@@ -305,18 +305,26 @@ func (d *Driver) registerCoreEfuns(obj *object.LPCObject) {
 		},
 	})
 
-	// 語法: void add_action(string func_name, string verb)
+	// 語法: void add_action(string func_name, string verb, [int flag])
 	// 說明: 為玩家註冊一個指令，當玩家輸入 verb 時，會呼叫 func_name。
+	// 若 flag 為 1，則 verb 會被視為前綴。若 verb 為空字串且 flag 為 1，則攔截所有輸入。
 	// 範例: add_action("do_look", "look");
 	obj.Vars.Set("add_action", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
 			if len(args) < 2 {
-				return object.NewError("add_action 需 2 個字串參數")
+				return object.NewError("add_action 需至少 2 個參數")
 			}
 			funcName, ok1 := args[0].(*object.String)
 			verb, ok2 := args[1].(*object.String)
 			if !ok1 || !ok2 {
 				return object.NewError("add_action 參數型別錯誤")
+			}
+
+			flag := 0
+			if len(args) > 2 {
+				if f, ok := args[2].(*object.Integer); ok {
+					flag = int(f.Value)
+				}
 			}
 
 			playerObj := obj
@@ -333,6 +341,7 @@ func (d *Driver) registerCoreEfuns(obj *object.LPCObject) {
 				Verb:     verb.Value,
 				FuncName: funcName.Value,
 				Provider: obj,
+				Flags:    flag,
 			}
 			return &object.Integer{Value: 1}
 		},
@@ -362,6 +371,7 @@ func (d *Driver) registerCoreEfuns(obj *object.LPCObject) {
 
 			// 1. 優先檢查 add_action 註冊的指令
 			if obj.Actions != nil {
+				// A. 精確匹配
 				if action, exists := obj.Actions[verb]; exists {
 					// 設定玩家上下文以便執行指令
 					pConn := d.getPlayerConnection(obj)
@@ -369,13 +379,39 @@ func (d *Driver) registerCoreEfuns(obj *object.LPCObject) {
 						pConn = &PlayerConnection{Object: obj, IsActive: true}
 					}
 
+					pConn.CurrentVerb = verb
 					// 🚀 使用 RunCommand 封裝以確保 GetCurrentPlayer 正常
 					res := d.RunCommand(pConn, action.Provider, action.FuncName, []object.Object{&object.String{Value: arg}})
 
-					if i, ok := res.(*object.Integer); ok && i.Value != 0 {
+					if isLPCTrue(res) {
 						return &object.Integer{Value: 1}
 					}
-					return &object.Integer{Value: 1} // 只要有對應 Action 就算成功
+				}
+
+				// B. 前綴匹配與萬用攔截 ("")
+				for v, action := range obj.Actions {
+					if action.Flags == 1 {
+						if v == "" || strings.HasPrefix(verb, v) {
+							pConn := d.getPlayerConnection(obj)
+							if pConn == nil {
+								pConn = &PlayerConnection{Object: obj, IsActive: true}
+							}
+							pConn.CurrentVerb = verb
+
+							callArg := arg
+							if v == "" {
+								callArg = input
+							} else if len(verb) > len(v) {
+								callArg = verb[len(v):] + " " + arg
+								callArg = strings.TrimSpace(callArg)
+							}
+
+							res := d.RunCommand(pConn, action.Provider, action.FuncName, []object.Object{&object.String{Value: callArg}})
+							if isLPCTrue(res) {
+								return &object.Integer{Value: 1}
+							}
+						}
+					}
 				}
 			}
 

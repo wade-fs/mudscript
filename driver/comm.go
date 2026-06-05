@@ -149,6 +149,7 @@ func (d *Driver) ProcessCommand(pConn *PlayerConnection, input string) bool {
 
 	// 1. 優先檢查 add_action 註冊的指令
 	if obj.Actions != nil {
+		// A. 精確匹配
 		if action, exists := obj.Actions[verb]; exists {
 			// 🚀 使用 RunCommand 封裝以確保 GetCurrentPlayer 正常
 			res := d.RunCommand(pConn, action.Provider, action.FuncName, []object.Object{&object.String{Value: arg}})
@@ -157,12 +158,39 @@ func (d *Driver) ProcessCommand(pConn *PlayerConnection, input string) bool {
 			if res != nil {
 				if i, ok := res.(*object.Integer); ok && i.Value == 0 {
 					// 如果回傳 0，代表指令雖然匹配但拒絕處理 (由 notify_fail 接手)
-					return false
+				} else {
+					return true
 				}
-				// 否則視為成功
+			} else {
 				return true
 			}
-			return true
+		}
+
+		// B. 前綴匹配與萬用攔截 ("")
+		for v, action := range obj.Actions {
+			if action.Flags == 1 {
+				if v == "" || strings.HasPrefix(verb, v) {
+					// 對於萬用攔截 ("")，傳遞完整的 input (包含 verb) 給 action
+					// 對於前綴匹配 (例如 "l" 匹配 "look")，LPC 通常會把剩餘部分傳給 arg
+					// 但這裡我們簡化處理：如果 v 為空，則 arg 為完整的 input
+					callArg := arg
+					if v == "" {
+						callArg = input
+					} else if len(verb) > len(v) {
+						// 如果 verb 比 v 長，例如輸入 "lookat" 而 v 是 "look"，則 arg = "at " + arg
+						callArg = verb[len(v):] + " " + arg
+						callArg = strings.TrimSpace(callArg)
+					}
+
+					log.Printf("DEBUG: Calling action %s::%s with arg '%s'", action.Provider.Filename, action.FuncName, callArg)
+					res := d.RunCommand(pConn, action.Provider, action.FuncName, []object.Object{&object.String{Value: callArg}})
+					if isLPCTrue(res) {
+						log.Printf("DEBUG: Action %s::%s returned true", action.Provider.Filename, action.FuncName)
+						return true
+					}
+					log.Printf("DEBUG: Action %s::%s returned false (or nil)", action.Provider.Filename, action.FuncName)
+				}
+			}
 		}
 	}
 

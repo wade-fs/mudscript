@@ -367,6 +367,7 @@ type Action struct {
 	Verb     string      // 指令動詞 (例如 "get", "look")
 	FuncName string      // 對應的 LPC 函式名稱 (例如 "do_get")
 	Provider *LPCObject  // 提供這個指令的物件 (例如「蘋果」或「房間」)
+	Flags    int         // 🚀 新增：支援 LPC add_action 的 flags (如 1 代表前綴匹配)
 }
 
 // LPCObject: 代表一個載入記憶體中的 LPC 物件實體 (.c 檔)

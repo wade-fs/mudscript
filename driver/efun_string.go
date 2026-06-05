@@ -6,6 +6,7 @@ import (
 	"os"
 	"path/filepath"
 	"regexp"
+	"strconv"
 	"strings"
 
 	"golang.org/x/crypto/bcrypt"
@@ -703,12 +704,10 @@ func (d *Driver) registerAdvancedStringEfuns2(obj *object.LPCObject) {
 		},
 	})
 
-	// 語法: int sscanf(string str, string fmt, mixed var1, ...)
-	// 說明: 解析字串，將符合的部分賦值給變數。
-	// 範例: sscanf("hello world", "%s %s", s1, s2);
+	// 語法: int sscanf(string str, string fmtStr, mixed var1, ...)
 	obj.Vars.Set("sscanf", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
-			if len(args) < 3 {
+			if len(args) < 2 {
 				return &object.Integer{Value: 0}
 			}
 			str, ok1 := args[0].(*object.String)
@@ -717,23 +716,48 @@ func (d *Driver) registerAdvancedStringEfuns2(obj *object.LPCObject) {
 				return &object.Integer{Value: 0}
 			}
 
-			// 簡易實作：支援 "%*s#%d"
-			if strings.Contains(fmtStr.Value, "#") {
-				parts := strings.Split(fmtStr.Value, "#")
-				if len(parts) == 2 && parts[0] == "%*s" && parts[1] == "%d" {
-					idx := strings.Index(str.Value, "#")
-					if idx != -1 {
-						valStr := str.Value[idx+1:]
-						var val int
-						fmt.Sscanf(valStr, "%d", &val)
-						if v, ok := args[2].(*object.Integer); ok {
-							v.Value = int64(val)
-							return &object.Integer{Value: 1}
-						}
+			// 🚀 強化版 sscanf：支援簡單的字串提取 (例如 "%s.c")
+			// 我們使用正規表達式來模擬 sscanf 的行為
+			pattern := fmtStr.Value
+			// 將 %s 轉換為 ([^ ]+)，將 %d 轉換為 ([-+]?[0-9]+)
+			// 注意：這只是簡易模擬
+			pattern = regexp.QuoteMeta(pattern)
+			pattern = strings.ReplaceAll(pattern, "\\%s", "(.+)")
+			pattern = strings.ReplaceAll(pattern, "\\%d", "([-+]?[0-9]+)")
+			pattern = strings.ReplaceAll(pattern, "\\%*s", ".+")
+			pattern = strings.ReplaceAll(pattern, "\\%*d", "[0-9]+")
+			
+			re, err := regexp.Compile("^" + pattern + "$")
+			if err != nil {
+				return &object.Integer{Value: 0}
+			}
+
+			matches := re.FindStringSubmatch(str.Value)
+			if matches == nil {
+				return &object.Integer{Value: 0}
+			}
+
+			// 將匹配結果填回參數
+			matchIdx := 1
+			for i := 2; i < len(args); i++ {
+				if matchIdx >= len(matches) {
+					break
+				}
+				val := matches[matchIdx]
+				
+				switch target := args[i].(type) {
+				case *object.String:
+					target.Value = val
+					matchIdx++
+				case *object.Integer:
+					if v, err := strconv.ParseInt(val, 10, 64); err == nil {
+						target.Value = v
+						matchIdx++
 					}
 				}
 			}
-			return &object.Integer{Value: 0}
+
+			return &object.Integer{Value: int64(matchIdx - 1)}
 		},
 	})
 
