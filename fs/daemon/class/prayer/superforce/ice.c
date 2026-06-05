@@ -31,7 +31,7 @@ skill=this_player()->query("functions/ice/level");
 
         me->set_temp("ice",1);
         message_vision(
-HIC "$N運起渾天心法第四層的"HIW"碧雪冰"HIC"﹐身上發出如寒霜般的寒勁,四周的空氣似乎也為之凍結!!\n" NOR,me);
+HIC + "$N運起渾天心法第四層的" + HIW + "碧雪冰" + HIC + "﹐身上發出如寒霜般的寒勁,四周的空氣似乎也為之凍結!!\n" + NOR,me);
 
         me->add_temp("apply/force", 5);
         me->add_temp("apply/move", 5);

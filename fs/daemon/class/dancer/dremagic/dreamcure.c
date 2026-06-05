@@ -21,7 +21,7 @@ return notify_fail("你正在施法。\n");
        me->set_temp("dreamcure",1);
        if(!target)
        {
-                message_vision(HIG"$N使出了夢玄法鑑中的"HIC"治療術"HIG"﹐只見一陣神奇光芒籠照全身。\n"NOR, me);
+                message_vision(HIG + "$N使出了夢玄法鑑中的" + HIC + "治療術" + HIG + "﹐只見一陣神奇光芒籠照全身。\n" + NOR, me);
        call_out("act1",3,msg,target,me,fun,fk);
        return 1;
         }

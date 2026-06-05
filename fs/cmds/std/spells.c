@@ -2,17 +2,17 @@
 inherit F_CLEAN_UP;
 
 string *status = ({
-        BLU "初學乍練" NOR,
-        HIB "粗通皮毛" NOR,
-        HIB "半生不熟" NOR,
-        HIB "馬馬虎虎" NOR,
-        HIB "駕輕就熟" NOR,
-        CYN "出類拔萃" NOR,
-        CYN "神乎其技" NOR,
-        CYN "出神入化" NOR,
-        HIC "登峰造極" NOR,
-        HIC "一代宗師" NOR,
-        HIW "深不可測" NOR
+        BLU + "初學乍練" + NOR,
+        HIB + "粗通皮毛" + NOR,
+        HIB + "半生不熟" + NOR,
+        HIB + "馬馬虎虎" + NOR,
+        HIB + "駕輕就熟" + NOR,
+        CYN + "出類拔萃" + NOR,
+        CYN + "神乎其技" + NOR,
+        CYN + "出神入化" + NOR,
+        HIC + "登峰造極" + NOR,
+        HIC + "一代宗師" + NOR,
+        HIW + "深不可測" + NOR
 	});
 string get_status(int value);
 

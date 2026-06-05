@@ -6,7 +6,7 @@ inherit ITEM;
 
 void create()
 {
-        set_name(YEL "洗髓丹" NOR, ({ "dan", "xisui dan", "xisuidan" }) );
+        set_name(YEL + "洗髓丹" + NOR, ({ "dan", "xisui dan", "xisuidan" }) );
         set_weight(200);
         if( clonep() )
                 set_default_object(__FILE__);
@@ -47,8 +47,8 @@ int do_eat(string arg)
         {
                 message("vision", "你似乎聽見" + me->name() + "的骨頭嘩啦啦的響。\n",
                                   environment(me), ({ me }));
-                tell_object(me, HIY "你渾身的骨骼登時嘩啦啦的響個不停，可把你嚇壞了，"
-                                "好在一會兒就聽了下來，似乎筋骨更靈活了。\n" NOR);
+                tell_object(me, HIY + "你渾身的骨骼登時嘩啦啦的響個不停，可把你嚇壞了，"
+                                "好在一會兒就聽了下來，似乎筋骨更靈活了。\n" + NOR);
                 me->add("con", 1);
                 me->add("setgift/con",1);
         }

@@ -3,17 +3,17 @@
 #include <ansi.h>
 
 mapping wiz_rank = ([
-	"(admin)": 		({ HIW "【 天  帝 】" NOR, HIW "【 天  后 】" NOR }),
-	"(arch)": 		({ HIY "【 天  帝 】" NOR, HIY "【 天  后 】" NOR }),
-	"(wizard)": 	({ HIG "【 天  帝 】" NOR, HIG "【 天  后 】" NOR }),
-	"(apprentice)":	({ HIC "【 天  帝 】" NOR, HIC "【 天  后 】" NOR }),
+	"(admin)": 		({ HIW + "【 天  帝 】" + NOR, HIW + "【 天  后 】" + NOR }),
+	"(arch)": 		({ HIY + "【 天  帝 】" + NOR, HIY + "【 天  后 】" + NOR }),
+	"(wizard)": 	({ HIG + "【 天  帝 】" + NOR, HIG + "【 天  后 】" + NOR }),
+	"(apprentice)":	({ HIC + "【 天  帝 】" + NOR, HIC + "【 天  后 】" + NOR }),
 ]);
 
 string query_rank(object ob)
 {
 	string level="";
 	string guild="";
-	if( ob->is_ghost() ) return HIB "【 鬼  魂 】" NOR;
+	if( ob->is_ghost() ) return HIB + "【 鬼  魂 】" + NOR;
 	if( ob->query("class") ) guild=ob->query("class");
 	if(ob->query("class_level")) level="-"+ob->query("class_level");
 	if(ob->query("gender")=="女性")
@@ -21,7 +21,7 @@ string query_rank(object ob)
 		if(wizhood(ob)!="(player)")
 			return to_chinese("f_"+wizhood(ob));
 		if(!ob->query("class_level"))
-		  if(!ob->query("class")) return "【 平  民 】" NOR;
+		  if(!ob->query("class")) return "【 平  民 】" + NOR;
 		    return to_chinese("f_"+guild+level);
 	}
 	else
@@ -29,7 +29,7 @@ string query_rank(object ob)
 		if(wizhood(ob)!="(player)")
 			return to_chinese(wizhood(ob));
 		if(!ob->query("class_level"))
-		  if(!ob->query("class")) return "【 平  民 】" NOR;
+		  if(!ob->query("class")) return "【 平  民 】" + NOR;
 		    return to_chinese(guild+level);
 	}
 }

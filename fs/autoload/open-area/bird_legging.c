@@ -7,7 +7,7 @@ inherit EQUIP;
 
 void create()
 {
-  set_name(HIR"火鳥"HIW"脛甲"NOR,({"fire bird leggings","leggings"}));
+  set_name(HIR + "火鳥" + HIW + "脛甲" + NOR,({"fire bird leggings","leggings"}));
   set_weight(3000);
   if( clonep() )
     set_default_object(__FILE__);
@@ -29,8 +29,8 @@ void create()
     set("no_get",1);
     set("no_steal",1);
     set("no_save",1); 
-    set("wear_msg","$n"HIM"燃起一道火焰，五光十色甚是眩麗。\n"NOR+HIY"$N"HIY"像不死鳥般沐浴於奇蹟之焰中，$N"HIY"的福緣增加了!!\n"NOR);
-    set("unequip_msg",HIY"奇蹟之焰逐漸熄滅...\n"NOR);
+    set("wear_msg","$n" + HIM + "燃起一道火焰，五光十色甚是眩麗。\n" + NOR+HIY + "$N" + HIY + "像不死鳥般沐浴於奇蹟之焰中，$N" + HIY + "的福緣增加了!!\n" + NOR);
+    set("unequip_msg",HIY + "奇蹟之焰逐漸熄滅...\n" + NOR);
   }
   setup();
 }
@@ -51,8 +51,8 @@ int wear()
       me->set("kar",me->query("origional_kar"));
       me->delete("origional_kar");
     }
-//    message_vision("$n"HIM"燃起一道火焰，五光十色甚是眩麗。\n"NOR,me,this_object());
-//    message_vision(HIY"$N像不死鳥般沐浴於奇蹟之焰中，$N的福緣增加了!!\n"NOR,me);
+//    message_vision("$n" + HIM + "燃起一道火焰，五光十色甚是眩麗。\n" + NOR,me,this_object());
+//    message_vision(HIY + "$N像不死鳥般沐浴於奇蹟之焰中，$N的福緣增加了!!\n" + NOR,me);
     k = (me->query("combat_exp"))/1000000;
     if( me->query("combat_exp") > 245000000 )
     k = 245+(me->query("combat_exp")-245000000)/5000000;
@@ -122,7 +122,7 @@ int unequip()
   int result = ::unequip();
   if( !query("equipped") )
   {
-//    message_vision(HIY"奇蹟之焰逐漸熄滅...\n"NOR,me);
+//    message_vision(HIY + "奇蹟之焰逐漸熄滅...\n" + NOR,me);
     me->delete("legging_add_gift");
     if(me->query_temp("apply/kar_fire_bird_leggings")) {
       me->add_temp("apply/kar",-me->query_temp("apply/kar_fire_bird_leggings"));

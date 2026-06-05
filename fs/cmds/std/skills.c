@@ -4,31 +4,31 @@
 inherit F_CLEAN_UP;
 
 string *skill_level_desc = ({
-	BLU "初學乍練" NOR,
-	HIB "粗通皮毛" NOR,
-	HIB "半生不熟" NOR,
-	HIB "馬馬虎虎" NOR,
-	HIB "駕輕就熟" NOR,
-	CYN "出類拔萃" NOR,
-	CYN "神乎其技" NOR,
-	CYN "出神入化" NOR,
-	HIC "登峰造極" NOR,
-	HIC "一代宗師" NOR,
-	HIW "深不可測" NOR
+	BLU + "初學乍練" + NOR,
+	HIB + "粗通皮毛" + NOR,
+	HIB + "半生不熟" + NOR,
+	HIB + "馬馬虎虎" + NOR,
+	HIB + "駕輕就熟" + NOR,
+	CYN + "出類拔萃" + NOR,
+	CYN + "神乎其技" + NOR,
+	CYN + "出神入化" + NOR,
+	HIC + "登峰造極" + NOR,
+	HIC + "一代宗師" + NOR,
+	HIW + "深不可測" + NOR
 });
 
 string *knowledge_level_desc = ({
-	BLU "新學乍用" NOR,
-	HIB "初窺門徑" NOR,
-	HIB "略知一二" NOR,
-	HIB "馬馬虎虎" NOR,
-	HIB "已有小成" NOR,
-	CYN "心領神會" NOR,
-	CYN "了然於胸" NOR,
-	CYN "豁然貫通" NOR,
-	HIC "舉世無雙" NOR,
-	HIC "震古鑠今" NOR,
-	HIW "深不可測" NOR
+	BLU + "新學乍用" + NOR,
+	HIB + "初窺門徑" + NOR,
+	HIB + "略知一二" + NOR,
+	HIB + "馬馬虎虎" + NOR,
+	HIB + "已有小成" + NOR,
+	CYN + "心領神會" + NOR,
+	CYN + "了然於胸" + NOR,
+	CYN + "豁然貫通" + NOR,
+	HIC + "舉世無雙" + NOR,
+	HIC + "震古鑠今" + NOR,
+	HIW + "深不可測" + NOR
 });
 
 string skill_level(string, int);
@@ -103,7 +103,7 @@ varargs int main( object me, string arg, int mode )
         if (file_size("daemon/skill/"+sname[i]+".c") == -1 && !wiz_level(me))
 			ob->delete_skill(sname[i]);
 		else
-		printf("%s%s%-40s" NOR " - %-10s %3d/%5d\n", 
+		printf("%s%s%-40s" + NOR + " - %-10s %3d/%5d\n", 
 			(lrn[sname[i]] >= (skl[sname[i]]+1) * (skl[sname[i]]+1)) ? HIM : "",
 			(member_array(sname[i], mapped)==-1? "  ": "ˇ"),
 			to_chinese(sname[i]) + " (" + sname[i] + ")",

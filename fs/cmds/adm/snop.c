@@ -33,7 +33,7 @@ int main(object me, string arg)
 	if( userp(ob) ) log_file("SNOOP_PLAYER",
 		sprintf("%s(%s) snoops %s on %s.\n", me->name(1), geteuid(me), ob->name(1),
 			ctime(time()) ) );
-	write (HIW"你開始監聽"+ob->name()+"所收到的訊息。\n" + NOR);
+	write (HIW + "你開始監聽"+ob->name()+"所收到的訊息。\n" + NOR);
 	//tell_object(ob, HIW + me->name(1) + "開始監聽你所收到的訊息。\n" + NOR);
 
 	return 1;

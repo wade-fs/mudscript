@@ -81,9 +81,9 @@ void display( string short, string *strs )
 
 	is = get_item_short(strs);
 	il = get_item_long(strs);
-	write( short + " - "HIC"景觀敘述列表"NOR":\n\n" );
+	write( short + " - " + HIC + "景觀敘述列表" + NOR + ":\n\n" );
 	for( i=0, n=sizeof(is); i<n; i++ )
-		printf( "("HIG"%s"NOR") :\n%s\n\n", is[i], il[i] );
+		printf( "(" + HIG + "%s" + NOR + ") :\n%s\n\n", is[i], il[i] );
 }
 
 int main( object me, string arg )
@@ -175,13 +175,13 @@ void set_long( object me, string item, string *strs, string str )
 	}
 	for( i=0, n=sizeof(is); i<n; i++ )
 		if( il[i] == str ) {
-			write( HIR"此區域已有(" + item + ")。\n"NOR );
+			write( HIR + "此區域已有(" + item + ")。\n" + NOR );
 			return;
 		}
 	is = ({ item }) + is;
 	il = ({ str }) + il;
 	do_save( me, is, il );
-	message_vision( HIY"$N製造出(" + item + ")。\n"NOR, me );
+	message_vision( HIY + "$N製造出(" + item + ")。\n" + NOR, me );
 }
 
 void ask_item( string str, object me, string *strs )
@@ -212,7 +212,7 @@ void ask_item( string str, object me, string *strs )
 				break;
 			}
 		do_save( me, is, il );
-		message_vision( HIM"$N運勁全身, 將(" + str + ")摧毀了。\n"NOR, me );
+		message_vision( HIM + "$N運勁全身, 將(" + str + ")摧毀了。\n" + NOR, me );
 	}
 	return;
 }

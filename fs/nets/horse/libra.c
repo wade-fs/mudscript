@@ -7,7 +7,7 @@ inherit NPC;
 
 void create()
 {
-set_name(HIC"傲雪狂龍"NOR, ({ "crazy dragon","dragon" }) );
+set_name(HIC + "傲雪狂龍" + NOR, ({ "crazy dragon","dragon" }) );
 set("long","這是生存在仙界九天之上的仙龍, 是巫師們賞賜給人們的\n似乎還能騎上去唷(ride)");
 set("no_drop", 1);
 set("no_auc", 1);
@@ -75,7 +75,7 @@ message_vision("$N跳上了傲雲狂龍,雲霧把$N的身體包覆起來.使你�
         me->add_temp("apply/damage",30);
         me->add_temp("apply/armor", 30);
         this_object()->set_leader(me);
-        me->add_temp("apply/name",({ me->name()+ HIW"(正騎著"NOR+this_object()->name()+HIW")"NOR}));
+        me->add_temp("apply/name",({ me->name()+ HIW + "(正騎著" + NOR+this_object()->name()+HIW + ")" + NOR}));
         move(me);
         me->set_heart_beat(1);
         return 1;

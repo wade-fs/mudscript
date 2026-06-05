@@ -16,13 +16,13 @@ int update_condition(object me, int duration)
 		me->add_temp("apply/spi",-g);
 		me->add_temp("apply/kar",-g);
 		if(fun<100) { function_improved("basicup",random(500)+fun); }
-		tell_object(me,WHT"你覺得「印契」之力流失了。\n"NOR);
+		tell_object(me,WHT + "你覺得「印契」之力流失了。\n" + NOR);
 		return 0;
 		}
 	else if(!me->query_temp("basicup")) {return 0;} //避免離線後 仍有訊息
 	else {//其他就是當duration >0 的情況
-	tell_object(me,HIG"你『"MAG"舒筋活骨"HIG"』後彷彿身材變得更加魁梧了。\n"NOR); //由於少林只有男性所以不考慮女性形容
-	message("vision",HIG+me->name()+"散發出一種『"MAG"舒筋活骨"HIG"』後帶來的震攝力，使附近的人感受到一股威壓。\n"NOR,environment(me),me);
+	tell_object(me,HIG + "你『" + MAG + "舒筋活骨" + HIG + "』後彷彿身材變得更加魁梧了。\n" + NOR); //由於少林只有男性所以不考慮女性形容
+	message("vision",HIG+me->name()+"散發出一種『" + MAG + "舒筋活骨" + HIG + "』後帶來的震攝力，使附近的人感受到一股威壓。\n" + NOR,environment(me),me);
 	me->apply_condition("giftdown",duration-1);
 	return 1;
 	}

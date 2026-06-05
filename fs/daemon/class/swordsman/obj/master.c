@@ -9,17 +9,17 @@ int sha_array8();
 int check_mogi(object me)
 { 
  command("fear");
- message_vision(HIY"
+ message_vision(HIY + "
 $N驚恐的說：你這是中了魔域的劇毒「入滅」！因毒素潛藏奇經八脈之中
 每隔一段時間會嘔血不止，時間一長甚至會送命，當今只有「菩薩印第十式」
-能化解此招！\n"NOR,this_object());
+能化解此招！\n" + NOR,this_object());
 }
 
 int pass(object me)
 { 
  command("sigh");
- message_vision(HIY"$N面帶感傷，似乎想起了某件傷心往事...\n"NOR,this_object());
- message_vision(HIC"
+ message_vision(HIY + "$N面帶感傷，似乎想起了某件傷心往事...\n" + NOR,this_object());
+ message_vision(HIC + "
 $N緩緩的說：那是我年輕的時候的事了...當時仙劍祖師逍遙子尚未失蹤，魔域突
 然大舉進犯人間，於是各門派便聯手與魔兵奮戰......
 當時老夫年少輕狂，剛剛練成了仙劍至極之招---雙十旋龍斬！
@@ -30,7 +30,7 @@ $N緩緩的說：那是我年輕的時候的事了...當時仙劍祖師逍遙子
 印第九式」推進到第十式為老夫療傷，但自己卻在三天後舊傷復發加上菩薩印威力無
 法承受而圓寂了。故老夫發誓此生不再用雙十旋龍斬。
 至於你的傷是否能得救，趕快前去少林寺會見住持看看是否有辦法。\n
-"NOR,this_object());
+" + NOR,this_object());
 
 }
 string check_damage()
@@ -222,9 +222,9 @@ void attempt_apprentice(object ob)
 	// 為了避免叛師被扣 skill, 先將玩家的 family 去掉
 	ob->delete("family");
 	command("recruit "+this_player()->query("id"));
-	message("system",HIW"鄭士欣縱聲大笑: 
+	message("system",HIW + "鄭士欣縱聲大笑: 
 哈哈哈哈....老夫實在太高興啦!
-英雄出少年 ,"+this_player()->name()+": 今後就由老夫親授於你.\n"NOR,users());
+英雄出少年 ,"+this_player()->name()+": 今後就由老夫親授於你.\n" + NOR,users());
 	return ;
 	}
       command("hmm");
@@ -245,13 +245,13 @@ void attempt_apprentice(object ob)
 	}
 	if(who->query_temp("have_say")==1)
 	{
-	message_vision(sprintf(HIC"$N說道﹕"+str+"\n"NOR),who);
+	message_vision(sprintf(HIC + "$N說道﹕"+str+"\n" + NOR),who);
 	command("say 你不是挑過了?");
 	return 1;
 	}
 	if(str=="張乘風" ||  str == "chen fon" || str == "fon")
             {
-	 message_vision(HIC"$N說道﹕張乘風\n"NOR,who);
+	 message_vision(HIC + "$N說道﹕張乘風\n" + NOR,who);
  	 this_player()->set_temp("allow_1",1);
 	 command("smile");
 	 command("say 嗯 ,你就拜我的首徒張乘風吧!");
@@ -260,7 +260,7 @@ void attempt_apprentice(object ob)
 	}
 	if(str == "張乘雲" || str == "chen un" || str == "un")
 	{
-	message_vision(HIC"$N說道﹕張乘雲\n"NOR,who);
+	message_vision(HIC + "$N說道﹕張乘雲\n" + NOR,who);
 	this_player()->set_temp("allow_2",1);
 	command("smile");
 	command("say 嗯 ,你就拜我的次徒張乘雲吧!");
@@ -269,7 +269,7 @@ void attempt_apprentice(object ob)
 	}
 	if(str == "唐鈺" || str == "teng yu" || str == "yu")
 	{
-	message_vision(HIC"$N說道﹕唐鈺\n"NOR,who);
+	message_vision(HIC + "$N說道﹕唐鈺\n" + NOR,who);
 	this_player()->set_temp("allow_3",1);
 	command("smile");
 	command("say 嗯 ,你就拜我的三弟子唐鈺吧!");
@@ -278,7 +278,7 @@ void attempt_apprentice(object ob)
 	}
 	if(str == "趙鶴" || str == "san hu" || str == "hu")
 	{
-	message_vision(HIC"$N說道﹕趙鶴\n"NOR,who);
+	message_vision(HIC + "$N說道﹕趙鶴\n" + NOR,who);
 	this_player()->set_temp("allow_4",1);
 	command("smile");
 	command("say 嗯 ,你就拜我的四弟子趙鶴吧!");
@@ -287,7 +287,7 @@ void attempt_apprentice(object ob)
 	}
 	if(str == "梅影" || str == "may ying" || str == "may")
 	{
-	message_vision(HIC"$N說道﹕梅影\n"NOR,who);
+	message_vision(HIC + "$N說道﹕梅影\n" + NOR,who);
 	this_player()->set_temp("allow_5",1);
 	command("smile");
 	command("say 嗯 ,你就拜我的女弟子梅影吧!");
@@ -296,7 +296,7 @@ void attempt_apprentice(object ob)
 	}
 	if(str == "何雙雙" || str == "cute girl" || str == "girl")
 	{
-	message_vision(HIC"$N說道﹕何雙雙\n",who);
+	message_vision(HIC + "$N說道﹕何雙雙\n",who);
 	this_player()->set_temp("allow_6",1);
 	command("smile");
 	command("say 嗯 ,你就拜我的女弟子何雙雙吧!");
@@ -305,7 +305,7 @@ void attempt_apprentice(object ob)
 	}
 	if(str == "李逍遙" || str == "shou_yau" || str == "yau")
 	{
-	message_vision(HIC"$N說道﹕李逍遙\n"NOR,who);
+	message_vision(HIC + "$N說道﹕李逍遙\n" + NOR,who);
 	this_player()->set_temp("allow_7",1);
 	command("smile");
 	command("say 嗯 ,你就拜我的七弟子李逍遙吧!");
@@ -367,14 +367,14 @@ int  sha_array8()
 void unconcious()
 {
    object winner = query_temp("last_damage_from");
-   tell_object(users(),HIW"鄭士欣吟道：\n\n\n            "HIW"『"HIC"狂歌羨煞紅塵客      笑歎人間\幾\許\愁 \n
-              曉霧迷濛秋漸冷      只恨雲深願未酬"HIW"』\n\n\n"HIW"今日敗於"HIY+winner->query("name")+HIW"少俠之手，老夫心悅誠服，盼少俠能以一身絕學振興武林!!\n"NOR);
+   tell_object(users(),HIW + "鄭士欣吟道：\n\n\n            " + HIW + "『" + HIC + "狂歌羨煞紅塵客      笑歎人間\幾\許\愁 \n
+              曉霧迷濛秋漸冷      只恨雲深願未酬" + HIW + "』\n\n\n" + HIW + "今日敗於" + HIY+winner->query("name")+HIW + "少俠之手，老夫心悅誠服，盼少俠能以一身絕學振興武林!!\n" + NOR);
    :: unconcious();
 }
 void die()
 {
         object winner = query_temp("last_damage_from");
-        tell_object(users(),HIM"\n\n只見蜀山上朵朵"HIY"彩雲"HIM"冉冉升起，剎為奇觀\n\n\n"HIW"    一代劍術宗師「"HIC"鄭士欣"HIW"」嗑然長逝了...\n\n"NOR);
+        tell_object(users(),HIM + "\n\n只見蜀山上朵朵" + HIY + "彩雲" + HIM + "冉冉升起，剎為奇觀\n\n\n" + HIW + "    一代劍術宗師「" + HIC + "鄭士欣" + HIW + "」嗑然長逝了...\n\n" + NOR);
 
         :: die();
 }     		

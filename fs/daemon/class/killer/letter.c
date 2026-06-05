@@ -2,7 +2,7 @@ inherit ITEM;
 #include <ansi.h>
 void create()
 {
-	set_name(HIB "密函" NOR,({"letter"}));
+	set_name(HIB + "密函" + NOR,({"letter"}));
 	set("unit","封");
 	set("value",1);
         setup();

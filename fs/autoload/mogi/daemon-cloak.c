@@ -6,7 +6,7 @@ inherit EQUIP;
 
 void create()
 {
-        set_name(HIB"邪"HIW"神"HIB"披"HIW"風"NOR,({"daemon cloak","cloak"}) );
+        set_name(HIB + "邪" + HIW + "神" + HIB + "披" + HIW + "風" + NOR,({"daemon cloak","cloak"}) );
 	set_weight(600);
         set("no_sell",1);
         set("no_auc",1);

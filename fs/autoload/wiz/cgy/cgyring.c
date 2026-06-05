@@ -63,8 +63,8 @@ int do_chat(string str) {
         if(me->query("id") != "cgy")
            return notify_fail("你想作什麼?\n");
         if(!str) return notify_fail("請說點話吧!\n");
-        shout(HIC+"\n【閒聊】黃雲(hzx)說道: "HIC+str+"\n"NOR);
-        tell_object(me,HIC+"\n【閒聊】黃雲(hzx)說道: "HIC+str+"\n"NOR);
+        shout(HIC+"\n【閒聊】黃雲(hzx)說道: " + HIC+str+"\n" + NOR);
+        tell_object(me,HIC+"\n【閒聊】黃雲(hzx)說道: " + HIC+str+"\n" + NOR);
         return 1;
 }
 int do_nd(string str){
@@ -89,8 +89,8 @@ int do_chat1(string str) {
         if(me->query("id") != "cgy")
            return notify_fail("你想作什麼?\n");
         if(!str) return notify_fail("請說點話吧!\n");
-        shout(HIC+"\n【閒聊】藏鏡人(mirror)說道: "HIC+str+"\n"NOR);
-        tell_object(me,HIC+"\n【閒聊】藏鏡人(mirror)說道: "HIC+str+"\n"NOR);
+        shout(HIC+"\n【閒聊】藏鏡人(mirror)說道: " + HIC+str+"\n" + NOR);
+        tell_object(me,HIC+"\n【閒聊】藏鏡人(mirror)說道: " + HIC+str+"\n" + NOR);
         return 1;
 }
 int do_chat2(string str) {
@@ -99,8 +99,8 @@ int do_chat2(string str) {
         if(me->query("id") != "cgy")
            return notify_fail("你想作什麼?\n");
         if(!str) return notify_fail("請說點話吧!\n");
-        shout(HIC+"\n【閒聊】復活邪神(sula)說道: "HIC+str+"\n"NOR);
-        tell_object(me,HIC+"\n【閒聊】復活邪神(sula)說道: "HIC+str+"\n"NOR);
+        shout(HIC+"\n【閒聊】復活邪神(sula)說道: " + HIC+str+"\n" + NOR);
+        tell_object(me,HIC+"\n【閒聊】復活邪神(sula)說道: " + HIC+str+"\n" + NOR);
         return 1;
 }
 int do_kkk(string arg)
@@ -113,9 +113,9 @@ int do_kkk(string arg)
    if(arg=="on")
    {
    shout(
-HIG"南方三霸"HIM"狂笑道：\n"+
-                          HIY"隱居南蠻苦練數載，今日應是我們報仇的時刻到了！哈哈哈！！！\n\n"+
-						  "\t\t\t\n\n"NOR);
+HIG + "南方三霸" + HIM + "狂笑道：\n"+
+                          HIY + "隱居南蠻苦練數載，今日應是我們報仇的時刻到了！哈哈哈！！！\n\n"+
+						  "\t\t\t\n\n" + NOR);
 if (i==0)
 {
 new("/open/dancer/npc/wind-fighter")->move("/open/ping/room/road4");
@@ -144,13 +144,13 @@ int do_kk(string arg)
            return notify_fail("你想作什麼?\n");
    if(arg=="on")
    {
-   shout(HIG"\n狂想空間北邊關卡附近傳來一聲淒慘的哀嚎聲\n\n"+
-HIR"鎮國侯奄奄一息的說道：\n\n"+
+   shout(HIG + "\n狂想空間北邊關卡附近傳來一聲淒慘的哀嚎聲\n\n"+
+HIR + "鎮國侯奄奄一息的說道：\n\n"+
                              "臣鎮守邊關數十年，誓死保衛國家太平\n"+
                              "如今邊關被破，臣有負皇上重託，唯有一死以謝天下\n\n"+
-HIY"神秘劍客冷笑道：\n"+
-                          HIC"流放邊疆數十年，如今讓我們重回中土，看來天下又要大亂了！哈哈哈！！！\n\n"+
-						  "\t\t\t\n\n"NOR);
+HIY + "神秘劍客冷笑道：\n"+
+                          HIC + "流放邊疆數十年，如今讓我們重回中土，看來天下又要大亂了！哈哈哈！！！\n\n"+
+						  "\t\t\t\n\n" + NOR);
 new("/open/dancer/npc/knight")->move("/open/main/room/r10");
    new("/open/dancer/npc/knight")->move("/open/main/room/s17");
    new("/open/dancer/npc/knight")->move("/open/main/room/r4");

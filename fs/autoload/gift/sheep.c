@@ -23,8 +23,8 @@ mapping *action = ({
 
 void create()
 {
-  set_name(HIY"純情小綿羊"NOR,({"sheep"}));  
-  set("title", HIY"『"HIW"網聚附屬品"HIY"』"NOR);
+  set_name(HIY + "純情小綿羊" + NOR,({"sheep"}));  
+  set("title", HIY + "『" + HIW + "網聚附屬品" + HIY + "』" + NOR);
   set("long", "可愛的小綿羊,請好好愛惜牠,使用方法如下：
               ride       ： 騎牠
               dismount　 ： 下牠
@@ -100,17 +100,17 @@ void horsekee()  //kee 30000 exp 10000000
    set_temp("apply/damage", 30+funlv/2);
    set_temp("apply/attack", 30+funlv/2);
    horse->set_temp("horsekee",1);
-   tell_object(me,HIR"你的羊兒目前等級為"HIW""+funlv+""HIR"！！\n"NOR);
+   tell_object(me,HIR + "你的羊兒目前等級為" + HIW + ""+funlv+"" + HIR + "！！\n" + NOR);
    write("測試完畢\n");
   }
   if ((int)horse->query("functions/feed_horse/level") <60 &&
       (int)horse->query("functions/feed_horse/level") >30)
-  { horse->set("title",HIY"『"HIW"可愛娃娃工"HIY"』"NOR); }
+  { horse->set("title",HIY + "『" + HIW + "可愛娃娃工" + HIY + "』" + NOR); }
   else if ((int)horse->query("functions/feed_horse/level") >59 &&
            (int)horse->query("functions/feed_horse/level") < 100)
-  { horse->set("title",HIY"『"HIW"略胖娃娃工"HIY"』"NOR); }
+  { horse->set("title",HIY + "『" + HIW + "略胖娃娃工" + HIY + "』" + NOR); }
   else if ((int)horse->query("functions/feed_horse/level")==100)
-  horse->set("title",HIY"『"HIR"酷斯拉娃娃工"HIY"』"NOR);
+  horse->set("title",HIY + "『" + HIR + "酷斯拉娃娃工" + HIY + "』" + NOR);
 }
   
 int do_feed(string arg)
@@ -251,7 +251,7 @@ int do_dismount()
         me->add_temp("apply/dodge",  -(5+fun/10));
         me->add_temp("apply/move",   -(5+fun/10));
   me->delete_temp("ride_name");
-  message_vision(HIW"$N一個不小心，從羊身上摔了下來！\n"NOR,me);
+  message_vision(HIW + "$N一個不小心，從羊身上摔了下來！\n" + NOR,me);
   me->delete_temp("ride_name");
   set_heart_beat(0);
   return 1;
@@ -271,7 +271,7 @@ int do_freesheep()
 
   if (me->is_fighting() )
     return notify_fail("等你沒有性命之憂再來吧\n");
-  message_vision(HIM"$N用力地往$n屁股上踼了一腳，$n痛的 "HIY"該該叫"HIM" ，往主人臉上吐了一口啖跑掉了\n"NOR,me,this_object());
+  message_vision(HIM + "$N用力地往$n屁股上踼了一腳，$n痛的 " + HIY + "該該叫" + HIM + " ，往主人臉上吐了一口啖跑掉了\n" + NOR,me,this_object());
   if(me->query_temp("is_riding"))
   {
           me->add_temp("apply/attack", -(5+fun/10));
@@ -337,9 +337,9 @@ if(!(string)horse->query_temp("my_boss")) return ;
   j = random(i);
   if ( horse->query("kee") < 500 && random(3)==1)
   {
-   message_vision("$N"HIY"突然化身為釋迦頭，口中唸唸有辭．．\n"NOR,horse);
+   message_vision("$N" + HIY + "突然化身為釋迦頭，口中唸唸有辭．．\n" + NOR,horse);
    command ("buddha2");
-   message_vision(HIC"一道昊光灑了下來，將$N"HIC"身上的傷治好了大半！\n"NOR,horse);
+   message_vision(HIC + "一道昊光灑了下來，將$N" + HIC + "身上的傷治好了大半！\n" + NOR,horse);
    command ("fear " + enemy[j]->query("id"));
    horse->receive_heal("kee",1000);
    COMBAT_D->report_status(horse);
@@ -347,8 +347,8 @@ if(!(string)horse->query_temp("my_boss")) return ;
   if (horse->is_fighting() && me->is_busy() && random(10)>7)
   {
    message_vision(horse->query("name")+"見主人陷入苦戰，奮不顧身地往全場敵人．．．\n
-                   \t"HIW"吐　"HIY"～　"HIW"口　"HIY"～　"HIW"水"NOR" \n
-　                 \t"HIR"．．"HIC"呸"HIR"．．"HIC"呸"HIR"．．"HIC"呸．．\n"NOR,me);
+                   \t" + HIW + "吐　" + HIY + "～　" + HIW + "口　" + HIY + "～　" + HIW + "水" + NOR + " \n
+　                 \t" + HIR + "．．" + HIC + "呸" + HIR + "．．" + HIC + "呸" + HIR + "．．" + HIC + "呸．．\n" + NOR,me);
    for (k=0;k<i;k++)
    {
     if (random(10)>7) //出現率為70%

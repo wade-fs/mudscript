@@ -21,7 +21,7 @@ int cast(object me, object target, object who)
         if( (int)me->query("sen") < 800 )
 		return notify_fail("你的精神無法集中﹗\n");
 
-        message_vision(HIM"$N朝天高呼：靈鷹速來助吾一臂之力。\n"NOR, me);
+        message_vision(HIM + "$N朝天高呼：靈鷹速來助吾一臂之力。\n" + NOR, me);
 
         me->add("sen", -800);
         me->add("gin", -800);
@@ -29,46 +29,46 @@ int cast(object me, object target, object who)
         me->receive_damage("gin", 100);
 
         if(me->query("combat_exp") < 5000000 ) {
-                message("vision", HIY"但是靈鷹似乎不願聽你的使喚。\n"NOR, environment(me));
+                message("vision", HIY + "但是靈鷹似乎不願聽你的使喚。\n" + NOR, environment(me));
 		return 1;
 	}
 
 	seteuid(getuid());
          hawk=new("daemon/class/taoist/necromancy/npc/hawk");
-         message_vision(HIG"
+         message_vision(HIG + "
                                        /T /I
-"HIG"                                      / |/ | .-~/
-"HIG"                                  T﹨Y  I  |/  /  _
-"HIG"                 /T               | ﹨I |  I  Y.-~/
-"HIG"                I l   /I       T﹨|  |  l  |  T  /
-"HIG"             T﹨|  ﹨Y l  /T   |﹨I  l   ﹨`  l Y
-"HIG"         __  | ﹨l  ﹨l ﹨I l __l l   ﹨  `  _. |
-"HIG"         ﹨ ~-l `﹨  `﹨ ﹨ ﹨﹨~﹨ ﹨ `. .-~   |
-"HIG"          ﹨  ~-. '-.  `  ﹨ ^._ ^. '-.  /  ﹨  |
-"HIG"        .--~-._  ~-  `  _  ~-_.-'-.' ._ /._ .' ./
-"HIG"         >--.  ~-.   ._  ~>-'    '﹨﹨ 7   7   ]
-"HIG"        ^.___~'--._    ~-{  .-~ .  `﹨Y . /    |
-"HIG"         <__ ~'-.  ~       /_/   ﹨  ﹨I Y   : |
-"HIG"           ^-.__           ~(_/   ﹨  >._:   | l______
-"HIG"               ^--.,___.-~'  /_/   !  `-.~'--l_ /     ~'-.
-"HIG"                      (_/ .  ~(   /'     '~'--,Y   -=b-. _)
-"HIG"                       (_/ .  ﹨ :           / l      c'~o ﹨
-"HIG"                        ﹨ /   `.    .     .^   ﹨_.-~'~--. )
-"HIG"                         (_/ .   `  /     /       !       )/
-"HIG"                          / / _.   '.   .':      /        '
-"HIG"                          ~(_/ .   /    _  `  .-<_
-"HIG"                            /_/ . ' .-~' `.  / ﹨ ﹨         ,z=.
-"HIG"                            ~( /   '  :   | K   '-.~-.______//
-"HIG"                              '-,.    l   I/ ﹨_   __{--->._(==.
-"HIG"                               //(     ﹨ <    ~'~'     //
-"HIG"                              /' /﹨    ﹨ ﹨    ,v=.  ((
-"HIG"                            .^. / /﹨    '  }__ //===-  `
-"HIG"                           / / ' '  '-.,__ {---(==-
-"HIG"                         .^ '       :  T  ~'   l l
-"HIG"                        / .  .  . : | :!       ﹨﹨
-"HIG"                       (_/  /   | | j-'          ~^
-"HIG"                         ~-<_(_.^-~'
-\n" NOR,me);
+" + HIG + "                                      / |/ | .-~/
+" + HIG + "                                  T﹨Y  I  |/  /  _
+" + HIG + "                 /T               | ﹨I |  I  Y.-~/
+" + HIG + "                I l   /I       T﹨|  |  l  |  T  /
+" + HIG + "             T﹨|  ﹨Y l  /T   |﹨I  l   ﹨`  l Y
+" + HIG + "         __  | ﹨l  ﹨l ﹨I l __l l   ﹨  `  _. |
+" + HIG + "         ﹨ ~-l `﹨  `﹨ ﹨ ﹨﹨~﹨ ﹨ `. .-~   |
+" + HIG + "          ﹨  ~-. '-.  `  ﹨ ^._ ^. '-.  /  ﹨  |
+" + HIG + "        .--~-._  ~-  `  _  ~-_.-'-.' ._ /._ .' ./
+" + HIG + "         >--.  ~-.   ._  ~>-'    '﹨﹨ 7   7   ]
+" + HIG + "        ^.___~'--._    ~-{  .-~ .  `﹨Y . /    |
+" + HIG + "         <__ ~'-.  ~       /_/   ﹨  ﹨I Y   : |
+" + HIG + "           ^-.__           ~(_/   ﹨  >._:   | l______
+" + HIG + "               ^--.,___.-~'  /_/   !  `-.~'--l_ /     ~'-.
+" + HIG + "                      (_/ .  ~(   /'     '~'--,Y   -=b-. _)
+" + HIG + "                       (_/ .  ﹨ :           / l      c'~o ﹨
+" + HIG + "                        ﹨ /   `.    .     .^   ﹨_.-~'~--. )
+" + HIG + "                         (_/ .   `  /     /       !       )/
+" + HIG + "                          / / _.   '.   .':      /        '
+" + HIG + "                          ~(_/ .   /    _  `  .-<_
+" + HIG + "                            /_/ . ' .-~' `.  / ﹨ ﹨         ,z=.
+" + HIG + "                            ~( /   '  :   | K   '-.~-.______//
+" + HIG + "                              '-,.    l   I/ ﹨_   __{--->._(==.
+" + HIG + "                               //(     ﹨ <    ~'~'     //
+" + HIG + "                              /' /﹨    ﹨ ﹨    ,v=.  ((
+" + HIG + "                            .^. / /﹨    '  }__ //===-  `
+" + HIG + "                           / / ' '  '-.,__ {---(==-
+" + HIG + "                         .^ '       :  T  ~'   l l
+" + HIG + "                        / .  .  . : | :!       ﹨﹨
+" + HIG + "                       (_/  /   | | j-'          ~^
+" + HIG + "                         ~-<_(_.^-~'
+\n" + NOR,me);
         hawk->move(environment(me));
         hawk->invocation(me);
 	if( userp(me) )

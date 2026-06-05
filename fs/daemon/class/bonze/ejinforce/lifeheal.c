@@ -17,8 +17,8 @@ int exert(object me, object target)
                 return notify_fail( target->name() + "已經受傷過重﹐經受不起易筋經強烈的真氣震盪﹗\n");
 
         message_vision(
-                HIW "$N雙膝盤起,運起易筋經﹐將手掌貼在$n背心﹐緩緩地將真氣輸入$n體內....\n\n"
-                "過了不久﹐$n臉色由青轉紅﹐吁了一口長氣,傷勢已大為好轉。\n" NOR,
+                HIW + "$N雙膝盤起,運起易筋經﹐將手掌貼在$n背心﹐緩緩地將真氣輸入$n體內....\n\n"
+                "過了不久﹐$n臉色由青轉紅﹐吁了一口長氣,傷勢已大為好轉。\n" + NOR,
                 me, target );
 
         target->receive_curing("kee", 100 + (int)me->query_skill("force") );

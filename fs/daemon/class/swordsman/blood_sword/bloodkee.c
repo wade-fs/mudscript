@@ -37,13 +37,13 @@ int perform(object me)
     return notify_fail("你的內力不夠。\n");
   if(me->query("kee") < 500)
     return notify_fail("你的氣不夠。\n");
-  message_vision(HIR"$N縱身一躍體內暗運體內血魔氣勁，身外浮現血魔狂暴影像！！！\n\n"NOR,me);
-  message_vision(HBRED"瞬間四周籠罩在一股詭異的血氣之下，$N蓄存四周大量魔氣，準備發出這狂暴一擊！\n"NOR,me);
-  message_vision(HIW"只見$N指成劍姿大喝一聲 "HIB"『"HIR"熾焰狂魔  血霸天下"HIB"』"HIW"，瞬間飆出無數血光劍芒...﹗\n\n"NOR,me);
+  message_vision(HIR + "$N縱身一躍體內暗運體內血魔氣勁，身外浮現血魔狂暴影像！！！\n\n" + NOR,me);
+  message_vision(HBRED + "瞬間四周籠罩在一股詭異的血氣之下，$N蓄存四周大量魔氣，準備發出這狂暴一擊！\n" + NOR,me);
+  message_vision(HIW + "只見$N指成劍姿大喝一聲 " + HIB + "『" + HIR + "熾焰狂魔  血霸天下" + HIB + "』" + HIW + "，瞬間飆出無數血光劍芒...﹗\n\n" + NOR,me);
   // 劍氣100 及bloodkee 120加強威力
   if (kee_lv==120 && swordkee_lv==100)
   {
-    message_vision(HIY"就在此時已由$N將利劍往自己手上一刺...﹗\n"RED"只見暗紅色的劍氣隨血光竄出..混雜著空中無限血光劍芒..剎那間各種劍芒盡碎﹗﹗\n"HIY"只聽$N高喊"HIW"劍氣破敵--"HBBLU"『渾元天驚血光斬』﹗\n"NOR,me);
+    message_vision(HIY + "就在此時已由$N將利劍往自己手上一刺...﹗\n" + RED + "只見暗紅色的劍氣隨血光竄出..混雜著空中無限血光劍芒..剎那間各種劍芒盡碎﹗﹗\n" + HIY + "只聽$N高喊" + HIW + "劍氣破敵--" + HBBLU + "『渾元天驚血光斬』﹗\n" + NOR,me);
     //本身受傷
     me->add("kee",-((sha_value*5+kee_lv*5+sword_lv*5)/4));
     COMBAT_D->report_status(me);
@@ -52,7 +52,7 @@ int perform(object me)
     for(j=0;j < i;j++)
     {
       if(!target[j]) continue;
-      message_vision(HIR"$N面對此情境已完全喪失招架能力任由劍氣在其身上劃出無數的傷痕！\n"NOR,target[j]);
+      message_vision(HIR + "$N面對此情境已完全喪失招架能力任由劍氣在其身上劃出無數的傷痕！\n" + NOR,target[j]);
       target[j]->receive_wound("kee",(sha_value*6+kee_lv*6+sword_lv*6+swordkee_lv*6),me);
       target[j]->start_busy(2);
       COMBAT_D->report_status(target[j],1);
@@ -60,16 +60,16 @@ int perform(object me)
   }
   else if ( ski_value <  5 ) {
     me->add("force",-kee_lv);
-    write(HIM"\n 不過一把都沒有命中，你當場羞紅了臉將劍收回。\n"NOR);
+    write(HIM + "\n 不過一把都沒有命中，你當場羞紅了臉將劍收回。\n" + NOR);
     COMBAT_D->report_status(me);
-    say(HIM" 你發現空中亂劍飛舞，不過就是沒有命中敵人，不禁指著"+me->query("name")+"的鼻子大笑。\n"NOR);
+    say(HIM + " 你發現空中亂劍飛舞，不過就是沒有命中敵人，不禁指著"+me->query("name")+"的鼻子大笑。\n" + NOR);
   }
   else if( ski_value < 30  )
   {
     me->add("force",-kee_lv);
-    write (HIM" 你發現大部分的劍都朝地上打去，甚至還打向自己，你發誓要好好練劍
-                   將來方能完全駕馭。\n"NOR);
-    say(HIM" 你看到空中一堆劍朝你射來，媽啊～快閃..發現原來是"+me->query("name")+"這個傢伙在舞劍。\n"NOR);
+    write (HIM + " 你發現大部分的劍都朝地上打去，甚至還打向自己，你發誓要好好練劍
+                   將來方能完全駕馭。\n" + NOR);
+    say(HIM + " 你看到空中一堆劍朝你射來，媽啊～快閃..發現原來是"+me->query("name")+"這個傢伙在舞劍。\n" + NOR);
     for(j=0;j < i;j++) {
       if(!target[j]) continue;
       target[j]->receive_damage("kee",(sha_value+kee_lv*4+sword_lv*2),me);
@@ -79,8 +79,8 @@ int perform(object me)
   else if( ski_value < 60 )
   {
     me->add("force",-kee_lv);
-    write (HIM" 已有一些能準確命中敵人，使的敵人受創不小。\n"NOR);
-    say(HIM" 你看見空中一些氣劍任"+me->query("name")+"揮灑自如，心中暗暗欽佩。\n"NOR);
+    write (HIM + " 已有一些能準確命中敵人，使的敵人受創不小。\n" + NOR);
+    say(HIM + " 你看見空中一些氣劍任"+me->query("name")+"揮灑自如，心中暗暗欽佩。\n" + NOR);
     for(j=0;j < i;j++) {
       if(!target[j]) continue;
       target[j]->receive_damage("kee",(sha_value+kee_lv*4+sword_lv*2),me);
@@ -90,8 +90,8 @@ int perform(object me)
   else if( ski_value < 90)
   {
     me->add("force",-kee_lv);
-    write(HIM"\n 十之八九的氣劍朝敵人激射而去，使敵人受到嚴重的創傷。\n"NOR);
-    say(HIM"\n 成千上萬的氣劍群集朝一目標射去，看的你瞠目結舌，半晌說不出話來。\n"NOR);
+    write(HIM + "\n 十之八九的氣劍朝敵人激射而去，使敵人受到嚴重的創傷。\n" + NOR);
+    say(HIM + "\n 成千上萬的氣劍群集朝一目標射去，看的你瞠目結舌，半晌說不出話來。\n" + NOR);
     for(j=0;j < i;j++) {
       if(!target[j]) continue;
       target[j]->receive_damage("kee",(sha_value+kee_lv*6+sword_lv*3),me);
@@ -102,13 +102,13 @@ int perform(object me)
   {
     me->add("force",-kee_lv*4);
     me->start_busy(1);
-//    write(HIM"\n 糟糕！由於使勁過度，氣息一滯，反而駕馭不了眾氣劍。\n"NOR);
-//    say(HIM"\n 成千上萬的氣劍群集朝四周射去，看的你瞠目結舌，但仔細一看，卻無人受傷。\n"NOR);
+//    write(HIM + "\n 糟糕！由於使勁過度，氣息一滯，反而駕馭不了眾氣劍。\n" + NOR);
+//    say(HIM + "\n 成千上萬的氣劍群集朝四周射去，看的你瞠目結舌，但仔細一看，卻無人受傷。\n" + NOR);
   }
 /*
     while(i--) { //移至最前方的判斷裡 by blazakira
       if(target[i])
-        message_vision(HIR"$N面對此情境已完全喪失招架能力任由劍氣在其身上劃出無數的傷痕！\n"NOR,target[i]);
+        message_vision(HIR + "$N面對此情境已完全喪失招架能力任由劍氣在其身上劃出無數的傷痕！\n" + NOR,target[i]);
       COMBAT_D->report_status(target[i],1);
     }
 */

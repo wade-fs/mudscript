@@ -38,9 +38,9 @@ int perform(object me, object target)
     me->set_temp("needle_up",1);
   else return 0;
   message_vision(""
-  ""HIG"                 $N突然領悟神農氏醫源的至理，將體內的內力凝聚成單股螺旋氣勁，使出「"HIR"七奇針訣"HIW"－"HIY"秘針龍騰"HIW"－"HIG"」\n\n"NOR""
-  ""HIG"                         $N將體內變異的真氣在自身奇經八脈的重要穴位上形成漩渦打轉。\n\n"NOR""
-  ""HIW"                       只見$N感到源源不絕的內息如磅礡大海般流轉全身三百六十個穴位，充滿生機有如飛龍騰雲。\n\n"NOR,me);
+  "" + HIG + "                 $N突然領悟神農氏醫源的至理，將體內的內力凝聚成單股螺旋氣勁，使出「" + HIR + "七奇針訣" + HIW + "－" + HIY + "秘針龍騰" + HIW + "－" + HIG + "」\n\n" + NOR + ""
+  "" + HIG + "                         $N將體內變異的真氣在自身奇經八脈的重要穴位上形成漩渦打轉。\n\n" + NOR + ""
+  "" + HIW + "                       只見$N感到源源不絕的內息如磅礡大海般流轉全身三百六十個穴位，充滿生機有如飛龍騰雲。\n\n" + NOR,me);
   me->start_call_out( (: call_other, __FILE__, "remove_effect", me, funlv:), funlv+random(funlv)+10);
   if( me->is_fighting() ) me->start_busy(2);
   return 1;

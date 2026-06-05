@@ -25,7 +25,7 @@ mapping *action = ({
         "dodge":                -15,
         "force":                500,
         "damage":               200,
-        "weapon": HIR"刀之魔神"NOR,
+        "weapon": HIR + "刀之魔神" + NOR,
         "damage_type":  "割傷",
 ]),
 //2
@@ -41,7 +41,7 @@ mapping *action = ({
         "dodge":                -15,
         "force":                500,
         "damage":               200,
-        "weapon": HIR"刀之魔神"NOR,
+        "weapon": HIR + "刀之魔神" + NOR,
         "damage_type":  "割傷",
 ]),
 //3
@@ -57,7 +57,7 @@ mapping *action = ({
         "dodge":                -15,
         "force":                500,
         "damage":               400,
-        "weapon": HIR"刀之魔神"NOR,
+        "weapon": HIR + "刀之魔神" + NOR,
         "damage_type":  "割傷",
 ]),
 //4
@@ -73,7 +73,7 @@ mapping *action = ({
         "dodge":                -15,
         "force":                500,
         "damage":               300,
-        "weapon": HIR"刀之魔神"NOR,
+        "weapon": HIR + "刀之魔神" + NOR,
         "damage_type":  "割傷",
 ]),
 //5
@@ -89,7 +89,7 @@ mapping *action = ({
         "dodge":                -15,
         "force":                500,
         "damage":               300,
-        "weapon": HIR"刀之魔神"NOR,
+        "weapon": HIR + "刀之魔神" + NOR,
         "damage_type":  "割傷",
 ]),
 //6
@@ -105,7 +105,7 @@ mapping *action = ({
         "dodge":                -15,
         "force":                500,
         "damage":               300,
-        "weapon": HIR"刀之魔神"NOR,
+        "weapon": HIR + "刀之魔神" + NOR,
         "damage_type":  "割傷",
 ]),
 //7
@@ -121,7 +121,7 @@ mapping *action = ({
         "parry":                -15,
         "force":                500,
         "damage":               300,
-        "weapon": HIR"刀之魔神"NOR,
+        "weapon": HIR + "刀之魔神" + NOR,
         "damage_type":  "割傷",
 ]),
 //8
@@ -138,7 +138,7 @@ mapping *action = ({
         "force":                500,
         "damage":               300,
         "post_action":          (: ninet :),
-        "weapon": HIR"刀之魔神"NOR,
+        "weapon": HIR + "刀之魔神" + NOR,
         "damage_type":  "割傷",
 ]),
 //9
@@ -155,7 +155,7 @@ mapping *action = ({
         "force":                500,
         "damage":               300,
         "post_action":          (: eight :),
-        "weapon": HIR"刀之魔神"NOR,
+        "weapon": HIR + "刀之魔神" + NOR,
         "damage_type":  "割傷",
 ]),
 });
@@ -187,11 +187,11 @@ mapping query_action(object me,object weapon)
   	int dmg_rate;        
   	dmg_rate = 15-killdragon < 2 ? 2 : 15-killdragon; 
  	message_vision("\n",me);
-	message_vision(NOR"[0m[33;1m                   ╔╗                                    ╔╗\n"NOR,me);
-	message_vision(NOR"[0m[33;1m                   ╚╬══════════════════╬╝\n"NOR,me);
-	message_vision(NOR"[0m                     [33;1m║[41m         冰火五重‧誅天現世         [40m║\n"NOR,me);
-	message_vision(NOR"[0m[33;1m                   ╔╬══════════════════╬╗\n"NOR,me);
-	message_vision(NOR"[0m[33;1m                   ╚╝                                    ╚╝[0m\n"NOR,me);
+	message_vision(NOR + "[0m[33;1m                   ╔╗                                    ╔╗\n" + NOR,me);
+	message_vision(NOR + "[0m[33;1m                   ╚╬══════════════════╬╝\n" + NOR,me);
+	message_vision(NOR + "[0m                     [33;1m║[41m         冰火五重‧誅天現世         [40m║\n" + NOR,me);
+	message_vision(NOR + "[0m[33;1m                   ╔╬══════════════════╬╗\n" + NOR,me);
+	message_vision(NOR + "[0m[33;1m                   ╚╝                                    ╚╝[0m\n" + NOR,me);
   	victim->receive_damage("gin",me->query("max_gin")/(dmg_rate));
   	victim->receive_damage("kee",me->query("max_kee")/(dmg_rate));
   	victim->receive_damage("sen",me->query("max_sen")/(dmg_rate));
@@ -219,7 +219,7 @@ mapping query_action(object me,object weapon)
 
 void remove_fdragon(object me)
 {
- message_vision(BRED+HIY"\n【$N的冰火五重天所形成的火燄及冰燄逐漸的消失了】\n"NOR,me);
+ message_vision(BRED+HIY + "\n【$N的冰火五重天所形成的火燄及冰燄逐漸的消失了】\n" + NOR,me);
  me->delete_temp("dragon/kill");   
 }
 
@@ -231,20 +231,20 @@ void remove_berserk(object me)
  void ninet(object me,object victim,object weapon,int damage)
 {
  int i;
- message_vision(NOR"[0m[33;1m                   ╔╗                                    ╔╗\n"NOR,me);
- message_vision(NOR"[0m[33;1m                   ╚╬══════════════════╬╝\n"NOR,me);
- message_vision(NOR"[0m                     [33;1m║[41m         葵水神雷‧雷動九天         [40m║\n"NOR,me);
- message_vision(NOR"[0m[33;1m                   ╔╬══════════════════╬╗\n"NOR,me);
- message_vision(NOR"[0m[33;1m                   ╚╝                                    ╚╝[0m\n"NOR,me);
+ message_vision(NOR + "[0m[33;1m                   ╔╗                                    ╔╗\n" + NOR,me);
+ message_vision(NOR + "[0m[33;1m                   ╚╬══════════════════╬╝\n" + NOR,me);
+ message_vision(NOR + "[0m                     [33;1m║[41m         葵水神雷‧雷動九天         [40m║\n" + NOR,me);
+ message_vision(NOR + "[0m[33;1m                   ╔╬══════════════════╬╗\n" + NOR,me);
+ message_vision(NOR + "[0m[33;1m                   ╚╝                                    ╚╝[0m\n" + NOR,me);
  for(i = 0;i < 9; i++)
 {               
-  message_vision(sprintf(HIC"
-◥▓◣        ◣                            "HIY"$N的拳影如雷電般的快速，"HIC"
-    ◥▓◣    ◥▓◣              "HIY"一片雷氣縱橫，頓時雷電交錯，四周霎時天崩地裂。"HIC"
-        ◥▓◣    ◥▓◣          "HIY"只見數到雷勁破天而去，發出一道道強大的閃光，在"HIC"
-            ◥▓◣  ◢▓◣        "HIY"方圓十里之內形成一個強大的氣流，只見天空落下一"HIC"
-                ◥▓◤  ◥▓◣    "HIY"道道的閃電，即隨著無疇雷電展開猛烈攻擊。。。。"HIC"
-                            ◥▓◣ 『"HIB"葵‧水‧神‧雷"HIC"』"HIY"─終式─"HIC"「"HIR"雷‧動‧九‧天"HIC"」\n"NOR),me);
+  message_vision(sprintf(HIC + "
+◥▓◣        ◣                            " + HIY + "$N的拳影如雷電般的快速，" + HIC + "
+    ◥▓◣    ◥▓◣              " + HIY + "一片雷氣縱橫，頓時雷電交錯，四周霎時天崩地裂。" + HIC + "
+        ◥▓◣    ◥▓◣          " + HIY + "只見數到雷勁破天而去，發出一道道強大的閃光，在" + HIC + "
+            ◥▓◣  ◢▓◣        " + HIY + "方圓十里之內形成一個強大的氣流，只見天空落下一" + HIC + "
+                ◥▓◤  ◥▓◣    " + HIY + "道道的閃電，即隨著無疇雷電展開猛烈攻擊。。。。" + HIC + "
+                            ◥▓◣ 『" + HIB + "葵‧水‧神‧雷" + HIC + "』" + HIY + "─終式─" + HIC + "「" + HIR + "雷‧動‧九‧天" + HIC + "」\n" + NOR),me);
  victim->receive_damage("kee",2000);
  COMBAT_D->report_status(victim);
 }                	
@@ -263,112 +263,112 @@ void remove_berserk(object me)
  if(level > 8) level = 8;
  if( me->query("combat_exp") > 8000000 )
 { if(!victim){return;}
- message_vision(NOR"
-"HIB"    ╭═╯ ╰═╮     ═╦═╭╦═══       ══╬══       ═══╦═══
-"HIC"    ║         ║     ╭╯╮  ╰═╮═╮     ╰═╬═╯     ╭═══╬═══╮
-"HIB"  ╭╯         ╰╮   ║  ║╭═╮║║║ ══╬═╬═╬══ ║╰╩╮║╰╩╮║
-"HIC"  ║             ║   ╰╭╯║  ║║╭╯ ╠═╬╣║╠╬═╣ ╯╭══╦══╮╰
-"HIB"  ║             ║   ╭║  ╰═╯╠╯╰ ╰═╬╯  ╰╬═╯   ╠══╬══╣
-"HIC"  ╯             ╰   ╰╯  ═══╩═╯ ══╬═  ═╬══   ╰══╩══╯
-\n"NOR,me,victim);
+ message_vision(NOR + "
+" + HIB + "    ╭═╯ ╰═╮     ═╦═╭╦═══       ══╬══       ═══╦═══
+" + HIC + "    ║         ║     ╭╯╮  ╰═╮═╮     ╰═╬═╯     ╭═══╬═══╮
+" + HIB + "  ╭╯         ╰╮   ║  ║╭═╮║║║ ══╬═╬═╬══ ║╰╩╮║╰╩╮║
+" + HIC + "  ║             ║   ╰╭╯║  ║║╭╯ ╠═╬╣║╠╬═╣ ╯╭══╦══╮╰
+" + HIB + "  ║             ║   ╭║  ╰═╯╠╯╰ ╰═╬╯  ╰╬═╯   ╠══╬══╣
+" + HIC + "  ╯             ╰   ╰╯  ═══╩═╯ ══╬═  ═╬══   ╰══╩══╯
+\n" + NOR,me,victim);
  for(i=0;i<=level;i++)
 {
  switch(random(8))
 {
  case 0:
  if(!victim){return;}
- message_vision(HIR"
+ message_vision(HIR + "
           ☆                ★
             ●=●=●=●=█◣  
-            ████████"HIC"                            狂－－－雷"HIR"
-            ▓▓▓▓▓▓██"HIC"                            ｜　　　｜"HIR"
-            ▓▓▓▓▓▓◥█"HIC"                            驟－－－降"HIR"
+            ████████" + HIC + "                            狂－－－雷" + HIR + "
+            ▓▓▓▓▓▓██" + HIC + "                            ｜　　　｜" + HIR + "
+            ▓▓▓▓▓▓◥█" + HIC + "                            驟－－－降" + HIR + "
                   ◥███◤  
-          ★                ☆\n"NOR,me,victim);
+          ★                ☆\n" + NOR,me,victim);
  break;
  break;
  case 1:
  if(!victim){return;}
- message_vision(HIY"
+ message_vision(HIY + "
                                                   ★                ☆
                                                     ◢█=●=●=●=●      
-                "HIC"雷－－－網"HIY"                          ████████      
-                "HIC"｜　　　｜"HIY"                          ██▓▓▓▓▓▓      
-                "HIC"森－－－羅"HIY"                          █◤▓▓▓▓▓▓      
+                " + HIC + "雷－－－網" + HIY + "                          ████████      
+                " + HIC + "｜　　　｜" + HIY + "                          ██▓▓▓▓▓▓      
+                " + HIC + "森－－－羅" + HIY + "                          █◤▓▓▓▓▓▓      
                                                     ◥███◤
-                                                  ☆               ★\n"NOR,me,victim);
+                                                  ☆               ★\n" + NOR,me,victim);
  break;
  break;
  case 2:
  if(!victim){return;}
- message_vision(HIR"
+ message_vision(HIR + "
           ☆                ★
             ●=●=●=●=█◣  
-            ████████"HIC"                            八－－－方"HIR"
-            ▓▓▓▓▓▓██"HIC"                            ｜　　　｜"HIR"
-            ▓▓▓▓▓▓◥█"HIC"                            暴－－－雷"HIR"
+            ████████" + HIC + "                            八－－－方" + HIR + "
+            ▓▓▓▓▓▓██" + HIC + "                            ｜　　　｜" + HIR + "
+            ▓▓▓▓▓▓◥█" + HIC + "                            暴－－－雷" + HIR + "
                   ◥███◤  
-          ★                ☆\n"NOR,me,victim);
+          ★                ☆\n" + NOR,me,victim);
  break;
  break;
  case 3:
  if(!victim){return;}
- message_vision(HIY"
+ message_vision(HIY + "
                                                   ★                ☆
                                                     ◢█=●=●=●=●      
-                "HIC"雷－－－霆"HIY"                          ████████      
-                "HIC"｜　　　｜"HIY"                          ██▓▓▓▓▓▓      
-                "HIC"風－－－暴"HIY"                          █◤▓▓▓▓▓▓      
+                " + HIC + "雷－－－霆" + HIY + "                          ████████      
+                " + HIC + "｜　　　｜" + HIY + "                          ██▓▓▓▓▓▓      
+                " + HIC + "風－－－暴" + HIY + "                          █◤▓▓▓▓▓▓      
                                                     ◥███◤
-                                                  ☆               ★\n"NOR,me,victim);
+                                                  ☆               ★\n" + NOR,me,victim);
  break;
  break;
  case 4:
  if(!victim){return;}
- message_vision(HIR"
+ message_vision(HIR + "
           ☆                ★
             ●=●=●=●=█◣  
-            ████████"HIC"                            雷－－－霆"HIR"
-            ▓▓▓▓▓▓██"HIC"                            ｜　　　｜"HIR"
-            ▓▓▓▓▓▓◥█"HIC"                            萬－－－均"HIR"
+            ████████" + HIC + "                            雷－－－霆" + HIR + "
+            ▓▓▓▓▓▓██" + HIC + "                            ｜　　　｜" + HIR + "
+            ▓▓▓▓▓▓◥█" + HIC + "                            萬－－－均" + HIR + "
                   ◥███◤  
-          ★                ☆\n"NOR,me,victim);
+          ★                ☆\n" + NOR,me,victim);
  break;
  break;
  case 5:
  if(!victim){return;}
- message_vision(HIY"
+ message_vision(HIY + "
                                                   ★                ☆
                                                     ◢█=●=●=●=●      
-                "HIC"雷－－－霆"HIY"                          ████████      
-                "HIC"｜　　　｜"HIY"                          ██▓▓▓▓▓▓      
-                "HIC"縱－－－橫"HIY"                          █◤▓▓▓▓▓▓      
+                " + HIC + "雷－－－霆" + HIY + "                          ████████      
+                " + HIC + "｜　　　｜" + HIY + "                          ██▓▓▓▓▓▓      
+                " + HIC + "縱－－－橫" + HIY + "                          █◤▓▓▓▓▓▓      
                                                     ◥███◤
-                                                  ☆               ★\n"NOR,me,victim);
+                                                  ☆               ★\n" + NOR,me,victim);
  break;
  break;
  case 6:
  if(!victim){return;}
- message_vision(HIR"
+ message_vision(HIR + "
           ☆                ★
             ●=●=●=●=█◣  
-            ████████"HIC"                            潛－－－雷"HIR"
-            ▓▓▓▓▓▓██"HIC"                            ｜　　　｜"HIR"
-            ▓▓▓▓▓▓◥█"HIC"                            轟－－－天"HIR"
+            ████████" + HIC + "                            潛－－－雷" + HIR + "
+            ▓▓▓▓▓▓██" + HIC + "                            ｜　　　｜" + HIR + "
+            ▓▓▓▓▓▓◥█" + HIC + "                            轟－－－天" + HIR + "
                   ◥███◤  
-          ★                ☆\n"NOR,me,victim);
+          ★                ☆\n" + NOR,me,victim);
  break;
  break;
  case 7:
  if(!victim){return;}
- message_vision(HIY"
+ message_vision(HIY + "
                                                   ★                ☆
                                                     ◢█=●=●=●=●      
-                "HIC"轟－－－雷"HIY"                          ████████      
-                "HIC"｜　　　｜"HIY"                          ██▓▓▓▓▓▓      
-                "HIC"戰－－－野"HIY"                          █◤▓▓▓▓▓▓      
+                " + HIC + "轟－－－雷" + HIY + "                          ████████      
+                " + HIC + "｜　　　｜" + HIY + "                          ██▓▓▓▓▓▓      
+                " + HIC + "戰－－－野" + HIY + "                          █◤▓▓▓▓▓▓      
                                                     ◥███◤
-                                                  ☆               ★\n"NOR,me,victim);
+                                                  ☆               ★\n" + NOR,me,victim);
  break;
  break;
 }

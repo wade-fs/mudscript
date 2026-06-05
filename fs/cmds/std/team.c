@@ -4,13 +4,13 @@
 
 inherit F_CLEAN_UP;
 mapping level = ([
-  0:BLU "【 Ｆ 】" NOR,
-  1:HIB "【 Ｅ 】" NOR,
-  2:MAG "【 Ｄ 】" NOR,
-  3:CYN "【 Ｃ 】" NOR,
-  4:HIC "【 Ｂ 】" NOR,
-  5:HIW "【 Ａ 】" NOR,
-  6:HIR "【 Ｓ 】" NOR,
+  0:BLU + "【 Ｆ 】" + NOR,
+  1:HIB + "【 Ｅ 】" + NOR,
+  2:MAG + "【 Ｄ 】" + NOR,
+  3:CYN + "【 Ｃ 】" + NOR,
+  4:HIC + "【 Ｂ 】" + NOR,
+  5:HIW + "【 Ａ 】" + NOR,
+  6:HIR + "【 Ｓ 】" + NOR,
   ]);
 
 int count_total_power_lv(object leader);
@@ -88,7 +88,7 @@ printf("%-22s  %-5d   %-5d  %s \n",
                 if(sizeof(team_leader->query_team())==2 && !me->is_team_leader()) //判斷隊伍中是否剩下自己與隊長兩人
                   {                    
                     team_leader->dismiss_team();
-                    tell_object (team_leader,HIY"你的隊伍成員全數脫離隊伍，隊伍解散了!!\n"NOR);
+                    tell_object (team_leader,HIY + "你的隊伍成員全數脫離隊伍，隊伍解散了!!\n" + NOR);
                   }else
     me->dismiss_team();
     return 1;
@@ -183,7 +183,7 @@ printf("%-22s  %-5d   %-5d  %s \n",
       // 邀請某人加入
       else {
         message_vision("$N邀請$n加入$P的隊伍。\n", me, ob);
-        tell_object(ob, YEL "如果你願意加入﹐請用 team with " + me->query("id") + "。\n" NOR);
+        tell_object(ob, YEL + "如果你願意加入﹐請用 team with " + me->query("id") + "。\n" + NOR);
         me->set_temp("pending/team", ob);
         return 1;
       }
@@ -194,7 +194,7 @@ printf("%-22s  %-5d   %-5d  %s \n",
   if( sscanf(arg, "talk %s", arg)==1 ) {
     if( !pointerp(t=me->query_team()) )
       return notify_fail("你現在並沒有和別人組成隊伍。\n");
-    message("team", HIW "【隊伍】" + me->name(1) + "﹕" + arg + "\n" NOR, t);
+    message("team", HIW + "【隊伍】" + me->name(1) + "﹕" + arg + "\n" + NOR, t);
     return 1;
   }
   if( sscanf( arg, "form %s at %s", arg, targ ) == 2 ) {

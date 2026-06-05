@@ -63,7 +63,7 @@ mapping *action = ({
                 "damage_type":               "瘀傷"
         ]),
         ([
-                 "action"     :               ""HIC"$N配合著夜夢天舞 舞著奇妙的步伐, 舞姿之曼妙 彷如貂蟬再世令$n看得入神 忽地$N幻化成熾熱的"HIR"朱雀"NOR" 無情的灼傷$n",
+                 "action"     :               "" + HIC + "$N配合著夜夢天舞 舞著奇妙的步伐, 舞姿之曼妙 彷如貂蟬再世令$n看得入神 忽地$N幻化成熾熱的" + HIR + "朱雀" + NOR + " 無情的灼傷$n",
                 "dodge"      :                45,
                 "parry"      :                25,
                 "damage"     :                140,
@@ -71,7 +71,7 @@ mapping *action = ({
                 "damage_type":               "瘀傷"
         ]),
         ([
-                "action"     :               ""HIG"$N感受到王昭君下嫁匈奴的無奈 引起$N的殺意 急速旋轉自身形成一股怨憤之風 撲殺一切.."NOR"",
+                "action"     :               "" + HIG + "$N感受到王昭君下嫁匈奴的無奈 引起$N的殺意 急速旋轉自身形成一股怨憤之風 撲殺一切.." + NOR + "",
                 "dodge"      :                45,
                 "parry"      :                25,
                 "damage"     :                160,
@@ -79,7 +79,7 @@ mapping *action = ({
                 "damage_type":               "瘀傷"
         ]),
         ([
-               "action"     :               ""HIY"竇娥的冤屈突如其來湧入$N的心頭 一陣苦痛激起$N的潛能 發揮夜夢法鑑的極致"HIC" 滿天飛雪"HIY"侵襲$n...."NOR"",
+               "action"     :               "" + HIY + "竇娥的冤屈突如其來湧入$N的心頭 一陣苦痛激起$N的潛能 發揮夜夢法鑑的極致" + HIC + " 滿天飛雪" + HIY + "侵襲$n...." + NOR + "",
                 "dodge"      :                50,
                 "parry"      :               35,
                 "damage"     :                180,

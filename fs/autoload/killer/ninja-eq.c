@@ -4,8 +4,8 @@ inherit ITEM;
 #include <command.h>
 void create()
 {
-set_name(MAG"忍者裝束"NOR,({"ninja-eq"}));
-set("long",HIC"這是傳說中被封印的忍者裝備(open ninja or close ninja)。"NOR);
+set_name(MAG + "忍者裝束" + NOR,({"ninja-eq"}));
+set("long",HIC + "這是傳說中被封印的忍者裝備(open ninja or close ninja)。" + NOR);
 set("unit","套");  
 set("no_auc",1);
 set("no_put",1);
@@ -24,7 +24,7 @@ void init()
 object me=this_player();
 object ob;
 ob=present("ninja-eq",me);
-if(ob&&ob->name()==MAG"忍者裝束"NOR)
+if(ob&&ob->name()==MAG + "忍者裝束" + NOR)
 {
 add_action("do_open","open");
 add_action("do_close","close");
@@ -44,7 +44,7 @@ object ob;
   ob=present("ninja-eq",me);
 if(ob->query_temp("ninja")==1)
 return notify_fail("忍者裝束的封印已經解除了﹗\n");
-message_vision(HIC"\n$N運用忍術解除封印, $N的忍者裝束漸漸換化成許\多裝備。\n\n"NOR,this_player());
+message_vision(HIC + "\n$N運用忍術解除封印, $N的忍者裝束漸漸換化成許\多裝備。\n\n" + NOR,this_player());
 eq01 = new("/daemon/class/killer/obj/nshield");
 eq02 = new("/daemon/class/killer/obj/nboots");
 eq03 = new("/daemon/class/killer/obj/narmband");
@@ -117,7 +117,7 @@ if (me->query("ninjaeq/getboots")==1) destruct(present("ninja boots",me));
 if (me->query("ninjaeq/getshield")==1) destruct(present("ninja shield",me));
 me->delete_temp("ninja");
 ob->delete_temp("ninja"); 
-message_vision(HIC"\n$N利用忍術再度將忍者裝束封印起來。\n\n"NOR,me);
+message_vision(HIC + "\n$N利用忍術再度將忍者裝束封印起來。\n\n" + NOR,me);
 }
 return 1;
 }

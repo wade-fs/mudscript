@@ -44,7 +44,7 @@ int do_blood(string str)
 	  return notify_fail("請先將武器卸下。\n");
 	message_vision("[31m$N緩緩的用"+name+"往手腕處一劃, 鮮血如泉湧般淋遍整把"+name+"。\n
 一會兒, 鮮血已被"+name+"吸乾殆盡,而"+name+"也旦然的發出一陣耀眼的[1;5;33m光芒[0;31m。[0m\n",me);
-set_name(HIB"妖"BLU"刀"HIR"『"HIG"村"HIW"雨"HIR"』"NOR,({"evil-mblade","blade"}));
+set_name(HIB + "妖" + BLU + "刀" + HIR + "『" + HIG + "村" + HIW + "雨" + HIR + "』" + NOR,({"evil-mblade","blade"}));
 set("wield_msg","\n$N手上忽然多了一把$n，刀光漾映一片沁藍，刀揮動時還帶著一種像陰靈般的呻吟。\n\n");
 set("unwield_msg","\n$N手上的$n像七月半猛鬼出關，忽然自手上消失無蹤。\n\n");
 	set("weapon_prop/damage",100);
@@ -78,7 +78,7 @@ int do_power(string str)
         if(weapon->query_temp("evil-mblade")==1)
           return notify_fail("你已經在用了。\n");
         message_vision(
-  HIR "$N以刀祭天，頓時陰靈凝聚於$n"+HIR+"。\n"NOR,me,weapon);
+  HIR + "$N以刀祭天，頓時陰靈凝聚於$n"+HIR+"。\n" + NOR,me,weapon);
 me->add_temp("apply/damage",100);
 me->add_temp("apply/attack",100);
 me->add_temp("apply/armor",100);
@@ -94,7 +94,7 @@ me->add_temp("apply/attack",-100);
 me->add_temp("apply/armor",-100);
 me->add_temp("apply/defense",-100);
 weapon->delete_temp("evil-mblade");
-message_vision(HIW"陰風徐徐的陰靈，頓時從$n"+HIW+"飛散開來。\n"NOR,me,weapon);
+message_vision(HIW + "陰風徐徐的陰靈，頓時從$n"+HIW+"飛散開來。\n" + NOR,me,weapon);
 }
 int query_autoload()
 {

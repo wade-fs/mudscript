@@ -43,25 +43,25 @@ int perform(object me, object target)
   stat = a+b+c+d;
   if(stat==4) return notify_fail("敵人已經雙眼失明和雙手受傷了！\n");
   me->add("force",-500);
-  message_vision(HIY"$N使出「流星箭法」中的奧義，霎時風雲變色狂風四起！\n"NOR,me);
-  message_vision(HIC"只見$N取出數十支箭往弓上一架，往$n發勁射出！\n"NOR,me,target);
+  message_vision(HIY + "$N使出「流星箭法」中的奧義，霎時風雲變色狂風四起！\n" + NOR,me);
+  message_vision(HIC + "只見$N取出數十支箭往弓上一架，往$n發勁射出！\n" + NOR,me,target);
   if( fun+5 > random(150) || me->query("id")=="swy" ) {
     if(k && !fun1) {
       if( !target->query_temp("over/right") ) {
-        message_vision(HIR"亂箭飛射，射中了$N右手，頓時失去一半傷害力！\n"NOR,target);
+        message_vision(HIR + "亂箭飛射，射中了$N右手，頓時失去一半傷害力！\n" + NOR,target);
         target->set_temp("over/right",1);
       }
       else {
-        message_vision(HIR"亂箭飛射，射中了$N雙手，頓時傷害力全無！\n"NOR,target);
+        message_vision(HIR + "亂箭飛射，射中了$N雙手，頓時傷害力全無！\n" + NOR,target);
         target->set_temp("hand-all",1);
         target->set_temp("over/left",1);
       }
     } else {
       if( !target->query_temp("over/r-eyes") ) {
-        message_vision(HIR"亂箭飛射，射中了$N右眼，頓時失去一半命中率！\n"NOR,target);
+        message_vision(HIR + "亂箭飛射，射中了$N右眼，頓時失去一半命中率！\n" + NOR,target);
         target->set_temp("over/r-eyes",1);
       } else {
-        message_vision(HIR"亂箭飛射，射中了$N雙眼，頓時命中率全無！\n"NOR,target);
+        message_vision(HIR + "亂箭飛射，射中了$N雙眼，頓時命中率全無！\n" + NOR,target);
         target->set_temp("eyes-all",1);
         target->set_temp("over/l-eyes",1);
       }
@@ -71,9 +71,9 @@ int perform(object me, object target)
     COMBAT_D->report_status(target);
   }
   else {
-    message_vision(HIW"$N看出了亂箭的破綻，急運身法，躲開了！\n"NOR,target);
+    message_vision(HIW + "$N看出了亂箭的破綻，急運身法，躲開了！\n" + NOR,target);
   }
-  message_vision(HIG"$N使出亂箭齊發，暫緩攻勢，補充弓上的箭！\n"NOR,me);
+  message_vision(HIG + "$N使出亂箭齊發，暫緩攻勢，補充弓上的箭！\n" + NOR,me);
   me->start_busy(1);
   if( fun < 100 )
     function_improved ("m-archery",100);

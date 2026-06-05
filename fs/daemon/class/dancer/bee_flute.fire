@@ -2,7 +2,7 @@ inherit ITEM;
 #include <ansi.h>
 void create ()
 {
-	set_name(HIY"蜂笛"NOR,({"bee flute","flute"}));
+	set_name(HIY + "蜂笛" + NOR,({"bee flute","flute"}));
 	set("long","一隻由蜂蜜所製成銅黃色的笛子, 可以召喚(call_bee_to)蜜蜂出來");
 	set_weight(1000);
 	if( clonep() )
@@ -48,7 +48,7 @@ return notify_fail("蜜蜂不會亂叮人的!!\n");
 me->set_temp("use_bee_flute",1);
 if(sk>=60)
 {
-message_vision(HIW"一隻蜜蜂王突然出現在"+mob->query("name")+"!!一瞬間把$N給嚇呆了!!\n"NOR,mob);
+message_vision(HIW + "一隻蜜蜂王突然出現在"+mob->query("name")+"!!一瞬間把$N給嚇呆了!!\n" + NOR,mob);
 if(random(100)==85)
 {
 mob->start_busy(2);
@@ -59,11 +59,11 @@ me->start_busy(1);
 call_out("message02",5,1);
 return 1;
 }
-message_vision(HIR"$N的御蜂術突然失效, 蜜蜂王頓時不受$N的控制飛走了!!\n"NOR,me);
+message_vision(HIR + "$N的御蜂術突然失效, 蜜蜂王頓時不受$N的控制飛走了!!\n" + NOR,me);
 }
 if(sk>=50)
 {
-message_vision(HIM"蜜蜂們採集了一些蜂蜜給$N吃, $N的臉色似乎好了\許\多!!\n"NOR,me);
+message_vision(HIM + "蜜蜂們採集了一些蜂蜜給$N吃, $N的臉色似乎好了\許\多!!\n" + NOR,me);
 me->receive_curing("gin",sk);
 me->receive_heal("gin",sk);
 me->receive_curing("kee",sk);
@@ -74,20 +74,20 @@ COMBAT_D->report_status(me, 1);
 }
 if(sk>=40)
 {
-message_vision(HIG"一隻毒蜂猛然往"+mob->query("name")+"叮了一下, "+mob->query("name")+"臉色一青!!似乎中了蜂毒了!!\n"NOR,me);
+message_vision(HIG + "一隻毒蜂猛然往"+mob->query("name")+"叮了一下, "+mob->query("name")+"臉色一青!!似乎中了蜂毒了!!\n" + NOR,me);
 mob->apply_condition("bee-poison",2);
 }
 if(sk>=30)
 {
-message_vision(HIB"一堆蜜蜂不斷在"+mob->query("name")+"頭旁繞, "+mob->query("name")+"精神無法集中!!\n"NOR,me);
+message_vision(HIB + "一堆蜜蜂不斷在"+mob->query("name")+"頭旁繞, "+mob->query("name")+"精神無法集中!!\n" + NOR,me);
 mob->receive_wound("sen",200);
 }
 if(sk>=20)
 {
-message_vision(HIC"一群小蜜蜂追著"+mob->query("name")+"抱頭鼠竄!!\n"NOR,me);
+message_vision(HIC + "一群小蜜蜂追著"+mob->query("name")+"抱頭鼠竄!!\n" + NOR,me);
 mob->receive_wound("gin",200);
 }
-message_vision(HIY"一些小蜜蜂搖搖晃晃的叮了"+mob->query("name")+"一下就飛走了\n"NOR,me);
+message_vision(HIY + "一些小蜜蜂搖搖晃晃的叮了"+mob->query("name")+"一下就飛走了\n" + NOR,me);
 mob->receive_wound("kee",100);
 COMBAT_D->report_status(mob,1);
 call_out("message",1,me);
@@ -97,7 +97,7 @@ return 1;
 int message()
 {
 object me=this_player();
-message_vision(HIY"蜜蜂們紛紛的回巢了!!\n"NOR,me);
+message_vision(HIY + "蜜蜂們紛紛的回巢了!!\n" + NOR,me);
 me->delete_temp("use_bee_flute");
 return 1;
 }
@@ -105,7 +105,7 @@ return 1;
 int message02()
 {
 object me=this_player();
-message_vision(HIY"蜜蜂王在大家的面前突然消失不見了!!\n"NOR,me);
+message_vision(HIY + "蜜蜂王在大家的面前突然消失不見了!!\n" + NOR,me);
 me->delete_temp("use_bee_flute");
 return 1;
 }

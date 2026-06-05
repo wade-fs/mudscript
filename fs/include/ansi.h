@@ -4,68 +4,68 @@
 //      The standard set of ANSI codes for mudlib use.
  
 #define ESC     ""
-#define CSI     ESC + "["
+#define CSI     "\x1b["
  
                 /*  Foreground Colors  */
  
-#define BLK ESC+"[0;30m"        /* Black    */
-#define RED ESC+"[0;31m"        /* Red      */
-#define GRN ESC+"[0;32m"        /* Green    */
-#define YEL ESC+"[0;33m"        /* Yellow   */
-#define BLU ESC+"[0;34m"        /* Blue     */
-#define MAG ESC+"[0;35m"        /* Magenta  */
-#define CYN ESC+"[0;36m"        /* Cyan     */
-#define WHT ESC+"[0;37m"        /* White    */
+#define BLK "\x1b[0;30m"        /* Black    */
+#define RED "\x1b[0;31m"        /* Red      */
+#define GRN "\x1b[0;32m"        /* Green    */
+#define YEL "\x1b[0;33m"        /* Yellow   */
+#define BLU "\x1b[0;34m"        /* Blue     */
+#define MAG "\x1b[0;35m"        /* Magenta  */
+#define CYN "\x1b[0;36m"        /* Cyan     */
+#define WHT "\x1b[0;37m"        /* White    */
  
                 /*   Hi Intensity Foreground Colors   */
  
-#define HIK ESC+"[1;30m"        /* Black    */
-#define HIR ESC+"[1;31m"        /* Red      */
-#define HIG ESC+"[1;32m"        /* Green    */
-#define HIY ESC+"[1;33m"        /* Yellow   */
-#define HIB ESC+"[1;34m"        /* Blue     */
-#define HIM ESC+"[1;35m"        /* Magenta  */
-#define HIC ESC+"[1;36m"        /* Cyan     */
-#define HIW ESC+"[1;37m"        /* White    */
+#define HIK "\x1b[1;30m"        /* Black    */
+#define HIR "\x1b[1;31m"        /* Red      */
+#define HIG "\x1b[1;32m"        /* Green    */
+#define HIY "\x1b[1;33m"        /* Yellow   */
+#define HIB "\x1b[1;34m"        /* Blue     */
+#define HIM "\x1b[1;35m"        /* Magenta  */
+#define HIC "\x1b[1;36m"        /* Cyan     */
+#define HIW "\x1b[1;37m"        /* White    */
 
                 /* High Intensity Background Colors  */
 
-#define HBRED ESC+"[41;1m"      /* Red      */
-#define HBGRN ESC+"[42;1m"      /* Green    */
-#define HBYEL ESC+"[43;1m"      /* Yellow   */
-#define HBBLU ESC+"[44;1m"      /* Blue     */
-#define HBMAG ESC+"[45;1m"      /* Magenta  */
-#define HBCYN ESC+"[46;1m"      /* Cyan     */
-#define HBWHT ESC+"[47;1m"      /* White    */
+#define HBRED "\x1b[41;1m"      /* Red      */
+#define HBGRN "\x1b[42;1m"      /* Green    */
+#define HBYEL "\x1b[43;1m"      /* Yellow   */
+#define HBBLU "\x1b[44;1m"      /* Blue     */
+#define HBMAG "\x1b[45;1m"      /* Magenta  */
+#define HBCYN "\x1b[46;1m"      /* Cyan     */
+#define HBWHT "\x1b[47;1m"      /* White    */
  
                 /*  Background Colors  */
  
-#define BBLK ESC+"[40m"         /* Black    */
-#define BRED ESC+"[41m"         /* Red      */
-#define BGRN ESC+"[42m"         /* Green    */
-#define BYEL ESC+"[43m"         /* Yellow   */
-#define BBLU ESC+"[44m"         /* Blue     */
-#define BMAG ESC+"[45m"         /* Magenta  */
-#define BCYN ESC+"[46m"         /* Cyan     */
-#define BWHT ESC+"[47m"         /* White    */
+#define BBLK "\x1b[40m"         /* Black    */
+#define BRED "\x1b[41m"         /* Red      */
+#define BGRN "\x1b[42m"         /* Green    */
+#define BYEL "\x1b[43m"         /* Yellow   */
+#define BBLU "\x1b[44m"         /* Blue     */
+#define BMAG "\x1b[45m"         /* Magenta  */
+#define BCYN "\x1b[46m"         /* Cyan     */
+#define BWHT "\x1b[47m"         /* White    */
 
 // by babe
-#define NOR ESC+"[0m"		/* Puts everything back to normal */
-#define BOLD ESC+"[1m"          /* Turn on bold mode */
-#define CLR ESC+"[2J"           /* Clear the screen  */
-#define HOME ESC+"[H"           /* Send cursor to home position */
+#define NOR "\x1b[0m"		/* Puts everything back to normal */
+#define BOLD "\x1b[1m"          /* Turn on bold mode */
+#define CLR "\x1b[2J"           /* Clear the screen  */
+#define HOME "\x1b[H"           /* Send cursor to home position */
 #define REF CLR+HOME            /* Clear screen and home cursor */
-#define BIGTOP ESC+"#3"         /* Dbl height characters, top half */
-#define BIGBOT ESC+"#4"         /* Dbl height characters, bottem half */
-#define SAVEC ESC+"[s"          /* Save cursor position */
-#define REST ESC+"[u"           /* Restore cursor to saved position */
-#define REVINDEX ESC+"M"        /* Scroll screen in opposite direction */
-#define SINGW ESC+"#5"          /* Normal, single-width characters */
-#define DBL ESC+"#6"            /* Creates double-width characters */
-#define FRTOP ESC+"[2;25r"      /* Freeze top line */
-#define FRBOT ESC+"[1;24r"      /* Freeze bottom line */
-#define UNFR ESC+"[r"           /* Unfreeze top and bottom lines */
-#define BLINK ESC+"[5m"         /* Initialize blink mode */
-#define U ESC+"[4m"             /* Initialize underscore mode */
-#define REV ESC+"[7m"           /* Turns reverse video mode on */
-#define HIREV ESC+"[1,7m"       /* Hi intensity reverse video  */
+#define BIGTOP "\x1b#3"         /* Dbl height characters, top half */
+#define BIGBOT "\x1b#4"         /* Dbl height characters, bottem half */
+#define SAVEC "\x1b[s"          /* Save cursor position */
+#define REST "\x1b[u"           /* Restore cursor to saved position */
+#define REVINDEX "\x1bM"        /* Scroll screen in opposite direction */
+#define SINGW "\x1b#5"          /* Normal, single-width characters */
+#define DBL "\x1b#6"            /* Creates double-width characters */
+#define FRTOP "\x1b[2;25r"      /* Freeze top line */
+#define FRBOT "\x1b[1;24r"      /* Freeze bottom line */
+#define UNFR "\x1b[r"           /* Unfreeze top and bottom lines */
+#define BLINK "\x1b[5m"         /* Initialize blink mode */
+#define U "\x1b[4m"             /* Initialize underscore mode */
+#define REV "\x1b[7m"           /* Turns reverse video mode on */
+#define HIREV "\x1b[1,7m"       /* Hi intensity reverse video  */

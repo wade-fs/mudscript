@@ -66,13 +66,13 @@ void receive_message( string msgclass, string msg )
 void write_prompt()
 {
 	if( sizeof(msg_buffer) ) {
-		receive( BOLD"[暫存訊息]\n"NOR );
+		receive( BOLD + "[暫存訊息]\n" + NOR );
 		this_object()->more( "", msg_buffer, 0 );
 		msg_buffer = ({});
 	}
 
 	if( query("env/status") )
-		printf( "%s精力: %d"NOR" %s氣血: %d"NOR" %s神瞑: %d"NOR" > ",
+		printf( "%s精力: %d" + NOR + " %s氣血: %d" + NOR + " %s神瞑: %d" + NOR + " > ",
 			STATUS("gin"), query("gin"), STATUS("kee"), query("kee"), STATUS("sen"), query("sen") );
 	else if(!query("env/no_status"))
 		receive( "> " );

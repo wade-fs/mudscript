@@ -32,7 +32,7 @@ int main( object me, string arg )
 		return 0;
 	if( !living(ob) )
 		return notify_fail( "現在該幫眾無法聽令。\n" );
-	message_vision( HIY"$N命令$n立刻 "+cmd+"。\n"NOR, me, ob );
+	message_vision( HIY + "$N命令$n立刻 "+cmd+"。\n" + NOR, me, ob );
 	return ob->force_me(cmd);
 }
 

@@ -376,6 +376,43 @@ func (d *Driver) registerCommEfuns(obj *object.LPCObject) {
 			return &object.Integer{Value: 0}
 		},
 	})
+
+	// 🚀 Socket Efuns Stub (暫不實作完整邏輯，僅提供介面避免 Error)
+	obj.Vars.Set("socket_create", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			return &object.Integer{Value: -1}
+		},
+	})
+	obj.Vars.Set("socket_connect", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			return &object.Integer{Value: -1}
+		},
+	})
+	obj.Vars.Set("socket_write", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			return &object.Integer{Value: -1}
+		},
+	})
+	obj.Vars.Set("socket_close", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			return &object.Integer{Value: -1}
+		},
+	})
+	obj.Vars.Set("socket_release", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			return &object.Integer{Value: -1}
+		},
+	})
+	obj.Vars.Set("socket_acquire", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			return &object.Integer{Value: -1}
+		},
+	})
+	obj.Vars.Set("socket_address", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			return &object.String{Value: "0.0.0.0 0"}
+		},
+	})
 }
 
 func (d *Driver) registerInteractiveEfuns(obj *object.LPCObject) {

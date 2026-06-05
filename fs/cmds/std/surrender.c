@@ -23,7 +23,7 @@ int main(object me, string arg)
 
 	enemy=me->query_enemy();
 	name=me->query("id");
-	message_vision( HIW "\n$N說道﹕「不打了﹐不打了﹐我投降....。」\n\n" NOR,me);
+	message_vision( HIW + "\n$N說道﹕「不打了﹐不打了﹐我投降....。」\n\n" + NOR,me);
 	for(i=0;i<sizeof(enemy);i++) {
       if(!enemy[i]) continue;
 		enemy[i]->add_temp(name,1);

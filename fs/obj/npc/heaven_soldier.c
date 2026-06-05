@@ -55,7 +55,7 @@ void leave()
 {
 	message("vision",
 		HIY + name() + "說道﹕末將奉法主召喚﹐現在已經完成護法任務﹐就此告辭﹗\n\n"
-		+ name() + "化成一道金光﹐衝上天際消失不見了。\n" NOR, environment(),
+		+ name() + "化成一道金光﹐衝上天際消失不見了。\n" + NOR, environment(),
 		this_object() );
 	destruct(this_object());
 }
@@ -66,8 +66,8 @@ void invocation(object who)
 	object *enemy;
 
 	message("vision",
-		HIY "一道金光由天而降﹐金光中走出一個身穿金色戰袍的將官。\n\n"
-		+ name() + "說道﹕末將奉法主召喚﹐特來護法﹗\n" NOR,
+		HIY + "一道金光由天而降﹐金光中走出一個身穿金色戰袍的將官。\n\n"
+		+ name() + "說道﹕末將奉法主召喚﹐特來護法﹗\n" + NOR,
 		environment(), this_object() );
 	enemy = who->query_enemy();
 	i = sizeof(enemy);

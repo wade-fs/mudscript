@@ -42,7 +42,7 @@ int perform(object me, object target)
 
         if (skill < 10)
         {
-        message_vision(HIB "$N氣沉於心運起金剛伏魔神通中的「明」字訣，手拈蓮花凝氣成針！。\n" NOR,me);
+        message_vision(HIB + "$N氣沉於心運起金剛伏魔神通中的「明」字訣，手拈蓮花凝氣成針！。\n" + NOR,me);
         me->add_temp("apply/attack",skill);
         me->start_call_out( (: call_other, __FILE__, "remove_effect", me, skill:), skill);
         if( me->is_fighting() ) me->start_busy(1);
@@ -54,7 +54,7 @@ int perform(object me, object target)
         if (skill >=10 && skill < 20)
       
         {
-        message_vision(HIB "$N氣沉於心運起金剛伏魔神通中的「心」字訣，手拈蓮花凝氣成針！。\n"NOR,me);
+        message_vision(HIB + "$N氣沉於心運起金剛伏魔神通中的「心」字訣，手拈蓮花凝氣成針！。\n" + NOR,me);
         me->add_temp("apply/attack",skill);
         me->start_call_out( (: call_other, __FILE__, "remove_effect", me, skill:), skill);
         if( me->is_fighting() ) me->start_busy(1);
@@ -65,7 +65,7 @@ int perform(object me, object target)
 
         if (skill >= 20 && skill < 30)
         {
-        message_vision(HIR "$N氣沉於心運起金剛伏魔神通中的「見」字訣，手拈蓮花凝氣成針！。\n" NOR,me);
+        message_vision(HIR + "$N氣沉於心運起金剛伏魔神通中的「見」字訣，手拈蓮花凝氣成針！。\n" + NOR,me);
         me->add_temp("apply/attack",skill);
         me->start_call_out( (: call_other, __FILE__, "remove_effect", me, skill:), skill);
         if( me->is_fighting() ) me->start_busy(1);
@@ -76,7 +76,7 @@ int perform(object me, object target)
 
         if (skill >=30 && skill < 40)
         {
-        message_vision(HIR "$N氣沉於心運起金剛伏魔神通中的「性」字訣，手拈蓮花凝氣成針！。\n" NOR,me);
+        message_vision(HIR + "$N氣沉於心運起金剛伏魔神通中的「性」字訣，手拈蓮花凝氣成針！。\n" + NOR,me);
         me->add_temp("apply/attack",skill);
         me->start_call_out( (: call_other, __FILE__, "remove_effect", me, skill:), skill);
         if( me->is_fighting() ) me->start_busy(2);
@@ -87,7 +87,7 @@ int perform(object me, object target)
 
         if (skill >=40 && skill < 50)
         {
-        message_vision(HIG "$N氣沉於心運起金剛伏魔神通中的「空」字訣，手拈蓮花凝氣成針！。\n" NOR,me);
+        message_vision(HIG + "$N氣沉於心運起金剛伏魔神通中的「空」字訣，手拈蓮花凝氣成針！。\n" + NOR,me);
         me->add_temp("apply/attack",skill);
         me->start_call_out( (: call_other, __FILE__, "remove_effect", me, skill:), skill);
         if( me->is_fighting() ) me->start_busy(2);
@@ -98,7 +98,7 @@ int perform(object me, object target)
 
         if (skill >=50&& skill < 60)
         {
-        message_vision(HIG "$N氣沉於心運起金剛伏魔神通中的「徹」字訣，手拈蓮花凝氣成針！。\n" NOR,me);
+        message_vision(HIG + "$N氣沉於心運起金剛伏魔神通中的「徹」字訣，手拈蓮花凝氣成針！。\n" + NOR,me);
         me->add_temp("apply/attack",skill);
         me->start_call_out( (: call_other, __FILE__, "remove_effect", me, skill:), skill);
         if( me->is_fighting() ) me->start_busy(2);
@@ -109,7 +109,7 @@ int perform(object me, object target)
 
         if (skill >=60 && skill < 70)
         {
-        message_vision(HIC "$N氣沉於心運起金剛伏魔神通中的「通」字訣，手拈蓮花凝氣成針！。\n" NOR,me);
+        message_vision(HIC + "$N氣沉於心運起金剛伏魔神通中的「通」字訣，手拈蓮花凝氣成針！。\n" + NOR,me);
         me->add_temp("apply/attack",skill);
         me->start_call_out( (: call_other, __FILE__, "remove_effect", me, skill:), skill);
         if( me->is_fighting() ) me->start_busy(3);
@@ -120,7 +120,7 @@ int perform(object me, object target)
 
         if (skill >=70 && skill < 80)
         {
-        message_vision(HIC "$N氣沉於心運起金剛伏魔神通中的「悟」字訣，手拈蓮花凝氣成針！。\n" NOR,me);
+        message_vision(HIC + "$N氣沉於心運起金剛伏魔神通中的「悟」字訣，手拈蓮花凝氣成針！。\n" + NOR,me);
         me->add_temp("apply/attack",skill);
         me->start_call_out( (: call_other, __FILE__, "remove_effect", me, skill:), skill);
         if( me->is_fighting() ) me->start_busy(3);
@@ -131,7 +131,7 @@ int perform(object me, object target)
 
         if (skill >=80 && skill < 90)
         {
-        message_vision(HIW "$N氣沉於心運起金剛伏魔神通中的「佛」字訣，手拈蓮花凝氣成針！。\n" NOR,me);
+        message_vision(HIW + "$N氣沉於心運起金剛伏魔神通中的「佛」字訣，手拈蓮花凝氣成針！。\n" + NOR,me);
         me->add_temp("apply/attack",skill);
         me->add_temp("apply/damage",skill-80); //damage額外增加
         me->start_call_out( (: call_other, __FILE__, "remove_effect", me, skill:), skill);
@@ -144,9 +144,9 @@ int perform(object me, object target)
         if (skill >=90 && skill <= 100)
         {
         message_vision(
-HIC"                $N明瞭金剛伏魔神通捻花指訣中萬事萬物皆有萬象的佛理\n
-                        "HIY"「明心見性    空徹通悟  」\n  
-"+HIC+"               $N身上散發無限光輝，此其為捻花指訣中最高深的境界。\n" NOR,me);
+HIC + "                $N明瞭金剛伏魔神通捻花指訣中萬事萬物皆有萬象的佛理\n
+                        " + HIY + "「明心見性    空徹通悟  」\n  
+"+HIC+"               $N身上散發無限光輝，此其為捻花指訣中最高深的境界。\n" + NOR,me);
         me->add_temp("apply/attack",skill);
         me->add_temp("apply/damage",skill-80); //damage額外增加
         me->start_call_out( (: call_other, __FILE__, "remove_effect", me, skill:), skill);

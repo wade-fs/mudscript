@@ -3,7 +3,7 @@ int update_condition(object me, int duration,int j)
 {
      if(duration==1) 
      {  
-     message_vision(HIR"$N四周的烈燄浩氣慢慢退散!!\n"NOR,me);
+     message_vision(HIR + "$N四周的烈燄浩氣慢慢退散!!\n" + NOR,me);
      me->delete_temp("kang-power");
      return 0;
      }

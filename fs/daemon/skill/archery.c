@@ -25,7 +25,7 @@ mapping query_action(object me, object weapon)
   i=wpn->query("arrow/amount");
   if( i == 1 ) {
           tell_object(me,
-  HIY"\n你的" + wpn->query("arrow/name") + "已經用完了﹗﹗\n\n"NOR);
+  HIY + "\n你的" + wpn->query("arrow/name") + "已經用完了﹗﹗\n\n" + NOR);
           wpn->set("arrow/id","none");
           wpn->set("arrow/name","空的");
           wpn->set("weapon_prop/damage",wpn->query("bow/attack"));

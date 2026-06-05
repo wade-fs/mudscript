@@ -31,7 +31,7 @@ skill=this_player()->query("functions/blood/level");
 
         me->set_temp("blood",1);
         message_vision(
-        HIC "$N運起渾天心法第九層"HIR"[血穹蒼]"HIC"﹐將真氣運佈全身﹐剎時全身冒出血紅色的蒸氣!!\n" NOR,me);
+        HIC + "$N運起渾天心法第九層" + HIR + "[血穹蒼]" + HIC + "﹐將真氣運佈全身﹐剎時全身冒出血紅色的蒸氣!!\n" + NOR,me);
         me->add_temp("apply/force", 70);
         me->add_temp("apply/parry", 60);
         me->add_temp("apply/unarmed", 80);

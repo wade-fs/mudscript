@@ -21,7 +21,7 @@ int perform(object me, object target)
         return notify_fail("聲東擊西只能在戰鬥中使用。\n");
         me->add("sen",-30);
         me->start_busy(1);
-message_vision(HIY"$N竟然使出了聲東擊西的奸計，令$n無法反應。\n"NOR,me,target);
+message_vision(HIY + "$N竟然使出了聲東擊西的奸計，令$n無法反應。\n" + NOR,me,target);
         target->add_temp("no_falsekill",1);
         me->set_temp("nouse",1);
         target->set_temp("no_power",1);

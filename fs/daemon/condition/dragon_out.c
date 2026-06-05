@@ -15,7 +15,7 @@ int update_condition(object me, int duration)
 				}
 				me->apply_condition("dragon_out",duration-1);
 				message_vision(
-												HIG "$N青龍之氣浮現，頓時內息走岔。\n" NOR,me);
+												HIG + "$N青龍之氣浮現，頓時內息走岔。\n" + NOR,me);
 				if( duration < 1 ) return 0;
 				return 1;
 }

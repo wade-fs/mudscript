@@ -59,7 +59,7 @@ int main(object me, string arg)
                         }
                         if( !me->query_skill(skill[i]) ) continue;
                         modify = me->query_temp("apply/" + skill[i]);
-                        printf("  %-20s﹕ %-20s  有效等級﹕%s%3d\n" NOR,
+                        printf("  %-20s﹕ %-20s  有效等級﹕%s%3d\n" + NOR,
                                 valid_types[skill[i]] + " (" + skill[i] + ")",
                                 undefinedp(map[skill[i]]) ? "無" : to_chinese(map[skill[i]]),
                                 (modify==0 ? "" : (modify>0 ? HIC : HIR)),

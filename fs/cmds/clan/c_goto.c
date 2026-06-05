@@ -29,14 +29,14 @@ int main(object me, string arg)
 	if( CLAN_D->what_clan_area(obj)!=me->query("clan/id") )
 		return notify_fail("幫眾所在之處並非貴幫之地盤。\n");
 	room = environment(me);
-	tell_room(room,HIC"只見一陣煙霧過後，"+me->query("name")+"的身影已經不見了。\n"NOR, me);
+	tell_room(room,HIC + "只見一陣煙霧過後，"+me->query("name")+"的身影已經不見了。\n" + NOR, me);
 	if( obj && wizardp(obj))	{
 		write("轟～～"+obj->query("name")+"用神力將你反彈回來。");
 		return 0;
 	}
 	me->move(environment(obj));
 	room = environment(me);
-	tell_room(room,HIC""+me->query("name")+"的身影突然出現在一陣煙霧之中。\n"NOR, me);
+	tell_room(room,HIC + ""+me->query("name")+"的身影突然出現在一陣煙霧之中。\n" + NOR, me);
 	return 1;
 }
 

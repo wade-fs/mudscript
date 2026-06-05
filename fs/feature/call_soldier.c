@@ -22,10 +22,9 @@ int call_soldier(string call_class)
 	obj->set_leader(me);
 	str = obj->name();
 	message_vision(
-	CYN "$N說道﹕我需要一名"+str+"﹐馬上給我辦妥。\n" NOR+this_object()->name()+"立刻叫人去找人。\n"+
+	CYN + "$N說道﹕我需要一名"+str+"﹐馬上給我辦妥。\n" + NOR+this_object()->name()+"立刻叫人去找人。\n"+
 	"$n接到命令﹐急急忙忙的跑來這裡。\n"+
-	CYN
-	"$n對著$N說道﹕大人 ! 有任何差遣﹐找小的就是。\n" NOR,me,obj);
+	CYN + "$n對著$N說道﹕大人 ! 有任何差遣﹐找小的就是。\n" + NOR,me,obj);
 	obj->set("commander",me->query("id") );
 	obj->set("name",me->name()+"的"+str);
 	return 1;

@@ -57,7 +57,7 @@ void die()
         {
           {
           new("/autoload/open-area/turtle-shield.c")->move(winner);
-          message_vision(HIR"火龜臨死的一個掙扎，甩出了一塊盾甲砸向了$N!!\n"NOR,winner);
+          message_vision(HIR + "火龜臨死的一個掙扎，甩出了一塊盾甲砸向了$N!!\n" + NOR,winner);
           }
         }
         :: die();

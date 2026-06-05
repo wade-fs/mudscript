@@ -13,7 +13,7 @@ void init()
 
 void create()
 {
-        set_name(HIR"萬年靈芝"NOR, ({"ling zhi", "zhi"}));
+        set_name(HIR + "萬年靈芝" + NOR, ({"ling zhi", "zhi"}));
         if (clonep())
                 set_default_object(__FILE__);
         else {

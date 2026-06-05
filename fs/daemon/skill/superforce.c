@@ -77,14 +77,14 @@ string color(object me)
 {
 	int sk;
 	sk = me->query_skill("superforce",1);
-	if (sk < 31) return HIW"白雲煙"NOR;
-	if (sk < 41) return HIM"玫蕩霞"NOR;
-	if (sk < 51) return YEL"土崑崙"NOR;
-	if (sk < 61) return HIC"碧雪冰"NOR;
-	if (sk < 81) return MAG"紫星河"NOR;
-	if (sk < 111) return WHT"玄混沌"NOR;
-	if (sk < 151) return HIB"靛蒼海"NOR;
-	if (sk <201 ) return HIY"金晨曦"NOR;
-	if (sk <251 ) return HIR"血穹蒼"NOR;
-	return HIG"玄宇宙"NOR;
+	if (sk < 31) return HIW + "白雲煙" + NOR;
+	if (sk < 41) return HIM + "玫蕩霞" + NOR;
+	if (sk < 51) return YEL + "土崑崙" + NOR;
+	if (sk < 61) return HIC + "碧雪冰" + NOR;
+	if (sk < 81) return MAG + "紫星河" + NOR;
+	if (sk < 111) return WHT + "玄混沌" + NOR;
+	if (sk < 151) return HIB + "靛蒼海" + NOR;
+	if (sk <201 ) return HIY + "金晨曦" + NOR;
+	if (sk <251 ) return HIR + "血穹蒼" + NOR;
+	return HIG + "玄宇宙" + NOR;
 }

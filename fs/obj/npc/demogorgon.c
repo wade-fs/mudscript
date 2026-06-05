@@ -8,7 +8,7 @@ private void countdown(int min);
 
 void create()
 {
-  set_name( HIW "侮天鬼王" NOR, ({ "demogorgon" }) );
+  set_name( HIW + "侮天鬼王" + NOR, ({ "demogorgon" }) );
   set("long",
     "侮天鬼王神情倨傲地站在你面前﹐他高大的身軀跟一股令人窒息的\n"
     "可怕殺氣正壓得你幾乎喘不過氣來﹐你的心裡似乎有一個聲音在告\n"
@@ -71,9 +71,8 @@ void start_shutdown(int time)
     "\n你聽到天空中傳來一陣可怕的咆哮 ....\n\n"
     "侮天鬼王用震耳欲聾的聲音喝道﹕\n\n"
       "\t\t全 天 下 的 眾 生 給 我 聽 著 ﹗\n\n"
-      "\t\t限你們"+HIY+chinese_number(time)+NOR
-      "分鐘內把我侮天鬼王的頭顱交出來 ﹗\n\n"
-      "\t\t不 然 的 話 ..... 哼 .. 哼 ﹗\n\n" NOR,
+      "\t\t限你們"+HIY+chinese_number(time)+NOR + "分鐘內把我侮天鬼王的頭顱交出來 ﹗\n\n"
+      "\t\t不 然 的 話 ..... 哼 .. 哼 ﹗\n\n" + NOR,
     users() );
   call_out((:countdown:), 60, time);
 }
@@ -85,15 +84,14 @@ private void countdown(int min)
   else if( min ) {
     message("system",
       "\n侮天鬼王用震耳欲聾的聲音喝道﹕\n\n"
-      "\t\t你們還有" +HIY +chinese_number(min)+NOR "分鐘的時間交出我的頭顱﹗\n\n"
-      "\t\t─不─要─命─的─就─給─我─慢─慢─拖─吧─﹗\n\n" NOR,
+      "\t\t你們還有" +HIY +chinese_number(min)+NOR + "分鐘的時間交出我的頭顱﹗\n\n"
+      "\t\t─不─要─命─的─就─給─我─慢─慢─拖─吧─﹗\n\n" + NOR,
       users() );
     call_out((:countdown:), 60, min);
   } else {
     message("system",
-      "\n侮天鬼王用震耳欲聾的聲音喝道﹕\n\n"
-      HIB"\t\t可恨.....真是可恨....\n\n"
-        "\t\t蒼天啊～ 大地啊～  海洋啊～  眾生啊～\n\n" NOR,
+      "\n侮天鬼王用震耳欲聾的聲音喝道﹕\n\n" + HIB + "\t\t可恨.....真是可恨....\n\n"
+        "\t\t蒼天啊～ 大地啊～  海洋啊～  眾生啊～\n\n" + NOR,
       users() );
     call_out((:do_shutdown:), 3);
   }
@@ -107,10 +105,8 @@ private void do_shutdown()
 
   message("system",
     "\n\n侮天鬼王用震耳欲聾的聲音喝道﹕\n\n"
-    "\t\t通 通 和 我 一 起 下 地 獄 吧 ～～～～ ﹗\n\n"
-    HIR "\t\t聲音一畢﹐天空立刻變得血紅﹐不....你眼前的一切都變得血紅...\n\n"
-      "\t\t所有的一切都在瞬間陷入火海....\n\n"NOR
-      "\t\t然後你的眼前是一片黑暗....無止盡的黑暗....\n\n",
+    "\t\t通 通 和 我 一 起 下 地 獄 吧 ～～～～ ﹗\n\n" + HIR + "\t\t聲音一畢﹐天空立刻變得血紅﹐不....你眼前的一切都變得血紅...\n\n"
+      "\t\t所有的一切都在瞬間陷入火海....\n\n" + NOR + "\t\t然後你的眼前是一片黑暗....無止盡的黑暗....\n\n",
     ob = users() );
 
   for (i=0; i<sizeof(ob); i++) {
@@ -131,9 +127,8 @@ void die()
   if( !ob ) return;
 
   message("system",
-    HIR "\n\n你聽到一聲帶著憤恨、驚恐、與野獸般的咆哮聲響徹整個天空。\n\n"
-    HIW "侮天鬼王" HIR "嘶啞地吼著﹕可惡的" + ob->name(1) + "﹐我一定會報仇的～～～\n\n"
-      "然後一道黑色火焰呼嘯著衝上雲端﹐大地又恢復了寧靜。\n\n" NOR
+    HIR + "\n\n你聽到一聲帶著憤恨、驚恐、與野獸般的咆哮聲響徹整個天空。\n\n" + HIW + "侮天鬼王" + HIR + "嘶啞地吼著﹕可惡的" + ob->name(1) + "﹐我一定會報仇的～～～\n\n"
+      "然後一道黑色火焰呼嘯著衝上雲端﹐大地又恢復了寧靜。\n\n" + NOR
       +sprintf("%c",7),
     users() );
   destruct(this_object());

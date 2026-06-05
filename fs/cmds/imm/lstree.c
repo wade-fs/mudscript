@@ -35,7 +35,7 @@ string tree( string path, int n )
         col = 79 / ( w-6 );
         w   = 79 / col + 7;
 
-	msg = HIW"目錄﹕"HIY + path + "\n"NOR;
+	msg = HIW + "目錄﹕" + HIY + path + "\n" + NOR;
 	for( i=0, j = sizeof(file); i<j; i++ ) {
 		len = sizeof(file[i][0]);
 		if( file[i][1] == -3 )
@@ -46,7 +46,7 @@ string tree( string path, int n )
 			msg += sprintf( "%3d%s%-*s%s",
 				( file[i][1]/1024/1024 ) ? file[i][1]/1024/1024 : file[i][1]/1024 + 1,
 				( file[i][1]/1024/1024 ) ? "M" : " ", w,
-				( find_object(path+file[i][0][7..len-5] ) ? file[i][0][0..len-5]+NOR"*" : file[i][0]),
+				( find_object(path+file[i][0][7..len-5] ) ? file[i][0][0..len-5]+NOR + "*" : file[i][0]),
 				( (i+1)%col )? "" : "\n" );
 	}
 	msg += "\n";

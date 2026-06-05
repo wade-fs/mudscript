@@ -5,7 +5,7 @@ inherit HEAD;
 object me=this_player();
 void create()
 {
-        set_name(HIB"魔龍頭盔"NOR, ({"mdragon helmet", "helmet"}));
+        set_name(HIB + "魔龍頭盔" + NOR, ({"mdragon helmet", "helmet"}));
         set_weight(2000);
         if( clonep() )
                 set_default_object(__FILE__);

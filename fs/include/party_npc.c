@@ -17,7 +17,7 @@ int party_with(string str)
    if(!str1=obj->query("be_party_msg"))
        str1 = "這位"+obj->name()+"大俠是否肯與在下同行?";
    message_vision(
-       CYN "$N說道﹕"+str1+"\n"NOR,me,obj);
+       CYN + "$N說道﹕"+str1+"\n" + NOR,me,obj);
 // 底下為有 party 條件限制的
    if(obj->query("lim")==1)
         if(test_limit()==0)
@@ -62,8 +62,7 @@ int unparty(string str)
    if(me->query("id")!=obj->query_temp("id"))
        return notify_fail("他並不屬於你的隊伍。\n");
    message_vision(
-     CYN "$N說道﹕"+obj->name()+" ! 我們之間的隊伍關係到此為止。\n"
-NOR,me,obj);
+     CYN + "$N說道﹕"+obj->name()+" ! 我們之間的隊伍關係到此為止。\n" + NOR,me,obj);
    command("say 你.......");
    command("say 哼!!...");
    if(obj->query("will_angry")==1)
@@ -119,13 +118,13 @@ int order_npc(string arg)
         return notify_fail("\n我不懂你的意思耶! 你要我幫你做什麼事呀？\n");
  
    if(me->query("class")=="officer")
-       tell_object(me,CYN" 遵命! 大人! 小的立刻就辦。\n\n"NOR);
+       tell_object(me,CYN + " 遵命! 大人! 小的立刻就辦。\n\n" + NOR);
    else
-       tell_object(me,CYN" 是的! 大俠! 這沒問題的啦！\n\n"NOR);
+       tell_object(me,CYN + " 是的! 大俠! 這沒問題的啦！\n\n" + NOR);
  
    if( verb == "kill" && stringp(cmd1 = find_command(verb)) ) {
        message_vision(
-       CYN"$N說道﹕"+obj->name()+"! 就讓我們一起合攻他吧!\n\n"NOR,me);
+       CYN + "$N說道﹕"+obj->name()+"! 就讓我們一起合攻他吧!\n\n" + NOR,me);
        call_other(cmd1,"main",me,act);
       }
    command(verb+" "+act);

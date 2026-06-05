@@ -131,7 +131,7 @@ void check_robot()
   me->set("robot/time", time() + 300);
   tell_object(me, "\t請用ans 作答.\n\n"+NOR);
   tell_object(me,
-  HIW+"\n***************************************************************\n"NOR);
+  HIW+"\n***************************************************************\n" + NOR);
 
   call_out("check_robot", 600 + random(800) + random(800));
 }

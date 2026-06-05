@@ -156,7 +156,7 @@ void bleed(object me, object victim, object weapon, int damage)
         {
          me->add("force", -3*bellpower);
          victim->receive_wound("kee",damage,me);
-         message_vision(HIR"$N使用惡化魔功\精義用內力把$n震傷，使$n不停的狂吐鮮血。\n"NOR, me, victim);
+         message_vision(HIR + "$N使用惡化魔功\精義用內力把$n震傷，使$n不停的狂吐鮮血。\n" + NOR, me, victim);
          COMBAT_D->report_status(victim);
         }
 }
@@ -170,7 +170,7 @@ void block(object me, object victim, object weapon, int damage)
   if(!me->query_temp("damage-busy1")) {
   me->set_temp("damage-busy1",1); }
   me->add("force",-100); //扣內力
-  message_vision(HIB"$N暗使內力，使得$n為其惡化魔功\所震而暫時無法動彈。\n"NOR, me, victim);
+  message_vision(HIB + "$N暗使內力，使得$n為其惡化魔功\所震而暫時無法動彈。\n" + NOR, me, victim);
 }
 }
 
@@ -189,7 +189,7 @@ if(victim->query("force")>0&&me->query_skill_mapped("force")=="badforce"&&!me->q
         victim->add("force",-lose);
         victim->receive_damage("kee",lose/2,me);
         if(victim->query("force",1) < 0) victim->set("force",0);
-        message_vision(HIY"$N使出惡化魔功\之吸功\大法，把$n的功\力吸去不少。\n"NOR, me, victim);
+        message_vision(HIY + "$N使出惡化魔功\之吸功\大法，把$n的功\力吸去不少。\n" + NOR, me, victim);
         COMBAT_D->report_status(victim);
         }
 }
@@ -206,7 +206,7 @@ void upforce(object me, object victim, object weapon, int damage)
         if( !me->query_temp("berserk") && !me->query_temp("upforce")
             && 70>random(100) && me->query("class")=="bandit" )
         {
-                message_vision(HIG"$N一擊得手，$n噴出的鮮血激起了$N的瘋狂殺意，內力暴長。\n"NOR, me, victim);
+                message_vision(HIG + "$N一擊得手，$n噴出的鮮血激起了$N的瘋狂殺意，內力暴長。\n" + NOR, me, victim);
                 me->set_temp("oldforce", me->query("force_factor"));
                 me->set("force_factor", (4*skill*bellpower)/4);
                 me->set_temp("upforce", 1);
@@ -222,7 +222,7 @@ void remove_effect(object me)
         me->set("force_factor", me->query_temp("oldforce"));
         me->delete_temp("oldforce");
         me->delete_temp("upforce");
-        message_vision(HIW"$N狂意漸退，內力漸漸收回。\n"NOR, me);
+        message_vision(HIW + "$N狂意漸退，內力漸漸收回。\n" + NOR, me);
 }
 
 void berserk(object me, object victim, object weapon, int damage)
@@ -240,14 +240,14 @@ if(me->query("class")=="bandit"&& !me->query_temp("berserk") && 70>random(100))
                 me->set_temp("berserk2",1);
                 for(i = 0;i < lose; i++)
                 {
-                        message_vision(HIR"$N打出惡霸掌之連擊技，向$n狂風暴雨般橫掃而去。\n"NOR, me, victim);
+                        message_vision(HIR + "$N打出惡霸掌之連擊技，向$n狂風暴雨般橫掃而去。\n" + NOR, me, victim);
                         COMBAT_D->do_attack(me, victim, me->query_temp("weapon"), TYPE_QUICK);
                 }
                 me->delete_temp("berserk");
                 me->delete_temp("berserk2");
                 if(!me->query_temp("crazy"))
                 {
-                      message_vision(HIW"一陣狂打之後，$N體內氣息大亂，趕緊趁機調息。\n"NOR,me);
+                      message_vision(HIW + "一陣狂打之後，$N體內氣息大亂，趕緊趁機調息。\n" + NOR,me);
                       me->start_busy(1);
                 }
         }

@@ -23,15 +23,15 @@ int main(object me, string arg)
   if(me->is_busy()) notify_fail("你正在忙碌中！\n");
   if(force < 10) return notify_fail("您的基本內力功\力不足，無法練氣。\n");
   if (me->query_condition("no_power_e"))
-    return notify_fail (HIM"你感覺到體內有無數的氣勁亂流, 使你無法正常的使用內力。\n"NOR);
+    return notify_fail (HIM + "你感覺到體內有無數的氣勁亂流, 使你無法正常的使用內力。\n" + NOR);
   if (me->query_temp("crazy"))
-    return notify_fail (HIR"你正陷入狂暴狀態, 無法控制內息流動。\n"NOR);
+    return notify_fail (HIR + "你正陷入狂暴狀態, 無法控制內息流動。\n" + NOR);
   if ((me->query("food")<1 || me->query("water")<1) && userp(me)) {
     if (random(100) < 1) {
       me->receive_wound ("kee", me->query("age"));
-      return notify_fail( RED"你感覺又餓又渴, 一時之間無法控制真氣, 受到了內傷!"NOR );
+      return notify_fail( RED + "你感覺又餓又渴, 一時之間無法控制真氣, 受到了內傷!" + NOR );
     }
-    return notify_fail( BLU"你感覺又餓又渴! 無法運氣!\n"NOR );
+    return notify_fail( BLU + "你感覺又餓又渴! 無法運氣!\n" + NOR );
   }
         ena_force = me->query_skill_mapped("force");
         if( !stringp(ena_force) )
@@ -43,7 +43,7 @@ int main(object me, string arg)
 
   me->apply_condition("force",force);
   message_vision(
-                HIW "$N開始盤腿坐下，嘗試著集中精神提昇基本內功\能力。\n"NOR,me);
+                HIW + "$N開始盤腿坐下，嘗試著集中精神提昇基本內功\能力。\n" + NOR,me);
 
 	return 1;
 }

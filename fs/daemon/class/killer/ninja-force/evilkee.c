@@ -23,18 +23,18 @@ if(target->query_busy() > 0)
 return notify_fail("對手正動彈不得。\n");
 fun=me->query("functions/evilkee/level");
 damage=me->query("functions/manakee/level")*4+fun*6;
-message_vision(CYN"
+message_vision(CYN + "
                    $N瞬間殺意狂升,以殺意換成魔氣。
-                     "MAG"$N身上發出一股強大的魔氣……
-           "HIW"■"HIB"$N身上魔氣逐漸地往四處散發, 四周光線頓時消失"HIW"■
-                           "HIY"黑牙神功\秘奧義
-                       "HIC"––"HIW"「"GRN"真˙魔氣殺"HIW"」"HIC"––
-\n"NOR,me);
+                     " + MAG + "$N身上發出一股強大的魔氣……
+           " + HIW + "■" + HIB + "$N身上魔氣逐漸地往四處散發, 四周光線頓時消失" + HIW + "■
+                           " + HIY + "黑牙神功\秘奧義
+                       " + HIC + "––" + HIW + "「" + GRN + "真˙魔氣殺" + HIW + "」" + HIC + "––
+\n" + NOR,me);
 if( 20 < random(100) )
 {
 if(fun >= 0 && fun < 20 )
 {
-message_vision(HIG"$N受到魔氣傷害全身無法動彈並受到輕微凍傷!!\n"NOR,target);
+message_vision(HIG + "$N受到魔氣傷害全身無法動彈並受到輕微凍傷!!\n" + NOR,target);
 target->add("kee",-damage);
 target->start_busy(1);
 target->apply_condition("cold",5);
@@ -43,7 +43,7 @@ COMBAT_D->report_status(target, 1);
 }
 if (fun >= 20 && fun < 40 )
 {
-message_vision(HIG"$N受到魔氣傷害全身無法動彈並受到輕微灼傷!!\n"NOR,target);
+message_vision(HIG + "$N受到魔氣傷害全身無法動彈並受到輕微灼傷!!\n" + NOR,target);
 target->add("kee",-damage);
 target->start_busy(2);
 target->apply_condition("burn",5);
@@ -52,7 +52,7 @@ COMBAT_D->report_status(target, 1);
 }
 if (fun >= 40 && fun < 60)
 {
-message_vision(HIG"$N受到魔氣傷害全身無法動彈並受到嚴重內傷!!\n"NOR,target);
+message_vision(HIG + "$N受到魔氣傷害全身無法動彈並受到嚴重內傷!!\n" + NOR,target);
 target->add("kee",-damage);
 target->start_busy(2);
 target->apply_condition("hart",10);
@@ -61,7 +61,7 @@ COMBAT_D->report_status(target, 1);
 }
 if (fun >= 60 && fun < 80)
 {
-message_vision(HIG"$N受到魔氣傷害全身無法動彈並受到魔氣纏身!!\n"NOR,target);
+message_vision(HIG + "$N受到魔氣傷害全身無法動彈並受到魔氣纏身!!\n" + NOR,target);
 target->add("kee",-damage);
 target->start_busy(3);
 target->apply_condition("mkill_out",10);
@@ -70,7 +70,7 @@ COMBAT_D->report_status(target, 1);
 }
 if (fun >= 80 && fun < 100)
 {
-message_vision(HIG"$N受到魔氣傷害全身無法動彈並且氣血失調!!\n"NOR,target);
+message_vision(HIG + "$N受到魔氣傷害全身無法動彈並且氣血失調!!\n" + NOR,target);
 target->add("kee",-damage);
 target->start_busy(3);
 target->apply_condition("ff_poison",10);
@@ -79,7 +79,7 @@ COMBAT_D->report_status(target, 1);
 }
 if (fun == 100)
 {
-message_vision(HIG"$N受到魔氣傷害全身無法動彈並且氣血失調, 失去心智!!\n"NOR,target);
+message_vision(HIG + "$N受到魔氣傷害全身無法動彈並且氣血失調, 失去心智!!\n" + NOR,target);
 target->add("kee",-damage);
 target->start_busy(3);
 target->apply_condition("mess",2);
@@ -89,7 +89,7 @@ COMBAT_D->report_status(target, 1);
 }}
 else
 {
-message_vision(HIC"$N心境空明, 識破了這個以魔氣所佈下的幻覺!!\n"NOR,target);
+message_vision(HIC + "$N心境空明, 識破了這個以魔氣所佈下的幻覺!!\n" + NOR,target);
 }
 if(me->query("functions/evilkee/level") < 100)
 {

@@ -30,7 +30,7 @@ int perform(object me, object target)
         if (skill < 10)
         {
         message_vision(
-HIB "$N氣沉於心運起木訣心法中的「明」字訣，雙手凝氣成真！。\n" NOR,me);
+HIB + "$N氣沉於心運起木訣心法中的「明」字訣，雙手凝氣成真！。\n" + NOR,me);
         me->add_temp("apply/attack",skill);
         me->start_call_out( (: call_other, __FILE__, "remove_effect", me, skill:), skill);
         if( me->is_fighting() ) me->start_busy(1);
@@ -43,7 +43,7 @@ HIB "$N氣沉於心運起木訣心法中的「明」字訣，雙手凝氣成真�
       
         {
         message_vision(
-HIB "$N氣沉於心運起木訣心法中的「心」字訣，雙手凝氣成真！。\n",me);
+HIB + "$N氣沉於心運起木訣心法中的「心」字訣，雙手凝氣成真！。\n",me);
         me->add_temp("apply/attack",skill);
         me->start_call_out( (: call_other, __FILE__, "remove_effect", me, skill:), skill);
         if( me->is_fighting() ) me->start_busy(1);
@@ -56,7 +56,7 @@ HIB "$N氣沉於心運起木訣心法中的「心」字訣，雙手凝氣成真�
         if (skill >= 20 && skill < 30)
         {
         message_vision(
-HIR "$N氣沉於心運起木訣心法中的「見」字訣，雙手凝氣成真！。\n" NOR,me);
+HIR + "$N氣沉於心運起木訣心法中的「見」字訣，雙手凝氣成真！。\n" + NOR,me);
         me->add_temp("apply/attack",skill);
         me->start_call_out( (: call_other, __FILE__, "remove_effect", me, skill:), skill);
         if( me->is_fighting() ) me->start_busy(1);
@@ -69,7 +69,7 @@ HIR "$N氣沉於心運起木訣心法中的「見」字訣，雙手凝氣成真�
         if (skill >=30 && skill < 40)
         {
         message_vision(
-HIR "$N氣沉於心運起木訣心法中的「性」字訣，雙手凝氣成真！。\n" NOR,me);
+HIR + "$N氣沉於心運起木訣心法中的「性」字訣，雙手凝氣成真！。\n" + NOR,me);
         me->add_temp("apply/attack",skill);
         me->start_call_out( (: call_other, __FILE__, "remove_effect", me, skill:), skill);
         if( me->is_fighting() ) me->start_busy(3);
@@ -80,7 +80,7 @@ HIR "$N氣沉於心運起木訣心法中的「性」字訣，雙手凝氣成真�
         if (skill >=40 && skill < 50)
         {
         message_vision(
-HIG "$N氣沉於心運起木訣心法中的「空」字訣，雙手凝氣成真！。\n" NOR,me);
+HIG + "$N氣沉於心運起木訣心法中的「空」字訣，雙手凝氣成真！。\n" + NOR,me);
         me->add_temp("apply/attack",skill);
         me->start_call_out( (: call_other, __FILE__, "remove_effect", me, skill:), skill);
         if( me->is_fighting() ) me->start_busy(3);
@@ -94,7 +94,7 @@ HIG "$N氣沉於心運起木訣心法中的「空」字訣，雙手凝氣成真�
         if (skill >=50&& skill < 60)
         {
         message_vision(
-HIG "$N氣沉於心運起木訣心法中的「徹」字訣，雙手凝氣成真！。\n" NOR,me);
+HIG + "$N氣沉於心運起木訣心法中的「徹」字訣，雙手凝氣成真！。\n" + NOR,me);
         me->add_temp("apply/attack",skill);
         me->start_call_out( (: call_other, __FILE__, "remove_effect", me, skill:), skill);
         if( me->is_fighting() ) me->start_busy(3);
@@ -105,7 +105,7 @@ HIG "$N氣沉於心運起木訣心法中的「徹」字訣，雙手凝氣成真�
         if (skill >=60 && skill < 70)
         {
         message_vision(
-HIC "$N氣沉於心運起木訣心法中的「通」字訣，雙手凝氣成真！。\n" NOR,me);
+HIC + "$N氣沉於心運起木訣心法中的「通」字訣，雙手凝氣成真！。\n" + NOR,me);
         me->add_temp("apply/attack",skill);
         me->start_call_out( (: call_other, __FILE__, "remove_effect", me, skill:), skill);
         if( me->is_fighting() ) me->start_busy(3);
@@ -116,7 +116,7 @@ HIC "$N氣沉於心運起木訣心法中的「通」字訣，雙手凝氣成真�
         if (skill >=70 && skill < 80)
         {
         message_vision(
-HIC "$N氣沉於心運起木訣心法中的「悟」字訣，雙手凝氣成真！。\n" NOR,me);
+HIC + "$N氣沉於心運起木訣心法中的「悟」字訣，雙手凝氣成真！。\n" + NOR,me);
         me->add_temp("apply/attack",skill);
         me->start_call_out( (: call_other, __FILE__, "remove_effect", me, skill:), skill);
         if( me->is_fighting() ) me->start_busy(3);
@@ -127,7 +127,7 @@ HIC "$N氣沉於心運起木訣心法中的「悟」字訣，雙手凝氣成真�
         if (skill >=80 && skill < 90)
         {
         message_vision(
-HIW "$N氣沉於心運起木訣心法中的「佛」字訣，雙手凝氣成真！。\n" NOR,me);
+HIW + "$N氣沉於心運起木訣心法中的「佛」字訣，雙手凝氣成真！。\n" + NOR,me);
         me->add_temp("apply/attack",skill);
         me->start_call_out( (: call_other, __FILE__, "remove_effect", me, skill:), skill);
         if( me->is_fighting() ) me->start_busy(3);
@@ -138,9 +138,9 @@ HIW "$N氣沉於心運起木訣心法中的「佛」字訣，雙手凝氣成真�
 if (skill >=90 && skill <= 100)
         {
         message_vision(
-HIC"                $N明瞭木訣心法捻花指訣中萬事萬物皆有萬象的佛理\n
-                        "HIY"「明心見性    空徹通悟  」\n  
-"+HIC+"               $N身上散發無限光輝，此其為捻花指訣中最高深的境界。\n" NOR,me);
+HIC + "                $N明瞭木訣心法捻花指訣中萬事萬物皆有萬象的佛理\n
+                        " + HIY + "「明心見性    空徹通悟  」\n  
+"+HIC+"               $N身上散發無限光輝，此其為捻花指訣中最高深的境界。\n" + NOR,me);
         me->add_temp("apply/attack",skill);
         me->start_call_out( (: call_other, __FILE__, "remove_effect", me, skill:), skill);
         if( me->is_fighting() ) me->start_busy(3);

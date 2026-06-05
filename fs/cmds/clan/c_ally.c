@@ -50,8 +50,8 @@ if(!me->query_temp("ally/accept")) {
         this_player()->set_temp("ally/invite",clan);
         target->set_temp("ally/accept",me->query("clan/id"));
 
-        tell_object(target,GRN""+CLAN_D->clan_query(me->query("clan/id"),"name")+"想要跟你結為盟幫。\n"+
-        "如果同意的話請打 cally "+ target->query_temp("ally/accept")+"。\n"NOR);
+        tell_object(target,GRN + ""+CLAN_D->clan_query(me->query("clan/id"),"name")+"想要跟你結為盟幫。\n"+
+        "如果同意的話請打 cally "+ target->query_temp("ally/accept")+"。\n" + NOR);
 
         call_out("remove_accept",30,target,this_player());
         return 1;
@@ -82,8 +82,8 @@ ally_s=me->query("clan/id");
 CLAN_D->clan_set(clan,"ally",ally);
 // 結束設定~~~
 shout(
-                HIY""+me->query("clan/name")+" 決定和 "
-        +CLAN_D->clan_query(clan,"name")+" 同盟了,希望能創造更強盛的幫派!!!\n"NOR);
+                HIY + ""+me->query("clan/name")+" 決定和 "
+        +CLAN_D->clan_query(clan,"name")+" 同盟了,希望能創造更強盛的幫派!!!\n" + NOR);
         return 1;
         }
 }
@@ -93,8 +93,8 @@ target->map_delete("ally");
 
 me->map_delete("ally");
 
-        tell_object(target,HIR""+me->query("clan/name")+"已經放棄同盟了。\n"NOR);
-        write(HIR""+target->query("clan/name") + "沒有回應,您放棄同盟了。\n");
+        tell_object(target,HIR + ""+me->query("clan/name")+"已經放棄同盟了。\n" + NOR);
+        write(HIR + ""+target->query("clan/name") + "沒有回應,您放棄同盟了。\n");
         return 1;
 }
 
@@ -126,8 +126,8 @@ if (!tag) return notify_fail("你們並沒有跟這一幫同盟!!\n");
 CLAN_D->clan_set(clan,"ally",ally);
 
 shout(
-                HIY"從這一刻開始, "+me->query("clan/name")+" 決定取消和 "
-        +CLAN_D->clan_query(clan,"name")+" 的同盟了!!!\n"NOR);
+                HIY + "從這一刻開始, "+me->query("clan/name")+" 決定取消和 "
+        +CLAN_D->clan_query(clan,"name")+" 的同盟了!!!\n" + NOR);
 
         return 1;
 }

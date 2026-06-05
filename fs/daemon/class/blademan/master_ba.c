@@ -102,9 +102,9 @@ string ask_evil()
   me=this_player();
   ob=this_object();
   message_vision(
-HIY"$N露出十分訝異的表情～\n"NOR"
+HIY + "$N露出十分訝異的表情～\n" + NOR + "
 
-"HIW"$N說道：$n想闖〔震邪道〕嗎？嗯～我先考慮一下...\n\n"NOR,ob,me);
+" + HIW + "$N說道：$n想闖〔震邪道〕嗎？嗯～我先考慮一下...\n\n" + NOR,ob,me);
   call_out("do_evil",2,me);
   return "......\n";
 }
@@ -318,7 +318,7 @@ string ask_test()
       int i;
       i=6+random(5);
       command("say 謝謝您的幫忙.我願意將appo給我的印記傳到你身上!\n");
-      tell_object(this_player(),HIW"瞬間由王元霸將手搭在你的肩上..你頓時覺得一股暖意由王元霸的手中傳過來\n"NOR);
+      tell_object(this_player(),HIW + "瞬間由王元霸將手搭在你的肩上..你頓時覺得一股暖意由王元霸的手中傳過來\n" + NOR);
       this_player()->set("quests/2ndtest",i);
       this_player()->set("quests/yantestmark2",1);
       return("最後一個印記在聖賢書手上,你可以去找他問問了\n");
@@ -426,10 +426,10 @@ int accept_object(object me,object ob)
       command("say 此物不祥 , 既然你找到了 , 這就是你的 !");
       command("give "+me->query("id")+" lotch");
       command("say 我便傳你這煉妖壺咒語 , 希望你能善用之 !");
-      message_vision(sprintf(HIW"王元霸傳授$N幾句咒語 !\n"NOR),me);
-      message("system",HIY "王元霸大聲說道 :\n
+      message_vision(sprintf(HIW + "王元霸傳授$N幾句咒語 !\n" + NOR),me);
+      message("system",HIY + "王元霸大聲說道 :\n
 煉妖壺重現江湖 ,"+me->name()+": 希望你能憑藉妖壺神力
-拯救天下蒼生 !\n\n"NOR,users());
+拯救天下蒼生 !\n\n" + NOR,users());
       me->set("quests/lotch",1);
       me->delete("lotch");
       me->delete("marks/得龍虎刀");
@@ -486,16 +486,16 @@ string ask_mogi()
     return "你問我這個作什麼?\n";
 
   me->add("mogi/ask_quest", 1);
-  me->add("mogi/desc", CYN+name()+"說道: 這是傳說中一種可以用來驅魔避邪的符紙。\n"NOR);
-  me->add("mogi/desc", CYN+name()+"說道: 它們是由上古時候伏羲氏用千百種奇珍異獸的鮮血所提煉繪製的, 具有極強的驅邪功\用。\n"NOR);
-  me->add("mogi/desc", CYN+name()+"說道: 想到當今天下紛亂, 妖魔作祟, 真不知道這些符紙如今下落如何...\n"NOR);
-  me->add("mogi/desc", CYN+name()+"說道: 或許\你可以去街上逛逛, 四處打探一下魔界的消息。\n"NOR);
+  me->add("mogi/desc", CYN+name()+"說道: 這是傳說中一種可以用來驅魔避邪的符紙。\n" + NOR);
+  me->add("mogi/desc", CYN+name()+"說道: 它們是由上古時候伏羲氏用千百種奇珍異獸的鮮血所提煉繪製的, 具有極強的驅邪功\用。\n" + NOR);
+  me->add("mogi/desc", CYN+name()+"說道: 想到當今天下紛亂, 妖魔作祟, 真不知道這些符紙如今下落如何...\n" + NOR);
+  me->add("mogi/desc", CYN+name()+"說道: 或許\你可以去街上逛逛, 四處打探一下魔界的消息。\n" + NOR);
 
-  write(CYN+name()+"說道: 這是傳說中一種可以用來驅魔避邪的符紙。\n"NOR);
+  write(CYN+name()+"說道: 這是傳說中一種可以用來驅魔避邪的符紙。\n" + NOR);
   write(CYN+name()+"說道: 它們是由上古時候伏羲氏用千百種奇珍異獸的鮮血所"+
-                   "提煉繪製的, 具有極強的驅邪功\用。\n"NOR);
+                   "提煉繪製的, 具有極強的驅邪功\用。\n" + NOR);
   write(CYN+name()+"說道: 想到當今天下紛亂, 妖魔作祟, 真不知道這些符紙"+
-                   "如今下落如何...\n"NOR);
+                   "如今下落如何...\n" + NOR);
   return "或許\你可以去街上逛逛, 四處打探一下魔界的消息。\n";
 }
 
@@ -508,8 +508,7 @@ void die()
     ::die();
     return ;
   }
-  tell_object(users(),HIG
-"\n\t『想我"HIY"金刀無敵"HIR"王元霸"HIG"享譽武林刀界多年，\n\n\t  今日竟敗於"HIC+winner->query("name")+""HIG"之手!!當真後生可畏，後生可畏啊～』\n\n\t"HIM"將星隕落!!   "HIW"一代刀中霸者終於結束了他傳奇的一生...\n\n"NOR);
+  tell_object(users(),HIG + "\n\t『想我" + HIY + "金刀無敵" + HIR + "王元霸" + HIG + "享譽武林刀界多年，\n\n\t  今日竟敗於" + HIC+winner->query("name")+"" + HIG + "之手!!當真後生可畏，後生可畏啊～』\n\n\t" + HIM + "將星隕落!!   " + HIW + "一代刀中霸者終於結束了他傳奇的一生...\n\n" + NOR);
 
   if(userp(winner) && winner->query_temp("not_robot") > time() )
   {
@@ -519,7 +518,7 @@ void die()
       if( j==7 || j==77 || j== 777 || j==1111 || j==55 || j==555 || j==1000 || j==4000 || j==3333 || j==2222 )
       {
         new("/open/sky/obj9/happy-charm")->move(environment(winner));
-        message_vision(HIM"\n從王元霸的身上掉下了一件奇怪的東西!!\n"NOR,winner);
+        message_vision(HIM + "\n從王元霸的身上掉下了一件奇怪的東西!!\n" + NOR,winner);
         write_file("/log/sky/obj9/happy_charm",sprintf("%s(%s) 讓王元霸掉下了快樂之符於 %s\n",
         winner->name(1),winner->query("id"),ctime(time())));
       }
@@ -528,7 +527,7 @@ void die()
       if( j==5 || j==15 || j== 150 || j==1500 || j==10 || j==100 || j==1000 || j==4000 || j==6666 || j==7777 )
       {
         new("/open/sky/obj9/happy-charm")->move(environment(winner));
-        message_vision(HIM"\n從王元霸的身上掉下了一件奇怪的東西!!\n"NOR,winner);
+        message_vision(HIM + "\n從王元霸的身上掉下了一件奇怪的東西!!\n" + NOR,winner);
         write_file("/log/sky/obj9/happy_charm",sprintf("%s(%s) 讓王元霸掉下了快樂之符於 %s\n",
         winner->name(1),winner->query("id"),ctime(time())));
       }

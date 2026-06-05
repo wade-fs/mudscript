@@ -7,7 +7,7 @@ inherit CLOTH;
 
 void create()
 {
-  set_name(MAG"忍者夜行衣" NOR ,({"ninja cloth","cloth"}));
+  set_name(MAG + "忍者夜行衣" + NOR ,({"ninja cloth","cloth"}));
   set_weight(3000);
   if( clonep() )
     set_default_object(__FILE__);
@@ -72,7 +72,7 @@ int do_wear(string str,object user)
     set_heart_beat(1);
     if (user->query("ninja/change") != 1)
     {
-      message_vision(MAG"$N穿起忍者夜行衣將自己容貌隱藏起來。\n"NOR,user);
+      message_vision(MAG + "$N穿起忍者夜行衣將自己容貌隱藏起來。\n" + NOR,user);
       user->set("ninja/old_id",user->query("id"));
       user->set("ninja/old_name",user->query("name"));
       user->set("ninja/old_nickname",user->query("nickname"));
@@ -80,7 +80,7 @@ int do_wear(string str,object user)
       user->set("id","dark ninja");
       user->set("name","黑影");
       user->delete("nickname");
-      user->set("title",MAG"暗黑忍者"NOR);
+      user->set("title",MAG + "暗黑忍者" + NOR);
       user->set("ninja/change",1);
       return 1;
     }
@@ -93,7 +93,7 @@ int do_remove(string str)
   if(str=="ninja-cloth" || str=="all" || str=="cloth")
     if( query("equipped") )
     {
-      message_vision(MAG"$N脫下忍者夜行衣, 露出原來面貌。\n"NOR,user);
+      message_vision(MAG + "$N脫下忍者夜行衣, 露出原來面貌。\n" + NOR,user);
       user->set("id",user->query("ninja/old_id"));
       user->set("name",user->query("ninja/old_name"));
       user->set("nickname",user->query("ninja/old_nickname"));
@@ -116,9 +116,9 @@ void heart_beat()
     room=environment(user);
     if( random(100) > 95 && user->query_temp("evil-body")==1 )
     {
-      message_vision(MAG"\n$N雙眼泛紅, 全身散發出死亡般的氣息。\n"NOR,user);
-      message_vision(MAG"\n～ ～  "HIW"天  魔  解  體  大  法  "MAG"～ ～\n"NOR,user);
-      message_vision(HIW"\n$N生命力瞬間爆增數萬, 功\力徒增數倍!!\n"NOR,user);
+      message_vision(MAG + "\n$N雙眼泛紅, 全身散發出死亡般的氣息。\n" + NOR,user);
+      message_vision(MAG + "\n～ ～  " + HIW + "天  魔  解  體  大  法  " + MAG + "～ ～\n" + NOR,user);
+      message_vision(HIW + "\n$N生命力瞬間爆增數萬, 功\力徒增數倍!!\n" + NOR,user);
       user->add("max_kee",50000);
       user->add("max_gin",50000);
       user->add("max_sen",50000);

@@ -125,7 +125,7 @@ return SKILL_D(skill)->valid_learn(me);
 				me->improve_skill( skill, random(me->query_int() + ob->query_skill(skill,1)/5) );
 				/*if( random(1000) < 1 ) {
 					ob->improve_skill( skill, random(ob->query_int()) );
-					tell_object( ob, sprintf( HIC"在你教導%s有關「%s」的同時, 突然悟出「%s」更深一層的奧秘。\n"NOR,
+					tell_object( ob, sprintf( HIC + "在你教導%s有關「%s」的同時, 突然悟出「%s」更深一層的奧秘。\n" + NOR,
 							me->name(), to_chinese(skill), to_chinese(skill) ) );
 				}*/
 			}

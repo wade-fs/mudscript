@@ -117,10 +117,8 @@ string process_input( string str )
 				delete_temp("msg_buffer");
 				set( "startroom", ROBOT_CHECK );
                                 tell_object( this_object(),
-                                	HIB"侮天鬼王的身影突然出現在一陣煙霧之中。\n"
-                                	HIM"侮天鬼王喝道: 哼! 最看不慣機器人了, 在我還沒發火之前快滾吧!\n"
-                                	HIR"一股令人窒息的可怕殺氣正壓得你幾乎喘不過氣來,\n"
-                                	"你的心裡似乎有一個聲音在告訴你:「 快 逃! 」\n"NOR );
+                                	HIB + "侮天鬼王的身影突然出現在一陣煙霧之中。\n" + HIM + "侮天鬼王喝道: 哼! 最看不慣機器人了, 在我還沒發火之前快滾吧!\n" + HIR + "一股令人窒息的可怕殺氣正壓得你幾乎喘不過氣來,\n"
+                                	"你的心裡似乎有一個聲音在告訴你:「 快 逃! 」\n" + NOR );
                                 return "quit";
                         }
                 }
@@ -143,10 +141,8 @@ string process_input( string str )
                                         set( "startroom", ROBOT_CHECK );
 					this_object()->set_temp("must_be_quit",1);
                                         tell_object( this_object(),
-                                             HIB"侮天鬼王的身影突然出現在一陣煙霧之中。\n"
-                                             HIM"侮天鬼王喝道: 哼! 最看不慣機器人了, 在我還沒發火之前快滾吧!\n"
-                                             HIR"一股令人窒息的可怕殺氣正壓得你幾乎喘不過氣來,\n"
-                                                "你的心裡似乎有一個聲音在告訴你:「 快 逃! 」\n"NOR );
+                                             HIB + "侮天鬼王的身影突然出現在一陣煙霧之中。\n" + HIM + "侮天鬼王喝道: 哼! 最看不慣機器人了, 在我還沒發火之前快滾吧!\n" + HIR + "一股令人窒息的可怕殺氣正壓得你幾乎喘不過氣來,\n"
+                                                "你的心裡似乎有一個聲音在告訴你:「 快 逃! 」\n" + NOR );
                                         return "quit";
                                 }
                         if( environment(this_object()) ) {

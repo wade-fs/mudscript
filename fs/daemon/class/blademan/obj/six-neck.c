@@ -3,7 +3,7 @@
 inherit NECK;
 void create()
 {
-  set_name(HIW"魔斬冥輪"NOR,({"six-hurt neck","neck"}));
+  set_name(HIW + "魔斬冥輪" + NOR,({"six-hurt neck","neck"}));
   set_weight(100);
   if( clonep() )
   set_default_object(__FILE__);
@@ -36,12 +36,12 @@ int do_wear(string str)
      {
        if(user->query_temp("six-hurt"))
        {
-       message_vision(HIC"$N戴上了魔斬冥輪，一股力量由然而生。\n"NOR,user);
+       message_vision(HIC + "$N戴上了魔斬冥輪，一股力量由然而生。\n" + NOR,user);
        }else{
        ::wear();
          if( query("equipped") )
          {
-         message_vision(HIC"$N戴上了魔斬冥輪，一股力量由然而生。\n"NOR,user);
+         message_vision(HIC + "$N戴上了魔斬冥輪，一股力量由然而生。\n" + NOR,user);
          user->add("max_kee",-500);
          user->add("eff_kee",-500);    
          user->add("kee",-500); 
@@ -59,7 +59,7 @@ int do_remove(string str)
      if( query("equipped") )
      {
 if(user->query_temp("six-hurt")) {
-      message_vision(HIY"$N卸下魔斬冥輪後，所衍生的力量頓時消失無影。\n"NOR,user);
+      message_vision(HIY + "$N卸下魔斬冥輪後，所衍生的力量頓時消失無影。\n" + NOR,user);
       user->add("max_kee",500);
       user->delete_temp("six-hurt");
      }

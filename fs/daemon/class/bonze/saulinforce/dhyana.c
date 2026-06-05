@@ -18,6 +18,6 @@ int exert(object me,object target)
           me->add("bellicosity",-1*(random(ski_lv)+100)); //避免等級低的時候感覺像雞肋 所以給予基礎值
           me->add("force",-50); //支付內力作為普通限制
           me->add("max_s_kee",-1); //消耗佛法的最大值作為消除殺氣的代價
-          message_vision(HIY"$N聽聞佛法而心有覺悟，從而消除自己的業障。\n"NOR,me);
+          message_vision(HIY + "$N聽聞佛法而心有覺悟，從而消除自己的業障。\n" + NOR,me);
           return 1;
 }

@@ -60,13 +60,13 @@ void create()
    // 指 扇 筆 指環 臂環
    if( me->query("weapon/type") == "stabber" || me->query("weapon/type") == "unarmed")
    {
-      set("wield_msg", HIW"只見$N大喝一聲, 一道白光迅速由$N懷中竄出, \n在空中盤桓三圈後停在$N的"+wield_part+"化成一"+c_unit+"獨特的"+ me->query("weapon/name")+"。\n"NOR);
-      set("unwield_msg", HIW"突然間$N的胸腹之間吸足了氣, 朝"+wield_part+"的$n輕輕一吹, \n只見$n慢慢的化作一縷\輕煙, 隱沒在$N的胸腹之間。\n"NOR);
+      set("wield_msg", HIW + "只見$N大喝一聲, 一道白光迅速由$N懷中竄出, \n在空中盤桓三圈後停在$N的"+wield_part+"化成一"+c_unit+"獨特的"+ me->query("weapon/name")+"。\n" + NOR);
+      set("unwield_msg", HIW + "突然間$N的胸腹之間吸足了氣, 朝"+wield_part+"的$n輕輕一吹, \n只見$n慢慢的化作一縷\輕煙, 隱沒在$N的胸腹之間。\n" + NOR);
    }
    else // if( c_unit == "把" || c_unit == "柄")// 指 劍 刀 匕首 拂塵...扇子不會出現
    {
-      set("wield_msg", HIW"$N輕輕的將"+ me->query("weapon/name")+HIW"由背後抽出, 只見一道耀眼而詭異的光芒注入了$N身上。\n"NOR);
-      set("unwield_msg", HIW"$N將手中的$n"HIW"隨手往天上一丟, 只見它巧妙的落回了背後。\n"NOR);
+      set("wield_msg", HIW + "$N輕輕的將"+ me->query("weapon/name")+HIW + "由背後抽出, 只見一道耀眼而詭異的光芒注入了$N身上。\n" + NOR);
+      set("unwield_msg", HIW + "$N將手中的$n" + HIW + "隨手往天上一丟, 只見它巧妙的落回了背後。\n" + NOR);
    }
 
    set("no_drop", 1);

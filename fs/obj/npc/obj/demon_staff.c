@@ -7,7 +7,7 @@ inherit STAFF;
 
 void create()
 {
-	set_name( RED "* 霰 血 天 魔 杵 *" NOR, ({ "demon staff", "staff" }) );
+	set_name( RED + "* 霰 血 天 魔 杵 *" + NOR, ({ "demon staff", "staff" }) );
 	set_weight(400000);
 	if( clonep() )
 		set_default_object(__FILE__);

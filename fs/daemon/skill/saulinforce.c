@@ -23,13 +23,13 @@ int valid_learn(object me) //{ return 1; }
 				{//第三階段 選擇 羅漢伏魔神功 與 神足經 之一的內功才可繼續學習
 				return 1;
 				}
-			else return notify_fail(HIY"由於你辛勤不已的向師父請教少林內功\總綱上的疑惑，你終於到了「抉擇」的時刻了。\n"NOR); //都不滿足的情況下
+			else return notify_fail(HIY + "由於你辛勤不已的向師父請教少林內功\總綱上的疑惑，你終於到了「抉擇」的時刻了。\n" + NOR); //都不滿足的情況下
 		}
 	else //既然少林內功總綱<40 也沒學會其他四種內功 所以這個else應該針對第一個限制??
 		{
-//		tell_object(me, HIY" 你得先知道什麼是佛法。\n"NOR); //因為本程式會檢查兩次 所以改用其他方式回應
+//		tell_object(me, HIY + " 你得先知道什麼是佛法。\n" + NOR); //因為本程式會檢查兩次 所以改用其他方式回應
 //		return 0; //為0時 則否
-		return notify_fail(HIY"你得先知道什麼是佛法。\n"NOR);
+		return notify_fail(HIY + "你得先知道什麼是佛法。\n" + NOR);
 		}
 }
 
@@ -64,7 +64,7 @@ void special_force_damage(object me, object victim, object weapon, int damage)
             && me->query("force") >= 10 && damage > 0
             && me->query("bellicosity") < 100) //增加殺氣的判斷
         {
-            message_vision("$N散發出一股浩然的"HIY"佛光"NOR"，渡化$n心中的殺意。\n", me, victim);
+            message_vision("$N散發出一股浩然的" + HIY + "佛光" + NOR + "，渡化$n心中的殺意。\n", me, victim);
             victim->add("bellicosity", -1*me->query_skill("force")/3);
         }
 }
@@ -72,10 +72,10 @@ void special_force_damage(object me, object victim, object weapon, int damage)
 void skill_improved(object me)
 {
     int s;
-    tell_object(me, HIY "於禪坐中你漸漸進入更深沈的禪定，體會到了佛心，於是你的少林內功\總綱更上一層樓了！\n" NOR);
+    tell_object(me, HIY + "於禪坐中你漸漸進入更深沈的禪定，體會到了佛心，於是你的少林內功\總綱更上一層樓了！\n" + NOR);
     s = me->query_skill("saulinforce", 1);
     if( s%10==9 && random(s)>(int)me->query("max_force")/30) {
-        tell_object(me, HIY "你對於佛法禪義有了更深刻的了解，你體內的佛力被激發出來了。\n" NOR);
+        tell_object(me, HIY + "你對於佛法禪義有了更深刻的了解，你體內的佛力被激發出來了。\n" + NOR);
         me->add("max_force", random((int)s/30)+1);
     }
 }

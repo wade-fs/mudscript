@@ -36,7 +36,7 @@ void greeting(object ob)
     if(!userp(ob)) return ;
   }
   // 這邊需要一個控制不住的訊息！
-  message_vision(HIR"因為主人不在身邊，殭屍無法被控制，就開始攻擊附近的人。\n"NOR,this_object(),ob);
+  message_vision(HIR + "因為主人不在身邊，殭屍無法被控制，就開始攻擊附近的人。\n" + NOR,this_object(),ob);
   set_temp("apply/name",({"(失去控制)"+query("name")}));
   this_object()->kill_ob(ob);
 }
@@ -46,7 +46,7 @@ void heart_beat()
   object me=this_object();
   if(limit-- < 0)
   {
-    message_vision(HIB"$N"HIB"快速腐爛了緊接著一陣風吹過，屍體就化成骨灰吹散了。\n"NOR,this_object());
+    message_vision(HIB + "$N" + HIB + "快速腐爛了緊接著一陣風吹過，屍體就化成骨灰吹散了。\n" + NOR,this_object());
     destruct(this_object());
     return ;
   }

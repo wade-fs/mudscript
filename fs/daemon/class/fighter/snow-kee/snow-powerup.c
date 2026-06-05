@@ -25,10 +25,10 @@ int perform(object me, object target)
   value = (int)me->query("functions/snow-powerup/level");
   if ( value > 80 )
   { 
-    message_vision(HIC"
+    message_vision(HIC + "
 		$N以全身寒氣，逼使出凌霜奇勁之「無盡式」
-	             "NOR""BWHT""HIW"●無＝－＝垠＝－＝霜＝－＝雪●"NOR""HIC"
-      	    $N周身包圍著寒氣，勁力似乎如大河決提般不吐不快！\n"NOR,me);
+	             " + NOR + "" + BWHT + "" + HIW + "●無＝－＝垠＝－＝霜＝－＝雪●" + NOR + "" + HIC + "
+      	    $N周身包圍著寒氣，勁力似乎如大河決提般不吐不快！\n" + NOR,me);
     me->set("force_factor",flv);
     if(!me->query("snow_add_force")) {
       me->add("force",me->query("max_force"));
@@ -36,23 +36,23 @@ int perform(object me, object target)
     }
   } else if ( value > 60 )
   {
-    message_vision(HIW"$N運起凌霜奇勁之最高功\力---"HIC"化霜成勁"HIW"---使你的掌上凝結一層寒霜。\n
-         $N感覺手上的寒勁源源不斷!!內力隨之增強!!!\n" NOR,me);
+    message_vision(HIW + "$N運起凌霜奇勁之最高功\力---" + HIC + "化霜成勁" + HIW + "---使你的掌上凝結一層寒霜。\n
+         $N感覺手上的寒勁源源不斷!!內力隨之增強!!!\n" + NOR,me);
     me->set("force_factor",flv);
   } else if ( value > 40 )
   {
-    message_vision(HIW"$N運起凌霜奇勁第三層功\力---"HIC"化雪成勁"HIW"---使你的掌上發出絲絲的雪氣。\n
-         $N感覺手上的雪氣源源不斷!!內力隨之增強!!!\n" NOR,me);
+    message_vision(HIW + "$N運起凌霜奇勁第三層功\力---" + HIC + "化雪成勁" + HIW + "---使你的掌上發出絲絲的雪氣。\n
+         $N感覺手上的雪氣源源不斷!!內力隨之增強!!!\n" + NOR,me);
     me->set("force_factor",flv);
   } else if ( value > 20 )
   {
-    message_vision(HIW"$N運起凌霜奇勁之第二層功\力---"HIC"化水成勁"HIW"---將你手中的水氣凝結成冰魄。\n
-         $N感覺手上的水勁源源不斷!!內力隨之增強!!!\n" NOR,me);
+    message_vision(HIW + "$N運起凌霜奇勁之第二層功\力---" + HIC + "化水成勁" + HIW + "---將你手中的水氣凝結成冰魄。\n
+         $N感覺手上的水勁源源不斷!!內力隨之增強!!!\n" + NOR,me);
     me->set("force_factor",flv);
   } else
   {
-    message_vision(HIW"$N運起凌霜奇勁之第一層功\力---"HIC"化氣成勁"HIW"---將丹田的內力凝結成力。\n
-         $N感覺全身的內勁源源不斷!!內力隨之增強!!!\n" NOR,me);
+    message_vision(HIW + "$N運起凌霜奇勁之第一層功\力---" + HIC + "化氣成勁" + HIW + "---將丹田的內力凝結成力。\n
+         $N感覺全身的內勁源源不斷!!內力隨之增強!!!\n" + NOR,me);
     me->set("force_factor",flv);
   }
   me->add ("force", -250);

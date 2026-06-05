@@ -40,8 +40,8 @@ int main(object me, string arg)
   else
     id = me->query("id");
 
-	write( HBRED "你用千里傳音回答" + obj->name(1) + "﹕" + arg + "\n" NOR);
-	tell_object(obj, sprintf( HBRED"%s(%s)用千里傳音回答你﹕%s\n"NOR,
+	write( HBRED + "你用千里傳音回答" + obj->name(1) + "﹕" + arg + "\n" + NOR);
+	tell_object(obj, sprintf( HBRED + "%s(%s)用千里傳音回答你﹕%s\n" + NOR,
 		me->name(1), id , arg ));
 
 	obj->set_temp("reply", me->query("id"));

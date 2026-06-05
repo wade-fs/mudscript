@@ -3,7 +3,7 @@ inherit __DIR__"mixeq_stone.c";
 
 void create()
 {
-	set_name(HIC"狂想原石"NOR, ({"original stone", "original", "stone" }));
+	set_name(HIC + "狂想原石" + NOR, ({"original stone", "original", "stone" }));
 	if( clonep() )
 		set_default_object(__FILE__);
 	else {

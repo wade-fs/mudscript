@@ -19,8 +19,8 @@ if(msk > 500) msk=500;
  tell_object(me,"敵人已中青龍，不能再用。\n");
  return 1; }
       message_vision(
-         HIG + "$N靈氣浮現﹐只見一條青龍從你體內衝出﹗\n" NOR,me);
-         message_vision(  CYN "結果$N的青龍之氣貫穿$n的身體。\n" NOR,me,target);
+         HIG + "$N靈氣浮現﹐只見一條青龍從你體內衝出﹗\n" + NOR,me);
+         message_vision(  CYN + "結果$N的青龍之氣貫穿$n的身體。\n" + NOR,me,target);
 target->receive_damage("kee",5*me->query("max_s_kee"));
         target->set_temp("dragon",1);
         target->apply_condition("dragon_out",me->query("max_s_kee")/10);

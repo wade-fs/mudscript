@@ -2,7 +2,7 @@
 inherit BULLETIN_BOARD;
 void create()
 {
-set_name(HIC"魔刀密言板"NOR,({"mblade board","board"}));
+set_name(HIC + "魔刀密言板" + NOR,({"mblade board","board"}));
 set("location","/open/gblade/room/eqroom1");
 set("board_id","evblade_b");
 set("long","讓人七嘴八舌的地方。\n");

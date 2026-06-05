@@ -3,13 +3,13 @@
 inherit NECK;
 void create()
 {
-set_name(""HIY"¯"HIW"«"HIB"À"HIW"s"HIY"¤"HIW"§"HIB"²"HIW"´"NOR"",({"dragon_eye","eye"}));
+set_name("" + HIY + "" + HIW + "" + HIB + "" + HIW + "s" + HIY + "" + HIW + "" + HIB + "" + HIW + "" + NOR + "",({"dragon_eye","eye"}));
       set_weight(2000);
         if( clonep() )
                 set_default_object(__FILE__);
         else {
-       set("long","¥Ñ¯«ÀsªºÅì¤ù , ©Ò¤Û¤Æ¥X¨ÓªºÅ@²Å\n");
-          set("unit","¥ó");
+       set("long","Ñ¯s , Ò¤Û¤Æ¥XÓª@\n");
+          set("unit","");
                 set("no_sell",1);
                 set("no_give", 1);
                 set("no_auc",1);
@@ -20,7 +20,7 @@ set_name(""HIY"¯"HIW"«"HIB"À"HIW"s"HIY"¤"HIW"§"HIB"²"HIW"´"NOR"",({"dragon_eye",
                 set("armor_prop/armor",15);
                 set("armor_prop/parry",5);
                 set("armor_prop/force",7);
-set("wear_msg","$NÀ¹°_$n¡A¥|©P°¨¤W«G°_¥ú¨~¡A¯«Às¤§²´¶}©lµo´§®Ä¥Î . \n");
+set("wear_msg","$N_$nA|PWG_~As}loÄ¥ . \n");
  }
         setup();
 }

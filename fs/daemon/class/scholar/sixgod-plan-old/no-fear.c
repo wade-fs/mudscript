@@ -15,7 +15,7 @@ int perform(object me, object target)
         return notify_fail("戰鬥中不能使用。\n");
         if(me->query_temp("no-fear")== 1 )
         return notify_fail("你背水一戰已提高士氣了。\n");
-message_vision(HIG"$N高聲大喊，看破生死盡力一戰。\n"NOR,me);
+message_vision(HIG + "$N高聲大喊，看破生死盡力一戰。\n" + NOR,me);
         me->set_temp("oldenforce",me->query("force_factor"));
         me->set("force_factor",10+5);
         me->add("force",-500);

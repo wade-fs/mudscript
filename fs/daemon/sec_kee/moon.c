@@ -13,8 +13,8 @@ if(msk > 1200) msk=1200;
       }
 
       message_vision(
-         HIW + "$N靈氣浮現﹐只見一道陰柔的劍氣從$N破體衝出﹗\n" NOR,me);
-         message_vision(  HIC "\n飄渺的幽幽劍氣，輕柔的穿刺過$n奇經八脈。\n"NOR,me,target);
+         HIW + "$N靈氣浮現﹐只見一道陰柔的劍氣從$N破體衝出﹗\n" + NOR,me);
+         message_vision(  HIC + "\n飄渺的幽幽劍氣，輕柔的穿刺過$n奇經八脈。\n" + NOR,me,target);
         target->receive_damage("kee",7*me->query("max_s_kee"));
 
         target->start_busy(10);

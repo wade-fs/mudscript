@@ -29,9 +29,9 @@ seteuid(getuid());
 			return notify_fail( "餓得全身無力, 動不了了。\n" );
 	}
 	ob = CLAN_D->clan_query( me->query("clan/id"), "home" );
-	message_vision( HIY"$N使出卓絕的輕功\, 向"HIC + trans_color(ob->query("short")) + HIY"直奔而去。\n"NOR, me );
+	message_vision( HIY + "$N使出卓絕的輕功\, 向" + HIC + trans_color(ob->query("short")) + HIY + "直奔而去。\n" + NOR, me );
 	me->move(ob);
-	tell_room( ob, HIC"一道強風襲來！！" + me->query("name") + "的身影突然出現。\n"NOR, me );
+	tell_room( ob, HIC + "一道強風襲來！！" + me->query("name") + "的身影突然出現。\n" + NOR, me );
 	return 1;
 }
 

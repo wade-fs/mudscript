@@ -4,7 +4,7 @@ inherit NECK;
 object me=this_player();
 void create()
 {
-                set_name(HIY"妖幻之心"NOR, ({ "ghost heart" ,"heart" }) );
+                set_name(HIY + "妖幻之心" + NOR, ({ "ghost heart" ,"heart" }) );
                 set_weight(50);
                 if( clonep() )
                 set_default_object(__FILE__);
@@ -25,8 +25,8 @@ void create()
                 set("armor_prop/parry", 5);
                 set("armor_prop/unarmed", 5);
                 set("armor_prop/force", 5);
-                set("wear_msg", HIW"$N戴上$n"HIW"一股力量籠罩$N全身。\n"NOR);
-                set("unequip_msg", HIW"$N脫下了$n"HIW"一股力量從$N"HIW"身體消失。\n"NOR);
+                set("wear_msg", HIW + "$N戴上$n" + HIW + "一股力量籠罩$N全身。\n" + NOR);
+                set("unequip_msg", HIW + "$N脫下了$n" + HIW + "一股力量從$N" + HIW + "身體消失。\n" + NOR);
                 }
                 setup();
                 set_heart_beat(1);

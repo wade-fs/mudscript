@@ -7,7 +7,7 @@ inherit SSERVER;
 
 void create()
 {
-  set_name(HIB"魔龍睛戒"NOR,({"mdragon-ring"}));
+  set_name(HIB + "魔龍睛戒" + NOR,({"mdragon-ring"}));
   set_weight(500);
   if( clonep() )
     set_default_object(__FILE__);
@@ -23,8 +23,8 @@ void create()
     set("no_drop",1);
     set("no_get",1);
     set("no_steal",1);
-    set("wear_msg",HIB"戴上了魔龍睛戒後，一股邪惡的力量籠罩了$N"HIB"。\n"NOR);
-    set("unequip_msg",HIB"$N"HIB"脫下了魔龍睛戒邪惡的力量頓時消失。\n"NOR);
+    set("wear_msg",HIB + "戴上了魔龍睛戒後，一股邪惡的力量籠罩了$N" + HIB + "。\n" + NOR);
+    set("unequip_msg",HIB + "$N" + HIB + "脫下了魔龍睛戒邪惡的力量頓時消失。\n" + NOR);
   }
   setup();
   set("armor_prop/move",  2);
@@ -114,7 +114,7 @@ int do_wear(string str)
       if(!living(me)) me=this_player();
       if(!me) me=previous_object();
       if(me)
-        message_vision(HIB"戴上了魔龍睛戒後，一股邪惡的力量籠罩了$N。\n"NOR,me);
+        message_vision(HIB + "戴上了魔龍睛戒後，一股邪惡的力量籠罩了$N。\n" + NOR,me);
       set_heart_beat(1);
     }
     if(me)
@@ -148,7 +148,7 @@ int do_remove(string str)
     if( query("equipped") )
     {
       if(me)
-        message_vision(HIB"$N脫下了魔龍睛戒邪惡的力量頓時消失。\n"NOR,me);
+        message_vision(HIB + "$N脫下了魔龍睛戒邪惡的力量頓時消失。\n" + NOR,me);
       set_heart_beat(0);
     }
     if(me->query_temp("have_basic_skill")==1) {
@@ -213,7 +213,7 @@ void heart_beat()
         if(random(cor+cps+itt+per) > 85-random(kar*2+spi)) //因為玩家都不重視per只設10  所以加入per影響  為了公平將75改為85
         {
           me->delete_busy();
-          message_vision(HIW+"\n魔龍睛戒忽然散發出一股邪惡的力量，使$N"HIW"衝開了身上被封之穴道。\n"+NOR,me);
+          message_vision(HIW+"\n魔龍睛戒忽然散發出一股邪惡的力量，使$N" + HIW + "衝開了身上被封之穴道。\n"+NOR,me);
         }
       }
     }

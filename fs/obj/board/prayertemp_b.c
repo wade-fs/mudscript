@@ -4,7 +4,7 @@ inherit BULLETIN_BOARD;
 
 void create()
 {
-        set_name( HIR "聖火教留言版" NOR , ({ "prayer board","board" }) );
+        set_name( HIR + "聖火教留言版" + NOR , ({ "prayer board","board" }) );
         set("location", "/open/prayer/room/temp.c");
         set("board_id", "prayer_b");
         set("long",     "聖火教各門生的酸甜苦辣留言地.\n");

@@ -92,7 +92,7 @@ void wiz_score(object ob)
 // 總抵銷值 by swy
   damage_2 = damage_1+(dodge_points/100)+(parry_points/100);
 
-  printf( BOLD "%s" NOR "%s\n" + "□ 生日：%s\n□ 年齡：%s歲\t性別：%s\n",
+  printf( BOLD + "%s" + NOR + "%s\n" + "□ 生日：%s\n□ 年齡：%s歲\t性別：%s\n",
       RANK_D->query_rank(ob),
       ob->short(),
       CHINESE_D->chinese_date((my["birthday"] - 14*365*24*60) * 60),
@@ -114,9 +114,9 @@ void wiz_score(object ob)
     printf( "\t配偶是: %O。\n", couples );
   }
 
-  printf( "□ 總共殺了 "HIY"%d"NOR" 個人， "HIR"%d"NOR" 位玩家，其中有 "HIM"%d"NOR" 位高手。\n",
+  printf( "□ 總共殺了 " + HIY + "%d" + NOR + " 個人， " + HIR + "%d" + NOR + " 位玩家，其中有 " + HIM + "%d" + NOR + " 位高手。\n",
       my["MKS"] + my["PKS"], my["PKS"], my["HKS"] );
-  printf( "□ 戰功\: "HIY"%6d"NOR"\n",my["war_score"] );
+  printf( "□ 戰功\: " + HIY + "%6d" + NOR + "\n",my["war_score"] );
   printf( "□ 狀況﹕%s[0m\n",status_string(my["status"]) );
 
   if( mapp(my["family"]) ) {
@@ -134,22 +134,21 @@ void wiz_score(object ob)
           }
         }
       }
-      printf( "□ 門派﹕ "HIW"%s"NOR"。\t師父："HIW"%s"NOR"。\n",my["family"]["family_name"],my["family"]["master_name"] );
+      printf( "□ 門派﹕ " + HIW + "%s" + NOR + "。\t師父：" + HIW + "%s" + NOR + "。\n",my["family"]["family_name"],my["family"]["master_name"] );
     }
   }
   if(my["clan"])
   {
-    printf( "□ 所屬幫派："+HIY+"%s\n"NOR,my["clan"]["name"]);
+    printf( "□ 所屬幫派："+HIY+"%s\n" + NOR,my["clan"]["name"]);
     if(my["clan"]["title"])
-      printf("□ 幫中職位："+HIC+"%s\n\n"NOR,my["clan"]["title"] );
+      printf("□ 幫中職位："+HIC+"%s\n\n" + NOR,my["clan"]["title"] );
   }
   if(my["max_s_kee"])
-    printf( "□ 靈氣：【 %s 】："+ HIG+"%d/%d\n" NOR,to_chinese(my["sec_kee"]),my["s_kee"], my["max_s_kee"] );
+    printf( "□ 靈氣：【 %s 】："+ HIG+"%d/%d\n" + NOR,to_chinese(my["sec_kee"]),my["s_kee"], my["max_s_kee"] );
 
   if(my["class"] && my["class"]=="officer")
   {
-    printf( "□ 官位：【"HIW"%s"NOR"】\t權力："HIY"%d/%d\n"NOR
-        "\t政治經驗："HIC"%d\n"NOR,
+    printf( "□ 官位：【" + HIW + "%s" + NOR + "】\t權力：" + HIY + "%d/%d\n" + NOR + "\t政治經驗：" + HIC + "%d\n" + NOR,
         my["officer_class"],
         my["officer_power"],
         my["max_officer_power"],
@@ -160,7 +159,7 @@ void wiz_score(object ob)
           "□ 定力[cps]: %2d   容貌[per]: %2d   根骨[con]: %2d   福緣[kar]: %2d\n\n",
       ob->query_str(), ob->query_cor(), ob->query_int() , ob->query_spi() ,
       ob->query_cps(), ob->query_per(), ob->query_con(), ob->query_kar() );
-  printf( "□ 精：%s%8d/%-8d\t%s(%d%%)"NOR"\t靈力：%s%8d/%-8d\t(+%d)"NOR"\t食物：%s%3d/%3d\n"NOR,
+  printf( "□ 精：%s%8d/%-8d\t%s(%d%%)" + NOR + "\t靈力：%s%8d/%-8d\t(+%d)" + NOR + "\t食物：%s%3d/%3d\n" + NOR,
       status_color(my["gin"], my["eff_gin"]), my["gin"], my["eff_gin"],
       status_color(my["eff_gin"], my["max_gin"]),
       my["eff_gin"] * 100 / my["max_gin"],
@@ -169,7 +168,7 @@ void wiz_score(object ob)
       status_color(my["food"], ob->max_food_capacity()),
       my["food"],
       ob->max_food_capacity() );
-  printf( "□ 氣：%s%8d/%-8d\t%s(%d%%)" NOR"\t內力：%s%8d/%-8d\t(+%d)" NOR"\t飲水：%s%3d/%3d\n"NOR,
+  printf( "□ 氣：%s%8d/%-8d\t%s(%d%%)" + NOR + "\t內力：%s%8d/%-8d\t(+%d)" + NOR + "\t飲水：%s%3d/%3d\n" + NOR,
       status_color(my["kee"], my["eff_kee"]), my["kee"], my["eff_kee"],
       status_color(my["eff_kee"], my["max_kee"]),
       my["eff_kee"] * 100 / my["max_kee"],
@@ -178,21 +177,21 @@ void wiz_score(object ob)
       status_color(my["water"], ob->max_water_capacity()),
       my["water"],
       ob->max_water_capacity() );
-  printf( "□ 神：%s%8d/%-8d\t%s(%d%%)"NOR"\t法力：%s%8d/%-8d\t(+%d)\n\n" NOR,
+  printf( "□ 神：%s%8d/%-8d\t%s(%d%%)" + NOR + "\t法力：%s%8d/%-8d\t(+%d)\n\n" + NOR,
       status_color(my["sen"], my["eff_sen"]),  my["sen"], my["eff_sen"],
       status_color(my["eff_sen"], my["max_sen"]),
       my["eff_sen"] * 100 / my["max_sen"],
       status_color(my["mana"], my["max_mana"]), my["mana"], my["max_mana"],
       my["mana_factor"] );
 
-  printf( "□ 戰鬥攻擊力："HIW"%10O(+%O)"NOR"\t戰鬥防禦力："HIW"%10O(+%O)\n" NOR,
+  printf( "□ 戰鬥攻擊力：" + HIW + "%10O(+%O)" + NOR + "\t戰鬥防禦力：" + HIW + "%10O(+%O)\n" + NOR,
       attack_points+1,(int)ob->query_temp("apply/damage"),
       (dodge_points + (weapon? parry_points: (parry_points/10)))+1,(int)ob->query_temp("apply/armor") );
-  printf( "□ 武學傷害力："HIW"%10d"NOR"\t額外傷害力："HIW"%10d"NOR"\t\t總合傷害力："HIW"%10d\n"NOR,
+  printf( "□ 武學傷害力：" + HIW + "%10d" + NOR + "\t額外傷害力：" + HIW + "%10d" + NOR + "\t\t總合傷害力：" + HIW + "%10d\n" + NOR,
       damage,damage_bonus,damage1 );
-  printf( "□ 內力抵銷值："HIW"%10d"NOR"\t總抵銷值  ："HIW"%10d\n"NOR,
+  printf( "□ 內力抵銷值：" + HIW + "%10d" + NOR + "\t總抵銷值  ：" + HIW + "%10d\n" + NOR,
       damage_1,damage_2 );
-  printf( "□ 殺      氣："RED"%10O"NOR"\t潛      能："HIY"%10O(%O%%)"NOR"\t實戰經驗  ："HIM"%10O\n" NOR,
+  printf( "□ 殺      氣：" + RED + "%10O" + NOR + "\t潛      能：" + HIY + "%10O(%O%%)" + NOR + "\t實戰經驗  ：" + HIM + "%10O\n" + NOR,
       my["bellicosity"],
       my["potential"] - my["learned_points"],
       (int)(1 + my["learned_points"]) * 100 /(1 + my["potential"]),
@@ -208,7 +207,7 @@ void player_score(object ob)
 
   my = ob->query_entire_dbase();
 
-  printf( BOLD "%s" NOR "%s\n" + "□ 生日：%s\n□ 年齡：%s歲\t性別：%s",
+  printf( BOLD + "%s" + NOR + "%s\n" + "□ 生日：%s\n□ 年齡：%s歲\t性別：%s",
       RANK_D->query_rank(ob),
       ob->short(),
       CHINESE_D->chinese_date((my["birthday"] - 14*365*24*60) * 60),
@@ -232,10 +231,10 @@ void player_score(object ob)
   else
     printf( "。\n" );
 
-  printf( "□ 總共殺了 "HIC"%d"NOR" 個人， "HIR"%d"NOR" 位玩家，其中有 "HIM"%d"NOR" 位高手。\n",
+  printf( "□ 總共殺了 " + HIC + "%d" + NOR + " 個人， " + HIR + "%d" + NOR + " 位玩家，其中有 " + HIM + "%d" + NOR + " 位高手。\n",
       my["MKS"] + my["PKS"], my["PKS"], my["HKS"] );
   if( my["war_score"] )
-    printf( "□ 戰功\: "HIY"%d"NOR" 點\n", my["war_score"] );
+    printf( "□ 戰功\: " + HIY + "%d" + NOR + " 點\n", my["war_score"] );
   printf( "□ 狀況﹕%s[0m\n",status_string(my["status"]) );
 
   if( mapp(my["family"]) ) {
@@ -253,22 +252,22 @@ void player_score(object ob)
           }
         }
       }
-      printf( "□ 門派﹕ "HIW"%s"NOR"。\t師父："HIW"%s"NOR"。\n",my["family"]["family_name"],my["family"]["master_name"] );
+      printf( "□ 門派﹕ " + HIW + "%s" + NOR + "。\t師父：" + HIW + "%s" + NOR + "。\n",my["family"]["family_name"],my["family"]["master_name"] );
     }
   }
 
   if(my["clan"]) {
-    printf( "\n□ 所屬幫派: "+HIY+"%s\n"NOR,my["clan"]["name" ] );
+    printf( "\n□ 所屬幫派: "+HIY+"%s\n" + NOR,my["clan"]["name" ] );
     if(my["clan"]["title"])
-      printf( "□ 幫中職位: "+HIC+"%s\n\n"NOR,my["clan"]["title"] );
+      printf( "□ 幫中職位: "+HIC+"%s\n\n" + NOR,my["clan"]["title"] );
   }
 
   if(my["max_s_kee"])
-    printf("□ 靈氣【 %s 】: "+ HIG+"%d/%d\n" NOR,to_chinese(my["sec_kee"]),my["s_kee"],my["max_s_kee"] );
+    printf("□ 靈氣【 %s 】: "+ HIG+"%d/%d\n" + NOR,to_chinese(my["sec_kee"]),my["s_kee"],my["max_s_kee"] );
 
   if(my["class"] && my["class"]=="officer")
   {
-    printf("□ 官位:【"HIW"%s"NOR"】 權力 %d/%d  □ 政治經驗: "HIC"%d\n"NOR,
+    printf("□ 官位:【" + HIW + "%s" + NOR + "】 權力 %d/%d  □ 政治經驗: " + HIC + "%d\n" + NOR,
         my["officer_class"],
         my["officer_power"],my["max_officer_power"],
         my["office_exp"] );
@@ -278,7 +277,7 @@ void player_score(object ob)
           "□ 定力[cps]: %2d   容貌[per]: %2d   根骨[con]: %2d   福緣[kar]: %2d\n\n",
       ob->query_str(), ob->query_cor(), ob->query_int(), ob->query_spi(),
       ob->query_cps(), ob->query_per(), ob->query_con(), ob->query_kar() );
-  printf( "□ 精: %s%s%-6s%s  靈力: %s%-5s  經驗值: "HIM"%-12d"NOR" 食物: %s  飲水: %s\n"NOR,
+  printf( "□ 精: %s%s%-6s%s  靈力: %s%-5s  經驗值: " + HIM + "%-12d" + NOR + " 食物: %s  飲水: %s\n" + NOR,
       state( my["gin"], my["eff_gin"] ),
       status_color(my["eff_gin"], my["max_gin"]),
       "("+my["eff_gin"] * 100 / my["max_gin"]+"%)",NOR,
@@ -288,7 +287,7 @@ void player_score(object ob)
       state(my["food"], ob->max_food_capacity()),
       state (my["water"], ob->max_water_capacity()) );
 
-  printf( "□ 氣: %s%s%-6s%s  內力: %s%-5s  潛  能: %-12s "HIR"殺氣"NOR" %-5d"HIR" 中毒"NOR" %s\n",
+  printf( "□ 氣: %s%s%-6s%s  內力: %s%-5s  潛  能: %-12s " + HIR + "殺氣" + NOR + " %-5d" + HIR + " 中毒" + NOR + " %s\n",
       state (my["kee"], my["eff_kee"]),
       status_color(my["eff_kee"], my["max_kee"]),
       "("+my["eff_kee"] * 100 / my["max_kee"]+"%)",NOR,
@@ -297,7 +296,7 @@ void player_score(object ob)
       my["potential"] - my["learned_points"]+"("+
         (int)(1+(int)my["learned_points"])*100 / (1+(int)my["potential"])+"%)",
       my["bellicosity"],
-      ob->query_condition()?":~~(":NOR":-)", );
+      ob->query_condition()?":~~(":NOR + ":-)", );
 
   if( objectp(weapon = ob->query_temp("weapon")) )
     if (present(weapon, ob))
@@ -321,8 +320,7 @@ void player_score(object ob)
       state (my["mana"], my["max_mana"]),
       "("+my["mana_factor"]+")" );
 
-  printf( HIY"《戰鬥攻擊力》: "HIW"%O("HIC"+%O"HIW")\n"NOR
-          HIY"《戰鬥防禦力》: "HIW"%O("HIG"+%O"HIW")\n" NOR,
+  printf( HIY + "《戰鬥攻擊力》: " + HIW + "%O(" + HIC + "+%O" + HIW + ")\n" + NOR + HIY + "《戰鬥防禦力》: " + HIW + "%O(" + HIG + "+%O" + HIW + ")\n" + NOR,
       attack_points+1,(int)ob->query_temp("apply/damage"),
       (dodge_points + (weapon? parry_points: (parry_points/10)))+1,
       (int)ob->query_temp("apply/armor") );

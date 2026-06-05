@@ -11,8 +11,8 @@ if(this_player()->query("quests/fear_fighting",1) && this_player()->query("quest
   {
 
   command("say 謝謝您的幫忙.我願意將appo給我的印記傳到你身上!\n");
-  tell_object(this_player(),HIW"瞬間由聖賢書將手搭在你的肩上..你頓時覺得
-一股暖意由聖賢書的手中傳過來\n"NOR);
+  tell_object(this_player(),HIW + "瞬間由聖賢書將手搭在你的肩上..你頓時覺得
+一股暖意由聖賢書的手中傳過來\n" + NOR);
   this_player()->delete("quests/2ndtest",i);
   this_player()->set("quests/yantestmark3",1);
   return("這是最後一個了...你趕快去完成你的測驗吧~\n");
@@ -275,7 +275,7 @@ void die()
         object me,ob;
         me = this_player();
         ob=new("/open/gsword/obj1/brain.c");
-        tell_object(winner,HIR"你從屍體上挖出了一顆血淋淋的大腦.."NOR);
+        tell_object(winner,HIR + "你從屍體上挖出了一顆血淋淋的大腦.." + NOR);
         ob->move(winner);
         winner->set_temp("swordbrain",1);
         }
@@ -286,7 +286,7 @@ void die()
           if( j==7 || j==77 || j== 777 || j==1111 || j==55 || j==555 || j==1000 || j==4000 || j==3333 || j==5555 )
           {      
           new("/open/sky/obj3/water_feather")->move(environment(winner));
-          message_vision(HIM"\n從聖賢書的身上掉下了一件奇怪的東西!!\n"NOR,winner);
+          message_vision(HIM + "\n從聖賢書的身上掉下了一件奇怪的東西!!\n" + NOR,winner);
           write_file("/log/sky/water_feather",sprintf("%s(%s) 讓聖賢書掉下了水之流羽於 %s\n",
           winner->name(1),winner->query("id"),ctime(time())));
           }
@@ -295,19 +295,20 @@ void die()
           if( j==5 || j==15 || j== 150 || j==1500 || j==10 || j==100 || j==1000 || j==4000 || j==6666 || j==7777 ) 
           {      
           new("/open/sky/obj3/water_feather")->move(environment(winner));
-          message_vision(HIM"\n從聖賢書的身上掉下了一件奇怪的東西!!\n"NOR,winner);
+          message_vision(HIM + "\n從聖賢書的身上掉下了一件奇怪的東西!!\n" + NOR,winner);
           write_file("/log/sky/water_feather",sprintf("%s(%s) 讓聖賢書掉下了水之流羽於 %s\n",
           winner->name(1),winner->query("id"),ctime(time())));
           }
-        }*/
-        tell_object(users(),HIW"\n
-儒門"HIR"傳來了如洪鐘般的嘆息...\n
-             "HIG"『 經 綸 百 世 路 綿 延 ， 
+        }
+*/
+        tell_object(users(),HIW + "\n
+儒門" + HIR + "傳來了如洪鐘般的嘆息...\n
+             " + HIG + "『 經 綸 百 世 路 綿 延 ， 
                     觸 念 塵 緣 不 計 年 ； 
                         慈 心 解 去 風 雨 衣 ，
-                            明 燈 長 照 九 重 天 。 』\n"HIY"
-                    「"HIW"風雅書"HIY"..."HIW"廣文書"HIY"...汝等要替我報仇也...」\n"HIR"
-            儒門九代令公之首「"HIY"聖賢書"HIR"」如今竟不幸命葬於"HIG+winner->name()+HIR"之手....\n\n"NOR);
+                            明 燈 長 照 九 重 天 。 』\n" + HIY + "
+                    「" + HIW + "風雅書" + HIY + "..." + HIW + "廣文書" + HIY + "...汝等要替我報仇也...」\n" + HIR + "
+            儒門九代令公之首「" + HIY + "聖賢書" + HIR + "」如今竟不幸命葬於" + HIG+winner->name()+HIR + "之手....\n\n" + NOR);
 
         ::die();
 }

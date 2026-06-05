@@ -6,7 +6,7 @@ inherit NECK;
 
 void create()
 {
-  set_name(HBBLU+HIC"寧心淨靈"NOR, ({ "peace-heart-neck", "neck" }) );    
+  set_name(HBBLU+HIC + "寧心淨靈" + NOR, ({ "peace-heart-neck", "neck" }) );    
   set_weight(50);
   if( clonep() )
     set_default_object(__FILE__);
@@ -30,8 +30,8 @@ void create()
     set("armor_prop/parry", 5);
     set("armor_prop/unarmed", 5);
     set("armor_prop/force", 5);
-    set("wear_msg",HIW"戴上$n"HIW"的$N"HIW"，心靈如同被洗滌了一般，感受到思緒無限的寧靜。\n"NOR);
-    set("unequip_msg",HIW"卸下$n"HIW"的$N"HIW"，心情慢慢回復往常一般，而心緒卻突然感受到了一陣的紊亂。\n"NOR);
+    set("wear_msg",HIW + "戴上$n" + HIW + "的$N" + HIW + "，心靈如同被洗滌了一般，感受到思緒無限的寧靜。\n" + NOR);
+    set("unequip_msg",HIW + "卸下$n" + HIW + "的$N" + HIW + "，心情慢慢回復往常一般，而心緒卻突然感受到了一陣的紊亂。\n" + NOR);
   }
   setup();
 //  set_heart_beat(1);
@@ -53,7 +53,7 @@ int wear()
   if( query("equipped"))
   {
     me=environment();
-//    message_vision(HIW"戴上$n"HIW"的$N，心靈如同被洗滌了一般，感受到思緒無限的寧靜。\n"NOR,me,this_object());
+//    message_vision(HIW + "戴上$n" + HIW + "的$N，心靈如同被洗滌了一般，感受到思緒無限的寧靜。\n" + NOR,me,this_object());
     set_heart_beat(1);
   }
   return result;
@@ -65,7 +65,7 @@ int unequip()
   int result = ::unequip();
   if( !query("equipped") )
   {
-//    message_vision(HIW"卸下$n"HIW"的$N，心情慢慢回復往常一般，而心緒卻突然感受到了一陣的紊亂。\n"NOR,me,this_object());
+//    message_vision(HIW + "卸下$n" + HIW + "的$N，心情慢慢回復往常一般，而心緒卻突然感受到了一陣的紊亂。\n" + NOR,me,this_object());
     set_heart_beat(0);
   }
   return result;
@@ -107,7 +107,7 @@ void heart_beat()
         {
           if( random(10) == 5 )
           {
-            message_vision(HIY"$N"HIY"的"+ob->query("name")+HIY"散發出強大的淨化能量，淨化了$n"HIY"的殺氣。\n"NOR,me,enemy[i]);
+            message_vision(HIY + "$N" + HIY + "的"+ob->query("name")+HIY + "散發出強大的淨化能量，淨化了$n" + HIY + "的殺氣。\n" + NOR,me,enemy[i]);
             j=j-500;
             if( j < 0 ) j=0;
             enemy[i]->set("bellicosity",j);
@@ -121,7 +121,7 @@ void heart_beat()
         {
           if( random(10) == 5 )
           {
-            message_vision(HIY"$N"HIY"的"+ob->query("name")+HIY"發出一股清聖的力量，淨化了$n"HIY"的殺氣。\n"NOR,me,enemy[i]);
+            message_vision(HIY + "$N" + HIY + "的"+ob->query("name")+HIY + "發出一股清聖的力量，淨化了$n" + HIY + "的殺氣。\n" + NOR,me,enemy[i]);
             j=j-150;
             if( j < 0 ) j=0;
             enemy[i]->set("bellicosity",j);
@@ -133,7 +133,7 @@ void heart_beat()
         } else {
           if( random(10) == 5 )
           {
-            message_vision(YEL"$N"NOR+YEL"的"+ob->query("name")+NOR+YEL"發出一絲清聖的力量，淨化了$n"NOR+YEL"的殺氣。\n"NOR,me,enemy[i]);
+            message_vision(YEL + "$N" + NOR+YEL + "的"+ob->query("name")+NOR+YEL + "發出一絲清聖的力量，淨化了$n" + NOR+YEL + "的殺氣。\n" + NOR,me,enemy[i]);
             j=j-250;
             if( j < 0 ) j=0;
             enemy[i]->set("bellicosity",j);

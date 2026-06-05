@@ -21,8 +21,8 @@ int bank;
 	clan_id = me->query("clan/id");
 	clans = CLAN_D->query_all_clans();
 	member = filter_array( clans[clan_id]["members"], "filter_id", this_object(), char );
-	str = sprintf(HIC"目前幫內總共有 %d 名幫眾, 其中ID為[%s]開頭的有 %d 名,\n打[*]號者代表已超過%s個月沒有上線 -\n"+
-		HIM"───────────────────────────────────────\n"NOR,
+	str = sprintf(HIC + "目前幫內總共有 %d 名幫眾, 其中ID為[%s]開頭的有 %d 名,\n打[*]號者代表已超過%s個月沒有上線 -\n"+
+		HIM + "───────────────────────────────────────\n" + NOR,
 		sizeof( CLAN_D->clan_query(clan_id,"members") ), char, sizeof( member ), CHINESE_D->chinese_number(time) );
 	time *= 2592000;
 	member = sort_array( member, "sort_keys", this_object() );
@@ -33,7 +33,7 @@ if(!user) bank=0; else bank=user->query("clan/bank");
              CLAN_D->clan_promote( clan_id, member[o], "banish",bank );
 			continue;
 		}
-		str += sprintf(HIR"%s"HIW"%-26s "HIY"捐過%9d兩黃金  "HIC"戰績%9d點"NOR"\n",( now-user->query("last_on")>time)?"[*]":"   ",
+		str += sprintf(HIR + "%s" + HIW + "%-26s " + HIY + "捐過%9d兩黃金  " + HIC + "戰績%9d點" + NOR + "\n",( now-user->query("last_on")>time)?"[*]":"   ",
 			user->name()+"("+user->query("id")+")", user->query("clan/donate"), user->query("clan/war") );
 	}
 	me->start_more( str );

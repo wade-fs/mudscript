@@ -10,7 +10,7 @@ string fight()
 	object *all = ob->query_enemy();
 	int i;
 	if( environment(ob) != environment(this_object()) ) return "";
-	message_vision( "$N" HIC "不斷地飛舞著﹐幻化出無數的幻影﹐擾亂敵人。" NOR,this_object());
+	message_vision( "$N" + HIC + "不斷地飛舞著﹐幻化出無數的幻影﹐擾亂敵人。" + NOR,this_object());
 	message_vision("\n",this_object());
 	for( i = 0 ; i < sizeof(all) ; i ++ ) 
 		if(random(query("power"))>random(all[i]->query("force")))
@@ -18,7 +18,7 @@ string fight()
 }
 void create()
 {
-	set_name(HIC "迷蝶" NOR,({ "buf beast","beast" }));
+	set_name(HIC + "迷蝶" + NOR,({ "buf beast","beast" }));
 	set("race","野獸");
 
 	set("combat_exp",10000);

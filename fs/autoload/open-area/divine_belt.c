@@ -6,7 +6,7 @@ inherit EQUIP;
 
 void create()
 {
-  set_name(HIC"神喻"HIW"腰帶"NOR,({"divine belt","belt"}));
+  set_name(HIC + "神喻" + HIW + "腰帶" + NOR,({"divine belt","belt"}));
   set_weight(3000);
   if( clonep() )
     set_default_object(__FILE__);
@@ -27,8 +27,8 @@ void create()
     set("no_get",1);
     set("no_steal",1);
     set("no_save",1);
-    set("wear_msg","$n"HIM"發出神奇的光芒。\n"NOR+HIM"神奇的光芒籠罩著$N"HIM"全身上下，$N"HIM"的容貌增加了!!\n"NOR);
-    set("unequip_msg",HIM"神奇的光芒逐漸消退，$N"HIM"又變回自己了!!\n"NOR);
+    set("wear_msg","$n" + HIM + "發出神奇的光芒。\n" + NOR+HIM + "神奇的光芒籠罩著$N" + HIM + "全身上下，$N" + HIM + "的容貌增加了!!\n" + NOR);
+    set("unequip_msg",HIM + "神奇的光芒逐漸消退，$N" + HIM + "又變回自己了!!\n" + NOR);
   }
   setup();
 }
@@ -49,7 +49,7 @@ int wear()
       me->set("per",me->query("origional_per"));
       me->delete("origional_per");
     }
-//    message_vision("$n"HIM"發出神奇的光芒。\n"NOR,me,this_object());
+//    message_vision("$n" + HIM + "發出神奇的光芒。\n" + NOR,me,this_object());
     k = (me->query("combat_exp"))/2000000;
 
     if( me->query("combat_exp") > 490000000 )
@@ -57,7 +57,7 @@ int wear()
 
 //    if(!me->query("belt_add_gift"))
     {
-//      message_vision(HIM"神奇的光芒籠罩著$N全身上下，$N的容貌增加了!!\n"NOR,me);
+//      message_vision(HIM + "神奇的光芒籠罩著$N全身上下，$N的容貌增加了!!\n" + NOR,me);
 //      me->set("belt_add_gift",1); //因為使用的是apply/per 所以應該不需要此mark來額外判定 畢竟apply增加在temp裡 離線就會清除 但目前保留是因為 有些玩家久未上線 仍持有這mark 可能會造成wiz判斷bug的困擾 所以保留 by blazakira
 //      me->set("origional_per",me->query_per(1));
 //    if(me->query("setgift-mk"))
@@ -125,7 +125,7 @@ int unequip()
   if( !query("equipped") )
   {
     if( !me ) me=environment();
-//    message_vision(HIM"神奇的光芒逐漸消退，$N又變回自己了!!\n"NOR,me);
+//    message_vision(HIM + "神奇的光芒逐漸消退，$N又變回自己了!!\n" + NOR,me);
     me->delete("belt_add_gift");
     if(me->query_temp("apply/per_divine_belt")) {
       me->add_temp("apply/per",-me->query_temp("apply/per_divine_belt"));

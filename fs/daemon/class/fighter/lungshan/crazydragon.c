@@ -50,14 +50,14 @@ void perform(object me, object target)
   if( me->is_fighting() ) {
       me->start_busy(2);
   }
-  message_vision(HIR"                       只見$N以渾厚的內力將浩日罡\氣吸納入體！\n\n"+
+  message_vision(HIR + "                       只見$N以渾厚的內力將浩日罡\氣吸納入體！\n\n"+
 
     "             四周游移的焰氣，幻化如龍形龍環繞於四周，空氣中充斥著肅殺氣息！！\n\n\n"+
 
 
     "      $N雙手綻放出無法正視的深紅色氣芒，全身勁力匯聚丹田 ！！ 忽地縱天長嘯～～～\n\n"+
 
-    "                  ◥██◣  ▏▎▍▌▋▊ 狂 龍 訣 ▊▋▌▍▎▏◢██◤\n\n"NOR,me);
+    "                  ◥██◣  ▏▎▍▌▋▊ 狂 龍 訣 ▊▋▌▍▎▏◢██◤\n\n" + NOR,me);
   return notify_fail("");
 }
 
@@ -94,9 +94,9 @@ void remove_effect(object me,int fun,int add)
   me->add_temp("apply/defense",fun);
   if( me->query("functions/crazydragon/level") < 100 )
     function_improved("crazydragon",random((int)(fun/15))+random(fun)+1);
-  message_vision(HIR"         忽然一陣強烈的麻痺感充斥$N的全身，彷彿遭到了「火灼」一般難受！\n\n"+
+  message_vision(HIR + "         忽然一陣強烈的麻痺感充斥$N的全身，彷彿遭到了「火灼」一般難受！\n\n"+
 
-    "   身上處處均是灼傷的痕跡，胸口還隱隱有一陣鬱悶之氣凝聚不散！感到自身烈焰浩氣無法控制，身體十分虛弱！！\n"NOR,me);
+    "   身上處處均是灼傷的痕跡，胸口還隱隱有一陣鬱悶之氣凝聚不散！感到自身烈焰浩氣無法控制，身體十分虛弱！！\n" + NOR,me);
   add=(int)fun/8+2;
   me->apply_condition("burn",add);
   return notify_fail("");

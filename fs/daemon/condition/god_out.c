@@ -39,7 +39,7 @@ int update_condition(object me, int duration)
 
 				me->apply_condition("god_out",duration-1);
 				message_vision(
-												HIM "$N的仙雲之氣發出柔和的光茫，$N感覺身上的傷痕恢復且精力充沛。\n" NOR,me);
+												HIM + "$N的仙雲之氣發出柔和的光茫，$N感覺身上的傷痕恢復且精力充沛。\n" + NOR,me);
 				if( duration < 1 ) return 0;
 				return 1;
 }

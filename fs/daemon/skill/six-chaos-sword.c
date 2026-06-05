@@ -85,7 +85,7 @@ void skill_improved(object me)
 {
 	if( (int)me->query_skill("six-chaos-sword", 1)	% 10 == 0 ) {
 		tell_object(me,
-			RED "\n你突然覺得一股惡氣衝上心頭﹐只覺得想殺人....\n\n" NOR);
+			RED + "\n你突然覺得一股惡氣衝上心頭﹐只覺得想殺人....\n\n" + NOR);
 		me->add("bellicosity", 1000);
 	} else
 		me->add("bellicosity", 100);

@@ -8,7 +8,7 @@ inherit EQUIP;
 
 void create()
 {
-  set_name(HIB"閻"+HIY"月"+HIW"披風"NOR,({"Dark Moon Cloak","cloak"}));
+  set_name(HIB + "閻"+HIY + "月"+HIW + "披風" + NOR,({"Dark Moon Cloak","cloak"}));
   set_weight(3000);
   set("armor_type","cape");
   if( clonep() )
@@ -30,8 +30,8 @@ void create()
     set("no_get",1);
     set("no_steal",1);
     set("no_save",1);
-    set("wear_msg",HIM"從$n"HIM"裡，隱隱發出陣陣涼意。\n"NOR+HIB"$N"HIB"以夜之一族慣有的沉靜掃視四週，$N"HIB"的定性增加了!!\n"NOR);
-    set("unequip_msg",HIB"夜之氣息隨著閻月披風的卸下而消失。\n"NOR);
+    set("wear_msg",HIM + "從$n" + HIM + "裡，隱隱發出陣陣涼意。\n" + NOR+HIB + "$N" + HIB + "以夜之一族慣有的沉靜掃視四週，$N" + HIB + "的定性增加了!!\n" + NOR);
+    set("unequip_msg",HIB + "夜之氣息隨著閻月披風的卸下而消失。\n" + NOR);
   }
   setup();
 }
@@ -52,8 +52,8 @@ int wear()
       me->set("cps",me->query("origional_cps"));
       me->delete("origional_cps");
     }
-//    message_vision(HIM"從$n"HIM"裡，隱隱發出陣陣涼意。\n"NOR,me,this_object());
-//    message_vision(HIB"$N以夜之一族慣有的沉靜掃視四週，$N的定性增加了!!\n"NOR,me);
+//    message_vision(HIM + "從$n" + HIM + "裡，隱隱發出陣陣涼意。\n" + NOR,me,this_object());
+//    message_vision(HIB + "$N以夜之一族慣有的沉靜掃視四週，$N的定性增加了!!\n" + NOR,me);
     k = (me->query("combat_exp"))/1000000;
     if( me->query("combat_exp") > 245000000 )
     k = 245+(me->query("combat_exp")-245000000)/5000000;
@@ -123,7 +123,7 @@ int unequip()
   int result = ::unequip();
   if( !query("equipped") )
   {
-//    message_vision(HIB"夜之氣息隨著閻月披風的卸下而消失。\n"NOR,me);
+//    message_vision(HIB + "夜之氣息隨著閻月披風的卸下而消失。\n" + NOR,me);
     me->delete("cloak_add_gift");
     if(me->query_temp("apply/cps_dark_moon_cloak")) {
       me->add_temp("apply/cps",-me->query_temp("apply/cps_dark_moon_cloak"));

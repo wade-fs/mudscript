@@ -11,13 +11,13 @@ string get_status(int status);
 
 void create()
 {
-  set_name(HIC"bug回報機"NOR, ({"bug record","record"}));
+  set_name(HIC + "bug回報機" + NOR, ({"bug record","record"}));
   set ("long", "
-"HIY"
+" + HIY + "
 (1) 請用 post 來發表 bug 。
 (2) list 可以列出所有的 bug ，如果是你發表的 bug 你可以看內容，和巫師回應。
 (3) read 編號，可以看該篇文章。
-"NOR);
+" + NOR);
 
   set("light_up", 1);
   set("no_fight", 1);
@@ -122,7 +122,7 @@ int do_check()
   str = "回報版目前共有 " + sizeof(records) + " 篇文章﹕\n";
   str += "### 標題=========================================================\n";
   for(i=sizeof(records)-1; i>=0; i--) {
-    str += sprintf("%3d %s\n["HIB"%8|s"NOR"]  回報人：%s, %s(%d 字)\n",
+    str += sprintf("%3d %s\n[" + HIB + "%8|s" + NOR + "]  回報人：%s, %s(%d 字)\n",
       i+1,
        records[i]["title"] ,
       (get_status(records[i]["status"])),
@@ -153,7 +153,7 @@ int do_study(string arg)
                 records[num]["title"], records[num]["from"]);
         printf("是否有其他人使用:%s\n",records[num]["have_other_use?"]);
         printf("個人是否使用:%s\n\n",records[num]["self_have_use?"]);
-        printf("處理狀態:"HIB"%s"NOR"\n\n",get_status(records[num]["status"]));
+        printf("處理狀態:" + HIB + "%s" + NOR + "\n\n",get_status(records[num]["status"]));
         printf("內容:\n%s\n",records[num]["text"]);
         return 1;
 }
@@ -244,7 +244,7 @@ int do_rep(string arg)
           return notify_fail("對不起，你沒有權限回應這篇文章。\n");
 
 
-        records[num]["text"] +=  "  "+ user->name(1) + "(" + user->query("id") + ") 回應："HIY+status+NOR"\n";
+        records[num]["text"] +=  "  "+ user->name(1) + "(" + user->query("id") + ") 回應：" + HIY+status+NOR + "\n";
         save();
         write("Ok.\n");
 
@@ -253,7 +253,7 @@ int do_rep(string arg)
 
 string get_status(int status)
 {
-  string *str =( {RED"未處理","已處理",HIC"不用處理"});
+  string *str =( {RED + "未處理","已處理",HIC + "不用處理"});
   return str[status];
 }
 string get_id(string name)

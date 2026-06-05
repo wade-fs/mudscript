@@ -7,9 +7,9 @@ inherit NPC;
 
 void create()
 {
-set_name(HIW"天地雲龍"NOR, ({ "cloudy dragon","dragon" }) );
-set("long",""HIW"他是歐胡爺爺的坐騎，看起來十分可愛逗趣，不過他可是非常殘\n"
-           "暴凶惡的喔!!!!!"NOR"似乎還能騎上去唷(ride)\n");
+set_name(HIW + "天地雲龍" + NOR, ({ "cloudy dragon","dragon" }) );
+set("long","" + HIW + "他是歐胡爺爺的坐騎，看起來十分可愛逗趣，不過他可是非常殘\n"
+           "暴凶惡的喔!!!!!" + NOR + "似乎還能騎上去唷(ride)\n");
 set("no_drop", 1);
 set("no_auc", 1);
 set("no_sell", 1);
@@ -64,7 +64,7 @@ int do_ascend()
         if ( me->query_temp("marks/ascend") )
                return notify_fail("你無法騎在別人的仙龍身上呀。\n");
 
-message_vision(""HIC"$N向雲端招了招手，一聲怒吼，狂暴的"+this_object()->name()+"自天際狂奔而出。\n"NOR"",me);
+message_vision("" + HIC + "$N向雲端招了招手，一聲怒吼，狂暴的"+this_object()->name()+"自天際狂奔而出。\n" + NOR + "",me);
         me->set_temp("marks/ascend",1);
         me->add_temp("apply/dodge",30);
         me->add_temp("apply/parry",30);
@@ -74,7 +74,7 @@ message_vision(""HIC"$N向雲端招了招手，一聲怒吼，狂暴的"+this_ob
         me->add_temp("apply/damage",30);
         me->add_temp("apply/armor", 30);
         this_object()->set_leader(me);
-        me->add_temp("apply/name",({ me->name()+ HIW"(正騎著"NOR+this_object()->name()+HIW")"NOR}));
+        me->add_temp("apply/name",({ me->name()+ HIW + "(正騎著" + NOR+this_object()->name()+HIW + ")" + NOR}));
         move(me);
         me->set_heart_beat(1);
         return 1;
@@ -88,7 +88,7 @@ int do_descend()
         me=this_player();
         if ( !me->query_temp("marks/ascend") )
                 return notify_fail("你沒在龍上耶。\n");
-message_vision(""HIG"$N隨手一揮，狂暴的"+this_object()->name()+"再度變為雲霧而消散於天地之間。\n"NOR"",me);
+message_vision("" + HIG + "$N隨手一揮，狂暴的"+this_object()->name()+"再度變為雲霧而消散於天地之間。\n" + NOR + "",me);
         me->delete_temp("marks/ascend");   
         me->delete_temp("apply/name",name);
         me->add_temp("apply/dodge",-30);

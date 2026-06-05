@@ -6,10 +6,10 @@ inherit SSERVER;
 
 
 string *ATTACK_MSG=({
-BLU"$N雙手成拱, 武儒辰興, 正為降龍護身氣勁之 ---- \n"NOR,
-RED"$N手劃八卦, 氣滿池田, 莫央二穴, 轉身一道降龍護身氣勁之 ---- \n"NOR,
-HIR"$N身形似風, 一手一道真武劃風, 正是降龍護身氣勁中之---- 。\n"NOR,
-HIG"$N一道真氣自掌中游出, 氣勁之逼$n, 口中喊道降龍護身氣勁中之 ---- 。\n"NOR,
+BLU + "$N雙手成拱, 武儒辰興, 正為降龍護身氣勁之 ---- \n" + NOR,
+RED + "$N手劃八卦, 氣滿池田, 莫央二穴, 轉身一道降龍護身氣勁之 ---- \n" + NOR,
+HIR + "$N身形似風, 一手一道真武劃風, 正是降龍護身氣勁中之---- 。\n" + NOR,
+HIG + "$N一道真氣自掌中游出, 氣勁之逼$n, 口中喊道降龍護身氣勁中之 ---- 。\n" + NOR,
 });
 
 int count;
@@ -59,7 +59,7 @@ int again(object me)
             {
                 if(random(100) <40)
                 {
-                  message_vision(HIR"『狂龍舞蒼天』 ---- 氣勁打在$n身上, 讓$n狂痛不已"NOR,me,all[i] );
+                  message_vision(HIR + "『狂龍舞蒼天』 ---- 氣勁打在$n身上, 讓$n狂痛不已" + NOR,me,all[i] );
                   all[i]->receive_wound( "kee" ,300);
                   all[i]->receive_damage("sen",fun*3+50,me);
                   all[i]->receive_damage("gin",fun*3+50,me);
@@ -68,19 +68,19 @@ int again(object me)
                 } 
                 else  if(41<= random(100) <60)
                 {
-                  message_vision(HIY"『真龍昇破天』 ---- 氣勁封鎖注$n的行動了!!!"NOR,me,all[i] );
+                  message_vision(HIY + "『真龍昇破天』 ---- 氣勁封鎖注$n的行動了!!!" + NOR,me,all[i] );
                  me->start_busy(1);
                  function_improved("dragon-power",random(100));
                 }
                 else if(61<=random(100) <70)
                 {
-                 message_vision(HIC"『血龍斥片天』 ---- 降龍氣勁打亂了$n的氣脈運行!!!"NOR,me,all[i] );
+                 message_vision(HIC + "『血龍斥片天』 ---- 降龍氣勁打亂了$n的氣脈運行!!!" + NOR,me,all[i] );
                   all[i]->add("force",-1000);
                  function_improved("dragon-power",random(100));
                 }
                 else 
                 {               
-                message_vision( HIY"『青龍躍碧天』 ---- 轉身一跳, 避開了降龍氣勁﹗"NOR , me ,all[i] );
+                message_vision( HIY + "『青龍躍碧天』 ---- 轉身一跳, 避開了降龍氣勁﹗" + NOR , me ,all[i] );
                  function_improved("dragon-power",random(30));
                 }
             }

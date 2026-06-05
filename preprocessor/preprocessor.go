@@ -9,6 +9,7 @@ import (
 	"os"
 	"path/filepath"
 	"regexp"
+	"sort"
 	"strconv"
 	"strings"
 )
@@ -66,10 +67,20 @@ func (p *Preprocessor) replaceMacros(line string, initialInString bool) (string,
 		return line, initialInString
 	}
 
-	// 🚀 關鍵修正：支援遞迴巨集替換 (例如 BLK -> ESC + "[0;30m" -> "\x1b" + "[0;30m")
-	// 我們最多嘗試 10 次，避免無窮遞迴
+	// 🚀 關鍵修正：支援遞迴替換並追蹤字串狀態
 	currentLine := line
 	finalInString := initialInString
+
+	// 取得所有巨集名稱並按長度排序 (由長到短)，避免 prefix 提早被取代
+	var macroNames []string
+	for name, m := range p.Macros {
+		if len(m.Args) == 0 {
+			macroNames = append(macroNames, name)
+		}
+	}
+	sort.Slice(macroNames, func(i, j int) bool {
+		return len(macroNames[i]) > len(macroNames[j])
+	})
 
 	for depth := 0; depth < 10; depth++ {
 		// 1. 先處理函式型巨集 (目前簡化，仍使用 Regex)
@@ -86,8 +97,8 @@ func (p *Preprocessor) replaceMacros(line string, initialInString bool) (string,
 
 		for i := 0; i < len(currentLine); i++ {
 			if currentLine[i] == '"' && (i == 0 || currentLine[i-1] != '\\') {
-				inString = !inString
 				result.WriteByte(currentLine[i])
+				inString = !inString
 				continue
 			}
 
@@ -98,15 +109,15 @@ func (p *Preprocessor) replaceMacros(line string, initialInString bool) (string,
 
 			// 尋找巨集名稱
 			found := false
-			for name, m := range p.Macros {
-				if len(m.Args) == 0 && strings.HasPrefix(currentLine[i:], name) {
+			for _, name := range macroNames {
+				m := p.Macros[name]
+				if strings.HasPrefix(currentLine[i:], name) {
 					// 檢查邊界
 					endIdx := i + len(name)
 					isStartWord := (i == 0 || !isAlphaNumeric(currentLine[i-1]))
 					isEndWord := (endIdx == len(currentLine) || !isAlphaNumeric(currentLine[endIdx]))
-					
+
 					if isStartWord && isEndWord {
-						// log.Printf("🚀 [Macro] %s -> %s", name, m.Body)
 						result.WriteString(m.Body)
 						i = endIdx - 1 // 跳過巨集名稱 (迴圈會再 +1)
 						found = true
@@ -121,6 +132,7 @@ func (p *Preprocessor) replaceMacros(line string, initialInString bool) (string,
 			}
 		}
 
+
 		currentLine = result.String()
 		finalInString = inString
 		if !changed {
@@ -130,7 +142,6 @@ func (p *Preprocessor) replaceMacros(line string, initialInString bool) (string,
 
 	return currentLine, finalInString
 }
-
 func (p *Preprocessor) replaceFuncMacro(line, name string, m Macro) string {
 	outLine := line
 	searchIdx := 0
@@ -268,10 +279,14 @@ func (p *Preprocessor) processInternal(filename, input string, depth int) (strin
 
 		// 🚩 處理註解，支援 // 與 /* */
 		var cleanLineBuilder strings.Builder
+		
+		// 🚀 關鍵：在剝離註解時，我們也需要追蹤字串狀態，
+		// 但這只是「暫時」的，為了確保註解辨識正確。
+		// 真正的持續性 inString 狀態會由 replaceMacros 維持。
+		tempInString := inString
 
 		for i := 0; i < len(line); i++ {
 			// 1. 處理區塊註解結束
-
 			if inBlockComment {
 				if i < len(line)-1 && line[i] == '*' && line[i+1] == '/' {
 					inBlockComment = false
@@ -280,14 +295,14 @@ func (p *Preprocessor) processInternal(filename, input string, depth int) (strin
 				continue
 			}
 
-			// 2. 處理字串切換
+			// 2. 處理字串切換 (暫時性，僅用於註解過濾)
 			if line[i] == '"' && (i == 0 || line[i-1] != '\\') {
-				inString = !inString
+				tempInString = !tempInString
 				cleanLineBuilder.WriteByte(line[i])
 				continue
 			}
 
-			if !inString {
+			if !tempInString {
 				// 3. 處理區塊註解開始
 				if i < len(line)-1 && line[i] == '/' && line[i+1] == '*' {
 					inBlockComment = true
@@ -471,6 +486,7 @@ func (p *Preprocessor) processInternal(filename, input string, depth int) (strin
 			}
 
 			p.Macros[name] = Macro{Name: name, Args: args, Body: body}
+			// fmt.Printf("DEBUG: Defined macro %s = %s\n", name, body)
 			output.WriteString("\n")
 			continue
 		}
@@ -492,16 +508,21 @@ func (p *Preprocessor) processInternal(filename, input string, depth int) (strin
 
 			var relPath string
 			if strings.HasPrefix(pathStr, "/") {
-				relPath = strings.TrimPrefix(pathStr, "/")
-			} else if isSystem {
-				// 🚀 新增：系統引入優先尋找 /include/
-				relPath = "include/" + pathStr
+			        relPath = strings.TrimPrefix(pathStr, "/")
 			} else {
-				dir := filepath.Dir(filename)
-				relPath = filepath.Join(dir, pathStr)
+			        // 先嘗試相對路徑
+			        dir := filepath.Dir(strings.TrimPrefix(filename, "/"))
+			        relPath = filepath.Join(dir, pathStr)
+
+			        // 如果是系統引入，或者是相對路徑找不到，則嘗試 /include/
+			        fullPath := filepath.Join(p.MudLibPath, relPath)
+			        if _, statErr := os.Stat(fullPath); statErr != nil {
+			            if isSystem || strings.Index(pathStr, "/") == -1 {
+			                relPath = filepath.Join("include", pathStr)
+			            }
+			        }
 			}
 			relPath = strings.TrimPrefix(relPath, "/")
-
 			var content []byte
 			var err error
 
@@ -532,24 +553,25 @@ func (p *Preprocessor) processInternal(filename, input string, depth int) (strin
 		// ==========================================
 		// 4. 處理一般程式碼：替換巨集與修飾詞剝除
 		// ==========================================
-		outLine, nextInString := p.replaceMacros(cleanLine, inString)
+		var outLine string
+		outLine, inString = p.replaceMacros(cleanLine, inString)
 		if p.StripModifiers {
-			outLine, nextInString = p.stripModifiers(outLine, nextInString)
+			outLine = p.stripModifiers(outLine)
 		}
 		output.WriteString(outLine + "\n")
-		inString = nextInString
+
 	}
 
 	return output.String(), nil
 }
 
-func (p *Preprocessor) stripModifiers(line string, initialInString bool) (string, bool) {
+func (p *Preprocessor) stripModifiers(line string) string {
 	// 定義需要被移除的 LPC 修飾詞
 	modifiers := []string{"static", "varargs", "nomask", "private", "protected", "public"}
 
 	currentLine := line
 	var result strings.Builder
-	inString := initialInString
+	inString := false
 
 	for i := 0; i < len(currentLine); i++ {
 		// 🚩 避開字串內容
@@ -586,11 +608,11 @@ func (p *Preprocessor) stripModifiers(line string, initialInString bool) (string
 			result.WriteByte(currentLine[i])
 		}
 	}
-	return result.String(), inString
+	return result.String()
 }
 
 func isAlphaNumeric(c byte) bool {
-	return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '_'
+	return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '_' || c == '$'
 }
 
 func splitMacroArgs(s string) []string {

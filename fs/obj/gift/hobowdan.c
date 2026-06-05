@@ -13,7 +13,7 @@ void init()
 
 void create()
 {
-        set_name(HIY"荷包蛋"NOR, ({"ho bow dan", "dan"}));
+        set_name(HIY + "荷包蛋" + NOR, ({"ho bow dan", "dan"}));
         if (clonep())
                 set_default_object(__FILE__);
         else {

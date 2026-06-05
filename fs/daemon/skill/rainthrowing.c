@@ -15,7 +15,7 @@ mapping *action = ({
                 "force":        90,
 		"post_action":	(: throw_weapon :),
 	]),
-	([	"action":		"$N踏樓迴落躬身飄散，使出一式『雨征橫曲』，$w如詭蛇旋繞曲竄，從出乎意料的方向射向$n"NOR,
+	([	"action":		"$N踏樓迴落躬身飄散，使出一式『雨征橫曲』，$w如詭蛇旋繞曲竄，從出乎意料的方向射向$n" + NOR,
 		"damage":	90,
                 "force":        90,
 		"post_action":	(: throw_weapon :),

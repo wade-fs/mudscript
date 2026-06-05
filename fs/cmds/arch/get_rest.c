@@ -22,9 +22,9 @@ int main(object me, string arg)
                         return notify_fail(name+"還在戰鬥中，無法逮捕!!\n");
                 player->set("have_get_rest",1);
                 player->set("startroom",GUILTY_ROOM);
-                tell_room(environment(player),HIM"
+                tell_room(environment(player),HIM + "
 忽然有兩名神將出現在眾人眼前，對眾人說道:
-"+HIY+player->query("name")+HIM+"犯下了滔天大罪，吾等奉命將其抓入天牢之中，聽候審判!!\n"NOR);
+"+HIY+player->query("name")+HIM+"犯下了滔天大罪，吾等奉命將其抓入天牢之中，聽候審判!!\n" + NOR);
                 player->move(GUILTY_ROOM);
                 player->save();
         }

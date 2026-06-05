@@ -13,7 +13,7 @@ string ask_test()
     if(this_player()->query("quests/fear_fighting",1) && this_player()->query("quests/yantestmark2",1) )
     {
       command("say 謝謝您的幫忙.我願意將appo給我的印記傳到你身上!\n");
-      tell_object(this_player(),HIW"瞬間由聖賢書將手搭在你的肩上..你頓時覺得\n一股暖意由聖賢書的手中傳過來\n"NOR);
+      tell_object(this_player(),HIW + "瞬間由聖賢書將手搭在你的肩上..你頓時覺得\n一股暖意由聖賢書的手中傳過來\n" + NOR);
       this_player()->delete("quests/2ndtest",i);
       this_player()->set("quests/yantestmark3",1);
       return("這是最後一個了...你趕快去完成你的測驗吧~\n");
@@ -66,7 +66,7 @@ string book()
   if( !this_player()->query("quests/god-plan") )
   {
     this_player()->set_temp("scholar_god_plan",1);
-    return "嗯，看來你已經有資格讀此兵法了，"HIW"不過"CYN"...\n";
+    return "嗯，看來你已經有資格讀此兵法了，" + HIW + "不過" + CYN + "...\n";
   }
   else
   {
@@ -102,7 +102,7 @@ string ask_place()
   command("say 這有一張路觀圖﹐你拿去吧。");
   ob = new( "/open/snow/obj/picture" );
   ob->move( this_player() );
-  message_vision("$N給$n一張"HIW"路觀圖"NOR"。\n",this_object(),this_player());
+  message_vision("$N給$n一張" + HIW + "路觀圖" + NOR + "。\n",this_object(),this_player());
   return "祝你好運 ... ";
 }
 
@@ -141,7 +141,7 @@ string ask_confuse()
     return "這件事，我剛剛已經跟你說過囉。\n";
   this_player()->set_temp("quests/confuse",1);
 
-  return CYN"這個為師的師父只有教導"HIW"陳平"CYN"師兄一個人，師父說他的資質比較足夠，所以為師的也不懂這個計謀。\n"NOR;
+  return CYN + "這個為師的師父只有教導" + HIW + "陳平" + CYN + "師兄一個人，師父說他的資質比較足夠，所以為師的也不懂這個計謀。\n" + NOR;
 }
 
 string ask_chen()
@@ -153,7 +153,7 @@ string ask_chen()
   this_player()->set_temp("quests/confuse",2);
 
   return "陳平師兄自從師父過世後，不知道得了什麼病，就一直昏睡中，對於外界都沒反應。\n"
-    +"所以我將他安置在後山的"HIW"小屋"CYN"裡，並派一個"HIW"小童"CYN"去照料他。不過你還是不要隨便打擾他。\n"NOR;
+    +"所以我將他安置在後山的" + HIW + "小屋" + CYN + "裡，並派一個" + HIW + "小童" + CYN + "去照料他。不過你還是不要隨便打擾他。\n" + NOR;
 
 }
 
@@ -206,8 +206,8 @@ void create()
         set("plan-quest/ko-fire-king",1);
         set("chat_chance_combat", 100);
         set("inquiry",([
-        "挑戰書"       : CYN"最近莫名奇妙地接到了一張挑戰書﹐真是令人"HIW"困擾"CYN"。\n"NOR,
-        "困擾"         : CYN"我早就不問紅塵世事了﹐但是不去赴約﹐又恐為天下人所恥笑﹐"HIW"因此"CYN"...\n"NOR,
+        "挑戰書"       : CYN + "最近莫名奇妙地接到了一張挑戰書﹐真是令人" + HIW + "困擾" + CYN + "。\n" + NOR,
+        "困擾"         : CYN + "我早就不問紅塵世事了﹐但是不去赴約﹐又恐為天下人所恥笑﹐" + HIW + "因此" + CYN + "...\n" + NOR,
         "因此"         : (: so :),
         "青龍之笛"     : "此乃家傳之寶﹐據家父說使用此笛(use)可以召喚出傳說中的青龍﹐但是必須在特定之處使用﹐至於要在那裡使用﹐我就不得而知。",
         "血魔"         : "ㄚ~~~你問這個.....該不會血魔已經破封了.....唉..蒼生不幸....",
@@ -224,8 +224,8 @@ void create()
         "六韜奇略"     : "六韜奇略是兵法家黃石公收集戰國奇略所寫之書, 不過他行事乖僻, 很難找到他。\n",
         "孔明兵法"     : (: book :),
         "不過"         : (: ask_plan :),
-        "神算先生"     : CYN"此人複姓"HIW"諸葛"CYN"名"HIW"臥龍"CYN"﹐乃當今知識之奇葩﹐無論是兵法、文學、政治、卜卦、醫術﹐他樣樣精通。\n"NOR,
-        "諸葛臥龍"     : CYN"此人雖有蓋\世之才﹐然不得時也﹐如今此人隱居於"HIW"雪蒼山下"CYN"。\n"NOR,
+        "神算先生"     : CYN + "此人複姓" + HIW + "諸葛" + CYN + "名" + HIW + "臥龍" + CYN + "﹐乃當今知識之奇葩﹐無論是兵法、文學、政治、卜卦、醫術﹐他樣樣精通。\n" + NOR,
+        "諸葛臥龍"     : CYN + "此人雖有蓋\世之才﹐然不得時也﹐如今此人隱居於" + HIW + "雪蒼山下" + CYN + "。\n" + NOR,
         "雪蒼山下"     : (: ask_place :),
         "路觀圖"       : (: ask_picture :),
         "拋磚引玉"     : (: ask_confuse:),
@@ -293,7 +293,7 @@ int do_ok()
     obj = new("/daemon/class/scholar/obj/help-letter");
     obj->move( this_player() );
 //    command("say 當你遇到神算先生時，你就將此封信交給他，他就知道了你的來意了，拜託你了.....");
-    message_vision(CYN"聖賢書說道﹕當你遇到"HIW"神算先生"CYN"時，你就將此封信交給他，他就知道了你的來意了，拜託你了.....\n"NOR,ob,me);
+    message_vision(CYN + "聖賢書說道﹕當你遇到" + HIW + "神算先生" + CYN + "時，你就將此封信交給他，他就知道了你的來意了，拜託你了.....\n" + NOR,ob,me);
     message_vision("$N給了$n一封信。\n",ob,me);
     this_player()->set_temp("scholar_godplan_gi_dguger_letter",1);
   }
@@ -335,7 +335,7 @@ void die()
         object me,ob;
         me = this_player();
         ob=new("/open/gsword/obj1/brain.c");
-        tell_object(winner,HIR"你從屍體上挖出了一顆血淋淋的大腦.."NOR);
+        tell_object(winner,HIR + "你從屍體上挖出了一顆血淋淋的大腦.." + NOR);
         ob->move(winner);
         winner->set_temp("swordbrain",1);
         }
@@ -347,7 +347,7 @@ void die()
           if( j==7 || j==77 || j== 777 || j==1111 || j==55 || j==555 || j==1000 || j==4000 || j==3333 || j==2222 )
           {      
           new("/open/sky/obj3/water_feather")->move(environment(winner));
-          message_vision(HIM"\n從聖賢書的身上掉下了一件奇怪的東西!!\n"NOR,winner);
+          message_vision(HIM + "\n從聖賢書的身上掉下了一件奇怪的東西!!\n" + NOR,winner);
           write_file("/log/sky/obj3/water_feather",sprintf("%s(%s) 讓聖賢書掉下了水之流羽於 %s\n",
           winner->name(1),winner->query("id"),ctime(time())));
           }
@@ -356,20 +356,20 @@ void die()
           if( j==5 || j==15 || j== 150 || j==1500 || j==10 || j==100 || j==1000 || j==4000 || j==6666 || j==7777 ) 
           {      
           new("/open/sky/obj3/water_feather")->move(environment(winner));
-          message_vision(HIM"\n從聖賢書的身上掉下了一件奇怪的東西!!\n"NOR,winner);
+          message_vision(HIM + "\n從聖賢書的身上掉下了一件奇怪的東西!!\n" + NOR,winner);
           write_file("/log/sky/obj3/water_feather",sprintf("%s(%s) 讓聖賢書掉下了水之流羽於 %s\n",
           winner->name(1),winner->query("id"),ctime(time())));
           }
         }
     }
-        tell_object(users(),HIW"\n
-儒門"HIR"傳來了如洪鐘般的嘆息...\n
-             "HIG"『 經 綸 百 世 路 綿 延 ， 
+        tell_object(users(),HIW + "\n
+儒門" + HIR + "傳來了如洪鐘般的嘆息...\n
+             " + HIG + "『 經 綸 百 世 路 綿 延 ， 
                     觸 念 塵 緣 不 計 年 ； 
                         慈 心 解 去 風 雨 衣 ，
-                            明 燈 長 照 九 重 天 。 』\n"HIY"
-                    「"HIW"風雅書"HIY"..."HIW"廣文書"HIY"...汝等要替我報仇也...」\n"HIR"
-            儒門九代令公之首「"HIY"聖賢書"HIR"」如今竟不幸命葬於"HIG+winner->name()+HIR"之手....\n\n"NOR);
+                            明 燈 長 照 九 重 天 。 』\n" + HIY + "
+                    「" + HIW + "風雅書" + HIY + "..." + HIW + "廣文書" + HIY + "...汝等要替我報仇也...」\n" + HIR + "
+            儒門九代令公之首「" + HIY + "聖賢書" + HIR + "」如今竟不幸命葬於" + HIG+winner->name()+HIR + "之手....\n\n" + NOR);
 
         ::die();
 }
@@ -390,7 +390,7 @@ int accept_object(object me,object ob)
   {
     command("say 太好了，這真的是失落已久的拋磚引玉之計，沒想到你竟然拿到了！");
     command("say 我想，這個計法就交給你發揚光大了");
-    message("system",HIW"\n"+this_object()->name()+"說道：本門失傳已久的拋磚引玉之計由"+this_player()->name()+"尋回，我想此計就交給他當成唯一傳人，希望"+this_player()->name()+"利用此計好好扺抗外敵。\n"NOR,users());
+    message("system",HIW + "\n"+this_object()->name()+"說道：本門失傳已久的拋磚引玉之計由"+this_player()->name()+"尋回，我想此計就交給他當成唯一傳人，希望"+this_player()->name()+"利用此計好好扺抗外敵。\n" + NOR,users());
     this_player()->set("quests/confused",1);
     this_player()->delete_temp("quests/confuse");
     destruct(ob);
@@ -400,7 +400,7 @@ int accept_object(object me,object ob)
   if(ob->query("id")=="dguger-dan" && this_player()->query_temp("scholar_godplan_get_dan",1))
   {
     command("say 太好了！我現在就拿去給小徒服用。(聖賢書一個轉身就進內房去了...)");
-    message("system",HIW"\n聖賢書小心翼翼的將靈丹塞到儒門小童嘴裡。\n"NOR,users());
+    message("system",HIW + "\n聖賢書小心翼翼的將靈丹塞到儒門小童嘴裡。\n" + NOR,users());
     this_player()->set("quests/god-plan",1);
     call_out("do_plan3",3,ob);
   }
@@ -408,25 +408,25 @@ int accept_object(object me,object ob)
 
 int do_plan3(object ob)
 {
-  message("system",CYN"\n(一個時辰後.....)\n"NOR,users());
+  message("system",CYN + "\n(一個時辰後.....)\n" + NOR,users());
   call_out("do_plan4",3,ob); 
 }
 
 int do_plan4(object ob)
 {
-  message("system",HIC"\n原本面目呆滯，眼神恍惚的小童大叫一聲："HIW"阿呀！我怎麼會躺在這裡？\n"NOR,users());
+  message("system",HIC + "\n原本面目呆滯，眼神恍惚的小童大叫一聲：" + HIW + "阿呀！我怎麼會躺在這裡？\n" + NOR,users());
   call_out("do_plan5",3,ob); 
 }
 
 int do_plan5(object ob)
 {
-  message("system",HIY"\n聖賢書對著小童說道：還不快將孔明兵法交給"+this_player()->name()+"，他是你的救命恩人耶...\n"NOR,users());
+  message("system",HIY + "\n聖賢書對著小童說道：還不快將孔明兵法交給"+this_player()->name()+"，他是你的救命恩人耶...\n" + NOR,users());
   call_out("do_plan6",3,ob); 
 }
 
 int do_plan6(object ob)
 {
-  message("system",HIC"\n小童從內房裡走了出來，對著"+this_player()->name()+"叩了三聲響頭，說道："HIW"恩人，真感謝你，這本兵法就交給你了！\n\n"NOR,users());
+  message("system",HIC + "\n小童從內房裡走了出來，對著"+this_player()->name()+"叩了三聲響頭，說道：" + HIW + "恩人，真感謝你，這本兵法就交給你了！\n\n" + NOR,users());
   ob = new("/daemon/class/scholar/book");
   ob->move(this_player());
 }

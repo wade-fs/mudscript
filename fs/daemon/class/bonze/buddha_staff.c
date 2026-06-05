@@ -7,7 +7,7 @@ inherit STAFF;
 
 void create()
 {
-        set_name( HIY "菩提禪杖" NOR, ({ "buddha staff", "staff" }) );
+        set_name( HIY + "菩提禪杖" + NOR, ({ "buddha staff", "staff" }) );
         set_weight(40000);
         if( clonep() )
                 set_default_object(__FILE__);

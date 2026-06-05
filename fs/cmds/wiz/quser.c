@@ -23,11 +23,11 @@ int main(object me, string str)
 //是否idle
                 idle=query_idle(user_list[i]);
 //其他狀態
-                if (in_input(user_list[i])) status1=HIY"(INPUT)"NOR;
+                if (in_input(user_list[i])) status1=HIY + "(INPUT)" + NOR;
                         else status1="";
-                if ((in_edit(user_list[i]))) status2=HIY"(EDIT)"NOR;
+                if ((in_edit(user_list[i]))) status2=HIY + "(EDIT)" + NOR;
                         else status2="";
-                if (idle>60) status3=sprintf(HIY"(IDLE %d M)"NOR,idle/60);
+                if (idle>60) status3=sprintf(HIY + "(IDLE %d M)" + NOR,idle/60);
                         else status3="";
 j++;
 //可看到mud levenumber

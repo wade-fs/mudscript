@@ -24,7 +24,7 @@ void slap(object me, object victim,object weapon, int damage)
 {
 	if( victim->is_busy()&& me->query_temp("conti")!=1 )
 	{
-        message_vision(GRN"\n$N"GRN"趁著$n動彈不得之際，迅速的發動八爪快攻!!\n"NOR,me,victim);
+        message_vision(GRN + "\n$N" + GRN + "趁著$n動彈不得之際，迅速的發動八爪快攻!!\n" + NOR,me,victim);
         me->set_temp("conti",1);
 	for(int k=0 ; k<7 ; k++)
 	{

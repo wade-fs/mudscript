@@ -28,7 +28,7 @@ skill=this_player()->query("functions/white/level");
 
         me->set_temp("white",1);
         message_vision(
-        HIC "$N運起渾天心法第一層的"HIW"白雲煙"HIC"﹐身上湧出如雲氣般的內勁形成無數的氣旋!!\n" NOR,me);
+        HIC + "$N運起渾天心法第一層的" + HIW + "白雲煙" + HIC + "﹐身上湧出如雲氣般的內勁形成無數的氣旋!!\n" + NOR,me);
 
         me->add_temp("apply/force", 1);
         me->add_temp("apply/move", 1);

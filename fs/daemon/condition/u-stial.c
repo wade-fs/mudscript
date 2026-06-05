@@ -2,8 +2,8 @@
 int update_condition(object me, int duration)
 {
 if(duration==0) return 0;
-tell_object(me , HIB "你的毒勁發作，迅速漫延全身。\n" NOR);
-message("vision",HIB+me->name()+"臉色發黑，似乎中了劇毒。\n"NOR,environment(me),me);
+tell_object(me , HIB + "你的毒勁發作，迅速漫延全身。\n" + NOR);
+message("vision",HIB+me->name()+"臉色發黑，似乎中了劇毒。\n" + NOR,environment(me),me);
         me->receive_wound("kee",600);
         me->receive_wound("sen",300);
         me->receive_wound("gin",300);

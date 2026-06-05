@@ -7,7 +7,7 @@ inherit NPC;
 
 void create()
 {
-set_name(HIR"天誅"HIB"神獸"NOR, ({ "sky-kill","kill" }) );
+set_name(HIR + "天誅" + HIB + "神獸" + NOR, ({ "sky-kill","kill" }) );
 set("long","這是生存在仙界九天之上的仙龍, 是巫師們賞賜給人們的\n似乎還能騎上去唷(ride)");
 set("no_drop", 1);
 set("no_auc", 1);
@@ -73,7 +73,7 @@ message_vision("$N凌空飛起氣運全身怒吼一聲,"+this_object()->name()+"
         me->add_temp("apply/damage",30);
         me->add_temp("apply/armor", 30);
         this_object()->set_leader(me);
-        me->add_temp("apply/name",({ me->name()+ HIW"(正騎著"NOR+this_object()->name()+HIW")"NOR}));
+        me->add_temp("apply/name",({ me->name()+ HIW + "(正騎著" + NOR+this_object()->name()+HIW + ")" + NOR}));
         move(me);
         me->set_heart_beat(1);
         return 1;

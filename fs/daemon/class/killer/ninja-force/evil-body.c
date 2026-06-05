@@ -18,9 +18,9 @@ return notify_fail ("你的內力不足!\n");
 if (me->query_temp ("evil-body", 1) || me->query_temp("body_change",1))
 return notify_fail ("你已經使用天魔附身了。\n");
 if( me->is_fighting() ) me->start_busy(1);
-message_vision (HIW"$N使出真˙黑牙神功\中的"HIC"「天魔附身」"NOR"\n",me); 
+message_vision (HIW + "$N使出真˙黑牙神功\中的" + HIC + "「天魔附身」" + NOR + "\n",me); 
 me->add ("force", -100);       
-message_vision (HIG"一道綠光注入$N身體。\n"NOR, me);
+message_vision (HIG + "一道綠光注入$N身體。\n" + NOR, me);
 me->set_temp ("evil-body", 1);
 me->start_call_out((: call_other, __FILE__, "remove_effect",me:),fun+200);
 return 1;
@@ -30,11 +30,11 @@ void remove_effect (object me)
 {
   int fun=me->query("functions/evil-body/level");
   me->delete_temp ("evil-body");
-message_vision(HIW"$N覺得天魔的靈魂從$N身上消失了。\n"NOR,me);
+message_vision(HIW + "$N覺得天魔的靈魂從$N身上消失了。\n" + NOR,me);
   if(fun<100) function_improved("evil-body",100+random(200));   
   if (me->query_temp("body_change")==1)
   {
-message_vision(HIR"$N天魔解體功\力消失, 全身虛脫呈現瀕死狀態!!\n"NOR,me);
+message_vision(HIR + "$N天魔解體功\力消失, 全身虛脫呈現瀕死狀態!!\n" + NOR,me);
 me->add("max_kee",-50000);
 me->add("max_gin",-50000);
 me->add("max_sen",-50000);

@@ -38,6 +38,6 @@ mixed query_story_message(int step)
 string give_gift()
 {
         STORY_D->give_gift("/obj/gift/bingtang", 1,
-                           HIM "\n「啪」的一聲一棵冰糖葫蘆掉到你面前。\n\n" NOR);
+                           HIM + "\n「啪」的一聲一棵冰糖葫蘆掉到你面前。\n\n" + NOR);
         return 0;
 }

@@ -28,8 +28,8 @@ int perform(object me, object target)
 		return notify_fail("你佛法領悟不足，無法聚神使出大手印。\n");
 	if( me->query_temp("basicup") == 1 )
 		return notify_fail("你已手結「印契」使身體機能活化。\n");
-	message_vision(HIW"$N雙手迅速結出各種藏傳「印契」與自身經絡相呼應。\n"NOR,me);
-	message_vision(HIW"陣陣暖流流經你的四肢百骸與五臟六腑後，$N的筋骨發出一陣爆響。\n"NOR,me);
+	message_vision(HIW + "$N雙手迅速結出各種藏傳「印契」與自身經絡相呼應。\n" + NOR,me);
+	message_vision(HIW + "陣陣暖流流經你的四肢百骸與五臟六腑後，$N的筋骨發出一陣爆響。\n" + NOR,me);
 	if (fun > 100) fun = 100; //直接鎖死數值
 		me->add_temp("apply/str",g); //因為為初階fun 所以最多數值+10
 		me->add_temp("apply/cps",g);

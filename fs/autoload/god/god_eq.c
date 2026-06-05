@@ -5,8 +5,8 @@ inherit ITEM;
 #include <command.h>
 void create()
 {
-set_name(HIW"仙界裝備"NOR,({"god-eq"}));
-  set("long",HIG"這是整套的仙界裝備(open god or close god)。"NOR);
+set_name(HIW + "仙界裝備" + NOR,({"god-eq"}));
+  set("long",HIG + "這是整套的仙界裝備(open god or close god)。" + NOR);
   set("unit","套"); 
         if( clonep() )
                 set_default_object(__FILE__);
@@ -28,7 +28,7 @@ void init()
 {       object me=this_player();
         object ob;
         ob=present("god-eq",me);
-if(ob&&ob->name()==HIW"仙界裝備"NOR)
+if(ob&&ob->name()==HIW + "仙界裝備" + NOR)
 {
  add_action("do_open","open");
  add_action("do_close","close");
@@ -47,8 +47,8 @@ object ob;
           return 0;
   ob=present("god-eq",me);
 if(ob->query_temp("god")==1)
-  return notify_fail(HIG"仙界裝備已分化了﹗\n"NOR);
-message_vision(HIY"\n$N的仙界裝備慢慢的鎧化成各部份的裝備。\n\n"NOR,this_player());
+  return notify_fail(HIG + "仙界裝備已分化了﹗\n" + NOR);
+message_vision(HIY + "\n$N的仙界裝備慢慢的鎧化成各部份的裝備。\n\n" + NOR,this_player());
 eq01 = new("/nets/god/god_gloves");
 eq02 = new("/nets/god/god_boots");
 eq03 = new("/nets/god/seven_ring");
@@ -121,7 +121,7 @@ destruct(present("rainbow_belt",me));
 destruct(present("thunder_god_hat",me));
 destruct(present("God_Armband"));
 me->delete_temp("god");
-message_vision(HIW"\n$N卸下所有的裝備之後，各部份裝備自動回復成仙界裝備。\n\n"NOR,me);
+message_vision(HIW + "\n$N卸下所有的裝備之後，各部份裝備自動回復成仙界裝備。\n\n" + NOR,me);
 }
 return 1;
 }

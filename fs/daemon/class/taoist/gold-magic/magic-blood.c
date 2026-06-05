@@ -17,15 +17,15 @@ int conjure (object me)
   if(!enemy)
     return notify_fail("你目前沒有戰鬥對手!!\n");
 
-  message_vision(HIY"$N喃喃唸道：
+  message_vision(HIY + "$N喃喃唸道：
 
-          『"HIW"汝等寄生紅塵，漂流於生死海中，不觀自心，
-            病發迷途，我今以無上道法，渡汝過於彼岸。"HIY"』
+          『" + HIW + "汝等寄生紅塵，漂流於生死海中，不觀自心，
+            病發迷途，我今以無上道法，渡汝過於彼岸。" + HIY + "』
                 
-      "HIW"ζ"HIY+BRED"魔界金典"NOR""HIW"ζ奧義《"HIR"血穴神通"HIW"》"HIM"爆發
+      " + HIW + "ζ" + HIY+BRED + "魔界金典" + NOR + "" + HIW + "ζ奧義《" + HIR + "血穴神通" + HIW + "》" + HIM + "爆發
       
-  "HIG"$N四周浮現數百個鮮紅的"HIR"血池漩渦，\n
-  "HIG"所有接觸到血池的物體皆瞬間灰飛湮滅。\n\n"NOR,me);
+  " + HIG + "$N四周浮現數百個鮮紅的" + HIR + "血池漩渦，\n
+  " + HIG + "所有接觸到血池的物體皆瞬間灰飛湮滅。\n\n" + NOR,me);
 
   for(i=0;i<j;i++)
   {

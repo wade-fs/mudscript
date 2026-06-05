@@ -50,7 +50,7 @@ string paper(string arg,string file)
       word[arg[3..3]],
       word[arg[4..4]]);
 
-  return  HIC + str+"\n"NOR;
+  return  HIC + str+"\n" + NOR;
 }
 mapping read_word_file(string file)
 {

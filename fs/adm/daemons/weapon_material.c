@@ -88,7 +88,7 @@ void weapon_material(object me,object target)
 //強制設定只要差距大於850，就直接砍斷對方的武器，機率設在1/2左右
 	if( random(10) > 5 && (wd - od > 850) )
 	{
-	message_vision(HIC"$N的"NOR+weapon->name()+HIC"「唰」地一聲﹐把$n"HIC"的"NOR+ob->name()+HIC"削成兩段!!\n"NOR,me,target);
+	message_vision(HIC + "$N的" + NOR+weapon->name()+HIC + "「唰」地一聲﹐把$n" + HIC + "的" + NOR+ob->name()+HIC + "削成兩段!!\n" + NOR,me,target);
 	ob->unequip();
 	ob->move(environment(target));
 	ob->set("name", "(斷毀兩段)" + ob->query("name"));
@@ -101,7 +101,7 @@ void weapon_material(object me,object target)
 	  if( qq > 280 && (wd-od < 850 && wd-od > 400) )
 	  {
 	  ob->unequip();
-	  message_vision(HIR"$N的"NOR+weapon->name()+HIR"把$n"HIR"的"NOR+ob->name()+HIR"重重的砍出了一個嚴重的缺口!!\n"NOR,me,target);
+	  message_vision(HIR + "$N的" + NOR+weapon->name()+HIR + "把$n" + HIR + "的" + NOR+ob->name()+HIR + "重重的砍出了一個嚴重的缺口!!\n" + NOR,me,target);
 //	  message_vision("$N"+wd+"，$n"+od+"。\n",me,target);
 	  ob->add("bad",2);
 	    if( ob->query("bad") >= 11 )
@@ -131,7 +131,7 @@ void weapon_material(object me,object target)
 	    ob->add("weapon_prop/damage",-10);
 	    ob->wield();
 	    }else{
-	      message_vision(RED"$n"RED"的"+ob->name()+RED"再也承受不住攻擊完全斷毀了!!\n"NOR,me,target);
+	      message_vision(RED + "$n" + RED + "的"+ob->name()+RED + "再也承受不住攻擊完全斷毀了!!\n" + NOR,me,target);
 	    ob->move(environment(target));
 	    ob->set("name", "(完全斷毀)" + ob->query("bname"));
 	    ob->set("value", 1);
@@ -144,7 +144,7 @@ void weapon_material(object me,object target)
 	    if( qq > 150 && (wd-od < 400 && wd-od > 200) )
 	    {
 	    ob->unequip();
-	    message_vision(HIY"$N"HIY"的"NOR+weapon->name()+HIY"把$n"HIY"的"NOR+ob->name()+HIY"輕輕的砍出了一個小缺口!!\n"NOR,me,target);
+	    message_vision(HIY + "$N" + HIY + "的" + NOR+weapon->name()+HIY + "把$n" + HIY + "的" + NOR+ob->name()+HIY + "輕輕的砍出了一個小缺口!!\n" + NOR,me,target);
 	    ob->add("bad",1);
 	      if( ob->query("bad") >= 11 )
 	      ob->set("name", "(極盡崩碎)" + ob->query("bname"));
@@ -173,7 +173,7 @@ void weapon_material(object me,object target)
 	      ob->add("weapon_prop/damage",-5);
 	      ob->wield();
 	      }else{
-	      message_vision(RED"$n"RED"的"+ob->name()+RED"再也承受不住攻擊碎裂斷毀了!!\n"NOR,me,target);
+	      message_vision(RED + "$n" + RED + "的"+ob->name()+RED + "再也承受不住攻擊碎裂斷毀了!!\n" + NOR,me,target);
 	      ob->move(environment(target));
 	      ob->set("name", "(碎裂斷毀)" + ob->query("bname"));
 	      ob->set("value", 1);
@@ -184,15 +184,15 @@ void weapon_material(object me,object target)
 //以下武器等級相當，所以不再以傷害對方武器
 	      if( qq > 75 && (wd-od < 200 && wd-od > 100) )
 	      {
-	      message_vision(HIG"$n"HIG"只覺得手中"NOR+ob->name()+HIG"被"NOR+weapon->name()+HIG"一震﹐險些脫手飛出!!\n"NOR,me,target);
+	      message_vision(HIG + "$n" + HIG + "只覺得手中" + NOR+ob->name()+HIG + "被" + NOR+weapon->name()+HIG + "一震﹐險些脫手飛出!!\n" + NOR,me,target);
 		  }else{
 		    if( qq > 25 && (wd-od < 100 && wd-od > 50) )
 		    {
-	        message_vision(HIW"$N"HIW"的"NOR+weapon->name()+HIW"和$n"HIW"的"NOR+ob->name()+HIW"相擊﹐冒出點點的火星。\n"NOR,me,target);
+	        message_vision(HIW + "$N" + HIW + "的" + NOR+weapon->name()+HIW + "和$n" + HIW + "的" + NOR+ob->name()+HIW + "相擊﹐冒出點點的火星。\n" + NOR,me,target);
 	        }else{
 	          if( random(10) > 5 && (wd == od) )
 	          {
-	          message_vision(HIM"$N"HIM"的"NOR+weapon->name()+HIM"和$n"HIM"的"NOR+ob->name()+HIM"相擊﹐發出響亮清脆的聲音。\n"NOR,me,target);
+	          message_vision(HIM + "$N" + HIM + "的" + NOR+weapon->name()+HIM + "和$n" + HIM + "的" + NOR+ob->name()+HIM + "相擊﹐發出響亮清脆的聲音。\n" + NOR,me,target);
 	          }
 	        }
 	      }

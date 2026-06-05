@@ -159,7 +159,7 @@ mapping *action = ({
 //17
 (["action":
 
-"$N低頭吟道："+HIM+"『"+HIG+"無情不似多情苦，一寸還成千萬縷\"+HIM+"』"+NOR+"手中的$w也跟著由一條，變成十條，百條，甚至千萬條，
+"$N低頭吟道："+HIM+"『"+HIG+"無情不似多情苦，一寸還成千萬縷"+ HIM+"』"+NOR+"手中的$w也跟著由一條，變成十條，百條，甚至千萬條，
 由四面八方向對手攻去，無孔不入般的突破對手的防守。",
         "damage":   50,
         "force":    50,
@@ -186,7 +186,7 @@ mapping *action = ({
 
 //20
 (["action":
-"$N屏氣凝神，剎那間整個戰場毫無聲息，瀰漫著一股殺意，突然間"+HIM+"『"+HIG+"銀瓶乍破水漿迸，鐵騎突出刀槍鳴。"HIM+"』"+NOR+"
+"$N屏氣凝神，剎那間整個戰場毫無聲息，瀰漫著一股殺意，突然間"+HIM+"『"+HIG+"銀瓶乍破水漿迸，鐵騎突出刀槍鳴。" + HIM+"』"+NOR+"
 $N猝然出招，對手在猝不及防的情況下，只有倉皇躲避，但以其身法，又怎及的上九天靈影？",
         "damage":   50,
         "force":    50,
@@ -318,12 +318,12 @@ mapping query_action(object me, object weapon)
                        if(kee > 70) kee = 70;          
                        //將損耗比例改為以max_force來算, 之前最大值僅為50極不合理
                        enemy[i]->receive_damage("kee",kee);
-                       write(HIW "\n你體內寒毒流轉，詩意了然於胸，連綿不絕的向對手攻去。\n" NOR);
-                       message_vision(HIB "\n$N左支右拙，被這一鞭掃中。\n" NOR, enemy[i]);
+                       write(HIW + "\n你體內寒毒流轉，詩意了然於胸，連綿不絕的向對手攻去。\n" + NOR);
+                       message_vision(HIB + "\n$N左支右拙，被這一鞭掃中。\n" + NOR, enemy[i]);
                        COMBAT_D->report_status(enemy[i]);
                        }
                        else
-                       message_vision(HIB "\n$N福至心靈，瞧破了這招的招意，輕鬆避了開去。\n" NOR,enemy[i]);
+                       message_vision(HIB + "\n$N福至心靈，瞧破了這招的招意，輕鬆避了開去。\n" + NOR,enemy[i]);
                     }
             }
             if(random(me->query("poison"))<random(500) ) 
@@ -345,9 +345,9 @@ void attack1(object me, object victim, object weapon, int damage)
   if((me->query_skill_mapped("poison")=="coldpoison")&&(me->query("force_factor") >= 1 )
    && (me->query("marks/evil-poison")==1)  &&(me->query("combat_exp")>500000))
   {
-   message_vision(HIG"$N運起"HIR"『萬蠱蠶心術』"HIG"，配合內功\，發出兩道陰柔冷冽勁氣~~\n    
-             "HIY"真˙萬蠱蠶心奧意   "HIW"萬"HIR"蠱"HIG"尋"HIB"天"HIW"※覺變\n
-"HIG"冽勁氣竄入$N的體內，奇寒蝕骨使$N一時無法行動。\n"NOR,me,victim);
+   message_vision(HIG + "$N運起" + HIR + "『萬蠱蠶心術』" + HIG + "，配合內功\，發出兩道陰柔冷冽勁氣~~\n    
+             " + HIY + "真˙萬蠱蠶心奧意   " + HIW + "萬" + HIR + "蠱" + HIG + "尋" + HIB + "天" + HIW + "※覺變\n
+" + HIG + "冽勁氣竄入$N的體內，奇寒蝕骨使$N一時無法行動。\n" + NOR,me,victim);
    victim->start_busy( random(busy_value) );
    COMBAT_D->report_status(victim, 1);
    victim->apply_condition("cold",random(5));
@@ -363,10 +363,10 @@ void attack2(object me, object victim, object weapon, int damage)
   if((me->query_skill_mapped("poison")=="coldpoison")&&(me->query("force_factor") >= 1 )
    && (me->query("marks/evil-poison")==1)  &&(me->query("combat_exp")>500000))
    {
-   message_vision(HIW"                $N"HIR"運起"HIW"『"BLU"萬蠱蠶心術"HIW"』"HIR" ---
-                 ，萬蠱的毒素和本身武學傾城之戀相呼應，鞭中帶有熊熊烈焰。\n"NOR,me,victim);
+   message_vision(HIW + "                $N" + HIR + "運起" + HIW + "『" + BLU + "萬蠱蠶心術" + HIW + "』" + HIR + " ---
+                 ，萬蠱的毒素和本身武學傾城之戀相呼應，鞭中帶有熊熊烈焰。\n" + NOR,me,victim);
    if( random(fulv) > 40)        {
-     message_vision(RED"第一鞭的"HIR"火玫瑰毒"RED"自$N手中兵器直擊$n，讓$n身受其害。\n"NOR,me,victim);
+     message_vision(RED + "第一鞭的" + HIR + "火玫瑰毒" + RED + "自$N手中兵器直擊$n，讓$n身受其害。\n" + NOR,me,victim);
      victim->receive_damage("sen",att_value);
      victim->apply_condition("rose_poison",random(7));
      // for poison
@@ -376,9 +376,9 @@ void attack2(object me, object victim, object weapon, int damage)
        victim->set_temp("poison/rose_poison",({ me }));
 
      COMBAT_D->report_status(victim, 1);
-   } else { message_vision(HIC"但$n很巧妙地躲了$N甩出的第一鞭。\n"NOR,me,victim); }
+   } else { message_vision(HIC + "但$n很巧妙地躲了$N甩出的第一鞭。\n" + NOR,me,victim); }
      if( random(fulv) > 40) {
-     message_vision(RED"第二鞭的"HIC"五毒"RED"自$N手中兵器直擊$n，讓$n身受其害。\n"NOR,me,victim);
+     message_vision(RED + "第二鞭的" + HIC + "五毒" + RED + "自$N手中兵器直擊$n，讓$n身受其害。\n" + NOR,me,victim);
      victim->receive_damage("kee",att_value);
      COMBAT_D->report_status(victim, 1);
      victim->apply_condition("five_poison",random(7));
@@ -388,9 +388,9 @@ void attack2(object me, object victim, object weapon, int damage)
      else
        victim->set_temp("poison/five_poison",({ me }));
 
-   } else { message_vision(HIC"但$n很巧妙地躲了$N甩出的第二鞭。\n"NOR,me,victim); }
+   } else { message_vision(HIC + "但$n很巧妙地躲了$N甩出的第二鞭。\n" + NOR,me,victim); }
      if( random(fulv) > 40)  {
-     message_vision(RED"第三鞭的"HIB"深宮奇毒"RED"自$N手中兵器直擊$n，讓$n身受其害。\n"NOR,me,victim);
+     message_vision(RED + "第三鞭的" + HIB + "深宮奇毒" + RED + "自$N手中兵器直擊$n，讓$n身受其害。\n" + NOR,me,victim);
      victim->receive_damage("gin",att_value);
      COMBAT_D->report_status(victim, 1);
      victim->apply_condition("dark_poison",random(7));
@@ -400,7 +400,7 @@ void attack2(object me, object victim, object weapon, int damage)
      else
        victim->set_temp("poison/dark_poison",({ me }));
 
-   } else { message_vision(HIC"但$n很巧妙地躲了$N甩出的第三鞭。\n"NOR,me,victim); }
+   } else { message_vision(HIC + "但$n很巧妙地躲了$N甩出的第三鞭。\n" + NOR,me,victim); }
 
 
 
@@ -427,30 +427,30 @@ void attack3(object me, object victim, object weapon, int damage)
         switch(att)
         {
         case 0:
-        message_vision(HIR"$N體會『萬蠱蠶心術』之【風捲殘雲紛亂情 開天闢地噬敵心】的毒意，鞭勢豪邁直擊$n！\n"NOR,me,victim);
+        message_vision(HIR + "$N體會『萬蠱蠶心術』之【風捲殘雲紛亂情 開天闢地噬敵心】的毒意，鞭勢豪邁直擊$n！\n" + NOR,me,victim);
         break;
         case 1:
-        message_vision(HIR"$N體會『萬蠱蠶心術』之【殘武林 紛亂武林我獨尊 礙我獨霸全該】的毒意，鞭勢豪邁直擊$n！\n"NOR,me,victim);
+        message_vision(HIR + "$N體會『萬蠱蠶心術』之【殘武林 紛亂武林我獨尊 礙我獨霸全該】的毒意，鞭勢豪邁直擊$n！\n" + NOR,me,victim);
         break;
         case 2:
-        message_vision(HIR"$N體會『萬蠱蠶心術』之【恨蒼天 風雨無情只恨天 烈日寒冬殘身心】的毒意，鞭勢豪邁直擊$n！\n"NOR,me,victim);
+        message_vision(HIR + "$N體會『萬蠱蠶心術』之【恨蒼天 風雨無情只恨天 烈日寒冬殘身心】的毒意，鞭勢豪邁直擊$n！\n" + NOR,me,victim);
         break;
         case 3:
-        message_vision(HIR"$N體會『萬蠱蠶心術』之【滅神魔 自古神魔亂我心 殺神滅魔自成格】的毒意，鞭勢豪邁直擊$n！\n"NOR,me,victim);
+        message_vision(HIR + "$N體會『萬蠱蠶心術』之【滅神魔 自古神魔亂我心 殺神滅魔自成格】的毒意，鞭勢豪邁直擊$n！\n" + NOR,me,victim);
         break;
         case 4:
-        message_vision(HIR"$N體會『萬蠱蠶心術』之【夢裡愁 晃眼平生一場夢 了卻半世空餘愁】的毒意，鞭勢豪邁直擊$n！\n"NOR,me,victim);
+        message_vision(HIR + "$N體會『萬蠱蠶心術』之【夢裡愁 晃眼平生一場夢 了卻半世空餘愁】的毒意，鞭勢豪邁直擊$n！\n" + NOR,me,victim);
         break;
         }          
         if(random((int)victim->query_skill("dodge",1))
           < random((int)me->query_skill("dodge",1)*2 ))
         {
-          message_vision(HIY"$N的鞭勁毒劣，$n一時招架不住，身上留下陣陣鞭傷！！\n"NOR,me,victim);
+          message_vision(HIY + "$N的鞭勁毒劣，$n一時招架不住，身上留下陣陣鞭傷！！\n" + NOR,me,victim);
         victim->receive_damage("kee",dam);
         COMBAT_D->report_status(victim,1);
         }
         else {
-        message_vision(GRN"$n不動聲色，左閃右躲的躲過了$N凌厲的鞭勢!!\n"NOR,me,victim);
+        message_vision(GRN + "$n不動聲色，左閃右躲的躲過了$N凌厲的鞭勢!!\n" + NOR,me,victim);
         me->add("force",-100);
         }
 

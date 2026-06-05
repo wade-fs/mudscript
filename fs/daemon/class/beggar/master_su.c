@@ -7,11 +7,11 @@ void create()
   set("long","看他的樣子一臉衰相，真懷疑他竟是一派的掌門！\n");
   set("gender","男性");
   set("class","beggar");
-  set("nickname",HIW"走路踩狗屎，吃飯會噎死"NOR);
+  set("nickname",HIW + "走路踩狗屎，吃飯會噎死" + NOR);
   set("combat_exp",10000000);
   set("attitude","friendly");
   set("age",40);
-  set("title",HBCYN+HIW"丐幫第二代幫主"NOR);
+  set("title",HBCYN+HIW + "丐幫第二代幫主" + NOR);
   set("str", 40);
   set("cor", 40);
   set("cps", 30);
@@ -120,11 +120,11 @@ void attempt_apprentice(object ob)
       command("spit");
       command("ohoh");
       command("recruit "+ob->query("id")); 
-      this_player()->set("title","丐幫第三代弟子"NOR);
+      this_player()->set("title","丐幫第三代弟子" + NOR);
       message("system",
                         HIY+"蘇乞兒高聲呼道：呦　～～　　大家注意來！！\n\n　
                          "+HIW+"今天又一幸運兒"+ob->query("name")+"入我丐幫派了\n\n
-                      "+HIR+"我們來恭喜 "+ob->query("name")+" 今後將成為新一代武狀元！\n"NOR,users());
+                      "+HIR+"我們來恭喜 "+ob->query("name")+" 今後將成為新一代武狀元！\n" + NOR,users());
     }
   }
   else
@@ -178,7 +178,7 @@ void heart_beat()
   }
   if ( this_object()->is_fighting() && random(50)>25)
   {
-    message_vision(HIM"$N不甘心被壓著打，一聲怒吼，解開了被封穴道！\n"NOR,this_object());
+    message_vision(HIM + "$N不甘心被壓著打，一聲怒吼，解開了被封穴道！\n" + NOR,this_object());
     this_object()->delete_busy();
   }
   ::heart_beat();
@@ -188,15 +188,15 @@ void die()
 {
   object winner,spirit;
   winner = query_temp("last_damage_from");
-  tell_object(users(),"\n\t\t"HIW"蘇乞兒死前大喝～～～～"NOR"\n"+
-    "\n\t"HIY"想我一代武狀元！！如今居然敗於"+winner->query("name")+"，情何以堪呀！\n
+  tell_object(users(),"\n\t\t" + HIW + "蘇乞兒死前大喝～～～～" + NOR + "\n"+
+    "\n\t" + HIY + "想我一代武狀元！！如今居然敗於"+winner->query("name")+"，情何以堪呀！\n
                      通 通 和 我 一 起 下 地 獄 吧 ～～～～ ﹗\n
 
-                "HIR"聲音一畢﹐天空立刻變得血紅﹐不....你眼前的一切都變得血紅...\n
+                " + HIR + "聲音一畢﹐天空立刻變得血紅﹐不....你眼前的一切都變得血紅...\n
 
-                    所有的一切都在瞬間陷入火海....\n"NOR"
+                    所有的一切都在瞬間陷入火海....\n" + NOR + "
 
-                "BMAG""HIW"然後你的眼前是一片黑暗....無止盡的黑暗....\n"NOR
+                " + BMAG + "" + HIW + "然後你的眼前是一片黑暗....無止盡的黑暗....\n" + NOR
 
   );
   if(present("cloud staff",this_object()))
@@ -206,7 +206,7 @@ void die()
     spirit = new("/open/ghost-hole/obj/ground-spirit");
     spirit->move(winner);
     log_file("/sky/spirit/ground-spirit",sprintf("%s(%s)讓蘇乞兒掉下了%s於 %s\n",winner->name(1),winner->query("id"),spirit->query("name"),ctime(time())));
-    message_vision(HIW"薀含在"+this_object()->query("name")+HIW"身體中的"+spirit->query("name")+HIW"飛射而出，落在$N"HIW"手中。\n"NOR,winner);
+    message_vision(HIW + "薀含在"+this_object()->query("name")+HIW + "身體中的"+spirit->query("name")+HIW + "飛射而出，落在$N" + HIW + "手中。\n" + NOR,winner);
   }
   :: die();
 }
@@ -291,11 +291,11 @@ void exp_check5()
   object me=this_player();
   if (me->query("family/family_name")=="丐幫" && (int)me->query("combat_exp")>10000000)
   {
-    tell_object(users(),HIY"\n
+    tell_object(users(),HIY + "\n
                         蘇乞兒拎著"+me->query("name")+"的耳朵呵呵大笑著
 \n\t      "+me->query("name")+"你學藝有成，為師就封你個稱號吧！
-\n\n\t          "HIC"丐幫頭號"HIW"【"HIR"小 烏 龜"HIW"】"NOR"\n");
-    me->set("title",HIC"丐幫頭號"HIW"【"HIR"小 烏 龜"HIW"】"NOR);
+\n\n\t          " + HIC + "丐幫頭號" + HIW + "【" + HIR + "小 烏 龜" + HIW + "】" + NOR + "\n");
+    me->set("title",HIC + "丐幫頭號" + HIW + "【" + HIR + "小 烏 龜" + HIW + "】" + NOR);
     me->set("beggar/have_nick",1);
   }
 }

@@ -3,7 +3,7 @@
 inherit BULLETIN_BOARD;
 void create()
 {
-set_name(HIW"【"HIC"天下會"HIG"留言板"HIW"】"NOR,({"The_World","board"}));
+set_name(HIW + "【" + HIC + "天下會" + HIG + "留言板" + HIW + "】" + NOR,({"The_World","board"}));
 set("location","/open/clan/The_World/hall");
 set("board_id","The_World_A");
 set("long","");

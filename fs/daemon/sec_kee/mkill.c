@@ -96,10 +96,10 @@ int kee_out(object me,object target)
  if (maxskee > 250)
  {
    me->add("max_s_kee",-30);                   //所需花去的靈氣等級
-   message_vision(HIM"  殺      意      魔      氣\n\n"NOR,me);
-   message_vision(HIM"超頂級威力        **紫**級**魔**氣**      \n\n"NOR,me);
-   message_vision(HIM"超精純的殺意魔氣化成真元由$N體內射出，這是具有無比威力的魔氣\n"NOR,me);
-   message_vision(HIM"$N的魔氣真元在瞬間射入$n體內，無比的威力在其體內爆發！\n"NOR,me,target);
+   message_vision(HIM + "  殺      意      魔      氣\n\n" + NOR,me);
+   message_vision(HIM + "超頂級威力        **紫**級**魔**氣**      \n\n" + NOR,me);
+   message_vision(HIM + "超精純的殺意魔氣化成真元由$N體內射出，這是具有無比威力的魔氣\n" + NOR,me);
+   message_vision(HIM + "$N的魔氣真元在瞬間射入$n體內，無比的威力在其體內爆發！\n" + NOR,me,target);
    target->start_busy(2);
    target->receive_damage("gin",random(mix_power*2));
    target->receive_damage("sen",random(cor*40));   //膽識30*40=1200 一般是一擊必殺，重要NPC不會有問題
@@ -107,60 +107,60 @@ int kee_out(object me,object target)
  }
  else if (maxskee > 200)
  {
-   message_vision(HIM"  殺      意      魔      氣\n\n"NOR,me);
-   message_vision(HIG"頂級威力          *綠*級*魔*氣*   \n\n"NOR,me);
-   message_vision(HIG"$N由自身爆出強烈的殺氣，這是一種帶有魔力的殺氣\n"NOR,me);
-   message_vision(HIG"$N地獄般的魔氣瞬間籠罩$n，令其感到劇烈的恐懼感！\n"NOR,me,target);
+   message_vision(HIM + "  殺      意      魔      氣\n\n" + NOR,me);
+   message_vision(HIG + "頂級威力          *綠*級*魔*氣*   \n\n" + NOR,me);
+   message_vision(HIG + "$N由自身爆出強烈的殺氣，這是一種帶有魔力的殺氣\n" + NOR,me);
+   message_vision(HIG + "$N地獄般的魔氣瞬間籠罩$n，令其感到劇烈的恐懼感！\n" + NOR,me,target);
    target->start_busy(2);
    target->receive_damage("gin",random(mix_power));
    target->receive_damage("sen",random(cor*20));                  //膽識30*20=600
  }
  else if (maxskee > 150)
  {
-   message_vision(HIM"  殺      意      魔      氣\n\n"NOR,me);
-   message_vision(HIR"超上級威力        *紅*級*魔*氣*   \n\n"NOR,me);
-   message_vision(HIR"$N由自身爆出強烈的殺氣，這是一種帶有魔力的殺氣\n"NOR,me);
-   message_vision(HIR"$N地獄般的魔氣瞬間籠罩$n，令其感到劇烈的恐懼感！\n"NOR,me,target);
+   message_vision(HIM + "  殺      意      魔      氣\n\n" + NOR,me);
+   message_vision(HIR + "超上級威力        *紅*級*魔*氣*   \n\n" + NOR,me);
+   message_vision(HIR + "$N由自身爆出強烈的殺氣，這是一種帶有魔力的殺氣\n" + NOR,me);
+   message_vision(HIR + "$N地獄般的魔氣瞬間籠罩$n，令其感到劇烈的恐懼感！\n" + NOR,me,target);
    target->start_busy(2);
    target->receive_damage("gin",random(mix_power));
    target->receive_damage("sen",random(cor*10));                          //膽識30*10=300
  }
  else if (maxskee > 100)
  {
-   message_vision(HIM"  殺      意      魔      氣\n\n"NOR,me);
-   message_vision(HIY"上級威力          *黃*級*魔*氣*   \n\n"NOR,me);
-   message_vision(HIY"$N由自身爆出強烈的殺氣，這是一種帶有魔力的殺氣\n"NOR,me);
-   message_vision(HIY"$N地獄般的魔氣瞬間籠罩$n，令其感到劇烈的恐懼感！\n"NOR,me,target);
+   message_vision(HIM + "  殺      意      魔      氣\n\n" + NOR,me);
+   message_vision(HIY + "上級威力          *黃*級*魔*氣*   \n\n" + NOR,me);
+   message_vision(HIY + "$N由自身爆出強烈的殺氣，這是一種帶有魔力的殺氣\n" + NOR,me);
+   message_vision(HIY + "$N地獄般的魔氣瞬間籠罩$n，令其感到劇烈的恐懼感！\n" + NOR,me,target);
    target->start_busy(2);
    target->receive_damage("gin",random(mix_power*0.9)); //max 249
    target->receive_damage("sen",random(cor*8));                         //膽識30*8=240
  }
  else if (maxskee > 70)
  {
-   message_vision(HIM"  殺      意      魔      氣\n\n"NOR,me);
-   message_vision(HIB"中級威力          *藍*級*魔*氣*   \n\n"NOR,me);
-   message_vision(HIB"$N由自身爆出強烈的殺氣，這是一種帶有魔力的殺氣\n"NOR,me);
-   message_vision(HIB"$N地獄般的魔氣瞬間籠罩$n，令其感到劇烈的恐懼感！\n"NOR,me,target);
+   message_vision(HIM + "  殺      意      魔      氣\n\n" + NOR,me);
+   message_vision(HIB + "中級威力          *藍*級*魔*氣*   \n\n" + NOR,me);
+   message_vision(HIB + "$N由自身爆出強烈的殺氣，這是一種帶有魔力的殺氣\n" + NOR,me);
+   message_vision(HIB + "$N地獄般的魔氣瞬間籠罩$n，令其感到劇烈的恐懼感！\n" + NOR,me,target);
    target->start_busy(1);                                     //busy 1
    target->receive_damage("gin",random(mix_power*0.8)); //max 249
    target->receive_damage("sen",random(cor*7));                         //膽識30*6=180
  }
  else if (maxskee > 40)
  {
-   message_vision(HIM"  殺      意      魔      氣\n\n"NOR,me);
-   message_vision(RED"          *泛*級*魔*氣*   \n\n"NOR,me);
-   message_vision(RED"$N由自身爆出強烈的殺氣，這是一種帶有魔力的殺氣\n"NOR,me);
-   message_vision(RED"$N地獄般的魔氣瞬間籠罩$n，令其感到劇烈的恐懼感！\n"NOR,me,target);
+   message_vision(HIM + "  殺      意      魔      氣\n\n" + NOR,me);
+   message_vision(RED + "          *泛*級*魔*氣*   \n\n" + NOR,me);
+   message_vision(RED + "$N由自身爆出強烈的殺氣，這是一種帶有魔力的殺氣\n" + NOR,me);
+   message_vision(RED + "$N地獄般的魔氣瞬間籠罩$n，令其感到劇烈的恐懼感！\n" + NOR,me,target);
    target->start_busy(1);                                     //busy 1
    target->receive_damage("gin",random(mix_power*0.7)); //max 150
    target->receive_damage("sen",random(cor*6));                         //膽識30*6=180
  }
  else if (maxskee > 10)
  {
-   message_vision(HIM"  殺      意      魔      氣\n\n"NOR,me);
-   message_vision(MAG"          *初*級*魔*氣*   \n\n"NOR,me);
-   message_vision(MAG"$N由自身爆出強烈的殺氣，這是一種帶有魔力的殺氣\n"NOR,me);
-   message_vision(MAG"$N地獄般的魔氣瞬間籠罩$n，令其感到劇烈的恐懼感！\n"NOR,me,target);
+   message_vision(HIM + "  殺      意      魔      氣\n\n" + NOR,me);
+   message_vision(MAG + "          *初*級*魔*氣*   \n\n" + NOR,me);
+   message_vision(MAG + "$N由自身爆出強烈的殺氣，這是一種帶有魔力的殺氣\n" + NOR,me);
+   message_vision(MAG + "$N地獄般的魔氣瞬間籠罩$n，令其感到劇烈的恐懼感！\n" + NOR,me,target);
    target->start_busy(1);                                     //busy 1
    target->receive_damage("gin",random(mix_power*0.5)); //max 120
    target->receive_damage("sen",random(cor*4));                         //膽識30*5=120

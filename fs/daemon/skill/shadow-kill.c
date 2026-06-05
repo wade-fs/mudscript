@@ -121,7 +121,7 @@ mapping *action = ({
 "damage_type": "刺傷",
 "post_action": (: devast2 :),
 ]),
-([ "action":HIY"$N體內一陣絕世氣力由體內爆發而出，$w"+HIY+"幻化出一陣氣勁沖向$n$l...."NOR,
+([ "action":HIY + "$N體內一陣絕世氣力由體內爆發而出，$w"+HIY+"幻化出一陣氣勁沖向$n$l...." + NOR,
 "dodge": -60,
 "parry": -60,
 "damage": 120,
@@ -129,7 +129,7 @@ mapping *action = ({
 "damage_type": "刺傷",
 "post_action": (: worldpill :),
 ]),
-([ "action":HIR"$N運起全身氣勁灌注到$w"+HIR+"裡，使出驚天動地的一擊!!"+HIG+" 四 神 爆 走 第 三 式 ～ 四  神  之  怒 ～"NOR,
+([ "action":HIR + "$N運起全身氣勁灌注到$w"+HIR+"裡，使出驚天動地的一擊!!"+HIG+" 四 神 爆 走 第 三 式 ～ 四  神  之  怒 ～" + NOR,
 "dodge": -70,
 "parry": -70,
 "damage": 130,
@@ -145,7 +145,7 @@ void busyk(object me, object victim, object weapon, int damage)
     if((random(150)<me->query_skill("shadow-kill",1))&&!me->query_temp("devast")&&!me->query_temp("devast2"))
     {
       victim->start_busy(1);
-      message_vision(sprintf(HIB"趁著$n忙於招架這密如繁星般的攻擊之際，$N見機不可失，劍勢疾迴，意欲再進一招....\n"NOR),me,victim);
+      message_vision(sprintf(HIB + "趁著$n忙於招架這密如繁星般的攻擊之際，$N見機不可失，劍勢疾迴，意欲再進一招....\n" + NOR),me,victim);
       COMBAT_D->report_status(victim, 1);
     }
 }
@@ -159,7 +159,7 @@ void devour(object me, object victim, object weapon, int damage)
     if(random(150)<me->query_skill("shadow-kill",1)&&!me->query_temp("devast")&&!me->query_temp("devast2"))
     {
       victim->receive_damage("kee", 250 + random( my_bell ), me);
-      message_vision(sprintf(HIC"$N 匕首上枉死的冤魂，受不住$N陣陣殺氣的催動，從匕首脫出，向$n撲噬而去。\n"NOR),me,victim);
+      message_vision(sprintf(HIC + "$N 匕首上枉死的冤魂，受不住$N陣陣殺氣的催動，從匕首脫出，向$n撲噬而去。\n" + NOR),me,victim);
       COMBAT_D->report_status(victim, 1);
     }
 }
@@ -171,7 +171,7 @@ void bloodk(object me, object victim, object weapon, int damage)
     {
       victim->receive_damage("sen",100,me);
       victim->receive_damage("kee", 250 +random( (int)me->query_skill("rain-throwing",1)/2 ), me);
-      message_vision(sprintf(HIM"只見從$n傷口噴灑而出的鮮血，突然凝成無數血柱，如靈蛇般向$n竄去，攝走$n的魂魄。\n"NOR),me,victim);
+      message_vision(sprintf(HIM + "只見從$n傷口噴灑而出的鮮血，突然凝成無數血柱，如靈蛇般向$n竄去，攝走$n的魂魄。\n" + NOR),me,victim);
       COMBAT_D->report_status(victim, 1);
     }
 }
@@ -183,7 +183,7 @@ void reversek(object me, object victim, object weapon, int damage)
   {
     victim->apply_condition("bleeding",(int)me->query_skill("cure")/5 +
       random( (int)my_shadow/10 + (int)me->query_skill("parry")/10 ) );
-    message_vision(sprintf(HIR"$N雙手倒握匕首，往自己胸口送去－－卻見到$n胸口一道血柱如飛泉般噴出。\n"NOR),me,victim);
+    message_vision(sprintf(HIR + "$N雙手倒握匕首，往自己胸口送去－－卻見到$n胸口一道血柱如飛泉般噴出。\n" + NOR),me,victim);
   }
 }
 
@@ -193,7 +193,7 @@ void shadowk(object me, object victim, object weapon, int damage)
   if((random(500)<me->query_skill("force")+me->query_skill("shade-steps",1)+my_shadow)&&!me->query_temp("devast")&&!me->query_temp("devast2"))
   {
     victim->recieve_damage("kee",300+random( (int)my_shadow/2 ) );
-    message_vision(sprintf(HIG"$N召喚風影化身與$n廝殺。$N的法身逕向$n背後繞去，雙手提劍往$n天靈直落。\n"NOR),me,victim);
+    message_vision(sprintf(HIG + "$N召喚風影化身與$n廝殺。$N的法身逕向$n背後繞去，雙手提劍往$n天靈直落。\n" + NOR),me,victim);
     COMBAT_D->report_status(victim, 1);
   }
 }
@@ -213,7 +213,7 @@ void devast(object me,object victim, object weapon, int damage)
         if( random(1600) < me->query("bellicosity")+200)
         COMBAT_D->do_attack(me, victim, me->query_temp("weapon"), TYPE_QUICK);
       }
-      message_vision(sprintf(HIY"$N仰天一嘆～明白這並非招式之極致，正所謂「飄風不終朝，驟雨不終日」。於是氣歸元牝，周流六虛....\n"NOR),me,victim);
+      message_vision(sprintf(HIY + "$N仰天一嘆～明白這並非招式之極致，正所謂「飄風不終朝，驟雨不終日」。於是氣歸元牝，周流六虛....\n" + NOR),me,victim);
       COMBAT_D->report_status(victim, 1);
       call_out("ready1",1,me);
     }
@@ -235,7 +235,7 @@ void devast2(object me,object victim, object weapon, int damage)
         if( random(4000) < me->query("bellicosity")+200)
         COMBAT_D->do_attack(me, victim, me->query_temp("weapon"), TYPE_QUICK);
       }
-      message_vision(sprintf(HIY"$N仰天一嘆～明白這並非招式之極致，正所謂「飄風不終朝，驟雨不終日」。於是氣歸元牝，周流六虛....\n"NOR),me,victim);
+      message_vision(sprintf(HIY + "$N仰天一嘆～明白這並非招式之極致，正所謂「飄風不終朝，驟雨不終日」。於是氣歸元牝，周流六虛....\n" + NOR),me,victim);
       COMBAT_D->report_status(victim, 1);
       call_out("ready2",1,me);
     }
@@ -265,22 +265,22 @@ void worldpill(object me,object victim, object weapon, int damage)
   time=random(time)+2;
   if( me->query("force_factor") >= 5)
   {
-    message_vision(HIC"\n======  "HIW"$N 使 出 闇 影 匕 首 奧 義 "HIR"絕 世 幻 氣 "HIC" ====== 
-      \n\n"NOR,me);
-    message_vision(HIW"$N發出的氣勁幻化出數條殘影, 令$n無法捉摸!!\n\n"NOR,me,victim);
+    message_vision(HIC + "\n======  " + HIW + "$N 使 出 闇 影 匕 首 奧 義 " + HIR + "絕 世 幻 氣 " + HIC + " ====== 
+      \n\n" + NOR,me);
+    message_vision(HIW + "$N發出的氣勁幻化出數條殘影, 令$n無法捉摸!!\n\n" + NOR,me,victim);
     for(i=0;i<time;i++)
     {
       if ( random(100) < 70 )
       {
 //        if( !me->is_fighting() )
 //        return ;
-        message_vision(sprintf(NOR"氣勁化成"+HIR+"朱雀"+NOR+"﹐"+HIG+"青龍"+NOR+"﹐"+HIC+"白虎"+NOR+"﹐"+HIY+"玄武"+NOR+"﹐四色氣勁將敵人團團包圍!!\n"NOR),me,victim);
+        message_vision(sprintf(NOR + "氣勁化成"+HIR+"朱雀"+NOR+"﹐"+HIG+"青龍"+NOR+"﹐"+HIC+"白虎"+NOR+"﹐"+HIY+"玄武"+NOR+"﹐四色氣勁將敵人團團包圍!!\n" + NOR),me,victim);
         if (random(100)>10)
         {
           victim->receive_wound("kee",150 + random( (int)my_shadow ),me);
           COMBAT_D->report_status(victim);
         }
-        else message_vision(HIR"$N手忙腳亂, 驚險地閃過了這來勢洶洶的氣勁。\n"NOR , victim);
+        else message_vision(HIR + "$N手忙腳亂, 驚險地閃過了這來勢洶洶的氣勁。\n" + NOR , victim);
       }
     }       
 //    me->start_busy(1);
@@ -304,13 +304,13 @@ void worldkill(object me,object victim, object weapon, int damage)
   if(kee>600) kee=600;
   if(sen>400) sen=400;
   {
-    message_vision(HIY"\n======  "+BLINK+BOLD+"～～    四     神     之     怒    ～～ "+NOR+HIY+" ====== 
-      \n\n"NOR,me);
+    message_vision(HIY + "\n======  "+BLINK+BOLD+"～～    四     神     之     怒    ～～ "+NOR+HIY+" ====== 
+      \n\n" + NOR,me);
     for(i=0;i<time;i++)
     {
       if ( random(100) < 75 )
       {
-        message_vision(sprintf("$N分身成"+HIR+"朱雀"+NOR+"﹐"+HIG+"青龍"+NOR+"﹐"+HIC+"白虎"+NOR+"﹐"+HIY+"玄武"+NOR+"﹐四神幻影﹐將$n陷入虛無的幻象之中!!\n"NOR),me,victim);
+        message_vision(sprintf("$N分身成"+HIR+"朱雀"+NOR+"﹐"+HIG+"青龍"+NOR+"﹐"+HIC+"白虎"+NOR+"﹐"+HIY+"玄武"+NOR+"﹐四神幻影﹐將$n陷入虛無的幻象之中!!\n" + NOR),me,victim);
         if (random(100)<10)
         {
           victim->receive_wound("kee",kee,me);
@@ -319,7 +319,7 @@ void worldkill(object me,object victim, object weapon, int damage)
           victim->start_busy(1);
           COMBAT_D->report_status(victim);
         }
-        else message_vision(HIR"$N集中意志力, 識破了眼前的幻影。\n"NOR , victim);
+        else message_vision(HIR + "$N集中意志力, 識破了眼前的幻影。\n" + NOR , victim);
       }
     }
   }

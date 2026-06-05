@@ -4,13 +4,13 @@ inherit F_CLEAN_UP;
 string change_local;
 private void get_choice(string arg, object user);
 private void get_value(string value, object user);
-string WARNING=HIY"
+string WARNING=HIY + "
         特別的注意!!
         如果你是第一次使用本系統或是對本系統並不熟悉
         請一定要進入(help)選項觀看使用方法，以免因為
         殊失而導致系統的不正常!!本系統目前並沒有對任
         何選項做任何的保護措施，所以請小心使用。
-        \n"NOR;
+        \n" + NOR;
 string LOCAL="
         (add)   增加不允許\進入的ip
         (del)   刪除目前不允許\進入的ip，也就是讓該ip進入
@@ -18,7 +18,7 @@ string LOCAL="
         (help)  觀看本系統說明檔
         (quit)  結束系統回到fs
         \n";
-string DOHELP=HIG"
+string DOHELP=HIG + "
         本系統提供你增加，刪除，查詢目前有被禁用的ip，為了表達
         的方便，特別的使用了選單式的系統，讓操作更簡便，與以往
         不同的是，在設定上多了*這個萬用字元的使用。
@@ -29,16 +29,16 @@ string DOHELP=HIG"
         誤。
         對本系統有任何的問題，請post在bss的board上，我一定會解
         決!!
-        \n"NOR;
+        \n" + NOR;
 void create()
 {
         seteuid(getuid());
 }
 int main(object me, string arg)
 {
-        write(HIC"        你己經進入了banned_ip修改系統!!\n"NOR);
+        write(HIC + "        你己經進入了banned_ip修改系統!!\n" + NOR);
         write(WARNING);
-        write(HIC"        本系統提供了下面的功\能!!\n"NOR);
+        write(HIC + "        本系統提供了下面的功\能!!\n" + NOR);
         write(LOCAL);
         write("請輸入欲往之選項:\n");
         input_to( (: get_choice :), 0, this_player() );

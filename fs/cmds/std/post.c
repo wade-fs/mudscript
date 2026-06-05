@@ -118,7 +118,7 @@ int main(object me,string arg)
       return notify_fail("這個佈告欄只有巫師能發表文章!!!\n");
 
   note = allocate_mapping(4);
-  note["title"] = HIG""HIC + arg;
+  note["title"] = HIG + "" + HIC + arg;
   note["author"] = me->query("name")+"("+me->query("id")+")";
   note["time"] = time();
  

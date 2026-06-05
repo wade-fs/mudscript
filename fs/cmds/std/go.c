@@ -89,8 +89,8 @@ if(!wizardp(me))
           if((me->query("family/family_name")=="段家") && me->query("marks/linpo-steps"))
             flag=SKILL_D("linpo-steps")->can_flee(me,exit_number);
           if(flag) {
-            mout = HIY"使出凌波微步的精微步法，向"+dir+"逸去。\n"NOR;
-            min = HIG"翩然的落在地上。\n"NOR;
+            mout = HIY + "使出凌波微步的精微步法，向"+dir+"逸去。\n" + NOR;
+            min = HIG + "翩然的落在地上。\n" + NOR;
             me->set_temp("flee_go",1);
             if ( me->query_temp("join_pk") )
                     me->add_temp( "go_away", 1 );
@@ -106,10 +106,10 @@ if(!wizardp(me))
                 else {
                         // 干擾 tin
                         switch(random(4)) {
-                                case 0: message_vision( HIW"$N嘗試逃跑, 但被敵人所阻, 逃跑失敗。\n"NOR, me ); break;
-                                case 1: message_vision( HIW"$N嘗試逃跑, 但被敵人封鎖, 逃跑失敗。\n"NOR, me ); break;
-                                case 2: message_vision( HIW"$N試著逃跑, 但被敵人所阻。\n"NOR, me ); break;
-                                case 3: message_vision( HIW"$N試著逃跑, 但被敵人封鎖。\n"NOR, me ); break;
+                                case 0: message_vision( HIW + "$N嘗試逃跑, 但被敵人所阻, 逃跑失敗。\n" + NOR, me ); break;
+                                case 1: message_vision( HIW + "$N嘗試逃跑, 但被敵人封鎖, 逃跑失敗。\n" + NOR, me ); break;
+                                case 2: message_vision( HIW + "$N試著逃跑, 但被敵人所阻。\n" + NOR, me ); break;
+                                case 3: message_vision( HIW + "$N試著逃跑, 但被敵人封鎖。\n" + NOR, me ); break;
                         }
                         return 1;
                 }
@@ -127,8 +127,8 @@ if( me->query_temp("is_riding") && me->query_temp("horse") ) {
                 else {
                 if( !go = (string)me->query_temp("go") ) 
                         go = "走";
-                mout = "往" + dir + go + NOR"了過去。\n";
-                min  = go + NOR"了過來。\n";
+                mout = "往" + dir + go + NOR + "了過去。\n";
+                min  = go + NOR + "了過來。\n";
         }
         }
             if(me->is_busy() && !me->query_temp("flee_go")) return 0;

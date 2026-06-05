@@ -8,7 +8,7 @@ string LONG_STRING="
 void create()
 {
     seteuid(getuid());
-     set_name(HIY "神奇寶貝球" NOR,({"caller"}));
+     set_name(HIY + "神奇寶貝球" + NOR,({"caller"}));
      set_weight(500);
     set("unit","個");
      set("long",LONG_STRING);

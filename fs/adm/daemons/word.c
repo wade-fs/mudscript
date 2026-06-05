@@ -28,7 +28,7 @@ string paper(string arg)
         {
         str += line4(arg[j..j]);
         }
-return  HIC + random_replace(str)+"\n"NOR;
+return  HIC + random_replace(str)+"\n" + NOR;
 }
 string random_replace(string str)
 {

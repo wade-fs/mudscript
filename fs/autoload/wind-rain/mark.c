@@ -7,7 +7,7 @@ inherit ITEM;
 
 void create()
 {
-  set_name(HIY"風雨令"NOR, ({"wind_rain mark","wind_rain" }));
+  set_name(HIY + "風雨令" + NOR, ({"wind_rain mark","wind_rain" }));
   set_weight(5);
   set("no_sell",1);
   set("no_auc",1);
@@ -20,13 +20,13 @@ void create()
     set("unit", "塊");
     set("long","
    風雨令，傳說中的神秘幫會「金風細雨樓」的信物，一向為各代樓主所有。
-   此令足以號令武林，並可調度風雨樓中"HIY"「金風細雨」"NOR"四輩護衛，持此令者一
+   此令足以號令武林，並可調度風雨樓中" + HIY + "「金風細雨」" + NOR + "四輩護衛，持此令者一
    向就是公認的武林盟主。改朝換代時一度下落不明，如今重出江湖，代表著
    和平盛世已經走到了盡頭，樓中風雨欲來。
 
-   細看此令，兩面分別書著"HIC"「風」"HIW"「雨」"NOR"兩大字，另外有兩行小字：
+   細看此令，兩面分別書著" + HIC + "「風」" + HIW + "「雨」" + NOR + "兩大字，另外有兩行小字：
 
-              "HIC"不見風雨，治世有明  風雨驟遇，亂世荼靈。"NOR"
+              " + HIC + "不見風雨，治世有明  風雨驟遇，亂世荼靈。" + NOR + "
 
 \n");
     set("value", 100);

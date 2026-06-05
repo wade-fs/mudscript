@@ -81,25 +81,25 @@ mapping parry_div = ([
 ]);
 
 string *guard_msg = ({
-  CYN "$N注視著$n的行動﹐企圖尋找機會出手。\n" NOR,
-  CYN "$N正盯著$n的一舉一動﹐隨時準備發動攻勢。\n" NOR,
-  CYN "$N緩緩地移動腳步﹐想要找出$n的破綻。\n" NOR,
-  CYN "$N目不轉睛地盯著$n的動作﹐尋找進攻的最佳時機。\n" NOR,
-  CYN "$N不停的在$n身旁遊移著﹐專心的尋找$n的破綻。\n" NOR,
-  CYN "$N慢慢地移動著腳步﹐伺機出手。\n" NOR,
-  CYN "$N眼觀四路﹐耳聽八方﹐集中精神與$n纏鬥著。\n" NOR,
-  CYN "$N步步為營﹐雙眼直視著$n﹐想找出$n的防守漏洞。\n" NOR,
+  CYN + "$N注視著$n的行動﹐企圖尋找機會出手。\n" + NOR,
+  CYN + "$N正盯著$n的一舉一動﹐隨時準備發動攻勢。\n" + NOR,
+  CYN + "$N緩緩地移動腳步﹐想要找出$n的破綻。\n" + NOR,
+  CYN + "$N目不轉睛地盯著$n的動作﹐尋找進攻的最佳時機。\n" + NOR,
+  CYN + "$N不停的在$n身旁遊移著﹐專心的尋找$n的破綻。\n" + NOR,
+  CYN + "$N慢慢地移動著腳步﹐伺機出手。\n" + NOR,
+  CYN + "$N眼觀四路﹐耳聽八方﹐集中精神與$n纏鬥著。\n" + NOR,
+  CYN + "$N步步為營﹐雙眼直視著$n﹐想找出$n的防守漏洞。\n" + NOR,
 });
 
 string *catch_hunt_msg = ({
-  YEL "$N和$n仇人相見分外眼紅﹐立刻打了起來﹗\n" NOR,
-  YEL "$N對著$n大喝﹕「可惡﹐又是你﹗」\n" NOR,
-  YEL "$N和$n一碰面﹐二話不說就打了起來﹗\n" NOR,
-  YEL "$N一見到$n﹐冷冷的道﹕「我倆還真是有緣呀﹗去死吧﹗」\n" NOR,
-  YEL "$N一眼瞥見$n﹐「哼」的一聲衝了過來﹗\n" NOR,
-  YEL "$N一見到$n﹐愣了一愣﹐大叫﹕「我宰了你﹗」\n" NOR,
-  YEL "$N對著$n冷冷的哼了一聲﹐想致$n於死地﹗\n" NOR,
-  YEL "$N與$n擦肩而過﹐立刻轉過身來﹐大叫﹕「小王八蛋哪裡跑﹗」\n" NOR,
+  YEL + "$N和$n仇人相見分外眼紅﹐立刻打了起來﹗\n" + NOR,
+  YEL + "$N對著$n大喝﹕「可惡﹐又是你﹗」\n" + NOR,
+  YEL + "$N和$n一碰面﹐二話不說就打了起來﹗\n" + NOR,
+  YEL + "$N一見到$n﹐冷冷的道﹕「我倆還真是有緣呀﹗去死吧﹗」\n" + NOR,
+  YEL + "$N一眼瞥見$n﹐「哼」的一聲衝了過來﹗\n" + NOR,
+  YEL + "$N一見到$n﹐愣了一愣﹐大叫﹕「我宰了你﹗」\n" + NOR,
+  YEL + "$N對著$n冷冷的哼了一聲﹐想致$n於死地﹗\n" + NOR,
+  YEL + "$N與$n擦肩而過﹐立刻轉過身來﹐大叫﹕「小王八蛋哪裡跑﹗」\n" + NOR,
 });
 
 int death_effect(object victim);
@@ -135,14 +135,14 @@ string damage_msg(int damage, string type)
     if( damage > victim->query("max_kee")*2 ) {
 	if( !userp(victim) )
 	    victim->set( "corpse_gone", 1 );
-	str = HIR"結果聽見「轟」地一聲驚天巨響, 極度驚恐的$n瞬間化成齎粉, 灰飛湮滅。"NOR;
+	str = HIR + "結果聽見「轟」地一聲驚天巨響, 極度驚恐的$n瞬間化成齎粉, 灰飛湮滅。" + NOR;
 	if( wizardp(me) )
 	    str += "(" + damage + ")";
 	return str + "\n";
     }
     */
     if( wizardp(me) || wizardp(victim) )
-	return "造成 "HIR + damage + NOR" 點" + type + "。\n";
+	return "造成 " + HIR + damage + NOR + " 點" + type + "。\n";
     switch( type ) {
     case "斲傷":
     case "割傷":
@@ -197,31 +197,31 @@ string damage_msg(int damage, string type)
 
 string eff_status_msg(int ratio)
 {
-    if( ratio==100 ) return HIW "看起來氣血充盈﹐並沒有受傷。" NOR;
-    if( ratio > 95 ) return HIG "似乎受了點輕傷﹐不過光從外表看不大出來。" NOR;
-    if( ratio > 90 ) return HIG "看起來可能受了點輕傷。" NOR;
-    if( ratio > 80 ) return GRN "受了幾處傷﹐不過似乎並不礙事。" NOR;
-    if( ratio > 60 ) return HIY "受傷不輕﹐看起來狀況並不太好。" NOR;
-    if( ratio > 40 ) return YEL "氣息粗重﹐動作開始散亂﹐看來所受的傷著實不輕。" NOR;
-    if( ratio > 30 ) return HIR "已經傷痕累累﹐正在勉力支撐著不倒下去。" NOR;
-    if( ratio > 20 ) return HIR "受了相當重的傷﹐只怕會有生命危險。" NOR;
-    if( ratio > 10 ) return RED "傷重之下已經難以支撐﹐眼看就要倒在地上。" NOR;
-    if( ratio > 5  ) return RED "受傷過重﹐已經奄奄一息﹐命在旦夕了。" NOR;
-    return                  RED "受傷過重﹐已經有如風中殘燭﹐隨時都可能斷氣。" NOR;
+    if( ratio==100 ) return HIW + "看起來氣血充盈﹐並沒有受傷。" + NOR;
+    if( ratio > 95 ) return HIG + "似乎受了點輕傷﹐不過光從外表看不大出來。" + NOR;
+    if( ratio > 90 ) return HIG + "看起來可能受了點輕傷。" + NOR;
+    if( ratio > 80 ) return GRN + "受了幾處傷﹐不過似乎並不礙事。" + NOR;
+    if( ratio > 60 ) return HIY + "受傷不輕﹐看起來狀況並不太好。" + NOR;
+    if( ratio > 40 ) return YEL + "氣息粗重﹐動作開始散亂﹐看來所受的傷著實不輕。" + NOR;
+    if( ratio > 30 ) return HIR + "已經傷痕累累﹐正在勉力支撐著不倒下去。" + NOR;
+    if( ratio > 20 ) return HIR + "受了相當重的傷﹐只怕會有生命危險。" + NOR;
+    if( ratio > 10 ) return RED + "傷重之下已經難以支撐﹐眼看就要倒在地上。" + NOR;
+    if( ratio > 5  ) return RED + "受傷過重﹐已經奄奄一息﹐命在旦夕了。" + NOR;
+    return                  RED + "受傷過重﹐已經有如風中殘燭﹐隨時都可能斷氣。" + NOR;
 }
 
 string status_msg(int ratio)
 {
-    if( ratio==100 ) return HIW "看起來充滿活力﹐一點也不累。" NOR;
-    if( ratio > 95 ) return HIG "似乎有些疲憊﹐但是仍然十分有活力。" NOR;
-    if( ratio > 90 ) return HIG "看起來可能有些累了。" NOR;
-    if( ratio > 80 ) return GRN "動作似乎開始有點不太靈光﹐但是仍然有條不紊。" NOR;
-    if( ratio > 60 ) return HIY "氣喘噓噓﹐看起來狀況並不太好。" NOR;
-    if( ratio > 40 ) return YEL "似乎十分疲憊﹐看來需要好好休息了。" NOR;
-    if( ratio > 30 ) return HIR "已經一副頭重腳輕的模樣﹐正在勉力支撐著不倒下去。" NOR;
-    if( ratio > 20 ) return HIR "看起來已經力不從心了。" NOR;
-    if( ratio > 10 ) return RED "搖頭晃腦、歪歪斜斜地站都站不穩﹐眼看就要倒在地上。" NOR;
-    return                  RED "已經陷入半昏迷狀態﹐隨時都可能摔倒暈去。" NOR;
+    if( ratio==100 ) return HIW + "看起來充滿活力﹐一點也不累。" + NOR;
+    if( ratio > 95 ) return HIG + "似乎有些疲憊﹐但是仍然十分有活力。" + NOR;
+    if( ratio > 90 ) return HIG + "看起來可能有些累了。" + NOR;
+    if( ratio > 80 ) return GRN + "動作似乎開始有點不太靈光﹐但是仍然有條不紊。" + NOR;
+    if( ratio > 60 ) return HIY + "氣喘噓噓﹐看起來狀況並不太好。" + NOR;
+    if( ratio > 40 ) return YEL + "似乎十分疲憊﹐看來需要好好休息了。" + NOR;
+    if( ratio > 30 ) return HIR + "已經一副頭重腳輕的模樣﹐正在勉力支撐著不倒下去。" + NOR;
+    if( ratio > 20 ) return HIR + "看起來已經力不從心了。" + NOR;
+    if( ratio > 10 ) return RED + "搖頭晃腦、歪歪斜斜地站都站不穩﹐眼看就要倒在地上。" + NOR;
+    return                  RED + "已經陷入半昏迷狀態﹐隨時都可能摔倒暈去。" + NOR;
 }
 
 varargs void report_status(object ob, int effective)
@@ -241,7 +241,7 @@ varargs void report_status(object ob, int effective)
 // by ACKY
 varargs void report_kee( object me )
 {
-    tell_object( me, sprintf( "\t[ %s精力: %d"NOR" %s氣血: %d"NOR" %s神瞑: %d"NOR" ]\n",
+    tell_object( me, sprintf( "\t[ %s精力: %d" + NOR + " %s氣血: %d" + NOR + " %s神瞑: %d" + NOR + " ]\n",
 	STATUS("gin"), me->query("gin"), STATUS("kee"), me->query("kee"), STATUS("sen"), me->query("sen") ) );
 }
 
@@ -473,10 +473,10 @@ varargs int do_attack(object me, object victim, object weapon, int attack_type)
     // 當然合理    也是 doctor 才能醫治
     if(me->query_temp("over/r-eyes")==1&&me->query_temp("over/l-eyes")==1) {
 	div1_2=100;
-	tell_object(me,HIY"你雙眼失明毫無中命率可言!\n"NOR);
+	tell_object(me,HIY + "你雙眼失明毫無中命率可言!\n" + NOR);
     } else if(me->query_temp("over/r-eyes")==1||me->query_temp("over/l-eyes")==1) {
 	div1_2 /= 2;
-	tell_object(me,HIG"你眼睛受傷命中率驟減一半!\n"NOR);
+	tell_object(me,HIG + "你眼睛受傷命中率驟減一半!\n" + NOR);
     }
 
     if(div1_2<random(1000)) {
@@ -549,7 +549,8 @@ varargs int do_attack(object me, object victim, object weapon, int attack_type)
 		  filter_array(functions(load_object(SKILL_D(parry_skill)),1)
 		    ,(:sizeof(regexp($1,"^query_parry_msg$")):))[0][1] == 2) 
 		    
-		    result += SKILL_D(parry_skill)->query_parry_msg(limb,victim);*/
+		    result += SKILL_D(parry_skill)->query_parry_msg(limb,victim);
+*/
     {
           string parry_string = SKILL_D(parry_skill)->query_parry_msg(limb,victim,me);
           if(functionp(parry_string)) parry_string = evaluate(me,victim);
@@ -638,12 +639,12 @@ varargs int do_attack(object me, object victim, object weapon, int attack_type)
 	    if( userp(me) )
 		if( me->query("mud_age") < 10800 ) {
 		    damage += (int) my["str"];
-		    message_vision(HIY "只見$N身旁環繞著一圈紅光, "+
-		      "$N的力量增強了!。\n" NOR, me);
+		    message_vision(HIY + "只見$N身旁環繞著一圈紅光, "+
+		      "$N的力量增強了!。\n" + NOR, me);
 		}
 	    else if( me->query("mud_age") < 11400 )
-		message_vision(HIY "$N身旁的紅光漸漸暗淡下來, "+
-		  "趨近於平淡。\n" NOR, me);
+		message_vision(HIY + "$N身旁的紅光漸漸暗淡下來, "+
+		  "趨近於平淡。\n" + NOR, me);
 	    // 把傷害力加上攻擊力,在減調防禦力為新傷害力 by swy
 	    damage += (ap/100);
 	    damage -= (op/100);
@@ -658,7 +659,7 @@ varargs int do_attack(object me, object victim, object weapon, int attack_type)
 
 	    if (victim->query_temp("unsuck")==1)
 	    {
-		message_vision(HIY"\n『金鐘罩』十成功\力，果然厲害，竟把$N加諸在$n的攻擊全數反震回去。\n"NOR,me,victim);
+		message_vision(HIY + "\n『金鐘罩』十成功\力，果然厲害，竟把$N加諸在$n的攻擊全數反震回去。\n" + NOR,me,victim);
 		me->add("kee",-(damage));
 		me->add("eff_kee",-(damage));
 		report_status(me);
@@ -667,7 +668,7 @@ varargs int do_attack(object me, object victim, object weapon, int attack_type)
 	    }
 	    if (victim->query_temp("goldheal")==1)
 	    {
-		message_vision(HIY"\n只聽見ㄎ_ㄧ_ㄤ一聲，$N的攻勢盡被$n的『金鐘罩』化去。\n"NOR,me,victim);
+		message_vision(HIY + "\n只聽見ㄎ_ㄧ_ㄤ一聲，$N的攻勢盡被$n的『金鐘罩』化去。\n" + NOR,me,victim);
 		if(damage > 30) damage=30;
 		victim->delete_temp("goldheal");
 	    }
@@ -690,7 +691,7 @@ varargs int do_attack(object me, object victim, object weapon, int attack_type)
 	    //所有副攻威力減半
 	    if (victim->query_temp("sun-moon"))
 	    {
-		message_vision(HIY"$n的昊玥罡\氣發出萬丈光芒，卸開$N對$n的部分攻擊!!\n"NOR,me,victim);
+		message_vision(HIY + "$n的昊玥罡\氣發出萬丈光芒，卸開$N對$n的部分攻擊!!\n" + NOR,me,victim);
 		if(damage > 0) damage=damage/2;
 		report_status(victim);
 	    }
@@ -708,7 +709,7 @@ varargs int do_attack(object me, object victim, object weapon, int attack_type)
 	    if(div1_2>random(100)) {
 		if ( victim->query_temp("ref_shield")==1)
 		{
-		    message_vision(HIC"\n玄冰結界"HIM"將$N的攻擊完全反彈回去!!\n"NOR,me,victim);
+		    message_vision(HIC + "\n玄冰結界" + HIM + "將$N的攻擊完全反彈回去!!\n" + NOR,me,victim);
 		    me->receive_damage("kee",(damage),victim);
 		    //     me->receive_wound("kee",(damage),victim);
 		    //反彈就已經很強了還打最大值!?  修正之  by frequency
@@ -721,31 +722,31 @@ varargs int do_attack(object me, object victim, object weapon, int attack_type)
 	    {
 		if(damage > 0.3*(victim->query("max_kee")) || damage > 5000)
 		{
-		    message_vision(HIR"\n$N的攻勢霸道無匹，強行突破了$n的"HIW"幻夢之翼"HIR"，直接對$n本體造成傷害。\n"NOR,me,victim);
+		    message_vision(HIR + "\n$N的攻勢霸道無匹，強行突破了$n的" + HIW + "幻夢之翼" + HIR + "，直接對$n本體造成傷害。\n" + NOR,me,victim);
 		    damage = damage/2;
 		    victim->set_temp("shield_broken",1);
 		}else{
 		    if ( victim->query_temp("mana_shield")==1)//dancer
 		    {
-			message_vision(HIW"\n幻夢之翼隱約而現，柔若棉絮，輕輕地將$N攻擊化歸於無形!!\n"NOR,me,victim);
+			message_vision(HIW + "\n幻夢之翼隱約而現，柔若棉絮，輕輕地將$N攻擊化歸於無形!!\n" + NOR,me,victim);
 			if(damage > 0) damage=damage/2;
 			report_status(victim);
 		    }
 		    if ( victim->query_temp("mana_shield2")==1)//non dancer
 		    {
-			message_vision(HIY"\n幻夢之翼隱約而現，柔若棉絮，輕輕地將$N攻擊減弱不少!!\n"NOR,me,victim);
+			message_vision(HIY + "\n幻夢之翼隱約而現，柔若棉絮，輕輕地將$N攻擊減弱不少!!\n" + NOR,me,victim);
 			if(damage > 0) damage=damage*2;
 			report_status(victim);
 		    }
 		    if ( victim->query_temp("mana_shield3")==1)//fighter,prayer
 		    {
-			message_vision(HIY"\n幻夢之翼隱約而現，柔若棉絮，輕輕地將$N攻擊減弱不少!!\n"NOR,me,victim);
+			message_vision(HIY + "\n幻夢之翼隱約而現，柔若棉絮，輕輕地將$N攻擊減弱不少!!\n" + NOR,me,victim);
 			if(damage > 0) damage=damage*4;
 			report_status(victim);
 		    }
 		    if ( victim->query_temp("mana_shield4")==1)//mblade
 		    {
-			message_vision(HIY"\n幻夢之翼隱約而現，柔若棉絮，輕輕地將$N攻擊減弱不少!!\n"NOR,me,victim);
+			message_vision(HIY + "\n幻夢之翼隱約而現，柔若棉絮，輕輕地將$N攻擊減弱不少!!\n" + NOR,me,victim);
 			if(damage > 0) damage=damage*8;
 			report_status(victim);
 		    }
@@ -769,45 +770,45 @@ varargs int do_attack(object me, object victim, object weapon, int attack_type)
 	    //Dancer吸收攻擊 by frequency 
 	    if ( victim->query_temp("absorb")==1)
 	    {
-		message_vision(HIW"\n玄陰之氣如水般柔和綿密，將$N的攻擊轉化為$n的內勁。\n"NOR,me,victim);
+		message_vision(HIW + "\n玄陰之氣如水般柔和綿密，將$N的攻擊轉化為$n的內勁。\n" + NOR,me,victim);
 		victim->add("force",damage/4);
 		if(damage > 0) damage=damage/5;
 	    }
 	    if (victim->query_temp("absorb")==2)
 	    {
-		message_vision(HIW"\n玄陰之氣如水般柔和綿密，將$N的攻擊轉化為$n的靈力。\n"NOR,me,victim);
+		message_vision(HIW + "\n玄陰之氣如水般柔和綿密，將$N的攻擊轉化為$n的靈力。\n" + NOR,me,victim);
 		victim->add("atman",damage/3);
 		if(damage > 0) damage=damage/5;
 	    }
 	    if (victim->query_temp("absorb")==3)
 	    {
-		message_vision(HIW"\n玄陰之氣如水般柔和綿密，將$N的攻擊轉化為$n的生命之源。\n"NOR,me,victim);
+		message_vision(HIW + "\n玄陰之氣如水般柔和綿密，將$N的攻擊轉化為$n的生命之源。\n" + NOR,me,victim);
 		victim->add("kee",damage/2);
 		if(damage > 0) damage=damage/5;
 	    }
 	    
 	    if (victim->query_temp("rainbow-steps")==1 && random((int)victim->query("functions/rainbow-steps/level",1))>60)
 	    {
-		message_vision(HIY"\n$n"NOR"使出月影微步終極舞步"HIW"～"HIM"七彩幻夢"NOR",手中七彩緞帶幻成一道彩虹射向"HIB"$N！\n"NOR,me,victim);
-		message_vision(HIY"                $n"HIR"其本身如"HIG"靈蛇欺敵般的躲過"HIY"$N"HIR"的凌厲攻擊。。\n"NOR,me,victim);
+		message_vision(HIY + "\n$n" + NOR + "使出月影微步終極舞步" + HIW + "～" + HIM + "七彩幻夢" + NOR + ",手中七彩緞帶幻成一道彩虹射向" + HIB + "$N！\n" + NOR,me,victim);
+		message_vision(HIY + "                $n" + HIR + "其本身如" + HIG + "靈蛇欺敵般的躲過" + HIY + "$N" + HIR + "的凌厲攻擊。。\n" + NOR,me,victim);
 		if(damage > 0) damage=0;
 	    }
 	    if (victim->query_temp("snake-steps")==1 && random((int)victim->query("functions/snake-steps/level",1))>70)
 	    {
-		message_vision(HIC"\n$n"HIR"身影幻化萬千向四方流竄,形影迷離令"HIY"$N"HIR"的攻勢狂擊殘影。！\n"NOR,me,victim);
-		message_vision(HIG"  結果「嗤」地一聲﹐七彩光芒從"HIB"$N"HIG"的身上穿透而出, 令"HIB"$N"HIG"迷失景象。\n"NOR,me,victim);
-		message_vision(HIY"                $n"HIC"趁機閃過"HIB"$N"HIC"凶猛的攻擊。\n"NOR,me,victim);
+		message_vision(HIC + "\n$n" + HIR + "身影幻化萬千向四方流竄,形影迷離令" + HIY + "$N" + HIR + "的攻勢狂擊殘影。！\n" + NOR,me,victim);
+		message_vision(HIG + "  結果「嗤」地一聲﹐七彩光芒從" + HIB + "$N" + HIG + "的身上穿透而出, 令" + HIB + "$N" + HIG + "迷失景象。\n" + NOR,me,victim);
+		message_vision(HIY + "                $n" + HIC + "趁機閃過" + HIB + "$N" + HIC + "凶猛的攻擊。\n" + NOR,me,victim);
 		if(damage > 0) damage=0;
 	    }
 	    if (victim->query_temp("adv-dodge")==1)
 	    {
-		message_vision(HIY"\n$n使出"HIG"☆俠影步☆"HIY"以迅捷無比的速度閃過$N的攻擊並贊上一擊將$N重創。\n"NOR,me,victim);
+		message_vision(HIY + "\n$n使出" + HIG + "☆俠影步☆" + HIY + "以迅捷無比的速度閃過$N的攻擊並贊上一擊將$N重創。\n" + NOR,me,victim);
 		me->add("kee",-(damage));
 		report_status(me);
 		if(damage > 0) damage=0;
 	    }
 	    if(me->query_temp("kang-power")==1) {
-		message_vision(HIW"$N的『烈燄浩氣』聚氣於力，使$N的威力增加不少。\n"NOR,me);
+		message_vision(HIW + "$N的『烈燄浩氣』聚氣於力，使$N的威力增加不少。\n" + NOR,me);
 		damage += 350;
 	    }
 			if (victim->query_temp("hardshell") ) {
@@ -851,10 +852,10 @@ varargs int do_attack(object me, object victim, object weapon, int attack_type)
 	    // 左右手都受傷當然沒威力  很合理   要把傷治愈打算給 doctor 此功能
 	    if(me->query_temp("over/right")==1&&me->query_temp("over/left")==1) {
 		damage=30;
-		tell_object(me,HIC"你雙手受傷毫無傷害力可言!\n"NOR);
+		tell_object(me,HIC + "你雙手受傷毫無傷害力可言!\n" + NOR);
 	    } else if(me->query_temp("over/right")==1||me->query_temp("over/left")==1) {
 		damage /= 2;
-		tell_object(me,HIR"你手受傷傷害力驟減一半!\n"NOR);
+		tell_object(me,HIR + "你手受傷傷害力驟減一半!\n" + NOR);
 	    }
 
 	    victim->set_temp("no_armor_effect",1);
@@ -869,15 +870,15 @@ varargs int do_attack(object me, object victim, object weapon, int attack_type)
 		case 0..10 : //50%
 		    if (random (100) > 50)
 		    {
-			message_vision(HIW"\n$n 按照五行八卦的步法，在整個空間中幻化出無限的身影,"HIY"$N"HIW"根本無從攻擊起。！\n"NOR,me,victim);
+			message_vision(HIW + "\n$n 按照五行八卦的步法，在整個空間中幻化出無限的身影," + HIY + "$N" + HIW + "根本無從攻擊起。！\n" + NOR,me,victim);
 			damage = 0;              
 		    }
 		    break;
 		case 11..40 : //60%
 		    if (random (100) > 40)
 		    {
-			message_vision(HIW"\n$n 按照五行八卦的步法，在整個空間中幻化出無限的身影,"HIY"$N"HIW"根本無從攻擊起。！\n"NOR,me,victim);
-			message_vision(HIW"$N 瘋狂的往幻影攻擊而去,$n絲毫有受到一點傷害。\n"NOR,me,victim);
+			message_vision(HIW + "\n$n 按照五行八卦的步法，在整個空間中幻化出無限的身影," + HIY + "$N" + HIW + "根本無從攻擊起。！\n" + NOR,me,victim);
+			message_vision(HIW + "$N 瘋狂的往幻影攻擊而去,$n絲毫有受到一點傷害。\n" + NOR,me,victim);
 			me->receive_damage("gin", 150 , victim );
 			damage = 0;
 		    }
@@ -885,8 +886,8 @@ varargs int do_attack(object me, object victim, object weapon, int attack_type)
 		case 41..70 :
 		    if (random (100) > 30)
 		    {
-			message_vision(HIW"\n$n 按照五行八卦的步法，在整個空間中幻化出無限的身影,"HIY"$N"HIW"根本無從攻擊起。！\n"NOR,me,victim);
-			message_vision(HIW"$N 瘋狂的往幻影攻擊而去,$n絲毫沒有受到一點傷害。\n"NOR,me,victim);
+			message_vision(HIW + "\n$n 按照五行八卦的步法，在整個空間中幻化出無限的身影," + HIY + "$N" + HIW + "根本無從攻擊起。！\n" + NOR,me,victim);
+			message_vision(HIW + "$N 瘋狂的往幻影攻擊而去,$n絲毫沒有受到一點傷害。\n" + NOR,me,victim);
 			me->receive_damage("gin", random(150)+150 , victim );
 			damage = 0;
 		    }
@@ -894,9 +895,9 @@ varargs int do_attack(object me, object victim, object weapon, int attack_type)
 		case 71..100:
 		    if (random (100) > 20)
 		    {
-			message_vision(HIW"\n$n 按照五行八卦的步法，在整個空間中幻化出無限的身影,"HIY"$N"HIW"根本無從攻擊起。！\n"NOR,me,victim);
-			message_vision(HIW"光影不斷的在"HIG"$N"HIW"的身邊環繞, 令"HIG"$N"HIW"感到無限的恐懼\n"NOR,me,victim);
-			message_vision(HIR"$n"HIW"所使出的分影術，讓"HIG"$N"HIW"根本不知道如何發動攻勢。\n"NOR,me,victim);
+			message_vision(HIW + "\n$n 按照五行八卦的步法，在整個空間中幻化出無限的身影," + HIY + "$N" + HIW + "根本無從攻擊起。！\n" + NOR,me,victim);
+			message_vision(HIW + "光影不斷的在" + HIG + "$N" + HIW + "的身邊環繞, 令" + HIG + "$N" + HIW + "感到無限的恐懼\n" + NOR,me,victim);
+			message_vision(HIR + "$n" + HIW + "所使出的分影術，讓" + HIG + "$N" + HIW + "根本不知道如何發動攻勢。\n" + NOR,me,victim);
 			me->receive_damage("gin", random(250)+150 , victim );
 			me->start_busy(1);
 			damage = 0;
@@ -905,10 +906,10 @@ varargs int do_attack(object me, object victim, object weapon, int attack_type)
 		case 101..150: //專家級，只有特殊獎勵，才可以升到此級
 		    if (random (100) > 10)
 		    {
-			message_vision(HIW"\n$n 按照五行八卦的步法，在整個空間中幻化出無限的身影,"HIY"$N"HIW"根本無從攻擊起。！\n"NOR,me,victim);
-			message_vision(HIW"光影不斷的在"HIG"$N"HIW"的身邊環繞, 令"HIG"$N"HIW"感到無限的恐懼\n"NOR,me,victim);
-			message_vision(HIR"$n"HIW"所使出的分影術，讓"HIG"$N"HIW"根本不知道如何發動攻勢。\n"NOR,me,victim);
-			message_vision(HIW"$N 瘋狂的往幻影攻擊而去,$n絲毫沒有受到一點傷害。\n"NOR,me,victim);
+			message_vision(HIW + "\n$n 按照五行八卦的步法，在整個空間中幻化出無限的身影," + HIY + "$N" + HIW + "根本無從攻擊起。！\n" + NOR,me,victim);
+			message_vision(HIW + "光影不斷的在" + HIG + "$N" + HIW + "的身邊環繞, 令" + HIG + "$N" + HIW + "感到無限的恐懼\n" + NOR,me,victim);
+			message_vision(HIR + "$n" + HIW + "所使出的分影術，讓" + HIG + "$N" + HIW + "根本不知道如何發動攻勢。\n" + NOR,me,victim);
+			message_vision(HIW + "$N 瘋狂的往幻影攻擊而去,$n絲毫沒有受到一點傷害。\n" + NOR,me,victim);
 			me->receive_damage("gin", random(400)+150 , victim );
 			me->start_busy(1);
 			damage = 0;
@@ -1002,8 +1003,8 @@ varargs int do_attack(object me, object victim, object weapon, int attack_type)
       && victim->query("env/衝穴")=="YES"
       // 9.最後檢查要 fighter
       && victim->query("class")=="fighter") {
-	message_vision(HIW"\n只見$N暴起所有"HIY"真氣內勁"HIW"，$N全身隴罩在一股"HIC"綻藍氣勁"HIW"中，赫然已解開身上被封的穴道。\n"NOR,victim);
-	message_vision(HIW"$N驚愕之時，$n聚集所有"HIY"真氣內勁"HIW"，把$N隴罩在一股"HIC"綻藍氣勁"HIW"中，$N受到強大氣勁壓迫行動受阻。\n"NOR,me,victim);
+	message_vision(HIW + "\n只見$N暴起所有" + HIY + "真氣內勁" + HIW + "，$N全身隴罩在一股" + HIC + "綻藍氣勁" + HIW + "中，赫然已解開身上被封的穴道。\n" + NOR,victim);
+	message_vision(HIW + "$N驚愕之時，$n聚集所有" + HIY + "真氣內勁" + HIW + "，把$N隴罩在一股" + HIC + "綻藍氣勁" + HIW + "中，$N受到強大氣勁壓迫行動受阻。\n" + NOR,me,victim);
 	victim->delete_busy();
 	me->start_busy(1);
 	if(victim->query("force")>5000) { victim->add("force",-5000); }
@@ -1013,7 +1014,7 @@ varargs int do_attack(object me, object victim, object weapon, int attack_type)
 	victim->receive_damage("kee",250,me);
 	victim->delete_temp("no_weapon_parry"); }
     if( victim->query_temp("can_contour")==1 ) {
-	message_vision(HIW"\n$N使出"HIR"霸王卸甲"HIW"藉由招架$n攻擊之時﹐全神貫注趁機發動反擊﹗\n"NOR,victim,me);
+	message_vision(HIW + "\n$N使出" + HIR + "霸王卸甲" + HIW + "藉由招架$n攻擊之時﹐全神貫注趁機發動反擊﹗\n" + NOR,victim,me);
 	do_attack(victim, me, victim->query_temp("weapon"));
 	victim->delete_temp("can_contour");
     }
@@ -1363,8 +1364,8 @@ void killer_reward(object killer, object victim)
 			pktitle=killer->query("title");
 			killer->set("PKNAME",pktitle);
 		    }
-		    killer->set("title",HIR"殺人兇手"NOR);
-		    tell_room(killer,HIR"你殺了線上玩家,成了殺人兇手了。\n"NOR);
+		    killer->set("title",HIR + "殺人兇手" + NOR);
+		    tell_room(killer,HIR + "你殺了線上玩家,成了殺人兇手了。\n" + NOR);
 		    killer->set("pker",1);
 		}
 		killer->add("PKS", 1);
@@ -1376,7 +1377,7 @@ void killer_reward(object killer, object victim)
 		pkmoney=victim->query("combat_exp");//根據pker的exp給予kill
 		pkmoney=pkmoney*10;//如果是exp一百萬就是1000 gold
 		killer->add("coin",pkmoney);//pker的人錢
-		tell_room(killer,HIW"你為民除害,殺了殺人兇手,得到了一筆酬金。\n"NOR);
+		tell_room(killer,HIW + "你為民除害,殺了殺人兇手,得到了一筆酬金。\n" + NOR);
 	    }//pker死後就不算pker及解除追緝狀態
 	}
 	// modify by oda, pk 玩家不加殺氣

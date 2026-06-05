@@ -36,7 +36,7 @@ int main(object me, string arg)
 
 	me->set_temp("bellup_buf",buf);
         message_vision(
-        HIG "$N大暍一聲﹐放出身上的殺氣﹐眼神由溫和轉變成恐怖。\n" NOR,me);
+        HIG + "$N大暍一聲﹐放出身上的殺氣﹐眼神由溫和轉變成恐怖。\n" + NOR,me);
         return 1;
 }
 

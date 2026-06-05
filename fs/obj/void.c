@@ -5,7 +5,7 @@ inherit ROOM;
 
 void create ()
 {
-	set( "short", HIW"【"HIG"精靈聖域"HIW"】【"HIC"天外天"HIW"】"NOR ); 
+	set( "short", HIW + "【" + HIG + "精靈聖域" + HIW + "】【" + HIC + "天外天" + HIW + "】" + NOR ); 
 	set( "long", @LONG
 
     這裡就是傳說中的精靈聖域－天外天，到處充滿著神聖氣息，突然有股

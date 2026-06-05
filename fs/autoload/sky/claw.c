@@ -14,7 +14,7 @@ object me;
 
 void create()
 {
-  set_name(HIW"晶"NOR,({"attribute-mine"}) );
+  set_name(HIW + "晶" + NOR,({"attribute-mine"}) );
   set_weight(7000);
   if( clonep() )
     set_default_object(__FILE__);
@@ -34,8 +34,8 @@ void create()
     set("no_save",1);
     set("no_get",1);
     set("dev_wp",1);
-    set("wield_msg",CYN"$N"CYN"拿起$n"CYN"。\n"NOR);
-    set("unwield_msg",CYN"$N"CYN"輕輕卸下$n"CYN"。\n"NOR);
+    set("wield_msg",CYN + "$N" + CYN + "拿起$n" + CYN + "。\n" + NOR);
+    set("unwield_msg",CYN + "$N" + CYN + "輕輕卸下$n" + CYN + "。\n" + NOR);
     set("need_exp",7000000);
   }
   init_bow(92);
@@ -91,7 +91,7 @@ int wield()
 {
   int ret=::wield();
   if(wp->query("wmsg"))
-    set("wield_msg",CYN""+wp->query("wmsg")+""CYN"逐漸四散瀰漫整個空間!!\n"NOR);
+    set("wield_msg",CYN + ""+wp->query("wmsg")+"" + CYN + "逐漸四散瀰漫整個空間!!\n" + NOR);
   if( query("equipped") && !query_heart_beat() ) {
     set_heart_beat(1);
   }
@@ -102,7 +102,7 @@ int unequip()
 {
   int ret = ::unequip();
   if(wp->query("uwmsg"))
-    set("unwield_msg",CYN"四散的"+wp->query("uwmsg")+""CYN"逐漸回歸"+wp->query("name")+""CYN"。\n"NOR);
+    set("unwield_msg",CYN + "四散的"+wp->query("uwmsg")+"" + CYN + "逐漸回歸"+wp->query("name")+"" + CYN + "。\n" + NOR);
   return ret;
 }
 /*
@@ -110,16 +110,16 @@ int do_wield(string str)
 {
   int uexp;
   object user = environment(wp);
-  if(wp->query("wmsg")) set("wield_msg",CYN"$N"CYN"拿起"+wp->query("name")+""CYN"。\n"NOR);
+  if(wp->query("wmsg")) set("wield_msg",CYN + "$N" + CYN + "拿起"+wp->query("name")+"" + CYN + "。\n" + NOR);
   if(str && (str == wp->query("id") || str == "all"))
   {
     uexp = user->query("combat_exp");
     if( uexp < 7000000 )
     {
-      message_vision("$N的江湖歷練並不足以駕馭這樣的靈動神器!!\n"NOR,user);
+      message_vision("$N的江湖歷練並不足以駕馭這樣的靈動神器!!\n" + NOR,user);
       set_heart_beat(0);
     }else{
-      message_vision(CYN""+wp->query("wmsg")+""CYN"逐漸四散瀰漫整個空間!!\n"NOR,user,wp);
+      message_vision(CYN + ""+wp->query("wmsg")+"" + CYN + "逐漸四散瀰漫整個空間!!\n" + NOR,user,wp);
       set_heart_beat(1);
     }
   }
@@ -127,11 +127,11 @@ int do_wield(string str)
 
 int do_unwield(string str)
 {
-  if(wp->query("uwmsg")) set("unwield_msg",CYN"四散的"+wp->query("uwmsg")+""CYN"逐漸回歸"+wp->query("name")+""CYN"。\n"NOR);
+  if(wp->query("uwmsg")) set("unwield_msg",CYN + "四散的"+wp->query("uwmsg")+"" + CYN + "逐漸回歸"+wp->query("name")+"" + CYN + "。\n" + NOR);
   if(str == wp->query("id") || str=="all")
     if( query("equipped") )
     {
-      message_vision(CYN"$N輕輕卸下$n。\n"NOR,this_player(),wp);
+      message_vision(CYN + "$N輕輕卸下$n。\n" + NOR,this_player(),wp);
       set_heart_beat(0);
     }
 }
@@ -161,7 +161,7 @@ void heart_beat()
       me->add_temp("apply/defense",-add);
       me->add_temp("apply/dodge",-add);
       me->delete_temp("water_add_def");
-      message_vision(HIB"激鬥過後，水之結界逐漸退卻。\n"NOR,me);
+      message_vision(HIB + "激鬥過後，水之結界逐漸退卻。\n" + NOR,me);
     }
   }
   if(att == "ground" && !me->is_fighting() && me->query_temp("ground_add_def")) //大地系非戰鬥時parry加成消失
@@ -170,25 +170,25 @@ void heart_beat()
     me->add_temp("apply/parry",-5*add);
     if(!me->query("weapon/ground-full")) me->add_temp("apply/dodge",2*add);
     me->delete_temp("ground_add_def");
-    message_vision(YEL"激鬥過後，大地的加持逐漸消散。\n"NOR,me);
+    message_vision(YEL + "激鬥過後，大地的加持逐漸消散。\n" + NOR,me);
   }
 
   if(level > 6) //最高級武器平常時有附加作用
   {
     if(att == "fire" && random(level) > 5 && !me->query_condition("kang_pill") && me->query("attribute") != "ice")
     {
-      message_vision(HIW"從"+wp->query("name")+""HIW"流出一道幟熱罡\氣，由$N掌心傳至丹田。\n"NOR,me);
+      message_vision(HIW + "從"+wp->query("name")+"" + HIW + "流出一道幟熱罡\氣，由$N掌心傳至丹田。\n" + NOR,me);
       me->apply_condition("kang_pill",level); //非寒冰系使用者持火炎系武器附加kang-power
       me->set_temp("kang-power",1);
     }
     if(att == "wind" && random(level) > 5 && me->is_busy() && me->query("attribute") != "ground" && !me->is_fighting())
     {
-      message_vision(HIW"ㄧ陣溫暖清風拂過，$N原本動彈不得的身軀頓時間減輕了不少壓力。\n"NOR,me);
+      message_vision(HIW + "ㄧ陣溫暖清風拂過，$N原本動彈不得的身軀頓時間減輕了不少壓力。\n" + NOR,me);
       me->delete_busy(); //非大地系使用者持疾風系武器附加非戰鬥狀態解busy
     }
     if(att == "saint" && random(level) > 5 && !me->query_condition("mon_pill") && me->query("attribute") != "dark")
     {
-      message_vision(HIY"陣陣仙氣自"+wp->query("name")+""HIY"中發散出來，流至$N身上。\n"NOR,me);
+      message_vision(HIY + "陣陣仙氣自"+wp->query("name")+"" + HIY + "中發散出來，流至$N身上。\n" + NOR,me);
       me->apply_condition("mon_pill",level); //非玄冥系使用者持仙天系武器有回復能力
     }
   }
@@ -216,14 +216,14 @@ void heart_beat()
             if(enemy[i]->query("attribute") && enemy[i]->query("attribute") == "water") c = 2;               //對水系無效
             if(c != 2)
             {
-              tell_object (enemy[i],wp->query("wmsg")+""HIY"對你造成極其嚴重的灼傷!!\n"NOR);
+              tell_object (enemy[i],wp->query("wmsg")+"" + HIY + "對你造成極其嚴重的灼傷!!\n" + NOR);
               enemy[i]->receive_wound("kee",level*100*ratio,me); //最低 100 最高1500
               COMBAT_D->report_status(enemy[i]);
             }
-            else tell_object (enemy[i],wp->query("wmsg")+YEL"堪堪在你身旁掠過，真是險象環生。\n"NOR);
+            else tell_object (enemy[i],wp->query("wmsg")+YEL + "堪堪在你身旁掠過，真是險象環生。\n" + NOR);
             if(!me->is_busy() && me->query("weapon/fire-full") && ratio == 2 && random(level) > 3) //level 4以上有可能對相剋屬性做額外攻擊
             {
-              message_vision(HIR"冰火不容，"+wp->query("wmsg")+""HIR"牽動$N的戰意，朝$n展開另一波攻勢。\n"NOR,me,enemy[i]);  
+              message_vision(HIR + "冰火不容，"+wp->query("wmsg")+"" + HIR + "牽動$N的戰意，朝$n展開另一波攻勢。\n" + NOR,me,enemy[i]);  
               COMBAT_D->do_attack(me, enemy[i], wp, 1);
             }
           }
@@ -250,17 +250,17 @@ void heart_beat()
             {
               if ( !enemy[i]->is_busy() )
               {
-                tell_object (enemy[i],wp->query("wmsg")+""HIC"的冰封頓時讓你身軀僵硬，動彈困難!!\n"NOR);
+                tell_object (enemy[i],wp->query("wmsg")+"" + HIC + "的冰封頓時讓你身軀僵硬，動彈困難!!\n" + NOR);
                 enemy[i]->start_busy(1 + random(ratio)); //最低busy1 最高busy3
                 if(enemy[i]->query("force_factor") > level && random(ratio) >= 1)
                 enemy[i]->add("force_factor",-random(level));
                 COMBAT_D->report_status(enemy[i]);
               }
             }
-            else tell_object (enemy[i],wp->query("wmsg")+GRN"襲來，你只是顫抖了幾下，倒沒發生什麼事。\n"NOR);
+            else tell_object (enemy[i],wp->query("wmsg")+GRN + "襲來，你只是顫抖了幾下，倒沒發生什麼事。\n" + NOR);
             if(!me->is_busy() && me->query("weapon/ice-full") && ratio == 3 && random(level) > 3)
             {
-              message_vision(HIC"冰火不容，"+wp->query("wmsg")+""HIC"牽動$N的戰意，朝$n展開另一波攻勢。\n"NOR,me,enemy[i]);  
+              message_vision(HIC + "冰火不容，"+wp->query("wmsg")+"" + HIC + "牽動$N的戰意，朝$n展開另一波攻勢。\n" + NOR,me,enemy[i]);  
               COMBAT_D->do_attack(me, enemy[i], me->query_temp("weapon"), 1);
             }
           }
@@ -294,7 +294,7 @@ void heart_beat()
     me->add_temp("apply/parry",5*add);  // en parry 最高加105  (地系)
     if(!me->query("weapon/ground-full")) me->add_temp("apply/dodge",-2*add); // 未融合魂和紋章 en dodge 減少  最高減42
     me->set_temp("ground_add_def",add); //將加(減)過的基準量記錄起來
-    message_vision(HIW"頓時"+wp->query("wmsg")+""HIW"大盛，$N感覺自己的防禦有如銅牆鐵壁般牢不可破。\n"NOR,me);
+    message_vision(HIW + "頓時"+wp->query("wmsg")+"" + HIW + "大盛，$N感覺自己的防禦有如銅牆鐵壁般牢不可破。\n" + NOR,me);
     return;
   }
 
@@ -312,8 +312,8 @@ void heart_beat()
         ski_type = wp->query("skill_type");
         attack = me->query_skill(ski_type);
         me->add_temp("apply/"+ski_type,-attack/2); //將攻擊skill的en level減半
-        if(level < 7) message_vision(HIW"$N的身影倏地消失，化為ㄧ陣"+wp->query("uwmsg")+"飛快攻擊。\n"NOR,me);
-        else message_vision(HIW"\n$N高聲大喊："HIC"『"HIG"神 ～ 風 ～ 動 ～"HIC"』\n"HIR"頓時瘋狂殺招無窮無盡，源源不絕而出。\n"NOR,me);
+        if(level < 7) message_vision(HIW + "$N的身影倏地消失，化為ㄧ陣"+wp->query("uwmsg")+"飛快攻擊。\n" + NOR,me);
+        else message_vision(HIW + "\n$N高聲大喊：" + HIC + "『" + HIG + "神 ～ 風 ～ 動 ～" + HIC + "』\n" + HIR + "頓時瘋狂殺招無窮無盡，源源不絕而出。\n" + NOR,me);
         for(c=0;c<=add;c++)
         {
           if(!enemy[i] || environment(me) != environment(enemy[i]) || enemy[i]->query("attribute") == "ground") continue;
@@ -322,7 +322,7 @@ void heart_beat()
           me->add("force",-200);
         }
         me->add_temp("apply/"+ski_type,attack/2);    //將攻擊skill的en level加回來
-        message_vision(HIW"\n行招過後，$N冷笑道："HIR"『"HIC"你大概也聽到了吧！暖風拂過的清脆響聲。"HIR"』\n"NOR,me);
+        message_vision(HIW + "\n行招過後，$N冷笑道：" + HIR + "『" + HIC + "你大概也聽到了吧！暖風拂過的清脆響聲。" + HIR + "』\n" + NOR,me);
       }
     return;
   }
@@ -334,7 +334,7 @@ void heart_beat()
       {
         add = 0;
         j = 0;
-        message_vision(HIM"\n$N"HIM"大喝一聲"HIW"『"HIY"雷迎！！"HIW"』"HIM"，巨大真雷瞬間劈下，無匹電勁逐漸依附於手中$n。\n\n"NOR,me,wp);
+        message_vision(HIM + "\n$N" + HIM + "大喝一聲" + HIW + "『" + HIY + "雷迎！！" + HIW + "』" + HIM + "，巨大真雷瞬間劈下，無匹電勁逐漸依附於手中$n。\n\n" + NOR,me,wp);
         for(i=0;i<a;i++)
         {
           if(userp(ppl[i]) && !ppl[i]->is_fighting(me) && ppl[i]->is_fighting() && ppl[i] != me)
@@ -343,7 +343,7 @@ void heart_beat()
             if(c>100000) c = 100000;
             add = add + c;
             me->set_temp("thunder_power",add);
-            message_vision(HIW"$N高舉"+wp->query("name")+""HIW"為引，憑藉著和$n的默契聚集了$n靈法內力於身上。\n"NOR,me,ppl[i]);
+            message_vision(HIW + "$N高舉"+wp->query("name")+"" + HIW + "為引，憑藉著和$n的默契聚集了$n靈法內力於身上。\n" + NOR,me,ppl[i]);
             ppl[i]->add("atman",-(level*50));
             ppl[i]->add("force",-(level*60));
             ppl[i]->add("mana",-(level*50));
@@ -376,7 +376,7 @@ void heart_beat()
             else ratio = 1;
             if(random(5) != 2)
             {
-              tell_object (enemy[i],wp->query("wmsg")+""HIY"對你身心造成極大破壞，各種隱疾一觸即發。!!\n"NOR);
+              tell_object (enemy[i],wp->query("wmsg")+"" + HIY + "對你身心造成極大破壞，各種隱疾一觸即發。!!\n" + NOR);
               for(c=0;c<1+(ratio)/2;c++)
                 switch(random(ratio+level))
                 {
@@ -417,10 +417,10 @@ void heart_beat()
                 enemy[i]->apply_condition(con,(1+ratio)/2);
                 COMBAT_D->report_status(enemy[i]);
             }
-            else tell_object (enemy[i],wp->query("wmsg")+YEL"在你強大的護體罡\氣前化為烏有!!\n"NOR);
+            else tell_object (enemy[i],wp->query("wmsg")+YEL + "在你強大的護體罡\氣前化為烏有!!\n" + NOR);
             if(!me->is_busy() && me->query("weapon/dark-full") && ratio == 3 && random(level) > 3)
             {
-              message_vision(HIG"自古正邪不兩立，"+wp->query("wmsg")+""HIG"牽動$N的戰意，朝$n展開另一波攻勢。\n"NOR,me,enemy[i]);  
+              message_vision(HIG + "自古正邪不兩立，"+wp->query("wmsg")+"" + HIG + "牽動$N的戰意，朝$n展開另一波攻勢。\n" + NOR,me,enemy[i]);  
               COMBAT_D->do_attack(me, enemy[i], me->query_temp("weapon"), 1);
             }
           }
@@ -453,7 +453,7 @@ void heart_beat()
             else continue;
             if(!me->is_busy() && me->query("weapon/saint-full") && ratio == 2 && random(level) > 3)
             {
-              message_vision(HIY"自古正邪不兩立，"+wp->query("wmsg")+""HIY"牽動$N的戰意，朝$n展開另一波攻勢。\n"NOR,me,enemy[i]);  
+              message_vision(HIY + "自古正邪不兩立，"+wp->query("wmsg")+"" + HIY + "牽動$N的戰意，朝$n展開另一波攻勢。\n" + NOR,me,enemy[i]);  
               COMBAT_D->do_attack(me, enemy[i], me->query_temp("weapon"), 1);
             }
           }
@@ -477,74 +477,74 @@ int do_change(string str)
   {
     case "unarmed":
       set("skill_type", "unarmed");
-      set_name( HIG"爪"NOR,({"attribute-claw"}));
-      wp->set("original_name",HIG"爪"NOR);
+      set_name( HIG + "爪" + NOR,({"attribute-claw"}));
+      wp->set("original_name",HIG + "爪" + NOR);
       write("一道靈光由天而降，一雙利爪出現在眼前。\n");
       break;
     case "sword":
       set("skill_type", "sword");
-      set_name( HIG"劍"NOR,({"attribute-sword"}));
-      wp->set("original_name",HIG"劍"NOR);
+      set_name( HIG + "劍" + NOR,({"attribute-sword"}));
+      wp->set("original_name",HIG + "劍" + NOR);
       write("一道靈光由天而降，一柄銳劍出現在眼前。\n");
       break;
     case "archery":
       set("skill_type", "archery");
-      set_name( HIG"弓"NOR,({"attribute-bow"}));
-      wp->set("original_name",HIG"弓"NOR);
+      set_name( HIG + "弓" + NOR,({"attribute-bow"}));
+      wp->set("original_name",HIG + "弓" + NOR);
       write("一道靈光由天而降，一把長弓出現在眼前。\n");
       break;
     case "blade":
       set("skill_type", "blade");
-      set_name( HIG"刀"NOR,({"attribute-blade"}));
-      wp->set("original_name",HIG"刀"NOR);
+      set_name( HIG + "刀" + NOR,({"attribute-blade"}));
+      wp->set("original_name",HIG + "刀" + NOR);
       write("一道靈光由天而降，一把巨刀出現在眼前。\n");
       break;
     case "dagger":
       set("skill_type", "dagger");
-      set_name( HIG"刃"NOR,({"attribute-dagger"}));
-      wp->set("original_name",HIG"刃"NOR);
+      set_name( HIG + "刃" + NOR,({"attribute-dagger"}));
+      wp->set("original_name",HIG + "刃" + NOR);
       write("一道靈光由天而降，一柄利刃出現在眼前。\n");
       break;
     case "throwing":
       set("skill_type", "throwing");
-      set_name( HIG"翼"NOR,({"attribute-wing"}));
-      wp->set("original_name",HIG"翼"NOR);
+      set_name( HIG + "翼" + NOR,({"attribute-wing"}));
+      wp->set("original_name",HIG + "翼" + NOR);
       write("一道靈光由天而降，一對飛翼出現在眼前。\n");
       break;
     case "whip":
       set("skill_type", "whip");
-      set_name( HIG"鍊"NOR,({"attribute-chain"}));
-      wp->set("original_name",HIG"鍊"NOR);
+      set_name( HIG + "鍊" + NOR,({"attribute-chain"}));
+      wp->set("original_name",HIG + "鍊" + NOR);
       write("一道靈光由天而降，一條長鍊出現在眼前。\n");
       break;
     case "needle":
       set("skill_type", "stabber");
-      set_name( HIG"針"NOR,({"attribute-needle"}) );
-      wp->set("original_name",HIG"針"NOR);
+      set_name( HIG + "針" + NOR,({"attribute-needle"}) );
+      wp->set("original_name",HIG + "針" + NOR);
       write("一道靈光由天而降，一柄尖針出現在眼前。\n");
       break;
     case "fan":
       set("skill_type", "stabber");
-      set_name( HIG"扇"NOR,({"attribute-fan"}) );
-      wp->set("original_name",HIG"扇"NOR);
+      set_name( HIG + "扇" + NOR,({"attribute-fan"}) );
+      wp->set("original_name",HIG + "扇" + NOR);
       write("一道靈光由天而降，一柄羽扇出現在眼前。\n");
       break;
     case "staff":
       set("skill_type", "staff");
-      set_name( HIG"鎚"NOR,({"attribute-star"}) );
-      wp->set("original_name",HIG"鎚"NOR);
+      set_name( HIG + "鎚" + NOR,({"attribute-star"}) );
+      wp->set("original_name",HIG + "鎚" + NOR);
       write("一道靈光由天而降，一柄重鎚出現在眼前。\n");
       break;
     case "lance":
       set("skill_type", "lance");
-      set_name( HIG"槍"NOR,({"attribute-lance"}) );
-      wp->set("original_name",HIG"槍"NOR);
+      set_name( HIG + "槍" + NOR,({"attribute-lance"}) );
+      wp->set("original_name",HIG + "槍" + NOR);
       write("一道靈光由天而降，一柄長槍出現在眼前。\n");
       break;
     case "axe":
       set("skill_type", "axe");
-      set_name( HIG"斧"NOR,({"attribute-axe"}) );
-      wp->set("original_name",HIG"斧"NOR);
+      set_name( HIG + "斧" + NOR,({"attribute-axe"}) );
+      wp->set("original_name",HIG + "斧" + NOR);
       write("一道靈光由天而降，一把巨斧出現在眼前。\n");
       break;
     default:
@@ -574,31 +574,31 @@ int thunder_hit() //雷系心跳的call_out寫在這邊
   switch(random(level+3))
   {
     case 0:
-      thunder_attack = HIG"春雷暴殛";
+      thunder_attack = HIG + "春雷暴殛";
       k=0;
       break;
     case 1:
-      thunder_attack = HIC"天旋雷轉";
+      thunder_attack = HIC + "天旋雷轉";
       k=1;
       break;
     case 2:
-      thunder_attack = HIM"沉雷地獄";
+      thunder_attack = HIM + "沉雷地獄";
       k=2;
       break;
     case 3:
-      thunder_attack = HIW"冬雷霹靂";
+      thunder_attack = HIW + "冬雷霹靂";
       k=3;
       break;
     case 4:
-      thunder_attack = HIR"狂雷震九霄";
+      thunder_attack = HIR + "狂雷震九霄";
       k=4;
       break;
     case 5:
-      thunder_attack = HIY"驚雷爆五嶽";
+      thunder_attack = HIY + "驚雷爆五嶽";
       k=5;
       break;
     case 6:
-      thunder_attack = HIR"怒"HIY"雷"HIM"撕"HIC"天"HIW"裂"HIG"地";
+      thunder_attack = HIR + "怒" + HIY + "雷" + HIM + "撕" + HIC + "天" + HIW + "裂" + HIG + "地";
       k=6;
       break;
     case 7..9:
@@ -607,7 +607,7 @@ int thunder_hit() //雷系心跳的call_out寫在這邊
   }
   if( k < 7)
   {
-    message_vision(HIW"\n$N"HIW"感到無數電勁在全身經脈間迅速遊走，繼而引發"HIM"「紫雷七擊」"HIW"之"CYN"『"+thunder_attack+""CYN"』。\n\n"NOR,me);
+    message_vision(HIW + "\n$N" + HIW + "感到無數電勁在全身經脈間迅速遊走，繼而引發" + HIM + "「紫雷七擊」" + HIW + "之" + CYN + "『"+thunder_attack+"" + CYN + "』。\n\n" + NOR,me);
     for(i=0;i<j;i++)
     {
       if((enemy[i]) && environment(enemy[i]) == environment(me))
@@ -629,18 +629,18 @@ int thunder_hit() //雷系心跳的call_out寫在這邊
         if(enemy[i]->query("attribute") && enemy[i]->query("attribute") == "water") c = 1;  //對水系命中率提高
         if(c != 2 && random(me->query("combat_exp"))>random(enemy[i]->query("combat_exp")))
         {
-          message_vision(HIR"爆發性的強烈雷擊對$n"HIR"肉身造成難以彌補的嚴重殛傷!!\n"NOR,me,enemy[i]);
+          message_vision(HIR + "爆發性的強烈雷擊對$n" + HIR + "肉身造成難以彌補的嚴重殛傷!!\n" + NOR,me,enemy[i]);
           enemy[i]->receive_damage("kee",attack,me); //最高約為 max_kee的四分之一
           COMBAT_D->report_status(enemy[i]);
           enemy[i]->apply_condition("hellthunder",ratio);
         }else{ 
-          message_vision(YEL"雷柱電網紛紛在$n"YEL"身旁交錯而過，沒有達到預期中的傷害!!\n"NOR,me,enemy[i]);
+          message_vision(YEL + "雷柱電網紛紛在$n" + YEL + "身旁交錯而過，沒有達到預期中的傷害!!\n" + NOR,me,enemy[i]);
           COMBAT_D->report_status(enemy[i]);
         }
       }
     }
   }else{
-    message_vision(HIW"$N"HIW"運勁全身並融會"HIM"「紫雷七擊」"HIW"之所有招式，七擊合一，夾帶無數雷電威力。\n\n"NOR,me);
+    message_vision(HIW + "$N" + HIW + "運勁全身並融會" + HIM + "「紫雷七擊」" + HIW + "之所有招式，七擊合一，夾帶無數雷電威力。\n\n" + NOR,me);
     for(i=0;i<j;i++)
     {
       if((enemy[i]) && environment(enemy[i]) == environment(me))
@@ -664,54 +664,54 @@ int thunder_hit() //雷系心跳的call_out寫在這邊
         {
           for(i=0;i<j;i++)
           {
-            message_vision(HIW"$N"HIW"使出"HIM"「紫雷七擊」"HIW"第一式"CYN"『"HIG"春雷暴殛"CYN"』"HIW"。\n"NOR,me);
+            message_vision(HIW + "$N" + HIW + "使出" + HIM + "「紫雷七擊」" + HIW + "第一式" + CYN + "『" + HIG + "春雷暴殛" + CYN + "』" + HIW + "。\n" + NOR,me);
             enemy[i]->receive_damage("kee",(attack/64),me);
             COMBAT_D->report_status(enemy[i]);
           }
           for(i=0;i<j;i++)
           {
-            message_vision(HIW"$N"HIW"使出"HIM"「紫雷七擊」"HIW"第二式"CYN"『"HIC"天旋雷轉"CYN"』"HIW"。\n"NOR,me);
+            message_vision(HIW + "$N" + HIW + "使出" + HIM + "「紫雷七擊」" + HIW + "第二式" + CYN + "『" + HIC + "天旋雷轉" + CYN + "』" + HIW + "。\n" + NOR,me);
             enemy[i]->receive_damage("kee",(attack/64)*2,me);
             COMBAT_D->report_status(enemy[i]);
           }
           for(i=0;i<j;i++)
           {
-            message_vision(HIW"$N"HIW"使出"HIM"「紫雷七擊」"HIW"第三式"CYN"『"HIM"沉雷地獄"CYN"』"HIW"。\n"NOR,me);
+            message_vision(HIW + "$N" + HIW + "使出" + HIM + "「紫雷七擊」" + HIW + "第三式" + CYN + "『" + HIM + "沉雷地獄" + CYN + "』" + HIW + "。\n" + NOR,me);
             enemy[i]->receive_damage("kee",(attack/64)*4,me);
             COMBAT_D->report_status(enemy[i]);
           }
           for(i=0;i<j;i++)
           {
-            message_vision(HIW"$N"HIW"使出"HIM"「紫雷七擊」"HIW"第四式"CYN"『"HIW"冬雷霹靂"CYN"』"HIW"。\n"NOR,me);
+            message_vision(HIW + "$N" + HIW + "使出" + HIM + "「紫雷七擊」" + HIW + "第四式" + CYN + "『" + HIW + "冬雷霹靂" + CYN + "』" + HIW + "。\n" + NOR,me);
             enemy[i]->receive_damage("kee",(attack/64)*8,me);
             COMBAT_D->report_status(enemy[i]);
           }
           for(i=0;i<j;i++)
           {
-            message_vision(HIW"$N"HIW"使出"HIM"「紫雷七擊」"HIW"第五式"CYN"『"HIR"狂雷震九霄"CYN"』"HIW"。\n"NOR,me);
+            message_vision(HIW + "$N" + HIW + "使出" + HIM + "「紫雷七擊」" + HIW + "第五式" + CYN + "『" + HIR + "狂雷震九霄" + CYN + "』" + HIW + "。\n" + NOR,me);
             enemy[i]->receive_damage("kee",(attack/64)*16,me);
             COMBAT_D->report_status(enemy[i]);
           }
           for(i=0;i<j;i++)
           {
-            message_vision(HIW"$N"HIW"使出"HIM"「紫雷七擊」"HIW"第六式"CYN"『"HIY"驚雷爆五嶽"CYN"』"HIW"。\n"NOR,me);
+            message_vision(HIW + "$N" + HIW + "使出" + HIM + "「紫雷七擊」" + HIW + "第六式" + CYN + "『" + HIY + "驚雷爆五嶽" + CYN + "』" + HIW + "。\n" + NOR,me);
             enemy[i]->receive_damage("kee",(attack/64)*32,me);
             COMBAT_D->report_status(enemy[i]);
           }
           for(i=0;i<j;i++)
           {
-            message_vision(HIW"$N"HIW"使出"HIM"「紫雷七擊」"HIW"最終式"CYN"『"HIR"怒"HIY"雷"HIM"撕"HIC"天"HIW"裂"HIG"地"CYN"』"HIW"。\n"NOR,me);
+            message_vision(HIW + "$N" + HIW + "使出" + HIM + "「紫雷七擊」" + HIW + "最終式" + CYN + "『" + HIR + "怒" + HIY + "雷" + HIM + "撕" + HIC + "天" + HIW + "裂" + HIG + "地" + CYN + "』" + HIW + "。\n" + NOR,me);
             enemy[i]->receive_damage("kee",(attack/64)*64,me);
             COMBAT_D->report_status(enemy[i]);
           }
           for(i=0;i<j;i++)
           {
-            message_vision(HIR"爆發性的強烈雷擊對$n"HIR"肉身造成難以彌補的嚴重殛傷!!\n"NOR,me,enemy[i]);
+            message_vision(HIR + "爆發性的強烈雷擊對$n" + HIR + "肉身造成難以彌補的嚴重殛傷!!\n" + NOR,me,enemy[i]);
             enemy[i]->apply_condition("hellthunder",ratio);
             COMBAT_D->report_status(enemy[i]);
           }
         }else{
-          message_vision(YEL"雷柱電網紛紛在$n"YEL"身旁交錯而過，沒有達到預期中的傷害!!\n"NOR,me,enemy[i]);
+          message_vision(YEL + "雷柱電網紛紛在$n" + YEL + "身旁交錯而過，沒有達到預期中的傷害!!\n" + NOR,me,enemy[i]);
           COMBAT_D->report_status(enemy[i]);
         }
       }

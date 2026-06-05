@@ -20,14 +20,14 @@ int exert(object me)
                 return notify_fail("你已在運行中了。\n");
         if (!me->is_fighting())
         {
-                message_vision(HIY"$N口中唸唸有詞，陣陣靈氣開始附於$N身上。\n"NOR,me);
-                message_vision(HIR"\n
-　　　　　　"HIR"　　╗　　"HIM"●　"HIC"╗╗　　　　"HIW"╔════╗"HIY"╔════╗"NOR"　
-　　　　　　"HIR"╔═╬══╗　"HIC"║║　　　　"HIW"║　║║　║"HIY"╔════╗"NOR"
-　　　　　　"HIR"　　║　　　　"HIC"║║　　　　"HIW"║　║║　║"HIY"╚══╩═╝"NOR"
-　　　　　　"HIR"　　╚╗　　　"HIC"║║═══╝"HIW"║╚╝╚╝║"HIY"╚═　║╔╗"NOR"
-　　　　　　"HIR"　╔　╚╗　　"HIC"║║　　　　"HIW"║　　　　║"HIY"╚═　║║  "NOR"
-　　　　　　"HIR"╚╝　　╚╝　"HIC"╚╚═══╝"HIW"╚════╝"HIY"╚═　╝╚╝\n"NOR,me);
+                message_vision(HIY + "$N口中唸唸有詞，陣陣靈氣開始附於$N身上。\n" + NOR,me);
+                message_vision(HIR + "\n
+　　　　　　" + HIR + "　　╗　　" + HIM + "●　" + HIC + "╗╗　　　　" + HIW + "╔════╗" + HIY + "╔════╗" + NOR + "　
+　　　　　　" + HIR + "╔═╬══╗　" + HIC + "║║　　　　" + HIW + "║　║║　║" + HIY + "╔════╗" + NOR + "
+　　　　　　" + HIR + "　　║　　　　" + HIC + "║║　　　　" + HIW + "║　║║　║" + HIY + "╚══╩═╝" + NOR + "
+　　　　　　" + HIR + "　　╚╗　　　" + HIC + "║║═══╝" + HIW + "║╚╝╚╝║" + HIY + "╚═　║╔╗" + NOR + "
+　　　　　　" + HIR + "　╔　╚╗　　" + HIC + "║║　　　　" + HIW + "║　　　　║" + HIY + "╚═　║║  " + NOR + "
+　　　　　　" + HIR + "╚╝　　╚╝　" + HIC + "╚╚═══╝" + HIW + "╚════╝" + HIY + "╚═　╝╚╝\n" + NOR,me);
                 me->set_temp("check-dogup",1);
                 me->set_temp("time-dogup",1);
                 me->add("force",-60);
@@ -44,7 +44,7 @@ void remove_effect(object me)
         {
         me->delete_temp("check-dogup");
         me->delete_temp("time-dogup");
-        message_vision(YEL"靈氣從$N身上漸漸散去，$N看起來平凡許\多！\n"NOR,me);}
+        message_vision(YEL + "靈氣從$N身上漸漸散去，$N看起來平凡許\多！\n" + NOR,me);}
         if (funlv <100)
         function_improved ("dogup" , random(100) + 100);
 }

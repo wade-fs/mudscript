@@ -106,11 +106,10 @@ func New(l lexer.Lexer) *Parser {
 		token.DEC:      p.parsePrefixExpression, // [新增] --X
 		token.TRUE:     p.parseBoolean,
 		token.FALSE:    p.parseBoolean,
-		token.LPAREN:   p.parseGroupedOrCallExpression, // [修正] 支援 grouping 和 function pointer calls
+		token.LPAREN:   p.parseGroupedExpression,
 		token.IF:       p.parseIfExpression,
 		token.STRING:   p.parseStringLiteral,
-		token.CHAR:      p.parseCharacterLiteral, // [修正] 將 CHAR 視為整數 (ASCII/UTF-8 碼)
-
+		token.CHAR:     p.parseCharLiteral, // [修正] 將 CHAR 正確解析為整數
 		token.LARRAY:   p.parseLPCArrayLiteral,
 		token.LT:       p.parsePrefixExpression, // [新增] 支援 <n 語法 (從末尾索引)
 		token.NEW:      p.parsePrefixExpression, // [新增] 支援 new(path)
@@ -305,32 +304,6 @@ func (p *Parser) parseIdent() ast.Expression {
 	}
 }
 
-func (p *Parser) parseCharacterLiteral() ast.Expression {
-	lit := &ast.IntegerLiteral{Token: p.curToken}
-	content := p.curToken.Literal
-	if len(content) == 0 {
-		lit.Value = 0
-	} else if len(content) == 1 {
-		lit.Value = int64(content[0])
-	} else if content[0] == '\\' && len(content) >= 2 {
-		// 處理跳脫字元
-		switch content[1] {
-		case 'n': lit.Value = '\n'
-		case 'r': lit.Value = '\r'
-		case 't': lit.Value = '\t'
-		case 'e', '': lit.Value = 27
-		default: lit.Value = int64(content[1])
-		}
-	} else {
-		// UTF-8 處理
-		runes := []rune(content)
-		if len(runes) > 0 {
-			lit.Value = int64(runes[0])
-		}
-	}
-	return lit
-}
-
 func (p *Parser) parseIntegerLiteral() ast.Expression {
 	lit := &ast.IntegerLiteral{Token: p.curToken}
 
@@ -405,35 +378,8 @@ func (p *Parser) parseBoolean() ast.Expression {
 	}
 }
 
-func (p *Parser) parseGroupedOrCallExpression() ast.Expression {
-	p.nextToken() // Skip '('
-
-	// 🚀 關鍵強化：支援 Legacy 函式指標呼叫 (*callback)(...)
-	if p.curTokenIs(token.ASTERISK) {
-		p.nextToken() // Skip '*'
-		if !p.curTokenIs(token.IDENT) {
-			return nil
-		}
-		
-		ident := &ast.Ident{Token: p.curToken, Value: p.curToken.Literal}
-		
-		if !p.expectPeek(token.RPAREN) {
-			return nil
-		}
-		
-		// 這裡必須跟隨 '(' 即將開始參數解析
-		if !p.peekTokenIs(token.LPAREN) {
-			return nil
-		}
-		p.nextToken() // '('
-		
-		call := &ast.CallExpression{
-			Token:     p.curToken,
-			Function:  ident,
-			Arguments: p.parseExpressionList(token.RPAREN),
-		}
-		return call
-	}
+func (p *Parser) parseGroupedExpression() ast.Expression {
+	p.nextToken()
 
 	// 🚀 新增：支援 (type)expr 強制轉型語法 (例如 (string)ob->query("name"))
 	if p.isTypeToken(p.curToken.TokenType) {
@@ -451,6 +397,7 @@ func (p *Parser) parseGroupedOrCallExpression() ast.Expression {
 	if !p.expectPeek(token.RPAREN) {
 		return nil
 	}
+
 	return expr
 }
 
@@ -600,11 +547,23 @@ func (p *Parser) parseStringLiteral() ast.Expression {
 	}
 
 	// 🚀 新增：支援相鄰字串自動串接 (ANSI C 風格)
-	for p.peekTokenIs(token.STRING) {
+	for p.peekTokenIs(token.STRING) || p.peekTokenIs(token.CHAR) {
 		p.nextToken()
 		lit.Value += p.curToken.Literal
 	}
 
+	return lit
+}
+
+func (p *Parser) parseCharLiteral() ast.Expression {
+	lit := &ast.IntegerLiteral{Token: p.curToken}
+	if len(p.curToken.Literal) > 0 {
+		lit.Value = int64(p.curToken.Literal[0])
+	}
+	// 如果後面緊接著字串或字元，則轉向字串解析 (相鄰串接)
+	if p.peekTokenIs(token.STRING) || p.peekTokenIs(token.CHAR) {
+		return p.parseStringLiteral()
+	}
 	return lit
 }
 
@@ -654,11 +613,10 @@ func (p *Parser) parseIndexExpression(left ast.Expression) ast.Expression {
 
 func (p *Parser) isTypeToken(t token.TokenType) bool {
 	switch t {
-	case token.INT_TYPE, token.STRING_TYPE, token.OBJECT_TYPE,
-	     token.MAPPING_TYPE, token.FLOAT_TYPE, token.MIXED_TYPE,
-		 token.VOID_TYPE, token.CLOSURE_TYPE, token.FUNCTION_TYPE, token.BUFFER_TYPE:
+	case token.INT_TYPE, token.STRING_TYPE, token.OBJECT_TYPE, 
+	     token.MAPPING_TYPE, token.FLOAT_TYPE, token.MIXED_TYPE, 
+		 token.VOID_TYPE, token.CLOSURE_TYPE, token.BUFFER_TYPE:
 		return true
-
 	default:
 		return false
 	}
@@ -683,11 +641,12 @@ func (p *Parser) parseStatement(topLevel bool) ast.Statement {
 	// 語法: [modifiers] name(args) { ... }
 	// 注意：這只應該發生在 top-level
 	if topLevel && p.curTokenIs(token.IDENT) && p.peekTokenIs(token.LPAREN) {
-		typeToken := token.Token{TokenType: token.MIXED_TYPE, Literal: "mixed", Line: p.curToken.Line}
-		name := &ast.Ident{Token: p.curToken, Value: p.curToken.Literal}
-		return p.parseFunctionDefinition(typeToken, false, name, isVarargs)
-	}
+	        fmt.Printf("DEBUG: Found function definition candidate: %s\n", p.curToken.Literal)
+	        typeToken := token.Token{TokenType: token.MIXED_TYPE, Literal: "mixed", Line: p.curToken.Line}
 
+	        name := &ast.Ident{Token: p.curToken, Value: p.curToken.Literal}
+	        return p.parseFunctionDefinition(typeToken, false, name, isVarargs)
+	}
 	switch p.curToken.TokenType {
 	case token.RETURN:
 		return p.parseReturnStatement()
@@ -734,9 +693,9 @@ func (p *Parser) parseTypedDeclarationStatement(isVarargs bool) ast.Statement {
 	name := &ast.Ident{Token: p.curToken, Value: p.curToken.Literal}
 
 	if p.peekTokenIs(token.LPAREN) {
-		return p.parseFunctionDefinition(typeToken, isArray, name, isVarargs)
+	        fmt.Printf("DEBUG: parseTypedDeclarationStatement calling parseFunctionDefinition for %s\n", name.Value)
+	        return p.parseFunctionDefinition(typeToken, isArray, name, isVarargs)
 	}
-
 	return p.parseTypedVariableDeclaration(typeToken, isArray, name)
 }
 
@@ -782,7 +741,7 @@ func (p *Parser) parseTypedVariableDeclaration(typeToken token.Token, isArray bo
 		if p.peekTokenIs(token.ASSIGN) {
 			p.nextToken()
 			p.nextToken()
-			nextStmt.Value = p.parseExpression(COMMA) // 🚀 使用 COMMA 優先權，避免吞掉後續變數
+			nextStmt.Value = p.parseExpression(LOWEST)
 		}
 		statements = append(statements, nextStmt)
 	}
@@ -841,22 +800,30 @@ func (p *Parser) parseTypedParameters() []*ast.TypedParam {
 	p.nextToken()
 
 	for {
-		if !p.isTypeToken(p.curToken.TokenType) {
-			return nil
-		}
-		paramType := p.curToken
-
+		var paramType token.Token
 		paramIsArray := false
-		if p.peekTokenIs(token.ASTARISK) {
-			p.nextToken()
-			paramIsArray = true
-		}
+		var paramName *ast.Ident
 
-		if !p.expectPeek(token.IDENT) {
+		if p.isTypeToken(p.curToken.TokenType) {
+			paramType = p.curToken
+			if p.peekTokenIs(token.ASTARISK) {
+				p.nextToken()
+				paramIsArray = true
+			}
+			if p.peekTokenIs(token.IDENT) {
+				p.nextToken()
+				paramName = &ast.Ident{Token: p.curToken, Value: p.curToken.Literal}
+			} else {
+				// 🚀 支援原型宣告中的無名參數 (例如: func(string, int))
+				paramName = &ast.Ident{Token: p.curToken, Value: fmt.Sprintf("__arg%d", len(params))}
+			}
+		} else if p.curTokenIs(token.IDENT) {
+			// 🚀 支援省略型別的參數 (預設為 mixed)
+			paramType = token.Token{TokenType: token.MIXED_TYPE, Literal: "mixed", Line: p.curToken.Line}
+			paramName = &ast.Ident{Token: p.curToken, Value: p.curToken.Literal}
+		} else {
 			return nil
 		}
-		
-		paramName := &ast.Ident{Token: p.curToken, Value: p.curToken.Literal}
 
 		params = append(params, &ast.TypedParam{
 			TypeToken: paramType,
@@ -871,7 +838,6 @@ func (p *Parser) parseTypedParameters() []*ast.TypedParam {
 			break
 		}
 	}
-
 	if !p.expectPeek(token.RPAREN) {
 		return nil
 	}

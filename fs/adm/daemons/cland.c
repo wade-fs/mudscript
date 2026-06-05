@@ -14,7 +14,7 @@
 
 inherit F_SAVE;
 
-int check_last_num(string,string,string);
+int check_last_num(string s1, string s2, string s3);
 
 mapping clans;
                         // 目前是暫定這些東西, 可以自行對照, 如有加新的,

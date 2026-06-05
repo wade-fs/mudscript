@@ -66,13 +66,13 @@ if(random(100) > 30)
 {
 if(random(9) >= 4)
 {
-message_vision(HIY"火者拳掌運火，往你身上一拍，頓時烈火纏身！\n"NOR,me);
+message_vision(HIY + "火者拳掌運火，往你身上一拍，頓時烈火纏身！\n" + NOR,me);
 for(j=0;j < i;j++) {
 target[j]->add("kee",-1000); }
    }
    else
    {
-message_vision(HIC"火者仰天一笑，瞬時內息穩固。\n"NOR,me);
+message_vision(HIC + "火者仰天一笑，瞬時內息穩固。\n" + NOR,me);
 me->receive_curing("kee",1200);
 me->receive_heal("kee",1200);
     me->delete_busy();

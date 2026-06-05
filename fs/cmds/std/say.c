@@ -24,8 +24,8 @@ int main(object me, string arg)
 
 	arg = trans_color(arg);
 
-write("『"+HIG+"暢談"+NOR+"』"+HIY+"你說道: " + arg + "\n"NOR); 
-say("『"+HIG+"暢談"+NOR+"』"+HIY+me->name() + "說道: " +  arg + "\n" NOR, 
+write("『"+HIG+"暢談"+NOR+"』"+HIY+"你說道: " + arg + "\n" + NOR); 
+say("『"+HIG+"暢談"+NOR+"』"+HIY+me->name() + "說道: " +  arg + "\n" + NOR, 
 		environment(me), me);
 	return 1;
 }

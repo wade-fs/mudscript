@@ -132,7 +132,7 @@ int to_say(string arg)
     return notify_fail(ob->name()+"還不夠強大喔，再多餵他一些殺手密藥吧。\n");
   if(!arg) return notify_fail("你想要他說什麼呢？\n");
 
-  message("mud",HIG+ob->name()+HIG+"說：『"+arg+"』\n"NOR,users());
+  message("mud",HIG+ob->name()+HIG+"說：『"+arg+"』\n" + NOR,users());
   ob->set("mudsay",1);
   return 1;
 }
@@ -168,7 +168,7 @@ int mob_help(string arg)
   buf=armor_power;  //取得武者的防禦力
   if( buf > 600 )
   {
-    message_vision(ob->name()+HIM+"化成一道金光，佈滿你的周圍，形成超級防護層。\n"NOR,target);
+    message_vision(ob->name()+HIM+"化成一道金光，佈滿你的周圍，形成超級防護層。\n" + NOR,target);
     me->add_temp("apply/armor",200);
     ob->set("helpme",1);
     now_def=200;
@@ -176,7 +176,7 @@ int mob_help(string arg)
   }
   if( buf > 250 )
   {
-    message_vision(ob->name()+HIM+"化成一道金光，全心的吸引敵人的注意。\n"NOR,target);
+    message_vision(ob->name()+HIM+"化成一道金光，全心的吸引敵人的注意。\n" + NOR,target);
     me->add_temp("apply/armor",80);
     ob->set("helpme",1);
     now_def=80;
@@ -184,7 +184,7 @@ int mob_help(string arg)
   }
   if( buf > 200 )
   {
-    message_vision(ob->name()+HIM+"拿起防具，全神地戒備著。\n" NOR,target);
+    message_vision(ob->name()+HIM+"拿起防具，全神地戒備著。\n" + NOR,target);
     me->add_temp("apply/armor",60);
     ob->set("helpme",1);
     now_def=60;
@@ -192,7 +192,7 @@ int mob_help(string arg)
   }
   if( buf > 150 )
   {
-    message_vision(ob->name()+HIM+"全神地戒備地看著四周。\n" NOR,target);
+    message_vision(ob->name()+HIM+"全神地戒備地看著四周。\n" + NOR,target);
     me->add_temp("apply/armor",40);
     ob->set("helpme",1);
     now_def=40;
@@ -200,7 +200,7 @@ int mob_help(string arg)
   }
   if( buf > 100 )
   {
-    message_vision(ob->name()+HIR+"戒備地看著四周。\n" NOR,target);
+    message_vision(ob->name()+HIR+"戒備地看著四周。\n" + NOR,target);
     me->add_temp("apply/armor",30);
     ob->set("helpme",1);
     now_def=30;
@@ -208,13 +208,13 @@ int mob_help(string arg)
   }
   if( buf > 50 )
   {
-    message_vision(ob->name()+HIR+"輕鬆地看著四周。\n" NOR,target);
+    message_vision(ob->name()+HIR+"輕鬆地看著四周。\n" + NOR,target);
     me->add_temp("apply/armor",20);
     ob->set("helpme",1);
     now_def=20;
     return 1;
   }
-  message_vision(ob->name()+HIR+"能保護你嗎？你還是自己小心點吧。\n" NOR,target);
+  message_vision(ob->name()+HIR+"能保護你嗎？你還是自己小心點吧。\n" + NOR,target);
   return 0;
 }
 
@@ -259,7 +259,7 @@ int to_eq(string arg)
 	// 87.6.12加入
 	//避免使用sub之後,影舞者的防禦力變成零
     me->set_temp("mob_def",armor_power);
-    write(this_object()->name()+HIG"將防具收下來！\n"NOR);
+    write(this_object()->name()+HIG + "將防具收下來！\n" + NOR);
     return 1; //要防止防禦力的累積
   }
   if (ob->query("食物"))
@@ -284,15 +284,15 @@ int mob_charge(string arg)
     return notify_fail(ob->name()+"還不夠強大喔,再多餵他一些殺手密藥吧。\n");
   if( !arg )
   {
-    write(ob->name()+HIG"收到命令後，知道他報效的時機來了。\n"NOR);
-    write(ob->name()+HIG"閉上雙眼，屏氣凝神，使得原本黝黑的身體起了一陣光芒。\n"NOR);
-    write(HIG"瞬間閃出一陣光芒，"+me->name()+"被光芒籠罩住。\n"NOR);
+    write(ob->name()+HIG + "收到命令後，知道他報效的時機來了。\n" + NOR);
+    write(ob->name()+HIG + "閉上雙眼，屏氣凝神，使得原本黝黑的身體起了一陣光芒。\n" + NOR);
+    write(HIG + "瞬間閃出一陣光芒，"+me->name()+"被光芒籠罩住。\n" + NOR);
     tell_object(me,"你感到你原本受損的身體，身心都完全回復了\n");
     me->set("gin",me->query("max_gin"));
     me->set("kee",me->query("max_kee"));
     me->set("sen",me->query("max_sen"));
     me->clear_condition();
-    write(ob->name()+HIG"在光芒散去後，也消失的無影無蹤。\n"NOR);
+    write(ob->name()+HIG + "在光芒散去後，也消失的無影無蹤。\n" + NOR);
     ob->add("lv",-2);
     ob->set("exp",1);
     destruct(ob);
@@ -340,7 +340,7 @@ int bit_pet(string arg)
   {
     if( buf > 30 )
     {
-      message_vision(HIG"$N不夠小心，被"+ob->name()+HIR+"背刺了！\n" NOR,target);
+      message_vision(HIG + "$N不夠小心，被"+ob->name()+HIR+"背刺了！\n" + NOR,target);
       t_kee=target->query("max_kee")/13;
       target->add("kee",-t_kee);
       target->set_temp("bit",1);
@@ -349,7 +349,7 @@ int bit_pet(string arg)
     }
     if( buf > 60 )
     {
-      message_vision(HIG"$N毫無警覺，被"+ob->name()+HIR+"狠狠地背刺了！\n" NOR,target);
+      message_vision(HIG + "$N毫無警覺，被"+ob->name()+HIR+"狠狠地背刺了！\n" + NOR,target);
       t_kee=target->query("max_kee")/10;
       target->add("kee",-t_kee);
       target->set_temp("bit",1);
@@ -358,14 +358,14 @@ int bit_pet(string arg)
     }
     if( buf > 90 )
     {
-      message_vision(HIG""+ob->name()+HIR+"狠狠地使出雙重背刺！！$N受創很深！\n" NOR,target);
+      message_vision(HIG + ""+ob->name()+HIR+"狠狠地使出雙重背刺！！$N受創很深！\n" + NOR,target);
       t_kee=target->query("max_kee")/5;
       target->add("kee",-t_kee);
       target->set_temp("bit",1);
       ob->add("bak_times",1);
       return 1;
     }
-    message_vision(HIG"$N一個不留意，被"+ob->name()+HIR+"背刺了！\n" NOR,target);
+    message_vision(HIG + "$N一個不留意，被"+ob->name()+HIR+"背刺了！\n" + NOR,target);
     t_kee=target->query("max_kee")/20;
     target->add("kee",-t_kee);
     target->set_temp("bit",1);
@@ -374,7 +374,7 @@ int bit_pet(string arg)
   }
   else
   {
-    message_vision(HIC"$N急急忙忙往後跳開，被"+ob->name()+HIC+"嚇出了一身冷汗。\n" NOR,target);
+    message_vision(HIC + "$N急急忙忙往後跳開，被"+ob->name()+HIC+"嚇出了一身冷汗。\n" + NOR,target);
     target->add("sen",-5);
     ob->add("bak_times",1);
     return 1;
@@ -408,7 +408,7 @@ int mob_busy(string arg)
   if( pow < 30 )
     return notify_fail(ob->name()+"還不夠強大喔，再多餵他一些殺手密藥吧。\n");
   if( busy_times > 1)
-    return notify_fail(ob->name()+HIG"很累了，再多餵他一些殺手密藥吧。\n"NOR);
+    return notify_fail(ob->name()+HIG + "很累了，再多餵他一些殺手密藥吧。\n" + NOR);
   if(this_object()->query("helpme")==1)
     return notify_fail("他在保護你，那有心思去纏住敵人呀？\n");
 
@@ -418,7 +418,7 @@ int mob_busy(string arg)
     buf=random(pow+20);
     if( buf > 90 )
     {
-      message_vision(HIG"$N被"+ob->name()+HIR+"奮不顧身的打法，逼的根本沒有辦法對你進攻！\n" NOR,target);
+      message_vision(HIG + "$N被"+ob->name()+HIR+"奮不顧身的打法，逼的根本沒有辦法對你進攻！\n" + NOR,target);
       target->start_busy(2);
       t_kee=target->query("max_kee")/15;
       target->add("kee",-t_kee);
@@ -427,7 +427,7 @@ int mob_busy(string arg)
     }
     if( buf > 70 )
     {
-      message_vision(HIG"$N被"+ob->name()+HIR+"的連續攻擊纏住了。\n" NOR,target);
+      message_vision(HIG + "$N被"+ob->name()+HIR+"的連續攻擊纏住了。\n" + NOR,target);
       target->start_busy(2);
       t_kee=target->query("max_kee")/15;
       target->add("kee",-t_kee);
@@ -436,7 +436,7 @@ int mob_busy(string arg)
     }
     if( buf > 50 )
     {
-      message_vision(HIG""+ob->name()+HIR+"連射數道飛刀，逼的$N有點手忙腳亂。\n" NOR,target);
+      message_vision(HIG + ""+ob->name()+HIR+"連射數道飛刀，逼的$N有點手忙腳亂。\n" + NOR,target);
       target->start_busy(1);
       t_kee=target->query("max_kee")/20;
       target->add("kee",-t_kee);
@@ -445,12 +445,12 @@ int mob_busy(string arg)
     }
     if (buf > 20)
     {
-      message_vision(HIG""+ob->name()+HIR+"衝了出去，令$N身形一頓。\n" NOR,target);
+      message_vision(HIG + ""+ob->name()+HIR+"衝了出去，令$N身形一頓。\n" + NOR,target);
       target->start_busy(1);
       ob->add("busy_times",1);
       return 1;
     }
-    message_vision(HIG"$N被衝出來的"+ob->name()+HIR+"撞到了，但無傷大雅。\n" NOR,target);
+    message_vision(HIG + "$N被衝出來的"+ob->name()+HIR+"撞到了，但無傷大雅。\n" + NOR,target);
     t_kee=target->query("max_kee")/20;
     target->add("kee",-t_kee);
     ob->add("busy_times",1);
@@ -497,7 +497,7 @@ int do_sub(string str)
     return notify_fail("你的武影者沒有歸位，請離線後再進入。\n");
   if( !str )
   {
-    message_vision(HIC"$N向$N的 "NOR"$n "HIC"求救，突然間$N的 "NOR"$n "HIC"變成人加入這場戰鬥。\n"NOR,me,ob);
+    message_vision(HIC + "$N向$N的 " + NOR + "$n " + HIC + "求救，突然間$N的 " + NOR + "$n " + HIC + "變成人加入這場戰鬥。\n" + NOR,me,ob);
     me->add("force",-100);
     sub=new("/open/killer/obj/two.c");
     sub->set("sub_id",""+me->query("id")+"");

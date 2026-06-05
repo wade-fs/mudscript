@@ -194,7 +194,7 @@ varargs void improve_skill( string skill, int amount, int weak_mode )
 			if( magic > this_object()->query("max_atman") )
 				this_object()->set( "max_atman", magic );
 		}
-		tell_object(this_object(), HIC + g + "的「" + to_chinese(skill) + "」進步了﹗\n" NOR);
+		tell_object(this_object(), HIC + g + "的「" + to_chinese(skill) + "」進步了﹗\n" + NOR);
 		SKILL_D(skill)->skill_improved(this_object());
                 if(!id=this_object()->query("old_id"))
                   id = this_object()->query("id");

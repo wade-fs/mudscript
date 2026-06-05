@@ -6,7 +6,7 @@ inherit SHIELD;
 
 void create()
 {
-  set_name(HIR"火龜殼盾"NOR,({"fire-turtle shield","shield"}) );
+  set_name(HIR + "火龜殼盾" + NOR,({"fire-turtle shield","shield"}) );
   set_weight(20000);
   if( clonep() )
     set_default_object(__FILE__);

@@ -5,9 +5,9 @@ void reattack();
 //當玩家驅動化影術得時候，會出現前三招(或許會在加)
 //然後玩家趨到分功術的時候，會出現後三招
 string *dodge_msg = ({
-    "$n身影微動,已經藉一招「"HIC"幻影幢幢"NOR"」繞到$N四周形成四個幻影。\n",
-    "$n身形一轉使出「"HIC"縮  地"NOR"」瞬時人離原位而避了開去,$N擊中了幻影。\n",
-    "只見$n身影一晃即失,一式「"HIC"瞬天影舞"NOR"」已幻化在三丈之外。\n",
+    "$n身影微動,已經藉一招「" + HIC + "幻影幢幢" + NOR + "」繞到$N四周形成四個幻影。\n",
+    "$n身形一轉使出「" + HIC + "縮  地" + NOR + "」瞬時人離原位而避了開去,$N擊中了幻影。\n",
+    "只見$n身影一晃即失,一式「" + HIC + "瞬天影舞" + NOR + "」已幻化在三丈之外。\n",
 });
 
 int valid_enable(string usage)
@@ -58,8 +58,8 @@ string query_dodge_msg(string limb)
 				else
 				    me->set("atman",0);
 				me->set_temp("shadowfun",2);
-message_vision(HIW"\n            分	 功\	 化	 影	 身	 法!"NOR,target);
-message_vision(HBMAG"\n              分		影		術   \n"NOR,target);
+message_vision(HIW + "\n            分	 功\	 化	 影	 身	 法!" + NOR,target);
+message_vision(HBMAG + "\n              分		影		術   \n" + NOR,target);
 			}
 			break;
 		case 11..40://玩家將有40%~70%的機率發動化影身法
@@ -74,9 +74,9 @@ message_vision(HBMAG"\n              分		影		術   \n"NOR,target);
 				me->set_temp("shadowfun",2);
 				me->receive_heal("gin",skrate+50);
       				target->receive_wound("gin",skrate+50,me);
-message_vision(HIW"\n            分	功\	化	影	身	法!"NOR,target);
-message_vision(HBMAG"\n              分		影		術   \n"NOR,target);
-message_vision(HBYEL"\n$N幻出許\多身影，令$n眼花撩亂，無法分清楚何者是實體\n"NOR,me,target);
+message_vision(HIW + "\n            分	功\	化	影	身	法!" + NOR,target);
+message_vision(HBMAG + "\n              分		影		術   \n" + NOR,target);
+message_vision(HBYEL + "\n$N幻出許\多身影，令$n眼花撩亂，無法分清楚何者是實體\n" + NOR,me,target);
 			}
 			break;
 		case 41..70://玩家將有40%~70%的機率發動化影身法
@@ -91,10 +91,10 @@ message_vision(HBYEL"\n$N幻出許\多身影，令$n眼花撩亂，無法分清�
 				me->set_temp("shadowfun",3);
 				me->delete_busy();
 				target->receive_wound("gin",skrate+100,me);
-message_vision(HIW"\n            分	功\	化	影	身	法!"NOR,target);
-message_vision(HBMAG"\n              分		影		術   \n"NOR,target);
-message_vision(HBYEL"\n$N幻出許\多身影，令$n眼花撩亂，無法分清楚何者是實體 \n"NOR,me,target);
-message_vision(HBCYN"\n剎那間，整個空間中都是$N的身影，$n有點暈頭轉向了\n"NOR,me,target);
+message_vision(HIW + "\n            分	功\	化	影	身	法!" + NOR,target);
+message_vision(HBMAG + "\n              分		影		術   \n" + NOR,target);
+message_vision(HBYEL + "\n$N幻出許\多身影，令$n眼花撩亂，無法分清楚何者是實體 \n" + NOR,me,target);
+message_vision(HBCYN + "\n剎那間，整個空間中都是$N的身影，$n有點暈頭轉向了\n" + NOR,me,target);
 			}
 			break;
 		case 71..100://玩家將有60%~80%的機率發動化影身法
@@ -113,11 +113,11 @@ message_vision(HBCYN"\n剎那間，整個空間中都是$N的身影，$n有點�
 				me->receive_heal("sen",sk_lv);				
       				target->receive_wound("gin",sk_lv*2+30,me);
       				target->receive_wound("sen",sk_lv*2+30,me);
-message_vision(HIW"\n            分	功\	化	影	身	法!"NOR,target);
-message_vision(HBMAG"\n              分		影		術   \n"NOR,target);
-message_vision(HBYEL"\n   $N幻出許\身影，令$n眼花撩亂，無法分清楚何者是實體\n"NOR,me,target);
-message_vision(HBCYN"\n   剎那間，整個空間中都是$N的身影，$n有點暈頭轉向了\n"NOR,me,target);
-message_vision(HBRED"\n   $N的身影越幻化越多，彷彿整個空間為之牽動........\n"NOR,me,target);
+message_vision(HIW + "\n            分	功\	化	影	身	法!" + NOR,target);
+message_vision(HBMAG + "\n              分		影		術   \n" + NOR,target);
+message_vision(HBYEL + "\n   $N幻出許\身影，令$n眼花撩亂，無法分清楚何者是實體\n" + NOR,me,target);
+message_vision(HBCYN + "\n   剎那間，整個空間中都是$N的身影，$n有點暈頭轉向了\n" + NOR,me,target);
+message_vision(HBRED + "\n   $N的身影越幻化越多，彷彿整個空間為之牽動........\n" + NOR,me,target);
 			}
 			break;
 		case 101..150://特別等級，只有獲得獎勵的玩家才有可能 90% 機會
@@ -135,22 +135,22 @@ message_vision(HBRED"\n   $N的身影越幻化越多，彷彿整個空間為之�
 				me->receive_heal("sen",sk_lv);				
       				target->receive_wound("gin",sk_lv*2+30,me);
       				target->receive_wound("sen",sk_lv*2+30,me);
-message_vision(HIW"\n            專		家		級"NOR,target);
-message_vision(HIW"\n            分	功\	 化	 影	 身	 法!"NOR,target);
-message_vision(HBMAG"\n               分		影		術   \n"NOR,target);
-message_vision(HBYEL"\n   $N幻出許\身影，令$n眼花撩亂，無法分清楚何者是實體\n"NOR,me,target);
-message_vision(HBCYN"\n   剎那間，整個空間中都是$N的身影，$n有點暈頭轉向了\n"NOR,me,target);
-message_vision(HBRED"\n   $N的身影越幻化越多，彷彿整個空間為之牽動........\n"NOR,me,target);
+message_vision(HIW + "\n            專		家		級" + NOR,target);
+message_vision(HIW + "\n            分	功\	 化	 影	 身	 法!" + NOR,target);
+message_vision(HBMAG + "\n               分		影		術   \n" + NOR,target);
+message_vision(HBYEL + "\n   $N幻出許\身影，令$n眼花撩亂，無法分清楚何者是實體\n" + NOR,me,target);
+message_vision(HBCYN + "\n   剎那間，整個空間中都是$N的身影，$n有點暈頭轉向了\n" + NOR,me,target);
+message_vision(HBRED + "\n   $N的身影越幻化越多，彷彿整個空間為之牽動........\n" + NOR,me,target);
 			}
 			break;
 
 		default://巫師級(超過限制)     有100%的機率發動化影身法
 			{
-message_vision(HIW"\n            巫		師		級"NOR,target);
-message_vision(HIW"\n            分	功\	化	影	身	法!"NOR,target);
-message_vision(HIY"\n   $N幻出許\身影，令$n眼花撩亂，無法分清楚何者是實體\n"NOR,me,target);
-message_vision(HIR"\n   剎那間，整個空間中都是$N的身影，$n有點暈頭轉向了\n"NOR,me,target);
-message_vision(HIG"\n   $N的身影越幻化越多，彷彿整個空間為之牽動........\n"NOR,me,target);
+message_vision(HIW + "\n            巫		師		級" + NOR,target);
+message_vision(HIW + "\n            分	功\	化	影	身	法!" + NOR,target);
+message_vision(HIY + "\n   $N幻出許\身影，令$n眼花撩亂，無法分清楚何者是實體\n" + NOR,me,target);
+message_vision(HIR + "\n   剎那間，整個空間中都是$N的身影，$n有點暈頭轉向了\n" + NOR,me,target);
+message_vision(HIG + "\n   $N的身影越幻化越多，彷彿整個空間為之牽動........\n" + NOR,me,target);
 				me->set_temp("shadowfun",4);
 				me->delete_busy();
 				target->start_busy(2);

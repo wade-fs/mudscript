@@ -43,7 +43,7 @@ void go_on_process(object ob)
 void create()
 {
         seteuid(ROOT_UID);
-        set("channel_id", HIG"【狂想廣播器】"NOR);
+        set("channel_id", HIG + "【狂想廣播器】" + NOR);
         CHANNEL_D->do_channel( this_object(), "sys", "事件系統已經啟動。\n");
 
         history = allocate_mapping(sizeof(story_name));
@@ -124,12 +124,12 @@ void process_story(object ob)
         step++;
 
         prompt = ob->prompt();
-        if (! prompt) prompt = HIY "【趣聞】 " NOR;
+        if (! prompt) prompt = HIY + "【趣聞】 " + NOR;
         if(functionp(line)) line=evaluate(line);
         if (stringp(line))
         {
                 listeners = filter_array(users(), (: filter_listener :));
-                message( "story",  prompt + WHT + line + "\n" NOR, listeners );
+                message( "story",  prompt + WHT + line + "\n" + NOR, listeners );
         }
         if (intp(line) && ! line)
         {
@@ -180,8 +180,7 @@ void give_gift(string gift, int amount, string msg)
                   ob->move(env);
                 }
                 CHANNEL_D->do_channel( this_object(),
-                        "sys", sprintf(NOR WHT "贈品%s - %s - " NOR WHT "掉到了"
-                                HIC "%s" NOR WHT "(%O" NOR WHT ")。\n" NOR,
+                        "sys", sprintf(NOR + WHT + "贈品%s - %s - " + NOR + WHT + "掉到了" + HIC + "%s" + NOR + WHT + "(%O" + NOR + WHT + ")。\n" + NOR,
                                ob->name(), file_name(ob) , env->query("short"), env));
                        if(test_flag) test_flag=0;
         write_file("/data/msg/give_gift",

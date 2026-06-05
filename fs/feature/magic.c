@@ -16,7 +16,7 @@ int magic_improved(object me,string name)
 {
 	me->add("magic/"+name+"/level",1);
 	me->set("magic/"+name+"/learned",0);
-	tell_object(me,HIY "你的"+to_chinese(name)+"功\力更上一層樓。\n" NOR);
+	tell_object(me,HIY + "你的"+to_chinese(name)+"功\力更上一層樓。\n" + NOR);
 	return 1;
 }
 int set_magic(object me,string name,int level)

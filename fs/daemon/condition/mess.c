@@ -11,7 +11,7 @@ enemy = all_inventory( environment(me) );
          me->kill_ob(enemy[j]);
         }
       me->apply_condition("mess",duration-1);
-      message_vision(HIC"$N失去心智, 開始狂殺四周所有生物...\n" NOR,me);
+      message_vision(HIC + "$N失去心智, 開始狂殺四周所有生物...\n" + NOR,me);
         if( duration < 1 ) return 0;
         return 1;
 }

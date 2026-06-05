@@ -42,7 +42,7 @@ void second( object *user , string str )
 				COO = HIW;
 			else
 				COO = HIR;
-			list = sprintf("%s"HIC+"【%s%|10s"+HIC"】%s%|10s%s %s\n",
+			list = sprintf("%s" + HIC+"【%s%|10s"+HIC + "】%s%|10s%s %s\n",
 				list,COO,
 				(user[i]->query("clan/name") ? user[i]->query("clan/name") : "獨闖江湖"),CO,
 				(user[i]->query("clan/title") ? user[i]->query("clan/title") : "獨闖江湖"), CO, NOR +

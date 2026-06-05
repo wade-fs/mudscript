@@ -4,7 +4,7 @@ inherit ITEM;
 #include <ansi.h>
 void create()
 {
-	set_name(HIR"極火真經"NOR, ({ "fire_book" }));
+	set_name(HIR + "極火真經" + NOR, ({ "fire_book" }));
 	set_weight(100);
 	if( clonep() )
 		set_default_object(__FILE__);

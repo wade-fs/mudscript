@@ -19,17 +19,17 @@ int main( object me , string arg )
 
 	if( msg_buffer == 0 ) {
 		me->delete_temp( "msg_buffer" );
-		write( HIC"系統將不取代任何訊息。\n"NOR );
+		write( HIC + "系統將不取代任何訊息。\n" + NOR );
 		return 1;
 	}
 
 	if( msg_buffer < sizeof(MSG) || msg_buffer>MAX_BUFFER ) {
-		write( HIR"[注意]"HIC" <最大訊息流量> 最小值為 "HIY+sizeof(MSG)+HIC" , 最大值為 "HIY+MAX_BUFFER+HIC"。\n"NOR );
+		write( HIR + "[注意]" + HIC + " <最大訊息流量> 最小值為 " + HIY+sizeof(MSG)+HIC + " , 最大值為 " + HIY+MAX_BUFFER+HIC + "。\n" + NOR );
 		return 1;
 	}
 
 	me->set_temp( "msg_buffer", msg_buffer );	
-	write( HIC"您將<最大訊息流量>設為 "HIY+msg_buffer+HIC"。\n"NOR );
+	write( HIC + "您將<最大訊息流量>設為 " + HIY+msg_buffer+HIC + "。\n" + NOR );
 	return 1;
 }
         

@@ -24,9 +24,9 @@ void list( object me )
 	v = values(env->query("object"));
 	max = build(env->query("build"));
 	if( max )
-		list = sprintf( HIM" ■ 目前儲存的物品: "HIB"(空間 %d%%)\n\n"NOR, sizeof(k)*50 / max );
+		list = sprintf( HIM + " ■ 目前儲存的物品: " + HIB + "(空間 %d%%)\n\n" + NOR, sizeof(k)*50 / max );
 	else
-		list = HIM" ■ 目前儲存的物品: "HIB"(沒有空位存放物品)\n\n"NOR;
+		list = HIM + " ■ 目前儲存的物品: " + HIB + "(沒有空位存放物品)\n\n" + NOR;
 	a = sizeof(k);
 	for( t=0, j=0; t<a; t++ ) {
 		if( sizeof(item=v[t]+".c") > 7 ) j++;
@@ -35,7 +35,7 @@ void list( object me )
 		amount = env->query( "object/amount" + n );
 		if( amount == 1 ) unit = "";
 		else		  unit = CHINESE_D->chinese_number(amount) + item->query("unit");
-		list += sprintf( "   ("HIY"%2d"NOR") "HIC"%s"NOR"("HIG"%s"NOR")"NOR,
+		list += sprintf( "   (" + HIY + "%2d" + NOR + ") " + HIC + "%s" + NOR + "(" + HIG + "%s" + NOR + ")" + NOR,
 			j, unit + item->query("name"), item->query("id") );
 		if( wizardp(me) )
 			list += sprintf( " %2d: %s", t, item );
@@ -92,7 +92,7 @@ int main( object me, string arg )
 	if( obj->query_amount() )
 		obj->set_amount( env->query( "object/amount" + n ) );
 	obj->move(me);
-	message_vision( HIY"$N取出一" + obj->query("unit") + "$n"HIY"。\n"NOR, me, obj );
+	message_vision( HIY + "$N取出一" + obj->query("unit") + "$n" + HIY + "。\n" + NOR, me, obj );
 	env->delete( "object/file" + n );
 	env->delete( "object/amount" + n );
 	strs = explode( file, "\n" );

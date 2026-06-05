@@ -5,12 +5,12 @@ inherit CLOTH;
 object user;
 void create()
 {
-        set_name(""HIR"»"HIW"ñ"HIR"°"HIW"Ä"HIR"¦"HIW"Ð"HIR"¦"HIW"ç"NOR"",({"bird_cloth","cloth"}));
+        set_name("" + HIR + "" + HIW + "" + HIR + "" + HIW + "" + HIR + "" + HIW + "" + HIR + "" + HIW + "" + NOR + "",({"bird_cloth","cloth"}));
         set_weight(3000);
         if( clonep() )
                 set_default_object(__FILE__);
         else {
-                set("unit", "¥ó");
+                set("unit", "");
                 set("no_put",1);
                 set("no_give",1);
                 set("no_sell",1);
@@ -37,7 +37,7 @@ int do_wear(string str)
  if( query("equipped") )
  {
    user = this_player();
-   message_vision("$N±N"HIR"»"HIW"ñ"HIR"°"HIW"Ä"HIR"¦"HIW"Ð"HIR"¦"HIW"ç"NOR"©¹¨­¤W¤@¬ï¡A"HIR"»"HIW"ñ"HIR"°"HIW"Ä"HIR"¦"HIW"Ð"HIR"¦"HIW"ç"NOR"Àþ®ÉÄÆ¥X¹Î¹Î¶³Ãú±N$NÅ¢¸n¡C\n",user);
+   message_vision("$NN" + HIR + "" + HIW + "" + HIR + "" + HIW + "" + HIR + "" + HIW + "" + HIR + "" + HIW + "" + NOR + "W@A" + HIR + "" + HIW + "" + HIR + "" + HIW + "" + HIR + "" + HIW + "" + HIR + "" + HIW + "" + NOR + "Æ¥XÎ¹Î¶N$NÅ¢nC\n",user);
    set_heart_beat(1);
  }
 }
@@ -51,7 +51,7 @@ void heart_beat()
    {
      user->receive_curing("kee",300);
      user->receive_heal("kee",300);
-message_vision(HIW"¦Ð¦ç©Ò´²¥Xªº¶³ÃúºCºCªº±N$Nªº¶Ë¤fÂ¡¦X¤F.\n"NOR,user);
+message_vision(HIW + "Ð¦Ò´XCCN$NË¤fÂ¡XF.\n" + NOR,user);
      }
        }
 return;

@@ -6,7 +6,7 @@ inherit EQUIP;
 
 void create()
 {
-  set_name(HBBLU+HIC"幻彩靈戒"NOR ,({ "color-ring" }));
+  set_name(HBBLU+HIC + "幻彩靈戒" + NOR ,({ "color-ring" }));
   set_weight(2500);
   if( clonep() )
     set_default_object(__FILE__);
@@ -26,8 +26,8 @@ void create()
     set("material","gold");
     set("armor_type","finger2");
     set("armor_prop/armor",7);
-    set("wear_msg",HIW"$N"HIW"戴上了$n"HIW"，四道靈光由戒指中隱隱透出光茫！！\n"NOR);
-    set("unequip_msg",HIW"$N"HIW"御下了$n"HIW"，四道靈光由戒指中漸漸消散！！\n"NOR);
+    set("wear_msg",HIW + "$N" + HIW + "戴上了$n" + HIW + "，四道靈光由戒指中隱隱透出光茫！！\n" + NOR);
+    set("unequip_msg",HIW + "$N" + HIW + "御下了$n" + HIW + "，四道靈光由戒指中漸漸消散！！\n" + NOR);
   }
   setup();
 }
@@ -48,7 +48,7 @@ int wear()
   if( query("equipped"))
   {
     me=environment();
-//    message_vision(HIW"$N戴上了$n"HIW"，四道靈光由戒指中隱隱透出光茫！！\n"NOR,me,this_object());
+//    message_vision(HIW + "$N戴上了$n" + HIW + "，四道靈光由戒指中隱隱透出光茫！！\n" + NOR,me,this_object());
     set_heart_beat(1);
   }
   return result;
@@ -60,7 +60,7 @@ int unequip()
   int result = ::unequip();
   if( !query("equipped") )
   {
-//    message_vision(HIW"$N御下了$n"HIW"，四道靈光由戒指中漸漸消散！！\n"NOR,me,this_object());
+//    message_vision(HIW + "$N御下了$n" + HIW + "，四道靈光由戒指中漸漸消散！！\n" + NOR,me,this_object());
     set_heart_beat(0);
   }
   return result;

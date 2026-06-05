@@ -7,7 +7,7 @@ inherit HEAD;
 
 void create()
 {
-	set_name( HIC "吹雪殘雲巾" NOR, ({ "icy ribbon", "ribbon" }) );
+	set_name( HIC + "吹雪殘雲巾" + NOR, ({ "icy ribbon", "ribbon" }) );
 	set_weight(200);
 	if( clonep() )
 		set_default_object(__FILE__);

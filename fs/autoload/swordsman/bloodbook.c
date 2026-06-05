@@ -51,7 +51,7 @@ int do_study()
   object me = this_player();
   if(me->query_temp("quest/return_sha"))
   {
-  message_vision(HIR"$N已下定決心返回師門，因此立即闔上書本，當作自己看不懂。\n"NOR,me);
+  message_vision(HIR + "$N已下定決心返回師門，因此立即闔上書本，當作自己看不懂。\n" + NOR,me);
   return 1; 
   }
 } 

@@ -10,7 +10,7 @@ if(me->query("darkforce/make-ken/exp") > 0 )return notify_fail("你並非以匕�
 if(me->query("class") !="killer" ) return notify_fail("你的職業無法使用!!\n");
 if(objectp(ob = present("evil dagger", me))) return notify_fail("你身上已經有一把魔氣匕了!!\n");
 if(me->is_fighting()) me->start_busy(1);
-message_vision(HIB"$N凝聚體內內力轉為魔氣, 魔氣漸漸在手中形成一把匕首!!\n"NOR,me);
+message_vision(HIB + "$N凝聚體內內力轉為魔氣, 魔氣漸漸在手中形成一把匕首!!\n" + NOR,me);
 me->add("force",-500 );
 call_out("maked",2,me);
 return 1;
@@ -21,11 +21,11 @@ object obj;
 seteuid(getuid());
 if (!me) return 1;
 lv=me->query("functions/make-dagger/level");
-message_vision(HIB"一把泛著藍光的魔氣匕已經在$N手中形成!!\n"NOR,me);
+message_vision(HIB + "一把泛著藍光的魔氣匕已經在$N手中形成!!\n" + NOR,me);
 obj=new("/daemon/class/killer/ninja-force/evil_dag.c");
 if ( lv >= 0 && lv < 25) 
 {
-obj->set("name",HIB"(藍光)"HIC"魔氣匕"NOR"--"HIW"冰牙"NOR);
+obj->set("name",HIB + "(藍光)" + HIC + "魔氣匕" + NOR + "--" + HIW + "冰牙" + NOR);
 obj->set("weapon_prop/dagger",5);
 obj->set("weapon_prop/dodge",10);
 obj->set("weapon_prop/parry",10);
@@ -34,7 +34,7 @@ obj->set("weapon_prop/attack",10);
 }
 if (lv >= 25 && lv < 50) 
 {
-obj->set("name",HIB"(藍光)"HIC"魔氣匕"NOR"--"HIR"炎牙"NOR);
+obj->set("name",HIB + "(藍光)" + HIC + "魔氣匕" + NOR + "--" + HIR + "炎牙" + NOR);
 obj->set("weapon_prop/dagger",10);
 obj->set("weapon_prop/dodge",20);
 obj->set("weapon_prop/parry",20);
@@ -43,7 +43,7 @@ obj->set("weapon_prop/attack",30);
 }
 if (lv >= 50 && lv < 75) 
 {
-obj->set("name",HIB"(藍光)"HIC"魔氣匕"NOR"--"HIG"魂牙"NOR);
+obj->set("name",HIB + "(藍光)" + HIC + "魔氣匕" + NOR + "--" + HIG + "魂牙" + NOR);
 obj->set("weapon_prop/dagger",15);
 obj->set("weapon_prop/dodge",30);
 obj->set("weapon_prop/parry",30);
@@ -52,7 +52,7 @@ obj->set("weapon_prop/attack",50);
 }
 if (lv >= 75 && lv < 100) 
 {
-obj->set("name",HIB"(藍光)"HIC"魔氣匕"NOR"--"RED"血牙"NOR);
+obj->set("name",HIB + "(藍光)" + HIC + "魔氣匕" + NOR + "--" + RED + "血牙" + NOR);
 obj->set("weapon_prop/dagger",20);
 obj->set("weapon_prop/dodge",40);
 obj->set("weapon_prop/parry",40);
@@ -61,7 +61,7 @@ obj->set("weapon_prop/attack",70);
 }
 if (lv == 100) 
 {
-obj->set("name",HIB"(藍光)"CYN"真˙魔氣匕"NOR);
+obj->set("name",HIB + "(藍光)" + CYN + "真˙魔氣匕" + NOR);
 obj->set("weapon_prop/dagger",25);
 obj->set("weapon_prop/dodge",50);
 obj->set("weapon_prop/parry",50);

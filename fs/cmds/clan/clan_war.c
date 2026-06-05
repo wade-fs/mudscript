@@ -105,30 +105,30 @@ int main( object me, string cmd )
 
 int help( object me ) {
         
-        me->start_more(HIW"     [指令]  clan_war 幫派戰爭
+        me->start_more(HIW + "     [指令]  clan_war 幫派戰爭
 
-      "HIR"1"NOR"."HIC"[說明]  multipk [幫派] [名單] : [ 5 ] vs [ 5 ] 單挑制"NOR"
-        "HIY"[範例]  clan_war multipk Red_Fire acky anmy bss chan wataru"NOR"
-        "HIG"[名單]  參戰者 ID, 依序為第一區~第五區"NOR"
+      " + HIR + "1" + NOR + "." + HIC + "[說明]  multipk [幫派] [名單] : [ 5 ] vs [ 5 ] 單挑制" + NOR + "
+        " + HIY + "[範例]  clan_war multipk Red_Fire acky anmy bss chan wataru" + NOR + "
+        " + HIG + "[名單]  參戰者 ID, 依序為第一區~第五區" + NOR + "
 
-      "HIR"2"NOR"."HIC"[說明]  melee [幫派] [名單]   : [ 5 ] vs [ 5 ] 團體制     (尚未開放)"NOR"
-        "HIY"[範例]  clan_war melee orient acky anmy bss chan wataru"NOR"
+      " + HIR + "2" + NOR + "." + HIC + "[說明]  melee [幫派] [名單]   : [ 5 ] vs [ 5 ] 團體制     (尚未開放)" + NOR + "
+        " + HIY + "[範例]  clan_war melee orient acky anmy bss chan wataru" + NOR + "
 
-      "HIR"3"NOR"."HIC"[說明]  war [幫派]            : [clan]vs[clan] 幫派戰爭   (尚未開放)"NOR"
-        "HIY"[範例]  clan_war war hero"NOR"
+      " + HIR + "3" + NOR + "." + HIC + "[說明]  war [幫派]            : [clan]vs[clan] 幫派戰爭   (尚未開放)" + NOR + "
+        " + HIY + "[範例]  clan_war war hero" + NOR + "
 
-      "HIR"4"NOR"."HIC"[說明]  end [型式] [幫派]     : 終止宣戰"NOR"
-        "HIY"[範例]  clan_war end multipk 13_luck"NOR"
-        "HIG"[型式]  欲終止之型式, turn, melee, war"NOR"
+      " + HIR + "4" + NOR + "." + HIC + "[說明]  end [型式] [幫派]     : 終止宣戰" + NOR + "
+        " + HIY + "[範例]  clan_war end multipk 13_luck" + NOR + "
+        " + HIG + "[型式]  欲終止之型式, turn, melee, war" + NOR + "
 
-      "HIR"5"NOR"."HIC"[說明]  judge                 : 請鄭總管判定勝負"NOR"
+      " + HIR + "5" + NOR + "." + HIC + "[說明]  judge                 : 請鄭總管判定勝負" + NOR + "
 
-      "HIR"6"NOR"."HIC"[說明]  list                  : 查詢各幫宣戰情況"NOR"
+      " + HIR + "6" + NOR + "." + HIC + "[說明]  list                  : 查詢各幫宣戰情況" + NOR + "
 
-      "HIR"7"NOR"."HIC"[說明]  exchange              : 兌換替身"NOR"
-        "NOR"[備註]  每達1000點戰績, 可兌換一名替身"NOR"
+      " + HIR + "7" + NOR + "." + HIC + "[說明]  exchange              : 兌換替身" + NOR + "
+        " + NOR + "[備註]  每達1000點戰績, 可兌換一名替身" + NOR + "
 
-        "HIG"[區域]  1.迅雷峰 2.疾風崖 3.玄冰島 4.烈燄谷 5.震天原"NOR"
+        " + HIG + "[區域]  1.迅雷峰 2.疾風崖 3.玄冰島 4.烈燄谷 5.震天原" + NOR + "
 
                                                 by ACKY 06/24/00
 ");

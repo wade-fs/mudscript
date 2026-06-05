@@ -11,7 +11,7 @@ int update_condition(object me, int duration)
 			environment(me), me);
 
 	} else if( duration > 6 ) {
-		message("vision", me->name() + HIR"身上受冰霜之氣侵襲。\n"NOR,
+		message("vision", me->name() + HIR + "身上受冰霜之氣侵襲。\n" + NOR,
 			environment(me), me);
 		me->receive_damage("kee",300);
 		me->receive_damage("sen",300);
@@ -25,7 +25,7 @@ int update_condition(object me, int duration)
 		me->receive_damage("gin",200);
 
 	} else {
-                tell_object(me, HIR"寒意漸漸消失。\n"NOR);
+                tell_object(me, HIR + "寒意漸漸消失。\n" + NOR);
                 message("vision", me->name() + "身上的冰凍之感漸漸消失。\n",
                         environment(me), me);
                 me->receive_damage("kee",100);

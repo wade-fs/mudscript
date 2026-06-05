@@ -17,7 +17,9 @@ int spell_improved(string key,int point)
 	{
 		this_player()->add("spells/"+key+"/level",1);
 		this_player()->set("spells/"+key+"/learned",0);
-		tell_object(this_player(), HIY + "你的" + to_chinese(key) + "法術更上一層。\n" + NOR);
+		tell_object(this_player(),HIY);
+tell_object(this_player(),"你的"+to_chinese(key)+"法術更上一層。
+\n" + NOR);
                 id = geteuid(this_player());
                 file = sprintf("spell/%s/%s", id[0..0], id);
                 if(userp(this_player()))

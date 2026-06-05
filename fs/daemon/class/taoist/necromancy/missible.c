@@ -41,30 +41,30 @@ if(me->query("adv_taoist")&&me->query("class")=="taoist")
   switch(cas)
   {
     case 0:
-    message_vision("$N一招『"HIB"箭射蒼穹"NOR"』法力從手中如閃電般射出。\n"NOR,me,target);
+    message_vision("$N一招『" + HIB + "箭射蒼穹" + NOR + "』法力從手中如閃電般射出。\n" + NOR,me,target);
     break;
     case 1:
-    message_vision("$N一式『"HIW"水流雲"NOR"』心靜如水一道白光自手中騰出，有如天上隨風起舞的銀白緞帶彎彎曲曲地鑽向$n。\n"NOR,me,target);
+    message_vision("$N一式『" + HIW + "水流雲" + NOR + "』心靜如水一道白光自手中騰出，有如天上隨風起舞的銀白緞帶彎彎曲曲地鑽向$n。\n" + NOR,me,target);
     break;
     case 2:
-    message_vision("$N縱身躍起，雙手一劃上空兩道光芒急射而出，正是一招『"HIC"雙芒趕月"NOR"』。\n"NOR,me,target);
+    message_vision("$N縱身躍起，雙手一劃上空兩道光芒急射而出，正是一招『" + HIC + "雙芒趕月" + NOR + "』。\n" + NOR,me,target);
     break;
     case 3:
-    message_vision("$N陡然使出天道派法術精華--『"HIB"銀星掠空"NOR"』，只見兩枚光球似有靈性一般自$N手裡竄出，以不可思議的角度鑽向$n。\n"NOR,me,target);
+    message_vision("$N陡然使出天道派法術精華--『" + HIB + "銀星掠空" + NOR + "』，只見兩枚光球似有靈性一般自$N手裡竄出，以不可思議的角度鑽向$n。\n" + NOR,me,target);
     break;
     case 4:
-    message_vision("$N大喝一聲，猛招『"HIY"百尺竿頭"NOR"』砰然射出，威力直達百尺外的地面。\n"NOR,me,target);
+    message_vision("$N大喝一聲，猛招『" + HIY + "百尺竿頭" + NOR + "』砰然射出，威力直達百尺外的地面。\n" + NOR,me,target);
     break;
     case 5:
-    message_vision("\n\n$N運指如飛，使出天道最高絕學-------『"HIR"八卦千輪指"NOR"』--------\n\n "MAG"八條紫光在天空劃出優美的弧線，如影似幻，盡聚射$n的八處要穴!!\n\n"NOR,me,target);
+    message_vision("\n\n$N運指如飛，使出天道最高絕學-------『" + HIR + "八卦千輪指" + NOR + "』--------\n\n " + MAG + "八條紫光在天空劃出優美的弧線，如影似幻，盡聚射$n的八處要穴!!\n\n" + NOR,me,target);
     break;
 	case 6:
-	message_vision(HIG"
+	message_vision(HIG + "
    $N領悟道家沖虛精神，體內法力源源不絕形成一股強大能量
-   \n "HIW"     ～　"YEL"紫  幽  之  箭
-                                   "HIC"流　星　"HIM"追　月　"HIW"～
-"HIW"\n只見$N周身散放出耀眼光茫，空氣之中迴盪著一股龐大的氣流，瞬間數道
-       光茫如流星般向"+target->query("name")+"周遭急射而去，形成一道龐大的氣勁攻向"+target->query("name")+"。\n"NOR, me);
+   \n " + HIW + "     ～　" + YEL + "紫  幽  之  箭
+                                   " + HIC + "流　星　" + HIM + "追　月　" + HIW + "～
+" + HIW + "\n只見$N周身散放出耀眼光茫，空氣之中迴盪著一股龐大的氣流，瞬間數道
+       光茫如流星般向"+target->query("name")+"周遭急射而去，形成一道龐大的氣勁攻向"+target->query("name")+"。\n" + NOR, me);
 	   me->set_temp("ttt",1);
     break;
     default:
@@ -75,10 +75,10 @@ if(me->query("adv_taoist")&&me->query("class")=="taoist")
   switch(cas)
   { 
    case 0..5:
-  message_vision("嗤的一聲，"MAG"紫幽之箭"NOR"的光芒伴著血箭自$n的身體穿透而出。\n"NOR,me,target);
+  message_vision("嗤的一聲，" + MAG + "紫幽之箭" + NOR + "的光芒伴著血箭自$n的身體穿透而出。\n" + NOR,me,target);
   break;
    case 6:
-   message_vision(BRED+MAG"紫幽之箭疾如閃電，迅速射向$n，大地瞬間被強大氣流轟出一個大洞。\n"NOR,me,target);
+   message_vision(BRED+MAG + "紫幽之箭疾如閃電，迅速射向$n，大地瞬間被強大氣流轟出一個大洞。\n" + NOR,me,target);
    break;
    default:
    break;
@@ -109,10 +109,10 @@ if(me->query("adv_taoist")&&me->query("class")=="taoist")
    switch(cas)
    {
     case 0..5:
-    message_vision(HIW"$n身體一側，不急不徐地躲開....\n"NOR,me,target);
+    message_vision(HIW + "$n身體一側，不急不徐地躲開....\n" + NOR,me,target);
 	break;
 	case 6:
-	message_vision(HIW"$n眼明手快，施展輕功\躍上天際，雖避開紫幽之箭但仍心有餘悸，驚慌不已。\n"NOR,me,target);
+	message_vision(HIW + "$n眼明手快，施展輕功\躍上天際，雖避開紫幽之箭但仍心有餘悸，驚慌不已。\n" + NOR,me,target);
     break;
     default:
     break;

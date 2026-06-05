@@ -31,6 +31,6 @@ LONG + NOR , me );
 void remove_effect( object me)
 {
   me->delete_temp("confused");
-  tell_object(me,CYN"你精神一鬆，把拋磚引玉之計拋在腦後了。\n"NOR);
+  tell_object(me,CYN + "你精神一鬆，把拋磚引玉之計拋在腦後了。\n" + NOR);
 }
 

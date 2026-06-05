@@ -54,60 +54,60 @@ if(!range2) range2=1;
 range= ((range2/range3)-(range1/range3));
         if(range < - 30) {
          write("你要殺死"+ob->name()+"就如要踩死螞蟻般容易\n");
-write("你以本身修為判斷"+ob->name()+"的江湖歷練大約是"HIR"超級肉腳"NOR"的級數\n");
+write("你以本身修為判斷"+ob->name()+"的江湖歷練大約是" + HIR + "超級肉腳" + NOR + "的級數\n");
        return 1;
     }
           if(range < -25) {
       write("哇哈哈哈～, "+ob->name()+"看起來根本不是你的對手!\n");
-write("你以本身修為判斷"+ob->name()+"的江湖歷練大約是"HIR"普通肉腳"NOR"的級數\n");
+write("你以本身修為判斷"+ob->name()+"的江湖歷練大約是" + HIR + "普通肉腳" + NOR + "的級數\n");
 	return 1;
      }
      if (range < -20) {
 	write("你感覺"+ob->name()+"不過是個大肉腳, 根本不屑一顧\n");
-write("你以本身修為判斷"+ob->name()+"的江湖歷練大約是"HIC"小卒仔"NOR"的級數\n");
+write("你以本身修為判斷"+ob->name()+"的江湖歷練大約是" + HIC + "小卒仔" + NOR + "的級數\n");
          return 1;
      }
        if (range < -15) {
 write("雖然從各方面看來你都比"+ob->name()+"略勝一籌, 但是也不能輕敵。\n");
-write("你以本身修為判斷"+ob->name()+"江湖歷練大約是"HIC"普通角色"NOR"的級數\n");
+write("你以本身修為判斷"+ob->name()+"江湖歷練大約是" + HIC + "普通角色" + NOR + "的級數\n");
       return 1;
      }
     else if(range < -5) {
     write("你感覺"+ob->name()+"跟你勢鈞力敵, 看來將有一場龍爭虎鬥\n");
-write("你以本身修為判斷"+ob->name()+"的江湖歷練大約是"HIY"不分上下"NOR"的級數\n");
+write("你以本身修為判斷"+ob->name()+"的江湖歷練大約是" + HIY + "不分上下" + NOR + "的級數\n");
        return 1;
     }
       else if(range < 10) {
 write("你感覺"+ob->name()+"比你強一點, 你必需要有充份的準備才有勝算。\n");
-write("你以本身修為判斷"+ob->name()+"的江湖歷練大約是"HIY"普通硬角"NOR"的級數\n");
+write("你以本身修為判斷"+ob->name()+"的江湖歷練大約是" + HIY + "普通硬角" + NOR + "的級數\n");
           return 1;
        }
        else if(range < 20) {
          write("小心點﹐"+ob->name()+"比你略勝一籌, 你的勝算不大\n");
-write("你以本身修為判斷"+ob->name()+"的江湖歷練大約是"HIY"一般高手"NOR"的級數\n");
+write("你以本身修為判斷"+ob->name()+"的江湖歷練大約是" + HIY + "一般高手" + NOR + "的級數\n");
        return 1;
        }
         else if(range < 25) {
         write("小心點﹐"+ob->name()+"可是很硬的喔, 得花一番功\夫\n");
-write("你以本身修為判斷"+ob->name()+"的江湖歷練大約是"HIM"武林高手"NOR"的級數\n");
+write("你以本身修為判斷"+ob->name()+"的江湖歷練大約是" + HIM + "武林高手" + NOR + "的級數\n");
        return 1;
     }
           else if(range < 30) {
           write("算了吧, 要打倒 "+ob->name()+" 得再回去苦練十年\n");
-          write(HIC"你開始感覺到一股強大的氣息向你逼進\n"NOR);
-write("你以本身修為判斷"+ob->name()+"的江湖歷練大約是"HIM"深不可測"NOR"的級數\n");
+          write(HIC + "你開始感覺到一股強大的氣息向你逼進\n" + NOR);
+write("你以本身修為判斷"+ob->name()+"的江湖歷練大約是" + HIM + "深不可測" + NOR + "的級數\n");
         return 1;
        }
        else if(range <35) {
           write("憑你的實力想打倒"+ob->name()+", 簡直是難如登天\n");
-write(HIY"你感覺到一股十分強大的氣息向你迫進\n"NOR);
-write("你以本身修為判斷"+ob->name()+"的江湖歷練大約是"HIW"空前絕後"NOR"的級數\n");
+write(HIY + "你感覺到一股十分強大的氣息向你迫進\n" + NOR);
+write("你以本身修為判斷"+ob->name()+"的江湖歷練大約是" + HIW + "空前絕後" + NOR + "的級數\n");
          return 1;
       }
     else {
 write("別夢想了 , 直接去自殺也許\對你還比較快喔, "+ob->name()+"的實力深不可測!\n");
-write(HIY"你感覺到十分驚人的力量和殺氣從"+ob->name()+"身上散發出來\n"NOR);
-write("你以本身修為判斷"+ob->name()+"的江湖歷練大約是"HIW"天神般無所倫比"NOR+"的級數\n");
+write(HIY + "你感覺到十分驚人的力量和殺氣從"+ob->name()+"身上散發出來\n" + NOR);
+write("你以本身修為判斷"+ob->name()+"的江湖歷練大約是" + HIW + "天神般無所倫比" + NOR+"的級數\n");
        return 1;  
     }
 }

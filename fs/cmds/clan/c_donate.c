@@ -47,10 +47,10 @@ int main( object me, string arg )
 	CLAN_D->add_clanset( clan_id, "member_gold", -num );
 
 	CHANNEL_D->do_channel(me, "ct",
-		"\n\t我 -「"HIW+me->query("clan/title")+HIY"」捐出"+
-		CHINESE_D->chinese_number(num)+"兩黃金給本幫，希望本幫能夠更加強大。"NOR);
+		"\n\t我 -「" + HIW+me->query("clan/title")+HIY + "」捐出"+
+		CHINESE_D->chinese_number(num)+"兩黃金給本幫，希望本幫能夠更加強大。" + NOR);
 /*
-	write( HIM"\n一陣閃光, "+me->query("clan/name")+"守護神將您的可用流量提昇為 "+(MAX_KB-me->query("net_count/count"))+" KB。\n"NOR);
+	write( HIM + "\n一陣閃光, "+me->query("clan/name")+"守護神將您的可用流量提昇為 "+(MAX_KB-me->query("net_count/count"))+" KB。\n" + NOR);
 
 */
 	sscanf (ctime (time()), "%s %s %d %d:%d:%d %d", m, m, o, o, o, o, o);

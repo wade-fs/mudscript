@@ -7,7 +7,7 @@ inherit BLADE;
 
 void create()
 {
-	set_name( GRN "妖刀狗屠" NOR, ({ "houndbane blade", "houndbane", "blade" }) );
+	set_name( GRN + "妖刀狗屠" + NOR, ({ "houndbane blade", "houndbane", "blade" }) );
 	set_weight(17000);
 	if( clonep() )
 		set_default_object(__FILE__);

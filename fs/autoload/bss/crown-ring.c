@@ -11,7 +11,7 @@ int kar,cor;
 void create()
 {
         seteuid(getuid());
-        set_name( HBBLU+HIY"沉溺之冠"NOR ,({"crown ring", "ring"}));
+        set_name( HBBLU+HIY + "沉溺之冠" + NOR ,({"crown ring", "ring"}));
         set_weight(2500);
         set("no_auc",1);
         set("no_sell",1);

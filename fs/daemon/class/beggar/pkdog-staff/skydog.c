@@ -8,15 +8,15 @@ int k=this_player()->query_spi(1)/10;
 
 string *msg=
 ({
-   HBBLU+HIC"天狗一擊破天靈\n"NOR,
-   BCYN+HIW"天狗二吠徹雲霄\n"NOR,
-   HBMAG+HIW"天狗三犬狀聲勢\n"NOR,
-   HBRED+HIW"天狗四爪毀萬物\n"NOR,
-   BYEL+HIW"天狗五巡驅外敵\n"NOR,
-   BWHT+HIB"天狗六奔拓領地\n"NOR,
-   HBBLU+HIC"天狗七靈喚風雨\n"NOR,
-   HBGRN+HIW"天狗八駿齊過海\n"NOR,
-   HBRED+HIC"天狗九重吞日月\n"NOR,
+   HBBLU+HIC + "天狗一擊破天靈\n" + NOR,
+   BCYN+HIW + "天狗二吠徹雲霄\n" + NOR,
+   HBMAG+HIW + "天狗三犬狀聲勢\n" + NOR,
+   HBRED+HIW + "天狗四爪毀萬物\n" + NOR,
+   BYEL+HIW + "天狗五巡驅外敵\n" + NOR,
+   BWHT+HIB + "天狗六奔拓領地\n" + NOR,
+   HBBLU+HIC + "天狗七靈喚風雨\n" + NOR,
+   HBGRN+HIW + "天狗八駿齊過海\n" + NOR,
+   HBRED+HIC + "天狗九重吞日月\n" + NOR,
 });
 
 int perform(object me)
@@ -41,15 +41,15 @@ int perform(object me)
                 return notify_fail("你都沒力了，還想叫狗咬人？\n");
         if ((int)me->query("force") < 50)
                 return notify_fail("你內力不夠，狗兒也沒力了！\n");
-      message_vision("\n\n"HIR"$N將"+ weapon->query("name") +"往上一拋，口中唸唸有詞，瞬時地動天搖，無數的"HIW"天狗"HIR"從天而降...."NOR"
+      message_vision("\n\n" + HIR + "$N將"+ weapon->query("name") +"往上一拋，口中唸唸有詞，瞬時地動天搖，無數的" + HIW + "天狗" + HIR + "從天而降...." + NOR + "
 
-        "MAG"～　"HIR"『"HIW" 天 "HIR"』"MAG"　～　"HIR"『 "HIW"狗 "HIR"』　"MAG"～　"HIR"『 "HIW"蝕 "HIR"』　"MAG"～　"HIR"『"HIW" 日"HIR" 』　"MAG"～\n\n"NOR,me);
+        " + MAG + "～　" + HIR + "『" + HIW + " 天 " + HIR + "』" + MAG + "　～　" + HIR + "『 " + HIW + "狗 " + HIR + "』　" + MAG + "～　" + HIR + "『 " + HIW + "蝕 " + HIR + "』　" + MAG + "～　" + HIR + "『" + HIW + " 日" + HIR + " 』　" + MAG + "～\n\n" + NOR,me);
                         {
        if (funlv > 95 && random(200) < random(me->query_kar(1)+me->query_spi(1)))
         {
         string a1,a2;
           object weaponn;
-          message_vision(HIC"$N一時會意打狗精髓，接連暢意地使用所有杖法！\n"NOR,me);
+          message_vision(HIC + "$N一時會意打狗精髓，接連暢意地使用所有杖法！\n" + NOR,me);
           me->add("force",-150);
           for (j=0 ; j <9 ; j++)
                 {
@@ -61,7 +61,7 @@ int perform(object me)
                  {
                    if (funlv > random(125))
                    {
-                    message_vision(HIY"$n只能眼睜睜看著重棒連擊而來，啊的一聲，口中鮮血直流！\n"NOR,me,enemy[i]);
+                    message_vision(HIY + "$n只能眼睜睜看著重棒連擊而來，啊的一聲，口中鮮血直流！\n" + NOR,me,enemy[i]);
                     damage = cor*2 + (int)me->query_skill("staff",1) +random(100);
                     enemy[i]->receive_wound("kee",damage);
                     enemy[i]->receive_damage("kee",damage);
@@ -72,7 +72,7 @@ int perform(object me)
                     COMBAT_D->report_status(enemy[i]);
                       }else{
                           damage= cor + (int)me->query_skill("staff",1)/3; 
-                          message_vision(YEL"$n雖逃過這一擊，但仍被棍氣給傷！\n"NOR,me,enemy[i]);
+                          message_vision(YEL + "$n雖逃過這一擊，但仍被棍氣給傷！\n" + NOR,me,enemy[i]);
                           enemy[i]->receive_wound("kee",damage);
                           me->add("force",-100);
                           COMBAT_D->report_status(enemy[i]);
@@ -137,11 +137,11 @@ int perform(object me)
           {
             enemy[i]->receive_wound("kee",damage);
             enemy[i]->start_busy(1);
-            message_vision(HIY"$n只能眼睜睜看著重棒連擊而來，啊的一聲，口中鮮血直流！\n"NOR,me,enemy[i]);
+            message_vision(HIY + "$n只能眼睜睜看著重棒連擊而來，啊的一聲，口中鮮血直流！\n" + NOR,me,enemy[i]);
             COMBAT_D->report_status(enemy[i]);
           }
           else  
-           {message_vision(YEL"$n雖逃過這一擊，但仍被棍氣給傷！\n"NOR,me,enemy[i]);
+           {message_vision(YEL + "$n雖逃過這一擊，但仍被棍氣給傷！\n" + NOR,me,enemy[i]);
              enemy[i]->receive_wound("kee",damage/4);
              COMBAT_D->report_status(enemy[i]);
             }

@@ -42,7 +42,7 @@ varargs void start_busy(mixed new_busy, mixed new_interrupt)
       )
     {
       attacker->set_temp("busy/"+uuid,1);
-      message_vision(GRN"$n一個手忙腳亂，竟然中了$N的「拋磚引玉」之計，封鎖錯了穴道。\n"NOR,me,attacker);
+      message_vision(GRN + "$n一個手忙腳亂，竟然中了$N的「拋磚引玉」之計，封鎖錯了穴道。\n" + NOR,me,attacker);
       return ;
     }
 
@@ -99,7 +99,7 @@ nomask int is_busy() { return busy!=0; }
       if(rand == 0) return ;
       if(rand > busy) rand = busy;
       
-      message_vision(HIW"$N衝開了身上"+CHINESE_D->chinese_number(rand)+"處的穴道，但還有數個穴道被封鎖住。\n"NOR,this_object());
+      message_vision(HIW + "$N衝開了身上"+CHINESE_D->chinese_number(rand)+"處的穴道，但還有數個穴道被封鎖住。\n" + NOR,this_object());
       if(random(5) == 0)
         this_object()->improve_skill("acupuncture",1);
       this_object()->add("force",-300);

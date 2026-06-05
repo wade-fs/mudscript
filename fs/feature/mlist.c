@@ -51,8 +51,7 @@ varargs void improve_mlist(string mlist, int amount, int weak_mode)
     mlists[mlist]++;
     mlearned[mlist] = 0;
 
-  tell_object(this_object(), HIC "你可愛的小馬馬─「" + to_chinese(mlist) + HIC"」升了一級了﹗\n"
- NOR);
+  tell_object(this_object(), HIC + "你可愛的小馬馬─「" + to_chinese(mlist) + HIC + "」升了一級了﹗\n" + NOR);
   }
 }
 

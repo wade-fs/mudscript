@@ -15,7 +15,7 @@ int form_array(object leader)
 	member = leader->query_team();
 	max=get_attack_skill_lv(member[i]);
 	message_vision(
-	HIC "$N與所有隊員排出一個基本的戰鬥隊形。\n" NOR,leader);
+	HIC + "$N與所有隊員排出一個基本的戰鬥隊形。\n" + NOR,leader);
 	for(i=0;i<sizeof(member);i++)
 	{
 		if(present(member[i]->query("id"),environment(leader)))

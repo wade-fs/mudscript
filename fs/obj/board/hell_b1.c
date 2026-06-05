@@ -3,7 +3,7 @@ inherit BULLETIN_BOARD;
 
 void create()
 {
-  set_name(HIR"幽冥血池"NOR, ({"blood pool","board"}));
+  set_name(HIR + "幽冥血池" + NOR, ({"blood pool","board"}));
   set("location","/open/clan/hell/hell.c");
   set("board_id","hell_b1");
   set("long","

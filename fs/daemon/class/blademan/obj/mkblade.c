@@ -96,8 +96,8 @@ int do_blade()
     return notify_fail("戰鬥中不能使用。\n");
   if( me->query_temp("addblade") == 1 )
     return notify_fail("刀之血氣還在你身上遊走。\n");
-  message_vision(HIY"$N手握"+wname->name()+HIY"，突然一股無窮的力量流入體內。\n"NOR,me);
-  message_vision(HIY"$N覺的刀法提升了不少。\n"NOR,me);
+  message_vision(HIY + "$N手握"+wname->name()+HIY + "，突然一股無窮的力量流入體內。\n" + NOR,me);
+  message_vision(HIY + "$N覺的刀法提升了不少。\n" + NOR,me);
   me->add_temp("apply/blade",fun+20);
   me->set_temp("addblade",1);
   me->add("force",-500);
@@ -115,7 +115,7 @@ int delblade(object me)
   if(me) {
     me->delete_temp("addblade");
     me->add_temp("apply/blade",-(fun+20));
-    message_vision(HIW"$N覺的刀的血氣消失了。\n"NOR,me);
+    message_vision(HIW + "$N覺的刀的血氣消失了。\n" + NOR,me);
     if(fun<100) { function_improved("addblade",random(700)); }
   }
   return 1;
@@ -150,15 +150,15 @@ int do_hurt()
     return notify_fail("沒有敵人可以殺。\n");
   if( me->query_temp("hurtkee") == 1 )
     return notify_fail("你的刀還沒吸滿血氣，再等一下吧。\n");
-  message_vision(HIR"就在$N手持"+wname->name()+HIR"奮力殺敵時，手中刀身突然地顫抖。\n"NOR,me);
+  message_vision(HIR + "就在$N手持"+wname->name()+HIR + "奮力殺敵時，手中刀身突然地顫抖。\n" + NOR,me);
   for(j=0;j<i;j++) {
     if(!enemy[j]) continue;
     if( (fun*2)+20 > random(250) ) {
-    message_vision(HIR"此刀竟匯集血氣形成血龍，往$N身上啃嗜而去。\n"NOR,enemy[j]);
+    message_vision(HIR + "此刀竟匯集血氣形成血龍，往$N身上啃嗜而去。\n" + NOR,enemy[j]);
     enemy[j]->add("kee",-((fun*12)+350));
     enemy[j]->apply_condition("bleeding",15);
     COMBAT_D->report_status(enemy[j]);
-    } else message_vision(HIW"只見$N起身一跳，驚險的閃避血龍。\n"NOR,enemy[j]);
+    } else message_vision(HIW + "只見$N起身一跳，驚險的閃避血龍。\n" + NOR,enemy[j]);
   }
   me->set_temp("hurtkee",1);
   me->add("force",-500);
@@ -217,16 +217,16 @@ int do_busy()
     return notify_fail("沒有敵人可以殺。\n");
   if( me->query_temp("addbusy") == 1 )
     return notify_fail("你的刀還沒吸滿血氣，再等一下吧。\n");
-  message_vision(HIR"就在$N手持"+wname->name()+HIR"奮力殺敵時，手中刀身突然地顫抖。\n"NOR,me);
+  message_vision(HIR + "就在$N手持"+wname->name()+HIR + "奮力殺敵時，手中刀身突然地顫抖。\n" + NOR,me);
   for(j=0;j<i;j++) {
     if(!enemy[j]) continue;
     if( (fun*2)+20 > random(250) ) {
       if( !enemy[j]->is_busy() ) {
-        message_vision(HIR"此刀竟吸收敵人血氣形成血網，封閉了$N的行動。\n"NOR,enemy[j]);
+        message_vision(HIR + "此刀竟吸收敵人血氣形成血網，封閉了$N的行動。\n" + NOR,enemy[j]);
         enemy[j]->start_busy(k);
         COMBAT_D->report_status(enemy[j]);
-      } else message_vision(HIW"只見$N怒吼一聲發勁抵擋，血網頓時被毀壞殆盡。\n"NOR,enemy[j]);
-    } else message_vision(HIW"只見$N怒吼一聲發勁抵擋，血網頓時被毀壞殆盡。\n"NOR,enemy[j]);
+      } else message_vision(HIW + "只見$N怒吼一聲發勁抵擋，血網頓時被毀壞殆盡。\n" + NOR,enemy[j]);
+    } else message_vision(HIW + "只見$N怒吼一聲發勁抵擋，血網頓時被毀壞殆盡。\n" + NOR,enemy[j]);
   }
   me->set_temp("addbusy",1);
   me->add("force",-500);
@@ -274,8 +274,8 @@ int do_heal()
     return notify_fail("戰鬥中不能使用。\n");
   if( me->query_temp("heal") == 1 )
     return notify_fail("你的刀還沒吸滿血氣，再等一下吧。\n");
-  message_vision(HIR"$N赫然吸取手中"+wname->name()+HIR"的血氣，此景像異常駭人。\n"NOR,me);
-  message_vision(HIR"$N吸收完血氣，覺的渾身舒暢無比，筋骨活絡了起來。\n"NOR,me);
+  message_vision(HIR + "$N赫然吸取手中"+wname->name()+HIR + "的血氣，此景像異常駭人。\n" + NOR,me);
+  message_vision(HIR + "$N吸收完血氣，覺的渾身舒暢無比，筋骨活絡了起來。\n" + NOR,me);
   n = fun*15 + 200;
   me->receive_curing( "gin", n );
   me->receive_heal( "gin", n );
@@ -344,8 +344,8 @@ int do_enforce()
     return notify_fail("戰鬥中不能使用。\n");
   if( me->query_temp("addenforce") == 1 )
     return notify_fail("刀之血氣還在你身上遊走。\n");
-  message_vision(HIG"$N赫然吸取手中"+wname->name()+HIG"的血氣，此景像異常駭人。\n"NOR,me);
-  message_vision(HIG"$N吸收完血氣，運起自修內功\把血氣凝成血勁，提升自身威力。\n"NOR,me);
+  message_vision(HIG + "$N赫然吸取手中"+wname->name()+HIG + "的血氣，此景像異常駭人。\n" + NOR,me);
+  message_vision(HIG + "$N吸收完血氣，運起自修內功\把血氣凝成血勁，提升自身威力。\n" + NOR,me);
   me->set_temp("oldenforce",me->query("force_factor"));
   me->set_temp("addenforce",1);
   me->set("force_factor",10+k);
@@ -365,7 +365,7 @@ int delenforce(object me)
     me->delete_temp("addenforce");
     me->set("force_factor",me->query_temp("oldenforce"));
     me->delete_temp("oldenforce");
-    message_vision(HIW"$N覺的刀的血氣消失了。\n"NOR,me);
+    message_vision(HIW + "$N覺的刀的血氣消失了。\n" + NOR,me);
     if(fun<100) { function_improved("enforceup",random(700)); }
   }
   return 1;
@@ -401,8 +401,8 @@ int do_power()
     return notify_fail("你已經使用增強術了。\n");
   if( me->query_temp("powerup") == 1 )
     return notify_fail("刀之血氣還在你身上遊走。\n");
-  message_vision(HIG"$N吸收手中"+wname->name()+HIG"的血氣，此景像異常駭人。\n"NOR,me);
-  message_vision(HIG"$N吸收完血氣，眼睛發紅，整個人狂暴起來。\n"NOR,me);
+  message_vision(HIG + "$N吸收手中"+wname->name()+HIG + "的血氣，此景像異常駭人。\n" + NOR,me);
+  message_vision(HIG + "$N吸收完血氣，眼睛發紅，整個人狂暴起來。\n" + NOR,me);
   ob->set("nodrop",1);
   me->apply_condition("mkpowerup",k);
   me->add_temp("apply/dodge",-20);
@@ -453,8 +453,8 @@ int do_basic()
     return notify_fail("你身上還留著刀之血氣。\n");
   if( me->query_temp("setgift-mk/on")==1 )
     return notify_fail("你身上還留著刀之血氣。\n");
-  message_vision(HIG"$N吸收手中"+wname->name()+HIG"的血氣，此景像異常駭人。\n"NOR,me);
-  message_vision(HIG"$N吸收完血氣，血氣遊走全身，使得$N筋骨一陣爆響。\n"NOR,me);
+  message_vision(HIG + "$N吸收手中"+wname->name()+HIG + "的血氣，此景像異常駭人。\n" + NOR,me);
+  message_vision(HIG + "$N吸收完血氣，血氣遊走全身，使得$N筋骨一陣爆響。\n" + NOR,me);
 /*
   me->set("setgift-mk",1);
   me->set("setgift/str",me->query_str());
@@ -516,8 +516,8 @@ int do_lose()
     return notify_fail("戰鬥中不能使用。\n");
   if( me->query_temp("losehurt") == 1 )
     return notify_fail("刀之血氣還在你身上遊走。\n");
-  message_vision(HIG"$N赫然吸取手中"+wname->name()+HIG"的血氣，此景像異常駭人。\n"NOR,me);
-  message_vision(HIG"$N吸收完血氣，運功\加勁一吐，其血氣依附$N的身形形成一件『"HIR"血氣鬥鎧"HIG"』。\n"NOR,me);
+  message_vision(HIG + "$N赫然吸取手中"+wname->name()+HIG + "的血氣，此景像異常駭人。\n" + NOR,me);
+  message_vision(HIG + "$N吸收完血氣，運功\加勁一吐，其血氣依附$N的身形形成一件『" + HIR + "血氣鬥鎧" + HIG + "』。\n" + NOR,me);
   me->set_temp("losehurt",1);
   me->apply_condition("bloodcloth",10);
   me->add("force",-500);
@@ -535,7 +535,7 @@ int dellose(object me)
   if(me) {
     me->apply_condition("bloodcloth",0);
     me->delete_temp("losehurt");
-    message_vision(HIW"$N覺的刀的血氣消失了。\n"NOR,me);
+    message_vision(HIW + "$N覺的刀的血氣消失了。\n" + NOR,me);
     if(fun<100) { function_improved("losehurt",random(700)); }
   }
   return 1;
@@ -573,8 +573,8 @@ int do_bad()
     return notify_fail("你的潛能不足以用刀。\n");
   if( me->query_temp("badup") == 1 )
     return notify_fail("你的刀還沒吸滿血氣，再等一下吧。\n");
-  message_vision(HIY"就在$N手持"+wname->name()+HIY"奮力殺敵時，手中刀身突然地顫抖。\n"NOR,me);
-  message_vision(HIY"只見$N的兵器與$n的兵器相碰在一起發出ㄎ_ㄧ_ㄤ的一聲。\n"NOR,me,target);
+  message_vision(HIY + "就在$N手持"+wname->name()+HIY + "奮力殺敵時，手中刀身突然地顫抖。\n" + NOR,me);
+  message_vision(HIY + "只見$N的兵器與$n的兵器相碰在一起發出ㄎ_ㄧ_ㄤ的一聲。\n" + NOR,me,target);
   if( environment(me) == environment(target) ) {
     k=random(fun)+15;
 //加上兩個條件下，武器可以免於被損毀，擁有sharp值8以上的武器一定都有特別設計過的
@@ -584,10 +584,10 @@ int do_bad()
     if( k > 80 && obt->query("sharp") < 8 && (obt->query("material") != "blacksteel" || obt->query("material") != "crimsonsteel") )
     {
       obt->unequip();
-      message_vision(HIR"只見$N的刀散發出濃稠的血氣，霎然$n的"+obt->query("name")+HIR"已被溶成二段。\n"NOR,me,target);
+      message_vision(HIR + "只見$N的刀散發出濃稠的血氣，霎然$n的"+obt->query("name")+HIR + "已被溶成二段。\n" + NOR,me,target);
       if( !obt->query("bad"))
       {
-        obt->set("name", "("HIR"溶毀"NOR")"+obt->query("name"));
+        obt->set("name", "(" + HIR + "溶毀" + NOR + ")"+obt->query("name"));
         obt->set("bad",1);
       }
       obt->set("value",1);
@@ -596,10 +596,10 @@ int do_bad()
       target->rest_action();
     } else if( obt->query("sharp") < 8 && (obt->query("material") != "blacksteel" || obt->query("material") != "crimsonsteel") ) {
       obt->unequip();
-      message_vision(HIR"只見$N的刀散發出濃綢的血氣，霎然$n的"+obt->query("name")+HIR"已被血氣侵蝕。\n"NOR,me,target);
+      message_vision(HIR + "只見$N的刀散發出濃綢的血氣，霎然$n的"+obt->query("name")+HIR + "已被血氣侵蝕。\n" + NOR,me,target);
       if( !obt->query("bad"))
       {
-        obt->set("name", "("HIR"損壞"NOR")"+obt->query("name"));
+        obt->set("name", "(" + HIR + "損壞" + NOR + ")"+obt->query("name"));
         obt->set("bad",1);
       }
       if( obt->query("weapon_prop/damage") >= 15 )
@@ -612,7 +612,7 @@ int do_bad()
         obt->move(environment(target));
         target->rest_action();
       }
-    } else message_vision(HIW"只見$N與$n的兵器相互碰撞冒出火花。\n"NOR,me,target);
+    } else message_vision(HIW + "只見$N與$n的兵器相互碰撞冒出火花。\n" + NOR,me,target);
   }
   me->set_temp("badup",1);
   me->add("force",-500);
@@ -669,8 +669,8 @@ int do_die()
     return notify_fail("你的潛能不足以用刀。\n");
   if( me->query_temp("dieup") == 1 )
     return notify_fail("你正在使用。\n");
-  message_vision(HIR"$N赫然吸取手中"+wname->name()+HIR"的血氣，此景像異常駭人。\n\n"NOR,me);
-  message_vision(HIG"$N吸收完血氣，把所有血氣與內勁溶合，吐納丹田，似乎要給$n致命一擊。\n\n"NOR,me,target);
+  message_vision(HIR + "$N赫然吸取手中"+wname->name()+HIR + "的血氣，此景像異常駭人。\n\n" + NOR,me);
+  message_vision(HIG + "$N吸收完血氣，把所有血氣與內勁溶合，吐納丹田，似乎要給$n致命一擊。\n\n" + NOR,me,target);
   me->set_temp("dieup",1);
   call_out("deldie",7,me,target);
   return 1;
@@ -685,17 +685,17 @@ int deldie( object me, object target )
   if( !me || !target ) return 1;
   if( environment(me) != environment(target) ) return 1;
   if( !me->is_fighting(target) ) return 1;
-  message_vision( HIY"\n$N目露兇光大喝道: 看我的『"HIB"無亟魔道"HIY"』。\n\n", me );
-  message_vision( HIR"只見$N聚集非常強大的血氣勁往$n要害直攻過去。\n\n", me, target );
+  message_vision( HIY + "\n$N目露兇光大喝道: 看我的『" + HIB + "無亟魔道" + HIY + "』。\n\n", me );
+  message_vision( HIR + "只見$N聚集非常強大的血氣勁往$n要害直攻過去。\n\n", me, target );
 
   if( fun+15 > random(380) ) {
-    message_vision( HIM"$N被強大的血氣勁爆體而過, 當場慘死。\n\n"NOR, target );
+    message_vision( HIM + "$N被強大的血氣勁爆體而過, 當場慘死。\n\n" + NOR, target );
     target->set_temp( "last_damage_from", me );
     target->die();
   }
   else {
-    message_vision( HIC"$N見機運起最強氣勁, 試圖把血氣勁給反擊回去。\n\n", target );
-    message_vision( HIB"不料血氣勁被$N反彈回來, 擊中到$n身上, 頓時, 嚴重受傷失去六分之五的血氣。\n\n"NOR, target, me );
+    message_vision( HIC + "$N見機運起最強氣勁, 試圖把血氣勁給反擊回去。\n\n", target );
+    message_vision( HIB + "不料血氣勁被$N反彈回來, 擊中到$n身上, 頓時, 嚴重受傷失去六分之五的血氣。\n\n" + NOR, target, me );
     target->add_temp( "todie", 1 );
     me->start_busy(2);
     me->add( "kee", -(me->query("kee")*5/6) );

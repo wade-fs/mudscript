@@ -47,92 +47,92 @@ varargs int main( object me, string arg, int mode )
 		100 * sizeof(tmp) / MAX_CARRY );
   write("武器：\n");
   obj = ob->query_temp("weapon");
-  str = "    "HIC"(手持)"NOR"武器 "HIC"- "+NOR+((!obj)?"無":obj->short());
+  str = "    " + HIC + "(手持)" + NOR + "武器 " + HIC + "- "+NOR+((!obj)?"無":obj->short());
   write(str+"\n");
 
   obj = ob->query_temp("secondary_weapon");
-  str = "    "HIC"(手持)"NOR"武器 "HIC"- "+NOR+((!obj)?"無":obj->short());
+  str = "    " + HIC + "(手持)" + NOR + "武器 " + HIC + "- "+NOR+((!obj)?"無":obj->short());
   write(str+"\n");
   if(ob->query("class") == "blademan") {
     obj = ob->query_temp("third_weapon");
-    str = "    "HIC"(嘴咬)"NOR"武器 "HIC"- "+NOR+((!obj)?"無":obj->short());
+    str = "    " + HIC + "(嘴咬)" + NOR + "武器 " + HIC + "- "+NOR+((!obj)?"無":obj->short());
     write(str+"\n");
   }
   write("\n");
   write("裝備：\n");
   obj =  ob->query_temp("armor/head"); 
-  str = "    "HIC"(頭部)"NOR"頭戴 "HIC"- "+NOR+((!obj)?"無":obj->short());
+  str = "    " + HIC + "(頭部)" + NOR + "頭戴 " + HIC + "- "+NOR+((!obj)?"無":obj->short());
   write(str+"\n");
 
   obj =  ob->query_temp("armor/neck"); 
 
-           str = "    "HIC"(頸部)"NOR"頸戴 "HIC"- "+NOR+((!obj)?"無":obj->short());
+           str = "    " + HIC + "(頸部)" + NOR + "頸戴 " + HIC + "- "+NOR+((!obj)?"無":obj->short());
   write(str+"\n");
 
   obj =  ob->query_temp("armor/cloth"); 
 
-         str = "    "HIC"(身體)"NOR"身穿 "HIC"- "+NOR+((!obj)?"無":obj->short());
+         str = "    " + HIC + "(身體)" + NOR + "身穿 " + HIC + "- "+NOR+((!obj)?"無":obj->short());
   write(str+"\n");
 
 /*
   obj =  ob->query_temp("armor/armor"); 
 
-           str = "    "HIC"(身著)"NOR"外套 "HIC"- "+NOR+((!obj)?"無":obj->short());
+           str = "    " + HIC + "(身著)" + NOR + "外套 " + HIC + "- "+NOR+((!obj)?"無":obj->short());
   write(str+"\n");
 */
   obj =  ob->query_temp("armor/wrists"); 
 
-           str = "    "HIC"(手腕)"NOR"腕套 "HIC"- "+NOR+((!obj)?"無":obj->short());
+           str = "    " + HIC + "(手腕)" + NOR + "腕套 " + HIC + "- "+NOR+((!obj)?"無":obj->short());
   write(str+"\n");
 
   obj =  ob->query_temp("armor/armbands"); 
 
-           str = "    "HIC"(雙臂)"NOR"臂套 "HIC"- "+NOR+((!obj)?"無":obj->short());
+           str = "    " + HIC + "(雙臂)" + NOR + "臂套 " + HIC + "- "+NOR+((!obj)?"無":obj->short());
   write(str+"\n");
 
   obj =  ob->query_temp("armor/shield"); 
 
-           str = "    "HIC"(手上)"NOR"手握 "HIC"- "+NOR+((!obj)?"無":obj->short());
+           str = "    " + HIC + "(手上)" + NOR + "手握 " + HIC + "- "+NOR+((!obj)?"無":obj->short());
   write(str+"\n");
 
   obj =  ob->query_temp("armor/hands"); 
 
-           str = "    "HIC"(雙掌)"NOR"手戴 "HIC"- "+NOR+((!obj)?"無":obj->short());
+           str = "    " + HIC + "(雙掌)" + NOR + "手戴 " + HIC + "- "+NOR+((!obj)?"無":obj->short());
   write(str+"\n");
 
   obj =  ob->query_temp("armor/finger"); 
 
-           str = "    "HIC"(手指)"NOR"指戴 "HIC"- "+NOR+((!obj)?"無":obj->short());
+           str = "    " + HIC + "(手指)" + NOR + "指戴 " + HIC + "- "+NOR+((!obj)?"無":obj->short());
   write(str+"\n");
 
   obj =  ob->query_temp("armor/finger2"); 
 
-           str = "    "HIC"(手指)"NOR"指戴 "HIC"- "+NOR+((!obj)?"無":obj->short());
+           str = "    " + HIC + "(手指)" + NOR + "指戴 " + HIC + "- "+NOR+((!obj)?"無":obj->short());
   write(str+"\n");
 
   obj =  ob->query_temp("armor/waist"); 
 
-       str = "    "HIC"(腰部)"NOR"腰繫 "HIC"- "+NOR+((!obj)?"無":obj->short());
+       str = "    " + HIC + "(腰部)" + NOR + "腰繫 " + HIC + "- "+NOR+((!obj)?"無":obj->short());
   write(str+"\n");
 
   obj =  ob->query_temp("armor/leggings"); 
 
-           str = "    "HIC"(雙腿)"NOR"腿套 "HIC"- "+NOR+((!obj)?"無":obj->short());
+           str = "    " + HIC + "(雙腿)" + NOR + "腿套 " + HIC + "- "+NOR+((!obj)?"無":obj->short());
   write(str+"\n");
 
   obj =  ob->query_temp("armor/boots"); 
 
-           str = "    "HIC"(足部)"NOR"足蹬 "HIC"- "+NOR+((!obj)?"無":obj->short());
+           str = "    " + HIC + "(足部)" + NOR + "足蹬 " + HIC + "- "+NOR+((!obj)?"無":obj->short());
   write(str+"\n");
 
   obj =  ob->query_temp("armor/cape"); 
 
-           str = "    "HIC"(背披)"NOR"披著 "HIC"- "+NOR+((!obj)?"無":obj->short());
+           str = "    " + HIC + "(背披)" + NOR + "披著 " + HIC + "- "+NOR+((!obj)?"無":obj->short());
   write(str+"\n");
 
   obj =  ob->query_temp("armor/pants"); 
 
-           str = "    "HIC"(腰下)"NOR"穿著 "HIC"- "+NOR+((!obj)?"無":obj->short());
+           str = "    " + HIC + "(腰下)" + NOR + "穿著 " + HIC + "- "+NOR+((!obj)?"無":obj->short());
   write(str+"\n");
 
 

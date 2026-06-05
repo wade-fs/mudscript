@@ -25,9 +25,9 @@ return notify_fail("只有舞者才能使用。\n");
         me->receive_damage("gin", 10);
 
          write("[1;32m\n            妳領悟了夜夢天舞及夢玄法鑑的精髓，預備施展[1;31m火鳳飛翔[1;32m之術。\n[0m");
-         msg = HIC "\n                   $N的身體漸漸的被火燄包圍，而$N的身形也漸" NOR;
-         msg += HIY "\n                     漸的幻化為一隻鳳凰，只見一隻火鳳凰迅速的" NOR;
-         msg += HIG "\n                       向著$n飛去，令$n不及招架。\n\n" NOR;
+         msg = HIC + "\n                   $N的身體漸漸的被火燄包圍，而$N的身形也漸" + NOR;
+         msg += HIY + "\n                     漸的幻化為一隻鳳凰，只見一隻火鳳凰迅速的" + NOR;
+         msg += HIG + "\n                       向著$n飛去，令$n不及招架。\n\n" + NOR;
          message_vision(msg, me, target);
         if( 80 > random(100) ) {
                         write("[1;32m\n                     結果成功\的施展出火鳳飛翔。\n[0m");

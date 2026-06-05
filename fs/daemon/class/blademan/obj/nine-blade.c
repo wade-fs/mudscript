@@ -7,7 +7,7 @@
 void create()
 {
 	seteuid(getuid());
-set_name(HIB "九環寶刀" NOR,({"nine blade","blade"}));
+set_name(HIB + "九環寶刀" + NOR,({"nine blade","blade"}));
 	set_weight(13000);
 	if( clonep() )
 		set_default_object(__FILE__);

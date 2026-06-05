@@ -150,7 +150,7 @@ void start_edit(string file)                // 呼叫編輯器，開始編輯
 private void _refresh_cursor(object pl)        // 更新游標位置
 {
         mapping me=pl->query_temp("me");
-        printf(ESC "[%d;%df", me["iRow"]+1, me["iCol"]);
+        printf(ESC + "[%d;%df", me["iRow"]+1, me["iCol"]);
 } // _refresh_cursor()
 
 
@@ -236,37 +236,37 @@ protected void _input(string str, object pl, int fresh) // 讀得輸入字串
         	{
         	case "\t":	 me["sChar"] = "TAB";	break;
                 case "\r":	 me["sChar"] = "ENTER";	break;
-                case ESC:        me["sChar"] = "ESC";	break;
-                case ESC "OA":
-                case ESC "[A":   me["sChar"] = "UP";	break;
-                case ESC "OB":
-                case ESC "[B":   me["sChar"] = "DOWN";	break;
-                case ESC "OC":
-                case ESC "[C":   me["sChar"] = "RIGHT";	break;
-                case ESC "OD":
-                case ESC "[D":   me["sChar"] = "LEFT";	break;
-                case ESC "OH":
-                case ESC "[H":
-                case ESC "1~":
-                case ESC "[1~":  me["sChar"] = "HOME";	break;
-                case ESC "[2~":  me["sChar"] = "INSERT";break;
-                case ESC "[3~":  me["sChar"] = "DELETE";break;
-                case ESC "4~":   me["sChar"] = "END";	break;
-                case ESC "[4~":  me["sChar"] = "END";	break;
-                case ESC "[5~":  me["sChar"] = "PAGEUP";break;
-                case ESC "[6~":  me["sChar"] = "PAGEDOWN";break;
-                case ESC "OP":   me["sChar"] = "F1";	break;
-                case ESC "OQ":   me["sChar"] = "F2";	break;
-                case ESC "OR":   me["sChar"] = "F3";	break;
-                case ESC "OS":   me["sChar"] = "F4";	break;
-                case ESC "m":    me["sChar"] = "F5";	break;
-                case ESC "[17~": me["sChar"] = "F6";	break;
-                case ESC "[18~": me["sChar"] = "F7";	break;
-                case ESC "[19~": me["sChar"] = "F8";	break;
-                case ESC "[20~": me["sChar"] = "F9";	break;
-                case ESC "[21~": me["sChar"] = "F10";	break;
-                case ESC "[23~": me["sChar"] = "F11";	break;
-                case ESC "[24~": me["sChar"] = "F12";	break;
+                case ESC:        me["sChar"] = " + ESC + ";	break;
+                case ESC + "OA":
+                case ESC + "[A":   me["sChar"] = "UP";	break;
+                case ESC + "OB":
+                case ESC + "[B":   me["sChar"] = "DOWN";	break;
+                case ESC + "OC":
+                case ESC + "[C":   me["sChar"] = "RIGHT";	break;
+                case ESC + "OD":
+                case ESC + "[D":   me["sChar"] = "LEFT";	break;
+                case ESC + "OH":
+                case ESC + "[H":
+                case ESC + "1~":
+                case ESC + "[1~":  me["sChar"] = "HOME";	break;
+                case ESC + "[2~":  me["sChar"] = "INSERT";break;
+                case ESC + "[3~":  me["sChar"] = "DELETE";break;
+                case ESC + "4~":   me["sChar"] = "END";	break;
+                case ESC + "[4~":  me["sChar"] = "END";	break;
+                case ESC + "[5~":  me["sChar"] = "PAGEUP";break;
+                case ESC + "[6~":  me["sChar"] = "PAGEDOWN";break;
+                case ESC + "OP":   me["sChar"] = "F1";	break;
+                case ESC + "OQ":   me["sChar"] = "F2";	break;
+                case ESC + "OR":   me["sChar"] = "F3";	break;
+                case ESC + "OS":   me["sChar"] = "F4";	break;
+                case ESC + "m":    me["sChar"] = "F5";	break;
+                case ESC + "[17~": me["sChar"] = "F6";	break;
+                case ESC + "[18~": me["sChar"] = "F7";	break;
+                case ESC + "[19~": me["sChar"] = "F8";	break;
+                case ESC + "[20~": me["sChar"] = "F9";	break;
+                case ESC + "[21~": me["sChar"] = "F10";	break;
+                case ESC + "[23~": me["sChar"] = "F11";	break;
+                case ESC + "[24~": me["sChar"] = "F12";	break;
                 default:
                 	if (sizeof(chars[i])==1 &&
                             0<chars[i][0] && chars[i][0]<27)
@@ -407,7 +407,7 @@ private int _dispatcher(object pl)                // 分派指令到不同函式
                         case "~":
                         case "Ctrl-T": _insert_exclam_mark(pl);        break;
                         case "BACKSPACE": _backspace(pl);          break;
-                        case "ESC": _esc(pl);                         break;
+                        case " + ESC + ": _esc(pl);                         break;
                         case "TAB": _tab(pl);                        break;
                         } // switch
         } // if me["is_Command_Mode"]
@@ -493,7 +493,7 @@ private void _del_char(object pl, int bs)                // 刪除游標上的�
                 me["iRow"]-2][me["iS_Col"]+me["iCol"]-1..<1];
         else        go_left = 1;                // 因為是刪除行尾的字，所以要左移游標
         me["sText"][me["iS_Row"]+me["iRow"]-2] = str;
-        printf(ESC "[%d;1f%-80s", me["iRow"]+1,        me["sText"][me["iS_Row"]+
+        printf(ESC + "[%d;1f%-80s", me["iRow"]+1,        me["sText"][me["iS_Row"]+
                 me["iRow"]-2][me["iS_Col"]-1..me["iE_Col"]-1]);
         if (go_left && !bs) _left(pl);
         else        _refresh_cursor(pl);
@@ -534,13 +534,13 @@ private void _down(object pl)                // 游標往下移一行
                 else
                 {        // 多顯視檔尾下一行，以突顯檔尾的存在
                         me["iS_Row"]++;
-                        printf(ESC "[24;1f\r\n~");
+                        printf(ESC + "[24;1f\r\n~");
                         me["iRow"] = 22;
                 }
         else if (++me["iRow"] > 23)
         {        // 畫面上捲，顯示下一行
                 me["iS_Row"]++;                me["iE_Row"]++;
-                printf(ESC "[24;1f\r\n%s", me["sText"][me["iE_Row"]-1]
+                printf(ESC + "[24;1f\r\n%s", me["sText"][me["iE_Row"]-1]
                         [me["iS_Col"]-1..me["iE_Col"]-1]);
                 me["iRow"] = 23;
         }
@@ -853,7 +853,7 @@ private void _next_match(object pl)                // 搜尋/替換下個符合�
                                 // 將游漂移到替換字串後面
                                 me["iCol"] = me["iCol"]+strlen(me["sReplace"])-
                                         me["iS_Col"]+1;
-                                printf(ESC "[%d;1f%-80s", me["iRow"]+1,
+                                printf(ESC + "[%d;1f%-80s", me["iRow"]+1,
                                         me["sText"][me["iS_Row"]+
                                         me["iRow"]-2][me["iS_Col"]-1
                                         ..me["iE_Col"]-1]);
@@ -950,7 +950,7 @@ private void _process(object pl)        // 處理輸入模式的字串輸入
                 _right(pl, sizeof(input[i]), 1);
         } // for
 
-        printf(ESC "[%d;1f%s", me["iRow"]+1, me["sText"][me["iS_Row"]+
+        printf(ESC + "[%d;1f%s", me["iRow"]+1, me["sText"][me["iS_Row"]+
                 me["iRow"]-2][me["iS_Col"]-1..me["iE_Col"]-1]);
         _refresh_cursor(pl);
 } // _process()
@@ -967,7 +967,7 @@ protected void _quit(mixed unused, mixed pl) // 離開編輯器
                         "_confirm_save", ECHO);
         me["iRow"] = 23;
         _refresh_cursor(pl);                // 移動游標到最後一行
-        printf(NOR "\r\n");
+        printf(NOR + "\r\n");
         // 若功能鍵定義對照表是空的，就清除玩家身上的記錄，不然就記錄在玩家身上
         if (sizeof(me["keymap"]) == 0) pl->delete("me_keymap");
         else pl->set("me_keymap", me["keymap"]);

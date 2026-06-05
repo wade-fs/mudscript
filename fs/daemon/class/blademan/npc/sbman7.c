@@ -65,14 +65,14 @@ if(random(100) > 50)
 {
 if(random(9) >= 5)
 {
-message_vision(HIY"守塔者會心一擊『宇宙震爆』，頓時你狂吐鮮血！\n"NOR,me);
+message_vision(HIY + "守塔者會心一擊『宇宙震爆』，頓時你狂吐鮮血！\n" + NOR,me);
 for(j=0;j < i;j++) {
 if(target[j])
 target[j]->add("kee",-400); }
    }
    else
    {
-message_vision(HIC"守塔者仰天一笑，瞬時內息穩固。\n"NOR,me);
+message_vision(HIC + "守塔者仰天一笑，瞬時內息穩固。\n" + NOR,me);
 me->receive_curing("kee",2000);
 me->receive_heal("kee",1000);
 if(random(9)>=5) {

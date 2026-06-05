@@ -20,9 +20,9 @@ int main( object me )
                         cmds[o] = file[i][0][0..len-3];
                         o++;
                 }
-        str_cmds += sprintf(HIM"\n      　　.__________"HIW"幫派指令集"HIM"__________.\n\n");
+        str_cmds += sprintf(HIM + "\n      　　.__________" + HIW + "幫派指令集" + HIM + "__________.\n\n");
 
-        str_cmds += sprintf(HIY"\n□ 一般 -\n"NOR);
+        str_cmds += sprintf(HIY + "\n□ 一般 -\n" + NOR);
 	print_cmd( "c_goto"    , 3, "幫內瞬間移動" );
 	print_cmd( "c_home"    , 4, "回到幫派總部" );
 	print_cmd( "c_state"   , 5, "查詢幫派狀態" );
@@ -36,7 +36,7 @@ int main( object me )
 	print_cmd( "c_list"    , 8, "狂想空間幫派總覽" );
 	print_cmd( "c_view"    , 8, "查詢線上幫派玩家" );
 
-	str_cmds += sprintf( HIC"\n□ 區域維護 -\n"NOR );
+	str_cmds += sprintf( HIC + "\n□ 區域維護 -\n" + NOR );
 	print_cmd( "c_board"    , 1, "處理佈告欄" );
 	print_cmd( "c_set"	, 2, "設定幫派區域" );
 	print_cmd( "c_room_make", 3, "擴大幫派地盤" );
@@ -50,7 +50,7 @@ int main( object me )
 	print_cmd( "c_store"    , 7, "儲存個人物品" );
 	print_cmd( "c_take"     , 7, "取出個人物品" );
 
-	str_cmds += sprintf( HIR"\n□ 內政外交 -\n"NOR );
+	str_cmds += sprintf( HIR + "\n□ 內政外交 -\n" + NOR );
 	print_cmd( "c_passwd"   , 1, "設定幫派密碼" );
 	print_cmd( "c_doc"      , 1, "編寫幫派說明" );
 	print_cmd( "c_tax"      , 2, "設定幫派稅率" );
@@ -66,7 +66,7 @@ int main( object me )
 	print_cmd( "c_arrest"   , 3, "幫派通緝令" );
 	print_cmd( "c_who"      , 7, "查詢幫派境內玩家" );
 
-	str_cmds += sprintf( HIW"\n□ 人事處理 -\n"NOR );
+	str_cmds += sprintf( HIW + "\n□ 人事處理 -\n" + NOR );
 	print_cmd( "c_inherit", 1, "幫主傳位" );
 	print_cmd( "c_title"  , 1, "更改稱號" );
 	print_cmd( "c_jail"   , 3, "監禁幫眾" );
@@ -80,7 +80,7 @@ int main( object me )
 	print_cmd( "c_order"  , 6, "命令幫眾" );
 
 	if( wizardp(me) )       {
-		str_cmds += sprintf( HIY"\n□ 尚未開放之指令 -\n"NOR );
+		str_cmds += sprintf( HIY + "\n□ 尚未開放之指令 -\n" + NOR );
 		for( i=0; i<sum; i++ )  {
 			if( cmds[i] )
 				str_cmds+=sprintf("\t%s\n",cmds[i]);
@@ -97,13 +97,13 @@ void print_cmd( string cmd , int rank , string str )
         for( i=0; i<sum; i++ )
                 if( cmds[i]==cmd )      {
                         switch( rank ) {
-                        case 1 : rank_str=HIW"■"NOR; break;
-                        case 2 : rank_str=HIW"■"HIC+"■"NOR; break;
-                        case 3 : rank_str=HIW"■"HIC+"■"HIY+"■"NOR; break;
-                        case 4 : rank_str=HIW"■"HIC+"■"HIY+"■"HIG+"■"NOR; break;
-                        case 5 : rank_str=HIW"■"HIC+"■"HIY+"■"HIG+"■"HIB+"■"NOR; break;
-                        case 6 : rank_str=HIW"■"HIC+"■"HIY+"■"HIG+"■"HIB+"■"HIR+"■"NOR; break;
-                        case 7 : rank_str=HIW"■"HIC+"■"HIY+"■"HIG+"■"HIB+"■"HIR+"■"HIM+"■"NOR; break;
+                        case 1 : rank_str=HIW + "■" + NOR; break;
+                        case 2 : rank_str=HIW + "■" + HIC+"■" + NOR; break;
+                        case 3 : rank_str=HIW + "■" + HIC+"■" + HIY+"■" + NOR; break;
+                        case 4 : rank_str=HIW + "■" + HIC+"■" + HIY+"■" + HIG+"■" + NOR; break;
+                        case 5 : rank_str=HIW + "■" + HIC+"■" + HIY+"■" + HIG+"■" + HIB+"■" + NOR; break;
+                        case 6 : rank_str=HIW + "■" + HIC+"■" + HIY+"■" + HIG+"■" + HIB+"■" + HIR+"■" + NOR; break;
+                        case 7 : rank_str=HIW + "■" + HIC+"■" + HIY+"■" + HIG+"■" + HIB+"■" + HIR+"■" + HIM+"■" + NOR; break;
                         case 8 : rank_str="無限制"; break;
                         }
                         str_cmds += sprintf("\t%-16s   %-22s   %-16s\n", cmd , str , rank_str );

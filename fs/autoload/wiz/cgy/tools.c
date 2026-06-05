@@ -39,14 +39,14 @@ for(i=0;i<sizeof(list);i++){
 if(wizardp(list[i]))
 {
 list1 += sprintf("%s (%s)",list[i]->query("name"),getuid(list[i]));
-if(in_edit(list[i])) list1 += HIY"[編輯 ("+in_edit(list[i])+") 中]"NOR;
-if(in_input(list[i])) list1 += HIG"[輸入字串中]"NOR;
-if(list[i]->query_temp("netdead")) list1 += HIG"[斷線中]"NOR;
-if(!list[i]->query_temp("netdead") && query_snooping(list[i])) list1 += sprintf(HIR"[監聽%s中]"NOR,getuid(query_snooping(list[i])));
-if(!list[i]->query_temp("netdead") && query_idle(list[i])>60) list1 += HIC"[發呆"+chinese_number(query_idle(list[i])/60)+"分鐘]"NOR;
+if(in_edit(list[i])) list1 += HIY + "[編輯 ("+in_edit(list[i])+") 中]" + NOR;
+if(in_input(list[i])) list1 += HIG + "[輸入字串中]" + NOR;
+if(list[i]->query_temp("netdead")) list1 += HIG + "[斷線中]" + NOR;
+if(!list[i]->query_temp("netdead") && query_snooping(list[i])) list1 += sprintf(HIR + "[監聽%s中]" + NOR,getuid(query_snooping(list[i])));
+if(!list[i]->query_temp("netdead") && query_idle(list[i])>60) list1 += HIC + "[發呆"+chinese_number(query_idle(list[i])/60)+"分鐘]" + NOR;
 list1 += "正從("+query_ip_number(list[i])+")連線中\n";
 if(environment(list[i])){
-list1 += HIY"\t目前正位於 "NOR+environment(list[i])->query("short")+" - ["+base_name(environment(list[i]))+"]\n\n";
+list1 += HIY + "\t目前正位於 " + NOR+environment(list[i])->query("short")+" - ["+base_name(environment(list[i]))+"]\n\n";
 }
 }
 }

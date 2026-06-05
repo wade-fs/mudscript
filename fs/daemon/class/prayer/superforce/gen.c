@@ -33,7 +33,7 @@ if(me->query("class")!="prayer")
 
         me->set_temp("gen",1);
         message_vision(
-        HIC "$N運起渾天心法第三層的"YEL"土崑崙"HIC"﹐身上發出如大地般的迫力,形成無數的氣流!!\n" NOR,me);
+        HIC + "$N運起渾天心法第三層的" + YEL + "土崑崙" + HIC + "﹐身上發出如大地般的迫力,形成無數的氣流!!\n" + NOR,me);
 
         me->add_temp("apply/force", 4);
         me->add_temp("apply/move", 4);

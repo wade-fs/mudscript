@@ -27,33 +27,33 @@ int perform (object me, object  weapon)
   if(!(ob=me->query_temp("weapon")) || (string)ob->query("skill_type") != "staff")
      return notify_fail("你沒拿武器哦！\n");
   message_vision("\n\n
-                          "HIR"▁▃"NOR"
-                    "HIR"▂▅▇"NOR""RED""BBLK"▄▁▃"NOR"
-                       "BLK""BRED"▆▄ "RED""BBLK"◣  "HIR"▄▆"NOR""RED""BBLK"▆▅▅▄▃▂▁"NOR"
-                            "RED"◥◣ "HIR"◥"BRED"▉≡ ==—￣ "BLK""BRED"▁ "NOR""RED""BBLK"▆▄▂"NOR"
-                  "HIR"▁▂"NOR"       "RED"◥"BRED" "BBLK"◣"HBRED"▉═￣     "NOR""BLK""BRED"▁▄"NOR"
-               "HIR"◢"BRED"◤◥"BBLK"█▆▅▆▇"BRED"▆  ＼   "NOR""RED""BBLK"▇"BLK""BRED"▄"NOR"
-               "HIR""BRED"▍     ◥◥◥ ◥◥▊  "NOR""RED""BBLK"◣"NOR"
-               "HIR""BRED"▎   ﹨  ◥◥ ＼＼ ＼    "NOR""BLK""BRED"▃"NOR"
-               "HIR""BRED"▏｜  ﹨   ＼ ＼ "NOR""BLK""BRED"▄"NOR" "BLK""BRED"▆▃     "RED""BBLK"▃▂▃▁"NOR,me);
+                          " + HIR + "▁▃" + NOR + "
+                    " + HIR + "▂▅▇" + NOR + "" + RED + "" + BBLK + "▄▁▃" + NOR + "
+                       " + BLK + "" + BRED + "▆▄ " + RED + "" + BBLK + "◣  " + HIR + "▄▆" + NOR + "" + RED + "" + BBLK + "▆▅▅▄▃▂▁" + NOR + "
+                            " + RED + "◥◣ " + HIR + "◥" + BRED + "▉≡ ==—￣ " + BLK + "" + BRED + "▁ " + NOR + "" + RED + "" + BBLK + "▆▄▂" + NOR + "
+                  " + HIR + "▁▂" + NOR + "       " + RED + "◥" + BRED + " " + BBLK + "◣" + HBRED + "▉═￣     " + NOR + "" + BLK + "" + BRED + "▁▄" + NOR + "
+               " + HIR + "◢" + BRED + "◤◥" + BBLK + "█▆▅▆▇" + BRED + "▆  ＼   " + NOR + "" + RED + "" + BBLK + "▇" + BLK + "" + BRED + "▄" + NOR + "
+               " + HIR + "" + BRED + "▍     ◥◥◥ ◥◥▊  " + NOR + "" + RED + "" + BBLK + "◣" + NOR + "
+               " + HIR + "" + BRED + "▎   ﹨  ◥◥ ＼＼ ＼    " + NOR + "" + BLK + "" + BRED + "▃" + NOR + "
+               " + HIR + "" + BRED + "▏｜  ﹨   ＼ ＼ " + NOR + "" + BLK + "" + BRED + "▄" + NOR + " " + BLK + "" + BRED + "▆▃     " + RED + "" + BBLK + "▃▂▃▁" + NOR,me);
   message_vision("
-               "HIR""BRED"▏∥         "NOR""BLK""BRED"▄"NOR"            "BLK""BRED"▇"RED""BBLK"◥▄  ▂"BLK""BRED"▇▅"RED""BBLK"▄"NOR"
-               "HIR""BRED"   │     "NOR""RED""BBLK"◥"NOR"                     "BLK""BRED"▅"RED""BBLK"▃"BLK""BRED"▅"RED""BBLK"▃  "BLK""BRED"▅"RED""BBLK"▃"NOR"
-               "HIR""BRED"   ║   "NOR""RED""BBLK"▊▏                         "BLK""BRED"▄"RED""BBLK"◣ "BLK""BRED"▅"RED""BBLK"▃ ◥▃"NOR"
-                "BRED"       "RED""BBLK"▎                              ◥    ◥▃ ◥▃"NOR"
-                "BRED"     "RED""BBLK"▉▏                                ▍     ▌   ◥"NOR"
-                "BLK""BRED"▎  "RED""BBLK"▊▎"NOR"                                  "RED"▍     ◥"NOR"
-                  "BRED"    "RED""BBLK"∥                                  ▎       ▍"NOR"
-                   "BLK""BRED" ∣"NOR"                                    "RED"▍        ▍"NOR"
-                    "RED"◥                                   ▍          ▎"NOR"
-                                                   "RED"▁▂◤             ▏"NOR"
-                                                                    "RED" ▏\n\n"NOR,me);
-  message_vision(HIY"$N呼喚出耀眼的浴火鳳凰，天際剎時血紅，滾燙的火球圍繞周圍，只見．．．\n\n"NOR,me);
+               " + HIR + "" + BRED + "▏∥         " + NOR + "" + BLK + "" + BRED + "▄" + NOR + "            " + BLK + "" + BRED + "▇" + RED + "" + BBLK + "◥▄  ▂" + BLK + "" + BRED + "▇▅" + RED + "" + BBLK + "▄" + NOR + "
+               " + HIR + "" + BRED + "   │     " + NOR + "" + RED + "" + BBLK + "◥" + NOR + "                     " + BLK + "" + BRED + "▅" + RED + "" + BBLK + "▃" + BLK + "" + BRED + "▅" + RED + "" + BBLK + "▃  " + BLK + "" + BRED + "▅" + RED + "" + BBLK + "▃" + NOR + "
+               " + HIR + "" + BRED + "   ║   " + NOR + "" + RED + "" + BBLK + "▊▏                         " + BLK + "" + BRED + "▄" + RED + "" + BBLK + "◣ " + BLK + "" + BRED + "▅" + RED + "" + BBLK + "▃ ◥▃" + NOR + "
+                " + BRED + "       " + RED + "" + BBLK + "▎                              ◥    ◥▃ ◥▃" + NOR + "
+                " + BRED + "     " + RED + "" + BBLK + "▉▏                                ▍     ▌   ◥" + NOR + "
+                " + BLK + "" + BRED + "▎  " + RED + "" + BBLK + "▊▎" + NOR + "                                  " + RED + "▍     ◥" + NOR + "
+                  " + BRED + "    " + RED + "" + BBLK + "∥                                  ▎       ▍" + NOR + "
+                   " + BLK + "" + BRED + " ∣" + NOR + "                                    " + RED + "▍        ▍" + NOR + "
+                    " + RED + "◥                                   ▍          ▎" + NOR + "
+                                                   " + RED + "▁▂◤             ▏" + NOR + "
+                                                                    " + RED + " ▏\n\n" + NOR,me);
+  message_vision(HIY + "$N呼喚出耀眼的浴火鳳凰，天際剎時血紅，滾燙的火球圍繞周圍，只見．．．\n\n" + NOR,me);
   {
    switch(random(3))
    {
     case 0:
-           message_vision(HIW"\n聖獸鳳凰化為點點靈氣，包圍在$N身旁，為$N治療大半傷勢。\n"NOR,me);
+           message_vision(HIW + "\n聖獸鳳凰化為點點靈氣，包圍在$N身旁，為$N治療大半傷勢。\n" + NOR,me);
            me->receive_heal("kee",fun*15/2);
            me->receive_curing("kee",fun*15/2);
            me->receive_heal("gin",fun*15/4);
@@ -67,7 +67,7 @@ int perform (object me, object  weapon)
     case 1:
            if (random(9) < 6)
            {
-            message_vision(HIY"聖獸揮動巨翅，數以萬計的焰柱將$N圍住，動彈不得。\n"NOR,enemy[j]);
+            message_vision(HIY + "聖獸揮動巨翅，數以萬計的焰柱將$N圍住，動彈不得。\n" + NOR,enemy[j]);
             while(i--)
             {
              if (fun <30) fun = 1;
@@ -80,8 +80,8 @@ int perform (object me, object  weapon)
            }
            else
            {
-            message_vision(HIY"$N所呼叫出來的聖獸，巨翅突然不見了，只好拼命揮動不像話的雞爪示威。\n"NOR,me);
-            message_vision(HIG"$n見狀頓時笑倒在地，不理會$N的攻擊！\n\n"NOR,me,enemy[j]);
+            message_vision(HIY + "$N所呼叫出來的聖獸，巨翅突然不見了，只好拼命揮動不像話的雞爪示威。\n" + NOR,me);
+            message_vision(HIG + "$n見狀頓時笑倒在地，不理會$N的攻擊！\n\n" + NOR,me,enemy[j]);
            }
            me->add("force",-250);
            me->start_busy(random(3));
@@ -91,7 +91,7 @@ int perform (object me, object  weapon)
            {
             for(k=0;k<i;k++)
             {
-             message_vision(HIW"$N全身被浴火鳳凰穿刺而過，全身被暴火包住，哀號聲不斷！\n"NOR,enemy[k]);
+             message_vision(HIW + "$N全身被浴火鳳凰穿刺而過，全身被暴火包住，哀號聲不斷！\n" + NOR,enemy[k]);
              //printf("\n你現在Holy-phoenix的等級為 %o !!\n",fun)
              enemy[k]->receive_wound("kee",fun*20);
              enemy[k]->receive_wound("gin",fun*5);
@@ -101,13 +101,13 @@ int perform (object me, object  weapon)
            }
            else
            {
-            message_vision(HIR"$n機靈地閃過了仙鳳致命的攻擊，仍心有餘悸。\n"NOR,me,enemy[k]);
+            message_vision(HIR + "$n機靈地閃過了仙鳳致命的攻擊，仍心有餘悸。\n" + NOR,me,enemy[k]);
            }
            me->add("force",-250);
            me->start_busy(random(3));
            break;
    }
-   message_vision(HIW"$N使出火鳳過度，一時虛力，四肢不聽使喚。\n"NOR,me);
+   message_vision(HIW + "$N使出火鳳過度，一時虛力，四肢不聽使喚。\n" + NOR,me);
    me->add("water",-25);
   }
   if (fun <100)

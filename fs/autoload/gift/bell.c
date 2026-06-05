@@ -7,7 +7,7 @@ inherit F_AUTOLOAD;
 object horse = new("/autoload/gift/sheep");
 void create()
 {
-  set_name(HIW"心型鈴噹"NOR,({"bell"}));
+  set_name(HIW + "心型鈴噹" + NOR,({"bell"}));
   set("long","一個心型鈴噹，用來控制工具，
   　　　　　　使用方法：
               summon_sheep ： 呼叫羊兒
@@ -15,7 +15,7 @@ void create()
               fanshow      ： 可以查詢你的傳送點所在
               waveto       ： 用過喚雲扇吧？再問就賞你一巴掌！
               throw        ： 使用格式: throw gold
-      "NOR);
+      " + NOR);
   set("unit","條");  
   set("no_auc",1);
   set("no_sell",1);
@@ -53,24 +53,24 @@ int do_throw(string arg)
   if (me->is_fighting())
     return notify_fail("戰鬥中不要分心！\n");
     
-  message_vision(HIW"$N拿出一枚錢幣，往上一丟，結果．．\n"NOR,me);
+  message_vision(HIW + "$N拿出一枚錢幣，往上一丟，結果．．\n" + NOR,me);
   if (i <= 2)
   {
-   message_vision(HIC"是正面！！，$N"HIC"一時高興，攻擊力上昇了許\多。\n"NOR,me);
+   message_vision(HIC + "是正面！！，$N" + HIC + "一時高興，攻擊力上昇了許\多。\n" + NOR,me);
    me->add_temp("apply/attack",100);
    call_out("delthrow",180);
    me->set_temp("havethrowpositive",1);
   }
   else if (i >2 && i <=5)
   {
-   message_vision(HIR"是反面！！，$N"HIR"當場一臉大便，毫無殺意。\n"NOR,me);
+   message_vision(HIR + "是反面！！，$N" + HIR + "當場一臉大便，毫無殺意。\n" + NOR,me);
    me->add_temp("apply/attack",-100);
    call_out("delthrow",180);
    me->set_temp("havethrownegative",1);
   }
   else
   {
-   message_vision(HIY"哇，中樂透了，$N"HIY"抱著小綿羊跳來跳去。\n"NOR,me);
+   message_vision(HIY + "哇，中樂透了，$N" + HIY + "抱著小綿羊跳來跳去。\n" + NOR,me);
    me->add_temp("apply/attack",200);
    call_out("delthrow",180);
    me->set_temp("havethrow7",1);
@@ -108,8 +108,8 @@ int do_summonsheep()
   if(!horse)
   {
    horse = new("/autoload/gift/sheep");
-   message_vision("$N搖起手上鈴鐺，"HIY"天靈靈"HIW"．．"HIY"地靈靈"HIW"．．"NOR"，$n瞬間飛到主人面前。\n",me,horse);
-   message_vision("$N"HIC"哞哞叫了幾聲，唱著踏雪尋梅，往主人方向飛了過去。\n"NOR,horse);
+   message_vision("$N搖起手上鈴鐺，" + HIY + "天靈靈" + HIW + "．．" + HIY + "地靈靈" + HIW + "．．" + NOR + "，$n瞬間飛到主人面前。\n",me,horse);
+   message_vision("$N" + HIC + "哞哞叫了幾聲，唱著踏雪尋梅，往主人方向飛了過去。\n" + NOR,horse);
    horse->move(environment(me));
    horse->set_leader(me);
    horse->set("family/family_name",me->query("family/family_name"));
@@ -128,16 +128,16 @@ int do_summonsheep()
   }
   if(me->query_temp("have_horse") && environment(me) != environment(horse))
   {
-   message_vision("$N搖起手上鈴鐺，"HIY"天靈靈"HIW"．．"HIY"地靈靈"HIW"．．"NOR"，$n瞬間飛到主人面前。\n",me,horse);
-   message_vision("$N"HIC"哞哞叫了幾聲，唱著踏雪尋梅，往主人方向飛了過去。\n"NOR,horse);
+   message_vision("$N搖起手上鈴鐺，" + HIY + "天靈靈" + HIW + "．．" + HIY + "地靈靈" + HIW + "．．" + NOR + "，$n瞬間飛到主人面前。\n",me,horse);
+   message_vision("$N" + HIC + "哞哞叫了幾聲，唱著踏雪尋梅，往主人方向飛了過去。\n" + NOR,horse);
    horse->move(environment(me));
    horse->set_heart_beat(1);
    return 1;
   }
   else if(!me->query_temp("have_horse"))
   {
-   message_vision("$N搖起手上鈴鐺，"HIY"天靈靈"HIW"．．"HIY"地靈靈"HIW"．．"NOR"，$n瞬間飛到主人面前。\n",me,horse);
-   message_vision("$N"HIC"哞哞叫了幾聲，唱著踏雪尋梅，往主人方向飛了過去。\n"NOR,horse);
+   message_vision("$N搖起手上鈴鐺，" + HIY + "天靈靈" + HIW + "．．" + HIY + "地靈靈" + HIW + "．．" + NOR + "，$n瞬間飛到主人面前。\n",me,horse);
+   message_vision("$N" + HIC + "哞哞叫了幾聲，唱著踏雪尋梅，往主人方向飛了過去。\n" + NOR,horse);
    horse->move(environment(me));
    horse->set_leader(me);
    horse->set("family/family_name",me->query("family/family_name"));
@@ -254,7 +254,7 @@ int do_waveto(string arg)
   message_vision( HIW+"$N搖搖屁股，便往天邊飛去。\n"+NOR ,horse,me);
   if (room && !me->move(room) )
     return notify_fail("目的地無法到達。\n");
-  message_vision(HIW+"白光閃過,"HIY"小綿羊"HIW"載著$N由天而降。\n"+NOR,me);
+  message_vision(HIW+"白光閃過," + HIY + "小綿羊" + HIW + "載著$N由天而降。\n"+NOR,me);
   horse->move(room);
   horse->set_heart_beat(1);
   return 1;

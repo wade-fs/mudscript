@@ -17,33 +17,33 @@ string fuzzy_long( string long );
 string power_level(int power);
 
 string *power_level_desc = ({
-        BLU "不堪一擊" NOR,
-        BLU "不足挂齒" NOR,
-        BLU "初學乍練" NOR,
-        BLU "略窺門徑" NOR,
-        BLU "粗通皮毛" NOR,
-        BLU "平平常常" NOR,
-        HIB "普普通通" NOR,
-        HIB "馬馬虎虎" NOR,
-        HIB "略有小成" NOR,
-        HIB "舉重若輕" NOR,
-        HIB "駕輕就熟" NOR,
-        HIB "已有小成" NOR,
-        CYN "心領神會" NOR,
-        CYN "了然於胸" NOR,
-        CYN "略有大成" NOR,
-        CYN "出神入化" NOR,
-        CYN "豁然貫通" NOR,
-        CYN "已有大成" NOR,
-        CYN "舉輕若重" NOR,
-        CYN "所向披靡" NOR,
-        HIC "爐火純青" NOR,
-        HIC "所向無敵" NOR,
-        HIC "登峰造極" NOR,
-        HIC "一代宗師" NOR,
-        HIC "震今鑠古" NOR,
-        HIR "天人合一" NOR,
-        HIW "深不可測" NOR,
+        BLU + "不堪一擊" + NOR,
+        BLU + "不足挂齒" + NOR,
+        BLU + "初學乍練" + NOR,
+        BLU + "略窺門徑" + NOR,
+        BLU + "粗通皮毛" + NOR,
+        BLU + "平平常常" + NOR,
+        HIB + "普普通通" + NOR,
+        HIB + "馬馬虎虎" + NOR,
+        HIB + "略有小成" + NOR,
+        HIB + "舉重若輕" + NOR,
+        HIB + "駕輕就熟" + NOR,
+        HIB + "已有小成" + NOR,
+        CYN + "心領神會" + NOR,
+        CYN + "了然於胸" + NOR,
+        CYN + "略有大成" + NOR,
+        CYN + "出神入化" + NOR,
+        CYN + "豁然貫通" + NOR,
+        CYN + "已有大成" + NOR,
+        CYN + "舉輕若重" + NOR,
+        CYN + "所向披靡" + NOR,
+        HIC + "爐火純青" + NOR,
+        HIC + "所向無敵" + NOR,
+        HIC + "登峰造極" + NOR,
+        HIC + "一代宗師" + NOR,
+        HIC + "震今鑠古" + NOR,
+        HIR + "天人合一" + NOR,
+        HIW + "深不可測" + NOR,
 
 });
 
@@ -158,8 +158,8 @@ int look_room( object me, object env, int light )
 //現在狀態有點偏多，會造成人物的名字加上狀態一長串，暫時拿掉。
 //暫時加在下方的look_living裏面。
 //            str += "  " + CON_D->con_query(inv[i]) + inv[i]->short() + "\n";
-          if( userp(inv[i])) str += BLK "[*] " NOR ;
-          else if( inv[i]->query("inquiry")) str += WHT "[Q] " NOR ;
+          if( userp(inv[i])) str += BLK + "[*] " + NOR ;
+          else if( inv[i]->query("inquiry")) str += WHT + "[Q] " + NOR ;
           else str +=  "    " ;
 
           str +=  short_name + "\n";
@@ -212,70 +212,70 @@ string getper(object me, object obj)
       {
         if(obj->query("age")<18)
         {
-          if(per >=25) str = CYN"他星眸皓齒，面貌清俊。\n"NOR;
-          if(per <25 && per >=20) str = CYN"他膚色白皙，斯文有禮。\n"NOR;
-          if(per <20 && per >= 15) str = CYN"他黑髮披肩，面貌端正。\n"NOR;
-          if(per <15 && per >=10)str = CYN"他肥頭大耳，小鼻小眼。\n"NOR;
-          if(per <10)str = CYN"他面色青黃，尖嘴猴腮。\n"NOR;
+          if(per >=25) str = CYN + "他星眸皓齒，面貌清俊。\n" + NOR;
+          if(per <25 && per >=20) str = CYN + "他膚色白皙，斯文有禮。\n" + NOR;
+          if(per <20 && per >= 15) str = CYN + "他黑髮披肩，面貌端正。\n" + NOR;
+          if(per <15 && per >=10)str = CYN + "他肥頭大耳，小鼻小眼。\n" + NOR;
+          if(per <10)str = CYN + "他面色青黃，尖嘴猴腮。\n" + NOR;
         }
         if(obj->query("age")>=18 && obj->query("age")<40)
         {
-          if (per >= 30) str = CYN"他丰姿英偉，堪稱人中龍鳳。\n"NOR;
-          if ((per == 29)||(per == 28)) str = CYN"他英俊瀟洒，貌似潘安。\n"NOR;
-          if ((per == 27)||(per == 26)) str = CYN"他劍眉星目，英姿勃勃。\n"NOR;
-          if ((per == 25)||(per == 24)) str = CYN"他相貌出眾，百里挑一。\n"NOR;
-          if ((per == 23)||(per == 22)) str = CYN"他面貌清奇，丰姿非俗。\n"NOR;
-          if ((per == 21)||(per == 20)) str = CYN"他眉目清秀，氣宇軒昂。\n"NOR;
-          if ((per == 19)||(per == 18)) str = CYN"他儀表不凡，面目俊朗。\n"NOR;
-          if ((per == 17)||(per == 16)) str = CYN"他鼻直口方，五官端正。。\n"NOR;
-          if ((per == 15)||(per == 14)) str = CYN"他瘦骨伶仃，相貌平平。\n"NOR;
-          if ((per == 13)||(per == 12)) str = CYN"他五短身材，肥頭大耳。\n"NOR;
-          if ((per == 11)||(per == 10)) str = CYN"他相貌凶惡，滿臉橫肉。\n"NOR;
-          if (per <= 9) str = CYN"他賊眉鼠眼，面目可憎。\n"NOR;
-          if (per < 5)  str = CYN"他五官錯位，面目猙獰。\n"NOR;
+          if (per >= 30) str = CYN + "他丰姿英偉，堪稱人中龍鳳。\n" + NOR;
+          if ((per == 29)||(per == 28)) str = CYN + "他英俊瀟洒，貌似潘安。\n" + NOR;
+          if ((per == 27)||(per == 26)) str = CYN + "他劍眉星目，英姿勃勃。\n" + NOR;
+          if ((per == 25)||(per == 24)) str = CYN + "他相貌出眾，百里挑一。\n" + NOR;
+          if ((per == 23)||(per == 22)) str = CYN + "他面貌清奇，丰姿非俗。\n" + NOR;
+          if ((per == 21)||(per == 20)) str = CYN + "他眉目清秀，氣宇軒昂。\n" + NOR;
+          if ((per == 19)||(per == 18)) str = CYN + "他儀表不凡，面目俊朗。\n" + NOR;
+          if ((per == 17)||(per == 16)) str = CYN + "他鼻直口方，五官端正。。\n" + NOR;
+          if ((per == 15)||(per == 14)) str = CYN + "他瘦骨伶仃，相貌平平。\n" + NOR;
+          if ((per == 13)||(per == 12)) str = CYN + "他五短身材，肥頭大耳。\n" + NOR;
+          if ((per == 11)||(per == 10)) str = CYN + "他相貌凶惡，滿臉橫肉。\n" + NOR;
+          if (per <= 9) str = CYN + "他賊眉鼠眼，面目可憎。\n" + NOR;
+          if (per < 5)  str = CYN + "他五官錯位，面目猙獰。\n" + NOR;
         }
         if(obj->query("age")>=40)
         {
-          if(per >=25) str = CYN"他丰姿英偉，氣宇軒昂。\n"NOR;
-          if(per <25 && per >=20) str = CYN"他面貌清奇，神采飛揚。\n"NOR;
-          if(per <20 && per >=15) str = CYN"他鼻直口方，五官端正。\n"NOR;
-          if(per <15 && per >=10)str = CYN"他面色槁枯\，皺紋堆累。\n"NOR;
-          if(per <10 && per >=5)str = CYN"他犬眼鷹鼻，面目猙獰。\n"NOR;
-          if(per <5)str = CYN"他口眼歪斜，人見人憎。\n"NOR;
+          if(per >=25) str = CYN + "他丰姿英偉，氣宇軒昂。\n" + NOR;
+          if(per <25 && per >=20) str = CYN + "他面貌清奇，神采飛揚。\n" + NOR;
+          if(per <20 && per >=15) str = CYN + "他鼻直口方，五官端正。\n" + NOR;
+          if(per <15 && per >=10)str = CYN + "他面色槁枯\，皺紋堆累。\n" + NOR;
+          if(per <10 && per >=5)str = CYN + "他犬眼鷹鼻，面目猙獰。\n" + NOR;
+          if(per <5)str = CYN + "他口眼歪斜，人見人憎。\n" + NOR;
         }
       }else{
         if(obj->query("age")<18)
         {
-          if(per >=25) str = CYN"你星眸皓齒，面貌清俊。\n"NOR;
-          if(per <25 && per >=20) str = CYN"你膚色白皙，斯文有禮。\n"NOR;
-          if(per <20 && per >= 15) str = CYN"你黑髮披肩，面貌端正。\n"NOR;
-          if(per <15 && per >=10)str = CYN"你肥頭大耳，小鼻小眼。\n"NOR;
-          if(per <10)str = CYN"你面色青黃，尖嘴猴腮。\n"NOR;
+          if(per >=25) str = CYN + "你星眸皓齒，面貌清俊。\n" + NOR;
+          if(per <25 && per >=20) str = CYN + "你膚色白皙，斯文有禮。\n" + NOR;
+          if(per <20 && per >= 15) str = CYN + "你黑髮披肩，面貌端正。\n" + NOR;
+          if(per <15 && per >=10)str = CYN + "你肥頭大耳，小鼻小眼。\n" + NOR;
+          if(per <10)str = CYN + "你面色青黃，尖嘴猴腮。\n" + NOR;
         }
         if(obj->query("age")>=18 && obj->query("age")<40)
         {
-          if (per >= 30) str = CYN"你丰姿英偉，堪稱人中龍鳳。\n"NOR;
-          if ((per == 29)||(per == 28)) str = CYN"你英俊瀟洒，貌似潘安。\n"NOR;
-          if ((per == 27)||(per == 26)) str = CYN"你劍眉星目，英姿勃勃。\n"NOR;
-          if ((per == 25)||(per == 24)) str = CYN"你相貌出眾，百裡挑一。\n"NOR;
-          if ((per == 23)||(per == 22)) str = CYN"你面貌清奇，丰姿非俗。\n"NOR;
-          if ((per == 21)||(per == 20)) str = CYN"你眉目清秀，氣宇軒昂。\n"NOR;
-          if ((per == 19)||(per == 18)) str = CYN"你儀表不凡，面目俊朗。\n"NOR;
-          if ((per == 17)||(per == 16)) str = CYN"你鼻直口方，五官端正。\n"NOR;
-          if ((per == 15)||(per == 14)) str = CYN"你瘦骨伶仃，相貌平平。\n"NOR;
-          if ((per == 13)||(per == 12)) str = CYN"你五短身材，肥頭大耳。\n"NOR;
-          if ((per == 11)||(per == 10)) str = CYN"你相貌凶惡，滿臉橫肉。\n"NOR;
-          if (per <= 9) str = CYN"你賊眉鼠眼，面目可憎。\n"NOR;
-          if (per < 5)  str = CYN"你五官錯位，面目猙獰。\n"NOR;
+          if (per >= 30) str = CYN + "你丰姿英偉，堪稱人中龍鳳。\n" + NOR;
+          if ((per == 29)||(per == 28)) str = CYN + "你英俊瀟洒，貌似潘安。\n" + NOR;
+          if ((per == 27)||(per == 26)) str = CYN + "你劍眉星目，英姿勃勃。\n" + NOR;
+          if ((per == 25)||(per == 24)) str = CYN + "你相貌出眾，百裡挑一。\n" + NOR;
+          if ((per == 23)||(per == 22)) str = CYN + "你面貌清奇，丰姿非俗。\n" + NOR;
+          if ((per == 21)||(per == 20)) str = CYN + "你眉目清秀，氣宇軒昂。\n" + NOR;
+          if ((per == 19)||(per == 18)) str = CYN + "你儀表不凡，面目俊朗。\n" + NOR;
+          if ((per == 17)||(per == 16)) str = CYN + "你鼻直口方，五官端正。\n" + NOR;
+          if ((per == 15)||(per == 14)) str = CYN + "你瘦骨伶仃，相貌平平。\n" + NOR;
+          if ((per == 13)||(per == 12)) str = CYN + "你五短身材，肥頭大耳。\n" + NOR;
+          if ((per == 11)||(per == 10)) str = CYN + "你相貌凶惡，滿臉橫肉。\n" + NOR;
+          if (per <= 9) str = CYN + "你賊眉鼠眼，面目可憎。\n" + NOR;
+          if (per < 5)  str = CYN + "你五官錯位，面目猙獰。\n" + NOR;
         }
         if(obj->query("age")>=40)
         {
-          if(per >=25) str = CYN"你丰姿英偉，氣宇軒昂。\n"NOR;
-          if(per <25 && per >=20) str = CYN"你面貌清奇，神采飛揚。\n"NOR;
-          if(per <20 && per >= 15) str = CYN"你鼻直口方，五官端正。\n"NOR;
-          if(per <15 && per >=10)str = CYN"你面色槁枯\，皺紋堆累。\n"NOR;
-          if(per <10 && per >=5)str = CYN"你犬眼鷹鼻，面目猙獰。\n"NOR;
-          if(per <5)str = CYN"你口眼歪斜，人見人憎。\n"NOR;
+          if(per >=25) str = CYN + "你丰姿英偉，氣宇軒昂。\n" + NOR;
+          if(per <25 && per >=20) str = CYN + "你面貌清奇，神采飛揚。\n" + NOR;
+          if(per <20 && per >= 15) str = CYN + "你鼻直口方，五官端正。\n" + NOR;
+          if(per <15 && per >=10)str = CYN + "你面色槁枯\，皺紋堆累。\n" + NOR;
+          if(per <10 && per >=5)str = CYN + "你犬眼鷹鼻，面目猙獰。\n" + NOR;
+          if(per <5)str = CYN + "你口眼歪斜，人見人憎。\n" + NOR;
         }
       }
     }
@@ -285,68 +285,68 @@ string getper(object me, object obj)
       {
         if(obj->query("age")<18)
         {
-          if(per >=25) str = MAG"她冰清玉潔，容顏嬌美。\n"NOR;
-          if(per <25 && per >=20) str = MAG"她膚色白皙，眉清目秀。\n"NOR;
-          if(per <20 && per >= 15) str = MAG"她秀髮披肩，容貌端正。\n"NOR;
-          if(per <15 && per >=10)str = MAG"她身材瘦小，胸部平平。\n"NOR;
-          if(per <10)str = MAG"她身材矬矮，滿臉雀斑。\n"NOR;
+          if(per >=25) str = MAG + "她冰清玉潔，容顏嬌美。\n" + NOR;
+          if(per <25 && per >=20) str = MAG + "她膚色白皙，眉清目秀。\n" + NOR;
+          if(per <20 && per >= 15) str = MAG + "她秀髮披肩，容貌端正。\n" + NOR;
+          if(per <15 && per >=10)str = MAG + "她身材瘦小，胸部平平。\n" + NOR;
+          if(per <10)str = MAG + "她身材矬矮，滿臉雀斑。\n" + NOR;
         }
         if(obj->query("age")>=18 && obj->query("age")<40)
         {
-          if (per >= 30) str = MAG"她美奐絕倫，如月中嫦娥。\n"NOR;
-          if ((per == 29)||(per == 28)) str = MAG"她玉雪冰肌，如瑤池仙子。\n"NOR;
-          if ((per == 27)||(per == 26)) str = MAG"她秀髮如柒，有沉魚落雁之容。\n"NOR;
-          if ((per == 25)||(per == 24)) str = MAG"她冰清玉潔，有閉月羞花之貌。\n"NOR;
-          if ((per == 23)||(per == 22)) str = MAG"她風情萬種，楚楚動人。\n"NOR;
-          if ((per == 21)||(per == 20)) str = MAG"她柳眉杏目，容貌嬌艷。\n"NOR;
-          if ((per == 19)||(per == 18)) str = MAG"她皓齒紅顏，俏臉生春。\n"NOR;
-          if ((per == 17)||(per == 16)) str = MAG"她眉清目秀，萬種柔情。\n"NOR;
-          if ((per == 15)||(per == 14)) str = MAG"她身材適中，胸部平平。\n"NOR;
-          if ((per == 13)||(per == 12)) str = MAG"她身寬體胖，手肥腳大。\n"NOR;
-          if ((per == 11)||(per == 10)) str = MAG"她身材矬矮，一頭亂髮。\n"NOR;
-          if (per <= 9) str = MAG"她髮如枯\草，面目可憎。\n"NOR;
-          if (per < 5)  str = MAG"她五官錯位，口歪眼斜。\n"NOR;
+          if (per >= 30) str = MAG + "她美奐絕倫，如月中嫦娥。\n" + NOR;
+          if ((per == 29)||(per == 28)) str = MAG + "她玉雪冰肌，如瑤池仙子。\n" + NOR;
+          if ((per == 27)||(per == 26)) str = MAG + "她秀髮如柒，有沉魚落雁之容。\n" + NOR;
+          if ((per == 25)||(per == 24)) str = MAG + "她冰清玉潔，有閉月羞花之貌。\n" + NOR;
+          if ((per == 23)||(per == 22)) str = MAG + "她風情萬種，楚楚動人。\n" + NOR;
+          if ((per == 21)||(per == 20)) str = MAG + "她柳眉杏目，容貌嬌艷。\n" + NOR;
+          if ((per == 19)||(per == 18)) str = MAG + "她皓齒紅顏，俏臉生春。\n" + NOR;
+          if ((per == 17)||(per == 16)) str = MAG + "她眉清目秀，萬種柔情。\n" + NOR;
+          if ((per == 15)||(per == 14)) str = MAG + "她身材適中，胸部平平。\n" + NOR;
+          if ((per == 13)||(per == 12)) str = MAG + "她身寬體胖，手肥腳大。\n" + NOR;
+          if ((per == 11)||(per == 10)) str = MAG + "她身材矬矮，一頭亂髮。\n" + NOR;
+          if (per <= 9) str = MAG + "她髮如枯\草，面目可憎。\n" + NOR;
+          if (per < 5)  str = MAG + "她五官錯位，口歪眼斜。\n" + NOR;
         }
         if(obj->query("age")>=40)
         {
-          if(per >=25) str = MAG"她氣質如蘭，風華絕代。\n"NOR;
-          if(per <25 && per >=20) str = MAG"她華髮飄飄，青春永駐。\n"NOR;
-          if(per <20 && per >= 15) str = MAG"她徐娘半老，風韻猶存。\n"NOR;
-          if(per <15 && per >=10)str = MAG"她面色槁枯\，皺紋堆累。\n"NOR;
-          if(per <10)str = MAG"她雞皮鷹爪，面目猙獰。\n"NOR;
+          if(per >=25) str = MAG + "她氣質如蘭，風華絕代。\n" + NOR;
+          if(per <25 && per >=20) str = MAG + "她華髮飄飄，青春永駐。\n" + NOR;
+          if(per <20 && per >= 15) str = MAG + "她徐娘半老，風韻猶存。\n" + NOR;
+          if(per <15 && per >=10)str = MAG + "她面色槁枯\，皺紋堆累。\n" + NOR;
+          if(per <10)str = MAG + "她雞皮鷹爪，面目猙獰。\n" + NOR;
         }
       }else{
         if(obj->query("age")<18)
         {
-          if(per >=25) str = MAG"妳冰清玉潔，容顏嬌美。\n"NOR;
-          if(per <25 && per >=20) str = MAG"妳膚色白皙，眉清目秀。\n"NOR;
-          if(per <20 && per >= 15) str = MAG"妳秀髮披肩，容貌端正。\n"NOR;
-          if(per <15 && per >=10)str = MAG"妳身材瘦小，胸部平平。\n"NOR;
-          if(per <10)str = MAG"妳身材矬矮，滿臉雀斑。\n"NOR;
+          if(per >=25) str = MAG + "妳冰清玉潔，容顏嬌美。\n" + NOR;
+          if(per <25 && per >=20) str = MAG + "妳膚色白皙，眉清目秀。\n" + NOR;
+          if(per <20 && per >= 15) str = MAG + "妳秀髮披肩，容貌端正。\n" + NOR;
+          if(per <15 && per >=10)str = MAG + "妳身材瘦小，胸部平平。\n" + NOR;
+          if(per <10)str = MAG + "妳身材矬矮，滿臉雀斑。\n" + NOR;
         }
         if(obj->query("age")>=18 && obj->query("age")<40)
         {
-          if (per >= 30) str = MAG"妳美奐絕倫，如月中嫦娥。\n"NOR;
-          if ((per == 29)||(per == 28)) str = MAG"妳玉雪冰肌，如瑤池仙子。\n"NOR;
-          if ((per == 27)||(per == 26)) str = MAG"妳秀髮如柒，有沉魚落雁之容。\n"NOR;
-          if ((per == 25)||(per == 24)) str = MAG"妳冰清玉潔，有閉月羞花之貌。\n"NOR;
-          if ((per == 23)||(per == 22)) str = MAG"妳風情萬種，楚楚動人。\n"NOR;
-          if ((per == 21)||(per == 20)) str = MAG"妳柳眉杏目，容貌嬌艷。\n"NOR;
-          if ((per == 19)||(per == 18)) str = MAG"妳皓齒紅顏，俏臉生春。\n"NOR;
-          if ((per == 17)||(per == 16)) str = MAG"妳眉清目秀，萬種柔情。\n"NOR;
-          if ((per == 15)||(per == 14)) str = MAG"妳身材適中，胸部平平。\n"NOR;
-          if ((per == 13)||(per == 12)) str = MAG"妳身寬體胖，手肥腳大。\n"NOR;
-          if ((per == 11)||(per == 10)) str = MAG"妳身材矬矮，一頭亂髮。\n"NOR;
-          if (per <= 9) str = MAG"妳髮如枯\草，面目可憎。\n"NOR;
-          if (per < 5)  str = MAG"妳五官錯位，口歪眼斜。\n"NOR;
+          if (per >= 30) str = MAG + "妳美奐絕倫，如月中嫦娥。\n" + NOR;
+          if ((per == 29)||(per == 28)) str = MAG + "妳玉雪冰肌，如瑤池仙子。\n" + NOR;
+          if ((per == 27)||(per == 26)) str = MAG + "妳秀髮如柒，有沉魚落雁之容。\n" + NOR;
+          if ((per == 25)||(per == 24)) str = MAG + "妳冰清玉潔，有閉月羞花之貌。\n" + NOR;
+          if ((per == 23)||(per == 22)) str = MAG + "妳風情萬種，楚楚動人。\n" + NOR;
+          if ((per == 21)||(per == 20)) str = MAG + "妳柳眉杏目，容貌嬌艷。\n" + NOR;
+          if ((per == 19)||(per == 18)) str = MAG + "妳皓齒紅顏，俏臉生春。\n" + NOR;
+          if ((per == 17)||(per == 16)) str = MAG + "妳眉清目秀，萬種柔情。\n" + NOR;
+          if ((per == 15)||(per == 14)) str = MAG + "妳身材適中，胸部平平。\n" + NOR;
+          if ((per == 13)||(per == 12)) str = MAG + "妳身寬體胖，手肥腳大。\n" + NOR;
+          if ((per == 11)||(per == 10)) str = MAG + "妳身材矬矮，一頭亂髮。\n" + NOR;
+          if (per <= 9) str = MAG + "妳髮如枯\草，面目可憎。\n" + NOR;
+          if (per < 5)  str = MAG + "妳五官錯位，口歪眼斜。\n" + NOR;
         }
         if(obj->query("age")>=40)
         {
-          if(per >=25) str = MAG"妳氣質如蘭，風華絕代。\n"NOR;
-          if(per <25 && per >=20) str = MAG"妳華髮飄飄，青春永駐。\n"NOR;
-          if(per <20 && per >= 15) str = MAG"妳徐娘半老，風韻猶存。\n"NOR;
-          if(per <15 && per >=10)str = MAG"妳面色槁枯\，皺紋堆累。\n"NOR;
-          if(per <10)str = MAG"妳雞皮鷹爪，面目猙獰。\n"NOR;
+          if(per >=25) str = MAG + "妳氣質如蘭，風華絕代。\n" + NOR;
+          if(per <25 && per >=20) str = MAG + "妳華髮飄飄，青春永駐。\n" + NOR;
+          if(per <20 && per >= 15) str = MAG + "妳徐娘半老，風韻猶存。\n" + NOR;
+          if(per <15 && per >=10)str = MAG + "妳面色槁枯\，皺紋堆累。\n" + NOR;
+          if(per <10)str = MAG + "妳雞皮鷹爪，面目猙獰。\n" + NOR;
         }
       }
     }
@@ -497,39 +497,39 @@ string inventory_look(object obj, int flag)
     if( obj->query("equipped") )
     {
         if(obj->query("skill_type"))
-           str = "    "HIC"(手持)"NOR"武器 "HIC"- "+NOR+obj->short();
+           str = "    " + HIC + "(手持)" + NOR + "武器 " + HIC + "- "+NOR+obj->short();
         if(obj->query("armor_type")=="head")
-           str = "    "HIC"(頭部)"NOR"頭戴 "HIC"- "+NOR+obj->short();
+           str = "    " + HIC + "(頭部)" + NOR + "頭戴 " + HIC + "- "+NOR+obj->short();
         if(obj->query("armor_type")=="neck")
-           str = "    "HIC"(頸部)"NOR"頸戴 "HIC"- "+NOR+obj->short();
+           str = "    " + HIC + "(頸部)" + NOR + "頸戴 " + HIC + "- "+NOR+obj->short();
         if(obj->query("armor_type")=="cloth")
-         str = "    "HIC"(身體)"NOR"身穿 "HIC"- "+NOR+obj->short();
+         str = "    " + HIC + "(身體)" + NOR + "身穿 " + HIC + "- "+NOR+obj->short();
         if(obj->query("armor_type")=="armor")
-           str = "    "HIC"(身著)"NOR"外套 "HIC"- "+NOR+obj->short();
+           str = "    " + HIC + "(身著)" + NOR + "外套 " + HIC + "- "+NOR+obj->short();
         if(obj->query("armor_type")=="wrists")
-           str = "    "HIC"(手腕)"NOR"腕套 "HIC"- "+NOR+obj->short();
+           str = "    " + HIC + "(手腕)" + NOR + "腕套 " + HIC + "- "+NOR+obj->short();
         if(obj->query("armor_type")=="armbands")
-           str = "    "HIC"(雙臂)"NOR"臂套 "HIC"- "+NOR+obj->short();
+           str = "    " + HIC + "(雙臂)" + NOR + "臂套 " + HIC + "- "+NOR+obj->short();
         if(obj->query("armor_type")=="shield")
-           str = "    "HIC"(手上)"NOR"手握 "HIC"- "+NOR+obj->short();
+           str = "    " + HIC + "(手上)" + NOR + "手握 " + HIC + "- "+NOR+obj->short();
         if(obj->query("armor_type")=="hands")
-           str = "    "HIC"(雙掌)"NOR"手戴 "HIC"- "+NOR+obj->short();
+           str = "    " + HIC + "(雙掌)" + NOR + "手戴 " + HIC + "- "+NOR+obj->short();
         if(obj->query("armor_type")=="finger")
-           str = "    "HIC"(手指)"NOR"指戴 "HIC"- "+NOR+obj->short();
+           str = "    " + HIC + "(手指)" + NOR + "指戴 " + HIC + "- "+NOR+obj->short();
         if(obj->query("armor_type")=="finger2")
-           str = "    "HIC"(手指)"NOR"指戴 "HIC"- "+NOR+obj->short();
+           str = "    " + HIC + "(手指)" + NOR + "指戴 " + HIC + "- "+NOR+obj->short();
         if(obj->query("armor_type")=="waist")
-       str = "    "HIC"(腰部)"NOR"腰繫 "HIC"- "+NOR+obj->short();
+       str = "    " + HIC + "(腰部)" + NOR + "腰繫 " + HIC + "- "+NOR+obj->short();
         if(obj->query("armor_type")=="leggings")
-           str = "    "HIC"(雙腿)"NOR"腿套 "HIC"- "+NOR+obj->short();
+           str = "    " + HIC + "(雙腿)" + NOR + "腿套 " + HIC + "- "+NOR+obj->short();
         if(obj->query("armor_type")=="boots")
-           str = "    "HIC"(足部)"NOR"足蹬 "HIC"- "+NOR+obj->short();
+           str = "    " + HIC + "(足部)" + NOR + "足蹬 " + HIC + "- "+NOR+obj->short();
     if(obj->query("armor_type")=="cape")
-           str = "    "HIC"(背披)"NOR"披著 "HIC"- "+NOR+obj->short();
+           str = "    " + HIC + "(背披)" + NOR + "披著 " + HIC + "- "+NOR+obj->short();
     if(obj->query("armor_type")=="pants")
-           str = "    "HIC"(腰下)"NOR"穿著 "HIC"- "+NOR+obj->short();
+           str = "    " + HIC + "(腰下)" + NOR + "穿著 " + HIC + "- "+NOR+obj->short();
         }
-//               str = HIC "  - " NOR + str;
+//               str = HIC + "  - " + NOR + str;
        else
          if( !flag )
                 str = "    " + str;
@@ -538,7 +538,7 @@ string inventory_look(object obj, int flag)
         return str;
   /*
   if( obj->query("equipped") )
-    str = HIC "  ˇ" NOR + str;
+    str = HIC + "  ˇ" + NOR + str;
   else if( !flag )
     str = "    " + str;
   else

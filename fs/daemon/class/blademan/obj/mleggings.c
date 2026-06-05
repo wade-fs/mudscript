@@ -5,7 +5,7 @@ inherit LEGGINGS;
 object me=this_player();
 void create()
 {
-        set_name(HIB"魔龍脛甲"NOR,({"mdragon legging","legging"}));
+        set_name(HIB + "魔龍脛甲" + NOR,({"mdragon legging","legging"}));
         set_weight(2000);
         if( clonep() )
                 set_default_object(__FILE__);

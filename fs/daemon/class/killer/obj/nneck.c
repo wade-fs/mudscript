@@ -6,7 +6,7 @@ inherit NECK;
 
 void create()
 {
-  set_name(MAG"忍者護心石"NOR , ({"ninja gem","gem"}) );
+  set_name(MAG + "忍者護心石" + NOR , ({"ninja gem","gem"}) );
   set_weight(1000);
   if ( clonep() )
     set_default_object(__FILE__);

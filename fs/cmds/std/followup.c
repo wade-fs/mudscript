@@ -108,15 +108,15 @@ int	main( object me, string arg )
 	num--;
 	note = allocate_mapping(4);
 	note2 = (string)notes[num]["title"]; // 取出舊信的 title
-	if( note2[0..13] == HIG""HIC ) {
+	if( note2[0..13] == HIG + "" + HIC ) {
 		note2 = note2[14..<1];
-		note["title"]  = sprintf( HIG"Re:%3d"HIC" %s", num+1, note2 );
+		note["title"]  = sprintf( HIG + "Re:%3d" + HIC + " %s", num+1, note2 );
 	}
-	if( note2[0..9] == HIG"Re:" )
+	if( note2[0..9] == HIG + "Re:" )
 		note2 = note2[13..<1];
 	if( note2[0..6] == HIC ) {
 		note2 = note2[7..<1];
-		note["title"]  = sprintf( HIG"Re:%3d"HIC"%s", num+1, note2 );
+		note["title"]  = sprintf( HIG + "Re:%3d" + HIC + "%s", num+1, note2 );
 	}
 	note["author"] = me->query("name")+"("+me->query("id")+")";
 	note["time"]   = time();
@@ -129,7 +129,7 @@ int	main( object me, string arg )
 	else
 		old_letter = notes[num]["msg"];
 
-	note2 = replace_string( " 引述《" + notes[num]["author"] + "》之銘言:\n"CYN + old_letter, GRN, "" );
+	note2 = replace_string( " 引述《" + notes[num]["author"] + "》之銘言:\n" + CYN + old_letter, GRN, "" );
 	note2 = replace_string( note2, NOR, "" );
 	note2 = GRN + "※" + note2;
 	note1 = replace_string( note2, "\n", "\n: " );

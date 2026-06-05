@@ -30,10 +30,10 @@ int main( object me, string arg )
 
         if(obj==me) {
 		if( me->query("gender")=="男性" ) {
-			message_vision( HIM"$N迅速脫下褲子, 掏出熱呼呼的大肉棒, 熟練地打起槍來。\n"NOR, me );
+			message_vision( HIM + "$N迅速脫下褲子, 掏出熱呼呼的大肉棒, 熟練地打起槍來。\n" + NOR, me );
 		}
 		else {
-			message_vision( HIM"$N靦腆地脫下裙子, 拿出究極狂想按摩電擊棒, 開始熟練地抽插起來。\n"NOR, me );
+			message_vision( HIM + "$N靦腆地脫下裙子, 拿出究極狂想按摩電擊棒, 開始熟練地抽插起來。\n" + NOR, me );
 		}
 		me->add("gin",-140);
 		me->apply_condition("sex_poison",0);
@@ -41,9 +41,9 @@ int main( object me, string arg )
 		return 1;
 	}
 	else if( obj->query_temp("sex",1)) {
-                 write( HIM"你將"+obj->name()+"溫柔的摟住, 開始一段溫柔的纏綿。\n"NOR );
-                 tell_object( obj, HIM + me->name() + "將你摟住, 帶你踏上一個甜美刺激的旅程。\n"NOR );
-                 message_vision( HIW + obj->name() + "和" + me->name() + "正在親熱, 不要打攪。\n"NOR, me );
+                 write( HIM + "你將"+obj->name()+"溫柔的摟住, 開始一段溫柔的纏綿。\n" + NOR );
+                 tell_object( obj, HIM + me->name() + "將你摟住, 帶你踏上一個甜美刺激的旅程。\n" + NOR );
+                 message_vision( HIW + obj->name() + "和" + me->name() + "正在親熱, 不要打攪。\n" + NOR, me );
                  me->add("gin",-70);
                  obj->add("gin",-70);
                  me->apply_condition("sex_poison",0);
@@ -62,9 +62,9 @@ int main( object me, string arg )
                         + RANK_D->query_respect(obj) + "共赴雲雨﹗\n\n", me, obj
 );
                           me->set_temp("sex",1);
-                tell_object(obj, YEL "如果你願意和對方上床﹐請你也對" + me->name
-() + "("+(string)me->query("id")+")"+ "下一次 mklove 指令。\n" NOR);
-                write(YEL "由於對方是由玩家控制的人物﹐你必須等對方同意才能和他上床。\n" NOR);
+                tell_object(obj, YEL + "如果你願意和對方上床﹐請你也對" + me->name
+() + "("+(string)me->query("id")+")"+ "下一次 mklove 指令。\n" + NOR);
+                write(YEL + "由於對方是由玩家控制的人物﹐你必須等對方同意才能和他上床。\n" + NOR);
                 return 1;
         }
 

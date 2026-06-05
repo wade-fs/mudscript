@@ -25,10 +25,10 @@ int main(object me, string arg)
 
 	my = ob->query_entire_dbase();
 
-	printf(HIG+""+ob->name()+"目前的替身上限為"HIY"%d"HIG"個\n"HIC+
-                      ""+ob->name()+"已經用掉的替身上限為"HIR"%d"HIC"個剩下"HIM"%d"HIC"個能用\n"HIW+
-		      ""+ob->name()+"目前有"HIB"%d"HIW"個替身..\n"NOR+
-          HIC"目前擂台賽勝場數剩餘可換替身數為 %d 個。\n"NOR,
+	printf(HIG+""+ob->name()+"目前的替身上限為" + HIY + "%d" + HIG + "個\n" + HIC+
+                      ""+ob->name()+"已經用掉的替身上限為" + HIR + "%d" + HIC + "個剩下" + HIM + "%d" + HIC + "個能用\n" + HIW+
+		      ""+ob->name()+"目前有" + HIB + "%d" + HIW + "個替身..\n" + NOR+
+          HIC + "目前擂台賽勝場數剩餘可換替身數為 %d 個。\n" + NOR,
 		my["max_standby"],
 		my["t_standby"],
 		my["max_standby"] - my["t_standby"],

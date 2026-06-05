@@ -21,7 +21,7 @@ int function_improved(string key,int point)
 		this_player()->add("functions/"+key+"/level",1);
 		this_player()->set("functions/"+key+"/learned",0);
 		tell_object(this_player(),HIY);
-		tell_object(this_player(),"你的"+to_chinese(key)+"功\力更上一層。\n" NOR);
+		tell_object(this_player(),"你的"+to_chinese(key)+"功\力更上一層。\n" + NOR);
 		//以下加上紀錄function進步時間  以便日後bug查詢  by frequency
                 //id = geteuid(this_player());
                 if(!id=this_player()->query("old_id"))

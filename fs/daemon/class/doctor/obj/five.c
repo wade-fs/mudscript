@@ -16,8 +16,8 @@ int exert(object me,object target)
         return notify_fail("你的精或神不夠﹐不能解毒。\n");
         if(me!=target)
         message_vision(
-        HIW+"$N給$n服下幾帖藥﹐把$n的五毒治好了。\n" NOR,me,target);
-        else message_vision( HIW "$N給自己服下幾顆藥丸﹐把自己的五毒治好了。\n"NOR,me);
+        HIW+"$N給$n服下幾帖藥﹐把$n的五毒治好了。\n" + NOR,me,target);
+        else message_vision( HIW + "$N給自己服下幾顆藥丸﹐把自己的五毒治好了。\n" + NOR,me);
         target->apply_condition("five_poison",0);
         me->add("gin",-30);
         me->add("sen",-30);

@@ -47,13 +47,13 @@ int do_remove(object me, object ob)
         case "armor":
         case "surcoat":
         case "boots":
-          str = YEL "$N將$n"YEL"脫了下來。\n" NOR;
+          str = YEL + "$N將$n" + YEL + "脫了下來。\n" + NOR;
           break;
         case "bandage":
-          str = YEL "$N將$n"YEL"從傷口處拆了下來。\n" NOR;
+          str = YEL + "$N將$n" + YEL + "從傷口處拆了下來。\n" + NOR;
           break;
         default:
-          str = YEL "$N卸除$n"YEL"的裝備。\n" NOR;
+          str = YEL + "$N卸除$n" + YEL + "的裝備。\n" + NOR;
       }
     message_vision(str, me, ob);
     if( me->is_fighting() && userp(me) ) me->start_busy(1);

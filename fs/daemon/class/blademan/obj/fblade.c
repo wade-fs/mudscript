@@ -102,8 +102,8 @@ int do_blade()
     return notify_fail("戰鬥中不能使用。\n");
   if( me->query_temp("addblade") == 1 )
     return notify_fail("柳葉刀勁還在你身上遊走。\n");
-  message_vision(HIG"$N手握"+wname->name()+HIG"，突然一股無窮的力量流入體內。\n"NOR,me);
-  message_vision(HIG"$N覺得刀法提升了不少。\n"NOR,me);
+  message_vision(HIG + "$N手握"+wname->name()+HIG + "，突然一股無窮的力量流入體內。\n" + NOR,me);
+  message_vision(HIG + "$N覺得刀法提升了不少。\n" + NOR,me);
   me->add_temp("apply/blade",fun+20);
   me->set_temp("addblade",1);
   me->add("force",-500);
@@ -120,7 +120,7 @@ int delblade(object me)
     fun = me->query("functions/addblade/level");
     me->delete_temp("addblade");
     me->add_temp("apply/blade",-(fun+20));
-    message_vision(HIW"$N覺得凝聚落葉的內勁消散了。\n"NOR,me);
+    message_vision(HIW + "$N覺得凝聚落葉的內勁消散了。\n" + NOR,me);
     if(fun<100) { function_improved("addblade",random(700)); }
   }
   return 1;
@@ -155,16 +155,16 @@ int do_hurt()
     return notify_fail("沒有敵人可以殺。\n");
   if( me->query_temp("hurtkee") == 1 )
     return notify_fail("你的刀還未吸附足夠的落葉，再等一下吧。\n");
-  message_vision(HIY"就在$N手中"+wname->name()+HIY"被敵人格擋下的同時時，刀上落葉緩緩飄落。\n"NOR,me);
+  message_vision(HIY + "就在$N手中"+wname->name()+HIY + "被敵人格擋下的同時時，刀上落葉緩緩飄落。\n" + NOR,me);
   for(j=0;j<i;j++) {
     if(!enemy[j]) continue;
     if( (fun*2)+20 > random(250) ) {
-      message_vision(HIG"落葉竟匯集內勁形成鋒銳暗器，往$N身上暴射而去。\n"NOR,enemy[j]);
+      message_vision(HIG + "落葉竟匯集內勁形成鋒銳暗器，往$N身上暴射而去。\n" + NOR,enemy[j]);
       enemy[j]->receive_damage("kee",(fun*12)+350,me);
 //      enemy[j]->add("kee",-((fun*12)+350));
       enemy[j]->apply_condition("bleeding",15);
       COMBAT_D->report_status(enemy[j]);
-    } else message_vision(HIW"只見$N起身一跳，驚險的在千萬葉片中閃過。\n"NOR,enemy[j]);
+    } else message_vision(HIW + "只見$N起身一跳，驚險的在千萬葉片中閃過。\n" + NOR,enemy[j]);
   }
   me->set_temp("hurtkee",1);
   me->add("force",-500);
@@ -223,16 +223,16 @@ int do_busy()
     return notify_fail("沒有敵人可以殺。\n");
   if( me->query_temp("addbusy") == 1 )
     return notify_fail("你的刀還未吸附足夠的落葉，再等一下吧。\n");
-  message_vision(HIY"就在$N手中"+wname->name()+HIY"被敵人格擋下的同時時，刀上落葉緩緩飄落。\n"NOR,me);
+  message_vision(HIY + "就在$N手中"+wname->name()+HIY + "被敵人格擋下的同時時，刀上落葉緩緩飄落。\n" + NOR,me);
   for(j=0;j<i;j++) {
     if(!enemy[j]) continue;
     if( (fun*2)+20 > random(250) ) {
       if( !enemy[j]->is_busy() ) {
-        message_vision(HIG"萬千落葉聚集了強大內勁，在$N身旁圍繞，封閉了$N的行動。\n"NOR,enemy[j]);
+        message_vision(HIG + "萬千落葉聚集了強大內勁，在$N身旁圍繞，封閉了$N的行動。\n" + NOR,enemy[j]);
         enemy[j]->start_busy(k);
         COMBAT_D->report_status(enemy[j]);
-      } else message_vision(HIW"只見$N怒吼一聲發勁抵擋，落葉頓時灰飛湮滅。\n"NOR,enemy[j]);
-    } else message_vision(HIW"只見$N怒吼一聲發勁抵擋，落葉頓時灰飛湮滅。\n"NOR,enemy[j]);
+      } else message_vision(HIW + "只見$N怒吼一聲發勁抵擋，落葉頓時灰飛湮滅。\n" + NOR,enemy[j]);
+    } else message_vision(HIW + "只見$N怒吼一聲發勁抵擋，落葉頓時灰飛湮滅。\n" + NOR,enemy[j]);
   }
   me->set_temp("addbusy",1);
   me->add("force",-500);
@@ -279,8 +279,8 @@ int do_heal()
     return notify_fail("戰鬥中不能使用。\n");
   if( me->query_temp("heal") == 1 )
     return notify_fail("你的刀還未吸附足夠的落葉，再等一下吧。\n");
-  message_vision(HIG"$N置身飄落的柳葉群中，吸取葉裡的生命之氣，百葉飛舞環繞，煞是好看。\n"NOR,me);
-  message_vision(HIC"$N吸收完葉靈之氣，覺得渾身舒暢無比，筋骨活絡了起來。\n"NOR,me);
+  message_vision(HIG + "$N置身飄落的柳葉群中，吸取葉裡的生命之氣，百葉飛舞環繞，煞是好看。\n" + NOR,me);
+  message_vision(HIC + "$N吸收完葉靈之氣，覺得渾身舒暢無比，筋骨活絡了起來。\n" + NOR,me);
   n = fun*15 + 200;
   me->receive_curing( "gin", n );
   me->receive_heal( "gin", n );
@@ -347,8 +347,8 @@ int do_enforce()
     return notify_fail("戰鬥中不能使用。\n");
   if( me->query_temp("addenforce") == 1 )
     return notify_fail("柳葉刀勁還在你身上遊走。\n");
-  message_vision(HIY"$N不斷地將內勁注入"+wname->name()+HIY"，落葉紛紛在空中舞動起來。\n"NOR,me);
-  message_vision(HIG"落葉完全吸收了$N的強大內勁，在"+wname->name()+HIG"上形成一股驚人刀氣。\n"NOR,me);
+  message_vision(HIY + "$N不斷地將內勁注入"+wname->name()+HIY + "，落葉紛紛在空中舞動起來。\n" + NOR,me);
+  message_vision(HIG + "落葉完全吸收了$N的強大內勁，在"+wname->name()+HIG + "上形成一股驚人刀氣。\n" + NOR,me);
   me->set_temp("oldenforce",me->query("force_factor"));
   me->set_temp("addenforce",1);
   me->set("force_factor",10+k);
@@ -368,7 +368,7 @@ int delenforce(object me)
     me->delete_temp("addenforce");
     me->set("force_factor",me->query_temp("oldenforce"));
     me->delete_temp("oldenforce");
-    message_vision(HIW"$N覺得凝聚落葉的內勁消散了。\n"NOR,me);
+    message_vision(HIW + "$N覺得凝聚落葉的內勁消散了。\n" + NOR,me);
     if(fun<100) { function_improved("enforceup",random(700)); }
   }
   return 1;
@@ -403,8 +403,8 @@ int do_power()
     return notify_fail("你已經使用增強術了。\n");
   if( me->query_temp("powerup") == 1 )
     return notify_fail("柳葉刀勁還在你身上遊走。\n");
-  message_vision(HIG"$N不斷地將內勁注入"+wname->name()+HIG"，落葉紛紛在空中舞動起來。\n"NOR,me);
-  message_vision(HIC"$N的殺氣催動落葉在身旁急速盤旋，彷彿隨時會狂暴起來。\n"NOR,me);
+  message_vision(HIG + "$N不斷地將內勁注入"+wname->name()+HIG + "，落葉紛紛在空中舞動起來。\n" + NOR,me);
+  message_vision(HIC + "$N的殺氣催動落葉在身旁急速盤旋，彷彿隨時會狂暴起來。\n" + NOR,me);
   ob->set("nodrop",1);
   me->apply_condition("mkpowerup",k);
   me->add_temp("apply/dodge",-20);
@@ -454,8 +454,8 @@ int do_basic()
     return notify_fail("你身上還留著柳葉刀勁。\n");
   if( me->query_temp("setgift-mk/on")==1 )
     return notify_fail("你身上還留著柳葉刀勁。\n");
-  message_vision(HIY"$N不斷地將內勁注入"+wname->name()+HIY"，落葉紛紛在空中舞動起來。\n"NOR,me);
-  message_vision(HIG"落葉飄下撞擊$N的周身大穴，使得$N筋骨一陣爆響。\n"NOR,me);
+  message_vision(HIY + "$N不斷地將內勁注入"+wname->name()+HIY + "，落葉紛紛在空中舞動起來。\n" + NOR,me);
+  message_vision(HIG + "落葉飄下撞擊$N的周身大穴，使得$N筋骨一陣爆響。\n" + NOR,me);
 /*
   me->set("setgift-mk",1);
   me->set("setgift/str",me->query_str());
@@ -516,8 +516,8 @@ int do_lose()
     return notify_fail("戰鬥中不能使用。\n");
   if( me->query_temp("losehurt") == 1 )
     return notify_fail("柳葉刀勁還在你身上遊走。\n");
-  message_vision(HIY"$N將全身內勁不斷地灌注於飄落的柳葉當中，落葉彷彿受到感召似的舞動起來。\n"NOR,me);
-  message_vision(HIC"落葉吸收完$N的強大內勁，立刻附著於$N身上，形成"HIR"『"HIG"刃葉刀鎧"HIR"』"HIC"。\n"NOR,me);
+  message_vision(HIY + "$N將全身內勁不斷地灌注於飄落的柳葉當中，落葉彷彿受到感召似的舞動起來。\n" + NOR,me);
+  message_vision(HIC + "落葉吸收完$N的強大內勁，立刻附著於$N身上，形成" + HIR + "『" + HIG + "刃葉刀鎧" + HIR + "』" + HIC + "。\n" + NOR,me);
   me->set_temp("losehurt",1);
   me->apply_condition("bloodcloth",10);
   me->add("force",-500);
@@ -535,7 +535,7 @@ int dellose(object me)
     fun = me->query("functions/losehurt/level");
     me->apply_condition("bloodcloth",0);
     me->delete_temp("losehurt");
-    message_vision(HIW"$N覺得凝聚落葉的內勁消散了。\n"NOR,me);
+    message_vision(HIW + "$N覺得凝聚落葉的內勁消散了。\n" + NOR,me);
     if(fun<100) { function_improved("losehurt",random(700)); }
   }
   return 1;
@@ -571,8 +571,8 @@ int do_bad()
     return notify_fail("你的潛能不足以用刀。\n");
   if( me->query_temp("badup") == 1 )
     return notify_fail("你的刀還未吸附足夠的落葉，再等一下吧。\n");
-  message_vision(HIY"就在$N手中"+wname->name()+HIY"被敵人格擋下的同時時，刀上落葉緩緩飄落。\n"NOR,me);
-  message_vision(HIR"只見千萬柳葉飄下，挾帶著強大內勁撞擊$n的兵器，發出『鏘』的一聲巨響。\n"NOR,me,target);
+  message_vision(HIY + "就在$N手中"+wname->name()+HIY + "被敵人格擋下的同時時，刀上落葉緩緩飄落。\n" + NOR,me);
+  message_vision(HIR + "只見千萬柳葉飄下，挾帶著強大內勁撞擊$n的兵器，發出『鏘』的一聲巨響。\n" + NOR,me,target);
   if( environment(me) == environment(target) ) {
     k=random(fun)+15;
 //加上兩個條件下，武器可以免於被損毀，擁有sharp值8以上的武器一定都有特別設計過的
@@ -582,10 +582,10 @@ int do_bad()
     if( k > 80 && obt->query("sharp") < 8 && (obt->query("material") != "blacksteel" || obt->query("material") != "crimsonsteel") )
     {
       obt->unequip();
-      message_vision(HIG"只見暗藏內勁的落葉劃破了$n的"+obt->query("name")+HIG"，斬為二段。\n"NOR,me,target);
+      message_vision(HIG + "只見暗藏內勁的落葉劃破了$n的"+obt->query("name")+HIG + "，斬為二段。\n" + NOR,me,target);
       if( !obt->query("bad"))
       {
-        obt->set("name", "("HIR"斬毀"NOR")"+obt->query("name"));
+        obt->set("name", "(" + HIR + "斬毀" + NOR + ")"+obt->query("name"));
         obt->set("bad",1);
       }
       obt->set("value",1);
@@ -594,10 +594,10 @@ int do_bad()
       target->rest_action();
     } else if( obt->query("sharp") < 8 && (obt->query("material") != "blacksteel" || obt->query("material") != "crimsonsteel") ) {
       obt->unequip();
-      message_vision(HIG"只見暗藏內勁的落葉紛紛劃過$n的"+obt->query("name")+HIG"，造成一道道刮痕。\n"NOR,me,target);
+      message_vision(HIG + "只見暗藏內勁的落葉紛紛劃過$n的"+obt->query("name")+HIG + "，造成一道道刮痕。\n" + NOR,me,target);
       if( !obt->query("bad"))
       {
-        obt->set("name", "("HIR"刮損"NOR")"+obt->query("name"));
+        obt->set("name", "(" + HIR + "刮損" + NOR + ")"+obt->query("name"));
         obt->set("bad",1);
       }
       if( obt->query("weapon_prop/damage") >= 15 )
@@ -610,7 +610,7 @@ int do_bad()
         obt->move(environment(target));
         target->rest_action();
       }
-    } else message_vision(HIW"只見落葉與$n的"+obt->query("name")+HIW"相互碰撞冒出火花。\n"NOR,me,target);
+    } else message_vision(HIW + "只見落葉與$n的"+obt->query("name")+HIW + "相互碰撞冒出火花。\n" + NOR,me,target);
   }
   me->set_temp("badup",1);
   me->add("force",-500);
@@ -665,8 +665,8 @@ int do_die()
     return notify_fail("你的潛能不足以用刀。\n");
   if( me->query_temp("dieup") == 1 )
     return notify_fail("你正在使用。\n");
-  message_vision(HIY"$N四周的柳葉紛紛飄下聚於"+wname->name()+HIY"，看來定是猛招降臨的前奏。\n"NOR,me);
-  message_vision(HIM"$N聚集完所有的落葉，將落葉與內勁溶合，吐納丹田，似乎要給予$n瀕死一擊。\n\n"NOR,me,target);
+  message_vision(HIY + "$N四周的柳葉紛紛飄下聚於"+wname->name()+HIY + "，看來定是猛招降臨的前奏。\n" + NOR,me);
+  message_vision(HIM + "$N聚集完所有的落葉，將落葉與內勁溶合，吐納丹田，似乎要給予$n瀕死一擊。\n\n" + NOR,me,target);
   me->set_temp("dieup",1);
   call_out("deldie",7,me,target);
   return 1;
@@ -681,17 +681,17 @@ int deldie( object me, object target )
     me->delete_temp("dieup");
     if( environment(me) != environment(target) ) return 1;
     if( !me->is_fighting(target) ) return 1;
-    message_vision( HIY"\n$N仰天一聲清嘯道："HIW"『"HIC"柳"HIW"‧"HIC"葉"HIW"‧"HIC"霸"HIW"‧"HIC"刀"HIW"』"HIY"。\n\n", me );
-    message_vision( HIR"只見$N一口氣釋放所有的柳葉刀勁，並隨著落葉向$n撲去。\n\n", me, target );
+    message_vision( HIY + "\n$N仰天一聲清嘯道：" + HIW + "『" + HIC + "柳" + HIW + "‧" + HIC + "葉" + HIW + "‧" + HIC + "霸" + HIW + "‧" + HIC + "刀" + HIW + "』" + HIY + "。\n\n", me );
+    message_vision( HIR + "只見$N一口氣釋放所有的柳葉刀勁，並隨著落葉向$n撲去。\n\n", me, target );
 
     if( fun+15 > random(380) ) {
-      message_vision( HIM"$N被強大的柳葉刀勁爆體而過, 當場慘死。\n\n"NOR, target );
+      message_vision( HIM + "$N被強大的柳葉刀勁爆體而過, 當場慘死。\n\n" + NOR, target );
       target->set_temp( "last_damage_from", me );
       target->die();
     }
     else {
-      message_vision( HIW"$N見機運起最強氣勁, 試圖把柳葉刀勁給反擊回去。\n\n", target );
-      message_vision( HIR"刀勁被$N反彈回來, 擊中到$n身上, 頓時, 嚴重受傷失去六分之五的氣血。\n\n"NOR, target, me );
+      message_vision( HIW + "$N見機運起最強氣勁, 試圖把柳葉刀勁給反擊回去。\n\n", target );
+      message_vision( HIR + "刀勁被$N反彈回來, 擊中到$n身上, 頓時, 嚴重受傷失去六分之五的氣血。\n\n" + NOR, target, me );
       target->add_temp( "todie", 1 );
       me->start_busy(2);
       me->add( "kee", -(me->query("kee")*5/6) );

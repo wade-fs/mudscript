@@ -8,7 +8,7 @@ int update_condition(object me, int duration)
         if( !living(me) ) {
                 message("vision", me->name()+"似乎受不了慾火焚身的煎熬，精盡而亡了。\n", environment(me), me);
         } else if( duration > 5 ) {
-                tell_object(me, HIG"你覺得全身燥熱無比，慾火難耐。\n"NOR);
+                tell_object(me, HIG + "你覺得全身燥熱無比，慾火難耐。\n" + NOR);
                 message("vision", me->name()+"看起來似乎坐立難安，極度飢渴的樣子。\n", environment(me), me);
 		me->receive_damage("gin",20);
 		if( (int)me->query("water")==0 ) {
@@ -19,7 +19,7 @@ int update_condition(object me, int duration)
 		else
 			me->set("water", 0);
 	} else if( duration > 0 ) {
-                tell_object(me, HIG"你仍覺得口渴無比，不過慾火似乎漸漸消退了。\n"NOR);
+                tell_object(me, HIG + "你仍覺得口渴無比，不過慾火似乎漸漸消退了。\n" + NOR);
                 message("vision", me->name()+"全身青筋浮現，滿頭大汗。\n",
                         environment(me), me);
 		me->receive_damage("gin", 10);

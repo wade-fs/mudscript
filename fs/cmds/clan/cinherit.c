@@ -34,8 +34,8 @@ int main(object me, string str)
         me->set("clan/title", "幫派弟子");
 
 	CHANNEL_D->do_channel(me, "ct",
-		"\n\t我 -「"HIW+me->query("clan/title")+HIY"」鄭重的宣佈……\n\t"+
-		"將幫主之位，傳給"+HIC+ob->query("name")+HIY+"。\n"NOR);
+		"\n\t我 -「" + HIW+me->query("clan/title")+HIY + "」鄭重的宣佈……\n\t"+
+		"將幫主之位，傳給"+HIC+ob->query("name")+HIY+"。\n" + NOR);
         return 1;
 
 }

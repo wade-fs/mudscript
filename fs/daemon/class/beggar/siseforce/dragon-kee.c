@@ -1,5 +1,5 @@
 //dragon-kee.c
-//­°Às«l by Dico
+//sl by Dico
 
 #include <ansi.h>
  inherit F_FUNCTION;
@@ -11,13 +11,13 @@
   int skill,funlv,siseforce,temp;
 
   if(me->query("force")<50+(int)query_function("dragon-kee")*5)
-        return notify_fail("§Aªº¤º¤O¤£°÷¡AµLªk¹B°_­°Às«l®ð¡C\n");
-  if(me->query("family/family_name") != "¤¢À°")
-        return notify_fail("§A¤£¬O¤¢À°§Ì¤l¡AµLªk¾r¶¿­°Às«l®ð¡C\n");
+        return notify_fail("AOALkB_slC\n");
+  if(me->query("family/family_name") != "")
+        return notify_fail("AOÌ¤lALkrslC\n");
   if((string)me->query_skill_mapped("unarmed") != "dragonfist")
-        return notify_fail("­°Às«l®ð¥²¶·°t¦X­°Àsµ´¾Ç¤è¥iµo´§¡C\n");
+        return notify_fail("slð¥²¶tXsÇ¤ioC\n");
   if(me->query_temp("dragon-kee")==1)
-        return notify_fail("§A¤w¸g¦b¥Î¤F¡C\n");
+        return notify_fail("AwgbÎ¤FC\n");
 
   temp=me->query("functions/dragon-kee/level","dragon-kee");
   skill = temp;
@@ -29,8 +29,7 @@
   if(skill < 25)
   {
    message_vision(
-"               $N¹B°_¬~Åè¸g²Ä¤@¼h¥\\¤O"HIW"¡Ð¡×"HIR"ŸV¹C¡ÐÀs¡Ð«lŸ]"HIW"¡×¡Ð"NOR
-"               ¥u¨£¤@¹D¹CÀs¤§®ð±q$NªºÆF¥x¥ÞÂ«¥X¡A¨Ï$Nªº¤O¶q·½·½¤£µ´\n",me);
+"               $NB_~gÄ¤@h\\O" + HIW + "Ð¡" + HIR + "VCsÐ«l]" + HIW + "×¡" + NOR + "               u@DCsq$NFxÂ«XA$NOq\n",me);
          me->add_temp("apply/attack",skill);
         me->start_call_out( (: call_other, __FILE__, "remove_effect", me, skill :), skill);
          if( me->is_fighting() ) me->start_busy(3);
@@ -40,8 +39,7 @@
   } else if ( skill < 50 )
   {
   message_vision(
-"               $N¹B°_¬~Åè¸g²Ä¤G¼h¥\\¤O"HIW"¡Ð¡×"HIG"ŸW«ã¡ÐÀs¡Ð«lŸ\\"HIW"¡×¡Ð"NOR
-"               «ãÀs¤§®ð±q$Nªº«á³»¡B­·¦À¨â¥ÞÃz¥X¡A¨Ï$Nªº¤º«l¦³¦p¨gÀÜ¯ë¤@ªi±j¦ü¤@ªi\n",me);
+"               $NB_~gÄ¤Gh\\O" + HIW + "Ð¡" + HIG + "WsÐ«l" + HIW + "×¡" + NOR + "               sq$Ná³»BzXA$NlpgÜ¯@ij@i\n",me);
          me->add_temp("apply/attack",skill);
          me->add("force_factor",skill/10);
         me->start_call_out( (: call_other, __FILE__, "remove_effect", me, skill :), skill);
@@ -52,8 +50,7 @@
   } else if ( skill < 75 )
   { 
    message_vision(
-"                $N¹B°_¬~Åè¸g²Ä¤T¼h¥\\¤O"HIW"¡Ð¡×"HIY"ŸX¨g¡ÐÀs¡Ð«lŸ["HIW"¡×¡Ð"NOR
-"                $N¥uÄ±¥þ¨­¤º¤O¹C¨«¨³³t¡A¤@Àþ¶¡¡A¨gÀs¤§®ð±q¦Ê·|¡B­·©²¡B¤j´Õ¡B¯«¹D¥|¥Þ®g¥X¡A¨Ï§A¾Ö¦³±Æ¤s­Ë®üªº«l®ð\n",me);
+"                $NB_~gÄ¤Th\\O" + HIW + "Ð¡" + HIY + "XgsÐ«l[" + HIW + "×¡" + NOR + "                $NuÄ±OCtA@AgsqÊ·|BBjÕ¡BD|Þ®gXAÏ§AÖ¦Æ¤sË®l\n",me);
          me->add_temp("apply/attack",skill);
          me->add("force_factor",skill/10);
          me->add_temp("apply/defense",skill);
@@ -65,8 +62,7 @@
   } else if ( skill >= 100 )
   {
    message_vision(
-"                $N¹B°_¬~Åè¸g³Ì¤W­¼¥\\¤O"HIW"¡Ð¡×"HIB"ŸY­°¡ÐÀs¡Ð«lŸZ"HIW"¡×¡Ð"NOR
-"                $N¥H²¦¥Í¥\\¤O¥´³q¥þ¨­ªº©_¸g¤K¯ß¡A¥u¨£­°Às®ð«l±q¤Ñ¦Ó­°Å@¦í$N¥þ¨­­n¥Þ\n",me);
+"                $NB_~gÌ¤W\\O" + HIW + "Ð¡" + HIB + "YsÐ«lZ" + HIW + "×¡" + NOR + "                $NHÍ¥\\Oq_gKß¡AuslqÑ¦Ó­@$Nn\n",me);
          me->add_temp("apply/attack",skill);
          me->add("force_factor",skill/10);
          me->add_temp("apply/defense",skill);
@@ -82,7 +78,7 @@
  void remove_effect(object me, int skill)
  { 
   me->delete_temp("dragon-kee");
-  message_vision("$Nªº"HIC"­°Às«l"NOR"¶}©l±Y¼ìµA´²¤F¡C\n"NOR,me);
+  message_vision("$N" + HIC + "sl" + NOR + "}lYAFC\n" + NOR,me);
   if(skill<25)
   {
   me->add_temp("apply/attack",-skill);

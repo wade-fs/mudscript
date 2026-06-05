@@ -6,11 +6,11 @@ int update_condition(object me, int duration)
 {
 
         if( duration > 7 ) {
-                tell_object(me, NOR"你感到一股慾火從丹田發出，但並不在意。\n"NOR);
+                tell_object(me, NOR + "你感到一股慾火從丹田發出，但並不在意。\n" + NOR);
                 message("vision", me->name() + "看起來怪怪的。 \n",
                         environment(me), me);
         } else if( duration > 6 ) {
-                tell_object(me, NOR"你感到慾火正往全身擴散，連忙收攝心神。 \n"NOR);
+                tell_object(me, NOR + "你感到慾火正往全身擴散，連忙收攝心神。 \n" + NOR);
                 message("vision", me->name() + "似乎不太舒服。 \n",
                         environment(me), me);
         } else if( duration > 5 ) {

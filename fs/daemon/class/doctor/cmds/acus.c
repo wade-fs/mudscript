@@ -40,8 +40,8 @@ int main(object me,string arg)
     || (int)me->query("force") < 500)
     return notify_fail("喂！再多扎個幾針你的身體就快負荷不了唷！\n");
 
-  message_vision(HIC"$N拿起手中的針，施展"HBBLU+HIR"--="HIY"玄元針灸術"HIR"=--"NOR+HIC"，對準自己的穴道扎了進去...\n\n"NOR,me);
-  message_vision(HIG"$N瞬間感到能力倍增，似乎體內有股源源不斷的能量正欲爆發而出！！！\n\n"NOR,me);
+  message_vision(HIC + "$N拿起手中的針，施展" + HBBLU+HIR + "--=" + HIY + "玄元針灸術" + HIR + "=--" + NOR+HIC + "，對準自己的穴道扎了進去...\n\n" + NOR,me);
+  message_vision(HIG + "$N瞬間感到能力倍增，似乎體內有股源源不斷的能量正欲爆發而出！！！\n\n" + NOR,me);
   //me->start_call_out((:call_other, __FILE__, "do_acus", me:), lv);
   lv = (int)me->query("functions/acus/level");
   if(lv > 30)
@@ -68,7 +68,7 @@ void do_acus(object me)
 
   if(!me) return ;
   lv = (int)me->query("functions/acus/level");
-  message_vision(HIB"$N對自己的所施展的玄元針灸術慢慢的失效了...\n"NOR,me);
+  message_vision(HIB + "$N對自己的所施展的玄元針灸術慢慢的失效了...\n" + NOR,me);
   me->delete_temp("mpower");
   if( lv < 100) function_improved("acus",random(lv) * 5 +50);
   return ;
@@ -78,7 +78,7 @@ void do_acus(object me)
 int acus_fail(object me)
 {
   if(!me) return 1;   
-  message_vision(HIB"$N對自己的所施展的玄元針灸術慢慢的失效了...\n"NOR,me);
+  message_vision(HIB + "$N對自己的所施展的玄元針灸術慢慢的失效了...\n" + NOR,me);
   me->delete_temp("mpower");
   return 1;
 }
@@ -116,7 +116,7 @@ int abate(int r_time,object me)
   if(lv <= 25)
   {
 //    if((me->query("gin")-sub) < 500) return acus_fail(me);
-    message_vision(HIR"$N針灸的傷口突然隱隱作痛，$N的精力減少了...\n" NOR, me);
+    message_vision(HIR + "$N針灸的傷口突然隱隱作痛，$N的精力減少了...\n" + NOR, me);
     if(me->query("gin") > 0 && !me->query_temp("unconcious"))
       me->receive_damage("gin", sub);
     if(r_time<time)
@@ -138,7 +138,7 @@ int abate(int r_time,object me)
   if(lv >= 26 && lv <= 50)
   {
 //    if((me->query("kee")-sub) < 500) return acus_fail(me);
-    message_vision(HIR"$N針灸的傷口突然隱隱作痛，$N的氣血減少了...\n" NOR, me);
+    message_vision(HIR + "$N針灸的傷口突然隱隱作痛，$N的氣血減少了...\n" + NOR, me);
     if(me->query("kee") > 0 && !me->query_temp("unconcious"))
       me->receive_damage("kee", sub);
     if(r_time<time)
@@ -160,7 +160,7 @@ int abate(int r_time,object me)
   if(lv >= 51 && lv <= 75)
   {
 //    if((me->query("sen")-sub) < 500) return acus_fail(me);
-    message_vision(HIR"$N針灸的傷口突然隱隱作痛，$N的神瞑減少了...\n" NOR, me);
+    message_vision(HIR + "$N針灸的傷口突然隱隱作痛，$N的神瞑減少了...\n" + NOR, me);
     if(me->query("sen") > 0 && !me->query_temp("unconcious"))
       me->receive_damage("sen", sub);
     if(r_time<time)
@@ -180,7 +180,7 @@ int abate(int r_time,object me)
   if(lv >= 76)
   {
 //    if((me->query("force")-sub) < 500) return acus_fail(me);
-    message_vision(HIR"$N針灸的傷口突然隱隱作痛，$N的內力減少了...\n" NOR, me);
+    message_vision(HIR + "$N針灸的傷口突然隱隱作痛，$N的內力減少了...\n" + NOR, me);
     if(me->query("force") > 0)
       me->add("force", -sub);
     if(r_time<time)

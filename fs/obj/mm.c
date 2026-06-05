@@ -1,11 +1,11 @@
-// /u/a/acelan/eqs/m_weapon.c ¸U¥ÎªZ¾¹ written by AceLan.............97.11.10
-// Modify By AceLan 98.7.13 Åý¸U¥Î§ó¦³¬ÝÀY...ccc....
-// Modify By AceLan 98/11/1 ¼W¥[¤}ªº³¡¤À
+// /u/a/acelan/eqs/m_weapon.c UÎªZ written by AceLan.............97.11.10
+// Modify By AceLan 98.7.13 UÎ§ó¦³¬Y...ccc....
+// Modify By AceLan 98/11/1 W[}
 
 #include <ansi.h>
 #include <weapon.h>
 
-// ¤}¤Ó½ÆÂø¤F so ª½±µ inherit
+// }Ó½F so  inherit
 inherit "/std/weapon/m_bow.c";
 
 void create()
@@ -17,49 +17,49 @@ void create()
    set_weight(1000);
    if( clonep() )
       set_default_object(__FILE__);
-   // ¤U¬°·s¼W³¡¥÷...
+   // UsW...
    if( weapon_type == "whip")
    {
-      c_unit= "¬`";
-      wield_part= "¤â¤¤";
+      c_unit= "`";
+      wield_part= "â¤¤";
    }
    else if( weapon_type == "pen")
    {
-      c_unit= "°¦";
-      wield_part= "¤â¤¤";
+      c_unit= "";
+      wield_part= "â¤¤";
    }
    else if( weapon_type == "ring")
    {
-      c_unit= "¥u";
-      wield_part= "«ü¤W";
+      c_unit= "u";
+      wield_part= "W";
    }
    else if( weapon_type == "armband")
    {
-      c_unit= "­Ó";
-      wield_part= "Áu¤W";
+      c_unit= "";
+      wield_part= "uW";
    }
-   else                                      // ³Ñ¤Uªº¬° ¼C ¤M ¤P­º ©Ø¹Ð ®°
+   else                                      // Ñ¤U C M P Ø¹ 
    {
-      c_unit= "§â";
-      wield_part= "¤â¤¤";
+      c_unit= "";
+      wield_part= "â¤¤";
    }
 
-   set("long","³o"+c_unit+me->query("weapon/c_type")+"¬O¥H[1;37m"+ me->query("weapon/source1")+"[0m°t¦X[1;37m"+ me->query("weapon/source2")+"[0m©ÒÅ±¦¨ªº, ¥¦¥¿°{Ã{µÛ²§¥ú¡C");
-   set("unit", "§â");
-   set("value",0);                           // µL»ù¤§Ä_...ccc....
+   set("long","o"+c_unit+me->query("weapon/c_type")+"OH[1;37m"+ me->query("weapon/source1")+"[0mtX[1;37m"+ me->query("weapon/source2")+"[0mÅ±, {{Û²C");
+   set("unit", "");
+   set("value",0);                           // L_...ccc....
    set("material","steal");
 
-   // ¥[±j¤F¸Ë³ÆªZ¾¹¤Î¨ø¤UªZ¾¹ªº°T®§...
-   // «ü ®° µ§ «üÀô ÁuÀô
+   // [jFË³ÆªZÎ¨UZT...
+   //     u
    if( me->query("weapon/type") == "stabber" || me->query("weapon/type") == "unarmed")
    {
-      set("wield_msg", HIW"¥u¨£$N¤j³Ü¤@Án, ¤@¹D¥Õ¥ú¨³³t¥Ñ$NÃh¤¤Â«¥X, \n¦bªÅ¤¤½L®Ù¤T°é«á°±¦b$Nªº"+wield_part+"¤Æ¦¨¤@"+c_unit+"¿W¯Sªº"+ me->query("weapon/name")+"¡C\n"NOR);
-      set("unwield_msg", HIW"¬ðµM¶¡$Nªº¯Ý¸¡¤§¶¡§l¨¬¤F®ð, ´Â"+wield_part+"ªº$n»´»´¤@§j, \n¥u¨£$nºCºCªº¤Æ§@¤@\Á\\»´\·Ï, Áô¨S¦b$Nªº¯Ý¸¡¤§¶¡¡C\n"NOR);
+      set("wield_msg", HIW + "u$NjÜ¤@n, @DÕ¥t$NhÂ«X, \nbÅ¤LÙ¤Tá°±b$N"+wield_part+"Æ¦@"+c_unit+"WS"+ me->query("weapon/name")+"C\n" + NOR);
+      set("unwield_msg", HIW + "M$NÝ¸lF, "+wield_part+"$n@j, \nu$nCCÆ§@@\\\\, Sb$NÝ¸C\n" + NOR);
    }
-   else // if( c_unit == "§â" || c_unit == "¬`")// «ü ¼C ¤M ¤P­º ©Ø¹Ð...®°¤l¤£·|¥X²{
+   else // if( c_unit == "" || c_unit == "`")//  C M P Ø¹...l|X{
    {
-      set("wield_msg", HIW"$N»´»´ªº±N"+ me->query("weapon/name")+"¥Ñ­I«á©â¥X, ¥u¨£¤@¹DÄ£²´¦Ó¸Þ²§ªº¥ú¨~ª`¤J¤F$N¨­¤W¡C\n"NOR);
-      set("unwield_msg", HIW"$N±N¤â¤¤ªº$nÀH¤â©¹¤Ñ¤W¤@¥á, ¥u¨£¥¦¥©§®ªº¸¨¦^¤F­I«á¡C\n"NOR);
+      set("wield_msg", HIW + "$NN"+ me->query("weapon/name")+"Ñ­IX, u@DÄ£Ó¸Þ²~`JF$NWC\n" + NOR);
+      set("unwield_msg", HIW + "$NNâ¤¤$nHâ©¹Ñ¤W@, u^FIC\n" + NOR);
    }
 
    set("no_drop", 1);
@@ -76,10 +76,10 @@ int query_autoload()
 {
    return 1;
 }
-ÿ
+
 void init()
 {
-// ªZ¾¹¤£¬O¤}ªº¸Ü ´N±N add_action disable ±¼
+// ZO} NN add_action disable 
    if( this_player()->query("weapon/type") == "archery");
    {
       add_action("do_holdwith", "holdwith");
@@ -87,4 +87,4 @@ void init()
       add_action("do_checkbow", "checkbow");
    }
 }
-ÿ
+

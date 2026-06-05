@@ -18,17 +18,17 @@ void sp3(object me);
 
 string *parry_msg=
 ({
-  "$n身軀一引，指間長針平平搭在$N的武器上，一招『"HIM" 攔雀尾"NOR" 』將$N的武器曳了開去。\n",
-  "$n將身體靠向$N，一招『"HIC" 沾衣十八跌 "NOR"』，將$N黏在原地，使不開招式!\n",
-  "$n手中長針上下舞動，一招『"HIW" 飛瀑長虹"NOR" 』, 逼得$N不得不守住自身!\n",
-  "$n把手中的長針舞成圓環一招『"HIB" 雲迴圓月 "NOR" 』，將$N的攻勢盡數擋了下來。\n",
-  "$n以靜制動，手中長針平舉胸前，一招『"CYN" 如封似閉"NOR" 』，化解了$N的攻勢!\n",
+  "$n身軀一引，指間長針平平搭在$N的武器上，一招『" + HIM + " 攔雀尾" + NOR + " 』將$N的武器曳了開去。\n",
+  "$n將身體靠向$N，一招『" + HIC + " 沾衣十八跌 " + NOR + "』，將$N黏在原地，使不開招式!\n",
+  "$n手中長針上下舞動，一招『" + HIW + " 飛瀑長虹" + NOR + " 』, 逼得$N不得不守住自身!\n",
+  "$n把手中的長針舞成圓環一招『" + HIB + " 雲迴圓月 " + NOR + " 』，將$N的攻勢盡數擋了下來。\n",
+  "$n以靜制動，手中長針平舉胸前，一招『" + CYN + " 如封似閉" + NOR + " 』，化解了$N的攻勢!\n",
 });
 
 //unarmed, stabber_action
 
 mapping *action = ({
-([ "action":"$N一招『"HIW" 白蛇吐信"NOR" 』，下身稍曲，步履前跨，雙掌微分，手指尖往$n的胸前『"HIC" 鳩尾穴"NOR" 』用力戳了去!",
+([ "action":"$N一招『" + HIW + " 白蛇吐信" + NOR + " 』，下身稍曲，步履前跨，雙掌微分，手指尖往$n的胸前『" + HIC + " 鳩尾穴" + NOR + " 』用力戳了去!",
         "dodge": -20,
         "parry": -20,
         "damage": 30,
@@ -36,7 +36,7 @@ mapping *action = ({
         "damage_type":  "刺傷",
 ]),
 
-([ "action":"$N手掌一張，一式『"HIR" 惡虎撲羊"NOR" 』，縱身一跳，由上往下向$n的頭頂『"HIY" 百會穴"NOR" 』撲了去!",
+([ "action":"$N手掌一張，一式『" + HIR + " 惡虎撲羊" + NOR + " 』，縱身一跳，由上往下向$n的頭頂『" + HIY + " 百會穴" + NOR + " 』撲了去!",
         "dodge": -20,
         "parry": -20,
         "damage": 40,
@@ -44,35 +44,35 @@ mapping *action = ({
         "damage_type": "刺傷",
 ]),
 
-([ "action":"$N雙手一拉一按一壓，將$n的左手背『"MAG" 合谷穴"NOR" 』制住，往外迴轉一圈，用力地將$n拋了開去!",
+([ "action":"$N雙手一拉一按一壓，將$n的左手背『" + MAG + " 合谷穴" + NOR + " 』制住，往外迴轉一圈，用力地將$n拋了開去!",
         "dodge": -20,
         "parry": -20,
         "damage": 50,
         "force":  60,
         "damage_type": "摔傷",
 ]),
-([ "action" : "$N拗膝微蹲，倏地身軀一轉，繞到了$n的背後，中指向$n背後『"HIW" 命門穴"NOR"』戳了去!",
+([ "action" : "$N拗膝微蹲，倏地身軀一轉，繞到了$n的背後，中指向$n背後『" + HIW + " 命門穴" + NOR + "』戳了去!",
         "dodge": -20,
         "parry": -20,
         "damage": 60,
         "force":  70,
         "damage_type": "刺傷",
 ]),
-([ "action" : "$N身行突然地往後退了數步，$n跟進，忽然$N身行立停，手肘一曲，轉退為進，肘尖往$n腹部『"HIR" 氣血穴"NOR" 』急頂而去!",
+([ "action" : "$N身行突然地往後退了數步，$n跟進，忽然$N身行立停，手肘一曲，轉退為進，肘尖往$n腹部『" + HIR + " 氣血穴" + NOR + " 』急頂而去!",
         "dodge": -30,
         "parry": -30,
         "damage": 70,
         "force":  80,
         "damage_type": "刺傷",
 ]),
-([ "action":"$N呼嘯一聲，身法輕靈地往$n背後縱了去，雙手一打一戳，向$n的左邊『"HIY" 太陽穴"NOR" 』，後腦『"HIG" 風府穴"NOR" 』攻擊!",
+([ "action":"$N呼嘯一聲，身法輕靈地往$n背後縱了去，雙手一打一戳，向$n的左邊『" + HIY + " 太陽穴" + NOR + " 』，後腦『" + HIG + " 風府穴" + NOR + " 』攻擊!",
         "dodge": -30,
         "parry": -30,
         "damage": 80,
         "force":  90,
         "damage_type": "刺傷",
 ]),
-(["action":"$N一招『"HIM" 轉身六合"NOR" 』，身形輕輕左右搖擺\，雙手上下翻動，急速地向著$n拍打，或擒拿，往$n的全身各大要穴招呼!",
+(["action":"$N一招『" + HIM + " 轉身六合" + NOR + " 』，身形輕輕左右搖擺\，雙手上下翻動，急速地向著$n拍打，或擒拿，往$n的全身各大要穴招呼!",
         "dodge": -30,
         "parry": -30,
         "damage": 90,
@@ -82,7 +82,7 @@ mapping *action = ({
 
 //weapon_action
 
-([ "action":"$N左手一揮，右手一勾，一招『"HIG" 飛花落葉"NOR"  』，把手中$w舞向$n的雙臂『"HIG" 尺澤穴"NOR" 』!",
+([ "action":"$N左手一揮，右手一勾，一招『" + HIG + " 飛花落葉" + NOR + "  』，把手中$w舞向$n的雙臂『" + HIG + " 尺澤穴" + NOR + " 』!",
         "dodge": -35,
         "parry": -35,
         "damage": 90,
@@ -90,7 +90,7 @@ mapping *action = ({
         "damage_type":  "刺傷",
 ]),
 
-([ "action":"$N運使$w, 左右開弓, 綿綿不盡, 戳向$n的胸前『"HIM" 膻中穴"NOR" 』, 背後『"HIR" 腎內穴"NOR" 』",
+([ "action":"$N運使$w, 左右開弓, 綿綿不盡, 戳向$n的胸前『" + HIM + " 膻中穴" + NOR + " 』, 背後『" + HIR + " 腎內穴" + NOR + " 』",
         "dodge": -40,
         "parry": -40,
         "damage": 90,
@@ -99,7 +99,7 @@ mapping *action = ({
         "post_action": (: busyk :),
 ]),
 
-([ "action":"$N身軀一蹲，雙手掐$w，平平往前直刺，一招『"HIC" 海底翻花"NOR" 』蓄勢待發，迎向$n的腳底『"HIC" 湧泉穴 "NOR"』",
+([ "action":"$N身軀一蹲，雙手掐$w，平平往前直刺，一招『" + HIC + " 海底翻花" + NOR + " 』蓄勢待發，迎向$n的腳底『" + HIC + " 湧泉穴 " + NOR + "』",
         "dodge": -45,
         "parry": -45,
         "damage": 100,
@@ -107,14 +107,14 @@ mapping *action = ({
         "damage_type": "刺傷",
         "post_action": (: busyk :),
 ]),
-([ "action":"$N身法輕靈，一招『"HIY" 飛步拗鸞"NOR" 』，輕身一躍，$w刺向$n肩胛『"HIW" 雲門穴"NOR"』，肩頂『"WHT" 肩膠穴"NOR" 』",
+([ "action":"$N身法輕靈，一招『" + HIY + " 飛步拗鸞" + NOR + " 』，輕身一躍，$w刺向$n肩胛『" + HIW + " 雲門穴" + NOR + "』，肩頂『" + WHT + " 肩膠穴" + NOR + " 』",
         "dodge": -45,
         "parry": -45,
         "damage": 110,
         "force":  100,
         "damage_type": "刺傷",
         "post_action": (: busyk :),]),
-([ "action":"$N雙臂向外一張，一式『"HIC" 大鵬展翅"NOR" 』，緊跟一招『"HIM" 平沙落雁"NOR" 』，手中$w疾向$n的咽喉『"HIB" 天突穴"NOR" 』刺去!",
+([ "action":"$N雙臂向外一張，一式『" + HIC + " 大鵬展翅" + NOR + " 』，緊跟一招『" + HIM + " 平沙落雁" + NOR + " 』，手中$w疾向$n的咽喉『" + HIB + " 天突穴" + NOR + " 』刺去!",
         "dodge": -45,
         "parry": -45,
         "damage": 110,
@@ -122,7 +122,7 @@ mapping *action = ({
         "damage_type": "刺傷",
       "post_action": (: kforce :),
 ]),
-([ "action":"$N身形一轉，一式『"HIM" 轉身六合"NOR" 』，將手中$w舞成一股氣流，迴旋在$n四週，倏地一招『"HIY" 回望春月"NOR" 』，將$w刺向$n腦門『"WHT" 天柱穴"NOR" 』，『"HIC" 啞門穴"NOR" 』",
+([ "action":"$N身形一轉，一式『" + HIM + " 轉身六合" + NOR + " 』，將手中$w舞成一股氣流，迴旋在$n四週，倏地一招『" + HIY + " 回望春月" + NOR + " 』，將$w刺向$n腦門『" + WHT + " 天柱穴" + NOR + " 』，『" + HIC + " 啞門穴" + NOR + " 』",
         "dodge": -50,
         "parry": -50,
         "damage": 110,
@@ -131,7 +131,7 @@ mapping *action = ({
         "post_action": (: kforce :),
 ]),
 ([ "action":"$N大喝一聲『 絕命七針 』，鼓動全身內勁，手中$w舞成七點光點，分別
-向$n的『"HIR" 百會穴"NOR" 』，『"WHT" 印堂穴"NOR" 』，『"HIC" 天突穴"NOR" 』，『"HIM" 膻中穴"NOR" 』，『"HIY" 中脘穴"NOR" 』，『"MAG" 鳩尾穴"NOR" 』，『"HIR" 氣海穴"NOR" 』，急急突刺!",
+向$n的『"+HIR+" 百會穴"+NOR+" 』，『"+WHT+" 印堂穴"+NOR+" 』，『"+HIC+" 天突穴"+NOR+" 』，『"+HIM+" 膻中穴"+NOR+" 』，『"+HIY+" 中脘穴"+NOR+" 』，『"+MAG+" 鳩尾穴"+NOR+" 』，『"+HIR+" 氣海穴"+NOR+" 』，急急突刺!",
         "dodge": -50,
         "parry": -50,
         "damage": 110,
@@ -141,13 +141,13 @@ mapping *action = ({
 ]),
 //後三第一式
 ([ "action":
-HIC"        $N忽的狂舞手中的針，使出一式"HIW"ζ"HIY"七奇"HIR"祕針˙"HBBLU+HIC"月映寒道玄冰滅"NOR+HIW"ζ！！\n\n\n"NOR+
-HIC"                  $N聚氣針尖，使其散發出幽藍色的光芒，旋即身影一閃，\n
+HIC + "        $N忽的狂舞手中的針，使出一式" + HIW + "ζ" + HIY + "七奇" + HIR + "祕針˙" + HBBLU + HIC + "月映寒道玄冰滅" + NOR + HIW + "ζ！！\n\n\n" + NOR +
+HIC + "                  $N聚氣針尖，使其散發出幽藍色的光芒，旋即身影一閃，\n
           形移到敵的面前三步處，隨又分身影化三，忽現一道寒芒向敵撲去，光芒過穿體\n
-而過，使得敵身上"NOR"『"HIW"手太陰肺經"NOR"』，『"HIG"足太陰脾經"NOR"』，『"HIC"手少陰心經"NOR"』，『"HIR"足少陰腎經"NOR"』，『"HIB"手厥陰心\n
-          包經"NOR"』，『"HIM"足厥陰肝經』"HIC"，六大陰經之個要穴血花斑斑，敵陰經脈受創，剎時感\n
+而過，使得敵身上" + NOR + "『" + HIW + "手太陰肺經" + NOR + "』，『" + HIG + "足太陰脾經" + NOR + "』，『" + HIC + "手少陰心經" + NOR + "』，『" + HIR + "足少陰腎經" + NOR + "』，『" + HIB + "手厥陰心\n
+          包經" + NOR + "』，『" + HIM + "足厥陰肝經』" + HIC + "，六大陰經之個要穴血花斑斑，敵陰經脈受創，剎時感\n
                     到一股寒意引出，迅速遍佈全身由如置身極圈中的寒滅！\n
-\n"NOR,
+\n" + NOR,
         "dodge": -50,
         "parry": -50,
         "damage": 110,
@@ -157,7 +157,7 @@ HIC"                  $N聚氣針尖，使其散發出幽藍色的光芒，旋�
 ]),
 //後三第二式，恐怖連擊
 ([ "action":
-"$N爆吼一聲，對$n連綿使出不絕之勢"HIW"ζ"HIY"七奇"HIR"祕針˙"HBRED+HIY"日照神州赤炎毀"NOR+HIW"ζ的極致連擊！！\n"NOR,
+"$N爆吼一聲，對$n連綿使出不絕之勢" + HIW + "ζ" + HIY + "七奇" + HIR + "祕針˙" + HBRED + HIY + "日照神州赤炎毀" + NOR + HIW + "ζ的極致連擊！！\n" + NOR,
         "dodge": -50,
         "parry": -50,
         "damage": 110,
@@ -183,7 +183,7 @@ void bleed(object me, object victim, object weapon, int damage)
     if (random(100) > 65 && !me->is_busy())
     {
       me->start_busy(1);
-      message_vision(HIR"$N使勁過度無法繼續發動攻擊!!\n"NOR,me);
+      message_vision(HIR + "$N使勁過度無法繼續發動攻擊!!\n" + NOR,me);
     }
   }
 }
@@ -193,7 +193,7 @@ void kforce(object me, object victim, object weapon, int damage)
   if (random(me->query("functions/break-kee/level")+100) > 70 && victim->query("force_factor") > 1
     && me->query("functions/break-kee/level") > 50 && me->query("force") > 50 && me->query("class")=="doctor")
   {
-    message_vision(HIY"$N運起破穴指頂級技巧打散$n體內的內勁!!\n"NOR,me,victim);
+    message_vision(HIY + "$N運起破穴指頂級技巧打散$n體內的內勁!!\n" + NOR,me,victim);
     if (victim->query("force_factor")>1) victim->add("force_factor",-1);
     if (victim->query("force") > 400) victim->add("force",-300);
     me->add("force",-50);
@@ -205,7 +205,7 @@ void busyk(object me, object victim, object weapon, int damage)
   if (random(me->query("functions/gold-needle/level")+100) > 75 && me->query_temp("bleed")!=1
     && me->query("functions/gold-needle/level") > 50 && me->query("force") > 50 && me->query("class")=="doctor")
   {
-    message_vision(HIC"$N運起金針封穴頂級技巧封阻$n的行動!!\n"NOR,me,victim);
+    message_vision(HIC + "$N運起金針封穴頂級技巧封阻$n的行動!!\n" + NOR,me,victim);
     victim->start_busy(1);
     me->add("force",-50);
   }
@@ -229,7 +229,7 @@ void sp1(object me,object victim, object weapon, int damage)
 
   if( wizardp(me) )
   {
-    tell_object(me,"sp1的傷害值現在為「"HIG+sklv+NOR"」\n");
+    tell_object(me,"sp1的傷害值現在為「" + HIG + sklv + NOR + "」\n");
   }
 
   if(!damage && 500 < random(1500)) return ;//被躲掉了，不一定要這樣寫 //補充敘述:蓄勢待發 但是卻被識破
@@ -250,43 +250,43 @@ void sp1(object me,object victim, object weapon, int damage)
     switch(i){
       case 1:
         message_vision("
-                  $N使出 --- "HBRED+HIW"◎ "HIY"赤 炎 六 絕 針 "HIW"◎"NOR" ---「"HIR"怒火燎原"NOR"」
-$N"HIR"漫步提腰，雙腳一橫，手中的針斜斜裡從而刺出，突化做一股熱浪直戳向$n的"HIG"『勞宮穴』"HIR"！\n"NOR,me,victim);
+                  $N使出 --- " + HBRED + " + " + HIW + "◎ " + HIY + "赤 炎 六 絕 針 " + HIW + "◎" + NOR + " ---「" + HIR + "怒火燎原" + NOR + "」
+$N" + HIR + "漫步提腰，雙腳一橫，手中的針斜斜裡從而刺出，突化做一股熱浪直戳向$n的" + HIG + "『勞宮穴』" + HIR + "！\n" + NOR,me,victim);
         break;
       case 2:
         message_vision("
-                  $N使出 --- "HBRED+HIW"◎ "HIY"赤 炎 六 絕 針 "HIW"◎"NOR" ---「"HIR"狂絕霸炎"NOR"」
-$N"HIR"雙手交叉，大喝一聲，右手挺針當頭直刺，針忽脫手幻為一道火藤猛捲向$n的"HIC"『膻中穴』"HIR"！\n"NOR,me,victim);
+                  $N使出 --- " + HBRED + " + " + HIW + "◎ " + HIY + "赤 炎 六 絕 針 " + HIW + "◎" + NOR + " ---「" + HIR + "狂絕霸炎" + NOR + "」
+$N" + HIR + "雙手交叉，大喝一聲，右手挺針當頭直刺，針忽脫手幻為一道火藤猛捲向$n的" + HIC + "『膻中穴』" + HIR + "！\n" + NOR,me,victim);
         break;
       case 3:
         message_vision("
-                  $N使出 --- "HBRED+HIW"◎ "HIY"赤 炎 六 絕 針 "HIW"◎"NOR" ---「"HIR"狂心炙焰"NOR"」
-$N"HIR"身隨意轉，手隨心動，左手突發托住對方手腕，只見一陣針芒萬丈猛刺向$n的"HIW"『曲池穴』"HIR"！\n"NOR,me,victim);
+                  $N使出 --- " + HBRED + " + " + HIW + "◎ " + HIY + "赤 炎 六 絕 針 " + HIW + "◎" + NOR + " ---「" + HIR + "狂心炙焰" + NOR + "」
+$N" + HIR + "身隨意轉，手隨心動，左手突發托住對方手腕，只見一陣針芒萬丈猛刺向$n的" + HIW + "『曲池穴』" + HIR + "！\n" + NOR,me,victim);
         break;
       case 4:
         message_vision("
-                  $N使出 --- "HBRED+HIW"◎ "HIY"赤 炎 六 絕 針 "HIW"◎"NOR" ---「"HIR"熾烈雄火"NOR"」
-$N"HIR"側身而上，兩腳移步，將丹田之火貫於針尖，猛然向前直戳，針影直逼向$n的"HIM"『紫宮穴』"HIR"！\n"NOR,me,victim);
+                  $N使出 --- " + HBRED + " + " + HIW + "◎ " + HIY + "赤 炎 六 絕 針 " + HIW + "◎" + NOR + " ---「" + HIR + "熾烈雄火" + NOR + "」
+$N" + HIR + "側身而上，兩腳移步，將丹田之火貫於針尖，猛然向前直戳，針影直逼向$n的" + HIM + "『紫宮穴』" + HIR + "！\n" + NOR,me,victim);
         break;
       case 5:
         message_vision("
-                  $N使出 --- "HBRED+HIW"◎ "HIY"赤 炎 六 絕 針 "HIW"◎"NOR" ---「"HIR"赤血紅輪"NOR"」
-$N"HIR"步走輕靈，身形向後，手捏針訣亂旋，突而針舞成輪，突現火紅針網罩向$n的"HIY"『至陽穴』"HIR"！\n"NOR,me,victim);
+                  $N使出 --- " + HBRED + " + " + HIW + "◎ " + HIY + "赤 炎 六 絕 針 " + HIW + "◎" + NOR + " ---「" + HIR + "赤血紅輪" + NOR + "」
+$N" + HIR + "步走輕靈，身形向後，手捏針訣亂旋，突而針舞成輪，突現火紅針網罩向$n的" + HIY + "『至陽穴』" + HIR + "！\n" + NOR,me,victim);
         break;
       case 6:
         message_vision("
-                  $N使出 --- "HBRED+HIW"◎ "HIY"赤 炎 六 絕 針 "HIW"◎"NOR" ---「"HIR"玄炙火鳳"NOR"」
-$N"HIR"輕靈飄忽，雙手後撤，手中之針突幻化為火鳳翔空，口吐火浪，滾滾撲向$n的"HIB"『百會穴』"HIR"！\n\n"NOR,me,victim);
+                  $N使出 --- " + HBRED + " + " + HIW + "◎ " + HIY + "赤 炎 六 絕 針 " + HIW + "◎" + NOR + " ---「" + HIR + "玄炙火鳳" + NOR + "」
+$N" + HIR + "輕靈飄忽，雙手後撤，手中之針突幻化為火鳳翔空，口吐火浪，滾滾撲向$n的" + HIB + "『百會穴』" + HIR + "！\n\n" + NOR,me,victim);
         break;
     }
     if(50 > random(100)){
-      message_vision(HIY"$N"HIY"不幸中招，傷處開始流血!!!\n"NOR,victim);
+      message_vision(HIY + "$N" + HIY + "不幸中招，傷處開始流血!!!\n" + NOR,victim);
       victim->receive_damage("kee", sklv ,me);
       COMBAT_D->report_status(victim);
       flag+=1;
     }
     else{
-      message_vision(HIG"$N"HIG"一個閃身，躲掉了致命的一針!!!\n"NOR,victim);
+      message_vision(HIG + "$N" + HIG + "一個閃身，躲掉了致命的一針!!!\n" + NOR,victim);
     }
   }
   if(flag>=3){
@@ -298,16 +298,16 @@ $N"HIR"輕靈飄忽，雙手後撤，手中之針突幻化為火鳳翔空，口�
   if(me->query_temp("needle_up") != 2) { //邏輯: 當等於2與非等於2時 //當非等於2但等於1且80%內 閃過busy自己 //當非等於2且非等於1就busy自己
     if(!me->is_busy()) {
       if( me->query_temp("needle_up") == 1 && random(100) < 80) { //有解doctor_book後 80%機率不busy自己
-        message_vision(HIC"$N"HIC"使出了連擊技後仍然氣息綿長，根本看不出內力不濟的模樣，蓄勢待發！\n"NOR,me);
+        message_vision(HIC + "$N" + HIC + "使出了連擊技後仍然氣息綿長，根本看不出內力不濟的模樣，蓄勢待發！\n" + NOR,me);
       } 
       else { //me->query_temp("needle_up") 並未解doctor_book的謎 或者 20%機率busy自己時
         me->start_busy(1);
-        message_vision("$N"HIB"因為使出了連擊技，幾乎耗盡了體內的真氣，趕緊立定調息！！\n"NOR,me);
+        message_vision("$N" + HIB + "因為使出了連擊技，幾乎耗盡了體內的真氣，趕緊立定調息！！\n" + NOR,me);
       }
     }
   }
   else { //me->query_temp("needle_up") == 2 的完全免除busy的稀少獎勵(不開放給全體玩家使用 而作為特殊獎勵
-    message_vision(HIC"$N"HIC"使出了連擊技後仍然氣息綿長，根本看不出內力不濟的模樣，蓄勢待發！\n"NOR,me);
+    message_vision(HIC + "$N" + HIC + "使出了連擊技後仍然氣息綿長，根本看不出內力不濟的模樣，蓄勢待發！\n" + NOR,me);
   }
   COMBAT_D->report_status(me);
 }
@@ -318,7 +318,7 @@ void sp2(object me,object victim, object weapon, int damage)
 
   if( !me || !victim || !damage ) return ;
   if(me->query("force") <100)
-    return notify_fail(HIR"你使出了七奇秘針之第二式之後，由於竭盡內力，竟無力再使！\n"NOR);
+    return notify_fail(HIR + "你使出了七奇秘針之第二式之後，由於竭盡內力，竟無力再使！\n" + NOR);
   plus=me->query_skill("cure");
   if( userp(me) && me->query("family\family_name") == "銀針門" ) { //是銀針門的玩家就有連動 非玩家就保持原傷害
     hurt=250+plus;
@@ -335,16 +335,16 @@ void sp2(object me,object victim, object weapon, int damage)
   if(me->query_temp("needle_up") != 2) {
     if(!me->is_busy()) {
       if( me->query_temp("needle_up") == 1 && random(100) < 80) {
-        message_vision(HIC"$N"HIC"使出了七奇秘針之第二式後仍然氣息綿長，根本看不出內力不濟的模樣，蓄勢待發！\n"NOR,me);
+        message_vision(HIC + "$N" + HIC + "使出了七奇秘針之第二式後仍然氣息綿長，根本看不出內力不濟的模樣，蓄勢待發！\n" + NOR,me);
       }
       else {
         me->start_busy(random(2));
-        message_vision("$N"HIB"狂猛的使出七奇秘針之第二式之後，腦中一時血氣倒轉，幾欲暈厥！\n"NOR,me);
+        message_vision("$N" + HIB + "狂猛的使出七奇秘針之第二式之後，腦中一時血氣倒轉，幾欲暈厥！\n" + NOR,me);
       }
     }
   }
   else {
-    message_vision(HIC"$N"HIC"使出了七奇秘針之第二式後仍然氣息綿長，根本看不出內力不濟的模樣，蓄勢待發！\n"NOR,me);
+    message_vision(HIC + "$N" + HIC + "使出了七奇秘針之第二式後仍然氣息綿長，根本看不出內力不濟的模樣，蓄勢待發！\n" + NOR,me);
   }
 }
 
@@ -354,13 +354,13 @@ void sp3(object me)
   int force;
   string out;
   out=
-HIW"$N運起"HIW"ζ"HIY"七奇"HIR"祕針˙"HBCYN+HIW"星熾雲空極引破"NOR+HIW"ζ！！\n"NOR+
-HIW"$N抓準時機，聚全身力於針鋒，向著自身運功\行氣之"HIM"奇經八脈"HIW"刺去～～～\n
-                     "HIG"【～任  脈～】"HIR"            【～督  脈～】\n
-                           "HIY"【～陽  蹻～】"HIC"【～陰  蹻～】\n
-                     "HIW"【～陽  維～】"NOR+RED"            【～陰  維～】\n
-               "HIB"【～衝  脈～】"HIM"                        【～帶  脈～】"NOR"\n
-$N"HIR"一時感到體力回復了不少，又開始生龍活虎了起來！！！"NOR"\n"NOR;
+HIW + "$N運起" + HIW + "ζ" + HIY + "七奇" + HIR + "祕針˙" + HBCYN + HIW + "星熾雲空極引破" + NOR + HIW + "ζ！！\n" + NOR +
+HIW + "$N抓準時機，聚全身力於針鋒，向著自身運功\行氣之" + HIM + "奇經八脈" + HIW + "刺去～～～\n
+                     " + HIG + "【～任  脈～】" + HIR + "            【～督  脈～】\n
+                           " + HIY + "【～陽  蹻～】" + HIC + "【～陰  蹻～】\n
+                     " + HIW + "【～陽  維～】" + NOR + RED + "            【～陰  維～】\n
+               " + HIB + "【～衝  脈～】" + HIM + "                        【～帶  脈～】" + NOR + "\n
+$N" + HIR + "一時感到體力回復了不少，又開始生龍活虎了起來！！！" + NOR + "\n" + NOR;
 
   message_vision(out,me);
 

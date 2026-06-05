@@ -21,8 +21,8 @@ ctime(time()) ) );
         name1 = (string)me->query("name");
         name2 = (string)ob->query("name");
      tell_object(ob, HIW+name1+" 口念咒語, 突然間天上的一道月光射中了你,
-你感覺到全身充滿了力量.\n"NOR);
-        write(HIW"你喃喃念著咒語, 將 "+name2+" 恢復了全部的力量.\n"NOR);
+你感覺到全身充滿了力量.\n" + NOR);
+        write(HIW + "你喃喃念著咒語, 將 "+name2+" 恢復了全部的力量.\n" + NOR);
         max = ob -> query("max_gin");
         ob->set("eff_gin",max);
         ob->set("gin",max);

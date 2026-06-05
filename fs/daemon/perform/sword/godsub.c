@@ -28,7 +28,7 @@ int perform(object me, object target)
     if( skill >= sun_moon_force ) skill = sun_moon_force; //若技能等級超過心法等級時 以較低等級的心法為準
     if (skill > 100) skill = 100; //skill_lv_max=100
     me->set_temp("godsub",1);
-    message_vision(HIC"$N雙臂一舉，高喝 "NOR+HIW"【仙技奧義--劍魄分身】"NOR+HIC"，只見$N身上仙雲之氣籠罩全身。\n"NOR, me);
+    message_vision(HIC + "$N雙臂一舉，高喝 " + NOR+HIW + "【仙技奧義--劍魄分身】" + NOR+HIC + "，只見$N身上仙雲之氣籠罩全身。\n" + NOR, me);
     me->add("force", -1000);
     if (me->query("max_force")<3000)
         {
@@ -37,7 +37,7 @@ int perform(object me, object target)
         }
     seteuid(getuid()); //當系統的一個權限控管
     soldier = new("/u/b/blazakira/npc/sub.c"); //方便修正npc不消失的問題
-    message_vision(HIW "只見$N閉目凝神，口中似乎唸唸有詞，瞬間只見$N身上緩緩走出一道人影。\n" NOR,me); //化身成功
+    message_vision(HIW + "只見$N閉目凝神，口中似乎唸唸有詞，瞬間只見$N身上緩緩走出一道人影。\n" + NOR,me); //化身成功
     me->start_call_out( (: call_other, __FILE__, "remove_effect", me, skill:),skill); //時間計算以技能等級為主 max=100
     soldier->set_name(me->name()+"的分身", ({"sub"+me->query("id")}));
     soldier->set_temp("id",me->query("id"));

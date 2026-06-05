@@ -164,7 +164,7 @@ int do_join()
   if( who->query("class") )
     return notify_fail("你已經加入其他工會了。\n");
   who->set("class", "bandit");
-  message("system", HIW"杜殺仰天狂嘯：咱們盜賊又多了一個極惡之徒﹣"HIR+who->query("name")+HIW"\n大家要小心啦！哈哈哈哈！\n"NOR, users());
+  message("system", HIW + "杜殺仰天狂嘯：咱們盜賊又多了一個極惡之徒﹣" + HIR+who->query("name")+HIW + "\n大家要小心啦！哈哈哈哈！\n" + NOR, users());
 
   return 1;
 */
@@ -192,7 +192,7 @@ void die()
       if( j==7 || j==77 || j== 777 || j==1111 || j==55 || j==555 || j==1000 || j==4000 || j==3333 || j==2222 )
       {
         new("/open/sky/obj2/soil_stone")->move(environment(winner));
-        message_vision(HIM"\n從杜殺的身上掉下了一件奇怪的東西!!\n"NOR,winner);
+        message_vision(HIM + "\n從杜殺的身上掉下了一件奇怪的東西!!\n" + NOR,winner);
         write_file("/log/sky/obj2/soil_stone",sprintf("%s(%s) 讓杜殺掉下了地尊石於 %s\n",
         winner->name(1),winner->query("id"),ctime(time())));
       }
@@ -201,18 +201,18 @@ void die()
       if( j==5 || j==15 || j== 150 || j==1500 || j==10 || j==100 || j==1000 || j==4000 || j==6666 || j==7777 ) 
       {
         new("/open/sky/obj2/soil_stone")->move(environment(winner));
-        message_vision(HIM"\n從杜殺的身上掉下了一件奇怪的東西!!\n"NOR,winner);
+        message_vision(HIM + "\n從杜殺的身上掉下了一件奇怪的東西!!\n" + NOR,winner);
         write_file("/log/sky/obj2/soil_stone",sprintf("%s(%s) 讓杜殺掉下了地尊石於 %s\n",
         winner->name(1),winner->query("id"),ctime(time())));
       }
     }
   }
-  tell_object(users(),""RED"惡人谷"HIY"傳來撕天裂地的怒吼：\n
-                   "HIY"「"HIR"天魔雙刀血立濺，混殺一吼魂飛滅！"HIY"」\n
-                　唉～～想我「"HIR"血手"HIY"」"HIG"杜殺"HIY"闖蕩江湖三十餘年...\n
+  tell_object(users(),"" + RED + "惡人谷" + HIY + "傳來撕天裂地的怒吼：\n
+                   " + HIY + "「" + HIR + "天魔雙刀血立濺，混殺一吼魂飛滅！" + HIY + "」\n
+                　唉～～想我「" + HIR + "血手" + HIY + "」" + HIG + "杜殺" + HIY + "闖蕩江湖三十餘年...\n
                          一生所殺之人已不可計數...\n
-                  而今日卻失手命葬於"HIW+winner->query("family/family_name")+HIY"小賊－"+HIC+winner->query("name")+HIY+"之手...\n
-                     "RED"一世惡名"HIY"如今毀於一旦，真是可恨啊！\n"NOR);
+                  而今日卻失手命葬於" + HIW+winner->query("family/family_name")+HIY + "小賊－"+HIC+winner->query("name")+HIY+"之手...\n
+                     " + RED + "一世惡名" + HIY + "如今毀於一旦，真是可恨啊！\n" + NOR);
   ::die();
 }
 

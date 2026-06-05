@@ -47,6 +47,6 @@ mixed query_story_message(int step)
 string give_gift()
 {
         STORY_D->give_gift("/obj/gift/lingzhi", 1,
-                           HIM "\n「啪」的一聲一棵萬年靈芝掉到你面前。\n\n" NOR);
-        return HIM "聽說天庭遺落一棵萬年靈芝。\n" NOR;
+                           HIM + "\n「啪」的一聲一棵萬年靈芝掉到你面前。\n\n" + NOR);
+        return HIM + "聽說天庭遺落一棵萬年靈芝。\n" + NOR;
 }

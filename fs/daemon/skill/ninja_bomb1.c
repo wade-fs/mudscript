@@ -16,8 +16,8 @@ mapping *action = ({
 
 void bomb(object me, object victim,object weapon, int damage)
 {
-        message_vision(HIR"\n$N抓住$n身體之後瞬間爆炸, 炸的連碎片都不剩!!\n"NOR,me,victim);
-        message_vision(HIR"\n$N被炸的全身是傷, 嚇到一點殺意都沒了!!\n"NOR,victim);
+        message_vision(HIR + "\n$N抓住$n身體之後瞬間爆炸, 炸的連碎片都不剩!!\n" + NOR,me,victim);
+        message_vision(HIR + "\n$N被炸的全身是傷, 嚇到一點殺意都沒了!!\n" + NOR,victim);
         me->move("/open/killer/outsea/trashroom.c");
 	me->set("combat_exp",0);
 	damage=victim->query("kee")*0.9;

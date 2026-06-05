@@ -4,7 +4,7 @@ inherit BULLETIN_BOARD;
 
 void create()
 {
-        set_name(HIW"杏林交流版"NOR,({ "board" }) );
+        set_name(HIW + "杏林交流版" + NOR,({ "board" }) );
         set("board_id", "doctorr_b");
 set("location", "/open/doctor/room/2");
         set("long","\t這是一個讓醫者醫術交流的留言版\n");

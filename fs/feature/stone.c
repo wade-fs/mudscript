@@ -37,7 +37,7 @@ void main(object ppl,object mob)
     if(stone_ratio[i] + add_ratio > random(RATIO_BASE)){
       stone=new(stone_file[i]);
       where=environment(ppl);
-      message_vision(HIW"「叮」的一聲，一顆"+stone->name()+"從$N的身上掉了出來！！！\n"NOR,mob);
+      message_vision(HIW + "「叮」的一聲，一顆"+stone->name()+"從$N的身上掉了出來！！！\n" + NOR,mob);
       stone->move(where);
     }  
     return ;

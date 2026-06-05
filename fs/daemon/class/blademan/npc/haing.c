@@ -10,7 +10,7 @@ set("long", "
 天靈，晶盈的雙目被瞼水長睫所遮掩，眉目間一股靈秀之氣顯出智
 慧的不凡，身上僅著一件浴袍，玲隴的身材若隱若現。\n");
 set("title","魔刀首傳後三女弟子");
-set("nickname", HIC"清風雲裳"NOR);
+set("nickname", HIC + "清風雲裳" + NOR);
 set("age", 25);
 set("family/family_name","魔刀門");
 set("int", 35);

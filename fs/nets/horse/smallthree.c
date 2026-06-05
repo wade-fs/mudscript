@@ -7,9 +7,9 @@ inherit NPC;
 
 void create()
 {
-set_name(HIY"皮卡丘"NOR, ({ "pe-ca","ca" }) );
-set("long",""HIY"小二心愛的鑰匙圈，雖然看起來小小的並不中用，但牠生\n"
-           "氣起來可是很可怕的噢。似乎還能騎上去唷(ride)\n"NOR"");
+set_name(HIY + "皮卡丘" + NOR, ({ "pe-ca","ca" }) );
+set("long","" + HIY + "小二心愛的鑰匙圈，雖然看起來小小的並不中用，但牠生\n"
+           "氣起來可是很可怕的噢。似乎還能騎上去唷(ride)\n" + NOR + "");
 set("no_drop", 1);
 set("no_auc", 1);
 set("no_sell", 1);
@@ -64,9 +64,9 @@ int do_ascend()
         if ( me->query_temp("marks/ascend") )
                return notify_fail("你無法騎在別人的仙龍身上呀。\n");
 
-message_vision(""HIY"$N從身上取下了鑰匙圈往地下一丟，鑰匙圈上的"+this_object()->name()+"\n"
-               ""HIY"居然變的越來越大足足有兩個人高!!$N扶著"+this_object()->name()+""HIY"的\n"
-               "背鰭一翻便坐在"+this_object()->name()+""HIY"的頭上.。\n",me);
+message_vision("" + HIY + "$N從身上取下了鑰匙圈往地下一丟，鑰匙圈上的"+this_object()->name()+"\n"
+               "" + HIY + "居然變的越來越大足足有兩個人高!!$N扶著"+this_object()->name()+"" + HIY + "的\n"
+               "背鰭一翻便坐在"+this_object()->name()+"" + HIY + "的頭上.。\n",me);
         me->set_temp("marks/ascend",1);
         me->add_temp("apply/dodge",30);
         me->add_temp("apply/parry",30);
@@ -76,7 +76,7 @@ message_vision(""HIY"$N從身上取下了鑰匙圈往地下一丟，鑰匙圈上
         me->add_temp("apply/damage",30);
         me->add_temp("apply/armor", 30);
         this_object()->set_leader(me);
-        me->add_temp("apply/name",({ me->name()+ HIW"(正騎著"NOR+this_object()->name()+HIW")"NOR}));
+        me->add_temp("apply/name",({ me->name()+ HIW + "(正騎著" + NOR+this_object()->name()+HIW + ")" + NOR}));
         move(me);
         me->set_heart_beat(1);
         return 1;
@@ -90,8 +90,8 @@ int do_descend()
         me=this_player();
         if ( !me->query_temp("marks/ascend") )
                 return notify_fail("你沒在龍上耶。\n");
-message_vision("$N"HIY"拉一拉"+this_object()->name()+""HIY"的耳朵，"+this_object()->name()+""HIY"迅速的變回原來的鑰匙\n"
-               "圈掛在$N"HIY"的身旁。\n",me);
+message_vision("$N" + HIY + "拉一拉"+this_object()->name()+"" + HIY + "的耳朵，"+this_object()->name()+"" + HIY + "迅速的變回原來的鑰匙\n"
+               "圈掛在$N" + HIY + "的身旁。\n",me);
         me->delete_temp("marks/ascend");   
         me->delete_temp("apply/name",name);
         me->add_temp("apply/dodge",-30);

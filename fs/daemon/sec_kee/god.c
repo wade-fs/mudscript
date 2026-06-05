@@ -16,9 +16,9 @@ int kee_out(object me,object target)
             return 1; 
         }
         message_vision(
-          HIW "$N口中唸唸有詞!!護身靈氣浮動﹐"HIM"仙雲之氣"HIW"騰出﹗\n" NOR,me);
+          HIW + "$N口中唸唸有詞!!護身靈氣浮動﹐" + HIM + "仙雲之氣" + HIW + "騰出﹗\n" + NOR,me);
         message_vision(
-          HIY "$N的全身被仙雲之氣所覆，發出奇幻般的光芒!!\n" NOR,me,target);
+          HIY + "$N的全身被仙雲之氣所覆，發出奇幻般的光芒!!\n" + NOR,me,target);
 				if(((int)me->query("kee")) < ((int)me->query("max_kee")))
 				{
 								int max_cure = me->query("max_s_kee");

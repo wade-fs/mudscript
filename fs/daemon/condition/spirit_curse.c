@@ -19,8 +19,8 @@ int update_condition(object me, int duration)
     me->receive_wound ("kee", (int)(me->query("max_kee")/k),me );
 //    me->receive_damage("sen", (int)(me->query("max_sen")/k),me );
     me->receive_wound ("sen", (int)(me->query("max_sen")/k),me );
-    tell_object(me,"你受到了"HIR"惡靈纏身"NOR"頓時心神不寧導致內息紊亂，導致吐了一口鮮血。\n"NOR);
-    message("vision",HIR+me->name()+"受到"HIR"惡靈纏身"NOR"以至於內息走岔受到了不小的內傷。\n"NOR,environment(me),me);
+    tell_object(me,"你受到了" + HIR + "惡靈纏身" + NOR + "頓時心神不寧導致內息紊亂，導致吐了一口鮮血。\n" + NOR);
+    message("vision",HIR+me->name()+"受到" + HIR + "惡靈纏身" + NOR + "以至於內息走岔受到了不小的內傷。\n" + NOR,environment(me),me);
     COMBAT_D->report_status(me);
   }
   if( duration < 1 ) return 0;

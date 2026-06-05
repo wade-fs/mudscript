@@ -5,8 +5,8 @@ inherit ITEM;
 #include <command.h>
 void create()
 {
-set_name(HIG"狂想空間裝備"NOR,({"fs-eq"}));
-  set("long",HIY"這是整套的狂想空間裝備(open fs or close fs)。"NOR);
+set_name(HIG + "狂想空間裝備" + NOR,({"fs-eq"}));
+  set("long",HIY + "這是整套的狂想空間裝備(open fs or close fs)。" + NOR);
   set("unit","套");  
         set("no_auc",1);
 set("no_put",1);
@@ -25,7 +25,7 @@ void init()
 {       object me=this_player();
         object ob;
         ob=present("fs-eq",me);
-if(ob&&ob->name()==HIG"狂想空間裝備"NOR)
+if(ob&&ob->name()==HIG + "狂想空間裝備" + NOR)
 {
  add_action("do_open","open");
  add_action("do_close","close");
@@ -45,7 +45,7 @@ object ob;
   ob=present("fs-eq",me);
 if(ob->query_temp("fs")==1)
   return notify_fail("狂想空間裝備已分化了﹗\n");
-message_vision(HIY"\n$N口中唸唸有詞，狂想空間裝備由一套鎧化成各部份的裝備。\n\n"NOR,this_player());
+message_vision(HIY + "\n$N口中唸唸有詞，狂想空間裝備由一套鎧化成各部份的裝備。\n\n" + NOR,this_player());
   eq01 = new("/open/dancer/obj/fseq/mshield");
   eq02 = new("/open/dancer/obj/fseq/mboots");
   eq03 = new("/open/dancer/obj/fseq/marmband");
@@ -120,7 +120,7 @@ me->delete_temp("fs");
 ob->delete_temp("fs"); 
 if(me->query_temp("ref_shield")){
 me->delete_temp("ref_shield");}
-message_vision(HIC"\n$N唸起咒語，頓時身上狂想空間裝備被收縮成最原始的形態。\n\n"NOR,me);
+message_vision(HIC + "\n$N唸起咒語，頓時身上狂想空間裝備被收縮成最原始的形態。\n\n" + NOR,me);
 }
 return 1;
 }

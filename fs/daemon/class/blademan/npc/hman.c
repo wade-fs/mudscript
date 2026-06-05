@@ -67,14 +67,14 @@ if(random(100) > 30)
 {
 if(random(9) >= 5)
 {
-message_vision(HIY"心者會心一擊『心靈震爆』，頓時你狂吐鮮血！\n"NOR,me);
+message_vision(HIY + "心者會心一擊『心靈震爆』，頓時你狂吐鮮血！\n" + NOR,me);
 for(j=0;j < i;j++) {
 target[j]->start_busy(1);
 target[j]->add("kee",-1200); }
    }
    else
    {
-message_vision(HIC"心者仰天一笑，瞬時內息穩固。\n"NOR,me);
+message_vision(HIC + "心者仰天一笑，瞬時內息穩固。\n" + NOR,me);
 me->receive_curing("kee",1200);
 me->receive_heal("kee",1200);
     me->delete_busy();

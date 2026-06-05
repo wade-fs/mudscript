@@ -6,8 +6,8 @@ int update_condition(object me, int duration)
   if(duration==0) {
     if(poison(me))
     {
-      tell_object(me,HIC "你中了深宮奇毒﹐現在毒性開始發作﹗\n" NOR);
-      message("vision",HIC+me->name()+"眉心逐漸變黑﹐似乎毒性已經發作了﹗\n" NOR,environment(me),me);
+      tell_object(me,HIC + "你中了深宮奇毒﹐現在毒性開始發作﹗\n" + NOR);
+      message("vision",HIC+me->name()+"眉心逐漸變黑﹐似乎毒性已經發作了﹗\n" + NOR,environment(me),me);
 
     }
     me->delete("suck");
@@ -28,8 +28,8 @@ int update_condition(object me, int duration)
   me->receive_wound("sen",50+fun);
 
   me->apply_condition("dark_poison",duration-1);
-  tell_object(me,HIC "你中了深宮奇毒﹐現在毒性開始發作﹗\n" NOR);
-  message("vision",HIC+me->name()+"眉心逐漸變黑﹐似乎毒性已經發作了﹗\n" NOR,environment(me),me);
+  tell_object(me,HIC + "你中了深宮奇毒﹐現在毒性開始發作﹗\n" + NOR);
+  message("vision",HIC+me->name()+"眉心逐漸變黑﹐似乎毒性已經發作了﹗\n" + NOR,environment(me),me);
   if( duration < 1 ) return 0;
   return 1;
 }

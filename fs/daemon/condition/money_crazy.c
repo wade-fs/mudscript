@@ -45,8 +45,8 @@ int update_condition(object me, int duration)
             default:
             j=random(k1)+1;
             }
-          tell_object(me,HIW"奇異的能量漸漸流遍你的全身，只感覺到你的"HIR"狂邪靈勁"HIW"正不斷的增強中。\n"NOR);
-          message("vision",HIW+me->name()+HIR"身上隱隱泛著絲絲的紅光，正不斷地提升著"HIW+me->name()+HIR"的勁力。\n"NOR,environment(me), me);
+          tell_object(me,HIW + "奇異的能量漸漸流遍你的全身，只感覺到你的" + HIR + "狂邪靈勁" + HIW + "正不斷的增強中。\n" + NOR);
+          message("vision",HIW+me->name()+HIR + "身上隱隱泛著絲絲的紅光，正不斷地提升著" + HIW+me->name()+HIR + "的勁力。\n" + NOR,environment(me), me);
           function_improved("money_crazy",j);
           me->apply_condition("money_crazy",duration-1);
           }else{

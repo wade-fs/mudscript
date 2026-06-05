@@ -8,7 +8,7 @@ void create()
 {
 	set_name("潘軍禪", ({ "master executioner", "executioner", "master" }) );
 	set("title", "水煙閣執法使");
-	set("nickname", HIC "書 劍 俠" NOR);
+	set("nickname", HIC + "書 劍 俠" + NOR);
 	set("gender", "男性");
 	set("age", 28);
 	set("long",

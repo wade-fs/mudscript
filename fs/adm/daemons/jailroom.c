@@ -6,7 +6,7 @@ inherit ROOM;
 
 void create()
 {
-        set("short", HIR"亂世監牢"NOR);
+        set("short", HIR + "亂世監牢" + NOR);
         set("long", @LONG
 犯了錯的玩家將在這裡服刑，如果要查詢還有多久出獄請type term。
 LONG
@@ -52,7 +52,7 @@ int valid_leave(object me, string dir)
 {
 //tell_object(me,me->query("out_jail_time") + dir + me->query("mud_age"));
         if( !wizardp(me) && dir=="up" && (me->query("out_jail_time") > me->query("mud_age")))
-                return notify_fail(HIR"你刑期未滿，慢慢熬吧！"NOR"\n");
+                return notify_fail(HIR + "你刑期未滿，慢慢熬吧！" + NOR + "\n");
         else {
                 if(me->query("tmp_title")) {
                         me->set("title", me->query("tmp_title"));

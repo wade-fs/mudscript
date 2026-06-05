@@ -28,29 +28,29 @@ if (!me->query("spells/thunder/level"))
         if(me->query_temp("con_thunder")==1)
         return notify_fail("你正在施法中\n");
 if(fun<=20) {
-        msg = CYN "$N向天空祈禱著：" NOR ;
-        msg += HIR "火～雷～爆！\n" NOR ;
-        msg += HIW "$N祭起一道閃電轟向$n。\n" NOR;
+        msg = CYN + "$N向天空祈禱著：" + NOR ;
+        msg += HIR + "火～雷～爆！\n" + NOR ;
+        msg += HIW + "$N祭起一道閃電轟向$n。\n" + NOR;
 k=fk*2;
 } else if(fun>=21&&fun<=40) {
-        msg = CYN "$N向天空祈禱著：" NOR ;
-        msg += HIG "幻～雷～爆！\n" NOR ;
-        msg += HIW "$N祭起一道閃電轟向$n。\n" NOR;
+        msg = CYN + "$N向天空祈禱著：" + NOR ;
+        msg += HIG + "幻～雷～爆！\n" + NOR ;
+        msg += HIW + "$N祭起一道閃電轟向$n。\n" + NOR;
 k=fk*3;
 } else if(fun>=41&&fun<=60) {
-        msg = CYN "$N向天空祈禱著：" NOR ;
-        msg += HIB "妖～雷～爆！\n" NOR ;
-        msg += HIW "$N祭起一道閃電轟向$n。\n" NOR;
+        msg = CYN + "$N向天空祈禱著：" + NOR ;
+        msg += HIB + "妖～雷～爆！\n" + NOR ;
+        msg += HIW + "$N祭起一道閃電轟向$n。\n" + NOR;
 k=fk*4;
 } else if(fun>=61&&fun<=80) {
-        msg = CYN "$N向天空祈禱著：" NOR ;
-        msg += HIC "天～雷～爆！\n" NOR ;
-        msg += HIW "$N祭起一道閃電轟向$n。\n" NOR;
+        msg = CYN + "$N向天空祈禱著：" + NOR ;
+        msg += HIC + "天～雷～爆！\n" + NOR ;
+        msg += HIW + "$N祭起一道閃電轟向$n。\n" + NOR;
 k=fk*5;
 } else if(fun>=81) {
-        msg = CYN "$N向天空祈禱著：" NOR ;
-        msg += HIY "怒～雷～狂～濤！\n" NOR ;
-        msg += HIW "$N祭起一道閃電轟向$n。\n" NOR;
+        msg = CYN + "$N向天空祈禱著：" + NOR ;
+        msg += HIY + "怒～雷～狂～濤！\n" + NOR ;
+        msg += HIW + "$N祭起一道閃電轟向$n。\n" + NOR;
 k=fk*6;
 }
     message_vision(msg, me, target);
@@ -68,7 +68,7 @@ fun=me->query("spells/thunder/level");
 if(me->is_fighting(target)) {
 if(80>random(100))
         {
-                msg = HIM "結果$p慘被$P閃電轟中，身體一片焦黑！\n" NOR;
+                msg = HIM + "結果$p慘被$P閃電轟中，身體一片焦黑！\n" + NOR;
 
 				if(me->query("class")!="dancer")
 				 {
@@ -82,7 +82,7 @@ if(80>random(100))
                        { spell_improved("thunder",random(700));}
        }
   else {
-                msg = CYN "可是被$p躲開了。\n" NOR;
+                msg = CYN + "可是被$p躲開了。\n" + NOR;
                        if ( fun < 100)
                        { spell_improved("thunder",random(700));}
         }

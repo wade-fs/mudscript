@@ -22,14 +22,14 @@ int main(object me, string arg)
 	if( me->save() ) {
 		if( env->query("valid_startroom") ) {
 			me->set( "startroom", base_name(env) );
-			write( HIW"當你下次連線進來時﹐將從此處進入狂想空間。\n"NOR );
+			write( HIW + "當你下次連線進來時﹐將從此處進入狂想空間。\n" + NOR );
 		}
 		else if( me->query("clan") )
 			if( base_name(env) == CLAN_D->clan_query( me->query("clan/id"), "home" ) ) {
 				me->set( "startroom", base_name(env) );
-				write( HIW"當你下次連線進來時﹐將從此處進入狂想空間。\n"NOR );
+				write( HIW + "當你下次連線進來時﹐將從此處進入狂想空間。\n" + NOR );
 			}
-		write( HIY"檔案儲存完畢。\n請記得以 save -1 或 save -2 備份檔案。\n"HIC"請隨時以 help news 來觀看狂想之任何最新異動。:)\n"NOR );
+		write( HIY + "檔案儲存完畢。\n請記得以 save -1 或 save -2 備份檔案。\n" + HIC + "請隨時以 help news 來觀看狂想之任何最新異動。:)\n" + NOR );
 	}
 	else return notify_fail( "\n\t存檔失敗...\n\n" );
 	if( me != link_ob )
@@ -72,7 +72,7 @@ int main(object me, string arg)
 	  if (!cp (src, dst))
 	    return notify_fail("無法備份您的資料檔.\n");
 	}
-	write (HIW"備份資料 ok.\n"NOR);
+	write (HIW + "備份資料 ok.\n" + NOR);
 	return 1;
 }
 

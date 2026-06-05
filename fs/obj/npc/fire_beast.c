@@ -10,7 +10,7 @@ string fight()
 	object *all = ob->query_enemy();
 	object target = all[random(sizeof(all))];
 	if( environment(ob) != environment(this_object()) ) return "";
-	message_vision("$N"HIR"召喚出雄雄的地獄之火﹐朝$n噴去﹗\n",
+	message_vision("$N" + HIR + "召喚出雄雄的地獄之火﹐朝$n噴去﹗\n",
 	this_object(),target);
 	if( random(query("power")) > random(target->query_skill("dodge")) )
 	{
@@ -20,11 +20,11 @@ string fight()
 		COMBAT_D->report_status(target);
 	}
 	else
-		message_vision(HIY"$N躲了開來﹐沒被火燄噴到。\n" NOR,target);
+		message_vision(HIY + "$N躲了開來﹐沒被火燄噴到。\n" + NOR,target);
 }
 void create()
 {
-	set_name(HIR "地獄火神" NOR,({"fire beast","beast"}));
+	set_name(HIR + "地獄火神" + NOR,({"fire beast","beast"}));
 	set("race","野獸");
 
 	set("combat_exp",10000);

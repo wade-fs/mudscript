@@ -28,13 +28,13 @@ if(target->is_busy())
     if(!me->query_temp("wave"))
 	{
  me->set_temp("wave",1);
-     message_vision(HIY"$N雙掌一錯,掌勢由散轉密,猛招前奏如山雨欲來....."NOR,me);
+     message_vision(HIY + "$N雙掌一錯,掌勢由散轉密,猛招前奏如山雨欲來....." + NOR,me);
      if(wave_lv<=25){
-	message_vision(HIR"$N欲使強招，身形微微一窒。\n"NOR,me);
+	message_vision(HIR + "$N欲使強招，身形微微一窒。\n" + NOR,me);
             me->start_busy(1);
             call_out("do_wave",14,target,me);
      } else if(wave_lv<=50){
-	message_vision(HIR"$N欲使強招，身形微微一窒。\n"NOR,me);
+	message_vision(HIR + "$N欲使強招，身形微微一窒。\n" + NOR,me);
             me->start_busy(1);
 	call_out("do_wave",10,target,me);
      } else if(wave_lv<=75) {
@@ -53,21 +53,21 @@ int do_wave(object victim,object me)
      int wave_lv;
      wave_lv=me->query("functions/wave/level");
      if(wave_lv<=25){
-	message_vision(HIW"$N如潛龍低嘯，奔龍波瀾出掌快絕如風!\n"NOR,me);
+	message_vision(HIW + "$N如潛龍低嘯，奔龍波瀾出掌快絕如風!\n" + NOR,me);
             COMBAT_D->do_attack(me, victim, me->query_temp("weapon"), TYPE_QUICK);
      } else if(wave_lv<=50){
-	message_vision(HIW"$N身似磐龍出谷，奔龍波瀾一掌快比一掌!!\n"NOR,me);
+	message_vision(HIW + "$N身似磐龍出谷，奔龍波瀾一掌快比一掌!!\n" + NOR,me);
             for(i=0;i<2;i++){
  	COMBAT_D->do_attack(me, victim, me->query_temp("weapon"), TYPE_QUICK);	
             }
      } else if(wave_lv<=75) {
-            message_vision(HIW"$N掌隨風行,奔龍波瀾如狂龍爆發,勢不可擋!!!\n"NOR,me);
+            message_vision(HIW + "$N掌隨風行,奔龍波瀾如狂龍爆發,勢不可擋!!!\n" + NOR,me);
 	for(i=0;i<3;i++)
 	{
            COMBAT_D->do_attack(me, victim, me->query_temp("weapon"), TYPE_QUICK);
             }
      } else {
-	message_vision(HIC"降龍秘義---奔---龍---波---瀾---!!!\n"NOR,me);
+	message_vision(HIC + "降龍秘義---奔---龍---波---瀾---!!!\n" + NOR,me);
 	for(i=0;i<4;i++){
             COMBAT_D->do_attack(me, victim, me->query_temp("weapon"), TYPE_QUICK);	
     	} 

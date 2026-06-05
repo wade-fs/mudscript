@@ -2,7 +2,7 @@ inherit ITEM;
 #include <ansi.h>
 void create()
 {
-	set_name(HIR "挑戰書" NOR,({"letter"}));
+	set_name(HIR + "挑戰書" + NOR,({"letter"}));
 	set("unit","封");
 	set("no_drop",1);
 	set("no_give",1);

@@ -24,31 +24,31 @@ int main(object me, string arg)
     if(!objectp(ob)) return notify_fail("你想要看診哪位病人啊？\n");
     if(!ob->is_character()) return notify_fail("你只能幫人看診好不好！\n");
     if(ob->is_corpse()) return notify_fail("現在才要幫他看診療...太遲了些吧？\n");
-    message_vision(HIW"$N抓著$n的手，聚精會神的為$n把把脈，開始看診了起來！\n"NOR,me, ob);
+    message_vision(HIW + "$N抓著$n的手，聚精會神的為$n把把脈，開始看診了起來！\n" + NOR,me, ob);
     if(ob->query_temp("over/right")&&ob->query_temp("over/left")) {
-        message_vision(HIC"原來$N雙手受傷，還好我這有藥膏，擦擦就沒事了!\n"NOR,ob);
+        message_vision(HIC + "原來$N雙手受傷，還好我這有藥膏，擦擦就沒事了!\n" + NOR,ob);
         ob->delete_temp("over/right");
         ob->delete_temp("over/left");
         ob->delete_temp("hand-all");
         } else if(ob->query_temp("over/r-eyes")&&ob->query_temp("over/l-eyes")) {
-        message_vision(HIC"原來$N雙目失明，還好我這有藥膏，擦擦就沒事了!\n"NOR,ob);
+        message_vision(HIC + "原來$N雙目失明，還好我這有藥膏，擦擦就沒事了!\n" + NOR,ob);
         ob->delete_temp("over/r-eyes");
         ob->delete_temp("over/l-eyes");
         ob->delete_temp("eyes-all");
         } else if(ob->query_temp("over/left")) {
-        message_vision(HIC"原來$N左手受傷，還好我這有藥膏，擦擦就沒事了!\n"NOR,ob);
+        message_vision(HIC + "原來$N左手受傷，還好我這有藥膏，擦擦就沒事了!\n" + NOR,ob);
         ob->delete_temp("over/left");
         } else if(ob->query_temp("over/right")) {
-        message_vision(HIC"原來$N右手受傷，還好我這有藥膏，擦擦就沒事了!\n"NOR,ob);
+        message_vision(HIC + "原來$N右手受傷，還好我這有藥膏，擦擦就沒事了!\n" + NOR,ob);
         ob->delete_temp("over/right");
         } else if(ob->query_temp("over/r-eyes")) {
-        message_vision(HIC"原來$N右眼失明，還好我這有藥膏，擦擦就沒事了!\n"NOR,ob);
+        message_vision(HIC + "原來$N右眼失明，還好我這有藥膏，擦擦就沒事了!\n" + NOR,ob);
         ob->delete_temp("over/r-eyes");
         } else if(ob->query_temp("over/l-eyes")) {
-        message_vision(HIC"原來$N左眼失明，還好我這有藥膏，擦擦就沒事了!\n"NOR,ob);
+        message_vision(HIC + "原來$N左眼失明，還好我這有藥膏，擦擦就沒事了!\n" + NOR,ob);
         ob->delete_temp("over/l-eyes");
         } else {
-        message_vision(HIW"$N身體很健健康康沒有生病!\n"NOR,ob);
+        message_vision(HIW + "$N身體很健健康康沒有生病!\n" + NOR,ob);
         }
     me->receive_damage("gin",500);
     me->receive_damage("sen",500);

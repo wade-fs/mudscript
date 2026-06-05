@@ -7,7 +7,7 @@ inherit ITEM;
 
 void create()
 {
-	set_name(HIG "美容丸" NOR, ({ "meili wan", "wan"}) );
+	set_name(HIG + "美容丸" + NOR, ({ "meili wan", "wan"}) );
 	set_weight(200);
 	if( clonep() )
 		set_default_object(__FILE__);
@@ -30,7 +30,8 @@ int do_eat(string arg)
 
         if (! id(arg))
                 return notify_fail("你要吃什麼？\n");
-        if( ! check_gift(this_player()))
+
+        if( ! check_gift(this_player()))
           return 1;
 
         me = this_player();
@@ -46,7 +47,7 @@ int do_eat(string arg)
                 tell_object(me, "不過你覺得好像沒什麼作用。\n");
         } else
         {
-                tell_object(me, HIR "你覺得似乎自己變美了一些。\n" NOR);
+                tell_object(me, HIR + "你覺得似乎自己變美了一些。\n" + NOR);
                 me->add("per", 1);
                 me->add("setgift/per",1);
         }

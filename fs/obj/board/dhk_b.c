@@ -2,7 +2,7 @@ inherit BULLETIN_BOARD;
 #include <ansi.h>
 void create()
 {
-set_name(HIC"司徒秘笈"NOR,({"board"}));
+set_name(HIC + "司徒秘笈" + NOR,({"board"}));
 set("location","/u/d/dhk/workroom");
 set("board_id","dhk");
 set("long","有事找dhk,請在此版上post,thx\n");

@@ -5,7 +5,7 @@ inherit ARMBANDS;
 object me=this_player();
 void create()
 {
-        set_name(HIB"魔龍臂甲"NOR,({"mdragon armband","armband"}) );
+        set_name(HIB + "魔龍臂甲" + NOR,({"mdragon armband","armband"}) );
         set_weight(1000);
         if( clonep() )
                 set_default_object(__FILE__);

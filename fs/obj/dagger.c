@@ -4,7 +4,7 @@ inherit DAGGER;
 
 void create()
 {
-        set_name(HIC "滅神匕首" NOR,({"god dagger"}));
+        set_name(HIC + "滅神匕首" + NOR,({"god dagger"}));
         set_weight(800);
         if( clonep() )
                 set_default_object(__FILE__);
@@ -82,11 +82,11 @@ int do_hurt(string arg)
 
   if ( me->is_fighting(target) || me->is_killing(target) )
   {
-   tell_object(me,HIG"雙手握住匕首，將自身的靈力灌入匕首之中。\n"NOR);
-   tell_object(me,HIG"只見匕首發出一道耀眼的光芒，一道銀光急射而出\n"NOR);
+   tell_object(me,HIG + "雙手握住匕首，將自身的靈力灌入匕首之中。\n" + NOR);
+   tell_object(me,HIG + "只見匕首發出一道耀眼的光芒，一道銀光急射而出\n" + NOR);
    if( random(100+sk) > random(target->query("force")/8) )
      {
-        tell_object(me,HIM"對手一不留神，被銀光射中，受到嚴重傷害\n" NOR);
+        tell_object(me,HIM + "對手一不留神，被銀光射中，受到嚴重傷害\n" + NOR);
         target->add("kee",-150);
         target->start_busy(2);
         me->add("atman",-50);
@@ -94,7 +94,7 @@ int do_hurt(string arg)
      }
    else
     {
-        tell_object(me,HIM"$N發現了你的行動，輕易的閃過去\n" NOR,target);
+        tell_object(me,HIM + "$N發現了你的行動，輕易的閃過去\n" + NOR,target);
         me->add("atman",-10);
         me->start_busy(1);
         return 1;

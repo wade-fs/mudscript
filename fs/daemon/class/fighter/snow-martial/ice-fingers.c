@@ -47,30 +47,30 @@ int perform(object me, object target)
       switch (i)
       {
         case 0:
-          message_vision(HIW"$N使出雪影幻指之「"NOR""CYN"雪影憧憧"HIW"」,漫天指影、無數寒光向$n狂飆而至。\n"NOR, me, target);
+          message_vision(HIW + "$N使出雪影幻指之「" + NOR + "" + CYN + "雪影憧憧" + HIW + "」,漫天指影、無數寒光向$n狂飆而至。\n" + NOR, me, target);
           break;
         case 1:
-          message_vision(HIW"$N使出雪影幻指之「"CYN"雪蒼漫漫"HIW"」,漫天掌勢、無數寒勁向$n狂襲而至。\n"NOR, me, target);
+          message_vision(HIW + "$N使出雪影幻指之「" + CYN + "雪蒼漫漫" + HIW + "」,漫天掌勢、無數寒勁向$n狂襲而至。\n" + NOR, me, target);
           break;
         case 2:
-          message_vision(HIW"$N使出雪影幻指之「"HIB"大雪漫天"HIW"」,渾厚寒勁、無盡掌影向$n狂攻而至。\n"NOR, me, target);
+          message_vision(HIW + "$N使出雪影幻指之「" + HIB + "大雪漫天" + HIW + "」,渾厚寒勁、無盡掌影向$n狂攻而至。\n" + NOR, me, target);
           break;
         case 3:
-          message_vision(HIW"$N使出雪影幻指之「"HIM"雪梅綻放"HIW"」,掌如梅花、凌厲寒勢向$n狂掃而至。\n"NOR, me, target);
+          message_vision(HIW + "$N使出雪影幻指之「" + HIM + "雪梅綻放" + HIW + "」,掌如梅花、凌厲寒勢向$n狂掃而至。\n" + NOR, me, target);
           break;
         case 4:
-          message_vision(HIW"$N使出雪幻奧義之「"RED"暴雪急襲"HIW"」,無窮掌影、無盡掌勢向$n狂擊而至。\n"NOR, me, target);
+          message_vision(HIW + "$N使出雪幻奧義之「" + RED + "暴雪急襲" + HIW + "」,無窮掌影、無盡掌勢向$n狂擊而至。\n" + NOR, me, target);
           break;
       }
 // 修正全數命中 by swy
-      message_vision(MAG"$n被$N的雪影幻指準確的命中要穴,$n身上己留下青紫色的指痕\n"NOR, me, target);
+      message_vision(MAG + "$n被$N的雪影幻指準確的命中要穴,$n身上己留下青紫色的指痕\n" + NOR, me, target);
       target->receive_damage("kee",hart,me);
       target->apply_condition("cold",random(15)+1);
       me->add("force",-40);
       COMBAT_D->report_status(target);
       hart = hart + (int)me->query("max_force")/100;
     }
-    message_vision(HIR"$N使出雪影幻指後!!內勁損耗過大，無法移動。\n"NOR,me);
+    message_vision(HIR + "$N使出雪影幻指後!!內勁損耗過大，無法移動。\n" + NOR,me);
     me->start_busy(1);
     COMBAT_D->report_status(target, 1);
 

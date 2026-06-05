@@ -40,7 +40,7 @@ int perform( object me )
 	if (me->query("max_s_kee") < 50) //因為使用伐毛洗髓會扣佛法最大值 故而限制最低條件
 		return notify_fail("你的佛法領悟不足，無法聚神使出伐毛洗髓！\n");
 	if( me->is_fighting() ) { me->start_busy(1); }
-	message_vision( RED"$N憑著高深的佛法修為融會貫通神足經上的經文，驅使體內內勁伐毛洗髓！\n"NOR, me ); 
+	message_vision( RED + "$N憑著高深的佛法修為融會貫通神足經上的經文，驅使體內內勁伐毛洗髓！\n" + NOR, me ); 
 	if( !me->query("env/潛能激發",1) ) {
 		me->add("force", -(j*100/fun) );
 		me->add("max_gin",500+fun*2); //讓人看得見技能的差異性
@@ -50,8 +50,8 @@ int perform( object me )
 		me->add("kee",j);
 		me->add("s_kee",-150); //增加與佛法的相關性
 		if(wizardp(me)) {
-			write(HBBLU+HIG"【巫師專用測試資料】目前 force 消耗為 "+(j*100/fun)+"\n"NOR,me); //測試資訊
-			write(HBBLU+HIG"【巫師專用測試資料】目前 kee 增加數值為 "+i+"\n"NOR,me); //測試
+			write(HBBLU+HIG + "【巫師專用測試資料】目前 force 消耗為 "+(j*100/fun)+"\n" + NOR,me); //測試資訊
+			write(HBBLU+HIG + "【巫師專用測試資料】目前 kee 增加數值為 "+i+"\n" + NOR,me); //測試
 		}
 	}
 	else {
@@ -64,8 +64,8 @@ int perform( object me )
 		me->add("kee",i);
 		me->add("max_s_kee",-1); //增加與佛法的相關性
 		if(wizardp(me)) {
-			write(HBBLU+HIG"【巫師專用測試資料】目前 force 消耗為 "+k+"\n"NOR,me); //測試
-			write(HBBLU+HIG"【巫師專用測試資料】目前 gin & sen 增加數值為 "+dhyana*10+" kee 增加數值為"+i+"\n"NOR,me); //測試
+			write(HBBLU+HIG + "【巫師專用測試資料】目前 force 消耗為 "+k+"\n" + NOR,me); //測試
+			write(HBBLU+HIG + "【巫師專用測試資料】目前 gin & sen 增加數值為 "+dhyana*10+" kee 增加數值為"+i+"\n" + NOR,me); //測試
 		}
 	}
 
@@ -87,7 +87,7 @@ void remove_effect( object me )
 		me->set("eff_gin",me->query("max_gin"));
 		me->set("eff_sen",me->query("max_sen"));
 		me->delete_temp("hpup");
-		tell_object( me, HIR"你體內的內勁漸漸恢復了。\n"NOR );
+		tell_object( me, HIR + "你體內的內勁漸漸恢復了。\n" + NOR );
 		if( fun < 100 ) {	me->function_improved( "vitality", random(fun)*2 + random(fun) ); }
 		me->delete_temp("bonze/hpup"); //刪除作為hp增加之暫存紀錄
 		return;

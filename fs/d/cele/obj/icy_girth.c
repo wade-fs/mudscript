@@ -7,7 +7,7 @@ inherit WAIST;
 
 void create()
 {
-	set_name( HIC "吹雪殘雲帶" NOR, ({ "icy girth", "girth" }) );
+	set_name( HIC + "吹雪殘雲帶" + NOR, ({ "icy girth", "girth" }) );
 	set_weight(600);
 	if( clonep() )
 		set_default_object(__FILE__);

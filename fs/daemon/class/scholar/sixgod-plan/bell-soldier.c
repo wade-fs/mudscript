@@ -35,7 +35,7 @@ int perform(object me, object target)
         if( me->query_temp("bellup"))
 			return notify_fail("軍心已經振奮了, 短時間內是無法再振奮軍心的。\n");
         message_vision(
-        HIY "$N熟知『六韜奇略』中領兵之道在於氣﹐提起心中好戰的意志!!\n" NOR,me);
+        HIY + "$N熟知『六韜奇略』中領兵之道在於氣﹐提起心中好戰的意志!!\n" + NOR,me);
         //me->add("bellicosity",50);
 		me->add("bellicosity",500);
         me->set_temp("bellup",1);

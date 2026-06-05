@@ -16,7 +16,7 @@ int exert(object me, object target)
 		return 1;
 	}
 	if( me->query_condition("mogi") ) {
-		tell_object(me, HIG"你身上的入滅之毒忽然發作,使內息受到影響無法運氣療傷\n"NOR);
+		tell_object(me, HIG + "你身上的入滅之毒忽然發作,使內息受到影響無法運氣療傷\n" + NOR);
 		return 1;
 	}
 	if( (int)me->query("force") < 50 ) {
@@ -30,7 +30,7 @@ int exert(object me, object target)
 */
         if(me->query("class") != "bandit")
         return notify_fail("只有惡人能用天魔金身療傷。\n");
-	write( HIW "你席地運起" + HIY "『天魔金身』" + HIW "中的療傷心法，一股邪惡的殺氣充滿全身，令你覺得舒服多了。\n" NOR);
+	write( HIW + "你席地運起" + HIY + "『天魔金身』" + HIW + "中的療傷心法，一股邪惡的殺氣充滿全身，令你覺得舒服多了。\n" + NOR);
 	message("vision",
 		me->name() + "運起天魔金身開始療傷，泛著金光的身上不停的冒出汗珠，不久，吐出一口瘀血，看起來好多了。\n",
 		environment(me), me);

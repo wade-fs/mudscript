@@ -6,7 +6,7 @@ inherit UNARMED;
 void create()
 {
 
-set_name(HIM"魔霸封神指"NOR,({ "Yuki-Fighter-kill","yuki"}) );
+set_name(HIM + "魔霸封神指" + NOR,({ "Yuki-Fighter-kill","yuki"}) );
    set_weight(3500);
    if( clonep() )
          set_default_object(__FILE__);
@@ -26,8 +26,8 @@ LONG);
      set("unit","對");
      set("value",0);
      set("material", "steel");
-     set("wield_msg", HIR"$N仰天狂笑裝備起$n，煞時紅光四射強大的肅殺之氣壟罩在四周\n"NOR);
-     set("unwield_msg", HIR"$N收起殺意慢慢的將$n脫下，周圍的氣勁也隨之消減\n"NOR);
+     set("wield_msg", HIR + "$N仰天狂笑裝備起$n，煞時紅光四射強大的肅殺之氣壟罩在四周\n" + NOR);
+     set("unwield_msg", HIR + "$N收起殺意慢慢的將$n脫下，周圍的氣勁也隨之消減\n" + NOR);
      set("no_sell",1);
      set("no_drop",1);
      set("no_auc",1);
@@ -77,7 +77,7 @@ int feed_dag(string arg)
 	return notify_fail("少年的。。。。給點時間消化，之前送入的內力！\n");
    this_object()->set("qktime",me->query("mud_age"));
 
-   message_vision(HIG"$N將內力源源不斷的送入"+this_object()->name()+"之中。\n"NOR,me);
+   message_vision(HIG + "$N將內力源源不斷的送入"+this_object()->name()+"之中。\n" + NOR,me);
    me->add("force",-limit_force);
 
 //這裡是檢查是否第一次鍛鍊這一把武器
@@ -105,8 +105,8 @@ int feed_dag(string arg)
 	me->add("dag/dark/lv",-1);
 	me->set("dag/dark/at",(me->query("dag/dark/lv")/2)+1);
      }
-     message_vision(HIC"$N手中的"+this_object()->name()+"發出神聖的光輝。\n"+
-		"看來威力更上一層樓了\n"NOR,me);
+     message_vision(HIC + "$N手中的"+this_object()->name()+"發出神聖的光輝。\n"+
+		"看來威力更上一層樓了\n" + NOR,me);
      me->set("dag/sun/lv",daglv);
      me->set("dag/sun/at",(daglv/2)+1);
      me->set("dag/sun/power",1);
@@ -147,18 +147,18 @@ int target_absorb(string str)
 		this_player()->start_busy(1);
 		return notify_fail("敵人仍然生命力旺盛 , 你無機可趁 !\n");
 	}
-	message_vision(HIM"$N揚起"+name()+HIM"殺氣凝聚於"+name()+"幻出紫氣\n"NOR,me);
+	message_vision(HIM + "$N揚起"+name()+HIM + "殺氣凝聚於"+name()+"幻出紫氣\n" + NOR,me);
 	exp1= ob->query("combat_exp");
 	//太弱小，不可以吸收
 	if ( exp1 < 50000)
                  {
-		message_vision(HIR"$N太弱小，不足以增強暗系力量\n"NOR,ob);
+		message_vision(HIR + "$N太弱小，不足以增強暗系力量\n" + NOR,ob);
 		return 1;
 	}
 	exp2=this_player()->query("combat_exp");
 	if( random(exp2) > random(exp1)/2 )
 	{
-	   message_vision(HIM"結果成功\的把$N吸收\n"NOR,ob);
+	   message_vision(HIM + "結果成功\的把$N吸收\n" + NOR,ob);
 	//這裡是檢查是否第一次鍛鍊這一把武器
 	//沒有的話，就為玩家座第一次的資料設定
 	   if (!me->query("dag/dark/lv"))
@@ -192,8 +192,8 @@ int target_absorb(string str)
                 }
 		me->set("dag/dark/at",(daglv/2) +1);
 		me->set("dag/dark/power",1);
-                         message_vision(HIM"$N手中的"+this_object()->name()+"發出紫色的光輝。\n"+
-		"看來威力更上一層樓了\n"NOR,me);
+                         message_vision(HIM + "$N手中的"+this_object()->name()+"發出紫色的光輝。\n"+
+		"看來威力更上一層樓了\n" + NOR,me);
 	        this_object()->delete("weapon_prop/damage");
 	          this_object()->set("weapon_prop/damage",this_player()->query("dag/dark/at"));
 		 me->add("max_force",-5);
@@ -205,7 +205,7 @@ int target_absorb(string str)
 	   this_player()->add("bellicosity",-5);
 	   return 1;
 	}
-	message_vision(HIB"結果$N在千鈞一髮之際 , 躲了開去\n"NOR,ob);
+	message_vision(HIB + "結果$N在千鈞一髮之際 , 躲了開去\n" + NOR,ob);
 	this_player()->add("bellicosity",-1);
 	return 1;      
 }
@@ -264,9 +264,9 @@ mixed hit_ob( object victim,object me)
 	  //基本上還可以根據匕首等級的不同，有不一樣的特攻
 	  //甚至連特攻的屬性都不一樣
 	  //或許連武器上都可以做自己決定要用的特攻魔法
-	  message_vision(this_object()->name()+HBCYN"一股震動隱隱感覺$N內功\造詣迅速幻化"NOR,user);
-	  message_vision("\n$N只覺眼前一亂本身的元氣已被"+this_object()->name()+"的強大能量吸盡"NOR,victim);
-  	 message_vision(HBCYN"\n轉眼之間強光入體化成強大的氣團罩著$N感覺元氣充足\n"NOR,user);
+	  message_vision(this_object()->name()+HBCYN + "一股震動隱隱感覺$N內功\造詣迅速幻化" + NOR,user);
+	  message_vision("\n$N只覺眼前一亂本身的元氣已被"+this_object()->name()+"的強大能量吸盡" + NOR,victim);
+  	 message_vision(HBCYN + "\n轉眼之間強光入體化成強大的氣團罩著$N感覺元氣充足\n" + NOR,user);
 	 victim->receive_damage("kee",random(sunlv*2),user);
 	                  COMBAT_D->report_status(victim, 0);
 		user->add("kee",random(sunlv/2));
@@ -276,9 +276,9 @@ mixed hit_ob( object victim,object me)
 	 }
 	 case 2:
 	 {
-    	  message_vision(HBMAG"被戰鬥的氣勁牽引突然光芒一現,幻化成九龍凌空於身！"NOR,user);
-	  message_vision(HBMAG"\n$N驚愕眼前的景象間九龍已經纏繞著由奇經八脈竄入體內!!"NOR,victim);
-                    message_vision(HBMAG"\n使得$N感到莫名的空虛而不知所以!!\n"NOR,victim);
+    	  message_vision(HBMAG + "被戰鬥的氣勁牽引突然光芒一現,幻化成九龍凌空於身！" + NOR,user);
+	  message_vision(HBMAG + "\n$N驚愕眼前的景象間九龍已經纏繞著由奇經八脈竄入體內!!" + NOR,victim);
+                    message_vision(HBMAG + "\n使得$N感到莫名的空虛而不知所以!!\n" + NOR,victim);
 	                 victim->add("sen",-random(darklv));
 		victim->add("gin",-random(darklv));
 	                 COMBAT_D->report_status(victim, 0);
@@ -287,7 +287,7 @@ mixed hit_ob( object victim,object me)
 	} // switch block
    }
    else
-      message_vision(HIW"$N巧妙的躲開"+this_object()->name()+"的攻擊\n"NOR,victim);
+      message_vision(HIW + "$N巧妙的躲開"+this_object()->name()+"的攻擊\n" + NOR,victim);
   }
 }
 

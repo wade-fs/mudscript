@@ -2,7 +2,7 @@ inherit ITEM;
 #include <ansi.h>
 void create()
 {
-    set_name(HIY "金之石" NOR,({"gold-stone"}));
+    set_name(HIY + "金之石" + NOR,({"gold-stone"}));
     set("long","一顆奇怪的石頭。\n");
     set("unit","顆");
     set("value",0);

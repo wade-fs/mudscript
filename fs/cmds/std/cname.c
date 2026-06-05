@@ -30,7 +30,7 @@ return notify_fail(" 你的存款不足,無法支付費用.\n");
 	me->set("name", arg );
 write("你花了"+CHINESE_D->cvalue(1000000)+"的代價改名為"+me->name()+"\n");
 //	me->add("bank/coin", -100000000);
-	tell_object(users(),HIW"【系統】"HIC+me->query("id")+HIW"由現在起改名為"HIG+me->name()+"。\n"NOR);
+	tell_object(users(),HIW + "【系統】" + HIC+me->query("id")+HIW + "由現在起改名為" + HIG+me->name()+"。\n" + NOR);
 	log_file("cname",sprintf("%s改名為%s於%s\n",
         me->query("id"),me->query("name"),ctime(time())));
 	return 1;

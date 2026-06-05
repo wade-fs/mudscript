@@ -30,7 +30,7 @@ skill=this_player()->query("functions/purple/level");
 
         me->set_temp("purple",1);
         message_vision(
-        HIC "$N運起渾天心法第五層的"MAG"紫星河"HIC"﹐臉色紫氣大盛!!全身湧出如星河般的內勁!!\n" NOR,me);
+        HIC + "$N運起渾天心法第五層的" + MAG + "紫星河" + HIC + "﹐臉色紫氣大盛!!全身湧出如星河般的內勁!!\n" + NOR,me);
 
         me->add_temp("apply/force", 5);
         me->add_temp("apply/move", 7);

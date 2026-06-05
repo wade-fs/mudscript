@@ -3,7 +3,7 @@ inherit EQUIP;
 #include <ansi.h>
 void create()
 {
-        set_name(HIY"祝"HIR"融"HIY"腰"HIR"帶"NOR, ({ "fire belt" ,"belt" }) );
+        set_name(HIY + "祝" + HIR + "融" + HIY + "腰" + HIR + "帶" + NOR, ({ "fire belt" ,"belt" }) );
         set_weight(300);
         set("no_sell",1);
         set("no_auc",1);

@@ -5,7 +5,7 @@ inherit BOOTS;
 object me=this_player();
 void create()
 {
-        set_name(HIB"魔龍皮靴" NOR,({"mdragon boots","boots"}) );
+        set_name(HIB + "魔龍皮靴" + NOR,({"mdragon boots","boots"}) );
         set_weight(2000);
         if ( clonep() )
                 set_default_object(__FILE__);

@@ -36,7 +36,7 @@ int do_store( object me, object obj )
 			continue;
 		env->set( "object/file" + i, base_name(obj) );
 		env->set( "object/amount" + i, amount );
-		message_vision( HIY"$N小心翼翼地將一" + obj->query("unit") + "$n"HIY"收藏起來。\n"NOR, me, obj );
+		message_vision( HIY + "$N小心翼翼地將一" + obj->query("unit") + "$n" + HIY + "收藏起來。\n" + NOR, me, obj );
 		destruct(obj);
 
 		k = keys(env->query("object"));

@@ -30,6 +30,6 @@ mixed query_story_message(int step)
 string give_gift()
 {
         STORY_D->give_gift("/obj/gift/hobowdan", 1,
-                           HIM "\n「啪」的一聲一片香噴噴的荷包蛋掉在你面前。\n\n" NOR);
+                           HIM + "\n「啪」的一聲一片香噴噴的荷包蛋掉在你面前。\n\n" + NOR);
         return "太白金星急道：啊～～我的蛋蛋！！";
 }

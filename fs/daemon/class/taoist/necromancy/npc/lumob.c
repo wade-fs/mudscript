@@ -51,7 +51,7 @@ void besummon(object who, object room)
 
         room2 = room;
 
-        message_vision(HIB"一陣清風吹過﹐走出一個身高十丈的$N。\n$N喝道﹕奉命差遣﹗\n"NOR, me);
+        message_vision(HIB + "一陣清風吹過﹐走出一個身高十丈的$N。\n$N喝道﹕奉命差遣﹗\n" + NOR, me);
         set("combat_exp",2500000);
         set("max_kee",2500);
         set("kee",2500);
@@ -59,13 +59,13 @@ void besummon(object who, object room)
         switch( who->query("bellicosity") )
         {
                 case 0..bell_small :
-                        message_vision(HIW"$N笑道：仙人有令，怎敢不從？\n"NOR, me);
+                        message_vision(HIW + "$N笑道：仙人有令，怎敢不從？\n" + NOR, me);
                         break;
                 case bell_small+1..bell_big : 
-                        message_vision("$N皺眉道：如此小事，也來差遣我﹗\n"NOR, me);
+                        message_vision("$N皺眉道：如此小事，也來差遣我﹗\n" + NOR, me);
                         break;
                 default :
-                        message_vision(HIB"$N怒喝：何方妖魔，膽敢妄遣天兵﹗\n", me);
+                        message_vision(HIB + "$N怒喝：何方妖魔，膽敢妄遣天兵﹗\n", me);
                         kill_ob (who);
                         set_leader (who);
                         return;
@@ -102,7 +102,7 @@ void leave()
 {
         object who;
 
-        message_vision(HIB"$N說道﹕末將奉法主召喚﹐現在已經完成護法任務﹐就此告辭﹗\n一陣清風吹過，$N的身形隨之不見了。\n"NOR, this_object() );
+        message_vision(HIB + "$N說道﹕末將奉法主召喚﹐現在已經完成護法任務﹐就此告辭﹗\n一陣清風吹過，$N的身形隨之不見了。\n" + NOR, this_object() );
 
         if( who = query_leader() )
                 who->add_temp ( "invocation", -INVCOST);
@@ -115,7 +115,7 @@ void unconcious()
 
         if( who = query_leader() )
                 who->add_temp ("invocation", -INVCOST);
-        message_vision (HIB"$N慘叫一聲啊！消失得無影無蹤。\n", this_object ());
+        message_vision (HIB + "$N慘叫一聲啊！消失得無影無蹤。\n", this_object ());
         destruct(this_object ());
 }
 
@@ -147,7 +147,7 @@ int special_att ()
                 return 0;
 
         victim = enemy[random(i)];
-        message_vision (HIR"只聽$N怒喝一聲" + HIW"「力劈華山」" + HIR "！！\n" +
+        message_vision (HIR + "只聽$N怒喝一聲" + HIW + "「力劈華山」" + HIR + "！！\n" +
                   "手中巨靈斧雷霆一般猛劈下來。\n", me);
 
         switch( random(2) ) {
@@ -161,13 +161,13 @@ int special_att ()
                 default :       damage = 400;   break;
                 }
 
-                message_vision ("$N不幸被一斧劈中，頓時全身血如泉湧。\n"NOR, victim);
+                message_vision ("$N不幸被一斧劈中，頓時全身血如泉湧。\n" + NOR, victim);
                 victim->apply_condition ("bleeding", random (i * i));
                 victim->receive_damage ("kee", damage, me);
                 COMBAT_D->report_status (victim, 0);
                 break;
         default :
-                message_vision ("只可惜離$N差了一點，劈到地上。轟的一聲巨響，地皮頓時裂了開來。\n"NOR, victim);
+                message_vision ("只可惜離$N差了一點，劈到地上。轟的一聲巨響，地皮頓時裂了開來。\n" + NOR, victim);
         }
         me->start_busy(1);
         return 1;

@@ -20,9 +20,9 @@ if(me->query("s_kee") < 20 )
  tell_object(me,"敵人已中雷虎，不能再用。\n");
  return 1; }
      message_vision(
-          HIY "$N的靈氣浮動﹐雷虎之氣騰出﹗\n" NOR,me);
+          HIY + "$N的靈氣浮動﹐雷虎之氣騰出﹗\n" + NOR,me);
        message_vision(
-          CYN "$n被雷虎之氣纏住﹐不能動彈。\n" NOR,me,target);
+          CYN + "$n被雷虎之氣纏住﹐不能動彈。\n" + NOR,me,target);
         target->start_busy(2);
         target->set_temp("tiger",1);
         target->apply_condition("tiger_out",me->query("max_s_kee")/20);

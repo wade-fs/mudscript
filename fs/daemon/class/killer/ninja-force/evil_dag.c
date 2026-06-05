@@ -44,7 +44,7 @@ mixed hit_ob( object me, int damage)
   {
     if(random(fun) > 70)
     {
-      message_vision(HIC"\n$N"HIC"透過兵器將殺氣轉成體力！\n"NOR,me); //沒有扣對手的任一數值 所以改寫敘述為自身相關 by blazakira
+      message_vision(HIC + "\n$N" + HIC + "透過兵器將殺氣轉成體力！\n" + NOR,me); //沒有扣對手的任一數值 所以改寫敘述為自身相關 by blazakira
       me->receive_curing("kee",h);
       me->receive_heal("kee",h);
       me->add("bellicosity", -50);

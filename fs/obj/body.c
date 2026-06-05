@@ -19,7 +19,7 @@ int do_return()
 	if(query("owner")!=this_player()->query("id"))
 		return 0;
 	message_vision(
-	HIB "$N的影子往$n身上走進去﹐$N和$n已經合為一體了。\n",this_player(),this_object());
+	HIB + "$N的影子往$n身上走進去﹐$N和$n已經合為一體了。\n",this_player(),this_object());
 	message_vision(NOR,this_player());
 	this_player()->set("name",this_object()->query("name"));
 	this_player()->delete("sen-out");

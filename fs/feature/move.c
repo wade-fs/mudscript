@@ -55,14 +55,14 @@ varargs int move(mixed dest, int silently)
         if( userp(this_object()) && this_object()->query_condition("force") > 0 )
         {
   message_vision(
-                HIW "$N停止練功\，並且站了起來。\n"NOR,this_object());
+                HIW + "$N停止練功\，並且站了起來。\n" + NOR,this_object());
 
           this_object()->clear_condition("force");
         }
         if( userp(this_object()) && this_object()->query_condition("dhyana") > 0 )
         {
   message_vision(
-                HIW "$N停止參悟佛法，並且站了起來。\n"NOR,this_object());
+                HIW + "$N停止參悟佛法，並且站了起來。\n" + NOR,this_object());
 
           this_object()->clear_condition("dhyana");
           if(present("prayer beads",this_object()))
@@ -71,7 +71,7 @@ varargs int move(mixed dest, int silently)
         if( userp(this_object()) && this_object()->query_temp("NorthForceInUse") )
         {
   message_vision(
-                HIW "$N停止吸取天地靈氣，並且站了起來。\n"NOR,this_object());
+                HIW + "$N停止吸取天地靈氣，並且站了起來。\n" + NOR,this_object());
 
           this_object()->delete_temp("NorthForceInUse");
         }

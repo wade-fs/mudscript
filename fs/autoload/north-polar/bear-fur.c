@@ -6,7 +6,7 @@ inherit PANTS;
 
 void create()
 {
-  set_name(HIW"北極熊皮"NOR,({"bear-fur","fur"}) );
+  set_name(HIW + "北極熊皮" + NOR,({"bear-fur","fur"}) );
   set_weight(3000);
   if( clonep() )
     set_default_object(__FILE__);
@@ -14,8 +14,8 @@ void create()
     set("unit","件");
     set("value", 1);
     set("long","北極熊身上的厚厚皮毛，可以抵抗外力衝擊。\n");
-    set("wear_msg", HIC"$N穿上$n"HIC"，雙腿肥肥的，真是滑稽到極點。\n"NOR );
-    set("unequip_msg", HIC"$N脫下了$n"HIC"，感覺稍微輕盈了些...\n"NOR );
+    set("wear_msg", HIC + "$N穿上$n" + HIC + "，雙腿肥肥的，真是滑稽到極點。\n" + NOR );
+    set("unequip_msg", HIC + "$N脫下了$n" + HIC + "，感覺稍微輕盈了些...\n" + NOR );
     set("no_put",1);
     set("no_drop",1);
     set("no_sell",1);

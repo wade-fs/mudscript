@@ -17,9 +17,9 @@ int fun = me->query("functions/powerup/level");
       }
       if(me->query("family/family_name") == "金刀門")
       {
-      	message_vision(HIW"$N覺得聚集於刀上的落葉漸漸消散了。\n"NOR,me);
+      	message_vision(HIW + "$N覺得聚集於刀上的落葉漸漸消散了。\n" + NOR,me);
       }else{
-           message_vision(HIW"$N覺得刀的血氣消失了。\n"NOR,me);
+           message_vision(HIW + "$N覺得刀的血氣消失了。\n" + NOR,me);
         }
         if(fun<100) { function_improved("powerup",random(700)); }
         }
@@ -27,12 +27,12 @@ return 0;
 }
 if(me->query("family/family_name") == "金刀門")
 {
-tell_object(me ,HIW"你『"HIY"殺意無限"HIW"』，突然很想痛快的斬殺敵人。\n"NOR);
-message("vision",HIC+me->name()+"『"HIY"殺意無限"HIC"』，就快要喪失理性了。\n"NOR,environment(me),me);
+tell_object(me ,HIW + "你『" + HIY + "殺意無限" + HIW + "』，突然很想痛快的斬殺敵人。\n" + NOR);
+message("vision",HIC+me->name()+"『" + HIY + "殺意無限" + HIC + "』，就快要喪失理性了。\n" + NOR,environment(me),me);
 me->apply_condition("mkpowerup",duration-1);
 }else{
-     tell_object(me ,HIW"你『"HIY"嗜血狂暴"HIW"』，突然很想痛快的砍殺敵人。\n"NOR);
-     message("vision",HIC+me->name()+"『"HIY"嗜血狂暴"HIC"』，就快要喪失理性了。\n"NOR,environment(me),me);
+     tell_object(me ,HIW + "你『" + HIY + "嗜血狂暴" + HIW + "』，突然很想痛快的砍殺敵人。\n" + NOR);
+     message("vision",HIC+me->name()+"『" + HIY + "嗜血狂暴" + HIC + "』，就快要喪失理性了。\n" + NOR,environment(me),me);
      me->apply_condition("mkpowerup",duration-1);
      }
 

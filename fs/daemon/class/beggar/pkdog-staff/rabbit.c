@@ -26,28 +26,28 @@ int perform (object me, object  weapon)
            return notify_fail("你沒拿武器哦！\n");
           message_vision("\n\n
 
-        "BBLU"     "BLU""BBLK"◤ "BLK""BRED"◤                "NOR"
-        "BLK""BBLU"▁▅"BRED"◤    ▂▄▅"NOR"▁▁▁"BLK""BRED"▄▂"NOR"
-         "RED"◢"BLK""BRED"◢"NOR"▁"BLK""BRED"▄"BBLK" "NOR"◢▇"BLK""BWHT"        "NOR"▇▅"NOR"
-        "RED"◤"BLK""BWHT"◤   "NOR"▇"BLK""BWHT"                 "NOR"
-        ◢"BLK""BWHT"        ▁▁            "NOR"
-        "BLK""BWHT"     "NOR"◤▁▃▄▃▂"BLK""BWHT"▆▅▄▂ "NOR"
-        ◢"BLK""BWHT"◢"NOR"▃"BWHT"                "NOR"▆▄"NOR"
-        "BLK""BWHT"▕▍                      "NOR"
-        "BLU"▄"BLK""BWHT"▏▁▁                "HIW"  "NOR"
-        "BLK""BBLU" "BLU""BBLK"▍"NOR"▄▅▅"BLK""BWHT"    "NOR"▃"BLK""BWHT"▅▄       "NOR"
-        "BLU"▊"BLK""BWHT"▏     ▂       "NOR"▄▂◥"BWHT"  "NOR"
-        "BBLU" "BLU""BBLK"◣"BLK""BWHT"▃    "NOR"▄"BLK""BWHT"      ▁   "NOR"▇"HBWHT"  "NOR"
-        "BBLU"    "BLU""BBLK"▅▅"NOR"▄"WHT""BBLK"▅▄▄"NOR"▂▄"WHT""BBLK"▆▆▆"NOR"
+        " + BBLU + "     " + BLU + "" + BBLK + "◤ " + BLK + "" + BRED + "◤                " + NOR + "
+        " + BLK + "" + BBLU + "▁▅" + BRED + "◤    ▂▄▅" + NOR + "▁▁▁" + BLK + "" + BRED + "▄▂" + NOR + "
+         " + RED + "◢" + BLK + "" + BRED + "◢" + NOR + "▁" + BLK + "" + BRED + "▄" + BBLK + " " + NOR + "◢▇" + BLK + "" + BWHT + "        " + NOR + "▇▅" + NOR + "
+        " + RED + "◤" + BLK + "" + BWHT + "◤   " + NOR + "▇" + BLK + "" + BWHT + "                 " + NOR + "
+        ◢" + BLK + "" + BWHT + "        ▁▁            " + NOR + "
+        " + BLK + "" + BWHT + "     " + NOR + "◤▁▃▄▃▂" + BLK + "" + BWHT + "▆▅▄▂ " + NOR + "
+        ◢" + BLK + "" + BWHT + "◢" + NOR + "▃" + BWHT + "                " + NOR + "▆▄" + NOR + "
+        " + BLK + "" + BWHT + "▕▍                      " + NOR + "
+        " + BLU + "▄" + BLK + "" + BWHT + "▏▁▁                " + HIW + "  " + NOR + "
+        " + BLK + "" + BBLU + " " + BLU + "" + BBLK + "▍" + NOR + "▄▅▅" + BLK + "" + BWHT + "    " + NOR + "▃" + BLK + "" + BWHT + "▅▄       " + NOR + "
+        " + BLU + "▊" + BLK + "" + BWHT + "▏     ▂       " + NOR + "▄▂◥" + BWHT + "  " + NOR + "
+        " + BBLU + " " + BLU + "" + BBLK + "◣" + BLK + "" + BWHT + "▃    " + NOR + "▄" + BLK + "" + BWHT + "      ▁   " + NOR + "▇" + HBWHT + "  " + NOR + "
+        " + BBLU + "    " + BLU + "" + BBLK + "▅▅" + NOR + "▄" + WHT + "" + BBLK + "▅▄▄" + NOR + "▂▄" + WHT + "" + BBLK + "▆▆▆" + NOR + "
 
-                         \n"NOR,me);
-               message_vision(HIY"$N幻化成賤兔可愛的模樣，使得$n也跟著裝起可愛來了。\n"NOR,me,enemy[j]);
+                         \n" + NOR,me);
+               message_vision(HIY + "$N幻化成賤兔可愛的模樣，使得$n也跟著裝起可愛來了。\n" + NOR,me,enemy[j]);
                                   {
         if (random(me->query_per()) > 11)
                 {
                            for(k=0;k<i;k++)
                            {
-                           message_vision(HIW"$N被賤兔忽然抱住，動彈不得。\n"NOR,enemy[k]);
+                           message_vision(HIW + "$N被賤兔忽然抱住，動彈不得。\n" + NOR,enemy[k]);
                            enemy[k]->receive_wound("kee",2000);
                            enemy[k]->receive_wound("gin",1000);
                            enemy[k]->receive_wound("sen",1000);
@@ -57,7 +57,7 @@ int perform (object me, object  weapon)
                }
              else
                 {
-                  message_vision(HIR"$n使出比賤兔更可愛的模樣，把賤兔給比了下去。\n"NOR,me,enemy[k]);
+                  message_vision(HIR + "$n使出比賤兔更可愛的模樣，把賤兔給比了下去。\n" + NOR,me,enemy[k]);
                 }
                   return 1;
 }

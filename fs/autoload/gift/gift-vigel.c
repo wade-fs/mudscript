@@ -9,8 +9,8 @@ object me = this_player();
 object horse = new("/autoload/gift/blood-horse");
 void create()
 {
-  set_name(HIY"御"HIW"用"HIB"韁繩"NOR,({"blood-horse-halter"}));
-  set("long",HIC"駕馭汗血寶馬需的器具。\n"NOR);
+  set_name(HIY + "御" + HIW + "用" + HIB + "韁繩" + NOR,({"blood-horse-halter"}));
+  set("long",HIC + "駕馭汗血寶馬需的器具。\n" + NOR);
   set("unit","條");  
   set("no_auc",1);
   set("no_sell",1);
@@ -38,8 +38,8 @@ int do_summonhorse()
     if(!horse)
     {
     horse = new("/autoload/gift/blood-horse");
-    message_vision(RED"$N撮唇一聲清嘯，"HIW"〒"HIY"神駒"HIW"〒"HIR"汗血寶馬"HIM"如一道紅光般閃現。\n"NOR,me);
-    message_vision(HIW"〒"HIY"神駒"HIW"〒"HIR"汗血寶馬"HIG"四蹄一振，朝著主人所在的方位飛奔而去。\n"NOR,horse);
+    message_vision(RED + "$N撮唇一聲清嘯，" + HIW + "〒" + HIY + "神駒" + HIW + "〒" + HIR + "汗血寶馬" + HIM + "如一道紅光般閃現。\n" + NOR,me);
+    message_vision(HIW + "〒" + HIY + "神駒" + HIW + "〒" + HIR + "汗血寶馬" + HIG + "四蹄一振，朝著主人所在的方位飛奔而去。\n" + NOR,horse);
     horse->move(environment(me));
     horse->set_leader(me);
     horse->set("family/family_name",me->query("family/family_name"));
@@ -57,16 +57,16 @@ int do_summonhorse()
     }
     if(me->query_temp("have_horse") && environment(me) != environment(horse))
     {
-    message_vision(HIM"$N撮唇一聲清嘯，"HIW"〒"HIY"神駒"HIW"〒"HIR"汗血寶馬"HIM"如一道紅光般閃現。\n"NOR,me);
-    message_vision(HIW"〒"HIY"神駒"HIW"〒"HIR"汗血寶馬"HIG"四蹄一振，朝著主人所在的方位飛奔而去。\n"NOR,horse);
+    message_vision(HIM + "$N撮唇一聲清嘯，" + HIW + "〒" + HIY + "神駒" + HIW + "〒" + HIR + "汗血寶馬" + HIM + "如一道紅光般閃現。\n" + NOR,me);
+    message_vision(HIW + "〒" + HIY + "神駒" + HIW + "〒" + HIR + "汗血寶馬" + HIG + "四蹄一振，朝著主人所在的方位飛奔而去。\n" + NOR,horse);
     horse->move(environment(me));
     horse->set_heart_beat(1);
     return 1;
     }
     else if(!me->query_temp("have_horse"))
     {
-    message_vision(RED"$N撮唇一聲清嘯，"HIW"〒"HIY"神駒"HIW"〒"HIR"汗血寶馬"HIM"如一道紅光般閃現。\n"NOR,me);
-    message_vision(HIW"〒"HIY"神駒"HIW"〒"HIR"汗血寶馬"HIG"四蹄一振，朝著主人所在的方位飛奔而去。\n"NOR,horse);
+    message_vision(RED + "$N撮唇一聲清嘯，" + HIW + "〒" + HIY + "神駒" + HIW + "〒" + HIR + "汗血寶馬" + HIM + "如一道紅光般閃現。\n" + NOR,me);
+    message_vision(HIW + "〒" + HIY + "神駒" + HIW + "〒" + HIR + "汗血寶馬" + HIG + "四蹄一振，朝著主人所在的方位飛奔而去。\n" + NOR,horse);
     horse->move(environment(me));
     horse->set_leader(me);
     horse->set("family/family_name",me->query("family/family_name"));
@@ -78,7 +78,7 @@ int do_summonhorse()
     }
     else
     {
-    message_vision("$N已經有一匹馬了。\n"NOR,me);
+    message_vision("$N已經有一匹馬了。\n" + NOR,me);
     return 1;
     }
     return 1;
@@ -228,7 +228,7 @@ int do_waveto(string arg)
         if( room && !me->move(room) )
                 return notify_fail("目的地無法到達。\n");
 
-        message_vision(HIM+"紅光閃過,汗血寶馬"HIM"載著$N疾奔而來。\n"+NOR,me);
+        message_vision(HIM+"紅光閃過,汗血寶馬" + HIM + "載著$N疾奔而來。\n"+NOR,me);
         horse->move(room);
         horse->set_heart_beat(1);
         return 1;

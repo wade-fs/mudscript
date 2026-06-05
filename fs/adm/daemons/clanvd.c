@@ -96,9 +96,9 @@ int clan_prestige() //per 12 hour = 每六個月 發錢給幫派龍頭 by ACKY
 		if( CLAN_D->clan_query( clan_id[o], "prestige_best" )==1 )	{
 			money = CLAN_D->clan_query( clan_id[o], "cost" );
 			money = money*6 + random(money);
-			tell_object(users(),HIY"\n\t\t.____奉天承運__皇帝詔曰____.\n\n"+
+			tell_object(users(),HIY + "\n\t\t.____奉天承運__皇帝詔曰____.\n\n"+
 				"\t天下第一幫"+CLAN_D->clan_query( clan_id[o], "name" )+"創幫有成，特犒賞黃金"+CHINESE_D->chinese_number(money)+"兩。"+
-				"\n\n\t\t\t\t\t\t欽此\n\n"NOR);
+				"\n\n\t\t\t\t\t\t欽此\n\n" + NOR);
 			CLAN_D->add_money( clan_id[o] , money );
 		}
 	}
@@ -144,11 +144,7 @@ int clan_stop_time(string clan)	//第一種停止模式-時間到
 	else	{
 		clan_cwin=CLAN_D->clan_query(clan,"name");
 		clan_close=CLAN_D->clan_query(clan2,"name");
-		shout(HIR"\n\t轟動武林～～驚動萬教～～\n\t"
-			HIC+clan_cwin+HIR"與"HIM+clan_close+HIR"的幫派對決終於結束……\n\t"
-			HIC+clan_cwin+HIR"總共殺掉"HIM+clan_close+HIG""+CHINESE_D->chinese_number(kill_1)+HIR"位幫眾，\n\t"
-			HIM+clan_close+HIC"總共殺掉"HIC+clan_cwin+HIG""+CHINESE_D->chinese_number(kill_2)+HIR"位幫眾，\n\t"
-			HIR+"雙方皆死傷慘重，故以平手作收。\n"NOR);
+		shout(HIR + "\n\t轟動武林～～驚動萬教～～\n\t" + HIC+clan_cwin+HIR + "與" + HIM+clan_close+HIR + "的幫派對決終於結束……\n\t" + HIC+clan_cwin+HIR + "總共殺掉" + HIM+clan_close+HIG + ""+CHINESE_D->chinese_number(kill_1)+HIR + "位幫眾，\n\t" + HIM+clan_close+HIC + "總共殺掉" + HIC+clan_cwin+HIG + ""+CHINESE_D->chinese_number(kill_2)+HIR + "位幫眾，\n\t" + HIR+"雙方皆死傷慘重，故以平手作收。\n" + NOR);
 		CLAN_D->clan_set(clan,"war",0);
 		CLAN_D->clan_set(clan2,"war",0);
 		CLAN_D->clan_set(clan,"war_kill",0);
@@ -161,11 +157,7 @@ int clan_stop_time(string clan)	//第一種停止模式-時間到
 	}
 	clan_cwin=CLAN_D->clan_query(clan_win,"name");
 	clan_close=CLAN_D->clan_query(clan_lose,"name");
-	shout(HIR"\n\t轟動武林～～驚動萬教～～\n\t"
-		HIC+clan_cwin+HIR"與"HIM+clan_close+HIR"的幫派對決終於結束……\n\t"
-		HIC+clan_cwin+HIR"總共殺掉"HIM+clan_close+HIG""+CHINESE_D->chinese_number(kill_1)+HIR"位幫眾，\n\t"
-		HIM+clan_close+HIC"總共殺掉"HIC+clan_cwin+HIG""+CHINESE_D->chinese_number(kill_2)+HIR"位幫眾，\n\t"
-		HIM+clan_close+"戰敗，必須賠償"HIC+clan_cwin+HIY""+CHINESE_D->chinese_number(money)+"兩黃金"HIR+"。\n"NOR);
+	shout(HIR + "\n\t轟動武林～～驚動萬教～～\n\t" + HIC+clan_cwin+HIR + "與" + HIM+clan_close+HIR + "的幫派對決終於結束……\n\t" + HIC+clan_cwin+HIR + "總共殺掉" + HIM+clan_close+HIG + ""+CHINESE_D->chinese_number(kill_1)+HIR + "位幫眾，\n\t" + HIM+clan_close+HIC + "總共殺掉" + HIC+clan_cwin+HIG + ""+CHINESE_D->chinese_number(kill_2)+HIR + "位幫眾，\n\t" + HIM+clan_close+"戰敗，必須賠償" + HIC+clan_cwin+HIY + ""+CHINESE_D->chinese_number(money)+"兩黃金" + HIR+"。\n" + NOR);
 	CLAN_D->clan_set(clan_win,"war",0);
 	CLAN_D->clan_set(clan_lose,"war",0);
 	CLAN_D->clan_set(clan_win,"war_kill",0);
@@ -193,10 +185,10 @@ int clan_stop_kill(string clan_lose)   //第二種停止模式..幫主被作掉.
  cmoney=sprintf("%d",clan_money);
  clan_cwin=CLAN_D->clan_query(clan_win,"name");
  clan_close=CLAN_D->clan_query(clan_lose,"name");
- shout(HIC"\t號外!!號外!!轟動武林的"+HIG+clan_cwin+HIC+"和"+HIG+clan_close+HIC+"的幫派對決總於有了結果了!!!!\n"+HIG+
+ shout(HIC + "\t號外!!號外!!轟動武林的"+HIG+clan_cwin+HIC+"和"+HIG+clan_close+HIC+"的幫派對決總於有了結果了!!!!\n"+HIG+
 	 "       "+clan_cwin+HIC+"殺掉了"+HIG+clan_close+HIC+"幫派幫主:"+HIG+clan_master+HIC+"\n"+
 	 "\t一時之間"+HIG+clan_close+HIC+"因為幫主被做掉,以致軍心大亂!!!一路敗退!!!\n"+HIC+
-	 "\t最後判定::"+HIG+clan_close+HIC+"必須要付出"+cmoney+"兩的賠償金!!!\n"NOR);
+	 "\t最後判定::"+HIG+clan_close+HIC+"必須要付出"+cmoney+"兩的賠償金!!!\n" + NOR);
    CLAN_D->clan_set(clan_win,"war_kill",0);
    CLAN_D->clan_set(clan_lose,"war_kill",0);
    CLAN_D->clan_set(clan_win,"clan_war","無幫派");
@@ -219,9 +211,9 @@ int clan_stop_money(string clan_lose,int money)   //第三種停止模式..求�
  clan_cwin=CLAN_D->clan_query(clan_win,"name");
  clan_close=CLAN_D->clan_query(clan_lose,"name");
  cmoney=sprintf("%d",money);
- shout(HIC"\t號外!!號外!!轟動武林的"+HIG+clan_cwin+HIC+"和"+HIG+clan_close+HIC+"的幫派對決總於有了結果了!!!!\n"+HIG+
+ shout(HIC + "\t號外!!號外!!轟動武林的"+HIG+clan_cwin+HIC+"和"+HIG+clan_close+HIC+"的幫派對決總於有了結果了!!!!\n"+HIG+
 	 "   "+clan_cwin+HIC+"願接受"+HIG+clan_close+HIC+"的幫主"+HIG+clan_master+HIC+"求和!!!雙方同意結束戰鬥狀態!!!\n"+HIC+
-	 "\t最後"+HIG+clan_close+HIC+"願給予"+HIG+clan_cwin+HIC+"共"+cmoney+"兩的求和金!!!\n"NOR);
+	 "\t最後"+HIG+clan_close+HIC+"願給予"+HIG+clan_cwin+HIC+"共"+cmoney+"兩的求和金!!!\n" + NOR);
    CLAN_D->clan_set(clan_win,"war",0);
    CLAN_D->clan_set(clan_lose,"war",0);
    CLAN_D->clan_set(clan_win,"war_kill",0);

@@ -15,10 +15,10 @@ int conjure (object me)
   if(!enemy)
     return notify_fail("你目前沒有戰鬥對手!!\n");
 
-  message_vision(HIB"
-  $N"HIG"使出"HIY+BRED"魔界金典"NOR""HIB"中的"HIW"『"HIC"跳神通"HIW"』，
+  message_vision(HIB + "
+  $N" + HIG + "使出" + HIY+BRED + "魔界金典" + NOR + "" + HIB + "中的" + HIW + "『" + HIC + "跳神通" + HIW + "』，
   陰神出竅，迅速射入$n的天靈，$n感覺到自己的身體逐漸不受控制
-  漸漸開始向身旁胡亂揮舞了。\n"NOR,me,enemy[i]);
+  漸漸開始向身旁胡亂揮舞了。\n" + NOR,me,enemy[i]);
 
   for(i=0;i<j;i++)
   {

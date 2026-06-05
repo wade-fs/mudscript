@@ -19,7 +19,7 @@ if( me->is_fighting() ) me->start_busy(1); //戰鬥中使用busy 一回
   me->add ("atman", -50);
 
        
-  message_vision (HIG"$N的皮膚逐漸角質化，出現六角形的角質硬甲。\n"NOR, me);
+  message_vision (HIG + "$N的皮膚逐漸角質化，出現六角形的角質硬甲。\n" + NOR, me);
   me->set_temp ("hardshell", 1);
 me->start_call_out((: call_other, __FILE__, "remove_effect",me:),fun+10);
   return 1;
@@ -28,7 +28,7 @@ me->start_call_out((: call_other, __FILE__, "remove_effect",me:),fun+10);
 void remove_effect (object me)
 { 
   me->delete_temp ("hardshell");
-  tell_object (me, NOR"一陣劇痛後，你的皮膚回復原來的形狀了。\n"NOR);
+  tell_object (me, NOR + "一陣劇痛後，你的皮膚回復原來的形狀了。\n" + NOR);
         if( me->query("spells/hardshell/level") < 100 )
    spell_improved ("hardshell",random(700));
   if( me->query("kee") > 40)

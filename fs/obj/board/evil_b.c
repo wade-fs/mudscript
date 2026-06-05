@@ -3,7 +3,7 @@ inherit BULLETIN_BOARD;
 
 void create()
 {
-set_name(HIM"魔靈水晶球"NOR, ({"crystal ball","ball","board"}));
+set_name(HIM + "魔靈水晶球" + NOR, ({"crystal ball","ball","board"}));
   set("location","/open/clan/evil/evil.c");
   set("board_id","evil_b");
   set("long","

@@ -35,7 +35,7 @@ if(me->query("class")!="prayer")
 
         me->set_temp("goldsun",1);
         message_vision(
-        HIC "$N運起渾天心法第八層"HIY"[金晨曦]"HIC"﹐真氣鼓漲﹐剎時全身爆出"HIY"萬道金色的光芒"NOR"!!\n" NOR,me);
+        HIC + "$N運起渾天心法第八層" + HIY + "[金晨曦]" + HIC + "﹐真氣鼓漲﹐剎時全身爆出" + HIY + "萬道金色的光芒" + NOR + "!!\n" + NOR,me);
 
         me->add_temp("apply/force", 50);
         me->add_temp("apply/parry", -10);

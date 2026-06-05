@@ -22,19 +22,19 @@ int main( object me, string arg, int repeat )
   else if (repeat > 10) repeat = 10;
 
   if (me->is_busy() || me->query_condition("force") > 0 )
-    return notify_fail (BLU"你一運氣用力, 發覺丹田中毫無內息。\n"NOR);
+    return notify_fail (BLU + "你一運氣用力, 發覺丹田中毫無內息。\n" + NOR);
   if (me->query_condition("no_power_e"))
-    return notify_fail (HIM"你感覺到體內有無數的氣勁亂流, 使你無法正常的使用內力。\n"NOR);
+    return notify_fail (HIM + "你感覺到體內有無數的氣勁亂流, 使你無法正常的使用內力。\n" + NOR);
 	if (me->query_condition("block_sweat"))
-    return notify_fail (HIM"你體內真氣受到蒙汗藥的抑制，無法順利運行。\n"NOR);
+    return notify_fail (HIM + "你體內真氣受到蒙汗藥的抑制，無法順利運行。\n" + NOR);
   if (me->query_temp("crazy"))
-    return notify_fail (HIR"你正陷入狂暴狀態, 無法控制內息流動。\n"NOR);
+    return notify_fail (HIR + "你正陷入狂暴狀態, 無法控制內息流動。\n" + NOR);
   if ((me->query("food")<1 || me->query("water")<1) && userp(me)) {
     if (random(100) < 1) {
 			me->receive_wound ("kee", me->query("age"));
-      return notify_fail( RED"你感覺又餓又渴, 一時之間無法控制真氣, 受到了內傷!"NOR );
+      return notify_fail( RED + "你感覺又餓又渴, 一時之間無法控制真氣, 受到了內傷!" + NOR );
     }
-    return notify_fail( BLU"你感覺又餓又渴! 無法運氣!\n"NOR );
+    return notify_fail( BLU + "你感覺又餓又渴! 無法運氣!\n" + NOR );
   }
 
   if (stringp (force=me->query_skill_mapped("force") )) {
@@ -57,14 +57,14 @@ int main( object me, string arg, int repeat )
           if ((time() - i) < 10)
             break;
           // without do
-          message_vision( CYN"$N將體中的內力化成靈氣﹐使靈氣轉強。\n"NOR, me ); break;
+          message_vision( CYN + "$N將體中的內力化成靈氣﹐使靈氣轉強。\n" + NOR, me ); break;
         }
 			case "recover" :
-				message_vision( CYN"$N深深吸了" + chinese_number(repeat) + "口氣﹐臉色看起來好多了。\n"NOR, me ); break;
+				message_vision( CYN + "$N深深吸了" + chinese_number(repeat) + "口氣﹐臉色看起來好多了。\n" + NOR, me ); break;
 			case "regenerate" :
-				message_vision( CYN"$N深深吸了" + chinese_number(repeat) + "口氣﹐手腳活動了幾下﹐整個人看起來有活力多了。\n"NOR, me ); break;
+				message_vision( CYN + "$N深深吸了" + chinese_number(repeat) + "口氣﹐手腳活動了幾下﹐整個人看起來有活力多了。\n" + NOR, me ); break;
 			case "refresh" :
-				message_vision( CYN"$N略一凝神﹐吸了"+chinese_number(repeat)+"口氣﹐精神看起來清醒多了。\n"NOR, me ); break;
+				message_vision( CYN + "$N略一凝神﹐吸了"+chinese_number(repeat)+"口氣﹐精神看起來清醒多了。\n" + NOR, me ); break;
 			}
 		return r;
 	}

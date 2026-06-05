@@ -4,15 +4,15 @@
 inherit STABBER;
 void create()
 {
-     set_name(""HIM"¤"HIW"E"HIM"¤"HIW"Ñ"HIM"¦"HIW"Ð"HIM"®"HIW"°"NOR"",({"god fan","fan","god"}) );
+     set_name("" + HIM + "" + HIW + "E" + HIM + "" + HIW + "" + HIM + "" + HIW + "" + HIM + "" + HIW + "" + NOR + "",({"god fan","fan","god"}) );
      set_weight(15000);
      if( clonep() ) 
                set_default_object(__FILE__);
      else {
-            set("long","³o¬O¤@§â©_§®ªº¦Ð®°, ¯àÀH¤ß©Ò±ýªºÅÜ´«.\n"
+            set("long","oO@_Ð®, Hß©Ò±Ü´.\n"
                   +"( change <type>, ex: change sword )\n"
                   +"( type : unarmed sword blade whip dagger stabber )\n");
-            set("unit", "¥ó");             
+            set("unit", "");             
             set("value",2000);
             set("material","steal");
            }         
@@ -29,37 +29,37 @@ int do_change(string str)
    {
      case "unarmed":
            set("skill_type", "unarmed");
-set_name(""HIM"À"HIW"s"HIM"®"HIW"ð"HIM"«"HIW"ü"HIM"À"HIW"ô"NOR"",({"figring"}));
-write(""HIM"¤"HIW"E"HIM"¤"HIW"Ñ"HIM"¦"HIW"Ð"HIM"®"HIW"°"NOR"¶}©l¤Û¤Æ.\n"HIM"¤"HIW"E"HIM"¤"HIW"Ñ"HIM"¦"HIW"Ð"HIM"®"HIW"°"NOR"¤Æ¦¨¤F¤@Âù"HIM"À"HIW"s"HIM"®"HIW"ð"HIM"«"HIW"ü"HIM"À"HIW"ô"NOR".\n");
+set_name("" + HIM + "" + HIW + "s" + HIM + "" + HIW + "" + HIM + "" + HIW + "" + HIM + "" + HIW + "" + NOR + "",({"figring"}));
+write("" + HIM + "" + HIW + "E" + HIM + "" + HIW + "" + HIM + "" + HIW + "" + HIM + "" + HIW + "" + NOR + "}lÛ¤.\n" + HIM + "" + HIW + "E" + HIM + "" + HIW + "" + HIM + "" + HIW + "" + HIM + "" + HIW + "" + NOR + "Æ¦F@" + HIM + "" + HIW + "s" + HIM + "" + HIW + "" + HIM + "" + HIW + "" + HIM + "" + HIW + "" + NOR + ".\n");
            break;
      case "sword":
            set("skill_type", "sword");
-           set_name( ""HIM"¨"HIW"â"HIM"·"HIW"¥"HIM"¼"HIW"C"NOR"",({"sun_fire_sword"}));
-write(""HIM"¤"HIW"E"HIM"¤"HIW"Ñ"HIM"¦"HIW"Ð"HIM"®"HIW"°"NOR"¶}©l¤Û¤Æ.\n"HIM"¤"HIW"E"HIM"¤"HIW"Ñ"HIM"¦"HIW"Ð"HIM"®"HIW"°"NOR"¤Æ¦¨¤F"HIM"¨"HIW"â"HIM"·"HIW"¥"HIM"¼"HIW"C"NOR".\n");
+           set_name( "" + HIM + "" + HIW + "" + HIM + "" + HIW + "" + HIM + "" + HIW + "C" + NOR + "",({"sun_fire_sword"}));
+write("" + HIM + "" + HIW + "E" + HIM + "" + HIW + "" + HIM + "" + HIW + "" + HIM + "" + HIW + "" + NOR + "}lÛ¤.\n" + HIM + "" + HIW + "E" + HIM + "" + HIW + "" + HIM + "" + HIW + "" + HIM + "" + HIW + "" + NOR + "Æ¦F" + HIM + "" + HIW + "" + HIM + "" + HIW + "" + HIM + "" + HIW + "C" + NOR + ".\n");
            break;
      case "blade":
            set("skill_type", "blade");
-           set_name( ""HIM"À"HIW"s"HIM"§"HIW"u"HIM"¤"HIW"M"NOR"",({"iceblade"}));
-write(""HIM"¤"HIW"E"HIM"¤"HIW"Ñ"HIM"¦"HIW"Ð"HIM"®"HIW"°"NOR"¶}©l¤Û¤Æ.\n"HIM"¤"HIW"E"HIM"¤"HIW"Ñ"HIM"¦"HIW"Ð"HIM"®"HIW"°"NOR"¤Æ¦¨¤F"HIM"À"HIW"s"HIM"§"HIW"u"HIM"¤"HIW"M"NOR".\n");
+           set_name( "" + HIM + "" + HIW + "s" + HIM + "" + HIW + "u" + HIM + "" + HIW + "M" + NOR + "",({"iceblade"}));
+write("" + HIM + "" + HIW + "E" + HIM + "" + HIW + "" + HIM + "" + HIW + "" + HIM + "" + HIW + "" + NOR + "}lÛ¤.\n" + HIM + "" + HIW + "E" + HIM + "" + HIW + "" + HIM + "" + HIW + "" + HIM + "" + HIW + "" + NOR + "Æ¦F" + HIM + "" + HIW + "s" + HIM + "" + HIW + "u" + HIM + "" + HIW + "M" + NOR + ".\n");
            break;
      case "dagger":
            set("skill_type", "dagger");
-           set_name( ""HIM"Ä"HIW"^"HIM"À"HIW"s"HIM"¤"HIW"P"NOR"",({"god dagger","dagger","god"}));
-write(""HIM"¤"HIW"E"HIM"¤"HIW"Ñ"HIM"¦"HIW"Ð"HIM"®"HIW"°"NOR"¶}©l¤Û¤Æ.\n"HIM"¤"HIW"E"HIM"¤"HIW"Ñ"HIM"¦"HIW"Ð"HIM"®"HIW"°"NOR"¤Æ¦¨¤F"HIM"Ä"HIW"^"HIM"À"HIW"s"HIM"¤"HIW"P"NOR".\n");
+           set_name( "" + HIM + "" + HIW + "^" + HIM + "" + HIW + "s" + HIM + "" + HIW + "P" + NOR + "",({"god dagger","dagger","god"}));
+write("" + HIM + "" + HIW + "E" + HIM + "" + HIW + "" + HIM + "" + HIW + "" + HIM + "" + HIW + "" + NOR + "}lÛ¤.\n" + HIM + "" + HIW + "E" + HIM + "" + HIW + "" + HIM + "" + HIW + "" + HIM + "" + HIW + "" + NOR + "Æ¦F" + HIM + "" + HIW + "^" + HIM + "" + HIW + "s" + HIM + "" + HIW + "P" + NOR + ".\n");
            break;
      case "whip":
            set("skill_type", "whip");
-           set_name( ""HIM"À"HIW"s"HIM"Å"HIW"ì"HIM"Ã"HIW"@"NOR"",({"god whip","whip","god"}));
-write(""HIM"¤"HIW"E"HIM"¤"HIW"Ñ"HIM"¦"HIW"Ð"HIM"®"HIW"°"NOR"¶}©l¤Û¤Æ.\n"HIM"¤"HIW"E"HIM"¤"HIW"Ñ"HIM"¦"HIW"Ð"HIM"®"HIW"°"NOR"¤Æ¦¨¤F"HIM"À"HIW"s"HIM"Å"HIW"ì"HIM"Ã"HIW"@"NOR".\n");
+           set_name( "" + HIM + "" + HIW + "s" + HIM + "" + HIW + "" + HIM + "" + HIW + "@" + NOR + "",({"god whip","whip","god"}));
+write("" + HIM + "" + HIW + "E" + HIM + "" + HIW + "" + HIM + "" + HIW + "" + HIM + "" + HIW + "" + NOR + "}lÛ¤.\n" + HIM + "" + HIW + "E" + HIM + "" + HIW + "" + HIM + "" + HIW + "" + HIM + "" + HIW + "" + NOR + "Æ¦F" + HIM + "" + HIW + "s" + HIM + "" + HIW + "" + HIM + "" + HIW + "@" + NOR + ".\n");
            break;
      case "stabber":
      case "fan":
            set("skill_type", "stabber");
-           set_name(""HIM"¤"HIW"E"HIM"¤"HIW"Ñ"HIM"¦"HIW"Ð"HIM"®"HIW"°"NOR"",({"god fan","fan","god"}) );
-write(""HIM"¤"HIW"E"HIM"¤"HIW"Ñ"HIM"¦"HIW"Ð"HIM"®"HIW"°"NOR"¶}©l¤Û¤Æ.\n"HIM"¤"HIW"E"HIM"¤"HIW"Ñ"HIM"¦"HIW"Ð"HIM"®"HIW"°"NOR"ÅÜ¦^­ì¨Óªº®°¤l.\n");
+           set_name("" + HIM + "" + HIW + "E" + HIM + "" + HIW + "" + HIM + "" + HIW + "" + HIM + "" + HIW + "" + NOR + "",({"god fan","fan","god"}) );
+write("" + HIM + "" + HIW + "E" + HIM + "" + HIW + "" + HIM + "" + HIW + "" + HIM + "" + HIW + "" + NOR + "}lÛ¤.\n" + HIM + "" + HIW + "E" + HIM + "" + HIW + "" + HIM + "" + HIW + "" + HIM + "" + HIW + "" + NOR + "Ü¦^Óªl.\n");
            break;
      default:      
-write(""HIM"¤"HIW"E"HIM"¤"HIW"Ñ"HIM"¦"HIW"Ð"HIM"®"HIW"°"NOR"µLªk¤Û¤Æ.\n");
+write("" + HIM + "" + HIW + "E" + HIM + "" + HIW + "" + HIM + "" + HIW + "" + HIM + "" + HIW + "" + NOR + "LkÛ¤.\n");
    }
      return 1;
 }

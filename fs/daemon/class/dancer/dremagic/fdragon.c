@@ -47,53 +47,53 @@ int conjure(object me, object target)
         me->add("atman", -(250+fk*3));
         me->receive_damage("gin", 10);
 
-message_vision(HIC"$N雙手高舉大喊藏身於黑暗大地的龍啊,請聽我的呼喚\n"NOR,me,victim);
-message_vision(HIC"現身來幫助我吧......"HIR" 炎 "HIW" 之 "HIG" 龍 \n"NOR,me,victim);
+message_vision(HIC + "$N雙手高舉大喊藏身於黑暗大地的龍啊,請聽我的呼喚\n" + NOR,me,victim);
+message_vision(HIC + "現身來幫助我吧......" + HIR + " 炎 " + HIW + " 之 " + HIG + " 龍 \n" + NOR,me,victim);
 
-message_vision(HIW"只見遙遠的地平線彼端...一條全身火紅的飛龍迅速的往這裡接近\n"NOR,me,victim);
+message_vision(HIW + "只見遙遠的地平線彼端...一條全身火紅的飛龍迅速的往這裡接近\n" + NOR,me,victim);
 
-message_vision(HIR"                                        &.  &.     .\n"NOR,me,victim);
-message_vision(HIR"                                        ~ss.&ss. .s'\n"NOR,me,victim);
-message_vision(HIR"                                .     .ss&&&&&&&&&&s.\n"NOR,me,victim);
-message_vision(HIR"                                &. s&&&&&&&&&&&&&&`&&Ss\n"NOR,me,victim);
-message_vision(HIR"                                ~&&&&&&&&&&&&&&&&&&o&&&       .\n"NOR,me,victim);
-message_vision(HIR"                               s&&&&&&&&&&&&&&&&&&&&&&&&s.  .s\n"NOR,me,victim);
-message_vision(HIR"                              s&&&&&&&&&~&&&&&&~~~~&&&&&&~&&&&&.\n"NOR,me,victim);
-message_vision(HIR"                              s&&&&&&&&&&s~~&&&&ssssss~&&&&&&&&~\n"NOR,me,victim);
-message_vision(HIR"                             s&&&&&&&&&&'         `~~~ss~&~&s~~\n"NOR,me,victim);
-message_vision(HIR"                             s&&&&&&&&&&.              `~~~~~&  .s&&s\n"NOR,me,victim);
-message_vision(HIR"                             s&&&&&&&&&&&&s....               `s&&'  `\n"NOR,me,victim);
-message_vision(HIR"                         `ssss&&&&&&&&&&&&&&&&&&&&####s.     .&&~&.   . s-\n"NOR,me,victim);
-message_vision(HIR"                           `~~~~&&&&&&&&&&&&&&&&&&&&#####&&&&&&~     &.&'\n"NOR,me,victim);
-message_vision(HIR"                                 ~&&&&&&&&&&&&&&&&&&&&&####s~~     .&&&|\n"NOR,me,victim);
-message_vision(HIR"                                  ~&&&&&&&&&&&&&&&&&&&&&&&&##s    .&&~ &\n"NOR,me,victim);
-message_vision(HIR"                                   &&~~&&&&&&&&&&&&&&&&&&&&&&&&&&&&&~   `\n"NOR,me,victim);
-message_vision(HIR"                                  &&~  ~&~&&&&&&&&&&&&&&&&&&&&S~~~~'\n"NOR,me,victim);
-message_vision(HIR"                             .   .~     '  &&&&&&&&&&&&&&&&####s\n"NOR,me,victim);
-message_vision(HIR"                             &.          .s&&&&&&&&&&&&&&&&&####~\n"NOR,me,victim);
-message_vision(HIR"                 .           ~&s.   ..ssS&&&&&&&&&&&&&&&&&&&####~\n"NOR,me,victim);
-message_vision(HIR"                 &           .&&&S&&&&&&&&&&&&&&&&&&&&&&&&#####~\n"NOR,me,victim);
-message_vision(HIR"                 Ss     ..sS&&&&&&&&&&&&&&&&&&&&&&&&&&&######~~\n"NOR,me,victim);
-message_vision(HIR"                  ~&&sS&&&&&&&&&&&&&&&&&&&&&&&&&&&########~\n"NOR,me,victim);
-message_vision(HIR"           .      s&&&&&&&&&&&&&&&&&&&&&&&&#########~~'\n"NOR,me,victim);
-message_vision(HIR"           &    s&&&&&&&&&&&&&&&&&&&&&#######~~'      s'         .\n"NOR,me,victim);
-message_vision(HIR"           &&..&&&&&&&&&&&&&&&&&&######~'       .....&&....    .&\n"NOR,me,victim);
-message_vision(HIR"            ~&&&&&&&&&&&&&&&######~' .     .sS&&&&&&&&&&&&&&&&s&&\n"NOR,me,victim);
-message_vision(HIR"              &&&&&&&&&&&&#####~     &. .s&&&&&&&&&&&&&&&&&&&&&&&&s.\n"NOR,me,victim);
-message_vision(HIR"   )          &&&&&&&&&&&#####'      `&&&&&&&&&###########&&&&&&&&&&&.\n"NOR,me,victim);
-message_vision(HIR"  ((          &&&&&&&&&&&#####       &&&&&&&&###~       ~####&&&&&&&&&&\n"NOR,me,victim);
-message_vision(HIR"  ) \\         &&&&&&&&&&&&####.     &&&&&&###~             ~###&&&&&&&&&   s'\n"NOR,me,victim);
-message_vision(HIR" (   )        &&&&&&&&&&&&&####.   &&&&&###~                ####&&&&&&&&s&&'\n"NOR,me,victim);
-message_vision(HIR" )  ( (       &&~&&&&&&&&&&&#####.&&&&&###'                .###&&&&&&&&&&~\n"NOR,me,victim);
-message_vision(HIR" (  )  )   _.&~   &&&&&&&&&&&&######.&&##'                .###&&&&&&&&&&\n"NOR,me,victim);
-message_vision(HIR" ) (  ( \\.         ~&&&&&&&&&&&&&#######....          ..####&&&&&&&&&&&~\n"NOR,me,victim);
-message_vision(HIR"(   )& )  )        .&&&&&&&&&&&&&&&&&&####################&&&&&&&&&&&~\n"NOR,me,victim);
-message_vision(HIR"(   (&&  ( \\     _sS~  `~&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&S&&.\n"NOR,me,victim);
-message_vision(HIR" )  )&&&s ) )  .      .   `&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&~'  `&&\n"NOR,me,victim);
-message_vision(HIR"  (   &&&Ss/  .&.    .&..s&&&&&&##S&&&&&&&&&&&&&&&&&&&&&&&&S~~        '\n"NOR,me,victim);
-message_vision(HIR"    \\)_&&&&&&&&&&&&&&&&&&&&&&&##~  &&        `&&.        `&&.\n"NOR,me,victim);
-message_vision(HIR"        `~S&&&&&&&&&&&&&&&&&#~      &          `&          `&\n"NOR,me,victim);
-message_vision(HIR"            `~~~~~~~~~~~~~'         '           '           '\n\n\n"NOR,me,victim);
+message_vision(HIR + "                                        &.  &.     .\n" + NOR,me,victim);
+message_vision(HIR + "                                        ~ss.&ss. .s'\n" + NOR,me,victim);
+message_vision(HIR + "                                .     .ss&&&&&&&&&&s.\n" + NOR,me,victim);
+message_vision(HIR + "                                &. s&&&&&&&&&&&&&&`&&Ss\n" + NOR,me,victim);
+message_vision(HIR + "                                ~&&&&&&&&&&&&&&&&&&o&&&       .\n" + NOR,me,victim);
+message_vision(HIR + "                               s&&&&&&&&&&&&&&&&&&&&&&&&s.  .s\n" + NOR,me,victim);
+message_vision(HIR + "                              s&&&&&&&&&~&&&&&&~~~~&&&&&&~&&&&&.\n" + NOR,me,victim);
+message_vision(HIR + "                              s&&&&&&&&&&s~~&&&&ssssss~&&&&&&&&~\n" + NOR,me,victim);
+message_vision(HIR + "                             s&&&&&&&&&&'         `~~~ss~&~&s~~\n" + NOR,me,victim);
+message_vision(HIR + "                             s&&&&&&&&&&.              `~~~~~&  .s&&s\n" + NOR,me,victim);
+message_vision(HIR + "                             s&&&&&&&&&&&&s....               `s&&'  `\n" + NOR,me,victim);
+message_vision(HIR + "                         `ssss&&&&&&&&&&&&&&&&&&&&####s.     .&&~&.   . s-\n" + NOR,me,victim);
+message_vision(HIR + "                           `~~~~&&&&&&&&&&&&&&&&&&&&#####&&&&&&~     &.&'\n" + NOR,me,victim);
+message_vision(HIR + "                                 ~&&&&&&&&&&&&&&&&&&&&&####s~~     .&&&|\n" + NOR,me,victim);
+message_vision(HIR + "                                  ~&&&&&&&&&&&&&&&&&&&&&&&&##s    .&&~ &\n" + NOR,me,victim);
+message_vision(HIR + "                                   &&~~&&&&&&&&&&&&&&&&&&&&&&&&&&&&&~   `\n" + NOR,me,victim);
+message_vision(HIR + "                                  &&~  ~&~&&&&&&&&&&&&&&&&&&&&S~~~~'\n" + NOR,me,victim);
+message_vision(HIR + "                             .   .~     '  &&&&&&&&&&&&&&&&####s\n" + NOR,me,victim);
+message_vision(HIR + "                             &.          .s&&&&&&&&&&&&&&&&&####~\n" + NOR,me,victim);
+message_vision(HIR + "                 .           ~&s.   ..ssS&&&&&&&&&&&&&&&&&&&####~\n" + NOR,me,victim);
+message_vision(HIR + "                 &           .&&&S&&&&&&&&&&&&&&&&&&&&&&&&#####~\n" + NOR,me,victim);
+message_vision(HIR + "                 Ss     ..sS&&&&&&&&&&&&&&&&&&&&&&&&&&&######~~\n" + NOR,me,victim);
+message_vision(HIR + "                  ~&&sS&&&&&&&&&&&&&&&&&&&&&&&&&&&########~\n" + NOR,me,victim);
+message_vision(HIR + "           .      s&&&&&&&&&&&&&&&&&&&&&&&&#########~~'\n" + NOR,me,victim);
+message_vision(HIR + "           &    s&&&&&&&&&&&&&&&&&&&&&#######~~'      s'         .\n" + NOR,me,victim);
+message_vision(HIR + "           &&..&&&&&&&&&&&&&&&&&&######~'       .....&&....    .&\n" + NOR,me,victim);
+message_vision(HIR + "            ~&&&&&&&&&&&&&&&######~' .     .sS&&&&&&&&&&&&&&&&s&&\n" + NOR,me,victim);
+message_vision(HIR + "              &&&&&&&&&&&&#####~     &. .s&&&&&&&&&&&&&&&&&&&&&&&&s.\n" + NOR,me,victim);
+message_vision(HIR + "   )          &&&&&&&&&&&#####'      `&&&&&&&&&###########&&&&&&&&&&&.\n" + NOR,me,victim);
+message_vision(HIR + "  ((          &&&&&&&&&&&#####       &&&&&&&&###~       ~####&&&&&&&&&&\n" + NOR,me,victim);
+message_vision(HIR + "  ) \\         &&&&&&&&&&&&####.     &&&&&&###~             ~###&&&&&&&&&   s'\n" + NOR,me,victim);
+message_vision(HIR + " (   )        &&&&&&&&&&&&&####.   &&&&&###~                ####&&&&&&&&s&&'\n" + NOR,me,victim);
+message_vision(HIR + " )  ( (       &&~&&&&&&&&&&&#####.&&&&&###'                .###&&&&&&&&&&~\n" + NOR,me,victim);
+message_vision(HIR + " (  )  )   _.&~   &&&&&&&&&&&&######.&&##'                .###&&&&&&&&&&\n" + NOR,me,victim);
+message_vision(HIR + " ) (  ( \\.         ~&&&&&&&&&&&&&#######....          ..####&&&&&&&&&&&~\n" + NOR,me,victim);
+message_vision(HIR + "(   )& )  )        .&&&&&&&&&&&&&&&&&&####################&&&&&&&&&&&~\n" + NOR,me,victim);
+message_vision(HIR + "(   (&&  ( \\     _sS~  `~&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&S&&.\n" + NOR,me,victim);
+message_vision(HIR + " )  )&&&s ) )  .      .   `&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&~'  `&&\n" + NOR,me,victim);
+message_vision(HIR + "  (   &&&Ss/  .&.    .&..s&&&&&&##S&&&&&&&&&&&&&&&&&&&&&&&&S~~        '\n" + NOR,me,victim);
+message_vision(HIR + "    \\)_&&&&&&&&&&&&&&&&&&&&&&&##~  &&        `&&.        `&&.\n" + NOR,me,victim);
+message_vision(HIR + "        `~S&&&&&&&&&&&&&&&&&#~      &          `&          `&\n" + NOR,me,victim);
+message_vision(HIR + "            `~~~~~~~~~~~~~'         '           '           '\n\n\n" + NOR,me,victim);
 
         
                 me->set_temp("fdragon",1);
@@ -107,11 +107,11 @@ message_vision(HIR"            `~~~~~~~~~~~~~'         '           '           '
         {     
            if(random(100)>20)
         {
-            msg = HIR "火龍迅速的將"+enemy[i]->query("name")+"給吞噬,對"+enemy[i]->query("name")+"形成莫大的傷害！\n" NOR;
+            msg = HIR + "火龍迅速的將"+enemy[i]->query("name")+"給吞噬,對"+enemy[i]->query("name")+"形成莫大的傷害！\n" + NOR;
             enemy[i]->receive_damage("kee", fk*5+random(500),me);
                         COMBAT_D->report_status(enemy[i]);
         } else {
-                msg = HIW ""+enemy[i]->query("name")+"以極快的速度避開了火龍的攻擊。\n" NOR;
+                msg = HIW + ""+enemy[i]->query("name")+"以極快的速度避開了火龍的攻擊。\n" + NOR;
         }
                 
         message_vision(msg, me, target);
@@ -132,7 +132,7 @@ int can_use(object me)
   if(me) 
   {
     me->delete_temp("fdragon");
-    message_vision(HIR"火龍似乎受到$N的感招，再度浮遊於天際，等候$N的差遣!!\n"NOR,me);
+    message_vision(HIR + "火龍似乎受到$N的感招，再度浮遊於天際，等候$N的差遣!!\n" + NOR,me);
   }
   return 1;
 }

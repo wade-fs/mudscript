@@ -20,13 +20,13 @@ int main( object me, string arg )
 	switch( n ) {
 	case 1:
 		CHANNEL_D->do_channel( me, "ct",
-			"\n\t我 -「"HIW+me->query("clan/title")+HIY"」鄭重的宣佈……\n\t" +
-			"本幫全員進入警戒備戰狀態。"NOR );
+			"\n\t我 -「" + HIW+me->query("clan/title")+HIY + "」鄭重的宣佈……\n\t" +
+			"本幫全員進入警戒備戰狀態。" + NOR );
 		break;
 	case 0:
 		CHANNEL_D->do_channel( me, "ct",
-			"\n\t我 -「"HIW + me->query("clan/title") + HIY"」鄭重的宣佈……\n\t" +
-			"本幫全員解除警戒備戰狀態。"NOR );
+			"\n\t我 -「" + HIW + me->query("clan/title") + HIY + "」鄭重的宣佈……\n\t" +
+			"本幫全員解除警戒備戰狀態。" + NOR );
 	}
 
         return 1;

@@ -46,12 +46,12 @@ int exert(object me, object target)
   me->apply_condition("crazy",fun+10);
   if(fun < 30)
   {
-   message_vision(RED"                 $N詳閱\一本血紅的古書，口中喃喃自語不知道唸些什麼。
+   message_vision(RED + "                 $N詳閱\一本血紅的古書，口中喃喃自語不知道唸些什麼。
 
-                         "HIW"【"HIM"天道魔經"HIW"】    《"HIG"序章"HIW"》
+                         " + HIW + "【" + HIM + "天道魔經" + HIW + "】    《" + HIG + "序章" + HIW + "》
                          
                          
-                                 "HIB"魔 隨 空 而 發\n\n\n"NOR,me);
+                                 " + HIB + "魔 隨 空 而 發\n\n\n" + NOR,me);
          gain = fun + 10;
          me->add_temp("apply/attack",gain);
          me->add_temp("apply/defense",gain);
@@ -60,12 +60,12 @@ int exert(object me, object target)
 
   } else if ( fun < 65 && fun >= 30)
   {
-   message_vision(RED"                 $N詳閱\一本血紅的古書，原本生機盎然的目光逐漸渙散。
+   message_vision(RED + "                 $N詳閱\一本血紅的古書，原本生機盎然的目光逐漸渙散。
 
-                         "HIW"【"HIM"天道魔經"HIW"】    《"HIG"卷貳"HIW"》
+                         " + HIW + "【" + HIM + "天道魔經" + HIW + "】    《" + HIG + "卷貳" + HIW + "》
                          
                          
-                                 "HIC"魔 隨 影 而 動\n\n\n"NOR,me);
+                                 " + HIC + "魔 隨 影 而 動\n\n\n" + NOR,me);
          gain = (fun + sword)/2;
          me->add_temp("apply/attack",gain);
          me->add_temp("apply/defense",gain);
@@ -74,12 +74,12 @@ int exert(object me, object target)
          return 1;
   } else if ( fun < 99 && fun >= 65)
   { 
-   message_vision(RED"                 $N詳閱\一本血紅的古書，身上開始散發出陣陣陰森魔氣。
+   message_vision(RED + "                 $N詳閱\一本血紅的古書，身上開始散發出陣陣陰森魔氣。
 
-                         "HIW"【"HIM"天道魔經"HIW"】    《"HIG"卷三"HIW"》
+                         " + HIW + "【" + HIM + "天道魔經" + HIW + "】    《" + HIG + "卷三" + HIW + "》
                          
                          
-                                 "HIY"魔 隨 魂 而 殺\n\n\n"NOR,me);
+                                 " + HIY + "魔 隨 魂 而 殺\n\n\n" + NOR,me);
          gain = (fun + sword + blade)/2;
          me->add_temp("apply/attack",gain);
          me->add_temp("apply/defense",gain);
@@ -88,12 +88,12 @@ int exert(object me, object target)
          me->start_call_out( (: call_other, __FILE__, "remove_effect", me, gain, fun :), fun);
          return 1;
   } else { 
-   message_vision(RED"                 $N詳閱\一本血紅的古書，全身爆發出令人窒息的強大魔氣。
+   message_vision(RED + "                 $N詳閱\一本血紅的古書，全身爆發出令人窒息的強大魔氣。
 
-                         "HIW"【"HIM"天道魔經"HIW"】    《"HIG"終章"HIW"》
+                         " + HIW + "【" + HIM + "天道魔經" + HIW + "】    《" + HIG + "終章" + HIW + "》
                          
                          
-                                 "HIB"魔  道   "HIR"獸  神  變\n\n\n"NOR,me);
+                                 " + HIB + "魔  道   " + HIR + "獸  神  變\n\n\n" + NOR,me);
          gain = (fun + sword + exp + bell)/2;
          me->add_temp("apply/attack",gain);
          me->add_temp("apply/defense",gain);
@@ -116,7 +116,7 @@ void remove_effect(object me, int gain,int fun)
   me->set("eff_sen",me->query("max_sen"));
   me->delete_temp("crazy");
   me->clear_condition("crazy");
-  message_vision(HIW"$N自狂暴狀態中甦醒，恢復理性了。\n"NOR,me);
+  message_vision(HIW + "$N自狂暴狀態中甦醒，恢復理性了。\n" + NOR,me);
   if(fun < 30)
   {
          me->add_temp("apply/attack",-gain);

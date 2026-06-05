@@ -58,13 +58,13 @@ if(random(100) > 30)
 {
 if(random(9) >= 6)
 {
-message_vision(HIY"金者往地一拍，鑽石往你身上噴射！\n"NOR,me);
+message_vision(HIY + "金者往地一拍，鑽石往你身上噴射！\n" + NOR,me);
 for(j=0;j < i;j++) {
 target[j]->add("kee",-700); }
    }
    else
    {
-message_vision(HIC"金者仰天一笑，瞬時內息穩固。\n"NOR,me);
+message_vision(HIC + "金者仰天一笑，瞬時內息穩固。\n" + NOR,me);
 me->receive_curing("kee",1200);
 me->receive_heal("kee",1200);
     me->delete_busy();

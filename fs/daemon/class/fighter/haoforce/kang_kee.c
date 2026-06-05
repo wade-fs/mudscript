@@ -109,7 +109,7 @@ int perform(object me, object target)
     message_vision( NOR,me);
 
     if(me->query("kang-power")&&me->query("combat_exp")>5000000) {
-      message_vision(HIW"$N身上的『烈燄浩氣』與『浩日罡\氣』相輔相成提升了威力重創了$n。"NOR,me,target);
+      message_vision(HIW + "$N身上的『烈燄浩氣』與『浩日罡\氣』相輔相成提升了威力重創了$n。" + NOR,me,target);
       message_vision("\n",me);
 /*
   2002-12-25 修改by kalin:開放kang_power,讓kang_power不再是jen的專利,只要解過fire king,

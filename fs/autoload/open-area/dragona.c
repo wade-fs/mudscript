@@ -7,7 +7,7 @@ inherit SSERVER;
 
 void create()
 {
-  set_name(HIG"青龍護臂"NOR,({"dragon-armband"}));
+  set_name(HIG + "青龍護臂" + NOR,({"dragon-armband"}));
   set_weight(3000);
   if( clonep() )
     set_default_object(__FILE__);
@@ -24,8 +24,8 @@ void create()
     set("no_get",1);
     set("no_steal",1);
 	set("no_save",1);
-	set("wield_msg", HIG"$N穿戴上青龍護臂，瞬間能力上升了不少!!!\n"NOR);
-    set("unwield_msg", YEL"$N脫下青龍護臂覺得自身能力下降不少。\n"NOR);
+	set("wield_msg", HIG + "$N穿戴上青龍護臂，瞬間能力上升了不少!!!\n" + NOR);
+    set("unwield_msg", YEL + "$N脫下青龍護臂覺得自身能力下降不少。\n" + NOR);
   }
   setup();
   set("armor_prop/move", 2);

@@ -83,7 +83,7 @@ varargs int receive_damage(string type, int damage, object who)
   if(query_temp("woody"))
   {
     damage=0;
-    message("system",HIG"敵人的攻擊對妳而言根本不值一晒..\n\n" NOR,this_object());
+    message("system",HIG + "敵人的攻擊對妳而言根本不值一晒..\n\n" + NOR,this_object());
   }
   if(query_temp("no_armor_effect"))
     this_object()->delete_temp("no_armor_effect");
@@ -119,7 +119,7 @@ varargs int receive_wound(string type, int damage, object who)
   if(query_temp("woody"))
   {
     damage=0;
-    message("system",HIG"敵人的攻擊對妳而言根本不值一晒..\n\n" NOR,this_object());
+    message("system",HIG + "敵人的攻擊對妳而言根本不值一晒..\n\n" + NOR,this_object());
   }
 
   if(query_temp("no_armor_effect"))
@@ -183,7 +183,7 @@ void unconcious()
   if( objectp(defeater = query_temp("last_damage_from")) )
     COMBAT_D->winner_reward(defeater, this_object());
   this_object()->remove_all_enemy();
-  message("system", HIR "\n你的眼前一黑﹐接著什麼也不知道了....\n\n" NOR,this_object());
+  message("system", HIR + "\n你的眼前一黑﹐接著什麼也不知道了....\n\n" + NOR,this_object());
   this_object()->disable_player(" <昏迷不醒>");
   set("gin", 0);
   set("kee", 0);
@@ -197,7 +197,7 @@ void unconcious()
 //給被doctor起死回生的人用的 by bss
 void relive()
 {
-  message("system", HIR "\n你的眼前一黑﹐接著什麼也不知道了....\n\n" NOR,this_object());
+  message("system", HIR + "\n你的眼前一黑﹐接著什麼也不知道了....\n\n" + NOR,this_object());
   this_object()->disable_player(" <昏迷不醒>");
   set("gin", 0);
   set("kee", 0);
@@ -222,7 +222,7 @@ varargs void revive(int quiet)
 
   if( !quiet ) {
     COMBAT_D->announce(this_object(), "revive");
-    message("system", HIY "\n慢慢地你終於又有了知覺....\n\n" NOR,this_object());
+    message("system", HIY + "\n慢慢地你終於又有了知覺....\n\n" + NOR,this_object());
   } 
   foreach(object obj in all_inventory(this_object()))
   {
@@ -305,7 +305,7 @@ void die()
     if(userp(me)) {
       me->move( "/open/capital/room/r66" );
       tell_room( where, me->query("name")+"被人抬了出去。\n", me );
-      message_vision( HIR"$N被人從武鬥會場抬出來, 渾身是血, 狼狽不堪。\n"NOR, me );
+      message_vision( HIR + "$N被人從武鬥會場抬出來, 渾身是血, 狼狽不堪。\n" + NOR, me );
       "/open/mulitpk/room/room01.c"->valid_leave(me,"out");
     }
     else 
@@ -425,13 +425,13 @@ void die()
     switch( random(3) )
     {
       case 1:
-        tell_object(users(),HIB+me->query("name")+"("+me->query("id")+")的替身難過的說道：「主人請多保重，小的再也不能跟隨在身邊保護您了~~」。\n"NOR);
+        tell_object(users(),HIB+me->query("name")+"("+me->query("id")+")的替身難過的說道：「主人請多保重，小的再也不能跟隨在身邊保護您了~~」。\n" + NOR);
         break;
       case 2:
-        tell_object(users(),HIB+me->query("name")+"("+me->query("id")+")的替身淡淡的說道：「永別了!!希望主人能找到一個比我更好的替身!!」。\n"NOR);
+        tell_object(users(),HIB+me->query("name")+"("+me->query("id")+")的替身淡淡的說道：「永別了!!希望主人能找到一個比我更好的替身!!」。\n" + NOR);
         break;
       default:
-        tell_object(users(),HIB+me->query("name")+"("+me->query("id")+")的替身仰天長嘯說道：「我不甘心只是做一個替死鬼呀~~」。\n"NOR);
+        tell_object(users(),HIB+me->query("name")+"("+me->query("id")+")的替身仰天長嘯說道：「我不甘心只是做一個替死鬼呀~~」。\n" + NOR);
     }
     tell_object(me, "你用掉一個替身了, 你的替身正在地府觀光呢。\n");
 
@@ -464,7 +464,7 @@ void die()
   COMBAT_D->announce(me, "dead"); //使用combatd.c裡的事件訊息 //事件為dead時
   if( !userp(me) && me->query("ann_die") ) {
     CHANNEL_D->do_channel(this_object(), "rumor",
-      sprintf(HIB+"聽說%s"+HIB+"(%s"+HIB+")被無名氏打死了。"NOR,me->name(1),me->query("id")) );
+      sprintf(HIB+"聽說%s"+HIB+"(%s"+HIB+")被無名氏打死了。" + NOR,me->name(1),me->query("id")) );
   }
   if( objectp(killer = query_temp("last_damage_from")) || killer = me)
     set_temp("my_killer", killer->query("id"));
@@ -828,54 +828,54 @@ void die()
           }
 
           if( x->query("combat_exp")>3000000 && !x->query("hero/limit") ) {
-            tell_object( x, HIC+"你忽然間感覺到自己的武學修養在歷經多次生死戰鬥後, 達到隨心所欲的境界!\n"NOR );
-            tell_object( users(), HIR+x->query("name")+"在歷經無數次生死戰鬥後, 終於成為一代大俠!\n"NOR );
+            tell_object( x, HIC+"你忽然間感覺到自己的武學修養在歷經多次生死戰鬥後, 達到隨心所欲的境界!\n" + NOR );
+            tell_object( users(), HIR+x->query("name")+"在歷經無數次生死戰鬥後, 終於成為一代大俠!\n" + NOR );
             tell_object( x, "你可以使用 design_skill, show_skill 的指令, 來設計自己的招式, 請打 help 一代大俠。\n" );
             x->set( "hero/limit",1);
           }
           else if( x->query("combat_exp")>4000000 && x->query("hero/limit")<2 ) {
-            tell_object( x, HIY"你感覺到自己的武學修為更上層樓, 達到出神入化的境界!\n"NOR );
+            tell_object( x, HIY + "你感覺到自己的武學修為更上層樓, 達到出神入化的境界!\n" + NOR );
             x->add( "hero/limit", 1 );
           }
           else if( x->query("combat_exp")>5000000 && x->query("hero/limit")<3 ) {
-            tell_object( x, HIY"你感覺到自己的武學修為更上層樓, 達到驚世駭俗的境界!\n"NOR );
+            tell_object( x, HIY + "你感覺到自己的武學修為更上層樓, 達到驚世駭俗的境界!\n" + NOR );
             x->add( "hero/limit", 1 );
           }
           else if( x->query("combat_exp")>6000000 && x->query("hero/limit")<4 ) {
-            tell_object( x, HIY"你感覺到自己的武學修為更上層樓, 達到武道大成的境界!\n"NOR );
+            tell_object( x, HIY + "你感覺到自己的武學修為更上層樓, 達到武道大成的境界!\n" + NOR );
             x->add( "hero/limit", 1 );
           }
           else if( x->query("combat_exp")>7000000 && x->query("hero/limit")<5 ) {
-            tell_object( x, HIY"你感覺到自己的武學修為更上層樓, 達到成宗立派的境界!\n"NOR );
+            tell_object( x, HIY + "你感覺到自己的武學修為更上層樓, 達到成宗立派的境界!\n" + NOR );
             x->add( "hero/limit", 1 );
           }
           else if( x->query("combat_exp")>8000000 && x->query("hero/limit")<6 ) {
-            tell_object( x, HIY"你感覺到自己的武學修為更上層樓, 達到登峰造極的境界!\n"NOR );
+            tell_object( x, HIY + "你感覺到自己的武學修為更上層樓, 達到登峰造極的境界!\n" + NOR );
             x->add( "hero/limit", 1 );
           }
           else if( x->query("combat_exp")>9000000 && x->query("hero/limit")<7 ) {
-            tell_object( x, HIY"你感覺到自己的武學修為更上層樓, 達到舉世無雙的境界!\n"NOR );
+            tell_object( x, HIY + "你感覺到自己的武學修為更上層樓, 達到舉世無雙的境界!\n" + NOR );
             x->add( "hero/limit", 1 );
           }
           else if( x->query("combat_exp")>10000000 && x->query("hero/limit")<8 ) {
-            tell_object( x, HIY"你感覺到自己的武學修為更上層樓, 達到學究天人的境界!\n"NOR );
-            tell_object( users(), HIM+x->query("name")+"在歷經重重的艱苦修為後, 終於突破自己的武學極限, 學究天人!\n"NOR );
+            tell_object( x, HIY + "你感覺到自己的武學修為更上層樓, 達到學究天人的境界!\n" + NOR );
+            tell_object( users(), HIM+x->query("name")+"在歷經重重的艱苦修為後, 終於突破自己的武學極限, 學究天人!\n" + NOR );
             tell_object( x, "你可以使用 ut 至尊頻道。\n" );
             x->add( "hero/limit", 1 );
           }
           else if( x->query("combat_exp")>20000000 && !x->query("legend/limit")) {
-            tell_object( x, HIY"你感覺到自己的武學修為更上層樓, 達到武天至聖的境界!\n"NOR );
-            tell_object( users(), HIC+x->query("name")+"在歷經多年慘烈死鬥之後, 終於突破人類的武學極限, 成為武天至聖!\n"NOR );
+            tell_object( x, HIY + "你感覺到自己的武學修為更上層樓, 達到武天至聖的境界!\n" + NOR );
+            tell_object( users(), HIC+x->query("name")+"在歷經多年慘烈死鬥之後, 終於突破人類的武學極限, 成為武天至聖!\n" + NOR );
             x->set( "legend/limit", 1 );
           }
           else if( x->query("combat_exp")>30000000 && x->query("legend/limit")< 2 ) {
-            tell_object( x, HIY"你感覺到自己的武學修為更上層樓, 達到天人合一的境界!\n"NOR );
-            tell_object( users(), HIW"經過一次又一次的激烈決戰, "+x->query("name")+HIW"終於踏進傳說的領域, 達到天人合一!\n"NOR );
+            tell_object( x, HIY + "你感覺到自己的武學修為更上層樓, 達到天人合一的境界!\n" + NOR );
+            tell_object( users(), HIW + "經過一次又一次的激烈決戰, "+x->query("name")+HIW + "終於踏進傳說的領域, 達到天人合一!\n" + NOR );
             x->set( "legend/limit", 2 );
           }
           else if( x->query("combat_exp")>40000000 && x->query("legend/limit") <3 ) {
-            tell_object( x, HIY"你感覺到自己的武學修為更上層樓, 達到傳說之神話的境界!\n"NOR );
-            tell_object( users(), x->query("name")+"[1;30m於生死邊緣激戰無數次後, 終臻至武學最終境界, 成為只曾現於史書的傳說之神話!\n"NOR );
+            tell_object( x, HIY + "你感覺到自己的武學修為更上層樓, 達到傳說之神話的境界!\n" + NOR );
+            tell_object( users(), x->query("name")+"[1;30m於生死邊緣激戰無數次後, 終臻至武學最終境界, 成為只曾現於史書的傳說之神話!\n" + NOR );
             x->set( "legend/limit", 3 );
           }
         }

@@ -32,12 +32,12 @@ void create()
   set("long", 
 "天道紫玄觀的掌門，兩鬢斑白，一對長眉垂頰。看來歲數應該
 不少了，但臉上卻依然神采奕奕，到十足像個三四十歲的中年
-人。據說他不但精通"HIG"易經"NOR"，"HIG"老莊"NOR"，而且還擅於"HIG"星象"NOR"卜卦一類。\n"
+人。據說他不但精通" + HIG + "易經" + NOR + "，" + HIG + "老莊" + NOR + "，而且還擅於" + HIG + "星象" + NOR + "卜卦一類。\n"
 );
        
   set("gender","男性");
   set("class","taoist");
-  set("nickname",MAG"紫玄老道"NOR);
+  set("nickname",MAG + "紫玄老道" + NOR);
   set("combat_exp",3000000);
   set("attitude","friendly");
   set("age",88);
@@ -191,11 +191,11 @@ int accept_object(object me, object obj)
         "你學會了天書中所記載的絕學「天罡\戰氣」。\n"+
         "使用方式為「cast godfight」，據聞為一傷敵也傷己身之招式，慎用之。\n");
       me->set("marks/god-kee",1);
-      me->set("title",HIY"天道"HIR"嫡傳弟子"NOR);
+      me->set("title",HIY + "天道" + HIR + "嫡傳弟子" + NOR);
     }
     break;
 
-  case HIR"焚天魔王的人頭"NOR:
+  case HIR + "焚天魔王的人頭" + NOR:
     command("spank "+getuid(me));
     command("say 感謝少俠為武林除害。");
     if( me->query("family/family_name") == "天道派" &&
@@ -284,7 +284,7 @@ string do_mission()
   if(who->query_temp("ask_area1")!=1)
     return "這不是妳該問的吧";
   who->set("quest/ask_tendo_hawk1",1);
-  return HIY"\n            當年魔王焚天禍害人間，先師便發誓要鏟除焚天維護天下和平，如今\n            你取來焚天魔王的人頭，為師便幫你解除『異域空間』。"NOR;
+  return HIY + "\n            當年魔王焚天禍害人間，先師便發誓要鏟除焚天維護天下和平，如今\n            你取來焚天魔王的人頭，為師便幫你解除『異域空間』。" + NOR;
 }
 
 string adv_taoist()
@@ -303,16 +303,16 @@ string adv_taoist()
   if(me->query("spells/missible/level")<100)
     return "你的紫幽之箭還不夠強, 不夠資格";
   if(i==0){
-    me->set("title",HIR"三道魂"HIW"˙"HIG"冥月"HIM"道使"NOR) ;
-    message("system",HIG"陸清風朗聲說道:恭喜"HIY+this_player()->name()+HIM"成為"HIR"三道魂"HIW"˙"HIG"冥月"HIM"道使..\n"NOR,users());
+    me->set("title",HIR + "三道魂" + HIW + "˙" + HIG + "冥月" + HIM + "道使" + NOR) ;
+    message("system",HIG + "陸清風朗聲說道:恭喜" + HIY+this_player()->name()+HIM + "成為" + HIR + "三道魂" + HIW + "˙" + HIG + "冥月" + HIM + "道使..\n" + NOR,users());
   } 
   else if(i==1){
-    me->set("title",HIR"三道魂"HIW"˙"HIR"焰日"HIM"道使"NOR) ;
-    message("system",HIG"陸清風朗聲說道:恭喜"HIY+this_player()->name()+HIM"成為"HIR"三道魂"HIW"˙"HIR"焰日"HIM"道使..\n"NOR,users());
+    me->set("title",HIR + "三道魂" + HIW + "˙" + HIR + "焰日" + HIM + "道使" + NOR) ;
+    message("system",HIG + "陸清風朗聲說道:恭喜" + HIY+this_player()->name()+HIM + "成為" + HIR + "三道魂" + HIW + "˙" + HIR + "焰日" + HIM + "道使..\n" + NOR,users());
   }
   else{
-    me->set("title",HIR"三道魂"HIW"˙"HIC"銀星"HIM"道使"NOR) ;
-    message("system",HIG"陸清風朗聲說道:恭喜"HIY+this_player()->name()+HIM"成為"HIR"三道魂"HIW"˙"HIC"銀星"HIM"道使..\n"NOR,users());
+    me->set("title",HIR + "三道魂" + HIW + "˙" + HIC + "銀星" + HIM + "道使" + NOR) ;
+    message("system",HIG + "陸清風朗聲說道:恭喜" + HIY+this_player()->name()+HIM + "成為" + HIR + "三道魂" + HIW + "˙" + HIC + "銀星" + HIM + "道使..\n" + NOR,users());
   }
   me->set("adv_taoist",1);
   return "恭喜你,修為更上層樓並對於紫幽及蒼冥之箭有更深的造詣!!";
@@ -333,9 +333,9 @@ void attempt_apprentice(object ob)
   }
   command("hmm");
   command("recruit "+ob->query("id"));
-  message("system",HIG"陸清風撫鬚笑道『  乘天地之正，御六氣之辯  』
+  message("system",HIG + "陸清風撫鬚笑道『  乘天地之正，御六氣之辯  』
 
-悠悠寰宇中，又多了一位仙風道骨的術士！！\n"NOR,users());
+悠悠寰宇中，又多了一位仙風道骨的術士！！\n" + NOR,users());
 
   command("say 本派首重修身養性，非不得已盡量不要與人交手。");
   write("\n");
@@ -349,7 +349,7 @@ string do_area1()
   if(who->query("class")!="taoist")  
     return "你不是本門弟子問這幹什麼？";
   who->set_temp("ask_area1",1);
-  return HIY"\n            當年先師為了防止有人闖入崑崙仙境擾他清修，特別在入口之處佈置\n            無上道法『異域空間』，並吩咐若想前往崑崙仙境，必先完成天道派\n            宿世使命，方能獲准進入仙境。"NOR;
+  return HIY + "\n            當年先師為了防止有人闖入崑崙仙境擾他清修，特別在入口之處佈置\n            無上道法『異域空間』，並吩咐若想前往崑崙仙境，必先完成天道派\n            宿世使命，方能獲准進入仙境。" + NOR;
 }
 
 string do_area()
@@ -357,7 +357,7 @@ string do_area()
   object who=this_player();
   if(who->query("class")!="taoist")
     return ("哎....星象之學浩瀚無窮，豈是三言兩語就能說完的。");
-  return ("說到星象，這"HIW"雲龍陣"CYN"就是為師當年以星象為據所排出的迷陣。"NOR"");
+  return ("說到星象，這" + HIW + "雲龍陣" + CYN + "就是為師當年以星象為據所排出的迷陣。" + NOR + "");
 }
 
 string ask_tesin()
@@ -395,9 +395,9 @@ string do_array()
   if(!who->query_temp("asked")) {
     who->set_temp("asked",1);
     return ("\n也好....你既然成為術士，也該知道這事。\n\n陸清風略有所思地繼續說道﹕
-在雲龍陣旁有座"HIW"鎖妖塔"CYN"。是當年魔界出口--魔眼洞崩毀眾妖大鬧人間
+在雲龍陣旁有座" + HIW + "鎖妖塔" + CYN + "。是當年魔界出口--魔眼洞崩毀眾妖大鬧人間
 時，被祖師爺封印於那的。由於眾妖危害甚巨，為師才特地佈陣於此
-加以保護，以防節外生枝壞了祖師爺五百年前的一番浴血苦戰。"NOR"");
+加以保護，以防節外生枝壞了祖師爺五百年前的一番浴血苦戰。" + NOR + "");
   }
   return ("\n此陣殺惡不殺善，是專防妖魔侵入而設。如殺氣過高則陣中雲龍會誤以為妖魔來
 襲而攻擊。
@@ -478,11 +478,11 @@ void die()
   class1 = winner->query("family/family_name");
 
   new("/open/tendo/obj/lucloth")->move(winner);
-  tell_object(users(),HIW"          
-         陸清風"HIG"嘆道:"HIC"天書"HIG"尚未找回,"HIR"冥殿修羅"HIG"未敗,
-                    哎,我竟會敗給"+HIB+class1+HIG"弟子"+HIB+name+HIG+"之手,
+  tell_object(users(),HIW + "          
+         陸清風" + HIG + "嘆道:" + HIC + "天書" + HIG + "尚未找回," + HIR + "冥殿修羅" + HIG + "未敗,
+                    哎,我竟會敗給"+HIB+class1+HIG + "弟子"+HIB+name+HIG+"之手,
                     我不干心阿!!\n\n
-              "HBCYN"一道白光從崑崙山直升天際\n"NOR);
+              " + HBCYN + "一道白光從崑崙山直升天際\n" + NOR);
 /*
   if(userp(winner) && winner->query_temp("not_robot") > 1 )
   {
@@ -492,7 +492,7 @@ void die()
       if( j==7 || j==77 || j== 777 || j==1111 || j==55 || j==555 || j==1000 || j==4000 || j==3333 || j==2222 )
       {      
         new("/open/sky/obj3/light_feather")->move(environment(winner));
-        message_vision(HIM"\n從陸清風的身上掉下了一件奇怪的東西!!\n"NOR,winner);
+        message_vision(HIM + "\n從陸清風的身上掉下了一件奇怪的東西!!\n" + NOR,winner);
         write_file("/log/sky/obj3/light_feather",sprintf("%s(%s) 讓陸清風掉下了光之明羽於 %s\n",
         winner->name(1),winner->query("id"),ctime(time())));
       }
@@ -501,7 +501,7 @@ void die()
       if( j==5 || j==15 || j== 150 || j==1500 || j==10 || j==100 || j==1000 || j==4000 || j==6666 || j==7777 ) 
       {      
         new("/open/sky/obj3/light_feather")->move(environment(winner));
-        message_vision(HIM"\n從陸清風的身上掉下了一件奇怪的東西!!\n"NOR,winner);
+        message_vision(HIM + "\n從陸清風的身上掉下了一件奇怪的東西!!\n" + NOR,winner);
         write_file("/log/sky/obj3/light_feather",sprintf("%s(%s) 讓陸清風掉下了光之明羽於 %s\n",
         winner->name(1),winner->query("id"),ctime(time())));
       }

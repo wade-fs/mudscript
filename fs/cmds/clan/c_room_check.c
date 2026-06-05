@@ -73,24 +73,24 @@ int main( object me, string arg )
 		room = (object)get_file_name( me, clan, num, 1 );
 		me->move(room);
 		if( strlen( room->query("long") ) < 200 )
-			write( HIR"此區域敘述共計 " + strlen( room->query("long") ) + " 字, 不合規定。\n"NOR );
+			write( HIR + "此區域敘述共計 " + strlen( room->query("long") ) + " 字, 不合規定。\n" + NOR );
 		else
-			write( HIG"此區域敘述共計 " + strlen( room->query("long") ) + " 字, 符合規定。\n"NOR );
+			write( HIG + "此區域敘述共計 " + strlen( room->query("long") ) + " 字, 符合規定。\n" + NOR );
 		break;
 	case "b" :
 		room = (object)get_file_name( me, clan, num, 2 );
 		me->move(room);
 		if( strlen( room->query("long") ) < 200 )
-			write( HIR"此區域敘述共計 " + strlen( room->query("long") ) + " 字, 不合規定。\n"NOR );
+			write( HIR + "此區域敘述共計 " + strlen( room->query("long") ) + " 字, 不合規定。\n" + NOR );
 		else
-			write( HIG"此區域敘述共計 " + strlen( room->query("long") ) + " 字, 符合規定。\n"NOR );
+			write( HIG + "此區域敘述共計 " + strlen( room->query("long") ) + " 字, 符合規定。\n" + NOR );
 		break;
 	case "d" :
 		filename = get_file_name( me, clan, num, 0 );
 		room = (object)filename;
 		rm(filename);
 		me->move( get_file_name( me, clan, num, 2 ), 1 );
-		write( HIM"刪除[" + room->short() + HIM"] - (" + filename + ")。\n"NOR );
+		write( HIM + "刪除[" + room->short() + HIM + "] - (" + filename + ")。\n" + NOR );
 		break;
 	default :
 		return help(me);

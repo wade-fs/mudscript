@@ -12,8 +12,8 @@ object me;
 
 void create()
 {
-  set_name(MAG"ω"CYN""BBLU"冥魔寶盒"NOR""MAG"ω"NOR,({"ghost-box"}));
-  set("long",HIW"死冥骨魔的戰甲(pray ghost) (explode) (summary)。\n"NOR);
+  set_name(MAG + "ω" + CYN + "" + BBLU + "冥魔寶盒" + NOR + "" + MAG + "ω" + NOR,({"ghost-box"}));
+  set("long",HIW + "死冥骨魔的戰甲(pray ghost) (explode) (summary)。\n" + NOR);
   set("unit","座");  
   set("no_auc",1);
   set("no_sell",1);
@@ -46,10 +46,10 @@ int do_pray(string str)
     return 0;
   if(me->query_temp("pray_ghost"))
   {
-    message_vision(HIW"$N的冥魔戰甲已分解完畢。\n"NOR,me);
+    message_vision(HIW + "$N的冥魔戰甲已分解完畢。\n" + NOR,me);
     return 1;
   }
-  message_vision (HIW"$N讓自己的意識墮入黑暗深淵，誠心祈求邪靈庇護，"CYN""BBLU"冥魔戰甲"NOR""HIW"由盒中緩緩浮升。\n"NOR,me);
+  message_vision (HIW + "$N讓自己的意識墮入黑暗深淵，誠心祈求邪靈庇護，" + CYN + "" + BBLU + "冥魔戰甲" + NOR + "" + HIW + "由盒中緩緩浮升。\n" + NOR,me);
   room=environment(me);
   eq01 = new("/open/ghost-hole/obj/eq/ghost-save-cloak");
   eq02 = new("/open/ghost-hole/obj/eq/ghost-save-armband");
@@ -89,7 +89,7 @@ int do_summary()
     return notify_fail("請先將戰甲脫下來吧。\n");
   } else {
 //    object ob01,ob02,ob03,ob04,ob05,ob06,ob07,ob08,ob09,ob10,ob11,ob12;
-    message_vision (HIW"$N以堅強鬥心召回邪靈陰魄，將"CYN""BBLU"冥魔戰甲"NOR""HIW"重新封印於盒中。\n"NOR,me);
+    message_vision (HIW + "$N以堅強鬥心召回邪靈陰魄，將" + CYN + "" + BBLU + "冥魔戰甲" + NOR + "" + HIW + "重新封印於盒中。\n" + NOR,me);
     if( present("ghost-cloak",me) ) destruct(present("ghost-cloak",me));
     if( present("ghost-armband",me) ) destruct(present("ghost-armband",me));
     if( present("ghost-boots",me) ) destruct(present("ghost-boots",me));
@@ -158,7 +158,7 @@ int do_explode()
     {
       return notify_fail("你已經在用嘍。\n");
     }
-    message_vision(HIM"\n$N全力爆發冥魔戰甲的頂級力量，只見戰甲各部分均釋出無限妖力，注入$N體內。\n"NOR,me);
+    message_vision(HIM + "\n$N全力爆發冥魔戰甲的頂級力量，只見戰甲各部分均釋出無限妖力，注入$N體內。\n" + NOR,me);
     set_heart_beat(1);
     me->set_temp("ghost_explode",1);
     if(me->query("class")=="fighter") //fighter的功能
@@ -194,7 +194,7 @@ void heart_beat()
   {
     if(random(100)<20)
     {
-      message_vision(HIB"\n$N週身環繞著妖異的"HIM"紫"HIR"炎"HIY"鬥氣"HIB"，滾滾翻騰。\n"NOR,me);
+      message_vision(HIB + "\n$N週身環繞著妖異的" + HIM + "紫" + HIR + "炎" + HIY + "鬥氣" + HIB + "，滾滾翻騰。\n" + NOR,me);
     }
     if(me->query("class")=="fighter")
     {

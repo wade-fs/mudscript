@@ -12,7 +12,7 @@ string *parry_msg= ({
 });
 
 mapping *action = ({
-([ "action" : HIM"$N使出魔域"HIB"『"HIM"天殘手"HIB"』"HIM"中的絕招"HIB"『"HIM"天殘刀氣"HIB"』"HIM"，右手一動一道刀氣便直奔向$n剎那間$n的$l已被割傷...\n"NOR,
+([ "action" : HIM + "$N使出魔域" + HIB + "『" + HIM + "天殘手" + HIB + "』" + HIM + "中的絕招" + HIB + "『" + HIM + "天殘刀氣" + HIB + "』" + HIM + "，右手一動一道刀氣便直奔向$n剎那間$n的$l已被割傷...\n" + NOR,
         "dodge":   20,
         "parry":   20,
         "damage":   250,
@@ -21,7 +21,7 @@ mapping *action = ({
         
 ]),
 
-([ "action" :HIM"$N使出魔域"HIB"『"HIM"天殘手"HIB"』"HIM"中的"HIB"『"HIM"天殘鎖功\手"HIB"』"HIM"伸手遙抓一探便使得$n的內息無法發揮，功\力盡被$N鎖住!!\n"NOR,
+([ "action" :HIM + "$N使出魔域" + HIB + "『" + HIM + "天殘手" + HIB + "』" + HIM + "中的" + HIB + "『" + HIM + "天殘鎖功\手" + HIB + "』" + HIM + "伸手遙抓一探便使得$n的內息無法發揮，功\力盡被$N鎖住!!\n" + NOR,
         "dodge":   30,
         "parry":   30,
         "damage":   250,
@@ -29,7 +29,7 @@ mapping *action = ({
         "damage_type" : "氣血逆行"
 ]),
 
-([ "action" :HIM"$N使出"HIB"『"HIM"天殘手"HIB"』"HIM"中的"HIB"『"HIM"分筋錯骨"HIB"』"HIM"，雙手一探，順勢一扭，一挫，$n嚎叫連連原來$n的筋脈已被錯開，手法之殘忍不禁令人毛骨悚然...\n"NOR,
+([ "action" :HIM + "$N使出" + HIB + "『" + HIM + "天殘手" + HIB + "』" + HIM + "中的" + HIB + "『" + HIM + "分筋錯骨" + HIB + "』" + HIM + "，雙手一探，順勢一扭，一挫，$n嚎叫連連原來$n的筋脈已被錯開，手法之殘忍不禁令人毛骨悚然...\n" + NOR,
         "dodge":   30,
         "parry":    30,
         "damage":   250,
@@ -37,7 +37,7 @@ mapping *action = ({
         "damage_type" : "筋脈挫傷"
 ]),
 
-([ "action" :HIM "$N使出了"HIB"『"HIM"天殘一氣指"HIB"』"HIM"食指一伸一道凌厲的指力往$n的$l射出，四周生物被這到凌厲之氣所掃，非死即碎!!\n"NOR,
+([ "action" :HIM + "$N使出了" + HIB + "『" + HIM + "天殘一氣指" + HIB + "』" + HIM + "食指一伸一道凌厲的指力往$n的$l射出，四周生物被這到凌厲之氣所掃，非死即碎!!\n" + NOR,
         "dodge":    30,
         "parry":    30,
         "damage":   270,
@@ -45,7 +45,7 @@ mapping *action = ({
         "damage_type" : "刺傷"
 ]),
 
-([ "action" :HIM"$N將全身真氣聚於胸前，聚氣凝功\，四周地面剎那間不斷震動，狂風大作，正是"HIB"『"HIM"天殘手"HIB"』"HIM"的超級絕招"HIB"『"HIM"天殘轟天擊"HIB"』"HIM"的前奏!!驀然$N一聲大喝，將所聚之真氣一次激出，狠狠地射向$n的胸口!!\n"NOR,
+([ "action" :HIM + "$N將全身真氣聚於胸前，聚氣凝功\，四周地面剎那間不斷震動，狂風大作，正是" + HIB + "『" + HIM + "天殘手" + HIB + "』" + HIM + "的超級絕招" + HIB + "『" + HIM + "天殘轟天擊" + HIB + "』" + HIM + "的前奏!!驀然$N一聲大喝，將所聚之真氣一次激出，狠狠地射向$n的胸口!!\n" + NOR,
         "dodge":   100,
         "parry":   100,
         "damage":   240,
@@ -60,7 +60,7 @@ mapping *action = ({
 
 void super(object me, object victim, object  weapon, int damage)
 {
-  message_vision(HIR"結果$N所凝的真氣在$n的胸口瘋狂炸開，血花四濺，令人觸目心驚!!\n"NOR,me,victim);
+  message_vision(HIR + "結果$N所凝的真氣在$n的胸口瘋狂炸開，血花四濺，令人觸目心驚!!\n" + NOR,me,victim);
   victim->receive_damage("kee",190,me);
   COMBAT_D->report_status(victim);
 }

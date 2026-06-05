@@ -4,7 +4,7 @@
 inherit BLADE;
 void create()
 {
-set_name(HIB"魔刀"NOR,({"mblade","blade"}));
+set_name(HIB + "魔刀" + NOR,({"mblade","blade"}));
 set_weight(5000);
 if(clonep())
 set_default_object(__FILE__);

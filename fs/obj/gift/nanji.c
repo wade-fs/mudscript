@@ -31,6 +31,6 @@ mixed query_story_message(int step)
 string give_gift()
 {
         STORY_D->give_gift("/obj/gift/xisuidan", 1,
-                           HIM "\n「啪」的一聲一枚黑不溜秋的丹藥掉到你面前。\n\n" NOR);
+                           HIM + "\n「啪」的一聲一枚黑不溜秋的丹藥掉到你面前。\n\n" + NOR);
         return "赤腳大仙急道：唉！老兄，你誤會了！這是鬥戰勝佛蒙佛主所賜的洗髓丹，妙不可言。";
 }

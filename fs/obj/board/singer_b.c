@@ -3,7 +3,7 @@ inherit BULLETIN_BOARD;
                                                                 
 void create()
 {
-        set_name(HIC"詠樂門菱晶碑"NOR,({"singer board", "board"}));
+        set_name(HIC + "詠樂門菱晶碑" + NOR,({"singer board", "board"}));
         set("location","/open/singer/m01");
         set("board_id","singer_b");
         set("long","

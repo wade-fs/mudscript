@@ -33,7 +33,7 @@ if(me->query("class")!="prayer")
 
         me->set_temp("green",1);
         message_vision(
-        HIC "$N運起渾天心法第十層"HIG"[玄宇宙]"HIC"，剎時天空昏暗，萬星繁動，全身各條經脈均充滿了星晨所付予的氣勁!!\n" NOR,me);
+        HIC + "$N運起渾天心法第十層" + HIG + "[玄宇宙]" + HIC + "，剎時天空昏暗，萬星繁動，全身各條經脈均充滿了星晨所付予的氣勁!!\n" + NOR,me);
         me->add_temp("apply/force", 100);
         me->add_temp("apply/unarmed", 100);
         me->add_temp("apply/parry", 100);

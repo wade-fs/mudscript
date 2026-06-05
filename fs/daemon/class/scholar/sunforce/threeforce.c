@@ -17,13 +17,13 @@ int exert(object me, object target)
        if(!target) return notify_fail("找不到敵人!!\n");
         if(userp(target)) damage/=2;
         me->set_temp("using_threeforce",1);
-        message_vision(HIG"
-只聽$N"HIG"狂喝一聲，在$N"HIG"與$n"HIG"接觸之時，體內三氣分作三重，化成滔天巨浪，剎那間
-三波真氣全送入了$n"HIG"的體內!!!
-「轟!」一聲勁氣交接的巨響，兩人同時被震退!!\n"NOR,me,target);
-        message_vision(HIR"
-可是$N"HIR"在退到一半的時候突然全身劇震，經脈受到了$n"HIR"第一重真氣的影響，
-全身經脈如同被一股巨力重鎚，勁力登時喪失了許\多!!!\n"NOR,target,me);
+        message_vision(HIG + "
+只聽$N" + HIG + "狂喝一聲，在$N" + HIG + "與$n" + HIG + "接觸之時，體內三氣分作三重，化成滔天巨浪，剎那間
+三波真氣全送入了$n" + HIG + "的體內!!!
+「轟!」一聲勁氣交接的巨響，兩人同時被震退!!\n" + NOR,me,target);
+        message_vision(HIR + "
+可是$N" + HIR + "在退到一半的時候突然全身劇震，經脈受到了$n" + HIR + "第一重真氣的影響，
+全身經脈如同被一股巨力重鎚，勁力登時喪失了許\多!!!\n" + NOR,target,me);
         target->add_temp("apply/damage",-(target->query_temp("apply/damage")/2));
         target->add_temp("apply/attack",-(target->query_temp("apply/attack")/2));
         target->add("force",-(target->query("force")/5));
@@ -40,9 +40,9 @@ int action1(object me,object target,int damage)
         {
         if(target->is_fighting())
         {
-        message_vision(HIB"
-就在$N"HIB"以為擺\拖了$n"HIB"的真氣攻擊時，$n"HIB"的第二波真氣開始發揮作用，陰渺難測的真氣
-開始在$N"HIB"的體內亂竄，$N"HIB"全身經脈就如同被扭在一起，身體的靈活度登時變差了許\多!!\n"NOR,target,me);
+        message_vision(HIB + "
+就在$N" + HIB + "以為擺\拖了$n" + HIB + "的真氣攻擊時，$n" + HIB + "的第二波真氣開始發揮作用，陰渺難測的真氣
+開始在$N" + HIB + "的體內亂竄，$N" + HIB + "全身經脈就如同被扭在一起，身體的靈活度登時變差了許\多!!\n" + NOR,target,me);
         target->add_temp("apply/defense",-(target->query_temp("apply/defense")/2));
         target->add_temp("apply/armor",-(target->query_temp("apply/armor")/2));
         target->add("force",-(target->query("force")/4));
@@ -67,10 +67,10 @@ int action2(object me,object target,int damage)
         {
         if(target->is_fighting())
         {
-        message_vision(HIM"
-正當$N"HIM"憑藉著本身真氣將$n"HIM"第二重真氣引入地上時，$n"HIM"的第三重真氣卻已經全無預兆的
-侵入到$N"HIM"的精神之中，$N"HIM"登時整個人飄飄蕩蕩，說不出的心顫魂搖，難受得要命，大腦
-似若不再聽$N"HIM"的指揮，鬥志大減!!\n"NOR,target,me);
+        message_vision(HIM + "
+正當$N" + HIM + "憑藉著本身真氣將$n" + HIM + "第二重真氣引入地上時，$n" + HIM + "的第三重真氣卻已經全無預兆的
+侵入到$N" + HIM + "的精神之中，$N" + HIM + "登時整個人飄飄蕩蕩，說不出的心顫魂搖，難受得要命，大腦
+似若不再聽$N" + HIM + "的指揮，鬥志大減!!\n" + NOR,target,me);
         target->set_temp("apply/damage",1);
         target->set_temp("apply/attack",1);
         target->add("force",-(target->query("force")/3));

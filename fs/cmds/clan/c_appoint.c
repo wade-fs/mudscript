@@ -96,16 +96,16 @@ int main (object me, string str)
 	who->set("clan/title",title);
 	if( rank < rank_o )
 		CHANNEL_D->do_channel(me, "ct",
-			"\n\t我 -「"HIW+me->query("clan/title")+HIY"」鄭重的宣佈……\n\t提拔"+
-			who->query("name")+"("+who->query("id")+")為「"HIC+who->query("clan/title")+HIY"」。"NOR);
+			"\n\t我 -「" + HIW+me->query("clan/title")+HIY + "」鄭重的宣佈……\n\t提拔"+
+			who->query("name")+"("+who->query("id")+")為「" + HIC+who->query("clan/title")+HIY + "」。" + NOR);
 	else if( rank > rank_o )
 		CHANNEL_D->do_channel(me, "ct",
-			"\n\t我 -「"HIW+me->query("clan/title")+HIY"」鄭重的宣佈……\n\t將"+
-			who->query("name")+"("+who->query("id")+")貶為「"HIC+who->query("clan/title")+HIY"」。"NOR);
+			"\n\t我 -「" + HIW+me->query("clan/title")+HIY + "」鄭重的宣佈……\n\t將"+
+			who->query("name")+"("+who->query("id")+")貶為「" + HIC+who->query("clan/title")+HIY + "」。" + NOR);
 	else
 		CHANNEL_D->do_channel(me, "ct",
-			"\n\t我 -「"HIW+me->query("clan/title")+HIY"」鄭重的宣佈……\n\t將"+
-			who->query("name")+"("+who->query("id")+")調任「"HIC+who->query("clan/title")+HIY"」。"NOR);
+			"\n\t我 -「" + HIW+me->query("clan/title")+HIY + "」鄭重的宣佈……\n\t將"+
+			who->query("name")+"("+who->query("id")+")調任「" + HIC+who->query("clan/title")+HIY + "」。" + NOR);
   if (i) {
     who->save();
     destruct(who);

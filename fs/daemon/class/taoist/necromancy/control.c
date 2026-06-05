@@ -89,8 +89,8 @@ object control(object me,object base_mob,object target)
   mob->set("env/sid",1);
   destruct(target);
   // 看是不是要限制 npc 最多能控制多久，可以說屍體爛掉了，否則fireking來人間，真的超強。
-  message_vision(HIY"\t$N從身上拿出空白的符，龍飛鳳舞的在符上畫上咒語。\n"+
+  message_vision(HIY + "\t$N從身上拿出空白的符，龍飛鳳舞的在符上畫上咒語。\n"+
                    "\t接著將符貼到$n頭上，並且大聲的喝道：\n"+
-				   "\n\t\t\t"HIR"起！"HIY"\n\n\t接著屍體就悠然的站起。\n"NOR,me,mob);
+				   "\n\t\t\t" + HIR + "起！" + HIY + "\n\n\t接著屍體就悠然的站起。\n" + NOR,me,mob);
   return mob;
 }

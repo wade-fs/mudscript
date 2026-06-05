@@ -3,7 +3,7 @@
 inherit BULLETIN_BOARD;
 void create()
 {
-set_name(HIW"【"HIM"天龍八部"HIY"留言板"HIW"】"NOR,({"Eight_Dragon","board"}));
+set_name(HIW + "【" + HIM + "天龍八部" + HIY + "留言板" + HIW + "】" + NOR,({"Eight_Dragon","board"}));
 set("location","/open/clan/Eight_Dragon/hall");
 set("board_id","Eight_Dragon_A");
 set("long","");

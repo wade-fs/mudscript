@@ -30,7 +30,7 @@ void second( object *user , string str )
 	string  list, CO, state_str, list2;
 	user = sort_array(user, "sort_rank", this_object());
         i = sizeof(user);
-        list = sprintf( HIG"《"HIY"%|10s"HIG"》"HIC" 線上幫眾 "NOR"-\n", str );
+        list = sprintf( HIG + "《" + HIY + "%|10s" + HIG + "》" + HIC + " 線上幫眾 " + NOR + "-\n", str );
 	list+= "───────────────────────────────────────\n";
 	count = 0;
 
@@ -58,7 +58,7 @@ void second( object *user , string str )
 		state_str = "";
 		count++;
 
-                list = sprintf( "%s"HIC"【"NOR"%|10s"HIC"】"NOR"%s%|10s%s"NOR"",
+                list = sprintf( "%s" + HIC + "【" + NOR + "%|10s" + HIC + "】" + NOR + "%s%|10s%s" + NOR + "",
 			list,
                         area(user[i]),
                         CO,
@@ -73,23 +73,23 @@ void second( object *user , string str )
                 list += list2;
 
 		if( user[i]->query_temp("netdead") ) {
-			state_str += HIR"(斷線)"NOR;
+			state_str += HIR + "(斷線)" + NOR;
 			state = 1;
 		}
 		if( !environment(user[i]) ) {
-			state_str += HIG"(異次元)"NOR;
+			state_str += HIG + "(異次元)" + NOR;
 			state = 1;
 		}
 		if( in_edit(user[i]) ) {
-			state_str += HIY"(編輯)"NOR;
+			state_str += HIY + "(編輯)" + NOR;
 			state = 1;
 		}
 		if( in_input(user[i]) ) {
-			state_str += HIC"(閱\讀)"NOR;
+			state_str += HIC + "(閱\讀)" + NOR;
 			state = 1;
 		}
 		if( interactive(user[i]) && query_idle(user[i])>120 ) {
-                	state_str += sprintf( "%s", HIM"(發呆 "+query_idle(user[i])/60+" 分鐘)"NOR );
+                	state_str += sprintf( "%s", HIM + "(發呆 "+query_idle(user[i])/60+" 分鐘)" + NOR );
                 	state = 1;
                 }
                 if( state ) list = list + /*"\t\t\t　　 " +*/ state_str;
@@ -110,7 +110,7 @@ int help( object me )
 	顯示線上某幫派之能力排行榜暨職位一覽表。
 
 	              １２３４５６７
-	階級顏色說明："HIW+"■"HIC+"■"HIY+"■"HIG+"■"HIM+"■"HIB+"■"HIR+"■"NOR"
+	階級顏色說明：" + HIW+"■" + HIC+"■" + HIY+"■" + HIG+"■" + HIM+"■" + HIB+"■" + HIR+"■" + NOR + "
 
 
 	相關查詢指令: c_who, c_state, c_list

@@ -39,42 +39,42 @@ LONG + NOR , me , all[i] );
     for( i = 0 ; i < sizeof(all) ; i ++ ) 
     {
          //if(all[i]->query("no_water")>2)         
-			 //message_vision( HIR "$n已看破$N的詭計，一個轉身躲過了濤濤洪水。\n"NOR,me,all[i]);
+			 //message_vision( HIR + "$n已看破$N的詭計，一個轉身躲過了濤濤洪水。\n" + NOR,me,all[i]);
          //if(all[i]->query("no_water")>2)  continue;
       //all[i]->add("no_water",1);
       if(random(100)<80)
       {
         if( j<61&&j>40)
         {
-			message_vision( HIR"$N大水似浪潮般地打向$n！！\n"HIW"$n驟時發覺身上毫無力氣，竟然是傳說中水淹五萬大軍的"HIG"『"HIC"猛  水  計"HIG"』"HIW"!\n"NOR , me , all[i] );
+			message_vision( HIR + "$N大水似浪潮般地打向$n！！\n" + HIW + "$n驟時發覺身上毫無力氣，竟然是傳說中水淹五萬大軍的" + HIG + "『" + HIC + "猛  水  計" + HIG + "』" + HIW + "!\n" + NOR , me , all[i] );
             all[i]->add( "force" ,-k*2);
             me->add("force",k*2/5);
             COMBAT_D->report_status( all[i] );
         }
         if( j<81&&j>60)
         {
-			message_vision( HIR"$N大水似浪潮般地打向$n！！\n"HIW"$n驟時發覺身上毫無力氣，竟然是傳說中水淹十萬大軍的"HIG"『"HIC"困  水  計"HIG"』"HIW"!\n"NOR , me , all[i] );
+			message_vision( HIR + "$N大水似浪潮般地打向$n！！\n" + HIW + "$n驟時發覺身上毫無力氣，竟然是傳說中水淹十萬大軍的" + HIG + "『" + HIC + "困  水  計" + HIG + "』" + HIW + "!\n" + NOR , me , all[i] );
             all[i]->add( "force" ,-k*3);
             me->add("force",k*3/5);
             COMBAT_D->report_status( all[i] );
         }
         if( j<91&&j>80)
         {
-			message_vision( HIR"$N大水似浪潮般地打向$n！！\n"HIW"$n驟時發覺身上毫無力氣，竟然是傳說中水淹三十萬大軍的"HIG"『"HIC"惡  水  計"HIG"』"HIW"!\n"NOR , me , all[i] );
+			message_vision( HIR + "$N大水似浪潮般地打向$n！！\n" + HIW + "$n驟時發覺身上毫無力氣，竟然是傳說中水淹三十萬大軍的" + HIG + "『" + HIC + "惡  水  計" + HIG + "』" + HIW + "!\n" + NOR , me , all[i] );
             all[i]->add( "force" ,-k*4);
             me->add("force",k*4/5);
 			COMBAT_D->report_status( all[i] );
         }
         if( j>90)
         {
-			message_vision( HIR"$N大水似浪潮般地打向$n！！\n"HIW"$n驟時發覺身上毫無力氣，竟然是傳說中水淹五十萬大軍的"HIG"『"HIC"水淹荊州城"HIG"』"HIW"!\n"NOR , me , all[i] );
+			message_vision( HIR + "$N大水似浪潮般地打向$n！！\n" + HIW + "$n驟時發覺身上毫無力氣，竟然是傳說中水淹五十萬大軍的" + HIG + "『" + HIC + "水淹荊州城" + HIG + "』" + HIW + "!\n" + NOR , me , all[i] );
             me->add("force",k*5/5);
 			all[i]->add( "force" ,-k*5);
 			COMBAT_D->report_status( all[i] );
         }
         if( j<41)
         {
-			message_vision( HIR"$N大水似浪潮般地打向$n！！\n"HIW"$n驟時發覺身上毫無力氣，竟然是傳說中水淹一萬大軍的"HIG"『"HIC"臨  水  計"HIG"』"HIW"!\n"NOR , me , all[i] );
+			message_vision( HIR + "$N大水似浪潮般地打向$n！！\n" + HIW + "$n驟時發覺身上毫無力氣，竟然是傳說中水淹一萬大軍的" + HIG + "『" + HIC + "臨  水  計" + HIG + "』" + HIW + "!\n" + NOR , me , all[i] );
             me->add("force",k/5);
             all[i]->add( "force" ,-k);
             COMBAT_D->report_status( all[i] );

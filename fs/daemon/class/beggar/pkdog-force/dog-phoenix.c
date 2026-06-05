@@ -19,10 +19,10 @@ int exert(object me)
                 return notify_fail("你已在運行中了。\n");
         if (!me->is_fighting())
         {
-                message_vision(HIR"$N全身漸漸散出火紅氣焰，一道烈焰護住了$N。\n"NOR,me);
+                message_vision(HIR + "$N全身漸漸散出火紅氣焰，一道烈焰護住了$N。\n" + NOR,me);
                 if (funlv < 30)
                 {
-                        message_vision(HIG"$N運起朱雀第一重\n"NOR,me);
+                        message_vision(HIG + "$N運起朱雀第一重\n" + NOR,me);
                         me->set_temp("check-phoenix",1);
                         me->set_temp("time-phoenix",1);
                         me->add_temp("apply/staff",40);
@@ -32,7 +32,7 @@ int exert(object me)
                 }
                 else if (funlv >= 30 && funlv < 70)
                 {
-                        message_vision(HIY"$N運起朱雀第二重\n"NOR,me);
+                        message_vision(HIY + "$N運起朱雀第二重\n" + NOR,me);
                         me->set_temp("check-phoenix",1);
                         me->set_temp("time-phoenix",2);
                         me->add_temp("apply/staff",80);
@@ -42,7 +42,7 @@ int exert(object me)
                 }
                 else
                 {
-                        message_vision(HIM"$N運起朱雀最終重\n"NOR,me);
+                        message_vision(HIM + "$N運起朱雀最終重\n" + NOR,me);
                         me->set_temp("check-phoenix",1);
                         me->set_temp("time-phoenix",3);
                         me->add_temp("apply/staff",100);
@@ -75,7 +75,7 @@ void remove_effect(object me)
         }
         me->delete_temp("check-phoenix");
         me->delete_temp("time-phoenix");
-        message_vision(HIR"圍繞在$N身旁的朱雀火焰已漸漸散去了......\n"NOR,me);
+        message_vision(HIR + "圍繞在$N身旁的朱雀火焰已漸漸散去了......\n" + NOR,me);
         if (funlv <100)
         function_improved ("dog-phoenix" , random(100) + 100);
 }

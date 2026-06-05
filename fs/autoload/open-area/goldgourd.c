@@ -4,7 +4,7 @@ inherit ITEM;
 
 void create()
 {
-        set_name(HIY"金"HIW"葫"HIB"蘆"NOR, ({ "gold gourd","gold","gourd" }) );
+        set_name(HIY + "金" + HIW + "葫" + HIB + "蘆" + NOR, ({ "gold gourd","gold","gourd" }) );
        
         set("unit", "個");
         set("long", "網聚獎品。此物將會增加所獲得的經驗值，不過他需要以血作祭，需要不停的嗜血(blood)。\n");
@@ -36,9 +36,9 @@ int do_blood(string arg)
     me->set_temp("addexp",10);
     set_heart_beat(10);
 
-        message_vision(BRED"一陣血氣自$N"BRED"身上衝破而出，$n"BRED"吸盡了$N"BRED"的血氣。\n"NOR,me,this_object());
+        message_vision(BRED + "一陣血氣自$N" + BRED + "身上衝破而出，$n" + BRED + "吸盡了$N" + BRED + "的血氣。\n" + NOR,me,this_object());
     me->receive_damage("kee", 100 , me);
-    set_name(BRED HIW "(泛著血光)" NOR HIY"金"HIW"葫"HIB"蘆"NOR, ({ "gold gourd","gold","gourd" }) );
+    set_name(BRED + HIW + "(泛著血光)" + NOR + HIY + "金" + HIW + "葫" + HIB + "蘆" + NOR, ({ "gold gourd","gold","gourd" }) );
 
     return 1;
 }
@@ -49,7 +49,7 @@ if(me->is_fighting()) return ;
     if(!random(5))
     {
           me->receive_damage("kee", 100 , me);
-message_vision(BRED"一陣血氣自$N"BRED"身上衝破而出，$n"BRED"吸盡了$N"BRED"的血氣。\n"NOR,me,this_object());          
+message_vision(BRED + "一陣血氣自$N" + BRED + "身上衝破而出，$n" + BRED + "吸盡了$N" + BRED + "的血氣。\n" + NOR,me,this_object());          
     }
     if(me->query("kee") < 200)
     {

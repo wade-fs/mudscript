@@ -17,7 +17,7 @@ void del_ip(string arg)
     int i,stat,time;
 
     CHANNEL_D->do_channel(this_object(),"sys",
-      sprintf(HIY"%s 因為重新連線太多次而被ban ip的限制消除了!!"NOR,arg)
+      sprintf(HIY + "%s 因為重新連線太多次而被ban ip的限制消除了!!" + NOR,arg)
     );
     banned_ip="";
     stat=0;

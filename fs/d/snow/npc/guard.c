@@ -64,11 +64,10 @@ string ask_me(object who)
 	set_temp("apply/parry", 60);
 	set_temp("apply/damage", 20);
 	set("title", "野羊山寨二寨主");
-	set("nickname", HIR "血手劉三" NOR);
+	set("nickname", HIR + "血手劉三" + NOR);
 	message("vision",
-		HIY "劉安祿眼中突然放出異樣的光芒﹐顫聲說道﹕看來...你都知道了﹖\n\n"
-		"劉安祿大喝一聲﹐叫道﹕既然如此﹐老子今天豁出去了﹐納命來﹗\n" NOR
-		"劉安祿使開單刀﹐招數精奇﹐沈猛狠辣﹐和剛才簡直判若兩人﹗\n",
+		HIY + "劉安祿眼中突然放出異樣的光芒﹐顫聲說道﹕看來...你都知道了﹖\n\n"
+		"劉安祿大喝一聲﹐叫道﹕既然如此﹐老子今天豁出去了﹐納命來﹗\n" + NOR + "劉安祿使開單刀﹐招數精奇﹐沈猛狠辣﹐和剛才簡直判若兩人﹗\n",
 		environment(), this_object() );
 	set("pursuer", 1);
 	set("attitude", "aggressive");

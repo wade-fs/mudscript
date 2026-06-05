@@ -100,19 +100,19 @@ int accept_object(object wo,object ob)
     }
     command("say 果然是孤城密令！！幹的好，小鬼！看來我們殺手後繼有人了！！");
     command("say 就讓我給你殺手密令吧！！");
-    message_vision(HIR"渡永天交給$N一面殺手密令\n"NOR,me);	
+    message_vision(HIR + "渡永天交給$N一面殺手密令\n" + NOR,me);	
     ob2=new("/open/killer/memory/killer_card.c");
     ob2->move(me);
     command("say 這是證明殺手有資格在各組任職的密令，不見了記得回來找我要（殺手密令）");
     command("say 只要小渡把任職系統做好，你就可以任職於各組織間");
     command("say 現在就讓我幫你把魔氣殺的限制打開到第二層，讓你可以在將限制提高50級");
-    message_vision(HIR"渡永天迅速在$N身上拍打\n"NOR,me);	
+    message_vision(HIR + "渡永天迅速在$N身上拍打\n" + NOR,me);	
     tell_object(me,"你感到體內一陣真氣運行，看來魔氣殺可以發揮更強大的威力了\n");
-   message("system",HIW "渡永天縱聲大呼 :\n
-		" +this_player()->name()+"你已經可以把魔氣殺變的更強大了!!\n\n"NOR,users());
+   message("system",HIW + "渡永天縱聲大呼 :\n
+		" +this_player()->name()+"你已經可以把魔氣殺變的更強大了!!\n\n" + NOR,users());
     if (me->query("quest/head-kill") != 1)
       {
-        me->set("title",HIM"新生代特級殺手"NOR);
+        me->set("title",HIM + "新生代特級殺手" + NOR);
       }
     me->set_temp("memory",0);
     me->set("quest/memory",1);
@@ -127,8 +127,8 @@ int do_join()
 	if(this_player()->query("class"))
 		return notify_fail("你已經加入其他工會了。\n");
 	this_player()->set("class","avatar");
-	message("system",HIW "黑衣人縱聲大呼 :\n
-		歡迎" +this_player()->name()+"加入工會!!\n\n"NOR,users());
+	message("system",HIW + "黑衣人縱聲大呼 :\n
+		歡迎" +this_player()->name()+"加入工會!!\n\n" + NOR,users());
 	return 1;
 }
 
@@ -142,22 +142,22 @@ int do_nod()
 
   if (me->query("class")  != "killer")
   {
-        message_vision(HIY"罷了....你這種外人沒資格知道，殺手自己的事情。\n"NOR,me);
+        message_vision(HIY + "罷了....你這種外人沒資格知道，殺手自己的事情。\n" + NOR,me);
 	return 1;
   }
   if (me->query("quest/rain") != 1)
   {
-  	message_vision(HIY"孩子，你還小，等你成長到夠資格後，再幫我吧。\n"NOR,me);
+  	message_vision(HIY + "孩子，你還小，等你成長到夠資格後，再幫我吧。\n" + NOR,me);
 	return 1;
   }
   if (me->query("quest/memory") == 1)
   {
-  	message_vision(HIY"你不是知道了嗎？\n"NOR,me);
+  	message_vision(HIY + "你不是知道了嗎？\n" + NOR,me);
 	return 1;
   }
   if (this_player()->query_temp("memroy") == 1)
   {
-  	message_vision(HIY"乖兒子你想點幾次頭呀\n"NOR,me);
+  	message_vision(HIY + "乖兒子你想點幾次頭呀\n" + NOR,me);
 	return 1;
   }
   me->set_temp("memory",1);
@@ -173,7 +173,7 @@ int do_show()
   if (this_player()->query_temp("memory") != 8)
 	return notify_fail("你從哪裡偷來的令牌？快滾！！\n");
   this_player()->set_temp("memory",9);
-	message_vision(HIY"孤城密令？是玲如他給你的？快把他交給我看看!!\n"NOR,this_player());
+	message_vision(HIY + "孤城密令？是玲如他給你的？快把他交給我看看!!\n" + NOR,this_player());
   return 1;
 }
 
@@ -208,13 +208,13 @@ string ask_dark()
 	object me=this_player();
 	
 if( me->query_temp("firstpart") != 4) return "你沒資格知道......";
-tell_object(me,HIY"
+tell_object(me,HIY + "
 『 我也不是很清楚，但是傳說中，這一個身法是柴榮由莊敬柔的身上學到的 
    但是有另外一說指此一身法是飄花宮的特殊技巧，名為--分功\化影身法。
    但是，這一個說法並沒有得到柴榮的證明，傳說似乎只是傳說而已。
    因為就連當年的背叛事件，我也沒看到柴榮使出此一身法。
    更何況，我也沒看過魔教徒使出此一身法......
-   或許\你去找柴榮問(特殊身法)看看吧？你應該還記得他躲在哪裡吧？』 \n"NOR);
+   或許\你去找柴榮問(特殊身法)看看吧？你應該還記得他躲在哪裡吧？』 \n" + NOR);
 me->set_temp("firstpart",5);
 return "到那裡search看看吧";
 }

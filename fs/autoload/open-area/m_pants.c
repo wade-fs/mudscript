@@ -8,15 +8,15 @@ void create()
 {
 /*
   if (me->query("gender")=="男性")
-    set_name(HIM"風雅"HIW"紳褲"NOR,({"magical pants","pants"}));
+    set_name(HIM + "風雅" + HIW + "紳褲" + NOR,({"magical pants","pants"}));
   if (me->query("gender")=="女性")
-    set_name(HIM"誘惑"HIW"飄裙"NOR,({"magical skirt","skirt"}));
+    set_name(HIM + "誘惑" + HIW + "飄裙" + NOR,({"magical skirt","skirt"}));
   if (me->query("gender")=="女性")
     set("long","傳聞中樹妖舞風揚和花精淡情悠身上之物。");
   if (me->query("gender")=="男性")
     set("long","傳聞中英雄真經傳人木無言身上之物。");
 */
-  set_name(HIM"誘惑"HIW"飄裙"NOR,({"magical skirt","skirt"}));
+  set_name(HIM + "誘惑" + HIW + "飄裙" + NOR,({"magical skirt","skirt"}));
   set_weight(3000);
   if( clonep() )
     set_default_object(__FILE__);
@@ -51,16 +51,16 @@ void init()
   object me;
   me=environment();
   if (me->query("gender")=="男性") {
-    set_name(HIM"風雅"HIW"紳褲"NOR,({"magical pants","pants"}));
+    set_name(HIM + "風雅" + HIW + "紳褲" + NOR,({"magical pants","pants"}));
     set("long","傳聞中英雄真經傳人木無言身上之物。");
-    set("wear_msg","$n"HIM"發出異樣的光芒，$N"HIM"彷彿換了一個人似的。\n"NOR);
-    set("unequip_msg","$N"HIM"脫下了$n"HIM"恢復往昔的樣貌。\n"NOR);
+    set("wear_msg","$n" + HIM + "發出異樣的光芒，$N" + HIM + "彷彿換了一個人似的。\n" + NOR);
+    set("unequip_msg","$N" + HIM + "脫下了$n" + HIM + "恢復往昔的樣貌。\n" + NOR);
   }
   if (me->query("gender")=="女性") {
-    set_name(HIM"誘惑"HIW"飄裙"NOR,({"magical skirt","skirt"}));
+    set_name(HIM + "誘惑" + HIW + "飄裙" + NOR,({"magical skirt","skirt"}));
     set("long","傳聞中樹妖舞風揚和花精淡情悠身上之物。");
-    set("wear_msg","$n"HIM"發出異樣的光芒，$N"HIM"彷彿回到十八歲似的。\n"NOR);
-    set("unequip_msg","$N"HIM"脫下了$n"HIM"恢復往昔的樣貌。\n"NOR);
+    set("wear_msg","$n" + HIM + "發出異樣的光芒，$N" + HIM + "彷彿回到十八歲似的。\n" + NOR);
+    set("unequip_msg","$N" + HIM + "脫下了$n" + HIM + "恢復往昔的樣貌。\n" + NOR);
   }
 //  add_action("do_wear","wear");
 }
@@ -98,7 +98,7 @@ int do_wear(string str)
       if( query("equipped") )
       {
         set_heart_beat(1);
-        message_vision(HIW"風雅紳褲"HIM"發出異樣的光芒，$N彷彿換了一個人似的。\n"NOR,me);
+        message_vision(HIW + "風雅紳褲" + HIM + "發出異樣的光芒，$N彷彿換了一個人似的。\n" + NOR,me);
       }
     }
   }
@@ -114,7 +114,7 @@ int do_wear(string str)
       if( query("equipped") )
       {
         set_heart_beat(1);
-        message_vision(HIW"誘惑飄裙"HIM"發出異樣的光芒，$N彷彿回到十八歲似的。\n"NOR,me);  
+        message_vision(HIW + "誘惑飄裙" + HIM + "發出異樣的光芒，$N彷彿回到十八歲似的。\n" + NOR,me);  
       }
     }
   }
@@ -131,7 +131,7 @@ void heart_beat()
   {  
     if(!me->query("pants_add_gift"))
     {
-      message_vision(HIM"神奇的光芒籠罩著$N全身上下，$N的容貌增加了!!\n"NOR,me);
+      message_vision(HIM + "神奇的光芒籠罩著$N全身上下，$N的容貌增加了!!\n" + NOR,me);
       me->set("pants_add_gift",1);
 //      me->set("origional_per",me->query_per());
 //      me->add("per",k);
@@ -143,7 +143,7 @@ void heart_beat()
   {
     if(me->query("pants_add_gift"))
     {
-      message_vision(HIM"神奇的光芒逐漸消退，$N又變回自己了!!\n"NOR,me);
+      message_vision(HIM + "神奇的光芒逐漸消退，$N又變回自己了!!\n" + NOR,me);
       me->delete("pants_add_gift");
       me->set("per",10);
       me->add_temp("apply/per",-k);

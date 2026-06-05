@@ -32,7 +32,7 @@ int main(object me, string arg)
 	message_vision(
 	"$N從身上拿出"+ob->name()+"交給$n。\n",me,obj);
 	message_vision(
-	CYN "$N說道﹕這是一點小意思﹐請笑納。\n" NOR,me);
+	CYN + "$N說道﹕這是一點小意思﹐請笑納。\n" + NOR,me);
 	me->add("sen",-10);
 	re_value=me->query("relation/"+obj->query("id")+"/value");
 	if(ob->query("value")) ob_value=ob->query("value");
@@ -41,7 +41,7 @@ int main(object me, string arg)
 		if(ob_value<re_value*obj->query("max_officer_power")*5||(re_value<0&&ob_value<re_value*(-1)*obj->query("max_officer_power")*10))
 		{
 		message_vision(
-		CYN "$n說道﹕這麼點破東西也想收買我 !!\n" NOR,me,obj);
+		CYN + "$n說道﹕這麼點破東西也想收買我 !!\n" + NOR,me,obj);
 		message_vision(
 		"$n把"+ob->name()+"還給$N。\n",me,obj);
 		if(re_value>0)
@@ -55,7 +55,7 @@ int main(object me, string arg)
 		else
 		{
 		message_vision(
-		CYN "$n笑道﹕既然"+me->name()+"大人這麼客氣﹐我也就恭敬不如從命了。\n" NOR,me,obj);
+		CYN + "$n笑道﹕既然"+me->name()+"大人這麼客氣﹐我也就恭敬不如從命了。\n" + NOR,me,obj);
 		me->add("relation/"+obj->query("id")+"/value",1);
 		me->set("relation/"+obj->query("id")+"/name",obj->name());
 		me->set("relation/"+obj->query("id")+"/power",obj->query("max_officer_power"));
@@ -65,7 +65,7 @@ int main(object me, string arg)
 	else
 	{
 		message_vision(
-		CYN "$N喝道﹕本官向來為官清正﹐不收髒穢之物 !!\n" NOR,obj);
+		CYN + "$N喝道﹕本官向來為官清正﹐不收髒穢之物 !!\n" + NOR,obj);
 		message_vision(
 		"$n把"+ob->name()+"還給$N。\n",me,obj);
 		me->add("relation/"+obj->query("id")+"/value",random(10)*(-1));

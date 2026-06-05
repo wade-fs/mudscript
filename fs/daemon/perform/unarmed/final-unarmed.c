@@ -79,7 +79,7 @@ int perform(object me, string arg,object victim)
       //若以kee 6000 force 10萬來算及fun 100..扣的kee為 500 + 1200 + 1000 + 500 = 3200
       if(fun > random(2000)) //這太強了.所以上限是50%就是一半.的機率,初期只有10% grin...
       {
-        message_vision(HIR"$n被$N的凌厲氣勁所擊中,頓時全身血脈爆開!!撒出無數的血雨!!!\n"NOR,me,victim);
+        message_vision(HIR + "$n被$N的凌厲氣勁所擊中,頓時全身血脈爆開!!撒出無數的血雨!!!\n" + NOR,me,victim);
         victim->receive_wound("kee",damage,me);
         COMBAT_D->report_status(victim,1);
         victim->apply_condition("star-stial",random(10));
@@ -87,7 +87,7 @@ int perform(object me, string arg,object victim)
         victim->add_temp("final-attack-hit",1);
       }
       else {
-        message_vision(HIW"$n看出$N所發出的猛烈氣勁軌道,急駛輕功\躲過了致命一擊!!\n"NOR,me,victim);
+        message_vision(HIW + "$n看出$N所發出的猛烈氣勁軌道,急駛輕功\躲過了致命一擊!!\n" + NOR,me,victim);
         COMBAT_D->report_status(victim);
       }
       break;
@@ -109,8 +109,8 @@ int perform(object me, string arg,object victim)
       //若以kee 6000 force 10萬來算及fun 100..扣的kee為 500 + 1200 + 1000 + 500 = 3500
       if(fun > random(2000)) //這太強了.所以上限是50%就是一半.的機率,初期只有10% grin...
       {
-        message_vision(HIR"$n被$N的凌厲氣勁所擊中,頓時全身血脈爆開!!撒出無數的血雨!!!\n"NOR,me,victim);
-        message_vision(HIC"$N的凌厲氣勁在$n四周形成無數的氣旋瞬間$n的內力完全流失掉!!!\n"NOR,me,victim);
+        message_vision(HIR + "$n被$N的凌厲氣勁所擊中,頓時全身血脈爆開!!撒出無數的血雨!!!\n" + NOR,me,victim);
+        message_vision(HIC + "$N的凌厲氣勁在$n四周形成無數的氣旋瞬間$n的內力完全流失掉!!!\n" + NOR,me,victim);
         victim->receive_wound("kee",damage,me);
         COMBAT_D->report_status(victim,1);
         victim->apply_condition("star-stial",random(10));
@@ -120,8 +120,8 @@ int perform(object me, string arg,object victim)
         victim->add_temp("final-attack-hit",1);
       }
       else {
-        message_vision(HIW"$n看出$N所發出的猛烈氣勁軌道,急駛輕功\躲過了致命一擊!!\n"NOR,me,victim);
-        message_vision(HIC"$N的凌厲氣勁在$n四周形成無數的氣旋瞬間$n的內力完全流失掉!!!\n"NOR,me,victim);
+        message_vision(HIW + "$n看出$N所發出的猛烈氣勁軌道,急駛輕功\躲過了致命一擊!!\n" + NOR,me,victim);
+        message_vision(HIC + "$N的凌厲氣勁在$n四周形成無數的氣旋瞬間$n的內力完全流失掉!!!\n" + NOR,me,victim);
         victim->set("force",0);
         COMBAT_D->report_status(victim);
       }
@@ -144,9 +144,9 @@ int perform(object me, string arg,object victim)
       //若以kee 6000 force 10萬來算及fun 100..扣的kee為 500 + 1200 + 1000 + 500 = 3500
       if(fun > random(2000)) //這太強了.所以上限是50%就是一半.的機率,初期只有10% grin...
       {
-        message_vision(HIR"$n被$N的凌厲氣勁所擊中,頓時全身血脈爆開!!撒出無數的血雨!!!\n"NOR,me,victim);
-        message_vision(HIC"$N的凌厲氣勁在$n四周形成無數的氣旋瞬間$n的內力完全流失掉!!!\n"NOR,me,victim);
-        message_vision(HIW"$N的凌厲氣勁在$n四周形成龐大的龍捲風$n的感覺自己無法在自由地使用絕學!!!\n"NOR,me,victim);
+        message_vision(HIR + "$n被$N的凌厲氣勁所擊中,頓時全身血脈爆開!!撒出無數的血雨!!!\n" + NOR,me,victim);
+        message_vision(HIC + "$N的凌厲氣勁在$n四周形成無數的氣旋瞬間$n的內力完全流失掉!!!\n" + NOR,me,victim);
+        message_vision(HIW + "$N的凌厲氣勁在$n四周形成龐大的龍捲風$n的感覺自己無法在自由地使用絕學!!!\n" + NOR,me,victim);
         victim->receive_wound("kee",damage,me);
         COMBAT_D->report_status(victim,1);
         victim->set_temp("no_power_f",1);
@@ -158,9 +158,9 @@ int perform(object me, string arg,object victim)
         victim->add_temp("final-attack-hit",1);
       }
       else {
-        message_vision(HIW"$n看出$N所發出的猛烈氣勁軌道,急駛輕功\躲過了致命一擊!!\n"NOR,me,victim);
-        message_vision(HIC"$N的凌厲氣勁在$n四周形成無數的氣旋瞬間$n的內力完全流失掉!!!\n"NOR,me,victim);
-        message_vision(HIW"$N的凌厲氣勁在$n四周形成龐大的龍捲風$n的感覺自己無法在自由地使用絕學!!!\n"NOR,me,victim);
+        message_vision(HIW + "$n看出$N所發出的猛烈氣勁軌道,急駛輕功\躲過了致命一擊!!\n" + NOR,me,victim);
+        message_vision(HIC + "$N的凌厲氣勁在$n四周形成無數的氣旋瞬間$n的內力完全流失掉!!!\n" + NOR,me,victim);
+        message_vision(HIW + "$N的凌厲氣勁在$n四周形成龐大的龍捲風$n的感覺自己無法在自由地使用絕學!!!\n" + NOR,me,victim);
         victim->set("force",0);
         victim->set_temp("no_power_f",1);
         victim->apply_condition("no_power_f",random(5));
@@ -185,10 +185,10 @@ int perform(object me, string arg,object victim)
       //若以kee 6000 force 10萬來算及fun 100..扣的kee為 500 + 2000 + 1000 + 500 = 4000
       if(fun > random(2000))//這太強了.所以上限是50%就是一半.的機率,初期只有10% grin...
       {
-        message_vision(HIR"$n被$N的凌厲氣勁所擊中,頓時全身血脈爆開!!撒出無數的血雨!!!\n"NOR,me,victim);
-        message_vision(HIC"$N的凌厲氣勁在$n四周形成無數的氣旋瞬間$n的內力完全流失掉!!!\n"NOR,me,victim);
-        message_vision(HIW"$N的凌厲氣勁在$n四周形成龐大的龍捲風$n的感覺自己無法在自由地使用絕學!!!\n"NOR,me,victim);
-        message_vision(MAG"$n的護身氣勁被$N凌厲氣旋所破!!$n感覺真氣被氣旋所擾無法正常運行!!\n"NOR,me,victim);
+        message_vision(HIR + "$n被$N的凌厲氣勁所擊中,頓時全身血脈爆開!!撒出無數的血雨!!!\n" + NOR,me,victim);
+        message_vision(HIC + "$N的凌厲氣勁在$n四周形成無數的氣旋瞬間$n的內力完全流失掉!!!\n" + NOR,me,victim);
+        message_vision(HIW + "$N的凌厲氣勁在$n四周形成龐大的龍捲風$n的感覺自己無法在自由地使用絕學!!!\n" + NOR,me,victim);
+        message_vision(MAG + "$n的護身氣勁被$N凌厲氣旋所破!!$n感覺真氣被氣旋所擾無法正常運行!!\n" + NOR,me,victim);
         victim->receive_wound("kee",damage,me);
         COMBAT_D->report_status(victim,1);
         victim->set_temp("no_power_f",1);
@@ -202,10 +202,10 @@ int perform(object me, string arg,object victim)
         victim->add_temp("final-attack-hit",1);
       }
       else {
-        message_vision(HIW"$n看出$N所發出的猛烈氣勁軌道,急駛輕功\躲過了致命一擊!!\n"NOR,me,victim);
-        message_vision(HIC"$N的凌厲氣勁在$n四周形成無數的氣旋瞬間$n的內力完全流失掉!!!\n"NOR,me,victim);
-        message_vision(HIW"$N的凌厲氣勁在$n四周形成龐大的龍捲風$n的感覺自己無法在自由地使用絕學!!!\n"NOR,me,victim);
-        message_vision(MAG"$n的護身氣勁被$N凌厲氣旋所破!!$n感覺真氣被氣旋所擾無法正常運行!!\n"NOR,me,victim);
+        message_vision(HIW + "$n看出$N所發出的猛烈氣勁軌道,急駛輕功\躲過了致命一擊!!\n" + NOR,me,victim);
+        message_vision(HIC + "$N的凌厲氣勁在$n四周形成無數的氣旋瞬間$n的內力完全流失掉!!!\n" + NOR,me,victim);
+        message_vision(HIW + "$N的凌厲氣勁在$n四周形成龐大的龍捲風$n的感覺自己無法在自由地使用絕學!!!\n" + NOR,me,victim);
+        message_vision(MAG + "$n的護身氣勁被$N凌厲氣旋所破!!$n感覺真氣被氣旋所擾無法正常運行!!\n" + NOR,me,victim);
         victim->set("force",0);
         victim->set_temp("no_power_f",1);
         victim->set_temp("no_power_e",1);
@@ -216,7 +216,7 @@ int perform(object me, string arg,object victim)
       COMBAT_D->report_status(me);
       break;
   }
-  message_vision(HIR"$N使出終極拳勢後感覺精、氣、神及全身功\力耗盡!!趕快查看自己的傷勢!!\n"NOR,me);
+  message_vision(HIR + "$N使出終極拳勢後感覺精、氣、神及全身功\力耗盡!!趕快查看自己的傷勢!!\n" + NOR,me);
   COMBAT_D->report_status(me);
   if(me->query("functions/final-unarmed/level") < 100)
     function_improved("final-unarmed",random(me->query("max_force")/25));

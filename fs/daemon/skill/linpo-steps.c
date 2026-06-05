@@ -59,9 +59,9 @@ int can_flee(object me,int exit_number)
 /*
     if(sizeof(enemy) <1){
      message_vision(
-"$N忽然領悟"HIC"『凌波微步』"NOR"的要旨所在，腳步作到"HIY"「動無常則，若危若安，進止難期，
-若往若還」"NOR",霎時一片人影紛飛，讓敵人頭昏眼花\n",me);
-     message_vision(HIM"$N"HIM"看準時機，使出凌波微步，逃離戰圈!!\n"NOR,me);
+"$N忽然領悟" + HIC + "『凌波微步』" + NOR + "的要旨所在，腳步作到" + HIY + "「動無常則，若危若安，進止難期，
+若往若還」" + NOR + ",霎時一片人影紛飛，讓敵人頭昏眼花\n",me);
+     message_vision(HIM + "$N" + HIM + "看準時機，使出凌波微步，逃離戰圈!!\n" + NOR,me);
      return 1;
     }
 */
@@ -76,9 +76,9 @@ int can_flee(object me,int exit_number)
     }
     if(!enemy_num){
      message_vision(
-"$N忽然領悟"HIC"『凌波微步』"NOR"的要旨所在，腳步作到"HIY"「動無常則，若危若安，進止難期，
-若往若還」"NOR",霎時一片人影紛飛，讓敵人頭昏眼花\n",me);
-     message_vision(HIM"$N"HIM"看準時機，使出凌波微步，逃離戰圈!!\n"NOR,me);
+"$N忽然領悟" + HIC + "『凌波微步』" + NOR + "的要旨所在，腳步作到" + HIY + "「動無常則，若危若安，進止難期，
+若往若還」" + NOR + ",霎時一片人影紛飛，讓敵人頭昏眼花\n",me);
+     message_vision(HIM + "$N" + HIM + "看準時機，使出凌波微步，逃離戰圈!!\n" + NOR,me);
      return 1;
     }
     enemy_exp/=enemy_num;
@@ -90,9 +90,9 @@ int can_flee(object me,int exit_number)
     if(!me->is_busy() && ratio > random(110) && me->query("kee")<=(me->query("max_kee")/3)) {
       if(enemy_exp < me_exp * 2){
        message_vision(
-"$N 心中默念，將"HIC"『凌波微步』"NOR"的六十四卦步法，自「明夷」起始，經「賁」
- 、「既濟」、「家人」，走了一大圈而至「旡妄」，終於順利擺\脫敵人的糾纏。\n"NOR,me);
-        message_vision(HIM"$N"HIM"看準時機，使出凌波微步，逃離戰圈!!\n"NOR,me);
+"$N 心中默念，將" + HIC + "『凌波微步』" + NOR + "的六十四卦步法，自「明夷」起始，經「賁」
+ 、「既濟」、「家人」，走了一大圈而至「旡妄」，終於順利擺\脫敵人的糾纏。\n" + NOR,me);
+        message_vision(HIM + "$N" + HIM + "看準時機，使出凌波微步，逃離戰圈!!\n" + NOR,me);
         me->add("force",-200);
         return 1;
       }
@@ -100,9 +100,9 @@ int can_flee(object me,int exit_number)
         if((100*me_exp/enemy_exp) > random(110)){
           me->add("force",-200);
        message_vision(
-"$N 心中默念，將"HIC"『凌波微步』"NOR"的六十四卦步法，自「明夷」起始，經「賁」
- 、「既濟」、「家人」，走了一大圈而至「旡妄」，終於順利擺\脫敵人的糾纏。\n"NOR,me);
-          message_vision(HIM"$N"HIM"看準時機，使出凌波微步，逃離戰圈!!\n"NOR,me);
+"$N 心中默念，將" + HIC + "『凌波微步』" + NOR + "的六十四卦步法，自「明夷」起始，經「賁」
+ 、「既濟」、「家人」，走了一大圈而至「旡妄」，終於順利擺\脫敵人的糾纏。\n" + NOR,me);
+          message_vision(HIM + "$N" + HIM + "看準時機，使出凌波微步，逃離戰圈!!\n" + NOR,me);
           return 1;
         }
       }

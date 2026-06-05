@@ -9,7 +9,7 @@ int main(object me)
         seteuid(getuid());
         if(!me->query_temp("strike")) return notify_fail("你不需要散勁。\n");
         if(me->is_fighting() ) return notify_fail("戰鬥中無法散氣。\n");
-        message_vision(HIC"$N運起身上血魔氣勁...瞬間數道血光由$N身上散出。\n"NOR,me);
+        message_vision(HIC + "$N運起身上血魔氣勁...瞬間數道血光由$N身上散出。\n" + NOR,me);
         me->delete_temp("strike");
         return 1;
 }

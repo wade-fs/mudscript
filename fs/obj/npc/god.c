@@ -56,7 +56,7 @@ int do_kill(string str)
         if (!ob=present(str,environment(this_player())))
            return notify_fail("沒這人。\n");
           message_vision(
-          HIG "$N說道﹕分身聽令﹗立刻殺死$n﹗\n" NOR,this_player(),ob);
+          HIG + "$N說道﹕分身聽令﹗立刻殺死$n﹗\n" + NOR,this_player(),ob);
           this_object()->kill_ob(ob);
            return 1;
 }

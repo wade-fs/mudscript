@@ -13,8 +13,8 @@ int perform(object me, object target)
         return notify_fail("此計只能對自己用。\n");
         if( me->query_temp("fullkee") == 1 )
         return notify_fail("你已經用了完復計，請等會再用。\n");
-          message_vision(HIW"$N用出六韜奇略中的完復計，一陣白煙在$N天頂前掠過。\n"NOR,me);
-        message_vision(HIG"$N感受到身上一股氣勁，覺得氣力回復了不少。\n"NOR,me);
+          message_vision(HIW + "$N用出六韜奇略中的完復計，一陣白煙在$N天頂前掠過。\n" + NOR,me);
+        message_vision(HIG + "$N感受到身上一股氣勁，覺得氣力回復了不少。\n" + NOR,me);
         me->receive_curing("kee",force*3);
         me->set_temp("fullkee",1);
         me->add("force",-500);

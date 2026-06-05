@@ -51,7 +51,7 @@ int main(object me, string arg)
 		msg+=sprintf("%-10s﹕","其它");
 		for(j=0;j<dict[name[i]];j++)
 			msg+=HIC+"□";
-		msg+="\n" NOR;
+		msg+="\n" + NOR;
 		}
 		write(msg);
 		return 1;
@@ -75,7 +75,7 @@ int main(object me, string arg)
 		msg+=sprintf("%-10s﹕","【 平  民 】");
 		for(j=0;j<dict[name[i]];j++)
 			msg+=HIC+"□";
-		msg+="\n" NOR;
+		msg+="\n" + NOR;
 		}
 		write(msg);
 		return 1;

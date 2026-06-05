@@ -26,12 +26,12 @@ int main(object me, string arg)
 	ob->set("startroom", base_name(environment(ob)));
 	message("system",HIY + "\t\t"+(string)ob->query("name")+" 因為 "+
 		reason + " 被 "+
-		(string)me->query("name")+" 抓去關到監牢關"+days+"天\n" NOR,users());
+		(string)me->query("name")+" 抓去關到監牢關"+days+"天\n" + NOR,users());
 	log_file("JAIL",sprintf("%s 因為 %s 關 %s(%s) %d天 於%s\n",
 	me->name(1), reason,ob->name(1), geteuid(ob), days, ctime(time()) ) );
 
         ob->set("tmp_title", ob->query("title"));
-       ob->set("title",HIG"犯了"HIR"["HIW+reason+HIR"]"HIG"的犯人"NOR);
+       ob->set("title",HIG + "犯了" + HIR + "[" + HIW+reason+HIR + "]" + HIG + "的犯人" + NOR);
 	tell_object(me, "你把"+(string)ob->query("name")+"抓到監牢關起來.\n");
 	tell_object(ob,".... 醒來時發現是"+(string)me->query("name")+
 		"把你關到監牢.\n");

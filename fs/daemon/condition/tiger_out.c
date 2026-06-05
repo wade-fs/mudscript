@@ -8,7 +8,7 @@ int update_condition(object me, int duration)
       me->start_busy(1);
       me->apply_condition("tiger_out",duration-1);
          message_vision(
-              HIY "$N被雷虎之氣纏住﹐無法動彈。\n" NOR,me);
+              HIY + "$N被雷虎之氣纏住﹐無法動彈。\n" + NOR,me);
 	if( duration < 1 ) return 0;
 	return 1;
 }

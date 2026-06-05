@@ -8,7 +8,7 @@ inherit SSERVER;
 
 void create()
 {
-  set_name(HIW"淨"HIC"水"HIY"光"HIM"之戒"NOR,({"light-ring"}));
+  set_name(HIW + "淨" + HIC + "水" + HIY + "光" + HIM + "之戒" + NOR,({"light-ring"}));
   set_weight(700);
   if( clonep() )
     set_default_object(__FILE__);
@@ -31,8 +31,8 @@ void create()
   set("armor_prop/literate", 3);
   set("armor_prop/force", 7);
   set("armor_prop/armor", 7);
-  set("wear_msg",HIG"戴上了$n"HIG"，光明、純潔的力量在$N"HIG"身旁形成一道護壁。\n"NOR);
-  set("unequip_msg",GRN"$N"GRN"脫下了$n"GRN"，身旁的護壁逐漸淡去消逝。\n"NOR);
+  set("wear_msg",HIG + "戴上了$n" + HIG + "，光明、純潔的力量在$N" + HIG + "身旁形成一道護壁。\n" + NOR);
+  set("unequip_msg",GRN + "$N" + GRN + "脫下了$n" + GRN + "，身旁的護壁逐漸淡去消逝。\n" + NOR);
 }
 
 void init()
@@ -45,13 +45,13 @@ int do_check(string str)
   object ob=this_object(),me=environment(ob);
   if(!str || str != ob->query("id")) return 0;
   if(me->query("use_light_ring")<70)
-    tell_object(me,ob->query("name")+HIG"裡蘊含光明、純潔的力量"HIW"【相當充沛】"HIG"。\n"NOR);
+    tell_object(me,ob->query("name")+HIG + "裡蘊含光明、純潔的力量" + HIW + "【相當充沛】" + HIG + "。\n" + NOR);
   else if(me->query("use_light_ring")<150)
-    tell_object(me,ob->query("name")+HIG"裡蘊含光明、純潔的力量"HIY"【似乎有些減少】"HIG"。\n"NOR);
+    tell_object(me,ob->query("name")+HIG + "裡蘊含光明、純潔的力量" + HIY + "【似乎有些減少】" + HIG + "。\n" + NOR);
   else if(me->query("use_light_ring")<270)
-    tell_object(me,ob->query("name")+HIG"裡蘊含光明、純潔的力量"HIR"【很明顯少了很多】"HIG"。\n"NOR);
+    tell_object(me,ob->query("name")+HIG + "裡蘊含光明、純潔的力量" + HIR + "【很明顯少了很多】" + HIG + "。\n" + NOR);
   else
-    tell_object(me,ob->query("name")+HIG"裡蘊含光明、純潔的力量"RED"【相當稀少】"HIG"，似乎就要壞掉一樣。\n"NOR);
+    tell_object(me,ob->query("name")+HIG + "裡蘊含光明、純潔的力量" + RED + "【相當稀少】" + HIG + "，似乎就要壞掉一樣。\n" + NOR);
   return 1;
 }
 
@@ -67,7 +67,7 @@ int wear()
   if( query("equipped"))
   {
     me=environment();
-//    message_vision(HIG"戴上了$n"HIG"，光明、純潔的力量在$N"HIG"身旁形成一道護壁。\n"NOR,me,this_object());
+//    message_vision(HIG + "戴上了$n" + HIG + "，光明、純潔的力量在$N" + HIG + "身旁形成一道護壁。\n" + NOR,me,this_object());
     me->set_temp("anti_condition",1);
     set_heart_beat(1);
   }
@@ -80,7 +80,7 @@ int unequip()
   int result = ::unequip();
   if( !query("equipped") )
   {
-//    message_vision(GRN"$N"GRN"脫下了$n"GRN"，身旁的護壁逐漸淡去消逝。\n"NOR,me,this_object());
+//    message_vision(GRN + "$N" + GRN + "脫下了$n" + GRN + "，身旁的護壁逐漸淡去消逝。\n" + NOR,me,this_object());
     me->delete_temp("anti_condition");
     set_heart_beat(0);
   }
@@ -108,12 +108,12 @@ void heart_beat()
     {
       me->delete_busy();
       me->add("use_light_ring",1);
-      message_vision(HIC+"\n一股沁涼潔淨的氣息突然湧現，將$N"HIC"一時的滯澀及時衝破。\n"+NOR,me);
+      message_vision(HIC+"\n一股沁涼潔淨的氣息突然湧現，將$N" + HIC + "一時的滯澀及時衝破。\n"+NOR,me);
       if(random(me->query("use_light_ring")) >= 300 || !userp(me) && random(me->query("use_light_ring")) >= 10) //提高次數為30倍 減少玩家的麻煩 by blazakira
       {
         me->set("use_light_ring",0);
         me->delete_temp("anti_condition");
-        message_vision(HIW"\n淨"HIC"水"HIY"光"HIM"之戒"HIR"的靈力消耗殆盡，『啪』的一聲灰飛湮滅。\n"NOR,me);
+        message_vision(HIW + "\n淨" + HIC + "水" + HIY + "光" + HIM + "之戒" + HIR + "的靈力消耗殆盡，『啪』的一聲灰飛湮滅。\n" + NOR,me);
         destruct(this_object());
       }
     }

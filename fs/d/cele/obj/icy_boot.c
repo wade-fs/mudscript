@@ -7,7 +7,7 @@ inherit BOOTS;
 
 void create()
 {
-	set_name( HIC "吹雪殘雲靴" NOR, ({ "icy boots", "boots" }) );
+	set_name( HIC + "吹雪殘雲靴" + NOR, ({ "icy boots", "boots" }) );
 	set_weight(1000);
 	if( clonep() )
 		set_default_object(__FILE__);

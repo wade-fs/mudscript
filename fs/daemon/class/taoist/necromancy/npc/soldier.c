@@ -55,8 +55,8 @@ void besummon(object who,object room)
 	object me = this_object ();
 	room2=room;
 
-	message_vision (HIB"一陣清風吹過﹐走出一個$N。\n" +
-			"$N喝道﹕奉命差遣﹗\n" NOR, me);
+	message_vision (HIB + "一陣清風吹過﹐走出一個$N。\n" +
+			"$N喝道﹕奉命差遣﹗\n" + NOR, me);
 	pp=who->query("combat_exp");
         
 	set("combat_exp",pp);
@@ -67,7 +67,7 @@ void besummon(object who,object room)
         bell = who->query ("bellicosity");
 	if (bell < bell_small)
 	  {
-            message_vision (HIW"笑道：仙人有令，怎敢不從？\n", me);
+            message_vision (HIW + "笑道：仙人有令，怎敢不從？\n", me);
 	  }
 		else if (bell < bell_big )
 	  {
@@ -75,7 +75,7 @@ void besummon(object who,object room)
 	  }
 	else
 	  {
-	    message_vision (HIB"N$怒喝：何方妖魔，膽敢妄遣天兵？。\n", me);
+	    message_vision (HIB + "N$怒喝：何方妖魔，膽敢妄遣天兵？。\n", me);
 	    kill_ob (who);
 	    set_leader (who);
 	    return;
@@ -122,8 +122,8 @@ void heart_beat()
 void leave()
 {
   object who = query_leader ();
-  message_vision (HIB"$N說道﹕末將奉法主召喚﹐現在已經完成護法任務﹐就此告辭﹗\n" +
-		  "一陣清風吹過，$N的身形隨之不見了。\n" NOR, this_object ());
+  message_vision (HIB + "$N說道﹕末將奉法主召喚﹐現在已經完成護法任務﹐就此告辭﹗\n" +
+		  "一陣清風吹過，$N的身形隨之不見了。\n" + NOR, this_object ());
   if (who)
     who->add_temp ("invocation", -INVCOST);
   destruct(this_object());
@@ -134,7 +134,7 @@ void unconcious ()
   object who = query_leader ();
   if (who)
     who->add_temp ("invocation", -INVCOST);
-  message_vision (HIB"$N慘叫一聲啊！消失得無影無蹤。\n", this_object ());
+  message_vision (HIB + "$N慘叫一聲啊！消失得無影無蹤。\n", this_object ());
   destruct (this_object ());
 }
 

@@ -5,7 +5,7 @@ inherit CAPE;
 object me=this_player();
 void create()
 {
-        set_name(HIB"魔龍披甲"NOR,({"mdragon surcoat","surcoat"}));
+        set_name(HIB + "魔龍披甲" + NOR,({"mdragon surcoat","surcoat"}));
         set_weight(2000);
         if( clonep() )
                 set_default_object(__FILE__);

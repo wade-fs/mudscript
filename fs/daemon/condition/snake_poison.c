@@ -6,7 +6,7 @@ int update_condition(object me, int duration)
   if(duration==0) {    
     if(poison(me))
     {
-      message_vision(HIG "$N中的蛇毒發作了！\n" NOR,me);
+      message_vision(HIG + "$N中的蛇毒發作了！\n" + NOR,me);
     }
     me->delete_temp("poison/snake_poison");
     return 0;
@@ -16,7 +16,7 @@ int update_condition(object me, int duration)
   me->start_busy(2);
 
   me->apply_condition("snake_poison", duration - 1);
-  message_vision(HIG "$N中的蛇毒發作了！\n" NOR,me);
+  message_vision(HIG + "$N中的蛇毒發作了！\n" + NOR,me);
   if( duration < 1 ) return 0;
   return 1;
 }

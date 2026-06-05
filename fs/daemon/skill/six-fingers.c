@@ -24,41 +24,41 @@ string *sword_name=({
 
 string *attack =({
 //少商劍法 0~4
-"$N拇指一拈﹐體內真氣流轉﹐使出"HIW"『少商劍』"NOR"中的"HIY"『穿雲裂石』"NOR"﹐其雄勁的劍路﹐霸道的向$n激射而去﹐頗有石破天驚﹐風雨大至之勢",
-"$N勁透指尖﹐使出一招"HIG"『嶽峙淵渟』"NOR"﹐一道雄渾劍氣直刺$n﹐其嚴謹中正之姿﹐正符合"HIW"『少商劍』"NOR"大開大闔﹐氣派雄偉的劍意",
-"$N拇指虛劃，使出"HIR"『"HIY"雲開見月"HIR"』"NOR", 身形一轉,指尖逕向$n急點。",
-"$N身形騰空而起, 拇指指尖微顫,朝$n點來, 正是一招"HIG"『"HIC"蜻蜓點水"HIG"』"NOR"。",
-"$N拇指劍氣忽然光芒四射，身形急轉，使出一招"HIR"『"HIY"流星追月"HIR"』"NOR"，往$n攻去。",
+"$N拇指一拈﹐體內真氣流轉﹐使出" + HIW + "『少商劍』" + NOR + "中的" + HIY + "『穿雲裂石』" + NOR + "﹐其雄勁的劍路﹐霸道的向$n激射而去﹐頗有石破天驚﹐風雨大至之勢",
+"$N勁透指尖﹐使出一招" + HIG + "『嶽峙淵渟』" + NOR + "﹐一道雄渾劍氣直刺$n﹐其嚴謹中正之姿﹐正符合" + HIW + "『少商劍』" + NOR + "大開大闔﹐氣派雄偉的劍意",
+"$N拇指虛劃，使出" + HIR + "『" + HIY + "雲開見月" + HIR + "』" + NOR + ", 身形一轉,指尖逕向$n急點。",
+"$N身形騰空而起, 拇指指尖微顫,朝$n點來, 正是一招" + HIG + "『" + HIC + "蜻蜓點水" + HIG + "』" + NOR + "。",
+"$N拇指劍氣忽然光芒四射，身形急轉，使出一招" + HIR + "『" + HIY + "流星追月" + HIR + "』" + NOR + "，往$n攻去。",
 //商陽劍法 5~9
-"$N雙指齊出﹐兩股無形劍氣互相激盪﹐直奔$n而去﹐正是"HIW"『商陽劍』"NOR"中的絕招"HIR"『日月同耀』"NOR,
-"$N身形斗轉﹐一招"HIC"『霧捲雲湧』"NOR"幻化出無數身影﹐$n頓時籠罩在"HIW"『商陽劍』"NOR"無形劍氣之下",
-"$N氣若凝淵, 化巧為拙,指尖往前平指, 使出了"HIM"『盤龍出谷』"NOR"。",
+"$N雙指齊出﹐兩股無形劍氣互相激盪﹐直奔$n而去﹐正是" + HIW + "『商陽劍』" + NOR + "中的絕招" + HIR + "『日月同耀』" + NOR,
+"$N身形斗轉﹐一招" + HIC + "『霧捲雲湧』" + NOR + "幻化出無數身影﹐$n頓時籠罩在" + HIW + "『商陽劍』" + NOR + "無形劍氣之下",
+"$N氣若凝淵, 化巧為拙,指尖往前平指, 使出了" + HIM + "『盤龍出谷』" + NOR + "。",
 "$N劍走靈巧, 身法忽變,一招[1;37m『[1;30m虛空夜[1;33m月[1;37m』[0m使將出來, 四周皆是身影。",
 "$N使出[1;37m『[1;35m懷中抱[1;33m月[1;37m』[0m, 手中劍尖微顫,旋即幻化出數朵劍花, 將$n籠罩在劍雨之下。",
 //中衝劍法 10~14
-"$N坦然地彈出中指﹐使出"HIC"『中衝劍』"NOR"中的"CYN"『千古人龍』"NOR"﹐其劍勢大開大闔﹐有如天外飛龍般﹐劍氣凌厲地朝向$n而去",
-"$N伸出中指﹐一招"HIW"『中衝劍』"HIB"『雷震九重天』"NOR"射向$n﹐其聲勢如落雷驚天﹐叫人不敢逼視",
+"$N坦然地彈出中指﹐使出" + HIC + "『中衝劍』" + NOR + "中的" + CYN + "『千古人龍』" + NOR + "﹐其劍勢大開大闔﹐有如天外飛龍般﹐劍氣凌厲地朝向$n而去",
+"$N伸出中指﹐一招" + HIW + "『中衝劍』" + HIB + "『雷震九重天』" + NOR + "射向$n﹐其聲勢如落雷驚天﹐叫人不敢逼視",
 "$N左手捏個劍訣, 平推而出,訣指上仰, 右手中指朝天不動,正是一招[1;37m『[1;34m先人指路[1;37m』[0m。",
 "$N面露微笑, 仰視蒼天,使出[1;37m『捻[1;31m花[1;37m微笑』[0m, 但見劍光閃閃，朝$n狂攻而去。",
 "$N撮指成刀，忽地一招"+HIY+"「龍嘯九天」"+NOR+", 中指由下而上的砍向$n，因砍削空氣所形成得螺漩氣流如狂風般攻向$n。",
 //關衝劍法 15~19
-"$N緩緩的伸出無名指﹐「絲絲」聲起﹐正是"HIW"『關衝劍』"NOR"中的"HIY"『壯志凌雲』"NOR"﹐其拙滯古樸的劍勢籠罩住$n全身﹐直直的往$n撞去  ",
-"$N潛運內力﹐以靜制動﹐一招"HIG"『時雨春風』"NOR"指向$n正面三十六大穴﹐其勢古樸﹐正是"HIW"『關衝劍』"NOR"裡的高招",
+"$N緩緩的伸出無名指﹐「絲絲」聲起﹐正是" + HIW + "『關衝劍』" + NOR + "中的" + HIY + "『壯志凌雲』" + NOR + "﹐其拙滯古樸的劍勢籠罩住$n全身﹐直直的往$n撞去  ",
+"$N潛運內力﹐以靜制動﹐一招" + HIG + "『時雨春風』" + NOR + "指向$n正面三十六大穴﹐其勢古樸﹐正是" + HIW + "『關衝劍』" + NOR + "裡的高招",
 "$N忽然向前大跨一步，一股龐大的殺氣從$N身上湧出，$N大喝一聲"+HIR+"「殺龍求道」"+NOR+"，霍地旋身而起，氣隨身轉，旋風般朝$n猛攻。",
 "$N將劍氣延申插入地面，身形急轉，大喝一聲"+HIY+"「潛龍升天」"+NOR+"，無名指劍氣帶起了一陣上升氣流，彷彿要將四週的一切全部捲到空中似的",
-"$N大喝一聲使出"HIG"「峰迴路轉」"NOR"﹐無名指劍氣如一條銀蛇般刺向$n",
+"$N大喝一聲使出" + HIG + "「峰迴路轉」" + NOR + "﹐無名指劍氣如一條銀蛇般刺向$n",
 //少衝劍法 20~24
-"$N小指靈巧的轉動﹐一招"HIW"『少衝劍』"HIR"『雪泥鴻爪』"NOR"刁鑽的朝$n飛去﹐其勢詭奇﹐叫人捉模不定",
-"$N一招"HIW"『少衝劍』"NOR"刺向$n胸口﹐尚有許\尺﹐一斜身﹐小指迴轉﹐向$n削落﹐正是六脈神劍裡的妙招"HIM"『分花拂柳』"NOR,
-"$N身形有如陀螺般旋轉起來，一招"HIW"『少衝劍』"HIY"『洪流無限』"NOR"，劍氣有如箭搬不斷的朝$n攻去。",
-"$N腳踩奇步，忽然繞到了$n的背後，一招"HIW"『少衝劍』"HIG"『柳暗花明』"NOR"往$n背心大穴急攻而去。",
-"$N眼射精光﹐身形一轉急運小指劍氣，一招"HIW"『少衝劍』"HBRED+HIY"『空谷秋虹』"NOR"畫出一道光弧斬向$n",
+"$N小指靈巧的轉動﹐一招" + HIW + "『少衝劍』" + HIR + "『雪泥鴻爪』" + NOR + "刁鑽的朝$n飛去﹐其勢詭奇﹐叫人捉模不定",
+"$N一招" + HIW + "『少衝劍』" + NOR + "刺向$n胸口﹐尚有許\尺﹐一斜身﹐小指迴轉﹐向$n削落﹐正是六脈神劍裡的妙招" + HIM + "『分花拂柳』" + NOR,
+"$N身形有如陀螺般旋轉起來，一招" + HIW + "『少衝劍』" + HIY + "『洪流無限』" + NOR + "，劍氣有如箭搬不斷的朝$n攻去。",
+"$N腳踩奇步，忽然繞到了$n的背後，一招" + HIW + "『少衝劍』" + HIG + "『柳暗花明』" + NOR + "往$n背心大穴急攻而去。",
+"$N眼射精光﹐身形一轉急運小指劍氣，一招" + HIW + "『少衝劍』" + HBRED+HIY + "『空谷秋虹』" + NOR + "畫出一道光弧斬向$n",
 //少澤劍法 25~29
-"$N輕巧的轉動小指﹐使出一招"HIC"『飛雁迴翔』"NOR"﹐只見"HIY"『少澤劍』"NOR"忽來忽去﹐有如靈蛇般的斜射$n",
-"$N展開架式﹐身法輕靈﹐無形劍氣左一拐﹐右一彎﹐越轉越急﹐鶩然間一劍刺向$n﹐正是"HIY"『少澤劍』"NOR"中的奇招"HIW"『非假非空』"NOR,
-"$N臉色忽白忽紅，只見$N小指劍氣越來越亮，一招"HIY"『少澤劍』"HIY"『氣遊天地』"NOR"，刺向$n。",
-"$N小指虛劃十字，將劍氣凝聚胸前，一招"HIY"『少澤劍』"BLINK+HIR"『十方俱滅』"NOR"，劍氣有如排山倒海朝$n攻去。",
-"$N騰身而起，小指劍氣聚而不散，身子有如箭一般的朝$n直射而去，正是"HIY"『少澤劍』"NOR"之"BLINK+HIC"『金光洩地』"NOR,
+"$N輕巧的轉動小指﹐使出一招" + HIC + "『飛雁迴翔』" + NOR + "﹐只見" + HIY + "『少澤劍』" + NOR + "忽來忽去﹐有如靈蛇般的斜射$n",
+"$N展開架式﹐身法輕靈﹐無形劍氣左一拐﹐右一彎﹐越轉越急﹐鶩然間一劍刺向$n﹐正是" + HIY + "『少澤劍』" + NOR + "中的奇招" + HIW + "『非假非空』" + NOR,
+"$N臉色忽白忽紅，只見$N小指劍氣越來越亮，一招" + HIY + "『少澤劍』" + HIY + "『氣遊天地』" + NOR + "，刺向$n。",
+"$N小指虛劃十字，將劍氣凝聚胸前，一招" + HIY + "『少澤劍』"BLINK+HIR + "『十方俱滅』" + NOR + "，劍氣有如排山倒海朝$n攻去。",
+"$N騰身而起，小指劍氣聚而不散，身子有如箭一般的朝$n直射而去，正是" + HIY + "『少澤劍』" + NOR + "之"BLINK+HIC + "『金光洩地』" + NOR,
 });
 
 
@@ -68,7 +68,7 @@ mapping *action = ({
 
 //1
 ([ "action":
-"$N拇指一拈﹐體內真氣流轉﹐使出"HIW"『少商劍』"NOR"中的"HIY"『穿雲裂石』"NOR"﹐其雄勁的劍路﹐霸道的向$n$l激射而去﹐頗有石破天驚﹐風雨大至之勢",
+"$N拇指一拈﹐體內真氣流轉﹐使出" + HIW + "『少商劍』" + NOR + "中的" + HIY + "『穿雲裂石』" + NOR + "﹐其雄勁的劍路﹐霸道的向$n$l激射而去﹐頗有石破天驚﹐風雨大至之勢",
         "dodge": -30,
         "parry": -20,
         "damage": 100,
@@ -79,7 +79,7 @@ mapping *action = ({
 
 //2
 ([ "action":
-"$N勁透指尖﹐使出一招"HIG"『嶽峙淵渟』"NOR"﹐一道雄渾劍氣直刺$n$l﹐其嚴謹中正之姿﹐正符合"HIW"『少商劍』"NOR"大開大闔﹐氣派雄偉的劍意",
+"$N勁透指尖﹐使出一招" + HIG + "『嶽峙淵渟』" + NOR + "﹐一道雄渾劍氣直刺$n$l﹐其嚴謹中正之姿﹐正符合" + HIW + "『少商劍』" + NOR + "大開大闔﹐氣派雄偉的劍意",
         "dodge": -30,
         "parry": -20,
         "damage": 100,
@@ -90,7 +90,7 @@ mapping *action = ({
 
 //3
 ([ "action":
-"$N雙指齊出﹐兩股無形劍氣互相激盪﹐直奔$n$l而去﹐正是"HIW"『商陽劍』"NOR"中的絕招"HIR"『日月同耀』"NOR,
+"$N雙指齊出﹐兩股無形劍氣互相激盪﹐直奔$n$l而去﹐正是" + HIW + "『商陽劍』" + NOR + "中的絕招" + HIR + "『日月同耀』" + NOR,
         "dodge": -40,
         "parry": -15,
         "damage": 150,
@@ -101,7 +101,7 @@ mapping *action = ({
 
 //4
 ([ "action":
-"$N身形斗轉﹐一招"HIC"『霧捲雲湧』"NOR"幻化出無數身影﹐$n頓時籠罩在"HIW"『商陽劍』"NOR"無形劍氣之下",
+"$N身形斗轉﹐一招" + HIC + "『霧捲雲湧』" + NOR + "幻化出無數身影﹐$n頓時籠罩在" + HIW + "『商陽劍』" + NOR + "無形劍氣之下",
         "dodge": -40,
         "parry": -15,
         "damage": 150,
@@ -112,7 +112,7 @@ mapping *action = ({
 
 //5
 ([ "action":
-"$N坦然地彈出中指﹐使出"HIW"『中衝劍』"NOR"中的"CYN"『千古人龍』"NOR"﹐其劍勢大開大闔﹐有如天外飛龍般﹐劍氣凌厲地朝向$n$l而去",
+"$N坦然地彈出中指﹐使出" + HIW + "『中衝劍』" + NOR + "中的" + CYN + "『千古人龍』" + NOR + "﹐其劍勢大開大闔﹐有如天外飛龍般﹐劍氣凌厲地朝向$n$l而去",
         "dodge": -35,
         "parry": -20,
         "damage": 200,
@@ -124,7 +124,7 @@ mapping *action = ({
 
 //6
 ([ "action":
-"$N伸出中指﹐一招"HIW"『中衝劍』"BLU"『雷震九重天』"NOR"射向$n$l﹐其聲勢如落雷驚天﹐叫人不敢逼視",
+"$N伸出中指﹐一招" + HIW + "『中衝劍』" + BLU + "『雷震九重天』" + NOR + "射向$n$l﹐其聲勢如落雷驚天﹐叫人不敢逼視",
         "dodge": -35,
         "parry": -20,
         "damage": 200,
@@ -136,7 +136,7 @@ mapping *action = ({
 
 //7
 ([ "action":
-"$N緩緩的伸出無名指﹐「絲絲」聲起﹐正是"HIW"『關衝劍』"NOR"中的"HIY"『壯志凌雲』"NOR"﹐其拙滯古樸的劍勢籠罩住$n全身﹐直直的撞向其$l  ",
+"$N緩緩的伸出無名指﹐「絲絲」聲起﹐正是" + HIW + "『關衝劍』" + NOR + "中的" + HIY + "『壯志凌雲』" + NOR + "﹐其拙滯古樸的劍勢籠罩住$n全身﹐直直的撞向其$l  ",
         "dodge": 25,
         "parry": 0,
         "damage": 250,
@@ -147,7 +147,7 @@ mapping *action = ({
 
 //8
 ([ "action":
-"$N潛運內力﹐以靜制動﹐一招"HIG"『時雨春風』"NOR"指向$n正面三十六大穴﹐其勢古樸﹐正是"HIW"『關衝劍』"NOR"裡的高招",
+"$N潛運內力﹐以靜制動﹐一招" + HIG + "『時雨春風』" + NOR + "指向$n正面三十六大穴﹐其勢古樸﹐正是" + HIW + "『關衝劍』" + NOR + "裡的高招",
         "dodge": 25,
         "parry": 0,
         "damage": 250,
@@ -158,7 +158,7 @@ mapping *action = ({
 
 //9
 ([ "action":
-"$N小指靈巧的轉動﹐一招"HIW"『少衝劍』"HIR"『雪泥鴻爪』"NOR"刁鑽的朝$n$l飛去﹐其勢詭奇﹐叫人捉模不定",
+"$N小指靈巧的轉動﹐一招" + HIW + "『少衝劍』" + HIR + "『雪泥鴻爪』" + NOR + "刁鑽的朝$n$l飛去﹐其勢詭奇﹐叫人捉模不定",
         "dodge": -50,
         "parry": -20,
         "damage": 300,
@@ -170,7 +170,7 @@ mapping *action = ({
 
 //10
 ([ "action":
-"$N一招"HIW"『少衝劍』"NOR"刺向$n胸口﹐尚有許\尺﹐一斜身﹐小指迴轉﹐向$n$l削落﹐正是六脈神劍裡的妙招"HIM"『分花拂柳』"NOR,
+"$N一招" + HIW + "『少衝劍』" + NOR + "刺向$n胸口﹐尚有許\尺﹐一斜身﹐小指迴轉﹐向$n$l削落﹐正是六脈神劍裡的妙招" + HIM + "『分花拂柳』" + NOR,
         "dodge": -50,
         "parry": -20,
         "damage": 300,
@@ -181,7 +181,7 @@ mapping *action = ({
 
 //11
 ([ "action":
-"$N輕巧的轉動小指﹐使出一招"HIC"『飛雁迴翔』"NOR"﹐只見"HIW"『少澤劍』"NOR"忽來忽去﹐有如靈蛇般的斜射$n$l",
+"$N輕巧的轉動小指﹐使出一招" + HIC + "『飛雁迴翔』" + NOR + "﹐只見" + HIW + "『少澤劍』" + NOR + "忽來忽去﹐有如靈蛇般的斜射$n$l",
         "dodge": -50,
         "parry": -20,
         "damage": 250,
@@ -192,7 +192,7 @@ mapping *action = ({
 
 //12
 ([ "action":
-"$N展開架式﹐身法輕靈﹐無形劍氣左一拐﹐右一彎﹐越轉越急﹐鶩然間一劍刺向$n$l﹐正是"HIW"『少澤劍』"NOR"中的奇招"HIW"『非假非空』"NOR,
+"$N展開架式﹐身法輕靈﹐無形劍氣左一拐﹐右一彎﹐越轉越急﹐鶩然間一劍刺向$n$l﹐正是" + HIW + "『少澤劍』" + NOR + "中的奇招" + HIW + "『非假非空』" + NOR,
         "dodge": -50,
         "parry": -20,
         "damage": 250,
@@ -204,7 +204,7 @@ mapping *action = ({
 
 //13
 ([ "action":
-HIW"$N大喝一聲﹐鼓動全身真氣﹐內勁流轉﹐雙手六劍齊發﹐十指分彈﹐霎時劍氣縱橫﹐似有無數迅雷疾風互衝激盪向$n而去"NOR,
+HIW + "$N大喝一聲﹐鼓動全身真氣﹐內勁流轉﹐雙手六劍齊發﹐十指分彈﹐霎時劍氣縱橫﹐似有無數迅雷疾風互衝激盪向$n而去" + NOR,
         "dodge": -50,
         "parry": -20,
         "damage": 300,
@@ -216,11 +216,9 @@ HIW"$N大喝一聲﹐鼓動全身真氣﹐內勁流轉﹐雙手六劍齊發﹐�
 
 //14奧義(一)
 ([ "action":
-HIY"\n$N眼中精光大盛﹐大喝:\n\n"
-HIW"             『\n"
-HIR"                奪命"HIW"～"HIG"連環"HIW"～"HIM"六絕劍"HIW"!!\n"
+HIY + "\n$N眼中精光大盛﹐大喝:\n\n" + HIW + "             『\n" + HIR + "                奪命" + HIW + "～" + HIG + "連環" + HIW + "～" + HIM + "六絕劍" + HIW + "!!\n"
 "                                     』\n"
-"$N突然急運『一陽心法』﹐氣勁滿盈﹐一個箭步﹐向$n縱身飛去\n"NOR,
+"$N突然急運『一陽心法』﹐氣勁滿盈﹐一個箭步﹐向$n縱身飛去\n" + NOR,
         "dodge": 80,
         "parry": 50,
         "damage": 300,
@@ -231,12 +229,10 @@ HIR"                奪命"HIW"～"HIG"連環"HIW"～"HIM"六絕劍"HIW"!!\n"
 
 //15奧義(二)
 ([ "action":
-HIY"\n$N緩緩念道:\n\n"NOR
-GRN"                   『 兩腳踏翻塵世路﹐一肩擔盡古今愁 』\n\n"
-HIW"配合『凌波微步』的精妙步法﹐幻化成無數人影包圍$n﹐雙手疾射﹐六劍齊發﹐霎時
+HIY + "\n$N緩緩念道:\n\n" + NOR + GRN + "                   『 兩腳踏翻塵世路﹐一肩擔盡古今愁 』\n\n" + HIW + "配合『凌波微步』的精妙步法﹐幻化成無數人影包圍$n﹐雙手疾射﹐六劍齊發﹐霎時
 間$n陷入無形劍氣的狂亂劍網之中﹐劍氣激盪﹐竟是要將$n全身撕裂﹐此招正是
 大理段氏的禁用殺招\n\n"
-"                         ～ "HIY" 無"HIM" 常"HIW" ．"RED" 恨"HIC" 蒼"BLU" 天 "HIW" ～\n\n"NOR,
+"                         ～ " + HIY + " 無" + HIM + " 常" + HIW + " ．" + RED + " 恨" + HIC + " 蒼" + BLU + " 天 " + HIW + " ～\n\n" + NOR,
         "dodge": 80,
         "parry": 50,
         "damage": 300,
@@ -248,11 +244,9 @@ HIW"配合『凌波微步』的精妙步法﹐幻化成無數人影包圍$n﹐�
 
 //16奧義(三)
 ([ "action":
-HIY"\n$N回身收步長吟道:\n\n"NOR
-YEL"                   『 明月浮雲相半掩﹐七星不落耀長空 』\n\n"
-HIW"忽然間高高躍起﹐身形掩空﹐左掌撫胸﹐右手連發七道無形劍氣﹐疾向$n周身要穴而
+HIY + "\n$N回身收步長吟道:\n\n" + NOR + YEL + "                   『 明月浮雲相半掩﹐七星不落耀長空 』\n\n" + HIW + "忽然間高高躍起﹐身形掩空﹐左掌撫胸﹐右手連發七道無形劍氣﹐疾向$n周身要穴而
 去﹐昏暗之中﹐只見七道劍芒金光耀眼﹐乃是大理段氏六脈神劍中的絕學\n\n"
-"                           ～"HIM" 七"HIY" 星"HIC" 落"HIG" 長"HIR" 空"HIW" ～\n\n"NOR,
+"                           ～" + HIM + " 七" + HIY + " 星" + HIC + " 落" + HIG + " 長" + HIR + " 空" + HIW + " ～\n\n" + NOR,
         "dodge": 80,
         "parry": 50,
         "damage": 300,
@@ -262,7 +256,7 @@ HIW"忽然間高高躍起﹐身形掩空﹐左掌撫胸﹐右手連發七道無�
 ]),
 //17少商劍法
 ([ "action":
-"$N"HIR"使出六脈神劍中的『少商劍法 』，拇指劍氣有如實質，往"NOR"$n"HIR"攻去。"NOR,
+"$N" + HIR + "使出六脈神劍中的『少商劍法 』，拇指劍氣有如實質，往" + NOR + "$n" + HIR + "攻去。" + NOR,
                 "dodge"      :               -100,
                 "parry"      :               -100,
                 "damage"     :                330,
@@ -272,7 +266,7 @@ HIW"忽然間高高躍起﹐身形掩空﹐左掌撫胸﹐右手連發七道無�
 ]),
 //18商陽劍法
 ([ "action":
-"$N"HIY"使出六脈神劍中的『商陽劍法 』，食指劍氣有如實質，往"NOR"$n"HIY"攻去。"NOR,
+"$N" + HIY + "使出六脈神劍中的『商陽劍法 』，食指劍氣有如實質，往" + NOR + "$n" + HIY + "攻去。" + NOR,
                 "dodge"      :               -100,
                 "parry"      :               -100,
                 "damage"     :                340,
@@ -282,7 +276,7 @@ HIW"忽然間高高躍起﹐身形掩空﹐左掌撫胸﹐右手連發七道無�
 ]),
 //19中衝劍法
 ([ "action":
-"$N"HIC"使出六脈神劍中的『中衝劍法 』，中指劍氣有如實質，往"NOR"$n"HIC"攻去。"NOR,
+"$N" + HIC + "使出六脈神劍中的『中衝劍法 』，中指劍氣有如實質，往" + NOR + "$n" + HIC + "攻去。" + NOR,
                 "dodge"      :               -100,
                 "parry"      :               -100,
                 "damage"     :                350,
@@ -292,7 +286,7 @@ HIW"忽然間高高躍起﹐身形掩空﹐左掌撫胸﹐右手連發七道無�
 ]),
 //20關衝劍法
 ([ "action":
-"$N"HIG"使出六脈神劍中的『關衝劍法 』，無名指劍氣有如實質，往"NOR"$n"HIG"攻去。"NOR,
+"$N" + HIG + "使出六脈神劍中的『關衝劍法 』，無名指劍氣有如實質，往" + NOR + "$n" + HIG + "攻去。" + NOR,
                 "dodge"      :               -100,
                 "parry"      :               -100,
                 "damage"     :                360,
@@ -302,7 +296,7 @@ HIW"忽然間高高躍起﹐身形掩空﹐左掌撫胸﹐右手連發七道無�
 ]),
 //21少衝劍法
 ([ "action":
-"$N"HIB"使出六脈神劍中的『少衝劍法 』，小指劍氣有如實質，往"NOR"$n"HIB"攻去。"NOR,
+"$N" + HIB + "使出六脈神劍中的『少衝劍法 』，小指劍氣有如實質，往" + NOR + "$n" + HIB + "攻去。" + NOR,
                 "dodge"      :               -100,
                 "parry"      :               -100,
                 "damage"     :                370,
@@ -312,7 +306,7 @@ HIW"忽然間高高躍起﹐身形掩空﹐左掌撫胸﹐右手連發七道無�
 ]),
 //22少澤劍法
 ([ "action":
-"$N"HIM"使出六脈神劍中的『少澤劍法 』，小指劍氣有如實質，往"NOR"$n"HIM"攻去。"NOR,
+"$N" + HIM + "使出六脈神劍中的『少澤劍法 』，小指劍氣有如實質，往" + NOR + "$n" + HIM + "攻去。" + NOR,
                 "dodge"      :               -100,
                 "parry"      :               -100,
                 "damage"     :                380,
@@ -322,7 +316,7 @@ HIW"忽然間高高躍起﹐身形掩空﹐左掌撫胸﹐右手連發七道無�
 ]),
 //23六劍合一
 ([ "action":
-"$N領悟到六脈神劍"BLINK+HBRED+HIY"「圓滿如意，運轉不息」"NOR"的真意，劍氣齊發，往$n攻去。",
+"$N領悟到六脈神劍"BLINK+HBRED+HIY + "「圓滿如意，運轉不息」" + NOR + "的真意，劍氣齊發，往$n攻去。",
                 "dodge"      :               -100,
                 "parry"      :               -100,
                 "damage"     :                400,
@@ -355,13 +349,13 @@ void hurt(object me, object victim, object weapon, int damage)
           force = me->query_skill("sunforce",1);
           if(force > 250) force=250;
           victim->receive_damage("kee", 50+force,me);
-          message_vision(sprintf(HIM"$N六脈神劍詭異的氣勁鑽入$n體內﹐$n臉上突然一陣青白﹐看來已受了不小的內傷。\n"NOR),me,victim);
+          message_vision(sprintf(HIM + "$N六脈神劍詭異的氣勁鑽入$n體內﹐$n臉上突然一陣青白﹐看來已受了不小的內傷。\n" + NOR),me,victim);
           COMBAT_D->report_status(victim);
           me->add("force",-force);
         }
         else
         {
-          message_vision(sprintf(HIW"$n狼狽地閃過了$N的詭異氣勁, 但已大大出糗。\n"NOR),me,victim);
+          message_vision(sprintf(HIW + "$n狼狽地閃過了$N的詭異氣勁, 但已大大出糗。\n" + NOR),me,victim);
         }
 }
 void block(object me, object victim, object weapon, int damage)
@@ -370,13 +364,13 @@ void block(object me, object victim, object weapon, int damage)
             me->query("family/family_name")=="段家" )
         {
           victim->apply_condition("blockade",3);
-          message_vision(sprintf(HIY"$N六脈神劍暗藏一陽指手法﹐反手點中$n的膻中大穴。\n"NOR),me,victim);
+          message_vision(sprintf(HIY + "$N六脈神劍暗藏一陽指手法﹐反手點中$n的膻中大穴。\n" + NOR),me,victim);
           victim->start_busy(1);
           COMBAT_D->report_status(victim);
         }
         else
         {
-          message_vision(sprintf(HIW"$N試圖以一陽指封鎖$n, 但是被$n躲了開來。\n"NOR),me,victim);
+          message_vision(sprintf(HIW + "$N試圖以一陽指封鎖$n, 但是被$n躲了開來。\n" + NOR),me,victim);
         }
 }
 void conti(object me, object victim, object weapon, int damage)
@@ -407,30 +401,30 @@ if(me->query("env/六絕劍","YES")&&!me->query_temp("conti",1))
     switch(i)
     {
      case 1:
-message_vision(sprintf("$N領悟了"HIW"『少商劍』"HIY"『氣湧如山﹐席捲天下』"NOR"的真意﹐向$n當頭斬下!\n"),me,victim);
+message_vision(sprintf("$N領悟了" + HIW + "『少商劍』" + HIY + "『氣湧如山﹐席捲天下』" + NOR + "的真意﹐向$n當頭斬下!\n"),me,victim);
      break;
      case 2:
-message_vision(sprintf("\n$N領悟了"HIW"『商陽劍』"HIG"『身形靈動﹐勢若流雲』"NOR"的真意﹐對$n四肢砍落!\n"),me,victim);
+message_vision(sprintf("\n$N領悟了" + HIW + "『商陽劍』" + HIG + "『身形靈動﹐勢若流雲』" + NOR + "的真意﹐對$n四肢砍落!\n"),me,victim);
      break;
      case 3:
-message_vision(sprintf("\n$N領悟了"HIW"『中衝劍』"HIC"『劍氣沖天﹐盈不可久』"NOR"的真意﹐往$n胸前疾刺!\n"),me,victim);
+message_vision(sprintf("\n$N領悟了" + HIW + "『中衝劍』" + HIC + "『劍氣沖天﹐盈不可久』" + NOR + "的真意﹐往$n胸前疾刺!\n"),me,victim);
      break;
      case 4:
-message_vision(sprintf("\n$N領悟了"HIW"『關衝劍』"HIM"『氣凝丹田﹐以靜制動』"NOR"的真意﹐鶩然間刺向$n!\n"),me,victim);
+message_vision(sprintf("\n$N領悟了" + HIW + "『關衝劍』" + HIM + "『氣凝丹田﹐以靜制動』" + NOR + "的真意﹐鶩然間刺向$n!\n"),me,victim);
      break;
      case 5:
-message_vision(sprintf("\n$N領悟了"HIW"『少衝劍』"CYN"『應左則右﹐虛幻不定』"NOR"的真意﹐劍影包圍住$n!\n"),me,victim);
+message_vision(sprintf("\n$N領悟了" + HIW + "『少衝劍』" + CYN + "『應左則右﹐虛幻不定』" + NOR + "的真意﹐劍影包圍住$n!\n"),me,victim);
      break;
      case 6:
-message_vision(sprintf("\n$N領悟了"HIW"『少澤劍』"BLU"『雲譎波詭﹐亦幻亦真』"NOR"的真意﹐劍氣疾射向$n!\n"),me,victim);
+message_vision(sprintf("\n$N領悟了" + HIW + "『少澤劍』" + BLU + "『雲譎波詭﹐亦幻亦真』" + NOR + "的真意﹐劍氣疾射向$n!\n"),me,victim);
      break;
      }
-message_vision(sprintf(HIR"$N確實命中$n要害，$n頓時血流滿地。\n"NOR),me,victim);
+message_vision(sprintf(HIR + "$N確實命中$n要害，$n頓時血流滿地。\n" + NOR),me,victim);
           victim->receive_damage("kee",150,me);
           COMBAT_D->report_status(victim);
           me->add("force",-20);
    }
-message_vision(sprintf(HIW"\n你使力過度,一時之間無力再戰!\n"NOR),me,victim);
+message_vision(sprintf(HIW + "\n你使力過度,一時之間無力再戰!\n" + NOR),me,victim);
 if(!me->query_temp("weapon")){
 me->start_busy(1);
 }
@@ -456,7 +450,7 @@ if(!me->query_temp("conti",1)) {
         six = me->query_skill("six-fingers",1);
         force = me->query_skill("sunforce",1);
         if(force>250) force=250;
-          message_vision(sprintf(HIG"$N縱聲長嘯﹐雙手混元歸一中宮直入﹐無數道劍氣在$n身上對穿而過!!\n"NOR),me,victim);
+          message_vision(sprintf(HIG + "$N縱聲長嘯﹐雙手混元歸一中宮直入﹐無數道劍氣在$n身上對穿而過!!\n" + NOR),me,victim);
           victim->receive_damage("kee",six+force,me);
           victim->apply_condition("bleeding",5);
           COMBAT_D->report_status(victim);
@@ -468,7 +462,7 @@ if(!me->query_temp("conti",1)) {
         int force;
         force = me->query_skill("sunforce",1);
         if(force > 350) force=350;
-          message_vision(sprintf(HIC"$n先前內傷受到$N無形劍氣牽引﹐$n的傷勢更加重了!!\n"NOR),me,victim);
+          message_vision(sprintf(HIC + "$n先前內傷受到$N無形劍氣牽引﹐$n的傷勢更加重了!!\n" + NOR),me,victim);
           victim->receive_damage("kee",force,me);
           victim->start_busy(1);
           COMBAT_D->report_status(victim);
@@ -533,7 +527,7 @@ void sp_attack(object me, object victim, object weapon, int damage)
           me->add("force",-100);
           range/=5;
           sp_name=sword_name[range];
-          message_vision("\n$N使完"HIY"『"+sp_name+"』"NOR"後，由於定力不足，體內真氣一時無以為繼\n",me);
+          message_vision("\n$N使完" + HIY + "『"+sp_name+"』" + NOR + "後，由於定力不足，體內真氣一時無以為繼\n",me);
           me->start_busy(1);
        }
        break;
@@ -595,7 +589,7 @@ void sp_attack1(object me, object victim, object weapon, int damage)
     }
     if( random(me->query_cps()) < 4 ) {
        me->add("force",-100);
-       message_vision("\n$N使完"HIY"『六脈奧義連續技』"NOR"後，由於定力不足，體內真氣一時無以為繼\n",me);
+       message_vision("\n$N使完" + HIY + "『六脈奧義連續技』" + NOR + "後，由於定力不足，體內真氣一時無以為繼\n",me);
        me->start_busy(1);
     }
 }

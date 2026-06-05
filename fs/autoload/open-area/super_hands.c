@@ -30,7 +30,7 @@ void create()
     set("armor_prop/dodge",5);
     set("armor_prop/parry",10);
     set("armor_prop/attack",10);
-    set("wear_msg",HIW"$N"HIW"配戴上$n"HIW"，雙手異常靈巧起來。\n"NOR);
+    set("wear_msg",HIW + "$N" + HIW + "配戴上$n" + HIW + "，雙手異常靈巧起來。\n" + NOR);
   }
   setup();
 }
@@ -48,8 +48,8 @@ int do_wear(string str)
     if( query("equipped"))
     {
       me = environment(this_object());
-      message_vision(HIW"$N配戴上"RED"皆傳之證"HIW"，雙手異常靈巧起來。\n"NOR,me);
-      set_name( RED"皆傳之證"NOR,({"Xstrike-Hands","hands","xstrike-hands"}) );
+      message_vision(HIW + "$N配戴上" + RED + "皆傳之證" + HIW + "，雙手異常靈巧起來。\n" + NOR,me);
+      set_name( RED + "皆傳之證" + NOR,({"Xstrike-Hands","hands","xstrike-hands"}) );
       if(!query_heart_beat()) { //避免重複穿戴導致心跳有問題而增加 by blazakira
         set_heart_beat(1);
       }
@@ -66,8 +66,8 @@ int wear()
   if( query("equipped"))
   {
     me = environment(this_object());
-//    message_vision(HIW"$N配戴上"RED"皆傳之證"HIW"，雙手異常靈巧起來。\n"NOR,me);
-    set_name( RED"皆傳之證"NOR,({"Xstrike-Hands","hands","xstrike-hands"}) );
+//    message_vision(HIW + "$N配戴上" + RED + "皆傳之證" + HIW + "，雙手異常靈巧起來。\n" + NOR,me);
+    set_name( RED + "皆傳之證" + NOR,({"Xstrike-Hands","hands","xstrike-hands"}) );
     if(!query_heart_beat()) { //避免重複穿戴導致心跳有問題而增加 by blazakira
       set_heart_beat(1);
     }
@@ -132,7 +132,7 @@ void heart_beat()
     if(sizeof(enemy) == 0 ) return;
     i=random(sizeof(enemy));
     me->add("force",-200);
-    message_vision(HIB"\n攻擊過後，$N迅速回氣，狂風暴雨般展開連環攻勢。\n"NOR,me);
+    message_vision(HIB + "\n攻擊過後，$N迅速回氣，狂風暴雨般展開連環攻勢。\n" + NOR,me);
     me->set_temp("devast",1);
     me->set_temp("devast2",1);
     me->set_temp("berserk",1);
