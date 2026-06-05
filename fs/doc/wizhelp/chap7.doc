@@ -1,92 +1,92 @@
 
-�ĤC�B�K���G
-                       �H�����s�g����
+第七、八章：
+                       人物的編寫說明
 
-�e���G
-�@�@�@�H�����s�g�����A���N���j�������ܸԲӪ������A�Ѩ�OWade�j�j�A�L
-�g���խ��������ԲӪ������A�ڥu����z�Υ[�j�ӥH�C�H�U�����e�����N�O��
-�Ҫ�����!!!!!
-����:
-// ���ɮש�b /d/wiz/npc/test.c
-// ������ npc ���غس]�w, �Ш� /doc/build/npc �h�Ѧ�
-inherit NPC;                 //�����n�w�q�o�Ӫ���O�H���~��I�s�@�ǤH���������
-string do_ask (object me);   //�ϥ�functions�A�Y�t�ΨS���w�q���ܭn���ŧi�C
+前言：
+　　　人物的編寫部份，歷代的大神都有很詳細的說明，由其是Wade大大，他
+寫測試員內有極詳細的說明，我只有整理及加強而以。以下的內容直接就是實
+例的介紹!!!!!
+說明:
+// 本檔案放在 /d/wiz/npc/test.c
+// 有關於 npc 的種種設定, 請到 /doc/build/npc 去參考
+inherit NPC;                 //必須要定義這個物件是人物才能呼叫一些人物內的函數
+string do_ask (object me);   //使用functions，若系統沒有定義的話要先宣告。
 string do_home (object me);
 int test();
 int random_move();
-void create()               //��room�@��.....
+void create()               //跟room一樣.....
 {
-        //�u�ԭz�Ϊ��ԭz
-        set_name("�����ѥ]�����խ�", ({ "wade's test man", "man" }) );
-        set("long", "�A�ݨ쪺�O���խ�, �O�����ѥ](wade)���̷R�C\n");
-        // �~��
-        // �ѩ�t�αN�|�̦~�֦ӭp��X, �өǪ����ѽ�ΰ򥻪��A,
-        // �G�аȥ��]�w�Ǫ����~�֡C
+        //短敘述及長敘述
+        set_name("菠蘿麵包的測試員", ({ "wade's test man", "man" }) );
+        set("long", "你看到的是測試員, 是菠蘿麵包(wade)的最愛。\n");
+        // 年齡
+        // 由於系統將會依年齡而計算出, 該怪物之天賦及基本狀態,
+        // 故請務必設定怪物的年齡。
         set( "age", 15);
-        // �ѽ�, �аѦ� help gift
-        // set( "�ݩ�", �ƭ� );         <-- �ƭȽd��: 10 - 30
-        // �p�G�S���]�w, �N�Ѧ~�֭p��
+        // 天賦, 請參考 help gift
+        // set( "屬性", 數值 );         <-- 數值範圍: 10 - 30
+        // 如果沒有設定, 將由年齡計算
         set("str", 33);
         set("cor", 30);
 
-        set("class","¾�~�N��"); //���ɧڭ̻ݭn¾�~.���ɭn�].....
-        // ���A
-        // �p�G�S���]�w, �N�Ѧ~�֭p��, �аѦ� help stats
-        // ���A����kee gin sen�Y���]���O�B�F�O�B�k�O����..�N�|�[�J�p�⤧��
-        // ���L�ڤ@�몽���]�w���L..�D�n�Omob�n��player����@�I�C
+        set("class","職業代號"); //有時我們需要職業.此時要設.....
+        // 狀態
+        // 如果沒有設定, 將由年齡計算, 請參考 help stats
+        // 狀態中的kee gin sen若有設內力、靈力、法力的話..將會加入計算之中
+        // 不過我一般直接設定給他..主要是mob要比player氣長一點。
         set( "gin", 200 );
         set( "force_factor", 3 );
 
-        // �@��S���S���ޯ઺�Ǫ�, ��԰��g��(combat_exp)�X�G�M�w�F�Ǫ����j�סC
-        // set( "combat_exp", �ƭ� );
-        // set( "score", �ƭ� );
+        // 一般沒有特殊技能的怪物, 其戰鬥經驗(combat_exp)幾乎決定了怪物的強度。
+        // set( "combat_exp", 數值 );
+        // set( "score", 數值 );
         set("combat_exp", 100);
 
-        // �ޯ�
-        // �p�G�Q���Ǹ��F�`���Ǫ��������a�ǧޯ��, �̦n���覡�Y�O�]�w�ޯ�C
-        // �]�w�覡:
-        //              1.�Ǫ��ǹL���ޯ�: set_skill( "�ޥ��W", �ƭ� );
-        //              2.�Ǫ��I�i���ޯ�: map_skill( "�ޥ�����", "�ޥ��W" );
+        // 技能
+        // 如果想做些較厲害的怪物或讓玩家學技能時, 最好的方式即是設定技能。
+        // 設定方式:
+        //              1.怪物學過的技能: set_skill( "技巧名", 數值 );
+        //              2.怪物施展的技能: map_skill( "技巧種類", "技巧名" );
 
-        // �ر�
-        // �رڷ|�v�T�����覡, �аѦ� /doc/build/npc ���ĤK��
-        // �p�G�����w�ر�, �t�αN�|�۰ʿ�w�H���C
-        // �ثe�w������: �H��, �ɨȤH, ���], ���~ 
-        set("race", "�H��");
+        // 種族
+        // 種族會影響攻擊方式, 請參考 /doc/build/npc 的第八項
+        // 如果未指定種族, 系統將會自動選定人類。
+        // 目前已知的有: 人類, 賽亞人, 妖魔, 野獸 
+        set("race", "人類");
 
-        // �ʧO
-        // �̺رڤ����P, ����بt��: 1.�k��, �k�ʡC
-        //                           2.����, �۩�, ���ʡC
-        // �]�w�覡: set( "gender", "�ʧO" );
-        set( "gender", "�k��");
-        // �Y�O���~���ܥD�n�������覡�q�U���]�w�A�H���ܫh��skills
-        // �]�w npc �����覡�Ψ��\������C
-        // set( "limbs", ({ "���\����1", "���\����2", ...}) );
-        set("limbs", ({ "�Y��", "����", "�e�}", "��}", "����" }) );
-        // set( "verbs", ({ "�����覡1", "�����覡2", ...}) );
+        // 性別
+        // 依種族之不同, 有兩種系統: 1.男性, 女性。
+        //                           2.雄性, 雌性, 中性。
+        // 設定方式: set( "gender", "性別" );
+        set( "gender", "男性");
+        // 若是野獸的話主要的攻擊方式從下面設定，人的話則看skills
+        // 設定 npc 攻擊方式及受功擊部位。
+        // set( "limbs", ({ "受功部位1", "受功部位2", ...}) );
+        set("limbs", ({ "頭部", "身體", "前腳", "後腳", "尾巴" }) );
+        // set( "verbs", ({ "攻擊方式1", "攻擊方式2", ...}) );
         set("verbs", ({ "bite", "claw" }) );
 
-        // �t�y
-        // �ڭ̥i�H�b�Ǫ��W�]�w�Y�Ƿt�y, �ϱo�����a�߰�(ask)�S�w��
-        // ����r��, �Ǫ���۰ʰ��ڭ̹w�]���ʧ@�C
-        // �]�w�覡: set( "inquiry", ([
-        //                "�t�y1" : "�^�����y\n",
-        //                "�t�y2" : (: this_object(), "�I�s�Ƶ{�����W" :)
+        // 暗語
+        // 我們可以在怪物上設定某些暗語, 使得當玩家詢問(ask)特定之
+        // 關鍵字時, 怪物能自動做我們預設之動作。
+        // 設定方式: set( "inquiry", ([
+        //                "暗語1" : "回應之語\n",
+        //                "暗語2" : (: this_object(), "呼叫副程式之名" :)
         //              ]) );
         set("inquiry", ([
-            "wade"      :       "����, �L���O�v�W�̰��j������?\n",
+            "wade"      :       "哈哈, 他不是史上最偉大的神嗎?\n",
             "god"       :       (: do_ask :),
             "home"      :       (: do_home :),
         ]) );
 
-        // attitude npc ���԰��欰�аѦ� /doc/help/attitude
-        // �@���|�إ��k������A��L�������аѦ�/doc/help/attitude
+        // attitude npc 的戰鬥行為請參考 /doc/help/attitude
+        // 共有四種左右的狀能，其他的部份請參考/doc/help/attitude
         set("attitude", "friendly");
-        // �ۥѦ樫�����
+        // 自由行走的格數
         set("chat_chance", 15);
-        // ���ɷ|�۰ʥX�{���T��
-        // �i�H�]�A�Ƶ{���ΰT��
-        // �ɥR�@�U combat_msg�O�ΨӾ԰���mob�Ұѥͪ��T��......
+        // 平時會自動出現的訊息
+        // 可以包括副程式及訊息
+        // 補充一下 combat_msg是用來戰鬥時mob所參生的訊息......
         set("chat_msg", ({
             (: this_object(), "random_move" :),
             (: this_object(), "random_move" :),
@@ -95,18 +95,18 @@ void create()               //��room�@��.....
             (: this_object(), "test" :),
             (: this_object(), "test" :),
             (: this_object(), "test" :),
-            "���խ����D: �Q���D���g�n�@�� npc ��? �ݬݧڪ��ɮ״N���D�F\n",
-            "���խ����D: ���ƨS�ƥ� help npc_example\n",
-            "���խ����D: ����, /doc �U�ܦh��ƪ���\n",
-            "���խ����D: �g�{���ֳ̧̦w������k�O�ѦҧO�H�g�n���Ҥl\n",
-            "���խ����D: �Ův�p�G�����D more, cat, cd, wiz ���j���i�H���ѽu�W�Q�۱��F\n",
-            "���խ����D: ��, �p�G�����D��, �i�H�� wiz channel ��, �o�˷|�����\n",
+            "測試員說道: 想知道怎麼寫好一個 npc 嗎? 看看我的檔案就知道了\n",
+            "測試員說道: 有事沒事用 help npc_example\n",
+            "測試員說道: 其實喔, /doc 下很多資料的啦\n",
+            "測試員說道: 寫程式最快最安全的方法是參考別人寫好的例子\n",
+            "測試員說道: 巫師如果不知道 more, cat, cd, wiz 那大概可以拿麵線上吊自殺了\n",
+            "測試員說道: ㄟ, 如果有問題喔, 可以用 wiz channel 問, 這樣會比較快\n",
         }) );
 
-        // ���U���i�H�Ψ� eqs/weapons ��, �i�W�j�� mob ����O
-        // if armor then �[ (+xxx)
-        // if /dodge �[enable level
-        // if spells �[enable spells level
+        // 底下的可以用到 eqs/weapons 裡, 可增強該 mob 的能力
+        // if armor then 加 (+xxx)
+        // if /dodge 加enable level
+        // if spells 加enable spells level
         set_temp("apply/attack", 15);
         set_temp("apply/damage", 6);
         set_temp("apply/armor", 2);
@@ -116,79 +116,79 @@ void create()               //��room�@��.....
         return_home (environment(this_object()));
 }
 
-// �`�N:::�H�U����Ƨڭ̱`�Ψ�.....
-//   /std/npc/npc.c �̭��w�]�F�X�� function
-//   �ҿת� npc ���O�� mob & player, �]�N�O�b�����W�Ҽ����X�Ӫ�����
+// 注意:::以下的函數我們常用到.....
+//   /std/npc/npc.c 裡面預設了幾個 function
+//   所謂的 npc 其實是指 mob & player, 也就是在網路上所模擬出來的角色
 // object carry_object(string file)
-// �� npc �[�@���˳�
-//  �Ѧ� /d/npc/sungoku.c
+// 給 npc 加一項裝備
+//  參考 /d/npc/sungoku.c
 // object add_money(string type, int amount)
-// �� npc ��, �o�˷� npc �Q��������, ���a�i�H�q�����鮳���
-//  �Ѧ� /d/oldpine/npc/bandit.c
-// int random_move() �i�H�ΨӦb npc ���˹L���άY�ر��p�U�۰ʰk�]
-//  �Ѧ� ???
-// chat_msg  ���O�� chat() ��ƩI�s��, �i�H�ۤv�w�q chat()
-//  �Ѧ� /d/wiz/npc/judge.c
-// void cast_spell(string spell)  �i�H�� npc �I�k�N
-//  �Ѧ� /d/temple/npc/taoist.c
-// int exert_function(string func)  �i�H�� npc �ϥΦۤv�����\�ߪk
-//   �Ѧ� /d/waterfog/npc/guard.c
-// int perform_action(string action)  �i�H�� npc �ϥΦۤv�� skill
-//   �Ѧ� /d/snow/npc/girl.c"
-// is_fighting() �i�H�����O�_�԰���
-//   �Ѧ� /d/npc/sungoku.c
-// �w�q�b�H�����󤤪����[���(apply functions)
+// 給 npc 錢, 這樣當 npc 被殺死之後, 玩家可以從它屍體拿到錢
+//  參考 /d/oldpine/npc/bandit.c
+// int random_move() 可以用來在 npc 受傷過重或某種情況下自動逃跑
+//  參考 ???
+// chat_msg  其實是由 chat() 函數呼叫的, 可以自己定義 chat()
+//  參考 /d/wiz/npc/judge.c
+// void cast_spell(string spell)  可以讓 npc 施法術
+//  參考 /d/temple/npc/taoist.c
+// int exert_function(string func)  可以讓 npc 使用自己的內功心法
+//   參考 /d/waterfog/npc/guard.c
+// int perform_action(string action)  可以讓 npc 使用自己的 skill
+//   參考 /d/snow/npc/girl.c"
+// is_fighting() 可以偵測是否戰鬥中
+//   參考 /d/npc/sungoku.c
+// 定義在人物物件中的附加函數(apply functions)
 // void defeated_enemy(object victim)
-// ���o�W�H�������@�ӼĤH���ɭԷ|�I�s�o�Ӫ��[��ơMvictim �Y�O�Q���������ĤH����
-// �I�s��: COMBAT_D
-//   �Ѧ�: /d/snow/npc/sungoku.c
+// 當這名人物打昏一個敵人的時候會呼叫這個附加函數﹐victim 即是被打昏的的敵人物件
+// 呼叫者: COMBAT_D
+//   參考: /d/snow/npc/sungoku.c
 // void killed_enemy(object victim)
-// ���o�W�H�������@�ӼĤH���ɭԷ|�I�s�o�Ӫ��[���
-// �I�s��: COMBAT_D
-//   �Ѧ�: /oldpine/npc/spy.c
+// 當這名人物殺死一個敵人的時候會呼叫這個附加函數
+// 呼叫者: COMBAT_D
+//   參考: /oldpine/npc/spy.c
 // int accept_fight(object who)
-// ������L�ͪ���o�ӤH���U fight ���O���ɭԡM�|�I�s�o�Ӫ��[���
-// �I�s��: "fight" ���O
-//   �Ѧ�: /d/npc/sungoku.c
+// 當有其他生物對這個人物下 fight 指令的時候﹐會呼叫這個附加函數
+// 呼叫者: "fight" 指令
+//   參考: /d/npc/sungoku.c
 // int accept_object(object who, object item)
-// �����H�� give ���O���o�ӫD���a�H���F��ɡM�|�I�s�o�Ӫ��[���
-// �I�s��: "give" ���O
-//   �Ѧ�: /d/snow/npc/dog.c
+// 當有人用 give 指令給這個非玩家人物東西時﹐會呼叫這個附加函數
+// 呼叫者: "give" 指令
+//   參考: /d/snow/npc/dog.c
 // void recruit_apprentice(objct apprentice)
-// ���@�ӤH�����F�t�@�ӤH�����̤l�ɷ|�I�s�o�Ӫ��[��ơM
-// �I�s��: "apprentice" ���O
-//   �Ѧ�:   ????
-// �Ƶ{��������!!!!!!!
+// 當一個人物收了另一個人物做弟子時會呼叫這個附加函數﹐
+// 呼叫者: "apprentice" 指令
+//   參考:   ????
+// 副程式的部份!!!!!!!
 string do_ask (object me)
 {
-  return "���D�A�����D�̰��j�����O�����ѥ](Wade)��?\n";
+  return "難道你不知道最偉大的神是菠蘿麵包(Wade)嗎?\n";
 }
 
 int test ()
 {
   tell_room (environment(this_object()),
-             "���խ����D: hahaa......I am a super test man...\n");
+             "測試員說道: hahaa......I am a super test man...\n");
   ::random_move();
 }
 
 int random_move ()
 {
   tell_room (environment(this_object()),
-             "���խ����D: �ڨ��F...\n");
+             "測試員說道: 我走了...\n");
   ::random_move();
 }
 
 string do_home (object me)
 {
   if (this_object()->return_home("/u/w/wade/workroom"))
-    return "���խ����D: �ڦ^�a�o\n";
+    return "測試員說道: 我回家囉\n";
   else
-    return "���խ����D: �a? �a�b��? �ڥX�Ӭy�����N�O���Q�^�a����?\n";
+    return "測試員說道: 家? 家在哪? 我出來流浪不就是不想回家的嗎?\n";
 }
 
-�ɥR�@�U::
-1.�H�W�j���Onpc�����k.���O�o���ӬO�򥻪�..���������������k�ڭ̥i�H�ѦҨ�L�j��
-  �g�k�C
-2.�P��Wade�j�j�g�X�o�������d�ҡC
+補充一下::
+1.以上大概是npc的做法.但是這應該是基本的..有關較複雜的做法我們可以參考其他大神
+  寫法。
+2.感謝Wade大大寫出這不錯的範例。
 
                                                         by Chan 07/28/98

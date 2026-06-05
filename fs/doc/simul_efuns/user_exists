@@ -1,13 +1,13 @@
 
 USER_EXISTS(2)             silmul_efun             USER_EXISTS(2)
 
-¦WºÙ
-     user_exists - §PÂ_¬Y­Óª±®a¬O§_¦b½u¤W
+åç¨±
+     user_exists - åˆ¤æ–·æŸå€‹ç©å®¶æ˜¯å¦åœ¨ç·šä¸Š
 
-»yªk
+èªæ³•
      int user_exists(string user);
 
-´y­z
+æè¿°
      Returns 1 if user exists  on  this  mud,  otherwise  returns
      zero.
 
@@ -18,12 +18,12 @@ USER_EXISTS(2)             silmul_efun             USER_EXISTS(2)
      e.g. user_exists("Ichabod") would check to see if there  was
      a file called /data/users/i/ichabod.o.
 
-¨ä¥¦°Ñ¦ÒÀÉ®×
+å…¶å®ƒåƒè€ƒæª”æ¡ˆ
      /adm/simul_efun/existence.c
 
-§@ªÌ
+ä½œè€…
      Ichabod@TMI, 2/1/93
-     wade@future 4/8/1996 Â½Ä¶
+     wade@future 4/8/1996 ç¿»è­¯
 
 MudOS Release 0.9         Last change:                   3-19-93
 

@@ -1,5 +1,5 @@
-                             -=§Å®v¼g§@¤ß±o=-
-                                                           Fex   °Å¶K
+                             -=å·«å¸«å¯«ä½œå¿ƒå¾—=-
+                                                           Fex   å‰ªè²¼
 *******************************************************************************
 
 int move_all_players()
@@ -7,24 +7,24 @@ int move_all_players()
 mixed cont;
 object room,obj;
 int i;
-    room =environment(this_player());  //¨ú¥Xª±®a©Ò¦b©Ğ¶¡//
-    cont = all_inventory( room );   //¨ú¥X¨º­Ó©Ğ¶¡¤º©Ò¦³ª«¥ó//
+    room =environment(this_player());  //å–å‡ºç©å®¶æ‰€åœ¨æˆ¿é–“//
+    cont = all_inventory( room );   //å–å‡ºé‚£å€‹æˆ¿é–“å…§æ‰€æœ‰ç‰©ä»¶//
          for( i = 0 ; i < sizeof( cont ) ; i++ )
           {
           obj = cont[i];
-          obj->move_player(¥Øªº¦a,"SNEAK");
+          obj->move_player(ç›®çš„åœ°,"SNEAK");
           }
 }
 
 *******************************************************************************
 
-init(){                     //©Çª«»D¨ìª±®a¨­¤W¦³"¦å"ªº¨ı¹D¡A´Nµ¹¥L¦º°Õ//
+init(){                     //æ€ªç‰©èåˆ°ç©å®¶èº«ä¸Šæœ‰"è¡€"çš„å‘³é“ï¼Œå°±çµ¦ä»–æ­»å•¦//
       if (this_player()->query_temp("blood")== 1)
       kill_ob(this_player());
 }
 
 
-die(){                   //©Çª«¦º¤F¡A¦bª±®a¨­¤W¡A¯d¤U" ¦å " //
+die(){                   //æ€ªç‰©æ­»äº†ï¼Œåœ¨ç©å®¶èº«ä¸Šï¼Œç•™ä¸‹" è¡€ " //
         object killer;
         killer = query("last_attacker");
         killer->set_temp("blood", 1);
@@ -38,87 +38,87 @@ die(){                   //©Çª«¦º¤F¡A¦bª±®a¨­¤W¡A¯d¤U" ¦å " //
       reg2=4;
       if ( this_player()->query("level")<20     )
          {
-           write ("§A¼²¨ìÀğ¾À,²´«_ª÷¬P,¬y¤F¤@ÂIÂI¦å...\n") ;
+           write ("ä½ æ’åˆ°ç‰†å£,çœ¼å†’é‡‘æ˜Ÿ,æµäº†ä¸€é»é»è¡€...\n") ;
               reg1= this_player()->query("hit_points");
               reg1=reg1-reg2;
               this_player()->set("hit_points",reg1);
               return 1;
              }
-           write ("§A¬ï¹LÀğ¾À¨ì¥t¤@­Ó©Ğ¶¡¨Ó¤F\n") ;
+           write ("ä½ ç©¿éç‰†å£åˆ°å¦ä¸€å€‹æˆ¿é–“ä¾†äº†\n") ;
            say(this_player()->query("chi_name")+
-               "»¡:§A¤@©w·|»{¬°§Ú¥¢ÅÊ¤F,¦ı,³o¬O¬ïÀğ³N,¤£¬O§Ú·Q¤£¶}!\n") ;
+               "èªª:ä½ ä¸€å®šæœƒèªç‚ºæˆ‘å¤±æˆ€äº†,ä½†,é€™æ˜¯ç©¿ç‰†è¡“,ä¸æ˜¯æˆ‘æƒ³ä¸é–‹!\n") ;
            return 0;
                    }
 
 *******************************************************************************
 
-¨ç¼Æ//¥Î³B//½d¨Ò
+å‡½æ•¸//ç”¨è™•//ç¯„ä¾‹
 
-write() //¼g¦r¦êµ¹¤@­Óª±®a, §O¤H¬İ¤£¨ì //
+write() //å¯«å­—ä¸²çµ¦ä¸€å€‹ç©å®¶, åˆ¥äººçœ‹ä¸åˆ° //
 
-say()   //¼g¦r¦êµ¹§O¤H//
+say()   //å¯«å­—ä¸²çµ¦åˆ¥äºº//
 
-shout() //¼g¦r¦êµ¹©Ò¦³¤H//
+shout() //å¯«å­—ä¸²çµ¦æ‰€æœ‰äºº//
 
-die() //¼g¦bmob¸Ìªº¨ç¼Æ,·ímob¦º¤F,´N¥ß¨è°õ¦æ¦¹¨ç¼Æ//
+die() //å¯«åœ¨mobè£¡çš„å‡½æ•¸,ç•¶mobæ­»äº†,å°±ç«‹åˆ»åŸ·è¡Œæ­¤å‡½æ•¸//
 
-tell_object() //¶Ç¦r¦êµ¹¤@­Óª«¥ó,¤H©Î©Ğ¶¡//
-tell_object(ob,"¿E¬y¤Ó¤j§A³Q¨R¦^¨Ó¤F¡I\n\n");
+tell_object() //å‚³å­—ä¸²çµ¦ä¸€å€‹ç‰©ä»¶,äººæˆ–æˆ¿é–“//
+tell_object(ob,"æ¿€æµå¤ªå¤§ä½ è¢«æ²–å›ä¾†äº†ï¼\n\n");
 
-tell_room()  //¶Ç¦r¦êµ¹©Ğ¶¡//
+tell_room()  //å‚³å­—ä¸²çµ¦æˆ¿é–“//
 
 message()
 
-present() //¥Î¨Ó½T©wª«¥ó¬O§_¦s¦b¥t¤@­Óª«¥ó//
+present() //ç”¨ä¾†ç¢ºå®šç‰©ä»¶æ˜¯å¦å­˜åœ¨å¦ä¸€å€‹ç‰©ä»¶//
 ob = present("canoe",find_object_or_load(VALE +"vale5"));
-             // id //       // ¥t¤@­Óª«¥ó//
+             // id //       // å¦ä¸€å€‹ç‰©ä»¶//
 
-find_object_or_load()//¥Ñ¥Ø¿ı¨ú¥Xª«¥ó//
+find_object_or_load()//ç”±ç›®éŒ„å–å‡ºç‰©ä»¶//
 find_object_or_load(VALE +"vale5")
 find_player(), find_living(), find_object()
-  //§ä¤H//      //§ä¥Íª«//       //§äª«¥ó//
+  //æ‰¾äºº//      //æ‰¾ç”Ÿç‰©//       //æ‰¾ç‰©ä»¶//
 
 
-move_player()//²¾°Êª±®a//
-this_player()->move_player(VALE + "rip3","SNEAK"); //²¾°Ê®ÉµL°T®§//
-ob->move_player(VALE + "vale14",ob->query("id")+"³Q¿E¬y¨R¦^¨Ó¤F¡I\n");
+move_player()//ç§»å‹•ç©å®¶//
+this_player()->move_player(VALE + "rip3","SNEAK"); //ç§»å‹•æ™‚ç„¡è¨Šæ¯//
+ob->move_player(VALE + "vale14",ob->query("id")+"è¢«æ¿€æµæ²–å›ä¾†äº†ï¼\n");
 
-move_object()//·h²¾ª«¥ó//
+move_object()//æ¬ç§»ç‰©ä»¶//
 
-room =environment(this_player());  //¨ú¥Xª±®a©Ò¦b©Ğ¶¡//
-player =environment(this_object()); //¨ú¥Xª««~©Ò¦bª±®a//
+room =environment(this_player());  //å–å‡ºç©å®¶æ‰€åœ¨æˆ¿é–“//
+player =environment(this_object()); //å–å‡ºç‰©å“æ‰€åœ¨ç©å®¶//
 
-cont = all_inventory( room );   //¨ú¥X¨º­Ó©Ğ¶¡¤º©Ò¦³ª«¥ó//
+cont = all_inventory( room );   //å–å‡ºé‚£å€‹æˆ¿é–“å…§æ‰€æœ‰ç‰©ä»¶//
 
 set(), query(), delete(), add()
-³]©w   ¨ú¥X      ®ø¥h      ¥[¦¨
+è¨­å®š   å–å‡º      æ¶ˆå»      åŠ æˆ
 exp=this_player()->query("combat_exp");
 exp=exp +100;
 this_player()->set("combat_exp",exp);
 this_player()->add("max_kee",-10);
-                     // ºë
-set_temp(), query_temp(), add_temp()//§@¥Î¦bª±®a¨­¤Wªº¼È¦s­È//
+                     // ç²¾
+set_temp(), query_temp(), add_temp()//ä½œç”¨åœ¨ç©å®¶èº«ä¸Šçš„æš«å­˜å€¼//
 this_player()->set_temp("climbed",this_player()->query_temp("climbed")+1);
 this_player()->delete_temp("climbed");
 
-random() //¨ú¶Ã¼Æ//
+random() //å–äº‚æ•¸//
 
 *******************************************************************************
 
-­Yµ{¦¡°õ¦æ¤å¦r·|¥X¿ù,¦Ó­ì©lµ{¦¡¨S¿ùªº¸Ü,¸Õ¥Îctrl+alt+aÅÜ¦¨­^¤å¼Ò¦¡¬İ¬İ¨º
-¿ù¦rªşªñ¦³¨S¦³"\",¦pªG¦³,¦A¥[­Ó"\"¤W¥h,§Y­«ÂĞ¨â­Ó"\",³o¼Ë¤å¦r´N¤£·|¶ÃÁVÁVÅo..
+è‹¥ç¨‹å¼åŸ·è¡Œæ–‡å­—æœƒå‡ºéŒ¯,è€ŒåŸå§‹ç¨‹å¼æ²’éŒ¯çš„è©±,è©¦ç”¨ctrl+alt+aè®Šæˆè‹±æ–‡æ¨¡å¼çœ‹çœ‹é‚£
+éŒ¯å­—é™„è¿‘æœ‰æ²’æœ‰"\",å¦‚æœæœ‰,å†åŠ å€‹"\"ä¸Šå»,å³é‡è¦†å…©å€‹"\",é€™æ¨£æ–‡å­—å°±ä¸æœƒäº‚ç³Ÿç³Ÿå›‰..
 
 *******************************************************************************
 
-¤U­±ªº¼gªk¯à±N¦Û¤v¨­¤Wªº¾c¤l(¥»¨Ó¬O¸Ë³Æ¤W¥hªº)ÅÜ¦¨¥¼¸Ë³Æ....
+ä¸‹é¢çš„å¯«æ³•èƒ½å°‡è‡ªå·±èº«ä¸Šçš„é‹å­(æœ¬ä¾†æ˜¯è£å‚™ä¸Šå»çš„)è®Šæˆæœªè£å‚™....
    present("boots",this_player())->set("equipped",0)
-¦pªG¬OªZ¾¹,¥u­n§â"equipped"§ï¦¨"wielded"§Y¥i.............
-ps:1 ªí¸Ë³Æ¤W¥h,0 ªí¨ø¤U
+å¦‚æœæ˜¯æ­¦å™¨,åªè¦æŠŠ"equipped"æ”¹æˆ"wielded"å³å¯.............
+ps:1 è¡¨è£å‚™ä¸Šå»,0 è¡¨å¸ä¸‹
 
 *******************************************************************************
 
-¦pªG¦bmobs¤¤set("alt_corpse","/u/..../obj.c");
-¨º©Çª«¦º®É, ´N·|clone obj.c ¨Ã°õ¦æobj.c ¤¤ªºset_name()
+å¦‚æœåœ¨mobsä¸­set("alt_corpse","/u/..../obj.c");
+é‚£æ€ªç‰©æ­»æ™‚, å°±æœƒclone obj.c ä¸¦åŸ·è¡Œobj.c ä¸­çš„set_name()
 
 *******************************************************************************
 

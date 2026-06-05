@@ -1,13 +1,13 @@
 
 SUBSTR(2)                  silmul_efun                  SUBSTR(2)
 
-¦WºÙ
-     substr - ·j´M¨Ã¨ú¥N¦r¦ê
+åç¨±
+     substr - æœå°‹ä¸¦å–ä»£å­—ä¸²
 
-»yªk
+èªæ³•
      string substr(string str, string match, string replace);
 
-´y­z
+æè¿°
      From Sulam's comments in the original file:
 
      This function recursively replaces a key with a string.
@@ -20,15 +20,15 @@ SUBSTR(2)                  silmul_efun                  SUBSTR(2)
      both slightly different, they are both here until a suitable
      solution can be found.
 
-     ¨Ò¤l
+     ä¾‹å­
         substr("abcbdbebf", "b", "-") returns "a-c-d-e-f"
 
-¨ä¥¦°Ñ¦Ò¨ç¼Æ
+å…¶å®ƒåƒè€ƒå‡½æ•¸
      replace_string().
 
-§@ªÌ
+ä½œè€…
      Ichabod@TMI, 3/12/93  (based  on  Sulam's  comments  in  the file).
-     wade@future 4/8/1996 Â½Ä¶
+     wade@future 4/8/1996 ç¿»è­¯
 
 MudOS Release 0.9         Last change:                   3-19-93
 

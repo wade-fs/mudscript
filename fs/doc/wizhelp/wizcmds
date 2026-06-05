@@ -1,27 +1,27 @@
-[ÀÉ®×³B²z]
+[æª”æ¡ˆè™•ç†]
 (immortal)	cat	cd	ls	more 	tail
 (apprentice)	compare	cp edit	ff mkdir mv pwd rm rmdir
 (wizard)	grep	
 (arch)		rehash
 (adm)		restore
 
-[¨t²Î«ü¥O]
+[ç³»çµ±æŒ‡ä»¤]
 (apprentice)	mem
 (wizard)	config	info	reclaim mudlist
 (arch)		chinese	dchinese setquests delquests promote
 		reboot shutdown edemote invis vis purge
 (admin)		callouts dump profile purgewiz
  
-[ª«¥ó³B²z]
+[ç‰©ä»¶è™•ç†]
 (apprentice)	clone	data	update	where	whoami	cleanup	cost	dest
 (wizard)	call	snoop	status
 (arch)		summon	smash	fingers shutup
 (admin)		switch	dbxframe dbxwhere
 
-[¨ä¥L]
+[å…¶ä»–]
 (immortal)	goto	halt   chineses   qload
 (apprentice)	boss	home
 (wizard)	away	plan   banditlist
 (arch)		employee
 
-¥Ñ wade ¾ã²z©ó 11/22/1995
+ç”± wade æ•´ç†æ–¼ 11/22/1995

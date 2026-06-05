@@ -1,16 +1,16 @@
-¡¼APPRENTICE
+â–¡APPRENTICE
 
 int is_apprentice_of(object ob)
-§P©w«ü©w¤Jª«¥ó¬O§_¬°¶Ç¤Jª«¥óªº§Ì¤l.
+åˆ¤å®šæŒ‡å®šå…¥ç‰©ä»¶æ˜¯å¦ç‚ºå‚³å…¥ç‰©ä»¶çš„å¼Ÿå­.
 
 void assign_apprentice(string title, int privs)
-³]©wª«¥ó¦b©ÒÄİªù¬£¦a¦ì¤Î©ïÀY. -1 ªí¥Üª«¥ó¬°´xªù¤H, 0 ªí¬Oª«¥ó¬°§Ì¤l.
+è¨­å®šç‰©ä»¶åœ¨æ‰€å±¬é–€æ´¾åœ°ä½åŠæŠ¬é ­. -1 è¡¨ç¤ºç‰©ä»¶ç‚ºæŒé–€äºº, 0 è¡¨æ˜¯ç‰©ä»¶ç‚ºå¼Ÿå­.
 
 void create_family(string family_name, int generation, string title)
-«Ø¥ß¤@­Ó mapping ¨ÓÀx¦sª«¥óªºªù¬£¸ê®Æ, ¨Ã³]©w«ü©wª«¥ó¬°´xªù¤H.
+å»ºç«‹ä¸€å€‹ mapping ä¾†å„²å­˜ç‰©ä»¶çš„é–€æ´¾è³‡æ–™, ä¸¦è¨­å®šæŒ‡å®šç‰©ä»¶ç‚ºæŒé–€äºº.
 
 int recruit_apprentice(object ob)
-³]©w¶Ç¤Jª«¥ó¬°«ü©wª«¥óªº§Ì¤l¨Ã³]©w¬ÛÃö¸ê®Æ.
+è¨­å®šå‚³å…¥ç‰©ä»¶ç‚ºæŒ‡å®šç‰©ä»¶çš„å¼Ÿå­ä¸¦è¨­å®šç›¸é—œè³‡æ–™.
 
 Elon@ES2
 drafted: 07-13-95

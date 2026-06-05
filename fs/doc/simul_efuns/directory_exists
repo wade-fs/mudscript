@@ -1,22 +1,22 @@
 
 DIRECTORY_EXISTS(2)        silmul_efun       DIRECTORY_EXISTS(2)
 
-¦WºÙ
-     directory_exists - ¨M©w°Ñ¼Æ¥Ø¿ı¬O§_¦s¦b
+åç¨±
+     directory_exists - æ±ºå®šåƒæ•¸ç›®éŒ„æ˜¯å¦å­˜åœ¨
 
-»yªk
+èªæ³•
      int directory_exists(string dirname);
 
-´y­z
+æè¿°
      Returns TRUE if dirname is the pathname of  a  valid  direc-
      tory, otherwise returns FALSE.
 
-¨ä¥¦°Ñ¦ÒÀÉ®×
+å…¶å®ƒåƒè€ƒæª”æ¡ˆ
      /adm/simul_efun/existence.c
 
-§@ªÌ
+ä½œè€…
      Ichabod@TMI, 2/1/93
-     wade@future 4/7/1996 Â½Ä¶
+     wade@future 4/7/1996 ç¿»è­¯
 
 MudOS Release 0.9         Last change:                   3-19-93
 

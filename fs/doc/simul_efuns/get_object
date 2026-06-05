@@ -1,13 +1,13 @@
 
 get_object(2)              silmul_efun             get_object(2)
 
-¦WºÙ
-     get_object() - ¨ú±oª«¥ó
+åç¨±
+     get_object() - å–å¾—ç‰©ä»¶
 
-»yªk
+èªæ³•
      varargs object get_object( string str, object player );
 
-´y­z
+æè¿°
      If  player  is  given,  then  that  is   used   instead   of
      this_player() Looks for an object:
        str == "me" -> this_player()
@@ -19,16 +19,16 @@ get_object(2)              silmul_efun             get_object(2)
        find_living( str )
        find_object( str )  (with a resolved path)
 
-   ¯S§Oª`·N
+   ç‰¹åˆ¥æ³¨æ„
      It doesn't automatically look in your deep inventory or home
      directory  It  doesn't  alter the capitalization of str.  It
      does check an object exists before searching in it.
 
-¬ÛÃö©R¥O
+ç›¸é—œå‘½ä»¤
      present(3), find_player(3), find_living(3), find_object(3)
 
-§@ªÌ
-     wade@future 4/7/1996 Â½Ä¶
+ä½œè€…
+     wade@future 4/7/1996 ç¿»è­¯
 
 MudOS Release 0.9         Last change:                   3-19-93
 

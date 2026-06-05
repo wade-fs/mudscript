@@ -1,21 +1,21 @@
 
 hiddenp(2)                 silmul_efun                hiddenp(2)
 
-¦WºÙ
-     hiddenp() - ¬d¸ß¤@­Óª«¥ó¬O§_¬OÁôÂÃªº
+åç¨±
+     hiddenp() - æŸ¥è©¢ä¸€å€‹ç‰©ä»¶æ˜¯å¦æ˜¯éš±è—çš„
 
-»yªk
+èªæ³•
      varargs int hiddenp( object ob )
 
-´y­z
+æè¿°
      Returns true (1) if ob exists and is hidden.  Returns  false
      (0) otherwise.
 
-¬ÛÃö©R¥O
+ç›¸é—œå‘½ä»¤
      set_hide(3), valid_hide(4)
 
-§@ªÌ
-    wade@future 4/8/1996 Â½Ä¶
+ä½œè€…
+    wade@future 4/8/1996 ç¿»è­¯
 
 MudOS Release 0.9         Last change:                   3-19-93
 

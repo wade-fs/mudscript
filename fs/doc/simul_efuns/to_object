@@ -1,13 +1,13 @@
 
 TO_OBJECT(2)               silmul_efun               TO_OBJECT(2)
 
-¦WºÙ
-     to_object - §â¦r¦êÂà´«¬°ª«¥ó
+åç¨±
+     to_object - æŠŠå­—ä¸²è½‰æ›ç‚ºç‰©ä»¶
 
-»yªk
+èªžæ³•
      object to_object(mixed target);
 
-´y­z
+æè¿°
      (The following description is taken from Truilkan's comments
      in the source file.)
 
@@ -38,7 +38,7 @@ TO_OBJECT(2)               silmul_efun               TO_OBJECT(2)
      here  refers  to  the  environment  of  this player and "me"
      refers to this_player().
 
-     ¨Ò¤l
+     ä¾‹å­
 
         object obj;
 
@@ -63,9 +63,9 @@ TO_OBJECT(2)               silmul_efun               TO_OBJECT(2)
        //
        to_object("#3@here")->remove();
 
-§@ªÌ
+ä½œè€…
      Ichabod@TMI (taken from Truilkan's comments), 3/17/93
-     wade@future 4/8/1996 Â½Ä¶
+     wade@future 4/8/1996 ç¿»è­¯
 
 Sun Release 4.1           Last change:                          2
 

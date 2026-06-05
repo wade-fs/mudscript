@@ -1,6 +1,6 @@
-�� CHAR �H�����򥻳]�w
+□ CHAR 人物的基本設定
 
-�~����: 
+繼承檔: 
 	F_ACTION
 	F_ALIAS
 	F_APPRENTICE
@@ -18,7 +18,7 @@
 	F_TEAM
 
 int is_character()
-�Ǧ^ 1 �p�G����O�@�ӤH��.
+傳回 1 如果物件是一個人物.
 Returns 1 if object inherits this.
 
 void setup()
@@ -27,11 +27,11 @@ the tick size.
 
 void heart_beat()
 Called everytime to update character status. 
-�t�η|�w���I�s�o�Ө�ƥΨӧ�s�������󪺦U�����p, �~��԰�����. 
-�Y���󤣬O�ϥΪ�, �h�I�s chat() ���. �í��s�]�w tick size.
-�̫�p�G�ϥΪ̨��骬�p�ҥ��` (����), �ӥB���b�԰���, �h�t�η|�N��
-�Ϊ̪� heart_beat �����H�`�٨t�έt�� (�o�b���ݭn�߸�... :)
-�M�����ڭ̦Ѥ@�I (�u���ϥΪ̷|�ܦ�).
+系統會定期呼叫這個函數用來更新活的物件的各項狀況, 繼續戰鬥等等. 
+若物件不是使用者, 則呼叫 chat() 函數. 並重新設定 tick size.
+最後如果使用者身體狀況皆正常 (滿血), 而且不在戰鬥中, 則系統會將使
+用者的 heart_beat 關掉以節省系統負擔 (發呆不需要心跳... :)
+然後讓我們老一點 (只有使用者會變老).
 
 Elon@ES2
 drafted: 07-12-95

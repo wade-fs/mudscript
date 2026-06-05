@@ -1,25 +1,25 @@
 
 SUBJECTIVE(2)              silmul_efun              SUBJECTIVE(2)
 
-¦WºÙ
+åç¨±
      subjective - "provides an appropriate subject pronoun
 
-»yªk
+èªæ³•
      string subjective(string gender);
 
-´y­z
+æè¿°
      Provides an appropriate subject pronoun based on  gender  as
      follows:
 
      "male"    -> "he"  "female"   ->  "she"  "neuter"   ->  "it"
      (other)   -> "sie"
 
-¨ä¥¦°Ñ¦ÒÀÉ®×
+å…¶å®ƒåƒè€ƒæª”æ¡ˆ
      /adm/simul_efun/pronouns.c
 
-§@ªÌ
+ä½œè€…
      Ichabod@TMI, 3/5/93
-     wade@future 4/8/1996 Â½Ä¶
+     wade@future 4/8/1996 ç¿»è­¯
 
 MudOS Release 0.9         Last change:                   3-19-93
 

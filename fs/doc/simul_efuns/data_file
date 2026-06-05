@@ -1,13 +1,13 @@
 
 DATA_FILE(2)               silmul_efun              DATA_FILE(2)
 
-¦WºÙ
-     data_file - ¶Ç¦^°Ñ¼Æª«¥óªºÀÉ®×©Ò¦bªº¸ô®|¦WºÙ
+åç¨±
+     data_file - å‚³å›åƒæ•¸ç‰©ä»¶çš„æª”æ¡ˆæ‰€åœ¨çš„è·¯å¾‘åç¨±
 
-»yªk
+èªæ³•
      string data_file(object obj);
 
-´y­z
+æè¿°
      Returns an almost complete pathname for a file in which  obj
      may  be  stored.  ("Almost complete" means it lacks the ".o"
      suffix at the  end.)   For  example,  assuming  DATA_DIR  is
@@ -15,12 +15,12 @@ DATA_FILE(2)               silmul_efun              DATA_FILE(2)
      "/user#1081", whose uid is "Ichabod", then
           data_file(obj) will return "/data/user/ichabod".
 
-¬ÛÃö©R¥O
+ç›¸é—œå‘½ä»¤
      data_dir, base_name, /adm/simul_efun/data.c, /std/save.c
 
-§@ªÌ
+ä½œè€…
      Ichabod@TMI, 1/27/93
-     wade@future 4/7/1996 Â½Ä¶
+     wade@future 4/7/1996 ç¿»è­¯
 
 MudOS Release 0.9         Last change:                   3-19-93
 

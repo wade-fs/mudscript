@@ -1,14 +1,14 @@
-¡¼ F_AUTLOAD
+â–¡ F_AUTLOAD
  
 void clean_up_autoload()
-±N autoload °}¦C²M°£±¼.
+å°‡ autoload é™£åˆ—æ¸…é™¤æ‰.
  
 void save_autoload()
-¹L¼{©Ò¦³¦b¬Yª«¥ó inventory ¤¤ªºª««~, ¦pªG query_autoload() ¦³¶Ç¦^
-­È«h±Nª««~ªºÀÉ®×¦WºÙ¤Î¨ä¶Ç¦^­È¦s¤J autoload °}¦C¤¤.
+éæ…®æ‰€æœ‰åœ¨æŸç‰©ä»¶ inventory ä¸­çš„ç‰©å“, å¦‚æœ query_autoload() æœ‰å‚³å›
+å€¼å‰‡å°‡ç‰©å“çš„æª”æ¡ˆåç¨±åŠå…¶å‚³å›å€¼å­˜å…¥ autoload é™£åˆ—ä¸­.
 
 void restore_autoload()
-Åª¨ú¤@­Óª«¥óªº autoload °}¦C¨Ã¸Õ¹Ï½Æ»s©Ò¦sªºª««~. ­Y¥¢±Ñ«h·|Åã¥Ü¿ù
-»~°T®§¨Ã±N°T®§¦s¤J /log/AUTOLOAD ÀÉ¤¤.
+è®€å–ä¸€å€‹ç‰©ä»¶çš„ autoload é™£åˆ—ä¸¦è©¦åœ–è¤‡è£½æ‰€å­˜çš„ç‰©å“. è‹¥å¤±æ•—å‰‡æœƒé¡¯ç¤ºéŒ¯
+èª¤è¨Šæ¯ä¸¦å°‡è¨Šæ¯å­˜å…¥ /log/AUTOLOAD æª”ä¸­.
  
 Elon@ES2 03-04-95

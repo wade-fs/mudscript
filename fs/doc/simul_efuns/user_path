@@ -1,21 +1,21 @@
 
 USER_PATH(2)               silmul_efun               USER_PATH(2)
 
-¦WºÙ
-     user_path - ´À§Å®v³Ğ³y¤@­Ó¥Ø¿ı
+åç¨±
+     user_path - æ›¿å·«å¸«å‰µé€ ä¸€å€‹ç›®éŒ„
 
-»yªk
+èªæ³•
      string user_path(string name);
 
-´y­z
+æè¿°
      Given the user's (wizard's) name, returns the  pathname  for
      that user's personal directory.
 
-     ¨Ò¤l:  user_path("ichabod") returns "/u/i/ichabod/"
+     ä¾‹å­:  user_path("ichabod") returns "/u/i/ichabod/"
 
-§@ªÌ
+ä½œè€…
      Ichabod@TMI, 3/19/93
-     wade@future 4/8/1996 Â½Ä¶
+     wade@future 4/8/1996 ç¿»è­¯
 
 MudOS Release 0.9         Last change:                   3-19-93
 

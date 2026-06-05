@@ -1,32 +1,32 @@
-¡¼ CHINESE_D -- ¤¤­^¤åÂà´«
+â–¡ CHINESE_D -- ä¸­è‹±æ–‡è½‰æ›
 
 void create()
-±N¦r¨å¤¤ªº¸ê®Æ¸ü¤J.
+å°‡å­—å…¸ä¸­çš„è³‡æ–™è¼‰å…¥.
 
 void remove()
-±N¦r¨å¸Ìªº¸ê®Æ¦s¤J¸ê®ÆÀÉ¤¤.
+å°‡å­—å…¸è£¡çš„è³‡æ–™å­˜å…¥è³‡æ–™æª”ä¸­.
 
 string chinese_number(int i)
-±N­^¤å¼Æ¦r´«ºâ¦¨¤¤¤å¼Æ¦r.
+å°‡è‹±æ–‡æ•¸å­—æ›ç®—æˆä¸­æ–‡æ•¸å­—.
 
 string query_save_file()
-¶Ç¦^¦r¨åÀÉªºÀÉ¦W.
+å‚³å›å­—å…¸æª”çš„æª”å.
 
 string chinese(string str)
-¥Ñ to_chinese() simul_efun ©I¥s. ¦pªG¶Ç¤J¦r¦ê¦b¦r¨å¤¤¦³¬Û¹ïÀ³ªº¤¤¤å
-¦r, «h¶Ç¦^¸Ó¤¤¤å¦r¦ê, §_«h¶Ç¦^­ì©l¦r¦ê.
+ç”± to_chinese() simul_efun å‘¼å«. å¦‚æœå‚³å…¥å­—ä¸²åœ¨å­—å…¸ä¸­æœ‰ç›¸å°æ‡‰çš„ä¸­æ–‡
+å­—, å‰‡å‚³å›è©²ä¸­æ–‡å­—ä¸², å¦å‰‡å‚³å›åŸå§‹å­—ä¸².
 
 void remove_translate(string key)
-±N¦r¨å¸Ì¬Y­Ó¦r§R°£.
+å°‡å­—å…¸è£¡æŸå€‹å­—åˆªé™¤.
 
 void add_translate(string key, string chinz)
-±N key ¤Î¬Û¹ïÀ³ªº¤¤¤å chinz ¥[¤J¦r¨å¸Ì.
+å°‡ key åŠç›¸å°æ‡‰çš„ä¸­æ–‡ chinz åŠ å…¥å­—å…¸è£¡.
 
 void dump_translate()
-¦C¥X¦r¨å¸Ì©Ò¦³ªº¤º®e.
+åˆ—å‡ºå­—å…¸è£¡æ‰€æœ‰çš„å…§å®¹.
 
 string chinese_date(int date)
-´«ºâ¤¤¤å®É¶¡.
+æ›ç®—ä¸­æ–‡æ™‚é–“.
 
 Elon@ES2
 drafted: 07-13-95

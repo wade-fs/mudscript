@@ -1,25 +1,25 @@
 
 SHOUT(2)                   silmul_efun                   SHOUT(2)
 
-¦WºÙ
-     shout - ¹ï©Ò¦³½u¤Wªºª±®aÅã¥Ü«ü©wªº°T®§
+åç¨±
+     shout - å°æ‰€æœ‰ç·šä¸Šçš„ç©å®¶é¡¯ç¤ºæŒ‡å®šçš„è¨Šæ¯
 
-»yªk
+èªæ³•
      varargs void shout(string msg, mixed exclude);
 
-´y­z
+æè¿°
      This simul_efun displays the string "msg" to everyone in the
      mud  except  the  speaker  and (optionally) anyone listed in
      "exclude". The "exclude" argument may be either an object or
      an  array  of  objects,  or  the  argument  may  be  omitted
      entirely.
 
-¨ä¥¦°Ñ¦ÒÀÉ®×
+å…¶å®ƒåƒè€ƒæª”æ¡ˆ
      /adm/simul_efun/shout.c
 
-§@ªÌ
+ä½œè€…
      Ichabod@TMI, 3/10/93
-     wade@future 4/8/1996 Â½Ä¶
+     wade@future 4/8/1996 ç¿»è­¯
 
 MudOS Release 0.9         Last change:                   3-19-93
 

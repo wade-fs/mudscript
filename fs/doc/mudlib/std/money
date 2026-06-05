@@ -1,15 +1,15 @@
-¡¼ MONEY
+â–¡ MONEY
  
 inherit COMBINED_ITEM;
  
 int value() 
-¶Ç¦^¿ú¹ôªº»ù­È. ¥Ñ¼Æ¶q¤Î¹ô­È­pºâ. ³æ¦ì¬°¤å.
+å‚³å›éŒ¢å¹£çš„åƒ¹å€¼. ç”±æ•¸é‡åŠå¹£å€¼è¨ˆç®—. å–®ä½ç‚ºæ–‡.
 
 string query_autoload() 
-¶Ç¦^ª«¥óªº¼Æ¶q, ¥Ñ save() ©I¥s¨ÃÀx¦s.
+å‚³å›ç‰©ä»¶çš„æ•¸é‡, ç”± save() å‘¼å«ä¸¦å„²å­˜.
  
 void autoload(string param)
-¸ü¤J¿ú¹ôªº¼Æ¶q, ¥Ñ restore() ©I¥s.
+è¼‰å…¥éŒ¢å¹£çš„æ•¸é‡, ç”± restore() å‘¼å«.
 
 Elon@ES2
 07-05-95: drafted.

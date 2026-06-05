@@ -1,13 +1,13 @@
 
 DESTRUCT(2)                silmul_efun               DESTRUCT(2)
 
-¦WºÙ
-     destruct - §ï¼g¦P¦Wªº efun
+åç¨±
+     destruct - æ”¹å¯«åŒåçš„ efun
 
-»yªk
+èªæ³•
      void destruct(object destructee);
 
-´y­z
+æè¿°
      This simul_efun overrides the  driver's  destruct  efun.  It
      adds additional security by allowing destruct only if one of
      the following conditions is true:
@@ -17,12 +17,12 @@ DESTRUCT(2)                silmul_efun               DESTRUCT(2)
      object doing the destructing is a member of the
         admin group.
 
-¨ä¥¦°Ñ¦ÒÀÉ
+å…¶å®ƒåƒè€ƒæª”
      /adm/simul_efun/overrides.c
 
-§@ªÌ
+ä½œè€…
      Ichabod@TMI, 3/2/93
-     wade@future 4/7/1996 Â½Ä¶
+     wade@future 4/7/1996 ç¿»è­¯
 
 MudOS Release 0.9         Last change:                   3-19-93
 

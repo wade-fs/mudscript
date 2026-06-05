@@ -1,13 +1,13 @@
 
 BOLD(2)                   silmul_efun                    BOLD(2)
 
-¦WºÙ
-     bold - §â°Ñ¼Æ¦r¦êÅÜ¦¨²ÊÅé¦r
+åç¨±
+     bold - æŠŠåƒæ•¸å­—ä¸²è®Šæˆç²—é«”å­—
 
-»yªk
+èªæ³•
      string bold (string str);
 
-´y­z
+æè¿°
      If  this_player()  has  the  "vt100"  attribute  set,   this
      simul_efun  will  return  str  with  the  "bold  on"  escape
      sequence added in front and the "bold off"  escape  sequence
@@ -18,13 +18,13 @@ BOLD(2)                   silmul_efun                    BOLD(2)
      sequences  will be corrupted.  (ed strips out escape charac-
      ters).
 
-¬ÛÃö©R¥O
+ç›¸é—œå‘½ä»¤
      inverse,  blink,   underscore,   clear_screen,   clear_line,
      up_line, erase_line
 
-§@ªÌ
+ä½œè€…
      Ichabod@TMI, 3/19/93
-     wade@future 4/7/1996 Â½Ä¶
+     wade@future 4/7/1996 ç¿»è­¯
 
 MudOS Release 0.9         Last change:                   3-19-93
 

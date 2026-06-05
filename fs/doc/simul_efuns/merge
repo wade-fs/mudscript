@@ -1,13 +1,13 @@
 
 MERGE(2)                   silmul_efun                   MERGE(2)
 
-¦WºÙ
-     merge - §â¨â­Ó°}¦C(array)©Î¹ïÀ³(mapping)¦X¨Ö¦¨¤@­Ó
+åç¨±
+     merge - æŠŠå…©å€‹é™£åˆ—(array)æˆ–å°æ‡‰(mapping)åˆä½µæˆä¸€å€‹
 
-»yªk
+èªæ³•
      mixed merge(mixed *arg1, mixed *arg2);
 
-´y­z
+æè¿°
      If arg1 and arg2 are mappings, returns arg1 + arg2.  If arg1
      and  arg2  are arrays, merge returns a mapping for which the
      elements in arg1 serve as the indexes to  the  corresponding
@@ -20,9 +20,9 @@ MERGE(2)                   silmul_efun                   MERGE(2)
      If arg1 and arg2 aren't both mappings or both arrays,  merge
      returns zero.
 
-§@ªÌ
+ä½œè€…
      Ichabod@TMI, 2/25/93
-     wade@future 4/8/1996 Â½Ä¶
+     wade@future 4/8/1996 ç¿»è­¯
 
 MudOS Release 0.9         Last change:                   3-19-93
 

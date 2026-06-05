@@ -1,25 +1,25 @@
 
 SHUTDOWN(2)                silmul_efun                SHUTDOWN(2)
 
-¦WºÙ
-     shutdown - ÂĞ»\¹L¦P¦Wªº efun
+åç¨±
+     shutdown - è¦†è“‹éåŒåçš„ efun
 
-»yªk
+èªæ³•
      varargs void shutdown(int code);
 
-´y­z
+æè¿°
      This simul_efun overrides the driver's  shutdown  efun.   It
      makes  sure  that  the  object  calling  for  a shutdown has
      ROOT_UID, and logs the shutdown in the "shutdowns" file, and
      then  passes  the  code  parameter  (if any) to the driver's
      shutdown efun.
 
-¨ä¥¦°Ñ¦ÒÀÉ®×
+å…¶å®ƒåƒè€ƒæª”æ¡ˆ
      /adm/simul_efun/overrides.c
 
-§@ªÌ
+ä½œè€…
      Ichabod@TMI, 3/2/93
-     wade@future 4/8/1996 Â½Ä¶
+     wade@future 4/8/1996 ç¿»è­¯
 
 MudOS Release 0.9         Last change:                   3-19-93
 

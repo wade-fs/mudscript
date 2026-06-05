@@ -1,23 +1,23 @@
 
 temp_file(2)               silmul_efun               temp_file(2)
 
-¦WºÙ
-     temp_file - ¹ï¬Yª«¥ó³y¼È®ÉÀÉ
+åç¨±
+     temp_file - å°æŸç‰©ä»¶é€ æš«æ™‚æª”
 
-»yªk
+èªæ³•
      string temp_file(string base, object obj);
 
-´y­z
+æè¿°
      Returns a pathname of the  form  /tmp/<base>/<obj-ID>  where
      <base>  is  the  "base"  argument,  and  <obj-ID>  is the ID
      returned by getoid().
 
-¨ä¥¦°Ñ¦Ò¨ç¼Æ
+å…¶å®ƒåƒè€ƒå‡½æ•¸
      getoid()
 
-§@ªÌ
+ä½œè€…
      Ichabod@TMI, 3/17/93
-     wade@future 4/8/1996 Â½Ä¶
+     wade@future 4/8/1996 ç¿»è­¯
 
 MudOS Release 0.9         Last change:                   3-19-93
 

@@ -1,12 +1,12 @@
-¡¼ BANK -- ¿ú²ø
+â–¡ BANK -- éŒ¢èŠ
 
 inherit ROOM;
 
 void init() 
-±N§I´«¿ú¹ôªº«ü¥O convert ¥[µ¹¨Ï¥ÎªÌ.
+å°‡å…Œæ›éŒ¢å¹£çš„æŒ‡ä»¤ convert åŠ çµ¦ä½¿ç”¨è€….
 
 int do_convert(string arg)    
-´«ºâ¿ú¹ô.
+æ›ç®—éŒ¢å¹£.
 
 Elon@ES2 
 drafted: 07-06-95

@@ -1,13 +1,13 @@
 
 POSSESSIVE(2)              silmul_efun              POSSESSIVE(2)
 
-¦WºÙ
-     possessive - ¶Ç¦^©Ò¦³®æ
+åç¨±
+     possessive - å‚³å›æ‰€æœ‰æ ¼
 
-»yªk
+èªæ³•
      string possessive(object target | string gender);
 
-´y­z
+æè¿°
      Provides an appropriate possessive pronoun based  on  gender
      as follows:
 
@@ -17,13 +17,13 @@ POSSESSIVE(2)              silmul_efun              POSSESSIVE(2)
      If an object pointer is passed, it will convert that to the
      object's gender and proceed as above.
  
-¨ä¥¦°Ñ¦ÒÀÉ®×
+å…¶å®ƒåƒè€ƒæª”æ¡ˆ
      /adm/simul_efun/pronouns.c
 
-§@ªÌ
+ä½œè€…
      Ichabod@TMI, 3/5/93
      Watcher@TMI, 7/1/93  (updated)
-     wade@future 4/8/1996 Â½Ä¶
+     wade@future 4/8/1996 ç¿»è­¯
 
 MudOS Release 0.9         Last change:                   7-1-93
 

@@ -1,22 +1,22 @@
  
-�� ���ۤߪk
+□ 冥蠱心法
  
-    ���ۤߪk�D�����]�гббХD�b�p��ʬr���ɩҹy�����ߪk�A�g�Ѿ��N
-�ХD�o���Ӧ��Ф��N�N�۶Ǥ����\�ߪk�A�۶Ǵ����H�m���r�\�\�@�A�M�H�r
-�\�ˤH�g�ߡA�o�H�Z�\���l�A�M��P�]�j�Ԥ��СA���Ǥ@�ǰ��`�ߪk�C
+    冥蠱心法乃冥蠱魔教創教教主在鑽研百毒之時所頓悟之心法，經由歷代
+教主發揚而成教內代代相傳之內功心法，相傳曾有人練成毒功蓋世，專以毒
+功傷人經脈，廢人武功內勁，然於仙魔大戰之役，失傳一些高深心法。
  
-���ۤߪk�\�঳�R
+冥蠱心法功能有﹕
  
-    depoison        �Τ��O�N�r���G�X��~�C
+    depoison        用內力將毒素逼出體外。
  
-�Ϊk:
-  1. �]�w�G�r�����C
-     �榡: set cure_poison <����>
+用法:
+  1. 設定逼毒種類。
+     格式: set cure_poison <種類>
        ex: set cure_poison five
  
-  2. �B�\�G�r�C
-     �榡: exert depoison <�ﹳ>
-       ps: �L�ﹳ�h���w����
-	   ���ߪk�ثe�i�Ѥ��r��: snake, firefinger, rose, dark, five
+  2. 運功逼毒。
+     格式: exert depoison <對像>
+       ps: 無對像則內定本身
+	   本心法目前可解之毒有: snake, firefinger, rose, dark, five
  
 By Lys (85/2/28)

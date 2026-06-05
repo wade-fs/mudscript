@@ -1,23 +1,23 @@
 
 EXEC(2)                    silmul_efun                   EXEC(2)
 
-¦WºÙ
-     exec - ­«¼g driver ´£¨Ñªº¦P¦W¨ç¼Æ
+åç¨±
+     exec - é‡å¯« driver æä¾›çš„åŒåå‡½æ•¸
 
-»yªk
+èªæ³•
      int exec(object to_obj, object from_obj);
 
-´y­z
+æè¿°
      This simul_efun overrides the driver's exec efun.  It checks
      to  make  sure that the calling object is either LOGIN_OB or
      SU.
 
-¨ä¥L°Ñ¦ÒÀÉ®×
+å…¶ä»–åƒè€ƒæª”æ¡ˆ
      /adm/simul_efun/overrides.c
 
-§@ªÌ
+ä½œè€…
      Ichabod@TMI, 3/2/93
-     wade@future 4/7/1996 Â½Ä¶
+     wade@future 4/7/1996 ç¿»è­¯
 
 MudOS Release 0.9         Last change:                   3-19-93
 

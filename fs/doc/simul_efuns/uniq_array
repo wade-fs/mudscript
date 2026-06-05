@@ -1,13 +1,13 @@
 
 UNIQ_ARRAY(2)              silmul_efun              UNIQ_ARRAY(2)
 
-¦WºÙ
-     uniq_array - §R°£°}¦C¤¤­«½Æªº¤¸¯À
+åç¨±
+     uniq_array - åˆªé™¤é™£åˆ—ä¸­é‡è¤‡çš„å…ƒç´ 
 
-»yªk
+èªæ³•
      mixed *uniq_array(mixed *arr);
 
-´y­z
+æè¿°
      This simul_efun returns an array that is  the  same  as  arr
      except with all duplicate entries removed.
 
@@ -17,9 +17,9 @@ UNIQ_ARRAY(2)              silmul_efun              UNIQ_ARRAY(2)
 
      uniq_array(arr) returns ({ 1,2,3,4,5 }).
 
-§@ªÌ
+ä½œè€…
      Ichabod@TMI, 3/19/93
-     wade@future 4/8/1996 Â½Ä¶
+     wade@future 4/8/1996 ç¿»è­¯
 
 MudOS Release 0.9         Last change:                   3-19-93
 

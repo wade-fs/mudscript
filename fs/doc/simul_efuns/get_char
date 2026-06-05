@@ -1,25 +1,25 @@
 
 GET_CHAR(2)                silmul_efun               GET_CHAR(2)
 
-¦WºÙ
-     get_char - ¼È®É¥Î¨Ó¨ú±o¤@­Ó"¦r¤¸"ªº¿é¤J....ÁÙ¨S§¹¦¨
+åç¨±
+     get_char - æš«æ™‚ç”¨ä¾†å–å¾—ä¸€å€‹"å­—å…ƒ"çš„è¼¸å…¥....é‚„æ²’å®Œæˆ
 
-»yªk
+èªæ³•
      varargs void get_char (string fun, int flag);
 
-´y­z
+æè¿°
      This simul_efun is a temporary patch, written by Wayfarer to
      deal with the fact that the get_char efun is not implemented
      on all platforms yet.  It checks to see if the get_char efun
      is  defined,  and  calls  efun::get_char(fun, flag) if it is
      defined; otherwise it just calls input_to(fun, flag)
 
-¬ÛÃö©R¥O
+ç›¸é—œå‘½ä»¤
      get_char(3), input_to(3).
 
-§@ªÌ
+ä½œè€…
      Ichabod@TMI, 2/16/93
-     wade@future 4/7/1996 Â½Ä¶
+     wade@future 4/7/1996 ç¿»è­¯
 
 MudOS Release 0.9         Last change:                   3-19-93
 

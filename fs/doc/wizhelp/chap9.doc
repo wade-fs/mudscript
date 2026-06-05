@@ -1,62 +1,62 @@
 
-²Ä¤E¡B¤Q³¹¡G
-                       ª««~ªº½s¼g»¡©ú
+ç¬¬ä¹ã€åç« ï¼š
+                       ç‰©å“çš„ç·¨å¯«èªªæ˜
 
-«e¨¥¡G
-¡@¡@¡@Á`ºâ¨ì³Ì«á¤G³¹¤F¡A·PÁÂrsk¤Îshb¯à¤ä«ù¨ì³Ì«á¡AÅı§Ú§¹¦¨³Ì«áªº¤G³¹
-¡A­ì«h¤Wª««~ªººØÃş·¥¦h¡A§Ú¥D­n¤À¦¨¨¾¨ã¡BªZ¾¹¤Î¥Î«~¤TÃş¡A±Ä¥Îªº¤èªk¬O
-ª½±µ¹ê¨Ò¤¶²Ğ®@!
+å‰è¨€ï¼š
+ã€€ã€€ã€€ç¸½ç®—åˆ°æœ€å¾ŒäºŒç« äº†ï¼Œæ„Ÿè¬rskåŠshbèƒ½æ”¯æŒåˆ°æœ€å¾Œï¼Œè®“æˆ‘å®Œæˆæœ€å¾Œçš„äºŒç« 
+ï¼ŒåŸå‰‡ä¸Šç‰©å“çš„ç¨®é¡æ¥µå¤šï¼Œæˆ‘ä¸»è¦åˆ†æˆé˜²å…·ã€æ­¦å™¨åŠç”¨å“ä¸‰é¡ï¼Œæ¡ç”¨çš„æ–¹æ³•æ˜¯
+ç›´æ¥å¯¦ä¾‹ä»‹ç´¹å“¦!
 
-¤@¡BªZ¾¹:::::
-ªZ¾¹ªº³¡¥÷§Ú¤À¦¨¤G­Ó¨Ò¤l¨Ó»¡©ú::::
-¤@¡BÂ²³æªºªZ¾¹:
-// ¸­¨gªºªZ¾¹...¨gÀsµ¾¤Ñ¯}....
-#include <weapon.h>           //­n¥ıinclude ªZ¾¹ªº¨ç¼Æ
-#include <ansi.h>             //©w¸q¦â½X..¤§«e»¡¹L¤F....
-inherit UNARMED;              //©w¸q¬OªÅ¤âªºªZ¾¹..®@...
-                      // ­ì«h¤W¤£ºŞ¤°»òªZ¾¹³£­n©w¸qµ¹¥L¬O°µ¤°»ò¥Îªº
+ä¸€ã€æ­¦å™¨:::::
+æ­¦å™¨çš„éƒ¨ä»½æˆ‘åˆ†æˆäºŒå€‹ä¾‹å­ä¾†èªªæ˜::::
+ä¸€ã€ç°¡å–®çš„æ­¦å™¨:
+// è‘‰ç‹‚çš„æ­¦å™¨...ç‹‚é¾ç¿”å¤©ç ´....
+#include <weapon.h>           //è¦å…ˆinclude æ­¦å™¨çš„å‡½æ•¸
+#include <ansi.h>             //å®šç¾©è‰²ç¢¼..ä¹‹å‰èªªéäº†....
+inherit UNARMED;              //å®šç¾©æ˜¯ç©ºæ‰‹çš„æ­¦å™¨..å“¦...
+                      // åŸå‰‡ä¸Šä¸ç®¡ä»€éº¼æ­¦å™¨éƒ½è¦å®šç¾©çµ¦ä»–æ˜¯åšä»€éº¼ç”¨çš„
 void create()
 {
- seteuid(getuid());    //³]©w¤@¨Ç¨t²Îªº°Ñ¼Æ.
- set_name(HIY "¨gÀsµ¾¤Ñ¯}" NOR,({"dragon ring","ring"}));
+ seteuid(getuid());    //è¨­å®šä¸€äº›ç³»çµ±çš„åƒæ•¸.
+ set_name(HIY "ç‹‚é¾ç¿”å¤©ç ´" NOR,({"dragon ring","ring"}));
  set_weight(3000);
- if( clonep() )        //¨t²Îªº°Ñ¼Æ..³]©w....
+ if( clonep() )        //ç³»çµ±çš„åƒæ•¸..è¨­å®š....
          set_default_object(__FILE__);
  else {
- set("unit", "§â");    //³æ¦ì
- set("long","³o¬O¤@§â¶Ç»¡¤¤¥Ñ¯«¥´³yªºªZ¾¹¡A¨ä«Â¤OµL±q±oª¾!!\n");
+ set("unit", "æŠŠ");    //å–®ä½
+ set("long","é€™æ˜¯ä¸€æŠŠå‚³èªªä¸­ç”±ç¥æ‰“é€ çš„æ­¦å™¨ï¼Œå…¶å¨åŠ›ç„¡å¾å¾—çŸ¥!!\n");
  set("value",10000);
- set("material", "steel");   //Äİ©Ê....ªZ¾¹
- set("wield_msg", "$NÀ¹¤W$n¡A¨gÀsªº°«®ğ±q$N¨­¤W´²µo¥X¨Ó¡C\n");
- set("unwield_msg", "$N§A±N¤â¤Wªº$n¨ø¤F¤U¨Ó«á¡AÀsªº°«®ğÀH¤§®ø³u¡C \n");}
- init_unarmed(65);           //¸Ë¤W«á¥[§ğÀ»¤O..65
- set("weapon_prop/unarmed", 10);      //¥[ enable §Ş¯à10
- set("weapon_prop/force",10);        //¥[enable §Ş¯à 10
+ set("material", "steel");   //å±¬æ€§....æ­¦å™¨
+ set("wield_msg", "$Næˆ´ä¸Š$nï¼Œç‹‚é¾çš„é¬¥æ°£å¾$Nèº«ä¸Šæ•£ç™¼å‡ºä¾†ã€‚\n");
+ set("unwield_msg", "$Nä½ å°‡æ‰‹ä¸Šçš„$nå¸äº†ä¸‹ä¾†å¾Œï¼Œé¾çš„é¬¥æ°£éš¨ä¹‹æ¶ˆé€ã€‚ \n");}
+ init_unarmed(65);           //è£ä¸Šå¾ŒåŠ æ”»æ“ŠåŠ›..65
+ set("weapon_prop/unarmed", 10);      //åŠ  enable æŠ€èƒ½10
+ set("weapon_prop/force",10);        //åŠ enable æŠ€èƒ½ 10
  setup();
 }
-¤G¡B½ÆÂøªºªZ¾¹
-//¨¸¶³¯«®°
+äºŒã€è¤‡é›œçš„æ­¦å™¨
+//é‚ªé›²ç¥æ‰‡
 #include <ansi.h>
 #include <weapon.h>
 inherit STABBER;
-object user;           //§Ú­Ì¦b¥t¥~¨Ï¥ÎÅÜ¼Æ®É­n¥ı©w¸q¥X¨Ó....
+object user;           //æˆ‘å€‘åœ¨å¦å¤–ä½¿ç”¨è®Šæ•¸æ™‚è¦å…ˆå®šç¾©å‡ºä¾†....
 int sp,pp;
 void create()
 {
-     set_name( "¨¸¶³¯«®°",({"evil_fan"}) );
+     set_name( "é‚ªé›²ç¥æ‰‡",({"evil_fan"}) );
      set_weight(20000);
      if( clonep() )
                set_default_object(__FILE__);
      else {
-            set("long","²£©ó«nÆZªºÅK®°,¨ü¹L¨¸¯«ªº¯¬ºÖ,·|©ó¾Ô°«¤¤©Û¨Ó°{¹q.\n");
-            set("unit", "¥ó");
+            set("long","ç”¢æ–¼å—è »çš„éµæ‰‡,å—éé‚ªç¥çš„ç¥ç¦,æœƒæ–¼æˆ°é¬¥ä¸­æ‹›ä¾†é–ƒé›».\n");
+            set("unit", "ä»¶");
             set("value",2000);
             set("material","steal");
            }
         init_stabber(15);
         setup();
 }
-void init()                     //¥Îªk¦broom½g»¡¹L¤F....
+void init()                     //ç”¨æ³•åœ¨roomç¯‡èªªéäº†....
 {
      add_action("do_drop","drop");
      add_action("do_auc","auc");
@@ -70,15 +70,15 @@ int do_wield(string str)
      ::wield();
      if( query("equipped") )
      {
-        user = this_player();     // ¨ú±o¨Ï¥ÎªÌ
+        user = this_player();     // å–å¾—ä½¿ç”¨è€…
         my_int = user->query("int",1);
         my_per = user->query("per",1);
   my_literate = user->query_skill("literate",1);
         if(my_literate > 60)
         my_literate = 60;
-        sp = my_per*2 + my_literate;  // ¯S§ğ²v
-        pp = my_literate + my_int*2 ;  // ±j«×
-        message_vision("¨¸¶³¯«®°·P¨ü¨ì$Nªº´¼¼z,ªx°_¤@¹DÂÅ¥ú.\n",user);
+        sp = my_per*2 + my_literate;  // ç‰¹æ”»ç‡
+        pp = my_literate + my_int*2 ;  // å¼·åº¦
+        message_vision("é‚ªé›²ç¥æ‰‡æ„Ÿå—åˆ°$Nçš„æ™ºæ…§,æ³›èµ·ä¸€é“è—å…‰.\n",user);
         set_heart_beat(1);
      }
 }
@@ -87,7 +87,7 @@ int do_drop(string str)
    if(str=="ruby_ring" || str=="all")
      if( query("equipped") )
      {
-        message_vision("$N¨ø¤U¤F¨¸¶³¯«®°,¨¸¶³¯«®°ÅÜ¦^¤@§â´¶³qªº®°¤l.\n",user);
+        message_vision("$Nå¸ä¸‹äº†é‚ªé›²ç¥æ‰‡,é‚ªé›²ç¥æ‰‡è®Šå›ä¸€æŠŠæ™®é€šçš„æ‰‡å­.\n",user);
         set_heart_beat(0);
      }
 }
@@ -96,7 +96,7 @@ int do_drop(string str)
  if(str=="ruby_ring" || str=="all")
      if( query("equipped") )
      {
-        message_vision("$N¨ø¤U¤F¨¸¶³¯«®°,¨¸¶³¯«®°ÅÜ¦^¤@§â´¶³qªº®°¤l.\n",user);
+        message_vision("$Nå¸ä¸‹äº†é‚ªé›²ç¥æ‰‡,é‚ªé›²ç¥æ‰‡è®Šå›ä¸€æŠŠæ™®é€šçš„æ‰‡å­.\n",user);
         set_heart_beat(0);
      }
 }
@@ -105,7 +105,7 @@ int do_unwield(string str)
    if(str=="ruby_ring" || str=="all")
      if( query("equipped") )
      {
-        message_vision("$N¨ø¤U¤F¨¸¶³¯«®°,¨¸¶³¯«®°ÅÜ¦^¤@§â´¶³qªº®°¤l.\n",user);
+        message_vision("$Nå¸ä¸‹äº†é‚ªé›²ç¥æ‰‡,é‚ªé›²ç¥æ‰‡è®Šå›ä¸€æŠŠæ™®é€šçš„æ‰‡å­.\n",user);
         set_heart_beat(0);
      }
 }
@@ -115,7 +115,7 @@ int do_auc(string str)
      if( query("equipped") )
 {
      {
-        message_vision("$N¨ø¤U¤F¨¸¶³¯«®°,¨¸¶³¯«®°ÅÜ¦^¤@§â´¶³qªº®°¤l.\n",user);
+        message_vision("$Nå¸ä¸‹äº†é‚ªé›²ç¥æ‰‡,é‚ªé›²ç¥æ‰‡è®Šå›ä¸€æŠŠæ™®é€šçš„æ‰‡å­.\n",user);
         set_heart_beat(0);
      }
 }
@@ -138,44 +138,44 @@ void heart_beat()
      if( environment(user) == environment(enemy[i]) )
       if( random(300) > enemy[i]->query_skill("dodge") )
      {
-      message_vision(HIB+"¨¸¶³¯«®°¤Æ°µ¤@¹D°{¹q,®g¦V$Nªº¤ßÅ¦!!!\n"+NOR,enemy[i]);
+      message_vision(HIB+"é‚ªé›²ç¥æ‰‡åŒ–åšä¸€é“é–ƒé›»,å°„å‘$Nçš„å¿ƒè‡Ÿ!!!\n"+NOR,enemy[i]);
       enemy[i]->receive_damage("kee",pp,user);
-      COMBAT_D->report_status(enemy[i], 0);      //Åã¥Üª¬ºA....
+      COMBAT_D->report_status(enemy[i], 0);      //é¡¯ç¤ºç‹€æ…‹....
      }else
-      message_vision(HIB+"¨¸¶³¯«®°¤Æ°µ¤@¹D°{¹q,®g¦V$Nªº¤ßÅ¦!...¦ı¬O¨S¤¤...\n"
+      message_vision(HIB+"é‚ªé›²ç¥æ‰‡åŒ–åšä¸€é“é–ƒé›»,å°„å‘$Nçš„å¿ƒè‡Ÿ!...ä½†æ˜¯æ²’ä¸­...\n"
                      +NOR,enemy[i]);
      }
   }
   return;
 }
 
-¤T¡B¨¾¨ã::::::
-¨¾¨ãªººØÃş«D±`ªº¦h..§Ú¤@¼ËÁ|¤G­Ó¨Ò¤l¥X¨Ó.......
+ä¸‰ã€é˜²å…·::::::
+é˜²å…·çš„ç¨®é¡éå¸¸çš„å¤š..æˆ‘ä¸€æ¨£èˆ‰äºŒå€‹ä¾‹å­å‡ºä¾†.......
 #include <armor.h>
-inherit CLOTH;                    //¤W¦ç
+inherit CLOTH;                    //ä¸Šè¡£
 void create()
 {
-        set_name( "»a·×¦Ğ", ({ "pale brighten plumage","plumage"}) );
+        set_name( "è’¼ç…Œç¾½", ({ "pale brighten plumage","plumage"}) );
         set("long",
-                   "¦¹¬°¶Ç»¡¤¤¥H¡u«C¨ç¬P¡v»P¡u¤Ñ¥P¦Ğ¡v¦XÅ±ªº¯«³T¡A\n"
-                   "¦p¦¹¨u¨£ªº©_ª«»´¦p¤Ñ¦Ğ¡B°í¦p¬P·×¡A¦P®É¤£Â_¦a´²\n"
-                   "µo»a¦â¤§¥ú½÷¡A·ÓÄ£¤H¶¡¡C\n");
-        set_weight(1000);               //­«¶q
+                   "æ­¤ç‚ºå‚³èªªä¸­ä»¥ã€Œé’å‡½æ˜Ÿã€èˆ‡ã€Œå¤©ä»™ç¾½ã€åˆé‘„çš„ç¥è¢ï¼Œ\n"
+                   "å¦‚æ­¤ç½•è¦‹çš„å¥‡ç‰©è¼•å¦‚å¤©ç¾½ã€å …å¦‚æ˜Ÿç…Œï¼ŒåŒæ™‚ä¸æ–·åœ°æ•£\n"
+                   "ç™¼è’¼è‰²ä¹‹å…‰è¼ï¼Œç…§è€€äººé–“ã€‚\n");
+        set_weight(1000);               //é‡é‡
         if( clonep() )
                 set_default_object(__FILE__);
         else {
-                set("unit"              , "¥ó");
+                set("unit"              , "ä»¶");
                 set("material"          , "crimsonsteel");
-                set("value"             , 100000);    //»ù­È
-                  set("armor_prop/armor"  ,20);     //¼W¥[ªº¨¾¿m¤O..
+                set("value"             , 100000);    //åƒ¹å€¼
+                  set("armor_prop/armor"  ,20);     //å¢åŠ çš„é˜²ç¦¦åŠ›..
                 set("armor_prop/dodge"  ,  7);
                 set("armor_prop/unarmed",  5);
-                set("armor/type", "cloth");       ///¦b³oùØ©w¥X³o¬O¥ó¤W¦ç
+                set("armor/type", "cloth");       ///åœ¨é€™è£å®šå‡ºé€™æ˜¯ä»¶ä¸Šè¡£
               }
 
-        setup();                //§Ú­Ì¥i©w¸q¬ï¤W¤Î¤£¬ï®Éªºmessage
+        setup();                //æˆ‘å€‘å¯å®šç¾©ç©¿ä¸ŠåŠä¸ç©¿æ™‚çš„message
 }
-/* ¥H¤U¬O¬ïµÛ®É·|µo¥ú¡A²æ¨ø®É«KÅf²Hªºµ{¦¡
+/* ä»¥ä¸‹æ˜¯ç©¿è‘—æ™‚æœƒç™¼å…‰ï¼Œè„«å¸æ™‚ä¾¿é»¯æ·¡çš„ç¨‹å¼
 void init()
 {
         add_action("do_wear","wear");
@@ -185,17 +185,17 @@ int do_wear(string str)
 {
         this_player()->set_temp("light_up",1);
         wear();
-        set("wear_msg","$N¬ï°_$n®É¡A$n¦]$NªºÆF¤O¦Ó´²µo»a¦âªº¥ú¨~¡I\n");
+        set("wear_msg","$Nç©¿èµ·$næ™‚ï¼Œ$nå› $Nçš„éˆåŠ›è€Œæ•£ç™¼è’¼è‰²çš„å…‰èŠ’ï¼\n");
         return 1;
 }
 int do_remove(string str)
 {
         this_player()->delete_temp("light_up");
         unequip();
-        set("unequip_msg","$N²æ¤U$n¤§«á¡A$nªº¥ú¨~³vº¥®ø¥¢¡C\n");
+        set("unequip_msg","$Nè„«ä¸‹$nä¹‹å¾Œï¼Œ$nçš„å…‰èŠ’é€æ¼¸æ¶ˆå¤±ã€‚\n");
         return 1;
 } */
-¥t¥~¤@­Ó¤j®a¼ô±xªºring.....
+å¦å¤–ä¸€å€‹å¤§å®¶ç†Ÿæ‚‰çš„ring.....
 #include <ansi.h>
 #include <armor.h>
 inherit EQUIP;
@@ -203,17 +203,17 @@ object user;
 int cor;
 void create()
 {
-     set_name( "¬õÄ_¥Û«ü§Ù" ,({"ruby_ring", "ring"}));
+     set_name( "ç´…å¯¶çŸ³æŒ‡æˆ’" ,({"ruby_ring", "ring"}));
      set_weight(2500);
      if( clonep() )
                set_default_object(__FILE__);
      else {
-            set("long","¤@¥u²£©ó«nÆZªº¯«©_¬õÄ_¥Û«ü§Ù,°{Ã{µÛ©_²§ªº¬õ¦â¥ú¨~.\n");
-            set("unit", "¥ó");
+            set("long","ä¸€åªç”¢æ–¼å—è »çš„ç¥å¥‡ç´…å¯¶çŸ³æŒ‡æˆ’,é–ƒçˆè‘—å¥‡ç•°çš„ç´…è‰²å…‰èŠ’.\n");
+            set("unit", "ä»¶");
             set("value",5000);
             set("material","steal");
-            set("no_sell", 1);         //¤£µM´N±o¦hÄd action sell
-            set("armor_type","finger");  //³]©wºØÃş¬O§Ù«ü....
+            set("no_sell", 1);         //ä¸ç„¶å°±å¾—å¤šæ”” action sell
+            set("armor_type","finger");  //è¨­å®šç¨®é¡æ˜¯æˆ’æŒ‡....
             set("armor_prop/armor",7);
            }
         setup();
@@ -232,10 +232,10 @@ int do_wear(string str)
      ::wear();
      if( query("equipped") )
      {
-        user = this_player();     // ¨ú±o¨Ï¥ÎªÌ
+        user = this_player();     // å–å¾—ä½¿ç”¨è€…
         cor = user->query("cor");
         cor = cor *2;
-        message_vision("$NÀ¹¤W¤F¬õÄ_¥Û«ü§Ù,¥|©P«G°_¤F²H²H¬õ¥ú.\n",user);
+        message_vision("$Næˆ´ä¸Šäº†ç´…å¯¶çŸ³æŒ‡æˆ’,å››å‘¨äº®èµ·äº†æ·¡æ·¡ç´…å…‰.\n",user);
         set_heart_beat(1);
      }
 }
@@ -244,7 +244,7 @@ int do_drop(string str)
    if(str=="ruby_ring" || str=="all")
      if( query("equipped") )
      {
-        message_vision("$N²æ¤U¤F¬õÄ_¥Û«ü§Ù,¬õÄ_¥Û©_²§ªº¬õ¥ú¤]ÀH¤§®ø³u.\n",user);
+        message_vision("$Nè„«ä¸‹äº†ç´…å¯¶çŸ³æŒ‡æˆ’,ç´…å¯¶çŸ³å¥‡ç•°çš„ç´…å…‰ä¹Ÿéš¨ä¹‹æ¶ˆé€.\n",user);
         set_heart_beat(0);
      }
 }
@@ -253,7 +253,7 @@ int do_drop(string str)
   if(str=="ruby_ring" || str=="all")
      if( query("equipped") )
      {
-        message_vision("$N²æ¤U¤F¬õÄ_¥Û«ü§Ù,¬õÄ_¥Û©_²§ªº¬õ¥ú¤]ÀH¤§®ø³u.\n",user)
+        message_vision("$Nè„«ä¸‹äº†ç´…å¯¶çŸ³æŒ‡æˆ’,ç´…å¯¶çŸ³å¥‡ç•°çš„ç´…å…‰ä¹Ÿéš¨ä¹‹æ¶ˆé€.\n",user)
         set_heart_beat(0);
      }
 }
@@ -262,7 +262,7 @@ int do_remove(string str)
    if(str=="ruby_ring" || str=="all")
      if( query("equipped") )
      {
-        message_vision("$N²æ¤U¤F¬õÄ_¥Û«ü§Ù,¬õÄ_¥Û©_²§ªº¬õ¥ú¤]ÀH¤§®ø³u.\n",user);
+        message_vision("$Nè„«ä¸‹äº†ç´…å¯¶çŸ³æŒ‡æˆ’,ç´…å¯¶çŸ³å¥‡ç•°çš„ç´…å…‰ä¹Ÿéš¨ä¹‹æ¶ˆé€.\n",user);
         set_heart_beat(0);
      }
 }
@@ -271,7 +271,7 @@ int do_auc(string str)
   if(str=="ruby_ring" || str=="all")
      if( query("equipped") )
      {
-        message_vision("$N²æ¤U¤F¬õÄ_¥Û«ü§Ù,¬õÄ_¥Û©_²§ªº¬õ¥ú¤]ÀH¤§®ø³u.\n",user);
+        message_vision("$Nè„«ä¸‹äº†ç´…å¯¶çŸ³æŒ‡æˆ’,ç´…å¯¶çŸ³å¥‡ç•°çš„ç´…å…‰ä¹Ÿéš¨ä¹‹æ¶ˆé€.\n",user);
         set_heart_beat(0);
      }
 }
@@ -288,36 +288,36 @@ void heart_beat()
     {
     user->receive_curing("kee",cor);
     user->receive_heal("kee",cor);
-    message_vision(HIM+"¬õÄ_¥Û«ü§Ùµo¥X¤@¹D¬õ¥úÃb¸nµÛ$N,$Nªº¶Ë¤f¦XÂ¡¤F.\n"+NOR,u
+    message_vision(HIM+"ç´…å¯¶çŸ³æŒ‡æˆ’ç™¼å‡ºä¸€é“ç´…å…‰å£Ÿç½©è‘—$N,$Nçš„å‚·å£åˆç™’äº†.\n"+NOR,u
     }
   }
   return;
 }
 
-¥|¡Bª««~::::
-ª««~ªº½sªk..¨ä¹ê¸ò«e­±³£¤@¼Ë..§ÚÁ|¤@­Ó¨Ò¤lÅı¤j®a¤F¸Ñ¤@¤U..
-inherit ITEM;       //©w¸q³o¬O­Óª««~...
+å››ã€ç‰©å“::::
+ç‰©å“çš„ç·¨æ³•..å…¶å¯¦è·Ÿå‰é¢éƒ½ä¸€æ¨£..æˆ‘èˆ‰ä¸€å€‹ä¾‹å­è®“å¤§å®¶äº†è§£ä¸€ä¸‹..
+inherit ITEM;       //å®šç¾©é€™æ˜¯å€‹ç‰©å“...
 void create()
 {
-        set_name("©]©ú¯]", ({ "pearl" }) );
-        set("unit", "Áû");
-        set("long", "³o¬O¤@Áû¤j©]©ú¯]¡C\n");
+        set_name("å¤œæ˜ç ", ({ "pearl" }) );
+        set("unit", "é¡†");
+        set("long", "é€™æ˜¯ä¸€é¡†å¤§å¤œæ˜ç ã€‚\n");
         set("light_up",-1);
         set("value", 2500);
         setup();
 }
-         //¦pªG¨S¦³©w¸q¬O¨¾¨ã¤ÎªZ¾¹ªº¸Ü..¤@«ß¬Oª««~..ª««~¥i¥H¤£¥Î¨Ó...
-        //¥[¤W¥H¤U¤G¦æ....
+         //å¦‚æœæ²’æœ‰å®šç¾©æ˜¯é˜²å…·åŠæ­¦å™¨çš„è©±..ä¸€å¾‹æ˜¯ç‰©å“..ç‰©å“å¯ä»¥ä¸ç”¨ä¾†...
+        //åŠ ä¸Šä»¥ä¸‹äºŒè¡Œ....
 //        if( clonep() )
 //                set_default_object(__FILE__);
 
-µ²½×:::
-  ¥H¤W´N¬Oª««~ªºÂ²³æ»s§@¤è¦¡..ª««~ªº»s§@¤dÅÜ¸U¤Æ¦ı¬O°ò¥»ªº¬O¤£·|ÅÜªº
-ùØ­±ÁÙ¦³¤@¨Ç¨ç¼Æ¡A§Ú¨Ã¨S¦³»¡©ú.¦pªG¦³°İÃDªº¸Ü¥i¥H¦bboardùØ­±µo°İ°İÃD
-§Ú·|¾¨¶qÀ°¦U¦ì¸Ñµªªº......
-¸É¥R¤@¤U:::
-  »s§@ªº©Ğ¶¡¤Î¤Hª«¤Îª««~¤@©w­n¸gqc¤~¯à°÷©ñ¤W¥h...¦Ó¥B¨C¶µª««~³£¦³¨ä­­
-¨î..¤@©w­n¬İarmor_rules¤Îweapon_rules ¦U¦ì¥i¥H¥´help ¬İ..®@....
+çµè«–:::
+  ä»¥ä¸Šå°±æ˜¯ç‰©å“çš„ç°¡å–®è£½ä½œæ–¹å¼..ç‰©å“çš„è£½ä½œåƒè®Šè¬åŒ–ä½†æ˜¯åŸºæœ¬çš„æ˜¯ä¸æœƒè®Šçš„
+è£é¢é‚„æœ‰ä¸€äº›å‡½æ•¸ï¼Œæˆ‘ä¸¦æ²’æœ‰èªªæ˜.å¦‚æœæœ‰å•é¡Œçš„è©±å¯ä»¥åœ¨boardè£é¢ç™¼å•å•é¡Œ
+æˆ‘æœƒå„˜é‡å¹«å„ä½è§£ç­”çš„......
+è£œå……ä¸€ä¸‹:::
+  è£½ä½œçš„æˆ¿é–“åŠäººç‰©åŠç‰©å“ä¸€å®šè¦ç¶“qcæ‰èƒ½å¤ æ”¾ä¸Šå»...è€Œä¸”æ¯é …ç‰©å“éƒ½æœ‰å…¶é™
+åˆ¶..ä¸€å®šè¦çœ‹armor_rulesåŠweapon_rules å„ä½å¯ä»¥æ‰“help çœ‹..å“¦....
 
                                                         by Chan 7/30/98
 

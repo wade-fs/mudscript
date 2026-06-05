@@ -1,21 +1,21 @@
 
 visible(2)                 silmul_efun                 visible(2)
 
-¦WºÙ
-     visible() - ÀË¬d¬Y­Óª«¥ó¬O§_¥i¨£(¬O§_ÁôÂÃ)
+åç¨±
+     visible() - æª¢æŸ¥æŸå€‹ç‰©ä»¶æ˜¯å¦å¯è¦‹(æ˜¯å¦éš±è—)
 
-»yªk
+èªæ³•
      varargs int visible( object detectee, object detector )
 
-´y­z
+æè¿°
      Returns:     1 if detector may be allowed to know  that  the
      detectee exists
                   0 if  detector  may  not  penetrate  detectee's
      invisibility.
 
-§@ªÌ
+ä½œè€…
      Pallando
-     wade@future 4/8/1996 Â½Ä¶
+     wade@future 4/8/1996 ç¿»è­¯
 
 MudOS Release 0.9         Last change:                   3-19-93
 

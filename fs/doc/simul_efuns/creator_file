@@ -1,13 +1,13 @@
 
 CREATOR_FILE(2)            silmul_efun           CREATOR_FILE(2)
 
-¦WºÙ
-     creator_file - ¨ú±o¤@­ÓÀÉ¦W¬O¥Ñ½Ö³Ğ³yªº(¦b¦¹¤£¬O¤H¦W)
+åç¨±
+     creator_file - å–å¾—ä¸€å€‹æª”åæ˜¯ç”±èª°å‰µé€ çš„(åœ¨æ­¤ä¸æ˜¯äººå)
 
-»yªk
+èªæ³•
      string creator_file(string str);
 
-´y­z
+æè¿°
      Given a complete pathname in str, this function returns  the
      name  of  the file creator.  For files in the /adm and /cmds
      directories (and subdirectories  thereof),  it  returns  the
@@ -24,9 +24,9 @@ CREATOR_FILE(2)            silmul_efun           CREATOR_FILE(2)
      creator_file("/u/i/ichabod/castle/entrance.c")  would   also
      return "ichabod".
 
-§@ªÌ
+ä½œè€…
      Ichabod@TMI, 1/20/93
-     wade@future 4/7/1996 Â½Ä¶
+     wade@future 4/7/1996 ç¿»è­¯
 
 MudOS Release 0.9         Last change:                   3-19-93
 

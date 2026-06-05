@@ -1,13 +1,13 @@
-¡¼ ACTION
+â–¡ ACTION
 
 varargs void start_busy(mixed new_busy, mixed new_interrupt)
 
 nomask int is_busy() { return busy != 0; }
-§P©w¨Ï¥ÎªÌ¬O§_¥¿¦£µÛ°µ¬Y¥ó¨Æ.
+åˆ¤å®šä½¿ç”¨è€…æ˜¯å¦æ­£å¿™è‘—åšæŸä»¶äº‹.
 
 void continue_action()
-¦pªG¾Ô°«¤¤¨Ï¥ÎªÌ¦³ busy µÛ­Ó flag, «h heart_beat() ·|§ï©I¥s³o­Ó¨ç
-¼Æ.
+å¦‚æœæˆ°é¬¥ä¸­ä½¿ç”¨è€…æœ‰ busy è‘—å€‹ flag, å‰‡ heart_beat() æœƒæ”¹å‘¼å«é€™å€‹å‡½
+æ•¸.
 
 This function will be called in the place of attack() during 
 combat to indicate a person is in busy statue. 
@@ -16,11 +16,11 @@ void interrupt_me(object who, string how)
 This function interrupts whatever the user is doing.
 
 int start_call_out(function fun, int delay)
-¶}©l°õ¦æ call_out, ±N¶Ç¤Jªº¨ç¼Æ¦WºÙ¤Î©µ¿ğ®É¶¡¶Çµ¹ call_out() ³o­Ó
-¨ç¼Æ, ¨Ã©ó®É¶¡¨ì®É°õ¦æ¸Ó¨ç¼Æ.
+é–‹å§‹åŸ·è¡Œ call_out, å°‡å‚³å…¥çš„å‡½æ•¸åç¨±åŠå»¶é²æ™‚é–“å‚³çµ¦ call_out() é€™å€‹
+å‡½æ•¸, ä¸¦æ–¼æ™‚é–“åˆ°æ™‚åŸ·è¡Œè©²å‡½æ•¸.
 
 void eval_function(function fun) { evaluate(fun); }
-°õ¦æ¬Y­Ó¨ç¼Æ.
+åŸ·è¡ŒæŸå€‹å‡½æ•¸.
 
 Evaluate the function named fun. (a fun function :)
 

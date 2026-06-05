@@ -1,25 +1,25 @@
 
 OBJECTIVE(2)               silmul_efun               OBJECTIVE(2)
 
-¦WºÙ
-     objective - ®Ú¾Ú©Ê§O(gender)¶Ç¦^¾A·íªººÙ¿×(pronoun)
+åç¨±
+     objective - æ ¹æ“šæ€§åˆ¥(gender)å‚³å›žé©ç•¶çš„ç¨±è¬‚(pronoun)
 
-»yªk
+èªžæ³•
      string objective(string gender);
 
-´y­z
+æè¿°
      Provides an appropriate object pronoun based  on  gender  as
      follows:
 
      "male"    -> "him" "female"   ->  "her"  "neuter"   ->  "it"
      (other)   -> "hir"
 
-¬ÛÃö©R¥O
+ç›¸é—œå‘½ä»¤
      /adm/simul_efun/pronouns.c
 
-§@ªÌ
+ä½œè€…
      Ichabod@TMI, 3/5/93
-     wade@future 4/8/1996 Â½Ä¶
+     wade@future 4/8/1996 ç¿»è­¯
 
 MudOS Release 0.9         Last change:                   3-19-93
 

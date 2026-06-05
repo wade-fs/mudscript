@@ -1,13 +1,13 @@
 
 FORMAT_TIME(2)             silmul_efun            FORMAT_TIME(2)
 
-¦WºÙ
-     format_time - §â°Ñ¼Æ¾ã¼ÆÂà´«¦¨®É¶¡ªº®æ¦¡
+åç¨±
+     format_time - æŠŠåƒæ•¸æ•´æ•¸è½‰æ›æˆæ™‚é–“çš„æ ¼å¼
 
-»yªk
+èªæ³•
      string format_time(int tm, int verbose);
 
-´y­z
+æè¿°
      Given a number of seconds in tm, format_time returns one  of
      the following strings:
 
@@ -24,9 +24,9 @@ FORMAT_TIME(2)             silmul_efun            FORMAT_TIME(2)
      Zero  values  are omitted; e.g. "3 hours 44 seconds", not "0
      years 0 weeks 0 days 3 hours 0 minutes 44 seconds".
 
-§@ªÌ
+ä½œè€…
      Ichabod@TMI, 2/15/93
-     wade@future 4/7/1996 Â½Ä¶
+     wade@future 4/7/1996 ç¿»è­¯
 
 MudOS Release 0.9         Last change:                   3-19-93
 

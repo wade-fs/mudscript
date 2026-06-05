@@ -1,13 +1,13 @@
 
 FIND_OBJECT_OR_LOAD(2)    silmul_efun     FIND_OBJECT_OR_LOAD(2)
 
-¦WºÙ
-     find_object_or_load -  ¦b°O¾ĞÅé¤¤§äª«¥ó, ¦pªG¤£¦b, ´N¸ü¤J
+åç¨±
+     find_object_or_load -  åœ¨è¨˜æ†¶é«”ä¸­æ‰¾ç‰©ä»¶, å¦‚æœä¸åœ¨, å°±è¼‰å…¥
 
-»yªk
+èªæ³•
      object find_object_or_load (string str);
 
-´y­z
+æè¿°
      Uses find_object() to locate the object named  in  str.   If
      find_object()  returns  zero, this efun sets the euid to the
      euid of the object that called it, and then  tries  to  load
@@ -15,9 +15,9 @@ FIND_OBJECT_OR_LOAD(2)    silmul_efun     FIND_OBJECT_OR_LOAD(2)
      returns either  the  object  or  a  zero,  if  find_object()
      failed.
 
-§@ªÌ
+ä½œè€…
      Ichabod@TMI, 2/2/93
-     wade@future 4/7/1996 Â½Ä¶
+     wade@future 4/7/1996 ç¿»è­¯
 
 MudOS Release 0.9         Last change:                   3-19-93
 

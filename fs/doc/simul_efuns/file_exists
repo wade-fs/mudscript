@@ -1,22 +1,22 @@
 
 FILE_EXISTS(2)             silmul_efun            FILE_EXISTS(2)
 
-¦WºÙ
-     file_exists - ÀË¬d°Ñ¼ÆÀÉ®×¬O§_¦s¦b
+åç¨±
+     file_exists - æª¢æŸ¥åƒæ•¸æª”æ¡ˆæ˜¯å¦å­˜åœ¨
 
-»yªk
+èªæ³•
      int file_exists(string file);
 
-´y­z
+æè¿°
      Returns TRUE if file exists (i.e. has a length > 0),  other-
      wise returns FALSE.
 
-¨ä¥¦°Ñ¦ÒÀÉ®×
+å…¶å®ƒåƒè€ƒæª”æ¡ˆ
      /adm/simul_efun/existence.c
 
-§@ªÌ
+ä½œè€…
      Ichabod@TMI, 2/1/93
-     wade@future 4/7/1996 Â½Ä¶
+     wade@future 4/7/1996 ç¿»è­¯
 
 MudOS Release 0.9         Last change:                   3-19-93
 

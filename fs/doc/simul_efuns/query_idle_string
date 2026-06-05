@@ -1,13 +1,13 @@
 
 QUERY_IDLE_STRING(2)       silmul_efun       QUERY_IDLE_STRING(2)
 
-¦WºÙ
-     query_idle_string -  ¶Ç¦^ª±®aµo§b®É¶¡ªº¦r¦ê
+åç¨±
+     query_idle_string -  å‚³å›ç©å®¶ç™¼å‘†æ™‚é–“çš„å­—ä¸²
 
-»yªk
+èªæ³•
      string query_idle_string( object player, int verbose );
 
-´y­z
+æè¿°
      If a player has  been  idle  for  longer  than  60  seconds,
      returns  a  string  describing  how long the player has been
      idle.  Also returns "Link Dead" if player  is  disconnected.
@@ -21,9 +21,9 @@ QUERY_IDLE_STRING(2)       silmul_efun       QUERY_IDLE_STRING(2)
 
      Used by the finger command.
 
-¨ä¥¦°Ñ¦ÒÀÉ®×
+å…¶å®ƒåƒè€ƒæª”æ¡ˆ
      /adm/simul_efun/idle.c, /adm/daemons/finger.c
-     wade@future 4/8/1996 Â½Ä¶
+     wade@future 4/8/1996 ç¿»è­¯
 
 AUTHOR
      Ichabod@TMI, 2/19/93

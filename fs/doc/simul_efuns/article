@@ -1,13 +1,13 @@
 
 ARTICLE(2)                silmul_efun			ARTICLE(2)
 
-�W��
-     article - �ھڰѼƦr��Ǧ^ "a", �Ϊ̬O "an".
+名稱
+     article - 根據參數字串傳回 "a", 或者是 "an".
 
-�y�k
+語法
      string article(string str);
 
-�y�z
+描述
      This simul_efun examines the first character of  string  str
      and  sees  if  it is a vowel.  If it is, article returns the
      string "an", otherwise it returns the string "a".
@@ -26,9 +26,9 @@ ARTICLE(2)                silmul_efun			ARTICLE(2)
              article(race) + " " + race + ".0 ;
          /* ... */
 
-�@��
+作者
 	Ichabod@TMI, 1/18/93
-	wade@future 4/7/1996 ½Ķ
+	wade@future 4/7/1996 翻譯
 
 
 MudOS Release 0.9         Last change:                   3-19-93

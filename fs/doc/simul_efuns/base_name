@@ -1,22 +1,22 @@
 
 BASE_NAME(2)              silmul_efun			BASE_NAME(2)
 
-¦WºÙ
-     base_name - ¨ú±oª«¥óªº°ò¥»ÀÉ¦W(³Ì«e­±³¡¥÷)
+åç¨±
+     base_name - å–å¾—ç‰©ä»¶çš„åŸºæœ¬æª”å(æœ€å‰é¢éƒ¨ä»½)
 
-»yªk
+èªæ³•
      string base_name(object obj);
 
-´y­z
+æè¿°
      Returns the file name of  a  particular  object,  minus  the
      "#123"  (or other numeric suffix).  For example, if the file
      name of obj  is  "/user#1081",  base_name(obj)  will  return
      "/user".   Used in creating directories and files for saving
      objects.
 
-§@ªÌ
+ä½œè€…
      Ichabod@TMI, 1/21/93
-     wade@future 4/7/1996 Â½Ä¶
+     wade@future 4/7/1996 ç¿»è­¯
 
 MudOS Release 0.9         Last change:                   3-19-93
 

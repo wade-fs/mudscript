@@ -1,13 +1,13 @@
 
 PATH_FILE(2)               silmul_efun               PATH_FILE(2)
 
-¦WºÙ
-     path_file - ±q§¹¾ãªº¸ô®|ÀÉ¦W¦r¦ê¤¤¨ú¦^ÀÉ¦W¸ò¸ô®|
+åç¨±
+     path_file - å¾å®Œæ•´çš„è·¯å¾‘æª”åå­—ä¸²ä¸­å–å›æª”åè·Ÿè·¯å¾‘
 
-»yªk
+èªæ³•
      mixed *path_file(mixed full_path);
 
-´y­z
+æè¿°
      Given a full pathname in full_path, this simul_efun  returns
      a  2-element  array,  of which the first element is the path
      name up to (but not including) the file name, and the second
@@ -24,13 +24,13 @@ PATH_FILE(2)               silmul_efun               PATH_FILE(2)
      an  array for which element 0 is ({ "/a/b/c/", "/d/e/f/" }),
      and element 1 is ({ "file1", "file2" }).
 
-¬ÛÃö©R¥O
+ç›¸é—œå‘½ä»¤
      /adm/simul_efun/path_file.c,             /cmds/file/_grep.c,
      /cmds/file/_ls.c, /cmds/file/_tls.c.
 
-§@ªÌ
+ä½œè€…
      Ichabod@TMI, 3/4/93
-     wade@future 4/8/1996 Â½Ä¶
+     wade@future 4/8/1996 ç¿»è­¯
 
 MudOS Release 0.9         Last change:                   3-19-93
 

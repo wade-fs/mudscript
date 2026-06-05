@@ -1,13 +1,13 @@
 
 CLEAR_SCREEN(2)           silmul_efun            CLEAR_SCREEN(2)
 
-¦WºÙ
-     clear_screen -  ²M°£ª±®a¿Ã¹õ
+åç¨±
+     clear_screen -  æ¸…é™¤ç©å®¶è¢å¹•
 
-»yªk
+èªæ³•
      string clear_screen ();
 
-´y­z
+æè¿°
      If  this_player()  has  the  "vt100"  attribute  set,   this
      simul_efun  will  return  the  VT100  "screen  clear" escape
      sequence, so that the string will  clear  the  screen  on  a
@@ -18,13 +18,13 @@ CLEAR_SCREEN(2)           silmul_efun            CLEAR_SCREEN(2)
      sequences  will be corrupted.  (ed strips out escape charac-
      ters).
 
-¬ÛÃö©R¥O
+ç›¸é—œå‘½ä»¤
      inverse,  blink,  bold,  underscore,  clear_line,   up_line,
      erase_line
 
-§@ªÌ
+ä½œè€…
      Ichabod@TMI, 3/19/93
-     wade@future 4/7/1996 Â½Ä¶
+     wade@future 4/7/1996 ç¿»è­¯
 
 MudOS Release 0.9         Last change:                   3-19-93
 

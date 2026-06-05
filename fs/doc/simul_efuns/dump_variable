@@ -1,13 +1,13 @@
 
 DUMP_VARIABLE(2)           silmul_efun          DUMP_VARIABLE(2)
 
-¦WºÙ
-     dump_variable - ¶Ç¦^°Ñ¼Æ«¬ºAªº"¤å¦r"ªí¥Ü¦r¦ê
+åç¨±
+     dump_variable - å‚³å›åƒæ•¸å‹æ…‹çš„"æ–‡å­—"è¡¨ç¤ºå­—ä¸²
 
-»yªk
+èªæ³•
      varargs string dump_variable(mixed arg, int indent);
 
-´y­z
+æè¿°
      This efun returns a text representation of the value of arg,
      as follows:
 
@@ -20,9 +20,9 @@ DUMP_VARIABLE(2)           silmul_efun          DUMP_VARIABLE(2)
      "MAPPING", followed by an indented dump_variable
                        list of each key/item pair in the mapping.
 
-§@ªÌ
+ä½œè€…
      Ichabod@TMI, 1/27/93
-     wade@future 4/7/1996 Â½Ä¶
+     wade@future 4/7/1996 ç¿»è­¯
 
 MudOS Release 0.9         Last change:                   3-19-93
 

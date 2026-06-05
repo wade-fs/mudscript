@@ -1,13 +1,13 @@
 
 WRAP(2)                    silmul_efun                    WRAP(2)
 
-¦WºÙ
-     wrap - ¥]¸Ë¦r¦ê(¥[¤W´«¦æ)
+åç¨±
+     wrap - åŒ…è£å­—ä¸²(åŠ ä¸Šæ›è¡Œ)
 
-»yªk
+èªæ³•
      varargs string wrap(string str, int width);
 
-´y­z
+æè¿°
      Given a string str (and an optional int width), wrap returns
      a string with newline chars inserted so that the string will
      print out "wrapped" to the specified width  (default  is  75
@@ -19,7 +19,7 @@ WRAP(2)                    silmul_efun                    WRAP(2)
 
      test test
 
-     ­«­n¨Æ¶µ: Due to an apparent bug in sprintf,  this  routine
+     é‡è¦äº‹é …: Due to an apparent bug in sprintf,  this  routine
      will  REPLACE  characters  in  the   string   with   newline
      characters   instead    of    just    inserting    newlines,
      i.e. write(wrap("1234567890", 5)); will print out
@@ -30,12 +30,12 @@ WRAP(2)                    silmul_efun                    WRAP(2)
 
      12345 67890
 
-¨ä¥¦°Ñ¦Ò¨ç¼Æ
+å…¶å®ƒåƒè€ƒå‡½æ•¸
      sprintf();
 
-§@ªÌ
+ä½œè€…
      Ichabod@TMI, 3/26/93 (documentation)
-     wade@future 4/8/1996 Â½Ä¶
+     wade@future 4/8/1996 ç¿»è­¯
 
 MudOS Release 0.9         Last change:                   3-19-93
 

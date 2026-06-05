@@ -1,25 +1,25 @@
 
 INDEX(2)                   silmul_efun                  INDEX(2)
 
-¦WºÙ
-     index - ·j´M°Ñ¼Æ target ¦b°}¦C array ¤¤ªº¦ì¸m
+åç¨±
+     index - æœå°‹åƒæ•¸ target åœ¨é™£åˆ— array ä¸­çš„ä½ç½®
 
-»yªk
+èªæ³•
      int index(mixed target, mixed *array, int offset);
 
-´y­z
+æè¿°
      Returns  position  of   target   in   array,   starting   at
      array[offset].
 
-     ¨Ò¤l:       // assuming object ob0, ob1, ob2;
+     ä¾‹å­:       // assuming object ob0, ob1, ob2;
         arr = ({ ob0, ob1, ob2, ob1 });
         index(ob1, arr, 0);  // returns 1
         index(ob2, arr, 0);  // returns 2
         index(ob1, arr, 2);  // returns 3
 
-§@ªÌ
+ä½œè€…
      Ichabod@TMI, 2/22/93
-     wade@future 4/8/1996 Â½Ä¶
+     wade@future 4/8/1996 ç¿»è­¯
 
 MudOS Release 0.9         Last change:                   3-19-93
 

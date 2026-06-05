@@ -1,30 +1,30 @@
 
 BLINK(2)                  silmul_efun                   BLINK(2)
 
-¦WºÙ
-     inverse - §â°Ñ¼Æ¦r¦ê¤Ï¥Õ
+åç¨±
+     inverse - æŠŠåƒæ•¸å­—ä¸²åç™½
 
-»yªk
+èªæ³•
      string blink (string str);
 
-´y­z
+æè¿°
      If  this_player()  has  the  "vt100"  attribute  set,   this
      simul_efun  will  return  str  with  the  "blink  on" escape
      sequence added in front and the "blink off" escape  sequence
      added to the end, so that the string will print out in blink
      mode on a VT100-compatible terminal.
 
-     ª`·N:  Do NOT use ed to edit the file vt100.c, or the escape
+     æ³¨æ„:  Do NOT use ed to edit the file vt100.c, or the escape
      sequences  will be corrupted.  (ed strips out escape charac-
      ters).
 
-¬ÛÃö©R¥O
+ç›¸é—œå‘½ä»¤
      inverse,   bold,   underscore,   clear_screen,   clear_line,
      up_line, erase_line
 
-§@ªÌ
+ä½œè€…
      Ichabod@TMI, 3/19/93
-     wade@future 4/7/1996 Â½Ä¶
+     wade@future 4/7/1996 ç¿»è­¯
 
 MudOS Release 0.9         Last change:                   3-19-93
 

@@ -1,13 +1,13 @@
 
 EXCLUDE_ARRAY(2)           silmul_efun          EXCLUDE_ARRAY(2)
 
-¦WºÙ
-     exclude_array - §R°£°Ñ¼Æ°}¦C¤¤ªº¬Y½d³òªº¤¸¯À
+åç¨±
+     exclude_array - åˆªé™¤åƒæ•¸é™£åˆ—ä¸­çš„æŸç¯„åœçš„å…ƒç´ 
 
-»yªk
+èªæ³•
      varargs mixed *exclude_array(mixed *array,int from, int to);
 
-´y­z
+æè¿°
      Returns a copy  of  "array",  with  elements  in  the  range
      [from..to]  deleted.   The  "to" argument may be omitted, in
      which case exclude_array will delete the element at  "from".
@@ -35,9 +35,9 @@ EXCLUDE_ARRAY(2)           silmul_efun          EXCLUDE_ARRAY(2)
             which would be faster since it does not do a function
      call.
 
-§@ªÌ
+ä½œè€…
      Ichabod@TMI, 1/29/93
-     wade@future 4/7/1996 Â½Ä¶
+     wade@future 4/7/1996 ç¿»è­¯
 
 MudOS Release 0.9         Last change:                   3-19-93
 

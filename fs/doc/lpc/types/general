@@ -1,9 +1,9 @@
-¸ê®Æ«¬ºA¥i¥H¥Î¦b¤U¦C¥|­Ó¦a¤è
+è³‡æ–™å‹æ…‹å¯ä»¥ç”¨åœ¨ä¸‹åˆ—å››å€‹åœ°æ–¹
  
- ¾ãÅéÅÜ¼Æªº«Å§i
- ¨ç¼Æªº¶Ç¦^­È
- ¨ç¼Æ°Ñ¼Æªº«Å§i
- ¨ç¼Æ¤º§½³¡ÅÜ¼Æªº«Å§i
+ æ•´é«”è®Šæ•¸çš„å®£å‘Š
+ å‡½æ•¸çš„å‚³å›å€¼
+ å‡½æ•¸åƒæ•¸çš„å®£å‘Š
+ å‡½æ•¸å…§å±€éƒ¨è®Šæ•¸çš„å®£å‘Š
  
 Normally, the type information is completely ignored, and can be
 regarded purely as documentation. The exception is that certain
@@ -22,12 +22,12 @@ If CAST_CALL_OTHERS is defined, this value must be casted, otherwise
 it is assumed to be of type 'mixed'.  Casting a type is done by
 putting the type name inside a pair of '(' and ')'.  Casting has no
 effect, except for pacifying the compiler.
-    ¥¿±`ªº¸Ü, ¸ê®Æ«¬ºAªº¸ê°T¬O¥i¥H§¹¥ş©¿²¤ªº, ¦Ó¥B¥i¥Hµø¤§¬°¸Ó¸ê®Æªº»¡
-©ú, ¥H BASIC  ¨Ó»¡, ¥¦´N¨S¦³«Ü©úÅãªº¸ê®Æ«¬ºA. µM¦Ó, »İ­n«Å§i¸ê®Æ«¬ºAªº
-²z¥Ñ. ¦³¤F¸ê®Æ«¬ºAªº«Å§i, ´N¥i¥H°Ï¤À¤U¦Cªº±¡ªp:
+    æ­£å¸¸çš„è©±, è³‡æ–™å‹æ…‹çš„è³‡è¨Šæ˜¯å¯ä»¥å®Œå…¨å¿½ç•¥çš„, è€Œä¸”å¯ä»¥è¦–ä¹‹ç‚ºè©²è³‡æ–™çš„èªª
+æ˜, ä»¥ BASIC  ä¾†èªª, å®ƒå°±æ²’æœ‰å¾ˆæ˜é¡¯çš„è³‡æ–™å‹æ…‹. ç„¶è€Œ, éœ€è¦å®£å‘Šè³‡æ–™å‹æ…‹çš„
+ç†ç”±. æœ‰äº†è³‡æ–™å‹æ…‹çš„å®£å‘Š, å°±å¯ä»¥å€åˆ†ä¸‹åˆ—çš„æƒ…æ³:
 
-    ¦pªG  x ¬O¾ã¼Æ, «h x + 0 == x	
-    ¦pªG  x ¬O¦r¦ê, «h x + 0 == x + "0"
+    å¦‚æœ  x æ˜¯æ•´æ•¸, å‰‡ x + 0 == x	
+    å¦‚æœ  x æ˜¯å­—ä¸², å‰‡ x + 0 == x + "0"
  
 An example when querying the short description of an object:
  

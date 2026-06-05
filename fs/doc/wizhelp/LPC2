@@ -1,149 +1,149 @@
-LPC �i���Т��G�U�ظ�ƫ��A
+LPC 進階－１：各種資料型態
 
-�@�B�}�C�G
+一、陣列：
 
-  LPC �O�@�ӵ{���y���A�ثe�ΨӦb MudOS(�� LPmud)�@�~�t�ΤU���g����A
-  LPC ���}�C���O�ѫ��A����r�ŧi�A����ؤ�k�i�H���ϥΰ}�C�G
+  LPC 是一個程式語言，目前用來在 MudOS(及 LPmud)作業系統下撰寫物件，
+  LPC 的陣列不是由型態關鍵字宣告，有兩種方法可以讓使用陣列：
 
 	int	*a = ({ 1, 2, 3 });
 
-  �W���ŧi��ư}�C a�A�åB������l�� ({ 1, 2, 3 })�A�`�N�}�C�O��({})
-��}�C�������A�_�ӡA�o�@�I�ЯS�O�O���C
+  上面宣告整數陣列 a，並且給予初始值 ({ 1, 2, 3 })，注意陣列是用({})
+把陣列的元素括起來，這一點請特別記住。
 
 	mixed	a;
 	a = allocate (3);
 	a = ({ 1, 2, 3 });
 
-  �t�ưO���鵹�G���}�C��ŧi���覡�i�H�p�U:
+  配備記憶體給二維陣列跟宣告的方式可以如下:
 
         mixed   a;
         a = allocate(10);
         a[0] = allocate(10);
         a[1] = allocate(10);
-        ...����...
+        ...等等...
 
-    �p�G�o�˫ŧi, �A�i�H��G���}�C�Q���}�C���}�C,
-  �]�N�O�@���}�C���C�Ӥ����S�O�@�Ӱ}�C, �]���i�H�p�U���覡�ϥ�:
+    如果這樣宣告, 你可以把二維陣列想成陣列的陣列,
+  也就是一維陣列的每個元素又是一個陣列, 因此可以如下的方式使用:
 
-        i = a[0][0]             //  <-- �� 0 ���}�C���� 0 �Ӥ���.
+        i = a[0][0]             //  <-- 第 0 維陣列的第 0 個元素.
 
-    �N��O�ϥ� * �ŧi, �A�]�L�k�����ŧi�W�L�@�����}�C, �p:
+    就算是使用 * 宣告, 你也無法直接宣告超過一維的陣列, 如:
         int     *a;
-    ���O�A�o�i�H���W�����覡, �Ӿ֦��èϥζW�L�@�����}�C,
-  �]�N�O�z�L mixed ���覡, ���sĶ�����ˬd��ƫ��A�ӹF��ت�.
+    但是你卻可以像上面的方式, 而擁有並使用超過一維的陣列,
+  也就是透過 mixed 的方式, 讓編譯器不檢查資料型態而達到目的.
 
-    ���U�O�t�~�@�ثŧi�èϥΤG���}�C���Ҥl:
+    底下是另外一種宣告並使用二維陣列的例子:
 
         mixed a;
         a = ({ ({ 1, 2, 3 }), ({ 4, 5, 6 }) });
 
-    �H�W�����Ҥl�ӻ�, a[0] �|�O ({ 1, 2, 3 }), �� a[0][2] �h�O 3.
+    以上面的例子來說, a[0] 會是 ({ 1, 2, 3 }), 而 a[0][2] 則是 3.
 
-    ���U�]�O�@�ӦX�k���ϥΤ覡:
+    底下也是一個合法的使用方式:
 
         mixed a;
-        a = ({ 0, 0, 0, 0 });  // �o�˥u�O���}�C�j�p�� 4
-        a[0] = ({ 1, 2, 3 });  // ���� a[0] �q 0 �ܦ� ({ 1, 2, 3 })
-        a[1] = ({ 1, 2, 3 });  // ���� a[1] �q 0 �ܦ� ({ 1, 2, 3 })
-        ...����...
+        a = ({ 0, 0, 0, 0 });  // 這樣只是讓陣列大小為 4
+        a[0] = ({ 1, 2, 3 });  // 改變 a[0] 從 0 變成 ({ 1, 2, 3 })
+        a[1] = ({ 1, 2, 3 });  // 改變 a[1] 從 0 變成 ({ 1, 2, 3 })
+        ...等等...
 
-  �����U�즳�S���o�{�ڭ̬O�Q�� mixed ���A?
-  �p�G�z�Q�Q�� int *a[]; �� int **a; ���|�X��
-  �u�� mixed �i�H�ѨM, �]�� mixed �����A, �O�i�D�t�λ�,
-  �o���ܼ�(�]�i�H�O���)�����A�A���n�h��,
-  �ڰ����� int, string, array, mapping ���n,
-  �J�M���o�دS��, �ڭ̴N�����ӭӤG���}�C,
-  �N�O�o��
+  不知各位有沒有發現我們是利用 mixed 型態?
+  如果您想利用 int *a[]; 或 int **a; 都會出錯
+  只有 mixed 可以解決, 因為 mixed 的型態, 是告訴系統說,
+  這個變數(也可以是函數)的型態你不要去管,
+  我高興傳 int, string, array, mapping 都好,
+  既然有這種特性, 我們就給它來個二維陣列,
+  就是這樣
 
-  �ܩ� allocate() �O�n�D�O�ЪŶ����N��, �p�G���U���o�˴N����F
+  至於 allocate() 是要求記憶空間的意思, 如果像下面這樣就不行了
 
   mixed a;
   a[0] = ({ xxx, xxx, xxx .... });
 
-  �]�� a �٨S�����O�ЪŶ�, �ҥH a[0] �|�X��
+  因為 a 還沒給它記憶空間, 所以 a[0] 會出錯
 
-  ���O
+  但是
   mixed a;
   a = ({ ....... });
-  �h�i�H, ���˨t�η|�۰ʵ����O�ЪŶ�, �ǧa, �W�����覡��U�����@�Ҥ@��:
+  則可以, 那樣系統會自動給它記憶空間, 怪吧, 上面的方式跟下面的一模一樣:
   mixed a = ({ .... });
 
-  �p: mixed a = ({ ({ 0, 1, 2 }), ({ 2, 4, 6 }), ({ 1, 5, 10 }) });
-  �W���O�� 3X3 ���G���}�C
+  如: mixed a = ({ ({ 0, 1, 2 }), ({ 2, 4, 6 }), ({ 1, 5, 10 }) });
+  上面是個 3X3 的二維陣列
 
-�G�Bbuffer
+二、buffer
 
-  buffer �O LPC �S������ƫ��A�C
-    buffer �O���I�����}�C��r�ꪺ�V�X, ���i�H���H�ܮe���N�B�z�G�i���
-  ��. �ȱo�`�N���O, buffer �Ҧ����O�H�s�ȷ�����(��r�ꪺ�覡���P), ��
-  �� buffer �p�󪾹D���שΪ̻��O���̬O����? buffer �b�̫e���O���F buffer
-  ������, �o�@�I�� Pascal ���r�ꪺ�ϥΤ覡�@��. buffer �i�H�ݦ��O�줸
-  �ժ��}�C, �]�N�O buffer �������j�p�O�줸��. ���U���X�ӨϥΨҤl:
+  buffer 是 LPC 特有的資料型態。
+    buffer 是有點類似陣列跟字串的混合, 它可以讓人很容易就處理二進位資
+  料. 值得注意的是, buffer 模式不是以零值當結尾(跟字串的方式不同), 那
+  麼 buffer 如何知道長度或者說是哪裡是結尾? buffer 在最前面記錄了 buffer
+  的長度, 這一點跟 Pascal 的字串的使用方式一樣. buffer 可以看成是位元
+  組的陣列, 也就是 buffer 的元素大小是位元組. 底下有幾個使用例子:
         buf[0] = x;
         x = buf[0];
         i = sizeof(buf);
         if (bufferp(buf)) return;
         str = buf[i..j];
-        buf = read_buffer(file_name, ...);      // �� read_bytes() �@��
+        buf = read_buffer(file_name, ...);      // 跟 read_bytes() 一樣
         buf = buf1 + buf2;
         buf = allocate_buffer(100);
 
-�T�B�B�I�ơG
+三、浮點數：
 
-    LPC ���ѤF���ת��B�I��, ��T�׬����C�즳�ļƦr, �ŧi�覡�p�U:
+    LPC 提供了單精度的浮點數, 精確度約有七位有效數字, 宣告方式如下:
         float pi;
         float r;
-    ���U�O�X�ӨϥΪ��Ҥl:
+    底下是幾個使用的例子:
         pi = 3.1415926;
         r = 1.0;
         area = pi * r * r;
 
-    �򥻤W, �B�I�ƪ��B��覡���ƴX�G�S�t�O, ���F�@�ǹ��T����Ƥ������H�~.
+    基本上, 浮點數的運算方式跟整數幾乎沒差別, 除了一些像三角函數之類的以外.
 
-�|�B��ƫ��СG
+四、函數指標：
 
-    LPC ���ѤF function �o���ܼƫ��A, �i�H�ΨӤ�K�����V���.
-  �]�\�A�|�Q�n���ƶǵ��Y�� efun, �Ҧp�Y�ǹL�o�����. ��ƪ�
-  ���Хi�H�� (: ��ƦW�� :) �Ӥޥ�, �t�X����ܼƫh:
+    LPC 提供了 function 這種變數型態, 可以用來方便的指向函數.
+  也許你會想要把函數傳給某些 efun, 例如某些過濾的函數. 函數的
+  指標可以用 (: 函數名稱 :) 來引用, 配合函數變數則:
 
         function f = (: local_func :);
 
-    �A�i�H�� f �����ܼƶǵ��䥦���, �Ϊ̬O�⥦������ƫ���:
+    你可以把 f 當成變數傳給其它函數, 或者是把它當成函數指標:
 
-        foo(f);                         // �����ܼ�.
-        map_array( ({ 1, 2 }), f);      // ��������.
+        foo(f);                         // 當成變數.
+        map_array( ({ 1, 2 }), f);      // 當成指標.
 
-    �Ϊ�, ���@�ӧ�j���Ϊk, �b��Ӫ��ɾ��̦A"�D��":
+    或者, 有一個更強的用法, 在後來的時機裡再"求值":
 
         x = evaluate(f, "hi");
 
 When the last line is run, the function that f points to is called, and "hi"
 is passed to it.  This will create the same effect as if you had done:
-    �����W�@�檺�ɭ�, ��ڤW�|�I�s f �ҫ�����ƥh, �ö� "hi" �������Ѽ�.
-  �W�����覡��U�����{���X�N�q�ۦP:
+    執行到上一行的時候, 實際上會呼叫 f 所指的函數去, 並傳 "hi" 給它當參數.
+  上面的方式跟下面的程式碼意義相同:
 
         x = local_func("hi");
 
-    �H����ܼƨӫ��V��ƪ��n�B�O, �A�i�H���ܫ���, �������V�O�����.
-  �ר�O�t�X evaluate() ��, �b��, �������@�U, �p�G�ǵ� evaluate() ��
-  �ѼƤ��O��ƫ��Ъ���, �|�Ǧ^������, �]���U�C�覡�i������ܼƪ��u�I:
+    以函數變數來指向函數的好處是, 你可以改變指標, 讓它指向別的函數.
+  尤其是配合 evaluate() 時, 在此, 先提醒一下, 如果傳給 evaluate() 的
+  參數不是函數指標的話, 會傳回它的值, 因此下列方式可見函數變數的優點:
 
         void set_short(mixed x) { short = x; }
         mixed query_short() { return evaluate(short); }
 
-    �p�W�����ŧi, �A�i�H�p�U���ϥ� set_short():
+    如上面的宣告, 你可以如下的使用 set_short():
         set_short("Whatever");
         set_short( (: short_func :) );
 
-    �p���@��, ����i�H�ۤv�w�q short_func(), �i�W�[�\�h�u��.
+    如此一來, 物件可以自己定義 short_func(), 可增加許多彈性.
 
 
-�U�ب���ܼƩΫ���
+各種函數變數或指標
 ------------------
 
-  ���B
-    ��²�檺��ƫ��Ъ��ϥΤw�g�p�W�ҭz, �Y: (: ��ƦW�� :), �o��
-  �覡�i�H��K���Φb�P�@���󪺨�ƤW, �]�i�H��Ѽƥ]�A�i��, �p:
+  １、
+    最簡單的函數指標的使用已經如上所述, 即: (: 函數名稱 :), 這種
+  方式可以方便的用在同一物件的函數上, 也可以把參數包括進來, 如:
  
         string foo(string a, string b)
         {
@@ -157,18 +157,18 @@ is passed to it.  This will create the same effect as if you had done:
           printf( "%s %s\n", evaluate(f), evaluate(f, "right") );
         }
 
-        ==> ���G: (left,0) (left,right)
+        ==> 結果: (left,0) (left,right)
 
-�@���B
-    �ĤG�إΪk�O efun ����, ��P�@����̪�������ƫ��Ы�����. �Ҧp:
-  objects() �|�Ǧ^�Ҧ� mud ���J������, �u�n�Ӫ��󺡨��Y���, �p:
+　２、
+    第二種用法是 efun 指標, 跟同一物件裡的局部函數指標很類似. 例如:
+  objects() 會傳回所有 mud 載入的物件, 只要該物件滿足某函數, 如:
 
         objects( (: clonep :) )
 
-  �]���Ҧ����󳣬O "clonep", �]�N�O, �Ҧ����� ob->clonep() ���Ǧ^�D 0 ��,
-  �]���W�z�Ҥl�|�Ǧ^�Ҧ�������}�C.
+  因為所有物件都是 "clonep", 也就是, 所有物件 ob->clonep() 都傳回非 0 值,
+  因此上述例子會傳回所有的物件陣列.
 
-    ���U�A�ܽd�@�ӨҤl:
+    底下再示範一個例子:
 
         void create()
         {
@@ -178,22 +178,22 @@ is passed to it.  This will create the same effect as if you had done:
           for (i=0; i<3; i++) { evaluate(f); }
         }
 
-    ���G�O:
+    結果是:
         Hello, world!
         Hello, world!
         Hello, world!
 
-    simul_efun �|�� efun �@�˪��ĪG(�_�h��|�٬� simul_efun?!).
-    �� efun �|�򧽳�����ƫܹ�, �O�]�� efun �O����ʪ����, �]��
-  �i�H�Q���O�򧽳�����ƦP�˦a��.
+    simul_efun 會跟 efun 一樣的效果(否則怎會稱為 simul_efun?!).
+    而 efun 會跟局部的函數很像, 是因為 efun 是整體性的函數, 因此
+  可以想成是跟局部的函數同樣地位.
 
-  ���B
-    �ĤT�ث������O call_other ��ƫ��СC���������� MudOS �Ҥ䴩�����
-  ���Ъ��Ϊk, �榡�O:
+  ３、
+    第三種型式的是 call_other 函數指標。它很類似於 MudOS 所支援的函數
+  指標的用法, 格式是:
 
-        (: ����, ��ƦW�� :)
+        (: 物件, 函數名稱 :)
 
-  ���p���Ѽƪ���, �i�H��Ҧ��ѼƲզ��}�C�[�b��ƦW�٤���. �Ҧp:
+  假如有參數的話, 可以把所有參數組成陣列加在函數名稱之後. 例如:
 
         void create()
         {
@@ -204,18 +204,18 @@ is passed to it.  This will create the same effect as if you had done:
           write(implode(ret, "\n"));
         }
 
-    �W�����{�����_�۷���:
+    上面的程式片斷相當於:
         this_player()->query("name");
         this_player()->query("short");
         this_player()->query("long");
 
-    �p�G�n����ƫ��Ъ������V query("short") ����, �i�H�O:
+    如果要讓函數指標直接指向 query("short") 的話, 可以是:
 
         f = (: this_player(), ({ "query", "short" }) :)
 
-        (: ����, ��ƦW�� :)
+        (: 物件, 函數名稱 :)
 
-  ���p���Ѽƪ���, �i�H��Ҧ��ѼƲզ��}�C�[�b��ƦW�٤���. �Ҧp:
+  假如有參數的話, 可以把所有參數組成陣列加在函數名稱之後. 例如:
 
         void create()
         {
@@ -226,41 +226,41 @@ is passed to it.  This will create the same effect as if you had done:
           write(implode(ret, "\n"));
         }
 
-    �W�����{�����_�۷���:
+    上面的程式片斷相當於:
         this_player()->query("name");
         this_player()->query("short");
         this_player()->query("long");
 
-    �p�G�n����ƫ��Ъ������V query("short") ����, �i�H�O:
+    如果要讓函數指標直接指向 query("short") 的話, 可以是:
 
         f = (: this_player(), ({ "query", "short" }) :)
 
-    ���U���Ҥl��W�����@�Ҥ@��, �ѧA���Ѧ�:
+    底下的例子跟上面的一模一樣, 供你做參考:
 
         f = (: call_other, this_player(), "query", "short" :)
-        // �z�L���V call_other efun, �өI�s�w�q�b this_player() ����
-        // �� query("short")
+        // 透過指向 call_other efun, 來呼叫定義在 this_player() 物件中
+        // 的 query("short")
 
         f = (: this_player()->query("short") :)
-        // �o�O��ƪ����ܦ�, �����U������.
+        // 這是函數的表示式, 見底下的說明.
 
-�@���B
-�@�@�ĥ|�إΪk�O�u��ƫ��йB�⦡�v�C�o�إΪk�O�z�L (: �B�⦡ :) �F���C
-�b��ƫ��йB�⦡���A�Ѽƥi�H�� $1, $2, $3,... �ѦҨ�C�|�ҨӬݡG
+　４、
+　　第四種用法是「函數指標運算式」。這種用法是透過 (: 運算式 :) 達成。
+在函數指標運算式中，參數可以用 $1, $2, $3,... 參考到。舉例來看：
 
-    evaluate( (: $1 + $2 :), 3, 4)  // �Ǧ^ 7
+    evaluate( (: $1 + $2 :), 3, 4)  // 傳回 7
 
-    �o�ؤ覡�i�H�b�ϥ� sort_array() �ɫD�`��K�A�|�ҨӬݡG
+    這種方式可以在使用 sort_array() 時非常方便，舉例來看：
 
 top_ten = sort_array( player_list,
           (: $2->query_level() - $1->query_level() :) )[0..9];
  
 
-  ���B
-�@�@�Ĥ��إΪk�٬��u�L�W��ơv�G
+  ５、
+　　第五種用法稱為「無名函數」：
 
 void create() {
-    // ���U�� f �O�@�Ө�ƫ��СA���V����ƨ��èS���W��
+    // 底下的 f 是一個函數指標，指向的函數其實並沒有名稱
     function f = function(int x) {
         int y;
 
@@ -274,62 +274,62 @@ void create() {
     printf("%i %i %i\n", (*f)(1), (*f)(2), (*f)(3));
 }
 
-    �|�L�X�G 1 3 -2
-    �ȱo�`�N���O (*f)(...) �� evaluate(f, ...) �@�ˡC
+    會印出： 1 3 -2
+    值得注意的是 (*f)(...) 跟 evaluate(f, ...) 一樣。
 
 
-���B�����G
+五、對應：
 
-  ����������r�O�umapping�v�A ���I�����}�C�A�ڭ̥i�H�٬����p�}�C�A��
-�y�k��²��Gmapping �ѧO�r�C��������l�Ȧ���ؤ�k�G
+  對應的關鍵字是「mapping」， 有點類似陣列，我們可以稱為關聯陣列，其
+語法很簡單：mapping 識別字。對應的初始值有兩種方法：
 
   mapping	x;
 
-  x = ([ ]);	<-- �Ź���
+  x = ([ ]);	<-- 空對應
   x = ([ key0 : value0,
 	 key1 : value1,
 	 .
 	 .
       ]);
 
-  �`�N�����@�w�n�z�L�W����ؤ�k���@��l�ơA�_�h�L�k����������s�ȡC
+  注意對應一定要透過上面兩種方法之一初始化，否則無法給對應任何新值。
 
   mapping	x;
 
   x[key0] = value0;
 
-  �W���o�إΪk�O�����A��]�N�O�S����l�ơC
-  �ۦp�W�ҡA�ƹ�W�Y�ӹ���������l�ơA�h�������s�Ȫ���k�O�諸�A�ҥH
+  上面這種用法是錯的，原因就是沒有初始化。
+  誠如上例，事實上若該對應有先初始化，則給對應新值的方法是對的，所以
 
   mapping	x;
 
   x = ([ ]);
   x[key0] = value0;
 
-  �O���`�Ϊk�C���LŪ�̭n���D���O�A�W�z�@�k���X�ʵ{���Ө����ᬰ����
-�����A���� x  ��l���Ū��A�U�@�ԭz�h���w (key0, value0) �����A���X��
-�{���䤣�즹�����A�B�䤣�� key0 �o����]key�^�A �ӹ����ثe�S�Ŷ��s�s
-�����A�|���ͤ@�ӷs�����A��j�p�����A�ó]�w�� key0�A ��Ȭ� value0�A
-�̫�A�M��������Ź����C
-  �Y�����j�p�`�`���ܡA�X�ʵ{���|�`�`�Q�� allocate() �t�m�O����A�p��
-�|�y���S�Ĳv�A�̦n����}��k�O�ƥ��Q�� allocate() ���w�����Ŷ��A�p�G
+  是正常用法。不過讀者要知道的是，上述作法對驅動程式而言其實頗為複雜
+首先，對應 x  初始成空的，下一敘述則指定 (key0, value0) 給它，但驅動
+程式找不到此對應，且找不到 key0 這個鍵（key）， 該對應目前沒空間存新
+對應，會產生一個新對應，其大小為１，並設定鍵 key0， 其值為 value0，
+最後，清掉原先的空對應。
+  若對應大小常常改變，驅動程式會常常利用 allocate() 配置記憶體，如此
+會造成沒效率，最好的改良方法是事先利用 allocate() 給定足夠空間，如：
 
   x = (mapping)allocate (10);
 
-  �������ޥΪk�p�U�G
+  對應的引用法如下：
 
-  write (x[key0] + "\n");	--> �|�L�X value0
+  write (x[key0] + "\n");	--> 會印出 value0
 
-  ���F�]�w�����Ȫ���k�A�]�Ӫ��D�R������k�G
+  有了設定對應值的方法，也該知道刪除的方法：
 
   map_delete(x, key0);
 
-  �Y�ΤW������k�R�������� key0 ����A x[key0] �N�䤣��ȡA�U������
-�|�O 1�G
+  若用上面的方法刪除對應鍵 key0 之後， x[key0] 就找不到值，下面的值
+會是 1：
 
   undefinedp (x[key0])
 
-  �{�b�|�ӹ�ҡG
+  現在舉個實例：
 
    mixed idx;
    map x;
@@ -337,17 +337,17 @@ void create() {
    x = ([ "x" : 3, "y" : 4]);
    idx = keys(x);
 
-  ���� idx �|���� ({ "x", "y" })�A�`�N�� keys() ��ƤF�a�A�o�O���o��
-�����Ҧ��䪺��k�C�ƹ�W�A idx ���������Ƿ|�O�H�����A�]�������O�H
-hash table  �k�x�s���C�U�����Ҥl�h�~�ӤW�ҡG
+  此時 idx 會等於 ({ "x", "y" })，注意到 keys() 函數了吧，這是取得對
+應中所有鍵的方法。事實上， idx 的元素順序會是隨機的，因為對應是以
+hash table  法儲存的。下面的例子則繼承上例：
 
    mixed value;
    value = values (x);
 
-  �W�Ҫ� value �ȬO ({ 3, 4 })�C���O�Q�� values() ����o��ȡA�䶶��
-�|�� keys() �Ǧ^���Ȫ����Ǭ۹����C
+  上例的 value 值是 ({ 3, 4 })。此是利用 values() 函取得鍵值，其順序
+會跟 keys() 傳回的值的順序相對應。
 
-  �`�N�A�Y�ڭ̭n�B�z�������C�@�Ӥ����A�Q�� each() �O��������ܡG
+  注意，若我們要處理對應的每一個元素，利用 each() 是不錯的選擇：
 
    mixed *pair;
 
@@ -356,8 +356,8 @@ hash table  �k�x�s���C�U�����Ҥl�h�~�ӤW�ҡG
       write("value = " + pair[1] + "\n");
    }
 
-  ���L�n�� each() �B�@���ܡA�C�@�����|�W�[ 12 bit ���O�ЪŶ��C
-  �N�p�}�Y�������A�����]�٬����p�}�C�A���]�i�H�O�h�����A��k�P�}�C�C
+  不過要讓 each() 運作的話，每一對應會增加 12 bit 的記憶空間。
+  就如開頭所讓的，對應也稱為關聯陣列，它也可以是多維的，方法同陣列。
 
    mapping x, y;
 
@@ -369,7 +369,7 @@ hash table  �k�x�s���C�U�����Ҥl�h�~�ӤW�ҡG
 
    write (x["b"]["a"]);
 
-  �W�Ҥ��|�L�X "c" �ӡC�������W�[���F���e����k�~�A�٥i�H�Υ[�k�G
+  上例中會印出 "c" 來。對應的增加除了先前的方法外，還可以用加法：
 
   mapping x, y, z;
 
@@ -378,19 +378,19 @@ hash table  �k�x�s���C�U�����Ҥl�h�~�ӤW�ҡG
 
   z = x + y;
 
-  �W�� z == ([ "x" : 1, "y" : 2 ])�A�N�p�P�}�C�@�ˡC���L�A�ڭ̤]�i�H
-�B�� += �B��l�G
+  上例 z == ([ "x" : 1, "y" : 2 ])，就如同陣列一樣。不過，我們也可以
+運用 += 運算子：
 
   a += ([ "x" : 1 ]);
 
-  �W�����Ҥl�ܹ����e���Ҥl�G
+  上面的例子很像先前的例子：
 
   a["x"] = 1;
 
-  ���L�A��̤���_�ӡA��̳q�`�|������Ĳv�A�]�e�̫ܪ֩w�|���ͷs����
-���M�A�|���O����t�m�ʧ@�A�]���ڭ̧Ʊ�j�a�ϥΫ�̡C
+  不過，兩者比較起來，後者通常會比較有效率，因前者很肯定會產生新對應
+當然，會有記憶體配置動作，因此我們希望大家使用後者。
 
-  �����٥i�H�� * �B�⤸���ƦX�]composed�^�B��A�p�G
+  對應還可以用 * 運算元做複合（composed）運算，如：
 
    mapping r1, r2, a;
 
@@ -402,17 +402,17 @@ hash table  �k�x�s���C�U�����Ҥl�h�~�ӤW�ҡG
 
    a = r1 * r2;
 
-�@�W�Ҫ� a["driver"] == "castle"�C
+　上例的 a["driver"] == "castle"。
 
-  �̫�A�����������Ӽƥi�H�� sizeof() �Ө��o�C
+  最後，對應的元素個數可以用 sizeof() 來取得。
 
-���B�r��P�l���c�G
+六、字串與子結構：
 
-  �r��i�ݦ��r�����}�C�A�ڭ̤��S�O�����r��A���B�ڭ̥ΰ}�C�x���r��P
-�}�C�`�J���Q�l���c�C�ҿפl���c�O�x���u�l�r��v�B�u�l�}�C�v�A�b���ڭ�
-�ޥέ^�媺��ӵ��G
+  字串可看成字元的陣列，我們不特別說明字串，此處我們用陣列泛指字串與
+陣列深入探討子結構。所謂子結構是泛指「子字串」、「子陣列」，在此我們
+引用英文的兩個詞：
 
-  indexing	<-- ���ޡA��
+  indexing	<-- 索引，由
 
 		LPC Substructures 
 
@@ -730,18 +730,18 @@ Last Updated : Tue Jan 10 11:02:40 EST 1995
 
 
 
-�C�B�B��l�G
+七、運算子：
 
-  ���U�H�u�����ǦC�X�Ҧ��B��l���y�k�G
+  底下以優先順序列出所有運算子的語法：
 
-expr1 , expr2   ���p�� 'expr1' �A�p�� 'expr2'�C�Ǧ^�Ȭ� expr2 �����G
+expr1 , expr2   先計算 'expr1' 再計算 'expr2'。傳回值為 expr2 的結果
 
-var = expr      �p�� 'expr'�A�A���w���ܼ� var�A�Ǧ^�Ȭ� var ���s�ȡC
+var = expr      計算 'expr'，再指定給變數 var，傳回值為 var 的新值。
 
-var += expr     �p�� 'var' + 'expr'�A�A���w�� 'var'�A�۷���G
+var += expr     計算 'var' + 'expr'，再指定給 'var'，相當於：
                 var = var + expr
 
-  ���U������������ += �B��l�G
+  底下的部份都類似 += 運算子：
 var -= expr
 var &= expr
 var |= expr
@@ -752,9 +752,9 @@ var *= expr
 var %= expr
 var /= expr
 
-expr1 || expr2  �� expr1 ���D���]�u�^�ɡA��Ȭ��u�u�v�]expr1�^�A�B
-		expr2 ���Ȥ��|�Q�p���A�Y expr1 ���Ȭ� 0�A �h���
-		expr2�A ���ɤ~�|�p��� expr2�C
+expr1 || expr2  當 expr1 為非○（真）時，其值為「真」（expr1），且
+		expr2 的值不會被計算到，若 expr1 的值為 0， 則其值
+		expr2， 此時才會計算到 expr2。
 
 expr1 && expr2  The result is true i 'expr1' and 'expr2' is true. 'expr2' is
                 not evaluated if 'expr1' was false.

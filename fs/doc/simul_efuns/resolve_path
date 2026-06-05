@@ -1,13 +1,13 @@
 
 RESOLV_PATH(2)             silmul_efun             RESOLV_PATH(2)
 
-¦WºÙ
-     resolv_path - ¸Ñ¶}¸ô®|¬°µ´¹ï¸ô®|
+åç¨±
+     resolv_path - è§£é–‹è·¯å¾‘ç‚ºçµ•å°è·¯å¾‘
 
-»yªk
+èªžæ³•
      string resolv_path(string curr, string new);
 
-´y­z
+æè¿°
      The "cd" command allows the use of special characters in the
      pathname:   "."  to  refer to the current directory, ".." to
      refer to the current directory's parent directory,  and  "~"
@@ -38,12 +38,12 @@ RESOLV_PATH(2)             silmul_efun             RESOLV_PATH(2)
 
            str = resolv_path(this_player()->query("cwd"), str);
 
-¬ÛÃö©R¥O
+ç›¸é—œå‘½ä»¤
      /cmds/file/_mkdir.c, /cmds/file/_cd.c, et al.
 
-§@ªÌ
+ä½œè€…
      Ichabod@TMI, 3/9/93
-     wade@future 4/8/1996 Â½Ä¶
+     wade@future 4/8/1996 ç¿»è­¯
 
 MudOS Release 0.9         Last change:                   3-19-93
 

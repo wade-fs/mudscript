@@ -1,13 +1,13 @@
 
 SNOOP(2)                   silmul_efun                   SNOOP(2)
 
-¦WºÙ
-     snoop - ­«¼g¦P¦Wªº efun, ºÊ·ş¨Ï¥ÎªÌªº¦æ¬°
+åç¨±
+     snoop - é‡å¯«åŒåçš„ efun, ç›£ç£ä½¿ç”¨è€…çš„è¡Œç‚º
 
-»yªk
+èªæ³•
      varargs object snoop(object snooper, object snoopee);
 
-´y­z
+æè¿°
      This simul_efun overrides the driver's snoop function to add
      the following functionality:
 
@@ -18,12 +18,12 @@ SNOOP(2)                   silmul_efun                   SNOOP(2)
          or her that they are now being snooped by
          the "snooper".
 
-¨ä¥¦°Ñ¦ÒÀÉ®×
+å…¶å®ƒåƒè€ƒæª”æ¡ˆ
      /adm/simul_efun/overrides.c
 
-§@ªÌ
+ä½œè€…
      Ichabod@TMI, 3/2/93
-     wade@future 4/8/1996 Â½Ä¶
+     wade@future 4/8/1996 ç¿»è­¯
 
 MudOS Release 0.9         Last change:                   3-19-93
 

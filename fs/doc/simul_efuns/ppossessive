@@ -1,25 +1,25 @@
 
 PPOSSESSIVE(2)             silmul_efun             PPOSSESSIVE(2)
 
-¦WºÙ
-     ppossessive - ®Ú¾Ú©Ê§O¶Ç¦^«üºÙ¥N¦Wµü
+åç¨±
+     ppossessive - æ ¹æ“šæ€§åˆ¥å‚³å›æŒ‡ç¨±ä»£åè©
 
-»yªk
+èªæ³•
      string ppossessive(string gender);
 
-´y­z
+æè¿°
      Provides an appropriate possessive pronoun based  on  gender
      as follows:
 
      "male"    -> "his" "female"  -> "hers"  "neuter"   ->  "its"
      (other)   -> "hirs"
 
-¨ä¥¦°Ñ¦ÒÀÉ®×
+å…¶å®ƒåƒè€ƒæª”æ¡ˆ
      /adm/simul_efun/pronouns.c
 
-§@ªÌ
+ä½œè€…
      Ichabod@TMI, 3/5/93
-     wade@future 4/8/1996 Â½Ä¶
+     wade@future 4/8/1996 ç¿»è­¯
 
 MudOS Release 0.9         Last change:                   3-19-93
 

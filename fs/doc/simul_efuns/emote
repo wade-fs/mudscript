@@ -1,16 +1,16 @@
 
 EMOTE(2)                   silmul_efun                  EMOTE(2)
 
-¦WºÙ
-     emote - ¥i¥H¥Î¨Ó¹ê§@°Ê§@(emote)©R¥Oªº¨ç¼Æ
+åç¨±
+     emote - å¯ä»¥ç”¨ä¾†å¯¦ä½œå‹•ä½œ(emote)å‘½ä»¤çš„å‡½æ•¸
 
-»yªk
+èªæ³•
      varargs int emote (object sender, string msg_self,
                      string  msg_others,  mixed  target,   string
      msg_target,
                      string extra);
 
-´y­z
+æè¿°
      This efun implements the emote command by passing the "msg_"
      strings  to  the  appropriate  players, as described in more
      detail below.
@@ -69,7 +69,7 @@ EMOTE(2)                   silmul_efun                  EMOTE(2)
          {P}     - the possessive form of sender's name
          {M}     - the argument "extra"
 
-     µ²ªG
+     çµæœ
 
      This efun returns 1 if there was no error.   It  will  fail,
      and  return  zero, if any of the following are true:  sender
@@ -77,12 +77,12 @@ EMOTE(2)                   silmul_efun                  EMOTE(2)
      not  present  in  sender's  environment, target is neither a
      string nor an object, or target is not living.
 
-½Ğ°Ñ¦Ò©³¤Uªº°T®§
+è«‹åƒè€ƒåº•ä¸‹çš„è¨Šæ¯
      help soul
 
-§@ªÌ
+ä½œè€…
      Ichabod@TMI, 1/28/93
-     wade@future 4/7/1996 Â½Ä¶
+     wade@future 4/7/1996 ç¿»è­¯
 
 MudOS Release 0.9         Last change:                   3-19-93
 

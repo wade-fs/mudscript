@@ -1,13 +1,13 @@
 
 WRITEF(2)                  silmul_efun                  WRITEF(2)
 
-¦WºÙ
-     writef - ¥H®æ¦¡¤Æ¤è¦¡°e°T®§µ¹ª±®a.
+åç¨±
+     writef - ä»¥æ ¼å¼åŒ–æ–¹å¼é€è¨Šæ¯çµ¦ç©å®¶.
 
-»yªk
+èªæ³•
      string writef( string str, int n, int flags );
 
-´y­z
+æè¿°
      Given a string str, creates a string of length n, padded  or
      truncated  as  needed, following the directives given by the
      flags  argument.   The  following  flags  are   defined   in
@@ -49,7 +49,7 @@ WRITEF(2)                  silmul_efun                  WRITEF(2)
          overflow if str is more than n chars long and the
          TRUNCATE flag was not set in the flags argument.
 
-     ª`·N:  Because these constants are only 61 characters long,
+     æ³¨æ„:  Because these constants are only 61 characters long,
             you should make sure n is never greater than 61, or
 
 
@@ -60,12 +60,12 @@ WRITEF(2)                  silmul_efun                  WRITEF(2)
             the formatting in your  output  string  may  be  dis-
      torted.
 
-¨ä¥¦°Ñ¦ÒÀÉ®×
+å…¶å®ƒåƒè€ƒæª”æ¡ˆ
      write(), /include/writef.h
 
-§@ªÌ
+ä½œè€…
      Ichabod@TMI,  3/26/93  (documentation)  Jubal@TMI,  10/25/91
-     wade@future 4/8/1996 Â½Ä¶
+     wade@future 4/8/1996 ç¿»è­¯
 
 Sun Release 4.1           Last change:                          2
 

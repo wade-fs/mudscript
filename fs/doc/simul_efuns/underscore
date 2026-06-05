@@ -1,30 +1,30 @@
 
 UNDERSCORE(2)              silmul_efun              UNDERSCORE(2)
 
-¦WºÙ
-     underscore - §â¦r¦ê¥[¤W©³½u
+åç¨±
+     underscore - æŠŠå­—ä¸²åŠ ä¸Šåº•ç·š
 
-»yªk
+èªæ³•
      string underscore (string str);
 
-´y­z
+æè¿°
      If  this_player()  has  the  "vt100"  attribute  set,   this
      simul_efun  will  return str with the "underscore on" escape
      sequence added in front  and  the  "underscore  off"  escape
      sequence added to the end, so that the string will print out
      in underscore mode on a VT100-compatible terminal.
 
-     ª`·N:  Do NOT use ed to edit the file vt100.c, or the escape
+     æ³¨æ„:  Do NOT use ed to edit the file vt100.c, or the escape
      sequences  will be corrupted.  (ed strips out escape charac-
      ters).
 
-¨ä¥¦°Ñ¦Ò¨ç¼Æ
+å…¶å®ƒåƒè€ƒå‡½æ•¸
      inverse, blink,  bold,  clear_screen,  clear_line,  up_line,
      erase_line
 
-§@ªÌ
+ä½œè€…
      Ichabod@TMI, 3/19/93
-     wade@future 4/8/1996 Â½Ä¶
+     wade@future 4/8/1996 ç¿»è­¯
 
 MudOS Release 0.9         Last change:                   3-19-93
 

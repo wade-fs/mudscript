@@ -1,22 +1,22 @@
 
 WRITE(2)                   silmul_efun                   WRITE(2)
 
-¦WºÙ
-     write - °e°T®§µ¹¯S©wªºª±®a
+åç¨±
+     write - é€è¨Šæ¯çµ¦ç‰¹å®šçš„ç©å®¶
 
-»yªk
+èªæ³•
      void write(string msg);
 
-´y­z
+æè¿°
      Uses  the  message  function  to  send  the  msg  string  to
      this_player().
 
-¨ä¥¦°Ñ¦Ò¨ç¼Æ
+å…¶å®ƒåƒè€ƒå‡½æ•¸
      message()
 
-§@ªÌ
+ä½œè€…
      Ichabod@TMI, 3/26/93 (documentation)
-     wade@future 4/8/1996 Â½Ä¶
+     wade@future 4/8/1996 ç¿»è­¯
 
 MudOS Release 0.9         Last change:                   3-19-93
 

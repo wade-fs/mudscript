@@ -1,32 +1,32 @@
-�� team
+□ team
 
 int set_leader(object ob)
-�N�ǤJ����]���Ӷ���ⶤ�C
+將傳入物件設為該隊伍的領隊。
 
 object query_leader()
-�Ǧ^����ⶤ����C
+傳回隊伍的領隊物件。
 
 int follow_path(string dir)
-�����w������沾�ʫ��O�A��V�H�ǤJ�Ȭ��D�C
+讓指定物件執行移動指令，方向以傳入值為主。
 
 int follow_me(object ob, string dir)
 
 int add_team_member(object ob)
-�N���w����[�J����C�p�G�����٤��s�b�A�h�|�إߤ@�ӷs������A�ç�I�s����
-�ƪ�����M�ǤJ����ǤJ������C
+將指定物件加入隊伍中。如果隊伍還不存在，則會建立一個新的隊伍，並把呼叫此函
+數的物件和傳入物件納入隊伍之中。
 
 int set_team(object *t)
-�]�w����C�]���G����ƨS���Ǧ^�ȡC�^(����)
+設定隊伍。（註：此函數沒有傳回值。）(未完)
 
 varargs int dismiss_team(object ob)
-�Ѵ�����C�Y�Ѵ��H���o�Ӷ���ⶤ�A�h��Ӷ���|�Q�Ѵ��C�_�h�ȸӦ�
-�����}����C
+解散隊伍。若解散人為這個隊伍的領隊，則整個隊伍會被解散。否則僅該成
+員離開隊伍。
 
 object *query_team()
-�Ǧ^�����ةҦ������C
+傳回隊伍裏所有隊員。
 
 int is_team_leader()
-���ի��w����O�_���@�Ӷ���ⶤ�C
+測試指定物件是否為一個隊伍的領隊。
 
 Elon@ES2
 06-06-95 drafted.

@@ -1,13 +1,13 @@
 
 UP_LINE(2)                 silmul_efun                 UP_LINE(2)
 
-¦WºÙ
-     up_line - §â´å¼Ğ©¹¤W¤@¦æ
+åç¨±
+     up_line - æŠŠæ¸¸æ¨™å¾€ä¸Šä¸€è¡Œ
 
-»yªk
+èªæ³•
      string up_line ();
 
-´y­z
+æè¿°
      If  this_player()  has  the  "vt100"  attribute  set,   this
      simul_efun  will return the VT100 "move up" escape sequence,
      so that the string will move the  cursor  up  a  line  on  a
@@ -18,13 +18,13 @@ UP_LINE(2)                 silmul_efun                 UP_LINE(2)
      sequences  will be corrupted.  (ed strips out escape charac-
      ters).
 
-¨ä¥¦°Ñ¦Ò¨ç¼Æ
+å…¶å®ƒåƒè€ƒå‡½æ•¸
      inverse, blink, bold, underscore, clear_screen,  clear_line,
      erase_line
 
-§@ªÌ
+ä½œè€…
      Ichabod@TMI, 3/19/93
-     wade@future 4/8/1996 Â½Ä¶
+     wade@future 4/8/1996 ç¿»è­¯
 
 MudOS Release 0.9         Last change:                   3-19-93
 

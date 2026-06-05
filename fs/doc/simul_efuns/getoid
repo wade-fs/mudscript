@@ -1,23 +1,23 @@
 
 GETOID(2)                  silmul_efun                 GETOID(2)
 
-¦WºÙ
-     getoid - ¶Ç¦^¸Óª«¥óªº°ß¤@ÃÑ§O¼Æ¦r, ¦p "scroll#48" ¶Ç¦^ 48
+åç¨±
+     getoid - å‚³å›è©²ç‰©ä»¶çš„å”¯ä¸€è­˜åˆ¥æ•¸å­—, å¦‚ "scroll#48" å‚³å› 48
 
-»yªk
+èªæ³•
      int getoid(object obj);
 
-´y­z
+æè¿°
      Returns the number  of  a  numbered  file  name,  e.  g.  if
      file_name(myobj)  is  "scroll#48",  then  getoid(myobj) will
      return the 48.
 
-¬ÛÃö©R¥O
+ç›¸é—œå‘½ä»¤
      /adm/daemons/cmwhod.c, /adm/simul_efun/temp_file.c
 
-§@ªÌ
+ä½œè€…
      Ichabod@TMI, 2/17/93
-     wade@future 4/8/1996 Â½Ä¶
+     wade@future 4/8/1996 ç¿»è­¯
 
 MudOS Release 0.9         Last change:                   3-19-93
 

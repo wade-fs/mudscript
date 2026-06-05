@@ -1,16 +1,16 @@
-�� HUMAN 
+□ HUMAN 
 
-BASE_WEIGHT 	�魫
+BASE_WEIGHT 	體重
 
 void create()
-�]�w�H�����򥻸�Ƥ��ݩ�.
-���, �ʧO, �O�_�|����, ���骺�U���� ... etc.
+設定人類的基本資料及屬性.
+單位, 性別, 是否會說話, 身體的各部份 ... etc.
 
 void setup_human(object ob)
-�]�w�H�����U�����. 
+設定人類的各項資料. 
 
 mapping query_action()
-�Ǧ^�ʧ@��.
+傳回動作詞.
 
 Elon@ES2
 drafted: 07-13-95

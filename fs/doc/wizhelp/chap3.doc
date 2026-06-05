@@ -1,117 +1,117 @@
-�ĤT���G�G
-�@�@�@�@�@�@�@�@�@�@�ж����s�g(1)--Roommaker �g        �@�@
+第三章：：
+　　　　　　　　　　房間的編寫(1)--Roommaker 篇        　　
 
 
-�e�@���G
-        Roommaker�٧@�ж��s�边�A�O�@�إi�H�Ψӡu�ֳt�v�s�y�ж����u��
-�A�i�H���ξaEDIT(�u�W�s�边)��FTP(�ɮ׶ǿ�)�覡�b�u�W�ֳt�s��ж��A�O
-�@�ثK�Q���u��A�]�O�J�����Ův�Ĥ@�B�n�Ǫ��F��A���F���A�i�H�b�u�ɶ���
-�s�n�@�өж��C
+前　言：
+        Roommaker稱作房間編輯器，是一種可以用來「快速」製造房間的工具
+你可以不用靠EDIT(線上編輯器)或FTP(檔案傳輸)方式在線上快速編輯房間，是
+一種便利的工具，也是入門的巫師第一步要學的東西，有了它你可以在短時間內
+編好一個房間。
 
-��  ���G
-        �H�U�����e�N�a�A�@�B�@�B���ϥ�Roommaker�A�ӧֳt���s��ж�....
-�@�BRoommaker����m::
-        �A�i�H�ЧA��boss�Nroommaker������A���ؿ��U�A�Ϊ̧A�]�i�H�h
-    /obj/roommaker.c������A���ؿ��U
+說  明：
+        以下的內容將帶你一步一步的使用Roommaker，來快速的編輯房間....
+一、Roommaker的位置::
+        你可以請你的boss將roommaker拷貝到你的目錄下，或者你也可以去
+    /obj/roommaker.c拷貝到你的目錄下
     ex:: cp /obj/roommaker.c /u/c/chan/
-    �M��A�i�Hclone roommaker�o�ɩж��s�边�N�|�b�A�����W�F.....
-�ж��s�边(v 1.4 11/30/1995)�ƻs���\�M��b�A�����~��C
-�u���A�����Ť@���M�ܥX�F�ж��s�边(v 1.4 11/30/1995)�C
-�G�BRoommaker���ϥ�:::
-        �A�i�Hlook roommaker�ݨ�H�U������.....
+    然後你可以clone roommaker這時房間編輯器就會在你的身上了.....
+房間編輯器(v 1.4 11/30/1995)複製成功﹐放在你的物品欄。
+只見你伸手凌空一指﹐變出了房間編輯器(v 1.4 11/30/1995)。
+二、Roommaker的使用:::
+        你可以look roommaker看到以下的說明.....
 
-�o�O�@�ӥΨӡu�ֳt�v�s�y�ж����u��M���U�ɶ����h�Φ��Y��  lag ���Ův
-�Q�νu�W��J�s�y²�檺�ж��M���L�p�G�A�Q�����ۤv�ϰ�ж����~��M�̦n
-���n�Ө̿�o�ӪF��, ���A��y�ж���, �|���@����D, �p�G�A�Q�ιw�]��,
-�Ъ����� enter, �p�G�Q���, �ХΥy�I�����C
+這是一個用來「快速」製造房間的工具﹐幫助時間不多或有嚴重  lag 的巫師
+利用線上輸入製造簡單的房間﹐不過如果你想提高自己區域房間的品質﹐最好
+不要太依賴這個東西, 當你制造房間時, 會有一堆問題, 如果你想用預設值,
+請直接按 enter, 如果想放棄, 請用句點結束。
 
-mkroom <��V> <�ж��ɦW>        �y�X�@�ӡu�šv�ж�
-rset <�ж��ݩ�> <�ݩʤ��e>      �]�w�A�ثe�Ҧb�ж����ݩ�
-uset <�ж��ݩ�>                 �����ثe�Ҧb�ж����Y���ݩ�
-connect <��V> <�ж��ɦW>       �N�A�ثe�Ҧb���ж��s���@�ӥX�f��t�@�өж��C
-dconnect <��V>                 �����@�ӥX�f
-addobj <�����ɦW> <�Ӽ�>        �b�өж��W�[����
-delobj <�����ɦW>               �����өж�������
-saveroom                        �N�A�ثe�Ҧb���ж��s�ɡC
+mkroom <方向> <房間檔名>        造出一個「空」房間
+rset <房間屬性> <屬性內容>      設定你目前所在房間的屬性
+uset <房間屬性>                 取消目前所在房間的某項屬性
+connect <方向> <房間檔名>       將你目前所在的房間連接一個出口到另一個房間。
+dconnect <方向>                 取消一個出口
+addobj <物件檔名> <個數>        在該房間增加物件
+delobj <物件檔名>               取消該房間的物件
+saveroom                        將你目前所在的房間存檔。
 
-�@�@     �o�ɧA�N�i�H��roommaker�ӽs�groom�F..
-ex::mkroom /u/c/chan/workroom.c �o�ɧA�N�}�l�sworkroom.c���ж��F...
-         �p�G�A�٤��F��.�A�]�i�H��help roommaker...
-         �o�ɧA�N�i�H�ݨ�H�U�����e....
-1. ���o roommaker:  clone /obj/roommaker
-2. �y�s�ж�      :  mkroom <�ɦW> <��V>
-            �Ҧp :  mkroom test1          <-- ���n�[ ".c", �n�[���M�]�i�H
-                    mkroom test1 east     <-- �|�ݧA�@�j��Ʊ�,
-                      �p�G���Q�^��, �h������ enter, �p�G�Q���, �h�� . ���}
-                      �p�G���\, �h�۰ʳs����V, ������}����
-3. ��өж��h    :  goto test1            <-- �o�O��赹���ɦW
-4. �s��P�]�w    :  rset valid_startroom 1
+　　     這時你就可以用roommaker來編寫room了..
+ex::mkroom /u/c/chan/workroom.c 這時你就開始編workroom.c的房間了...
+         如果你還不了解.你也可以打help roommaker...
+         這時你就可以看到以下的內容....
+1. 取得 roommaker:  clone /obj/roommaker
+2. 造新房間      :  mkroom <檔名> <方向>
+            例如 :  mkroom test1          <-- 不要加 ".c", 要加當然也可以
+                    mkroom test1 east     <-- 會問你一大堆事情,
+                      如果不想回答, 則直接按 enter, 如果想放棄, 則按 . 離開
+                      如果成功, 則自動連接方向, 此為改良部份
+3. 到該房間去    :  goto test1            <-- 這是剛剛給的檔名
+4. 編輯與設定    :  rset valid_startroom 1
                  == set("valid_startroom", 1)
-                    rset short �����ѥ]���u�@��
-                 == set("short", "�����ѥ]���u�@��")
-        PS:  �� mkroom �ɤw�g�g�L�@��, ���B�J�i���L�h
-5. �s����ԭz    :  setlong
-                ==> �}�l�� post �@��, �p�e�ҭz, �����Цb�s�楴�y�I "."
-        PS:  �� mkroom �ɤw�g�g�L�@��, ���B�J�i���L�h
-        PS:  �� mkroom �ɤw�g�g�L�@��, ���B�J�i���L�h
-6. �p���ж����X�f:  connect <��V> <�ɦW>
-            �Ҧp :  connect east /u/w/wade/workroom
-7. �����ж����X�f:  dconnect <��V>
-            �Ҧp :  dconnect east
-8. �W�[����      :  addobj <�����ɦW> <����Ӽ�>
-            �Ҧp :  addobj /open/su/npc/temple_keeper 2
+                    rset short 菠蘿麵包的工作室
+                 == set("short", "菠蘿麵包的工作室")
+        PS:  用 mkroom 時已經寫過一次, 此步驟可跳過去
+5. 編輯長敘述    :  setlong
+                ==> 開始跟 post 一樣, 如前所述, 結束請在新行打句點 "."
+        PS:  用 mkroom 時已經寫過一次, 此步驟可跳過去
+        PS:  用 mkroom 時已經寫過一次, 此步驟可跳過去
+6. 聯結房間的出口:  connect <方向> <檔名>
+            例如 :  connect east /u/w/wade/workroom
+7. 取消房間的出口:  dconnect <方向>
+            例如 :  dconnect east
+8. 增加物件      :  addobj <物件檔名> <物件個數>
+            例如 :  addobj /open/su/npc/temple_keeper 2
                 ==> set("objects", ([ /* sizeof() == 1 */
                         "/open/su/npc/temple_keeper" : 2,
                     ]));
 
-   �`         �N :  3,4,5,6 �X�����M�ߧY����, ���O�S�s�ɨS��, �s�ɥ� saveroom
+   注         意 :  3,4,5,6 幾項雖然立即見效, 但是沒存檔沒用, 存檔用 saveroom
 
-9. �s��          :  saveroom
-                ==> �n���s�ɤ~����....�b�٨S saveroom ���e���M����,
-                    ���O�p�G update here �R�O�@�U����, �N�q�q���S�F
+9. 存檔          :  saveroom
+                ==> 要有存檔才有效....在還沒 saveroom 之前雖然見效,
+                    但是如果 update here 命令一下之後, 就通通都沒了
 
-PS: �O���O�b�A�����ж��N�}�l�]�w, �_�h�өж��|�Q�ﱼ
-PS: �]�\�|���s�\��, �i�H�b clone �X�Ӥ���, �� localcmds �ݬݬO�_���W�s�\��
+PS: 記住別在你站的房間就開始設定, 否則該房間會被改掉
+PS: 也許會有新功能, 可以在 clone 出來之後, 用 localcmds 看看是否有增新功能
 
-�p�G�٬ݤ����H�W������..�S���t.�ڭ̤@�B�B��....
+如果還看不懂以上的說明..沒關系.我們一步步做....
 
-/u/c/chan> mkroom /u/c/chan/test.c       //�A�n�s��file�����|���ɦW(�s�b�]�i�H)
+/u/c/chan> mkroom /u/c/chan/test.c       //你要編的file的路徑及檔名(存在也可以)
 file name is /u/r/chan/test.c
-�п�J no_fight ���� (0 �w�]���i�԰�) :    //�i�H�]�ж��ण��.1���i�H.0�O�w�]��
-�п�J no_magic ���� (0 �w�]���i�I�]�k) : 
-�п�J light_up ���� (0 �w�]���S�O�����ж�) : 
-�п�J no_clean_up ���� (0 �w�]���n reborn) : 
-�п�J valid_startroom ���� (0 �w�]�����ж����i���_�I) : 
-�п�J�ж��W�� short (�ũж�) : ���窺���թж�  //��J�u�ԭz....�ж���
-�п�J long ���� (�o�O�@�����򳣨S�����ж��C
+請輸入 no_fight 的值 (0 預設為可戰鬥) :    //可以設房間能不能.1不可以.0是預設值
+請輸入 no_magic 的值 (0 預設為可施魔法) : 
+請輸入 light_up 的值 (0 預設為沒燈光的房間) : 
+請輸入 no_clean_up 的值 (0 預設為要 reborn) : 
+請輸入 valid_startroom 的值 (0 預設為本房間不可當起點) : 
+請輸入房間名稱 short (空房間) : 布衣的測試房間  //輸入短敘述....房間的
+請輸入 long 的值 (這是一間什麼都沒有的房間。
 ) : 
-�������}�� '.'�M������J�� '~q'�M�ϥΤ��ئC�s�边�� '~e'�C
-�w�w�w�w�w�w�w�w�w�w�w�w�w�w�w�w�w�w�w�w�w�w�w�w�w�w�w�w�w
-�o�O���窺���թж�.                            //�ж������ԭz
+結束離開用 '.'﹐取消輸入用 '~q'﹐使用內建列編輯器用 '~e'。
+─────────────────────────────
+這是布衣的測試房間.                            //房間的長敘述
 .
-�O��~��? (y) : 
-��~�O�ݩ���@�ӥؿ�? (/u/r) :                            //�]�w�X�f�Ϊ���
-�п�J���[ item_desc ���W��, �p�G�Q�������[, �Ъ����� enter : 
-�г]�w�X�f exits ���s����V, �Q�����]�w, �Ъ����� enter : 
-�г]�w���� objects ���ɦW, �Q�����]�w, �Ъ����� enter :
-�ثe�ؿ��R/u/r/roger/ �H __DIR__ ���N�C
+是戶外嗎? (y) : 
+戶外是屬於哪一個目錄? (/u/r) :                            //設定出口及物件
+請輸入景觀 item_desc 的名稱, 如果想結束景觀, 請直接按 enter : 
+請設定出口 exits 的連結方向, 想結束設定, 請直接按 enter : 
+請設定物件 objects 的檔名, 想結束設定, 請直接按 enter :
+目前目錄﹕/u/r/roger/ 以 __DIR__ 取代。
 file name is /u/r/roger/test.c
-Ok.                                             //�ж��إߧ���...
-�A�]�i�H..
-�г]�w�X�f exits ���s����V, �Q�����]�w, �Ъ����� enter : up
-�п�J up ���s���ж��ɦW, �i�H�ĥά۹���|�k : /u/c/chan/xxxx.c
-�г]�w���� objects ���ɦW, �Q�����]�w, �Ъ����� enter : 
-�ثe�ؿ��R/u/r/roger/ �H __DIR__ ���N�C
-�ɮ� /u/r/roger/test.c �w�s�b�M�n�R�����ɶܡS[y/n]y  //�Yfile�s�b���ܼg�W.
+Ok.                                             //房間建立完成...
+你也可以..
+請設定出口 exits 的連結方向, 想結束設定, 請直接按 enter : up
+請輸入 up 的連結房間檔名, 可以採用相對路徑法 : /u/c/chan/xxxx.c
+請設定物件 objects 的檔名, 想結束設定, 請直接按 enter : 
+目前目錄﹕/u/r/roger/ 以 __DIR__ 取代。
+檔案 /u/r/roger/test.c 已存在﹐要刪除舊檔嗎﹖[y/n]y  //若file存在的話寫上.
 
-�H�W�N�O�ϥΩж��s�边���L�{..�۫H�@�w�ܲM���F...
-�̫�`�N�s�n��file�nsaveroom�@......
+以上就是使用房間編輯器的過程..相信一定很清楚了...
+最後注意編好的file要saveroom哦......
 
-�`�N�ƶ�:::
-    �ϥ�Roommaker���M�ܤ�K���O�L���@�ǯ��I...
-1.�L����s��m�⪺��r..�]���S��inclue <ansi.h>
-2.���వ�@��quests���s��...
-3.�ж����ܤƸ���...
+注意事項:::
+    使用Roommaker雖然很方便但是他有一些缺點...
+1.他不能編輯彩色的文字..因為沒有inclue <ansi.h>
+2.不能做一些quests的編輯...
+3.房間的變化較少...
 
                                                              98/07/19 by Chan
-�`�N::�H�W���..�ȨѨg�Q�Ŷ��B�n����wiz�ϥ�..���gChan���\���o�y�X..�_�h..
+注意::以上文件..僅供狂想空間、南站的wiz使用..未經Chan允許不得流出..否則..

@@ -1,19 +1,19 @@
-¡¼ SKILL
-³o¬O¼Ğ·Çªº§Ş¯àª«¥ó, ©Ò¦³ªº§Ş¯àÀÉ³£»İÄ~©Ó¦¹ª«¥ó.
+â–¡ SKILL
+é€™æ˜¯æ¨™æº–çš„æŠ€èƒ½ç‰©ä»¶, æ‰€æœ‰çš„æŠ€èƒ½æª”éƒ½éœ€ç¹¼æ‰¿æ­¤ç‰©ä»¶.
 
 inherit F_CLEAN_UP;
  
 void create()
-³]©wª«¥óªº effective user id.
+è¨­å®šç‰©ä»¶çš„ effective user id.
  
 int valid_learn(object me) { return 1; }
-§P©w¶Ç¤Jª«¥ó¥i§_¾Ç²ß¦¹¤@§Ş¯à, ¹w³]­È¬° 1.
+åˆ¤å®šå‚³å…¥ç‰©ä»¶å¯å¦å­¸ç¿’æ­¤ä¸€æŠ€èƒ½, é è¨­å€¼ç‚º 1.
  
 int valid_effect(object me, object weapon, string action_name, int skill)
-§P©w©Û¦¡¬O§_¦³®Ä. ¹w³]­È¬° 1.
+åˆ¤å®šæ‹›å¼æ˜¯å¦æœ‰æ•ˆ. é è¨­å€¼ç‚º 1.
 
 string type() { return "martial"; }
-¶Ç¦^ª«¥óªº½è®Æ.
+å‚³å›ç‰©ä»¶çš„è³ªæ–™.
  
 void skill_improved(object me)
 

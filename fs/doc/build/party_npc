@@ -1,27 +1,27 @@
  
-¡¼ ¦p¦ó¼g¥i¥H(party)ªº(NPC)
+â–¡ å¦‚ä½•å¯«å¯ä»¥(party)çš„(NPC)
  
 #include "/include/party_npc.c"
  
-¦b void init() { } ¥[ basic_action_set();
+åœ¨ void init() { } åŠ  basic_action_set();
  
-¤@¨Ç³]©w¡R
+ä¸€äº›è¨­å®šï¹•
    
-(1) be_party_msg     ¦bª±ªÌ­n©M npc party ®Éª±ªÌ©Ò»¡ªº¸Ü
-(2) lim              party ªº­­¨î¡M³]©w¬° 1 ªí¥Ü­n©M¦¹ npc party ¦³¯S®í­­¨î
-(3) lim_msg          party ªº­­¨î°T®§¡M·íª±ªÌªº±ø¥ó¤£¦X®É¡Mnpc ©Ò»¡ªº¸Ü
-(3) party_succeed_msg¬O party ¦¨¥\®É npc ©Ò»¡ªº¸Ü
-(4) party_long       party ¤§«áªº npc ±Ô­z
-(5) will_angry       ¦p³]¦¨ 1 «h unparty ¦¹ npc ·|¤Ï¥Ø¦¨¤³
-(6) no_kill          ³]¦¨ 1 ªí¥Ü¦¹ npc ¤£±ş¬Y¨Ç¤H
+(1) be_party_msg     åœ¨ç©è€…è¦å’Œ npc party æ™‚ç©è€…æ‰€èªªçš„è©±
+(2) lim              party çš„é™åˆ¶ï¹è¨­å®šç‚º 1 è¡¨ç¤ºè¦å’Œæ­¤ npc party æœ‰ç‰¹æ®Šé™åˆ¶
+(3) lim_msg          party çš„é™åˆ¶è¨Šæ¯ï¹ç•¶ç©è€…çš„æ¢ä»¶ä¸åˆæ™‚ï¹npc æ‰€èªªçš„è©±
+(3) party_succeed_msgæ˜¯ party æˆåŠŸæ™‚ npc æ‰€èªªçš„è©±
+(4) party_long       party ä¹‹å¾Œçš„ npc æ•˜è¿°
+(5) will_angry       å¦‚è¨­æˆ 1 å‰‡ unparty æ­¤ npc æœƒåç›®æˆä»‡
+(6) no_kill          è¨­æˆ 1 è¡¨ç¤ºæ­¤ npc ä¸æ®ºæŸäº›äºº
  
-¤@¨Ç­­¨îªº¨ç¼Æ¡R
+ä¸€äº›é™åˆ¶çš„å‡½æ•¸ï¹•
  
-(1) test_limit()     ·í lim ³]¬° 1 ®É¡Mparty ¦¹ npc ·|°õ¦æ¦¹¨ç¼Æ
-                     ¥i¥H§â­­¨î party ªº±ø¥ó¼g¦b³o
+(1) test_limit()     ç•¶ lim è¨­ç‚º 1 æ™‚ï¹party æ­¤ npc æœƒåŸ·è¡Œæ­¤å‡½æ•¸
+                     å¯ä»¥æŠŠé™åˆ¶ party çš„æ¢ä»¶å¯«åœ¨é€™
 (2) test_kill_limit()
-                     ·í no_kill ³]¬° 1 ®É¡M¨Ï¥Î gokill ·|°õ¦æ¦¹¨ç¼Æ
-                     ¥i¥H§â npc ¤£±ş¬Y¨Ç¤Hªº±ø¥ó¼g¦b³o
+                     ç•¶ no_kill è¨­ç‚º 1 æ™‚ï¹ä½¿ç”¨ gokill æœƒåŸ·è¡Œæ­¤å‡½æ•¸
+                     å¯ä»¥æŠŠ npc ä¸æ®ºæŸäº›äººçš„æ¢ä»¶å¯«åœ¨é€™
              
  
  

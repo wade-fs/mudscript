@@ -1,30 +1,30 @@
 
 ERASE_LINE(2)              silmul_efun             ERASE_LINE(2)
 
-¦WºÙ
-     erase_line - §R°£¨Ï¥ÎªÌ¿Ã¹õ¤Wªº¤@¦æ¦r¦ê
+åç¨±
+     erase_line - åˆªé™¤ä½¿ç”¨è€…è¢å¹•ä¸Šçš„ä¸€è¡Œå­—ä¸²
 
-»yªk
+èªæ³•
      string erase_line ();
 
-´y­z
+æè¿°
      If  this_player()  has  the  "vt100"  attribute  set,   this
      simul_efun   will  return  the  VT100  "line  erase"  escape
      sequence, so that the string will erase the current line  on
      a VT100-compatible terminal.  If "vt100" is not set, returns
      a null string.
 
-     ª`·N:  Do NOT use ed to edit the file vt100.c, or the escape
+     æ³¨æ„:  Do NOT use ed to edit the file vt100.c, or the escape
      sequences  will be corrupted.  (ed strips out escape charac-
      ters).
 
-¬ÛÃö©R¥O
+ç›¸é—œå‘½ä»¤
      inverse, blink, bold, underscore, clear_screen,  clear_line,
      up_line
 
-§@ªÌ
+ä½œè€…
      Ichabod@TMI, 3/19/93
-     wade@future 4/7/1996 Â½Ä¶
+     wade@future 4/7/1996 ç¿»è­¯
 
 MudOS Release 0.9         Last change:                   3-19-93
 

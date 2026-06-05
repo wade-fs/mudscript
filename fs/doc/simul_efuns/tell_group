@@ -1,13 +1,13 @@
 
 TELL_GROUP(2)              silmul_efun              TELL_GROUP(2)
 
-¦WºÙ
-     tell_group - °eµ¹«ü©wªº¤@°ïª±®a«ü©wªº°T®§
+åç¨±
+     tell_group - é€çµ¦æŒ‡å®šçš„ä¸€å †ç©å®¶æŒ‡å®šçš„è¨Šæ¯
 
-»yªk
+èªæ³•
      int tell_group (mixed file, string msg);
 
-´y­z
+æè¿°
      From the comments in the file:
 
      tell_group - tell a group of people specified in  a  file  a
@@ -22,12 +22,12 @@ TELL_GROUP(2)              silmul_efun              TELL_GROUP(2)
      in the same room.  Useful for implementing e.g. guild "chat"
      channels, etc.
 
-¨ä¥¦°Ñ¦ÒÀÉ®×
+å…¶å®ƒåƒè€ƒæª”æ¡ˆ
      /adm/simul_efun/tell_group.c, /adm/simul_efun/tell_object.c
 
-§@ªÌ
+ä½œè€…
      Ichabod@TMI, 3/12/93
-     wade@future 4/8/1996 Â½Ä¶
+     wade@future 4/8/1996 ç¿»è­¯
 
 MudOS Release 0.9         Last change:                   3-19-93
 

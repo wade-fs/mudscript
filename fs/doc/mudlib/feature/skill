@@ -1,39 +1,39 @@
-¡¼ SKILL 
+â–¡ SKILL 
 
 mapping query_skills()
-¶Ç¦^ª«¥óªº©Ò¦³§Ş¯à.
+å‚³å›ç‰©ä»¶çš„æ‰€æœ‰æŠ€èƒ½.
 
 mapping query_learned()
-¶Ç¦^©Ò¦³§Ş¯àªº¾Ç²ßÂI¼Æ.
+å‚³å›æ‰€æœ‰æŠ€èƒ½çš„å­¸ç¿’é»æ•¸.
 
 void set_skill(string skill, int val)
-³]©w§Ş¯à. ¶Ç¤J§Ş¯à¦WºÙ¤Îµ¥¯Å, ­Y§Ş¯àªº mapping ¤£¦s¦b«h·s«Ø¥ß¤@­Ó, 
-§_«hª½±µ³]¤J§Ş¯à¦WºÙ¤Îµ¥¯Å.
+è¨­å®šæŠ€èƒ½. å‚³å…¥æŠ€èƒ½åç¨±åŠç­‰ç´š, è‹¥æŠ€èƒ½çš„ mapping ä¸å­˜åœ¨å‰‡æ–°å»ºç«‹ä¸€å€‹, 
+å¦å‰‡ç›´æ¥è¨­å…¥æŠ€èƒ½åç¨±åŠç­‰ç´š.
 
 int delete_skill(string skill)
-§R°£¬Y¶µ§Ş¯à. ³s±aªº¤]·|§R°£¸Ó¶µ§Ş¯àªº¾Ç²ßÂI¼Æ.
+åˆªé™¤æŸé …æŠ€èƒ½. é€£å¸¶çš„ä¹Ÿæœƒåˆªé™¤è©²é …æŠ€èƒ½çš„å­¸ç¿’é»æ•¸.
 
 varargs void map_skill(string skill, string mapped_to)
-§â¬Y¶µ§Ş¯à­P¯à, ­Y²Ä¤G­Ó°Ñ¼Æ¨S¦³¶Ç¤J, «h¨ú®ø¸Ó¶µ­P¯à.
+æŠŠæŸé …æŠ€èƒ½è‡´èƒ½, è‹¥ç¬¬äºŒå€‹åƒæ•¸æ²’æœ‰å‚³å…¥, å‰‡å–æ¶ˆè©²é …è‡´èƒ½.
 
 string query_skill_mapped(string skill)
-¶Ç¦^¬Y¶µ§Ş¯àºØÃş©Ò­P¯àªº§Ş¯à¦WºÙ.
+å‚³å›æŸé …æŠ€èƒ½ç¨®é¡æ‰€è‡´èƒ½çš„æŠ€èƒ½åç¨±.
 
 Returns the name of the skill that is enabled as as skill type
 passed as parameter.
 
 varargs int query_skill(string skill, int raw)
-¶Ç¦^§Ş¯àªºµ¥¯Å.
+å‚³å›æŠ€èƒ½çš„ç­‰ç´š.
 
 mapping query_skill_map()
-¶Ç¦^§Ş¯à­P¯àªº¦Cªí.
+å‚³å›æŠ€èƒ½è‡´èƒ½çš„åˆ—è¡¨.
 
  
 int skill_death_penalty()
-¤Hª«¦º«á·|©I¥s³o­Ó¨ç¼Æ¥H­pºâ¦º¤`®É©Ò³y¦¨ªº§Ş¯à·l¥¢.
+äººç‰©æ­»å¾Œæœƒå‘¼å«é€™å€‹å‡½æ•¸ä»¥è¨ˆç®—æ­»äº¡æ™‚æ‰€é€ æˆçš„æŠ€èƒ½æå¤±.
 
 varargs void improve_skill(string skill, int amount, int weak_mode)
-¼W®a¶Ç¤J§Ş¯àªº¾Ç²ßÂI¼Æ, ¨Ã§P©w¬O§_¦³¶i¨B¥H¼W¥[µ¥¯Å.
+å¢å®¶å‚³å…¥æŠ€èƒ½çš„å­¸ç¿’é»æ•¸, ä¸¦åˆ¤å®šæ˜¯å¦æœ‰é€²æ­¥ä»¥å¢åŠ ç­‰ç´š.
 
 Elon@ES2
 drafted: 07-08-95

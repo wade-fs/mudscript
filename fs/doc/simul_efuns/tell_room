@@ -1,21 +1,21 @@
 
 TELL_ROOM(2)               silmul_efun               TELL_ROOM(2)
 
-¦WºÙ
-     tell_room - ¹ï«ü©wªº©Ğ¶¡ªº©Ò¦³ª«¥ó»¡¤@¬q¸Ü
+åç¨±
+     tell_room - å°æŒ‡å®šçš„æˆ¿é–“çš„æ‰€æœ‰ç‰©ä»¶èªªä¸€æ®µè©±
 
-»yªk
+èªæ³•
      varargs  void  tell_room(mixed  room,  string   msg,   mixed
      exclude);
 
-´y­z
+æè¿°
      Passes a message to all the objects  in  a  room.   Specifi-
      cally,  this  simul_efun  simply  calls message("tell_room",
      msg, room, exclude); and does nothing else.
 
-§@ªÌ
+ä½œè€…
      Ichabod@TMI, 3/17/93
-     wade@future 4/8/1996 Â½Ä¶
+     wade@future 4/8/1996 ç¿»è­¯
 
 MudOS Release 0.9         Last change:                   3-19-93
 

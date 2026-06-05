@@ -1,20 +1,20 @@
 
 MEMBER_GROUP(2)            silmul_efun           MEMBER_GROUP(2)
 
-¦WºÙ
-     member_group - ¬d¸ß¤@­Óª±®a¬O§_Äİ©ó«ü©wªº¸s²Õ(groups)
+åç¨±
+     member_group - æŸ¥è©¢ä¸€å€‹ç©å®¶æ˜¯å¦å±¬æ–¼æŒ‡å®šçš„ç¾¤çµ„(groups)
 
-»yªk
+èªæ³•
      int member_group(string user, string group);
 
-´y­z
+æè¿°
      Tests whether a player is a member of a  given  group  (e.g.
      the   admin   group,  etc.).   Calls  query_member_group  in
      master.c
 
-§@ªÌ
+ä½œè€…
      Ichabod@TMI, 2/24/93
-     wade@future 4/8/1996 Â½Ä¶
+     wade@future 4/8/1996 ç¿»è­¯
 
 MudOS Release 0.9         Last change:                   3-19-93
 

@@ -1,22 +1,22 @@
 
 DATA_DIR(2)                silmul_efun               DATA_DIR(2)
 
-¦WºÙ
-     data_dir - ¶Ç¦^°Ñ¼Æª«¥ó³QÀx¦sªº¸ô®|¦W, ³q±`¦s¦b DATA_DIR
+åç¨±
+     data_dir - å‚³å›åƒæ•¸ç‰©ä»¶è¢«å„²å­˜çš„è·¯å¾‘å, é€šå¸¸å­˜åœ¨ DATA_DIR
 
-»yªk
+èªæ³•
      string data_dir(object obj);
 
-´y­z
+æè¿°
      Returns a string consisting of the path  DATA_DIR  plus  the
      base name of the object.
 
-¬ÛÃö©R¥O
+ç›¸é—œå‘½ä»¤
      data_file, base_name, /adm/simul_efun/data.c
 
-§@ªÌ
+ä½œè€…
      Ichabod@TMI, 1/27/93
-     wade@future 4/7/1996 Â½Ä¶
+     wade@future 4/7/1996 ç¿»è­¯
 
 MudOS Release 0.9         Last change:                   3-19-93
 
