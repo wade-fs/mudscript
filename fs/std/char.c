@@ -138,7 +138,6 @@ void check_robot()
 */
 void heart_beat()
 {
-        if(time() % 10 == 0) log_file("memory.log", sprintf("DEBUG: heart_beat called for %O, time: %d\n", this_object(), time()));
         int     wimpy_ratio;
         mapping my;
         object  me, ob,user, *obs;

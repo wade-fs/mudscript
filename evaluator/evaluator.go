@@ -2,7 +2,6 @@ package evaluator
 
 import (
 	"fmt"
-	"log"
 	"regexp"
 	"strconv"
 	"strings"
@@ -516,6 +515,11 @@ func evalMinusPrefixOperatorExpression(right object.Object) object.Object {
 }
 
 func evalInfixExpression(operator string, left, right object.Object) object.Object {
+	// 🚀 關鍵相容：逗號運算子 (Comma Operator)
+	if operator == "," {
+		return right
+	}
+
 	if left == nil || left.TokenType() == object.NilType {
 		left = &object.Integer{Value: 0}
 	}
@@ -539,8 +543,6 @@ func evalInfixExpression(operator string, left, right object.Object) object.Obje
 		return evalArrayInfixExpression(operator, left, right)
 	case left.TokenType() == object.MAPPING_OBJ && right.TokenType() == object.MAPPING_OBJ:
 		return evalMappingInfixExpression(operator, left, right)
-	case operator == ",":
-		return right
 	case operator == "==":
 		return nativeBoolToBooleanObject(evalEquality(left, right))
 	case operator == "!=":
@@ -585,7 +587,6 @@ func evalInfixExpression(operator string, left, right object.Object) object.Obje
 }
 
 func evalEquality(left, right object.Object) bool {
-	log.Printf("⚖️  [Compare] %s == %s", left.Inspect(), right.Inspect())
 	if left == right {
 		return true
 	}
@@ -1385,7 +1386,17 @@ func evalAssignExpression(node *ast.AssignExpression, env object.Environment) ob
 		currentVal = &object.Integer{Value: 0}
 	}
 
+	// 🚀 核心修正：將複合運算子轉為標準中綴運算
+	// 例如 &= 轉為 &
 	op := node.Operator[:len(node.Operator)-1]
+	
+	// 特殊處理位元位移 (<<=, >>= 是 3 個字元)
+	if node.Operator == "<<=" {
+		op = "<<"
+	} else if node.Operator == ">>=" {
+		op = ">>"
+	}
+
 	newVal := evalInfixExpression(op, currentVal, val)
 	if isError(newVal) { return newVal }
 

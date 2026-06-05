@@ -27,7 +27,6 @@ void set_skill(string skill, int val)
   
   // DEBUG LOG
   if (!find_object(SKILL_D(skill))) {
-      log_file("debug.log", sprintf("DEBUG: SKILL_D(%s) is %s, file_size is %d\n", skill, SKILL_D(skill), file_size(SKILL_D(skill)+".c")));
   }
 
   if( !find_object(SKILL_D(skill))

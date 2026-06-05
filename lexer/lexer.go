@@ -96,6 +96,10 @@ func (l *lexer) NextToken() token.Token {
 			ch := l.ch
 			l.readChar()
 			tok = token.Token{TokenType: token.AND, Literal: string(ch) + string(l.ch), Line: currentLine}
+		} else if l.peekChar() == '=' {
+			ch := l.ch
+			l.readChar()
+			tok = token.Token{TokenType: token.AND_EQUALS, Literal: string(ch) + string(l.ch), Line: currentLine}
 		} else {
 			tok = l.newToken(token.BIT_AND, l.ch) 
 		}
@@ -104,11 +108,21 @@ func (l *lexer) NextToken() token.Token {
 			ch := l.ch
 			l.readChar()
 			tok = token.Token{TokenType: token.OR, Literal: string(ch) + string(l.ch), Line: currentLine}
+		} else if l.peekChar() == '=' {
+			ch := l.ch
+			l.readChar()
+			tok = token.Token{TokenType: token.OR_EQUALS, Literal: string(ch) + string(l.ch), Line: currentLine}
 		} else {
 			tok = l.newToken(token.BIT_OR, l.ch) 
 		}
 	case '^':
-		tok = l.newToken(token.BIT_XOR, l.ch)
+		if l.peekChar() == '=' {
+			ch := l.ch
+			l.readChar()
+			tok = token.Token{TokenType: token.XOR_EQUALS, Literal: string(ch) + string(l.ch), Line: currentLine}
+		} else {
+			tok = l.newToken(token.BIT_XOR, l.ch)
+		}
 	case '~':
 		tok = l.newToken(token.BIT_NOT, l.ch)
 	case '=':
@@ -193,7 +207,13 @@ func (l *lexer) NextToken() token.Token {
 		} else if l.peekChar() == '<' {
 			ch := l.ch
 			l.readChar()
-			tok = token.Token{TokenType: token.LSHIFT, Literal: string(ch) + string(l.ch), Line: currentLine}
+			if l.peekChar() == '=' {
+				ch2 := l.ch
+				l.readChar()
+				tok = token.Token{TokenType: token.LSHIFT_EQUALS, Literal: string(ch) + string(ch2) + string(l.ch), Line: currentLine}
+			} else {
+				tok = token.Token{TokenType: token.LSHIFT, Literal: string(ch) + string(l.ch), Line: currentLine}
+			}
 		} else {
 			tok = l.newToken(token.LT, l.ch)
 		}
@@ -205,7 +225,13 @@ func (l *lexer) NextToken() token.Token {
 		} else if l.peekChar() == '>' {
 			ch := l.ch
 			l.readChar()
-			tok = token.Token{TokenType: token.RSHIFT, Literal: string(ch) + string(l.ch), Line: currentLine}
+			if l.peekChar() == '=' {
+				ch2 := l.ch
+				l.readChar()
+				tok = token.Token{TokenType: token.RSHIFT_EQUALS, Literal: string(ch) + string(ch2) + string(l.ch), Line: currentLine}
+			} else {
+				tok = token.Token{TokenType: token.RSHIFT, Literal: string(ch) + string(l.ch), Line: currentLine}
+			}
 		} else {
 			tok = l.newToken(token.GT, l.ch)
 		}

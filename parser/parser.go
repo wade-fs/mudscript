@@ -63,6 +63,11 @@ var precedences = map[token.TokenType]int{
 	token.ASTERISK_EQUALS: ASSIGN,
 	token.SLASH_EQUALS:    ASSIGN,
 	token.MOD_EQUALS:      ASSIGN,
+	token.AND_EQUALS:      ASSIGN,
+	token.OR_EQUALS:       ASSIGN,
+	token.XOR_EQUALS:      ASSIGN,
+	token.LSHIFT_EQUALS:   ASSIGN,
+	token.RSHIFT_EQUALS:   ASSIGN,
 	token.QUESTION:        TERNARY,
 	token.COLON:           LOWEST, // 🚀 新增：冒號優先權最低
 	token.INC:             POSTFIX,
@@ -151,6 +156,11 @@ func New(l lexer.Lexer) *Parser {
 		token.ASTERISK_EQUALS: p.parseAssignExpression,
 		token.SLASH_EQUALS:    p.parseAssignExpression,
 		token.MOD_EQUALS:      p.parseAssignExpression,
+		token.AND_EQUALS:      p.parseAssignExpression,
+		token.OR_EQUALS:       p.parseAssignExpression,
+		token.XOR_EQUALS:      p.parseAssignExpression,
+		token.LSHIFT_EQUALS:   p.parseAssignExpression,
+		token.RSHIFT_EQUALS:   p.parseAssignExpression,
 		token.QUESTION:        p.parseTernaryExpression,
 		token.INC:             p.parsePostfixExpression,
 		token.DEC:             p.parsePostfixExpression,
@@ -541,29 +551,27 @@ func (p *Parser) parseCallExpression(function ast.Expression) ast.Expression {
 }
 
 func (p *Parser) parseStringLiteral() ast.Expression {
-	res := &ast.StringLiteral{
-		Token: p.curToken,
-		Value: p.curToken.Literal,
-	}
+	lit := &ast.StringLiteral{Token: p.curToken, Value: p.curToken.Literal}
 
 	// 🚀 關鍵相容：支援相鄰字串自動串接 (ANSI C 風格)
 	// 在 C/LPC 中，"a" "b" 會自動合併為 "ab"
 	for p.peekTokenIs(token.STRING) || p.peekTokenIs(token.CHAR) {
 		p.nextToken()
-		res.Value += p.curToken.Literal
+		lit.Value += p.curToken.Literal
 	}
 
-	return res
+	return lit
 }
 
 func (p *Parser) parseCharLiteral() ast.Expression {
-	lit := &ast.IntegerLiteral{Token: p.curToken}
-	if len(p.curToken.Literal) > 0 {
-		lit.Value = int64(p.curToken.Literal[0])
-	}
 	// 如果後面緊接著字串或字元，則轉向字串解析 (相鄰串接)
 	if p.peekTokenIs(token.STRING) || p.peekTokenIs(token.CHAR) {
 		return p.parseStringLiteral()
+	}
+
+	lit := &ast.IntegerLiteral{Token: p.curToken}
+	if len(p.curToken.Literal) > 0 {
+		lit.Value = int64(p.curToken.Literal[0])
 	}
 	return lit
 }
@@ -643,7 +651,7 @@ func (p *Parser) parseStatement(topLevel bool) ast.Statement {
 	// 語法: [modifiers] name(args) { ... }
 	// 注意：這只應該發生在 top-level
 	if topLevel && p.curTokenIs(token.IDENT) && p.peekTokenIs(token.LPAREN) {
-	        fmt.Printf("DEBUG: Found function definition candidate: %s\n", p.curToken.Literal)
+	        // fmt.Printf("DEBUG: Found function definition candidate: %s\n", p.curToken.Literal)
 	        typeToken := token.Token{TokenType: token.MIXED_TYPE, Literal: "mixed", Line: p.curToken.Line}
 
 	        name := &ast.Ident{Token: p.curToken, Value: p.curToken.Literal}
@@ -695,9 +703,10 @@ func (p *Parser) parseTypedDeclarationStatement(isVarargs bool) ast.Statement {
 	name := &ast.Ident{Token: p.curToken, Value: p.curToken.Literal}
 
 	if p.peekTokenIs(token.LPAREN) {
-	        fmt.Printf("DEBUG: parseTypedDeclarationStatement calling parseFunctionDefinition for %s\n", name.Value)
+	        // fmt.Printf("DEBUG: parseTypedDeclarationStatement calling parseFunctionDefinition for %s\n", name.Value)
 	        return p.parseFunctionDefinition(typeToken, isArray, name, isVarargs)
 	}
+
 	return p.parseTypedVariableDeclaration(typeToken, isArray, name)
 }
 

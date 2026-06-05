@@ -24,17 +24,14 @@ void rehash(string dir)
         if( dir[sizeof(dir)-1]!='/' ) dir += "/";
 
         cmds = get_dir(dir);
-        write(sprintf("DEBUG: COMMAND_D: rehash(%s) found %d files\n", dir, sizeof(cmds)));
         i = sizeof(cmds);
         while(i--)
                 if( !sscanf(cmds[i], "%s.c", cmds[i]) ) {
                         if( i==0 ) cmds = cmds[1..<1];
                         else cmds = cmds[0..i-1] + cmds[i+1..<1];
                 }
-        write(sprintf("DEBUG: COMMAND_D: rehash(%s) after sscanf has %d files\n", dir, sizeof(cmds)));
         if( sizeof(cmds) ) {
                 search[dir] = cmds;
-                write(sprintf("DEBUG: COMMAND_D: saved to search[%s]\n", dir));
         }
 }
 

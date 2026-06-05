@@ -132,7 +132,6 @@ int query_time()
 // logon --> logonn
 void logon (object ob)
 {
-  write("DEBUG: logind.c logon() called!\n");
   object *usr;
   string str;
   int i, t, wiz_cnt, ppl_cnt, login_cnt, *save_keys,time;

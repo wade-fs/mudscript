@@ -116,6 +116,11 @@ const (
 	ASTERISK_EQUALS = "*="
 	SLASH_EQUALS    = "/="
 	MOD_EQUALS      = "%="
+	AND_EQUALS      = "&="
+	OR_EQUALS       = "|="
+	XOR_EQUALS      = "^="
+	LSHIFT_EQUALS   = "<<="
+	RSHIFT_EQUALS   = ">>="
 	INC             = "++"
 	DEC             = "--"
 

@@ -53,7 +53,6 @@ func (d *Driver) RunCommand(p *PlayerConnection, obj *object.LPCObject, funcName
 			d.playerContexts.Delete(gid)
 		}
 	}()
-	log.Printf("🎮 [Command] %s->%s(%v)", obj.Filename, funcName, args)
 	return d.CallFunction(obj, funcName, args)
 }
 
@@ -77,15 +76,15 @@ func (d *Driver) CallFunction(obj *object.LPCObject, funcName string, args []obj
 	}
 	fnObj, ok := obj.Vars.Get(funcName)
 	if !ok {
-	        fmt.Printf("DEBUG: %s not found in %s. Available: ", funcName, obj.Filename)
-	        for k, v := range obj.Vars.GetAll() {
-	            if _, isFn := v.(*object.Function); isFn {
-	                fmt.Printf("%s ", k)
-	            }
-	        }
-	        fmt.Printf("\n")
+		/*fmt.Printf("DEBUG: %s not found in %s. Available: ", funcName, obj.Filename)
+		for k, v := range obj.Vars.GetAll() {
+			if _, isFn := v.(*object.Function); isFn {
+				fmt.Printf("%s ", k)
+			}
+		}
+		fmt.Printf("\n")*/
 
-	        // 🚀 關鍵：如果當前物件找不到函式，且有設定 SimulEfun 物件，則去那裡找
+		// 🚀 關鍵：如果當前物件找不到函式，且有設定 SimulEfun 物件，則去那裡找
 
 		if d.SimulEfunObj != nil && obj != d.SimulEfunObj {
 			return d.CallFunction(d.SimulEfunObj, funcName, args)

@@ -45,7 +45,6 @@ func (d *Driver) loadObjectInternal(filename string) (*object.LPCObject, bool, e
 	}
 	d.mu.RUnlock()
 
-	log.Printf("🔍 [Loading] %s", filename)
 
 	// 使用混合模式讀取檔案內容
 	content, err := d.ReadFile(filename)
@@ -77,6 +76,17 @@ func (d *Driver) loadObjectInternal(filename string) (*object.LPCObject, bool, e
 	} else {
 		pp.GlobalInclude = d.Config.GlobalInclude
 	}
+
+	// 🚀 新增：定義標準內建巨集
+	pp.Macros["__FILE__"] = preprocessor.Macro{Name: "__FILE__", Body: "\"" + filename + "\""}
+	dir := filename
+	if idx := strings.LastIndex(filename, "/"); idx != -1 {
+		dir = filename[:idx+1]
+	} else {
+		dir = "/"
+	}
+	pp.Macros["__DIR__"] = preprocessor.Macro{Name: "__DIR__", Body: "\"" + dir + "\""}
+
 	pp.StripModifiers = d.Config.StripModifiers
 	if d.Config.EmbeddedFS != nil {
 		pp.SetEmbeddedFS(d.Config.EmbeddedFS)
@@ -163,8 +173,8 @@ func (d *Driver) loadObjectInternal(filename string) (*object.LPCObject, bool, e
 		} else if funcDef, ok := stmt.(*ast.FunctionDef); ok {
 			// 提前註冊函式 (Hoisting)
 			res := evaluator.Eval(funcDef, env)
-			if fn, ok := res.(*object.Function); ok {
-				fmt.Printf("DEBUG: Hoisting function %s in %s, origin %s\n", funcDef.Name.Value, filename, fn.OriginFile)
+			if _, ok := res.(*object.Function); ok {
+				// fmt.Printf("DEBUG: Hoisting function %s in %s, origin %s\n", funcDef.Name.Value, filename, fn.OriginFile)
 			}
 		} else if varDecl, ok := stmt.(*ast.TypedVarDecl); ok {
 			// 提前註冊變數名稱，初始值設為 Nil (Hoisting)
