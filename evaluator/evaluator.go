@@ -1024,7 +1024,10 @@ func evalIdent(node *ast.Ident, env object.Environment) object.Object {
 		return builtin
 	}
 
-	return newError("identifier not found: %s", name)
+	// 隱式宣告：若找不到則自動宣告為 0
+	zero := &object.Integer{Value: 0}
+	env.Set(name, zero)
+	return zero
 }
 
 func evalExpressions(exprs []ast.Expression, env object.Environment) []object.Object {

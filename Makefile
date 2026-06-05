@@ -67,12 +67,12 @@ fs fs.exe: $(OUT)
 # 執行測試 (測試模式下不連接 P2P 以免干擾)
 test-fsmud: fsmud
 	@echo "🧪 Running MudScript Core Tests on fsmud/ mudlib..."
-	@MUD_TEST_MODE=1 $(OUT)/fsmud --hub none 2>&1 | tee /tmp/test.txt
+	@MUD_TEST_MODE=1 $(OUT)/fsmud --hub none 2>&1 | tee test-fsmud.txt
 
 # 正常執行伺服器 (預設連接全球星際中心)
 run-fsmud: fsmud
 	@echo "🚀 Starting MudScript Server (Connecting to Global Hub)..."
-	@ $(OUT)/fsmud 2>&1 | tee /tmp/run-fsmud.txt
+	@ $(OUT)/fsmud 2>&1 | tee run-fsmud.txt
 
 # 正常執行 Legacy FS 伺服器
 run-fs: fs

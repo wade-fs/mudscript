@@ -615,7 +615,8 @@ func (p *Parser) isTypeToken(t token.TokenType) bool {
 	switch t {
 	case token.INT_TYPE, token.STRING_TYPE, token.OBJECT_TYPE, 
 	     token.MAPPING_TYPE, token.FLOAT_TYPE, token.MIXED_TYPE, 
-		 token.VOID_TYPE, token.CLOSURE_TYPE, token.BUFFER_TYPE:
+		 token.VOID_TYPE, token.CLOSURE_TYPE, token.BUFFER_TYPE,
+		 token.FUNCTION_TYPE:
 		return true
 	default:
 		return false

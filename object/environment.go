@@ -67,9 +67,14 @@ func (e *environment) Assign(name string, val Object) bool {
 	e.mu.Unlock()
 
 	if e.outer != nil {
-		return e.outer.Assign(name, val)
+		if e.outer.Assign(name, val) {
+			return true
+		}
 	}
-	return false
+	
+	// 如果都沒找到，自動進行隱式宣告
+	e.Set(name, val)
+	return true
 }
 
 func (e *environment) GetAll() map[string]Object {
