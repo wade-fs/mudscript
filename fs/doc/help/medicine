@@ -1,31 +1,31 @@
 
-¡¼ ¦bª««~¸Ì inherit F_MEDICINE ¨ÓÄ~©ÓÃÄª«ªº¯S©Ê¡C
+â–¡ åœ¨ç‰©å“è£¡ inherit F_MEDICINE ä¾†ç¹¼æ‰¿è—¥ç‰©çš„ç‰¹æ€§ã€‚
 
-¡¼ ÃÄª«ªºÄ~©ÓÀÉ©ñ¦b /feature/medicine.c 
-   ­YÄ±±o¥»¤å¥ó¼gªº¤£°÷¸Ô²Ó, ¥iª½±µ¥h¨º¨à¬İ­ì©l³]©w¡C
+â–¡ è—¥ç‰©çš„ç¹¼æ‰¿æª”æ”¾åœ¨ /feature/medicine.c 
+   è‹¥è¦ºå¾—æœ¬æ–‡ä»¶å¯«çš„ä¸å¤ è©³ç´°, å¯ç›´æ¥å»é‚£å…’çœ‹åŸå§‹è¨­å®šã€‚
 
-¡¼ cure_type		ÃÄª«ªººØÃş¡C¥Ø«e¦³¥|ºØ heal¡Bpoison¡Bsick¡Boutheal¡C
+â–¡ cure_type		è—¥ç‰©çš„ç¨®é¡ã€‚ç›®å‰æœ‰å››ç¨® healã€poisonã€sickã€outhealã€‚
 
-¡¼ medicine_power	ÃÄª«ªºÀø®Ä¡C
+â–¡ medicine_power	è—¥ç‰©çš„ç™‚æ•ˆã€‚
 
-¡¼ cure_xxxx_type	ªvÀøªººØÃş¡C­Y¬O heal Ãş«h¥i³]¬° gin¡Bkee¡Bsen,
-			­Y¬° poison Ãş«h¬°¬rªººØÃş¡C
-			"xxxx" ¬°¤W­z cure_type ©Ò³]©wªºªFªF¡C
+â–¡ cure_xxxx_type	æ²»ç™‚çš„ç¨®é¡ã€‚è‹¥æ˜¯ heal é¡å‰‡å¯è¨­ç‚º ginã€keeã€sen,
+			è‹¥ç‚º poison é¡å‰‡ç‚ºæ¯’çš„ç¨®é¡ã€‚
+			"xxxx" ç‚ºä¸Šè¿° cure_type æ‰€è¨­å®šçš„æ±æ±ã€‚
 
-¡¼ medicine_times	ÃÄ®Äªº¦¸¼Æ¡C­Y¬° outheal Ãş, «h»İ¦h³]©w³o¤@¶µ¡C
+â–¡ medicine_times	è—¥æ•ˆçš„æ¬¡æ•¸ã€‚è‹¥ç‚º outheal é¡, å‰‡éœ€å¤šè¨­å®šé€™ä¸€é …ã€‚
 
-¡¼ medicine_sick	ÃÄ©Ê¡C·|¼vÅT¸É¦åªº¤ñ²v, ­Y¬°¸É¦åªºÃÄ¤Y«h»İ³]©w,
-			¥i¥Î cure_type ¬° sick ªºÃÄª«¨Ó´î»´ÃÄ©Ê,
-			¹w©w¯dµ¹Âå¥Í¨Ó°µ¥i´î»´ÃÄ©ÊªºªFªF¡C
+â–¡ medicine_sick	è—¥æ€§ã€‚æœƒå½±éŸ¿è£œè¡€çš„æ¯”ç‡, è‹¥ç‚ºè£œè¡€çš„è—¥ä¸¸å‰‡éœ€è¨­å®š,
+			å¯ç”¨ cure_type ç‚º sick çš„è—¥ç‰©ä¾†æ¸›è¼•è—¥æ€§,
+			é å®šç•™çµ¦é†«ç”Ÿä¾†åšå¯æ¸›è¼•è—¥æ€§çš„æ±æ±ã€‚
 
-¡¼ Ãö©ó¤W­z³]©wªº¼Æ¦r, ¥i¦Ü /example/medicine ¤U°Ñ¦Ò, ¸ÌÀY¬O¦U¶µÃÄª«ªº¼Ò½dÀÉ¡C
+â–¡ é—œæ–¼ä¸Šè¿°è¨­å®šçš„æ•¸å­—, å¯è‡³ /example/medicine ä¸‹åƒè€ƒ, è£¡é ­æ˜¯å„é …è—¥ç‰©çš„æ¨¡ç¯„æª”ã€‚
 
-¡¼ ¦¹¦¸ÃÄª«¨t²Î°Ê¨ìªº¦a¤è:	/std/char.c
+â–¡ æ­¤æ¬¡è—¥ç‰©ç³»çµ±å‹•åˆ°çš„åœ°æ–¹:	/std/char.c
 				/feature/medicine.c
 				/cmds/usr/score.c
 				/cmds/usr/hp.c
 				/obj/bandage.c
 
-¡¼ Onion ( 96/05/24 )
+â–¡ Onion ( 96/05/24 )
 
 

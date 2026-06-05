@@ -1,23 +1,23 @@
- ¡¼  ¤»Ãü©_²¤
+ â–¡  å…­éŸœå¥‡ç•¥
 
-      ¦WºÙ            «ü¥O             ³Æµù
+      åç¨±            æŒ‡ä»¤             å‚™è¨»
    =========    ============    ==============
-    ®¶­x­p       bell-soldier
+    æŒ¯è»è¨ˆ       bell-soldier
 
-    ¤õÀs­p       firedragon       ¥i¥Hset ¤j¤õ­p
+    ç«é¾è¨ˆ       firedragon       å¯ä»¥set å¤§ç«è¨ˆ
 
-    ¯ó²î­É½b     getweapon
+    è‰èˆ¹å€Ÿç®­     getweapon
 
-    ­I¤ô¤§­p     no-fear
+    èƒŒæ°´ä¹‹è¨ˆ     no-fear
 
-    µ¦§K­p       no-plan
+    ç­–å…è¨ˆ       no-plan
 
-    ±IÀR­p       quiet
+    å¯‚éœè¨ˆ       quiet
 
-    ¹B¤Ñ¦æ¹D     usesky
+    é‹å¤©è¡Œé“     usesky
 
-    «l¤ô­p       water
+    å‹æ°´è¨ˆ       water
 
- ¨Ï¥Î¤è¦¡¡Gperform sixgod-plan.«ü¥O  (¨Ò¦p¡G®¶­x­p perform sixgod-plan.bell-soldier)
+ ä½¿ç”¨æ–¹å¼ï¼šperform sixgod-plan.æŒ‡ä»¤  (ä¾‹å¦‚ï¼šæŒ¯è»è¨ˆ perform sixgod-plan.bell-soldier)
 
  By Kalin (2003-06-17)

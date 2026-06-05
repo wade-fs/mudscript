@@ -1,24 +1,24 @@
-// ¼Ğ·Ç©R¥O.  wade ¾ã²z©ó 7/6/1996    airke¾ã²z©ó 1998  blazakira ¸É¥R©ó2011/3/30
-  [1;37m¥Õ¦â¥Nªí·s¼W«ü¥O  [1;32mºñ¦â¥Nªí¦³§@¸û¤j§ó§ï«ü¥O[0m
+// æ¨™æº–å‘½ä»¤.  wade æ•´ç†æ–¼ 7/6/1996    airkeæ•´ç†æ–¼ 1998  blazakira è£œå……æ–¼2011/3/30
+  [1;37mç™½è‰²ä»£è¡¨æ–°å¢æŒ‡ä»¤  [1;32mç¶ è‰²ä»£è¡¨æœ‰ä½œè¼ƒå¤§æ›´æ”¹æŒ‡ä»¤[0m
 ================================================================================
-[1;36m[·¾³q¥Î«ü¥O][0m    ­«­n³á, ¦Ü¤Ö­n·|¸ò§O¤H·¾³q.
+[1;36m[æºé€šç”¨æŒ‡ä»¤][0m    é‡è¦å–”, è‡³å°‘è¦æœƒè·Ÿåˆ¥äººæºé€š.
   ask  reply  say  semote  song  tell  tune  followup  post  away  to
 
-[1;36m[±´ÀI¥Î«ü¥O][0m    °£¤F·¾³q¤§¥~, ³Ì³Ì°ò¥»ªº©R¥O
+[1;36m[æ¢éšªç”¨æŒ‡ä»¤][0m    é™¤äº†æºé€šä¹‹å¤–, æœ€æœ€åŸºæœ¬çš„å‘½ä»¤
   brief  buy  close  [1;37mconsider[0m  drink  drop  eat fill follow  get  give  go  light
   lock  look  open  put  [1;37mrecall[0m search  [1;37msac[0m  team  unlight  unlock
 
-[1;36m[¬d¸ß¥Î«ü¥O][0m    ¾Ç·|¬d¸ß¸ò¦Û¤v¬ÛÃöªº­«­n¸ê®Æ¬O¥Í¦s³Ì¤jªº§Q¾¹
+[1;36m[æŸ¥è©¢ç”¨æŒ‡ä»¤][0m    å­¸æœƒæŸ¥è©¢è·Ÿè‡ªå·±ç›¸é—œçš„é‡è¦è³‡æ–™æ˜¯ç”Ÿå­˜æœ€å¤§çš„åˆ©å™¨
   [1;37mcheck_limit[0m  date  finger  functions  guild  help  hp  ident  inventory
   query  quests  score  skills  spells  time  uptime  who  wizlist
 
-[1;36m[¾Ô°«»P§Ş¯à][0m    ¾Ô°«¸ò§Ş¯à, ¬Oª±ªd¤Úªº­«­n¯S¦â
+[1;36m[æˆ°é¬¥èˆ‡æŠ€èƒ½][0m    æˆ°é¬¥è·ŸæŠ€èƒ½, æ˜¯ç©æ³¥å·´çš„é‡è¦ç‰¹è‰²
   abandon  [1;37mabfun  abspells[0m  apprentice  cast  cmd  conjure  consult  defend  enable
   enchant enforce  exercise  exert  expell  fight  [1;37mcharge[0m kill  learn  meditate
   perform  pkla  precruit  remove  respirate   [1;32msurrender[0m  unwield  scribe  study
   wear  wield  wimpy  wimpydir
 
-[1;36m[­Ó¤H¥Î©R¥O][0m    ¦hª¾¹D¤@¨Ç, Á`¬O¦³§Q©ó¥Í¦sªº
+[1;36m[å€‹äººç”¨å‘½ä»¤][0m    å¤šçŸ¥é“ä¸€äº›, ç¸½æ˜¯æœ‰åˆ©æ–¼ç”Ÿå­˜çš„
   alias  auc  bet  describe  do  ident  msg_filter  mypal  nick  passwd  quit  save
   secure  set  sig  suicide  to  unsecure  unset  sleep
-¬ÛÃö»¡©ú help ªù¬£Â²¤¶,help ¸ô®|,help ´À¨­,help rules,help area help guild,help story
+ç›¸é—œèªªæ˜ help é–€æ´¾ç°¡ä»‹,help è·¯å¾‘,help æ›¿èº«,help rules,help area help guild,help story

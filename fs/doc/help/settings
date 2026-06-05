@@ -1,40 +1,40 @@
-�� �����ܼ�
+□ 環境變數
 
-�@�@�i�H�� set ���O�]�w�@�Ǧ��Ϊ������ܼơM�o���ܼƤ]�|�H�ۧA���H��
-�Q�x�s�U�ӡM�p�G�����ݭn�������ܼơM�]�i�H�� unset �R���C�ԲӪ��ϥ�
-��k�Ь� help set �� help unset�C
+　　可以用 set 指令設定一些有用的環境變數﹐這些變數也會隨著你的人物
+被儲存下來﹐如果有不需要的環境變數﹐也可以用 unset 刪除。詳細的使用
+方法請看 help set 及 help unset。
 
-�H�U�O�ثe���Ϊ������ܼơR
+以下是目前有用的環境變數﹕
 
-wimpy <�ʤ���>      ���z����𯫧C��o�Ӧʤ���ɴN�|�۰ʧ�
-                    ���|�k�R�C�{�b�w�g���� wimpy �o���O.
+wimpy <百分比>      當您的精氣神低於這個百分比時就會自動找
+                    機會逃命。現在已經提供 wimpy 這指令.
 
-no_tell             �i�H���A�b�ɨ��g�Q�Ŷ���, ���Q���̥��Z
-                    �קK�@�ǳ·�
+no_tell             可以讓你在享受狂想空間時, 不被玩者打擾
+                    避免一些麻煩
 
-no_roar_player      �Z�̱M��, �קK roar �쪱�a
+no_roar_player      武者專用, 避免 roar 到玩家
 
-status              ��ܺ�𯫪��A²��
+status              顯示精氣神狀態簡表
 
-no_cloth            �W�u���e��A
+no_cloth            上線不送衣服
 
-sid                 mob �W�r²�g
+sid                 mob 名字簡寫
 
-no_eq               ���C�X��۪��Z���M����
+no_eq               不列出穿著的武器和防具
 
-mono                �������ɡA�������e����X
+mono                有分頁時，分頁內容單色輸出
 
-�Ǳ�/all/all        �����a�ǩҦ� skills
-�Ǳ�/all/SKILL      ���{�̾� SKILL �o�� skill
-�Ǳ�/WHO/all        �� WHO �ǩҦ� skills
-�Ǳ�/WHO/SKILL      �� WHO �� SKILL
-�Ǳ�/SKILL [����]   ���{�̾Ǹ� SKILL ���̤j��
+傳授/all/all        讓玩家學所有 skills
+傳授/all/SKILL      讓徒弟學 SKILL 這項 skill
+傳授/WHO/all        讓 WHO 學所有 skills
+傳授/WHO/SKILL      讓 WHO 學 SKILL
+傳授/SKILL [等級]   讓徒弟學該 SKILL 的最大值
 
-�Ův�i�H�]�w����
-immortal           ���|��
-invis              ����
-����               �i���Ův�樫�ɤ��Q���̵o�{
+巫師可以設定的有
+immortal           不會死
+invis              隱身
+隱身               可讓巫師行走時不被玩者發現
 
 By Annihilator (07/19/95)
-wade �ץ� (5/23/1996)
+wade 修正 (5/23/1996)
 Modified by babe

@@ -1,23 +1,23 @@
         
 
-    �Ȱw�����̤l�i�H�N���ͪ��ħ�(item)�s�@�� (check_item item)�U��
-���ĤY(pill)�A�o���ĤY�A�N�ھ��ħ������P�s�@�X�U�ؤ��P���ī~�A���M
-�Y�A����N�������ܡA�N�L�k�һs�X�ĤY���I�I�I
+    銀針門的弟子可以將野生的藥材(item)製作成 (check_item item)各種
+的藥丸(pill)，這些藥丸，將根據藥材的不同製作出各種不同的藥品，當然
+若你的醫術不夠的話，將無法煉製出藥丸的！！！
       
-�ثe�N�v�g�}���ħ����G�p�U�I�I�I�I
+目前將己經開放的藥材公佈如下！！！！
       
-�� ��          �һݳ̤���N(��enable��cure����)    ��  �~    �̦h�ƶq(�H160�Ӻ�) 
+藥 材          所需最少醫術(指enable後cure的值)    藥  品    最多數量(以160來算) 
 
-�Q�~����(taii item)            30                     �O�R��           53
-�ٺ��(gin item)                 40                     �ٺ�Y           40
-�E�`�u�Z(nine item)              56                   �E�`�k���Y         40
-�Ѥs����(force item)             56                     ������           40
-�F�ۥP��(super item)             56                    �F�ۥP��          40
-�F���B��(ice item)               80                     �B���S           32
-���F��(sky item)                160                     ���F��            2
-�a�F��(gnd item)                160                     �a�F��            2
-�H�F��(human item)              160                     �H�F��            2
+十年梗樹莖(taii item)            30                     保命丹           53
+還精草(gin item)                 40                     還精丸           40
+九節菖蒲(nine item)              56                   九節法神丸         40
+天山雪蓮(force item)             56                     雪蓮丹           40
+靈芝仙丹(super item)             56                    靈芝仙丹          40
+東海冰精(ice item)               80                     冰心露           32
+天靈草(sky item)                160                     天靈丹            2
+地靈草(gnd item)                160                     地靈丹            2
+人靈草(human item)              160                     人靈丹            2
 
-���A����N�V���ɩү�s�@���ĤY���ƶq�N�|����,�٦����F�ٺ�Y�~,�Ҧ����ī~�������ĩ�.....
+當你的醫術越高時所能製作的藥丸的數量將會提升,還有除了還精丸外,所有的藥品都有其藥性.....
 
                                                              design by chan

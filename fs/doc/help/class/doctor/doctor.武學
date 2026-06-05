@@ -1,21 +1,21 @@
 
-»È°wªùªºªZ¾ÇÂ²¤¶
+éŠ€é‡é–€çš„æ­¦å­¸ç°¡ä»‹
 
-»È°wªù¥D­nªZ¾Ç¬°¤C©_°w³Z (yu-needle)
+éŠ€é‡é–€ä¸»è¦æ­¦å­¸ç‚ºä¸ƒå¥‡é‡è¨£ (yu-needle)
 
-·í¤C©_°w³Z¾Ç²ß¨ì¤@©wµ{«×®É¯à°÷¨Ï¥Î¨âºØ©Û¦¡
+ç•¶ä¸ƒå¥‡é‡è¨£å­¸ç¿’åˆ°ä¸€å®šç¨‹åº¦æ™‚èƒ½å¤ ä½¿ç”¨å…©ç¨®æ‹›å¼
 
-1. ¯}¥Ş«ü(break-kee)          <«ü¥O> perform yu-needle.break-kee
+1. ç ´ç©´æŒ‡(break-kee)          <æŒ‡ä»¤> perform yu-needle.break-kee
 
-2. ª÷°w«Ê¥Ş(gold-needle)      <«ü¥O> perform yu-needle.gold-needle
+2. é‡‘é‡å°ç©´(gold-needle)      <æŒ‡ä»¤> perform yu-needle.gold-needle
 
 
-»È°wªù¥D­n¤º¥\¤ßªk¬°¯«¹A¯[¼ş¤ßªk (shinnoforce)
+éŠ€é‡é–€ä¸»è¦å…§åŠŸå¿ƒæ³•ç‚ºç¥è¾²ç‰ç’ƒå¿ƒæ³• (shinnoforce)
 
-·í¯«¹A¯[¼ş¤ßªk¨ì¤@©w¼ô½mµ{«×®É¦³¥H¤U©Û¦¡
+ç•¶ç¥è¾²ç‰ç’ƒå¿ƒæ³•åˆ°ä¸€å®šç†Ÿç·´ç¨‹åº¦æ™‚æœ‰ä»¥ä¸‹æ‹›å¼
 
-1. ªvÂ¡³N(heal)               <«ü¥O> perform shinnoforce.heal
-                              <¥\¯à> ¤£¤À¼Ä§Ú, µ¹¥şÅé±j¤OªvÀø
+1. æ²»ç™’è¡“(heal)               <æŒ‡ä»¤> perform shinnoforce.heal
+                              <åŠŸèƒ½> ä¸åˆ†æ•µæˆ‘, çµ¦å…¨é«”å¼·åŠ›æ²»ç™‚
 
-2. µK®ğ³Z(def-fire)           <«ü¥O> perform shinnoforce.def-fire
-                              <¥\¯à> ¥i¥H´£°ª©Ğ¶¡¥şÅé¹ï¤õµKªº¨¾¿m¤O
+2. ç„°æ°£è¨£(def-fire)           <æŒ‡ä»¤> perform shinnoforce.def-fire
+                              <åŠŸèƒ½> å¯ä»¥æé«˜æˆ¿é–“å…¨é«”å°ç«ç„°çš„é˜²ç¦¦åŠ›
