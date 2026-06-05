@@ -15,18 +15,19 @@ import (
 )
 
 type Macro struct {
-	Name string
-	Args []string
-	Body string
+	Name     string
+	Args     []string
+	Body     string
+	IsGlobal bool // 🚀 新增：標記為全域巨集，不進行原始碼替換，由 Evaluator 處理
 }
 
 type Preprocessor struct {
-	MudLibPath    string
-	Macros        map[string]Macro
-	EmbeddedFS    fs.FS  // 🚀 新增：支援嵌入式檔案系統
-	GlobalInclude string // 🚀 新增：全域自動引入標頭檔
-	StripModifiers bool   // 🚀 新增：是否移除 static, varargs, nomask 等修飾詞
-	regexCache    map[string]*regexp.Regexp // 🚀 新增：快取 Regex 以提升效能
+	MudLibPath     string
+	Macros         map[string]Macro
+	EmbeddedFS     fs.FS                     // 🚀 新增：支援嵌入式檔案系統
+	GlobalInclude  string                    // 🚀 新增：全域自動引入標頭檔
+	StripModifiers bool                      // 🚀 新增：是否移除 static, varargs, nomask 等修飾詞
+	regexCache     map[string]*regexp.Regexp // 🚀 新增：快取 Regex 以提升效能
 }
 
 func New(mudLibPath string) *Preprocessor {
@@ -36,6 +37,14 @@ func New(mudLibPath string) *Preprocessor {
 		regexCache: make(map[string]*regexp.Regexp),
 	}
 }
+
+// ParseMacros 專門用來解析標頭檔中的巨集定義
+func (p *Preprocessor) ParseMacros(input string) map[string]Macro {
+	p.processInternal("internal_macros.h", input, 0)
+	return p.Macros
+}
+
+// ... rest of methods ...
 
 func (p *Preprocessor) getRegex(name string) *regexp.Regexp {
 	if re, ok := p.regexCache[name]; ok {
@@ -111,6 +120,9 @@ func (p *Preprocessor) replaceMacros(line string, initialInString bool) (string,
 			found := false
 			for _, name := range macroNames {
 				m := p.Macros[name]
+				if m.IsGlobal {
+					continue // 🚀 關鍵：全域巨集不進行文字替換，由 Evaluator 處理
+				}
 				if strings.HasPrefix(currentLine[i:], name) {
 					// 檢查邊界
 					endIdx := i + len(name)
@@ -143,6 +155,9 @@ func (p *Preprocessor) replaceMacros(line string, initialInString bool) (string,
 	return currentLine, finalInString
 }
 func (p *Preprocessor) replaceFuncMacro(line, name string, m Macro) string {
+	if m.IsGlobal {
+		return line // 🚀 關鍵：全域函式型巨集不進行文字替換，由 Evaluator 處理
+	}
 	outLine := line
 	searchIdx := 0
 	for {

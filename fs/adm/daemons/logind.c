@@ -12,7 +12,6 @@
 
 #include <net/socket.h>
 #include <socket_err.h>
-#include <globals.h>
 #include <ansi.h>
 #include <command.h>
 #include <limit.h>

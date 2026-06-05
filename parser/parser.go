@@ -253,7 +253,7 @@ func (p *Parser) parseReturnStatement() *ast.ReturnStatement {
 		return stmt
 	}
 
-	stmt.ReturnValue = p.parseExpression(LOWEST)
+	stmt.ReturnValue = p.ParseExpression(LOWEST)
 
 	for p.peekTokenIs(token.SEMICOLON) {
 		p.nextToken()
@@ -262,10 +262,10 @@ func (p *Parser) parseReturnStatement() *ast.ReturnStatement {
 	return stmt
 }
 
-func (p *Parser) parseExpressionStatement() *ast.ExpressionStatement {
+func (p *Parser) ParseExpressionStatement() *ast.ExpressionStatement {
 	stmt := &ast.ExpressionStatement{
 		Token:      p.curToken,
-		Expression: p.parseExpression(LOWEST),
+		Expression: p.ParseExpression(LOWEST),
 	}
 
 	for p.peekTokenIs(token.SEMICOLON) {
@@ -274,7 +274,7 @@ func (p *Parser) parseExpressionStatement() *ast.ExpressionStatement {
 	return stmt
 }
 
-func (p *Parser) parseExpression(precedence int) ast.Expression {
+func (p *Parser) ParseExpression(precedence int) ast.Expression {
 	prefix := p.prefixParseFns[p.curToken.TokenType]
 	if prefix == nil {
 		p.addError(p.curToken, "無法解析開頭為 '%s' 的語法 (找不到對應的前綴處理器)", p.curToken.TokenType)
@@ -338,7 +338,7 @@ func (p *Parser) parsePrefixExpression() ast.Expression {
 
 	p.nextToken()
 
-	expr.Right = p.parseExpression(PREFIX)
+	expr.Right = p.ParseExpression(PREFIX)
 	return expr
 }
 
@@ -367,7 +367,7 @@ func (p *Parser) parseInfixExpression(left ast.Expression) ast.Expression {
 
 	p.nextToken()
 
-	expr.Right = p.parseExpression(prec)
+	expr.Right = p.ParseExpression(prec)
 	return expr
 }
 
@@ -388,11 +388,11 @@ func (p *Parser) parseGroupedExpression() ast.Expression {
 			p.nextToken() // Skip type
 			p.nextToken() // Skip ')'
 			// 這裡目前將轉型視為 No-op，直接解析後續表達式
-			return p.parseExpression(PREFIX)
+			return p.ParseExpression(PREFIX)
 		}
 	}
 
-	expr := p.parseExpression(LOWEST)
+	expr := p.ParseExpression(LOWEST)
 
 	if !p.expectPeek(token.RPAREN) {
 		return nil
@@ -406,7 +406,7 @@ func (p *Parser) parseIfExpression() ast.Expression {
 
 	if !p.expectPeek(token.LPAREN) { return nil }
 	p.nextToken()
-	expression.Condition = p.parseExpression(LOWEST)
+	expression.Condition = p.ParseExpression(LOWEST)
 	if !p.expectPeek(token.RPAREN) { return nil }
 
 	// ▼ [關鍵修正]：Consequence (If 成立的分支)
@@ -505,7 +505,7 @@ func (p *Parser) parseFunctionParameters() []*ast.Ident {
 	return idents
 }
 
-func (p *Parser) parseExpressionList(end token.TokenType) []ast.Expression {
+func (p *Parser) ParseExpressionList(end token.TokenType) []ast.Expression {
 	list := make([]ast.Expression, 0)
 
 	if p.peekTokenIs(end) {
@@ -514,7 +514,7 @@ func (p *Parser) parseExpressionList(end token.TokenType) []ast.Expression {
 	}
 
 	p.nextToken()
-	list = append(list, p.parseExpression(COMMA))
+	list = append(list, p.ParseExpression(COMMA))
 
 	for p.peekTokenIs(token.COMMA) {
 		p.nextToken()
@@ -523,7 +523,7 @@ func (p *Parser) parseExpressionList(end token.TokenType) []ast.Expression {
 			return list
 		}
 		p.nextToken()
-		list = append(list, p.parseExpression(COMMA))
+		list = append(list, p.ParseExpression(COMMA))
 	}
 	if !p.expectPeek(end) {
 		return nil
@@ -536,7 +536,7 @@ func (p *Parser) parseCallExpression(function ast.Expression) ast.Expression {
 	return &ast.CallExpression{
 		Token:     p.curToken,
 		Function:  function,
-		Arguments: p.parseExpressionList(token.RPAREN),
+		Arguments: p.ParseExpressionList(token.RPAREN),
 	}
 }
 
@@ -577,14 +577,14 @@ func (p *Parser) parseIndexExpression(left ast.Expression) ast.Expression {
 		slice := &ast.SliceExpression{Token: tok, Left: left}
 		p.nextToken() // Skip '..'
 		if !p.curTokenIs(token.RBRACKET) {
-			slice.EndIndex = p.parseExpression(LOWEST)
+			slice.EndIndex = p.ParseExpression(LOWEST)
 			if !p.expectPeek(token.RBRACKET) { return nil }
 		}
 		return slice
 	}
 
 	// 2. [start..] or [start..end] or [index]
-	idx := p.parseExpression(RANGE) // 🚀 使用 RANGE 優先權，遇到 .. 會停止而不吞掉它
+	idx := p.ParseExpression(RANGE) // 🚀 使用 RANGE 優先權，遇到 .. 會停止而不吞掉它
 
 	if p.peekTokenIs(token.DOTDOT) {
 		slice := &ast.SliceExpression{Token: tok, Left: left, StartIndex: idx}
@@ -592,7 +592,7 @@ func (p *Parser) parseIndexExpression(left ast.Expression) ast.Expression {
 		p.nextToken() // Skip '..'
 
 		if !p.curTokenIs(token.RBRACKET) {
-			slice.EndIndex = p.parseExpression(LOWEST)
+			slice.EndIndex = p.ParseExpression(LOWEST)
 			if !p.expectPeek(token.RBRACKET) { return nil }
 		}
 		return slice
@@ -673,9 +673,9 @@ func (p *Parser) parseStatement(topLevel bool) ast.Statement {
 		// 🚀 新增：支援空語句 (Lone Semicolon)
 		return &ast.ExpressionStatement{Token: p.curToken}
 	default:
-		return p.parseExpressionStatement()
+		return p.ParseExpressionStatement()
 	}
-	return p.parseExpressionStatement()
+	return p.ParseExpressionStatement()
 }
 
 func (p *Parser) parseTypedDeclarationStatement(isVarargs bool) ast.Statement {
@@ -713,7 +713,7 @@ func (p *Parser) parseTypedVariableDeclaration(typeToken token.Token, isArray bo
 	if p.peekTokenIs(token.ASSIGN) {
 		p.nextToken()
 		p.nextToken()
-		stmt.Value = p.parseExpression(COMMA)
+		stmt.Value = p.ParseExpression(COMMA)
 	}
 	statements = append(statements, stmt)
 
@@ -742,7 +742,7 @@ func (p *Parser) parseTypedVariableDeclaration(typeToken token.Token, isArray bo
 		if p.peekTokenIs(token.ASSIGN) {
 			p.nextToken()
 			p.nextToken()
-			nextStmt.Value = p.parseExpression(LOWEST)
+			nextStmt.Value = p.ParseExpression(LOWEST)
 		}
 		statements = append(statements, nextStmt)
 	}
@@ -870,7 +870,7 @@ func (p *Parser) parseAssignExpression(left ast.Expression) ast.Expression {
 	}
 	prec := p.curPrecedence()
 	p.nextToken()
-	expr.Value = p.parseExpression(prec - 1) 
+	expr.Value = p.ParseExpression(prec - 1) 
 	return expr
 }
 
@@ -897,7 +897,7 @@ func (p *Parser) parseWhileStatement() ast.Statement {
 	stmt := &ast.WhileStatement{Token: p.curToken}
 	if !p.expectPeek(token.LPAREN) { return nil }
 	p.nextToken()
-	stmt.Condition = p.parseExpression(LOWEST)
+	stmt.Condition = p.ParseExpression(LOWEST)
 	if !p.expectPeek(token.RPAREN) { return nil }
 
 	if p.peekTokenIs(token.LBRACE) {
@@ -941,7 +941,7 @@ func (p *Parser) parseForStatement() ast.Statement {
 
 	// 2. 解析 Condition
 	if !p.curTokenIs(token.SEMICOLON) {
-		stmt.Condition = p.parseExpression(LOWEST)
+		stmt.Condition = p.ParseExpression(LOWEST)
 		p.nextToken() // 表達式解析完後，手動往下推一格
 	}
 	
@@ -958,7 +958,7 @@ func (p *Parser) parseForStatement() ast.Statement {
 
 	// 3. 解析 Post (例如 i++)
 	if !p.curTokenIs(token.RPAREN) {
-		stmt.Post = p.parseExpression(LOWEST)
+		stmt.Post = p.ParseExpression(LOWEST)
 		p.nextToken() // 手動往下推一格
 	}
 	
@@ -1008,7 +1008,7 @@ func (p *Parser) parseDoWhileStatement() ast.Statement {
 	if !p.expectPeek(token.WHILE) { return nil }
 	if !p.expectPeek(token.LPAREN) { return nil }
 	p.nextToken()
-	stmt.Condition = p.parseExpression(LOWEST)
+	stmt.Condition = p.ParseExpression(LOWEST)
 	if !p.expectPeek(token.RPAREN) { return nil }
 	if p.peekTokenIs(token.SEMICOLON) { p.nextToken() }
 	return stmt
@@ -1018,7 +1018,7 @@ func (p *Parser) parseSwitchStatement() ast.Statement {
 	stmt := &ast.SwitchStatement{Token: p.curToken}
 	if !p.expectPeek(token.LPAREN) { return nil }
 	p.nextToken()
-	stmt.Value = p.parseExpression(LOWEST)
+	stmt.Value = p.ParseExpression(LOWEST)
 	if !p.expectPeek(token.RPAREN) { return nil }
 	if !p.expectPeek(token.LBRACE) { return nil }
 
@@ -1028,7 +1028,7 @@ func (p *Parser) parseSwitchStatement() ast.Statement {
 			caseStmt := &ast.CaseStatement{Token: p.curToken}
 			if p.curTokenIs(token.CASE) {
 				p.nextToken()
-				caseStmt.Value = p.parseExpression(LOWEST)
+				caseStmt.Value = p.ParseExpression(LOWEST)
 			}
 			if !p.expectPeek(token.COLON) { return nil }
 			p.nextToken()
@@ -1069,7 +1069,7 @@ func (p *Parser) parseTypePrefix() ast.Expression {
 	if p.peekTokenIs(token.ASSIGN) {
 		p.nextToken()
 		p.nextToken()
-		decl.Value = p.parseExpression(LOWEST)
+		decl.Value = p.ParseExpression(LOWEST)
 	}
 
 	return decl
@@ -1084,14 +1084,14 @@ func (p *Parser) parseMappingLiteral() ast.Expression {
 	for !p.peekTokenIs(token.RBRACKET) {
 		p.nextToken()
 
-		key := p.parseExpression(COMMA) // 🚀 改為 COMMA，遇到 : 或 , 會停止
+		key := p.ParseExpression(COMMA) // 🚀 改為 COMMA，遇到 : 或 , 會停止
 
 		if !p.expectPeek(token.COLON) {
 			return nil
 		}
 
 		p.nextToken()
-		value := p.parseExpression(COMMA) // 🚀 改為 COMMA，遇到 , 或 ] 會停止
+		value := p.ParseExpression(COMMA) // 🚀 改為 COMMA，遇到 , 或 ] 會停止
 		mapping.Pairs[key] = value
 
 		if !p.peekTokenIs(token.RBRACKET) {
@@ -1157,7 +1157,7 @@ func (p *Parser) parseCallOtherExpression(left ast.Expression) ast.Expression {
 		return nil
 	}
 
-	expr.Arguments = p.parseExpressionList(token.RPAREN)
+	expr.Arguments = p.ParseExpressionList(token.RPAREN)
 
 	return expr
 }
@@ -1192,7 +1192,7 @@ func (p *Parser) parseClosureLiteral() ast.Expression {
 			// 支援型別宣告 (例如 mapping qdata = ...;)
 			lit.Elements = append(lit.Elements, p.parseTypePrefix())
 		} else {
-			expr := p.parseExpression(LOWEST)
+			expr := p.ParseExpression(LOWEST)
 			if expr != nil {
 				lit.Elements = append(lit.Elements, expr)
 			}
@@ -1251,7 +1251,7 @@ func (p *Parser) parseForEachStatement() ast.Statement {
 	}
 	p.nextToken() 
 
-	stmt.Collection = p.parseExpression(LOWEST)
+	stmt.Collection = p.ParseExpression(LOWEST)
 
 	if !p.expectPeek(token.RPAREN) { return nil }
 	
@@ -1275,7 +1275,7 @@ func (p *Parser) parseLPCArrayLiteral() ast.Expression {
 	lit := &ast.ArrayLiteral{
 		Token: p.curToken,
 	}
-	lit.Elements = p.parseExpressionList(token.RBRACE)
+	lit.Elements = p.ParseExpressionList(token.RBRACE)
 	if !p.expectPeek(token.RPAREN) {
 		return nil
 	}
@@ -1290,14 +1290,14 @@ func (p *Parser) parseTernaryExpression(condition ast.Expression) ast.Expression
 
 	p.nextToken()
 	// 🚀 關鍵：在三元運算子的分支中，應該允許較低優先權的表達式 (如賦值)
-	expression.TrueResult = p.parseExpression(COMMA)
+	expression.TrueResult = p.ParseExpression(COMMA)
 
 	if !p.expectPeek(token.COLON) {
 		return nil
 	}
 
 	p.nextToken()
-	expression.FalseResult = p.parseExpression(COMMA)
+	expression.FalseResult = p.ParseExpression(COMMA)
 
 	return expression
 }
@@ -1310,7 +1310,7 @@ func (p *Parser) parseRangeExpression(left ast.Expression) ast.Expression {
 
 	precedence := p.curPrecedence()
 	p.nextToken()
-	expression.End = p.parseExpression(precedence)
+	expression.End = p.ParseExpression(precedence)
 
 	return expression
 }

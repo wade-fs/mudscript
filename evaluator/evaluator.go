@@ -1021,6 +1021,10 @@ func evalIdent(node *ast.Ident, env object.Environment) object.Object {
 
 	// 3. 查找內建函式
 	if builtin, ok := builtins[name]; ok {
+		// 🚀 關鍵相容：自動展開標記為常數的 Builtin (例如全域巨集)
+		if builtin.IsConstant {
+			return builtin.Fn()
+		}
 		return builtin
 	}
 

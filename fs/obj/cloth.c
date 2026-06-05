@@ -3,7 +3,6 @@
 // This is the basic equip for players just login.
 
 #include <armor.h>
-#include <globals.h> // Added this to include F_NAME
 
 inherit CLOTH;
 inherit F_MOVE;

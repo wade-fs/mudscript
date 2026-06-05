@@ -69,7 +69,14 @@ func (d *Driver) loadObjectInternal(filename string) (*object.LPCObject, bool, e
 	}
 
 	pp := preprocessor.New(d.Config.MudLibPath)
-	pp.GlobalInclude = d.Config.GlobalInclude
+	if d.GlobalMacros != nil {
+		// Seed with global macros
+		for k, v := range d.GlobalMacros {
+			pp.Macros[k] = v
+		}
+	} else {
+		pp.GlobalInclude = d.Config.GlobalInclude
+	}
 	pp.StripModifiers = d.Config.StripModifiers
 	if d.Config.EmbeddedFS != nil {
 		pp.SetEmbeddedFS(d.Config.EmbeddedFS)

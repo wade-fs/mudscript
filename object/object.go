@@ -302,7 +302,8 @@ type BuiltinFunction func(args ...Object) Object
 
 // Builtin represents a builtin function.
 type Builtin struct {
-	Fn BuiltinFunction
+	Fn         BuiltinFunction
+	IsConstant bool // 🚀 新增：標記為常數，會在 evalIdent 中自動展開
 }
 
 // TokenType returns the type of the Builtin.

@@ -6,11 +6,16 @@ import (
 	"io/fs"
 	"os"
 	"path/filepath"
+	"strconv"
+	"strings"
 	"sync"
 	"time"
 
 	"mudscript/evaluator"
+	"mudscript/lexer"
 	"mudscript/object"
+	"mudscript/parser"
+	"mudscript/preprocessor"
 )
 
 // DriverConfig 運行時期的配置
@@ -34,6 +39,7 @@ type Driver struct {
 	Heartbeats   map[*object.LPCObject]bool
 	CallOuts     []*ScheduledCall
 	Config       DriverConfig
+	GlobalMacros map[string]preprocessor.Macro // 🚀 新增：全域巨集快取
 	shutdownCh   chan struct{}
 	MasterObject *object.LPCObject
 	SimulEfunObj *object.LPCObject // 🚀 新增：模擬 Efun 物件
@@ -82,26 +88,30 @@ func New(config DriverConfig) *Driver {
 		},
 	})
 
-	// 🚀 標準巨集與環境變數
+	// 🚀 標準巨集與環境變數 (標記為常數，自動展開)
 	evaluator.RegisterBuiltin("__VERSION__", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
 			return &object.String{Value: "MudScript 1.0 (LPC Compatible)"}
 		},
+		IsConstant: true,
 	})
 	evaluator.RegisterBuiltin("__SAVE_EXTENSION__", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
 			return &object.String{Value: ".o"}
 		},
+		IsConstant: true,
 	})
 	evaluator.RegisterBuiltin("__ARCH__", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
 			return &object.String{Value: "Linux"}
 		},
+		IsConstant: true,
 	})
 	evaluator.RegisterBuiltin("MUD_NAME", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
 			return &object.String{Value: "Fantasy Space"}
 		},
+		IsConstant: true,
 	})
 
 	return &Driver{
@@ -116,6 +126,11 @@ func New(config DriverConfig) *Driver {
 }
 
 func (d *Driver) Start() error {
+	// 🚀 新增：預先載入全域標頭檔並註冊為環境變數
+	if err := d.PreloadGlobalInclude(); err != nil {
+		fmt.Printf("⚠️ 全域標頭檔預載入失敗: %v\n", err)
+	}
+
 	masterFile := d.Config.MasterFile
 	if masterFile == "" {
 		masterFile = d.DiscoverMasterFile()
@@ -195,4 +210,97 @@ func (d *Driver) Start() error {
 
 func (d *Driver) Stop() {
 	close(d.shutdownCh)
+}
+
+func (d *Driver) PreloadGlobalInclude() error {
+	if d.Config.GlobalInclude == "" {
+		return nil
+	}
+
+	path := d.Config.GlobalInclude
+	if !strings.HasPrefix(path, "/") {
+		path = "/include/" + path
+	}
+
+	content, err := d.ReadFile(path)
+	if err != nil {
+		return err
+	}
+
+	pp := preprocessor.New(d.Config.MudLibPath)
+	if d.Config.EmbeddedFS != nil {
+		pp.SetEmbeddedFS(d.Config.EmbeddedFS)
+	}
+
+	macros := pp.ParseMacros(string(content))
+	d.GlobalMacros = make(map[string]preprocessor.Macro)
+
+	for name, m := range macros {
+		// 標記為全域，防止 Preprocessor 重複文字替換
+		m.IsGlobal = true
+		d.GlobalMacros[name] = m
+
+		// 註冊為 Evaluator Builtin，實現真正的「全域環境變數」
+		// 這裡我們需要一個複本，因為 m 是迴圈變數
+		macro := m
+		evaluator.RegisterBuiltin(name, &object.Builtin{
+			Fn: func(args ...object.Object) object.Object {
+				// 1. 處理函式型巨集
+				if len(macro.Args) > 0 {
+					// 將參數填入巨集 Body 並執行 Evaluator
+					// 注意：這裡目前簡化處理，僅支援簡單的字串串接
+					// TODO: 實現完整的巨集參數評估
+					body := macro.Body
+					for i, argName := range macro.Args {
+						if i < len(args) {
+							val := args[i].Inspect()
+							if s, ok := args[i].(*object.String); ok {
+								val = s.Value
+							}
+							body = strings.ReplaceAll(body, argName, val)
+						}
+					}
+					// 🚀 核心：遞迴調用 Evaluator 評估巨集結果
+					// 這裡我們需要一個乾淨的環境
+					return d.EvalString(body)
+				}
+
+				// 2. 處理常數型巨集
+				if macro.Body == "" {
+					return &object.Integer{Value: 1} // 無值巨集預設為 1 (Truthy)
+				}
+				return d.EvalString(macro.Body)
+			},
+			IsConstant: len(macro.Args) == 0, // 🚀 關鍵：不帶參數的巨集標記為常數
+		})
+	}
+
+	fmt.Printf("✅ 全域標頭檔預載入完成: %s (共 %d 個巨集)\n", path, len(d.GlobalMacros))
+	return nil
+}
+
+// EvalString 輔助函式：評估字串表達式
+func (d *Driver) EvalString(input string) object.Object {
+	// 簡單的常數優化
+	if input == "" {
+		return &object.Integer{Value: 0}
+	}
+	if strings.HasPrefix(input, "\"") && strings.HasSuffix(input, "\"") {
+		return &object.String{Value: strings.Trim(input, "\"")}
+	}
+	if val, err := strconv.ParseInt(input, 10, 64); err == nil {
+		return &object.Integer{Value: val}
+	}
+
+	// 完整評估
+	l := lexer.New(input)
+	p := parser.New(l)
+	expr := p.ParseExpression(parser.LOWEST)
+	if len(p.Errors()) > 0 {
+		// 🚀 關鍵回退：若解析失敗 (例如不是合法的表達式)，回傳原始字串
+		return &object.String{Value: input}
+	}
+
+	// 這裡使用空環境，但因為它會查找全域 builtins，所以依然能找到其他常數
+	return evaluator.Eval(expr, object.NewEnvironment())
 }
