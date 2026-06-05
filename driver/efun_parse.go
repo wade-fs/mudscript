@@ -31,9 +31,12 @@ func (d *Driver) registerParseEfuns(obj *object.LPCObject) {
 			}
 
 			inputPath := path.Value
+			// 🚀 關鍵修正：不強制加上 "/"，由呼叫者決定。這修正了 dbase 查詢 "id" 失敗的問題。
+			/*
 			if !strings.HasPrefix(inputPath, "/") {
 				inputPath = "/" + inputPath
 			}
+			*/
 
 			var bestMatch string
 			var bestVal object.Object

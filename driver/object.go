@@ -252,6 +252,13 @@ func (d *Driver) MoveObject(item *object.LPCObject, dest *object.LPCObject) {
 	if item == nil {
 		return
 	}
+	// 🚀 新增：記錄物件移動
+	destName := "nil"
+	if dest != nil {
+		destName = dest.Filename
+	}
+	log.Printf("🚚 [Move] %s -> %s", item.Filename, destName)
+
 	// 如果物件已銷毀，只允許移往 nil (即移出目前房間)
 	if item.IsDestructed && dest != nil {
 		return

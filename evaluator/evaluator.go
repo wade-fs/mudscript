@@ -784,21 +784,14 @@ func evalIfExpression(ie *ast.IfExpression, env object.Environment) object.Objec
 }
 
 func isTruthy(obj object.Object) bool {
-	if obj == NilValue || obj == FalseValue || obj == nil {
+	if obj == nil || obj == NilValue {
 		return false
 	}
 	if i, ok := obj.(*object.Integer); ok && i.Value == 0 {
 		return false
 	}
-	if s, ok := obj.(*object.String); ok && s.Value == "" {
-		return false
-	}
-	if a, ok := obj.(*object.Array); ok && len(a.Elements) == 0 {
-		return false
-	}
-	if m, ok := obj.(*object.Mapping); ok && len(m.Pairs) == 0 {
-		return false
-	}
+	// 🚀 關鍵相容：在 LPC 中，空字串、空陣列、空 Mapping 均視為「真」 (非 0)
+	// 只有整數 0 與 nil 視為「假」
 	return true
 }
 

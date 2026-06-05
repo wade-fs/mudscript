@@ -4,6 +4,7 @@ package driver
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 	"os"
 	"path/filepath"
 	"strings"
@@ -52,7 +53,8 @@ func (d *Driver) registerEnvironmentEfuns(obj *object.LPCObject) {
 			path := d.ResolvePath(obj.Filename, args[0].(*object.String).Value)
 			clonedObj, err := d.CloneObject(path)
 			if err != nil {
-				return object.NewError("clone error: %s", err.Error())
+				log.Printf("⚠️ 物件載入失敗 (%s): %v", path, err)
+				return &object.Integer{Value: 0}
 			}
 			return clonedObj
 		},
@@ -499,7 +501,8 @@ func (d *Driver) registerLifecycleEfuns(obj *object.LPCObject) {
 			path := d.ResolvePath(obj.Filename, args[0].(*object.String).Value)
 			clonedObj, err := d.CloneObject(path)
 			if err != nil {
-				return object.NewError("clone error: %s", err.Error())
+				log.Printf("⚠️ 物件載入失敗 (%s): %v", path, err)
+				return &object.Integer{Value: 0}
 			}
 			return clonedObj
 		},

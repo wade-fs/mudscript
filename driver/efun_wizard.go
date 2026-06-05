@@ -46,8 +46,8 @@ func (d *Driver) registerWizardEfuns(obj *object.LPCObject) {
 			if target.IsWizard {
 				return &object.String{Value: "(admin)"}
 			}
-			// 根據 ID 特殊處理
-			id, _ := target.Vars.Get("id")
+			// 🚀 關鍵相容性：嘗試透過 query("id") 取得玩家 ID
+			id := d.CallFunction(target, "query", []object.Object{&object.String{Value: "id"}})
 			if idStr, ok := id.(*object.String); ok {
 				if idStr.Value == "guest" {
 					return &object.String{Value: "(guest)"}

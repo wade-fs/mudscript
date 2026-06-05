@@ -556,7 +556,7 @@ int look_room_item(object me, string arg)
     if( stringp(item[arg]) )
       write(ansi(item[arg]));
     else if( functionp(item[arg]) )
-      write(ansi((string)(*item[arg])(me)));
+      write(ansi((string)evaluate(item[arg], me)));
 
     return 1;
   }

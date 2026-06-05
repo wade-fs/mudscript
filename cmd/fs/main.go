@@ -17,7 +17,7 @@ import (
 
 func main() {
 	port := flag.String("port", "4000", "Telnet/TCP server port")
-	webPort := flag.String("webport", "8080", "HTTP server port")
+	webPort := flag.String("webport", "4444", "HTTP server port")
 	mudlib := flag.String("mudlib", "fs", "mudlib directory")
 	master := flag.String("master", "/adm/obj/master.c", "Master of world in mudlib directory")
 	simul := flag.String("simul", "/adm/obj/simul_efun.c", "SimulEfun file path")

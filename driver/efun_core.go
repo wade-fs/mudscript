@@ -580,7 +580,7 @@ func (d *Driver) registerSetQueryEfuns(obj *object.LPCObject) {
 				return &object.Nil{}
 			}
 
-			pConn := d.GetConnectionFromObject(obj)
+			pConn := d.GetCurrentPlayer()
 			if pConn != nil {
 				pConn.NotifyFail = msg.Value
 			}
