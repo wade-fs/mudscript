@@ -131,7 +131,7 @@ func Eval(node ast.Node, env object.Environment) object.Object {
 		if isError(function) {
 			return function
 		}
-
+		
 		// 🚀 關鍵修正：若變數遮蔽了 Efun，嘗試降級為尋找 Efun
 		if function == nil || (function.TokenType() != object.FunctionType && function.TokenType() != object.BuiltinType) {
 			if ident, ok := node.Function.(*ast.Ident); ok {
@@ -844,17 +844,13 @@ func findInheritedFunction(lpcObj *object.LPCObject, funcName string, env object
 	targetNode := lpcObj
 	if originFile != "" {
 	        if found := findNode(lpcObj); found != nil {
-	                fmt.Printf("DEBUG: findNode found target: %s\n", found.Filename)
 	                targetNode = found
 	        }
 	}
 
-	fmt.Printf("DEBUG: starting search from %s, has %d inherits\n", targetNode.Filename, len(targetNode.Inherits))
-
 	// 從目標節點的「直接父類別」開始往下找
 	for _, parent := range targetNode.Inherits {
 
-	        fmt.Printf("DEBUG: Searching for %s in parent %s\n", funcName, parent.Filename)
 	        if fnObj, exists := parent.Vars.Get(funcName); exists {
 
 			// 🚀 關鍵修正：繼承呼叫必須重新「綁定」到目前的物件變數環境 (lpcObj.Vars)
@@ -927,11 +923,9 @@ func findParentFunction(lpcObj *object.LPCObject, parentName string, funcName st
 
 func evalIdent(node *ast.Ident, env object.Environment) object.Object {
 	name := node.Value
-    // fmt.Printf("DEBUG: evalIdent: %s\n", name)
 
-	// 支援 efun::, simul_efun::, 或 Parent:: 前綴呼叫
+	// Handle special `::` syntax first
 	if strings.Contains(name, "::") {
-        fmt.Printf("DEBUG: evalIdent found :: in %s\n", name) // Keep debug for now
 		parts := strings.Split(name, "::")
 		if len(parts) == 2 {
 			prefix := parts[0]
@@ -973,11 +967,8 @@ func evalIdent(node *ast.Ident, env object.Environment) object.Object {
 					}
 				}
 			} else if prefix == "" { // 支援 ::func() 繼承呼叫
-			        fmt.Printf("DEBUG: evalIdent entering :: branch for %s\n", funcName) // Keep debug for now
-			        if thisObjVal, ok := env.Get("this_object"); ok {
-			                fmt.Printf("DEBUG: evalIdent found this_object\n") // Keep debug for now
-			                var lpcObj *object.LPCObject
-
+				if thisObjVal, ok := env.Get("this_object"); ok {
+					var lpcObj *object.LPCObject
 					if obj, ok := thisObjVal.(*object.LPCObject); ok {
 						lpcObj = obj
 					} else if builtin, ok := thisObjVal.(*object.Builtin); ok {
@@ -987,9 +978,7 @@ func evalIdent(node *ast.Ident, env object.Environment) object.Object {
 						}
 					}
 					if lpcObj != nil {
-					        fmt.Printf("DEBUG: calling findInheritedFunction for %s on %s\n", funcName, lpcObj.Filename) // Keep debug for now
-					        if res := findInheritedFunction(lpcObj, funcName, env); res != nil {
-
+						if res := findInheritedFunction(lpcObj, funcName, env); res != nil {
 							return res
 						}
 					}
@@ -1120,11 +1109,13 @@ func evalIndexExpression(left, index object.Object) object.Object {
 	if left == nil || index == nil { return &object.Integer{Value: 0} }
 	switch l := left.(type) {
 	case *object.Array:
-		idx, ok := resolveIndex(index, int64(len(l.Elements)))
-		if !ok || idx < 0 || idx >= int64(len(l.Elements)) {
+		idx, ok := index.(*object.Integer)
+		if !ok { return newError("陣列索引必須是整數") }
+		i := idx.Value
+		if i < 0 || i >= int64(len(l.Elements)) {
 			return &object.Integer{Value: 0}
 		}
-		return l.Elements[idx]
+		return l.Elements[i]
 	case *object.Mapping:
 		return evalMappingIndexExpression(left, index)
 	case *object.String:
