@@ -36,6 +36,7 @@ string query_save_file()
 	string id;
 
 	id = query("id", 1);
+	write(sprintf("DEBUG: login.c::query_save_file() id: %O\n", id));
 	if( !stringp(id) ) return 0;
 	return sprintf(DATA_DIR "login/%c/%s", id[0], id);
 }

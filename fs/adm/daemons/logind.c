@@ -204,7 +204,11 @@ void logon (object ob)
 // fixed by wade Thu Sep 28 1995
 void get_id(string arg, object ob, int times)
 {
-  write(sprintf("DEBUG: get_id called with arg: %s\n", arg));
+  if (!arg || !stringp(arg) || arg == "") {
+    if (ob) new_destruct(ob);
+    return;
+  }
+  write(sprintf("DEBUG: get_id called with arg: %O, times: %d\n", arg, times));
   int all_players=0;
   int all_wizs=0;
   int i;
@@ -214,8 +218,8 @@ void get_id(string arg, object ob, int times)
   object  ppl,user;
   object  *user_a;
 
-  arg = lower_case(arg);
-  write(sprintf("DEBUG: get_id processing: %s\n", arg));
+  if (stringp(arg)) arg = lower_case(arg);
+  write(sprintf("DEBUG: get_id processing: %O\n", arg));
   if( !check_legal_id(arg)) {
     // 底下這個 if 是為了要輸入太多次之後能夠斷線
     // fixed by wade Thu Sep 28 1995
@@ -888,6 +892,7 @@ void press_enter(string arg, object ob, object user)
 
 varargs void enter_world(object ob, object user)
 {
+  write(sprintf("DEBUG: enter_world called with ob: %O, user: %O\n", ob, user));
   object cloth, room, carry_money,master;
   object coup, officer;
   string s,ss;
@@ -1017,9 +1022,11 @@ varargs void reconnect(object ob, object user, int silent)
 
 int check_legal_id(string id)
 {
+  write(sprintf("DEBUG: check_legal_id called with id: %O\n", id));
   int i;
 
   i = strlen(id);
+  write(sprintf("DEBUG: check_legal_id id length: %O\n", i));
 
   if( (strlen(id) < 3) || (strlen(id) > 10 ) ) {
     write("對不起﹐你的英文名字必須是 3 到 10 個英文字母。\n");
@@ -1116,6 +1123,7 @@ string query_relog()
 
 void check_log(object ppl)
 {
+ write(sprintf("DEBUG: check_log called with ppl: %O\n", ppl));
  string ID,file;
  object diamond,stone;
  int num1,num2,num3,num4;

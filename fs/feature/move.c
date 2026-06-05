@@ -6,21 +6,21 @@
 #include <dbase.h>
 #include <type.h>
 #include <ansi.h>
-static int weight = 0, encumb = 0, max_encumb = 0;
+int my_weight = 0, my_encumb = 0, my_max_encumb = 0;
 
-nomask int weight() { return weight + encumb; }
-nomask int query_weight() { return weight; }
-nomask int query_encumbrance() { return encumb; }
-nomask int over_encumbranced() { return encumb > max_encumb; }
-nomask int query_max_encumbrance() { return max_encumb; }
-nomask void set_max_encumbrance(int e) { max_encumb = e; }
+nomask int weight() { return my_weight + my_encumb; }
+nomask int query_weight() { return my_weight; }
+nomask int query_encumbrance() { return my_encumb; }
+nomask int over_encumbranced() { return my_encumb > my_max_encumb; }
+nomask int query_max_encumbrance() { return my_max_encumb; }
+nomask void set_max_encumbrance(int e) { my_max_encumb = e; }
 
 nomask void add_encumbrance(int w)
 {
-        encumb += w;
-        if( encumb < 0 )
+        my_encumb += w;
+        if( my_encumb < 0 )
                 log_file("move.bug", sprintf("%O encumbrance underflow.\n", this_object()));
-        if( encumb > max_encumb ) this_object()->over_encumbrance();
+        if( my_encumb > my_max_encumb ) this_object()->over_encumbrance();
         if( environment() ) environment()->add_encumbrance(w);
 }
 
@@ -33,11 +33,11 @@ void over_encumbrance()
 nomask void set_weight(int w)
 {
         if( !environment() ) {
-                weight = w;
+                my_weight = w;
                 return;
         }
-        if( w!=weight ) environment()->add_encumbrance( w - weight );
-        weight = w;
+        if( w!=my_weight ) environment()->add_encumbrance( w - my_weight );
+        my_weight = w;
 }
 
 varargs int move(mixed dest, int silently)
@@ -153,7 +153,7 @@ void remove(string euid)
         // We only care about our own weight here, since remove() is called once
         // on each destruct(), so our inventory (encumbrance) will be counted as
         // well.
-        if( environment() )     environment()->add_encumbrance( - weight );
+        if( environment() )     environment()->add_encumbrance( - my_weight );
 /*        if( default_ob = this_object()->query_default_object() )
                 default_ob->add("no_clean_up", -1);*/
 }

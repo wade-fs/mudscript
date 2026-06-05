@@ -15,6 +15,7 @@ static int last_age_set, count=0;
 void create()
 {
 	log_file("init.log", sprintf("DEBUG: user.c::create() called for %O\n", this_object()));
+	seteuid(getuid());
 	::create();
 	set_name("使用者物件", ({ "user object", "user", "object" }) );
 	log_file("init.log", sprintf("DEBUG: user.c::create() finished for %O\n", this_object()));
@@ -44,6 +45,7 @@ string query_save_file()
     else
 	id = geteuid();
 	if( !id ) id = getuid();
+	log_file("init.log", sprintf("DEBUG: user.c::query_save_file() id: %O, euid: %O, uid: %O\n", id, geteuid(), getuid()));
 	if( !stringp(id) ) return 0;
 	return sprintf(DATA_DIR "user/%c/%s", id[0], id);
 }
@@ -51,8 +53,10 @@ string query_save_file()
 int save()
 {
 	int res;
+	if (getuid() == "guest") return 1;
 
 	save_autoload();
+	log_file("init.log", sprintf("DEBUG: user.c::save() calling ::save() for %O\n", this_object()));
 	res = ::save();
 	clean_up_autoload();		// To save memory
 	return res;

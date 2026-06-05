@@ -6,7 +6,8 @@
 #include <globals.h> // Added this to include F_NAME
 
 inherit CLOTH;
-inherit F_NAME;    // Explicitly inherit F_NAME here
+inherit F_MOVE;
+inherit F_NAME;
 
 void create()
 {
