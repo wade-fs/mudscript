@@ -578,10 +578,10 @@ func evalInfixExpression(operator string, left, right object.Object) object.Obje
 		}
 
 		return newError("type mismatch: %s %s %s", left.TokenType(), operator, right.TokenType())
-
-	default:
-		return newError("unknown operator: %s %s %s", left.TokenType(), operator, right.TokenType())
 	}
+
+	// 🚩 這裡已經處理過大部分情況，若執行到此處，說明該運算子不被支援
+	return newError("unknown operator: %s %s %s", left.TokenType(), operator, right.TokenType())
 }
 
 func evalEquality(left, right object.Object) bool {
@@ -674,6 +674,8 @@ func evalIntegerInfixExpression(operator string, left, right object.Object) obje
 		return &object.Integer{Value: leftVal << uint(rightVal)}
 	case ">>":
 		return &object.Integer{Value: leftVal >> uint(rightVal)}
+	case ",":
+		return right
 	default:
 		return newError("unknown operator: %s %s %s", left.TokenType(), operator, right.TokenType())
 	}
@@ -721,6 +723,8 @@ func evalFloatInfixExpression(operator string, left, right object.Object) object
 		return nativeBoolToBooleanObject(leftVal == rightVal)
 	case "!=":
 		return nativeBoolToBooleanObject(leftVal != rightVal)
+	case ",":
+		return right
 	default:
 		return newError("unknown operator: %s %s %s", left.TokenType(), operator, right.TokenType())
 	}
@@ -737,6 +741,8 @@ func evalStringInfixExpression(operator string, left, right object.Object) objec
 		return nativeBoolToBooleanObject(leftVal == rightVal)
 	case "!=":
 		return nativeBoolToBooleanObject(leftVal != rightVal)
+	case ",":
+		return right
 	default:
 		return newError("unknown operator: %s %s %s", left.TokenType(), operator, right.TokenType())
 	}

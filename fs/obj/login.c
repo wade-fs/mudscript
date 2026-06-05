@@ -8,8 +8,8 @@ inherit F_SAVE;
 void create() {seteuid(getuid());}
 void logon()
 {
-	write("DEBUG: /obj/login.c logon() is executing!\n");
 	call_out( "time_out", LOGIN_TIMEOUT );
+
         load_object(LOGIN_D);
 	LOGIN_D->logon( this_object() );
 }
@@ -36,7 +36,6 @@ string query_save_file()
 	string id;
 
 	id = query("id", 1);
-	write(sprintf("DEBUG: login.c::query_save_file() id: %O\n", id));
 	if( !stringp(id) ) return 0;
 	return sprintf(DATA_DIR "login/%c/%s", id[0], id);
 }

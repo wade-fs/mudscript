@@ -138,7 +138,7 @@ void logon (object ob)
   int i, t, wiz_cnt, ppl_cnt, login_cnt, *save_keys,time;
 
   // by ACKY
-  if( blocks[query_ip_number(ob)] > time() ) {
+  if( mapp(blocks) && blocks[query_ip_number(ob)] > time() ) {
     write("請勿連續嘗試﹐請您稍後再連線。\n");
     new_destruct(ob);
     return;
@@ -217,7 +217,6 @@ void get_id(string arg, object ob, int times)
     if (ob) new_destruct(ob);
     return;
   }
-  write(sprintf("DEBUG: get_id called with arg: %O, times: %d\n", arg, times));
   int all_players=0;
   int all_wizs=0;
   int i;
@@ -228,7 +227,6 @@ void get_id(string arg, object ob, int times)
   object  *user_a;
 
   if (stringp(arg)) arg = lower_case(arg);
-  write(sprintf("DEBUG: get_id processing: %O\n", arg));
   if( !check_legal_id(arg)) {
     // 底下這個 if 是為了要輸入太多次之後能夠斷線
     // fixed by wade Thu Sep 28 1995
@@ -871,12 +869,12 @@ void press_enter(string arg, object ob, object user)
       cloth->wear();
     }
 
-    // 因為下面發錢的東西會造成用重生來一直複制錢,所以我先關掉,等找到解決方法再開by bss
-
     user->set("first_login",time());
+    int bday = user->query("birthday");
+    if (!bday) bday = time();
     tell_object(user,
       sprintf(HBRED+HIY + "請牢記住自己的生日時刻為「"+HIW+"%d"+HIY+"」,"+
-        " 這關係到日後若角色被竊的認證問題!!\n" + NOR,user->query("birthday")));
+        " 這關係到日後若角色被竊的認證問題!!\n" + NOR, bday));
   }
   if(user->query("id")=="guest"){
       user->set("food", user->max_food_capacity());
@@ -901,7 +899,6 @@ void press_enter(string arg, object ob, object user)
 
 varargs void enter_world(object ob, object user)
 {
-  write(sprintf("DEBUG: enter_world called with ob: %O, user: %O\n", ob, user));
   object cloth, room, carry_money,master;
   object coup, officer;
   string s,ss;
@@ -1031,11 +1028,9 @@ varargs void reconnect(object ob, object user, int silent)
 
 int check_legal_id(string id)
 {
-  write(sprintf("DEBUG: check_legal_id called with id: %O\n", id));
   int i;
 
   i = strlen(id);
-  write(sprintf("DEBUG: check_legal_id id length: %O\n", i));
 
   if( (strlen(id) < 3) || (strlen(id) > 10 ) ) {
     write("對不起﹐你的英文名字必須是 3 到 10 個英文字母。\n");
@@ -1132,7 +1127,6 @@ string query_relog()
 
 void check_log(object ppl)
 {
- write(sprintf("DEBUG: check_log called with ppl: %O\n", ppl));
  string ID,file;
  object diamond,stone;
  int num1,num2,num3,num4;

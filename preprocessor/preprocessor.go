@@ -126,7 +126,6 @@ func (p *Preprocessor) replaceMacros(line string, initialInString bool) (string,
 					isEndWord := (endIdx == len(currentLine) || !isAlphaNumeric(currentLine[endIdx]))
 
 					if isStartWord && isEndWord {
-						fmt.Printf("DEBUG: Replacing macro %s with %s in %s\n", name, m.Body, currentLine)
 						result.WriteString(m.Body)
 						i = endIdx - 1 // 跳過巨集名稱 (迴圈會再 +1)
 						found = true
@@ -496,7 +495,7 @@ func (p *Preprocessor) processInternal(filename, input string, depth int) (strin
 				}
 			}
 			// 記錄巨集
-			fmt.Printf("DEBUG [%s]: Defining macro %s as %s (args: %v)\n", filename, name, body, args)
+			// fmt.Printf("DEBUG [%s]: Defining macro %s as %s (args: %v)\n", filename, name, body, args)
 			p.Macros[name] = Macro{Name: name, Args: args, Body: body}
 
 			// fmt.Printf("DEBUG: Defined macro %s = %s\n", name, body)

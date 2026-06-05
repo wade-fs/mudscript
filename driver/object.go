@@ -71,21 +71,11 @@ func (d *Driver) loadObjectInternal(filename string) (*object.LPCObject, bool, e
 	pp := preprocessor.New(d.Config.MudLibPath)
 	if d.GlobalMacros != nil {
 		// Seed with global macros
-		if filename == "/adm/daemons/cland.c" || filename == "/obj/login.c" {
-			fmt.Printf("DEBUG: Seeding %d global macros into Preprocessor for %s\n", len(d.GlobalMacros), filename)
-		}
 		for k, v := range d.GlobalMacros {
 			pp.Macros[k] = v
 		}
 	} else {
 		pp.GlobalInclude = d.Config.GlobalInclude
-	}
-	if _, exists := pp.Macros["F_SAVE"]; exists {
-		if filename == "/adm/daemons/cland.c" {
-			fmt.Printf("DEBUG: F_SAVE is seeded and present for %s, value: %s\n", filename, pp.Macros["F_SAVE"].Body)
-		}
-	} else if d.GlobalMacros != nil {
-		fmt.Printf("⚠️ F_SAVE is NOT seeded for %s (GlobalMacros size: %d)\n", filename, len(d.GlobalMacros))
 	}
 	pp.StripModifiers = d.Config.StripModifiers
 	if d.Config.EmbeddedFS != nil {

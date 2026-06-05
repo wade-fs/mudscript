@@ -239,7 +239,7 @@ func (d *Driver) PreloadGlobalInclude() error {
 		d.GlobalMacros[name] = m
 	}
 
-	fmt.Printf("✅ 全域標頭檔預載入完成: %s (共 %d 個巨集)\n", path, len(d.GlobalMacros))
+	// fmt.Printf("✅ 全域標頭檔預載入完成: %s (共 %d 個巨集)\n", path, len(d.GlobalMacros))
 	return nil
 }
 
