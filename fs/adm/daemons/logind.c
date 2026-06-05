@@ -110,6 +110,16 @@ void create()
 {
   seteuid(getuid());
   set_temp("channel_id", "連線精靈");
+  if( !mapp(blocks) ) blocks = ([]);
+  if( !mapp(day2num) ) day2num = ([
+  "Mon"   : 1,
+  "Tue"   : 2,
+  "Wed"   : 3,
+  "Thu"   : 4,
+  "Fri"   : 5,
+  "Sat"   : 6,
+  "Sun"   : 7
+]);
 }
 
 // by konn
@@ -980,7 +990,7 @@ if( user->query(gift_key[i])>35 ) {
 tell_object(user,"你的"+gift[gift_key[i]]+"過高﹐系統將它改為 35。\n");
     user->set(gift_key[i],35);
       }
-  if (stringp (cname=user->query("couples/id"))) {
+  if (stringp (cname=user->query("couples/id")) && cname != "") {
     if (coup = find_player (cname)) {
       tell_object (user, HIR + "嘿嘿, 你的另一半在線上喔.\n" + NOR);
       tell_object (coup, HIR + "嘿嘿, 你的另一半來囉!\n" + NOR);
@@ -1130,14 +1140,16 @@ void check_log(object ppl)
  num2 = 0;
  num3 = 0;
  num4 = 0;
-
- stone = present("original stone",ppl);
- diamond = present("diamond_money",ppl);
+ if( !ppl ) return;
  if(!(ID=ppl->query("old_id")))
    ID = ppl->query("id");
+ if( !stringp(ID) || ID == "" ) return;
+
+  stone = present("original stone",ppl);
+
+ if( !stringp(ID) || ID == "" ) return;
  if(ID!="guest") {
    file = sprintf("login/%s/%s", ID[0..0], ID);
-
    if(stone)
      if( stone->query("stone_id") )
        num4 = stone->query_amount();

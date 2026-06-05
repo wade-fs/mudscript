@@ -236,43 +236,7 @@ func (d *Driver) PreloadGlobalInclude() error {
 	d.GlobalMacros = make(map[string]preprocessor.Macro)
 
 	for name, m := range macros {
-		// 標記為全域，防止 Preprocessor 重複文字替換
-		m.IsGlobal = true
 		d.GlobalMacros[name] = m
-
-		// 註冊為 Evaluator Builtin，實現真正的「全域環境變數」
-		// 這裡我們需要一個複本，因為 m 是迴圈變數
-		macro := m
-		evaluator.RegisterBuiltin(name, &object.Builtin{
-			Fn: func(args ...object.Object) object.Object {
-				// 1. 處理函式型巨集
-				if len(macro.Args) > 0 {
-					// 將參數填入巨集 Body 並執行 Evaluator
-					// 注意：這裡目前簡化處理，僅支援簡單的字串串接
-					// TODO: 實現完整的巨集參數評估
-					body := macro.Body
-					for i, argName := range macro.Args {
-						if i < len(args) {
-							val := args[i].Inspect()
-							if s, ok := args[i].(*object.String); ok {
-								val = s.Value
-							}
-							body = strings.ReplaceAll(body, argName, val)
-						}
-					}
-					// 🚀 核心：遞迴調用 Evaluator 評估巨集結果
-					// 這裡我們需要一個乾淨的環境
-					return d.EvalString(body)
-				}
-
-				// 2. 處理常數型巨集
-				if macro.Body == "" {
-					return &object.Integer{Value: 1} // 無值巨集預設為 1 (Truthy)
-				}
-				return d.EvalString(macro.Body)
-			},
-			IsConstant: len(macro.Args) == 0, // 🚀 關鍵：不帶參數的巨集標記為常數
-		})
 	}
 
 	fmt.Printf("✅ 全域標頭檔預載入完成: %s (共 %d 個巨集)\n", path, len(d.GlobalMacros))

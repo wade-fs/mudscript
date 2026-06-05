@@ -15,10 +15,9 @@ import (
 )
 
 type Macro struct {
-	Name     string
-	Args     []string
-	Body     string
-	IsGlobal bool // 🚀 新增：標記為全域巨集，不進行原始碼替換，由 Evaluator 處理
+	Name string
+	Args []string
+	Body string
 }
 
 type Preprocessor struct {
@@ -120,9 +119,6 @@ func (p *Preprocessor) replaceMacros(line string, initialInString bool) (string,
 			found := false
 			for _, name := range macroNames {
 				m := p.Macros[name]
-				if m.IsGlobal {
-					continue // 🚀 關鍵：全域巨集不進行文字替換，由 Evaluator 處理
-				}
 				if strings.HasPrefix(currentLine[i:], name) {
 					// 檢查邊界
 					endIdx := i + len(name)
@@ -130,6 +126,7 @@ func (p *Preprocessor) replaceMacros(line string, initialInString bool) (string,
 					isEndWord := (endIdx == len(currentLine) || !isAlphaNumeric(currentLine[endIdx]))
 
 					if isStartWord && isEndWord {
+						fmt.Printf("DEBUG: Replacing macro %s with %s in %s\n", name, m.Body, currentLine)
 						result.WriteString(m.Body)
 						i = endIdx - 1 // 跳過巨集名稱 (迴圈會再 +1)
 						found = true
@@ -155,9 +152,6 @@ func (p *Preprocessor) replaceMacros(line string, initialInString bool) (string,
 	return currentLine, finalInString
 }
 func (p *Preprocessor) replaceFuncMacro(line, name string, m Macro) string {
-	if m.IsGlobal {
-		return line // 🚀 關鍵：全域函式型巨集不進行文字替換，由 Evaluator 處理
-	}
 	outLine := line
 	searchIdx := 0
 	for {
@@ -266,8 +260,9 @@ func (p *Preprocessor) processInternal(filename, input string, depth int) (strin
 		filename = "/" + filename
 	}
 
-	// 🚀 新增：全域自動引入處理 (只對非標頭檔且非自己進行)
-	// 避免無窮遞迴引入自己，且通常標頭檔不應再自動引入 globals.h
+	// 🚀 關鍵修正：恢復全域自動引入處理 (只對非標頭檔且非自己進行)
+	// 雖然我們有 Seed Macros，但在某些結構性陳述 (如 inherit) 中，
+	// 顯式的標頭定義能確保解析器的行為與傳統 LPC 驅動程式一致。
 	if p.GlobalInclude != "" && filename != p.GlobalInclude && !strings.HasSuffix(filename, ".h") {
 		input = "#include <" + p.GlobalInclude + ">\n" + input
 	}
@@ -291,6 +286,7 @@ func (p *Preprocessor) processInternal(filename, input string, depth int) (strin
 
 	for scanner.Scan() {
 		line := scanner.Text()
+		inString = false // 🚀 關鍵：LPC 字串不跨行，每行重置以避免狀態污染
 
 		// 🚩 處理註解，支援 // 與 /* */
 		var cleanLineBuilder strings.Builder
@@ -499,8 +495,10 @@ func (p *Preprocessor) processInternal(filename, input string, depth int) (strin
 					body = strings.TrimSpace(defineBody[len(name):])
 				}
 			}
-
+			// 記錄巨集
+			fmt.Printf("DEBUG [%s]: Defining macro %s as %s (args: %v)\n", filename, name, body, args)
 			p.Macros[name] = Macro{Name: name, Args: args, Body: body}
+
 			// fmt.Printf("DEBUG: Defined macro %s = %s\n", name, body)
 			output.WriteString("\n")
 			continue

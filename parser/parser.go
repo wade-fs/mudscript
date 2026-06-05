@@ -541,18 +541,19 @@ func (p *Parser) parseCallExpression(function ast.Expression) ast.Expression {
 }
 
 func (p *Parser) parseStringLiteral() ast.Expression {
-	lit := &ast.StringLiteral{
+	res := &ast.StringLiteral{
 		Token: p.curToken,
 		Value: p.curToken.Literal,
 	}
 
-	// 🚀 新增：支援相鄰字串自動串接 (ANSI C 風格)
+	// 🚀 關鍵相容：支援相鄰字串自動串接 (ANSI C 風格)
+	// 在 C/LPC 中，"a" "b" 會自動合併為 "ab"
 	for p.peekTokenIs(token.STRING) || p.peekTokenIs(token.CHAR) {
 		p.nextToken()
-		lit.Value += p.curToken.Literal
+		res.Value += p.curToken.Literal
 	}
 
-	return lit
+	return res
 }
 
 func (p *Parser) parseCharLiteral() ast.Expression {

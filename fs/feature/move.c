@@ -6,21 +6,23 @@
 #include <dbase.h>
 #include <type.h>
 #include <ansi.h>
-int my_weight = 0, my_encumb = 0, my_max_encumb = 0;
+int my_weight = 0;
+int encumb = 0;
+int max_encumb = 0;
 
-nomask int weight() { return my_weight + my_encumb; }
+nomask int weight() { return my_weight + encumb; }
 nomask int query_weight() { return my_weight; }
-nomask int query_encumbrance() { return my_encumb; }
-nomask int over_encumbranced() { return my_encumb > my_max_encumb; }
-nomask int query_max_encumbrance() { return my_max_encumb; }
-nomask void set_max_encumbrance(int e) { my_max_encumb = e; }
+nomask int query_encumbrance() { return encumb; }
+nomask int over_encumbranced() { return encumb > max_encumb; }
+nomask int query_max_encumbrance() { return max_encumb; }
+nomask void set_max_encumbrance(int e) { max_encumb = e; }
 
 nomask void add_encumbrance(int w)
 {
-        my_encumb += w;
-        if( my_encumb < 0 )
+        encumb += w;
+        if( encumb < 0 )
                 log_file("move.bug", sprintf("%O encumbrance underflow.\n", this_object()));
-        if( my_encumb > my_max_encumb ) this_object()->over_encumbrance();
+        if( encumb > max_encumb ) this_object()->over_encumbrance();
         if( environment() ) environment()->add_encumbrance(w);
 }
 

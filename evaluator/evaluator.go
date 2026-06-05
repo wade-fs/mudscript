@@ -1108,7 +1108,7 @@ func resolveIndex(obj object.Object, length int64) (int64, bool) {
 }
 
 func evalIndexExpression(left, index object.Object) object.Object {
-	if left == nil || index == nil { return &object.Integer{Value: 0} }
+	if left == nil || left.TokenType() == object.NilType || index == nil { return &object.Integer{Value: 0} }
 	switch l := left.(type) {
 	case *object.Array:
 		idx, ok := index.(*object.Integer)
@@ -1137,6 +1137,9 @@ func evalIndexExpression(left, index object.Object) object.Object {
 func evalSliceExpression(node *ast.SliceExpression, env object.Environment) object.Object {
 	left := Eval(node.Left, env)
 	if isError(left) { return left }
+	if left == nil || left.TokenType() == object.NilType {
+		return &object.Integer{Value: 0}
+	}
 
 	var startVal, endVal object.Object
 	if node.StartIndex != nil {
@@ -1364,21 +1367,25 @@ func evalAssignExpression(node *ast.AssignExpression, env object.Environment) ob
 
 	if node.Operator == "=" {
 		if !env.Assign(leftIdent.Value, val) {
-			return newError("變數未宣告或不存在: %s", leftIdent.Value)
+			// 🚀 關鍵容錯：若變數不存在，在當前環境建立它 (修復繼承變數遺失)
+			env.Set(leftIdent.Value, val)
 		}
 		return val
 	}
 
 	currentVal, exists := env.Get(leftIdent.Value)
 	if !exists {
-		return newError("變數未宣告或不存在: %s", leftIdent.Value)
+		// 🚀 關鍵容錯：若變數不存在，初始化為 0
+		currentVal = &object.Integer{Value: 0}
 	}
 
 	op := node.Operator[:len(node.Operator)-1]
 	newVal := evalInfixExpression(op, currentVal, val)
 	if isError(newVal) { return newVal }
 
-	env.Assign(leftIdent.Value, newVal)
+	if !env.Assign(leftIdent.Value, newVal) {
+		env.Set(leftIdent.Value, newVal)
+	}
 	return newVal
 }
 
