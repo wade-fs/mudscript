@@ -12,7 +12,13 @@
 #define DAMAGE_EX __DIR__"damage_ex.c"
 #define STONE __DIR__"stone.c"
 
-int i, gin, kee, sen, force, mana, atman,exp_rate=0,other=1,clan_war=0,clan_wark=0,all_exp=0,my_exp;
+int i, gin, kee, sen, force, mana, atman;
+int exp_rate = 0;
+int other = 1;
+int clan_war = 0;
+int clan_wark = 0;
+int all_exp = 0;
+int my_exp = 0;
 int get_exp, get_pot,war_exp,war_pot,war_level, pal_exp, pal_pot, exp, base, eita,gain;
 object x,y,wp;
 string my_att;

@@ -15,7 +15,7 @@ varargs int edit(function callback, string text)
 void input_line(string line, string text, function callback)
 {
 	if( line=="." ) {
-		(*callback)(text);
+		evaluate(callback, text);
 		return;
 	} else if( line=="~q" ) {
 		write("輸入取消。\n");
