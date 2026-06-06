@@ -1,9 +1,0 @@
-金刀門
-負責人 : wugi
-夥伴   : longhair , wing
-
-/room/ : 金刀門區域
-/obj/  : 物品攔
-/npc/  : mob
-/mob/  : 跟煉妖壺有關的東西
-/port/ : 楓林港的區域 , 暫時放在這裡

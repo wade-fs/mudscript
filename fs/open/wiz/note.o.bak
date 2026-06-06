@@ -1,3 +1,0 @@
-#/obj/tel.c
-dbase (["long":"  簡單的記事簿，可以利用(add)來增加資料，  如果你閒麻煩也可以直接用(ask)，當然也可以  用(list)列出所有的資料, 或 (del) 刪除不要的記錄。","save_file":"/open/wiz/note","id":"tel","startroom":"/open/wiz/hall3","exits":(["down":"/u/w/wade/workroom",]),"unit":"個","name":"記事簿",])
-data (["wade":({"(04)6397291","0920-351711","123",}),])

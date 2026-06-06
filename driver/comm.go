@@ -2,6 +2,7 @@
 package driver
 
 import (
+	"log"
 	"strings"
 
 	"mudscript/object"
