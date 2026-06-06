@@ -20,7 +20,7 @@ void create()
 LONG);
   set("gender","女性");
   set("class","dancer");
-  set("nickname",NOR+MAG"夢" + HIM + "舞"NOR+MAG"玄" + HIM + "翔" + NOR);
+  set("nickname",NOR+MAG + "夢" + HIM + "舞" + NOR+MAG + "玄" + HIM + "翔" + NOR);
   set("title",HIC + "聚靈八傑" + NOR);
   set("family/family_name","夜夢小築");
   set("combat_exp",10000000);

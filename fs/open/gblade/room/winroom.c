@@ -20,8 +20,8 @@ void init() {
         tell_object(enemy,HIY + "蔡總管說道: 比賽結束!\n" + NOR);
         me->remove_all_killer();
         enemy->remove_all_killer();
-        shout(HIC + "蔡總管喝道: 比賽勝負已分! "HIW+me->name()+HIC"慘"+
-              "遭屠戮..., 勝者"HIW+enemy->name()+"!\n" + NOR);
+        shout(HIC + "蔡總管喝道: 比賽勝負已分! " + HIW+me->name()+HIC + "慘"+
+              "遭屠戮..., 勝者" + HIW+enemy->name()+"!\n" + NOR);
         me->add("potential", -100);
         enemy->add("potential", 100);
         me->pay_money(100000);

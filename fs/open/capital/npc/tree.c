@@ -137,7 +137,7 @@ void heart_beat()
   {
     if(kee < mkee || sen < msen || gin < mgin)
     {
-      message_vision(HIB + "$N運起少林寺最高內功\心法" + HIW + "『"BRED+HIY"本來無一物" + NOR + "" + HIW + "』" + HIB + "
+      message_vision(HIB + "$N運起少林寺最高內功\心法" + HIW + "『" + BRED+HIY + "本來無一物" + NOR + "" + HIW + "』" + HIB + "
 內勁變得如黑洞般深不可測，原本散發的凜冽鬥氣剎那間完全消失，
 $N竟與自然化為一體，全身傷勢疾速復原。\n" + NOR,me);
 
@@ -155,8 +155,8 @@ $N竟與自然化為一體，全身傷勢疾速復原。\n" + NOR,me);
   }
   if(me->is_busy() && random(100)< 40 && !me->query_temp("unconcious"))
   {
-message_vision(HIR + "$N潛運" + HIW + "ξ"BRED+HIY"本來無一物" + NOR + "" + HIW + "ξ" + HIR + "神功\，身形浮起，爆發無匹內勁掙脫束縛，
-接著以閃電山莊的" + HIW + "ξ"BRED+HIY"閃電身法" + NOR + "" + HIW + "ξ" + HIR + "迅速脫離封鎖。\n" + NOR,me);
+message_vision(HIR + "$N潛運" + HIW + "ξ" + BRED+HIY + "本來無一物" + NOR + "" + HIW + "ξ" + HIR + "神功\，身形浮起，爆發無匹內勁掙脫束縛，
+接著以閃電山莊的" + HIW + "ξ" + BRED+HIY + "閃電身法" + NOR + "" + HIW + "ξ" + HIR + "迅速脫離封鎖。\n" + NOR,me);
     me->delete_busy();
     if(me->is_fighting())
     {
@@ -191,7 +191,7 @@ void die()
 
 
 黃帝病" + HIM + "朗聲說道" + HIW + "：
-                貧僧身負" + HIW + "ζ"HIY+BRED"魔界金典" + NOR + "" + HIW + "ζ，和修習∮"HIC+BBLU"英雄真經" + NOR + "" + HIW + "∮的木無言
+                貧僧身負" + HIW + "ζ" + HIY+BRED + "魔界金典" + NOR + "" + HIW + "ζ，和修習∮" + HIC+BBLU + "英雄真經" + NOR + "" + HIW + "∮的木無言
                 乃命中宿敵，在貧僧轟下木無言之前，任何人都沒資格敗他
                 想殺他的人，就只有死!!
 
@@ -222,7 +222,7 @@ void die()
     spirit = new("/open/ghost-hole/obj/light-spirit");
     spirit->move(winner);
     log_file("/sky/spirit/light-spirit",sprintf("%s(%s)讓木無言掉下了%s於 %s\n",winner->name(1),winner->query("id"),spirit->query("name"),ctime(time())));
-    message_vision(HIY + "薀含在"+me->query("name")+HIY"身體中的"+spirit->query("name")+HIY"飛射而出，落在$N" + HIY + "手中。\n" + NOR,winner);
+    message_vision(HIY + "薀含在"+me->query("name")+HIY + "身體中的"+spirit->query("name")+HIY + "飛射而出，落在$N" + HIY + "手中。\n" + NOR,winner);
   }
   sick->kill_ob(winner);
   winner->start_busy(1);

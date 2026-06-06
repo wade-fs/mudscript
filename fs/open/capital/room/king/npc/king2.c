@@ -262,7 +262,7 @@ void heart_beat()
 
     百姓紛紛面朝皇城的方向跪地磕頭, 有些人甚至哭了起來
 
-      太后大叫道: 可惡的"+((winner&&objectp(winner)==1)?winner->query("name"):"咕哩貓")+HIR", 竟敢以下犯上,
+      太后大叫道: 可惡的"+((winner&&objectp(winner)==1)?winner->query("name"):"咕哩貓")+HIR + ", 竟敢以下犯上,
 
                 凡我同胞, 人人得而誅之!!!!!
   \n\n" + NOR);

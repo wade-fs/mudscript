@@ -379,8 +379,8 @@ int do_accept()
     if( !present("spirit blade",who) ) {
       new("/open/doctor/doctor_book/obj/spirit_blade_v1.c")->move(who);
       who->apply_condition("spirit_curse",10);
-      message_vision("$N給$n一把"+HBYEL+HIW"雙" + HIC + "界" + HIR + "刀" + NOR + "。\n",me,who);
-      message_vision(HIR + "失去$N控制的"+HBYEL+HIW"雙" + HIC + "界"HIR + "刀"NOR+HIR"瞬間失控，無數邪靈纏繞其上，$n感到有些擔心。\n" + NOR,me,who);
+      message_vision("$N給$n一把"+HBYEL+HIW + "雙" + HIC + "界" + HIR + "刀" + NOR + "。\n",me,who);
+      message_vision(HIR + "失去$N控制的"+HBYEL+HIW + "雙" + HIC + "界" + HIR + "刀" + NOR+HIR + "瞬間失控，無數邪靈纏繞其上，$n感到有些擔心。\n" + NOR,me,who);
     }
     else {
       command( "stare "+who->query("id") );
@@ -460,8 +460,8 @@ int do_answer(string str)
   }
   command("grin "+who->query("id"));
   new("/open/doctor/doctor_book/obj/spirit_blade_v1.c")->move(who);
-  message_vision("$N給$n一把"+HBYEL+HIW"雙" + HIC + "界" + HIR + "刀" + NOR + "。\n",ob,who);
-  message_vision(HIR + "失去$N控制的"+HBYEL+HIW"雙" + HIC + "界"HIR + "刀"NOR+HIR"瞬間失控，無數邪靈纏繞其上。\n" + NOR,ob,who);
+  message_vision("$N給$n一把"+HBYEL+HIW + "雙" + HIC + "界" + HIR + "刀" + NOR + "。\n",ob,who);
+  message_vision(HIR + "失去$N控制的"+HBYEL+HIW + "雙" + HIC + "界" + HIR + "刀" + NOR+HIR + "瞬間失控，無數邪靈纏繞其上。\n" + NOR,ob,who);
   return 1;
 }
 
@@ -556,8 +556,8 @@ string ask_blade()
     new("/open/doctor/doctor_book/obj/spirit_blade_v1.c")->move(who);
     command( "say 喔～你想拿拿看呀，那借你玩玩吧。" );
     command( "grin" );
-    message_vision("$N給$n一把"+HBYEL+HIW"雙" + HIC + "界" + HIR + "刀" + NOR + "。\n",me,who);
-    message_vision(HIR + "失去$N控制的"+HBYEL+HIW"雙" + HIC + "界"HIR + "刀"NOR+HIR"瞬間失控，無數邪靈纏繞其上，$n感到有些擔心。\n" + NOR,me,who);
+    message_vision("$N給$n一把"+HBYEL+HIW + "雙" + HIC + "界" + HIR + "刀" + NOR + "。\n",me,who);
+    message_vision(HIR + "失去$N控制的"+HBYEL+HIW + "雙" + HIC + "界" + HIR + "刀" + NOR+HIR + "瞬間失控，無數邪靈纏繞其上，$n感到有些擔心。\n" + NOR,me,who);
   }
   else {
     command( "stare "+who->query("id") );

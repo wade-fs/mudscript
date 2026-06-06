@@ -169,7 +169,7 @@ void heart_beat()
               case 0:
 	      message_vision(HIB + "          －－ " + HIW + "冥  殿  " + HIR + "絕  " + HIY + "學  " + HIB + "第  一  式 －－" + NOR + "
                   " + HIB + "～『  " + HIY + "妖 魔 聚 鼎" + HIB + "  』～\n" + NOR + "
-" + HIW + "$N身形倏而騰飛三丈,凌空劈出一"NOR+HIW"股掌勁,綿綿掌影,如江河缺堤似,暴瀉而下,掌風如激流"NOR+HIW"般地向$n隔空劈來!\n" + NOR,me,enemy[j]);
+" + HIW + "$N身形倏而騰飛三丈,凌空劈出一" + NOR+HIW + "股掌勁,綿綿掌影,如江河缺堤似,暴瀉而下,掌風如激流" + NOR+HIW + "般地向$n隔空劈來!\n" + NOR,me,enemy[j]);
 	      enemy[j]->receive_damage("gin",220);
               enemy[j]->receive_damage("sen",220);
               enemy[j]->receive_wound("kee",400);

@@ -242,7 +242,7 @@ int to_eq(string arg)
 	// 87.6.12加入
 	//避免使用sub之後,影舞者的防禦力變成零
     me->set_temp("mob_def",armor_power);
-    write(this_object()->name()+HIG"將防具收下來！\n" + NOR);
+    write(this_object()->name()+HIG + "將防具收下來！\n" + NOR);
     return 1;                          //要防止防禦力的累積
  }
   if (ob->query("食物")) 
@@ -267,15 +267,15 @@ int mob_charge(string arg)
      return notify_fail(ob->name()+"還不夠強大喔,再多餵他一些殺手密藥吧。\n");
    if( !arg )
    {
-     write(ob->name()+HIG"收到命令後，知道他報效的時機來了。\n" + NOR);
-     write(ob->name()+HIG"閉上雙眼，屏氣凝神，使得原本黝黑的身體起了一陣光芒。\n" + NOR);
+     write(ob->name()+HIG + "收到命令後，知道他報效的時機來了。\n" + NOR);
+     write(ob->name()+HIG + "閉上雙眼，屏氣凝神，使得原本黝黑的身體起了一陣光芒。\n" + NOR);
      write(HIG + "瞬間閃出一陣光芒，"+me->name()+"被光芒籠罩住\n" + NOR);
      tell_object(me,"你感到你原本受損的身體，身心都完全回復了\n");
      me->set("gin",me->query("max_gin"));
      me->set("kee",me->query("max_kee"));
      me->set("sen",me->query("max_sen"));
      me->clear_condition();
-     write(ob->name()+HIG"在光芒散去後，也消失的無影無蹤。\n" + NOR);
+     write(ob->name()+HIG + "在光芒散去後，也消失的無影無蹤。\n" + NOR);
      ob->add("lv",-2);
      ob->set("exp",1);
      destruct(ob);
@@ -389,7 +389,7 @@ int mob_busy(string arg)
    if( pow < 30 ) 
        return notify_fail(ob->name()+"還不夠強大喔,再多餵他一些殺手密藥吧。\n");
    if( busy_times > 1)
-       return notify_fail(ob->name()+HIG"很累了，再多餵他一些殺手密藥吧。\n" + NOR);
+       return notify_fail(ob->name()+HIG + "很累了，再多餵他一些殺手密藥吧。\n" + NOR);
    if(this_object()->query("helpme")==1)
        return notify_fail("他在保護你，那有心思去纏住敵人呀？\n");
 

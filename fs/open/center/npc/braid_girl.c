@@ -64,7 +64,7 @@ void heart_beat()
       if(inv[i]->query("id") ==ob->query("id") || living(inv[i])) continue; //當然不能是自己
       if(inv[i]->query("no_sac")) continue;
       if(!inv[i]->query("食物") && !inv[i]->query("液體") && inv[i]->query("id") != "cloud fan") continue; //需注意該房間是否固定場景的物件
-      message_vision(HIC + "$N以很遺憾的心情將"+inv[i]->query("name")+HIC"("+inv[i]->query("id")+HIC")歸入塵土風逝。\n" + NOR,ob);
+      message_vision(HIC + "$N以很遺憾的心情將"+inv[i]->query("name")+HIC + "("+inv[i]->query("id")+HIC + ")歸入塵土風逝。\n" + NOR,ob);
       destruct(inv[i]);
     }
   }

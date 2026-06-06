@@ -238,9 +238,9 @@ else
 if(me->query("quest/start_game")< 51)
        {
         tell_object(users(),HIY + "
-恭喜"HIW+me->query("name")+HIY"挑戰" + HIG + "『" + HIR + "第五十層試煉ソ塔" + HIG + "』" + HIY + "通過！！
+恭喜" + HIW+me->query("name")+HIY + "挑戰" + HIG + "『" + HIR + "第五十層試煉ソ塔" + HIG + "』" + HIY + "通過！！
 
-期望"HIW+me->query("name")+HIY"也能在" + HIG + "『" + HIW + "天ソ閣" + HIG + "』" + HIY + "創下佳績。
+期望" + HIW+me->query("name")+HIY + "也能在" + HIG + "『" + HIW + "天ソ閣" + HIG + "』" + HIY + "創下佳績。
 	" + NOR);
 	me->set("quest/start_game",51);
         destruct (this_object ());

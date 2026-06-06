@@ -57,7 +57,7 @@ int do_pluck(string arg)
 {
     if(me->query("doctor/get_fea",1))
 {
-	message_vision(RED + "$N貪心的想再拔第二次...不料卻被" + HIR + "赤羽火鳳"NOR+RED"給發覺......\n" + NOR, me);
+	message_vision(RED + "$N貪心的想再拔第二次...不料卻被" + HIR + "赤羽火鳳" + NOR+RED + "給發覺......\n" + NOR, me);
 	pnx = new("/open/doctor/npc/pnx");
 	pnx->move(environment(me));
 	pnx->kill_ob(me);
@@ -65,16 +65,16 @@ int do_pluck(string arg)
 }
     if(random(100) > spi)
 {
-	message_vision(RED + "$N偷偷的靠近" + HIR + "赤羽火鳳"NOR+RED"......\n" + NOR, me);
-	message_vision(HIB + "$N成功\的將" + HIR + "赤羽火鳳"NOR+HIB"的尾羽給拔到手了！\n" + NOR, me);
+	message_vision(RED + "$N偷偷的靠近" + HIR + "赤羽火鳳" + NOR+RED + "......\n" + NOR, me);
+	message_vision(HIB + "$N成功\的將" + HIR + "赤羽火鳳" + NOR+HIB + "的尾羽給拔到手了！\n" + NOR, me);
 	me->delete("get_key");
 	me->set("get_fea",1);
 	fea = new("/open/doctor/obj/feather");
 	fea->move(me);
 	return 1;
 }else{
-	message_vision(RED + "$N偷偷的靠近" + HIR + "赤羽火鳳"NOR+RED"......\n" + NOR, me);
-	message_vision(MAG + "$N的動作太大，竟然被" + HIR + "赤羽火鳳"NOR+MAG"給發覺了！\n" + NOR, me);
+	message_vision(RED + "$N偷偷的靠近" + HIR + "赤羽火鳳" + NOR+RED + "......\n" + NOR, me);
+	message_vision(MAG + "$N的動作太大，竟然被" + HIR + "赤羽火鳳" + NOR+MAG + "給發覺了！\n" + NOR, me);
 	pnx = new("/open/doctor/npc/pnx");
 	pnx->move(environment(me));
 	pnx->kill_ob(me);

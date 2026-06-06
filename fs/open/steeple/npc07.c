@@ -106,7 +106,7 @@ void die ()
 	if(me->query("quest/start_game")< 8)
         {
         tell_object(users(),HIY + "
-	恭喜"HIW+me->query("name")+HIY"挑戰" + HIG + "『" + HIR + "第六層試煉塔" + HIG + "』" + HIY + "通過！！
+	恭喜" + HIW+me->query("name")+HIY + "挑戰" + HIG + "『" + HIR + "第六層試煉塔" + HIG + "』" + HIY + "通過！！
 
 	" + HIW + "希望"+me->query("name")+"能不負眾望，勇闖" + HIG + "『" + HIY + "第七層試煉塔" + HIG + "』" + HIW + "。
 	" + NOR);
@@ -173,8 +173,8 @@ void do_special1()
         "沖田總司突然眼現殺氣, 全身散發出驚人的殺氣, 你當場被其殺氣給震攝住!!\n" + NOR,target);
         message_vision(
         "沖田總司放聲大喝道:\n
-        "+HIC"                   天  然  理  心  流\n
-        "+HIR"                ***"+HIR"**"+HIG"三"+HIR"**"+HIG"段"+HIR"**"+HIG"刺"+HIR"**"+HIG"法"+HIR"**"+HIR"***"NOR+"\n\n",target);
+        "+HIC + "                   天  然  理  心  流\n
+        "+HIR + "                ***"+HIR + "**"+HIG + "三"+HIR + "**"+HIG + "段"+HIR + "**"+HIG + "刺"+HIR + "**"+HIG + "法"+HIR + "**"+HIR + "***" + NOR+"\n\n",target);
         message_vision(HIC
         "沖田總司拔出" + HIY + "菊一文字則宗" + HIC + "頓時刀光漫天, 全身被刀器所籠罩！！！\n" + NOR,target);
         message_vision(HBGRN + "\n沖田總司以驚人的速度在$N身上猛一劈刀, $N的鮮血狂噴而出！\n" + NOR,target);
@@ -203,8 +203,8 @@ void do_special2()
         "沖田總司突然眼現殺氣, 全身散發出驚人的殺氣, 你當場被其殺氣給震攝住!!\n" + NOR,target);
         message_vision(
         "沖田總司放聲大喝道:\n
-        "+HIC"                   天  然  理  心  流\n
-        "+HIR"                ***"+HIR"**"+HIG"一"+HIR"**"+HIG"文"+HIR"**"+HIG"字"+HIR"**"+HIG"斬"+HIR"**"+HIR"***"NOR+"\n\n",target);
+        "+HIC + "                   天  然  理  心  流\n
+        "+HIR + "                ***"+HIR + "**"+HIG + "一"+HIR + "**"+HIG + "文"+HIR + "**"+HIG + "字"+HIR + "**"+HIG + "斬"+HIR + "**"+HIR + "***" + NOR+"\n\n",target);
         message_vision(HIC
         "沖田總司拔出" + HIY + "菊一文字則宗" + HIC + "頓時刀光漫天, $N全身被刀器所籠罩！！！\n" + NOR,target);
         message_vision(HIW + "\n菊一文字則宗發出不可逼視的強光奪去$N的視覺, $N頓時失去行動能力！\n" + NOR,target);
@@ -231,8 +231,8 @@ void heart_beat()
         "沖田總司突然眼現殺氣, 全身散發出驚人的殺氣, 你當場被其殺氣給震攝住!!\n" + NOR,target);
         message_vision(
         "沖田總司放聲大喝道:\n
-        "+HIW"                   獨  門  禁  斷  技\n
-        "+HIY"                ***"+HIY"**"+HIY""NOR+HIB"青"+HIY"****"NOR+HIB"平"+HIY"****"NOR+HIB"眼"+HIY""NOR+HIY"**"+HIY"***"NOR+"\n\n",target);
+        "+HIW + "                   獨  門  禁  斷  技\n
+        "+HIY + "                ***"+HIY + "**"+HIY + "" + NOR+HIB + "青"+HIY + "****" + NOR+HIB + "平"+HIY + "****" + NOR+HIB + "眼"+HIY + "" + NOR+HIY + "**"+HIY + "***" + NOR+"\n\n",target);
         message_vision(HIG
         "沖田總司激發出全身鬥氣, 以劍尖對住$N的眼睛，劍尖下沉而向右微傾！！！\n" + NOR,target);
         message_vision(HIC + "當沖田總司的刀快與$N接觸時，沖田總司的刀以電光火石般地速度滑向$N，一刀斬斃$N！\n" + NOR,target);

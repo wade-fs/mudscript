@@ -102,7 +102,7 @@ object ob,me;
 	tell_object(users(),HIC + "
 
 	"+me->query("name")+"　阻止了野人大軍的入侵，將　"+ob->query("name")+"　暫時擊退！
-		讓　"+environment(ob)->query("short")+HIC"　脫離了戰爭的危害！
+		讓　"+environment(ob)->query("short")+HIC + "　脫離了戰爭的危害！
 
 \n" + NOR);
 	deletelog(ob,"open-war01");

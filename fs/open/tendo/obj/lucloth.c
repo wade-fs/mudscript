@@ -36,7 +36,7 @@ int wear(){
   if( !me->query_temp("armor/cloth") ) {
   	me->add("max_kee",val);
   	me->set_temp("silk_cloth",val);
-//	me->add_temp("apply/name",({me->name()+HIW"(仙綬之衣)" + NOR}));
+//	me->add_temp("apply/name",({me->name()+HIW + "(仙綬之衣)" + NOR}));
   }
   return ::wear();
 }

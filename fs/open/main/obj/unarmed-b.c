@@ -7,7 +7,7 @@ int be,bb,k,sp,qq;
 void create()
 {
         seteuid(getuid());
-        set_name(HIR + "血"+HIB"影摧"+HIR"心" + NOR,({"blood-figring"}));
+        set_name(HIR + "血"+HIB + "影摧"+HIR + "心" + NOR,({"blood-figring"}));
         set_weight(80);
         if( clonep() )
                 set_default_object(__FILE__);

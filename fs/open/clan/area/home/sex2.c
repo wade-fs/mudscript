@@ -51,7 +51,7 @@ int do_use( string arg )
 			return notify_fail( "妳沒力氣自慰了, 休息一下吧﹗\n" );
 		if( ob->query("use")>100 )
 			return notify_fail( ob->name() + "已被妳用光了﹗\n" );
-		message_vision( HIY + "$N從" + ob->name() + HIY"裡面倒出一顆藥丸吞了下去, 眼睛突然亮了起來。\n" + NOR, me );
+		message_vision( HIY + "$N從" + ob->name() + HIY + "裡面倒出一顆藥丸吞了下去, 眼睛突然亮了起來。\n" + NOR, me );
 		message_vision( HIM + "$N靦腆地脫下裙子, 開始自慰。\n" + NOR, me );
 		call_out( "do_use_2", 5, me );
 		ob->add( "use", 1 );

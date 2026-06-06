@@ -5,7 +5,7 @@ inherit EQUIP;
 
 void create()
 {
-        set_name(HIR + "赤"+HIG"麟"+HIC"肩甲" + NOR,({"Red chilin armband","armband"}));
+        set_name(HIR + "赤"+HIG + "麟"+HIC + "肩甲" + NOR,({"Red chilin armband","armband"}));
         set_weight(10000);
         if( clonep() )
                 set_default_object(__FILE__);

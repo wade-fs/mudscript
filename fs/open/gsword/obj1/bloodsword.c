@@ -16,7 +16,7 @@ void create()
             set("unit", "件");
             set("value",20000);
             set("material","steal");
-            set("wield_msg", HIR + "$N從將$n"+HIR"由畫滿符咒的劍鞘中抽出.\n");
+            set("wield_msg", HIR + "$N從將$n"+HIR + "由畫滿符咒的劍鞘中抽出.\n");
             set("unwield_msg", "$N把$n插回劍鞘裡.\n");
            }
         init_sword(99);

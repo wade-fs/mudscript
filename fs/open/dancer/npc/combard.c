@@ -142,7 +142,7 @@ string damage_msg(int damage, string type)
 	}
 	*/
 	if( wizardp(me) || wizardp(victim) )
-		return "造成 "HIR + damage + NOR" 點" + type + "。\n";
+		return "造成 " + HIR + damage + NOR + " 點" + type + "。\n";
         switch( type ) {
         case "斲傷":
         case "割傷":

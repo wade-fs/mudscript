@@ -373,7 +373,7 @@ void die()
          焚天魔王仰天嘆道：『萬年以來我的驚世神功\無人能敵,
                              想不到今日敗於"+HIY+
                              (winner->query("family/family_name")?winner->query("family/family_name"):"")+
-                             HIC+name+HIW"       
+                             HIC+name+HIW + "       
                              之手, 真是後生可畏～嘆啊～ 』
 
         " + HIB + "   魔界颳起狂風暴雨   一代魔界之王焚天魔王敗了!             

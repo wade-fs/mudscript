@@ -9,22 +9,22 @@ void create()
 set("short",HIW + "八卦遊龍迷陣" + NOR);
 
 long = "\n"+
-"                         "+BGRN"                      \n"NOR+
-"                       "+BWHT"                      "+BGRN"    \n"NOR+
-"                     "+BWHT"                          "+BGRN"    \n"NOR+
-"                    "+BWHT"                            "+BGRN"    \n"NOR+
-"                   "+BWHT"                              "+BGRN"    \n"NOR+
-"                  "+BWHT"             "+HIB"乾門"+HIW"(n)"+"            "+BGRN"   \n"NOR+
-"                  "+BWHT"            "+HIB" ˍ　ˍ"+"             "+BGRN"   \n"NOR+
-"                  "+BWHT"     "+HIB"艮門"+HIW"(w)"+HIB" ˍ　ˍ"+" 離門" + HIW + "(e)"
-+"     "+BGRN"   \n"NOR+
-"                  "+BWHT"            "+HIB" ˍ　ˍ"+"             "+BGRN"   \n"NOR+
-"                  "+BWHT"                                "+BGRN"   \n"NOR+
-"                  "+BWHT"             "+HIB"坤門"+HIW"(s)"+"            "+BGRN"   \n"NOR+
-"                   "+BWHT"                              "+BGRN"   \n"NOR+
-"                    "+BWHT"                            "+BGRN"   \n"NOR+
-"                     "+BWHT"                          "+BGRN"   \n"NOR+
-"                       "+BWHT"                      \n"NOR+
+"                         "+BGRN + "                      \n" + NOR+
+"                       "+BWHT + "                      "+BGRN + "    \n" + NOR+
+"                     "+BWHT + "                          "+BGRN + "    \n" + NOR+
+"                    "+BWHT + "                            "+BGRN + "    \n" + NOR+
+"                   "+BWHT + "                              "+BGRN + "    \n" + NOR+
+"                  "+BWHT + "             "+HIB + "乾門"+HIW + "(n)"+"            "+BGRN + "   \n" + NOR+
+"                  "+BWHT + "            "+HIB + " ˍ　ˍ"+"             "+BGRN + "   \n" + NOR+
+"                  "+BWHT + "     "+HIB + "艮門"+HIW + "(w)"+HIB + " ˍ　ˍ"+" 離門" + HIW + "(e)"
++"     "+BGRN + "   \n" + NOR+
+"                  "+BWHT + "            "+HIB + " ˍ　ˍ"+"             "+BGRN + "   \n" + NOR+
+"                  "+BWHT + "                                "+BGRN + "   \n" + NOR+
+"                  "+BWHT + "             "+HIB + "坤門"+HIW + "(s)"+"            "+BGRN + "   \n" + NOR+
+"                   "+BWHT + "                              "+BGRN + "   \n" + NOR+
+"                    "+BWHT + "                            "+BGRN + "   \n" + NOR+
+"                     "+BWHT + "                          "+BGRN + "   \n" + NOR+
+"                       "+BWHT + "                      \n" + NOR+
 "\n";
 
 set("long", long);

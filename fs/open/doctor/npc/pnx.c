@@ -156,13 +156,13 @@ int do_pluck(string arg)
   if(!arg || arg != "feather") return 0;
   if(me->query("doctor/get_fea",1))
   {
-    message_vision(RED + "$N貪心的想再拔第二次...不料卻被" + HIR + "赤羽火鳳"NOR+RED"給發覺......\n" + NOR, me);
+    message_vision(RED + "$N貪心的想再拔第二次...不料卻被" + HIR + "赤羽火鳳" + NOR+RED + "給發覺......\n" + NOR, me);
     ob->kill_ob(me);
     return 1;
   }
   if(me->query("doctor/get_key",1))
   {
-    message_vision(RED + "$N偷偷的靠近" + HIR + "赤羽火鳳"NOR+RED"......\n" + NOR, me);
+    message_vision(RED + "$N偷偷的靠近" + HIR + "赤羽火鳳" + NOR+RED + "......\n" + NOR, me);
     if(random(100) > spi)
     {
       message_vision(HIB + "$N成功\的將$n" + HIB + "的尾羽給拔到手了！\n" + NOR, me, ob);
@@ -183,12 +183,12 @@ void die()
   object winner = query_temp("last_damage_from");
 /* //既然原始沒有開放的計畫就先拿掉了 等要開放時 再來考慮 by blazakira
   if(winner) {
-    tell_object(users(), HIR + "忽然從瀧山派聖地傳出一聲悲鳴，瀧山聖獸－赤羽火鳳被"+winner->query("name")+HIR"給親手殺死了！" + NOR + "\n\n"
-      +winner->query("name")+HIC"看著" + HIR + "赤羽火鳳" + HIC + "臨死前浴火飛行的景狀，瞬間領悟到了" + HIR + "【火鳳翔空】" + HIC + "的絕技！\n" + NOR);
+    tell_object(users(), HIR + "忽然從瀧山派聖地傳出一聲悲鳴，瀧山聖獸－赤羽火鳳被"+winner->query("name")+HIR + "給親手殺死了！" + NOR + "\n\n"
+      +winner->query("name")+HIC + "看著" + HIR + "赤羽火鳳" + HIC + "臨死前浴火飛行的景狀，瞬間領悟到了" + HIR + "【火鳳翔空】" + HIC + "的絕技！\n" + NOR);
 //    winner->set("doctor/killpnx",1);
   }
 */
-  message_vision(HIR + "\n赤羽火鳳"NOR+HIW"臨死之際掉落一片閃爍亮麗的羽毛，而身體卻逐漸黯淡……\n\n" + NOR,this_object());
+  message_vision(HIR + "\n赤羽火鳳" + NOR+HIW + "臨死之際掉落一片閃爍亮麗的羽毛，而身體卻逐漸黯淡……\n\n" + NOR,this_object());
   new("/open/doctor/obj/feather")->move(environment(this_object()));
   :: die();
 }

@@ -16,7 +16,7 @@ void create()
   set_name("蔡總管",({"pkla officer","officer"}));
   set("long","\n他是比武擂台的主持人。\n\n"+HIY+
     "  你可以輸入以下相關指令：        \n"+
-    "    encourage-pkla\n    encourage-pot\n    encourage-stone1\n    encourage-stone10\n    do_change\n"HIG+
+    "    encourage-pkla\n    encourage-pot\n    encourage-stone1\n    encourage-stone10\n    do_change\n" + HIG+
     "相關help，請 help 狂想原石，help ch-stdby，help pkla，help 替身\n\n" + NOR);
 
   set("race","人類");
@@ -366,9 +366,9 @@ int doing_me(object me)
 
   tell_object(me,"蔡總管說：依您的江湖名聲酌收"+cvalue(i)+"的報名費。\n");
   set_master(me);
-  shout(HIC + "\n蔡總管喝道："HIW+me->name()+HIC"願意接受擂台挑戰。"+
+  shout(HIC + "\n蔡總管喝道：" + HIW+me->name()+HIC + "願意接受擂台挑戰。"+
     "請各大武林好手前來切磋武藝。" + NOR);
-/*  tell_object(me,HIC + "\n蔡總管喝道："HIW+me->name()+HIC"願意接受擂"+
+/*  tell_object(me,HIC + "\n蔡總管喝道：" + HIW+me->name()+HIC + "願意接受擂"+
     "台挑戰。請各大武林好手前來切磋武藝。\n" + NOR);*/
   this_object()->set_temp("wait_pk",1);
   return 1;
@@ -412,10 +412,10 @@ int doing_accept(object me)
   set_fighter(me);
   pker_master->set("break_away" ,1);
   pker_fighter->set("break_away" ,1);
-  shout(HIC + "蔡總管喝道："HIW+pker_master->name()+HIC"與"HIW+
-    me->name()+HIC"將在一分鐘後開始比賽。" + NOR);
-/*  tell_object(me,HIC + "蔡總管喝道："HIW+pker_master->name()+HIC+
-    "與"HIW+me->name()+HIC"將在一分鐘後開始比賽。\n" + NOR);*/
+  shout(HIC + "蔡總管喝道：" + HIW+pker_master->name()+HIC + "與" + HIW+
+    me->name()+HIC + "將在一分鐘後開始比賽。" + NOR);
+/*  tell_object(me,HIC + "蔡總管喝道：" + HIW+pker_master->name()+HIC+
+    "與" + HIW+me->name()+HIC + "將在一分鐘後開始比賽。\n" + NOR);*/
   shout(HIC + "蔡總管說道：要押賭注的請儘快，逾時恕不受理。" + NOR);
 //  tell_object(me,HIC + "蔡總管說道：要押賭注的請儘快，逾時恕不受理。\n" + NOR);
   this_object()->set_temp("pking",1);
@@ -440,9 +440,9 @@ int doing_end(object me)
   }
 
   delete_master();
-  shout(HIC + "\n蔡總管喝道："HIW+me->name()+HIC"退出比賽。"+
+  shout(HIC + "\n蔡總管喝道：" + HIW+me->name()+HIC + "退出比賽。"+
     "想稱霸為王者請速洽於我。" + NOR);
-/*  tell_object(me,HIC + "\n蔡總管喝道："HIW+me->name()+HIC"退出比賽。"+
+/*  tell_object(me,HIC + "\n蔡總管喝道：" + HIW+me->name()+HIC + "退出比賽。"+
     "想稱霸為王者請速洽於我。\n" + NOR);*/
   this_object()->delete_temp("wait_pk");
   return 1;
@@ -593,12 +593,12 @@ int winner(object win,object lose)
   else shout(HIC + "\n蔡總管喝道：雙方皆棄權，因此比賽無勝負，請下一組人馬準備。\n" + NOR);
   }
   else if( !lose ) {
-    shout(HIC + "蔡總管喝道：比賽勝負已分！"HIW+win->name()+HIC"獲得最後的勝利！" + NOR);
+    shout(HIC + "蔡總管喝道：比賽勝負已分！" + HIW+win->name()+HIC + "獲得最後的勝利！" + NOR);
     pk_winner(win);
     tell_object(win,HIR + "蔡總管告訴你：pk獲勝，得到一百點潛能。"+"歡迎下次再來！\n" + NOR);
   }
   else {
-    shout(HIC + "蔡總管喝道：比賽勝負已分！"HIW+lose->name()+HIC"慘"+"遭屠戮...，勝者"HIW+win->name()+"！" + NOR);
+    shout(HIC + "蔡總管喝道：比賽勝負已分！" + HIW+lose->name()+HIC + "慘"+"遭屠戮...，勝者" + HIW+win->name()+"！" + NOR);
     pk_winner(win);
     tell_object(win,HIR + "蔡總管告訴你：pk 獲勝，得到一百點潛能。"+"歡迎下次再來！\n" + NOR);
     pk_loser(lose);

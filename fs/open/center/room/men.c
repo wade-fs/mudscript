@@ -384,10 +384,10 @@ void step6()
             "莊家賠你"+cvalue(money)+"。\n");
         else if(type == "cash")
           tell_object (ob[i],
-            HIY + "莊家賠你"+chinese_number(money)+"張"+ctype[type]+NOR"。\n");
+            HIY + "莊家賠你"+chinese_number(money)+"張"+ctype[type]+NOR + "。\n");
         else
           tell_object (ob[i],
-            HIY + "莊家賠你"+chinese_number(money)+"點"+ctype[type]+NOR"。\n");
+            HIY + "莊家賠你"+chinese_number(money)+"點"+ctype[type]+NOR + "。\n");
 
         // 理賠
         pay_bet_2_player(ob[i], money, type);

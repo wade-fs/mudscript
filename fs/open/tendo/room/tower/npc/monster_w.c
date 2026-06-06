@@ -185,7 +185,7 @@ void heart_beat()
           case 0:
             message_vision(HIB + "          －－ " + HIW + "冥  殿  " + HIR + "絕  " + HIY + "學  " + HIB + "第  一  式 －－" + NOR + "
                   " + HIB + "～『  " + HIY + "妖 魔 聚 鼎" + HIB + "  』～\n" + NOR + "
-" + HIW + "$N身形倏而騰飛三丈,凌空劈出一"NOR+HIW"股掌勁,綿綿掌影,如江河缺堤似,暴瀉而下,掌風如激流"NOR+HIW"般地向$n隔空劈來!\n" + NOR,me,enemy[j]);
+" + HIW + "$N身形倏而騰飛三丈,凌空劈出一" + NOR+HIW + "股掌勁,綿綿掌影,如江河缺堤似,暴瀉而下,掌風如激流" + NOR+HIW + "般地向$n隔空劈來!\n" + NOR,me,enemy[j]);
             enemy[j]->receive_damage("gin",220,me);
             enemy[j]->receive_damage("sen",220,me);
             enemy[j]->receive_wound("kee",400,me);
@@ -395,7 +395,7 @@ void die()
 
   if(winner)
   {
-    tell_object(users(),"\n"HIG+me->query("name")+"被"+winner->name(1)+"打的魂飛魄散，化成一道青光消散大地了。\n" + NOR);
+    tell_object(users(),"\n" + HIG+me->query("name")+"被"+winner->name(1)+"打的魂飛魄散，化成一道青光消散大地了。\n" + NOR);
     message_vision(HIY + "\n"+winner->name()+"打死"+this_object()->query("name")+"得到二十點戰功\!!\n" + NOR,winner);
     write_file("/log/get_war/monster",sprintf("%s(%s)    打死%s得到二十點戰功\於 %s\n",winner->name(1),winner->query("id"),this_object()->query("name"),ctime(time())));
     winner->add("war_score",20);

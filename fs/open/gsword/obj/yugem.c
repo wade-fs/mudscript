@@ -8,7 +8,7 @@ void create()
               set_default_object(__FILE__);
      else {
             set("long", 
-		"一條由難得一見的"+HIR"紅寶石"NOR+"鑲於其上的項鍊 ,\n"
+		"一條由難得一見的"+HIR + "紅寶石" + NOR+"鑲於其上的項鍊 ,\n"
 		"聽說紅寶石有收納能量的功效\n");
             set("unit", "條");
             set("armor_type", "neck");

@@ -10,7 +10,7 @@ inherit DAGGER;
 void create()
 {
 //  seteuid(getuid());
-  set_name(HIR + "絕"+HIY"世"+HIG"匕"+HIC"首" + NOR,({"world"}));
+  set_name(HIR + "絕"+HIY + "世"+HIG + "匕"+HIC + "首" + NOR,({"world"}));
   set_weight(8000);
   if( clonep() )
     set_default_object(__FILE__);
@@ -58,7 +58,7 @@ mixed hit_ob( object victim,object me)
       //但為避免還是有人練到，導致威力太強，所以在加上一個機率
       if(random(user->query_skill("rain-throwing",1)) >  80 && user->query("bellicosity") > 500 && user->query("atman") > 100 && user->query("force") > 500)
       { //因為，rain-throwing的等級最高100，所以max機率將是 0.4*0.2=0.08
-        message_vision(HIR + "\n四  "+HIG"神  "+HIY"合  "+ HIC"一    "+HIW"～" + NOR,victim);
+        message_vision(HIR + "\n四  "+HIG + "神  "+HIY + "合  "+ HIC + "一    "+HIW + "～" + NOR,victim);
         message_vision(HIW + "～    " + HIM + "ψ四☆★☆神☆★☆暴☆★☆走ψ\n" + NOR,victim);
         message_vision(YEL + "匕首中竄出一道玄武幻影，包圍$N!!\n" + NOR,victim);
         message_vision(HIC + "匕首中竄出數十道白虎幻影，牽制$N的攻勢!!\n" + NOR,victim);
@@ -101,7 +101,7 @@ mixed hit_ob( object victim,object me)
       //但為避免還是有人練到，導致威力太強，所以在加上一個機率
       if(random(user->query_skill("shadow-kill",1)) >  70 && user->query("bellicosity") > 500 && user->query("atman") > 100 && user->query("force") > 500)
       {
-        message_vision(HIR + "\n四  "+HIG"神  "+HIY"合  "+ HIC"一    "+HIW"～" + NOR,victim);
+        message_vision(HIR + "\n四  "+HIG + "神  "+HIY + "合  "+ HIC + "一    "+HIW + "～" + NOR,victim);
         message_vision(HIW + "～    " + HIM + "ψ四☆★☆神☆★☆霸☆★☆主ψ\n" + NOR,victim);
         world_choice=random(4);
         switch(world_choice)

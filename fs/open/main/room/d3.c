@@ -34,7 +34,7 @@ tell_object(me,HIM + "你感受到修羅道的力場影響，全身顫抖了一�
                     一道閃光竄出 ...
 
 
-" + HIC + "狂想的壯士"+HIY+me->query("name")+HIC"進入了前往天界的修羅之道
+" + HIC + "狂想的壯士"+HIY+me->query("name")+HIC + "進入了前往天界的修羅之道
  為了自身的磨練，前往未知之途 ..
 
 " + NOR,me);

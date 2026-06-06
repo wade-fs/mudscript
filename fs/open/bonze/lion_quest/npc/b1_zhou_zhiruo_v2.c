@@ -171,11 +171,11 @@ int broken_wp(object me)
   message_vision(HIM + "突然間卻看見周芷若運功\使刀劍互擊。\n" + NOR,me);
   message_vision(HIM + "「鏘—」但見兩把最不可能毀損的刀劍竟然從中斷裂了。\n" + NOR,me);
 bk=new("/open/main/obj/broken");
-bk->set("name", RED + "(斷毀兩段)" + HIC"倚天劍" + NOR);
+bk->set("name", RED + "(斷毀兩段)" + HIC + "倚天劍" + NOR);
 bk->set("id", "et-sword");
 bk->move(environment(me)); //me 為給予物品的人物
 bk=new("/open/main/obj/broken");
-bk->set("name", RED + "(斷毀兩段)" + HIY"屠龍刀" + NOR);
+bk->set("name", RED + "(斷毀兩段)" + HIY + "屠龍刀" + NOR);
 bk->set("id", "dragon blade");
 bk->move(environment(me)); //me 為給予物品的人物
   me->set_temp("quests/bonze/obj/ticket",1); //為完成入門任務所作的標記 //★需改為非temp的mark
@@ -257,7 +257,7 @@ HIY + "　　　從少林寺後山傳來一聲嘆息～\n"
 "\n"
 HIY + "　　　　　三位神僧同聲共念：「阿彌陀佛～」\n"
 "\n"
-HIM + "　只聞" + HIW + "周芷若" + HIM + "大喊：要不是參透不了" + HIY + "刀" + HIW + "劍" + HIM + "中的秘密，我也不至於敗在"+HIR+class1+HIM"弟子"+HIR+name+HIM"手中，\n"
+HIM + "　只聞" + HIW + "周芷若" + HIM + "大喊：要不是參透不了" + HIY + "刀" + HIW + "劍" + HIM + "中的秘密，我也不至於敗在"+HIR+class1+HIM + "弟子"+HIR+name+HIM + "手中，\n"
 HIM + "　　　　　　　　　我恨…那男人為何不把心放在我身上…\n"
 HIM + "　　　　　　　　　我恨…師父為何那樣命令我…\n"
 HIM + "　　　　　　　　　我好恨…我好恨上天為什麼這麼不公呀！\n"

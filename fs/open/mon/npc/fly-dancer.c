@@ -215,7 +215,7 @@ HIM + "$N" + HIM + "傾國傾城，迷惑天下的妖媚之術，你受到媚術
     if(environment(mob) == environment(enemy[i]))
         {
     message_vision(HIR + "\n\n$N運起鳳凰靈氣，靈氣灌頂游走全身，鳳凰靈氣配合夢玄法鑑，空氣瞬間凝結成冰！\n\n"
-HIC + "\t\t\t◎ "HBBLU+HIR"鳳 " + HIW + "～ " + HIR + "凰 " + HIW + "～ " + HIY + "展 " + HIW + "～ " + HIY + "翅"NOR+HIC" ◎\n\n"
+HIC + "\t\t\t◎ " + HBBLU+HIR + "鳳 " + HIW + "～ " + HIR + "凰 " + HIW + "～ " + HIY + "展 " + HIW + "～ " + HIY + "翅" + NOR+HIC + " ◎\n\n"
 HIB + "\t\t● " + HIR + "血 " + HIW + "、 " + HIR + "染 " + HIW + "、 " + HIM + "紅 " + HIW + "、 " + HIM + "塵 " + HIW + "、 " + HIG + "舞 " + HIW + "、 " + HIG + "秋 " + HIW + "、 " + HIG + "風 " + HIB + "●\n\n\n"
 HIY + "只見$N" + HIY + "身上散放出一股強大的氣勁，靈氣頓時浮現衝天而去，化成八道不同的靈光疾射\n"
 HIY + "你胸前八大要穴，只見你" + HIY + "受靈氣所限制，頓時全身內力不斷流失，身體虛弱無力，無法使勁。\n\n" + NOR, mob );

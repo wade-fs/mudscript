@@ -15,7 +15,7 @@ void create()
 LONG);
   set("gender","女性");
   set("class","fighter");
-  set("nickname",NOR+RED"昊" + HIY + "日"NOR+RED"烈" + HIY + "焰" + NOR);
+  set("nickname",NOR+RED + "昊" + HIY + "日" + NOR+RED + "烈" + HIY + "焰" + NOR);
   set("title",HIC + "聚靈火聖" + NOR);
   set("family/family_name","瀧山派");
   set("combat_exp",12000000);

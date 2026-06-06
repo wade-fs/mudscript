@@ -141,9 +141,9 @@ void judge( object me )
       break;
   }
   if( random(2) )
-    tell_room( environment(), HIY + "冰判官問道：「" + color() + name + oper + HIY"」\n" + NOR );
+    tell_room( environment(), HIY + "冰判官問道：「" + color() + name + oper + HIY + "」\n" + NOR );
   else
-    tell_object( me, HIY + "冰判官問道：「" + color() + oper + HIY"」\n" + NOR );
+    tell_object( me, HIY + "冰判官問道：「" + color() + oper + HIY + "」\n" + NOR );
   call_out( "say_answer", 20+random(6), me );
   me->set_temp( "quiz/q", answer );
 }

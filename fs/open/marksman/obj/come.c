@@ -39,7 +39,7 @@ int do_summon(string str, object me)
     " ....." + HIC + "雖然你的確有養這隻寵物" + CYN + "﹐" + HIC + "不過這種鳳凰好像絕種了"
     CYN + "﹗\n" + HIC + "你還是另請高明吧" + CYN + "﹗\n" + NOR);
     Lbird = new("/open/marksman/obj/"+str);
-    tell_room(env, HIY+me->name()+HIY"用哨子吹了一聲口哨" + YEL + "﹐" + HIY
+    tell_room(env, HIY+me->name()+HIY + "用哨子吹了一聲口哨" + YEL + "﹐" + HIY
     "只見天空突然裂出一個洞" + YEL + "﹐" + HIY + "有一個不明物體衝了過來" + YEL + "﹗﹗\n\n" + NOR);
     if( me->is_fighting() ) me->start_busy(4); else me->start_busy(1);
     me->set_temp("come-sum","YES");
@@ -49,7 +49,7 @@ int do_summon(string str, object me)
     Lbird->set_leader(me);
     Lbird->set_skill("move",me->query_mlist(str));
     tell_room(env, HIY + "轉眼間風雲變色" + YEL + "﹐" + HIY + "一隻可愛的"
-    +Lbird->name()+HIY"出現在你面前" + YEL + "。\n\n" + NOR);
+    +Lbird->name()+HIY + "出現在你面前" + YEL + "。\n\n" + NOR);
     write(GRN + "<" + HIG + "恰吉" + GRN + ">" + HIC + " 說道" + CYN + "﹕" + HIC + "成功\召出鳳凰" + CYN + "﹗\n" + HIW + "Ok.\n" + NOR);
     return 1;
 }
@@ -76,7 +76,7 @@ int do_home(string str, object me)
     return notify_fail(GRN + "<" + HIG + "恰吉" + GRN + ">" + HIC + " 說道" + CYN + "﹕" + HIC
     "這不是你的鳳凰吧" + CYN + "﹗" + HIC + "爽白爛呀" + CYN + "﹗\n" + NOR);
     me->delete_temp("come-sum");
-    tell_room(env, HIG+me->name()+HIG"輕聲的跟"+Lbird->name()+HIG"說了一些話"
+    tell_room(env, HIG+me->name()+HIG + "輕聲的跟"+Lbird->name()+HIG + "說了一些話"
     GRN + "﹐" + HIG + "只見鳳凰展開翅膀，往天空飛去，轉眼間不見了。" + GRN + "﹗\n" + NOR);
     destruct(Lbird);
     return 1;

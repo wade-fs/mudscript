@@ -99,7 +99,7 @@ void heart_beat()
     message_vision(HIM + "雷厲風行，驚天動地，橫掃萬物於須臾，$N感念深刻聚力一指瞬間擊出
 
       " + HIW + "----===≡◎ 土爆雷霆式 ◎≡===----
-     "NOR+BLU"  『" + HIB + "土假虎威．地雷震"NOR+BLU"』\n\n" + NOR,mob);
+     " + NOR+BLU + "  『" + HIB + "土假虎威．地雷震" + NOR+BLU + "』\n\n" + NOR,mob);
 
     for (j=0 ; j < i ; j++)
     {

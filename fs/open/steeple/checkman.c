@@ -47,7 +47,7 @@ int do_move( string str )
 		tell_object( me, HIY + "位置管理者說道: 抱歉囉... 你的等級不足以通往該處。\n" + NOR );
 		return 1;
 	}
-	message_vision( HIY + "位置管理者說道: 資料符合, 開始傳送挑戰者" + HIW + me->query("name") + HIY"。\n" + NOR, me );
+	message_vision( HIY + "位置管理者說道: 資料符合, 開始傳送挑戰者" + HIW + me->query("name") + HIY + "。\n" + NOR, me );
 	me->move( __DIR__"busy_room" + ( move < 10 ? "0" + move : "" + move ) );
 	message_vision( HIW + "$N緩緩從天而降。\n" + NOR, me );
 	return 1;

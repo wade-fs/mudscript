@@ -82,7 +82,7 @@ void heart_beat()
        
       " + HIW + "炎龍谷主說:" + HIM + " 柳家的人終於來報仇了，冤冤相報何時了啊！
          
-      不過今竟然敗在"+winner->query("name")+HIM"之手真是不甘ㄚ");
+      不過今竟然敗在"+winner->query("name")+HIM + "之手真是不甘ㄚ");
 
            new(__DIR__"obj/key")->move(winner);
       

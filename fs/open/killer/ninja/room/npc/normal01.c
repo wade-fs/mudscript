@@ -26,7 +26,7 @@ void create()
         set("age",26);
         set("long","此人是甲斐派的風組下級忍者，專司水上的暗殺行動。\n"
         "東瀛忍者的武術非一般招式可以比擬，必須留意!!\n");
-        set("title",HIC + "甲斐風組"NOR+ HIG"下級忍者" + NOR);
+        set("title",HIC + "甲斐風組" + NOR+ HIG + "下級忍者" + NOR);
         set("gender","男性");
         set("class","甲斐忍者");
         set("str",30);

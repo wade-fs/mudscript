@@ -95,7 +95,7 @@ int accept_fight(object who)
  object me = this_player();
  command("help!");
  command("say 哇! "+me->name()+"要欺負我這孤苦的老人。");
-  return notify_fail(HIC + "趙大娘忙道﹕"NOR+me->name()+"請放過我這可憐的老婦人吧。\n");
+  return notify_fail(HIC + "趙大娘忙道﹕" + NOR+me->name()+"請放過我這可憐的老婦人吧。\n");
 }
 int accept_object(object who, object item)
 {

@@ -4,7 +4,7 @@ string sign();
 
 void create()
 {
-	set("short",BBLU+YEL"震邪道" + NOR);
+	set("short",BBLU+YEL + "震邪道" + NOR);
 	set("long",@LONG
 除了你來時的通道外, 四處都已經被磚瓦給封死了, 地上佈滿了
 砂土, 除此之外, 在沙堆中, 有一個告示牌(sign)...

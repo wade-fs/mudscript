@@ -152,7 +152,7 @@ void heart_beat()
           COMBAT_D->report_status(enemy[i]);
         }
         else {
-          msg +="( " + HIW + "$n出招似有若無，身影疾退數步，在無形之中將此招一一閃過。 "NOR+WHT")\n" + NOR;
+          msg +="( " + HIW + "$n出招似有若無，身影疾退數步，在無形之中將此招一一閃過。 " + NOR+WHT + ")\n" + NOR;
           message_vision(msg,mob,enemy[i]);
         }
         damage = random(300)+100;
@@ -163,7 +163,7 @@ void heart_beat()
           COMBAT_D->report_status(enemy[i]);
         }
         else {
-          msg +="( " + HIW + "$n出招似有若無，身影疾退數步，在無形之中將此招一一閃過。 "NOR+WHT")\n" + NOR;
+          msg +="( " + HIW + "$n出招似有若無，身影疾退數步，在無形之中將此招一一閃過。 " + NOR+WHT + ")\n" + NOR;
           message_vision(msg,mob,enemy[i]);
         }
         damage = random(300)+100;
@@ -174,7 +174,7 @@ void heart_beat()
           COMBAT_D->report_status(enemy[i]);
         }
         else {
-          msg +="( " + HIW + "$n出招似有若無，身影疾退數步，在無形之中將此招一一閃過。 "NOR+WHT")\n" + NOR;
+          msg +="( " + HIW + "$n出招似有若無，身影疾退數步，在無形之中將此招一一閃過。 " + NOR+WHT + ")\n" + NOR;
           message_vision(msg,mob,enemy[i]);
         }
         damage = random(300)+100;
@@ -185,7 +185,7 @@ void heart_beat()
           COMBAT_D->report_status(enemy[i]);
         }
         else {
-          msg +="( " + HIW + "$n出招似有若無，身影疾退數步，在無形之中將此招一一閃過。 "NOR+WHT")\n" + NOR;
+          msg +="( " + HIW + "$n出招似有若無，身影疾退數步，在無形之中將此招一一閃過。 " + NOR+WHT + ")\n" + NOR;
           message_vision(msg,mob,enemy[i]);
         }
         damage = random(300)+100;
@@ -196,7 +196,7 @@ void heart_beat()
           COMBAT_D->report_status(enemy[i]);
         }
         else {
-          msg +="( " + HIW + "$n出招似有若無，身影疾退數步，在無形之中將此招一一閃過。 "NOR+WHT")\n" + NOR;
+          msg +="( " + HIW + "$n出招似有若無，身影疾退數步，在無形之中將此招一一閃過。 " + NOR+WHT + ")\n" + NOR;
           message_vision(msg,mob,enemy[i]);
         }
         damage = random(300)+100;
@@ -207,7 +207,7 @@ void heart_beat()
           COMBAT_D->report_status(enemy[i]);
         }
         else {
-          msg +="( " + HIW + "$n出招似有若無，身影疾退數步，在無形之中將此招一一閃過。 "NOR+WHT")\n" + NOR;
+          msg +="( " + HIW + "$n出招似有若無，身影疾退數步，在無形之中將此招一一閃過。 " + NOR+WHT + ")\n" + NOR;
           message_vision(msg,mob,enemy[i]);
         }
         damage = random(300)+100;
@@ -219,7 +219,7 @@ void heart_beat()
           COMBAT_D->report_status(enemy[i]);
         }
         else {
-          msg +="( " + HIW + "$n出招似有若無，身影疾退數步，在無形之中將此招一一閃過。 "NOR+WHT")\n" + NOR;
+          msg +="( " + HIW + "$n出招似有若無，身影疾退數步，在無形之中將此招一一閃過。 " + NOR+WHT + ")\n" + NOR;
           message_vision(msg,mob,enemy[i]);
         }
       }
@@ -272,7 +272,7 @@ void die()
   }
   tell_object(users(),HIW + "\n\n\n    " + HIW + "『  " + HIC + "異 域 奇 緣    " + HIY + "橫 刀 稱 王 霸 群 雄 ！ \n\n"+
     "             " + HIG + "鄉 愁 離 情    " + HIM + "浩 瀚 星 海 恨 悠 悠 ！ " + HIW + "』\n\n\n"+HIR+
-    "想我" + HIC + "南雄" + HIM + "刀霸" + HIR + "雄據南蠻數十載，如今敗於"+HIC+class1+HIB"弟子"+HIY+name+HIR+"之手。\n"+HIR+
+    "想我" + HIC + "南雄" + HIM + "刀霸" + HIR + "雄據南蠻數十載，如今敗於"+HIC+class1+HIB + "弟子"+HIY+name+HIR+"之手。\n"+HIR+
     "中原果真是臥虎藏龍，深藏不露，恨啊 ！！！\n\n\n" + NOR);
   message_vision(HIY + "\n"+winner->name()+"打死秦嘯天得到五百點戰功\!!\n" + NOR,winner);
   write_file("/log/get_warp",sprintf("%s(%s) 打敗秦嘯天得到五百點戰功\於 %s\n",

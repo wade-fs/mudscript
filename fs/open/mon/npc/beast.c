@@ -91,7 +91,7 @@ void heart_beat()
 
 	if( !mob->is_fighting() && mob->query("kee") < 100000 )
 	{
-	tell_room(environment(), HIW+name()+HIW"引發靈芝仙氣，輕輕地圍繞自身，將受傷的身軀慢慢的治癒。\n"+NOR);
+	tell_room(environment(), HIW+name()+HIW + "引發靈芝仙氣，輕輕地圍繞自身，將受傷的身軀慢慢的治癒。\n"+NOR);
 	mob->receive_curing("kee",350);
 	mob->receive_heal("kee",350);
 	mob->receive_curing("gin",350);
@@ -102,7 +102,7 @@ void heart_beat()
 
 	if( ( mob->query("kee") < 85000 ) && ( random(100) < 50 ) )
 	{
-	tell_room(environment(), HIW+name()+HIW"引發靈芝仙氣，輕輕地圍繞自身，將受傷的身軀慢慢的治癒。\n"+NOR);
+	tell_room(environment(), HIW+name()+HIW + "引發靈芝仙氣，輕輕地圍繞自身，將受傷的身軀慢慢的治癒。\n"+NOR);
 	mob->receive_curing("kee",random(2000)+1000);
 	mob->receive_heal("kee",random(2000)+1000);
 	mob->receive_curing("gin",1000);

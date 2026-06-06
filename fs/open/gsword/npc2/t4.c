@@ -161,7 +161,7 @@ void unconcious ()
        {
        winner->set("quests/yan",5);
        tell_object(winner,HIW + "你已經通過仙劍試煉了..我直接將你送回蜀山。\n" + NOR);
-       message("system",this_player()->name()+HIY"已通過仙劍試煉,成為一代宗師。\n" + NOR,users());
+       message("system",this_player()->name()+HIY + "已通過仙劍試煉,成為一代宗師。\n" + NOR,users());
        winner->set("title","仙劍聖者");
        winner->move("/open/gsword/room/su3");
        destruct (this_object ());

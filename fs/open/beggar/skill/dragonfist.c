@@ -13,7 +13,7 @@ void again1(object me, object victim, object weapon, int damage);
 
 mapping *action = ({
 //0
-(["action":"$N左腿微曲，右臂內彎，右掌畫了個圓圈，起手「"+HIY"亢龍有悔"NOR+"」，呼的一聲向外推去，
+(["action":"$N左腿微曲，右臂內彎，右掌畫了個圓圈，起手「"+HIY + "亢龍有悔" + NOR+"」，呼的一聲向外推去，
 掌勁直直的掃向$n的$l。",
 "dodge":-60,
 "parry":50,
@@ -22,7 +22,7 @@ mapping *action = ({
 "damage_type" : "瘀傷",
 ]),
 //1
-(["action":"$N凝神提氣，雙腳一蹬，身體不住高躍，雙掌如刀似剪，一招「"+HIY"飛龍在天"NOR+"」，掌掌往
+(["action":"$N凝神提氣，雙腳一蹬，身體不住高躍，雙掌如刀似剪，一招「"+HIY + "飛龍在天" + NOR+"」，掌掌往
 $n的$l削去。",
 "dodge":-60,
 "parry":50,
@@ -31,7 +31,7 @@ $n的$l削去。",
 "damage_type" : "瘀傷",
 ]),
 //2
-(["action":"$N的掌勢萬馬奔騰，有若開天闢地般，「"+HIY"戰龍在野"NOR+"」如一條狂龍般撲向$n，勢不可檔。",
+(["action":"$N的掌勢萬馬奔騰，有若開天闢地般，「"+HIY + "戰龍在野" + NOR+"」如一條狂龍般撲向$n，勢不可檔。",
 "dodge":-90,
 "parry":80,
 "force":100,
@@ -39,7 +39,7 @@ $n的$l削去。",
 "damage_type" : "瘀傷",
 ]),
 //3
-(["action":"$N右手屈起食中兩指，半拳半掌，向$n的$l打去，「"+HIY"潛龍勿用"NOR+"」招意蜒曲不窮，左手
+(["action":"$N右手屈起食中兩指，半拳半掌，向$n的$l打去，「"+HIY + "潛龍勿用" + NOR+"」招意蜒曲不窮，左手
 同時向裏鉤拿，右推左鉤，極難閃避。",
 "dodge":-90,
 "parry":80,
@@ -48,7 +48,7 @@ $n的$l削去。",
 "damage_type" : "瘀傷",
 ]),
 //4
-(["action":"$N右掌一開，左掌跟著一握，力聚於掌，「"+HIY"利涉大川"NOR+"」氣勢大開大闔，掌勁盡透剛氣，
+(["action":"$N右掌一開，左掌跟著一握，力聚於掌，「"+HIY + "利涉大川" + NOR+"」氣勢大開大闔，掌勁盡透剛氣，
 向$n不斷推去。",
 "dodge":-90,
 "parry":80,
@@ -57,7 +57,7 @@ $n的$l削去。",
 "damage_type" : "瘀傷",
 ]),
 //5
-(["action":"$N雙掌一提，雙臂內彎真氣隨之一吐，「"+HIY"鴻漸於陸"NOR+"」掌勢由隱而明，平平的推向$n。",
+(["action":"$N雙掌一提，雙臂內彎真氣隨之一吐，「"+HIY + "鴻漸於陸" + NOR+"」掌勢由隱而明，平平的推向$n。",
 "dodge":-90,
 "parry":80,
 "force":100,
@@ -65,7 +65,7 @@ $n的$l削去。",
 "damage_type" : "瘀傷",
 ]),
 //6
-(["action":"$N身形緩慢推動，倏地間雙掌順勢一推，「"+HIY"突如其來"NOR+"」彷如暴雨驟至，掌勁如狂風般地
+(["action":"$N身形緩慢推動，倏地間雙掌順勢一推，「"+HIY + "突如其來" + NOR+"」彷如暴雨驟至，掌勁如狂風般地
 襲向$n。",
 "dodge":-100,
 "parry":80,
@@ -74,7 +74,7 @@ $n的$l削去。",
 "damage_type" : "瘀傷",
 ]),
 //7
-(["action":"$N掌勢大開大闔，體內真氣不斷向外放射，招式亦隨著真氣向$n攻去，「"+HIY"震驚百里"NOR+"」如
+(["action":"$N掌勢大開大闔，體內真氣不斷向外放射，招式亦隨著真氣向$n攻去，「"+HIY + "震驚百里" + NOR+"」如
 爆雷般驚人。",
 "dodge":-100,
 "parry":80,
@@ -83,7 +83,7 @@ $n的$l削去。",
 "damage_type" : "瘀傷",
 ]),
 //8
-(["action":"$N瞬時吸一口氣，左掌前探，右掌倏地從左掌底下穿了出去，強招「"+HIY"或躍在淵"NOR+"」直擊
+(["action":"$N瞬時吸一口氣，左掌前探，右掌倏地從左掌底下穿了出去，強招「"+HIY + "或躍在淵" + NOR+"」直擊
 向$n的$l。",
 "dodge":-100,
 "parry":80,
@@ -92,7 +92,7 @@ $n的$l削去。",
 "damage_type" : "瘀傷",
 ]),
 //9
-(["action":"$N形如猛虎出柵，狠招「"+HIY"神龍擺\尾"NOR+"」呼之欲出，隨即反手一劈，擊向$n的$l。",
+(["action":"$N形如猛虎出柵，狠招「"+HIY + "神龍擺\尾" + NOR+"」呼之欲出，隨即反手一劈，擊向$n的$l。",
 "dodge":-100,
 "parry":90,
 "force":110,
@@ -100,7 +100,7 @@ $n的$l削去。",
 "damage_type" : "瘀傷",
 ]),
 //10
-(["action":"$N掌收於胸，招式璞\而不華，雙手撒掌一合，「"+HIY"見龍在田"NOR+"」筆直的擊向$n的$l。",
+(["action":"$N掌收於胸，招式璞\而不華，雙手撒掌一合，「"+HIY + "見龍在田" + NOR+"」筆直的擊向$n的$l。",
 "dodge":-100,
 "parry":90,
 "force":110,
@@ -108,7 +108,7 @@ $n的$l削去。",
 "damage_type" : "瘀傷",
 ]),
 //11
-(["action":"$N雙掌同時一舉，跟著背脊往前一挺，雙掌齊發，一招「"+HIY"雙龍取水"NOR+"」攻向$n。",
+(["action":"$N雙掌同時一舉，跟著背脊往前一挺，雙掌齊發，一招「"+HIY + "雙龍取水" + NOR+"」攻向$n。",
 "dodge":-100,
 "parry":90,
 "force":110,
@@ -116,7 +116,7 @@ $n的$l削去。",
 "damage_type" : "瘀傷",
 ]),
 //12
-(["action":"$N掌勁一鬆，力透黏勁，左掌一帶，牽動$n四方氣流，「"+HIY"群龍無首"NOR+"」雙掌如狂雨擊出，
+(["action":"$N掌勁一鬆，力透黏勁，左掌一帶，牽動$n四方氣流，「"+HIY + "群龍無首" + NOR+"」雙掌如狂雨擊出，
 掌勁虛幻飄渺令$n眼花撩亂。",
 "dodge":-100,
 "parry":90,
@@ -125,7 +125,7 @@ $n的$l削去。",
 "damage_type" : "瘀傷",
 ]),
 //13
-(["action":"$N身形不斷晃動，步移$n六方，突然間，六方掌影同時狂襲而至，「"+HIY"時乘六龍"NOR+"」如群龍
+(["action":"$N身形不斷晃動，步移$n六方，突然間，六方掌影同時狂襲而至，「"+HIY + "時乘六龍" + NOR+"」如群龍
 逆噬，盡擊向$n。",
 "dodge":-100,
 "parry":100,
@@ -134,7 +134,7 @@ $n的$l削去。",
 "damage_type" : "瘀傷",
 ]),
 //14
-(["action":"$N掌影守住全身，並不搶攻，$n卻反被$N繁密的掌影所退，守招「"+HIM"密雲不雨"NOR+"」如大雨欲
+(["action":"$N掌影守住全身，並不搶攻，$n卻反被$N繁密的掌影所退，守招「"+HIM + "密雲不雨" + NOR+"」如大雨欲
 來，一掌又一掌環繞$n。",
 "dodge":-110,
 "parry":100,
@@ -276,30 +276,30 @@ void again1(object me, object victim, object weapon, int damage)
   switch(i)
   {
   case 0:
-  message_vision("$N左腿微曲，右臂內彎，右掌畫了個圓圈，起手「"+HIY"亢龍有悔"NOR+"」，呼的一聲向外推去，掌勁直直的掃向$n。\n",me,victim);
+  message_vision("$N左腿微曲，右臂內彎，右掌畫了個圓圈，起手「"+HIY + "亢龍有悔" + NOR+"」，呼的一聲向外推去，掌勁直直的掃向$n。\n",me,victim);
   break;
   case 1:
-  message_vision("$N凝神提氣，雙腳一蹬，身體不住高躍，雙掌如刀似剪，一招「"+HIY"飛龍在天"NOR+"」，掌掌往$n四肢剪去。\n",me,victim);
+  message_vision("$N凝神提氣，雙腳一蹬，身體不住高躍，雙掌如刀似剪，一招「"+HIY + "飛龍在天" + NOR+"」，掌掌往$n四肢剪去。\n",me,victim);
   break;
   case 2:
-  message_vision("$N的掌勢萬馬奔騰，有若開天闢地般，「"+HIY"戰龍在野"NOR+"」如一條狂龍般撲向$n，勢不可檔。\n",me,victim);
+  message_vision("$N的掌勢萬馬奔騰，有若開天闢地般，「"+HIY + "戰龍在野" + NOR+"」如一條狂龍般撲向$n，勢不可檔。\n",me,victim);
   break;
   case 3:
-  message_vision("$N右手屈起食中兩指，半拳半掌，向$n打去，「"+HIY"潛龍勿用"NOR+"」招意蜒曲不窮，左手同時向裏鉤拿，右推左鉤，極難閃避。\n",me,victim);
+  message_vision("$N右手屈起食中兩指，半拳半掌，向$n打去，「"+HIY + "潛龍勿用" + NOR+"」招意蜒曲不窮，左手同時向裏鉤拿，右推左鉤，極難閃避。\n",me,victim);
   break;
   case 4:
-  message_vision("$N形如猛虎出柵，狠招「"+HIY"神龍擺\尾"NOR+"」呼之欲出，隨即反手一劈，擊向$n。\n",me,victim);
+  message_vision("$N形如猛虎出柵，狠招「"+HIY + "神龍擺\尾" + NOR+"」呼之欲出，隨即反手一劈，擊向$n。\n",me,victim);
   break;
   case 5:
-  message_vision("$N掌收於胸，招式璞\而不華，雙手撒掌一合，「"+HIY"見龍在田"NOR+"」筆直的擊向$n。\n",me,victim);
+  message_vision("$N掌收於胸，招式璞\而不華，雙手撒掌一合，「"+HIY + "見龍在田" + NOR+"」筆直的擊向$n。\n",me,victim);
   break;
   case 6:
-  message_vision("$N雙掌同時一舉，跟著背脊往前一挺，雙掌齊發，一招「"+HIY"雙龍取水"NOR+"」攻向$n。\n",me,victim);                                             break;
+  message_vision("$N雙掌同時一舉，跟著背脊往前一挺，雙掌齊發，一招「"+HIY + "雙龍取水" + NOR+"」攻向$n。\n",me,victim);                                             break;
   case 7:
-  message_vision("$N掌勁一鬆，力透黏勁，左掌一帶，牽動$n四方氣流，「"+HIY"群龍無首"NOR+"」雙掌如狂雨擊出，掌勁虛幻飄渺令$n眼花撩亂。\n",me,victim);
+  message_vision("$N掌勁一鬆，力透黏勁，左掌一帶，牽動$n四方氣流，「"+HIY + "群龍無首" + NOR+"」雙掌如狂雨擊出，掌勁虛幻飄渺令$n眼花撩亂。\n",me,victim);
   break;
   case 8:
-  message_vision("$N身形不斷晃動，步移$n六方，突然間，六方掌影同時狂襲而至，「"+HIY"時乘六龍"NOR+"」如群龍逆噬，盡擊向$n。\n",me,victim);
+  message_vision("$N身形不斷晃動，步移$n六方，突然間，六方掌影同時狂襲而至，「"+HIY + "時乘六龍" + NOR+"」如群龍逆噬，盡擊向$n。\n",me,victim);
   break;
   }
    if( ((int)victim->query_skill("move",1)

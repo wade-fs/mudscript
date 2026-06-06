@@ -101,13 +101,13 @@ void heart_beat()
      if(!mob) return ;
 	 if(mob->is_busy() && j>34) //解busy機率，對手為四個弱勢職業時是10%，其他職業為17.5%
 	  {
-	   tell_room(environment(), "\n"HIG+name()+"猛然發出一陣驚悚狼嚎，解除了身上的束縛，並乘著這股聲勢反攻。\n"+NOR);	
+	   tell_room(environment(), "\n" + HIG+name()+"猛然發出一陣驚悚狼嚎，解除了身上的束縛，並乘著這股聲勢反攻。\n"+NOR);	
 	   mob->delete_busy();
 	   COMBAT_D->do_attack(mob, me, mob->query_temp("weapon"), 1);
 	  }
 	 if((random(100) < 69) && ((kee<mkee)||(gin<mgin)||(sen<msen)) && !mob->query_temp("summon"))  
      {
-	  tell_room(environment(), "\n"HIW+name()+"縱聲高叫：凹 ～ 嗚 ～ \n"+NOR);
+	  tell_room(environment(), "\n" + HIW+name()+"縱聲高叫：凹 ～ 嗚 ～ \n"+NOR);
 	  tell_room(environment(), HIM+"\n鮮血的氣味與狼嚎引來飢渴的同伴，要一起追殺獵物。\n"+NOR);
 	  for(k=0;k<m;k++)  //戰鬥中精氣神降到1/3以下有70%召集1~3名幫手助陣
 	  {
@@ -127,7 +127,7 @@ void heart_beat()
 	 }
 	 if(me->query("id") == "Sheep" && random(10)>1)  //跟sheep戰鬥有80%機率會回復精氣神
 	 {
-	  tell_room(environment(), "\n"HIW+name()+"開心的從綿羊身上咬了一大口肉，瞬間恢復不少活力!!\n\n"+NOR);
+	  tell_room(environment(), "\n" + HIW+name()+"開心的從綿羊身上咬了一大口肉，瞬間恢復不少活力!!\n\n"+NOR);
 	  mob->receive_curing("gin",2400);
       mob->receive_heal("gin",2400); 
 	  mob->receive_curing("kee",2400);

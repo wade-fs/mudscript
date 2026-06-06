@@ -66,7 +66,7 @@ int do_join(string str)
         me->set("class","scholar");
         write(HIC + "楊書文和藹的對你說﹕從今後﹐你便是書生公會的一員了。\n" + NOR);
         command("pat "+getuid(me));
-        tell_object(users(),query("name")+HIC"長嘯道﹕歡迎"+me->query("name")+
+        tell_object(users(),query("name")+HIC + "長嘯道﹕歡迎"+me->query("name")+
         "加入書生公會。\n" + NOR);
         return 1;
 }

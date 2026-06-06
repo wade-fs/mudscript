@@ -72,7 +72,7 @@ void heart_beat()
 
       user->receive_curing("kee",cor);
       user->receive_heal("kee",cor);
-      message_vision(HIM+this_object()->name()+HIM"發出一片治癒之光籠罩著$N" + HIM + "，$N" + HIM + "的傷口好了\許\多。\n"+NOR,user);   
+      message_vision(HIM+this_object()->name()+HIM + "發出一片治癒之光籠罩著$N" + HIM + "，$N" + HIM + "的傷口好了\許\多。\n"+NOR,user);   
     }
   }
   return;

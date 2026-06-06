@@ -73,7 +73,7 @@ object freeer=this_player();
   ob1->move("/open/main/room/m11");
   ob1->set("get_head",1);
 */
-  message("mud",HIC + "只見"HIW+freeer->query("name")+HIC"突破重重難關,以本身修為震開了葉狂的寒冰鐵鍊\n\n" + NOR,users());
+  message("mud",HIC + "只見" + HIW+freeer->query("name")+HIC + "突破重重難關,以本身修為震開了葉狂的寒冰鐵鍊\n\n" + NOR,users());
   message("mud",HIC + "葉狂大聲吼道:" + HIW + "我自由了!!我自由了!!復仇的時刻終於來臨了\n\n" + NOR,users());
   call_out("msg3",3,freeer);
   return 1;

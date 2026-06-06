@@ -94,7 +94,7 @@ string ask_old_man()
     return "你身上錢不夠付情報費，最少也要一兩黃金。";
   foreach(object obj in children("/open/main/npc/man.c") )
   {
-    if(environment(obj)) return "你問太極老人啊，聽說他正在「"NOR+environment(obj)->short()+CYN+"」附近呢....";
+    if(environment(obj)) return "你問太極老人啊，聽說他正在「" + NOR+environment(obj)->short()+CYN+"」附近呢....";
   }
 
 }
@@ -106,11 +106,11 @@ string ask_swordsman()
   str ="";
   foreach(object obj in children("/open/dancer/npc/knight") )
   {
-    if(environment(obj))  str += "「"NOR+ environment(obj)->short()+CYN"」，";
+    if(environment(obj))  str += "「" + NOR+ environment(obj)->short()+CYN + "」，";
   }
   foreach(object obj in children("/open/dancer/npc/shooter") )
   {
-    if(environment(obj))  str += "「"NOR+ environment(obj)->short()+CYN"」，";
+    if(environment(obj))  str += "「" + NOR+ environment(obj)->short()+CYN + "」，";
   }
 
  return "你問入侵的劍客啊，聽說他正在"+str+CYN+"這幾個地點呢....";
@@ -123,7 +123,7 @@ string ask_theif()
     return "你身上錢不夠付情報費，最少也要十張銀票。";
   foreach(object obj in children("/open/magic-manor/npc/steal-man.c") )
   {
-    if(environment(obj)) return "你問神秘飛賊啊，聽說他正在「"NOR+environment(obj)->short()+CYN+"」附近呢....";
+    if(environment(obj)) return "你問神秘飛賊啊，聽說他正在「" + NOR+environment(obj)->short()+CYN+"」附近呢....";
   }
 
 }

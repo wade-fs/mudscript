@@ -486,7 +486,7 @@ void die()
   if(!wizardp(winner)){
     tell_object(users(),HIG+"\n\t『" + HIC + "天下風雲出我輩  一入江湖歲月摧\n\t\t皇圖霸業談笑中  不勝人生一場醉" + HIG + "』\n" + NOR+
       HIG + "\n\t想我段雲縱橫江湖, 今日敗於" + HIY+winner->query("name")+HIG + "之手\n\t可謂  " + HIR + "時也～  運也～  命也～\n" + NOR);
-    tell_object(users(),CYN + "\n\n南方天空畫過一道" + BLINK + "流星" + NOR + "。\n\n\t" + HIR + "「"BLINK + "天" + HIM + "機" + HIR + "星" + HIM + "落" + NOR+HIR + "」\n\n" + NOR);
+    tell_object(users(),CYN + "\n\n南方天空畫過一道" + BLINK + "流星" + NOR + "。\n\n\t" + HIR + "「" + BLINK + "天" + HIM + "機" + HIR + "星" + HIM + "落" + NOR+HIR + "」\n\n" + NOR);
   }
   if(userp(winner) && winner->query_temp("not_robot") > time() )
   {

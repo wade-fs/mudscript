@@ -146,7 +146,7 @@ void heart_beat()
   if( me->is_fighting() )
   {
   int i=me->query_busy();
-  message_vision(HIC + "$N目前busy指數「"HIM+i+HIC"」\n" + NOR,me);
+  message_vision(HIC + "$N目前busy指數「" + HIM+i+HIC + "」\n" + NOR,me);
   }
 */
   if( !me->is_fighting() && !me->query_temp("gold-fire") )

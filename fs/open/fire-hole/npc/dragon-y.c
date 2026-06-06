@@ -240,7 +240,7 @@ void die()
     spirit->move(me);
 //    write_file("/log/sky/spirit/fire-spirit",sprintf("%s(%s)讓黃光火龍掉下了%s於 %s\n",me->name(1),me->query("id"),spirit->query("name"),ctime(time())));
     log_file("sky/spirit/fire-spirit",sprintf("%s(%s)讓黃光火龍掉下了%s於 %s\n",me->name(1),me->query("id"),spirit->query("name"),ctime(time())));
-    message_vision(HIW + "薀含在"+this_object()->query("name")+HIW"身體中的"+spirit->query("name")+HIW"飛射而出，落在$N" + HIW + "手中。\n" + NOR,me);
+    message_vision(HIW + "薀含在"+this_object()->query("name")+HIW + "身體中的"+spirit->query("name")+HIW + "飛射而出，落在$N" + HIW + "手中。\n" + NOR,me);
   }
   environment(mob)->set("no_reset",1);
   environment(mob)->start();

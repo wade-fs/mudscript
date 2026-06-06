@@ -29,15 +29,15 @@ if(me->query("quest/start_game"))
 ▕▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▏" + NOR + "
 
 
-                   名字："HIW+me->query("name")+NOR"
+                   名字：" + HIW+me->query("name")+NOR + "
 
-                   幫派："NOR+me->query("clan/name")+NOR"
+                   幫派：" + NOR+me->query("clan/name")+NOR + "
 
-                   師傅："NOR+me->query("family/master_name")+NOR"
+                   師傅：" + NOR+me->query("family/master_name")+NOR + "
 
-                   目前挑戰樓層：第 "HIY+i+NOR" 樓
+                   目前挑戰樓層：第 " + HIY+i+NOR + " 樓
 
-                   目前登記失敗次數： "HIY+j+NOR" 次
+                   目前登記失敗次數： " + HIY+j+NOR + " 次
         ");
         }
 }

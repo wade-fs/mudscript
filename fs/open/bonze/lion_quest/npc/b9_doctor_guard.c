@@ -18,7 +18,7 @@ void create()
   set("age",36);
 //  set_temp("roared", 1 ); //雙重roar 判斷 以增加mob差異性
   set("doctor/vet",1); //具有看診師的資格，可以替人看診(vet)了！屬於非戰鬥時的攻擊技能
-  set("doctor/sosman",1); //後三式 並 set("title",HBBLU+HIW"ψ" + HIY + "七奇" + HIR + "秘針" + HIW + "ψ" + HIG + "傳人" + NOR);的mark 
+  set("doctor/sosman",1); //後三式 並 set("title",HBBLU+HIW + "ψ" + HIY + "七奇" + HIR + "秘針" + HIW + "ψ" + HIG + "傳人" + NOR);的mark 
   set("env/六絕針","YES"); //使用HIW"◎ " + HIY + "赤 炎 六 絕 針 " + HIW + "◎ 需求等級lv100??
 //  set("doctor/save_die", 1); //『聖手回春術』並非戰鬥技能 關閉
   set("str",17);

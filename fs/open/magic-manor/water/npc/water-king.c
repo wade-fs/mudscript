@@ -127,7 +127,7 @@ void heart_beat()
     message_vision(HIM + "水氣凝結，龍形漸現，狂嘯奔騰於四海，$N感同身受狂意漸起慕然使出
 
     " + HIW + "----===≡◎ 水襲狂濤式 ◎≡===----
-   "NOR+CYN"  『" + HIC + "水舞狂龍．蒼海嘯"NOR+CYN"』\n" + NOR,mob);
+   " + NOR+CYN + "  『" + HIC + "水舞狂龍．蒼海嘯" + NOR+CYN + "』\n" + NOR,mob);
     for( j=0 ; j < i ; j++ )
     {
       if( !enemy[j] ) continue;

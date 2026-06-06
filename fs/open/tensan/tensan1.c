@@ -49,6 +49,6 @@ int msg3(object me)
 int msg4(object me)
 {	
         tell_object(me,HIY + "正當你看的忘神之際，你已被傳送到天山結界的另外一邊了\n\n\n\n" + NOR);	
-	tell_object(users(),HIW + "\n\n天山方向" + HIM + "奇" + HIG + "光" + HIW + "四起，天象異變，"HIY+me->query("name")+HIW"通過了天山結界。\n\n\n" + NOR);
+	tell_object(users(),HIW + "\n\n天山方向" + HIM + "奇" + HIG + "光" + HIW + "四起，天象異變，" + HIY+me->query("name")+HIW + "通過了天山結界。\n\n\n" + NOR);
 	me->move("/open/trans/room/room4");
 }

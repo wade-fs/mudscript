@@ -66,7 +66,7 @@ void create()
    if(k > 7)
    {
    message_vision(HIG + "
-\n\n段延慶口中逆運真氣, 突然大喝"BLINK+HIR"『狂" + HIC + "風" + HIG + "七" + HIM + "星" + HIW + "點』" + HIG + ", 只見手中" + HIB + "玄鐵仗換化成七道光芒,
+\n\n段延慶口中逆運真氣, 突然大喝" + BLINK+HIR + "『狂" + HIC + "風" + HIG + "七" + HIM + "星" + HIW + "點』" + HIG + ", 只見手中" + HIB + "玄鐵仗換化成七道光芒,
  
 向你疾奔而來, 你全身壟罩在無形劍氣之下, 進退維谷, 瞬時受到無法估計的傷害!!!!!\n\n" + NOR,this_object());
    ob->add("kee",-200);
@@ -78,7 +78,7 @@ void create()
 
                         " + HIW + "～～" + HIM + " 無" + HIG + " 常" + HIW + " ～～
 
-　　　　　　　　　　　　　　　　　～～" + HIR + " 恨"NOR+CYN" 蒼" + HIC + " 天" + HIW + " ～～
+　　　　　　　　　　　　　　　　　～～" + HIR + " 恨" + NOR+CYN + " 蒼" + HIC + " 天" + HIW + " ～～
 
 " + RED + "你深陷劍網當中, 首尾不能相顧, 頓時深中無數道劍氣, 只怕有身命危險!!!\n\n" + NOR,this_object());
 ob->add("kee",-100);
@@ -108,7 +108,7 @@ void die()
         tell_object(users(),HIY + "
 
          延慶太子仰天嘆道：" + HIC + "『" + HIW + "老夫和大理段氏恩怨糾葛數十年
-                             今日竟死在"BLINK+HIY+me->query("name")+NOR+HIW"之手，
+                             今日竟死在" + BLINK+HIY+me->query("name")+NOR+HIW + "之手，
                              難道是..天..在..譴..責..我..嗎......" + HIC + "』
 
 " + NOR);

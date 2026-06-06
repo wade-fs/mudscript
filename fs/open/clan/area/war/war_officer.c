@@ -376,10 +376,10 @@ void multipk_round( object win, object lose )
 		multipk_point2++;
 		
 	if( win == lose )
-		CHANNEL_D->do_channel( this_object(), "war", "【" + pk_cmap[win->query_temp("war/area")] + "】勝負已分, 勝者"HIW + win->query("name") + HIR"!" );
+		CHANNEL_D->do_channel( this_object(), "war", "【" + pk_cmap[win->query_temp("war/area")] + "】勝負已分, 勝者" + HIW + win->query("name") + HIR + "!" );
 	else
-		CHANNEL_D->do_channel( this_object(), "war", "【" + pk_cmap[win->query_temp("war/area")] + "】勝負已分,"HIW +
-			lose->query("name") + HIR"慘遭屠戮, 勝者"HIW + win->query("name") + HIR"!" );
+		CHANNEL_D->do_channel( this_object(), "war", "【" + pk_cmap[win->query_temp("war/area")] + "】勝負已分," + HIW +
+			lose->query("name") + HIR + "慘遭屠戮, 勝者" + HIW + win->query("name") + HIR + "!" );
 	
 	if( (multipk_point1+multipk_point2)==5 )
 		multipk_over();
@@ -456,11 +456,11 @@ void multipk_over()
 		CLAN_D->clan_query( multipk_clan1, "name" ) + " VS " +
 		CLAN_D->clan_query( multipk_clan2, "name" ) + "】之戰終於結束。" );
 	CHANNEL_D->do_channel( this_object(), "war", HIW +
-		CLAN_D->clan_query( clan_win, "name" ) + HIR"戰勝"HIW +
-		CLAN_D->clan_query( clan_lose, "name" ) + HIR"。" );
+		CLAN_D->clan_query( clan_win, "name" ) + HIR + "戰勝" + HIW +
+		CLAN_D->clan_query( clan_lose, "name" ) + HIR + "。" );
 	CHANNEL_D->do_channel( this_object(), "war", HIW +
-		CLAN_D->clan_query( clan_lose, "name" ) + HIR"需賠"HIW +
-		CLAN_D->clan_query( clan_win, "name" ) + HIY"黃金" +CHINESE_D->chinese_number(point)+ "萬兩" + HIR + "。" );
+		CLAN_D->clan_query( clan_lose, "name" ) + HIR + "需賠" + HIW +
+		CLAN_D->clan_query( clan_win, "name" ) + HIY + "黃金" +CHINESE_D->chinese_number(point)+ "萬兩" + HIR + "。" );
 
 	point *= 10000;
 	CLAN_D->add_money  ( clan_win ,  point );

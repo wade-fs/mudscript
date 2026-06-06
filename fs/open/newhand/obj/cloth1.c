@@ -64,7 +64,7 @@ void heart_beat()
     {
       user->receive_curing("kee",30);
       user->receive_heal("kee",30);
-      message_vision(query("name")+HIW"發散出一道白光護住$N" + HIW + "的全身，$N" + HIW + "的傷勢緩慢復原中。\n" + NOR,user);
+      message_vision(query("name")+HIW + "發散出一道白光護住$N" + HIW + "的全身，$N" + HIW + "的傷勢緩慢復原中。\n" + NOR,user);
     }
   }
 }

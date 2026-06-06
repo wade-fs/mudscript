@@ -9,22 +9,22 @@ void create()
 set("short",HIG + "八卦遊龍迷陣" + NOR);
 
 long = "\n"+
-"                         "+BRED"                      \n"NOR+
-"                       "+BMAG"                      "+BRED"    \n"NOR+
-"                     "+BMAG"                          "+BRED"    \n"NOR+
-"                    "+BMAG"                            "+BRED"    \n"NOR+
-"                   "+BMAG"                              "+BRED"    \n"NOR+
-"                  "+BMAG"             "+WHT"澤象"+HIW"(n)"+"            "+BRED"   \n"NOR+
-"                  "+BMAG"            "+WHT" ˍˍˍ"+"             "+BRED"   \n"NOR+
-"                  "+BMAG"     "+WHT"火象"+HIW"(w)"NOR+BMAG+WHT" ˍˍˍ"+" 風象"
-HIW + "(e)"+"     "+BRED"   \n"NOR+
-"                  "+BMAG"            "+WHT" ˍ　ˍ"+"             "+BRED"   \n"NOR+
-"                  "+BMAG"                                "+BRED"   \n"NOR+
-"                  "+BMAG"             "+WHT"地象"+HIW"(s)"+"            "+BRED"   \n"NOR+
-"                   "+BMAG"                              "+BRED"   \n"NOR+
-"                    "+BMAG"                            "+BRED"   \n"NOR+
-"                     "+BMAG"                          "+BRED"   \n"NOR+
-"                       "+BMAG"                      \n"NOR+
+"                         "+BRED + "                      \n" + NOR+
+"                       "+BMAG + "                      "+BRED + "    \n" + NOR+
+"                     "+BMAG + "                          "+BRED + "    \n" + NOR+
+"                    "+BMAG + "                            "+BRED + "    \n" + NOR+
+"                   "+BMAG + "                              "+BRED + "    \n" + NOR+
+"                  "+BMAG + "             "+WHT + "澤象"+HIW + "(n)"+"            "+BRED + "   \n" + NOR+
+"                  "+BMAG + "            "+WHT + " ˍˍˍ"+"             "+BRED + "   \n" + NOR+
+"                  "+BMAG + "     "+WHT + "火象"+HIW + "(w)" + NOR+BMAG+WHT + " ˍˍˍ"+" 風象"
+HIW + "(e)"+"     "+BRED + "   \n" + NOR+
+"                  "+BMAG + "            "+WHT + " ˍ　ˍ"+"             "+BRED + "   \n" + NOR+
+"                  "+BMAG + "                                "+BRED + "   \n" + NOR+
+"                  "+BMAG + "             "+WHT + "地象"+HIW + "(s)"+"            "+BRED + "   \n" + NOR+
+"                   "+BMAG + "                              "+BRED + "   \n" + NOR+
+"                    "+BMAG + "                            "+BRED + "   \n" + NOR+
+"                     "+BMAG + "                          "+BRED + "   \n" + NOR+
+"                       "+BMAG + "                      \n" + NOR+
 "\n";
 
 set("long", long);

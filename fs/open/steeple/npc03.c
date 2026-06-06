@@ -133,7 +133,7 @@ else
 if(me->query("quest/start_game")< 4)
        {
         tell_object(users(),HIY + "
-恭喜"HIW+me->query("name")+HIY"挑戰" + HIG + "『" + HIR + "第三層試煉塔" + HIG + "』" + HIY + "通過！！
+恭喜" + HIW+me->query("name")+HIY + "挑戰" + HIG + "『" + HIR + "第三層試煉塔" + HIG + "』" + HIY + "通過！！
 
 " + HIW + "希望"+me->query("name")+"能不負眾望，勇闖" + HIG + "『" + HIY + "第四層試煉塔" + HIG + "』" + HIW + "。
 	" + NOR);

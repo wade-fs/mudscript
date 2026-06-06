@@ -115,7 +115,7 @@ void heart_beat()
 	      mob->receive_heal("gin",3000);
 	      mob->receive_curing("sen",3000);
 	      mob->receive_heal("sen",3000);
-	      tell_room(environment(), "\n"HIG+name()+"就地啃起新鮮牧草，表情看起來舒坦多了!!\n"+NOR);
+	      tell_room(environment(), "\n" + HIG+name()+"就地啃起新鮮牧草，表情看起來舒坦多了!!\n"+NOR);
 		  COMBAT_D->report_status(mob);
 	}
    }

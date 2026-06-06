@@ -3,7 +3,7 @@ inherit ROOM;
 
 void create()
 {
-	set("short",HIG + "琰 揚 居 -- "NOR+YEL"大 松 樹" + NOR);
+	set("short",HIG + "琰 揚 居 -- " + NOR+YEL + "大 松 樹" + NOR);
 	set("long",@LONG
 你有點不敢相信自己的眼睛，這麼大的一隻蜜蜂，或許就你所知
 的，牠是應該叫做蜜蜂吧，你可以清楚的看到這些你所謂的蜜蜂正在

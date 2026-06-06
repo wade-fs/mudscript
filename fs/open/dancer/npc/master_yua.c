@@ -265,7 +265,7 @@ string ask_set_allow_hellfire()
   if(me->query("spells/firedance/level")<100)
     return "你的火鳳飛翔還不夠強，不能學地獄雷火術。";
   message_vision("月牙兒笑著說:看來$N已經有資格學習了，我現在就把雷火真元傳到你身上!!\n",me);
-  message("system",HIW + "月牙兒開心的說道：恭喜"HIC+this_player()->name()+HIG"歷盡磨練終於成為古舞者傳人。\n" + NOR,users());
+  message("system",HIW + "月牙兒開心的說道：恭喜" + HIC+this_player()->name()+HIG + "歷盡磨練終於成為古舞者傳人。\n" + NOR,users());
   me->set("allow_hellfire",1);
   me->set("adv_dancer",1);
   message_vision(HIW + "一股" + HIB + "地獄" + HIC + "雷" + HIR + "火" + HIW + "真元緩緩流入$N的體內\n" + NOR,me);
@@ -337,7 +337,7 @@ void die()
 \t\t\t  " + HIC + "雪 舞 冬 悲 降 " + HIM + "～ 暗藏永久" + HIW + "』
 \n" + HIG + "生在這四季的輪迴總是如夢一場 ～ 空也!!
 \t想我" + HIY + "月牙兒" + HIG + "美麗的生命也逃不過這命運!!
-\t\t而"HIR+winner->query("name")+HIG"也終將踏上這輪迴之道 ～ 永無止境!!\n" + NOR);
+\t\t而" + HIR+winner->query("name")+HIG + "也終將踏上這輪迴之道 ～ 永無止境!!\n" + NOR);
   if(userp(winner) && winner->query_temp("not_robot") > time() )
   {
     if ( winner->query_temp("bless")==1 )

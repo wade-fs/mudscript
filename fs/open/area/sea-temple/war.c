@@ -66,6 +66,6 @@ string str;
 	}
 
 	if( wizardp(me) )
-		str = str + HIW"(defence-build="+ob->query("defence-build")+")\n" + NOR;
+		str = str + HIW + "(defence-build="+ob->query("defence-build")+")\n" + NOR;
 return str;
 }

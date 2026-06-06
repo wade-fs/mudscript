@@ -8,7 +8,7 @@ void create()
               set_default_object(__FILE__);
      else {
             set("long",
-"這是由星破時, 四射的隕石所得到之石, 將此"+HIB"星破之石"NOR+"鑲於此項鍊 ,\n"
+"這是由星破時, 四射的隕石所得到之石, 將此"+HIB + "星破之石" + NOR+"鑲於此項鍊 ,\n"
 "聽說星破時會散發眾多不同能量, 而星破之石則吸納星破時所散發的能量\n");
             set("unit", "條");
             set("armor_type", "neck");

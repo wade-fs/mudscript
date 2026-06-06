@@ -15,7 +15,7 @@ void create()
 LONG);
   set("gender","女性");
   set("class","killer");
-  set("nickname",NOR+RED"魔" + HIR + "殺"NOR+RED"螫" + HIR + "魂" + NOR);
+  set("nickname",NOR+RED + "魔" + HIR + "殺" + NOR+RED + "螫" + HIR + "魂" + NOR);
   set("title",HIB + "魂靈八傑" + NOR);
   set("family/family_name","黑牙聯");
   set("combat_exp",10000000);
@@ -174,7 +174,7 @@ void heart_beat()
 
     if( ( me->query("kee") < 85000 ) && ( random(100) < 50 ) )
     {
-      tell_room(environment(), BLU+name()+NOR+BLU"汲取散落在這空間的陰氣來為自己撫平創傷。\n"+NOR);
+      tell_room(environment(), BLU+name()+NOR+BLU + "汲取散落在這空間的陰氣來為自己撫平創傷。\n"+NOR);
       me->receive_curing("kee",random(200)+500);
       me->receive_heal("kee",random(200)+500);
       me->receive_curing("gin",500);

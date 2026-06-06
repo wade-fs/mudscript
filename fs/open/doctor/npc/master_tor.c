@@ -356,7 +356,7 @@ int accept_object(object me, object ob)
           吾今天就把咱" + HIW + "銀針門" + HIY + "的" + HIR + "七奇密式" + HIY + "傳授予你！！！！\n\n" + NOR);
     me->set("doctor/sosman",1);
     me->delete_temp("sec_letter");
-    me->set("title",HBBLU+HIW"ψ" + HIY + "七奇" + HIR + "秘針" + HIW + "ψ" + HIG + "傳人" + NOR);
+    me->set("title",HBBLU+HIW + "ψ" + HIY + "七奇" + HIR + "秘針" + HIW + "ψ" + HIG + "傳人" + NOR);
     return 1;
   }
 }

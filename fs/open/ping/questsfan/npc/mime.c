@@ -208,7 +208,7 @@ void die()
   object winner = query_temp("last_damage_from");
   tell_object(users(),"\n\t" + HIR + "『" + HIB + "千  山  鳥  飛  絕          萬  徑  人  蹤  滅" + NOR + "\n\n\t\t" + HIB + "孤  舟  簑  笠  翁          獨  釣  寒  江  雪" + HIR + "』" + NOR + "\n"+
     "\n\t想我" + HIC + "段" + WHT + "霾" + NOR + "雲遊五嶽, 今卻敗於"+winner->query("name")+"之手\n\t" + HIY + "哈哈哈！" + NOR + "可謂～" + HIC + "長江後浪覆前浪矣" + NOR + "～\n");
-  tell_object(users(),"\n\n" + CYN + "南方天空畫過一道流星。" + NOR + "\n\n\t「"HIY+BLINK"天樞星落" + NOR + "」\n\n");
+  tell_object(users(),"\n\n" + CYN + "南方天空畫過一道流星。" + NOR + "\n\n\t「" + HIY+BLINK + "天樞星落" + NOR + "」\n\n");
   :: die();
 }
 

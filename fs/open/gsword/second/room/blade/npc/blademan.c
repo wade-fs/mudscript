@@ -12,7 +12,7 @@ string ask_woodball();
 string ask_soilball();
 void create()
 {
-        set_name(HIR + "刀神"+HIC"龍震元" + NOR,({"blademan","man"}));
+        set_name(HIR + "刀神"+HIC + "龍震元" + NOR,({"blademan","man"}));
         set("long","仙魔戰中刀神元靈所換化的守護神,負責阻止閒雜人等進入魔封地。\n");
         set("gender","男性");
         set("class","blademan");

@@ -45,7 +45,7 @@ if(!me->is_fighting()) return notify_fail("只有在戰鬥中才能使用\n");
 if(80>random(100)) {
         message_vision("
 
-          $N" + HIR + "狂喝一聲 : "BLINK+HIY"「龍  嘯  九  天」" + NOR + "
+          $N" + HIR + "狂喝一聲 : " + BLINK+HIY + "「龍  嘯  九  天」" + NOR + "
 
        " + HIR + " 手中龍蜒神弓化變成一條青龍往敵人飛去，一時天昏地暗
 

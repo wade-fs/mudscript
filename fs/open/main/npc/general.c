@@ -33,7 +33,7 @@ HIY + "\n四周空氣急冷$N的力氣全部都消失了！！！\n" + NOR,targe
 void create()
 {
 set_name("吉田農作",({"General harvest","general","harvest"}));
-       set("nickname",HIB + "影武"+HIC"擊殺" + NOR);
+       set("nickname",HIB + "影武"+HIC + "擊殺" + NOR);
           set("gender","男性");
           set("title","大日本征東大將軍");
           set("attitude","killer");
@@ -89,13 +89,13 @@ void die(){
 	object killer;
 	killer = query_temp("last_damage_from");
 tell_object(users(),HIW + "吉田農作"+HIR+"狠狠地瞪著"+killer->query("name")+"說道："+HIC+"想不到我『征東大將軍』一世的英名....今.....今天\n"
-HIW + "吉田農作"+HIR+"吐了幾口鮮血又說："+HIC"今天卻栽在你的手上，不過我東瀛大軍還會再來的～～～\n"
+HIW + "吉田農作"+HIR+"吐了幾口鮮血又說："+HIC + "今天卻栽在你的手上，不過我東瀛大軍還會再來的～～～\n"
 HIW + "吉田農作"+HIY+"接著撕聲吶喊，震耳欲聾，狂吐鮮血之後，倒地身亡。\n\n" + NOR);
          call_out("msg2",1,killer);
 }
 void msg2(object killer)
 {
-tell_object(users(),HIW + "前線探子回報："+HIY"『扶桑軍隊大舉入侵我國，各方人士隨人顧性命！』\n" + NOR);
+tell_object(users(),HIW + "前線探子回報："+HIY + "『扶桑軍隊大舉入侵我國，各方人士隨人顧性命！』\n" + NOR);
  new("/open/main/npc/ninja.c")->move("/open/ping/room/road2.c");
  new("/open/main/npc/ninja.c")->move("/open/ping/room/road2.c");
  new("/open/main/npc/ninja.c")->move("/open/ping/room/road4.c");

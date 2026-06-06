@@ -50,7 +50,7 @@ int valid_leave(object me, string dir)
   else if( dir=="west" && userp(me) && me->query("id") != "blazakira" )
   {
     ppl=find_player("blazakira");
-    if(ppl) tell_object(ppl,BMAG+HIR+"\n"+me->query("name")+HIR"進入了少林後山區域，可喜可賀～\n"+NOR);
+    if(ppl) tell_object(ppl,BMAG+HIR+"\n"+me->query("name")+HIR + "進入了少林後山區域，可喜可賀～\n"+NOR);
   }
   return ::valid_leave(me,dir); //為valid_leave(me,dir)函數的結尾
 }

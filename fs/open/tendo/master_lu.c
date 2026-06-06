@@ -238,7 +238,7 @@ void die()
    new("/open/tendo/obj/lucloth")->move(winner);
    tell_object(users(),HIW + "          
          陸清風" + HIG + "嘆道:" + HIC + "天書" + HIG + "尚未找回," + HIR + "冥殿修羅" + HIG + "未敗,
-                    哎,我竟會敗給"+HIB+class1+HIG"弟子"+HIB+name+HIG+"之手,
+                    哎,我竟會敗給"+HIB+class1+HIG + "弟子"+HIB+name+HIG+"之手,
                     我不甘心阿!!\n\n
               " + HBCYN + "一道白光從崑崙山直升天際\n" + NOR);
 ::die();

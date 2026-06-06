@@ -1,14 +1,14 @@
 #include <ansi.h>
 inherit NPC;
 mapping *action = ({
-([ "action" : "$N手拿匕首,對準$n"+HIW+"腦門"NOR+"直插而下,正是暗殺第一招"+
+([ "action" : "$N手拿匕首,對準$n"+HIW+"腦門" + NOR+"直插而下,正是暗殺第一招"+
                HIW+" 破首式" + NOR,
                 "dodge"      :    -25,
                 "parry"      :    -25,
                 "damage"     :    100,
                 "damage_type":   "抓傷",
            ]),
-([ "action" : "$N雙爪交錯而過,對準$n"+HIW+"胸口"NOR+"抓去,正是九陰白骨抓之第二招
+([ "action" : "$N雙爪交錯而過,對準$n"+HIW+"胸口" + NOR+"抓去,正是九陰白骨抓之第二招
 "+
                HIW+" 開膛式" + NOR,
                 "dodge"      :      -5,
@@ -16,16 +16,16 @@ mapping *action = ({
                 "damage"     :     110,
                 "damage_type":   "抓傷",
            ]),
-([ "action" : "$N雙爪穿過$n的防禦圈,由下而上往$n之"+HIW+"喉嚨"NOR+"抓去,正是九陰
+([ "action" : "$N雙爪穿過$n的防禦圈,由下而上往$n之"+HIW+"喉嚨" + NOR+"抓去,正是九陰
 白骨爪之"+
-              "第三招"+HIW" 斷喉式" + NOR,
+              "第三招"+HIW + " 斷喉式" + NOR,
                 "dodge"      :     30,
                 "parry"      :     30,
                 "damage"     :    100,
                 "damage_type":   "抓傷",
             ]),
-([ "action" : "$N一爪在前,一爪在後,迅急無比的往$n"+HIW+"心臟"NOR+"挖去,正是九陰
-白骨爪之"+             "第四招"+HIW" 腕心式" + NOR,
+([ "action" : "$N一爪在前,一爪在後,迅急無比的往$n"+HIW+"心臟" + NOR+"挖去,正是九陰
+白骨爪之"+             "第四招"+HIW + " 腕心式" + NOR,
                 "dodge"      :     5,
                 "parry"      :     5,
                 "damage"     :   130,

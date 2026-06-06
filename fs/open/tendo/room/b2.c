@@ -41,7 +41,7 @@ int do_pray(string str)
   me->set("quest/have_hawk",1);
   tell_object(me,HIY + "妳雙膝跪地，虔誠的對著陸皓雲的骨骸膜拜起來。\n" + HIG + "忽然間一道細微的聲音傳進你的耳朵。\n" + HIR + "吾..早知....時日無多.......\n只是...除魔大業....未..成\n天下...未能太平..\n今留下...靈鷹於此\n盼....有緣人..得以....收服\n除魔衛道....保天下...之..太平...\n則吾雖立於...九泉之下\n其心..亦安......\n" + NOR);
   tell_object(users(),HIW + "
-         陸清風" + HIG + "大笑:"+HIB+this_player()->query("family/family_name")+HIG"弟子"+HIB+this_player()->query("name")+HIG+"收服祖師爺所飼養的靈鷹了！\n\n
+         陸清風" + HIG + "大笑:"+HIB+this_player()->query("family/family_name")+HIG + "弟子"+HIB+this_player()->query("name")+HIG+"收服祖師爺所飼養的靈鷹了！\n\n
               " + HBCYN + "一聲長嘯劃破天穹。\n" + NOR);
   tell_object(me,"\n\t指令：cast waken於戰鬥中使用之。\n");
   return 1;

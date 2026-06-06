@@ -216,7 +216,7 @@ void die()
         spirit = new("/open/ghost-hole/obj/dark-spirit");
         spirit->move(winner);
         log_file("/sky/spirit/dark-spirit",sprintf("%s(%s)讓夢風兒掉下了%s於 %s\n",winner->name(1),winner->query("id"),spirit->query("name"),ctime(time())));
-        message_vision(HIW + "薀含在"+this_object()->query("name")+HIW"身體中的"+spirit->query("name")+HIW"飛射而出，落在$N" + HIW + "手中。\n" + NOR,winner);
+        message_vision(HIW + "薀含在"+this_object()->query("name")+HIW + "身體中的"+spirit->query("name")+HIW + "飛射而出，落在$N" + HIW + "手中。\n" + NOR,winner);
         }
         ::die();
 }

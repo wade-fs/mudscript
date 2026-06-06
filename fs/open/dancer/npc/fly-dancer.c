@@ -164,7 +164,7 @@ void heart_beat()
       if(environment(mob) == environment(enemy[i]))
       {
         message_vision(HIR + "\n\n$N運起鳳凰靈氣，靈氣灌頂游走全身，鳳凰靈氣配合夢玄法鑑，空氣瞬間凝結成冰！\n\n"
-          HIC + "\t\t\t◎ "HBBLU+HIR"鳳 " + HIW + "～ " + HIR + "凰 " + HIW + "～ " + HIY + "展 " + HIW + "～ " + HIY + "翅"NOR+HIC" ◎\n\n"
+          HIC + "\t\t\t◎ " + HBBLU+HIR + "鳳 " + HIW + "～ " + HIR + "凰 " + HIW + "～ " + HIY + "展 " + HIW + "～ " + HIY + "翅" + NOR+HIC + " ◎\n\n"
           HIB + "\t\t● " + HIR + "血 " + HIW + "、 " + HIR + "染 " + HIW + "、 " + HIM + "紅 " + HIW + "、 " + HIM + "塵 " + HIW + "、 " + HIG + "舞 " + HIW + "、 " + HIG + "秋 " + HIW + "、 " + HIG + "風 " + HIB + "●\n\n\n"
           HIY + "只見$N" + HIY + "身上散放出一股強大的氣勁，靈氣頓時浮現衝天而去，化成八道不同的靈光疾射\n"
           HIY + "你胸前八大要穴，只見你" + HIY + "受靈氣所限制，頓時全身內力不斷流失，身體虛弱無力，無法使勁。\n\n" + NOR, mob );
@@ -232,7 +232,7 @@ void die()
   }
   tell_object(users(),HIW + "\n\n\n    ～ " + HIR + "媚  舞  迷  離    " + HIY + "一 夕 成 名    " + HIC + "敗 盡 多 少 英 雄 豪 傑\n\n"
     HIG + "\t\t夜 夢 天 舞    " + HIB + "無 數 寒 霜    " + HIM + "成 就 一 代 雲 舞 幻 姬 "
-    HIW + "～\n\n\n" + HIR + "沒想到我一代舞之傳人，竟然會敗在"+HIG+class1+HIW"弟子"+HIY+name+HIR+"之手。\n難道這真的是上天的安排嗎？我不甘心啊！！\n我的傳人必會為我血洗天下的！！！\n\n\n" + NOR);
+    HIW + "～\n\n\n" + HIR + "沒想到我一代舞之傳人，竟然會敗在"+HIG+class1+HIW + "弟子"+HIY+name+HIR+"之手。\n難道這真的是上天的安排嗎？我不甘心啊！！\n我的傳人必會為我血洗天下的！！！\n\n\n" + NOR);
   message_vision(HIY + "\n"+winner->name()+"打死凌雲飛得到四百點戰功\!!\n" + NOR,winner);
   write_file("/log/get_warp",sprintf("%s(%s) 打敗凌雲飛得到四百點戰功\於 %s\n",
     winner->name(1),winner->query("id"),ctime(time())));

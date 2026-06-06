@@ -181,7 +181,7 @@ $N覷中$n舊力已盡, 新力未生之際, 雙掌接連拍出" + HIG + "「地�
 
           case 4:
                     message_vision(HIC + "
-$N雙掌一錯, 突然使出先天乾坤功\的變招" + HIW + "～"BLINK+HIY + "以腿代掌勢" + NOR+HIW + "～" + HIC + ", $n被此妙招一擾, 登時鬧了個手忙腳亂" + NOR + "\n",me,victim);
+$N雙掌一錯, 突然使出先天乾坤功\的變招" + HIW + "～" + BLINK+HIY + "以腿代掌勢" + NOR+HIW + "～" + HIC + ", $n被此妙招一擾, 登時鬧了個手忙腳亂" + NOR + "\n",me,victim);
                     victim->start_busy(1);
                     COMBAT_D->report_status(victim);
                     break;
@@ -303,7 +303,7 @@ message_vision("              " + HBGRN+HIW + "$N拳含" + HIR + "『中嶽‧�
       {
          message_vision("
 
-              " + HBBLU+HIW + "$N豁然領悟了『"BLINK+HIG + "五" + HIY + "嶽" + HIC + "合" + HIR + "一" + NOR+HBBLU+HIW + "』的真意, 拳含五嶽靈氣, " + NOR + "
+              " + HBBLU+HIW + "$N豁然領悟了『" + BLINK+HIG + "五" + HIY + "嶽" + HIC + "合" + HIR + "一" + NOR+HBBLU+HIW + "』的真意, 拳含五嶽靈氣, " + NOR + "
               " + HBBLU+HIW + "向$n擊出石破天驚的一擊!!!!" + NOR + "\n\n              ",me,victim);
          victim->receive_wound("kee",1000,me);
          me->add("force",-1000);

@@ -36,12 +36,12 @@ int conjure(object me, object target)
 	message_vision(HIM + "            88888       '8b" + NOR+HIM + "   :  :   d8`       88888       \n" + NOR, me, target);
 	message_vision(HIM + "           j88888  .db.   `b" + NOR+HIM + "        d'   .db.  88888k      \n" + NOR, me, target);
 	message_vision(HIM + "             `888  8888" + HIY + "╮╭" + HIM + "`b (" + HBMAG+HIC + "蝶" + NOR+HIM + ") d'" + HIY + "╮╭" + HIM + "8888  888'        \n" + NOR, me, target);
-	message_vision(HIM + "              888. `88' "BLINK+HBRED+HIY + "迷" + NOR+HIY + "～～ " + HBMAG+HIC + "⊙" + NOR+HIY + " ～～"BLINK+HBRED+HIY + "亂" + NOR+HIM + " `88' .888         \n" + NOR, me, target);
+	message_vision(HIM + "              888. `88' " + BLINK+HBRED+HIY + "迷" + NOR+HIY + "～～ " + HBMAG+HIC + "⊙" + NOR+HIY + " ～～" + BLINK+HBRED+HIY + "亂" + NOR+HIM + " `88' .888         \n" + NOR, me, target);
 	message_vision(HIM + "              8888  `' " + HIY + "╯╰" + HIM + "  ╭" + HBMAG+HIC + "舞" + NOR+HIM + "╮  " + HIY + "╯╰" + HIM + " '`  8888         \n" + NOR, me, target);
 	message_vision(HIM + "              8888b.   _,aaY' |" + HBMAG+HIC + "⊙" + NOR+HIM + "| `Yaa,_   .d8888         \n" + NOR, me, target);
 	message_vision(HIM + "             j8888888888f''  ╰" + HBMAG+HIC + "天" + NOR+HIM + "╯   ``?888888888k        \n" + NOR, me, target);
 	message_vision(HIM + "                88888'.'" + HIY + "╭╯" + HIM + "  d" + HBMAG+HIC + "⊙" + NOR+HIM + "b  " + HIY + "╰╮" + HIM + " `.`8888           \n" + NOR, me, target);
-	message_vision(HIM + "                88' .8  "BLINK+HBRED+HIY + "人" + NOR+HIM + "   d'" + HBMAG+HIC + "地" + NOR+HIM + "`b   "BLINK+HBRED+HIY + "間" + NOR+HIM + "  8. `88           \n" + NOR, me, target);
+	message_vision(HIM + "                88' .8  " + BLINK+HBRED+HIY + "人" + NOR+HIM + "   d'" + HBMAG+HIC + "地" + NOR+HIM + "`b   " + BLINK+HBRED+HIY + "間" + NOR+HIM + "  8. `88           \n" + NOR, me, target);
 	message_vision(HIM + "                l  .88 db" + HIY + "╰" + HIM + " d'|" + HBMAG+HIC + "⊙" + NOR+HIM + "|`b " + HIY + "╯" + HIM + "db 88.  l           \n" + NOR, me, target);
 	message_vision(HIM + "                   888 `'   8 |" + HBMAG+HIC + "間" + NOR+HIM + "| 8   `' 88b              \n" + NOR, me, target);
 	message_vision(HIM + "                   888      8 |  | 8      888              \n" + NOR, me, target);

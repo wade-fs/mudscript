@@ -178,9 +178,9 @@ winner->delete_temp("floor");
 winner->delete_temp("pass");
 if(stair && tower1 && tower2)
 {
-stair->set("short",HIR + "不死鳥ソ塔"HIG + "第"+chinese_number(me->query_temp("floor"))+"階" + NOR);
-tower1->set("short",HIR + "不死鳥ソ塔"HIY + "第"+chinese_number(me->query_temp("floor"))+"層" + NOR);
-tower2->set("short",HIR + "不死鳥ソ塔"HIY + "第"+chinese_number(me->query_temp("floor"))+"層" + NOR);
+stair->set("short",HIR + "不死鳥ソ塔" + HIG + "第"+chinese_number(me->query_temp("floor"))+"階" + NOR);
+tower1->set("short",HIR + "不死鳥ソ塔" + HIY + "第"+chinese_number(me->query_temp("floor"))+"層" + NOR);
+tower2->set("short",HIR + "不死鳥ソ塔" + HIY + "第"+chinese_number(me->query_temp("floor"))+"層" + NOR);
 }
 if (winner->query_kar() > random(33)){
 tell_room(environment(winner),sprintf(HIY + "一片金黃色的羽毛落在%s的身上。\n" + NOR,winner->name()));

@@ -405,7 +405,7 @@ void die()
 //  log_file("log/open-area/kill_yuo", sprintf("%s(%s) 打死淡情悠 on %s\n",name,winner->query("id"), ctime(time()) ));
   enemy = query_enemy();
   i=sizeof(enemy);
-  tell_object(users(),HIC + "\n\t啊 ～～\n\n\t淡情悠說道：「舞風揚姐姐，咱們來世再做姐妹吧!!」\n\n\t" + HIG + "只聞淡情悠發出一聲慘叫後，被"HIM+name+HIG"打回原花精原形了!!\n\n" + NOR);
+  tell_object(users(),HIC + "\n\t啊 ～～\n\n\t淡情悠說道：「舞風揚姐姐，咱們來世再做姐妹吧!!」\n\n\t" + HIG + "只聞淡情悠發出一聲慘叫後，被" + HIM+name+HIG + "打回原花精原形了!!\n\n" + NOR);
 
   if( winner->query("combat_exp") > 30000000 )
   {

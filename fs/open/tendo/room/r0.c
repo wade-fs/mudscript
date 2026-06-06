@@ -9,34 +9,34 @@ set("short",HIR + "八卦遊龍迷陣入口" + NOR);
 
 long = "\n"+
 BCYN + "                                                                         "+
-"       "NOR+
+"       " + NOR+
 BCYN + "                                                                         "+
-"       "NOR+
-BCYN + "                                "+BLK"八卦遊龍迷陣入口"NOR+BCYN"      "+
-"                          "NOR+
-BWHT + "                              "NOR+"                    "+BWHT"          "+
-"                    "NOR+
-BWHT + "                              "NOR+"                    "+BWHT"          "+
-"                    "NOR+
-BWHT + "                              "NOR+"                    "+BWHT"          "+
-"                    "NOR+
-BWHT + "                              "NOR+"                    "+BWHT"          "+
-"                    "NOR+
-BWHT + "                              "NOR+"                    "+BWHT"          "+
-"                    "NOR+
-BWHT + "                              "NOR+"                    "+BWHT"          "+
-"                    "NOR+
-BWHT + "                              "NOR+NOR"                    "+BWHT"      "+
-"                        "NOR+
-BWHT + "                            "NOR+BBLU"                        "+BWHT"    "+
-"                        "NOR+
-BWHT + "                          "NOR+BYEL"                            "+BWHT"  "+
-"                        "NOR+
-BWHT + "                        "NOR+BRED"                                "+BWHT
-"                        "NOR+
-BWHT + "                      "NOR+BMAG"                                    "+BWHT
-"                      "NOR+
-BWHT + "                    "NOR+BGRN"                                        "+BWHT"                    "NOR+
+"       " + NOR+
+BCYN + "                                "+BLK + "八卦遊龍迷陣入口" + NOR+BCYN + "      "+
+"                          " + NOR+
+BWHT + "                              " + NOR+"                    "+BWHT + "          "+
+"                    " + NOR+
+BWHT + "                              " + NOR+"                    "+BWHT + "          "+
+"                    " + NOR+
+BWHT + "                              " + NOR+"                    "+BWHT + "          "+
+"                    " + NOR+
+BWHT + "                              " + NOR+"                    "+BWHT + "          "+
+"                    " + NOR+
+BWHT + "                              " + NOR+"                    "+BWHT + "          "+
+"                    " + NOR+
+BWHT + "                              " + NOR+"                    "+BWHT + "          "+
+"                    " + NOR+
+BWHT + "                              " + NOR+NOR + "                    "+BWHT + "      "+
+"                        " + NOR+
+BWHT + "                            " + NOR+BBLU + "                        "+BWHT + "    "+
+"                        " + NOR+
+BWHT + "                          " + NOR+BYEL + "                            "+BWHT + "  "+
+"                        " + NOR+
+BWHT + "                        " + NOR+BRED + "                                "+BWHT
+"                        " + NOR+
+BWHT + "                      " + NOR+BMAG + "                                    "+BWHT
+"                      " + NOR+
+BWHT + "                    " + NOR+BGRN + "                                        "+BWHT + "                    " + NOR+
 NOR + "\n";
 set("long", long);
 set("exits", ([

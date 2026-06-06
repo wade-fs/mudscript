@@ -4,7 +4,7 @@ inherit ROOM;
 
 void create()
 {
-	set("short",HIG + "琰 揚 居 -- "NOR+YEL"大 松 樹" + NOR);
+	set("short",HIG + "琰 揚 居 -- " + NOR+YEL + "大 松 樹" + NOR);
 	set("long",@LONG
 你突然被這裡的某樣東西所吸引，不是美麗的風景，也不是奇特
 的邪靈，而是一種會散發出奇特味道的樹脂，一隻闕雀正在一旁拉扯

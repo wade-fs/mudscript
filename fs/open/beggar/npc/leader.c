@@ -78,7 +78,7 @@ int accept_object(object me, object obj)
              &&me->query("combat_exp")>1500000)
          {
             command("say 不錯，即然你幫我取到了我想要的東西，你果然有資格習得本幫上乘心法！");
-                        tell_object(users(),me->query("name")+HIC"已習得本幫上乘心法，希望以後替丐幫行俠仗義
+                        tell_object(users(),me->query("name")+HIC + "已習得本幫上乘心法，希望以後替丐幫行俠仗義
                                 \n\t\t\n" + HIW + "哇～哈～哈～～\n" + NOR);
                         me->set("beggar/got_dogup",1);
                         me->set("title",HIC + "丐幫" + HIW + "《" + HIR + "四獸武學" + HIW + "》" + NOR);

@@ -10,7 +10,7 @@ void create()
   set("long","鬼影子，生性兇殘，武道界之人階聞名喪膽，相傳他是鬼影老人的師\n弟，也有人說他是任嘯天的師兄，但詳情沒人知道，只知道鬼影子身\n兼雪蒼派與瀧山派之絕學，在其深厚的內力基礎之下，慘害武林數十\n年無人能敵。\n");
   set("gender","男性");
   set("class","fighter");
-  set("nickname",HIR + "鬼"NOR+RED"影" + HIR + "子" + NOR);
+  set("nickname",HIR + "鬼" + NOR+RED + "影" + HIR + "子" + NOR);
   set("title",HIY + "雪蒼派" + HIW + "『" + HIR + "陽字訣" + HIW + "』" + HIY + "傳人" + NOR);
   set("combat_exp",12000000);
   set("attitude","heroism");
@@ -128,7 +128,7 @@ void heart_beat()
       if(a >= 6 && a <= 35) {
         message_vision(HIY + "\n薛霸天的身影隨風舞動，疾速轉動不停，瞬息間天地彷彿旋轉了起來\n\n"
           HIG + "驚 " + HIM + "天 " + HIY + "九 流 " + HIW + "之 【 " + HIB + "無  上  空  間  " + HIR + "困  敵  流 " + HIW + "】\n\n"
-          HBRED+HIW"瞬間四周圍忽然黯淡無光，你的身旁彷彿有道無形之網困你而動彈不得。" + NOR + "\n\n" + NOR,me);
+          HBRED+HIW + "瞬間四周圍忽然黯淡無光，你的身旁彷彿有道無形之網困你而動彈不得。" + NOR + "\n\n" + NOR,me);
         for(b=0;b<i;b++) {
           if(userp(target[b])) continue;
           target[b]->start_busy(1);
@@ -145,7 +145,7 @@ void heart_beat()
           if(a >= 1 && a <= 5) {
             if(environment(me) == environment(victim)) {
               for(k=0;k<10;k++) {
-                message_vision(HIR + "薛霸天領悟陰陽訣之" + HIG + "終極殺招" + HIR + "，" + HIW + "『" + HIG + "驚" + HIM + "天" + HIY + "九流" + HIW + "---"HBRED+HIW"狂霸天下"NOR+HIW"』" + HIR + "綿綿不絕的擊向$N\n" + NOR,victim);
+                message_vision(HIR + "薛霸天領悟陰陽訣之" + HIG + "終極殺招" + HIR + "，" + HIW + "『" + HIG + "驚" + HIM + "天" + HIY + "九流" + HIW + "---" + HBRED+HIW + "狂霸天下" + NOR+HIW + "』" + HIR + "綿綿不絕的擊向$N\n" + NOR,victim);
                 victim->receive_damage("kee",400,me);
                 COMBAT_D->report_status(victim);
               }
@@ -156,14 +156,14 @@ void heart_beat()
           else if(a >= 36 && a <= 45) {
             if(environment(me) == environment(victim))
               for(b=0;b<5;b++) {
-                message_vision(HIG + "薛霸天領悟陰陽訣之" + HIY + "禁邪招" + HIG + "，" + HIW + "『" + HIG + "驚" + HIM + "天" + HIY + "九流" + HIW + "---"HBGRN+HIW"秋風掃落葉"NOR+HIW"』" + HIG + "綿綿不絕的擊向$N\n" + NOR,victim);
+                message_vision(HIG + "薛霸天領悟陰陽訣之" + HIY + "禁邪招" + HIG + "，" + HIW + "『" + HIG + "驚" + HIM + "天" + HIY + "九流" + HIW + "---" + HBGRN+HIW + "秋風掃落葉" + NOR+HIW + "』" + HIG + "綿綿不絕的擊向$N\n" + NOR,victim);
                 victim->receive_wound("kee",300,me);
                 COMBAT_D->report_status(victim,1);
               }
          } else if(a >= 56 && a <= 60) {
            if(environment(me) == environment(victim))
              for(b=0;b<6;b++) {
-               message_vision(HIY + "薛霸天領悟陰陽訣之" + HIB + "武學精華" + HIY + "，" + HIW + "『" + HIG + "驚" + HIM + "天" + HIY + "九流" + HIW + "---"HBYEL+HIW"邪心魔性"NOR+HIW"』" + HIY + "綿綿不絕的擊向$N\n" + NOR,victim);
+               message_vision(HIY + "薛霸天領悟陰陽訣之" + HIB + "武學精華" + HIY + "，" + HIW + "『" + HIG + "驚" + HIM + "天" + HIY + "九流" + HIW + "---" + HBYEL+HIW + "邪心魔性" + NOR+HIW + "』" + HIY + "綿綿不絕的擊向$N\n" + NOR,victim);
                victim->receive_damage("kee",500,me);
                COMBAT_D->report_status(victim);
              }
@@ -171,7 +171,7 @@ void heart_beat()
          else if(a >= 71 && a <= 75) {
            if(environment(me) == environment(victim))
              for(b=0;b<6;b++) {
-               message_vision(HIB + "薛霸天領悟陰陽訣之" + HIM + "奧義招" + HIB + "，" + HIW + "『" + HIG + "驚" + HIM + "天" + HIY + "九流" + HIW + "---"HBBLU+HIW"石破天驚"NOR+HIW"』" + HIB + "綿綿不絕的擊向$N\n" + NOR,victim);
+               message_vision(HIB + "薛霸天領悟陰陽訣之" + HIM + "奧義招" + HIB + "，" + HIW + "『" + HIG + "驚" + HIM + "天" + HIY + "九流" + HIW + "---" + HBBLU+HIW + "石破天驚" + NOR+HIW + "』" + HIB + "綿綿不絕的擊向$N\n" + NOR,victim);
                victim->receive_wound("kee",400,me);
                COMBAT_D->report_status(victim,1);
             }
@@ -179,7 +179,7 @@ void heart_beat()
         else if( a >= 86 && a <= 90) {
           if(environment(me) == environment(victim))
             for(b=0;b<7;b++) {
-              message_vision(HIM + "薛霸天領悟陰陽訣之" + HIC + "無上心法" + HIM + "，" + HIW + "『" + HIG + "驚" + HIM + "天" + HIY + "九流" + HIW + "---"HBMAG+HIW"流水無蹤"NOR+HIW"』" + HIM + "綿綿不絕的擊向$N\n" + NOR,victim);
+              message_vision(HIM + "薛霸天領悟陰陽訣之" + HIC + "無上心法" + HIM + "，" + HIW + "『" + HIG + "驚" + HIM + "天" + HIY + "九流" + HIW + "---" + HBMAG+HIW + "流水無蹤" + NOR+HIW + "』" + HIM + "綿綿不絕的擊向$N\n" + NOR,victim);
               victim->receive_damage("kee",600,me);
               COMBAT_D->report_status(victim);
             }
@@ -187,7 +187,7 @@ void heart_beat()
         else if(a >= 94 && a <= 98) {
           if(environment(me) == environment(victim))
             for(b=0;b<8;b++) {
-              message_vision(HIC + "薛霸天領悟陰陽訣之" + HIR + "無限殺意" + HIC + "，" + HIW + "『" + HIG + "驚" + HIM + "天" + HIY + "九流" + HIW + "---"HBCYN+HIW"日月無光"NOR+HIW"』" + HIC + "綿綿不絕的擊向$N\n" + NOR,victim);
+              message_vision(HIC + "薛霸天領悟陰陽訣之" + HIR + "無限殺意" + HIC + "，" + HIW + "『" + HIG + "驚" + HIM + "天" + HIY + "九流" + HIW + "---" + HBCYN+HIW + "日月無光" + NOR+HIW + "』" + HIC + "綿綿不絕的擊向$N\n" + NOR,victim);
               victim->receive_wound("kee",400,me);
               COMBAT_D->report_status(victim,1);
             }
@@ -310,7 +310,7 @@ void die()
     HIC + "莊生曉夢迷蝴蝶    望帝春心託杜鵑\n\n            "
     HIG + "滄海月明珠有淚\    藍田日暖玉生煙\n\n                "
     HIM + "此情可待成追憶    只是當時已惘然\n\n"
-    HIY + "\n想我" + HIM + "薛霸天" + HIY + "憑" + HIC + "陰" + HIR + "陽" + HIY + "兩極之高深武學縱橫南蠻數十年，未逢敵手\n如今敗於"+HIG+class1+HIB"弟子"+HIY+name+HIY+"之手，我不甘心啊！！！\n\n\n" + NOR);
+    HIY + "\n想我" + HIM + "薛霸天" + HIY + "憑" + HIC + "陰" + HIR + "陽" + HIY + "兩極之高深武學縱橫南蠻數十年，未逢敵手\n如今敗於"+HIG+class1+HIB + "弟子"+HIY+name+HIY+"之手，我不甘心啊！！！\n\n\n" + NOR);
   message_vision(HIY + "\n"+winner->name()+"打死薛霸天得到三百點戰功\!!\n" + NOR,winner);
   write_file("/log/get_warp",sprintf("%s(%s) 打敗薛霸天得到三百點戰功\於 %s\n",
     winner->name(1),winner->query("id"),ctime(time())));

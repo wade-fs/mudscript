@@ -490,7 +490,7 @@ void die()
 
     百姓紛紛面朝皇城的方向跪地磕頭，有些人甚至哭了起來
 
-      太后大叫道：可惡的"+((winner&&objectp(winner)==1)?winner->query("name"):"咕哩貓")+HIR"，竟敢以下犯上，
+      太后大叫道：可惡的"+((winner&&objectp(winner)==1)?winner->query("name"):"咕哩貓")+HIR + "，竟敢以下犯上，
 
                 凡我同胞，人人得而誅之!!!!
   \n\n" + NOR);
@@ -510,7 +510,7 @@ void die()
 //      if(!user[i] || !environment(user[i]) || k < 20000000 || user[i]->query("id") != "blazakira" ) continue; //懲罰忽略的條件
       if(!user[i] || !environment(user[i]) || user[i]->query("id") != "blazakira" ) continue; //測試中
       k=k/1000;
-      tell_object(user[i],RED+BWHT"由於當朝天子被人刺殺，你受到心神震盪(busy一回)、功\力衰弱(附加三級虛弱)、實戰經驗減少"+k+"點!!\n" + NOR);
+      tell_object(user[i],RED+BWHT + "由於當朝天子被人刺殺，你受到心神震盪(busy一回)、功\力衰弱(附加三級虛弱)、實戰經驗減少"+k+"點!!\n" + NOR);
       user[i]->start_busy(1);
       user[i]->apply_condition("power-down",3);
       user[i]->add("combat_exp",-k);

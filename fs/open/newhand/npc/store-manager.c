@@ -197,7 +197,7 @@ int do_store(string str)
       return notify_fail(HIW + "" + HIW + "『" + HIG + "暢談" + HIW + "』" + HIY + "蒼酷說道: 你身上並沒有此項物品。\n" + NOR );
     if(!check(obj))
       return 0;
-    message_vision(HIY + "$N將"+obj->query("name")+HIY"全部交給了$n" + HIY + "。\n" + NOR,ppl,this_object());
+    message_vision(HIY + "$N將"+obj->query("name")+HIY + "全部交給了$n" + HIY + "。\n" + NOR,ppl,this_object());
     if("/adm/daemons/saveeqd"->store(obj)==1){return 1;}
     return notify_fail("" + HIW + "『" + HIG + "暢談" + HIW + "』" + HIY + "蒼酷說道: 這位大俠，您的倉庫已經放滿囉！這東西先還給你，等你整理完倉庫再來存吧！\n" + NOR);
   }

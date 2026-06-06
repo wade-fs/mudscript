@@ -49,12 +49,12 @@ int do_pay()
 	coin=(int)me->query("bank/coin");
 
 	if(coin < 50000000 )
-	return notify_fail(HIY + "你目前的存款只剩下" + HIM + "【"HIW+coin/100000+HIM"】" + HIY + "張銀票左右而已，不夠 500 張銀票喔。\n" + NOR);
+	return notify_fail(HIY + "你目前的存款只剩下" + HIM + "【" + HIW+coin/100000+HIM + "】" + HIY + "張銀票左右而已，不夠 500 張銀票喔。\n" + NOR);
 
 	coin=coin-50000000;
 	me->set("bank/coin",coin);
 	me->set_temp("quests/sky/pay",1);
-	message_vision(HIY + "醉問天說：收到$N" + HIY + "的五百張銀票了，$N" + HIY + "目前的存款還剩下" + HIM + "【 "HIW+coin/100000+HIM"】" + HIY + "張銀票左右!!\n" + NOR,me);
+	message_vision(HIY + "醉問天說：收到$N" + HIY + "的五百張銀票了，$N" + HIY + "目前的存款還剩下" + HIM + "【 " + HIW+coin/100000+HIM + "】" + HIY + "張銀票左右!!\n" + NOR,me);
 	command("smile "+me->query("id"));
 	message_vision(HIY + "醉問天說：$N" + HIY + "想保管什麼物品呢？付一次錢只能保管一樣東西喔！\n" + NOR,me);
 	return 1;
@@ -70,7 +70,7 @@ int accept_object(object me,object ob)
 
 	if( !me->query_temp("quests/sky/pay") )
 	{
-	message_vision(HIY + "醉問天說：$N" + HIY + "沒有付(pay)我金錢，我不會免費幫你保管的「"+ob->query("name")+HIY"」就當您送給我了。\n" + NOR,me);
+	message_vision(HIY + "醉問天說：$N" + HIY + "沒有付(pay)我金錢，我不會免費幫你保管的「"+ob->query("name")+HIY + "」就當您送給我了。\n" + NOR,me);
 	destruct(ob);
 	return 1;
 	}
@@ -81,7 +81,7 @@ int accept_object(object me,object ob)
 	me->delete_temp("quests/sky/pay");
 	destruct(ob);
 	}else{
-	message_vision(HIY + "醉問天說：「"+ob->query("name")+HIY"」怎麼看也不像是寶物，不過既然$N送給我了，我就不客氣的收下了 ^^\n" + NOR,me);
+	message_vision(HIY + "醉問天說：「"+ob->query("name")+HIY + "」怎麼看也不像是寶物，不過既然$N送給我了，我就不客氣的收下了 ^^\n" + NOR,me);
 	destruct(ob);
 	}
 	return 1;

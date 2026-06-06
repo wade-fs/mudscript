@@ -84,7 +84,7 @@ int accept_object(object who, object ob)
     destruct(ob);
     tell_object(users(),HIY + "
                  本因方丈說道:" + HIW + "
-                             「這次"HIG+name+HIW"為我天龍寺除去大患, 奪回寶經
+                             「這次" + HIG+name+HIW + "為我天龍寺除去大患, 奪回寶經
                                老衲今日便將神劍奧義盡傳於你, 
                                望你今後斬妖除魔, 重振大理段氏的聲威!!」
 " + NOR);

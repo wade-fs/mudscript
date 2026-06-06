@@ -238,7 +238,7 @@ void die()
           winner->set_temp("control",5);
         }
         tell_object(users(),HIW + "          
-          "+this_object()->name()+"" + HIG + "叫道：現在"HIC+name+HIG"或許\打敗了我，但是我還是會生生世世的復活的!!!!!!\n" + NOR);
+          "+this_object()->name()+"" + HIG + "叫道：現在" + HIC+name+HIG + "或許\打敗了我，但是我還是會生生世世的復活的!!!!!!\n" + NOR);
 ::die();
 }
 

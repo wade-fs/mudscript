@@ -23,7 +23,7 @@ HIW + "全身逼發出一股攝人的寒氣，彷彿要將四周的空氣凝結�
   else if( duration > 7 )
      {
       tell_object(me, HIC + "你感覺四肢百賅被凌霜奇勁的寒勁充塞著，全身上下暢快無比！\n" + NOR);
-      message("vision", me->name() + HIC"的全身上下被一股淡藍色的氣勁包圍著！\n" + NOR,
+      message("vision", me->name() + HIC + "的全身上下被一股淡藍色的氣勁包圍著！\n" + NOR,
       environment(me), me);
        if((int)me->query("force")<2*(int)me->query("max_force"))
            me->add("force",50);
@@ -31,7 +31,7 @@ HIW + "全身逼發出一股攝人的寒氣，彷彿要將四周的空氣凝結�
     else if( duration > 5 )
      {
       tell_object(me, HIC + "你的護身寒氣的氣勁不斷地注入雙手中，感覺似乎充滿了勁道！\n" + NOR);
-      message("vision", me->name() + HIC"的雙手隱隱散發出逼人的寒氣！\n" + NOR,
+      message("vision", me->name() + HIC + "的雙手隱隱散發出逼人的寒氣！\n" + NOR,
       environment(me), me);
        if((int)me->query("force")<2*(int)me->query("max_force"))
            me->add("force",50);
@@ -39,7 +39,7 @@ HIW + "全身逼發出一股攝人的寒氣，彷彿要將四周的空氣凝結�
      else if( duration > 3)
      {
          tell_object(me,CYN + "你感到凌霜奇勁慢慢的由雙手延流至氣海....\n" + NOR);
-         message("vision",me->name() + CYN"手上的奇勁慢慢的擴散至全身...\n" + NOR,	
+         message("vision",me->name() + CYN + "手上的奇勁慢慢的擴散至全身...\n" + NOR,	
          environment(me),me);
          if((int)me->query("force")<2*(int)me->query("max_force"))
          me->add("force",20);	
@@ -47,7 +47,7 @@ HIW + "全身逼發出一股攝人的寒氣，彷彿要將四周的空氣凝結�
       else if( duration > 1)
       {
        tell_object(me, CYN + "你感到寒氣在手上流轉，運勁通暢無比！\n" + NOR);
-       message("vision", me->name() + CYN"的護身寒氣漸漸地凝聚在雙手... \n" + NOR,
+       message("vision", me->name() + CYN + "的護身寒氣漸漸地凝聚在雙手... \n" + NOR,
        environment(me), me);
        if((int)me->query("force")<2*(int)me->query("max_force"))
            me->add("force",10);

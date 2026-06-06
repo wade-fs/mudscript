@@ -70,7 +70,7 @@ int do_steal(string arg)
     return 1;
   }
   obj->move(me);
-  message_vision("只見$N悄悄貼近$n，不動聲色的偷了$n的"HIY+obj->name(1)+NOR"。\n" + NOR,me,npc);
+  message_vision("只見$N悄悄貼近$n，不動聲色的偷了$n的" + HIY+obj->name(1)+NOR + "。\n" + NOR,me,npc);
   return 1;
 }
 

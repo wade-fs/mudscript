@@ -169,14 +169,14 @@ void diy(object me, object victim, object weapon, int damage)
 
 message_vision(HIB + "～雪蒼寒勁～" + NOR + "
 " + HIC + "            $N的寒勁一提，使出雪蒼氣勁中之" + NOR + "
-"BLINK+HIC + "                －『 凝 霜 勁 』－" + NOR + "
+" + BLINK+HIC + "                －『 凝 霜 勁 』－" + NOR + "
 " + HIC + "        拳勢將$n籠罩，周圍氣溫瞬間下降，將$n凝結。\n" + NOR,me,victim);
               victim->receive_damage("kee",(bound+50),me);
               COMBAT_D->report_status(victim);
 
 message_vision(HIC + "～雪蒼冰勁～" + NOR + "
 " + HIY + "           $N將內勁往掌上凝聚，使出雪蒼氣勁之" + NOR + "
-"BLINK+HIG + "                 －『 玄 冰 勁 』－" + NOR + "
+" + BLINK+HIG + "                 －『 玄 冰 勁 』－" + NOR + "
 " + HIY + "        掌上勁力瞬時提升數倍，澎湃的掌勁向$n襲捲而去。\n" + NOR,me,victim);
               victim->receive_wound("kee",(bound+50),me);
               COMBAT_D->report_status(victim);
@@ -326,7 +326,7 @@ me->query("family/family_name")=="雪蒼派"&&me->query("force",1) > 500){
 case 1:
 message_vision(HIR + "                 －－狂風鬼影腳－－" + NOR + "
 " + HIW + "    $N將氣勁一轉，氣勁源源不斷的向腳上凝聚，使出雪蒼氣勁之" + NOR + "
-"BLINK+HIR + "                     ～『 狂 風 勁 』～" + NOR + "
+" + BLINK+HIR + "                     ～『 狂 風 勁 』～" + NOR + "
 " + HIW + "             $N的腳風如狂風般的腳勢向$n狂襲而去。\n" + NOR,me,victim);
                victim->receive_damage("kee",bound,me);
          me->add("force",-30);
@@ -335,7 +335,7 @@ break;
 case 2:
 message_vision(GRN + "                 －－烈風亂影腳－－" + NOR + "
 " + HIC + "    $N將內力一放，氣勁源源不斷的向腳上凝聚，使出雪蒼氣勁之" + NOR + "
-"BLINK+GRN + "                    ～『 烈 風 勁 』～" + NOR + "
+" + BLINK+GRN + "                    ～『 烈 風 勁 』～" + NOR + "
 " + HIC + "             $N的腳如閃電般的腳勢向$n殘踢而去。\n" + NOR,me,victim);
          victim->receive_damage("kee",bound,me);
          me->add("force",-30);
@@ -344,7 +344,7 @@ break;
 case 3:
 message_vision(HIB + "                 －－旋風幻影腳－－" + NOR + "
 " + HIC + "    $N將內力一收，氣勁源源不斷的向腳上凝聚，使出雪蒼氣勁之" + NOR + "
-"BLINK+HIB + "                    ～『 旋 風 勁 』～" + NOR + "
+" + BLINK+HIB + "                    ～『 旋 風 勁 』～" + NOR + "
 " + HIC + "             $N的腿順勢一轉由上至下向$n劈踢而去。\n" + NOR,me,victim);
          victim->receive_wound("kee",bound,me);
          me->add("force",-30);
@@ -353,7 +353,7 @@ break;
 case 4:
 message_vision(HIY + "                 －－暴風滅影腳－－" + NOR + "
 " + HIC + "    $N將內勁暴射，氣勁源源不斷的向腳上凝聚，使出雪蒼氣勁之" + NOR + "
-"BLINK+HIY + "                    ～『 暴 風 勁 』～" + NOR + "
+" + BLINK+HIY + "                    ～『 暴 風 勁 』～" + NOR + "
 " + HIC + "             $N強橫的內力挾帶著破風之聲向$n猛踢而去。\n" + NOR,me,victim);
            victim->receive_wound("kee",dam,me);
          me->add("force",-30);
@@ -407,7 +407,7 @@ break;
 case 4:
 message_vision(HIR + "            ---『狂風鬼影腳』---" + NOR + "
 " + HIW + "    $N將氣勁一轉，氣勁源源不斷的向腳上凝聚，使出雪蒼氣勁之" + NOR + "
-"BLINK+HIR + "                     ～『 狂 風 勁 』～" + NOR + "
+" + BLINK+HIR + "                     ～『 狂 風 勁 』～" + NOR + "
 " + HIW + "             $N的腳風如狂風般的腳勢向$n狂襲而去。\n" + NOR,me,victim);
                victim->receive_damage("kee",180,me);
                me->add("force",-100);
@@ -416,7 +416,7 @@ break;
 case 5:
 message_vision(GRN + "            ---『烈風亂影腳』---" + NOR + "
 " + HIC + "    $N將內力一放，氣勁源源不斷的向腳上凝聚，使出雪蒼氣勁之" + NOR + "
-"BLINK+GRN + "                    ～『 烈 風 勁 』～" + NOR + "
+" + BLINK+GRN + "                    ～『 烈 風 勁 』～" + NOR + "
 " + HIC + "             $N的腳如閃電般的腳勢向$n殘踢而去。\n" + NOR,me,victim);
          victim->receive_wound("kee",240,me);
          me->add("force",-100);
@@ -425,7 +425,7 @@ break;
 case 6:
 message_vision(HIB + "            ---『旋風幻影腳』---" + NOR + "
 " + HIC + "    $N將內力一收，氣勁源源不斷的向腳上凝聚，使出雪蒼氣勁之" + NOR + "
-"BLINK+HIB + "                    ～『 旋 風 勁 』～" + NOR + "
+" + BLINK+HIB + "                    ～『 旋 風 勁 』～" + NOR + "
 " + HIC + "             $N的腿順勢一轉由上至下向$n劈踢而去。\n" + NOR,me,victim);
          victim->receive_damage("kee",180,me);
          me->add("force",-100);
@@ -434,7 +434,7 @@ break;
 case 7:
 message_vision(HIY + "            ---『暴風滅影腳』---" + NOR + "
 " + HIC + "    $N將內勁暴射，氣勁源源不斷的向腳上凝聚，使出雪蒼氣勁之" + NOR + "
-"BLINK+HIY + "                    ～『 暴 風 勁 』～" + NOR + "
+" + BLINK+HIY + "                    ～『 暴 風 勁 』～" + NOR + "
 " + HIC + "             $N強橫的內力挾帶著破風之聲向$n猛踢而去。\n" + NOR,me,victim);
            victim->receive_wound("kee",dam,me);
            me->add("force",-100);

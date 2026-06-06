@@ -107,7 +107,7 @@ int greeting (object who)
   }
   else if (wizardp(who))
   {
-    message_vision(HIY + "劍士頭目的靈魂傳送了訊息過來：咦？"+who->query("name")+HIY"專程來這呀？歡迎～歡迎～～\n" + NOR,who);
+    message_vision(HIY + "劍士頭目的靈魂傳送了訊息過來：咦？"+who->query("name")+HIY + "專程來這呀？歡迎～歡迎～～\n" + NOR,who);
   }
   else
   {

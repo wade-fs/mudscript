@@ -202,7 +202,7 @@ void die()
     spirit = new("/open/ghost-hole/obj/thunder-spirit");
     spirit->move(ob);
     log_file("sky/spirit/thunder-spirit",sprintf("%s(%s)讓月半彎掉下了%s於 %s\n",ob->name(1),ob->query("id"),spirit->query("name"),ctime(time())));
-    message_vision(HIW + "薀含在"+this_object()->query("name")+HIW"身體中的"+spirit->query("name")+HIW"飛射而出，落在$N" + HIW + "手中。\n" + NOR,ob);
+    message_vision(HIW + "薀含在"+this_object()->query("name")+HIW + "身體中的"+spirit->query("name")+HIW + "飛射而出，落在$N" + HIW + "手中。\n" + NOR,ob);
   }
 
   if( ob->query("class")=="dancer" && ob->query_temp("ask_fdragon"))

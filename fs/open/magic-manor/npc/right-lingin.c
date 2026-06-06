@@ -15,7 +15,7 @@ void create()
 LONG);
   set("gender","男性");
   set("class","fighter");
-  set("nickname",NOR+CYN"雪" + HIC + "影"NOR+CYN"飄" + HIC + "零" + NOR);
+  set("nickname",NOR+CYN + "雪" + HIC + "影" + NOR+CYN + "飄" + HIC + "零" + NOR);
   set("title",HIC + "聚靈水聖" + NOR);
   set("family/family_name","雪蒼派");
   set("combat_exp",12000000);

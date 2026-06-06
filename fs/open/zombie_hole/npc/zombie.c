@@ -96,7 +96,7 @@ void heart_beat()
   all = all_inventory(room);
   if(count < 30 && me->is_fighting())
   {
-    message_vision(me->query("name")+MAG"瘋狂的亂竄，四處饑渴的吸食鮮血。\n" + NOR,me);
+    message_vision(me->query("name")+MAG + "瘋狂的亂竄，四處饑渴的吸食鮮血。\n" + NOR,me);
     for( i = 0 ; i < sizeof(all) ; i++)
     {
       obj = all[i];
@@ -112,14 +112,14 @@ void heart_beat()
   }
   if(count < 20  && me->is_fighting())
   {
-    message_vision(me->query("name")+HIR"兇性大發，對你" + HIR + "做出猛烈的攻擊！\n\n" + NOR,me);
+    message_vision(me->query("name")+HIR + "兇性大發，對你" + HIR + "做出猛烈的攻擊！\n\n" + NOR,me);
     for( i = 0 ; i < sizeof(all) ; i++)
     {
       obj = all[i];
       if( obj->is_character() && !obj->is_corpse() && living(obj) && obj->query("id")!="zombie")
       {
         if( !me->query("crazy") )
-          me->set("name","(" + HIR + "狂暴"NOR + ")"+me->query("name"));
+          me->set("name","(" + HIR + "狂暴" + NOR + ")"+me->query("name"));
         for(j=0;j<10;j++)
         {
           message_vision(HIK + "$N" + HIK + "被(" + HIR + "狂暴" + NOR + ")" + HIK + "殭屍狠狠抓中，滿身血痕！\n" + NOR,obj);
@@ -135,7 +135,7 @@ void heart_beat()
           me->set("crazy",1);
           COMBAT_D->report_status(obj, 1);
         }
-        message_vision(HIB + "\n殭屍瘋狂的撕咬後，"NOR+me->query("name")+HIB"漸漸平靜下來。\n\n" + NOR,me);
+        message_vision(HIB + "\n殭屍瘋狂的撕咬後，" + NOR+me->query("name")+HIB + "漸漸平靜下來。\n\n" + NOR,me);
         me->start_busy(1);
       }
     }
@@ -150,7 +150,7 @@ void heart_beat()
         me->set("name",HIK + "殭屍" + NOR);
 
       if( query("kee") < query("eff_kee") )
-        message_vision(HIK + "\n"+me->query("name")+HIK"身上發出耀眼的光芒，傷口似乎慢慢癒合了\n" + NOR,me);
+        message_vision(HIK + "\n"+me->query("name")+HIK + "身上發出耀眼的光芒，傷口似乎慢慢癒合了\n" + NOR,me);
       me->receive_heal("kee",1000);
       me->receive_heal("gin",1000);
       me->receive_heal("sen",1000);
@@ -251,7 +251,7 @@ void die()
     ob1->move(environment(me));
     me->set("have_item",1);
     name = winner->query("name");
-    message_vision(HIM + "\n從"+me->name(1)+HIM"的身上掉下了一個「"+ob1->query("name")+HIM"」!!\n" + NOR,winner,me);
+    message_vision(HIM + "\n從"+me->name(1)+HIM + "的身上掉下了一個「"+ob1->query("name")+HIM + "」!!\n" + NOR,winner,me);
     CHANNEL_D->do_channel(this_object(),"sys",sprintf("%s(%s)	讓%s掉下了%s於 %s",winner->name(1),winner->query("id"),me->query("name"),ob1->query("name"),ctime(time())));
     write_file("/log/sky/zombie",sprintf("%s(%s)	讓%s掉下了%s於 %s\n",winner->name(1),winner->query("id"),me->query("name"),ob1->query("name"),ctime(time())));
   }

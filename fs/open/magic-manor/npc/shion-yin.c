@@ -15,7 +15,7 @@ void create()
 LONG);
   set("gender","女性");
   set("class","blademan");
-  set("nickname",NOR+GRN"香" + HIG + "刀"NOR+GRN"魂" + HIG + "斷" + NOR);
+  set("nickname",NOR+GRN + "香" + HIG + "刀" + NOR+GRN + "魂" + HIG + "斷" + NOR);
   set("title",HIC + "聚靈八傑" + NOR);
   set("family/family_name","金刀門");
   set("combat_exp",10000000);
@@ -154,7 +154,7 @@ void heart_beat()
   if( me->is_fighting() )
   {
     int i=me->query_busy();
-    message_vision(HIC + "$N目前busy指數「"HIM+i+HIC"」\n" + NOR,me);
+    message_vision(HIC + "$N目前busy指數「" + HIM+i+HIC + "」\n" + NOR,me);
   }
 */
   if( !me->is_fighting() && !me->query_temp("del") )

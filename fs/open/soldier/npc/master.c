@@ -101,7 +101,7 @@ int do_join()
         if( who->query("class") )
                 return notify_fail("你已經加入其他工會了。\n");
         who->set("class", "soldier");
-        message("system", HIR + "拿起麥克風大吼：帝國反亂軍又多了一條米蟲了-"HIY+who->query("name")+HIR"\n大家要多多操他啦！哇哈哈！\n" + NOR, users());
+        message("system", HIR + "拿起麥克風大吼：帝國反亂軍又多了一條米蟲了-" + HIY+who->query("name")+HIR + "\n大家要多多操他啦！哇哈哈！\n" + NOR, users());
 
         return 1;
 }

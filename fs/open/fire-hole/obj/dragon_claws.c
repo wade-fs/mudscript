@@ -31,6 +31,6 @@ void init()
 {
      object me = this_player();
      if(me)
-     set_name (HIR + me->name(1) + HIR"的幻界龍爪" + NOR, ({ "dragon claws", "claws" }));
+     set_name (HIR + me->name(1) + HIR + "的幻界龍爪" + NOR, ({ "dragon claws", "claws" }));
 }
 

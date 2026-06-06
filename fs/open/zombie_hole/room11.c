@@ -22,7 +22,7 @@ string slong = @LONG
 LONG
 ;
 
-return slong  + HIW"\t這裡好像有一個神奇的洞(hole)。\n" + NOR;
+return slong  + HIW + "\t這裡好像有一個神奇的洞(hole)。\n" + NOR;
 }
 void init()
 {

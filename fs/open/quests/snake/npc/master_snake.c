@@ -133,9 +133,9 @@ void die()
   tell_object(users(),HIC + "
 天空突然一陣雷雨交加～
 
-        "HIG+ob->name(1)+"大怒道：該死的 "HIC+arg+HIG" 啊～
+        " + HIG+ob->name(1)+"大怒道：該死的 " + HIC+arg+HIG + " 啊～
 
-                        邪靈主派我來人間界進行的殺戮計劃竟然被 "HIC+me->name(1)+HIG" 給毀壞了～\n"+NOR);
+                        邪靈主派我來人間界進行的殺戮計劃竟然被 " + HIC+me->name(1)+HIG + " 給毀壞了～\n"+NOR);
   if ( kill_jobs(5,me,this_object(),"area/hole_stone") ) finish_time(me,"area/hole_stone");
   else start_time(me,"area/hole_stone"); // 7.21.93 by Firedancer
 

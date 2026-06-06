@@ -287,7 +287,7 @@ if( me->query_temp("head") != 10)
 command("nod");
 command("chat* spank "+me->query("id"));
 command("say 好小子，居然讓你完成這項任務，就讓我賜你當代殺手之名吧！！");
-me->set("title",HIR + "當"+HIG"代"+HIY"殺"+HIB"手" + NOR);
+me->set("title",HIR + "當"+HIG + "代"+HIY + "殺"+HIB + "手" + NOR);
 me->set("quest/head-kill",1);
 command("say 老夫為了獎勵你，就傳你殺意魔氣吧！");
 message_vision("$N由掌心竄出一道紫氣射入$n體內。\n",this_object(),this_player());

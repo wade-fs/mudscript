@@ -241,7 +241,7 @@ void die()
     CLAN_D->add_clanset( winner->query("clan/id"), "develop" ,  5 );
   tell_object(users(),HIY + "\n\n黃帝病悲嘆道：" + HIW + "
         善哉!!善哉!!中原覆滅在即，貧僧身負曠世絕學，意欲引渡天下蒼生，
-        孰料今日竟敗於未曾修習∮"HIC+BBLU"英雄真經" + NOR + "" + HIW + "∮的" + HIG + ""+clan+"" + HIR + ""+winner->name()+"" + HIW + "手下，
+        孰料今日竟敗於未曾修習∮" + HIC+BBLU + "英雄真經" + NOR + "" + HIW + "∮的" + HIG + ""+clan+"" + HIR + ""+winner->name()+"" + HIW + "手下，
         貧僧死不瞑目啊!!\n\n" + NOR);
 
   if(winner && !winner->query_temp("not_robot") && random(400)==0) {

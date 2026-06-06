@@ -68,13 +68,13 @@ void auction()
             "來來來！"+
             auc_ob->query_temp("auc_master")+
             "拍賣"+auc_ob->name()+HIG+"一"+auc_ob->query("unit")+"!!"+
-            "起價"+CHINESE_D->cvalue(value)+HIG"。"+NOR);
+            "起價"+CHINESE_D->cvalue(value)+HIG + "。"+NOR);
       }else{
         CHANNEL_D->do_channel(this_object(), "mud", "㊣黑市交易㊣"
             "來來來！"+
             auc_ob->query_temp("auc_master")+
             "拍賣"+auc_ob->name()+HIG+chinese_number(auc_ob->query_amount())+auc_ob->query("base_unit")+"!!"+
-            "起價"+CHINESE_D->cvalue(value)+HIG"。"+NOR);
+            "起價"+CHINESE_D->cvalue(value)+HIG + "。"+NOR);
       }
       times = 1;
       name = "";
@@ -106,15 +106,15 @@ void auction()
     else {
     if(me->is_ghost()) {
       CHANNEL_D->do_channel(auc_man, "mud", "㊣黑市交易㊣"
-          "太可惜了，竟然沒人想要買"+auc_ob->name()+HIG"。" + NOR);
+          "太可惜了，竟然沒人想要買"+auc_ob->name()+HIG + "。" + NOR);
       CHANNEL_D->do_channel(auc_man, "mud", "㊣黑市交易㊣"
-          "黑市公司送貨員不能送"+auc_ob->name()+HIG"到陰間只好充公。" + NOR);
+          "黑市公司送貨員不能送"+auc_ob->name()+HIG + "到陰間只好充公。" + NOR);
       destruct(auc_ob); } else {
       auc_ob->move(me);
       CHANNEL_D->do_channel(auc_man, "mud", "㊣黑市交易㊣"
-          "太可惜了，竟然沒人想要買"+auc_ob->name()+HIG"。" + NOR);
+          "太可惜了，竟然沒人想要買"+auc_ob->name()+HIG + "。" + NOR);
       CHANNEL_D->do_channel(auc_man, "mud", "㊣黑市交易㊣"
-          "黑市公司送貨員退還"+auc_ob->name()+HIG"給原主"+me->name()+HIG"。" + NOR);
+          "黑市公司送貨員退還"+auc_ob->name()+HIG + "給原主"+me->name()+HIG + "。" + NOR);
     }
     }
     if (arrayp(all_inventory(auc_man))) {
@@ -128,13 +128,13 @@ void auction()
     if (had_auc) {
       had_auc = 0;
       CHANNEL_D->do_channel(auc_man, "mud", "㊣黑市交易㊣"
-        "嘿呦! 有人以"+CHINESE_D->cvalue(value)+HIG"搶標! 歡迎加價!!" + NOR);
+        "嘿呦! 有人以"+CHINESE_D->cvalue(value)+HIG + "搶標! 歡迎加價!!" + NOR);
       times = 1;
     }
     else {
       CHANNEL_D->do_channel(this_object(), "mud", "㊣黑市交易㊣"
-        "第"+chinese_number(times)+"次拍賣"+auc_ob->name()+HIG"! 叫價"+
-        CHINESE_D->cvalue(value)+HIG"! 請出價!" + NOR);
+        "第"+chinese_number(times)+"次拍賣"+auc_ob->name()+HIG + "! 叫價"+
+        CHINESE_D->cvalue(value)+HIG + "! 請出價!" + NOR);
       times++;
     }
     call_out ("auction", 10);
@@ -149,8 +149,8 @@ void auction()
 */
     {
       CHANNEL_D->do_channel(this_object(), "mud", "㊣黑市交易㊣"+
-        auc_ob->name()+HIG"以"+CHINESE_D->cvalue(value)+HIG
-        "拍賣給"+who->name()+HIG"。" + NOR);
+        auc_ob->name()+HIG + "以"+CHINESE_D->cvalue(value)+HIG
+        "拍賣給"+who->name()+HIG + "。" + NOR);
       if(who->is_ghost()) {
         CHANNEL_D->do_channel(this_object(), "mud", "㊣黑市交易㊣"
           "喔喔, 你是鬼魂唷, 所買到的東西送不到陰間唷!");
@@ -169,8 +169,8 @@ void auction()
 
         if(auc_ob)
         tell_object(me, HIG + "㊣黑市交易㊣"
-            "你賣出"+chinese_number(auc_ob->query_amount())+auc_ob->query("unit")+auc_ob->name()+HIG"，獲得"+
-            CHINESE_D->cvalue(value)+HIG"。\n" + NOR);
+            "你賣出"+chinese_number(auc_ob->query_amount())+auc_ob->query("unit")+auc_ob->name()+HIG + "，獲得"+
+            CHINESE_D->cvalue(value)+HIG + "。\n" + NOR);
       }
       else
         CHANNEL_D->do_channel(this_object(), "mud", "㊣黑市交易㊣"

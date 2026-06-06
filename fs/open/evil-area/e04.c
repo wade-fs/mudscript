@@ -3,7 +3,7 @@ inherit ROOM;
 
 void create()
 {
-	set("short",BBLU+YEL"震邪道" + NOR);
+	set("short",BBLU+YEL + "震邪道" + NOR);
 	set("long",@LONG
 你正站立於這房內西邊的木製踏板上, 底下不時的傳來高溫, 彷
 彿是在提醒你〔小心腳底下的熱油鍋〕, 油鍋上, 還漂浮著熊熊的火

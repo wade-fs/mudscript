@@ -39,7 +39,7 @@ else
 if(me->query("quest/start_game")< 2)
        {
         tell_object(me,HIY + "
-恭喜"HIW+me->query("name")+HIY"挑戰" + HIG + "『" + HIR + "第一層試煉塔" + HIG + "』" + HIY + "通過！！
+恭喜" + HIW+me->query("name")+HIY + "挑戰" + HIG + "『" + HIR + "第一層試煉塔" + HIG + "』" + HIY + "通過！！
 
 " + HIW + "希望"+me->query("name")+"能不負眾望，勇闖" + HIG + "『" + HIY + "第二層試煉塔" + HIG + "』" + HIW + "。
 	" + NOR);

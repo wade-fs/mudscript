@@ -64,7 +64,7 @@ int do_ascend()
         message_vision("$N跳到"+this_object()->name()+"的背上。\n",me);
         me->set_temp("marks/ascend",1);
 this_object()->set_leader(me);
-        me->add_temp("apply/name",({ me->name()+ HIW"(正騎著"NOR+this_object()->name()+HIW")" + NOR}));
+        me->add_temp("apply/name",({ me->name()+ HIW + "(正騎著" + NOR+this_object()->name()+HIW + ")" + NOR}));
         move(me);
         me->set_heart_beat(1);
         return 1;

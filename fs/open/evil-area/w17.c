@@ -4,7 +4,7 @@ inherit ROOM;
 
 void create()
 {
-        set("short",RED + "-" + BLU + "=" + HIY + "幻" + HIG + "結" + HIC + "界"NOR+BLU"=" + RED + "-" + NOR);
+        set("short",RED + "-" + BLU + "=" + HIY + "幻" + HIG + "結" + HIC + "界" + NOR+BLU + "=" + RED + "-" + NOR);
         set("long",@LONG
 
 七彩的通道正不斷的流動著, 你彷彿身在一個圓管內, 緩緩的前進著。

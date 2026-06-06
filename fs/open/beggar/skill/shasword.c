@@ -231,7 +231,7 @@ void drunk()
 {
  message_vision("\n$N醉吟道：
    『御劍乘風來，除魔天地間。有酒樂逍遙，無酒我亦顛。
-     一飲盡江河，再飲吞日月。千杯醉不倒，唯我"HIR+me->query("name")+HIW"』
+     一飲盡江河，再飲吞日月。千杯醉不倒，唯我" + HIR+me->query("name")+HIW + "』
 使出一招『橫醉千秋』，乘著酒意將仙劍劍術發揮得淋漓盡致\n",me);
      if(me_lv > tar_lv){
  message_vision("\n$N閃避不及，被這招當胸刺中\n",target[j]);

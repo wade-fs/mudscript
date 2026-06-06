@@ -140,25 +140,25 @@ int do_raised(string arg)
   str ="華山蝶說道﹕你存有以下\n";
   if(!arg) {
     if(a)
-      str += "\t" + WHT + "麟" + NOR + "之碎片(lin soul splinters)共"HIG+a+NOR"個\n";
+      str += "\t" + WHT + "麟" + NOR + "之碎片(lin soul splinters)共" + HIG+a+NOR + "個\n";
     if(b)
-      str += "\t" + CYN + "星" + NOR + "之碎片(star soul splinters)共"HIG+b+NOR"個\n";
+      str += "\t" + CYN + "星" + NOR + "之碎片(star soul splinters)共" + HIG+b+NOR + "個\n";
     if(c)
-      str += "\t" + MAG + "井" + NOR + "之碎片(jing soul splinters)共"HIG+c+NOR"個\n";
+      str += "\t" + MAG + "井" + NOR + "之碎片(jing soul splinters)共" + HIG+c+NOR + "個\n";
     if(d)
-      str += "\t" + YEL + "奎" + NOR + "之碎片(kui soul splinters)共"HIG+d+NOR"個\n";
+      str += "\t" + YEL + "奎" + NOR + "之碎片(kui soul splinters)共" + HIG+d+NOR + "個\n";
     if(e)
-      str += "\t" + RED + "角" + NOR + "之碎片(spica soul splinters)共"HIG+e+NOR"個\n";
+      str += "\t" + RED + "角" + NOR + "之碎片(spica soul splinters)共" + HIG+e+NOR + "個\n";
     if(f)
-      str += "\t" + HIW + "麟" + NOR + "之力(lin soul energy)共"HIG+f+NOR"個\n";
+      str += "\t" + HIW + "麟" + NOR + "之力(lin soul energy)共" + HIG+f+NOR + "個\n";
     if(g)
-      str += "\t" + HIC + "星" + NOR + "之力(star soul energy)共"HIG+g+NOR"個\n";
+      str += "\t" + HIC + "星" + NOR + "之力(star soul energy)共" + HIG+g+NOR + "個\n";
     if(h)
-      str += "\t" + HIM + "井" + NOR + "之力(jing soul energy)共"HIG+h+NOR"個\n";
+      str += "\t" + HIM + "井" + NOR + "之力(jing soul energy)共" + HIG+h+NOR + "個\n";
     if(i)
-      str += "\t" + HIY + "奎" + NOR + "之力(kui soul energy)共"HIG+i+NOR"個\n";
+      str += "\t" + HIY + "奎" + NOR + "之力(kui soul energy)共" + HIG+i+NOR + "個\n";
     if(j)
-      str += "\t" + HIR + "角" + NOR + "之力(spica soul energy)共"HIG+j+NOR"個\n";
+      str += "\t" + HIR + "角" + NOR + "之力(spica soul energy)共" + HIG+j+NOR + "個\n";
     str +="這些。\n\n";
     if(!a&&!b&&!c&&!d&&!e&&!f&&!g&&!h&&!i&&!j)
       tell_object(me,"華山蝶說道﹕很抱歉你什麼東西都沒有存在我這。\n\n");

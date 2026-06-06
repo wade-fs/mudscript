@@ -228,7 +228,7 @@ void die()
 	return ;
 	}
    if (winner && userp(winner))  {
-tell_object(users(),HIR + "\n\n魔刀莫測仰天怒吼：\n\n\t想當年老夫刀法名震武林卻敗於"+winner->name()+HIR"手上！
+tell_object(users(),HIR + "\n\n魔刀莫測仰天怒吼：\n\n\t想當年老夫刀法名震武林卻敗於"+winner->name()+HIR + "手上！
 \n\t沒想到竟然有比獨孤老賊更利害得人物！罷了罷了！\n\n" + NOR);
    }
         :: die();

@@ -218,7 +218,7 @@ void heart_beat()
        ob=enemy[i]->query_temp("weapon");
        if( !ob || random(10) > 6 )
        {
-         message_vision(BLINK+HIY + "$N突然感到由$n"BLINK+HIY + "所傳來的一陣奇異的氣，身不由已的使出連續技!!!\n" + NOR
+         message_vision(BLINK+HIY + "$N突然感到由$n" + BLINK+HIY + "所傳來的一陣奇異的氣，身不由已的使出連續技!!!\n" + NOR
          ,user,weapon);
 
          for(j=0;j<=2+random(3);j++)
@@ -255,7 +255,7 @@ void heart_beat()
 原本已經出現裂縫的"+ob->query("name")+HIM + "竟然開始粉碎!!!，$N完全不感相信自己
 的眼睛，過了不久，"+ob->query("name")+HIM + "完全的消失在天地之間了!!!\n" + NOR,enemy[i]);
           destruct(ob);
-          message_vision(BLINK+HIY + "\n$N眼看機會來了，奮不顧身的對$n"BLINK+HIY + "發動猛烈的攻擊!!!\n" + NOR,user,enemy[i]);
+          message_vision(BLINK+HIY + "\n$N眼看機會來了，奮不顧身的對$n" + BLINK+HIY + "發動猛烈的攻擊!!!\n" + NOR,user,enemy[i]);
           call_out("quick_combat",2,enemy[i]);
           }
           if(ob)

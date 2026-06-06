@@ -12,7 +12,7 @@ string ask_woodball();
 string ask_soilball();
 void create()
 {
-        set_name(HIR + "儒俠"+HIC"文冠天" + NOR,({"scholar"}));
+        set_name(HIR + "儒俠"+HIC + "文冠天" + NOR,({"scholar"}));
         set("long","仙魔戰中儒俠元靈所換化的守護神,負責阻止閒雜人等進入魔封地。\n");
         set("gender","男性");
         set("class","swordsman");

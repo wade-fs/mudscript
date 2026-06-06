@@ -309,7 +309,7 @@ void heart_beat()
 				k++;
 			if(((enemy[i]->query("class")== "killer" ||     //針對殺手與惡人增加功擊
 			    enemy[i]->query("class")== "bandit") && random(10)<3) && environment(this_object())==environment(enemy[i])) {
-		                say(HIR + "\n\n慕容復狂傲的說道: 邪門歪道看我慕容家絕學"+HIB"『以彼之道 "+HIC+"還彼之身』\n\n" + NOR);
+		                say(HIR + "\n\n慕容復狂傲的說道: 邪門歪道看我慕容家絕學"+HIB + "『以彼之道 "+HIC+"還彼之身』\n\n" + NOR);
                                 message_vision(HIG + "幕容復自家內力一催，將$N招式中攻擊的力道納為己用，頓時龍氣集結於上空往$N位置迅速衝去\n\n" + NOR,enemy[i]);
                                 if((enemy[i]->query_kar()+enemy[i]->query_cps()) < random(150)){
                                     message_vision(HIR + "$N慘遭自己招式所幻化之龍氣反蝕\n\n" + NOR,enemy[i]);
@@ -323,7 +323,7 @@ void heart_beat()
                         }            
                         if(((enemy[i]->query("class")== "dancer" ||     //針對法術系門派增加功擊
 			    enemy[i]->query("class")== "taoist") && random(10)<3) && environment(this_object())==environment(enemy[i])) {
-		                say(HIR + "\n\n慕容復狂傲的說道: 別以為使用法術我就拿你沒輒，看我家傳秘寶"+HIY"『天尊石』\n\n" + NOR);
+		                say(HIR + "\n\n慕容復狂傲的說道: 別以為使用法術我就拿你沒輒，看我家傳秘寶"+HIY + "『天尊石』\n\n" + NOR);
                                 message_vision(HIG + "拿出天尊石，頓時天地無光，似乎天地萬物所有的靈氣都被天尊石給吸盡了\n\n" + NOR,enemy[i]);
                                 if((enemy[i]->query_kar()+enemy[i]->query_cps()) < random(150)){
                                     message_vision(HIR + "$N被天尊石所吸引，身上靈氣不斷外洩\n\n"+

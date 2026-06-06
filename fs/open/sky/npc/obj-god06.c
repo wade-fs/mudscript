@@ -18,7 +18,7 @@ LONG);
 
   set("gender","男性");
   set("class","swordsman");
-  set("nickname",HBRED+HIY"聖心魔性" + NOR);
+  set("nickname",HBRED+HIY + "聖心魔性" + NOR);
   set("title",HIC + "十二天靈狩" + NOR);
   set("family/family_name","血魔一派");
   set("combat_exp",20000000);
@@ -590,11 +590,11 @@ void die()
     me->set("have_item",1);
 
     name = winner->query("name");
-    message_vision(HIM + "\n從"+me->name(1)+"的身上掉下了一個「"+ob1->query("name")+HIM"」!!\n" + NOR,winner,me);
+    message_vision(HIM + "\n從"+me->name(1)+"的身上掉下了一個「"+ob1->query("name")+HIM + "」!!\n" + NOR,winner,me);
     write_file("/log/sky/god/obj-god06",sprintf("%s(%s)  讓%s掉下了%s於 %s\n",winner->name(1),winner->query("id"),me->query("name"),ob1->query("name"),ctime(time())));
   }
 
-  tell_object(users(),HIW + "\n天靈地界的"HIR+me->query("name")+HIW"被"HIR+winner->query("name")+HIW"打敗，化為一股靈氣消散於大地了。\n" + NOR);
+  tell_object(users(),HIW + "\n天靈地界的" + HIR+me->query("name")+HIW + "被" + HIR+winner->query("name")+HIW + "打敗，化為一股靈氣消散於大地了。\n" + NOR);
 
   message_vision(HIY + "\n恭喜"+winner->name()+"打死"+me->query("name")+"得到五百點戰功\!!\n" + NOR,winner);
   write_file("/log/sky/war/obj-god06",sprintf("%s(%s)  殺死%s得到五百點戰功\於 %s\n",winner->name(1),winner->query("id"),me->query("name"),ctime(time())));

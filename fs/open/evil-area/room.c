@@ -3,7 +3,7 @@ inherit ROOM;
 
 void create()
 {
-        set("short",BBLU+YEL"震邪道" + NOR);
+        set("short",BBLU+YEL + "震邪道" + NOR);
         set("long",@LONG
 眼前一條木製的滑行道...
 LONG);

@@ -40,7 +40,7 @@ void do_check(object me)
   if(me->query_temp("bonze_sanskrit")) //判斷基準
   {
     damage = 170; //暫定傷害為170
-    tell_object (me,BMAG+HIY"因你無法控制你自己高昂的殺氣而受了點輕微內傷。\n" + NOR);
+    tell_object (me,BMAG+HIY + "因你無法控制你自己高昂的殺氣而受了點輕微內傷。\n" + NOR);
     me->receive_damage("kee",damage); //以上判斷完畢後 給予該人物傷害
     me->add("bellicosity", -3); //減少殺氣10 作為通路費 //暫定為3 比較不會那麼傷
     COMBAT_D->report_status(me); //回報傷害訊息給該人物

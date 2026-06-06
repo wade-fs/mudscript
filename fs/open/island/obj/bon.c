@@ -4,7 +4,7 @@ inherit ITEM;
 
 void create()
 {
-        set_name(HIW+"天鼓『" + HIC + "雷音"HIW + "』"+NOR, ({ "drum" }) );
+        set_name(HIW+"天鼓『" + HIC + "雷音" + HIW + "』"+NOR, ({ "drum" }) );
         set_weight(700);
         set("long", "傳聞跟四大神獸的龜有關 ,然而沒用過誰也不知道... 
 用法是use drum at xxx。\n");

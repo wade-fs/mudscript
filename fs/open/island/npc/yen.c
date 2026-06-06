@@ -110,7 +110,7 @@ string ask_me(object who)
         set("combat_exp", 2500000);
         set("revealed", 1);
        message("vision","顏子復左手朝天一指 ..手上隱隱約約的飄起了一陣煙霧...\n\n"
-           HIW + "在煙嵐散去後他的手中多了一把"+HIR"血河"NOR+"\n\n\n",
+           HIW + "在煙嵐散去後他的手中多了一把"+HIR + "血河" + NOR+"\n\n\n",
         environment(), this_object());
         command("unwield sword");
         carry_object("/open/island/eqs/sword1.c")->wield();
@@ -129,7 +129,7 @@ int special_att()
         顏子復長嘯道 : 嘗嘗仙劍之極意 !接招了 !
         \n" + NOR ,one);
         message_vision( " 
-        顏子復平舉劍喝道 :\n\n"+HIR"                      " + HIC + "仙"+HIR"--"+HIW"霞"+HIR"--"+HIC"殘"+HIR"--"+HIW"光"+HIR"--"+HIC"閃"+HIR" "NOR+"\n\n",one);
+        顏子復平舉劍喝道 :\n\n"+HIR + "                      " + HIC + "仙"+HIR + "--"+HIW + "霞"+HIR + "--"+HIC + "殘"+HIR + "--"+HIW + "光"+HIR + "--"+HIC + "閃"+HIR + " " + NOR+"\n\n",one);
         message_vision(HIB + "
         劍氣如海浪般的飛過來 !\n" + NOR,one);
         message_vision(HIM + "
@@ -151,7 +151,7 @@ int special_att2()
         顏子復低吟道 : 仙劍之極招 !!
         \n" + NOR ,one);
         message_vision( "
-        顏子復斜舉劍喝道 :\n\n"+HIR"                         ***"+HIW"白"+HIR"**"+HIW"龍"+HIR"**"+HIW"飛"+HIR"**"+HIW"翔"+HIR"**"+HIW"閃"+HIR"*** "NOR+"\n",one);
+        顏子復斜舉劍喝道 :\n\n"+HIR + "                         ***"+HIW + "白"+HIR + "**"+HIW + "龍"+HIR + "**"+HIW + "飛"+HIR + "**"+HIW + "翔"+HIR + "**"+HIW + "閃"+HIR + "*** " + NOR+"\n",one);
         message_vision(HIR + "
         你只看到眼前一片紅白交錯之光 !\n" + NOR,one);
         message_vision(RED + "
@@ -177,7 +177,7 @@ int special_att3()
         ,one);
         message_vision(HIR + "一股如噴泉般的血$N身上不停的噴出 !!\n\n" + NOR
                        HIY + "那個速度極快的東西仍然不停的以高速在噬咬$N的身體!!\n" + NOR
-                       "一條速度極快的"+HIW" 白龍 "NOR+"在$N身邊不斷的飛舞著 !! 
+                       "一條速度極快的"+HIW + " 白龍 " + NOR+"在$N身邊不斷的飛舞著 !! 
 瞬間便將可憐的$N緊緊的纏繞著!!
         \n" + NOR,one);
         one->receive_wound("kee",40+random(50));

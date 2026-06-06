@@ -31,7 +31,7 @@ int perform(object me,object target)
 	message_vision("
  " + HIW + "                $N暗運真氣，手上的針閃放出如" + HIC + "繁星" + HIW + "般的針芒，真氣從針尖激射而出～\n\n" + NOR + ""
 "" + HIW + "                            $N眼視$n全身大穴，繁星般點點使出～～\n\n" + NOR + ""
-"" + HIY + "                                    "HIC+HBBLU"ψ " + HIY + "金 " + HIW + "-- " + HIY + "針 " + HIW + "-- " + HIY + "封 " + HIW + "-- " + HIY + "穴 " + HIC + "ψ\n\n" + NOR + ""
+"" + HIY + "                                    " + HIC+HBBLU + "ψ " + HIY + "金 " + HIW + "-- " + HIY + "針 " + HIW + "-- " + HIY + "封 " + HIW + "-- " + HIY + "穴 " + HIC + "ψ\n\n" + NOR + ""
 "" + HIC + "                        突然間～" + HIY + "漫天針芒" + HIW + "～向$n的全身大穴急襲而去！！！\n\n" + NOR,me,target);
 	sk_lv=random(sk_lv);
 	value=random(value);

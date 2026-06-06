@@ -214,7 +214,7 @@ int do_shoot()
     damage=damage*power;
     if(damage > 2000) damage=2000;
     me->add("force",-500);
-    message_vision(BLINK+HIY"\n$N" + HIY + "領悟到指勁揮出時角度的重要性，手中的"+NOR+"$n"+BLINK+HIY+"以一個敵人完全無法閃躲的角度揮了出去!!\n" + NOR,me,ob);
+    message_vision(BLINK+HIY + "\n$N" + HIY + "領悟到指勁揮出時角度的重要性，手中的"+NOR+"$n"+BLINK+HIY+"以一個敵人完全無法閃躲的角度揮了出去!!\n" + NOR,me,ob);
   }
   if(wizardp(me))
     tell_object(me,sprintf("damage=%d\n",damage));
@@ -223,15 +223,15 @@ int do_shoot()
     if(fun>=100 && me->query_temp("fan-finger") >= 5 && (20 > random(100) || wizardp(me)) && me->query("force")>600 && me->query("env/飄陽扇連擊") )
     {
       message_vision(HIM + "
-      $N" + HIM + "忽然領悟到了"BLINK+HIR"「飄陽指勁」"NOR+HIM"中"BLINK+HIY"「飄渺虛無，真陽縱橫」"NOR+HIM"的真意，口中大喝
-      "HBRED+HIY"「飄～陽～指～勁～巧～連～環」"NOR+HIM"，手中$n" + HIM + "一揚，五道不同顏色的指勁騰空
+      $N" + HIM + "忽然領悟到了" + BLINK+HIR + "「飄陽指勁」" + NOR+HIM + "中" + BLINK+HIY + "「飄渺虛無，真陽縱橫」" + NOR+HIM + "的真意，口中大喝
+      " + HBRED+HIY + "「飄～陽～指～勁～巧～連～環」" + NOR+HIM + "，手中$n" + HIM + "一揚，五道不同顏色的指勁騰空
       而出，如有靈性般的奔向各敵。\n\n" + NOR,me,ob);
       i=random(j);
       if(enemy[i]) {
         if( environment(user) == environment(enemy[i]) )
           if(((fun+20+random(30)) > random(lv_check(enemy[i]))+random(30)) || me->query("force") >100000 )
           {
-            message_vision(HIC + "$N" + HIC + "的身體不幸被"BLINK+HIR"「飄陽指勁」"NOR+HIC"中的第一式"HBRED+HIY"「沉陽勁」"NOR+HIC"所穿透，鮮血不斷的從傷口流出。\n" + NOR,enemy[i]);
+            message_vision(HIC + "$N" + HIC + "的身體不幸被" + BLINK+HIR + "「飄陽指勁」" + NOR+HIC + "中的第一式" + HBRED+HIY + "「沉陽勁」" + NOR+HIC + "所穿透，鮮血不斷的從傷口流出。\n" + NOR,enemy[i]);
             enemy[i]->receive_wound("kee",damage,me);
             enemy[i]->apply_condition("bleeding", random(10)+1);
             COMBAT_D->report_status(enemy[i],1);
@@ -246,7 +246,7 @@ int do_shoot()
         if( environment(user) == environment(enemy[i]) )
           if(((fun+20+random(30)) > random(lv_check(enemy[i]))+random(30)) || me->query("force") > 100000 )
           {
-            message_vision(HIC + "$N" + HIC + "的身體不幸被"BLINK+HIR"「飄陽指勁」"NOR+HIC"中的第二式"HBMAG+HIY"「重陽勁」"NOR+HIC"所穿透，鮮血不斷的從傷口流出。\n" + NOR,enemy[i]);
+            message_vision(HIC + "$N" + HIC + "的身體不幸被" + BLINK+HIR + "「飄陽指勁」" + NOR+HIC + "中的第二式" + HBMAG+HIY + "「重陽勁」" + NOR+HIC + "所穿透，鮮血不斷的從傷口流出。\n" + NOR,enemy[i]);
             damage=damage+100;
             enemy[i]->receive_wound("kee",damage,me);
             enemy[i]->apply_condition("bleeding", random(10)+2);
@@ -261,7 +261,7 @@ int do_shoot()
       if(enemy[i]) {
         if( environment(user) == environment(enemy[i]) )
           if(((fun+20+random(30)) > random(lv_check(enemy[i]))+random(30)) || me->query("force") > 100000 ) {
-            message_vision(HIC + "$N" + HIC + "的身體不幸被"BLINK+HIR"「飄陽指勁」"NOR+HIC"中的第三式"HBGRN+HIW"「絕陽勁」"NOR+HIC"所穿透，鮮血不斷的從傷口流出。\n" + NOR,enemy[i]);
+            message_vision(HIC + "$N" + HIC + "的身體不幸被" + BLINK+HIR + "「飄陽指勁」" + NOR+HIC + "中的第三式" + HBGRN+HIW + "「絕陽勁」" + NOR+HIC + "所穿透，鮮血不斷的從傷口流出。\n" + NOR,enemy[i]);
             damage=damage+200;
             enemy[i]->receive_wound("kee",damage,me);
             enemy[i]->apply_condition("bleeding", random(10)+3);
@@ -278,7 +278,7 @@ int do_shoot()
         if( environment(user) == environment(enemy[i]) )
           if(((fun+20+random(30)) > random(lv_check(enemy[i]))+random(30)) || me->query("force") >100000 )
           {
-            message_vision(HIC + "$N" + HIC + "的身體不幸被"BLINK+HIR"「飄陽指勁」"NOR+HIC"中的第四式"HBYEL+HIC"「玄陽勁」"NOR+HIC"所穿透，鮮血不斷的從傷口流出。\n" + NOR,enemy[i]);
+            message_vision(HIC + "$N" + HIC + "的身體不幸被" + BLINK+HIR + "「飄陽指勁」" + NOR+HIC + "中的第四式" + HBYEL+HIC + "「玄陽勁」" + NOR+HIC + "所穿透，鮮血不斷的從傷口流出。\n" + NOR,enemy[i]);
             damage=damage+300;
             enemy[i]->receive_wound("kee",damage,me);
             enemy[i]->apply_condition("bleeding", random(10)+4);
@@ -295,7 +295,7 @@ int do_shoot()
         if( environment(user) == environment(enemy[i]) )
           if(((fun+20+random(30)) > random(lv_check(enemy[i]))+random(30)) || me->query("force") >100000 )
           {
-            message_vision(HIC + "$N" + HIC + "的身體不幸被"BLINK+HIR"「飄陽指勁」"NOR+HIC"中的第五式"BLINK+HIC"「靈陽勁」"NOR+HIC"所穿透，鮮血不斷的從傷口流出。\n" + NOR,enemy[i]);
+            message_vision(HIC + "$N" + HIC + "的身體不幸被" + BLINK+HIR + "「飄陽指勁」" + NOR+HIC + "中的第五式" + BLINK+HIC + "「靈陽勁」" + NOR+HIC + "所穿透，鮮血不斷的從傷口流出。\n" + NOR,enemy[i]);
             damage=damage+400;
             enemy[i]->receive_wound("kee",damage,me);
             enemy[i]->apply_condition("bleeding", random(10)+5);
@@ -307,7 +307,7 @@ int do_shoot()
           }
       }
       me->add("force",-2000);
-      message_vision(HIY + "$N因為使出了"BLINK+HIR"「飄陽指勁」"NOR+HIY"的連續招，體內的內息狂洩而出，體內的內力嚴重的流失了!!!\n" + NOR,me);
+      message_vision(HIY + "$N因為使出了" + BLINK+HIR + "「飄陽指勁」" + NOR+HIY + "的連續招，體內的內息狂洩而出，體內的內力嚴重的流失了!!!\n" + NOR,me);
       me->add_temp("fan-finger",-5);
       me->set_temp("finger-rest",1);
       call_out("rest",7,me);
@@ -315,7 +315,7 @@ int do_shoot()
     }
     message_vision(HIY + "
         $N" + HIY + "將手中$n" + HIY + "用力一揮，一道氣勁由$n" + HIY + "呼嘯而出，正是大理段氏另一個
-        絕招"BLINK+HIR"「飄陽指勁」"NOR+HIY"中的第五式"BLINK+HIC"「靈陽勁」"NOR+HIY"，指勁化繁為簡，如有靈性
+        絕招" + BLINK+HIR + "「飄陽指勁」" + NOR+HIY + "中的第五式" + BLINK+HIC + "「靈陽勁」" + NOR+HIY + "，指勁化繁為簡，如有靈性
         般的奔向各敵。\n\n" + NOR,me,ob);
     for(i=0;i<j;i++)
     {
@@ -323,7 +323,7 @@ int do_shoot()
       if( environment(user) == environment(enemy[i]) )
         if((fun+20+random(30)) > random(lv_check(enemy[i]))+random(30) )
         {
-          message_vision(HIC + "$N" + HIC + "的身體不幸被"BLINK+HIR"「飄陽指勁」"NOR+HIC"所穿透，鮮血不斷的從傷口流出。\n" + NOR,enemy[i]);
+          message_vision(HIC + "$N" + HIC + "的身體不幸被" + BLINK+HIR + "「飄陽指勁」" + NOR+HIC + "所穿透，鮮血不斷的從傷口流出。\n" + NOR,enemy[i]);
           damage=damage+400;
           enemy[i]->receive_wound("kee",damage,me);
           enemy[i]->apply_condition("bleeding", random(10)+5);
@@ -344,7 +344,7 @@ int do_shoot()
   {
     message_vision(HIY + "
         $N" + HIY + "將手中$n" + HIY + "用力一揮，一道氣勁由$n" + HIY + "呼嘯而出，正是大理段氏另一個
-        絕招"BLINK+HIR"「飄陽指勁」"NOR+HIY"中的第四式"HBYEL+HIC"「玄陽勁」"NOR+HIY"，指勁化為無數條細如針線
+        絕招" + BLINK+HIR + "「飄陽指勁」" + NOR+HIY + "中的第四式" + HBYEL+HIC + "「玄陽勁」" + NOR+HIY + "，指勁化為無數條細如針線
         的氣勁奔向各敵。\n\n" + NOR,me,ob);
     for(i=0;i<j;i++)
     {
@@ -352,7 +352,7 @@ int do_shoot()
       if( environment(user) == environment(enemy[i]) )
         if((fun+20+random(30)) > random(lv_check(enemy[i]))+random(30) )
         {
-          message_vision(HIC + "$N" + HIC + "的身體不幸被"BLINK+HIR"「飄陽指勁」"NOR+HIC"所穿透，鮮血不斷的從傷口流出。\n" + NOR,enemy[i]);
+          message_vision(HIC + "$N" + HIC + "的身體不幸被" + BLINK+HIR + "「飄陽指勁」" + NOR+HIC + "所穿透，鮮血不斷的從傷口流出。\n" + NOR,enemy[i]);
           damage=damage+300;
           enemy[i]->receive_wound("kee",damage,me);
           enemy[i]->apply_condition("bleeding", random(10)+4);
@@ -373,7 +373,7 @@ int do_shoot()
   {
     message_vision(HIY + "
         $N" + HIY + "將手中$n" + HIY + "用力一揮，一道氣勁由$n" + HIY + "呼嘯而出，正是大理段氏另一個
-        絕招"BLINK+HIR"「飄陽指勁」"NOR+HIY"中的第三式"HBGRN+HIW"「絕陽勁」"NOR+HIY"，指勁有如一條巨大的光柱
+        絕招" + BLINK+HIR + "「飄陽指勁」" + NOR+HIY + "中的第三式" + HBGRN+HIW + "「絕陽勁」" + NOR+HIY + "，指勁有如一條巨大的光柱
         般射向週圍的敵人。\n\n" + NOR,me,ob);
     i=random(j);
     if(!enemy[i]) i=0;
@@ -381,7 +381,7 @@ int do_shoot()
       if( environment(user) == environment(enemy[i]) )
         if((fun+20+random(30)) > random(lv_check(enemy[i]))+random(30) )
         {
-          message_vision(HIC + "$N" + HIC + "的身體不幸被"BLINK+HIR"「飄陽指勁」"NOR+HIC"所穿透，鮮血不斷的從傷口流出。\n" + NOR,enemy[i]);
+          message_vision(HIC + "$N" + HIC + "的身體不幸被" + BLINK+HIR + "「飄陽指勁」" + NOR+HIC + "所穿透，鮮血不斷的從傷口流出。\n" + NOR,enemy[i]);
           damage=damage+200;
           enemy[i]->receive_wound("kee",damage,me);
           enemy[i]->apply_condition("bleeding", random(10)+3);
@@ -402,7 +402,7 @@ int do_shoot()
   {
     message_vision(HIY + "
         $N" + HIY + "將手中$n" + HIY + "用力一揮，一道氣勁由$n" + HIY + "呼嘯而出，正是大理段氏另一個
-        絕招"BLINK+HIR"「飄陽指勁」"NOR+HIY"中的第二式"HBMAG+HIY"「重陽勁」"NOR+HIY"，指勁以極快的速度畫過週
+        絕招" + BLINK+HIR + "「飄陽指勁」" + NOR+HIY + "中的第二式" + HBMAG+HIY + "「重陽勁」" + NOR+HIY + "，指勁以極快的速度畫過週
         遭的空氣，極大的聲響充斥著整個空間。\n\n" + NOR,me,ob);
     i=random(j);
     if(!enemy[i]) i=0;
@@ -410,7 +410,7 @@ int do_shoot()
       if( environment(user) == environment(enemy[i]) )
         if((fun+20+random(30)) > random(lv_check(enemy[i]))+random(30) )
         {
-          message_vision(HIC + "$N" + HIC + "的身體不幸被"BLINK+HIR"「飄陽指勁」"NOR+HIC"所穿透，鮮血不斷的從傷口流出。\n" + NOR,enemy[i]);
+          message_vision(HIC + "$N" + HIC + "的身體不幸被" + BLINK+HIR + "「飄陽指勁」" + NOR+HIC + "所穿透，鮮血不斷的從傷口流出。\n" + NOR,enemy[i]);
           damage=damage+100;
           enemy[i]->receive_wound("kee",damage,me);
           enemy[i]->apply_condition("bleeding", random(10)+2);
@@ -431,7 +431,7 @@ int do_shoot()
   {
     message_vision(HIY + "
         $N" + HIY + "將手中$n" + HIY + "用力一揮，一道氣勁由$n" + HIY + "呼嘯而出，正是大理段氏另一個
-        絕招"BLINK+HIR"「飄陽指勁」"NOR+HIY"中的第一式"HBRED+HIY"「沉陽勁」"NOR+HIY"，指勁以極快的速度畫過週
+        絕招" + BLINK+HIR + "「飄陽指勁」" + NOR+HIY + "中的第一式" + HBRED+HIY + "「沉陽勁」" + NOR+HIY + "，指勁以極快的速度畫過週
         遭的空氣，極大的聲響充斥著整個空間。\n\n" + NOR,me,ob);
     i=random(j);
     if(!enemy[i]) i=0;
@@ -439,7 +439,7 @@ int do_shoot()
       if( environment(user) == environment(enemy[i]) )
         if((fun+20+random(30)) > random(lv_check(enemy[i]))+random(30) )
         {
-          message_vision(HIC + "$N" + HIC + "的身體不幸被"BLINK+HIR"「飄陽指勁」"NOR+HIC"所穿透，鮮血不斷的從傷口流出。\n" + NOR,enemy[i]);
+          message_vision(HIC + "$N" + HIC + "的身體不幸被" + BLINK+HIR + "「飄陽指勁」" + NOR+HIC + "所穿透，鮮血不斷的從傷口流出。\n" + NOR,enemy[i]);
           enemy[i]->receive_wound("kee",damage,me);
           enemy[i]->apply_condition("bleeding", random(10)+1);
           COMBAT_D->report_status(enemy[i],1);

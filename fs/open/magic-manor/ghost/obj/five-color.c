@@ -5,7 +5,7 @@ inherit ITEM;
 
 void create()
 {
-  set_name(HIM + "ξξ"NOR+HIW"．" + HIG + "五" + HIW + "‧" + HIC + "色"HIW+BLINK"˙"NOR+HBRED+HIY"封"NOR+HIW+BLINK"˙"NOR+HIC"靈" + HIW + "‧" + HIG + "臺" + HIW + "．" + HIM + "ξξ" + NOR,({"five color","five","color"}));
+  set_name(HIM + "ξξ" + NOR+HIW + "．" + HIG + "五" + HIW + "‧" + HIC + "色" + HIW+BLINK + "˙" + NOR+HBRED+HIY + "封" + NOR+HIW+BLINK + "˙" + NOR+HIC + "靈" + HIW + "‧" + HIG + "臺" + HIW + "．" + HIM + "ξξ" + NOR,({"five color","five","color"}));
   set("long","一座破舊的祭臺，上面有一些大小不同的凹糟，似乎可以插入不\n"
     +"同的東西，你可以試著將符合凹槽的東西插(insert)進去，也許\\n"
     +"會有意想不到的結果出現!!\n");

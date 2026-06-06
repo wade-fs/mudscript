@@ -164,7 +164,7 @@ int check(object ob)
 int msg1(object ob)
 {
         object me=this_player();
-        tell_object(users(),HIC + "\n\n\t在天靈地界中的" + HIB + "晶之封印石" + HIC + "因為"HIG+ me->query("name")+HIC"的努力而解開了!!\n" + NOR);
+        tell_object(users(),HIC + "\n\n\t在天靈地界中的" + HIB + "晶之封印石" + HIC + "因為" + HIG+ me->query("name")+HIC + "的努力而解開了!!\n" + NOR);
         tell_object(users(),HIC + "\n\t因為失去了神力護持的" + HIB + "晶之封印石" + HIC + "開始劇烈抖動而開始崩散消逝!!\n" + NOR);
         call_out("msg2",5,ob);
         return 1;
@@ -173,9 +173,9 @@ int msg1(object ob)
 int msg2(object ob)
 {
         object me=this_player(),room=environment(me);
-        tell_object(users(),HIC + "\n\n\t在天靈地界塵封已久的" + HIM + "「" + HIR + "紅" + HIY + "黃" + HIC + "晶魂" + HIM + "」"NOR+HIC"從" + HIB + "晶之封印石" + HIC + "中得到了解放而現世了!!\n" + NOR,ob);
-        message_vision(HIW + "\n\t七顆解開封印的貝殼轉化為七束光茫，緩緩注入了" + HIM + "「" + HIR + "紅" + HIY + "黃" + HIC + "晶魂" + HIM + "」"NOR+HIW"之中轉化為不可思議的力量!!\n",ob);
-        message_vision(HIW + "\n\t光茫消散之後" + HIM + "「" + HIR + "紅" + HIY + "黃" + HIC + "晶魂" + HIM + "」"NOR+HIW"緩緩凝聚在$N手中!!\n" + NOR,me);
+        tell_object(users(),HIC + "\n\n\t在天靈地界塵封已久的" + HIM + "「" + HIR + "紅" + HIY + "黃" + HIC + "晶魂" + HIM + "」" + NOR+HIC + "從" + HIB + "晶之封印石" + HIC + "中得到了解放而現世了!!\n" + NOR,ob);
+        message_vision(HIW + "\n\t七顆解開封印的貝殼轉化為七束光茫，緩緩注入了" + HIM + "「" + HIR + "紅" + HIY + "黃" + HIC + "晶魂" + HIM + "」" + NOR+HIW + "之中轉化為不可思議的力量!!\n",ob);
+        message_vision(HIW + "\n\t光茫消散之後" + HIM + "「" + HIR + "紅" + HIY + "黃" + HIC + "晶魂" + HIM + "」" + NOR+HIW + "緩緩凝聚在$N手中!!\n" + NOR,me);
         new("/autoload/sky/red_yellow")->move(me);
         write_file("/log/sky/crystalfon",sprintf("%s(%s) 解開了「紅黃晶魂」於 %s\n",me->name(1),me->query("id"),ctime(time())));
         room->set("no_reset",1);

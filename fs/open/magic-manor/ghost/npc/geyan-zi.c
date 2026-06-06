@@ -175,7 +175,7 @@ void heart_beat()
 
     if( ( me->query("kee") < 85000 ) && ( random(100) < 50 ) )
     {
-      tell_room(environment(), BLU+name()+NOR+BLU"汲取散落在這空間的陰氣來為自己撫平創傷。\n"+NOR);
+      tell_room(environment(), BLU+name()+NOR+BLU + "汲取散落在這空間的陰氣來為自己撫平創傷。\n"+NOR);
       me->receive_curing("kee",random(200)+500);
       me->receive_heal("kee",random(200)+500);
       me->receive_curing("gin",500);

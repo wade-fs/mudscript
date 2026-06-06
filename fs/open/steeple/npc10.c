@@ -156,7 +156,7 @@ void die ()
 	if(me->query("quest/start_game")< 11)
        {
         tell_object(users(),HIY + "
-	恭喜"HIW+me->query("name")+HIY"挑戰" + HIG + "『" + HIR + "第十層試煉塔" + HIG + "』" + HIY + "通過！！
+	恭喜" + HIW+me->query("name")+HIY + "挑戰" + HIG + "『" + HIR + "第十層試煉塔" + HIG + "』" + HIY + "通過！！
 
 	" + HIW + "希望"+me->query("name")+"能不負眾望，改天勇闖夢幻樓層" + HIG + "『" + HIY + "天閣" + HIG + "』" + HIW + "。
 	" + NOR);

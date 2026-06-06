@@ -77,14 +77,14 @@ int leave( object me )
 	}
 	outtime = me->query("jail_time")-me->query("mud_age");
 	if( outtime/3600 ) {
-		msg += HIR + outtime/3600 + HIW" 時 ";
+		msg += HIR + outtime/3600 + HIW + " 時 ";
 		outtime %= 3600;
        	}
 	if( outtime/60 )
-		msg += HIR + outtime/60 + HIW" 分 ";
+		msg += HIR + outtime/60 + HIW + " 分 ";
 	if( outtime%60 )
-		msg += HIR + outtime%60 + HIW" 秒";
-	write( HIW + "你還要服刑 " + msg + NOR"。\n" );
+		msg += HIR + outtime%60 + HIW + " 秒";
+	write( HIW + "你還要服刑 " + msg + NOR + "。\n" );
 
 	return 1;
 }

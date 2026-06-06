@@ -125,7 +125,7 @@ void heart_beat()
 	  if( environment(user) == environment(enemy[i]) )
 	  if( random(300) > random(enemy[i]->query_skill("dodge",1)) )
 	  {
-	  message_vision(HIB + "只見【" + NOR + "黑"HIW + "白"NOR+HIB"】兩道氣勁迅速由" + NOR + "$n" + HIB + "竄出，飛向$N" + HIB + "的周身要害!!\n" + NOR,enemy[i],ob);
+	  message_vision(HIB + "只見【" + NOR + "黑" + HIW + "白" + NOR+HIB + "】兩道氣勁迅速由" + NOR + "$n" + HIB + "竄出，飛向$N" + HIB + "的周身要害!!\n" + NOR,enemy[i],ob);
 	  enemy[i]->receive_wound("kee",(int)(qq+be),user);
 	  COMBAT_D->report_status(enemy[i], 0);
 	  }else

@@ -246,7 +246,7 @@ int act9(object ob,object me)
 	ob=this_object();
 	me=this_player();
 	message_vision(HIW + "只見$N" + HIW + "已吸足了靈氣，$N" + HIW + "周身泛起強烈光芒。\n" + NOR,ob);
-        ob->set("name",HIW + "(聚靈) "NOR+HIR"靈氣火珠" + NOR);
+        ob->set("name",HIW + "(聚靈) " + NOR+HIR + "靈氣火珠" + NOR);
         me->set_temp("magic-manor/gather-fire",1);
 	me->set_temp("magic-manor/fire-shield",1);
 	return 1;

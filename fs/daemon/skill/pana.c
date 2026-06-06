@@ -682,7 +682,7 @@ if (random(me->query("combat_exp")) > random(target->query("combat_exp")/10)
                 switch( i )
                 {
                 case 0:
-                        message_vision("\n\t "BLINK+HIR + "紅　殺" + NOR + "\n\n      " + HIW + "～" + HIR + "血" + HIW + "～" + HIR + "染" + HIW + "～" + HIR + "長" + HIW + "～" + HIR + "空" + HIW + "～" + NOR + "
+                        message_vision("\n\t " + BLINK+HIR + "紅　殺" + NOR + "\n\n      " + HIW + "～" + HIR + "血" + HIW + "～" + HIR + "染" + HIW + "～" + HIR + "長" + HIW + "～" + HIR + "空" + HIW + "～" + NOR + "
         " + HIR + "　╮　　　　　╭════╮　　╮　　╮　　 ╮╭╭═╮" + NOR+HIW + "
         " + HIR + "╰╬═══╯　╭══╦═╮　╭═╯╰╬╯　 ╭╯║　║" + NOR+HIW + "
         " + BRED + "　║　　　　　╭══╩═╯　　║　　║　　 ╯╰╰　╯　" + NOR+HIW + "
@@ -700,7 +700,7 @@ if (random(me->query("combat_exp")) > random(target->query("combat_exp")/10)
                                 }
                         break;
                 case 1:
-                        message_vision("\n\t "BLINK+HIG + "綠　殺" + NOR + "\n\n      " + HIW + "～" + HIG + "殺" + HIW + "～" + HIG + "神" + HIW + "～" + HIG + "痴" + HIW + "～" + HIG + "狂" + HIW + "～" + NOR + "
+                        message_vision("\n\t " + BLINK+HIG + "綠　殺" + NOR + "\n\n      " + HIW + "～" + HIG + "殺" + HIW + "～" + HIG + "神" + HIW + "～" + HIG + "痴" + HIW + "～" + HIG + "狂" + HIW + "～" + NOR + "
         " + HIG + "　╮　　　　　╭════╮　　╮　　╮　　 ╮╭╭═╮" + NOR+HIW + "
         " + HIG + "╰╬═══╯　╭══╦═╮　╭═╯╰╬╯　 ╭╯║　║" + NOR+HIW + "
         " + BGRN + "　║　　　　　╭══╩═╯　　║　　║　　 ╯╰╰　╯　" + NOR+HIW + "
@@ -718,7 +718,7 @@ if (random(me->query("combat_exp")) > random(target->query("combat_exp")/10)
                                 }
                         break;
                 case 2:
-                        message_vision("\n\t "BLINK+HIY + "黃　殺" + NOR + "\n\n      " + HIW + "～" + HIY + "孤" + HIW + "～" + HIY + "鴻" + HIW + "～" + HIY + "遍" + HIW + "～" + HIY + "野" + HIW + "～" + NOR + "
+                        message_vision("\n\t " + BLINK+HIY + "黃　殺" + NOR + "\n\n      " + HIW + "～" + HIY + "孤" + HIW + "～" + HIY + "鴻" + HIW + "～" + HIY + "遍" + HIW + "～" + HIY + "野" + HIW + "～" + NOR + "
         " + HIY + "　╮　　　　　╭════╮　　╮　　╮　　 ╮╭╭═╮" + NOR+HIW + "
         " + HIY + "╰╬═══╯　╭══╦═╮　╭═╯╰╬╯　 ╭╯║　║" + NOR+HIW + "
         " + BYEL + "　║　　　　　╭══╩═╯　　║　　║　　 ╯╰╰　╯　" + NOR+HIW + "
@@ -738,7 +738,7 @@ if (random(me->query("combat_exp")) > random(target->query("combat_exp")/10)
                                 }
                         break;
                 case 3:
-                        message_vision("\n\t "BLINK+HIM + "紫　殺" + NOR + "\n\n      " + HIW + "～" + HIM + "豪" + HIW + "～" + HIM + "氣" + HIW + "～" + HIM + "千" + HIW + "～" + HIM + "丈" + HIW + "～" + NOR + "
+                        message_vision("\n\t " + BLINK+HIM + "紫　殺" + NOR + "\n\n      " + HIW + "～" + HIM + "豪" + HIW + "～" + HIM + "氣" + HIW + "～" + HIM + "千" + HIW + "～" + HIM + "丈" + HIW + "～" + NOR + "
         " + HIM + "　╮　　　　　╭════╮　　╮　　╮　　 ╮╭╭═╮" + NOR+HIW + "
         " + HIM + "╰╬═══╯　╭══╦═╮　╭═╯╰╬╯　 ╭╯║　║" + NOR+HIW + "
         " + BMAG + "　║　　　　　╭══╩═╯　　║　　║　　 ╯╰╰　╯　" + NOR+HIW + "
@@ -756,7 +756,7 @@ if (random(me->query("combat_exp")) > random(target->query("combat_exp")/10)
                                 }
                         break;
                 case 4:
-                        message_vision("\n\t "BLINK+HIB + "藍　殺" + NOR + "\n\n      " + HIW + "～" + HIB + "月" + HIW + "～" + HIB + "掛" + HIW + "～" + HIB + "琝" + HIW + "～" + HIB + "壎" + HIW + "～" + NOR + "
+                        message_vision("\n\t " + BLINK+HIB + "藍　殺" + NOR + "\n\n      " + HIW + "～" + HIB + "月" + HIW + "～" + HIB + "掛" + HIW + "～" + HIB + "琝" + HIW + "～" + HIB + "壎" + HIW + "～" + NOR + "
         " + HIB + "　╮　　　　　╭════╮　　╮　　╮　　 ╮╭╭═╮" + NOR+HIW + "
         " + HIB + "╰╬═══╯　╭══╦═╮　╭═╯╰╬╯　 ╭╯║　║" + NOR+HIW + "
         " + BBLU + "　║　　　　　╭══╩═╯　　║　　║　　 ╯╰╰　╯　" + NOR+HIW + "
@@ -774,7 +774,7 @@ if (random(me->query("combat_exp")) > random(target->query("combat_exp")/10)
                                 }
                         break;
                 case 5:
-                        message_vision("\n\t "BLINK+HIC + "青　殺" + NOR + "\n\n      " + HIW + "～" + HIC + "長" + HIW + "～" + HIC + "空" + HIW + "～" + HIC + "一" + HIW + "～" + HIC + "青" + HIW + "～" + NOR + "
+                        message_vision("\n\t " + BLINK+HIC + "青　殺" + NOR + "\n\n      " + HIW + "～" + HIC + "長" + HIW + "～" + HIC + "空" + HIW + "～" + HIC + "一" + HIW + "～" + HIC + "青" + HIW + "～" + NOR + "
         " + HIC + "　╮　　　　　╭════╮　　╮　　╮　　 ╮╭╭═╮" + NOR+HIW + "
         " + HIC + "╰╬═══╯　╭══╦═╮　╭═╯╰╬╯　 ╭╯║　║" + NOR+HIW + "
         " + BCYN + "　║　　　　　╭══╩═╯　　║　　║　　 ╯╰╰　╯　" + NOR+HIW + "
@@ -797,7 +797,7 @@ if (random(me->query("combat_exp")) > random(target->query("combat_exp")/10)
                                                                 }
                         break;
                 case 6:
-                        message_vision("\n\t "BLINK+HIW + "白　殺" + NOR + "\n\n      " + HIW + "～盡～化～塵～埃～" + NOR + "
+                        message_vision("\n\t " + BLINK+HIW + "白　殺" + NOR + "\n\n      " + HIW + "～盡～化～塵～埃～" + NOR + "
         " + HIW + "　╮　　　　　╭════╮　　╮　　╮　　 ╮╭╭═╮" + NOR+HIW + "
         " + HIW + "╰╬═══╯　╭══╦═╮　╭═╯╰╬╯　 ╭╯║　║" + NOR+HIW + "
         " + BWHT + "　║　　　　　╭══╩═╯　　║　　║　　 ╯╰╰　╯　" + NOR+HIW + "

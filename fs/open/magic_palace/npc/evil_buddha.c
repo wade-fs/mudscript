@@ -120,7 +120,7 @@ message_vision(HIM + "
             $N吼道：『無名小輩!!死吧!!』
 
 
-" + HIW + "               ζ"HIY+BRED"魔典奧義" + NOR + "" + HIW + "ζ" + CYN + "《" + HIR + "血穴神通" + CYN + "》
+" + HIW + "               ζ" + HIY+BRED + "魔典奧義" + NOR + "" + HIW + "ζ" + CYN + "《" + HIR + "血穴神通" + CYN + "》
 \n\n" + NOR,me);
            for(b=0;b<i;b++)
            {   

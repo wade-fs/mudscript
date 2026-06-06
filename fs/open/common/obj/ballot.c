@@ -78,7 +78,7 @@ string long() {
 	long += " 要投票請按 vote xxx\n";
         long += " 要取消投票請按 cancel xxx\n";
 	if( !query("voting") )
-		return long + HIR "目前沒有任何投票活動" + NOR + "\n";
+		return long + HIR + "目前沒有任何投票活動" + NOR + "\n";
 
 	options = query("options");
 
@@ -416,7 +416,7 @@ int do_statistics( string arg )
 	
 	if( !arg ) {
 		for( i = 0; i < sizeof( options ); i ++ ) {
-			stat += sprintf(" (" + CYN + "%2d" + NOR + ") " + GRN + "[" + HIW + "%4d " + GRN + "票] " NOR + "%s\n", i + 1, ballots[i], options[i] );
+			stat += sprintf(" (" + CYN + "%2d" + NOR + ") " + GRN + "[" + HIW + "%4d " + GRN + "票] " + NOR + "%s\n", i + 1, ballots[i], options[i] );
 		}
 
 		write( stat );
@@ -443,7 +443,7 @@ int do_statistics( string arg )
 		stat += HIW + " <目前選項>" + NOR + "\n";
 
 		for( i = 0; i < sizeof( options ); i ++ ) {
-			stat += sprintf(" (" + CYN + "%2d" + NOR + ") " + GRN + "[" + HIW + "%4d " + GRN + "票] " NOR + "%s\n", i + 1, ballots[i], options[i] );
+			stat += sprintf(" (" + CYN + "%2d" + NOR + ") " + GRN + "[" + HIW + "%4d " + GRN + "票] " + NOR + "%s\n", i + 1, ballots[i], options[i] );
 		}
 
 		stat += HIW + " <投票情形>" + NOR + "\n";

@@ -119,7 +119,7 @@ int do_blend(string str)
 	  }else{
 	    if( ob2->query("specialitem") == 1 && ob1->query("spirit") == 1 )
 	    {
-	    message_vision("\n"+ob1->query("name")+BLU"和"NOR+ob2->query("name")+BLU"感受到一股無形的力量緩緩的飄浮在空中，\n黑色的氣霧絲絲的從"NOR+ob1->query("name")+BLU"和"NOR+ob2->query("name")+BLU"散發出來。\n" + NOR,me);
+	    message_vision("\n"+ob1->query("name")+BLU + "和" + NOR+ob2->query("name")+BLU + "感受到一股無形的力量緩緩的飄浮在空中，\n黑色的氣霧絲絲的從" + NOR+ob1->query("name")+BLU + "和" + NOR+ob2->query("name")+BLU + "散發出來。\n" + NOR,me);
 	    me->force_me("change unarmed");
 	    me->start_busy(10);
 	    call_out("compose1",5,me);
@@ -139,7 +139,7 @@ int compose1(object me)
 	ob=this_object();
 	ob1=present("dark-spirit",me);
 	ob2=present("dark-emblem",me);
-	message_vision("\n"+ob1->query("name")+NOR+BLU"和"NOR+ob2->query("name")+NOR+BLU"釋出的陣陣黑色霧氣，慢慢籠照" + HIY + "$N"NOR+BLU"四周圍，\n眼前的視線愈來愈昏暗，直至完全被掩沒，一片黑暗。\n" + NOR,me);
+	message_vision("\n"+ob1->query("name")+NOR+BLU + "和" + NOR+ob2->query("name")+NOR+BLU + "釋出的陣陣黑色霧氣，慢慢籠照" + HIY + "$N" + NOR+BLU + "四周圍，\n眼前的視線愈來愈昏暗，直至完全被掩沒，一片黑暗。\n" + NOR,me);
 	me->start_busy(10);
 	call_out("compose2",5,me);
 	return 1;
@@ -161,9 +161,9 @@ int compose2(object me)
 	  ob3 = aob[j];
 	}
         write_file("/log/sky/powerup_claw",sprintf("%s(%s)使用了%s和%s加強了%s的型態於 %s\n",me->name(1),me->query("id"),ob1->query("name"),ob2->query("name"),ob3->query("name"),ctime(time())));
-	message_vision(BLU + "\n只見"+ob3->query("name")+NOR+BLU"將四周圍所有的黑色氣霧全部吸收而轉變為一個完全的形態！\n" + NOR,me);
+	message_vision(BLU + "\n只見"+ob3->query("name")+NOR+BLU + "將四周圍所有的黑色氣霧全部吸收而轉變為一個完全的形態！\n" + NOR,me);
 	me->set("weapon/dark-full",1);	//融合完畢後，武器呈現最完美狀態給給定的query。
-	message_vision(ob1->query("name")+NOR+BLU"和"NOR+ob2->query("name")+NOR+BLU"所蘊藏的能量在被吸收殆盡後，也化為虛無消失無蹤。\n" + NOR,me);
+	message_vision(ob1->query("name")+NOR+BLU + "和" + NOR+ob2->query("name")+NOR+BLU + "所蘊藏的能量在被吸收殆盡後，也化為虛無消失無蹤。\n" + NOR,me);
 	destruct(ob1);
 	destruct(ob2);
 	me->delete_busy();

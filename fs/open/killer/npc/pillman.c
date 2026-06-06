@@ -316,7 +316,7 @@ message_vision("一股氣勁由"+this_player()->name()+"竄出",ob);
 this_player()->set("force",0);
 this_player()->set("atman",0);
 this_player()->set("mana",0);
-message_vision(HBRED+HIY"$N施展秘法, 吸走了$n身上的內力,法力與靈力!!!\n" + NOR,this_object(),this_player());
+message_vision(HBRED+HIY + "$N施展秘法, 吸走了$n身上的內力,法力與靈力!!!\n" + NOR,this_object(),this_player());
   this_object()->kill_ob(this_player());
     return 1;
 }

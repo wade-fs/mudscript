@@ -13,7 +13,7 @@ string ask_woodball();
 string ask_soilball();
 void create()
 {
-        set_name(HIR + "劍聖"+HIC"歐陽無極" + NOR,({"swordsman","man"}));
+        set_name(HIR + "劍聖"+HIC + "歐陽無極" + NOR,({"swordsman","man"}));
         set("long","仙魔戰中劍聖元靈所換化的守護神,負責阻止閒雜人等進入魔封地。\n");
         set("gender","男性");
         set("class","swordsman");

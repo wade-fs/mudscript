@@ -54,7 +54,7 @@ mapping *action = ({
    ]),
 ([
          "action"     :
-"$N運起全身勁力﹐勁貫$w﹐使出一招"BLINK+HIW + "『袍丁宰牛』" + NOR + "$N以全身勁力砍向$n$l",
+"$N運起全身勁力﹐勁貫$w﹐使出一招" + BLINK+HIW + "『袍丁宰牛』" + NOR + "$N以全身勁力砍向$n$l",
          "dodge"      :               -5,
          "parry"      :               -5,
          "damage"     :                130,
@@ -73,7 +73,7 @@ mapping *action = ({
   ]),
 ([
          "action"     :
-"$N運起全身功\力,氣集於$w使出一招"BLINK+HIR + "『鬼氣貫腦』" + NOR + "斧勁極快的的波及到$n",
+"$N運起全身功\力,氣集於$w使出一招" + BLINK+HIR + "『鬼氣貫腦』" + NOR + "斧勁極快的的波及到$n",
          "dodge"      :               -15,
          "parry"      :               -15,
          "damage"     :                150,
@@ -119,22 +119,22 @@ case 1:
 message_vision(sprintf("$N見$n的攻勢瓦解決定使出獨門招式之" + HIY + "『春秋詩斷愁』" + NOR + "，直取$n的四處要害。\n"),me);
 
 
-message_vision(sprintf("$N步伐如醉，使出『春秋詩斷愁』－－－"BLINK+HIB + "【 春 風 拂 人 醉 】" + NOR + "，直劈$n的胸部。\n"),me,victim);
+message_vision(sprintf("$N步伐如醉，使出『春秋詩斷愁』－－－" + BLINK+HIB + "【 春 風 拂 人 醉 】" + NOR + "，直劈$n的胸部。\n"),me,victim);
 break;
 
 
 case 2:
-message_vision(sprintf("$N身輕如燕，使出『春秋詩斷愁』－－－"BLINK+HIY + "【 飛 花 逐 人 香 】" + NOR + "，砍向$n的背部。\n"),me,victim);
+message_vision(sprintf("$N身輕如燕，使出『春秋詩斷愁』－－－" + BLINK+HIY + "【 飛 花 逐 人 香 】" + NOR + "，砍向$n的背部。\n"),me,victim);
 break;
 
 
 case 3:
-message_vision(sprintf("$N深鎖緊眉，使出『春秋詩斷愁』－－－"BLINK+HIC + "【 秋 意 愁 不 斷 】" + NOR + "，直取$n的頭部。\n"),me,victim);
+message_vision(sprintf("$N深鎖緊眉，使出『春秋詩斷愁』－－－" + BLINK+HIC + "【 秋 意 愁 不 斷 】" + NOR + "，直取$n的頭部。\n"),me,victim);
 break;
 
 
 case 4:
-message_vision(sprintf("$N行如快風，使出『春秋詩斷愁』－－－"BLINK+HIW + "【 柳 葉 隨 人 癡 】" + NOR + "，斬向$n的咽喉。\n"),me,victim);
+message_vision(sprintf("$N行如快風，使出『春秋詩斷愁』－－－" + BLINK+HIW + "【 柳 葉 隨 人 癡 】" + NOR + "，斬向$n的咽喉。\n"),me,victim);
 break;
 }
      if(me->query_skill("snow-martial",1)>random(150))

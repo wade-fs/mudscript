@@ -113,7 +113,7 @@ int do_blend(string str)
 	  }else{
 	    if( ob2->query("specialitem") == 1 && ob1->query("spirit") == 1 )
 	    {
-	    message_vision("\n"+ob1->query("name")+YEL"和"NOR+ob2->query("name")+YEL"感受到一股無形的力量，緩緩飄浮在空中，\n四周的塵土和飛沙不停的注入"NOR+ob1->query("name")+YEL"和"NOR+ob2->query("name")+YEL"。\n" + NOR,me);
+	    message_vision("\n"+ob1->query("name")+YEL + "和" + NOR+ob2->query("name")+YEL + "感受到一股無形的力量，緩緩飄浮在空中，\n四周的塵土和飛沙不停的注入" + NOR+ob1->query("name")+YEL + "和" + NOR+ob2->query("name")+YEL + "。\n" + NOR,me);
 	    me->force_me("change unarmed");
 	    me->start_busy(10);
 	    call_out("compose1",5,me);
@@ -133,7 +133,7 @@ int compose1(object me)
 	ob=this_object();
 	ob1=present("ground-spirit",me);
 	ob2=present("soil-emblem",me);
-	message_vision("\n"+ob1->query("name")+NOR+YEL"和"NOR+ob2->query("name")+NOR+YEL"吸收的砂石飛屑環繞在" + HIY + "$N"NOR+YEL"四周圍，\n幾乎快將$N和這做地底宮殿融為一體。\n" + NOR,me);
+	message_vision("\n"+ob1->query("name")+NOR+YEL + "和" + NOR+ob2->query("name")+NOR+YEL + "吸收的砂石飛屑環繞在" + HIY + "$N" + NOR+YEL + "四周圍，\n幾乎快將$N和這做地底宮殿融為一體。\n" + NOR,me);
 	me->start_busy(10);
 	call_out("compose2",5,me);
 	return 1;
@@ -155,9 +155,9 @@ int compose2(object me)
 	  ob3 = aob[j];
 	}
         write_file("/log/sky/powerup_claw",sprintf("%s(%s)使用了%s和%s加強了%s的型態於 %s\n",me->name(1),me->query("id"),ob1->query("name"),ob2->query("name"),ob3->query("name"),ctime(time())));
-	message_vision(YEL + "\n只見"+ob3->query("name")+NOR+YEL"將四周圍所有的飛塵全部吸收而轉變為一個完全的形態！\n" + NOR,me);
+	message_vision(YEL + "\n只見"+ob3->query("name")+NOR+YEL + "將四周圍所有的飛塵全部吸收而轉變為一個完全的形態！\n" + NOR,me);
 	me->set("weapon/ground-full",1);	//融合完畢後，武器呈現最完美狀態給給定的query。
-	message_vision(ob1->query("name")+NOR+YEL"和"NOR+ob2->query("name")+NOR+YEL"所蘊藏的能量在被吸收殆盡後，也化為虛無消失無蹤。\n" + NOR,me);
+	message_vision(ob1->query("name")+NOR+YEL + "和" + NOR+ob2->query("name")+NOR+YEL + "所蘊藏的能量在被吸收殆盡後，也化為虛無消失無蹤。\n" + NOR,me);
 	destruct(ob1);
 	destruct(ob2);
 	me->delete_busy();

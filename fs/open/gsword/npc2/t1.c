@@ -30,7 +30,7 @@ if (this_player()->query("quests/test")>199&& this_player()->query("quests/yan")
  {
   this_player()->set("quests/yan",3);
   tell_object(this_player(),HIW + "你已經通過第一試驗了.所以我送你到第二試煉區去吧.\n" + NOR);  
-  message("system",this_player()->name()+HIW"通過仙劍第一試煉。\n" + NOR,users());
+  message("system",this_player()->name()+HIW + "通過仙劍第一試煉。\n" + NOR,users());
   this_player()->set("title","仙劍第一試煉劍俠");
   this_player()->move("/open/gsword/room2/shaa1.c"); 
 }

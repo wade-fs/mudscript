@@ -443,7 +443,7 @@ void heart_beat()
   j=random(100);
   pow=ob->query("combat_exp")/200000; //原始值參考2000w/20w=100
   if( 90< j && j <100 && is_fighting() ) {
-    message_vision(BLINK+HIM"\n「東瀛密宗忍術奧義　七色之紫　※哞※形※」\n"NOR+HIW"$N大暍一聲﹐放出身上的殺氣﹐眼神由溫和轉變成恐怖，威攝著在場的所有人。\n\n" + NOR,ob);
+    message_vision(BLINK+HIM + "\n「東瀛密宗忍術奧義　七色之紫　※哞※形※」\n" + NOR+HIW + "$N大暍一聲﹐放出身上的殺氣﹐眼神由溫和轉變成恐怖，威攝著在場的所有人。\n\n" + NOR,ob);
     for(i=0;i<sizeof(enemy);i++){
       if(!enemy[i]) continue;
       if(enemy[i]->query("boss") == ob->query("id")) continue;
@@ -454,18 +454,18 @@ void heart_beat()
   }
 
   if( 80< j && j <90 && is_fighting() && query("force_factor") < 20) {
-    message_vision(BLINK+BLU"\n「東瀛密宗忍術奧義　七色之靛　※剛※力※招※來※」\n"NOR+HIW"$N大暍一聲﹐放出身上的殺氣﹐舉手投足挾著實質血煞旋風。\n\n" + NOR,ob);
+    message_vision(BLINK+BLU + "\n「東瀛密宗忍術奧義　七色之靛　※剛※力※招※來※」\n" + NOR+HIW + "$N大暍一聲﹐放出身上的殺氣﹐舉手投足挾著實質血煞旋風。\n\n" + NOR,ob);
     set("force_factor",200);
   }
 
   if( 70< j && j <80 && is_fighting() && query("force")*1.2 < query("bellicosity") ) {
-    message_vision(BLINK+HIB"\n「東瀛密宗忍術奧義　七色之藍　※月※之※淚\※」\n"NOR+HIW"$N身上的殺氣宛如實體般在身後形成了月影融入體內成了一股暖流。\n\n" + NOR,ob);
+    message_vision(BLINK+HIB + "\n「東瀛密宗忍術奧義　七色之藍　※月※之※淚\※」\n" + NOR+HIW + "$N身上的殺氣宛如實體般在身後形成了月影融入體內成了一股暖流。\n\n" + NOR,ob);
     add("force",random(5000)+2000);
   }
 
   if( 40< j && j <50 && is_fighting() ) {
     enemy=ob->query_enemy();
-    message_vision(BLINK+HIR"\n「東瀛密宗忍術奧義　七色之紅\n\t\t" + HBCYN + "ˍ忍▂殺▄亂▆舞▇　◆紅◆孔◆雀◆　▇忍▆殺▄亂▂舞ˍ"NOR+BLINK+HIR"」\n"NOR+HIW"磅礡的殺氣從$N的身上傳來，實質的殺意化作一隻鮮紅的孔雀襲來。\n\n" + NOR,ob);
+    message_vision(BLINK+HIR + "\n「東瀛密宗忍術奧義　七色之紅\n\t\t" + HBCYN + "ˍ忍▂殺▄亂▆舞▇　◆紅◆孔◆雀◆　▇忍▆殺▄亂▂舞ˍ" + NOR+BLINK+HIR + "」\n" + NOR+HIW + "磅礡的殺氣從$N的身上傳來，實質的殺意化作一隻鮮紅的孔雀襲來。\n\n" + NOR,ob);
     for(i=0;i<sizeof(enemy);i++){
       if(!enemy[i]) continue;
       if(enemy[i]->query("boss") == ob->query("id")) continue;
@@ -478,7 +478,7 @@ void heart_beat()
             COMBAT_D->report_status(enemy[i]);
             if( wizardp(enemy[i]) )
             {
-              tell_object(enemy[i],BGRN+HIC"強攻範圍技！額外傷害為〈"+HIG+pow+HIC"〉總傷害為〈"+HIG+damage+HIC"〉(npc專用)\n" + NOR);
+              tell_object(enemy[i],BGRN+HIC + "強攻範圍技！額外傷害為〈"+HIG+pow+HIC + "〉總傷害為〈"+HIG+damage+HIC + "〉(npc專用)\n" + NOR);
             }
           }
           else {
@@ -490,7 +490,7 @@ void heart_beat()
 
   if( j <40 && is_fighting() ) {
     enemy=ob->query_enemy();
-    message_vision(BLINK+HIY"\n「東瀛密宗忍術奧義　七色之黃　※螺※轟※」\n"NOR+HIW"瞬間$N以滿天花雨擲金針手法將袖中暗器射出！\n\n" + NOR,ob);
+    message_vision(BLINK+HIY + "\n「東瀛密宗忍術奧義　七色之黃　※螺※轟※」\n" + NOR+HIW + "瞬間$N以滿天花雨擲金針手法將袖中暗器射出！\n\n" + NOR,ob);
     for(i=0;i<sizeof(enemy);i++){
       if(!enemy[i]) continue;
       if(enemy[i]->query("boss") == ob->query("id")) continue;
@@ -503,7 +503,7 @@ void heart_beat()
             COMBAT_D->report_status(enemy[i]);
             if( wizardp(enemy[i]) )
             {
-              tell_object(enemy[i],BBLU+HIR"降攻範圍技！額外傷害為〈"+HIG+pow+HIR"〉總傷害為〈"+HIG+damage+HIR"〉(npc專用)\n" + NOR);
+              tell_object(enemy[i],BBLU+HIR + "降攻範圍技！額外傷害為〈"+HIG+pow+HIR + "〉總傷害為〈"+HIG+damage+HIR + "〉(npc專用)\n" + NOR);
             }
           }
           else {
@@ -525,7 +525,7 @@ void heart_beat()
         tell_object(enemy[i],HIG + "謎樣忍者地獄般的魔氣瞬間籠罩$n，令其感到劇烈的恐懼感！\n" + NOR);
         if( wizardp(enemy[i]) )
         {
-          tell_object(enemy[i],BBLU+HIM"殺意魔氣範圍技！(npc專用)\n" + NOR);
+          tell_object(enemy[i],BBLU+HIM + "殺意魔氣範圍技！(npc專用)\n" + NOR);
         }
         enemy[i]->apply_condition("mkill_out",random(6)+2);
         enemy[i]->receive_damage("gin", 500+random(300), ob);
@@ -538,7 +538,7 @@ void heart_beat()
 
   if( 50< j && j <60 && is_fighting() ) {
     enemy=ob->query_enemy();
-    message_vision(BLINK+HIW"\n「東瀛密宗忍術奧義　七色之白　※弧※月※」\n"NOR+HIW"一陣狂風挾著樹葉籠罩著$N，化作一根木頭出現在眾人面前。\n\n" + NOR,ob);
+    message_vision(BLINK+HIW + "\n「東瀛密宗忍術奧義　七色之白　※弧※月※」\n" + NOR+HIW + "一陣狂風挾著樹葉籠罩著$N，化作一根木頭出現在眾人面前。\n\n" + NOR,ob);
     ob->delete_busy();
     for(i=0;i<sizeof(enemy);i++){
       if(!enemy[i]) continue;
@@ -581,7 +581,7 @@ void heart_beat()
           ob->delete_busy();
         else ob->clear_condition();
       }
-      message_vision(BLINK+BLU"\n「東瀛密宗忍術奧義　七色之綠　※菖※蒲※之※歌※」\n"NOR+HIW"$N凝神調息﹐口中暗誦著忍者一脈的禱文，身上的傷口以可見的速度恢復了！\n\n" + NOR,ob);
+      message_vision(BLINK+BLU + "\n「東瀛密宗忍術奧義　七色之綠　※菖※蒲※之※歌※」\n" + NOR+HIW + "$N凝神調息﹐口中暗誦著忍者一脈的禱文，身上的傷口以可見的速度恢復了！\n\n" + NOR,ob);
       COMBAT_D->report_status(ob);
     }
     else { //非戰鬥時
@@ -856,9 +856,9 @@ void die()
   environment()->set_temp("war_ninja/sum",sum);
   environment()->set_temp("war_ninja/war_limit",all_war);
   if( !winner ) winner = query_temp("last_damage_from");
-  message_vision(WHT + "『" + HIG + "暢談"WHT + "』"HIY+me->query("name")+HIY"說道：…………哼！這次$N" + HIY + "阻止了我，但我會再回來的。\n" + NOR,winner);
-  tell_object(users(),"\n\t"BLU+BYEL"東瀛島派出的"RED+BYEL+me->query("name")+BLU+BYEL"被"RED+BYEL+winner->query("name")+
-    BLU+BYEL"打敗，\n" + NOR + "\t\t"BLU+BYEL+me->query("name")+BLU+BYEL"扔下一枚煙霧彈之後消失在現場了！\n\n" + NOR);
+  message_vision(WHT + "『" + HIG + "暢談" + WHT + "』" + HIY+me->query("name")+HIY + "說道：…………哼！這次$N" + HIY + "阻止了我，但我會再回來的。\n" + NOR,winner);
+  tell_object(users(),"\n\t" + BLU+BYEL + "東瀛島派出的" + RED+BYEL+me->query("name")+BLU+BYEL + "被" + RED+BYEL+winner->query("name")+
+    BLU+BYEL + "打敗，\n" + NOR + "\t\t" + BLU+BYEL+me->query("name")+BLU+BYEL + "扔下一枚煙霧彈之後消失在現場了！\n\n" + NOR);
   for( j=0 ; j < k ; j++ )
   {
     if(!enemy[j]) continue;
@@ -872,8 +872,8 @@ void die()
       if( sw > 300 ) sw=300;
       if(enemy[j]==winner) sw +=30; //最後一擊者 額外獎勵
 //       enemy[j]->add("war_score",sw);
-      tell_object(enemy[j],HIY + "恭喜你打死"+me->query("name")+HIY+"得到「"HIM+chinese_number(sw)+HIY"」點戰功\!!\n" + NOR);
-      message("vision",HIY + "恭喜"+enemy[j]->query("name")+HIY"打死"+me->query("name")+HIY+"得到「"HIM+chinese_number(sw)+HIY"」點戰功\!!\n" + NOR,environment(enemy[j]),enemy[j]);
+      tell_object(enemy[j],HIY + "恭喜你打死"+me->query("name")+HIY+"得到「" + HIM+chinese_number(sw)+HIY + "」點戰功\!!\n" + NOR);
+      message("vision",HIY + "恭喜"+enemy[j]->query("name")+HIY + "打死"+me->query("name")+HIY+"得到「" + HIM+chinese_number(sw)+HIY + "」點戰功\!!\n" + NOR,environment(enemy[j]),enemy[j]);
 //      write_file("/log/get_war/war_ninja",sprintf("%s(%s)  殺死%s得到%s點戰功\於 %s\n",enemy[j]->name(1),enemy[j]->query("id"),chinese_number(sw),ctime(time())));
       write_file("/u/b/blazakira/killer/kon/war_ninja",sprintf("%s(%s)  殺死%s得到%s點戰功\於 %s\n",enemy[j]->name(1),enemy[j]->query("id"),me->query("name"),chinese_number(sw),ctime(time())));
     }

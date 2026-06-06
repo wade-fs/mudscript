@@ -3,7 +3,7 @@ inherit ROOM;
 
 void create ()
 {
-	set("short",BBLU+YEL"震邪道" + NOR);
+	set("short",BBLU+YEL + "震邪道" + NOR);
 	set("long",@LONG
 再一個閃耀著金黃色光芒的四方形空間內, 有一個黃金守衛正在
 站立在一道雕碩精美的黃金門前, 黃金守衛的雙目直盯著所有踏入這

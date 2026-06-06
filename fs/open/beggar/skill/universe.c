@@ -75,9 +75,9 @@ mapping *action = ({
 //先天乾坤功究極絕招----天驚地動----共五招
 //7-1
 ([ "action":HIM + "
-                                ～～"HBBLU+HIY"天驚地動"NOR+HIM"～～" + HIW + "
+                                ～～" + HBBLU+HIY + "天驚地動" + NOR+HIM + "～～" + HIW + "
 
-                                第一擊  "BCYN+HIW"風"BWHT+HIC"兮"BCYN+HIW"破"BWHT+HIC"地" + NOR + "
+                                第一擊  " + BCYN+HIW + "風" + BWHT+HIC + "兮" + BCYN+HIW + "破" + BWHT+HIC + "地" + NOR + "
 
                 $N全身發出凜冽無匹的罡\氣, 令人氣息窒礙,割面生痛,
                 只見$N身形如風, 氣勁如尖銳鐵錐般疾擊$n$l!!\n",
@@ -90,9 +90,9 @@ mapping *action = ({
 
 //7-2
 ([ "action":HIM + "
-                                ～～"HBBLU+HIY"天驚地動"NOR+HIM"～～" + HIW + "
+                                ～～" + HBBLU+HIY + "天驚地動" + NOR+HIM + "～～" + HIW + "
 
-                                第二擊  "HBBLU+HIC"水"HBCYN+HIB"兮"HBBLU+HIC"滔"HBCYN+HIB"天" + NOR + "
+                                第二擊  " + HBBLU+HIC + "水" + HBCYN+HIB + "兮" + HBBLU+HIC + "滔" + HBCYN+HIB + "天" + NOR + "
 
                 霎時間, 只見$N渾身氣勁如海濤巨浪, 洶湧澎湃, 雙拳
                 隱含巨嘯狂浪吞天襲地之勢, 向$n$l攻去!!\n",
@@ -106,9 +106,9 @@ mapping *action = ({
 
 //7-3
 ([ "action":HIM + "
-                                ～～"HBBLU+HIY"天驚地動"NOR+HIM"～～" + HIW + "
+                                ～～" + HBBLU+HIY + "天驚地動" + NOR+HIM + "～～" + HIW + "
 
-                               第三擊  "HBRED+HIY"火"HBYEL+HIR"兮"HBRED+HIY"焚"HBYEL+HIR"野" + NOR + "
+                               第三擊  " + HBRED+HIY + "火" + HBYEL+HIR + "兮" + HBRED+HIY + "焚" + HBYEL+HIR + "野" + NOR + "
 
                  $N四肢狂舞, 卦像如虹, 對$n引動無數火焰, 只見
                  $N形如火龍, 凌空打出無數火爪, 火影連連, $n試
@@ -124,9 +124,9 @@ mapping *action = ({
 
 //7-4
 ([ "action":HIM + "
-                                ～～"HBBLU+HIY"天驚地動"NOR+HIM"～～" + HIW + "
+                                ～～" + HBBLU+HIY + "天驚地動" + NOR+HIM + "～～" + HIW + "
 
-                               第四擊  "BYEL+HIY"山兮鬼神驚" + NOR + "
+                               第四擊  " + BYEL+HIY + "山兮鬼神驚" + NOR + "
 
               $N身形凝重, 山勢磅礡, 一股強大的氣流壓迫著$n, $N憑
               藉著五嶽山神之力, 意在拳先, 朝$n$l轟去,!!\n",
@@ -140,9 +140,9 @@ mapping *action = ({
 
 //7-5
 ([ "action":HIM + "
-                                ～～"HBBLU+HIY"天驚地動"NOR+HIM"～～" + HIW + "
+                                ～～" + HBBLU+HIY + "天驚地動" + NOR+HIM + "～～" + HIW + "
 
-                               第五擊  "HBBLU+HIC"雷"HBCYN+HIB"兮"HBBLU+BLINK+HIW"天地碎" + NOR + "
+                               第五擊  " + HBBLU+HIC + "雷" + HBCYN+HIB + "兮" + HBBLU+BLINK+HIW + "天地碎" + NOR + "
 
                $N雙手結印對天, 將聚集的天地之氣回射, 鶩然一股真氣自
                $N手中衝出, 將層層雲霧破開一個大洞, 直衝天際, 一陣沈
@@ -176,7 +176,7 @@ $N覷中$n舊力已盡, 新力未生之際, 雙掌接連拍出" + HIG + "「地�
 
           case 3:
                     message_vision(HIC + "
-$N雙掌一錯, 突然使出先天乾坤功\的變招" + HIW + "～"BLINK+HIY"以腿代掌勢"NOR+HIW"～" + HIC + ", $n被此妙招一擾, 登時鬧了個手忙腳亂" + NOR + "\n",me,victim);
+$N雙掌一錯, 突然使出先天乾坤功\的變招" + HIW + "～" + BLINK+HIY + "以腿代掌勢" + NOR+HIW + "～" + HIC + ", $n被此妙招一擾, 登時鬧了個手忙腳亂" + NOR + "\n",me,victim);
                     victim->start_busy(1);
                     COMBAT_D->report_status(victim);
                     break;
@@ -192,7 +192,7 @@ $N雙掌一錯, 突然使出先天乾坤功\的變招" + HIW + "～"BLINK+HIY"�
                $N突然逆轉氣勁, 借$n之力合併本身內力一起回擊$n自身,
                此招正是" + HIW + "『先天乾坤功\』" + HIR + "第六絕
 
-                                   "BCYN+BLINK+HIY"『逆轉乾坤』" + NOR + "\n\n" + NOR,me,victim);
+                                   " + BCYN+BLINK+HIY + "『逆轉乾坤』" + NOR + "\n\n" + NOR,me,victim);
 
                    victim->receive_damage("kee",damage);
                    COMBAT_D->report_status(victim);
@@ -210,7 +210,7 @@ void conti(object me, object victim, object weapon, int damage)
 if(50>random(100)) {
       for( a=1;a<=lv;a++)
       {
-           message_vision(HBBLU+HIW"$N掌含"HBWHT+HIY"天地" + HIC + "風" + HIB + "雷"HBBLU+HIW"之威, 不斷向$n周身破綻擊去!" + NOR + "\n",me,victim);
+           message_vision(HBBLU+HIW + "$N掌含" + HBWHT+HIY + "天地" + HIC + "風" + HIB + "雷" + HBBLU+HIW + "之威, 不斷向$n周身破綻擊去!" + NOR + "\n",me,victim);
            victim->receive_wound("kee",60);
            COMBAT_D->report_status(victim);
       }
@@ -224,7 +224,7 @@ void sp1(object me, object victim, object weapon, int damage)
       damage = me->query_temp("tengin_power");
       if(damage>400) damage=400;
       message_vision("
-      "BCYN+HIW"面對著$N如此驚心動魄地一擊, $n竟不知道要如何應付, 只有照單全收!!" + NOR + "\n       ",me,victim);
+      " + BCYN+HIW + "面對著$N如此驚心動魄地一擊, $n竟不知道要如何應付, 只有照單全收!!" + NOR + "\n       ",me,victim);
       victim->receive_damage("kee",damage);
       victim->start_busy(1);
       COMBAT_D->report_status(victim);
@@ -239,8 +239,8 @@ void sp2(object me, object victim, object weapon, int damage)
       if(damage>600) damage=600;
       
       message_vision("
-       "HBBLU+HIC"$n提起全身勁力欲和襲來的滔天巨浪一拼, 甫一接觸才發覺其勢大之不可" + NOR + "
-       "HBBLU+HIC"擋, 但已後悔莫及,頓時被源源不絕的拳勢所吞沒～～" + NOR + "\n  " + NOR,me,victim);
+       " + HBBLU+HIC + "$n提起全身勁力欲和襲來的滔天巨浪一拼, 甫一接觸才發覺其勢大之不可" + NOR + "
+       " + HBBLU+HIC + "擋, 但已後悔莫及,頓時被源源不絕的拳勢所吞沒～～" + NOR + "\n  " + NOR,me,victim);
       victim->receive_damage("kee",damage);
       victim->apply_condition("tsunami",3);
       me->add("force",-damage);
@@ -254,8 +254,8 @@ void sp3(object me, object victim, object weapon, int damage)
       damage = me->query_temp("tengin_power");
       if(damage>800) damage=800;
       message_vision("
-           "HBRED+HIY"此時天上火雲片片, 地上亦燃起無數烈火, 天地融合, 威力更增數倍, " + NOR + "
-           "HBRED+HIY"$n深陷火海之中, 發出駭人的慘叫聲" + NOR + "\n           " + NOR,me,victim);
+           " + HBRED+HIY + "此時天上火雲片片, 地上亦燃起無數烈火, 天地融合, 威力更增數倍, " + NOR + "
+           " + HBRED+HIY + "$n深陷火海之中, 發出駭人的慘叫聲" + NOR + "\n           " + NOR,me,victim);
       victim->receive_damage("kee",damage);
       victim->apply_condition("skyfire",5);
       me->add("force",-damage);
@@ -274,19 +274,19 @@ void sp4(object me, object victim, object weapon, int damage)
          switch(i)
          {
             case 1:
-message_vision("              "HBGRN+HIW"$N借動" + HIG + "『東嶽‧泰山』" + HIW + "睥睨天下的氣勢﹐直擊$n!!" + NOR + "\n              ",me,victim);
+message_vision("              " + HBGRN+HIW + "$N借動" + HIG + "『東嶽‧泰山』" + HIW + "睥睨天下的氣勢﹐直擊$n!!" + NOR + "\n              ",me,victim);
             break;
             case 2:
-message_vision("              "HBGRN+HIW"$N顯現" + HIC + "『南嶽‧衡山』" + HIW + "雲霧飄忽之姿, 往$n擊去!!" + NOR + "\n              ",me,victim);
+message_vision("              " + HBGRN+HIW + "$N顯現" + HIC + "『南嶽‧衡山』" + HIW + "雲霧飄忽之姿, 往$n擊去!!" + NOR + "\n              ",me,victim);
             break;
             case 3:
-message_vision("              "HBGRN+HIW"$N引動" + HIM + "『西嶽‧華山』" + HIW + "的浩然正氣﹐雙拳擊向$n!!" + NOR + "\n              ",me,victim);
+message_vision("              " + HBGRN+HIW + "$N引動" + HIM + "『西嶽‧華山』" + HIW + "的浩然正氣﹐雙拳擊向$n!!" + NOR + "\n              ",me,victim);
             break;
             case 4:
-message_vision("              "HBGRN+HIW"$N使出" + HIY + "『北嶽‧恆山』" + HIW + "綿中續勁之象﹐對$n攻去!!" + NOR + "\n              ",me,victim);
+message_vision("              " + HBGRN+HIW + "$N使出" + HIY + "『北嶽‧恆山』" + HIW + "綿中續勁之象﹐對$n攻去!!" + NOR + "\n              ",me,victim);
             break;
             case 5:
-message_vision("              "HBGRN+HIW"$N拳含" + HIR + "『中嶽‧嵩山』" + HIW + "嚴謹中正之態﹐向$n發勁!!" + NOR + "\n              ",me,victim);
+message_vision("              " + HBGRN+HIW + "$N拳含" + HIR + "『中嶽‧嵩山』" + HIW + "嚴謹中正之態﹐向$n發勁!!" + NOR + "\n              ",me,victim);
             break;
          }
          if(damage>=700) { victim->receive_wound("kee",damage/10); }
@@ -297,8 +297,8 @@ message_vision("              "HBGRN+HIW"$N拳含" + HIR + "『中嶽‧嵩山�
       {
          message_vision("
 
-              "HBBLU+HIW"你豁然領悟了『"BLINK+HIG"五" + HIY + "嶽" + HIC + "合"HIR + "一"NOR+HBBLU+HIW"』的真意, 拳含五嶽靈氣, " + NOR + "
-              "HBBLU+HIW"向$n擊出石破天驚的一擊!!!!" + NOR + "\n\n              ",me,victim);
+              " + HBBLU+HIW + "你豁然領悟了『" + BLINK+HIG + "五" + HIY + "嶽" + HIC + "合" + HIR + "一" + NOR+HBBLU+HIW + "』的真意, 拳含五嶽靈氣, " + NOR + "
+              " + HBBLU+HIW + "向$n擊出石破天驚的一擊!!!!" + NOR + "\n\n              ",me,victim);
          victim->receive_wound("kee",damage/2+100);
          me->add("force",-800);      //五嶽合一威力超大,so自身傷害也最重
          me->add("kee",-300);
@@ -328,7 +328,7 @@ void sp5(object me, object victim, object weapon, int damage)
       {
          enemy[i]->receive_wound("kee", damage);
          message_vision("
-            "HBMAG+HIW"面對猶如『天劫』般的落雷不斷, $n擋無可擋, 登時片體鱗傷!!!!" + NOR + "\n            ",me,enemy[i]);
+            " + HBMAG+HIW + "面對猶如『天劫』般的落雷不斷, $n擋無可擋, 登時片體鱗傷!!!!" + NOR + "\n            ",me,enemy[i]);
          COMBAT_D->report_status(enemy[i]);
       }
       me->add("force",-damage);

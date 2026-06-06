@@ -30,7 +30,7 @@ if (this_player()->query("quests/yantestmark1")==1&&this_player()->query("quests
  {
   this_player()->set("quests/yan",4);
   tell_object(this_player(),HIW + "你已經通過第二試驗了.所以我送你到第三試煉區去吧.\n" + NOR);  
-  message("system",this_player()->name()+HIW"通過仙劍第二試煉。\n" + NOR,users());
+  message("system",this_player()->name()+HIW + "通過仙劍第二試煉。\n" + NOR,users());
   this_player()->delete("quests/yantestmark1");
   this_player()->set("title","仙劍第二試煉劍俠");
   this_player()->delete("quests/yantestmark2");

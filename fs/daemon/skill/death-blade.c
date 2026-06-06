@@ -139,7 +139,7 @@ message_vision(HIW + "\n               $N手起刀落，一招 " + HIC+HBBLU + "
    switch(l)
    { 
     case 0:
-    message_vision("\n                        "BLINK+HIR + "紅殺" + NOR+HIW + " ～ " + HBRED + "血染長城" + NOR+HIW + " ～\n\n\n
+    message_vision("\n                        " + BLINK+HIR + "紅殺" + NOR+HIW + " ～ " + HBRED + "血染長城" + NOR+HIW + " ～\n\n\n
    □█   " + HIR + "╭╦═╦═╮    ╭═    ╭╯╭╯╭╯  ╮  ╮╭" + NOR+HIW + "     █□
    □█   " + HIR + "╭╯╮║    ╰╦╩══╯╰╯╠╣╰╯╰═╰╬╬╯" + NOR+HIW + "   █□
    □█   " + BRED + "║╮║║╭╮  ║        ╰╯╰╯╰╯╰═╰╣╠╯" + NOR+HIW + "   █□
@@ -151,7 +151,7 @@ message_vision(HIW + "\n               $N手起刀落，一招 " + HIC+HBBLU + "
        COMBAT_D->report_status(enemy[random(i)]);
     break;
     case 1:
-    message_vision("\n                        "BLINK+HIY + "黃殺" + NOR+HIW + " ～ " + HBYEL + "孤鴻遍野" + NOR+HIW + " ～\n\n\n
+    message_vision("\n                        " + BLINK+HIY + "黃殺" + NOR+HIW + " ～ " + HBYEL + "孤鴻遍野" + NOR+HIW + " ～\n\n\n
    □█   " + HIY + "╭╦═╦═╮    ╭═    ╭╯╭╯╭╯  ╮  ╮╭" + NOR+HIW + "     █□
    □█   " + HIY + "╭╯╮║    ╰╦╩══╯╰╯╠╣╰╯╰═╰╬╬╯" + NOR+HIW + "   █□
    □█   " + BYEL + "║╮║║╭╮  ║        ╰╯╰╯╰╯╰═╰╣╠╯" + NOR+HIW + "   █□
@@ -165,7 +165,7 @@ message_vision(HIW + "\n               $N手起刀落，一招 " + HIC+HBBLU + "
        COMBAT_D->report_status(enemy[i]);
     break;
     case 2:
-    message_vision("\n                      "BLINK+HIM + "粉紅殺" + NOR+HIW + " ～ " + HBMAG + "豪氣霸千丈" + NOR+HIW + " ～\n\n\n
+    message_vision("\n                      " + BLINK+HIM + "粉紅殺" + NOR+HIW + " ～ " + HBMAG + "豪氣霸千丈" + NOR+HIW + " ～\n\n\n
    □█   " + HIM + "╭╦═╦═╮    ╭═    ╭╯╭╯╭╯  ╮  ╮╭" + NOR+HIW + "     █□
    □█   " + HIM + "╭╯╮║    ╰╦╩══╯╰╯╠╣╰╯╰═╰╬╬╯" + NOR+HIW + "   █□
    □█   " + BMAG + "║╮║║╭╮  ║        ╰╯╰╯╰╯╰═╰╣╠╯" + NOR+HIW + "   █□
@@ -179,7 +179,7 @@ message_vision(HIW + "\n               $N手起刀落，一招 " + HIC+HBBLU + "
        COMBAT_D->report_status(enemy[i]);
     break;
     case 3:
-    message_vision("\n                        "BLINK+HIC + "藍殺" + NOR+HIW + " ～ " + HBCYN + "長空一青" + NOR+HIW + " ～\n\n\n
+    message_vision("\n                        " + BLINK+HIC + "藍殺" + NOR+HIW + " ～ " + HBCYN + "長空一青" + NOR+HIW + " ～\n\n\n
    □█   " + HIC + "╭╦═╦═╮    ╭═    ╭╯╭╯╭╯  ╮  ╮╭" + NOR+HIW + "     █□
    □█   " + HIC + "╭╯╮║    ╰╦╩══╯╰╯╠╣╰╯╰═╰╬╬╯" + NOR+HIW + "   █□
    □█   " + BCYN + "║╮║║╭╮  ║        ╰╯╰╯╰╯╰═╰╣╠╯" + NOR+HIW + "   █□
@@ -191,7 +191,7 @@ message_vision(HIW + "\n               $N手起刀落，一招 " + HIC+HBBLU + "
        COMBAT_D->report_status(target);
     break;
     case 4:
-    message_vision("\n                        "BLINK+HIG + "綠殺" + NOR+HIW + " ～ " + HBGRN + "殺神痴狂" + NOR+HIW + " ～\n\n\n
+    message_vision("\n                        " + BLINK+HIG + "綠殺" + NOR+HIW + " ～ " + HBGRN + "殺神痴狂" + NOR+HIW + " ～\n\n\n
    □█   " + HIG + "╭╦═╦═╮    ╭═    ╭╯╭╯╭╯  ╮  ╮╭" + NOR+HIW + "     █□
    □█   " + HIG + "╭╯╮║    ╰╦╩══╯╰╯╠╣╰╯╰═╰╬╬╯" + NOR+HIW + "   █□
    □█   " + BGRN + "║╮║║╭╮  ║        ╰╯╰╯╰╯╰═╰╣╠╯" + NOR+HIW + "   █□
@@ -204,7 +204,7 @@ message_vision(HIW + "\n               $N手起刀落，一招 " + HIC+HBBLU + "
        COMBAT_D->report_status(enemy[i]);
     break;
     case 5:
-    message_vision("\n                         "BLINK+HIW + "白殺" + NOR+HIW + " ～ " + HBWHT + "渾沌異" + NOR+HIW + " ～\n\n\n
+    message_vision("\n                         " + BLINK+HIW + "白殺" + NOR+HIW + " ～ " + HBWHT + "渾沌異" + NOR+HIW + " ～\n\n\n
    □█   " + HIW + "╭╦═╦═╮    ╭═    ╭╯╭╯╭╯  ╮  ╮╭" + NOR+HIW + "     █□
    □█   " + HIW + "╭╯╮║    ╰╦╩══╯╰╯╠╣╰╯╰═╰╬╬╯" + NOR+HIW + "   █□
    □█   " + BWHT + "║╮║║╭╮  ║        ╰╯╰╯╰╯╰═╰╣╠╯" + NOR+HIW + "   █□
@@ -223,7 +223,7 @@ message_vision(HIW + "\n               $N手起刀落，一招 " + HIC+HBBLU + "
  
     break;
     case 6:
-    message_vision("\n                      "BLINK+HIB + "深藍殺" + NOR+HIW + " ～ " + HBBLU + "月掛琝壎" + NOR+HIW + " ～\n\n\n
+    message_vision("\n                      " + BLINK+HIB + "深藍殺" + NOR+HIW + " ～ " + HBBLU + "月掛琝壎" + NOR+HIW + " ～\n\n\n
    □█   " + HIB + "╭╦═╦═╮    ╭═    ╭╯╭╯╭╯  ╮  ╮╭" + NOR+HIW + "     █□
    □█   " + HIB + "╭╯╮║    ╰╦╩══╯╰╯╠╣╰╯╰═╰╬╬╯" + NOR+HIW + "   █□
    □█   " + BBLU + "║╮║║╭╮  ║        ╰╯╰╯╰╯╰═╰╣╠╯" + NOR+HIW + "   █□

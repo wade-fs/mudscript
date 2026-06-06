@@ -10,7 +10,7 @@ void create()
         set("combat_exp",100000);
         set("attitude","friendly");
         set("age",40);
-        set("title",HBCYN+HIW"丐幫召集人" + NOR);
+        set("title",HBCYN+HIW + "丐幫召集人" + NOR);
         set("str", 40);
         set("cor", 40);
         set("cps", 30);

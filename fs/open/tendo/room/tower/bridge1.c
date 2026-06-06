@@ -46,7 +46,7 @@ int do_fly(string str){
 
                 昊日顯照星光掩，百川匯宗誰與共。」
 
-      "+HIY+name+HIW"臨空飛渡了" + HIR + "斷魂之橋"NOR+HIW"，毅然地步上了鎖妖塔之途。\n" + NOR);
+      "+HIY+name+HIW + "臨空飛渡了" + HIR + "斷魂之橋" + NOR+HIW + "，毅然地步上了鎖妖塔之途。\n" + NOR);
   me->move("/open/tendo/room/tower/tree1");
   return 1;
 }

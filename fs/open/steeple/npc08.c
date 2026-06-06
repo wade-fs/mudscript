@@ -129,8 +129,8 @@ void do_special1()
         "土方歲三突然眼現殺氣, 全身散發出驚人的殺氣, 你當場被其殺氣給震攝住!!\n" + NOR,target);
         message_vision(
         "土方歲三放聲大喝道:\n
-        "+HIC"                   天  然  理  心  流\n
-        "+HIR"                ***"+HIR"**"+HBCYN"水"NOR+HIR"**"+HBCYN"平"NOR+HIR"**"+HBCYN"刺"NOR+HIR"**"+HBCYN"法"NOR+HIR"**"+HIR"***"NOR+"\n\n",target);
+        "+HIC + "                   天  然  理  心  流\n
+        "+HIR + "                ***"+HIR + "**"+HBCYN + "水" + NOR+HIR + "**"+HBCYN + "平" + NOR+HIR + "**"+HBCYN + "刺" + NOR+HIR + "**"+HBCYN + "法" + NOR+HIR + "**"+HIR + "***" + NOR+"\n\n",target);
         message_vision(HIC
         "土方歲三拔出" + HIY + "和泉守兼定" + HIC + "頓時刀光漫天, 全身被刀器所籠罩！！！\n" + NOR,target);
         message_vision(HIW + "\n土方歲三的" + HIY + "和泉守兼定" + HIW + "在$N胸口對穿而出, 給$N致命的一擊！\n" + NOR,target);
@@ -158,8 +158,8 @@ mob->die();
         "土方歲三突然眼現殺氣, 全身散發出驚人的殺氣, 你當場被其殺氣給震攝住!!\n" + NOR,target);
         message_vision(
         "土方歲三放聲大喝道:\n
-        "+HIW"                   獨  門  禁  斷  技\n
-        "+HIB"                ***"+HIB"**"+HBCYN"壬"NOR+HIB"**"+HBCYN"生"NOR+HIB"**"+HBCYN"狼"NOR+HIB"**"+HBCYN"斬"NOR+HIB"**"+HIB"***"NOR+"\n\n",target);
+        "+HIW + "                   獨  門  禁  斷  技\n
+        "+HIB + "                ***"+HIB + "**"+HBCYN + "壬" + NOR+HIB + "**"+HBCYN + "生" + NOR+HIB + "**"+HBCYN + "狼" + NOR+HIB + "**"+HBCYN + "斬" + NOR+HIB + "**"+HIB + "***" + NOR+"\n\n",target);
         message_vision(HIC
         "土方歲三拔出" + HIY + "和泉守兼定" + HIC + "頓時刀光漫天, 全身被刀器所籠罩！！！\n" + NOR,target);
         for(j=1;j<=10;j++)
@@ -212,7 +212,7 @@ void die ()
 	if(me->query("quest/start_game")< 9)
         {
         tell_object(users(),HIY + "
-	恭喜"HIW+me->query("name")+HIY"挑戰" + HIG + "『" + HIR + "第八層試煉塔" + HIG + "』" + HIY + "通過！！
+	恭喜" + HIW+me->query("name")+HIY + "挑戰" + HIG + "『" + HIR + "第八層試煉塔" + HIG + "』" + HIY + "通過！！
 	
 	" + HIW + "希望"+me->query("name")+"能不負眾望，勇闖" + HIG + "『" + HIY + "第九層試煉塔" + HIG + "』" + HIW + "。
 	" + NOR);

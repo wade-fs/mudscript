@@ -225,7 +225,7 @@ i=sizeof(target);
   {
     if(kee < mkee || sen < msen || gin < mgin)
     {
-message_vision(HIB + "$N運起少林寺最高內功\心法" + HIW + "『"BRED+HIY"本來無一物" + NOR + "" + HIW + "』" + HIB + "
+message_vision(HIB + "$N運起少林寺最高內功\心法" + HIW + "『" + BRED+HIY + "本來無一物" + NOR + "" + HIW + "』" + HIB + "
 內勁變得如黑洞般深不可測，原本散發的凜冽鬥氣剎那間完全消失，
 $N竟與自然化為一體，全身傷勢疾速復原。\n" + NOR,me);
           
@@ -243,8 +243,8 @@ $N竟與自然化為一體，全身傷勢疾速復原。\n" + NOR,me);
   }
   if(me->is_busy() && !me->query_temp("unconcious"))
   {
-message_vision(HIR + "$N潛運" + HIW + "ξ"BRED+HIY"本來無一物" + NOR + "" + HIW + "ξ" + HIR + "神功\，身形浮起，爆發無匹內勁掙脫束縛，
-接著以閃電山莊的" + HIW + "ξ"BRED+HIY"閃電身法" + NOR + "" + HIW + "ξ" + HIR + "迅速脫離封鎖。\n" + NOR,me);
+message_vision(HIR + "$N潛運" + HIW + "ξ" + BRED+HIY + "本來無一物" + NOR + "" + HIW + "ξ" + HIR + "神功\，身形浮起，爆發無匹內勁掙脫束縛，
+接著以閃電山莊的" + HIW + "ξ" + BRED+HIY + "閃電身法" + NOR + "" + HIW + "ξ" + HIR + "迅速脫離封鎖。\n" + NOR,me);
           me->delete_busy();
           if(me->is_fighting())
           {

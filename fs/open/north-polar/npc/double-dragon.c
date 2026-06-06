@@ -147,7 +147,7 @@ void die()
 	spirit = new("/open/ghost-hole/obj/ice-spirit");
 	spirit->move(me);
         write_file("/log/sky/spirit/ice-spirit",sprintf("%s(%s)讓雙頭龍掉下了%s於 %s\n",me->name(1),me->query("id"),spirit->query("name"),ctime(time())));
-	message_vision(HIW + "薀含在"+this_object()->query("name")+HIW"身體中的"+spirit->query("name")+HIW"飛射而出，落在$N" + HIW + "手中。\n" + NOR,me);
+	message_vision(HIW + "薀含在"+this_object()->query("name")+HIW + "身體中的"+spirit->query("name")+HIW + "飛射而出，落在$N" + HIW + "手中。\n" + NOR,me);
 	}
         destruct(mob);
 }

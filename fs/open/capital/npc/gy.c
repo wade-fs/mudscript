@@ -592,7 +592,7 @@ int do_levelup(string arg)
       {
         me->set("eq-mark/dark-moon-cloak",1);
         me->add("war_score",-10000);
-        command("chat 恭喜"+me->name(1)+"的" + HIB + "閻"+HIY"月"+HIW"披風" + HIC + "等級提升為一級。");
+        command("chat 恭喜"+me->name(1)+"的" + HIB + "閻"+HIY + "月"+HIW + "披風" + HIC + "等級提升為一級。");
         write_file("/log/war/d-m-cloak",sprintf("%s(%s) 用戰功\將閻月披風升到「%s」級於 %s\n",this_player()->name(1),this_player()->query("id"),chinese_number(a5+1),ctime(time())));
         return 1;
       }
@@ -600,7 +600,7 @@ int do_levelup(string arg)
       {
         me->set("eq-mark/dark-moon-cloak",2);
         me->add("war_score",-20000);
-        command("chat 恭喜"+me->name(1)+"的" + HIB + "閻"+HIY"月"+HIW"披風" + HIC + "等級提升為二級。");
+        command("chat 恭喜"+me->name(1)+"的" + HIB + "閻"+HIY + "月"+HIW + "披風" + HIC + "等級提升為二級。");
         write_file("/log/war/d-m-cloak",sprintf("%s(%s) 用戰功\將閻月披風升到「%s」級於 %s\n",this_player()->name(1),this_player()->query("id"),chinese_number(a5+1),ctime(time())));
         return 1;
       }
@@ -608,7 +608,7 @@ int do_levelup(string arg)
       {
         me->set("eq-mark/dark-moon-cloak",3);
         me->add("war_score",-40000);
-        command("chat 恭喜"+me->name(1)+"的" + HIB + "閻"+HIY"月"+HIW"披風" + HIC + "等級提升為三級。");
+        command("chat 恭喜"+me->name(1)+"的" + HIB + "閻"+HIY + "月"+HIW + "披風" + HIC + "等級提升為三級。");
         write_file("/log/war/d-m-cloak",sprintf("%s(%s) 用戰功\將閻月披風升到「%s」級於 %s\n",this_player()->name(1),this_player()->query("id"),chinese_number(a5+1),ctime(time())));
         return 1;
       }
@@ -616,7 +616,7 @@ int do_levelup(string arg)
       {
         me->set("eq-mark/dark-moon-cloak",4);
         me->add("war_score",-80000);
-        command("chat 恭喜"+me->name(1)+"的" + HIB + "閻"+HIY"月"+HIW"披風" + HIC + "等級提升為四級。");
+        command("chat 恭喜"+me->name(1)+"的" + HIB + "閻"+HIY + "月"+HIW + "披風" + HIC + "等級提升為四級。");
         write_file("/log/war/d-m-cloak",sprintf("%s(%s) 用戰功\將閻月披風升到「%s」級於 %s\n",this_player()->name(1),this_player()->query("id"),chinese_number(a5+1),ctime(time())));
         return 1;
       }
@@ -624,7 +624,7 @@ int do_levelup(string arg)
       {
         me->set("eq-mark/dark-moon-cloak",5);
         me->add("war_score",-120000);
-        command("chat 恭喜"+me->name(1)+"的" + HIB + "閻"+HIY"月"+HIW"披風" + HIC + "等級提升為五級。");
+        command("chat 恭喜"+me->name(1)+"的" + HIB + "閻"+HIY + "月"+HIW + "披風" + HIC + "等級提升為五級。");
         write_file("/log/war/d-m-cloak",sprintf("%s(%s) 用戰功\將閻月披風升到「%s」級於 %s\n",this_player()->name(1),this_player()->query("id"),chinese_number(a5+1),ctime(time())));
         return 1;
       }
@@ -632,7 +632,7 @@ int do_levelup(string arg)
       {
         me->set("eq-mark/dark-moon-cloak",6);
         me->add("war_score",-200000);
-        command("chat 恭喜"+me->name(1)+"的" + HIB + "閻"+HIY"月"+HIW"披風" + HIC + "等級提升為六級。");
+        command("chat 恭喜"+me->name(1)+"的" + HIB + "閻"+HIY + "月"+HIW + "披風" + HIC + "等級提升為六級。");
         write_file("/log/war/d-m-cloak",sprintf("%s(%s) 用戰功\將閻月披風升到「%s」級於 %s\n",this_player()->name(1),this_player()->query("id"),chinese_number(a5+1),ctime(time())));
         return 1;
       }
@@ -640,7 +640,7 @@ int do_levelup(string arg)
       {
         me->set("eq-mark/dark-moon-cloak",7);
         me->add("war_score",-300000);
-        command("chat 恭喜"+me->name(1)+"的" + HIB + "閻"+HIY"月"+HIW"披風" + HIC + "等級提升為七級。");
+        command("chat 恭喜"+me->name(1)+"的" + HIB + "閻"+HIY + "月"+HIW + "披風" + HIC + "等級提升為七級。");
         write_file("/log/war/d-m-cloak",sprintf("%s(%s) 用戰功\將閻月披風升到「%s」級於 %s\n",this_player()->name(1),this_player()->query("id"),chinese_number(a5+1),ctime(time())));
         return 1;
       }
@@ -674,15 +674,15 @@ int query_level()
     command("say "+me->name(1)+"所有的戰功\物品等級提升如以下所列：");
 //  message_vision(HIY + "\t李  喚說道：所有的戰功\物品等級提升如以下所列：\n" + NOR,me);
   if( a1 > 0 )
-    message_vision("\t$N的" + HIR + "赤" + HIG + "麟" + HIC + "肩甲" + NOR + "戰功\等級為「"HIM+chinese_number(a1)+NOR"」級。\n",me);
+    message_vision("\t$N的" + HIR + "赤" + HIG + "麟" + HIC + "肩甲" + NOR + "戰功\等級為「" + HIM+chinese_number(a1)+NOR + "」級。\n",me);
   if( a2 > 0 )
-    message_vision("\t$N的" + HIR + "火鳥" + HIW + "脛甲" + NOR + "戰功\等級為「"HIM+chinese_number(a2)+NOR"」級。\n",me);
+    message_vision("\t$N的" + HIR + "火鳥" + HIW + "脛甲" + NOR + "戰功\等級為「" + HIM+chinese_number(a2)+NOR + "」級。\n",me);
   if( a3 > 0 )
-    message_vision("\t$N的" + HIC + "神喻" + HIW + "腰帶" + NOR + "戰功\等級為「"HIM+chinese_number(a3)+NOR"」級。\n",me);
+    message_vision("\t$N的" + HIC + "神喻" + HIW + "腰帶" + NOR + "戰功\等級為「" + HIM+chinese_number(a3)+NOR + "」級。\n",me);
   if( a4 > 0 )
-    message_vision("\t$N的" + HIW + "聖靈戰甲" + NOR + "戰功\等級為「"HIM+chinese_number(a4)+NOR"」級。\n",me);
+    message_vision("\t$N的" + HIW + "聖靈戰甲" + NOR + "戰功\等級為「" + HIM+chinese_number(a4)+NOR + "」級。\n",me);
   if( a5 > 0 )
-    message_vision("\t$N的" + HIB + "閻"+HIY"月"+HIW"披風" + NOR + "戰功\等級為「"HIM+chinese_number(a5)+NOR"」級。\n",me);
+    message_vision("\t$N的" + HIB + "閻"+HIY + "月"+HIW + "披風" + NOR + "戰功\等級為「" + HIM+chinese_number(a5)+NOR + "」級。\n",me);
   }
   return 1;
 }

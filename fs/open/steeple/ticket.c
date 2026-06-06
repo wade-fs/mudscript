@@ -179,8 +179,8 @@ return 1;
 
 int send_card(object me)
 {
-message_vision(HIY + "系統：開始傳送物件『"HIW+me->query("name")+"晶片" + HIY + "』。\n" + NOR,me);
-message_vision(HIY + "\n\n系統遠距離傳送『" + HIR + "轉換器" + HIY + "』預備完成！目標『"HIW+me->query("name")+HIY"』確認。\n" + NOR,me);
+message_vision(HIY + "系統：開始傳送物件『" + HIW+me->query("name")+"晶片" + HIY + "』。\n" + NOR,me);
+message_vision(HIY + "\n\n系統遠距離傳送『" + HIR + "轉換器" + HIY + "』預備完成！目標『" + HIW+me->query("name")+HIY + "』確認。\n" + NOR,me);
 message_vision(HIW + "\n\n$N被一道鐳光照射。\n\n" + NOR,me);
 tell_object(me,HIW + "你拿到了一片『"+me->query("name")+"晶片』\n" + NOR);
 me->delete_temp("change_time");
@@ -209,15 +209,15 @@ tell_object(me,"
 ▕▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▏" + NOR + "
 
 
-		   名字："HIW+ob->query("name")+NOR"
+		   名字：" + HIW+ob->query("name")+NOR + "
 
-		   幫派："NOR+ob->query("clan/name")+NOR"
+		   幫派：" + NOR+ob->query("clan/name")+NOR + "
 
-		   師傅："NOR+ob->query("family/master_name")+NOR"
+		   師傅：" + NOR+ob->query("family/master_name")+NOR + "
 
-		   目前挑戰樓層：第 "HIY+i+NOR" 樓
+		   目前挑戰樓層：第 " + HIY+i+NOR + " 樓
 
-		   目前登記失敗次數： "HIY+j+NOR" 次
+		   目前登記失敗次數： " + HIY+j+NOR + " 次
 	");
 return 1;
 }

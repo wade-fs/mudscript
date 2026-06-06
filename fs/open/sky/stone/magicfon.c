@@ -299,7 +299,7 @@ int check(object ob)
 int msg1(object ob)
 {
 	object me=this_player();
-	tell_object(users(),HIC + "\n\n\t在天靈地界中的" + HIY + "幻" + HIW + "彩" + HIY + "封" + HIW + "印" + HIY + "石" + HIC + "因為"HIG+ me->query("name")+HIC"的努力而解開了!!\n" + NOR);
+	tell_object(users(),HIC + "\n\n\t在天靈地界中的" + HIY + "幻" + HIW + "彩" + HIY + "封" + HIW + "印" + HIY + "石" + HIC + "因為" + HIG+ me->query("name")+HIC + "的努力而解開了!!\n" + NOR);
 	tell_object(users(),HIC + "\n\t因為失去了神力護持的" + HIY + "幻" + HIW + "彩" + HIY + "封" + HIW + "印" + HIY + "石" + HIC + "開始劇烈抖動而開始崩散消逝!!\n" + NOR);
 	call_out("msg2",5,ob);
 	return 1;
@@ -308,9 +308,9 @@ int msg1(object ob)
 int msg2(object ob)
 {
 	object me=this_player(),room=environment(me);
-	tell_object(users(),HIC + "\n\n\t在天靈地界塵封已久的" + HIM + "「"HBBLU+HIC"幻彩靈戒"NOR+HIM"」"NOR+HIC"從" + HIY + "幻" + HIW + "彩" + HIY + "封" + HIW + "印" + HIY + "石" + HIC + "中得到了解放而現世了!!\n" + NOR,ob);
-	message_vision(HIW + "\n\t十六個解開封印的娃娃轉化為十六道光茫，緩緩注入了" + HIM + "「"HBBLU+HIC"幻彩靈戒"NOR+HIM"」"NOR+HIW"之中轉化為不可思議的力量!!\n",ob);
-	message_vision(HIW + "\n\t光茫消散之後" + HIM + "「"HBBLU+HIC"幻彩靈戒"NOR+HIM"」"NOR+HIW"緩緩凝聚在$N手中!!\n" + NOR,me);
+	tell_object(users(),HIC + "\n\n\t在天靈地界塵封已久的" + HIM + "「" + HBBLU+HIC + "幻彩靈戒" + NOR+HIM + "」" + NOR+HIC + "從" + HIY + "幻" + HIW + "彩" + HIY + "封" + HIW + "印" + HIY + "石" + HIC + "中得到了解放而現世了!!\n" + NOR,ob);
+	message_vision(HIW + "\n\t十六個解開封印的娃娃轉化為十六道光茫，緩緩注入了" + HIM + "「" + HBBLU+HIC + "幻彩靈戒" + NOR+HIM + "」" + NOR+HIW + "之中轉化為不可思議的力量!!\n",ob);
+	message_vision(HIW + "\n\t光茫消散之後" + HIM + "「" + HBBLU+HIC + "幻彩靈戒" + NOR+HIM + "」" + NOR+HIW + "緩緩凝聚在$N手中!!\n" + NOR,me);
 	new("/autoload/sky/color_ring")->move(me);
 	write_file("/log/sky/magicfon",sprintf("%s(%s) 解開了「幻彩靈戒」於 %s\n",me->name(1),me->query("id"),ctime(time())));
 	room->set("no_reset",1);

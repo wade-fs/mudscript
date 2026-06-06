@@ -80,7 +80,7 @@ TRAP);
 	trap = new( "/open/clan/area/home/trap_" + type );
 	if( !query( "use/" + type ) )
 		return notify_fail( trap->short() + "已被用光了。\n" );
-	message_vision( HIY + "$N小心翼翼地將" + name() + HIY"裡的" + trap->name() + HIY"拿出來安裝於" + env->short() + HIY"。\n" + NOR, me );
+	message_vision( HIY + "$N小心翼翼地將" + name() + HIY + "裡的" + trap->name() + HIY + "拿出來安裝於" + env->short() + HIY + "。\n" + NOR, me );
 	call_out( "do_use_2", 10, me, trap, env );
 	add( "use/" + type, -1 );
 	return 1;
@@ -89,11 +89,11 @@ TRAP);
 void do_use_2( object me, object trap, object env )
 {
 	if( env != environment(me) ) {
-		message_vision( HIY + "$N安裝" + trap->name() + HIY"失敗。\n" + NOR, me );
+		message_vision( HIY + "$N安裝" + trap->name() + HIY + "失敗。\n" + NOR, me );
 		destruct(trap);
 		return;
 	}
-	message_vision( HIY + "$N成功\地將" + trap->name() + HIY"安裝於" + env->short() + HIY"。\n" + NOR, me );
+	message_vision( HIY + "$N成功\地將" + trap->name() + HIY + "安裝於" + env->short() + HIY + "。\n" + NOR, me );
 	trap->move(environment(me));
 	trap->set( "name", me->short() + "裝設的" + trap->name() );
 	trap->set( "setup", 1 );

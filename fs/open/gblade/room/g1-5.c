@@ -66,7 +66,7 @@ int do_take(string str)
     who->kill_ob(me);
     return 1;
   }
-  message_vision(sprintf("$N趁著沒人注意，幹走了一隻"+HIC"十錦琺瑯杯" + NOR + "。\n"),me);
+  message_vision(sprintf("$N趁著沒人注意，幹走了一隻"+HIC + "十錦琺瑯杯" + NOR + "。\n"),me);
   new("/open/gblade/obj/cup")->move(me);
 */
   if(who && random(100) > 50)
@@ -77,7 +77,7 @@ int do_take(string str)
     who->kill_ob(me);
     return 1;
   }
-  message_vision(sprintf("$N趁著沒人注意，偷偷走了過去，幹走了一隻"+HIC"十錦琺瑯杯" + NOR + "。\n"),me);
+  message_vision(sprintf("$N趁著沒人注意，偷偷走了過去，幹走了一隻"+HIC + "十錦琺瑯杯" + NOR + "。\n"),me);
   new("/open/gblade/obj/cup")->move(me);
   me->delete("doctor/find_cup");
   me->set("doctor/get_cup",1);

@@ -78,7 +78,7 @@ m=random(3);
                         return "還不滾!?";}
                       if(me->query_temp("not_enough_exp") == 6)  
                       {
-                      message("system",HIY + "傅劍寒" + HIW + "大聲說道:" + HIM + "不要臉的"HIY+this_player()->name()+HIM"沒事妄想更動頭銜，以後就叫他" + HIG + "沽名釣譽" + HIR + "大白痴" + HIM + "吧\n" + NOR,users());
+                      message("system",HIY + "傅劍寒" + HIW + "大聲說道:" + HIM + "不要臉的" + HIY+this_player()->name()+HIM + "沒事妄想更動頭銜，以後就叫他" + HIG + "沽名釣譽" + HIR + "大白痴" + HIM + "吧\n" + NOR,users());
                       me->set("title",HIG + "沽名釣譽" + HIR + "大白痴" + NOR);
                       return "哈哈哈!!";
                       }
@@ -89,27 +89,27 @@ m=random(3);
 		{
 		if(i==0){
                 me->set("title",HIY + "ζ" + HIG + "傲世天下" + HIY + "ζ" + HIM + "紫燄" + HIY + "．" + HIC + "武神" + NOR) ;
-				message("system",HIY + "傅劍寒" + HIW + "大聲說道:"HIY+this_player()->name()+HIM"苦練有成特賜予" + HIY + "ζ" + HIG + "傲世天下" + HIY + "ζ" + HIM + "紫燄" + HIY + "．" + HIC + "武神" + NOR + "稱號\n" + NOR,users());
+				message("system",HIY + "傅劍寒" + HIW + "大聲說道:" + HIY+this_player()->name()+HIM + "苦練有成特賜予" + HIY + "ζ" + HIG + "傲世天下" + HIY + "ζ" + HIM + "紫燄" + HIY + "．" + HIC + "武神" + NOR + "稱號\n" + NOR,users());
                 } 
 		else if(i==1){
                 me->set("title",HIG + "拳掌" + HIY + "雙霸" + HIW + "～" + HIC + "笑蒼天" + NOR) ;
-				message("system",HIY + "傅劍寒" + HIW + "大聲說道:"HIY+this_player()->name()+HIM"苦練有成特賜予" + HIG + "拳掌" + HIY + "雙霸" + HIW + "～" + HIC + "笑蒼天" + NOR + "稱號\n" + NOR,users());;
+				message("system",HIY + "傅劍寒" + HIW + "大聲說道:" + HIY+this_player()->name()+HIM + "苦練有成特賜予" + HIG + "拳掌" + HIY + "雙霸" + HIW + "～" + HIC + "笑蒼天" + NOR + "稱號\n" + NOR,users());;
                 }
 		else if(i==2){
                 me->set("title",HIY + "傲世三俠" + HIB + "《" + HIG + "恨 無 敵" + HIB + "》" + NOR) ;
-				message("system",HIY + "傅劍寒" + HIW + "大聲說道:"HIY+this_player()->name()+HIM"苦練有成特賜予" + HIY + "傲世三俠" + HIB + "《" + HIG + "恨 無 敵" + HIB + "》" + NOR + "稱號\n" + NOR,users());;
+				message("system",HIY + "傅劍寒" + HIW + "大聲說道:" + HIY+this_player()->name()+HIM + "苦練有成特賜予" + HIY + "傲世三俠" + HIB + "《" + HIG + "恨 無 敵" + HIB + "》" + NOR + "稱號\n" + NOR,users());;
                 }
 		else if(i==3){
                 me->set("title",HIY + "傲世三俠" + HIB + "《" + HIM + "龍 無 情" + HIB + "》" + NOR) ;
-				message("system",HIY + "傅劍寒" + HIW + "大聲說道:"HIY+this_player()->name()+HIM"苦練有成特賜予" + HIY + "傲世三俠" + HIB + "《" + HIM + "龍 無 情" + HIB + "》" + NOR + "稱號\n" + NOR,users());;
+				message("system",HIY + "傅劍寒" + HIW + "大聲說道:" + HIY+this_player()->name()+HIM + "苦練有成特賜予" + HIY + "傲世三俠" + HIB + "《" + HIM + "龍 無 情" + HIB + "》" + NOR + "稱號\n" + NOR,users());;
                 }
 		else if(i==4){
                 me->set("title",HIY + "傲世三俠" + HIB + "《" + HIC + "星 無 蹤" + HIB + "》" + NOR) ;
-				message("system",HIY + "傅劍寒" + HIW + "大聲說道:"HIY+this_player()->name()+HIM"苦練有成特賜予" + HIY + "傲世三俠" + HIB + "《" + HIC + "星 無 蹤" + HIB + "》" + NOR + "稱號\n" + NOR,users());;
+				message("system",HIY + "傅劍寒" + HIW + "大聲說道:" + HIY+this_player()->name()+HIM + "苦練有成特賜予" + HIY + "傲世三俠" + HIB + "《" + HIC + "星 無 蹤" + HIB + "》" + NOR + "稱號\n" + NOR,users());;
                 }
 		else{
 		me->set("title",HIB + "ζ" + HIC + "武道" + HIY + "˙" + HIR + "奇俠" + HIB + "ζ" + NOR) ;
-				message("system",HIG + "陸清風朗聲說道:恭喜"HIY+this_player()->name()+HIM"成為" + HIB + "ζ" + HIC + "武道" + HIY + "˙" + HIR + "奇俠" + HIB + "ζ" + NOR + "稱號\n" + NOR,users());
+				message("system",HIG + "陸清風朗聲說道:恭喜" + HIY+this_player()->name()+HIM + "成為" + HIB + "ζ" + HIC + "武道" + HIY + "˙" + HIR + "奇俠" + HIB + "ζ" + NOR + "稱號\n" + NOR,users());
                 }
 		return "恭喜妳獲得新的稱號";
 		}
@@ -117,15 +117,15 @@ m=random(3);
 		{
 		if(j==0){
                 me->set("title",HIR + "ξ" + HIM + "末日" + HIW + "聖" + HIY + "光" + HIG + "使者" + HIR + "ξ" + NOR) ;
-				message("system",HIY + "傅劍寒" + HIW + "大聲說道:"HIY+this_player()->name()+HIM"苦練有成特賜予" + HIR + "ξ" + HIM + "末日" + HIW + "聖" + HIY + "光" + HIG + "使者" + HIR + "ξ" + NOR + "稱號\n" + NOR,users());
+				message("system",HIY + "傅劍寒" + HIW + "大聲說道:" + HIY+this_player()->name()+HIM + "苦練有成特賜予" + HIR + "ξ" + HIM + "末日" + HIW + "聖" + HIY + "光" + HIG + "使者" + HIR + "ξ" + NOR + "稱號\n" + NOR,users());
                 } 
 		else if(j==1){
                 me->set("title",HIY + "ζ" + HIM + "滅" + HIB + "世" + HIC + "天" + HIR + "火" + HIW + "武神" + HIY + "ζ" + NOR) ;
-				message("system",HIY + "傅劍寒" + HIW + "大聲說道:"HIY+this_player()->name()+HIM"苦練有成特賜予" + HIY + "ζ" + HIM + "滅" + HIB + "世" + HIC + "天" + HIR + "火" + HIW + "武神" + HIY + "ζ" + NOR + "稱號\n" + NOR,users());
+				message("system",HIY + "傅劍寒" + HIW + "大聲說道:" + HIY+this_player()->name()+HIM + "苦練有成特賜予" + HIY + "ζ" + HIM + "滅" + HIB + "世" + HIC + "天" + HIR + "火" + HIW + "武神" + HIY + "ζ" + NOR + "稱號\n" + NOR,users());
                 }
 		else {
 		        me->set("title",HIB + "∮" + HIW + "帝魂" + HIB + "∮" + HIM + "聖" + HIR + "火" + HIC + "天" + HIY + "皇" + NOR) ;
-				message("system",HIY + "傅劍寒" + HIW + "大聲說道:"HIY+this_player()->name()+HIM"苦練有成特賜予" + HIB + "∮" + HIW + "帝魂" + HIB + "∮" + HIM + "聖" + HIR + "火" + HIC + "天" + HIY + "皇" + NOR + "稱號\n" + NOR,users());
+				message("system",HIY + "傅劍寒" + HIW + "大聲說道:" + HIY+this_player()->name()+HIM + "苦練有成特賜予" + HIB + "∮" + HIW + "帝魂" + HIB + "∮" + HIM + "聖" + HIR + "火" + HIC + "天" + HIY + "皇" + NOR + "稱號\n" + NOR,users());
                 }
 		return "恭喜妳獲得新的稱號";
 		}
@@ -133,24 +133,24 @@ m=random(3);
 		{
 		if(b==0){
                 me->set("title",HIB + "ξ" + HIM + "魔光初現" + HIB + "ξ" + HIR + "赤燄" + HIW + "˙" + HIC + "刀尊" + NOR) ;
-				message("system",HIY + "傅劍寒" + HIW + "大聲說道:"HIY+this_player()->name()+HIM"苦練有成特賜予" + HIB + "ξ" + HIM + "魔光初現" + HIB + "ξ" + HIR + "赤燄" + HIW + "˙" + HIC + "刀尊" + NOR + "稱號\n" + NOR,users());
+				message("system",HIY + "傅劍寒" + HIW + "大聲說道:" + HIY+this_player()->name()+HIM + "苦練有成特賜予" + HIB + "ξ" + HIM + "魔光初現" + HIB + "ξ" + HIR + "赤燄" + HIW + "˙" + HIC + "刀尊" + NOR + "稱號\n" + NOR,users());
                 } 
 		else if(b==1){
                 me->set("title",HIR + "刀魂" + HIG + "∮" + HIY + "怒" + HIB + "˙" + HIM + "斬" + HIB + "˙" + HIC + "殺" + NOR) ;
-				message("system",HIY + "傅劍寒" + HIW + "大聲說道:"HIY+this_player()->name()+HIM"苦練有成特賜予" + HIR + "刀魂" + HIG + "∮" + HIY + "怒" + HIB + "˙" + HIM + "斬" + HIB + "˙" + HIC + "殺" + NOR + "稱號\n" + NOR,users());
+				message("system",HIY + "傅劍寒" + HIW + "大聲說道:" + HIY+this_player()->name()+HIM + "苦練有成特賜予" + HIR + "刀魂" + HIG + "∮" + HIY + "怒" + HIB + "˙" + HIM + "斬" + HIB + "˙" + HIC + "殺" + NOR + "稱號\n" + NOR,users());
                 }else if(b==2){
                 if(me->query("family/family_name") == "金刀門")
                 {
                 me->set("title",HIW + "◣" + HIC + "一刀傾城" + HIW + "◥" + HIY + "霸" + HIR + "烈" + CYN + "刀" + HIB + "聖" + NOR) ;
-				message("system",HIY + "傅劍寒" + HIW + "大聲說道:"HIY+this_player()->name()+HIW"◣" + HIC + "一刀傾城" + HIW + "◥" + HIY + "霸" + HIR + "烈" + CYN + "刀" + HIB + "聖" + NOR + "稱號\n" + NOR,users());
+				message("system",HIY + "傅劍寒" + HIW + "大聲說道:" + HIY+this_player()->name()+HIW + "◣" + HIC + "一刀傾城" + HIW + "◥" + HIY + "霸" + HIR + "烈" + CYN + "刀" + HIB + "聖" + NOR + "稱號\n" + NOR,users());
                 }else{
                 me->set("title",HIW + "◤" + HIR + "邪魔轉生" + HIW + "◢" + HIG + "妖" + HIM + "-" + HIB + "刀" + HIM + "-" + HIY + "皇" + NOR) ;
-				message("system",HIY + "傅劍寒" + HIW + "大聲說道:"HIY+this_player()->name()+HIW"◤" + HIR + "邪魔轉生" + HIW + "◢" + HIG + "妖" + HIM + "-" + HIB + "刀" + HIM + "-" + HIY + "皇" + NOR + "稱號\n" + NOR,users());
+				message("system",HIY + "傅劍寒" + HIW + "大聲說道:" + HIY+this_player()->name()+HIW + "◤" + HIR + "邪魔轉生" + HIW + "◢" + HIG + "妖" + HIM + "-" + HIB + "刀" + HIM + "-" + HIY + "皇" + NOR + "稱號\n" + NOR,users());
                      }
                 }
 		else {
 		        me->set("title",HIM + "《" + HIC + "一代刀神" + HIM + "》" + HIY + "怒殺千里" + NOR) ;
-				message("system",HIY + "傅劍寒" + HIW + "大聲說道:"HIY+this_player()->name()+HIM"苦練有成特賜予" + HIM + "《" + HIC + "一代刀神" + HIM + "》" + HIY + "怒殺千里" + NOR + "稱號\n" + NOR,users());
+				message("system",HIY + "傅劍寒" + HIW + "大聲說道:" + HIY+this_player()->name()+HIM + "苦練有成特賜予" + HIM + "《" + HIC + "一代刀神" + HIM + "》" + HIY + "怒殺千里" + NOR + "稱號\n" + NOR,users());
                 }
 		me->set("get-new-title",1);
 		return "恭喜妳獲得新的稱號";
@@ -159,15 +159,15 @@ m=random(3);
 		{
 		if(k==0){
                 me->set("title",HIB + "黑牙聯" + HIR + "首" + HIY + "席" + HIG + "殺" + HIC + "手" + NOR) ;
-				message("system",HIY + "傅劍寒" + HIW + "大聲說道:"HIY+this_player()->name()+HIM"苦練有成特賜予" + HIB + "黑牙聯" + HIR + "首" + HIY + "席" + HIG + "殺" + HIC + "手" + NOR + "稱號\n" + NOR,users());
+				message("system",HIY + "傅劍寒" + HIW + "大聲說道:" + HIY+this_player()->name()+HIM + "苦練有成特賜予" + HIB + "黑牙聯" + HIR + "首" + HIY + "席" + HIG + "殺" + HIC + "手" + NOR + "稱號\n" + NOR,users());
                 } 
 		else if(k==1){
                 me->set("title",HIW + "ψ" + HIM + "霸魂" + HIW + "、" + HIC + "闇影" + HIW + "ψ" + HIR + "極" + HIG + "道" + HIY + "殺" + HIB + "神" + NOR) ;
-message("system",HIY + "傅劍寒" + HIW + "大聲說道:"HIY+this_player()->name()+HIM"苦練有成特賜予" + HIW + "ψ" + HIM + "霸魂" + HIW + "、" + HIC + "闇影" + HIW + "ψ" + HIR + "極" + HIG + "道" + HIY + "殺" + HIB + "神" + NOR + "稱號\n" + NOR,users());
+message("system",HIY + "傅劍寒" + HIW + "大聲說道:" + HIY+this_player()->name()+HIM + "苦練有成特賜予" + HIW + "ψ" + HIM + "霸魂" + HIW + "、" + HIC + "闇影" + HIW + "ψ" + HIR + "極" + HIG + "道" + HIY + "殺" + HIB + "神" + NOR + "稱號\n" + NOR,users());
                 }
 		else {
                 me->set("title",HIR + "賞" + HIY + "金" + HIG + "獵" + HIC + "人" + NOR) ;
-				message("system",HIY + "傅劍寒" + HIW + "大聲說道:"HIY+this_player()->name()+HIM"苦練有成特賜予" + HIR + "賞" + HIY + "金" + HIG + "獵" + HIC + "人" + NOR + "稱號\n" + NOR,users());
+				message("system",HIY + "傅劍寒" + HIW + "大聲說道:" + HIY+this_player()->name()+HIM + "苦練有成特賜予" + HIR + "賞" + HIY + "金" + HIG + "獵" + HIC + "人" + NOR + "稱號\n" + NOR,users());
                 }
 		me->set("get-new-title",1);
 		return "恭喜妳獲得新的稱號";
@@ -179,16 +179,16 @@ message("system",HIY + "傅劍寒" + HIW + "大聲說道:"HIY+this_player()->nam
      {
   if(k==0){
     me->set("title",HIB + "Υ" + HIM + "神劍修羅" + HIB + "Υ" + NOR);
-    message("system",HIY + "傅劍寒" + HIW + "大聲說道:"HIY+this_player()->name()+HIM"苦練有成特賜予劍俠" + HIB + "Υ" + HIM + "神劍修羅" + HIB + "Υ" + NOR + "稱號\n" + NOR,users());
+    message("system",HIY + "傅劍寒" + HIW + "大聲說道:" + HIY+this_player()->name()+HIM + "苦練有成特賜予劍俠" + HIB + "Υ" + HIM + "神劍修羅" + HIB + "Υ" + NOR + "稱號\n" + NOR,users());
           }
   else if(k==1){
     me->set("title",HIR + "Ξ" + HIY + "靈" + HIB + "幻" + HIM + "天" + HIB + "劍" + HIR + "Ξ" + NOR) ;
-    message("system",HIY + "傅劍寒" + HIW + "大聲說道:"HIY+this_player()->name()+HIM"苦練有成特賜予" + HIR + "Ξ" + HIY + "靈" + HIB + "幻" + HIM + "天" + HIB + "劍" + HIR + "Ξ" + NOR + "稱號\n" + NOR,users());
+    message("system",HIY + "傅劍寒" + HIW + "大聲說道:" + HIY+this_player()->name()+HIM + "苦練有成特賜予" + HIR + "Ξ" + HIY + "靈" + HIB + "幻" + HIM + "天" + HIB + "劍" + HIR + "Ξ" + NOR + "稱號\n" + NOR,users());
 
           }
   else {
     me->set("title",HIM + "《" + HIC + "絕世劍俠" + HIM + "》" + HIY + "芎天蒼宇" + NOR) ;
-    message("system",HIY + "傅劍寒" + HIW + "大聲說道:"HIY+this_player()->name()+HIM"苦練有成特賜予" + HIM + "《" + HIC + "絕世劍俠" + HIM + "》" + HIY + "芎天蒼宇" + NOR + "稱號\n" + NOR,users());
+    message("system",HIY + "傅劍寒" + HIW + "大聲說道:" + HIY+this_player()->name()+HIM + "苦練有成特賜予" + HIM + "《" + HIC + "絕世劍俠" + HIM + "》" + HIY + "芎天蒼宇" + NOR + "稱號\n" + NOR,users());
        }
        me->set("get-new-title",1);
        return "恭喜妳獲得新的稱號";
@@ -197,15 +197,15 @@ message("system",HIY + "傅劍寒" + HIW + "大聲說道:"HIY+this_player()->nam
 		{
 		if(m==0){
                 me->set("title",HIR + "￡" + HIY + "絕世" + HIM + "‧" + HIC + "箭魂" + HIR + "￡" + NOR) ;
-				message("system",HIY + "傅劍寒" + HIW + "大聲說道:"HIY+this_player()->name()+HIM"苦練有成特賜予" + HIR + "￡" + HIY + "絕世" + HIM + "‧" + HIC + "箭魂" + HIR + "￡" + NOR + "稱號\n" + NOR,users());
+				message("system",HIY + "傅劍寒" + HIW + "大聲說道:" + HIY+this_player()->name()+HIM + "苦練有成特賜予" + HIR + "￡" + HIY + "絕世" + HIM + "‧" + HIC + "箭魂" + HIR + "￡" + NOR + "稱號\n" + NOR,users());
                 } 
 		else if(m==1){
                 me->set("title",HIB + "ζ" + HIR + "箭之痕" + HIY + "‧" + HIC + "冰沁" + HIM + "箭癡" + HIB + "ζ" + NOR) ;
-				message("system",HIY + "傅劍寒" + HIW + "大聲說道:"HIY+this_player()->name()+HIM"苦練有成特賜予" + HIB + "ζ" + HIR + "箭之痕" + HIY + "‧" + HIC + "冰沁" + HIM + "箭癡" + HIB + "ζ" + NOR + "稱號\n" + NOR,users());
+				message("system",HIY + "傅劍寒" + HIW + "大聲說道:" + HIY+this_player()->name()+HIM + "苦練有成特賜予" + HIB + "ζ" + HIR + "箭之痕" + HIY + "‧" + HIC + "冰沁" + HIM + "箭癡" + HIB + "ζ" + NOR + "稱號\n" + NOR,users());
                 }
 		else {
 		        me->set("title",HIC + "◤" + HIR + "箭傲天下" + HIW + "‧" + HIM + "狂箭皇" + HIC + "◢" + NOR) ;
-				message("system",HIY + "傅劍寒" + HIW + "大聲說道:"HIY+this_player()->name()+HIM"苦練有成特賜予" + HIC + "◤" + HIR + "箭傲天下" + HIW + "‧" + HIM + "狂箭皇" + HIC + "◢" + NOR + "稱號\n" + NOR,users());
+				message("system",HIY + "傅劍寒" + HIW + "大聲說道:" + HIY+this_player()->name()+HIM + "苦練有成特賜予" + HIC + "◤" + HIR + "箭傲天下" + HIW + "‧" + HIM + "狂箭皇" + HIC + "◢" + NOR + "稱號\n" + NOR,users());
                 }
 		return "恭喜妳獲得新的稱號";
 		}

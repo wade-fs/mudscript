@@ -76,7 +76,7 @@ int pull_sword(string arg)
 
 //    message_vision(HIY + "黃金劍發出一道耀眼的光茫後，竟然消失在你手中，而你的身形卻慢慢消失。\n" + NOR,me);
     write(HIY + "黃金劍發出一道耀眼的光茫後，竟然消失在你手中，而你的身形卻慢慢消失。\n" + NOR);
-    say(HIY + "黃金劍發出一道耀眼的光茫後，竟然消失在"+HIY+me->name()+HIY"手中，而"+HIY+me->name()+HIY"的身形卻慢慢消失。\n" + NOR,environment(me), me);
+    say(HIY + "黃金劍發出一道耀眼的光茫後，竟然消失在"+HIY+me->name()+HIY + "手中，而"+HIY+me->name()+HIY + "的身形卻慢慢消失。\n" + NOR,environment(me), me);
     tell_object(users(),HIW + "一道白色的光芒直透天際，長白山的上空突然妖氣瀰漫，一個不祥的預兆湧上你心頭。\n" + NOR);
 
     room->delete_temp("mon/search");

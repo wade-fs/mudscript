@@ -106,7 +106,7 @@ int do_pray(string arg)
 */
   me->apply_condition("dhyana",(magic+spells));
   message_vision(HIW + "$N原地靜心打坐後，手握$n"+HIW+"開始掐捻念佛.....$n"+HIW+"發出沉穩的光芒。\n" + NOR,me,ob);
-  ob->set("name",HIM + "( 拈花 )"NOR+HIY"佛珠" + NOR);
+  ob->set("name",HIM + "( 拈花 )" + NOR+HIY + "佛珠" + NOR);
   return 1;
 }
 

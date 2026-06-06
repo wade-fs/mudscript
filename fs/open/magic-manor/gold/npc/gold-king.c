@@ -89,7 +89,7 @@ void heart_beat()
     tell_room(mob,HIM + "\n夕陽殘照，暮色泛起，餘暉映照於大地，$N感受如此無限晚意輕輕帶出
 
       " + HIW + "----===≡◎ 金封大地式 ◎≡===----
-     "NOR+YEL"  『" + HIY + "金靈蛇動．殘陽墜"NOR+YEL"』\n\n" + NOR);
+     " + NOR+YEL + "  『" + HIY + "金靈蛇動．殘陽墜" + NOR+YEL + "』\n\n" + NOR);
     for (j=0 ; j < i ; j++)
     {
       if( !enemy[j] ) continue;

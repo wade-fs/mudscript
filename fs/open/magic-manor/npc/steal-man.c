@@ -300,7 +300,7 @@ void heart_beat()
     {
       if( random(100) < 50 && random(10) < 5 && random(3) == 1 )
       {
-        tell_room(environment(), HIM+name()+HIM"從懷裏掏出一顆藥丸往嘴裏一吞。" + NOR + "\n");
+        tell_room(environment(), HIM+name()+HIM + "從懷裏掏出一顆藥丸往嘴裏一吞。" + NOR + "\n");
         mob->receive_curing("kee",1000);
         mob->receive_heal("kee",1000);
         mob->receive_curing("sen",1000);
@@ -320,7 +320,7 @@ void heart_beat()
           exit = env->query("exits");
           exit_name = keys(exit);
           i = random(sizeof(exit_name));
-          message_vision(HIM + "\n$N施展" + HIW + "ξ"BRED+HIY"閃電身法" + NOR + "" + HIW + "ξ" + HIM + "高速脫離現場!!\n" + NOR,mob,enemy[j]);
+          message_vision(HIM + "\n$N施展" + HIW + "ξ" + BRED+HIY + "閃電身法" + NOR + "" + HIW + "ξ" + HIM + "高速脫離現場!!\n" + NOR,mob,enemy[j]);
           command("say 留得青山在，不怕沒柴燒。  溜～～");
           command(exit_name[i]);
 //          i = random(sizeof(exit_name));
@@ -368,7 +368,7 @@ void die()
     spirit = new("/open/ghost-hole/obj/wind-spirit");
     spirit->move(me);
     write_file("/log/sky/spirit/wind-spirit",sprintf("%s(%s)讓神秘飛賊掉下了%s於 %s\n",me->name(1),me->query("id"),spirit->query("name"),ctime(time())));
-    message_vision(HIW + "薀含在"+this_object()->query("name")+HIW"身體中的"+spirit->query("name")+HIW"飛射而出，落在$N" + HIW + "手中。\n" + NOR,me);
+    message_vision(HIW + "薀含在"+this_object()->query("name")+HIW + "身體中的"+spirit->query("name")+HIW + "飛射而出，落在$N" + HIW + "手中。\n" + NOR,me);
   }
 
   if( me && me->query_temp("quests/magic-manor-01") == 2 )

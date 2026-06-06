@@ -15,7 +15,7 @@ void create()
 LONG);
   set("gender","女性");
   set("class","killer");
-  set("nickname",NOR+RED"魔" + HIR + "殺"NOR+RED"螫" + HIR + "魂" + NOR);
+  set("nickname",NOR+RED + "魔" + HIR + "殺" + NOR+RED + "螫" + HIR + "魂" + NOR);
   set("title",HIC + "聚靈八傑" + NOR);
   set("family/family_name","黑牙聯");
   set("combat_exp",10000000);

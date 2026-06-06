@@ -34,7 +34,7 @@ void init()
         if(this_player()->query("family/family_name")=="段家")
         {
          if(!this_player()->query("bss/have_tell"))
-         tell_object(this_player(),BLINK+HIY"請到段家交誼廳讀讀佈告吧!!\n" + NOR);
+         tell_object(this_player(),BLINK+HIY + "請到段家交誼廳讀讀佈告吧!!\n" + NOR);
          this_player()->set("bss/have_tell",1);
         }
 }

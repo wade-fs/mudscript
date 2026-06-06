@@ -180,7 +180,7 @@ void heart_beat()
           enemy[i]->receive_wound("kee",level*100*ratio); //最低 100 最高1500
           COMBAT_D->report_status(enemy[i]);
         }
-        else tell_object (enemy[i],wp->query("wmsg")+YEL"堪堪在你身旁掠過，真是險象環生。\n" + NOR);
+        else tell_object (enemy[i],wp->query("wmsg")+YEL + "堪堪在你身旁掠過，真是險象環生。\n" + NOR);
         if(!me->is_busy() && me->query("fire-spirit") && ratio == 2 && random(level) > 3) //level 4以上有可能對相剋屬性做額外攻擊
         {
           message_vision(HIR + "冰火不容，"+wp->query("wmsg")+"" + HIR + "牽動$N的戰意，朝$n展開另一波攻勢。\n" + NOR,me,enemy[i]);  
@@ -338,7 +338,7 @@ void heart_beat()
           enemy[i]->apply_condition(con,(1+ratio)/2);
           COMBAT_D->report_status(enemy[i]);
         }
-        else tell_object (enemy[i],wp->query("wmsg")+YEL"在你強大的護體罡\氣前化為烏有!!\n" + NOR);
+        else tell_object (enemy[i],wp->query("wmsg")+YEL + "在你強大的護體罡\氣前化為烏有!!\n" + NOR);
         if(!me->is_busy() && me->query("dark-spirit") && ratio == 3 && random(level) > 3)
         {
           message_vision(HIG + "自古正邪不兩立，"+wp->query("wmsg")+"" + HIG + "牽動$N的戰意，朝$n展開另一波攻勢。\n" + NOR,me,enemy[i]);

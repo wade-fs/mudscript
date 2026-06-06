@@ -74,8 +74,8 @@ int do_give()
 				write("你從盒子中取出三粒" + HIM + "醃漬桃子" + NOR);
         ob = new(__DIR__"npc/kee_pill.c");
         ob->move(me);
-        write("\n你從盒子中取出一粒"HIM + ob->name() + "\n" + NOR);
-/*				write("你從盒子中取出三粒"+HIR "生生造化丹\n" + NOR);*/
+        write("\n你從盒子中取出一粒" + HIM + ob->name() + "\n" + NOR);
+/*				write("你從盒子中取出三粒"+HIR + "生生造化丹\n" + NOR);*/
 				me->set("quests/peach",1); // 開放前須將此設為固定變數
 				me->delete_temp("quests/peach");
 				me->delete("quest/peach");

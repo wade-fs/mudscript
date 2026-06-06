@@ -43,9 +43,9 @@ int valid_leave(object me,string dir)
          num = random(me->query_temp("floor"));
          me->set_temp("floor",num);
          me->set_temp("pass",2*num);
-         stair->set("short",HIR + "不死鳥ソ塔"HIG + "第"+chinese_number(me->query_temp("floor"))+"階" + NOR);
-         tower1->set("short",HIR + "不死鳥ソ塔"HIY + "第"+chinese_number(me->query_temp("floor"))+"層" + NOR);
-         if(tower2)  tower2->set("short",HIR + "不死鳥ソ塔"HIY + "第"+chinese_number(me->query_temp("floor"))+"層" + NOR);
+         stair->set("short",HIR + "不死鳥ソ塔" + HIG + "第"+chinese_number(me->query_temp("floor"))+"階" + NOR);
+         tower1->set("short",HIR + "不死鳥ソ塔" + HIY + "第"+chinese_number(me->query_temp("floor"))+"層" + NOR);
+         if(tower2)  tower2->set("short",HIR + "不死鳥ソ塔" + HIY + "第"+chinese_number(me->query_temp("floor"))+"層" + NOR);
          me->move(stair);
          
             }

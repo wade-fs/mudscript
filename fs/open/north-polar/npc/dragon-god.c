@@ -98,16 +98,16 @@ void heart_beat()
     i=sizeof(enemy);
     message_vision(BCYN + "
 " + NOR + " ▂▁▁ˍ▁ˍ▁ˍ" + WHT + "ˍˍ                                          
-" + NOR + "" + BYEL + "   "WHT+BYEL"▂▅▆▇"BLU+BWHT"▃▅▆▇"HIC+BBLU"                                                               
-" + NOR + "" + BYEL + "  " + BWHT + "▇▅▃"WHT+BBLU"▆▅▂                                                                    
-" + NOR + "" + BYEL + "          "YEL+BWHT"▆▃▂▁"WHT+BBLU"▇▄▂▁                                                        
-" + NOR + "" + BYEL + "                    "YEL+BWHT"▇▆▅▂"WHT+BBLU"▅                                                    
-" + NOR + ""BYEL+HIC"                 "WHT+BYEL"▂▃▄▅▆"BLU+BWHT"▃"HIC+BBLU"                                                     
-" + NOR + ""BYEL+HIC"                "YEL+BWHT"▇▆▄▃▁"WHT+BBLU"▆▃▁                                                  
-" + NOR + "" + BYEL + "                            "YEL+BWHT"▅▄▂"WHT+BBLU"▅▄▃▂▁                                      
-" + NOR + "" + BYEL + "                                    "YEL+BWHT"▇▆▄▃▁"WHT+BBLU"▅                                  
-" + NOR + "" + BYEL + "                                       ▂▅▆▇"BLU+BWHT"▄"HIC+BBLU"                                 
-" + NOR + ""BYEL+HIC"                                        "YEL+BWHT"▆▅▄▃"WHT+BBLU"▆                                
+" + NOR + "" + BYEL + "   " + WHT+BYEL + "▂▅▆▇" + BLU+BWHT + "▃▅▆▇" + HIC+BBLU + "                                                               
+" + NOR + "" + BYEL + "  " + BWHT + "▇▅▃" + WHT+BBLU + "▆▅▂                                                                    
+" + NOR + "" + BYEL + "          " + YEL+BWHT + "▆▃▂▁" + WHT+BBLU + "▇▄▂▁                                                        
+" + NOR + "" + BYEL + "                    " + YEL+BWHT + "▇▆▅▂" + WHT+BBLU + "▅                                                    
+" + NOR + "" + BYEL+HIC + "                 " + WHT+BYEL + "▂▃▄▅▆" + BLU+BWHT + "▃" + HIC+BBLU + "                                                     
+" + NOR + "" + BYEL+HIC + "                " + YEL+BWHT + "▇▆▄▃▁" + WHT+BBLU + "▆▃▁                                                  
+" + NOR + "" + BYEL + "                            " + YEL+BWHT + "▅▄▂" + WHT+BBLU + "▅▄▃▂▁                                      
+" + NOR + "" + BYEL + "                                    " + YEL+BWHT + "▇▆▄▃▁" + WHT+BBLU + "▅                                  
+" + NOR + "" + BYEL + "                                       ▂▅▆▇" + BLU+BWHT + "▄" + HIC+BBLU + "                                 
+" + NOR + "" + BYEL+HIC + "                                        " + YEL+BWHT + "▆▅▄▃" + WHT+BBLU + "▆                                
 " + NOR,mob);
     message_vision(HIB + "海皇引發巨大的驚人海嘯，將在場一切完全淹沒。\n" + NOR,mob);
     for (j=0 ; j < i ; j++)

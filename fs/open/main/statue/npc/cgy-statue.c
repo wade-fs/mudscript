@@ -78,7 +78,7 @@ string adv_title()
     HIC + "δ玄武δ" + HIG + "究" + HIB + "極" + HIM + "武" + HIR + "痴" + NOR,
     HIR + "δ朱雀δ" + HIY + "絕" + HIG + "世" + HIC + "武" + HIM + "尊" + NOR,
     HIY + "δ麒麟δ" + HIG + "九" + HIR + "五" + HIM + "武" + HIC + "帝" + NOR,
-    HIB + "ζ" + HIR + "身" + HIY + "負" + HIG + "˙武" + HIW + "學˙" + HBRED + "半" + HBGRN + "邊" + HBBLU + "天"NOR+HIB"ζ" + NOR,
+    HIB + "ζ" + HIR + "身" + HIY + "負" + HIG + "˙武" + HIW + "學˙" + HBRED + "半" + HBGRN + "邊" + HBBLU + "天" + NOR+HIB + "ζ" + NOR,
   });
   title["prayer"]  = ({
     HIR + "ξ" + HIM + "末日" + HIW + "聖" + HIY + "光" + HIG + "使者" + HIR + "ξ" + NOR,
@@ -110,7 +110,7 @@ string adv_title()
   title["swordsman"]  = ({
     HIB + "Υ" + HIM + "神劍修羅" + HIB + "Υ" + NOR,
     HIR + "Ξ" + HIY + "靈" + HIB + "幻" + HIM + "天" + HIB + "劍" + HIR + "Ξ" + NOR,
-    HIR + "δ"HIW+BRED"血靈" + NOR + ""HIR + "δ"BLK+HBBLU"闇月"HIC+HBBLU"劍魔" + NOR,
+    HIR + "δ" + HIW+BRED + "血靈" + NOR + "" + HIR + "δ" + BLK+HBBLU + "闇月" + HIC+HBBLU + "劍魔" + NOR,
     HIM + "《" + HIC + "絕世劍俠" + HIM + "》" + HIY + "芎天蒼宇" + NOR,
     HIM + "∮情∮" + HIC + "仗" + HIG + "劍" + HIR + "江" + HIY + "湖" + NOR,
     HIR + "∮笑∮" + HIG + "逍" + HIY + "遙" + HIW + "神" + HIC + "劍" + NOR,
@@ -164,7 +164,7 @@ string adv_title()
         return "還不滾!?";}
       if(me->query_temp("not_enough_exp") == 6)  
       {
-        message("system",HIY + "傅劍寒" + HIW + "大聲說道:" + HIM + "不要臉的"HIY+this_player()->name()+HIM"沒事妄想更動頭銜，以後就叫他" + HIG + "沽名釣譽" + HIR + "大白痴" + HIM + "吧\n" + NOR,users());
+        message("system",HIY + "傅劍寒" + HIW + "大聲說道:" + HIM + "不要臉的" + HIY+this_player()->name()+HIM + "沒事妄想更動頭銜，以後就叫他" + HIG + "沽名釣譽" + HIR + "大白痴" + HIM + "吧\n" + NOR,users());
         me->set("title",HIG + "沽名釣譽" + HIR + "大白痴" + NOR);
         return "哈哈哈!!";
       }
@@ -199,7 +199,7 @@ string adv_title()
     else
       t = title[classes][random(sizeof(title[classes]))];
     me->set("title",t) ;
-    message("system",HIY + "傅劍寒" + HIW + "大聲說道:"HIY+this_player()->name()+HIM"苦練有成特賜予"+t+NOR"稱號\n" + NOR,users());
+    message("system",HIY + "傅劍寒" + HIW + "大聲說道:" + HIY+this_player()->name()+HIM + "苦練有成特賜予"+t+NOR + "稱號\n" + NOR,users());
     me->set_temp("get-new-title",1);
     return "恭喜妳獲得新的稱號";
   }

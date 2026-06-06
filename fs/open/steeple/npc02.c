@@ -26,7 +26,7 @@ void create()
         set("age",16);
         set("long","他是屬於青銅級的聖鬥士，在三大聖戰中一直是護衛著雅典娜女神。\n"
         "而現在的實力是遠超過黃金聖鬥士，是雅典娜忠心的護衛。\n");
-        set("title",HIR + "鳳凰座"NOR+ HIG"聖鬥士" + NOR);
+        set("title",HIR + "鳳凰座" + NOR+ HIG + "聖鬥士" + NOR);
         set("gender","男性");
         set("class","聖鬥士");
         set("str",30);
@@ -115,7 +115,7 @@ else
 if(me->query("quest/start_game")< 3)
        {
         tell_object(users(),HIY + "
-恭喜"HIW+me->query("name")+HIY"挑戰" + HIG + "『" + HIR + "第二層試煉塔" + HIG + "』" + HIY + "通過！！
+恭喜" + HIW+me->query("name")+HIY + "挑戰" + HIG + "『" + HIR + "第二層試煉塔" + HIG + "』" + HIY + "通過！！
 
 " + HIW + "希望"+me->query("name")+"能不負眾望，勇闖" + HIG + "『" + HIY + "第三層試煉塔" + HIG + "』" + HIW + "。
 	" + NOR);

@@ -217,7 +217,7 @@ void heart_beat()
           case 0:
             message_vision(HIB + "          －－ " + HIW + "冥  殿  " + HIR + "絕  " + HIY + "學  " + HIB + "第  一  式 －－" + NOR + "
                   " + HIB + "～『  " + HIY + "妖 魔 聚 鼎" + HIB + "  』～\n" + NOR + "
-" + HIW + "$N身形倏而騰飛三丈,凌空劈出一"NOR+HIW"股掌勁,綿綿掌影,如江河缺堤似,暴瀉而下,掌風如激流"NOR+HIW"般地向$n隔空劈來!\n" + NOR,me,enemy[j]);
+" + HIW + "$N身形倏而騰飛三丈,凌空劈出一" + NOR+HIW + "股掌勁,綿綿掌影,如江河缺堤似,暴瀉而下,掌風如激流" + NOR+HIW + "般地向$n隔空劈來!\n" + NOR,me,enemy[j]);
             enemy[j]->receive_damage("gin",220,me);
             enemy[j]->receive_damage("sen",220,me);
             enemy[j]->receive_wound("kee",400,me);
@@ -442,7 +442,7 @@ void die()
     {
       if( !me->query("help") && !winner->query("quests/god_book") )
       {
-        tell_object(users(),HIB + "\n\n轟隆的一聲巨響過後，失落的「" + HIC + "天書"NOR+HIB"」已重現武林。\n\n" + NOR);
+        tell_object(users(),HIB + "\n\n轟隆的一聲巨響過後，失落的「" + HIC + "天書" + NOR+HIB + "」已重現武林。\n\n" + NOR);
         if( present("book",me) )
         {
           destruct(present("book",me));

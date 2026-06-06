@@ -4,7 +4,7 @@ inherit ROOM;
 
 void create()
 {
-	set("short",HIG + "琰 揚 居 -- "NOR+YEL"大 松 樹" + NOR);
+	set("short",HIG + "琰 揚 居 -- " + NOR+YEL + "大 松 樹" + NOR);
 	set("long",@LONG
 大松樹的樹幹充滿的許多的坑洞，看到此景的你，忍不住的替這
 棵樹感到哀痛，不過，卻也因為有了這些樹洞，你才能順利的爬上樹

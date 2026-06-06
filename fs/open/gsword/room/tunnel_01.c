@@ -59,7 +59,7 @@ void do_damage(object me)
 	me->receive_wound("kee",(50+kee)/3);
 	me->receive_wound("sen",(50+sen)/3);
    } else {
-    message_vision(HIG + " $N身上的"+eq->query("name")+HIG"妖氣大盛，及時為主人擋下這致命一擊，隨即灰飛湮滅。\n" + NOR,me);
+    message_vision(HIG + " $N身上的"+eq->query("name")+HIG + "妖氣大盛，及時為主人擋下這致命一擊，隨即灰飛湮滅。\n" + NOR,me);
 	destruct(present("ghost heart",me));
           }
    return ;

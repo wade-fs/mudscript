@@ -46,7 +46,7 @@ if(!list[i]->query_temp("netdead") && query_snooping(list[i])) list1 += sprintf(
 if(!list[i]->query_temp("netdead") && query_idle(list[i])>60) list1 += HIC + "[發呆"+chinese_number(query_idle(list[i])/60)+"分鐘]" + NOR;
 list1 += "正從("+query_ip_number(list[i])+")連線中\n";
 if(environment(list[i])){
-list1 += HIY + "\t目前正位於 "NOR+environment(list[i])->query("short")+" - ["+base_name(environment(list[i]))+"]\n\n";
+list1 += HIY + "\t目前正位於 " + NOR+environment(list[i])->query("short")+" - ["+base_name(environment(list[i]))+"]\n\n";
 }
 }
 }

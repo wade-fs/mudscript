@@ -86,7 +86,7 @@ void heart_beat()
 	message_vision(HIM + "\n木影叢叢，森然羅列，草木輕揚於風中，$N有感於此身形微動隨意發出
 
             " + HIW + "----===≡◎ 木影森羅式 ◎≡===----
-                 "NOR+GRN"  『" + HIG + "木光流鶯．驚天鳴"NOR+GRN"』\n\n" + NOR,mob);
+                 " + NOR+GRN + "  『" + HIG + "木光流鶯．驚天鳴" + NOR+GRN + "』\n\n" + NOR,mob);
           for (j=0 ; j < i ; j++)
           {
 	    if( !enemy[j] ) continue;

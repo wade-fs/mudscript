@@ -90,7 +90,7 @@ int do_answer(string str)
    if(str == answer[me->query_temp("answer")])
     {
      command("pat "+me->query("id"));
-     write("" + HIY + "很好"NOR + "﹐" + RANK_D->query_respect(me) + "" + CYN + "的藥學常識不錯, 值得嘉許\他日必能在江湖上揚名立姓。" + NOR + "\n");
+     write("" + HIY + "很好" + NOR + "﹐" + RANK_D->query_respect(me) + "" + CYN + "的藥學常識不錯, 值得嘉許\他日必能在江湖上揚名立姓。" + NOR + "\n");
      command("recruit " + me->query("id") );
      write("" + CYN + "嗯..既然你我有緣那我就把日前得到的『" + HIC + "雙麒麟" + HIR + "火琉璃" + CYN + "』贈與你吧！" + NOR + "\n");
 //_________送物________//

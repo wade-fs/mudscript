@@ -153,7 +153,7 @@ int check(object ob)
 int msg1(object ob)
 {
   object me=this_player();
-  tell_object(users(),HIY + "\n\n\t在天靈地界中的" + HIW + "羽之封印石" + HIY + "因為"HIG+ me->query("name")+HIY"的努力而解開了!!\n" + NOR);
+  tell_object(users(),HIY + "\n\n\t在天靈地界中的" + HIW + "羽之封印石" + HIY + "因為" + HIG+ me->query("name")+HIY + "的努力而解開了!!\n" + NOR);
   tell_object(users(),HIY + "\n\t因為失去了神力護持的" + HIW + "羽之封印石" + HIY + "開始劇烈抖動而開始崩散消逝!!\n" + NOR);
   call_out("msg2",10,ob);
   return 1;
@@ -162,9 +162,9 @@ int msg1(object ob)
 int msg2(object ob)
 {
   object me=this_player(),room=environment(me);
-  tell_object(users(),HIC + "\n\n\t在天靈地界塵封已久的" + HIR + "「" + HIW + "自由之翼"NOR+HIR"」"NOR+HIC"從羽之封印石中得到了解放而現世了!!\n" + NOR,ob);
-  message_vision(HIW + "\n\t八片解開封印的羽毛轉化為八束燦光，緩緩注入了" + HIR + "「" + HIW + "自由之翼"NOR+HIR"」"NOR+HIW"之中轉化為不可思議的力量!!\n",ob);
-  message_vision(HIW + "\n\t光茫消散之後" + HIR + "「" + HIW + "自由之翼"NOR+HIR"」"NOR+HIW"緩緩凝聚在$N手中!!\n" + NOR,me);
+  tell_object(users(),HIC + "\n\n\t在天靈地界塵封已久的" + HIR + "「" + HIW + "自由之翼" + NOR+HIR + "」" + NOR+HIC + "從羽之封印石中得到了解放而現世了!!\n" + NOR,ob);
+  message_vision(HIW + "\n\t八片解開封印的羽毛轉化為八束燦光，緩緩注入了" + HIR + "「" + HIW + "自由之翼" + NOR+HIR + "」" + NOR+HIW + "之中轉化為不可思議的力量!!\n",ob);
+  message_vision(HIW + "\n\t光茫消散之後" + HIR + "「" + HIW + "自由之翼" + NOR+HIR + "」" + NOR+HIW + "緩緩凝聚在$N手中!!\n" + NOR,me);
   new("/autoload/open-area/free_wing.c")->move(me);
   write_file("/log/sky/fwingfon",sprintf("%s(%s) 解開了「自由之翼」於 %s\n",me->name(1),me->query("id"),ctime(time())));
   room->set("no_reset",1);

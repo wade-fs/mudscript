@@ -54,12 +54,12 @@ j=me->query("quest/start_game");
 sscanf(str,"%d",i);
 switch(i)
 {
-	case 1: tell_room(environment(me),HIW + "系統：資料符合，開始傳送挑戰者"HIY+me->query("name")+HIW"。\n" + NOR,me);
+	case 1: tell_room(environment(me),HIW + "系統：資料符合，開始傳送挑戰者" + HIY+me->query("name")+HIW + "。\n" + NOR,me);
 		me->move(__DIR__"ticket");
 		message_vision(HIW + "$N緩緩的從玻璃柱狀體內走出來。\n" + NOR,me);
 		break;
 	case 2: if(j>10)
-		{tell_room(environment(me),HIW + "系統：資料符合，開始傳送挑戰者"HIY+me->query("name")+HIW"。\n" + NOR,me);
+		{tell_room(environment(me),HIW + "系統：資料符合，開始傳送挑戰者" + HIY+me->query("name")+HIW + "。\n" + NOR,me);
 		me->move(__DIR__"up10");
 		message_vision(HIW + "$N緩緩的從玻璃柱狀體內走出來。\n" + NOR,me);
 		return 1;}
@@ -68,7 +68,7 @@ switch(i)
 		return 1;}
 		break;
 	case 3: if(j>20)
-		{tell_room(environment(me),HIW + "系統：資料符合，開始傳送挑戰者"HIY+me->query("name")+HIW"。\n" + NOR,me);
+		{tell_room(environment(me),HIW + "系統：資料符合，開始傳送挑戰者" + HIY+me->query("name")+HIW + "。\n" + NOR,me);
 		me->move(__DIR__"up20-1");
 		message_vision(HIW + "$N緩緩的從玻璃柱狀體內走出來。\n" + NOR,me);
 		return 1;}
@@ -77,7 +77,7 @@ switch(i)
 		return 1;}
 		break;
 	case 4: if(j>30)
-		{tell_room(environment(me),HIW + "系統：資料符合，開始傳送挑戰者"HIY+me->query("name")+HIW"。\n" + NOR,me);
+		{tell_room(environment(me),HIW + "系統：資料符合，開始傳送挑戰者" + HIY+me->query("name")+HIW + "。\n" + NOR,me);
 		me->move(__DIR__"up30-1");
 		message_vision(HIW + "$N緩緩的從玻璃柱狀體內走出來。\n" + NOR,me);
 		return 1;}
@@ -86,7 +86,7 @@ switch(i)
 		return 1;}
 		break;
 	case 5: if(j>40)
-		{tell_room(environment(me),HIW + "系統：資料符合，開始傳送挑戰者"HIY+me->query("name")+HIW"。\n" + NOR,me);
+		{tell_room(environment(me),HIW + "系統：資料符合，開始傳送挑戰者" + HIY+me->query("name")+HIW + "。\n" + NOR,me);
 		me->move(__DIR__"up40-1");
 		message_vision(HIW + "$N緩緩的從玻璃柱狀體內走出來。\n" + NOR,me);
 		return 1;}
@@ -95,7 +95,7 @@ switch(i)
 		return 1;}
 		break;
 	case 6: if(j>50)
-		{tell_room(environment(me),HIW + "系統：資料符合，開始傳送挑戰者"HIY+me->query("name")+HIW"。\n" + NOR,me);
+		{tell_room(environment(me),HIW + "系統：資料符合，開始傳送挑戰者" + HIY+me->query("name")+HIW + "。\n" + NOR,me);
 		me->move(__DIR__"up50-1");
 		message_vision(HIW + "$N緩緩的從玻璃柱狀體內走出來。\n" + NOR,me);
 		return 1;}

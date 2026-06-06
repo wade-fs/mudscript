@@ -92,7 +92,7 @@ mapping *action = ({
    ]),
 ([
          "action"     :
-"$N運起全身功\力﹐氣集於$w使出一招"BLINK+HIR + "「爆炎槍尖屠」" + NOR + "尖上的" + HIR + "火舌緩緩蠕動" + NOR + "煞那間" + HIR + "火舌" + NOR + "突乎其然奔向$n",
+"$N運起全身功\力﹐氣集於$w使出一招" + BLINK+HIR + "「爆炎槍尖屠」" + NOR + "尖上的" + HIR + "火舌緩緩蠕動" + NOR + "煞那間" + HIR + "火舌" + NOR + "突乎其然奔向$n",
          "dodge"      :               -20,
 
          "parry"      :               -45,

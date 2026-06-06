@@ -92,7 +92,7 @@ void heart_beat()
 	message_vision(HIM + "火捲漫天，雲淡風輕，輕煙漫舞於天際，$N別有感觸翩然起舞飄然喚出
 
             " + HIW + "----===≡◎ 火捲風雲式 ◎≡===----
-                 "NOR+RED"  『" + HIR + "火雲鳳舞．翔風飛"NOR+RED"』\n\n" + NOR,mob);
+                 " + NOR+RED + "  『" + HIR + "火雲鳳舞．翔風飛" + NOR+RED + "』\n\n" + NOR,mob);
 
       for (j=0 ; j < i ; j++)
       {

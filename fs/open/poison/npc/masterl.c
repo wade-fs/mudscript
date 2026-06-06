@@ -372,7 +372,7 @@ void die()
   }
   tell_object(users(),
 "\n\t" + YEL + "冥蠱魔教的方位突然傳來一陣嘶聲裂地的怒吼聲!!
-\n\t" + YEL + "好不甘心呀!!   我" + HIM + "莊靜柔"NOR+YEL"竟然連區區的一個"HIY+winner->query("name")+NOR+YEL"都打不過!!
+\n\t" + YEL + "好不甘心呀!!   我" + HIM + "莊靜柔" + NOR+YEL + "竟然連區區的一個" + HIY+winner->query("name")+NOR+YEL + "都打不過!!
 \n\n\t" + HIR + "我魔教所有的門徒們啊!!    請盡情的去使壞吧!!
 \n\t" + HIR + "讓那天空降下地獄之火焰!!    讓那大海染成鮮紅!!" + HIR + "
 \n\t讓那所有生命在我們魔教面前都感到顫慄害怕!!\n\n" + NOR);

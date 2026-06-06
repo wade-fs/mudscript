@@ -98,7 +98,7 @@ void die()
         tell_object(users(),"\n\n\t◆" + HIY + "想  不  到  我  中  嶽  竟  是  五  嶽  之  中  " + NOR + "◆\n\n\t\t◆" + HIY + "最  先  被  擊  破  之  山  嶽" + NOR + "◆\n"+
         "\n\n\n\t" + HIB + "想不到我" + HIY + "天皇" + HIB + "為五皇之首, 今日敗於" + NOR + ""+winner->query("name")+"" + HIB + "之手" + NOR + "\n\t" + HIR + "可恨呀！！！" + NOR + "\n");
 
-     tell_object(users(),"\n\n" + HIR + "天皇用盡最後一口真氣使出" + NOR + "閉脈" + HIR + "、" + NOR + "枯\血" + HIR + "、" + NOR + "鎖氣"HIR + "。" + NOR + "\n\n\t「"HIY+BLINK"天皇自盡身亡" + NOR + "」\n\n");
+     tell_object(users(),"\n\n" + HIR + "天皇用盡最後一口真氣使出" + NOR + "閉脈" + HIR + "、" + NOR + "枯\血" + HIR + "、" + NOR + "鎖氣" + HIR + "。" + NOR + "\n\n\t「" + HIY+BLINK + "天皇自盡身亡" + NOR + "」\n\n");
 
         //}
         :: die();

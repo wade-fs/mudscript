@@ -4,7 +4,7 @@ void create()
 {
         set_name("耐吉的雕像",({"nike statue","nike"}));
         set("long","狂想之神。狂想的玩家為了能瞻仰他，紀念他的德行，所以特別建立了此一雕像。\n你可以試著(pray id)也許\有奇妙的效果喔!!\n");
-        set("title",HBBLU+HIW"ψ" + HIY + "七奇" + HIR + "秘針" + HIW + "ψ" + HIG + "傳人" + NOR);
+        set("title",HBBLU+HIW + "ψ" + HIY + "七奇" + HIR + "秘針" + HIW + "ψ" + HIG + "傳人" + NOR);
         set("nickname",HIR + "沉睡了" + HIC + "百年" + HIY + "的" + HIM + "孤寂" + NOR);
         set("unit","尊");
         set("age",291);

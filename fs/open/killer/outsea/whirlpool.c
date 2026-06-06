@@ -13,7 +13,7 @@ object me;
 me=this_player();
 if(present("dragon_stone",me))
 {
-message_vision(HIY + "\n\n來至遙遠的中原人士"HIR+me->query("name")+HIY"啊！請讓我為你服務吧！\n\n" + NOR,me);
+message_vision(HIY + "\n\n來至遙遠的中原人士" + HIR+me->query("name")+HIY + "啊！請讓我為你服務吧！\n\n" + NOR,me);
 destruct(present("dragon_stone",me));
 me->start_busy(4);
 call_out("s_msg",1,me);

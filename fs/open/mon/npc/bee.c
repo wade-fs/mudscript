@@ -36,7 +36,7 @@ void invocation(object who)
   int i,k;
   object *enemy,mob;
   mob=this_object();
-  message("vision",NOR+name()+NOR"說道：「我來囉!!讓我來幫你!!\n" + NOR,environment(),this_object() );
+  message("vision",NOR+name()+NOR + "說道：「我來囉!!讓我來幫你!!\n" + NOR,environment(),this_object() );
   enemy = who->query_enemy();
   i = sizeof(enemy);
   while(i--)

@@ -27,7 +27,7 @@ void create()
         set("long","屬於青銅級的聖鬥士，在三大聖戰中一直是護衛著雅典娜女神\n"
         "而現在的實力是遠超過黃金聖鬥士，是雅典娜忠心的護衛。\n"
         "夢幻的佩加索斯，傳說的天馬，展開他那雪白的羽翼迎向一切挑戰。\n");
-	set("title",HIW + "天馬座"NOR+ HIG"聖鬥士" + NOR);
+	set("title",HIW + "天馬座" + NOR+ HIG + "聖鬥士" + NOR);
         set("gender","男性");
         set("str",30);
         set("cps",30);

@@ -15,7 +15,7 @@ void create()
 LONG);
   set("gender","男性");
   set("class","blademan");
-  set("nickname",NOR+BLU"隱" + HIB + "刀"NOR+BLU"魂" + HIB + "絕" + NOR);
+  set("nickname",NOR+BLU + "隱" + HIB + "刀" + NOR+BLU + "魂" + HIB + "絕" + NOR);
   set("title",HIC + "聚靈八傑" + NOR);
   set("family/family_name","魔刀門");
   set("combat_exp",10000000);

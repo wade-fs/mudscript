@@ -317,7 +317,7 @@ int six_msg2(object ppl)
 void create()
 {
         set_name("段譽",({"duan yu","duan","yu"}));
-        set("title",HBMAG+HIC"六脈劍聖" + NOR);
+        set("title",HBMAG+HIC + "六脈劍聖" + NOR);
         set("long","他可是第一位將六脈神劍融會貫通的人,他的六脈神劍已達爐火純青的
 地步\n");
         set("gender","男性");
@@ -734,7 +734,7 @@ void heart_beat()
       if ((!ob || (ob && !room)) && this_object()->query("FoundMystery")) {
         this_object()->delete("FoundMystery");
         tell_object (users(),HIG + "
-"+this_object()->query("name")+HIG"高聲喝道：
+"+this_object()->query("name")+HIG + "高聲喝道：
 你們這些自以為是的叛徒，別再讓我遇到，哼
 \n" + NOR);
         this_object()->move("/open/tailong/room/d3");
@@ -742,7 +742,7 @@ void heart_beat()
       else if (ob && !ob->is_fighting() && room) {
         if (!this_object()->query("FoundMystery")) {
           tell_object (users(),HIG + "
-"+this_object()->query("name")+HIG"高聲喝道：
+"+this_object()->query("name")+HIG + "高聲喝道：
 又是你們這些自以為是的叛徒，別跑，我才不會讓你們為所欲為!!!
 \n" + NOR);
           this_object()->set("FoundMystery",1);

@@ -7,7 +7,7 @@ inherit EQUIP;
 
 void create()
 {
-  set_name(HBBLU+HIC"幻彩靈戒" + NOR ,({ "color-ring" }));
+  set_name(HBBLU+HIC + "幻彩靈戒" + NOR ,({ "color-ring" }));
   set_weight(2500);
   if( clonep() )
     set_default_object(__FILE__);

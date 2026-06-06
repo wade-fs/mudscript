@@ -20,7 +20,7 @@ string *parry_msg=
 //unarmed, stabber_action
 
 mapping *action = ({
-([ "action":"$N一招『" + HIW + " 白蛇吐信" + NOR + " 』，下身稍曲，步履前跨，雙掌微分，手指尖往$n的胸前『"BLINK+HIC" 鳩尾穴" + NOR + " 』用力戳了去!",
+([ "action":"$N一招『" + HIW + " 白蛇吐信" + NOR + " 』，下身稍曲，步履前跨，雙掌微分，手指尖往$n的胸前『" + BLINK+HIC + " 鳩尾穴" + NOR + " 』用力戳了去!",
         "dodge": -10,
         "parry": -20,
         "damage": 30,
@@ -28,7 +28,7 @@ mapping *action = ({
         "damage_type":  "刺傷",
 ]),
 
-([ "action":"$N手掌一張，一式『" + HIR + " 惡虎撲羊" + NOR + " 』，縱身一跳，由上往下向$n的頭頂『"BLINK+HIY" 百會穴" + NOR + " 』撲了去!",
+([ "action":"$N手掌一張，一式『" + HIR + " 惡虎撲羊" + NOR + " 』，縱身一跳，由上往下向$n的頭頂『" + BLINK+HIY + " 百會穴" + NOR + " 』撲了去!",
         "dodge": -20,
         "parry": -10,
         "damage": 40,
@@ -36,21 +36,21 @@ mapping *action = ({
         "damage_type": "刺傷",
 ]),
 
-([ "action":"$N雙手一拉一按一壓，將$n的左手背『"BLINK+MAG" 合谷穴" + NOR + " 』制住，往外迴轉一圈，用力地將$n拋了開去!",
+([ "action":"$N雙手一拉一按一壓，將$n的左手背『" + BLINK+MAG + " 合谷穴" + NOR + " 』制住，往外迴轉一圈，用力地將$n拋了開去!",
         "dodge": -30,
         "parry": 20,
         "damage": 50,
         "force": 180,
         "damage_type": "摔傷",
 ]),
-([ "action" : "$N拗膝微蹲，倏地身軀一轉，繞到了$n的背後，中指向$n背後『"BLINK+HIW" 命門穴" + NOR + "』戳了去!",
+([ "action" : "$N拗膝微蹲，倏地身軀一轉，繞到了$n的背後，中指向$n背後『" + BLINK+HIW + " 命門穴" + NOR + "』戳了去!",
         "dodge": -30,
         "parry": -10,
         "damage": 90,
         "force": 240,
         "damage_type": "刺傷",
 ]),
-([ "action" : "$N身行突然地往後退了數步，$n跟進，忽然$N身行立停，手肘一曲，轉退為進，肘尖往$n腹部『"BLINK+HIR" 氣血穴" + NOR + " 』急頂而去!",
+([ "action" : "$N身行突然地往後退了數步，$n跟進，忽然$N身行立停，手肘一曲，轉退為進，肘尖往$n腹部『" + BLINK+HIR + " 氣血穴" + NOR + " 』急頂而去!",
         "dodge": -40,
         "parry": 10,
         "damage": 110,
@@ -58,7 +58,7 @@ mapping *action = ({
         "damage_type": "刺傷",
 ]),
 
-([ "action":"$N呼嘯一聲，身法輕靈地往$n背後縱了去，雙手一打一戳，向$n的左邊『"BLINK+HIY" 太陽穴" + NOR + " 』，後腦『"BLINK+HIG" 風府穴" + NOR + " 』攻擊!",
+([ "action":"$N呼嘯一聲，身法輕靈地往$n背後縱了去，雙手一打一戳，向$n的左邊『" + BLINK+HIY + " 太陽穴" + NOR + " 』，後腦『" + BLINK+HIG + " 風府穴" + NOR + " 』攻擊!",
         "dodge": 20,
         "parry": -10,
         "damage": 100,
@@ -75,7 +75,7 @@ mapping *action = ({
 
 //weapon_action
 
-([ "action":"$N左手一揮，右手一勾，一招『" + HIG + " 飛花落葉" + NOR + "  』，把手中$w舞向$n的雙臂『"BLINK+HIG" 尺澤穴" + NOR + " 』!",
+([ "action":"$N左手一揮，右手一勾，一招『" + HIG + " 飛花落葉" + NOR + "  』，把手中$w舞向$n的雙臂『" + BLINK+HIG + " 尺澤穴" + NOR + " 』!",
         "dodge": -20,
         "parry": -10,
         "damage": 60,
@@ -83,7 +83,7 @@ mapping *action = ({
         "damage_type":  "刺傷",
 ]),
 
-([ "action":"$N運使$w, 左右開弓, 綿綿不盡, 戳向$n的胸前『"BLINK+HIM" 膻中穴" + NOR + " 』, 背後『"BLINK+HIR" 腎內穴" + NOR + " 』",
+([ "action":"$N運使$w, 左右開弓, 綿綿不盡, 戳向$n的胸前『" + BLINK+HIM + " 膻中穴" + NOR + " 』, 背後『" + BLINK+HIR + " 腎內穴" + NOR + " 』",
         "dodge": -30,
         "parry": -10,
         "damage": 260,
@@ -91,28 +91,28 @@ mapping *action = ({
         "damage_type": "刺傷",
 ]),
 
-([ "action":"$N身軀一蹲，雙手掐$w，平平往前直刺，一招『" + HIC + " 海底翻花" + NOR + " 』蓄勢待發，迎向$n的腳底『"BLINK+HIC" 湧泉穴 " + NOR + "』",
+([ "action":"$N身軀一蹲，雙手掐$w，平平往前直刺，一招『" + HIC + " 海底翻花" + NOR + " 』蓄勢待發，迎向$n的腳底『" + BLINK+HIC + " 湧泉穴 " + NOR + "』",
         "dodge": -35,
         "parry": -20,
         "damage": 120,
         "force": 270,
         "damage_type": "刺傷",
 ]),
-([ "action":"$N身法輕靈，一招『" + HIY + " 飛步拗鸞" + NOR + " 』，輕身一躍，$w刺向$n肩胛『"BLINK+HIW" 雲門穴" + NOR + "』，肩頂『"BLINK+WHT" 肩膠穴" + NOR + " 』",
+([ "action":"$N身法輕靈，一招『" + HIY + " 飛步拗鸞" + NOR + " 』，輕身一躍，$w刺向$n肩胛『" + BLINK+HIW + " 雲門穴" + NOR + "』，肩頂『" + BLINK+WHT + " 肩膠穴" + NOR + " 』",
         "dodge": 25,
         "parry": -10,
         "damage": 90,
         "force": 240,
         "damage_type": "刺傷",
 ]),
-([ "action":"$N雙臂向外一張，一式『" + HIC + " 大鵬展翅" + NOR + " 』，緊跟一招『" + HIM + " 平沙落雁" + NOR + " 』，手中$w疾向$n的咽喉『"BLINK+HIB" 天突穴" + NOR + " 』刺去!\n",
+([ "action":"$N雙臂向外一張，一式『" + HIC + " 大鵬展翅" + NOR + " 』，緊跟一招『" + HIM + " 平沙落雁" + NOR + " 』，手中$w疾向$n的咽喉『" + BLINK+HIB + " 天突穴" + NOR + " 』刺去!\n",
         "dodge": -40,
         "parry": -20,
         "damage": 60,
         "force": 230,
         "damage_type": "刺傷",
 ]),
-([ "action":"$N身形一轉，一式『" + HIM + " 轉身六合" + NOR + " 』，將手中$w舞成一股氣流，迴旋在$n四週，倏地一招『" + HIY + " 回望春月" + NOR + " 』，將$w刺向$n腦門『"BLINK+WHT" 天柱穴" + NOR + " 』，『"BLINK+HIC" 啞門穴" + NOR + " 』",
+([ "action":"$N身形一轉，一式『" + HIM + " 轉身六合" + NOR + " 』，將手中$w舞成一股氣流，迴旋在$n四週，倏地一招『" + HIY + " 回望春月" + NOR + " 』，將$w刺向$n腦門『" + BLINK+WHT + " 天柱穴" + NOR + " 』，『" + BLINK+HIC + " 啞門穴" + NOR + " 』",
         "dodge": 20,
         "parry": -20,
         "damage": 50,
@@ -121,9 +121,9 @@ mapping *action = ({
 ]),
 ([ "action":"$N大喝一聲『 絕命七針 』，鼓動全身內勁，手中$w舞成七點光點，分別
 
-向$n的『"BLINK+HIR" 百會穴" + NOR + " 』，『"BLINK+WHT" 印堂穴" + NOR + " 』，『"BLINK+HIC" 天突穴" + NOR + " 』，『"BLINK+HIM" 膻中穴" + NOR + " 』，『"BLINK+HIY" 中脘穴" + NOR + " 』，
+向$n的『" + BLINK+HIR + " 百會穴" + NOR + " 』，『" + BLINK+WHT + " 印堂穴" + NOR + " 』，『" + BLINK+HIC + " 天突穴" + NOR + " 』，『" + BLINK+HIM + " 膻中穴" + NOR + " 』，『" + BLINK+HIY + " 中脘穴" + NOR + " 』，
 
-『"BLINK+MAG" 鳩尾穴" + NOR + " 』，『"BLINK+HIR" 氣海穴" + NOR + " 』，急急突刺!",
+『" + BLINK+MAG + " 鳩尾穴" + NOR + " 』，『" + BLINK+HIR + " 氣海穴" + NOR + " 』，急急突刺!",
         "dodge": -30,
         "parry": -20,
         "damage": 190,

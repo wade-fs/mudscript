@@ -118,7 +118,7 @@ void heart_beat()
       " + HIW + "炎龍谷主說:" + HIG + " 柳家的人終於來報仇了，冤冤相報何時了啊！
          
 
-" + HIG + "不過今竟然敗在"+HIW+winner->query("name")+HIB"之手真是不甘ㄚ\n"+NOR);
+" + HIG + "不過今竟然敗在"+HIW+winner->query("name")+HIB + "之手真是不甘ㄚ\n"+NOR);
 
 	winner->set("quest/dragon",1);
 	new(C_OBJ"/key")->move(winner);

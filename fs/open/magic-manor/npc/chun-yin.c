@@ -15,7 +15,7 @@ void create()
 LONG);
   set("gender","女性");
   set("class","scholar");
-  set("nickname",NOR+YEL"飄" + HIY + "陽"NOR+YEL"無" + HIY + "懼" + NOR);
+  set("nickname",NOR+YEL + "飄" + HIY + "陽" + NOR+YEL + "無" + HIY + "懼" + NOR);
   set("title",HIC + "聚靈八傑" + NOR);
   set("family/family_name","段家");
   set("combat_exp",10000000);

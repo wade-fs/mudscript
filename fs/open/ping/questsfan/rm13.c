@@ -3,7 +3,7 @@ inherit ROOM;
 #include <ansi.h>
 void create ()
 {
-  set ("short", ""HIC+BLINK"分別天地" + NOR + "");
+  set ("short", "" + HIC+BLINK + "分別天地" + NOR + "");
   set ("long", "
 此地是松山的最高處，站立於此自有一股清新脫俗，超然自得
 之感，而且人立至高致極，一瞰江河之廣闊，萬獸奔馳大地的那種

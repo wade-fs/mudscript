@@ -35,7 +35,7 @@ void greeting(object ob)
   if( !ob || environment(ob) != environment() ) return;
 
   command("smile "+ob->query("id"));
-  say(HIC + "女孩輕聲說﹕"+ob->name()+HIC"﹐歡迎來到射手派。\n" + NOR);
+  say(HIC + "女孩輕聲說﹕"+ob->name()+HIC + "﹐歡迎來到射手派。\n" + NOR);
 
 }
 void init()

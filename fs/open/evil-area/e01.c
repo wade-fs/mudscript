@@ -3,7 +3,7 @@ inherit ROOM;
 
 void create()
 {
-	set("short",BBLU+YEL"震邪道" + NOR);
+	set("short",BBLU+YEL + "震邪道" + NOR);
 	set("long",@LONG
 一個巨大的水濂呈現在你眼前, 水是由下往上流, 逆流而上, 真
 可謂之人間絕景; 滔滔水聲, 氣勢澎湃, 你大略估計了一下水勢的強

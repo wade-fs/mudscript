@@ -287,7 +287,7 @@ void heart_beat()
   {
     message_vision(HIW + "
 	舞風揚一個妖身幻化，轉化成絕世驚豔的美女子，集嬌柔嫵媚於
-	一身，並藉由靈力散發" + HIM + "『"NOR+MAG"媚豔四射–無限迷惑" + HIM + "』" + HIW + "，有如炫目的劍
+	一身，並藉由靈力散發" + HIM + "『" + NOR+MAG + "媚豔四射–無限迷惑" + HIM + "』" + HIW + "，有如炫目的劍
 	光讓人無法逼視！！\n" + NOR,me);
     for( j=0 ; j < i ; j++)
     {
@@ -386,7 +386,7 @@ void do_special()
     message_vision(HIY + "
 	舞風揚一聲輕喝，一個金黃色光球將舞風揚緊緊的包圍，金黃色
 	光球慢慢的向外擴大，一瞬間，黃金光球散發出一陣耀眼光茫，
-	同一時間，舞風揚發出他最強的一招絕學" + HBRED + "『金˙光˙萬˙丈』"NOR+HIY"！\n" + NOR,me);
+	同一時間，舞風揚發出他最強的一招絕學" + HBRED + "『金˙光˙萬˙丈』" + NOR+HIY + "！\n" + NOR,me);
     for( j=0 ; j < i ; j++)
     {
       if( !enemy[j] ) continue;
@@ -435,7 +435,7 @@ void die()
          遙 望 青 峰 ～ 紅 塵 糾 纏" + HIM + "』" + HIY + "
 
 
-沒想到我千年的道行竟然毀在"+HIC+class1+HIY"的"+HIC+name+HIY"手上！！
+沒想到我千年的道行竟然毀在"+HIC+class1+HIY + "的"+HIC+name+HIY + "手上！！
 
 天意啊！！      可嘆啊！！
 

@@ -4,7 +4,7 @@ string stone();
 
 void create ()
 {
-	set("short",BBLU+YEL"震邪道"NOR+RED"-" + BLU + "=" + HIY + "幻" + HIG + "結" + HIC + "界"NOR+BLU"=" + RED + "-" + NOR);
+	set("short",BBLU+YEL + "震邪道" + NOR+RED + "-" + BLU + "=" + HIY + "幻" + HIG + "結" + HIC + "界" + NOR+BLU + "=" + RED + "-" + NOR);
 	set("long",@LONG
 一個由七彩色所構成的一個網狀結界, 而結界網似乎破了一個洞
 , 震邪道剛好就位於網狀破洞的位置, 恰好彌補了結界的漏洞, 你可
@@ -58,9 +58,9 @@ int kar,i;
 		tell_object(users(),HIY + "\n\n
 眾神之一陣怒吼：
 
-	阻隔著人類與邪靈的火牆 " + RED + "-" + BLU + "=" + HIY + "幻" + HIG + "結" + HIC + "界"NOR+BLU"=" + RED + "-" + NOR + " 
+	阻隔著人類與邪靈的火牆 " + RED + "-" + BLU + "=" + HIY + "幻" + HIG + "結" + HIC + "界" + NOR+BLU + "=" + RED + "-" + NOR + " 
 
-		" + HIY + "竟然被 "HIC+me->query("family/family_name")+HIY" 的 "HIW+me->query("name")+HIY" 給闖入了～
+		" + HIY + "竟然被 " + HIC+me->query("family/family_name")+HIY + " 的 " + HIW+me->query("name")+HIY + " 給闖入了～
 
 	如今，結界再度破損了一角！後果由你們人類自行負責吧！
 \n\n" + NOR);

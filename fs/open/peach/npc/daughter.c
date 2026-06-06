@@ -19,7 +19,7 @@ void create()
         set("gender", "女性");
         set("age", 21);
         set("class","dancer");
-        set("nickname","清純甜美"+HIW"豆腐西施" + NOR);
+        set("nickname","清純甜美"+HIW + "豆腐西施" + NOR);
         set("limbs", ({ "頭部", "身體", "左手", "右手", "左腳", "右腳" }) );
 
         set("per", 26);

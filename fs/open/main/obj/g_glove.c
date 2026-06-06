@@ -2,7 +2,7 @@ inherit EQUIP;
 #include <ansi.h>
 void create()
 {
-    set_name(HIY + "金"+HIW"蠶"+NOR"護手",({"gold gloves","gloves"}));
+    set_name(HIY + "金"+HIW + "蠶"+NOR + "護手",({"gold gloves","gloves"}));
 	set_weight(500);
         if( clonep() )
                 set_default_object(__FILE__);

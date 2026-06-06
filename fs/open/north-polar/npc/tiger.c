@@ -149,7 +149,7 @@ void die()
 	spirit = new("/open/ghost-hole/obj/water-spirit");
 	spirit->move(winner);
         write_file("/log/sky/spirit/water-spirit",sprintf("%s(%s)讓劍齒虎掉下了%s於 %s\n",winner->name(1),winner->query("id"),spirit->query("name"),ctime(time())));
-	message_vision(HIW + "薀含在"+this_object()->query("name")+HIW"身體中的"+spirit->query("name")+HIW"飛射而出，落在$N" + HIW + "手中。\n" + NOR,winner);
+	message_vision(HIW + "薀含在"+this_object()->query("name")+HIW + "身體中的"+spirit->query("name")+HIW + "飛射而出，落在$N" + HIW + "手中。\n" + NOR,winner);
 	}
         destruct(mob);
 }

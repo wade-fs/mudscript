@@ -126,10 +126,10 @@ int accept_object(object me, object ob)
       me->set("doctor/save_die", 1);
       me->do_command("sk");
       me->set_skill("force",force+5);
-      message_vision(HIC + "$N的「基本內功\」進步了﹗\n"NOR+
-                     HIC + "$N的「基本內功\」進步了﹗\n"NOR+
-                     HIC + "$N的「基本內功\」進步了﹗\n"NOR+
-                     HIC + "$N的「基本內功\」進步了﹗\n"NOR+
+      message_vision(HIC + "$N的「基本內功\」進步了﹗\n" + NOR+
+                     HIC + "$N的「基本內功\」進步了﹗\n" + NOR+
+                     HIC + "$N的「基本內功\」進步了﹗\n" + NOR+
+                     HIC + "$N的「基本內功\」進步了﹗\n" + NOR+
                      HIC + "$N的「基本內功\」進步了﹗\n" + NOR, me);
       me->delete("doctor/ask_baby");
       me->delete("doctor/give_baby1");
@@ -164,10 +164,10 @@ int accept_object(object me, object ob)
       me->set("doctor/save_die", 1);
       me->do_command("sk");
       me->set_skill("force",force+5);
-      message_vision(HIC + "$N的「基本內功\」進步了﹗\n"NOR+
-                     HIC + "$N的「基本內功\」進步了﹗\n"NOR+
-                     HIC + "$N的「基本內功\」進步了﹗\n"NOR+
-                     HIC + "$N的「基本內功\」進步了﹗\n"NOR+
+      message_vision(HIC + "$N的「基本內功\」進步了﹗\n" + NOR+
+                     HIC + "$N的「基本內功\」進步了﹗\n" + NOR+
+                     HIC + "$N的「基本內功\」進步了﹗\n" + NOR+
+                     HIC + "$N的「基本內功\」進步了﹗\n" + NOR+
                      HIC + "$N的「基本內功\」進步了﹗\n" + NOR, me);
       me->delete("doctor/ask_baby");
       me->delete("doctor/give_baby1");

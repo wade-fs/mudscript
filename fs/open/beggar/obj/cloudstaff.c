@@ -84,7 +84,7 @@ void heart_beat()
   {
   if((int)user->query("kee") < (int)(user->query("max_kee")/3) && random(staff) > 105)
   {
-    message_vision(BLINK+HIC"流雲杖感覺到$N的危勢，急忙釋放出大量能量為主人解危。\n" + NOR,user);
+    message_vision(BLINK+HIC + "流雲杖感覺到$N的危勢，急忙釋放出大量能量為主人解危。\n" + NOR,user);
     user->receive_curing("kee",kee);
     user->receive_heal("kee",kee);
     COMBAT_D->report_status(user);

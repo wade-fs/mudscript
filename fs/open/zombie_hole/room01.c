@@ -14,7 +14,7 @@ setup();
 }
 string query_long1()
 {
-return query_long()  + HIW"\t這裡好像有一個神奇的洞(hole)。\n" + NOR;
+return query_long()  + HIW + "\t這裡好像有一個神奇的洞(hole)。\n" + NOR;
 }
 void init()
 {

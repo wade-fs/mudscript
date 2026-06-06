@@ -6,7 +6,7 @@ void init()
   string dir;
   floor = me->query_temp("floor");
   if(!userp(me))  return;
-  room->set("short",HIR + "不死鳥ソ塔"HIY + "第"+chinese_number(me->query_temp("floor"))+"層" + NOR);
+  room->set("short",HIR + "不死鳥ソ塔" + HIY + "第"+chinese_number(me->query_temp("floor"))+"層" + NOR);
   if(me->query_temp("pass") == (1+me->query_temp("floor"))*2)
   room->pass();
   else{
@@ -124,9 +124,9 @@ int pass()
    if(me->query_temp("floor") < 44) me->add_temp("floor",1+random(5));
    else me->add_temp("floor",1);
    me->set_temp("pass",2*me->query_temp("floor"));
-   stair->set("short",HIR + "不死鳥ソ塔"HIG + "第"+chinese_number(me->query_temp("floor"))+"階" + NOR);
-   tower1->set("short",HIR + "不死鳥ソ塔"HIY + "第"+chinese_number(me->query_temp("floor"))+"層" + NOR);
-   tower2->set("short",HIR + "不死鳥ソ塔"HIY + "第"+chinese_number(me->query_temp("floor"))+"層" + NOR);
+   stair->set("short",HIR + "不死鳥ソ塔" + HIG + "第"+chinese_number(me->query_temp("floor"))+"階" + NOR);
+   tower1->set("short",HIR + "不死鳥ソ塔" + HIY + "第"+chinese_number(me->query_temp("floor"))+"層" + NOR);
+   tower2->set("short",HIR + "不死鳥ソ塔" + HIY + "第"+chinese_number(me->query_temp("floor"))+"層" + NOR);
    me->move(stair);
   }
 }

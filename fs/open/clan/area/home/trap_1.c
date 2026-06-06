@@ -26,7 +26,7 @@ void init()
 	set( "setup", 0 );
 	inv = all_inventory(environment());
 	if(random(2))
-		message_vision( YEL + "$N觸動了" + query("maker") + YEL"所裝設的機關。\n" + NOR, me );
+		message_vision( YEL + "$N觸動了" + query("maker") + YEL + "所裝設的機關。\n" + NOR, me );
 	for( i=0, n=sizeof(inv); i<n ; i++ ) {
 		if( !userp(inv[i]) || wizardp(inv[i]) || inv[i]->query("age")<18 )
 			continue;

@@ -25,7 +25,7 @@ void create()
         set("age",16);
         set("long","他是所有的巫師當中最懶的一位，整天無所事事，
 最近才去找到一份『可以偷懶』的工作。\n");
-        set("title",HIR + "懶惰成性"NOR+ HIG"巫師" + NOR);
+        set("title",HIR + "懶惰成性" + NOR+ HIG + "巫師" + NOR);
         set("gender","男性");
         set("class","巫師");
         set("str",30);
@@ -112,7 +112,7 @@ else
 if(me->query("quest/start_game")< 12)
        {
         message_vision(HIY + "
-恭喜"HIW+me->query("name")+HIY"挑戰" + HIG + "『" + HIR + "第十一層試煉ソ塔" + HIG + "』" + HIY + "通過！！
+恭喜" + HIW+me->query("name")+HIY + "挑戰" + HIG + "『" + HIR + "第十一層試煉ソ塔" + HIG + "』" + HIY + "通過！！
 
 " + HIW + "希望"+me->query("name")+"能不負眾望，勇闖" + HIG + "『" + HIY + "第十二層試煉ソ塔" + HIG + "』" + HIW + "。
 	" + NOR,me);

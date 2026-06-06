@@ -203,7 +203,7 @@ else
    
    tell_object(users(),HIW + "                                                
                                                                             
-    勇者"HIB+winner->query("name")+HIW"經過漫長艱辛的浴血之戰，終於將" + HIY + "黃金甲龍" + HIW + "手刃 . . .        
+    勇者" + HIB+winner->query("name")+HIW + "經過漫長艱辛的浴血之戰，終於將" + HIY + "黃金甲龍" + HIW + "手刃 . . .        
                                                                             
 魔界漸漸的回復了平靜，地上的人們也正為這場勝利歡呼著 !!\n" + NOR);     
  ::die();
