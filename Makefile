@@ -17,9 +17,9 @@ GO_EXE := $(shell if [ -f $(GOROOT)/bin/go ]; then echo $(GOROOT)/bin/go; else e
 ENV  := GOPATH=$(GOPATH) GOROOT=$(GOROOT) CGO_CFLAGS="-Wno-return-local-addr"
 ENVW := $(ENV) CGO_ENABLED=1 CGO_CFLAGS="-Wno-return-local-addr" GOOS=windows GOARCH=amd64 CC="x86_64-w64-mingw32-gcc -fno-stack-protector -D_FORTIFY_SOURCE=0 -lssp"
 
-.PHONY: all clean test-fsmud fsmud fsmud.exe fs fs.exe run-fsmud run-fs push inject-hash
+.PHONY: all clean test-fsmud fsmud fsmud.exe fs fs.exe mud-universal mud-universal.exe mudscript mudscript.exe run-fsmud run-fs push inject-hash
 
-all: fsmud fsmud.exe fs fs.exe
+all: fsmud fsmud.exe fs fs.exe mud-universal mud-universal.exe mudscript mudscript.exe
 
 inject-hash:
 	@echo "Injecting HEAD hash $(COMMIT) into index.html..."
@@ -53,26 +53,46 @@ $(OUT):
 	@mkdir -p $(OUT)
 
 # 編譯 Linux 版本
-fsmud fsmud.exe: $(OUT)
-	@echo "🔨 Building $@ (Standard fsmud version)..."
+fsmud: $(OUT)
+	@echo "🔨 Building $@ (Linux Standard)..."
 	@go mod tidy && $(GO_EXE) build $(GO_FLAGS) -tags fsmud -o $(OUT)/$@ ./cmd/fsmud
 	@ls -l $(OUT)/$@
 
-fs fs.exe: $(OUT)
-	@echo "🔨 Building $@ (Legacy FS version)..."
+fs: $(OUT)
+	@echo "🔨 Building $@ (Linux Legacy)..."
 	@go mod tidy && $(GO_EXE) build $(GO_FLAGS) -tags fs -o $(OUT)/$@ ./cmd/fsmud
 	@ls -l $(OUT)/$@
 
-universal: $(OUT)
-	@echo "🔨 Building universal binary (Including both fsmud & fs)..."
-	@go mod tidy && $(GO_EXE) build $(GO_FLAGS) -tags universal -o $(OUT)/mud-universal ./cmd/fsmud
-	@ls -l $(OUT)/mud-universal
+mud-universal: $(OUT)
+	@echo "🔨 Building $@ (Linux Universal)..."
+	@go mod tidy && $(GO_EXE) build $(GO_FLAGS) -tags universal -o $(OUT)/$@ ./cmd/fsmud
+	@ls -l $(OUT)/$@
 
-# 純淨驅動版 (不內嵌任何 mudlib)
 mudscript: $(OUT)
-	@echo "🔨 Building pure mudscript driver (No embedded assets)..."
-	@go mod tidy && $(GO_EXE) build $(GO_FLAGS) -o $(OUT)/mudscript ./cmd/fsmud
-	@ls -l $(OUT)/mudscript
+	@echo "🔨 Building $@ (Linux Pure)..."
+	@go mod tidy && $(GO_EXE) build $(GO_FLAGS) -o $(OUT)/$@ ./cmd/fsmud
+	@ls -l $(OUT)/$@
+
+# 編譯 Windows 版本 (.exe)
+fsmud.exe: $(OUT)
+	@echo "🔨 Building $@ (Windows Standard)..."
+	@go mod tidy && $(ENVW) $(GO_EXE) build $(GO_FLAGS) -tags fsmud -o $(OUT)/$@ ./cmd/fsmud
+	@ls -l $(OUT)/$@
+
+fs.exe: $(OUT)
+	@echo "🔨 Building $@ (Windows Legacy)..."
+	@go mod tidy && $(ENVW) $(GO_EXE) build $(GO_FLAGS) -tags fs -o $(OUT)/$@ ./cmd/fsmud
+	@ls -l $(OUT)/$@
+
+mud-universal.exe: $(OUT)
+	@echo "🔨 Building $@ (Windows Universal)..."
+	@go mod tidy && $(ENVW) $(GO_EXE) build $(GO_FLAGS) -tags universal -o $(OUT)/$@ ./cmd/fsmud
+	@ls -l $(OUT)/$@
+
+mudscript.exe: $(OUT)
+	@echo "🔨 Building $@ (Windows Pure)..."
+	@go mod tidy && $(ENVW) $(GO_EXE) build $(GO_FLAGS) -o $(OUT)/$@ ./cmd/fsmud
+	@ls -l $(OUT)/$@
 
 # 執行測試 (測試模式下不連接 P2P 以免干擾)
 test-fsmud: fsmud
@@ -86,9 +106,9 @@ run-fsmud: fsmud
 	# $(OUT)/fsmud 2>&1 | tee run-fsmud.txt
 
 # 正常執行 Legacy FS 伺服器 (使用統一的 fsmud binary)
-run-fs: fsmud
+run-fs: fs
 	@echo "🚀 Starting Legacy FS MudScript Server..."
-	@ ./bin/fsmud -mudlib fs -master /adm/obj/master.c -legacy
+	@ ./bin/fs -mudlib fs -master /adm/obj/master.c -legacy
 
 # 執行 Legacy FS 登入測試 (含 guest 登入與純 Enter 鍵測試)
 test-fs: fsmud

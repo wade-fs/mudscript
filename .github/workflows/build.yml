@@ -23,44 +23,53 @@ jobs:
       uses: actions/setup-go@v5
       with:
         go-version: '1.26.2'
-        cache: false # 暫時關閉快取以避免 go.sum 缺失造成的錯誤
+        cache: false
 
     - name: Install Windows Cross-Compiler
       run: |
         sudo apt-get update
         sudo apt-get install -y gcc-mingw-w64
 
-    - name: Tidy Go Modules
-      run: go mod tidy
-
     - name: Run MudScript Core Tests
       run: |
-        go build -o bin/fsmud ./cmd/fsmud
-        MUD_TEST_MODE=1 ./bin/fsmud
+        go mod tidy
+        make fsmud
+        MUD_TEST_MODE=1 ./bin/fsmud --hub none
 
-    - name: Build Linux Version
+    - name: Build All Targets
       run: |
-        mkdir -p bin
-        go build -ldflags="-s -w" -o bin/fsmud ./cmd/fsmud
+        # 使用 Makefile 編譯所有版本
+        make fsmud fsmud.exe fs fs.exe mud-universal mud-universal.exe mudscript mudscript.exe
 
-    - name: Build Windows Version
+    - name: Package Binaries
       run: |
-        CGO_ENABLED=1 GOOS=windows GOARCH=amd64 CC="x86_64-w64-mingw32-gcc" \
-        go build -ldflags="-s -w" -o bin/fsmud.exe ./cmd/fsmud
+        # 取得 Tag 名稱
+        TAG_NAME=${GITHUB_REF#refs/tags/}
+        if [ "$TAG_NAME" = "$GITHUB_REF" ]; then TAG_NAME="latest"; fi
+        
+        # 打包 Linux 版本 (.tar.gz)
+        tar -czf mudscript-linux-${TAG_NAME}.tar.gz -C bin fsmud fs mud-universal mudscript
+        
+        # 打包 Windows 版本 (.zip)
+        cd bin
+        zip ../mudscript-windows-${TAG_NAME}.zip fsmud.exe fs.exe mud-universal.exe mudscript.exe
+        cd ..
 
     - name: Upload Artifacts
       uses: actions/upload-artifact@v4
       with:
         name: mudscript-binaries
-        path: bin/
+        path: |
+          mudscript-linux-*.tar.gz
+          mudscript-windows-*.zip
 
     - name: Create Release
       if: startsWith(github.ref, 'refs/tags/v')
       uses: softprops/action-gh-release@v2
       with:
         files: |
-          bin/fsmud
-          bin/fsmud.exe
+          mudscript-linux-*.tar.gz
+          mudscript-windows-*.zip
         draft: false
         prerelease: false
       env:
