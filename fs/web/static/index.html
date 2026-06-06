@@ -431,9 +431,10 @@
     }
 
     function sendCmd(cmd) {
-        if (!cmd) return; 
-        if (historyCmds.length === 0 || historyCmds[historyCmds.length - 1] !== cmd) {
-            historyCmds.push(cmd);
+        if (cmd !== "") {
+            if (historyCmds.length === 0 || historyCmds[historyCmds.length - 1] !== cmd) {
+                historyCmds.push(cmd);
+            }
         }
         histIdx = historyCmds.length;
         hideHistory();
@@ -534,8 +535,7 @@
     function useHistory(cmd) { msgInput.value = cmd; hideHistory(); msgInput.focus(); }
 
     function sendMsg() { 
-        const v = msgInput.value.trim(); 
-        if (!v) return; 
+        const v = msgInput.value;
         sendCmd(v); 
         msgInput.value = ""; 
         isInputHidden = false;

@@ -75,16 +75,16 @@ run-fsmud: fsmud
 	@ ./bin/fsmud -mudlib fsmud -master master.c
 	# $(OUT)/fsmud 2>&1 | tee run-fsmud.txt
 
-# 正常執行 Legacy FS 伺服器
+# 正常執行 Legacy FS 伺服器 (使用統一的 fsmud binary)
 run-fs: fsmud
 	@echo "🚀 Starting Legacy FS MudScript Server..."
 	@ ./bin/fsmud -mudlib fs -master /adm/obj/master.c -legacy
-	# $(OUT)/fs 2>&1 | tee run-fs.txt
 
-# 執行 Legacy FS 連線測試
-test-fs: fs
-	@echo "🧪 Running Connection Test on Legacy FS..."
+# 執行 Legacy FS 登入測試 (含 guest 登入與純 Enter 鍵測試)
+test-fs: fsmud
+	@echo "🧪 Running Connection & Login Test on Legacy FS..."
 	@go run ./cmd/test-fs/main.go 2>&1 | tee test-fs.txt
+
 
 clean:
 	@rm -rf *.log *txt $(OUT)/*
