@@ -1,4 +1,3 @@
-# Compiled Object files, Static and Dynamic libs (Shared Objects)
 go.sum
 *.a
 *.so
@@ -31,15 +30,15 @@ bin
 mudlib/data/user
 mudlib/data/nature.o
 mudlib/data/system.o
-fs_cache/
 mudlib/data/lm/
 mudlib/std/proxy/
 mudlib/data/test_save.o
-run.txt
+fs_cache/
+run*
 debug_*
-fs/log
 *.tmp
 *.log
+fs/log
 fs/log/USAGE
 fs/log/init.log
 fs/log/log

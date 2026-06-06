@@ -20,6 +20,7 @@ void create ()
  往北為違反狂想空間制度的公佈欄。
  往東北方為歷代狂想巫師紀念榜。
  往下走你將會正式進入狂想空間的世界。
+ 往『lm』方向進入智慧創界世界。
 
 LONG);
 
@@ -39,6 +40,7 @@ set("objects", ([ /* sizeof() == 3 */
   "east" : "/open/wiz/restore",
   "north" : "/open/wiz/fsroom2",
   "west" : "/open/wiz/skroom",
+  "lm" : "/area/lm/center_world.c",
 ]));
   set("outdoors", "/open/common");
   set("valid_startroom", 1);
