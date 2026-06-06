@@ -7,15 +7,21 @@ VERSION := $(COMMIT)-$(DATE)
 
 TOP=$(shell pwd)
 OUT=$(TOP)/bin
-GOPATH ?= $(HOME)/go-1.26.2
-GOROOT ?= /usr/local/go-1.26.2
-GO_FLAGS := -ldflags="-s -w"
+
+# 🚀 智慧路徑偵測：優先使用系統環境，找不到才用預設值
+DETECTED_GOROOT := $(shell go env GOROOT 2>/dev/null)
+GOROOT ?= $(DETECTED_GOROOT)
+ifeq ($(GOROOT),)
+    GOROOT := /usr/local/go-1.26.2
+endif
 
 # 🚀 根據 GOROOT 是否存在來決定 Go 執行檔路徑
 GO_EXE := $(shell if [ -f $(GOROOT)/bin/go ]; then echo $(GOROOT)/bin/go; else echo go; fi)
 
-ENV  := GOPATH=$(GOPATH) GOROOT=$(GOROOT) CGO_CFLAGS="-Wno-return-local-addr"
-ENVW := $(ENV) CGO_ENABLED=1 CGO_CFLAGS="-Wno-return-local-addr" GOOS=windows GOARCH=amd64 CC="x86_64-w64-mingw32-gcc -fno-stack-protector -D_FORTIFY_SOURCE=0 -lssp"
+# 環境變數配置 (移除強制 GOROOT 以相容 CI)
+GO_FLAGS := -ldflags="-s -w"
+COMMON_ENV := CGO_CFLAGS="-Wno-return-local-addr"
+ENVW := $(COMMON_ENV) CGO_ENABLED=1 GOOS=windows GOARCH=amd64 CC="x86_64-w64-mingw32-gcc -fno-stack-protector -D_FORTIFY_SOURCE=0 -lssp"
 
 .PHONY: all clean test-fsmud fsmud fsmud.exe fs fs.exe mud-universal mud-universal.exe mudscript mudscript.exe run-fsmud run-fs push inject-hash
 
@@ -30,7 +36,7 @@ push-github:
 	@echo "📤 Pushing to origin (GitHub)..."
 	@git push origin main
 
-# 🚀 推送到 HuggingFace (強制寫入官方 fantasy.space 識別字與 wade.o 存檔)
+# 🚀 推送到 HuggingFace
 push-hf:
 	@echo "📤 Pushing to hf (HuggingFace)..."
 	@echo '{"mudlib_id":"fantasy.space","mudlib_name":"fantasy space"}' > mudlib/data/system.o
@@ -44,10 +50,7 @@ push-hf:
 clean-txt:
 	@ rm -f *txt *log
 
-# 🚀 一鍵雙推
 push: clean-txt push-github push-hf
-
-# 建立編譯目錄
 
 $(OUT):
 	@mkdir -p $(OUT)
@@ -55,22 +58,22 @@ $(OUT):
 # 編譯 Linux 版本
 fsmud: $(OUT)
 	@echo "🔨 Building $@ (Linux Standard)..."
-	@go mod tidy && $(GO_EXE) build $(GO_FLAGS) -tags fsmud -o $(OUT)/$@ ./cmd/fsmud
+	@go mod tidy && $(COMMON_ENV) $(GO_EXE) build $(GO_FLAGS) -tags fsmud -o $(OUT)/$@ ./cmd/fsmud
 	@ls -l $(OUT)/$@
 
 fs: $(OUT)
 	@echo "🔨 Building $@ (Linux Legacy)..."
-	@go mod tidy && $(GO_EXE) build $(GO_FLAGS) -tags fs -o $(OUT)/$@ ./cmd/fsmud
+	@go mod tidy && $(COMMON_ENV) $(GO_EXE) build $(GO_FLAGS) -tags fs -o $(OUT)/$@ ./cmd/fsmud
 	@ls -l $(OUT)/$@
 
 mud-universal: $(OUT)
 	@echo "🔨 Building $@ (Linux Universal)..."
-	@go mod tidy && $(GO_EXE) build $(GO_FLAGS) -tags universal -o $(OUT)/$@ ./cmd/fsmud
+	@go mod tidy && $(COMMON_ENV) $(GO_EXE) build $(GO_FLAGS) -tags universal -o $(OUT)/$@ ./cmd/fsmud
 	@ls -l $(OUT)/$@
 
 mudscript: $(OUT)
 	@echo "🔨 Building $@ (Linux Pure)..."
-	@go mod tidy && $(GO_EXE) build $(GO_FLAGS) -o $(OUT)/$@ ./cmd/fsmud
+	@go mod tidy && $(COMMON_ENV) $(GO_EXE) build $(GO_FLAGS) -o $(OUT)/$@ ./cmd/fsmud
 	@ls -l $(OUT)/$@
 
 # 編譯 Windows 版本 (.exe)
@@ -94,27 +97,25 @@ mudscript.exe: $(OUT)
 	@go mod tidy && $(ENVW) $(GO_EXE) build $(GO_FLAGS) -o $(OUT)/$@ ./cmd/fsmud
 	@ls -l $(OUT)/$@
 
-# 執行測試 (測試模式下不連接 P2P 以免干擾)
+# 執行測試
 test-fsmud: fsmud
 	@echo "🧪 Running MudScript Core Tests on fsmud/ mudlib..."
 	@MUD_TEST_MODE=1 $(OUT)/fsmud --hub none 2>&1 | tee test-fsmud.txt
 
-# 正常執行伺服器 (預設連接全球星際中心)
+# 正常執行伺服器
 run-fsmud: fsmud
 	@echo "🚀 Starting MudScript Server (Connecting to Global Hub)..."
 	@ ./bin/fsmud -mudlib fsmud -master master.c
-	# $(OUT)/fsmud 2>&1 | tee run-fsmud.txt
 
-# 正常執行 Legacy FS 伺服器 (使用統一的 fsmud binary)
+# 正常執行 Legacy FS 伺服器
 run-fs: fs
 	@echo "🚀 Starting Legacy FS MudScript Server..."
 	@ ./bin/fs -mudlib fs -master /adm/obj/master.c -legacy
 
-# 執行 Legacy FS 登入測試 (含 guest 登入與純 Enter 鍵測試)
-test-fs: fsmud
+# 執行 Legacy FS 登入測試
+test-fs: fs
 	@echo "🧪 Running Connection & Login Test on Legacy FS..."
 	@go run ./cmd/test-fs/main.go 2>&1 | tee test-fs.txt
-
 
 clean:
 	@rm -rf *.log *txt $(OUT)/*

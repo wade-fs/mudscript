@@ -13,11 +13,11 @@ import (
 )
 
 func main() {
-	// 1. 啟動 bin/fsmud 伺服器 (Legacy FS 模式)
+	// 1. 啟動 bin/fs 伺服器 (Legacy FS 模式)
 	log.Println("🚀 正在啟動 Legacy FS 伺服器進行整合測試...")
 	
-	// 使用重構後的統一 binary
-	cmd := exec.Command("./bin/fsmud", "-mudlib", "fs", "-master", "/adm/obj/master.c", "-legacy", "-telnet", "4000")
+	// 使用內嵌了 fs 資源的專屬 binary
+	cmd := exec.Command("./bin/fs", "-mudlib", "fs", "-master", "/adm/obj/master.c", "-legacy", "-telnet", "4000")
 	
 	// 為了能觀察內部錯誤，我們捕獲輸出
 	stdout, _ := cmd.StdoutPipe()
