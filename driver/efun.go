@@ -9,8 +9,24 @@ import (
 // 輔助工具函式 (Internal Helpers)
 // ==========================================
 
-// isLPCTrue 判斷 LPC 中的真假值
+// IsLPCTrue 判斷 LPC 中的真假值
 // 🚀 關鍵相容：在 MudOS/LPC 中，只有整數 0 為假，其餘 (包含空字串、空陣列、空 Mapping) 皆為真！
+func (d *Driver) IsLPCTrue(o object.Object) bool {
+	if o == nil || o.TokenType() == object.NilType || o.TokenType() == object.ErrorType {
+		return false
+	}
+	if i, ok := o.(*object.Integer); ok && i.Value == 0 {
+		return false
+	}
+	if b, ok := o.(*object.Boolean); ok && !b.Value {
+		return false
+	}
+	if r, ok := o.(*object.ReturnValue); ok {
+		return d.IsLPCTrue(r.Value)
+	}
+	return true
+}
+
 func isLPCTrue(o object.Object) bool {
 	if o == nil || o.TokenType() == object.NilType || o.TokenType() == object.ErrorType {
 		return false
