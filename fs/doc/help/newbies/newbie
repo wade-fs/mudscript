@@ -1,176 +1,176 @@
-    �����A�w��[�J�g�Q�Ŷ��A���F�����s�⦭����x���t�ΡA�b���S�a���W�@
-���s����n�C
-    �����A�A�n�ǲ߳]�ۤv���ѼơA�@���y�M�O�A�w�ʡA���ʡA�x�ѡA�ڰ��A�F
-�ʡA�e���A�ֽt�z�K���C�즸��Ĳ���H�A���|�ܲV�áA������q�]�_�A�]���K��
-�u���@�ʤ��Q�I�i�Ѥ��t�A�C���̤֤Q�I�A�ܦh�T�Q�I�C�{�b�ڥ����Ф@�U�U��
-�S��C
+    齁齁，歡迎加入狂想空間，為了能讓新手早日熟悉本系統，在此特地附上一
+份新手指南。
+    首先，你要學習設自己的參數，共有『膂力，定性，悟性，膽識，根骨，靈
+性，容貌，福緣』八項。初次接觸的人，必會很混亂，不知何從設起，因為八項
+只有一百六十點可供分配，每項最少十點，至多三十點。現在我先介紹一下各項
+特色。
 
-�M�O�G�o���������Y��A�������O�A�p�G�Q���Ӥj�O�h�A�o�N�h���I�I�ơC
-�w�ʡG�G�W��q�N�O�w�w�ʡA�@�ӽm�Z���H�Y�������A�O�����F��Ԫ��C
-���ʡG�o���Y��A�ǲߪ��t�סA�ä��O�C�ӤH�������t�@�ˡA�²��ٯ���j�L�C
-�x�ѡG�x�l�j�~�����[�A�@�ө��������j�L�A�ڥ����γ��L�C
-�ڰ��G�A��Q���L�L�ɱ��H�ܡA���ۤv���Ӱ��d�_�_�a�C
-�F�ʡG�o�]�O�ߪZ���H�Ӧ����ѽ�A�F�ʤ����O�S��k�^�Ѯѵe�˼˺몺�C
-�e���G���Y�H�H�R�A�ŭ��H�H���C�~���u���s�p�c���|��A�K�y�C
-�ֽt�G�B��]�O��O�A�Y�A�B�_�n�A�����w���N�Q���쪺�o�{��I
+膂力：這項直接關係到你的攻擊力，如果想當個大力士，這就多分點點數。
+定性：故名思義就是安定性，一個練武之人若坐不住，是成不了氣候的。
+悟性：這關係到你學習的速度，並不是每個人都像郭靖一樣，笨笨還能當大俠。
+膽識：膽子大才敢打架，一個怕蟑螂的大俠，根本不用鳥他。
+根骨：你能想像林黛玉殺人嗎，讓自己做個健康寶寶吧。
+靈性：這也是習武之人該有的天賦，靈性不夠是沒辦法琴棋書畫樣樣精的。
+容貌：水某人人愛，酷哥人人哈。外表優異連小販都會算你便宜。
+福緣：運氣也是實力，若你運起好，說不定有意想不到的發現喔！
 
-�䤤�M�O(str)�i�g�Ѿǲ� �����氫�ޥ� (Unarmed)�ӼW�[�C
-    ����(int)�i�g�Ѿǲ� Ū���Ѧr (Literate)�ӼW�[�C
-    �ڰ�(con)�i�g�Ѿǲ� �򥻤��\ (Force)�ӼW�[�C
-�p�G�A�O�Ĥ@������Mud ����(int)�]���@�I�A�ǲߧޯ�(skill)�|����֡A�F��
-(spi) �ܤ֤]�n15��20�H�W�A�]�������Y��ǲߧޯ�(skill)���h��(�ܭ��n)�C 
-PS. ���Ǫ������ݩʦ��@�w���W�w�~�|���A�[�J(join)�A�Ҧp �Z�N�a(fighter)
-�M�O�ܤ֭n20�H�W�A�]�M(mblade) �T�t�ܤ֭n25�H�W�A�R��(dancer) �e���ܤ�
-�n25�H�W.....���C
+其中膂力(str)可經由學習 撲擊格鬥技巧 (Unarmed)來增加。
+    悟性(int)可經由學習 讀書識字 (Literate)來增加。
+    根骨(con)可經由學習 基本內功 (Force)來增加。
+如果你是第一次玩此Mud 悟性(int)設高一點，學習技能(skill)會比較快，靈性
+(spi) 至少也要15～20以上，因為它關係到學習技能(skill)的多寡(很重要)。 
+PS. 有些門派對屬性有一定的規定才會讓你加入(join)，例如 武術家(fighter)
+膂力至少要20以上，魔刀(mblade) 幅緣至少要25以上，舞者(dancer) 容貌至少
+要25以上.....等。
 
-    �n�աA�Ӷi�J�C���o�I�A���q�@�ɪ��J�f���U���A�|�ݨ�@�ӥi�R���p�k��
-�b�����A�ݦo�礣���骺�a�ļˡA�u�O�f�H�C���@�Ӥj�L���򥻱���A�N�O��
-�@�����}���ߡC�A��(give cloth to girl)�H���U�o�p�k�ġA���F���§A�A�o�|
-���A�@�I�I���M�a�ϡC�A�i�H����(read map)�N�i�H���D�j������m�ϡA���ۡA
-�A�i�H��(help ����²��)�N�i�ݨ�b�g�Q���Ҧ�������²���A���M�w�F�n�b��
-���o�i��A�A�N����Ӭ����ݪ����|�h�[�J(join)�A�A�h�n���y�X�Ӭ��A�@�몺
-�x�������|�ӤN���A�A���L���������N���Y�ǰѼƪ�����A�Ҧp�n���k�����C
-    ��軡�F�@��A��A�i�����U�����A�]���A�����Ĥ@�����A���O���A�Q��
-�����|�j���N�n�n�X�ѡA�ҥH�A�i�H��(chat)���O�ШǦѳ������A���K���L�̢�
-�I���A�s�⪺�}�P�i�O���p����I
+    好啦，該進入遊戲囉！你先從世界的入口往下走，會看到一個可愛的小女孩
+在賣火柴，看她衣不覆體的窮酸樣，真是口黏。做一個大俠的基本條件，就是有
+一顆善良的心。你打(give cloth to girl)以幫助這小女孩，為了答謝你，她會
+給你一點點錢和地圖。你可以先打(read map)就可以知道大概的位置圖，接著，
+你可以打(help 幫派簡介)就可看到在狂想中所有的門派簡報，等決定了要在那
+派發展後，你就先到該派所屬的公會去加入(join)，再去登門造訪該派，一般的
+掌門都不會太刁難你，不過有的門派就有某些參數的限制，例如要美女等等。
+    剛剛說了一堆，對你可能幫助不夠，因為你必竟第一次玩，光是找到你想找
+的公會大概就要好幾天，所以你可以用(chat)指令請些老鳥幫忙，順便像他們Ａ
+點錢，新手的開銷可是不小的喔！
 
-     ��guild�i�H�ݨ�Fs�Ҧ��������A�Фj�a�Ҧ����|���Ҧb�A�H�K�]���j�a��
-�b��ı�m�\�S�H�a....
+     打guild可以看到Fs所有的門派，教大家所有公會的所在，以免因為大家都
+在睡覺練功沒人帶....
 
-�C�h���|(swordsman)�G
-    �q"��������p�k��(sale girl)"�A�� 7w 8n 2e n w....join
-�ѥͤ��|(booker)�G
-    �[�J�����|�A�i�H��ܭn�������άO�q�a�A���|�Ѥj�O�b�ʫ��A
-    �q(sale girl)�� 7e 9n 3e�Ajoin....join
-�M�Ȥ��|(blademan)
-    �[�J���u�|�A�i��ܭn�����M�άO�]�M�A���|�Ѥj�O�b���L��A
-    �q(sale girl)�� 13 s w s.... join ...
-�Z�̤��|(fighter)�G
-    �[�J�����|�A�i�H��ܭn�����a�άO�]�s�A�q(sale girl)�� 4e 3n w 
+劍士公會(swordsman)：
+    從"賣火材的小女孩(sale girl)"，往 7w 8n 2e n w....join
+書生公會(booker)：
+    加入此公會，可以選擇要拜儒門或是段家，公會老大是在京城，
+    從(sale girl)往 7e 9n 3e，join....join
+刀客公會(blademan)
+    加入此工會，可選擇要拜金刀或是魔刀，公會老大是在楓林港，
+    從(sale girl)往 13 s w s.... join ...
+武者公會(fighter)：
+    加入此公會，可以選擇要拜雪蒼或是瀧山，從(sale girl)往 4e 3n w 
     climb pine 3u n..... join 
-�]�Ф��|(poisoner)�G :
-    �q(sale girl)�� 11w 4n 2w n.....join
-�c�H���|(badman)�G
-  ..�q(sale girl)�� 2n w search 2n pass rattan 2n out 7w 2n w..join
-��̤��|(doctor) �G
-    �q(sale girl)�� 7e 9n 3e....join 
-�R�̤��|(dancer)�G
-    �q(sale girl)�� 7e 8n e....join
-�ѹD���|(taoist)�G
-    �q(sale girl)�� 7w 11n w n 2w 2n 2e s....join
-�g�⤽�|(bower)�G
-�@�@�q(sale girl)�� 5w 5s e 4s 2w s e 4n 3e s....join
-���⤽�|(killer)�G
-    �q(sale girl)�� 8e 2n 2e pull button n enter n u 3n....join
-�t���Ф��|(prayer)�G
-    �q(sale girl)�� 5w 5s 11w 10n ent 4n ent 3n....join 
+魔教公會(poisoner)： :
+    從(sale girl)往 11w 4n 2w n.....join
+惡人公會(badman)：
+  ..從(sale girl)往 2n w search 2n pass rattan 2n out 7w 2n w..join
+醫者公會(doctor) ：
+    從(sale girl)往 7e 9n 3e....join 
+舞者公會(dancer)：
+    從(sale girl)往 7e 8n e....join
+天道公會(taoist)：
+    從(sale girl)往 7w 11n w n 2w 2n 2e s....join
+射手公會(bower)：
+　　從(sale girl)往 5w 5s e 4s 2w s e 4n 3e s....join
+殺手公會(killer)：
+    從(sale girl)往 8e 2n 2e pull button n enter n u 3n....join
+聖火教公會(prayer)：
+    從(sale girl)往 5w 5s 11w 10n ent 4n ent 3n....join 
 
-join����A�N�n�}�l��x���H�F�A�]�N�O�A���v���A���L�̪���m�b���O�H
-��help way �N�i�H���x���F�A����N�i�H�i����v(app)�C
-PS ���Ǫ��������q�L�Y�ǹL�{�~����v�A�Ҧp�Ѱg....��
+join完後，就要開始找掌門人了，也就是你的師父，那他們的位置在哪呢？
+請help way 就可以找到掌門了，找到後就可以進行拜師(app)。
+PS 有些門派必須通過某些過程才能拜師，例如解迷....等
 
-�@�@�n���e���[�J�F�����A�������V�A���v���ǨǪZ�\�����A�ӤH���g��A
-����Force ��20 Lv�ASpi force ��1 Lv�A�M�������Z�\�A²�檺���N�O��
-�ǫe�������ĤĪ��ޯ�(skill)�A�䥦�@�ǰ򥻪��ޯ�(���G move  dodge
-parry....��)���i�H���pEXP(�g���)���@�w���{�׫�b��(���O1��2�U��)
-��EXP 20 �U�ɰ򥻧ޯೣ�٬O�Ӧ�ơA�ݭӤH�\�O�p��C
-�ܩ󬰤���Spi force �u�n��1 Lv�N�n�O�H�]���@�}�lpot�ܬöQ�A���M��
-���h�ǥu���Learn��skill�A��Spi force �i�H�Q��(ex 10)�ۤv�C�C�B�A
-�C�@��ex 10 �N�|�W�[���m��5���Cpot �Υ���N�i�H�ȧO�v���A�X���r
-�m�o�I
-�@�@�b�ЧA�p���ܦ��j�L�e�A���V�A���Эӭ��n�D��A���s�y�궳���z
-(cloud fan)���S���o���N�઺�t�O�A�N���p�ѻP�a�A��򻡣z�H�A�n���D
-�AF S���a�ϬO�D�`�j���A�p�G�쨺���n�@�B�@�}�L�A�٨S���H�K�|���֦�
-�A�ҥH���a�p�c�A�K�ۦ��޶i�F�o�F�F�A�o�F�誺�Ϊk�O( waveto + �a
-��N�X) �u�n�A���F�o���O�A���N�|�a�A���h�A������K�A���ofan�n�D��
-�R�O�H���ܦh���p�c������A�`�R����m�O�Gsale girl 5w 5s 5w ��L��
-�a��N�a�A�h�oı�F�C
+　　好不容易加入了門派，首先先向你的師父學些武功防身，個人的經驗，
+先學Force 約20 Lv，Spi force 學1 Lv，和本門的武功，簡單的說就是先
+學前面有打勾勾的技能(skill)，其它一些基本的技能(像： move  dodge
+parry....等)都可以等妳EXP(經驗值)有一定的程度後在學(約是1～2萬後)
+我EXP 20 萬時基本技能都還是個位數，看個人功力如何。
+至於為什麼Spi force 只要學1 Lv就好呢？因為一開始pot很珍貴，當然先
+拿去學只能用Learn的skill，而Spi force 可以利用(ex 10)自己慢慢運，
+每一次ex 10 就會增加熟練度5單位。pot 用光後就可以暫別師父，出來礪
+練囉！
+　　在教你如何變成大俠前，先向你介紹個重要道具，它叫『喚雲扇』
+(cloud fan)有沒有這玩意兒的差別，就有如天與地，怎麼說ㄋ？你要知道
+，F S的地圖是非常大的，如果到那都要一步一腳印，還沒打人便會先累死
+，所以當地小販，便自西域引進了這東東，這東西的用法是( waveto + 地
+方代碼) 只要你打了這指令，它就會帶你飛去，極為方便，那這fan要道哪
+買呢？有很多的小販都有賣，常買的位置是：sale girl 5w 5s 5w 其他的
+地方就靠你去發覺了。
 
-�N�X���p�U�G
-1 �ʫ��A�]�O�F���Ҧb�C
-2 �������A����j�N�x�N�n�b�o��C
-3 ���n���A�ۯ��{�ӫҩ��A�j�z��A�K�]�p�v�z�C
-4 �����毸�A�۷���ڭ̪�������ھ����A����a��q���ߡC
-5 �ⶳ���A�E�몺�p�A���A�A���_�I�N�O�Ѧ��}�l�C
-6 �o�O�A���O���I�A�A�b���O���A�N���쨺�C
-10 ���L��A�@�Ӥp����A�����x�n�ϡC
+代碼表如下：
+1 京城，也是政府所在。
+2 蜀中城，平西大將軍就駐在這兒。
+3 平南城，自神州皇帝征服大理後，便設郡治理。
+4 中央驛站，相當於我們的中正國際機場，為國家交通中心。
+5 凌雲村，淳樸的小農村，你的冒險就是由此開始。
+6 這是你的記錄點，你在那記錄，就飛到那。
+10 楓林港，一個小漁港，有水軍駐紮。
 
-�o�����A�i��|�o�{�A( 7,8,9)���h�F�H�����A�o�O���F��K�A���_�I�A���A��
-���ۥ��I�A�A�u�n�b�Q�h���I�W��(fanset + 7,8,9)�H�ᥴ(waveto 7,8,9)�N�|
-����I�W�A��K�a�C���L�γo���N��i���O�K�O�A�@���|���ӧA���s�ڤ���Ȥl
-�A�ӥB�N��A���W�����]����A�@�w�n�s�i�Ȧ�(bank)�~��γ�I�ڷQ����ȹ�
-�A�o���W�u���@�ʤ媺�H�@�w�O���j�ƥءA�G�b�o�F���e�A�h�θ}�a�I
+聰明的你可能會發現，( 7,8,9)那去了？齁齁，這是為了方便你的冒險，為你做
+的自由點，你只要在想去的點上打(fanset + 7,8,9)以後打(waveto 7,8,9)就會
+到該點上，方便吧。不過用這玩意兒可不是免費，一次會消耗你的存款五兩銀子
+，而且就算你身上有錢也不行，一定要存進銀行(bank)才能用喔！我想五兩銀對
+你這身上只有一百文的人一定是筆大數目，故在發達之前，多用腳吧！
 
-�@�@�n�A�{�b�}�l�`�NChat�����ǤH�b���ܡA��@�ӧAı�o�L�����ߪ��H�ATell
-�L��L�n�@�I��(�n�`�N�A�׳�)�A�j���n��10��50gold�ɴN���F�A�p�G���{�Ѫ�
-���M��h�Ϥ@�I�N�h�@�I�A�@�}�l�m�O�̪�����A�]�i�H��Chat���L���Ƥ��n��
-�h�A�|���ϮĪG�C
-    �����A�qsale girl 10s w deposit 5 gold�Arecall d 5w 5s 5w buy fan
-�A�N�i�H�ϥ�fan�F(waveto+�N�X)�AThen waveto 2 buy 2 mass�Awaveto 5 buy
-tea�A�o���Food and water�O�̦n���A���ۧAwaveto 5 2w n�A�N��F�@��A�a
-�A�@�Ӥk�H���n���L�b�ФW���V�Ұe�K���A�A�i�H�ۧi�īi�������e�h(ask 
-woman about �K��)�A���ۨ�F����(��waveto 5 s ��)�A�̵۹A���ҫ����S�x��
-�Q���F���F���ȡA����A�A�hwaveto 10 2w s�R����A�ܩ�Z��(weapon)�ЦѪ�
-�a���A���@�ӪZ���A�o�˧A�N�i�H���b�����m�m�\�F�O���n�N��A�Ҧ����j�L��
-�O�q�ۭt�z�p�}�l���A�]�O�b�N��Ĺ�A�A�n�Q��A�A�u�O�ӤQ�|�����Ĥl���I
-Ps.�]�i�H��butterfly toad squirt bat horse ���n k bee ��...�n��...:(   
-    ���A���M�ⶳ�L�Ĥ��A�K�i�H�i�x�����o�A����ǨS�Ϊ����k�}�M�A�A��
-���ǵL�᪺��������@�y�A�o�ɧA��exp�Ӧ�300 ~ 500�F�A�A�K�췬�L��A���
-�h�𪺦Ѻ��Ұ��A���AĹ�F�A�N�i�H�D�Ԧ~���������ҳ�C
-�@�@�@�����ǥ����w�g�L�K�k�����A�F�A�A�i�H���󥭫n���������Z�]�ոը�
-��A�M���ǷR���[���Z�]�̤l�ӳ��氫�A���o�˨ä������A�����h�֡A�A�i�H�}
-�l�h�Ū�(waveto 1 3s w n enter)�o�I
-�@�@�Ū��̦��@�s����n�����ɧ֡A��@�Ӹg��ȤT�d���å�����A���_�ӷ|��
-�ǦY�O�A���L�[�F�N²���o�C�άO�h�t���и̤]���t���Ч̤l�i�H���A���L����
-�e�A�n���P�_�L����O�A�A�i�H��consider trainee�ӧP�_�A�i�d�U�O������A
-�̭��]���V���ܱj������(trainee EXP�� 2000 5000 8000 10000�A�ҥH�n�O�o
-��Consider trainee)�A�t���Ц@���K�Ӥ���(�b�t���`�¥~�|�P)�A����|��A
-�k��|��A�A�i�H�h�}�}�ݡA���A��EXP�� 2400�ɡA�i�H��s��`�h�����a��A
-�o�a��W�s�G�����ӫB��(waveto 1 12w ent)�A�p�G����enter�ФH���A��guard
-�N�i�H�i�h�F�A�̭���Bird Peacock FishEXP 5000�W�U��A���ӬO���ө��|�A
-���B�Ӥ���Cat exp 8000�ADog 9000�ABoy 10000�AGirl 13000�AMan 20000�C
-PS ��MOB�ɡA���O�n�]wimpy(�pwimpy 50)�Awimpydir ���@�w�n�]�C
-    �����A�A���ӬO�Ӹg��ȯ}�U���H�o�I�@�Ӧ��|��Ƹg��Ȫ��H�w�g���O�s
-��F�A�i�H�O�@�ۤv�F�A�ҥH�A���U�Ӿa�A�o�C
+　　好，現在開始注意Chat有哪些人在說話，找一個你覺得他滿熱心的人，Tell
+他跟他要一點錢(要注意態度喔)，大約要到10～50gold時就夠了，如果有認識的
+當然能多Ａ一點就多一點，一開始練是最花錢的，也可以用Chat不過次數不要太
+多，會有反效果。
+    首先你從sale girl 10s w deposit 5 gold，recall d 5w 5s 5w buy fan
+你就可以使用fan了(waveto+代碼)，Then waveto 2 buy 2 mass，waveto 5 buy
+tea，這兩種Food and water是最好的，接著你waveto 5 2w n，就到了一戶農家
+，一個女人正要給他在田上的丈夫送便當，你可以自告奮勇的幫它送去(ask 
+woman about 便當)，接著到了田邊(往waveto 5 s 走)，依著農婦所指的特徵順
+利的達成了任務，之後，再去waveto 10 2w s買防具，至於武器(weapon)請老玩
+家幫你打一個武器，這樣你就可以先在村中練練功；別不好意思，所有的大俠都
+是從欺負弱小開始的，也別在意輸贏，你要想到，你只是個十四歲的孩子咩！
+Ps.也可以打butterfly toad squirt bat horse 不要 k bee 喔...好兇...:(   
+    等你打遍凌雲無敵手後，便可以進軍城市囉，先找些沒用的婦女開刀，再把
+那些無聊的市民海扁一頓，這時你的exp該有300 ~ 500了，你便到楓林港，找到
+退休的老漁夫婦，等你贏了，就可以挑戰年輕的打漁夫喔。
+　　一直打些平民已經無免法滿足你了，你可以到位於平南城的正晴武館試試身
+手，和那些愛打架的武館弟子來場格鬥，但這樣並不能讓你成長多少，你可以開
+始去衙門(waveto 1 3s w n enter)囉！
+　　衙門裡有一群有手好閒的補快，對一個經驗值三千的傢伙來講，打起來會有
+些吃力，不過久了就簡單囉。或是去聖火教裡也有聖火教弟子可以打，不過打之
+前你要先判斷他的實力，你可以用consider trainee來判斷，可千萬別打錯喔，
+裡面也有混雜很強的高手(trainee EXP有 2000 5000 8000 10000，所以要記得
+用Consider trainee)，聖火教共有八個分舵(在聖火總壇外四周)，左邊四舵，
+右邊四舵，你可以去逛逛看，等你的EXP有 2400時，可以到新手常去打的地方，
+這地方名叫：金風細雨樓(waveto 1 12w ent)，如果不能enter請人幫你打guard
+就可以進去了，裡面有Bird Peacock FishEXP 5000上下對你應該是輕而易舉，
+風雨樓內的Cat exp 8000，Dog 9000，Boy 10000，Girl 13000，Man 20000。
+PS 打MOB時，切記要設wimpy(如wimpy 50)，wimpydir 不一定要設。
+    齁齁，你應該是個經驗值破萬的人囉！一個有四位數經驗值的人已經不是新
+手了，可以保護自己了，所以，接下來靠你囉。
 
-�����@�@�ײv
+附錄一　匯率
 
 help money
 
-�����G�@�U�u�e
+附錄二　下線前
 
-��ĳ�A����ө��h�A��A���W���F�����F�A�i��|��A���g�٦������U�C�ϥ�
-�U�u�˳ơA�D�㳣�|����a�W�A�P��K�y�F�O�H�A���p�⥦�̵o���췥�P�F���y
-�{�ꪺ�A�A���F���٤��@�w���H�n�z�I
-�ө��Gwaveto 4 e n(�@��H�`�h)
-      waveto 2 e(�@��H�`�h)
+建議你先到商店去，把你身上的東西全賣了，可能會對你的經濟有所幫助。反正
+下線裝備，道具都會掉到地上，與其便宜了別人，不如把它們發揮到極致；講句
+現實的，你的東西還不一定有人要ㄋ！
+商店：waveto 4 e n(一般人常去)
+      waveto 2 e(一般人常去)
       waveto 10 n w
       waveto 3 2e s
 
-�����T�@���ήɶ�
+附錄三　善用時間
 
-���A��H�������b���_�����ɶ��A���p�h�v�����h���I�Z�\�A�p���@�ӧA�N����
-���O�ɶ��ǪZ�A�]�i�H���ħQ�ε��ݮɶ��C
+當你把人都打完在等復活的時間，不如去師父那多學點武功，如此一來你將不用
+浪費時間學武，也可以有效利用等待時間。
 
-�����|�@�ȸg��ȡA����
+附錄四　賺經驗值，潛能值
 
-���F�b�԰��L�{���ұo���g��M���~�A�����g��Ȧb�A3 ~ 0.8�����ĤH�٦��B
-�~���g��M���C
-example �Aexp 10000 �h�A����(kill)exp 8000 ~ 30000���H���|���g��ȡA��
-�L�o�ä����ܧA�@�w����Ĺ��A��ĳ�A���H����(fight)�p�G�����˦A�h�U����
-�A�]��(fight)�N��A���F�]�S���Y�A�Y�A���ɥΪ��O(kill)sorry la�A�����a�I
-�ä��n��߱��H�|���|���H�D�A�L�̥i�O�Q�������N�|�_���@����C
+除了在戰鬥過程中所得的經驗和潛能外，殺死經驗值在你3 ~ 0.8倍的敵人還有額
+外的經驗和潛能。
+example 你exp 10000 則你打死(kill)exp 8000 ~ 30000的人都會有經驗值，不
+過這並不表示你一定打的贏喔，建議你打人先用(fight)如果對方昏倒再痛下殺手
+，因為(fight)就算你昏了也沒關係，若你昏時用的是(kill)sorry la你等死吧！
+並不要擔心殺人會不會不人道，他們可是十五分鐘就會復活一次喔。
 
-�������@����
+附錄五　死後
 
-�H�ͦۥj�ֵL���H�Y�A��F�����A�O���L�A���ۦa�����h�a�A���J��¥յL�`�N
-����A�L�̦۷|���A�_���A���L�Ѧ���ͪ��L�{���A�|���A�@�ǪF�谵ĵ�i�C
+人生自古誰無死？若你到了陰間，別難過，順著地府走去吧，等遇到黑白無常就
+停止，他們自會幫你復活，不過由死轉生的過程中，會扣你一些東西做警告。
 
 
-�A�]�i�H��140.135.112.2 �h�����A�̭��]��FS���Q�װϳ�.....
-�� �n�B�G
-help ����²���Ahelp cmds�Ahelp rules�Ahelp play_rules�Ahelp way
-help �����Ahelp armor�Ahelp weapon�Ahelp gift�Ahelp area
+你也可以到140.135.112.2 去玩玩，裡面也有FS的討論區喔.....
+祝 好運：
+help 幫派簡介，help cmds，help rules，help play_rules，help way
+help 公式，help armor，help weapon，help gift，help area
 
 *** last modified by Son 04/23/02 ***
 

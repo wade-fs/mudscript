@@ -1,16 +1,16 @@
  
  
-¡¼ ±±¨î¥i¥H(party)ªº(NPC)ªº©R¥O
+â–¡ æ§åˆ¶å¯ä»¥(party)çš„(NPC)çš„å‘½ä»¤
  
-¤@¡Bparty with <npc>       ©M npc party
+ä¸€ã€party with <npc>       å’Œ npc party
  
-¤G¡Bunparty <npc>          ©M npc unparty
+äºŒã€unparty <npc>          å’Œ npc unparty
  
-¤T¡Bgokill <mob>           ©M npc Áp¤â±ş mob
+ä¸‰ã€gokill <mob>           å’Œ npc è¯æ‰‹æ®º mob
  
-¥|¡Border <npc> do <command> ©R¥O npc §@¬Y¥ó¨Æ
+å››ã€order <npc> do <command> å‘½ä»¤ npc ä½œæŸä»¶äº‹
  
-    command ¥]¬A : wield unwield
+    command åŒ…æ‹¬ : wield unwield
 		   wear  remove
 		   follow unfollow
  

@@ -1,183 +1,183 @@
-�ثe�i�׵{�� :
+目前進度程序 :
 
-1.���s�f�d all skills and funcs
-2.�ۤ�o�i class
+1.重新審查 all skills and funcs
+2.著手發展 class
 
-�Z��(fighter)
+武者(fighter)
 
-�ثe :
+目前 :
 
-�]���]�s�M���a���O(fighter)���O�]�s�o�S�����a�몺�¤O
-�ҥH����N�]�s��(enforce)����h���M��N�|���ƭץ��Z��
-�� skills and funcs �h���@���� busy ��
-�M�ӪZ�̤��ξ�߷|�Q�ʨ즺  �]���ڷ|��ۤv�ĥު��\��
-�u���Z�̦Ӥw  ���M�X�{������]�|���ҽվ�
+因為瀧山和雪蒼都是(fighter)但是瀧山卻沒有雪蒼般的威力
+所以打算將瀧山的(enforce)限制去除然後將會全數修正武者
+的 skills and funcs 去除一切的 busy 技
+然而武者不用擔心會被封到死  因為我會把自己衝穴的功能
+只給武者而已  當然出現的條件也會有所調整
 
-PS.���Z�̯�۰ʽĥެO�]��  �Z�̤��O�׬����i�H�į}�ۦ�ѥ�
-   �άO���O�׬����i�H�B�ή�l��ܥ~�Ӯ�l
+PS.給武者能自動衝穴是因為  武者內力修為高可以衝破自行解穴
+   或是內力修為高可以運用氣勁抵抗外來氣勁
 PS. 1 vs 1 
 
-�o�i :
+發展 :
 
-����b�Z�̵o�i�w�g�ܧ����F  �i�ण�|�����o�i�a
+說實在武者發展已經很完美了  可能不會有什發展吧
 
-�ѥ�(scholar)
+書生(scholar)
 
-�ثe :
+目前 :
 
-�ѥ;ժ����O�ʥ޻P�ѥ�  �ѥެO���i�H�ۦ�����ۨ����ʥު����A(condition)
-�ҥH�|���ѥͥ[�W�Ѫ��A�ʥު� funcs
-�q�a : add �ѫʥު��A func , add �����v�ʨ즺�ޤ@������
-���� : �ץ��\�h funcs �����X�z
-
-PS. 1 vs 1
-PS. �����έp��  ���� funcs �i��h
-
-�o�i :
-
-�i��|���q�a�o�i�_�߯��\�a
-�������ݭn�o�i
-
-�M��(blademan)
-
-�ثe :
-
-�M�Ⱦժ����O�@��h���i�r��������  �ҥH funcs ���O�@��h
-���������M�� fly-steps ����  �H���X�M���M���W�[��ʤO
-�A�ץ��@�� npc and skills and funcs
-
-PS. 1 vs N(�h)
-
-�o�i :
-
-�S�o�i
-
-�]��(poisoner)
-
-�ثe :
-
-�]�оժ����O�άr  ��r�j��  ���񨭧����ܮt
-�ץ��x�r�| autokill ��r�������P�ˮ`�ʤ��t�X��
-but �|�ץ��R���v  �R���v�N�|�� npc �Y�ǭȦ���
-
-PS. �i�H 1 vs 1 �]�i�H 1 vs N(�h)
-
-�o�i :
-
-�o�i�]�оi�D�i pet �t��  ���U�԰�
-
-
-�C�h(swordsman)
-
-�ثe :
-
-�C�ȬO�H�X�ֳۧt���D  ����o���ܤ���O  �i�H�h�s��
-�ץ��C�ȥ��X�ۤ��[�c
-
-PS. 1 vs N(�h)
-
-�o�i :
-
-�⥼����������
-
-�R��(dancer)
-
-�ثe :
-
-�R�̬O�H�k�N�������D  �񨭧����t
-�f�d skills and funcs
-
-PS. 1 vs 1 ���Ǫk�N�� 1 vs N(�h)
-
-�o�i : 
-
-���ӧ������������F�a  ���Ӥ��|���o�i�F
-
-�c�H(bandit)
-
-�ثe :
-
-�L�c���@�O��S��  �|��²�檺�r  �|��²�檺�p��  �|���F��
-�ץ��y�M  �վ�ܦX�z
+書生擅長的是封穴與解穴  解穴是指可以自行消除自身的封穴的狀態(condition)
+所以會為書生加上解狀態封穴的 funcs
+段家 : add 解封穴狀態 func , add 有機率封到死穴一擊必殺
+儒門 : 修正許多 funcs 之不合理
 
 PS. 1 vs 1
+PS. 儒門用計謀  有些 funcs 可對多
 
-�o�i :
+發展 :
 
-�g�@�ǥάr�M�έp��²�� funcs
+可能會替段家發展北冥神功吧
+儒門不需要發展
 
-�D�h(taoist)
+刀客(blademan)
 
-�ثe :
+目前 :
 
-�ΩG�N���D  �񨭮t  �����t
-�ץ��վ� func and skills �j��
+刀客擅長的是一對多的勇猛式的攻擊  所以 funcs 都是一對多
+有打算把金刀的 fly-steps 拿掉  以輔合刀客騎馬增加行動力
+再修正一些 npc and skills and funcs
 
-PS. 1 vs 1 ���ǩG�N�� 1 vs N(�h)
+PS. 1 vs N(多)
 
-�o�i :
+發展 :
 
-�y�M���[�c�M�W�[�@�ǩG�N
+沒發展
 
-�g��(marksman)
+魔教(poisoner)
 
-�ثe :
+目前 :
 
-�H��b���D  �i�H���Z���˼�  �վ�ץ� funcs and skills
+魔教擅長的是用毒  把毒強化  但近身攻擊很差
+修正灑毒會 autokill 把毒的種類與傷害性分配出來
+but 會修正命中率  命中率將會跟 npc 某些值有關
 
-PS. 1 vs 1 �]�i�H 1 vs N(�h)
+PS. 可以 1 vs 1 也可以 1 vs N(多)
 
-�o�i :
+發展 :
 
-add �h�b���� funcs �M �R���v���m�v�t�ά[�c and ���Z�˼Ĩt��
-�R���v���m�v�t�ά[�c  �� : �g������  �R���v�U��(�ĤH)
-                           �g���ⳡ  �ˮ`�ȤU��(�ĤH)
-                           �g���}��  ���m�v�U��(�ĤH)
-�b�����R���v���m�v�U�����O score �z�����m������U��
-�ӬO�԰��t�βz���B��Ȯt
+發展魔教養蛇養 pet 系統  幫助戰鬥
 
-����(killer)
 
-�ثe :
+劍士(swordsman)
 
-���ɯŨ�۷�����
-�u�ץ��վ� skills and funcs and ����t��
+目前 :
+
+劍客是以出招快速為主  有後發先至之能力  可以多連擊
+修正劍客先出招之架構
+
+PS. 1 vs N(多)
+
+發展 :
+
+把未完成的做完
+
+舞者(dancer)
+
+目前 :
+
+舞者是以法術攻擊為主  近身攻擊差
+審查 skills and funcs
+
+PS. 1 vs 1 有些法術能 1 vs N(多)
+
+發展 : 
+
+應該完成的都完成了吧  應該不會有發展了
+
+惡人(bandit)
+
+目前 :
+
+無惡不作是其特性  會用簡單的毒  會用簡單的計謀  會偷東西
+修正座騎  調整至合理
 
 PS. 1 vs 1
 
-�o�i :
+發展 :
 
-���ӨS�o�i
+寫一些用毒和用計的簡單 funcs
 
-�t����(prayer)
+道士(taoist)
 
-�ثe :
+目前 :
 
-�~�� class ���j�j�𨾭�  �ۭ��� funcs and skills
-�վ�ץ� skills and funcs
+用咒術為主  近身差  攻擊差
+修正調整 func and skills 強度
+
+PS. 1 vs 1 有些咒術能 1 vs N(多)
+
+發展 :
+
+座騎的架構和增加一些咒術
+
+射手(marksman)
+
+目前 :
+
+以放箭為主  可以遠距離傷敵  調整修正 funcs and skills
+
+PS. 1 vs 1 也可以 1 vs N(多)
+
+發展 :
+
+add 多箭攻擊 funcs 和 命中率防禦率系統架構 and 遠距傷敵系統
+命中率防禦率系統架構  像 : 射中眼睛  命中率下降(敵人)
+                           射中手部  傷害值下降(敵人)
+                           射中腳部  防禦率下降(敵人)
+在此的命中率防禦率下降不是 score 理的防禦跟攻擊下降
+而是戰鬥系統理的運算值差
+
+殺手(killer)
+
+目前 :
+
+體制升級制相當完整
+只修正調整 skills and funcs and 殺手配備
 
 PS. 1 vs 1
 
-�o�i :
+發展 :
 
-���Ӥ��|���a
+應該沒發展
 
-���(doctor)
+聖火教(prayer)
 
-�ثe :
+目前 :
 
-�ժ�����  �𨾬Үt  �i�H�ѦU�ت��A  �]�i�H�Y�ļȮɼW�[��O
-�ץ��ثe���� pills and funcs and skills
+外來 class 有強大攻防值  著重於 funcs and skills
+調整修正 skills and funcs
 
 PS. 1 vs 1
 
-�o�i :
+發展 :
 
-�W�[���į�O  �W�[�Įĺ���  �W�[�x�Ĥ��b�ĤH���W�y���l��
+應該不會有吧
 
-�֪L(bonze)
+醫生(doctor)
 
-�ثe : ����
+目前 :
 
-�o�i : �ڷ|�V�O ^_^
+擅長醫療  攻防皆差  可以解各種狀態  也可以吃藥暫時增加能力
+修正目前有的 pills and funcs and skills
+
+PS. 1 vs 1
+
+發展 :
+
+增加制藥能力  增加藥效種類  增加灑藥水在敵人身上造成損傷
+
+少林(bonze)
+
+目前 : 關閉
+
+發展 : 我會努力 ^_^
 

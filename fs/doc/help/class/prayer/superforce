@@ -1,77 +1,77 @@
-�� ���Ѥߪk ��
+□ 渾天心法 □
 
-  �����_Ų���k�E�ɤѡA�O�ܦӤ`��ҿ�d����@���ǡA�o��
-  �\�Ҥ��O�O���󤻮ڴ��Ѥ����W�A��¤O�Ҭɥ�����Q�h�A
-  �@�h��@�h�j�l�A�@�h��@�h�Q�D�A�ڻ����F������¤��\
-  �ϥΡA�٥i�Ƭ��~�\�ۦ��A���������ĤH�U�ا����βo��A
-  �O�t�������Ф��_�C�䤤���դ����]�����b�~�ӤU�������A
-  �Y�K�ХD�e�U�����Z�ǤѤ~���٪��Ѿ������D�M���L�\��
-  ��A�]���ХD�ť��G�u�n����t���̤l���^�դ����A�N��
-  �\�ײߴ����_Ų���򥻤ߪk�C
+  渾天寶鑑為女媧補天，力竭而亡後所遺留的驚世絕學，這部
+  功夫分別記載於六根渾天水晶上，其威力境界亦分為十層，
+  一層比一層強勁，一層比一層霸道，據說除了能當成純內功
+  使用，還可化為外功招式，直接給予敵人各種攻擊及牽制，
+  是聖火教鎮教之寶。其中的白水晶因失落在外而下落不明，
+  即便教主委託素有武學天才之稱的天機門門主尋找亦無功而
+  返，因此教主宣布：只要任何聖火弟子能找回白水晶，就准
+  許修習渾天寶鑑的基本心法。
 
-  ��l���ڤ����h��b�t�����`�ª��K�Ǥ����Aų��դ����D
-  �Ѥ��e�ơA�Ф�����l�����Ҧb����m�������O�K�A����
-  �߻P�ݤO���̤l�����J�Ӧa��@���`�¤��Ҧ����a��...  
+  其餘五根水晶則放在聖火教總壇的密室之內，鑒於白水晶遭
+  竊之前事，教中對於其餘水晶所在之位置均極為保密，有恆
+  心與毅力的弟子不妨仔細地找一找總壇內所有的地方...  
   
-  �򥻤ߪk���A�Ĥ@��Ĥ��h�ߪk��B���A���O�|�W�j�ۨ�
-  �Y�ǳ��������ĵ��šF��F�Ĥ��h���᪺�ߪk�A�h�}�l�㦳
-  �i�H�B��ˤH����O�F�ĤC�h�}�l�h��o��ĤH�A��F��
-  �Ҭɫ��ٷ|����L���P���\��C
+  基本心法中，第一到第五層心法於運行後，分別會增強自身
+  某些部分的有效等級；到了第六層之後的心法，則開始具有
+  可以運氣傷人的能力；第七層開始則能牽制敵人，到達更高
+  境界後還會有其他不同的功能。
 
-  �ѩ���Ѥߪk�D�`�}�`�����A�ҥH���h���ߪk�u����a�ۤv
-  �C�C�a�h��|�A�_�h�@���Ш����~�A���h�ݼo�A���h�����J
-  �]�A�g�ߺ��_�Ӧ�!!�ثe���а��ХD�w�g�m�ܲĤE�h�~�A�|
-  �L��L�H���}�ĤE�h���Ҭ�!!
-
-
-  �@�ܤQ�h���Ѯ�l���O:perform force.mixforce
-            �ϥΫe�Х� set superforce xxxx
-
-                         xxx  �O 10 �h function ���N��
-
-         �̧Ǥ��O�� :
-                    white    (�ն���)  �O����դ���
-                    nine     (������)  �O����դ���
-                    gen      (�g�X�[)  �O����դ���
-                    ice      (�ѳ��B)  �O����դ���
-                    purple   (���P�e)  �O����դ���
-                    black    (�ȴ��P)  �O����¤���
-                    bluesea  (�Q�ɮ�)  �O�����Ť���
-                    goldsun  (�����f)  �O���������
-                    blood    (��ƻa)  �O���������
-                    green    (�Ȧt�z)  �O��������
-
-                    �Ҧp : �Y�Q�ϥβĤE�h����ƻa
-                    �N�o�� set superforce blood
-                    �A perform force.mixforce
-
-  �Ĥ��h[�ȴ��P]�S�����O:(�����ۦ�)
-
-              ���P���z��  perform force.black1       
-              ���P�a���x  perform force.black2
-
-  �ĤC�h[�Q�ɮ�]�S�����O:(�o��ۦ�)
-
-              �H�]��      perform force.bluesea1
-              ���Ѷ�      perform force.bluesea2
-              õ�x��      perform force.bluesea3
-
-  �ĤK�h[�����f]�S�����O:(�����ۦ�)
-
-              ���C�ﶳ    perform force.sun1
-              ���P����    perform force.sun2
-
-  �ĤE�h[��ƻa]�S�����O:(�j�O�����ۦ�)
-
-              ����L�P    perform force.blood1
-�@�@�@�@�@�@�@�ƻa��y    perform force.blood2
-�@�@�@�@�@�@�@�ƻa�L��    perform force.blood3
-
-  �ĤQ�h[�Ȧt�z]�S�����O:(�@�Τ���)
-
-              �ƧT        exert hwa_je
-              �k�u        perform force.gwe_jen
+  由於渾天心法非常艱深難懂，所以高層的心法只能夠靠自己
+  慢慢地去體會，否則一旦教受有誤，輕則殘廢，重則走火入
+  魔，經脈盡斷而死!!目前本教除教主已經練至第九層外，尚
+  無其他人能突破第九層的境界!!
 
 
-                                                   Dracula���g
-                                                    caesar�s��
+  一至十層渾天氣勁指令:perform force.mixforce
+            使用前請先 set superforce xxxx
+
+                         xxx  是 10 層 function 的代號
+
+         依序分別為 :
+                    white    (白雲煙)  記載於白水晶
+                    nine     (玫蕩霞)  記載於白水晶
+                    gen      (土崑崙)  記載於白水晶
+                    ice      (碧雪冰)  記載於白水晶
+                    purple   (紫星河)  記載於白水晶
+                    black    (玄渾沌)  記載於黑水晶
+                    bluesea  (靛滄海)  記載於藍水晶
+                    goldsun  (金晨曦)  記載於黃水晶
+                    blood    (血穹蒼)  記載於紅水晶
+                    green    (玄宇宙)  記載於綠水晶
+
+                    例如 : 若想使用第九層的血穹蒼
+                    就得先 set superforce blood
+                    再 perform force.mixforce
+
+  第六層[玄渾沌]特殊指令:(攻擊招式)
+
+              渾沌天爆拳  perform force.black1       
+              渾沌地裂掌  perform force.black2
+
+  第七層[靛滄海]特殊指令:(牽制招式)
+
+              鯨吞勢      perform force.bluesea1
+              淊天勢      perform force.bluesea2
+              繭困勢      perform force.bluesea3
+
+  第八層[金晨曦]特殊指令:(攻擊招式)
+
+              金劍穿雲    perform force.sun1
+              雙星趕月    perform force.sun2
+
+  第九層[血穹蒼]特殊指令:(強力攻擊招式)
+
+              血海無涯    perform force.blood1
+　　　　　　　穹蒼血球    perform force.blood2
+　　　　　　　穹蒼無悔    perform force.blood3
+
+  第十層[玄宇宙]特殊指令:(作用不明)
+
+              化劫        exert hwa_je
+              歸真        perform force.gwe_jen
+
+
+                                                   Dracula撰寫
+                                                    caesar編輯

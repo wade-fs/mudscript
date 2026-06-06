@@ -1,24 +1,24 @@
-[ �} �� �� �� ]
+[ 破 日 驚 天 ]
 
-�۶Ǭ��b���Z���ҳгy����@�b�k�A�ྮ�E�Ѧa�����椧�O��b�W�A
-�y�������ؼФ������Y���}�a�A�Y�ե��ݩʬ۫g���S�ʡA���۫¤O�N
-���W�A�B�H�ۦۨ��b�ު����ɡA�}����Ѫ��¤O��N�H�������A�õL
-��ҡA�߶��t�X���椧�b��i�o�ʡC�C
-
-
-���椧�b�G�H���𦨽b�l�꤭��b��A�ø˳Ʃ�}�W
-          �b���𦨽b�e�A����set arrow_element ELEMENT
-          ELEMENT����fire�Bwater�Bgold�Bwood�Bsoil�䤤���@
-          �_�h�u�|�o��̪춥������b�C
+相傳為箭神后羿所創造的驚世箭法，能凝聚天地間五行之力於箭上，
+造成攻擊目標內部的嚴重破壞，若擅用屬性相剋的特性，此招威力將
+倍增，且隨著自身箭技的提升，破日驚天的威力亦將隨之提高，永無
+止境，唯須配合五行之箭方可發動。。
 
 
-�}����ѡGperform god-shooting.break-sun
+五行之箭：以馭氣成箭召喚五行箭氣，並裝備於弓上
+          在馭氣成箭前，須先set arrow_element ELEMENT
+          ELEMENT須為fire、water、gold、wood、soil其中之一
+          否則只會得到最初階的雲氣箭。
 
 
-�b��g��\�G
+破日驚天：perform god-shooting.break-sun
 
-fire �g�G�����ߪk�B�ȶ����\��...
-water�g�G�E��ߪk�B�����\��...
-wood �g�G�¤����\�B�i���g��...
-gold �g�G�����_Ų�B�P�C���\��
-soil �g�G���a���\�B�B�߳Z��...
+
+箭氣剋制內功：
+
+fire 剋：六陽心法、玄陽神功等...
+water剋：浩日心法、極火功等...
+wood 剋：黑牙神功、養狗經等...
+gold 剋：渾天寶鑑、仙劍內功等
+soil 剋：雪蒼內功、冰心訣等...
