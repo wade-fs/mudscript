@@ -52,17 +52,27 @@ push: clean-txt push-github push-hf
 $(OUT):
 	@mkdir -p $(OUT)
 
-# 編譯 Linux 版本 (不自動執行)
-# fsmud: $(OUT) inject-hash
+# 編譯 Linux 版本
 fsmud fsmud.exe: $(OUT)
-	@echo "🔨 Building $@..."
+	@echo "🔨 Building $@ (Standard fsmud version)..."
 	@go mod tidy && $(GO_EXE) build $(GO_FLAGS) -tags fsmud -o $(OUT)/$@ ./cmd/fsmud
 	@ls -l $(OUT)/$@
 
 fs fs.exe: $(OUT)
-	@echo "🔨 Building $@..."
-	@go mod tidy && $(GO_EXE) build $(GO_FLAGS) -tags fs -o $(OUT)/$@ ./cmd/fs
+	@echo "🔨 Building $@ (Legacy FS version)..."
+	@go mod tidy && $(GO_EXE) build $(GO_FLAGS) -tags fs -o $(OUT)/$@ ./cmd/fsmud
 	@ls -l $(OUT)/$@
+
+universal: $(OUT)
+	@echo "🔨 Building universal binary (Including both fsmud & fs)..."
+	@go mod tidy && $(GO_EXE) build $(GO_FLAGS) -tags universal -o $(OUT)/mud-universal ./cmd/fsmud
+	@ls -l $(OUT)/mud-universal
+
+# 純淨驅動版 (不內嵌任何 mudlib)
+mudscript: $(OUT)
+	@echo "🔨 Building pure mudscript driver (No embedded assets)..."
+	@go mod tidy && $(GO_EXE) build $(GO_FLAGS) -o $(OUT)/mudscript ./cmd/fsmud
+	@ls -l $(OUT)/mudscript
 
 # 執行測試 (測試模式下不連接 P2P 以免干擾)
 test-fsmud: fsmud

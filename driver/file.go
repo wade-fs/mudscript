@@ -90,7 +90,14 @@ func (d *Driver) ReadFile(filename string) ([]byte, error) {
 
 		// 2. 備援從嵌入式系統讀取
 		if d.Config.EmbeddedFS != nil {
-			embedPath := filepath.Join("mudlib", relPath)
+			// 🚀 關鍵修正：根據配置的 MudLibPath 來尋找內嵌資源路徑
+			// 例如 MudLibPath 為 "fsmud", 則 relPath 為 "master.c" -> embedPath 為 "fsmud/master.c"
+			embedPath := filepath.Join(d.Config.MudLibPath, relPath)
+			
+			// 正規化內嵌路徑 (必須是正斜線且不帶開頭斜線)
+			embedPath = filepath.ToSlash(embedPath)
+			embedPath = strings.TrimPrefix(embedPath, "/")
+
 			if content, err := fs.ReadFile(d.Config.EmbeddedFS, embedPath); err == nil {
 				return content, nil
 			}

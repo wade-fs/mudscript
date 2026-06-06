@@ -543,8 +543,12 @@ func (p *Preprocessor) processInternal(filename, input string, depth int) (strin
 			if _, statErr := os.Stat(fullPath); statErr == nil {
 				content, err = os.ReadFile(fullPath)
 			} else if p.EmbeddedFS != nil {
-				// 2. 備備嘗試從嵌入檔案讀取
-				embedPath := filepath.Join("mudlib", relPath)
+				// 2. 備援嘗試從嵌入檔案讀取
+				// 🚀 關鍵修正：根據配置的 MudLibPath 來尋找內嵌資源路徑
+				embedPath := filepath.Join(p.MudLibPath, relPath)
+				embedPath = filepath.ToSlash(embedPath)
+				embedPath = strings.TrimPrefix(embedPath, "/")
+				
 				content, err = fs.ReadFile(p.EmbeddedFS, embedPath)
 			} else {
 				err = fmt.Errorf("找不到檔案: %s", pathStr)

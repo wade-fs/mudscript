@@ -22,29 +22,46 @@ MudScript 是一個基於 Go 語言實作的高效能 MUD (Multi-User Dungeon) �
 - **Scripting**: LPC-like 腳本 (位於 `/mudlib`)
 - **Protocol**: WebSocket & WebRTC (信令伺服器支援)
 
-### 📦 如何編譯
+### 📦 編譯與版本選項
 
-專案提供了一個強大的 `Makefile`，支援 Linux 與 Windows 跨平台編譯。
+MudScript 支援多種編譯目標，以平衡便攜性與執行檔體積。所有版本均使用統一的進入點，但透過 Build Tags 嵌入不同的 Mudlib 資源。
 
-**編譯 Linux 版本：**
+| 目標 | 說明 | 執行檔名稱 | 體積 (約略) |
+| :--- | :--- | :--- | :--- |
+| `make fsmud` | **現代 MUD 版**：針對 `fsmud/` 最佳化。 | `fsmud` | ~12MB |
+| `make fs` | **傳統 FS 版**：針對 legacy `fs/` 最佳化。 | `fs` | ~40MB |
+| `make universal` | **全能旗艦版**：同時內嵌 `fsmud` 與 `fs`。 | `mud-universal` | ~41MB |
+| `make mudscript` | **純淨驅動版**：不內嵌資源，僅讀取磁碟檔案。 | `mudscript` | ~11MB |
+
+**Windows 支援**：請加上 `.exe` 尾碼（例如 `make fsmud.exe`）。
+
+### 🎮 啟動伺服器
+
+統一的進入點讓您能透過參數自由切換 Mudlib。
+
 ```bash
-make fsmud
+# 選項 1：執行標準的現代 MUD
+./bin/fsmud
+
+# 選項 2：執行 Legacy FS MUD (需要加上 -legacy 旗標以開啟相容模式)
+./bin/fs -mudlib fs -master /adm/obj/master.c -legacy
+
+# 選項 3：使用純淨版驅動執行 (讀取磁碟上的檔案)
+./bin/mudscript -mudlib fsmud -master master.c
 ```
 
-**編譯 Windows 版本 (.exe)：**
-```bash
-make fsmud.exe
-```
-編譯產物將存放在 `bin/` 目錄中。
+**常用指令參數：**
+- `-mudlib <路徑>`：Mudlib 目錄名稱（內嵌或實體磁碟路徑）。
+- `-master <檔案>`：Master 物件在 Mudlib 中的路徑（預設: `master.c`）。
+- `-legacy`：開啟舊版 LPC 相容模式（剥除修飾詞、標準心跳等）。
+- `-port <編號>`：網頁介面 / WebSocket 埠號（預設: `8080`）。
+- `-telnet <編號>`：Telnet 伺服器埠號，供自動化測試或舊版客戶端使用（預設: `4000`）。
 
-### 🎮 快速開始
+### 🚀 快速開始
 
-1. **啟動伺服器**：
-   ```bash
-   ./bin/fsmud
-   ```
+1. **啟動伺服器**：`./bin/fsmud`
 2. **登入遊戲**：開啟瀏覽器訪問 `http://localhost:8080`。
-3. **建立角色**：輸入帳號後，系統將引導您選擇**物種 (Race)** 與 **天性 (Nature)**，這將影響您的初始能力值與技能。
+3. **建立角色**：輸入帳號後，選擇**物種 (Race)** 與 **天性 (Nature)**。
 
 ### 🌌 星際網路 (Fantasy Space)
 

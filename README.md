@@ -31,29 +31,46 @@ MudScript is a high-performance MUD (Multi-User Dungeon) engine implemented in G
 - **Scripting**: LPC-like scripts (located in `/mudlib`)
 - **Protocol**: WebSocket & WebRTC (Signaling server supported)
 
-### 📦 How to Compile
+### 📦 Compilation & Build Options
 
-A robust `Makefile` is provided for cross-platform compilation.
+MudScript supports multiple build targets to balance portability and binary size. All builds use a unified entry point but different embedded assets via build tags.
 
-**Compile Linux version:**
+| Target | Description | Binary Name | Size (approx) |
+| :--- | :--- | :--- | :--- |
+| `make fsmud` | **Modern MUD**: Optimized for the `fsmud/` mudlib. | `fsmud` | ~12MB |
+| `make fs` | **Legacy MUD**: Optimized for the legacy `fs/` mudlib. | `fs` | ~40MB |
+| `make universal` | **All-in-One**: Includes BOTH `fsmud` and `fs`. | `mud-universal` | ~41MB |
+| `make mudscript` | **Pure Driver**: No embedded assets (disk files only). | `mudscript` | ~11MB |
+
+**Windows Support**: Use `.exe` suffix (e.g., `make fsmud.exe`).
+
+### 🎮 Running the Server
+
+The unified entry point allows running any mudlib with appropriate flags.
+
 ```bash
-make fsmud
+# Option 1: Run the standard Modern MUD
+./bin/fsmud
+
+# Option 2: Run the Legacy FS MUD (Requires -legacy flag for compatibility)
+./bin/fs -mudlib fs -master /adm/obj/master.c -legacy
+
+# Option 3: Run using the pure driver (Reads from disk)
+./bin/mudscript -mudlib fsmud -master master.c
 ```
 
-**Compile Windows version (.exe):**
-```bash
-make fsmud.exe
-```
-Binaries are stored in the `bin/` directory.
+**Common Command Flags:**
+- `-mudlib <path>`: Directory of the mudlib (Default: `fsmud`).
+- `-master <file>`: Path to the master object (Default: `master.c`).
+- `-legacy`: Enable legacy LPC compatibility (strips modifiers, standard heartbeats).
+- `-port <num>`: Web interface / WebSocket port (Default: `8080`).
+- `-telnet <num>`: Telnet server port for automation/legacy clients (Default: `4000`).
 
-### 🎮 Quick Start
+### 🚀 Quick Start
 
-1. **Start Server**:
-   ```bash
-   ./bin/fsmud
-   ```
-2. **Login**: Open your browser and visit `http://localhost:8080`.
-3. **Character Creation**: Enter your ID, then follow the guide to choose your **Race** and **Nature**, which affect your starting stats and skills.
+1. **Start Server**: `./bin/fsmud`
+2. **Login**: Open browser to `http://localhost:8080`.
+3. **Explore**: Enter your ID and follow the guide to choose your **Race** and **Nature**.
 
 ### 🌌 Interstellar Network (Fantasy Space)
 
