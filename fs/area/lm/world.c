@@ -13,13 +13,10 @@
 #include <ansi.h>
 
 #ifndef HIW
-#define HIW(x) HIW + x + NOR
 #endif
 #ifndef CYAN
-#define CYAN(x) CYN + x + NOR
 #endif
 #ifndef HIG
-#define HIG(x) HIG + x + NOR
 #endif
 
 inherit ROOM;
@@ -30,9 +27,9 @@ inherit ROOM;
 #define SPAWN_Y   15
 
 string custom_name;
-mapping blocks;      // "x,y" -> 方塊類型
-mapping player_pos;  // player_id -> ({ x, y })
-mapping npc_pos;     // npc_id -> ({ x, y })
+mapping blocks = ([]);      // "x,y" -> 方塊類型
+mapping player_pos = ([]);  // player_id -> ({ x, y })
+mapping npc_pos = ([]);     // npc_id -> ({ x, y })
 
 // ── 顏色定義與 Emoji 映射（同步給前端用）────────────────────────────────
 mapping block_colors() {
@@ -186,20 +183,20 @@ void init_default_world() {
 
 // ── 房間生命週期 ─────────────────────────────────────────────
 void create() {
+    seteuid(getuid());
     set_short("輕量創界");
     set_long(
-        HIW("═══ Light Minecraft 世界 ═══\n") +
-        "這是一片 " + CYAN("60×40") + " 的開放土地。\n" +
-        "輸入 " + YELLOW("mc map") + " 開啟圖形介面，" +
-        YELLOW("mc help") + " 查看所有指令。\n" +
+        HIW + "═══ Light Minecraft 世界 ═══\n" + NOR +
+        "這是一片 " + CYN + "60×40" + NOR + " 的開放土地。\n" +
+        "輸入 " + HIY + "mc map" + NOR + " 開啟圖形介面，" +
+        HIY + "mc help" + NOR + " 查看所有指令。\n" +
         "WASD 鍵可直接移動，滾輪縮放地圖。\n"
     );
     set_no_combat(1);
-    // 🚀 移除靜態出口，改由指令系統統一處理離開邏輯
-    // add_exit("out", "/area/newbie/room_0_0.c");
 
-    player_pos = ([]);
-    npc_pos = ([]);
+    if (!mapp(blocks)) blocks = ([]);
+    if (!mapp(player_pos)) player_pos = ([]);
+    if (!mapp(npc_pos)) npc_pos = ([]);
 
     if (!restore_world()) {
         init_default_world();
@@ -252,15 +249,16 @@ int do_back_compat(string arg) {
     }
     return 0;
 }
-
 void push_map_delayed(object player) {
-    if (!player || !objectp(player)) return;
+    if (!player || !userp(player)) return;
+
     broadcast_map(player);
     tell_lm_room(
-        CYAN(player->query_name()) + " 進入了創界。\n",
+        CYN + player->query_name() + NOR + " 進入了創界。\n",
         player
     );
 }
+
 
 // ── 地圖廣播 ────────────────────────────────────────────────
 void broadcast_map(object target) {
@@ -438,7 +436,7 @@ void player_leave(object player) {
     string pid = player->query("id");
     m_delete(player_pos, pid);
     tell_lm_room(
-        CYAN(player->query_name()) + " 離開了創界。\n",
+        CYN + player->query_name() + NOR + " 離開了創界。\n",
         player
     );
     broadcast_map_all();
