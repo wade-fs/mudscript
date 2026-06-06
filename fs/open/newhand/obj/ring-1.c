@@ -48,12 +48,12 @@ int wear()
 
 int unequip()
 {
+  ::unequip();
   if( query("equipped") )
   {
     message_vision("$N脫下了"+this_object()->name()+",防護罩似乎消失了.\n",user);
     set_heart_beat(0);
   }
-  ::unequip();
 }
 
 void heart_beat()

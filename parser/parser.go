@@ -112,7 +112,7 @@ func New(l lexer.Lexer) *Parser {
 		token.TRUE:     p.parseBoolean,
 		token.FALSE:    p.parseBoolean,
 		token.LPAREN:   p.parseGroupedExpression,
-		token.IF:       p.parseIfExpression,
+		// token.IF:       p.parseIfExpression, (Moved to parseStatement)
 		token.STRING:   p.parseStringLiteral,
 		token.CHAR:     p.parseCharLiteral, // [修正] 將 CHAR 正確解析為整數
 		token.LARRAY:   p.parseLPCArrayLiteral,
@@ -658,6 +658,8 @@ func (p *Parser) parseStatement(topLevel bool) ast.Statement {
 	        return p.parseFunctionDefinition(typeToken, false, name, isVarargs)
 	}
 	switch p.curToken.TokenType {
+	case token.IF:
+		return p.parseIfStatement()
 	case token.RETURN:
 		return p.parseReturnStatement()
 	case token.INHERIT:
@@ -926,6 +928,18 @@ func (p *Parser) parseWhileStatement() ast.Statement {
 }
 
 // --- 實作 For ---
+func (p *Parser) parseIfStatement() ast.Statement {
+	stmt := &ast.ExpressionStatement{Token: p.curToken}
+	stmt.Expression = p.parseIfExpression()
+
+	// if 敘述之後通常不加分號，但如果有也要一併處理
+	if p.peekTokenIs(token.SEMICOLON) {
+		p.nextToken()
+	}
+
+	return stmt
+}
+
 func (p *Parser) parseForStatement() ast.Statement {
 	stmt := &ast.ForStatement{Token: p.curToken}
 	if !p.expectPeek(token.LPAREN) {

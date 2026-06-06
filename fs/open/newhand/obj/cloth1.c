@@ -44,11 +44,11 @@ int wear()
 
 int unequip()
 {
+  ::unequip();
   if( query("equipped") )
   {
     set_heart_beat(0);
   }
-  ::unequip();
 }
 
 void heart_beat()
