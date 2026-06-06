@@ -159,35 +159,45 @@ func (d *Driver) ProcessCommand(pConn *PlayerConnection, input string) bool {
 	if obj.Actions != nil {
 		// A. 精確匹配
 		if action, exists := obj.Actions[verb]; exists {
-			// 🚀 使用 RunCommand 封裝以確保 GetCurrentPlayer 正常
+			// 🚀 關鍵修正：執行期間暫時將 CurrentVerb 切換為註冊的動詞 (供 query_verb 呼叫)
+			oldVerb := pConn.CurrentVerb
+			pConn.CurrentVerb = verb
+			
 			res := d.RunCommand(pConn, action.Provider, action.FuncName, []object.Object{&object.String{Value: arg}})
+			
+			pConn.CurrentVerb = oldVerb
 
 			// 回傳值處理
 			if isLPCTrue(res) {
 				return true
 			}
 		}
-// B. 前綴匹配與萬用攔截 ("")
-for v, action := range obj.Actions {
-	if action.Flags == 1 {
-		if v == "" || strings.HasPrefix(verb, v) {
-			// 對於萬用攔截 ("") 與前綴匹配，
-			// LPC 通常會把 verb 之後的部分作為參數傳給 action
-			callArg := arg
-			if v != "" && len(verb) > len(v) {
-				// 例如 v="l", verb="look", 則 "ook" 應該被當作參數前綴
-				callArg = verb[len(v):] + " " + arg
-				callArg = strings.TrimSpace(callArg)
-			}
 
-			res := d.RunCommand(pConn, action.Provider, action.FuncName, []object.Object{&object.String{Value: callArg}})
-			if isLPCTrue(res) {
-				d.postCommandCleanup(pConn)
-				return true
+		// B. 前綴匹配與萬用攔截 ("")
+		for v, action := range obj.Actions {
+			if action.Flags == 1 {
+				if v == "" || strings.HasPrefix(verb, v) {
+					// 🚀 關鍵修正：執行期間暫時將 CurrentVerb 切換為註冊的動詞
+					oldVerb := pConn.CurrentVerb
+					pConn.CurrentVerb = v
+
+					callArg := arg
+					if v != "" && len(verb) > len(v) {
+						callArg = verb[len(v):] + " " + arg
+						callArg = strings.TrimSpace(callArg)
+					}
+
+					res := d.RunCommand(pConn, action.Provider, action.FuncName, []object.Object{&object.String{Value: callArg}})
+					
+					pConn.CurrentVerb = oldVerb
+
+					if isLPCTrue(res) {
+						d.postCommandCleanup(pConn)
+						return true
+					}
+				}
 			}
 		}
-	}
-}
 	}
 
 	// 🚀 關鍵相容性：處理指令失敗訊息 (notify_fail)

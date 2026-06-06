@@ -172,7 +172,7 @@ void setup() {
 	call_other(this_object(), "restore_inventory");
 
     // 處理進入世界的位置
-    if (last_location) {
+    if (last_location && last_location != "" && last_location != "/") {
         object loc = load_object(last_location);
         if (loc) {
             move_object(loc);
@@ -454,6 +454,7 @@ void restore_inventory() {
 	if (!sizeof(saved_inventory)) return;
 	
 	for (int i = 0; i < sizeof(saved_inventory); i++) {
+		if (!saved_inventory[i] || saved_inventory[i] == "" || saved_inventory[i] == "/") continue;
 		object ob = clone_object(saved_inventory[i]);
 		if (ob) {
 			move_object(ob, this_object());

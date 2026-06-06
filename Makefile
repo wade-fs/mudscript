@@ -72,12 +72,14 @@ test-fsmud: fsmud
 # 正常執行伺服器 (預設連接全球星際中心)
 run-fsmud: fsmud
 	@echo "🚀 Starting MudScript Server (Connecting to Global Hub)..."
-	@ $(OUT)/fsmud 2>&1 | tee run-fsmud.txt
+	@ ./bin/fsmud -mudlib fsmud -master master.c
+	# $(OUT)/fsmud 2>&1 | tee run-fsmud.txt
 
 # 正常執行 Legacy FS 伺服器
-run-fs: fs
+run-fs: fsmud
 	@echo "🚀 Starting Legacy FS MudScript Server..."
-	@ $(OUT)/fs 2>&1 | tee run-fs.txt
+	@ ./bin/fsmud -mudlib fs -master /adm/obj/master.c -legacy
+	# $(OUT)/fs 2>&1 | tee run-fs.txt
 
 # 執行 Legacy FS 連線測試
 test-fs: fs

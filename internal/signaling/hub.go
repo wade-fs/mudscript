@@ -112,15 +112,44 @@ func (h *Hub) Run() {
 				}
 				p := client.MudConn
 				input := strings.TrimSpace(msg.Payload)
-				if input == "" {
+				
+				// 🚀 關鍵修正：支援「純 Enter」
+				// 只有在「沒有」輸入攔截器的情況下，才過濾掉空字串
+				if input == "" && p.NextInputFunc == "" && p.NextInputClosure == nil {
 					continue
 				}
 
-				if p.NextInputFunc != "" {
+				if p.NextInputFunc != "" || p.NextInputClosure != nil {
 					funcName := p.NextInputFunc
+					closure := p.NextInputClosure
+					targetObj := p.NextInputObj
+					args := p.NextInputArgs
+
+					// 清除攔截器 (以免遞迴或重複執行)
 					p.NextInputFunc = ""
+					p.NextInputClosure = nil
+					p.NextInputObj = nil
+					p.NextInputArgs = nil
 					p.InputHidden = false
-					h.mudDriver.RunCommand(p, p.Object, funcName, []object.Object{&object.String{Value: input}})
+
+					// 準備參數：輸入內容 + 額外參數
+					callArgs := []object.Object{&object.String{Value: input}}
+					if len(args) > 0 {
+						callArgs = append(callArgs, args...)
+					}
+
+					var callbackArg object.Object
+					if closure != nil {
+						callbackArg = closure
+					} else {
+						callbackArg = &object.String{Value: funcName}
+					}
+
+					if targetObj == nil {
+						targetObj = p.Object
+					}
+
+					h.mudDriver.ExecuteCallback(targetObj, callbackArg, callArgs)
 					continue
 				}
 
