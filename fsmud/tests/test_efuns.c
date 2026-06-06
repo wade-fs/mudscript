@@ -226,8 +226,9 @@ void test_command_efuns() {
     report_results();
 }
 
-void do_test_cmd() {
+int do_test_cmd() {
     write("testcmd executed\n");
+    return 1;
 }
 
 void test_security_efuns(object me) {

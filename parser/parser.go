@@ -112,7 +112,7 @@ func New(l lexer.Lexer) *Parser {
 		token.TRUE:     p.parseBoolean,
 		token.FALSE:    p.parseBoolean,
 		token.LPAREN:   p.parseGroupedExpression,
-		// token.IF:       p.parseIfExpression, (Moved to parseStatement)
+		token.IF:       p.parseIfExpression,
 		token.STRING:   p.parseStringLiteral,
 		token.CHAR:     p.parseCharLiteral, // [修正] 將 CHAR 正確解析為整數
 		token.LARRAY:   p.parseLPCArrayLiteral,

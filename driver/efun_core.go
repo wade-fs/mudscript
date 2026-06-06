@@ -330,17 +330,24 @@ func (d *Driver) registerCoreEfuns(obj *object.LPCObject) {
 			if p := d.GetCurrentPlayer(); p != nil && p.Object != nil {
 				playerObj = p.Object
 			}
+
 			if !playerObj.IsLiving {
 				playerObj.IsLiving = true
 			}
 			if playerObj.Actions == nil {
 				playerObj.Actions = make(map[string]*object.Action)
 			}
-			playerObj.Actions[verb.Value] = &object.Action{
-				Verb:     verb.Value,
-				FuncName: funcName.Value,
-				Provider: obj,
-				Flags:    flag,
+			
+			// 🚀 關鍵相容性修正：如果 verb 是陣列，則註冊多個指令
+			verbs := []string{verb.Value}
+			
+			for _, v := range verbs {
+				playerObj.Actions[v] = &object.Action{
+					Verb:     v,
+					FuncName: funcName.Value,
+					Provider: obj,
+					Flags:    flag,
+				}
 			}
 			return &object.Integer{Value: 1}
 		},
@@ -487,8 +494,26 @@ func (d *Driver) registerSetQueryEfuns(obj *object.LPCObject) {
 				return &object.Integer{Value: 0}
 			}
 
+			removed := false
+			// 1. 從當前物件移除
 			if obj.Actions != nil {
-				delete(obj.Actions, verb.Value)
+				if _, exists := obj.Actions[verb.Value]; exists {
+					delete(obj.Actions, verb.Value)
+					removed = true
+				}
+			}
+
+			// 2. 從當前玩家移除 (與 add_action 對應)
+			if p := d.GetCurrentPlayer(); p != nil && p.Object != nil && p.Object != obj {
+				if p.Object.Actions != nil {
+					if _, exists := p.Object.Actions[verb.Value]; exists {
+						delete(p.Object.Actions, verb.Value)
+						removed = true
+					}
+				}
+			}
+
+			if removed {
 				return &object.Integer{Value: 1}
 			}
 			return &object.Integer{Value: 0}

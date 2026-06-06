@@ -83,9 +83,6 @@ func (d *Driver) ProcessCommand(pConn *PlayerConnection, input string) bool {
 	}
 	obj := pConn.Object
 
-	// 🚀 新增：記錄玩家輸入
-	// log.Printf("📥 [Input] %s (%s): %s", pConn.Username, obj.Filename, input)
-
 	// ==========================================
 	// 0. 優先處理 input_to 攔截
 	// ==========================================
@@ -137,16 +134,13 @@ func (d *Driver) ProcessCommand(pConn *PlayerConnection, input string) bool {
 
 	// 🚀 關鍵相容性：先呼叫 process_input (通常在 alias.c 實作)，它可能會修改指令
 	resInput := d.RunCommand(pConn, obj, "process_input", []object.Object{&object.String{Value: input}})
-	if resInput != nil {
+	if resInput != nil && resInput.TokenType() != object.NilType {
 		if s, ok := resInput.(*object.String); ok && s.Value != "" {
 			input = s.Value // 指令被改寫 (例如 alias 替換)
-		} else if i, ok := resInput.(*object.Integer); ok && i.Value != 0 {
-			return true // 指令已被 process_input 完全處理
-		} else if resInput.TokenType() == object.NilType {
-			// 繼續處理
-		} else {
-			return true // 視為已處理
+		} else if isLPCTrue(resInput) {
+			return true // 指令已被 process_input 完全處理 (回傳非 0)
 		}
+		// 若回傳 0 或 nil，則繼續往下處理 add_action 註冊的指令
 	}
 
 	// 解析動詞與參數
@@ -159,6 +153,7 @@ func (d *Driver) ProcessCommand(pConn *PlayerConnection, input string) bool {
 	}
 
 	pConn.CurrentVerb = verb
+	pConn.NotifyFail = "" // 🚀 關鍵：每次開始處理新指令前，先清空失敗訊息
 
 	// 1. 檢查 add_action 註冊的指令
 	if obj.Actions != nil {
