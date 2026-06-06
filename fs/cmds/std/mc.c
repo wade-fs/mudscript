@@ -4,7 +4,6 @@
 // 需在 /area/lm/world.c 環境中才能執行大部分子指令
 
 #include <globals.h>
-#include "/include/ansi.h"
 
 inherit F_CLEAN_UP;
 
@@ -33,15 +32,15 @@ int main(object me, string arg) {
     // ── mc help ─────────────────────────────────────────────
     if (sub == "help") {
         write(
-            HIW + "\n═══ Light Minecraft 指令 ═══\n" + NOR +
-            "  " + CYN + "mc map" + NOR +                    "                重新整理地圖視窗\n" +
-            "  " + CYN + "mc move n|s|e|w" + NOR +           "        移動（可用 WASD 快速鍵）\n" +
-            "  " + CYN + "mc dig <x> <y>" + NOR +            "         挖掘指定座標方塊\n" +
-            "  " + CYN + "mc place <x> <y> <類型>" + NOR +   " 放置方塊\n" +
-            "  " + CYN + "mc pos" + NOR +                    "                顯示目前座標\n" +
-            "  " + CYN + "mc inv" + NOR +                    "                列出背包方塊\n" +
-            "  " + CYN + "mc give <類型> <數量>" + NOR +      "   給自己方塊（測試用）\n" +
-            "  " + CYN + "mc back" + NOR +                   "               離開創界 (回到原處)\n" +
+            "\n═══ Light Minecraft 指令 ═══\n" +
+            "  " + "mc map" +                    "                重新整理地圖視窗\n" +
+            "  " + "mc move n|s|e|w" +           "        移動（可用 WASD 快速鍵）\n" +
+            "  " + "mc dig <x> <y>" +            "         挖掘指定座標方塊\n" +
+            "  " + "mc place <x> <y> <類型>" +   " 放置方塊\n" +
+            "  " + "mc pos" +                    "                顯示目前座標\n" +
+            "  " + "mc inv" +                    "                列出背包方塊\n" +
+            "  " + "mc give <類型> <數量>" +      "   給自己方塊（測試用）\n" +
+            "  " + "mc back" +                   "               離開創界 (回到原處)\n" +
             "\n方塊類型：grass dirt stone log planks leaves sand coal iron gold brick\n\n"
         );
         return 1;
@@ -76,14 +75,14 @@ int main(object me, string arg) {
             
             me->move(dest);
         } else {
-            write(RED + "找不到目的地。\n" + NOR);
+            write("找不到目的地。\n");
         }
         return 1;
     }
 
     // ── 以下需在創界內 ──────────────────────────────────────
     if (!in_lm(me)) {
-        write(YEL + "你必須在創界中才能使用此指令。\n" + NOR);
+        write("你必須在創界中才能使用此指令。\n");
         return 1;
     }
 
@@ -93,7 +92,7 @@ int main(object me, string arg) {
     if (sub == "build") {
         string role = me->query_role();
         if (role != "god" && role != "wizard") {
-            write(RED + "你沒有此指令的權限。\n" + NOR); return 1;
+            write("你沒有此指令的權限。\n"); return 1;
         }
         if (sizeof(parts) < 2) {
             write("用法：mc build <檔案路徑>\n"); return 1;
@@ -103,14 +102,14 @@ int main(object me, string arg) {
         
         string content = read_file(file);
         if (!content || content == "") {
-            write(RED + "無法讀取檔案或檔案為空。\n" + NOR); return 1;
+            write("無法讀取檔案或檔案為空。\n"); return 1;
         }
         
         int *pos = world->query_player_pos(me);
         if (!pos) pos = ({ SPAWN_X, SPAWN_Y });
         
         world->import_map(content, pos[0], pos[1]);
-        write(GRN + "地圖建構完成！\n" + NOR);
+        write("地圖建構完成！\n");
         return 1;
     }
 
@@ -118,7 +117,7 @@ int main(object me, string arg) {
     if (sub == "import") {
         string role = me->query_role();
         if (role != "god" && role != "wizard") {
-            write(RED + "你沒有此指令的權限。\n" + NOR); return 1;
+            write("你沒有此指令的權限。\n"); return 1;
         }
         if (sizeof(parts) < 2) {
             write("用法：mc import <資料>\n"); return 1;
@@ -131,7 +130,7 @@ int main(object me, string arg) {
         if (!pos) pos = ({ SPAWN_X, SPAWN_Y });
         
         world->import_map(data, pos[0], pos[1]);
-        write(GRN + "地圖導入完成！\n" + NOR);
+        write("地圖導入完成！\n");
         return 1;
     }
 
@@ -147,7 +146,7 @@ int main(object me, string arg) {
         if (!pos) {
             write("座標未知，請輸入 mc map 重新同步。\n");
         } else {
-            write(sprintf("你目前在座標 " + CYN + "(%d, %d + NOR") + "。\n",
+            write(sprintf("你目前在座標 " + "(%d, %d)" + "。\n",
                 pos[0], pos[1]));
         }
         return 1;
@@ -166,7 +165,7 @@ int main(object me, string arg) {
             string t = it->query_block_type();
             m_add(counts, t, (counts[t] ? counts[t] : 0) + 1);
         }
-        write(CYN + "【方塊背包】\n" + NOR);
+        write("【方塊背包】\n");
         foreach (string t in sort_array(keys(counts), 1)) {
             write(sprintf("  %-10s x%d\n", t, counts[t]));
         }
@@ -190,7 +189,7 @@ int main(object me, string arg) {
         }
         int r = world->move_player(me, dx, dy);
         if (r == 1) write("已到達世界邊界。\n");
-        else if (r == 2) write("前方有方塊擋路！試試 " + CYN + "mc dig" + NOR + " 挖掘。\n");
+        else if (r == 2) write("前方有方塊擋路！試試 " + "mc dig" + " 挖掘。\n");
         return 1;
     }
 
@@ -203,10 +202,10 @@ int main(object me, string arg) {
         int y = to_int(parts[2]);
         int r = world->dig_block(me, x, y);
         switch(r) {
-            case 0: write(GRN + "挖掘成功！方塊已加入背包。\n" + NOR); break;
-            case 1: write(RED + "座標超出世界範圍（0~59, 0~39）。\n" + NOR); break;
-            case 2: write(YEL + "那個位置沒有方塊。\n" + NOR); break;
-            case 3: write(YEL + "水不能挖掘。\n" + NOR); break;
+            case 0: write("挖掘成功！方塊已加入背包。\n"); break;
+            case 1: write("座標超出世界範圍（0~59, 0~39）。\n"); break;
+            case 2: write("那個位置沒有方塊。\n"); break;
+            case 3: write("水不能挖掘。\n"); break;
         }
         return 1;
     }
@@ -221,10 +220,10 @@ int main(object me, string arg) {
         string btype = parts[3];
         int r = world->place_block(me, x, y, btype);
         switch(r) {
-            case 0: write(GRN + "放置成功！\n" + NOR); break;
-            case 1: write(RED + "座標超出世界範圍。\n" + NOR); break;
-            case 2: write(YEL + "那個位置已有方塊。\n" + NOR); break;
-            case 3: write(YEL + "背包裡沒有 " + btype + " 方塊。先用 mc dig 取得。\n" + NOR); break;
+            case 0: write("放置成功！\n"); break;
+            case 1: write("座標超出世界範圍。\n"); break;
+            case 2: write("那個位置已有方塊。\n"); break;
+            case 3: write("背包裡沒有 " + btype + " 方塊。先用 mc dig 取得。\n"); break;
         }
         return 1;
     }
@@ -233,7 +232,7 @@ int main(object me, string arg) {
     if (sub == "give") {
         string role = me->query_role();
         if (role != "god" && role != "wizard") {
-            write(RED + "你沒有此指令的權限。\n" + NOR); return 1;
+            write("你沒有此指令的權限。\n"); return 1;
         }
         if (sizeof(parts) < 2) {
             write("用法：mc give <類型> [數量]\n"); return 1;
@@ -251,11 +250,11 @@ int main(object me, string arg) {
                 move_object(item, me);
             }
         }
-        write(GRN + sprintf("給予 %s x%d。\n", btype, amount + NOR));
+        write(sprintf("給予 %s x%d。\n", btype, amount));
         return 1;
     }
 
-    write("未知子指令。輸入 " + CYN + "mc help" + NOR + " 查看說明。\n");
+    write("未知子指令。輸入 " + "mc help" + " 查看說明。\n");
     return 1;
 }
 
