@@ -193,7 +193,7 @@ GetGlobalQuestName (
 
   quests = "/cmds/std/quests"->query_quests();
   k = keys(quests);
-  for (i = 0; i < sizeof (quests); i+) {
+  for (i = 0; i < sizeof (quests); i++) {
     if (strcmp (quests[k[i]], QuestMark) == 0) {
       return k[i];
     }
@@ -227,7 +227,7 @@ mixed ListMission ()
   command ("quests");
   Answer = sprintf (HIY + "我知道的任務有 :\n");
   Answer += sprintf ("--------------------------------------\n");
-  for (Index = 0; MissionList[Index]["Index"] != -1; Index+) {
+  for (Index = 0; MissionList[Index]["Index"] != -1; Index++) {
     QuestMark = MissionList[Index]["QuestMark"];
     if (functionp (MissionList[Index]["QuestName"])) {
       QuestName = evaluate (MissionList[Index]["QuestName"], MissionList[Index]["QuestMark"]);
@@ -274,7 +274,7 @@ int six_msg2(object ppl)
   if(environment(this_object()) != environment(ppl)) return DeleteNoAnswer();
   me = ppl;
   command ("quests");
-  for (Index = 0; MissionList[Index]["Index"] != -1; Index+) {
+  for (Index = 0; MissionList[Index]["Index"] != -1; Index++) {
     QuestMark = MissionList[Index]["QuestMark"];
     if (ppl->query(QuestMark)) {
       continue;

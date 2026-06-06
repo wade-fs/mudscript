@@ -176,7 +176,7 @@ int do_waveto(string arg)
      // 檢查 room 是否存在, gmove on|off 都得用,故放此
      env = environment(me);
      if( !me->move(room) ){
-       write (" 喚雲扇說: 不要玩我，根本沒這地方..." + HIC + "-_-;\n" + NOR);
+       write (" 喚雲扇說: 不要玩我，根本沒這地方..." + HIC + "-_--;\n" + NOR);
         return 1;
      }
 

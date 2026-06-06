@@ -121,7 +121,7 @@ int do_msg1(object ppl)
     else{
       command(msg1[i]);
     }
-    msg_steps+;
+    msg_steps++;
     call_out("do_msg1",4,ppl);
     return 1;
 }
@@ -158,7 +158,7 @@ int do_msg2(object ppl)
     else{
       command(msg2[i]);
     }
-    msg_steps+;
+    msg_steps++;
     call_out("do_msg2",4,ppl);
     return 1;
 }
@@ -214,7 +214,7 @@ int do_msg3(object ppl)
     else{
       command(msg3[i]);
     }
-    msg_steps+;
+    msg_steps++;
     call_out("do_msg3",4,ppl);
     return 1;
 }

@@ -70,10 +70,10 @@ int set_number()
     int i,s,j,flag,num,sub,temp,k;
 
     num=0;
-    for(i=0;i<4;i+){
+    for(i=0;i<4;i++){
       s=random(10);
       sub=1;
-      for(j=0;j<i;j+)
+      for(j=0;j<i;j++)
         sub*=10;
       if(i){
         flag=0;
@@ -155,7 +155,7 @@ int do_answer(string arg)
         return 1;
       }
       ppl->add_temp("number_quest/time",1);
-      for(i=0;i<4;i+){
+      for(i=0;i<4;i++){
         txt=arg[i..i];
         sscanf(txt,"%d",num);
         if(num< 0 || num > 9){
@@ -163,21 +163,21 @@ int do_answer(string arg)
           return 1;
         }
       }
-      for(i=0;i<3;i+)
-        for(j=i+1;j<4;j+)
+      for(i=0;i<3;i++)
+        for(j=i+1;j<4;j++)
           if(arg[i]==arg[j]){
             tell_object(ppl,"是要猜四個不重覆的數字喔!!\n");
             return 1;
           }
       ans=ppl->query_temp("number_quest/number");
       a=0;
-      for(i=0;i<4;i+)
-        if(ans[i]==arg[i]) a+;
+      for(i=0;i<4;i++)
+        if(ans[i]==arg[i]) a++;
       b=0;
-      for(i=0;i<4;i+)
-        for(j=0;j<4;j+)
+      for(i=0;i<4;i++)
+        for(j=0;j<4;j++)
           if(i==j) continue;
-          else if(ans[i]==arg[j]) b+;
+          else if(ans[i]==arg[j]) b++;
       if(!a && !b) out="都沒猜到";
       else{
        if(a) out+=HIR+CHINESE_D->chinese_number(a)+"陽"+NOR;
