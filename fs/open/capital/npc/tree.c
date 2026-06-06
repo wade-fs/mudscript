@@ -11,12 +11,12 @@ void create()
   set_name("木無言",({"Silent Tree","tree"}));
   set("long","
 英雄真經傳人，自幼修習三百年前的正道第一武學『" + HIW + "英雄真經" + NOR + "』
-經內記載當代五大玄門正派的頂級武功\，包括：
+經內記載當代五大玄門正派的頂級武功，包括：
 " + HIW + "無雙寺：" + HIM + "無雙拳
 " + HIW + "閃電山莊：" + HIY + "閃電步
 " + HIW + "天劍宗：" + CYN + "馭天劍-" + HIC + "本來無一劍
 " + HIW + "柳葉山莊：" + GRN + "超絕霸刀-" + HIG + "柳葉霸刀
-" + HIW + "少林寺：" + RED + "菩提拂拭神功\-" + HIR + "本來無一物
+" + HIW + "少林寺：" + RED + "菩提拂拭神功-" + HIR + "本來無一物
 \n" + NOR);
   set("attitude", "heroism");
   set("gender","男性");
@@ -137,7 +137,7 @@ void heart_beat()
   {
     if(kee < mkee || sen < msen || gin < mgin)
     {
-      message_vision(HIB + "$N運起少林寺最高內功\心法" + HIW + "『" + BRED+HIY + "本來無一物" + NOR + "" + HIW + "』" + HIB + "
+      message_vision(HIB + "$N運起少林寺最高內功心法" + HIW + "『" + BRED+HIY + "本來無一物" + NOR + "" + HIW + "』" + HIB + "
 內勁變得如黑洞般深不可測，原本散發的凜冽鬥氣剎那間完全消失，
 $N竟與自然化為一體，全身傷勢疾速復原。\n" + NOR,me);
 
@@ -155,7 +155,7 @@ $N竟與自然化為一體，全身傷勢疾速復原。\n" + NOR,me);
   }
   if(me->is_busy() && random(100)< 40 && !me->query_temp("unconcious"))
   {
-message_vision(HIR + "$N潛運" + HIW + "ξ" + BRED+HIY + "本來無一物" + NOR + "" + HIW + "ξ" + HIR + "神功\，身形浮起，爆發無匹內勁掙脫束縛，
+message_vision(HIR + "$N潛運" + HIW + "ξ" + BRED+HIY + "本來無一物" + NOR + "" + HIW + "ξ" + HIR + "神功，身形浮起，爆發無匹內勁掙脫束縛，
 接著以閃電山莊的" + HIW + "ξ" + BRED+HIY + "閃電身法" + NOR + "" + HIW + "ξ" + HIR + "迅速脫離封鎖。\n" + NOR,me);
     me->delete_busy();
     if(me->is_fighting())
@@ -210,8 +210,8 @@ void die()
     message_vision(MAG + "\n從木無言的身上掉下了一塊靈魂碎片!!\n" + NOR,winner);
   }
 
-  message_vision(HIY + "\n"+winner->name()+"打敗木無言得到一百二十點戰功\!!\n" + NOR,winner);
-  write_file("/log/get_warp",sprintf("%s(%s) 打敗木無言得到一百二十點戰功\於 %s\n",
+  message_vision(HIY + "\n"+winner->name()+"打敗木無言得到一百二十點戰功!!\n" + NOR,winner);
+  write_file("/log/get_warp",sprintf("%s(%s) 打敗木無言得到一百二十點戰功於 %s\n",
     winner->name(1),winner->query("id"),ctime(time())));
   winner->add("war_score",120);
   winner->set_temp("kill_hero",1);

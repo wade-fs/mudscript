@@ -70,7 +70,7 @@ LONG);
                 CYN + "教皇念道﹕「夜涼撫琴千山月，路遙迷人千種花；\n
                         棋罷不知人換世，酒欄無奈客恩家。」\n" + NOR,                                                          
                 CYN + "教皇沈吟道﹕「隱居幽靈古洞天，苦學秘笈無限年；\n
-                        誰若超越一線界，休怪氣功\穿腦田。」\n" + NOR,                                                          
+                        誰若超越一線界，休怪氣功穿腦田。」\n" + NOR,                                                          
                 CYN + "教皇說道﹕「靜月禁地是仙境，休望侵犯取月靈；\n
                         若要逞強不聽勸，閃電霹靂奪性命。」\n" + NOR,                                                          
         }) );                                                                   
@@ -162,7 +162,7 @@ if(me->query("family/family_name")!="聖火教")
         command("say 好,你果然是可造之才,你可以去找三位長老作為你武學的指導!");
         ob->delete("family");
         command("say 你想選擇(select)哪一位長老呢?");
-        command("say 傳功\長老(gonfu_elder)，執法長老(lawyer_elder)還是戒律長老(behavior_elder)？");
+        command("say 傳功長老(gonfu_elder)，執法長老(lawyer_elder)還是戒律長老(behavior_elder)？");
         ob->set_temp("allow_select",1);
         }
         if(ob->query("marks/聖火三長老")==1)
@@ -317,12 +317,12 @@ int do_join()
         this_player()->set_temp("have_say",1);
         return 1;
         }
-        if(str == "傳功\長老" || str == "gonfu" || str == "gonfu_elder")
+        if(str == "傳功長老" || str == "gonfu" || str == "gonfu_elder")
         {
-        message_vision(HIC + "$N說道﹕傳功\長老\n" + NOR,who);
+        message_vision(HIC + "$N說道﹕傳功長老\n" + NOR,who);
         this_player()->set_temp("allow_9",1);
         command("smile");
-        command("say 嗯 ,你就去傳功\長老那兒學藝吧!");
+        command("say 嗯 ,你就去傳功長老那兒學藝吧!");
         this_player()->set_temp("have_say",1);
         return 1;
         }
@@ -409,7 +409,7 @@ void die()
    string name = winner->query("name");
    tell_object(users(),HIR + "
        遠從西域傳來一聲怒吼!!『聖火教主』林宏昇不顧傷勢!!強運身上內力,使出了
-      "+HIW+"先天乾坤功\第七絕
+      "+HIW+"先天乾坤功第七絕
                           『"+HIC+"天"+HIG+"驚"+YEL+"地"+BLU+"動"+HIW+"』" + HIR + "
        一時之間，天地變色!!狂風怒嘯!!九天真氣、九地真氣，齊湧至林宏昇之体內!!!
        忽然間!!轟~~一聲巨響!!!林宏昇無法駕駛身上的九天真氣!!真氣爆体而出!!血肉模糊!!

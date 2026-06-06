@@ -17,7 +17,7 @@ void create()
         set("long","
 一個孤獨的老人，在魔界村裡打造一些兵器和防具為生。由於魔界村的人常常
 要出魔界村去冒險，因此兵器和護具的需求也蠻大的。不過仔細一看他的眼神
-精光內斂，打鐵的手法更隱隱約約有武功\的影子，且穩健異常顯示他的內力修
+精光內斂，打鐵的手法更隱隱約約有武功的影子，且穩健異常顯示他的內力修
 為非常深厚。難道他的過去有什麼驚人的藝業嗎?
 \n");   
         set("inquiry",([
@@ -58,7 +58,7 @@ me = this_player();
     tell_object(me,HIY + "李昆陽的眼睛突然精光暴射...\n" + NOR);
     tell_object(me,HIY + "李昆陽開始燒鐵鑄劍...\n" + NOR);
     tell_object(me,HIB + "屋裡忽然藍光隱隱....\n" + NOR);
-    command("say 唉...終於鑄好了...花了我畢生的功\力...");
+    command("say 唉...終於鑄好了...花了我畢生的功力...");
     command("say 拿去吧，望你憑藉此劍斬妖除魔!!");
     new("/daemon/class/swordsman/obj/tunsword")->move(me);  
                                         }

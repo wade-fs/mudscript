@@ -83,7 +83,7 @@ void attempt_apprentice(object ob)
         return 0;
         }
         command("smile");
-        command("say 以後你就跟著我學點武功\吧");
+        command("say 以後你就跟著我學點武功吧");
         command("recruit "+ob->query("id"));
         ob->set("marks/仙劍七俠",1);
 }

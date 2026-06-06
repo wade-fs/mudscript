@@ -100,7 +100,7 @@ else{
         busy=fun/(120-fun);
 
 if(me->query("family/family_name")!="冥蠱魔教")
-                 return notify_fail("這項武功\只有冥蠱魔教的教眾能夠融會運用!!\n");
+                 return notify_fail("這項武功只有冥蠱魔教的教眾能夠融會運用!!\n");
 if(!me->is_fighting()) return notify_fail("只有在戰鬥中才能使用\n");
 if(target[j]->is_busy()) return notify_fail("就算你是魔教徒，也不能趁人之危吧，先讓他喘口氣啦!!\n");
           message_vision(HIC + "\n$N仰天長嘯 ：

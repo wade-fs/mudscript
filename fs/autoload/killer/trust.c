@@ -158,7 +158,7 @@ int target_absorb(string str)
 	exp2=this_player()->query("combat_exp");
 	if( random(exp2) > random(exp1)/2 )
 	{
-	   message_vision(HIM + "結果成功\的把$N吸收\n" + NOR,ob);
+	   message_vision(HIM + "結果成功的把$N吸收\n" + NOR,ob);
 	//這裡是檢查是否第一次鍛鍊這一把武器
 	//沒有的話，就為玩家座第一次的資料設定
 	   if (!me->query("dag/dark/lv"))
@@ -264,7 +264,7 @@ mixed hit_ob( object victim,object me)
         //基本上還可以根據匕首等級的不同，有不一樣的特攻
         //甚至連特攻的屬性都不一樣
         //或許連武器上都可以做自己決定要用的特攻魔法
-      message_vision(name()+HBCYN + "一股震動隱隱感覺$N內功\造詣迅速幻化" + NOR,user);
+      message_vision(name()+HBCYN + "一股震動隱隱感覺$N內功造詣迅速幻化" + NOR,user);
       message_vision("\n$N只覺眼前一亂本身的元氣已被"+name()+"的強大能量吸盡" + NOR,victim);
       message_vision(HBCYN + "\n轉眼之間強光入體化成強大的氣團罩著$N感覺元氣充足\n" + NOR,user);
       victim->receive_damage("kee",random(sunlv*2),user);

@@ -11,7 +11,7 @@ string ask_lover()
     if( ob->query("family/family_name") =="聖火教" && ob->query_temp("youkoun") >= 1 )
     {
     ob->set_temp("youkoun", 2);
-    return("他叫燕十一, 是霞山派的弟子, 也就是我的救命恩人!!武功\高強, 所以我就....
+    return("他叫燕十一, 是霞山派的弟子, 也就是我的救命恩人!!武功高強, 所以我就....
 可是我的[情敵]卻阻撓了我跟他的事!!\n");
     }
     else

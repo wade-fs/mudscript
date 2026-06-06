@@ -4,7 +4,7 @@ void create()
 {
          set_name("獵人阿三",({"hunter"}));
 	set("long","一個從小在森林中長大的獵人,看他隻身空手,卻令森林中的猛獸如此
-畏懼,難道他曾學過些武功\?\n");
+畏懼,難道他曾學過些武功?\n");
 	set("gender","男性");
 	set("combat_exp",23590);
         set("attitude","heroism");

@@ -157,7 +157,7 @@ int target_absorb(string str)
 	exp2=(int)this_player()->query("combat_exp");
 	if( random(exp2) > random(exp1)/2 )
 	{
-	   message_vision(HIM + "結果成功\的把$N吸收\n" + NOR,ob);
+	   message_vision(HIM + "結果成功的把$N吸收\n" + NOR,ob);
 	//這裡是檢查是否第一次鍛鍊這一把武器
 	//沒有的話，就為玩家座第一次的資料設定
 	   if (!me->query("dag/dark/lv"))

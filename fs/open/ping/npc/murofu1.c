@@ -8,7 +8,7 @@ void create()
 {
         set_name("慕容復", ({"murofu"}));
         set("title", HIB + "以彼之道 "+HIC+"還彼之身" + NOR);
-        set("long", "蘇杭名士慕容復,善各家武功\,乃江南第一高手.\n");
+        set("long", "蘇杭名士慕容復,善各家武功,乃江南第一高手.\n");
         set("age", 40);
         set("str", 35);
         set("con", 35);
@@ -200,7 +200,7 @@ int change( object me )
           command("unwield all");         //光set skill_type無法使murofu變換武功,故需unwield再wield
           command("wield specail");       
             }else{
-           say("慕容復說: 自大的傢伙,不運功\也想打敗我!! 去死吧!!\n");
+           say("慕容復說: 自大的傢伙,不運功也想打敗我!! 去死吧!!\n");
         }
         exp = 1.2 * me->query("combat_exp");
        	if(exp > 500000)

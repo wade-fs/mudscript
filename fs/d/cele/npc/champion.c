@@ -7,14 +7,14 @@ inherit F_MASTER;
 void create()
 {
 	set_name("於蘭天武", ({ "master champion", "champion", "master" }) );
-	set("title", "水煙閣傳功\使");
+	set("title", "水煙閣傳功使");
 	set("nickname", "大天邪");
 	set("gender", "男性");
 	set("age", 54);
         set("class","fighter");
 	set("long",
 		"於蘭天武是當今皇上的叔父﹐但是他畢生浸淫武學﹐甘願拋棄榮華富\n"
-		"以換取水煙閣傳功\使一職﹐以便閱\讀水煙閣中所藏的武學典籍﹐無論\n"
+		"以換取水煙閣傳功使一職﹐以便閱\讀水煙閣中所藏的武學典籍﹐無論\n"
 		"你有什麼武學上的疑難﹐他都能為你解答。\n");
 
 	set("attitude", "peaceful");
@@ -97,7 +97,7 @@ int do_accept(string arg)
 		COMBAT_D->do_attack(this_object(), this_player(), query_temp("weapon"));
 		if( (int)this_player()->query("kee") < 0 
 		|| !present(this_player(), environment())) {
-			say("於蘭天武嘆道﹕可惜﹐難道老夫一身武功\竟無傳人....\n");
+			say("於蘭天武嘆道﹕可惜﹐難道老夫一身武功竟無傳人....\n");
 			return 1;
 		}
 		say("\n於蘭天武哈哈大笑﹐說道﹕今日老夫終於覓得一個可造之才﹗\n\n");
@@ -108,7 +108,7 @@ int do_accept(string arg)
 
        百年前的武林第一人 於蘭天武縱聲長笑著 :
        英雄出少年 ,"+this_player()->name()+"
-       本\傳\功\使\會\將\所\知\的\武學全部好好傳授給你.\n" + NOR,users());
+       本\傳\功使\會\將\所\知\的\武學全部好好傳授給你.\n" + NOR,users());
         }
 		return 1;
 	}

@@ -119,7 +119,7 @@ message_vision(HIG + "$N" + HIG + "向"+this_object()->query("name")+HIG + "丟�
 //        move(environment(me));
         set_heart_beat(0);
         tell_object(me,sprintf("
-%s對你說道：我已經功\成身退，先回家睡覺囉!!!\n",this_object()->name()));
+%s對你說道：我已經功成身退，先回家睡覺囉!!!\n",this_object()->name()));
         }
         destruct(this_object());
 

@@ -154,7 +154,7 @@ void heart_beat()
  void die()
  {
   if(!ob2){
-    write("水靈兒說:想不到妳的武功\如此厲害\n"); 
+    write("水靈兒說:想不到妳的武功如此厲害\n"); 
     ::die();
     return ;
   }
@@ -165,7 +165,7 @@ void heart_beat()
 	  ob2->set_temp("allow_learn",1);}
   else   
    {
-    write("水靈兒說:想不到妳的武功\如此厲害\n"); 
+    write("水靈兒說:想不到妳的武功如此厲害\n"); 
     }
    ::die();
   }  

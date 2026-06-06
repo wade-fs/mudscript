@@ -136,7 +136,7 @@ int do_sp1(string arg)
 
     me=this_player();
     if(me->query("family/family_name")!="仙劍派")
-       return notify_fail("目前只給仙劍派使用組陣功\能!!\n");
+       return notify_fail("目前只給仙劍派使用組陣功能!!\n");
     if(!arg) return notify_fail("指令格式:go_array 人數\n");
     if(!sscanf(arg,"%d",num)) return notify_fail("指令格式:go_array 人數\n");
     if(num!=2 && num!=3 && num!=4 && num!=8)

@@ -41,6 +41,6 @@ int do_verify(string str)
 	}
     book=new("/autoload/scholar/secret_book.c");
 	book->move(me);
-	message_vision("$N從書架上抽出自己的武功\秘笈。\n",me);
+	message_vision("$N從書架上抽出自己的武功秘笈。\n",me);
 	return 1;
 }

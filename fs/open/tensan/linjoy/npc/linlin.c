@@ -126,7 +126,7 @@ string ask_badman()
     object me=this_player();
     if(me->query_temp("tensan/ask_master")==1 && me->query_temp("tensan/start_test")!=1)   
     {
-      command("say 師父就是被她師妹李秋水暗算才會喪失功\力，大俠你願意幫我找師父嗎？");        
+      command("say 師父就是被她師妹李秋水暗算才會喪失功力，大俠你願意幫我找師父嗎？");        
       me->delete_temp("tensan/ask_master");
       me->set_temp("tensan/ask_badman",1);
     }else if(me->query_temp("tensan/start_test")==1)
@@ -140,7 +140,7 @@ string ask_linjoy()
     object me=this_player(); 
     if(me->query_temp("tensan/ask_tensan")==1)   
     {
-      command("say 靈鷲宮是我師父一手創建的，師父的武功\可說是天下第一");          
+      command("say 靈鷲宮是我師父一手創建的，師父的武功可說是天下第一");          
       me->set_temp("tensan/ask_linjoy",1);
       me->delete_temp("tensan/ask_tensan");
     }else command("say 你是從那聽來的，快說？");

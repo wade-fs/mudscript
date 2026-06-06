@@ -235,7 +235,7 @@ void die()
 
   if(winner->query_temp("know_fist") >= 2)
   {
-    message_vision(HIW + "寂元子說道:「大俠果然武功\高強，老夫心甘情願交出祕笈，望大俠早日為武林除害。」\n" + NOR,winner);
+    message_vision(HIW + "寂元子說道:「大俠果然武功高強，老夫心甘情願交出祕笈，望大俠早日為武林除害。」\n" + NOR,winner);
     message_vision(HIR + "" + winner->query("name") + "得到了無雙拳理。\n" + NOR,winner);
     obj=new("/open/capital/obj/fist_book");
     obj->move(winner);

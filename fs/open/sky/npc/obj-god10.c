@@ -632,8 +632,8 @@ void die()
 
   tell_object(users(),HIW + "\n天靈地界的" + HIR+me->query("name")+HIW + "被" + HIR+winner->query("name")+HIW + "打敗，化為一股靈氣消散於大地了。\n" + NOR);
 
-  message_vision(HIY + "\n恭喜"+winner->name()+"打死"+me->query("name")+"得到五百點戰功\!!\n" + NOR,winner);
-  write_file("/log/sky/war/obj-god10",sprintf("%s(%s)  殺死%s得到五百點戰功\於 %s\n",winner->name(1),winner->query("id"),me->query("name"),ctime(time())));
+  message_vision(HIY + "\n恭喜"+winner->name()+"打死"+me->query("name")+"得到五百點戰功!!\n" + NOR,winner);
+  write_file("/log/sky/war/obj-god10",sprintf("%s(%s)  殺死%s得到五百點戰功於 %s\n",winner->name(1),winner->query("id"),me->query("name"),ctime(time())));
   winner->add("war_score",500);
 
   :: die();

@@ -21,7 +21,7 @@ return notify_fail("你的七奇針訣程度不夠﹐無法使用破穴指。\n"
 if(!me->is_fighting(target))
 return notify_fail("破穴指要在戰鬥中才能使用。\n");
 if(me->query("family/family_name")!="銀針門")
-return notify_fail("這種武功\只有銀針門的門人才可以使用。\n");
+return notify_fail("這種武功只有銀針門的門人才可以使用。\n");
 if((int)me->query("force")<150)
 return notify_fail("你的內力不夠。\n");
 if(target->query_temp("break-kee"))
@@ -127,7 +127,7 @@ else {
      }
 }
 else
-message_vision(MAG + "$n急使輕功\!!千均一刻之際!!避開$N的可怕攻擊!!!\n" + NOR,me,target); 
+message_vision(MAG + "$n急使輕功!!千均一刻之際!!避開$N的可怕攻擊!!!\n" + NOR,me,target); 
 
 message_vision(HIR + "$N使出破穴針後!!內勁損耗過大，趕緊運氣調息。\n" + NOR,me);
 me->start_busy(1);
@@ -145,5 +145,5 @@ target->delete_temp("break-kee");
 target->add_temp("apply/dodge",skill);
 target->add_temp("apply/parry",skill);
 target->add_temp("apply/attack",skill);
-message_vision(HIY + "$N被封住穴道慢慢解開了,所喪失的功\力也慢慢恢復了!!!。\n" + NOR,target);
+message_vision(HIY + "$N被封住穴道慢慢解開了,所喪失的功力也慢慢恢復了!!!。\n" + NOR,target);
 }

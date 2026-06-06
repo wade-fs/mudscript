@@ -81,7 +81,7 @@ room=environment(user);
    {
 message_vision(MAG + "\n$N雙眼泛紅, 全身散發出死亡搬的氣息。\n" + NOR,user);
 message_vision(MAG + "\n～ ～  " + HIW + "天  魔  解  體  大  法  " + MAG + "～ ～\n" + NOR,user);
-message_vision(HIW + "\n$N生命力瞬間爆增數萬, 功\力徒增數倍!!\n" + NOR,user);
+message_vision(HIW + "\n$N生命力瞬間爆增數萬, 功力徒增數倍!!\n" + NOR,user);
 user->add("max_kee",50000);
 user->add("max_gin",50000);
 user->add("max_sen",50000);

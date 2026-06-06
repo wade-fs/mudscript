@@ -17,9 +17,9 @@ mapping valid_types = ([
   "stick":        "棍法",
   "staff":        "杖法",
   "throwing":     "暗器",
-  "force":        "內功\",
+  "force":        "內功",
   "parry":        "招架",
-  "dodge":        "輕功\",
+  "dodge":        "輕功",
   "magic":        "法術",
   "spells":       "咒術",
   "move":         "行動",
@@ -40,8 +40,8 @@ void create()
     set_default_object(__FILE__);
   else {
     set("unit","本");
-    set("long","這是一本記載武功\的秘笈，通常只有書生之流的人才能憑著"+
-      "優異的學識將本身的武功\心法計錄下來。\n"+
+    set("long","這是一本記載武功的秘笈，通常只有書生之流的人才能憑著"+
+      "優異的學識將本身的武功心法計錄下來。\n"+
       "鍵入<help secret_book>可獲得更多的資訊。");
     set("value",0);
     set("no_drop",1);
@@ -59,7 +59,7 @@ void init()
   if(!query("belong")) {
     if(userp(environment())) set("belong",geteuid(environment()));
   }
-  set_name(me->name(1)+ "的武功\秘笈", ({ "secret_book" }));
+  set_name(me->name(1)+ "的武功秘笈", ({ "secret_book" }));
   add_action("do_record","record");
   add_action("do_opento","opento");
   add_action("do_check","checkin");

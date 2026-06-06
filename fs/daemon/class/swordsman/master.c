@@ -137,7 +137,7 @@ string cure_damage()
 {
   object me = this_player();
   if( me->query("quests/kill-dugur") && !me->query("quests/cure-star") )
-    return "對於這個傷，我並沒有把握，但是，據我所知，魔刀有研究過這部功\夫。\n";
+    return "對於這個傷，我並沒有把握，但是，據我所知，魔刀有研究過這部功夫。\n";
   return "你有受傷嗎？";
 }
 
@@ -217,7 +217,7 @@ void create()
     "聖水"        : (: return_sha4 :),
     "天門奇陣"    : "這是困住血魔的不世陣法,當世似乎無人能破解\n",
     "仙劍劍陣"    : "劍陣因人數不同有其不同陣招，「三才密招」「四龍崩月」「禁斷連斬訣」等招 !!\n",
-    "枯\葉殘星掌" : "這招是雪蒼派的禁招之一，威力十分驚人，但是，這部功\夫似乎在獨孤愁死後就已經失傳了。\n",
+    "枯\葉殘星掌" : "這招是雪蒼派的禁招之一，威力十分驚人，但是，這部功夫似乎在獨孤愁死後就已經失傳了。\n",
     "入滅"        : "我年輕時對抗魔域入侵時曾中過此毒，九死一生幸得一顆「千墳之水」解之，但是，唉...\n",
     "千墳之水"    : "千墳之水乃魔域某守衛心臟內凝結之血，劇毒無比. 但卻有解除入滅奇毒的奇效\n",
     "連陽劍"      : "...就是我手上這把阿...這是當初師父直傳給我的。\n",
@@ -452,14 +452,14 @@ string ask_gonfu()
   if(me->query("family/family_name")!="仙劍派")
     return ("你非仙劍弟子，你要做什麼？");
   if( me->query_skill("shasword",1) < 80 )
-    return(" 你武功\需要再加強些，不要胡思亂想。\n ");
+    return(" 你武功需要再加強些，不要胡思亂想。\n ");
   if(me->query("get_sha_sp")==1)
     return(" 你已經學會啦...還想做什麼!!\n");
   else if(me->query("bounds",1) < 4000 )
     return("你對本派貢獻還不足，等夠了我再告訴你吧\n");
   else
   {
-    write("好像有這功\夫，不過百年前已經失傳，這樣好了，你去藏經閣找找吧。\n");
+    write("好像有這功夫，不過百年前已經失傳，這樣好了，你去藏經閣找找吧。\n");
     new("/open/gsword/obj/pass")->move(me);
     write("這張通行証你拿去給乘雲看，他就會讓你進去的。\n");
     me->set_temp("allow_pass",1);
@@ -518,7 +518,7 @@ int sha_array8()
   if( me->query("family/family_name") !="仙劍派" )
     command("say 你非仙劍弟子，恕不奉告");
   else command("say 此招融合仙劍七俠的禁斷絕招和老夫的劍訣，但我的弟子的平均
-功\力不夠，所以此招列為仙劍的禁招之一。");
+功力不夠，所以此招列為仙劍的禁招之一。");
   return 1;
 }
 
@@ -648,7 +648,7 @@ string return_sha1()
       command("cow");
       command("chat 他馬的"+me->query("name")+"你又叛派!!我看不出你誠意在哪啊!!");
     }
-    command("say 先廢掉武功\來證明你的誠意吧!!");
+    command("say 先廢掉武功來證明你的誠意吧!!");
     command("say 你確定要這麼做嗎!? (answer yes or no)");
     me->set_temp("quest/return_sha",2);
   } else command("say 廢過了還想再廢!?你真的是廢人嗎!？");
@@ -726,7 +726,7 @@ int abandon_skill2()
   me->map_skill("magic",0);
   me->map_skill("unarmed",0);
   command("sweat");
-  command("say 現在你武功\盡失，已經有資格以清白之身重返仙劍了。");
+  command("say 現在你武功盡失，已經有資格以清白之身重返仙劍了。");
   me->set_temp("quest/return_sha",3);
   me->delete_busy();
 }
@@ -803,8 +803,8 @@ int accept_object(object me,object ob)
       ob->move(me);
       command("spank "+me->query("id"));
       command("say 就是這個東西，想不到你真的找到了，接下來只要把它灑(cover)在血魔身上，就可以解除你身上的印記了。");
-      command("say 不過你現在武功\盡失，硬要從天邪峰前往血魔堡實在太危險，幸好先師為了對抗血魔，早已秘密興建一密道。");
-      command("say 我這就送你過去，密道的盡頭就是血魔堡，記得水灑了之後立即逃跑，以你現時功\力還不是血魔對手。");
+      command("say 不過你現在武功盡失，硬要從天邪峰前往血魔堡實在太危險，幸好先師為了對抗血魔，早已秘密興建一密道。");
+      command("say 我這就送你過去，密道的盡頭就是血魔堡，記得水灑了之後立即逃跑，以你現時功力還不是血魔對手。");
       me->set_temp("quest/return_sha",7);
       me->move("/open/gsword/return_sha/room/tunnel_00.c");
 //      me->move(__DIR__"room/tunnel_00");

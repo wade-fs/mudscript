@@ -244,8 +244,8 @@ void die()
     return ;
   }
 
-  tell_object(winner,"\n你打敗"+me->name()+"得到三十點戰功\!!\n" + NOR,winner,me);
-  write_file("/log/get_warp_e",sprintf("%s(%s) 打敗"+me->name()+"得到三十點戰功\於 %s\n",winner->name(1),winner->query("id"),ctime(time())));
+  tell_object(winner,"\n你打敗"+me->name()+"得到三十點戰功!!\n" + NOR,winner,me);
+  write_file("/log/get_warp_e",sprintf("%s(%s) 打敗"+me->name()+"得到三十點戰功於 %s\n",winner->name(1),winner->query("id"),ctime(time())));
   winner->add("war_score",30);
   message_vision(HIR + "\n$n承受不住攻擊，消失在一陣光芒之中，魂魄化身為一顆封魂石!!\n" + NOR,winner,me);
   {

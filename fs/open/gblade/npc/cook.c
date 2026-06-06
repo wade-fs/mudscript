@@ -32,7 +32,7 @@ void create()
         set("chat_msg", ({"你想知道怎麼樣做好吃菜嗎？\n",
         }) );
         set("chat_chance_combat",30);
-set("chat_msg_combat",({"打我一個不會武功\的廚師，算得上什麼英雄好漢。\n"
+set("chat_msg_combat",({"打我一個不會武功的廚師，算得上什麼英雄好漢。\n"
         }));
 	set("inquiry",([
 	"捕蟲網" : "嗯 ,常常有些丫頭來向我借捕蟲網 !\n",

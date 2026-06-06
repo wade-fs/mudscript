@@ -59,7 +59,7 @@ void create()
     "延慶太子"      : (: do_chun :),
     "急事"          : (: do_help :),
     "本因方丈"      : (: do_mark :),
-    "六脈神劍經"    : "為本派武功\『六脈神劍』精要所在之武學寶典, 裡面紀載了連我都不知的『奧義』絕學。",
+    "六脈神劍經"    : "為本派武功『六脈神劍』精要所在之武學寶典, 裡面紀載了連我都不知的『奧義』絕學。",
     "飄陽扇"        : (: do_fan :),
     "段霾"          : (: do_mime :),
     "凌波微步"      : "是段家的奇才「段譽」學會的奇門步法，我記得他有拿一本秘笈給我。",
@@ -142,7 +142,7 @@ string do_scar()
   if( me->query_temp("thief") >= 3 )
   {
     if( me->query_temp("thief") == 3 ) me->set_temp("thief",4);
-      return("大盜的右耳後有一小傷痕, 且使的是段家的\\武\\功\嗎﹖難道..難道是他..\n\n"+
+      return("大盜的右耳後有一小傷痕, 且使的是段家的\\武\\功嗎﹖難道..難道是他..\n\n"+
       "段雲陷入深深的沈思之中, 似乎在回想著什麼。\n\n"+
       "段雲抱歉的說道: 我不想再提起這段傷心往事(sad_story)了。來人啊,送客..");
   }
@@ -225,7 +225,7 @@ string do_mime()
   {
     if( me->query("family/family_name") == "段家" ) me->set_temp("mime",1);
     command("say 唉!!!.......自從二十年前大師兄出走之後，就音訊全無。我曾數次派\n"+
-      "          人去尋找，但全都無功\而返。這樣吧!!!!現下我就派你去尋找大師兄。\n"+
+      "          人去尋找，但全都無功而返。這樣吧!!!!現下我就派你去尋找大師兄。\n"+
       "          而有關飄陽扇的事你也可以自己問他。但我怕大師兄會因事關武林安危\n"+
       "          而不告知。我這有一張拜帖，你拿給師兄，我想他應會回答你的問題。\n"+
       "\n");
@@ -247,7 +247,7 @@ string do_sixfingers()
     return("
               我大理段氏向來以一陽指與六脈神劍聞名, 那一陽指固然難練,
               六脈神劍更是百年難得有一人能盡得真傳, 因此『天龍寺』的高
-              僧為延續此一神功\, 撰寫了一部『六脈神劍經』。");
+              僧為延續此一神功, 撰寫了一部『六脈神劍經』。");
   }
   else
   {
@@ -293,7 +293,7 @@ string do_chun()
     return("
               此人原為我段家出類拔萃的人物, 奈何當年那場大亂, 竟
               使他投入邪派, 後來更成為四大惡人之首, 危害武林, 其
-              武功\身兼正邪, 真的當者披靡, 不過這十多年來, 未再聽
+              武功身兼正邪, 真的當者披靡, 不過這十多年來, 未再聽
               到其消息, 想是已不在人世才是。");
   }
   else
@@ -370,7 +370,7 @@ int do_answer(string str)
         "他日必能為段家發揚光大, 在江湖上揚名立姓。\n");
       command("recruit " + me->query("id") );
       me->set("startroom",environment(me));
-      write("嗯..你的內功\不夠純正, 讓為師的助你一臂之力吧。\n");
+      write("嗯..你的內功不夠純正, 讓為師的助你一臂之力吧。\n");
       message_vision("段雲緩緩的伸出右手, 往$N頭頂的百會穴一按, 絲絲的蒸氣從$N的頭上冒了出來....。\n",me);
       me->improve_skill("sunforce",2);
       command("smile "+me->query("id"));
@@ -412,7 +412,7 @@ void attempt_apprentice(object me)
     write("怎麼這麼快又見面了? 下次再來吧。\n");
   else
   {
-    write(" "+RANK_D->query_respect(me)+"想拜入我的門下嗎? 我門的內功\首重內心修養, "+
+    write(" "+RANK_D->query_respect(me)+"想拜入我的門下嗎? 我門的內功首重內心修養, "+
       "若學識沒有一定的基礎, 對自身反而有害。老夫這就來試一試你, 若真心想學的話就回答(answer)我的問題吧\n");
     write("段雲緩緩的吟唱道:"+HIC+question[which]+NOR+"\n");
     write("段雲和藹的說道: 你能說說接下來的句子嗎?\n");
@@ -429,7 +429,7 @@ int accept_object(object me, object obj)
     command("say 太好了, 是柳毅風託你的嗎﹖謝了。");
     if( me->query("family/family_name") == "段家" && !me->query("marks/sun-finger") )
     {
-      command("say 既然你護送秘笈有功\, 我便將此秘笈上記載的絕招傳授與你吧。");
+      command("say 既然你護送秘笈有功, 我便將此秘笈上記載的絕招傳授與你吧。");
       write(this_object()->query("name")+"看著秘笈隨手演練一遍。\n\n"+
         "你覺得心中疑慮豁然貫通, 全身內力迅速流轉一周天。\n\n"+CYN+
         "你的內力值達到上限了。\n\n"+HIC+
@@ -443,7 +443,7 @@ int accept_object(object me, object obj)
   else if(obj->query("name")=="凌波微步捲軸" && obj->query("linpo_quest"))
   {
     if(me->query("marks/ask_linpo")!=3){
-      write("段雲看了看手上的東西，覺得一點用處也沒有，於是運功\把"+
+      write("段雲看了看手上的東西，覺得一點用處也沒有，於是運功把"+
       obj->query("name")+"捏個粉碎!!\n");
       destruct(obj);
     }

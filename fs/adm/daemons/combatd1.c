@@ -659,7 +659,7 @@ varargs int do_attack(object me, object victim, object weapon, int attack_type)
 
 	    if (victim->query_temp("unsuck")==1)
 	    {
-		message_vision(HIY + "\n『金鐘罩』十成功\力，果然厲害，竟把$N加諸在$n的攻擊全數反震回去。\n" + NOR,me,victim);
+		message_vision(HIY + "\n『金鐘罩』十成功力，果然厲害，竟把$N加諸在$n的攻擊全數反震回去。\n" + NOR,me,victim);
 		me->add("kee",-(damage));
 		me->add("eff_kee",-(damage));
 		report_status(me);

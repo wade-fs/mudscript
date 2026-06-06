@@ -6,7 +6,7 @@ void create()
 
   set_name("江振武",({"jan wu","wu"}));
   set("title","紅葉組組長");
-  set("long","此人乃名振天下的黑巾使者，一身武功\據說不在葉秀殺之下");
+  set("long","此人乃名振天下的黑巾使者，一身武功據說不在葉秀殺之下");
   set("gender","男性");
   set("combat_exp",800000); 
   set("attitude","friendly");

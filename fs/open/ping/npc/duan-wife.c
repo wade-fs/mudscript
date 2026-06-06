@@ -30,7 +30,7 @@ void create()
   set("race", "人類");
   set("attitude","peaceful");
   set("age", 30);
-  set("long","一個容光照人的貴婦，自幼與段雲同門學藝，據說其武功\不在段雲之下。");
+  set("long","一個容光照人的貴婦，自幼與段雲同門學藝，據說其武功不在段雲之下。");
   set("str", 30);
   set("per", 35);
   set("max_force", 3000);

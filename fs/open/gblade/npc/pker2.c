@@ -146,7 +146,7 @@ void heart_beat()
                 add("kee", kee);
                 add("sen", sen);
                 add_temp("run", 1);
-		tell_room(environment(), HIY+name()+"忽然運起內功\, 頭頂冒出絲"+
+		tell_room(environment(), HIY+name()+"忽然運起內功, 頭頂冒出絲"+
                      "絲白煙, 不到半柱香時間已療傷完畢。\n" + NOR);
             }
         }

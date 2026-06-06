@@ -12,7 +12,7 @@ void create()
         else
         {
           set("unit", "本");
-          set("long","這書便是段家歷來武功\精要～一陽心法的秘笈, 然而其中
+          set("long","這書便是段家歷來武功精要～一陽心法的秘笈, 然而其中
 之絕招『化氣為筆』卻因前代門人保存不善而失傳 。\n");
           set("value",1000);
           set("material", "paper");

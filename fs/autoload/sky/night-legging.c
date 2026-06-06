@@ -100,7 +100,7 @@ int do_wear(string str)
     exp = me->query("combat_exp");
     if( exp < 1000000 )
     {
-      message_vision("$N的武功\尚未大成，強行配帶將招致夜影反嗜!!\n" + NOR,me);
+      message_vision("$N的武功尚未大成，強行配帶將招致夜影反嗜!!\n" + NOR,me);
     } else {
       message_vision(HIW + "$N" + HIW + "感受到來自"+eq->query("name")+HIW + "的暗夜之氣。!!\n" + NOR,me);
       set_heart_beat(1);
@@ -164,7 +164,7 @@ void heart_beat()
     if(!me->query_temp("night-legging/day")) //尚未使用裝備附加能力時（白晝）
     {
       message_vision(HIR + "白日照耀之下，$n" + HIR + "幾欲分崩離析，$N" + HIR + "趕緊以元神強行聚合。\n" + NOR,me,eq);
-//      message_vision(YEL + "由於$N" + YEL + "的元神過度集中，因此基本內功\(force)有所增長。\n" + NOR,me);
+//      message_vision(YEL + "由於$N" + YEL + "的元神過度集中，因此基本內功(force)有所增長。\n" + NOR,me);
 //      me->add_temp("apply/force",add/10);
 //      me->set_temp("apply/force_night_legging",add/10); //作為增加的紀錄
       me->set_temp("night-legging/day",1); //使用效果（白晝）

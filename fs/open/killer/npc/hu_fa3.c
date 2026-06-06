@@ -10,7 +10,7 @@ void create()
 
   set_name("渡永天",({"dou_tan","dou","tan"}));
   set("title","黃龍組組長");
-  set("long","此人乃殺手的幕後功\臣，殺手有一大堆高手是由此人鍛鍊出來");
+  set("long","此人乃殺手的幕後功臣，殺手有一大堆高手是由此人鍛鍊出來");
   set("gender","男性");
   set("combat_exp",1000000); 
   set("attitude","friendly");
@@ -71,7 +71,7 @@ string to_man()
 
  tell_object(me,"你想要追殺那個人呀。。。。。嗯。。。。\n");
  tell_object(me,"好吧！我就告訴你，那個人就是無影掌--葉雙\n");
- tell_object(me,"此人武功\非常高強，如果你功\力不夠高，最好不要去找死\n");
+ tell_object(me,"此人武功非常高強，如果你功力不夠高，最好不要去找死\n");
  tell_object(me,"這張紙你拿去，順著謎題去找，在某處調查可以找到人指示你\n");
  if (me->query_temp("mission3") != 2)
 {

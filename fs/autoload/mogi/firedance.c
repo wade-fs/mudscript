@@ -30,7 +30,7 @@ return notify_fail("只有舞者才能使用。\n");
          msg += HIG + "\n                       向著$n飛去，令$n不及招架。\n\n" + NOR;
          message_vision(msg, me, target);
         if( 80 > random(100) ) {
-                        write("\n                     結果成功\的施展出火鳳飛翔。\n");
+                        write("\n                     結果成功的施展出火鳳飛翔。\n");
                         say( "                     "+target->query("name")+"閃躲不及，渾身上下都著了火，痛苦異常!!\n");
          target->add("kee",-(fun*9+250));
 		 target->apply_condition("burn",random(15) +fun);

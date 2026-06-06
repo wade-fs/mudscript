@@ -56,7 +56,7 @@ me = this_player();
     tell_object(me,HIY + "李昆陽的眼睛突然精光暴射...\n" + NOR);
     tell_object(me,HIY + "李昆陽開始燒鐵鑄劍...\n" + NOR);
     tell_object(me,HIB + "屋裡忽然藍光隱隱....\n" + NOR);
-    command("say 唉...終於鑄好了...花了我畢生的\功\力\...");
+    command("say 唉...終於鑄好了...花了我畢生的\功力\...");
     command("say 拿去吧，望你憑藉此劍斬妖除魔!!");
     new("/daemon/class/swordsman/obj/tunsword")->move(me);  
    // call_out("make_sword",10,me);

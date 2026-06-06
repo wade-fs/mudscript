@@ -420,7 +420,7 @@ int look_living(object me, object obj)
   if ( (string)obj->query("race")=="人類" && intp(obj->query("age")) )
   str += getper(me,obj);
  
-  str += sprintf("武功\看上去");
+  str += sprintf("武功看上去");
   str += getpow(me,obj);
   str += sprintf("。\n");
 

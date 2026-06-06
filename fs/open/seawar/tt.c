@@ -8,7 +8,7 @@ void create()
         set("gender","男性");
         set("attitude","aggressive");
         set("long","
-倭寇中，用來處理雜事的人，並非武功\不強，而是在相比較下
+倭寇中，用來處理雜事的人，並非武功不強，而是在相比較下
 ，屬於最低層次的一群，是以只配分派到這種工作。\n");
 	set("max_kee",1);
         setup();

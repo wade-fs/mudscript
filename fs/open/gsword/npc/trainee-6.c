@@ -5,7 +5,7 @@ inherit NPC;
 void create()
 {
 	set_name("陸柏",({"lu bo","bo"}));
-  set("long","張乘風之弟子 ,因武功\遠不及師兄而加緊勤練中 .\n");
+  set("long","張乘風之弟子 ,因武功遠不及師兄而加緊勤練中 .\n");
 	set("gender","男性");
 	set("combat_exp",3613);
         set("attitude","heroism");

@@ -88,7 +88,7 @@ LONG);
     "浪清心"         :       "清心是我所第一個收的弟子，原為教皇繼承人，他的武學天份之高，遠超過本派歷代先人。",
     "太陰虛幻神鑑"   :       "是夜夢雙妖所使用的魔法，其中的水月神鏡非常厲害，我看你要是遇到了大概會仆在當場。",
     "夜夢雙妖"       :       "雖然夜夢雙妖已被清心所殺，但聽說他們的傳人最近在魔界相當囂張。",
-    "先天乾坤功\正卷":       "傳說正卷上記載了超越天驚地動的無敵神技，可惜現在下落不明。",
+    "先天乾坤功正卷":       "傳說正卷上記載了超越天驚地動的無敵神技，可惜現在下落不明。",
     "遺落的渾天水晶" :       "嗯，本教目前僅餘六枚水晶，若集齊其他四枚，應能將渾天寶鑑推至最終境界。",
     "玄清子"         :       "聽說他的後人陸清風老道，對洛書河圖也蠻有一番心得的。",
     "月無垠"         :       "我懷疑她當時將其餘渾天水晶暗中藏起來了，但是月半彎那婊子打死都不承認。",
@@ -109,7 +109,7 @@ LONG);
                 CYN + "教皇念道﹕「夜涼撫琴千山月，路遙迷人千種花；\n
                         棋罷不知人換世，酒欄無奈客恩家。」\n" + NOR,
                 CYN + "教皇沈吟道﹕「隱居幽靈古洞天，苦學秘笈無限年；\n
-                        誰若超越一線界，休怪氣功\穿腦田。」\n" + NOR,
+                        誰若超越一線界，休怪氣功穿腦田。」\n" + NOR,
                 CYN + "教皇說道﹕「靜月禁地是仙境，休望侵犯取月靈；\n
                         若要逞強不聽勸，閃電霹靂奪性命。」\n" + NOR,
   }) );
@@ -245,7 +245,7 @@ void attempt_apprentice(object ob)
       command("say 好，你果然是可造之才，你可以去找三位長老作為你武學的指導！");
       ob->delete("family");
       command("say 你想選擇(select)哪一位長老呢？");
-      command("say 傳功\長老(gonfu_elder)，執法長老(lawyer_elder)還是戒律長老(behavior_elder)？");
+      command("say 傳功長老(gonfu_elder)，執法長老(lawyer_elder)還是戒律長老(behavior_elder)？");
       ob->set_temp("allow_select",1);
     }
   }
@@ -365,7 +365,7 @@ int do_select(string str)
     who->set_temp("have_say",1);
     return 1;
   }
-  else if(str == "傳功\長老" || str == "gonfu" || str == "gonfu_elder")
+  else if(str == "傳功長老" || str == "gonfu" || str == "gonfu_elder")
   {
     if(who->query("combat_exp") < 200000){
       command("say 你這傢伙經驗不足，去八天門多學點東西吧!!");
@@ -375,10 +375,10 @@ int do_select(string str)
       command("say 連八天門都沒去過，還想去長老那學習??你這叫痴心妄想!!");
       return 1;
     }
-    message_vision(HIC + "$N說道﹕傳功\長老。\n" + NOR,who);
+    message_vision(HIC + "$N說道﹕傳功長老。\n" + NOR,who);
     who->set_temp("allow_9",1);
     command("smile");
-    command("say 嗯，你就去傳功\長老那兒學藝吧！");
+    command("say 嗯，你就去傳功長老那兒學藝吧！");
     who->set_temp("have_say",1);
     return 1;
   }
@@ -514,7 +514,7 @@ void die()
 
   tell_object(users(),HIR + "
    遠從西域傳來一聲怒吼!!『聖火教主』林宏昇不顧傷勢!!強運身上內力，使出了
-                    "+HIW+"先天乾坤功\第七絕
+                    "+HIW+"先天乾坤功第七絕
                                    『"+HIC+"天"+HIG+"驚"+YEL+"地"+BLU+"動"+HIW+"』" + HIW + "
    一時之間，天地變色!!狂風怒嘯!!九天真氣、九地真氣，齊湧至林宏昇之体內!!!
 " + HIR + "忽然間!!轟~~一聲巨響!!!林宏昇無法駕馭身上的九天真氣!!真氣爆体而出!!血肉模糊!!
@@ -770,7 +770,7 @@ int magic_sign()
     obj=new("/open/magic-manor/obj/magic-sign");
     obj->move(me);
     message_vision("林昇宏交給$N一塊$n。\n",me,obj);
-    command("say 接下來我再傳一點功\力給你吧!!");
+    command("say 接下來我再傳一點功力給你吧!!");
     command("say 希望你能為聚靈山莊多盡一點心力。");
     me->start_busy(15);
     message_vision(HIY + "林宏昇將雙手置於$N百會與膻中兩大穴，一股內勁由林宏昇的手掌鑽入$N體內。\n" + NOR,me);
@@ -788,7 +788,7 @@ int trans_force()
   me=this_player();
   force=me->query_skill("force",1);
   {
-    message_vision(HIY + "只見林宏昇臉頰上滿是汗水，不一會兒，行功\完畢。\n" + NOR,me);
+    message_vision(HIY + "只見林宏昇臉頰上滿是汗水，不一會兒，行功完畢。\n" + NOR,me);
     tell_object(me,HIC + "你只覺全身精氣神飽滿，身上的筋脈豁然貫通，內力更是有所長進。\n" + NOR);
     me->set_skill("force",force+30);
     me->delete_busy();
@@ -844,7 +844,7 @@ int accept_object(object me,object ob)
       
       if(me->query_temp("find_scroll") && me->query_temp("adv_prayer"))
       {
-        command("say 恰好老夫剛跟陸老道約好討論先天乾坤功\正卷的事宜，你趕快去找他吧!!");
+        command("say 恰好老夫剛跟陸老道約好討論先天乾坤功正卷的事宜，你趕快去找他吧!!");
         me->set_temp("find_scroll",2);
       }
     }
@@ -919,7 +919,7 @@ string fist_book()
     me->set_temp("know_fist",1);
     command("think");
     return "這麼說是英雄正宗告訴你的嗎!?看來他真的不死心，不過無垢禪師已把無雙拳的
-            秘笈交給我隱居已久的師叔了，他武功\比我強得太多，目前人在聚靈山莊內，
+            秘笈交給我隱居已久的師叔了，他武功比我強得太多，目前人在聚靈山莊內，
             有他守著，英雄正宗再厲害也沒辦法逞兇了。\n";
   } else {
     command("stare "+ me->query("id"));
@@ -973,7 +973,7 @@ int adv_prayer0()
   if (environment(me)== environment())
   {
     command("say 你應該早已知道，本派為周武王姬發所創，向來以身負洛書河圖武學的神聖武學自傲。");
-    command("say 武功\則分為兩大派系，一為$HIC$河圖系$HIY$的先天乾坤功\，一為$HIG$洛書系$HIY$的渾天寶鑑。");
+    command("say 武功則分為兩大派系，一為$HIC$河圖系$HIY$的先天乾坤功，一為$HIG$洛書系$HIY$的渾天寶鑑。");
     call_out("adv_prayer1",30,me);
   }
   return 1;
@@ -1011,7 +1011,7 @@ int adv_prayer3()
   if(!me) return 1;
   if (environment(me)==environment())
   {
-    command("say 但凡本派傳人便沒可能空手赴死，清心於彌留之際領悟最終境界，終於融合洛書系、河圖系的兩大神功\。");
+    command("say 但凡本派傳人便沒可能空手赴死，清心於彌留之際領悟最終境界，終於融合洛書系、河圖系的兩大神功。");
     command("say 本皇接獲通報趕回總壇之時，適逢清心施展「雷兮血穹蒼」，此招一出，夜夢雙妖立成肉醬。");
     command("say 然而清心終究回天乏術，雙妖一死，清心亦同時爆體而亡。");
     command("say 本皇痛失愛徒之餘，立誓有朝一日必血洗魔界，從此大開門戶，廣收弟子，便有今天這番興盛。");
@@ -1033,7 +1033,7 @@ string ask_universe()
  }
   if(me->query_temp("find_scroll") && me->query_temp("find_crystal") && me->query_temp("adv_prayer") == 2)
   call_out("both_skill0",30,me);
-  return "這就是先天乾坤功\的由來。";
+  return "這就是先天乾坤功的由來。";
 }
 
 string ask_superforce()
@@ -1059,7 +1059,7 @@ int both_skill0()
   if (environment(me)==environment())
   {
     command("say 旦你不覺得很奇怪嗎，本教歷代奇人輩出，何以無一能像先祖周武王和清心般完美融合洛書、河圖兩系的絕學。");
-    command("say 本皇好奇之際，便派遣八天門門主暗中到中土展開調查，欲尋訪失傳已久的先天乾坤功\正卷和遺落的渾天水晶。");
+    command("say 本皇好奇之際，便派遣八天門門主暗中到中土展開調查，欲尋訪失傳已久的先天乾坤功正卷和遺落的渾天水晶。");
     call_out("both_skill1",30,me);
   }
   return 1;

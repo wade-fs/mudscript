@@ -55,7 +55,7 @@ void greeting(object ob)
         command("say 就義不容辭的帶領著鑣局弟子去替天行道。");
         command("say 他跟暴王戰了三天三夜，還是無法戰勝他，壯烈犧牲了。");
         command("say 結果還被暴王拿走了柳家「寶庫」的鑰匙。");
-        command("say 我很想替父親「報仇」，無奈自己沒武功\，也不能拿回鑰匙。");
+        command("say 我很想替父親「報仇」，無奈自己沒武功，也不能拿回鑰匙。");
         command("say 我就是為了報仇，抱著必死的決心來到魔界，想找尋勇士。");
            
  }
@@ -75,7 +75,7 @@ command("say 那寶庫就在炎龍谷的裡面。");
 
 string do_aca()
 {
-    command("say 只能怨自己沒武功\啦。");
+    command("say 只能怨自己沒武功啦。");
     command("say 不過...只要有人替我報仇..那寶庫裡的寶物就當做謝禮吧。");
 }
 

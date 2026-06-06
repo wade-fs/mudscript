@@ -7,7 +7,7 @@ void create() {
         
         set_name("鬼姥姥",({"ghost woman","woman","ghost"}));
         set("long",
-            "\n他是炎龍谷主的愛將,武功\高強。\n");
+            "\n他是炎龍谷主的愛將,武功高強。\n");
         set("age",3121);
         set("str",35);
         set("cor",35);

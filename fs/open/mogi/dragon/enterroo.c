@@ -16,7 +16,7 @@ LONG);
 
   set("item_desc", ([ /* sizeof() == 1 */
   "stone" : "
-   武功\未熟，死路一條
+   武功未熟，死路一條
          
          
    ",

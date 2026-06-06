@@ -121,7 +121,7 @@ int check( object obj )
   if( obj->query("no_save") )
     return notify_fail( "此物品被設定為無法儲存。\n" );
   if( obj->query_autoload() )
-    return notify_fail( "此物品已有自動儲存的功\能。\n" );
+    return notify_fail( "此物品已有自動儲存的功能。\n" );
   if (obj->query("食物") || obj->query("液體"))
     return notify_fail("...這是倉庫，不是冰箱...\n");
   return 1;
@@ -391,7 +391,7 @@ string storeeq()
   if(!ppl->query("mark/storeeq"))
   {
     command("hmm");
-    return "" + HIY + "最近武林風波不斷，我所珍藏的一粒寶石也於日前與一忍法殺手頭目切磋武功\之時遺失了。若你能代我找回此項物品並歸還於我，在下必定重重回報！\n" + NOR;
+    return "" + HIY + "最近武林風波不斷，我所珍藏的一粒寶石也於日前與一忍法殺手頭目切磋武功之時遺失了。若你能代我找回此項物品並歸還於我，在下必定重重回報！\n" + NOR;
   }
   else 
   {

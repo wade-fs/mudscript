@@ -133,7 +133,7 @@ int do_acc()
 {
 object me;
 me = this_player();
-    command("say 焚天魔王是妖魔古堡之主，武功\非常強，最可怕的是什麼極火三掌的...");
+    command("say 焚天魔王是妖魔古堡之主，武功非常強，最可怕的是什麼極火三掌的...");
     command("say 極火三掌一出，焚天烈地，威不可擋，實在是太可怕了..."); 
     command("fear");
     command("say 聽說「風青雲」「被關」在古堡裡，地點由魔王親自把守。");

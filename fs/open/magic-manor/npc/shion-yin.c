@@ -272,7 +272,7 @@ void die()
 
   if(winner->query_temp("know_blade") >= 2)
   {
-    message_vision(HIG + "香靈吟說道:「大俠果然武功\高強，妾身心甘情願交出祕笈，望大俠早日為武林除害。」\n" + NOR,winner);
+    message_vision(HIG + "香靈吟說道:「大俠果然武功高強，妾身心甘情願交出祕笈，望大俠早日為武林除害。」\n" + NOR,winner);
     message_vision(HIR + "" + winner->query("name") + "得到了柳葉霸刀奧義。\n" + NOR,winner);
     obj=new("/open/capital/obj/blade_book");
     obj->move(winner);

@@ -5,7 +5,7 @@ inherit ROOM;
 
 void create ()
 {
-  set ("short", "傳功\長老房");
+  set ("short", "傳功長老房");
   set ("long", @LONG
 
 	    往東走就到了傳功長老的大廳了，在門口

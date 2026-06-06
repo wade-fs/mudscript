@@ -9,7 +9,7 @@ void create()
 
   set_name("歐陽不空",({"oyang_boku","oyang","boku"}));
   set("title","寰宇一奇");
-  set("long","此人傳說是楊小邪的師父，武功\高的驚人，不想死最好不要殺他");
+  set("long","此人傳說是楊小邪的師父，武功高的驚人，不想死最好不要殺他");
   set("gender","男性");
   set("combat_exp",9999999); 
   set("attitude","friendly");

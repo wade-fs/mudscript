@@ -22,7 +22,7 @@ void create()
     set("armor_prop/parry",2);
     set("need_class","fighter");
     set("wield_msg","$N把$n緊握於手，三道異能直衝體內各大穴位，\n"
-      "只覺一股幽香沁人心脾，不禁翩翩起舞，驅使$N自身的武功\套路發揮的更加順手！\n" + NOR);
+      "只覺一股幽香沁人心脾，不禁翩翩起舞，驅使$N自身的武功套路發揮的更加順手！\n" + NOR);
     set("unequip_msg","$N""脫下$n""，只見淡淡靈光自$N""身上淡出。\n" + NOR);
   }
   init_stabber(60);

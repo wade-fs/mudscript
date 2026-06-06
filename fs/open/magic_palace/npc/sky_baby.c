@@ -18,7 +18,7 @@ void create()
 {
         set_name("天嬰",({"Sky Baby","baby"}));
         set("long","
-英雄新經傳人，表面上修習玄門正派的武功\，事實上暗藏禍心...
+英雄新經傳人，表面上修習玄門正派的武功，事實上暗藏禍心...
 \n" + NOR);
         set("attitude", "friendly");
         set("gender","男性");
@@ -79,8 +79,8 @@ void create()
             "四絕"      :       "天底下除了魔界金典和英雄真經之外最強的四個人，分別是虎神、九魔龍、武聖、和萬世教主。現在應該都聚集在魔宮了。",
             "天下四絕"  :       "天底下除了魔界金典和英雄真經之外最強的四個人，分別是虎神、九魔龍、武聖、和萬世教主。現在應該都聚集在魔宮了。",
             "虎神"      :       "他就是當今權傾天下的朝廷大將軍--孫虎臣，其天虎橡皮勁為天下第一防禦武技。",
-            "九魔龍"    :       "漢江水中寨寨主--完顏烈火，其破綻之拳和霸王金身已達攻擊和防禦的顛峰之境，但傳說他另有一套神秘的不世魔功\...",
-            "萬世教主"  :       "原為北方高麗人，其所創的萬世教為天底下最神秘的組織，他本人的武功\則以強橫霸道敏捷兼而有之的雷電冰火為主。",
+            "九魔龍"    :       "漢江水中寨寨主--完顏烈火，其破綻之拳和霸王金身已達攻擊和防禦的顛峰之境，但傳說他另有一套神秘的不世魔功...",
+            "萬世教主"  :       "原為北方高麗人，其所創的萬世教為天底下最神秘的組織，他本人的武功則以強橫霸道敏捷兼而有之的雷電冰火為主。",
             "魔宮"      :       "傳說為魔界金典誕生的地方，位於人魔交界之處，據聞林宏昇知道一點風聲...",
         ]) );
         setup();
@@ -100,7 +100,7 @@ int do_nod(string arg)
    if(arg == "baby" && me->query_temp("kill_hero") == 2)
    {
     command("sigh");
-    message_vision(HIY + "天嬰說道:「想不到魔界金典和英雄真經最後竟被其他武功\所打敗。」\n" + NOR,me);
+    message_vision(HIY + "天嬰說道:「想不到魔界金典和英雄真經最後竟被其他武功所打敗。」\n" + NOR,me);
    }else{
    command("stare " + me->query("id"));
         }
@@ -113,7 +113,7 @@ string do_ask1()
      if(me->query_temp("kill_hero") == 2 && !me->query_temp("get_new"))
    {
    me->set_temp("ask_magic",1);
-   return "「那是魔也佛的武功\，三百年前的無敵傳說，當時只有修習英雄真經的英雄和尚能與他匹敵。」\n";
+   return "「那是魔也佛的武功，三百年前的無敵傳說，當時只有修習英雄真經的英雄和尚能與他匹敵。」\n";
    }else{
    return "「無名小卒不配知道魔界金典的事，滾!!」\n";
         }
@@ -214,8 +214,8 @@ string do_ask8()
    {
    me->set_temp("ask_force",1);
    command("sigh");
-   return "「少林寺向來為中原正道武學重鎮，其內功\更是冠絕武林，我本是少林
-            弟子，因此身負高深莫測的『菩提拂拭神功\』，但日前與慈恩老禿驢
+   return "「少林寺向來為中原正道武學重鎮，其內功更是冠絕武林，我本是少林
+            弟子，因此身負高深莫測的『菩提拂拭神功』，但日前與慈恩老禿驢
             切磋時，竟發現他練有更精深的心法，無奈少林高人輩出，難以下手。」\n";
    }else{
        return "「無名小卒不配知道少林寺的事，滾!!」\n";
@@ -235,7 +235,7 @@ ob5 = present("Control_sword book",me);
 if(present("Leaf_Book",me) && present("Fist_Book",me) && present("Force_Book",me) && present("Thunder_steps Book",me) && present("Control_sword book",me) && me->query_temp("kill_hero") == 2 )
 {
 command("spank " + me->query("id"));
-message_vision(HIY + "天嬰說道:「" + me->query("name") + "真的全拿到了!?哈哈哈哈，所謂踏破鐵鞋尋覓處，得來全不費功\夫，
+message_vision(HIY + "天嬰說道:「" + me->query("name") + "真的全拿到了!?哈哈哈哈，所謂踏破鐵鞋尋覓處，得來全不費功夫，
            失去利用價值的人，已不需要活著了，死吧!!」\n" + NOR,me);
 kill_ob(me);
 me->set_temp("can_kill_baby",1);
@@ -272,7 +272,7 @@ if(!me->query_temp("unconcious"))
   if((kee < mkee || sen < msen || gin < mgin) && random(4)==1) //回精氣神
   {
 message_vision(HIB + "
-$N運起少林寺內功\心法" + HIW + "<<" + HIM + "菩提拂拭神功\" + HIW + ">>
+$N運起少林寺內功心法" + HIW + "<<" + HIM + "菩提拂拭神功" + HIW + ">>
 
                  " + HIW + "『" + HIY + "心如明鏡，身如菩提，時常勤拂拭，一切魔障給我破！" + HIW + "』
 
@@ -292,7 +292,7 @@ $N運起少林寺內功\心法" + HIW + "<<" + HIM + "菩提拂拭神功\" + HIW
   }
   if(me->query_busy()&& random(100)<35)
   {
-message_vision(HIR + "$N潛運" + HIW + "<<" + HIM + "菩提拂拭神功\" + HIW + ">>" + HIR + "衝破滯塞，接著以" + HIY + "閃電步" + HIR + "迅速解除束縛。\n" + NOR,me);
+message_vision(HIR + "$N潛運" + HIW + "<<" + HIM + "菩提拂拭神功" + HIW + ">>" + HIR + "衝破滯塞，接著以" + HIY + "閃電步" + HIR + "迅速解除束縛。\n" + NOR,me);
           me->delete_busy();
   }
 }

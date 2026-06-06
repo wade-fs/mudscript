@@ -1,6 +1,6 @@
 inherit ROOM;
 void create() {
-	set( "short", "小敏練功\房" );
+	set( "short", "小敏練功房" );
 	set( "object", ([
 		"file10"   : "/open/fire-hole/obj/r-pill",
 		"amount5"  : 346,

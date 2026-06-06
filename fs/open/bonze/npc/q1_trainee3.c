@@ -11,7 +11,7 @@ void create()
   object obj;
   set_name("阿三",({"janitor three","three"}));
   set("title","少林雜役弟子");
-  set("long","他為了在學習少林武功\前打下深厚的基礎而每天挑水砍柴。\n");
+  set("long","他為了在學習少林武功前打下深厚的基礎而每天挑水砍柴。\n");
   set("gender","男性");
   set("combat_exp",80000);
   set("attitude","peaceful");

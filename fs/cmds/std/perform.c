@@ -8,7 +8,7 @@ int main(object me, string arg)
         int result;
         seteuid(getuid());
         if( !arg ) 
-                return notify_fail("你要用外功\做什麼﹖\n");
+                return notify_fail("你要用外功做什麼﹖\n");
         if( me->query("force") < 0 )
      {
      me->set("force",0);
@@ -16,7 +16,7 @@ int main(object me, string arg)
    return 1;
      }
         if(me->query_temp("is_busy"))
-                return notify_fail("你的內息翻滾不定,暫時無法使用外功\!!!\n");
+                return notify_fail("你的內息翻滾不定,暫時無法使用外功!!!\n");
         if(me->query_temp("is_busy")||me->is_busy() || me->query_condition("force") > 0 )
         return notify_fail("你一運氣用力，發覺丹田中毫無內息。\n");
 

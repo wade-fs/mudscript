@@ -107,7 +107,7 @@ void attempt_apprentice(object ob)
 	command("say 好,你果然是可造之才,你可以去找三位長老作為你武學的指導!");
 	ob->delete("family");
 	command("say 你想選擇(select)哪一位長老呢?");
-	command("say 傳功\長老(gonfu_elder)，執法長老(lawyer_elder)還是戒律長老(behavior_elder)？");
+	command("say 傳功長老(gonfu_elder)，執法長老(lawyer_elder)還是戒律長老(behavior_elder)？");
 	ob->set_temp("allow_select",1);
 	return 1;
             }
@@ -244,12 +244,12 @@ int do_select(string str)
 	this_player()->set_temp("have_say",1);
 	return 1;
 	}
-	if(str == "傳功\長老" || str == "gonfu" || str == "gonfu_elder")
+	if(str == "傳功長老" || str == "gonfu" || str == "gonfu_elder")
 	{
-	message_vision(HIC + "$N說道﹕傳功\長老\n" + NOR,who);
+	message_vision(HIC + "$N說道﹕傳功長老\n" + NOR,who);
 	this_player()->set_temp("allow_9",1);
 	command("smile");
-	command("say 嗯 ,你就去傳功\長老那兒學藝吧!");
+	command("say 嗯 ,你就去傳功長老那兒學藝吧!");
 	this_player()->set_temp("have_say",1);
 	return 1;
 	}

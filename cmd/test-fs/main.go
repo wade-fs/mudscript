@@ -46,14 +46,24 @@ func main() {
 
 	// 4. 模擬登入流程
 	inputs := []string{
-		"guest", // 輸入帳號
-		"",      // 響應 "-- 請按 Enter 鍵繼續 --"
-		"look",  // 執行 look 指令
-		"go south", // 執行移動指令
-		"go south", // 執行移動指令
-		"go north", // 執行移動指令
-		"who",   // 執行 who 指令
-		"help",  // 執行 help 指令
+		"tester",
+		"y",
+		"測試家",
+		"tester",
+		"tester",
+		"wade.fs@gmail.com",
+		"m",
+		"20",
+		"20",
+		"20",
+		"20",
+		"20",
+		"20",
+		"20",
+		"",
+		"enter",
+		"look box",
+		"look girl",
 	}
 
 	for _, input := range inputs {

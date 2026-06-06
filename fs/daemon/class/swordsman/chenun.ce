@@ -97,7 +97,7 @@ int accept_object(object who,object ob)
 	else 
 	{
 	write("張乘雲說: 看來你已經得到掌門得許\可了，你就進去藏經閣吧!\n");
-	write("不過.....我懷疑掌門人是否看錯人了...讓我來領教一下你的武功\吧!\n");
+	write("不過.....我懷疑掌門人是否看錯人了...讓我來領教一下你的武功吧!\n");
 	command("drop pass");
 	command("kill "+who->query("id")); 
 	have_say=0;
@@ -124,7 +124,7 @@ return ;
 	if(!ob2) return ;
         if( ob2->query_temp("allow_pass",1) )
 	{
-	message_vision("看來你的確有這個實力，希望你學成之後能對仙劍做些有益的事，光大仙劍的武功\\n",ob2);
+	message_vision("看來你的確有這個實力，希望你學成之後能對仙劍做些有益的事，光大仙劍的武功n",ob2);
 	message_vision("好了，你可以進去了\n",ob2); 
 	have_say=1;
 	ob1->set("kee",kee);
@@ -151,7 +151,7 @@ void die()
 
 	if( winner->query_temp("allow_pass",1) )
 	{
-	write("張乘雲說: 看來你的確有這個實力，希望你學成之後能對仙劍做些有益的事，光大仙劍的武功\!\n");
+	write("張乘雲說: 看來你的確有這個實力，希望你學成之後能對仙劍做些有益的事，光大仙劍的武功!\n");
 	write("好了，你可以進去了!\n");
 	winner->set_temp("allow_read",1);
 	}

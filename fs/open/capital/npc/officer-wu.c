@@ -70,7 +70,7 @@ int accept_object(object who, object ob)
   case "fire-king-head":
        command("cong");
        command("say 這是!!這是!!朝庭第一賞金的焚天魔王的人頭!!!");
-       command("say 大俠真是武功\高強!!!!這是25000兩的賞金請收下!!!\n");
+       command("say 大俠真是武功高強!!!!這是25000兩的賞金請收下!!!\n");
        mid=new("/obj/money/thousand-cash");
        mid->add_amount(2500);
        mid->move(who);
@@ -78,7 +78,7 @@ int accept_object(object who, object ob)
   case "dragon-head":
        command("cong");
        command("say 這是!!這是!!朝庭第一賞金的黃金甲龍的龍頭!!!");
-       command("say 大俠真是武功\高強!!!!這是6500兩的賞金請收下!!!\n");
+       command("say 大俠真是武功高強!!!!這是6500兩的賞金請收下!!!\n");
        mid=new("/obj/money/thousand-cash");
        mid->add_amount(650);
        mid->move(who);
@@ -86,7 +86,7 @@ int accept_object(object who, object ob)
   case "black-ghost-head":
        command("cong");
        command("say 這是!!這是!!魔界黑白雙剎的人頭!!!\n");
-       command("say 大俠真是武功\高強!!!!這是6000兩的賞金請收下!!!\n");
+       command("say 大俠真是武功高強!!!!這是6000兩的賞金請收下!!!\n");
        mid=new("/obj/money/thousand-cash");
        mid->add_amount(600);
        mid->move(who);
@@ -94,7 +94,7 @@ int accept_object(object who, object ob)
   case "white-ghost-head":
        command("cong");
        command("say 這是!!這是!!魔界黑白雙剎的人頭!!!\n");
-       command("say 大俠真是武功\高強!!!!這是6000兩的賞金請收下!!!\n");
+       command("say 大俠真是武功高強!!!!這是6000兩的賞金請收下!!!\n");
        mid=new("/obj/money/thousand-cash");
        mid->add_amount(600);
        mid->move(who);
@@ -102,7 +102,7 @@ int accept_object(object who, object ob)
   case "seven-dark-head":
        command("cong");
        command("say 這是!!這是!!魔界七魔將的人頭!!!\n");
-       command("say 大俠真是武功\高強!!!!這是5000兩的賞金請收下!!!\n");
+       command("say 大俠真是武功高強!!!!這是5000兩的賞金請收下!!!\n");
        mid=new("/obj/money/thousand-cash");
        mid->add_amount(500);
        mid->move(who);
@@ -110,7 +110,7 @@ int accept_object(object who, object ob)
   case "ya-head":
        command("cong");
        command("say 這是!!這是!!大魔頭葉狂的人頭!!!\n");
-       command("say 大俠真是武功\高強!!!!這是5000兩的賞金請收下!!!\n");
+       command("say 大俠真是武功高強!!!!這是5000兩的賞金請收下!!!\n");
        mid=new("/obj/money/thousand-cash");
        mid->add_amount(500);
        mid->move(who);
@@ -118,7 +118,7 @@ int accept_object(object who, object ob)
   case "sa-head":
        command("cong");
        command("say 這是!!這是!!大魔頭獨孤嵊的人頭!!!\n");
-       command("say 大俠真是武功\高強!!!!這是7500兩的賞金請收下!!!\n");
+       command("say 大俠真是武功高強!!!!這是7500兩的賞金請收下!!!\n");
        mid=new("/obj/money/thousand-cash");
        mid->add_amount(750);
        mid->move(who);
@@ -126,7 +126,7 @@ int accept_object(object who, object ob)
   case "tiger-head":
        command("cong");
        command("say 這是!!這是!!平南城獨角獸的獸頭!!!\n");
-       command("say 大俠真是武功\高強!!!!這是10兩的賞金請收下!!!\n");
+       command("say 大俠真是武功高強!!!!這是10兩的賞金請收下!!!\n");
        mid=new("/obj/money/thousand-cash");
        mid->add_amount(10);
        mid->move(who);
@@ -134,7 +134,7 @@ int accept_object(object who, object ob)
   case "zhang-z-head":
        command("cong");
        command("say 這是!!這是!!風林三頭目張繼的人頭!!!\n");
-       command("say 大俠真是武功\高強!!!!這是400兩的賞金請收下!!!\n");
+       command("say 大俠真是武功高強!!!!這是400兩的賞金請收下!!!\n");
        mid=new("/obj/money/thousand-cash");
        mid->add_amount(40);
        mid->move(who);
@@ -142,7 +142,7 @@ int accept_object(object who, object ob)
   case "liu-head":
        command("cong");
        command("say 這是!!這是!!風林二頭目劉信的人頭!!!\n");
-       command("say 大俠真是武功\高強!!!!這是600兩的賞金請收下!!!\n");
+       command("say 大俠真是武功高強!!!!這是600兩的賞金請收下!!!\n");
        mid=new("/obj/money/thousand-cash");
        mid->add_amount(60);
        mid->move(who);
@@ -150,7 +150,7 @@ int accept_object(object who, object ob)
   case "ra-head":
        command("cong");
        command("say 這是!!這是!!風林大頭目雷霸的人頭!!!\n");
-       command("say 大俠真是武功\高強!!!!這是900兩的賞金請收下!!!\n");
+       command("say 大俠真是武功高強!!!!這是900兩的賞金請收下!!!\n");
        mid=new("/obj/money/thousand-cash");
        mid->add_amount(90);
        mid->move(who);

@@ -7,7 +7,7 @@ string magic2();
 void create()
 {
 	set_name("洛清水",({"chinshi"}));
-	set("long","他是陸清風的小師弟，雖然武功\法術比不上兩位師兄但是關於" + HIW + "煉丹
+	set("long","他是陸清風的小師弟，雖然武功法術比不上兩位師兄但是關於" + HIW + "煉丹
 " + NOR + "方面他可是天道首屈一指的喔。\n");               
         set("gender","男性");
         set("class","taoist");

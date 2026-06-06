@@ -10,7 +10,7 @@ void create()
 	set("age", 33);
 	set("class","fighter");
 	set("long","他是一位武林裡的豪客, 身形魁梧, 臉生橫肉, 嘴大唇厚, 鐵髭如蜂窩, "+
-        "他為了闖出一番功\名而到京城來碰碰運氣。\n");
+        "他為了闖出一番功名而到京城來碰碰運氣。\n");
 	set("cps", 5);
 	set("str", 30);
 	set("cor", 20);
@@ -45,7 +45,7 @@ string do_thief()
 	if( ob->query_temp("show_mark")==getuid(me) )
 	{
 	  command("say 既然大人為辦案而來, 小的這就原原本本的告訴你了。");
-command("say 此名大盜的武功\似乎是平南城段家一派的六脈神劍，且此盜的右耳後有小傷痕(scar)。");
+command("say 此名大盜的武功似乎是平南城段家一派的六脈神劍，且此盜的右耳後有小傷痕(scar)。");
 	  me->set_temp("thief",3);
 	  return("我就知道這麼多了");
 	}

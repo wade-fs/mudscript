@@ -40,7 +40,7 @@ int valid_leave(object me, string dir)
  return 0;
 }
   if(dir=="enter" && me->query_temp("quest/return_sha") && me->query_temp("quest/return_sha")>2){
- tell_object(me,"你武功\已廢，再進去實在太危險了，回頭吧!!\n");
+ tell_object(me,"你武功已廢，再進去實在太危險了，回頭吧!!\n");
  return 0;
 }
   if(dir=="enter" && me->query("highsworder")==1){

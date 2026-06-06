@@ -6,8 +6,8 @@ void create()
 {
 	set("long","
     焚天魔王, 魔界之統治者, 他全身火焰繞身, 火舌隨著他的情緒不停的奔騰著。
-仔細一看他竟可以御氣凌空, 內功\之深簡直不可思議。另外練就曠世絕學「極火功\」
-, 極火掌一發動更是烈焰奔騰, 威不可擋。由極火功\所化成的「極火金身」護身
+仔細一看他竟可以御氣凌空, 內功之深簡直不可思議。另外練就曠世絕學「極火功」
+, 極火掌一發動更是烈焰奔騰, 威不可擋。由極火功所化成的「極火金身」護身
 氣勁更能在四周形成堅硬火罩。
 ");
         set("gender","男性");
@@ -170,7 +170,7 @@ int do_exert( string str )
 int accept_kill( object who )
 {
 	write( HIY + "焚天魔王從寶座上豁然站起!\n" + NOR );
-	command("say 鼠輩無禮! 嚐嚐我極火功\的厲害吧!");
+	command("say 鼠輩無禮! 嚐嚐我極火功的厲害吧!");
 	if( !is_fighting() )
 		command("perform fireforce.gold-fire");
 	return 1;
@@ -289,7 +289,7 @@ void die()
   
         tell_object(users(),HIW + "
             
-         焚天魔王仰天嘆道：『萬年以來我的驚世神功\無人能敵,
+         焚天魔王仰天嘆道：『萬年以來我的驚世神功無人能敵,
                              想不到今日敗於"+HIY+
                              (winner->query("family/family_name")?winner->query("family/family_name"):"")+
                              HIC+name+HIW + "       
@@ -312,11 +312,11 @@ void die()
    tell_object(winner,"
 \n焚天魔王說：好吧...既然你已經贏了我了，我就把風青雲
 交給你了，反正這麼多年來他也不肯吐漏連陽七訣劍法的奧秘。
-不過他被我用獨門手法點住了三元重穴，功\力已經被封
+不過他被我用獨門手法點住了三元重穴，功力已經被封
 現在我傳你解穴手法(recover force)，你往北走可找到他。
 \n");
 
-   tell_object(winner,HIY + "\n焚天魔王再用逼音成線的功\夫告訴你：
+   tell_object(winner,HIY + "\n焚天魔王再用逼音成線的功夫告訴你：
 真是後生可畏...這樣我也沒必要隱藏我的絕學了，現在我就傳你
 " + HIR + "極火金身心法" + HIY + "，極火真經就放在白虎室，慎習之！
 \n" + NOR);
@@ -330,7 +330,7 @@ void die()
        enemy[j]->set_temp("win_fireking",1);
    tell_object(enemy[j],"焚天魔王說：好吧...既然你已經贏了我了，我就把風青雲
 交給你了，反正這麼多年來他也不肯吐漏連陽七訣劍法的奧秘。
-不過他被我用獨門手法點住了三元重穴，功\力已經被封
+不過他被我用獨門手法點住了三元重穴，功力已經被封
 現在我傳你解穴手法(recover force)，你往北走可找到他。
 \n");
        }
@@ -352,7 +352,7 @@ void die()
 if(winner->query("combat_exp")>5000000&&!winner->query("mk-blade")&&userp(winner))
  {
    winner->set("mk-blade",1);
-tell_object(winner,HIY + "\n焚天魔王再用逼音成線的功\夫告訴你：
+tell_object(winner,HIY + "\n焚天魔王再用逼音成線的功夫告訴你：
 真是後生可畏...這樣我也沒必要隱藏我的絕學了，現在我就傳你
 " + HIR + "邪靈制刀術" + HIY + "，慎習之！\n" + NOR);
 if(winner->query("gender")=="男性") { winner->set("title",HIW + "漩羽" + HIY + "刀皇" + NOR); }
@@ -363,8 +363,8 @@ else { winner->set("title",HIB + "刀魂" + HIC + "幽姬" + NOR); }
 //Bellow Add By AceLan.......
         if( winner->query("family/family_name")=="儒門")
         {
-                 tell_object(winner,HIW + "你憑藉著高深的心法在不知不覺中領悟了焚天魔王極火功\的精髓，
-苦思了半餉之後突然頓悟到將極火功\融入孔明兵法之道，遂大聲狂歡道
+                 tell_object(winner,HIW + "你憑藉著高深的心法在不知不覺中領悟了焚天魔王極火功的精髓，
+苦思了半餉之後突然頓悟到將極火功融入孔明兵法之道，遂大聲狂歡道
 "+HIR+"==========『極火一出，萬物具焚』==========\n" + NOR);
         } 
 
