@@ -1,0 +1,30 @@
+inherit NPC;
+#include <ansi.h>
+
+void create()
+{
+        set_name("海賊",({"sea thief","thief"}));
+        set("age",28);
+        set("gender","男性");
+        set("attitude","aggressive");
+        set("long","
+倭寇中，用來處理雜事的人，並非武功\不強，而是在相比較下
+，屬於最低層次的一群，是以只配分派到這種工作。\n");
+	set("max_kee",1);
+        setup();
+}
+void die()
+{
+object me,ob,obj,npc;
+int i,j;
+
+        ob = this_object();
+        me = ob->query_temp("last_damage_from");
+
+        message_vision(HIW"
+\n$N警覺生命受到威脅，急忙拿出腰間的玄冥符，將之貼於掌中，$n眼明
+手快，見即馭氣取物，將玄冥符奪走。\n\n"NOR,ob,me);
+	new(__DIR__"tally")->move(me);
+
+	::die();
+}

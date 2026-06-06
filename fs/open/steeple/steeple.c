@@ -1,0 +1,25 @@
+inherit ROOM;
+void create ()
+{
+set("short", "試煉之塔--入口");
+set("long",@LONG
+
+眼前佇立了一座高大的圓柱形磚塔，乳白色的外觀看起來十分的
+高雅與塔內不時的傳出打鬥跟哀嚎聲十分的不搭調，路旁有個標
+示牌(sign)。
+
+LONG);
+set("exits", ([
+"enter" : __DIR__"ticket",
+"west":"/open/main/room/gosteeple",
+]));
+set("item_desc",([
+"sign":"試煉塔開放至50樓\n",
+]));
+set("outdoors", 1);
+set("objects",([
+__DIR__"leftman": 1,
+__DIR__"rightman":1,
+]));
+setup();
+}

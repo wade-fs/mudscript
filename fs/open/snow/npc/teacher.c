@@ -1,0 +1,138 @@
+
+#include <ansi.h>
+#include "/open/open.h"
+inherit NPC;
+void create()
+ {
+  object ob;
+  set_name("心玄老師",({"heart teacher","teacher"}) );
+  set("long","
+    你眼前這位是一位江湖中新角色，目前為止沒人知道他的
+身份和背景，一個謎樣得人物出現在武林會造成什麼危機嗎..
+他的身份等著你去發掘。
+  ");
+  set("race", "人類");
+  set("gender","男性");
+  set("attitude","heroism");
+  set("combat_exp",500000);
+  set("age",55);
+  set("title","江湖人");
+  set("class","fighter"); 
+  set("str",40);
+  set("cor",40);
+  set("cps",40);
+  set("kee",1800);
+  set("max_kee",1800);
+  set("force",2000);
+  set("max_force",2000);
+  set("force_factor",10);
+  set("bellicosity",1000);
+  set_skill("six-closefist",100);
+  set_skill("unarmed",100);
+  set_skill("dodge",100);
+  set_skill("parry",100);
+  set_skill("move",100);
+  set_skill("force",100);
+  set_skill("snowforce",100);
+  map_skill("unarmed","six-closefist");
+  map_skill("parry","six-closefist");
+  map_skill("force","snowforce");
+  set("inquiry",([
+      "身份" : "嘿嘿．．．．．．． 。\n",
+      
+      ]));
+  setup();
+ add_money("gold",5); 
+ ob=carry_object("/open/snow/obj/sevenclaw");
+  ob->wield();
+
+ 
+}
+
+void init()
+{
+    object ob;
+    ::init();
+  if( interactive(ob = this_player())&& !is_fighting() ) {
+    remove_call_out("greeting");
+    call_out("greeting",1,ob);   }
+}
+
+int accept_kill(object ob)
+{
+  message_vision( this_object()->name()+"活太膩了嗎？.....：~\n",ob);
+  command("say 小傢伙～你簡直來自殺的");
+  command("hehe"+this_player()->query("id"));
+  this_object()->set("combat_exp",1000000);
+  this_object()->set("max_force",4000);
+  this_object()->set("gin",1000);
+  this_object()->set("sen",1000);
+  this_object()->set("max_kee",3000);
+  this_object()->set("kee",3000);
+  this_object()->set("eff_kee",3000);
+  this_object()->set("force",4000);
+  set_skill("linpo-steps",60);
+  map_skill("dodge","linpo-steps");
+  this_object()->set("title","鬥魂");
+  command("say 敢在此撒野？讓你看看我的利害！！");
+  command("wield claw");
+  this_object()->kill_ob(this_player());
+    return 1;
+}
+
+int accept_fight(object me)
+{
+    command("say 來吧～不要以為我好欺負～");
+    command("pk "+this_player()->query("id"));
+    setup();
+    return 1;
+    
+}
+
+void greeting(object ob)
+{
+  if(this_player()->query("id")=="hide")
+  {
+   command("say 馬仔你來了ㄚ～ 一起去買珍奶吧！！");
+   command("lick hide");
+   command("kiss hide");
+  }
+  else
+  { command("pk "+this_player()->query("id"));}
+}   
+
+void die()                                                                 
+{    
+	object winner = query_temp("last_damage_from");
+	int j;
+        if(!winner)
+	{
+	::die();
+	return ;
+        }
+    if(userp(winner) && winner->query_temp("not_robot") > time() )
+    {
+	if ( winner->query_temp("bless")==1 )
+	{
+	j=random(-1);
+	  if( j==7 || j==77 || j== 777 || j==1111 || j==55 || j==555 || j==1000 || j==4000 || j==3333 || j==2222 )
+	  {      
+	  new("/open/sky/obj3/heart-feather")->move(environment(winner));
+	  message_vision(HIM"\n從心玄老師的身上掉下了一件奇怪的東西!!\n"NOR,winner);
+          write_file("/log/sky/obj3/heart_feather",sprintf("%s(%s) 讓心玄老師掉下了心之化羽於 %s\n",
+	  winner->name(1),winner->query("id"),ctime(time())));
+	  }
+	}else{
+	j=random(-1);
+	  if( j==5 || j==15 || j== 150 || j==1500 || j==10 || j==100 || j==1000 || j==4000 || j==6666 || j==7777 ) 
+	  {      
+	  new("/open/sky/obj3/heart-feather")->move(environment(winner));
+	  message_vision(HIM"\n從心玄老師的身上掉下了一件奇怪的東西!!\n"NOR,winner);
+          write_file("/log/sky/obj3/heart_feather",sprintf("%s(%s) 讓心玄老師掉下了心之化羽於 %s\n",
+	  winner->name(1),winner->query("id"),ctime(time())));
+	  }
+	}
+    }
+	::die();                                                           
+}
+

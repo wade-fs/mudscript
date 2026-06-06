@@ -1,0 +1,6 @@
+
+
+  to poloer:請照map.txt把area寫一下...
+  不用動npc and long 只要更改出口方向
+  除entrance and out 先不要寫外 其他的room全部cp自room1
+  ps.map上的數字表room的file標號,exp:room2,room3,room4...

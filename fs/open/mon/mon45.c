@@ -1,0 +1,22 @@
+inherit ROOM;
+#include <ansi.h>
+
+void create ()
+{
+  set ("short", "連峰道");
+  set ("long", @LONG
+沿著山峰而走，來到這一條連接山峰的道路，雖是一條連接著山
+峰的小路，但是卻格外的不好走，處處是陷阱，若一個不小心跌下山
+峰，將會是粉身碎骨。
+LONG);
+
+  set("objects", ([ /* sizeof() == 1 */
+  __DIR__"obj/bembem.c" : 1,
+]));
+  set("exits", ([ /* sizeof() == 2 */
+  "east" : __DIR__"mon42",
+  "west" : __DIR__"mon39",
+]));
+
+  setup();
+}

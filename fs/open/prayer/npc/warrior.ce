@@ -1,0 +1,193 @@
+#include <ansi.h>
+#include "/open/open.h"
+inherit NPC;
+inherit F_MASTER;
+object ob1=this_object();
+int have_say;
+
+string ask_man()
+{
+        object ob=this_player();
+       if( ob->query_temp("high-man") == 1 )
+       {
+       ob->set_temp("high-man", 2);
+       return("\n§Ú»P¸q¥S¬O¦b 30 ¦~«e¬ÛÃÑªº, ·í®É¥L´¿»P§Ú¦@¾K­Ê¬õ¼Ó!!¥Ñ©ó©Ê±¡¬Û§ë, §Ú­Ì´Nµ²«ô¬°¥S§Ì¤F!!¥LÁô©~¤§«á, ¥|³B¬°®a, 3 ¦~«e§Ú±Ðªø¦Ñ´¿¨£¨ì¥L¤@­±!!\n");
+       }
+       else
+       {
+       return("\n³o¦ì¤pªB¤Í, Ãø¹D§Aª¾¹D [¤M¯«¼C¥P¤Q¤TÃ@] ²{¤U©ó¦ó³B¸¨¸}¶Ü??\n");
+       }
+}
+
+
+
+
+void create()
+{
+        set_name("³¯ºaÄÁ", ({"warrior cheng","warrior","cheng"}));
+        set("long",@LONG
+
+        ¸t¤õ±Ðªº°Æ±Ð¥D¡A±Ð®{­ÌºÙ©I¥L¬°[ªZ¬P§g]¡D¥L¨­ªø
+        ¤K¤Ø¡A¿@¬Ü¤j²´¡A¤×¨ä¬O¥L¨º¤@Áyªº¸¨¸|ÄG¡A§ó¬OÅ¨
+        ¦«¥X¥L¨º¬³¬³¦³¤Oªº¼Ò¼Ë¡D¬O±Ð¥Dªº¥ª¥k¤â¤§¤@¡A¹ï
+        ©óªZ¾Çªº¬ã¨s«h¬O´X¥G¤w¸g¨ì¤FµoÃ¨ªº¦a¨B¤F¡I
+
+LONG);
+        set("nickname","ªZ¬P§g");
+        set("gender","¨k©Ê");
+        set("class","prayer");
+        set("family/master_name","ªL§»ª@");
+        set("combat_exp",2000000);
+        set("attitude","heroism");
+        set("age",65);
+        set("title","¸t¤õ±Ð°Æ±Ð¥D");
+        set("kee",6000);
+        set("max_kee",6000);
+        set("force",10000);
+        set("max_force",10000);
+        set("force_factor",25);
+        set_skill("cure", 60);
+        set_skill("superforce", 95);
+        set_skill("holy-force", 100);
+        set_skill("dodge", 85);
+        set_skill("force",95);
+        set_skill("move", 85);
+        set_skill("parry", 85);
+        set_skill("unarmed",80);
+        set_skill("fire-array",80);
+        set_skill("array",80);
+        set_skill("literate",60);
+        set_skill("canon",100);
+        set_skill("shift-steps",80);
+        set_skill("universe",100);
+        map_skill("array","fire-array");
+        map_skill("force","superforce");
+        map_skill("dodge","shift-steps");
+        map_skill("move","shift-steps");
+        map_skill("parry","universe");
+        map_skill("unarmed","universe");
+        set("inquiry",([
+        "¸q¥S":(: ask_man :),
+        ]));
+        set("functions/goldsun/level",60);
+        set("chat_chance_combat", 40);
+                set("chat_msg_combat", ({
+                (: exert_function("goldsun") :),
+                (: perform_action("force.sun1") :),
+                (: perform_action("force.sun2") :),
+        }));
+        setup();
+    add_money("gold",20);
+    carry_object("/open/prayer/obj/dragon-robe")->wear();
+    carry_object("/open/prayer/obj/dragon-hat")->wear();
+    carry_object("/open/prayer/obj/dragon-hands")->wear();
+    carry_object("/open/prayer/obj/dragon-legging")->wear();
+    carry_object("/open/prayer/obj/dragon-ring")->wear();
+        create_family("¸t¤õ±Ð",2,"°Æ±Ð¥D");
+}
+
+int accept_fight(object who)
+{
+return notify_fail("°Æ±Ð¥D»¡¹D: ¥h§ä§O¤H§a!!\n");
+}
+
+void attempt_apprentice(object ob)
+{
+        if(!ob->query_temp("allow_12"))
+        {
+        command("say ¨S¦³±Ð¥Dªº¦P·N,§Ú¤£´±¾Õ¦Û°µ¥D¦¬§A¬°¤J«Ç§Ì¤l!");
+        return 0;
+        }
+        command("smile");
+        command("say «¢«¢«¢!¸òµÛ§Ú¾ÇªZ,§A¤@©w¤£·|«á®¬ªº!!");
+        command("say ¶â!¦Ñ¤Ò©Ò¯AÂyªºªZ¾Ç¬Æ¦h!!¤p¤l¥i­n¦n¦nªº¾Ç§r!!");
+        command("recruit "+ob->query("id"));
+        ob->set("marks/¤åªZ¬P§g",1);
+        this_player()->set("title","¸t¤õ±ÐªZ¬P§g±o·Nªù¥Í");
+}
+
+// by ACKY
+int accept_kill(object ob)
+{
+        int i;
+        object ob1, hu_fa;
+        ob1 = this_object();
+
+        if( !present("hu-fa", environment(ob)) ) {
+        tell_room(environment(ob),HIW"\n¬ðµM¡I½Ä¥X¨â¦ìÅ@ªk!!\n\n"NOR);
+        for(i=0;i<2;i++)
+        {
+        hu_fa = new("/open/prayer/npc/hu_fa");
+        hu_fa->move(environment(ob));
+        hu_fa->command("guard warrior");
+        hu_fa->command("follow "+ob->query("id"));
+        hu_fa->kill_ob(ob);
+        }}
+        if( ob->query_temp("warrior") > 3 ) {
+		command("say ­ó, ·Q°k? ¨S¨º»ò®e©ö¡I\n" );
+		ob->delete_temp("warrior");
+		ob->start_busy(1);
+	}
+	ob->add_temp( "warrior", 1 );
+           message_vision(HIR "Å@ªkÁa¨­­¸¼³¹L¨Ó¥s¹D¡G¤jÁx¨g®{¡I°Æ±Ð¥D­C¡I¡I\n" NOR,ob);
+        return 1;
+}
+void greeting(object ob)
+{
+        if (ob->query("age") < 16 && (int)ob->query("cor") > 25 && (int) ob->query("con") > 25 )
+        {
+        write("\n[36m§A¦³¨S¦³Å¥¤H»¡¹L[¤M¯«¼C¥P¤Q¤TÃ@]³o­Ó¥~¸¹??[0m\n");
+        write("\n[36m¥L¬O§Úªº¸q¥S!!Áô©~¤F«Ü¤[¤F!!²{¦b§Ú¤]¤£ª¾¹D¥L¶³¹C¦ó¤è¤F!![0m\n");
+        ob->set_temp("high-man", 1);
+        return;
+        }
+
+        if (ob->query_skill("coldpoison", 1))
+//      if ((present("five poison", ob)) || (present("dark poison", ob)) || (present("faint poison", ob)) || (present("rose poison", ob)) )
+        {
+        command("say ±Ð¥D¦³¥O¡I¡I¤Z¬O¾Ç¦³¬r³N¤§¤H¡A±þµL±Õ¡I¡I");
+        kill_ob(ob);
+        }
+        if( ob->query("class")=="dancer")
+        {
+        command("say ±Ð¥D¦³¥O¡A¨£¨ì»RªÌ-----®æ±þ¤Å½×¡I¡I");
+        kill_ob(ob);
+     }
+    return;
+}
+
+void die()
+{
+	object winner = query_temp("last_damage_from");
+	int j;
+
+        if(!winner)
+	{
+	::die();
+	return ;
+        }
+    if(userp(winner) && winner->query_temp("not_robot") > 1 )
+    {
+	if ( winner->query_temp("bless")==1 )
+	{
+	j=random(-1);
+	  if( j==7 || j==77 || j== 777 || j==1111 || j==55 || j==555 || j==1000 || j==4000 || j==3333 || j==2222 )
+	  {
+	  new("/open/sky/obj4/growth_shells")->move(environment(winner));
+	  message_vision(HIM"\n±q³¯ºaÄÁªº¨­¤W±¼¤U¤F¤@¥ó©_©ÇªºªF¦è!!\n"NOR,winner);
+          write_file("/log/sky/obj4/growth_shells",sprintf("%s(%s) Åý³¯ºaÄÁ±¼¤U¤F¦¨ªø¤§¨©´ß©ó %s\n",
+	  winner->name(1),winner->query("id"),ctime(time())));
+	  }
+	}else{
+	j=random(-1);
+	  if( j==5 || j==15 || j== 150 || j==1500 || j==10 || j==100 || j==1000 || j==4000 || j==6666 || j==7777 )
+	  {
+	  new("/open/sky/obj4/growth_shells")->move(environment(winner));
+	  message_vision(HIM"\n±q³¯ºaÄÁªº¨­¤W±¼¤U¤F¤@¥ó©_©ÇªºªF¦è!!\n"NOR,winner);
+          write_file("/log/sky/obj4/growth_shells",sprintf("%s(%s) Åý³¯ºaÄÁ±¼¤U¤F¦¨ªø¤§¨©´ß©ó %s\n",
+	  winner->name(1),winner->query("id"),ctime(time())));
+	  }
+	}
+	}
+	::die();
+}

@@ -1,0 +1,22 @@
+// by roger && taifar
+inherit ROOM;
+#include <ansi.h>
+#include "wind-rain.h"
+void create () {
+set ("short","廊道");
+set ("long", @LONG
+奇木郁香雕鏨雲簷，粉桓環護綠柳週垂，輕風淡淡新綻茵茵，更見
+仙花馥郁異草芬芳，廊肩荷花燈座一對一對，真是人跡不逢飛塵罕
+至，彷彿有春夢隨雲散飛花逐水流之感。蝶羽蜂歌，絲竹隱約，悠
+悠恍恍可乎一麗子佳人如願嬝娜而現。
+LONG);
+
+
+
+  set("exits", ([
+            "east" : __DIR__"60",
+            "west" : __DIR__"51",
+                ]));
+
+        setup();
+}

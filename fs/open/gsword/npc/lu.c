@@ -1,0 +1,155 @@
+#include "/open/gsword/npc/attack_bloodsword.h"
+
+#include <ansi.h>
+#include "/open/open.h"
+inherit NPC;
+int ask_yan();
+void do_busy();
+int done=0;
+void do_heal();
+object ob;
+void create()
+{
+        set_name("陸靈生", ({ "lu lin sen", "lu" }) );
+        set("long","一個年紀約七十多歲的慈祥老者，是鄭士欣的師弟，仙劍派第三
+代弟子。當年行走江湖時常孤身一人斬妖除魔，又因未逢敵手
+久之被稱為「寂寞劍」，為天下無敵手寂寞自嘆之意。\n");
+        set("gender", "男性" );
+        set("inquiry",([
+             "張凱":"喔~~~~你是說風雨樓那個張凱呀....我知道他...因為他先前
+            曾是仙劍派的人",
+             "封印區":"張凱當年就是因為擅闖封印區所以才會被逐出師門..連帶的
+            他的師兄也受同樣的責罰....現在在山下的那個酒鬼就是
+            他的師兄。",
+             "封印區的雕像":"那是當年與祖師爺一起奮戰天魔的三位大俠..也就是
+            因為這樣..所以在就以他們三位的雕像作為封印。",
+             "雕像":"在祖師爺以仙劍連陽打敗天魔之後...為增加封印區的力量..
+            所以在雕像上各有一個缺口...而擺\在上面的就是傳說中的
+            開天三靈器....",
+             "開天三靈器":"這是當年祖師以仙劍連陽為基礎...請到鑄劍師龍鐵心
+            將仙劍分鑄成這三把名器...並加在雕像內....而目前你在江
+            湖上看到的...只是依其原型所附至出來的贗品..不過要開封印
+            還得要那三把贗品才可以..",
+            "風青雲" : (: ask_yan :),
+             "龍鐵心":"他呀.....他是數十年前的大劍師...我只知道這些了...
+            其他的就跟你一樣..一無所知.... ",
+                      ]));
+        set("class","swordsman");
+        set("nickname","寂寞劍");
+        set("age", 71);
+        set("family/family_name","仙劍派");
+        set("combat_exp",1000000);
+                set("str", 54);
+                set("cor", 24);
+                set("cps", 18);
+                set("per", 24);
+                set("int", 42);
+        create_family("仙劍派",3,"弟子"); 
+        set_skill("shasword",100);
+        set("dragon-sword",1);
+	map_skill("sword","shasword");
+        set_skill("shaforce",70);
+        set_skill("sha-steps",80);
+        set("max_force",3000);
+        set("force",3000);
+        set("max_gin",6000);
+	set("force_factor",10);
+        set("gin",6000);
+        set("max_kee",6000);
+	set("kee",6000);
+        set("max_sen",6000);
+	set("sen",6000);
+        set("chat_chance_combat",10);
+        set("chat_msg_combat",({
+        (: perform_action,"sword.sha_kee" :)
+        }));
+        set("max_mana",200);
+        set("mana",200);
+        set_skill("force",60);
+        set_skill("dodge",70);
+        map_skill("dodge","sha-steps");
+        set_skill("sword",100);
+        map_skill("force","shaforce"); 
+        set_skill("unarmed",90);
+        setup();
+        carry_object("/open/gsword/obj/silver_sword.c")->wield();
+        carry_object("/open/common/obj/pill2");
+        carry_object("/open/common/obj/pill2");
+        carry_object("/open/common/obj/pill2");
+        carry_object("/open/common/obj/pill2");
+        carry_object("/open/common/obj/pill2");
+        carry_object("/open/common/obj/plaster2");
+        carry_object("/open/common/obj/plaster2");
+        carry_object("/open/common/obj/plaster2");
+        carry_object("/open/common/obj/plaster2");
+        carry_object("/open/common/obj/plaster2");
+        carry_object("/open/common/obj/plaster2");
+        
+        }
+  void do_heal()
+ {
+   if(done <5 )
+   if(this_object()->query("kee") < 0.2*this_object()->query("max_kee") )
+   {
+    command("eat pill");
+    message_vision("陸靈生由懷裡掏出藥膏抹在傷口上\n",this_object());
+    command("apply plaster");
+    done++;
+    }
+  }
+                                                             
+int ask_yan()
+{
+  object me;
+  me=this_player();
+  if( me->query("fyan")==1)
+{
+command("say 你說風青雲師叔阿，由於血魔的甦醒，他已經前往各門各派去請求援助，曾聽他說會到一個清靜的地方去修習更強的劍術，至於是哪裡..我就無法得知了。\n ");
+me->set("fyan",2);
+}
+else if (me->query("fyan")==7)
+{
+command("say 風青雲師叔昨晚回來了..他到他當初練劍的地方去了..據說是在後山..不過好向沒人知道在那~\n");
+me->set("fyan",8);
+}
+  else
+    {
+   command("say 你問這做什麼，去做你應該做的事吧。\n");
+    }
+     return 1;
+}
+
+void die()                                                                 
+{    
+	object winner = query_temp("last_damage_from");
+	int j;
+        if(!winner)
+	{
+	::die();
+	return ;
+        }
+    if(userp(winner) && winner->query_temp("not_robot") > time() )
+    {
+	if ( winner->query_temp("bless")==1 )
+	{
+	j=random(-1);
+	  if( j==7 || j==77 || j== 777 || j==1111 || j==55 || j==555 || j==1000 || j==4000 || j==3333 || j==2222 )
+	  {      
+	  new("/open/sky/obj6/starry_diamond")->move(environment(winner));
+	  message_vision(HIM"\n從陸靈生的身上掉下了一件奇怪的東西!!\n"NOR,winner);
+          write_file("/log/sky/obj6/starry_diamond",sprintf("%s(%s) 讓陸靈生掉下了星空之夜鑽於 %s\n",
+	  winner->name(1),winner->query("id"),ctime(time())));
+	  }
+	}else{
+	j=random(-1);
+	  if( j==5 || j==15 || j== 150 || j==1500 || j==10 || j==100 || j==1000 || j==4000 || j==6666 || j==7777 ) 
+	  {      
+	  new("/open/sky/obj6/starry_diamond")->move(environment(winner));
+	  message_vision(HIM"\n從陸靈生的身上掉下了一件奇怪的東西!!\n"NOR,winner);
+          write_file("/log/sky/obj6/prairie_diamond",sprintf("%s(%s) 讓陸靈生掉下了星空之夜鑽於 %s\n",
+	  winner->name(1),winner->query("id"),ctime(time())));
+	  }
+	}
+	}
+	::die();                                                           
+}

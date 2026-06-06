@@ -1,0 +1,20 @@
+// Room: /open/hall/h_room7.c
+
+inherit ROOM;
+
+void create()
+{
+        set("short","廚房");
+        set("long",@LONG
+此處是衙門的廚房，衙門上上下下的伙食都從這來，蒸籠裡正蒸著
+熱騰騰的包子，看著那包子使你忍不住趁四下無人，伸手拿了幾個大快
+朵頤。在飽餐之餘，你不禁想了想，全衙門的飲食都在這，而戒備卻如
+此鬆散，如果有人在食物裡下毒的話．．．那！？
+LONG);
+        set("exits",([
+  "west":__DIR__"h_room6",
+  "south":__DIR__"h_room8",
+]));
+
+        setup();
+}

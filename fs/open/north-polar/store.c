@@ -1,0 +1,39 @@
+//do_set()裡補上玩家是否離線的判斷 以避免讀取不到玩家by blazakira 2011/10/17
+
+inherit ROOM;
+#include <ansi.h>
+
+void create()
+{
+  set("short",YEL"冰原雪棧"NOR);
+  set( "build", 39 );
+  set ("long", @LONG
+這裡是雪國中唯一可供旅客休息交易的客棧，由於掌櫃老闆深知
+冰雪侵襲之苦，因此待人格外親切，販賣的貨物應有盡有，價格公道
+除此之外，提供的食宿服務也相當周到，若是您累了的話，儘管在此
+休息過夜吧。
+LONG);
+  set("exits", ([
+    "down" : __DIR__"room38",
+  ]));
+  set("light", 1);
+  set("no_auc", 1);
+  set("no_chome",1);
+  set("no_scale",1);
+  set("valid_startroom", 1);
+  set("objects", ([ 
+    "/open/north-polar/npc/vendor" : 1,
+  ]));
+  setup();
+}
+
+void init()
+{
+  call_out("do_set",1,this_player());
+}
+
+void do_set(object me)
+{
+  if( !me ) return;
+  me->set("startroom",environment(me));
+}

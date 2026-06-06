@@ -1,0 +1,46 @@
+#include <weapon.h>
+#include <ansi.h>
+
+inherit SWORD;
+
+void create()
+{
+        string na;
+        object me;
+        me = this_player();
+        na = (me->name(0));
+
+        if (me)
+set_name(na+"ソ的蘆劍",({"sword"}));
+        else
+{ set_name("的蘆劍",({"sword"})); }
+        seteuid(getuid());
+        set_weight(5000);
+        if( clonep() )
+        set_default_object(__FILE__);
+        else {
+        set("unit", "把");
+        set("long",@LONG
+
+        一把精製的長劍, 鑄劍師傅以其精湛的手藝將劍刃的兩側
+        打薄, 藉以提高此劍的斬切能力!!是一把不可多得的好劍!!
+
+
+LONG);
+        set("value",12000);
+        set("no_drop",1);
+        set("no_get",1);
+        set("no_sell",1);
+        set("no_give",1);
+        set("no_auc",1);
+        set("material", "iron");
+        set("wield_msg", "$N「唰」地一聲抽出一把$n握在手中。\n");
+
+        }
+        init_sword(50);
+        setup();
+}
+int query_autoload() { return 1; }
+
+
+

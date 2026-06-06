@@ -1,0 +1,24 @@
+// by roger
+inherit ROOM;
+#include <ansi.h>
+#include "wind-rain.h"
+void create () {
+set ("short","芙蓉湖旁");
+	set( "build", 12 );
+set ("long","這裡是芙蓉湖畔，道路一邊臨湖，一邊是整排的雕樓畫棟。湖上金風
+細細，煙雨迷迷。遠方有山，為天泉山；山上有塔，為玉峰塔。山旁有一
+樓，為金風細雨樓。"HIY"『風雨樓中吹玉笛，江城五月落梅花』"NOR"，金風細雨樓
+是京師第一大勢力，統轄江湖黑白兩道中沒有宗派或組織的勢力。權勢醉
+人，鬥爭從來不曾停過，風雨愁人，風雨樓的風雨也不曾歇過。 
+");
+
+
+  set("exits", ([
+            "east"  : "/open/capital/room/r25",
+            "west"  : __DIR__"room2",
+                ]));
+
+       
+
+        setup();
+}

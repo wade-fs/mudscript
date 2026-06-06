@@ -1,0 +1,30 @@
+#include <ansi.h>
+inherit ROOM;
+void create ()
+{
+set("short",BLU"死靈幽谷"NOR);
+set("long",@LONG
+四周的岩壁依舊把你給團團的包圍住, 使得你
+細微的呼吸聲回音都有如狼嚎般的聲響, 矮窄的空
+間把你給壓的有點喘不過氣來..
+LONG);
+set("exits",([
+"up":__DIR__"g-h03",
+"west":__DIR__"g-h06",
+]));
+set("no_transmit",1);
+setup();
+}
+int valid_leave(object me,string dir)
+{
+if(me->query_temp("ghost-hole/drop_in")!=1)
+{
+message_vision(HIW"$N一個腳底突然一滑, 整個人掉進了洞穴內\n"NOR,me);
+me->move(__DIR__"g-h05");
+message_vision(HIW"$N重重跌了下來!!"NOR,me);
+me->set_temp("ghost-hole/drop_in",1);
+return 0;
+}
+return 1;
+}
+

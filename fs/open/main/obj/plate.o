@@ -1,0 +1,32 @@
+
+#include <ansi.h>
+
+inherit EQUIP;
+
+void create()
+{
+     set_name(HIW"聖靈戰甲"NOR,({"Holy Ghost Plate","plate"}) );
+     set_weight(10000);
+	if( clonep() )
+		set_default_object(__FILE__);
+else	{
+     set("meterial","steel");
+	set("unit","件");
+	set("value", 1000);
+	set("armor_type","cloth");
+	set("armor_prop/armor", 45);
+      set("armor_prop/dodge", 8);
+      set("armor_prop/parry", 8);
+      set("armor_prop/move", 8);
+      set("armor_prop/attack", 3);
+	set("armor_prop/force", 3);
+	set("long","
+這套戰甲是由波斯王國所製，受過波斯勇者鮮血的灌溉，上下都散發出
+一股霸氣，據說穿上之人可以橫掃戰場，所向披靡。\n");
+	}
+	setup();
+}
+int query_autoload()
+{
+      return 1;
+}

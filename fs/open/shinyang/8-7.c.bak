@@ -1,0 +1,25 @@
+// Room: /u/w/whatup/area/shinyang/8-7.c
+inherit ROOM;
+
+void create ()
+{
+  set ("short", "鐵匠舖");
+  set ("long", @LONG
+幟熱的火爐散發出相當高的溫度，一旁的鐵匠正揮汗如雨下的叮
+叮噹噹的敲著馬蹄鐵，一旁的客人正在擦著汗等待自己的東西！不時
+嘴裡念念有詞的似乎在詛咒這個熱死人的鬼天氣！
+LONG);
+
+  set("no_transmit", 1);
+  set("exits", ([ /* sizeof() == 1 */
+  "north" : __DIR__"4-3.c",
+]));
+  set("objects", ([ /* sizeof() == 1 */
+  __DIR__"npc/oldman" : 2,
+]));
+  set("no_auc", 1);
+  set("have_reborn", 1);
+  set("light_up", 1);
+
+  setup();
+}

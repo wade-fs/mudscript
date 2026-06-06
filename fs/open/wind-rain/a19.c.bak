@@ -1,0 +1,42 @@
+// by roger
+inherit ROOM;
+#include <ansi.h>
+#include "wind-rain.h"
+void create () {
+set ("short",HIB"飾夜天"NOR);
+	set( "build", 14 );
+set ("long", @LONG
+一入此室，光線彷彿都被吞噬了一般，清涼如夜，忽見點點瑩光， 
+以為是星光浪漫，卻是狼眼覬覦，這裡便是金風細雨樓一樓樓主的
+三大守護天將之一所踞衛的飾夜天，若要見到樓主，就必需先將他
+打倒。
+LONG);
+
+
+
+  set("exits", ([
+            "north"  : __DIR__"a13",
+            "south"  : __DIR__"a12",
+            "enter"  : __DIR__"a18",
+                ]));
+
+  set("objects", ([ 
+  __DIR__"npc/charn-kai" : 1,
+                  ]));
+       
+
+        setup();
+}
+
+int valid_leave(object me, string dir)
+
+{
+        if(dir=="enter" && present("charn-kai",environment(me)))
+  {
+
+message_vision(HIY"張凱說: 對不起, 樓主正在休息. \n"NOR,me);
+
+return 0;
+}
+return 1;
+}

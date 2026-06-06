@@ -1,0 +1,156 @@
+#include <ansi.h>
+inherit NPC;
+mapping *action = ({
+([ "action" : "$N使出絕情神掌第一招"+HIY+"【亢龍有悔】"+NOR+"，右掌劃了個圈圓，向$n的$l推去",
+                "dodge"      :    -25,
+                "parry"      :    -20,                                      
+                "damage"     :    100,
+                "damage_type":   "瘀傷",
+           ]),
+([ "action" : "$N使出絕情神掌第二招"+HIG+"【飛龍在天】"+NOR+"，猶如飛龍般躍起半空，居高下擊，向$n
+的$l擊出",
+                "dodge"      :     -50,
+                "parry"      :     -10,
+                "damage"     :     110,
+                "damage_type":   "瘀傷",
+           ]),
+([ "action" : "$N使出絕情神掌第三招"+HIR+"【突如其來】"+NOR+"，於迅雷不及掩耳的速度，讓$n攻其不備",
+                "dodge"      :    -30,
+                "parry"      :    -45,
+                "damage"     :    150,
+                "damage_type":   "瘀傷",
+            ]),
+([ "action" : "$N使出絕情神掌第四招"+HIB+"【雙龍取水】"+NOR+"，左右分使絕情神掌，令$n無法敵擋，內
+外皆受到極大的傷害", 
+                "dodge"      :   -50,
+                "parry"      :   -50,
+                "damage"     :   100,
+                "damage_type":   "瘀傷",
+            ]),
+   });
+
+void create()
+{
+        set_name("上官琳",({"lin"}));
+        set("title","絕情門三弟子");
+        set("nickname","火護法");
+        set("long","她是絕情門的護法，是一位女性，非常的美，
+但不要被她弱小的樣子給騙了，她可是高手中的高手。\n");
+        set("gender","女性");
+        set("combat_exp",650000);
+        set("age",20);
+        set("max_kee",1000);
+        set("kee", 1000);
+        set("str", 24);
+        set("cor", 24);
+        set("cps", 45);
+        set("per", 30);
+        set("int", 32);
+        set("force",1000);
+        set("max_force",1000);
+        set("force_factor", 10);
+        set_skill("dodge", 80);
+        set_skill("linpo-steps",80);
+        set_skill("force",60);
+        set_skill("unarmed", 80);
+
+        map_skill("dodge","linpo-steps");
+        set("chat_chance_combat", 25);
+        set_temp("apply/armor",80);
+        set_temp("apply/damage",40);
+        set("chat_msg", ({
+             (: this_object(),"random_move" :),
+        }) );
+        setup();
+carry_object("/open/love/obj/hands.c")->wear();
+carry_object("/open/love/obj/claw.c")->wield();
+        set("default_actions", (: call_other, __FILE__,"query_action" :));
+        add_money("silver",10);
+
+        reset_action();
+ 
+}
+
+
+mapping query_action()
+{
+        return action[random(sizeof(action))];
+}
+void greeting(object ob)
+{
+    int exp,lv_1;
+    string skill;
+    object weapon;
+    exp =ob->query("combat_exp",1);
+      weapon = ob->query_temp("weapon");
+      if( weapon ) skill = weapon->query("skill_type");
+      else skill = "unarmed";
+      lv_1 =(int) 1.8 * ob->query_skill(skill, 1);
+    return;
+}
+void heart_beat()
+{
+ object env,mob,*enemy,target;
+ int i,kee;
+ mapping exit;
+ string *exit_name;
+
+ mob = this_object();
+ env = environment(mob);
+
+  if( random(70) < 15)
+ {
+    enemy=mob->query_enemy();
+	if( i = sizeof(enemy) ) {
+    target=enemy[random(i)];
+    kee = target->query("max_kee") * 0.2;
+    if( env == environment(target) )
+    {
+     message_vision(HIW+"$N看見上官琳，祭起"+HIY+"「絕情訣」"+HIW+"以精化氣，以
+氣御神，以神聚力，只見上官琳的"+HIR+"手臂通紅"+HIW+"，
+直向$N的"+HIR+"心臟"+HIW+"抓來，你頓時"+HIR+"血液完全被抽乾\n"+NOR,target);
+     target->receive_damage("kee",(int)kee,mob);
+     COMBAT_D->report_status(target,0);
+    }
+	}
+ }
+ set_heart_beat(1);
+  ::heart_beat();
+
+}
+
+void die()                                                                 
+{    
+	object winner = query_temp("last_damage_from");
+	int j;
+        if(!winner)
+	{
+	::die();
+	return ;
+        }
+    if(userp(winner) && winner->query_temp("not_robot") > time() )
+    {
+	if ( winner->query_temp("bless")==1 )
+	{
+	j=random(-1);
+	  if( j==7 || j==77 || j== 777 || j==1111 || j==55 || j==555 || j==1000 || j==4000 || j==3333 || j==2222 )
+	  {      
+	  new("/open/sky/obj3/think-feather")->move(environment(winner));
+	  message_vision(HIM"\n從上官琳的身上掉下了一件奇怪的東西!!\n"NOR,winner);
+          write_file("/log/sky/obj3/think_feather",sprintf("%s(%s) 讓上官琳掉下了念之虛羽於 %s\n",
+	  winner->name(1),winner->query("id"),ctime(time())));
+	  }
+	}else{
+	j=random(-1);
+	  if( j==5 || j==15 || j== 150 || j==1500 || j==10 || j==100 || j==1000 || j==4000 || j==6666 || j==7777 ) 
+	  {      
+	  new("/open/sky/obj3/think-feather")->move(environment(winner));
+	  message_vision(HIM"\n從上官琳的身上掉下了一件奇怪的東西!!\n"NOR,winner);
+          write_file("/log/sky/obj3/think_feather",sprintf("%s(%s) 讓上官琳掉下了念之虛羽於 %s\n",
+	  winner->name(1),winner->query("id"),ctime(time())));
+	  }
+	}
+	}
+	::die();                                                           
+}
+

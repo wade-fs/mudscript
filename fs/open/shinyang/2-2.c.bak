@@ -1,0 +1,26 @@
+// Room: /u/w/whatup/area/shinyang/2-2
+inherit ROOM;
+
+void create ()
+{
+  set ("short", "萬通錢莊－襄陽分號");
+  set ("long", @LONG
+說到萬通錢莊無人不知無人不曉，這是一間整個中原都有分號的
+大錢莊，更別說在這個貿易往來發達的地方更不可能少了萬通錢莊的
+存在，寬廣的櫃檯有好個人正在存取著飛錢，想必是在這裡大賺一筆
+，一旁的服務的掌櫃看到你急忙上前跟你問好。
+LONG);
+
+  set("no_transmit", 1);
+  set("exits", ([ /* sizeof() == 1 */
+  "north" : __DIR__"2-3.c",
+]));
+  set("objects", ([ /* sizeof() == 1 */
+  __DIR__"npc/woman" : 2,
+]));
+  set("no_auc", 1);
+  set("have_reborn", 1);
+  set("light_up", 1);
+
+  setup();
+}

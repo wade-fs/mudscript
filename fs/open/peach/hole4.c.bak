@@ -1,0 +1,20 @@
+// Room: /u/w/whatup/peach/hole1
+inherit ROOM;
+
+void create ()
+{
+  set ("short", "山洞");
+  set ("long", @LONG
+山洞裡黑漆漆一片，只有洞口處射入微弱的陽光，腳上踏著冰涼
+的溪水以及小石頭，看來已經很久沒有人來過這裡了，而且越往前走
+光線越是微弱，讓人心裡升起打退堂鼓的念頭，開始懷疑自己是否該
+來到此地。
+LONG);
+
+  set("exits", ([ /* sizeof() == 2 */
+  "south" : __DIR__"hole5",
+  "west" : __DIR__"hole3.c",
+]));
+
+  setup();
+}

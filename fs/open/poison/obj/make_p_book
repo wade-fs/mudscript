@@ -1,0 +1,17 @@
+    毒的製造:
+        名稱:   一刻香                  coldpoison 10
+        用法:   cmd make poison faint
+        原料:   一枝花煙草(Smell)
+ 
+        名稱:   火玫瑰毒                coldpoison 40
+        用法:   cmd make poison rose
+        原料:   一朵火玫瑰花(Rose flower)
+ 
+        名稱:   深宮奇毒                coldpoison 60
+        用法:   cmd make poison dark
+        原料:   毒龍心
+ 
+        名稱:   五毒                    coldpoison 80
+        用法:   cmd make poison five
+        原料:   一顆龍王心   一條青花蛇   一顆千毒鳥的蛋  一朵百年寒玉花
+                一條金線蟲

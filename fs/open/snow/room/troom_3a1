@@ -1,0 +1,20 @@
+// Room: /u/e/eiei/work/troom3a.c
+inherit ROOM;
+
+void create ()
+{
+  set ("short", "林間小路");
+  set ("long", @LONG
+    這裡的樹木長的特別的茂盛，以至於要分清楚小徑
+    通往的方現更加不容易，不過也因為地理環境的因素，
+    聽說這個樹林裡生長著某些對於醫療有特殊療效的藥草
+    。
+LONG);
+
+  set("outdoors", "/u/e/eiei");
+  set("exits", ([ /* sizeof() == 1 */
+  "westdown" : "/u/e/eiei/room/troom_3.c",
+]));
+
+  setup();
+}

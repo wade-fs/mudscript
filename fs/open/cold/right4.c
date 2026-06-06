@@ -1,0 +1,26 @@
+// Room: /u/c/chhu/workroom.c
+#include "../cold.h"
+
+inherit ROOM;
+
+void create()
+{
+	set("short","勸修園");
+	set("long", @LONG
+這裡便是寒谷東側行宮前的「勸修園」﹐是寒谷一派的門弟子
+平常修習仙法、武術之處﹐在平時﹐眾師姊妹們聚在一起﹐互相研
+習仙法﹐互相切搓武藝﹐以及宮主有時也會來此探視門弟子練習的
+情形。
+
+LONG
+	);
+	set("exits", ([ /* sizeof() == 2 */
+	"north":COLD_ROOM"right3",
+]));
+	set("objects",([
+	COLD_NPC"trainee2":1,
+	COLD_NPC"trainee3":1,
+	]));
+	setup();
+	replace_program(ROOM);
+}

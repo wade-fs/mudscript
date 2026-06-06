@@ -1,0 +1,38 @@
+inherit ROOM;
+void create() {
+	set( "short", "$HIY$麟之倉庫$NOR$" );
+	set( "owner", "spicy" );
+	set( "object", ([
+		"file10"   : "/open/mogi/castle/obj/fire-king-head",
+		"file7"    : "/open/mogi/castle/obj/fire-king-head",
+		"amount7"  : 1,
+		"amount4"  : 1,
+		"amount6"  : 1,
+		"file8"    : "/open/mogi/castle/obj/fire-king-head",
+		"amount5"  : 1,
+		"amount3"  : 1,
+		"file4"    : "/open/mogi/castle/obj/fire-king-head",
+		"amount1"  : 1,
+		"file2"    : "/open/mogi/castle/obj/fire-king-head",
+		"amount8"  : 1,
+		"file5"    : "/open/mogi/castle/obj/fire-king-head",
+		"file3"    : "/open/mogi/castle/obj/fire-king-head",
+		"file6"    : "/open/mogi/castle/obj/fire-king-head",
+		"file1"    : "/open/mogi/castle/obj/fire-king-head",
+		"amount2"  : 1,
+		"amount10" : 1,
+	]) );
+	set( "build", 10195 );
+	set( "light_up", 1 );
+	set( "exits", ([
+		"south"     : "/open/clan/orient/room/room19",
+	]) );
+	set( "long", @LONG
+這是一條非常精美的長廊，柱子和欄桿是用華貴的紫檀木制成，上面
+雕飾著美麗的圖畫，畫工精巧，美不勝收。長廊的兩邊放滿了盆栽。一陣
+陣的涼風迎面吹來，微風輕拂花園裡的花草，一種悠然安詳的氣氛，讓然
+忘卻塵世的煩憂，讓人充份感受到道家清靜無為的心境。
+LONG);
+	setup();
+	replace_program(ROOM);
+}

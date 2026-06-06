@@ -1,0 +1,27 @@
+// Room: /u/w/whatup/peach/epeach1
+inherit ROOM;
+
+void create ()
+{
+  set ("short", "桃木林深處");
+  set ("long", @LONG
+這裡似乎是桃木林的盡頭，你已經找不到任何可以前進的道路，
+前方有兩個人，好像在找尋什麼東西。
+LONG);
+
+  set("outdoors", "/u/b");
+  set("exits", ([ /* sizeof() == 1 */
+  "west" : __DIR__"epeach.c",
+]));
+
+  set("objects", ([ /* sizeof() == 2 */
+  __DIR__"npc/sheik.c" : 1,
+  __DIR__"npc/rascal.c" : 1,
+]));
+
+  setup();
+}
+void reset()
+{
+	::reset();
+}

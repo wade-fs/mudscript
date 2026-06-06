@@ -1,0 +1,37 @@
+// Room: /u/w/whatup/poison_hole/hole01.c
+inherit ROOM;
+
+void create ()
+{
+  set ("short", "山洞");
+  set ("long", @LONG
+一進山洞裡，前面隱隱約約的出現人影，但你什麼也看不清楚。
+LONG);
+
+  set("exits", ([ /* sizeof() == 1 */
+  "north" : __DIR__"hole11",
+  "west"  : __DIR__"hhole2"
+]));
+  set("objects", ([
+        __DIR__"npc/killer.c":random(2)+2,
+        ]));
+set("no_transmit", 1);
+  setup();
+}
+int valid_leave(object who, string dir)
+{
+  object oldman;
+  string str;
+ oldman = present("killer", this_object()) ;
+  if( dir == "south" || dir == "west" ) {
+    if(oldman) 
+    return notify_fail(oldman->name() + "大喝：竟敢往這裡來，你這個死小鬼！\n");
+  }
+ 
+  return ::valid_leave(who, dir);
+}
+void reset()
+{
+  all_inventory(this_object())->move(__DIR__"hole11.c");
+  ::reset();
+}

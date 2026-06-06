@@ -1,0 +1,26 @@
+// Room: /u/c/chhu/workroom.c
+#include "../cold.h"
+
+inherit ROOM;
+
+void create()
+{
+	set("short","晚風亭");
+	set("long", @LONG
+這裡就是寒谷有名的「晚風亭」﹐在此處﹐風景奇美﹐且每到傍
+晚﹐緩緩涼風徐徐吹來﹐常常可以看到寒谷一派的弟子在此享受美景
+﹐或三、五結伴坐在亭邊談天﹐或嘻嘻哈哈的在一旁玩樂﹐此種景像
+讓人覺得好像到了仙境一般。
+
+LONG
+	);
+	set("exits", ([ /* sizeof() == 2 */
+	"west":COLD_ROOM"right3",
+]));
+	set("objects",([
+	COLD_NPC"trainee":1,
+	COLD_NPC"trainee1":1,
+	]));
+	setup();
+	replace_program(ROOM);
+}

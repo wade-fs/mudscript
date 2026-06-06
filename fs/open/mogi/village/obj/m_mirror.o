@@ -1,0 +1,36 @@
+// made by ccat
+inherit ITEM;
+void create()
+{
+        set_name("照妖鏡",({"mirror"}) );
+        set_weight(1000);
+        if( clonep() )
+		set_default_object(__FILE__);
+	else {
+        set("long","魔界特殊礦物製成的鏡子, 可以顯示對方的能力.(show ID)");
+        set("unit","件");
+        set("value", 10000);
+        set("material","steel");
+	}
+}
+void init()
+{
+     add_action("do_show","show");
+}
+int do_show(string str)
+{
+  int exp,kee,force;
+  object who,me;
+  me = this_player(); 
+  if(!str || !objectp(who = present( lower_case(str), environment(me) )) )
+  {
+     write("照妖鏡說: 不知道你想要我照誰?請搞清楚再照.\n");
+     return 1;
+  }
+  message_vision("$N拿出照妖鏡往$n身上照了照.\n",me,who);
+  exp = who->query("combat_exp",1);
+  kee = who->query("kee",1);
+  force = who->query("force",1);
+  printf("照妖鏡對你說:\n 主人,此人的\n 經驗值為%d,\n 氣為%d,\n 內力為%d\n",exp,kee,force);
+  return 1;  
+}

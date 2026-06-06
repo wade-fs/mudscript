@@ -1,0 +1,27 @@
+// Room: /u/c/chhu/workroom.c
+#include "../cold.h"
+
+inherit ROOM;
+
+void create()
+{
+	set("short","寶珍神宮內廳");
+	set("long", @LONG
+這裡是寶珍神宮的內廳﹐通常宮主接見外客都是在這個地方
+﹐一般而言﹐大廳是宮主處理內務之處﹐而內廳卻是宮主辦理外
+務的地方﹐每當有重要外客來臨之時﹐你會發現在宮主在此接待
+外賓﹐而身旁則是一排負責奉茶的門弟子。
+
+LONG
+	);
+	set("exits", ([ /* sizeof() == 2 */
+	"north":COLD_ROOM"in4",
+	"west":COLD_ROOM"in2",
+	"east":COLD_ROOM"in3",
+	"south":COLD_ROOM"master_room",
+]));
+	set("objects",([
+	]));
+	setup();
+	replace_program(ROOM);
+}

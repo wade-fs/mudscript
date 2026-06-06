@@ -1,0 +1,25 @@
+// Room: /u/c/chhu/workroom.c
+#include "../cold.h"
+
+inherit ROOM;
+
+void create()
+{
+	set("short","西側小路");
+	set("long", @LONG
+這裡是由寶珍神宮正門通往西側神殿的必經小道﹐在小道旁種滿了
+青蔓藤草﹐生得十分茂盛﹐此外﹐北面是神宮側面的牆壁﹐雖然序並沒
+有什麼特殊的修飾﹐卻隱隱的散發出一股寒氣﹐讓人看了不禁打起一陣
+寒顫。
+
+LONG
+	);
+	set("exits", ([ /* sizeof() == 2 */
+	"east":COLD_ROOM"home1",
+	"west":COLD_ROOM"left2",
+]));
+	set("objects",([
+	]));
+	setup();
+	replace_program(ROOM);
+}

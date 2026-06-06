@@ -1,0 +1,84 @@
+inherit ITEM;
+#include <ansi.h>
+void create ()
+{
+set_name("最新科技人造人",({"super science robot","super","robot"}));
+set("long","一個由創辦人所製造的最新科技產品，用來判斷競技場
+的系統運行是否正常的超級電腦。\n");
+set("unit","部");
+set("no_get",1);
+set("no_sac",1);
+setup();
+}
+
+int init(object me,object ob) 
+{
+me=this_player();
+ob=this_object();
+if(interactive(me))
+	{
+	  if(me->query("quest/start_game"))
+	  {
+	    if(!present("fight_card",me))
+	    {
+	      tell_room(environment(ob),HIY"系統顯示："+me->query("name")+"遺失挑戰晶片。\n"NOR);
+	      tell_room(environment(ob),HIY"\n系統倒數三秒，檔案傳送目標『"HIW+me->query("name")+HIY"』。\n\n"NOR);
+	      me->start_busy(3);
+	      call_out("time01",3,me);
+	      return 1;
+	    }
+	    else
+	    {
+	      if(me->query("quest/start_game_prize")==1)
+	      {
+	      tell_room(environment(ob),HIY"系統顯示：歡迎"HIG"『"NOR+me->query("title")+HIG"』"HIY"～"HIW+me->query("name")+HIY"～進入會場。\n"NOR);	    
+	      return 1;
+	      }
+	      else
+	      {
+	      tell_room(environment(ob),HIY"系統顯示：歡迎挑戰者『"HIW+me->query("name")+HIY"』進入會場。\n"NOR);	    
+	      return 1;
+	      }
+	    }
+	  }
+	  else
+	  {
+	    if(present("fight_card",me))
+	    {
+	      tell_room(environment(ob),HIY"系統顯示：系統查詢『"HIW+me->query("name")+HIY"』持有非法挑戰晶片。\n"NOR);
+	      tell_room(environment(ob),HIY"\n系統倒數三秒，預備攻擊目標『"HIW+me->query("name")+HIY"』。\n\n"NOR);
+      	      me->start_busy(3);
+	      call_out("time",3,me);
+	      return 1;
+	    }
+	    else
+	    {
+	      tell_room(environment(ob),HIY"系統顯示：歡迎新手『"HIW+me->query("name")+HIY"』進入會場。\n"NOR);	    
+	      tell_room(environment(ob),HIY"系統顯示：請大家多多照顧"+me->query("name")+"。\n"NOR);	    
+	      return 1;
+	    } 
+	   }
+	  }
+}
+
+int time(object me,object ob)
+{
+ob=this_object();
+tell_room(environment(me),HIY"\n\n系統遠距離攻擊『"HIR"噴墨器"HIY"』預備完成！目標『"HIW+me->query("name")+HIY"』確認。\n"NOR);
+tell_room(environment(me),"\n\n"HIW+me->query("name")+"遭到強力的噴墨攻擊。\n\n"NOR);
+tell_object(me,HIW"系統顯示：『請勿非經過正常管道獲得挑戰晶片。』\n"NOR);
+me->set("title",HIY"盜版商"NOR);
+me->command("recall");
+tell_room(environment(ob),HIW"\n系統顯示：系統變更完成。\n"NOR);
+return 1;
+}
+
+int time01(object me,object ob)
+{
+ob=this_object();
+tell_room(environment(me),HIY"\n\n系統遠距離傳送『"HIR"轉換器"HIY"』預備完成！目標『"HIW+me->query("name")+HIY"』確認。\n"NOR);
+message_vision(HIW"\n\n$N被一道鐳光照射。\n\n"NOR,me);
+new(__DIR__"f_card")->move(me);
+tell_room(environment(ob),HIW"\n系統顯示：晶片傳送完成。\n"NOR);
+return 1;
+}

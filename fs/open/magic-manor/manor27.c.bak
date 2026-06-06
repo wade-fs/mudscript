@@ -1,0 +1,26 @@
+#include <ansi.h>
+inherit ROOM;
+
+void create ()
+{
+	set ("short", "練武廣場");
+	set ("long", @LONG
+一個若大的廣場，佈滿了各式練武的道具和木椿，是聚靈莊的各
+個弟子們習武的場所，廣場上有許多新進的弟子分成許多組正在辛勤
+的習武著，而每一組弟子都有一個專門的教頭在專心的指導著。
+LONG);
+
+	set("no_auc", 1);
+	set("no_transmit", 1);
+
+	set("exits", ([ /* sizeof() == 3 */
+	"north"	: __DIR__"manor26",
+	"south"	: __DIR__"manor28",
+	"west"	: __DIR__"manor34",
+	"east"	: __DIR__"manor35",
+	]));
+
+	set("outdoors", "/open/magic-manor");
+
+	setup();
+}

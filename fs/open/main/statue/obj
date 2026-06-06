@@ -1,0 +1,90 @@
+inherit NPC;
+#include <ansi.h>
+string adv_title();
+void create()
+{
+	set_name("傅劍寒的雕像",({"cgy statue","cgy"}));
+	set("long","狂想之神。狂想的玩家為了能瞻仰他，紀念他的德行，所以特別建立了此一雕像。\n你可以試著(pray id)也許\有奇妙的效果喔!!\nexp滿一千萬者可以問他關於稱號的事喔");
+	set("title",HIR"惡魔城主"NOR);
+	set("nickname",HIW"神"HIG"劍"HIC"飛"HIY"龍"NOR);
+	set("unit","尊");
+	set("age",291);
+	set("value",100);
+	set("no_get",1);
+	set("no_kill",1);
+	set("no_fight",1);
+	set("no_sac",1);
+	set("no_auc",1);
+	set("env/can_tell_wiz","YES");
+	set("no_reset",1);
+	set_weight(500000);
+	setup();
+	  set("inquiry", ([
+            "稱號"  : (:adv_title:),
+			]));
+}
+
+init()
+{
+	add_action("do_pray","pray");
+}
+
+int do_pray(string arg)
+{
+	object me=this_player();
+
+	call_out("greeting",2,me,arg);
+	message_vision(HIW"一陣光芒籠罩$N"HIW"的全身，光芒過後，已將$N"HIW"的祈禱傳送到大神的耳邊。\n"NOR,me);
+
+	return 1;
+}
+
+void greeting(object ob,string arg)
+{
+	object me;
+	me=this_player();
+	command("tell "+arg+" "+me->query("name")+"("+me->query("id")+")傳送一份祝福的祈禱給您!!\n ");
+
+}
+string adv_title()
+{
+object me=this_player();
+int i,j;
+i=random(3);
+j=random(3);
+		
+        if(me->query("combat_exp") < 10000000 )
+                return "你的經驗值不夠, 多加磨練後再來找我吧...";
+        if(me->query("class")=="fighter")
+		{
+		if(i==0){
+                me->set("title",HIY"ζ"HIG"傲世天下"HIY"ζ"HIM"紫燄"HIY"．"HIC"武神"NOR) ;
+				message("system",HIY"傅劍寒"HIW"大聲說道:"HIY+this_player()->name()+HIM"苦練有成特賜予"HIY"ζ"HIG"傲世天下"HIY"ζ"HIM"紫燄"HIY"．"HIC"武神"NOR"稱號\n"NOR,users());
+                } 
+		else if(i==1){
+                me->set("title",HIG"拳掌"HIY"雙霸"HIW"～"HIC"笑蒼天"NOR) ;
+				message("system",HIY"傅劍寒"HIW"大聲說道:"HIY+this_player()->name()+HIM"苦練有成特賜予"HIG"拳掌"HIY"雙霸"HIW"～"HIC"笑蒼天"NOR"稱號\n"NOR,users());;
+                }
+		else{
+		me->set("title",HIB"ζ"HIC"武道"HIY"˙"HIR"奇俠"HIB"ζ"NOR) ;
+				message("system",HIG"陸清風朗聲說道:恭喜"HIY+this_player()->name()+HIM"成為"HIB"ζ"HIC"武道"HIY"˙"HIR"奇俠"HIB"ζ"NOR"稱號\n"NOR,users());
+                }
+		}
+		if(me->query("class")=="prayer")
+		{
+		if(j==0){
+                me->set("title",HIG"ξ"RED"末日"HIY"聖使"HIG"ξ"NOR) ;
+				message("system",HIY"傅劍寒"HIW"大聲說道:"HIY+this_player()->name()+HIM"苦練有成特賜予"HIG"ξ"RED"末日"HIY"聖使"HIG"ξ"NOR"稱號\n"NOR,users());
+                } 
+		else if(j==1){
+                me->set("title",HIG"ζ"HIM"天火"YEL"帝皇"HIG"ζ"NOR) ;
+				message("system",HIY"傅劍寒"HIW"大聲說道:"HIY+this_player()->name()+HIM"苦練有成特賜予"HIG"ζ"HIM"天火"YEL"帝皇"HIG"ζ"NOR"稱號\n"NOR,users());
+                }
+		else {
+		        me->set("title",HIG"Φ"HIR"聖火"HIC"天皇"HIG"Φ"NOR) ;
+				message("system",HIY"傅劍寒"HIW"大聲說道:"HIY+this_player()->name()+HIM"苦練有成特賜予"HIG"Φ"HIR"聖火"HIC"天皇"HIG"Φ"NOR"稱號\n"NOR,users());
+                }
+		return "恭喜妳獲得新的稱號";
+		}
+
+}

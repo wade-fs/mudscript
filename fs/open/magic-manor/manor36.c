@@ -1,0 +1,24 @@
+#include <ansi.h>
+inherit ROOM;
+
+void create ()
+{
+	set ("short", "小徑");
+	set ("long", @LONG
+在練武廣場東方的一條小徑，這條小徑看上去似乎不怎麼起眼的
+走在這條小徑上，人氣似乎不像在習武廣場上那麼的熱烙，只有冷冷
+清清的感覺，小徑的前方可以看到一個亭子。
+LONG);
+
+	set("no_auc", 1);
+	set("no_transmit", 1);
+
+	set("exits", ([ /* sizeof() == 3 */
+	"east"	: __DIR__"manor51",
+	"west"	: __DIR__"manor35",
+	]));
+
+	set("outdoors", "/open/magic-manor");
+
+	setup();
+}

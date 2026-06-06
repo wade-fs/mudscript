@@ -1,0 +1,225 @@
+// yu-needle
+// §C©_∞w≥Z--- §‚Ó”(unarmed), ∞wÓ”(stabber)
+//change by adam..
+
+#include <ansi.h>
+#include <combat.h>
+inherit SKILL;
+
+void bleed(object me, object victim, object weapon, int damage);
+
+string *parry_msg=
+    ({
+   "$n®≠¬ﬂ§@§ﬁ, ´¸∂°$w•≠•≠∑f¶b$N™∫™Zæπ§W, §@©€°y ƒd≥∂ß¿ °z±N$N™∫™Zæπ¶≤§F∂}•h°C\n",
+   "$n±N®≠≈Èæa¶V$N, §@©€°y ™g¶Á§Q§K∂^ °z, ±N$N¬H¶b≠Ï¶a, ®œ§£∂}©€¶°!\n",
+   "$n§‚§§$w§W§UªR∞ , §@©€°y ≠∏¬r™¯≠i °z, πG±o$N§£±o§£¶u¶Ì¶€®≠!\n",
+   "$nß‚§‚§§™∫$wªR¶®∂Í¿Ù§@©€°y ∂≥∞j∂Í§Î °z, ±N$N™∫ß∂’∫…º∆æ◊§F§U®”°C\n",
+   "$n•H¿R®Ó∞ , §‚§§$w•≠¡|Ø›´e, §@©€°y ¶p´ ¶¸≥¨ °z, §∆∏—§F$N™∫ß∂’!\n",
+    });
+
+//unarmed, stabber_action
+
+mapping *action = ({
+([ "action":"$N§@©€°y •’≥D¶R´H °z, §U®≠µy¶±, ®Bºi´e∏Û, ¬˘¥x∑L§¿, §‚´¸¶y©π$n™∫Ø›
+´e°y πßß¿•ﬁ °z•Œ§O¬W§F•h!\n",
+        "dodge": -10,
+        "parry": -20,
+        "damage": 30,
+        "force":  50,
+        "damage_type":  "®Î∂À",
+]),
+
+([ "action":"$N§‚¥x§@±i,  §@¶°°y ¥c™Íº≥¶œ °z, ¡a®≠§@∏ı, •—§W©π§U¶V$n™∫¿Y≥ª°y ¶ 
+∑|•ﬁ °zº≥§F•h!\n",
+        "dodge": -20,
+        "parry": -10,
+        "damage": 40,
+        "force": 130,
+        "damage_type": "®Î∂À",
+]),
+
+([ "action":"$N¬˘§‚§@©‘§@´ˆ§@¿£, ±N$n™∫•™§‚≠I°y ¶X®¶•ﬁ °z®Ó¶Ì, ©π•~∞j¬‡§@∞È, •Œ
+§O¶a±N$n©ﬂ§F∂}•h!\n",
+        "dodge": -30,
+        "parry": 20,
+        "damage": 50,
+        "force": 180,
+        "damage_type": "∫L∂À",
+]),
+([ "action" : "$N©ÌΩ•∑L√€, ∞ø¶a®≠¬ﬂ§@¬‡, ¬∂®Ï§F$n™∫≠I´·, §§´¸¶V$n≠I´·°y ©R™˘•ﬁ
+°z¬W§F•h!\n",
+        "dodge": -30,
+        "parry": -10,
+        "damage": 90,
+        "force": 240,
+        "damage_type": "®Î∂À",
+]),
+([ "action" : "$N®≠¶Ê¨µM¶a©π´·∞h§Fº∆®B, $n∏Ú∂i, ©øµM$N®≠¶Ê•ﬂ∞±, §‚®y§@¶±, ¬‡∞h
+¨∞∂i, ®y¶y©π$n∏°≥°°y Æ¶Â•ﬁ °z´Ê≥ª¶”•h!\n",
+        "dodge": -40,
+        "parry": 10,
+        "damage": 110,
+        "force": 300,
+        "damage_type": "®Î∂À",
+]),
+
+([ "action":"$N©IºS§@¡n, ®≠™kª¥∆F¶a©π$n≠I´·¡a§F•h, ¬˘§‚§@•¥§@¬W, ¶V$n™∫•™√‰°y §”
+∂ß•ﬁ °z, ´·∏£°y ≠∑©≤•ﬁ °zß¿ª!\n",
+        "dodge": 20,
+        "parry": -10,
+        "damage": 100,
+        "force": 280,
+        "damage_type": "®Î∂À",
+]),
+([ "action" : "$N§@©€°y ¬‡®≠§ª¶X °z, ®≠ßŒª¥ª¥•™•k∑n¬\, ¬˘§‚§W§U¬Ω∞ , ´Ê≥t¶a¶Vµ€
+$n©Œ©Á•¥, ©Œæ‡Æ≥, ©π$n™∫•˛®≠¶U§j≠n•ﬁ©€©I!\n",
+        "dodge": 20,
+        "parry": 10,
+        "damage": 70,
+        "force": 220,
+        "damage_type": "®Î∂À",
+]),
+
+//weapon_action
+
+([ "action":"$N•™§‚§@¥ß, •k§‚§@§ƒ, §@©€°y ≠∏™·∏®∏≠ °z, ß‚§‚§§$wªR¶V$n™∫¬˘¡u°y §ÿ
+øA•ﬁ °z!\n",
+        "dodge": -20,
+        "parry": -10,
+        "damage": 60,
+        "force":  140,
+        "damage_type":  "®Î∂À",
+]),
+
+([ "action":"$NπB®œ$w, •™•k∂}§}, ∫¯∫¯§£∫…, ¬W¶V$n™∫Ø›´e°y ÌË§§•ﬁ °z, ≠I´·°y µ«´\
+•ﬁ °z!\n",
+        "dodge": -30,
+        "parry": -10,
+        "damage": 260,
+        "force": 30,
+        "damage_type": "®Î∂À",
+]),
+
+([ "action":"$N®≠¬ﬂ§@√€, ¬˘§‚’t$w, •≠•≠©π´e™Ω®Î, §@©€°y Æ¸©≥¬Ω™· °zªW∂’´›µo, ™Ô
+¶V$n™∫∏}©≥°y ¥È¨u•ﬁ °z!\n",
+        "dodge": -35,
+        "parry": -20,
+        "damage": 120,
+        "force": 270,
+        "damage_type": "®Î∂À",
+]),
+([ "action":"$N®≠™kª¥∆F, §@©€°y ≠∏®B©Ì∆} °z, ª¥®≠§@≈D, $w®Î¶V$n™”≠K°y ∂≥™˘•ﬁ°z,
+ ™”≥ª°y ™”Ω¶•ﬁ °z\n",
+        "dodge": 25,
+        "parry": -10,
+        "damage": 90,
+        "force": 240,
+        "damage_type": "®Î∂À",
+]),
+([ "action":"$N¬˘¡u¶V•~§@±i, §@¶°°y §jƒPÆiØÕ °z, ∫Ú∏Ú§@©€°y •≠®F∏®∂≠ °z, §‚§§$w
+Øe¶V$n™∫´|≥Ô°y §—¨•ﬁ °z®Î•h!\n",
+        "dodge": -40,
+        "parry": -20,
+        "damage": 60,
+        "force": 230,
+        "damage_type": "®Î∂À",
+]),
+([ "action":"$N®≠ßŒ§@¬‡, §@¶°°y ¬‡®≠§ª¶X °z, ±N§‚§§$wªR¶®§@™—Æ¨y, ∞j±€¶b$n•|∂g
+, ∞ø¶a§@©€°y ¶^±Ê¨K§Î °z, ±N$w®Î¶V$n∏£™˘°y §—¨W•ﬁ °z,°y ∞◊™˘•ﬁ °z!\n",
+        "dodge": 20,
+        "parry": -20,
+        "damage": 50,
+        "force": 130,
+        "damage_type": "®Î∂À",
+]),
+([ "action":"$N§j≥‹§@¡n°y[1;33m µ¥©R§C∞w[0m °z, π™∞ •˛®≠§∫´l, §‚§§$wªR¶®§C¬I•˙¬I, §¿ßO
+¶V$n™∫°y ¶ ∑|•ﬁ °z,°y ¶L∞Û•ﬁ °z°y §—¨•ﬁ °z,°y ÌË§§•ﬁ °z,°y §§◊E•ﬁ °z,°y πßß¿•ﬁ °z
+,°y ÆÆ¸•ﬁ °z, ´Ê´Ê¨®Î!\n ",
+        "dodge": -30,
+        "parry": -20,
+        "damage": 190,
+        "force":350,
+        "damage_type":"®Î∂À",
+        "post_action": (: bleed :),
+]),
+});
+
+//∂W±jß¿ª
+
+void bleed(object me, object victim, object weapon, int damage)
+{
+        if(damage > 40)
+         {
+          victim->apply_condition("bleeding", random((int)damage / 10 +
+          (int)me->query_skill("yu-needle",1)/10));
+          message_vision(sprintf("[1;31m$N°y µ¥©R§C∞w °z®Î≥z§F$n®≠§W™∫•ÙØﬂ§j•ﬁ, $n™∫®≠§W¶Â¥≥¬I¬I°C[0m\n"),me,victim);
+         }
+}
+
+mapping query_action(object me, object weapon)
+{
+
+        object wea=me->query_temp("weapon");
+
+        if( wea!=0)
+            return action[random(7)+7];
+        else
+          return action[random(7)];
+}
+
+int valid_learn(object me)
+{
+        if(!me->query_temp("weapon") || !me->query_temp("secondary_weapon") )
+          return notify_fail("Ωm§C©_∞w≥Z¡`±oÆ≥Æ⁄∞wßa!....\n");
+
+        if(me->query_skill("cure")*1<=me->query_skill("yu-needle",1))
+return notify_fail("ßA™∫¬Â¿¯ßﬁØ‡§”Æt§Fßa! ´ÁªÚÆ≥∞w®Î§H! ∏U§@™•ø˘§F´‹µh™∫©O! \n");
+        return 1;
+}
+
+int valid_enable(string usage)
+{
+        object me=this_player();
+        object wea=me->query_temp("weapon");
+         {
+          if(wea!=0)
+          if(wea->query("skill_type")=="stabber")
+           {
+//≥o§@¶Ê™Ì•‹¶≥Æ≥ needle
+            me->map_skill("stabber","yu-needle");
+            me->map_skill("parry","yu-needle");
+            me->map_skill("unarmed",0);
+            return (usage=="stabber")||(usage=="parry");
+           }
+//¶π¶Ê•H§U™Ì™≈§‚
+          me->map_skill("unarmed","yu-needle");
+          me->map_skill("stabber",0);
+          me->map_skill("parry",0);
+          return (usage=="unarmed");
+         }
+        return (usage=="unarmed");
+}
+
+int practice_skill(object me)
+{
+        if(!me->query_temp("weapon") || !me->query_temp("secondary_weapon") )
+          return notify_fail("Ωm§C©_™•∞w≥Z¡Ÿ¨O≠nÆ≥Æ⁄∞wßa!....\n");
+        if( (int)me->query("gin") < 5 )
+          return notify_fail("ßA™∫∫Î§£∞˜°MµL™kΩm≤ﬂ°C\n");
+        if( (int)me->query("kee") < 30 )
+          return notify_fail("≈È§O§£∞˜≈o! •Æß§@§U¶Aƒ~ƒÚΩmßa.\n");
+        if( (int)me->query("force") < 1 )
+          return notify_fail("•ÿ´e§∫§O§£®¨,•Æß§@∑|®‡¶AΩmßa.\n");
+        me->receive_damage("gin", 5);
+        me->receive_damage("kee", 30);
+        me->add("force", -1);
+        return 1;
+}
+
+//parry_action_randon
+
+int query_parry_msg(string limb)
+{
+//                return parry_msg[random(sizeof(parry_msg))];
+return 1;
+}

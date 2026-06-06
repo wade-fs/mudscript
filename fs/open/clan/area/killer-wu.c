@@ -77,6 +77,23 @@ void init()
     command( "perform fireforce.gold-fire" );
     kill_ob(ob);
   }
+/*
+  if( ob->query("mk-blade")&&!ob->query("get-new-title") ) {
+    if( ob->query("gender")=="男性" ) {
+      if( ob->query("title")!="漩羽刀皇" && !ob->query_temp("powerup") &&
+          !ob->query_temp("addbasic")) {
+        tell_object( ob, HIW"你使用邪靈制刀術錯亂, 我幫你還原title...\n"NOR );
+        ob->set( "title", "漩羽刀皇");
+      }
+    }
+    else
+      if(ob->query("title")!="刀魂幽姬" && !ob->query_temp("powerup") &&
+          !ob->query_temp("addbasic")) {
+        tell_object(ob,HIW"你使用邪靈制刀術錯亂, 我幫你還原title...\n"NOR );
+        ob->set( "title", "刀魂幽姬");
+      }
+  }
+*/
 
   if(room && room->query("assassinating"))
     do_start_move();

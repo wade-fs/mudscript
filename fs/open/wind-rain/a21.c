@@ -1,0 +1,42 @@
+// by roger
+inherit ROOM;
+#include <ansi.h>
+#include "wind-rain.h"
+void create () {
+set ("short",HIY"遮月天"NOR);
+	set( "build", 62 );
+set ("long", @LONG
+進入此室，光線彷彿都被吞噬了一般，清涼如夜，忽見微暈，原來  
+是一顆大如牛眼的夜明珠，耀如明月，這裡便是金風細雨樓一樓樓
+主的三大守護天將之一所踞衛的遮月天，若要見到樓主，就必需先
+將他打倒。
+LONG);
+
+
+
+  set("exits", ([
+            "north"  : __DIR__"a5",
+            "south"  : __DIR__"a6",
+            "enter"  : __DIR__"a18",
+                ]));
+
+  set("objects", ([ 
+  __DIR__"npc/lin-mo" : 1,
+                  ]));
+       
+
+        setup();
+}
+
+int valid_leave(object me, string dir)
+
+{
+        if(dir=="enter" && present("lin-mo",environment(me)))
+  {
+
+message_vision(HIY"林牧說: 對不起, 樓主正在休息. \n"NOR,me);
+
+return 0;
+}
+return 1;
+}

@@ -1,0 +1,50 @@
+// Room: /u/w/whatup/poison_hole/hole01.c
+inherit ROOM;
+
+void create ()
+{
+  set ("short", "山洞");
+  set ("long", @LONG
+一進山洞裡，前面隱隱約約的出現人影，但你什麼也看不清楚。遠
+方也傳來陣的聊天聲。
+LONG);
+
+  set("exits", ([ /* sizeof() == 1 */
+  "north" : __DIR__"hole10",
+  "south" : __DIR__"hhole1",
+]));
+set("objects", ([
+      __DIR__"npc/oldman.c":1,
+      ]));
+set("no_transmit", 1);
+  setup();
+}
+int valid_leave(object who, string dir)
+{
+  object oldman;
+  string str;
+ oldman = present("old man", this_object()) ;
+  if( dir == "south" && userp(who) && who->query_temp("quests/acup") != 20) {
+    switch(who->query("gender"))
+    {
+      case "男性":
+        str = "小兄弟";
+        break;
+      case "女性":
+        str = "小妹妹";
+        break;
+      default:
+        str = "神經病";
+    }
+    if(oldman) 
+    return notify_fail(oldman->name() + "說道：這位"+str+"，再往裡面走非常的危險，你不要輕易的嘗試啊。\n");
+    else
+      return notify_fail("你見到再往裡面走，好像有更大的危機會出現，只好駐足不前。\n");
+    return 0;
+  }
+  if(dir =="south" && userp(who) && oldman && oldman->query("no_attack"))
+     return notify_fail(oldman->name() + "說道：再往裡面走非常的危險，你不要輕易的嘗試啊。\n");
+
+  return ::valid_leave(who, dir);
+}
+

@@ -1,0 +1,24 @@
+#include <ansi.h>
+inherit ROOM;
+
+void create ()
+{
+	set ("short", HIG"木靈塔"NOR);
+	set ("long", @LONG
+木靈塔的周圍遍滿了蔓藤的包圍，蔓藤不斷的向周圍生長，且上面
+長滿了可怕的尖刺並不時的朝你這裏衍生了過來，若身上沒有可以克制
+此物的寶物，冒然進塔，將會是充滿了危機。
+LONG);
+
+	set("no_auc", 1);
+	set("no_transmit", 1);
+
+	set("exits", ([ /* sizeof() == 3 */
+	"north"	: __DIR__"manor60",
+	"enter"	: __DIR__"wood/wood01",
+	]));
+
+	set("outdoors", "/open/magic-manor");
+
+	setup();
+}

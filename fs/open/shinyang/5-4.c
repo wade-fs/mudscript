@@ -1,0 +1,24 @@
+// Room: /u/w/whatup/area/shinyang/5-2.c
+inherit ROOM;
+
+void create ()
+{
+  set ("short", "中央大道");
+  set ("long", @LONG
+聯繫襄陽城各處的主要幹道，這裡的一切都為了戰事方便所設計
+，兩邊寬達十呎以上地上鋪滿青石板，可以承受重物資及戰馬的奔馳
+，讓城中的士兵與物資可以在最短的時間用最快的速度到達城中各處
+，四周沒有任何攤販，只有少量民宅，想必也是避免波及老百姓所以
+才在此禁止擺攤開店。
+LONG);
+
+  set("no_transmit", 1);
+  set("exits", ([ /* sizeof() == 2 */
+  "north" : __DIR__"5-5.c",
+  "south" : __DIR__"5-3.c",
+]));
+  set("no_auc", 1);
+  set("outdoors", "/open");
+
+  setup();
+}

@@ -1,0 +1,13 @@
+inherit BULLETIN_BOARD;
+								
+void create()
+{
+	set_name("¥P¼C¬£¯d¨¥ª©",({"gsword board", "board"}));
+set("location","/open/wiz/gswordroom");
+	set("board_id","gsword");
+	set("long",	"¥P¼C¬£¯d¨¥ª©¡C\n");
+	setup();
+	set("capacity", 30);
+	replace_program(BULLETIN_BOARD);
+}
+							

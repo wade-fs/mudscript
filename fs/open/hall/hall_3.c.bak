@@ -1,0 +1,26 @@
+// Room: /u/r/rose/room/hall_3.c
+
+inherit ROOM;
+
+void create()
+{
+        set("short", "總衙大堂");
+	set( "build", 60 );
+        set("long", @LONG
+這裡是總衙升堂的地方，你可以看到無塵大人高坐堂上，正等候著
+升堂。而在他身旁，站著貼身四大護衛。在這裡你的言行舉止要很小心
+，否則輕則苔杖之刑，重則殺身之禍!!
+LONG);
+        set("exits",([
+  "northeast" : __DIR__"h_room4",
+  "south" : __DIR__"hall_2",
+  "northwest" : __DIR__"h_room3",
+  "east" : __DIR__"h_room5",
+  "west":__DIR__"h_room10",
+]));
+        set("objects", ([ /* sizeof() == 1 */
+  "/open/hall/npc/cheng" : 1,
+]));
+
+        setup();
+}

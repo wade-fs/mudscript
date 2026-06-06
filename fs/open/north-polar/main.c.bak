@@ -1,0 +1,27 @@
+inherit ROOM;
+#include <ansi.h>
+
+void create()
+{
+        set("short",HIY"海神殿"NOR);
+	set( "build", 12 );
+        set ("long", @LONG
+抬頭仰望，你竟然發現海水像浮雲般在上空流動著，各海域的
+生物在透過水波的閃閃陽光之中悠閒的游著，種種奇景代表，面前
+這棟古老建築，就是傳說中在遠古時代自地上世界消失的海神殿。
+LONG);
+        set("exits", ([
+	"out"	: __DIR__"room07",
+        ]));
+        set("light", 1);
+	set("no_auc", 1);
+	set("no_transmit",1);
+	set("no_chome",1);
+	set("no_quit",1);
+	set("no_scale",1);
+	set("objects", ([
+           __DIR__"obj/life-stela" : 1,
+        ]));
+        setup();
+
+}

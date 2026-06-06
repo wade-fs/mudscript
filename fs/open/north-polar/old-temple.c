@@ -1,0 +1,139 @@
+//冰原入口 by frequency
+//增加持有瓶子的判斷 by blazakira 2011/9/17
+
+#include <ansi.h>
+inherit ROOM;
+
+void create ()
+{
+  set ("short", "神殿遺址");
+  set( "build", 58 );
+  set ("long", @LONG
+這裡是一處殘破不堪的古代神殿，但是在斷垣殘壁中，似乎
+隱隱散發一股不祥的氣息，彷彿有什麼邪惡的東西潛伏在這裡的
+樣子，面前的神桌上擺著一個破舊的瓶子(bottle)...
+LONG);
+
+  set("exits", ([
+    "south"  : "/open/main/room/p1",
+  ]));
+  set("outdoors", "/open/main");
+  set("item_desc", ([ 
+    "bottle" : "一個雕工細膩的水瓶，看得出來是瓶中極品，然而奇怪的是，瓶口貼了紙條(paper)。\n",
+    "paper"  : "紙條上畫有一些奇怪的圖形和文字，你直覺的認為這文字並不屬於這個世界...\n",
+  ]));
+  set("search_desc", ([ 
+    "paper"  : "這張紙條似乎快要脫落了，一股奇異的意識促使你非常想將他撕下，要將它撕下嗎(tear)。\n",
+  ]));
+
+  setup();
+}
+
+void init()
+{
+  add_action("do_tear","tear");
+}
+
+int do_tear(string arg)
+{
+  object me,ob;
+  me = this_player();
+  ob = this_object();
+  if( present("god-bottle",me) ) {
+    message_vision("$N已經撕過了。\n"NOR,me);
+  }
+  else if(!ob->query("release"))
+  {
+    if(arg == "paper")
+    {
+      tell_object(users(),HIY"\n海皇"HIC"囂張的狂笑道：
+                       『"HIW"哈哈哈哈哈～  低能的"+me->query("name")+"，竟將本皇由千年封印之中解放出來，
+                         我要再度實現洗淨地上世界的野望，天底下所有雜種炎黃後裔聽好了，
+                         七天後，我將水淹人間，你們洗淨脖子等著接受海的制裁吧!!"HIC"』\n\n"NOR);
+      me->start_busy(50);
+      ob->set("release",1);
+      call_out("go_north1",5,me);
+    } else {
+      return 0;
+    }
+  } else {
+    message_vision("封條已經被撕下了。\n"NOR,me);
+  }
+  return 1;
+}
+
+int go_north1()
+{
+  object me,*ppl;
+  int i,j;
+  me = this_player();
+  ppl = all_inventory(environment(me));
+  j = sizeof(ppl);
+  message_vision(HIW"突然，一陣大水襲來，將附近所有東西完全淹沒，$N下意識的抓住了瓶子。\n"NOR,me);
+  new(__DIR__"obj/bottle")->move(me);
+  me->unconcious();
+  for (i=0 ; i < j ; i++)
+  {
+    if(userp(ppl[i]))
+    ppl[i]->start_busy(5);
+  }
+  call_out("go_north2",5,me);
+  return 1;
+}
+
+int go_north2(object me)
+{
+  object g1,g2,g3,g4,g5,g6,g7,*ppl;
+  int i,j;
+  me->revive();
+  ppl = all_inventory(environment(me));
+  j = sizeof(ppl);
+  g1 = new(__DIR__"npc/double-dragon");
+  g2 = new(__DIR__"npc/tiger");
+  g3 = new(__DIR__"npc/ghost-fish");
+  g4 = new(__DIR__"npc/sea-girl");
+  g5 = new(__DIR__"npc/sea-dragon");
+  g6 = new(__DIR__"npc/sea-horse");
+  g7 = new(__DIR__"npc/sea-snake");
+  g1->move(__DIR__"main");
+  g2->move(__DIR__"main");
+  g3->move(__DIR__"main");
+  g4->move(__DIR__"main");
+  g5->move(__DIR__"main");
+  g6->move(__DIR__"main");
+  g7->move(__DIR__"main");
+  me->move(__DIR__"main");
+  for (i=0 ; i < j ; i++)
+  {
+    if(userp(ppl[i]))
+    ppl[i]->move(__DIR__"main");
+  }
+  message_vision(HIR"\n"+g1->query("name")+"冷笑道："HIB"『"HIC"因為$N幫助海皇大人脫離封印，所以他別吩咐將$N帶來這邊，
+                免得$N在七日後遭到海水清洗，好自為之吧。"HIB"』"HIW"
+              
+              
+"+g2->query("name")+"說道："HIB"『"HIY"千萬別想與海皇大人為敵，即便較海皇大人次一等的我們七海神，也遠遠凌駕你們所有人類之上。"HIB"』
+   "HIM"
+   
+"+g5->query("name")+"說道："HIB"『"HIG"人類就算再強再怎努力修練，在神的面前終究還是不堪一擊的，記住了..."HIB"』
+              
+              
+              "NOR,me);
+  destruct(g1);
+  destruct(g2);
+  destruct(g3);
+  destruct(g4);
+  destruct(g5);
+  destruct(g6);
+  destruct(g7);
+  me->delete_busy();
+  this_object()->set("release",1);
+  call_out("rb",500,this_object());
+  return 1;
+}
+
+int rb()
+{
+  this_object()->delete("release");
+  return 1;
+}

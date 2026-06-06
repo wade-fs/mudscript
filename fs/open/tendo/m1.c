@@ -1,0 +1,27 @@
+// Room: /d/oldpine/epath2.c
+
+inherit ROOM;
+
+void create ()
+{
+	set ("short", "道路");
+	set( "build", 21 );
+  set ("long", @LONG
+走到這裡,你已漸漸遠離人跡,走在寬廣的蜀州盆地上,卻讓
+你有一種蒼茫的感覺,道路在此通向北方或南方。南方是蜀中城
+而西北方則是道家的發源地崑崙。
+LONG);
+
+  set("objects", ([ /* sizeof() == 1 */
+  "/open/main/obj/torch" : 1,
+]));
+
+  set("outdoors", "/open/gsword");
+
+  set("exits", ([ /* sizeof() == 2 */
+"north" : "/open/tendo/m2",
+"south" : "/open/gsword/room/froad3",
+]));
+
+  setup();
+}

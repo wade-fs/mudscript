@@ -1,0 +1,43 @@
+inherit ROOM;
+#include <ansi.h>
+void create()
+{
+set("short","試煉塔二十樓");
+set("long",@LONG
+
+這裡的強度顯然比起下面樓層來的強許多，已具有一般級的水準，
+看來如果沒有『代理師傅』師傅級的水準，似乎無法順利的通過考
+驗。
+
+LONG);
+set("exits",([
+"up":__DIR__"up20-1",
+"south":__DIR__"busy_room20",
+]));
+set("no_die_room",1);
+set("light_up",1);
+set("no_transmit",1);
+set("no_auc", 1);
+set("objects",([
+__DIR__"obj/robot20":1,
+]));
+setup();
+}
+int valid_leave(object me,string dir)
+{
+if(dir=="up")
+{
+int check=me->query("quest/start_game");
+if(check<21)
+{
+tell_object(me,HIR"系統：你的晶片資料不足以通往樓上。\n"NOR);
+return 0;
+}
+{
+message_vision(HIW"系統：讀取"+me->query("name")+"ソ晶片，通過。\n"NOR,me);
+return 1;
+}
+}
+if(dir=="south")
+return 1;
+}

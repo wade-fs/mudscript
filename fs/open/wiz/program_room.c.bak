@@ -1,0 +1,26 @@
+// Room: /open/wiz/program_room.c
+
+inherit ROOM;
+
+void create ()
+{
+  set ("short", "巫師程式設計心得討論室");
+  set ("long", @LONG
+這裡是提供巫師討論程式寫作心得的地方﹐由於大家湧躍參與,
+有問題最好能自己從例子裡找出解法, 或者從 /doc 下找出來, 最
+快的方法則是問線上的巫師, 或者找自己老闆(誰叫他要收你), 或
+者在這個版看看, 也許就有解答, 如果沒有, 再 post 問, 相信很
+快就能獲得答復. 另外, 在大神菠蘿麵包的家裡也有許多範例可以
+供您參考, 請自行前往參觀比較.
+LONG);
+
+  set("exits", ([ /* sizeof() == 1 */
+  "north" : "/open/wiz/hall1",
+]));
+
+  set("no_clean_up", 0);
+
+
+  setup();
+  call_other("/obj/board/program_b", "????");
+}

@@ -1,0 +1,28 @@
+// Room: /u/e/eiei/work/troom3a.c
+inherit ROOM;
+
+void create ()
+{
+  set ("short", "林間小路");
+	set( "build", 40 );
+  set ("long", @LONG
+    這裡的樹木長的特別的茂盛，以至於要分清楚小徑
+    通往的方現更加不容易，不過也因為地理環境的因素，
+    聽說這個樹林裡生長著某些對於醫療有特殊療效的藥草
+    。
+LONG);
+
+  set("exits", ([ /* sizeof() == 3 */
+/*
+  "west" : __DIR__"troom_3a1.c",
+*/
+  "east" : __DIR__"troom_3a_1.c",
+  "westdown" : "/open/snow/room/troom_3",
+]));
+     set("objects",([
+     "/open/snow/npc/teacher.c": 1,
+]));
+  set("outdoors", "/u/e/eiei");
+
+  setup();
+}

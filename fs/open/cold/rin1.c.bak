@@ -1,0 +1,26 @@
+// Room: /u/c/chhu/workroom.c
+#include "../cold.h"
+
+inherit ROOM;
+
+void create()
+{
+	set("short","行宮正廳");
+	set("long", @LONG
+這裡是行宮的正廳﹐由於寒谷一派的弟子一向過著規律的生活
+﹐每天一大早﹐所有弟子都要在這裡集合﹐然後﹐在總教師教授完
+技法之後﹐再一起到「勸修園」去練習。
+
+LONG
+	);
+	set("exits", ([ /* sizeof() == 2 */
+	"west":COLD_ROOM"rin3",
+	"east":COLD_ROOM"rin2",
+	"north":COLD_ROOM"rin4",
+	"out":COLD_ROOM"right3",
+]));
+	set("objects",([
+	]));
+	setup();
+	replace_program(ROOM);
+}

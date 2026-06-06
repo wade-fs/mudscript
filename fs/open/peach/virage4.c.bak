@@ -1,0 +1,21 @@
+// Room: /u/w/whatup/peach/virage4
+inherit ROOM;
+
+void create ()
+{
+  set ("short", "桃花源市場");
+  set ("long", @LONG
+原本該是熱鬧的市集，卻是只有零零落落的幾個攤販，一旁還有
+許多空的攤位，幾個小販聚在一起交頭接耳，對著你指指點點，看來
+這個地方並不歡迎你的到訪，但是卻引起你的好奇心，到底這個村子
+發生了什麼事，為何對外地人不友善。
+LONG);
+
+  set("outdoors", "/u/b");
+  set("exits", ([ /* sizeof() == 2 */
+  "north" : __DIR__"virage5.c",
+  "south" : __DIR__"virage3.c",
+]));
+
+  setup();
+}

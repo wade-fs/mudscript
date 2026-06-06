@@ -1,0 +1,19 @@
+// Room: /open/hall/h_room5.c
+inherit ROOM;
+
+void create()
+{
+        set("short","花廳走道");
+        set("long",@LONG
+這裡是花廳前的走道，在這可以隱約地聽見花廳裡的喧鬧聲～～
+這兒和其他走廊一比，顯的華麗多了！由樟木精製的樑柱，散發出陣陣
+優雅的淡淡香氣，令人心情為之一振。
+LONG);
+        set("exits",([
+  "west":__DIR__"hall_3",
+  "north":__DIR__"h_room4",
+  "east":__DIR__"h_room6",
+]));
+
+        setup();
+}

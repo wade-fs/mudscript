@@ -1,0 +1,24 @@
+// by roger && taifar
+inherit ROOM;
+#include <ansi.h>
+#include "wind-rain.h"
+void create () {
+set ("short","迴廊");
+set ("long", @LONG
+沁芳澆鶴，流雲於上，只見許多異草，或有牽藤的，或有引蔓的，
+或穿石腳或依相彼，甚至垂簷繞柱，縈砌珠萃。樺杏雜掩，遮天敝
+日，淒沚之水涓涓潺潺攀藤撫樹穿花度葉而過。上則蘿薜倒掛，下
+則落華浮蕩，如入武陵桃花，紅塵不染。
+LONG);
+
+
+
+  set("exits", ([
+            "east"   : __DIR__"46",
+            "west"   : __DIR__"44",
+                ]));
+
+       
+
+        setup();
+}

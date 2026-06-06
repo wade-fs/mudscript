@@ -1,0 +1,25 @@
+// Room: /u/c/chhu/workroom.c
+#include "../cold.h"
+
+inherit ROOM;
+
+void create()
+{
+	set("short","蘆格小徑");
+	set("long", @LONG
+由寒谷的西側神殿再向西行來到這裡「蘆格小徑」﹐在這裡﹐你可以
+看到寒谷中另一奇特景象「蘆格」﹐在西面的峭壁上有著成千上外的小
+格子﹐相傳是寒谷一派開山祖師練習仙法所留下的奇景﹐後人稱之為「
+蘆格」。
+
+LONG
+	);
+	set("exits", ([ /* sizeof() == 2 */
+	"east":COLD_ROOM"left2",
+	"northwest":COLD_ROOM"left5",
+]));
+	set("objects",([
+	]));
+	setup();
+	replace_program(ROOM);
+}

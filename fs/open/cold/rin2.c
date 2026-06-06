@@ -1,0 +1,26 @@
+// Room: /u/c/chhu/workroom.c
+#include "../cold.h"
+
+inherit ROOM;
+
+void create()
+{
+	set("short","東廂房");
+	set("long", @LONG
+這裡是東側廂房﹐裡頭住的是寒谷弟子中資歷較淺者﹐
+由於寒谷一派只收年輕美貌的女子﹐所以﹐來到這﹐你不禁
+大歎一生﹐在這裡﹐個個都是美若天仙、有頃國頃城姿色的
+絕世美女。
+
+LONG
+	);
+	set("exits", ([ /* sizeof() == 2 */
+	"west":COLD_ROOM"rin1",
+]));
+	set("objects",([
+	COLD_NPC"trainee5":1,
+	COLD_NPC"trainee6":1,
+	]));
+	setup();
+	replace_program(ROOM);
+}

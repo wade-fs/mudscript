@@ -1,0 +1,23 @@
+//天子 eq
+inherit EQUIP;
+#include <ansi.h>
+void create()
+{
+          set_name(HIG"寶蓮靴"NOR, ({ "girl boots" ,"boots" }) );
+        set_weight(500);
+        if( clonep() )
+                set_default_object(__FILE__);
+        else {
+                  set("long","王母賜給太后及皇后的寶靴，由天池中的蓮花編織而成。\n");
+                set("unit", "雙");
+                set("value", 80000);
+                set("material","leather");
+                set("material", "boots");
+                set("armor_type", "boots");
+                set("armor_prop/armor",6);
+                set("armor_prop/dodge",6);
+                set("armor_prop/move",6);
+                setup();
+
+        }
+}

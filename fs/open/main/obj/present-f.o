@@ -1,0 +1,21 @@
+#include <weapon.h>
+#include <ansi.h>
+inherit STABBER;
+void create()
+{
+        set_name(HIW"留香扇"NOR,({"ancient fan","fan"}) );
+        set_weight(40000);
+        if( clonep() )
+                set_default_object(__FILE__);
+        else {
+        set("long","相傳是盜帥"HIW"楚留香"NOR"遺留下來的扇子,扇上還有他的真蹟.\n");
+        set("unit","把");
+        set("value", 30000);
+        set("material","blacksteel");
+                  set("armor_prop/stabber",10);
+        }
+        init_stabber(120);
+        set("wield_msg", "$N從懷中把扇子掏出來, 扇上有"HIW"楚留香"NOR"三個大字.\n");
+        set("unwield_msg", "$N把扇子合上, 小心的收到懷裡.\n");
+        setup();
+}

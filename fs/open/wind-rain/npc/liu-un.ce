@@ -1,0 +1,182 @@
+// by roger
+inherit NPC;
+#include <ansi.h>
+string ask_lee();
+string ask_ball();
+
+void create() {
+        
+        set_name("楚流雲",({"liu-un"}));
+        set("long",@LONG
+長期跟在金風細雨樓樓主身邊接受指導, 
+從一無是處的小毛頭蛻變成了絕世高手, 
+他的身上還有許多的秘密.
+LONG);
+        set("age",17);
+        set("str",30);
+        set("int",30);
+        set("spi",30);
+        set("cor",30);
+        set("kar",30);
+        set("cps",30);
+        set("race","人類");
+        set("gender","雄性");
+        set("attitude","peaceful");
+        set("class","fighter");
+        set("max_gin",3000);
+        set("max_kee",4500);
+        set("max_sen",3000);
+        set("max_force",5000);
+        set("force",5000);
+        set("force_factor",20);
+        set("combat_exp",1000000);
+        set_skill("blade",100);
+        set_skill("dodge",100);
+        set_skill("lo-steps",100);
+        set_skill("move",100);
+        set_skill("parry",100);
+        set_skill("wind-rain",100);
+        set_skill("literate",150);
+        set_skill("sand-blade",100);
+        set_skill("force",150);
+        map_skill("blade","sand-blade");
+        map_skill("dodge","lo-steps");
+        map_skill("parry","wind-rain");
+        map_skill("move","lo-steps");
+        set("clan_kill",1);
+        set("chat_chance", 10);
+        set("chat_msg", ({
+        "\n楚流雲說 : 魔刀門把我全家人都殺光了,此仇不共戴天!!\n",
+        "\n楚流雲說 : 我的救命恩人就是總樓主，水寒星大哥\n",
+        "\n楚流雲說 : 林靜詩姊姊好漂亮喔:D~~\n",
+        "\n楚流雲說 : 情刀枕夢，心筆嘆憶。說的是李夢枕大哥和林靜詩姊姊\n",
+        "\n楚流雲說 : 我的家族兩代前是住在西域的\n",
+        }) );
+        set("inquiry",([
+        "李夢枕"   :  (: ask_lee :),
+        "連陽劍晶珠" : (: ask_ball :),
+        "夜千鳥晶珠" : (:ask_ball:),
+        "麗玉蝶蘭晶珠" : (:ask_ball:),
+
+        ]));
+        setup();
+        carry_object("/open/wind-rain/obj/bird-blade")->wield();
+        add_money("gold",10);
+ }
+
+
+void heart_beat()
+{
+ object env,mob,*enemy,target;
+ int i,j;
+
+ mob = this_object(); 
+ env = environment(mob);
+ 
+ if( !query("wield") )
+ {
+   set("wield",1);
+   command("wield all");
+ }
+ mob->delete_busy();
+ if( random(100) < 20 && mob->is_fighting())
+ {
+    enemy=mob->query_enemy();
+    i=sizeof(enemy);
+      message_vision(HIW"\n
+$N亂舞手中長刀，刀氣開始颳起風沙石塵，黃色的霧逐漸瀰漫開來
+將$N隱在其中，倏然一式"HIY"『駱行千步歸  風沙舞翩翩』"HIW"黃沙雜混著
+激烈而灼熱的刀氣，毫無紋理可尋地向四處圍竄
+\n"NOR,mob);
+ for(j=0;j < i;j++){
+    target=enemy[j];
+    if( env == environment(target) )
+    {
+      target->receive_damage("kee",350);
+      COMBAT_D->report_status(target, 1);
+    }
+                   }
+ }  
+   set_heart_beat(1);
+   ::heart_beat();
+   
+}
+
+
+void die()                                                                 
+{    
+	object winner = query_temp("last_damage_from");
+	int j;
+        if(!winner)
+	{
+	::die();
+	return ;
+        }
+    if(userp(winner) && winner->query_temp("not_robot") > 1 )
+    {
+	if ( winner->query_temp("bless")==1 )
+	{
+	j=random(-1);
+	  if( j==7 || j==77 || j== 777 || j==1111 || j==55 || j==555 || j==1000 || j==4000 || j==3333 || j==2222 )
+	  {      
+	  new("/open/sky/obj1/cloud_emblem")->move(environment(winner));
+	  message_vision(HIM"\n從楚流雲的身上掉下了一件奇怪的東西!!\n"NOR,winner);
+          write_file("/log/sky/obj1/cloud_emblem",sprintf("%s(%s) 讓楚流雲掉下了雲之紋章於 %s\n",
+	  winner->name(1),winner->query("id"),ctime(time())));
+	  }
+	}else{
+	j=random(-1);
+	  if( j==5 || j==15 || j== 150 || j==1500 || j==10 || j==100 || j==1000 || j==4000 || j==6666 || j==7777 ) 
+	  {      
+	  new("/open/sky/obj1/cloud_emblem")->move(environment(winner));
+	  message_vision(HIM"\n從楚流雲的身上掉下了一件奇怪的東西!!\n"NOR,winner);
+          write_file("/log/sky/obj1/cloud_emblem",sprintf("%s(%s) 讓楚流雲掉下了雲之紋章於 %s\n",
+	  winner->name(1),winner->query("id"),ctime(time())));
+	  }
+	}
+	}
+	::die();                                                           
+}
+string ask_lee()
+{
+ if(!this_player()->query_temp("swordtime"))
+ {
+  return ("嗯....這我可不清楚﹐你最好問問別人吧。");
+  }
+ else
+  {
+  if (this_player()->query("class")=="swordsman")
+  {
+    return ("李夢枕大哥是金風細雨樓樓主﹐不過先前聽他說有件重要的事情要做﹐因此他就離開了﹐至今未回!!");
+   }
+else return ("嗯....這我可不清楚﹐你最好問問別人吧。");
+ }
+
+}
+string ask_ball()
+{
+ if(!this_player()->query_temp("swordtime"))
+ {
+  return ("對不起﹐你問的事我實在沒有印象。");
+  }
+ else
+  {
+  if (this_player()->query("class")=="swordsman" && this_player()->query_temp("swordquest/findball")==1)
+    {
+    this_player()->set_temp("swordquest/findball",2);
+    return ("嗯....這我可不清楚﹐你最好問問別人吧。");
+   }
+  else if (this_player()->query("class")=="blademan" && this_player()->query_temp("swordquest/findball")==5)
+    {
+    this_player()->set_temp("swordquest/findball",6);
+    return ("因為我手上的夜千鳥會吸引其晶珠﹐因此晶珠曾回到我這過﹐但隨即馬上又飛往蜀山去了﹐最近蜀山常常發出異光﹐我想應該在那沒錯。");
+   }
+  else if (this_player()->query("class")=="scholar" && this_player()->query_temp("swordquest/findball")==2)
+    {
+    this_player()->set_temp("swordquest/findball",3);
+    return ("當靈筆還在林靜詩姊姊身上時﹐大理段王爺曾命人將麗玉蝶蘭晶珠送回給林靜詩姊姊﹐然而在林靜詩姊姊留下麗玉蝶蘭離開金風細雨樓後﹐該晶珠也就不知道到哪去了。");
+   }
+
+else return ("對不起﹐你問的事我實在沒有印象。");
+ }
+}

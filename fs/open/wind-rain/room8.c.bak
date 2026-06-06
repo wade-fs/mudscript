@@ -1,0 +1,25 @@
+// by roger
+inherit ROOM;
+#include <ansi.h>
+#include "wind-rain.h"
+void create () {
+set ("short","芙蓉湖畔");
+set ("long", @LONG
+    市肆有一老人，一個少女正在賣藝，那老人臉上的蒼桑，眼裡流露出
+對少女的關注，那少女微笑時的風情，髮上青巾裊動著。街上人來人往，
+熙熙攘攘，熱鬧非凡。岸上楊柳，隨風搖曳，垂拂波心，遙遠翠峰巒疊，
+白塔映江，碧雲藍天，晨光如晝。眼前不遠處就是湖的盡頭，也接近了「
+金風細雨樓」。
+LONG);
+
+
+
+  set("exits", ([
+            "east"  : __DIR__"room7",
+            "west"  : __DIR__"room9",
+                ]));
+
+       
+
+        setup();
+}

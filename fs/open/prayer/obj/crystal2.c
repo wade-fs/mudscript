@@ -1,0 +1,38 @@
+//渾天水晶(第六層玄混沌心法)
+
+inherit ITEM;
+
+void create()
+{
+        set_name("黑水晶", ({ "black-crystal","crystal" }));
+        set("title", "渾天心法之");
+        set_weight(500);
+        if( clonep() )
+          set_default_object(__FILE__);
+        else
+        {
+          set("unit", "根");
+          set("long","這是一根會發光的黑色水晶, 裡面刻有渾天寶鑑第六層玄混沌心法的練功\口訣。\n");
+          set("value", 600);
+          set("material", "gem");
+          set("no_drop", 1);
+          set("no_get", 1);
+          set("no_sell", 1);
+          set("no_auc", 1);
+          set("no_give", 1);
+          set("skill", ([
+          "name" : "superforce",  // name of the skill
+          "exp_required" :  150000,     // to learn this skill.
+          "sen_cost" : 25,              // gin cost every time study this
+          "difficulty" : 25,             // modify is gin_cost's (difficulty - int)*5%
+          "max_skill":  80
+          ]) );
+        }
+}
+
+int valid_learn(object me)
+{
+        if(me->query("family/family_name")!="聖火教")
+          return -1;
+        return 1;
+}

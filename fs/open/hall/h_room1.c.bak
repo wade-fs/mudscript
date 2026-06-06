@@ -1,0 +1,22 @@
+// Room: /open/hall/h_room1.c
+
+inherit ROOM;
+
+void create()
+{
+        set("short", "捕快的廂房");
+        set("long", @LONG
+這裡是一個大通舖，看樣子能夠裝的下四、五十人。你見到許多捕
+快在裡頭晃來晃去，一副吊兒啷當的樣子，令人有股想『電』他們的慾
+望!!
+LONG);
+
+        set("exits", ([ /* sizeof() == 1 */
+  "east" : __DIR__"way3",
+]));
+
+  set("objects", ([ /* sizeof() == 1 */
+  __DIR__"npc/soldier" : 3,
+]) );
+        setup();
+}

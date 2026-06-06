@@ -1,0 +1,147 @@
+inherit ITEM;
+#include <ansi.h>
+#include "../../open.h"
+
+
+
+void create()
+{
+  set_name( "[0;1;5;33mÂ[1;5m|[0m" ,({"jug"}));
+  set("long","³o­ÓÂ|¬°¤d¦~ª÷¿j©Ò»s ,¬Ý¨Ó«D±o§ä¤@§â¯«§L§Q¾¹¤~¯à±N¥¦¥´(break)¶}¡I
+Ãø¤£¦¨¸Ì­±ÂÃµÛ¶Ç»¡¤¤¦ºÆF°©Å]ªº¬ÃÂÃÄ_ª«¡H \n");
+  set("unit","­Ñ");
+  set_weight(1000000);
+  set("value",10000);
+  setup();
+}
+
+void init()
+{
+         add_action("do_break","break");
+}
+
+int do_break(string str)
+{
+  if (!str || str != "jug")
+    return notify_fail("§A­n¥´¶}¤°»ò ?\n");
+  if (!present("et-sword",this_player()) ||
+      !present("dragon blade",this_player()))
+  {
+    return notify_fail("¥ý§ä¨ì±OÀs¤M©M­Ê¤Ñ¼C¦A»¡§a¡I\n");
+  }
+  if (!this_player()->query_temp("ghost-quest/cankill-king"))
+    return notify_fail("§A¤S¨S°Ñ¤©ª§°Q¦ºÆF°©Å]ªº¦æ°Ê¡C\n");
+  if (this_player()->query_temp("break-jug"))
+    return notify_fail("§A¥¿¦b¯}Â|¡C\n");
+  message_vision(HIW"\n\n$N¤j³Ü¤@Án¡A¥k¤â«ùµÛ"HIY"±OÀs¤M"HIW"¡A¥ª¤â´¤µÛ"HIC"­Ê¤Ñ¼C"HIW"®ð¶Õ¸U¤dªº©¹²°¤l¤@¬å¡I\n",this_player() );
+  message_vision(HIY"±OÀs¤M"HIW"»P"HIC"­Ê¤Ñ¼C"HIW"¿Ä¦XªºÅQ®ðÀ»¦V¤d¦~ª÷¿j¡A°nµo¥X¥O¤H¨ë²´ªº¥ú¨~¡C\n\n"NOR,this_player());
+  this_player()->set_temp("break-jug",1);
+  call_out("do_gift",2,this_player());
+  return 1;
+}
+
+// wade 2002-12-20 ¿ú·|¤£·|µ¹¤Ó¦h¤F°Ú¡I
+// kalin: ha!ha! ¬Ý¥L¹B®ðÅo~ 
+int do_gift(object ob)
+{  
+  int g,c,d,i,j;
+  object cash,gold,diamond,gift1,gift2,gift3,gift4,gift5,gift6,gift7,gift8,gift9,gift0,gift10;
+  object gift11,gift12,gift13;
+  // wade 2002-12-20 «ç»òÁÙ³Ð³y¥X¦Û¤v¡H¬O¤£¬O¼g¿ù¤F¡H
+  // kalin: shake..¦]¬°¼È®É§ä¤£¥XÂ§ª«¡A©Ò¥H¥ý¥Î¦Û¤v´À¥N  
+
+  gift0=new("/open/ghost-hole/obj/eq/ghost-cloak");
+  gift1=new("/open/ghost-hole/obj/eq/ghost-armband");
+  gift2=new("/open/ghost-hole/obj/eq/ghost-boots");
+  gift3=new("/open/ghost-hole/obj/eq/ghost-armor");
+  gift4=new("/open/ghost-hole/obj/eq/ghost-gem");
+  gift5=new("/open/ghost-hole/obj/eq/host-gloves");
+  gift6=new("/open/ghost-hole/obj/eq/ghost-helmet");
+  gift7=new("/open/ghost-hole/obj/eq/ghost-leggings");
+  gift8=new("/open/ghost-hole/obj/eq/ghost-pants");
+  gift9=new("/open/ghost-hole/obj/eq/ghost-ring");
+  gift10=new("/open/ghost-hole/obj/eq/ghost-shield");
+  gift11=new("/open/ghost-hole/obj/eq/ghost-belt");
+  gift12=new("/open/ghost-hole/obj/eq/ghost-king-tooth");
+
+  
+  // wade 2002-12-20 ¥i¥H§ï¥Î set_amount->(20) ªº¤è¦¡¤ñ¸û§Ö¡C
+  /*
+  for (i=1; i<=20; i++) {
+    gold = new("/obj/money/gold")->move("/open/ghost-hole/g-s06");
+  }
+  */
+  gold = new("/obj/money/gold");
+  gold->set_amount(1000);
+  gold->move("/open/ghost-hole/g-s06");
+
+  cash = new("/obj/money/cash");
+  cash->set_amount(100);
+  cash->move("/open/ghost-hole/g-s06");
+
+  diamond = new("/obj/money/diamond");
+  diamond->set_amount(1);
+  diamond->move("/open/ghost-hole/g-s06");
+
+  message_vision(HIY""BMAG
+    "\n\nÃôón¡IÂ|¹y®É¸Hµõ¡A¤Û¤Æ¦¨µL¼Æ¹D¥ú¨~....¤@®É¤§¶¡¡A§A²´«e¥X²{¶À¼á¼áªº¤@¤ù¡A"
+    "ª÷»È°]Ä_´N¹³¬O¤@°ï¶Àª÷¤s¤@¼Ë¡A¸ÌÀYÁÙ°ÑÂøµÛ¤@¨ÇÄ_ª«¡C\n"NOR,this_player()); 
+
+// wade  2002-12-20 §Ú¥ý®³±¼°Õ¡A¤£µM·|¤@ª½¥X²{¡uÂ|¡v¡A¦n©_©ÇªºÃ¹¿è
+//       ¦ý¬O­n§t¨ä¥LªF¦è­ËµL¤£¥i¡A©ÎªÌ¡A¤U¤@­Ó¥X²{ªºÂ|´N¤£­n¦A¥X²{¿ú¤F§a¡I
+// kalin 2002-12-21 §Ú¤S«ì´_¤F¡A¦]¬°¤£¬O­nµ¹Â|¡A¨º¬O¼È®É·Q¤£¥XÂ§ª«¡A¥ý
+// ¡@¡@¡@ ®³Â|´À¥N
+
+  j=random(13);   
+  switch (j) {
+    case 0:
+      gift0->move("/open/ghost-hole/g-s06");
+      break; 
+    case 1:
+      gift1->move("/open/ghost-hole/g-s06");
+      break;
+    case 2:
+      gift2->move("/open/ghost-hole/g-s06"); 
+      break;    
+	case 3:
+      gift3->move("/open/ghost-hole/g-s06");
+      break;
+	case 4:
+      gift4->move("/open/ghost-hole/g-s06");
+      break;
+    case 5:
+      gift5->move("/open/ghost-hole/g-s06");
+      break; 
+    case 6:
+      gift6->move("/open/ghost-hole/g-s06");
+      break; 
+    case 7:
+      gift7->move("/open/ghost-hole/g-s06");
+      break; 
+    case 8:
+      gift8->move("/open/ghost-hole/g-s06");
+      break; 
+    case 9:
+      gift9->move("/open/ghost-hole/g-s06");
+      break; 
+	case 10:
+      gift9->move("/open/ghost-hole/g-s06");
+      break; 
+    case 11:
+      gift1->move("/open/ghost-hole/g-s06");
+      break;
+    case 12:
+      gift2->move("/open/ghost-hole/g-s06"); 
+      break;    
+
+  }
+
+  // wade 2002-12-20 ¥»¨Ó¬O·Q¼g¦¨¥´¯}ªºÂ|¡A¦ý¬O¨Ã¤£»Ý­n¡A
+  //      ¦]¬°¥¦¥»¨­¬Oª÷¿j©Ò»s¡A¥´¯}ÅÜ¥XªF¦è«á¡A¥»¨­À³¸Ó´N­n®ø¥¢
+/*
+  set_name( "[0;1;5;33m¯}±¼ªºÂ[1;5m|[0m" ,({"broken jug", "jug"}));
+  set("long",break_long);
+*/
+  this_player()->delete_temp("break-jug");
+  destruct(this_object());
+}

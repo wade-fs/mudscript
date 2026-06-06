@@ -1,0 +1,46 @@
+#include <ansi.h>
+inherit NPC;
+
+void create()
+{
+        set_name("一袋弟子",({"beg one beggar","beggar","beg","one"}));
+        set("long","他是丐幫的弟子\n");
+        set("gender","男性");
+        set("class","beggar");
+        set("combat_exp",10000);
+        set("attitude","friendly");
+        set("age",40);
+        set("str", 20);
+        set("cor", 40);
+        set("cps", 30);
+        set("per", 35);
+        set("spi", 20);
+        set("con", 30);
+        set("int", 30);
+        set("kar", 30);
+        set("max_gin",800);
+        set("gin", 800);
+        set("max_kee",1000);
+        set("kee",1000);
+        set("max_sen", 1000);
+        set("sen", 1000);
+        set("force",500);
+        set("max_force",500);
+        set_skill("staff",30);
+        set_skill("pkdog-staff",10);
+        map_skill("staff","pkdog-staff");
+        set_skill("force",30);
+        set_skill("pkdog-force",10);
+        set_skill("pkdog-force",30);
+        map_skill("force","pkdog-force");
+        set("force_factor",3);
+setup();
+carry_object("/open/beggar/obj/staff.c")->wield();
+}
+
+
+
+
+
+
+

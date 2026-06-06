@@ -1,0 +1,228 @@
+inherit NPC;
+#include <ansi.h>
+#include <combat.h>
+#include "/open/open.h"
+string do_thief();
+string ask_test();
+void create()
+{
+	set_name("¬öµL¹Ð", ({ "chi wu-cheng","chi", "cheng" }) );
+	set("title", "Á`²z°õ¨Æ");
+        set("nickname", "[1;34m¨[36mÊ[34m«[36m°[34m¤[36m§[34m¥[36mú[0m");
+    set("class","swordsman");
+	set("gender", "¨k©Ê" );
+	set_max_encumbrance(1000000);
+	set("age", 46);
+	set("str", 20);
+	set("cor", 20);
+	set("cps", 20);
+	set("int", 30);
+	set("spi", 20);
+	set("kar", 26);
+	set("per", 20);
+	set("con", 30);
+
+	set("max_force", 2000);
+	set("force", 2000);
+	set("force_factor", 5);
+
+	set("long", @LONG
+    ¤HºÙ¡y¨Ê«°¤§¥ú¡z¡A¤H»¡¨äÂ_®×¦p¯«¡A¨M¤£«à¨pÎA¥B¡C©Ò¥H³o¸Ìªº
+¦Ê©m³£«Ü·q·R¥L¡C¤]¦]¬°¥Lªº¥\ÁZ½÷·×¡A¥ý¬Ó¯S½ç¨ä¤@¬`©|¤èÄ_¼C¡A­ã
+¨ä±N´cºDº¡¬Õ¤§¤H¡A¥ý±Ù«á«µ!!
+LONG);
+
+	set("combat_exp",500000);
+	set("score", 30000);
+
+	set("chat_chance_combat", 50);
+	set("chat_msg_combat", ({
+	"µL¹Ð¤j¤H³Ü¹D¡G¤jÁx¨g®{!!  ®³¤U!!\n",
+	"µL¹Ð¤j¤H³Ü¹D¡G¤½°ó¤§¤W³º´±¼»³¥!!  µ¹§ÚÄYÃg!!\n"
+	}) );
+
+	set_skill("unarmed", 30);
+	set_skill("force",  20);
+	set_skill("parry",  20);
+	set_skill("dodge",  20);
+	set_skill("sword",  20);
+	set_skill("literate", 90);
+
+	set("inquiry", ([
+	  "¾÷¾¹¤H" : "­ó!! ½Ö³Q§Ú§ì¨ì¬O¾÷¾¹¤Hªº¸Ü¡A±Ù¥ß¨M!!",
+       "¸Õ·Ò¦L°O" : (:ask_test:),
+	  "accuse" : "·Q½r®·¾÷¾¹¤Hªº¸Ü¡A½Ð¥ý¨ìªù¤fÀ»¹ª¥Ó­Þ(accuse)¡C",
+	  "thief"  : (: do_thief :),
+	  "´ú¸Õ"   : "·Q§ì¸é(thief)´N±o¥ý¸g¹L§Ú´ú¸Õ, ­Y¯à³s±µ§Ú¤­©Û«Kºâ¹LÃö¤F¡C",
+	  "test"   : "·Q§ì¸é(thief)´N±o¥ý¸g¹L§Ú´ú¸Õ, ­Y¯à³s±µ§Ú¤­©Û«Kºâ¹LÃö¤F¡C",
+	  "accept" : "­n±µ¨ü´ú¸Õ¶Ü? ¨º´N¥´(accept test)¡C",
+	]) );
+
+	setup();
+	carry_object(HALL_NPC"obj/god_sword")->wield();
+	carry_object(HALL_NPC"obj/o_cloth")->wear();
+}
+
+string do_thief()
+{
+	object me=this_player();
+    if( me->query("quests/catch_thief") == 0 || (me->query("marks/ask_linpo") && me->query("family/family_name")=="¬q®a"))
+	{
+	  if( me->query_temp("thief") == 0 )
+	    me->set_temp("thief",1);
+	  return (RANK_D->query_respect(me)+"¬O¦³·NÀ°¦£§ì¨Ê«°¤jµsªº¶Ü? "+
+		"¥u¬O³Ìªñ¦³³\\¦h¨S¥»¨Æªº¤H«e¨ÓÀ³¼x\n, "+RANK_D->query_respect(me)+
+		"­Y¦³¥»¨Æªº¸Ü½Ð¥ý±µ¨ü´ú¸Õ§a(accept test)¡C");
+	}
+	else
+	{
+	  command("smile");
+	  command("pat "+me->query("id"));
+	  return ("³o¥ó¨Æ¯u¬O¦hÁ«¤F§A, ¦p¤µ¨Ê«°¤S«ì´_¥­ÀR¤F¡C");
+	}
+}					    
+void init()
+{
+	add_action("do_accept","accept");
+}
+int do_accept(string str)
+{
+	int i;
+	object ob=this_object();
+	object me=this_player();
+	object mark=new(CAPITAL_OBJ"mark");
+	if( me->query_temp("thief") == 0)
+	  command("say ¥ý°Ý°Ý¬°¦ó­n´ú¸Õ§a¡C");
+	if( me->query_temp("thief") > 1)
+	  command("say ¤£¬O´ú¸Õ¹L¤F¶Ü?");
+	if( me->query_temp("thief") == 1)
+	{
+	if( str=="test")
+	{
+	  command("say ¦n! «Ý¦Ñ¤Ò¨Ó¸Õ¸Õ§A! ¤p¤ß¤F");
+	  for(i=0;i<5;i++)
+	    COMBAT_D->do_attack(ob, me, ob->query_temp("weapon"), TYPE_QUICK);
+	  if( me->query("kee") > 1 )
+	  {
+	    command("say ªGµM¤£·\\¬°¯u­^¶¯, ¨º§Ú´N±N³o¥ó¨Æ­ì­ì¥»¥»ªº»¡»P§AÅ¥¤F");
+	    command("thank "+me->query("id"));
+	    command("say ³o¨Ê«°¤jµs¥Ø«e¬°¤î¤w±o¤â¤£¤U¼Æ¦¸, ³s¨Ê«°­º´I°®³q¤Ñªº¦v²Ä¤]\n"+
+	    "		 ¾D¬o¤F, ¦]¦¹³o¤~Åå°Ê¬Ó¤W¤U¥O¤@­Ó¤ë¤§¤º¥²¶·¯}®×, ¬JµM"+RANK_D->query_respect(me)+
+	    "\n 	   ¦Û§i¾Ä«i, ¨º³o¥ó¨Æ´N«ô°U§A¤F¡C±N¦¹¦W¤jµs¶e®·Âk®×, «h¥²©w­«­«¦³½à¡C");
+	    message_vision("$N¥æµ¹$n¤@­±¡u¸Åªù¥OµP¡v¡C\n",ob,me);
+	    mark->move(me);
+	    command("say §Æ±æ³o­±¥OµP¹ï§A¿ì®×¯à¦³©Ò§U¯q¡C");
+	    me->set_temp("thief",2);
+	  }
+	  else
+	  {
+	    command("say ½}¤F½}¤F, §ÚÁÙ¬OÄ~Äòµ¥¯u­^¶¯¨Ó§a");
+	    command("sigh");
+	  }
+	}  
+	else
+	  write("±µ¨ü¤°»ò?!\n");
+	}
+	return 1;		 
+}
+
+int accept_object(object me, object man)
+{
+	string target = "»¯µ^­·";
+	object ob=this_object();
+	object reward;
+	if( me->query_temp("thief") < 2 )
+	  return notify_fail(ob->query("name")+"»¡¹D¡RºÃ..§Ú¦n¹³¨S¦³°U§A¿ì³o¥ó¨Æ¹À¡C¬JµM§A³o»ò¼ö¤ß, ¨º´NÁÂÅo¡C\n");
+	if( man->query("victim_name") == target || man->query("name") == target )
+	{
+	  command("say ¯u¬O¤Ó¦n¤F, §Ú°U¥I§Aªº¨Æ²×©ó¶¶§Qªº¹F¦¨¤F¡C");
+	  if( man->query("name") == target )
+	  {
+	    command("say «ö·Ó¬ù©w, ³o´N¬O§AÀ³±oªº½àª÷¡C\n");
+	    reward = new("/obj/money/gold");
+	    reward->set_amount(5);
+	    reward->move(me);
+	    message_vision("$N½çµ¹$n¤­¨â¶Àª÷¡C\n",ob,me);
+	  }
+	  else
+	  {
+	    command("say ¥i±¤³o¨Ê«°¤jµs¤w¦º, ¦]¦¹½àª÷¥u¦³¤@¥b¤F¡C");
+	    reward = new("/obj/money/gold");
+	    reward->set_amount(2);
+	    reward->move(me);
+	    message_vision("$N½çµ¹$n¤G¨â¶Àª÷¡C\n",ob,me);
+	  }
+	  if( !me->query("quests/catch_thief") )
+	  {
+	    write("\n\n[1;36m**§¹¦¨¨Ê«°¤jµs¤§Á¼***[0m\n§A±o¨ì¹ê¾Ô¸gÅç 200¡C\n");
+	    me->add("combat_exp",200);
+	    if( me->query("class") == "officer" )
+	    {
+	      write("§A±o¨ì¬FªvÅv¤O 20¡C\n");
+	      me->add("max_officer_power",20);
+	    }  
+	    me->set("quests/catch_thief",1);
+	    me->delete_temp("thief");
+	  }
+	  destruct(man);
+	}
+	return 1;
+}	
+	
+void die()
+{    
+	object winner = query_temp("last_damage_from");
+	int j;
+        if(!winner)
+	{
+	::die();
+	return ;
+        }
+    if(userp(winner) && winner->query_temp("not_robot") > 1 )
+    {
+	if ( winner->query_temp("bless")==1 )
+	{
+	j=random(-1);
+	  if( j==7 || j==77 || j== 777 || j==1111 || j==55 || j==555 || j==1000 || j==4000 || j==3333 || j==2222 )
+	  {
+	  new("/open/sky/obj9/health-charm")->move(environment(winner));
+	  message_vision(HIM"\n±q¬öµL¹Ðªº¨­¤W±¼¤U¤F¤@¥ó©_©ÇªºªF¦è!!\n"NOR,winner);
+          write_file("/log/sky/obj9/health_charm",sprintf("%s(%s) Åý¬öµL¹Ð±¼¤U¤F°·±d¤§²Å©ó %s\n",
+	  winner->name(1),winner->query("id"),ctime(time())));
+	  }
+	}else{
+	j=random(-1);
+	  if( j==5 || j==15 || j== 150 || j==1500 || j==10 || j==100 || j==1000 || j==4000 || j==6666 || j==7777 )
+	  {
+	  new("/open/sky/obj9/health-charm")->move(environment(winner));
+	  message_vision(HIM"\n±q¬öµL¹Ðªº¨­¤W±¼¤U¤F¤@¥ó©_©ÇªºªF¦è!!\n"NOR,winner);
+          write_file("/log/sky/obj9/health_charm",sprintf("%s(%s) Åý¬öµL¹Ð±¼¤U¤F°·±d¤§²Å©ó %s\n",
+	  winner->name(1),winner->query("id"),ctime(time())));
+	  }
+	}
+    }
+
+	::die();
+}
+string ask_test()
+{
+ if(this_player()->query("quests/yan")==3)
+ {
+ if(this_player()->query("quests/catch_thief",1)&&this_player()->query("quests/yantestmark1",1)  && this_player()->query("quests/2ndtest",2))
+  {
+  int i;
+  i=6+random(5);
+  command("say ÁÂÁÂ±zªºÀ°¦£.§ÚÄ@·N±Nappoµ¹§Úªº¦L°O¶Ç¨ì§A¨­¤W!\n");
+  tell_object(this_player(),HIW"Àþ¶¡¥Ñ¬öµL¹Ð±N¤â·f¦b§AªºªÓ¤W..§A¹y®ÉÄ±±o¤@ªÑ·x·N¥Ñ¬öµL¹Ðªº¤â¤¤¶Ç¹L¨Ó\n"NOR);
+  this_player()->set("quests/2ndtest",i);
+  this_player()->set("quests/yantestmark2",1);
+  return("³Ì«á¤@­Ó¦L°O¦b¸t½å®Ñ¤â¤W,§A¥i¥H¥h§ä¥L°Ý°Ý¤F\n");
+  }
+ else if (this_player()->query("quests/yantestmark2")>1)
+  return ("§Ú¤w¸g§â¦L°Oµ¹§A¤F..§AÁÙ­n°µ¤°»ò\n");
+ else
+  return ("¥h·í§Ú§â¨Ê«°¤jµs§ä¥X¨Ó§Ú´N¸ò§A»¡¦L°O¦b­þ¡C\n");
+ }
+else
+ return ("Ô£¦L°O..§A¦b»¡¤°»ò?\n");
+}

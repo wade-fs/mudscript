@@ -1,0 +1,26 @@
+// Room: /u/w/whatup/peach/virage3
+inherit ROOM;
+
+void create ()
+{
+  set ("short", "桃花源村");
+  set ("long", @LONG
+一走進村子裡，就知道這是個祥和的農村，路旁的黃狗對著雞舍
+吠叫，公雞也不甘示弱的啼叫，一旁的空地晾著衣服，盡是些樸素的
+衣物，穀倉裡滿滿的都是收成的農作物，村子裡的婦人們正在熱絡的
+聊天，看到你卻像是看到鬼似的躲的遠遠的。
+LONG);
+
+  set("outdoors", "/u/b");
+  set("exits", ([ /* sizeof() == 3 */
+  "north" : __DIR__"virage4.c",
+  "south" : __DIR__"virage2.c",
+  "west" : __DIR__"peach1.c",
+]));
+
+  set("objects", ([ /* sizeof() == 2 */
+  __DIR__"npc/woman" : 1,
+  __DIR__"woman2" : 1,
+]));
+  setup();
+}

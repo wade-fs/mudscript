@@ -1,0 +1,27 @@
+#include <ansi.h>
+inherit ROOM;
+
+void create ()
+{
+	set ("short", "靈閣走廊");
+	set( "build", 1 );
+	set ("long", @LONG
+經過穿堂到達靈閣走廊，這裏是到達水靈塔必經之路，北邊的方
+向是通往右靈水閣，經過靈閣走廊可以抵達各個靈閣，走出靈閣可以
+到達一個走道，靈閣的走廊傳來的盡是靈閣中充斥的靈氣，令你想跓
+足在這裏享受那靈氣浸縈的感覺。
+LONG);
+
+	set("no_auc", 1);
+	set("no_transmit", 1);
+
+	set("exits", ([ /* sizeof() == 3 */
+	"north"	: __DIR__"manor19",
+	"east"	: __DIR__"manor04",
+	"west"	: __DIR__"manor02",
+	]));
+
+	set("light_up", 1);
+
+	setup();
+}

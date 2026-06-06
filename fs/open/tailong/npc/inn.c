@@ -7,12 +7,14 @@ void create()
         set("class", "scholar");
         set_name("本因", ({ "master inn", "master", "inn" }) );
         set("title","天龍寺第九任住持");
-        set("nickname", HIR + "劍氣沖天" + NOR);
+        set("nickname", HIR"劍氣沖天"NOR);
         set("gender", "男性");
         set("age", 200);
         set("attitude", "heroism");
         set("long",
-        "你眼前正是大理段是的武學重鎮『天龍寺』的住持----本因大師, \n" + "據說他六脈神劍早已練入化境, 當世能和他齊肩並論的, 只有其姪\n" + "孫『段譽』, 不過百年來, 從未有人見識過他真正的武功\....\n");
+        "你眼前正是大理段是的武學重鎮『天龍寺』的住持----本因大師, \n"
+        "據說他六脈神劍早已練入化境, 當世能和他齊肩並論的, 只有其姪\n"
+        "孫『段譽』, 不過百年來, 從未有人見識過他真正的武功\....\n");
         set("str", 48);
         set("cps", 40);
         set("per", 34);
@@ -80,23 +82,23 @@ int accept_object(object who, object ob)
   if( ob->query("id") == "six book" && who->query_temp("six_sp_quest")==10)
   {
     destruct(ob);
-    tell_object(users(),HIY + "
-                 本因方丈說道:" + HIW + "
-                             「這次" + HIG+name+HIW + "為我天龍寺除去大患, 奪回寶經
+    tell_object(users(),HIY"
+                 本因方丈說道:"HIW"
+                             「這次"HIG+name+HIW"為我天龍寺除去大患, 奪回寶經
                                老衲今日便將神劍奧義盡傳於你, 
                                望你今後斬妖除魔, 重振大理段氏的聲威!!」
-" + NOR);
+"NOR);
     who->set("marks/six_sp",3);
     who->set("quest/4-badman",1);
-    who->set("title",HIW + "大理段氏絕代高手" + NOR);
+    who->set("title",HIW"大理段氏絕代高手"NOR);
   }
 
 else if( ob->query("id") == "tai mark" && who->query_temp("six_sp_quest")==8)
   {
     destruct(ob);
-    say(HIY + "本因大師說道:段延慶據說藏身在『狂風嶺』, 段雲既然派施主來, 想必有驚人藝業, 
-             此事就相煩施主, 務必奪回六脈神劍經!!\n" + NOR);
-    say(HIY + "本因大師又說:狂風嶺就在平南城西郊, 快去吧!!\n" + NOR);
+    say(HIY"本因大師說道:段延慶據說藏身在『狂風嶺』, 段雲既然派施主來, 想必有驚人藝業, 
+             此事就相煩施主, 務必奪回六脈神劍經!!\n"NOR);
+    say(HIY"本因大師又說:狂風嶺就在平南城西郊, 快去吧!!\n"NOR);
     who->set_temp("six_sp_quest",9);
   }
 }
@@ -130,8 +132,8 @@ string six_sp()
   {
    return "奧義乃是我派密奧, 不會輕易傳給弟子...\n";
   }
- say(HIY + "本因大師道:你似乎並未得授神劍奧義, 我便傳你「奪命連環六絕劍」\n");
- say(HIY + "           望你能憑此招奪回寶經!!\n");
+ say(HIY"本因大師道:你似乎並未得授神劍奧義, 我便傳你「奪命連環六絕劍」\n");
+ say(HIY"           望你能憑此招奪回寶經!!\n");
  me->set("marks/six_sp",1);
  me->set("title","天龍寺俗家高手");
 }

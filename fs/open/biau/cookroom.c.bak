@@ -1,0 +1,24 @@
+// Room: /u/o/onion/room/cookroom.c
+
+inherit ROOM;
+
+void create()
+{
+	set("short", "廚房");
+	set("long", @LONG
+這裡到處擺著許多炊具,大火在火爐底下燃燃的發出熾熱的火光,使的空氣悶熱不堪.
+廚子忙碌的走來走去,忙的滿頭大汗.廚房的正中央放了一張桌子(table),上面擺著熱騰
+騰的菜,似乎是已經做好的,香味便是從這兒傳出的.
+LONG
+	);
+	set("exits", ([ /* sizeof() == 1 */
+         "west" : __DIR__"room4",
+	]));
+        set("item_desc", ([ /* sizeof() == 1 */
+       "table" : "一張堅硬的木桌,上頭放滿了各式各樣的菜,真想偷吃一口...:P\n"
+        ]));
+                            	
+        
+	setup();
+	
+}

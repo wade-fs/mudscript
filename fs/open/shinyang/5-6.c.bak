@@ -1,0 +1,396 @@
+// Room: /u/w/whatup/area/shinyang/5-6.c
+#include <ansi.h>
+inherit ROOM;
+mapping exit_doors = ([
+    "west":__DIR__"1-5.c",
+    "east":__DIR__"9-5.c",
+    "south":__DIR__"5-1.c",
+    "north":__DIR__"5-10.c",
+    ]);
+void force_user(object user,string command);
+void disbuted_soldier(int i);
+object * get_users();
+string return_direct(string filename);
+
+int step;
+
+void create ()
+{
+  set ("short", "城主府");
+  set ("long", @LONG
+氣派輝煌的紅漆大門，門口的兩旁立著兩尊高大威武的石獅子鎮
+守著門口，門口的兩站立著雄壯威武的衛兵們，大門的上方寫著城主
+府，想必這裡就是襄陽城的中心，襄陽城中的大小事都是在此決策，
+不過衛兵銳利的眼神掃射著四周，看起來不是輕易就可以混進去的！
+
+LONG);
+
+  set("no_transmit", 1);
+  set("objects", ([ /* sizeof() == 1 */
+  __DIR__"npc/obj/board.c" : 1,
+  __DIR__"npc/mudu.c" : 1,
+
+]));
+  set("exits", ([ /* sizeof() == 3 */
+  "north" : __DIR__"5-7",
+  "enter" : __DIR__"1f-3-4.c",
+  "west"  : __DIR__ "4-6.c",
+  "east"  : __DIR__ "6-6.c",
+  "south" : __DIR__"5-5.c",
+]));
+  set("outdoors", "/open");
+  set("no_auc", 1);
+  set("no_fight",1);
+
+  setup();
+}
+void init()
+{
+  add_action("do_join","join");
+  add_action("do_unjoin","unjoin");
+
+}
+int do_unjoin(string arg)
+{
+   string id ,ip; 
+  object me = this_player();
+  object ob = present("general mudu",this_object());
+  if(!me || !userp(me)) return notify_fail("只有玩家才能參與戰爭。\n");
+  id = me->query("id");
+  if(!query("war/"+id))
+    return notify_fail("你沒有參與戰爭啊。\n");
+  delete("war/"+id);
+  me->add("war_score",200);
+  force_user(ob,"pat "+id);
+  force_user(ob,"say 想逃跑啊，沒辦法，沒膽先走也是對的！免得白白送死。");
+  force_user(ob,"say 你可以走了。");
+
+  return 1;
+}
+/*
+ * 攻方：
+ * 1.總共五波
+ * 2.一波多二個人
+ * 3.一波會有一個千夫長 , 千夫長戰功 15 點。
+ * 4.死小孩被殺掉，或是他們走到集合點的話..所有人的戰功扣 2 點，會有負值。
+ * 5.千夫長的設定是隨機把使用者挑掉一組門派，跟白龍一樣的效果!!
+ * 6.死小孩在每一波都會重生。
+ * 7.一波大概間格 4 分鐘。
+ * 8.沒通過機器人測試的話，戰功只有原先的一半!
+ * 守方：
+ * 1.殺死一個軍人可以獲得10點
+ * 2.最後統計，如果死小孩死的數量沒有比軍人死的數量多的話，每個人多額外的十點
+ * 3.參與過的一小時之內不能再參與。
+ * 4.一次戰爭是不能有同 ip 參與，所以如果有人有五個ip同時上線，也會因為死小孩被打死，戰功也會被扣掉。
+ *
+ * */
+int do_join(string arg)
+{ 
+  // 啟動條件
+  string id ,ip; 
+  object me = this_player();
+  object ob = present("general mudu",this_object());
+  
+  if(!me || !userp(me)) return notify_fail("只有玩家才能參與戰爭。\n");
+  if(me->query_temp("pk_fight") || me->query_temp("break_away"))
+    return notify_fail("請先結束 pkla。\n");
+  if(me->query("combat_exp") < 6000000)
+    return notify_fail("你的能力還不足夠於領導軍隊。\n");
+  if(me->query("war_score") < 200)
+    return notify_fail("你戰功不夠，不行參與這項戰爭。\n");
+  id = me->query("id");
+  ip = query_ip_number(me);
+  if(query("war/"+id+"/user")) 
+    return notify_fail("你已經報名核準了！\n");
+  else
+    delete("war/"+id);
+  if(sizeof(query("war")) > 4)
+    return notify_fail("人數已經足夠了。報效國家有的是機會，下次再來！\n");
+  if(sizeof(query("war")))
+  {
+    foreach(string tid , mixed mapp in query("war") )
+    {
+      if(ip == mapp["ip"]) return notify_fail("你的 IP 已經有人報名了！\n");
+    }
+  }
+  
+  if(me->query("war/start_time") > time())
+  {
+    force_user(ob,"say 留點機會給別人吧，經過上一場大戰，先請您回去休養吧。");
+    return 1;
+  }
+//  me->set_temp("不准走",1);
+  set("war/"+id+"/user",me);
+  set("war/"+id+"/ip",ip);
+  me->set_temp("no_quit","大戰即將開始，不得離開。");
+  force_user(ob,"ok "+id);
+  force_user(ob,"say 先去準備準備，等等大門會關起來，防止蒙古軍進入！");
+  force_user(ob,"say 戰爭一旦開打，本城將限制出入，請即時趕回來！");
+  me->set_temp("war/shinyang",1);
+  // 15 分鐘後才能再玩一次
+  me->set("war/start_time",time() + 15 * 60 );
+  if(sizeof(query("war")) > 4)
+  {
+    force_user(ob,"say 戰爭即將在二分鐘後開始，大門要關上了，請各位作好準備。\n");
+    call_out("start_war",60*2);
+  }
+  call_other(get_users(),"delete_temp","war");
+  call_other(get_users(),"add_temp","war/shinyang",1);
+
+
+  foreach(object obj in children(__DIR__+"/npc/shooter.c"))
+  {
+    destruct(obj);
+  }
+  return 1;
+}
+void start_war()
+{
+  object ob = present("general mudu",this_object());
+
+  foreach(object user in children("/obj/user"))
+  {
+    string dir;
+    if(!environment(user)) continue;
+    dir = "/"+implode(explode(file_name(environment(user)),"/")[0..<2],"/")+"/";
+
+    if(dir ==  __DIR__  &&  !user->query_temp("war/shinyang",1) && !wizardp(user))
+    {
+      tell_object(user,sprintf(HIY"你發現這裡即將發生戰爭，就頭也不回的溜回家了。\n"));
+
+      user->move(user->query("startroom"));
+    }
+  }
+
+  // 關上所有大門
+  foreach(string dir , string file in exit_doors)
+  {
+    load_object(file)->unlock_door(dir);
+    load_object(file)->open_door(dir);
+
+    load_object(file)->close_door(dir);
+    load_object(file)->lock_door(dir);
+  }
+  CHANNEL_D->do_channel(this_object(),"mud",
+      sprintf(HIR"%s大叫：蒙古軍來襲！！快點關閉城門防止蒙古大軍入侵！！"NOR,ob->name()));
+  
+  CHANNEL_D->do_channel(this_object(),"sys:war",
+      sprintf("任務開始！\n"));
+  step = 1 ;
+  call_out("call_soldier",10);
+}
+void call_soldier()
+{
+  int rand = random(5)+6;
+  CHANNEL_D->do_channel(this_object(),"sys:war",
+      sprintf("第 %d 波, 有 %d 隻蒙古軍人爬牆進來了\n",step,rand));
+//  call_other(get_users(),"tell_object",,1);
+  message("tell_object", 
+      sprintf(HIR"注意！！第%s波攻擊, 有%s位蒙古軍人爬牆進來了\n"NOR,
+        chinese_number(step),
+        chinese_number(rand)
+        ),get_users());
+
+  add("war/soldier",rand);
+  disbuted_soldier(rand);
+  // 五分鐘叫一波，共五波
+  if(step > 4) 
+  {
+    call_out("end_call_soldier",200);
+
+    return ;
+  }
+  step = step +1 ;
+  call_out("call_soldier",150);
+
+}
+void end_call_soldier()
+{
+  object ob = present("general mudu",this_object());
+if( sizeof(children(__DIR__"npc/shooter")) != 1)
+{
+  call_out("end_call_solider",30);
+  return ;
+}
+  foreach(string dir , string file in exit_doors)
+  {
+
+    load_object(file)->unlock_door(dir);
+    load_object(file)->open_door(dir);
+  }
+
+  foreach(object user in get_users())
+  {
+    int killer,victim,killertop,war_score,lost_killer;
+    killer = user->query_temp("war/killer");
+    lost_killer = user->query_temp("war/lost_killer");
+
+    victim = user->query_temp("war/victim");
+    killertop = user->query_temp("war/killertop");
+
+    war_score = killertop*100 + killer *70  - victim*2 - lost_killer *8 - killertop *6;
+    user->add("war_score",war_score);
+    tell_object(user,sprintf(HIW"戰功\報告：\n\n"NOR));
+
+    tell_object(user,sprintf(HIC"因為你協助維護城主有功\\n"));
+    tell_object(user,sprintf("總共殺了 %d 位蒙古軍人，%d 位蒙古千夫長\n",killer,killertop));
+    tell_object(user,sprintf("但最後因為卻有 %d 位無辜的城民被殺死，與 %d 位的蒙古軍人攻入城內。\n",victim,lost_killer));
+    tell_object(user,sprintf("所以最後獲得 %d 點的戰功\。\n"NOR,war_score));
+    user->delete_temp("war");
+    user->delete_temp("no_quit");
+
+     CHANNEL_D->do_channel(this_object(),"sys:war",
+      sprintf("%s獲得%d分戰功\ %d/%d/%d/%d。\n",user->name(),war_score
+        ,killer,killertop,victim,lost_killer
+        ));
+    user->set("war/start_time",time() + 5 * 60 );
+  }
+  CHANNEL_D->do_channel(this_object(),"sys:war",
+      sprintf("任務結束！\n"));
+  CHANNEL_D->do_channel(this_object(),"mud",
+      sprintf(HIR"%s大叫：來自洛陽的救兵來到！！感謝上蒼，這暫時解救了襄陽的困境！"NOR,ob->name()));
+  delete("war");
+}
+void force_user(object user,string command)
+{
+    user->force_me(command);
+}
+void disbuted_soldier(int i)
+{
+  string file;
+  // 重生所有的小孩
+  foreach(file in get_dir(__DIR__))
+  {
+    if(file[0] == '.') continue;
+    if(file_size(__DIR__+file) == -2) continue;
+    if(!load_object(__DIR__+file)) continue;
+    load_object(__DIR__+file)->reset();
+  }
+  for(int j = 0 ; j < i ; j++)
+  {
+      switch(random(4))
+      {
+        case 0:
+          file = __DIR__+"1-"+(random(10)+1);
+          break;
+        case 1:
+          file = __DIR__+(random(9)+1)+"-1";
+          break;
+        case 2:
+          file = __DIR__+"9-"+(random(10)+1);
+          break;
+
+        case 3:
+          file = __DIR__+(random(9)+1)+"-10";
+          break;
+        default:
+      }
+
+//      write(file+"\n");
+      new(__DIR__+"npc/shooter")->move(file);
+  }
+}
+object * get_users()
+{
+  object * users = allocate(0);
+  if(!query("war")) return ({});
+  foreach(string id , mixed ob in query("war"))
+  {
+    if(mapp(ob))
+    if(objectp(ob["user"]))
+      users += ({ ob["user"] });
+  }
+  return users;
+}
+void add_victim(object who)
+{
+  CHANNEL_D->do_channel(this_object(),"sys:war",
+      sprintf("%s 在 %O 被砍死了耶!!!",who->name(),environment(who)));
+  call_other(get_users(),"add_temp","war/victim",1);
+}
+void add_killer(object who,object user)
+{
+    CHANNEL_D->do_channel(this_object(),"sys:war",
+      sprintf("%s 在 %O 被 %s 砍死了耶!!!",who->name(),environment(who),user->name()));
+    call_other(user,"add_temp","war/killer",1);
+    add("war/soldier",-1);
+if( sizeof(children(__DIR__"npc/shooter")) == 1)
+
+    {
+      if(step > 4) {
+        CHANNEL_D->do_channel(this_object(),"sys:war",
+            sprintf("全清完了！結算中。\n"));
+
+        remove_call_out("end_call_soldier");
+        call_out("end_call_soldier",10);
+      } else {
+        CHANNEL_D->do_channel(this_object(),"sys:war",
+            sprintf("全清完了！下一波準備中！%d波\n",step));
+        remove_call_out("call_soldier");
+        call_out("call_soldier",30);
+
+      }
+    } 
+}
+void add_lost_killer(object killer)
+{
+  object mudu;
+  CHANNEL_D->do_channel(this_object(),"sys","唷!! 攻到中心城了耶!!");
+  foreach(object obj in get_users())
+  {
+    obj->add_temp("war/lost_killer",1);
+  }
+  mudu =  present("general mudu",this_object());
+  killer->set("kee",1);
+  for(int i = 0 ; i < 5 ; i++) {
+    COMBAT_D->do_attack(mudu,killer, mudu->query_temp("weapon"));
+  }
+  message("tell_object", 
+      sprintf(HIR"%s大吼一聲，殺掉蒙古軍人一名了。\n"NOR,
+        mudu->name()
+        ),get_users());
+
+  say("\n"+killer->name()+"死了。\n");
+  add("war/soldier",-1);
+  if( sizeof(children(__DIR__"npc/shooter")) == 1)
+  {
+
+      remove_call_out("end_call_soldier");
+
+      remove_call_out("call_soldier");
+    if(step > 4) {
+      CHANNEL_D->do_channel(this_object(),"sys:war",
+          sprintf("全清完了！結算中。\n"));
+
+      call_out("end_call_soldier",10);
+    } else {
+      CHANNEL_D->do_channel(this_object(),"sys:war",
+          sprintf("全清完了！下一波準備中！%d波\n",step));
+
+      call_out("call_soldier",30);
+
+    }
+    } 
+
+}
+void die_for_direct(object npc)
+{
+  
+  message("tell_object", 
+      sprintf(HIR"%s方的民房傳來一陣慘叫聲。\n"NOR,
+        return_direct(base_name(environment(npc))))
+        ,get_users());
+
+}
+string return_direct(string filename)
+{
+    int x,y;
+    string str = "";
+    x = 0 ; y = 0;
+    sscanf(filename,"%*s/shinyang/%d-%d%*s",x,y);
+    if(x-5 < 0 ) str += "西";
+    if(x-5 > 0 ) str += "東";
+    if(y-5 < 0 ) str += "南";
+    if(y-5 > 0 ) str += "北";
+    return str;
+}

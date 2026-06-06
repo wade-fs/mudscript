@@ -1,0 +1,17 @@
+inherit ROOM;
+#include <ansi.h>
+
+void create ()
+{
+        set ("short", "躍地界");
+        set ("long", @LONG
+登上峰頂，不知你眼前所見是真亦是幻，原是山腳山看不清的事
+物，卻清楚的映入眼簾，幾乎是觸碰可及，你靜靜的呆在原地，卻不
+敢有任何的動作，只怕一個不小心就躍入地界，捽的粉身碎骨。
+LONG);
+        set("outdoors", "");
+        set("exits", ([ /* sizeof() == 4 */
+        "down"    : __DIR__"mon41",
+]));
+        setup();
+}

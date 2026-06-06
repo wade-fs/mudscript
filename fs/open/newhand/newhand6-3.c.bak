@@ -1,0 +1,20 @@
+#include <room.h>
+#include <ansi.h>
+inherit ROOM;
+void create ()
+{
+  set ("short", HIY"狂想空間歷史發展館"NOR);
+  set ("long"," 約過一陣子後狂想空間在巫師們的努力下漸漸步上軌道玩家也越來越多
+,在歷經幾次的調整後,如：叛師要扣技能、轉派的限定...等,也慢慢使狂想
+越來越穩,同時新手的巫師加入也使狂想的發展越來越快,聽那時的玩家及巫
+師說曾經到一百位的巫師!!!但同時也因為巫師群多使得巫師和玩家的粉爭也
+越來越多!!!!
+  \n");
+  set("exits", ([
+  "north" : __DIR__"newhand6-2",
+  "south" : __DIR__"newhand6-4",
+               ]));
+  set("light_up", 1);
+  setup();
+}
+

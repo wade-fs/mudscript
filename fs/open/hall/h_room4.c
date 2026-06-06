@@ -1,0 +1,19 @@
+// Room: /open/hall/h_room4.c
+
+inherit ROOM;
+
+void create()
+{
+        set("short", "議事廳");
+        set("long", @LONG
+這兒是縣衙的議事廳，三位像是參謀級的人物，正不知為啥吵的不
+可開交!!其中一個樣子蠻斯文的傢伙，突然拿起桌上的杯子，砸向主席
+台!!這種情境似乎常常發生，好像在哪見過喔～～
+LONG);
+        set("exits", ([ /* sizeof() == 1 */
+  "southwest" : __DIR__"hall_3",
+  "south" : __DIR__"h_room5",
+]));
+
+        setup();
+}

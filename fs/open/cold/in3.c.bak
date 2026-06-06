@@ -1,0 +1,24 @@
+// Room: /u/c/chhu/workroom.c
+#include "../cold.h"
+
+inherit ROOM;
+
+void create()
+{
+	set("short","寶珍神宮東側側廳");
+	set("long", @LONG
+這裡是東側的側廳﹐乍看之下並無什麼特殊之處﹐只是在北面的
+牆壁上掛著一幅壁畫﹐上面畫著一個仙女﹐像是嫦娥奔月似的﹐另人
+疑惑的是這裡為何有這麼一幅畫﹐是否寶珍神宮裡隱藏著什麼特殊的
+秘密 ?
+
+LONG
+	);
+	set("exits", ([ /* sizeof() == 2 */
+	"west":COLD_ROOM"in1",
+]));
+	set("objects",([
+	]));
+	setup();
+	replace_program(ROOM);
+}

@@ -1,0 +1,20 @@
+inherit ROOM;
+#include <ansi.h>
+
+void create ()
+{
+        set ("short", "環山小道");
+	set( "build", 12 );
+        set ("long", @LONG
+小徑過後，是一條比較寬大的小道，往山頂的路途還遙遠，兩旁
+的草木仍舊稀少，青綠的顏色也慢慢轉變枯黃，愈往上走，空氣中所
+蘊含的氣息愈來愈冷，而大地中似乎又隱隱透著幾許的霧氣。
+LONG);
+        set("outdoors", "");
+        set("exits", ([ /* sizeof() == 4 */
+        "westup"     : __DIR__"mon14",
+        "southdown"  : __DIR__"mon12",
+]));
+        setup();
+}
+

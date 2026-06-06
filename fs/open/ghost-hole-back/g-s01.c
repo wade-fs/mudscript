@@ -1,0 +1,23 @@
+inherit ROOM;
+#include <ansi.h>
+void create ()
+{
+set("short",YEL"雙冥祭台"NOR);
+set("long",@LONG
+這是掌管著【生】【死】雙冥王的祭台, 左邊司【生】
+, 右邊管【死】, 傳聞當生死兩祭台開啟時, 即是死靈骨魔
+復活之時...
+    中央放置一個骨魔的雕像(statue)
+LONG);
+set("no_light",1);
+set("exits",([
+"up":__DIR__"g-r01",
+"east":__DIR__"g-s02",
+"west":__DIR__"g-s03",
+]));
+set("item_desc",([
+"statue":"一個死靈骨魔的雕像, 感覺上似乎有點怪異!!\n",
+]));
+set("no_transmit",1);
+setup();
+}

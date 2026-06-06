@@ -1,0 +1,25 @@
+// Room: /u/c/chhu/workroom.c
+#include "../cold.h"
+
+inherit ROOM;
+
+void create()
+{
+	set("short","西廂房");
+	set("long", @LONG
+這裡是行宮的西側廂房﹐住的都是一些較為資深的弟子﹐別
+看她們都很年輕﹐其實早已在此住了好一段時日了﹐想當然﹐她們的根基
+必定不淺﹐若想亂動她們﹐沒有相當的實力﹐恐怕會死無葬身之
+地。
+
+LONG
+	);
+	set("exits", ([ /* sizeof() == 2 */
+	"east":COLD_ROOM"rin1",
+]));
+	set("objects",([
+	COLD_NPC"trainee9":1,
+	]));
+	setup();
+	replace_program(ROOM);
+}

@@ -1,0 +1,33 @@
+//增加item相關的提示 by blazakira 2011/8/17
+
+#include <ansi.h>
+inherit ROOM;
+
+void create ()
+{
+  set ("short", "東廂房");
+  set( "build", 1 );
+  set ("long", @LONG
+一間乾淨整齊的廂房，廂房的中央擺了一張四角桌，桌上擺了一
+盞油燈，照亮了整間房間，房間的一旁還有一個小窗戶，可以看到外
+面的風景，為遠道而來的賓客提供了一個舒適的休息環境。
+    四角桌上有張小字條(note)。
+LONG);
+  set("no_auc", 1);
+  set("no_transmit", 1);
+  set("exits", ([ /* sizeof() == 3 */
+    "west" : __DIR__"manor41",
+  ]));
+  set("objects", ([ /* sizeof() == 2 */
+    __DIR__ "npc/wisdom-man" : 1,
+  ]));
+  set("light_up", 1);
+  set("item_desc", ([ /* sizeof() == 1 */ //景觀 item_desc 的名稱
+    "note" : HIW"天靈地老提供相關的天靈地界的線索如下：\n"+HIY
+             "五轉聚靈盤、聚靈池、金靈塔、木靈塔、水靈塔、火靈塔、土靈塔、\n"+
+             "靈氣金珠、靈氣木珠、靈氣水珠、靈氣火珠、靈氣土珠、紋章、石、\n"+
+             "羽、貝殼、玉、鑽、結令、風、符、印、晶、娃娃、"HIR"item"HIY"。\n\n"NOR,
+  ]));
+
+  setup();
+}

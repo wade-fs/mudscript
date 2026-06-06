@@ -1,0 +1,26 @@
+#include <ansi.h>
+inherit ROOM;
+
+void create ()
+{
+	set ("short", "含風亭");
+	set ("long", @LONG
+六角形的亭子，周圍的風以亭子為中心，並朝著亭子的六個方向
+吹來，坐在亭中的人，可以隱隱感覺被風所包圍，置身於此，可以感
+覺到這裏真是奇特的地方，令你想在此多跓足一會，好欣賞這美妙的
+奇景一番。
+LONG);
+
+	set("no_auc", 1);
+	set("no_transmit", 1);
+
+	set("exits", ([ /* sizeof() == 3 */
+	"south"	: __DIR__"manor52",
+	"east"	: __DIR__"manor54",
+	"west"	: __DIR__"manor36",
+	]));
+
+	set("light_up", 1);
+
+	setup();
+}

@@ -1,0 +1,269 @@
+//取消心跳裡的玩家判定 與增加心跳裡環境的判斷 by blazakira 2011/8/16
+
+#include <ansi.h>
+#include "/open/open.h"
+inherit NPC;
+inherit F_MASTER;
+
+void create()
+{
+  set_name("莫道子",({"modau zi","modau","zi"}));
+  set("long",@LONG
+聚靈八傑之一，擅長惡人的各種功夫，天魔刀練的是無人能比
+的上，混殺吼更是所向無敵，雖然功夫是惡人所傳，但在此修
+身養性的莫道子，卻是和善的。
+LONG);
+  set("gender","男性");
+  set("class","bandit");
+  set("nickname",NOR"魔"HIW"吼"NOR"無"HIW"極"NOR);
+  set("title",HIC"聚靈八傑"NOR);
+  set("family/family_name","惡人谷");
+  set("combat_exp",10000000);
+  set("attitude","friendly");
+  set("score",1000000);
+  set("bellicosity",20000);
+  set("age",40);
+
+  set("str", 35);
+  set("cor", 35);
+  set("cps", 35);
+  set("int", 35);
+  set("spi", 35);
+  set("per", 35);
+  set("kar", 35);
+  set("con", 35);
+
+  set("force",200000);
+  set("max_force",20000);
+  set("mana",20000);
+  set("max_mana",20000);
+  set("atman",20000);
+  set("max_atman",20000);
+  set("force_factor", 15);
+
+  set("max_kee",100000);
+  set("max_gin",100000);
+  set("max_sen",100000);
+
+  set_skill("dodge",120);
+  set_skill("sword",150);
+  set_skill("ghost-steps",120);
+  set_skill("force", 250);
+  set_skill("counter",100);
+  set_skill("badforce",250);
+  set_skill("move", 120);
+  set_skill("riding",100);
+  set_skill("parry",120);
+  set_skill("unarmed",150);
+  set_skill("badstrike",120);
+  set_skill("fireforce",250);
+
+  map_skill("unarmed", "badstrike");
+  map_skill("parry", "badstrike");
+  map_skill("force", "badforce");
+  map_skill("dodge", "ghost-steps");
+  map_skill("move", "ghost-steps");
+
+  set("functions/evil-blade/level",100);
+  set("functions/badroar/level",100);
+  set("functions/gold-fire/level",100);
+
+  set("chat_chance_combat", 30);
+  set("chat_msg_combat", ({
+    (: perform_action, "unarmed.evil-blade" :),
+  }) );
+
+  set("quests/w_camel",1);
+  set("quests/r_camel",1);
+  set("quests/sunfire",1);
+  set("quest/gold-fire",1);
+  set("quest/new_gold_fire",1);
+  set("quests/badroar",1);
+  set("marks/kar",1);
+  set("clan_kill",1);
+  set("no_hole",1);
+  set("no_plan_follow",1);
+  set("no_mount",1);
+  set("marks/h_camel",1500);
+  set_temp("armor_vs_force",300);
+  set_temp("no_die_soon",1);
+  set_temp("rob",1); 
+  set_temp("no-plan",1);
+  set_temp("mount",1);
+  set_temp("follow",1);
+  set_temp("speed",1);
+  set_temp("empty",1);
+  set_temp("false",1);
+  set_temp("lock-link",1);
+
+  set_temp("apply/armor",150);
+  set_temp("apply/attack",50);
+  set_temp("apply/damage",50);
+  set_temp("apply/defense",150);
+
+  setup();
+
+  add_money("cash",3);
+  carry_object("/open/magic-manor/obj/evil-kill-claw");
+  carry_object("/open/ping/obj/ring-2");
+}
+
+int accept_kill(object ob)
+{
+  object me=this_object();
+  kill_ob(ob);
+  me->delete_temp("is_busy");
+  command("wield all");
+  command("wear all");
+  command("perform unarmed.badroar");
+  return 1;
+}
+
+void greeting(object ob)
+{
+  ob=this_player();
+  if( ob->query_skill("coldpoison",1) && !wizardp(ob) )
+  {
+  command("say 學毒術之人，來討教幾招吧！！");
+  kill_ob(ob);
+  ob->start_busy(1);
+  }
+  set_heart_beat(1);
+  return;
+}
+
+void heart_beat()
+{
+  object me=this_object();
+  if(!me || !environment(me)) return ;
+
+  if( !me->query_temp("weapon") )
+  {
+    command("wield all");
+    command("wear all");
+  }
+/*
+  if( me->is_fighting() )
+  {
+  int i=me->query_busy();
+  message_vision(HIC"$N目前busy指數「"HIM+i+HIC"」\n"NOR,me);
+  }
+*/
+  if( !me->is_fighting() && !me->query_temp("gold-fire") )
+  {
+    map_skill("force", "fireforce");
+    command("perform force.gold-fire");
+    map_skill("force", "badforce");
+  }
+
+  if( me->is_fighting() )
+  {
+    if( me->query("kee") < 80000 && !me->query("camel") )
+    {
+      me->set("camel",1);
+      command("say 實在是欺人太甚呀!!");
+      command("say 我的寶貝座騎快來呀!!");
+      new("/open/badman/ride/r_camel")->move(environment(me));
+      command("ride");
+//    destruct(present("ice_ring",me));
+    }
+    if( me->query_temp("is_riding") == 1 && !query_temp("marks/wall") )
+    {
+      command("desertwall");
+    }
+    if( !me->is_busy() )
+    {
+      me->clear_condition();
+      command("perform unarmed.badroar");
+    }
+  }
+
+  if( !is_fighting() ) 
+  {
+    if( query("force") < 39000 )
+      command( "ex 270" );
+    if( query("eff_kee") < query("max_kee") )
+    {
+      command( "10 exert heal" );
+      command( "10 exert heal" );
+    }
+    if( query("gin") < query("eff_gin") )
+    {
+      me->receive_curing("gin",350);
+      me->receive_heal("gin",350);
+    }
+    if( query("kee") < query("eff_kee") )
+      command( "5 exert recover" );
+    if( query("sen") < query("eff_sen") )
+    {
+      me->receive_curing("sen",350);
+      me->receive_heal("sen",350);
+    }
+  }
+//  set_heart_beat(1);
+  ::heart_beat();
+}
+
+void die()
+{
+  object me,obj,winner;
+  int j;
+  me=this_object();
+  winner=query_temp("last_damage_from");
+
+  if(!winner)
+  {
+    ::die();
+    return ;
+  }
+  if(userp(winner) && winner->query_temp("not_robot") > time() )
+  {
+    if ( winner->query_temp("bless")==1 )
+    {
+      j=random(-1);
+      if( j==7 || j==77 || j== 777 || j==1111 || j==55 || j==555 || j==1000 || j==4000 || j==3333 || j==2222 )
+      {
+        new("/open/sky/obj12/mango-doll")->move(environment(winner));
+        message_vision(HIM"\n從莫道子的身上掉下了一件奇怪的東西!!\n"NOR,winner,me);
+        write_file("/log/sky/obj12/mango_doll",sprintf("%s(%s) 讓莫道子掉下了芒果娃娃於 %s\n",
+          winner->name(1),winner->query("id"),ctime(time())));
+      }
+    } else {
+      j=random(-1);
+      if( j==5 || j==15 || j== 150 || j==1500 || j==10 || j==100 || j==1000 || j==4000 || j==6666 || j==7777 ) 
+      {
+        new("/open/sky/obj12/mango-doll")->move(environment(winner));
+        message_vision(HIM"\n從莫道子的身上掉下了一件奇怪的東西!!\n"NOR,winner,me);
+        write_file("/log/sky/obj12/mango_doll",sprintf("%s(%s) 讓莫道子掉下了芒果娃娃於 %s\n",
+          winner->name(1),winner->query("id"),ctime(time())));
+      }
+    }
+  }
+  if( random(9) == 5 )
+  {
+    obj=new("/open/magic-manor/obj/wood-ball");
+    obj->move(environment(winner));
+    message_vision(CYN"一顆奇怪的珠子從$N的身體裏滾了出來!!\n"NOR,me);
+  } else if( random(12) == 7 )
+  {
+    obj=new("/open/magic-manor/obj/water-ball");
+    obj->move(environment(winner));
+    message_vision(CYN"一顆奇怪的珠子從$N的身體裏滾了出來!!\n"NOR,me);
+  } else if( random(15) == 9 )
+  {
+    obj=new("/open/magic-manor/obj/fire-ball");
+    obj->move(environment(winner));
+    message_vision(CYN"一顆奇怪的珠子從$N的身體裏滾了出來!!\n"NOR,me);
+  } else if( random(18) == 11 )
+  {
+    obj=new("/open/magic-manor/obj/golden-ball");
+    obj->move(environment(winner));
+    message_vision(CYN"一顆奇怪的珠子從$N的身體裏滾了出來!!\n"NOR,me);
+  } else if( random(21) == 13 )
+  {
+    obj=new("/open/magic-manor/obj/soil-ball");
+    message_vision(CYN"一顆奇怪的珠子從$N的身體裏滾了出來!!\n"NOR,me);
+    obj->move(environment(winner));
+  }
+  ::die();
+}

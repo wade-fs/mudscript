@@ -1,0 +1,198 @@
+// by poloer
+#include "/open/open.h"
+#include <ansi.h>
+#include "dragon.h"
+inherit NPC;
+inherit F_MASTER;
+string ask_tesin();
+string ask_ball();
+void use_poison(object me, object viction);
+
+
+void create()
+{
+    set_name(HIR"鄭雨橋"NOR, ({"jen wu-cho", "jen"}));
+    set("attribute","dark");
+    set("title", "炎龍谷主");
+set("clan_kill",1);
+    set("nickname", HIB"暴王"NOR);
+    set("age",20);
+    set("long","\n看起來非常兇惡的人，臉上充滿殺氣。\n\n");
+    set_skill("move",100);
+    set_skill("force",100);
+    set_skill("literate",100);
+    set("quest/dragon",1);
+       
+        set("str",30);
+        set("cps",30);
+        set("kar",30);
+        set("chat_msg_combat", ({
+                (: perform_action("skystrike.evil-blade") :),
+        }));
+
+        set("spe",30);
+        set("int",30);
+        set("cor",30);
+        set("attitude","herosim");
+        set("combat_exp",3000000);
+        set_skill("skystrike",100);
+set("kee",6000);
+set("max_kee",6000);
+        set("gin",3000);
+        set("max_gin",3000);
+        set("sen",3000);
+        set("max_sen",3000);
+        set("force",5500);
+        set("force_factor", 15);
+        set("max_force",6000);
+        set("inquiry",([
+        "龍鐵心" : (:ask_tesin:),
+        "連陽劍晶珠" : (:ask_ball:),
+        ]));
+        set_skill("dodge",100);
+        set_skill("unarmed",100);
+        set_skill("nine-steps",100);
+        set("functions/evil-blade/level",100);
+        set("chat_chance_combat",15);
+        set("limbs",({"頭部","胸部","背部","腰部"}));
+        map_skill("dodge","nine-steps");
+        map_skill("unarmed","skystrike");
+        setup();
+// set("default_actions", (: call_other, __FILE__,"query_action" :));
+// reset_action();
+        carry_object(C_OBJ"/ghostar")->wear();
+carry_object(C_OBJ"/dragon-tiger-circle")->wield();
+        add_money("gold",50);
+}
+
+
+void greeting(object me)
+{
+ write(HIC"鄭雨橋狂傲的說：
+「柳家掌門都敗在我的手裡了，你還會比他強嗎?」
+「不過如果想找我較量，當然可以，閻羅王正招生呢！」
+"NOR); 
+}
+
+
+void init()
+{
+ ::init();
+ add_action("do_cmd","cmd");
+}
+
+int do_cmd(string str){
+ object who=this_player();
+ object ob,king;
+ ob=this_object();
+ king=present( "jen",environment(ob) );
+ if(str=="askgod jen" || str=="askgod jen wu-cho"){
+ write(HIY"炎龍谷主狂傲的說：「在本谷主面前求神問卜!?去問閻王吧。」受死吧!!\n"NOR);
+ king->kill_ob(who);
+ return 1;                                                 
+                  }
+}
+void heart_beat()
+{
+        if( random(5) < 2 ){
+        if(!is_fighting() ){
+                if( query("kee") < query("eff_kee") )
+                        command("exert recover");
+            if( query("eff_kee") < query("max_kee") )
+                        command("exert heal");
+                           }
+        }
+        :: heart_beat();
+}       
+ void die()
+{
+	object winner = query_temp("last_damage_from");
+	int j;
+        if(!winner)
+	{
+	::die();
+	return ;
+        }
+	tell_object(users(),HIM"
+       
+      "HIW"炎龍谷主說:"HIG" 柳家的人終於來報仇了，冤冤相報何時了啊！
+         
+
+"HIG"不過今竟然敗在"+HIW+winner->query("name")+HIB"之手真是不甘ㄚ\n"+NOR);
+
+	winner->set("quest/dragon",1);
+	new(C_OBJ"/key")->move(winner);
+
+	tell_object(winner,HIW"鄭雨橋說:冤冤相報何時了呀~
+	罷了！我就把柳家的鑰匙交給你吧！\n"NOR,this_player());
+        if (winner->query_temp("swordquest/findball")==5)
+        {
+    winner->set_temp("swordquest/findball",6);
+    tell_object(winner,HIW"而連陽劍晶珠......被黃金甲龍..吞了!!\n");
+
+        }
+    if(userp(winner) && winner->query_temp("not_robot") > time() )
+    {
+	if ( winner->query_temp("bless")==1 )
+	{
+	j=random(-1);
+	  if( j==7 || j==77 || j== 777 || j==1111 || j==55 || j==555 || j==1000 || j==4000 || j==3333 || j==2222 )
+	  {      
+	  new("/open/sky/obj1/fire_emblem")->move(environment(winner));
+	  message_vision(HIM"\n從鄭雨橋的身上掉下了一件奇怪的東西!!\n"NOR,winner);
+          write_file("/log/sky/obj1/fire_emblem",sprintf("%s(%s) 讓鄭雨橋掉下了炎之紋章於 %s\n",
+	  winner->name(1),winner->query("id"),ctime(time())));
+	  }
+	}else{
+	j=random(-1);
+	  if( j==5 || j==15 || j== 150 || j==1500 || j==10 || j==100 || j==1000 || j==4000 || j==6666 || j==7777 ) 
+	  {      
+	  new("/open/sky/obj1/fire_emblem")->move(environment(winner));
+	  message_vision(HIM"\n從鄭雨橋的身上掉下了一件奇怪的東西!!\n"NOR,winner);
+          write_file("/log/sky/obj1/fire_emblem",sprintf("%s(%s) 讓鄭雨橋掉下了炎之紋章於 %s\n",
+	  winner->name(1),winner->query("id"),ctime(time())));
+	  }
+	}
+	}
+
+         ::die();
+      }
+string ask_tesin()
+{
+ if (this_player()->query_temp("find_tesin6")==1)
+  {
+  this_player()->set_temp("find_tesin7",1);
+  return ("龍鐵心?早在十數年前..我趁他不注意的時候.封了他的穴.趁機把他關入柳家寶庫的祕室中了");
+  }
+else if (this_player()->query_temp("find_tesin6")==2)
+  {
+  this_player()->set_temp("find_tesin7",2);
+  return ("龍鐵心?早在十數年前..我趁他不注意的時候.封了他的穴.趁機把他關入柳家寶庫的祕室中了.");
+  }
+else if (this_player()->query_temp("find_tesin6")==3)
+   {
+  this_player()->set_temp("find_tesin7",3);
+  return ("龍鐵心?早在十數年前..我趁他不注意的時候.封了他的穴.趁機把他關入柳家寶庫的祕室中了.");
+  }
+}
+string ask_ball()
+{
+ if(!this_player()->query_temp("swordtime"))
+ {
+  return ("對不起﹐你問的事我實在沒有印象。");
+  }
+ else
+  {
+  if (this_player()->query("class")=="swordsman" && this_player()->query_temp("swordquest/findball")==4)
+    {
+    object ob1,king;
+     ob1=this_object();
+    king=present( "jen",environment(ob1) );
+    king->kill_ob(this_player());
+    this_player()->set_temp("swordquest/findball",5);
+    return ("哈哈!!連陽劍晶珠..你問對人了..受死吧~~!!\n");
+   }
+else return ("對不起﹐你問的事我實在沒有印象。");
+ }
+}
+

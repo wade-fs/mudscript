@@ -1,0 +1,34 @@
+#include <ansi.h>
+inherit ROOM;
+
+void create ()
+{
+	set ("short", "西廂房");
+	set ("long", @LONG
+一間乾淨整齊的廂房，廂房的中央擺了一張四角桌，桌上擺了一
+盞油燈，照亮了整間房間，房間的一旁還有一個小窗戶，可以看到外
+面的風景，為遠道而來的賓客提供了一個舒適的休息環境。
+LONG);
+
+	set("no_auc", 1);
+	set("no_transmit", 1);
+    set("no_fight", 1);
+	set("exits", ([ /* sizeof() == 2 */
+	"east"	: __DIR__"manor45",
+	"enter"	: "/open/marksman/break-sun/transmit",
+	]));
+	set("objects", ([ /* sizeof() == 1 */
+        "open/marksman/break-sun/npc/caster" : 1,
+        ]));
+
+	set("light_up", 1);
+	setup();
+}
+
+int valid_leave(object me, string dir)
+{
+if(dir == "enter")
+if(!me->query_temp("ask-break-sun") || me->query_temp("ask-break-sun") <6)
+return notify_fail("你感到裡面傳來一股危險、強大的能量，雙腳因而僵直，不敢前進!!\n");
+return ::valid_leave(me,dir);
+}

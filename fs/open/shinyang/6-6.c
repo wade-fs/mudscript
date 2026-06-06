@@ -1,0 +1,23 @@
+// Room: /u/w/whatup/area/shinyang/6-6.c
+inherit ROOM;
+
+void create ()
+{
+  set ("short", "東夏大道");
+  set ("long", @LONG
+這是通往東門的重要幹道，平整的路面可以容納兩三匹馬並行似
+乎也不是問題，這邊四周都有巡邏的士兵，不時還有騎兵騎著馬小跑
+而過，看來要小心點避免被踩到。
+LONG);
+
+  set("no_transmit", 1);
+  set("exits", ([ /* sizeof() == 3 */
+  0 : __DIR__"7-5",
+  "west" : __DIR__"5-6.c",
+  "south" : __DIR__"6-5.c",
+]));
+  set("outdoors", "/open");
+  set("no_auc", 1);
+
+  setup();
+}

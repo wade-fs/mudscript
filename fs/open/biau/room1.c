@@ -1,0 +1,29 @@
+// Room: /u/o/onion/room/w_room0.c
+
+#include <room.h>
+inherit ROOM;
+
+void create()
+{
+	set("short", "鑣局內堂走廊");
+	set("long", @LONG
+從鑣局外走進來,你看到一條長長的走廊,上面鋪著上好的櫸木地板,兩旁的燭火將
+地板照的光可鑑人,似乎可以很清楚的看到自己的影子.
+    走廊一直向前延伸,前方似乎是鑣局所設的客房.
+    南方有一道木門(door).
+LONG
+	);
+	set("item_desc", ([ /* sizeof() == 1 */
+  "south" : (: look_door,     "south" :),
+  "door" : "一扇堅實的木門,上頭雕著複雜的花紋.\n",
+]));
+	set("exits", ([ /* sizeof() == 3 */
+  "west" : __DIR__"room0",
+  "south" : __DIR__"room2",
+  "east" : __DIR__"room3",
+]));
+	set("valid_startroom", "1");
+
+        create_door("south","木門","north",DOOR_CLOSED);
+	setup();
+}

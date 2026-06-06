@@ -1,0 +1,27 @@
+#include <room.h>
+#include <ansi.h>
+inherit ROOM;
+void create ()
+{
+  set ("short", HIY"狂想空間歷史發展館"NOR);
+  set( "long", "後來根據我的印象我就很少去狂想空間了,幾乎在分站發展新的門派
+在分站發展正快速的進行,但是同時作弊、巫師亂來同時也是很嚴重!!那時
+由於意見不合的關系,因此巫師的關系不是很好,例如：我跟Roger大大就是
+不過同時由於發展的關系,也吸引了一些玩家前來玩,那時的機器是DX2-66
+是486所以人數只要過三十人就會變的很慢,這樣的機器一直撐了快一年才換
+如此變化快速及奇怪的時代持續了半年左右,後來分站的ADMIN不知為何忽然
+有一段很長的時間沒有人出現,Anmy大大為了在有好的發展,我跟roger及swy
+、airke等升級了.接手分站的規畫!!!!
+那時roger跟casey(現在的cloves)完成了魔界
+    airke大大完成了天道、雪蒼、射手的部份
+    acelan大大完成了儒門及狂想主架構的修正
+    houng、xman、skyer、cccc ..等優秀的巫師也加了很多的區域..下去
+" );
+  set("exits", ([
+  "north" : __DIR__"newhand6-10",
+  "south" : __DIR__"newhand6-12",
+               ]));
+  set("light_up", 1);
+  setup();
+}
+

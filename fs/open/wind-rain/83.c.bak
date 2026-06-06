@@ -1,0 +1,25 @@
+// by roger && taifar
+inherit ROOM;
+#include <ansi.h>
+#include "wind-rain.h"
+void create () {
+set ("short",HIG"柳湮溏"NOR);
+set ("long", @LONG
+此橋曲過柳湮溏，以石竹為扶，翠綠相映，扶柱上刻雕麒麟百狀，
+每一隻麒麟口中皆咬含一顆夜明珠，珠光瀲豔如星光點點。又觀水
+上，蓮荷交妍，蘆花飄飄，蜻蜓點水，蹼足咯咯，湖面如鏡風吹不
+漪，水洇氤氳涼涼，精神氣爽。
+LONG);
+
+
+
+  set("exits", ([
+            "east"   : __DIR__"81",
+            "north"  : __DIR__"74",
+                ]));
+  set("objects", ([ 
+  __DIR__"npc/white-fish" : 2,
+                  ]));
+       
+        setup();
+}

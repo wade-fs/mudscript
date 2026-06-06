@@ -1,0 +1,24 @@
+// Room: /open/grassland/camp01
+inherit ROOM;
+
+void create ()
+{
+  set ("short", "帳棚");
+  set ("long", @LONG
+帳篷的四周發出無形的威壓，中間的位置上站著一位老者，卻背對
+者你不曾面對著你，但是你卻感到一雙無形的眼神正凝視著你，莫非這
+就是傳說中天下最神秘的匠神，沒想到他隱居在一個荒涼的草原上一個
+小小的帳棚，難怪無數的江湖人士緣求一面但卻苦無所得。後面放著火
+爐，裡面冒著熊熊火焰。
+LONG);
+
+  set("exits", ([ /* sizeof() == 1 */
+  "north" : __DIR__"r12",
+]));
+  set("no_transmit", 1);
+  set("no_scale",1);
+  set("objects",([
+    __DIR__"npc/worker.c":1
+	]));
+  setup();
+}

@@ -1,0 +1,24 @@
+// Room: /u/c/chhu/workroom.c
+#include "../cold.h"
+
+inherit ROOM;
+
+void create()
+{
+	set("short","霜雨道");
+	set("long", @LONG
+這條路就是寒谷有名的霜雨道﹐在一年四季裡﹐由於這裡的地形
+奇特﹐造成這裡為寒谷中﹐寒風交集之處﹐因此每每降下大量的冰霜
+﹐冰霜多的像雨一般的飄零﹐故此處被稱為寒谷奇景之一的霜雨道。
+
+LONG
+	);
+	set("exits", ([ /* sizeof() == 2 */
+	"west":COLD_ROOM"right1",
+	"east":COLD_ROOM"right3",
+]));
+	set("objects",([
+	]));
+	setup();
+	replace_program(ROOM);
+}

@@ -1,0 +1,142 @@
+//by roger
+inherit NPC;
+inherit SSERVER;
+#include <ansi.h>
+#include "castle.h"
+void create()
+{
+        set("nickname",HIY"流雲掩月"NOR);
+        set_name("夜無柔", ({"wu-low","ghost"}));        
+        set("age",8710);
+        set("long","名雖無柔, 容貌卻是嬌麗婉約, 晢白的肌膚上薄履輕紗, 一舉手一投足均是撩人心窩. \n");
+        set("title","夜夢雙星");
+        set("gender","女姓");
+        set("str",35);
+        set("con",35);
+        set("cor",30);
+        set("cps",30);
+        set("bellicosity",1500);
+        set("max_gin",8000);
+        set("gin",8000);
+        set("max_sen",3000);
+        set("sen",8000);
+        set("max_kee",13000);
+        set("kee",13000);
+        set("combat_exp",6300000);
+        set("max_force",15000);
+        set("force",15000);
+        set("force_factor",35);
+        set("clan_kill",1);
+        set_skill("dodge",100);
+        set_skill("force",100);
+        set_skill("badforce",100);
+        set_skill("mogi-steps",100);
+        set_skill("unarmed",100);
+        set_skill("mogi-strike8",100);
+        set_skill("parry",100);
+        set_skill("literate",130);
+        set_skill("move",80);
+        map_skill("unarmed","mogi-strike8");
+        map_skill("dodge","mogi-steps");
+        map_skill("move","mogi-steps");
+        map_skill("force","badforce");
+        map_skill("parry","mogi-strike8");
+        set_temp("apply/armor",70);
+        set_temp("apply/damage",70);
+        setup();
+        add_money("gold",5);
+        
+}
+
+int accept_fight(object who)
+{
+return notify_fail("夜無柔說道 : 我沒空陪你玩。\n");
+}
+int accept_kill(object me)
+{
+    object ob,ghost;
+    ob=this_object();
+    ghost=present( "mou-houng",environment(ob) );
+     if( !present( "mou-houng",environment(ob))||!living(ghost)) return 1;
+    else {
+    message_vision(HIY"\n夜末虹看到夜無柔有難，馬上向$N下了辣手攻擊！\n"NOR,me);
+     ghost->kill_ob(me);
+    return 1;
+   }
+}
+
+void heart_beat()
+{
+ object env,mob,*enemy,target;
+ int i,force;
+ mapping exit;
+ string *exit_name;
+ 
+ mob = this_object();
+ 
+ env = environment(mob);
+ 
+ if( !query("wield") )
+ {
+   set("wield",1);
+   command("wield all");
+ }
+ 
+ if( random(100) < 20)
+ {
+    enemy=mob->query_enemy();
+    i=sizeof(enemy);
+   target=offensive_target(mob);
+    if(!target) return ;
+        force = target->query("force");
+    if( env == environment(target) )
+    {
+      message_vision(HIW"
+$N步法漸快身影漸散，空氣之中香氣郁郁，撩人心神。使
+出了一式"HIY"『太陰虛幻寶鑑之  柔之章』"HIW"
+$N的一舉一動完全牽制住$n的所有動作，$n被困在舞陣之
+中動彈不得 
+\n"NOR,mob,target);
+    
+     target->start_busy(3);
+    }
+ }  
+   set_heart_beat(1);
+   ::heart_beat();
+   
+}
+
+void die()
+{    
+	object winner = query_temp("last_damage_from");
+	int j;
+        if(!winner)
+	{
+	::die();
+	return ;
+        }
+    if(userp(winner) && winner->query_temp("not_robot") > 1 )
+    {
+	if ( winner->query_temp("bless")==1 )
+	{
+	j=random(-1);
+	  if( j==7 || j==77 || j== 777 || j==1111 || j==55 || j==555 || j==1000 || j==4000 || j==3333 || j==2222 )
+	  {
+	  new("/open/sky/obj9/kind-charm")->move(environment(winner));
+	  message_vision(HIM"\n從夜無柔的身上掉下了一件奇怪的東西!!\n"NOR,winner);
+          write_file("/log/sky/obj9/kind_charm",sprintf("%s(%s) 讓夜無柔人掉下了善良之符於 %s\n",
+	  winner->name(1),winner->query("id"),ctime(time())));
+	  }
+	}else{
+	j=random(-1);
+	  if( j==5 || j==15 || j== 150 || j==1500 || j==10 || j==100 || j==1000 || j==4000 || j==6666 || j==7777 )
+	  {
+	  new("/open/sky/obj9/kind-charm")->move(environment(winner));
+	  message_vision(HIM"\n從夜無柔的身上掉下了一件奇怪的東西!!\n"NOR,winner);
+          write_file("/log/sky/obj9/kind_charm",sprintf("%s(%s) 讓夜無柔掉下了善良之符於 %s\n",
+	  winner->name(1),winner->query("id"),ctime(time())));
+	  }
+	}
+	}
+	::die();
+}

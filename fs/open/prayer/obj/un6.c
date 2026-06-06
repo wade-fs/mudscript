@@ -1,0 +1,45 @@
+#include <weapon.h>
+#include <ansi.h>
+
+inherit UNARMED;
+
+void create()
+{
+        string na;
+        object me;
+        me = this_player();
+        na = (me->name(0));
+
+        if (me)
+           set_name(na+"的大地之星",({"earth hander","hander"}));
+        else
+         { set_name("大地之星",({"earth hander","hander"})); }
+        seteuid(getuid());
+        set_weight(25000);
+        if( clonep() )
+        set_default_object(__FILE__);
+        else {
+        set("unit", "把");
+        set("long",@LONG
+
+	上古神秘兵器之一的～～大地之星～～!!裝備在手上後, 
+	揮出來拳頭的拳力如同地震般的強撼!!甚至可以將大地一
+	分為二!!
+	
+LONG);
+        set("value",12000);
+        set("no_drop",1);
+        set("no_get",1);
+        set("no_sell",1);
+        set("no_give",1);
+        set("no_auc",1);
+        set("material", "iron");
+//      set("wield_msg", "$N從刀鞘將$n拔出來之後，寒光四射。\n");
+//      set("unwield_msg", "$N用衣服將$n包了起來，其紅色的豪光被布包給遮蔽了。\n");
+        }
+        init_unarmed(65);
+        setup();
+}               
+
+int query_autoload() { return 1; }
+      

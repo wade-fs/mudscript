@@ -1,0 +1,20 @@
+inherit ROOM;
+#include <ansi.h>
+
+void create ()
+{
+        set ("short", "登山小道");
+        set ("long", @LONG
+小道上滿是黃土雜草，通往長白山上的路途顯得有些難走，西邊
+有一座古亭，疲累的旅人都會在那裏休息一番，而往山上的道路是東
+邊的小路。
+LONG);
+        set("outdoors", "");
+        set("exits", ([ /* sizeof() == 4 */
+        "south" : __DIR__"mon06",
+        "east"  : __DIR__"mon08",
+        "west"  : __DIR__"mon09",
+]));
+        setup();
+}
+

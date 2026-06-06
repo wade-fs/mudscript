@@ -1,0 +1,21 @@
+// Room: /u/w/whatup/area/shinyang/b1-1.c
+inherit ROOM;
+
+void create ()
+{
+  set ("short", "走道");
+  set ("long", @LONG
+陰暗的路上，這裡是通往地牢的走道，兩旁稀少的火把透出微落
+的火光，犯人陣陣的哀嚎與呻吟聲令人聽起來毛骨悚然，讓你不禁想
+想是否還要繼續走下去。
+LONG);
+
+  set("no_transmit", 1);
+  set("exits", ([ /* sizeof() == 2 */
+  "north" : __DIR__"b1-3.c",
+  "east" : __DIR__"b1-6.c",
+]));
+  set("no_auc", 1);
+
+  setup();
+}

@@ -1,0 +1,23 @@
+inherit ROOM;
+#include <ansi.h>
+
+void create ()
+{
+  set ("short", "山隨峰");
+	set( "build", 12 );
+  set ("long", @LONG
+長白山著名的三峰之一，站在此地，視野所及的，只有美不勝收
+能形容，仔細看看，有一另一個山峰依偎在山隨峰的旁邊，如影隨形
+的那種感覺，所以才因此而得名，登上峰頂可以看到更美的景色。
+LONG);
+
+  set("objects", ([ /* sizeof() == 1 */
+  __DIR__"obj/bem.c" : 1,
+]));
+  set("exits", ([ /* sizeof() == 2 */
+  "west" : __DIR__"mon45",
+  "stand" : __DIR__"mon50",
+]));
+
+  setup();
+}

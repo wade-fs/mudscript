@@ -1,0 +1,6 @@
+gate_sol.c:	城門衛軍
+		1. player 第一次要 report id 才可進城
+		2. 主動攻擊曾打過soldier的player
+soldier.c:	禁衛軍
+		1. 沿著京城巡邏.
+		2. 主動攻擊曾打過soldier的player

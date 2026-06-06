@@ -1,0 +1,195 @@
+// Room: /open/death/gate.c
+#include <ansi.h>
+#include <login.h>
+inherit ROOM;
+#include <basic_skill.h>
+
+void end_death(object me);
+void create ()
+{
+  set ("short", "[31m³±±ä¤J¤f[2;37;0m");
+  set ("long", @LONG
+§A¤w¸g¨Ó¨ì¤F³±¶¡ªº¤J¤f¡CÁöµM¶ZÂ÷¦a©²ÁÙ¦³¤@¬q¶ZÂ÷¡A¦ý¬O§A¤w¸g
+·P¨ü¨ì°}°}¨ë°©ªº³±­·¡C¥|©P¤@¤ù¯î²D¡A¦ý¬O«o°­¼v¼l¼l¡A¬Ý¨Ó³oÃäªº©]
+Á`·|ÆZ¼ö¾xªº¡AÀ³¸Ó¤£·T¨S¦ñ¡C«nÃä©M¤W­±¦n¹³¬O©M¤H¥@¶¡¬Û³qªººÞ¹D¡A
+¤£¹L¦n¹³¦³¤@ªÑµL§Îªº¤O¶q¹j¶}³o¨â­Ó¤£¦Pªº¥@¬É¡A¬Ý¨Ó­n±q³o¨â­Ó¤è¦V
+¦^¥h¤£¬O¨º»òÂ²³æªº¨Æ±¡¡C
+LONG);
+
+set("no_fight",1);
+  set("exits", ([ /* sizeof() == 3 */
+//  "up" : "/open/common/room/inn",
+//  "south" : "/open/common/room/inn",
+  "north" : __DIR__"bridge1",
+]));
+  set("no_auc",1);
+  set("no_fight", 1);
+  set("light_up", 1);
+  set("no_transmit", 1);
+
+  setup();
+}
+
+int valid_leave(mixed me, string dir)
+{
+        int i;
+        string room;
+
+        if (dir == "south") {
+                i = (int)me->query_temp("back_road");
+                i = i + 1;
+                if (i >= (random(5) + 5)) {
+                    me->set_temp("back_road", 10);
+                    return notify_fail("§A¯uªº¨º»ò·Q¦^®a¶Ü¡H  ¦n§a¡I¡I´N¦p§A©ÒÄ@¡A¤£¹L­n¥I¥X«Ü¤jªº¥N»ù³á¡I¡I\n·Q²M·¡¤F¤§«á¡A ¦pªGÁÙ¬O­n¦^¥hªº¸Ü´N©¹¤W­±¨«§a¡I¡I\n");
+                } else {
+                        me->set_temp("back_road",i);
+                        return notify_fail("§AÁÙ·Q¦^®a¡H¶i¤F¦a©²´N¨S¦³¸ô¥i°h¤F¡I\n");
+                }
+        }
+        else if (dir == "north") {
+                me->delete_temp("back_road");
+                return 1;
+                }
+        else if (dir == "up" || dir == "¤W­±")
+        {
+            if ( (int) me->query_temp("back_road") >= 10 )
+            {
+                end_death(me);
+                me->delete_temp("back_road");
+                me->reincarnate();
+                if(!stringp(room = me->query("startroom")))
+                    room = STARTROOM;
+                me->move(room);
+                message_vision(
+                "¬ðµM¤Ñ¤¤­°¤U¤@¹Î²»¥ú¡A¥O¤HµLªk¥Î¦×²´ª½µø¡C\n¹L¤F¤@·|¨à¡A²»¥ú´²¥h¡A¤@¹D¤H¼v¥X²{¡A$N²×©ó±q³±¶¡°½¶]¦^¨Ó¤F¡C\n",me);
+                return notify_fail("®¥ÁH§A¤S­«¦^¤H¥@¤F¡C\n");
+            } else
+                return notify_fail("·Q¦^¥h¡I¡H ¨S¨º»òÂ²³æ¡I¡I\n");
+        }
+        else
+        return 1;
+}
+
+void auto_revive(object ob)
+{
+        end_death(ob);
+        ob->reincarnate();
+        ob->move(REVIVEROOM);
+        tell_object(ob, "ÀFÃ¹¤ý¬Ý§A¤£²n°Õ¡I¡I°e§A¦^¤H¶¡¡I¡I\n");
+}
+//¼W¥[°O¿ýª±®aªº¦º¤`¡A¥H§K¨C¦¸³£¦³¤H»¡¬O²ö¦W¨ä§®ªº¦º¤F by bss
+void start_death(object ob)
+{
+        string str="";
+        object fighter;
+
+        if(ob->query_temp("last_damage_from"))
+        {
+                fighter=ob->query_temp("last_damage_from");
+                str=ob->query("name")+"³Q"+fighter->query("name")+"©Ò±þ¦b"+ctime(time())+"\n";
+                write_file("/open/death/death_record", str);
+        }
+        if(ob->query("combat_exp"))
+        ob->set("death/combat_exp", 1);
+        ob->add("death/time", 1);
+        ob->set("death/skill", 1);
+        if( ob->query("max_force") || ob->query("max_mana") || ob->query("max_atman") )
+        {
+        if( ob->query("max_force") >= ob->query("max_mana")
+        && ob->query("max_force") >= ob->query("max_atman") )
+        ob->set("death/force", 1);
+        else if( ob->query("max_mana") >= ob->query("max_force")
+        && ob->query("max_mana") >= ob->query("max_atman") )
+                ob->set("death/mana", 1);
+        else
+                ob->set("death/atman", 1);
+        }
+//      call_out("auto_revive", 300, ob);
+}
+
+void end_death(object me)
+{
+        int cost;
+        mapping skl, map;
+        string *sname, *mapped;
+        int i;
+
+/*¥ýÃö±¼¥H«eªºfsºâªº­È¤£¦X²z...
+    if( me->query("death/combat_exp") )
+    {
+        // cost =(int) ( me->query("combat_exp") *
+// int ©M str °ªªº¤H±o¹ê¾Ô¸gÅç¤ñ¸û§Ö... so ¦©¤ñ¸û¦h... 5% - 10%
+//       ( (random(me->query_int()*2 + me->query_str() - 30) + 60) / 12 ) /
+// kar ¤ñ¸û°ªªº¤H.. ¤ñ¸û¦³ºÖ®ð... ¥i¥H¥´§é... °£¥H 1 - 2....
+//        ( random(me->query_kar() - 10) / 15 + 1) / 100 );
+        cost = me->query("combat_exp") / 100 * 7;
+
+        me->add("combat_exp", -cost);
+        tell_object(me, "§Aªº¹ê¾Ô¸gÅç³Q¦©¤F"+chinese_number(cost)+"ÂI¡C\n");
+    }
+    if( me->query("death/skill") )
+    {
+        skl = me->query_skills();
+        if(sizeof(skl)) {
+            sname  = keys(skl);
+            map = me->query_skill_map();
+            if( mapp(map) ) mapped = values(map);
+            if( !mapped ) mapped = ({});
+            for(i=0; i<sizeof(skl); i++)
+            if((member_array(sname[i], mapped) != -1 ) || (sname[i] == basic_skill[sname[i]]) )
+            {
+                if (random(me->query_kar()-10) < 15)
+                {
+                cost = (int) ( skl[sname[i]] *
+// int ¸û°ªªÌ±o skill ¤ñ¸û§Ö... so ¦©¤ñ¸û¦h..  1% - 4%
+                ((random(me->query_int()) + 10) / 10 ) /
+// ºÖ½t¸û°ªªÌ.. ¦©¸û¤Ö.. °£¥H 1 - 2
+                (random(me->query_kar() - 1) / 20 + 1) / 100 );
+                skl[sname[i]] -= cost;
+                tell_object(me, "§Aªº"+to_chinese(sname[i])+"§Þ¥©³Q¦©¤F"+chinese_number(cost)+"ÂI¡C\n");
+                }
+            }
+        }
+    }
+
+
+    if( me->query("death/force") )
+    {
+        cost = (int) ( me->query("max_force") *
+// con ¸û°ªªÌ±o force ¤ñ¸û§Ö... so ¦©¤ñ¸û¦h..  2% - 5%
+        ((random(me->query_con()) + 20) / 10 ) /
+// ºÖ½t¸û°ªªÌ.. ¦©¸û¤Ö.. °£¥H 1 - 2
+        (random(me->query_kar() - 10) / 20 + 1) / 100 );
+        if( cost > 10)
+          cost = 10;
+        me->add("max_force", -cost);
+        tell_object(me, "§Aªº¤º¤O¤W­­³Q¦©¤F"+chinese_number(cost)+"ÂI¡C\n");
+    }
+    if( me->query("death/mana") )
+    {
+        cost = (int) ( me->query("max_mana") *
+// spi ¸û°ªªÌ±o mana ¤ñ¸û§Ö... so ¦©¤ñ¸û¦h..  2% - 5%
+        ((random(me->query_spi()) + 20) / 10 ) /
+// ºÖ½t¸û°ªªÌ.. ¦©¸û¤Ö.. °£¥H 1 - 2
+        (random(me->query_kar() - 10) / 20 + 1) / 100);
+        if( cost > 10)
+          cost = 10;
+        me->add("max_mana", -cost);
+        tell_object(me, "§Aªºªk¤O¤W­­³Q¦©¤F"+chinese_number(cost)+"ÂI¡C\n");
+    }
+    if( me->query("death/atman") )
+    {
+        cost = (int) ( me->query("max_atman") *
+// spi ¸û°ªªÌ±o ÆF¤O ¤ñ¸û§Ö... so ¦©¤ñ¸û¦h..  2% - 5%
+        ((random(me->query_spi()) + 20) / 10 ) /
+// ºÖ½t¸û°ªªÌ.. ¦©¸û¤Ö.. °£¥H 1 - 2
+        (random(me->query_kar() - 10) / 20 + 1) / 100 );
+        if( cost > 10)
+          cost = 10;
+        me->add("max_atman", -cost);
+        tell_object(me, "§AªºÆF¤O¤W­­³Q¦©¤F"+chinese_number(cost)+"ÂI¡C\n");
+    }
+*/
+
+  me->delete("death");
+}

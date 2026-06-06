@@ -1,0 +1,25 @@
+#include <weapon.h>
+#include <ansi.h>
+
+inherit BLADE;
+
+void create()
+{
+    set_name(HIC"青龍偃月刀"NOR,({"Green Dragon Blade","blade"}));
+        set_weight(10000);
+        if( clonep() )
+                set_default_object(__FILE__);
+        else {
+                set("unit", "把");
+set("long","這便是傳說中武聖關羽所用的寶刀, 據說有青龍之魂棲息在內 .\n");
+set("value",50000);
+                set("material", "gold");
+                  set("armor_prop/blade",10);
+                set("wield_msg", "拿著$n,$N覺得渾身充滿了神力.\n");
+                set("unwield_msg", "$N將手中的$n插入腰間的刀鞘。\n");
+        }
+        init_blade(120);
+
+        setup();
+}
+

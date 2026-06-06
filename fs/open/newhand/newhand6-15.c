@@ -1,0 +1,22 @@
+#include <room.h>
+#include <ansi.h>
+inherit ROOM;
+void create ()
+{
+  set ("short", HIY"狂想空間歷史發展館"NOR);
+  set( "long", "後來分站就回雄專了,這次之後fir..等就一直沒有消息,回來之後,
+我繼續接手這裏的發展,那時除了發展門派外,我決定開始著手寫幫派
+(clan)的制度,之前clan是採用weiwei所寫的原始程式來修正的,後來
+我決定修正,重寫寫新的,這時運氣好了,arthur加入我們,arthur是Es超
+強的巫師,那時他快入伍了,由於他的幫助使我在短時間內完成了幫派的
+基本架構..........
+" );
+
+  set("exits", ([
+  "north" : __DIR__"newhand6-14",
+  "south" : __DIR__"newhand6-16",
+               ]));
+  set("light_up", 1);
+  setup();
+}
+

@@ -1,0 +1,32 @@
+// Room: /open/main/room/maiu-1.c
+inherit ROOM;
+
+void create ()
+{
+  set ("short", "瀾蒼江畔");
+  set ("long", @LONG
+這裡是瀾滄江畔的陡涯,瀾滄江就在你腳下的深谷裡,往下一
+望,只見江水濤濤,非但赤腳難以涉水走過,就是行舟,也未必渡的
+過這濤天江水,你西邊有一座吊橋,高高的橫過江面.
+LONG);
+
+  set("objects", ([ /* sizeof() == 1 */
+  "/open/ping/npc/murofu" : 1,
+]));
+  set("outdoors", "/open/ping");
+  set("資源", ([ /* sizeof() == 1 */
+  "液體" : ([ /* sizeof() == 3 */
+      "種類" : "水",
+      "名稱" : "清水",
+      "止渴" : 30,
+    ]),
+]));
+  set("exits", ([ /* sizeof() == 3 */
+  "south" : __DIR__"to_chun1.c",
+  "west" : __DIR__"maiu-2",
+  "east" : __DIR__"r41",
+]));
+
+  setup();
+  replace_program(ROOM);
+}

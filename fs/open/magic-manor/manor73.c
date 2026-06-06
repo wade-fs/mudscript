@@ -1,0 +1,22 @@
+#include <ansi.h>
+inherit ROOM;
+
+void create ()
+{
+	set ("short", "庭園");
+	set ("long", @LONG
+小小的庭園，佈滿各式庭園造景，有小山，小橋，流水，看上去
+的風景是如此的美麗，似是來到一處人間仙境般。
+LONG);
+
+	set("no_auc", 1);
+	set("no_transmit", 1);
+
+	set("exits", ([ /* sizeof() == 3 */
+	"east"	: __DIR__"manor70",
+	]));
+
+	set("outdoors", "/open/magic-manor");
+
+	setup();
+}

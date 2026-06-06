@@ -1,0 +1,25 @@
+// Room: /open/hall/h_room13.c
+
+inherit ROOM;
+
+void create()
+{
+        set("short","衙門師爺─神算子之廂房");
+	set( "build", 12 );
+        set("long", @LONG
+這裡是衙門師爺─神算子的廂房，房裡放著一張並不太華麗的床，
+床旁邊放著一張桌子，桌上擺著一些衙門公文及重大罪犯之名單，桌子
+旁是個破舊的書櫃，櫃內放置著古今名書，倘若你仔細一瞧，這一些書
+都是已翻爛而又重新裝訂的!!
+LONG);
+        set("exits", ([ /* sizeof() == 1 */
+  "north":__DIR__"h_room10",
+
+]));
+        set("objects", ([ /* sizeof() == 1 */
+
+"/open/hall/npc/mas":1,
+]));
+
+        setup();
+}

@@ -1,0 +1,25 @@
+inherit ROOM;
+#include <ansi.h>
+
+void create ()
+{
+  set ("short", "妖幻空間");
+	set( "build", 19 );
+  set ("long", @LONG
+一股濃烈無以形容的味道襲向你，四周的空間變的詭異，不似是
+正常的空間，這裏正是千年樹妖所製造出來的空間，平時的樹妖正是
+處在此地，一向不喜歡人類的牠，最痛恨人類無故來打擾他平靜的生
+活了，如果有人擅闖，將會被千年樹妖無情的攻擊。
+LONG);
+
+  set("objects", ([ /* sizeof() == 1 */
+  __DIR__"npc/dance.c" : 1,
+]));
+  set("exits", ([ /* sizeof() == 1 */
+  "out" : __DIR__"mon58",
+]));
+
+  setup();
+}
+
+

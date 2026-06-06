@@ -1,0 +1,20 @@
+inherit ROOM;
+#include <ansi.h>
+
+void create ()
+{
+        set ("short", "碎岩小徑");
+        set ("long", @LONG
+細細的碎石佈滿了整個小徑，稀稀疏疏的野草已藏不住這裏的荒
+涼，罕至的人煙，孤獨的小徑，只剩孤空中的蒼鷹高空相隨，冷冷的
+小徑，只剩縹緲中的雲霧貼身相伴。
+LONG);
+        set("outdoors", "");
+        set("exits", ([ /* sizeof() == 4 */
+        "southdown"      : __DIR__"mon22",
+        "westup"         : __DIR__"mon24",
+
+]));
+        setup();
+}
+

@@ -1,0 +1,21 @@
+// Room: /open/hall/h_room3.c
+
+inherit ROOM;
+
+void create()
+{
+        set("short", "縣官的寢室");
+        set("long", @LONG
+當執事退堂後，這裡就是他休息的地方。這地方並沒有什麼特殊之
+處，在你面前有一張大桌子(table)，不過你推不動它。
+LONG);
+        set("exits", ([ /* sizeof() == 1 */
+  "southeast" : __DIR__"hall_3",
+]));
+
+        set("item_desc", ([ /* sizeof() == 1 */
+  "table" : "  一張由黑檀木所製成的桌子, 上面披了一面紅布。\n",
+ ]));
+
+        setup();
+}

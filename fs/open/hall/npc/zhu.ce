@@ -1,0 +1,95 @@
+inherit NPC;
+inherit F_MASTER;
+#include <ansi.h>
+
+void create()
+{
+        set_name("¦¶¤õ©ô", ({ "zhu howang", "zhu", "wang"}));
+        set("title", "¿¤¸Å¤G®·ÀY");
+        set("nickname","[33m±O¤û®v[0m");
+        set("gender", "¨k©Ê" );
+        set("age", 46);
+        set("str", 50);
+        set("cor", 50);
+        set("cps", 50);
+        set("int", 50);
+        set("spi", 50);
+        set("kar", 50);
+        set("per", 50);
+        set("con", 50);
+
+        set("max_atman", 5000);
+        set("max_force", 5000);
+        set("max_mana", 5000);
+        set("atman", 5000);
+        set("force", 5000);
+        set("mana", 5000);
+        set("force_factor", 5);
+
+        set("long", @LONG
+    ¤@­Ó²Ê§§ªº¨k¤l¡A¥L´¿¬OÃ÷¤s¬£ªº§Ì¤l¡C©~»¡¥L´¿¬°¤F±Ï¤H¡A
+¤@®±À»ÀÅ¤@ÀYºÆ¤û¡A¦]¤§±o¤F­Ó¡y±O¤û®v¡zªº¬ü¸¹¡A¤£¹L¥Ñ©ó¥L¥Í
+©Ê©ñ¿º¡A¬G¹ï¤@¨Ç¥Í¬¡¤Wªº²Ó¸`¤£¬O«Üª`­«¡A©¹©¹¨Ï¨­Ãäªº¤H¨ü¤£
+¤F¡C
+LONG);
+
+        set("combat_exp", 600000);
+        set("score", 20000);
+
+        set("chat_chance_combat", 60);
+        set("chat_msg_combat", ({
+        "¬Ý®±!!¤p¤ß°Õ!!\n",
+        "¤@¸}½ðÂ½§A³o¤ý¤K³J!!\n"
+        }) );
+
+        set_skill("unarmed", 60);
+        set_skill("force", 100);
+        set_skill("parry", 100);
+        set_skill("dodge", 100);
+        set_skill("sword", 100);
+        set_skill("literate", 90);
+
+        set("inquiry", ([
+          "Ã÷¤s¬£" : "­ü¡ã¡ãÃ÷¤s®±³á¡ã¡ã¤£»¡¤]½}¡D¡D¡D¡D",
+	  "thief"  : "­ü¡ã¡ã¥i±¤§Ú¨­§Î²Â­«, ¤£µM¤W¦¸§Ú´N§ì¨ì¨º¤jµs¤F",
+        ]) );
+
+        setup();
+   //   carry_object(__DIR__"obj/dragon_armor")->wear();
+}
+
+void die()
+{    
+	object winner = query_temp("last_damage_from");
+	int j;
+	if(!winner)
+	{
+	::die();
+	return ;
+	}
+
+    if(userp(winner) && winner->query_temp("not_robot") > 1 )
+    {
+	if( winner->query_temp("bless")==1 )
+	{
+	j=random(-1);
+	  if( j==7 || j==77 || j== 777 || j==1111 || j==55 || j==555 || j==1000 || j==4000 || j==3333 || j==2222 )
+	  {
+	  new("/open/sky/obj11/red-crystal")->move(environment(winner));
+	  message_vision(HIM"\n±q¦¶¤õ©ôªº¨­¤W±¼¤U¤F¤@¥ó©_©ÇªºªF¦è!!\n"NOR,winner);
+          write_file("/log/sky/obj11/red_crystal",sprintf("%s(%s) Åý¦¶¤õ©ô±¼¤U¤F¬õ¦â¥ú´¹©ó %s\n",
+	  winner->name(1),winner->query("id"),ctime(time())));
+	  }
+	}else{
+	j=random(-1);
+	  if( j==5 || j==15 || j== 150 || j==1500 || j==10 || j==100 || j==1000 || j==4000 || j==6666 || j==7777 )
+	  {
+	  new("/open/sky/obj11/red-crystal")->move(environment(winner));
+	  message_vision(HIM"\n±q¦¶¤õ©ôªº¨­¤W±¼¤U¤F¤@¥ó©_©ÇªºªF¦è!!\n"NOR,winner);
+          write_file("/log/sky/obj11/red_crystal",sprintf("%s(%s) Åý¦¶¤õ©ô±¼¤U¤F¬õ¦â¥ú´¹©ó %s\n",
+	  winner->name(1),winner->query("id"),ctime(time())));
+	  }
+	}
+	}
+	::die();
+}

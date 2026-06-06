@@ -1,0 +1,17 @@
+#include <ansi.h>
+inherit ROOM;
+void create ()
+{
+        set("short",YEL"幽冥道"NOR"小村");
+        set("long",@LONG
+南邊有一個草造的茅草屋, 聽說裡面住著一個
+通曉幽冥界的智者, 也許你應該先去拜訪他一下, 
+或許對你打敗死靈骨魔會有所幫助...
+LONG);
+        set("exits",([
+        "enter":__DIR__"g-r08",
+        "north":__DIR__"g-r04",
+        ]));
+        set("no_transmit",1);
+        setup();
+}

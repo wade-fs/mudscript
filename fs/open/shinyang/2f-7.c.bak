@@ -1,0 +1,22 @@
+// Room: /u/w/whatup/area/shinyang/2f-7.c
+inherit ROOM;
+
+void create ()
+{
+  set ("short", "城主臥室");
+  set ("long", @LONG
+房間的中央擺著一張精緻的雕花圓桌，桌上放著一個紫砂壺，兩
+邊擺著名貴的檜木雕椅，令人驚奇的是桌子後面一張可以睡上三四人
+的木雕鑲玉床，看起來十分的名貴，要是偷偷一樣去賣可真是會大賺
+一筆真呀！不愧是襄陽城主的臥室。
+LONG);
+
+  set("no_transmit", 1);
+  set("exits", ([ /* sizeof() == 1 */
+  "west" : __DIR__"2f-4.c",
+]));
+  set("no_auc", 1);
+  set("light_up", 1);
+
+  setup();
+}

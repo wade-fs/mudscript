@@ -1,0 +1,21 @@
+// Room: /u/w/whatup/area/shinyang/1f-3-1.c
+inherit ROOM;
+
+void create ()
+{
+  set ("short", "議事堂");
+  set ("long", @LONG
+這裡就是襄陽城中之最，是城主與一般家將和文官議事的地方，
+四周擺著兩排紅木大椅，算了算還真不少，沒經過同意進來這裡，可
+是死罪一條，還是趕緊離開這裡好了，免得小命休矣！
+LONG);
+
+  set("no_transmit", 1);
+  set("exits", ([ /* sizeof() == 1 */
+  "north" : __DIR__"1f-3-2.c",
+]));
+  set("no_auc", 1);
+  set("light_up", 1);
+
+  setup();
+}

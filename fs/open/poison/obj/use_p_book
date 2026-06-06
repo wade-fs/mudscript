@@ -1,0 +1,19 @@
+        冥蠱魔教用毒之法:
+ 
+        名稱:   一刻香
+        用法:   perform poison.faint [目標]
+ 
+        特攻:   火雲柔指(firefinger)
+        用法:   perform poison.firefinger [目標]
+ 
+        名稱:   火玫瑰毒
+        用法:   cmd throw rose poison [ to 目標 ]
+ 
+        名稱:   深宮奇毒
+        用法:   cmd throw dark poison [ to 目標 ]
+ 
+        名稱:   五毒神掌
+        用法:   perform poison.five [目標]
+ 
+        名稱:   化骨綿掌
+        用法:   perform coldpoison.melt-bone [目標]

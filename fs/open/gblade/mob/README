@@ -1,0 +1,28 @@
+這個目錄下放的是有關於煉妖壺的東西
+lotch.c 煉妖壺
+煉妖壺能量一點換算妖魔 exp 一點
+吸入敵人 , 能量為敵人 exp 減半
+因只能幫忙打一次 , 能量收集困難
+煉妖壺的妖魔我定義在幫忙拿 eq
+可叫出的妖魔為 使用者 exp 之五倍
+妖魔之強度可再議
+
+test1.c 小狗  exp 1
+test2.c 惡狼  exp 500
+test3.c 飛鷹  exp 2000
+test4.c 猛虎  exp 5000
+test5.c 雄獅  exp 10000
+test6.c 小妖女   exp 15000
+test7.c 鐵鎧戰士 exp 20000
+test8.c 銅劍戰士 exp 30000
+test9.c 銀刃戰士 exp 40000
+test10.c 金刀戰士  exp 50000
+test11.c 獨角撩獸  exp 100000
+test12.c 霜面鬼使  exp 150000
+test13.c 三界押差  exp 200000
+test14.c 四域戰魂  exp 250000
+test15.c 舞蠱冥怪  exp 300000
+test16.c 戮世妖僧  exp 350000
+test17.c 欺天羅漢  exp 400000
+test18.c 八荒劍尊  exp 450000
+以下的還沒好 , player 要練到 exp 90000 還久勒 , hehe

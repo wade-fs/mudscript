@@ -1,0 +1,21 @@
+// Room: /u/s/superobs/eqroom.c
+inherit ROOM;
+
+void create ()
+{
+  set ("short", "獎品區");
+  set ("long", @LONG
+這邊討論有關網聚獎品的事宜....以及個人eq的顏色跟name的申請....
+希望將獎品贈與他人....跟eq顏色跟name的事情先想好在post申請....
+不要造成wiz 的忙碌及不必要的困擾....
+LONG);
+
+  set("light_up", 1);
+  set("no_fight", 1);
+  set("exits", ([ /* sizeof() == 1 */
+  "south" : __DIR__"fsroom2.c",
+]));
+  set("no_magic", 1);
+
+  setup();
+}

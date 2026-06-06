@@ -1,0 +1,29 @@
+inherit ROOM;
+#include <ansi.h>
+
+void create ()
+{
+        set ("short", "屋外空地");
+        set ("long", @LONG
+走到這裏，赫然發現一間茅屋，整間茅屋的裏裏外外看起來已破
+舊不堪，似乎已經久無人住了，空地上雜草叢生，但仍可以隱隱看到
+一條被人走過的小徑通到屋子裏，屋外還有一塊石頭 (stone)，上頭
+似乎還刻畫著一些圖案，讓你想走近一看究竟。
+LONG);
+        set("item_desc", ([ /* sizeof() == 1 */
+        "stone" : "
+          "HIR"但願人長久                                   "NOR+YEL"﹀
+            "HIR"千里共嬋娟                               "NOR+YEL"﹀    "HIY"●
+"HIB"▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁
+▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃
+"NOR+BLU"▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄\n"NOR,
+]));
+
+        set("outdoors", "");
+        set("exits", ([ /* sizeof() == 4 */
+        "enter" : __DIR__"mon01",
+        "west" : __DIR__"mon03",
+]));
+        setup();
+}
+

@@ -1,0 +1,22 @@
+// Room: /open/hall/h_room10.c
+
+inherit ROOM;
+
+void create()
+{
+        set("short","廂房走道");
+	set( "build", 24 );
+         set("long",@LONG
+這裡是廂房前的走道，站在這裡幾乎聽不到大堂的吵雜聲，寧靜的氣
+氛，使人感到格外的舒暢，在你的南方是衙門師爺─神算子之廂房，而在
+北邊是捕頭統領─冷面煞的廂房。
+LONG);
+        set("exits",([
+  "north":__DIR__"h_room2",
+  "west":__DIR__"h_room11",
+  "east":__DIR__"hall_3",
+  "south":__DIR__"h_room13",
+]));
+
+        setup();
+}

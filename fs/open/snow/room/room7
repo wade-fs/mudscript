@@ -1,0 +1,82 @@
+#include <room.h>
+
+inherit ROOM;
+
+void create()
+{
+             set("short","藏經閣");
+          set("long",@LONG
+這裡是雪蒼派的藏經閣﹐裡面所放的都是雪蒼的秘笈﹐但是
+一般的弟子﹐沒經過掌門准許﹐是不得動裡面的書的﹐在門口有
+一張藏經閣的藏書表(list)﹐只有經過掌門准許的人才能在此研
+讀裡面的藏書。
+LONG);
+        set("exits", ([
+		"west":__DIR__"room6",
+        ]) );
+	set("light_up",1);
+	set("objects",([
+	"/open/snow/obj/book":1,
+	]));
+        setup();
+}
+void init()
+{
+      add_action("do_list","list");
+     add_action("do_study","read");
+}
+int do_list()
+{
+    object me=this_player();
+    tell_object(me,@LONG
+  這裡的藏書有﹕
+      雪蒼秘錄 (Snow book)
+      狂風鬼影腳秘笈 (feet book)
+      枯葉殘風錄 (star book)
+LONG);
+   return 1;
+}
+int do_study(string str)
+{
+   object me=this_player();
+   string in_skill;
+   int amount;
+   if(this_player()->query("allow_study")!=1)
+          return notify_fail("你不能亂動這裡的書。\n");
+   if(str=="snow book") { in_skill="quests/read_snow"; amount=1; }
+   if(str=="feet book") { in_skill="quests/read_snow"; amount=2; }
+   if(str=="black book") { in_skill="quests/read_snow"; amount=3; }
+   if(str=="kee wind") { 
+      tell_object(me,@LONG
+御氣成風乃是雪蒼武學的最高境界﹐練成御氣成風者﹐運氣皆風
+可控制體內氣流﹐轉化成強勁之狂風﹐雪蒼派歷代練成者只有八人﹐
+此八人皆揚名武林﹐成為一代高手﹐全書手撰此書之意﹐僅在言明雪
+蒼武學精奧之處。
+ 
+  
+                                      雪蒼派第四代  劉全書
+LONG);
+            return 1;
+      }
+     if(str=="enforceup book")
+       {
+          tell_object(me,@LONG
+凝氣訣乃我雪蒼派內功之絕學﹐武功高者可將內力凝結﹐轉而發出
+數倍內勁﹐是我派至高之絕學﹐也是武學中之一大突破﹐先師  獨
+孤愁曾將此學再加以深研﹐練就出另一絕技「凝氣成風」﹐此乃集
+合我雪蒼絕學之絕技「御氣成風」及「凝氣訣」而成。
+ 
+   
+                                雪蒼派第四代  劉全書
+LONG); 
+        return 1;
+       }
+     if(me->query("quests/read_snow")>=1)
+    {
+        tell_object(me,"你已經研讀過三本秘笈中的一本﹐已不准再讀。\n");
+        return 1;
+    }
+    tell_object(me,"你研讀之後﹐使你對武學更有所領悟。\n");
+    me->set(in_skill,amount);
+   return 1;
+}

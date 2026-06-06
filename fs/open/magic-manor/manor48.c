@@ -1,0 +1,23 @@
+#include <ansi.h>
+inherit ROOM;
+
+void create ()
+{
+	set ("short", "西廂房");
+	set ("long", @LONG
+一間乾淨整齊的廂房，廂房的中央擺了一張四角桌，桌上擺了一
+盞油燈，照亮了整間房間，房間的一旁還有一個小窗戶，可以看到外
+面的風景，為遠道而來的賓客提供了一個舒適的休息環境。
+LONG);
+
+	set("no_auc", 1);
+	set("no_transmit", 1);
+
+	set("exits", ([ /* sizeof() == 3 */
+	"north"	: __DIR__"manor45",
+	]));
+
+	set("light_up", 1);
+
+	setup();
+}

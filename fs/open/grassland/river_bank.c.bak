@@ -1,0 +1,24 @@
+#include <room.h>
+inherit ROOM;
+void create()
+{
+        set("short","漢水河岸");
+        set("long", @LONG
+這裡是漢水北岸的灘頭，一座堅固的石橋在此橫亙整條河
+，一路延伸至河對岸的襄陽城北門，從這兒向東南望去，可見
+巨大厚實的城牆護衛著襄陽，加上山、河環繞的絕佳地勢，無
+怪乎自古以來一直都是易守難攻的彈丸之地。
+LONG);
+        set("outdoors", 1);
+		set("no_auc", 1);
+        set("no_transmit", 1);
+        set("no_scale",1);
+        set("no_chome",1);
+        set("exits", ([ 
+        "southeast":__DIR__"bridge01",
+        "west":__DIR__"slope01", 		
+        ]) );
+  setup();
+}
+
+

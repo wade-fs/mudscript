@@ -1,0 +1,23 @@
+// Room: /u/w/whatup/area/shinyang/2-5
+inherit ROOM;
+
+void create ()
+{
+  set ("short", "西湘大道");
+  set ("long", @LONG
+不遠的前方是襄陽城的西門，這是西邊的重要幹道之一，不時有
+貨車經經過，看來是將糧草由西邊的渡口運往城中的糧倉，不時有城
+中的守衛在四周巡邏小心的戒備著。
+LONG);
+
+  set("no_transmit", 1);
+  set("exits", ([ /* sizeof() == 3 */
+  "north" : __DIR__"2-6.c",
+  "west" : __DIR__"1-5.c",
+  "east" : __DIR__"3-5.c",
+]));
+  set("no_auc", 1);
+  set("outdoors", "/open");
+
+  setup();
+}

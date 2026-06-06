@@ -1,0 +1,29 @@
+inherit NPC;
+#include <ansi.h>
+string an01();
+void create ()
+{
+set_name("右銅門",({"Copper door of left","door","left"}));
+set("long","
+自從試煉之塔搭建成之後，就一直守護著右邊銅門的守門者，久而久之
+身體便與銅門同化了，最後只剩下一張臉與四肢露在銅門外，你可以問
+他有關進入塔內的『條件』是什麼。\n");
+set("age",200);
+set("gender","男性");
+set("title","試煉塔守門者");
+set("inquiry",([
+"條件" : (: an01 :),
+]));
+set("chat_chance", 10);
+set("chat_msg", ({
+HIY"右銅門嘴巴歪來歪去，看起來似乎很無聊。\n"NOR,
+}));
+
+setup();
+}
+string an01()
+{
+command("hmm");
+command("say 你必須要先到東邊的售票庭買一張入場券才能進入。\n");
+return "再跟你多說一點...裡面的人都很強喔\n";
+}

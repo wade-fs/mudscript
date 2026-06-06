@@ -1,0 +1,25 @@
+// Room: /u/c/chhu/workroom.c
+#include "../cold.h"
+
+inherit ROOM;
+
+void create()
+{
+set("short","觀心樓");
+	set("long", @LONG
+這裡是寒谷中最為清雅的一處地方﹐名曰「觀心樓」﹐由於
+修習仙法必須心無雜念﹐然而﹐一般人總是擺脫不了紅塵俗事的
+羈伴﹐所以掌門總是會叫一些弟子來此處修心養性﹐讓自己的心
+平靜下來。
+
+LONG
+	);
+	set("exits", ([ /* sizeof() == 2 */
+	"northeast":COLD_ROOM"left2",
+]));
+	set("objects",([
+	COLD_NPC"trainee4":1,
+	]));
+	setup();
+	replace_program(ROOM);
+}

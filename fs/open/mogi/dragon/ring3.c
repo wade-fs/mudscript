@@ -1,0 +1,27 @@
+// Room: /u/p/poloer/dragon/ring3
+inherit ROOM;
+
+void create ()
+{
+  set ("short", "吊橋上");
+  set ("long", @LONG
+  走上了吊橋，橋身搖搖晃晃的站的站不穩，好
+  像快要掉下去一樣，如果不小心掉下去那可不得了
+  。還是加緊腳步快走吧。
+
+           ～ 吊橋的繩索喀喀的響～
+
+LONG);
+
+      set("evil", 1);
+        set("no_auc", 1);
+        set("no_transmit", 1);
+        set("light_up",-1);
+  set("exits", ([ /* sizeof() == 2 */
+  "south" : __DIR__"ring2",
+  "down" : __DIR__"b1",
+]));
+  set("outdoors", "/u/p/poloer/dragon");
+
+  setup();
+}

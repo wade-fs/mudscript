@@ -1,0 +1,40 @@
+inherit ROOM;
+
+#include "room.msg"
+string query_long1();
+void create ()
+{
+set ("short", "殭屍洞");
+set("no_clean_up",1);
+set("long",(: query_long1 :));
+set("exits/east",__DIR__"/room12.c");
+  set("no_transmit", 1);
+  set("no_scale",1);
+set("search_desc/hole","你覺得這個洞好像可以鑽(enter)出去。");
+setup();
+}
+string query_long1()
+{
+string slong = @LONG
+往東邊走，就聽到殭屍王在大吼的聲音，並且四周黑黑的，什麼
+也看不見，不知道為什麼，你心中感覺到一陣害怕，不敢往前走。還
+有奇怪惡毒的味道。
+LONG
+;
+
+return slong  + HIW"\t這裡好像有一個神奇的洞(hole)。\n"NOR;
+}
+void init()
+{
+	add_action("do_enter","enter");
+}
+int do_enter(string arg)
+{
+object me = this_player();
+if(!arg) return notify_fail("你要去哪裡？");
+if(arg != "hole")
+	return notify_fail("你要去哪裡？");
+message_vision(HIB"$N努力的往洞裡鑽啊鑽的，終於進去了。\n"NOR,me);
+me->move(resolve_path(__DIR__,"room10.c"));
+return 1;
+}

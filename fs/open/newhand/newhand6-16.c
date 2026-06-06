@@ -1,0 +1,30 @@
+#include <room.h>
+#include <ansi.h>
+inherit ROOM;
+void create ()
+{
+  set ("short", HIY"狂想空間歷史發展館"NOR);
+        set( "long", "後來我接手人事總管的職務,並負責FS主架構的部份,同時確定了FS的
+一些方針：
+1.建立新的巫師制度,希望可以儘力防止作弊不公的事件
+2.區分出門派的特色制度
+3.發展幫派的制度
+同時大砍巫師,因些FS的巫師從四十八人瞬間到了只有不到二十人。
+那時FS的系統被Crack,使Fs的lib流出,因此請了Anmy強化FS工作站的
+安全性.........
+另外為了吸引玩家作了一些重大改革
+1.修正MAX_KEE及EXP的算法
+2.強化HELP使這裏容易上手
+3.放出了FSLIB,及答應玩家不REOPEN
+另外特別感謝smalltwo及libraa二位玩家,smalltwo捐出了p-mmx-233的主機
+板及CPU,libraa捐出了RAM,對FS的硬體來說有很大的幫助,也使FS有再上一層
+樓的條件,在此特別感謝
+" );
+  set("exits", ([
+  "north" : __DIR__"newhand6-15",
+  "south" : __DIR__"newhand6-17",
+               ]));
+  set("light_up", 1);
+  setup();
+}
+

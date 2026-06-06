@@ -1,0 +1,22 @@
+// Room: /u/w/whatup/area/shinyang/2f-1.c
+inherit ROOM;
+
+void create ()
+{
+  set ("short", "走廊");
+  set ("long", @LONG
+兩邊都是紅漆木門跟窗戶關起來的，長長的走廊延伸而去，這裡
+是城主臥室的路上，地上鋪著長長的紅色絨布地墊，隔間的牆上掛著
+不知出自何人之手的山水畫軸，看起來十分的典雅氣派。
+LONG);
+
+  set("no_transmit", 1);
+  set("exits", ([ /* sizeof() == 2 */
+  "north" : __DIR__"2f-5.c",
+  "east" : __DIR__"2f-8.c",
+]));
+  set("no_auc", 1);
+  set("light_up", 1);
+
+  setup();
+}

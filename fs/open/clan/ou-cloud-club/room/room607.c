@@ -1,0 +1,43 @@
+inherit ROOM;
+void create() {
+	set( "short", "$HIY$仙丹$NOR$($HIG$dan$NOR$)" );
+	set( "object", ([
+		"amount10" : 1,
+		"amount3"  : 1,
+		"amount1"  : 1,
+		"file5"    : "/obj/gift/xiandan",
+		"amount9"  : 1,
+		"file6"    : "/obj/gift/xiandan",
+		"file7"    : "/obj/gift/xiandan",
+		"amount8"  : 1,
+		"amount5"  : 1,
+		"amount6"  : 1,
+		"file10"   : "/obj/gift/xiandan",
+		"amount7"  : 1,
+		"amount4"  : 1,
+		"file9"    : "/obj/gift/xiandan",
+		"file1"    : "/obj/gift/xiandan",
+		"file3"    : "/obj/gift/xiandan",
+		"amount2"  : 1,
+		"file2"    : "/obj/gift/xiandan",
+		"file8"    : "/obj/gift/xiandan",
+		"file4"    : "/obj/gift/xiandan",
+	]) );
+	set( "owner", "enter" );
+	set( "build", 11256 );
+	set( "light_up", 1 );
+	set( "exits", ([
+		"east"      : "/open/clan/ou-cloud-club/room/room608",
+		"west"      : "/open/clan/ou-cloud-club/room/room606.c",
+	]) );
+	set( "long", @LONG
+從你踏入此室時，一股淡淡清香撲鼻而來，只見地上
+堆積著一堆堆的藥草，都是江湖上夢寐以求的藥草，而牆
+邊壁櫥內更是放滿著各式各樣的藥丹，每一樣都是稀有難
+求的，而此處竟堆積著如此多的丹藥，若非親眼看見還真
+無法相信，可見傲雲山莊裡擁有太多的高手存在了。
+
+LONG);
+	setup();
+	replace_program(ROOM);
+}

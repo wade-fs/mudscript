@@ -226,7 +226,7 @@ void attempt_apprentice(object me)
           write("怎麼這麼快又見面了? 下次再來吧。\n");
         else
         {
-        write(" + "+RANK_D->query_respect(me)+"想拜入我的門下嗎? 我門的內功\首重內心修養, "+
+        write(" "+RANK_D->query_respect(me)+"想拜入我的門下嗎? 我門的內功\首重內心修養, "+
         "若學識沒有一定的基礎, 對自身反而有害。老夫這就來試一試你, 若真心想學的話就回答(answer)我的問題吧\n");
         write("段雲緩緩的吟唱道: fl;"+question[which]+"fc;\n");
         write("段雲和藹的說道: 你能說說接下來的句子嗎?\n");

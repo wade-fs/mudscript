@@ -1,0 +1,26 @@
+// Room: /u/w/whatup/area/shinyang/5-10.c
+#include <room.h>
+inherit ROOM;
+
+void create ()
+{
+  set ("short", "襄陽城北門");
+  set ("long", @LONG
+這裡是光威門，襄陽城北面的出口，從這裡出去可以通往漢水
+大橋，是往來塞外地區的眾多旅人必經之路，衛兵在城門口仔細的
+巡視著來往的旅客，看看是不是有可疑的份子經過！
+LONG);
+
+  set("outdoors", "/open");
+  set("exits", ([ /* sizeof() == 4 */
+  "east" : __DIR__"6-10.c",
+  "west" : __DIR__"4-10.c",
+  "north" : "/open/grassland/bridge03",
+  "south" : __DIR__"5-9.c",
+]));
+  set("no_auc", 1);
+  set("no_transmit", 1);
+
+  setup();
+  create_door("north","北門大門","south",DOOR_OPENED );
+}

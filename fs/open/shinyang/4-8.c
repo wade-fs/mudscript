@@ -1,0 +1,23 @@
+// Room: /u/w/whatup/area/shinyang/2-8
+inherit ROOM;
+
+void create ()
+{
+  set ("short", "義烏大道西");
+  set ("long", @LONG
+人來人往的大街上，四周都是攤販叫喊的聲音，著名的襄陽城中
+街道之一義烏大道的西側，店家與攤販的佔據了兩側的路旁，讓人行
+動十分的不便，前方不遠處就是襄陽城中的驛站，那邊的環境更顯的
+混亂！
+LONG);
+
+  set("no_transmit", 1);
+  set("exits", ([ /* sizeof() == 2 */
+  "west" : __DIR__"3-8.c",
+  "east" : __DIR__"5-8.c",
+]));
+  set("no_auc", 1);
+  set("outdoors", "/open");
+
+  setup();
+}

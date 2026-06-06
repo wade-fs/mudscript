@@ -1,0 +1,24 @@
+// Room: /u/c/chhu/workroom.c
+#include "../cold.h"
+
+inherit ROOM;
+
+void create()
+{
+	set("short","宮主臥房");
+	set("long", @LONG
+這裡是寶珍神宮宮主也就是寒谷一派的掌門人的臥房﹐平常﹐
+一般的外客是不能隨便進來的﹐即使是門弟子也不可以說進來就進
+來﹐沒有什麼特殊的事情﹐最好不要亂闖﹐以免宮主生氣﹐後果可
+以相當不得了的事。
+
+LONG
+	);
+	set("exits", ([ /* sizeof() == 2 */
+	"south":COLD_ROOM"in4",
+]));
+	set("objects",([
+	]));
+	setup();
+	replace_program(ROOM);
+}

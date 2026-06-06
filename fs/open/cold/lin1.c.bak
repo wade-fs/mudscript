@@ -1,0 +1,26 @@
+// Room: /u/c/chhu/workroom.c
+#include "../cold.h"
+
+inherit ROOM;
+
+void create()
+{
+	set("short","神殿正廳");
+	set("long", @LONG
+這兒便是神殿的正廳﹐在廳前正中央的是玄冰寒谷開山祖師的
+神像﹐據說當年﹐玄冰寒谷的開山祖師即是在此處坐化成仙的﹐所
+後代門弟子為感念祖師﹐因此在此處蓋了間神殿﹐世代祭拜。
+
+LONG
+	);
+	set("exits", ([ /* sizeof() == 2 */
+	"east":COLD_ROOM"lin4",
+	"north":COLD_ROOM"lin2",
+	"west":COLD_ROOM"lin3",
+	"out":COLD_ROOM"left2",
+]));
+	set("objects",([
+	]));
+	setup();
+	replace_program(ROOM);
+}

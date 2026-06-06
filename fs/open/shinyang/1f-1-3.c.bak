@@ -1,0 +1,24 @@
+// Room: /u/w/whatup/area/shinyang/1f-1-3.c
+inherit ROOM;
+
+void create ()
+{
+  set ("short", "樓梯口");
+  set ("long", @LONG
+這裡是通往城主府的二樓，城主的家眷想必都住在樓上，寬大的
+樓梯板，看起好像是用高貴的木材製成，看來索價不貲，你正要上前
+觀賞一下，兩邊的衛兵卻一直盯著你看，還是打消念頭好了。
+LONG);
+
+  set("no_transmit", 1);
+  set("exits", ([ /* sizeof() == 4 */
+  "up" : __DIR__"2f-1.c",
+  "north" : __DIR__"1f-1-4.c",
+  "east" : __DIR__"1f-2-3.c",
+  "south" : __DIR__"1f-1-2",
+]));
+  set("no_auc", 1);
+  set("light_up", 1);
+
+  setup();
+}

@@ -1,0 +1,23 @@
+// 藥丸
+
+inherit F_MEDICINE;
+
+void create()
+{
+                set_name("薄荷丸",({"sen pill","pill"}));
+        if( clonep() )
+                set_default_object(__FILE__);
+        else {
+                set("long","一顆薄荷精煉而成丹丸，提神效果極佳。\n");
+                set("unit","盒");
+                set("base_unit","粒");
+                set("base_weight",300);
+                set("value",1500);
+                set("cure_type","heal");
+                set("cure_heal_type","sen");
+                set("medicine_sick",135);
+                set("medicine_power",150);
+        }
+        set_amount(1);
+        setup();
+}

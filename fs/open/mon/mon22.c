@@ -1,0 +1,25 @@
+inherit ROOM;
+#include <ansi.h>
+
+void create ()
+{
+  set ("short", "長白山腰");
+	set( "build", 4 );
+  set ("long", @LONG
+再走一段路，你還是處在長白山腰，看看四周，有一條路看起來
+不像通往山上的路，而另一邊的路上顯得有些崎嶇，環看遠方，你已
+經有種登高的感覺，慢慢的你如深陷雲海中，漸漸看不清遠方的山，
+雲氣慢慢的向你聚集而來，讓你想快快開這裏。
+LONG);
+
+  set("objects", ([ /* sizeof() == 1 */
+  __DIR__"npc/bear.c" : 1,
+]));
+  set("exits", ([ /* sizeof() == 3 */
+  "northup" : __DIR__"mon23",
+  "west" : __DIR__"mon25",
+  "south" : __DIR__"mon21",
+]));
+
+  setup();
+}

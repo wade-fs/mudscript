@@ -1,0 +1,11 @@
+// 鑰匙, 有鎖的房間請到 /u/w/wade/room/key_room 參考
+inherit ITEM;
+
+void create()
+{
+	set_name("桃花簪", ({ "peach hairpin","hairpin", "peach" }) );
+    set("unit", "支");
+    set("long", "一支看起來樣式簡單的(桃花)形狀髮簪，是專門用來襯托髮型的飾品。\n");
+    // 底下這個是設定它可以用的房間
+    set ("key_of_room", ({ __DIR__"well" , __DIR__"well2" }) );
+}

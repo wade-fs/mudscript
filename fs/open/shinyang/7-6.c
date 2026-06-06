@@ -1,0 +1,25 @@
+// Room: /u/w/whatup/area/shinyang/4-6
+inherit ROOM;
+
+void create ()
+{
+  set ("short", "民宅");
+  set ("long", @LONG
+屋內擺著簡單的傢俱，一邊的爐子上似乎真在燉煮著什麼東西，
+不知道屋子裡還在煮東西，可是卻不見人影，這時門後好像聽到什麼
+東西拍打的聲音，原來是跑到後院去了。
+LONG);
+
+  set("no_transmit", 1);
+  set("objects", ([ /* sizeof() == 1 */
+  __DIR__"npc/child" : 2,
+]));
+  set("exits", ([ /* sizeof() == 1 */
+  "south" : __DIR__"7-5",
+]));
+  set("have_reborn", 1);
+  set("no_auc", 1);
+  set("light_up", 1);
+
+  setup();
+}

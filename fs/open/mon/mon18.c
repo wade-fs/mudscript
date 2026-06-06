@@ -1,0 +1,19 @@
+inherit ROOM;
+#include <ansi.h>
+
+void create ()
+{
+        set ("short", "碎石坡");
+        set ("long", @LONG
+路一段接一段，地面仍舊滿怖了碎石，景色依舊，在兩旁草木更
+顯枯黃稀少，空氣中的水氣也愈來愈濃，冷冷的風疾疾的吹，寒冷的
+氣息也一點一滴的鑽進你的體內，讓你摸不清前方的路還有多遠。
+LONG);
+        set("outdoors", "");
+        set("exits", ([ /* sizeof() == 4 */
+        "northup"    : __DIR__"mon19",
+        "southdown"  : __DIR__"mon17",
+]));
+        setup();
+}
+

@@ -1,0 +1,20 @@
+// Room: /open/hall/h_room6.c
+
+inherit ROOM;
+
+void create()
+{
+        set("short","待客花廳");
+        set("long",@LONG
+這兒是衙門用來接待貴客的地方，一張三尺見方雕花沉木桌置於廳
+中，牆上掛著幾幅山水畫，畫的右下角屬名是單一個　塵字，畫中意境
+不凡！真不曉的是出自於哪位大家之手。
+LONG);
+        set("exits",([
+  "west":__DIR__"h_room5",
+  "east":__DIR__"h_room7",
+  "south":__DIR__"h_room9",
+]));
+
+        setup();
+}

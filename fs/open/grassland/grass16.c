@@ -1,0 +1,19 @@
+#include <room.h>
+inherit ROOM;
+#include "grass_msg.c"
+
+void create()
+{
+        set("short","蒙古草原");
+        set("long", (: printf_msg :) );
+        set("outdoors", 1);
+        set("exits", ([
+        "south":__DIR__"grass15",
+		"east":__DIR__"grass17",
+        ]) );
+		set("objects",([ 
+        __DIR__"npc/wolf" : 1,]));
+  setup();
+}
+
+

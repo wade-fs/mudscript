@@ -1,0 +1,25 @@
+// by roger
+inherit ROOM;
+#include <ansi.h>
+#include "wind-rain.h"
+void create () {
+set ("short","芙蓉湖旁");
+	set( "build", 12 );
+set ("long", @LONG
+    這裡是京城裡極熱鬧的地方，有三家肉攤子，一家賣牛肉，一家賣
+羊肉，一家賣豬肉。有江湖賣藝的父女，有街頭說書，街邊論相的江湖
+人，還有小乞丐和老乞丐在大唱蓮花落。街旁有家酒樓叫「醉星樓」，
+進進出出的全是衣飾華貴之人，從樓上可以眺望整個芙蓉湖。
+LONG);
+
+
+  set("exits", ([
+            "east"  : __DIR__"room3",
+            "enter"  : __DIR__"room5",
+            "west"  : __DIR__"room7",
+                ]));
+
+       
+
+        setup();
+}

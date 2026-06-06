@@ -1,0 +1,32 @@
+inherit NPC;
+
+void create() 
+{
+        set_name("金瘕虫",({"good-worm","worm"}));
+        set("long",
+            "\n它是躲藏在黃金地帶的邪靈，一聞到生人氣息就蹦出來吃人。\n");
+        set("age",1937);
+        set("str",30);
+        set("cor",30);
+        set("race","野獸");
+        set("gender","雄性");
+        set("attitude","aggressive");
+        set("max_gin",6000);
+        set("max_kee",6000);
+        set("max_sen",6000);
+        set("max_force",20000);
+        set("force",20000);
+        set("force_factor",20);
+        set("combat_exp",800000);
+        set_skill("unarmed",300);
+        set_skill("dodge",300);
+        set_skill("move",300);
+        set_skill("parry",300);
+        set_skill("force",250);
+	set("evil_mob",1);
+        set("limbs",({"頭部","尾部","千節背","爪子"}));
+        set("verbs",({"dunt","claw"}));
+        set_temp("apply/armor",100);
+        set_temp("apply/damage",100);
+        setup();
+}

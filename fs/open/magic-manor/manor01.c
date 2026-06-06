@@ -1,0 +1,29 @@
+#include <ansi.h>
+inherit ROOM;
+
+void create ()
+{
+	set ("short", HIC"聚靈正殿"NOR);
+	set( "build", 12 );
+	set ("long", @LONG
+殿內繚繞著些許的靈氣，靈氣在空中緩緩飛旋，並慢慢朝著鳳翔
+天聚集，靈光並將整個聚靈正殿照耀的如白晝般明亮，若大的殿堂之
+中，足可以容下數百人之大，讓聚靈山莊更顯得壯麗。
+LONG);
+
+	set("no_auc", 1);
+	set("no_transmit", 1);
+
+	set("exits", ([ 
+	"north"	: __DIR__"manor25",
+	"south"	: __DIR__"manor02",
+	]));
+
+	set("objects", ([ 
+    __DIR__ "ghost/npc/fengxiang-tian" : 1,
+	]));
+
+	set("light_up", 1);
+
+	setup();
+}

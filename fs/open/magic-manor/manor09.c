@@ -1,0 +1,27 @@
+#include <ansi.h>
+inherit ROOM;
+
+void create ()
+{
+	set ("short", "走廊");
+	set( "build", 56 );
+	set ("long", @LONG
+舍室外的走廊，南北各通往一間舍室，南邊的是靜靈舍，北邊的
+是轉精舍，再往西邊可以通往另一段走廊，走廊兩旁的景物樸實簡單
+卻又不失高雅。
+LONG);
+
+	set("no_auc", 1);
+	set("no_transmit", 1);
+
+	set("exits", ([ /* sizeof() == 3 */
+	"north"	: __DIR__"manor11",
+	"south"	: __DIR__"manor14",
+	"east"	: __DIR__"manor08",
+	"west"	: __DIR__"manor10",
+	]));
+
+	set("light_up", 1);
+
+	setup();
+}

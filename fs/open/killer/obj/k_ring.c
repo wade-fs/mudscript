@@ -1,0 +1,175 @@
+// 2002/04/10 修正有關命中度的部分,讓他更合理
+// 提高發動機率,但是命中度降低
+//補上持有者昏倒之後就不發動的判斷 by blazakira 2011/8/26
+
+#include <ansi.h>
+#include <armor.h>
+inherit EQUIP;
+inherit SSERVER;
+
+void create()
+{
+  set_name( "殺意魔戒",({"bell_ring","ring"}) );
+  set_weight(2000);
+  if( clonep() )
+    set_default_object(__FILE__);
+  else {
+    set("long","這是傳說中產於天山派禁地的魔水晶，所琢磨出來的魔性戒子。\n");
+    set("unit", "件");
+    set("value",20000);
+    set("material","steal");
+    set("no_sell", 1); //不然就得多攔 action sell
+    set("armor_type","finger");
+    set("armor_prop/armor",5);
+    set("wear_msg",HIG"$N"HIG"戴上了$n，戒子亮起了淡淡綠光。\n"NOR);
+    set("unequip_msg","$N脫下了$n，魔戒詭異的綠光也隨之消逝。\n");
+  }
+  setup();
+}
+/*
+void init()
+{
+  if( this_player()==environment() )
+  {
+    add_action("do_drop","drop");
+    add_action("do_auc","auc");
+    add_action("do_wear","wear");
+    add_action("do_give","give");
+    add_action("do_remove","remove");
+  }
+}
+*/
+int wear()
+{
+//  object user;
+  int result = ::wear();
+  if( query("equipped"))
+  {
+//    user=environment(this_object());
+//    message_vision(HIG"$N戴上了殺意魔戒,戒子亮起了淡淡綠光.\n"NOR,user);
+    set_heart_beat(1);
+  }
+  return result;
+}
+
+int unequip()
+{
+  int result = ::unequip();
+  if( !query("equipped") )
+  {
+//    message_vision("$N脫下了殺意魔戒,魔戒詭異的綠光也隨之消逝.\n",user);
+    set_heart_beat(0);
+  }
+  return result;
+}
+/*
+int do_wear(string str)
+{
+  if (str=="bell_ring" || str=="all")    
+  {
+    ::wear();
+    if ( query("equipped") )
+    {
+      user=this_player();
+      message_vision(HIG"$N戴上了殺意魔戒,戒子亮起了淡淡綠光.\n"NOR,user);
+      set_heart_beat(1);
+    }
+  }
+}
+
+int do_drop(string str)
+{
+  if (str=="bell_ring" || str=="all")
+    if( query("equipped") )
+    {
+      message_vision("$N脫下了殺意魔戒,魔戒詭異的綠光也隨之消逝.\n",user);
+      set_heart_beat(0);
+    }
+}
+
+int do_give(string str)
+{
+  if (str=="bell_ring" || str=="all")
+    if( query("equipped") )
+    {
+      message_vision("$N脫下了殺意魔戒,魔戒詭異的綠光也隨之消逝.\n",user);
+      set_heart_beat(0);
+    }
+}
+
+int do_remove(string str)
+{
+  if (str=="bell_ring" || str=="all")
+    if( query("equipped") )
+    {
+      message_vision("$N脫下了殺意魔戒,魔戒詭異的綠光也隨之消逝.\n",user);
+      set_heart_beat(0);
+    }
+}
+
+int do_auc(string str)
+{
+  if (str=="bell_ring" || str=="all")
+    if( query("equipped") )
+    {
+      message_vision("$N脫下了殺意魔戒,魔戒詭異的綠光也隨之消逝.\n",user);
+      set_heart_beat(0);
+    }
+}
+*/
+void heart_beat()
+{
+  object *enemy,user,me=this_object();
+  int i,dodge,bell,cor,shaki,raint,mag,medodge;
+  user = environment(me);
+  if( !me || !user || !objectp(user) || !query("equipped") )
+  {
+    set_heart_beat(0);
+    return;
+  }
+//  if(!environment(user)) return ;
+  bell = user->query("bellicosity");
+  cor = user->query_cor();
+  shaki = user->query_skill("shadow-kill",1);
+  raint = user->query_skill("rain-throwing",1);
+  mag = user->query_skill("magic",1);
+  medodge = user->query_skill("dodge",1);
+  medodge = medodge+50;
+
+  if( mag < 10 ) mag=10;
+  if (user->query("class")=="killer") //殺手額外加100
+  medodge = medodge + 100; //一般敵人設定dodge < 100
+
+  if( user->is_fighting() && (bell > 35)  && user->query_temp("unconcious") != 1 )
+  {
+    enemy = user->query_enemy();
+    if(!enemy) return ;
+    i = random(sizeof(enemy));
+    if(!enemy[i]) return ;
+    if( environment(enemy[i]) && environment(user) == environment(enemy[i]) )
+      dodge = enemy[i]->query_skill("dodge",1);
+    if (dodge < 30) dodge = 30; //讓敵人至少有30的閃躲能力
+    if( random(cor*25) > 300) // 目前大多數的ppl的cor都為25-35如*300會造成
+    {                         // 出現率太瀕繁所以做為修正*180  BY SWY  
+      if( random(medodge) > dodge) //如果敵人的dodge是100的話，約有50％的命中度
+      { //dodge 最低30,medodge 最高220?
+        message_vision(HIG"殺意魔戒吸收$N的殺氣，以殺氣射向$n！！!\n"NOR,user,enemy[i]);
+        message_vision(HIG"$N強大的殺氣將$n逼的喘不過氣來，身心都受到嚴重傷害!!!\n"NOR,user,enemy[i]);
+        enemy[i]->start_busy(2);
+        if(user->query("class")=="killer") 
+        { //shadow-kill 90+rain-thrwoing 100合計是190點
+          enemy[i]->receive_damage("sen",random(mag*2),user);
+          enemy[i]->receive_damage("gin",random(mag*2),user);
+          enemy[i]->receive_damage("kee",random(shaki+raint+50),user);
+        } else {
+          enemy[i]->receive_damage("kee",random(150),user);
+        }
+        user->add("bellicosity",-(mag/4)); // magic越大，所耗去的殺氣越高，威力也越大
+      } else {
+        message_vision(HIG"殺意魔戒吸收$N的殺氣射向$n，但被躲過了...\n"NOR,user,enemy[i]);
+        user->add("bellicosity",-10);
+      }
+    }
+  }
+  return;
+}

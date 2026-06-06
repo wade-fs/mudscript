@@ -1,0 +1,28 @@
+#include <room.h>
+#include <ansi.h>
+inherit ROOM;
+void create ()
+{
+  set ("short", HIY"狂想空間幫派入門房間"NOR);
+  set ("long","要知道目前有那些幫派的話，可以打help cshowclan
+  例如：打cshowclans
+        --------------------- 狂想空間現有幫派一覽表---------------------
+        幫派:俠客島(hero)                       幫主:fish
+        幫派:風魔(wind)                 幫主:julio
+        幫派:十三吉祥(13_luck)                  幫主:lunn
+        幫派:日月神教(SunMoon_Station)                  幫主:cyberfight
+        幫派:煙雨江南(orient)                   幫主:guetenr
+        幫派:紅蓮教(Red_Fire)                   幫主:lovemay
+        -----------------------------------------------------------------
+        以上共有六個玩家幫派
+
+  以上是玩家目前所創建的幫派列表!!!!!!!!!!!
+               \n");
+  set("exits", ([
+  "east" : __DIR__"newhand3-1",
+  "west" : __DIR__"newhand",
+               ]));
+  set("light_up", 1);
+  setup();
+}
+

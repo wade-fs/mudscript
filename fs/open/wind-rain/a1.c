@@ -1,0 +1,25 @@
+// by roger && taifar
+inherit ROOM;
+#include <ansi.h>
+#include "wind-rain.h"
+void create () {
+set ("short","一樓玄關");
+set ("long",@LONG
+這裡是金風細雨樓唯一的出入口，也是各樓間移動的要道。几上設
+著武則天當日鏡室中設的寶鏡，一邊擺著趙飛燕立著舞的金盤，盤
+中盛著的是南海珍珠，璧血珊瑚，上面還設著壽昌公主於含章殿下
+織的緞紗，懸的是同昌公主製的連珠帳。 
+LONG);
+
+
+
+  set("exits", ([
+/*
+            "up" : __DIR__"b1",
+*/
+            "out": __DIR__"58",
+            "south" : __DIR__"a2",
+                ]));
+
+        setup();
+}

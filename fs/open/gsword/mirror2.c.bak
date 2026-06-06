@@ -1,0 +1,44 @@
+// made by ccat
+// obs要我改的喔...
+// 經驗值高於30萬的不能使用,經驗值高於100萬的mob照不出來&不能照玩家...by nike
+inherit ITEM;
+void create()
+{
+        set_name("水晶寶鏡",({"mirror"}) );
+        set_weight(1000);
+        if(clonep())
+        set_default_object(__FILE__);
+        else
+        {
+                set("long","以東海海底水晶所製的寶鏡,可以窺視他人的秘密.(showexp ID)");
+                set("unit","件");
+                set("value", 1000);
+                set("material","steel");
+        }
+}
+void init()
+{
+        add_action("do_show","showexp");
+}
+int do_show(string str)
+{
+        object who, me = this_player();
+        int exp,kee;
+        who = present(lower_case(str), environment(me));
+        exp = who->query("combat_exp");
+		kee = who->query("kee");
+
+        if(!str) return notify_fail("水晶寶鏡對你說 : 主人！你要照誰ㄚ？\n");
+        if(!who) return notify_fail("水晶寶鏡對你說 : 主人！此地沒有這個生物！\n");
+        if(who == me)
+                return notify_fail("水晶寶鏡對你說 : 主人！幹麻照你自己咧？\n");
+        if(!who->is_character() || who->is_corpse())
+                return notify_fail("水晶寶鏡對你說 : 主人！那並不是活物。\n");
+        if(!wizardp(me))
+         if(exp > 1000000)
+           return notify_fail("水晶寶鏡對你說 : 主人！此生物經驗值過高,照不出來！\n");
+        message_vision("$N拿出水晶寶鏡往$n身上照了照.\n\n",me,who);
+        printf("水晶寶鏡對你說 : 主人！此生物的經驗值為%d,氣血為%d\n",exp,kee);
+        return 1;  
+}
+

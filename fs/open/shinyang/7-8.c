@@ -1,0 +1,24 @@
+// Room: /u/w/whatup/area/shinyang/6-8
+inherit ROOM;
+
+void create ()
+{
+  set ("short", "義烏大道東");
+  set ("long", @LONG
+相較西側的繁華，這邊大道東側環境顯的較為平靜許多，或許是
+這邊的店家看起來似乎比較奢華，似乎出入的民眾看起來也比較富有
+，前方不遠處更是城中第一大的商店－萬寶居，想必有不少稀奇古怪
+的東西等著自己。
+LONG);
+
+  set("no_transmit", 1);
+  set("exits", ([ /* sizeof() == 3 */
+  "west" : __DIR__"6-8.c",
+  "east" : __DIR__"8-8.c",
+  "south" : __DIR__"7-7.c",
+]));
+  set("no_auc", 1);
+  set("outdoors", "/open");
+
+  setup();
+}

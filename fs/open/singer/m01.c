@@ -1,0 +1,22 @@
+inherit ROOM;
+#include <ansi.h>
+
+void create ()
+{
+        set ("short", HIC"晶樂閣"NOR);
+        set ("long", @LONG
+
+四周淡藍的水晶波瀾四處遊晃，由淡藍水晶圍繞而成的空間，令人有
+種置身世外桃源，寰宇於世外之境。
+所有淡藍水晶圍繞著正中央這顆最大的水晶，水晶上淡藍的波瀾顯示
+出前人所留下來的訊息。
+
+LONG);
+        set("light_up", 1);
+        set("valid_startroom", 1);
+	set("exits",([
+"south":__DIR__"m02",
+]));
+setup();
+call_other("/obj/board/singer_b.c","???");
+}

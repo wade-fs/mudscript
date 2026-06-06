@@ -1,0 +1,17 @@
+// trainee.c
+
+inherit NPC;
+
+void create()
+{
+	set_name("武館弟子", ({ "trainee" }) );
+	set("gender", "男性" );
+	set("age", 19);
+	set("long", "你看到一位身材高大的漢子﹐正在辛苦地操練著。\n");
+        set("combat_exp", 428);
+        set_temp("apply/attack",15);
+        set_temp("apply/dodge",15);
+	setup();
+        carry_object(__DIR__"obj/club")->wield();
+        carry_object(__DIR__"obj/linen")->wear();
+}

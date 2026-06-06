@@ -1,0 +1,21 @@
+// made by ccat
+// refix by onion
+inherit F_MEDICINE;
+void create()
+{
+        set_name("靈芝仙丹", ({"super pill","pill"}) );
+	set("long",
+"此物乃蜀中將軍自蜀山神峰採來之神藥,專克血氣失調.\n"+
+"此要須經藥師調配(check item),方得食用(eat pill).\n");
+        set("unit", "盒");
+        set("base_unit", "粒");
+        set("no_sell",1);
+	set("value",2500);
+        set("base_weight", 50);
+	set("cure_type","poison");
+        set("cure_poison_type","ff_poison");
+        set("medicine_power",5);
+	set_amount(1);
+	setup();
+}
+

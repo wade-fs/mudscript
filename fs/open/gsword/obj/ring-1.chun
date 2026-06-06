@@ -1,0 +1,95 @@
+// made by ccat
+// 二版,改正以往須call 一個隱形怪獸的缺點,使用的變數也大為簡化.
+
+#include <ansi.h>
+#include <armor.h>
+inherit EQUIP;
+object user;
+int cor;
+void create()
+{
+     set_name( "紅寶石指戒" ,({"ruby_ring", "ring"}));
+     set_weight(2500);
+     if( clonep() ) 
+               set_default_object(__FILE__);
+     else {
+            set("long","一只產於南蠻的神奇紅寶石指戒,閃爍著奇異的紅色光芒.\n");
+            set("unit", "件");             
+            set("value",5000);
+            set("material","steal");
+            set("no_sell", 1);         //不然就得多攔 action sell
+            set("armor_type","finger");            
+            set("armor_prop/armor",7);
+           }         
+        setup();
+}
+void init()
+{
+     add_action("do_drop","drop"); 
+     add_action("do_auc","auc"); 
+     add_action("do_wear","wear");
+     add_action("do_give","give");
+     add_action("do_remove","remove");
+}
+int do_wear(string str)
+{ 
+
+     ::wear(); 
+     if( query("equipped") ) 
+     {
+        user = this_player();     // 取得使用者
+        cor = user->query("cor");
+        cor = cor *2;
+        message_vision("$N戴上了紅寶石指戒,四周亮起了淡淡紅光.\n",user);
+        set_heart_beat(1);
+     } 
+}
+int do_drop(string str)
+{  
+   if(str=="ruby_ring" || str=="all")
+     if( query("equipped") )
+     {
+        message_vision("$N脫下了紅寶石指戒,紅寶石奇異的紅光也隨之消逝.\n",user);
+        set_heart_beat(0);
+     }    
+}    
+ int do_give(string str)
+{  
+  if(str=="ruby_ring" || str=="all") 
+     if( query("equipped") )
+     { 
+        message_vision("$N脫下了紅寶石指戒,紅寶石奇異的紅光也隨之消逝.\n",user); 
+        set_heart_beat(0);
+     }
+}
+int do_remove(string str)
+{
+   if(str=="ruby_ring" || str=="all")
+     if( query("equipped") )
+     {
+        message_vision("$N脫下了紅寶石指戒,紅寶石奇異的紅光也隨之消逝.\n",user);
+        set_heart_beat(0);
+     }   
+}                       
+int do_auc(string str)
+{
+  if(str=="ruby_ring" || str=="all")
+     if( query("equipped") )
+     { 
+        message_vision("$N脫下了紅寶石指戒,紅寶石奇異的紅光也隨之消逝.\n",user);
+        set_heart_beat(0);
+     } 
+}     
+void heart_beat()
+{
+  if( user->is_fighting() && query("equipped") )
+  {
+    if( random(100) > 80)
+    {
+    user->receive_curing("kee",cor);
+    user->receive_heal("kee",cor);
+    message_vision(HIM+"紅寶石指戒發出一道紅光壟罩著$N,$N的傷口合癒了.\n"+NOR,user);   
+    }
+  }
+  return;
+}  
