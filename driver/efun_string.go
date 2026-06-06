@@ -65,6 +65,7 @@ func (d *Driver) registerStringEfuns(obj *object.LPCObject) {
 			if !strings.HasPrefix(searchPath, "/") {
 				searchPath = "/" + searchPath
 			}
+			log.Printf("📂 [get_dir] path=%s, resolved=%s", pathArg.Value, searchPath)
 			fullPath := filepath.Clean(filepath.Join(d.Config.MudLibPath, searchPath))
 			if !strings.HasPrefix(fullPath, filepath.Clean(d.Config.MudLibPath)) {
 				return object.NewError("get_dir 權限錯誤：無法存取根目錄以外的檔案")
