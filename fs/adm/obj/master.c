@@ -5,10 +5,14 @@
 
 #define HTTPD_PORT 4015
 
-object connect(int port)
+object connect(mixed arg)
 {
         object login_ob;
         mixed err;
+        int port;
+
+        if (intp(arg)) port = (int)arg;
+        else port = 0; // 預設端口，或是可以根據字串判斷
 
         switch(port) {
         case HTTPD_PORT:

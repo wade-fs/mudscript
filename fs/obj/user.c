@@ -98,6 +98,25 @@ void setup()
 	::setup();
 	restore_autoload();
 	log_file("init.log", sprintf("DEBUG: user.c::setup() finished for %O\n", this_object()));
+
+	// 🚀 新增：發送網頁 UI 初始資料 (相容 fsmud web client)
+	if (interactive(this_object())) {
+		mapping data = ([
+			"hp": query("kee"),
+			"max_hp": query("max_kee"),
+			"mp": query("sen"),
+			"max_mp": query("max_sen"),
+			"money": "請輸入 score 查詢"
+		]);
+		write(sprintf("{\"ui\": \"score\", \"data\": %s}", json_encode(data)));
+		
+		mapping cmds = ([
+			"基本": ({ "look", "score", "hp", "inventory", "who", "chat" }),
+			"移動": ({ "north", "south", "east", "west", "up", "down" }),
+			"其他": ({ "help", "save", "quit" }),
+		]);
+		write(sprintf("{\"ui\": \"cmd_list\", \"title\": \"常用指令\", \"data\": %s}", json_encode(cmds)));
+	}
 }
 
 protected void user_dump(int type, int idle_time_out)

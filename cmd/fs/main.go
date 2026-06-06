@@ -2,12 +2,12 @@
 package main
 
 import (
-	"bufio"
 	"flag"
 	"fmt"
+	"io/fs"
 	"log"
-	"net"
 	"net/http"
+	"os"
 	"time"
 
 	"mudscript" // 導入根目錄 package 以取得 Assets
@@ -16,7 +16,6 @@ import (
 )
 
 func main() {
-	port := flag.String("port", "4000", "Telnet/TCP server port")
 	webPort := flag.String("webport", "4444", "HTTP server port")
 	mudlib := flag.String("mudlib", "fs", "mudlib directory")
 	master := flag.String("master", "/adm/obj/master.c", "Master of world in mudlib directory")
@@ -46,21 +45,22 @@ func main() {
 	}
 	log.Println("MUD 引擎啟動成功！")
 
-	// 3. 啟動 TCP Telnet 伺服器
-	go startTelnetServer(d, *port)
-
 	// 4. 初始化 WebSocket 信令中心 (僅用於網頁連線，不啟用 P2P Hub 轉發)
 	hub := signaling.NewHub(d) 
 	go hub.Run()
+
+	// 🚀 新增：同步玩家名稱至信令中心
+	d.OnUsernameUpdate = func(sid, newName string) {
+		hub.UpdateClientUsername(sid, newName)
+	}
 
 	// 5. 設定 HTTP 與 WebSocket 路由
 	http.HandleFunc("/ws", func(w http.ResponseWriter, r *http.Request) {
 		signaling.HandleWS(hub, w, r)
 	})
 
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintf(w, "Legacy FS Server is running. Connect to /ws for websocket, or use telnet on port %s", *port)
-	})
+	// 🚀 混合模式網頁服務
+	setupStaticServer()
 
 	// 6. 啟動 Web 伺服器
 	log.Printf("Legacy FS Web 介面監聽中 :%s\n", *webPort)
@@ -70,54 +70,19 @@ func main() {
 	}
 }
 
-func startTelnetServer(d *driver.Driver, port string) {
-	ln, err := net.Listen("tcp", ":"+port)
-	if err != nil {
-		log.Fatalf("無法啟動 Telnet 伺服器: %v", err)
-	}
-	log.Printf("Legacy FS Telnet 伺服器監聽中 :%s\n", port)
+func setupStaticServer() {
+	diskPath := "./fs/web/static"
 
-	for {
-		conn, err := ln.Accept()
+	if info, err := os.Stat(diskPath); err == nil && info.IsDir() {
+		log.Println("🌐 [WEB] 使用外部磁碟網頁檔案 (支援熱更新)")
+		http.Handle("/", http.FileServer(http.Dir(diskPath)))
+	} else {
+		log.Println("📦 [WEB] 使用內建嵌入網頁檔案")
+		subFS, err := fs.Sub(mudscript.Assets, "fs/web/static")
 		if err != nil {
-			log.Printf("接受連線失敗: %v", err)
-			continue
+			panic(fmt.Sprintf("無法開啟嵌入網頁目錄: %v", err))
 		}
-
-		go handleTelnetConnection(d, conn)
+		http.Handle("/", http.FileServer(http.FS(subFS)))
 	}
-}
-
-func handleTelnetConnection(d *driver.Driver, conn net.Conn) {
-	// 建立玩家連線物件
-	pConn := driver.NewPlayerConnection(conn, nil)
-
-	// 呼叫 Master Object 的 connect 取得 Login 物件
-	// 傳統 Telnet 通常不帶語系參數，這裡傳入 0 或空字串
-	userObj := d.AcceptConnection(pConn, 0)
-	if userObj == nil {
-		conn.Write([]byte("系統目前無法接受連線。\r\n"))
-		conn.Close()
-		return
-	}
-
-	pConn.Object = userObj
-	d.RegisterInteractive(userObj, pConn)
-
-	// 啟動指令讀取迴圈
-	log.Printf("新 Telnet 連線: %s -> %s", conn.RemoteAddr(), userObj.Filename)
-
-	// 執行登入初始化
-	d.RunCommand(pConn, userObj, "logon", nil)
-
-	scanner := bufio.NewScanner(conn)
-	for scanner.Scan() {
-		input := scanner.Text()
-		d.ProcessCommand(pConn, input)
-	}
-
-	log.Printf("Telnet 連線中斷: %s", conn.RemoteAddr())
-	d.UnregisterInteractive(userObj)
-	conn.Close()
 }
 
