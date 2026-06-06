@@ -91,13 +91,12 @@ func (d *Driver) registerCoreEfuns(obj *object.LPCObject) {
 
 	// 語法: int living(object ob)
 	// 說明: 判斷物件是否為活著的生物。
-	// 實作: 呼叫物件上的 is_living() 函式，回傳 1 代表是生物。
+	// 實作: 直接檢查物件的 IsLiving 標記 (通常由 enable_commands() 設定)。
 	// 範例: if (living(this_player())) {}
 	obj.Vars.Set("living", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
 			target := getTarget(args, obj)
-			res := d.CallFunction(target, "is_living", nil)
-			if isLPCTrue(res) {
+			if target != nil && target.IsLiving {
 				return &object.Integer{Value: 1}
 			}
 			return &object.Integer{Value: 0}
@@ -360,68 +359,14 @@ func (d *Driver) registerCoreEfuns(obj *object.LPCObject) {
 				return &object.Integer{Value: 0}
 			}
 
-			// 解析動詞與參數
-			verb := ""
-			arg := ""
-			parts := strings.SplitN(input, " ", 2)
-			verb = parts[0]
-			if len(parts) > 1 {
-				arg = parts[1]
-			}
-
-			// 1. 優先檢查 add_action 註冊的指令
-			if obj.Actions != nil {
-				// A. 精確匹配
-				if action, exists := obj.Actions[verb]; exists {
-					// 設定玩家上下文以便執行指令
-					pConn := d.getPlayerConnection(obj)
-					if pConn == nil {
-						pConn = &PlayerConnection{Object: obj, IsActive: true}
-					}
-
-					pConn.CurrentVerb = verb
-					// 🚀 使用 RunCommand 封裝以確保 GetCurrentPlayer 正常
-					res := d.RunCommand(pConn, action.Provider, action.FuncName, []object.Object{&object.String{Value: arg}})
-
-					if isLPCTrue(res) {
-						return &object.Integer{Value: 1}
-					}
-				}
-
-				// B. 前綴匹配與萬用攔截 ("")
-				for v, action := range obj.Actions {
-					if action.Flags == 1 {
-						if v == "" || strings.HasPrefix(verb, v) {
-							pConn := d.getPlayerConnection(obj)
-							if pConn == nil {
-								pConn = &PlayerConnection{Object: obj, IsActive: true}
-							}
-							pConn.CurrentVerb = verb
-
-							callArg := arg
-							if v == "" {
-								callArg = input
-							} else if len(verb) > len(v) {
-								callArg = verb[len(v):] + " " + arg
-								callArg = strings.TrimSpace(callArg)
-							}
-
-							res := d.RunCommand(pConn, action.Provider, action.FuncName, []object.Object{&object.String{Value: callArg}})
-							if isLPCTrue(res) {
-								return &object.Integer{Value: 1}
-							}
-						}
-					}
-				}
-			}
-
-			// 2. 備援：呼叫物件本身的 process_input (通常在 user.c 或 npc.c 實作)
 			pConn := d.getPlayerConnection(obj)
 			if pConn == nil {
 				pConn = &PlayerConnection{Object: obj, IsActive: true}
 			}
-			res := d.RunCommand(pConn, obj, "process_input", []object.Object{&object.String{Value: input}})
-			if i, ok := res.(*object.Integer); ok && i.Value != 0 {
+			
+			// 🚀 核心修正：將所有 command() 的呼叫導向標準的指令處理流程
+			success := d.ProcessCommand(pConn, input)
+			if success {
 				return &object.Integer{Value: 1}
 			}
 			return &object.Integer{Value: 0}

@@ -163,8 +163,8 @@ int look_room( object me, object env, int light )
 
     }
 //    tell_object( me, trans_color(str) );
-    str = ESC+"[6z"+ansi(str) +ESC +"[7z";
-    tell_object( me, str);
+//    str = ESC+"[6z"+ansi(str) +ESC +"[7z";
+    tell_object( me, ansi(str) );
     return 1;
 }
 

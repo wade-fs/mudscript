@@ -165,7 +165,6 @@ func (d *Driver) UpdatePlayerUsername(obj *object.LPCObject, name string) {
 		}
 	}
 }
-
 func (d *Driver) GetConnectionFromObject(obj *object.LPCObject) *PlayerConnection {
 	if obj == nil {
 		return nil
@@ -173,26 +172,21 @@ func (d *Driver) GetConnectionFromObject(obj *object.LPCObject) *PlayerConnectio
 	if conn, ok := d.interactiveObjects.Load(obj.Filename); ok {
 		return conn.(*PlayerConnection)
 	}
-	return nil
-}
 
-// 🚀 新增：尋找物件對應的網路連線
-func (d *Driver) getPlayerConnection(obj *object.LPCObject) *PlayerConnection {
-	if obj == nil {
-		return nil
-	}
-	if val, ok := d.interactiveObjects.Load(obj.Filename); ok {
-		return val.(*PlayerConnection)
-	}
-	// 備援：全域掃描
+	// 🚀 關鍵修正：當 Filename 對不上時 (例如 Clone 物件改名)，必須透過 Object 比對來尋找連線
 	var found *PlayerConnection
 	d.interactiveObjects.Range(func(key, value interface{}) bool {
-		p := value.(*PlayerConnection)
-		if p.Object == obj {
-			found = p
-			return false
+		pconn := value.(*PlayerConnection)
+		if pconn.Object == obj {
+			found = pconn
+			return false // stop iteration
 		}
 		return true
 	})
 	return found
+}
+
+// 🚀 新增：尋找物件對應的網路連線
+func (d *Driver) getPlayerConnection(obj *object.LPCObject) *PlayerConnection {
+	return d.GetConnectionFromObject(obj)
 }
