@@ -42,4 +42,5 @@ fs/log
 *.log
 fs/log/USAGE
 fs/log/init.log
+fs/log/log
 fs/u/b/bss/

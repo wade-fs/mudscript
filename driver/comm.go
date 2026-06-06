@@ -187,6 +187,7 @@ for v, action := range obj.Actions {
 
 			res := d.RunCommand(pConn, action.Provider, action.FuncName, []object.Object{&object.String{Value: callArg}})
 			if isLPCTrue(res) {
+				d.postCommandCleanup(pConn)
 				return true
 			}
 		}
@@ -203,5 +204,16 @@ for v, action := range obj.Actions {
 
 	// 若完全找不到指令，回傳預設錯誤
 	pConn.Send("什麼？\n")
+
+	// 🚀 [新增] 每次指令處理完後，若物件有 write_prompt 則呼叫它
+	d.CallFunction(obj, "write_prompt", nil)
+
 	return false
+}
+
+// 在 ProcessCommand 成功處理後也要呼叫 write_prompt
+func (d *Driver) postCommandCleanup(pConn *PlayerConnection) {
+	if pConn != nil && pConn.Object != nil {
+		d.CallFunction(pConn.Object, "write_prompt", nil)
+	}
 }
