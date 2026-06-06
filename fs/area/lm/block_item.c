@@ -1,7 +1,9 @@
 // mudlib/area/lm/block_item.c
 // Minecraft 方塊物品
 
-inherit "/std/object.c";
+#include <globals.h>
+
+inherit OBJECT;
 
 string block_type;
 

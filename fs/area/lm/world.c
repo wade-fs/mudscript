@@ -1,23 +1,13 @@
 // /area/lm/world.c  ── Light Minecraft 世界核心 ──────────────
 // 修正項目：
 //   * 世界放大為 60x40
-//   * SAVE_FILE 統一為 /data/lm/world（與 valid.c 對應）
-//   * create() 不提前清空 blocks，restore 失敗才 init
-//   * init() robust：player 每次進入都確保有座標
 //   * dig/place 回傳碼補齊；move 方向 n=y+1（與前端一致）
 //   * broadcast_map 送出 block_defs 讓前端渲染正確顏色
 //   * 增加 coal / iron / sand / dirt / log / planks 方塊
 //   * tell_room 避免重複通知自己
 
 #include <globals.h>
-#include <ansi.h>
 
-#ifndef HIW
-#endif
-#ifndef CYAN
-#endif
-#ifndef HIG
-#endif
 
 inherit ROOM;
 
@@ -186,10 +176,10 @@ void create() {
     seteuid(getuid());
     set_short("輕量創界");
     set_long(
-        HIW + "═══ Light Minecraft 世界 ═══\n" + NOR +
-        "這是一片 " + CYN + "60×40" + NOR + " 的開放土地。\n" +
-        "輸入 " + HIY + "mc map" + NOR + " 開啟圖形介面，" +
-        HIY + "mc help" + NOR + " 查看所有指令。\n" +
+        "═══ Light Minecraft 世界 ═══\n" +
+        "這是一片 " + "60×40" + " 的開放土地。\n" +
+        "輸入 " + "mc map" + " 開啟圖形介面，" +
+        "mc help" + " 查看所有指令。\n" +
         "WASD 鍵可直接移動，滾輪縮放地圖。\n"
     );
     set_no_combat(1);
@@ -254,7 +244,7 @@ void push_map_delayed(object player) {
 
     broadcast_map(player);
     tell_lm_room(
-        CYN + player->query_name() + NOR + " 進入了創界。\n",
+        player->query_name() + " 進入了創界。\n",
         player
     );
 }
@@ -436,7 +426,7 @@ void player_leave(object player) {
     string pid = player->query("id");
     m_delete(player_pos, pid);
     tell_lm_room(
-        CYN + player->query_name() + NOR + " 離開了創界。\n",
+        player->query_name() + " 離開了創界。\n",
         player
     );
     broadcast_map_all();

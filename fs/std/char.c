@@ -64,9 +64,12 @@ void setup()
 int level, stat_str, stat_dex, stat_int, stat_con, stat_wis, stat_cha;
 int hp, max_hp, mp, max_mp;
 
-void set_name(mixed n) { set("name", n); }
-void set_short(mixed s) { set("short", s); }
-void set_long(mixed s)  { set("long", s); }
+void set_name(mixed n) { 
+    set("name", select_lang(n)); 
+    set_living_name(to_string(select_lang(n)));
+}
+void set_short(mixed s) { set("short", select_lang(s)); }
+void set_long(mixed s)  { set("long", select_lang(s)); }
 void set_id(mixed id)   { set("id", id); }
 void recalc_stats() {
     if (stat_str) set("str", stat_str);

@@ -202,7 +202,7 @@ void logon (object ob)
 
   printf( HIY + "您正以位址 %s 連線中, 歡迎來到狂想空間。\n" + NOR, query_ip_number() );
   write("請輸入您的英文名字或以(guest)帳號參觀: ");
-  input_to( (: get_id :), 0, ob, 1 );
+  input_to("get_id", 0, ob, 1);
 }
 
 // by konn  取得ctrl key 的值

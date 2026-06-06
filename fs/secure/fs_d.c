@@ -56,7 +56,7 @@ string init_fsgoto(object me, string mudlib_id) {
             // 通知遠端：本玩家進入
             _do_enter_remote(me, mudlib_id, entrance);
             me->move(dest, "portal");
-            dest->look_room(me);
+            me->move(dest);
 
             // 顯示該房間裡的遠端玩家（ghost）
             _show_remote_players_in_room(me, mudlib_id, entrance);
@@ -446,7 +446,7 @@ void notify_waiting_players(string mudlib_id, string room_path) {
                     // 進入真正的跨服房間後，廣播 enter
                     _do_enter_remote(u, mudlib_id, room_path);
                     u->move(dest, "portal");
-                    dest->look_room(u);
+                    u->move(dest);
                     _show_remote_players_in_room(u, mudlib_id, room_path);
                 }
             }

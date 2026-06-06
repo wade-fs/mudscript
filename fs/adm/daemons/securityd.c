@@ -296,10 +296,9 @@ int valid_write(string file, mixed user, string func)
         if( file == "/adm/daemons/securityd.c" )
           return 0;
 */
-        // 🚀 關鍵修正：使用 strsrch 判定路徑，並將此檢查移至最前方
-        // 只要是來自 /area/lm/ 的物件，就允許寫入 /data/lm/
+        // 🚀 關鍵修正：使用 Go-style 判定路徑
         dir = base_name(user);
-        if( strsrch(dir, "/area/lm/") == 0 && strsrch(file, "/data/lm") == 0 )
+        if( str_has_prefix(dir, "/area/lm/") && str_has_prefix(file, "/data/lm") )
                 return 1;
 
         // Let user save their save file
@@ -354,9 +353,9 @@ int valid_read (string file, mixed user, string func)
 
         if( !objectp(user) ) return 1;
 
-        // 🚀 關鍵修正：使用 strsrch 判定路徑，並將此檢查移至最前方
+        // 🚀 關鍵修正：使用 Go-style 判定路徑
         dir = base_name(user);
-        if( strsrch(dir, "/area/lm/") == 0 && strsrch(file, "/data/lm") == 0 )
+        if( str_has_prefix(dir, "/area/lm/") && str_has_prefix(file, "/data/lm") )
                 return 1;
 
         if( sscanf(file, LOG_DIR + "%*s") && func=="read_file" ) return 1;

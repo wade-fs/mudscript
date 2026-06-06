@@ -1,10 +1,6 @@
 // /area/lm/center_world.c
 #include <globals.h>
-#include <ansi.h>
 
-#ifndef HIW
-#define HIW(x) HIW + x + NOR
-#endif
 
 inherit "/area/lm/world.c";
 
@@ -12,7 +8,7 @@ void create() {
     ::create();
     set_short("中央創界 - 晶石廣場");
     set_long(
-        HIW + "═══ 中央創界：晶石廣場 ═══\n" + NOR +
+        "═══ 中央創界：晶石廣場 ═══\n" +
         "這是一個充滿秩序與神聖感的亞空間。地面由整齊的白石鋪就，中心鑲嵌著\n" +
         "閃耀的黃金方塊。四周流動著清澈的泉水，顯得格外寧靜。\n" +
         "這裡通常用於展示新手村的官方建築成就。\n"

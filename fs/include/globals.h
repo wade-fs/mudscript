@@ -91,6 +91,7 @@
 #define NPC			"/std/char/new_npc"
 #define OLD_ROOM		"/std/room"
 #define ROOM			"/std/room"
+#define OBJECT          "/std/object"
 #define RECORD_ROOM		"/std/record_room"
 #define SKILL			"/std/skill"
 #define SSERVER			"/std/sserver"
