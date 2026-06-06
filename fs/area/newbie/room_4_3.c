@@ -3,7 +3,7 @@
 inherit ROOM;
 
 void create() {
-    ::create();
+    
     set_short(([
         "en": MAG("Drunken Dream Tavern"),
         "zh-TW": MAG("醉夢酒館"),

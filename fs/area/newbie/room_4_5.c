@@ -3,7 +3,7 @@
 inherit ROOM;
 
 void create() {
-    ::create();
+    
     set_short(([
         "en": HIW("Adventurers Guild"),
         "zh-TW": HIW("冒險者公會"),

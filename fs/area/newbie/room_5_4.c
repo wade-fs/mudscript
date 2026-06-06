@@ -3,7 +3,7 @@
 inherit ROOM;
 
 void create() {
-    ::create();
+    
     set_short(([
         "en": HIB("Kevin's Armoury"),
         "zh-TW": HIB("凱文的防具店"),

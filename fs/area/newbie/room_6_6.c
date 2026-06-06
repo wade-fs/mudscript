@@ -4,7 +4,7 @@
 inherit ROOM;
 
 void create() {
-    ::create();
+    
     set_short(([
         "en": GRN("Green Meadow"),
         "zh-TW": GRN("翠綠草原"),

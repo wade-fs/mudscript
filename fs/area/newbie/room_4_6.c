@@ -4,7 +4,7 @@
 inherit ROOM;
 
 void create() {
-    ::create();
+    
     set_short(([
         "en": HIC("Magic Lab"),
         "zh-TW": HIC("魔法研究室"),

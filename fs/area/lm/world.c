@@ -103,7 +103,7 @@ void set_world_name(string name) {
 
 string query_short() {
     if (custom_name && custom_name != "") return custom_name;
-    return ::query_short();
+    return query("short");
 }
 
 // ── 取得存檔路徑 (根據檔案名稱動態產生) ───────────────────────
@@ -186,7 +186,6 @@ void init_default_world() {
 
 // ── 房間生命週期 ─────────────────────────────────────────────
 void create() {
-    ::create();
     set_short("輕量創界");
     set_long(
         HIW("═══ Light Minecraft 世界 ═══\n") +
@@ -209,7 +208,6 @@ void create() {
 
 // 每次有玩家進入房間時觸發
 void init() {
-    ::init();
     object me = this_player();
     if (!me || !userp(me)) return;
 
@@ -224,7 +222,7 @@ void init() {
         me->set_temp("lm_return_room", last_loc);
     }
 
-    string pid = me->get_id();
+    string pid = me->query("id");
     // 如果玩家沒有座標，給出生點；確保不站在方塊上
     if (!player_pos[pid]) {
         int sx = SPAWN_X, sy = SPAWN_Y;
@@ -242,7 +240,7 @@ int do_go(string dir) {
     if (dir == "back" || dir == "out" || dir == "leave") {
         return do_back_compat("");
     }
-    return ::do_go(dir);
+    return 0;
 }
 
 // ── 指令相容性備援 ─────────────────────────────────────────
@@ -267,7 +265,7 @@ void push_map_delayed(object player) {
 // ── 地圖廣播 ────────────────────────────────────────────────
 void broadcast_map(object target) {
     if (!target || !userp(target)) return;
-    string pid = target->get_id();
+    string pid = target->query("id");
     int *pos = player_pos[pid];
     if (!pos) pos = ({ SPAWN_X, SPAWN_Y });
 
@@ -275,7 +273,7 @@ void broadcast_map(object target) {
     mapping online = ([]);
     foreach (object p in all_inventory(this_object())) {
         if (userp(p)) {
-            string oid = p->get_id();
+            string oid = p->query("id");
             mixed op = player_pos[oid];
             if (op) m_add(online, oid, op);
         }
@@ -419,7 +417,7 @@ int place_block(object player, int x, int y, string btype) {
 // 回傳碼：0=成功 1=越界 2=被方塊擋
 // n=y+1（上）, s=y-1（下），與前端 canvas 座標系一致
 int move_player(object player, int dx, int dy) {
-    string pid = player->get_id();
+    string pid = player->query("id");
     mixed pos = player_pos[pid];
     if (!pos) pos = ({ SPAWN_X, SPAWN_Y });
 
@@ -437,7 +435,7 @@ int move_player(object player, int dx, int dy) {
 // 玩家離開時清除位置
 void player_leave(object player) {
     if (!player || !userp(player)) return;
-    string pid = player->get_id();
+    string pid = player->query("id");
     m_delete(player_pos, pid);
     tell_lm_room(
         CYAN(player->query_name()) + " 離開了創界。\n",
@@ -450,7 +448,7 @@ int query_is_lm_world() { return 1; }
 
 // 查詢
 int *query_player_pos(object player) {
-    return player_pos[player->get_id()];
+    return player_pos[player->query("id")];
 }
 string query_block(int x, int y) {
     return blocks[sprintf("%d,%d", x, y)];

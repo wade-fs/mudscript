@@ -9,7 +9,6 @@
 inherit "/area/lm/world.c";
 
 void create() {
-    ::create();
     set_short("公會創界 - 鬥技場");
     set_long(
         HIW("═══ 公會創界：烈火鬥技場 ═══\n") +

@@ -82,6 +82,7 @@ int look_room( object me, object env, int light )
     mapping       exits;
     string        str, *dirs, tmp;
 
+	light = 1;
     if( light == 0 )
         return notify_fail( "四周到處黑沉沉的, 看也看不清。\n" );
     if( me->query_temp("brief_mode") )
@@ -101,6 +102,7 @@ int look_room( object me, object env, int light )
             );
     }
 
+	light = 1;
     if( light == -1 )
         str += "    四周到處模模糊糊的, 看也看不清出口。\n";
     else

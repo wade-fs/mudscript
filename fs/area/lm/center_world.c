@@ -9,7 +9,6 @@
 inherit "/area/lm/world.c";
 
 void create() {
-    ::create();
     set_short("中央創界 - 晶石廣場");
     set_long(
         HIW("═══ 中央創界：晶石廣場 ═══\n") +

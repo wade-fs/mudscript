@@ -6,7 +6,7 @@ inherit NPC;
 string icon = "👾";
 
 void create() {
-    ::create();
+    
     set_name(([ "en": "Mob", "zh-TW": "生物", "zh-CN": "生物" ]));
     set_short(([ "en": "a mob", "zh-TW": "一隻生物", "zh-CN": "一只生物" ]));
     set_long("這是一隻在創界中遊蕩的生物。\n");

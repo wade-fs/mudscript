@@ -3,7 +3,7 @@
 inherit ROOM;
 
 void create() {
-    ::create();
+    
     set_short(([
         "en": "North Square Clearing",
         "zh-TW": "廣場北空地",

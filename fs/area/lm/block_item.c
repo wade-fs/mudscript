@@ -6,7 +6,7 @@ inherit "/std/object.c";
 string block_type;
 
 void create() {
-    ::create();
+    
     block_type = "stone";
 }
 

@@ -2,7 +2,7 @@
 inherit "/std/room";
 
 void create() {
-    ::create();
+    
     set_short("幽暗的山腳下");
     set_long("這裡是一處偏僻的山腳，四周雜草叢生，亂石堆疊。\n" +
              "北邊是一座高聳入雲的山峰，看起來無法攀爬。\n");
