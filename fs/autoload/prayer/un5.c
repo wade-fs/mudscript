@@ -11,9 +11,9 @@ void create()
         na = (me->name(0));
 
         if (me)
-           set_name(na+"的[31m地獄爪[0m",({"mogi claw","claw"}));
+           set_name(na+"的地獄爪",({"mogi claw","claw"}));
         else
-         { set_name("[31m地獄爪[0m",({"mogi claw","claw"})); }
+         { set_name("地獄爪",({"mogi claw","claw"})); }
         seteuid(getuid());
         set_weight(25000);
         if( clonep() )
@@ -22,7 +22,7 @@ void create()
         set("unit", "把");
         set("long",@LONG
 
-	上古神秘兵器之一的～～[31m地獄爪[0m～～!!裝備在手上後, 
+	上古神秘兵器之一的～～地獄爪～～!!裝備在手上後, 
 	揮出來的拳頭會讓敵人產生進入地獄的幻象!!
 	
 LONG);

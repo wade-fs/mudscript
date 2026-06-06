@@ -11,76 +11,76 @@ void conti(object me, object victim, object weapon, int damage);
 int age , lv;
 
 mapping *action = ({
-        ([      "action":"\n$N使出落日鞭法第一式[33m「日落西山」[0m﹐手中$w橫掃$n的$l\n",
+        ([      "action":"\n$N使出落日鞭法第一式「日落西山」﹐手中$w橫掃$n的$l\n",
                 "dodge":                -20,
                 "damage":              30,
                 "damage_type": "鞭傷",
         ]),
 
-        ([      "action":"\n$N使出落日鞭法的第二式[33m「日下無雙」[0m﹐手中$w在空中連劃幾個圈之後向$n$l劈下\n",
+        ([      "action":"\n$N使出落日鞭法的第二式「日下無雙」﹐手中$w在空中連劃幾個圈之後向$n$l劈下\n",
                 "dodge":                -20,
                 "damage":                   40,
                 "damage_type":  "割傷",
                 "post_action": (: conti :),
         ]),
 
-        ([      "action":"\n$N一個飛身, 如大鷹覓食, 落日鞭法第三式[33m「夸父追日」[0m﹐手中$w拂向$n$l\n",
+        ([      "action":"\n$N一個飛身, 如大鷹覓食, 落日鞭法第三式「夸父追日」﹐手中$w拂向$n$l\n",
                 "dodge":                -30,
                 "damage":              50,
                 "damage_type":  "割傷",
                 "post_action": (: bleed :),
         ]),
 
-        ([      "action":"\n$N手中$w盤旋數圈﹐落日鞭法第四式[33m「如日中天」[0m對準$n$l由下往上直摜了過去\n",
+        ([      "action":"\n$N手中$w盤旋數圈﹐落日鞭法第四式「如日中天」對準$n$l由下往上直摜了過去\n",
                 "dodge":                -40,
                 "damage":              60,
                 "damage_type":  "刺傷",
                 "post_action": (: hurt :),
         ]),
 
-        ([      "action":"\n$N縱身一躍﹐手中$w使出第五式[33m「日升月恆」[0m往$n$l直直落下\n",
+        ([      "action":"\n$N縱身一躍﹐手中$w使出第五式「日升月恆」往$n$l直直落下\n",
                 "dodge":                -40,
                 "damage":              70,
                 "damage_type":  "淤傷",
                 "post_action": (: bleed :),
         ]),
 
-        ([      "action":"\n$N的$w如長蛇遊戲一般﹐活靈活現, 第六式[33m「扶搖直上」[0m詭譎地向$n的$l捲去\n",
+        ([      "action":"\n$N的$w如長蛇遊戲一般﹐活靈活現, 第六式「扶搖直上」詭譎地向$n的$l捲去\n",
                 "dodge":                -20,
                 "damage":              80,
                 "damage_type":  "刺傷",
                 "post_action": (: conti :),
         ]),
 
-        ([      "action":"\n$N雙手握住$w﹐勁貫於上, 使出落日鞭法第七式[33m「日月如梭」[0m, 鞭尾化成利劍向$n$l刺去\n",
+        ([      "action":"\n$N雙手握住$w﹐勁貫於上, 使出落日鞭法第七式「日月如梭」, 鞭尾化成利劍向$n$l刺去\n",
                 "dodge":                -20,
                 "damage":              90,
                 "damage_type":  "刺傷",
                 "post_action": (: hurt :),
         ]),
 
-        ([      "action":"\n$N大吼一聲﹐落日鞭法第八式[33m「日月重光」[0m在半空揮出一道圓弧後, 斜斜掃向$n$l\n",
+        ([      "action":"\n$N大吼一聲﹐落日鞭法第八式「日月重光」在半空揮出一道圓弧後, 斜斜掃向$n$l\n",
                 "dodge":                -30,
                 "damage":               100,
                 "damage_type":  "砍傷",
                 "post_action": (: bleed :),
         ]),
 
-        ([      "action":"\n$N使出落日鞭法第九式[33m「日落歸雁」[0m，勁透長鞭, 手中$w如劍一般疾點$n的$l\n",
+        ([      "action":"\n$N使出落日鞭法第九式「日落歸雁」，勁透長鞭, 手中$w如劍一般疾點$n的$l\n",
                 "dodge":                -30,
                 "damage":              110,
                 "damage_type":  "刺傷",
                 "post_action": (: hurt :),
         ]),
 
-        ([      "action":"\n$N身形連續打轉，使出鞭法第十式[33m「日暮途窮」[0m，$w化成弧光衝向$n的退路\n",
+        ([      "action":"\n$N身形連續打轉，使出鞭法第十式「日暮途窮」，$w化成弧光衝向$n的退路\n",
                 "dodge":                -30,
                 "damage":              120,
                 "damage_type":  "瘀傷",
                 "post_action": (: conti :),
         ]),
 
-        ([      "action":"\n\t\t[36m突然間風聲大作，日月無光！$領悟了落日鞭法之最高境界！\n\n\t\t\t\t[35m【 后 羿 射 日 】[0m\n\n只見滿天鞭影密不透風地籠罩著$n[0m\n",
+        ([      "action":"\n\t\t突然間風聲大作，日月無光！$領悟了落日鞭法之最高境界！\n\n\t\t\t\t【 后 羿 射 日 】\n\n只見滿天鞭影密不透風地籠罩著$n\n",
                 "dodge":                -30,
                 "damage":              150,
                 "damage_type":  "刺傷",
@@ -103,7 +103,7 @@ void bleed(object me, object victim, object weapon, int damage)
         if(damage > 40)
         {
           victim->apply_condition("bleeding", random(lv*age)/100);
-          message_vision("[1;36m$N落日鞭法的氣勁貫穿$n，破體而出！[0m\n",me,victim);
+          message_vision("$N落日鞭法的氣勁貫穿$n，破體而出！\n",me,victim);
         }
 }
 
@@ -116,7 +116,7 @@ void conti(object me, object victim, object weapon, int damage)
           if( random(lv) > random(lv1) && me->query_temp("conti") == 0 )
             {
             me->set_temp("conti",1);
-            message_vision("\n[1;33m$N忽然頓悟落日鞭法[1;33m的要訣，手中$w猛往$n身上招呼!![0m\n" ,me);
+            message_vision("\n$N忽然頓悟落日鞭法的要訣，手中$w猛往$n身上招呼!!\n" ,me);
             for(i=0;  i <=   age/5  ;  i++)
             COMBAT_D->do_attack(me, victim, me->query_temp("weapon"), TYPE_QUICK);
             me->delete_temp("conti");

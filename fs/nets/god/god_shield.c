@@ -20,7 +20,7 @@ void create()
                 set("armor_prop/armor",15);
                 set("armor_prop/parry",8);
                 set("armor_prop/force",7);
-                set("wear_msg","$NN$n_˳ơAsƬ@D$nC\n");
+                set("wear_msg","$NN$n_佼ヾAsえ@D$nC\n");
  }
         setup();
 }

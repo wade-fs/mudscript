@@ -373,7 +373,7 @@ void die()
    winner->set("final/ko_king",1);
    winner->set("final/limit",1);
    tell_object(winner,HIR + "你終於突破武學上極限!!悟出終極拳勢!!成為武尊!!\n" + NOR);
-   winner->set("title","[1;33m玄天武尊 [0m");
+   winner->set("title","玄天武尊 ");
 
    write("請打一下help 終極拳勢,可以得知更多的訊息....!!!\n");
   }

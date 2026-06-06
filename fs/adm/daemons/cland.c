@@ -344,7 +344,7 @@ int list_item(object me )
                 else {
                   err = catch(temp->query("name"));
                         if(!err)  str=temp->query("name");
-                        else str="[1;31m損壞的物品[0m";
+                        else str="損壞的物品";
                 }
                 printf("[%2d]%-20s%s", k, str, (k%2 ? "" : "\n") );
         }

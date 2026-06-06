@@ -138,7 +138,7 @@ void attempt_apprentice(object who)
   if (who->query("quests/badroar",1))
   {
     tell_object(who,"嗯 ,底子不錯嘛 !好 ,你可以不用從基層幹起!!!\n");
-    who->set("title","[33m大[31m壞[32m蛋[0m");
+    who->set("title","大壞蛋");
     return;
   }
 }
@@ -243,7 +243,7 @@ int accept_object(object me,object ob)
       destruct(ob);
       command("say 不愧\是咱們惡人谷的模範 !這樣吧 ,我也沒什麼好東西能給你 ,便傳你\n我們惡人在外行走江湖的口訣--窮兇惡極 ,神哭鬼嚎....就這樣 ,\n我倆以後可互不相欠！");
       tell_object(me,"你稍微領悟了這八字的意義 ,心中殺氣一聚 ,混殺吼(badroar)的功\力增加了!!\n");
-      me->set("title","[33m大[31m壞[32m蛋[0m");
+      me->set("title","大壞蛋");
     }
     return 1;
   }

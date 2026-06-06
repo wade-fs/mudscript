@@ -5,13 +5,13 @@ inherit EQUIP;
 
 void create()
 {
-        set_name("[0;31m¶[1;31m§[0;31mª[1;31m¢[0;31mÁ[1;31mu[0;31mÀ[1;31mô[0m ",({"Sun Fire Armband","armband"}) );
+        set_name("é™½ç‚Žè‡‚ç’° ",({"Sun Fire Armband","armband"}) );
         set_weight(10000);
         if( clonep() )
                 set_default_object(__FILE__);
         else {
-        set("long","¥Î¨ªåbª÷»s¦¨ªºÁuÀô, ¤W­±Æ^¦³¤@Áû¶§ª¢¥Û, ¬Û¶Ç°ß¦³®±¸t¤~¦³¸ê®æ°tÀ¹¦¹ÁuÀô");
-        set("unit","­Ó");
+        set("long","ç”¨èµ¤å¶™é‡‘è£½æˆçš„è‡‚ç’°, ä¸Šé¢é‘²æœ‰ä¸€é¡†é™½ç‚ŽçŸ³, ç›¸å‚³å”¯æœ‰æ‹³è–æ‰æœ‰è³‡æ ¼é…æˆ´æ­¤è‡‚ç’°");
+        set("unit","å€‹");
         set("value",1750);
         set("material","crimsonsteel");
         set("armor_type","armbands");
@@ -27,9 +27,9 @@ int wear()  //fix by frequency
 {
  if(!this_player()) return 1;
             if( this_player()->query("max_force") < 900 )
-            return notify_fail("»Õ¤U¤º¤O¤£°÷²`«p¡AµLªk§Ô¨ü¶§ª¢°ª¼ö¡C\n");
+            return notify_fail("é–£ä¸‹å…§åŠ›ä¸å¤ æ·±åŽšï¼Œç„¡æ³•å¿å—é™½ç‚Žé«˜ç†±ã€‚\n");
             if( this_player()->query("combat_exp") < 90000 )
-            return notify_fail("¤Ö¨Ó!!´N¾Ì§A¤]¥´±o¹L¥ô´Â¶§¡H\n");
+            return notify_fail("å°‘ä¾†!!å°±æ†‘ä½ ä¹Ÿæ‰“å¾—éŽä»»æœé™½ï¼Ÿ\n");
   ::wear();
  return 1;
 }

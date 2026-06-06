@@ -10,7 +10,7 @@ int update_condition(object me, int duration)
   if( duration >= 1 )
   {
     tell_object(me,HIY + "你的內傷發作，只覺得全身經脈好像移位般，十分痛苦!!\n" + NOR);
-    message("vision",me->name()+"[1;37m暗傷發作，整個人屈在地上表現出極為痛苦的表情。[0m\n",environment(me),me);
+    message("vision",me->name()+"暗傷發作，整個人屈在地上表現出極為痛苦的表情。\n",environment(me),me);
     if(me->is_fighting()) me->start_busy(1);
     me->add("kee",-150);
     me->add("force",-150);

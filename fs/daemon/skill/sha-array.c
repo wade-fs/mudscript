@@ -73,10 +73,10 @@ int form_array(object leader)
                 doing_array(member,leader);
             }
             else
-              message_vision("[1m你精神力不足以啟動劍陣\n[0m",leader);
+              message_vision("你精神力不足以啟動劍陣\n",leader);
           }
           else
-            message_vision("[1m你仙劍劍陣不夠精熟，無法啟動兩儀劍陣\n[0m",leader);
+            message_vision("你仙劍劍陣不夠精熟，無法啟動兩儀劍陣\n",leader);
               
         }
   
@@ -92,10 +92,10 @@ int form_array(object leader)
                 doing_array(member,leader);
             }
             else
-              message_vision("[1m你精神力不足以啟動劍陣\n[0m",leader);
+              message_vision("你精神力不足以啟動劍陣\n",leader);
           }
           else
-            message_vision("[1m你仙劍劍陣不夠精熟，無法啟動三才劍陣\n[0m",leader);
+            message_vision("你仙劍劍陣不夠精熟，無法啟動三才劍陣\n",leader);
         }
   
         else if( number == 4 )
@@ -110,10 +110,10 @@ int form_array(object leader)
                 doing_array(member,leader);
             }
             else
-              message_vision("[1m你精神力不足以啟動劍陣\n[0m",leader);
+              message_vision("你精神力不足以啟動劍陣\n",leader);
           }
           else
-            message_vision("[1m你仙劍劍陣不夠精熟，無法啟動四象劍陣\n[0m",leader);
+            message_vision("你仙劍劍陣不夠精熟，無法啟動四象劍陣\n",leader);
               
         }
         else if( number ==8)
@@ -128,10 +128,10 @@ int form_array(object leader)
                 doing_array(member,leader);
             }
             else
-              message_vision("[1m你精神力不足以啟動劍陣\n[0m",leader);
+              message_vision("你精神力不足以啟動劍陣\n",leader);
           }
           else
-            message_vision("[1m你仙劍劍陣不夠精熟，無法啟動八卦遊龍劍陣\n[0m",leader);
+            message_vision("你仙劍劍陣不夠精熟，無法啟動八卦遊龍劍陣\n",leader);
         }          
   return 1;
     
@@ -158,7 +158,7 @@ void remove_array( object *member,object leader,int mean,int number)
   int i;
     if(leader->query_temp("use_form",1))
     {
-      message_vision("[1m$N突然心神一分，陣已不成陣，必須重組。\n[0m",leader);
+      message_vision("$N突然心神一分，陣已不成陣，必須重組。\n",leader);
         for(i=0; i<sizeof(member);i ++){
           if(!member[i]) continue;
           member[i]->delete_temp("use_form",1);

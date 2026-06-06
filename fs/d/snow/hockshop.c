@@ -6,7 +6,7 @@ inherit HOCKSHOP;
 
 void create ()
 {
-  set ("short", "[1;35m過去時空[0m 豐登當鋪");
+  set ("short", "過去時空 豐登當鋪");
   set ("long", @LONG
 這是一家中等規模的當鋪﹐老舊的櫃臺上放著一張木牌(sign)﹐屋
 裡的光線不是很亮﹐往東的出口被一塊藍色布簾遮著﹐上面有「非請莫

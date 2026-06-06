@@ -554,7 +554,7 @@ void sp_attack0(object me, object victim, object  weapon, int damage)
   if(sp_value > 400) sp_value=400;
   if( weapon->query("id")=="han_bin_sword" ||weapon->query("id")=="ssad sword")
   {
-    message_vision("\n[1;36m?[1;34mH[1;36m?[1;34mB[1;36m?[1;34mC[0m" + HIC + "劍上寒氣與" + NOR + "$N" + HIC + "體內寒勁會合，霎時四周溫度遽降，一股\n陰寒內勁由$N" + HIC + "手中長劍發出朝$n" + HIC + "而去。\n" + NOR,me,victim);
+    message_vision("\n?H?B?C" + HIC + "劍上寒氣與" + NOR + "$N" + HIC + "體內寒勁會合，霎時四周溫度遽降，一股\n陰寒內勁由$N" + HIC + "手中長劍發出朝$n" + HIC + "而去。\n" + NOR,me,victim);
     victim->receive_damage("kee",sp_value,me);
     COMBAT_D->report_status(victim, 1);
   }
@@ -574,7 +574,7 @@ void sp_attack1(object me, object victim, object  weapon, int damage)
     if(sp_value > 400) sp_value=400;
     if( weapon->query("id")=="hon_water_sword" || weapon->query("id")=="ssad sword" )
     {
-      message_vision("[1;31m?[1;35ml[1;31m?[1;35m?[1;31m?[1;35mC[0m" + HIW + "蘊含水勁磅礡，與此招式精義吻合，一股柔似水又強如浪的內勁已由" + NOR + "$N" + HIW + "發出直向$n" + HIW + "而去。\n" + NOR,me,victim);
+      message_vision("?l???C" + HIW + "蘊含水勁磅礡，與此招式精義吻合，一股柔似水又強如浪的內勁已由" + NOR + "$N" + HIW + "發出直向$n" + HIW + "而去。\n" + NOR,me,victim);
       victim->receive_damage("kee",sp_value,me);
       COMBAT_D->report_status(victim, 1);
     }
@@ -595,7 +595,7 @@ void sp_att2(object me, object victim, object  weapon, int damage)
 {
   if( weapon->query("id")=="han_thon_sword" || weapon->query("id")=="ssad sword")
   {
-    message_vision("[1;32m?[1;33mH[1;32m?[1;33m?[1;32m?[1;33mC[0m劍勢迥異難測，加上第三招之變幻莫測，$n一個不留神中了$N 一記強擊且暫時無法對$N展開攻擊。\n",me,victim);
+    message_vision("?H???C劍勢迥異難測，加上第三招之變幻莫測，$n一個不留神中了$N 一記強擊且暫時無法對$N展開攻擊。\n",me,victim);
     victim->receive_damage("kee",400,me);
     victim->start_busy(1);
     COMBAT_D->report_status(victim, 1);
@@ -618,7 +618,7 @@ void berserk(object me, object victim, object  weapon, int damage)
       if( me->query("family/master_name")=="鄭士欣" || me->query("name")=="鄭士欣"|| me->query("dragon-sword",1)==1 )
       {
         message_vision(sprintf(HIW + "\n只見$N" + HIW + "狂性驟起，大喝一聲『" + HIR + "劍影連陽 七陽連天" + HIW + "』!!\n"),me,victim);
-        message_vision(sprintf(HIW + "七股剛柔不等的虹色劍氣驀地由$N" + HIW + "劍尖射出對$n" + HIW + "造成難以估計的傷。\n\n [0m"),me,victim);
+        message_vision(sprintf(HIW + "七股剛柔不等的虹色劍氣驀地由$N" + HIW + "劍尖射出對$n" + HIW + "造成難以估計的傷。\n\n "),me,victim);
         victim->receive_wound("kee",400,me);
         COMBAT_D->report_status(victim, 1);
         me->add("force",-80);

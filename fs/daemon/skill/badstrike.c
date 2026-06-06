@@ -16,7 +16,7 @@ void remove_effect(object me);
 
 mapping *action = ({
 //1
-  ([ "action": "$N邪念一動使出[1;37m『惡向膽邊生』[0m，化解$n的層層防守﹐攻向$n的最弱處$l",
+  ([ "action": "$N邪念一動使出『惡向膽邊生』，化解$n的層層防守﹐攻向$n的最弱處$l",
                 "dodge":                5,
                 "parry":                -20,
                 "force":                200,
@@ -24,7 +24,7 @@ mapping *action = ({
                 "damage_type":  "瘀傷"
         ]),
 //2
-  ([ "action": "$N使出一招[1;36m『厄運當頭』[0m，擊向$n的天庭蓋\",
+  ([ "action": "$N使出一招『厄運當頭』，擊向$n的天庭蓋\",
         "dodge":        10,
         "parry":        -20,
         "force":        200,
@@ -32,7 +32,7 @@ mapping *action = ({
         "damage_type":  "瘀傷"
         ]),
 //3
-  ([ "action":"$N雙眼氾紅，破口大罵，突然一招[1;35m『惡人當道』[0m出其不意的擊向$n下鄂",
+  ([ "action":"$N雙眼氾紅，破口大罵，突然一招『惡人當道』出其不意的擊向$n下鄂",
            "dodge":        -15,
            "parry":        -30,
            "force":        200,
@@ -40,7 +40,7 @@ mapping *action = ({
            "damage_type":  "瘀傷"
       ]),
 //4
-  ([ "action": "$N使出一招[1;34m『惡意中傷』[0m，無情的往$n的$l狂攻而去",
+  ([ "action": "$N使出一招『惡意中傷』，無情的往$n的$l狂攻而去",
           "dodge":        -20,
           "parry":        -35,
           "force":        300,
@@ -49,7 +49,7 @@ mapping *action = ({
           "damage_type":  "瘀傷"
         ]),
 //5
-  ([ "action": "$N使出[1;33m『餓虎撲食』[0m，身形如餓虎般欺至$n身前﹐噬向$n的$l",
+  ([ "action": "$N使出『餓虎撲食』，身形如餓虎般欺至$n身前﹐噬向$n的$l",
            "dodge":        -20,
            "parry":        -50,
            "force":        300,
@@ -58,7 +58,7 @@ mapping *action = ({
            "damage_type":  "瘀傷"
         ]),
 //6
-  ([ "action": "$N身形一變，使出[1;31m『扼殺訣』[0m，如死神般攻向$n的$l",
+  ([ "action": "$N身形一變，使出『扼殺訣』，如死神般攻向$n的$l",
            "dodge":       -10,
            "parry":        -40,
            "force":        350,
@@ -67,7 +67,7 @@ mapping *action = ({
            "damage_type":  "瘀傷"
         ]),
 //7
-  ([ "action": "$N大喝一聲，捲起一股[31m『惡勢力』[0m擊向$n，要$n屈服於其下",
+  ([ "action": "$N大喝一聲，捲起一股『惡勢力』擊向$n，要$n屈服於其下",
            "dodge":        -20,
            "parry":        10,
            "force":        400,
@@ -76,7 +76,7 @@ mapping *action = ({
            "damage_type":  "瘀傷"
         ]),
 //8
-  ([ "action": "[32m$N吐氣揚聲，真氣運至最高境界，終極奧義[35m『鬼哭神嚎』[32m呼之欲出，\n[1;31m無情地想將$n化為灰燼[0m",
+  ([ "action": "$N吐氣揚聲，真氣運至最高境界，終極奧義『鬼哭神嚎』呼之欲出，\n無情地想將$n化為灰燼",
          "parry":        -55,
          "dodge":        -10,
          "force":        400,

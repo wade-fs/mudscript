@@ -416,7 +416,7 @@ void die()
         return ;
         }
         tell_object(users(),
-   "\n\t[1m想我[1;36m劉全書[1;37m闖盪武林數十載,從無一敗今天竟被[33m"+winner->query("name")+"[1;37m所敗!!真是佩服!!佩服!![0m\n");
+   "\n\t想我劉全書闖盪武林數十載,從無一敗今天竟被"+winner->query("name")+"所敗!!真是佩服!!佩服!!\n");
     if(userp(winner) && winner->query_temp("not_robot") > time() )
     {
         if ( winner->query_temp("bless")==1 )

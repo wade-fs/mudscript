@@ -1,0 +1,18 @@
+{
+  "dbase": {
+    "channel_id": "訊息通告",
+    "id": "msgd",
+    "msg": [],
+    "name": "新聞管理器",
+    "unit": "個"
+  },
+  "default_ob": null,
+  "encumb": 0,
+  "max_encumb": 0,
+  "my_id": [
+    "msgd",
+    "msg"
+  ],
+  "my_weight": 0,
+  "tmp_dbase": null
+}

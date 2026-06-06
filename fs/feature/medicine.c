@@ -258,7 +258,7 @@ int do_eat(string arg)
                 error("F_MEDICINE:沒有這種 cure_type。\n");
         }
         message_vision((query("eat_msg")?query("eat_msg"):
-        "[32m$N服下了$n之後﹐過了一會﹐臉上看起來好多了。[0m\n"),me,ob);
+        "$N服下了$n之後﹐過了一會﹐臉上看起來好多了。\n"),me,ob);
         add_amount(-1);
         return 1;
 }
@@ -295,7 +295,7 @@ int do_apply(string arg)
         if( me->is_fighting() || target->is_fighting() )
           return notify_fail("戰鬥中無法敷藥。\n");
         message_vision(
-        "[32m$N細心的把$n敷在"+ (target==me?"自己":target->name()) +"的身上。[0m\n" ,me,ob);
+        "$N細心的把$n敷在"+ (target==me?"自己":target->name()) +"的身上。\n" ,me,ob);
         target->set_temp("medicine/plaster_power",ob->query("medicine_power"));
         target->set_temp("medicine/plaster_times",ob->query("medicine_times"));
         target->set_temp("medicine/type",TYPE);

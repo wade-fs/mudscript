@@ -1028,7 +1028,7 @@ varargs int do_attack(object me, object victim, object weapon, int attack_type)
 	    if( mapp(action) )
 		if( functionp(action["post_action"]) )
 		    evaluate( action["post_action"], me, victim, weapon, damage);
-	} else tell_object(me,"[1;36m你的內力不足以驅動武學附加攻擊![0m");
+	} else tell_object(me,"你的內力不足以驅動武學附加攻擊!");
     }//以上
     action = me->query("weapon_actions");  //武器的部份!!!!
     

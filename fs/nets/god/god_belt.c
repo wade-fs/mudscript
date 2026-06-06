@@ -8,7 +8,7 @@ set_name("" + HIR + "" + HIW + "m" + HIG + "" + HIW + "i" + HIR + "" + HIW + "y"
         if( clonep() )
                 set_default_object(__FILE__);
         else {
-                set("long","WۤCmC , o۵L񪺥~C\n");
+                set("long","W菑CmC , o蛣L顒漸~C\n");
               set("unit","");
                 set("no_sell",1);
    set("no_get",1);
@@ -21,7 +21,7 @@ set_name("" + HIR + "" + HIW + "m" + HIG + "" + HIW + "i" + HIR + "" + HIW + "y"
                 set("armor_prop/parry",5);
                 set("armor_prop/dodge",5);
                 set("armor_prop/move",5);
-                set("wear_msg","$N˳ư_$nA$NHۤƥXnXDmi~C\n");
+                set("wear_msg","$N佼が_$nA$NH菑ぁXnXDmi~C\n");
  }
         setup();
 }

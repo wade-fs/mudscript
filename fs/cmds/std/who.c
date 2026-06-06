@@ -113,7 +113,7 @@ mixed main(object me, string arg, int remote)
 				);
 			if( strlen(tmp)>270 )
 				tmp = tmp[0..53-strlen(tmp)];
-			str = sprintf("%s%12s[1;36mξ[1;37m%|10s[1;36mξ[0m %-s\n",
+			str = sprintf("%s%12sξ%|10sξ %-s\n",
 				str,
 				RANK_D->query_rank(list[j]),
 				list[j]->query("clan/name") ?

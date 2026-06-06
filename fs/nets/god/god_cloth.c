@@ -37,7 +37,7 @@ int do_wear(string str)
  if( query("equipped") )
  {
    user = this_player();
-   message_vision("$NN" + HIR + "" + HIW + "" + HIR + "" + HIW + "" + HIR + "" + HIW + "" + HIR + "" + HIW + "" + NOR + "W@A" + HIR + "" + HIW + "" + HIR + "" + HIW + "" + HIR + "" + HIW + "" + HIR + "" + HIW + "" + NOR + "ƥXιζN$NŢnC\n",user);
+   message_vision("$NN" + HIR + "" + HIW + "" + HIR + "" + HIW + "" + HIR + "" + HIW + "" + HIR + "" + HIW + "" + NOR + "W@A" + HIR + "" + HIW + "" + HIR + "" + HIW + "" + HIR + "" + HIW + "" + HIR + "" + HIW + "" + NOR + "ぁX庣庤N$N籠nC\n",user);
    set_heart_beat(1);
  }
 }
@@ -51,7 +51,7 @@ void heart_beat()
    {
      user->receive_curing("kee",300);
      user->receive_heal("kee",300);
-message_vision(HIW + "ЦҴXCCN$Nˤf¡XF.\n" + NOR,user);
+message_vision(HIW + "虷珒XCCN$N豸f癒XF.\n" + NOR,user);
      }
        }
 return;

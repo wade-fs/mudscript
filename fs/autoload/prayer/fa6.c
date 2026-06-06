@@ -11,9 +11,9 @@ void create()
         na = (me->name(0));
 
         if (me)
-           set_name(na+"的[33m金龍之扇[0m",({"dragon fan","fan"}));
+           set_name(na+"的金龍之扇",({"dragon fan","fan"}));
         else
-         { set_name("[33m金龍之扇[0m",({"dragon fan","fan"})); }
+         { set_name("金龍之扇",({"dragon fan","fan"})); }
         seteuid(getuid());
         set_weight(25000);
         if( clonep() )
@@ -22,7 +22,7 @@ void create()
         set("unit", "把");
         set("long",@LONG
 
-	上古神秘兵器之一的～～[33m金龍之扇[0m～～!! 
+	上古神秘兵器之一的～～金龍之扇～～!! 
 	
 LONG);
         set("value",12000);

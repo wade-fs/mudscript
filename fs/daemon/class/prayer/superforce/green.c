@@ -21,15 +21,15 @@ if(me->query("class")!="prayer")
         if( (int)me->query("max_force") < 2500 )
         return notify_fail("你的內力根基不足,無法控制玄宇宙氣勁。\n");
         if(me->query_temp("green")) return notify_fail("你已經在用了。\n");
-        if(me->query_temp("purple")) return notify_fail("你已經在運行[32m紫星河心法[0m了。\n");
-        if(me->query_temp("white")) return notify_fail("你已經在運行[37m白雲煙心法[0m了。\n");
-        if(me->query_temp("nine")) return notify_fail("你已經在運行[35m玖蕩霞心法[0m了。\n");
-        if(me->query_temp("gen")) return notify_fail("你已經在使用[35m土崑崙心法[0m了。\n");
-        if(me->query_temp("ice")) return notify_fail("你已經在運轉[37m碧雪冰心法[0m了。\n");
-        if(me->query_temp("black")) return notify_fail("你已經在運行[30m玄混沌[0m了。\n");
-        if(me->query_temp("bluesea")) return notify_fail("你已經在催運[34m靛滄海[0m內勁了。\n");
-        if(me->query_temp("goldsun")) return notify_fail("你已經在強運[33m金晨曦[0m內勁了。\n");
-        if(me->query_temp("blood")) return notify_fail("你已經在催鼓[31m血穹蒼[0m內勁了。\n");
+        if(me->query_temp("purple")) return notify_fail("你已經在運行紫星河心法了。\n");
+        if(me->query_temp("white")) return notify_fail("你已經在運行白雲煙心法了。\n");
+        if(me->query_temp("nine")) return notify_fail("你已經在運行玖蕩霞心法了。\n");
+        if(me->query_temp("gen")) return notify_fail("你已經在使用土崑崙心法了。\n");
+        if(me->query_temp("ice")) return notify_fail("你已經在運轉碧雪冰心法了。\n");
+        if(me->query_temp("black")) return notify_fail("你已經在運行玄混沌了。\n");
+        if(me->query_temp("bluesea")) return notify_fail("你已經在催運靛滄海內勁了。\n");
+        if(me->query_temp("goldsun")) return notify_fail("你已經在強運金晨曦內勁了。\n");
+        if(me->query_temp("blood")) return notify_fail("你已經在催鼓血穹蒼內勁了。\n");
 
         me->set_temp("green",1);
         message_vision(
@@ -55,7 +55,7 @@ void remove_effect(object me, int amount)
         me->add_temp("apply/stick", -100);
         me->add_temp("apply/move", 50);
         me->add_temp("apply/dodge", 50);
-        tell_object(me,"你身上的[32m玄宇宙[0m氣勁回歸天象，天空逐漸恢復蔚藍。\n");
+        tell_object(me,"你身上的玄宇宙氣勁回歸天象，天空逐漸恢復蔚藍。\n");
         if(skill<250)
         function_improved("green",random(1200));
 }

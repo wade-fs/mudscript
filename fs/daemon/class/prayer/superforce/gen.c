@@ -21,15 +21,15 @@ if(me->query("class")!="prayer")
         return notify_fail("你的內力根基不足,無法完全發揮出土崑崙雄渾的內勁。\n");
 
         if(me->query_temp("gen")) return notify_fail("你已經在用了。\n");
-        if(me->query_temp("purple")) return notify_fail("你已經在運行[32m紫星河心法[0m了。\n");
-        if(me->query_temp("white")) return notify_fail("你已經在運行[37m白雲煙心法[0m了。\n");
-        if(me->query_temp("nine")) return notify_fail("你已經在使用[35m玫蕩霞心法[0m了。\n");
-        if(me->query_temp("ice")) return notify_fail("你已經在運轉[37m碧雪冰心法[0m了。\n");
-        if(me->query_temp("black")) return notify_fail("你已經在運行[30m玄混沌[0m了。\n");
-        if(me->query_temp("bluesea")) return notify_fail("你已經在催運[34m靛滄海[0m內勁了。\n");
-        if(me->query_temp("goldsun")) return notify_fail("你已經在強運[33m金晨曦[0m內勁了。\n");
-        if(me->query_temp("blood")) return notify_fail("你已經在催鼓[31m血穹蒼[0m內勁了。\n");
-        if(me->query_temp("green")) return notify_fail("你已經在運行[32m玄宇宙[0m內勁了。\n");
+        if(me->query_temp("purple")) return notify_fail("你已經在運行紫星河心法了。\n");
+        if(me->query_temp("white")) return notify_fail("你已經在運行白雲煙心法了。\n");
+        if(me->query_temp("nine")) return notify_fail("你已經在使用玫蕩霞心法了。\n");
+        if(me->query_temp("ice")) return notify_fail("你已經在運轉碧雪冰心法了。\n");
+        if(me->query_temp("black")) return notify_fail("你已經在運行玄混沌了。\n");
+        if(me->query_temp("bluesea")) return notify_fail("你已經在催運靛滄海內勁了。\n");
+        if(me->query_temp("goldsun")) return notify_fail("你已經在強運金晨曦內勁了。\n");
+        if(me->query_temp("blood")) return notify_fail("你已經在催鼓血穹蒼內勁了。\n");
+        if(me->query_temp("green")) return notify_fail("你已經在運行玄宇宙內勁了。\n");
 
         me->set_temp("gen",1);
         message_vision(

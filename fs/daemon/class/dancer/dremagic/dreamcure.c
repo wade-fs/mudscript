@@ -26,7 +26,7 @@ return notify_fail("你正在施法。\n");
        return 1;
         }
         else{
-                message_vision("[32m$N使出了夢玄法鑑中的[37m治療術[32m﹐幫$n療傷只見一陣神奇光芒籠照$n全身。[0m\n", me, target);
+                message_vision("$N使出了夢玄法鑑中的治療術﹐幫$n療傷只見一陣神奇光芒籠照$n全身。\n", me, target);
                 call_out("act2",3,msg,target,me,fun,fk);
                 return 1;
         }
@@ -35,16 +35,16 @@ return notify_fail("你正在施法。\n");
 int act1(string msg,object target,object me,int fun,int fk) {
 if(!me) return 1;
 if(fk<40){
-         message_vision("[32m$N在神光籠罩下復原了少許\！[0m\n", me);
+         message_vision("$N在神光籠罩下復原了少許\！\n", me);
          me->receive_curing("kee", fk+150 );
 }else if(fk>=41&&fk<=80){
-         message_vision("[32m$N在神光籠罩下明顯的好了許\多！[0m\n", me);
+         message_vision("$N在神光籠罩下明顯的好了許\多！\n", me);
          me->receive_curing("kee", fk*2+150 );
 }else if(fk>=81&&fk<=99){
-         message_vision("[32m$N在神光籠罩下已經痊癒了大半！[0m\n", me);
+         message_vision("$N在神光籠罩下已經痊癒了大半！\n", me);
          me->receive_curing("kee", fk*3+150 );
 }else if(fk>=100){
-         message_vision("[32m$N在神光籠罩下幾乎完全的復原了！[0m\n", me);
+         message_vision("$N在神光籠罩下幾乎完全的復原了！\n", me);
          me->receive_curing("kee", fk*3+250 );
 }
          me->add("atman",-80);
@@ -53,7 +53,7 @@ if(fk<40){
          return 1;
 }
 int act2(string msg,object target,object me,int fun,int fk) {
-         message_vision("[32m$p在神光籠罩下漸漸的復原了！[0m\n", me, target);
+         message_vision("$p在神光籠罩下漸漸的復原了！\n", me, target);
          fk = fk/2;
         if(target)
          target->receive_curing("kee", fk+100 );

@@ -11,9 +11,9 @@ void create()
         na = (me->name(0));
 
         if (me)
-           set_name(na+"的[31m阿修羅劍[0m",({"ashuro sword","sword"}));
+           set_name(na+"的阿修羅劍",({"ashuro sword","sword"}));
         else
-         { set_name("[31m阿修羅劍[0m",({"ashuro sword","sword"})); }
+         { set_name("阿修羅劍",({"ashuro sword","sword"})); }
         seteuid(getuid());
         set_weight(25000);
         if( clonep() )
@@ -22,7 +22,7 @@ void create()
         set("unit", "把");
         set("long",@LONG
 
-	上古神秘兵器之一的～～[31m阿修羅劍[0m～～!!
+	上古神秘兵器之一的～～阿修羅劍～～!!
 	是殺戮與戰鬥之神 [阿修羅] 的佩劍!!
 
 LONG);

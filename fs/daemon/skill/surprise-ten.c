@@ -224,7 +224,7 @@ void conti(object me, object victim, object weapon, int damage)
           if( me->query_temp("conti") == 0 )
           {
             me->set_temp("conti",1);
-      message_vision(sprintf("\n[1;36m$N忽然頓悟驚天十式[1;5;33m氣衝百匯[0m、[1;5;33m劍落天池[0m[1;36m的要訣，劍氣自然而然的隨劍而出，密如落雨!![0m\n"),me);
+      message_vision(sprintf("\n$N忽然頓悟驚天十式氣衝百匯、劍落天池的要訣，劍氣自然而然的隨劍而出，密如落雨!!\n"),me);
               for(i=0;i<=time;i++)
               COMBAT_D->do_attack(me, victim, me->query_temp("weapon"), TYPE_QUICK);
             me->delete_temp("conti");

@@ -11,9 +11,9 @@ void create()
         na = (me->name(0));
 
         if (me)
-           set_name(na+"的[36m龍王刀[0m",({"dragon blade","blade"}));
+           set_name(na+"的龍王刀",({"dragon blade","blade"}));
         else
-         { set_name("[36m龍王刀[0m",({"dragon blade","blade"})); }
+         { set_name("龍王刀",({"dragon blade","blade"})); }
         seteuid(getuid());
         set_weight(25000);
         if( clonep() )
@@ -22,7 +22,7 @@ void create()
         set("unit", "把");
         set("long",@LONG
 
-	[36m~~龍王刀~~[0m
+	~~龍王刀~~
 
 LONG);
         set("value",12000);

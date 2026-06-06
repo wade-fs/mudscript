@@ -3,7 +3,7 @@ inherit EQUIP;
 #include <armor.h>
 void create()
 {
-        set_name("[1;31m[1;33m[1;31m[1;33m[1;31m[1;33m[1;31m[1;33mu[0m",({"gold boots","boots"}));
+        set_name("u",({"gold boots","boots"}));
         set_weight(5000);
         if( clonep() )
                 set_default_object(__FILE__);

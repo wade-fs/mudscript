@@ -3,7 +3,7 @@
 inherit EQUIP;
 void create()
 {
-    set_name("[1;31m[1;33m[1;31m[1;33m[1;31m[1;33mP[1;31m[1;33m[0m", ({"gold neck","neck"}) );
+    set_name("P", ({"gold neck","neck"}) );
      set_weight(5000);
      if ( clonep() )
               set_default_object(__FILE__);

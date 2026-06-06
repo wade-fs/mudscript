@@ -2,7 +2,7 @@ inherit EQUIP;
 
 void create()
 {
-        set_name("[1m[37m結婚戒指[0m", ({ "wedding ring", "ring"  }) );
+        set_name("結婚戒指", ({ "wedding ring", "ring"  }) );
 
 
 	set_weight(1200);

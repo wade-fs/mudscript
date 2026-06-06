@@ -47,9 +47,9 @@ void force_damage(object me, object victim, object weapon, int damage)
            && me->query("force")>damage_num*5 && me->query("force_factor")==10)
         {
          if(enable_six==1)
-          message_vision("[1;36m$N『六脈神劍』的真氣在『一陽心法』的催動之下, 更顯的劍氣縱橫, 威力大盛。[0m\n",me);
+          message_vision("$N『六脈神劍』的真氣在『一陽心法』的催動之下, 更顯的劍氣縱橫, 威力大盛。\n",me);
 	 else
-	  message_vision("[1;36m$N體內『一陽心法』真氣迅速流轉, 絲絲白氣從$N頭上冒出, 內力威力似乎更加一層。[0m\n",me);
+	  message_vision("$N體內『一陽心法』真氣迅速流轉, 絲絲白氣從$N頭上冒出, 內力威力似乎更加一層。\n",me);
 
 	 me->set_temp("sunforce_func",1);
 	 me->add_temp("apply/damage",damage_num);
@@ -61,9 +61,9 @@ void force_damage(object me, object victim, object weapon, int damage)
 void remove_damage(object me, int damage_num, int enable_six)
 {
         if(enable_six==1)
-         message_vision("[36m$N真氣稍微一滯, 『六脈神劍』的威力稍稍減弱了。[0m\n",me);
+         message_vision("$N真氣稍微一滯, 『六脈神劍』的威力稍稍減弱了。\n",me);
         else
-         message_vision("[36m$N真氣稍微一滯, 內力威力稍減。[0m\n");
+         message_vision("$N真氣稍微一滯, 內力威力稍減。\n");
         me->add_temp("apply/damage",-damage_num);
 	me->delete_temp("sunforce_func");
 }

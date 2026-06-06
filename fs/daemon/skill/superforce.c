@@ -28,7 +28,7 @@ int valid_learn(object me)
       }
       else
       {
-          tell_object(me, "[36m跟八位門主只能夠學到[渾天寶鑑]的第四層心法。[0m\n");
+          tell_object(me, "跟八位門主只能夠學到[渾天寶鑑]的第四層心法。\n");
           return 0;
       }
     }
@@ -41,7 +41,7 @@ int valid_learn(object me)
       }
       else
       {
-          tell_object(me, "[36m跟三位護教長老只能夠學到[渾天寶鑑]的第五層心法。[0m\n");
+          tell_object(me, "跟三位護教長老只能夠學到[渾天寶鑑]的第五層心法。\n");
           return 0;
       }
     }

@@ -8,7 +8,7 @@ void create()
 	      	if( clonep() )
 		set_default_object(__FILE__);
 	else {
-		set("long", "@iHpɶˮ`UlC\n");
+		set("long", "@iHp伅阨`UlC\n");
                 set("no_sell",1);
                 set("no_give", 1);
                 set("no_auc",1);
@@ -22,10 +22,10 @@ void create()
 		set("armor_prop/armor", 10);
                 set("armor_prop/parry",7);
                 set("armor_prop/force",5);
-		// npNnaoӰ, pĪGb 0-100, hehe
+		// npNnao荌, p蘆Gb 0-100, hehe
                 set("thunder",100);
-                set("wear_msg","$NN$nYW@A$np֡AϹpaC\n");
-                set("remove_msg","$NN$nFUӡA֤]FC\n");
+                set("wear_msg","$NN$nYW@A$np痋A牊paC\n");
+                set("remove_msg","$NN$nFU荂A痐]FC\n");
 
 	}
         setup();

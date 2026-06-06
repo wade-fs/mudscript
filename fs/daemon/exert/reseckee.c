@@ -14,7 +14,7 @@ int exert(object me, object target)
           me->set("s_kee",me->query("max_s_kee"));
 	me->add("force", -20);
 
-//        message_vision("[36m$N將體中的內力化成靈氣﹐使靈氣轉強。[0m\n",me);
+//        message_vision("$N將體中的內力化成靈氣﹐使靈氣轉強。\n",me);
 
 	if( me->is_fighting() ) me->start_busy(1);
 

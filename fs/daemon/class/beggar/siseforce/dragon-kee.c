@@ -13,11 +13,11 @@
   if(me->query("force")<50+(int)query_function("dragon-kee")*5)
         return notify_fail("AOALkB_slC\n");
   if(me->query("family/family_name") != "")
-        return notify_fail("AO̤lALkrslC\n");
+        return notify_fail("AO怳lALkrslC\n");
   if((string)me->query_skill_mapped("unarmed") != "dragonfist")
-        return notify_fail("sl𥲶tXsǤioC\n");
+        return notify_fail("sl藆眸tXsリioC\n");
   if(me->query_temp("dragon-kee")==1)
-        return notify_fail("AwgbΤFC\n");
+        return notify_fail("Awgb峇FC\n");
 
   temp=me->query("functions/dragon-kee/level","dragon-kee");
   skill = temp;
@@ -29,7 +29,7 @@
   if(skill < 25)
   {
    message_vision(
-"               $NB_~gĤ@h\\O" + HIW + "С" + HIR + "VCsЫl]" + HIW + "ס" + NOR + "               u@DCsq$NFx«XA$NOq\n",me);
+"               $NB_~g臚@h\\O" + HIW + "苤" + HIR + "VCs衎l]" + HIW + "蛂" + NOR + "               u@DCsq$NFx竄XA$NOq\n",me);
          me->add_temp("apply/attack",skill);
         me->start_call_out( (: call_other, __FILE__, "remove_effect", me, skill :), skill);
          if( me->is_fighting() ) me->start_busy(3);
@@ -39,7 +39,7 @@
   } else if ( skill < 50 )
   {
   message_vision(
-"               $NB_~gĤGh\\O" + HIW + "С" + HIG + "WsЫl" + HIW + "ס" + NOR + "               sq$N᳻BzXA$Nlpgܯ@ij@i\n",me);
+"               $NB_~g臚Gh\\O" + HIW + "苤" + HIG + "Ws衎l" + HIW + "蛂" + NOR + "               sq$N幙翡zXA$Nlpg鳦@ij@i\n",me);
          me->add_temp("apply/attack",skill);
          me->add("force_factor",skill/10);
         me->start_call_out( (: call_other, __FILE__, "remove_effect", me, skill :), skill);
@@ -50,7 +50,7 @@
   } else if ( skill < 75 )
   { 
    message_vision(
-"                $NB_~gĤTh\\O" + HIW + "С" + HIY + "XgsЫl[" + HIW + "ס" + NOR + "                $NuıOCtA@Agsqʷ|BBjաBD|ޮgXAϧA֦Ƥsˮl\n",me);
+"                $NB_~g臚Th\\O" + HIW + "苤" + HIY + "Xgs衎l[" + HIW + "蛂" + NOR + "                $Nu覺OCtA@Agsq妢|BBj捸BD|獀gXA洇A皉々s阨l\n",me);
          me->add_temp("apply/attack",skill);
          me->add("force_factor",skill/10);
          me->add_temp("apply/defense",skill);
@@ -62,7 +62,7 @@
   } else if ( skill >= 100 )
   {
    message_vision(
-"                $NB_~g̤W\\O" + HIW + "С" + HIB + "YsЫlZ" + HIW + "ס" + NOR + "                $NHͥ\\Oq_gKߡAuslqѦӭ@$Nn\n",me);
+"                $NB_~g怳W\\O" + HIW + "苤" + HIB + "Ys衎lZ" + HIW + "蛂" + NOR + "                $NH穸\\Oq_gK腄Auslq悁茩@$Nn\n",me);
          me->add_temp("apply/attack",skill);
          me->add("force_factor",skill/10);
          me->add_temp("apply/defense",skill);

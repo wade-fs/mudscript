@@ -1,4 +1,4 @@
-// FORM: 夥伴 by ACKY
+// FORM: 憭乩撈 by ACKY
 
 #include <ansi.h>
 
@@ -7,7 +7,7 @@ inherit F_SAVE;
 
 void create()
 {
-	set_name( "夥伴", ({"pal"}) );
+	set_name( "憭乩撈", ({"pal"}) );
 	restore();
 	setup();
 	set_name( query("name"), ({query("id")}) );

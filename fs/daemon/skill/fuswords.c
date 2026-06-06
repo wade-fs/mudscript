@@ -16,9 +16,9 @@ string *parry_msg=
     });
 string *array_msg=
     ({
-      "[1;33m$N帶領著眾劍士，腳踩八卦，劍化兩儀，將神龍劍法發揮到極致。\n[0m",
-      "[1;33m眾人愈戰愈順，愈戰愈勇，令敵人望之膽怯。\n[0m",
-      "[1;33m$N指揮若定，眾人劍招一招招遞向敵人，配合的天衣無縫。\n[0m",
+      "$N帶領著眾劍士，腳踩八卦，劍化兩儀，將神龍劍法發揮到極致。\n",
+      "眾人愈戰愈順，愈戰愈勇，令敵人望之膽怯。\n",
+      "$N指揮若定，眾人劍招一招招遞向敵人，配合的天衣無縫。\n",
      }); 
 mapping *action = ({
         ([      
@@ -237,7 +237,7 @@ void berserk(object me, object victim, object  weapon, int damage)
           {
              if(me->query("name")=="傅劍寒")
              {
-              message_vision( sprintf("[1;33m只見$N劍招一緩，萬點劍光倏然消失，化為一道劍虹向著$n的胸前狂奔而去，正是一招『萬流歸宗』對$n造成了莫大的傷害。\n [0m"), me ,victim);
+              message_vision( sprintf("只見$N劍招一緩，萬點劍光倏然消失，化為一道劍虹向著$n的胸前狂奔而去，正是一招『萬流歸宗』對$n造成了莫大的傷害。\n "), me ,victim);
               victim->add("kee",-120);
               me->add("force",-10);
               }

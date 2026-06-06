@@ -11,9 +11,9 @@ void create()
         na = (me->name(0));
 
         if (me)
-           set_name(na+"的[32m龍牙鑲金刀[0m",({"dragon-tooth blade","blade"}));
+           set_name(na+"的龍牙鑲金刀",({"dragon-tooth blade","blade"}));
         else
-         { set_name("[32m龍牙鑲金刀[0m",({"dragon-tooth blade","blade"})); }
+         { set_name("龍牙鑲金刀",({"dragon-tooth blade","blade"})); }
         seteuid(getuid());
         set_weight(25000);
         if( clonep() )

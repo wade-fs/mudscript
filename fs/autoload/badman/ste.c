@@ -9,7 +9,7 @@ string inputstr,verb;
 
 void create()
 {
-set_name("[1;36m幸運鍊條[0m",({"lucky-neck"}));
+set_name("幸運鍊條",({"lucky-neck"}));
   set_weight(3000);
   if( clonep() )
                 set_default_object(__FILE__);
@@ -51,7 +51,7 @@ int do_steal(string arg)
   if(!arg)
   return notify_fail("steal <物品> from <人物>\n");
   if ( me->is_fighting())
-  return notify_fail("[1;33m你在戰鬥，不能偷！[0m\n");
+  return notify_fail("你在戰鬥，不能偷！\n");
   if(sscanf(arg, "%s from %s",ob,player) != 2)
   return notify_fail("沒人啦！還偷？？\n");
   if (me->query("class")!="bandit")
@@ -73,22 +73,22 @@ int do_steal(string arg)
  {
   npc->kill_ob(me);
   me->start_busy(1);
-  message_vision("[1;31m有人想偷你的東西，使你怒不可抑！！！[0m\n",npc);
-  return notify_fail("[1;33m哇勒！沒偷到東西還被人砍！！！[0m\n");
+  message_vision("有人想偷你的東西，使你怒不可抑！！！\n",npc);
+  return notify_fail("哇勒！沒偷到東西還被人砍！！！\n");
  }
   else if (random((npc->query_spi()))-random((me->query_kar())) > 0)
  {
   npc->kill_ob(me);
   me->start_busy(1);
-  message_vision("[1;31m有人想偷你東西，卻被你抓個正著！[0m\n",npc);
-  return notify_fail("[1;33m哎呀！偷東西被抓到囉！[0m\n");
+  message_vision("有人想偷你東西，卻被你抓個正著！\n",npc);
+  return notify_fail("哎呀！偷東西被抓到囉！\n");
  }
-  else return notify_fail("[1;35m你失敗囉！！！[0m\n");
+  else return notify_fail("你失敗囉！！！\n");
 }
 
   obj->move(me);
 
-  message_vision ("[1;32m$N偷了[1;37m"+npc->query("name")+"[1;32m的[1;36m"+ob+"[0m\n", me);
+  message_vision ("$N偷了"+npc->query("name")+"的"+ob+"\n", me);
 
   return 1;
 }
@@ -102,7 +102,7 @@ if(str=="lucky-neck")
   {
      if (user->query("marks/kar",1))
     {
-     //message_vision("[1;36m一道藍光籠罩著$N，$N感到將有幸運的事情發生！[0m\n",user);
+     //message_vision("一道藍光籠罩著$N，$N感到將有幸運的事情發生！\n",user);
      }
      if (user->query_temp("karup",1)) 
      return notify_fail("你已穿上了！\n");
@@ -111,7 +111,7 @@ if(str=="lucky-neck")
      if( query("equipped") )
      {
       user = this_player();
-     message_vision("[1;36m一道藍光籠罩著$N，$N感到將有幸運的事情發生！[0m\n",user);
+     message_vision("一道藍光籠罩著$N，$N感到將有幸運的事情發生！\n",user);
      }
     }
   }
@@ -136,7 +136,7 @@ if(str=="lucky-neck" || str == "all")
      {
       user = this_player();
 if(user->query("marks/kar",1)) {
-      message_vision("[1;37m$N除掉了頸上的項鍊，那種幸運的感覺已不再！[0m\n",user);
+      message_vision("$N除掉了頸上的項鍊，那種幸運的感覺已不再！\n",user);
      }
 }
 }

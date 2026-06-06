@@ -202,28 +202,28 @@ string ob_value (object ob)
 
           if (coin)
               return sprintf("%s%s%s%s%s文錢",
-	        diamond?chinese_number(diamond)+"粒[37;1m鑽石[0m" : "",
+	        diamond?chinese_number(diamond)+"粒鑽石" : "",
 	        cash?chinese_number(cash)+"張萬兩銀票" : "",
                 gold?chinese_number(gold)+"金":"",
                 silver?chinese_number(silver)+"銀":"",
                 chinese_number(coin));
           else if (silver)
               return sprintf("%s%s%s%s兩銀子",
-	        diamond?chinese_number(diamond)+"粒[37;1m鑽石[0m" : "",
+	        diamond?chinese_number(diamond)+"粒鑽石" : "",
 	        cash?chinese_number(cash)+"張萬兩銀票" : "",
                 gold?chinese_number(gold)+"金":"",
                 chinese_number(silver));
           else if (gold)
               return sprintf("%s%s%s兩金子",
-	        diamond?chinese_number(diamond)+"粒[37;1m鑽石[0m" : "",
+	        diamond?chinese_number(diamond)+"粒鑽石" : "",
 	        cash?chinese_number(cash)+"張萬兩銀票" : "",
                 chinese_number(gold));
           else if (cash)
               return sprintf("%s%s張萬兩銀票",
-	        diamond?chinese_number(diamond)+"粒[37;1m鑽石[0m" : "",
+	        diamond?chinese_number(diamond)+"粒鑽石" : "",
                 chinese_number(cash));
 	  else
-              return sprintf("%s粒[37;1m鑽石[0m",
+              return sprintf("%s粒鑽石",
                 chinese_number(diamond));
 /*
           if (coin)
@@ -264,28 +264,28 @@ string cvalue (int value)
 
           if (coin)
               return sprintf("%s%s%s%s%s文錢",
-	        diamond?chinese_number(diamond)+"粒[37;1m鑽石[0m" : "",
+	        diamond?chinese_number(diamond)+"粒鑽石" : "",
 	        cash?chinese_number(cash)+"張萬兩銀票" : "",
                 gold?chinese_number(gold)+"金":"",
                 silver?chinese_number(silver)+"銀":"",
                 chinese_number(coin));
           else if (silver)
               return sprintf("%s%s%s%s兩銀子",
-	        diamond?chinese_number(diamond)+"粒[37;1m鑽石[0m" : "",
+	        diamond?chinese_number(diamond)+"粒鑽石" : "",
 	        cash?chinese_number(cash)+"張萬兩銀票" : "",
                 gold?chinese_number(gold)+"金":"",
                 chinese_number(silver));
           else if (gold)
               return sprintf("%s%s%s兩金子",
-	        diamond?chinese_number(diamond)+"粒[37;1m鑽石[0m" : "",
+	        diamond?chinese_number(diamond)+"粒鑽石" : "",
 	        cash?chinese_number(cash)+"張萬兩銀票" : "",
                 chinese_number(gold));
           else if (cash)
               return sprintf("%s%s張萬兩銀票",
-	        diamond?chinese_number(diamond)+"粒[37;1m鑽石[0m" : "",
+	        diamond?chinese_number(diamond)+"粒鑽石" : "",
                 chinese_number(cash));
 	  else
-              return sprintf("%s粒[37;1m鑽石[0m",
+              return sprintf("%s粒鑽石",
                 chinese_number(diamond));
         }
 }

@@ -42,8 +42,8 @@ int do_blood(string str)
 	  return notify_fail("這把武器已得到你的犧牲。\n");
 	if( ob->query("equipped") == "wielded" )
 	  return notify_fail("請先將武器卸下。\n");
-	message_vision("[31m$N緩緩的用"+name+"往手腕處一劃, 鮮血如泉湧般淋遍整把"+name+"。\n
-一會兒, 鮮血已被"+name+"吸乾殆盡,而"+name+"也旦然的發出一陣耀眼的[1;5;33m光芒[0;31m。[0m\n",me);
+	message_vision("$N緩緩的用"+name+"往手腕處一劃, 鮮血如泉湧般淋遍整把"+name+"。\n
+一會兒, 鮮血已被"+name+"吸乾殆盡,而"+name+"也旦然的發出一陣耀眼的光芒。\n",me);
 set_name(HIB + "妖" + BLU + "刀" + HIR + "『" + HIG + "村" + HIW + "雨" + HIR + "』" + NOR,({"evil-mblade","blade"}));
 set("wield_msg","\n$N手上忽然多了一把$n，刀光漾映一片沁藍，刀揮動時還帶著一種像陰靈般的呻吟。\n\n");
 set("unwield_msg","\n$N手上的$n像七月半猛鬼出關，忽然自手上消失無蹤。\n\n");

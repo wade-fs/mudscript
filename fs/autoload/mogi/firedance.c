@@ -24,21 +24,21 @@ return notify_fail("只有舞者才能使用。\n");
         me->add("atman", -150);
         me->receive_damage("gin", 10);
 
-         write("[1;32m\n            妳領悟了夜夢天舞及夢玄法鑑的精髓，預備施展[1;31m火鳳飛翔[1;32m之術。\n[0m");
+         write("\n            妳領悟了夜夢天舞及夢玄法鑑的精髓，預備施展火鳳飛翔之術。\n");
          msg = HIC + "\n                   $N的身體漸漸的被火燄包圍，而$N的身形也漸" + NOR;
          msg += HIY + "\n                     漸的幻化為一隻鳳凰，只見一隻火鳳凰迅速的" + NOR;
          msg += HIG + "\n                       向著$n飛去，令$n不及招架。\n\n" + NOR;
          message_vision(msg, me, target);
         if( 80 > random(100) ) {
-                        write("[1;32m\n                     結果成功\的施展出火鳳飛翔。\n[0m");
-                        say( "[1;31m                     "+target->query("name")+"閃躲不及，渾身上下都著了火，痛苦異常!!\n[0m");
+                        write("\n                     結果成功\的施展出火鳳飛翔。\n");
+                        say( "                     "+target->query("name")+"閃躲不及，渾身上下都著了火，痛苦異常!!\n");
          target->add("kee",-(fun*9+250));
 		 target->apply_condition("burn",random(15) +fun);
                         if ( fun < 100)
                           me->spell_improved("firedance",random(700));
         } else {
-                write("[1;31m\n                     結果絲毫起不了作用令妳暗自惋昔。 \n[0m");
-                say( "[1;32m               只見"+target->query("name")+"以迅雷不及掩耳之速閃過攻擊。\n[0m");
+                write("\n                     結果絲毫起不了作用令妳暗自惋昔。 \n");
+                say( "               只見"+target->query("name")+"以迅雷不及掩耳之速閃過攻擊。\n");
                          if (fun < 100)
                          me->spell_improved("firedance",random(700));
 }

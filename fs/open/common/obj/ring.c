@@ -2,7 +2,7 @@ inherit EQUIP;
 
 void create()
 {
-        set_name("[1m[37m結婚戒指[0m", ({ "wedding ring", "ring"  }) );
+        set_name("結婚戒指", ({ "wedding ring", "ring"  }) );
         set("unit", "只");
         set("long", "象徵永恆堅定的結婚戒指，獻給這受上天祝福的兩人。\n");
 	set("armor_type", "finger");

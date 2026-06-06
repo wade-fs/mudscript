@@ -134,7 +134,7 @@ void berserk(object me, object victim, object  weapon, int damage)
                         me->set_temp("apply/attack", pow1);
                         message_vision(
                        
-"[1;33m$N使出八仙齊賀壽,如山泉湧出般打向$n各致命弱點。^[[0m\n" , me, victim);
+"$N使出八仙齊賀壽,如山泉湧出般打向$n各致命弱點。^[[0m\n" , me, victim);
                         COMBAT_D->do_attack(me, victim, me->query_temp("weapon"));
                 }
                 me->delete_temp("apply/attack");

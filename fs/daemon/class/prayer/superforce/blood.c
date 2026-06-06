@@ -19,15 +19,15 @@ skill=this_player()->query("functions/blood/level");
         if( (int)me->query("max_force") < 2000 )
         return notify_fail("你的內力根基不足,無法控制血穹蒼氣勁。\n");
         if(me->query_temp("blood")) return notify_fail("你已經在用了。\n");
-        if(me->query_temp("purple")) return notify_fail("你已經在運行[32m紫星河心法[0m了。\n");
-        if(me->query_temp("white")) return notify_fail("你已經在運行[37m白雲煙心法[0m了。\n");
-        if(me->query_temp("nine")) return notify_fail("你已經在運行[35m玖蕩霞心法[0m了。\n");
-        if(me->query_temp("gen")) return notify_fail("你已經在使用[35m土崑崙心法[0m了。\n");
-        if(me->query_temp("ice")) return notify_fail("你已經在運轉[37m碧雪冰心法[0m了。\n");
-        if(me->query_temp("black")) return notify_fail("你已經在運行[30m玄混沌[0m了。\n");
-        if(me->query_temp("bluesea")) return notify_fail("你已經在催運[34m靛滄海[0m內勁了。\n");
-        if(me->query_temp("goldsun")) return notify_fail("你已經在強運[33m金晨曦[0m內勁了。\n");
-        if(me->query_temp("green")) return notify_fail("你已經在運行[32m玄宇宙[0m內勁了。\n");
+        if(me->query_temp("purple")) return notify_fail("你已經在運行紫星河心法了。\n");
+        if(me->query_temp("white")) return notify_fail("你已經在運行白雲煙心法了。\n");
+        if(me->query_temp("nine")) return notify_fail("你已經在運行玖蕩霞心法了。\n");
+        if(me->query_temp("gen")) return notify_fail("你已經在使用土崑崙心法了。\n");
+        if(me->query_temp("ice")) return notify_fail("你已經在運轉碧雪冰心法了。\n");
+        if(me->query_temp("black")) return notify_fail("你已經在運行玄混沌了。\n");
+        if(me->query_temp("bluesea")) return notify_fail("你已經在催運靛滄海內勁了。\n");
+        if(me->query_temp("goldsun")) return notify_fail("你已經在強運金晨曦內勁了。\n");
+        if(me->query_temp("green")) return notify_fail("你已經在運行玄宇宙內勁了。\n");
 
         me->set_temp("blood",1);
         message_vision(
@@ -53,7 +53,7 @@ void remove_effect(object me, int amount)
         me->add_temp("apply/stick", -60);
         me->add_temp("apply/move", 50);
         me->add_temp("apply/dodge", 40);
-        tell_object(me,"只見你身上的[31m血穹蒼[0m氣勁回歸平淡。\n");
+        tell_object(me,"只見你身上的血穹蒼氣勁回歸平淡。\n");
         if(skill < 200)
         function_improved("blood",random(1000));
 }

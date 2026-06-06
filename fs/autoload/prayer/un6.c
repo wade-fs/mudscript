@@ -11,9 +11,9 @@ void create()
         na = (me->name(0));
 
         if (me)
-           set_name(na+"的[32m大地之星[0m",({"earth hander","hander"}));
+           set_name(na+"的大地之星",({"earth hander","hander"}));
         else
-         { set_name("[32m大地之星[0m",({"earth hander","hander"})); }
+         { set_name("大地之星",({"earth hander","hander"})); }
         seteuid(getuid());
         set_weight(25000);
         if( clonep() )
@@ -22,7 +22,7 @@ void create()
         set("unit", "把");
         set("long",@LONG
 
-	上古神秘兵器之一的～～[32m大地之星[0m～～!!裝備在手上後, 
+	上古神秘兵器之一的～～大地之星～～!!裝備在手上後, 
 	揮出來拳頭的拳力如同地震般的強撼!!甚至可以將大地一
 	分為二!!
 	

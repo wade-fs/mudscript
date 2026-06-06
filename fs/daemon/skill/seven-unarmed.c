@@ -7,9 +7,9 @@ void sp2(object me, object victim, object  weapon, int damage);
 void sp4(object me,object victim,object weapon,int damage);
 
 mapping *action= ({
- (["action":"$NϥX [0;1;36;45m[1mC[1m [1m[1m[1m [1m[1mW[1m [1m[1mQ[1m [1m[1m[0m  [0;1;33m[1m[1m [1m[1m[1m [1m[1m}[1m [1m[1m[0m
+ (["action":"$NϥX C  W Q     } 
 
-              [0;1;32m[1m[1m [1m[1ml[1m [1m[1m[1m [1m[1m[0mA[0;1;31m[1m[1m [1m[1m[1m [1m[1m[1m [1m[1m[0mA[0;1;35m[1m[1m [1m[1m[1m [1m[1m[1m [1m[1mz[0m
+               l  A   A   z
 
              $N|_$w,$nUj޹Dh,\nO$n``QAҶ",
     "dodge":-10,
@@ -18,7 +18,7 @@ mapping *action= ({
     "force":45,
     "damage_type":""
   ]),
- (["action":"$Nf@RuAϥ [0;1;36;45m[1mC[1m [1m[1m[1m [1m[1mW[1m [1m[1mQ[1m [1m[1m[0m [0;1;33m[1m[1m [1m[1m[1m [1m[1mg[1m [1m[1m[0m
+ (["action":"$Nf@RuAϥ C  W Q    g 
 
              N$wݶରΡAKAV$n𥴹Lh.",
     "dodge":40,

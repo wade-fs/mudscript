@@ -167,7 +167,7 @@ void besummon(object who,object room)
     if(funlv>=100)
         {
                 obj->set("title", HIY + "y" + HIR + "" + HIY + "~" + HIR + "" + HIY + "" + HIR + "z" + NOR);
-                obj->set_name("[0;1m[1m[1;30m[1m[1;37m[1mb[1;30m[1mv[1;37m[1m[1;30m[1ms[0m" + NOR,({"evil dragon" , "dragon","evil"})); 
+                obj->set_name("bvs" + NOR,({"evil dragon" , "dragon","evil"})); 
 
                 command("wear all");
         }
