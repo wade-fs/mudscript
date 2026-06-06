@@ -8,7 +8,7 @@ set_weight(2000);
         if( clonep() )
                 set_default_object(__FILE__);
         else {
-set("long","o_`OѤ믫Ҵx޵ , uM֦ۦPFʪH~\n");
+set("long","o_`O悀諯帝掌瑑 , uM皉萓PF坁H~\n");
                 set("unit", "");
                 set("no_sell",1);
                 set("no_give", 1);
@@ -20,7 +20,7 @@ set("long","o_`OѤ믫Ҵx޵ , uM֦ۦPFʪH~\n");
                 set("armor_prop/armor",15);
                 set("armor_prop/parry",10);
                 set("armor_prop/force",9);
-set("wear_msg","$NMW$nAG֡AHߤjW .\n");
+set("wear_msg","$NMW$nAG痋AH艉jW .\n");
  }
         setup();
 }

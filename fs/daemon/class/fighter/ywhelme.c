@@ -4,7 +4,7 @@ inherit HEAD;
 
 void create()
 {
-        set_name("[1;31m[1;33m[1;31m[1;33m[1;31m[1;33mY[1;31m[1;33ma[0m", ({"gold helmet", "helmet"}));
+        set_name("Ya", ({"gold helmet", "helmet"}));
         set_weight(5000);
         if( clonep() )
                 set_default_object(__FILE__);

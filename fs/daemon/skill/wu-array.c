@@ -34,56 +34,56 @@ int form_array(object leader)
       {
          if( leader->query("sen",1) > 20)
          {
-            message_vision("[1;32m$N帶領眾人展開兩儀追星劍陣。[0m\n", leader);
+            message_vision("$N帶領眾人展開兩儀追星劍陣。\n", leader);
             leader->add("sen", -20);
             doing_array( member, leader);
          }
          else
-            message_vision("[1m你精神不足, 無法啟動劍陣\n[0m",leader);
+            message_vision("你精神不足, 無法啟動劍陣\n",leader);
       }
       if( sizeof(member) == 3 )
       {
          if( leader->query("sen",1) > 30)
          {
-            message_vision( "[1;32m$N帶領眾人展開天地人三才劍陣。[0m\n", leader);
+            message_vision( "$N帶領眾人展開天地人三才劍陣。\n", leader);
             leader->add("sen", -30);
             doing_array( member, leader);
          }
          else
-            message_vision("[1m你精神不足, 無法啟動劍陣\n[0m",leader);
+            message_vision("你精神不足, 無法啟動劍陣\n",leader);
       }
       if( sizeof(member) == 4 )
       {
          if( leader->query("sen",1) > 40)
          {
-            message_vision("[1;32m$N帶領眾人展開四象旋磯劍陣。[0m\n", leader);
+            message_vision("$N帶領眾人展開四象旋磯劍陣。\n", leader);
             leader->add("sen",-40);
             doing_array( member, leader);
          }
          else
-            message_vision("[1m你精神不足, 無法啟動劍陣\n[0m",leader);
+            message_vision("你精神不足, 無法啟動劍陣\n",leader);
       }
       if( sizeof(member) == 7 )
       {
          if( leader->query("sen",1) > 50)
          {
-            message_vision("[1;32m$N帶領眾人展開真武七截陣。[0m\n", leader);
+            message_vision("$N帶領眾人展開真武七截陣。\n", leader);
             leader->add("sen",-50);
             doing_array( member, leader);
          }
          else
-            message_vision("[1m你精神不足, 無法啟動劍陣\n[0m",leader);
+            message_vision("你精神不足, 無法啟動劍陣\n",leader);
       }
       if( sizeof(member)==8)
       {
          if( leader->query("sen",1) > 60)
          {
-            message_vision("[1;32m$N帶領眾人展開八卦游龍劍陣。[0m\n", leader);
+            message_vision("$N帶領眾人展開八卦游龍劍陣。\n", leader);
             leader->add("sen",-60);
             doing_array( member, leader);
          }
          else
-            message_vision("[1m你精神不足, 無法啟動劍陣\n[0m",leader);
+            message_vision("你精神不足, 無法啟動劍陣\n",leader);
       }
    }
    return 0;
@@ -104,7 +104,7 @@ void remove_array( object *member,object leader)
    int i;
    if(leader->query_temp("use_form",1))
    {
-      message_vision("[1m$N突然心神一分, 腳步一個踏錯, 劍已不成陣, 劍陣必須重組。\n[0m",leader);
+      message_vision("$N突然心神一分, 腳步一個踏錯, 劍已不成陣, 劍陣必須重組。\n",leader);
       for(i=0; i<sizeof(member); i++)
          member[i]->delete_temp("use_form",1);
    }

@@ -11,9 +11,9 @@ void create()
         na = (me->name(0));
 
         if (me)
-           set_name(na+"的[36m鐵指碎岩環[0m",({"stonering"}));
+           set_name(na+"的鐵指碎岩環",({"stonering"}));
         else
-         { set_name("[36m鐵指碎岩環[0m",({"stonering"})); }
+         { set_name("鐵指碎岩環",({"stonering"})); }
         seteuid(getuid());
         set_weight(25000);
         if( clonep() )
@@ -22,7 +22,7 @@ void create()
         set("unit", "把");
         set("long",@LONG
 
-	上古神秘兵器之一的～～[36m鐵指碎岩環[0m～～!! 
+	上古神秘兵器之一的～～鐵指碎岩環～～!! 
 	
 LONG);
         set("value",12000);

@@ -73,6 +73,6 @@ int been_light(object me, object target)
         target->set("had_light",1);
         target->set("be_light",1); 
         target->set("old_name", target->name() );
-        target->set("name","[4;1m"+target->name()+"[0m");
+        target->set("name",""+target->name()+"");
         }
 }

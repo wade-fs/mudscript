@@ -34,7 +34,7 @@ int perform(object me)
   {
     me->add("kee",-7000);
     log_file("/sword/swordlog",sprintf("%s(%s) 使用沒萬劍on %s\n",me->query("name"),me->query("id"),ctime(time())));
-    return notify_fail("[1;31m由於強運仙劍絕學....你被萬劍反噬..[0m\n");
+    return notify_fail("由於強運仙劍絕學....你被萬劍反噬..\n");
   }
   if(me->query("class")!="swordsman")
     return notify_fail("不是劍士不能用喔。\n");
@@ -48,7 +48,7 @@ int perform(object me)
   // 劍氣100 及sha_kee 加強威力
   if (kee_lv==100 && swordkee_lv==100)
   {
-    message_vision("[1;34m就在此時已由$N將利劍往自己手上一刺...![0m \n[1;31m只見暗紅色的劍氣隨血光竄出..[0m \n[1;37m半空中混雜著各式劍氣..剎那間各種劍氣轉變成數種劍陣 ...[0m \n[1;34m只聽$N高喊[1;31m劍氣[1;37m破敵[1;33m---『石破天驚』！[0m\n",me);
+    message_vision("就在此時已由$N將利劍往自己手上一刺...! \n只見暗紅色的劍氣隨血光竄出.. \n半空中混雜著各式劍氣..剎那間各種劍氣轉變成數種劍陣 ... \n只聽$N高喊劍氣破敵---『石破天驚』！\n",me);
     //本身受傷
     if(me->query("quest/sun_fire_sword")==1)
       me->add("kee",-((sha_value*5+kee_lv*5+sword_lv*5)/8));

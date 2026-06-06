@@ -611,7 +611,7 @@ private void _file_head(object pl)        // 將游標移到檔頭
 private void _goto_line(object pl)        // 跳到特定行去
 {
         mapping me=pl->query_temp("me");
-        _message(pl, sprintf("[1;44m請輸入行號「直接按 ENTER 取消，1~%d」﹕[m",
+        _message(pl, sprintf("請輸入行號「直接按 ENTER 取消，1~%d」﹕",
                 sizeof(me["sText"])), "_goto_line_done", ECHO, 1);
 } // _goto_line()
 
@@ -623,7 +623,7 @@ protected void _goto_line_done(string str, object pl, int rein) // 取得行號
 
         if (str == "") return _message_done("", pl);
         if (sscanf(str, "%d", no)!=1 || no<1 || no>sizeof(me["sText"]))
-                return _message(pl, "[1;31;5m錯誤的行號﹗[m", "_message_done", HIDE);
+                return _message(pl, "錯誤的行號﹗", "_message_done", HIDE);
 
         me["iCol"] = 1;
         if (me["iS_Row"]<=no && no<=me["iE_Row"])
@@ -646,30 +646,30 @@ protected void _goto_line_done(string str, object pl, int rein) // 取得行號
 private void _help(object pl)                // 輔助畫面
 {
         printf(REF +
-"[1;41m【 LPMud 全螢幕編輯器 】1.3 版 9/28/1997  by 謝崇祥(Kenny Hsieh), 版權所有.[m
+"【 LPMud 全螢幕編輯器 】1.3 版 9/28/1997  by 謝崇祥(Kenny Hsieh), 版權所有.
 
-[1;44m                                一般命令                                   [m
+                                一般命令                                   
 w ^W    儲存檔案       q ^Q    離開編輯器        ? ^Y    輔助畫面「此畫面」
 f ^Z    重繪畫面
-[1;44m                               游標移動指令                                [m
+                               游標移動指令                                
 k ^O ↑   向上     j ^K ↓   向下      h ^J ←   向左      l ^L →   向右
 A ^A Home 至行首   E ^E End 至行尾     B ^B PgUp 上一頁    F ^F PgDn 下一頁
 U ^U      檔案開頭 V ^V 檔案結尾       s ^S      字串搜尋  r ^R    字串替換
 g ^G      跳到特定行去                 n ^N      搜尋/替換下個符合字串
-[1;44m                                 刪除命令                                  [m
+                                 刪除命令                                  
 d ^D    刪除整行       x ^X    刪除游標上的字
 ~ ^T 在游標前面插入一個「!」字元       J ^P    將下行文字接到此行後面
-[1;44m                             命令模式特用指令                              [m
+                             命令模式特用指令                              
 a  在游標後面加字      i  在游標前面插字         m  定義新功\能鍵\n");
         printf(
 "u  取消某功\能鍵定義    o  在游標底下加一新行     O  在游標上方加一新行
 .  重覆上個指令
-[1;31mPS. A ^A Home 至行首 A代表指令模式快速鍵﹐^A(即Ctrl+A)代表輸入模式使用﹐Home
-代表鍵盤使用﹐最後是使用說明。[m
+PS. A ^A Home 至行首 A代表指令模式快速鍵﹐^A(即Ctrl+A)代表輸入模式使用﹐Home
+代表鍵盤使用﹐最後是使用說明。
 
 歡迎傳播此編輯器，但請保留版權宣告，有任何問題和建議請聯絡我：
 kenny@cindy.cis.nctu.edu.tw。
-                           [;1m[按任意鍵回到編輯器][m");
+                           [按任意鍵回到編輯器]");
         get_char("_input", HIDE, pl, REFRESH); // 讀取按鍵以重繪畫面
 } // _help()
 
@@ -964,7 +964,7 @@ protected void _quit(mixed unused, mixed pl) // 離開編輯器
         seteuid(geteuid(pl));
         me = pl->query_temp("me");
         if (me["is_Modify"])
-                return _message(pl, "[44;1;31m此檔案已更改，請問需要存檔嗎(y/N)？[N][m",
+                return _message(pl, "此檔案已更改，請問需要存檔嗎(y/N)？[N]",
                         "_confirm_save", ECHO);
         me["iRow"] = 23;
         _refresh_cursor(pl);                // 移動游標到最後一行
@@ -986,7 +986,7 @@ private void _refresh(object pl)        // 更新畫面
 
 private void _replace(object pl)        // 字串替換
 {
-        _message(pl, "[1;44m搜尋/替換字串「直接按ENTER取消,以空白隔開」﹕[m",
+        _message(pl, "搜尋/替換字串「直接按ENTER取消,以空白隔開」﹕",
                 "_replace_done", ECHO);
 } // _replace()
 
@@ -1041,7 +1041,7 @@ private void _right(object pl, int col, int extra)        // 游標往右移一�
 
 private void _search(object pl)                // 字串搜尋
 {
-        _message(pl, "[1;44m請輸入搜尋字串「直接按 ENTER 取消」﹕[m", "_search_done",
+        _message(pl, "請輸入搜尋字串「直接按 ENTER 取消」﹕", "_search_done",
                 ECHO);
 } // _search()
 
@@ -1115,7 +1115,7 @@ private void _up(object pl)                // 游標往上移一行
 
 private void _write(object pl)                // 取得儲存檔案名稱
 {
-        _message(pl, "[44;1m請輸入新檔名「直接按 ENTER 以使用舊檔名」﹕[m",
+        _message(pl, "請輸入新檔名「直接按 ENTER 以使用舊檔名」﹕",
                 "_write_done", ECHO, 0);
 } // _write()
 
@@ -1134,8 +1134,8 @@ protected void _write_done(string str, object pl, int quit) // 儲存檔案
         {
                 me["is_Modify"] = me["is_NewFile"] = 0;
                 me["sFileName"] = str;
-                _message(pl, "[44;1;36m存檔成功\﹐YA﹗[m", callback, HIDE);
+                _message(pl, "存檔成功\﹐YA﹗", callback, HIDE);
         }
         else
-                _message(pl, "[44;30m存檔失敗﹐-.- .....。[m", callback, HIDE);
+                _message(pl, "存檔失敗﹐-.- .....。", callback, HIDE);
 } // write_done()

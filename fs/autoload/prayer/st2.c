@@ -11,9 +11,9 @@ void create()
         na = (me->name(0));
 
         if (me)
-           set_name(na+"的[34m流星杵[0m",({"star stick","stick"}));
+           set_name(na+"的流星杵",({"star stick","stick"}));
         else
-         { set_name("[34m流星杵[0m",({"star stick","stick"})); }
+         { set_name("流星杵",({"star stick","stick"})); }
         seteuid(getuid());
         set_weight(25000);
         if( clonep() )
@@ -22,7 +22,7 @@ void create()
         set("unit", "把");
         set("long",@LONG
 
-	上古神秘兵器之一的～～[34m流星杵[0m～～!! 
+	上古神秘兵器之一的～～流星杵～～!! 
 	
 LONG);
         set("value",12000);

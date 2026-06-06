@@ -18,7 +18,7 @@ set("no_drop",1);
                 set_default_object(__FILE__);
         else {
         set("long","
-ĭ[֡AϦb԰ɪʷ|ItC
+蘊[痋A浀b埶阞妢|ItC
 \n");
         set("unit", "");
         set("armor_type","cape");
@@ -26,8 +26,8 @@ set("no_drop",1);
 	set("armor_prop/armor",7);
 	set("armor_prop/dodge",7);
         set("armor_prop/move",7);
-set("wear_msg", HIW + "$NܤW$n" + HIW + "A$NP쨭|Pۭ¶\n" + NOR);
-set("remove_msg",HIW + "$NN$n" + HIW + "FUӡA|PL಴RFUӡC\n" + NOR);
+set("wear_msg", HIW + "$N雂W$n" + HIW + "A$NP鴩迢P菢繞\n" + NOR);
+set("remove_msg",HIW + "$NN$n" + HIW + "FU荂A|PL鉦嵇FU荂C\n" + NOR);
 
          }
         setup();

@@ -18,7 +18,7 @@ int exert(object me, object target)
 	target->add("force",60);
 	if( target->query("force") > target->query("max_force") )
 		target->set("force",target->query("max_force"));
-	message_vision("[36m$N將雙手置於$n百會與膻中兩大穴﹐一股內勁由$N的手掌鑽入$n體內﹐與$n本身內力互相融合。[0m\n", me, target);
+	message_vision("$N將雙手置於$n百會與膻中兩大穴﹐一股內勁由$N的手掌鑽入$n體內﹐與$n本身內力互相融合。\n", me, target);
 
 	return 1;
 }

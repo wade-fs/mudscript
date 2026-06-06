@@ -21,7 +21,7 @@ else return ("對不起﹐你問的事我實在沒有印象。");
 }
 void create()
 {
-        set_name("[1;34m魔刀莫測[0m",({"oldman"}));
+        set_name("魔刀莫測",({"oldman"}));
 set("long", "一個看起來全身髒盻盻的老人，腳上還有一個腳銬，看起來像是被關在這裡的。\n");
         set("gender", "男性" );
         create_family("魔刀莫測",1,"開創始祖");
@@ -108,7 +108,7 @@ return ;
         ob->delete("family");
         command("recruit "+this_player()->query("id"));
 if(this_player()->query("m_blade")==1) {
-this_player()->set("title","[1;31m魔刀[1;37m『三斬歸元』[1;35m傳人[0m"); } else {
+this_player()->set("title","魔刀『三斬歸元』傳人"); } else {
         this_player()->set("title",HIC + "魔刀絕世傳人" + NOR);
 }
         this_player()->set("no_recruit", 1);

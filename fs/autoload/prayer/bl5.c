@@ -11,9 +11,9 @@ void create()
         na = (me->name(0));
 
         if (me)
-           set_name(na+"的[35m雷電之刃[0m",({"bronto blade","blade"}));
+           set_name(na+"的雷電之刃",({"bronto blade","blade"}));
         else
-         { set_name("[35m雷電之刃[0m",({"bronto blade","blade"})); }
+         { set_name("雷電之刃",({"bronto blade","blade"})); }
         seteuid(getuid());
         set_weight(25000);
         if( clonep() )
@@ -22,7 +22,7 @@ void create()
         set("unit", "把");
         set("long",@LONG
 
-	[35m雷電之刃[0m!! 
+	雷電之刃!! 
 	
 LONG);
         set("value",12000);

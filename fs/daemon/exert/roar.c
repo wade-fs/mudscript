@@ -14,7 +14,7 @@ int exert(object me,object target)
         "結果$N似乎被$n嚇的目瞪口呆, 一時無法言語。",
         "$N覺得頭昏眼花，分不清楚東南西北。",
         "結果$N被$n的喝聲驚的跌坐在地上, 口吐白沫, 久久無法動作。",
-        "[1;31m只見得$N雙手摀耳, 慘叫一聲, 昏厥了過去。[0m"
+        "只見得$N雙手摀耳, 慘叫一聲, 昏厥了過去。"
         });
         if( me->query("class") != "fighter" )
           return notify_fail("只有武者才能使出。\n");
@@ -25,7 +25,7 @@ int exert(object me,object target)
         if(me->query_temp("no_roar"))
           return notify_fail("因為蠍毒的作用，你一句話也說不出來。\n");
 
-        message_vision("\n[1;36m$N大喝一聲, 將全身內力貫注丹田, 忽然間一股震耳欲聾的聲音罔若平地焦雷般的半空爆開﹗[0m\n",me);
+        message_vision("\n$N大喝一聲, 將全身內力貫注丹田, 忽然間一股震耳欲聾的聲音罔若平地焦雷般的半空爆開﹗\n",me);
         me->add("force",-force_cost);
         enemy = all_inventory( environment(me) );
         for( i=0; i<sizeof(enemy); i++ )
@@ -44,7 +44,7 @@ int exert(object me,object target)
                         valid=random(sizeof(ATT_MESSAGE)-1)+1;
                 else
                         valid=random(sizeof(ATT_MESSAGE)-1);
-                message_vision("[36m"+ATT_MESSAGE[valid]+"[0m\n",enemy[i],me);
+                message_vision(""+ATT_MESSAGE[valid]+"\n",enemy[i],me);
                 if( valid == sizeof(ATT_MESSAGE)-1 )
                         enemy[i]->unconcious();
                 else

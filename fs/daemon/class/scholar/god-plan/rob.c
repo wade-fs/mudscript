@@ -1,43 +1,43 @@
-//Written By AceLan 98.7.22 ¶X¤õ¥´§T¤§­p...
-// §ï¬°¥i­«½Æ¨Ï¥Î¡A¤£¹L©R¤¤²v³v¦¸­°§C¡C by frequency 2003 7/29
+//Written By AceLan 98.7.22 è¶ç«æ‰“åŠ«ä¹‹è¨ˆ...
+// æ”¹ç‚ºå¯é‡è¤‡ä½¿ç”¨ï¼Œä¸éå‘½ä¸­ç‡é€æ¬¡é™ä½ã€‚ by frequency 2003 7/29
 #include <ansi.h>
 
 int perform(object me, object target)
 {
-   if( !target ) return notify_fail("§A­n¹ï½Ö¥Î­p¡H\n");
+   if( !target ) return notify_fail("ä½ è¦å°èª°ç”¨è¨ˆï¼Ÿ\n");
 
    if( !target->is_fighting() || !target->is_killing())
-      return notify_fail("¶X¤õ¥´§T¤§­p¥u¯à¶X¼Ä¤H³´¤J¦M¾Ô¤§®É¡A¶X¨ä¤£³Æ¡Aµo°Ê§ğÀ»¡C\n");
+      return notify_fail("è¶ç«æ‰“åŠ«ä¹‹è¨ˆåªèƒ½è¶æ•µäººé™·å…¥å±æˆ°ä¹‹æ™‚ï¼Œè¶å…¶ä¸å‚™ï¼Œç™¼å‹•æ”»æ“Šã€‚\n");
 
    if( me->is_fighting() || me->is_killing())
-      return notify_fail("ªdµĞÂÄ¹L¦¿¡A¦Û¨­Ãø«O¤F¡A«ç»òÁÙ·|¦³¾l¤O¨Ó¶X¤õ¥´§T©O¡H\n");
+      return notify_fail("æ³¥è©è–©éæ±Ÿï¼Œè‡ªèº«é›£ä¿äº†ï¼Œæ€éº¼é‚„æœƒæœ‰é¤˜åŠ›ä¾†è¶ç«æ‰“åŠ«å‘¢ï¼Ÿ\n");
 
    if( me->query("sen") < 20 )
-      return notify_fail("§Aªººë¯«¤O¤£°÷¡MµLªk¥Î­p¡C\n");
+      return notify_fail("ä½ çš„ç²¾ç¥åŠ›ä¸å¤ ï¹ç„¡æ³•ç”¨è¨ˆã€‚\n");
 
 /*if(target->query_temp("rob")==1)
-return notify_fail("¦P¤@­p¿Ñ¥u¯à¥Î¤@¦¸¡I¡I\n");*/
+return notify_fail("åŒä¸€è¨ˆè¬€åªèƒ½ç”¨ä¸€æ¬¡ï¼ï¼\n");*/
    if( me->query_skill("plan",1) < 30)
-      return notify_fail("§Aªº¿Ñ²¤¯à¤O¤£°÷¡C\n");
-// ¤£¬O¾§ªù
-   if( me->query("family/family_name") != "¾§ªù")
-    return notify_fail("¤£¬O¾§¥Í¡A¤£µ¹§A¥Î«¨¡I¡I^_^\n");
+      return notify_fail("ä½ çš„è¬€ç•¥èƒ½åŠ›ä¸å¤ ã€‚\n");
+// ä¸æ˜¯å„’é–€
+   if( me->query("family/family_name") != "å„’é–€")
+    return notify_fail("ä¸æ˜¯å„’ç”Ÿï¼Œä¸çµ¦ä½ ç”¨å’§ï¼ï¼^_^\n");
 	if( !me->query("quests/god-plan"))
-		return notify_fail("§A¨S¸Ñ¹L¤Õ©ú§LªkªºÁ¼¡A¤£µ¹§A¥Î«¨¡I¡I^_^\n");
+		return notify_fail("ä½ æ²’è§£éå­”æ˜å…µæ³•çš„è¬ï¼Œä¸çµ¦ä½ ç”¨å’§ï¼ï¼^_^\n");
    me->start_busy(1);
    me->add("sen",-20);
    if(random(5+target->query_temp("rob")) < 4)
    {
     target->start_busy(4);
     target->add_temp("rob",1);
-      message_vision("$N¨Ï¥X¶X¤õ¥´§T¤§­p, ¶X¼Ä¤§¦M, ´N¶Õ¨ú§Q, ¦V¼Ä¤Hµo°Ê²r§ğ\n", me);
+      message_vision("$Nä½¿å‡ºè¶ç«æ‰“åŠ«ä¹‹è¨ˆ, è¶æ•µä¹‹å±, å°±å‹¢å–åˆ©, å‘æ•µäººç™¼å‹•çŒ›æ”»\n", me);
       me->kill_ob( target);
    }else{
 	      message_vision( HIG + @LONG
-$nÃÑ¯}¤F$Nªº¶X¤õ¥´§T¤§­p¡M²±«ã¤§¤U®i¶}²r§ğ¡C
+$nè­˜ç ´äº†$Nçš„è¶ç«æ‰“åŠ«ä¹‹è¨ˆï¹ç››æ€’ä¹‹ä¸‹å±•é–‹çŒ›æ”»ã€‚
 LONG + NOR ,me , target );
               target->kill_ob(me);
 	      }
    return 1;
 }
-ÿ
+

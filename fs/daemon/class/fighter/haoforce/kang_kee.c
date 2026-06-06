@@ -46,58 +46,58 @@ int perform(object me, object target)
   if ( (k_level > 110) && (me->query_skill("fire-kee",1) > 60))
   {
     message_vision(
-      "\n          [1m$N雙手合十向前指去，使出浩日罡\氣中的必殺奧義★★--[1;31m烈日訣[0m[1m--★★\n
+      "\n          $N雙手合十向前指去，使出浩日罡\氣中的必殺奧義★★--烈日訣--★★\n
           霎時間$N的烈日護身氣勁逆流，一股至陽剛烈的真氣充斥在$N的手上\n
           $N的雙掌散發出炙熱的光芒，指尖聚集了無數顆的明亮的光球\n\n",me,target);
     message_vision(
-      "          [1m$N狂吼一聲，無數的「烈日罡\氣」向$n射去﹗[1;31m\n
+      "          $N狂吼一聲，無數的「烈日罡\氣」向$n射去﹗\n
           -------------------------------------------------------------*
           -------------------------------------------------------------*
           -------------------------------------------------------------*
           -------------------------------------------------------------*
           -------------------------------------------------------------*
-        [0m\n",me,target);
+        \n",me,target);
 //    me->add("kee",-70);
     me->receive_damage("kee",70,me);
     me->add("force",-(k_level*4));
   } else if ( (k_level > 90) && (me->query_skill("fire-kee",1) > 30))
   {
     message_vision(
-      "[1m$N將雙掌成虎形，使出浩日罡\氣中的必殺技☆☆--[1;31m浩日訣[0m[1m--☆☆\n
+      "$N將雙掌成虎形，使出浩日罡\氣中的必殺技☆☆--浩日訣--☆☆\n
           $N將十尺內的熱氣集中在雙掌之內，只見$N的雙掌發出陣陣悶熱的氣勁\n
           $N雙掌發光炙熱，掌中聚集一顆明亮的光球\n\n",me,target);
     message_vision(
-      "[1m$N雙掌向前一推，掌中的「浩日罡\氣」向$n射出﹗[1;31m\n
+      "$N雙掌向前一推，掌中的「浩日罡\氣」向$n射出﹗\n
           -------------------------------------------------------------*
           =============================================================***
           -------------------------------------------------------------*
-        [0m\n",me,target);
+        \n",me,target);
 //    me->add("kee",-50);
     me->receive_damage("kee",50,me);
     me->add("force",-(k_level*3));
   } else if ( k_level > 70)
   {
     message_vision(
-      "[1m$N將手向天一指，運起浩日罡\氣中的「[1;33m赤日訣[0m[1m」\n
+      "$N將手向天一指，運起浩日罡\氣中的「赤日訣」\n
           $N把太陽的光線集中在手中，一股至陽剛烈的內勁從丹田升起，\n
           $N全身發光炙熱，指尖聚集一顆明亮的光球\n\n",me,target);
     message_vision(
-      "[1m$N運勁指尖，一道「赤日罡\氣」向$n射去﹗[1;33m\n
+      "$N運勁指尖，一道「赤日罡\氣」向$n射去﹗\n
                                                              * *
          =====================================================* *
                                                              * *
-        [0m\n",me,target);
+        \n",me,target);
 //    me->add("kee",-40);
     me->receive_damage("kee",40,me);
     me->add("force",-(k_level*2));
   } else
   {
     message_vision(
-      "[1m$N低吼一聲!!躍至空中使出浩日罡\氣中的「[1;33m旭日訣[0m[1m」\n
+      "$N低吼一聲!!躍至空中使出浩日罡\氣中的「旭日訣」\n
           $N在半空如太陽般散出至陽剛烈的真氣，$N將真氣聚在掌上\n
           真氣的聚集使$N的雙掌炙熱通紅，發出輝眼光芒!!\n\n",me,target);
     message_vision(
-      "[1m$N運勁以足，將「旭日罡\氣」從天空向$n射去﹗[0m\n",me,target);
+      "$N運勁以足，將「旭日罡\氣」從天空向$n射去﹗\n",me,target);
 //    me->add("kee",-30);
     me->receive_damage("kee",30,me);
     me->add("force",-(k_level));
@@ -105,7 +105,7 @@ int perform(object me, object target)
   if(80>random(100))
   {
     message_vision(
-      "\n[1;31m$n躲避不及﹐被罡\氣擊中﹐霎時烈火籠罩$n全身﹐嘶嚎不斷﹗\n[0m",me,target);
+      "\n$n躲避不及﹐被罡\氣擊中﹐霎時烈火籠罩$n全身﹐嘶嚎不斷﹗\n",me,target);
     message_vision( NOR,me);
 
     if(me->query("kang-power")&&me->query("combat_exp")>5000000) {
@@ -129,22 +129,22 @@ int perform(object me, object target)
       (random(target->query_skill("fire-kee")) > 40))
     {
       message_vision(
-        "[1;37m\n$n使出浩日護身氣勁之終極絕招【[1;33m--烈--火--無--限--[1;37m】\n
-只見$N的罡\氣和$n護身氣勁相撞，轟～～一聲二人四周發出漫天炙熱氣勁。[0m\n",me,target);
+        "\n$n使出浩日護身氣勁之終極絕招【--烈--火--無--限--】\n
+只見$N的罡\氣和$n護身氣勁相撞，轟～～一聲二人四周發出漫天炙熱氣勁。\n",me,target);
       message_vision( NOR,me);
     }
     else if (((string)target->query_skill_mapped("parry") == "snow-kee") &&
       (random(target->query_skill("snow-kee")) > 50))
     {
       message_vision(
-        "[1;36m\n$n使出雪蒼寒勁之終極絕招【[1;37m--冰--風--雪--暴--[1;36m】\n
-只見$N的罡\n氣和$n護身寒勁相撞，轟～～一聲四周散出霧氣。[0m\n",me,target);
+        "\n$n使出雪蒼寒勁之終極絕招【--冰--風--雪--暴--】\n
+只見$N的罡\n氣和$n護身寒勁相撞，轟～～一聲四周散出霧氣。\n",me,target);
       message_vision( NOR,me);
     }
     else
     {
       message_vision(
-        "[31m$n運功\避開﹐但仍受罡\氣侵襲﹐只見$n的傷口焦黑一塊。[0m\n",me,target);
+        "$n運功\避開﹐但仍受罡\氣侵襲﹐只見$n的傷口焦黑一塊。\n",me,target);
       message_vision( NOR,me);
       target->apply_condition("burn",random(15)+1);
       COMBAT_D->report_status(target);

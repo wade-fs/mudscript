@@ -352,8 +352,8 @@ void plan_king4(object me, object victim, object weapon, int damage)
    {message_vision("\n\n               " + HIR + "" + BMAG + "==========" + HIW + "y" + HIY + "@XAUI" + HIW + "z" + HIR + "==========\n" + NOR,this_player());}
    {message_vision("         " + HIC + "" + BMAG + "u$N⤤" + HIG+ weapon->query("name")+HIC + "" + BMAG + "ۤƦ@QCAƨgV$nhC\n" + NOR,this_player(),victim);}
    {message_vision("\n
-[0;1;33m [1m [1m [1m [1;37m [1m[1mf[0;31meeee[37m [0;1;32m[1mn[0;31;42m:[0;1;37;44m[1m[1;40m[1mi[1m[1mi[1m[1mi[1m[1mi[1m[1mi[1m[1mi[1m[1mi[1m[1mi[1m[1mi[1m[1mi[1m[1mi[1m[1mi[1m[1mi[1m[1mi[1m[1mi[1m[1mi[1m[1mi[1m[1mi[1m[1mi[1m[1mi[1m[1mi[1m[1mi[1m[1mi[1m[1mi[1m[1m[0m
-[0;1m [1m [1m [1;36m [1m [1;30;47m[1mc[0;32;41mdddd[37;40m n[31;42m:[37;44m[40mhhhhhhhhhhhhhhhhhhhhhhhh   [0m
+     feeee n:iiiiiiiiiiiiiiiiiiiiiiii
+     cdddd n:hhhhhhhhhhhhhhhhhhhhhhhh   
 
    \n",this_player());}
         {message_vision(HIC + "$NַNϥX涳ykĤ@" + HIW + "y" + NOR + "涳y" + HIB + "" + HIW + "z" + HIC + "ANV$nhI\n" + NOR,this_player(),victim);}

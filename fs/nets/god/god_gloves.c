@@ -9,8 +9,8 @@ set_name("" + HIY + "" + HIW + "" + HIY + "" + HIW + "" + HIY + "" + HIW + "@" +
                 set_default_object(__FILE__);
         else {
                  set("long",
-                 "~ݰ_M@_ , OAWL\n"
-                 "N|oXLPۤ񪺫¤O C\n");
+                 "~搯_M@_ , OAWL\n"
+                 "N|oXLP菑顒澈瞻O C\n");
                 set("unit","");
                 set("no_sell",1);
                 set("no_give", 1);
@@ -22,7 +22,7 @@ set_name("" + HIY + "" + HIW + "" + HIY + "" + HIW + "" + HIY + "" + HIW + "@" +
                 set("armor_prop/armor",15);
                 set("armor_prop/parry",10);
                 set("armor_prop/force",5);
-set("wear_msg","|P~ME$NA$nwbAWΦ@DO@C\n");
+set("wear_msg","|P~ME$NA$nwbAW峖@DO@C\n");
  }
         setup();
 }

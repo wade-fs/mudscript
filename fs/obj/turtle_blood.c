@@ -1,14 +1,14 @@
-// written by AceLan..../u/a/acelan/obj/turtle_blood ¤õÀt¦å´¹........97.11.11
+// written by AceLan..../u/a/acelan/obj/turtle_blood ç«é¾œè¡€æ™¶........97.11.11
 #include <ansi.h>
 
 inherit ITEM;
 
 void create()
 {
-        set_name("¤õÀt¦å´¹", ({"turtle blood", "blood"}));
-        set("unit", "¶ô");
-        set("long", "³o¬O¥Ñ¸U¦~¤õÀtªºÂA¦å¾®µ²¦Ó¦¨ªº¤õÀt¦å´¹¡C\n");
+        set_name("ç«é¾œè¡€æ™¶", ({"turtle blood", "blood"}));
+        set("unit", "å¡Š");
+        set("long", "é€™æ˜¯ç”±è¬å¹´ç«é¾œçš„é®®è¡€å‡çµè€Œæˆçš„ç«é¾œè¡€æ™¶ã€‚\n");
         set("value", 100000);
         setup();
 }
-ÿ
+

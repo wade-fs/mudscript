@@ -11,9 +11,9 @@ void create()
         na = (me->name(0));
 
         if (me)
-           set_name(na+"的[32m正宗劍[0m",({"master sword","sword"}));
+           set_name(na+"的正宗劍",({"master sword","sword"}));
         else
-         { set_name("[32m正宗劍[0m",({"master sword","sword"})); }
+         { set_name("正宗劍",({"master sword","sword"})); }
         seteuid(getuid());
         set_weight(25000);
         if( clonep() )
@@ -22,7 +22,7 @@ void create()
         set("unit", "把");
         set("long",@LONG
 
-	上古神秘兵器之一的～～[32m正宗劍[0m～～!!劍的本身
+	上古神秘兵器之一的～～正宗劍～～!!劍的本身
 	具有知性, 是一把會選擇持有者的黑暗劍!! 
 	
 LONG);

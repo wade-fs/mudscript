@@ -2,7 +2,7 @@
 inherit BULLETIN_BOARD;
 void create()
 {
-set_name("[1;32m綠林飛賊書[0m",({"bandit board","board"}));
+set_name("綠林飛賊書",({"bandit board","board"}));
 set("location","/u/s/skyer/room/workroom");
 set("board_id","skyer_b");
 setup();

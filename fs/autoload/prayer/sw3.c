@@ -11,9 +11,9 @@ void create()
         na = (me->name(0));
 
         if (me)
-           set_name(na+"的[36m防禦劍[0m",({"defent sword","sword"}));
+           set_name(na+"的防禦劍",({"defent sword","sword"}));
         else
-         { set_name("[36m防禦劍[0m",({"defent sword","sword"})); }
+         { set_name("防禦劍",({"defent sword","sword"})); }
         seteuid(getuid());
         set_weight(25000);
         if( clonep() )
@@ -22,7 +22,7 @@ void create()
         set("unit", "把");
         set("long",@LONG
 
-	上古神秘兵器之一的～～[36m防禦劍[0m～～!!
+	上古神秘兵器之一的～～防禦劍～～!!
 	劍本身同時具有防禦與攻擊的能力!!
 
 	

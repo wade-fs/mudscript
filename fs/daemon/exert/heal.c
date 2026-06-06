@@ -19,15 +19,15 @@ if(target)
   if(target->query("eff_kee") >= maxt)
     return notify_fail(target->query("name")+"沒有受傷\n");
       if(me->query_condition("mogi"))
-        return notify_fail("[1;32m身上的入滅之毒忽然發作,使內息受到影響無法運氣療傷[0m\n");
+        return notify_fail("身上的入滅之毒忽然發作,使內息受到影響無法運氣療傷\n");
        if(target->query_condition("mogi"))
-        return notify_fail("[1;32m對方身上的入滅之毒,使你無法幫他運氣療傷[0m\n");
+        return notify_fail("對方身上的入滅之毒,使你無法幫他運氣療傷\n");
         power = 5 + (int)me->query_skill("force")/10;
 	if( target==me ){
-		message_vision("[36m$N盤腿席地而坐﹐運行全身內力療傷﹐一陣白氣從$N頭頂冒出後, 傷勢已慢慢轉好。[0m\n", me);
+		message_vision("$N盤腿席地而坐﹐運行全身內力療傷﹐一陣白氣從$N頭頂冒出後, 傷勢已慢慢轉好。\n", me);
 	}
 	else{
-		message_vision("[36m$N盤腿席地而坐﹐運行全身內力幫助$n療傷, 一陣白氣從頭頂冒出後, $n傷勢已慢慢轉好。[0m\n", me, target);
+		message_vision("$N盤腿席地而坐﹐運行全身內力幫助$n療傷, 一陣白氣從頭頂冒出後, $n傷勢已慢慢轉好。\n", me, target);
                 power = power/2;
 	}
         me->receive_curing("kee", power );

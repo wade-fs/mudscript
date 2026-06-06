@@ -166,8 +166,8 @@ mixed *msg_hand=({
     "say 將兩種招式融合為一之後，可以在戰鬥中，快速的移動，點人穴道。",
     "say 不過我練到現在，最多也只能一次連封四人的穴道而已。",
     "say 我現在就將步法傳授給你，看清楚了!!",
-    "msg"HIG"只見$N腳踩奇步，繞著$n"HIG"不停的移動，$n"HIG"凝神去看，仍看得非常吃力。\n"NOR,
-    "msg"HIG"$N終於停了下來。\n"NOR,
+    "msg" + HIG + "只見$N腳踩奇步，繞著$n" + HIG + "不停的移動，$n" + HIG + "凝神去看，仍看得非常吃力。\n" + NOR,
+    "msg" + HIG + "$N終於停了下來。\n" + NOR,
     "say 如何，應該看懂了吧!",
     "say 這絕招當然不是你這樣看了看就能馬上通曉的，只有不斷的在戰鬥中累積經驗，才有融會貫通的一日。",
     "say 當然，招式越熟練，在戰鬥中對你的幫助也就越大。",
@@ -225,7 +225,7 @@ mixed ListMission ()
   if (!me) return 0;
   if (!wizardp (me)) return 0;
   command ("quests");
-  Answer = sprintf (HIY"我知道的任務有 :\n");
+  Answer = sprintf (HIY + "我知道的任務有 :\n");
   Answer += sprintf ("--------------------------------------\n");
   for (Index = 0; MissionList[Index]["Index"] != -1; Index++) {
     QuestMark = MissionList[Index]["QuestMark"];
@@ -317,7 +317,7 @@ int six_msg2(object ppl)
 void create()
 {
         set_name("段譽",({"duan yu","duan","yu"}));
-        set("title",HBMAG+HIC"六脈劍聖"NOR);
+        set("title",HBMAG+HIC + "六脈劍聖" + NOR);
         set("long","他可是第一位將六脈神劍融會貫通的人,他的六脈神劍已達爐火純青的
 地步\n");
         set("gender","男性");
@@ -436,7 +436,7 @@ string do_linpo()
     else ppl->set_temp("teach_time",4);
     SetNoAnswer();
     call_out("teach_step1",4,ppl);
-    return HIY"原來你是要學逃跑的技巧阿，哈哈，沒問題，我馬上表演一次給你看，看清楚了喔!!"NOR;
+    return HIY + "原來你是要學逃跑的技巧阿，哈哈，沒問題，我馬上表演一次給你看，看清楚了喔!!" + NOR;
 }
 string do_sp()
 {
@@ -627,7 +627,7 @@ int teach_step1(object ppl)
 {
     if(!ppl) return DeleteNoAnswer();
     if(environment(this_object()) != environment(ppl)) return DeleteNoAnswer();
-    message_vision(HIC"只見$N開始在$n"HIC"面前走來走去，$n"HIC"忽然眼睛一花，$N不見了!!\n"NOR,this_object(),ppl);
+    message_vision(HIC + "只見$N開始在$n" + HIC + "面前走來走去，$n" + HIC + "忽然眼睛一花，$N不見了!!\n" + NOR,this_object(),ppl);
     call_out("teach_step2",2,ppl);
     return 1;
 }
@@ -668,7 +668,7 @@ int teach_step5(object ppl)
 {
     if(!ppl) return DeleteNoAnswer();
     if(environment(this_object()) != environment(ppl)) return DeleteNoAnswer();
-    message_vision(HIG"只見$N"HIG"開始在$n面前走來走去，$n忽然眼睛一花，$N"HIG"繞到了$n的背後!!\n",ppl,this_object());
+    message_vision(HIG + "只見$N" + HIG + "開始在$n面前走來走去，$n忽然眼睛一花，$N" + HIG + "繞到了$n的背後!!\n",ppl,this_object());
     call_out("end_step",2,ppl);
     return 1;
 }
@@ -691,17 +691,17 @@ int end_step(object ppl)
 void unconcious()
 {
     message_vision("
-$N忽然領悟"HIC"『凌波微步』"NOR"的要旨所在，腳步作到"HIY"「動無常則，若危若安，進止難期，
-若往若還」"NOR",霎時一片人影紛飛，讓敵人頭昏眼花\n",this_object());
-    message_vision(HIC"$N趁著這個機會逃離開這裡!!\n"NOR,this_object());
+$N忽然領悟" + HIC + "『凌波微步』" + NOR + "的要旨所在，腳步作到" + HIY + "「動無常則，若危若安，進止難期，
+若往若還」" + NOR + ",霎時一片人影紛飛，讓敵人頭昏眼花\n",this_object());
+    message_vision(HIC + "$N趁著這個機會逃離開這裡!!\n" + NOR,this_object());
     destruct(this_object());
 }
 void die()
 {
     message_vision("
-$N心中默念，將"HIC"『凌波微步』"NOR"的六十四卦步法，自「明夷」起始，經「賁」
- 、「既濟」、「家人」，走了一大圈而至「旡妄」，終於順利擺\脫敵人的糾纏。\n"NOR,this_object());
-    message_vision(HIC"$N趁著這個機會逃離開這裡!!\n"NOR,this_object());
+$N心中默念，將" + HIC + "『凌波微步』" + NOR + "的六十四卦步法，自「明夷」起始，經「賁」
+ 、「既濟」、「家人」，走了一大圈而至「旡妄」，終於順利擺\脫敵人的糾纏。\n" + NOR,this_object());
+    message_vision(HIC + "$N趁著這個機會逃離開這裡!!\n" + NOR,this_object());
     destruct(this_object());
 }
 void heart_beat()
@@ -733,18 +733,16 @@ void heart_beat()
       }
       if ((!ob || (ob && !room)) && this_object()->query("FoundMystery")) {
         this_object()->delete("FoundMystery");
-        tell_object (users(),HIG"
-"+this_object()->query("name")+HIG"高聲喝道：
+        tell_object (users(),HIG + " + "+this_object()->query("name")+HIG + "高聲喝道：
 你們這些自以為是的叛徒，別再讓我遇到，哼
-\n"NOR);
+\n" + NOR);
         this_object()->move("/open/tailong/room/d3");
       }
       else if (ob && !ob->is_fighting() && room) {
         if (!this_object()->query("FoundMystery")) {
-          tell_object (users(),HIG"
-"+this_object()->query("name")+HIG"高聲喝道：
+          tell_object (users(),HIG + " + "+this_object()->query("name")+HIG + "高聲喝道：
 又是你們這些自以為是的叛徒，別跑，我才不會讓你們為所欲為!!!
-\n"NOR);
+\n" + NOR);
           this_object()->set("FoundMystery",1);
         }  
         this_object()->move(room);

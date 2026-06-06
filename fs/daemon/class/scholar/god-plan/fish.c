@@ -6,35 +6,35 @@ void remove_effect(object me);
 int perform(object me, object target)
 {
    if( target != me)
-   return notify_fail("¦¹­p¥u¯à¹ï¦Û¤v¥Î¡C\n");
+   return notify_fail("æ­¤è¨ˆåªèƒ½å°è‡ªå·±ç”¨ã€‚\n");
    if( me->is_fighting())
-      return notify_fail("¨S¦³¤ô...­ş¨Óªº³½ºN£«...\n");
+      return notify_fail("æ²’æœ‰æ°´...å“ªä¾†çš„é­šæ‘¸ã„š...\n");
 
    if( me->query_temp("defense")==1)
-      return notify_fail("§A¤w¸g¦bºN³½¤F, ÁÙ¶ûºNªº¤£°÷£«...\n");
+      return notify_fail("ä½ å·²ç¶“åœ¨æ‘¸é­šäº†, é‚„å«Œæ‘¸çš„ä¸å¤ ã„š...\n");
 
    if( me->query("sen") < 20 )
-      return notify_fail("§Aªººë¯«¤O¤£°÷¡MµLªk¥Î­p¡C\n");
+      return notify_fail("ä½ çš„ç²¾ç¥åŠ›ä¸å¤ ï¹ç„¡æ³•ç”¨è¨ˆã€‚\n");
 
    if( me->query_skill("plan", 1) < 50 )
-      return notify_fail("§Aªº¿Ñ²¤¯à¤O¤£°÷¡C\n");
-// ¤£¬O¾§ªù
-   if( me->query("family/family_name") != "¾§ªù")
-    return notify_fail("¤£¬O¾§¥Í¡A¤£µ¹§A¥Î«¨¡I¡I^_^\n");
+      return notify_fail("ä½ çš„è¬€ç•¥èƒ½åŠ›ä¸å¤ ã€‚\n");
+// ä¸æ˜¯å„’é–€
+   if( me->query("family/family_name") != "å„’é–€")
+    return notify_fail("ä¸æ˜¯å„’ç”Ÿï¼Œä¸çµ¦ä½ ç”¨å’§ï¼ï¼^_^\n");
 	if( !me->query("quests/god-plan"))
-		return notify_fail("§A¨S¸Ñ¹L¤Õ©ú§LªkªºÁ¼¡A¤£µ¹§A¥Î«¨¡I¡I^_^\n");
+		return notify_fail("ä½ æ²’è§£éå­”æ˜å…µæ³•çš„è¬ï¼Œä¸çµ¦ä½ ç”¨å’§ï¼ï¼^_^\n");
    me->add("sen",-20);
-   me->start_busy(2);           //¤£ºŞ¦³¨S¦³¦¨¥\ ¥ı delay ¦A»¡....
+   me->start_busy(2);           //ä¸ç®¡æœ‰æ²’æœ‰æˆåŠŸ å…ˆ delay å†èªª....
    me->set_temp("defense", 1);
    me->add_temp("apply/defense", me->query_skill("god-plan",1)/2);
 me->start_call_out((:call_other,__FILE__,"remove_effect",me:),30);
-   message_vision("$N¨Ï¥X²V¤ôºN³½¤§­p, »s³y²V¶Ã, ¥ø¹Ï¸ú¹L¼Ä¤Hªº§ğÀ»\n", me);
+   message_vision("$Nä½¿å‡ºæ··æ°´æ‘¸é­šä¹‹è¨ˆ, è£½é€ æ··äº‚, ä¼åœ–èº²éæ•µäººçš„æ”»æ“Š\n", me);
    return 1;
 }
-ÿ
+
 void remove_effect( object me)
 {
   me->delete_temp("defense");
   me->add_temp("apply/defense",-me->query_skill("god-plan",1)/2);
-  tell_object( me, "³½°Ç...³½°Ç...¦n¹³¤w¸g¨S¦³³½Åı§AºN¤F...\n");
+  tell_object( me, "é­šå‹’...é­šå‹’...å¥½åƒå·²ç¶“æ²’æœ‰é­šè®“ä½ æ‘¸äº†...\n");
 }

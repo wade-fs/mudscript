@@ -28,7 +28,7 @@ if( me->query("water") < 20)
           return notify_fail("先學點基本的學識。\n");
         if( !me->is_fighting() )
 	  return notify_fail("戰鬥中訓示對方比較有效喔。\n");
-        message_vision("\n[36m"+ATTACK_MSG[action]+"[0m\n\n",me,target);
+        message_vision("\n"+ATTACK_MSG[action]+"\n\n",me,target);
 	target->set_temp("preach",1);
      if(target->is_busy())
        return notify_fail("敵人不能動快攻擊哦!!!\n");
@@ -42,7 +42,7 @@ void do_result(object me,object target)
 	else
 	  if( random(3) > 0 )
           {
-	    message_vision("[1;36m$N雙手抱著頭大叫: 阿~~....顯然受不了$n的魔音。\n[0m",target,me);
+	    message_vision("$N雙手抱著頭大叫: 阿~~....顯然受不了$n的魔音。\n",target,me);
      target->start_busy(2);
 	  }
 	  else

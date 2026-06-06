@@ -129,7 +129,7 @@ void attempt_apprentice(object obj)
   obj->delete("family");
   command("recruit "+obj->query("id"));
   if(this_player()->query("m_blade")==1) {
-    this_player()->set("title","[1;31m魔刀[1;37m『三斬歸元』[1;35m傳人[0m");
+    this_player()->set("title","魔刀『三斬歸元』傳人");
   }
   message("system",HIW + "莫無愁縱聲長笑:
 \n哈哈哈哈～～魔刀復仇將至。" + NOR,users());
@@ -247,7 +247,7 @@ int accept_object(object who, object ob)
                 看來剷平雪蒼之日不遠呀！\n" + HIR + "
         哈！哈！哈！"+this_player()->name()+"魔刀復仇全靠你了！\n" + NOR,users());
         who->set("m_blade",1);
-        who->set("title","[1;31m魔刀[1;37m『三斬歸元』[1;35m傳人[0m");
+        who->set("title","魔刀『三斬歸元』傳人");
         log_file("mblade/m_blade",sprintf("%s解到魔刀後三\n",who->short()));
       }
     }
@@ -341,12 +341,12 @@ string ask_title()
   if(random(2)==0) {
     if(who->query("m_blade")==0)
       return "似乎你還沒拿到魔刀吧？";
-    who->set("title","[1;31m魔刀[1;37m『三斬歸元』[1;35m傳人[0m");
+    who->set("title","魔刀『三斬歸元』傳人");
   }
   else {
     if(who->query("get-evil-mblade")==0)
       return "似乎你還沒拿到妖刀吧？";
-    who->set("title","[1;32m妖[1;37m刀[1;32m傳[1;37m人[0m");
+    who->set("title","妖刀傳人");
   }
   return ("想要恢復稱號呀…");
 }

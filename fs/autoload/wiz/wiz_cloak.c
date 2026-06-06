@@ -222,7 +222,7 @@ int full(string str)
   me->set("water",max);
   me->clear_condition();
 
-  message_vision( sprintf("$N唸起不死族回復咒文 [32;1m撒拉 伊克 庵修姆[37;0m  \n"),
+  message_vision( sprintf("$N唸起不死族回復咒文 撒拉 伊克 庵修姆  \n"),
                   this_player());
 
   return 1;

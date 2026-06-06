@@ -3,7 +3,7 @@
 inherit CLOTH;
 void create()
 {
-   set_name("[1;31m[1;33m[1;31m[1;33m[1;31m[1;33m[1;31m[1;33m[0m" ,({"gold cloth","cloth"}));
+   set_name("" ,({"gold cloth","cloth"}));
    set_weight(30000);
    if( clonep() )
         set_default_object(__FILE__);

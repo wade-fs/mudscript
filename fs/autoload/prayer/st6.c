@@ -11,9 +11,9 @@ void create()
         na = (me->name(0));
 
         if (me)
-           set_name(na+"的[32m神龍之杖[0m",({"dragon stick","stick"}));
+           set_name(na+"的神龍之杖",({"dragon stick","stick"}));
         else
-         { set_name("[32m神龍之杖[0m",({"dragon stick","stick"})); }
+         { set_name("神龍之杖",({"dragon stick","stick"})); }
         seteuid(getuid());
         set_weight(25000);
         if( clonep() )
@@ -22,7 +22,7 @@ void create()
         set("unit", "把");
         set("long",@LONG
 
-	上古神秘兵器之一的～～[32m神龍之杖[0m～～!! 
+	上古神秘兵器之一的～～神龍之杖～～!! 
 	
 LONG);
         set("value",12000);

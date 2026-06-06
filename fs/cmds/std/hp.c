@@ -65,13 +65,13 @@ varargs int main( object me, string arg, int mode )
                 my["combat_exp"] );
 
 	status_desc += CON_D->con_query(ob);
-        status_desc += (ob->query_temp("medicine/plaster_power")?"[1;33m(塗藥)[0m ":"");
+        status_desc += (ob->query_temp("medicine/plaster_power")?"(塗藥) ":"");
         status_desc += (ob->query_temp("sun-moon")?"(" + HIY + "昊玥氣勁" + NOR + ") ":"");
         status_desc += (ob->query_temp("bloodkee")?"(" + HIR + "血殺餘勁" + NOR + ") ":"");
         status_desc += (ob->query_temp("bloodfight")?"(" + HIR + "血魔鬥氣" + NOR + ") ":"");
         status_desc += (ob->query_temp("no_power_sword")?"(" + HIY + "涅盤殺勁" + NOR + ") ":"");
         status_desc += (ob->query_temp("no_power_godsub")?"(" + HIC + "分身餘勁" + NOR + ") ":"");
-        status_desc += (ob->query_temp("medicine/bandaged")?"[1m(包紮)[0m ":"");
+        status_desc += (ob->query_temp("medicine/bandaged")?"(包紮) ":"");
         if(ob->query_temp("not_robot") > time()  ) 
         {
           if(ob->query_temp("not_robot") - time() < 60 * 5 ){
@@ -191,7 +191,7 @@ string hero_string(object ob)
 	HIW + "學究天人" + NOR,
 	HIC + "武天至聖" + NOR,
 	HIW + "天人合一" + NOR,
-       "[1;30m傳說之神話" + NOR
+       "傳說之神話" + NOR
   });
 
         if(exp <= 100000)

@@ -11,9 +11,9 @@ void create()
         na = (me->name(0));
 
         if (me)
-           set_name(na+"的[35m龍骨之星[0m",({"dragon-bone hander","hander"}));
+           set_name(na+"的龍骨之星",({"dragon-bone hander","hander"}));
         else
-         { set_name("[35m龍骨之星[0m",({"dragon-bone hander","hander"})); }
+         { set_name("龍骨之星",({"dragon-bone hander","hander"})); }
         seteuid(getuid());
         set_weight(25000);
         if( clonep() )
@@ -22,7 +22,7 @@ void create()
         set("unit", "把");
         set("long",@LONG
 
-	上古神秘兵器之一的～～[35m龍骨之星[0m～～!!
+	上古神秘兵器之一的～～龍骨之星～～!!
 	
 LONG);
         set("value",12000);

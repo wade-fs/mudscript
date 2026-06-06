@@ -11,9 +11,9 @@ void create()
         na = (me->name(0));
 
         if (me)
-           set_name(na+"的[33m長老之杖[0m",({"elder stick","stick"}));
+           set_name(na+"的長老之杖",({"elder stick","stick"}));
         else
-         { set_name("[33m長老之杖[0m",({"elder stick","stick"})); }
+         { set_name("長老之杖",({"elder stick","stick"})); }
         seteuid(getuid());
         set_weight(25000);
         if( clonep() )
@@ -22,7 +22,7 @@ void create()
         set("unit", "把");
         set("long",@LONG
 
-	上古神秘兵器之一的～～[33m長老之杖[0m～～!! 
+	上古神秘兵器之一的～～長老之杖～～!! 
 	
 LONG);
         set("value",12000);

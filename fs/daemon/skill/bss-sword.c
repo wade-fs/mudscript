@@ -91,7 +91,7 @@ mapping *action = ({
         ]),
         ([
                 "action"     :
-"$N左手持劍，右手捏個劍訣，雙手成環，緩緩抬起，這是[1;37m玄龍劍法絕式[0m的起手式。",
+"$N左手持劍，右手捏個劍訣，雙手成環，緩緩抬起，這是玄龍劍法絕式的起手式。",
                 "dodge"      :                -500,
                 "damage"     :                700,
                 "damage_type":               "刺傷",
@@ -275,7 +275,7 @@ string query_parry_msg(string limb)
 
 void skill_improved(object me)
 {
-tell_object(me,"[1;34m由於你潛心學習，你的玄龍劍法更加純熟了！！[0m\n");
+tell_object(me,"由於你潛心學習，你的玄龍劍法更加純熟了！！\n");
 }
 
 

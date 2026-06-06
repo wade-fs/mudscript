@@ -22,7 +22,7 @@ int exert(object me, object target)
      me->receive_heal("gin",value);
 //以上修正by chan
      me->add("force", -limit_force);
-//        message_vision("[36m$N深深吸了口氣﹐手腳活動了幾下﹐整個人看起來有活力多了。[0m\n", me);
+//        message_vision("$N深深吸了口氣﹐手腳活動了幾下﹐整個人看起來有活力多了。\n", me);
    if( me->is_fighting() ) me->start_busy(1);
     return 1;
 }

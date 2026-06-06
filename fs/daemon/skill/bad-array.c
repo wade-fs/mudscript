@@ -28,7 +28,7 @@ int form_array(object leader)
         {
 if( leader->query("sen",1) > 30 && leader->query("bellicosity",1) > 50)
             {
-              message_vision("[1;32m$N大喝一聲 ,施出了惡人邪陣中的[1;33m狼狽為奸 ,\n[1;32m你和同伴瞬間化成兩道黑影向對手衝去。[0m\n",leader);
+              message_vision("$N大喝一聲 ,施出了惡人邪陣中的狼狽為奸 ,\n你和同伴瞬間化成兩道黑影向對手衝去。\n",leader);
               leader->add("sen",-20);
               doing_array(member,leader);
              }
@@ -40,7 +40,7 @@ if( leader->query("sen",1) > 30 && leader->query("bellicosity",1) > 50)
          {
 if( leader->query("sen",1) > 45 && leader->query("bellicosity",1) > 100)
               {
-               message_vision("[1;32m$N指示眾人左右狂竄，施展惡人邪陣中的[1;34m神出鬼沒 ,\n[1;32m瞬間將敵人包圍住。\n[0m\n",leader);
+               message_vision("$N指示眾人左右狂竄，施展惡人邪陣中的神出鬼沒 ,\n瞬間將敵人包圍住。\n\n",leader);
                leader->add("sen",-35);
                doing_array(member,leader);
               }
@@ -52,7 +52,7 @@ if( leader->query("sen",1) > 45 && leader->query("bellicosity",1) > 100)
          {
 if( leader->query("sen",1) > 50 && leader->query("bellicosity",1)> 150)
               {
-               message_vision("[1;32m$N帶領眾人施展惡人邪陣中的[1;35m龍蛇雜處\n[1;32m在一瞬間便混淆敵人視線。[0m\n",leader);
+               message_vision("$N帶領眾人施展惡人邪陣中的龍蛇雜處\n在一瞬間便混淆敵人視線。\n",leader);
                leader->add("sen",-40);
                doing_array(member,leader);
               }
@@ -63,7 +63,7 @@ if( leader->query("sen",1) > 50 && leader->query("bellicosity",1)> 150)
          {
 if( leader->query("sen",1) > 70 && leader->query("bellicosity",1)> 200)
              {
-              message_vision("[1;32m$N帶領眾人施出惡人邪陣中的[1;31m百鬼夜行 ,\n[1;32m忽然風雲變色，風沙竄飛。[0m\n",leader);
+              message_vision("$N帶領眾人施出惡人邪陣中的百鬼夜行 ,\n忽然風雲變色，風沙竄飛。\n",leader);
                leader->add("sen",-60);
                doing_array(member,leader);
               }
@@ -92,7 +92,7 @@ void remove_array( object *member,object leader)
     int i;
    if(leader->query_temp("use_form",1))
    {
-     message_vision("[1;37m$N突然心神一分，錯失出手良機，必須重新來過。[0m\n",leader);
+     message_vision("$N突然心神一分，錯失出手良機，必須重新來過。\n",leader);
      for(i=0; i<sizeof(member);i ++)
        member[i]->delete_temp("use_form",1);
    }

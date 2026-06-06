@@ -87,7 +87,7 @@ mapping *action = ({
         "force": 80,
         "damage_type": "刺傷",
 ]),
-([ "action":"$N招式一轉,『古木蒼天』進而大叫一聲『[1;33m蘭陵氣劍～～[0m』,手中$w向$n任脈大穴射出七道真氣!\n ",
+([ "action":"$N招式一轉,『古木蒼天』進而大叫一聲『蘭陵氣劍～～』,手中$w向$n任脈大穴射出七道真氣!\n ",
         "dodge": 20,
         "parry": -20,
         "damage": 300,
@@ -105,7 +105,7 @@ void bleed(object me, object victim, object weapon, int damage)
          {
           victim->apply_condition("bleeding", random((int)damage / 10 +
           (int)me->query_skill("lan-dagger",1)/10));
-          message_vision(sprintf("[1;33m$N『 蘭陵氣劍 』刺透了$n身上的任脈大穴, $n的身上血斑點點。[0m\n"),me,victim);
+          message_vision(sprintf("$N『 蘭陵氣劍 』刺透了$n身上的任脈大穴, $n的身上血斑點點。\n"),me,victim);
          }
 }
 

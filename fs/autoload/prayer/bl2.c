@@ -11,9 +11,9 @@ void create()
         na = (me->name(0));
 
         if (me)
-           set_name(na+"的[31m火燄刀[0m",({"fire blade","blade"}));
+           set_name(na+"的火燄刀",({"fire blade","blade"}));
         else
-         { set_name("[31m火燄刀[0m",({"fire blade","blade"})); }
+         { set_name("火燄刀",({"fire blade","blade"})); }
         seteuid(getuid());
         set_weight(25000);
         if( clonep() )
@@ -34,8 +34,8 @@ LONG);
         set("no_give",1);
         set("no_auc",1);
         set("material", "iron");
-        set("wield_msg", "[36m$N從刀鞘將$n拔出來之後，[31m火光四溢[0m。\n");
-        set("unwield_msg", "[36m$N用衣服將$n包了起來，其[31m紅色的豪光[36m被布包給遮蔽了[0m。\n");
+        set("wield_msg", "$N從刀鞘將$n拔出來之後，火光四溢。\n");
+        set("unwield_msg", "$N用衣服將$n包了起來，其紅色的豪光被布包給遮蔽了。\n");
         }
         init_blade(85);
         setup();

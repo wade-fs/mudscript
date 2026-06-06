@@ -117,7 +117,7 @@ void wiz_score(object ob)
   printf( "□ 總共殺了 " + HIY + "%d" + NOR + " 個人， " + HIR + "%d" + NOR + " 位玩家，其中有 " + HIM + "%d" + NOR + " 位高手。\n",
       my["MKS"] + my["PKS"], my["PKS"], my["HKS"] );
   printf( "□ 戰功\: " + HIY + "%6d" + NOR + "\n",my["war_score"] );
-  printf( "□ 狀況﹕%s[0m\n",status_string(my["status"]) );
+  printf( "□ 狀況﹕%s\n",status_string(my["status"]) );
 
   if( mapp(my["family"]) ) {
     if( my["family"]["master_name"] ) {
@@ -235,7 +235,7 @@ void player_score(object ob)
       my["MKS"] + my["PKS"], my["PKS"], my["HKS"] );
   if( my["war_score"] )
     printf( "□ 戰功\: " + HIY + "%d" + NOR + " 點\n", my["war_score"] );
-  printf( "□ 狀況﹕%s[0m\n",status_string(my["status"]) );
+  printf( "□ 狀況﹕%s\n",status_string(my["status"]) );
 
   if( mapp(my["family"]) ) {
     if( my["family"]["master_name"] ) {
@@ -371,12 +371,12 @@ string state( int value, int max )
 string status_string(int status)
 {
   string *status_desc=({
-    "[1m你覺得身體狀況良好，渾身充滿了活力。",
-    "[1;36m你覺得有點頭暈，但還沒什麼大礙。",
-    "[1;33m你感到心中陣陣煩躁，眼前朦朧朧的看不真切。",
-    "[1;32m你開始覺得噁心，陣陣的暈眩感傳來。",
-    "[1;35m你覺得頭痛欲裂，好想找個地方躺下來休息。",
-    "[1;31m你覺得天旋地轉，似乎快要暈倒了。"
+    "你覺得身體狀況良好，渾身充滿了活力。",
+    "你覺得有點頭暈，但還沒什麼大礙。",
+    "你感到心中陣陣煩躁，眼前朦朧朧的看不真切。",
+    "你開始覺得噁心，陣陣的暈眩感傳來。",
+    "你覺得頭痛欲裂，好想找個地方躺下來休息。",
+    "你覺得天旋地轉，似乎快要暈倒了。"
   });
   if( status >= 1000 ) status=999;
   if( status < 0 )     status=0;

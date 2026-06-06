@@ -23,7 +23,7 @@ string *great = ({
 
 void create ()
 {
-  set ("short", "[1;35m過去時空[0m 葬劍亭");
+  set ("short", "過去時空 葬劍亭");
   set ("long", @LONG
 
 你現在來到一個山腰靠近山頂的亭子﹐亭子前立著一個兩丈多高的

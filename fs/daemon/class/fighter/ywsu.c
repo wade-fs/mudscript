@@ -4,7 +4,7 @@ inherit EQUIP;
 
 void create()
 {
-        set_name("[1;31m[1;33m[1;31m[1;33m[1;31m[1;33m[1;31m[1;33m[0m",({"gold surcoat","surcoat"}));
+        set_name("",({"gold surcoat","surcoat"}));
         set_weight(10000);
         set("armor_type","cape");
         if( clonep() )

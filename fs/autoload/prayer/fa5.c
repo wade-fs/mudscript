@@ -11,9 +11,9 @@ void create()
         na = (me->name(0));
 
         if (me)
-           set_name(na+"的[32m聖者之扇[0m",({"canonize fan","fan"}));
+           set_name(na+"的聖者之扇",({"canonize fan","fan"}));
         else
-         { set_name("[32m聖者之扇[0m",({"canonize fan","fan"})); }
+         { set_name("聖者之扇",({"canonize fan","fan"})); }
         seteuid(getuid());
         set_weight(25000);
         if( clonep() )
@@ -22,7 +22,7 @@ void create()
         set("unit", "把");
         set("long",@LONG
 
-	上古神秘兵器之一的～～[32m聖者之扇[0m～～!! 
+	上古神秘兵器之一的～～聖者之扇～～!! 
 	
 LONG);
         set("value",12000);

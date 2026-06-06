@@ -330,8 +330,8 @@ void die()
 	::die();
 	return ;
         }
-	tell_object(users(),"\n\t[1;37m～～[36m長江後浪推前浪 前浪死在沙灘上[1;37m～～[0m\n"+
-	"\n\t[1;37m想不到瀧山掌門[36m任正晴[37m竟被擊敗,看來武林將以[33m"+winner->query("name")+"[1;37m為[1;31m至尊[1;37m了!![0m\n");
+	tell_object(users(),"\n\t～～長江後浪推前浪 前浪死在沙灘上～～\n"+
+	"\n\t想不到瀧山掌門任正晴竟被擊敗,看來武林將以"+winner->query("name")+"為至尊了!!\n");
 /*        if(userp(winner)) {
 	if ( winner->query_temp("bless")==1 )
 	{

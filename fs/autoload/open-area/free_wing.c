@@ -138,28 +138,28 @@ int color_change()
   color_select=me->query("weapon/fwing/color");
   switch(color_select) {
     case " + YEL + ":
-      color="[0;33m";
+      color="";
       break;
     case " + CYN + ":
-      color="[0;36m";
+      color="";
       break;
     case " + HIK + ":
-      color="[1;30m";
+      color="";
       break;
     case " + HIR + ":
-      color="[1;31m";
+      color="";
       break;
     case " + HIY + ":
-      color="[1;33m";
+      color="";
       break;
     case " + HIB + ":
-      color="[1;34m";
+      color="";
       break;
     case " + HIC + ":
-      color="[1;36m";
+      color="";
       break;
     case " + HIW + ":
-      color="[1;37m";
+      color="";
       break;
     default : 
       break;

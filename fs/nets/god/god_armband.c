@@ -12,7 +12,7 @@ set_name("" + HIB + "" + HIW + "" + HIB + "" + HIW + "" + HIB + "" + HIW + "u" +
         if( clonep() )
                 set_default_object(__FILE__);
         else {
-        set("long","Wۮ, AuB঳`hF");
+        set("long","W萛, AuB鄏訢hF");
         set("unit","");
                 set("no_put",1);
                 set("no_give",1);
@@ -42,7 +42,7 @@ int do_wear(string str)
  {
    user = this_player();
   if(user->query_temp("god_armband",1))
-  return notify_fail("AwgN" + HIB + "" + HIW + "" + HIB + "" + HIW + "" + HIB + "" + HIW + "u" + HIB + "" + HIW + "" + NOR + "˳ƦbuWFT\n");
+  return notify_fail("AwgN" + HIB + "" + HIW + "" + HIB + "" + HIW + "" + HIB + "" + HIW + "u" + HIB + "" + HIW + "" + NOR + "佼あbuWFT\n");
    message_vision("$NN" + HIB + "" + HIW + "" + HIB + "" + HIW + "" + HIB + "" + HIW + "u" + HIB + "" + HIW + "" + NOR + "u@aC\n",user);
    user->add("force_factor",5);
    user->add_temp("god_armband",1);

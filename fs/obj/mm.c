@@ -44,7 +44,7 @@ void create()
       wield_part= "⤤";
    }
 
-   set("long","o"+c_unit+me->query("weapon/c_type")+"OH[1;37m"+ me->query("weapon/source1")+"[0mtX[1;37m"+ me->query("weapon/source2")+"[0mű, {{۲C");
+   set("long","o"+c_unit+me->query("weapon/c_type")+"OH"+ me->query("weapon/source1")+"tX"+ me->query("weapon/source2")+"ű, {{۲C");
    set("unit", "");
    set("value",0);                           // L_...ccc....
    set("material","steal");

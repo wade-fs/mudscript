@@ -7,7 +7,7 @@ inherit NATURE_D;
 
 void create()
 {
-  set_name("[1;30m夜天月星脛[0m",({"night-legging"}));
+  set_name("夜天月星脛",({"night-legging"}));
   set_weight(5000);
   if( clonep() )
     set_default_object(__FILE__);

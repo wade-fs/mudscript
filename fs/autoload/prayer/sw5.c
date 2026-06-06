@@ -11,9 +11,9 @@ void create()
         na = (me->name(0));
 
         if (me)
-           set_name(na+"的[33m破裂劍[0m",({"destory sword","sword"}));
+           set_name(na+"的破裂劍",({"destory sword","sword"}));
         else
-         { set_name("[33m破裂劍[0m",({"destory sword","sword"})); }
+         { set_name("破裂劍",({"destory sword","sword"})); }
         seteuid(getuid());
         set_weight(25000);
         if( clonep() )
@@ -22,7 +22,7 @@ void create()
         set("unit", "把");
         set("long",@LONG
 
-	上古神秘兵器之一的[33m破裂劍[0m!!乃是以傳說中的
+	上古神秘兵器之一的破裂劍!!乃是以傳說中的
 	怪物--蛇髮女妖之眼所緞造出來的劍!!
 	
 LONG);

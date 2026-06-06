@@ -7,7 +7,7 @@ string look_sign(object me);
 
 void create ()
 {
-  set ("short", "[1;35m過去時空[0m 飲風客棧");
+  set ("short", "過去時空 飲風客棧");
   set ("long", @LONG
 你現在正站在雪亭鎮南邊的一家小客棧裡﹐這家客棧雖小﹐卻是方圓
 五百里內最負盛名的一家﹐客棧的主人據說是一位雲遊四海的仙人﹐如果

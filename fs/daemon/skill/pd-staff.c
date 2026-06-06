@@ -11,10 +11,10 @@ void attack4(object me,object victim,object weapon,int damage);
 void again1(object me,object victim,object weapon,int damage);
 string *array_msg=
     ({
-      "[1;33m$N帶領著大家，形化四象，復化八卦使打狗陣法發揮致極點。\n[0m",
-      "[1;33m眾人發揮出陣法之奧妙變化，使敵人陷入絕望的深淵。\n[0m",
+      "$N帶領著大家，形化四象，復化八卦使打狗陣法發揮致極點。\n",
+      "眾人發揮出陣法之奧妙變化，使敵人陷入絕望的深淵。\n",
       "^[[1;33m$N指揮若定，眾人武功\配合的天衣無縫，將招式遞向敵人。\n^[[0m",
-      "[1;33m眾人發揮出陣法之無窮奧義，將對敵人的損害發揮出最大的境界\n[0m",
+      "眾人發揮出陣法之無窮奧義，將對敵人的損害發揮出最大的境界\n",
      });
 mapping *action = ({
 (["action":"$N將手中的棒子,急晃數下使出" + HIW + "「棒打雙犬」" + NOR + ",對準$n的$l「倏」一聲~擊下",

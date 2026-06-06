@@ -881,7 +881,7 @@ void die()
           }
           else if( x->query("combat_exp")>40000000 && x->query("legend/limit") <3 ) {
             tell_object( x, HIY + "你感覺到自己的武學修為更上層樓, 達到傳說之神話的境界!\n" + NOR );
-            tell_object( users(), x->query("name")+"[1;30m於生死邊緣激戰無數次後, 終臻至武學最終境界, 成為只曾現於史書的傳說之神話!\n" + NOR );
+            tell_object( users(), x->query("name")+"於生死邊緣激戰無數次後, 終臻至武學最終境界, 成為只曾現於史書的傳說之神話!\n" + NOR );
             x->set( "legend/limit", 3 );
           }
         }

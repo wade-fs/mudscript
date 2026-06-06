@@ -36,7 +36,7 @@ int perform(object me)
           {
           me->add("kee",-7000);
 log_file("appo/swordlog",sprintf("%s(%s) 使用沒萬劍on %s\n",me->query("name"),me->query("id"),ctime(time())));
-                    return notify_fail("[1;31m由於強運仙劍絕學....你被萬劍反噬..[0m\n");
+                    return notify_fail("由於強運仙劍絕學....你被萬劍反噬..\n");
            }
 if(me->query("class")!="swordsman")
 return notify_fail("不是劍士不能用喔。\n");
@@ -49,7 +49,7 @@ return notify_fail("不是劍士不能用喔。\n");
         message_vision(HIW + "\n\n         $N指成劍姿大喝一聲   『" + HIY + "劍影連陽 朝陽再現" + HIW + "』   瞬間四周萬劍齊發..﹗\n\n\n" + NOR,me,target[0]);
 if (kee_lv==100 && swordkee_lv==100 )
 {
-     message_vision("[1;34m就在此時已由$N將利劍往手上一刺...![0m \n[1;31m只見暗紅色的劍氣隨血光竄出..[0m \n[1;37m半空中混雜著各式劍氣..剎那間各種劍氣轉變成數種劍陣 ...[0m \n[1;34m只聽$N高喊[1;31m劍氣[1;37m破敵[1;33m---『石破天驚』![0m",me);
+     message_vision("就在此時已由$N將利劍往手上一刺...! \n只見暗紅色的劍氣隨血光竄出.. \n半空中混雜著各式劍氣..剎那間各種劍氣轉變成數種劍陣 ... \n只聽$N高喊劍氣破敵---『石破天驚』!",me);
      for(j=0;j < i;j++){
 if(environment(me)!=environment(target[j])) continue;
           target[j]->receive_damage("kee",(sha_value*5+sword_lv*10));

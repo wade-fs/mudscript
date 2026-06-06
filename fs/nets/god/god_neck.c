@@ -8,7 +8,7 @@ set_name("" + HIY + "" + HIW + "" + HIB + "" + HIW + "s" + HIY + "" + HIW + "" +
         if( clonep() )
                 set_default_object(__FILE__);
         else {
-       set("long","ѯs , ҤۤƥXӪ@\n");
+       set("long","戙s , 狺菑ぁX茠@\n");
           set("unit","");
                 set("no_sell",1);
                 set("no_give", 1);
@@ -20,7 +20,7 @@ set_name("" + HIY + "" + HIW + "" + HIB + "" + HIW + "s" + HIY + "" + HIW + "" +
                 set("armor_prop/armor",15);
                 set("armor_prop/parry",5);
                 set("armor_prop/force",7);
-set("wear_msg","$N_$nA|PWG_~As}loĥ . \n");
+set("wear_msg","$N_$nA|PWG_~As}lo艦 . \n");
  }
         setup();
 }

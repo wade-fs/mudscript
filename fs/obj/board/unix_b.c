@@ -3,11 +3,11 @@ inherit BULLETIN_BOARD;
 
 void create()
 {
-set_name("[0;1;36m¤[1mÑ[1;32m¤[1mÛ[1;33m¬[1mP[1;37m¥[1mÛ[0m", ({ "Sky-star Board", "board" }) );
+set_name("å¤©å¹»æ˜ŸçŸ³", ({ "Sky-star Board", "board" }) );
         set("location", "/u/u/unix/workroom");
         set("board_id", "unix_b");
         set("long", 
-"UNIXªº¤u§@¤é»x-------------------------------------------" );        setup();
+"UNIXçš„å·¥ä½œæ—¥èªŒ-------------------------------------------" );        setup();
         set("capacity", 30);
 }
 

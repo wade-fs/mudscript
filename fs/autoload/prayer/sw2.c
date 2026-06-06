@@ -11,7 +11,7 @@ void create()
         na = (me->name(0));
 
         if (me)
-           set_name(na+"的[34m流星劍[0m",({"star sword","sword"}));
+           set_name(na+"的流星劍",({"star sword","sword"}));
         else
          { set_name("流星劍",({"star sword","sword"})); }
         seteuid(getuid());
@@ -22,7 +22,7 @@ void create()
         set("unit", "把");
         set("long",@LONG
 
-	上古神秘兵器之一的～～[34m流星劍[0m～～!! 
+	上古神秘兵器之一的～～流星劍～～!! 
 	揮動時有如流星一般的快速!!
 
 LONG);

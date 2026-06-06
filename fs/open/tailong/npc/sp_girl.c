@@ -186,7 +186,7 @@ string do_woody()
     command("say 看你的程度，學習這破解之法應該沒什麼問題了，就讓我來教你吧");
     command("say 聽好囉");
     command("say 如此如此，這般這般");
-    message_vision(HIG"$N對於$n所傳授的破解方法充份的了解了!!!\n"NOR,
+    message_vision(HIG + "$N對於$n所傳授的破解方法充份的了解了!!!\n" + NOR,
                    this_player(),this_object());
     command("say 你只要照我交給你的方法，配合你的臨書點穴之術，必可成功\");
     this_player()->set("marks/break_woody",1);
@@ -235,11 +235,11 @@ string do_out()
     command("say 顧著跟你說事情，都忘記這裡的出路只有我知道了");
     command(":P");
     command("say 馬上就送你出去");
-    message_vision(HIG"只見$N碰了一下身旁的牆壁，卡的一聲，一個出口出現了!!!\n"NOR,
+    message_vision(HIG + "只見$N碰了一下身旁的牆壁，卡的一聲，一個出口出現了!!!\n" + NOR,
                    this_object());
     environment(this_object())->set("exits/out","/open/main/room/to_chun1");
     command("say 剛剛為了救你實在是太累了，我就不送囉");
-    message_vision(HIG"$N往後一躺，漸漸的睡著了\n"NOR,
+    message_vision(HIG + "$N往後一躺，漸漸的睡著了\n" + NOR,
                    this_object());
     this_object()->set("per",25);
     set("long",@LONG

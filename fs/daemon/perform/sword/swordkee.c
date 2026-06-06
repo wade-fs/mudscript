@@ -29,27 +29,27 @@ damage=me->query_skill("sword",1)*7+random(200);
 else if(fun<=20) 
  {
 
-message_vision("[1;30m$N將內力貫注在劍上﹐猛然一揮, 只揮出幾道零星的劍氣！[0m\n",me);
+message_vision("$N將內力貫注在劍上﹐猛然一揮, 只揮出幾道零星的劍氣！\n",me);
     damage=me->query_skill("sword",1);
  }
 else if(fun<=40&&fun>=21) 
  {
-    message_vision("[1;31m$N將內力貫注在劍上﹐猛然一揮﹐數道劍氣騰出, 並分擊在場各個敵人！[0m\n",me);
+    message_vision("$N將內力貫注在劍上﹐猛然一揮﹐數道劍氣騰出, 並分擊在場各個敵人！\n",me);
     damage=me->query_skill("sword",1)*3/2;
  }
 else if(fun<=60&&fun>=41) 
  {
-    message_vision("[1;34m$N將內力貫注在劍上﹐猛然一揮﹐數十道劍氣騰出，劍氣分別射向四面八方！[0m\n",me);
+    message_vision("$N將內力貫注在劍上﹐猛然一揮﹐數十道劍氣騰出，劍氣分別射向四面八方！\n",me);
     damage=me->query_skill("sword",1)*2;
  }
 else if(fun<=80&&fun>=61) 
  {
-    message_vision("[1;32m$N將內力貫注在劍上﹐猛然一揮﹐只見一道耀眼的青銅劍氣騰出直逼在場所有生物！[0m\n",me);
+    message_vision("$N將內力貫注在劍上﹐猛然一揮﹐只見一道耀眼的青銅劍氣騰出直逼在場所有生物！\n",me);
     damage=me->query_skill("sword",1)*3;
  }
 else if(fun>=81&&fun<=99) 
  {
-    message_vision("[1;33m$N將內力貫注在劍上﹐猛然一揮﹐黃金劍氣頓時籠罩全身, 並向外擴散分擊各對手！[0m\n",me);
+    message_vision("$N將內力貫注在劍上﹐猛然一揮﹐黃金劍氣頓時籠罩全身, 並向外擴散分擊各對手！\n",me);
    damage=me->query_skill("sword",1)*4;
  }
   me->add("force",-50);
