@@ -1,0 +1,35 @@
+ζζ龍嘯九天ζζ
+指令格式:supershoot
+使用條件:必需裝備龍蜒神弓(Dragon bow)才能施放
+功能:射手唯一的群體攻擊特攻，無等級和熟練度
+
+ζ十萬火急(ten_kee)ζ
+指令格式:perform archery.ten_kee
+使用條件:氣血大於500 , 流星箭訣等級到達一定水準
+功能:busy敵人和損血
+
+ζ御箭飛行(flyarrow) ζ 
+指令格式:exert flyarrow
+使用條件:冰心訣等級須到達一定水準
+功能:增加防禦加和攻擊力
+
+ζ馭氣成箭(make_arrow)ζ
+指令格式:perform make_arrow
+使用條件:無(解謎後可進階)
+功能:製箭
+
+ζ亂箭齊發(m-archery)ζ
+指令格式:perform archery.m-archery 
+使用條件:戰鬥經驗值>500萬, 十萬火急練到最高境界
+功能:使敵人斷手(素招傷害力歸零)瞎眼(素招命中率歸零)
+
+ζ虛空馭天箭(super-shooting)ζ
+指令格式:perform god-shooting.super-shooting
+使用條件:需解謎，須先cmd mark <id>在對方身上做記號
+功能:射手的超遠程攻擊，可在遠方狙擊敵人而不受到攻擊，
+     共五招，每20級增加一招。一招busy敵人，四招使敵人的氣減少。
+
+ζ破日驚天(break-sun)ζ
+指令格式:perform god-shooting.break-sun
+使用條件:亂箭齊發須到達最高境界，須解謎，射箭技巧須夠高
+功能:利用屬性與敵人內勁相剋之箭氣可給予重傷害，尚有多處功能不明......
