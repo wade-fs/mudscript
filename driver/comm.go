@@ -92,38 +92,30 @@ func (d *Driver) ProcessCommand(pConn *PlayerConnection, input string) bool {
 		targetObj := pConn.NextInputObj
 		args := pConn.NextInputArgs
 
-		// 清除攔截器 (以免遞迴或重複執行)
 		pConn.NextInputFunc = ""
 		pConn.NextInputClosure = nil
 		pConn.NextInputObj = nil
 		pConn.NextInputArgs = nil
+		pConn.InputHidden = false
 
-		// 準備傳遞給 callback 的參數：[玩家輸入, ...其餘預設參數]
 		finalArgs := append([]object.Object{&object.String{Value: input}}, args...)
 
 		if closure != nil {
-			// 🚀 關鍵修正：必須綁定 Context，否則 write() 等 efun 會找不到目標
-			gid := getGID()
-			oldContext, hasOld := d.playerContexts.Load(gid)
-			d.playerContexts.Store(gid, pConn)
-			defer func() {
-				if hasOld {
-					d.playerContexts.Store(gid, oldContext)
-				} else {
-					d.playerContexts.Delete(gid)
-				}
-			}()
-
+			restore := d.setPlayerContext(pConn)
+			defer restore()
 			d.ExecuteCallback(obj, closure, finalArgs)
-		} else if targetObj != nil {
+		} else {
+			if targetObj == nil {
+				targetObj = obj
+			}
 			d.RunCommand(pConn, targetObj, funcName, finalArgs)
 		}
-		return true
+		return true 
 	}
 
 	input = strings.TrimSpace(input)
 	if input == "" {
-		return true
+		return true // 空輸入視為已處理，不報錯
 	}
 
 	// 處理動詞歷史與 ! 展開
@@ -132,18 +124,24 @@ func (d *Driver) ProcessCommand(pConn *PlayerConnection, input string) bool {
 		return true
 	}
 
-	// 🚀 關鍵相容性：先呼叫 process_input (通常在 alias.c 實作)，它可能會修改指令
+	// ==========================================
+	// 1. 呼叫 process_input (別名擴展)
+	// ==========================================
 	resInput := d.RunCommand(pConn, obj, "process_input", []object.Object{&object.String{Value: input}})
 	if resInput != nil && resInput.TokenType() != object.NilType {
 		if s, ok := resInput.(*object.String); ok && s.Value != "" {
-			input = s.Value // 指令被改寫 (例如 alias 替換)
-		} else if isLPCTrue(resInput) {
-			return true // 指令已被 process_input 完全處理 (回傳非 0)
+			input = s.Value // 指令被改寫
+		} else if d.IsLPCTrue(resInput) {
+			return true // 已被完全處理
 		}
-		// 若回傳 0 或 nil，則繼續往下處理 add_action 註冊的指令
 	}
 
 	// 解析動詞與參數
+	input = strings.TrimSpace(input)
+	if input == "" {
+		return true
+	}
+
 	verb := ""
 	arg := ""
 	parts := strings.SplitN(input, " ", 2)
@@ -153,22 +151,19 @@ func (d *Driver) ProcessCommand(pConn *PlayerConnection, input string) bool {
 	}
 
 	pConn.CurrentVerb = verb
-	pConn.NotifyFail = "" // 🚀 關鍵：每次開始處理新指令前，先清空失敗訊息
+	pConn.NotifyFail = "" 
 
-	// 1. 檢查 add_action 註冊的指令
+	// ==========================================
+	// 2. 檢查 add_action 註冊的指令
+	// ==========================================
 	if obj.Actions != nil {
 		// A. 精確匹配
 		if action, exists := obj.Actions[verb]; exists {
-			// 🚀 關鍵修正：執行期間暫時將 CurrentVerb 切換為註冊的動詞 (供 query_verb 呼叫)
 			oldVerb := pConn.CurrentVerb
 			pConn.CurrentVerb = verb
-			
 			res := d.RunCommand(pConn, action.Provider, action.FuncName, []object.Object{&object.String{Value: arg}})
-			
 			pConn.CurrentVerb = oldVerb
-
-			// 回傳值處理
-			if isLPCTrue(res) {
+			if d.IsLPCTrue(res) {
 				return true
 			}
 		}
@@ -176,22 +171,31 @@ func (d *Driver) ProcessCommand(pConn *PlayerConnection, input string) bool {
 		// B. 前綴匹配與萬用攔截 ("")
 		for v, action := range obj.Actions {
 			if action.Flags == 1 {
+				// 🚀 關鍵修正：若攔截器動詞為 ""，則它匹配「所有」輸入
 				if v == "" || strings.HasPrefix(verb, v) {
-					// 🚀 關鍵修正：執行期間暫時將 CurrentVerb 切換為註冊的動詞
 					oldVerb := pConn.CurrentVerb
-					pConn.CurrentVerb = v
+					
+					// 🚀 關鍵修正：若匹配到萬用攔截器，query_verb() 應回傳當前的動詞
+					if v == "" {
+						pConn.CurrentVerb = verb
+					} else {
+						pConn.CurrentVerb = v
+					}
 
 					callArg := arg
 					if v != "" && len(verb) > len(v) {
 						callArg = verb[len(v):] + " " + arg
 						callArg = strings.TrimSpace(callArg)
+					} else if v == "" {
+						// 對於萬用攔截器，參數就是原始輸入扣除動詞後的部分
+						callArg = arg
 					}
 
 					res := d.RunCommand(pConn, action.Provider, action.FuncName, []object.Object{&object.String{Value: callArg}})
 					
 					pConn.CurrentVerb = oldVerb
 
-					if isLPCTrue(res) {
+					if d.IsLPCTrue(res) {
 						d.postCommandCleanup(pConn)
 						return true
 					}
@@ -200,23 +204,22 @@ func (d *Driver) ProcessCommand(pConn *PlayerConnection, input string) bool {
 		}
 	}
 
-	// 🚀 關鍵相容性：處理指令失敗訊息 (notify_fail)
+	// ==========================================
+	// 3. 處理失敗訊息 (notify_fail)
+	// ==========================================
 	if pConn.NotifyFail != "" {
 		pConn.Send(pConn.NotifyFail)
-		pConn.NotifyFail = "" // 清除已顯示的訊息
+		pConn.NotifyFail = "" 
 		return true
 	}
 
-	// 若完全找不到指令，回傳預設錯誤
+	// 若完全找不到指令，報錯
 	pConn.Send("什麼？\n")
-
-	// 🚀 [新增] 每次指令處理完後，若物件有 write_prompt 則呼叫它
 	d.CallFunction(obj, "write_prompt", nil)
 
 	return false
 }
 
-// 在 ProcessCommand 成功處理後也要呼叫 write_prompt
 func (d *Driver) postCommandCleanup(pConn *PlayerConnection) {
 	if pConn != nil && pConn.Object != nil {
 		d.CallFunction(pConn.Object, "write_prompt", nil)
