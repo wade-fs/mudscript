@@ -43,3 +43,4 @@ fs/log/USAGE
 fs/log/init.log
 fs/log/log
 fs/u/b/bss/
+fs/u/b/bss/record/no_in_open
