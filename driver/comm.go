@@ -115,7 +115,7 @@ func (d *Driver) ProcessCommand(pConn *PlayerConnection, input string) bool {
 
 	input = strings.TrimSpace(input)
 	if input == "" {
-		return true // 空輸入視為已處理，不報錯
+		return true 
 	}
 
 	// 處理動詞歷史與 ! 展開
@@ -171,28 +171,20 @@ func (d *Driver) ProcessCommand(pConn *PlayerConnection, input string) bool {
 		// B. 前綴匹配與萬用攔截 ("")
 		for v, action := range obj.Actions {
 			if action.Flags == 1 {
-				// 🚀 關鍵修正：若攔截器動詞為 ""，則它匹配「所有」輸入
-				if v == "" || strings.HasPrefix(verb, v) {
+				// 略過空動詞匹配 (保留給最後處理)
+				if v == "" { continue }
+
+				if strings.HasPrefix(verb, v) {
 					oldVerb := pConn.CurrentVerb
-					
-					// 🚀 關鍵修正：若匹配到萬用攔截器，query_verb() 應回傳當前的動詞
-					if v == "" {
-						pConn.CurrentVerb = verb
-					} else {
-						pConn.CurrentVerb = v
-					}
+					pConn.CurrentVerb = v
 
 					callArg := arg
-					if v != "" && len(verb) > len(v) {
+					if len(verb) > len(v) {
 						callArg = verb[len(v):] + " " + arg
 						callArg = strings.TrimSpace(callArg)
-					} else if v == "" {
-						// 對於萬用攔截器，參數就是原始輸入扣除動詞後的部分
-						callArg = arg
 					}
 
 					res := d.RunCommand(pConn, action.Provider, action.FuncName, []object.Object{&object.String{Value: callArg}})
-					
 					pConn.CurrentVerb = oldVerb
 
 					if d.IsLPCTrue(res) {
@@ -202,10 +194,40 @@ func (d *Driver) ProcessCommand(pConn *PlayerConnection, input string) bool {
 				}
 			}
 		}
+		
+		// C. 專門處理萬用攔截器 (Legacy FS 專用)
+		if action, exists := obj.Actions[""]; exists && action.Flags == 1 {
+			oldVerb := pConn.CurrentVerb
+			pConn.CurrentVerb = verb
+			res := d.RunCommand(pConn, action.Provider, action.FuncName, []object.Object{&object.String{Value: arg}})
+			pConn.CurrentVerb = oldVerb
+			if d.IsLPCTrue(res) {
+				d.postCommandCleanup(pConn)
+				return true
+			}
+		}
 	}
 
 	// ==========================================
-	// 3. 處理失敗訊息 (notify_fail)
+	// 3. 智慧出口後備機制 (Smart Exit Fallback)
+	// ==========================================
+	// 🚀 重要修正：只有在非 "go" 開頭時才執行，避免無限遞迴
+	if verb != "go" && obj.Location != nil && !obj.Location.IsDestructed {
+		if exitsVal, exists := obj.Location.Vars.Get("exits"); exists {
+			if exitsMap, ok := exitsVal.(*object.Mapping); ok {
+				verbKey := (&object.String{Value: verb}).HashKey()
+				if _, hasExit := exitsMap.Pairs[verbKey]; hasExit {
+					// 轉換為 go 指令
+					if d.ProcessCommand(pConn, "go "+input) {
+						return true
+					}
+				}
+			}
+		}
+	}
+
+	// ==========================================
+	// 4. 處理失敗訊息 (notify_fail)
 	// ==========================================
 	if pConn.NotifyFail != "" {
 		pConn.Send(pConn.NotifyFail)
@@ -213,7 +235,7 @@ func (d *Driver) ProcessCommand(pConn *PlayerConnection, input string) bool {
 		return true
 	}
 
-	// 若完全找不到指令，報錯
+	// 若完全找不到指令，且沒被攔截處理，報錯
 	pConn.Send("什麼？\n")
 	d.CallFunction(obj, "write_prompt", nil)
 
