@@ -59,8 +59,11 @@ int main(object me, string arg) {
         string return_path = me->query_temp("lm_return_room");
         object dest;
         
-        if (return_path && strsrch(return_path, "/std/") == -1) {
+        if (return_path) {
             dest = load_object(return_path);
+            if (!dest) {
+                write("錯誤：無法載入原房間 " + return_path + "。\n");
+            }
             me->delete_temp("lm_return_room");
         }
         

@@ -203,11 +203,12 @@ void init() {
     add_action("do_back_compat", "out");
     add_action("do_back_compat", "leave");
 
-    // 🚀 核心優化：如果玩家是透過出口進來的，自動紀錄回程點
-    string last_loc = me->query_temp("last_location");
-    if (last_loc && !me->query_temp("lm_return_room") && strsrch(last_loc, "/area/lm/") == -1) {
+    // 🚀 核心優化：如果玩家是從非創界房間進來的，紀錄此作為回程點
+    string last_loc = me->query("last_location");
+    if (last_loc && strsrch(last_loc, "/area/lm/") == -1) {
         me->set_temp("lm_return_room", last_loc);
     }
+
 
     string pid = me->query("id");
     // 如果玩家沒有座標，給出生點；確保不站在方塊上
