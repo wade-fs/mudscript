@@ -70,12 +70,12 @@ void heart_beat()
     hellfire = target->query_condition("hellfire",1);
     if( env == environment(target) )
     {
-      message_vision(HIR"\n
+      message_vision(HIR + "\n
 炎血之氣激出紅色的魔霧開始在空氣中沸騰，$N的力量隨著血氣激
 增，而$n卻被血霧牽制得無法動彈
-在$N的力量到達最高點的時候，只聽$N大喝『"HIW"破日天渦太陽斷"HIR"』， 
+在$N的力量到達最高點的時候，只聽$N大喝『" + HIW + "破日天渦太陽斷" + HIR + "』， 
 暴走的魔氣幻化成血龍奔向$n
-\n"NOR,mob,target);
+\n" + NOR,mob,target);
       target->apply_condition("hellfire",hellfire+7);
       target->receive_damage("kee",750);
       COMBAT_D->report_status(target, 1);

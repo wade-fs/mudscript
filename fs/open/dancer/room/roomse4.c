@@ -6,7 +6,7 @@ inherit ROOM;
 
 void create ()
 {
-  set ("short",GRN"涼亭"NOR);
+  set ("short",GRN + "涼亭" + NOR);
   set ("long", @LONG
 站在此地你感到陣陣涼風吹來，令人心曠神怡，涼亭的東邊是一
 山堐視野廣闊可望到海洋，海景山色一望無窮，禁收眼底。令你不禁

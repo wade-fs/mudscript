@@ -6,7 +6,7 @@ object me=this_player();
 int cor,kar,intt,spi,cps;
 void create()
 {
-        set_name(HIY"劍聖手飾"NOR,({"kensai ring","ring"}) );
+        set_name(HIY + "劍聖手飾" + NOR,({"kensai ring","ring"}) );
         set_weight(2000);
         if( clonep() )
                 set_default_object(__FILE__);
@@ -44,7 +44,7 @@ int do_wear(string str)
         cps = me->query("cps",1);
         spi = me->query("spi",1);
         intt = me->query("int",1);
-message_vision(HIC"穿上劍聖手飾..神聖之力隴罩$N全身。\n"NOR,me);
+message_vision(HIC + "穿上劍聖手飾..神聖之力隴罩$N全身。\n" + NOR,me);
         set_heart_beat(1);
      }
 }
@@ -53,7 +53,7 @@ int do_remove(string str)
    if(str=="swordmaster ring" || str=="all" || str=="ring")
      if( query("equipped") )
      {
-message_vision(YEL"$N脫下了劍聖手飾..神聖之力頓時消失。\n"NOR,me);
+message_vision(YEL + "$N脫下了劍聖手飾..神聖之力頓時消失。\n" + NOR,me);
         set_heart_beat(0);
      }
 }

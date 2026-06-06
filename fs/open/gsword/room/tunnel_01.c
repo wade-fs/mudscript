@@ -39,27 +39,27 @@ void do_damage(object me)
   kee = me->query("max_kee");
   sen = me->query("max_sen");
   
-  message_vision(HIR" 四周天花板、牆縫突然射出一道帶著魔性的血氣。\n"NOR,me);
+  message_vision(HIR + " 四周天花板、牆縫突然射出一道帶著魔性的血氣。\n" + NOR,me);
   if(me->query_temp("quest/return_sha") && me->query_temp("quest/return_sha")>7)   //回程時不再受限
   {
-   message_vision(HIW" $N憶及前次經驗，早已有所準備，從容閃過。\n"NOR,me);
+   message_vision(HIW + " $N憶及前次經驗，早已有所準備，從容閃過。\n" + NOR,me);
    return;
   }
   if(!me->query_temp("quest/return_sha") || me->query_temp("quest/return_sha")<7)  //防止玩家以不正當方式進入
   {
-   message_vision(HIW" $N未經云許\進入本派重地，遭到先人遺留劍意破體，當場慘死!!\n"NOR,me);
+   message_vision(HIW + " $N未經云許\進入本派重地，遭到先人遺留劍意破體，當場慘死!!\n" + NOR,me);
    me->die();
    return;
   }
    if(!eq)
    {
-    message_vision(HIM" $N防備不及，慘遭貫體而過。\n"NOR,me);
+    message_vision(HIM + " $N防備不及，慘遭貫體而過。\n" + NOR,me);
 	me->start_busy(1);
 	me->receive_wound("gin",(50+gin)/3);
 	me->receive_wound("kee",(50+kee)/3);
 	me->receive_wound("sen",(50+sen)/3);
    } else {
-    message_vision(HIG" $N身上的"+eq->query("name")+HIG"妖氣大盛，及時為主人擋下這致命一擊，隨即灰飛湮滅。\n"NOR,me);
+    message_vision(HIG + " $N身上的"+eq->query("name")+HIG"妖氣大盛，及時為主人擋下這致命一擊，隨即灰飛湮滅。\n" + NOR,me);
 	destruct(present("ghost heart",me));
           }
    return ;

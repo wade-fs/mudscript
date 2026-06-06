@@ -22,7 +22,7 @@ void init()
 {
  object me = this_player();
  if(present("stonekey",me))
-        tell_object(me,HIC"東面石門有感於你身上磁石而發出喀喀的聲響。\n"NOR);
+        tell_object(me,HIC + "東面石門有感於你身上磁石而發出喀喀的聲響。\n" + NOR);
  add_action("do_go","go");
  add_action("do_press","press");
 }

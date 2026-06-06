@@ -8,7 +8,7 @@ void create()
         set("long", "天龍客棧的掌櫃 , 整天在那裏數著不完的銀票 .\n");
         set("attitude", "friendly");
         set("combat_exp",20000);
-        set("nickname",HIG"財迷心竅"NOR);
+        set("nickname",HIG + "財迷心竅" + NOR);
         set("dodge",50);
         set("parry",50);
         set("unarmed",50);

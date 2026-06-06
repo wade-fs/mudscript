@@ -7,7 +7,7 @@ inherit THROWING;
 
 void create()
 {
-	set_name(HIR "千古恨" NOR,({"hate knife","knife"}));
+	set_name(HIR + "千古恨" + NOR,({"hate knife","knife"}));
 	set_weight(7000);
 	if( clonep() )
 		set_default_object(__FILE__);

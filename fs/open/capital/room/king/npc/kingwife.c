@@ -60,7 +60,7 @@ int accept_kill(object who)
         ob = this_object();
 
         if( !present("king guard", environment(ob)) ) {
-        tell_room(environment(ob),HIW"\n突然！衝出五位御前護衛！\n\n"NOR);
+        tell_room(environment(ob),HIW + "\n突然！衝出五位御前護衛！\n\n" + NOR);
      for(i=0;i<5;i++)
      {
         guard = new(__DIR__"fuguard");
@@ -70,6 +70,6 @@ int accept_kill(object who)
         guard->kill_ob(who);
         }
         }
-     tell_object(users(),HIR "御前護衛大叫：有刺客！快保護殿下！！\n" NOR);
+     tell_object(users(),HIR + "御前護衛大叫：有刺客！快保護殿下！！\n" + NOR);
         return 1;
 }

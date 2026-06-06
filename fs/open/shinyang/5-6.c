@@ -156,7 +156,7 @@ void start_war()
 
     if(dir ==  __DIR__  &&  !user->query_temp("war/shinyang",1) && !wizardp(user))
     {
-      tell_object(user,sprintf(HIY"你發現這裡即將發生戰爭，就頭也不回的溜回家了。\n"));
+      tell_object(user,sprintf(HIY + "你發現這裡即將發生戰爭，就頭也不回的溜回家了。\n"));
 
       user->move(user->query("startroom"));
     }
@@ -172,7 +172,7 @@ void start_war()
     load_object(file)->lock_door(dir);
   }
   CHANNEL_D->do_channel(this_object(),"mud",
-      sprintf(HIR"%s大叫：蒙古軍來襲！！快點關閉城門防止蒙古大軍入侵！！"NOR,ob->name()));
+      sprintf(HIR + "%s大叫：蒙古軍來襲！！快點關閉城門防止蒙古大軍入侵！！" + NOR,ob->name()));
   
   CHANNEL_D->do_channel(this_object(),"sys:war",
       sprintf("任務開始！\n"));
@@ -186,7 +186,7 @@ void call_soldier()
       sprintf("第 %d 波, 有 %d 隻蒙古軍人爬牆進來了\n",step,rand));
 //  call_other(get_users(),"tell_object",,1);
   message("tell_object", 
-      sprintf(HIR"注意！！第%s波攻擊, 有%s位蒙古軍人爬牆進來了\n"NOR,
+      sprintf(HIR + "注意！！第%s波攻擊, 有%s位蒙古軍人爬牆進來了\n" + NOR,
         chinese_number(step),
         chinese_number(rand)
         ),get_users());
@@ -230,12 +230,12 @@ if( sizeof(children(__DIR__"npc/shooter")) != 1)
 
     war_score = killertop*100 + killer *70  - victim*2 - lost_killer *8 - killertop *6;
     user->add("war_score",war_score);
-    tell_object(user,sprintf(HIW"戰功\報告：\n\n"NOR));
+    tell_object(user,sprintf(HIW + "戰功\報告：\n\n" + NOR));
 
-    tell_object(user,sprintf(HIC"因為你協助維護城主有功\\n"));
+    tell_object(user,sprintf(HIC + "因為你協助維護城主有功\\n"));
     tell_object(user,sprintf("總共殺了 %d 位蒙古軍人，%d 位蒙古千夫長\n",killer,killertop));
     tell_object(user,sprintf("但最後因為卻有 %d 位無辜的城民被殺死，與 %d 位的蒙古軍人攻入城內。\n",victim,lost_killer));
-    tell_object(user,sprintf("所以最後獲得 %d 點的戰功\。\n"NOR,war_score));
+    tell_object(user,sprintf("所以最後獲得 %d 點的戰功\。\n" + NOR,war_score));
     user->delete_temp("war");
     user->delete_temp("no_quit");
 
@@ -248,7 +248,7 @@ if( sizeof(children(__DIR__"npc/shooter")) != 1)
   CHANNEL_D->do_channel(this_object(),"sys:war",
       sprintf("任務結束！\n"));
   CHANNEL_D->do_channel(this_object(),"mud",
-      sprintf(HIR"%s大叫：來自洛陽的救兵來到！！感謝上蒼，這暫時解救了襄陽的困境！"NOR,ob->name()));
+      sprintf(HIR + "%s大叫：來自洛陽的救兵來到！！感謝上蒼，這暫時解救了襄陽的困境！" + NOR,ob->name()));
   delete("war");
 }
 void force_user(object user,string command)
@@ -346,7 +346,7 @@ void add_lost_killer(object killer)
     COMBAT_D->do_attack(mudu,killer, mudu->query_temp("weapon"));
   }
   message("tell_object", 
-      sprintf(HIR"%s大吼一聲，殺掉蒙古軍人一名了。\n"NOR,
+      sprintf(HIR + "%s大吼一聲，殺掉蒙古軍人一名了。\n" + NOR,
         mudu->name()
         ),get_users());
 
@@ -377,7 +377,7 @@ void die_for_direct(object npc)
 {
   
   message("tell_object", 
-      sprintf(HIR"%s方的民房傳來一陣慘叫聲。\n"NOR,
+      sprintf(HIR + "%s方的民房傳來一陣慘叫聲。\n" + NOR,
         return_direct(base_name(environment(npc))))
         ,get_users());
 

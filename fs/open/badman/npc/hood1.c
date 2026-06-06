@@ -76,7 +76,7 @@ string do_steal()
     {
       money=present(style,enemy[j])->query_amount();
       del=random(money)+1;
-      message_vision(HIY"\n$N被$n偷走 "+cstyle+" "+del+" "+present(style,enemy[j])->query("base_unit")+"！！\n\n"NOR,enemy[j],ob);
+      message_vision(HIY + "\n$N被$n偷走 "+cstyle+" "+del+" "+present(style,enemy[j])->query("base_unit")+"！！\n\n" + NOR,enemy[j],ob);
       del=money-del; //扣掉被偷的
       present(style,enemy[j])->set_amount(del); //剩下來的
     }

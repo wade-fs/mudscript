@@ -26,7 +26,7 @@ LONG);
         set("objects", ([ /* sizeof() == 1 */
   __DIR__"npc/j_head" : 1,
 ]));
-create_door("out", HIR "厚重銹氣的鐵門" NOR ,"enter",DOOR_CLOSED);
+create_door("out", HIR + "厚重銹氣的鐵門" + NOR ,"enter",DOOR_CLOSED);
         setup();
 
 }

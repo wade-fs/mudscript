@@ -2,7 +2,7 @@
 #include <mudlib.h>
 inherit NPC;
 void create() {
-set_name(HIY"龍驤駒"NOR, ({"dragon horse" , "horse"}));
+set_name(HIY + "龍驤駒" + NOR, ({"dragon horse" , "horse"}));
 set("title", "天子座騎");
 set("long", "
 這匹馬是天子出遊打獵時所用的座騎，牠一身黃毛代表著尊貴，能騎
@@ -110,7 +110,7 @@ if(me->query("family/family_name")=="魔刀門" ||
         me->add_temp("apply/damage",-30);
         me->add_temp("apply/armor", -30); }
 	me->delete_temp("ride_name");
-        message_vision(HIW"$N一個翻身下了馬來！\n"NOR,me);
+        message_vision(HIW + "$N一個翻身下了馬來！\n" + NOR,me);
         return 1;
 }
 
@@ -173,9 +173,9 @@ if( random(100) > 85)
     target=enemy[random(i)];
     if( env == environment(target) )
     {
-message_vision(HIY"
+message_vision(HIY + "
 突然間，龍驤駒像發狂似的向$N衝撞而來\n"+
-"$N閃避不及，被撞個四腳朝天，鮮血直吐\n"NOR,target);
+"$N閃避不及，被撞個四腳朝天，鮮血直吐\n" + NOR,target);
 target->receive_damage("kee",225);
       target->start_busy(1);
       COMBAT_D->report_status(target,1);

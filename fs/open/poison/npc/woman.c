@@ -87,15 +87,15 @@ void greeting(object me)
 void greeting2(object me)
 {
 command("sigh");
-tell_room(environment(this_object()),HIC"只見老婦轉身向外望去，癡癡等待兒子歸來
-。\n"NOR);
+tell_room(environment(this_object()),HIC + "只見老婦轉身向外望去，癡癡等待兒子歸來
+。\n" + NOR);
 }
 int accept_fight(object who)
 {
  object me = this_player();
  command("help!");
  command("say 哇! "+me->name()+"要欺負我這孤苦的老人。");
-  return notify_fail(HIC"趙大娘忙道﹕"NOR+me->name()+"請放過我這可憐的老婦人吧。\n");
+  return notify_fail(HIC + "趙大娘忙道﹕"NOR+me->name()+"請放過我這可憐的老婦人吧。\n");
 }
 int accept_object(object who, object item)
 {
@@ -109,8 +109,8 @@ int accept_object(object who, object item)
   if(!who->query("quests/poison_help") && who->query_temp("poison_help")==4)
           {
 	    who->add("combat_exp",800);
-            tell_object(who,HIY"你完成了『老婦人的傷心事』任務！\n"NOR);
-            tell_object(who,HIC"你的經驗增加了！\n"NOR);
+            tell_object(who,HIY + "你完成了『老婦人的傷心事』任務！\n" + NOR);
+            tell_object(who,HIC + "你的經驗增加了！\n" + NOR);
             who->set("quests/poison_help", 1);
             return 1;
           }

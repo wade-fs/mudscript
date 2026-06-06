@@ -2,7 +2,7 @@ inherit ROOM;
 #include <ansi.h>
 void create ()
 {
-set("short",YEL"雙冥祭台"NOR);
+set("short",YEL + "雙冥祭台" + NOR);
 set("long",@LONG
 這是掌管著【生】【死】雙冥王的祭台, 左邊司【生】
 , 右邊管【死】, 傳聞當生死兩祭台開啟時, 即是死靈骨魔

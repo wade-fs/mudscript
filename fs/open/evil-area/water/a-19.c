@@ -3,7 +3,7 @@ inherit ROOM;
 
 void create ()
 {
-	set("short",HIC"琰 揚 湖"NOR);
+	set("short",HIC + "琰 揚 湖" + NOR);
 	set("long",@LONG
 鳥啼清脆且響亮，陣陣暖風吹拂，感覺好不痛快～
 LONG);

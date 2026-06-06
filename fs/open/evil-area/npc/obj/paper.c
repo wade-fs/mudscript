@@ -43,7 +43,7 @@ int j;
 		return notify_fail("此人目前不在線上。\n");
 	if(me->query("id")==arg)
 		return notify_fail("武林帖無法自己簽署。\n");
-	message_vision(HIY"$N將手中的武林帖寄給了$n。\n"NOR,me,target);
+	message_vision(HIY + "$N將手中的武林帖寄給了$n。\n" + NOR,me,target);
 	ob->set_temp("paper_send",arg);
 	ob->set("long","
 這是一張由"+me->query("name")+"所寄來的武林帖。
@@ -55,7 +55,7 @@ int j;
 		請簽上(sign)你的大名。\n
 ");
 	ob->move(target);
-	tell_object(target,HIR"\n\n你收到了一張武林帖。\n"NOR);
+	tell_object(target,HIR + "\n\n你收到了一張武林帖。\n" + NOR);
 return 1;
 }
 	
@@ -72,7 +72,7 @@ int i,j,count;
 		return notify_fail("你無法簽署這份武林帖。\n");
 	if(arg!=me->query("id"))
 		return notify_fail("你簽錯了名字。\n");
-	message_vision(HIW"$N簽署了武林帖後，武林帖隨即飛離$N的手中。\n"NOR,me);
+	message_vision(HIW + "$N簽署了武林帖後，武林帖隨即飛離$N的手中。\n" + NOR,me);
 	target = find_player(owner);
 	if(!target)
 	{
@@ -99,6 +99,6 @@ int i,j,count;
 "+word+"\n");
 
 	ob->move(target);
-	tell_object(target,HIY"武林帖再度的回到你的手中。\n"NOR);
+	tell_object(target,HIY + "武林帖再度的回到你的手中。\n" + NOR);
 return 1;
 }

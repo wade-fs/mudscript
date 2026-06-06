@@ -8,10 +8,10 @@ void use_poison(object me, object viction);
 
 void create()
 {
-    set_name(HIR"鄭雨橋"NOR, ({"jen wu-cho", "jen","wu-cho"}));
+    set_name(HIR + "鄭雨橋" + NOR, ({"jen wu-cho", "jen","wu-cho"}));
     set("gender", "男性");
     set("title", "炎龍谷主");
-    set("nickname", HIB"暴王"NOR);
+    set("nickname", HIB + "暴王" + NOR);
     set("age",20);
     set("long","\n看起來非常兇惡的人，臉上充滿殺氣。\n\n");
     set("quest/dragon",1);
@@ -57,10 +57,10 @@ set_skill("parry",100);
 
 void greeting(object me)
 {
- write(HIC"鄭雨橋狂傲的說：
+ write(HIC + "鄭雨橋狂傲的說：
 「柳家掌門都敗在我的手裡了，你還會比他強嗎?」
 「不過如果想找我較量，當然可以，閻羅王正招生呢！」
-"NOR); 
+" + NOR); 
 }
 
 void heart_beat()
@@ -78,9 +78,9 @@ void heart_beat()
  void die()
 {
     object winner = query_temp("last_damage_from");
-    tell_object(users(),HIM"
+    tell_object(users(),HIM + "
        
-      "HIW"炎龍谷主說:"HIM" 柳家的人終於來報仇了，冤冤相報何時了啊！
+      " + HIW + "炎龍谷主說:" + HIM + " 柳家的人終於來報仇了，冤冤相報何時了啊！
          
       不過今竟然敗在"+winner->query("name")+HIM"之手真是不甘ㄚ");
 
@@ -90,8 +90,8 @@ void heart_beat()
    winner->set("quest/dragon",1);
 
 
- tell_object(winner,HIW"鄭雨橋說:冤冤相報何時了呀~
-      罷了！我就把柳家的鑰匙交給你吧！\n"NOR,this_player());
+ tell_object(winner,HIW + "鄭雨橋說:冤冤相報何時了呀~
+      罷了！我就把柳家的鑰匙交給你吧！\n" + NOR,this_player());
 
          ::die();
       }                                         

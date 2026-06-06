@@ -3,7 +3,7 @@ inherit COMBINED_ITEM;
 
 void create()
 {
-	set_name(HIG"棉草"NOR,({"cotton grass","grass"}));
+	set_name(HIG + "棉草" + NOR,({"cotton grass","grass"}));
 	set_weight(100);
 	if( clonep() )
                 set_default_object(__FILE__);

@@ -47,7 +47,7 @@ void heart_beat()
 			if(!enemy[i]->is_corpse() && enemy[i]->query("race")!="野獸" && enemy[i]->is_character() && random(100)<70 && enemy[i]->query("id")!="shadow" )
 			{
 				int q=500+random(500);
-				message_vision(HIR"$N放出毒霧，$n不慎吸入，氣力受損！(-"+q+")\n"NOR,ob,enemy[i]);
+				message_vision(HIR + "$N放出毒霧，$n不慎吸入，氣力受損！(-"+q+")\n" + NOR,ob,enemy[i]);
 				enemy[i]->add("kee",-q);
 			}
 		}

@@ -3,7 +3,7 @@
 inherit NPC;
 inherit SSERVER;
 void create() {
-set_name(HIW"幽"HIR"靈"HIW"魍"HIR"馬"NOR,({"urain horse" , "horse"}));  
+set_name(HIW + "幽" + HIR + "靈" + HIW + "魍" + HIR + "馬" + NOR,({"urain horse" , "horse"}));  
 set("title", "修羅王之馬");
 set("long", "為修羅王之愛馬，為何能到現世，不得所知。\n");
 set("str",50);
@@ -115,7 +115,7 @@ if(me->query("family/family_name")=="魔刀門" ||
         me->add_temp("apply/damage",-50);
         me->add_temp("apply/armor", -50); }
 	me->delete_temp("ride_name");
-        message_vision(HIW"$N一個翻身下了馬來！\n"NOR,me);
+        message_vision(HIW + "$N一個翻身下了馬來！\n" + NOR,me);
         return 1;
 }
 
@@ -184,9 +184,9 @@ if( random(100) > 85)
     if(!target) return;
     if( env == environment(target) )
     {
-message_vision(HIY"
+message_vision(HIY + "
 突然間，幽靈魍馬像發狂似的向$N衝撞而來\n"+
-"$N閃避不及，被撞個四腳朝天，鮮血直吐\n"NOR,target);
+"$N閃避不及，被撞個四腳朝天，鮮血直吐\n" + NOR,target);
 target->receive_damage("kee",350);
       target->start_busy(1);
       COMBAT_D->report_status(target,1);

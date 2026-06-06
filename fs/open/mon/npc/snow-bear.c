@@ -65,12 +65,12 @@ void heart_beat()
 	        {
 	          if( !mob->query_temp("hardshell") )
 	          {
-	          message_vision(HIR"只見$N狂吼一聲，「熊的暴發力」，全身氣血充盈，身軀變的結實無比。\n"NOR,mob,enemy[i]);
+	          message_vision(HIR + "只見$N狂吼一聲，「熊的暴發力」，全身氣血充盈，身軀變的結實無比。\n" + NOR,mob,enemy[i]);
 	          mob->set_temp("hardshell",1);
 	          }else{
 	            if( random(100) < 5 )
 	            {
-	            message_vision(YEL"只見$N的狂暴漸歇，收斂了許\多的殺氣!!\n"NOR,mob,enemy[i]);
+	            message_vision(YEL + "只見$N的狂暴漸歇，收斂了許\多的殺氣!!\n" + NOR,mob,enemy[i]);
 	            mob->delete_temp("hardshell",1);
 	            }
 	          }

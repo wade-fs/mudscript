@@ -78,7 +78,7 @@ int do_put(string arg)
         books = ({ nnew});
   else
         books += ({ nnew });
-  message_vision(HIC "$N把"+book->name()+"放到架子上。\n" NOR, me );
+  message_vision(HIC + "$N把"+book->name()+"放到架子上。\n" + NOR, me );
   destruct(book);
   return 1;
 }

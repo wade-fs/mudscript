@@ -60,7 +60,7 @@ void create()
  {
    object ob;
    ob=this_object()->query_enemy();
-   message_vision(HIR"葉狂運起『嗜血狂魔大法』向你一指，一道血光從身體中狂爆開來!!\n"NOR,this_object());
+   message_vision(HIR + "葉狂運起『嗜血狂魔大法』向你一指，一道血光從身體中狂爆開來!!\n" + NOR,this_object());
    ob->add("kee",-150);
   return 1;
   }

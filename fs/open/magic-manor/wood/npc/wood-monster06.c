@@ -9,7 +9,7 @@ void create()
   object ob;
   set_name("小木妖", ({ "wood monster","wood","monster" }) );
   set("long","出沒於木靈塔中的妖物，擅長使用藤蔓的召喚。\n");
-  set("title",HIG"(綠色靈氣)"NOR);
+  set("title",HIG + "(綠色靈氣)" + NOR);
   set("age", 60);
   set("max_gin", 10000);
   set("max_kee", 10000);
@@ -73,7 +73,7 @@ void heart_beat()
 
   if( random(10) > 6 && mob->is_fighting() )
   {
-    message_vision(HIG"$N身上的綠色靈氣和木靈塔相互感應，帶刺的蔓藤隨即襲向所有在場的人!!\n"NOR,mob);
+    message_vision(HIG + "$N身上的綠色靈氣和木靈塔相互感應，帶刺的蔓藤隨即襲向所有在場的人!!\n" + NOR,mob);
     for (j=0 ; j < i ; j++)
     {
       if( !enemy[j] ) continue;
@@ -82,11 +82,11 @@ void heart_beat()
       {
         if( !enemy[j]->query_temp("magic-manor/gold-shield") )
         {
-          message_vision(HIG"$N"HIG"已經避無可避，只能眼睜睜的讓蔓藤在身上刺出無數血痕!!\n"NOR,(enemy[j]));
+          message_vision(HIG + "$N" + HIG + "已經避無可避，只能眼睜睜的讓蔓藤在身上刺出無數血痕!!\n" + NOR,(enemy[j]));
           enemy[j]->receive_wound("kee",400);
           COMBAT_D->report_status(enemy[j]);
         } else {
-          message_vision(HIY"$N"HIY"身上的金靈之氣緩和了部份的蔓藤的刺擊!!\n"NOR,(enemy[j]));
+          message_vision(HIY + "$N" + HIY + "身上的金靈之氣緩和了部份的蔓藤的刺擊!!\n" + NOR,(enemy[j]));
           enemy[j]->receive_wound("kee",200);
           COMBAT_D->report_status(enemy[j]);
         }

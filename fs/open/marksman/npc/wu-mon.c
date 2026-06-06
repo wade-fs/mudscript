@@ -8,7 +8,7 @@ set("class","marksman");
         set("gender", "男性" );
         set("age", 40);
         set("long", "李廣身邊最貼身的護法之一。\n");
-        set("nickname",HIB"右護法"NOR);
+        set("nickname",HIB + "右護法" + NOR);
 set("combat_exp",200000);
 set("max_kee",2500);
         set("max_force",1000);

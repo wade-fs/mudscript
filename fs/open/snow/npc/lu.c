@@ -5,7 +5,7 @@ void create()
 {
 	set_name("陸小雙",({"lu"}));
 	set("title","劍客");
-	set("nickname",HIC "刀劍雙絕" NOR);
+	set("nickname",HIC + "刀劍雙絕" + NOR);
 	set("long",@LONG
 眼前你所看到的是一個坐著輪椅的劍客「陸小雙」。
 LONG);

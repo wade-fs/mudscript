@@ -69,7 +69,7 @@ void die()
 	new("/autoload/mogi/blood-water")->move(environment(winner));
 	else
 	new("/autoload/mogi/blood-water-f")->move(environment(winner));
-	tell_object(winner,HIM"\n你從朱雀守衛身上割下一顆黑色的心臟\n"NOR);
+	tell_object(winner,HIM + "\n你從朱雀守衛身上割下一顆黑色的心臟\n" + NOR);
   /*      if(userp(winner)) {
 	if ( winner->query_temp("bless")==1 )
 	{
@@ -77,7 +77,7 @@ void die()
 	  if( j==5 || j==15 || j== 150 || j==1500 || j==10 || j==100 || j==1000 || j==4000 || j==6666 || j==7777 ) 
 	  {      
 	  new("/open/sky/obj7/phoenix_order")->move(environment(winner));
-	  message_vision(HIM"\n從朱雀守衛的身上掉下了一件奇怪的東西!!\n"NOR,winner);
+	  message_vision(HIM + "\n從朱雀守衛的身上掉下了一件奇怪的東西!!\n" + NOR,winner);
           write_file("/u/n/neverend/log/phoenix_order",sprintf("%s(%s) 讓朱雀守衛掉下了朱雀結令於 %s\n",
 	  winner->name(1),winner->query("id"),ctime(time())));
 	  }
@@ -86,7 +86,7 @@ void die()
 	  if( j==5 || j==15 || j== 150 || j==1500 || j==10 || j==100 || j==1000 || j==4000 || j==6666 || j==7777 ) 
 	  {      
 	  new("/open/sky/obj7/phoenix_order")->move(environment(winner));
-	  message_vision(HIM"\n從朱雀守衛的身上掉下了一件奇怪的東西!!\n"NOR,winner);
+	  message_vision(HIM + "\n從朱雀守衛的身上掉下了一件奇怪的東西!!\n" + NOR,winner);
           write_file("/u/n/neverend/log/phoenix_order",sprintf("%s(%s) 讓朱雀守衛掉下了朱雀結令於 %s\n",
 	  winner->name(1),winner->query("id"),ctime(time())));
 	  }

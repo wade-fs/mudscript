@@ -4,7 +4,7 @@ inherit NPC;
 void create()
 {
  seteuid(getuid()); 
-set("nickname",HIR"第一戰將"NOR);
+set("nickname",HIR + "第一戰將" + NOR);
 set_name("千里不留行",({"chan lin","chan","lin"}));
 set("long","
     他在以前受過傷以後就消失不見了,有人說他死了
@@ -45,7 +45,7 @@ add_money("gold",10);
 
 int accept_kill(object who)
 {
-   say(HIY" 老子跟你拼了!!!\n"NOR);
+   say(HIY + " 老子跟你拼了!!!\n" + NOR);
    setup();
    return 1;
 }

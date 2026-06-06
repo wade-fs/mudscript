@@ -59,7 +59,7 @@ int valid_leave(object me,string dir)
 {
 	if( dir == "north" )
 	{
-		message_vision(HIY"$N一踏過門檻，門就隨即關上。\n"NOR,me);
+		message_vision(HIY + "$N一踏過門檻，門就隨即關上。\n" + NOR,me);
 		delete("exits/north");
 	}
 return 1;

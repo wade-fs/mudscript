@@ -43,16 +43,16 @@ void greeting(object who)
     if (!present("lucky-neck",who))
     {
       new("/autoload/badman/ste.c")->move(who);
-      message_vision(HIC"市井無賴說道﹕哎呀，你是"+who->query("name")+"吧？
-　　　　　　　有個少年說你掉了這鍊條，叫我拿給你！\n"NOR,who);
+      message_vision(HIC + "市井無賴說道﹕哎呀，你是"+who->query("name")+"吧？
+　　　　　　　有個少年說你掉了這鍊條，叫我拿給你！\n" + NOR,who);
     }
   }
 /*//已更新天賦的判斷 與物件幸運鍊條(lucky-neck)並未開啟 加上前述判斷優先於本判斷 所以本段判斷暫時忽略 by blazakira
   if (who->query("marks/kardie",1))
   {
     if(present("lucky-neck",who)) return ;
-    message_vision(HIC"哎呀，你是"+who->query("name")+"吧？
-有個少年說你掉了東西，要我把這鍊條還給你！"NOR,who);
+    message_vision(HIC + "哎呀，你是"+who->query("name")+"吧？
+有個少年說你掉了東西，要我把這鍊條還給你！" + NOR,who);
     new("/autoload/badman/ste.c")->move(who);
     who->delete("marks/kardie");
   }*/
@@ -63,8 +63,8 @@ void greeting(object who)
     {
     }
     else {
-      message_vision(HIC"唉呀!你是"+who->query("name")+"吧?
-有個少年叫我把這東西給你."NOR,who);
+      message_vision(HIC + "唉呀!你是"+who->query("name")+"吧?
+有個少年叫我把這東西給你." + NOR,who);
       new("/autoload/badman/ste.c")->move(who);
       who->set("marks/fish",1);
     }

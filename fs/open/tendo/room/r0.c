@@ -5,39 +5,39 @@ void create()
 {
   string long;
 
-set("short",HIR"八卦遊龍迷陣入口"NOR);
+set("short",HIR + "八卦遊龍迷陣入口" + NOR);
 
 long = "\n"+
-BCYN"                                                                         "+
+BCYN + "                                                                         "+
 "       "NOR+
-BCYN"                                                                         "+
+BCYN + "                                                                         "+
 "       "NOR+
-BCYN"                                "+BLK"八卦遊龍迷陣入口"NOR+BCYN"      "+
+BCYN + "                                "+BLK"八卦遊龍迷陣入口"NOR+BCYN"      "+
 "                          "NOR+
-BWHT"                              "NOR+"                    "+BWHT"          "+
+BWHT + "                              "NOR+"                    "+BWHT"          "+
 "                    "NOR+
-BWHT"                              "NOR+"                    "+BWHT"          "+
+BWHT + "                              "NOR+"                    "+BWHT"          "+
 "                    "NOR+
-BWHT"                              "NOR+"                    "+BWHT"          "+
+BWHT + "                              "NOR+"                    "+BWHT"          "+
 "                    "NOR+
-BWHT"                              "NOR+"                    "+BWHT"          "+
+BWHT + "                              "NOR+"                    "+BWHT"          "+
 "                    "NOR+
-BWHT"                              "NOR+"                    "+BWHT"          "+
+BWHT + "                              "NOR+"                    "+BWHT"          "+
 "                    "NOR+
-BWHT"                              "NOR+"                    "+BWHT"          "+
+BWHT + "                              "NOR+"                    "+BWHT"          "+
 "                    "NOR+
-BWHT"                              "NOR+NOR"                    "+BWHT"      "+
+BWHT + "                              "NOR+NOR"                    "+BWHT"      "+
 "                        "NOR+
-BWHT"                            "NOR+BBLU"                        "+BWHT"    "+
+BWHT + "                            "NOR+BBLU"                        "+BWHT"    "+
 "                        "NOR+
-BWHT"                          "NOR+BYEL"                            "+BWHT"  "+
+BWHT + "                          "NOR+BYEL"                            "+BWHT"  "+
 "                        "NOR+
-BWHT"                        "NOR+BRED"                                "+BWHT
+BWHT + "                        "NOR+BRED"                                "+BWHT
 "                        "NOR+
-BWHT"                      "NOR+BMAG"                                    "+BWHT
+BWHT + "                      "NOR+BMAG"                                    "+BWHT
 "                      "NOR+
-BWHT"                    "NOR+BGRN"                                        "+BWHT"                    "NOR+
-NOR"\n";
+BWHT + "                    "NOR+BGRN"                                        "+BWHT"                    "NOR+
+NOR + "\n";
 set("long", long);
 set("exits", ([
         "enter":"/open/tendo/room/r"+(1+random(3)),

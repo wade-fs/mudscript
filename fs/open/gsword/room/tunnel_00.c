@@ -25,7 +25,7 @@ void init()
   me = this_player();
   if(me->query_temp("quest/return_sha") && me->query_temp("quest/return_sha")>7)
   {
-  message_vision(HIW" 鄭士欣聽到$N的腳步聲，連忙開啟隧道口，讓$N出來。\n"NOR,me);
+  message_vision(HIW + " 鄭士欣聽到$N的腳步聲，連忙開啟隧道口，讓$N出來。\n" + NOR,me);
   me->move("/open/gsword/room/g5-1");
   }
   return ;

@@ -7,7 +7,7 @@ inherit ITEM;
 
 void create()
 {
-	set_name(YEL "棺木" NOR,({"coffin"}) );
+	set_name(YEL + "棺木" + NOR,({"coffin"}) );
 	set("long", "一口長滿青苔的棺木, 似忽已擺\在這有好多年了。\n"+
 	            "也許\你想移開(move)棺蓋\, 瞧一瞧裡面有甚麼, 不過"+
 	            "很有可能有未知的"+HIR+"危險"+NOR+"喔。\n");

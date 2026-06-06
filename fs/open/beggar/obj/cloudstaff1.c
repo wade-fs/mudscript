@@ -8,7 +8,7 @@ inherit SSERVER;
 void create()
 {
   seteuid(getuid());
-  set_name(HIC"流雲杖"NOR,({"cloud staff","staff"}) );
+  set_name(HIC + "流雲杖" + NOR,({"cloud staff","staff"}) );
   set_weight(5000);
   if( clonep() )
     set_default_object(__FILE__);
@@ -31,8 +31,8 @@ void create()
     set("no_put", 1);
     set("no_save", 1);
     set("no_secure", 1);
-    set("wield_msg",HIW"$N"HIW"將內力貫入杖身，"HIC"流雲杖"HIW"感應到$N"HIW"的感召，發出一陣清嘯，劃破天際。\n"NOR);
-    set("unwield_msg",HIR"$N"HIR"將內力收回，"HIC"流雲杖"HIR"立刻沉靜了下來，萬丈的光芒立刻消失無蹤。\n"NOR);
+    set("wield_msg",HIW + "$N" + HIW + "將內力貫入杖身，" + HIC + "流雲杖" + HIW + "感應到$N" + HIW + "的感召，發出一陣清嘯，劃破天際。\n" + NOR);
+    set("unwield_msg",HIR + "$N" + HIR + "將內力收回，" + HIC + "流雲杖" + HIR + "立刻沉靜了下來，萬丈的光芒立刻消失無蹤。\n" + NOR);
   }
   init_staff(200);
   setup();
@@ -52,7 +52,7 @@ int wield()
   ::wield();
   if( query("equipped") )
   {
-//    message_vision(HIW"$N將內力貫入杖身，"HIC"流雲杖"HIW"感應到$N"HIW"的感召，發出一陣清嘯，劃破天際。\n"NOR,user);
+//    message_vision(HIW + "$N將內力貫入杖身，" + HIC + "流雲杖" + HIW + "感應到$N" + HIW + "的感召，發出一陣清嘯，劃破天際。\n" + NOR,user);
     user->set_temp("wielded",1);
     set_heart_beat(1);
   }
@@ -65,7 +65,7 @@ int unequip()
   if( query("equipped") && user->query_temp("wielded"))
   {
     ::unequip();
-//    message_vision(HIR"$N將內力收回，"HIC"流雲杖"HIR"立刻沉靜了下來，萬丈的光芒立刻消失無蹤。\n"NOR,user);
+//    message_vision(HIR + "$N將內力收回，" + HIC + "流雲杖" + HIR + "立刻沉靜了下來，萬丈的光芒立刻消失無蹤。\n" + NOR,user);
     user->delete_temp("wielded");
     set_heart_beat(0);
     return 1;
@@ -92,7 +92,7 @@ void heart_beat()
   {
     if((int)user->query("kee") < (int)(user->query("max_kee")/3) && random(staff) > 105)
     {
-      message_vision(BLINK+HIC"流雲杖感覺到$N的危勢，急忙釋放出大量能量為主人解危。\n"NOR,user);
+      message_vision(BLINK+HIC"流雲杖感覺到$N的危勢，急忙釋放出大量能量為主人解危。\n" + NOR,user);
       user->receive_curing("kee",kee);
       user->receive_heal("kee",kee);
       COMBAT_D->report_status(user);
@@ -104,11 +104,11 @@ void heart_beat()
       if( environment(user) == environment(enemy[i]) &&
           random(300) > enemy[i]->query_skill("dodge") )
       {
-        message_vision(HIC"流雲杖"HIM"突然幻化成數千身影，將$N"HIM"團團圍住。\n"NOR,enemy[i]);
+        message_vision(HIC + "流雲杖" + HIM + "突然幻化成數千身影，將$N" + HIM + "團團圍住。\n" + NOR,enemy[i]);
         enemy[i]->receive_wound("kee",staff+random(100),user);
         COMBAT_D->report_status(enemy[i]);
       } else {
-        message_vision(HIC"$N"HIC"奮力一蹤，雖然逃過此擊受到些擦傷，但仍心有餘悸。\n"NOR,enemy[i]);
+        message_vision(HIC + "$N" + HIC + "奮力一蹤，雖然逃過此擊受到些擦傷，但仍心有餘悸。\n" + NOR,enemy[i]);
         enemy[i]->receive_wound("gin",random(staff),user);
         COMBAT_D->report_status(enemy[i]); //既然有隱藏傷害就要回報玩家狀態 不要出現死的不明白情況 by blazakira
       }
@@ -123,7 +123,7 @@ void init()
   seteuid(geteuid());
   me = this_player();
   if (me)
-    set_name (me->name(1)+"的"HIC"流雲杖"NOR, ({ "cloud staff","staff" }));
+    set_name (me->name(1)+"的" + HIC + "流雲杖" + NOR, ({ "cloud staff","staff" }));
   else
-    set_name (HIR"一把普通的木杖"NOR, ({ "staff" }));
+    set_name (HIR + "一把普通的木杖" + NOR, ({ "staff" }));
 }

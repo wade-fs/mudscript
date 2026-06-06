@@ -3,7 +3,7 @@ inherit ROOM;
 
 void create()
 {
-	set("short",HIG"琰 揚 居 -- "NOR+YEL"大 松 樹"NOR);
+	set("short",HIG + "琰 揚 居 -- "NOR+YEL"大 松 樹" + NOR);
 	set("long",@LONG
 一片晴空，你正緊緊的抓著樹幹遙望著無盡的大地，一片雲海就
 踩在你腳下，偶爾可以看到經過太陽照射而產生的七彩雲，偶爾也可

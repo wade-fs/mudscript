@@ -71,12 +71,12 @@ void heart_beat()
     if(!target) return ;
     if( env == environment(target) )
     {
-      message_vision(HIY"\n
+      message_vision(HIY + "\n
 $N氣應魔元，狂風驟作，整個奈何之路均被籠罩其中，光漸漸地被 
 黑闇吞沒了
-暗雷轟動，一式"HIM"『魔龍捲雲  夜漠移換』"HIY"乍然發動了，魔氣在空中
+暗雷轟動，一式" + HIM + "『魔龍捲雲  夜漠移換』" + HIY + "乍然發動了，魔氣在空中
 狂奔蝕向所有人
-\n"NOR,mob,target);
+\n" + NOR,mob,target);
       target->receive_damage("kee",650);
       target->start_busy(2);
       COMBAT_D->report_status(target, 1);

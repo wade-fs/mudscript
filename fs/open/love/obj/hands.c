@@ -5,7 +5,7 @@ inherit HANDS;
 object user;
 void create()
 {
-        set_name( HIW "水晶手套" NOR ,({"pebble hands","hands"}));
+        set_name( HIW + "水晶手套" + NOR ,({"pebble hands","hands"}));
         set_weight(3000);
         if( clonep() )
                 set_default_object(__FILE__);

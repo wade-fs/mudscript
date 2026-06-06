@@ -3,7 +3,7 @@ inherit ROOM;
 
 void create ()
 {
-	set("short",HIG"琰 揚 居"NOR);
+	set("short",HIG + "琰 揚 居" + NOR);
 	set("long",@LONG
 這是一大廳通往後廂房的一個轉角處，往東通往大廳，往南通往
 後廂房。

@@ -14,7 +14,7 @@ void create()
   set("long",
     "全身泛著紫光的火龍，守護著火龍窟的結界交點。\n");
   set("race", "野獸");
-  set("title",HIM"(毒氣)"NOR);
+  set("title",HIM + "(毒氣)" + NOR);
   set("age", 49000);
   set("attitude", "aggressive");
   set("family/family_name","火龍窟");
@@ -78,7 +78,7 @@ void heart_beat()
     mob->set("force",1250000);
     mob->set("force_factor",40);
     message_vision( HIR
-   "\n紫光火龍燃起熾熱火焰將自身的內力倍增六成!!\n"NOR,mob);
+   "\n紫光火龍燃起熾熱火焰將自身的內力倍增六成!!\n" + NOR,mob);
   }
 
   if ( mob->query("kee")<90000 && random(200)<50 && !mob->is_busy())
@@ -87,7 +87,7 @@ void heart_beat()
     mob->receive_curing("kee",4000);
     mob->receive_heal("kee",4000);
 */
-    message_vision( HIY "\n紫光火龍運起神功\為自身療傷，傷口也慢慢癒合了\n"NOR,mob);
+    message_vision( HIY + "\n紫光火龍運起神功\為自身療傷，傷口也慢慢癒合了\n" + NOR,mob);
     mob->receive_curing("kee",2000);
     mob->receive_heal("kee",2000);
   }
@@ -117,7 +117,7 @@ void heart_beat()
     target=enemy[random(i)];
     if (mob->is_fighting())
     {
-      message_vision(HIM"\n紫光火龍從口中噴出一道紫色毒霧, 充滿毒性的氣體瀰漫在四周!!\n"NOR,mob);
+      message_vision(HIM + "\n紫光火龍從口中噴出一道紫色毒霧, 充滿毒性的氣體瀰漫在四周!!\n" + NOR,mob);
       for (j=0 ; j < i ; j++)
       {
         if(enemy[j]){
@@ -129,7 +129,7 @@ void heart_beat()
           if (enemy[j]->query("class")=="fighter" && enemy[j]->query_temp("keeup")==1)
           hurt = hurt * 3;
           if (random(100)==13){
-          tell_object (enemy[j],HIG"慘了!這好像是魔界奇毒『入滅』!!\n"NOR);
+          tell_object (enemy[j],HIG + "慘了!這好像是魔界奇毒『入滅』!!\n" + NOR);
           if(userp(enemy[j])) log_file("mogi/poison", sprintf("%s(%s) 中入滅之毒 on %s\n",enemy[j]->query("name"),enemy[j]->query("id"), ctime(time()) ));
           enemy[j]->apply_condition("mogi",5);}
           if (enemy[j]->query("class")!="poisoner")
@@ -229,8 +229,8 @@ void die()
         }
         if(enemy[j]->query("combat_exp") < 25000000)
         {
-          tell_object(enemy[j],HIY"\n由於你的努力, 終於打倒了紫光火龍, 你辛苦的代價換來了寶貴的經驗!!\n"NOR);
-          tell_object(enemy[j],HIC"你的戰鬥經驗上升 "+exp+" 點, 潛在能力上升 "+pot+" 點!!\n"NOR);
+          tell_object(enemy[j],HIY + "\n由於你的努力, 終於打倒了紫光火龍, 你辛苦的代價換來了寶貴的經驗!!\n" + NOR);
+          tell_object(enemy[j],HIC + "你的戰鬥經驗上升 "+exp+" 點, 潛在能力上升 "+pot+" 點!!\n" + NOR);
           enemy[j]->add("combat_exp",exp);
           enemy[j]->add("potential",pot);
           enemy[j]->delete_temp("fight_purple");

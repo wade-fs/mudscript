@@ -3,7 +3,7 @@ inherit ROOM;
 
 void create ()
 {
-  set ("short", HIR"狂風七星陣"NOR);
+  set ("short", HIR + "狂風七星陣" + NOR);
   set ("long", @LONG
 
     你走進這裡, 突然一陣狂風吹起, 括起漫天風沙, 你置

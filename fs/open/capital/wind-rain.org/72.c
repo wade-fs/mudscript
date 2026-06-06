@@ -3,7 +3,7 @@ inherit ROOM;
 #include <ansi.h>
 #include "wind-rain.h"
 void create () {
-set ("short",HIW"淒沚"NOR);
+set ("short",HIW + "淒沚" + NOR);
 set ("long", @LONG
 此池圓如明月，質地光澈清凜，湧如龍蟒，是全樓的水源。池中青
 山斜阻，惜竹竄天，有幾百枝杏花如噴火蒸霞一般，水上白華間綠

@@ -2,7 +2,7 @@
 inherit ITEM;
 void create()
 {
-        set_name(HIB"死冥王的首級"NOR, ({ "death-ghost-head","head" }) );
+        set_name(HIB + "死冥王的首級" + NOR, ({ "death-ghost-head","head" }) );
         set_weight(100);
         if( clonep() )
                 set_default_object(__FILE__);

@@ -2,7 +2,7 @@ inherit ITEM;
 #include <ansi.h>
 void create()
 {
-	set_name(HIC"森林之叢鑽"NOR,({"forest-diamond"}));
+	set_name(HIC + "森林之叢鑽" + NOR,({"forest-diamond"}));
 	set("long","一顆奇怪的鑽石，似乎並不怎麼值錢，上面刻畫著森林的圖案，任\n"
 		  +"你如何的細看和研究，卻也不知它有何作用，也許\和傳說中的天靈\n"
 		  +"地界有關。\n");

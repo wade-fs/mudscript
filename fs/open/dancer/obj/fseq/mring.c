@@ -6,7 +6,7 @@ object me=this_player();
 int cor,kar,intt,spi,cps;
 void create()
 {
-        set_name(HIG"狂想空間傳說采玲"NOR,({"Fund_ring","ring"}) );
+        set_name(HIG + "狂想空間傳說采玲" + NOR,({"Fund_ring","ring"}) );
         set_weight(2000);
         if( clonep() )
                 set_default_object(__FILE__);
@@ -49,7 +49,7 @@ int do_wear(string str)
         cps = me->query_cps(1);
         spi = me->query_spi(1);
         intt = me->query_int(1);
-message_vision(HIG"$N將狂想空間傳說采玲戴上，狂想空間傳說采玲唸起不死族回復咒文 撒拉 伊克 庵修姆。\n"NOR,me);
+message_vision(HIG + "$N將狂想空間傳說采玲戴上，狂想空間傳說采玲唸起不死族回復咒文 撒拉 伊克 庵修姆。\n" + NOR,me);
         set_heart_beat(1);
      }
 }
@@ -58,7 +58,7 @@ int do_remove(string str)
    if(str=="Fund_ring" || str=="all" || str=="ring")
      if( query("equipped") )
      {
-message_vision(YEL"$N脫下了狂想空間傳說采玲，采玲用很奇怪的眼神瞄狂想空間傳說采玲。\n"NOR,me);
+message_vision(YEL + "$N脫下了狂想空間傳說采玲，采玲用很奇怪的眼神瞄狂想空間傳說采玲。\n" + NOR,me);
         set_heart_beat(0);
      }
 }

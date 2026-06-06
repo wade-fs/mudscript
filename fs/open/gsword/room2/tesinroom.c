@@ -4,7 +4,7 @@ inherit ROOM;
 
 void create()
 {
-        set("short", HIY"鐵心居"NOR);
+        set("short", HIY + "鐵心居" + NOR);
         set("long", @LONG
 進入屋內..一陣濃濃的沉香..另你心神一陣...屋內簡單的擺設..讓人有種
 清新自然的感覺...大廳上..一個年近半百的前輩正閉目沉思..難道它就是傳說

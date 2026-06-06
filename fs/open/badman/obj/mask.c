@@ -5,7 +5,7 @@ inherit CLOTH;
 
 void create()
 {
-       set_name( HIG"人皮面具"NOR, ({"mask"}) );
+       set_name( HIG + "人皮面具" + NOR, ({"mask"}) );
 
         set_weight(500);
         if( clonep() )

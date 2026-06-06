@@ -73,14 +73,14 @@ int greeting (object who)
 {
  if (who->query_temp("ko_yan")==1 && who->query("swordskill/sword5")!=1 )
  {
- message_vision(HIY"血魔狂笑道：幹的好阿，你竟有法殺的了風青雲，來我教你血魔殺法水之技的精華。\n"NOR,who);
+ message_vision(HIY + "血魔狂笑道：幹的好阿，你竟有法殺的了風青雲，來我教你血魔殺法水之技的精華。\n" + NOR,who);
   if( (who->query("potential") - who->query("learned_points"))<100000)
 {
-    message_vision(HIY"但$N潛能不足，無法領會箇中奧妙。\n"NOR,who);
+    message_vision(HIY + "但$N潛能不足，無法領會箇中奧妙。\n" + NOR,who);
     }
 else
   {
-    message_vision(HIY"$N廢盡心力，照著血魔的指導演練了一便。\n"NOR,who);
+    message_vision(HIY + "$N廢盡心力，照著血魔的指導演練了一便。\n" + NOR,who);
     who->set("swordskill/sword5",1);
     who->add("learned_points",100000);
     who->delete_temp("ko_yan",);
@@ -88,14 +88,14 @@ else
  }
 else if (who->query_temp("ko_tian")==1 && who->query("swordskill/sword6")!=1 )
  {
- message_vision(HIY"血魔狂笑道：幹的好阿，你竟有法殺的了鳳祥天，來我教你血魔殺法炎之技的精華。\n"NOR,who);
+ message_vision(HIY + "血魔狂笑道：幹的好阿，你竟有法殺的了鳳祥天，來我教你血魔殺法炎之技的精華。\n" + NOR,who);
   if( (who->query("potential") - who->query("learned_points"))<100000)
 {
-    message_vision(HIY"但$N潛能不足，無法領會箇中奧妙。\n"NOR,who);
+    message_vision(HIY + "但$N潛能不足，無法領會箇中奧妙。\n" + NOR,who);
     }
 else
 {
- message_vision(HIY"$N廢盡心力，照著血魔的指導演練了一便。\n"NOR,who);
+ message_vision(HIY + "$N廢盡心力，照著血魔的指導演練了一便。\n" + NOR,who);
  who->set("swordskill/sword6",1);
  who->add("learned_points",100000);
  who->delete_temp("ko_tian",);
@@ -103,14 +103,14 @@ else
 }
 else if (who->query_temp("ko_yao")==1 && who->query("swordskill/sword7")!=1 )
  {
- message_vision(HIY"血魔狂笑道：幹的好阿，你竟有法殺的了逍遙子，來我教你血魔殺法奧義嵐之技的精華。\n"NOR,who);
+ message_vision(HIY + "血魔狂笑道：幹的好阿，你竟有法殺的了逍遙子，來我教你血魔殺法奧義嵐之技的精華。\n" + NOR,who);
   if( (who->query("potential") - who->query("learned_points"))<150000)
   {
-    message_vision(HIY"但$N潛能不足，無法領會箇中奧妙。\n"NOR,who);
+    message_vision(HIY + "但$N潛能不足，無法領會箇中奧妙。\n" + NOR,who);
     }
    else
    {
-     message_vision(HIY"$N廢盡心力，照著血魔的指導演練了一便。\n"NOR,who);
+     message_vision(HIY + "$N廢盡心力，照著血魔的指導演練了一便。\n" + NOR,who);
      who->set("swordskill/sword7",1);
      who->add("learned_points",150000);
      who->delete_temp("ko_yao",);
@@ -137,20 +137,20 @@ object *user,me,master;
 	j=sizeof(user);
         switch(i) {
 	  case 0 : user=sort_array(user,"sort_exp",this_object());
-	           str=sprintf(HIG"血魔一派經驗值排行榜:\n\n"NOR);
+	           str=sprintf(HIG + "血魔一派經驗值排行榜:\n\n" + NOR);
                    for(i=0; i<j; i++)
-                      str+=sprintf(HIC"第%2d名 %30s(%s)\n"NOR,i+1,user[i]->query("name"),user[i]->query("id"));
+                      str+=sprintf(HIC + "第%2d名 %30s(%s)\n" + NOR,i+1,user[i]->query("name"),user[i]->query("id"));
                    str+="\n";
 	           tell_object(this_player(),str);
 		   break;
 	  case 1 : user=sort_array(user,"sort_force",this_object());
-                   str=sprintf(HIG"血魔一派內力排行榜:\n\n"NOR);
+                   str=sprintf(HIG + "血魔一派內力排行榜:\n\n" + NOR);
 	           for(i=0; i<j; i++)
-	              str+=sprintf(HIC"第%2d名 %30s(%s)\n"NOR,i+1,user[i]->query("name"),user[i]->query("id"));
+	              str+=sprintf(HIC + "第%2d名 %30s(%s)\n" + NOR,i+1,user[i]->query("name"),user[i]->query("id"));
 	           str+="\n";
 	           tell_object(this_player(),str);
 		   break;
-	  case 2 : str=sprintf(HIG"血魔一派師徒關係:\n\n"NOR);
+	  case 2 : str=sprintf(HIG + "血魔一派師徒關係:\n\n" + NOR);
 	           for(i=0; i<j; i++) {
 	              if( user[i]->query("family/master_is_ppl") ) {
 	                if( master=find_player(user[i]->query("family/master_id"))) {
@@ -165,7 +165,7 @@ object *user,me,master;
                           }
 	                }
 	              }
-	              str+=sprintf(HIC"%|20s(%|10s)     師承  %|20s(%|10s)\n"NOR,user[i]->query("name"),user[i]->query("id"),user[i]->query("family/master_name"),user[i]->query("family/master_id"));
+	              str+=sprintf(HIC + "%|20s(%|10s)     師承  %|20s(%|10s)\n" + NOR,user[i]->query("name"),user[i]->query("id"),user[i]->query("family/master_name"),user[i]->query("family/master_id"));
 	           }
 	           str+="\n"; 
 	           tell_object(this_player(),str);

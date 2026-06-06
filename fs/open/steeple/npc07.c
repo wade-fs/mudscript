@@ -7,7 +7,7 @@ void create()
         object ob,who;
         who=this_player();
         set_name("沖田總司", ({"npc07","okita souji","okita","souji"}));
-        set("title", ""HIW"【新撰組一番組長】"NOR"");
+        set("title", "" + HIW + "【新撰組一番組長】" + NOR + "");
         set("long", "新選組副長助勤、新選組一番組長、新選組擊劍師範、試衛館教頭.\n");
         set("age", 20);
         set("str", 50);
@@ -80,7 +80,7 @@ void create()
 int heal_up()
 {
         if (!is_fighting() ) {
-             message_vision (HIW"系統：戰鬥停止，$N回收中，。\n"NOR, this_object ());
+             message_vision (HIW + "系統：戰鬥停止，$N回收中，。\n" + NOR, this_object ());
              destruct(this_object());
              return 1;
         }
@@ -105,17 +105,17 @@ void die ()
 	}
 	if(me->query("quest/start_game")< 8)
         {
-        tell_object(users(),HIY"
-	恭喜"HIW+me->query("name")+HIY"挑戰"HIG"『"HIR"第六層試煉塔"HIG"』"HIY"通過！！
+        tell_object(users(),HIY + "
+	恭喜"HIW+me->query("name")+HIY"挑戰" + HIG + "『" + HIR + "第六層試煉塔" + HIG + "』" + HIY + "通過！！
 
-	"HIW"希望"+me->query("name")+"能不負眾望，勇闖"HIG"『"HIY"第七層試煉塔"HIG"』"HIW"。
-	"NOR);
+	" + HIW + "希望"+me->query("name")+"能不負眾望，勇闖" + HIG + "『" + HIY + "第七層試煉塔" + HIG + "』" + HIW + "。
+	" + NOR);
 	me->set("quest/start_game",8);
         destruct (this_object ());
 	return ;
         }
 	{
-	tell_object(me,HIW"系統：你已經通過測試，系統不做任何更改。\n"NOR);
+	tell_object(me,HIW + "系統：你已經通過測試，系統不做任何更改。\n" + NOR);
 	destruct(this_object());
         :: die();
 	}
@@ -151,7 +151,7 @@ int do_cmd(string str)
  ob=this_object();
  anmy=present( "anmy",environment(ob) );
  if(str=="askgod souji" || str=="askgod souji"){
-write(HIY"沖田總司偷笑說：「對天神求神問卜，真笑死我了。」!!\n"
+write(HIY + "沖田總司偷笑說：「對天神求神問卜，真笑死我了。」!!\n"
 NOR);
 command("cmd bellup");
 command("perform fireforce.gold-fire");
@@ -170,22 +170,22 @@ void do_special1()
         i=sizeof(enemy);
         target=enemy[random(i)];
         message_vision( HIG
-        "沖田總司突然眼現殺氣, 全身散發出驚人的殺氣, 你當場被其殺氣給震攝住!!\n"NOR,target);
+        "沖田總司突然眼現殺氣, 全身散發出驚人的殺氣, 你當場被其殺氣給震攝住!!\n" + NOR,target);
         message_vision(
         "沖田總司放聲大喝道:\n
         "+HIC"                   天  然  理  心  流\n
         "+HIR"                ***"+HIR"**"+HIG"三"+HIR"**"+HIG"段"+HIR"**"+HIG"刺"+HIR"**"+HIG"法"+HIR"**"+HIR"***"NOR+"\n\n",target);
         message_vision(HIC
-        "沖田總司拔出"HIY"菊一文字則宗"HIC"頓時刀光漫天, 全身被刀器所籠罩！！！\n"NOR,target);
-        message_vision(HBGRN"\n沖田總司以驚人的速度在$N身上猛一劈刀, $N的鮮血狂噴而出！\n"NOR,target);
+        "沖田總司拔出" + HIY + "菊一文字則宗" + HIC + "頓時刀光漫天, 全身被刀器所籠罩！！！\n" + NOR,target);
+        message_vision(HBGRN + "\n沖田總司以驚人的速度在$N身上猛一劈刀, $N的鮮血狂噴而出！\n" + NOR,target);
         target->receive_wound("kee",400+random(200));
         COMBAT_D->report_status(target);
         COMBAT_D->report_status(target);
-        message_vision(HBGRN"沖田總司以驚人的速度在$N身上猛一劈刀, $N的鮮血狂噴而出！\n"NOR,target);
+        message_vision(HBGRN + "沖田總司以驚人的速度在$N身上猛一劈刀, $N的鮮血狂噴而出！\n" + NOR,target);
         target->receive_wound("kee",200+random(100));
         COMBAT_D->report_status(target);
         COMBAT_D->report_status(target);
-        message_vision(HBGRN"沖田總司以驚人的速度在$N身上猛一劈刀, $N的鮮血狂噴而出！\n"NOR,target);
+        message_vision(HBGRN + "沖田總司以驚人的速度在$N身上猛一劈刀, $N的鮮血狂噴而出！\n" + NOR,target);
         target->receive_wound("kee",200+random(100));
         COMBAT_D->report_status(target);
         COMBAT_D->report_status(target);
@@ -200,14 +200,14 @@ void do_special2()
         i=sizeof(enemy);
         target=enemy[random(i)];
         message_vision( HIG
-        "沖田總司突然眼現殺氣, 全身散發出驚人的殺氣, 你當場被其殺氣給震攝住!!\n"NOR,target);
+        "沖田總司突然眼現殺氣, 全身散發出驚人的殺氣, 你當場被其殺氣給震攝住!!\n" + NOR,target);
         message_vision(
         "沖田總司放聲大喝道:\n
         "+HIC"                   天  然  理  心  流\n
         "+HIR"                ***"+HIR"**"+HIG"一"+HIR"**"+HIG"文"+HIR"**"+HIG"字"+HIR"**"+HIG"斬"+HIR"**"+HIR"***"NOR+"\n\n",target);
         message_vision(HIC
-        "沖田總司拔出"HIY"菊一文字則宗"HIC"頓時刀光漫天, $N全身被刀器所籠罩！！！\n"NOR,target);
-        message_vision(HIW"\n菊一文字則宗發出不可逼視的強光奪去$N的視覺, $N頓時失去行動能力！\n"NOR,target);
+        "沖田總司拔出" + HIY + "菊一文字則宗" + HIC + "頓時刀光漫天, $N全身被刀器所籠罩！！！\n" + NOR,target);
+        message_vision(HIW + "\n菊一文字則宗發出不可逼視的強光奪去$N的視覺, $N頓時失去行動能力！\n" + NOR,target);
         COMBAT_D->report_status(target);
         COMBAT_D->report_status(target);
         target->start_busy(1);
@@ -228,17 +228,17 @@ void heart_beat()
     if( env == environment(target) )
     {
         message_vision( HIG
-        "沖田總司突然眼現殺氣, 全身散發出驚人的殺氣, 你當場被其殺氣給震攝住!!\n"NOR,target);
+        "沖田總司突然眼現殺氣, 全身散發出驚人的殺氣, 你當場被其殺氣給震攝住!!\n" + NOR,target);
         message_vision(
         "沖田總司放聲大喝道:\n
         "+HIW"                   獨  門  禁  斷  技\n
         "+HIY"                ***"+HIY"**"+HIY""NOR+HIB"青"+HIY"****"NOR+HIB"平"+HIY"****"NOR+HIB"眼"+HIY""NOR+HIY"**"+HIY"***"NOR+"\n\n",target);
         message_vision(HIG
-        "沖田總司激發出全身鬥氣, 以劍尖對住$N的眼睛，劍尖下沉而向右微傾！！！\n"NOR,target);
-        message_vision(HIC"當沖田總司的刀快與$N接觸時，沖田總司的刀以電光火石般地速度滑向$N，一刀斬斃$N！\n"NOR,target);
+        "沖田總司激發出全身鬥氣, 以劍尖對住$N的眼睛，劍尖下沉而向右微傾！！！\n" + NOR,target);
+        message_vision(HIC + "當沖田總司的刀快與$N接觸時，沖田總司的刀以電光火石般地速度滑向$N，一刀斬斃$N！\n" + NOR,target);
         target->receive_wound("kee",500+random(400));
         COMBAT_D->report_status(target);
-        message_vision(HIC"一擊命中, 沖田總司立刻回身, 使出拿手的突刺朝著驚愕住的$N胸口刺去！\n"NOR,target);
+        message_vision(HIC + "一擊命中, 沖田總司立刻回身, 使出拿手的突刺朝著驚愕住的$N胸口刺去！\n" + NOR,target);
         target->receive_wound("kee",300+random(100));
         COMBAT_D->report_status(target);  
         COMBAT_D->report_status(target);

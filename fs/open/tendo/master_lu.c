@@ -14,12 +14,12 @@ void create()
         set("long", 
 "天道紫玄觀的掌門，兩鬢斑白，一對長眉垂頰。看來歲數應該
 不少了，但臉上卻依然神采奕奕，到十足像個三四十歲的中年
-人。據說他不但精通"HIG"易經"NOR"，"HIG"老莊"NOR"，而且還擅於"HIG"星象"NOR"卜卦一類。\n"
+人。據說他不但精通" + HIG + "易經" + NOR + "，" + HIG + "老莊" + NOR + "，而且還擅於" + HIG + "星象" + NOR + "卜卦一類。\n"
 );
        
         set("gender","男性");
         set("class","taoist");
-        set("nickname",MAG"紫玄老道"NOR);
+        set("nickname",MAG + "紫玄老道" + NOR);
         set("combat_exp",4500000);
         set("attitude","friendly");
         set("age",88);
@@ -118,7 +118,7 @@ int accept_object(object me, object obj)
             if( me->query("force") < me->query("max_force") )
             me->set("force",me->query("max_force"));
             me->set("marks/god-kee",1);
-            me->set("title",HIY"天道"HIR"嫡傳弟子"NOR);
+            me->set("title",HIY + "天道" + HIR + "嫡傳弟子" + NOR);
           }
           destruct(obj);
         }
@@ -141,9 +141,9 @@ void attempt_apprentice(object ob)
         }
         command("hmm");
         command("recruit "+ob->query("id"));
-        message("system",HIG"陸清風撫鬚笑道『  乘天地之正，御六氣之辯  』
+        message("system",HIG + "陸清風撫鬚笑道『  乘天地之正，御六氣之辯  』
 
-悠悠寰宇中，又多了一位仙風道骨的術士！！\n"NOR,users());
+悠悠寰宇中，又多了一位仙風道骨的術士！！\n" + NOR,users());
         
         command("say 本派首重修身養性，非不得已盡量不要與人交手。");
         write("\n");
@@ -156,7 +156,7 @@ string do_area()
   if(who->query("class")!="taoist")
         return ("哎....星象之學浩瀚無窮，豈是三言兩語就能說完的。");
   return (
-"說到星象，這"HIW"雲龍陣"CYN"就是為師當年以星象為據所排出的迷陣。"NOR"");
+"說到星象，這" + HIW + "雲龍陣" + CYN + "就是為師當年以星象為據所排出的迷陣。" + NOR + "");
 }
 string do_array()
 {
@@ -167,9 +167,9 @@ string do_array()
   if(!who->query_temp("asked")) {
     who->set_temp("asked",1);
     return ("\n也好....你既然成為術士，也該知道這事。陸清風略有所思地說道,
-在雲龍陣旁有座"HIW"鎖妖塔"CYN"。是當年魔界出口--魔眼洞崩毀眾妖大鬧人
+在雲龍陣旁有座" + HIW + "鎖妖塔" + CYN + "。是當年魔界出口--魔眼洞崩毀眾妖大鬧人
 間時，被祖師爺封印於那的。由於眾妖危害甚巨，為師才特地佈陣
-於此加以保護，以防節外生枝壞了祖師爺五百年前的一番浴血苦戰。"NOR"");
+於此加以保護，以防節外生枝壞了祖師爺五百年前的一番浴血苦戰。" + NOR + "");
   }
   return (
 "此陣殺惡不殺善，是專防妖魔侵入而設。
@@ -236,10 +236,10 @@ void die()
    string name = winner->query("name");
    string class1 = winner->query("family/family_name");
    new("/open/tendo/obj/lucloth")->move(winner);
-   tell_object(users(),HIW"          
-         陸清風"HIG"嘆道:"HIC"天書"HIG"尚未找回,"HIR"冥殿修羅"HIG"未敗,
+   tell_object(users(),HIW + "          
+         陸清風" + HIG + "嘆道:" + HIC + "天書" + HIG + "尚未找回," + HIR + "冥殿修羅" + HIG + "未敗,
                     哎,我竟會敗給"+HIB+class1+HIG"弟子"+HIB+name+HIG+"之手,
                     我不甘心阿!!\n\n
-              "HBCYN"一道白光從崑崙山直升天際\n"NOR);
+              " + HBCYN + "一道白光從崑崙山直升天際\n" + NOR);
 ::die();
 }

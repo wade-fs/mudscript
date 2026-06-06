@@ -5,7 +5,7 @@ inherit COMBINED_ITEM;
 
 void create()
 {
-  set_name(HIW"千年靈芝仙丹"NOR, ({"thousand pill","pill"}) );
+  set_name(HIW + "千年靈芝仙丹" + NOR, ({"thousand pill","pill"}) );
   set("long","由長白山千年靈芝所提煉出來的藥丸, 具有起死回生迅速恢復精氣神的功\效!!\n");
   set("base_unit", "粒");
   set("unit", "粒");
@@ -36,7 +36,7 @@ int eat_pill(string arg)
     message_vision("$N的體內仍然持續著$n的藥效!!\n",me,ob);
     return 1;
   }
-  message_vision(HIW"$N吃下長白山千年靈芝仙丹, 精氣神迅速恢復中!!\n"NOR, me);
+  message_vision(HIW + "$N吃下長白山千年靈芝仙丹, 精氣神迅速恢復中!!\n" + NOR, me);
   me->receive_curing("kee",2000);
   me->receive_heal("kee",2000);
   me->receive_curing("gin",1000);

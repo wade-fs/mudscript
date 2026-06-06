@@ -9,7 +9,7 @@ void create()
   set_name("金甲刀客",({"golden blademan","golden","blademan","b"}));
   set("long","身穿一身黃金甲，手持一把柳月刀，不怒自威的國字臉，和強健無比的魁梧
 身材他橫眉豎目地看著你，他很缺錢，所以血氣方剛的他巴不得你向他挑釁。\n");
-  set("nickname",HIC "滅"HIY"獅"NOR"聯盟");
+  set("nickname",HIC + "滅" + HIY + "獅" + NOR + "聯盟");
   set("gender","男性");
   set("class","blademan");
   set("combat_exp",7030000);
@@ -99,7 +99,7 @@ void greeting()
   if (!ob->is_fighting() && ppl->query_temp("quests/bonze/fight") == 1
       && ppl->is_fighting() && (ob->query("kee") > ob->query("max_kee")*0.3))
   {
-    message_vision (HIY"$N大喊：無事生非者，殺無赦！\n"NOR, ob);
+    message_vision (HIY + "$N大喊：無事生非者，殺無赦！\n" + NOR, ob);
     fight_ob(ppl);
   }
 
@@ -125,9 +125,9 @@ void greeting()
         ob->add("max_sen",20000+random(15000));
         ob->add("force_factor",10+random(10));
         ob->set_temp("quests/bonze/power_up",1);
-        message_vision (HIR"$n眼尖發現了$N拿出一罐秘藥並喝了下去。\n"NOR, ob, ppl);
+        message_vision (HIR + "$n眼尖發現了$N拿出一罐秘藥並喝了下去。\n" + NOR, ob, ppl);
       }
-      message_vision (HIR"$n看出$N的身上散發著不斷高漲的殺氣。\n"NOR, ob, ppl);
+      message_vision (HIR + "$n看出$N的身上散發著不斷高漲的殺氣。\n" + NOR, ob, ppl);
       fight_ob(ppl);
     }
     else {
@@ -225,7 +225,7 @@ int heal_up()
 {
   if (!is_fighting() && this_object()->query_temp("count_down") > 600)
   {//心跳一次 1:1.5(秒)==>1.5x40=1min, 15min=1.5x40x15=900 //縮短為10分 因為在沒有玩家經過或者存在時 心跳功能會停止
-    message_vision (HIY"$N見到小兵送來上級的手令，於是轉身飛奔離去，消失在你的眼前。\n"NOR, this_object());
+    message_vision (HIY + "$N見到小兵送來上級的手令，於是轉身飛奔離去，消失在你的眼前。\n" + NOR, this_object());
     destruct(this_object());
     return 1;
   } //此括號仍為判斷是否在戰鬥中的if下引號

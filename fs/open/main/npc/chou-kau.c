@@ -6,7 +6,7 @@ inherit NPC;
 
 void create()
 {
-  set("title",RED"嗜血劍"NOR);
+  set("title",RED + "嗜血劍" + NOR);
   set_name("趙高", ({"chou-kau","kau","chou"}));
   set("age",55);
   set("long","曾為仙劍高手之一，後因殺人過多，而被鄭士欣逐出仙劍。\n");
@@ -39,7 +39,7 @@ void create()
   set("chat_chance",5);
   set("chat_msg",({
     "趙高說：有朝一日，我必殺回仙劍，以報今日之恥。\n",
-    "趙高說：<鄭士欣>那老猴子，以為<仙劍劍術>就是如此嗎？沒有"HIW"仙"NOR"只有"HIC"劍"NOR"何言仙劍？可笑啊...\n",
+    "趙高說：<鄭士欣>那老猴子，以為<仙劍劍術>就是如此嗎？沒有" + HIW + "仙" + NOR + "只有" + HIC + "劍" + NOR + "何言仙劍？可笑啊...\n",
   }));
 //  set("chat_chance_combat",20);
 //  set("chat_msg_combat",({
@@ -173,7 +173,7 @@ void die()
       if( j==7 || j==77 || j== 777 || j==1111 || j==55 || j==555 || j==1000 || j==4000 || j==3333 || j==2222 )
       {
         new("/open/sky/obj4/wish_shells")->move(environment(winner));
-        message_vision(HIM"\n從趙高的身上掉下了一件奇怪的東西!!\n"NOR,winner);
+        message_vision(HIM + "\n從趙高的身上掉下了一件奇怪的東西!!\n" + NOR,winner);
         write_file("/log/sky/obj4/wish_shells",sprintf("%s(%s) 讓趙高掉下了希望之貝殼於 %s\n",
           winner->name(1),winner->query("id"),ctime(time())));
       }
@@ -182,7 +182,7 @@ void die()
       if( j==5 || j==15 || j== 150 || j==1500 || j==10 || j==100 || j==1000 || j==4000 || j==6666 || j==7777 )
       {
         new("/open/sky/obj4/wish_shells")->move(environment(winner));
-        message_vision(HIM"\n從趙高的身上掉下了一件奇怪的東西!!\n"NOR,winner);
+        message_vision(HIM + "\n從趙高的身上掉下了一件奇怪的東西!!\n" + NOR,winner);
         write_file("/log/sky/obj4/wish_shells",sprintf("%s(%s) 讓趙高掉下了希望之貝殼於 %s\n",
           winner->name(1),winner->query("id"),ctime(time())));
       }

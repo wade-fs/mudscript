@@ -3,7 +3,7 @@ inherit EQUIP;
 #include <ansi.h>
 void create()
 {
-          set_name(HIR"王母"HIM"腰帶"NOR, ({ "girl belt" ,"belt" }) );
+          set_name(HIR + "王母" + HIM + "腰帶" + NOR, ({ "girl belt" ,"belt" }) );
         set_weight(300);
         if( clonep() )
                 set_default_object(__FILE__);

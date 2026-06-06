@@ -48,7 +48,7 @@ int do_exert(string str)
  object me;
  me=this_player();
  if(str=="roar"){
- message_vision(HIC"皇宮守衛大聲的對你說:皇城禁地豈容你大聲喧嘩，還不快滾!!!\n"NOR,me);
+ message_vision(HIC + "皇宮守衛大聲的對你說:皇城禁地豈容你大聲喧嘩，還不快滾!!!\n" + NOR,me);
  return 1;
                 }
  else

@@ -19,11 +19,11 @@ void check()
 	{
 		if(!userp(obj)) continue;
 		if(obj->query_temp("hide")) continue;
-		CHANNEL_D->do_channel(this_object(),"mud",HIC"從蒙古草原附近的大軍裡傳來一陣騷動。\n"NOR);
-		tell_object(obj,HIR+name()+"大叫：這裡有奸細！！！\n"NOR);
-		tell_object(obj,HIR"突然之間，附近突然冒出大量的士兵往你的方向衝了過去。\n");
-		tell_object(obj,HIR"你慌慌忙忙的逃出這裡。\n");
-		tell_object(obj,HIR"慌忙之中，被士兵刺了幾刀。\n"NOR);
+		CHANNEL_D->do_channel(this_object(),"mud",HIC + "從蒙古草原附近的大軍裡傳來一陣騷動。\n" + NOR);
+		tell_object(obj,HIR+name()+"大叫：這裡有奸細！！！\n" + NOR);
+		tell_object(obj,HIR + "突然之間，附近突然冒出大量的士兵往你的方向衝了過去。\n");
+		tell_object(obj,HIR + "你慌慌忙忙的逃出這裡。\n");
+		tell_object(obj,HIR + "慌忙之中，被士兵刺了幾刀。\n" + NOR);
 		obj->move("/open/grassland/r01");
 		obj->receive_wound("kee",obj->query("kee")/2);
 		

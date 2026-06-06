@@ -3,7 +3,7 @@ inherit ROOM;
 
 void create ()
 {
-	set ("short", HIR"火靈塔"NOR);
+	set ("short", HIR + "火靈塔" + NOR);
 	set( "build", 5 );
 	set ("long", @LONG
 火靈塔的周圍遍滿了火焰的包圍，熾熱的火氣不時的向你這邊襲

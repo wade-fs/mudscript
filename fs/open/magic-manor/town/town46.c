@@ -46,7 +46,7 @@ int msg1()
 {
 	object me;
 	me=this_player();
-        tell_object(me,HIC"只見你身上的聚靈引發出一道光芒指向北方。\n"NOR);
+        tell_object(me,HIC + "只見你身上的聚靈引發出一道光芒指向北方。\n" + NOR);
 	add_action("do_go","go");
 }
 

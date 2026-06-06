@@ -5,7 +5,7 @@ inherit ARROW;
 
 void create()
 {
-set_name(HIM"五"HIB"行"HIW"箭"CYN"《"HIG"神木"CYN"》"NOR,({"element wood-arrow","arrow"}));
+set_name(HIM + "五" + HIB + "行" + HIW + "箭" + CYN + "《" + HIG + "神木" + CYN + "》" + NOR,({"element wood-arrow","arrow"}));
         set_weight(15);
 		set("long","蘊藏木之力的靈箭，可克制土系內勁。\n");
         if( clonep() )

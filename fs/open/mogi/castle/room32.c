@@ -2,7 +2,7 @@
 inherit ROOM;
 #include <ansi.h>
 void create () {
-set ("short", HIG"神秘地帶"NOR);
+set ("short", HIG + "神秘地帶" + NOR);
         set ("long","這裡似乎就是傲嘯天所說的神秘地帶，傳說由此可以逃到古堡外頭，
 只見這裡泛著淡淡的慘綠，詭異萬分，你不禁考慮是否藉機逃到外
 頭，畢竟這裡的妖魔實在太可怕了...念頭一轉，還是先搜尋(search)

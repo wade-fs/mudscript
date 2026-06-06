@@ -4,7 +4,7 @@ inherit ITEM;
 int call_guard(int i);
 void create()
 {
-	set_name(MAG "紫玉霞盒" NOR,({"mag box","box"}));
+	set_name(MAG + "紫玉霞盒" + NOR,({"mag box","box"}));
 	set("long","這是一個特殊的盒子﹐外殼發出閃閃的紫光﹐且附著兩條封條﹐而裡頭所裝的是獨孤愁生前的衣物。\n");
      set("unit","俱");
      set_weight(1000000);
@@ -36,7 +36,7 @@ int do_tear(string str)
 		return 0;
 	tell_object(this_player(),"你用手撕開了盒子上的封條。\n");
 	message_vision(
-	"雪蒼武者走了過來﹐發現你撕掉了封條。\n雪蒼武者大暍﹕小賊 !! 你想偷什麼 !!\n" NOR,this_player());
+	"雪蒼武者走了過來﹐發現你撕掉了封條。\n雪蒼武者大暍﹕小賊 !! 你想偷什麼 !!\n" + NOR,this_player());
 	for(i=0;i<10;i++) call_guard(i);
 	this_object()->set_temp("tear_paper",1);
 	return 1;

@@ -101,8 +101,8 @@ int do_report(string arg)
 		who->set("sleep", 1);
 		who->set("quests/letter", 1);
 		who->add("combat_exp", 30);
-		tell_object(who,HIY"你完成『村長的信』任務了！\n"NOR);
-		tell_object(who,HIC"你的經驗增加了！\n"NOR);
+		tell_object(who,HIY + "你完成『村長的信』任務了！\n" + NOR);
+		tell_object(who,HIC + "你的經驗增加了！\n" + NOR);
 		return 1;
 	}
 	else if( who->query_temp("letter")==4 )

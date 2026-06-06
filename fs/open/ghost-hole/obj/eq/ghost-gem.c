@@ -6,13 +6,13 @@ inherit EQUIP;
 
 void create()
 {
-      set_name(CYN""BBLU"冥魔"HIR"寶墜"NOR,({"ghost-king-gem","gem"}));
+      set_name(CYN + "" + BBLU + "冥魔" + HIR + "寶墜" + NOR,({"ghost-king-gem","gem"}));
       set_weight(100);
       if( clonep() )
       set_default_object(__FILE__);
       else
      {
-      set("long",CYN""BBLU"冥魔戰甲的一部份\n"NOR);
+      set("long",CYN + "" + BBLU + "冥魔戰甲的一部份\n" + NOR);
       set("unit", "面");
       set("value", 500);
       set("material", "gem");

@@ -66,7 +66,7 @@ if(me->query_temp("go_oldman_report")==1 && me->query("class")=="poisoner"
 && me->query("marks/evil-poison")!=1)
 {
   tell_object(me,
-HIW"
+HIW + "
 
      我知道了...
 
@@ -80,18 +80,18 @@ HIW"
 
            我...一直在等你...靜香\n
 
-"HIY"老人對你說道 : 年輕人, 感謝你為我所作的一切
-                     我就把當初前教主所創的秘招教你吧...\n"NOR);
+" + HIY + "老人對你說道 : 年輕人, 感謝你為我所作的一切
+                     我就把當初前教主所創的秘招教你吧...\n" + NOR);
 
-write(HIC"老人拿出一本書, 按照書上所寫的慢慢道來....\n"NOR);
+write(HIC + "老人拿出一本書, 按照書上所寫的慢慢道來....\n" + NOR);
 tell_object(me,"冥蠱蠶心法的使用方法為 - perform poison.evil-poison\n");
 
 me->set("title","※冥蠱˙秘使※夜叉冥王");
 
 me->set("marks/evil-poison",1);
 tell_object(users(),
-HIR"西方冥蠱魔教的天空閃起紅光, 
-                          看來失落秘術"HIB"萬蠱蠶心術"HIR"再度重現人間!!!\n"NOR);
+HIR + "西方冥蠱魔教的天空閃起紅光, 
+                          看來失落秘術" + HIB + "萬蠱蠶心術" + HIR + "再度重現人間!!!\n" + NOR);
 
  write("老人說完, 眼角留下淚\滴, 就這樣在眾人面前斷氣了....\n");
 ob->die();
@@ -163,7 +163,7 @@ string do_fb4()
         if(me->query_temp("findbook")!=3)
         return("神經病, 我幹麻和你說我過去輝煌的歷史");
         me->set_temp("findbook",4);
-        tell_object(me,HIY"
+        tell_object(me,HIY + "
 老人無奈說道 : 
               其實這一切, 都不應該這麼發生的...
               數十年前, 前教主在修練一中新的蠱毒心法,
@@ -183,7 +183,7 @@ string do_fb4()
               .....只是現在, 我內心還是牽掛著那一位.......
               自從那件事情後, 她就消失於魔教了...
               如果你見到他, 請和她說 --
-                 "HIW"  嫦娥應悔偷靈藥 "NOR"
+                 " + HIW + "  嫦娥應悔偷靈藥 " + NOR + "
               這樣就可以了.....\n");      
         return("知道了吧....");
 }

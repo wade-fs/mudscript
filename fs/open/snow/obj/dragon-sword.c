@@ -8,7 +8,7 @@ inherit SSERVER;
 
 void create()
 {
-	set_name(HIY "穿龍劍" NOR,({"dragon sword","sword"}));
+	set_name(HIY + "穿龍劍" + NOR,({"dragon sword","sword"}));
 	set("靈氣量",120);
 	set_weight(4000);
 	if( clonep() )
@@ -43,10 +43,10 @@ int do_cast(string arg)
 		return 1;
 	}
 	message_vision(
-	HIR "$N一聲大喝﹕手中穿龍劍發出一陣雷鳴﹐只見一條赤龍鑽出﹗\n" NOR,
+	HIR + "$N一聲大喝﹕手中穿龍劍發出一陣雷鳴﹐只見一條赤龍鑽出﹗\n" + NOR,
 	this_player());
 	message_vision(
-	HIR "只見赤龍在$n身邊穿過﹐$n血流如柱﹗\n" NOR,this_player(),ob);
+	HIR + "只見赤龍在$n身邊穿過﹐$n血流如柱﹗\n" + NOR,this_player(),ob);
 	ob->receive_wound("kee",query("靈氣量"));
 	COMBAT_D->report_status(ob);
 	add("靈氣量",-random(20));

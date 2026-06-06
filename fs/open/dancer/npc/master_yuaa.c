@@ -202,22 +202,22 @@ void die()
     spirit = new("/open/ghost-hole/obj/thunder-spirit");
     spirit->move(ob);
     log_file("sky/spirit/thunder-spirit",sprintf("%s(%s)讓月半彎掉下了%s於 %s\n",ob->name(1),ob->query("id"),spirit->query("name"),ctime(time())));
-    message_vision(HIW"薀含在"+this_object()->query("name")+HIW"身體中的"+spirit->query("name")+HIW"飛射而出，落在$N"HIW"手中。\n"NOR,ob);
+    message_vision(HIW + "薀含在"+this_object()->query("name")+HIW"身體中的"+spirit->query("name")+HIW"飛射而出，落在$N" + HIW + "手中。\n" + NOR,ob);
   }
 
   if( ob->query("class")=="dancer" && ob->query_temp("ask_fdragon"))
   {
-    tell_room(environment(ob),HIY"月半彎說：看來"+ob->name()+"的確有這個能力學習炎之龍！\n"NOR);
+    tell_room(environment(ob),HIY + "月半彎說：看來"+ob->name()+"的確有這個能力學習炎之龍！\n" + NOR);
     ob->set("spells/fdragon/level",1);
     ob->set("allow_fdragon",1);
-    message("system",HIM"月半彎高興的說道：恭喜"HIW""+ob->name()+""HIM"通過考驗成為"HIR"炎ソ舞者。\n"NOR,users());
-    ob->set("title",HIW"【"HIR"炎ソ舞者"HIW"】"NOR);
+    message("system",HIM + "月半彎高興的說道：恭喜" + HIW + ""+ob->name()+"" + HIM + "通過考驗成為" + HIR + "炎ソ舞者。\n" + NOR,users());
+    ob->set("title",HIW + "【" + HIR + "炎ソ舞者" + HIW + "】" + NOR);
   }
   else
   {
   if( ob )
-    set_temp("die",HIC"\n"+query("name")+"說：想不到你的武功\如此厲害。\n\n"NOR);
-//    tell_room(environment(ob),HIC"月半彎說：想不到妳的武功\如此厲害。\n"NOR);
+    set_temp("die",HIC + "\n"+query("name")+"說：想不到你的武功\如此厲害。\n\n" + NOR);
+//    tell_room(environment(ob),HIC + "月半彎說：想不到妳的武功\如此厲害。\n" + NOR);
   }
   ::die();
 }

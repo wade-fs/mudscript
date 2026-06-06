@@ -11,7 +11,7 @@ void create()
         set("class", "marksman");
         set_name("李廣", ({ "master lee", "master", "lee" }) );
         set("title","射日派第二代掌門人");
-        set("nickname",HIC "心定穿石"NOR);
+        set("nickname",HIC + "心定穿石" + NOR);
         set("gender", "男性");
         set("max_kee",5000);
         set("age", 55);
@@ -92,10 +92,10 @@ new(C_OBJ"/bow-1")->move(ob);
 command("say 給你把弓，可不要用不見啦!");   
       command("pat" + ob->query("id"));
       command("recruit "+ob->query("id"));
-message("system",HIR "李廣笑道 :\n
-      "HIW"" +this_player()->name()+ ""NOR""HIR"拜入我門下 !\n
+message("system",HIR + "李廣笑道 :\n
+      " + HIW + "" +this_player()->name()+ "" + NOR + "" + HIR + "拜入我門下 !\n
       他日必可成為一代神射手!\n
-      成為武林至尊!!\n\n"NOR,users());
+      成為武林至尊!!\n\n" + NOR,users());
 
 }
 int accept_kill(object ob)
@@ -124,7 +124,7 @@ int i,j;
 me=this_object();
 if( me->is_fighting() && random(100) > 60 && !me->query_temp("fast-dest") )
 {
-message_vision(HIC"\n李廣吃起藥丸補充血氣。\n"NOR,me); 
+message_vision(HIC + "\n李廣吃起藥丸補充血氣。\n" + NOR,me); 
 me->receive_curing("kee",1500);
 me->receive_heal("kee",1500);
 me->delete_busy();
@@ -152,12 +152,12 @@ void die()
 {    
         object winner = query_temp("last_damage_from");
 
-        tell_object(users(),HIW"
-    忽然自"GRN"長沙城"HIW"之中射出一道白光，映著朝日，直竄達天際～～～\n
-        射日派掌門人－"HIY"李廣"HIW"臨死前喟然嘆道～～～\n
-            「啊～～～罷了...想我堂堂一名"HIC"飛將軍"HIW"，居然是如此不堪一擊...」\n
-                名動天下的"HIC"「飛將軍」"HIY"李廣"HIW"，竟被"HIR"『"+winner->name()+"』"HIW"給一招擊斃於"HIY"廣義堂"HIW"內...\n
-\n\n"NOR);
+        tell_object(users(),HIW + "
+    忽然自" + GRN + "長沙城" + HIW + "之中射出一道白光，映著朝日，直竄達天際～～～\n
+        射日派掌門人－" + HIY + "李廣" + HIW + "臨死前喟然嘆道～～～\n
+            「啊～～～罷了...想我堂堂一名" + HIC + "飛將軍" + HIW + "，居然是如此不堪一擊...」\n
+                名動天下的" + HIC + "「飛將軍」" + HIY + "李廣" + HIW + "，竟被" + HIR + "『"+winner->name()+"』" + HIW + "給一招擊斃於" + HIY + "廣義堂" + HIW + "內...\n
+\n\n" + NOR);
         ::die();
 }
 string s_att()
@@ -187,7 +187,7 @@ string ask_rock()
 int ask_rock1()
 {
 	object me = this_player();
-        message_vision(HIR"李廣指著前方二十步左右的石頭。\n"NOR,me);
+        message_vision(HIR + "李廣指著前方二十步左右的石頭。\n" + NOR,me);
         call_out("ask_rock2",10,me);
         return 1;
 }
@@ -207,11 +207,11 @@ int do_shoot(string arg)
 	{
 	  if(me->query_temp("find_arrow") == 2)
 	  {
-	    message_vision(HIW"$N搭上箭，拉滿弓，「咻」的一聲射去，$N隱約見到石頭上插著一把箭。\n",me);
+	    message_vision(HIW + "$N搭上箭，拉滿弓，「咻」的一聲射去，$N隱約見到石頭上插著一把箭。\n",me);
 	    call_out("shoot_rock1",10,me);
 	  }
 	}else{
-	     message_vision(CYN"$N不要亂射啦，髒死了!!"NOR,me);
+	     message_vision(CYN + "$N不要亂射啦，髒死了!!" + NOR,me);
 	     }
 	return 1;
 }
@@ -219,9 +219,9 @@ int do_shoot(string arg)
 int shoot_rock1()
 {
 	object me = this_player();
-        message_vision(HIG"$N跑到石頭旁邊一看，發現插在石頭上的箭並不是自己的，
-而剛剛自己所射的箭已經撞斷了箭頭，掉落在一旁。\n"NOR,me);
-        message_vision(HIC"猶豫了一會兒，$N將兩支箭都收了起來。\n"NOR,me);
+        message_vision(HIG + "$N跑到石頭旁邊一看，發現插在石頭上的箭並不是自己的，
+而剛剛自己所射的箭已經撞斷了箭頭，掉落在一旁。\n" + NOR,me);
+        message_vision(HIC + "猶豫了一會兒，$N將兩支箭都收了起來。\n" + NOR,me);
         new(C_OBJ"/good_arrow")->move(me);
         new(C_OBJ"/broken_arrow")->move(me);
         
@@ -235,8 +235,8 @@ int accept_object(object me,object obj)
    {
      command ("say 很好，你這個人非常誠實，我很喜歡，其實你射箭的技術已經爐火純青了，只是運勁功\夫尚未渾融而已。");
      command ("say 我這就傳你運勁發箭的法門，讓你的箭技更上一層樓。");
-     message_vision(HIM"李廣對著$N指點了一番，$N豁然頓悟箇中奧妙，學會了"HIC"虛空馭天箭"HIC"之術。\n"NOR,me);
-     message_vision("請以perform god-shooting.super-shooting使用並以help mark參考相關說明。"NOR,me);
+     message_vision(HIM + "李廣對著$N指點了一番，$N豁然頓悟箇中奧妙，學會了" + HIC + "虛空馭天箭" + HIC + "之術。\n" + NOR,me);
+     message_vision("請以perform god-shooting.super-shooting使用並以help mark參考相關說明。" + NOR,me);
      me->set_function("super-shooting",1);
      me->set("marksman/punch_rock",1);
      me->delete_temp("find_arrow");
@@ -244,7 +244,7 @@ int accept_object(object me,object obj)
            {
            command ("say 唉，這箭明明就是我射的，你根本沒射中對吧。");
            command ("say 不過這代表你真的很想學這們功\夫，好吧!!我就教你吧!!");
-           message_vision(HIM"李廣在$N面前演練了一遍架式，$N豁然頓悟箇中奧妙，學會了"HIC"虛空馭天箭"HIC"之術。"NOR,me);	
+           message_vision(HIM + "李廣在$N面前演練了一遍架式，$N豁然頓悟箇中奧妙，學會了" + HIC + "虛空馭天箭" + HIC + "之術。" + NOR,me);	
            me->set_function("super-shooting",21);
            message_vision("請以perform god-shooting.super-shooting使用並以help mark參考相關說明。",me);
            me->set("marksman/punch_rock",2);

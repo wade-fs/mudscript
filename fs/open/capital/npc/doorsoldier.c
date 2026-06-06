@@ -64,7 +64,7 @@ int do_fight(string arg)
                 return notify_fail("你想攻擊誰﹖\n");
         else {
                 kill_ob(who);
-tell_object(users(),HIR "皇門守衛大叫：有人硬闖皇城！皇上有令，殺無赦！！\n" NOR);
+tell_object(users(),HIR + "皇門守衛大叫：有人硬闖皇城！皇上有令，殺無赦！！\n" + NOR);
 //                accept_kill(who);
         }
 
@@ -78,14 +78,14 @@ int accept_kill(object who)
         ob = this_object();
 
         if( !present("king taigan", environment(ob)) ) {
-        tell_room(environment(ob),HIW"\n突然！衝出兩位守衛太監！\n\n"NOR);
+        tell_room(environment(ob),HIW + "\n突然！衝出兩位守衛太監！\n\n" + NOR);
      for(i=0;i<2;i++)
      {
         guard = new("/open/capital/room/sroom/npc/taigan1");
         guard->move(environment(ob));
         guard->kill_ob(who);
         }}
-     tell_object(users(),HIR "守衛太監大叫：有人硬闖皇城！皇上有令，殺無赦！！\n" NOR);
+     tell_object(users(),HIR + "守衛太監大叫：有人硬闖皇城！皇上有令，殺無赦！！\n" + NOR);
         return 1;
 }
 */

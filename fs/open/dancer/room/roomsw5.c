@@ -6,7 +6,7 @@ inherit ROOM;
 
 void create ()
 {
-  set ("short", HIC"中級練舞場"NOR);
+  set ("short", HIC + "中級練舞場" + NOR);
   set ("long", @LONG
 這裡是夜夢小築的練舞(武)場，在此你可以看到許多弟子們生澀
 的舞姿，當然也可以看到先進弟子們曼妙優雅的舞姿，所有的夜夢弟

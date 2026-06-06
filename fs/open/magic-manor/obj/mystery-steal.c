@@ -10,7 +10,7 @@ string inputstr,verb;
 
 void create()
 {
-  set_name(HIC"妙手空空套"NOR,({"mystery steal"}));
+  set_name(HIC + "妙手空空套" + NOR,({"mystery steal"}));
   set_weight(1);
   if( clonep() )
     set_default_object(__FILE__);
@@ -46,31 +46,31 @@ int do_steal(string arg)
   if(this_player(1) != environment(me)) return ;
   if(!arg) {
 //    return notify_fail("\n");
-    message_vision("沒指定目標！\n"NOR,me,npc);
+    message_vision("沒指定目標！\n" + NOR,me,npc);
     return 1;
   }
   if(sscanf(arg, "%s from %s",ob,player) != 2) {
 //    return notify_fail("\n");
-    message_vision("指令錯誤！\n"NOR,me,npc);
+    message_vision("指令錯誤！\n" + NOR,me,npc);
     return 1;
   }
   if ( !(npc = present(player, environment (me))) ) {
 //    return notify_fail ("沒這個"+arg+"\n");
-    message_vision("對方不在同一間房間。\n"NOR,me,npc);
+    message_vision("對方不在同一間房間。\n" + NOR,me,npc);
     return 1;
   }
   if(wiz_level(npc)>0) {
 //    return notify_fail("\n");
-    message_vision("只見$N悄悄貼近wiz$n但是被發現了。\n"NOR,me,npc);
+    message_vision("只見$N悄悄貼近wiz$n但是被發現了。\n" + NOR,me,npc);
     return 1;
   }
   if (!(obj=present(ob, npc))) {
 //    return notify_fail("\n");
-    message_vision("$N沒這個東西。\n"NOR,me,npc);
+    message_vision("$N沒這個東西。\n" + NOR,me,npc);
     return 1;
   }
   obj->move(me);
-  message_vision("只見$N悄悄貼近$n，不動聲色的偷了$n的"HIY+obj->name(1)+NOR"。\n"NOR,me,npc);
+  message_vision("只見$N悄悄貼近$n，不動聲色的偷了$n的"HIY+obj->name(1)+NOR"。\n" + NOR,me,npc);
   return 1;
 }
 

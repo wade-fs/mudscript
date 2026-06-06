@@ -6,7 +6,7 @@ void create()
 {
         set_name("冷面煞", ({ "cool face", "cool", "face" }) );
         set("title", "縣衙捕頭統領");
-        set("nickname", HIR"血劍"NOR);
+        set("nickname", HIR + "血劍" + NOR);
         set("gender", "男性" );
         set("age", 46);
         set("str", 50);

@@ -34,7 +34,7 @@ void init()
    object me = this_player();
    if(present("New_Hero Book",me))
    {
-        tell_object(me,HIW"\n\n\n\n天空中浮現三個詭異的太陽，同時"HIC"英雄真經"HIW"感受到此地幟盛的妖氣，頓時藍光大盛。\n"NOR);
+        tell_object(me,HIW + "\n\n\n\n天空中浮現三個詭異的太陽，同時" + HIC + "英雄真經" + HIW + "感受到此地幟盛的妖氣，頓時藍光大盛。\n" + NOR);
         set("exits/enter","/open/magic_palace/room/room1.c");
    }
 }

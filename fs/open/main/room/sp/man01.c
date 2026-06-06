@@ -4,12 +4,12 @@ inherit NPC;
 void create()
 {
         set_name("老人",({"old man","man"}));
-        set("title",YEL"元神販售"NOR);
+        set("title",YEL + "元神販售" + NOR);
         set("age",110);
         set("long","
 老人神情鬼怪的向你問說 : [ 來者啊 ! 吾乃幽冥界人～
 　　　　　　　　　　　　　販賣元神維生～100兩黃金 / 1元神 ! 汝等欲之 ? ]
-"HIY"ans yes (no)\n\n"NOR);
+" + HIY + "ans yes (no)\n\n" + NOR);
         set("inquiry",([
         "元神":"[ 吾乃販售人間元神者 , 元神乃死人之靈也 ] \n",
 ]));
@@ -45,11 +45,11 @@ int a,b,c;
                         {
                                 (int)me->add("bank/coin",-100000);
                                 (int)me->add("refine/common/soul",1);
-                                tell_object(me,HIW"
+                                tell_object(me,HIW + "
 
 天空突然閃出一道白光～直衝你的天靈蓋\ ! 你冷不勝防的顫抖了幾下 ～       
         
-\n"NOR);
+\n" + NOR);
                         }
                         else
                         {

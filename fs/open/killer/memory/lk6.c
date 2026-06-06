@@ -35,12 +35,12 @@ int do_search(string arg)
     return 0;
   if (me->query_temp("memory")  < 4 )
   {
-    message_vision(HIY"$N哇勒....你是怎麼來到這裡的，作弊呀？？可惡........\n"NOR, me);
-    message_vision(HIY"一瞬間一陣機關鳴動聲............\n"NOR,me);
+    message_vision(HIY + "$N哇勒....你是怎麼來到這裡的，作弊呀？？可惡........\n" + NOR, me);
+    message_vision(HIY + "一瞬間一陣機關鳴動聲............\n" + NOR,me);
     max=me->query("kee");
     max= (int) (max/2);
     me->add("kee",-max);
-    tell_object(me,HIR"一陣衝撞力將你彈飛，落入陷阱之中一直墜落～～\n"NOR);
+    tell_object(me,HIR + "一陣衝撞力將你彈飛，落入陷阱之中一直墜落～～\n" + NOR);
     me->move("/open/killer/room/firstrm.c");
     return 1;
   }
@@ -65,8 +65,8 @@ int valid_leave(object me, string dir)
   {
     if (me->query("class") != "killer")
     {
-      message_vision(HIY"$N勇敢的跳了下去，但是強大的水流將自己帶往深處。\n"NOR,me);
-      message_vision(HIY"$N被水流不知帶往何處............\n"NOR, me);
+      message_vision(HIY + "$N勇敢的跳了下去，但是強大的水流將自己帶往深處。\n" + NOR,me);
+      message_vision(HIY + "$N被水流不知帶往何處............\n" + NOR, me);
       max=me->query("kee");
       max= (int) (max/2);
       me->add("kee",-max);
@@ -75,8 +75,8 @@ int valid_leave(object me, string dir)
     }
     else if ( !present("static_water",me) ) //class=killer時 檢查玩家是否有定水珠
     { //如果沒有定水珠，又是MEM等於三，代表第一次來到這裡
-      message_vision(HIY"$N勇敢的跳了下去，但是強大的水流將自己帶往深處\n"NOR,me);
-      message_vision(HIY"$N被水流不知帶往何處............\n"NOR, me);
+      message_vision(HIY + "$N勇敢的跳了下去，但是強大的水流將自己帶往深處\n" + NOR,me);
+      message_vision(HIY + "$N被水流不知帶往何處............\n" + NOR, me);
       if(me->query_temp("memory") < 3) //往事之謎的判定
       {
         me->move("/open/killer/room/rbd.c");

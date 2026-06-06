@@ -4,7 +4,7 @@ inherit WHIP;
 
 void create()
 {
-        set_name(MAG"紫羽龍絲拂塵"NOR,({"dragon whisk","whisk"}) );
+        set_name(MAG + "紫羽龍絲拂塵" + NOR,({"dragon whisk","whisk"}) );
         set_weight(1500);
         set("value",5000);
         if( clonep() )

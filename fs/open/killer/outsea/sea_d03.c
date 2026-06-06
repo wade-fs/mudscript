@@ -22,7 +22,7 @@ int valid_leave(object me)
 
 {
 me=this_player();
-message_vision(HIY"$N運起強大的內力，使得水壓不置於壓迫其身。\n"NOR,me);
+message_vision(HIY + "$N運起強大的內力，使得水壓不置於壓迫其身。\n" + NOR,me);
 me->add("force",-500);
 return 1;
 }
@@ -33,20 +33,20 @@ object me;
 me=this_player();
 if (random(3)==0)
 {
-message_vision(HIR"$N覺得四周的水壓漸漸壓的你喘不過氣來。\n"NOR,me);
+message_vision(HIR + "$N覺得四周的水壓漸漸壓的你喘不過氣來。\n" + NOR,me);
 me->receive_wound("kee",1000);
 COMBAT_D->report_status(me);
 }
 if (random(3)==0)
 {
-message_vision(HIC"$N被強大水壓壓的頭昏腦脹。\n"NOR,me);
+message_vision(HIC + "$N被強大水壓壓的頭昏腦脹。\n" + NOR,me);
 me->receive_wound("gin",1000);
 me->receive_wound("sen",1000);
 COMBAT_D->report_status(me);
 }
 if (random(3)==0)
 {
-message_vision(HIR"$N覺得四周的水壓漸漸壓的你喘不過氣來。\n"NOR,me);
+message_vision(HIR + "$N覺得四周的水壓漸漸壓的你喘不過氣來。\n" + NOR,me);
 me->receive_wound("kee",1000);
 COMBAT_D->report_status(me);
 }

@@ -3,7 +3,7 @@ inherit ITEM;
 
 void create()
 {
-        set_name(HIW "虛空馭天劍奧義" NOR, ({ "Control_sword book","book" }) );
+        set_name(HIW + "虛空馭天劍奧義" + NOR, ({ "Control_sword book","book" }) );
 
         set("unit", "本");
         set("long", "天劍宗的馭天劍精義，但你天賦不夠聰穎，認定它不是什麼武學秘笈\n");

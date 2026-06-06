@@ -3,7 +3,7 @@ inherit ROOM;
 
 void create ()
 {
-	set("short",HIC"琰 揚 湖"NOR);
+	set("short",HIC + "琰 揚 湖" + NOR);
 	set("long",@LONG
 繞著琰揚湖邊走著，讓你似乎遺忘了你正身處於危險的邪靈界之
 事，一樣有著動人的鳥啼聲、美艷的花、芳香的水氣，以及秀麗的景

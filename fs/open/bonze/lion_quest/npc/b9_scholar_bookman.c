@@ -9,7 +9,7 @@ void create()
   set_name("殿閣大學士",({"temple bookman","temple","bookman","b"}));
   set("long","大學士一職乃唐中宗時首創，原職為協助皇帝批閱\奏章，起草詔書等。
 與段家理念不合，因此投奔到儒門憑藉著自身實力進而取得一席之地。\n");
-  set("nickname",HIC "滅"HIY"獅"NOR"聯盟");
+  set("nickname",HIC + "滅" + HIY + "獅" + NOR + "聯盟");
   set("gender","男性");
   set("class","scholar");
   set("combat_exp",6180000);
@@ -103,7 +103,7 @@ void greeting()
   if (!ob->is_fighting() && ppl->query_temp("quests/bonze/fight") == 1
       && ppl->is_fighting() && (ob->query("kee") > ob->query("max_kee")*0.3))
   {
-    message_vision (HIY"$N大喊：無事生非者，殺無赦！\n"NOR, ob);
+    message_vision (HIY + "$N大喊：無事生非者，殺無赦！\n" + NOR, ob);
     fight_ob(ppl);
 //    command("kill "+ppl->query("id"));
   }
@@ -130,9 +130,9 @@ void greeting()
         ob->add("max_sen",20000+random(15000));
         ob->add("force_factor",10+random(10));
         ob->set_temp("quests/bonze/power_up",1);
-        message_vision (HIR"$n眼尖發現了$N拿出一罐秘藥並喝了下去。\n"NOR, ob, ppl);
+        message_vision (HIR + "$n眼尖發現了$N拿出一罐秘藥並喝了下去。\n" + NOR, ob, ppl);
       }
-      message_vision (HIR"$n看出$N的身上散發著不斷高漲的殺氣。\n"NOR, ob, ppl);
+      message_vision (HIR + "$n看出$N的身上散發著不斷高漲的殺氣。\n" + NOR, ob, ppl);
       fight_ob(ppl);
     }
     else {
@@ -207,9 +207,9 @@ void heart_beat()
 //換湯不換藥的戰鬥與非戰鬥的表示方式 旨在迷惑玩家而已 by blazakira
 //使用過即可刪除的點子 可考慮 楊氏續命丹(本區後勤藥店名稱 或是生生造化丹（次品之類的？
     if (is_fighting()) {
-      tell_room(environment(), name()+"強撐著硬吞下一粒"HIR"生生造化丹"HIC"(粗糙)"NOR",只覺得全身活力不斷湧現。\n");}
+      tell_room(environment(), name()+"強撐著硬吞下一粒" + HIR + "生生造化丹" + HIC + "(粗糙)" + NOR + ",只覺得全身活力不斷湧現。\n");}
     else {
-      tell_room(environment(), name()+"細心的把"HIW"銀針門"HIY"特製金創藥"NOR"敷在自己的身上。\n");}
+      tell_room(environment(), name()+"細心的把" + HIW + "銀針門" + HIY + "特製金創藥" + NOR + "敷在自己的身上。\n");}
 //補血不能有小數 所以用(int)與非小數的方式來取整數 且括號後面的計算式以便debug
     me->receive_curing("kee",(int)(maxkee/100*4));
     me->receive_heal("kee",(int)(maxkee/100*8));
@@ -233,7 +233,7 @@ int heal_up()
 {
   if (!is_fighting() && this_object()->query_temp("count_down") > 600)
   { //心跳一次 1:1.5(秒)==>1.5x40=1min, 15min=1.5x40x15=900 //縮短為10分 因為在沒有玩家經過或者存在時 心跳功能會停止
-    message_vision (HIY"$N見到小兵送來上級的手令，於是轉身飛奔離去，消失在你的眼前。\n"NOR, this_object());
+    message_vision (HIY + "$N見到小兵送來上級的手令，於是轉身飛奔離去，消失在你的眼前。\n" + NOR, this_object());
     destruct(this_object());
     return 1;
   } //此括號仍為判斷是否在戰鬥中的if下引號

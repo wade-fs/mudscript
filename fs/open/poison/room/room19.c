@@ -17,7 +17,7 @@ LONG);
   "south" : __DIR__"path13",
 ]));
   set("need_key/south",1);
-  create_door("south",HIB"藍色鐵門"NOR,"north",DOOR_LOCKED);
+  create_door("south",HIB + "藍色鐵門" + NOR,"north",DOOR_LOCKED);
   set("box_get",0);
   setup();
 }
@@ -61,8 +61,8 @@ int do_search(string str)
   if(!str || str != "hole" || !me->query_temp("box_moved"))
         return 0;
   if(me->query("lotch") == 5) {
-        tell_object(me,HIC"經過你的搜索之後，你發現了一樣東西。\n"NOR);
-        tell_object(me,HIC"你取出仔細一看。哇! 竟是傳說中的煉妖壺。\n"NOR);
+        tell_object(me,HIC + "經過你的搜索之後，你發現了一樣東西。\n" + NOR);
+        tell_object(me,HIC + "你取出仔細一看。哇! 竟是傳說中的煉妖壺。\n" + NOR);
 	me->set("lotch",6);
         ob = new("/open/gblade/mob/lotch");
         ob->move(me);

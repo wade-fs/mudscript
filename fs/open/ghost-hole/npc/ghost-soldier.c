@@ -6,7 +6,7 @@ void create()
         object ob;
         set_name("幽冥嘍囉", ({ "ghost soldier","soldier","ghost" }) );
         set("long","出沒於幽冥道兵率, 在此看守道路。\n");
-        set("title",HIB"(魔氣)"NOR);
+        set("title",HIB + "(魔氣)" + NOR);
         set("age", 60);
         set("max_gin", 5000);
         set("max_kee", 10000);
@@ -57,13 +57,13 @@ if(random(10) > 2)
     if (mob->is_fighting())
     {
         message_vision( HIB
-        "$N吸取了附近的幽冥魔氣，轉化為一股能量，瞬間發出！！\n"NOR,mob);
+        "$N吸取了附近的幽冥魔氣，轉化為一股能量，瞬間發出！！\n" + NOR,mob);
         for (j=0 ; j < i ; j++)
         {
         if( enemy[j]->is_character() && !enemy[j]->is_corpse() && living(enemy[j])
             && enemy[j]->query("id")!="ghost soldier")
         {
-        message_vision(HIR"$N被這股魔氣團團圍住，體力不斷的流失！！\n"NOR,(enemy[j]));
+        message_vision(HIR + "$N被這股魔氣團團圍住，體力不斷的流失！！\n" + NOR,(enemy[j]));
         enemy[j]->add("kee",-300);
         COMBAT_D->report_status(enemy[j]);
         }}

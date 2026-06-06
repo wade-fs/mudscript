@@ -4,7 +4,7 @@ inherit ROOM;
 
 void create()
 {
-	set("short",HIG"琰 揚 居 -- "NOR+YEL"大 松 樹"NOR);
+	set("short",HIG + "琰 揚 居 -- "NOR+YEL"大 松 樹" + NOR);
 	set("long",@LONG
 你突然被這裡的某樣東西所吸引，不是美麗的風景，也不是奇特
 的邪靈，而是一種會散發出奇特味道的樹脂，一隻闕雀正在一旁拉扯
@@ -43,7 +43,7 @@ int str;
 	if( str > random(50) )
 	{
 		message_vision("$N拔的太大力，結果一不小心就掉了下去...\n",me);
-		tell_object(me,HIY"你心想：完了...:~...\n"NOR);
+		tell_object(me,HIY + "你心想：完了...:~...\n" + NOR);
 		me->move("/open/evil-area/water/b-20");
 		me->receive_wound("gin",200);
 		me->receive_wound("kee",300);

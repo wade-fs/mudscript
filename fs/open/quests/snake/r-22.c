@@ -41,12 +41,12 @@ object me,obj;
         if( !present("snake gem",me) )
                 return notify_fail("你怎麼裝也無法將項鍊塞入座椅的蛇型凹槽內，似乎不合。\n");
 
-        message_vision(HIY"$N將蛇型項鍊放入了座椅的左扶手處。
+        message_vision(HIY + "$N將蛇型項鍊放入了座椅的左扶手處。
 
-突然$N角下的地板坍塌～$N一個站不穩，滑了下去～\n"NOR,me);
+突然$N角下的地板坍塌～$N一個站不穩，滑了下去～\n" + NOR,me);
         destruct(present("snake gem",me));
         me->move(__DIR__"r-23");
-        tell_room(__DIR__"r-23",HIY"鐺～的一聲，似乎有東西掉落下來～\n"NOR);
+        tell_room(__DIR__"r-23",HIY + "鐺～的一聲，似乎有東西掉落下來～\n" + NOR);
         obj=new(__DIR__"npc/obj/snake_gem");
         obj->move(environment(me));
 return 1;

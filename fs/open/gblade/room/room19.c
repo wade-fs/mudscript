@@ -27,7 +27,7 @@ void init()
 {
  object me = this_player();
    if(present("skykey",me))
-        tell_object(me,HIW"南面的鐵鎖有感於你身上的鑰匙而發出聲響。\n"NOR);
+        tell_object(me,HIW + "南面的鐵鎖有感於你身上的鑰匙而發出聲響。\n" + NOR);
  add_action("do_go","go");
 
 }

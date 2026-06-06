@@ -5,7 +5,7 @@ inherit EQUIP;
 
 void create()
 {
-        set_name(HIG"鐵布衫"NOR,({"steel cloth","cloth"}) );
+        set_name(HIG + "鐵布衫" + NOR,({"steel cloth","cloth"}) );
         set_weight(6000);
 	if( clonep() )
 		set_default_object(__FILE__);

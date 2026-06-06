@@ -16,7 +16,7 @@ void create()
   set("attitude","heroism");
   set("combat_exp",300000);
   set("age",25);
-  set("nickname",HIR"阿肥肥"NOR);
+  set("nickname",HIR + "阿肥肥" + NOR);
   set("class","soldier"); 
   set("str",40);
   set("cor",30);

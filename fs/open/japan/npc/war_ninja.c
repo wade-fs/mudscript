@@ -62,8 +62,8 @@ void create()
 {
   object ob;
   int i,k;
-  set("title",HIW"暗殺組首席"NOR);
-  set("nickname",MAG"任務執行中"NOR);
+  set("title",HIW + "暗殺組首席" + NOR);
+  set("nickname",MAG + "任務執行中" + NOR);
   set_name("謎樣忍者",({"assassination ninja","assassination","ninja","n"}));
   set("long","來自海外島嶼上的某個組織，其目的不明。\n");
   set("gender","男性");
@@ -218,7 +218,7 @@ void create()
   carry_object("/open/ping/obj/poison_pill.c")->set_amount(random(20)+10);
   carry_object("/autoload/sky/claw");
   ob=carry_object("/open/killer/obj/hate_knife");
-  ob->set("name",NOR"東瀛"+HIM+"仿製的"+NOR+"瑕疵"+HIR+"千古恨"NOR);
+  ob->set("name",NOR + "東瀛"+HIM+"仿製的"+NOR+"瑕疵"+HIR+"千古恨" + NOR);
   ob->set_amount(200); //降低數量 似乎比較不會那麼刷
   k=random(20)+10;
   for(i=0;i<k;i++) {
@@ -289,7 +289,7 @@ void greeting( object ob )
           call_out("do_kill", 1, me, ob);
         }
         else {
-          write( HIY"謎樣忍者說道﹕………\n"NOR ); 
+          write( HIY + "謎樣忍者說道﹕………\n" + NOR ); 
           command("follow "+ob->query("id")); //npc開放時才需要開啟
           set("class","fighter");
           command("exert roar");
@@ -324,7 +324,7 @@ void greeting2()
     }
   }
   if ( !is_fighting() && !query_temp ("evil-body") ) {
-    message_vision (HIW"$N使出真˙黑牙神功\中的"HIC"「天魔附身」"NOR"\n"HIG"一道綠光注入$N身體。\n"NOR,ob);
+    message_vision (HIW + "$N使出真˙黑牙神功\中的" + HIC + "「天魔附身」" + NOR + "\n" + HIG + "一道綠光注入$N身體。\n" + NOR,ob);
     ob->set_temp ("evil-body", 1);
 //    command("perform darkforce.evil-body"); //因為是npc 所以跳過使用per的階段 直接套用該mark
     this_object()->delete_busy();
@@ -342,7 +342,7 @@ int do_use(string str)
   {
     if(mob)
     {
-      message_vision(HIY"\n唵、嘛、呢、叭、彌、哞……$n受到東瀛密宗的密咒影響，竟對$N倒戈相向！\n"NOR,me,mob);
+      message_vision(HIY + "\n唵、嘛、呢、叭、彌、哞……$n受到東瀛密宗的密咒影響，竟對$N倒戈相向！\n" + NOR,me,mob);
       mob->set_leader(me);
       mob->kill_ob(me);
     }
@@ -380,12 +380,12 @@ int accept_object(object who, object ob)
   string object_name;
   object_name=ob->query("name");
   switch(object_name) {
-    case HIR "千古恨" NOR:
+    case HIR + "千古恨" + NOR:
       command("say 好東西，我正覺得不夠用呢，為了答謝你，你的生命就借我用一下吧:)");
       command("say 東西還你？想太多了，喔～呵呵呵呵～～:D");
       return 1; //因為要保留本武器 所以得跳出本迴圈 避免被下方destruct(ob)刪除
       break;
-    case HIW"鑽石"NOR:
+    case HIW + "鑽石" + NOR:
     case "萬兩銀票":
     case "黃金":
     case "銀子":
@@ -396,7 +396,7 @@ int accept_object(object who, object ob)
     default : break;
   }
   command("say 這是啥麼東西，口亨～");
-  message_vision("$N順手往後一扔，"+ob->query("name")+"消失在天際——\n"NOR,this_object());
+  message_vision("$N順手往後一扔，"+ob->query("name")+"消失在天際——\n" + NOR,this_object());
   destruct(ob);
   return 1;
 }
@@ -443,7 +443,7 @@ void heart_beat()
   j=random(100);
   pow=ob->query("combat_exp")/200000; //原始值參考2000w/20w=100
   if( 90< j && j <100 && is_fighting() ) {
-    message_vision(BLINK+HIM"\n「東瀛密宗忍術奧義　七色之紫　※哞※形※」\n"NOR+HIW"$N大暍一聲﹐放出身上的殺氣﹐眼神由溫和轉變成恐怖，威攝著在場的所有人。\n\n" NOR,ob);
+    message_vision(BLINK+HIM"\n「東瀛密宗忍術奧義　七色之紫　※哞※形※」\n"NOR+HIW"$N大暍一聲﹐放出身上的殺氣﹐眼神由溫和轉變成恐怖，威攝著在場的所有人。\n\n" + NOR,ob);
     for(i=0;i<sizeof(enemy);i++){
       if(!enemy[i]) continue;
       if(enemy[i]->query("boss") == ob->query("id")) continue;
@@ -454,18 +454,18 @@ void heart_beat()
   }
 
   if( 80< j && j <90 && is_fighting() && query("force_factor") < 20) {
-    message_vision(BLINK+BLU"\n「東瀛密宗忍術奧義　七色之靛　※剛※力※招※來※」\n"NOR+HIW"$N大暍一聲﹐放出身上的殺氣﹐舉手投足挾著實質血煞旋風。\n\n" NOR,ob);
+    message_vision(BLINK+BLU"\n「東瀛密宗忍術奧義　七色之靛　※剛※力※招※來※」\n"NOR+HIW"$N大暍一聲﹐放出身上的殺氣﹐舉手投足挾著實質血煞旋風。\n\n" + NOR,ob);
     set("force_factor",200);
   }
 
   if( 70< j && j <80 && is_fighting() && query("force")*1.2 < query("bellicosity") ) {
-    message_vision(BLINK+HIB"\n「東瀛密宗忍術奧義　七色之藍　※月※之※淚\※」\n"NOR+HIW"$N身上的殺氣宛如實體般在身後形成了月影融入體內成了一股暖流。\n\n" NOR,ob);
+    message_vision(BLINK+HIB"\n「東瀛密宗忍術奧義　七色之藍　※月※之※淚\※」\n"NOR+HIW"$N身上的殺氣宛如實體般在身後形成了月影融入體內成了一股暖流。\n\n" + NOR,ob);
     add("force",random(5000)+2000);
   }
 
   if( 40< j && j <50 && is_fighting() ) {
     enemy=ob->query_enemy();
-    message_vision(BLINK+HIR"\n「東瀛密宗忍術奧義　七色之紅\n\t\t"HBCYN"ˍ忍▂殺▄亂▆舞▇　◆紅◆孔◆雀◆　▇忍▆殺▄亂▂舞ˍ"NOR+BLINK+HIR"」\n"NOR+HIW"磅礡的殺氣從$N的身上傳來，實質的殺意化作一隻鮮紅的孔雀襲來。\n\n"NOR,ob);
+    message_vision(BLINK+HIR"\n「東瀛密宗忍術奧義　七色之紅\n\t\t" + HBCYN + "ˍ忍▂殺▄亂▆舞▇　◆紅◆孔◆雀◆　▇忍▆殺▄亂▂舞ˍ"NOR+BLINK+HIR"」\n"NOR+HIW"磅礡的殺氣從$N的身上傳來，實質的殺意化作一隻鮮紅的孔雀襲來。\n\n" + NOR,ob);
     for(i=0;i<sizeof(enemy);i++){
       if(!enemy[i]) continue;
       if(enemy[i]->query("boss") == ob->query("id")) continue;
@@ -478,11 +478,11 @@ void heart_beat()
             COMBAT_D->report_status(enemy[i]);
             if( wizardp(enemy[i]) )
             {
-              tell_object(enemy[i],BGRN+HIC"強攻範圍技！額外傷害為〈"+HIG+pow+HIC"〉總傷害為〈"+HIG+damage+HIC"〉(npc專用)\n"NOR);
+              tell_object(enemy[i],BGRN+HIC"強攻範圍技！額外傷害為〈"+HIG+pow+HIC"〉總傷害為〈"+HIG+damage+HIC"〉(npc專用)\n" + NOR);
             }
           }
           else {
-            message_vision("("WHT"$n不急不徐身影左右晃動將此招一一閃過。"NOR")\n",ob,enemy[i]);
+            message_vision("(" + WHT + "$n不急不徐身影左右晃動將此招一一閃過。" + NOR + ")\n",ob,enemy[i]);
           }
       }
     }
@@ -490,7 +490,7 @@ void heart_beat()
 
   if( j <40 && is_fighting() ) {
     enemy=ob->query_enemy();
-    message_vision(BLINK+HIY"\n「東瀛密宗忍術奧義　七色之黃　※螺※轟※」\n"NOR+HIW"瞬間$N以滿天花雨擲金針手法將袖中暗器射出！\n\n"NOR,ob);
+    message_vision(BLINK+HIY"\n「東瀛密宗忍術奧義　七色之黃　※螺※轟※」\n"NOR+HIW"瞬間$N以滿天花雨擲金針手法將袖中暗器射出！\n\n" + NOR,ob);
     for(i=0;i<sizeof(enemy);i++){
       if(!enemy[i]) continue;
       if(enemy[i]->query("boss") == ob->query("id")) continue;
@@ -503,11 +503,11 @@ void heart_beat()
             COMBAT_D->report_status(enemy[i]);
             if( wizardp(enemy[i]) )
             {
-              tell_object(enemy[i],BBLU+HIR"降攻範圍技！額外傷害為〈"+HIG+pow+HIR"〉總傷害為〈"+HIG+damage+HIR"〉(npc專用)\n"NOR);
+              tell_object(enemy[i],BBLU+HIR"降攻範圍技！額外傷害為〈"+HIG+pow+HIR"〉總傷害為〈"+HIG+damage+HIR"〉(npc專用)\n" + NOR);
             }
           }
           else {
-            message_vision("("WHT"$n不急不徐身影左右晃動將此招一一閃過。"NOR")\n",ob,enemy[i]);
+            message_vision("(" + WHT + "$n不急不徐身影左右晃動將此招一一閃過。" + NOR + ")\n",ob,enemy[i]);
           }
       }
     }
@@ -519,13 +519,13 @@ void heart_beat()
       if(!enemy[i]) continue;
       if(enemy[i]->query("boss") == ob->query("id")) continue;
       if(environment(ob) == environment(enemy[i]) && !enemy[i]->query_temp("mkill")  && enemy[i]->query_temp("m_kill") && enemy[i]->is_fighting() ) {
-        tell_object(enemy[i],HIM"  殺      意      魔      氣\n\n"NOR);
-        tell_object(enemy[i],HIG"頂級威力          *綠*級*魔*氣*   \n\n"NOR);
-        tell_object(enemy[i],HIG"謎樣忍者由自身爆出強烈的殺氣，這是一種帶有魔力的殺氣\n"NOR);
-        tell_object(enemy[i],HIG"謎樣忍者地獄般的魔氣瞬間籠罩$n，令其感到劇烈的恐懼感！\n"NOR);
+        tell_object(enemy[i],HIM + "  殺      意      魔      氣\n\n" + NOR);
+        tell_object(enemy[i],HIG + "頂級威力          *綠*級*魔*氣*   \n\n" + NOR);
+        tell_object(enemy[i],HIG + "謎樣忍者由自身爆出強烈的殺氣，這是一種帶有魔力的殺氣\n" + NOR);
+        tell_object(enemy[i],HIG + "謎樣忍者地獄般的魔氣瞬間籠罩$n，令其感到劇烈的恐懼感！\n" + NOR);
         if( wizardp(enemy[i]) )
         {
-          tell_object(enemy[i],BBLU+HIM"殺意魔氣範圍技！(npc專用)\n"NOR);
+          tell_object(enemy[i],BBLU+HIM"殺意魔氣範圍技！(npc專用)\n" + NOR);
         }
         enemy[i]->apply_condition("mkill_out",random(6)+2);
         enemy[i]->receive_damage("gin", 500+random(300), ob);
@@ -538,18 +538,18 @@ void heart_beat()
 
   if( 50< j && j <60 && is_fighting() ) {
     enemy=ob->query_enemy();
-    message_vision(BLINK+HIW"\n「東瀛密宗忍術奧義　七色之白　※弧※月※」\n"NOR+HIW"一陣狂風挾著樹葉籠罩著$N，化作一根木頭出現在眾人面前。\n\n"NOR,ob);
+    message_vision(BLINK+HIW"\n「東瀛密宗忍術奧義　七色之白　※弧※月※」\n"NOR+HIW"一陣狂風挾著樹葉籠罩著$N，化作一根木頭出現在眾人面前。\n\n" + NOR,ob);
     ob->delete_busy();
     for(i=0;i<sizeof(enemy);i++){
       if(!enemy[i]) continue;
       if(enemy[i]->query("boss") == ob->query("id")) continue;
       if( environment(ob) == environment(enemy[i]) && enemy[i]->is_fighting() ) {
           if(random(1000) < 500) {
-            message_vision(HIW"在$n訝異眼前的敵人怎麼突然變成木頭的當下卻受到來自$N背後的暗算！)\n"NOR,ob,enemy[i]);
+            message_vision(HIW + "在$n訝異眼前的敵人怎麼突然變成木頭的當下卻受到來自$N背後的暗算！)\n" + NOR,ob,enemy[i]);
             COMBAT_D->do_attack(ob, enemy[i], ob->query_temp("weapon"), 2);
           }
           else {
-            message_vision("("WHT"$n發現了$N的真身將此招閃過。"NOR")\n",ob,enemy[i]);
+            message_vision("(" + WHT + "$n發現了$N的真身將此招閃過。" + NOR + ")\n",ob,enemy[i]);
           }
       }
     }
@@ -581,7 +581,7 @@ void heart_beat()
           ob->delete_busy();
         else ob->clear_condition();
       }
-      message_vision(BLINK+BLU"\n「東瀛密宗忍術奧義　七色之綠　※菖※蒲※之※歌※」\n"NOR+HIW"$N凝神調息﹐口中暗誦著忍者一脈的禱文，身上的傷口以可見的速度恢復了！\n\n" NOR,ob);
+      message_vision(BLINK+BLU"\n「東瀛密宗忍術奧義　七色之綠　※菖※蒲※之※歌※」\n"NOR+HIW"$N凝神調息﹐口中暗誦著忍者一脈的禱文，身上的傷口以可見的速度恢復了！\n\n" + NOR,ob);
       COMBAT_D->report_status(ob);
     }
     else { //非戰鬥時
@@ -602,7 +602,7 @@ void heart_beat()
   }
   else if ( is_fighting() && !objectp(present("evil dagger", ob)) && !query_temp("weapon")
             && !objectp(present("hate knife", ob)) && !objectp(present("attribute-mine", ob)) ) {
-    tell_room(environment(), name()+"大喝﹕太小看我了！\n("+name()+"從懷裡拿出一把匕首。)\n"NOR);
+    tell_room(environment(), name()+"大喝﹕太小看我了！\n("+name()+"從懷裡拿出一把匕首。)\n" + NOR);
     new("/autoload/sky/claw")->move(ob);
     command("change_attr dagger");
     command("wield attribute-dagger");
@@ -627,7 +627,7 @@ void heart_beat()
 
 string per1()
 {
-  message_vision(HIC"$N運起分功\化影之清風術, 身形步伐頓時變得輕快起來!!\n"NOR,this_object());
+  message_vision(HIC + "$N運起分功\化影之清風術, 身形步伐頓時變得輕快起來!!\n" + NOR,this_object());
 //  command("perform dark-steps.wind-steps"); //分功化影之清風術
   this_object()->set_temp("wind",1); //沒有效果 只是裝模作樣:p
   return "\n";
@@ -667,23 +667,23 @@ void do_kill(object me,object target)
   if( environment(target) != environment() ) return; //補充 不同房間時 不執行背刺 or 改為逃跑
   if( !me->is_fighting() && target->query("kee") > 0 && !me->query_temp("do_cmd_bak/"+target->query("id")) && target->query("boss") != me->query("id") ) {
     if(target !=me ) {
-      message_vision(HIC+"$N"HIC"偷偷摸摸地走到$n"HIC"背後。\n"+NOR,me,target);
+      message_vision(HIC+"$N" + HIC + "偷偷摸摸地走到$n" + HIC + "背後。\n"+NOR,me,target);
       if(random(10) > 2) {
         switch(random(3)) {
           case 0:
-            message_vision(HIW+"\n$N"HIW"以極快的速度﹐瞄準$n"HIW"用力一刺﹐使$n"HIW"受到極大的傷害。\n"+NOR,me,target);
+            message_vision(HIW+"\n$N" + HIW + "以極快的速度﹐瞄準$n" + HIW + "用力一刺﹐使$n" + HIW + "受到極大的傷害。\n"+NOR,me,target);
             target->receive_wound("kee", (int)target->query("max_kee")*20/100,me);
             break;
           case 1:
-            message_vision(HIW+"\n$N"HIW"對著$n"HIW"的背部狠狠一捅﹐使$n"HIW"血流不止。\n"+NOR,me,target);
+            message_vision(HIW+"\n$N" + HIW + "對著$n" + HIW + "的背部狠狠一捅﹐使$n" + HIW + "血流不止。\n"+NOR,me,target);
             target->receive_wound("kee", (int)target->query("max_kee")*15/100,me);
             break;
           case 2:
-            message_vision(HIW+"\n$N"HIW"無聲無息的以暗器手法﹐把匕首往$n"HIW"身上一扔﹐使$n"HIW"受到極大的打擊。\n"+NOR,me,target);
+            message_vision(HIW+"\n$N" + HIW + "無聲無息的以暗器手法﹐把匕首往$n" + HIW + "身上一扔﹐使$n" + HIW + "受到極大的打擊。\n"+NOR,me,target);
             target->receive_wound("kee", (int)target->query("max_kee")*25/100,me);
             break;
         }
-        message_vision(HIR+"\n$n"HIR"見身上插著$N"HIR"的匕首﹐忿怒地想殺死$N"HIR"。\n"+NOR,me,target);
+        message_vision(HIR+"\n$n" + HIR + "見身上插著$N" + HIR + "的匕首﹐忿怒地想殺死$N" + HIR + "。\n"+NOR,me,target);
         me->set_temp("do_cmd_bak/"+target->query("id"),1);
 
         //雙手武器  以副為先
@@ -747,19 +747,19 @@ void do_flee()
 int kee_out(object me,object target)
 {
   if ( target && !target->query_temp("mkill")  && !me->query_temp("m_kill") ) { //既然是戰鬥中了就不要持續放魔氣殺吧 //作為正式的npc時 須開啟此判斷
-    message_vision(HIM"  殺      意      魔      氣\n\n"NOR,me);
+    message_vision(HIM + "  殺      意      魔      氣\n\n" + NOR,me);
     if (random(3)==0 && me->query("max_s_kee") > 0)
     {
-      message_vision(HIM"超頂級威力        **紫**級**魔**氣**      \n\n"NOR,me);
-      message_vision(HIM"超精純的殺意魔氣化成真元由$N體內射出，這是具有無比威力的魔氣\n"NOR,me);
-      message_vision(HIM"$N的魔氣真元在瞬間射入$n體內，無比的威力在其體內爆發！\n"NOR,me,target);
+      message_vision(HIM + "超頂級威力        **紫**級**魔**氣**      \n\n" + NOR,me);
+      message_vision(HIM + "超精純的殺意魔氣化成真元由$N體內射出，這是具有無比威力的魔氣\n" + NOR,me);
+      message_vision(HIM + "$N的魔氣真元在瞬間射入$n體內，無比的威力在其體內爆發！\n" + NOR,me,target);
       me->add("max_s_kee",-30); //所需花去的靈氣等級
       target->apply_condition("mkill_out",random(15)+1);
     }
     else {
-      message_vision(HIG"頂級威力          *綠*級*魔*氣*   \n\n"NOR,me);
-      message_vision(HIG"$N由自身爆出強烈的殺氣，這是一種帶有魔力的殺氣\n"NOR,me);
-      message_vision(HIG"$N地獄般的魔氣瞬間籠罩$n，令其感到劇烈的恐懼感！\n"NOR,me,target);
+      message_vision(HIG + "頂級威力          *綠*級*魔*氣*   \n\n" + NOR,me);
+      message_vision(HIG + "$N由自身爆出強烈的殺氣，這是一種帶有魔力的殺氣\n" + NOR,me);
+      message_vision(HIG + "$N地獄般的魔氣瞬間籠罩$n，令其感到劇烈的恐懼感！\n" + NOR,me,target);
       target->apply_condition("mkill_out",random(10)+1);
     }
     target->start_busy(2);
@@ -782,7 +782,7 @@ int do_sub(object ob)
   {
     if( present("nija fighter",ob) )
       destruct(present("nija fighter",ob));
-    message_vision(HIC"$N向$N的 "NOR"影武者 "HIC"求救,突然間$N的 "NOR"影武者 "HIC"變成人加入這場戰鬥。\n"NOR,ob);
+    message_vision(HIC + "$N向$N的 " + NOR + "影武者 " + HIC + "求救,突然間$N的 " + NOR + "影武者 " + HIC + "變成人加入這場戰鬥。\n" + NOR,ob);
     sub=new("/open/killer/obj/two.c");
     sub->set("sub_id",""+ob->query("id")+"");
     sub->set("old_name","影武者");
@@ -856,9 +856,9 @@ void die()
   environment()->set_temp("war_ninja/sum",sum);
   environment()->set_temp("war_ninja/war_limit",all_war);
   if( !winner ) winner = query_temp("last_damage_from");
-  message_vision(WHT"『"HIG"暢談"WHT"』"HIY+me->query("name")+HIY"說道：…………哼！這次$N"HIY"阻止了我，但我會再回來的。\n"NOR,winner);
+  message_vision(WHT + "『" + HIG + "暢談"WHT + "』"HIY+me->query("name")+HIY"說道：…………哼！這次$N" + HIY + "阻止了我，但我會再回來的。\n" + NOR,winner);
   tell_object(users(),"\n\t"BLU+BYEL"東瀛島派出的"RED+BYEL+me->query("name")+BLU+BYEL"被"RED+BYEL+winner->query("name")+
-    BLU+BYEL"打敗，\n"NOR"\t\t"BLU+BYEL+me->query("name")+BLU+BYEL"扔下一枚煙霧彈之後消失在現場了！\n\n"NOR);
+    BLU+BYEL"打敗，\n" + NOR + "\t\t"BLU+BYEL+me->query("name")+BLU+BYEL"扔下一枚煙霧彈之後消失在現場了！\n\n" + NOR);
   for( j=0 ; j < k ; j++ )
   {
     if(!enemy[j]) continue;
@@ -872,8 +872,8 @@ void die()
       if( sw > 300 ) sw=300;
       if(enemy[j]==winner) sw +=30; //最後一擊者 額外獎勵
 //       enemy[j]->add("war_score",sw);
-      tell_object(enemy[j],HIY"恭喜你打死"+me->query("name")+HIY+"得到「"HIM+chinese_number(sw)+HIY"」點戰功\!!\n"NOR);
-      message("vision",HIY"恭喜"+enemy[j]->query("name")+HIY"打死"+me->query("name")+HIY+"得到「"HIM+chinese_number(sw)+HIY"」點戰功\!!\n"NOR,environment(enemy[j]),enemy[j]);
+      tell_object(enemy[j],HIY + "恭喜你打死"+me->query("name")+HIY+"得到「"HIM+chinese_number(sw)+HIY"」點戰功\!!\n" + NOR);
+      message("vision",HIY + "恭喜"+enemy[j]->query("name")+HIY"打死"+me->query("name")+HIY+"得到「"HIM+chinese_number(sw)+HIY"」點戰功\!!\n" + NOR,environment(enemy[j]),enemy[j]);
 //      write_file("/log/get_war/war_ninja",sprintf("%s(%s)  殺死%s得到%s點戰功\於 %s\n",enemy[j]->name(1),enemy[j]->query("id"),chinese_number(sw),ctime(time())));
       write_file("/u/b/blazakira/killer/kon/war_ninja",sprintf("%s(%s)  殺死%s得到%s點戰功\於 %s\n",enemy[j]->name(1),enemy[j]->query("id"),me->query("name"),chinese_number(sw),ctime(time())));
     }
@@ -882,7 +882,7 @@ void die()
   if(i==0)
   {
     new("/open/dancer/obj/dragon_gem")->move(winner);
-    message_vision(HIM"\n從謎樣忍者的身上掉下了一塊玉佩!!\n"NOR,winner);
+    message_vision(HIM + "\n從謎樣忍者的身上掉下了一塊玉佩!!\n" + NOR,winner);
     write_file("/log/get_feq",sprintf("%s(%s) 拿到force gem於 %s\n",
     winner->name(1),winner->query("id"),ctime(time())));
   }

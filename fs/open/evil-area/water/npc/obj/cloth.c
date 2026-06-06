@@ -5,7 +5,7 @@ inherit CLOTH;
 
 void create()
 {
-        set_name(HIC"七"HIM"彩"HIW"羽"HIG"衣"NOR, ({ "seven color feather","feather"}) );
+        set_name(HIC + "七" + HIM + "彩" + HIW + "羽" + HIG + "衣" + NOR, ({ "seven color feather","feather"}) );
         set_weight(4000);
         if( clonep() )
                 set_default_object(__FILE__);

@@ -7,7 +7,7 @@ int done,done1,done2;//作為紀錄是否有人解開過
 void create ()
 {
     seteuid(getuid()); 
-  set ("short",HIC"封印地"NOR);
+  set ("short",HIC + "封印地" + NOR);
   set ("long", @LONG
 在通過密道之後，你眼前出現三座大雕像，地上滿滿的劍痕，隱約可感覺
 到一股剛硬之氣；除了三座雕像(statue)之外，還有一個極大的石門，門上貼
@@ -61,16 +61,16 @@ int do_enter(string str)
   ob->set_temp("qsword",1);
     if( done== 0 )
       {
-      message_vision(HIW"你把靈器推入雕像，頓時雕像嘎嘎作響！\n"NOR,ob);
-      message_vision(HIW"頓時，由凹洞處產生一個漩渦形的氣漩,一個不小心$N已被極大的吸力將吸入【空洞】內。\n\n\n"NOR,ob);
+      message_vision(HIW + "你把靈器推入雕像，頓時雕像嘎嘎作響！\n" + NOR,ob);
+      message_vision(HIW + "頓時，由凹洞處產生一個漩渦形的氣漩,一個不小心$N已被極大的吸力將吸入【空洞】內。\n\n\n" + NOR,ob);
       ob->move("/open/gsword/second/room/sword/s1.c");
-      message_vision(HIW"$N被吸入後，氣漩馬上消失無蹤!!\n"NOR,ob);
+      message_vision(HIW + "$N被吸入後，氣漩馬上消失無蹤!!\n" + NOR,ob);
       obj->set_temp("pass/swordsman",ob->query("id"));
       done = 1;
       }
    else{
     message_vision("雕像毫無反應...\n",ob);
-    message_vision(HIY"$N看了看地上的腳印，發覺似乎有人來過。\n"NOR,ob);}
+    message_vision(HIY + "$N看了看地上的腳印，發覺似乎有人來過。\n" + NOR,ob);}
   return 1;
   }
  if((weapons[str]==2) && (ob->query("class")=="scholar"))
@@ -78,16 +78,16 @@ int do_enter(string str)
   ob->set_temp("qsword",1);
    if( done1== 0 )
       {
-       message_vision(HIW"你把靈器推入雕像，頓時雕像嘎嘎作響！\n"NOR,ob);
-       message_vision(HIW"頓時，由凹洞處產生一個漩渦形的氣漩,一個不小心$N已被極大的吸力將吸入【空洞】內。\n\n\n"NOR,ob);
+       message_vision(HIW + "你把靈器推入雕像，頓時雕像嘎嘎作響！\n" + NOR,ob);
+       message_vision(HIW + "頓時，由凹洞處產生一個漩渦形的氣漩,一個不小心$N已被極大的吸力將吸入【空洞】內。\n\n\n" + NOR,ob);
        ob->move("/open/gsword/second/room/scholar/sch1.c");
-       message_vision(HIW"$N被吸入後，氣漩馬上消失無蹤!!\n"NOR,ob);
+       message_vision(HIW + "$N被吸入後，氣漩馬上消失無蹤!!\n" + NOR,ob);
        obj->set_temp("pass/scholar",ob->query("id"));
        done1=1;
       }
     else{
     message_vision("雕像毫無反應...\n",ob);
-    message_vision(HIY"$N看了看地上的腳印，發覺似乎有人來過。\n"NOR,ob);}
+    message_vision(HIY + "$N看了看地上的腳印，發覺似乎有人來過。\n" + NOR,ob);}
   return 1;
   }
  if((weapons[str]==3) && (ob->query("class")=="blademan"))
@@ -95,21 +95,21 @@ int do_enter(string str)
   ob->set_temp("qsword",1);
   if( done2== 0 )
       {
-       message_vision(HIW"你把靈器推入雕像，頓時雕像嘎嘎作響！\n"NOR,ob);
-       message_vision(HIW"頓時，由凹洞處產生一個漩渦形的氣漩,一個不小心$N已被極大的吸力將吸入【空洞】內。\n\n\n"NOR,ob);
+       message_vision(HIW + "你把靈器推入雕像，頓時雕像嘎嘎作響！\n" + NOR,ob);
+       message_vision(HIW + "頓時，由凹洞處產生一個漩渦形的氣漩,一個不小心$N已被極大的吸力將吸入【空洞】內。\n\n\n" + NOR,ob);
        ob->move("/open/gsword/second/room/blade/b1.c");
-       message_vision(HIW"$N被吸入後，氣漩馬上消失無蹤!!\n"NOR,ob);
+       message_vision(HIW + "$N被吸入後，氣漩馬上消失無蹤!!\n" + NOR,ob);
        obj->set_temp("pass/blademan",ob->query("id"));
        done2=1;
       }
      else{
     message_vision("雕像毫無反應...\n",ob);
-    message_vision(HIY"$N看了看地上的腳印，發覺似乎有人來過。\n"NOR,ob);}
+    message_vision(HIY + "$N看了看地上的腳印，發覺似乎有人來過。\n" + NOR,ob);}
   return 1;
   }
  else
  {
-  message_vision(HIR"誤觸機關！..遭封印反噬！\n"NOR,ob);
+  message_vision(HIR + "誤觸機關！..遭封印反噬！\n" + NOR,ob);
   ob->unconcious();
  }
 return 1;

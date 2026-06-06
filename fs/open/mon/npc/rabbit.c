@@ -56,15 +56,15 @@ void heart_beat()
 	j=random(24);
 
 	if( mob->query_temp("heal") == 5 )
-	mob->set("title",HIR"(瀕臨死亡)"NOR);	
+	mob->set("title",HIR + "(瀕臨死亡)" + NOR);	
 	if( mob->query_temp("heal") == 4 )
-	mob->set("title",HIR"(傷痕累累)"NOR);
+	mob->set("title",HIR + "(傷痕累累)" + NOR);
 	if( mob->query_temp("heal") == 3 )
-	mob->set("title",HIR"(氣息粗重)"NOR);
+	mob->set("title",HIR + "(氣息粗重)" + NOR);
 	if( mob->query_temp("heal") == 2 )
-	mob->set("title",HIR"(多處擦傷)"NOR);
+	mob->set("title",HIR + "(多處擦傷)" + NOR);
 	if( mob->query_temp("heal") == 1 )
-	mob->set("title",HIR"(輕微流血)"NOR);
+	mob->set("title",HIR + "(輕微流血)" + NOR);
 	
 	if( mob->is_fighting() && (random(100) < 35) && (query_temp("heal") < 5) )
 	{
@@ -77,7 +77,7 @@ void heart_beat()
 	  {
 	  mob->die();
 	  }else{
-	  message_vision(HIB"$N"HIB"見情勢一個不對，一溜煙的就不見了!!\n"NOR,mob);
+	  message_vision(HIB + "$N" + HIB + "見情勢一個不對，一溜煙的就不見了!!\n" + NOR,mob);
 	  mob->move("/open/mon/mon09");
 	  mob->remove_all_enemy();
 	  mob->add_temp("heal", 1);
@@ -89,7 +89,7 @@ void heart_beat()
 	  {
 	  mob->die();
 	  }else{
-	  message_vision(HIB"$N"HIB"見情勢一個不對，一溜煙的就不見了!!\n"NOR,mob);
+	  message_vision(HIB + "$N" + HIB + "見情勢一個不對，一溜煙的就不見了!!\n" + NOR,mob);
 	  mob->move("/open/mon/mon15");
 	  mob->remove_all_enemy();
 	  mob->add_temp("heal", 1);
@@ -101,7 +101,7 @@ void heart_beat()
 	  {
 	  mob->die();
 	  }else{
-	  message_vision(HIB"$N"HIB"見情勢一個不對，一溜煙的就不見了!!\n"NOR,mob);
+	  message_vision(HIB + "$N" + HIB + "見情勢一個不對，一溜煙的就不見了!!\n" + NOR,mob);
 	  mob->move("/open/mon/mon32");
 	  mob->remove_all_enemy();
 	  mob->add_temp("heal", 1);
@@ -113,7 +113,7 @@ void heart_beat()
 	  {
 	  mob->die();
 	  }else{
-	  message_vision(HIB"$N"HIB"見情勢一個不對，一溜煙的就不見了!!\n"NOR,mob);
+	  message_vision(HIB + "$N" + HIB + "見情勢一個不對，一溜煙的就不見了!!\n" + NOR,mob);
 	  mob->move("/open/mon/mon37");
 	  mob->remove_all_enemy();
 	  mob->add_temp("heal", 1);
@@ -125,7 +125,7 @@ void heart_beat()
 	  {
 	  mob->die();
 	  }else{
-	  message_vision(HIB"$N"HIB"見情勢一個不對，一溜煙的就不見了!!\n"NOR,mob);
+	  message_vision(HIB + "$N" + HIB + "見情勢一個不對，一溜煙的就不見了!!\n" + NOR,mob);
 	  mob->move("/open/mon/mon36");
 	  mob->remove_all_enemy();
 	  mob->add_temp("heal", 1);
@@ -137,7 +137,7 @@ void heart_beat()
 	  {
 	  mob->die();
 	  }else{
-	  message_vision(HIB"$N"HIB"見情勢一個不對，一溜煙的就不見了!!\n"NOR,mob);
+	  message_vision(HIB + "$N" + HIB + "見情勢一個不對，一溜煙的就不見了!!\n" + NOR,mob);
 	  mob->move("/open/mon/mon35");
 	  mob->remove_all_enemy();
 	  mob->add_temp("heal", 1);
@@ -149,7 +149,7 @@ void heart_beat()
 	  {
 	  mob->die();
 	  }else{
-	  message_vision(HIB"$N"HIB"見情勢一個不對，一溜煙的就不見了!!\n"NOR,mob);
+	  message_vision(HIB + "$N" + HIB + "見情勢一個不對，一溜煙的就不見了!!\n" + NOR,mob);
 	  mob->move("/open/mon/mon34");
 	  mob->remove_all_enemy();
 	  mob->add_temp("heal", 1);
@@ -161,7 +161,7 @@ void heart_beat()
 	  {
 	  mob->die();
 	  }else{
-	  message_vision(HIB"$N"HIB"見情勢一個不對，一溜煙的就不見了!!\n"NOR,mob);
+	  message_vision(HIB + "$N" + HIB + "見情勢一個不對，一溜煙的就不見了!!\n" + NOR,mob);
 	  mob->move("/open/mon/mon33");
 	  mob->remove_all_enemy();
 	  mob->add_temp("heal", 1);
@@ -173,7 +173,7 @@ void heart_beat()
 	  {
 	  mob->die();
 	  }else{
-	  message_vision(HIB"$N"HIB"見情勢一個不對，一溜煙的就不見了!!\n"NOR,mob);
+	  message_vision(HIB + "$N" + HIB + "見情勢一個不對，一溜煙的就不見了!!\n" + NOR,mob);
 	  mob->move("/open/mon/mon03");
 	  mob->remove_all_enemy();
 	  mob->add_temp("heal", 1);
@@ -185,7 +185,7 @@ void heart_beat()
 	  {
 	  mob->die();
 	  }else{
-	  message_vision(HIB"$N"HIB"見情勢一個不對，一溜煙的就不見了!!\n"NOR,mob);
+	  message_vision(HIB + "$N" + HIB + "見情勢一個不對，一溜煙的就不見了!!\n" + NOR,mob);
 	  mob->move("/open/mon/mon02");
 	  mob->remove_all_enemy();
 	  mob->add_temp("heal", 1);
@@ -197,7 +197,7 @@ void heart_beat()
 	  {
 	  mob->die();
 	  }else{
-	  message_vision(HIB"$N"HIB"見情勢一個不對，一溜煙的就不見了!!\n"NOR,mob);
+	  message_vision(HIB + "$N" + HIB + "見情勢一個不對，一溜煙的就不見了!!\n" + NOR,mob);
 	  mob->move("/open/mon/mon54");
 	  mob->remove_all_enemy();
 	  mob->add_temp("heal", 1);
@@ -209,7 +209,7 @@ void heart_beat()
 	  {
 	  mob->die();
 	  }else{
-	  message_vision(HIB"$N"HIB"見情勢一個不對，一溜煙的就不見了!!\n"NOR,mob);
+	  message_vision(HIB + "$N" + HIB + "見情勢一個不對，一溜煙的就不見了!!\n" + NOR,mob);
 	  mob->move("/open/mon/mon07");
 	  mob->remove_all_enemy();
 	  mob->add_temp("heal", 1);
@@ -221,7 +221,7 @@ void heart_beat()
 	  {
 	  mob->die();
 	  }else{
-	  message_vision(HIB"$N"HIB"見情勢一個不對，一溜煙的就不見了!!\n"NOR,mob);
+	  message_vision(HIB + "$N" + HIB + "見情勢一個不對，一溜煙的就不見了!!\n" + NOR,mob);
 	  mob->move("/open/mon/mon08");
 	  mob->remove_all_enemy();
 	  mob->add_temp("heal", 1);
@@ -233,7 +233,7 @@ void heart_beat()
 	  {
 	  mob->die();
 	  }else{
-	  message_vision(HIB"$N"HIB"見情勢一個不對，一溜煙的就不見了!!\n"NOR,mob);
+	  message_vision(HIB + "$N" + HIB + "見情勢一個不對，一溜煙的就不見了!!\n" + NOR,mob);
 	  mob->move("/open/mon/mon04");
 	  mob->remove_all_enemy();
 	  mob->add_temp("heal", 1);
@@ -245,7 +245,7 @@ void heart_beat()
 	  {
 	  mob->die();
 	  }else{
-	  message_vision(HIB"$N"HIB"見情勢一個不對，一溜煙的就不見了!!\n"NOR,mob);
+	  message_vision(HIB + "$N" + HIB + "見情勢一個不對，一溜煙的就不見了!!\n" + NOR,mob);
 	  mob->move("/open/mon/mon05");
 	  mob->remove_all_enemy();
 	  mob->add_temp("heal", 1);
@@ -257,7 +257,7 @@ void heart_beat()
 	  {
 	  mob->die();
 	  }else{
-	  message_vision(HIB"$N"HIB"見情勢一個不對，一溜煙的就不見了!!\n"NOR,mob);
+	  message_vision(HIB + "$N" + HIB + "見情勢一個不對，一溜煙的就不見了!!\n" + NOR,mob);
 	  mob->move("/open/mon/mon06");
 	  mob->remove_all_enemy();
 	  mob->add_temp("heal", 1);
@@ -269,7 +269,7 @@ void heart_beat()
 	  {
 	  mob->die();
 	  }else{
-	  message_vision(HIB"$N"HIB"見情勢一個不對，一溜煙的就不見了!!\n"NOR,mob);
+	  message_vision(HIB + "$N" + HIB + "見情勢一個不對，一溜煙的就不見了!!\n" + NOR,mob);
 	  mob->move("/open/mon/mon10");
 	  mob->remove_all_enemy();
 	  mob->add_temp("heal", 1);
@@ -281,7 +281,7 @@ void heart_beat()
 	  {
 	  mob->die();
 	  }else{
-	  message_vision(HIB"$N"HIB"見情勢一個不對，一溜煙的就不見了!!\n"NOR,mob);
+	  message_vision(HIB + "$N" + HIB + "見情勢一個不對，一溜煙的就不見了!!\n" + NOR,mob);
 	  mob->move("/open/mon/mon11");
 	  mob->remove_all_enemy();
 	  mob->add_temp("heal", 1);
@@ -293,7 +293,7 @@ void heart_beat()
 	  {
 	  mob->die();
 	  }else{
-	  message_vision(HIB"$N"HIB"見情勢一個不對，一溜煙的就不見了!!\n"NOR,mob);
+	  message_vision(HIB + "$N" + HIB + "見情勢一個不對，一溜煙的就不見了!!\n" + NOR,mob);
 	  mob->move("/open/mon/mon12");
 	  mob->remove_all_enemy();
 	  mob->add_temp("heal", 1);
@@ -305,7 +305,7 @@ void heart_beat()
 	  {
 	  mob->die();
 	  }else{
-	  message_vision(HIB"$N"HIB"見情勢一個不對，一溜煙的就不見了!!\n"NOR,mob);
+	  message_vision(HIB + "$N" + HIB + "見情勢一個不對，一溜煙的就不見了!!\n" + NOR,mob);
 	  mob->move("/open/mon/mon13");
 	  mob->remove_all_enemy();
 	  mob->add_temp("heal", 1);
@@ -317,7 +317,7 @@ void heart_beat()
 	  {
 	  mob->die();
 	  }else{
-	  message_vision(HIB"$N"HIB"見情勢一個不對，一溜煙的就不見了!!\n"NOR,mob);
+	  message_vision(HIB + "$N" + HIB + "見情勢一個不對，一溜煙的就不見了!!\n" + NOR,mob);
 	  mob->move("/open/mon/mon14");
 	  mob->remove_all_enemy();
 	  mob->add_temp("heal", 1);
@@ -329,7 +329,7 @@ void heart_beat()
 	  {
 	  mob->die();
 	  }else{
-	  message_vision(HIB"$N"HIB"見情勢一個不對，一溜煙的就不見了!!\n"NOR,mob);
+	  message_vision(HIB + "$N" + HIB + "見情勢一個不對，一溜煙的就不見了!!\n" + NOR,mob);
 	  mob->move("/open/mon/mon38");
 	  mob->remove_all_enemy();
 	  mob->add_temp("heal", 1);
@@ -341,7 +341,7 @@ void heart_beat()
 	  {
 	  mob->die();
 	  }else{
-	  message_vision(HIB"$N"HIB"見情勢一個不對，一溜煙的就不見了!!\n"NOR,mob);
+	  message_vision(HIB + "$N" + HIB + "見情勢一個不對，一溜煙的就不見了!!\n" + NOR,mob);
 	  mob->move("/open/mon/mon39");
 	  mob->remove_all_enemy();
 	  mob->add_temp("heal", 1);
@@ -353,7 +353,7 @@ void heart_beat()
 	  {
 	  mob->die();
 	  }else{
-	  message_vision(HIB"$N"HIB"見情勢一個不對，一溜煙的就不見了!!\n"NOR,mob);
+	  message_vision(HIB + "$N" + HIB + "見情勢一個不對，一溜煙的就不見了!!\n" + NOR,mob);
 	  mob->move("/open/mon/mon43");
 	  mob->remove_all_enemy();
 	  mob->add_temp("heal", 1);

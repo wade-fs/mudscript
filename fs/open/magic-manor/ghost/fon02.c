@@ -26,8 +26,8 @@ void init()
 int do_trans (string str)
 {
 	object me = this_player();
-	message_vision(HIW"$N慢慢的走進了光牆之中，消失了!!\n"NOR,me);
+	message_vision(HIW + "$N慢慢的走進了光牆之中，消失了!!\n" + NOR,me);
 	me->move("/open/magic-manor/manor57");
-	message_vision(HIW"$N轉眼間又回到了祭臺的入口了!!\n"NOR,me);
+	message_vision(HIW + "$N轉眼間又回到了祭臺的入口了!!\n" + NOR,me);
 	return 1;
 }

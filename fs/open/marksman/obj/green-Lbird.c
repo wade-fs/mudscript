@@ -4,7 +4,7 @@ inherit NPC;
 
 void create()
 {
-        set_name(HIG"綠色陸行鳥"NOR,({"green land of bird","green","land","bird",}));
+        set_name(HIG + "綠色陸行鳥" + NOR,({"green land of bird","green","land","bird",}));
         set("mount_id","green-Lbird");
         set("age",12);
         set("race","野獸");
@@ -15,9 +15,9 @@ void create()
         setup();
 }
 string *dodge_msg = ({
-HIG"$n"HIG"的綠色陸行鳥佯裝要逃走"GRN"，"HIG"趁$N"HIG"不注意的"GRN"，"
-HIG"一個瞬間$n"HIG"已躲過$N"HIG"的攻擊"GRN"。\n"NOR,
-HIG"$n"HIG"往上一跳"GRN"，"HIG"在此瞬間白色陸行鳥往前衝"GRN"，"HIG"攻其不意"GRN"。\n"NOR,
+HIG + "$n" + HIG + "的綠色陸行鳥佯裝要逃走" + GRN + "，" + HIG + "趁$N" + HIG + "不注意的" + GRN + "，"
+HIG + "一個瞬間$n" + HIG + "已躲過$N" + HIG + "的攻擊" + GRN + "。\n" + NOR,
+HIG + "$n" + HIG + "往上一跳" + GRN + "，" + HIG + "在此瞬間白色陸行鳥往前衝" + GRN + "，" + HIG + "攻其不意" + GRN + "。\n" + NOR,
 });
 string query_dodge_msg()
 {

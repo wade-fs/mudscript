@@ -8,7 +8,7 @@ void create()
   set ("long", "
 本房間主要的用途是在給與玩家回報bugs和給巫師公佈已處理或未處理
 的bug,本房間的使用原則如下:
-"HIY"
+" + HIY + "
 (1)要回報bug的玩家,請用本房間所提供的(record)功\能,切勿將bug post
    在board上,否則巫師將以公佈bug的罪名與以嚴懲,輕者廢武功\,重者
    purge
@@ -24,7 +24,7 @@ void create()
 (5)本房間切忌使用於其他用途,例如發呆,練功\,逃避打鬥等,若經發現屬實
    一律ckill 10 次,沒得講
 有別的以後再補.................
-"NOR);
+" + NOR);
 
   set("exits", ([ /* sizeof() == 1 */
   "south" : "/open/wiz/fsroom2",

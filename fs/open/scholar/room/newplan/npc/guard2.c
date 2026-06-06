@@ -9,7 +9,7 @@ int done=0;
 void create() {
         set_name("騇天烈",({"guard lace","lace","guard"}));
         set("class","fighter");
-        set("title",HIB"震(山)"NOR);
+        set("title",HIB + "震(山)" + NOR);
         set("long",
         "\n他是八卦陣的第二個守將。\n");
         set("str",40);
@@ -80,7 +80,7 @@ void heart_beat()
         if( is_fighting() ){
         if(random(100) <30 )
         {
-message_vision(HIG"\n騇天烈偷偷吃了九轉雄蛇丸，使身上氣力恢復。\n"NOR,ob);
+message_vision(HIG + "\n騇天烈偷偷吃了九轉雄蛇丸，使身上氣力恢復。\n" + NOR,ob);
           ob->delete_busy();
         }
         }

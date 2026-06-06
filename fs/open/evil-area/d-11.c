@@ -3,7 +3,7 @@ inherit ROOM;
 
 void create()
 {
-        set("short",HIR"熔岩道"NOR);
+        set("short",HIR + "熔岩道" + NOR);
         set("long",@LONG
 熔岩道
 LONG);

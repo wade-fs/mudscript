@@ -13,7 +13,7 @@ string ask_woodball();
 string ask_soilball();
 void create()
 {
-        set_name(HIR"劍聖"+HIC"歐陽無極"NOR,({"swordsman","man"}));
+        set_name(HIR + "劍聖"+HIC"歐陽無極" + NOR,({"swordsman","man"}));
         set("long","仙魔戰中劍聖元靈所換化的守護神,負責阻止閒雜人等進入魔封地。\n");
         set("gender","男性");
         set("class","swordsman");
@@ -132,8 +132,8 @@ command("perform sun_fire_sword.sunswordkee");
 //   winner->set_temp("killtiger",1);
 if (winner->query_temp("swordquest/findball")<7 ||winner->query("swordskill/fsword8")==1)
 {
-tell_object(winner,HIC"\n
-唉~~無奈..狂想..世界的未..來.... .... ....。\n"NOR);
+tell_object(winner,HIC + "\n
+唉~~無奈..狂想..世界的未..來.... .... ....。\n" + NOR);
 for ( j = 0 ; j < sizeof(all) ; j++)
 {
   obj = all[j];
@@ -150,16 +150,16 @@ else
  winner->delete_temp("swordquest/findball");
  if (i>=11 || winner->query("have_officer")==1 )
  {
-  tell_object(winner,HIC"\n
-  一代新人..換舊人，既然你已可殺敗我，那我想你已經擁有足夠能力判斷是非..然而我並無法給予你任何幫助..狂想..世界的未..來就操控在....你的決定了。\n"NOR);
+  tell_object(winner,HIC + "\n
+  一代新人..換舊人，既然你已可殺敗我，那我想你已經擁有足夠能力判斷是非..然而我並無法給予你任何幫助..狂想..世界的未..來就操控在....你的決定了。\n" + NOR);
   winner->set("swordskill/fsword8",1);
  }
  else
  {
-  tell_object(winner,HIC"\n
-  一代新人..換舊人，既然你已可殺敗我，那我想你已經擁有足夠能力判斷是非..這是我所能給你的最後幫助，..狂想..世界的未..來就操控在....你的決定了。\n"NOR);
-  tell_object(winner,HIY"\n
-  劍聖死後，一道聖光由劍聖身上傳至你身上，你頓時覺得神清氣爽。\n"NOR);
+  tell_object(winner,HIC + "\n
+  一代新人..換舊人，既然你已可殺敗我，那我想你已經擁有足夠能力判斷是非..這是我所能給你的最後幫助，..狂想..世界的未..來就操控在....你的決定了。\n" + NOR);
+  tell_object(winner,HIY + "\n
+  劍聖死後，一道聖光由劍聖身上傳至你身上，你頓時覺得神清氣爽。\n" + NOR);
   winner->set("swordskill/sword8",1);
  }
 destruct (this_object ());

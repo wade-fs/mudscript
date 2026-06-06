@@ -4,7 +4,7 @@ inherit ROOM;
 int do_list();
 int do_trade(string);
 void create() {
-set("short",CYN"馬匹集散中心"NOR);
+set("short",CYN + "馬匹集散中心" + NOR);
 	set( "build", 12 );
 set("long",@LONG
 
@@ -53,7 +53,7 @@ int do_trade(string str) {
         object me,horse;
         me = this_player();
         if(me->query_temp("have_horse"))
- return notify_fail(HIY"董老闆說道：一個人只能買一匹馬喔。\n"NOR);
+ return notify_fail(HIY + "董老闆說道：一個人只能買一匹馬喔。\n" + NOR);
         switch(str) {
            case "urain horse"    :
                 horse = new("/open/gblade/npc/horse/urain");
@@ -89,7 +89,7 @@ int do_trade(string str) {
               horse = new("/open/gblade/npc/horse/sueswan");
               break;
 default : return notify_fail(HIY
-"董老闆說道：抱歉！本店並不售這種東西！\n"NOR);
+"董老闆說道：抱歉！本店並不售這種東西！\n" + NOR);
         }
         exp = (int)horse->query("exp");
         gold = (int)horse->query("gold");
@@ -97,10 +97,10 @@ default : return notify_fail(HIY
         money = gold*10000 + silver*100;
         if(me->query("combat_exp") < exp)
 return notify_fail(HIY
-"董老闆說道：你恐怕無法駕馭此馬，請另選一匹吧！\n"NOR);
+"董老闆說道：你恐怕無法駕馭此馬，請另選一匹吧！\n" + NOR);
         if(!me->pay_money(money))
 return notify_fail(HIY
-"董老闆說道：你的錢不夠，我的馬匹無法賣給你！\n"NOR);
+"董老闆說道：你的錢不夠，我的馬匹無法賣給你！\n" + NOR);
 	me = this_player();
         horse->move(environment(me));
         horse->set_leader(me);
@@ -108,8 +108,8 @@ return notify_fail(HIY
         horse->set_temp("my_boss",(string)me->query("id"));
         me->set_temp("horse",(string)horse->query("id"));
         me->set_temp("have_horse", 1);
-        message_vision(HIC"$N買下了一匹馬！\n"NOR,me);
+        message_vision(HIC + "$N買下了一匹馬！\n" + NOR,me);
 return notify_fail(HIY
-"董老闆說道：謝謝您的惠顧！請下次再來！\n"NOR);
+"董老闆說道：謝謝您的惠顧！請下次再來！\n" + NOR);
 }
 

@@ -3,7 +3,7 @@ inherit ROOM;
 
 void create ()
 {
-	set("short",HIC"琰 揚 湖"NOR);
+	set("short",HIC + "琰 揚 湖" + NOR);
 	set("long",@LONG
 往西邊望去，似乎有一座建築物在那，北邊的路已經被沙丘給擋
 住而無法通行。

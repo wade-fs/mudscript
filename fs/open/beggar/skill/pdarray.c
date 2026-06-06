@@ -24,12 +24,12 @@ int form_array(object leader)
         {
           if( leader->query("sen",1) > 40)
             { 
-              message_vision( HIW "$N帶領眾人根據天地四方使出打狗陣。\n" NOR, leader);
+              message_vision( HIW + "$N帶領眾人根據天地四方使出打狗陣。\n" + NOR, leader);
               leader->add("sen",-40);
               doing_array(member,leader);
              }
            else
-              message_vision(HIR"你精神力不足以開啟打狗陣\n",leader);
+              message_vision(HIR + "你精神力不足以開啟打狗陣\n",leader);
          }
           return 1;
          
@@ -53,7 +53,7 @@ void remove_array( object *member,object leader)
     int i;
    if(leader->query_temp("use_form",1))
    {
-     message_vision(HIW"$N精神消耗過大!!陣勢己經被破壞了必須重組。\n",leader);
+     message_vision(HIW + "$N精神消耗過大!!陣勢己經被破壞了必須重組。\n",leader);
      for(i=0; i<sizeof(member);i ++)
        member[i]->delete_temp("use_form",1);
    }

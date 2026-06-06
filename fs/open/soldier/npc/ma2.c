@@ -34,7 +34,7 @@ add_money("gold",1);
 
 int accept_kill(object who)
 {
-   say(HIY"納命來!！\n"NOR);
+   say(HIY + "納命來!！\n" + NOR);
    setup();
    return 1;
 }

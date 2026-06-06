@@ -7,7 +7,7 @@ int be,bb,inn,sp,qq;
 void create()
 {
         seteuid(getuid());
-        set_name(HIR"火魔劍"NOR,({"iceger"}));
+        set_name(HIR + "火魔劍" + NOR,({"iceger"}));
         set_weight(1000);
         if( clonep() )
                 set_default_object(__FILE__);
@@ -36,7 +36,7 @@ int do_wield(string str)
      if( query("equipped") )
      { 
         user = this_player();
-        message_vision(HIR"$N將火魔劍握在手上，全身已被炎氣籠罩。\n"NOR,user);
+        message_vision(HIR + "$N將火魔劍握在手上，全身已被炎氣籠罩。\n" + NOR,user);
         set_heart_beat(1);
      }
 }
@@ -63,7 +63,7 @@ int do_unwield(string str)
    if(str=="iceger" || str=="all")
      if( query("equipped") )
      {
-        message_vision(HIY"$N畫出一道劍花，劍歸劍盒。"NOR,user);
+        message_vision(HIY + "$N畫出一道劍花，劍歸劍盒。" + NOR,user);
         set_heart_beat(0);
      }
 }
@@ -72,7 +72,7 @@ int do_auc(string str)
   if(str=="iceger" || str=="all")
      if( query("equipped") )
      {
-        message_vision(HIY"$N畫出一道劍花,手中火魔劍消失無蹤。"NOR,user);
+        message_vision(HIY + "$N畫出一道劍花,手中火魔劍消失無蹤。" + NOR,user);
         set_heart_beat(0);
      }
 }
@@ -101,7 +101,7 @@ qq=(inn +sp) *2 /30;
      if( environment(user) == environment(enemy[i]) )
       if( random(-1) > enemy[i]->query_skill("dodge") )
      {
-      message_vision(HBRED"火魔神--*伊佛力特*，回復原形,直接衝向$N，瞬間陷入一片火海!!!"NOR,enemy[i]);
+      message_vision(HBRED + "火魔神--*伊佛力特*，回復原形,直接衝向$N，瞬間陷入一片火海!!!" + NOR,enemy[i]);
       enemy[i]->receive_damage("kee",qq+bb,user);
       COMBAT_D->report_status(enemy[i], 0);
      }else

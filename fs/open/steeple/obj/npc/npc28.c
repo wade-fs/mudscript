@@ -13,8 +13,8 @@ set("gender","男性");
 set("attitude","heroism");
 set("age",35);
 set("class","blademan");
-set("nickname",HIR"復仇魔刀"NOR);
-set("title",HIW"～幻影～"NOR"魔刀門第二代掌門");
+set("nickname",HIR + "復仇魔刀" + NOR);
+set("title",HIW + "～幻影～" + NOR + "魔刀門第二代掌門");
 create_family("魔刀門",2,"掌門");
 set("score",100000);
 set("force",100000);
@@ -77,12 +77,12 @@ void heart_beat()
     target=enemy[random(i)];
     if( env == environment(target) )
     {
-message_vision(HIW"\n                        ～幻～影～心～訣～
+message_vision(HIW + "\n                        ～幻～影～心～訣～
 
-"HIY"
+" + HIY + "
 莫無愁施展出魔刀『三斬歸元～魚龍嗜元』\n"+
 "．．．『魚龍毒鴆～～煌嵐叢滅』．．．\n"+
-"$N閃避不及，被打中要害，血流滿地\n"NOR,target);
+"$N閃避不及，被打中要害，血流滿地\n" + NOR,target);
    mob->add("kee",1800);
     target->receive_damage("kee",1800,mob);
       COMBAT_D->report_status(target,1);
@@ -110,7 +110,7 @@ return 1;
 int heal_up()
 {
         if (!is_fighting() ) {
-             message_vision (HIW"系統：戰鬥停止，$N回收中，。\n"NOR, this_object ());
+             message_vision (HIW + "系統：戰鬥停止，$N回收中，。\n" + NOR, this_object ());
              destruct(this_object());
              return 1;
         }
@@ -133,17 +133,17 @@ destruct (this_object ());
 else
 if(me->query("quest/start_game")< 29)
        {
-        message_vision(HIY"
-恭喜"HIW+me->query("name")+HIY"挑戰"HIG"『"HIR"第二十八層試煉ソ塔"HIG"』"HIY"通過！！
+        message_vision(HIY + "
+恭喜"HIW+me->query("name")+HIY"挑戰" + HIG + "『" + HIR + "第二十八層試煉ソ塔" + HIG + "』" + HIY + "通過！！
 
-"HIW"希望"+me->query("name")+"能不負眾望，勇闖"HIG"『"HIY"第二十九層試煉ソ塔"HIG"』"HIW"。
-	"NOR,me);
+" + HIW + "希望"+me->query("name")+"能不負眾望，勇闖" + HIG + "『" + HIY + "第二十九層試煉ソ塔" + HIG + "』" + HIW + "。
+	" + NOR,me);
 	me->set("quest/start_game",29);
         destruct (this_object ());
        }
 {
         :: unconcious();
-	tell_object(me,HIW"系統：你已經通過測試，系統不做任何更改。\n"NOR);
+	tell_object(me,HIW + "系統：你已經通過測試，系統不做任何更改。\n" + NOR);
 	destruct(this_object());
 }
 }

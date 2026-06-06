@@ -2,7 +2,7 @@
 inherit ROOM;
 void create()
 {
-   set("short", HIW"仙劍最終試煉谷"NOR);
+   set("short", HIW + "仙劍最終試煉谷" + NOR);
    set("long", @LONG
 傳說中仙劍的練劍室..室中處處都是駭人的劍痕.你眼前有一個模糊的影子
 難道他就是傳說中的...!?

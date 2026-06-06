@@ -5,7 +5,7 @@ inherit ARROW;
 
 void create()
 {
-set_name(HIR"彩"HIC"靈"HIW"箭"NOR,({"color-arrow","arrow"}));
+set_name(HIR + "彩" + HIC + "靈" + HIW + "箭" + NOR,({"color-arrow","arrow"}));
         set_weight(15);
 		set("long","蘊藏五行之力的靈箭。\n");
         if( clonep() )

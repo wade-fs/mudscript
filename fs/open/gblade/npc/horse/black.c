@@ -2,7 +2,7 @@
 #include <mudlib.h>
 inherit NPC;
 void create() {
-set_name(HIC"烏黑駒"NOR, ({"black horse", "horse"}));
+set_name(HIC + "烏黑駒" + NOR, ({"black horse", "horse"}));
 set("title", "大漠之神");
 set("long", "
 牠是生於大漠的優良品種，是隻能夠在大沙漠生存的好馬，且牠具有
@@ -109,7 +109,7 @@ if(me->query("family/family_name")=="魔刀門" ||
         me->add_temp("apply/defense",-35);
         me->add_temp("apply/damage",-35); }
 	me->delete_temp("ride_name");
-        message_vision(HIW"$N一個翻身下了馬來！\n"NOR,me);
+        message_vision(HIW + "$N一個翻身下了馬來！\n" + NOR,me);
         return 1;
 }
 
@@ -173,9 +173,9 @@ if( random(100) > 85)
     target=enemy[random(i)];
     if( env == environment(target) )
     {
-message_vision(HIY"
+message_vision(HIY + "
 突然間，烏黑駒像發狂似的向$N衝撞而來\n"+
-"$N閃避不及，被撞個四腳朝天，鮮血直吐\n"NOR,target);
+"$N閃避不及，被撞個四腳朝天，鮮血直吐\n" + NOR,target);
 target->receive_damage("kee",250);
       target->start_busy(1);
       COMBAT_D->report_status(target,1);

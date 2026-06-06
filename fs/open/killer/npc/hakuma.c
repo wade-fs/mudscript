@@ -97,7 +97,7 @@ string ask_me(object who)
                 "bigcat" : (: do_mention :)
              ]));  
 	message("vision",
-		HIY " \n"
+		HIY + " \n"
 		"豪鬼兩眼透出一股詭異的紅光 .\n\n\n"
 		"豪鬼低聲的說著 : 來吧 ..忠於基本劍法的正統的劍客 ..\n"
                 "豪鬼說道 : 好久沒有殺人了 ...我可控制不住了 ..\n\n"
@@ -114,7 +114,7 @@ string ask_me(object who)
       environment(), this_object());
         command("unwield sword");
         carry_object("/u/u/urd/obj/testsword.c")->wield();
-        return HIC"你納命來吧!\n"NOR;
+        return HIC + "你納命來吧!\n" + NOR;
 	 
  }
 void do_specialatt()
@@ -125,15 +125,15 @@ void do_specialatt()
         i=sizeof(me);
         one=enemy[random(i)];
         before = me->query("kee");
-        message_vision( HIR "
+        message_vision( HIR + "
         豪鬼大叫道 : 嘗嘗仙劍之極意 !接招了 !
-        \n" NOR ,one);
+        \n" + NOR ,one);
         message_vision( " 
         豪鬼平舉劍喝道 :\n\n"+HIR"                         ***"+HIG"仙"+HIR"**"+HIG"氣"+HIR"**"+HIG"斬"+HIR"**"+HIG"虎"+HIR"**"+HIG"劍"+HIR"*** "NOR+"\n",one);
-        message_vision(HIC"
-        劍氣如海浪般的飛過來 !\n"NOR,one);
-        message_vision(RED"
-        $N全身的血管都被劍氣割破了 !\n"NOR,one);
+        message_vision(HIC + "
+        劍氣如海浪般的飛過來 !\n" + NOR,one);
+        message_vision(RED + "
+        $N全身的血管都被劍氣割破了 !\n" + NOR,one);
         after = me->query("kee");
         one->receive_wound("kee",200+random(300));
          COMBAT_D->report_status(one);
@@ -147,15 +147,15 @@ void do_specialatt2()
         i=sizeof(me);
         one=enemy[random(i)];
         before = me->query("kee");
-        message_vision( HIR "
+        message_vision( HIR + "
         豪鬼大叫道 : 嘗嘗仙劍之極意 !接招了 !
-        \n" NOR ,one);
+        \n" + NOR ,one);
         message_vision( "
         豪鬼斜舉劍喝道 :\n\n"+HIR"                         ***"+HIW"白"+HIR"**"+HIW"龍"+HIR"**"+HIW"飛"+HIR"**"+HIW"舞"+HIR"**"+HIW"呀"+HIR"*** "NOR+"\n",one);
-        message_vision(HIR"
-        你只看到眼前一片紅白交錯之光 !\n"NOR,one);
-        message_vision(RED"
-        $N全身上下佈滿著滿是像被凶獸啃掉了的大小不等的傷口 !\n"NOR,one);
+        message_vision(HIR + "
+        你只看到眼前一片紅白交錯之光 !\n" + NOR,one);
+        message_vision(RED + "
+        $N全身上下佈滿著滿是像被凶獸啃掉了的大小不等的傷口 !\n" + NOR,one);
         after = me->query("kee");
         one->receive_wound("kee",200+random(300));
          COMBAT_D->report_status(one);
@@ -168,17 +168,17 @@ void do_specialatt3()
 	me=this_player()->query_enemy();
 	i=sizeof(me);
 	one=enemy[random(i)];
-	message_vision( HIR"
+	message_vision( HIR + "
 	豪鬼大叫著 : 嘗嘗仙劍之極意 !接招了 !
-	\n\n" NOR,one);
+	\n\n" + NOR,one);
 	message_vision("						
 	豪鬼迅速的往你眼前的空氣一刺 !你好像看到甚麼東西從劍中鑽出來似的 !\n\n"
 	"你看不清楚眼前到底出現了甚麼東西 !\n"
 	,one);
-	message_vision(HIR"一股如噴泉般的血$N身上不停的噴出 !!\n\n"NOR
-	               HIY"那個速度極快的東西仍然不停的以高速在噬咬$N的身體!!\n"NOR
+	message_vision(HIR + "一股如噴泉般的血$N身上不停的噴出 !!\n\n" + NOR
+	               HIY + "那個速度極快的東西仍然不停的以高速在噬咬$N的身體!!\n" + NOR
 	               "一條速度極快的"+HIW" 白龍 "NOR+"在$N身邊不斷的飛舞著 !! 咬著纏著可憐的$N!
-	\n"NOR,one);
+	\n" + NOR,one);
 	one->receive_wound("kee",50+random(100));
 	one->apply_condition("bleeding",10);
 	one->start_busy(3);
@@ -210,7 +210,7 @@ string do_mention(object who)
            command("follow none");
            this_player()->set_temp("passkill",1);
            }
-	return HIC"........嗚...\n"NOR;
+	return HIC + "........嗚...\n" + NOR;
 }
 void die()
 {
@@ -220,13 +220,13 @@ void die()
         i = sizeof(me);
         one = enemy[random(i)];
         one->set("sp_title","天下第一");
-        message_vision(HIR"
-  	最強的劍客豪鬼被打倒了!\n"NOR,
+        message_vision(HIR + "
+  	最強的劍客豪鬼被打倒了!\n" + NOR,
                 one);
- 	message("system",HIY"
- 	最強的劍客豪鬼被"+one->name()+"打倒了 !\n\n"NOR,users());
- 	message("system",HIY"
- 	在此宣布 "+one->name()+"是天下最強 !!帶種的可以來砍他!!\n\n"NOR,users());
+ 	message("system",HIY + "
+ 	最強的劍客豪鬼被"+one->name()+"打倒了 !\n\n" + NOR,users());
+ 	message("system",HIY + "
+ 	在此宣布 "+one->name()+"是天下最強 !!帶種的可以來砍他!!\n\n" + NOR,users());
 return ::die();
 }
 	                

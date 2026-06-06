@@ -7,7 +7,7 @@ int be,bb,inn,sp,qq;
 void create()
 {
         seteuid(getuid());
-        set_name(HIG"青龍匕首"NOR,({"chilo"}));
+        set_name(HIG + "青龍匕首" + NOR,({"chilo"}));
         set_weight(7000);
         if( clonep() )
                 set_default_object(__FILE__);
@@ -20,8 +20,8 @@ void create()
                 set("no_sell",1);
                 set("no_auc",1);
                 set("no_hands",1);
-                set("wield_msg",HIG"$N將$n握在手上，全身已被龍氣籠罩。\n"NOR);
-                set("unwield_msg",HIG"$N畫出一道銀花，將$n放回身邊小袋中。\n"NOR);
+                set("wield_msg",HIG + "$N將$n握在手上，全身已被龍氣籠罩。\n" + NOR);
+                set("unwield_msg",HIG + "$N畫出一道銀花，將$n放回身邊小袋中。\n" + NOR);
         }
         init_dagger(60);
         setup();
@@ -51,13 +51,13 @@ mixed hit_ob(object me)
      {//注意，為了要強調dodge的效用，（現在FS根本不重視）
       //所以，故意以dodge來決定命中度，如果你的dodge大於對方一倍，命中度幾乎100％
       //相對的，如果對方的dodge大於你兩倍的話，命中度幾乎就是0％
-      message_vision(HBGRN"\n青龍圖騰化成青龍,$N被揚起的旋風搞得昏頭轉向!!\n"NOR,victim);
+      message_vision(HBGRN + "\n青龍圖騰化成青龍,$N被揚起的旋風搞得昏頭轉向!!\n" + NOR,victim);
       victim->add("kee",-200);
       victim->add("sen",-100);
       victim->add("gin",-100);
       COMBAT_D->report_status(victim);
      }else
-      message_vision(HIW"旋風由青龍匕首激發,但被$N巧妙的躲開\n"NOR,victim);
+      message_vision(HIW + "旋風由青龍匕首激發,但被$N巧妙的躲開\n" + NOR,victim);
      }
   }
   return;

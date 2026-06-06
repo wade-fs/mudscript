@@ -42,7 +42,7 @@ void init()
         }
         if( me->query("id")=="oda" ) {
           write ("周會敏驚道：你...你不是tide的師父？久仰、久仰...\n");
-          message_vision(HIC"周會敏盈盈的向$N磕了個頭，說道：我代tide謝謝你。\n"NOR,me);
+          message_vision(HIC + "周會敏盈盈的向$N磕了個頭，說道：我代tide謝謝你。\n" + NOR,me);
           command("thank "+me->query("id"));
         }
         remove_call_out("greeting");                                                 remove_call_out("greeting");

@@ -4,7 +4,7 @@ inherit ITEM;
 
 void create()
 {
-        set_name("HIW九字真言之「臨」字訣"NOR,({"juju 1","juju"}));
+        set_name("HIW九字真言之「臨」字訣" + NOR,({"juju 1","juju"}));
         set_weight(50);
         if(clonep())
                 set_default_object(__FILE__);

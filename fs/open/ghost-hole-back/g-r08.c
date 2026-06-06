@@ -2,7 +2,7 @@
 inherit ROOM;
 void create ()
 {
-        set("short",YEL"幽冥道"NOR"草屋");
+        set("short",YEL + "幽冥道" + NOR + "草屋");
         set("long",@LONG
 幾個椅子擺滿了整個草屋, 可見得此草屋之小, 
 屋內有個木桌, 感覺上像是在家裡面閒聊泡茶所用

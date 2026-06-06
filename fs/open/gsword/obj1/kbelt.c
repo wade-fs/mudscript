@@ -5,7 +5,7 @@ inherit WAIST;
 object me=this_player();
 void create()
 {
-    set_name(HIY"劍聖腰帶"NOR, ({"kensai belt","belt"}) );
+    set_name(HIY + "劍聖腰帶" + NOR, ({"kensai belt","belt"}) );
     set_weight(1000);
      if ( clonep() )
               set_default_object(__FILE__);
@@ -20,7 +20,7 @@ void create()
         set("no_put",1);
        set("no_drop",1);
         set("no_get",1);
-            set("wear_msg", MAG"$N把$n繫在腰上，陣陣神力逐漸往$N聚集。\n");
+            set("wear_msg", MAG + "$N把$n繫在腰上，陣陣神力逐漸往$N聚集。\n");
      }
             setup();
 this_object()->set("armor_prop/sword",5);

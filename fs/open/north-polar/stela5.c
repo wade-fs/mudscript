@@ -3,7 +3,7 @@ inherit ROOM;
 #include "icestorm.c"
 void create()
 {
-        set("short",HIC"印度洋"HIY"神殿"NOR);
+        set("short",HIC + "印度洋" + HIY + "神殿" + NOR);
         set ("long", @LONG
 這裡是印度洋神殿，印度洋的濕暖空氣影響著中土西南的氣候，
 一根高聳入天的石柱佇立在此，看來就是調節印度洋水量的支柱了，

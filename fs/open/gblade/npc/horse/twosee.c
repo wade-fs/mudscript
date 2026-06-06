@@ -2,7 +2,7 @@
 #include <mudlib.h>
 inherit NPC;
 void create() {
-set_name(HIM"驒騱\駒"NOR, ({"twosee horse" , "horse"}));
+set_name(HIM + "驒騱\駒" + NOR, ({"twosee horse" , "horse"}));
 set("title", "上古神馬");
 set("long","
 相傳牠為上古時的一種野獸，後來被人在雲南一帶所發現，帶回中原
@@ -109,7 +109,7 @@ if(me->query("family/family_name")=="魔刀門" ||
         me->add_temp("apply/damage",-15);
         me->add_temp("apply/armor", -15); }
 	me->delete_temp("ride_name");
-        message_vision(HIW"$N一個翻身下了馬來！\n"NOR,me);
+        message_vision(HIW + "$N一個翻身下了馬來！\n" + NOR,me);
         return 1;
 }
 
@@ -172,9 +172,9 @@ if( random(100) > 90)
     target=enemy[random(i)];
     if( env == environment(target) )
     {
-message_vision(HIY"
+message_vision(HIY + "
 突然間，驒騱\駒像發狂似的向$N衝撞而來\n"+
-"$N閃避不及，被撞個四腳朝天，鮮血直吐\n"NOR,target);
+"$N閃避不及，被撞個四腳朝天，鮮血直吐\n" + NOR,target);
 target->receive_damage("kee",150,mob);
       target->start_busy(1);
       COMBAT_D->report_status(target,1);

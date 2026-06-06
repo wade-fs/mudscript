@@ -3,7 +3,7 @@ inherit ROOM;
 #include <ansi.h>
 void create ()
 {
-  set ("short", HIR"火雲峽"NOR);
+  set ("short", HIR + "火雲峽" + NOR);
   set ("long", @LONG
 奮力的穿過窄僅通人的山縫 ,你來到一個全新的
 地方。四週了無生機 ,遍地焦土 ,而且處處都有巨大

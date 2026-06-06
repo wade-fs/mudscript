@@ -14,7 +14,7 @@ void create()
             set("value", 50000);
             set("armor_prop/force",10);
             set("armor_prop/armor",6);
-            set("wear_msg", HIY"$N把$n戴在脖子上 ,臉上頓時罩了一層寒霜。\n");
+            set("wear_msg", HIY + "$N把$n戴在脖子上 ,臉上頓時罩了一層寒霜。\n");
      }
 }
 

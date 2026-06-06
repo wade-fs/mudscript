@@ -2,7 +2,7 @@
 inherit ROOM;
 void create ()
 {
-set("short",BLU"死靈幽谷"NOR);
+set("short",BLU + "死靈幽谷" + NOR);
 set("long",@LONG
 四周岩壁不在是冰冷的泉水, 取而代之的是一些
 壁畫與飾品, 你簡直不敢相信你的眼睛, 在這種岩壁

@@ -7,7 +7,7 @@ inherit BOOTS;
 
 void create()
 {
-  set_name( HIG "狂想新人寶鞋" NOR ,({"newbie boots","boots"}));
+  set_name( HIG + "狂想新人寶鞋" + NOR ,({"newbie boots","boots"}));
   set_weight(3000);
   if( clonep() )
     set_default_object(__FILE__);

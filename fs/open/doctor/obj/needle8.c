@@ -4,7 +4,7 @@
 inherit STABBER;
 void create()
 {
-        set_name(HIW "冰蠶寒絲針" NOR,({"ice needle","needle"}));
+        set_name(HIW + "冰蠶寒絲針" + NOR,({"ice needle","needle"}));
         set_weight(100);
         if( clonep() )
                 set_default_object(__FILE__);

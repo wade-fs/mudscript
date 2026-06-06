@@ -4,7 +4,7 @@ inherit ITEM;
 
 void create()
 {
-        set_name(BRED"家傳辣椒醬"NOR, ({ "pepper" }) );
+        set_name(BRED + "家傳辣椒醬" + NOR, ({ "pepper" }) );
         set("unit", "罐");
         set("long", "這是由你母親娘家家傳秘方所製成的超辣辣椒醬。\n");
         set("control",1);

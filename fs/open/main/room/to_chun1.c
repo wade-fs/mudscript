@@ -24,7 +24,7 @@ void init ()
   object me=this_player ();
   if ( me->query_temp("six_sp_quest") == 9)
       {
-       message_vision(HIG"\n突然間, 你發現不遠方有個小山嶺, 你感到可疑, 急忙奔去查看.\n\n"NOR,me);
+       message_vision(HIG + "\n突然間, 你發現不遠方有個小山嶺, 你感到可疑, 急忙奔去查看.\n\n" + NOR,me);
        me->move("/open/main/mi_room/mi01.c");
       }
 }

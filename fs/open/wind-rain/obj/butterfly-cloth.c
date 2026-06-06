@@ -3,7 +3,7 @@ inherit EQUIP;
 void create()
 {
         seteuid(getuid());
-        set_name(HIR"蝴蝶繡金棗紅衣"NOR , ({ "butterfly cloth" }) );
+        set_name(HIR + "蝴蝶繡金棗紅衣" + NOR , ({ "butterfly cloth" }) );
        	set("long","一件華美的紅色衣裳，上面以金線繡著幾隻蝴蝶。\n");
         set_weight(2500);
         if( clonep() )

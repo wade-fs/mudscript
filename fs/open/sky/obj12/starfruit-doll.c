@@ -2,7 +2,7 @@ inherit ITEM;
 #include <ansi.h>
 void create()
 {
-	set_name(HIM"楊桃娃娃"NOR,({"starfruit-doll"}));
+	set_name(HIM + "楊桃娃娃" + NOR,({"starfruit-doll"}));
 	set("long","一個楊桃形狀的娃娃，在娃娃上面不時的散發著奇怪的靈光，但任\n"
 		  +"你如何的細看和研究，卻也不知它有何作用，也許\和傳說中的天靈\n"
 		  +"地界有關。\n");

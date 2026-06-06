@@ -3,7 +3,7 @@ inherit ROOM;
 
 void create ()
 {
-	set("short",HIC"琰 揚 湖 旁"NOR);
+	set("short",HIC + "琰 揚 湖 旁" + NOR);
 	set("long",@LONG
 琰揚湖旁的一個小空地，地上畫滿了很多的小圖形，感覺上似乎
 是一處小孩子在遊樂玩耍的地方。

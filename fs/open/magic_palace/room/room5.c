@@ -35,7 +35,7 @@ void do_check(object me)
   if(!me || !environment(me)) return ;
   if ( !present("static_water",me) && environment(me) == this_object() )
   {
-    message_vision(HIM"強酸不斷的沖刷腐蝕著$N的身軀...。\n"NOR,me);
+    message_vision(HIM + "強酸不斷的沖刷腐蝕著$N的身軀...。\n" + NOR,me);
     me->add("kee",-500); 
     me->add("gin",-300);
     me->add("sen",-300);                

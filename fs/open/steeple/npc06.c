@@ -55,7 +55,7 @@ void callset(object who)
 int heal_up()
 {
         if (!is_fighting() ) {
-             message_vision (HIB"兇暴的$N漸漸平息下來，再度變為雲霧。\n"NOR, this_object ());
+             message_vision (HIB + "兇暴的$N漸漸平息下來，再度變為雲霧。\n" + NOR, this_object ());
              destruct(this_object());
              return 1;
         }
@@ -71,7 +71,7 @@ int special_att()
                 return 0;
 
         victim = enemy[random(i)];
-        message_vision (HIB"$N一聲怒吼，一道閃電向$n直劈而來。\n"NOR,me,victim);
+        message_vision (HIB + "$N一聲怒吼，一道閃電向$n直劈而來。\n" + NOR,me,victim);
         victim->receive_damage("kee",100);      
         COMBAT_D->report_status(victim);       
   
@@ -96,17 +96,17 @@ destruct (this_object ());
 else
 if(me->query("quest/start_game")< 7)
        {
-        tell_object(users(),HIY"
-恭喜"HIW+me->query("name")+HIY"挑戰"HIG"『"HIR"第六層試煉塔"HIG"』"HIY"通過！！
+        tell_object(users(),HIY + "
+恭喜"HIW+me->query("name")+HIY"挑戰" + HIG + "『" + HIR + "第六層試煉塔" + HIG + "』" + HIY + "通過！！
 
-"HIW"希望"+me->query("name")+"能不負眾望，勇闖"HIG"『"HIY"第七層試煉塔"HIG"』"HIW"。
-	"NOR);
+" + HIW + "希望"+me->query("name")+"能不負眾望，勇闖" + HIG + "『" + HIY + "第七層試煉塔" + HIG + "』" + HIW + "。
+	" + NOR);
 	me->set("quest/start_game",7);
         destruct (this_object ());
        }
 {
         :: unconcious();
-	tell_object(me,HIW"系統：你已經通過測試，系統不做任何更改。\n"NOR);
+	tell_object(me,HIW + "系統：你已經通過測試，系統不做任何更改。\n" + NOR);
 	destruct(this_object());
 }
 }

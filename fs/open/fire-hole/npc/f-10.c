@@ -24,7 +24,7 @@ void init()
 void do_check(object me)
 {
       if(me->query("combat_exp" ) < 5000000 && userp(me) && living(me)) {
-        message_vision(HIR"$N抵抗不了火龍幻界的熱度，被天神傳送回起點！\n"NOR,me);
+        message_vision(HIR + "$N抵抗不了火龍幻界的熱度，被天神傳送回起點！\n" + NOR,me);
         me->move(me->query("startroom"));
         me->set( "clan/out","/open/center/room/inn");
       }else  

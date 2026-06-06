@@ -86,7 +86,7 @@ int do_put(string arg)
             }*/
         if( arg == "snake amulet" && !obj->query_temp("open_snake") && present("snake amulet",me))
             {
-                message_vision(HIC"$N將"HIG"青蛇護符"HIC"嵌入文字凹槽中，突然東方青光大盛，一道巨門緩緩開啟了。"NOR,me);
+                message_vision(HIC + "$N將" + HIG + "青蛇護符" + HIC + "嵌入文字凹槽中，突然東方青光大盛，一道巨門緩緩開啟了。" + NOR,me);
                 me->set_temp("sac_snake",1);
                 obj->set_temp("open_snake",1);
                 destruct(present("snake amulet",me));
@@ -95,7 +95,7 @@ int do_put(string arg)
             }
         if( arg == "mdragon-ring" && present("mdragon-ring",me) && !obj->query_temp("open_dragon") )
             {
-                message_vision(HIM"$N將"HIB"魔龍睛戒"HIM"嵌入文字凹槽中，突然西方紫光大盛，一道巨門緩緩開啟了。"NOR,me);
+                message_vision(HIM + "$N將" + HIB + "魔龍睛戒" + HIM + "嵌入文字凹槽中，突然西方紫光大盛，一道巨門緩緩開啟了。" + NOR,me);
                 me->set_temp("sac_dragon",1);
                 obj->set_temp("open_dragon",1);
                 destruct(present("mdragon-ring",me));
@@ -104,7 +104,7 @@ int do_put(string arg)
             }
         if( arg == "fire-dragon ring" && present("fire-dragon ring",me) && !obj->query_temp("open_dragon") )
             {
-                message_vision(HIM"$N將"HIR"火龍之鱗"HIM"嵌入文字凹槽中，突然西方紫光大盛，一道巨門緩緩開啟了。"NOR,me);
+                message_vision(HIM + "$N將" + HIR + "火龍之鱗" + HIM + "嵌入文字凹槽中，突然西方紫光大盛，一道巨門緩緩開啟了。" + NOR,me);
                 me->set_temp("sac_dragon",1);
                 obj->set_temp("open_dragon",1);
                 destruct(present("fire-dragon ring",me));
@@ -113,7 +113,7 @@ int do_put(string arg)
             }
         if( arg == "ghost heart" && present("ghost heart",me) && !obj->query_temp("open_heart") )
             {
-                message_vision(HIW"$N將"HIY"妖幻之心"HIW"嵌入文字凹槽中，突然北方白光大盛，一道巨門緩緩開啟了。"NOR,me);
+                message_vision(HIW + "$N將" + HIY + "妖幻之心" + HIW + "嵌入文字凹槽中，突然北方白光大盛，一道巨門緩緩開啟了。" + NOR,me);
                 me->set_temp("sac_heart",1);
                 obj->set_temp("open_heart",1);
                 destruct(present("ghost heart",me));

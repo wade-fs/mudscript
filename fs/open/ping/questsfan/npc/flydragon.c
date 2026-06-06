@@ -14,7 +14,7 @@ set("long","他就是武林第一家上官家族第二代傳人 :  上官殘心�
 林名宿所誤傷。\n");
         set("gender","男性");
         set("class","swordsman");
-        set("nickname",""HIM"怒雨飛龍"NOR"");
+        set("nickname","" + HIM + "怒雨飛龍" + NOR + "");
             set("family/family_name","仙劍派");
             set("combat_exp",1400000);
             set("attitude","heroism");
@@ -111,9 +111,9 @@ void die()
         object winner = query_temp("last_damage_from");
         object sky;
         sky=new("/u/d/dhk/questsfan/npc/sky.c");
-                tell_object(users(),"\n\n"HIY"天皇長吟道："NOR"\n\n      "HIR"『"NOR"\n\t  "HIC"天敵降世，一夕水火風雷；"NOR"
-          "HIC"宇瀚五嶽，萬年春夏秋冬；"NOR"\n\t  "HIC"魔界入口，步入陰陽逆轉；"NOR"\n\t  "HIC"神封五皇，掌管日月循環。"NOR"\n\t                          "HIR" 』"NOR"\n        ");
-        tell_object(users(),"\n"HIG"    因"HIG"～"HIW"  飛龍折翼，吾  閉門悔悟"NOR"\n\t"HIY"    嘆"HIY"～"HIW"  殘廢殘心，吾  重出江湖"NOR"\n\n"HIM"    無奈～ ～無奈～ ～無奈呀 ! ! !"NOR"\n");
+                tell_object(users(),"\n\n" + HIY + "天皇長吟道：" + NOR + "\n\n      " + HIR + "『" + NOR + "\n\t  " + HIC + "天敵降世，一夕水火風雷；" + NOR + "
+          " + HIC + "宇瀚五嶽，萬年春夏秋冬；" + NOR + "\n\t  " + HIC + "魔界入口，步入陰陽逆轉；" + NOR + "\n\t  " + HIC + "神封五皇，掌管日月循環。" + NOR + "\n\t                          " + HIR + " 』" + NOR + "\n        ");
+        tell_object(users(),"\n" + HIG + "    因" + HIG + "～" + HIW + "  飛龍折翼，吾  閉門悔悟" + NOR + "\n\t" + HIY + "    嘆" + HIY + "～" + HIW + "  殘廢殘心，吾  重出江湖" + NOR + "\n\n" + HIM + "    無奈～ ～無奈～ ～無奈呀 ! ! !" + NOR + "\n");
         if(sky)
         sky->move("/u/d/dhk/workroom.c");
         :: die();

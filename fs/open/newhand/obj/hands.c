@@ -6,7 +6,7 @@ inherit HANDS;
 
 void create()
 {
-  set_name( HIC "狂想新人手套" NOR ,({"newbie hands","hands"}));
+  set_name( HIC + "狂想新人手套" + NOR ,({"newbie hands","hands"}));
   set_weight(3000);
   if( clonep() )
     set_default_object(__FILE__);

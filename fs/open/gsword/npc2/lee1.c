@@ -91,16 +91,16 @@ void heart_beat()
   target=me->query_enemy();
  if (random(10)<=4)
    {
-message_vision(HIY"$N運起身上無極刀氣，頓時刀芒充斥四周！
+message_vision(HIY + "$N運起身上無極刀氣，頓時刀芒充斥四周！
 
-     "HIC"★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆"HIW"
+     " + HIC + "★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆" + HIW + "
 
             $N怒吼：看我的『破體無形刀』！！！
 
-     "HIC"★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆"HIY"
+     " + HIC + "★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆" + HIY + "
       瞬間，由$N身上射出無數逐漸凝聚而成的刀芒！
           轉眼間，數百道刀芒已貫穿你的身體！！！
-"NOR,me);
+" + NOR,me);
      me->delete_busy();
      me->clear_condition();
      for(j=0;j < i;j++)
@@ -114,7 +114,7 @@ else
    {
  if ((random(2)+1)==1)
    {
-    message_vision(HIM"李夢枕運起全身仙雲之氣，瞬間整個空間皆被紅光包圍，紅光消似李夢枕神色為之一亮。\n"NOR,me);
+    message_vision(HIM + "李夢枕運起全身仙雲之氣，瞬間整個空間皆被紅光包圍，紅光消似李夢枕神色為之一亮。\n" + NOR,me);
     me->receive_curing("gin",3000);
     me->receive_heal("gin",3000);
     me->receive_curing("kee",6000);
@@ -128,7 +128,7 @@ else
 }
 if((me->query("eff_kee") < 6000 || me->query("kee") < 6000) &&!me->query("dead"))
 {
-    message_vision(HIM"$N嘆道:真要逼我使出獨門刀法嗎??\n"NOR,me);
+    message_vision(HIM + "$N嘆道:真要逼我使出獨門刀法嗎??\n" + NOR,me);
         me->set("force_factor",50);
         me->set("eff_kee",50000);
         me->set("kee",50000);

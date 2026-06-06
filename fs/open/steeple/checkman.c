@@ -40,16 +40,16 @@ int do_move( string str )
 	int	move;
 	object	me = this_player();
 	if( !str || sscanf( str, "%d", move )!=1 || move > 50 || move < 1 ) {
-		tell_object( me, HIY"位置管理者說道: 你說什麼? 我聽不懂...\n"NOR );
+		tell_object( me, HIY + "位置管理者說道: 你說什麼? 我聽不懂...\n" + NOR );
 		return 1;
 	}
 	if( me->query("quest/start_game") <= move ) {
-		tell_object( me, HIY"位置管理者說道: 抱歉囉... 你的等級不足以通往該處。\n"NOR );
+		tell_object( me, HIY + "位置管理者說道: 抱歉囉... 你的等級不足以通往該處。\n" + NOR );
 		return 1;
 	}
-	message_vision( HIY"位置管理者說道: 資料符合, 開始傳送挑戰者"HIW + me->query("name") + HIY"。\n"NOR, me );
+	message_vision( HIY + "位置管理者說道: 資料符合, 開始傳送挑戰者" + HIW + me->query("name") + HIY"。\n" + NOR, me );
 	me->move( __DIR__"busy_room" + ( move < 10 ? "0" + move : "" + move ) );
-	message_vision( HIW"$N緩緩從天而降。\n"NOR, me );
+	message_vision( HIW + "$N緩緩從天而降。\n" + NOR, me );
 	return 1;
 }
 

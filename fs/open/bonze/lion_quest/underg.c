@@ -19,7 +19,7 @@ LONG);
 ]));
 //需注意就是門一定要在兩邊同時定義
   set("need_key/east",1);       //設定door的房向及key哦 不設定此行就無須鑰匙
-  create_door("up",HIB"鐵門"NOR,"up",DOOR_LOCKED);
+  create_door("up",HIB + "鐵門" + NOR,"up",DOOR_LOCKED);
   set("item_desc", ([ /* sizeof() == 1 */
   "up" : (: look_door,     "up" :),
 ]));

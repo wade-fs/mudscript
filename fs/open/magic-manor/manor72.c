@@ -20,7 +20,7 @@ LONG);
 	"south"	: __DIR__"manor71",
 	]));
 
-	create_door("north",HIR"鴻元聚靈門"NOR,"south",DOOR_CLOSED);
+	create_door("north",HIR + "鴻元聚靈門" + NOR,"south",DOOR_CLOSED);
 	set("light_up", 1);
 
 	setup();

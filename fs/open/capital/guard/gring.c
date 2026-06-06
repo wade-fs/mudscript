@@ -10,7 +10,7 @@ inherit EQUIP;
 
 void create()
 {
-  set_name(HBRED+HIY"護衛戒指"NOR ,({"guard ring", "ring"}));
+  set_name(HBRED+HIY"護衛戒指" + NOR ,({"guard ring", "ring"}));
   set_weight(2500);
   if( clonep() )
     set_default_object(__FILE__);

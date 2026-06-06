@@ -2,7 +2,7 @@
 inherit ROOM;
 void create ()
 {
-        set("short",YEL"幽冥道"NOR);
+        set("short",YEL + "幽冥道" + NOR);
         set("long",@LONG
 陣陣的腥臭味不斷的撲鼻而來, 你忍不住的捏住
 了鼻子, 地上偶爾會傳來陣陣的搖晃, 感覺很不舒服

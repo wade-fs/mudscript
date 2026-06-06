@@ -10,8 +10,8 @@ void create()
             set_name("鈴兒",({"lin girl","girl"}));
             set("long","她來自天山，正在到處找人救她的師父，看她著急的模樣真是美若天仙!!\n");
             set("gender","女性");
-            set("nickname",HIY"小師妹"NOR);
-	    set("title",HIW"天山"+BMAG"靈鷲宮"NOR);
+            set("nickname",HIY + "小師妹" + NOR);
+	    set("title",HIW + "天山"+BMAG"靈鷲宮" + NOR);
             set("combat_exp",1000000);
             set("attitude","heroism");
             set("age",50);

@@ -5,7 +5,7 @@ inherit ROOM;
 void create ()
 {
   seteuid(getuid());   
-        set("short",MAG"地底牢籠"NOR);
+        set("short",MAG + "地底牢籠" + NOR);
 	set( "build", 27 );
         set("long", @LONG
 你來到一間漆黑無比的房間，空氣中全是瀰漫著腐屍和膿

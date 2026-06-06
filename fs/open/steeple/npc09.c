@@ -13,7 +13,7 @@ void create()
 {
         set_name("諸岡渡", ({"npc09","wataru"}));
         set("age",16);
-        set("title",HIC"【玉帝】"NOR);
+        set("title",HIC + "【玉帝】" + NOR);
         set("gender","男性");
         set("class","killer");
         set("str",30);
@@ -56,12 +56,12 @@ void do_special1()
         i=sizeof(enemy);
         target=enemy[random(i)];
         message_vision( HIG
-        "諸岡渡閉上雙眼，喃喃的唸著咒文，四周的天氣似乎起了很大的變化\n"NOR,target);
+        "諸岡渡閉上雙眼，喃喃的唸著咒文，四周的天氣似乎起了很大的變化\n" + NOR,target);
         message_vision(
         "諸岡渡睜開雙眼大喝道:\n\n"+HIR"                          ***"+HIG"七"+HIR"**"+HIG"鍵"+HIR"**"+HIG"守"+HIR"**"+HIG"護"+HIR"**"+HIG"神"+HIR"***"NOR+"\n",target);
         message_vision(HIC
-        "天空中出現了七個異空間，朝你圍了過來，你以無處可逃！！！\n"NOR,target);
-        message_vision(HBGRN"$N全身上下似乎全部被空間分開了！，你的存在已不具任何意義！\n"NOR,target);
+        "天空中出現了七個異空間，朝你圍了過來，你以無處可逃！！！\n" + NOR,target);
+        message_vision(HBGRN + "$N全身上下似乎全部被空間分開了！，你的存在已不具任何意義！\n" + NOR,target);
         target->receive_wound("kee",800+random(500));
         COMBAT_D->report_status(target);
 
@@ -76,12 +76,12 @@ void do_special2()
         i=sizeof(enemy);
         target=enemy[random(i)];
         message_vision( HIR
-        "諸岡渡撥撥額頭的頭髮輕笑說：像你這種笨傢伙，也敢跟我挑戰！！\n"NOR,target);
+        "諸岡渡撥撥額頭的頭髮輕笑說：像你這種笨傢伙，也敢跟我挑戰！！\n" + NOR,target);
         message_vision(
         "諸岡渡舉起右手大喝一聲 :\n\n"+HIR"                         ***"+HIW"怒"+HIR"**"+HIW"龍"+HIR"**"+HIW"爆"+HIR"**"+HIW"炎"+HIR"**"+HIW"獄"+HIR"*** "NOR+"\n",target);
-        message_vision(HIR"你只看到身體被一陣紅白交錯之炎火所圍繞!\n"NOR,target);
+        message_vision(HIR + "你只看到身體被一陣紅白交錯之炎火所圍繞!\n" + NOR,target);
         message_vision(RED
-           "$N全身上下陷入一片火海之中，肌肉都已呈焦黑 !\n"NOR,target);
+           "$N全身上下陷入一片火海之中，肌肉都已呈焦黑 !\n" + NOR,target);
 
         target->receive_wound("kee",800+random(500));
         COMBAT_D->report_status(target);
@@ -96,16 +96,16 @@ void do_special3()
         enemy=this_object()->query_enemy();
         i=sizeof(enemy);
         target=enemy[random(i)];
-        message_vision( HIR"
-        諸岡渡大叫著 : 小心哦，我不會控制劍法的強度耶。。。。\n"NOR,target);
+        message_vision( HIR + "
+        諸岡渡大叫著 : 小心哦，我不會控制劍法的強度耶。。。。\n" + NOR,target);
         message_vision("
         諸岡渡往你眼前的空氣一刺 !你好像看到甚麼東西從劍中鑽出來似的!\n\n"
         "你看不清楚眼前到底出現了甚麼東西 !\n"
         ,target);
-        message_vision(HIR"一股如噴泉般的血$N身上不停的噴出 !!\n\n"NOR
-                       HIY"那個速度極快的東西仍然不停的以高速在噬咬$N的身體!!\n"NOR
+        message_vision(HIR + "一股如噴泉般的血$N身上不停的噴出 !!\n\n" + NOR
+                       HIY + "那個速度極快的東西仍然不停的以高速在噬咬$N的身體!!\n" + NOR
                        "一條速度極快的"+HIW" 白龍"NOR+"在$N身邊不斷的飛舞著 !! 咬著纏著可憐的$N!
-        \n"NOR,target);
+        \n" + NOR,target);
         target->receive_wound("kee",800+random(500));
         target->start_busy(2);
                 COMBAT_D->report_status(target);
@@ -119,13 +119,13 @@ void do_special4()
         enemy=this_object()->query_enemy();
         i=sizeof(enemy);
         target=enemy[random(i)];
-        message_vision( HIR "
-        諸岡渡撥撥額頭的頭髮輕笑說：像你這種笨傢伙，也敢跟我挑戰！！\n" NOR ,target);
+        message_vision( HIR + "
+        諸岡渡撥撥額頭的頭髮輕笑說：像你這種笨傢伙，也敢跟我挑戰！！\n" + NOR ,target);
         message_vision( "
         諸岡渡舉起右手大喝一聲 :\n\n"+HIY"                         ***"+HIM"靈"+HIY"**"+HIM"界"+HIY"**"+HIM"皇"+HIY"**"+HIM"龍"+HIY"**"+HIM"破"+HIY"*** "NOR+"\n",target);
-        message_vision(HIG"你看到一條巨大的金黃色火焰龍朝你衝了過來 !\n"NOR,target);
-        message_vision(GRN"
-$N你卻絲毫動彈不得，是死亡的恐懼還是對諸岡渡的恐懼？因為你發現你已經沒救了！\n"NOR,target);
+        message_vision(HIG + "你看到一條巨大的金黃色火焰龍朝你衝了過來 !\n" + NOR,target);
+        message_vision(GRN + "
+$N你卻絲毫動彈不得，是死亡的恐懼還是對諸岡渡的恐懼？因為你發現你已經沒救了！\n" + NOR,target);
 
         target->receive_wound("kee",800+random(500));
 
@@ -142,12 +142,12 @@ void do_special5()
         i=sizeof(enemy);
         target=enemy[random(i)];
          message_vision( HIG
-        "我主之力，上天之力，為我之劍，滅我之敵！！\n" NOR ,target);
+        "我主之力，上天之力，為我之劍，滅我之敵！！\n" + NOR ,target);
         message_vision(
         "回過身見諸岡渡手中聚合光球\n\n"+HIW"                   ***乾    坤    六    絕    光    彈"+HIW"***"NOR+"\n",target);
         message_vision(HIC
-        "你根本不知道發生了什麼事情，只覺得身體遭光球無情的襲擊，無處可逃！\n"NOR,target);
-        message_vision(HBGRN"$N全身上下似乎被光球衝擊的體無完膚。\n"NOR,target);
+        "你根本不知道發生了什麼事情，只覺得身體遭光球無情的襲擊，無處可逃！\n" + NOR,target);
+        message_vision(HBGRN + "$N全身上下似乎被光球衝擊的體無完膚。\n" + NOR,target);
                 target->receive_wound("kee",800+random(500));
                 COMBAT_D->report_status(target);
 
@@ -162,12 +162,12 @@ void do_special6()
         i=sizeof(enemy);
         target=enemy[random(i)];
         message_vision( HIR
-        "諸岡渡閉上了雙眼，淡淡的說著。\n" NOR ,target);
+        "諸岡渡閉上了雙眼，淡淡的說著。\n" + NOR ,target);
         message_vision(
         "傳說中的禁咒！！\n"+HIR"                  ***死    黑    核    爆    裂    地    獄"+HIR"*** "NOR+"\n",target);
-        message_vision(HIR"你只看到身體被一陣黑光交錯之炎火所圍繞!\n"NOR,target);
+        message_vision(HIR + "你只看到身體被一陣黑光交錯之炎火所圍繞!\n" + NOR,target);
         message_vision(RED
-           "$N全身上下陷入一片炎獄之中，肌肉早已蒸發殆盡!\n"NOR,target);
+           "$N全身上下陷入一片炎獄之中，肌肉早已蒸發殆盡!\n" + NOR,target);
 
                 target->receive_wound("kee",800+random(500));
                 COMBAT_D->report_status(target);
@@ -182,12 +182,12 @@ void do_special7()
         enemy=this_object()->query_enemy();
         i=sizeof(enemy);
         target=enemy[random(i)];
-        message_vision( HIR"
-        諸岡渡的六對翅膀都豎立了起來！！一股強大的氣充斥在諸岡渡四周。\n" NOR,target);
-        message_vision("這是屬於我的最終殺招!\n\n"NOR,target);
-        message_vision(HBMAG"      ----超     原     子     崩     壞     屴     起------\n"NOR,target);
+        message_vision( HIR + "
+        諸岡渡的六對翅膀都豎立了起來！！一股強大的氣充斥在諸岡渡四周。\n" + NOR,target);
+        message_vision("這是屬於我的最終殺招!\n\n" + NOR,target);
+        message_vision(HBMAG + "      ----超     原     子     崩     壞     屴     起------\n" + NOR,target);
         message_vision(HIG
-"粉碎，粉碎，一切都化成粉碎！！！你正努力使自己回復原形！！\n"NOR,target);
+"粉碎，粉碎，一切都化成粉碎！！！你正努力使自己回復原形！！\n" + NOR,target);
         target->receive_wound("kee",800+random(500));
         target->start_busy(3);
                 COMBAT_D->report_status(target);
@@ -202,11 +202,11 @@ void do_special8()
         enemy=this_object()->query_enemy();
         i=sizeof(enemy);
         target=enemy[random(i)];
-        message_vision( HIR "諸岡渡化成一道光芒，射往天際！！，天空起了很大的變化！！！\n" NOR ,target);
+        message_vision( HIR + "諸岡渡化成一道光芒，射往天際！！，天空起了很大的變化！！！\n" + NOR ,target);
         message_vision( "\n\n"+HIY"                         ***"+HIC"天"+HIY"**"+HIR"空"+HIY"**"+HIB"之"+HIY"**"+HIG"劍"+HIY"*** "NOR+"\n",target);
-        message_vision(HIG"你看到由天空降下一道巨大的金黃色的光柱!\n"NOR,target);
-        message_vision(GRN"
-           $N你卻絲毫動彈不得，是死亡的恐懼還是對神的恐懼？\n"NOR,target);
+        message_vision(HIG + "你看到由天空降下一道巨大的金黃色的光柱!\n" + NOR,target);
+        message_vision(GRN + "
+           $N你卻絲毫動彈不得，是死亡的恐懼還是對神的恐懼？\n" + NOR,target);
         target->receive_wound("kee",800+random(500));
 
                 COMBAT_D->report_status(target);
@@ -245,7 +245,7 @@ int do_cmd(string str){                 //ok by chan
  ob=this_object();
  wataru=present( "wataru",environment(ob) );
  if(str=="askgod wataru" || str=="askgod wataru"){
-write(HIY"諸岡渡罵說：「對我使用求神問卜，真是活得不耐煩了。」!!\n"NOR);
+write(HIY + "諸岡渡罵說：「對我使用求神問卜，真是活得不耐煩了。」!!\n" + NOR);
  command("perform fireforce.gold-fire");
  wataru->kill_ob(who);
  return 1;
@@ -286,7 +286,7 @@ void heart_beat()
 int heal_up()
 {
         if (!is_fighting() ) {
-             message_vision (HIW"系統：戰鬥停止，$N回收中，。\n"NOR, this_object ());
+             message_vision (HIW + "系統：戰鬥停止，$N回收中，。\n" + NOR, this_object ());
              destruct(this_object());
              return 1;
         }
@@ -309,17 +309,17 @@ void die ()
 	}
 	if(me->query("quest/start_game")< 10)
         {
-        tell_object(users(),HIY"
-	恭喜"HIW+me->query("name")+HIY"挑戰"HIG"『"HIR"第九層試煉塔"HIG"』"HIY"通過！！
+        tell_object(users(),HIY + "
+	恭喜"HIW+me->query("name")+HIY"挑戰" + HIG + "『" + HIR + "第九層試煉塔" + HIG + "』" + HIY + "通過！！
 
-	"HIW"希望"+me->query("name")+"能不負眾望，勇闖"HIG"『"HIY"第十層試煉塔"HIG"』"HIW"。
-	"NOR);
+	" + HIW + "希望"+me->query("name")+"能不負眾望，勇闖" + HIG + "『" + HIY + "第十層試煉塔" + HIG + "』" + HIW + "。
+	" + NOR);
 	me->set("quest/start_game",10);
         destruct (this_object ());
 	return ;
         }
 	{
-	tell_object(me,HIW"系統：你已經通過測試，系統不做任何更改。\n"NOR);
+	tell_object(me,HIW + "系統：你已經通過測試，系統不做任何更改。\n" + NOR);
 	destruct(this_object());
 	:: die();
 	}

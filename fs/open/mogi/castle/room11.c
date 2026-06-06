@@ -33,7 +33,7 @@ int valid_leave(object me, string dir)
  if(dir=="up"&&present("sky-ghost",environment(me)))
   {
 
-message_vision(HIY"天邪鬼對$N怒喝 : 幹什麼！？\n"NOR,me);
+message_vision(HIY + "天邪鬼對$N怒喝 : 幹什麼！？\n" + NOR,me);
  ob->kill_ob(me);
 
 return 0;

@@ -4,7 +4,7 @@ inherit CLOTH;
 object me=this_player();
 void create()
 {
-        set_name(YEL"山寨服"NOR,({"fortress cloth","cloth"}));
+        set_name(YEL + "山寨服" + NOR,({"fortress cloth","cloth"}));
         set_weight(2000);
         if( clonep() )
                 set_default_object(__FILE__);

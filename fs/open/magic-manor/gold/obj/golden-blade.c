@@ -6,7 +6,7 @@ inherit BLADE;
 void create()
 {
         seteuid(getuid());
-        set_name(HIY"金色靈刀"NOR,({"golden blade","blade"}));
+        set_name(HIY + "金色靈刀" + NOR,({"golden blade","blade"}));
         set_weight(8000);
         if( clonep() )
                 set_default_object(__FILE__);

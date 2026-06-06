@@ -4,9 +4,9 @@ inherit ROOM;
 
 void create()
 {
-	set( "short", "【"HIB"狂想石窟"NOR"】" );
+	set( "short", "【" + HIB + "狂想石窟" + NOR + "】" );
 	set( "long", "
-		"HIW"[ FS server ]"NOR"
+		" + HIW + "[ FS server ]" + NOR + "
 
 	CPU P3 700  MainBoard  RAM PC-100 128MB ( by cgy )
 

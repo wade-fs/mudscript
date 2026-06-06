@@ -3,7 +3,7 @@ inherit ROOM;
 
 void create ()
 {
-	set("short",HIC"琰 揚 湖"NOR);
+	set("short",HIC + "琰 揚 湖" + NOR);
 	set("long",@LONG
 漫步於琰揚湖旁，你有一種前所未有的舒適感，或許是週遭的生
 物才會帶給你如此強烈的感覺吧，先前只要在路上碰到此等生物，二

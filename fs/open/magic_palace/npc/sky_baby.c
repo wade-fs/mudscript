@@ -19,7 +19,7 @@ void create()
         set_name("天嬰",({"Sky Baby","baby"}));
         set("long","
 英雄新經傳人，表面上修習玄門正派的武功\，事實上暗藏禍心...
-\n"NOR);
+\n" + NOR);
         set("attitude", "friendly");
         set("gender","男性");
         set("combat_exp",5000000);
@@ -30,8 +30,8 @@ void create()
         set("age",25);
         set("class","dancer");
         set("family/family_name","夜夢小築");
-        set("title",HIC"『英雄新經』"HIW"傳人"NOR);
-        set("nickname",HIR"英雄正宗"NOR);
+        set("title",HIC + "『英雄新經』" + HIW + "傳人" + NOR);
+        set("nickname",HIR + "英雄正宗" + NOR);
         set("chat_chance", 10);
         set("max_gin",20000);
         set("max_kee",50000);
@@ -100,7 +100,7 @@ int do_nod(string arg)
    if(arg == "baby" && me->query_temp("kill_hero") == 2)
    {
     command("sigh");
-    message_vision(HIY"天嬰說道:「想不到魔界金典和英雄真經最後竟被其他武功\所打敗。」\n"NOR,me);
+    message_vision(HIY + "天嬰說道:「想不到魔界金典和英雄真經最後竟被其他武功\所打敗。」\n" + NOR,me);
    }else{
    command("stare " + me->query("id"));
         }
@@ -235,8 +235,8 @@ ob5 = present("Control_sword book",me);
 if(present("Leaf_Book",me) && present("Fist_Book",me) && present("Force_Book",me) && present("Thunder_steps Book",me) && present("Control_sword book",me) && me->query_temp("kill_hero") == 2 )
 {
 command("spank " + me->query("id"));
-message_vision(HIY"天嬰說道:「" + me->query("name") + "真的全拿到了!?哈哈哈哈，所謂踏破鐵鞋尋覓處，得來全不費功\夫，
-           失去利用價值的人，已不需要活著了，死吧!!」\n"NOR,me);
+message_vision(HIY + "天嬰說道:「" + me->query("name") + "真的全拿到了!?哈哈哈哈，所謂踏破鐵鞋尋覓處，得來全不費功\夫，
+           失去利用價值的人，已不需要活著了，死吧!!」\n" + NOR,me);
 kill_ob(me);
 me->set_temp("can_kill_baby",1);
 destruct(ob1);
@@ -248,9 +248,9 @@ destruct(ob5);
 if(me->query_temp("kill_hero") == 2)
 {
 command("wa");
-message_vision(HIY"天嬰說道:「"+me->query("name")+"真的親手擊敗黃帝病和木無言嗎!?」\n"NOR,me);
+message_vision(HIY + "天嬰說道:「"+me->query("name")+"真的親手擊敗黃帝病和木無言嗎!?」\n" + NOR,me);
 }else{
-message_vision(HIY"天嬰說道:「總有一天我會讓天下人知道，不論英雄真經或魔界金典，都比不上我的英雄新經。」\n"NOR,me);
+message_vision(HIY + "天嬰說道:「總有一天我會讓天下人知道，不論英雄真經或魔界金典，都比不上我的英雄新經。」\n" + NOR,me);
 }
 }
 }
@@ -271,13 +271,13 @@ if(!me->query_temp("unconcious"))
 {
   if((kee < mkee || sen < msen || gin < mgin) && random(4)==1) //回精氣神
   {
-message_vision(HIB"
-$N運起少林寺內功\心法"HIW"<<"HIM"菩提拂拭神功\"HIW">>
+message_vision(HIB + "
+$N運起少林寺內功\心法" + HIW + "<<" + HIM + "菩提拂拭神功\" + HIW + ">>
 
-                 "HIW"『"HIY"心如明鏡，身如菩提，時常勤拂拭，一切魔障給我破！"HIW"』
+                 " + HIW + "『" + HIY + "心如明鏡，身如菩提，時常勤拂拭，一切魔障給我破！" + HIW + "』
 
-                               "HIC"$N身上的傷勢立即復原了些許\。
-\n"NOR,me);
+                               " + HIC + "$N身上的傷勢立即復原了些許\。
+\n" + NOR,me);
           me->delete_busy();
           ekee=me->query("eff_kee");
           egin=me->query("eff_gin");
@@ -292,7 +292,7 @@ $N運起少林寺內功\心法"HIW"<<"HIM"菩提拂拭神功\"HIW">>
   }
   if(me->query_busy()&& random(100)<35)
   {
-message_vision(HIR"$N潛運"HIW"<<"HIM"菩提拂拭神功\"HIW">>"HIR"衝破滯塞，接著以"HIY"閃電步"HIR"迅速解除束縛。\n"NOR,me);
+message_vision(HIR + "$N潛運" + HIW + "<<" + HIM + "菩提拂拭神功\" + HIW + ">>" + HIR + "衝破滯塞，接著以" + HIY + "閃電步" + HIR + "迅速解除束縛。\n" + NOR,me);
           me->delete_busy();
   }
 }
@@ -307,7 +307,7 @@ void die()
 object winner = query_temp("last_damage_from");
 if(winner->query_temp("can_kill_baby"))
 {
-         message_vision(HIB"天嬰身上掉落一本隱泛藍光的書。\n"NOR,winner);
+         message_vision(HIB + "天嬰身上掉落一本隱泛藍光的書。\n" + NOR,winner);
 
              winner->set_temp("ko_baby",1);
              book = new("/open/capital/obj/book.c");

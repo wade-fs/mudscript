@@ -15,8 +15,8 @@ void create()
   set_name("神秘飛賊", ({ "mystery thief" ,"mystery" ,"thief" }));
   set("long","偷功\一流『無所不偷，偷無不成』是他的成名絕活，妙手空空掌\n"
     +"也是名震江湖的絕學。\n");
-  set("title",HIY"天下奇偷"NOR);
-  set("nickname",HIC"偷無不成"NOR);
+  set("title",HIY + "天下奇偷" + NOR);
+  set("nickname",HIC + "偷無不成" + NOR);
   set("family/family_name","惡人谷");
   set("gender", "男性");
   set("class", "bandit");
@@ -112,7 +112,7 @@ void greeting(object who)
   }
   if(who->query_temp("ask_steps"))
   {
-    message_vision(HIC"哈哈!!我終於學會閃電山莊的閃電身法了!!\n"NOR,who);
+    message_vision(HIC + "哈哈!!我終於學會閃電山莊的閃電身法了!!\n" + NOR,who);
   }
 }
 
@@ -132,7 +132,7 @@ int do_steal()
   switch(i)
   {
     case 0..1:
-      message_vision(WHT"神秘飛賊心想這是個好機會，於是趁隙混水摸魚想偷光$N身上所有東西！\n"NOR,who);
+      message_vision(WHT + "神秘飛賊心想這是個好機會，於是趁隙混水摸魚想偷光$N身上所有東西！\n" + NOR,who);
       for( k=0;k<=10;k++ )
       {
         j=random(sizeof(ob));
@@ -147,7 +147,7 @@ int do_steal()
       break;
     case 2..95:
       j=random(sizeof(ob));
-      message_vision(WHT"神秘飛賊心想這是個好機會，於是趁隙混水摸魚！！\n"NOR,who);
+      message_vision(WHT + "神秘飛賊心想這是個好機會，於是趁隙混水摸魚！！\n" + NOR,who);
       if( !ob[j]->query_autoload() && !ob[j]->query("no_give") && !ob[j]->query("no_steal") && ob[j]->query("id") != "diamond" ) {
         command("steal "+ob[j]->query("id")+" from "+who->query("id"));
         }
@@ -156,19 +156,19 @@ int do_steal()
       }
       break;
     case 96:
-      message_vision(WHT"神秘飛賊心想這是個好機會，於是趁隙混水摸魚！！！\n"NOR,who);
+      message_vision(WHT + "神秘飛賊心想這是個好機會，於是趁隙混水摸魚！！！\n" + NOR,who);
       command("steal coin from "+who->query("id"));
       break;
     case 97:
-      message_vision(WHT"神秘飛賊心想這是個好機會，於是趁隙混水摸魚！！！！\n"NOR,who);
+      message_vision(WHT + "神秘飛賊心想這是個好機會，於是趁隙混水摸魚！！！！\n" + NOR,who);
       command("steal silver from "+who->query("id"));
       break;
     case 98:
-      message_vision(WHT"神秘飛賊心想這是個好機會，於是趁隙混水摸魚！！！！！\n"NOR,who);
+      message_vision(WHT + "神秘飛賊心想這是個好機會，於是趁隙混水摸魚！！！！！\n" + NOR,who);
       command("steal gold from "+who->query("id"));
       break;
     case 99:
-      message_vision(WHT"神秘飛賊心想這是個好機會，於是趁隙混水摸魚！！！！！！\n"NOR,who);
+      message_vision(WHT + "神秘飛賊心想這是個好機會，於是趁隙混水摸魚！！！！！！\n" + NOR,who);
       command("steal cash from "+who->query("id"));
       break;
   }
@@ -179,7 +179,7 @@ int accept_fight(object obj,object mob)
   obj = this_player();
   mob = this_object();
   command("say 那我就不客氣的領教了!!");
-  message_vision(HIC"$N先以極快捷的動作，對$n下了十香軟筋散，$n只覺全身虛弱無力。\n"NOR,mob,obj);
+  message_vision(HIC + "$N先以極快捷的動作，對$n下了十香軟筋散，$n只覺全身虛弱無力。\n" + NOR,mob,obj);
   if(obj->query("class")=="fighter")
   {
     obj->set_temp("power-down",30);
@@ -198,7 +198,7 @@ int accept_kill(object obj,object mob)
   obj = this_player();
   mob = this_object();
   command("say 這麼想找死嗎？");
-  message_vision(HIC"$N以極快捷的動作，對$n下了十香軟筋散，$n只覺全身虛弱無力。\n"NOR,mob,obj);
+  message_vision(HIC + "$N以極快捷的動作，對$n下了十香軟筋散，$n只覺全身虛弱無力。\n" + NOR,mob,obj);
   if(obj->query("class")=="fighter")
   {
     obj->set_temp("power-down",25);
@@ -238,7 +238,7 @@ void heart_beat()
       {
         if( enemy[j]->query_temp("fdragon") )
         {
-          message_vision(HIR"只見炎之龍的火龍之力正助長著$N的傷口的回復!!\n"NOR,mob);
+          message_vision(HIR + "只見炎之龍的火龍之力正助長著$N的傷口的回復!!\n" + NOR,mob);
           mob->receive_curing("kee",3000);
           mob->receive_heal("kee",3000);
           mob->receive_curing("sen",3000);
@@ -257,7 +257,7 @@ void heart_beat()
           if( env == environment(enemy[j]) )
           {
             hurt=enemy[j]->query("max_kee") * 0.3;
-            message_vision(HIW"\n$N施展獨門絕招"HIC"『妙手空空拳最終式』"HIW"，只見$n閃躲不及，被擊中要害!!\n"NOR,mob,enemy[j]);
+            message_vision(HIW + "\n$N施展獨門絕招" + HIC + "『妙手空空拳最終式』" + HIW + "，只見$n閃躲不及，被擊中要害!!\n" + NOR,mob,enemy[j]);
             enemy[j]->receive_wound("kee",hurt,mob);
             COMBAT_D->report_status(enemy[j],0);
           }
@@ -266,7 +266,7 @@ void heart_beat()
           if( env == environment(enemy[j]) )
           {
             hurt=enemy[j]->query("max_kee") * 0.2;
-            message_vision(HIW"\n$N施展獨門絕招『妙手空空拳第三式』，只見$n閃躲不及，被擊中要害!!\n"NOR,mob,enemy[j]);
+            message_vision(HIW + "\n$N施展獨門絕招『妙手空空拳第三式』，只見$n閃躲不及，被擊中要害!!\n" + NOR,mob,enemy[j]);
             enemy[j]->receive_damage("kee",hurt,mob);
             COMBAT_D->report_status(enemy[j],0);
           }
@@ -275,7 +275,7 @@ void heart_beat()
           if( env == environment(enemy[j]) )
           {
             hurt=enemy[j]->query("max_kee") * 0.15;
-            message_vision(HIW"\n$N施展獨門絕招『妙手空空拳第二式』，只見$n閃躲不及，被擊中要害!!\n"NOR,mob,enemy[j]);
+            message_vision(HIW + "\n$N施展獨門絕招『妙手空空拳第二式』，只見$n閃躲不及，被擊中要害!!\n" + NOR,mob,enemy[j]);
             enemy[j]->receive_wound("kee",hurt,mob);
             COMBAT_D->report_status(enemy[j],0);
           }
@@ -284,13 +284,13 @@ void heart_beat()
           if( env == environment(enemy[j]) )
           {
             hurt=enemy[j]->query("max_kee") * 0.1;
-            message_vision(HIW"\n$N施展獨門絕招『妙手空空拳第一式』，只見$n閃躲不及，被擊中要害!!\n"NOR,mob,enemy[j]);
+            message_vision(HIW + "\n$N施展獨門絕招『妙手空空拳第一式』，只見$n閃躲不及，被擊中要害!!\n" + NOR,mob,enemy[j]);
             enemy[j]->receive_damage("kee",hurt,mob);
             COMBAT_D->report_status(enemy[j],0);
           }
           break;
         case 96..100:
-          message_vision(HIY"$N靠著獨門絕學，衝破了自身所有封穴。\n"NOR,mob,enemy[j]);
+          message_vision(HIY + "$N靠著獨門絕學，衝破了自身所有封穴。\n" + NOR,mob,enemy[j]);
           mob->delete_busy();
           mob->clear_condition();
           break;
@@ -300,7 +300,7 @@ void heart_beat()
     {
       if( random(100) < 50 && random(10) < 5 && random(3) == 1 )
       {
-        tell_room(environment(), HIM+name()+HIM"從懷裏掏出一顆藥丸往嘴裏一吞。"NOR"\n");
+        tell_room(environment(), HIM+name()+HIM"從懷裏掏出一顆藥丸往嘴裏一吞。" + NOR + "\n");
         mob->receive_curing("kee",1000);
         mob->receive_heal("kee",1000);
         mob->receive_curing("sen",1000);
@@ -320,7 +320,7 @@ void heart_beat()
           exit = env->query("exits");
           exit_name = keys(exit);
           i = random(sizeof(exit_name));
-          message_vision(HIM"\n$N施展"HIW"ξ"BRED+HIY"閃電身法"NOR""HIW"ξ"HIM"高速脫離現場!!\n"NOR,mob,enemy[j]);
+          message_vision(HIM + "\n$N施展" + HIW + "ξ"BRED+HIY"閃電身法" + NOR + "" + HIW + "ξ" + HIM + "高速脫離現場!!\n" + NOR,mob,enemy[j]);
           command("say 留得青山在，不怕沒柴燒。  溜～～");
           command(exit_name[i]);
 //          i = random(sizeof(exit_name));
@@ -368,12 +368,12 @@ void die()
     spirit = new("/open/ghost-hole/obj/wind-spirit");
     spirit->move(me);
     write_file("/log/sky/spirit/wind-spirit",sprintf("%s(%s)讓神秘飛賊掉下了%s於 %s\n",me->name(1),me->query("id"),spirit->query("name"),ctime(time())));
-    message_vision(HIW"薀含在"+this_object()->query("name")+HIW"身體中的"+spirit->query("name")+HIW"飛射而出，落在$N"HIW"手中。\n"NOR,me);
+    message_vision(HIW + "薀含在"+this_object()->query("name")+HIW"身體中的"+spirit->query("name")+HIW"飛射而出，落在$N" + HIW + "手中。\n" + NOR,me);
   }
 
   if( me && me->query_temp("quests/magic-manor-01") == 2 )
   {
-    message_vision(YEL"$N臨死之際，掉出了一件東西，$n定睛一看，所要的正是此物。\n"NOR,this_object(),me);
+    message_vision(YEL + "$N臨死之際，掉出了一件東西，$n定睛一看，所要的正是此物。\n" + NOR,this_object(),me);
     obj=new("/open/magic-manor/obj/enn");
     obj->move(environment(me));
     me->set_temp("quests/magic-manor-01",3);
@@ -381,8 +381,8 @@ void die()
 
   if( me && me->query_temp("ask_steps") )
   {
-    message_vision(HIC"神秘飛賊說道:「可惡!!沒想到我的閃電身法在你面前居然沒用!!」\n"NOR,me);
-    message_vision(HIR"" + me->query("name") + "得到了閃電身法奧義。\n"NOR,me);
+    message_vision(HIC + "神秘飛賊說道:「可惡!!沒想到我的閃電身法在你面前居然沒用!!」\n" + NOR,me);
+    message_vision(HIR + "" + me->query("name") + "得到了閃電身法奧義。\n" + NOR,me);
     obj=new("/open/capital/obj/steps_book");
     obj->move(me);
   }

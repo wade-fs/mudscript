@@ -14,8 +14,8 @@ void create()
 LONG);
 	set("gender","男性");
 	set("class","dancer");
-	set("nickname",HIG"萬世魔王"NOR);
-	set("title",HIM"萬世教主"NOR);
+	set("nickname",HIG + "萬世魔王" + NOR);
+	set("title",HIM + "萬世教主" + NOR);
 	set("family/family_name","夜夢小築");
 	set("combat_exp",9000000);
 	set("attitude","aggressive");
@@ -117,16 +117,16 @@ void heart_beat()
         }
         if(me->is_fighting() && !present("False King"))
         {
-          message_vision(HIR"
+          message_vision(HIR + "
           
           巴斯八吼道:『選擇你的命運吧!!』
-          "HIY"
+          " + HIY + "
           
           只見巴斯八一化為二，二化為四，再化為八，
           
           剎那間竟有八個一模一樣的巴斯八將你包圍起來。
           
-                                           \n"NOR,who);
+                                           \n" + NOR,who);
           for(b=0;b<7;b++)
 	  {
 	   mob=new("/open/magic_palace/npc/4-2f.c");
@@ -206,27 +206,27 @@ void unconcious()
 	::die();
 	return ;
 	}else{
-        message_vision(HIR"
+        message_vision(HIR + "
         
 巴斯八吼道:『輸給魔界金典以外的武功\，我不甘心啊!!』
 
-"HIW"萬變寶籙最後一擊發動:"HIY"
+" + HIW + "萬變寶籙最後一擊發動:" + HIY + "
 
    ----------------------------     命   運   歸   一    ----------------------------
                     
-           "HIG"無數幻影回歸巴斯八身上，作出瀕死一擊，將$N送往不知名的世界。
+           " + HIG + "無數幻影回歸巴斯八身上，作出瀕死一擊，將$N送往不知名的世界。
                     
-        \n\n"NOR,winner);
+        \n\n" + NOR,winner);
 	winner->move("/open/magic_palace/room/room36.c");
         winner->unconcious();
         COMBAT_D->report_status(winner);
 	     }
 
-tell_object(users(),HIR"\n\n
+tell_object(users(),HIR + "\n\n
 
 西方天空突然多出一顆火紅的太陽......
 
-              \n\n"NOR);
+              \n\n" + NOR);
 
 	destruct(me);
 }

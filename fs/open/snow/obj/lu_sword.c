@@ -7,7 +7,7 @@ inherit SWORD;
 
 void create()
 {
-	set_name(HIY "貫日劍" NOR,({"sun sword","sword"}));
+	set_name(HIY + "貫日劍" + NOR,({"sun sword","sword"}));
 	set_weight(3000);
 	if( clonep() )
 		set_default_object(__FILE__);

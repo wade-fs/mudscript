@@ -4,7 +4,7 @@ inherit HANDS;
 object me=this_player();
 void create()
 {
-        set_name(MAG"噬魂手套"NOR,({"soul hands","hands"}));
+        set_name(MAG + "噬魂手套" + NOR,({"soul hands","hands"}));
         set_weight(2000);
         if( clonep() )
                 set_default_object(__FILE__);
@@ -32,7 +32,7 @@ me = environment(this_object());
  {
  if(random(100) > 80 && me->query("bellicosity") > 100)
    {
-message_vision(RED"\n$N的手掌突然發出紅光, $N瞬時精神一振, 但臉上殺氣卻漸漸退去。\n"NOR,me);
+message_vision(RED + "\n$N的手掌突然發出紅光, $N瞬時精神一振, 但臉上殺氣卻漸漸退去。\n" + NOR,me);
 me->receive_curing("kee",100);
 me->receive_heal("kee",100);
 me->add("atman",300);

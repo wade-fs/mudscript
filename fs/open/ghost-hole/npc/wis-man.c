@@ -6,8 +6,8 @@ void create ()
 {
         set_name("老人",({"old man","man","old"}) );
         set("gender","男性");
-        set("title",YEL"幽冥界"NOR);
-        set("nickname",HIW"智慧之長"NOR);
+        set("title",YEL + "幽冥界" + NOR);
+        set("nickname",HIW + "智慧之長" + NOR);
         set("age",74);
         set("long","他從小身長在幽冥界內, 對於幽冥界的所有事情都十分了解, 如果對幽冥界有任何的疑問
 , 都可以向他請教...\n");
@@ -50,7 +50,7 @@ object mob=this_object();
 if(me->query_temp("ghost-hole/wis-man/know-living-water"))
 return "我已經將生命之水給你了啊!!\n";
 me->set_temp("ghost-hole/wis-man/do_ask_water",1);
-return HIY"你有生命之水嗎??那是用來讓死蝶復活的必要物!!你知道如何使用(use)嗎??"NOR;
+return HIY + "你有生命之水嗎??那是用來讓死蝶復活的必要物!!你知道如何使用(use)嗎??" + NOR;
 }
 
 
@@ -71,34 +71,34 @@ me=this_player();
 ob2=new("/autoload/mogi/sspill");
 if(ob->query("id")!="living-water")
 {
-message_vision(HIY"老人以十分不屑的眼光看著$N給的"+ob->query("name")+", 接著舉起右手, 招幻一個黑洞
-, 把"+ob->query("name")+"給吸了進去!!\n"NOR,me);
+message_vision(HIY + "老人以十分不屑的眼光看著$N給的"+ob->query("name")+", 接著舉起右手, 招幻一個黑洞
+, 把"+ob->query("name")+"給吸了進去!!\n" + NOR,me);
 return 1;
 }
 if(!me->query_temp("ghost-hole/gave-water") || me->query_temp("ghost-hole/wis-man/know-living-water"))
 {
-message_vision(HIY"老人以十分不屑的眼光看著$N給的"+ob->query("name")+",
+message_vision(HIY + "老人以十分不屑的眼光看著$N給的"+ob->query("name")+",
 老人緩緩說道: 你拿這種東西給我做什麼??
-接著招喚一個黑洞, 把"+ob->query("name")+"給吸了進去!!\n"NOR,me);
+接著招喚一個黑洞, 把"+ob->query("name")+"給吸了進去!!\n" + NOR,me);
 return 1;
 }
 else
 {
 if(!me->query("got_sen_sen_pill"))
 {
-message_vision(HIY"老人高興的笑著:沒想到$N會給我如此貴重的東西, 真是太感激$N了!!\n"NOR,me);
-message_vision(HIY"老人隨即轉過身去, 從其背後的箱子裡面拿出了一些藥丸\n"NOR,me);
-message_vision(HIR"老人給了$N一些紅色藥丸!!\n"NOR,me);
-message_vision(HIY"老神笑著說:這些藥丸很好用的, 就當作是你給我生命之水的謝禮吧!!\n"NOR,me);
+message_vision(HIY + "老人高興的笑著:沒想到$N會給我如此貴重的東西, 真是太感激$N了!!\n" + NOR,me);
+message_vision(HIY + "老人隨即轉過身去, 從其背後的箱子裡面拿出了一些藥丸\n" + NOR,me);
+message_vision(HIR + "老人給了$N一些紅色藥丸!!\n" + NOR,me);
+message_vision(HIY + "老神笑著說:這些藥丸很好用的, 就當作是你給我生命之水的謝禮吧!!\n" + NOR,me);
 ob2->set_amount(5);
 ob2->move(me);
 me->set("got_sen_sen_pill",1);
 }
-message_vision(HIY"老人心滿意足的笑著:原來生命之水是長的如此模樣啊!!
+message_vision(HIY + "老人心滿意足的笑著:原來生命之水是長的如此模樣啊!!
 		哈哈!!謝謝你了!!來..生命之水還給你, 
         你必需把這滴生命之水覆蓋\(cover butterfly)在死蝶身上, 這樣死蝶
-		就會復活了!!\n"NOR,me);
-message_vision(HIW"老人把生命之水還給了$N \n"NOR,me);
+		就會復活了!!\n" + NOR,me);
+message_vision(HIW + "老人把生命之水還給了$N \n" + NOR,me);
 me->delete_temp("ghost-hole/gave-water");
 me->set_temp("ghost-hole/wis-man/know-living-water",1);
 ob->move(me);

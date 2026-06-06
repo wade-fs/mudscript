@@ -5,7 +5,7 @@ int do_dest();
 
 void create ()
 {
-	set("short",HIG"琰 揚 居 -- 後 院"NOR);
+	set("short",HIG + "琰 揚 居 -- 後 院" + NOR);
 	set("long",@LONG
 地上放著一塊墊高的木頭與劈材用的斧頭，如果你想劈材的話，
 必須先拿起(hold)斧頭，然後再大力的砍(cut)下去。

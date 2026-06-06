@@ -32,7 +32,7 @@ void init ()
   if (me->query_temp("six_sp_quest") == 4)
       {
        message_vision("\n你剛出大門, 突被一陣疾風撞倒, 只見一名僧侶急忙扶起你, 連聲道歉.\n",me);
-       message_vision(HIY"特上級武僧說道:對不起, 沒撞傷你吧, 小僧有『急事』告知你師父, 才如此匆忙. \n"NOR, me);
+       message_vision(HIY + "特上級武僧說道:對不起, 沒撞傷你吧, 小僧有『急事』告知你師父, 才如此匆忙. \n" + NOR, me);
        message_vision("說完, 便向府中奔去, 你滿懷好奇, 急忙也跟了進去. \n\n",me);
        me->set_temp("six_sp_quest",5);
       }

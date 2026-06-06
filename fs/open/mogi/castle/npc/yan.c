@@ -8,7 +8,7 @@ void create()
 {      
         set("title","仙劍派第二代弟子");
         set_name("風青雲",({"yan"}));
-        set("nickname",HIR"劍如迴陽"NOR);
+        set("nickname",HIR + "劍如迴陽" + NOR);
         set("class","swordsman");
         create_family("仙劍派",2,"弟子");
         set("family/master_name","逍遙子");
@@ -69,7 +69,7 @@ int do_recover(string str)
    return 1;
  }
  else{ 
-   message_vision(HIY"$N以焚天魔王所授的獨門解穴法在風青雲的大穴上點了幾下...\n"NOR,me);
+   message_vision(HIY + "$N以焚天魔王所授的獨門解穴法在風青雲的大穴上點了幾下...\n" + NOR,me);
    call_out("quests",1,me);
    return 1;
      }
@@ -83,20 +83,20 @@ void quests(object me)
 void mes1(object me)
 {
  if(me->query("family/family_name")=="仙劍派"){
-   message_vision(HIY"風青雲對$N說：多謝你替我解穴，讓我的內力得以再度貫通
+   message_vision(HIY + "風青雲對$N說：多謝你替我解穴，讓我的內力得以再度貫通
 周身一百零八大穴。既然是本門弟子，就讓我告訴你一件本門
 的故事
-"NOR,me);
+" + NOR,me);
    me->set("quest/sun_fire_sword",1);
    call_out("mes2",2,me);
                                     }
  else {
-message_vision(HIY"風青雲對$N說：多謝你替我解穴，讓我的內力得以再度貫通
+message_vision(HIY + "風青雲對$N說：多謝你替我解穴，讓我的內力得以再度貫通
 周身一百零八大穴。但你我職業不同，我的劍招絕學你也無法
 領悟。這樣好了，我另外知道另一件護甲寶物的鑄法，你去找
 魔界村的「李昆陽」告訴他「護甲寶物」的製法，也\許\他能幫
 你也說不定。
-"NOR,me);
+" + NOR,me);
   me->set("quest/save_yan",1);
       }
 }

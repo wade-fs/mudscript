@@ -6,7 +6,7 @@ inherit UNARMED;
 void create()
 {
         seteuid(getuid());
-        set_name(HIC "金鋼指環" NOR,({"figring"}));
+        set_name(HIC + "金鋼指環" + NOR,({"figring"}));
         set_weight(3000);
         if( clonep() )
                 set_default_object(__FILE__);

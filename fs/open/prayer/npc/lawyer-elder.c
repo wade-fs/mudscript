@@ -80,7 +80,7 @@ int accept_kill(object ob)
         ob1 = this_object();
 
         if( !present("hu-fa", environment(ob)) ) {
-        tell_room(environment(ob),HIW"\n突然！衝出兩位護法!!\n\n"NOR);
+        tell_room(environment(ob),HIW + "\n突然！衝出兩位護法!!\n\n" + NOR);
         for(i=0;i<2;i++)
         {
         hu_fa = new("/open/prayer/npc/hu_fa");

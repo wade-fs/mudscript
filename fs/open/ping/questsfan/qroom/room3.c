@@ -28,12 +28,12 @@ void init()
 {
         object me=this_player();
 
-        message_vision(HIY"$N頓覺腳下有異，低頭一看，才發現自己正身處在空虛之中，$N還來不及反應，身子已經筆直的跌入谷中!!!\n"NOR,me);
+        message_vision(HIY + "$N頓覺腳下有異，低頭一看，才發現自己正身處在空虛之中，$N還來不及反應，身子已經筆直的跌入谷中!!!\n" + NOR,me);
         me->set_temp("last_damage_from",me);
         me->set_temp("kill_it_self",1);
-      tell_object(users(),HIR"
+      tell_object(users(),HIR + "
 「啊～～～～～～～～」的一聲慘叫, 從段家的後山傳出, "+me->query("name")+"不慎失足跌落深谷,
-屍骨無存!!!\n"NOR);
+屍骨無存!!!\n" + NOR);
 
         me->die();
         call_out("do_clean",2);

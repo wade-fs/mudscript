@@ -102,7 +102,7 @@ int do_join()
 		command("say 很好，既然你已求得兩位長老的同意。");
 		command("say 那你就在此宣誓(swear)入教。");
 		me->set_temp("master_temp",1);
-                say(HIC"金童說道﹕請施主宣誓『盡忠魔教』以完成儀式。\n"NOR);
+                say(HIC + "金童說道﹕請施主宣誓『盡忠魔教』以完成儀式。\n" + NOR);
 		return 1;
 	    }
 }
@@ -112,21 +112,21 @@ int do_say(string str)
 	if(me->query_temp("master_temp")){
 	   if(str == "盡忠魔教"){
 		me->set("class","poisoner");
-            message_vision(sprintf(HIC"$N發誓說道﹕"+str+"\n"NOR),me);
+            message_vision(sprintf(HIC + "$N發誓說道﹕"+str+"\n" + NOR),me);
 		message("system",
-HIR "突然間......狂風大作、晴天霹靂.....\n\n世間上又多一個魔教徒"+me->name()+" !!!\n" NOR,users());
+HIR + "突然間......狂風大作、晴天霹靂.....\n\n世間上又多一個魔教徒"+me->name()+" !!!\n" + NOR,users());
 		command(":D");
-		say(HIC"玉女說道﹕歡迎加入魔教，將來要遵從教令哦。\n"NOR);
+		say(HIC + "玉女說道﹕歡迎加入魔教，將來要遵從教令哦。\n" + NOR);
 		me->delete_temp("master_temp");
 		return 1;
 	      }
 	  else {
-            message_vision(sprintf(HIC"$N發誓說道﹕"+str+"\n"NOR),me);
+            message_vision(sprintf(HIC + "$N發誓說道﹕"+str+"\n" + NOR),me);
 	    command("say 你說什麼呀，沒誠意就滾回去。");
 	    me->delete_temp("master_temp");
 	    return 1;
 	   }
-    message_vision(sprintf(HIC"$N發誓說道﹕"+str+"\n"),me);
+    message_vision(sprintf(HIC + "$N發誓說道﹕"+str+"\n"),me);
     command("say 我有同意讓你發誓嗎？");
     return 1;
 }

@@ -7,7 +7,7 @@ inherit NPC;
 
 void create()
 {
-  set("nickname",HIW"黑白雙剎"NOR);
+  set("nickname",HIW + "黑白雙剎" + NOR);
   set_name("白剎豔女", ({"white-ghost","ghost"}));
   set("age",8710);
   set("long","焚天魔王的兩大護法之一，長得極其美豔的女妖，練有陰毒邪功\「髮天殺」和「亂雪冰天」\n");
@@ -65,7 +65,7 @@ int do_cmd(string str)
   ob=this_object();
   ghost=present( "ghost",environment(ob) );
   if(str=="askgod ghost" || str=="askgod white-ghost") {
-    write(HIY"白剎豔女冷笑：「在魔王的地盤上面前求神問卜!?先問問魔王還差不多。」去死吧!!\n"NOR);
+    write(HIY + "白剎豔女冷笑：「在魔王的地盤上面前求神問卜!?先問問魔王還差不多。」去死吧!!\n" + NOR);
     ghost->kill_ob(who);
     return 1;
   }
@@ -83,7 +83,7 @@ int accept_kill(object me)
   ghost=present( "ghost 2",environment(ob) );
   if( !present( "ghost 2",environment(ob))||!living(ghost)) return 1;
   else {
-    message_vision(HIY"\n黑剎郎君看到白剎豔女有難，馬上向$N下了辣手攻擊！\n"NOR,me);
+    message_vision(HIY + "\n黑剎郎君看到白剎豔女有難，馬上向$N下了辣手攻擊！\n" + NOR,me);
     ghost->kill_ob(me);
     return 1;
   }
@@ -118,12 +118,12 @@ void heart_beat()
       target=enemy[random(i)];
       if( env == environment(target) )
       {
-        message_vision(HIW"
+        message_vision(HIW + "
 瞬間, 冷雪紛紛, 陰風慘慘, 白霜如星落, 銀萃如光轉, 彷彿凍結
 了血液一般, 凝止了一切
-只見$N左手輕輕一拂, 漫天冰雪疾飛狂轉, 一式"HIB"「亂雪冰天」"HIW"
+只見$N左手輕輕一拂, 漫天冰雪疾飛狂轉, 一式" + HIB + "「亂雪冰天」" + HIW + "
 朝著所有有溫度之物襲去
-\n"NOR,mob);
+\n" + NOR,mob);
         for(j=0;j < i;j++) {
           enemy[j]->start_busy(1);
           enemy[j]->add("kee",-700);
@@ -154,7 +154,7 @@ void die()
       if( j==7 || j==77 || j== 777 || j==1111 || j==55 || j==555 || j==1000 || j==4000 || j==3333 || j==2222 )
       {
         new("/open/sky/obj1/light_emblem")->move(environment(winner));
-        message_vision(HIM"\n從白剎豔女的身上掉下了一件奇怪的東西!!\n"NOR,winner);
+        message_vision(HIM + "\n從白剎豔女的身上掉下了一件奇怪的東西!!\n" + NOR,winner);
         write_file("/log/sky/obj1/light_emblem",sprintf("%s(%s) 讓白剎豔女掉下了光之紋章於 %s\n",
           winner->name(1),winner->query("id"),ctime(time())));
       }
@@ -163,7 +163,7 @@ void die()
       if( j==5 || j==15 || j== 150 || j==1500 || j==10 || j==100 || j==1000 || j==4000 || j==6666 || j==7777 )
       {
         new("/open/sky/obj1/light_emblem")->move(environment(winner));
-        message_vision(HIM"\n從白剎豔女的身上掉下了一件奇怪的東西!!\n"NOR,winner);
+        message_vision(HIM + "\n從白剎豔女的身上掉下了一件奇怪的東西!!\n" + NOR,winner);
         write_file("/log/sky/obj1/light_emblem",sprintf("%s(%s) 讓白剎豔女掉下了光之紋章於 %s\n",
           winner->name(1),winner->query("id"),ctime(time())));
       }

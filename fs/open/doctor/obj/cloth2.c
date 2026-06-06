@@ -3,7 +3,7 @@
 inherit CLOTH;
 void create()
 {
-        set_name(HIW"寒蠶袍"NOR, ({ "ice cloth","cloth"}) );
+        set_name(HIW + "寒蠶袍" + NOR, ({ "ice cloth","cloth"}) );
         set_weight(2000);
         if( clonep() )
                 set_default_object(__FILE__);

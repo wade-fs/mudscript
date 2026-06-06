@@ -2,7 +2,7 @@
 inherit ROOM;
 void create ()
 {
-set("short",BLU"死靈幽谷"NOR);
+set("short",BLU + "死靈幽谷" + NOR);
 set("long",@LONG
 地上堆滿了許多的食物與茶, 這裡可能是居住在
 這裡人的食物儲藏室, 這裡的空氣似乎比其他的地方

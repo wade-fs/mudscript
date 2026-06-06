@@ -62,7 +62,7 @@ void callset(object who)
 int heal_up()
 {
         if (!is_fighting() ) {
-             message_vision (HIB"兇暴的$N漸漸平息下來，再度變為雲霧。\n"NOR, this_object ());
+             message_vision (HIB + "兇暴的$N漸漸平息下來，再度變為雲霧。\n" + NOR, this_object ());
 						 clean_enemy();
 
              destruct(this_object());
@@ -79,7 +79,7 @@ void unconcious ()
 	winner->add("killgrow/cloud_dragon",1);
  clean_enemy();
 
-        message_vision (HIB"$N長嚎一聲，消失的無影無蹤。\n"NOR, this_object ());
+        message_vision (HIB + "$N長嚎一聲，消失的無影無蹤。\n" + NOR, this_object ());
         destruct (this_object ());
 }
 void die()
@@ -98,7 +98,7 @@ int special_att()
 	j = victim->query_temp("apply/armor");
 	k = (int)(victim->query("killgrow/cloud_dragon")/10);
 	if( k > 5000 )	k=5000;
-        message_vision (HIB"$N一聲怒吼，一道閃電向$n直劈而來。\n"NOR,me,victim);
+        message_vision (HIB + "$N一聲怒吼，一道閃電向$n直劈而來。\n" + NOR,me,victim);
         victim->receive_damage("kee",100+j+k);      
         COMBAT_D->report_status(victim);       
   

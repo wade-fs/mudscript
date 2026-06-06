@@ -15,7 +15,7 @@ void create()
             set("long","她是月牙兒的師姐，擅長媚術，據說她已經領悟出夜夢天舞的終極殺\n招，當年因為心術不正而被逐出師門，但是她的修為似乎比月牙兒更\n高，以舞媚之術稱霸南蠻數年無人能敵。\n");
             set("gender","女性");
             set("class","dancer");
-            set("nickname",HIM"舞"HIW"之"HIG"傳人"NOR);
+            set("nickname",HIM + "舞" + HIW + "之" + HIG + "傳人" + NOR);
             set("combat_exp",7000000);
             set("attitude","heroism");
             set("age",26);
@@ -104,10 +104,10 @@ int greeting()
 {    
     object me=this_player();
     if ( me->query_temp("ask_ice_fire") == 9 && present("fire-medal",me) )
-    tell_object(me,"\n是段雲給你"HIR"炎之紋章"NOR"的吧? 之前遊至平南城時，剛好遇到仇家追殺，匆促離開的情形下將此物品交給了段雲。\n"NOR);
+    tell_object(me,"\n是段雲給你" + HIR + "炎之紋章" + NOR + "的吧? 之前遊至平南城時，剛好遇到仇家追殺，匆促離開的情形下將此物品交給了段雲。\n" + NOR);
 
     if ( me->query_temp("ask_ice_fire") == 9 && present("ice-medal",me) )
-    tell_object(me,"\n是慕容復給你"HIC"冰之紋章"NOR"的吧? 之前遊至西域時，剛好遇到仇家追殺，匆促離開的情形下將此物品交給了慕容復。\n"NOR);
+    tell_object(me,"\n是慕容復給你" + HIC + "冰之紋章" + NOR + "的吧? 之前遊至西域時，剛好遇到仇家追殺，匆促離開的情形下將此物品交給了慕容復。\n" + NOR);
 }
 
 string ask_fire()
@@ -167,14 +167,14 @@ int accept_kill(object who)
     who=this_player();
     command("con reflection");
     kill_ob(who);
-message_vision(sprintf("\n\t\t"HIC"    "HIW"～　"HIM"憶紅塵"HIW"，"HIG"血染霓裳"HIW"，"HIY"天地無痕各一方\n\n\n"
-HIC"\t\t\t無奈何"HIW"，"HIB"恨遺飛霜"HIW"，"HIR"孤獨人間恨兩行　"HIW"～\n\n\n"
-HIR"\t ╭═╮  ╭╗      "HIG"╠╦╦╦╦╯    "HIC"═╗╭══╮    "HIM"◆╭═╮╭═╮\n"
-HIR"\t ╠═╣╰═╝      "HIG"╰╬╬╬╬╯    "HIC"╰╯║╭╮║    "HIM"◆╠─╣╠─╣\n"
-HIR"\t ╰╦╯  ╭╗      "HIG"╰╬╩╩╩╯     "HIC"● ║║║║    "HIM"╗╠═╯╰═║\n"
-HIR"\t ╦╩╦╰═╯        "HIG"╠═╦╬╯     "HIC"╗ ║║║║    "HIM"║║ ╦╬╦ ║\n"
-HIR"\t ╰╦╯  ╭╗        "HIG"║●╬╬╯     "HIC"║ ║╰╯║    "HIM"║║ ╰︾╯ ║\n"
-HIR"\t ●║●╰═╯        "HIG"╯  ║║       "HIC"╯ ╰══╯  "HIM"╰╝║ ╭╬╮ ║\n\n\n"),this_player());
+message_vision(sprintf("\n\t\t" + HIC + "    " + HIW + "～　" + HIM + "憶紅塵" + HIW + "，" + HIG + "血染霓裳" + HIW + "，" + HIY + "天地無痕各一方\n\n\n"
+HIC + "\t\t\t無奈何" + HIW + "，" + HIB + "恨遺飛霜" + HIW + "，" + HIR + "孤獨人間恨兩行　" + HIW + "～\n\n\n"
+HIR + "\t ╭═╮  ╭╗      " + HIG + "╠╦╦╦╦╯    " + HIC + "═╗╭══╮    " + HIM + "◆╭═╮╭═╮\n"
+HIR + "\t ╠═╣╰═╝      " + HIG + "╰╬╬╬╬╯    " + HIC + "╰╯║╭╮║    " + HIM + "◆╠─╣╠─╣\n"
+HIR + "\t ╰╦╯  ╭╗      " + HIG + "╰╬╩╩╩╯     " + HIC + "● ║║║║    " + HIM + "╗╠═╯╰═║\n"
+HIR + "\t ╦╩╦╰═╯        " + HIG + "╠═╦╬╯     " + HIC + "╗ ║║║║    " + HIM + "║║ ╦╬╦ ║\n"
+HIR + "\t ╰╦╯  ╭╗        " + HIG + "║●╬╬╯     " + HIC + "║ ║╰╯║    " + HIM + "║║ ╰︾╯ ║\n"
+HIR + "\t ●║●╰═╯        " + HIG + "╯  ║║       " + HIC + "╯ ╰══╯  " + HIM + "╰╝║ ╭╬╮ ║\n\n\n"),this_player());
     who->start_busy(1);
     return 1;
 }
@@ -190,16 +190,16 @@ void heart_beat()
  env = environment(mob);
  if( j < 40 && is_fighting())
  {
-message_vision(HIW"\n\n\t\t----- "HIY"媚 "HIW"＊ "HIG"影 "HIW"＊ "HIR"舞 "HIW"＊ "HIC"豔"HIW" -----\n\n"
-HIM"$N"HIM"眼露媚光，隨著夜色迷濛翩翩起舞，朱唇嬌豔，舞姿輕盈，此招正是\n"
-HIM"$N"HIM"傾國傾城，迷惑天下的妖媚之術，你受到媚術所迷惑，看的入迷三分\n
-不知不覺逐漸被媚術迷惑失神，攻防之值瞬間大降！\n\n"NOR, mob );
+message_vision(HIW + "\n\n\t\t----- " + HIY + "媚 " + HIW + "＊ " + HIG + "影 " + HIW + "＊ " + HIR + "舞 " + HIW + "＊ " + HIC + "豔" + HIW + " -----\n\n"
+HIM + "$N" + HIM + "眼露媚光，隨著夜色迷濛翩翩起舞，朱唇嬌豔，舞姿輕盈，此招正是\n"
+HIM + "$N" + HIM + "傾國傾城，迷惑天下的妖媚之術，你受到媚術所迷惑，看的入迷三分\n
+不知不覺逐漸被媚術迷惑失神，攻防之值瞬間大降！\n\n" + NOR, mob );
   for( k=0 ; k < i ; k++)
    {
    if( !enemy[k] ) continue;
     if( enemy[k]->is_character() && !enemy[k]->is_corpse() && living(enemy[k]) && enemy[k] != mob && !wizardp(enemy[k]) )
      {
-      message_vision(HIR"妖媚之術如天仙下凡，看得你如癡如醉，目瞪口呆！！\n"NOR,enemy[k]);
+      message_vision(HIR + "妖媚之術如天仙下凡，看得你如癡如醉，目瞪口呆！！\n" + NOR,enemy[k]);
       enemy[k]->receive_wound("kee",200);
       enemy[k]->apply_condition("power-down",enemy[k]->query_condition("power-down")+5);
       COMBAT_D->report_status(enemy[k]);
@@ -214,11 +214,11 @@ HIM"$N"HIM"傾國傾城，迷惑天下的妖媚之術，你受到媚術所迷惑
         if(!enemy[i]) continue;
     if(environment(mob) == environment(enemy[i]))
         {
-    message_vision(HIR"\n\n$N運起鳳凰靈氣，靈氣灌頂游走全身，鳳凰靈氣配合夢玄法鑑，空氣瞬間凝結成冰！\n\n"
-HIC"\t\t\t◎ "HBBLU+HIR"鳳 "HIW"～ "HIR"凰 "HIW"～ "HIY"展 "HIW"～ "HIY"翅"NOR+HIC" ◎\n\n"
-HIB"\t\t● "HIR"血 "HIW"、 "HIR"染 "HIW"、 "HIM"紅 "HIW"、 "HIM"塵 "HIW"、 "HIG"舞 "HIW"、 "HIG"秋 "HIW"、 "HIG"風 "HIB"●\n\n\n"
-HIY"只見$N"HIY"身上散放出一股強大的氣勁，靈氣頓時浮現衝天而去，化成八道不同的靈光疾射\n"
-HIY"你胸前八大要穴，只見你"HIY"受靈氣所限制，頓時全身內力不斷流失，身體虛弱無力，無法使勁。\n\n"NOR, mob );
+    message_vision(HIR + "\n\n$N運起鳳凰靈氣，靈氣灌頂游走全身，鳳凰靈氣配合夢玄法鑑，空氣瞬間凝結成冰！\n\n"
+HIC + "\t\t\t◎ "HBBLU+HIR"鳳 " + HIW + "～ " + HIR + "凰 " + HIW + "～ " + HIY + "展 " + HIW + "～ " + HIY + "翅"NOR+HIC" ◎\n\n"
+HIB + "\t\t● " + HIR + "血 " + HIW + "、 " + HIR + "染 " + HIW + "、 " + HIM + "紅 " + HIW + "、 " + HIM + "塵 " + HIW + "、 " + HIG + "舞 " + HIW + "、 " + HIG + "秋 " + HIW + "、 " + HIG + "風 " + HIB + "●\n\n\n"
+HIY + "只見$N" + HIY + "身上散放出一股強大的氣勁，靈氣頓時浮現衝天而去，化成八道不同的靈光疾射\n"
+HIY + "你胸前八大要穴，只見你" + HIY + "受靈氣所限制，頓時全身內力不斷流失，身體虛弱無力，無法使勁。\n\n" + NOR, mob );
     enemy[i]->apply_condition("no_power_e",random(10)+5);
     enemy[i]->receive_damage("kee", 800 );
     enemy[i]->receive_damage("gin", 300 );
@@ -233,7 +233,7 @@ HIY"你胸前八大要穴，只見你"HIY"受靈氣所限制，頓時全身內�
     {mob->delete_busy();
         if(mob -> query("kee") < mob->query("max_kee")*0.6)
         {
-    message_vision( HIG"\n$N"HIG"使出夢玄法鑑治療術，瞬間身上的傷口漸漸癒合。\n"NOR, mob);
+    message_vision( HIG + "\n$N" + HIG + "使出夢玄法鑑治療術，瞬間身上的傷口漸漸癒合。\n" + NOR, mob);
     mob->clear_condition();
     mob->receive_heal("kee",700);
     mob->receive_curing("kee",700);
@@ -292,7 +292,7 @@ void die()
              new("/open/prayer/obj/crystal8.c")->move(winner);
              new("/open/prayer/obj/crystal9.c")->move(winner);
              new("/open/prayer/obj/crystal10.c")->move(winner);
-             message_vision(HIW"\n\n$N從凌雪飛身上得到了四根渾天水晶。\n\n"NOR,winner);
+             message_vision(HIW + "\n\n$N從凌雪飛身上得到了四根渾天水晶。\n\n" + NOR,winner);
             }else if(winner->query_temp("find_crystal"))
                     {
                      winner->set_temp("find_crystal",18);
@@ -300,7 +300,7 @@ void die()
                      if(c == 1)  new("/open/prayer/obj/crystal8.c")->move(winner);
                      if(c == 2)  new("/open/prayer/obj/crystal9.c")->move(winner);
                      if(c == 3)  new("/open/prayer/obj/crystal10.c")->move(winner);
-                     message_vision(HIW"\n\n$N從凌雪飛身上得到了一根渾天水晶。\n\n"NOR,winner);
+                     message_vision(HIW + "\n\n$N從凌雪飛身上得到了一根渾天水晶。\n\n" + NOR,winner);
                     }
     ::die();
 }

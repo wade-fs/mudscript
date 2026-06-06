@@ -15,7 +15,7 @@ void create()
   set("gender","女性");
   set("class","dancer");
   set("family/family_name","夜夢小築");
-  set("title",HIM"毒靈使"NOR);
+  set("title",HIM + "毒靈使" + NOR);
   set("combat_exp",5000000);
   set("attitude","heroism");
   set("age",20);
@@ -93,10 +93,10 @@ void heart_beat()
   i=sizeof(enemy);
   if( is_fighting() ) {
     if(random(100)>70) {
-      message_vision(HIM"毒娃兒赫然召喚出一隻毒蛙!!\n"NOR,this_object());
+      message_vision(HIM + "毒娃兒赫然召喚出一隻毒蛙!!\n" + NOR,this_object());
       if(random(5)>2)
       {
-        message_vision(HIM"毒蛙趁你不注意之時，猛然噴出毒霧，你一個閃失吸進了一大口毒氣!!\n"NOR,ob);
+        message_vision(HIM + "毒蛙趁你不注意之時，猛然噴出毒霧，你一個閃失吸進了一大口毒氣!!\n" + NOR,ob);
         for(j=0;j<i;j++)
         {
           if (!enemy[j]->is_fighting() && enemy[j]->is_character() && !enemy[j]->is_corpse()
@@ -108,7 +108,7 @@ void heart_beat()
         }
       }
       else
-        message_vision("呱呱！毒蛙有氣無力的吐了一小口毒霧，飛也似的逃跑了。\n"NOR,ob);
+        message_vision("呱呱！毒蛙有氣無力的吐了一小口毒霧，飛也似的逃跑了。\n" + NOR,ob);
     }
     if(query_temp("ref_shield")!=1)
     {

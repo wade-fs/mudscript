@@ -3,7 +3,7 @@ inherit ROOM;
 #include <ansi.h>
 void create ()
 {
-  set ("short", ""CYN"密道"NOR"");
+  set ("short", "" + CYN + "密道" + NOR + "");
   set ("long", @LONG
 你繼續走著，突然發現這密道怎麼走都走不完，四周
 的景像好似熟悉。這時心頭的一股涼意油然而生，難道迷

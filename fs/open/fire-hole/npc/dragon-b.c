@@ -14,7 +14,7 @@ void create()
   set("long",
     "全身泛著藍光的火龍，守護著火龍窟的結界交點。\n");
   set("race", "野獸");
-  set("title",HIC"(藍光)"NOR);
+  set("title",HIC + "(藍光)" + NOR);
   set("age", 50000);
   set("attitude", "aggressive");
   set("family/family_name","火龍窟");
@@ -77,7 +77,7 @@ void heart_beat()
   if (mob->query("force") < 1000000) { // 總要讓 dragon 用什麼來轉換吧？wade
     mob->set("force",1250000);
     mob->set("force_factor",40);
-    message_vision(HIR"\n藍光火龍燃起熾熱火焰將自身的內力倍增六成!!\n"NOR,mob);
+    message_vision(HIR + "\n藍光火龍燃起熾熱火焰將自身的內力倍增六成!!\n" + NOR,mob);
   }
 
   if ( mob->query("kee")<130000 && random(200)<50 && !mob->is_busy())
@@ -86,7 +86,7 @@ void heart_beat()
     mob->receive_curing("kee",4000);
     mob->receive_heal("kee",4000);
 */
-    message_vision(HIY "\n藍光火龍運起神功\為自身療傷，傷口也慢慢癒合了\n"NOR,mob);
+    message_vision(HIY + "\n藍光火龍運起神功\為自身療傷，傷口也慢慢癒合了\n" + NOR,mob);
     mob->receive_curing("kee",2000);
     mob->receive_heal("kee",2000);
   }
@@ -116,7 +116,7 @@ void heart_beat()
     target=enemy[random(i)];
     if (mob->is_fighting())
     {
-      message_vision(HIR"\n藍光火龍大吼一聲, 火焰如排山倒海般的襲擊而來!!\n"NOR,mob);
+      message_vision(HIR + "\n藍光火龍大吼一聲, 火焰如排山倒海般的襲擊而來!!\n" + NOR,mob);
 //      mob->delete_busy(); // 理由同小火龍 沒道理心跳已經夠強了還加delete_busy by frequency
       for (j=0 ; j < i ; j++)
       {
@@ -143,7 +143,7 @@ void heart_beat()
               hurt = 3000+random(2000);
               enemy[j]->apply_condition("hart",100);
               enemy[j]->set("force_factor",0);
-              tell_object(enemy[j],HIY"由於你的雪蒼內勁被火焰打散, 使你無法施力並受到數倍的傷害!!\n"NOR);
+              tell_object(enemy[j],HIY + "由於你的雪蒼內勁被火焰打散, 使你無法施力並受到數倍的傷害!!\n" + NOR);
             }
             if (!enemy[j]->query_temp("keeup"))
             { hurt = 3000+random(500); }
@@ -152,25 +152,25 @@ void heart_beat()
                 enemy[j]->query_temp("def_fire1")==1)
             {
               hurt = hurt - defire - 500;
-              tell_object (enemy[j],HIG"你身上的焰氣訣與火龍鱗發生共鳴緩和了藍光火龍的火焰!!\n"NOR);
+              tell_object (enemy[j],HIG + "你身上的焰氣訣與火龍鱗發生共鳴緩和了藍光火龍的火焰!!\n" + NOR);
             }
             else if (enemy[j]->query_temp("def_fire")==1)
             {
               hurt = hurt - 1000;
-              tell_object (enemy[j],HIG"你身上的焰氣訣緩和了藍光火龍的火焰!!\n"NOR);
+              tell_object (enemy[j],HIG + "你身上的焰氣訣緩和了藍光火龍的火焰!!\n" + NOR);
             }
             else if (enemy[j]->query_temp("def_fire1")==1)
             {
               hurt = hurt - defire*1.2;
-              tell_object (enemy[j],HIG"你身上的火龍鱗緩和了藍光火龍的火焰!!\n"NOR);
+              tell_object (enemy[j],HIG + "你身上的火龍鱗緩和了藍光火龍的火焰!!\n" + NOR);
             }
             else if (enemy[j]->query_temp("gold-fire")==1 && //增加極火金身也可以擋掉500點功擊
                      enemy[j]->query("functions/gold-fire/level","gold-fire") == 90)
             {
               hurt = hurt -500;
-              tell_object (enemy[j],HIG"你身上的極火金身緩和了藍光火龍的火焰!!\n"NOR);
+              tell_object (enemy[j],HIG + "你身上的極火金身緩和了藍光火龍的火焰!!\n" + NOR);
             }
- //            message_vision(HIG"\n火龍鱗耐火值為"+defire+",火龍原始害值為"+ohurt+",最後傷害值為"+hurt+"!!\n"NOR,mob);
+ //            message_vision(HIG + "\n火龍鱗耐火值為"+defire+",火龍原始害值為"+ohurt+",最後傷害值為"+hurt+"!!\n" + NOR,mob);
             if (hurt < 0) hurt =50; //不增加前列之傷害 但是至少給予基礎傷害 by blazakira
             enemy[j]->receive_damage("kee",hurt,mob);
             enemy[j]->start_busy(1);
@@ -255,8 +255,8 @@ void die()
         }
         if(enemy[j]->query("combat_exp") < 25000000)
         {
-          tell_object(enemy[j],HIY"\n由於你的努力, 終於打倒了藍光火龍, 你辛苦的代價換來了寶貴的經驗!!\n"NOR);
-          tell_object(enemy[j],HIC"你的戰鬥經驗上升 "+exp+" 點, 潛在能力上升 "+pot+" 點!!\n"NOR);
+          tell_object(enemy[j],HIY + "\n由於你的努力, 終於打倒了藍光火龍, 你辛苦的代價換來了寶貴的經驗!!\n" + NOR);
+          tell_object(enemy[j],HIC + "你的戰鬥經驗上升 "+exp+" 點, 潛在能力上升 "+pot+" 點!!\n" + NOR);
           enemy[j]->add("combat_exp",exp);
           enemy[j]->add("potential",pot);
           enemy[j]->delete_temp("fight_blue");

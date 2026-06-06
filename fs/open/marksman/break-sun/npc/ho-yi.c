@@ -11,7 +11,7 @@ void create()
         set("class", "marksman");
         set_name("后羿", ({ "ho yi", "ho", "yi" }) );
         set("title","東夷族首領");
-        set("nickname",HIW "箭"HIY"神"NOR);
+        set("nickname",HIW + "箭" + HIY + "神" + NOR);
         set("gender", "男性");
         set("max_kee",5000);
         set("age", 53);
@@ -181,7 +181,7 @@ int do_answer(string str)
 	    if(str == "yes" || str == "y")
 		{
 		command("say 好！那你看清楚了，弓要這樣握，箭要這樣架‧‧‧！＠＃＄％︿＆‧‧‧");
-        message_vision(HIW"\n\n就在后羿解釋如何使出破日驚天的時候，五道不尋常的彩光注入$N的身體。\n\n"NOR,me);
+        message_vision(HIW + "\n\n就在后羿解釋如何使出破日驚天的時候，五道不尋常的彩光注入$N的身體。\n\n" + NOR,me);
         command("say 那五道光芒是我的好朋友，都靠它們的力量才有我的破日驚天呢！");
 		command("say 看來它們也接受你了。就試著運用這五道彩光來射日吧！(shoot sun)");
 		me->set_temp("ask-break-sun",21);
@@ -211,7 +211,7 @@ int do_shoot(string str)
  }
  else if(k==21 && str == "sun")
  {
-  message_vision(HIY"\n$N運起五道彩光，聚集成箭，架上弓之後，往你頭上斗大的太陽射去......\n"NOR,me);
+  message_vision(HIY + "\n$N運起五道彩光，聚集成箭，架上弓之後，往你頭上斗大的太陽射去......\n" + NOR,me);
   me->set_temp("shooting-sun",1);
   call_out("do_shootsun",5,me);
  } else command("你想射在哪裡??");
@@ -231,14 +231,14 @@ int do_shootsun()
  me->delete_temp("shooting-sun");
  if(j>99)
  {
-  message_vision(HIY"\n$N瞄準的那顆太陽被射中之後瞬間墜下，天空霎時少了些許\陽光......\n"NOR,me);
+  message_vision(HIY + "\n$N瞄準的那顆太陽被射中之後瞬間墜下，天空霎時少了些許\陽光......\n" + NOR,me);
   me->add_temp("sun-down",1);
   me->receive_damage("gin",100+(me->query("max_gin"))/2);
   me->receive_damage("kee",100+(me->query("max_kee"))/2);
   me->receive_damage("sen",100+(me->query("max_sen"))/2);
   COMBAT_D->report_status(me);
  }else{
-       message_vision(HIR"\n$N的彩光之箭迅速飛向被瞄準的太陽，但是彩光的威力不及太陽的能量，竟被反射回來，將$N擊落山下......\n"NOR,me);
+       message_vision(HIR + "\n$N的彩光之箭迅速飛向被瞄準的太陽，但是彩光的威力不及太陽的能量，竟被反射回來，將$N擊落山下......\n" + NOR,me);
 	   me->move("/open/marksman/break-sun/mount01");
        me->unconcious();
       }
@@ -248,30 +248,30 @@ int do_shootsun()
    me->set("break-sun",1);
    me->delete_temp("ask-break-sun");
    me->delete_temp("sun-down");
-/*   message_vision(HIG"
+/*   message_vision(HIG + "
  ～亙古歌謠，傳頌英雄史蹟\n
     九陽殞落，先民為之歡呼～\n
 	
-"HIC"遠古英雄"HIB"‧"HIR"箭"HIY"神"HIW"后羿"HIM"曾說過："HIY"\n
+" + HIC + "遠古英雄" + HIB + "‧" + HIR + "箭" + HIY + "神" + HIW + "后羿" + HIM + "曾說過：" + HIY + "\n
 　　　　　　　　　　　　"+me->query("name")+"為吾等解決久旱不雨之苦\n
 
 　　　　　　　　　　　　為表謝意，特將吾畢生絕學\n
 
-　　　　　　　　　　　　　　"HIM"《"HBYEL""HIB"破"NOR"　"HBBLU""HIY"日"NOR"　"HBGRN""HIW"驚"NOR"　"BRED""HIC"天"NOR""HIM"》\n
+　　　　　　　　　　　　　　" + HIM + "《" + HBYEL + "" + HIB + "破" + NOR + "　" + HBBLU + "" + HIY + "日" + NOR + "　" + HBGRN + "" + HIW + "驚" + NOR + "　" + BRED + "" + HIC + "天" + NOR + "" + HIM + "》\n
 
-　　　　　　　　　　　　"HIY"傾囊相授於彼！！\n\n"NOR,me);*/
-   tell_object(users(),HIG"
+　　　　　　　　　　　　" + HIY + "傾囊相授於彼！！\n\n" + NOR,me);*/
+   tell_object(users(),HIG + "
  ～亙古歌謠，傳頌英雄史蹟\n
     九陽殞落，先民為之歡呼～\n
 	
-"HIC"遠古英雄"HIB"‧"HIR"箭"HIY"神"HIW"后羿"HIM"曾說過："HIY"\n
+" + HIC + "遠古英雄" + HIB + "‧" + HIR + "箭" + HIY + "神" + HIW + "后羿" + HIM + "曾說過：" + HIY + "\n
 　　　　　　　　　　　　"+me->query("name")+"為吾等解決久旱不雨之苦\n
 
 　　　　　　　　　　　　為表謝意，特將吾畢生絕學\n
 
-　　　　　　　　　　　　　　"HIM"《"HBYEL""HIB"破"NOR"　"HBBLU""HIY"日"NOR"　"HBGRN""HIW"驚"NOR"　"BRED""HIC"天"NOR""HIM"》\n
+　　　　　　　　　　　　　　" + HIM + "《" + HBYEL + "" + HIB + "破" + NOR + "　" + HBBLU + "" + HIY + "日" + NOR + "　" + HBGRN + "" + HIW + "驚" + NOR + "　" + BRED + "" + HIC + "天" + NOR + "" + HIM + "》\n
 
-　　　　　　　　　　　　"HIY"傾囊相授於彼！！\n\n"NOR);
+　　　　　　　　　　　　" + HIY + "傾囊相授於彼！！\n\n" + NOR);
    command("say 我感到村外魔法之力即將油盡燈枯\，你應該不是我們這時代的人，趕快回去吧，再不走就太遲了！");
    command("say 如果忘記怎麼使用我教你的招式，可利用(help 破日驚天)來查看，再見了!!");
    me->move("/open/marksman/break-sun/transmit-old");

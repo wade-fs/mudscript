@@ -4,7 +4,7 @@ inherit ROOM;
 
 void create()
 {
-	set("short",HIG"琰 揚 居 -- "NOR+YEL"大 松 樹"NOR);
+	set("short",HIG + "琰 揚 居 -- "NOR+YEL"大 松 樹" + NOR);
 	set("long",(: printf_tree :));
 	set("exits",([
 "east":__DIR__"b-41",

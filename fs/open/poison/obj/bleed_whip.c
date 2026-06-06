@@ -6,7 +6,7 @@ inherit WHIP;
 
 void create()
 {
-	set_name(HIR "血龍鞭" NOR,({"bleed whip","whip"}));
+	set_name(HIR + "血龍鞭" + NOR,({"bleed whip","whip"}));
 	set_weight(3000);
 	if( clonep() )
 		set_default_object(__FILE__);
@@ -40,7 +40,7 @@ if( user->is_fighting() && query("equipped") )
   {
      if( random(be) > 1000 && random(100) > 70 && user->query("marks/evil-poison")==1) // 發動機率本身包含命中機率 所以有發動就會命中
      {
-      message_vision(HIR"$N手中血龍鞭在$n身上帶出一條血痕, $n只覺傷口發麻, 似乎鞭上有毒!!!\n"NOR,user,victim);
+      message_vision(HIR + "$N手中血龍鞭在$n身上帶出一條血痕, $n只覺傷口發麻, 似乎鞭上有毒!!!\n" + NOR,user,victim);
       victim->receive_wound("kee",po);
       victim->apply_condition("fire_poison",random(3)+1);
       if(victim->query_temp("poison/fire_poison"))

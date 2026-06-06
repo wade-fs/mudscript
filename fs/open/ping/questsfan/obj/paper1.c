@@ -2,7 +2,7 @@ inherit ITEM;
 #include <ansi.h>
 void create()
 {
-        set_name(HIW "飄陽的傳說" NOR,({"story paper","paper"}));
+        set_name(HIW + "飄陽的傳說" + NOR,({"story paper","paper"}));
         set("long","這是一張由秦厲害那買來的情報，你可以用(read)來觀看。\n");
         set("unit","張");
 set("no_get", 1);

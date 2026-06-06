@@ -3,7 +3,7 @@ inherit ROOM;
 
 void create()
 {
-	set("short",HIG"琰 揚 居 -- "NOR+YEL"大 松 樹"NOR);
+	set("short",HIG + "琰 揚 居 -- "NOR+YEL"大 松 樹" + NOR);
 	set("long",@LONG
 你有點不敢相信自己的眼睛，這麼大的一隻蜜蜂，或許就你所知
 的，牠是應該叫做蜜蜂吧，你可以清楚的看到這些你所謂的蜜蜂正在
@@ -57,13 +57,13 @@ int valid_leave(object me,string dir)
 		{
 			message_vision("$N抓住樹幹，準備衝向樹頂時，一群蜜蜂突然飛繞在你身旁～\n",me);
 			call_out("move",1,me);
-			return notify_fail(HIY"你心想～不好了...:~...\n"NOR);
+			return notify_fail(HIY + "你心想～不好了...:~...\n" + NOR);
 		}
 		if( !me->query_temp("evil/water/climb") )
 		{
 			message_vision("$N努力的想爬上去，可是卻不小心的沒抓好樹幹～\n",me);
 			call_out("move",1,me);
-			return notify_fail(HIY"你心想～不好了...:~...\n"NOR);
+			return notify_fail(HIY + "你心想～不好了...:~...\n" + NOR);
 		}
 	message_vision("$N順利的爬了上去。\n",me);
 	me->delete_temp("evil/water/climb");
@@ -77,5 +77,5 @@ int move(object me)
 	me->move("/open/evil-area/water/b-20");
 	me->receive_wound("kee",500);
 	COMBAT_D->report_status(me,1);
-	message_vision(HIR"\n$N重重的從樹上跌落於地～\n"NOR);
+	message_vision(HIR + "\n$N重重的從樹上跌落於地～\n" + NOR);
 }

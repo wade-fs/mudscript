@@ -4,7 +4,7 @@
 inherit ROOM;
 void create()
 {
-set("short",HIR"["+HIY+"深田恭子麻將館"+HIR+"]"NOR);
+set("short",HIR + "["+HIY+"深田恭子麻將館"+HIR+"]" + NOR);
 set("long", @LONG
 這是一間專門讓玩家們休息的娛樂場所，當你在為你的角色
 辛苦鍛鍊時，別忘了休息是為了走更長遠的路，找三五好友一同

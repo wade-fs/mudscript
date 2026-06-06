@@ -9,8 +9,8 @@ set_name("狂風戰膝",({"wind legging","legging"}));
                 set_default_object(__FILE__);
         else {
    set("long","這是一件由天上諸神使用風岩石所打造的護膝。\n");
-   set("wear_msg", "$N將$n綁上，"HIW"狂風戰膝"NOR"的發出的光芒注入$N身中。\n");
-   set("unequip_msg", "$N將$n取下，"HIW"狂風戰膝"NOR"的光芒力量隨之逝去。\n");
+   set("wear_msg", "$N將$n綁上，" + HIW + "狂風戰膝" + NOR + "的發出的光芒注入$N身中。\n");
+   set("unequip_msg", "$N將$n取下，" + HIW + "狂風戰膝" + NOR + "的光芒力量隨之逝去。\n");
         set("unit","件");
         set("value",70000);
         set("material","cloth");

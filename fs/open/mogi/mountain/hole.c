@@ -4,7 +4,7 @@ inherit ROOM;
 #include <ansi.h>
 #include "mountain.msg"
 void create () {
-set ("short",HIC"冰蟾洞內"NOR);
+set ("short",HIC + "冰蟾洞內" + NOR);
    set ("long","
 這裡就是千年冰蟾所住的洞穴。出乎意料的，這大毒物所住的洞穴卻是出
 其的乾淨，沒有一絲惡臭，地上更是乾乾淨淨的。洞內倒是挺寬敞的，壁

@@ -52,7 +52,7 @@ set("get_dan_sp",1);
 set("family/family_name","夜夢小築");
 set("bellicosity",0);
 set("title","$HIG$新人總管$NOR$");
-set("nickname","$HIW$可$HIM$愛$HIW$甜$HIR$心"NOR);
+set("nickname","$HIW$可$HIM$愛$HIW$甜$HIR$心" + NOR);
 set("inquiry",([
 "裝備":(: eqeq :),
 ]));
@@ -101,8 +101,8 @@ else
 			{
 				command("tender");
 				command("say 看你一副又累又餓的樣子,讓我幫你回復體力吧!!");
-				message_vision(HIY"
-$N拿出"HIW"天山雪蓮"HIY"給了$n,只見$n吃完以後飢餓與口渴都已經回復\許\多!!\n"NOR,mob,ppl
+				message_vision(HIY + "
+$N拿出" + HIW + "天山雪蓮" + HIY + "給了$n,只見$n吃完以後飢餓與口渴都已經回復\許\多!!\n" + NOR,mob,ppl
 				);
 				ppl->set("water",500);
 				ppl->set("food",500);
@@ -123,7 +123,7 @@ new("/open/newhand/obj/neck.c")->move(ppl);
 new("/open/newhand/obj/ring-1.c")->move(ppl);
 new("/open/newhand/obj/shield.c")->move(ppl);
 new("/open/newhand/obj/wrists.c")->move(ppl);
-tell_object(environment(),HIY"
+tell_object(environment(),HIY + "
 若蘋將新手EQ交給了"+ppl->query("name")+"
 \n");
 command("say 來,這是你的裝備,下次上線若還需要再找我拿唷!!我在recall,newhand方向這裡!");

@@ -69,9 +69,9 @@ void create()
 	me=this_player()->query_enemy();
 	i=sizeof(me);
 	one=enemy[random(i)];
-	message_vision( HIB "
+	message_vision( HIB + "
 	緋雨閑丸大叫:看我的必殺技\n\n"
-	HIR"              一～～～文～～～字～～～斬\n\n"NOR,one);
+	HIR + "              一～～～文～～～字～～～斬\n\n" + NOR,one);
 	message_vision("緋雨閑丸將刀急速的拔出，向$N身上斬去，再急速的將刀收回\n",one);
 	one->receive_wound("kee",random(300+200));
 	 COMBAT_D->report_status(one);

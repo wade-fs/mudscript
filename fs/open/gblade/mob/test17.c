@@ -58,8 +58,8 @@ void invocation(object who)
         object *enemy;
 
         message("vision",
-        HIY"妖壺中激射出一道金色的光芒 , 瞬間化成一名威武的羅漢 \n"
-        + name() + "如鷹般鋒銳的眼神 , 正渴望著一場激鬥 \n"NOR,
+        HIY + "妖壺中激射出一道金色的光芒 , 瞬間化成一名威武的羅漢 \n"
+        + name() + "如鷹般鋒銳的眼神 , 正渴望著一場激鬥 \n" + NOR,
                 environment(), this_object() );
         enemy = who->query_enemy();
         i = sizeof(enemy);
@@ -83,7 +83,7 @@ void invocation(object who)
         enemy=this_object()->query_enemy();
     i=sizeof(enemy);
     target=enemy[random(i)];
-        message_vision(sprintf(HIY"欺天羅漢化成一道金色的光芒 , 朝著$N穿胸而過\n"NOR),target);
+        message_vision(sprintf(HIY + "欺天羅漢化成一道金色的光芒 , 朝著$N穿胸而過\n" + NOR),target);
         target->add("kee",-65);
         this_object()->add("force",-100);
         COMBAT_D->report_status(target);

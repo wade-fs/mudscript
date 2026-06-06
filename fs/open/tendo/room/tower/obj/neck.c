@@ -4,7 +4,7 @@ inherit NECK;
 object user;
 void create()
 {
-        set_name( HIB "修羅戰鬥項鏈" NOR ,({"fiend neck","neck"}));
+        set_name( HIB + "修羅戰鬥項鏈" + NOR ,({"fiend neck","neck"}));
         set_weight(3000);
         if( clonep() )
                 set_default_object(__FILE__);

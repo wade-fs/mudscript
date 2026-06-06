@@ -18,8 +18,8 @@ LONG);
 
   set("gender","女性");
   set("class","needlegirl");
-  set("nickname",HBMAG+HIM"織天補地"NOR);
-  set("title",HIC"十二天靈狩"NOR);
+  set("nickname",HBMAG+HIM"織天補地" + NOR);
+  set("title",HIC + "十二天靈狩" + NOR);
   set("family/family_name","神織舫");
   set("combat_exp",20000000);
   set("attitude","friendly");
@@ -293,7 +293,7 @@ int do_use(string str)
   {
     if(mob)
     {
-      message_vision(HIY"\n$n受到天地靈界的靈氣影響，竟倒戈向$N出手。\n"NOR,me,mob);
+      message_vision(HIY + "\n$n受到天地靈界的靈氣影響，竟倒戈向$N出手。\n" + NOR,me,mob);
       mob->set_leader(me);
       mob->kill_ob(me);
     }
@@ -441,7 +441,7 @@ void heart_beat()
     if( k == 15 && me->query("kee") > 0 )
     {
 
-      message_vision(HIW"\n$N周身散發出天靈地界的靈氣，緩和了$N的傷勢。\n"NOR,me);
+      message_vision(HIW + "\n$N周身散發出天靈地界的靈氣，緩和了$N的傷勢。\n" + NOR,me);
       me->receive_curing("kee",m);
       me->receive_heal("kee",m);
       me->receive_curing("gin",m);
@@ -454,7 +454,7 @@ void heart_beat()
 
   if( me->query("title") != "十二天靈狩" )
   {
-    me->set("title",HIC"十二天靈狩"NOR);
+    me->set("title",HIC + "十二天靈狩" + NOR);
   }
 
 //  set_heart_beat(1);
@@ -550,13 +550,13 @@ void die()
     ob=new("/open/doctor/doctor_book/obj/scrap");
     ob->set("sort","星");
     ob->move(winner);
-    message_vision(CYN"\n從"+me->query("name")+"的身上掉下了一塊靈魂碎片!!\n"NOR,winner);
+    message_vision(CYN + "\n從"+me->query("name")+"的身上掉下了一塊靈魂碎片!!\n" + NOR,winner);
   }
   else if(winner && winner->query_temp("not_robot") && random(300)<150) {
     ob=new("/open/doctor/doctor_book/obj/scrap");
     ob->set("sort","星");
     ob->move(winner);
-    message_vision(CYN"\n從"+me->query("name")+"的身上掉下了一塊靈魂碎片!!\n"NOR,winner);
+    message_vision(CYN + "\n從"+me->query("name")+"的身上掉下了一塊靈魂碎片!!\n" + NOR,winner);
   }
 
 //  a=0;
@@ -588,13 +588,13 @@ void die()
     me->set("have_item",1);
 
     name = winner->query("name");
-    message_vision(HIM"\n從"+me->name(1)+"的身上掉下了一個「"+ob1->query("name")+HIM"」!!\n"NOR,winner,me);
+    message_vision(HIM + "\n從"+me->name(1)+"的身上掉下了一個「"+ob1->query("name")+HIM"」!!\n" + NOR,winner,me);
     write_file("/log/sky/god/obj-god12",sprintf("%s(%s)	讓%s掉下了%s於 %s\n",winner->name(1),winner->query("id"),me->query("name"),ob1->query("name"),ctime(time())));
   }
 
-  tell_object(users(),HIW"\n天靈地界的"HIR+me->query("name")+HIW"被"HIR+winner->query("name")+HIW"打敗，化為一股靈氣消散於大地了。\n"NOR);
+  tell_object(users(),HIW + "\n天靈地界的"HIR+me->query("name")+HIW"被"HIR+winner->query("name")+HIW"打敗，化為一股靈氣消散於大地了。\n" + NOR);
 
-  message_vision(HIY"\n恭喜"+winner->name()+"打死"+me->query("name")+"得到五百點戰功\!!\n"NOR,winner);
+  message_vision(HIY + "\n恭喜"+winner->name()+"打死"+me->query("name")+"得到五百點戰功\!!\n" + NOR,winner);
   write_file("/log/sky/war/obj-god12",sprintf("%s(%s)	殺死%s得到五百點戰功\於 %s\n",winner->name(1),winner->query("id"),me->query("name"),ctime(time())));
   winner->add("war_score",500);
 

@@ -45,7 +45,7 @@ void callset(object who)
 int heal_up()
 {
         if (!is_fighting() ) {
-             message_vision (HIB"兇暴的$N漸漸平息下來，再度變為雲霧。\n"NOR, this_object ());
+             message_vision (HIB + "兇暴的$N漸漸平息下來，再度變為雲霧。\n" + NOR, this_object ());
              destruct(this_object());
              return 1;
         }
@@ -53,7 +53,7 @@ int heal_up()
 }
 void unconcious ()
 {
-        message_vision (HIB"$N長嚎一聲，消失的無影無蹤。\n"NOR, this_object ());
+        message_vision (HIB + "$N長嚎一聲，消失的無影無蹤。\n" + NOR, this_object ());
         destruct (this_object ());
 }
 
@@ -64,7 +64,7 @@ int spatt()
         if( !i = sizeof(enemy) )
                 return 0;
         victim = enemy[random(i)];
-        message_vision (HIB"$N一聲怒吼，一道閃電向$n直劈而來。\n"NOR,me,victim);
+        message_vision (HIB + "$N一聲怒吼，一道閃電向$n直劈而來。\n" + NOR,me,victim);
         victim->receive_damage("kee",100);
         COMBAT_D->report_status(victim);
         return 1;

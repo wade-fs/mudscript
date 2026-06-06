@@ -13,7 +13,7 @@ void create()
         set("long",
         "三國時代，劉備手下，五虎將之一，曾與武聖關公較量過，\n
         \n");
-        set("nickname",HIC"百步穿揚"NOR);
+        set("nickname",HIC + "百步穿揚" + NOR);
         set("gender", "男性" );
         set("combat_exp",1000000);
         set("force"       , 4000);
@@ -64,10 +64,10 @@ return notify_fail("你已經加入了別的工會了。\n");
         me->set("class","marksman");
 
         tell_object(me,"恭禧你！你已經成為射手派的一員了，好好努力吧。\n");
-         message("system",HIC "黃忠縱聲大笑 :\n
+         message("system",HIC + "黃忠縱聲大笑 :\n
          歡迎" +this_player()->name()+ "加入射日派 !\n
          我們射手後繼有人了 !\n
-         各位夥伴們 ,拭目以待吧 !!\n\n"NOR,users());
+         各位夥伴們 ,拭目以待吧 !!\n\n" + NOR,users());
                 
         
         

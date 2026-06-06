@@ -31,7 +31,7 @@ LONG);
 int valid_leave(object me, string dir)
 {
   if( dir == "west")
-message_vision(HIC"$N很小心地穿過洞口草叢，隨即雜草又淹沒住整個洞口。\n"NOR,me
+message_vision(HIC + "$N很小心地穿過洞口草叢，隨即雜草又淹沒住整個洞口。\n" + NOR,me
 );
   return ::valid_leave(me,dir);
 }

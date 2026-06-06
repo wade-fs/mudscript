@@ -19,7 +19,7 @@ void create()
         set("gender", "女性");
         set("age", 21);
         set("class","dancer");
-        set("nickname","清純甜美"+HIW"豆腐西施"NOR);
+        set("nickname","清純甜美"+HIW"豆腐西施" + NOR);
         set("limbs", ({ "頭部", "身體", "左手", "右手", "左腳", "右腳" }) );
 
         set("per", 26);
@@ -28,10 +28,10 @@ void create()
 
         set("inquiry", ([
             "him"      :(:ask_him:),
-            "like"     : HIY"我愛他，就像是魚離不開水，樹離不開土地般。他是我的空氣，\n沒有了他，我失去了人生的意義(value)。\n"NOR,
-            "value"    : HIY"沒想到他竟然不為了我而留下來，只想離開這裡，回到那鉤心鬥\n角的江湖(world)呢。\n"NOR,
-            "world"    : HIY"他回來了，而且夥同他的同伴將我的父親綁走，曾經的山盟海誓\n原來都是假的！他個壞人(villain)。\n"NOR,
-            "villain"  : HIY"他們逃往桃花林裡去了，你能幫我找到他嘛?(yes/no)\n"NOR,
+            "like"     : HIY + "我愛他，就像是魚離不開水，樹離不開土地般。他是我的空氣，\n沒有了他，我失去了人生的意義(value)。\n" + NOR,
+            "value"    : HIY + "沒想到他竟然不為了我而留下來，只想離開這裡，回到那鉤心鬥\n角的江湖(world)呢。\n" + NOR,
+            "world"    : HIY + "他回來了，而且夥同他的同伴將我的父親綁走，曾經的山盟海誓\n原來都是假的！他個壞人(villain)。\n" + NOR,
+            "villain"  : HIY + "他們逃往桃花林裡去了，你能幫我找到他嘛?(yes/no)\n" + NOR,
             "yes"      : (:ask_yes:),
             "no"       : (:ask_no:),
             "桃花源"   : "這裡是一個與世隔絕的地方，這裡很少人會到這裡，直到有一天...有一個外地人的到來...\n",

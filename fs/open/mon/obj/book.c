@@ -4,7 +4,7 @@ inherit F_AUTOLOAD;
 
 void create()
 {
-    set_name(HIW"冰封秘咒"NOR,({"ice_spell book","book"}));
+    set_name(HIW + "冰封秘咒" + NOR,({"ice_spell book","book"}));
     set("long","
 一本老舊的古書，裡面似乎隱藏著什麼神秘的法術，你可以試著修習(studying)一番...
         \n");
@@ -47,7 +47,7 @@ int do_learn(string arg)
                 return notify_fail("你的職業不能修習這門冰封秘咒！");
         if(me->query_temp("icestorm/ice_spell")==7)
                 return notify_fail("你應該先看看那封信吧！");
-                message_vision(HIY"$N屏氣凝神，心專眼注的盯著「$n"HIY"」仔細的參悟其中的奧妙～\n"NOR,me, ob);
+                message_vision(HIY + "$N屏氣凝神，心專眼注的盯著「$n" + HIY + "」仔細的參悟其中的奧妙～\n" + NOR,me, ob);
                 me->set_temp("icespell/learning",1);
                 call_out("learning",20+random(10), me);
                 return 1;
@@ -64,48 +64,48 @@ int learning(object me)
   {
     if((int)me->query("force") < 300 || (int)me->query("sen") < 100 || (int)me->query("gin") < 100)
     {
-        message_vision(HIB"由於$N的精神及內力不夠，於是完全無法靜心參看「$n"HIB"」的內容...\n",me, ob);
+        message_vision(HIB + "由於$N的精神及內力不夠，於是完全無法靜心參看「$n" + HIB + "」的內容...\n",me, ob);
                 me->delete_temp("icespell/learning");
         return 1;
     }
         if(time == 195) {
-                message_vision("$N努力的參透了『$n』的"HIC"《第一章》"HIM"「薄霧形冰」"NOR"！\n",me, ob);
+                message_vision("$N努力的參透了『$n』的" + HIC + "《第一章》" + HIM + "「薄霧形冰」" + NOR + "！\n",me, ob);
                 me->delete_temp("icespell/learning");
                 me->add("icespell/time",1);
                 return 1;
         }
         else if(time == 180) {
-                message_vision("$N努力的參透了『$n』的"HIC"《第二章》"HIG"「細雨降冰」"NOR"！\n",me, ob);
+                message_vision("$N努力的參透了『$n』的" + HIC + "《第二章》" + HIG + "「細雨降冰」" + NOR + "！\n",me, ob);
                 me->delete_temp("icespell/learning");
                 me->add("icespell/time",1);
                 return 1;
         }
         else if(time == 155) {
-                message_vision("$N努力的參透了『$n』的"HIC"《第三章》"HIB"「珠露結冰」"NOR"！\n",me, ob);
+                message_vision("$N努力的參透了『$n』的" + HIC + "《第三章》" + HIB + "「珠露結冰」" + NOR + "！\n",me, ob);
                 me->delete_temp("icespell/learning");
                 me->add("icespell/time",1);
                 return 1;
         }
     else if(time == 125) {
-                message_vision("$N努力的參透了『$n』的"HIC"《第四章》"HIY"「寒霜成冰」"NOR"！\n",me, ob);
+                message_vision("$N努力的參透了『$n』的" + HIC + "《第四章》" + HIY + "「寒霜成冰」" + NOR + "！\n",me, ob);
                 me->delete_temp("icespell/learning");
                 me->add("icespell/time",1);
                 return 1;
         }
     else if(time == 85) {
-                message_vision("$N努力的參透了『$n』的"HIC"《第五章》"HIR"「凌雲化冰」"NOR"！\n",me, ob);
+                message_vision("$N努力的參透了『$n』的" + HIC + "《第五章》" + HIR + "「凌雲化冰」" + NOR + "！\n",me, ob);
                 me->delete_temp("icespell/learning");
                 me->add("icespell/time",1);
                 return 1;
         }
     else if(time == 50) {
-                message_vision("$N努力的參透了『$n』的"HIC"《第六章》"HIW"「皚雪凝冰」"NOR"！\n",me, ob);
+                message_vision("$N努力的參透了『$n』的" + HIC + "《第六章》" + HIW + "「皚雪凝冰」" + NOR + "！\n",me, ob);
                 me->delete_temp("icespell/learning");
                 me->add("icespell/time",1);
                 return 1;
         }
     else if(time == 0) {
-                message_vision(HIY"$N經過一番努力的參透，終於悟得了『$n"HIY"』的真理，習得了奧義秘招"HIW"【冰雪風暴】"NOR"！！！\n",me, ob);
+                message_vision(HIY + "$N經過一番努力的參透，終於悟得了『$n" + HIY + "』的真理，習得了奧義秘招" + HIW + "【冰雪風暴】" + NOR + "！！！\n",me, ob);
                 me->delete("get_book");
                 me->delete("icespell/time");
                 me->delete_temp("icespell/learning");
@@ -114,7 +114,7 @@ int learning(object me)
                 return 1;
     }
     else {
-                message_vision(HIC"$N努力的耗費精神參讀「$n"HIC"」的內容，似乎又有了一些新的體悟...\n"NOR,me, ob);
+                message_vision(HIC + "$N努力的耗費精神參讀「$n" + HIC + "」的內容，似乎又有了一些新的體悟...\n" + NOR,me, ob);
                 me->add("icespell/time",1);
                 me->add("gin",-sub);
                 me->add("sen",-sub);

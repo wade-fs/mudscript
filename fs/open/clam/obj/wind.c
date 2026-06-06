@@ -3,7 +3,7 @@ inherit ITEM;
 inherit F_AUTOLOAD;
 void create()
 {
-                set_name(HIC"風雷符"NOR, ({ "wind token","token",}) ); 
+                set_name(HIC + "風雷符" + NOR, ({ "wind token","token",}) ); 
                 set_weight(50);
                 set("long",
  "這是由聖光祝福過的聖符,只有擁有這的人才可到幫派所在地,
@@ -18,7 +18,7 @@ void create()
                         set("no_drop",1);
                         set("no_insert",1);
                         set("no_auc", 1);
-      set("nickname",HIC"風雷幫"HIC"火爆浪子"NOR);
+      set("nickname",HIC + "風雷幫" + HIC + "火爆浪子" + NOR);
                 }
 }
 
@@ -34,10 +34,10 @@ int do_magic(string str)
         if(!str || str != "light")
             return notify_fail("你在作什麼啊 ?\n");
           message_vision( 
-sprintf("一道"HIC"聖光"NOR"將$N傳送到幫派的所在地。\n"), this_player() );
+sprintf("一道" + HIC + "聖光" + NOR + "將$N傳送到幫派的所在地。\n"), this_player() );
         me->move("/open/clam/wind.c");
         message_vision( 
-sprintf("天空出現一道"HIC"雷光"NOR",只見$N飛來了這裡。\n"),this_player());
+sprintf("天空出現一道" + HIC + "雷光" + NOR + ",只見$N飛來了這裡。\n"),this_player());
         return 1;
 }
 int query_autoload()

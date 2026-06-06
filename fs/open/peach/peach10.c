@@ -30,9 +30,9 @@ int do_look(string str)
 {
 if(str!="stone") return 0;
 {
-  tell_object(this_player(),HIY"那個人像似突然發現你一般，伸手招呼你走過去。\n"NOR);
+  tell_object(this_player(),HIY + "那個人像似突然發現你一般，伸手招呼你走過去。\n" + NOR);
   this_player()->move(__DIR__"stone.c");
-  tell_room(environment(this_player()),sprintf (HIW"%s走了過來。\n"NOR, this_player()->short()),this_player());
+  tell_room(environment(this_player()),sprintf (HIW + "%s走了過來。\n" + NOR, this_player()->short()),this_player());
 }
 return 1;
 }

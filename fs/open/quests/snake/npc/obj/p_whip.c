@@ -4,7 +4,7 @@ inherit WHIP;
 
 void create()
 {
-        set_name(HIC"毒蛇鞭"NOR,({"poison whip","whip"}));
+        set_name(HIC + "毒蛇鞭" + NOR,({"poison whip","whip"}));
         set_weight(100);
         if( clonep() )
                 set_default_object(__FILE__);

@@ -3,7 +3,7 @@ inherit ROOM;
 
 void create()
 {
-        set("short", HIW"天地破魔陣"NOR);
+        set("short", HIW + "天地破魔陣" + NOR);
         set("long", @LONG
 渾渾噩噩之間..你來到的破魔陣的陣眼,耀眼的七彩光芒..閃爍不定.尋尋覓覓中
 你發現在你正上方..七顆無比耀眼的奇異礦石.依一個你不知道圖形排列..礦石外
@@ -34,8 +34,8 @@ int greeting (object who)
   object mob;
   int i;
   if(who->query("bellicosity") > 500+random(100)) {
-    message_vision(HIR"\n$N進入天地破魔陣後..瞬間陣眼中的破魔七星發出耀眼光芒.\n",who);
-    message_vision(HIR"光芒消失後，數條駭人之巨龍向$N衝來！！！\n"NOR,who);
+    message_vision(HIR + "\n$N進入天地破魔陣後..瞬間陣眼中的破魔七星發出耀眼光芒.\n",who);
+    message_vision(HIR + "光芒消失後，數條駭人之巨龍向$N衝來！！！\n" + NOR,who);
     seteuid(getuid());
     i=random(5)+1;
     while(i--)

@@ -3,7 +3,7 @@ inherit EQUIP;
 
 void create()
 {
-        set_name(HIB"修羅戰鬥手套"NOR,({"fiend hands","hands"}));
+        set_name(HIB + "修羅戰鬥手套" + NOR,({"fiend hands","hands"}));
         set_weight(800);
         if( clonep() )
                 set_default_object(__FILE__);

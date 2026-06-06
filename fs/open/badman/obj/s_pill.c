@@ -36,8 +36,8 @@ int eat_pill(object me, string arg)
 int eat_pill2(object me)
 {
   tell_object(me, "\n糟了，怎麼感覺不太對勁，剛剛那個藥丸....\n");
-  tell_object(me,HIC"不好了，你剛剛吃的是江湖上最厲害的春藥『陰陽合和散』！\n"NOR);
-  tell_object(me,HIC"\n你感到全身氣血翻騰，內力全失。\n"NOR);
+  tell_object(me,HIC + "不好了，你剛剛吃的是江湖上最厲害的春藥『陰陽合和散』！\n" + NOR);
+  tell_object(me,HIC + "\n你感到全身氣血翻騰，內力全失。\n" + NOR);
   me->set("force", 0);
   me->apply_condition("spring", 10);
   destruct(this_object());

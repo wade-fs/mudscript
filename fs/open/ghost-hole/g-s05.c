@@ -2,7 +2,7 @@
 inherit ROOM;
 void create ()
 {
-        set("short",YEL"幽冥道"NOR);
+        set("short",YEL + "幽冥道" + NOR);
 	set( "build", 13 );
         set("long",@LONG
 腳底踏的很不實在，彷彿站在稀鬆的土壤上面，
@@ -23,7 +23,7 @@ void do_check(object me)
 {
   
       if(me && !me->query_temp("ghost-quest/cankill-king" ) && userp(me) && living(me)) {
-        message_vision(HIW"\n天神搖搖頭對$N說道：你這個愛用偷吃步的傢伙，滾回家去吧！\n"NOR,me);
+        message_vision(HIW + "\n天神搖搖頭對$N說道：你這個愛用偷吃步的傢伙，滾回家去吧！\n" + NOR,me);
         me->move(me->query("startroom"));
         me->set( "clan/out","/open/center/room/inn");
       }else  if(me)

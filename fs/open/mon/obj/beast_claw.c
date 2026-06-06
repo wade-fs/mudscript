@@ -4,7 +4,7 @@ inherit UNARMED;
 
 void create()
 {
- 	        set_name(HIG"靈芝仙爪"NOR, ({ "beast claw" ,"claw" }) );
+ 	        set_name(HIG + "靈芝仙爪" + NOR, ({ "beast claw" ,"claw" }) );
 	        set_weight(1500);
        		if( clonep() )
                 set_default_object(__FILE__);

@@ -5,7 +5,7 @@ inherit BOOTS;
 object user;
 void create()
 {
-        set_name( HIW "水晶寶鞋" NOR ,({"pebble boots","boots"}));
+        set_name( HIW + "水晶寶鞋" + NOR ,({"pebble boots","boots"}));
         set_weight(3000);
         if( clonep() )
                 set_default_object(__FILE__);

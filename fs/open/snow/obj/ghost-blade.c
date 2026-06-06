@@ -12,7 +12,7 @@ int damage_down( object me , int power )
 }
 void create()
 {
-	set_name(HIB"幽靈魔刀"NOR,({"ghost blade","blade"}));
+	set_name(HIB + "幽靈魔刀" + NOR,({"ghost blade","blade"}));
 	set_weight(4000);
 	if( clonep() )
 		set_default_object(__FILE__);

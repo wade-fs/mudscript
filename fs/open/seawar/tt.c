@@ -21,9 +21,9 @@ int i,j;
         ob = this_object();
         me = ob->query_temp("last_damage_from");
 
-        message_vision(HIW"
+        message_vision(HIW + "
 \n$N警覺生命受到威脅，急忙拿出腰間的玄冥符，將之貼於掌中，$n眼明
-手快，見即馭氣取物，將玄冥符奪走。\n\n"NOR,ob,me);
+手快，見即馭氣取物，將玄冥符奪走。\n\n" + NOR,ob,me);
 	new(__DIR__"tally")->move(me);
 
 	::die();

@@ -3,7 +3,7 @@
 inherit ROOM;
 void create ()
 {
-  set ("short", HIY"狂想空間歷史發展館"NOR);
+  set ("short", HIY + "狂想空間歷史發展館" + NOR);
   set( "long", "後來分站就回雄專了,這次之後fir..等就一直沒有消息,回來之後,
 我繼續接手這裏的發展,那時除了發展門派外,我決定開始著手寫幫派
 (clan)的制度,之前clan是採用weiwei所寫的原始程式來修正的,後來

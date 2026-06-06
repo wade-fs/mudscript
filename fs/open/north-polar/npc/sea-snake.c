@@ -7,7 +7,7 @@ inherit SSERVER;
 void create()
 {
   set_name("海蛇", ({"sea snake","snake"}));
-  set("title",HIB"南海"HIR"海神"NOR);
+  set("title",HIB + "南海" + HIR + "海神" + NOR);
   set("age",24);
   set("long","南海海域的海神，性喜在海面上興風作浪。\n");
   set("race", "野獸");
@@ -92,7 +92,7 @@ void heart_beat()
         me->delete_busy();
         return;
       }
-      message_vision(HIC"\n$N全身劇烈翻動，引發驚人的大海嘯強襲，在洶湧浪潮下眾人皆無法動彈!!\n"NOR,me);
+      message_vision(HIC + "\n$N全身劇烈翻動，引發驚人的大海嘯強襲，在洶湧浪潮下眾人皆無法動彈!!\n" + NOR,me);
       for (i=0 ; i < j ; i++)
       {
         if(enemy[i]->is_character() && !enemy[i]->is_corpse() && living(enemy[i]) && enemy[i]->query("id")!="sea snake" && !wizardp(enemy[i]))  
@@ -108,7 +108,7 @@ void heart_beat()
             enemy[i]->add("kee",-900);
             enemy[i]->start_busy(random(2));
           }
-          message_vision(HIM"\n$N之牙噴出了一股毒液，凡沾上者莫不立刻昏頭轉向。\n"NOR,me);
+          message_vision(HIM + "\n$N之牙噴出了一股毒液，凡沾上者莫不立刻昏頭轉向。\n" + NOR,me);
           if(k>=0)  enemy[i]->apply_condition("snake_poison",12+random(9));
           if(k>=1)  enemy[i]->apply_condition("super_snake_poison",12+random(9));
           if(k>=2)  enemy[i]->apply_condition("rose_poison",12+random(9));
@@ -134,8 +134,8 @@ void heart_beat()
       {
         if(enemy[j]->query("combat_exp") < 27000000)
         {
-          tell_object(enemy[j],HIG"\n在你費盡千辛萬苦打倒海神後，你感到自身戰鬥經驗又更上一層樓了!!\n"NOR);
-          tell_object(enemy[j],GRN"你的戰鬥經驗上升 3400 點, 潛在能力上升 730 點!!\n"NOR);
+          tell_object(enemy[j],HIG + "\n在你費盡千辛萬苦打倒海神後，你感到自身戰鬥經驗又更上一層樓了!!\n" + NOR);
+          tell_object(enemy[j],GRN + "你的戰鬥經驗上升 3400 點, 潛在能力上升 730 點!!\n" + NOR);
           enemy[j]->add("combat_exp",3400);
           enemy[j]->add("potential",730);
         }
@@ -155,6 +155,6 @@ void die()
   me = this_object();
   room = environment(me);
   room->set_temp("can_punch",1);
-  message_vision(HIC"\n$N愕然道"HIW"："HIY"「"HIR"......"HIY"」\n"NOR,me);
+  message_vision(HIC + "\n$N愕然道" + HIW + "：" + HIY + "「" + HIR + "......" + HIY + "」\n" + NOR,me);
   destruct(me);
 }

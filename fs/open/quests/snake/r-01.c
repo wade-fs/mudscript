@@ -10,7 +10,7 @@ void create()
 的蛇頭就顯的非常的明顯，彷彿是在警告著來者，請勿輕易入洞，免
 得慘招毒蛇之吻...
 
-			"+HIG+"<蛇寨>\n"NOR);
+			"+HIG+"<蛇寨>\n" + NOR);
 	set("exits",([
 "west":"/open/main/room/s22",
 ]));

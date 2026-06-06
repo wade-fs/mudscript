@@ -9,7 +9,7 @@ string  ask_title();
 
 void create()
 {
-  set_name(HBRED"血魔"NOR,({"bloodking","king"}));
+  set_name(HBRED + "血魔" + NOR,({"bloodking","king"}));
   set("long","天魔轉世..不過在先前與由仙劍派祖師逍遙子所率領的武林同盟大戰
 失利後..就消失武林,如今已捲土重來.由其眼中..可明顯的看出其對
 仙劍派的恨意似乎無窮無盡..\n");
@@ -21,7 +21,7 @@ void create()
   set("dragon-sword",1);
   set("bellicosity", 100000);
   set("age",200);
-  set("title",HIR"萬魔至尊"NOR);
+  set("title",HIR + "萬魔至尊" + NOR);
   set("str", 70);
   set("cor", 50);
   set("cps", 70);
@@ -101,7 +101,7 @@ string ask_title()
   {
     return "你是哪裡來的人！敢在此吵吵鬧鬧的，要求東要求西的，回去家鄉吃奶吧！";
   }
-  me->set("title",HIW"Π"HIR"魔"HIC"亟"HIY"劍宗"HIW"Π"NOR);
+  me->set("title",HIW + "Π" + HIR + "魔" + HIC + "亟" + HIY + "劍宗" + HIW + "Π" + NOR);
   return "我賜你這個名字，你不要忘記我們本來的初衷啊，對於某人，千萬不可以手下留情。";
 }
 
@@ -115,7 +115,7 @@ int do_cover(string arg)
   if(!lwater) return 1;
   if(!me->query_temp("quest/return_sha") || me->query_temp("quest/return_sha") != 7) return 1;
   destruct(present("living-water",me));
-  message_vision(HIG"$N突然將生命之水灑在血魔身上，陣陣血氣自$N身上蒸發，血魔印記已消失殆盡了。\n"NOR,me);
+  message_vision(HIG + "$N突然將生命之水灑在血魔身上，陣陣血氣自$N身上蒸發，血魔印記已消失殆盡了。\n" + NOR,me);
   me->delete("swordskill/bloodz");
   me->delete("swordskill/sword1");
   me->delete("swordskill/sword2");
@@ -148,10 +148,10 @@ int do_cover(string arg)
   command("angry");
   command("say 叛徒!!死吧!!");
   kill_ob(me);
-  message_vision(HIM"$N大為受驚，連忙躲回密道內，並立刻封住出口。\n"NOR,me);
+  message_vision(HIM + "$N大為受驚，連忙躲回密道內，並立刻封住出口。\n" + NOR,me);
 //  me->move(__DIR__"room/tunnel_10");
   me->move("/open/gsword/return_sha/room/tunnel_10");
-  message_vision(HIM"但為時已晚，護衛的血魔將強行突破洞口進來追殺$N!!\n"NOR,me);
+  message_vision(HIM + "但為時已晚，護衛的血魔將強行突破洞口進來追殺$N!!\n" + NOR,me);
   mob = new("/open/gsword/npc2/bknightw");
   mob->set_temp("quest/return_sha",9);
   mob->move(environment(me));

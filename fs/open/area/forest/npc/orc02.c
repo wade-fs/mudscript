@@ -67,7 +67,7 @@ void die()
 object ob;
 	ob = this_object();
 
-	message_vision(HIR"$N撐著最後一口氣，急忙的將往下的路口關閉！"NOR,ob);
+	message_vision(HIR + "$N撐著最後一口氣，急忙的將往下的路口關閉！" + NOR,ob);
 
 		if ( environment(ob)->query("mark") == 1 )
 		{

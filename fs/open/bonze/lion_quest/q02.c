@@ -38,7 +38,7 @@ void do_check(object me)
 {
       if(me->query("combat_exp" ) < 4500000 && userp(me) && living(me))
        {
-		  message_vision(HIC"\n抱歉，前方的路對$P來說太艱辛了，大俠$N請回吧！\n"NOR,me);
+		  message_vision(HIC + "\n抱歉，前方的路對$P來說太艱辛了，大俠$N請回吧！\n" + NOR,me);
 		  me->move("/open/bonze/room/r2");
        }
 }
@@ -52,7 +52,7 @@ void init()
     note = new(__DIR__"obj/note.c");
 	this_player()->set_temp("note_ob",1);
     if (note->move(this_player()))
-      write (HIC"驛站掌櫃的一看你踏進門來, 馬上哈腰遞給你一張宣傳單。\n\n"NOR);
+      write (HIC + "驛站掌櫃的一看你踏進門來, 馬上哈腰遞給你一張宣傳單。\n\n" + NOR);
   }
 
   add_action ("do_home", "home");
@@ -67,7 +67,7 @@ int valid_leave(object me, string dir)
 {
         object note;
         if( me->query_temp("note_ob") ) {
-		tell_object(me, HIC"你不以為意的隨手將宣傳單遞了回去。\n\n"NOR);
+		tell_object(me, HIC + "你不以為意的隨手將宣傳單遞了回去。\n\n" + NOR);
 		me->delete_temp("note_ob");
 		destruct(present("note",me));
 		}
@@ -80,7 +80,7 @@ int do_home(string arg)
 
   me = this_player();
   if( note = me->query_temp("note_ob") ) {
-		tell_object(me, HIC"你不以為意的隨手將宣傳單遞了回去。\n\n"NOR);
+		tell_object(me, HIC + "你不以為意的隨手將宣傳單遞了回去。\n\n" + NOR);
 		me->delete_temp("note_ob");
 		destruct(present("note",me));
   }
@@ -94,7 +94,7 @@ int do_goto (string arg)
 
   me = this_player();
   if( note = me->query_temp("note_ob") ) {
-		tell_object(me, HIC"你不以為意的隨手將宣傳單遞了回去。\n\n"NOR);
+		tell_object(me, HIC + "你不以為意的隨手將宣傳單遞了回去。\n\n" + NOR);
 		me->delete_temp("note_ob");
 		destruct(present("note",me));
   }

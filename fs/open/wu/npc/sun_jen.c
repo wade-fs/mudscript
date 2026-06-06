@@ -102,7 +102,7 @@ string ask_wine()
     command("slap "+me->query("id"));
     command("say 豬頭啊你！當然是到...風...樓外的...嗯....zｚZＺ");
     command("sleep");
-    write(HIY"任朝陽模模糊糊的說著夢話：酒...冰清冽酒...給我..冰清冽酒...mmm...\n"NOR);
+    write(HIY + "任朝陽模模糊糊的說著夢話：酒...冰清冽酒...給我..冰清冽酒...mmm...\n" + NOR);
     me->delete("doctor/ask_wine");
     me->set("doctor/ask_flor",1);
     return "";
@@ -115,7 +115,7 @@ int accept_object(object me, object ob)
 
   if(me->query("doctor/get_wine") == 1)
   {
-    if(name == HIR"<滿>"HIC"十錦琺瑯杯"NOR)
+    if(name == HIR + "<滿>" + HIC + "十錦琺瑯杯" + NOR)
     {
       command("snort "+me->query("id"));
       command("say 你...你搞啥啊...現...現在才來！");
@@ -131,10 +131,10 @@ int say_pnx(object me)
 {
   object ob;
 
-  write(HIY"任朝陽恍恍惚惚的說道：mmm...說到我們瀧山派的鎮派聖獸－赤羽火鳳吶！\n"NOR,me);
-  write(HIY"任朝陽恍恍惚惚的說道：不...不是我在臭屁的...ㄜ！...牠的羽...羽毛，真是絕世美物...\n"NOR,me);
-  write(HIY"任朝陽恍恍惚惚的說道：我看...ㄜ！看在你..你幫我買酒的份上...就給你機會去...ㄜ！去拔看看...\n"NOR,me);
-  write(HIY"任朝陽恍恍惚惚的說道：ㄜ！絕焰令牌在這...這兒...嗯...但我可不...不保證你...ㄜ！你能成功\的...拿到羽毛唷...\n"NOR,me);
+  write(HIY + "任朝陽恍恍惚惚的說道：mmm...說到我們瀧山派的鎮派聖獸－赤羽火鳳吶！\n" + NOR,me);
+  write(HIY + "任朝陽恍恍惚惚的說道：不...不是我在臭屁的...ㄜ！...牠的羽...羽毛，真是絕世美物...\n" + NOR,me);
+  write(HIY + "任朝陽恍恍惚惚的說道：我看...ㄜ！看在你..你幫我買酒的份上...就給你機會去...ㄜ！去拔看看...\n" + NOR,me);
+  write(HIY + "任朝陽恍恍惚惚的說道：ㄜ！絕焰令牌在這...這兒...嗯...但我可不...不保證你...ㄜ！你能成功\的...拿到羽毛唷...\n" + NOR,me);
   ob=new("/open/doctor/obj/d-mark");
   ob->move(me);
   me->set("doctor/get_key",1);

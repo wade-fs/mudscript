@@ -5,7 +5,7 @@ inherit ROOM;
 
 void create()
 {
-  set("short",YEL"冰原雪棧"NOR);
+  set("short",YEL + "冰原雪棧" + NOR);
   set( "build", 39 );
   set ("long", @LONG
 這裡是雪國中唯一可供旅客休息交易的客棧，由於掌櫃老闆深知

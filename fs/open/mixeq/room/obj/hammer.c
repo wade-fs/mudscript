@@ -3,7 +3,7 @@ inherit ITEM;
 
 void create()
 {
-        set_name(HIC"淺藍色的槌子"NOR, ({"nolayer_hammer"}));
+        set_name(HIC + "淺藍色的槌子" + NOR, ({"nolayer_hammer"}));
         if( clonep() )
                 set_default_object(__FILE__);
         else {

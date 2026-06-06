@@ -39,14 +39,14 @@ if(me->query_temp("findbook")!=5)
 }
 me->set_temp("can_say",1);
 tell_object(me,
-HIC"魔教義女 - 莊靜香之墓
+HIC + "魔教義女 - 莊靜香之墓
 
-"HIW"你看到了這九的大字嚇了一跳
+" + HIW + "你看到了這九的大字嚇了一跳
 沒想到伍元魂牽夢掛的愛人居然死了
 虧伍元為了她等了那麼久....
 
 你不如對她祈禱<pray>一下吧, 說不定伍元
-的話真的可以帶到她的耳邊...\n"NOR);
+的話真的可以帶到她的耳邊...\n" + NOR);
   return 1;
 }
 
@@ -59,9 +59,9 @@ if(!str || str!= "嫦娥應悔偷靈藥")
 }
 if(me->query_temp("findbook")==5 && me->query_temp("can_say")==1 && me->query("class")=="poisoner" && me->query_temp("go_oldman_report")!=1)
 {
-  tell_object(me,HIW"你默默的唸了這段字後, 突然吹起一陣微風
-風聲中帶著一道聲音 : "HIC"碧海青天夜夜深"HIW"
-似乎是要你回去帶回給伍元<report>......\n"NOR);
+  tell_object(me,HIW + "你默默的唸了這段字後, 突然吹起一陣微風
+風聲中帶著一道聲音 : " + HIC + "碧海青天夜夜深" + HIW + "
+似乎是要你回去帶回給伍元<report>......\n" + NOR);
 me->set_temp("go_oldman_report",1);
 return 1;
 }

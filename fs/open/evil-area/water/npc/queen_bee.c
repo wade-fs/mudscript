@@ -34,9 +34,9 @@ void heart_beat()
         target = offensive_target(ob);
         if( env == environment(target) )
         {
-                message_vision(HIY"\n
+                message_vision(HIY + "\n
 一瞬間～一堆鼓蜂飛了過來攻擊你～\n
-\n$N〔咻～〕的一聲飛走了～其它的鼓蜂也跟著飛走了～\n"NOR,ob);
+\n$N〔咻～〕的一聲飛走了～其它的鼓蜂也跟著飛走了～\n" + NOR,ob);
                 target->receive_wound("kee",500);
                 COMBAT_D->report_status(target,1);
                 target->start_busy(1);
@@ -60,11 +60,11 @@ int accept_object(object me,object ob)
 		}
 	}
 	message_vision("一群鼓蜂突然圍了過來～$N一時候到驚嚇，整個人失去了重心...\n",me);
-	tell_object(me,HIY"你心想：完了...:~...\n"NOR);
+	tell_object(me,HIY + "你心想：完了...:~...\n" + NOR);
 	me->move("/open/evil-area/water/b-20");
 	me->receive_wound("kee",800);
 	COMBAT_D->report_status(me,1);
-	message_vision(HIR"\n$N重重的從樹上跌落於地～\n"NOR,me);
+	message_vision(HIR + "\n$N重重的從樹上跌落於地～\n" + NOR,me);
 	call_out("do_dest",1,ob);
 return 1;
 }

@@ -10,7 +10,7 @@ void create()
 void heart_beat()
 {
         if(!this_object()->is_fighting()){
-      message_vision(HIY"$N身影漸漸模糊不清,分身開始消失了!\n"NOR,this_object());  
+      message_vision(HIY + "$N身影漸漸模糊不清,分身開始消失了!\n" + NOR,this_object());  
            destruct(this_object());}
 ::heart_beat();           
 }

@@ -3,7 +3,7 @@ inherit ROOM;
 
 void create ()
 {
-  set ("short",HIY"絕情樓"NOR);
+  set ("short",HIY + "絕情樓" + NOR);
   set ("long", @LONG
 這裡就是有名的「絕情樓」，你可以看到這的擺宮設可比皇宮，
 你抬頭一看看到林楓坐在骷髏椅上，面帶殺氣的看著你，他旁邊

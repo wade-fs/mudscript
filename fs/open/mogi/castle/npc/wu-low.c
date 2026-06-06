@@ -5,7 +5,7 @@ inherit SSERVER;
 #include "castle.h"
 void create()
 {
-        set("nickname",HIY"流雲掩月"NOR);
+        set("nickname",HIY + "流雲掩月" + NOR);
         set_name("夜無柔", ({"wu-low","ghost"}));        
         set("age",8710);
         set("long","名雖無柔, 容貌卻是嬌麗婉約, 晢白的肌膚上薄履輕紗, 一舉手一投足均是撩人心窩. \n");
@@ -59,7 +59,7 @@ int accept_kill(object me)
     ghost=present( "mou-houng",environment(ob) );
      if( !present( "mou-houng",environment(ob))||!living(ghost)) return 1;
     else {
-    message_vision(HIY"\n夜末虹看到夜無柔有難，馬上向$N下了辣手攻擊！\n"NOR,me);
+    message_vision(HIY + "\n夜末虹看到夜無柔有難，馬上向$N下了辣手攻擊！\n" + NOR,me);
      ghost->kill_ob(me);
     return 1;
    }
@@ -91,12 +91,12 @@ void heart_beat()
         force = target->query("force");
     if( env == environment(target) )
     {
-      message_vision(HIW"
+      message_vision(HIW + "
 $N步法漸快身影漸散，空氣之中香氣郁郁，撩人心神。使
-出了一式"HIY"『太陰虛幻寶鑑之  柔之章』"HIW"
+出了一式" + HIY + "『太陰虛幻寶鑑之  柔之章』" + HIW + "
 $N的一舉一動完全牽制住$n的所有動作，$n被困在舞陣之
 中動彈不得 
-\n"NOR,mob,target);
+\n" + NOR,mob,target);
     
      target->start_busy(3);
     }
@@ -123,7 +123,7 @@ void die()
 	  if( j==7 || j==77 || j== 777 || j==1111 || j==55 || j==555 || j==1000 || j==4000 || j==3333 || j==2222 )
 	  {
 	  new("/open/sky/obj9/kind-charm")->move(environment(winner));
-	  message_vision(HIM"\n從夜無柔的身上掉下了一件奇怪的東西!!\n"NOR,winner);
+	  message_vision(HIM + "\n從夜無柔的身上掉下了一件奇怪的東西!!\n" + NOR,winner);
           write_file("/log/sky/obj9/kind_charm",sprintf("%s(%s) 讓夜無柔人掉下了善良之符於 %s\n",
 	  winner->name(1),winner->query("id"),ctime(time())));
 	  }
@@ -132,7 +132,7 @@ void die()
 	  if( j==5 || j==15 || j== 150 || j==1500 || j==10 || j==100 || j==1000 || j==4000 || j==6666 || j==7777 )
 	  {
 	  new("/open/sky/obj9/kind-charm")->move(environment(winner));
-	  message_vision(HIM"\n從夜無柔的身上掉下了一件奇怪的東西!!\n"NOR,winner);
+	  message_vision(HIM + "\n從夜無柔的身上掉下了一件奇怪的東西!!\n" + NOR,winner);
           write_file("/log/sky/obj9/kind_charm",sprintf("%s(%s) 讓夜無柔掉下了善良之符於 %s\n",
 	  winner->name(1),winner->query("id"),ctime(time())));
 	  }

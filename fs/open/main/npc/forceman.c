@@ -26,7 +26,7 @@ LONG);
   set("chat_chance", 80);
   set("chat_msg", ({
     (:random_move:),
-    HIC"掃地老頭拿著掃把一直掃地。\n"NOR
+    HIC + "掃地老頭拿著掃把一直掃地。\n" + NOR
   }) );
   set("inquiry", ([
     "內力": (:do_ask:),
@@ -51,7 +51,7 @@ string do_ask ()
   word = "/adm/daemons/word1.c"->get_word(5);
   me->set_temp("ask_word",word[0]);
   set("random_move",1000);
-  tell_object(me,HIC "老頭翻開他的書本，上面畫著：\n"+word[2]+"\n(註：回答全為小寫)\n");
+  tell_object(me,HIC + "老頭翻開他的書本，上面畫著：\n"+word[2]+"\n(註：回答全為小寫)\n");
   return "你能幫我看看上面的圖寫什麼嘛(ans)？";
 }
 
@@ -133,7 +133,7 @@ void heart_beat()
       me->receive_heal("sen",(int)(maxkee/100*3));
       me->receive_curing("gin",(int)(maxkee/100*2));
       me->receive_heal("gin",(int)(maxkee/100*3));
-      tell_room(environment(), name()+"吃下一粒百花清心露"HIC"(強效)。\n"NOR);}
+      tell_room(environment(), name()+"吃下一粒百花清心露" + HIC + "(強效)。\n" + NOR);}
     else { //非戰鬥時
       if( query("kee") < query("eff_kee") && (random(100) < 40) ) {
         command("exert recover"); }

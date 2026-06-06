@@ -11,7 +11,7 @@ void create() {
         set("cor",35);
         set("race","人類");
         set("gender","雄性");
-        set("title",HIW"～幻影～"NOR);
+        set("title",HIW + "～幻影～" + NOR);
         set("attitude","aggressive");
         set("class","fighter");
         set("bellicosity",7500);
@@ -64,14 +64,14 @@ void heart_beat()
     target=enemy[random(i)];
     if( env == environment(target) )
     {
-      message_vision(HIW"\n                        ～幻～影～心～訣～
+      message_vision(HIW + "\n                        ～幻～影～心～訣～
 
-"HIY"\n
+" + HIY + "\n
 $N氣應魔元，狂風驟作，整個奈何之路均被籠罩其中，光漸漸地被 
 黑闇吞沒了
-暗雷轟動，一式"HIM"『魔龍捲雲  夜漠移換』"HIY"乍然發動了，魔氣在空中
+暗雷轟動，一式" + HIM + "『魔龍捲雲  夜漠移換』" + HIY + "乍然發動了，魔氣在空中
 狂奔蝕向所有人
-\n"NOR,mob,target);
+\n" + NOR,mob,target);
 	mob->add("kee",1900);
       target->receive_damage("kee",1900);
       target->start_busy(2);
@@ -100,17 +100,17 @@ destruct (this_object ());
 else
 if(me->query("quest/start_game")< 42)
        {
-        message_vision(HIY"
-恭喜"HIW+me->query("name")+HIY"挑戰"HIG"『"HIR"第四十一層試煉ソ塔"HIG"』"HIY"通過！！
+        message_vision(HIY + "
+恭喜"HIW+me->query("name")+HIY"挑戰" + HIG + "『" + HIR + "第四十一層試煉ソ塔" + HIG + "』" + HIY + "通過！！
 
-"HIW"希望"+me->query("name")+"能不負眾望，勇闖"HIG"『"HIY"第四十二層試煉ソ塔"HIG"』"HIW"。
-	"NOR,me);
+" + HIW + "希望"+me->query("name")+"能不負眾望，勇闖" + HIG + "『" + HIY + "第四十二層試煉ソ塔" + HIG + "』" + HIW + "。
+	" + NOR,me);
 	me->set("quest/start_game",42);
         destruct (this_object ());
        }
 {
         :: unconcious();
-	tell_object(me,HIW"系統：你已經通過測試，系統不做任何更改。\n"NOR);
+	tell_object(me,HIW + "系統：你已經通過測試，系統不做任何更改。\n" + NOR);
 	destruct(this_object());
 }
 }

@@ -20,7 +20,7 @@ LONG);
   set("objects", ([ /* sizeof() == 1 */
   "/open/poison/npc/wine.c" : 1,
 ]));
-  create_door("west",HIY "黃色鐵門"NOR, "east", DOOR_CLOSED);
+  create_door("west",HIY + "黃色鐵門" + NOR, "east", DOOR_CLOSED);
   set("need_key", ([ /* sizeof() == 1 */
   "west" : 1,
 ]));

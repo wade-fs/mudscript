@@ -44,7 +44,7 @@ int i;
 	{
 		if( (int)me->query_temp("evil/water/mission") == 2 && i > 3)
 		{
-			message_vision("$N"HIG"盯著$n一直看，接下來便低頭緩緩的吃著棉草。\n"NOR,ob,me);
+			message_vision("$N" + HIG + "盯著$n一直看，接下來便低頭緩緩的吃著棉草。\n" + NOR,ob,me);
 			(int)me->set_temp("evil/water/mission",3);
 			me->delete_temp("evil/water/horse");
 			call_out("do_dest",1,obj);
@@ -54,9 +54,9 @@ int i;
 	me->receive_wound("gin",200);
 	me->receive_wound("kee",300);
 	me->receive_wound("sen",100);
-	message_vision("$N"HIC"突然望向你，猛然轉身提起後腳，狠狠的踹向$n～\n"NOR,ob,me);
+	message_vision("$N" + HIC + "突然望向你，猛然轉身提起後腳，狠狠的踹向$n～\n" + NOR,ob,me);
 	COMBAT_D->report_status(me,1);
-	message_vision(HIY"$N被踹飛出了馬廄\～\n"NOR,me);
+	message_vision(HIY + "$N被踹飛出了馬廄\～\n" + NOR,me);
 	me->move("/open/evil-area/water/b-21");
 call_out("do_dest",1,obj);
 return 1;

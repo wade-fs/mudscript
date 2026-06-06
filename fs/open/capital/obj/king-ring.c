@@ -7,7 +7,7 @@ inherit UNARMED;
 void create()
 {
         seteuid(getuid());
-        set_name(HIM"玉帝指環"NOR,({"king ring","ring"}));
+        set_name(HIM + "玉帝指環" + NOR,({"king ring","ring"}));
         set_weight(4500);
         if( clonep() )
                 set_default_object(__FILE__);

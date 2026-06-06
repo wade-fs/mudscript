@@ -6,7 +6,7 @@ void create()
 {
 	set_name("呂布",({"iv bu","bu","iv"}));
 	set("gender","男性");
-	set("title",HIY"野人領袖"NOR);
+	set("title",HIY + "野人領袖" + NOR);
 	set("age",32);
 	set("attitude","aggressive");
 	set("combat_exp",3500000);
@@ -82,7 +82,7 @@ int i,n,d,s;
 				d=500+random(700);
 				enemy[i]->add("gin",-d); enemy[i]->add("kee",-d);
 				enemy[i]->add("sen",-d); enemy[i]->add("force",-d);
-				message_vision(HIR"$N放出狂大的鬥氣～$n受傷了！\n"NOR,ob,enemy[i]);
+				message_vision(HIR + "$N放出狂大的鬥氣～$n受傷了！\n" + NOR,ob,enemy[i]);
 			}
 		}
 	}
@@ -98,15 +98,15 @@ object ob,me;
 
 	if ( !me ) destruct(ob);
 
-	message_vision(HIW"$N怒喊著：$n，我記住了，改天再一較高下！\n"NOR,ob,me);
-	tell_object(users(),HIC"
+	message_vision(HIW + "$N怒喊著：$n，我記住了，改天再一較高下！\n" + NOR,ob,me);
+	tell_object(users(),HIC + "
 
 	"+me->query("name")+"　阻止了野人大軍的入侵，將　"+ob->query("name")+"　暫時擊退！
 		讓　"+environment(ob)->query("short")+HIC"　脫離了戰爭的危害！
 
-\n"NOR);
+\n" + NOR);
 	deletelog(ob,"open-war01");
-	message_vision(HIY"$N迅速的退離了戰場！\n"NOR,ob);
+	message_vision(HIY + "$N迅速的退離了戰場！\n" + NOR,ob);
 	destruct(ob);
 ::die();
 }

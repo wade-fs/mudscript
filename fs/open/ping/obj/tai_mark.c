@@ -6,7 +6,7 @@ inherit STABBER;
 void create()
 {
         object me=this_player();
-        set_name(HIY"天龍令"NOR, ({"tai mark", "mark"}) );
+        set_name(HIY + "天龍令" + NOR, ({"tai mark", "mark"}) );
         set_weight(6000);
         if( clonep() )
          set_default_object(__FILE__);

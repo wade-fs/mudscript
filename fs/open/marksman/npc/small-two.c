@@ -11,7 +11,7 @@ void create()
         set("long", "天龍客棧的小二 , 他正忙著招呼客人 .\n");
         set("attitude", "friendly");
         set("combat_exp",30000);
-        set("nickname",HIY"利牙快嘴"NOR);
+        set("nickname",HIY + "利牙快嘴" + NOR);
         set("vendor_goods", ({
         "/obj/example/chicken_leg",
         "/obj/example/dumpling",

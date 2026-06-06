@@ -5,8 +5,8 @@
 inherit EQUIP;
 void create()
 {
-    set_name(CYN""BBLU"冥魔"HIR"帝冠"NOR,({"ghost-king-helmet","helmet"}));
-    set("long",CYN""BBLU"冥魔戰甲的一部份"NOR);   
+    set_name(CYN + "" + BBLU + "冥魔" + HIR + "帝冠" + NOR,({"ghost-king-helmet","helmet"}));
+    set("long",CYN + "" + BBLU + "冥魔戰甲的一部份" + NOR);   
     set_weight(25);
         set("armor_type","head");
         if( clonep() )

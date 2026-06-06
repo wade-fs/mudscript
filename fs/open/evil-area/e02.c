@@ -4,7 +4,7 @@ string sign();
 
 void create()
 {
-	set("short",BBLU+YEL"震邪道"NOR);
+	set("short",BBLU+YEL"震邪道" + NOR);
 	set("long",@LONG
 除了你來時的通道外, 四處都已經被磚瓦給封死了, 地上佈滿了
 砂土, 除此之外, 在沙堆中, 有一個告示牌(sign)...
@@ -33,10 +33,10 @@ int move(object me)
 	me=this_player();
 	if(!me->query_temp("evil/d_enter"))
 		return notify_fail(" 儒非有緣人...\n");
-	message_vision(YEL"地下的塵土突然開始移動～
+	message_vision(YEL + "地下的塵土突然開始移動～
 
-$N腳下的土開始下陷，$N整個人被土堆吞噬了...\n\n"NOR,me);
+$N腳下的土開始下陷，$N整個人被土堆吞噬了...\n\n" + NOR,me);
 	me->move(__DIR__"e03");
-message_vision(HIY"\n〔碰〕的一聲巨響～$N掉了下來！\n"NOR,me);
+message_vision(HIY + "\n〔碰〕的一聲巨響～$N掉了下來！\n" + NOR,me);
 	return 1;
 }

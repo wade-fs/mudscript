@@ -12,7 +12,7 @@ void create()
 LONG
         );
         set("combat_exp",20000);
-        set("nickname",HIR"藥到病除"NOR);
+        set("nickname",HIR + "藥到病除" + NOR);
 set("title","專治狂犬病");
         set("attitude", "friendly");
         set_skill("dodge", 40);

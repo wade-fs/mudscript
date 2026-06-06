@@ -3,7 +3,7 @@ inherit NPC;
 #include <ansi.h>
 void create()
 {
-        set("nickname",HIC"氤氰染月"NOR);
+        set("nickname",HIC + "氤氰染月" + NOR);
         set_name("夜末氤", ({"nightmare en","nightmare en"}));        
         set("age",9700);
         set("long","吸收上古時期無盡玄陰之氣的夜之魂。 \n");
@@ -89,11 +89,11 @@ void heart_beat()
                 force = target->query("force");
     if( env == environment(target))
     {
-      message_vision(HIY"
+      message_vision(HIY + "
 $N步法漸快身影漸散，空氣之中香氣郁郁，撩人心神。使出了一式
-"HIR"『太陰虛幻寶鑑之  氤之章』"HIY"郁郁香氣相四周迅速擴散，
+" + HIR + "『太陰虛幻寶鑑之  氤之章』" + HIY + "郁郁香氣相四周迅速擴散，
 $n忍不住吸了一口，登時有如沉醉在美夢中如癡如醉。
-\n"NOR,mob,target);
+\n" + NOR,mob,target);
 
     for(i=0;i<5;i++)    
  COMBAT_D->do_attack(mob, target, mob->query_temp("weapon"));

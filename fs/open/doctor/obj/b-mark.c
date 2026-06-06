@@ -6,7 +6,7 @@ inherit ITEM;
 
 void create()
 {
-    set_name(HIY"入閣令"NOR, ({"book_mark"}));
+    set_name(HIY + "入閣令" + NOR, ({"book_mark"}));
     set("long","一張入藏經閣的令牌！使用完畢應該要還給華佗。\n");
     set_weight(50);
     set("no_get",1);
@@ -81,14 +81,14 @@ int do_take(string arg)
     return 1;
   }
   else if(arg=="book from bookshelf" && environment(me)->query_temp("check_book_ok")==me->query("id")) {
-    message_vision(HIW"正當你想碰觸書本的時候，忽然從書中發出一道白光，白光中出現隱隱人影宛若似曾相似。\n"NOR,me);
+    message_vision(HIW + "正當你想碰觸書本的時候，忽然從書中發出一道白光，白光中出現隱隱人影宛若似曾相似。\n" + NOR,me);
     if(!me->query("quests/doctor_book")) {
       tell_object(me,HIW
 "慈眉銀髮的老先生對你說：辛苦你了，為了找齊我的靈魂，一定費了不少功\夫吧，看到本門\n"+
 "　　　　　　　　　　　　弟子還有你在真讓我感到欣慰。我殘存的靈魂寄託在這本書上見\n"+
 "　　　　　　　　　　　　證了本門的興衰，也見到了你帶來的希望，既然你能夠拯救我，\n"+
-"　　　　　　　　　　　　那我就相信你能再興銀針門的榮光。這本書對你必定有所助益。\n"NOR);
-      message_vision(HIY"你的神農氏醫源功\力更上一層。\n"NOR,me);
+"　　　　　　　　　　　　那我就相信你能再興銀針門的榮光。這本書對你必定有所助益。\n" + NOR);
+      message_vision(HIY + "你的神農氏醫源功\力更上一層。\n" + NOR,me);
       me->set("functions/shen-nongshi_cure/level",1);
       me->set("quests/doctor_book",1);
     }
@@ -97,7 +97,7 @@ int do_take(string arg)
     }
     if(me->query("id")=="doctor") {
       new("/open/doctor/doctor_book/obj/book2")->move(me);
-      message_vision("老先生給$N一本有點不同的醫書"HIW"《"YEL"銅人腧穴針灸圖經"HIW"》"NOR"。\n",me);
+      message_vision("老先生給$N一本有點不同的醫書" + HIW + "《" + YEL + "銅人腧穴針灸圖經" + HIW + "》" + NOR + "。\n",me);
     }
     else {
       new("/open/doctor/doctor_book/obj/book")->move(me);

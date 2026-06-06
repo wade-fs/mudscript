@@ -119,7 +119,7 @@ void heart_beat()
                 i = random(sizeof(exit_name));
                 command(exit_name[i]);
                 if( environment(mob) == env ) {
-                    tell_room(environment(mob), name()+"身子一晃就不見了。\n"NOR
+                    tell_room(environment(mob), name()+"身子一晃就不見了。\n" + NOR
 );
                     move(exit[exit_name[i]]);
                 }
@@ -147,7 +147,7 @@ void heart_beat()
                 add("sen", sen);
                 add_temp("run", 1);
 		tell_room(environment(), HIY+name()+"忽然運起內功\, 頭頂冒出絲"+
-                     "絲白煙, 不到半柱香時間已療傷完畢。\n"NOR);
+                     "絲白煙, 不到半柱香時間已療傷完畢。\n" + NOR);
             }
         }
 	::heart_beat();

@@ -71,7 +71,7 @@ int accept_kill(object ob)
       
   if( !present("guard", environment(ob)) ) 
   {
-    tell_room(environment(ob),HIW"\n隱藏在暗處的兩位殺手侍衛突然衝出護駕!!\n\n"NOR);
+    tell_room(environment(ob),HIW + "\n隱藏在暗處的兩位殺手侍衛突然衝出護駕!!\n\n" + NOR);
  //    if(!havekill) 這邊寫的怪怪的似乎沒作用所以先拿掉
  //      ob1->set("guard",1);
  //    else
@@ -84,11 +84,11 @@ int accept_kill(object ob)
       hu_fa->kill_ob(ob);
     }
   }
-  tell_object(this_player(),HIR "殺手侍衛長楊心婷叫道：留下你的人頭！\n" NOR);
+  tell_object(this_player(),HIR + "殺手侍衛長楊心婷叫道：留下你的人頭！\n" + NOR);
   if(query_temp("kill_me")>5)
   {
-    message_vision( HIY"\n楊心婷突然殺氣大增，將在場圍觀者全部逼出戰場!!\n"NOR,ob1);
-    set("title",MAG"〈殺氣騰騰〉"NOR); 
+    message_vision( HIY + "\n楊心婷突然殺氣大增，將在場圍觀者全部逼出戰場!!\n" + NOR,ob1);
+    set("title",MAG + "〈殺氣騰騰〉" + NOR); 
     set("attitude","aggressive");
     all = all_inventory( environment(ob1) );
     j=sizeof(all);

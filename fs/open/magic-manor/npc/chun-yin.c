@@ -15,8 +15,8 @@ void create()
 LONG);
   set("gender","女性");
   set("class","scholar");
-  set("nickname",NOR+YEL"飄"HIY"陽"NOR+YEL"無"HIY"懼"NOR);
-  set("title",HIC"聚靈八傑"NOR);
+  set("nickname",NOR+YEL"飄" + HIY + "陽"NOR+YEL"無" + HIY + "懼" + NOR);
+  set("title",HIC + "聚靈八傑" + NOR);
   set("family/family_name","段家");
   set("combat_exp",10000000);
   set("attitude","friendly");
@@ -212,7 +212,7 @@ void die()
       if( j==7 || j==77 || j== 777 || j==1111 || j==55 || j==555 || j==1000 || j==4000 || j==3333 || j==2222 )
       {
         new("/open/sky/obj12/grapes-doll")->move(environment(winner));
-        message_vision(HIM"\n從純靈吟的身上掉下了一件奇怪的東西!!\n"NOR,winner,me);
+        message_vision(HIM + "\n從純靈吟的身上掉下了一件奇怪的東西!!\n" + NOR,winner,me);
         write_file("/log/sky/obj12/grapes_doll",sprintf("%s(%s) 讓純靈吟掉下了葡萄娃娃於 %s\n",
           winner->name(1),winner->query("id"),ctime(time())));
       }
@@ -221,7 +221,7 @@ void die()
       if( j==5 || j==15 || j== 150 || j==1500 || j==10 || j==100 || j==1000 || j==4000 || j==6666 || j==7777 ) 
       {
         new("/open/sky/obj12/grapes-doll")->move(environment(winner));
-        message_vision(HIM"\n從純靈吟的身上掉下了一件奇怪的東西!!\n"NOR,winner,me);
+        message_vision(HIM + "\n從純靈吟的身上掉下了一件奇怪的東西!!\n" + NOR,winner,me);
         write_file("/log/sky/obj12/grapes_doll",sprintf("%s(%s) 讓純靈吟掉下了葡萄娃娃於 %s\n",
           winner->name(1),winner->query("id"),ctime(time())));
       }
@@ -231,26 +231,26 @@ void die()
   {
     obj=new("/open/magic-manor/obj/wood-ball");
     obj->move(environment(winner));
-    message_vision(CYN"一顆奇怪的珠子從$N的身體裏滾了出來!!\n"NOR,me);
+    message_vision(CYN + "一顆奇怪的珠子從$N的身體裏滾了出來!!\n" + NOR,me);
   } else if( random(12) == 7 )
   {
     obj=new("/open/magic-manor/obj/water-ball");
     obj->move(environment(winner));
-    message_vision(CYN"一顆奇怪的珠子從$N的身體裏滾了出來!!\n"NOR,me);
+    message_vision(CYN + "一顆奇怪的珠子從$N的身體裏滾了出來!!\n" + NOR,me);
   } else if( random(15) == 9 )
   {
     obj=new("/open/magic-manor/obj/fire-ball");
     obj->move(environment(winner));
-    message_vision(CYN"一顆奇怪的珠子從$N的身體裏滾了出來!!\n"NOR,me);
+    message_vision(CYN + "一顆奇怪的珠子從$N的身體裏滾了出來!!\n" + NOR,me);
   } else if( random(18) == 11 )
   {
     obj=new("/open/magic-manor/obj/golden-ball");
     obj->move(environment(winner));
-    message_vision(CYN"一顆奇怪的珠子從$N的身體裏滾了出來!!\n"NOR,me);
+    message_vision(CYN + "一顆奇怪的珠子從$N的身體裏滾了出來!!\n" + NOR,me);
   } else if( random(21) == 13 )
   {
     obj=new("/open/magic-manor/obj/soil-ball");
-    message_vision(CYN"一顆奇怪的珠子從$N的身體裏滾了出來!!\n"NOR,me);
+    message_vision(CYN + "一顆奇怪的珠子從$N的身體裏滾了出來!!\n" + NOR,me);
     obj->move(environment(winner));
   }
   ::die();

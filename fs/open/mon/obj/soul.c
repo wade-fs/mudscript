@@ -28,9 +28,9 @@ void init()
         if(me->query("gender")=="男性") gen = "道長";
         else gen = "道姑";
     
-        write(HIC"蝶魂說道：多謝"+gen+"將我召喚出來...\n\n"NOR);
-                write(HIC"雖然奴家的靈魂獲得解放，但軀殼還是被「冰封秘咒」給囚住了...\n\n"NOR);
-                write(HIC"只希望"+gen+"好人作到底，將我給「釋放」出來...\n\n"NOR);
+        write(HIC + "蝶魂說道：多謝"+gen+"將我召喚出來...\n\n" + NOR);
+                write(HIC + "雖然奴家的靈魂獲得解放，但軀殼還是被「冰封秘咒」給囚住了...\n\n" + NOR);
+                write(HIC + "只希望"+gen+"好人作到底，將我給「釋放」出來...\n\n" + NOR);
                 me->set_temp("icestorm/ice_spell",2);
     }
 }

@@ -3,7 +3,7 @@ inherit ITEM;
 
 void create()
 {
-        set_name(HIR "閃電身法奧義" NOR, ({ "Thunder_steps Book","book" }) );
+        set_name(HIR + "閃電身法奧義" + NOR, ({ "Thunder_steps Book","book" }) );
 
         set("unit", "本");
         set("long", "閃電山莊的絕頂輕功\秘笈，但你天賦不夠聰穎，認定它不是什麼武學秘笈。\n");

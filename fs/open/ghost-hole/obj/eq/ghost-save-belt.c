@@ -6,12 +6,12 @@
 inherit EQUIP;
 void create()
 {
-     set_name(MAG"ω"CYN""BBLU"冥魔"HIR"腰帶"NOR""MAG"ω"NOR,({"ghost-belt","belt"}) );
+     set_name(MAG + "ω" + CYN + "" + BBLU + "冥魔" + HIR + "腰帶" + NOR + "" + MAG + "ω" + NOR,({"ghost-belt","belt"}) );
      set_weight(200);
      if( clonep() )
                set_default_object(__FILE__);
      else {
-            set("long",CYN""BBLU"冥魔戰甲的一部份。\n"NOR);
+            set("long",CYN + "" + BBLU + "冥魔戰甲的一部份。\n" + NOR);
             set("unit", "件");
             set("value",500);
             set("material","steal");
@@ -28,8 +28,8 @@ void create()
             set("armor_prop/poison",10);
 			set("armor_prop/throwing",10);
 			set("armor_prop/force",3);
-            set("wear_msg",HIG"$N束上$n"HIG"，凶邪魔妖的力量直接貫入丹田中。\n"NOR);
-            set("unequip_msg", HIW"$N脫下$n"HIW"，黑暗的魔力逐漸由丹田散去。\n"NOR);
+            set("wear_msg",HIG + "$N束上$n" + HIG + "，凶邪魔妖的力量直接貫入丹田中。\n" + NOR);
+            set("unequip_msg", HIW + "$N脫下$n" + HIW + "，黑暗的魔力逐漸由丹田散去。\n" + NOR);
            }
         setup();
 }
@@ -39,8 +39,8 @@ void init()
   seteuid(geteuid());
   me = this_player();
   if (me)
-        set_name (me->name(1)+ "的"MAG"ω"CYN""BBLU"冥魔"HIR"腰帶"NOR""MAG"ω"NOR,({"ghost-belt","belt"}) );
+        set_name (me->name(1)+ "的" + MAG + "ω" + CYN + "" + BBLU + "冥魔" + HIR + "腰帶" + NOR + "" + MAG + "ω" + NOR,({"ghost-belt","belt"}) );
   else
-        set_name (MAG"ω"CYN""BBLU"冥魔"HIR"腰帶"NOR""MAG"ω"NOR,({"ghost-robe","robe"}) );
+        set_name (MAG + "ω" + CYN + "" + BBLU + "冥魔" + HIR + "腰帶" + NOR + "" + MAG + "ω" + NOR,({"ghost-robe","robe"}) );
 }
 

@@ -3,7 +3,7 @@ inherit ROOM;
 
 void create()
 {
-	set("short",HIM"桃花源"NOR);
+	set("short",HIM + "桃花源" + NOR);
 	set("long","
     一陣濃郁的花草香，瀰漫著整個房間，在房間的兩旁，放置著很
 多瓦甕，裡面擺\滿了花花綠綠的花草，很多畸形百怪的形狀，房間的

@@ -3,7 +3,7 @@ inherit ROOM;
 
 void create()
 {
-        set("short", HIW"虛空世界－九空聖俠界"NOR);
+        set("short", HIW + "虛空世界－九空聖俠界" + NOR);
         set("long", @LONG
 你眼前漸漸出現一個身影，手中的麗玉蝶蘭似乎感應道什麼似的，發出炫麗的光芒照耀
 四周身邊亦出現許多過往的影像，定睛一看似乎是百多年前仙魔大戰的景象！！

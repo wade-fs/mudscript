@@ -4,31 +4,31 @@
 inherit NPC;
 inherit SSERVER;
 mapping *action = ({
-([ "action" :"$N將銳利的兔爪向$n狠狠的抓了過去"NOR"。",
+([ "action" :"$N將銳利的兔爪向$n狠狠的抓了過去" + NOR + "。",
              "dodge"      :  -20,
              "parry"      :  -35,
              "damage"     :  220,
              "damage_type":  "抓傷",
            ]),
-([ "action" :"$N迅速撲至$n面前 ,朝$n猛抓下去"NOR"。",
+([ "action" :"$N迅速撲至$n面前 ,朝$n猛抓下去" + NOR + "。",
              "dodge"      :  -20,
              "parry"      :  -35,
              "damage"     :  170,
              "damage_type":  "抓傷",
             ]),
-([ "action" :"$N朝$n身上狠狠的咬去 ,動作快捷狠準"NOR"。",
+([ "action" :"$N朝$n身上狠狠的咬去 ,動作快捷狠準" + NOR + "。",
              "dodge"      :  -30,
              "parry"      :  -25,
              "damage"     :  190,
              "damage_type":  "咬傷",
             ]),
-([ "action" :"$N朝$n狂抓了過去 ,使出的力道極其強勁"NOR"。",
+([ "action" :"$N朝$n狂抓了過去 ,使出的力道極其強勁" + NOR + "。",
              "dodge"      :  -40,
              "parry"      :  -15,
              "damage"     :  175,
              "damage_type":  "抓傷",
             ]),
-([ "action":"$N狂吼著 ,朝$n撲去 ,銳利的雙爪令人不寒而慄"NOR"。",
+([ "action":"$N狂吼著 ,朝$n撲去 ,銳利的雙爪令人不寒而慄" + NOR + "。",
              "dodge"      : -10,
              "parry"      :  -20,
              "damage"     : 145,
@@ -100,7 +100,7 @@ void heart_beat()
   {
     if( 80 > random(120) )
     {
- message_vision(HIW"玉兔往$N身上用力的咬一口!!!\n"+NOR,target);
+ message_vision(HIW + "玉兔往$N身上用力的咬一口!!!\n"+NOR,target);
   target->receive_damage("kee", 300,me);
  COMBAT_D->report_status(target,0);
      }
@@ -127,7 +127,7 @@ void die()
   if(random(100) > 10) 
   {
 
-   message_vision(HIW"從玉兔的身上掉下一個月餅。\n"+NOR,winner);
+   message_vision(HIW + "從玉兔的身上掉下一個月餅。\n"+NOR,winner);
    new(__DIR__"mooncake.c")->move(winner);
   }
   ::die();

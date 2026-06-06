@@ -3,7 +3,7 @@ inherit ROOM;
 
 void create()
 {
-        set("short", HIW"開天三才陣"NOR);
+        set("short", HIW + "開天三才陣" + NOR);
         set("long", @LONG
 這是傳說中由仙劍祖師逍遙子所設計的封印血魔的陣法..陣中遙遙望去發現陣眼有三個發亮的寶珠..眼見三晶珠閃閃發亮..你心中魔氣頓時受到壓抑...。
 LONG
@@ -38,8 +38,8 @@ int greeting (object who)
   room->set("exits/north","/open/gsword/room1/blood/room3/array"+ndir);
   room->set("exits/south","/open/gsword/room1/blood/room3/51.c");
   if(who->query("bellicosity") > 20+random(10)) {
-    message_vision(HIR"\n$N進入開天三才陣後..瞬間陣中的破魔七星發出耀眼光芒.\n",who);
-    message_vision(HIR"光芒消失後，數條駭人之巨龍向$N衝來！！！\n"NOR,who);
+    message_vision(HIR + "\n$N進入開天三才陣後..瞬間陣中的破魔七星發出耀眼光芒.\n",who);
+    message_vision(HIR + "光芒消失後，數條駭人之巨龍向$N衝來！！！\n" + NOR,who);
     seteuid(getuid());
     i=random(4)+1;
     while(i--)

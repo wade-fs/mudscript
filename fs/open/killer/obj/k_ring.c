@@ -21,7 +21,7 @@ void create()
     set("no_sell", 1); //不然就得多攔 action sell
     set("armor_type","finger");
     set("armor_prop/armor",5);
-    set("wear_msg",HIG"$N"HIG"戴上了$n，戒子亮起了淡淡綠光。\n"NOR);
+    set("wear_msg",HIG + "$N" + HIG + "戴上了$n，戒子亮起了淡淡綠光。\n" + NOR);
     set("unequip_msg","$N脫下了$n，魔戒詭異的綠光也隨之消逝。\n");
   }
   setup();
@@ -46,7 +46,7 @@ int wear()
   if( query("equipped"))
   {
 //    user=environment(this_object());
-//    message_vision(HIG"$N戴上了殺意魔戒,戒子亮起了淡淡綠光.\n"NOR,user);
+//    message_vision(HIG + "$N戴上了殺意魔戒,戒子亮起了淡淡綠光.\n" + NOR,user);
     set_heart_beat(1);
   }
   return result;
@@ -71,7 +71,7 @@ int do_wear(string str)
     if ( query("equipped") )
     {
       user=this_player();
-      message_vision(HIG"$N戴上了殺意魔戒,戒子亮起了淡淡綠光.\n"NOR,user);
+      message_vision(HIG + "$N戴上了殺意魔戒,戒子亮起了淡淡綠光.\n" + NOR,user);
       set_heart_beat(1);
     }
   }
@@ -153,8 +153,8 @@ void heart_beat()
     {                         // 出現率太瀕繁所以做為修正*180  BY SWY  
       if( random(medodge) > dodge) //如果敵人的dodge是100的話，約有50％的命中度
       { //dodge 最低30,medodge 最高220?
-        message_vision(HIG"殺意魔戒吸收$N的殺氣，以殺氣射向$n！！!\n"NOR,user,enemy[i]);
-        message_vision(HIG"$N強大的殺氣將$n逼的喘不過氣來，身心都受到嚴重傷害!!!\n"NOR,user,enemy[i]);
+        message_vision(HIG + "殺意魔戒吸收$N的殺氣，以殺氣射向$n！！!\n" + NOR,user,enemy[i]);
+        message_vision(HIG + "$N強大的殺氣將$n逼的喘不過氣來，身心都受到嚴重傷害!!!\n" + NOR,user,enemy[i]);
         enemy[i]->start_busy(2);
         if(user->query("class")=="killer") 
         { //shadow-kill 90+rain-thrwoing 100合計是190點
@@ -166,7 +166,7 @@ void heart_beat()
         }
         user->add("bellicosity",-(mag/4)); // magic越大，所耗去的殺氣越高，威力也越大
       } else {
-        message_vision(HIG"殺意魔戒吸收$N的殺氣射向$n，但被躲過了...\n"NOR,user,enemy[i]);
+        message_vision(HIG + "殺意魔戒吸收$N的殺氣射向$n，但被躲過了...\n" + NOR,user,enemy[i]);
         user->add("bellicosity",-10);
       }
     }

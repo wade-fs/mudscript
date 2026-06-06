@@ -3,7 +3,7 @@ inherit ITEM;
 
 void create()
 {
-        set_name(HIW"水晶包"NOR, ({ "crystal dumpling","dumpling" }) );
+        set_name(HIW + "水晶包" + NOR, ({ "crystal dumpling","dumpling" }) );
         set_weight(800);
         if( clonep() )
                 set_default_object(__FILE__);

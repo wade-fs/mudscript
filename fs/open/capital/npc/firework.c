@@ -25,9 +25,9 @@ int start_marry()
 int firework()
 {
   remove_call_out("firework");
-  message_vision(HIY"炮隊不時拿根香點燃手中的鞭炮。\n"NOR, this_object());
+  message_vision(HIY + "炮隊不時拿根香點燃手中的鞭炮。\n" + NOR, this_object());
   CHANNEL_D->do_channel(this_object(), "mud",
-	HIR"碰...天空中顯現出大大的\n\n\t"+word[random(sizeof(word))]+"\n\n"NOR,
+	HIR + "碰...天空中顯現出大大的\n\n\t"+word[random(sizeof(word))]+"\n\n" + NOR,
 	users());
 
   call_out("firework", 8+random(10));

@@ -7,7 +7,7 @@ inherit EQUIP;
 
 void create()
 {
-	set_name( YEL"混沌腰帶"NOR  ,({"chaos belt","belt"}));
+	set_name( YEL + "混沌腰帶" + NOR  ,({"chaos belt","belt"}));
 	set("long","繡工精細的土黃色腰帶，上面泛著日月形狀的螢光。\n");
 	set_weight(600);
         set("armor_type","waist");

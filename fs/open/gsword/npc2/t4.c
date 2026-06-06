@@ -4,8 +4,8 @@ inherit NPC;
 string test();
 void create()
 {
-        set("title",HIR"第三試煉者"NOR),
-        set_name(HIC"仙劍武神"NOR,({"gman"}));
+        set("title",HIR + "第三試煉者" + NOR),
+        set_name(HIC + "仙劍武神" + NOR,({"gman"}));
         set("class","swordsman");
         create_family("仙劍派",2,"長老");
         set("family/master_name","逍遙子");
@@ -132,7 +132,7 @@ int do_test()
 
 string test()
 {
-   tell_object(this_player(),HIW"此關在測試你的武術基礎..你得打敗我.才能過關。\n"NOR);
+   tell_object(this_player(),HIW + "此關在測試你的武術基礎..你得打敗我.才能過關。\n" + NOR);
    return("你可以利用test_accept來向我挑戰");
 }
 void heart_beat()
@@ -160,15 +160,15 @@ void unconcious ()
        if(winner->query_temp("/3rdtest")==1)
        {
        winner->set("quests/yan",5);
-       tell_object(winner,HIW"你已經通過仙劍試煉了..我直接將你送回蜀山。\n"NOR);
-       message("system",this_player()->name()+HIY"已通過仙劍試煉,成為一代宗師。\n"NOR,users());
+       tell_object(winner,HIW + "你已經通過仙劍試煉了..我直接將你送回蜀山。\n" + NOR);
+       message("system",this_player()->name()+HIY"已通過仙劍試煉,成為一代宗師。\n" + NOR,users());
        winner->set("title","仙劍聖者");
        winner->move("/open/gsword/room/su3");
        destruct (this_object ());
        }
        else
        {
-       tell_object(winner,HIW"哈哈~~~你用投機的方式是無法得到我的認同的。\n"NOR);
+       tell_object(winner,HIW + "哈哈~~~你用投機的方式是無法得到我的認同的。\n" + NOR);
        destruct (this_object ());
        }
     }

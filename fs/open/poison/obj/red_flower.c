@@ -5,7 +5,7 @@ inherit EQUIP;
 
 void create()
 {
-	set_name(HIR"紅花"NOR,({ "red flower", "flower" }) );
+	set_name(HIR + "紅花" + NOR,({ "red flower", "flower" }) );
 	set_weight(200);
 	if( clonep() )
 		set_default_object(__FILE__);

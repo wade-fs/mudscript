@@ -15,7 +15,7 @@ void create() {
         set("chat_chance",15);
         set("chat_msg",({
 
-            HIB"陣陣透骨刺寒的陰風吹過～～\n"NOR,
+            HIB + "陣陣透骨刺寒的陰風吹過～～\n" + NOR,
       }));
         setup();
  }

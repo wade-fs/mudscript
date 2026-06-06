@@ -68,19 +68,19 @@ if ( !objectp(ob) )
 if( ob->is_fighting() && query("equipped") )
 {
 if( sword > random(100) ) {
-message_vision(HIW"由於受到$N內力的召喚，藏身於聖劍七色寶珠中之七劍劍靈分別由劍中寶珠竄出\n並依$N的精神而擺\出仙劍劍陣之禁斷八卦遊龍陣只見\n"HIR"$N仰天長嘯，催動八卦遊龍陣使出驚世駭俗的仙劍劍陣至極絕招\n"NOR,ob);
-message_vision(HIW"\n\t\t『"HIR"～禁～斷～連～陽～七～訣～斬"HIW"』\n\n"NOR,ob);
-message_vision(HIR"此招一出，驚天動地，傳說自仙劍創派以來從未被使用過!!\n"NOR,ob);
-message_vision(HIB"\n烈陽劍靈狂性驟起，口中喃喃有辭，使出仙劍禁斷之連陽七訣第一式"HIW"『"HIB"烈陽"HIW"』"HIB"!!\n"NOR ,ob);
-message_vision(HIR"\n殘陽劍靈狂性驟起，口中喃喃有辭，使出仙劍禁斷之連陽七訣第二式"HIW"『"HIR"殘陽"HIW"』"HIR"!!\n"NOR ,ob);
-message_vision(HIW"\n豔陽劍靈狂性驟起，口中喃喃有辭，使出仙劍禁斷之連陽七訣第三式"HIW"『豔陽』!!\n"NOR,ob);
-message_vision(HIM"\n暖陽劍靈狂性驟起，口中喃喃有辭，使出仙劍禁斷之連陽七訣第四式"HIW"『"HIM"暖陽"HIW"』"HIM"!!\n"NOR ,ob);
-message_vision(HIC"\n冬陽劍靈狂性驟起，口中喃喃有辭，使出仙劍禁斷之連陽七訣第五式"HIW"『"HIC"冬陽"HIW"』"HIC"!!\n"NOR ,ob);
-message_vision(HIG"\n朝陽劍靈狂性驟起，口中喃喃有辭，使出仙劍禁斷之連陽七訣第六式"HIW"『"HIG"朝陽"HIW"』"HIG"!!\n"NOR ,ob);
-message_vision(HIY"\n夕陽劍靈狂性驟起，口中喃喃有辭，使出仙劍禁斷之連陽七訣第七式"HIW"『"HIY"夕陽"HIW"』"HIY"!!\n"NOR ,ob);
-message_vision(HIW"\n七道劍虹同時激空而出，「七陽連天」在空中織成一道虹網！\n"HIG"而主陣的$N縱身一躍，凝氣準備發出最後一式以完成這驚天地動的一擊！\n"NOR,ob);
-message_vision(HIW"\n只見$N狂性驟起 ,大喝一聲『"HIR"劍影連陽，七陽連天』!!\n"NOR,ob);
-message_vision(HIW"$N的七陽連天氣勢澎礡，激發了先前仙劍禁斷之連陽七訣的七股剛柔並濟的劍虹\n只見虹氣嘯天，滿天劍影，陣內敵人皆受重創\n"NOR,ob);
+message_vision(HIW + "由於受到$N內力的召喚，藏身於聖劍七色寶珠中之七劍劍靈分別由劍中寶珠竄出\n並依$N的精神而擺\出仙劍劍陣之禁斷八卦遊龍陣只見\n" + HIR + "$N仰天長嘯，催動八卦遊龍陣使出驚世駭俗的仙劍劍陣至極絕招\n" + NOR,ob);
+message_vision(HIW + "\n\t\t『" + HIR + "～禁～斷～連～陽～七～訣～斬" + HIW + "』\n\n" + NOR,ob);
+message_vision(HIR + "此招一出，驚天動地，傳說自仙劍創派以來從未被使用過!!\n" + NOR,ob);
+message_vision(HIB + "\n烈陽劍靈狂性驟起，口中喃喃有辭，使出仙劍禁斷之連陽七訣第一式" + HIW + "『" + HIB + "烈陽" + HIW + "』" + HIB + "!!\n" + NOR ,ob);
+message_vision(HIR + "\n殘陽劍靈狂性驟起，口中喃喃有辭，使出仙劍禁斷之連陽七訣第二式" + HIW + "『" + HIR + "殘陽" + HIW + "』" + HIR + "!!\n" + NOR ,ob);
+message_vision(HIW + "\n豔陽劍靈狂性驟起，口中喃喃有辭，使出仙劍禁斷之連陽七訣第三式" + HIW + "『豔陽』!!\n" + NOR,ob);
+message_vision(HIM + "\n暖陽劍靈狂性驟起，口中喃喃有辭，使出仙劍禁斷之連陽七訣第四式" + HIW + "『" + HIM + "暖陽" + HIW + "』" + HIM + "!!\n" + NOR ,ob);
+message_vision(HIC + "\n冬陽劍靈狂性驟起，口中喃喃有辭，使出仙劍禁斷之連陽七訣第五式" + HIW + "『" + HIC + "冬陽" + HIW + "』" + HIC + "!!\n" + NOR ,ob);
+message_vision(HIG + "\n朝陽劍靈狂性驟起，口中喃喃有辭，使出仙劍禁斷之連陽七訣第六式" + HIW + "『" + HIG + "朝陽" + HIW + "』" + HIG + "!!\n" + NOR ,ob);
+message_vision(HIY + "\n夕陽劍靈狂性驟起，口中喃喃有辭，使出仙劍禁斷之連陽七訣第七式" + HIW + "『" + HIY + "夕陽" + HIW + "』" + HIY + "!!\n" + NOR ,ob);
+message_vision(HIW + "\n七道劍虹同時激空而出，「七陽連天」在空中織成一道虹網！\n" + HIG + "而主陣的$N縱身一躍，凝氣準備發出最後一式以完成這驚天地動的一擊！\n" + NOR,ob);
+message_vision(HIW + "\n只見$N狂性驟起 ,大喝一聲『" + HIR + "劍影連陽，七陽連天』!!\n" + NOR,ob);
+message_vision(HIW + "$N的七陽連天氣勢澎礡，激發了先前仙劍禁斷之連陽七訣的七股剛柔並濟的劍虹\n只見虹氣嘯天，滿天劍影，陣內敵人皆受重創\n" + NOR,ob);
 
 enemy=ob->query_enemy();
 i=sizeof(enemy);

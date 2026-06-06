@@ -3,7 +3,7 @@ inherit COMBINED_ITEM;
 
 void create()
 {
-	set_name(RED"火鶴焰汁"NOR,({"food","evil-foods"}));
+	set_name(RED + "火鶴焰汁" + NOR,({"food","evil-foods"}));
 	set_weight(100);
 	if( clonep() )
                 set_default_object(__FILE__);

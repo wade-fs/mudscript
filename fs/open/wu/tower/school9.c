@@ -34,7 +34,7 @@ int do_push(string str) {
         return notify_fail("你要推什麼東東？？\n");
         }
       else if(str != "door"){
-        tell_object(this_player(),HIR"\n咻～～～ 迎面射來三把飛刀！\n"NOR);
+        tell_object(this_player(),HIR + "\n咻～～～ 迎面射來三把飛刀！\n" + NOR);
         tell_object(this_player(),"\n\n不過這機關似乎無意傷人，你很從容地就躲過了。\n");
         return 1;}
      else {

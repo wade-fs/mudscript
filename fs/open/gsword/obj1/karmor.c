@@ -6,7 +6,7 @@ int cor;
 int ekee=me->query("max_kee",1);
 void create()
 {
-        set_name( HIY "仙劍聖鎧" NOR ,({"kensai armor","armor"}));
+        set_name( HIY + "仙劍聖鎧" + NOR ,({"kensai armor","armor"}));
         set_weight(3000);
         if( clonep() )
                 set_default_object(__FILE__);
@@ -41,7 +41,7 @@ int do_wear(string str)
      {
         cor = me->query_skill("sword");
       cor = cor*2;
-message_vision(HIW"$N穿上了聖鎧後彷彿劍聖附體。\n"NOR,me);
+message_vision(HIW + "$N穿上了聖鎧後彷彿劍聖附體。\n" + NOR,me);
         set_heart_beat(1);
      }
 }
@@ -50,7 +50,7 @@ int do_remove(string str)
    if(str=="kensai armor" || str=="all" || str=="armor")
      if( query("equipped") )
      {
-message_vision(YEL"$N脫下了聖鎧頓時..對劍的感覺似乎漸漸疏遠。\n"NOR,me);
+message_vision(YEL + "$N脫下了聖鎧頓時..對劍的感覺似乎漸漸疏遠。\n" + NOR,me);
         set_heart_beat(0);
      }
 

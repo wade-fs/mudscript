@@ -16,8 +16,8 @@ void create()
 LONG);
   set("gender","男性");
   set("class","bandit");
-  set("nickname",HIY"虎神"NOR);
-  set("title",HIW"當今鏢騎大將軍"NOR);
+  set("nickname",HIY + "虎神" + NOR);
+  set("title",HIW + "當今鏢騎大將軍" + NOR);
   set("family/family_name","惡人谷");
   set("combat_exp",10000000);
   set("attitude","friendly");
@@ -115,12 +115,12 @@ if(sizeof(user) ) return user[1]; else return me;
 魚缸@台北 說 (下午 11:47):
 if 我只是跟你說會轉成哪樣
 */
-    message_vision(HIR"
+    message_vision(HIR + "
             孫虎臣突然單手扣住$N的左手，運起天虎橡皮功\和地虎護身勁，
             接著引爆預先埋藏好的火藥，碰的一聲巨響，火光四射。
             $N遭受相當嚴重的炸傷，而虎神仍屹立不搖。
             
-            \n"NOR,sizeof(user) ? user[0] : me);
+            \n" + NOR,sizeof(user) ? user[0] : me);
     for( i=0; i<sizeof(user); i++ )
     {
       if(userp(user[i]))
@@ -192,27 +192,27 @@ void unconcious ()
   ::die();
   return ;
   }else{
-        message_vision(HIR"
+        message_vision(HIR + "
         
 虎神怒道:『想不到以我堂堂大將軍之尊，今日竟敗於草野群莽手中，可惡啊!!』
 
-"HIW"孫虎臣一口氣引爆所有埋藏於地底的火藥
+" + HIW + "孫虎臣一口氣引爆所有埋藏於地底的火藥
 
-同時運起最後的天虎橡皮功\和地虎護身勁，"HIY"
+同時運起最後的天虎橡皮功\和地虎護身勁，" + HIY + "
                     
-"HIG"轟的一聲巨響，$N如斷線風箏般遠遠飛了出去...
+" + HIG + "轟的一聲巨響，$N如斷線風箏般遠遠飛了出去...
                     
-        \n\n"NOR,winner);
+        \n\n" + NOR,winner);
   winner->move("/open/magic_palace/room/room36.c");
   winner->unconcious();
         COMBAT_D->report_status(winner);
        }
 
-tell_object(users(),HIR"\n\n
+tell_object(users(),HIR + "\n\n
 
 西方天空突然多出一顆火紅的太陽......
 
-              \n\n"NOR);
+              \n\n" + NOR);
 
   destruct(me);
 }

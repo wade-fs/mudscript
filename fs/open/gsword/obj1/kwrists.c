@@ -5,7 +5,7 @@ inherit WRISTS;
 object me=this_player();
 void create()
 {
-     set_name(HIY"劍聖手鍊"NOR , ({"kensai wrists","wrists"}) );
+     set_name(HIY + "劍聖手鍊" + NOR , ({"kensai wrists","wrists"}) );
      set_weight(2000);
      if ( clonep() )
               set_default_object(__FILE__);
@@ -20,7 +20,7 @@ void create()
         set("no_put",1);
         set("no_drop",1);
         set("no_get",1);
-            set("wear_msg",CYN"$N把$n帶在手上，神聖之氣籠罩全身。\n"NOR);
+            set("wear_msg",CYN + "$N把$n帶在手上，神聖之氣籠罩全身。\n" + NOR);
      }
             setup();
          this_object()->set("armor_prop/sword",5);

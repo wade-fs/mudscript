@@ -3,7 +3,7 @@
 inherit ROOM;
 void create ()
 {
-  set ("short", HIY"狂想空間歷史發展館"NOR);
+  set ("short", HIY + "狂想空間歷史發展館" + NOR);
   set( "long", "在中興的狂想空間跟之前在師大的狂想空間最大的不同是沒有殺手
 及聖火這二個門派,先說明一下,那時殺手是由Fund所創建的,那時是依附
 在雪蒼山這個門派之下,後來那時是玩家的渡大大(Wataru)覺得殺手不錯

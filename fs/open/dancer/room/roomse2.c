@@ -5,7 +5,7 @@ inherit ROOM;
 
 void create()
 {
-  set("short",HIC"噴水池"NOR);
+  set("short",HIC + "噴水池" + NOR);
   set("long", @LONG
 一個別致幽雅的噴水池，這個水池的水源來自於鏡月島底下的自
 湧泉，長年有泉水供應，你可以在此裝水(fill)，或是在此飲水，而

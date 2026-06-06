@@ -12,7 +12,7 @@ void create()
 英雄新經創始人，在四絕當中，若論拳腳武學，應是修為最高者，
 正道群雄奉其為武聖聯盟盟主，然其為人絕非如其稱號般正氣凜然
 ，英雄正宗之所以慾權嗜名，泰半由劍光芒所致。
-\n"NOR);
+\n" + NOR);
         set("attitude", "friendly");
         set("gender","男性");
         set("combat_exp",10000000);
@@ -23,8 +23,8 @@ void create()
         set("age",64);
         set("class","dancer");
         set("family/family_name","夜夢小築");
-        set("title",HIY"初代"HIW"『"HIC"英雄新經"HIW"』"HIY"傳人"NOR);
-        set("nickname",HIR"武聖"NOR);
+        set("title",HIY + "初代" + HIW + "『" + HIC + "英雄新經" + HIW + "』" + HIY + "傳人" + NOR);
+        set("nickname",HIR + "武聖" + NOR);
         set("chat_chance", 10);
         set("max_gin",20000);
         set("max_kee",40000);
@@ -75,7 +75,7 @@ void greeting(object me)
 
 if(me->query_temp("ko_baby"))
 {
-message_vision(HIY"劍光芒說道:「$N殺了英雄正宗!?很好，那就來領死吧!!」\n"NOR,me);
+message_vision(HIY + "劍光芒說道:「$N殺了英雄正宗!?很好，那就來領死吧!!」\n" + NOR,me);
 kill_ob(me);
 }
 set_heart_beat(1);
@@ -96,13 +96,13 @@ if(!me->query_temp("unconcious"))
 {
   if((kee < mkee || sen < msen || gin < mgin ) && random(4)==1 ) //回精氣神
   {
-message_vision(HIB"
-$N運起少林寺內功\心法"HIW"<<"HIM"菩提拂拭神功\"HIW">>
+message_vision(HIB + "
+$N運起少林寺內功\心法" + HIW + "<<" + HIM + "菩提拂拭神功\" + HIW + ">>
 
-                 "HIW"『"HIY"心如明鏡，身如菩提，時常勤拂拭，一切魔障給我破！"HIW"』
+                 " + HIW + "『" + HIY + "心如明鏡，身如菩提，時常勤拂拭，一切魔障給我破！" + HIW + "』
 
-                               "HIC"$N身上的傷勢立即復原了些許\。
-\n"NOR,me);
+                               " + HIC + "$N身上的傷勢立即復原了些許\。
+\n" + NOR,me);
           me->delete_busy();
           ekee=me->query("eff_kee");
           egin=me->query("eff_gin");
@@ -117,7 +117,7 @@ $N運起少林寺內功\心法"HIW"<<"HIM"菩提拂拭神功\"HIW">>
   }
   if(me->query_busy()&& random(100) < 40 )
   {
-message_vision(HIR"$N潛運"HIW"<<"HIM"菩提拂拭神功\"HIW">>"HIR"衝破一時的滯塞，接著以"HIY"閃電步"HIR"迅速解除束縛。\n"NOR,me);
+message_vision(HIR + "$N潛運" + HIW + "<<" + HIM + "菩提拂拭神功\" + HIW + ">>" + HIR + "衝破一時的滯塞，接著以" + HIY + "閃電步" + HIR + "迅速解除束縛。\n" + NOR,me);
           me->delete_busy();
   }
 }

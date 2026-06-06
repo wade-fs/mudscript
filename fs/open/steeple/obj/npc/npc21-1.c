@@ -12,7 +12,7 @@ void create()
         set("nickname","平南王");
         set("combat_exp",8000000);
         set("attitude","heroism");
-set("title",HIW"～幻影～"NOR);
+set("title",HIW + "～幻影～" + NOR);
         set("age",50);
         set("max_kee",10000);
         set("str", 44);
@@ -116,17 +116,17 @@ destruct (this_object ());
 else
 if(me->query("quest/start_game")< 22)
        {
-        message_vision(HIY"
-恭喜"HIW+me->query("name")+HIY"挑戰"HIG"『"HIR"第二十一層試煉ソ塔"HIG"』"HIY"通過！！
+        message_vision(HIY + "
+恭喜"HIW+me->query("name")+HIY"挑戰" + HIG + "『" + HIR + "第二十一層試煉ソ塔" + HIG + "』" + HIY + "通過！！
 
-"HIW"希望"+me->query("name")+"能不負眾望，勇闖"HIG"『"HIY"第二十二層試煉ソ塔"HIG"』"HIW"。
-	"NOR,me);
+" + HIW + "希望"+me->query("name")+"能不負眾望，勇闖" + HIG + "『" + HIY + "第二十二層試煉ソ塔" + HIG + "』" + HIW + "。
+	" + NOR,me);
 	me->set("quest/start_game",22);
         destruct (this_object ());
        }
 {
         :: unconcious();
-	tell_object(me,HIW"系統：你已經通過測試，系統不做任何更改。\n"NOR);
+	tell_object(me,HIW + "系統：你已經通過測試，系統不做任何更改。\n" + NOR);
 	destruct(this_object());
 }
 }

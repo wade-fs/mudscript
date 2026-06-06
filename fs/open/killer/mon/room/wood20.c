@@ -45,7 +45,7 @@ int do_pull( string arg)
 
    if( killer= present("killer", environment( me)) )
    {
-      tell_room(environment(me),HIW"綠雲組上級殺手叫道:「擅闖者死...!!」\n"NOR);
+      tell_room(environment(me),HIW + "綠雲組上級殺手叫道:「擅闖者死...!!」\n" + NOR);
       if( me->query("combat_exp") < 15000)
       {
          message_vision("綠雲組上級殺手說道:「綠雲組不殺無名之徒, 你走吧...」\n", me);

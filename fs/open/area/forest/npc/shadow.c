@@ -51,11 +51,11 @@ int i,j;
                 i = (int)ob->query_skill("dodge");
                 j = (int)target->query_skill("dodge");
 
-		message_vision(YEL"$N身型整個猶如煙霧一般的擴散開來!突然的，整團煙霧撲向了$n!\n"NOR,ob,target);
+		message_vision(YEL + "$N身型整個猶如煙霧一般的擴散開來!突然的，整團煙霧撲向了$n!\n" + NOR,ob,target);
 
                 if( random(i) > random(j) )
                 {
-                        message_vision(HIR"\n$N整個人被籠罩於煙霧中，氣力緩緩減低了～\n\n"NOR,target);
+                        message_vision(HIR + "\n$N整個人被籠罩於煙霧中，氣力緩緩減低了～\n\n" + NOR,target);
                         target->receive_damage("kee",700);
                         ob->receive_curing("kee", 700 );
                         ob->receive_heal("kee",   700 );
@@ -63,7 +63,7 @@ int i,j;
                         COMBAT_D->report_status(ob,1);
                 }
 		else
-			message_vision(HIW"\n$N驚覺煙霧襲來～趕緊施展輕功\步伐避開了。\n\n"NOR,target);
+			message_vision(HIW + "\n$N驚覺煙霧襲來～趕緊施展輕功\步伐避開了。\n\n" + NOR,target);
 	}
 set_heart_beat(1);
 ::heart_beat();

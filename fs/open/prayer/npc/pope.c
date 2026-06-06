@@ -96,22 +96,22 @@ LONG);
   ]));
   set("chat_chance",1);
   set("chat_msg",({
-                CYN"教皇吟道﹕「慾海浮沈名利爭，電光火石此步生；\n
-                        紅塵世事揮不盡，渡世不笑是痴人。」\n"NOR,
-                CYN"教皇笑道﹕「孤卒浴血鬥志高，賢仕善謀腦中計，\n
-                        一炮轟開險關道，單車護帥越天河。」\n"NOR,
-                CYN"教皇嘆道﹕「萬里雄兵氣如虹，千秋定論難爭峰；\n
-                        昊日顯照星光掩，百川匯宗誰與共。」\n"NOR,
-                CYN"教皇樂道﹕「百年世事空華裡，一片身心水月間；\n
-                        獨許\萬山深密處，晝長趺坐掩松關。」\n"NOR,
-                CYN"教皇悲道﹕「命裏有時終須有，凡事不可強求；\n
-                        時至運就到，蒼天不會辜負苦心人啊。」\n"NOR,
-                CYN"教皇念道﹕「夜涼撫琴千山月，路遙迷人千種花；\n
-                        棋罷不知人換世，酒欄無奈客恩家。」\n"NOR,
-                CYN"教皇沈吟道﹕「隱居幽靈古洞天，苦學秘笈無限年；\n
-                        誰若超越一線界，休怪氣功\穿腦田。」\n"NOR,
-                CYN"教皇說道﹕「靜月禁地是仙境，休望侵犯取月靈；\n
-                        若要逞強不聽勸，閃電霹靂奪性命。」\n"NOR,
+                CYN + "教皇吟道﹕「慾海浮沈名利爭，電光火石此步生；\n
+                        紅塵世事揮不盡，渡世不笑是痴人。」\n" + NOR,
+                CYN + "教皇笑道﹕「孤卒浴血鬥志高，賢仕善謀腦中計，\n
+                        一炮轟開險關道，單車護帥越天河。」\n" + NOR,
+                CYN + "教皇嘆道﹕「萬里雄兵氣如虹，千秋定論難爭峰；\n
+                        昊日顯照星光掩，百川匯宗誰與共。」\n" + NOR,
+                CYN + "教皇樂道﹕「百年世事空華裡，一片身心水月間；\n
+                        獨許\萬山深密處，晝長趺坐掩松關。」\n" + NOR,
+                CYN + "教皇悲道﹕「命裏有時終須有，凡事不可強求；\n
+                        時至運就到，蒼天不會辜負苦心人啊。」\n" + NOR,
+                CYN + "教皇念道﹕「夜涼撫琴千山月，路遙迷人千種花；\n
+                        棋罷不知人換世，酒欄無奈客恩家。」\n" + NOR,
+                CYN + "教皇沈吟道﹕「隱居幽靈古洞天，苦學秘笈無限年；\n
+                        誰若超越一線界，休怪氣功\穿腦田。」\n" + NOR,
+                CYN + "教皇說道﹕「靜月禁地是仙境，休望侵犯取月靈；\n
+                        若要逞強不聽勸，閃電霹靂奪性命。」\n" + NOR,
   }) );
   set("chat_chance_combat",50);
   set("chat_msg_combat",({
@@ -284,13 +284,13 @@ int do_select(string str)
   }
   else if(who->query_temp("have_say")==1)
   {
-    message_vision(sprintf(HIC"$N說道﹕"+str+"\n"NOR),who);
+    message_vision(sprintf(HIC + "$N說道﹕"+str+"\n" + NOR),who);
     command("say 你不是挑過了？");
     return 1;
   }
   else if(str=="天機門" ||  str == "tangi")
   {
-    message_vision(HIC"$N說道﹕天機門。\n"NOR,who);
+    message_vision(HIC + "$N說道﹕天機門。\n" + NOR,who);
     who->set_temp("allow_1",1);
     command("smile");
     command("say 嗯，你就去加入天機門吧！");
@@ -299,7 +299,7 @@ int do_select(string str)
   }
   else if(str == "天樞門" || str == "tanshu")
   {
-    message_vision(HIC"$N說道﹕天樞門。\n"NOR,who);
+    message_vision(HIC + "$N說道﹕天樞門。\n" + NOR,who);
     who->set_temp("allow_2",1);
     command("smile");
     command("say 嗯，你就加入天樞門吧！");
@@ -308,7 +308,7 @@ int do_select(string str)
   }
   else if(str == "天權門" || str == "tanchun")
   {
-    message_vision(HIC"$N說道﹕天權門。\n"NOR,who);
+    message_vision(HIC + "$N說道﹕天權門。\n" + NOR,who);
     who->set_temp("allow_3",1);
     command("smile");
     command("say 嗯，你就進去天權門修練吧！");
@@ -317,7 +317,7 @@ int do_select(string str)
   }
   else if(str == "天璇門" || str == "tanshun")
   {
-    message_vision(HIC"$N說道﹕天璇門。\n"NOR,who);
+    message_vision(HIC + "$N說道﹕天璇門。\n" + NOR,who);
     who->set_temp("allow_4",1);
     command("smile");
     command("say 嗯，你就到天璇門好好磨練吧！");
@@ -326,7 +326,7 @@ int do_select(string str)
   }
   else if(str == "玉衡門" || str == "uhen")
   {
-    message_vision(HIC"$N說道﹕玉衡門。\n"NOR,who);
+    message_vision(HIC + "$N說道﹕玉衡門。\n" + NOR,who);
     who->set_temp("allow_5",1);
     command("smile");
     command("say 嗯，你就加入玉衡門吧！");
@@ -335,7 +335,7 @@ int do_select(string str)
   }
   else if(str == "開陽門" || str == "kiyan")
   {
-    message_vision(HIC"$N說道﹕開陽門。\n",who);
+    message_vision(HIC + "$N說道﹕開陽門。\n",who);
     who->set_temp("allow_6",1);
     command("smile");
     command("say 嗯，你就前往開陽門學習吧！");
@@ -344,7 +344,7 @@ int do_select(string str)
   }
   else if(str == "瑤光門" || str == "youkoun")
   {
-    message_vision(HIC"$N說道﹕瑤光門。\n"NOR,who);
+    message_vision(HIC + "$N說道﹕瑤光門。\n" + NOR,who);
     if(who->query("gender") != "女性")
       command("say 你不是女性，瑤光門恐怕不會收你的！另選一個吧。");
     else
@@ -358,7 +358,7 @@ int do_select(string str)
   }
   else if(str == "陣勢門" || str == "zhenche")
   {
-    message_vision(HIC"$N說道﹕陣勢門。\n"NOR,who);
+    message_vision(HIC + "$N說道﹕陣勢門。\n" + NOR,who);
     who->set_temp("allow_8",1);
     command("smile");
     command("say 嗯，你就前去陣勢門拜師學藝吧！");
@@ -375,7 +375,7 @@ int do_select(string str)
       command("say 連八天門都沒去過，還想去長老那學習??你這叫痴心妄想!!");
       return 1;
     }
-    message_vision(HIC"$N說道﹕傳功\長老。\n"NOR,who);
+    message_vision(HIC + "$N說道﹕傳功\長老。\n" + NOR,who);
     who->set_temp("allow_9",1);
     command("smile");
     command("say 嗯，你就去傳功\長老那兒學藝吧！");
@@ -392,7 +392,7 @@ int do_select(string str)
       command("say 連八天門都沒去過，還想去長老那學習??你這叫痴心妄想!!");
       return 1;
     }
-    message_vision(HIC"$N說道﹕執法長老。\n"NOR,who);
+    message_vision(HIC + "$N說道﹕執法長老。\n" + NOR,who);
     who->set_temp("allow_10",1);
     command("smile");
     command("say 嗯，你就去執法長老那兒學藝吧！");
@@ -409,7 +409,7 @@ int do_select(string str)
       command("say 連八天門都沒去過，還想去長老那學習??你這叫痴心妄想!!");
       return 1;
     }
-    message_vision(HIC"$N說道﹕戒律長老。\n"NOR,who);
+    message_vision(HIC + "$N說道﹕戒律長老。\n" + NOR,who);
     who->set_temp("allow_11",1);
     command("smile");
     command("say 嗯，你就去戒律長老那兒學藝吧！");
@@ -426,7 +426,7 @@ int do_select(string str)
       command("say 連長老那都沒去過，還想去文武星君那學習??你這叫痴心妄想!!");
       return 1;
     }
-    message_vision(HIC"$N說道﹕武星君。\n"NOR,who);
+    message_vision(HIC + "$N說道﹕武星君。\n" + NOR,who);
     who->set_temp("allow_12",1);
     command("smile");
     command("say 嗯，你就去武星君那兒學藝吧！");
@@ -443,7 +443,7 @@ int do_select(string str)
       command("say 連長老那都沒去過，還想去文武星君那學習??你這叫痴心妄想!!");
       return 1;
     }
-    message_vision(HIC"$N說道﹕文星君。\n"NOR,who);
+    message_vision(HIC + "$N說道﹕文星君。\n" + NOR,who);
     who->set_temp("allow_13",1);
     command("smile");
     command("say 嗯，你就去文星君那兒學藝吧！");
@@ -461,7 +461,7 @@ int accept_kill(object ob)
   ob1 = this_object();
   ob = this_player();
   if( !present("hu-fa",environment(ob1)) ) {
-  tell_room(environment(ob1),HIW"\n突然！衝出兩位護法!!\n\n"NOR);
+  tell_room(environment(ob1),HIW + "\n突然！衝出兩位護法!!\n\n" + NOR);
     for(i=0;i<2;i++)
     {
       hu_fa = new("/open/prayer/npc/hu_fa");
@@ -512,19 +512,19 @@ void die()
   if( winner->query("clan/id") && userp(winner) )
     CLAN_D->add_clanset( winner->query("clan/id"),"develop",5 );
 
-  tell_object(users(),HIR"
+  tell_object(users(),HIR + "
    遠從西域傳來一聲怒吼!!『聖火教主』林宏昇不顧傷勢!!強運身上內力，使出了
                     "+HIW+"先天乾坤功\第七絕
-                                   『"+HIC+"天"+HIG+"驚"+YEL+"地"+BLU+"動"+HIW+"』"HIW"
+                                   『"+HIC+"天"+HIG+"驚"+YEL+"地"+BLU+"動"+HIW+"』" + HIW + "
    一時之間，天地變色!!狂風怒嘯!!九天真氣、九地真氣，齊湧至林宏昇之体內!!!
-"HIR"忽然間!!轟~~一聲巨響!!!林宏昇無法駕馭身上的九天真氣!!真氣爆体而出!!血肉模糊!!
+" + HIR + "忽然間!!轟~~一聲巨響!!!林宏昇無法駕馭身上的九天真氣!!真氣爆体而出!!血肉模糊!!
 
-    "+HIC+"大俠"+HIY+name1+HIC+"在旁笑道：聖火教氣數已盡!!今後是我稱霸的時代了!!哈哈!!\n\n"NOR);
+    "+HIC+"大俠"+HIY+name1+HIC+"在旁笑道：聖火教氣數已盡!!今後是我稱霸的時代了!!哈哈!!\n\n" + NOR);
   if(winner->query("family/family_name")=="仙劍派" && winner->query("killyao")==1 && winner->query("bloodsword")==1)
   {
     object ob;
     ob=new("/open/gsword/obj1/eyes.c");
-    tell_object(winner,HIR"你從林宏昇的屍體上挖出了一對眼睛..\n"NOR);
+    tell_object(winner,HIR + "你從林宏昇的屍體上挖出了一對眼睛..\n" + NOR);
     winner->set_temp("swordeyes",1);
     ob->move(winner);
   }
@@ -536,7 +536,7 @@ void die()
       if( j==7 || j==77 || j== 777 || j==1111 || j==55 || j==555 || j==1000 || j==4000 || j==3333 || j==2222 )
       {
         new("/open/sky/obj2/emperor_stone")->move(environment(winner));
-        message_vision(HIM"\n從林宏昇的身上掉下了一件奇怪的東西!!\n"NOR,winner);
+        message_vision(HIM + "\n從林宏昇的身上掉下了一件奇怪的東西!!\n" + NOR,winner);
         write_file("/log/sky/obj2/emperor_stone",sprintf("%s(%s) 讓林宏昇掉下了皇者石於 %s\n",
           winner->name(1),winner->query("id"),ctime(time())));
       }
@@ -545,7 +545,7 @@ void die()
       if( j==5 || j==15 || j== 150 || j==1500 || j==10 || j==100 || j==1000 || j==4000 || j==6666 || j==7777 )
       {
         new("/open/sky/obj2/emperor_stone")->move(environment(winner));
-        message_vision(HIM"\n從林宏昇的身上掉下了一件奇怪的東西!!\n"NOR,winner);
+        message_vision(HIM + "\n從林宏昇的身上掉下了一件奇怪的東西!!\n" + NOR,winner);
         write_file("/log/sky/obj2/emperor_stone",sprintf("%s(%s) 讓林宏昇掉下了皇者石於 %s\n",
           winner->name(1),winner->query("id"),ctime(time())));
       }
@@ -566,7 +566,7 @@ void heart_beat()
   {
     if( is_fighting() && query("kee") < query("max_kee") )
     {
-      message_vision(HIR"\n林宏昇出渾天心法之冰心訣，身上的傷口奇蹟式癒合了。\n"NOR,me);
+      message_vision(HIR + "\n林宏昇出渾天心法之冰心訣，身上的傷口奇蹟式癒合了。\n" + NOR,me);
       me->receive_heal("kee",1000);
       me->receive_heal("gin",200);
       me->receive_heal("sen",200);
@@ -773,7 +773,7 @@ int magic_sign()
     command("say 接下來我再傳一點功\力給你吧!!");
     command("say 希望你能為聚靈山莊多盡一點心力。");
     me->start_busy(15);
-    message_vision(HIY"林宏昇將雙手置於$N百會與膻中兩大穴，一股內勁由林宏昇的手掌鑽入$N體內。\n"NOR,me);
+    message_vision(HIY + "林宏昇將雙手置於$N百會與膻中兩大穴，一股內勁由林宏昇的手掌鑽入$N體內。\n" + NOR,me);
     call_out("trans_force",10,me);
   } else {
     command("say 嗯!!");
@@ -788,8 +788,8 @@ int trans_force()
   me=this_player();
   force=me->query_skill("force",1);
   {
-    message_vision(HIY"只見林宏昇臉頰上滿是汗水，不一會兒，行功\完畢。\n"NOR,me);
-    tell_object(me,HIC"你只覺全身精氣神飽滿，身上的筋脈豁然貫通，內力更是有所長進。\n"NOR);
+    message_vision(HIY + "只見林宏昇臉頰上滿是汗水，不一會兒，行功\完畢。\n" + NOR,me);
+    tell_object(me,HIC + "你只覺全身精氣神飽滿，身上的筋脈豁然貫通，內力更是有所長進。\n" + NOR);
     me->set_skill("force",force+30);
     me->delete_busy();
   }
@@ -805,7 +805,7 @@ int accept_object(object me,object ob)
 
   if(me->query_temp("find_scroll") == 4 && ob->query("id") == "universe-book")
   {
-    message_vision(HIW"\n$N將尋回秘笈的經過完完整整的向$n報告。\n"NOR,me,this_object());
+    message_vision(HIW + "\n$N將尋回秘笈的經過完完整整的向$n報告。\n" + NOR,me,this_object());
     command("hmm");
     call_out("supertengin",5,me);
     return 1;
@@ -938,7 +938,7 @@ string magic_palace()
             只聽說它位於人魔交界之處，在那裡可以看到天空中同時
             浮現三個太陽的奇景。\n";
   } else {
-    message_vision(HIW"你果然跟天嬰是一夥的!!殺!!!!!!\n"NOR,me);
+    message_vision(HIW + "你果然跟天嬰是一夥的!!殺!!!!!!\n" + NOR,me);
     kill_ob(me);
     return "殺殺殺!!";
   }
@@ -1104,7 +1104,7 @@ int supertengin()
 int supertengin2()
 {
   object ob = this_player();
-  message_vision(HIY"\n$N收拾起悲傷的情緒。\n"NOR,this_object());
+  message_vision(HIY + "\n$N收拾起悲傷的情緒。\n" + NOR,this_object());
   command("say 既然你親眼見到清心的戰鬥，那麼對於本教武學奧義應該有了更深的領悟吧。");
   message_vision("\n(perform force.supertengin)\n",ob);
   ob->set("advance_prayer",1);
@@ -1116,7 +1116,7 @@ int supertengin3()
 {
   object ob = this_player();
   command("say 因此我正式宣布，從現在開始，你就是本教下一任教主。");
-  ob->set("title",HIW"新"HIM"‧"RED"聖火"HIY"教皇"NOR);
+  ob->set("title",HIW + "新" + HIM + "‧" + RED + "聖火" + HIY + "教皇" + NOR);
   call_out("supertengin4",7,ob);
   return 1;
 }
@@ -1124,11 +1124,11 @@ int supertengin3()
 int supertengin4()
 {
   object me = this_player();
-  tell_object(users(),HIG"武林沉浮數十載，本皇終於有了新一代的接班人，
+  tell_object(users(),HIG + "武林沉浮數十載，本皇終於有了新一代的接班人，
 
     "+me->query("name")+"以後將會以本皇傳人的身分繼續領導武林正道，
 
       有朝一日定能血洗魔界，將焚天火王這老賊給徹底剷除!!!!
-   \n"NOR);
+   \n" + NOR);
   return 1;
 }

@@ -7,7 +7,7 @@ int be,bb,k,sp,qq;
 void create()
 {
         seteuid(getuid());
-        set_name(HIR"血"+HIB"影摧"+HIR"心"NOR,({"blood-figring"}));
+        set_name(HIR + "血"+HIB"影摧"+HIR"心" + NOR,({"blood-figring"}));
         set_weight(80);
         if( clonep() )
                 set_default_object(__FILE__);
@@ -36,7 +36,7 @@ int do_wield(string str)
      if( query("equipped") )
      {
         user = this_player();
-message_vision("$N運足五成功\力戴上"HIR"血"HIB"影摧"HIR"心"NOR"，臉上微微露出猙獰的面孔。 \n"NOR,user);
+message_vision("$N運足五成功\力戴上" + HIR + "血" + HIB + "影摧" + HIR + "心" + NOR + "，臉上微微露出猙獰的面孔。 \n" + NOR,user);
         set_heart_beat(1);
      }
 }
@@ -45,7 +45,7 @@ int do_drop(string str)
    if(str=="blood-figring" || str=="all")
      if( query("equipped") )
      {
-message_vision("$N將手上的"HIR"血"HIB"影摧"HIR"心"NOR"卸了下來，緩緩的吐出一口陰氣。\n",user);
+message_vision("$N將手上的" + HIR + "血" + HIB + "影摧" + HIR + "心" + NOR + "卸了下來，緩緩的吐出一口陰氣。\n",user);
         set_heart_beat(0);
      }
 }
@@ -54,7 +54,7 @@ message_vision("$N將手上的"HIR"血"HIB"影摧"HIR"心"NOR"卸了下來，緩
   if(str=="blood-figring" || str=="all")
      if( query("equipped") )
      {
-message_vision("$N將手上的"HIR"血"HIB"影摧"HIR"心"NOR"卸了下來，緩緩的吐出一口陰氣。\n",user);
+message_vision("$N將手上的" + HIR + "血" + HIB + "影摧" + HIR + "心" + NOR + "卸了下來，緩緩的吐出一口陰氣。\n",user);
         set_heart_beat(0);
      }
 }
@@ -66,7 +66,7 @@ int do_unwield(string str)
    if(str=="blood-figring" || str=="all")
      if( query("equipped") )
      {
-message_vision("$N將手上的"HIR"血"HIB"影摧"HIR"心"NOR"卸了下來，緩緩的吐出一口陰氣。\n",user);
+message_vision("$N將手上的" + HIR + "血" + HIB + "影摧" + HIR + "心" + NOR + "卸了下來，緩緩的吐出一口陰氣。\n",user);
         set_heart_beat(0);
      }
 }
@@ -75,7 +75,7 @@ int do_auc(string str)
   if(str=="blood-figring" || str=="all")
      if( query("equipped") )
      {
-message_vision("$N將手上的"HIR"血"HIB"影摧"HIR"心"NOR"卸了下來，緩緩的吐出一口陰氣。\n",user);
+message_vision("$N將手上的" + HIR + "血" + HIB + "影摧" + HIR + "心" + NOR + "卸了下來，緩緩的吐出一口陰氣。\n",user);
         set_heart_beat(0);
      }
 }
@@ -99,14 +99,14 @@ void heart_beat()
      enemy=offensive_target(user);
      if(!enemy) return ;
      if( environment(user) == environment(enemy) )
-     message_vision(HIW"\n一陣陣毒霧從"HIR"血"HIB"影摧"HIR"心"HIW"裡散發出來!!\n"NOR,enemy);  
+     message_vision(HIW + "\n一陣陣毒霧從" + HIR + "血" + HIB + "影摧" + HIR + "心" + HIW + "裡散發出來!!\n" + NOR,enemy);  
       if( random(5)<1  )
      {
-      message_vision(HIY"只見$N面露青光，似乎中毒不淺!!\n"NOR,enemy);  
+      message_vision(HIY + "只見$N面露青光，似乎中毒不淺!!\n" + NOR,enemy);  
 	  enemy->apply_condition("spring", 3);
       COMBAT_D->report_status(enemy, 0);
      }else
-      message_vision(HIC"只見$N身手不凡，一下躲過了毒霧。\n"NOR,enemy);
+      message_vision(HIC + "只見$N身手不凡，一下躲過了毒霧。\n" + NOR,enemy);
 	  }
   }
   return;

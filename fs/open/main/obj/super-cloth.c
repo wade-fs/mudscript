@@ -6,7 +6,7 @@ inherit EQUIP;
 
 void create()
 {
-	set_name( HIG "雀皇飛雲裳" NOR ,({"super cloth","cloth"}));
+	set_name( HIG + "雀皇飛雲裳" + NOR ,({"super cloth","cloth"}));
 	set_weight(1000);
           set("armor_type","cloth");
         if( clonep() )
@@ -32,7 +32,7 @@ int do_wear(string str)
  if( query("equipped") )
  {
    user = this_player();
-   message_vision(HIG"$N暗運內勁,身上雀皇凌空變形成雀皇飛雲裳護體,在$N四周升起淡淡的綠色光罩.\n"NOR,user);
+   message_vision(HIG + "$N暗運內勁,身上雀皇凌空變形成雀皇飛雲裳護體,在$N四周升起淡淡的綠色光罩.\n" + NOR,user);
 }   
 }
 

@@ -6,14 +6,14 @@ string do_help();
 void create()
 {
     set_name("總鏢頭",({"mercenary leader","leader","mercenary"}) );
-    set("title",""HIY"威武"NOR"鏢局");
+    set("title","" + HIY + "威武" + NOR + "鏢局");
     set("gender", "男性");
     set("age",120);
     set("attitude", "peaceful");
-    set("long", ""CYN"他是威武鏢局總鏢頭，日前到北頭山接恰一份紅鏢，誰\n"
+    set("long", "" + CYN + "他是威武鏢局總鏢頭，日前到北頭山接恰一份紅鏢，誰\n"
                     +"知路經沼澤地，卻不幸身陷泥沼，而無法自拔困在其中\n"
                     +"。他身陷於此正在等後好心的過路人伸出﹝援手﹞幫他\n"
-                    +"一把。"NOR"\n");
+                    +"一把。" + NOR + "\n");
     set("kee",2600);
     set("max_kee",2600);
     set("combat_exp",100000);
@@ -100,7 +100,7 @@ if(me->query_temp("blade_ok")==0)
 {
   command("smile");
   command("say 謝謝你的幫忙。請你把這封信交給威武鏢局
-副鏢頭，他會交你在下對您救命之恩的一點"HIR"心意。"NOR"");
+副鏢頭，他會交你在下對您救命之恩的一點" + HIR + "心意。" + NOR + "");
   letter->move(me);
   me->set_temp("helpman",2);
     me->set_temp("blade_ok",1);
@@ -111,5 +111,5 @@ tell_room(environment(this_object()),"我已經好了謝謝!!!");
 void greeting2(object me)
 {
 command("sigh");
-tell_room(environment(this_object()),HIC"只見總鏢頭失望的大罵：現在的人真沒同情心。\n"NOR);
+tell_room(environment(this_object()),HIC + "只見總鏢頭失望的大罵：現在的人真沒同情心。\n" + NOR);
 }

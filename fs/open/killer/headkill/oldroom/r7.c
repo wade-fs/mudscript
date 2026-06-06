@@ -48,7 +48,7 @@ int do_pass(string arg)
   who=this_player();
   if(!arg || (arg=="light")) 
   {
-	tell_object(who,HIY"你吃力的往光線處游去,爬過小洞,來到了不知名的地方。\n"NOR);
+	tell_object(who,HIY + "你吃力的往光線處游去,爬過小洞,來到了不知名的地方。\n" + NOR);
 	if(who->query_temp("head") == 8)
 		who->move(__DIR__"cosinrm.c");
 	else

@@ -35,7 +35,7 @@ void create()
         set("age",15);
         set("long","他是屬於青銅級的聖鬥士，在三大聖戰中一直是護衛著雅典娜女神。\n"
         "而現在的實力是遠超過黃金聖鬥士，是雅典娜忠心的護衛。\n");
-        set("title",HIG"青龍座聖鬥士"NOR);
+        set("title",HIG + "青龍座聖鬥士" + NOR);
         set("gender","男性");
         set("class","聖鬥士");
         set("str",30);
@@ -86,9 +86,9 @@ void do_special()
         target=enemy[random(i)];
 
                 message_vision(
-HIG "\n紫龍想了一會，大喝一聲：看我的『盧  山  亢  龍  霸』～～～\n",target);
+HIG + "\n紫龍想了一會，大喝一聲：看我的『盧  山  亢  龍  霸』～～～\n",target);
                 message_vision(
-HIR "\n紫龍的身影突然在$N身後出現，雙手架著$N，直向宇宙飛去！！\n"NOR,target);
+HIR + "\n紫龍的身影突然在$N身後出現，雙手架著$N，直向宇宙飛去！！\n" + NOR,target);
                 target->receive_wound("kee",random(300+350));
                 COMBAT_D->report_status(target);
   }

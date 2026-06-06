@@ -5,7 +5,7 @@ inherit EQUIP;
 
 void create()
 {
-        set_name(WHT"虹晶神行靴"NOR,({"diamond boots","boots"}) );
+        set_name(WHT + "虹晶神行靴" + NOR,({"diamond boots","boots"}) );
             set_weight(1000);
         set("no_sell",1);
         set("no_auc",1);
@@ -24,8 +24,8 @@ void create()
         set("armor_prop/stabber",10);
         set("armor_prop/move",7);
         set("armor_prop/dodge",7);
-set("wear_msg", HIC"$N穿上$n"HIC"，周圍的白光漸漸起了一層雲霧，慢慢的把$N托了起來。\n"NOR);
-set("unequip_msg", HIC"$N將$n"HIC"脫了下來，雲霧又化成白光$N緩緩的回到地面上。\n");
+set("wear_msg", HIC + "$N穿上$n" + HIC + "，周圍的白光漸漸起了一層雲霧，慢慢的把$N托了起來。\n" + NOR);
+set("unequip_msg", HIC + "$N將$n" + HIC + "脫了下來，雲霧又化成白光$N緩緩的回到地面上。\n");
         }
         setup();
 }

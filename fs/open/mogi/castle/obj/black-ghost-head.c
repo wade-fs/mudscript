@@ -2,7 +2,7 @@
 inherit ITEM;
 void create()
 {
-        set_name(HIW+BLK"黑羅剎的人頭"NOR, ({ "black-ghost-head","head" }) );
+        set_name(HIW+BLK"黑羅剎的人頭" + NOR, ({ "black-ghost-head","head" }) );
         set_weight(5000);
         if( clonep() )
                 set_default_object(__FILE__);

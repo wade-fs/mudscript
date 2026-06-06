@@ -6,7 +6,7 @@ void create()
         set_name("邪靈", ({ "evil-ghost","evil","ghost" }) );
         set("long",
                 "出沒於死靈幽谷的€白洞€內, 時常會偷襲進入的人!!\n");
-        set("title",HIW"(死神)"NOR);
+        set("title",HIW + "(死神)" + NOR);
         set("age", 1000);
         set("max_gin", 10000);
         set("max_kee", 10000);
@@ -85,7 +85,7 @@ void heart_beat()
         i=sizeof(enemy);
           if (mob->is_fighting())
           {
-          message_vision( HIW"\n地獄之火突然從地上冒出來, 你整個人被灼傷了!!\n"NOR,mob);
+          message_vision( HIW + "\n地獄之火突然從地上冒出來, 你整個人被灼傷了!!\n" + NOR,mob);
             for (j=0 ; j < i ; j++)
             {
               if( enemy[j]->is_character() && !enemy[j]->is_corpse() && living(enemy[j]) && enemy[j]->query("id")!="evil-ghost")
@@ -127,8 +127,8 @@ void die()
         else
         {
         ob2->move(environment(me));
-        message_vision(HIW"邪靈受不了$N強大的攻擊力, 急急忙忙的逃走了!!\n"NOR,me);
-        message_vision(HIR"由於逃跑的過於匆促, 不小心掉下了一件東西....\n"NOR,me);
+        message_vision(HIW + "邪靈受不了$N強大的攻擊力, 急急忙忙的逃走了!!\n" + NOR,me);
+        message_vision(HIR + "由於逃跑的過於匆促, 不小心掉下了一件東西....\n" + NOR,me);
         me->set_temp("ghost-hole/evil-ghost-flute",1);
         destruct(ob);
         }

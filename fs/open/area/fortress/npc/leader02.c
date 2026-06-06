@@ -8,8 +8,8 @@ void create()
 	set("long","極火山寨的大寨主，極火功\無人能及，傳說此技巧是焚天魔王直接傳授的。\n");
 	set("race", "人類");
 	set("gender","男性");
-	set("title",HIR"極火山寨 大寨主"NOR);
-	set("nickname",HIC"極火無敵"NOR);
+	set("title",HIR + "極火山寨 大寨主" + NOR);
+	set("nickname",HIC + "極火無敵" + NOR);
         set("age",40);
         set("attitude","aggressive");
         set("combat_exp",1000000);
@@ -75,13 +75,13 @@ int i,n,d,s,a;
 //  呼叫NPC
 	if(!present("robber",environment(ob)) && random(100) < 50)
 	{
-		message_vision(HIR"$N大喊：人呢！一群飯桶死去哪去了！給我叫人來！\n$N這麼一呼，幾個小嘍嘍加入了戰局。\n\n"NOR,this_object());
+		message_vision(HIR + "$N大喊：人呢！一群飯桶死去哪去了！給我叫人來！\n$N這麼一呼，幾個小嘍嘍加入了戰局。\n\n" + NOR,this_object());
 		for(a=0;a<2;a++)
 			new("/open/area/fortress/npc/robber02")->move(environment(ob));
 	}
 //  回復能力
         if ( ob->query("kee") < ob->query("max_kee") && random(100) < 80 ) {
-	message_vision(HIY"$N一吞一吐，口與手中輪迴著一道紅色光圈。\n$N的氣色好多了。\n"NOR,ob);
+	message_vision(HIY + "$N一吞一吐，口與手中輪迴著一道紅色光圈。\n$N的氣色好多了。\n" + NOR,ob);
         if ( ob->query_busy() ) ob->delete_busy();			//自動解除定身
         if ( ob->query("gin") < ob->query("max_gin") ) { ob->receive_curing("gin",1000); ob->receive_heal("gin",1000); };
         if ( ob->query("kee") < ob->query("max_kee") ) { ob->receive_curing("kee",1000); ob->receive_heal("kee",1000); };
@@ -98,7 +98,7 @@ int i,n,d,s,a;
                 	d=400+random(400);
 			target->add("gin",-d); target->add("kee",-d);
                 	target->add("sen",-d); target->add("force",-d);
-                	message_vision(HIR"$N張開血盆大口，見人就咬！$n來不及閃躲，受傷了！\n"NOR,ob,target);
+                	message_vision(HIR + "$N張開血盆大口，見人就咬！$n來不及閃躲，受傷了！\n" + NOR,ob,target);
                 	COMBAT_D->report_status(target);
                 	target->add("gin",-d); target->add("kee",-d);
                 	target->add("sen",-d); target->add("force",-d);
@@ -147,8 +147,8 @@ string do_steal()
 		if(present(style,enemy[j]))		//有此style類型的錢才偷
 		{
 			money=present(style,enemy[j])->query_amount();
-			message_vision(HIY"\n$N的 "+cstyle+" 被$n給偷光了！！\n"NOR,enemy[j],ob);
-			tell_object(enemy[j],HIY"（你遺失了 "+cstyle+" "+money+" "+present(style,enemy[j])->query("base_unit")+"）\n\n"NOR);
+			message_vision(HIY + "\n$N的 "+cstyle+" 被$n給偷光了！！\n" + NOR,enemy[j],ob);
+			tell_object(enemy[j],HIY + "（你遺失了 "+cstyle+" "+money+" "+present(style,enemy[j])->query("base_unit")+"）\n\n" + NOR);
 			present(style,enemy[j])->set_amount(0);		//全部偷光
 		}
 	}
@@ -163,9 +163,9 @@ void die()
 	{
 		if(random(100)<5)
 		{
-			tell_object(users(),HIY"
+			tell_object(users(),HIY + "
 天空出現一道金光流星劃過～～
-		\n"NOR);
+		\n" + NOR);
 			new("/open/area/fortress/npc/obj/star.c")->move(who);
                         write_file("/log/open-area/get_soilpearl",sprintf("%s(%s) 從極火的身上得到了土靈。焚天珠於 %s\n",who->query("name"),who->query("id"),ctime(time())));
 		}

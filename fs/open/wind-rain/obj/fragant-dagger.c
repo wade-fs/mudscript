@@ -7,7 +7,7 @@ inherit DAGGER;
 void create()
 {
 	seteuid(getuid());
-	set_name(HIM"芬芳匕"NOR,({"fragant-dagger","dagger"}));
+	set_name(HIM + "芬芳匕" + NOR,({"fragant-dagger","dagger"}));
 	set_weight(3000);
 	if( clonep() )
 		set_default_object(__FILE__);

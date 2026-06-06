@@ -3,7 +3,7 @@ inherit ROOM;
 #include <ansi.h>
 void create ()
 {
-  set ("short", "山林"HIC"翗"NOR"路");
+  set ("short", "山林" + HIC + "翗" + NOR + "路");
   set ("long", @LONG
 這一段路上，竟讓你看到一隻身形好像鳳凰而其全身都
 是碧綠色的不知名的鳥。而且牠在飛翔之迅速、優美，令人

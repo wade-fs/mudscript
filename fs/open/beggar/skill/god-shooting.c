@@ -12,7 +12,7 @@ void shooting_att(object me,object victim, object weapon,int damage);
 //應玩家要求.增加連擊 by poloer
 mapping *arrow_action = ({
         ([      "action":
-"$N心中一急，迅速將$c搭於$w之上，使出流星箭法第一式"HIC"「一洩千里」"NOR"，箭勢如洪水狂洩般朝$n$l飛射而去",
+"$N心中一急，迅速將$c搭於$w之上，使出流星箭法第一式" + HIC + "「一洩千里」" + NOR + "，箭勢如洪水狂洩般朝$n$l飛射而去",
                 "dodge":        -100,
                 "damage":       130,
                 "parry":        -100,
@@ -20,7 +20,7 @@ mapping *arrow_action = ({
                 "damage_type": "射傷",
         ]),
 ([        "action":
-"$N將手上$c迅速搭於$w分為兩次射出，使出流星箭法第二式"HIG"「雙龍出海」"NOR"﹐分射出之$c如雙龍狂噬般朝$n而去",
+"$N將手上$c迅速搭於$w分為兩次射出，使出流星箭法第二式" + HIG + "「雙龍出海」" + NOR + "﹐分射出之$c如雙龍狂噬般朝$n而去",
                 "dodge":        -100,
                 "damage":       130,
                 "force" :       130,
@@ -28,7 +28,7 @@ mapping *arrow_action = ({
                 "parry":        -100,
         ]),
         ([      "action":
-"$N霸氣突漲，將手中$c迅速搭於$w三箭齊發，使出流星箭法第三式"HIB"「三分鼎足」"NOR"﹐射出的$c似含三國鼎立之霸氣分三處向$n急射而去",
+"$N霸氣突漲，將手中$c迅速搭於$w三箭齊發，使出流星箭法第三式" + HIB + "「三分鼎足」" + NOR + "﹐射出的$c似含三國鼎立之霸氣分三處向$n急射而去",
                 "dodge":        -100,
                 "damage":       130,
                 "force":         130,
@@ -36,7 +36,7 @@ mapping *arrow_action = ({
                 "damage_type": "射傷",
         ]),
         ([      "action":
-"$N被$n攻勢所驚嚇，將手中$c迅速搭於$w之上分射四箭，使出流星箭法第四式"HIY"「四面楚歌」"NOR"﹐射出的$c似有靈性般由$n前後左右四面飛射而去",
+"$N被$n攻勢所驚嚇，將手中$c迅速搭於$w之上分射四箭，使出流星箭法第四式" + HIY + "「四面楚歌」" + NOR + "﹐射出的$c似有靈性般由$n前後左右四面飛射而去",
                 "dodge":        -100,
                 "damage":       130,
                 "force":        130,
@@ -44,7 +44,7 @@ mapping *arrow_action = ({
                 "damage_type": "射傷",
         ]),
         ([      "action":
-"$N心中殺氣突漲，將手中$c迅速搭於$w上五箭齊射，殺氣融合於$c使出流星箭法第五式"HIW"「五馬分屍」"NOR"﹐$c朝$n頭及雙手雙腳齊射而去",
+"$N心中殺氣突漲，將手中$c迅速搭於$w上五箭齊射，殺氣融合於$c使出流星箭法第五式" + HIW + "「五馬分屍」" + NOR + "﹐$c朝$n頭及雙手雙腳齊射而去",
                 "dodge":        -100,
                 "damage":       110,
                 "force":        130,
@@ -52,7 +52,7 @@ mapping *arrow_action = ({
                 "damage_type": "射傷",
         ]),
         ([      "action":
-"$N將手中$c迅速搭於$w，射出之際融入旋轉氣勁使出流星箭法第六式"HIG"「六道輪迴」"NOR"﹐$c急速旋轉朝著$n急射而去",
+"$N將手中$c迅速搭於$w，射出之際融入旋轉氣勁使出流星箭法第六式" + HIG + "「六道輪迴」" + NOR + "﹐$c急速旋轉朝著$n急射而去",
                 "dodge":        -100,
                 "damage":       115,
                 "foece":        130,
@@ -60,7 +60,7 @@ mapping *arrow_action = ({
                 "damage_type": "射傷",
         ]),
         ([      "action":
-"$N將手中$c迅速搭於$w連續射出七箭，使出流星箭法第七式"HIM"「七星連線」"NOR"，$c七箭一箭接著一箭形成一線朝$n急射而去",
+"$N將手中$c迅速搭於$w連續射出七箭，使出流星箭法第七式" + HIM + "「七星連線」" + NOR + "，$c七箭一箭接著一箭形成一線朝$n急射而去",
                 "dodge":        -100,
                 "damage":       130,
                 "force":        130,
@@ -68,7 +68,7 @@ mapping *arrow_action = ({
                 "damage_type": "射傷",
         ]),
         ([      "action":
-"$N將手中$c迅速搭於$w緩緩射出，使出流星箭法第八式"HIC"「八仙過海」"NOR"，$c如同仙人過海般縹緲般令$n不知所措",
+"$N將手中$c迅速搭於$w緩緩射出，使出流星箭法第八式" + HIC + "「八仙過海」" + NOR + "，$c如同仙人過海般縹緲般令$n不知所措",
                 "dodge":        -100,
                 "damage":       130,
                 "force":        130,
@@ -77,7 +77,7 @@ mapping *arrow_action = ({
                 "post_action":  (: god_att :),
         ]),
         ([      "action":
-"$N將手中$c迅速搭於$w緩緩射出九箭，使出流星箭法第九式"HIR"「九九歸元」"NOR"，射出九箭合一，令$n無法招架",
+"$N將手中$c迅速搭於$w緩緩射出九箭，使出流星箭法第九式" + HIR + "「九九歸元」" + NOR + "，射出九箭合一，令$n無法招架",
                 "dodge":        -100,
                 "damage":       130,
                 "parry":        -100,
@@ -205,7 +205,7 @@ void god_att(object me, object victim, object  weapon, int damage)
 if((random(80)<me->query_skill("iceforce",1))&&!me->set_temp("break"))
 {
 victim->start_busy(1);
-message_vision(HIB"$N暗使冰心訣之陰寒內勁，將$n受內勁所困動彈不得。\n"NOR, me, victim);
+message_vision(HIB + "$N暗使冰心訣之陰寒內勁，將$n受內勁所困動彈不得。\n" + NOR, me, victim);
 
 }
 }
@@ -225,11 +225,11 @@ if(random(100)<70)
                 me->set_temp("berserk", 1);
                 for(i = 0;i < lose; i++)
                 {
-       message_vision(HIR"$N拿起數支箭使勁的往$n連射過去。\n"NOR, me,victim);
+       message_vision(HIR + "$N拿起數支箭使勁的往$n連射過去。\n" + NOR, me,victim);
                        }
                 victim->add("kee",-50);
                 me->delete_temp("berserk");
-                message_vision(HIW"一陣混亂後，$N用勁過度，趕緊趁機調息。\n"NOR,me);
+                message_vision(HIW + "一陣混亂後，$N用勁過度，趕緊趁機調息。\n" + NOR,me);
 
         }
 }

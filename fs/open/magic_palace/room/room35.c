@@ -35,7 +35,7 @@ int do_catch(string str)
     object king = present("World King");
     if(king)
     {
-    message_vision(HIW"\n巴斯八冷笑道：「這點小技倆在我面前是行不通的。」\n"NOR,me);
+    message_vision(HIW + "\n巴斯八冷笑道：「這點小技倆在我面前是行不通的。」\n" + NOR,me);
     me->start_busy(2);
     king->kill_ob(me);
     }
@@ -47,7 +47,7 @@ int valid_leave(object me,string dir)
 	object obj = present("World King");
         if( dir == "northwest" )
         {
-        	if(obj)  return notify_fail(HIM"巴斯八"HIW"喝道:『當我是白痴嗎，讓你來來去去的!?』\n"NOR);
+        	if(obj)  return notify_fail(HIM + "巴斯八" + HIW + "喝道:『當我是白痴嗎，讓你來來去去的!?』\n" + NOR);
         }
 
 return 1;

@@ -71,8 +71,8 @@ void attempt_apprentice(object ob)
         this_player()->set("title","魔刀絕世傳人");
         this_player()->set("no_recruit", 1);
         this_player()->delete("can_apprentice");
-        message("system",HIB"魔刀莫測縱聲狂笑:
-哈哈哈哈～～魔刀一出～～血流成河～～無所匹敵。\n"NOR,users());
+        message("system",HIB + "魔刀莫測縱聲狂笑:
+哈哈哈哈～～魔刀一出～～血流成河～～無所匹敵。\n" + NOR,users());
         return ;
         }
 int accept_object(object who,object ob)
@@ -99,9 +99,9 @@ if(who->query("give_1")==1 && who->query("give_2")==1)
     command("say 太好了！");
     message_vision(
              HIY
-"$n將天邪石的神力注入金鱗蟒邪之中，然後運勁一砍，將腳銬砍斷。\n" NOR,this_player(),this_object());
+"$n將天邪石的神力注入金鱗蟒邪之中，然後運勁一砍，將腳銬砍斷。\n" + NOR,this_player(),this_object());
     CHANNEL_D->do_channel(this_object(),"mud",HIR
-"遠處傳來魔刀莫測的大喝:\n我自由了！哈哈哈哈！\n獨孤愁！你這個老賊等著吧！我要一雪這十幾年禁錮之恨！\n"NOR);
+"遠處傳來魔刀莫測的大喝:\n我自由了！哈哈哈哈！\n獨孤愁！你這個老賊等著吧！我要一雪這十幾年禁錮之恨！\n" + NOR);
            command("say 感謝你釋放了我，我這就去宰了獨孤老賊。");
            command("say 不過看在你曾幫我，好吧，我將部分內力傳給你。");
            this_player()->add("max_force",100);

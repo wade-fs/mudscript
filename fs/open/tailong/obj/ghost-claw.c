@@ -6,7 +6,7 @@ inherit UNARMED;
 void create()
 {
         object me=this_player();
-        set_name(HIB"鬼指神抓"NOR, ({"ghost-claw", "claw"}) );
+        set_name(HIB + "鬼指神抓" + NOR, ({"ghost-claw", "claw"}) );
         set_weight(6000);
         if( clonep() )
          set_default_object(__FILE__);
@@ -14,7 +14,7 @@ void create()
          {
           set("unit", "個");
           set("long","一把奇門兵器, 外型古怪無比, 正是雲中鶴最喜愛的武器。\n");
-        set("wield_msg", HIB"$N將$n"HIB"載在手上，一股詭異的氣息壟罩著四周。\n"NOR);
+        set("wield_msg", HIB + "$N將$n" + HIB + "載在手上，一股詭異的氣息壟罩著四周。\n" + NOR);
           set("value", 10000);
           set("material", "crimsonsteel");
          }

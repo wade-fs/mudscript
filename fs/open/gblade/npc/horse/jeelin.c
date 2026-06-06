@@ -2,7 +2,7 @@
 #include <mudlib.h>
 inherit NPC;
 void create() {
-set_name(HIG"騏驎駒"NOR, ({"jeelin horse" , "horse"}));
+set_name(HIG + "騏驎駒" + NOR, ({"jeelin horse" , "horse"}));
 set("title", "萬里馬");
 set("long", "
 牠是一匹能夠日行萬里且可三日不吃不喝的好馬，從牠光亮的的鬃毛
@@ -110,7 +110,7 @@ if(me->query("family/family_name")=="魔刀門" ||
         me->add_temp("apply/damage",-25);
         me->add_temp("apply/armor", -25); }
 	me->delete_temp("ride_name");
-        message_vision(HIW"$N一個翻身下了馬來！\n"NOR,me);
+        message_vision(HIW + "$N一個翻身下了馬來！\n" + NOR,me);
         return 1;
 }
 
@@ -173,9 +173,9 @@ if( random(100) > 90)
     target=enemy[random(i)];
     if( env == environment(target) )
     {
-message_vision(HIY"
+message_vision(HIY + "
 突然間，騏驎駒像發狂似的向$N衝撞而來\n"+
-"$N閃避不及，被撞個四腳朝天，鮮血直吐\n"NOR,target);
+"$N閃避不及，被撞個四腳朝天，鮮血直吐\n" + NOR,target);
 target->receive_damage("kee",200);
       target->start_busy(1);
       COMBAT_D->report_status(target,1);

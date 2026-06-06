@@ -3,7 +3,7 @@ inherit ROOM;
 
 void create ()
 {
-	set("short",HIG"琰 揚 居"NOR);
+	set("short",HIG + "琰 揚 居" + NOR);
 	set("long",@LONG
 走道上，陽光透過窗戶，照進了琰揚居內，你正行走於廚房與大
 廳間的通道，窗戶在走道的北邊，而南邊是緊閉的門檻，在門檻內，

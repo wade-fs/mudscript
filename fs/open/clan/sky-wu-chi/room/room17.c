@@ -19,7 +19,7 @@ void create() {
 		"L"         : "/open/clan/sky-wu-chi/room/room55.c",
 		"K"         : "/open/clan/sky-wu-chi/room/room57.c",
 		"G"         : "/open/clan/sky-wu-chi/room/room28.c",
-		"U"         : "/open/clan/sky-wu-chi/room/room65.c",
+		" + U + "         : "/open/clan/sky-wu-chi/room/room65.c",
 		"S"         : "/open/clan/sky-wu-chi/room/room36.c",
 		"A"         : "/open/clan/sky-wu-chi/room/room13.c",
 		"H"         : "/open/clan/sky-wu-chi/room/room26.c",

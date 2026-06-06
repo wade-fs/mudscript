@@ -3,7 +3,7 @@ inherit ROOM;
 
 void create ()
 {
-	set("short",HIC"琰 揚 湖"NOR);
+	set("short",HIC + "琰 揚 湖" + NOR);
 	set("long",@LONG
 合適的溫度，陣陣暖風吹拂著你的臉龐，你忍不住的打起了哈欠
 ，寧靜的湖邊，你可以看到幾隻魔獸正在舔舐著自己的肢體，彷彿柔

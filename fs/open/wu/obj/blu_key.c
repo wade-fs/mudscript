@@ -5,7 +5,7 @@ inherit ITEM;
 
 void create()
 {
-        set_name(HIB"鑰匙"NOR, ({"blue key","key"}) );
+        set_name(HIB + "鑰匙" + NOR, ({"blue key","key"}) );
         set("unit", "把");
         set("long", "這是一把藍色的鑰匙。\n");
         // 底下這個是設定它可以用的房間

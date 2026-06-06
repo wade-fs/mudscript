@@ -38,7 +38,7 @@ int do_wield(string str)
      if( query("equipped") )
      {
         user = this_player();
-message_vision(HIW"$N將狂風"HIW"載上,全身湧出風的氣息,$N感覺力量如風湧出\n"NOR,user);
+message_vision(HIW + "$N將狂風" + HIW + "載上,全身湧出風的氣息,$N感覺力量如風湧出\n" + NOR,user);
         set_heart_beat(1);
      }
 }
@@ -48,7 +48,7 @@ int do_drop(string str)
    if(str=="wind" || str=="all")
      if( query("equipped") )
      {
-message_vision(HIW"$N將狂風"HIW"取下,風的力量從身體中散出!!!\n"NOR,user);
+message_vision(HIW + "$N將狂風" + HIW + "取下,風的力量從身體中散出!!!\n" + NOR,user);
         set_heart_beat(0);
      }
 }
@@ -58,7 +58,7 @@ message_vision(HIW"$N將狂風"HIW"取下,風的力量從身體中散出!!!\n"NO
   if(str=="wind" || str=="all")
      if( query("equipped") )
      {
-message_vision(HIW"$N將狂風"HIW"取下,風的力量從身體中散出!!!\n"NOR,user);
+message_vision(HIW + "$N將狂風" + HIW + "取下,風的力量從身體中散出!!!\n" + NOR,user);
         set_heart_beat(0);
      }
 }
@@ -67,7 +67,7 @@ int do_unwield(string str)
    if(str=="wind" || str=="all")
      if( query("equipped") )
      {
-message_vision(HIW"$N將狂風"HIW"取下,風的力量從身體中散出!!!\n"NOR,user);
+message_vision(HIW + "$N將狂風" + HIW + "取下,風的力量從身體中散出!!!\n" + NOR,user);
         set_heart_beat(0);
      }
 }
@@ -94,11 +94,11 @@ be = user->query("bellicosity",1);
      if( environment(user) == environment(enemy[i]) )
       if( random(300) > enemy[i]->query_skill("dodge") )
      {
-message_vision(HIW"無數的氣旋從狂風"HIW"發出,刁鑽的氣旋侵入$N的全身氣脈\n"NOR,enemy[i]);
+message_vision(HIW + "無數的氣旋從狂風" + HIW + "發出,刁鑽的氣旋侵入$N的全身氣脈\n" + NOR,enemy[i]);
        enemy[i]->receive_damage("kee",qq+bb,user);
       COMBAT_D->report_status(enemy[i], 0);
      }else
-message_vision(HIW"無數的氣旋從狂風"HIW"發出,$N瞬時看出氣旋的路徑,展開步法躲過攻擊\n"NOR,enemy[i]);
+message_vision(HIW + "無數的氣旋從狂風" + HIW + "發出,$N瞬時看出氣旋的路徑,展開步法躲過攻擊\n" + NOR,enemy[i]);
      }
   }
   return;

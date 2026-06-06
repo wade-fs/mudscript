@@ -3,7 +3,7 @@ inherit COMBINED_ITEM;
 
 void create()
 {
-	set_name(HIM"靈氣桃子"NOR, ({"s_kee pill","pill"}) );
+	set_name(HIM + "靈氣桃子" + NOR, ({"s_kee pill","pill"}) );
 	set("long","桃子上充滿著靈氣，好像可以轉換(change)桃子的靈氣總類，吃下去後，好像有特別的功\效。\n");
 	set("unit", "盒");
 	set("base_unit", "粒");
@@ -42,7 +42,7 @@ int do_change(string arg)
     case "tiger":
       if(me->query("quests/get_tiger")) 
       {
-        tell_object(me,GRN"藥丸在注入雷虎之氣後，裡面充滿著狂虎的氣息。\n"NOR);
+        tell_object(me,GRN + "藥丸在注入雷虎之氣後，裡面充滿著狂虎的氣息。\n" + NOR);
         set("sec_kee","tiger");
         return 1;
       }
@@ -50,7 +50,7 @@ int do_change(string arg)
     case "dragon":
       if(me->query("quests/dragon-kee")) 
       {
-        tell_object(me,GRN"藥丸在注入青龍之氣後，裡面充滿著青龍的氣息。\n"NOR);
+        tell_object(me,GRN + "藥丸在注入青龍之氣後，裡面充滿著青龍的氣息。\n" + NOR);
         set("sec_kee","dragon");
         return 1;
       }
@@ -59,7 +59,7 @@ int do_change(string arg)
     case "god":
       if(me->query("quests/sec_god")) 
       {
-        tell_object(me,GRN"藥丸在注入仙雲之氣後，裡面充滿著祥和的氣息。\n"NOR);
+        tell_object(me,GRN + "藥丸在注入仙雲之氣後，裡面充滿著祥和的氣息。\n" + NOR);
         set("sec_kee","god");
         return 1;
       }
@@ -82,7 +82,7 @@ int eat_pill(string arg)
 	if( !ob = present(arg,me) )     return 0;
 	if( ob != this_object() )       return 0;
 if(!query("sec_kee")) return notify_fail("請先用change選好靈氣。\n");
-	tell_object(me,HIG"你吃下之後覺得桃子上的靈氣充滿全身。\n"NOR);
+	tell_object(me,HIG + "你吃下之後覺得桃子上的靈氣充滿全身。\n" + NOR);
   tell_object(me,"你的靈氣已經轉換了！\n");
 	me->set("sec_kee",query("sec_kee"));
 	add_amount(-1);

@@ -6,7 +6,7 @@ inherit BLADE;
 void create()
 {
         object me=this_player();
-        set_name(HIG"柳葉刀"NOR, ({"liu-blade", "blade"}) );
+        set_name(HIG + "柳葉刀" + NOR, ({"liu-blade", "blade"}) );
         set_weight(3000);
         if( clonep() )
          set_default_object(__FILE__);

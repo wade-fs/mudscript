@@ -6,7 +6,7 @@ inherit BOW;
 void create()
 {
 
- set_name(HIR"龍蜒"HIY"神弓"NOR,({"dragon bow","bow"}));
+ set_name(HIR + "龍蜒" + HIY + "神弓" + NOR,({"dragon bow","bow"}));
         set_weight(100);
         if( clonep() )
                 set_default_object(__FILE__);
@@ -45,13 +45,13 @@ if(!me->is_fighting()) return notify_fail("只有在戰鬥中才能使用\n");
 if(80>random(100)) {
         message_vision("
 
-          $N"HIR"狂喝一聲 : "BLINK+HIY"「龍  嘯  九  天」"NOR"
+          $N" + HIR + "狂喝一聲 : "BLINK+HIY"「龍  嘯  九  天」" + NOR + "
 
-       "HIR" 手中龍蜒神弓化變成一條青龍往敵人飛去，一時天昏地暗
+       " + HIR + " 手中龍蜒神弓化變成一條青龍往敵人飛去，一時天昏地暗
 
-       "HIR"只見到青龍快速的在敵人的身上點了幾下，每個都噴出血來。
+       " + HIR + "只見到青龍快速的在敵人的身上點了幾下，每個都噴出血來。
 
-       \n\n"NOR,me);
+       \n\n" + NOR,me);
         for(j=0;j<i;j++)
         {
              if(!target[j]) continue;
@@ -63,7 +63,7 @@ if(80>random(100)) {
             }
         }
 } else {
-message_vision(HIW"結果敵人只造成一點點傷害很快就恢復了。\n"NOR,me);
+message_vision(HIW + "結果敵人只造成一點點傷害很快就恢復了。\n" + NOR,me);
 }
 if(me->query("id")!="master lee") {
             me->start_busy(1);

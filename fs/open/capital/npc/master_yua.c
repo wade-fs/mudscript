@@ -204,8 +204,8 @@ int do_join()
         {
           return notify_fail("你已經加入門派囉，不能再加入囉。\n");
         }
-        message("system",HIC"月牙兒輕聲吟道：『龍騰八荒，鳳舞九天』
+        message("system",HIC + "月牙兒輕聲吟道：『龍騰八荒，鳳舞九天』
 接著又愉快的說道：以"+this_player()->name()+"的資質必可
-將我派舞蹈絕學發揚光大。\n"NOR,users());
+將我派舞蹈絕學發揚光大。\n" + NOR,users());
         return 1;
 }

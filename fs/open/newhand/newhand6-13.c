@@ -3,7 +3,7 @@
 inherit ROOM;
 void create ()
 {
-  set ("short", HIY"狂想空間歷史發展館"NOR);
+  set ("short", HIY + "狂想空間歷史發展館" + NOR);
         set( "long", "九八年七月,分站歷經了一件重大的事件!!!
 1.老玩家milk(忘了還是acme)願意支持分站發展下去。
 2.Acmesoft是華宇電腦的一個新事業部門,其負責人(acme)願意提供位置及主機。

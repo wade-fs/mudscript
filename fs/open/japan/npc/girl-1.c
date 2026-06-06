@@ -45,7 +45,7 @@ void create()
         set("age",15);
         set("long","她是女影門傳人的師妹,與旁邊的田中惠子是鑾生姊妹,兩姊妹分別\
 練了『四季花舞刀法』的上半部與下半部,妹妹河內美加練的是下半部刀法\n");
-        set("title",HIM"女影門究極奧義流第四代弟子"NOR);
+        set("title",HIM + "女影門究極奧義流第四代弟子" + NOR);
         set("gender","女姓");
         set("class","killer");
         set("str",30);
@@ -99,10 +99,10 @@ void do_special()
         target=enemy[random(i)];
 
                 message_vision(
-HIW "\n美加使出四季花舞刀法中最強的祕招,隨著刀法的變換演化出『四花齊飛放』的超強特攻\n",target);
+HIW + "\n美加使出四季花舞刀法中最強的祕招,隨著刀法的變換演化出『四花齊飛放』的超強特攻\n",target);
                 message_vision(
-HIY "\n四季刀法不斷變化,$N已被四周群花奔放之景給吸引,不知不覺已身受中傷
-\n"NOR,target);
+HIY + "\n四季刀法不斷變化,$N已被四周群花奔放之景給吸引,不知不覺已身受中傷
+\n" + NOR,target);
                 target->receive_wound("kee",random(50+150));
                 COMBAT_D->report_status(target);
 

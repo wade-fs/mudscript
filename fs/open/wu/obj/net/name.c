@@ -38,7 +38,7 @@ int do_wield(string str)
      if( query("equipped") )
      {
         user = this_player();
-message_vision(HIY"$N將悲痛莫名"HIY"載上,心中湧出無數的悲傷離離之情,\n"NOR,user);
+message_vision(HIY + "$N將悲痛莫名" + HIY + "載上,心中湧出無數的悲傷離離之情,\n" + NOR,user);
         set_heart_beat(1);
      }
 }
@@ -47,7 +47,7 @@ message_vision(HIY"$N將悲痛莫名"HIY"載上,心中湧出無數的悲傷離�
   if(str=="sob" || str=="all")
      if( query("equipped") )
      {
-message_vision(HIY"$N將悲痛莫名"HIY"取下,心中的哀淒之情,隨之散去。!!!\n"NOR,user);
+message_vision(HIY + "$N將悲痛莫名" + HIY + "取下,心中的哀淒之情,隨之散去。!!!\n" + NOR,user);
         set_heart_beat(0);
      }
 }
@@ -56,7 +56,7 @@ int do_unwield(string str)
    if(str=="sob" || str=="all")
      if( query("equipped") )
      {
-message_vision(HIY"$N將悲痛莫名"HIY"取下,心中的哀淒之情,隨之散去。!!!\n"NOR,user);
+message_vision(HIY + "$N將悲痛莫名" + HIY + "取下,心中的哀淒之情,隨之散去。!!!\n" + NOR,user);
         set_heart_beat(0);
      }
 }
@@ -83,10 +83,10 @@ be = user->query("bellicosity",1);
      if( environment(user) == environment(enemy[i]) )
       if( random(300) > enemy[i]->query_skill("dodge") )
      {
-message_vision(HIY"$N感受到悲痛莫名"HIY"悲傷之氣息,心中受到感動,不禁悲從中來,戰意大減身形為之一頓。\n"NOR,enemy[i]);
+message_vision(HIY + "$N感受到悲痛莫名" + HIY + "悲傷之氣息,心中受到感動,不禁悲從中來,戰意大減身形為之一頓。\n" + NOR,enemy[i]);
       enemy[i]->start_busy(1);
      }else
-message_vision("悲痛莫名"HIW"的悲傷之氣息向$N襲去,但$N的定力超凡絲毫不為所動。\n"NOR,enemy[i]);
+message_vision("悲痛莫名" + HIW + "的悲傷之氣息向$N襲去,但$N的定力超凡絲毫不為所動。\n" + NOR,enemy[i]);
   }
   return;
 }

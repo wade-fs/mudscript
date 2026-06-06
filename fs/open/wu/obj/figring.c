@@ -7,7 +7,7 @@ inherit UNARMED;
 void create()
 {
         seteuid(getuid());
-        set_name(HIY "狂龍翔天破" NOR,({"crazy dragon","ring"}));
+        set_name(HIY + "狂龍翔天破" + NOR,({"crazy dragon","ring"}));
         set_weight(3000);
         if( clonep() )
                 set_default_object(__FILE__);

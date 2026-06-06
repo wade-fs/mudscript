@@ -6,7 +6,7 @@ void create()
 {
 	set_name("流蛇",({"hau snake","snake"}));
 	set("age",30);
-	set("title",HIC"蛇寨二寨主"NOR);
+	set("title",HIC + "蛇寨二寨主" + NOR);
 	set("gender","男性");
         set("attitude","aggressive");
 	set("long","
@@ -58,7 +58,7 @@ int i,j,k,kee,eff,max;
 
 	if( ob->query_busy() && random(100) < 30 )
 	{
-		message_vision(HIW+"$N大喝一聲～破～!!$N的奇經六脈回覆了正常!!\n"NOR,ob);
+		message_vision(HIW+"$N大喝一聲～破～!!$N的奇經六脈回覆了正常!!\n" + NOR,ob);
 		ob->delete_busy();
 	}
 
@@ -66,7 +66,7 @@ int i,j,k,kee,eff,max;
 	{
 		if( eff < max || kee < eff )
 		{
-			message_vision(HIY"$N服下一貼毒藥，以毒攻毒，將體內的瘀傷逼出～\n"NOR,ob);
+			message_vision(HIY + "$N服下一貼毒藥，以毒攻毒，將體內的瘀傷逼出～\n" + NOR,ob);
 			ob->receive_curing("kee",500);
 			ob->receive_heal("kee",500);
 			COMBAT_D->report_status(ob,1);
@@ -80,20 +80,20 @@ int i,j,k,kee,eff,max;
 		
 		if( random(i) > random(j) )
 		{
-			message_vision(HIY"
+			message_vision(HIY + "
 $N領略到"+NOR+YEL+"〔"+MAG+"邪靈"+WHT+"。"+CYN+"蛇鞭"+YEL+"〕"+HIY+"之奧義
 
 			"+HIW+"～　"+HIC+"萬　鞭　歸　一　"+HIW+"～"+HIY+"
 
-鞭法幻化成無數多條，以左右夾擊之勢，攻向$n。\n"NOR,ob,target);
+鞭法幻化成無數多條，以左右夾擊之勢，攻向$n。\n" + NOR,ob,target);
 			if( random(100) < 50 )
 			{
-				message_vision(HIY"$N閃避不及，只好正面抵擋$n的攻勢～\n"NOR,target,ob);
+				message_vision(HIY + "$N閃避不及，只好正面抵擋$n的攻勢～\n" + NOR,target,ob);
 				target->receive_wound("kee",800);
                 COMBAT_D->report_status(target,1);
 			}
 			else
-				message_vision(HIY"所幸鞭法並不成熟，$N輕易的躲過了。\n"NOR,target);
+				message_vision(HIY + "所幸鞭法並不成熟，$N輕易的躲過了。\n" + NOR,target);
 		}
 	}
 set_heart_beat(1);

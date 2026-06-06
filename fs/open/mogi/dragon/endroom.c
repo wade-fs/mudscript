@@ -34,7 +34,7 @@ int valid_leave(object me, string dir)
         if(dir=="up"&&present("jen",environment(me)))
   {
 
-message_vision(HIY"鄭雨橋喝道 :「小子，你幹什麼？」\n"NOR,me);
+message_vision(HIY + "鄭雨橋喝道 :「小子，你幹什麼？」\n" + NOR,me);
 
 return 0;
 }

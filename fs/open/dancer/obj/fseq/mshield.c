@@ -6,7 +6,7 @@ inherit SHIELD;
 object me=this_player();
 void create()
 {
-        set_name(HIY"傅劍寒幻夢之翼盾"NOR,({"Cgy_shield","shield"}));
+        set_name(HIY + "傅劍寒幻夢之翼盾" + NOR,({"Cgy_shield","shield"}));
         set_weight(2000);
         if( clonep() )
                 set_default_object(__FILE__);
@@ -41,9 +41,9 @@ int do_wear(string str)
 {    ::wear();
      if( query("equipped") )
      {
-        message_vision(HIW"$N使出夢玄法鑑中的"HIR"「"HIC"幻夢之翼"HIR"」\n
-"HIG"$N感到有一股神秘的力量保護著自己。
-\n"NOR,me);
+        message_vision(HIW + "$N使出夢玄法鑑中的" + HIR + "「" + HIC + "幻夢之翼" + HIR + "」\n
+" + HIG + "$N感到有一股神秘的力量保護著自己。
+\n" + NOR,me);
 me->set_temp("mana_shield",1);
 set_heart_beat(1);
      }
@@ -53,7 +53,7 @@ int do_remove(string str)
    if(str=="Cgy_shield" || str=="all"||str=="shield")
      if( query("equipped") )
      {
-message_vision(HIC"一陣靈力渙散，傅劍寒幻夢之翼盾失去了蹤影。\n"NOR,me);
+message_vision(HIC + "一陣靈力渙散，傅劍寒幻夢之翼盾失去了蹤影。\n" + NOR,me);
 me->delete_temp("mana_shield");
 set_heart_beat(0);
      }

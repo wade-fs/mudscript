@@ -3,7 +3,7 @@ inherit COMBINED_ITEM;
 
 void create()
 {
-        set_name(YEL"木牷塊"NOR,({"wood stone","stone"}));
+        set_name(YEL + "木牷塊" + NOR,({"wood stone","stone"}));
         set_weight(10);
         if(clonep())
                 set_default_object(__FILE__);
@@ -59,13 +59,13 @@ object me,env;
                 tell_object(me,"(請先鎖定[lock]欲將放置的部位。)\n");
                 return notify_fail("你突然覺得自己好像傻瓜。\n");
         }
-        message_vision(YEL"$N將$n放置於木像的左手部位。
+        message_vision(YEL + "$N將$n放置於木像的左手部位。
 
 喀～的一聲，木像突然開始活動了起來～
 
 一瞬間～木像展開雙手將$N整個人抱住，只見到$N整個人融入了木像內，消失不見～
 
-\n"NOR,me,this_object());
+\n" + NOR,me,this_object());
         me->delete_temp("evil/king/lock-left");
         me->delete_temp("evil/king/statue_search_wood");
         me->move(__DIR__"k-02");

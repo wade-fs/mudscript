@@ -2,7 +2,7 @@
 inherit ROOM;
 #include <ansi.h>
 void create () {
-	set( "short" , HIR"焚天魔殿"NOR);
+	set( "short" , HIR + "焚天魔殿" + NOR);
 	set( "build", 87 );
 	set( "long"  , "
     這裡就是魔王的所在! 這裡非常的寬敞, 所有的佈置都呈現火
@@ -36,7 +36,7 @@ int valid_leave(object me, string dir)
         if(dir=="north"&&present("king",environment(me)))
   {
 
-message_vision(HIY"焚天魔王喝道:「竟敢在我眼前放肆！」\n"NOR,me);
+message_vision(HIY + "焚天魔王喝道:「竟敢在我眼前放肆！」\n" + NOR,me);
 
 return 0;
 }
@@ -45,9 +45,9 @@ return 1;
 
 void war_start()
 {
-	shout( HIR"\n\n\n\t魔界眾魔因焚天魔王之死開始忿怒\n\n"+
+	shout( HIR + "\n\n\n\t魔界眾魔因焚天魔王之死開始忿怒\n\n"+
 		  "\t眾魔們殺氣騰騰\n\n"+
-		  "\t群魔離開魔界朝人間殺去!\n\n\n\n"NOR );
+		  "\t群魔離開魔界朝人間殺去!\n\n\n\n" + NOR );
 
 	new("/open/mogi/dragon/npc/dragon-gold.c") ->move("/open/capital/room/r70");
 	new("/open/mogi/castle/npc/seven-dark-4.c")->move("/open/capital/room/r70");

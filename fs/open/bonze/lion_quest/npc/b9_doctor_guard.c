@@ -8,7 +8,7 @@ void create()
 {
   set_name("銀針侍衛",({"doctor guard","guard","doctor","g"}));
   set("long","他是守護銀針門的侍衛，從眼睛散發出一股不容侵犯的威嚴，為了華神醫的大業，他不惜與任何人為敵。\n");
-  set("nickname",HIC "滅"HIY"獅"NOR"聯盟");
+  set("nickname",HIC + "滅" + HIY + "獅" + NOR + "聯盟");
   set("gender","男性");
   set("class","doctor");
   set("combat_exp",7270000);
@@ -18,8 +18,8 @@ void create()
   set("age",36);
 //  set_temp("roared", 1 ); //雙重roar 判斷 以增加mob差異性
   set("doctor/vet",1); //具有看診師的資格，可以替人看診(vet)了！屬於非戰鬥時的攻擊技能
-  set("doctor/sosman",1); //後三式 並 set("title",HBBLU+HIW"ψ"HIY"七奇"HIR"秘針"HIW"ψ"HIG"傳人"NOR);的mark 
-  set("env/六絕針","YES"); //使用HIW"◎ "HIY"赤 炎 六 絕 針 "HIW"◎ 需求等級lv100??
+  set("doctor/sosman",1); //後三式 並 set("title",HBBLU+HIW"ψ" + HIY + "七奇" + HIR + "秘針" + HIW + "ψ" + HIG + "傳人" + NOR);的mark 
+  set("env/六絕針","YES"); //使用HIW"◎ " + HIY + "赤 炎 六 絕 針 " + HIW + "◎ 需求等級lv100??
 //  set("doctor/save_die", 1); //『聖手回春術』並非戰鬥技能 關閉
   set("str",17);
   set("cps",25);
@@ -48,8 +48,8 @@ void create()
 //  map_skill("cure","godcure");
 //  set_skill("literate",60);
 //  set_skill("unarmed",20);
-  set("functions/gold-needle/level",50); //影響七奇針訣的 message_vision(HIY"$N運起破穴指頂級技巧打散$n體內的內勁!!
-  set("functions/break-kee/level",50); //影響七奇針訣的 message_vision(HIC"$N運起金針封穴頂級技巧封阻$n的行動!!
+  set("functions/gold-needle/level",50); //影響七奇針訣的 message_vision(HIY + "$N運起破穴指頂級技巧打散$n體內的內勁!!
+  set("functions/break-kee/level",50); //影響七奇針訣的 message_vision(HIC + "$N運起金針封穴頂級技巧封阻$n的行動!!
   set("functions/heal/level",1); //神農治癒術
 //  set("functions/acus/level",100); //似乎npc不能使用?heal
   set_temp("apply/armor",80); //+防的指令之一
@@ -98,7 +98,7 @@ void greeting()
   if (!ob->is_fighting() && ppl->query_temp("quests/bonze/fight") == 1
       && ppl->is_fighting() && (ob->query("kee") > ob->query("max_kee")*0.3))
   {
-    message_vision (HIY"$N大喊：無事生非者，殺無赦！\n"NOR, ob);
+    message_vision (HIY + "$N大喊：無事生非者，殺無赦！\n" + NOR, ob);
     fight_ob(ppl);
   }
 
@@ -124,9 +124,9 @@ void greeting()
         ob->add("max_sen",20000+random(15000));
         ob->add("force_factor",10+random(10));
         ob->set_temp("quests/bonze/power_up",1);
-        message_vision (HIR"$n眼尖發現了$N拿出一罐秘藥並喝了下去。\n"NOR, ob, ppl);
+        message_vision (HIR + "$n眼尖發現了$N拿出一罐秘藥並喝了下去。\n" + NOR, ob, ppl);
       }
-      message_vision (HIR"$n看出$N的身上散發著不斷高漲的殺氣。\n"NOR, ob, ppl);
+      message_vision (HIR + "$n看出$N的身上散發著不斷高漲的殺氣。\n" + NOR, ob, ppl);
       fight_ob(ppl);
     }
     else {
@@ -223,7 +223,7 @@ int heal_up()
 {
   if (!is_fighting() && this_object()->query_temp("count_down") > 600)
   { //心跳一次 1:1.5(秒)==>1.5x40=1min, 15min=1.5x40x15=900 //縮短為10分 因為在沒有玩家經過或者存在時 心跳功能會停止
-    message_vision (HIY"$N見到小兵送來上級的手令，於是轉身飛奔離去，消失在你的眼前。\n"NOR, this_object());
+    message_vision (HIY + "$N見到小兵送來上級的手令，於是轉身飛奔離去，消失在你的眼前。\n" + NOR, this_object());
     destruct(this_object());
     return 1;
   } //此括號仍為判斷是否在戰鬥中的if下引號

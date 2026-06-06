@@ -17,7 +17,7 @@ void create()
 但他似乎像守衛著這裡，不隨便讓人進入(enter)。
 LONG);
   set("gender","男性");
-  set("title",HIW"殭屍道長"NOR);
+  set("title",HIW + "殭屍道長" + NOR);
   set("combat_exp", 1000000);
   set("attitude","friendly");
   set("age",62);
@@ -54,7 +54,7 @@ void init()
   {
     command("spank "+obj->query("id"));
     command("say 太好了，利用我徒弟尚未恢復的時候，我就教你控屍大法，就可以協助幫忙趕屍了。\n");
-    tell_object(obj,HIR"你習得江西控屍大法。\n"NOR);
+    tell_object(obj,HIR + "你習得江西控屍大法。\n" + NOR);
     obj->set("quest/control",1);
     obj->set("spells/control/level",1);
   }
@@ -94,13 +94,13 @@ string ask_enter()
     return "你才剛進去過，身上的殭屍氣吸太多，需要稍事休息。\n";
   if(me->query_temp("not_robot") < time()) 
     return "你確定要進去嘛？ 你身上並沒有任何可以防止殭屍的正義之氣，千萬不能進去啊！。";
-  tell_object(me, HIC"林正英說道：哎呀，這麼有勇氣，哪就進去挑戰看看吧，不過如果沒有帶著任何符咒的\n"+
-    "\t話，你千萬不要再往裡面走，因為裡面的殭屍王已殺死了不少武林中人了。\n"NOR);
-  message_vision(HIR"突然五行八卦隨即轉換，殭屍洞裡的路徑全部更換。\n"NOR,me);
+  tell_object(me, HIC + "林正英說道：哎呀，這麼有勇氣，哪就進去挑戰看看吧，不過如果沒有帶著任何符咒的\n"+
+    "\t話，你千萬不要再往裡面走，因為裡面的殭屍王已殺死了不少武林中人了。\n" + NOR);
+  message_vision(HIR + "突然五行八卦隨即轉換，殭屍洞裡的路徑全部更換。\n" + NOR,me);
   for(int i = i ; i<= 10; i ++)
   {
     tell_room(sprintf(resolve_path(__DIR__,"../room%02d.c"),i),
-        HIR"突然五行八卦隨即轉換，殭屍洞裡的路徑全部更換。\n"NOR);
+        HIR + "突然五行八卦隨即轉換，殭屍洞裡的路徑全部更換。\n" + NOR);
   }
   foreach(object obj in children(__DIR__+"zombie") )
   {
@@ -146,7 +146,7 @@ string ask_zombie_kill()
 {
   if(this_player()->query("zombie_kill"))
   {
-    return "你打倒了共有"+HIY+this_player()->query("zombie_kill")+CYN+"隻殭屍。"NOR;
+    return "你打倒了共有"+HIY+this_player()->query("zombie_kill")+CYN+"隻殭屍。" + NOR;
   }
   return "你還沒殺過任何的殭屍吧。";
 }

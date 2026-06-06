@@ -72,11 +72,11 @@ void heart_beat()
     if(!target) return ;
     if( env == environment(target) )
     {
-      message_vision(HIB"\n
+      message_vision(HIB + "\n
 $N魔氣盡放，瞬間妖氣滿溢，形成一個奇異的結界 
 $N腳步輕點剎那間逼近了$n，左手食指往$n眉心點去
-喝道一聲"HIM"『吞噬』"HIB"，$n的精氣神在眨眼間盡被吸入$N體內
-\n"NOR,mob,target);
+喝道一聲" + HIM + "『吞噬』" + HIB + "，$n的精氣神在眨眼間盡被吸入$N體內
+\n" + NOR,mob,target);
       target->receive_damage("kee",550);
       target->add("force",-1800);
       target->set("mana",0);

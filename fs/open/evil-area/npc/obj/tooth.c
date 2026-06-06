@@ -3,7 +3,7 @@ inherit COMBINED_ITEM;
 
 void create()
 {
-	set_name(HIR"紅身狼牙"NOR,({"red-wolf tooth","tooth"}));
+	set_name(HIR + "紅身狼牙" + NOR,({"red-wolf tooth","tooth"}));
 	set_weight(10);
 	if(clonep())
 		set_default_object(__FILE__);

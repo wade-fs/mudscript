@@ -65,7 +65,7 @@ int do_faceoff(string arg)
 
 int wakeup(object who)
 {
-tell_object(who, HIC"突然之間你覺得自己容光喚發。\n"NOR);
+tell_object(who, HIC + "突然之間你覺得自己容光喚發。\n" + NOR);
     who->add("per",3);
 	who->delete_temp("sleeping");
 	return 1;

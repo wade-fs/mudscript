@@ -50,7 +50,7 @@ if(!env) return ;
  {
  if (enemy[j]->is_character() && !enemy[j]->is_corpse() && living(enemy[j]) && enemy[j]->query("id")!="deep shark")
      {   
-     message_vision(HIB"$N不知道被什麼東西撞了一下, 受了幾處傷!!\n"NOR,enemy[j]);
+     message_vision(HIB + "$N不知道被什麼東西撞了一下, 受了幾處傷!!\n" + NOR,enemy[j]);
      enemy[j]->receive_wound("kee",500);
      COMBAT_D->report_status(enemy[j]);
      }

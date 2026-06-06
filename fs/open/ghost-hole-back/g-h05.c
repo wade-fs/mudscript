@@ -2,7 +2,7 @@
 inherit ROOM;
 void create ()
 {
-set("short",BLU"死靈幽谷"NOR);
+set("short",BLU + "死靈幽谷" + NOR);
 set("long",@LONG
 黑暗的空間與周圍的岩壁一直給你一種無法言喻的
 壓迫感, 再加上這裡的岩壁似乎特別的潮濕, 讓你有一

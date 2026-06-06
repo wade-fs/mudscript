@@ -27,7 +27,7 @@ int valid_leave(object me,string dir)
         object obj = present("Evil Buddha");
         if( dir == "up" )
         {
-                if(obj)  return notify_fail(HIR"魔也佛"HIW"冷笑道:『想去斷陽峰!?先打敗我吧!!』\n"NOR);
+                if(obj)  return notify_fail(HIR + "魔也佛" + HIW + "冷笑道:『想去斷陽峰!?先打敗我吧!!』\n" + NOR);
         }
 
 return 1;

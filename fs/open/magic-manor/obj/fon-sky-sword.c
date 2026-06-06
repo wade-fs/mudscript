@@ -23,8 +23,8 @@ void create()
 	set("no_steal",1);
 	}
 	init_sword(100);
-	set("wield_msg",CYN"$N"CYN"拿起$n"CYN"，$n"CYN"黝黑的劍身綻放絲絲的寒光!!\n"NOR);
-        set("unwield_msg","$N輕輕收下$n，$n絲絲的寒光化為黝黑的劍身。\n"NOR);
+	set("wield_msg",CYN + "$N" + CYN + "拿起$n" + CYN + "，$n" + CYN + "黝黑的劍身綻放絲絲的寒光!!\n" + NOR);
+        set("unwield_msg","$N輕輕收下$n，$n絲絲的寒光化為黝黑的劍身。\n" + NOR);
 
 	setup();
 }                   
@@ -48,11 +48,11 @@ int do_wield(string str)
 	uexp = user->query("combat_exp");
 	  if( uexp < 3000000 )
 	  {
-	  message_vision("$N的經驗並不足以完全支配這樣的神兵利器!!\n"NOR,user);
+	  message_vision("$N的經驗並不足以完全支配這樣的神兵利器!!\n" + NOR,user);
 	  set_heart_beat(0);
 	  return 0;
 	  }else{
-//	  message_vision(CYN"$N"CYN"拿起$n"CYN"，$n"CYN"黝黑的劍身綻放絲絲的寒光!!\n"NOR,user,ob);
+//	  message_vision(CYN + "$N" + CYN + "拿起$n" + CYN + "，$n" + CYN + "黝黑的劍身綻放絲絲的寒光!!\n" + NOR,user,ob);
 	  set_heart_beat(1);
 	  }
 	}
@@ -63,7 +63,7 @@ int do_drop(string str)
 	if(str=="fon-sky-sword" || str=="sword" || str=="all")
 	if( query("equipped") )
 	{
-	message_vision("$N輕輕收下$n，$n絲絲的寒光化為黝黑的劍身。\n"NOR,user,ob);
+	message_vision("$N輕輕收下$n，$n絲絲的寒光化為黝黑的劍身。\n" + NOR,user,ob);
 	set_heart_beat(0);
 	}
 }
@@ -73,7 +73,7 @@ int do_unwield(string str)
 	if(str=="fon-sky-sword" || str=="sword" || str=="all")
 	if( query("equipped") )
 	{
-//	message_vision("$N輕輕收下$n，$n絲絲的寒光化為黝黑的劍身。\n"NOR,user,ob);
+//	message_vision("$N輕輕收下$n，$n絲絲的寒光化為黝黑的劍身。\n" + NOR,user,ob);
 	set_heart_beat(0);
 	}
 }
@@ -83,7 +83,7 @@ int do_auc(string str)
 	if(str=="fon-sky-sword" || str=="sword" || str=="all")
 	if( query("equipped") )
 	{
-	message_vision("$N輕輕收下$n，$n絲絲的寒光化為黝黑的劍身。\n"NOR,user,ob);
+	message_vision("$N輕輕收下$n，$n絲絲的寒光化為黝黑的劍身。\n" + NOR,user,ob);
 	set_heart_beat(0);
 	}
 }
@@ -128,11 +128,11 @@ void heart_beat()
 	  if( environment(user) == environment(enemy[i]) )
 	  if( random(300) > random(enemy[i]->query_skill("dodge",1)) )
 	  {
-	  message_vision(HIB"絲絲的寒光由"NOR"$n"HIB"中透射出來，不偏不倚的打在$N"HIB"身上!!\n"NOR,enemy[i],ob);
+	  message_vision(HIB + "絲絲的寒光由" + NOR + "$n" + HIB + "中透射出來，不偏不倚的打在$N" + HIB + "身上!!\n" + NOR,enemy[i],ob);
 	  enemy[i]->receive_wound("kee",(int)(qq+be),user);
 	  COMBAT_D->report_status(enemy[i], 0);
 	  }else
-	  message_vision(BLU"$N"BLU"輕功\甚是了得，在慌忙之中閃了過去!!\n"NOR,enemy[i],ob);
+	  message_vision(BLU + "$N" + BLU + "輕功\甚是了得，在慌忙之中閃了過去!!\n" + NOR,enemy[i],ob);
 	  }
 	}
 	return;

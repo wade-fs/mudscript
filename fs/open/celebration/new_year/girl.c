@@ -6,7 +6,7 @@ inherit SSERVER;
 
 void create()
 {
-    set_name(HIR"聖"HIW"誕"NOR"老人" ,({"santa"}) );
+    set_name(HIR + "聖" + HIW + "誕" + NOR + "老人" ,({"santa"}) );
     set("long","聖誕老人駕著馬車送禮物啦！\n");
   set("gender","女性");
   set("combat_exp",2900000);
@@ -39,9 +39,9 @@ set_temp("roared",1);
   set("attribute","fire");
   set("chat_chance",20);
   set("chat_msg",({
-        HIY"聖誕老人說道：新年快樂~~~呵呵呵~~\n"NOR,
-        HIY"聖誕老人說道：聖誕快樂~~~呵呵呵~~\n"NOR,
-        HIY"聖誕老人說道：呵呵呵，可以找我要(want)禮物啊~~\n"NOR,
+        HIY + "聖誕老人說道：新年快樂~~~呵呵呵~~\n" + NOR,
+        HIY + "聖誕老人說道：聖誕快樂~~~呵呵呵~~\n" + NOR,
+        HIY + "聖誕老人說道：呵呵呵，可以找我要(want)禮物啊~~\n" + NOR,
 
         }));
   setup();
@@ -66,11 +66,11 @@ int do_want(string arg)
     if((time() - me->query_temp("login_time")) < 30 * 60 )
       return notify_fail("竟然都來了，多聊聊嘛，等一下再給你。\n");
    me->set("new_year",time() + 60*60*16);
-    write(HIC"聖誕老人說道：呵呵呵~~~~~~先祝你新年愉快吧~~~~\n"NOR);
-    write(HIW"聖誕老人拿了一個禮物給你。\n"NOR);
+    write(HIC + "聖誕老人說道：呵呵呵~~~~~~先祝你新年愉快吧~~~~\n" + NOR);
+    write(HIW + "聖誕老人拿了一個禮物給你。\n" + NOR);
     if(me->query("combat_exp") < 2000000)
     {
-      write(HIR"聖誕老人說道：難得不見的新人耶，多送你經驗值和潛能吧！\n");
+      write(HIR + "聖誕老人說道：難得不見的新人耶，多送你經驗值和潛能吧！\n");
       me->add("combat_exp",50000);
       me->add("potential",30000);
     }

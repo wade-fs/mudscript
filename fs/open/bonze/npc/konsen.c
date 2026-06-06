@@ -69,8 +69,8 @@ void init()
 	ob=this_player();
 	if(ob->query_temp("ask_force"))
 	{
-	message_vision(HIW"空聞大聲道:「邪魔外道，覬覦我佛門至寶!?想要心法是吧!?
-             你也不用進去了，這就給我去跟閻羅王要吧!!」\n\n"NOR,ob);
+	message_vision(HIW + "空聞大聲道:「邪魔外道，覬覦我佛門至寶!?想要心法是吧!?
+             你也不用進去了，這就給我去跟閻羅王要吧!!」\n\n" + NOR,ob);
              kill_ob(ob);
 	}
 }*/
@@ -89,8 +89,8 @@ void die()
 
       /*  if(winner->query_temp("ask_force"))
         {
-        message_vision(HIW"空聞說道:「......」\n"NOR,winner);
-        message_vision(HIR"" + winner->query("name") + "得到了本來無一物神功\心法。\n"NOR,winner);
+        message_vision(HIW + "空聞說道:「......」\n" + NOR,winner);
+        message_vision(HIR + "" + winner->query("name") + "得到了本來無一物神功\心法。\n" + NOR,winner);
         obj=new("/open/capital/obj/force_book");
 	obj->move(winner);
         } */

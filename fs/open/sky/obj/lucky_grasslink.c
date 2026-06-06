@@ -6,7 +6,7 @@ inherit WRISTS;
 
 void create()
 {
-  set_name(HIY"幸運草環"NOR, ({ "lucky-grasslink","lucky" }));
+  set_name(HIY + "幸運草環" + NOR, ({ "lucky-grasslink","lucky" }));
   set_weight(50);
   if( clonep() )
     set_default_object(__FILE__);

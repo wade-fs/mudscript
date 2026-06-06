@@ -4,7 +4,7 @@ inherit ITEM;
 
 void create()
 {
-    set_name(""HIY"太皇刀"NOR"─"HIB"藍牙"NOR"", ({ "kingblade bluetooth","kingblade","bluetooth" }) );
+    set_name("" + HIY + "太皇刀" + NOR + "─" + HIB + "藍牙" + NOR + "", ({ "kingblade bluetooth","kingblade","bluetooth" }) );
     set_weight(1000);
  if( clonep() )
     set_default_object(__FILE__);

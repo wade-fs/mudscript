@@ -68,12 +68,12 @@ void heart_beat()
       if(!target) return ;
     if( env == environment(target) )
     {
-      message_vision(HIW"\n
+      message_vision(HIW + "\n
 $N身形飄忽，髮絲在風中飛動，在$n發現的瞬間，一張天羅地網早
 已交織在$n的上下 
-$N嘴角一揚，一式"HIR"「活殺天羅網」"HIW"開始啟動。只見飛髮滿天，$n猶
+$N嘴角一揚，一式" + HIR + "「活殺天羅網」" + HIW + "開始啟動。只見飛髮滿天，$n猶
 如籠中之獸任$N宰割
-\n"NOR,mob,target);
+\n" + NOR,mob,target);
       target->receive_damage("kee",650);
       target->start_busy(2);
       COMBAT_D->report_status(target, 1);

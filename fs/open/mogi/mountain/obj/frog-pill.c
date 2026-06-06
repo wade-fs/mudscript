@@ -4,7 +4,7 @@ inherit COMBINED_ITEM;
 #include <ansi.h>
 void create()
 {
-        set_name(HIC"冰蟾丹元"NOR, ({"ice-frog pill","pill"}) );
+        set_name(HIC + "冰蟾丹元" + NOR, ({"ice-frog pill","pill"}) );
 	set("long",
 	"本是千年冰蟾額上的丹元，發出淡淡冰冷的氣息。\n");
         set("no_sell",1);
@@ -39,7 +39,7 @@ int eat_pill(string arg)
                                         }
 
 message_vision(
-"$N一口吞下了"HIC"冰蟾丹元"NOR"，只覺丹元冰冷的氣息暫時壓抑了練內功\時
+"$N一口吞下了" + HIC + "冰蟾丹元" + NOR + "，只覺丹元冰冷的氣息暫時壓抑了練內功\時
 所帶來的心浮氣躁，不知不覺中$N的基本內功\已增益了不少。\n", me);
   me->set_skill("force",force+25);
   me->clear_condition();

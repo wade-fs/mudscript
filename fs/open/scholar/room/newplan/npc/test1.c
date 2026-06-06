@@ -12,10 +12,10 @@ string do_hoba();
 
 
 void create() {
-        set_name(HIC"太公望"NOR,({"master wone","wone","scholar"}));
+        set_name(HIC + "太公望" + NOR,({"master wone","wone","scholar"}));
         set("class","scholar");
         set("nickname","$HIW$天下第一軍師$NOR$");
-        set("title",HIY"姜子牙"NOR);
+        set("title",HIY + "姜子牙" + NOR);
         set("long",
 "太公望以助周室王朝取得天下之天才軍師, 並且 
 自創兵法計謀, 更勝孫子兵法。 

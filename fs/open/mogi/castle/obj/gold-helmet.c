@@ -7,7 +7,7 @@
 inherit HEAD;
 void create()
 {
-	set_name(HIY"金翅朝天冠"NOR, ({"gold hat", "hat"}));
+	set_name(HIY + "金翅朝天冠" + NOR, ({"gold hat", "hat"}));
 	set_weight(5000);
 	if( clonep() )
 		set_default_object(__FILE__);

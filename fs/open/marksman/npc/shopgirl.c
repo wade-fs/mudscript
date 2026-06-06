@@ -35,7 +35,7 @@ void greeting(object ob)
   if( !ob || environment(ob) != environment() ) return;
 
   command("smile "+ob->query("id"));
-  say(HIC"女孩輕聲說﹕"+ob->name()+HIC"﹐歡迎來到射手派。\n"NOR);
+  say(HIC + "女孩輕聲說﹕"+ob->name()+HIC"﹐歡迎來到射手派。\n" + NOR);
 
 }
 void init()
@@ -106,8 +106,8 @@ int do_shop(string str, object me)
     if( me->query("Lbird") ) {
     write("小女孩說:你已經有一隻鳳凰囉!\n");
     } else {
-    write(GRN"<"HIG"恰吉"GRN">"HIC" 問道"CYN"﹕"HIC
-    "你確定要領養一隻新的鳳凰"CYN"﹖"HIW"(Y/n)"NOR"﹕");
+    write(GRN + "<" + HIG + "恰吉" + GRN + ">" + HIC + " 問道" + CYN + "﹕" + HIC
+    "你確定要領養一隻新的鳳凰" + CYN + "﹖" + HIW + "(Y/n)" + NOR + "﹕");
     input_to("new_Lbird", me, str);
     return 1;
     }
@@ -120,8 +120,8 @@ void new_Lbird(string yn, object me, string str)
      object Lbird = new("/open/marksman/obj/"+str);
      if( yn == "" || yn[0] == 'Y' || yn[0] == 'y' ) {
 tell_room(environment(me),me->name()+"認養了一隻鳳凰。\n");
-     write(GRN"<"HIG"恰吉"GRN">"HIC" 說道"CYN"﹕"HIC
-     "恭喜你認養了一隻鳳凰"CYN"﹐"HIC"請好好的照顧它"CYN"。\n"NOR);
+     write(GRN + "<" + HIG + "恰吉" + GRN + ">" + HIC + " 說道" + CYN + "﹕" + HIC
+     "恭喜你認養了一隻鳳凰" + CYN + "﹐" + HIC + "請好好的照顧它" + CYN + "。\n" + NOR);
      me->pay_money(100);
      Lbird->move(environment(me));
      Lbird->set("owner",me->query("id"));
@@ -130,8 +130,8 @@ tell_room(environment(me),me->name()+"認養了一隻鳳凰。\n");
      me->set_temp("come-sum","YES");
      me->set_mlist(str,1);
      me->set("Lbird",str);
-     } else write(GRN"<"HIG"寵物妖精"GRN">"HIC" 說道"CYN"﹕"HIC"好吧"CYN"﹐"
-     HIC"歡迎再度觀臨"CYN"。\n"NOR);
+     } else write(GRN + "<" + HIG + "寵物妖精" + GRN + ">" + HIC + " 說道" + CYN + "﹕" + HIC + "好吧" + CYN + "﹐"
+     HIC + "歡迎再度觀臨" + CYN + "。\n" + NOR);
      return;
 }
 int no_trade(string str, object me)

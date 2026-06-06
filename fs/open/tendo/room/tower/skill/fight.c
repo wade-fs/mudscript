@@ -21,7 +21,7 @@ int perform(object me, object target)
         me->set_temp("fight",1);
 if (skill < 10){
         message_vision(
-        HIW "$N運起『"HIM"修羅鬥氣"HIW"』第一重「氣臨山河動"HIW"」，全身四周籠罩在一股白色的修羅鬥氣之內。。\n" NOR,me);
+        HIW + "$N運起『" + HIM + "修羅鬥氣" + HIW + "』第一重「氣臨山河動" + HIW + "」，全身四周籠罩在一股白色的修羅鬥氣之內。。\n" + NOR,me);
         me->add_temp("apply/dodge",skill);
         me->add_temp("apply/parry",skill);
         me->add_temp("apply/attack",skill);
@@ -34,7 +34,7 @@ if (skill < 10){
                        }
 if (skill >= 10 && skill < 20){
         message_vision(
-        HIW "$N運起『"HIM"修羅鬥氣"HIW"』第二重「雷鼓震山川"HIW"」，全身四周籠罩在一股綠色的修羅鬥氣之內。\n" NOR,me);
+        HIW + "$N運起『" + HIM + "修羅鬥氣" + HIW + "』第二重「雷鼓震山川" + HIW + "」，全身四周籠罩在一股綠色的修羅鬥氣之內。\n" + NOR,me);
         me->add_temp("apply/dodge",skill);
         me->add_temp("apply/parry",skill);
         me->add_temp("apply/attack",skill);
@@ -47,7 +47,7 @@ if (skill >= 10 && skill < 20){
                        }
 if (skill >= 20 && skill < 30){
         message_vision(
-        HIW "$N運起『"HIM"修羅鬥氣"HIW"』第三重「水精勢絕倫"HIW"」，全身四周籠罩在一股青色的修羅鬥氣之內。\n" NOR,me);
+        HIW + "$N運起『" + HIM + "修羅鬥氣" + HIW + "』第三重「水精勢絕倫" + HIW + "」，全身四周籠罩在一股青色的修羅鬥氣之內。\n" + NOR,me);
         me->add_temp("apply/dodge",skill);
         me->add_temp("apply/parry",skill);
         me->add_temp("apply/attack",skill);
@@ -60,7 +60,7 @@ if (skill >= 20 && skill < 30){
                        }
 if (skill >=30 && skill < 40){
         message_vision(
-        HIW "$N運起『"HIM"修羅鬥氣"HIW"』第四重「風沙暗夜吼"HIW"」，全身四周籠罩在一股紫色的修羅鬥氣之內。\n" NOR,me);
+        HIW + "$N運起『" + HIM + "修羅鬥氣" + HIW + "』第四重「風沙暗夜吼" + HIW + "」，全身四周籠罩在一股紫色的修羅鬥氣之內。\n" + NOR,me);
         me->add_temp("apply/dodge",skill);
         me->add_temp("apply/parry",skill);
         me->add_temp("apply/attack",skill);
@@ -73,7 +73,7 @@ if (skill >=30 && skill < 40){
                        }
 if (skill >=40 && skill < 50){
         message_vision(
-        HIW "$N運起『"HIM"修羅鬥氣"HIW"』第五重「火光燎天戈"HIW"」，全身四周籠罩在一股紅色的修羅鬥氣之內。\n" NOR,me);
+        HIW + "$N運起『" + HIM + "修羅鬥氣" + HIW + "』第五重「火光燎天戈" + HIW + "」，全身四周籠罩在一股紅色的修羅鬥氣之內。\n" + NOR,me);
         me->add_temp("apply/dodge",skill);
         me->add_temp("apply/attack",skill);
         me->add_temp("apply/defense",50);
@@ -85,7 +85,7 @@ if (skill >=40 && skill < 50){
                        }
 if (skill >=50 && skill < 60){
         message_vision(
-        HIW "$N運起『"HIM"修羅鬥氣"HIW"』第六重「雨凝破山石"HIW"」，全身四周籠罩在一股黃色的修羅鬥氣之內。\n" NOR,me);
+        HIW + "$N運起『" + HIM + "修羅鬥氣" + HIW + "』第六重「雨凝破山石" + HIW + "」，全身四周籠罩在一股黃色的修羅鬥氣之內。\n" + NOR,me);
         me->add_temp("apply/dodge",skill);
         me->add_temp("apply/parry",skill);
         me->add_temp("apply/attack",skill);
@@ -98,7 +98,7 @@ if (skill >=50 && skill < 60){
                        }
 if (skill >=60 && skill <70){
         message_vision(
-        HIW "$N運起『"HIM"修羅鬥氣"HIW"』第七重「電花照天河"HIW"」，全身四周籠罩在一股銀色的修羅鬥氣之內。\n" NOR,me);
+        HIW + "$N運起『" + HIM + "修羅鬥氣" + HIW + "』第七重「電花照天河" + HIW + "」，全身四周籠罩在一股銀色的修羅鬥氣之內。\n" + NOR,me);
         me->add_temp("apply/dodge",skill);
         me->add_temp("apply/parry",skill);
         me->add_temp("apply/attack",skill);
@@ -111,7 +111,7 @@ if (skill >=60 && skill <70){
                        }
 if (skill >=70 ){
         message_vision(
-        HIW "$N運起『"HIM"修羅鬥氣"HIW"』"HIB"最終奧義"HIW"「冰寒囓人心"HIW"」，全身四周籠罩在一股金色的修羅鬥氣之內。。\n" NOR,me);
+        HIW + "$N運起『" + HIM + "修羅鬥氣" + HIW + "』" + HIB + "最終奧義" + HIW + "「冰寒囓人心" + HIW + "」，全身四周籠罩在一股金色的修羅鬥氣之內。。\n" + NOR,me);
         me->add_temp("apply/dodge",skill);
         me->add_temp("apply/parry",skill);
         me->add_temp("apply/attack",skill);
@@ -132,7 +132,7 @@ void remove_effect(object me, int skill)
         me->add_temp("apply/parry",-skill);
         me->add_temp("apply/attack",-skill);
         me->add_temp("apply/defense",-50);
-        message_vision("$N"HIW"『修羅鬥氣』"NOR"所形成的護身氣勁開始崩潰渙散了。\n"NOR,me);
+        message_vision("$N" + HIW + "『修羅鬥氣』" + NOR + "所形成的護身氣勁開始崩潰渙散了。\n" + NOR,me);
 }
 
 

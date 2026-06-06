@@ -9,7 +9,7 @@ int done=0;
 void create() {
         set_name("趙公敬",({"guard gin","gin","guard"}));
         set("class","blademan");
-        set("title",HIW"坎(水)"NOR);
+        set("title",HIW + "坎(水)" + NOR);
         set("long",
         "\n他是八卦陣的第七個守將。\n");
         set("str",40);
@@ -80,7 +80,7 @@ void heart_beat()
         if( is_fighting() ){
         if(random(100) <10)
         {
-message_vision(HIG"\n趙公敬偷偷吃了九轉雄蛇丸，使身上氣力恢復。\n"NOR,ob);
+message_vision(HIG + "\n趙公敬偷偷吃了九轉雄蛇丸，使身上氣力恢復。\n" + NOR,ob);
           ob->delete_busy();
         }
         }

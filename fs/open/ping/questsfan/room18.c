@@ -32,7 +32,7 @@ int valid_leave(object who,string dir){
 if(who->query("marks/fan-finger")!=1)
    if(dir=="westdown" && who->query("questsfan/quest_step")!=4)
      {
-     message_vision(HIC"南宮勳正聲的對$N說道: 晶谷不是讓人隨意進入的地方?請尊駕快快離去!!\n"NOR,who);
+     message_vision(HIC + "南宮勳正聲的對$N說道: 晶谷不是讓人隨意進入的地方?請尊駕快快離去!!\n" + NOR,who);
        return notify_fail("南宮勳正聲的對你說道:晶谷不是讓人隨意進入的地方?請尊駕快快離去!!\n");
      }
    return :: valid_leave(who,dir);

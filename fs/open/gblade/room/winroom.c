@@ -16,12 +16,12 @@ void init() {
            return ;
         }
         enemy = find_player(me->query_temp("enemy"));
-        tell_object(me,HIY"蔡總管說道: 比賽結束!\n"NOR);
-        tell_object(enemy,HIY"蔡總管說道: 比賽結束!\n"NOR);
+        tell_object(me,HIY + "蔡總管說道: 比賽結束!\n" + NOR);
+        tell_object(enemy,HIY + "蔡總管說道: 比賽結束!\n" + NOR);
         me->remove_all_killer();
         enemy->remove_all_killer();
-        shout(HIC"蔡總管喝道: 比賽勝負已分! "HIW+me->name()+HIC"慘"+
-              "遭屠戮..., 勝者"HIW+enemy->name()+"!\n"NOR);
+        shout(HIC + "蔡總管喝道: 比賽勝負已分! "HIW+me->name()+HIC"慘"+
+              "遭屠戮..., 勝者"HIW+enemy->name()+"!\n" + NOR);
         me->add("potential", -100);
         enemy->add("potential", 100);
         me->pay_money(100000);
@@ -57,18 +57,18 @@ me->apply_condition("scorpion_poison",0);
 // 把player 送走!
        me->move(me->query("startroom"));
        enemy->move(enemy->query("startroom"));
-       tell_object(enemy,HIR"蔡總管告訴你: pk 獲勝, 得到一些潛能! "+
-                         "歡迎下次再來!\n"NOR);
-       tell_object(me,HIR"蔡總管告訴你: pk 敗陣, 罰你跪一個月算盤! "+
+       tell_object(enemy,HIR + "蔡總管告訴你: pk 獲勝, 得到一些潛能! "+
+                         "歡迎下次再來!\n" + NOR);
+       tell_object(me,HIR + "蔡總管告訴你: pk 敗陣, 罰你跪一個月算盤! "+
                       "抽你現金10 金, 並扣5% 的潛能, 希望你好好練,"+
-                         " 下次再來!\n"NOR);
+                         " 下次再來!\n" + NOR);
 // 判斷有押賭注的玩家輸贏
         user = users();
         for(i=0; i<sizeof(user); i++) {
            if(user[i]->query_temp("pkla_pker")) {
               if(user[i]->query_temp("pkla_pker") == me->query("id"))
                  tell_object(user[i],
-                             HIR"蔡總管告訴你: 很抱歉! 有賭有賠, 請看開點!\n"NOR
+                             HIR + "蔡總管告訴你: 很抱歉! 有賭有賠, 請看開點!\n" + NOR
 );
               else {
                  if(user[i]->query_temp("pkla_kind") == "money")
@@ -77,9 +77,9 @@ me->apply_condition("scorpion_poison",0);
                     user[i]->add(user[i]->query_temp("pkla_kind"),
                                  1.5*user[i]->query_temp("pkla_number"));
                  tell_object(user[i],
-                             HIR"蔡總管告訴你: 恭喜你賭場大勝! 歡迎下次再來!\n"NOR);
+                             HIR + "蔡總管告訴你: 恭喜你賭場大勝! 歡迎下次再來!\n" + NOR);
                  tell_object(user[i],
-                             HIR"蔡總管告訴你: 奉大神命令, 需把所贏部份繳交一半
+                             HIR + "蔡總管告訴你: 奉大神命令, 需把所贏部份繳交一半
 X來!\n");
               }
               user[i]->delete_temp("pkla_pker");

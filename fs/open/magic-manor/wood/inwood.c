@@ -35,14 +35,14 @@ int do_break(string arg)
 	}else{
 	  if( me->query_temp("magic-manor/woodmagic") && !me->query_temp("magic-manor/breakwood") )
 	  {
-	  message_vision(HIG"\n$N運足十成的勁力並夾帶著木靈之力打在斑斑的裂痕上!!\n"NOR,me);
+	  message_vision(HIG + "\n$N運足十成的勁力並夾帶著木靈之力打在斑斑的裂痕上!!\n" + NOR,me);
 	  me->set_temp("magic-manor/breakwood",1);
       call_out("out_way",3,me);
 	  return 1;
 	  }else{
         if( me->query_temp("magic-manor/woodmagic") && me->query_temp("magic-manor/breakwood") )
 		{
-	    message_vision(GRN"$N才剛運完十成的勁力，正虛脫無力中!!\n"NOR,me);
+	    message_vision(GRN + "$N才剛運完十成的勁力，正虛脫無力中!!\n" + NOR,me);
 	    return 1;
 		}
 	  }
@@ -54,7 +54,7 @@ int out_way()
     object me;
     me=this_player();
 
-    message_vision(HIY"\n忽然間受力的塔身應身而碎，在$N的眼前，開啟了一道出塔的路!!\n"NOR,me);
+    message_vision(HIY + "\n忽然間受力的塔身應身而碎，在$N的眼前，開啟了一道出塔的路!!\n" + NOR,me);
 	set("exits",([
     "out"   :"/open/magic-manor/manor61",
     ]));
@@ -74,7 +74,7 @@ int close()
     {
 	me->delete_temp("magic-manor/breakwood");
 	}
-    tell_room(room,GRN"\n塔身因靈氣再次聚滿消濔了裂痕，而將出口封住了。\n"NOR);
+    tell_room(room,GRN + "\n塔身因靈氣再次聚滿消濔了裂痕，而將出口封住了。\n" + NOR);
     return 1;
 }
 

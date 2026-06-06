@@ -3,7 +3,7 @@
 inherit ROOM;
 void create ()
 {
-  set ("short", HIY"狂想空間幫派入門房間"NOR);
+  set ("short", HIY + "狂想空間幫派入門房間" + NOR);
   set ("long","要知道目前有那些幫派的話，可以打help cshowclan
   例如：打cshowclans
         --------------------- 狂想空間現有幫派一覽表---------------------

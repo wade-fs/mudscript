@@ -14,7 +14,7 @@ setup();
 }
 string query_long1()
 {
-return query_long()  + HIW"\t這裡好像有一個神奇的洞(hole)。\n"NOR;
+return query_long()  + HIW"\t這裡好像有一個神奇的洞(hole)。\n" + NOR;
 }
 void init()
 {
@@ -26,7 +26,7 @@ object me = this_player();
 if(!arg) return notify_fail("你要去哪裡？");
 if(arg != "hole")
 	return notify_fail("你要去哪裡？");
-message_vision(HIB"$N努力的往洞裡鑽啊鑽的，終於出去了。\n"NOR,me);
+message_vision(HIB + "$N努力的往洞裡鑽啊鑽的，終於出去了。\n" + NOR,me);
 	me->move(resolve_path(__DIR__,"enter.c"));
 return 1;
 }

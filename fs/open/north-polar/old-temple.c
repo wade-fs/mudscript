@@ -40,16 +40,16 @@ int do_tear(string arg)
   me = this_player();
   ob = this_object();
   if( present("god-bottle",me) ) {
-    message_vision("$N已經撕過了。\n"NOR,me);
+    message_vision("$N已經撕過了。\n" + NOR,me);
   }
   else if(!ob->query("release"))
   {
     if(arg == "paper")
     {
-      tell_object(users(),HIY"\n海皇"HIC"囂張的狂笑道：
-                       『"HIW"哈哈哈哈哈～  低能的"+me->query("name")+"，竟將本皇由千年封印之中解放出來，
+      tell_object(users(),HIY + "\n海皇" + HIC + "囂張的狂笑道：
+                       『" + HIW + "哈哈哈哈哈～  低能的"+me->query("name")+"，竟將本皇由千年封印之中解放出來，
                          我要再度實現洗淨地上世界的野望，天底下所有雜種炎黃後裔聽好了，
-                         七天後，我將水淹人間，你們洗淨脖子等著接受海的制裁吧!!"HIC"』\n\n"NOR);
+                         七天後，我將水淹人間，你們洗淨脖子等著接受海的制裁吧!!" + HIC + "』\n\n" + NOR);
       me->start_busy(50);
       ob->set("release",1);
       call_out("go_north1",5,me);
@@ -57,7 +57,7 @@ int do_tear(string arg)
       return 0;
     }
   } else {
-    message_vision("封條已經被撕下了。\n"NOR,me);
+    message_vision("封條已經被撕下了。\n" + NOR,me);
   }
   return 1;
 }
@@ -69,7 +69,7 @@ int go_north1()
   me = this_player();
   ppl = all_inventory(environment(me));
   j = sizeof(ppl);
-  message_vision(HIW"突然，一陣大水襲來，將附近所有東西完全淹沒，$N下意識的抓住了瓶子。\n"NOR,me);
+  message_vision(HIW + "突然，一陣大水襲來，將附近所有東西完全淹沒，$N下意識的抓住了瓶子。\n" + NOR,me);
   new(__DIR__"obj/bottle")->move(me);
   me->unconcious();
   for (i=0 ; i < j ; i++)
@@ -108,17 +108,17 @@ int go_north2(object me)
     if(userp(ppl[i]))
     ppl[i]->move(__DIR__"main");
   }
-  message_vision(HIR"\n"+g1->query("name")+"冷笑道："HIB"『"HIC"因為$N幫助海皇大人脫離封印，所以他別吩咐將$N帶來這邊，
-                免得$N在七日後遭到海水清洗，好自為之吧。"HIB"』"HIW"
+  message_vision(HIR + "\n"+g1->query("name")+"冷笑道：" + HIB + "『" + HIC + "因為$N幫助海皇大人脫離封印，所以他別吩咐將$N帶來這邊，
+                免得$N在七日後遭到海水清洗，好自為之吧。" + HIB + "』" + HIW + "
               
               
-"+g2->query("name")+"說道："HIB"『"HIY"千萬別想與海皇大人為敵，即便較海皇大人次一等的我們七海神，也遠遠凌駕你們所有人類之上。"HIB"』
-   "HIM"
+"+g2->query("name")+"說道：" + HIB + "『" + HIY + "千萬別想與海皇大人為敵，即便較海皇大人次一等的我們七海神，也遠遠凌駕你們所有人類之上。" + HIB + "』
+   " + HIM + "
    
-"+g5->query("name")+"說道："HIB"『"HIG"人類就算再強再怎努力修練，在神的面前終究還是不堪一擊的，記住了..."HIB"』
+"+g5->query("name")+"說道：" + HIB + "『" + HIG + "人類就算再強再怎努力修練，在神的面前終究還是不堪一擊的，記住了..." + HIB + "』
               
               
-              "NOR,me);
+              " + NOR,me);
   destruct(g1);
   destruct(g2);
   destruct(g3);

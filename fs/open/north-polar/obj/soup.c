@@ -48,6 +48,6 @@ int extra_func()
 int drink_func()
 {
   object me = this_player();
-  message_vision( YEL"$N取出薑湯，大口大口的嚥下，肚子裡升起一股暖意。\n"NOR, me );
+  message_vision( YEL + "$N取出薑湯，大口大口的嚥下，肚子裡升起一股暖意。\n" + NOR, me );
   return 1;
 }

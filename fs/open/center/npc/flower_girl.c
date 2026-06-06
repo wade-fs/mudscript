@@ -10,7 +10,7 @@ string give_flower();
 void create()
 {
         set_name("賣花的小女孩", ({ "selling flower girl", "girl" }) );
-        set("nickname",HIW"可憐沒人愛"NOR);
+        set("nickname",HIW + "可憐沒人愛" + NOR);
         set("gender", "女性" );
         set("age", 16);
         set("long", @LONG

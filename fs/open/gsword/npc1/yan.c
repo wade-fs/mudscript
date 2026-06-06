@@ -13,7 +13,7 @@ void create()
 {
         set("title","仙劍派第二代弟子"),
         set_name("風青雲",({"yan"}));
-        set("nickname",HIR"劍如迴陽"NOR);
+        set("nickname",HIR + "劍如迴陽" + NOR);
         set("class","swordsman");
         create_family("仙劍派",2,"長老");
         set("family/master_name","逍遙子");
@@ -141,8 +141,8 @@ int ask_fu()
   else if(me->query("quests/yan")==5)
   {
   command ("say 既然你都得到認證了...那我就把連陽七絕斬的要領跟你說...。");
-  message("system",HIY"風青雲開始將連陽七絕斬的基本功\夫傳授於"+this_player()->name()+"。\n"NOR,users());
-  message_vision("$N隨著風青雲的指導將連陽七絕斬演練了一遍。\n"NOR,me);
+  message("system",HIY + "風青雲開始將連陽七絕斬的基本功\夫傳授於"+this_player()->name()+"。\n" + NOR,users());
+  message_vision("$N隨著風青雲的指導將連陽七絕斬演練了一遍。\n" + NOR,me);
   command ("say 以後你可以利用perform sun_fire_sword.sunswordkee 在戰鬥中使出連陽七絕斬..。");
   me->set("quests/sunfire",1);
   }
@@ -194,7 +194,7 @@ else return ("聳了聳肩﹐很抱歉地說﹕無可奉告。");
    object winner = query_temp("last_damage_from");
 if (winner->query("bloodsword")==2)
    {
-   tell_object(winner,HIC"\n 唉~~無奈..狂想..世界的未..來...... ....。\n"NOR);
+   tell_object(winner,HIC + "\n 唉~~無奈..狂想..世界的未..來...... ....。\n" + NOR);
    winner->set_temp("ko_yan",1);
    }
  ::die();

@@ -5,7 +5,7 @@ inherit ITEM;
 
 void create()
 {
-	set_name( HIG"狂想神油"NOR, ({ "sex oil", "oil" }) );
+	set_name( HIG + "狂想神油" + NOR, ({ "sex oil", "oil" }) );
 	set( "long", "一瓶強力壯陽藥水, 請小心使用(use oil), 除了爽快身體也要顧好。" );
 	if( clonep() )
 		set_default_object(__FILE__);
@@ -51,8 +51,8 @@ int do_use( string arg )
 			return notify_fail( "你沒力氣打手搶了, 休息一下吧﹗\n" );
 		if( ob->query("use")>100 )
 			return notify_fail( ob->name() + "已被你用光了﹗\n" );
-		message_vision( HIY"$N將" + ob->name() + HIY"塗抹在大肉棒上, 眼睛突然亮了起來。\n"NOR, me );
-		message_vision( HIM"$N迅速脫下褲子, 掏出熱呼呼的大肉棒, 熟練地打起槍來。\n"NOR, me );
+		message_vision( HIY + "$N將" + ob->name() + HIY"塗抹在大肉棒上, 眼睛突然亮了起來。\n" + NOR, me );
+		message_vision( HIM + "$N迅速脫下褲子, 掏出熱呼呼的大肉棒, 熟練地打起槍來。\n" + NOR, me );
 		call_out( "do_use_2", 5, me );
 		ob->add( "use", 1 );
 	}
@@ -71,8 +71,8 @@ void do_use_3( object me )
 {
 	object ob;
 	me->do_command( "say 喔~ 喔~ 真是爽斃啦!" );
-	message_vision( HIY"$N瘋狂地射了一地。\n"NOR, me );
+	message_vision( HIY + "$N瘋狂地射了一地。\n" + NOR, me );
 	ob = new("/open/clan/area/home/sex1_1");
-	ob->set_name( HIW + me->name() + "的精液"NOR , ({ "semen" }) );
+	ob->set_name( HIW + me->name() + "的精液" + NOR , ({ "semen" }) );
 	ob->move(environment(me));
 }

@@ -83,11 +83,11 @@ void heart_beat()
  {
     enemy=mob->query_enemy();
     i=sizeof(enemy);
-      message_vision(HIW"\n
+      message_vision(HIW + "\n
 $N亂舞手中長刀，刀氣開始颳起風沙石塵，黃色的霧逐漸瀰漫開來
-將$N隱在其中，倏然一式"HIY"『駱行千步歸  風沙舞翩翩』"HIW"黃沙雜混著
+將$N隱在其中，倏然一式" + HIY + "『駱行千步歸  風沙舞翩翩』" + HIW + "黃沙雜混著
 激烈而灼熱的刀氣，毫無紋理可尋地向四處圍竄
-\n"NOR,mob);
+\n" + NOR,mob);
  for(j=0;j < i;j++){
     target=enemy[j];
     if( env == environment(target) )
@@ -120,7 +120,7 @@ void die()
 	  if( j==7 || j==77 || j== 777 || j==1111 || j==55 || j==555 || j==1000 || j==4000 || j==3333 || j==2222 )
 	  {      
 	  new("/open/sky/obj1/cloud_emblem")->move(environment(winner));
-	  message_vision(HIM"\n從楚流雲的身上掉下了一件奇怪的東西!!\n"NOR,winner);
+	  message_vision(HIM + "\n從楚流雲的身上掉下了一件奇怪的東西!!\n" + NOR,winner);
           write_file("/log/sky/obj1/cloud_emblem",sprintf("%s(%s) 讓楚流雲掉下了雲之紋章於 %s\n",
 	  winner->name(1),winner->query("id"),ctime(time())));
 	  }
@@ -129,7 +129,7 @@ void die()
 	  if( j==5 || j==15 || j== 150 || j==1500 || j==10 || j==100 || j==1000 || j==4000 || j==6666 || j==7777 ) 
 	  {      
 	  new("/open/sky/obj1/cloud_emblem")->move(environment(winner));
-	  message_vision(HIM"\n從楚流雲的身上掉下了一件奇怪的東西!!\n"NOR,winner);
+	  message_vision(HIM + "\n從楚流雲的身上掉下了一件奇怪的東西!!\n" + NOR,winner);
           write_file("/log/sky/obj1/cloud_emblem",sprintf("%s(%s) 讓楚流雲掉下了雲之紋章於 %s\n",
 	  winner->name(1),winner->query("id"),ctime(time())));
 	  }

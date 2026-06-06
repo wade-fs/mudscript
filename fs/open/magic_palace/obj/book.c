@@ -3,7 +3,7 @@ inherit ITEM;
 
 void create()
 {
-        set_name(HIC "英雄新經" NOR, ({ "New_Hero Book","book" }) );
+        set_name(HIC + "英雄新經" + NOR, ({ "New_Hero Book","book" }) );
 
         set("unit", "本");
         set("long", "武林人士夢寐以求的驚世武學，但你天賦不夠聰穎，認定它不是什麼武學秘笈\n");

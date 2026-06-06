@@ -191,8 +191,8 @@ int accept_kill(object ob)
 	  write("月半彎說:看來妳的確有這個能力學習炎之龍!\n");
       this_player()->set("spells/fdragon/level",1);
       this_player()->set("allow_fdragon",1);
-	message("system",HIM"月半彎高興的說道：恭喜"HIW""+this_player()->name()+""HIM"通過考驗成為"HIR"炎ソ舞者。\n"NOR,users());
-      this_player()->set("title",HIW"【"HIR"炎ソ舞者"HIW"】"NOR);
+	message("system",HIM + "月半彎高興的說道：恭喜" + HIW + ""+this_player()->name()+"" + HIM + "通過考驗成為" + HIR + "炎ソ舞者。\n" + NOR,users());
+      this_player()->set("title",HIW + "【" + HIR + "炎ソ舞者" + HIW + "】" + NOR);
 	  }
   else   
    {

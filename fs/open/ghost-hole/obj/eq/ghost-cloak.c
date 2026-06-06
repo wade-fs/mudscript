@@ -6,12 +6,12 @@ inherit CAPE;
 
 void create()
 {
-    set_name(CYN""BBLU"冥魔"HIR"披風"NOR,({"ghost-king-cloak","cloak"}));
+    set_name(CYN + "" + BBLU + "冥魔" + HIR + "披風" + NOR,({"ghost-king-cloak","cloak"}));
         set_weight(200);
         if( clonep() )
                 set_default_object(__FILE__);
         else {
-        set("long", CYN""BBLU"冥魔戰甲的一部份。\n"NOR);    
+        set("long", CYN + "" + BBLU + "冥魔戰甲的一部份。\n" + NOR);    
         set("unit", "件");
         set("value", 500);
         set("material", "leather");

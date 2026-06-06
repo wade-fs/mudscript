@@ -4,7 +4,7 @@ inherit SSERVER;
 
 void create()
 {
-        set_name(YEL"蜘蛛女"NOR,({"spider-girl","girl"}));
+        set_name(YEL + "蜘蛛女" + NOR,({"spider-girl","girl"}));
         set("long",
             "\n它是隱藏於陣邪塔的邪靈之一，一聞到生人氣息就蹦出來吃人。\n");
         set("age",1937);
@@ -55,7 +55,7 @@ void heart_beat()
 		if( env == environment(target) && random(sk1) > random(sk2))
 		{
                 message_vision("
-\n$N"HIW"口中吐出堅韌的絲，$n被困在其中無法動彈!!\n\n"NOR,ob,target);
+\n$N" + HIW + "口中吐出堅韌的絲，$n被困在其中無法動彈!!\n\n" + NOR,ob,target);
                 COMBAT_D->report_status(target,1);
                 target->start_busy(2);
 		}

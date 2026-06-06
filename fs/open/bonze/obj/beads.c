@@ -11,7 +11,7 @@ object me;
 
 void create()
 {
-  set_name(HIY"佛珠"NOR,({"prayer beads","beads","b"}));
+  set_name(HIY + "佛珠" + NOR,({"prayer beads","beads","b"}));
   set_weight(1000);
   if( clonep() )
     set_default_object(__FILE__);
@@ -39,7 +39,7 @@ void init()
   object ob;
   me = environment();
   ob=present("prayer beads",me);
-  if(ob&&ob->name()==HIY"佛珠"NOR)
+  if(ob&&ob->name()==HIY + "佛珠" + NOR)
   {
     add_action("do_pray","pray");
     add_action("do_abandon","destruct");
@@ -67,7 +67,7 @@ int do_pray(string arg)
   if( me->query("sec_kee") != "dhyana" ) //如果已經有其他種靈氣則不許打坐
     return notify_fail("你確定要參悟佛法嗎？那會使你放棄使用其他靈氣的可能性喔！放棄靈氣需輸入(destruct seckee)。\n同時會使靈氣重新修煉。\n");
   if (me->query_condition("force")) //如果已經在蹲內力就不能打坐
-    return notify_fail (MAG"你正在忙著驅使體內的內息做周天循環，顧不得打坐參禪呢。\n"NOR);
+    return notify_fail (MAG + "你正在忙著驅使體內的內息做周天循環，顧不得打坐參禪呢。\n" + NOR);
   if(me->query_condition("dhyana") > 0)
     return notify_fail("你已經藉著"+ob->name(1)+"開始打坐參禪了。\n");
   if(me->is_fighting()) notify_fail("戰鬥中怎能打坐入定呢，好好的與對手交流吧。\n");
@@ -82,19 +82,19 @@ int do_pray(string arg)
   if(me->is_busy()) notify_fail("你正在忙碌中！\n");
   if(force < (magic+spells)*2) return notify_fail("您的基本內力功\力不足，無法練氣。\n"); //至少force > (magic+spells原值)的限制
   if (me->query_condition("no_power_e"))
-    return notify_fail (HIM"你感覺到體內有無數的氣勁亂流，使你無法正常的使用內力。\n"NOR);
+    return notify_fail (HIM + "你感覺到體內有無數的氣勁亂流，使你無法正常的使用內力。\n" + NOR);
   if (me->query_temp("crazy"))
-    return notify_fail (HIR"你正陷入狂暴狀態，無法控制內息流動。\n"NOR);
+    return notify_fail (HIR + "你正陷入狂暴狀態，無法控制內息流動。\n" + NOR);
   if (me->query_condition("misforce"))
-    return notify_fail (HIC"你走火入魔，內力大減，無法動彈，氣息大亂。\n"NOR);
+    return notify_fail (HIC + "你走火入魔，內力大減，無法動彈，氣息大亂。\n" + NOR);
   if (me->query_condition("star-stial"))
-    return notify_fail (HIB "你的所受的內傷發作，只覺得胸口出現一陣陣絞痛。\n"NOR);
+    return notify_fail (HIB + "你的所受的內傷發作，只覺得胸口出現一陣陣絞痛。\n" + NOR);
   if ((me->query("food")<1 || me->query("water")<1) && userp(me)) {
     if (random(100) < 1) {
       me->receive_wound ("kee", me->query("age"));
-      return notify_fail( RED"你感覺又餓又渴，一時之間無法控制真氣，受到了內傷！"NOR );
+      return notify_fail( RED + "你感覺又餓又渴，一時之間無法控制真氣，受到了內傷！" + NOR );
     }
-    return notify_fail( BLU"你感覺又餓又渴！無法運氣！\n"NOR );
+    return notify_fail( BLU + "你感覺又餓又渴！無法運氣！\n" + NOR );
   }
 /*//佛法測試中 所以暫時關閉
   ena_magic = me->query_skill_mapped("magic");
@@ -105,8 +105,8 @@ int do_pray(string arg)
     return notify_fail("你必須先用 enable 選擇你要用的咒術心法。\n");
 */
   me->apply_condition("dhyana",(magic+spells));
-  message_vision(HIW"$N原地靜心打坐後，手握$n"+HIW+"開始掐捻念佛.....$n"+HIW+"發出沉穩的光芒。\n"NOR,me,ob);
-  ob->set("name",HIM"( 拈花 )"NOR+HIY"佛珠"NOR);
+  message_vision(HIW + "$N原地靜心打坐後，手握$n"+HIW+"開始掐捻念佛.....$n"+HIW+"發出沉穩的光芒。\n" + NOR,me,ob);
+  ob->set("name",HIM + "( 拈花 )"NOR+HIY"佛珠" + NOR);
   return 1;
 }
 
@@ -123,5 +123,5 @@ int do_abandon( string arg )
 //停止打坐需改回原色
 void change_color()
 {
-  this_object()->set("name",HIY"佛珠"NOR);
+  this_object()->set("name",HIY + "佛珠" + NOR);
 }

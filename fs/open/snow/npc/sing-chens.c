@@ -5,7 +5,7 @@ void create()
 {
 	set_name("邢千書",({"sing chens","chens"}));
 	set("title","儒生");
-	set("nickname",HIY "指劍才子" NOR);
+	set("nickname",HIY + "指劍才子" + NOR);
 	set("long",@LONG
 眼前你所見者乃是儒門第十五代掌門﹐因受好友獨孤愁之託而來雪蒼。
 LONG);

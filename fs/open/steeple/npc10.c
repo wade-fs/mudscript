@@ -3,7 +3,7 @@ inherit NPC;
 void create()
 {
         set_name("布衣", ({"npc10","chan"}));
-        set("title", ""HIW"【天帝】"NOR"");
+        set("title", "" + HIW + "【天帝】" + NOR + "");
         set("long", "此乃天界雙尊之一的布衣，掌管天界的一切。\n");
         set("age", 1000);
         set("str", 50);
@@ -90,7 +90,7 @@ int do_cmd(string str){                 //ok by chan
  ob=this_object();
  chan=present( "chan",environment(ob) );
  if(str=="askgod chan" || str=="askgod chan"){
-write(HIY"布衣怒喝說：「對天神求神問卜，真是想死了唷。」!!\n"NOR);
+write(HIY + "布衣怒喝說：「對天神求神問卜，真是想死了唷。」!!\n" + NOR);
  command("perform fireforce.gold-fire");
  chan->kill_ob(who);
  return 1;
@@ -132,7 +132,7 @@ void heart_beat()
 int heal_up()
 {
         if (!is_fighting() ) {
-             message_vision (HIW"系統：戰鬥停止，$N回收中，。\n"NOR, this_object ());
+             message_vision (HIW + "系統：戰鬥停止，$N回收中，。\n" + NOR, this_object ());
              destruct(this_object());
              return 1;
         }
@@ -155,18 +155,18 @@ void die ()
 	}
 	if(me->query("quest/start_game")< 11)
        {
-        tell_object(users(),HIY"
-	恭喜"HIW+me->query("name")+HIY"挑戰"HIG"『"HIR"第十層試煉塔"HIG"』"HIY"通過！！
+        tell_object(users(),HIY + "
+	恭喜"HIW+me->query("name")+HIY"挑戰" + HIG + "『" + HIR + "第十層試煉塔" + HIG + "』" + HIY + "通過！！
 
-	"HIW"希望"+me->query("name")+"能不負眾望，改天勇闖夢幻樓層"HIG"『"HIY"天閣"HIG"』"HIW"。
-	"NOR);
+	" + HIW + "希望"+me->query("name")+"能不負眾望，改天勇闖夢幻樓層" + HIG + "『" + HIY + "天閣" + HIG + "』" + HIW + "。
+	" + NOR);
 	me->set("quest/start_game",11);
 	me->move(__DIR__"ticket");
         destruct (this_object ());
 	return ;
         }
 	{
-	tell_object(me,HIW"系統：你已經通過測試，系統不做任何更改。\n"NOR);
+	tell_object(me,HIW + "系統：你已經通過測試，系統不做任何更改。\n" + NOR);
 	me->move(__DIR__"ticket");
 	destruct(this_object());
 	:: die();

@@ -51,26 +51,26 @@ int i,kar;
 		return notify_fail("\n(難道咒術陣只能進去一次??..)你不禁這麼想著...\n\n");
 	}
 	me->set_temp("evil/"+arg,1);
-	message_vision(HIY"\n$N踏入了咒術陣內，咒術陣突然閃耀出一陣光芒～$N消失在光芒中～\n\n"NOR,me);
+	message_vision(HIY + "\n$N踏入了咒術陣內，咒術陣突然閃耀出一陣光芒～$N消失在光芒中～\n\n" + NOR,me);
 	i = random(40)+1;
 	kar = (int)me->query_kar();
 	if( i > random(kar) && (int)me->query_temp("evil/way/wrong") < 7 )
 	{
 		if( i < 10 )
 		{
-			tell_room(__DIR__"a-0"+i,HIW"\n一陣光芒突然閃耀著整個大地，你看到了"+me->query("name")+"浮現於光芒中。\n\n"NOR);
+			tell_room(__DIR__"a-0"+i,HIW + "\n一陣光芒突然閃耀著整個大地，你看到了"+me->query("name")+"浮現於光芒中。\n\n" + NOR);
 			me->move(__DIR__"a-0"+i);
 		}
 		else
 		{
-			tell_room(__DIR__"a-"+i,HIW"\n一陣光芒突然閃耀著整個大地，你看到了"+me->query("name")+"浮現於光芒中。\n\n"NOR);
+			tell_room(__DIR__"a-"+i,HIW + "\n一陣光芒突然閃耀著整個大地，你看到了"+me->query("name")+"浮現於光芒中。\n\n" + NOR);
 			me->move(__DIR__"a-"+i);
 		}
 		me->add_temp("evil/way/wrong",1);
 	}
 	else
 	{
-		tell_room("/open/evil-area/water/enter",HIW"\n一陣光芒突然閃耀著整個大地，你看到了"+me->query("name")+"浮現於光芒中。\n\n"NOR);
+		tell_room("/open/evil-area/water/enter",HIW + "\n一陣光芒突然閃耀著整個大地，你看到了"+me->query("name")+"浮現於光芒中。\n\n" + NOR);
 		me->delete_temp("evil/"+arg);
 	}
 	tell_object(me,"\n你走出了光芒中，來到了這。\n\n");	

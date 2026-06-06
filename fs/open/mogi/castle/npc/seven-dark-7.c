@@ -70,12 +70,12 @@ void heart_beat()
     if(!target) return ;
     if( env == environment(target) )
     {
-      message_vision(HIB"\n
+      message_vision(HIB + "\n
 $N指圓為心，方圓百里的妖邪魂魄瞬間飛奔群聚於此，鬼哭獸吼直
 竄腦中轟然欲裂
-隨$N迅雷一指，一式"MAG"『千首積屍  天懲無視』"HIB"的噬血屍氣活若閻羅
+隨$N迅雷一指，一式" + MAG + "『千首積屍  天懲無視』" + HIB + "的噬血屍氣活若閻羅
 直奔逼竄$n的七孔之中
-\n"NOR,mob,target);
+\n" + NOR,mob,target);
       target->receive_damage("kee",750);
       COMBAT_D->report_status(target, 1);
     }

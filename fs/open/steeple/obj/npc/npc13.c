@@ -4,8 +4,8 @@ void create()
   {
         set("class", "doctor");
         set_name("華陀", ({ "master tor", "master", "tor" }) );
-        set("title",HIW"～幻影～"NOR"銀針門第三代掌門人");
-        set("nickname",HIC "妙手回春"NOR);
+        set("title",HIW + "～幻影～" + NOR + "銀針門第三代掌門人");
+        set("nickname",HIC + "妙手回春" + NOR);
         set("gender", "男性");
         set("max_gin",4000);
         set("max_sen",4000);
@@ -68,20 +68,20 @@ void heart_beat()
   if(me->query_condition("lyssa"))
   {
     me->clear_condition("lyssa");
-    message_vision(HIY"只見$N雙眼忽然湛放金光,大喝一聲,逼出了身上的狂犬病毒!!!\n",me);
+    message_vision(HIY + "只見$N雙眼忽然湛放金光,大喝一聲,逼出了身上的狂犬病毒!!!\n",me);
   }
  boy=present("medicine boy",me);
  if(boy)
   if(boy->query_condition("lyssa"))
   {
     boy->clear_condition("lyssa");
-    message_vision(HIG"只見$N一掌拍在$n的背後,$n開始渾身冒汗,而$n身上的狂犬病毒似乎也跟著汗水排去!!\n",me,boy);
+    message_vision(HIG + "只見$N一掌拍在$n的背後,$n開始渾身冒汗,而$n身上的狂犬病毒似乎也跟著汗水排去!!\n",me,boy);
    }
  value=random(10);
  if( is_fighting() )
  if( value < 4){
  if( query("kee") < query("eff_kee") ) {
-   message_vision(HIW"\n華陀見情勢不妙,趕緊服下人靈丹,臉色頓時好多了\n"NOR,me);
+   message_vision(HIW + "\n華陀見情勢不妙,趕緊服下人靈丹,臉色頓時好多了\n" + NOR,me);
     me->receive_heal("kee",500);
     me->receive_heal("gin",200);
     me->receive_heal("sen",200);
@@ -99,7 +99,7 @@ void heart_beat()
 int heal_up()
 {
         if (!is_fighting() ) {
-             message_vision (HIW"系統：戰鬥停止，$N回收中，。\n"NOR, this_object ());
+             message_vision (HIW + "系統：戰鬥停止，$N回收中，。\n" + NOR, this_object ());
              destruct(this_object());
              return 1;
         }
@@ -122,17 +122,17 @@ destruct (this_object ());
 else
 if(me->query("quest/start_game")< 14)
        {
-        message_vision(HIY"
-恭喜"HIW+me->query("name")+HIY"挑戰"HIG"『"HIR"第十三層試煉ソ塔"HIG"』"HIY"通過！！
+        message_vision(HIY + "
+恭喜"HIW+me->query("name")+HIY"挑戰" + HIG + "『" + HIR + "第十三層試煉ソ塔" + HIG + "』" + HIY + "通過！！
 
-"HIW"希望"+me->query("name")+"能不負眾望，勇闖"HIG"『"HIY"第十四層試煉ソ塔"HIG"』"HIW"。
-	"NOR,me);
+" + HIW + "希望"+me->query("name")+"能不負眾望，勇闖" + HIG + "『" + HIY + "第十四層試煉ソ塔" + HIG + "』" + HIW + "。
+	" + NOR,me);
 	me->set("quest/start_game",14);
         destruct (this_object ());
        }
 {
         :: unconcious();
-	tell_object(me,HIW"系統：你已經通過測試，系統不做任何更改。\n"NOR);
+	tell_object(me,HIW + "系統：你已經通過測試，系統不做任何更改。\n" + NOR);
 	destruct(this_object());
 }
 }

@@ -16,7 +16,7 @@ void create() {
         set("chat_chance",30);
         set("chat_msg",({
 
-            HIC"雪花夾著刺骨的寒風吹到你身上～\n"NOR,
+            HIC + "雪花夾著刺骨的寒風吹到你身上～\n" + NOR,
       }));
         setup();
  }

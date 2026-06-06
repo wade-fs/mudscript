@@ -216,9 +216,9 @@ int do_join()
         {
           return notify_fail("你已經加入門派囉，不能再加入囉。\n");
         }
-        message("system",HIC"水靈兒輕聲吟道：『龍騰八荒，鳳舞九天』
+        message("system",HIC + "水靈兒輕聲吟道：『龍騰八荒，鳳舞九天』
 接著又愉快的說道：以"+this_player()->name()+"的資質必可
-將我派舞蹈絕學發揚光大。\n"NOR,users());
+將我派舞蹈絕學發揚光大。\n" + NOR,users());
         return 1;
 }
 
@@ -232,7 +232,7 @@ string ask_crystal()
          }
          else if(me->query("class") == "prayer")
               {
-               message_vision(HIW"\n\n水靈兒冷笑道：「你也未免解太快了吧...」\n\n"NOR,me);
+               message_vision(HIW + "\n\n水靈兒冷笑道：「你也未免解太快了吧...」\n\n" + NOR,me);
                return "零分!!";
               }
          else
@@ -258,7 +258,7 @@ string ask_moon()
               }
          else if(me->query("class") == "dancer")
               {
-              message_vision(HIW"\n\n水靈兒冷笑道：「妳也未免解太快了吧...」\n\n"NOR,me);
+              message_vision(HIW + "\n\n水靈兒冷笑道：「妳也未免解太快了吧...」\n\n" + NOR,me);
               return "零分!!";
               }
          else

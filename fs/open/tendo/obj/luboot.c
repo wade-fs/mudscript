@@ -5,7 +5,7 @@ inherit EQUIP;
 
 void create()
 {
-	set_name( HIW"踏雲靴"NOR  ,({"cloud boot","boot"}));
+	set_name( HIW + "踏雲靴" + NOR  ,({"cloud boot","boot"}));
 	set("long","一雙帶著仙氣的銀白色布靴，。\n");
 	set_weight(2000);
         set("armor_type","boots");

@@ -12,7 +12,7 @@ object me;
 
 void create()
 {
-	set_name( HIW""HBYEL"陰陽爆裂符"NOR, ({ "explosive spell", "spell" }) );
+	set_name( HIW + "" + HBYEL + "陰陽爆裂符" + NOR, ({ "explosive spell", "spell" }) );
 	set("long",@LONG
 	一張又破又舊的紙, 上面有一些怪異的文字和圖案, 
     恐怕只有鬼才看得懂, 似乎不值幾文錢。
@@ -53,8 +53,8 @@ void heart_beat()
 	                         me->query("spell/explosive") ) == 3 ) {
 	me    ->set( "spell/explosive", 4 );
 	inv[i]->set( "spell/explosive", 4 );
-	message_vision( HIM"\n突然爆裂符起了感應, 從$N體內爆射出巨大的能量!\n"NOR ,inv[i] );
-	message_vision( HIR"
+	message_vision( HIM + "\n突然爆裂符起了感應, 從$N體內爆射出巨大的能量!\n" + NOR ,inv[i] );
+	message_vision( HIR + "
  	                        ▁▎
                                  ▌▎
                                 ▉  ▎                       ▎
@@ -66,8 +66,8 @@ void heart_beat()
      ██ ▊▌            ███    ████           ███  ████ 
      ██ █▌▊         █████  █████        ███    ████    ▎
     ██  ████    ██████  █████       █████    ████ ▎ 
-  ███    ██    ██████    ██████  ███████    ████\n"NOR, me);
-	message_vision( HIR"███    ████   █████    ██████     ███████    ████ 
+  ███    ██    ██████    ██████  ███████    ████\n" + NOR, me);
+	message_vision( HIR + "███    ████   █████    ██████     ███████    ████ 
  ███  █████ ██████    █████       ██████    ████ 
   ███  ████   ██████    ████     ██████      ████  
    ███    ███   █████    ███     ████████      ███  
@@ -77,8 +77,8 @@ void heart_beat()
    ██████    ███  ███▍  ███ ████▌   ██████◤ 
        █████    ██████◣    ◥█████  █████◤ 
            ◥███◣      ◥██◤      ◥█◤◢█████◤                  
-                ▔             ▔                 ▔▔▔\n"NOR, me );
-	message_vision( HIY"\n$N體內的爆裂符受到感應, 形成堅固無比的防護力場!\n"NOR , me );
+                ▔             ▔                 ▔▔▔\n" + NOR, me );
+	message_vision( HIY + "\n$N體內的爆裂符受到感應, 形成堅固無比的防護力場!\n" + NOR , me );
 
 	for( j=0; j<sizeof(inv); j++ ) {
 		if( !living(inv[j]) || inv[j]==me ) continue;
@@ -87,7 +87,7 @@ void heart_beat()
 		if( scale<2 ) scale=2 ;
 		inv[j]->receive_damage( "kee", (int)(inv[j]->query("max_kee")/scale) );
 		inv[j]->receive_wound ( "kee", (int)(inv[j]->query("max_kee")/scale) );
-		tell_object( inv[j], HIR"\n你感到痛苦難耐﹐一股強大的能量讓你的身體承受不住!\n"NOR);
+		tell_object( inv[j], HIR + "\n你感到痛苦難耐﹐一股強大的能量讓你的身體承受不住!\n" + NOR);
 		COMBAT_D->report_status( inv[j], 1 );                
 	}
 			}
@@ -145,8 +145,8 @@ void spell_msg( int phase , object me, object target )
 		call_out( "spell_msg", 10, 2, me, target );
 		break;
 	case 2:
-	   	message_vision( "$n漸漸地化入$N體內, 消失了。\n"NOR, target, spell );
-		tell_object( target, HIY"
+	   	message_vision( "$n漸漸地化入$N體內, 消失了。\n" + NOR, target, spell );
+		tell_object( target, HIY + "
 	                   ;;'      ,
 	              ;,,,;;;;'     ;;
 	           ,,;;;  ;'       ,;;,;;,
@@ -165,22 +165,22 @@ void spell_msg( int phase , object me, object target )
 	   ;;    ,;;       ' ,;'          ;;    ,;;
 	    '';,;''           ';,          '';,;''
 	     ,'                ''           ,'
-	    ;'                             ;'\n"NOR);
-		tell_object( target, HIY"	   ;;          "HIM"陰 陽 爆 裂 符"HIY"     ;;
+	    ;'                             ;'\n" + NOR);
+		tell_object( target, HIY + "	   ;;          " + HIM + "陰 陽 爆 裂 符" + HIY + "     ;;
 	  ;;                             ;;
-	  ';,,,,       "HIM"運 轉 日 地 籙"HIY"    ';,,,,
-	    '''';;,    "HIM"無 撼 焚 蝕 滅"HIY"      '''';;,
-	    ,,''       "HIM"極 九 百 千 萬"HIY"      ,,''
-	   ;;    ,;;   "HIM"地 天 川 嶽 生"HIY"     ;;    ,;;
+	  ';,,,,       " + HIM + "運 轉 日 地 籙" + HIY + "    ';,,,,
+	    '''';;,    " + HIM + "無 撼 焚 蝕 滅" + HIY + "      '''';;,
+	    ,,''       " + HIM + "極 九 百 千 萬" + HIY + "      ,,''
+	   ;;    ,;;   " + HIM + "地 天 川 嶽 生" + HIY + "     ;;    ,;;
 	    '';,;''                        '';,;''
 	     ,'                             ,'
 	    ;'                             ;'
 	   ;;                             ;;
 	  ;;                             ;;
-	  ';,,,,       "HIM"狂  想  天  神"HIY"    ';,,,,
+	  ';,,,,       " + HIM + "狂  想  天  神" + HIY + "    ';,,,,
 	    '''';;,                        '''';;,
-	   ,,     ;;  "HIM"急  急  如  律  令"HIY"  ,,     ;;
-	    '''''''                        '''''''\n"NOR);
+	   ,,     ;;  " + HIM + "急  急  如  律  令" + HIY + "  ,,     ;;
+	    '''''''                        '''''''\n" + NOR);
 		target->set( "spell/explosive", random(2)+1 );
 		sticking = 1;
 		set_heart_beat(1);

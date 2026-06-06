@@ -75,9 +75,9 @@ void init()
 	command("smile");
 	command("say 好,你果然是可造之才,從今後就由老夫親自指導!");
 	command("recruit "+this_player()->query("id"));
-	message("system",HIW"鄭士欣縱聲大笑: 
+	message("system",HIW + "鄭士欣縱聲大笑: 
 哈哈哈哈....老夫實在太高興啦!
-英雄出少年 ,"+this_player()->name()+": 今後就由老夫親授於你.\n"NOR,users());
+英雄出少年 ,"+this_player()->name()+": 今後就由老夫親授於你.\n" + NOR,users());
 	return ;
 	}
       command("hmm");
@@ -90,8 +90,8 @@ int do_join()
 	if(this_player()->query("class"))
 		return notify_fail("你已經加入其他工會了。\n");
 	this_player()->set("class","swordsman");
-	message("system",HIW "鄭士欣縱聲大呼 :\n
-歡迎" +this_player()->name()+"加入劍士公會!!\n\n"NOR,users());
+	message("system",HIW + "鄭士欣縱聲大呼 :\n
+歡迎" +this_player()->name()+"加入劍士公會!!\n\n" + NOR,users());
 	return 1;
 }
 	int do_say(string str)

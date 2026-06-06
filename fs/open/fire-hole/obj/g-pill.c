@@ -6,7 +6,7 @@
 
 void create()
 {
-  set_name(HIG"綠龍精元"NOR, ({"green-dragon pill","pill"}) );
+  set_name(HIG + "綠龍精元" + NOR, ({"green-dragon pill","pill"}) );
   set("long","綠龍身上取得的精元，傳聞中可暫時增加刀客的能力!!\n");
   set("base_unit", "粒");
   set("unit", "粒");
@@ -36,7 +36,7 @@ int eat_pill(string arg)
     message_vision("$n藥效未除無法再吃!!\n",me,ob);
     return 1;
   }
-  message_vision(HIG"$N吃下綠龍精元，能力突增!!\n"NOR, me);
+  message_vision(HIG + "$N吃下綠龍精元，能力突增!!\n" + NOR, me);
   me->add_temp("apply/blade",50);
   me->set_temp("g-pill",1);
   me->apply_condition("blade_pill",20);

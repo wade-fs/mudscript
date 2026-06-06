@@ -3,7 +3,7 @@ inherit ITEM;
 
 void create()
 {
-        set_name(HIM "無雙拳理" NOR, ({ "Fist_Book","book" }) );
+        set_name(HIM + "無雙拳理" + NOR, ({ "Fist_Book","book" }) );
 
         set("unit", "本");
         set("long", "無雙寺的鎮寺之學，但你天賦不夠聰穎，認定它不是什麼武學秘笈\n");

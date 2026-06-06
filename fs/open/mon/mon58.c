@@ -49,9 +49,9 @@ int search_sword(string arg)
     if( room->query_temp("mon/search") == 1 )
       return notify_fail("一道朦朧的光茫，若隱若現，讓你看不真眼前的一切。\n");
 
-//    message_vision(HIY"一陣低沉的輕鳴，黃金劍竟騰空而起，靜靜的懸在半空中。\n"NOR,me);
-    write(HIY"一陣低沉的輕鳴，黃金劍竟騰空而起，靜靜的懸在半空中。\n"NOR);
-    say(HIY"一陣低沉的輕鳴，黃金劍竟騰空而起，靜靜的懸在半空中。\n"NOR,environment(me), me);
+//    message_vision(HIY + "一陣低沉的輕鳴，黃金劍竟騰空而起，靜靜的懸在半空中。\n" + NOR,me);
+    write(HIY + "一陣低沉的輕鳴，黃金劍竟騰空而起，靜靜的懸在半空中。\n" + NOR);
+    say(HIY + "一陣低沉的輕鳴，黃金劍竟騰空而起，靜靜的懸在半空中。\n" + NOR,environment(me), me);
     room->set_temp("mon/search",1);
     return 1;
   }
@@ -74,10 +74,10 @@ int pull_sword(string arg)
     if( !room->query_temp("mon/search") )
       return notify_fail("未經一番細細搜尋，使你猶豫了一下不敢冒然拔取!!\n");
 
-//    message_vision(HIY"黃金劍發出一道耀眼的光茫後，竟然消失在你手中，而你的身形卻慢慢消失。\n"NOR,me);
-    write(HIY"黃金劍發出一道耀眼的光茫後，竟然消失在你手中，而你的身形卻慢慢消失。\n"NOR);
-    say(HIY"黃金劍發出一道耀眼的光茫後，竟然消失在"+HIY+me->name()+HIY"手中，而"+HIY+me->name()+HIY"的身形卻慢慢消失。\n"NOR,environment(me), me);
-    tell_object(users(),HIW"一道白色的光芒直透天際，長白山的上空突然妖氣瀰漫，一個不祥的預兆湧上你心頭。\n"NOR);
+//    message_vision(HIY + "黃金劍發出一道耀眼的光茫後，竟然消失在你手中，而你的身形卻慢慢消失。\n" + NOR,me);
+    write(HIY + "黃金劍發出一道耀眼的光茫後，竟然消失在你手中，而你的身形卻慢慢消失。\n" + NOR);
+    say(HIY + "黃金劍發出一道耀眼的光茫後，竟然消失在"+HIY+me->name()+HIY"手中，而"+HIY+me->name()+HIY"的身形卻慢慢消失。\n" + NOR,environment(me), me);
+    tell_object(users(),HIW + "一道白色的光芒直透天際，長白山的上空突然妖氣瀰漫，一個不祥的預兆湧上你心頭。\n" + NOR);
 
     room->delete_temp("mon/search");
     room->set_temp("mon/sword",1);
@@ -97,9 +97,9 @@ int close(object room)
 {
 //  object me = this_player();
   object ob=this_object();
-//  message_vision(YEL"光芒散去，眼前的入口又再度閉合消失了。\n"NOR,this_object());
-  write(YEL"光芒散去，眼前的入口又再度閉合消失了。\n"NOR);
-//  say(YEL"光芒散去，眼前的入口又再度閉合消失了。\n"NOR,environment(ob), ob);
+//  message_vision(YEL + "光芒散去，眼前的入口又再度閉合消失了。\n" + NOR,this_object());
+  write(YEL + "光芒散去，眼前的入口又再度閉合消失了。\n" + NOR);
+//  say(YEL + "光芒散去，眼前的入口又再度閉合消失了。\n" + NOR,environment(ob), ob);
   delete("exits/enter");
   room->delete_temp("mon/sword");
   return 1;

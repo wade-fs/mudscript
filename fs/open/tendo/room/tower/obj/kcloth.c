@@ -3,7 +3,7 @@ inherit EQUIP;
 
 void create()
 {
- set_name( HIY "紫羽龍絲衣" NOR,({"dragon cloth","cloth"}));
+ set_name( HIY + "紫羽龍絲衣" + NOR,({"dragon cloth","cloth"}));
         set_weight(1000);
         set("armor_type","cloth");
         if( clonep() )

@@ -26,7 +26,7 @@ LONG
   "west" : __DIR__"school1",
   "east" : __DIR__"school7",
 ]));
-        create_door("west", HIR"鏤花紅檜大門"NOR, "east", DOOR_CLOSED);
+        create_door("west", HIR + "鏤花紅檜大門" + NOR, "east", DOOR_CLOSED);
 
        set("outdoors", "/open/wu");
 	setup();

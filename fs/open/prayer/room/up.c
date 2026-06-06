@@ -22,7 +22,7 @@ int exert(object me, object target)
 	me->receive_damage("kee", 0);
 
 	message_vision(
-		HIR "$N微一凝神﹐運起天邪神功\﹐全身骨節發出一陣爆豆般的聲響﹗\n" NOR, me);
+		HIR + "$N微一凝神﹐運起天邪神功\﹐全身骨節發出一陣爆豆般的聲響﹗\n" + NOR, me);
 
 	me->add_temp("apply/attack", skill/2);
 	me->add_temp("apply/dodge", skill/2);

@@ -4,7 +4,7 @@ inherit EQUIP;
 object me=this_player();
 void create()
 {
-        set_name(HIW "飛仙羽衣" NOR,({"fly cloth","cloth"}) );
+        set_name(HIW + "飛仙羽衣" + NOR,({"fly cloth","cloth"}) );
         set_weight(1000);
 		
         if ( clonep() )
@@ -44,7 +44,7 @@ if(!me) me=environment();
 if(!living(me)) me=this_player();
 if(!me) me=previous_object();
 if(me)
-message_vision(HIM"$N穿上鳳舞靴忽然感到身子輕盈了起來，好似要飛一般。\n"NOR,me);
+message_vision(HIM + "$N穿上鳳舞靴忽然感到身子輕盈了起來，好似要飛一般。\n" + NOR,me);
         
      }
 	 if(me)
@@ -67,7 +67,7 @@ if(!me) me=environment();
 if(!living(me)) me=this_player();
 if(!me) me=previous_object();
 if(me)
-message_vision(YEL"$N將鳳舞靴脫了下來，感到身體一沉，又恢復原狀了。\n"NOR,me);
+message_vision(YEL + "$N將鳳舞靴脫了下來，感到身體一沉，又恢復原狀了。\n" + NOR,me);
         
      }
 	 if(me->query_temp("have_wear_boots")==1)

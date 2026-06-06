@@ -2,7 +2,7 @@
 inherit ROOM;
 void create ()
 {
-        set("short",YEL"幽冥道"NOR"雜貨店");
+        set("short",YEL + "幽冥道" + NOR + "雜貨店");
         set("long",@LONG
 這裡是一間竹製的竹屋, 竹牆上掛滿了許許多多奇
 怪的東西, 有些東西似乎看起來是可以食用的, 但是形

@@ -6,7 +6,7 @@ inherit BLADE;
 
 void create()
 {
-	set_name(RED "風林火山" NOR, ({ "nature blade","blade" }) );
+	set_name(RED + "風林火山" + NOR, ({ "nature blade","blade" }) );
 	set_weight(24000);
 	if( clonep() )
 		set_default_object(__FILE__);
@@ -38,10 +38,10 @@ int wield()
 {
   object ob;
   ob=this_player();
-  message_vision(HIY"上古兵器「風林火山」受法主"+ob->name()+"的咒術招喚.....\n\n"
+  message_vision(HIY + "上古兵器「風林火山」受法主"+ob->name()+"的咒術招喚.....\n\n"
 		"飛往空中吸收大地靈氣,你可以看到一陣陣的絢麗耀眼\n\n"
                 "的五彩光芒從四面八方飛往東方,宛如流星趕月一般的\n\n"
-                "的消失在你的眼前。......\n\n"NOR,ob);
+                "的消失在你的眼前。......\n\n" + NOR,ob);
   ob->add("mana",-100);
   ::wield();
   return 1;

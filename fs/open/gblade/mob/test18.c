@@ -47,8 +47,8 @@ void invocation(object who)
         object *enemy;
 
         message("vision",
-        HIB"一道黑色的冤氣從妖壺中奔洩而出\n"
-        + name() + "冷笑地說：劍尊無敵，天命奈何！\n"NOR,
+        HIB + "一道黑色的冤氣從妖壺中奔洩而出\n"
+        + name() + "冷笑地說：劍尊無敵，天命奈何！\n" + NOR,
                 environment(), this_object() );
         enemy = who->query_enemy();
         i = sizeof(enemy);
@@ -72,9 +72,9 @@ void invocation(object who)
         enemy=this_object()->query_enemy();
     i=sizeof(enemy);
     target=enemy[random(i)];
-        message_vision(sprintf(HIB"
+        message_vision(sprintf(HIB + "
 八荒劍尊勁運劍尖, 無形劍氣在$N身上劃下一道血淋淋的傷口
-\n"NOR),target);
+\n" + NOR),target);
         target->add("kee",-100);
         this_object()->add("force",-100);
         COMBAT_D->report_status(target);

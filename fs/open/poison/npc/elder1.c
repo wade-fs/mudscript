@@ -72,7 +72,7 @@ int do_say(string str)
           {
             me->delete_temp("elder1_temp");
             me->set_temp("poison_pass1",1);
-            message_vision(sprintf(HIC"$N說道﹕"+str+"\n"NOR),me);
+            message_vision(sprintf(HIC + "$N說道﹕"+str+"\n" + NOR),me);
             command("smile");
         if(myclass == "冥蠱魔教"){
                 command("say 雖然你直到現在才來申請正式加入，但看你如此忠誠。");
@@ -91,7 +91,7 @@ int do_say(string str)
           }
         else
            {
-            message_vision(sprintf(HIC"$N說道﹕"+str+"\n"NOR),me);
+            message_vision(sprintf(HIC + "$N說道﹕"+str+"\n" + NOR),me);
             command("say 哼！既然沒誠意加入就別來。");
             me->delete_temp("elder1_temp");
             return 1;

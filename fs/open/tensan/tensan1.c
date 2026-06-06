@@ -3,7 +3,7 @@ inherit ROOM;
 
 void create ()
 {
-        set ("short", HIW"天山結界"NOR);
+        set ("short", HIW + "天山結界" + NOR);
         set ("long", @LONG
 你從山腳下一路走上來，到了這裡似乎已經無路可走，四周雲霧
 漫漫讓你進退兩難。正當你在困惑的時後發現地上有一塊石碑寫著天
@@ -30,25 +30,25 @@ void init()
 
 int msg1(object me)
 {	
-        tell_object(me,HIY"\n\n\n突然間，你身上的天山通行令射出一道耀眼的光芒，直射在石碑上。\n\n"NOR);
+        tell_object(me,HIY + "\n\n\n突然間，你身上的天山通行令射出一道耀眼的光芒，直射在石碑上。\n\n" + NOR);
 	call_out("msg2",3,me);
 }
 
 int msg2(object me)
 {	
-        tell_object(me,HIY"經過一段時間的等待，天山結界竟開始有了變化，頓時天搖地動了起來\n\n"NOR);	
+        tell_object(me,HIY + "經過一段時間的等待，天山結界竟開始有了變化，頓時天搖地動了起來\n\n" + NOR);	
 	call_out("msg3",3,me);
 }
 
 int msg3(object me)
 {	
-        tell_object(me,HIW"原本照射在石碑上的光芒瞬間消失並轉換成一圈白光照住你的全身\n\n"NOR);
+        tell_object(me,HIW + "原本照射在石碑上的光芒瞬間消失並轉換成一圈白光照住你的全身\n\n" + NOR);
 	call_out("msg4",3,me);
 }
 
 int msg4(object me)
 {	
-        tell_object(me,HIY"正當你看的忘神之際，你已被傳送到天山結界的另外一邊了\n\n\n\n"NOR);	
-	tell_object(users(),HIW"\n\n天山方向"HIM"奇"HIG"光"HIW"四起，天象異變，"HIY+me->query("name")+HIW"通過了天山結界。\n\n\n"NOR);
+        tell_object(me,HIY + "正當你看的忘神之際，你已被傳送到天山結界的另外一邊了\n\n\n\n" + NOR);	
+	tell_object(users(),HIW + "\n\n天山方向" + HIM + "奇" + HIG + "光" + HIW + "四起，天象異變，"HIY+me->query("name")+HIW"通過了天山結界。\n\n\n" + NOR);
 	me->move("/open/trans/room/room4");
 }

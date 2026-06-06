@@ -5,7 +5,7 @@ inherit ITEM;
 
 void create()
 {
-        set_name(HIY"月餅"NOR, ({ "mooncake", }) );
+        set_name(HIY + "月餅" + NOR, ({ "mooncake", }) );
         set("long","可以吃的月餅。\n");
         set("unit", "顆");
        set("value", 100);

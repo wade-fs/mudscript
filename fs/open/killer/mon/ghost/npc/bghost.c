@@ -34,7 +34,7 @@ void call_find_eight(object user,object eight)
   command("cry "+ user->getuid());
   command("say 請"+(user->query("gender")=="男性" ? "壯士" : "姑娘")+"替小女子報仇，據小女子所知，那人正在黑風組總部作客。");
   command("say 如能替小女子報得大仇，小女子願以身相許\...。");
-  message_vision(HIW"任盈盈講完這些話時，又化成一陣煙消失了。\n\n"NOR, user);
+  message_vision(HIW + "任盈盈講完這些話時，又化成一陣煙消失了。\n\n" + NOR, user);
   eight->call_find_ljen(user,this_object());
   destruct(this_object());
 }
@@ -181,9 +181,9 @@ int do_waveto(string arg)
  */    
   if( gmove )
   {
-    message_vision(HIB+"一陣清風過後，$N"HIB"帶領大家從天而降。\n"+NOR);
+    message_vision(HIB+"一陣清風過後，$N" + HIB + "帶領大家從天而降。\n"+NOR);
   } else
-    message_vision(HIB+"一陣清風過後，$N"HIB"從天而降。\n"+NOR,me);
+    message_vision(HIB+"一陣清風過後，$N" + HIB + "從天而降。\n"+NOR,me);
   me->set("bank/coin",money-500);
   return 1;
 }

@@ -7,7 +7,7 @@ inherit UNARMED;
 void create()
 {
         seteuid(getuid());
-set_name(HIW"白金指環"NOR,({"platinum ring","ring"}));
+set_name(HIW + "白金指環" + NOR,({"platinum ring","ring"}));
 set_weight(4000);
 
         if( clonep() )

@@ -14,7 +14,7 @@ void create()
 	set("age",21);
 	set("class","swordsman");
 	set("title","仙劍派第四代女劍俠");
-        set("nickname",HIW"東城飛雪"NOR);
+        set("nickname",HIW + "東城飛雪" + NOR);
 	create_family("仙劍派",4,"弟子");
 	set("score",100000);
         set("kee",3000);

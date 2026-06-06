@@ -48,7 +48,7 @@ void create() {
  }
 int accept_fight(object who)
 {
- write(HIY"醉魔說道 : 酒....呵呵...\n"NOR);
+ write(HIY + "醉魔說道 : 酒....呵呵...\n" + NOR);
 return 0;
 }
 int accept_kill(object who)

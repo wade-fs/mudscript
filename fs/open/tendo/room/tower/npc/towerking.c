@@ -7,7 +7,7 @@ int special_att ();
 void create()
 {
      set_name("鎮塔明王",({"tower king","king"}));
-     set("title",HIW"天界之神"NOR);
+     set("title",HIW + "天界之神" + NOR);
      set("long","他奉命下凡鎮守鎖妖塔.........\n");
      set("gender","男性");
      set("class","taoist");
@@ -125,28 +125,28 @@ int special_att ()
   victim = enemy[random(i)];
       message_vision(HIB+
 "              鎮塔明王怒氣狂提，不顧身上的傷口，不斷地將內力運至十二成。\n        
-                          "HIR"鎮塔明王身上發出一股強大的殺意\n
-                 "HIY"鎮塔明王的全身開始聚起強烈的"HIW"寒冰"HIW"與"HIR"烈火"HIY"兩道環身氣勁，\n
-                      "HIW"～ 兩道氣勁源源不斷的向手上凝聚！ ～\n
-                              "HIY"倏地鎮塔明王大喝一聲\n
-                 "HIY"左手使出一招"RED"天書"MAG"絕學"HIY"中之終極奧義 - -"HIW"寒 冰 勁"HIY"–-\n
-                 "HIC"右手一翻使出"RED"天書"MAG"絕學"HIC"中之武學祕技 ～～"HIR"烈 火 勁"HIC"～～ \n　
-                   "HIB"只見寒冰與烈火兩道氣勁如狂風暴雨般地擊向$N\n
-                        "HIW"此乃天書之不秘之傳"HIC" 『"HIW"寒冰"HIR"烈火"HIW"勁"HIC"』\n"+NOR,me);
+                          " + HIR + "鎮塔明王身上發出一股強大的殺意\n
+                 " + HIY + "鎮塔明王的全身開始聚起強烈的" + HIW + "寒冰" + HIW + "與" + HIR + "烈火" + HIY + "兩道環身氣勁，\n
+                      " + HIW + "～ 兩道氣勁源源不斷的向手上凝聚！ ～\n
+                              " + HIY + "倏地鎮塔明王大喝一聲\n
+                 " + HIY + "左手使出一招" + RED + "天書" + MAG + "絕學" + HIY + "中之終極奧義 - -" + HIW + "寒 冰 勁" + HIY + "–-\n
+                 " + HIC + "右手一翻使出" + RED + "天書" + MAG + "絕學" + HIC + "中之武學祕技 ～～" + HIR + "烈 火 勁" + HIC + "～～ \n　
+                   " + HIB + "只見寒冰與烈火兩道氣勁如狂風暴雨般地擊向$N\n
+                        " + HIW + "此乃天書之不秘之傳" + HIC + " 『" + HIW + "寒冰" + HIR + "烈火" + HIW + "勁" + HIC + "』\n"+NOR,me);
 
   if (random (3) >= 1)
     {
       damage = (victim->query ("max_gin") / 20);
       damage = (victim->query ("max_kee") / 20);
       damage = (victim->query ("max_sen") / 20);
-message_vision(HIR"$N閃躲不及,被寒冰烈火兩道氣勁透體而過,全身上下被烈火及寒冰包圍著,不停的嘶吼!\n"NOR,victim);
+message_vision(HIR + "$N閃躲不及,被寒冰烈火兩道氣勁透體而過,全身上下被烈火及寒冰包圍著,不停的嘶吼!\n" + NOR,victim);
       victim->apply_condition ("bleeding", random (i * i));
       victim->receive_damage ("kee", damage, me);
       COMBAT_D->report_status (victim, 0);
     }
   else
     {
-message_vision(HIW"只可惜離$N差了一點, 劈到地上, 轟的一聲巨響, 地皮頓時裂了開來.\n"NOR,victim);
+message_vision(HIW + "只可惜離$N差了一點, 劈到地上, 轟的一聲巨響, 地皮頓時裂了開來.\n" + NOR,victim);
     }
   start_busy (1);
   return 1;
@@ -168,7 +168,7 @@ int accept_fight(object who)
 
 int accept_kill(object ob)
 {
-	message_vision( HIR "$n使出天界絕學之定身術使$N不能動彈。\n",this_player(),this_object());
+	message_vision( HIR + "$n使出天界絕學之定身術使$N不能動彈。\n",this_player(),this_object());
         map_skill("force","gforce");
 	command("conj hardshell");
         map_skill("force","fiendforce");
@@ -226,7 +226,7 @@ void heart_beat()
 
 	  if( i == 1 && me->is_busy() )
 	  {
-          message_vision(HIW"$N展開一層「天神結界」，阻斷了攻勢，得以短暫的喘息之機。\n"NOR, me);
+          message_vision(HIW + "$N展開一層「天神結界」，阻斷了攻勢，得以短暫的喘息之機。\n" + NOR, me);
 	  me->delete_busy();
 	  }
 
@@ -290,11 +290,11 @@ void die()
 {
         object winner = query_temp("last_damage_from");
 	winner->set_temp("ko_towerking",1);
-	tell_object(winner,HIY"鎮塔明王的一點靈光飛入了你的身體之中!!\n"NOR);
+	tell_object(winner,HIY + "鎮塔明王的一點靈光飛入了你的身體之中!!\n" + NOR);
         tell_object(users(),
-HIW"\n鎮塔明王咽下最後一口氣唉道:\n\n
-                 "HIR"～ ～ ～天   啊～ ～ ～我～的～任～務～呀～\n
-          "HIC"今日竟然會斷送於"HIW""+winner->query("name")+""HIC"之手！！\n"NOR);
+HIW + "\n鎮塔明王咽下最後一口氣唉道:\n\n
+                 " + HIR + "～ ～ ～天   啊～ ～ ～我～的～任～務～呀～\n
+          " + HIC + "今日竟然會斷送於" + HIW + ""+winner->query("name")+"" + HIC + "之手！！\n" + NOR);
 
 
         :: die();

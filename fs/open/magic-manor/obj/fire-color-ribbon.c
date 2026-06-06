@@ -8,7 +8,7 @@ int be,bb,k,sp,qq,co,st;
 
 void create()
 {
-	set_name(MAG"雷火彩鳳翔"NOR,({"fire-color-ribbon","ribbon"}) );
+	set_name(MAG + "雷火彩鳳翔" + NOR,({"fire-color-ribbon","ribbon"}) );
 	set_weight(10000);
 	if( clonep() ) 
 	set_default_object(__FILE__);
@@ -23,8 +23,8 @@ void create()
 	set("no_steal",1);
 	}
 	init_unarmed(100);
- 	set("wield_msg",MAG"$N"MAG"載上$n"MAG"，$n"MAG"雷火之氣幻成七彩光芒環繞著周身!!\n"NOR);
-        set("unwield_msg","$N輕輕卸下$n，$n雷火之氣也漸漸消散。\n"NOR);
+ 	set("wield_msg",MAG + "$N" + MAG + "載上$n" + MAG + "，$n" + MAG + "雷火之氣幻成七彩光芒環繞著周身!!\n" + NOR);
+        set("unwield_msg","$N輕輕卸下$n，$n雷火之氣也漸漸消散。\n" + NOR);
 
 	setup();
 }                   
@@ -47,10 +47,10 @@ int do_wield(string str)
 	uexp = user->query("combat_exp");
 	  if( uexp < 3000000 )
 	  {
-	  message_vision("$N的經驗並不足以完全支配這樣的神兵利器!!\n"NOR,user);
+	  message_vision("$N的經驗並不足以完全支配這樣的神兵利器!!\n" + NOR,user);
 	  set_heart_beat(0);
 	  }else{
-//	  message_vision(MAG"$N"MAG"載上$n"MAG"，$n"MAG"雷火之氣幻成七彩光芒環繞著周身!!\n"NOR,user,ob);
+//	  message_vision(MAG + "$N" + MAG + "載上$n" + MAG + "，$n" + MAG + "雷火之氣幻成七彩光芒環繞著周身!!\n" + NOR,user,ob);
 	  set_heart_beat(1);
 	  }
 	}
@@ -61,7 +61,7 @@ int do_drop(string str)
 	if(str=="fire-color-ribbon" || str=="ribbon" || str=="all")
 	if( query("equipped") )
 	{
-	message_vision("$N輕輕卸下$n，$n雷火之氣也漸漸消散。\n"NOR,user,ob);
+	message_vision("$N輕輕卸下$n，$n雷火之氣也漸漸消散。\n" + NOR,user,ob);
 	set_heart_beat(0);
 	}
 }
@@ -71,7 +71,7 @@ int do_unwield(string str)
 	if(str=="fire-color-ribbon" || str=="ribbon" || str=="all")
 	if( query("equipped") )
 	{
-//	message_vision("$N輕輕卸下$n，$n雷火之氣也漸漸消散。\n"NOR,user,ob);
+//	message_vision("$N輕輕卸下$n，$n雷火之氣也漸漸消散。\n" + NOR,user,ob);
 	set_heart_beat(0);
 	}
 }
@@ -81,7 +81,7 @@ int do_auc(string str)
 	if(str=="fire-color-ribbon" || str=="ribbon" || str=="all")
 	if( query("equipped") )
 	{
-	message_vision("$N輕輕卸下$n，$n雷火之氣也漸漸消散。\n"NOR,user,ob);
+	message_vision("$N輕輕卸下$n，$n雷火之氣也漸漸消散。\n" + NOR,user,ob);
 	set_heart_beat(0);
 	}
 }
@@ -126,11 +126,11 @@ void heart_beat()
 	  if( environment(user) == environment(enemy[i]) )
 	  if( random(300) > random(enemy[i]->query_skill("dodge",1)) )
 	  {
-	  message_vision("$n"HIB"周身環繞的雷火之氣化成"HIC"雷氣"HIB"和"HIR"火氣"HIB"直奔$N"HIB"壟罩$N"HIB"全身要害!!\n"NOR,enemy[i],ob);
+	  message_vision("$n" + HIB + "周身環繞的雷火之氣化成" + HIC + "雷氣" + HIB + "和" + HIR + "火氣" + HIB + "直奔$N" + HIB + "壟罩$N" + HIB + "全身要害!!\n" + NOR,enemy[i],ob);
 	  enemy[i]->receive_wound("kee",(int)(qq+be),user);
 	  COMBAT_D->report_status(enemy[i], 0);
 	  }else
-	  message_vision(BLU"$N"BLU"一個閃身，已躲開了雷火之氣的襲擊!!\n"NOR,enemy[i],ob);
+	  message_vision(BLU + "$N" + BLU + "一個閃身，已躲開了雷火之氣的襲擊!!\n" + NOR,enemy[i],ob);
 	  }
 	}
 	return;

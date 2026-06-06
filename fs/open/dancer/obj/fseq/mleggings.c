@@ -5,7 +5,7 @@ inherit LEGGINGS;
 object me=this_player();
 void create()
 {
-        set_name(HIM"泥巴星球發獃護膝"NOR,({"Server_legging","legging"}));
+        set_name(HIM + "泥巴星球發獃護膝" + NOR,({"Server_legging","legging"}));
         set_weight(2000);
         if( clonep() )
                 set_default_object(__FILE__);

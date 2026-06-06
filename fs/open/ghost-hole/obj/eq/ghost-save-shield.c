@@ -6,12 +6,12 @@
 inherit EQUIP;
 void create()
 {
-     set_name(MAG"ω"CYN""BBLU"冥魔"HIR"邪盾"NOR""MAG"ω"NOR,({"ghost-shield","shield"}) );
+     set_name(MAG + "ω" + CYN + "" + BBLU + "冥魔" + HIR + "邪盾" + NOR + "" + MAG + "ω" + NOR,({"ghost-shield","shield"}) );
      set_weight(200);
      if( clonep() )
                set_default_object(__FILE__);
      else {
-            set("long",CYN""BBLU"冥魔戰甲的一部份。\n"NOR);
+            set("long",CYN + "" + BBLU + "冥魔戰甲的一部份。\n" + NOR);
             set("unit", "件");
             set("value",500);
             set("material","steal");
@@ -27,8 +27,8 @@ void create()
             set("armor_prop/armor", 15);
 			set("armor_prop/parry", 10);
 			set("armor_prop/force",2);
-            set("wear_msg",HIG"$N手持$n"HIG"，銅牆鐵壁般的冥界之力護衛在前。\n"NOR);
-			set("unequip_msg", HIW"$N放下$n"HIW"，無形的守護力量亦同時消失。\n"NOR);
+            set("wear_msg",HIG + "$N手持$n" + HIG + "，銅牆鐵壁般的冥界之力護衛在前。\n" + NOR);
+			set("unequip_msg", HIW + "$N放下$n" + HIW + "，無形的守護力量亦同時消失。\n" + NOR);
            }
         setup();
 }
@@ -38,7 +38,7 @@ void init()
   seteuid(geteuid());
   me = this_player();
   if (me)
-        set_name (me->name(1)+ "的"MAG"ω"CYN""BBLU"冥魔"HIR"邪盾"NOR""MAG"ω"NOR,({"ghost-shield","shield"}) );
+        set_name (me->name(1)+ "的" + MAG + "ω" + CYN + "" + BBLU + "冥魔" + HIR + "邪盾" + NOR + "" + MAG + "ω" + NOR,({"ghost-shield","shield"}) );
   else
-        set_name (MAG"ω"CYN""BBLU"冥魔"HIR"邪盾"NOR""MAG"ω"NOR,({"ghost-shield","shield"}) );
+        set_name (MAG + "ω" + CYN + "" + BBLU + "冥魔" + HIR + "邪盾" + NOR + "" + MAG + "ω" + NOR,({"ghost-shield","shield"}) );
 }

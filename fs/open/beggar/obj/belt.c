@@ -4,7 +4,7 @@
 inherit WAIST;
 void create()
 {
-    set_name(CYN"紫襟帶"NOR, ({"belt"}) );
+    set_name(CYN + "紫襟帶" + NOR, ({"belt"}) );
     set_weight(1000);
      if ( clonep() )
               set_default_object(__FILE__);

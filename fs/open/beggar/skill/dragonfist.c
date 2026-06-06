@@ -143,10 +143,10 @@ $n的$l削去。",
 "damage_type" : "瘀傷",
 ]),
 //15
-(["action":HIW"                $N使出降龍失傳絕學第一式\n"
-"             －＝"HIG"「V損－則－有－孚]」"HIW"＝－\n"
+(["action":HIW + "                $N使出降龍失傳絕學第一式\n"
+"             －＝" + HIG + "「V損－則－有－孚]」" + HIW + "＝－\n"
 "          內息不斷提昇，突然真氣爆吐，內勁反由雙掌蘊生\n"
-"            招意被"HIG"洗髓勁"HIW"所激發，由裡而外不斷侵襲$n。\n"NOR,
+"            招意被" + HIG + "洗髓勁" + HIW + "所激發，由裡而外不斷侵襲$n。\n" + NOR,
 "dodge":-110,
 "parry":100,
 "force":220,
@@ -155,11 +155,11 @@ $n的$l削去。",
 "post_action" : (: attack1 :),
 ]),
 //16
-(["action":HIW"                $N使出降龍失傳絕學第二式\n"
-"             －＝"HIC"「W履－霜－冰－至\\」"HIW"＝－\n"
-"$N稍稍吐了一口氣，逆運體內洗髓經，將"HIR"陽剛之氣"HIW"轉化為"HIB"陰柔之勁\n"HIW
+(["action":HIW + "                $N使出降龍失傳絕學第二式\n"
+"             －＝" + HIC + "「W履－霜－冰－至\\」" + HIW + "＝－\n"
+"$N稍稍吐了一口氣，逆運體內洗髓經，將" + HIR + "陽剛之氣" + HIW + "轉化為" + HIB + "陰柔之勁\n" + HIW
 "   兩肘往上微抬，將陰柔之勁運至雙臂，右拳左掌，直擊橫推\n"
-"     幻化出兩道"HIC"冰龍"HIW"，剛柔並濟，一快一慢的打向$n的$l。\n"NOR,
+"     幻化出兩道" + HIC + "冰龍" + HIW + "，剛柔並濟，一快一慢的打向$n的$l。\n" + NOR,
 "dodge":-120,
 "parry":100,
 "force":250,
@@ -168,10 +168,10 @@ $n的$l削去。",
 "post_action" : (: attack2 :),
 ]),
 //17
-(["action":HIW"                $N使出降龍失傳絕學第三式\n"
-"             －＝"HIM"「X羝－羊－觸－藩[」"HIW"＝－\n"
+(["action":HIW + "                $N使出降龍失傳絕學第三式\n"
+"             －＝" + HIM + "「X羝－羊－觸－藩[」" + HIW + "＝－\n"
 "          $N運起洗髓經十成功\力，將真氣運至雙手，凝氣為劍\n"
-"連劍帶掌，無數"HIY"光芒"HIW"有如"YEL"迅"HIY"雷"BLU"疾"HIB"風"HIW"向$n相互激盪而去，掌意劍意同時擊向$n。\n"NOR,
+"連劍帶掌，無數" + HIY + "光芒" + HIW + "有如" + YEL + "迅" + HIY + "雷" + BLU + "疾" + HIB + "風" + HIW + "向$n相互激盪而去，掌意劍意同時擊向$n。\n" + NOR,
 "dodge":-150,
 "parry":100,
 "force":250,
@@ -180,11 +180,11 @@ $n的$l削去。",
 "post_action" : (: attack3 :),
 ]),
 //18
-(["action":HIW"$N向後翻身一躍，退後數尺，全力鼓催體內的"HIY"降龍勁"HIW"，內勁如潮暴湧，牽動四方氣流，渾身冒出陣陣白煙。\n"
-"白煙繚繞，身後幻化出如真似假的"HIC"龍形氣勁"HIW"，四周氣流相互激盪，震的$n血脈紊亂。\n"
-"只見$N傲然聳立，狀甚平靜，但其身後的"HIB"龍形氣勁"HIW"，卻如箭在弦，有飛龍在天之威。\n\n"NOR
-"       霎時$N"HIY"豪光"NOR"暴現，體內降龍勁破體而出，使出降龍最終奧義。\n"NOR
-HIW"            ─＝"HIR"Y 龍  嘯  九  天 Z"HIW"＝─"NOR,
+(["action":HIW + "$N向後翻身一躍，退後數尺，全力鼓催體內的" + HIY + "降龍勁" + HIW + "，內勁如潮暴湧，牽動四方氣流，渾身冒出陣陣白煙。\n"
+"白煙繚繞，身後幻化出如真似假的" + HIC + "龍形氣勁" + HIW + "，四周氣流相互激盪，震的$n血脈紊亂。\n"
+"只見$N傲然聳立，狀甚平靜，但其身後的" + HIB + "龍形氣勁" + HIW + "，卻如箭在弦，有飛龍在天之威。\n\n" + NOR
+"       霎時$N" + HIY + "豪光" + NOR + "暴現，體內降龍勁破體而出，使出降龍最終奧義。\n" + NOR
+HIW + "            ─＝" + HIR + "Y 龍  嘯  九  天 Z" + HIW + "＝─" + NOR,
 "dodge":-100,
 "parry":100,
 "force":150,
@@ -229,7 +229,7 @@ void attack1(object me, object victim, object weapon, int damage)
  att_value = random(2*skill);
  if((me->query_skill_mapped("force")=="siseforce")&&(me->query("force_factor") >= 1 ))
   {
-   message_vision(HIG"$N雙掌蘊含的洗髓勁有如厲雷疾風的向$n飛奔而去，$n硬擋之下洗髓勁已穿體而過，震傷了$n的心脈\n"NOR,me,victim);
+   message_vision(HIG + "$N雙掌蘊含的洗髓勁有如厲雷疾風的向$n飛奔而去，$n硬擋之下洗髓勁已穿體而過，震傷了$n的心脈\n" + NOR,me,victim);
    victim->add("force",-att_value);
    COMBAT_D->report_status(victim, 1);
    victim->apply_condition("hart",random(15));
@@ -242,7 +242,7 @@ void attack2(object me, object victim, object weapon, int damage)
  busy_value = skill / 50;
  if((me->query_skill_mapped("force")=="siseforce")&&(me->query("force_factor") >= 1 ))
   {
-   message_vision(HIC"兩道陰柔冷冽勁氣竄入$N的體內，奇寒蝕骨使$N一時無法行動。\n"NOR,victim);
+   message_vision(HIC + "兩道陰柔冷冽勁氣竄入$N的體內，奇寒蝕骨使$N一時無法行動。\n" + NOR,victim);
    victim->start_busy( random(busy_value) );
    COMBAT_D->report_status(victim, 1);
    victim->apply_condition("cold",random(15));
@@ -257,7 +257,7 @@ void attack3(object me, object victim, object weapon, int damage)
  att_value=random(2*skill);
  if((me->query_skill_mapped("force")=="siseforce")&&(me->query("force_factor") >= 1 ))
  {
-  message_vision(HIM"$N低喝一聲，將掌中劍氣射向$n，無數劍茫激射而去，$n避無可避，慘遭劍氣穿體。\n"NOR,me,victim);
+  message_vision(HIM + "$N低喝一聲，將掌中劍氣射向$n，無數劍茫激射而去，$n避無可避，慘遭劍氣穿體。\n" + NOR,me,victim);
   victim->add("kee",-att_value);
   COMBAT_D->report_status(victim,1);
   victim->apply_condition("swordkee",random(15));
@@ -307,25 +307,25 @@ void again1(object me, object victim, object weapon, int damage)
         < skilv+random((int)me->query_skill("dodge",1)*i
         + (int)victim->query_skill("move",1)) )
     {
-     message_vision(HIC"$N的勁力澎湃洶湧，$n一時招架不住，被$N一掌轟中，「哇！」一聲吐出一口鮮血！！\n"NOR,me,victim);
+     message_vision(HIC + "$N的勁力澎湃洶湧，$n一時招架不住，被$N一掌轟中，「哇！」一聲吐出一口鮮血！！\n" + NOR,me,victim);
      victim->receive_damage("kee",(skilv*i/10));
      COMBAT_D->report_status(victim,1);
      me->add("force",-(skilv*maxlv/100));
      mydamage = mydamage+(skilv*i)/10;
    } else
    {
-    message_vision(HIW"$n在掌影的包圍之下，看出$N的破綻，左閃右躲的躲過了$N凌厲的殺招\n"NOR,me,victim);
+    message_vision(HIW + "$n在掌影的包圍之下，看出$N的破綻，左閃右躲的躲過了$N凌厲的殺招\n" + NOR,me,victim);
      me->add("force",-skilv*maxlv/100);
      mydamage = mydamage+(skilv*i)/10;
    }
  }
  if(i>=9)
  {
-  message_vision(HIR"$N使出龍嘯九天後內力耗損過巨，氣息大亂，呼吸沉重四肢酸痛難奈，不得不趕緊運氣調息。\n"NOR,me);
+  message_vision(HIR + "$N使出龍嘯九天後內力耗損過巨，氣息大亂，呼吸沉重四肢酸痛難奈，不得不趕緊運氣調息。\n" + NOR,me);
         me->start_busy((skilv+maxlv)/50);
         COMBAT_D->report_status(victim,1);
  } else {
- message_vision(HIR"$N擊出"+chinese_number(i)+"掌後，真氣一散，內力無以為繼，反被降龍勁所傷，吐出一口鮮血！\n"NOR,me);
+ message_vision(HIR + "$N擊出"+chinese_number(i)+"掌後，真氣一散，內力無以為繼，反被降龍勁所傷，吐出一口鮮血！\n" + NOR,me);
  me->start_busy((skilv+maxlv)/100);
  me->receive_damage("kee",mydamage);
  COMBAT_D->report_status(victim,1);

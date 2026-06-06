@@ -5,7 +5,7 @@ inherit STABBER;
 void create()
 {
         object me=this_player();
-        set_name(HIW"冰雪寒絲針"NOR, ({"cold needle", "needle"}) );
+        set_name(HIW + "冰雪寒絲針" + NOR, ({"cold needle", "needle"}) );
         set_weight(5000);
         if( clonep() )
          set_default_object(__FILE__);

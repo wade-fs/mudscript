@@ -40,9 +40,9 @@ int do_search(string arg)
 
   if (me->query_temp("firstpart") == 2 )
   {
-    message_vision(HIY"$N因為對此處的感到非常懷疑，居然發現了一個開關。\n"NOR, me); 
-    message_vision(HIY"$N往這一個開關押下去...................\n"NOR, me); 
-    tell_object(me,HIY"一陣衝撞力將你彈飛，落入陷阱之中一直墜落～～\n"NOR);
+    message_vision(HIY + "$N因為對此處的感到非常懷疑，居然發現了一個開關。\n" + NOR, me); 
+    message_vision(HIY + "$N往這一個開關押下去...................\n" + NOR, me); 
+    tell_object(me,HIY + "一陣衝撞力將你彈飛，落入陷阱之中一直墜落～～\n" + NOR);
     me->move("/open/killer/ninja/find/sonrm.c");
     return 1;
   }

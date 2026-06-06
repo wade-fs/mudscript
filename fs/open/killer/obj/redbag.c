@@ -2,7 +2,7 @@ inherit ITEM;
 #include <ansi.h>
 void create()
 {
-set_name(HIR "紅包" NOR,({"red bag","bag","red"}));
+set_name(HIR + "紅包" + NOR,({"red bag","bag","red"}));
 set("long","過年發給小朋友的紅包, 可以打開(open)看看裡面有什麼。\n");
      set("unit","包");
      set_weight(1);

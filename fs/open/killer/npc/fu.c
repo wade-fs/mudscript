@@ -25,7 +25,7 @@ add_money("gold",2);
 
 int accept_kill(object who)
 {
-   say(HIY"糟糕！被發現了！！\n"NOR);
+   say(HIY + "糟糕！被發現了！！\n" + NOR);
    setup();
    return 1;
 }
@@ -37,14 +37,14 @@ void die()
    killer=query_temp("last_damage_from");
    if(killer->query_temp("kill_fu") != 1 )
    {
-     message_vision(HIY"可惡！居然會敗在你的手下,無法完成任務了\n"NOR,this_object());
+     message_vision(HIY + "可惡！居然會敗在你的手下,無法完成任務了\n" + NOR,this_object());
      message_vision("說完之後他就倒下了。。。。\n",this_object());
      head=new("/open/killer/obj/fu_head.c");
      head->move(this_object());
    }
    if (killer->query_temp("kill_fu") == 1)
    {
-     message_vision(HIY"居然為了一個香包，我會死在黑牙聯。。。含恨呀！\n"NOR,this_object());
+     message_vision(HIY + "居然為了一個香包，我會死在黑牙聯。。。含恨呀！\n" + NOR,this_object());
      message_vision("說完之後他就倒下了。。。。\n",this_object());
      head=new("/open/killer/obj/fu_page.c");
      head->move(this_object());

@@ -21,20 +21,20 @@ int valid_leave(object me,string dir)
 me=this_player();
 if(present("octopus",environment(me)))
 {
-return notify_fail(HIR"你被八爪章魚給檔了下來。\n"NOR);
+return notify_fail(HIR + "你被八爪章魚給檔了下來。\n" + NOR);
 }
 if(me->query_temp("put_water")!=1)
 {
 me->move("/open/killer/outsea/sea01.c");
-return notify_fail(HIC"你被強力的海潮沖了回來。\n"NOR);
+return notify_fail(HIC + "你被強力的海潮沖了回來。\n" + NOR);
 }
 if(!present("dragon_stone",me))
 {
-return notify_fail(HIC"你被強力的海潮沖了回來。\n"NOR);
+return notify_fail(HIC + "你被強力的海潮沖了回來。\n" + NOR);
 }
 else
 {
-message_vision(HIY"$N運起強大的內力，使得水壓不置於壓迫其身。\n"NOR,me);
+message_vision(HIY + "$N運起強大的內力，使得水壓不置於壓迫其身。\n" + NOR,me);
 me->add("force",-100);
 return 1;
 }

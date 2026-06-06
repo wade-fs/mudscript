@@ -5,7 +5,7 @@ inherit EQUIP;
 
 void create()
 {
-	set_name( HIW "龍鬚衣" NOR ,({"dragon cloth","cloth"}));
+	set_name( HIW + "龍鬚衣" + NOR ,({"dragon cloth","cloth"}));
 	set_weight(1000);
 	// 幹嘛設成 do_drop? 我拿掉了.
         // set("no_drop",1);

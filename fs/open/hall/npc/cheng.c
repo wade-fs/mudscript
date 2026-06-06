@@ -186,7 +186,7 @@ void die()
 	  if( j==7 || j==77 || j== 777 || j==1111 || j==55 || j==555 || j==1000 || j==4000 || j==3333 || j==2222 )
 	  {
 	  new("/open/sky/obj9/health-charm")->move(environment(winner));
-	  message_vision(HIM"\n從紀無塵的身上掉下了一件奇怪的東西!!\n"NOR,winner);
+	  message_vision(HIM + "\n從紀無塵的身上掉下了一件奇怪的東西!!\n" + NOR,winner);
           write_file("/log/sky/obj9/health_charm",sprintf("%s(%s) 讓紀無塵掉下了健康之符於 %s\n",
 	  winner->name(1),winner->query("id"),ctime(time())));
 	  }
@@ -195,7 +195,7 @@ void die()
 	  if( j==5 || j==15 || j== 150 || j==1500 || j==10 || j==100 || j==1000 || j==4000 || j==6666 || j==7777 )
 	  {
 	  new("/open/sky/obj9/health-charm")->move(environment(winner));
-	  message_vision(HIM"\n從紀無塵的身上掉下了一件奇怪的東西!!\n"NOR,winner);
+	  message_vision(HIM + "\n從紀無塵的身上掉下了一件奇怪的東西!!\n" + NOR,winner);
           write_file("/log/sky/obj9/health_charm",sprintf("%s(%s) 讓紀無塵掉下了健康之符於 %s\n",
 	  winner->name(1),winner->query("id"),ctime(time())));
 	  }
@@ -213,7 +213,7 @@ string ask_test()
   int i;
   i=6+random(5);
   command("say 謝謝您的幫忙.我願意將appo給我的印記傳到你身上!\n");
-  tell_object(this_player(),HIW"瞬間由紀無塵將手搭在你的肩上..你頓時覺得一股暖意由紀無塵的手中傳過來\n"NOR);
+  tell_object(this_player(),HIW + "瞬間由紀無塵將手搭在你的肩上..你頓時覺得一股暖意由紀無塵的手中傳過來\n" + NOR);
   this_player()->set("quests/2ndtest",i);
   this_player()->set("quests/yantestmark2",1);
   return("最後一個印記在聖賢書手上,你可以去找他問問了\n");

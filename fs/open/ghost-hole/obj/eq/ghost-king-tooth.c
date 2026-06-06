@@ -3,7 +3,7 @@ inherit ITEM;
 
 void create()
 {
-        set_name(HIC"(斷裂)死靈骨魔爪牙"NOR,({"ghost-king-tooth"}));
+        set_name(HIC + "(斷裂)死靈骨魔爪牙" + NOR,({"ghost-king-tooth"}));
         set_weight(100);
         set("long","這是當年死靈骨魔與焚天魔王練武時，不小心被焚天魔王打斷的牙齒，由於牙齒內含有極火功\與冥魔妖氣\n兩種渾然不同的絕世內勁，所以對於冥魔戰甲具有特殊的融合強化(enrich)效果。\n");
         set("unit","個");
@@ -36,10 +36,10 @@ if(!(me->query_temp("ko_ghost_king")))
 			|| !present("ghost-king-gloves",me) || !present("ghost-king-armband",me) || !present("ghost-king-leggings",me) 
 			|| !present("ghost-king-shield",me) || !present("ghost-king-ring",me) || !present("ghost-king-pants",me) )
 	    {
-          message_vision("$N發覺似乎還少了什麼元素，"HIC"(斷裂)死靈骨魔爪牙"NOR"一動也沒動。\n",me);
+          message_vision("$N發覺似乎還少了什麼元素，" + HIC + "(斷裂)死靈骨魔爪牙" + NOR + "一動也沒動。\n",me);
           return 0;
 	    }else{
-        message_vision(CYN""BBLU"$N讓自己的意識墮入黑暗深淵，誠心祈求邪靈庇護，(斷裂)死靈骨魔爪牙幻化成一只冥魔寶盒。\n"NOR,me);
+        message_vision(CYN + "" + BBLU + "$N讓自己的意識墮入黑暗深淵，誠心祈求邪靈庇護，(斷裂)死靈骨魔爪牙幻化成一只冥魔寶盒。\n" + NOR,me);
         log_file("open-area/get_ghostbox", sprintf("%s(%s)得到冥魔寶盒於 %s\n",me->query("name"),me->query("id"), ctime(time())));
         obj = new("/autoload/ghost-eq/ghost-save-box");
         obj->move(me);

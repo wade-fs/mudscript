@@ -3,7 +3,7 @@ inherit ROOM;
 #include "icestorm.c"
 void create()
 {
-        set("short",HIC"洞庭湖"HIY"神殿"NOR);
+        set("short",HIC + "洞庭湖" + HIY + "神殿" + NOR);
         set ("long", @LONG
 這裡是洞庭湖神殿，洞庭湖為中土長江流域之中的第二大湖泊，
 一根高聳入天的石柱佇立在此，看來就是調節洞庭湖水量的支柱了，

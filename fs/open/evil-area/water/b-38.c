@@ -4,7 +4,7 @@ inherit ROOM;
 
 void create()
 {
-	set("short",HIG"琰 揚 居 -- "NOR+YEL"大 松 樹"NOR);
+	set("short",HIG + "琰 揚 居 -- "NOR+YEL"大 松 樹" + NOR);
 	set("long",(: printf_tree :));
 	set("evil_area",1);
 	set("no_transmit",1);

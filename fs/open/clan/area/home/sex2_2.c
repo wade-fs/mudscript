@@ -5,7 +5,7 @@ inherit ITEM;
 
 void create()
 {
-	set_name( HIW"愛液"NOR, ({ "love water", "water" }) );
+	set_name( HIW + "愛液" + NOR, ({ "love water", "water" }) );
 	set( "long", "香香的愛液, 雖然只有一小滴, 卻足以讓男人神魂顛倒!" );
 	if( clonep() )
 		set_default_object(__FILE__);
@@ -42,14 +42,14 @@ int do_drink( string arg )
 
 	message_vision( "$N將" + ob->name() + "喝了下去。\n", me );
 	if( me->query("gender")=="女性" ) {
-		message_vision( HIM"$N「哇!」地一聲, 吐了滿地。\n"NOR, me );
+		message_vision( HIM + "$N「哇!」地一聲, 吐了滿地。\n" + NOR, me );
 		me->set( "gin", 1 );
 		me->set( "kee", 1 );
 		me->set( "sen", 1 );
 		me->set( "water", 0 );
 	}
 	else {
-		message_vision( HIM"$N「哇!」地一聲, 感覺精神百倍。\n"NOR, me );
+		message_vision( HIM + "$N「哇!」地一聲, 感覺精神百倍。\n" + NOR, me );
 		me->set( "water", me->max_water_capacity() );
 		if( me->query("eff_gin") < me->query("max_gin") )
 			me->add( "eff_gin", 10 + random(11) );

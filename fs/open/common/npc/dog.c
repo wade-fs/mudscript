@@ -57,16 +57,16 @@ void heart_beat()
 			command( "dog" );
 			break;
 		default :
-			message_vision( HIR"$N流著口水, 嗤牙咧嘴的, 顯然是狂犬病發作了。\n"NOR, me );
+			message_vision( HIR + "$N流著口水, 嗤牙咧嘴的, 顯然是狂犬病發作了。\n" + NOR, me );
 		}
 
 		for( i=0; i<sizeof(inv); i++ )
 			if( inv[i]!=me && inv[i]->query("id")!="dog" && !inv[i]->query_condition("lyssa") && living(inv[i]) && userp(inv[i]) )
 				if( random(sizeof(inv))==1 )
 					if( wizardp(inv[i]) || inv[i]->query( "no_lyssa", 1 ) ) {
-						message_vision( HIR"$N狠狠地咬了$n一口!\n"NOR
+						message_vision( HIR + "$N狠狠地咬了$n一口!\n" + NOR
 								   "$n驚道: 糟了, 是狂犬病!\n"
-								CYN"$n趕緊運起天邪神功\, 體內不斷冒出陣陣黑氣。\n"NOR, me, inv[i] );
+								CYN + "$n趕緊運起天邪神功\, 體內不斷冒出陣陣黑氣。\n" + NOR, me, inv[i] );
 						if( inv[i]->query("force") >= 100 )
 							inv[i]->add( "force", -100 );
 						else
@@ -74,7 +74,7 @@ void heart_beat()
 						tell_object( inv[i], "你成功\地逼出狂犬病之病毒。\n" );
 					}
 					else {
-						message_vision( HIR"$N狠狠地咬了$n一口, $n被傳染了狂犬病。\n"NOR, me, inv[i] );
+						message_vision( HIR + "$N狠狠地咬了$n一口, $n被傳染了狂犬病。\n" + NOR, me, inv[i] );
 						inv[i]->apply_condition( "lyssa", me->query("age") );
 					}       	
         }
@@ -86,7 +86,7 @@ void die()
 {
 object me = this_object();
 object winner = query_temp("last_damage_from");
-message_vision(HIR"$N臨死前,狠狠的咬了$n一口,$n被傳染狂犬病了.\n"NOR,me,winner);
+message_vision(HIR + "$N臨死前,狠狠的咬了$n一口,$n被傳染狂犬病了.\n" + NOR,me,winner);
 winner->apply_condition("lyssa",winner->query("age"));
 ::die();
 }

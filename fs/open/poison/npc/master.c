@@ -4,7 +4,7 @@ inherit NPC;
 inherit F_MASTER;
 void create()
 {
-        set_name(YEL"二十五銅人"NOR,({"twenty-five master","master"}));
+        set_name(YEL + "二十五銅人" + NOR,({"twenty-five master","master"}));
         set("long", @LONG
 這裡共有二十五尊銅人立足，每一尊的表情，姿態皆不
 相同，更奇怪的是每尊銅人的背後，都寫了一行詩句，

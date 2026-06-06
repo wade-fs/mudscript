@@ -3,7 +3,7 @@ inherit ROOM;
 #include <ansi.h>
 #include "wind-rain.h"
 void create () {
-set ("short",HIY"湜雨廳"NOR);
+set ("short",HIY + "湜雨廳" + NOR);
 set ("long", @LONG
 四面皆是雕空玲瓏木，或流雲百蝠，或歲寒三友，或山水人物，或
 翎毛花卉，或集錦，或博古，或萬福萬壽，均是名手雕縷，五彩鑲

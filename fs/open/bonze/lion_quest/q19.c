@@ -24,7 +24,7 @@ LONG);
 
   set("need_key/east",1);       //設定door的房向及key哦 不設定此行就無須鑰匙只是單純鎖上而已(DOOR_LOCKED)
 //可宣告 四種 DOOR_OPENED;DOOR_CLOSED;DOOR_LOCKED;或是只有宣告門存在而已 參考// Room: /u/w/wade/workroom.c
-  create_door("down",HIB"鐵門"NOR,"up",DOOR_LOCKED);
+  create_door("down",HIB + "鐵門" + NOR,"up",DOOR_LOCKED);
   set("item_desc", ([ /* sizeof() == 1 */
   "down" : (: look_door,     "down" :),
 ]));

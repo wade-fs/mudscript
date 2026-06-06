@@ -4,12 +4,12 @@ inherit ROOM;
                 
 void create ()
 {
-  set ("short", "¥ð®§«Ç");
+  set ("short", "ð®§«");
   set ("long", @LONG
-³o¬O±þ¤â­Ì±µ¨ü¯S°V«áªº¥ð®§ªº¦a¤è  
-¦b³o¨à¦³¤@¤p¤ô¦À(water),¦À¤ô¦ü¥G¦³ÂIÅ¼¡A¦ý¬OÁÙ¬O¥i¥H³Üªº,
-¤£¹L§Ú·QÁÙ¬O¤£­n³Ü¤ñ¸û¦n¡A®³¨Ó¬~ªF¦è­Ë¬O¤£¿ùªº«ØÄ³¡C
-¥i¥HÅ¥¨ì¦a¤U¶Ç¨Ó¤@°}°}²F²Fªº¤ôÁn,·Q¥²¬O¦a¤U¤ô·½©Òµo¥Xªº
+oOÌ±SVáªºð®§ªa  
+boà¦³@p(water),GIÅ¼AOÙ¬OiHÜª,
+LÚ·QÙ¬OnÜ¤nAÓ¬~FË¬OÄ³C
+iHÅ¥aUÇ¨Ó¤@}}FFn,QOaUÒµoX
 
 
 LONG);
@@ -19,7 +19,7 @@ LONG);
   "west" : __DIR__"restrm.c",
 ]));
   set("item_desc", ([ /* sizeof() == 1 */
-  "water" : "¦À¤ôÁöµM¦³ÂI©ÇÃC¦â,¦ý¬O§AÁÙ¬O¥i¥H¦b³o¨à³Ü¤ô(drink) 
+  "water" : "MIC,OAÙ¬OiHboÜ¤(drink) 
 ",
    ]));
   set("resource", ([ /* sizeof() == 1 */
@@ -44,10 +44,10 @@ int do_drink(string arg)
     me = this_player();
     if ( (int)me->query("water") >= (int)me->max_water_capacity() )
     {
-     tell_object(me,"§A¤w¸g¤@¤f¤ô¤]³Ü¤£¤U¤F.......\n");
+     tell_object(me,"Awg@f]Ü¤UF.......\n");
      return 1;
     }
-    tell_object(me,"§A±q¦À¤¤¯æ¤F´X¤f¤ô³Ü¡Aµo²{¦À¤ô¦ü¥G¦³©Ç¨ý......\n");
+    tell_object(me,"AqFXfÜ¡Ao{GÇ¨......\n");
     me->add("water",40);
     return 1;  
   }
@@ -58,14 +58,14 @@ int do_enter(string arg)
    object who;
    who=this_player();
    if(who->query("class")!="killer")
-   return notify_fail("³o¬O±þ¤â±M¥Î±K¹D,¤@¯ë¤HµLªk¶i¤J!\n");
+   return notify_fail("oOMÎ±KD,@HLkiJ!\n");
    if((arg="water") || (arg=="water")) {
-   message_vision(GRN"$N¶i¤J¤F¤p¤ô¦À¤¤\n"NOR,who);
-   tell_object(who,"\n§A¥uÅ¥¨ì¡ã¡ã¡ã¡ã¼M°Õ¡ã¡ã¡ã¡ã
-    ¡ã¡ã¡ã¡ã¡ã¡ã¡ã¡ã¡ã¡ã¡ã¡ã¡ã¡ã¡ã¡ã¡ã¡ã¡ã¡ã¡ã¡ã¡ã¡ã¡ã¼M°Õ¡ã¡ã¡ã\n\n");
-   tell_object(who,HIW"¥u¨£¤@°}±j¤jªº¤ô¶Õªï­±¦Ó¨Ó¡ã¡ã \n"NOR);
-   tell_object(who,"§A¦bµLªk¤Ï§Ü¤§¤U³Q¤ô¬y±a©¹¥L³B \n");
-tell_object(who,HIC"\n§A·PÄ±¤ô¶Õ´î®z,ÀH«K¶Ã§ì¤§¤U,©ê¦í¤@Áû¤j¥ÛÀY \n\n"NOR);
+   message_vision(GRN + "$NiJFp\n" + NOR,who);
+   tell_object(who,"\nAuÅ¥MÕ¡
+    MÕ¡\n\n");
+   tell_object(who,HIW + "u@}jjÕªï­±Ó¨Ó¡ \n" + NOR);
+   tell_object(who,"AbLkÏ§Ü¤UQyaLB \n");
+tell_object(who,HIC + "\nAPÄ±Õ´z,HKÃ§ì¤§U,@jY \n\n" + NOR);
 who->move(__DIR__"stonerm.c");
    return 1;
    }
@@ -80,15 +80,15 @@ int do_wash(string arg)
 
    if(present("herb",who))
    {
-     tell_object(who,"\n§A±N´I¤h¤s¯µ¯ó©ñ¤J³o­Ó©ÇÃC¦âªº¤ô¦À¤¤¡A
-      ¼M°Õ¦a¬~¤F°_¨Ó¡ã\n\n");
-     tell_object(who,HIW"¥u¨£¤@°}©_©ÇªºÃC¦âÅÜ¤Æ¡ã¡ã \n"NOR);
-     tell_object(who,"¯µ¯óµo¥X¤F©_²§ªº¥ú¨~¡AÀ³¸Ó¥i¥H¤F§a¡C¡C¡C \n");
+     tell_object(who,"\nANIhsJoÓ©CâªºA
+      MÕ¦a~F_Ó¡\n\n");
+     tell_object(who,HIW + "u@}_ÇªCÜ¤Æ¡ \n" + NOR);
+     tell_object(who,"oXF_~AÓ¥iHFaCCC \n");
    }
    if(who->query_temp("herb_1")==1)
    {
-     tell_object(who,HIW"¦ý¬O¥Ñ©ó§A¦A¤@¦¸¬~¯µ¯ó¡ã¡ã \n"NOR);
-     tell_object(who,"¨Ï±o¯µ¯óµo¥X¤Fª÷¦âªº¥ú¨~¡A²×©ó¥i¥H¤F¡I \n");
+     tell_object(who,HIW + "OÑ©AA@~ \n" + NOR);
+     tell_object(who,"Ï±ooXFâªº~A×©iHFI \n");
      who->set_temp("herb_1",2);
    }
    who->set_temp("herb_1",1);

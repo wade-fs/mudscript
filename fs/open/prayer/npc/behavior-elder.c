@@ -85,8 +85,8 @@ int accept_kill(object ob)
   add_temp("kill_me",1);
   if(query_temp("kill_me")>5)
   {          
-    message_vision( HIY"\n$N受不了敵人的騷擾而發狂了!!\n"NOR,ob1);
-    set("title",HIR"〈發狂〉"NOR);         
+    message_vision( HIY + "\n$N受不了敵人的騷擾而發狂了!!\n" + NOR,ob1);
+    set("title",HIR + "〈發狂〉" + NOR);         
     enemy = all_inventory( environment(ob1) );
     j=sizeof(enemy);
     for(i=0;i<j;i++)
@@ -97,7 +97,7 @@ int accept_kill(object ob)
   }
   if( !present("hu-fa", environment(ob)) && living(ob1))
   {
-    tell_room(environment(ob),HIW"\n突然！衝出兩位護法!!\n\n"NOR);
+    tell_room(environment(ob),HIW + "\n突然！衝出兩位護法!!\n\n" + NOR);
     for(i=0;i<2;i++)
     {
       hu_fa = new("/open/prayer/npc/hu_fa");

@@ -5,7 +5,7 @@ inherit ITEM;
 
 void create()
 {
-    set_name(HIC"獨孤詩文集"NOR,({"poet book"}));
+    set_name(HIC + "獨孤詩文集" + NOR,({"poet book"}));
     set_weight(100);
     if( clonep() )
 	set_default_object(__FILE__);

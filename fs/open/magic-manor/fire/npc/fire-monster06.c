@@ -9,7 +9,7 @@ void create()
   object ob;
   set_name("小火妖", ({ "fire monster","fire","monster" }) );
   set("long","出沒於火靈塔中的妖物，擅長使用火焰攻擊。\n");
-  set("title",HIR"(紅色靈氣)"NOR);
+  set("title",HIR + "(紅色靈氣)" + NOR);
   set("age", 60);
   set("max_gin", 10000);
   set("max_kee", 10000);
@@ -73,7 +73,7 @@ void heart_beat()
 
   if( random(10) > 6 && mob->is_fighting() )
   {
-    message_vision(HIR"$N身上的紅色靈氣和火靈塔相互感應，火捲漫天，數不清的火焰向所有在場的人攻去!!\n"NOR,mob);
+    message_vision(HIR + "$N身上的紅色靈氣和火靈塔相互感應，火捲漫天，數不清的火焰向所有在場的人攻去!!\n" + NOR,mob);
     for (j=0 ; j < i ; j++)
     {
       if( !enemy[j] ) continue;
@@ -82,11 +82,11 @@ void heart_beat()
       {
         if( !enemy[j]->query_temp("magic-manor/water-shield") )
         {
-          message_vision(HIR"$N"HIR"只感渾身灼熱，還不時傳出陣陣燒焦的臭味!!\n"NOR,(enemy[j]));
+          message_vision(HIR + "$N" + HIR + "只感渾身灼熱，還不時傳出陣陣燒焦的臭味!!\n" + NOR,(enemy[j]));
           enemy[j]->receive_wound("kee",400);
           COMBAT_D->report_status(enemy[j]);
         } else {
-          message_vision(HIC"$N"HIC"身上的水靈之氣緩和了部份的火焰衝擊!!\n"NOR,(enemy[j]));
+          message_vision(HIC + "$N" + HIC + "身上的水靈之氣緩和了部份的火焰衝擊!!\n" + NOR,(enemy[j]));
           enemy[j]->receive_wound("kee",200);
           COMBAT_D->report_status(enemy[j]);
         }

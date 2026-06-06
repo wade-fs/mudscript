@@ -11,7 +11,7 @@ string *user_id_2 = ({
 }),*user_id_4 = ({"puffy","smirk","sdgudam","cyr","leing","chan"});
 void create ()
 {
-set ("short",HIC"網聚獎品『替身』發放處"NOR);
+set ("short",HIC + "網聚獎品『替身』發放處" + NOR);
 set ("long","這次網聚共有將近七十位玩家參加!!!!
 網聚的獎品單請打help fs_net及help fs_net2
 此房間是用來發放網聚替身的房間!!

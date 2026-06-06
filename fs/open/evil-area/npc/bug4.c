@@ -4,7 +4,7 @@ inherit SSERVER;
 
 void create() 
 {
-        set_name(BLU"百帶"NOR,({"evil-clever","clever"}));
+        set_name(BLU + "百帶" + NOR,({"evil-clever","clever"}));
         set("long",
             "\n它是隱藏於陣邪塔的邪靈之一，一聞到生人氣息就蹦出來吃人。\n");
         set("age",1937);
@@ -51,7 +51,7 @@ void heart_beat()
 		if( env == environment(target) && random(sk1) > random(sk2))
 		{
 		message_vision("
-\n$N"HIR"使出所有纏繞於身的帶子，急速旋轉，帶子彷彿雨點般的打中了$n!!\n\n"NOR,ob,target);
+\n$N" + HIR + "使出所有纏繞於身的帶子，急速旋轉，帶子彷彿雨點般的打中了$n!!\n\n" + NOR,ob,target);
 		target->receive_wound("kee",200);
 		COMBAT_D->report_status(target,1);
 		ob->start_busy(1);

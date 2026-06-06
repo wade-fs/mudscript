@@ -9,12 +9,12 @@ void create()
   set_name("百里勇",({"ung baily","ung","baily"}));
   set("long","百里勇乃是段氏嫡族中肩負、擔任晶谷守關的四天王之一，\n"
             +"其刀術乃族中的第一把交椅，而且他愛刀如命。他一直認為\n"
-            +"如果能擁有一把真正的好刀就可以在『"HIR"刀"NOR"』的境界上更上一\n"
+            +"如果能擁有一把真正的好刀就可以在『" + HIR + "刀" + NOR + "』的境界上更上一\n"
             +"層樓、更進一步。聽說他最近在找一把傳說中刀中之刀。\n");
   set("gender","男性"); 
   set("class","blademan");
   set("title","段家第十代刀宗");
-  set("nickname",""HIR"萬刃刀聖"NOR"");
+  set("nickname","" + HIR + "萬刃刀聖" + NOR + "");
   set("attitude","heroism");
   set("age",35);
   set("max_kee",5000);
@@ -52,7 +52,7 @@ void create()
   set("chat_msg", ({
             ""+HIC+"百里勇自言自語的道: 登峰造極的『刀』是我儘管花盡我一生的精華，所追求的目標。"+NOR+"\n",
             ""+HIC+"百里勇對著手上的刀說: 我手上這把"+HIY+"紫金"+HIC+"堪稱刀中之刀，但世上還有一把比之更具霸氣的刀。"+NOR+"\n",
-            ""+HIY+"百里勇嘆道: 真想見識一下傳聞中的最狂的刀"+HIR+"～"HIC"太皇刀─藍牙"+HIY+"呀！"+NOR+"\n",
+            ""+HIY+"百里勇嘆道: 真想見識一下傳聞中的最狂的刀"+HIR+"～" + HIC + "太皇刀─藍牙"+HIY+"呀！"+NOR+"\n",
                }));
 setup();
   add_money("gold",10);

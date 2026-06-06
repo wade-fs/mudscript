@@ -25,8 +25,8 @@ void die()
    object winner = query_temp("last_damage_from");
 if(winner->query("family/family_name")=="仙劍派" && winner->query("bloodsword")==1)
 {
-        tell_object(users(),HIM"\n\n
-"HIC"鄭士欣"HIW"嘆道: 天意如此…眾弟子嚴陣以待隨時防備血魔入侵.\n\n"NOR);
+        tell_object(users(),HIM + "\n\n
+" + HIC + "鄭士欣" + HIW + "嘆道: 天意如此…眾弟子嚴陣以待隨時防備血魔入侵.\n\n" + NOR);
 winner->set("killyao",1);
 }
 ::die();

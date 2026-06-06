@@ -3,7 +3,7 @@ inherit ROOM;
 
 void create()
 {
-	set( "short", "七星陣門-"HIW"天樞"NOR );
+	set( "short", "七星陣門-" + HIW + "天樞" + NOR );
 	set( "long", @long
 
     附近雲霧繚繞，一片霧茫茫的景色。完全無法看清楚四周的景物，似乎是有人
@@ -59,7 +59,7 @@ int greeting(object who)
   if(!who) return 1;
   if( who->query("bellicosity") > 500 ) {
     message_vision("	陣中雲霧感到邪氣逼近，瞬間匯聚成形...\n",who);
-    message_vision(HIR"\n\n	一聲狂吼，數條狂暴的雲龍奔騰而出，向$N衝來！！！\n"NOR,who);
+    message_vision(HIR + "\n\n	一聲狂吼，數條狂暴的雲龍奔騰而出，向$N衝來！！！\n" + NOR,who);
     seteuid(getuid());
     i=random(3)+1;
     while(i--) {

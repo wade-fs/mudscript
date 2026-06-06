@@ -5,7 +5,7 @@ inherit EQUIP;
 
 void create()
 {
-	set_name( HIY "虎紋披風" NOR,({"tiger surcoat","surcoat"}));
+	set_name( HIY + "虎紋披風" + NOR,({"tiger surcoat","surcoat"}));
 	set_weight(1000);
         set("no_drop",1);
 	set("armor_type","cape");

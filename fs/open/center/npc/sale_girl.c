@@ -89,7 +89,7 @@ string ask_test()
   int i;
   i=6+random(5);
   command("say 謝謝您的幫忙.我願意將appo給我的印記傳到你身上!\n");
-  tell_object(this_player(),HIW"瞬間由賣火柴的小辣妹將手搭在你的肩上..你頓時覺得一股暖意由小辣妹的手中傳過來\n"NOR);
+  tell_object(this_player(),HIW + "瞬間由賣火柴的小辣妹將手搭在你的肩上..你頓時覺得一股暖意由小辣妹的手中傳過來\n" + NOR);
   this_player()->set("quests/2ndtest",i);
   this_player()->set("quests/yantestmark2",1);
   return("最後一個印記在聖賢書手上,你可以去找他問問了\n");

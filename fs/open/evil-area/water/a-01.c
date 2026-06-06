@@ -3,7 +3,7 @@ inherit ROOM;
 
 void create ()
 {
-	set("short",HIC"琰 揚 湖"NOR);
+	set("short",HIC + "琰 揚 湖" + NOR);
 	set("long",@LONG
 在你的身旁走動著不少奇形怪狀的生物，不是頭上長個角就是身
 上多了幾條觸鬚，不過每一個生物似乎都已經習慣了生活週遭活動著

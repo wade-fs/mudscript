@@ -66,7 +66,7 @@ void heart_beat()
     mob->set("force",60000);
     mob->set("force_factor",40);
     message_vision( HIR
-         "\n小火龍燃起熾熱火焰將自身的內力倍增六成!!\n"NOR,mob);
+         "\n小火龍燃起熾熱火焰將自身的內力倍增六成!!\n" + NOR,mob);
   }
 
   if ( mob->query("kee")<90000 &&
@@ -77,7 +77,7 @@ void heart_beat()
      mob->receive_heal("kee",4000); 
    */
 
-    message_vision( HIY "\n小火龍運起神功\為自身療傷，傷口也慢慢癒合了\n"NOR,mob);
+    message_vision( HIY + "\n小火龍運起神功\為自身療傷，傷口也慢慢癒合了\n" + NOR,mob);
     mob->receive_curing("kee",500);
     mob->receive_heal("kee",500); 
   }
@@ -96,7 +96,7 @@ void heart_beat()
     if(mob->is_fighting())
     {
         message_vision( HIR
-        "\n小火龍從口中狂噴出火焰!!\n"NOR,mob);
+        "\n小火龍從口中狂噴出火焰!!\n" + NOR,mob);
        // mob->delete_busy()
 //沒道理心跳已經夠強了還加delete_busy    by frequency
         mob->apply_condition("burn", 0);
@@ -124,18 +124,18 @@ void heart_beat()
         hurt= 2000+random(2000);       
         if (enemy[j]->query("class")=="scholar" && enemy[j]->query("class")=="poisoner" && enemy[j]->query_temp("def_fire")!=1)
         {hurt = 1700+random(1000);
-        tell_object (enemy[j],HIG"你憑著你的機制躲過了小火龍的火焰!!\n"NOR);}
+        tell_object (enemy[j],HIG + "你憑著你的機制躲過了小火龍的火焰!!\n" + NOR);}
         if (enemy[j]->query_temp("def_fire")==1        //增加火龍鱗與焰氣訣加乘效果
         && enemy[j]->query_temp("def_fire1")==1)           
         {hurt = hurt - defire - 700;
-		tell_object (enemy[j],HIG"你身上的焰氣訣與火龍鱗發生共鳴緩和了小火龍的火焰!!\n"NOR);}
+		tell_object (enemy[j],HIG + "你身上的焰氣訣與火龍鱗發生共鳴緩和了小火龍的火焰!!\n" + NOR);}
         else if (enemy[j]->query_temp("def_fire")==1 ||          
         enemy[j]->query_temp("def_fire1")==1)
         {hurt = hurt - 1000;
-		tell_object (enemy[j],HIG"你身上的焰氣訣或火龍鱗發生共鳴緩和了小火龍的火焰!!\n"NOR);}
+		tell_object (enemy[j],HIG + "你身上的焰氣訣或火龍鱗發生共鳴緩和了小火龍的火焰!!\n" + NOR);}
         else if (enemy[j]->query_temp("gold-fire")==1 &&   //增加極火金身也可以擋掉500點功擊
         enemy[j]->query("functions/gold-fire/level","gold-fire") == 90)
-        {tell_object (enemy[j],HIG"你身上的極火金身緩和了小火龍的火焰!!\n"NOR);
+        {tell_object (enemy[j],HIG + "你身上的極火金身緩和了小火龍的火焰!!\n" + NOR);
 		hurt = hurt -500;}       
         enemy[j]->add("kee",-hurt);
         enemy[j]->apply_condition("burn",30);
@@ -177,8 +177,8 @@ void die()
                 pot = 50;
               }
               
-              tell_object(enemy[j],HIY"\n由於你的努力, 終於打倒了小火龍, 你辛苦的代價換來了寶貴的經驗!!\n"NOR);
-              tell_object(enemy[j],HIC"你的戰鬥經驗上升 "+exp+" 點, 潛在能力上升 "+pot+" 點!!\n"NOR);
+              tell_object(enemy[j],HIY + "\n由於你的努力, 終於打倒了小火龍, 你辛苦的代價換來了寶貴的經驗!!\n" + NOR);
+              tell_object(enemy[j],HIC + "你的戰鬥經驗上升 "+exp+" 點, 潛在能力上升 "+pot+" 點!!\n" + NOR);
               enemy[j]->add("potential",pot);
               enemy[j]->add("combat_exp",exp);
              }

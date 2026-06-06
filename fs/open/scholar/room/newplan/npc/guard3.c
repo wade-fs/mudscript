@@ -9,7 +9,7 @@ void create() {
         set_name("費  暐",({"guard wuo","wuo","guard"}));
         set("class","scholar");
         set("family/family_name","段家");
-        set("title",HIR"離(火)"NOR);
+        set("title",HIR + "離(火)" + NOR);
         set("long",
         "\n他是八卦陣的第三個守將。\n");
         set("str",40);
@@ -72,7 +72,7 @@ void heart_beat()
         if( is_fighting() ){
         if(random(100) <30 )
         {
-message_vision(HIG"\n費暐偷偷吃了九轉雄蛇丸，使身上氣力恢復。\n"NOR,ob);
+message_vision(HIG + "\n費暐偷偷吃了九轉雄蛇丸，使身上氣力恢復。\n" + NOR,ob);
           ob->delete_busy();
         }
         }

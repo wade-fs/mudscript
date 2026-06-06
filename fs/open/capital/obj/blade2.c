@@ -8,7 +8,7 @@ object user;
 int cor,my_cor,my_exp;
 void create()
 {
-        set_name( HIR "麒麟"HIY"神刀" NOR, ({ "sun_moon blade",  "blade" }) );
+        set_name( HIR + "麒麟" + HIY + "神刀" + NOR, ({ "sun_moon blade",  "blade" }) );
         set_weight(1000);
         set("no_sell",1);
         set("no_put",1);
@@ -23,7 +23,7 @@ void create()
                 set("long", "這是一把迷樣的神刀，據說是由古代的大神麟硫所作，拿此刀者將可以刀中神力消滅敵人。\n");
                 set("value", 0);
                 set("material", "crimsonsteel");
-                set("wield_msg", "$N運氣刀柄，剎那間"HIR"麒麟"HIY"神刀"NOR"的刀鞘發出耀眼金光，$N用力一拔，"HIR"麒麟"HIY"神刀"NOR"出鞘了!!!\n");
+                set("wield_msg", "$N運氣刀柄，剎那間" + HIR + "麒麟" + HIY + "神刀" + NOR + "的刀鞘發出耀眼金光，$N用力一拔，" + HIR + "麒麟" + HIY + "神刀" + NOR + "出鞘了!!!\n");
                 set("unwield_msg", "$N將手中$n往天上一拋，$n不偏不倚的落回鞘內。\n");
         }
 
@@ -56,7 +56,7 @@ int do_wield(string str)
               user->set_temp("wield_sun_moon_blade",1);
               cor = user->query_cor();
               cor = cor *2;
-              message_vision("$N運氣刀柄，剎那間"HIR"麒麟"HIY"神刀"NOR"的刀鞘發出耀眼金光，$N用力一拔，"HIR"麒麟"HIY"神刀"NOR"出鞘了!!!\n",user);
+              message_vision("$N運氣刀柄，剎那間" + HIR + "麒麟" + HIY + "神刀" + NOR + "的刀鞘發出耀眼金光，$N用力一拔，" + HIR + "麒麟" + HIY + "神刀" + NOR + "出鞘了!!!\n",user);
               set_heart_beat(1);
              }
         }
@@ -97,10 +97,10 @@ void heart_beat()
      j=i;
         for(i=0;i<j;i++)
     {
-    message_vision("$N"HIY"忽然綻放金光，一道巨大的刀氣從$N"HIY"發出攻向$n!!!\n"+NOR,this_object(),enemy[i]);
+    message_vision("$N" + HIY + "忽然綻放金光，一道巨大的刀氣從$N" + HIY + "發出攻向$n!!!\n"+NOR,this_object(),enemy[i]);
     if(50 > random(100))
     {
-    message_vision(HIR"只聽到$N慘叫一聲，竟被刀氣穿胸而過，鮮血不斷的由$N的胸口噴出，傷勢非常嚴重!!!\n"NOR,enemy[i]);
+    message_vision(HIR + "只聽到$N慘叫一聲，竟被刀氣穿胸而過，鮮血不斷的由$N的胸口噴出，傷勢非常嚴重!!!\n" + NOR,enemy[i]);
     enemy[i]->receive_damage("kee",(100*random(2)),user);
 //    enemy[i]->apply_condition("bleeding", random(4));
 //    enemy[i]->start_busy(1);
@@ -109,7 +109,7 @@ void heart_beat()
     else
     {
 if(!enemy[i]) continue;
-    message_vision(HIC"就在刀氣將要擊中$N的瞬間，$N展開身法，堪堪避過了這致命的一擊。\n"NOR,enemy[i]);
+    message_vision(HIC + "就在刀氣將要擊中$N的瞬間，$N展開身法，堪堪避過了這致命的一擊。\n" + NOR,enemy[i]);
     }
     }
   }

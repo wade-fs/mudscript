@@ -40,7 +40,7 @@ int accept_object (object me,object ob)
     command("shout 太好了，我們殺手後繼有人，我就傳你魔氣殺吧！！\n");
     command("say 「魔氣殺」為殺手的超級攻擊技巧，這是將天魔解體大法融合在霸雨式中，\n魔氣殺本身所特別之處在於特殊的內力使用法（天魔解體大法）\n所以可以運用於任何武器之上，威力並不會下降。\n指令：perform throwing.manakee\n");
     if (me->query("quest/memoey") != 1)
-      me->set("title",HIG"黑牙聯超上級殺手"NOR);
+      me->set("title",HIG + "黑牙聯超上級殺手" + NOR);
     destruct(ob);
     me->set("quest/rain",1);
     me->set_temp("rain_4",0);
@@ -56,7 +56,7 @@ void create()
     "\t因此擅長兩家之長，又會殺手密技--霸雨式。\n");
   set("gender","男性");
   set("class","poisoner");
-  set("nickname", HIR "神秘殺手" NOR);
+  set("nickname", HIR + "神秘殺手" + NOR);
   set("combat_exp",1000000);
   set("attitude","heroism");
   set("age",27);

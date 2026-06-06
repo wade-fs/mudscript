@@ -84,9 +84,9 @@ void init()
 	command("smile");
 	command("say 好,你果然是可造之才,從今後就由老夫親自指導!");
 	command("recruit "+this_player()->query("id"));
-	message("system",HIW"鄭士欣縱聲大笑: 
+	message("system",HIW + "鄭士欣縱聲大笑: 
 哈哈哈哈....老夫實在太高興啦!
-英雄出少年 ,"+this_player()->name()+": 今後就由老夫親授於你.\n"NOR,users());
+英雄出少年 ,"+this_player()->name()+": 今後就由老夫親授於你.\n" + NOR,users());
 	return ;
 	}
       command("hmm");
@@ -99,8 +99,8 @@ int do_join()
 	if(this_player()->query("class"))
 		return notify_fail("你已經加入其他工會了。\n");
 	this_player()->set("class","swordsman");
-	message("system",HIW "鄭士欣縱聲大呼 :\n
-歡迎" +this_player()->name()+"加入劍士公會!!\n\n"NOR,users());
+	message("system",HIW + "鄭士欣縱聲大呼 :\n
+歡迎" +this_player()->name()+"加入劍士公會!!\n\n" + NOR,users());
 	return 1;
 }
 	int do_select(string str)
@@ -114,13 +114,13 @@ int do_join()
 	}
 	if(who->query_temp("have_say")==1)
 	{
-	message_vision(sprintf(HIC"$N說道﹕"+str+"\n"NOR),who);
+	message_vision(sprintf(HIC + "$N說道﹕"+str+"\n" + NOR),who);
 	command("say 你不是挑過了?");
 	return 1;
 	}
 	if(str=="張乘風" ||  str == "chen fon" || str == "fon")
         {
-	 message_vision(HIC"$N說道﹕張乘風\n"NOR,who);
+	 message_vision(HIC + "$N說道﹕張乘風\n" + NOR,who);
 	this_player()->set_temp("allow_1",1);
 	command("smile");
 	command("say 嗯 ,你就拜我的首徒張乘風吧!");
@@ -129,7 +129,7 @@ int do_join()
 	}
 	if(str == "張乘雲" || str == "chen un" || str == "un")
 	{
-	message_vision(HIC"$N說道﹕張乘雲\n"NOR,who);
+	message_vision(HIC + "$N說道﹕張乘雲\n" + NOR,who);
 	this_player()->set_temp("allow_2",1);
 	command("smile");
 	command("say 嗯 ,你就拜我的次徒張乘雲吧!");
@@ -138,7 +138,7 @@ int do_join()
 	}
 	if(str == "范松" || str == "fan son" || str == "son")
 	{
-	message_vision(HIC"$N說道﹕范松\n"NOR,who);
+	message_vision(HIC + "$N說道﹕范松\n" + NOR,who);
 	this_player()->set_temp("allow_3",1);
 	command("smile");
 	command("say 嗯 ,你就拜我的三弟子范松吧!");
@@ -147,7 +147,7 @@ int do_join()
 	}
 	if(str == "趙鶴" || str == "san hu" || str == "hu")
 	{
-	message_vision(HIC"$N說道﹕趙鶴\n"NOR,who);
+	message_vision(HIC + "$N說道﹕趙鶴\n" + NOR,who);
 	this_player()->set_temp("allow_4",1);
 	command("smile");
 	command("say 嗯 ,你就拜我的四弟子趙鶴吧!");
@@ -156,7 +156,7 @@ int do_join()
 	}
 	if(str == "梁發" || str == "lian fa" || str == "fa")
 	{
-	message_vision(HIC"$N說道﹕梁發\n"NOR,who);
+	message_vision(HIC + "$N說道﹕梁發\n" + NOR,who);
 	this_player()->set_temp("allow_5",1);
 	command("smile");
 	command("say 嗯 ,你就拜我的五弟子梁發吧!");
@@ -165,7 +165,7 @@ int do_join()
 	}
 	if(str == "何雙雙" || str == "cute girl" || str == "girl")
 	{
-	message_vision(HIC"$N說道﹕何雙雙\n",who);
+	message_vision(HIC + "$N說道﹕何雙雙\n",who);
 	this_player()->set_temp("allow_6",1);
 	command("smile");
 	command("say 嗯 ,你就拜我的女弟子何雙雙吧!");
@@ -174,7 +174,7 @@ int do_join()
 	}
 	if(str == "李逍遙" || str == "shou_yau" || str == "yau")
 	{
-	message_vision(HIC"$N說道﹕李逍遙\n"NOR,who);
+	message_vision(HIC + "$N說道﹕李逍遙\n" + NOR,who);
 	this_player()->set_temp("allow_7",1);
 	command("smile");
 	command("say 嗯 ,你就拜我的七弟子李逍遙吧!");

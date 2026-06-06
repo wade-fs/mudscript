@@ -2,7 +2,7 @@
 inherit ROOM;
 void create ()
 {
-        set("short",YEL"幽冥道"NOR"小村");
+        set("short",YEL + "幽冥道" + NOR + "小村");
         set("long",@LONG
 你走進了幽冥界唯一的小村莊, 這裡可以說是
 幽冥裡與人間界最相似的地方了, 只有少數幾個觀

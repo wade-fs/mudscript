@@ -5,7 +5,7 @@ inherit LANCE;
 void create()
 {           
            seteuid(getuid());
-           set_name(HIW "千丈雪" NOR,({"meter-snow","snow"}));
+           set_name(HIW + "千丈雪" + NOR,({"meter-snow","snow"}));
            set_weight(6000);
            if( clonep() )
      set_default_object(__FILE__);

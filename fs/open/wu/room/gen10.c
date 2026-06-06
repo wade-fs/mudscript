@@ -3,7 +3,7 @@ inherit ROOM;
 void create ()
 {
   seteuid(getuid());    // 不是說要加這一行嗎?
-        set("short",HIC"-八卦迷宮-"NOR);
+        set("short",HIC + "-八卦迷宮-" + NOR);
         set("long", @LONG
 虛幻漂渺你不知身在何方，眼前竟是各種太極圖形漂浮在你面前。乾卦
 、坤卦、兌卦、震卦..等圖形如有生命般從你前面漂浮!!

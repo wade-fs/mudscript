@@ -36,7 +36,7 @@ int do_list(string str)
   if( str=="assassination list" ) {
     me->apply_condition("wn_move",8);
     if( !me->query_temp("assassination list") ) {
-      tell_object(users(),HIR"\n\t"HIB+me->query("name")+HIR"說道：………執行暗殺任務。\n\n"NOR);
+      tell_object(users(),HIR + "\n\t"HIB+me->query("name")+HIR"說道：………執行暗殺任務。\n\n" + NOR);
       me->set_temp("assassination list",1); //暗殺活動的mark
       if(!userp(me)) { //不是玩家才需要額外的心跳輔助的功能
         ob=new("/open/japan/obj/archery_book.c"); //作為啟動輔助暗殺活動的npc而使用

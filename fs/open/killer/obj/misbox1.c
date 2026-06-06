@@ -5,7 +5,7 @@ int call_guard(int i);
 
 void create()
 {
-set_name(MAG "裝備箱" NOR,({"hate box","box"}));
+set_name(MAG + "裝備箱" + NOR,({"hate box","box"}));
 set("long","這是一個平凡的盒子﹐且附著封條。\n");
      set("unit","俱");
      set_weight(1000000);

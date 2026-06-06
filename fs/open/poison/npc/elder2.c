@@ -65,7 +65,7 @@ string poison_help()
         return "我不知道你在說些什麼?\n" ;
    if(!present("firer",me))
         return "我只奉教主令行事，看來你身上並無赤火令。\n";
-   message_vision(HIC"$N出示身上令牌，兩旁使者急忙跪接。\n",me);
+   message_vision(HIC + "$N出示身上令牌，兩旁使者急忙跪接。\n",me);
    return "教主要找之人想必就是前些日子被我囚禁於石牢之人。\n";
 }
 string give_key()
@@ -78,7 +78,7 @@ string give_key()
         return "我只奉教主令行事，看來你身上並無赤火令。\n";
    key->move(me);
    command("say 石牢便是在此地東南方的石洞內。\n");
-  message_vision(HIC"長老交給$N一把石鑰匙。\n",me);
+  message_vision(HIC + "長老交給$N一把石鑰匙。\n",me);
    return "那是一把能引動石門開關的磁石。\n" ;
 }
 
@@ -101,7 +101,7 @@ int do_swear(string str)
    if(who->query_temp("elder2_temp")){
          if(str=="守教規"){
             who->set_temp("poison_pass2",1);
-            message_vision(sprintf(HIC"$N發誓說道﹕"+str+"\n"NOR),who);
+            message_vision(sprintf(HIC + "$N發誓說道﹕"+str+"\n" + NOR),who);
             command("say 很好，很有誠意，我這就答應你。");
             command("say 要好好遵守教規哦。");
             command("say 你可以去教主那邊入教(join)了。");
@@ -109,14 +109,14 @@ int do_swear(string str)
             return 1;
            }
          else {
-           message_vision(sprintf(HIC"$N發誓說道﹕"+str+"\n"NOR),who);
+           message_vision(sprintf(HIC + "$N發誓說道﹕"+str+"\n" + NOR),who);
            command("say 你發的是什麼誓？");
            command("say 算了，你還是回去吧。");
            who->delete_temp("elder2_temp");
            return 1;
           }
      }
-    message_vision(sprintf(HIC"$N發誓說道﹕"+str+"\n"),who);
+    message_vision(sprintf(HIC + "$N發誓說道﹕"+str+"\n"),who);
     command("say 你發什麼誓呀，我有同意嗎？");
   return 1;
 }

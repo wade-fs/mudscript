@@ -41,7 +41,7 @@ int valid_leave(object me, string str)
   {
    if(k==10)
     {
-	 message_vision(HIR"\n$N終於走出了枯\木林。\n"NOR,me);
+	 message_vision(HIR + "\n$N終於走出了枯\木林。\n" + NOR,me);
 	 me->move(__DIR__"path01");
 	 me->delete_temp("break-sun/maze");
 	 return 0;
@@ -49,7 +49,7 @@ int valid_leave(object me, string str)
    else
    {
     me->add_temp("break-sun/maze",1);
-    message_vision(HIY"\n$N感覺空氣似乎更加灼熱了，看來往這方向應該是正確的。\n"NOR,me);
+    message_vision(HIY + "\n$N感覺空氣似乎更加灼熱了，看來往這方向應該是正確的。\n" + NOR,me);
    }
   }
   return 1;

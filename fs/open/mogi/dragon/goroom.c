@@ -37,9 +37,9 @@ if(!str || str !="liu"){
                            return 1;
                                  }
 else{
-message_vision(HIW"柳淳風說:哈!哈!我終於報仇了。謝謝了。\n"NOR,this_player());
-message_vision(HIW"柳淳風說:為了報答你就送你三件禮物吧。\n"NOR,this_player());
-message_vision(HIW"柳淳風說:老夫送你一程吧。\n"NOR,this_player());
+message_vision(HIW + "柳淳風說:哈!哈!我終於報仇了。謝謝了。\n" + NOR,this_player());
+message_vision(HIW + "柳淳風說:為了報答你就送你三件禮物吧。\n" + NOR,this_player());
+message_vision(HIW + "柳淳風說:老夫送你一程吧。\n" + NOR,this_player());
   if( !me->query("mogi-pray-liu") ) {
    me->set("mogi-pray-liu",1);
         new(__DIR__"obj/sunblade")->move(this_player());

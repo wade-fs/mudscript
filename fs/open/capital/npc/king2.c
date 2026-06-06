@@ -5,7 +5,7 @@ string ask_moon();
 int accept_kill(object who);
 void create()
 {
-        set_name(HIM "天子" NOR, ({ "king" }) );
+        set_name(HIM + "天子" + NOR, ({ "king" }) );
         set("title","當今皇上");
         set("gender", "男性" );
         set("age",50);
@@ -148,7 +148,7 @@ int accept_kill(object who)
 
         if( !present("kill guard", environment(ob)) ) {
           if (ob->query_temp("killking")!=1){
-          tell_room(environment(ob),HIW"\n突然！衝出兩位御前侍衛長！\n\n"NOR);
+          tell_room(environment(ob),HIW + "\n突然！衝出兩位御前侍衛長！\n\n" + NOR);
         guard = new(__DIR__"fuguard");
         guard->move(environment(ob));
         guard->command("defend king");
@@ -159,13 +159,13 @@ int accept_kill(object who)
         ob->set_temp("killking",1);      
         guard->command("follow king");
         guard->kill_ob(who);
-        tell_object(users(),HIR "御前護衛大叫：有刺客！快保護殿下！！\n" NOR);
+        tell_object(users(),HIR + "御前護衛大叫：有刺客！快保護殿下！！\n" + NOR);
         command("wear all");
 
 }
          else {
               command("say 可惡  ...看我的帝王神功\..");
-              tell_object(this_player(),HIC"只覺無比厚重的壓力硬往你身上壓來\n"NOR
+              tell_object(this_player(),HIC + "只覺無比厚重的壓力硬往你身上壓來\n" + NOR
 );
               this_player()->add("kee",-(this_player()->query("max_kee")/2));
     }
@@ -200,7 +200,7 @@ void heart_beat()
                 
  
 
-          tell_object(users(),HIR"\n\n
+          tell_object(users(),HIR + "\n\n
 
    『啊～～～～～～ 』
 
@@ -214,7 +214,7 @@ void heart_beat()
       太后大叫道: 可惡的"+((winner&&objectp(winner)==1)?winner->query("name"):"咕哩貓")+HIR", 竟敢以下犯上,
 
                 凡我同胞, 人人得而誅之!!!!!
-  \n\n"NOR);
+  \n\n" + NOR);
   if( winner != 0 && userp(winner)) {
     log_file("KILL_KING", sprintf("%s(%s) 打敗 天子 on %s\n",winner->query("name"),winner->query("id"), ctime(time()) ));
   }

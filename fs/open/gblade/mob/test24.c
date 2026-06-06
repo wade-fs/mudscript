@@ -44,8 +44,8 @@ void invocation(object who)
         object *enemy;
 
         message("vision",
-        HIW"一道強光從煉妖壺射出 , 一個一臉正氣的中年男子緩步走出\n"
-        + name() + "說道 : 遇到我 , 算你倒霉! 留心了 !\n"NOR,
+        HIW + "一道強光從煉妖壺射出 , 一個一臉正氣的中年男子緩步走出\n"
+        + name() + "說道 : 遇到我 , 算你倒霉! 留心了 !\n" + NOR,
                 environment(), this_object() );
         enemy = who->query_enemy();
         i = sizeof(enemy);
@@ -65,7 +65,7 @@ void invocation(object who)
     object *enemy;
     int i;
         if(this_object()->query("force")>500)
-        message_vision(sprintf(HIY"$N使出軒轅劍法 , 劍光壟罩四面八方 ,空氣中充滿劍氣 ,分擊各敵\n"NOR),this_object());
+        message_vision(sprintf(HIY + "$N使出軒轅劍法 , 劍光壟罩四面八方 ,空氣中充滿劍氣 ,分擊各敵\n" + NOR),this_object());
         enemy = this_object()->query_enemy();
     i=sizeof(enemy);
     while(i--){
@@ -99,6 +99,6 @@ void heart_beat()
 }
 void leave()
 {  
-   message_vision (HIG"軒轅劍俠的元神消失無蹤了\n"NOR, this_object ());  
+   message_vision (HIG + "軒轅劍俠的元神消失無蹤了\n" + NOR, this_object ());  
   destruct(this_object());
 }

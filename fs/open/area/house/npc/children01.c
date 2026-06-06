@@ -29,12 +29,12 @@ void heart_beat()
                 ob->add_temp("crying",1);
                 if(ob->query_temp("crying") < 10 )
                 {
-                        message_vision(HIY"$N不斷的放聲大哭～！\n"NOR,ob);
+                        message_vision(HIY + "$N不斷的放聲大哭～！\n" + NOR,ob);
                 }
                 else
                 {
                         me = present(ob->query_temp("cure_id"),environment(ob));
-                        message_vision(HIY"
+                        message_vision(HIY + "
 [嗚哇‵哇～嗚哇‵哇～]$N放聲大哭～
 
 突然間$N口中吐出一顆紅色的石頭！
@@ -48,7 +48,7 @@ $n趕忙的解釋了一陣，農婦才放心的說：[那這孩子就交給我�
 居無定所來的好多了。]
 
 說完便將嬰兒帶回隔壁家中．．
-\n"NOR,ob,me);
+\n" + NOR,ob,me);
         
                         obj = new(__DIR__"obj/red-stone");
                         obj->move(environment(ob));

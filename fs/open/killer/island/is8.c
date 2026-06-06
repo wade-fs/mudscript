@@ -32,8 +32,8 @@ int do_search()
 object me=this_player();
 if (me->query_temp("can_search")==1)
 {
-tell_object(me,HIC"你赫然發現岩石的樹旁可以看到因退潮而呈現的沙岸上有一塊扁平的大岩石(stone).\n"NOR);
-tell_object(me,HIY"原來黎明時是這座島退潮的時間 .\n"NOR);
+tell_object(me,HIC + "你赫然發現岩石的樹旁可以看到因退潮而呈現的沙岸上有一塊扁平的大岩石(stone).\n" + NOR);
+tell_object(me,HIY + "原來黎明時是這座島退潮的時間 .\n" + NOR);
 new(__DIR__"obj/stone.c")->move(environment(me));
 me->delete_temp("can_search");
 me->set_temp("can_back",1);
@@ -57,8 +57,8 @@ me=this_player();
 else
 {
 tell_object(me,"裡面有:\n");
-tell_object(me,HIW"      一萬粒鑽石"NOR"(Diamond)\n"NOR);
-tell_object(me,HIB"      忍術秘笈"NOR"(Ninja book)\n"NOR);
+tell_object(me,HIW + "      一萬粒鑽石" + NOR + "(Diamond)\n" + NOR);
+tell_object(me,HIB + "      忍術秘笈" + NOR + "(Ninja book)\n" + NOR);
 return 1;
 }
 }
@@ -129,9 +129,9 @@ me=this_player();
        return 0;
 else
 {
-tell_object(me,HIW"你將盒子蓋\上!!\n");
-tell_object(me,HIM"突然間強烈的紫光從盒子射出!!\n");
-tell_object(me,HIW"強光過後只見盒子已經消失, 只留下一把生鏽的鐵匕首在地上!!\n");
+tell_object(me,HIW + "你將盒子蓋\上!!\n");
+tell_object(me,HIM + "突然間強烈的紫光從盒子射出!!\n");
+tell_object(me,HIW + "強光過後只見盒子已經消失, 只留下一把生鏽的鐵匕首在地上!!\n");
 new(__DIR__"obj/old_dag.c")->move(environment(me));
 me->delete_temp("can_close");
 ob=present("box",environment(me));

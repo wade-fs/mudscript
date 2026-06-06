@@ -4,7 +4,7 @@
 
 void npc_ct( object npc, string msg )
 {
-	message( "vision", sprintf( HIY"【"HIC"%s"HIY"】%s(%s)說道: %s\n"NOR,
+	message( "vision", sprintf( HIY + "【" + HIC + "%s" + HIY + "】%s(%s)說道: %s\n" + NOR,
 		npc->query("clan/name"), npc->query("name"), npc->query("id"), trans_color(msg) ), filter_array( users(), "filter_clan", this_object(), npc->query("clan/id") ) );
 	return;
 }

@@ -64,10 +64,10 @@ $N興奮的說：很好～既然$n都這麼決定，那我就不客氣了！
 
 "+HIG+"$N嘴裡急速的念著某種話語，臉上曝冒青光，眼神極其恐怖～
 緩緩高舉雙手，迅速揮了下來～指間射出一道青光，直直射入$n的眉宇之間！
-\n"NOR,ob,me);
+\n" + NOR,ob,me);
                         i = random(-1)+5000;
-                        tell_object(me,HIR"
-(你損失了"+i+"點經驗值。)\n\n"NOR);
+                        tell_object(me,HIR + "
+(你損失了"+i+"點經驗值。)\n\n" + NOR);
                         me->add("combat_exp",-i);
                         message_vision(HIR+"
 [碰～]的一聲巨響！$N手中的$n突然粉碎破散，一陣光耀的紅光散佈整個房間！"+NOR+"

@@ -3,7 +3,7 @@ inherit ROOM;
 
 void create ()
 {
-	set("short",YEL"沙 屋"NOR);
+	set("short",YEL + "沙 屋" + NOR);
 	set("long",@LONG
 一個混身長毛的大蟲子正站立在你的眼前，它手持著一個金黃色
 大湯匙，不斷的攪拌著它眼前的那個大湯鍋，湯鍋由於受熱，不斷的

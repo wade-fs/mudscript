@@ -53,9 +53,9 @@ me = this_player();
          if(!present("tunder_sword",me)){
     command("say 什麼...這...你竟然知道鑄法...難以相信啊..");
     command("say 你等著，讓老夫為你打造這把早已失傳的劍!");
-    tell_object(me,HIY"李昆陽的眼睛突然精光暴射...\n"NOR);
-    tell_object(me,HIY"李昆陽開始燒鐵鑄劍...\n"NOR);
-    tell_object(me,HIB"屋裡忽然藍光隱隱....\n"NOR);
+    tell_object(me,HIY + "李昆陽的眼睛突然精光暴射...\n" + NOR);
+    tell_object(me,HIY + "李昆陽開始燒鐵鑄劍...\n" + NOR);
+    tell_object(me,HIB + "屋裡忽然藍光隱隱....\n" + NOR);
     command("say 唉...終於鑄好了...花了我畢生的\功\力\...");
     command("say 拿去吧，望你憑藉此劍斬妖除魔!!");
     new("/daemon/class/swordsman/obj/tunsword")->move(me);  
@@ -81,7 +81,7 @@ void do_acc1()
                                          
      else{
      command("say 沒問題，馬上打給你");      
-     tell_object(me,HIY"李昆陽給你一頂金翅朝天冠\n"NOR);
+     tell_object(me,HIY + "李昆陽給你一頂金翅朝天冠\n" + NOR);
      me->add("bank/coin",-500000);
      new("/open/mogi/castle/obj/gold-hat")->move(me);
      /*放到open下改為/open/mogi/castle/obj/gold-hat */

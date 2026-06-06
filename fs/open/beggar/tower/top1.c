@@ -2,7 +2,7 @@ inherit ROOM;
 #include <ansi.h>
 void create()
 {
-        set("short",HIY"不死鳥ソ塔休閒小站"NOR);
+        set("short",HIY + "不死鳥ソ塔休閒小站" + NOR);
         set ("long", @LONG 
 這裡是塔頂的一個小房間，微涼的陣風，彿去剛才
 的炎熱感。

@@ -35,9 +35,9 @@ int fight_end( object me )
         if( !me ) return 0;
     if(me->is_ghost()) return 1;
         if( me->query_temp("no_fear_poison") ) return 0;
-        message_vision(HIY "$N突然地感到一陣暈炫 .... " NOR,me);
+        message_vision(HIY + "$N突然地感到一陣暈炫 .... " + NOR,me);
         message_vision("\n",me);
-        tell_object( me , HIC "你的怨世寒毒發作了﹗\n" NOR);
+        tell_object( me , HIC + "你的怨世寒毒發作了﹗\n" + NOR);
         this_object()->remove_all_killer();
         me->unconcious();
         call_out("do_move",4,me);
@@ -78,7 +78,7 @@ void init()
 {
         object me = this_player();
         object ob;
-        if( (ob = present("letter",me)) && ob->name()==HIR"挑戰書"NOR )
+        if( (ob = present("letter",me)) && ob->name()==HIR + "挑戰書" + NOR )
         {
                 call_out("start_fight",2,me);
                 call_out("fight_end",30,me);

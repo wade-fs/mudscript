@@ -2,7 +2,7 @@
 inherit ROOM;
 void create ()
 {
-        set("short",YEL"幽冥道"NOR"棺材房");
+        set("short",YEL + "幽冥道" + NOR + "棺材房");
         set("long",@LONG
 這裡看似一個廟宇, 感覺上荒廢了許久, 地上擺滿
 了許許多多大小不一的棺材, 看來是讓魔物們躺著休息
@@ -28,7 +28,7 @@ mkee=me->query("max_kee");
 msen=me->query("max_sen");
 if(me->query_temp("ghost-hole/village/take_a_rest"))
 return notify_fail("人的一生只能躺一次棺材,你還想躺幾次啊!!\n");
-message_vision(HIY"$N選好了一個棺材後, 就急忙的躺了進去..\n"NOR,me);
+message_vision(HIY + "$N選好了一個棺材後, 就急忙的躺了進去..\n" + NOR,me);
 me->set("gin",mgin);
 me->set("kee",mkee);
 me->set("sen",msen);
@@ -40,7 +40,7 @@ return 1;
 int message(object me)
 {
 me=this_player();
-message_vision(HIR"$N的臉色突然轉為紅嫩, 精氣神突然回覆到了最佳狀態!!\n"NOR,me);
-message_vision(HIY"$N彷彿甦醒的死屍一般, 從棺材板裡面跳了出來...!!\n"NOR,me);
+message_vision(HIR + "$N的臉色突然轉為紅嫩, 精氣神突然回覆到了最佳狀態!!\n" + NOR,me);
+message_vision(HIY + "$N彷彿甦醒的死屍一般, 從棺材板裡面跳了出來...!!\n" + NOR,me);
 return 1;
 }

@@ -123,7 +123,7 @@ int accept_object(object who, object ob)
        {
   say("你為武林除去這萬惡魔頭，立下如此大的功\勞!!\n"
             "嗯!!好吧!!我將部份內力傳授給你吧!!\n");
-        message_vision(HIC"任正晴將雙手按住$N檀中穴，真氣瞬時間打通$N的任督二脈\n",who);
+        message_vision(HIC + "任正晴將雙手按住$N檀中穴，真氣瞬時間打通$N的任督二脈\n",who);
         who->add("max_force",200);
         who->set("get_force",1);
        }

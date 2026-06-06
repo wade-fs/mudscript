@@ -3,7 +3,7 @@ inherit ROOM;
 #include <ansi.h>
 void create ()
 {
-  set ("short", ""HIC"雲"WHT"中"HIC"天"NOR"");
+  set ("short", "" + HIC + "雲" + WHT + "中" + HIC + "天" + NOR + "");
   set ("long", @LONG
 走過石林來到這片雲中天地，聽說這裡也是嵩山有名的名境之一
 ，但是聽說也是嵩山危險的區域之一。因為這兒的地理位置特殊。四

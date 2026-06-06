@@ -33,7 +33,7 @@ int do_pass(string arg)
   who=this_player();
   if(arg == "way")
   {
-	tell_object(who,HIY"你吃力的往光線處游去,爬過小洞,來到了不知名的地方。\n"NOR);
+	tell_object(who,HIY + "你吃力的往光線處游去,爬過小洞,來到了不知名的地方。\n" + NOR);
 	who->move("/open/killer/room/firstrm.c");
 	 return 1;
   }

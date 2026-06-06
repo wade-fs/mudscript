@@ -18,7 +18,7 @@ LONG);
   "east" : __DIR__"room21.c",
   "west" : __DIR__"path13.c",
 ]));
-  create_door("east",HIY "黃色鐵門"NOR, "west", DOOR_CLOSED);
+  create_door("east",HIY + "黃色鐵門" + NOR, "west", DOOR_CLOSED);
 
   set("light_up", 0);
   set("valid_startroom", 1);

@@ -2,31 +2,31 @@
 #include <ansi.h>
 inherit NPC;
 mapping *action = ({
-([ "action" :"$N"HIB"兇性大發 ,銳利的龍爪向$n狠狠的抓了過去 ,水勁洶湧的把$n圍繞"NOR"。",
+([ "action" :"$N" + HIB + "兇性大發 ,銳利的龍爪向$n狠狠的抓了過去 ,水勁洶湧的把$n圍繞" + NOR + "。",
              "dodge"      :  -20,
              "parry"      :  -35,
              "damage"     :  290,
              "damage_type":  "抓傷",
            ]),
-([ "action" :"$N"HIB"迅速撲至$n面前 ,龍爪如巨滔般攻勢朝$n直抓下去 ,$n當場鮮血飛濺"NOR"。",
+([ "action" :"$N" + HIB + "迅速撲至$n面前 ,龍爪如巨滔般攻勢朝$n直抓下去 ,$n當場鮮血飛濺" + NOR + "。",
              "dodge"      :  -20,
              "parry"      :  -35,
              "damage"     :  280,
              "damage_type":  "抓傷",
             ]),
-([ "action" :"$N"HIB"身形忽退 ,取而代之的是一波波的巨浪朝著$n襲去 ,狂猛的來勢好不嚇人"NOR"。",
+([ "action" :"$N" + HIB + "身形忽退 ,取而代之的是一波波的巨浪朝著$n襲去 ,狂猛的來勢好不嚇人" + NOR + "。",
              "dodge"      :  -30,
              "parry"      :  -25,
              "damage"     :  285,
              "damage_type":  "內傷",
             ]),
-([ "action" :"$N"HIB"朝$n狂抓了過去 ,挾帶著水勁的雙爪 ,力道之猛 ,令人髮指"NOR"。",
+([ "action" :"$N" + HIB + "朝$n狂抓了過去 ,挾帶著水勁的雙爪 ,力道之猛 ,令人髮指" + NOR + "。",
              "dodge"      :  -40,
              "parry"      :  -15,
              "damage"     :  295,
              "damage_type":  "抓傷",
             ]),
-([ "action":"$N"HIB"狂吼長嘯 ,水面不停的翻攪 ,生成數個大漩渦 ,$n的身體整個都被吞噬掉"NOR"。",
+([ "action":"$N" + HIB + "狂吼長嘯 ,水面不停的翻攪 ,生成數個大漩渦 ,$n的身體整個都被吞噬掉" + NOR + "。",
              "dodge"      : -10,
              "parry"      :  -20,
              "damage"     : 285,
@@ -36,7 +36,7 @@ mapping *action = ({
 
 void create()
 {
-     set_name(HIB"水龍"NOR ,({"water dragon", "dragon"}) );
+     set_name(HIB + "水龍" + NOR ,({"water dragon", "dragon"}) );
      set("race", "野獸");
      set("title", "守護者");
      set("age",2529);
@@ -81,7 +81,7 @@ void heart_beat()
     {
       enemy = me->query_enemy();
       i=random(sizeof(enemy));
-  message_vision(HIB+"水面波滔忽起 ,強勁的水流形成無數漩渦 ,$N全身慘被捲入!!!\n"NOR,enemy[i]);
+  message_vision(HIB+"水面波滔忽起 ,強勁的水流形成無數漩渦 ,$N全身慘被捲入!!!\n" + NOR,enemy[i]);
       
       enemy[i]->receive_damage("kee", 100,me);
       COMBAT_D->report_status(enemy[i], 1);
@@ -99,8 +99,8 @@ void heart_beat()
     new("/open/mogi/dragon/obj/water")->move(environment(winner));
 //	 new("/open/mogi/dragon/obj/water-1")->move(environment(winner));
 
-   tell_object(winner,HIY"\n\n經過一番血戰後 ,水龍終於被你收服了\n\n"NOR);            
-   tell_object(winner,HIC"\n水龍自口中吐出一塊寶玉\n\n\n"NOR);
+   tell_object(winner,HIY + "\n\n經過一番血戰後 ,水龍終於被你收服了\n\n" + NOR);            
+   tell_object(winner,HIC + "\n水龍自口中吐出一塊寶玉\n\n\n" + NOR);
                destruct(this_object());
                                                                     
             ::die();                                                           

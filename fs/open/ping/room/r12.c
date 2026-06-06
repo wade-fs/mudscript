@@ -24,7 +24,7 @@ LONG);
   "south" : (: look_door,     "south" :),
 ]));
   set("outdoors", "wind");
-create_door("south",HIW"白鐵濱花門"NOR,"north",DOOR_CLOSED);
+create_door("south",HIW + "白鐵濱花門" + NOR,"north",DOOR_CLOSED);
 
   setup();
 }

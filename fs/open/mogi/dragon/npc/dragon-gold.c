@@ -2,34 +2,34 @@
 #include <ansi.h>
 inherit NPC;
 mapping *action = ({
-([ "action" :"$N"HIY"兇性大發 ,銳利的龍爪向$n狠狠的抓了過去 ,似要撕裂$n"NOR"。",
+([ "action" :"$N" + HIY + "兇性大發 ,銳利的龍爪向$n狠狠的抓了過去 ,似要撕裂$n" + NOR + "。",
              "dodge"      :  -20,
              "parry"      :  -35,
              "damage"     :  270,
              "damage_type":  "抓傷",
            ]),
-([ "action" :"$N"HIY"迅速撲至$n面前 ,滿天爪影朝$n猛擊下去 ,$n當場鮮血飛濺"NOR"。
+([ "action" :"$N" + HIY + "迅速撲至$n面前 ,滿天爪影朝$n猛擊下去 ,$n當場鮮血飛濺" + NOR + "。
 ",
              "dodge"      :  -20,
              "parry"      :  -35,
              "damage"     :  270,
              "damage_type":  "抓傷",
             ]),
-([ "action" :"$N"HIY"將全身力量集中在尾巴 ,對準$n身上狠狠的掃去 ,好不驚人"NOR"。
+([ "action" :"$N" + HIY + "將全身力量集中在尾巴 ,對準$n身上狠狠的掃去 ,好不驚人" + NOR + "。
 ",
              "dodge"      :  -30,
              "parry"      :  -35,
              "damage"     :  240,
              "damage_type":  "內傷",
             ]),
-([ "action" :"$N"HIY"朝$n猛撞了過去 ,千斤重的身體 ,挾著萬均之勢 ,令人髮指"NOR"。
+([ "action" :"$N" + HIY + "朝$n猛撞了過去 ,千斤重的身體 ,挾著萬均之勢 ,令人髮指" + NOR + "。
 ",
              "dodge"      :  -30,
              "parry"      :  -35,
              "damage"     :  275,
              "damage_type":  "撞傷",
             ]),
-([ "action":"$N"HIY"一聲狂吼 ,從口中噴出"HIR" 烈燄 "HIY"將$n的身體整個攏罩住"NOR"。",
+([ "action":"$N" + HIY + "一聲狂吼 ,從口中噴出" + HIR + " 烈燄 " + HIY + "將$n的身體整個攏罩住" + NOR + "。",
              "dodge"      : -30,
              "parry"      :  -30,
              "damage"     : 292,
@@ -39,7 +39,7 @@ mapping *action = ({
 
 void create()
 {
-     set_name(HIY"黃金甲龍"NOR ,({"golden dragon", "dragon"}) );
+     set_name(HIY + "黃金甲龍" + NOR ,({"golden dragon", "dragon"}) );
      set("race", "野獸");
      set("clan_kill",1);
      set("title", "炎龍谷守護者");
@@ -100,7 +100,7 @@ void heart_beat()
  all = all_inventory(room);
  if(count < 30 && me->is_fighting())
  {
-  message_vision(HIY"\n黃金甲龍"MAG"瘋狂的亂竄，四處饑渴的吸食鮮血\n"NOR,me);
+  message_vision(HIY + "\n黃金甲龍" + MAG + "瘋狂的亂竄，四處饑渴的吸食鮮血\n" + NOR,me);
 
   for( i = 0 ; i < sizeof(all) ; i++)
   {
@@ -108,7 +108,7 @@ void heart_beat()
    if( obj->is_character() && !obj->is_corpse() && living(obj)
     && obj->query("id")!="golden dragon")
      {
-      message_vision(HIR"\n你被飛濺的血浪震攝住，也受到不小的衝擊\n"NOR,obj);
+      message_vision(HIR + "\n你被飛濺的血浪震攝住，也受到不小的衝擊\n" + NOR,obj);
       obj->add("kee",-420);
       obj->start_busy(1);
 //     me->start_busy(1);
@@ -119,17 +119,17 @@ void heart_beat()
  }
  if(count < 20  && me->is_fighting())
   {
-  message_vision(HIR"\n黃金甲龍兇性大發，對你"HIR"做出猛烈的攻擊\n\n"NOR,me);
+  message_vision(HIR + "\n黃金甲龍兇性大發，對你" + HIR + "做出猛烈的攻擊\n\n" + NOR,me);
   for( i = 0 ; i < sizeof(all) ; i++)
    {
     obj = all[i];
     if( obj->is_character() && !obj->is_corpse() && living(obj)
          && obj->query("id")!="golden dragon")
      {
-      me->set("name","("HIR"狂暴"NOR")"HIY"黃金甲龍"NOR);
+      me->set("name","(" + HIR + "狂暴" + NOR + ")" + HIY + "黃金甲龍" + NOR);
      for(j=0;j<10;j++)
      {
-     message_vision(HIY"$N"HIY"被("HIR"狂暴"NOR")"HIY"黃金甲龍狠狠抓中，滿身血痕\n"NOR,obj);
+     message_vision(HIY + "$N" + HIY + "被(" + HIR + "狂暴" + NOR + ")" + HIY + "黃金甲龍狠狠抓中，滿身血痕\n" + NOR,obj);
       if (obj->query("class")=="fighter" && obj->query_temp("keeup")==1)
         obj->receive_wound("kee",100+random(300));
       else if ((obj->query("class")=="prayer" && obj->query_temp("hwa_je")==1)
@@ -142,7 +142,7 @@ void heart_beat()
       COMBAT_D->report_status(obj, 1);
      }
 
-      message_vision(HIB"\n黃金甲龍瘋狂的撕咬後，漸漸平靜下來\n\n"NOR,me);
+      message_vision(HIB + "\n黃金甲龍瘋狂的撕咬後，漸漸平靜下來\n\n" + NOR,me);
       me->start_busy(1);
      }
    }
@@ -154,8 +154,8 @@ void heart_beat()
   if( is_fighting() )
   {
    if( query("kee") < query("eff_kee") )
-    message_vision(HIY"\n黃金甲龍身上發出耀眼的光芒，傷口似乎慢慢癒合了\n"NOR,me);
-    me->set("name",HIY"黃金甲龍"NOR);
+    message_vision(HIY + "\n黃金甲龍身上發出耀眼的光芒，傷口似乎慢慢癒合了\n" + NOR,me);
+    me->set("name",HIY + "黃金甲龍" + NOR);
     me->receive_heal("kee",1000);
     me->receive_heal("gin",1000);
     me->receive_heal("sen",1000);
@@ -179,33 +179,33 @@ void heart_beat()
 
     new("/open/mogi/dragon/obj/power")->move(environment(winner));
     
-   tell_object(winner,HIR"\n\n龍的真元緩緩的從屍身上浮起\n\n\n"NOR);            
+   tell_object(winner,HIR + "\n\n龍的真元緩緩的從屍身上浮起\n\n\n" + NOR);            
    winner->set_temp("use_scale_number",15);
   //只能讓ko dragon的人 use scale 最多十五次
  if(winner->query("class")=="swordsman" && winner->query_temp("swordquest/findball")==6)
 {
     object ob;
   ob=new("/open/gsword/obj1/swordball.c");
-   tell_object(winner,HIR"你從甲龍的屍體上取出下了連陽劍晶珠.."NOR);
+   tell_object(winner,HIR + "你從甲龍的屍體上取出下了連陽劍晶珠.." + NOR);
     ob->move(winner);
    winner->set_temp("swordquest/findball",7);
-   tell_object(users(),HIR"
+   tell_object(users(),HIR + "
 黃金甲龍發出異常的哀嚎.....
 
-在一陣駭人哀嚎之後，"HIY"黃金甲龍"HIW"終於慘遭屠戮 . .
+在一陣駭人哀嚎之後，" + HIY + "黃金甲龍" + HIW + "終於慘遭屠戮 . .
 
-魔界漸漸的回復了平靜，地上的人們也正為這場勝利歡呼著 !!\n"NOR);
+魔界漸漸的回復了平靜，地上的人們也正為這場勝利歡呼著 !!\n" + NOR);
   ::die();
 }
 else
 {
                    
    
-   tell_object(users(),HIW"                                                
+   tell_object(users(),HIW + "                                                
                                                                             
-    勇者"HIB+winner->query("name")+HIW"經過漫長艱辛的浴血之戰，終於將"HIY"黃金甲龍"HIW"手刃 . . .        
+    勇者"HIB+winner->query("name")+HIW"經過漫長艱辛的浴血之戰，終於將" + HIY + "黃金甲龍" + HIW + "手刃 . . .        
                                                                             
-魔界漸漸的回復了平靜，地上的人們也正為這場勝利歡呼著 !!\n"NOR);     
+魔界漸漸的回復了平靜，地上的人們也正為這場勝利歡呼著 !!\n" + NOR);     
  ::die();
 }
                                

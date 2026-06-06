@@ -7,7 +7,7 @@ inherit NPC;
 
 void create()
 {
-set_name(HIW"雷龍"NOR, ({ "thunder dragon","dragon" }) );
+set_name(HIW + "雷龍" + NOR, ({ "thunder dragon","dragon" }) );
 set("long","原本是炎龍谷的守護者 ,但現在被你收服了\n似乎還能騎上去唷(ride)");
 set("no_give", 1);
 set("no_drop", 1);
@@ -64,7 +64,7 @@ int do_ascend()
         message_vision("$N跳到"+this_object()->name()+"的背上。\n",me);
         me->set_temp("marks/ascend",1);
 this_object()->set_leader(me);
-        me->add_temp("apply/name",({ me->name()+ HIW"(正騎著"NOR+this_object()->name()+HIW")"NOR}));
+        me->add_temp("apply/name",({ me->name()+ HIW"(正騎著"NOR+this_object()->name()+HIW")" + NOR}));
         move(me);
         me->set_heart_beat(1);
         return 1;

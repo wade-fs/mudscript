@@ -5,7 +5,7 @@ inherit LANCE;
 void create()
 {           
            seteuid(getuid());
-           set_name(HIB"天"HIC"水"HIW"一字戢"NOR,({"sky-water-lance"}));
+           set_name(HIB + "天" + HIC + "水" + HIW + "一字戢" + NOR,({"sky-water-lance"}));
            set_weight(9000);
            if( clonep() )
                    set_default_object(__FILE__);

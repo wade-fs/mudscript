@@ -2,7 +2,7 @@
 inherit ITEM;
 void create()
 {
-        set_name(HIW"梅超風的人頭"NOR, ({ "mechoufen-head" }) );
+        set_name(HIW + "梅超風的人頭" + NOR, ({ "mechoufen-head" }) );
         set_weight(5000);
         if( clonep() )
                 set_default_object(__FILE__);

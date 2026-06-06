@@ -27,7 +27,7 @@ LONG);
 	"south" : (: look_door,     "south" :),
 	]));
 
-	create_door("south",HIR"鴻元聚靈門"NOR,"north",DOOR_CLOSED);
+	create_door("south",HIR + "鴻元聚靈門" + NOR,"north",DOOR_CLOSED);
 	set("light_up", 1);
 
 	setup();

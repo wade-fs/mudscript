@@ -9,8 +9,8 @@ void create()
 火辣的體型，簡直與人間的西施有的比，佼好的臉孔加上甜美的笑容使得
 它成為琰揚湖中最有名的販賣者，每個人幾乎都醉倒在她那回濛一笑，就
 連你也不例外。\n");
-	set("title",HIC" 賣 盡 天 下 "NOR);
-	set("nickname",HIG" 琰 揚 商 販 "NOR);
+	set("title",HIC + " 賣 盡 天 下 " + NOR);
+	set("nickname",HIG + " 琰 揚 商 販 " + NOR);
 	set("age",1293);
         set("gender", "女性" );
 	set("kar",30);
@@ -55,10 +55,10 @@ void heart_beat()
     	target = offensive_target(ob);
 		if( env == environment(target) )
 		{
-                message_vision(HIW"
+                message_vision(HIW + "
 \n$N大叫：救命啊～有人要殺我啊～
 
-"HIR"$N一大叫，週遭所有的邪靈馬上圍了過來，$N趁機偷咬了$n一下就逃跑了～\n\n"NOR,ob,target);
+" + HIR + "$N一大叫，週遭所有的邪靈馬上圍了過來，$N趁機偷咬了$n一下就逃跑了～\n\n" + NOR,ob,target);
                 target->receive_wound("kee",100);
                 COMBAT_D->report_status(target,1);
                 target->start_busy(1);

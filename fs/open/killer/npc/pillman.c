@@ -30,42 +30,42 @@ object me=this_player();
   if (this_player()->query_temp("memory") !=2)
   {
 	command("say 不要煩我，快滾");
-    message_vision(HIR"只見婆婆一掌將你打飛\n"NOR);
+    message_vision(HIR + "只見婆婆一掌將你打飛\n" + NOR);
 	this_player()->add("kee",-50);
 	this_player()->move(__DIR__"floorm.c");
              return "仇什仇？老身從不跟人結仇的";
   }
- message_vision(HIY"那是黑牙聯的一件往事了.....\n"NOR,me);
- message_vision(HIY"當時，本名渡永天的天靈老鬼，他與孤城是非常要好的朋友\n"NOR,me);
- message_vision(HIY"但是兩人卻同時喜歡上婆婆我\n"NOR,me);
+ message_vision(HIY + "那是黑牙聯的一件往事了.....\n" + NOR,me);
+ message_vision(HIY + "當時，本名渡永天的天靈老鬼，他與孤城是非常要好的朋友\n" + NOR,me);
+ message_vision(HIY + "但是兩人卻同時喜歡上婆婆我\n" + NOR,me);
  command("blush");
- message_vision(HIY"兩人陷入了前所未有的尷尬情形，但是我卻無法決定心所屬誰\n"NOR,me);
- message_vision(HIY"然而關鍵是在某個事件中，那就是完顏宏烈的叛變事件中\n"NOR,me);
- message_vision(HIY"原本想暫時離開總壇，與柴榮去修練更高的技巧的孤城\n"NOR,me);
- message_vision(HIY"其實，是因為想釐清三人之間的關係，所以才離開總壇的\n"NOR,me);
- message_vision(HIY"然而，這時卻發生叛變事件，使得黑牙聯與魔教陷入交戰的危機\n"NOR,me);
- message_vision(HIY"不得不出面解決這一件事件，但是卻與渡永天他起了爭執\n"NOR,me);
- message_vision(HIY"因為他認為，要先逼完顏宏烈交出天魔解體大法，才解決他\n"NOR,me);
- message_vision(HIY"然而，柴榮本身因為被完嚴宏烈陷害，形成此一事件的主角\n"NOR,me);
- message_vision(HIY"而孤城他為了維護他，便想先殺完嚴宏烈，將其交給魔教\n"NOR,me);
- message_vision(HIY"於是兩人便在後山那裡打了起來，正當兩人打的火熱之時\n"NOR,me);
- message_vision(HIY"這個髮箍射中孤城，這時孤城以為是我暗中幫助渡永天\n"NOR,me);
- message_vision(HIY"便無心戀戰，而轉身離去..........\n"NOR,me);
- message_vision(HIY"這根本是完嚴宏烈設下的陷阱，他從我身邊偷走髮箍，並且下毒\n"NOR,me);
- message_vision(HIY"使得孤城他受傷嚴重，不得不把權力交給葉秀殺\n"NOR,me);
- message_vision(HIY"而我也在照顧孤城的過程中，將誤會冰釋並與孤城陷入的戀情之中\n"NOR,me);
- message_vision(HIY"而那把髮箍也成了我兩之間的信物，但好景不常.....\n"NOR,me);
- message_vision(HIY"渡永天竟將髮箍偷走，在偷偷把它丟在自己的床邊n"NOR,me);
- message_vision(HIY"在引孤城去看，暗示我紅杏出牆........\n"NOR,me);
- message_vision(HIY"孤城一怒之下，也找我問清楚，便遠走東瀛\n"NOR,me);
- message_vision(HIY"我便一路追趕了過去，但是卻沒有追上，我在東瀛找了五年後\n"NOR,me);
- message_vision(HIY"並沒有任何音訊，也只有回到總壇之中，\n"NOR,me);
- message_vision(HIY" 這時，渡永天早已因輔助葉秀殺，而成為殺手的第二勢力者  \n"NOR,me);
- message_vision(HIY"我也不願將此事公開，於是我就從殺手的第一線工作退了下來   \n"NOR,me);
- message_vision(HIY"這事便成為了無頭公案，孩子，你願意幫我一個忙嗎？   \n"NOR,me);
- message_vision(HIY"你幫我到那賤人住的附近的湖中找一條大鯉魚  \n"NOR,me);
-message_vision(HIY"當年孤城離開時，曾經留書說有東西在此魚腹中，要我去找   \n"NOR,me);
-message_vision(HIY"但我一直找不到，這幾年因為他搬回總壇，我也沒再去找了   \n"NOR,me);
+ message_vision(HIY + "兩人陷入了前所未有的尷尬情形，但是我卻無法決定心所屬誰\n" + NOR,me);
+ message_vision(HIY + "然而關鍵是在某個事件中，那就是完顏宏烈的叛變事件中\n" + NOR,me);
+ message_vision(HIY + "原本想暫時離開總壇，與柴榮去修練更高的技巧的孤城\n" + NOR,me);
+ message_vision(HIY + "其實，是因為想釐清三人之間的關係，所以才離開總壇的\n" + NOR,me);
+ message_vision(HIY + "然而，這時卻發生叛變事件，使得黑牙聯與魔教陷入交戰的危機\n" + NOR,me);
+ message_vision(HIY + "不得不出面解決這一件事件，但是卻與渡永天他起了爭執\n" + NOR,me);
+ message_vision(HIY + "因為他認為，要先逼完顏宏烈交出天魔解體大法，才解決他\n" + NOR,me);
+ message_vision(HIY + "然而，柴榮本身因為被完嚴宏烈陷害，形成此一事件的主角\n" + NOR,me);
+ message_vision(HIY + "而孤城他為了維護他，便想先殺完嚴宏烈，將其交給魔教\n" + NOR,me);
+ message_vision(HIY + "於是兩人便在後山那裡打了起來，正當兩人打的火熱之時\n" + NOR,me);
+ message_vision(HIY + "這個髮箍射中孤城，這時孤城以為是我暗中幫助渡永天\n" + NOR,me);
+ message_vision(HIY + "便無心戀戰，而轉身離去..........\n" + NOR,me);
+ message_vision(HIY + "這根本是完嚴宏烈設下的陷阱，他從我身邊偷走髮箍，並且下毒\n" + NOR,me);
+ message_vision(HIY + "使得孤城他受傷嚴重，不得不把權力交給葉秀殺\n" + NOR,me);
+ message_vision(HIY + "而我也在照顧孤城的過程中，將誤會冰釋並與孤城陷入的戀情之中\n" + NOR,me);
+ message_vision(HIY + "而那把髮箍也成了我兩之間的信物，但好景不常.....\n" + NOR,me);
+ message_vision(HIY + "渡永天竟將髮箍偷走，在偷偷把它丟在自己的床邊n" + NOR,me);
+ message_vision(HIY + "在引孤城去看，暗示我紅杏出牆........\n" + NOR,me);
+ message_vision(HIY + "孤城一怒之下，也找我問清楚，便遠走東瀛\n" + NOR,me);
+ message_vision(HIY + "我便一路追趕了過去，但是卻沒有追上，我在東瀛找了五年後\n" + NOR,me);
+ message_vision(HIY + "並沒有任何音訊，也只有回到總壇之中，\n" + NOR,me);
+ message_vision(HIY + " 這時，渡永天早已因輔助葉秀殺，而成為殺手的第二勢力者  \n" + NOR,me);
+ message_vision(HIY + "我也不願將此事公開，於是我就從殺手的第一線工作退了下來   \n" + NOR,me);
+ message_vision(HIY + "這事便成為了無頭公案，孩子，你願意幫我一個忙嗎？   \n" + NOR,me);
+ message_vision(HIY + "你幫我到那賤人住的附近的湖中找一條大鯉魚  \n" + NOR,me);
+message_vision(HIY + "當年孤城離開時，曾經留書說有東西在此魚腹中，要我去找   \n" + NOR,me);
+message_vision(HIY + "但我一直找不到，這幾年因為他搬回總壇，我也沒再去找了   \n" + NOR,me);
 this_player()->set_temp("memory",3);
  return "少年的，如果找到的話，婆婆會有你的好處的.....";
 }
@@ -102,21 +102,21 @@ int accept_object(object wo,object ob)
     }
     command("spank "+this_player()->query("id"));
     command("say 這是早期孤城專用的傳令筒");
-    message_vision(HIG"婆婆接過竹筒後以特殊的手法將竹筒打開\n從裡面拿出一張羊皮紙n"NOR,me);
-    message_vision(HIG"婆婆緩緩的端詳了裡面所記載的事情，隨後嘆了一口氣.....\n"NOR,me);
+    message_vision(HIG + "婆婆接過竹筒後以特殊的手法將竹筒打開\n從裡面拿出一張羊皮紙n" + NOR,me);
+    message_vision(HIG + "婆婆緩緩的端詳了裡面所記載的事情，隨後嘆了一口氣.....\n" + NOR,me);
     command("say 永天，看來是我誤會你了............");
-    message_vision(HIM"之後，婆婆將事情的源由緩緩道來....，在婆婆解說下，才知道\n"NOR,me);
-    message_vision(HIM"原來當年是完嚴宏烈所設下的陷阱，想要引起兩人之間的征戰\n"NOR,me);
-    message_vision(HIM"葉孤城將計就計想引出完嚴宏烈，便離開總壇看他是否會暗殺葉孤城\n"NOR,me);
-    message_vision(HIM"但是，完嚴宏烈並沒有上當，原本想要再次回到總壇。\n"NOR,me);
-    message_vision(HIM"不過在與渡永天討論過後，感到東瀛的勢力，似乎逐漸滲透中土\n"NOR,me);
-    message_vision(HIM"並且發現有不少人已經成為各派的第二，三代傳人，但是不知到有哪些人\n"NOR,me);
-    message_vision(HIM"根據寧錯殺不放過，於是便與渡永天定下殲滅各派第二，三代傳人的計畫\n"NOR,me);
-    message_vision(HIM"因為事關重大，為避免打草驚蛇，葉孤城便遠走東瀛，順便找裝備與情報\n"NOR,me);
-    message_vision(HIM"而渡永天也不便向葉玲如說明，也不刻意去找出完嚴宏烈\n"NOR,me);
-    message_vision(HIM"才會形成目前的情形.......\n"NOR,me);
+    message_vision(HIM + "之後，婆婆將事情的源由緩緩道來....，在婆婆解說下，才知道\n" + NOR,me);
+    message_vision(HIM + "原來當年是完嚴宏烈所設下的陷阱，想要引起兩人之間的征戰\n" + NOR,me);
+    message_vision(HIM + "葉孤城將計就計想引出完嚴宏烈，便離開總壇看他是否會暗殺葉孤城\n" + NOR,me);
+    message_vision(HIM + "但是，完嚴宏烈並沒有上當，原本想要再次回到總壇。\n" + NOR,me);
+    message_vision(HIM + "不過在與渡永天討論過後，感到東瀛的勢力，似乎逐漸滲透中土\n" + NOR,me);
+    message_vision(HIM + "並且發現有不少人已經成為各派的第二，三代傳人，但是不知到有哪些人\n" + NOR,me);
+    message_vision(HIM + "根據寧錯殺不放過，於是便與渡永天定下殲滅各派第二，三代傳人的計畫\n" + NOR,me);
+    message_vision(HIM + "因為事關重大，為避免打草驚蛇，葉孤城便遠走東瀛，順便找裝備與情報\n" + NOR,me);
+    message_vision(HIM + "而渡永天也不便向葉玲如說明，也不刻意去找出完嚴宏烈\n" + NOR,me);
+    message_vision(HIM + "才會形成目前的情形.......\n" + NOR,me);
     command("say 小朋友，多謝你幫忙婆婆，這個令牌你拿去，順便去找渡永天他會給你好處的");
-    message_vision(HIR"婆婆交給你一面令牌\n"NOR,me);	
+    message_vision(HIR + "婆婆交給你一面令牌\n" + NOR,me);	
      ob3=new("/open/killer/memory/card.c");
      ob3->move(me);
     me->set_temp("memory",8);
@@ -144,8 +144,8 @@ int accept_object(object wo,object ob)
       if (me->query_temp("tt")==1)
       {
        command("say 你等一下，我煉製一下，馬上就好了");
-       message_vision(HIR"婆婆躲入密室後，密室中呼喊聲不斷，非常淒瀝\n"NOR,me);
-       message_vision(HIR"過了一會，婆婆拿了一盒，金色的護具\n"NOR,me);
+       message_vision(HIR + "婆婆躲入密室後，密室中呼喊聲不斷，非常淒瀝\n" + NOR,me);
+       message_vision(HIR + "過了一會，婆婆拿了一盒，金色的護具\n" + NOR,me);
        ob2=new("/open/killer/obj/black.c");
        ob2->add_amount(14);
        ob2->move(me);
@@ -177,8 +177,8 @@ int accept_object(object wo,object ob)
       if (me->query_temp("can")==1)
       {
        command("say 你等一下，我煉製一下，馬上就好了");
-       message_vision(HIR"婆婆躲入密室後，密室中呼喊聲不斷，非常淒瀝\n"NOR,me);
-       message_vision(HIR"過了一會，婆婆拿了一盒，金色的護具\n"NOR,me);
+       message_vision(HIR + "婆婆躲入密室後，密室中呼喊聲不斷，非常淒瀝\n" + NOR,me);
+       message_vision(HIR + "過了一會，婆婆拿了一盒，金色的護具\n" + NOR,me);
        ob2=new("/open/killer/obj/black.c");
        ob2->add_amount(14);
        ob2->move(me);
@@ -222,8 +222,8 @@ int accept_object(object wo,object ob)
      {
       destruct(ob);
       command("say 沒錯就是這樣，真好！！你等一下，我立刻就好。。。\n");
-      message_vision(HIR"只見婆婆熟練的動作，將草藥放入爐中\n"NOR,me);
-      message_vision(HIR"不一會兒，數顆殺手密藥就已經做好了\n"NOR,me);
+      message_vision(HIR + "只見婆婆熟練的動作，將草藥放入爐中\n" + NOR,me);
+      message_vision(HIR + "不一會兒，數顆殺手密藥就已經做好了\n" + NOR,me);
       ob2=new("/open/killer/obj/s_pill.c");
       ob2->add_amount(14);
       ob2->move(me);
@@ -316,7 +316,7 @@ message_vision("一股氣勁由"+this_player()->name()+"竄出",ob);
 this_player()->set("force",0);
 this_player()->set("atman",0);
 this_player()->set("mana",0);
-message_vision(HBRED+HIY"$N施展秘法, 吸走了$n身上的內力,法力與靈力!!!\n"NOR,this_object(),this_player());
+message_vision(HBRED+HIY"$N施展秘法, 吸走了$n身上的內力,法力與靈力!!!\n" + NOR,this_object(),this_player());
   this_object()->kill_ob(this_player());
     return 1;
 }
@@ -346,19 +346,19 @@ string ask_his()
   if (me->query_temp("firstpart") !=6)
   {
 	command("say 不要煩我，快滾");
-        message_vision(HIR"只見婆婆一掌將你打飛\n"NOR,me);
+        message_vision(HIR + "只見婆婆一掌將你打飛\n" + NOR,me);
 	me->add("kee",-50);
 	me->move("/open/killer/room/floorm.c");
              return "我管你什麼經過不經過的......";
   }
- message_vision(HIY"你們...想不到...呀.....居然可以探查到如此地步\n"NOR,me);
- message_vision(HIY"好吧...到此再隱瞞也沒意義了，既然你都已經知道分功\化影身法\n"NOR,me);
- message_vision(HIY"雖然此身法的真相連我也不清楚，因為當年柴榮逃出魔教的時候\n"NOR,me);
- message_vision(HIY"似乎在逃亡過程中經歷了不少事情，不過卻從來不願意提起這一件事情\n"NOR,me);
- message_vision(HIY"小葉他似乎僅是接觸到他逃亡的最後一段歷程而救了他....\n"NOR,me);
- message_vision(HIY"小葉雖然看過他施展一種號稱分功\化影的身法，但是柴榮卻不願承認\n"NOR,me);
- message_vision(HIY"因此真相連我也不清楚，但是婆婆可有一招密招 『心靈探索』\n"NOR,me);
- message_vision(HIY"或許\你們可以利用(心靈探索)來探索有關柴榮的一些往事...\n"NOR,me);
+ message_vision(HIY + "你們...想不到...呀.....居然可以探查到如此地步\n" + NOR,me);
+ message_vision(HIY + "好吧...到此再隱瞞也沒意義了，既然你都已經知道分功\化影身法\n" + NOR,me);
+ message_vision(HIY + "雖然此身法的真相連我也不清楚，因為當年柴榮逃出魔教的時候\n" + NOR,me);
+ message_vision(HIY + "似乎在逃亡過程中經歷了不少事情，不過卻從來不願意提起這一件事情\n" + NOR,me);
+ message_vision(HIY + "小葉他似乎僅是接觸到他逃亡的最後一段歷程而救了他....\n" + NOR,me);
+ message_vision(HIY + "小葉雖然看過他施展一種號稱分功\化影的身法，但是柴榮卻不願承認\n" + NOR,me);
+ message_vision(HIY + "因此真相連我也不清楚，但是婆婆可有一招密招 『心靈探索』\n" + NOR,me);
+ message_vision(HIY + "或許\你們可以利用(心靈探索)來探索有關柴榮的一些往事...\n" + NOR,me);
  me->set_temp("firstpart",7);
  return "想要心靈探索嗎?\n";
 }
@@ -369,18 +369,18 @@ string ask_discov()
   if (me->query_temp("firstpart") !=7)
   {
   command("say 不要煩我，快滾");
- message_vision(HIR"只見婆婆一掌將你打飛\n"NOR,me);
+ message_vision(HIR + "只見婆婆一掌將你打飛\n" + NOR,me);
 	me->add("kee",-50);
 	me->move("/open/killer/room/floorm.c");
              return "我管你什麼探索不探索的......";
   }
- message_vision(HIY"既然你想要嘗試心靈探索，就讓婆婆來幫助你.....\n"NOR,me);
- message_vision(HIY"你會彷彿進入時光隧道一般，進入柴榮十幾年前的往事......\n"NOR,me);
- message_vision(HIY"要注意，那是一種真實的精神空間，並非單只柴榮所知\n"NOR,me);
- message_vision(HIY"而是貨真價實的回到當時的時空背景中........\n"NOR,me);
- message_vision(HIY"你的一舉一動會並無法影響已存在的事實，但是畢竟你身處當時\n"NOR,me);
- message_vision(HIY"卻有可能增加事實的存在，而且錯誤的決定，可能造成嚴重後果\n"NOR,me);
- message_vision(HIY"閉上你的眼睛吧.......讓我來施展密法吧..............\n"NOR,me);
+ message_vision(HIY + "既然你想要嘗試心靈探索，就讓婆婆來幫助你.....\n" + NOR,me);
+ message_vision(HIY + "你會彷彿進入時光隧道一般，進入柴榮十幾年前的往事......\n" + NOR,me);
+ message_vision(HIY + "要注意，那是一種真實的精神空間，並非單只柴榮所知\n" + NOR,me);
+ message_vision(HIY + "而是貨真價實的回到當時的時空背景中........\n" + NOR,me);
+ message_vision(HIY + "你的一舉一動會並無法影響已存在的事實，但是畢竟你身處當時\n" + NOR,me);
+ message_vision(HIY + "卻有可能增加事實的存在，而且錯誤的決定，可能造成嚴重後果\n" + NOR,me);
+ message_vision(HIY + "閉上你的眼睛吧.......讓我來施展密法吧..............\n" + NOR,me);
  me->set_temp("firstpart",8);
  me->move("/open/killer/ninja/find/r1.c");
  return "好好的了解每一件事情事情吧？";

@@ -163,7 +163,7 @@ void die()
 	 tail->move(winner);
 	 tail->set("finder",winner->query("id"));
 	 winner->set_temp("got_wolf_tail",1);
-	 message_vision(HIW"\n$N從$n的屍體上取下"+tail->query("name")+"。\n\n"NOR,winner,this_object());
+	 message_vision(HIW + "\n$N從$n的屍體上取下"+tail->query("name")+"。\n\n" + NOR,winner,this_object());
 	}
     :: die();
 }               

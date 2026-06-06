@@ -3,7 +3,7 @@ inherit ITEM;
 #include "../../open.h"
 void create()
 {
-     set_name(HIR "獨孤愁的靈柩" NOR,({"box"}));
+     set_name(HIR + "獨孤愁的靈柩" + NOR,({"box"}));
      set("long","雪蒼派第三代掌門獨孤愁的靈柩﹐上面刻著「九轉邪雲」四個大字。\n");
      set("unit","俱");
      set_weight(1000000);
@@ -30,7 +30,7 @@ int do_push(string str)
 	if(str!="邪")
 	{
 	   message_vision(
-		HIY "$N觸碰了暗門﹐被一股強烈的力道反震﹐$N被彈了出去﹗\n"+HIR+"$N吐了口鮮血﹐受了極嚴重的內傷。\n" NOR,this_player());
+		HIY + "$N觸碰了暗門﹐被一股強烈的力道反震﹐$N被彈了出去﹗\n"+HIR+"$N吐了口鮮血﹐受了極嚴重的內傷。\n" + NOR,this_player());
 	   this_player()->add("kee",-100);
 	   this_player()->move(SNOW_ROOM"ducu_room_in");
 	   return 1;

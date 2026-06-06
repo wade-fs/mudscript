@@ -2,7 +2,7 @@
 inherit ROOM;
 void create()
 {
-   set("short", HIW"仙劍試煉峽谷"NOR);
+   set("short", HIW + "仙劍試煉峽谷" + NOR);
    set("long", @LONG
 一個雜草叢生的峽谷.四周山壁聳立..看起來似乎無法離開此處...
 就在你仔細找尋出口時..你發現山壁上盡是屬不盡的劍痕.。
@@ -37,8 +37,8 @@ int greeting (object who)
   room->set("exits/east","/open/gsword/room2/sun"+edir);
   room->set("exits/north","/open/gsword/room2/sun5");
   room->set("exits/south","/open/gsword/room2/sun"+sdir);
-    message_vision(HIR"\n$N進入仙劍試煉場後後..瞬間衝出數道劍芒.\n",who);
-    message_vision(HIR"劍芒消失後，數到人影$N衝來！！！\n"NOR,who);
+    message_vision(HIR + "\n$N進入仙劍試煉場後後..瞬間衝出數道劍芒.\n",who);
+    message_vision(HIR + "劍芒消失後，數到人影$N衝來！！！\n" + NOR,who);
     seteuid(getuid());
     i=random(3)+1;
     while(i--)

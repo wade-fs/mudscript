@@ -3,7 +3,7 @@
 inherit BOOTS;
 void create()
 {
-  set_name(HIW"白熊皮靴"NOR,({"bear boots","boots"}));
+  set_name(HIW + "白熊皮靴" + NOR,({"bear boots","boots"}));
   set_weight(9500);
   if( clonep() )
   set_default_object(__FILE__);

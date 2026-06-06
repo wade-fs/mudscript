@@ -33,7 +33,7 @@ int apa_letter()
         if(me->query_temp("icestorm/ice_spell")==7)
         {
                 write("你拆開了信箋，拿出了裡面的信，緩緩的唸了出來...\n");
-                write(HIW"
+                write(HIW + "
 你唸道：有緣人啊...貧道早知道會有這麼一天...\n
 　　　　雖然貧道不認識你，但想必你應該是陸清風那小子的什麼人吧...\n
 　　　　唉～其實貧道並不是故意要冰封小蝶的，只是她太過於痴心...\n
@@ -45,7 +45,7 @@ int apa_letter()
 　　　　你就好好的修習我所遺下的『冰封秘咒』，等到你有了一定的功\力...\n
 　　　　便可以破冰救出受冰封之苦小蝶了...\n
 　　　　　　　　　　　　　　　　　　　　　　　　　　　　靈韻師太絕筆...\n
-"NOR);
+" + NOR);
                 me->delete_temp("icestorm/ice_spell");
                 me->set("get_book",1);
                 return 1;

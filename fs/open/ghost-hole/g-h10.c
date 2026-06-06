@@ -2,7 +2,7 @@
 inherit ROOM;
 void create ()
 {
-set("short",BLU"死靈幽谷"NOR);
+set("short",BLU + "死靈幽谷" + NOR);
 set("long",@LONG 
 在冰冷的岩壁旁, 坐著一個十頹廢的老人, 一動也
 不動的與你對視, 他那空洞的眼神讓你有種冰冷的感覺

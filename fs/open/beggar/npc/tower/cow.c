@@ -6,7 +6,7 @@ void create()
         set("long","我叫鬥牛\n");
         set("gender","男性");
         set("class","beggar");
-        set("nickname",HIW"難看臉！"NOR);
+        set("nickname",HIW + "難看臉！" + NOR);
         set("combat_exp",10000000);
         set("attitude","friendly");
         set("age",30);
@@ -101,7 +101,7 @@ void heart_beat()
         }
                 if ( this_object()->is_fighting() && random(50)>25)
                 {
-                        message_vision(HIM"$N不甘心被壓著打，一聲怒吼，解開了被封穴道！\n"NOR,this_object());
+                        message_vision(HIM + "$N不甘心被壓著打，一聲怒吼，解開了被封穴道！\n" + NOR,this_object());
                         this_object()->delete_busy();
                 }
 
@@ -118,14 +118,14 @@ void die()
     winner->set_temp("ko_cow",1);
     environment(winner)->delete_temp("block");
     destruct(present("cloud staff",this_object()));
-    tell_object(users(),HIC"
+    tell_object(users(),HIC + "
                 鬥牛死前竭盡地吶喊著！
                 　　
                 　若不是我去吃到假的ｓｌｉｍｂｏｄｙ
 
-                　　　"HIY"我怎麼可能會死～可惡啊～
+                　　　" + HIY + "我怎麼可能會死～可惡啊～
 
-                　　　　　　"HIG"黑雞"HIW"和尚"HIY"記得幫我報仇～～\n"NOR);
+                　　　　　　" + HIG + "黑雞" + HIW + "和尚" + HIY + "記得幫我報仇～～\n" + NOR);
 
     destruct(this_object());
  :: die();

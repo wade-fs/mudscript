@@ -29,7 +29,7 @@ int do_drink(string str)
 	if(this_player()->query("quests/get_tiger")!=1)
      {
         message_vision(
-       HIW + "$N喝了雪泉聖水﹐得到了一道靈氣。\n" NOR,this_player());
+       HIW + "$N喝了雪泉聖水﹐得到了一道靈氣。\n" + NOR,this_player());
 	this_player()->set("quests/get_tiger",1);
 	this_player()->set("sec_kee","tiger");
         return 1;

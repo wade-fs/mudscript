@@ -38,7 +38,7 @@ void init()
 		else            me->move("/open/prayer/room/2elder5");
 		me->delete_temp("elder2");
 		me->start_busy(2);
-		message_vision( HIY"弟子說道: 別慌慌張張地亂闖, 這裡可是執法長老執法的地方唷。\n"NOR, me );
+		message_vision( HIY + "弟子說道: 別慌慌張張地亂闖, 這裡可是執法長老執法的地方唷。\n" + NOR, me );
 	}
 	else {
 		me->add_temp( "elder2", 1 );

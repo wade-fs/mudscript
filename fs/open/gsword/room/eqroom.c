@@ -76,24 +76,24 @@ int do_verify(string arg)
 int greeting (object who)
 {
   if (!who) return 1;
-  if (who->query("title")==HIR"殺手全力追殺的人頭"NOR)
+  if (who->query("title")==HIR + "殺手全力追殺的人頭" + NOR)
   {
-    message_vision(HIY"劍士頭目的靈魂傳送了訊息過來：么\壽！！殺手人頭ㄋㄟ，頭目也幫不了你了！！\n"NOR,who);
+    message_vision(HIY + "劍士頭目的靈魂傳送了訊息過來：么\壽！！殺手人頭ㄋㄟ，頭目也幫不了你了！！\n" + NOR,who);
   }
   //解風青雲後之title
   else if (who->query("family/family_name")=="仙劍派" && who->query("quests/sunfire")==1)
   {
     if (who->query("title")!="仙劍聖者")
     {
-      message_vision(HIY"劍士頭目的靈魂傳送了訊息過來：你的title 混亂了..我幫你回復過來。\n"NOR,who);
-      who->set("title",HIC"仙劍聖者"NOR);
+      message_vision(HIY + "劍士頭目的靈魂傳送了訊息過來：你的title 混亂了..我幫你回復過來。\n" + NOR,who);
+      who->set("title",HIC + "仙劍聖者" + NOR);
     }
   }
   else if (who->query("family/family_name")=="仙劍派" && who->query("quest/sun_fire_sword")==1)
   {
     if(who->query("title")!="仙劍派絕代劍俠")
     {
-      message_vision(HIY"劍士頭目的靈魂傳送了訊息過來：你的title 混亂了..我幫你回復過來。\n"NOR,who);
+      message_vision(HIY + "劍士頭目的靈魂傳送了訊息過來：你的title 混亂了..我幫你回復過來。\n" + NOR,who);
       who->set("title","仙劍派絕代劍俠");
     }
   }
@@ -101,17 +101,17 @@ int greeting (object who)
   {
     if(who->query("title")!="仙劍派一代劍俠")
     {
-      message_vision(HIY"劍士頭目的靈魂傳送了訊息過來：你的title 混亂了..我幫你回復過來。\n"NOR,who);
+      message_vision(HIY + "劍士頭目的靈魂傳送了訊息過來：你的title 混亂了..我幫你回復過來。\n" + NOR,who);
       who->set("title","仙劍派一代劍俠");
     }
   }
   else if (wizardp(who))
   {
-    message_vision(HIY"劍士頭目的靈魂傳送了訊息過來：咦？"+who->query("name")+HIY"專程來這呀？歡迎～歡迎～～\n"NOR,who);
+    message_vision(HIY + "劍士頭目的靈魂傳送了訊息過來：咦？"+who->query("name")+HIY"專程來這呀？歡迎～歡迎～～\n" + NOR,who);
   }
   else
   {
-    message_vision(HIY"劍士頭目的靈魂傳送了訊息過來：你的title 混亂了..我幫你回復過來。\n"NOR,who);
+    message_vision(HIY + "劍士頭目的靈魂傳送了訊息過來：你的title 混亂了..我幫你回復過來。\n" + NOR,who);
     who->set("title","仙劍派小小弟子");
   }
 }

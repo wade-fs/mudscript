@@ -19,9 +19,9 @@ void create()
 禍苦難，於是殺龍阻洪以火熔漿補天解救了芸芸眾生；此石，就是當
 時女媧補天時留下來的七色彩石．
 
-"HIY"( blend [種類] 可將煉造之元神融合體內 )
+" + HIY + "( blend [種類] 可將煉造之元神融合體內 )
  種類 : force , dodge , move , parry .
-\n"NOR);
+\n" + NOR);
         set("value",100);
         set("unit","顆");
         }
@@ -55,8 +55,8 @@ int a,b,c;
                 return notify_fail("精練的元神不能重複融合～!\n");
         if( c <= 0 )
                 return notify_fail("精煉的元尚不足以增進你的技能～!\n");
-        message_vision(HIW"$N運氣於手掌上的$n，$n發出一陣強烈光芒後～消失了!\n"NOR,me,ob);
-        message_vision(HIW"$N的"+arg+"增加了"+c+"級!\n"NOR,me);
+        message_vision(HIW + "$N運氣於手掌上的$n，$n發出一陣強烈光芒後～消失了!\n" + NOR,me,ob);
+        message_vision(HIW + "$N的"+arg+"增加了"+c+"級!\n" + NOR,me);
         me->set_temp("refine/common/"+arg,1);
         me->add_temp("apply/"+arg,c);
         do_dest();

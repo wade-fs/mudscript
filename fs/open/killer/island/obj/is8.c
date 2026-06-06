@@ -31,8 +31,8 @@ int do_search()
 object me=this_player();
 if (me->query_temp("can_search")==1)
 {
-tell_object(me,HIC"你赫然發現岩石的樹旁可以看到因退潮而呈現的沙岸上有一塊扁平的大岩石(stone).\n"NOR);
-tell_object(me,HIY"原來黎明時是這座島退潮的時間 .\n"NOR);
+tell_object(me,HIC + "你赫然發現岩石的樹旁可以看到因退潮而呈現的沙岸上有一塊扁平的大岩石(stone).\n" + NOR);
+tell_object(me,HIY + "原來黎明時是這座島退潮的時間 .\n" + NOR);
 new("/u/u/unfinished/room/obj/stone.c")->move(environment(me));
 me->delete_temp("can_search");
 me->set_temp("can_back",1);

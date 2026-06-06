@@ -3,7 +3,7 @@ inherit ROOM;
 object me = this_player();
 void create()
 {
-        set("short",HIR"不死鳥ソ塔"NOR);
+        set("short",HIR + "不死鳥ソ塔" + NOR);
         set("long", @LONG 
 這裡是通往不死鳥之塔上層的樓梯間。
 

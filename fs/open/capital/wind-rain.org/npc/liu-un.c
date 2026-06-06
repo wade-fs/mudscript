@@ -69,11 +69,11 @@ void heart_beat()
     target=enemy[j];
     if( env == environment(target) )
     {
-      message_vision(HIW"\n
+      message_vision(HIW + "\n
 $N亂舞手中長刀，刀氣開始颳起風沙石塵，黃色的霧逐漸瀰漫開來
-將$N隱在其中，倏然一式"HIY"『駱行千步歸  風沙舞翩翩』"HIW"黃沙雜混著
+將$N隱在其中，倏然一式" + HIY + "『駱行千步歸  風沙舞翩翩』" + HIW + "黃沙雜混著
 激烈而灼熱的刀氣，毫無紋理可尋地向四處圍竄
-\n"NOR,mob);
+\n" + NOR,mob);
       target->receive_damage("kee",350);
       COMBAT_D->report_status(target, 1);
     }

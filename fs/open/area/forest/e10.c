@@ -29,8 +29,8 @@ int valid_leave(object me,string dir)
         {
                 if( present("wild soldier",environment(me)) && !me->query_temp("wild/mask") )
                 {
-                        message_vision(HIY"野人哨兵擋住了你的去路！\n"NOR,me);
-                        return notify_fail(HIY"你無法通過。\n"NOR);
+                        message_vision(HIY + "野人哨兵擋住了你的去路！\n" + NOR,me);
+                        return notify_fail(HIY + "你無法通過。\n" + NOR);
                 }
                 else
                         return 1;

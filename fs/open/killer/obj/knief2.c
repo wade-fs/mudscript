@@ -35,7 +35,7 @@ mixed hit_ob( object me,object victim)
   {
    enemy=me->query_enemy();
    i=random(sizeof(enemy));
-   message_vision(HIG"$N被$n的柳葉飛刀刺中要害，傷口流出大量鮮血\n"NOR,me,enemy[i]);
+   message_vision(HIG + "$N被$n的柳葉飛刀刺中要害，傷口流出大量鮮血\n" + NOR,me,enemy[i]);
    COMBAT_D->report_status(enemy[i],1);
    enemy[i]->add("kee",-random(cor/2));
   } 

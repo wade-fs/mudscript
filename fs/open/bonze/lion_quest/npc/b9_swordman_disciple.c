@@ -11,7 +11,7 @@ void create()
 {
   set_name("冰山劍俠", ({ "swordman disciple", "swordman", "disciple", "d" }) );
   set("long","師承流星三劍客中劍法最精的女俠寒紫冰，青出於藍更勝於藍的她奉師父之令下山修行。\n");
-  set("nickname",HIC "滅"HIY"獅"NOR"聯盟");
+  set("nickname",HIC + "滅" + HIY + "獅" + NOR + "聯盟");
   set("gender", "女性" );
   set("class","swordsman");
   set("combat_exp",8010000);
@@ -70,13 +70,13 @@ void create()
 //以下八招 依序判斷 且只能存在一招 例如啟用第六式 則從set("dragon-sword",1) 到set("sha-stop-5",1) 都得by pass 
 //因為不會去判斷第七式 所以也要by pass
 //  set("dragon-sword",1); //仙劍劍法 (shasword)技能mark 劍影連陽 七陽連天 ("family/master_name")=="鄭士欣"
-//  set("sha-stop-1",1); //仙劍劍法 (shasword)技能mark 仙劍禁斷之連陽七訣第一式『"HIR"烈陽"HIW"』("family/master_name")=="張乘風"
-//  set("sha-stop-2",1); //仙劍劍法 (shasword)技能mark 仙劍禁斷之連陽七訣第二式"HIW"『"HIR"殘陽"HIW"』("family/master_name")=="張乘雲"
-//  set("sha-stop-3",1); //仙劍劍法 (shasword)技能mark 仙劍禁斷之連陽七訣第三式"HIW"『"HIY"豔陽"HIW"』("family/master_name")=="唐鈺"
-//  set("sha-stop-4",1); //仙劍劍法 (shasword)技能mark 仙劍禁斷之連陽七訣第四式"HIW"『"HIY"暖陽"HIW"』("family/master_name")=="趙鶴"
-//  set("sha-stop-5",1); //仙劍劍法 (shasword)技能mark 仙劍禁斷之連陽七訣第五式"HIW"『"HIC"冬陽"HIW"』("family/master_name")=="梅影"
-  set("sha-stop-6",1); //仙劍劍法 (shasword)技能mark 仙劍禁斷之連陽七訣第六式"HIW"『"HIY"朝陽"HIW"』("family/master_name")=="何雙雙"
-//  set("sha-stop-7",1); //仙劍劍法 (shasword)技能mark 仙劍禁斷之連陽七訣第七式"HIW"『"HIY"夕陽"HIW"』 以上皆非 query_skill("shasword",1) >=60
+//  set("sha-stop-1",1); //仙劍劍法 (shasword)技能mark 仙劍禁斷之連陽七訣第一式『" + HIR + "烈陽" + HIW + "』("family/master_name")=="張乘風"
+//  set("sha-stop-2",1); //仙劍劍法 (shasword)技能mark 仙劍禁斷之連陽七訣第二式" + HIW + "『" + HIR + "殘陽" + HIW + "』("family/master_name")=="張乘雲"
+//  set("sha-stop-3",1); //仙劍劍法 (shasword)技能mark 仙劍禁斷之連陽七訣第三式" + HIW + "『" + HIY + "豔陽" + HIW + "』("family/master_name")=="唐鈺"
+//  set("sha-stop-4",1); //仙劍劍法 (shasword)技能mark 仙劍禁斷之連陽七訣第四式" + HIW + "『" + HIY + "暖陽" + HIW + "』("family/master_name")=="趙鶴"
+//  set("sha-stop-5",1); //仙劍劍法 (shasword)技能mark 仙劍禁斷之連陽七訣第五式" + HIW + "『" + HIC + "冬陽" + HIW + "』("family/master_name")=="梅影"
+  set("sha-stop-6",1); //仙劍劍法 (shasword)技能mark 仙劍禁斷之連陽七訣第六式" + HIW + "『" + HIY + "朝陽" + HIW + "』("family/master_name")=="何雙雙"
+//  set("sha-stop-7",1); //仙劍劍法 (shasword)技能mark 仙劍禁斷之連陽七訣第七式" + HIW + "『" + HIY + "夕陽" + HIW + "』 以上皆非 query_skill("shasword",1) >=60
   set("quest/sun_fire_sword",1); //修煉 連陽七訣劍法 (sun_fire_sword) 技能mark 可使用help sun_fire_sword 看技能說明
   set("get_sha_sp",1); //修煉 連陽七訣劍法 (sun_fire_sword) 技能mark
 //  set("quests/sunfire",1); //為連陽七訣劍法特攻 需解謎 並打倒fire-king後 跟風青雲說話所取得 連陽七絕斬 的mark //太強 所以暫時關閉
@@ -121,7 +121,7 @@ void greeting()
   if (!ob->is_fighting() && ppl->query_temp("quests/bonze/fight") == 1
       && ppl->is_fighting() && (ob->query("kee") > ob->query("max_kee")*0.3))
   {
-    message_vision (HIY"$N大喊：無事生非者，殺無赦！\n"NOR, ob);
+    message_vision (HIY + "$N大喊：無事生非者，殺無赦！\n" + NOR, ob);
     fight_ob(ppl);
   }
 
@@ -147,9 +147,9 @@ void greeting()
         ob->add("max_sen",20000+random(15000));
         ob->add("force_factor",10+random(10));
         ob->set_temp("quests/bonze/power_up",1);
-        message_vision (HIR"$n眼尖發現了$N拿出一罐秘藥並喝了下去。\n"NOR, ob, ppl);
+        message_vision (HIR + "$n眼尖發現了$N拿出一罐秘藥並喝了下去。\n" + NOR, ob, ppl);
       }
-      message_vision (HIR"$n看出$N的身上散發著不斷高漲的殺氣。\n"NOR, ob, ppl);
+      message_vision (HIR + "$n看出$N的身上散發著不斷高漲的殺氣。\n" + NOR, ob, ppl);
       fight_ob(ppl);
     }
     else {
@@ -212,7 +212,7 @@ void heart_beat()
     if (is_fighting()) {
       tell_room(environment(), name()+"見情勢不妙，趕緊服下大還丹，臉色頓時好多了。\n"); }
     else {
-      tell_room(environment(), name()+"細心的把"HIW"銀針門"HIY"特製金創藥"NOR"敷在自己的身上。\n"); }
+      tell_room(environment(), name()+"細心的把" + HIW + "銀針門" + HIY + "特製金創藥" + NOR + "敷在自己的身上。\n"); }
 //補血不能有小數 所以用(int)與非小數的方式來取整數 且括號後面的計算式以便debug
     me->receive_curing("kee",(int)(maxkee/100*2));
     me->receive_heal("kee",(int)(maxkee/100*6));
@@ -239,7 +239,7 @@ void heart_beat()
 void do_busy()
 {
   if( random(7)>4 )
-    message_vision(HIC"寒冰劍寒氣逼人 ,瞬間你被凍結了。\n"NOR,this_object());
+    message_vision(HIC + "寒冰劍寒氣逼人 ,瞬間你被凍結了。\n" + NOR,this_object());
   ob=this_object()->query("last_damage_from");
   if(ob)
     ob->start_busy(1);
@@ -263,7 +263,7 @@ int heal_up()
 {
   if (!is_fighting() && this_object()->query_temp("count_down") > 600)
   { //心跳一次 1:1.5(秒)==>1.5x40=1min, 15min=1.5x40x15=900 //縮短為10分 因為在沒有玩家經過或者存在時 心跳功能會停止
-    message_vision (HIY"$N見到小兵送來上級的手令，於是轉身飛奔離去，消失在你的眼前。\n"NOR, this_object());
+    message_vision (HIY + "$N見到小兵送來上級的手令，於是轉身飛奔離去，消失在你的眼前。\n" + NOR, this_object());
     destruct(this_object());
     return 1;
   } //此括號仍為判斷是否在戰鬥中的if下引號

@@ -8,7 +8,7 @@ int be,bb,k,sp,qq,co,st;
 
 void create()
 {
-	set_name(GRN"幔羅刀無影"NOR,({"maun-shadow-blade","blade"}) );
+	set_name(GRN + "幔羅刀無影" + NOR,({"maun-shadow-blade","blade"}) );
 	set_weight(10000);
 	if( clonep() ) 
 	set_default_object(__FILE__);
@@ -23,8 +23,8 @@ void create()
 	set("no_steal",1);
 	}
 	init_blade(100);
- 	set("wield_msg",CYN"$N"CYN"拿起$n"CYN"，$n"CYN"散出一股奇異的淡淡幽香!!\n"NOR);
-        set("unwield_msg","$N輕輕卸下$n，$n散出的香味也消逝無蹤。\n"NOR);
+ 	set("wield_msg",CYN + "$N" + CYN + "拿起$n" + CYN + "，$n" + CYN + "散出一股奇異的淡淡幽香!!\n" + NOR);
+        set("unwield_msg","$N輕輕卸下$n，$n散出的香味也消逝無蹤。\n" + NOR);
 
 	setup();
 }                   
@@ -48,10 +48,10 @@ int do_wield(string str)
 	uexp = user->query("combat_exp");
 	  if( uexp < 3000000 )
 	  {
-	  message_vision("$N的經驗並不足以完全支配這樣的神兵利器!!\n"NOR,user);
+	  message_vision("$N的經驗並不足以完全支配這樣的神兵利器!!\n" + NOR,user);
 	  set_heart_beat(0);
 	  }else{
-//	  message_vision(CYN"$N"CYN"拿起$n"CYN"，$n"CYN"散出一股奇異的淡淡幽香!!\n"NOR,user,ob);
+//	  message_vision(CYN + "$N" + CYN + "拿起$n" + CYN + "，$n" + CYN + "散出一股奇異的淡淡幽香!!\n" + NOR,user,ob);
 	  set_heart_beat(1);
 	  }
 	}
@@ -62,7 +62,7 @@ int do_drop(string str)
 	if(str=="maun-shadow-blade" || str=="blade" || str=="all")
 	if( query("equipped") )
 	{
-	message_vision("$N輕輕卸下$n，$n散出的香味也消逝無蹤。\n"NOR,user,ob);
+	message_vision("$N輕輕卸下$n，$n散出的香味也消逝無蹤。\n" + NOR,user,ob);
 	set_heart_beat(0);
 	}
 }
@@ -72,7 +72,7 @@ int do_unwield(string str)
 	if(str=="maun-shadow-blade" || str=="blade" || str=="all")
 	if( query("equipped") )
 	{
-//	message_vision("$N輕輕卸下$n，$n散出的香味也消逝無蹤。\n"NOR,user,ob);
+//	message_vision("$N輕輕卸下$n，$n散出的香味也消逝無蹤。\n" + NOR,user,ob);
 	set_heart_beat(0);
 	}
 }
@@ -82,7 +82,7 @@ int do_auc(string str)
 	if(str=="maun-shadow-blade" || str=="blade" || str=="all")
 	if( query("equipped") )
 	{
-	message_vision("$N輕輕卸下$n，$n散出的香味也消逝無蹤。\n"NOR,user,ob);
+	message_vision("$N輕輕卸下$n，$n散出的香味也消逝無蹤。\n" + NOR,user,ob);
 	set_heart_beat(0);
 	}
 }
@@ -127,11 +127,11 @@ void heart_beat()
 	  if( environment(user) == environment(enemy[i]) )
 	  if( random(300) > random(enemy[i]->query_skill("dodge",1)) )
 	  {
-	  message_vision(HIB"清淡的幽香隨風由"NOR"$n"HIB"裏飄散出來，$N"HIB"只覺血氣被香味散去不少!!\n"NOR,enemy[i],ob);
+	  message_vision(HIB + "清淡的幽香隨風由" + NOR + "$n" + HIB + "裏飄散出來，$N" + HIB + "只覺血氣被香味散去不少!!\n" + NOR,enemy[i],ob);
 	  enemy[i]->receive_wound("kee",(int)(qq+be),user);
 	  COMBAT_D->report_status(enemy[i], 0);
 	  }else
-	  message_vision(BLU"$N"BLU"識破了香味的玄機，閉氣凝神的全心應戰!!\n"NOR,enemy[i],ob);
+	  message_vision(BLU + "$N" + BLU + "識破了香味的玄機，閉氣凝神的全心應戰!!\n" + NOR,enemy[i],ob);
 	  }
 	}
 	return;

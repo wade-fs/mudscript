@@ -34,7 +34,7 @@ void die()
 {
    object head;
  
-   say(HIG"可惡！天魔解體大法給你吧！\n"NOR);
+   say(HIG + "可惡！天魔解體大法給你吧！\n" + NOR);
    tell_object(this_player(),"他一溜煙的消失了，只留下那一本天魔解體大法....\n");
    head=new("/open/killer/obj/evilgod.c");
    head->move(this_player());

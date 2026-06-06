@@ -4,7 +4,7 @@ inherit STAFF;
 
 void create()
 {
- set_name(HIG"青竹棒"NOR,({"green staff","staff"}));
+ set_name(HIG + "青竹棒" + NOR,({"green staff","staff"}));
  set_weight(100);
  init_staff(95);
  if( clonep() )

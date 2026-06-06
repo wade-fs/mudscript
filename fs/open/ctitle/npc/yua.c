@@ -14,8 +14,8 @@ void create()
     set("class","fighter");
     set("combat_exp",30000000);
     set("attitude","heroism");
-    set("title",""HIW"男塾三面拳"NOR"");
-    set("nickname",HIY"強"NOR);
+    set("title","" + HIW + "男塾三面拳" + NOR + "");
+    set("nickname",HIY + "強" + NOR);
     set("no_fight",1);
     set("no_kill",1);
     set("no_plan",1);
@@ -102,7 +102,7 @@ int msg1()
 	command("say 既然你有幸遇見他們,就麻煩你下次若在見到他們，將這個信物給他們看,他們看了即知!");
 	obj2=new("/open/ctitle/obj/yua-mark.c");
 	obj2->move(ppl);
-	write(""HIY""+obj->query("name")+"將"+obj2->query("name")+""HIY"交給了"+ppl->query("name")+""NOR"\n");
+	write("" + HIY + ""+obj->query("name")+"將"+obj2->query("name")+"" + HIY + "交給了"+ppl->query("name")+"" + NOR + "\n");
 	log_file("open-area/ctitle/yuamark", sprintf("%s(%s) 從月光這裏拿走%s in %s\n",ppl->query("name"),ppl->query("id"),obj2->query("name"), ctime(time()) ));
 	ppl->set_temp("yua-ok",1);
 	return 1;}

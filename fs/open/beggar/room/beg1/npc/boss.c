@@ -3,7 +3,7 @@ inherit NPC;
 void create()
 {
     set_name("老闆娘", ({ " woman boss","boss","woman" }) );
-    set("nickname",HIW"小氣巴拉"NOR);
+    set("nickname",HIW + "小氣巴拉" + NOR);
     set("gender", "女性" );
     set("age",45);
     set("str",35);

@@ -73,7 +73,7 @@ int do_jump()
 
   who->move("/open/center/room/inn");
   tell_room(this_object(),"你只看到一道閃光,忽的一聲，人已跳了下去。\n");
-  message("system", HIW"\n\t武林之中傳來一道消息 : "HIY""+this_player()->name()+""HIW"輕輕鬆鬆地闖過了"HIR"鎖妖塔"HIW" !!\n"NOR,users());
+  message("system", HIW + "\n\t武林之中傳來一道消息 : " + HIY + ""+this_player()->name()+"" + HIW + "輕輕鬆鬆地闖過了" + HIR + "鎖妖塔" + HIW + " !!\n" + NOR,users());
   return 1;
 }
 
@@ -89,7 +89,7 @@ int free_fiend(string str)
     return notify_fail("少了鎮塔明王的一點靈光，是無法釋放冥殿修羅的！。\n");
   if( ob->query("force") > 10000)
   {
-    message_vision(HIC"$N運起全身的內力打破了那道"HIW"鐵門"HIC"。\n"NOR,ob);
+    message_vision(HIC + "$N運起全身的內力打破了那道" + HIW + "鐵門" + HIC + "。\n" + NOR,ob);
     ob->set_temp("free_fiend",1);
     ob->delete_temp("ko_towerking");
     ob1=present("fiend",this_object());
@@ -98,7 +98,7 @@ int free_fiend(string str)
   }
   else
   {
-    message_vision(HIR"$N運起內力想要打破那道"HIW"鐵門"HIR"，由於內力不足被鐵門上的陰勁反彈而受傷。\n"NOR,ob);
+    message_vision(HIR + "$N運起內力想要打破那道" + HIW + "鐵門" + HIR + "，由於內力不足被鐵門上的陰勁反彈而受傷。\n" + NOR,ob);
     ob->add("kee",-200);
   }
   return 1;
@@ -106,7 +106,7 @@ int free_fiend(string str)
 
 int msg1(object ob)
 {
-  message_vision(HIR"\n只見冥殿修羅運起內力，突然整個牆面炸了開來。\n"NOR,ob);
+  message_vision(HIR + "\n只見冥殿修羅運起內力，突然整個牆面炸了開來。\n" + NOR,ob);
   call_out("msg2",3,ob);
   return 1;
 }
@@ -114,8 +114,8 @@ int msg1(object ob)
 int msg2(object ob)
 {
   object ob1;
-  message_vision(HIW"\n冥殿修羅道：小夥子﹐感謝啦﹗\n"NOR,ob);
-  message_vision(HIW"\n冥殿修羅道一個縱身﹐往窗戶那兒跳下﹐身影旋即消失在你的面前。\n"NOR,ob);
+  message_vision(HIW + "\n冥殿修羅道：小夥子﹐感謝啦﹗\n" + NOR,ob);
+  message_vision(HIW + "\n冥殿修羅道一個縱身﹐往窗戶那兒跳下﹐身影旋即消失在你的面前。\n" + NOR,ob);
   set("exits/up","/open/snow/room/back");
   message("mud","天空霎時烏雲密佈...\n",users());
   message("mud","一陣狂吼聲突然傳遍武林各個角落﹗﹗﹗\n",users());
@@ -174,11 +174,11 @@ int msg3(object ob)
   new("/open/tendo/room/tower/npc/genies")->move("/open/tendo/room/t02.c");
   new("/open/tendo/room/tower/npc/genies")->move("/open/tendo/room/t02.c");
 
-  message("mud",HIG"\n\n鎖妖塔頂轟的一聲并出了逾千條的青光，像流星飛逝般撒落人間....\n"NOR,users());
-  message("mud",HIR"\n眾妖齊道:\n
+  message("mud",HIG + "\n\n鎖妖塔頂轟的一聲并出了逾千條的青光，像流星飛逝般撒落人間....\n" + NOR,users());
+  message("mud",HIR + "\n眾妖齊道:\n
                   我們終於重獲自由，此後將誓死追隨修羅
                        剷平人間，重建魔界黯黑力量
-                    完成焚天大王五百年前給予的使命....\n"NOR,users());
+                    完成焚天大王五百年前給予的使命....\n" + NOR,users());
   call_out("msg4",3,ob);
   return 1;
 }
@@ -203,6 +203,6 @@ int msg5(object ob)
 //  room = environment(ob);
 //  room->delete("exits/up");
   this_object()->delete("exits/up"); //避免玩家在跑道這判斷前跑掉 造成誤刪其他房間而調整 by blazakira 2013/9/8
-  message_vision(HIW"\n冥殿修羅炸開的一條通道崩毀了﹗\n"NOR,ob);
+  message_vision(HIW + "\n冥殿修羅炸開的一條通道崩毀了﹗\n" + NOR,ob);
   return 1;
 }

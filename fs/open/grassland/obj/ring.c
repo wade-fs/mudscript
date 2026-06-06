@@ -36,7 +36,7 @@ int do_rock(string str)
 	case "ring":
 	if(ob->query("find")!=1)
 	{
-      message_vision("$N拿起鈴鐺搖了幾下，羊兒聽到鈴聲，立刻朝著大草原狂奔而出。\n"NOR,me);
+      message_vision("$N拿起鈴鐺搖了幾下，羊兒聽到鈴聲，立刻朝著大草原狂奔而出。\n" + NOR,me);
 	  for(x=0;x<per;x++)
 	  {
 	    //sheep = new("/u/a/alucard/area/grassland/npc/sheep");

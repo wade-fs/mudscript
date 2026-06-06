@@ -57,7 +57,7 @@ string do_ask_1()
 	{
 		command("say 既然被你知道了﹐我也只好殺人滅口。\n");
 		kill_ob(this_player());
-		message_vision( HIG "$n使出攝魂之術使$N不能動彈。\n",this_player(),this_object());
+		message_vision( HIG + "$n使出攝魂之術使$N不能動彈。\n",this_player(),this_object());
 		this_player()->start_busy(5);
 		return "納命來吧 !!\n";
 	}
@@ -72,12 +72,12 @@ string do_ask_2()
 		return "對不起﹐我沒聽過。\n";
 	command("say 金鱗蟒邪給你﹐你不要說出去。\n");
 	command("give "+this_player()->query("id")+" snake sword");
-	message("system",HIY "大地掀起了一波狂震～～～～～\n\n人間至寶「金鱗蟒邪」出土了～～～～～\n\n",users());
+	message("system",HIY + "大地掀起了一波狂震～～～～～\n\n人間至寶「金鱗蟒邪」出土了～～～～～\n\n",users());
 	return "快拿去吧 !\n";
 }
 int accept_kill(object ob)
 {
-	message_vision( HIG "$n使出攝魂之術使$N不能動彈。\n",this_player(),this_object());
+	message_vision( HIG + "$n使出攝魂之術使$N不能動彈。\n",this_player(),this_object());
 	set("no_sword",1);
 	this_player()->start_busy(5);
 	return 1;
@@ -112,7 +112,7 @@ void die()
 	  if( j==7 || j==77 || j== 777 || j==1111 || j==55 || j==555 || j==1000 || j==4000 || j==3333 || j==2222 )
 	  {      
 	  new("/open/sky/obj8/gui_wind")->move(environment(winner));
-	  message_vision(HIM"\n從倪可姬的身上掉下了一件奇怪的東西!!\n"NOR,winner);
+	  message_vision(HIM + "\n從倪可姬的身上掉下了一件奇怪的東西!!\n" + NOR,winner);
           write_file("/log/sky/obj8/gui_wind",sprintf("%s(%s) 讓倪可姬掉下了菊正風於 %s\n",
 	  winner->name(1),winner->query("id"),ctime(time())));
 	  }
@@ -121,7 +121,7 @@ void die()
 	  if( j==5 || j==15 || j== 150 || j==1500 || j==10 || j==100 || j==1000 || j==4000 || j==6666 || j==7777 ) 
 	  {      
 	  new("/open/sky/obj8/gui_wind")->move(environment(winner));
-	  message_vision(HIM"\n從倪可姬的身上掉下了一件奇怪的東西!!\n"NOR,winner);
+	  message_vision(HIM + "\n從倪可姬的身上掉下了一件奇怪的東西!!\n" + NOR,winner);
           write_file("/log/sky/obj8/gui_wind",sprintf("%s(%s) 讓倪可姬掉下了菊正風於 %s\n",
 	  winner->name(1),winner->query("id"),ctime(time())));
 	  }

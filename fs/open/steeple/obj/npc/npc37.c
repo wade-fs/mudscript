@@ -8,7 +8,7 @@ void create() {
 
         set("age",3121);
         set("str",35);
-        set("title",HIW"～幻影～"NOR);
+        set("title",HIW + "～幻影～" + NOR);
         set("cor",35);
         set("race","人類");
         set("gender","雄性");
@@ -66,14 +66,14 @@ void heart_beat()
     target=enemy[random(i)];
     if( env == environment(target) )
     {
-      message_vision(HIW"\n                        ～幻～影～心～訣～
+      message_vision(HIW + "\n                        ～幻～影～心～訣～
 
-"HIW"\n
+" + HIW + "\n
 $N橫劍心凝，神形意止，銀封劍開起激出陰冷寒氣，魔風狂舞圍住了在
 場所有的人，溫度隨著$N的意識直線降低     
-瞬間，$N將銀封劍直指向天，凜凜一式"HIC"「十等千斷  寒水無封」"HIW"，凜冽
+瞬間，$N將銀封劍直指向天，凜凜一式" + HIC + "「十等千斷  寒水無封」" + HIW + "，凜冽
 的魔風盡化利刃劍氣，聞血而腥 
-\n"NOR,mob,target);
+\n" + NOR,mob,target);
       target->receive_damage("kee",1700);
 	mob->add("kee",1700);
       target->start_busy(2);
@@ -88,7 +88,7 @@ $N橫劍心凝，神形意止，銀封劍開起激出陰冷寒氣，魔風狂舞
 int heal_up()
 {
         if (!is_fighting() ) {
-             message_vision (HIW"系統：戰鬥停止，$N回收中，。\n"NOR, this_object ());
+             message_vision (HIW + "系統：戰鬥停止，$N回收中，。\n" + NOR, this_object ());
              destruct(this_object());
              return 1;
         }
@@ -111,17 +111,17 @@ destruct (this_object ());
 else
 if(me->query("quest/start_game")< 38)
        {
-        message_vision(HIY"
-恭喜"HIW+me->query("name")+HIY"挑戰"HIG"『"HIR"第三十七層試煉ソ塔"HIG"』"HIY"通過！！
+        message_vision(HIY + "
+恭喜"HIW+me->query("name")+HIY"挑戰" + HIG + "『" + HIR + "第三十七層試煉ソ塔" + HIG + "』" + HIY + "通過！！
 
-"HIW"希望"+me->query("name")+"能不負眾望，勇闖"HIG"『"HIY"第三十八層試煉ソ塔"HIG"』"HIW"。
-	"NOR,me);
+" + HIW + "希望"+me->query("name")+"能不負眾望，勇闖" + HIG + "『" + HIY + "第三十八層試煉ソ塔" + HIG + "』" + HIW + "。
+	" + NOR,me);
 	me->set("quest/start_game",38);
         destruct (this_object ());
        }
 {
         :: unconcious();
-	tell_object(me,HIW"系統：你已經通過測試，系統不做任何更改。\n"NOR);
+	tell_object(me,HIW + "系統：你已經通過測試，系統不做任何更改。\n" + NOR);
 	destruct(this_object());
 }
 }

@@ -5,7 +5,7 @@ inherit SHIELD;
 object user;
 void create()
 {
-        set_name( HIW "水晶盾" NOR ,({"pebble shield","shield"}));
+        set_name( HIW + "水晶盾" + NOR ,({"pebble shield","shield"}));
         set_weight(3000);
         if( clonep() )
                 set_default_object(__FILE__);

@@ -7,7 +7,7 @@ inherit SWORD;
 void create()
 {
   seteuid(getuid());
-  set_name(HIR"連陽劍" NOR,({"sun_fire_sword","sword"}));
+  set_name(HIR + "連陽劍" + NOR,({"sun_fire_sword","sword"}));
   set_weight(9000);
   if( clonep() )
     set_default_object(__FILE__);
@@ -17,7 +17,7 @@ void create()
 更有隱隱泛出如火紅光, 銳利無比.\n");
   set("value",10000);
   set("material", "steel");
-  set("wield_msg", "$N拔出"HIR"連陽劍"NOR", 剎那間虹光閃耀, 不可逼視。\n");
+  set("wield_msg", "$N拔出" + HIR + "連陽劍" + NOR + ", 剎那間虹光閃耀, 不可逼視。\n");
   set("unwield_msg", "$N將右手內勁收回,$n消失無形 。\n");
   set("weapon_prop/sword",10);
   }

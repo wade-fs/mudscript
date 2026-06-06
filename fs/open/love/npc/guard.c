@@ -48,7 +48,7 @@ int accept_kill(object me)
   if( !present( "guard 2",environment(ob))||!living(guard)) return 1;
   else {
   tell_room(environment(me),"一起上！有人找碴!給我殺了 \n"),
-  message_vision(HIY"\n關卡守衛看到有人要硬闖，馬上向$N攻過來！\n"NOR,me
+  message_vision(HIY + "\n關卡守衛看到有人要硬闖，馬上向$N攻過來！\n" + NOR,me
   );
   guard->kill_ob(me);
   return 1;
@@ -62,7 +62,7 @@ int accept_fight(object me)
   if( !present( "guard 2",environment(ob))||!living(guard)) return 1;
   else {
   tell_room(environment(me),"一起上！有人找碴!給我殺了 \n"),
-  message_vision(HIY"\n關卡守衛看到有人要硬闖，馬上向$N攻過來！\n"NOR,me
+  message_vision(HIY + "\n關卡守衛看到有人要硬闖，馬上向$N攻過來！\n" + NOR,me
   );
   guard->kill_ob(me);
   return 1;

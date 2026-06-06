@@ -3,7 +3,7 @@ inherit ITEM;			//單一道具
 
 void create()
 {
-	set_name(YEL"令牌"NOR, ({"token","fortress token"}));	//名稱
+	set_name(YEL + "令牌" + NOR, ({"token","fortress token"}));	//名稱
 	set_weight(100);					//重量
 	if( clonep() )
 		set_default_object(__FILE__);

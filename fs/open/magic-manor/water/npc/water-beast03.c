@@ -8,7 +8,7 @@ void create()
   object ob;
   set_name("水靈獸", ({ "water beast","water","beast" }) );
   set("long","出沒於金靈塔中的妖物，擅長使用強烈涷氣。\n");
-  set("title",HIC"(水色靈氣)"NOR);
+  set("title",HIC + "(水色靈氣)" + NOR);
   set("age", 60);
   set("max_gin", 30000);
   set("max_kee", 30000);
@@ -73,7 +73,7 @@ void heart_beat()
 
   if( random(10) > 6 && mob->is_fighting() )
   {
-    message_vision(HIC"$N身上的水色靈氣和水靈塔相互感應，凍氣瀰漫，迅速向眾人襲去!!\n"NOR,mob);
+    message_vision(HIC + "$N身上的水色靈氣和水靈塔相互感應，凍氣瀰漫，迅速向眾人襲去!!\n" + NOR,mob);
     for (j=0 ; j < i ; j++)
     {
       if(!enemy[j] ) continue;
@@ -83,11 +83,11 @@ void heart_beat()
         {
           if( !enemy[j]->query_temp("magic-manor/soil-shield") )
           {
-            message_vision(HIC"$N"HIC"只感全身漸漸麻木不聽使喚，凍氣仍來回無情的攻擊著!!\n"NOR,(enemy[j]));
+            message_vision(HIC + "$N" + HIC + "只感全身漸漸麻木不聽使喚，凍氣仍來回無情的攻擊著!!\n" + NOR,(enemy[j]));
             enemy[j]->receive_wound("kee",400);
             COMBAT_D->report_status(enemy[j]);
           }else{
-            message_vision(YEL"$N"YEL"身上的土靈之氣緩和了部份的凍攻擊，使得$N"YEL"受創大為減小!!\n"NOR,(enemy[j]));
+            message_vision(YEL + "$N" + YEL + "身上的土靈之氣緩和了部份的凍攻擊，使得$N" + YEL + "受創大為減小!!\n" + NOR,(enemy[j]));
             enemy[j]->receive_wound("kee",200);
             COMBAT_D->report_status(enemy[j]);
           }

@@ -7,7 +7,7 @@ void create()
         set("long","是人死後之一種靈魂，帶有極重的怨氣。\n");
         set("race", "人類");
         set("gender", "男性");
-        set("title",HIB"(鬼氣)"NOR);
+        set("title",HIB + "(鬼氣)" + NOR);
         set("age",37);
         set("str",25);
         set("cor",25);
@@ -48,7 +48,7 @@ int heal_up()
 {
         if (!is_fighting() )
 	{
-        message_vision (HIB"一陣強光捲來，$N消失於光中！\n"NOR, this_object ());
+        message_vision (HIB + "一陣強光捲來，$N消失於光中！\n" + NOR, this_object ());
         destruct(this_object());
         return 1;
         }
@@ -71,7 +71,7 @@ void heart_beat()
 	  {
 	    if( (environment(me) == environment(enemy[i])) )
 	    {
-	    message_vision(HIB"$N"HIB"發出一道詭異的光茫，直接穿過$n"HIB"身體，$n"HIB"連閃避的機會都沒有。\n"NOR,me,enemy[j]);
+	    message_vision(HIB + "$N" + HIB + "發出一道詭異的光茫，直接穿過$n" + HIB + "身體，$n" + HIB + "連閃避的機會都沒有。\n" + NOR,me,enemy[j]);
 	      switch( random(10) )
 	      {
 	      case 0:
@@ -118,13 +118,13 @@ void heart_beat()
 
 void unconcious()
 {
-	message_vision (HIB"$N驚叫一聲，已經魂飛魄散，消失的無影無蹤!!\n"NOR, this_object ());
+	message_vision (HIB + "$N驚叫一聲，已經魂飛魄散，消失的無影無蹤!!\n" + NOR, this_object ());
 	destruct (this_object ());
 }
 
 void die()
 {
-	message_vision (HIB"$N驚叫一聲，已經魂飛魄散，消失的無影無蹤!!\n"NOR, this_object ());
+	message_vision (HIB + "$N驚叫一聲，已經魂飛魄散，消失的無影無蹤!!\n" + NOR, this_object ());
 	destruct (this_object ());
         ::die();
 }

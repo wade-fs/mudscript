@@ -67,7 +67,7 @@ void die()
 	  if( j==7 || j==77 || j== 777 || j==1111 || j==55 || j==555 || j==1000 || j==4000 || j==3333 || j==2222 )
 	  {      
 	  new("/open/sky/obj5/gii_jade")->move(environment(winner));
-	  message_vision(HIM"\n從柳宿的身上掉下了一件奇怪的東西!!\n"NOR,winner);
+	  message_vision(HIM + "\n從柳宿的身上掉下了一件奇怪的東西!!\n" + NOR,winner);
 	  write_file("/log/sky/obj5/gii_jade",sprintf("%s(%s) 讓柳宿掉下了天機星玉於 %s\n",
 	  winner->name(1),winner->query("id"),ctime(time())));
 	  }
@@ -76,12 +76,12 @@ void die()
 	  if( j==5 || j==15 || j== 150 || j==1500 || j==10 || j==100 || j==1000 || j==4000 || j==6666 || j==7777 ) 
 	  {      
 	  new("/open/sky/obj5/gii_jade")->move(environment(winner));
-	  message_vision(HIM"\n從柳宿的身上掉下了一件奇怪的東西!!\n"NOR,winner);
+	  message_vision(HIM + "\n從柳宿的身上掉下了一件奇怪的東西!!\n" + NOR,winner);
           write_file("/log/sky/obj5/gii_jade",sprintf("%s(%s) 讓柳宿掉下了天機星玉於 %s\n",
 	  winner->name(1),winner->query("id"),ctime(time())));
 	  }
 	}
     }
-//	message_vision("您這次的幸運數字是"HIM"【"+HIW+j+HIM+"】"NOR"。\n"NOR,winner);
+//	message_vision("您這次的幸運數字是" + HIM + "【"+HIW+j+HIM+"】" + NOR + "。\n" + NOR,winner);
 	::die();                                                           
 }

@@ -5,7 +5,7 @@ inherit WRISTS;
 object user;
 void create()
 {
-        set_name( HIW "水晶護腕" NOR ,({"pebble wrists","wrists"}));
+        set_name( HIW + "水晶護腕" + NOR ,({"pebble wrists","wrists"}));
         set_weight(3000);
         if( clonep() )
                 set_default_object(__FILE__);

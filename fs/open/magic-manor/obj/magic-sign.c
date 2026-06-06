@@ -2,7 +2,7 @@
 inherit ITEM;
 void create()
 {
-        set_name(HIC"聚靈引"NOR, ({ "magic sign","sign" }) );
+        set_name(HIC + "聚靈引" + NOR, ({ "magic sign","sign" }) );
         set_weight(5000);
         if( clonep() )
                 set_default_object(__FILE__);

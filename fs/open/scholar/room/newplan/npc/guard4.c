@@ -9,7 +9,7 @@ int done=0;
 void create() {
         set_name("刑延刃",({"guard lins","lins","guard"}));
         set("class","prayer");
-        set("title",HIG"兌(澤)"NOR);
+        set("title",HIG + "兌(澤)" + NOR);
         set("long",
         "\n他是八卦陣的第四個守將。\n");
         set("str",40);
@@ -77,7 +77,7 @@ void heart_beat()
         if( is_fighting() ){
         if(random(100) <30 )
         {
-message_vision(HIG"\n刑延刃偷偷吃了九轉雄蛇丸，使身上氣力恢復。\n"NOR,ob);
+message_vision(HIG + "\n刑延刃偷偷吃了九轉雄蛇丸，使身上氣力恢復。\n" + NOR,ob);
           ob->delete_busy();
         }
         }

@@ -38,10 +38,10 @@ return notify_fail("要空手才能使用戰龍指!!!!\n");
                 return 0;
         }
         message_vision(
-         HIB"$N忽然氣勁暴漲，使出降龍絕學中的"RED"「戰龍指」"HIB"只見$N身旁真氣怒濤，降龍勁充斥在$N的指上\n"NOR,me,target);
+         HIB + "$N忽然氣勁暴漲，使出降龍絕學中的" + RED + "「戰龍指」" + HIB + "只見$N身旁真氣怒濤，降龍勁充斥在$N的指上\n" + NOR,me,target);
         {
         message_vision(
-            HIW"
+            HIW + "
         $N低吼一聲，無形的指勁向$n狂射而出!!\n"
         "
         指勁在半空中暴開，形成天網向$n罩去\n\n"
@@ -96,7 +96,7 @@ return notify_fail("要空手才能使用戰龍指!!!!\n");
         if(random(me->query_skill("unarmed")+20)>random(target->query_skill("dodge")))
         {
                 message_vision(
-                 HIR"\n$n躲避不及﹐指勁擊中﹐霎時$N的內勁在$n身上亂竄，痛苦異常﹗\n"NOR,me,target);
+                 HIR + "\n$n躲避不及﹐指勁擊中﹐霎時$N的內勁在$n身上亂竄，痛苦異常﹗\n" + NOR,me,target);
                 message_vision( NOR,me);
                   target->receive_wound("kee",me->query_skill("dragonfist",1)*3+random(me->query_skill("dragonforce",1)*2));
                 COMBAT_D->report_status(target);
@@ -104,7 +104,7 @@ return notify_fail("要空手才能使用戰龍指!!!!\n");
         else
       {
                 message_vision(
-                HIW"$n看出氣指方向,千均一髮一際,躲過『戰龍指』攻擊!!\n"NOR,me,target);
+                HIW + "$n看出氣指方向,千均一髮一際,躲過『戰龍指』攻擊!!\n" + NOR,me,target);
                 message_vision( NOR,me);
        }
         message_vision(

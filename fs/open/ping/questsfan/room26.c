@@ -3,7 +3,7 @@ inherit ROOM;
 #include <ansi.h>
 void create ()
 {
-  set ("short", ""HIG"勝天"WHT"峰"NOR"");
+  set ("short", "" + HIG + "勝天" + WHT + "峰" + NOR + "");
 	set( "build", 64 );
   set ("long", @LONG
 這裡就是最後的關卡，是由全族最強的段家嫡系---
@@ -31,7 +31,7 @@ int valid_leave(object who,string dir)
 if(who->query("marks/fan-finger")!=1)
    if(dir=="enter" && who->query("questsfan/quest_step")!=6)
      {
-       message_vision(HIC"段川嶽神情嚴肅的對$N說道:匯靈地豈是讓人隨意進入的地方?請閣下盡快離開!!!\n"NOR,who);
+       message_vision(HIC + "段川嶽神情嚴肅的對$N說道:匯靈地豈是讓人隨意進入的地方?請閣下盡快離開!!!\n" + NOR,who);
        return notify_fail("段川嶽神情嚴肅的對你說道:匯靈地豈是讓人隨意進入的地方?請閣下盡快離開!!!\n");
 
      }

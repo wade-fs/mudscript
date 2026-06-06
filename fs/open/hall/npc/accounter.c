@@ -7,7 +7,7 @@ void create()
 set_name("神算子", ({ "accounter"}));
         set("title", "衙門師爺");
         set("gender", "男性" );
-        set("nickname",HIY"九面玲瓏"NOR);
+        set("nickname",HIY + "九面玲瓏" + NOR);
         set("age", 46);
         set("str", 50);
         set("cor", 50);

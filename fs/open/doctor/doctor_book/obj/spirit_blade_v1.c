@@ -5,7 +5,7 @@ object control(object me,object base_mob,object);
 
 void create()
 {
-  set_name(RED"≦怨靈纏繞≧"+HBYEL+HIW"雙"HIC"界"HIR"刀"NOR, ({ "spirit blade","sb" }) ); //增添惡靈附身之類的敘述在名字之前 //因此當解除惡靈附身時便取消該敘述 同土靈珠
+  set_name(RED + "≦怨靈纏繞≧"+HBYEL+HIW"雙" + HIC + "界" + HIR + "刀" + NOR, ({ "spirit blade","sb" }) ); //增添惡靈附身之類的敘述在名字之前 //因此當解除惡靈附身時便取消該敘述 同土靈珠
   set_weight(10000);
   if( clonep() )
     set_default_object(__FILE__);
@@ -13,7 +13,7 @@ void create()
     set("value",0);
     set("unit", "把");
     set("long", "這是一把透過不斷的吸收(increase 生之力)魂魄和鮮血可以不斷的提升品質的邪刀。\n"+
-      "可藉由某種"HIG"儀式"HIW"抵抗惡靈"NOR"，傳聞某位住在墳場的人比較清楚。\n\n");
+      "可藉由某種" + HIG + "儀式" + HIW + "抵抗惡靈" + NOR + "，傳聞某位住在墳場的人比較清楚。\n\n");
     set("no_auc",1);
     set("no_sell",1);
     set("no_sec",1);
@@ -53,7 +53,7 @@ void curse_on() //改用condition來控制
   else if( me->query_temp("curse/resist")==2 ) k=10;
   if( me->query_temp("spirit_curse") ) {
 //varargs int receive_wound(string type, int damage, object who) //object who作為傳入參數 用在last_damage_from
-    message_vision(HIR"惡靈纏身\n"NOR,me);
+    message_vision(HIR + "惡靈纏身\n" + NOR,me);
     me->start_busy(random(3)+2);
     me->receive_damage("gin", (int)(me->query("max_gin")/k),ob );
     me->receive_wound ("gin", (int)(me->query("max_gin")/k),ob );
@@ -130,7 +130,7 @@ pill->add_amount(-1)
         me->query_temp("curse/gen_pill") &&
         me->query_temp("curse/human_pill") ) {
 //解除詛咒
-      set_name(HBYEL+HIW"雙"HIC"界"HIR"刀"NOR, ({ "spirit blade","sb" }) );
+      set_name(HBYEL+HIW"雙" + HIC + "界" + HIR + "刀" + NOR, ({ "spirit blade","sb" }) );
       me->delete_temp("spirit_curse");
       message_vision("眾惡靈不約而同發出一陣呻吟，惡狠狠地瞪著$N之後收縮回刀中。\n",me); //end
       call_out("delay_time", 60*16, me);
@@ -221,7 +221,7 @@ int do_amass(string arg)
         item2->set("sort","角");
       }
       else continue; //if( !item1 ) continue; //沒有持有的關鍵道具時 就跳出if的迴圈
-      tell_object(me,GRN"忽然間你身上的靈魂碎片"NOR+item1->query("name")+GRN"光芒大作，你從懷裡將它掏出一看，原來它藉由你收集的生之力變成了充滿生機的靈魂碎片。\n"NOR);
+      tell_object(me,GRN + "忽然間你身上的靈魂碎片"NOR+item1->query("name")+GRN"光芒大作，你從懷裡將它掏出一看，原來它藉由你收集的生之力變成了充滿生機的靈魂碎片。\n" + NOR);
       destruct(present(item1->query("id"),me)); //or destruct(item1)?
       if( inv[i]->query("id") != "dragon-god" ) //排除海皇 其他則刪除物件
         destruct(inv[i]);
@@ -262,7 +262,7 @@ int delay_time(object who)
   if( who )
   {
     who->delete_temp("curse"); //reset參數 重新開始
-    set_name(RED"≦怨靈纏繞≧"+HBYEL+HIW"雙"HIC"界"HIR"刀"NOR, ({ "spirit blade","sb" }) );
+    set_name(RED + "≦怨靈纏繞≧"+HBYEL+HIW"雙" + HIC + "界" + HIR + "刀" + NOR, ({ "spirit blade","sb" }) );
     who->set_temp("spirit_curse",1);
   }
   return 1;
@@ -321,7 +321,7 @@ object control(object ob,object base_mob,object target)
   mob->set("master",me);
   mob->set("env/sid",1);
   destruct(target);
-  message_vision(HIY"\n\n\t由於$N收集生之力的過程中有了點瑕疵導致儀式失敗，接著"NOR+mob->query("name")+HIY"\n\t雙眼冒出綠光悠然的站了起來。\n\n\n"NOR,me);
+  message_vision(HIY + "\n\n\t由於$N收集生之力的過程中有了點瑕疵導致儀式失敗，接著"NOR+mob->query("name")+HIY"\n\t雙眼冒出綠光悠然的站了起來。\n\n\n" + NOR,me);
   message_vision(""+mob->query("name")+"決定開始跟隨$N一起行動。\n",me);
   me->set("quest/doctor_book/temp/call_vampire/"+me->query_temp("spiritup"),time() + 60*15); //避免重複呼叫導致無限的殭屍
   mob->do_command("kill "+me->query("id"));

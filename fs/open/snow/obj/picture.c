@@ -7,7 +7,7 @@ inherit ITEM;
 #include <ansi.h>
 void create()
 {
-	set_name(HIG "路觀圖" NOR,({"snow picture","picture"}));
+	set_name(HIG + "路觀圖" + NOR,({"snow picture","picture"}));
 	set("unit","張");
 	set("value",10);
         setup();

@@ -2,7 +2,7 @@
 inherit ROOM;
 void create ()
 {
-set("short",BLU"死靈幽谷"HIW"€白洞€"NOR);
+set("short",BLU + "死靈幽谷" + HIW + "€白洞€" + NOR);
 set("long",@LONG
 你下定決心的來到了死靈骨魔的領地, 四周的
 岩壁都不見了, 取而代之的是光亮的空間, 周圍亮

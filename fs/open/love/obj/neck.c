@@ -5,7 +5,7 @@ inherit NECK;
 object user;
 void create()
 {
-        set_name( HIW "水晶項鏈" NOR ,({"pebble neck","neck"}));
+        set_name( HIW + "水晶項鏈" + NOR ,({"pebble neck","neck"}));
         set_weight(3000);
         if( clonep() )
                 set_default_object(__FILE__);

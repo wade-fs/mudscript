@@ -66,7 +66,7 @@ int free_kylin(string str)
     return notify_fail("血麒麟都被放走了，你想要怎樣呢？\n");
   if( str!="kylin")
     return notify_fail("吼~~~~~~~~~~!!!!\n");
-  message_vision(CYN"你運勁將牠身上的鐵鏈震斷..."NOR,ob);
+  message_vision(CYN + "你運勁將牠身上的鐵鏈震斷..." + NOR,ob);
   write("\n\n\n");
      ob1=present("kylin",this_object());
   destruct(ob1);
@@ -84,7 +84,7 @@ int msg1(object ob)
 
 int msg2(object ob)
 {
-  message("mud",YEL"血麒麟被放出來了........大家小心呀!!\n"NOR,users());
+  message("mud",YEL + "血麒麟被放出來了........大家小心呀!!\n" + NOR,users());
   call_out("msg3",3,ob);
   return 1;
 }
@@ -98,12 +98,12 @@ int msg3(object ob)
  }
 int msg4(object ob)
 {
-  message("mud",CYN"血麒麟大吼一聲～～\n
+  message("mud",CYN + "血麒麟大吼一聲～～\n
 
-     "+ ob->query("name")+""CYN"笑道：\n\n
+     "+ ob->query("name")+"" + CYN + "笑道：\n\n
 
 
-     呵呵呵呵....是我把牠放出來的!!玩家要倒大楣了\n\n"NOR,users());
+     呵呵呵呵....是我把牠放出來的!!玩家要倒大楣了\n\n" + NOR,users());
   
   return 1;
 }                      

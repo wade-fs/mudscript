@@ -8,7 +8,7 @@ int be,bb,k,sp,qq,co,st;
 
 void create()
 {
-	set_name(RED"閻匕影螫魂"NOR,({"dark-soul-dagger","dagger"}) );
+	set_name(RED + "閻匕影螫魂" + NOR,({"dark-soul-dagger","dagger"}) );
 	set_weight(10000);
 	if( clonep() ) 
 	set_default_object(__FILE__);
@@ -23,8 +23,8 @@ void create()
 	set("no_steal",1);
 	}
 	init_dagger(100);
-  	set("wield_msg",RED"$N"RED"拿出$n"RED"，$n"RED"周身泛起一陣白色的光霧!!\n"NOR);
-        set("unwield_msg","$N收藏好$n，$n周身的光霧隨即消散。\n"NOR);
+  	set("wield_msg",RED + "$N" + RED + "拿出$n" + RED + "，$n" + RED + "周身泛起一陣白色的光霧!!\n" + NOR);
+        set("unwield_msg","$N收藏好$n，$n周身的光霧隨即消散。\n" + NOR);
 
 
 	setup();
@@ -48,10 +48,10 @@ int do_wield(string str)
 	uexp = user->query("combat_exp");
 	  if( uexp < 3000000 )
 	  {
-	  message_vision("$N的經驗並不足以完全支配這樣的神兵利器!!\n"NOR,user);
+	  message_vision("$N的經驗並不足以完全支配這樣的神兵利器!!\n" + NOR,user);
 	  set_heart_beat(0);
 	  }else{
-//	  message_vision(RED"$N"RED"拿出$n"RED"，$n"RED"周身泛起一陣白色的光霧!!\n"NOR,user,ob);
+//	  message_vision(RED + "$N" + RED + "拿出$n" + RED + "，$n" + RED + "周身泛起一陣白色的光霧!!\n" + NOR,user,ob);
 	  set_heart_beat(1);
 	  }
 	}
@@ -62,7 +62,7 @@ int do_drop(string str)
 	if(str=="dark-soul-dagger" || str=="dagger" || str=="all")
 	if( query("equipped") )
 	{
-	message_vision("$N收藏好$n，$n周身的光霧隨即消散。\n"NOR,user,ob);
+	message_vision("$N收藏好$n，$n周身的光霧隨即消散。\n" + NOR,user,ob);
 	set_heart_beat(0);
 	}
 }
@@ -72,7 +72,7 @@ int do_unwield(string str)
 	if(str=="dark-soul-dagger" || str=="dagger" || str=="all")
 	if( query("equipped") )
 	{
-//	message_vision("$N收藏好$n，$n周身的光霧隨即消散。\n"NOR,user,ob);
+//	message_vision("$N收藏好$n，$n周身的光霧隨即消散。\n" + NOR,user,ob);
 	set_heart_beat(0);
 	}
 }
@@ -82,7 +82,7 @@ int do_auc(string str)
 	if(str=="dark-soul-dagger" || str=="dagger" || str=="all")
 	if( query("equipped") )
 	{
-	message_vision("$N收藏好$n，$n周身的光霧隨即消散。\n"NOR,user,ob);
+	message_vision("$N收藏好$n，$n周身的光霧隨即消散。\n" + NOR,user,ob);
 	set_heart_beat(0);
 	}
 }
@@ -128,11 +128,11 @@ void heart_beat()
 	  if( environment(user) == environment(enemy[i]) )
 	  if( random(300) > random(enemy[i]->query_skill("dodge",1)) )
 	  {
-	  message_vision(HIB"只見"NOR"$n"HIB"的匕刃鋒緣衝出一道白影直衝$N"HIB"致命要穴!!\n"NOR,enemy[i],ob);
+	  message_vision(HIB + "只見" + NOR + "$n" + HIB + "的匕刃鋒緣衝出一道白影直衝$N" + HIB + "致命要穴!!\n" + NOR,enemy[i],ob);
 	  enemy[i]->receive_wound("kee",(int)(qq+be),user);
 	  COMBAT_D->report_status(enemy[i], 0);
 	  }else
-	  message_vision(BLU"$N"BLU"見狀，從容得體的避開這道白影!!\n"NOR,enemy[i],ob);
+	  message_vision(BLU + "$N" + BLU + "見狀，從容得體的避開這道白影!!\n" + NOR,enemy[i],ob);
 	  }
 	}
 	return;

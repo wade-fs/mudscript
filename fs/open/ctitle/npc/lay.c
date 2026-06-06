@@ -14,8 +14,8 @@ void create()
     set("class","fighter");
     set("combat_exp",30000000);
     set("attitude","heroism");
-    set("title",""HIW"男塾三面拳"NOR"");
-    set("nickname",""HIR"大"HIW"˙"HIG"往"HIW"˙"HIC"生"NOR"");
+    set("title","" + HIW + "男塾三面拳" + NOR + "");
+    set("nickname","" + HIR + "大" + HIW + "˙" + HIG + "往" + HIW + "˙" + HIC + "生" + NOR + "");
     set("no_fight",1);
     set("no_kill",1);
     set("no_plan",1);
@@ -119,10 +119,10 @@ int msg1()
     object ppl = this_player();
     object obj = this_object();
 
-    tell_object(users(),HIY"只聽到"HIW"三面拳-雷電"HIY"的聲音自魔界傳出：
+    tell_object(users(),HIY + "只聽到" + HIW + "三面拳-雷電" + HIY + "的聲音自魔界傳出：
           
-          哈哈哈，"HIW"男塾三面拳"HIY"仍在世間啊!!遙想當年"HIM"『"HIR"驚天大四凶殺"HIM"』"HIY"之時，至今都過了好幾年了呀~~
-          \n"NOR);
+          哈哈哈，" + HIW + "男塾三面拳" + HIY + "仍在世間啊!!遙想當年" + HIM + "『" + HIR + "驚天大四凶殺" + HIM + "』" + HIY + "之時，至今都過了好幾年了呀~~
+          \n" + NOR);
   call_out("msg2",5,ppl);
   return 1;
 }
@@ -132,10 +132,10 @@ int msg2()
 	object ppl = this_player();
 	object obj = this_object();
 	
-	tell_object(users(),HIY"語畢不久，主大陸也傳來"HIW"三面拳-飛燕"HIY"的聲音：
+	tell_object(users(),HIY + "語畢不久，主大陸也傳來" + HIW + "三面拳-飛燕" + HIY + "的聲音：
 	
-	  "HIW"男塾三面拳"HIY"還一起在"HIM"『"HIG"天挑五輪大武會"HIM"』"HIY"同生共死過，此時雖各在天涯，但心卻會緊緊相隨!!
-	  \n"NOR);
+	  " + HIW + "男塾三面拳" + HIY + "還一起在" + HIM + "『" + HIG + "天挑五輪大武會" + HIM + "』" + HIY + "同生共死過，此時雖各在天涯，但心卻會緊緊相隨!!
+	  \n" + NOR);
 	call_out("msg3",5,ppl);
 	return 1;
 }
@@ -145,18 +145,18 @@ int msg3()
 	object ppl = this_player();
 	object obj = this_object();
 	
-	tell_object(users(),HIY"自海之王國傳來"HIW"三面拳-月光"HIY"低沉的嗓音：
+	tell_object(users(),HIY + "自海之王國傳來" + HIW + "三面拳-月光" + HIY + "低沉的嗓音：
 	
-	  此次"HIW"男塾-三面拳"HIY"能再度聚首，全得感謝 "HIC""+ppl->query("name")+""HIY" 的大力幫忙，往後 "HIC""+ppl->query("name")+""HIY" 即為三面拳的朋友，不是敵人!!
+	  此次" + HIW + "男塾-三面拳" + HIY + "能再度聚首，全得感謝 " + HIC + ""+ppl->query("name")+"" + HIY + " 的大力幫忙，往後 " + HIC + ""+ppl->query("name")+"" + HIY + " 即為三面拳的朋友，不是敵人!!
 
-"HIW"三面拳-雷電"HIY"自魔界仰聲大嘯：
+" + HIW + "三面拳-雷電" + HIY + "自魔界仰聲大嘯：
 	
-          哈哈哈，這次多虧了 "HIC""+ppl->query("name")+" "HIY"，老夫就賜 "HIC""+ppl->query("name")+" "HIM"『"HIR"大"HIW"˙"HIG"往"HIW"˙"HIC"生"HIM"』"HIY"的稱號，以後與 "HIC""+ppl->query("name")+""HIY" 為敵，即是與三面拳為敵!!
-	  \n"NOR);
+          哈哈哈，這次多虧了 " + HIC + ""+ppl->query("name")+" " + HIY + "，老夫就賜 " + HIC + ""+ppl->query("name")+" " + HIM + "『" + HIR + "大" + HIW + "˙" + HIG + "往" + HIW + "˙" + HIC + "生" + HIM + "』" + HIY + "的稱號，以後與 " + HIC + ""+ppl->query("name")+"" + HIY + " 為敵，即是與三面拳為敵!!
+	  \n" + NOR);
 	command("say 若你不喜歡此封號，可以用 ctitle 指令向我更換，但請注意，每更換一次稱號需花費與您經驗值相等的金額方可更換。");
 	write("恭喜你完成男塾三面拳之謎!!\n");
 	if(!ppl->query("killyar")){
-	  ppl->set("title",""HIR"大"HIW"˙"HIG"往"HIW"˙"HIC"生"NOR"");
+	  ppl->set("title","" + HIR + "大" + HIW + "˙" + HIG + "往" + HIW + "˙" + HIC + "生" + NOR + "");
 	  ppl->set("quests/ctitle",1);
 	  log_file("open-area/ctitle/solve-good", sprintf("%s(%s) 得到ctitle資格 in %s\n",ppl->query("name"),ppl->query("id"), ctime(time()) ));
 	  ppl->delete_temp("fay-ok");
@@ -179,7 +179,7 @@ int msg3()
 	  ppl->delete_temp("findfay");
 	  ppl->delete_temp("findok");
 	  ppl->delete_busy();
-	  return notify_fail(""HIW"『"HIG"暢談"HIW"』"HIY"雷電說道: hmm..你是殺手追殺的人頭，恕我不追問武林之事，你先將此事解決再談換稱號之事吧！"NOR);}
+	  return notify_fail("" + HIW + "『" + HIG + "暢談" + HIW + "』" + HIY + "雷電說道: hmm..你是殺手追殺的人頭，恕我不追問武林之事，你先將此事解決再談換稱號之事吧！" + NOR);}
 }
 
 int msg4()
@@ -194,11 +194,11 @@ int msg4()
 	  command("say "+ppl->query("name")+"該不會是遇見了我昔日的同伴們吧?");
 	  obj5 = new("/open/ctitle/obj/lay-mark.c");
 	  obj5 -> move(ppl);
-	  write(HIY"雷電將"+obj5->query("name")+""HIY"交給了"+ppl->query("name")+" "NOR"\n");
+	  write(HIY + "雷電將"+obj5->query("name")+"" + HIY + "交給了"+ppl->query("name")+" " + NOR + "\n");
 	  command("say 若有朝一日，你若在遇見他們，就將這項信物給他們看，拜託你了！");
 	  log_file("open-area/ctitle/laymark", sprintf("%s(%s) 從雷電這裏拿走%s in %s\n",ppl->query("name"),ppl->query("id"),obj5->query("name"), ctime(time()) ));}
 	 else{
-	  write(""HIW"『"HIG"暢談"HIW"』"HIY"雷電說道: 你有再遇見他們嗎?\n"NOR);}
+	  write("" + HIW + "『" + HIG + "暢談" + HIW + "』" + HIY + "雷電說道: 你有再遇見他們嗎?\n" + NOR);}
 }
 
 int msg5()
@@ -207,7 +207,7 @@ int msg5()
   object obj = this_object();
   
   command("hmm");
-  command("say 看來你是見到"HIW"男塾三面拳-飛燕"HIY"了對吧..老友,我真想他");  
+  command("say 看來你是見到" + HIW + "男塾三面拳-飛燕" + HIY + "了對吧..老友,我真想他");  
   return 1;
 }
 
@@ -217,7 +217,7 @@ int msg6()
   object obj = this_object();
   
   command("hmm");
-  command("say 看來你是見到"HIW"男塾三面拳-月光"HIY"了對吧..老友,我真想他");  
+  command("say 看來你是見到" + HIW + "男塾三面拳-月光" + HIY + "了對吧..老友,我真想他");  
   return 1;
 }
 
@@ -228,14 +228,14 @@ int do_pay()
 	int coin;
 	int i = ppl->query("combat_exp")/1000000;
 	
-	if(!ppl->query("quests/ctitle")){return notify_fail(""HIW"『"HIG"暢談"HIW"』"HIY"雷電說道: ctitle?\n"NOR);}
-	if(i<0){return notify_fail(""HIW"『"HIG"暢談"HIW"』"HIY"雷電說道: 兄弟，你的江湖資歷還太低，先沿用我大往生流的稱號，一時半載還沒人敢動你！\n"NOR);}
+	if(!ppl->query("quests/ctitle")){return notify_fail("" + HIW + "『" + HIG + "暢談" + HIW + "』" + HIY + "雷電說道: ctitle?\n" + NOR);}
+	if(i<0){return notify_fail("" + HIW + "『" + HIG + "暢談" + HIW + "』" + HIY + "雷電說道: 兄弟，你的江湖資歷還太低，先沿用我大往生流的稱號，一時半載還沒人敢動你！\n" + NOR);}
 	i*=1000000;
 	if(!ppl->query_temp("can_ctitle")){
-	if(!ppl->pay_money(i)){return notify_fail(""HIW"『"HIG"暢談"HIW"』"HIY"雷電說道: 你帶的錢太少囉.\n"NOR);}
+	if(!ppl->pay_money(i)){return notify_fail("" + HIW + "『" + HIG + "暢談" + HIW + "』" + HIY + "雷電說道: 你帶的錢太少囉.\n" + NOR);}
 		ppl->set_temp("can_ctitle",1);
-		write(""HIW"『"HIG"暢談"HIW"』"HIY"雷電說道: 嗯,你總共付了 "+i+" ,現在你可以輸入ctitle輸入你要的稱號了，最多可達十個中文字元長。顏色部分請 help nick。\n"NOR);
-		return 1;}return notify_fail(""HIW"『"HIG"暢談"HIW"』"HIY"雷電說道: 你已經付過我錢了，現在你可以輸入ctitle輸入你要的稱號了，最多可達十個中文字元長。顏色部分請 help nick。\n"NOR);
+		write("" + HIW + "『" + HIG + "暢談" + HIW + "』" + HIY + "雷電說道: 嗯,你總共付了 "+i+" ,現在你可以輸入ctitle輸入你要的稱號了，最多可達十個中文字元長。顏色部分請 help nick。\n" + NOR);
+		return 1;}return notify_fail("" + HIW + "『" + HIG + "暢談" + HIW + "』" + HIY + "雷電說道: 你已經付過我錢了，現在你可以輸入ctitle輸入你要的稱號了，最多可達十個中文字元長。顏色部分請 help nick。\n" + NOR);
 }
 
 int do_answer(string str)
@@ -244,19 +244,19 @@ int do_answer(string str)
 	object obj = this_object();
 	mixed ctitle = ppl->query_temp("ctitle");
 	
-	if(!ppl->query("quests/ctitle")){return notify_fail(""HIW"『"HIG"暢談"HIW"』"HIY"雷電說道: 我沒問你問題啊?\n"NOR);}
-	if(!str){write(""HIW"『"HIG"暢談"HIW"』"HIY"雷電說道: 你想更換的title為 "+ctitle+" .\n"NOR);
-		return notify_fail(""HIW"『"HIG"暢談"HIW"』"HIY"雷電說道: 你是同意還是不同意呢?(answer yes or answer no).\n"NOR);}
+	if(!ppl->query("quests/ctitle")){return notify_fail("" + HIW + "『" + HIG + "暢談" + HIW + "』" + HIY + "雷電說道: 我沒問你問題啊?\n" + NOR);}
+	if(!str){write("" + HIW + "『" + HIG + "暢談" + HIW + "』" + HIY + "雷電說道: 你想更換的title為 "+ctitle+" .\n" + NOR);
+		return notify_fail("" + HIW + "『" + HIG + "暢談" + HIW + "』" + HIY + "雷電說道: 你是同意還是不同意呢?(answer yes or answer no).\n" + NOR);}
 	if(str == "no"){
 		ppl->delete_temp("ctitle");
-	return notify_fail(""HIW"『"HIG"暢談"HIW"』"HIY"雷電說道: 嗯，沒關係。你在輸入一次吧！\n"NOR);}
+	return notify_fail("" + HIW + "『" + HIG + "暢談" + HIW + "』" + HIY + "雷電說道: 嗯，沒關係。你在輸入一次吧！\n" + NOR);}
 	if(str == "yes"){
-		if(!ctitle){return notify_fail(""HIW"『"HIG"暢談"HIW"』"HIY"雷電說道: 你還沒輸入你要換成什麼title呢!\n"NOR);}
+		if(!ctitle){return notify_fail("" + HIW + "『" + HIG + "暢談" + HIW + "』" + HIY + "雷電說道: 你還沒輸入你要換成什麼title呢!\n" + NOR);}
 		command("chat "+ppl->query("name")+"("+ppl->query("id")+") 已經將稱號更改為 "+ctitle+" .");
 		ppl->set("title",ppl->query_temp("ctitle"));
 		ppl->delete_temp("ctitle");
 		ppl->delete_temp("can_ctitle");
-		write(""HIW"『"HIG"暢談"HIW"』"HIY"雷電說道: 好的，已將你的title更換完成。\n"NOR);
+		write("" + HIW + "『" + HIG + "暢談" + HIW + "』" + HIY + "雷電說道: 好的，已將你的title更換完成。\n" + NOR);
 	return 1;}
 }
 
@@ -266,19 +266,19 @@ int ctitle(string str)
 	object obj = this_object();
 	mixed ctitle1;
 	
-	if(!ppl->query("quests/ctitle")){return notify_fail(""HIW"『"HIG"暢談"HIW"』"HIY"雷電說道: ctitle?\n"NOR);}
+	if(!ppl->query("quests/ctitle")){return notify_fail("" + HIW + "『" + HIG + "暢談" + HIW + "』" + HIY + "雷電說道: ctitle?\n" + NOR);}
 	if(ppl->query_temp("can_ctitle")){
 	if(!str){
-		return notify_fail(""HIW"『"HIG"暢談"HIW"』"HIY"雷電說道: 你想要什麼稱號呢?\n"NOR);}
+		return notify_fail("" + HIW + "『" + HIG + "暢談" + HIW + "』" + HIY + "雷電說道: 你想要什麼稱號呢?\n" + NOR);}
 		ctitle1 = remove_color(trans_color(str));
 	if(ppl->query("killyar")== 1){
-	  return notify_fail(""HIW"『"HIG"暢談"HIW"』"HIY"雷電說道: 在你尚未通過血的試煉之前，我是不會幫你處理的。\n"NOR);}
+	  return notify_fail("" + HIW + "『" + HIG + "暢談" + HIW + "』" + HIY + "雷電說道: 在你尚未通過血的試煉之前，我是不會幫你處理的。\n" + NOR);}
         if(strlen(ctitle1)>40){
-	  return notify_fail(""HIW"『"HIG"暢談"HIW"』"HIY"雷電說道: 你的稱號也太長了吧！請取短一點的稱號。\n"NOR);}
+	  return notify_fail("" + HIW + "『" + HIG + "暢談" + HIW + "』" + HIY + "雷電說道: 你的稱號也太長了吧！請取短一點的稱號。\n" + NOR);}
 	else{
 		str+=NOR;
-		write(""HIW"『"HIG"暢談"HIW"』"HIY"雷電說道: 你想更換的稱號為 "+trans_color(str)+" "HIY",這稱號你同意嗎?(answer yes or no)\n"NOR);
+		write("" + HIW + "『" + HIG + "暢談" + HIW + "』" + HIY + "雷電說道: 你想更換的稱號為 "+trans_color(str)+" " + HIY + ",這稱號你同意嗎?(answer yes or no)\n" + NOR);
 		ppl->set_temp("ctitle",trans_color(str));
 		return 1;}
-  }return notify_fail(""HIW"『"HIG"暢談"HIW"』"HIY"雷電說道: 你還沒有付錢(pay)，我不能幫你更改稱號。\n"NOR);
+  }return notify_fail("" + HIW + "『" + HIG + "暢談" + HIW + "』" + HIY + "雷電說道: 你還沒有付錢(pay)，我不能幫你更改稱號。\n" + NOR);
 }

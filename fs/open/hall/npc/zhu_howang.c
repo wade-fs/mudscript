@@ -6,7 +6,7 @@ void create()
 {
         set_name("朱火旺", ({ "zhu howang", "zhu", "wang"}));
         set("title", "縣衙二捕頭");
-        set("nickname",YEL"屠牛師"NOR);
+        set("nickname",YEL + "屠牛師" + NOR);
         set("gender", "男性" );
         set("age", 46);
         set("str", 50);

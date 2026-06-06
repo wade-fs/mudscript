@@ -10,7 +10,7 @@ inherit DAGGER;
 void create()
 {
 //  seteuid(getuid());
-  set_name(HIR"絕"+HIY"世"+HIG"匕"+HIC"首"NOR,({"world"}));
+  set_name(HIR + "絕"+HIY"世"+HIG"匕"+HIC"首" + NOR,({"world"}));
   set_weight(8000);
   if( clonep() )
     set_default_object(__FILE__);
@@ -28,8 +28,8 @@ void create()
     set("no_hands",1);
     set("weapon_prop/dagger",20);
   }
-  set("wield_msg",HIR"$N"HIR"將$n"HIR"握在手上，全身充滿著無限的力量。\n"NOR);
-  set("unwield_msg",HIY"$N"HIY"畫出一道銀花，將$n"HIY"放回身邊小袋中。\n"NOR);
+  set("wield_msg",HIR + "$N" + HIR + "將$n" + HIR + "握在手上，全身充滿著無限的力量。\n" + NOR);
+  set("unwield_msg",HIY + "$N" + HIY + "畫出一道銀花，將$n" + HIY + "放回身邊小袋中。\n" + NOR);
   init_dagger(95);
   setup();
 }
@@ -58,12 +58,12 @@ mixed hit_ob( object victim,object me)
       //但為避免還是有人練到，導致威力太強，所以在加上一個機率
       if(random(user->query_skill("rain-throwing",1)) >  80 && user->query("bellicosity") > 500 && user->query("atman") > 100 && user->query("force") > 500)
       { //因為，rain-throwing的等級最高100，所以max機率將是 0.4*0.2=0.08
-        message_vision(HIR"\n四  "+HIG"神  "+HIY"合  "+ HIC"一    "+HIW"～"NOR,victim);
-        message_vision(HIW"～    "HIM"ψ四☆★☆神☆★☆暴☆★☆走ψ\n"NOR,victim);
-        message_vision(YEL"匕首中竄出一道玄武幻影，包圍$N!!\n"NOR,victim);
-        message_vision(HIC"匕首中竄出數十道白虎幻影，牽制$N的攻勢!!\n"NOR,victim);
-        message_vision(HIG"青龍由匕首上衝出，直接衝向$N!!\n"NOR,victim);
-        message_vision(HIR"巨大的火鳳凰飄然降臨，$N四周彷彿揚起地獄的業火!!\n"NOR,victim);
+        message_vision(HIR + "\n四  "+HIG"神  "+HIY"合  "+ HIC"一    "+HIW"～" + NOR,victim);
+        message_vision(HIW + "～    " + HIM + "ψ四☆★☆神☆★☆暴☆★☆走ψ\n" + NOR,victim);
+        message_vision(YEL + "匕首中竄出一道玄武幻影，包圍$N!!\n" + NOR,victim);
+        message_vision(HIC + "匕首中竄出數十道白虎幻影，牽制$N的攻勢!!\n" + NOR,victim);
+        message_vision(HIG + "青龍由匕首上衝出，直接衝向$N!!\n" + NOR,victim);
+        message_vision(HIR + "巨大的火鳳凰飄然降臨，$N四周彷彿揚起地獄的業火!!\n" + NOR,victim);
         //玄武的
         chiso=random(cor+doglv);
         victim->add("gin",-chiso);
@@ -101,18 +101,18 @@ mixed hit_ob( object victim,object me)
       //但為避免還是有人練到，導致威力太強，所以在加上一個機率
       if(random(user->query_skill("shadow-kill",1)) >  70 && user->query("bellicosity") > 500 && user->query("atman") > 100 && user->query("force") > 500)
       {
-        message_vision(HIR"\n四  "+HIG"神  "+HIY"合  "+ HIC"一    "+HIW"～"NOR,victim);
-        message_vision(HIW"～    "HIM"ψ四☆★☆神☆★☆霸☆★☆主ψ\n"NOR,victim);
+        message_vision(HIR + "\n四  "+HIG"神  "+HIY"合  "+ HIC"一    "+HIW"～" + NOR,victim);
+        message_vision(HIW + "～    " + HIM + "ψ四☆★☆神☆★☆霸☆★☆主ψ\n" + NOR,victim);
         world_choice=random(4);
         switch(world_choice)
         {
           case 0: //玄武霸主
           {
-            //message_vision(HBYEL"\n◎◎◎◎◎◎▁▂▃▄▅▆▇█▇▆▅▄▃▁◎◎◎◎◎◎\n"NOR,victim);
-            message_vision(YEL"玄武稱霸四神，化身成為玄武霸主，籠罩住$N四周!!\n"NOR,victim);
-            message_vision(YEL"$N感到全身的精力似乎被玄武霸主所剝奪!!\n"NOR,victim);
-            message_vision(YEL"玄武霸主由$N回到四神匕首，你感到全身精神為之一振!!\n"NOR,victim);
-            //message_vision(HBYEL"\n◎◎◎◎◎☆◎★◎↑↓←→↖↗↙↘◎★◎☆◎◎◎◎◎\n"NOR,victim);
+            //message_vision(HBYEL + "\n◎◎◎◎◎◎▁▂▃▄▅▆▇█▇▆▅▄▃▁◎◎◎◎◎◎\n" + NOR,victim);
+            message_vision(YEL + "玄武稱霸四神，化身成為玄武霸主，籠罩住$N四周!!\n" + NOR,victim);
+            message_vision(YEL + "$N感到全身的精力似乎被玄武霸主所剝奪!!\n" + NOR,victim);
+            message_vision(YEL + "玄武霸主由$N回到四神匕首，你感到全身精神為之一振!!\n" + NOR,victim);
+            //message_vision(HBYEL + "\n◎◎◎◎◎☆◎★◎↑↓←→↖↗↙↘◎★◎☆◎◎◎◎◎\n" + NOR,victim);
             //玄武霸主的傷害
             chiso=random(cor+doglv);
             victim->add("gin",-(chiso*3));
@@ -123,11 +123,11 @@ mixed hit_ob( object victim,object me)
           }
           case 1://白虎霸主
           {
-            //message_vision(HBCYN"\n◎◎◎◎◎◎▁▂▃▄▅▆▇█▇▆▅▄▃▁◎◎◎◎◎◎\n"NOR,victim);
-            message_vision(HIC"白虎稱霸四神，化身成為白虎霸主，牽制$N的攻勢!!\n"NOR,victim);
-            message_vision(HIC"$N的攻勢為之一滯，似乎施展不開來。。。\n"NOR,victim);
-            message_vision(HIC"$N強硬擺\脫白虎霸主的控制，身體受到嚴重的創傷!!\n"NOR,victim);
-            //message_vision(HBCYN"\n◎◎◎◎◎☆◎★◎↑↓←→↖↗↙↘◎★◎☆◎◎◎◎◎\n"NOR,victim);
+            //message_vision(HBCYN + "\n◎◎◎◎◎◎▁▂▃▄▅▆▇█▇▆▅▄▃▁◎◎◎◎◎◎\n" + NOR,victim);
+            message_vision(HIC + "白虎稱霸四神，化身成為白虎霸主，牽制$N的攻勢!!\n" + NOR,victim);
+            message_vision(HIC + "$N的攻勢為之一滯，似乎施展不開來。。。\n" + NOR,victim);
+            message_vision(HIC + "$N強硬擺\脫白虎霸主的控制，身體受到嚴重的創傷!!\n" + NOR,victim);
+            //message_vision(HBCYN + "\n◎◎◎◎◎☆◎★◎↑↓←→↖↗↙↘◎★◎☆◎◎◎◎◎\n" + NOR,victim);
             //白虎霸主的傷害
             victim->start_busy(2);
             victim->add("kee",-(cor*3));
@@ -135,11 +135,11 @@ mixed hit_ob( object victim,object me)
           }
           case 2://青龍霸主
           {
-            //message_vision(HBGRN"\n◎◎◎◎◎◎▁▂▃▄▅▆▇█▇▆▅▄▃▁◎◎◎◎◎◎\n"NOR,victim);
-            message_vision(HIG"青龍稱霸四神，化身成為青龍霸主，衝向$N，透體而過!!\n"NOR,victim);
-            message_vision(HIG"$N感到一陣排山倒海的壓力迎面而來，宛如世界末日一般!!\n"NOR,victim);
-            message_vision(HIG"青龍霸主的強大威力，令$N精神受到嚴重打擊!!\n"NOR,victim);
-            //message_vision(HBGRN"\n◎◎◎◎◎☆◎★◎↑↓←→↖↗↙↘◎★◎☆◎◎◎◎◎\n"NOR,victim);
+            //message_vision(HBGRN + "\n◎◎◎◎◎◎▁▂▃▄▅▆▇█▇▆▅▄▃▁◎◎◎◎◎◎\n" + NOR,victim);
+            message_vision(HIG + "青龍稱霸四神，化身成為青龍霸主，衝向$N，透體而過!!\n" + NOR,victim);
+            message_vision(HIG + "$N感到一陣排山倒海的壓力迎面而來，宛如世界末日一般!!\n" + NOR,victim);
+            message_vision(HIG + "青龍霸主的強大威力，令$N精神受到嚴重打擊!!\n" + NOR,victim);
+            //message_vision(HBGRN + "\n◎◎◎◎◎☆◎★◎↑↓←→↖↗↙↘◎★◎☆◎◎◎◎◎\n" + NOR,victim);
             //青龍霸主的傷害
             victim->add("gin",-random((cor+maglv)*5));
             victim->add("sen",-random((cor+maglv)*5));
@@ -147,12 +147,12 @@ mixed hit_ob( object victim,object me)
           }
           case 3://朱雀霸主
           {
-            //message_vision(HBRED"\n◎◎◎◎◎◎▁▂▃▄▅▆▇█▇▆▅▄▃▁◎◎◎◎◎◎\n"NOR,victim);
-            message_vision(HIR"朱雀稱霸四神，化身成為朱雀霸主--幻之火鳳凰，$N看呆!!\n"NOR,victim);
-            message_vision(HIR"$N四周揚起地獄的業火，熊熊的烈火環繞身軀!!\n"NOR,victim);
-            message_vision(HIR"地獄般的業火，在$N身上熊熊的燃燒著!!\n"NOR,victim);
-            message_vision(HIR"這種痛苦的感覺另$N感到身上的一切似乎已不再屬於自己!!\n"NOR,victim);
-            //message_vision(HBRED"\n◎◎◎◎◎☆◎★◎↑↓←→↖↗↙↘◎★◎☆◎◎◎◎◎\n"NOR,victim);
+            //message_vision(HBRED + "\n◎◎◎◎◎◎▁▂▃▄▅▆▇█▇▆▅▄▃▁◎◎◎◎◎◎\n" + NOR,victim);
+            message_vision(HIR + "朱雀稱霸四神，化身成為朱雀霸主--幻之火鳳凰，$N看呆!!\n" + NOR,victim);
+            message_vision(HIR + "$N四周揚起地獄的業火，熊熊的烈火環繞身軀!!\n" + NOR,victim);
+            message_vision(HIR + "地獄般的業火，在$N身上熊熊的燃燒著!!\n" + NOR,victim);
+            message_vision(HIR + "這種痛苦的感覺另$N感到身上的一切似乎已不再屬於自己!!\n" + NOR,victim);
+            //message_vision(HBRED + "\n◎◎◎◎◎☆◎★◎↑↓←→↖↗↙↘◎★◎☆◎◎◎◎◎\n" + NOR,victim);
             //朱雀霸主的傷害
             victim->receive_damage("kee",random(shalv*5),user);
             break;
@@ -173,8 +173,8 @@ mixed hit_ob( object victim,object me)
     //上面是屬於四神合一的特攻階段
     if(random(100) > 80)   //新玄武特攻，土系，吸收型  30％發動成功
     {
-      message_vision(YEL"由絕世匕首中竄出一道玄武幻影，包圍$N!!巨大的玄武幻影，將$N吞噬!!\n"NOR,victim);
-      message_vision(HIM"$n被$N的玄武幻影所侵襲，精神流失被$N所吸收!!"NOR"\n",user,victim);
+      message_vision(YEL + "由絕世匕首中竄出一道玄武幻影，包圍$N!!巨大的玄武幻影，將$N吞噬!!\n" + NOR,victim);
+      message_vision(HIM + "$n被$N的玄武幻影所侵襲，精神流失被$N所吸收!!" + NOR + "\n",user,victim);
       //表閃躲能力越好，被打中的％越少
       chiso=random((cor*2)+(doglv/2));
       victim->add("gin",-chiso);
@@ -204,44 +204,44 @@ mixed hit_ob( object victim,object me)
 
     if(random(100) > 80) //新白虎特攻，冰系，牽制型 30%發動成功
     {
-      message_vision(HIC"由絕世匕首中竄出數十道白虎幻影，牽制$N的攻勢，白虎幻影干擾著$N的視線，致使攻勢為之一滯!!\n"NOR,victim);
+      message_vision(HIC + "由絕世匕首中竄出數十道白虎幻影，牽制$N的攻勢，白虎幻影干擾著$N的視線，致使攻勢為之一滯!!\n" + NOR,victim);
       if (doglv > victim->query_skill("dodge",1))
         victim->start_busy(2);
       else 
         victim->start_busy(1);
-      message_vision(HIC"$N受到白虎幻影的牽制，而無法行動!!\n"NOR,victim);
+      message_vision(HIC + "$N受到白虎幻影的牽制，而無法行動!!\n" + NOR,victim);
       return ;
     } //以上是白虎特攻的發動設定
 
     if(random(100) > 80) //新青龍特攻，風系，精神傷害系 30%發動成功
     {
-      message_vision(HIG"青龍由匕首上衝出，直接衝向$N!!青龍幻影穿身而過，對$N的精神上以造成強大傷害!!\n"NOR,victim);
+      message_vision(HIG + "青龍由匕首上衝出，直接衝向$N!!青龍幻影穿身而過，對$N的精神上以造成強大傷害!!\n" + NOR,victim);
       if( bell > 4000)
       { //代表具有強大的殺氣，可以對精神上造成更大的傷害
         victim->add("gin",-(cor*5));
         victim->add("sen",-(cor*5));
-        message_vision(HIG"$N精神上受到非常嚴重的創傷!!\n"NOR,victim);
+        message_vision(HIG + "$N精神上受到非常嚴重的創傷!!\n" + NOR,victim);
         return ;
       }
       else if( bell > 2000)
       { //代表具有強大的殺氣，可以對精神上造成更大的傷害
         victim->add("gin",-(cor*4));
         victim->add("sen",-(cor*4));
-        message_vision(HIG"$N精神上受到嚴重的創傷!!\n"NOR,victim);
+        message_vision(HIG + "$N精神上受到嚴重的創傷!!\n" + NOR,victim);
         return ;
       }
       else if( bell > 1000)
       { //代表具有強大的殺氣，可以對精神上造成更大的傷害
         victim->add("gin",-(cor*3));
         victim->add("sen",-(cor*3));
-        message_vision(HIG"$N精神上受到普通的創傷!!\n"NOR,victim);
+        message_vision(HIG + "$N精神上受到普通的創傷!!\n" + NOR,victim);
         return ;
       }
       else if( bell > 100)
       { //代表具有強大的殺氣，可以對精神上造成更大的傷害
         victim->add("gin",-(cor*2));
         victim->add("sen",-(cor*2));
-        message_vision(HIG"$N精神上受到輕微的創傷!!\n"NOR,victim);
+        message_vision(HIG + "$N精神上受到輕微的創傷!!\n" + NOR,victim);
         return ;
       }
       return ;
@@ -251,28 +251,28 @@ mixed hit_ob( object victim,object me)
     {
       if (shalv >80)
       { //閻影匕首越強，威力越大，LV最高90所以最高是 252點傷害
-        message_vision(HIR"巨大的火鳳凰飄然降臨，$N四周彷彿揚起地獄的業火，$N被地獄的業火所灼，肉體遭到非常嚴重的傷害!!\n"NOR,victim);
+        message_vision(HIR + "巨大的火鳳凰飄然降臨，$N四周彷彿揚起地獄的業火，$N被地獄的業火所灼，肉體遭到非常嚴重的傷害!!\n" + NOR,victim);
         victim->receive_damage("kee",random(shalv*2.8),user);
         COMBAT_D->report_status(victim);
         return ;
       }
       else if (shalv >60)
       { //閻影匕首越強，威力越大
-        message_vision(HIR"$N四周揚起地獄的業火，熊熊的烈火將四周包圍，在烈火中傳出$N淒厲的哀嚎聲，其肉體遭到嚴重的創傷!!\n"NOR,victim);
+        message_vision(HIR + "$N四周揚起地獄的業火，熊熊的烈火將四周包圍，在烈火中傳出$N淒厲的哀嚎聲，其肉體遭到嚴重的創傷!!\n" + NOR,victim);
         victim->receive_damage("kee",random(shalv*2.2),user);
         COMBAT_D->report_status(victim);
         return ;
       }
       else if (shalv >40)
       { //閻影匕首越強，威力越大
-        message_vision(HIR"朱雀所揚起的熊熊烈火，在$N四周燃燒著，$N一不小心被烈火所傷，身體受到不少燒傷!!\n"NOR,victim);
+        message_vision(HIR + "朱雀所揚起的熊熊烈火，在$N四周燃燒著，$N一不小心被烈火所傷，身體受到不少燒傷!!\n" + NOR,victim);
         victim->receive_damage("kee",random(shalv*1.6),user);
         COMBAT_D->report_status(victim);
         return ;
       }
       else if (shalv > 1)
       { //閻影匕首越強，威力越大
-        message_vision(HIR"絕世匕首發出刺眼的火光，令$N眼睛受到傷害，$N攻勢為之一滯!!\n"NOR,victim);
+        message_vision(HIR + "絕世匕首發出刺眼的火光，令$N眼睛受到傷害，$N攻勢為之一滯!!\n" + NOR,victim);
         victim->receive_damage("kee",random(shalv),user);
         victim->start_busy(1);
         COMBAT_D->report_status(victim);
@@ -280,7 +280,7 @@ mixed hit_ob( object victim,object me)
       }
       else if (shalv <= 1)
       { //考慮到目前world是開放的，所以，有些門派沒有shadow-kill
-        message_vision(HIR"絕世匕首發出刺眼的火光，令$N眼睛受到傷害，$N攻勢為之一滯!!\n"NOR,victim);
+        message_vision(HIR + "絕世匕首發出刺眼的火光，令$N眼睛受到傷害，$N攻勢為之一滯!!\n" + NOR,victim);
         victim->start_busy(1);
         COMBAT_D->report_status(victim);
         return ;

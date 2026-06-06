@@ -7,7 +7,7 @@ inherit HEAD;
 
 void create()
 {
-  set_name( HIW "狂想新人頭盔" NOR ,({"newbie hat","hat"}));
+  set_name( HIW + "狂想新人頭盔" + NOR ,({"newbie hat","hat"}));
   set_weight(3000);
   if( clonep() )
     set_default_object(__FILE__);

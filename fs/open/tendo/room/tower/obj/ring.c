@@ -7,7 +7,7 @@ inherit UNARMED;
 void create()
 {
         seteuid(getuid());
-        set_name(HIB "修羅戰鬥指環" NOR,({"fiend ring","ring"}));
+        set_name(HIB + "修羅戰鬥指環" + NOR,({"fiend ring","ring"}));
         set_weight(3000);
         if( clonep() )
                 set_default_object(__FILE__);

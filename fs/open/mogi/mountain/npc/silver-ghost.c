@@ -65,7 +65,7 @@ void heart_beat()
  if( random(100) < 11 && present("gold-ghost",environment(mob)))
  {
     
-message_vision(HIW"\n銀妖狐護衛在金妖狐的身旁念起回復妖咒，治好了金妖身上的傷\n"NOR,this_object());
+message_vision(HIW + "\n銀妖狐護衛在金妖狐的身旁念起回復妖咒，治好了金妖身上的傷\n" + NOR,this_object());
   ghost = present("gold-ghost",environment(mob));
     if(ghost){
   kee=(ghost->query("eff_kee") - ghost->query("kee"));

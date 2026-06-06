@@ -105,8 +105,8 @@ int accept_kill(object who)
 	  command("cmd god_kee");
 	  command("perform sword.sha_kee");
 	  me->full();
-	  message_vision(HIR"上官無極說：欺人太甚呀！拼盡我全部的力量也要讓你付出代價！！\n"NOR,who);
-	  message_vision(HIY"只見$N全身暴出一陣金光，精氣神變為飽滿狀態了！\n"NOR,who);
+	  message_vision(HIR + "上官無極說：欺人太甚呀！拼盡我全部的力量也要讓你付出代價！！\n" + NOR,who);
+	  message_vision(HIY + "只見$N全身暴出一陣金光，精氣神變為飽滿狀態了！\n" + NOR,who);
 	  return 1;
 	  }
 	}
@@ -175,7 +175,7 @@ void die()
 	  if( j==7 || j==77 || j== 777 || j==1111 || j==55 || j==555 || j==1000 || j==4000 || j==3333 || j==2222 )
 	  {      
 	  new("/open/sky/obj7/deer-order")->move(environment(winner));
-	  message_vision(HIM"\n從上官無極的身上掉下了一件奇怪的東西!!\n"NOR,winner);
+	  message_vision(HIM + "\n從上官無極的身上掉下了一件奇怪的東西!!\n" + NOR,winner);
           write_file("/log/sky/obj7/deer_order",sprintf("%s(%s) 讓上官無極掉下了祥鹿結令於 %s\n",
 	  winner->name(1),winner->query("id"),ctime(time())));
 	  }
@@ -184,7 +184,7 @@ void die()
 	  if( j==5 || j==15 || j== 150 || j==1500 || j==10 || j==100 || j==1000 || j==4000 || j==6666 || j==7777 ) 
 	  {      
 	  new("/open/sky/obj7/deer-order")->move(environment(winner));
-	  message_vision(HIM"\n從上官無極的身上掉下了一件奇怪的東西!!\n"NOR,winner);
+	  message_vision(HIM + "\n從上官無極的身上掉下了一件奇怪的東西!!\n" + NOR,winner);
           write_file("/log/sky/obj7/deer_order",sprintf("%s(%s) 讓上官無極掉下了祥鹿結令於 %s\n",
 	  winner->name(1),winner->query("id"),ctime(time())));
 	  }

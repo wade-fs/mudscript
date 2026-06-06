@@ -6,7 +6,7 @@ inherit EQUIP;
 
 void create()
 {
-  set_name(MAG "鳳舞靴" NOR,({"boots"}) );
+  set_name(MAG + "鳳舞靴" + NOR,({"boots"}) );
   set_weight(2000);
   if ( clonep() )
     set_default_object(__FILE__);
@@ -34,7 +34,7 @@ int wear()
   int ret = ::wear();
   if(query("equipped") && me->query("class")=="dancer" && !me->query_temp("have_wear_boots")) { //dancer一派才有額外技能加成
     if(environment(me))
-      message_vision(HIM"$N穿上鳳舞靴忽然感到身子輕盈了起來，好似要飛一般。\n"NOR,me);
+      message_vision(HIM + "$N穿上鳳舞靴忽然感到身子輕盈了起來，好似要飛一般。\n" + NOR,me);
     me->add_temp("apply/unarmed", 5);
     me->add_temp("apply/dodge",10);
     me->set_temp("have_wear_boots",1);
@@ -48,7 +48,7 @@ int unequip()
   object me = environment();
   if(!query("equipped") && me->query("class")=="dancer" && me->query_temp("have_wear_boots") == 1) {
     if(environment(me) )
-      message_vision(YEL"$N"YEL"將$n"YEL"脫了下來，感到身體一沉，又恢復原狀了。\n"NOR,me,obj);
+      message_vision(YEL + "$N" + YEL + "將$n" + YEL + "脫了下來，感到身體一沉，又恢復原狀了。\n" + NOR,me,obj);
     me->add_temp("apply/unarmed", -5);
     me->add_temp("apply/dodge",-10);
     me->delete_temp("have_wear_boots");

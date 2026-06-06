@@ -38,7 +38,7 @@ return 1;
 else
 {
 me->delete("quest/start_game_prize");
-me->set("title",HIY"玄天武尊"NOR);
+me->set("title",HIY + "玄天武尊" + NOR);
 tell_object(me,"稱號稱改成功。\n");
 return 1;
 }

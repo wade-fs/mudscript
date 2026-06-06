@@ -2,7 +2,7 @@ inherit EQUIP;
 #include <ansi.h>
 void create()
 {
-        set_name(HIB"麒麟甲"NOR,({"chilin legging","legging"}));
+        set_name(HIB + "麒麟甲" + NOR,({"chilin legging","legging"}));
         set_weight(2000);
         if( clonep() )
                 set_default_object(__FILE__);

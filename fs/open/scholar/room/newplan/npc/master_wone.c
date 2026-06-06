@@ -13,10 +13,10 @@ string do_book();
 
 
 void create() {
-        set_name(HIC"太公望"NOR,({"master wone","wone","scholar"}));
+        set_name(HIC + "太公望" + NOR,({"master wone","wone","scholar"}));
         set("class","scholar");
         set("nickname","$HIW$天下第一軍師$NOR$");
-        set("title",HIY"姜子牙"NOR);
+        set("title",HIY + "姜子牙" + NOR);
         set("long",
 "太公望以助周室王朝取得天下之天才軍師, 並且 
 自創兵法計謀, 更勝孫子兵法。 
@@ -172,7 +172,7 @@ if( me->query_temp("ko_houng") == 1 && !me->query("mark/sixgod-plan") && me->que
 tell_object(me,"黃石公對你說 : 以後可以到我這拿七彩鳳凰筆(want 七彩鳳凰筆)。\n");
 tell_object(users(),"
 太公望發出爽朗的笑聲 :
-               "HIW"哈哈～好一謀略的將才"+me->query("name")+"呀！！
+               " + HIW + "哈哈～好一謀略的將才"+me->query("name")+"呀！！
     你果然沒有讓我失望！！好吧，我就傳你我的必生絕學 -\n
            『六   韜   奇    略』\n\n");
         me->set("mark/sixgod-plan",1);

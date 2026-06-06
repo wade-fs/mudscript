@@ -3,7 +3,7 @@ inherit ROOM;
 
 void create()
 {
-        set("short",HIG"琰 揚 居 -- 後 院"NOR);
+        set("short",HIG + "琰 揚 居 -- 後 院" + NOR);
 	set("long",@LONG
 屋內的裝潢十分的樸素，除了一張大黃石桌與一些木椅以外，就
 沒有其他的擺設了。

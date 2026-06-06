@@ -25,8 +25,8 @@ setup();
 
 string look_button()
 {
-	message_vision(HIY"\n$N走向某一棵樹木。
-突然腳底踩空，$N滑入樹底隧道！\n\n"NOR,this_player());
+	message_vision(HIY + "\n$N走向某一棵樹木。
+突然腳底踩空，$N滑入樹底隧道！\n\n" + NOR,this_player());
 	this_player()->move(__DIR__"forest10");
 	return "";
 }

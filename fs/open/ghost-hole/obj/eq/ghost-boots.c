@@ -5,12 +5,12 @@
 inherit EQUIP;
 void create()
 {
-        set_name(CYN""BBLU"冥魔"HIR"羽靴"NOR,({"ghost-king-boots","boots"}));
+        set_name(CYN + "" + BBLU + "冥魔" + HIR + "羽靴" + NOR,({"ghost-king-boots","boots"}));
         set_weight(100);
         if ( clonep() )
                 set_default_object(__FILE__);
         else{
-          set("long",CYN""BBLU"冥魔戰甲的一部份。\n"NOR);
+          set("long",CYN + "" + BBLU + "冥魔戰甲的一部份。\n" + NOR);
           set("unit","雙");
           set("value",500);
           set("armor_prop/armor", 5);

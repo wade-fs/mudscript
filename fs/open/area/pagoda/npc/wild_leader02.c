@@ -6,7 +6,7 @@ void create()
 {
 	set_name("呂布",({"iv bu","bu","iv"}));
 	set("gender","男性");
-	set("title",HIY"野人領袖"NOR);
+	set("title",HIY + "野人領袖" + NOR);
 	set("age",32);
 	set("attitude","aggressive");
 	set("combat_exp",3500000);
@@ -80,7 +80,7 @@ int i,n,d,s;
 				d=100+random(200);
 				enemy[i]->add("gin",-d); enemy[i]->add("kee",-d);
 				enemy[i]->add("sen",-d); enemy[i]->add("force",-d);
-				message_vision(HIR"$N放出狂大的鬥氣～$n受傷了！\n"NOR,ob,enemy[i]);
+				message_vision(HIR + "$N放出狂大的鬥氣～$n受傷了！\n" + NOR,ob,enemy[i]);
 			}
 		}
 	}
@@ -99,14 +99,14 @@ int i;
 
 	if ( writelog(ob,"open-war01") )
 	{
-		message_vision(HIW"$N用盡最後一口氣，緩緩的說：來不及了．．．呂布大人已經．．．
+		message_vision(HIW + "$N用盡最後一口氣，緩緩的說：來不及了．．．呂布大人已經．．．
 
-$N臉上的面膜掉了下來．．．\n"NOR,ob);
-	tell_object(users(),HIR"
+$N臉上的面膜掉了下來．．．\n" + NOR,ob);
+	tell_object(users(),HIR + "
 
 	撼天動地～鼓聲大作～邊境的野人入侵乾坤八卦塔！
 
-\n"NOR);
+\n" + NOR);
 		obj = new(__DIR__"wild_leader");
 		obj->move("/open/area/pagoda/p01");
 		for (i=0;i<7;i++) { mob = new(__DIR__"wild01"); mob->move("/open/area/pagoda/p01"); }

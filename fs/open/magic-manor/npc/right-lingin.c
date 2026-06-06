@@ -15,8 +15,8 @@ void create()
 LONG);
   set("gender","男性");
   set("class","fighter");
-  set("nickname",NOR+CYN"雪"HIC"影"NOR+CYN"飄"HIC"零"NOR);
-  set("title",HIC"聚靈水聖"NOR);
+  set("nickname",NOR+CYN"雪" + HIC + "影"NOR+CYN"飄" + HIC + "零" + NOR);
+  set("title",HIC + "聚靈水聖" + NOR);
   set("family/family_name","雪蒼派");
   set("combat_exp",12000000);
   set("attitude","friendly");
@@ -205,7 +205,7 @@ void heart_beat()
   {
     if( 30 > random(100) )
     {
-      message_vision(HIW"\n只見$N暴起所有"HIY"真氣內勁"HIW"，$N全身隴罩在一股"HIC"綻藍氣勁"HIW"中，赫然已解開身上被封的穴道。\n"NOR,this_object());
+      message_vision(HIW + "\n只見$N暴起所有" + HIY + "真氣內勁" + HIW + "，$N全身隴罩在一股" + HIC + "綻藍氣勁" + HIW + "中，赫然已解開身上被封的穴道。\n" + NOR,this_object());
       delete_busy();
     }
   }
@@ -255,7 +255,7 @@ void die()
       if( j==7 || j==77 || j== 777 || j==1111 || j==55 || j==555 || j==1000 || j==4000 || j==3333 || j==2222 )
       {
         new("/open/sky/obj12/watermelon-doll")->move(environment(winner));
-        message_vision(HIM"\n從右靈晉的身上掉下了一件奇怪的東西!!\n"NOR,winner,me);
+        message_vision(HIM + "\n從右靈晉的身上掉下了一件奇怪的東西!!\n" + NOR,winner,me);
         write_file("/log/sky/obj12/watermelon_doll",sprintf("%s(%s) 讓右靈晉掉下了西瓜娃娃於 %s\n",
           winner->name(1),winner->query("id"),ctime(time())));
       }
@@ -264,7 +264,7 @@ void die()
       if( j==5 || j==15 || j== 150 || j==1500 || j==10 || j==100 || j==1000 || j==4000 || j==6666 || j==7777 )
       {
         new("/open/sky/obj12/watermelon-doll")->move(environment(winner));
-        message_vision(HIM"\n從右靈晉的身上掉下了一件奇怪的東西!!\n"NOR,winner,me);
+        message_vision(HIM + "\n從右靈晉的身上掉下了一件奇怪的東西!!\n" + NOR,winner,me);
         write_file("/log/sky/obj12/watermelon_doll",sprintf("%s(%s) 讓右靈晉掉下了西瓜娃娃於 %s\n",
           winner->name(1),winner->query("id"),ctime(time())));
       }
@@ -274,26 +274,26 @@ void die()
   {
     obj=new("/open/magic-manor/obj/lunar-heart");
     obj->move(environment(winner));
-    message_vision(CYN"\n一塊奇怪的物品$N的身體掉了出來!!\n"NOR,me);
+    message_vision(CYN + "\n一塊奇怪的物品$N的身體掉了出來!!\n" + NOR,me);
   } else if( random(888) == 7 )
   {
     obj=new("/open/magic-manor/obj/lunar-heart");
     obj->move(environment(winner));
-    message_vision(CYN"\n一塊奇怪的物品$N的身體掉了出來!!\n"NOR,me);
+    message_vision(CYN + "\n一塊奇怪的物品$N的身體掉了出來!!\n" + NOR,me);
   } else if( random(777) == 7 )
   {
     obj=new("/open/magic-manor/obj/lunar-heart");
     obj->move(environment(winner));
-    message_vision(CYN"\n一塊奇怪的物品$N的身體掉了出來!!\n"NOR,me);
+    message_vision(CYN + "\n一塊奇怪的物品$N的身體掉了出來!!\n" + NOR,me);
   } else if( random(666) == 7 )
   {
     obj=new("/open/magic-manor/obj/lunar-heart");
     obj->move(environment(winner));
-    message_vision(CYN"\n一塊奇怪的物品$N的身體掉了出來!!\n"NOR,me);
+    message_vision(CYN + "\n一塊奇怪的物品$N的身體掉了出來!!\n" + NOR,me);
   } else if( random(555) == 7 )
   {
     obj=new("/open/magic-manor/obj/lunar-heart");
-    message_vision(CYN"\n一塊奇怪的物品$N的身體掉了出來!!\n"NOR,me);
+    message_vision(CYN + "\n一塊奇怪的物品$N的身體掉了出來!!\n" + NOR,me);
     obj->move(environment(winner));
   }
   ::die();

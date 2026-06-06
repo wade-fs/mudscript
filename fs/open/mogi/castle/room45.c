@@ -1,7 +1,7 @@
 inherit ROOM;
 #include <ansi.h>
 void create () {
-set ("short",HIW"白虎室"NOR);
+set ("short",HIW + "白虎室" + NOR);
 	set( "build", 58 );
         set ("long","這裡就是白虎密室，牆上雕著一隻巨大的白色老虎，散發出懾人
 的氣勢。但房間中央清香四溢，仙光隱隱流轉，走近一看是片小

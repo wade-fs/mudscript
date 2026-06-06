@@ -5,7 +5,7 @@ inherit ITEM;
 
 void create()
 {
-  set_name(YEL"地動土之魂"NOR,({"ground-spirit"}));
+  set_name(YEL + "地動土之魂" + NOR,({"ground-spirit"}));
   set("long","若有似無，褐色半透明的魂靈物體，夾帶著一股攝人心魄的神秘力\n"
     +"量，恍如所有生命的物體的精華正逐漸的被吸蝕著，連你也無法例\n"
     +"外正被它逐漸的侵蝕著。\n");
@@ -48,7 +48,7 @@ int hurt()
         me->receive_wound("gin",50+random(130),ob);
         me->receive_wound("sen",50+random(130),ob);
         me->add("force",-30);
-        message_vision("$n"BLU"緩緩散開一股褐色的氣霧，卻被"NOR+ob1->query("name")+BLU+"緩緩的吸收一部份！\n"NOR,me,ob);
+        message_vision("$n" + BLU + "緩緩散開一股褐色的氣霧，卻被"NOR+ob1->query("name")+BLU+"緩緩的吸收一部份！\n" + NOR,me,ob);
       }
     } else {
       if( random(2) == 1 )
@@ -57,7 +57,7 @@ int hurt()
         me->receive_wound("gin",100+random(150),ob);
         me->receive_wound("sen",100+random(150),ob);
         me->add("force",-50);
-        message_vision("$n"BLU"緩緩散開一股褐色的氣霧，慢慢的吸蝕著"HIY"$N"NOR+BLU"的全身精元！\n"NOR,me,ob);
+        message_vision("$n" + BLU + "緩緩散開一股褐色的氣霧，慢慢的吸蝕著" + HIY + "$N"NOR+BLU"的全身精元！\n" + NOR,me,ob);
       }
     }
   }

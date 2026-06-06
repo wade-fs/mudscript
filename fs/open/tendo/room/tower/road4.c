@@ -22,7 +22,7 @@ int valid_leave(object me, string dir)
 {
         if( dir=="enter" )
         message("system",
- HIW"\n\t武林之中傳來一道消息 : "HIY""+this_player()->name()+""HIW"勇闖"HIR"鎖妖塔"HIW"第一層了 !!\n"NOR,users());
+ HIW + "\n\t武林之中傳來一道消息 : " + HIY + ""+this_player()->name()+"" + HIW + "勇闖" + HIR + "鎖妖塔" + HIW + "第一層了 !!\n" + NOR,users());
         return ::valid_leave(me, dir);
 }
 

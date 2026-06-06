@@ -18,7 +18,7 @@ inherit F_SAVE;
 void create()
 {
   seteuid(geteuid());
-  set_name(YEL"銅人腧穴針灸圖經"NOR, ({ "acupuncture picture book", "book", "picture book", "acupuncture" }) );
+  set_name(YEL + "銅人腧穴針灸圖經" + NOR, ({ "acupuncture picture book", "book", "picture book", "acupuncture" }) );
   if( clonep() )
     set_default_object(__FILE__);
   else {

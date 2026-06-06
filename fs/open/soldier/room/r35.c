@@ -22,7 +22,7 @@ int valid_leave(object me,string dir)
 {
     if ( me==this_player() && dir=="west" )
         {
-        tell_object(me,HIG"你輕輕的推開了木門走了過去!!\n"NOR);
+        tell_object(me,HIG + "你輕輕的推開了木門走了過去!!\n" + NOR);
         }
     return ::valid_leave(me,dir);
 }

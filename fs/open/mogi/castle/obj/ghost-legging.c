@@ -5,7 +5,7 @@ inherit EQUIP;
 
 void create()
 {
-	set_name(HIW"妖行甲"NOR,({"ghost legging","legging"}));
+	set_name(HIW + "妖行甲" + NOR,({"ghost legging","legging"}));
 	set_weight(3000);
         if( clonep() )
 		set_default_object(__FILE__);

@@ -2,7 +2,7 @@ inherit COMBINED_ITEM;
 #include <ansi.h>
 void create()
 {
-set_name(HIR"紅龍精元"NOR, ({"red-dragon pill","pill"}) );
+set_name(HIR + "紅龍精元" + NOR, ({"red-dragon pill","pill"}) );
 set("long","紅龍身上取得的精元, 傳聞中可暫時增加閃躲的能力!!\n");
 set("base_unit", "粒");
 set("unit", "粒");
@@ -27,7 +27,7 @@ if( ob != this_object() )
 return 0;
 if (me->query_condition("dodge_pill") > 0)
 return notify_fail("藥效未除無法再吃!!\n");
-message_vision(HIR"$N吃下紅龍精元, 能力突增!!\n"NOR, me);
+message_vision(HIR + "$N吃下紅龍精元, 能力突增!!\n" + NOR, me);
 me->add_temp("apply/dodge",100);
 me->set_temp("r-pill",1);
 me->apply_condition("dodge_pill",20);

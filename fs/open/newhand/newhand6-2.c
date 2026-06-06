@@ -3,7 +3,7 @@
 inherit ROOM;
 void create ()
 {
-  set ("short", HIY"狂想空間歷史發展館"NOR);
+  set ("short", HIY + "狂想空間歷史發展館" + NOR);
   set( "long", "當時剛創建的狂想只有仙劍派一個門派,後來才出現了中央大陸的部份
 聽Wade說他只有寫過中央大陸的房間,其他都沒有寫過,那時根據現在己知的
 資料,幫忙架站的大神是Elon,還有一些高手級的巫師如：fund、ccat、bigcat

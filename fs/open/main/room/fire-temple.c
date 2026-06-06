@@ -93,9 +93,9 @@ int do_burn()
   object me = this_player();
   if(me->query("attribute") == "fire")
   {
-  	message_vision(HIR"一道烈火包圍了$N，接著突然消失無蹤。\n"NOR,me);
+  	message_vision(HIR + "一道烈火包圍了$N，接著突然消失無蹤。\n" + NOR,me);
   	me->move("/open/common/room/inn");
-  	message_vision(HIR"一道火光突地竄起，待得烈焰燃盡，$N的身形逐漸浮現。\n"NOR,me);
+  	message_vision(HIR + "一道火光突地竄起，待得烈焰燃盡，$N的身形逐漸浮現。\n" + NOR,me);
   }else{
         write("這邊實在好熱呀。\n");
         me->add("water",-10);
@@ -121,7 +121,7 @@ int do_blend(string str)
 	  }else{
 	    if( ob2->query("specialitem") == 1 && ob1->query("spirit") == 1 )
 	    {
-	    message_vision("\n"+ob1->query("name")+HIR"和"NOR+ob2->query("name")+HIR"感受到一股無形的力量，緩緩飄浮在空中，\n赤紅的火舌絲絲的從"NOR+ob1->query("name")+HIR"和"NOR+ob2->query("name")+HIR"不時吐露。\n"NOR,me);
+	    message_vision("\n"+ob1->query("name")+HIR"和"NOR+ob2->query("name")+HIR"感受到一股無形的力量，緩緩飄浮在空中，\n赤紅的火舌絲絲的從"NOR+ob1->query("name")+HIR"和"NOR+ob2->query("name")+HIR"不時吐露。\n" + NOR,me);
 	    me->force_me("change unarmed");
 	    me->start_busy(10);
 	    call_out("compose1",5,me);
@@ -141,7 +141,7 @@ int compose1(object me)
 	ob=this_object();
 	ob1=present("fire-spirit",me);
 	ob2=present("fire-emblem",me);
-	message_vision("\n"+ob1->query("name")+NOR+HIR"和"NOR+ob2->query("name")+NOR+HIR"釋出的陣陣赤紅火舌慢慢的籠照"HIY"$N"NOR+HIR"四周圍，\n身盼的溫度愈來愈高，彷彿連空氣都將快要蒸發。\n"NOR,me);
+	message_vision("\n"+ob1->query("name")+NOR+HIR"和"NOR+ob2->query("name")+NOR+HIR"釋出的陣陣赤紅火舌慢慢的籠照" + HIY + "$N"NOR+HIR"四周圍，\n身盼的溫度愈來愈高，彷彿連空氣都將快要蒸發。\n" + NOR,me);
 	me->start_busy(10);
 	call_out("compose2",5,me);
 	return 1;
@@ -163,9 +163,9 @@ int compose2(object me)
 	  ob3 = aob[j];
 	}
         write_file("/log/sky/powerup_claw",sprintf("%s(%s)使用了%s和%s加強了%s的型態於 %s\n",me->name(1),me->query("id"),ob1->query("name"),ob2->query("name"),ob3->query("name"),ctime(time())));
-	message_vision(HIR"\n只見"+ob3->query("name")+NOR+HIR"將四周圍所有的高溫火燄全部吸收而轉變為一個完全的形態！\n"NOR,me);
+	message_vision(HIR + "\n只見"+ob3->query("name")+NOR+HIR"將四周圍所有的高溫火燄全部吸收而轉變為一個完全的形態！\n" + NOR,me);
 	me->set("weapon/fire-full",1);	//融合完畢後，武器呈現最完美狀態給給定的query。
-	message_vision(ob1->query("name")+NOR+RED"和"NOR+ob2->query("name")+NOR+RED"所蘊藏的能量在被吸收殆盡後，也化為虛無消失無蹤。\n"NOR,me);
+	message_vision(ob1->query("name")+NOR+RED"和"NOR+ob2->query("name")+NOR+RED"所蘊藏的能量在被吸收殆盡後，也化為虛無消失無蹤。\n" + NOR,me);
 	destruct(ob1);
 	destruct(ob2);
 	me->delete_busy();

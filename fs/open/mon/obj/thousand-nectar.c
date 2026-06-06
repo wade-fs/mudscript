@@ -5,7 +5,7 @@ inherit COMBINED_ITEM;
 
 void create()
 {
-  set_name(HIY"千年花蜜"NOR, ({"thousand nectar","nectar"}) );
+  set_name(HIY + "千年花蜜" + NOR, ({"thousand nectar","nectar"}) );
   set("long","千年花精淡情悠修練千年所粹取出來的花蜜，能提升內力和真氣。\n");
   set("base_unit", "瓶");
   set("unit", "瓶");
@@ -36,7 +36,7 @@ int drink_nectar(string arg)
     message_vision("你已經吃過了，再吃一次很浪費的!!\n",me,ob);
     return 1;
   }
-  message_vision(HIY"$N一口氣喝光了一瓶的$n"HIY"，只見$N"HIY"真氣迅速提升並緩緩從身上散發出來!!\n"NOR,me,ob);
+  message_vision(HIY + "$N一口氣喝光了一瓶的$n" + HIY + "，只見$N" + HIY + "真氣迅速提升並緩緩從身上散發出來!!\n" + NOR,me,ob);
   me->add("force",20000);
   me->apply_condition("nectar",100);
   add_amount(-1);

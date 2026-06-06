@@ -112,7 +112,7 @@ if(random(1000) < me->query("bellicosity"))
 if((random(150)<me->query_skill("shadow-kill",1))&&!me->query_temp("devast")) 
 {
   victim->set("start_busy",2);
-  message_vision(sprintf(HIB"趁著$n忙於招架這密如繁星般的攻擊之際，$N見機不可失，劍勢疾迴，意欲再進一招....\n"NOR),me,victim);
+  message_vision(sprintf(HIB + "趁著$n忙於招架這密如繁星般的攻擊之際，$N見機不可失，劍勢疾迴，意欲再進一招....\n" + NOR),me,victim);
 }
 }
 
@@ -125,7 +125,7 @@ if( random(30) < my_bell )
 if(random(150)<me->query_skill("shadow-kill",1)&&!me->query_temp("devast"))
 {
   victim->receive_damage("kee", 2*me->query("force_factor") + random( my_bell ) );
-  message_vision(sprintf(HIC"$N 匕首上枉死的冤魂，受不住$N陣陣殺氣的催動，從匕首脫出，向$n撲噬而去。\n"NOR),me,victim);
+  message_vision(sprintf(HIC + "$N 匕首上枉死的冤魂，受不住$N陣陣殺氣的催動，從匕首脫出，向$n撲噬而去。\n" + NOR),me,victim);
 }
 }
 
@@ -137,7 +137,7 @@ if( damage > 10 && !me->query_temp("devast"))
   victim->add("sen",-15);
   victim->receive_damage("kee", 2*me->query("force_factor") +
     random( (int)me->query_skill("rain-throwing",1)/2 ) );
-  message_vision(sprintf(HIM"只見從$n傷口噴灑而出的鮮血，突然凝成無數血柱，如靈蛇般向$n竄去，攝走$n的魂魄。\n"NOR),me,victim);
+  message_vision(sprintf(HIM + "只見從$n傷口噴灑而出的鮮血，突然凝成無數血柱，如靈蛇般向$n竄去，攝走$n的魂魄。\n" + NOR),me,victim);
 }
 }
 
@@ -148,7 +148,7 @@ if(random(250)<me->query_skill("shade-steps",1)+my_shadow)
 {
   victim->apply_condition("bleeding",(int)me->query_skill("cure")/5 +
   random( (int)my_shadow/10 + (int)me->query_skill("parry")/10 ) );
-  message_vision(sprintf(HIR"$N雙手倒握匕首，往自己胸口送去－－卻見到$n胸口一道血柱如飛泉般噴出。\n"NOR),me,victim);
+  message_vision(sprintf(HIR + "$N雙手倒握匕首，往自己胸口送去－－卻見到$n胸口一道血柱如飛泉般噴出。\n" + NOR),me,victim);
 }
 }
 
@@ -159,7 +159,7 @@ if((random(500)<me->query_skill("force")+me->query_skill("shade-steps",1)+my_sha
 {           
    victim->recieve_damage("kee",3*me->query("force_factor") +
      random( (int)my_shadow/2 ) );
-   message_vision(sprintf(HIG"$N召喚風影化身與$n廝殺。$N的法身逕向$n背後繞去，雙手提劍往$n天靈直落。\n"NOR),me,victim);
+   message_vision(sprintf(HIG + "$N召喚風影化身與$n廝殺。$N的法身逕向$n背後繞去，雙手提劍往$n天靈直落。\n" + NOR),me,victim);
 }
 }
 
@@ -181,7 +181,7 @@ if( me->query("force_factor") >= 10 )
       COMBAT_D->do_attack(me, victim, me->query_temp("weapon"), TYPE_QUICK);
     }       
     me->start_busy(1);
-    message_vision(sprintf(HIY"你仰天一嘆～明白這並非招式之極致，正所謂「飄風不終朝，驟雨不終日」。於是氣歸元牝，周流六虛....\n"NOR),me,victim);
+    message_vision(sprintf(HIY + "你仰天一嘆～明白這並非招式之極致，正所謂「飄風不終朝，驟雨不終日」。於是氣歸元牝，周流六虛....\n" + NOR),me,victim);
     me->delete_temp("devast");
   }
 }

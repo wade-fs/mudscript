@@ -42,7 +42,7 @@ void init()
       object me=this_player();
       ::init();
       if( me->query_temp("blood")==1 ) {
-      message_vision(HIB"\n金錢豹\聞到$N身上的血腥味，一聲狂嘯、便撲向$N。\n"NOR,me);
+      message_vision(HIB + "\n金錢豹\聞到$N身上的血腥味，一聲狂嘯、便撲向$N。\n" + NOR,me);
       this_object()->kill_ob(me);
       }
 }

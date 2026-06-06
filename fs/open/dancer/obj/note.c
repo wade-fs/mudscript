@@ -3,7 +3,7 @@ inherit ITEM;
 
 void create()
 {
-  set_name(YEL"古老捲軸"NOR, ({ "oldnote" }) );
+  set_name(YEL + "古老捲軸" + NOR, ({ "oldnote" }) );
   set("long", "一張陳舊羊毛紙，上面寫著奇奇怪怪的未知符號，看來是上個文明紀元的產物。\n");
   set("value",1234);
   set("no_sec",1);

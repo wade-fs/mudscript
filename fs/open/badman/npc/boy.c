@@ -39,7 +39,7 @@ int accept_kill(object me)
       if( !present( "dog",environment(ob)) || !living(dog))  return 1;
       else {
           tell_room(environment(me),"大寶呼救道：哇！大呆、大呆快來救我啊！\n"),
-          message_vision(HIB"\n原在一旁的大呆護主心切，向$N疾撲了過去。\n"NOR,me);
+          message_vision(HIB + "\n原在一旁的大呆護主心切，向$N疾撲了過去。\n" + NOR,me);
           dog->kill_ob(me);
           return 1;
       }

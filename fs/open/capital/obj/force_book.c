@@ -3,7 +3,7 @@ inherit ITEM;
 
 void create()
 {
-        set_name(HIY "本來無一物神功\心法" NOR, ({ "Force_Book","book" }) );
+        set_name(HIY + "本來無一物神功\心法" + NOR, ({ "Force_Book","book" }) );
 
         set("unit", "本");
         set("long", "少林寺的精深內功\心法，但你天賦不夠聰穎，認定它不是什麼武學秘笈\n");

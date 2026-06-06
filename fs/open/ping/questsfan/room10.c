@@ -22,6 +22,6 @@ LONG);
 ]));
 
 set("need_key/out",1);
-create_door("out",HIY"大木柵柵門"NOR,"enter",DOOR_LOCKED);
+create_door("out",HIY + "大木柵柵門" + NOR,"enter",DOOR_LOCKED);
   setup();
 }

@@ -69,10 +69,10 @@ void heart_beat()
     if(!target) return;
     if( env == environment(target) )
     {
-      message_vision(HIM"\n
+      message_vision(HIM + "\n
 一瞬間，魔氣暴漲，迴風如割，壓風如打，毒氣從地面上滲出，透進魔風之中
-$N一聲低喊"HIW"『送葬行列  剖天墳地』"HIM"，頓時氣旋炸裂，$n無所遁逃
-\n"NOR,mob,target);
+$N一聲低喊" + HIW + "『送葬行列  剖天墳地』" + HIM + "，頓時氣旋炸裂，$n無所遁逃
+\n" + NOR,mob,target);
       target->apply_condition("mogi",target->query_condition("mogi")+5); 
       target->receive_wound("kee",400);
       COMBAT_D->report_status(target, 1);
@@ -102,7 +102,7 @@ void die()
 	  if( j==7 || j==77 || j== 777 || j==1111 || j==55 || j==555 || j==1000 || j==4000 || j==3333 || j==2222 )
 	  {      
 	  new("/open/sky/obj1/soil_emblem")->move(environment(winner));
-	  message_vision(HIM"\n從墨衣魔將的身上掉下了一件奇怪的東西!!\n"NOR,winner);
+	  message_vision(HIM + "\n從墨衣魔將的身上掉下了一件奇怪的東西!!\n" + NOR,winner);
           write_file("/log/sky/obj1/soil_emblem",sprintf("%s(%s) 讓墨衣魔將掉下了土之紋章於 %s\n",
 	  winner->name(1),winner->query("id"),ctime(time())));
 	  }
@@ -111,7 +111,7 @@ void die()
 	  if( j==5 || j==15 || j== 150 || j==1500 || j==10 || j==100 || j==1000 || j==4000 || j==6666 || j==7777 ) 
 	  {      
 	  new("/open/sky/obj1/soil_emblem")->move(environment(winner));
-	  message_vision(HIM"\n從墨衣魔將的身上掉下了一件奇怪的東西!!\n"NOR,winner);
+	  message_vision(HIM + "\n從墨衣魔將的身上掉下了一件奇怪的東西!!\n" + NOR,winner);
           write_file("/log/sky/obj1/soil_emblem",sprintf("%s(%s) 讓墨衣魔將掉下了土之紋章於 %s\n",
 	  winner->name(1),winner->query("id"),ctime(time())));
 	  }

@@ -43,8 +43,8 @@ int accept_object(object who , object item)
 who->query_temp("bento")==1 )
 		{
 			who->add("combat_exp",100);
-tell_object(who,HIY"你完成了農婦的便當之謎！\n"NOR);
-			tell_object(who,HIC"你的經驗增加了 :p\n"NOR);
+tell_object(who,HIY + "你完成了農婦的便當之謎！\n" + NOR);
+			tell_object(who,HIC + "你的經驗增加了 :p\n" + NOR);
 			who->set("quests/bento", 1);
 		}
 	}

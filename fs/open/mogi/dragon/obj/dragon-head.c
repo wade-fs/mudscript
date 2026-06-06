@@ -2,7 +2,7 @@
 inherit ITEM;
 void create()
 {
-        set_name(HIY"黃金甲龍的龍頭"NOR, ({ "dragon-head","head" }) );
+        set_name(HIY + "黃金甲龍的龍頭" + NOR, ({ "dragon-head","head" }) );
         set_weight(5000);
         if( clonep() )
                 set_default_object(__FILE__);

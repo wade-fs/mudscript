@@ -3,7 +3,7 @@ inherit ROOM;
 
 void create()
 {
-        set("short",HIY"海神殿"NOR);
+        set("short",HIY + "海神殿" + NOR);
 	set( "build", 12 );
         set ("long", @LONG
 抬頭仰望，你竟然發現海水像浮雲般在上空流動著，各海域的

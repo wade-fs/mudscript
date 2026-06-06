@@ -8,7 +8,7 @@ void create()
 {
   set_name("土爆波", ({ "soil king","soil","king" }) );
   set("long","土靈塔的鎮塔之王，能力比小土妖和土靈獸不知強上幾倍。\n");
-  set("title",YEL"(土色靈氣)"NOR"土靈塔王"NOR);
+  set("title",YEL + "(土色靈氣)" + NOR + "土靈塔王" + NOR);
   set("gender","男性");
   set("class","bandit");
   set("family/family_name","惡人谷");
@@ -96,10 +96,10 @@ void heart_beat()
 
   if(random(10) > 6 && mob->is_fighting() )
   {
-    message_vision(HIM"雷厲風行，驚天動地，橫掃萬物於須臾，$N感念深刻聚力一指瞬間擊出
+    message_vision(HIM + "雷厲風行，驚天動地，橫掃萬物於須臾，$N感念深刻聚力一指瞬間擊出
 
-      "HIW"----===≡◎ 土爆雷霆式 ◎≡===----
-     "NOR+BLU"  『"HIB"土假虎威．地雷震"NOR+BLU"』\n\n"NOR,mob);
+      " + HIW + "----===≡◎ 土爆雷霆式 ◎≡===----
+     "NOR+BLU"  『" + HIB + "土假虎威．地雷震"NOR+BLU"』\n\n" + NOR,mob);
 
     for (j=0 ; j < i ; j++)
     {
@@ -110,12 +110,12 @@ void heart_beat()
         {
           if( !enemy[j]->query_temp("magic-manor/wood-shield") )
           {
-            message_vision(YEL"$N"YEL"只感呼吸困難，行走不便，只能任由飛沙走石在身上無情的鞭打!!\n"NOR,(enemy[j]));
+            message_vision(YEL + "$N" + YEL + "只感呼吸困難，行走不便，只能任由飛沙走石在身上無情的鞭打!!\n" + NOR,(enemy[j]));
             enemy[j]->receive_wound("kee",600);
             enemy[j]->start_busy(1);
             COMBAT_D->report_status(enemy[j]);
           }else{
-            message_vision(HIG"$N"HIG"身上的木靈之氣緩和了部份的飛沙走石衝擊!!\n"NOR,(enemy[j]));
+            message_vision(HIG + "$N" + HIG + "身上的木靈之氣緩和了部份的飛沙走石衝擊!!\n" + NOR,(enemy[j]));
             enemy[j]->receive_wound("kee",300);
             enemy[j]->start_busy(k);
             COMBAT_D->report_status(enemy[j]);
@@ -141,7 +141,7 @@ void die()
       if( j==7 || j==77 || j== 777 || j==1111 || j==55 || j==555 || j==1000 || j==4000 || j==3333 || j==2222 )
       {
         new("/open/sky/obj12/pineapple-doll")->move(environment(me));
-        message_vision(HIM"\n從土爆波的身上掉下了一件奇怪的東西!!\n"NOR,me,me);
+        message_vision(HIM + "\n從土爆波的身上掉下了一件奇怪的東西!!\n" + NOR,me,me);
         write_file("/log/sky/obj12/pineapple_doll",sprintf("%s(%s) 讓土爆波掉下了鳳梨娃娃於 %s\n",
         me->name(1),me->query("id"),ctime(time())));
       }
@@ -150,7 +150,7 @@ void die()
       if( j==5 || j==15 || j== 150 || j==1500 || j==10 || j==100 || j==1000 || j==4000 || j==6666 || j==7777 ) 
       {      
         new("/open/sky/obj12/pineapple-doll")->move(environment(me));
-        message_vision(HIM"\n從土爆波的身上掉下了一件奇怪的東西!!\n"NOR,me,me);
+        message_vision(HIM + "\n從土爆波的身上掉下了一件奇怪的東西!!\n" + NOR,me,me);
         write_file("/log/sky/obj12/pineapple_doll",sprintf("%s(%s) 讓土爆波掉下了鳳梨娃娃於 %s\n",
         me->name(1),me->query("id"),ctime(time())));
       }
@@ -159,7 +159,7 @@ void die()
 
   if( !me->query_temp("magic-manor/soilmagic") )
   {
-    message_vision(YEL"土爆波死後的靈魂忽然化為一道土色靈光，灌入了$N"YEL"的身體之中!!\n"NOR,me);
+    message_vision(YEL + "土爆波死後的靈魂忽然化為一道土色靈光，灌入了$N" + YEL + "的身體之中!!\n" + NOR,me);
     me->set_temp("magic-manor/soilmagic",1);
     if( !me->query("magic-manor/kill-soil") )
     {

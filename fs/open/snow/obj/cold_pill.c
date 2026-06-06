@@ -2,7 +2,7 @@ inherit ITEM;
 #include <ansi.h>
 void create()
 {
-	set_name(HIY "怨世寒毒的解藥" NOR,({"cold pill","pill"}));
+	set_name(HIY + "怨世寒毒的解藥" + NOR,({"cold pill","pill"}));
 	set("unit","顆");
 	set("value",5000);
         setup();

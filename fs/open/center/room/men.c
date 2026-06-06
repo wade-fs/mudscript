@@ -182,12 +182,12 @@ void step4()
 {
   if (random(2))
     CHANNEL_D->do_channel(this_object(), "gamble",
-        HIY"莊家終於把搖蘆"HIY"放下來，向所有人大叫: "
-        "有錢請下注，沒錢請回家抱老婆!"NOR);
+        HIY + "莊家終於把搖蘆" + HIY + "放下來，向所有人大叫: "
+        "有錢請下注，沒錢請回家抱老婆!" + NOR);
   else
     CHANNEL_D->do_channel(this_object(), "gamble",
-        HIY"莊家終於把搖蘆放下來，向所有人大叫: "
-        "有錢的壓賭, 沒錢的看賭!!"NOR);
+        HIY + "莊家終於把搖蘆放下來，向所有人大叫: "
+        "有錢的壓賭, 沒錢的看賭!!" + NOR);
   bet = 1;
   // 開盅
   call_out ("step5", 20+random(5));
@@ -197,10 +197,10 @@ void step5()
 {
   if (random(2))
     CHANNEL_D->do_channel(this_object(),"gamble",
-        HIY"莊"HIY"家嘶聲力竭的喊道: 停"HIY"止下注, 要開牌了....。"NOR);
+        HIY + "莊" + HIY + "家嘶聲力竭的喊道: 停" + HIY + "止下注, 要開牌了....。" + NOR);
   else
     CHANNEL_D->do_channel(this_object(),"gamble",
-        HIY"莊家嘶"HIY"聲力竭的喊"HIY"道: 停"HIY"止下注, 停止下注....。"NOR);
+        HIY + "莊家嘶" + HIY + "聲力竭的喊" + HIY + "道: 停" + HIY + "止下注, 停止下注....。" + NOR);
   bet = 0;
   call_out ("step6", 3+random(2));
 }
@@ -278,20 +278,20 @@ void pay_bet_2_player(object me, int money, string type)
 #ifdef BET_LIMIT
   if (type == "force" && money > maxforce*con_factor+1) {
     tell_object(me,
-            HIY"你承受不了莊家傳輸給你的內力而受了嚴重的內傷，內力盡失。\n"NOR);
+            HIY + "你承受不了莊家傳輸給你的內力而受了嚴重的內傷，內力盡失。\n" + NOR);
     me->set("force",0);
     me->apply_condition("star-stial",15);
   }
   if(type=="atman" && money > maxatman*spi_factor+1)
   {
     tell_object(me,
-            HIY"你承受不了莊家傳輸給你的靈力導至靈氣盡失。\n"NOR);
+            HIY + "你承受不了莊家傳輸給你的靈力導至靈氣盡失。\n" + NOR);
     me->set("atman",0);
   }
   if(type=="mana" && money > maxmana*spi_factor+1)
   {
     tell_object(me,
-            HIY"你承受不了莊家傳輸給你的法力導至法力盡失。\n"NOR);  
+            HIY + "你承受不了莊家傳輸給你的法力導至法力盡失。\n" + NOR);  
      me->set("mana",0);
   }
 #endif
@@ -340,8 +340,8 @@ void step6()
     msg = "7";
     CHANNEL_D->do_channel(this_object(), "gamble",
         "莊家嘶聲力竭的喊道: ...開!\n"+
-        HIY"莊"HIY"家啞著"HIY"嗓門的喊道:  哇! "
-        HIY"Ｌｕｃ"HIY"ｋｙ　Ｓ"HIY"ｅｖｅｎ"NOR);
+        HIY + "莊" + HIY + "家啞著" + HIY + "嗓門的喊道:  哇! "
+        HIY + "Ｌｕｃ" + HIY + "ｋｙ　Ｓ" + HIY + "ｅｖｅｎ" + NOR);
   }
   else if (num == 2) {
     msg = "大";
@@ -384,10 +384,10 @@ void step6()
             "莊家賠你"+cvalue(money)+"。\n");
         else if(type == "cash")
           tell_object (ob[i],
-            HIY"莊家賠你"+chinese_number(money)+"張"+ctype[type]+NOR"。\n");
+            HIY + "莊家賠你"+chinese_number(money)+"張"+ctype[type]+NOR"。\n");
         else
           tell_object (ob[i],
-            HIY"莊家賠你"+chinese_number(money)+"點"+ctype[type]+NOR"。\n");
+            HIY + "莊家賠你"+chinese_number(money)+"點"+ctype[type]+NOR"。\n");
 
         // 理賠
         pay_bet_2_player(ob[i], money, type);
@@ -412,10 +412,10 @@ void step6()
   if (all_lose)
     if (random(2))
       CHANNEL_D->do_channel(this_object(), "gamble",
-         HIR" 通　～～～～～～～～～　殺 "NOR);
+         HIR + " 通　～～～～～～～～～　殺 " + NOR);
     else
       CHANNEL_D->do_channel(this_object(), "gamble",
-        HIR"莊家露出詭異的笑容說道: 願賭服輸....謝謝各位大爺捧場...."NOR);
+        HIR + "莊家露出詭異的笑容說道: 願賭服輸....謝謝各位大爺捧場...." + NOR);
   rest = 1;
 
 //modify by rong 85.4.5

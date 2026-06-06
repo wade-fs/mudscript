@@ -5,7 +5,7 @@ inherit ARMBANDS;
 object me=this_player();
 void create()
 {
-        set_name(HIR"女王拉姆暴力臂環 "NOR,({"Lum_armband","armband"}) );
+        set_name(HIR + "女王拉姆暴力臂環 " + NOR,({"Lum_armband","armband"}) );
         set_weight(1000);
         if( clonep() )
                 set_default_object(__FILE__);

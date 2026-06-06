@@ -3,7 +3,7 @@ inherit ROOM;
 
 void create ()
 {
-	set("short",HIG"琰 揚 居"NOR);
+	set("short",HIG + "琰 揚 居" + NOR);
 	set("long",@LONG
 琰揚居是位於琰揚湖上的一個建築物，外觀富麗堂皇，在人間而
 言，裡面住的一定是達官貴人，可是，這裡面可謂之家徒四壁，一點

@@ -3,7 +3,7 @@ inherit ITEM;
 
 void create()
 {
-        set_name(HIR "天道魔經殘卷" NOR, ({ "Evil Book","evil book","book" }) );
+        set_name(HIR + "天道魔經殘卷" + NOR, ({ "Evil Book","evil book","book" }) );
 
         set("unit", "本");
         set("long", "殘留殷紅血漬的魔書，依稀寫著 「魔隨...e..rt cr.zy」。\n");

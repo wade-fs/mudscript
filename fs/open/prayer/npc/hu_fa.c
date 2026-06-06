@@ -65,7 +65,7 @@ void heart_beat()
 }
 void leave()
 {  
-   message_vision (HIG"貼身護法說道：容屬下無能先行告退﹗\n"NOR, this_object ());  
+   message_vision (HIG + "貼身護法說道：容屬下無能先行告退﹗\n" + NOR, this_object ());  
   destruct(this_object());
 }
 int accept_kill(object ob)

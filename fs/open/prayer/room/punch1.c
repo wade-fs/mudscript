@@ -35,6 +35,6 @@ void create ()
 int valid_leave(object me, string dir)
 {
 if (dir == "up" && me ->query("class") != "prayer")
-     return notify_fail(HIY"林宏昇說道:在我聖火教內亂闖,想死嗎..\n"NOR);
+     return notify_fail(HIY + "林宏昇說道:在我聖火教內亂闖,想死嗎..\n" + NOR);
      return :: valid_leave(me, dir);
 }

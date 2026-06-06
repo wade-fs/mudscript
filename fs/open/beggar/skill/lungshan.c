@@ -115,10 +115,10 @@ mapping *action = ({
  ]),
 // 11
  ([  "action"     :             "$N使出赤焰神掌第一式\n"
-                         "--"HIR"『赤焰破空』"NOR"--\n"
-             HIW"$N將浩日真氣，運至手指上，此時手指發出絲絲的熱氣\n"
+                         "--" + HIR + "『赤焰破空』" + NOR + "--\n"
+             HIW + "$N將浩日真氣，運至手指上，此時手指發出絲絲的熱氣\n"
                 "$N感覺到手上的浩日真氣越來越高，十隻手指發出耀眼的光芒\n"
-                "$N低吼一聲數十道炙熱真氣如輻射般狂射$n\n"NOR,
+                "$N低吼一聲數十道炙熱真氣如輻射般狂射$n\n" + NOR,
       "dodge"     :   80,
       "parry"     :   50,
       "damage"    :   160,
@@ -128,10 +128,10 @@ mapping *action = ({
      ]),
 // 12
  ([   "action"     :                 "$N使出赤焰神掌第二式\n"
-                         "--"HIR"『烈焰漫天』"NOR"--\n"
-             HIW"$N逆運浩日真氣，將真氣運至手掌，瞬時雙掌通紅\n"
+                         "--" + HIR + "『烈焰漫天』" + NOR + "--\n"
+             HIW + "$N逆運浩日真氣，將真氣運至手掌，瞬時雙掌通紅\n"
                 "$N體中的浩日真氣如沸水般從手上滾滾而出，不吐不快\n"
-                "$N將雙掌向前一推，漫天炙熱真氣如熱浪般襲向$n\n"NOR,
+                "$N將雙掌向前一推，漫天炙熱真氣如熱浪般襲向$n\n" + NOR,
      "dodge"      :  80,
      "parry"      :  50,
      "damage"     :  170,
@@ -142,10 +142,10 @@ mapping *action = ({
       ]),
 // 13
   ([ "action"     :               "$N使出赤焰神掌終極奧義\n"
-                         "--"HIR"『焚天滅地』"NOR"--\n"
-             HIW"$N躍至半空中將浩日真氣發散出來，宛如烈日\n"
+                         "--" + HIR + "『焚天滅地』" + NOR + "--\n"
+             HIW + "$N躍至半空中將浩日真氣發散出來，宛如烈日\n"
                 "$N狂吼一聲挾帶炙熱真氣如烈日墜地般狂墜而下\n"
-                "數不清的掌影及炙熱真氣形成龍捲風包圍了$n\n"NOR,
+                "數不清的掌影及炙熱真氣形成龍捲風包圍了$n\n" + NOR,
 
      "dodge"      :  80,
      "parry"      :  50,
@@ -198,7 +198,7 @@ if(me->query("family/family_name")=="瀧山派"&&weapon->query("id")=="carzy dra
   {
 if((k>85)&&(skill_level>90)&&(me->query_skill_mapped("force")=="haoforce"))
 {
-message_vision(HIW"$N手上的"HIY"狂龍翔天破"HIW"被$N的浩日氣勁所引,幻化出一條巨大火龍!!\n"NOR,me,victim);
+message_vision(HIW + "$N手上的" + HIY + "狂龍翔天破" + HIW + "被$N的浩日氣勁所引,幻化出一條巨大火龍!!\n" + NOR,me,victim);
 message_vision(HIR+@LONG
 
                              /           /
@@ -222,12 +222,12 @@ message_vision(HIR+@LONG
 LONG+NOR,me);
  for(i=0;i<3;i++)
  {
-message_vision(HIR"兇猛的火龍對$n噴出了炙熱火焰,瞬時$n被火焰所包圍,全身痛苦不己。\n"NOR,me,victim);
+message_vision(HIR + "兇猛的火龍對$n噴出了炙熱火焰,瞬時$n被火焰所包圍,全身痛苦不己。\n" + NOR,me,victim);
 victim->add("kee",-70);
 victim->apply_condition("burn",random(10));
 COMBAT_D->report_status(victim, 1);
   }
-message_vision(HIW"$N手上的"HIY"狂龍翔天破"HIW"發一道白光,火龍消失在白光之中了。\n"NOR,me);
+message_vision(HIW + "$N手上的" + HIY + "狂龍翔天破" + HIW + "發一道白光,火龍消失在白光之中了。\n" + NOR,me);
 me->add("force",-200);
 }
 }
@@ -294,7 +294,7 @@ skill_level = (int)(me->query_skill("haoforce", 1));
 if (skill_level > 80)
 {
       sp_value =4*(cps+kar)+str+cor+spi+int1;
-      message_vision(HIW"數十道炙熱真氣在$n體內亂竄並狂爆開來\n"NOR,me,victim);
+      message_vision(HIW + "數十道炙熱真氣在$n體內亂竄並狂爆開來\n" + NOR,me,victim);
       victim->add("kee",-sp_value/2);
       me->add("force",-80);
       victim->apply_condition("burn",random(10)+((int)me->query_skill("haoforce", 1)/10));
@@ -310,7 +310,7 @@ if (skill_level > 90)
 {
     int i;
     sp_value =4*(str+cor)+cps+2*kar+spi+int1;
-message_vision(HIW"$N的炙熱真氣在$n旁形成真空旋渦，使$n無法動彈\n"NOR,me,victim);    
+message_vision(HIW + "$N的炙熱真氣在$n旁形成真空旋渦，使$n無法動彈\n" + NOR,me,victim);    
       victim->add("kee",-sp_value/2);
       victim->start_busy(1);
       me->add("force",-100);
@@ -326,7 +326,7 @@ skill_level = (int)(me->query_skill("haoforce", 1));
 if (skill_level > 100)
 {
      sp_value =4*(cor+int1)+3*str+spi+cps+kar;
-message_vision(HIW"$n被$N的炙熱龍捲真氣，捲至半空中並被撕裂開來\n"NOR,me,victim);     
+message_vision(HIW + "$n被$N的炙熱龍捲真氣，捲至半空中並被撕裂開來\n" + NOR,me,victim);     
         victim->add("kee",-sp_value/2);
         me->add("force",-170);
      victim->apply_condition("burn",random(10)+((int)me->query_skill("haoforce", 1)/10));
@@ -380,7 +380,7 @@ case 9:
 break;}
 // 命中約 50% By Swy 
 if(random(ko)>vdodge-30){
-message_vision(HIY"$n被$N凌厲異常的瀧山拳法擊中,$n身上被烙下深厚的掌印。\n"NOR,me,victim);
+message_vision(HIY + "$n被$N凌厲異常的瀧山拳法擊中,$n身上被烙下深厚的掌印。\n" + NOR,me,victim);
 bovalue=(int)victim->query("kee");
 //mob扣二次,player扣一次
 if(bovalue>1600) victim->add("kee",-bound);
@@ -389,11 +389,11 @@ if(bovalue>1600) victim->add("kee",-bound);
         bound=bound+10;
   }
 else{
-message_vision(HIW"$n在千均一刻之際看出$N瀧山拳法的破綻,有驚無險地躲了開來。\n"NOR, me, victim);
+message_vision(HIW + "$n在千均一刻之際看出$N瀧山拳法的破綻,有驚無險地躲了開來。\n" + NOR, me, victim);
         bound=bound+10;
   }
  }
-message_vision(HIR"$N使出連綿不絕後,全身內力枯\竭,使$N不得不趕緊運氣調息。\n"NOR,me);
+message_vision(HIR + "$N使出連綿不絕後,全身內力枯\竭,使$N不得不趕緊運氣調息。\n" + NOR,me);
     me->start_busy(1);
     me->add("force",-bound);
     COMBAT_D->report_status(victim, 1);
@@ -406,7 +406,7 @@ skill_level = (int)(me->query_skill("lungshan", 1));
 // 命中約 50%
 if(((skill_level+random(150)) > 160) && (me->query("super_fire",1)))
 {
-message_vision(HIC"$n被瀧山拳法中所蘊涵的山川流水之氣息所侵，使$n迷失在山水之中\n"NOR,me,victim);
+message_vision(HIC + "$n被瀧山拳法中所蘊涵的山川流水之氣息所侵，使$n迷失在山水之中\n" + NOR,me,victim);
       victim->start_busy(1);
       me->add("force",-40);
       COMBAT_D->report_status(victim, 1);
@@ -426,10 +426,10 @@ if(((skill_level1+skill_level2+random(200)) > 285) &&
   (me->query("super_fire",1))&&(me->query("force")>200))
 {
 message_vision
-( HIR"$N臉色一變,全身散出炙熱無比的真氣,雙手如旋渦般使出瀧山絕學之禁斷技!!!\n\n"HIY
-     "      ☆★『"HIW"火～海～焚～天  "HIB"波～濤～洶～湧"HIY"』★☆\n"HIR
+( HIR + "$N臉色一變,全身散出炙熱無比的真氣,雙手如旋渦般使出瀧山絕學之禁斷技!!!\n\n" + HIY
+     "      ☆★『" + HIW + "火～海～焚～天  " + HIB + "波～濤～洶～湧" + HIY + "』★☆\n" + HIR
 "源源不斷的炙熱氣勁如大海浪般,一層又一層的向$n狂捲而去,$n被包圍在熱浪之中
-$n只覺巨大的炙熱氣勁入侵全身經脈無法凝氣,感覺內力不斷地在流失之中\n"NOR
+$n只覺巨大的炙熱氣勁入侵全身經脈無法凝氣,感覺內力不斷地在流失之中\n" + NOR
       ,me,victim);
       victim->add("kee",-200);
       victim->add("force",-300);

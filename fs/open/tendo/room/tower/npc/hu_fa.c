@@ -58,22 +58,22 @@ int special_att ()
 	int i = sizeof (enemy), damage;
 	victim = enemy[random(i)];
 	message_vision(HIB+
-"          －－ "HIW"冥  殿  "HIR"絕  "HIY"學  "HIB"第  一  式 －－"NOR"
-                  "HIB"～『  "HIY"妖 魔 聚 鼎"HIB"  』～"NOR"
-          "HIW"貼身護法身形倏而騰飛三丈,凌空劈出一"NOR"
-    "HIW"股掌勁,綿綿掌影,如江河缺堤似,暴瀉而下,掌風如激流"NOR"
-                  "HIW"般地向你隔空劈來!"NOR,me);
+"          －－ " + HIW + "冥  殿  " + HIR + "絕  " + HIY + "學  " + HIB + "第  一  式 －－" + NOR + "
+                  " + HIB + "～『  " + HIY + "妖 魔 聚 鼎" + HIB + "  』～" + NOR + "
+          " + HIW + "貼身護法身形倏而騰飛三丈,凌空劈出一" + NOR + "
+    " + HIW + "股掌勁,綿綿掌影,如江河缺堤似,暴瀉而下,掌風如激流" + NOR + "
+                  " + HIW + "般地向你隔空劈來!" + NOR,me);
   
 	if (random (2) >= 1)
 	{
 	damage = (victim->query ("max_kee") / 30);
 
-	message_vision(HIR"$N不幸被掌風劈中 , 頓時全身血如泉湧.\n"NOR,victim);
+	message_vision(HIR + "$N不幸被掌風劈中 , 頓時全身血如泉湧.\n" + NOR,victim);
 	victim->apply_condition ("bleeding", random (i * i));
 	victim->receive_damage ("kee", damage, me);
 	COMBAT_D->report_status (victim, 0);
 	}else{
-	message_vision(HIW"只可惜離$N差了一點, 劈到地上, 轟的一聲巨響, 地皮頓時裂了開來.\n"NOR,victim);
+	message_vision(HIW + "只可惜離$N差了一點, 劈到地上, 轟的一聲巨響, 地皮頓時裂了開來.\n" + NOR,victim);
 	}
 	return 1;
 }

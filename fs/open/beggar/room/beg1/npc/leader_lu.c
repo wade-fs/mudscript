@@ -7,11 +7,11 @@ void create()
         set("long","他是丐幫布袋長老中的一員！\n");
         set("gender","男性");
         set("class","beggar");
-        set("nickname",HIY"乞中能手"NOR);
+        set("nickname",HIY + "乞中能手" + NOR);
         set("combat_exp",1000000);
         set("attitude","friendly");
         set("age",40);
-        set("title",HIW"八袋長老"NOR);
+        set("title",HIW + "八袋長老" + NOR);
         set("str", 40);
         set("cor", 40);
         set("cps", 30);
@@ -55,7 +55,7 @@ void create()
         }));
         set("chat_msg", ({
    
-            HIC"魯有腳無奈道：今天感覺好像是個行乞的好日子\n"NOR,}));
+            HIC + "魯有腳無奈道：今天感覺好像是個行乞的好日子\n" + NOR,}));
         setup();
 carry_object("/open/beggar/obj/gstaff.c")->wield();
 carry_object("/open/beggar/obj/arms.c")->wear();

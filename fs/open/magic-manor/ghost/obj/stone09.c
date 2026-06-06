@@ -3,7 +3,7 @@ inherit ITEM;
 
 void create()
 {
-	set_name(NOR+CYN"封靈"NOR+RED"雙石"NOR,({"fon stone","fon","stone"}));
+	set_name(NOR+CYN"封靈"NOR+RED"雙石" + NOR,({"fon stone","fon","stone"}));
 	set("long","封靈雙石，是封印著左靈晉和右靈兒的封魂石，當他們二人皆死\n"
 		  +"亡，封靈雙石就會碎毀!!\n");
 	set("unit","顆");
@@ -29,7 +29,7 @@ int msg1(object ob)
 	ob=this_object();
 	room = environment(ob);
 
-	message_vision(HIC"\n只見"NOR"$N"HIC"吸入雙魂後不斷的釋放靈光，並開啟了一條光芒之路!!\n"NOR,ob);
+	message_vision(HIC + "\n只見" + NOR + "$N" + HIC + "吸入雙魂後不斷的釋放靈光，並開啟了一條光芒之路!!\n" + NOR,ob);
 	room->add("exits/takeroad","/open/magic-manor/ghost/rest10");
 	call_out("msg2",60,ob);
 
@@ -58,8 +58,8 @@ int msg2(object ob)
 	bname = base_name(environment(glist[l]));
 	  if( bname == "/open/magic-manor/ghost/rest09" )
 	  {
-	  tell_object(glist[l],HIR"\n只見到封魂石漸漸的崩碎消失!!\n"NOR);
-	  tell_object(glist[l],HIR"\n而你"NOR+HIR"漸漸被一道靈光包圍傳送到另一個地方!!\n"NOR);
+	  tell_object(glist[l],HIR + "\n只見到封魂石漸漸的崩碎消失!!\n" + NOR);
+	  tell_object(glist[l],HIR + "\n而你"NOR+HIR"漸漸被一道靈光包圍傳送到另一個地方!!\n" + NOR);
 	  glist[l]->move("/open/magic-manor/ghost/rest10");
 	  }
         }
@@ -70,8 +70,8 @@ int msg2(object ob)
 	  {
 	    if( enemy[j]->is_character() && living(enemy[j]) && !enemy[j]->query("eight-ghost")&& !enemy[j]->is_corpse() )
 	    {
-	    tell_object(enemy[j],HIR"\n只見到封魂石漸漸的崩碎消失!!\n"NOR);
-	    tell_object(enemy[j],HIR"\n而你"NOR+HIR"漸漸被一道靈光包圍傳送到另一個地方!!\n"NOR);
+	    tell_object(enemy[j],HIR + "\n只見到封魂石漸漸的崩碎消失!!\n" + NOR);
+	    tell_object(enemy[j],HIR + "\n而你"NOR+HIR"漸漸被一道靈光包圍傳送到另一個地方!!\n" + NOR);
 	    enemy[j]->move("/open/magic-manor/ghost/rest10");
 	    }
 	  }
@@ -85,7 +85,7 @@ int msg2(object ob)
 
 int msg3(object ob)
 {
-	message_vision(HIR"\n只見$N"NOR+HIR"也漸漸的崩碎消失了!!\n"NOR,ob);
+	message_vision(HIR + "\n只見$N"NOR+HIR"也漸漸的崩碎消失了!!\n" + NOR,ob);
 	destruct(ob);
 	return 1;
 }

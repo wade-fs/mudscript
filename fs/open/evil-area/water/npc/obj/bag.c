@@ -3,7 +3,7 @@ inherit ITEM;
 
 void create()
 {
-        set_name(HIG"水羚袋"NOR, ({ "water bag","bag" }) );
+        set_name(HIG + "水羚袋" + NOR, ({ "water bag","bag" }) );
         set_weight(500);
         set_max_encumbrance(8000);
         if( clonep() )

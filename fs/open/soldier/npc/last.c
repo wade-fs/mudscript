@@ -4,7 +4,7 @@ inherit NPC;
 void create()
 {
  seteuid(getuid()); 
-set("nickname",HIR"終結者"NOR);
+set("nickname",HIR + "終結者" + NOR);
 set_name("拉斯多",({"last"}));
 set("long","
     名如其人,常常終結別人的性命,殺人不眨眼
@@ -45,7 +45,7 @@ add_money("gold",10);
 
 int accept_kill(object who)
 {
-   say(HIY" 老子跟你拼了!!!\n"NOR);
+   say(HIY + " 老子跟你拼了!!!\n" + NOR);
    setup();
    return 1;
 }

@@ -3,7 +3,7 @@
 inherit ROOM;
 void create ()
 {
-  set ("short", HIY"狂想空間歷史發展館"NOR);
+  set ("short", HIY + "狂想空間歷史發展館" + NOR);
   set( "long", "那時我正在當兵,快退伍時(九八年五月)回來分站時發現竟然要重開
 (reopen),這一次的重開(reopen)雖然不得以,但也沒有辦法,同時也
 流失了一堆玩家如：第一位勇闖Mogi的hero..等,同時間也因為如此

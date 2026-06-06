@@ -157,14 +157,14 @@ void die()
   room= environment(this_object());
   enemy = all_inventory(room);
   i=sizeof(enemy);
-  tell_object(users(),HIR"\n
+  tell_object(users(),HIR + "\n
 
 御前侍衛李靖用盡了最後一絲力氣說道：「皇上，微臣無能，無法再保護皇上，
                                      唯有以死謝罪!!」
-\n\n"NOR);
-  message("room", HIR"李靖在臨死之前，竟然用了陰葵派禁斷秘技「玉石俱焚」，身體爆作滿天精血粉碎，
+\n\n" + NOR);
+  message("room", HIR + "李靖在臨死之前，竟然用了陰葵派禁斷秘技「玉石俱焚」，身體爆作滿天精血粉碎，
 身體奇跡似得無影無蹤!!
-\n"NOR,enemy);
+\n" + NOR,enemy);
   for(j=0;j<i;j++)
   {
     if( enemy[j]->is_character() && !enemy[j]->is_corpse() && living(enemy[j]) && enemy[j]->query("id")!="king" && enemy[j]->query("id")!="king guard"){

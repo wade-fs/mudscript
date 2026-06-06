@@ -12,12 +12,12 @@ void create ()
 LONG);
 
   set("item_desc",([ /* sizeof() == 1 */
-  "tablet" : HIR"
+  "tablet" : HIR + "
 	這是一塊古色古香的匾額，上面題道﹕
 
 	    冥  蠱  魔  教  聖  地
 
-"NOR,
+" + NOR,
 ]));
 
   set("outdoors", "/open/poison");

@@ -6,7 +6,7 @@ void create()
 	set_name("小偷",({"thief"}));
 	set("long","嘴尖眼利，手腳俐落的小偷，時常遊走在大街上，偷偷將人們腰帶裡面的錢偷走。\n");
 	set("race", "人類");
-	set("title",HIR"極火山寨"NOR);
+	set("title",HIR + "極火山寨" + NOR);
 	set("gender","男性");
         set("age",35);
         set("attitude","friendly");
@@ -103,8 +103,8 @@ string do_steal()
 		if(present(style,enemy[j]))		//有此style類型的錢才偷
 		{
 			money=present(style,enemy[j])->query_amount();
-			message_vision(HIY"\n$N的 "+cstyle+" 被$n給偷光了！！\n"NOR,enemy[j],ob);
-			tell_object(enemy[j],HIY"（你遺失了 "+cstyle+" "+money+" "+present(style,enemy[j])->query("base_unit")+"）\n\n"NOR);
+			message_vision(HIY + "\n$N的 "+cstyle+" 被$n給偷光了！！\n" + NOR,enemy[j],ob);
+			tell_object(enemy[j],HIY + "（你遺失了 "+cstyle+" "+money+" "+present(style,enemy[j])->query("base_unit")+"）\n\n" + NOR);
 			present(style,enemy[j])->set_amount(0);		//全部偷光
 		}
 	}

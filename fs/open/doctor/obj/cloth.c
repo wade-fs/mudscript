@@ -5,7 +5,7 @@ inherit CLOTH;
 
 void create()
 {
-        set_name(HIW"冰霜寒絲袍"NOR, ({ "cold cloth","cloth"}) );
+        set_name(HIW + "冰霜寒絲袍" + NOR, ({ "cold cloth","cloth"}) );
         set("long",
                    "此為傳說中歷經冰霜而成的的神袍，\n"
                    "如此罕見的奇物輕如天羽、堅如星煌，同時不斷地散\n"

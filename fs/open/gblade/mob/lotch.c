@@ -8,7 +8,7 @@ int exp=0;
 
 void create()
 {
-  set_name(HIB"煉妖壺" NOR, ({"lotch"}));
+  set_name(HIB + "煉妖壺" + NOR, ({"lotch"}));
   set("long","上古神物 -- 煉妖壺。可用 help lotch 查詢用法。\n");
   set("unit", "個");
 /*
@@ -57,19 +57,19 @@ int catch_enemy(string str)
     me->add("sen",-1);
     return notify_fail("敵人仍然生命力旺盛，你無機可趁！\n");
   }
-  message_vision( sprintf(HIW"$N拿出煉妖壺，念了幾句咒語。\n"NOR),me);
+  message_vision( sprintf(HIW + "$N拿出煉妖壺，念了幾句咒語。\n" + NOR),me);
   exp1= (int)ob->query("combat_exp");
   exp2=(int)me->query("combat_exp");
   if( random(exp2) > random(exp1)/2 )
   {
     exp = exp + exp1/2;
-    message_vision( sprintf(HIC"結果成功\的把$N收進壺中。\n"NOR),ob);
+    message_vision( sprintf(HIC + "結果成功\的把$N收進壺中。\n" + NOR),ob);
     me->remove_killer(ob);
     destruct(ob);
     me->add("sen",-15);
     return 1;
   }
-  message_vision( sprintf(HIB"結果$N在千鈞一髮之際，躲了開去。\n"NOR),ob);
+  message_vision( sprintf(HIB + "結果$N在千鈞一髮之際，躲了開去。\n" + NOR),ob);
   me->add("sen",-1);
   return 1;
 }
@@ -104,7 +104,7 @@ int use_lotch(string str)
     return notify_fail("壺內的能量不夠!!!無法放出妖魔。\n");
   if((int)me->query("sen")<30)
     return notify_fail("你的精神力不足！\n");
-  message_vision(sprintf(HIW"$N拿出了煉妖壺，將壺內妖魔釋出。\n\n"NOR),me);
+  message_vision(sprintf(HIW + "$N拿出了煉妖壺，將壺內妖魔釋出。\n\n" + NOR),me);
   exp3=me->query("combat_exp");
   me->add("sen",-30);
 

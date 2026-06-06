@@ -3,7 +3,7 @@ inherit ROOM;
 #include "icestorm.c"
 void create()
 {
-        set("short",HIC"太平洋"HIY"神殿"NOR);
+        set("short",HIC + "太平洋" + HIY + "神殿" + NOR);
         set ("long", @LONG
 這裡是太平洋神殿，太平洋是世界第一大洋，深邃、寬廣、神秘
 一根高聳入天的石柱佇立在此，看來就是調節太平洋水量的支柱了，

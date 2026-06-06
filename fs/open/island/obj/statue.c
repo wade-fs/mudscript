@@ -7,7 +7,7 @@
 void create()
 {
   
-  set_name(HIG"Q版甲龍木雕"NOR,({"statue"}));
+  set_name(HIG + "Q版甲龍木雕" + NOR,({"statue"}));
   set("long","pat it\n");
   set("unit","只");  
 
@@ -32,7 +32,7 @@ int do_pat(string str) {
   if(name != "statue")
           return 0;
   me=this_player();
-  message_vision (HIC"$N拍拍雕像的頭，雕像變成了一隻可愛的黃金小甲龍。\n"NOR,this_player());
+  message_vision (HIC + "$N拍拍雕像的頭，雕像變成了一隻可愛的黃金小甲龍。\n" + NOR,this_player());
    
   room=environment(me);
   mob = new("/open/island/obj/pat.c");

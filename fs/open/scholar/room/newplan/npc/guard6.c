@@ -9,7 +9,7 @@ int done=0;
 void create() {
         set_name("雪  柔",({"guard shice","shice","guard"}));
         set("class","poisoner");
-        set("title",HIC"巽(風)"NOR);
+        set("title",HIC + "巽(風)" + NOR);
         set("long",
         "\n他是八卦陣的第六個守將。\n");
         set("str",40);
@@ -90,7 +90,7 @@ void heart_beat()
         if( is_fighting() ){
         if(random(100) < 30 )
         {
-message_vision(HIG"\n雪  柔偷偷吃了九轉雄蛇丸，使身上氣力恢復。\n"NOR,ob);
+message_vision(HIG + "\n雪  柔偷偷吃了九轉雄蛇丸，使身上氣力恢復。\n" + NOR,ob);
           ob->delete_busy();
         }
         }

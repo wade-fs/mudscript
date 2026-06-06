@@ -184,7 +184,7 @@ int do_waveto(string arg)
         count[i]->move(room);
     }
 
-    message_vision(HIB+"一陣清風過後，$N"HIB"帶領大家從天而降。\n"+NOR,me);
+    message_vision(HIB+"一陣清風過後，$N" + HIB + "帶領大家從天而降。\n"+NOR,me);
     me->add("bank/coin", -500);
     return 1;
   }
@@ -192,7 +192,7 @@ int do_waveto(string arg)
   if( room && !me->move(room) )
     return notify_fail("目的地無法到達。\n");
 
-  message_vision(HIB+"一陣清風過後，$N"HIB"從天而降。\n"+NOR,me);
+  message_vision(HIB+"一陣清風過後，$N" + HIB + "從天而降。\n"+NOR,me);
   me->add("bank/coin",-500);
   return 1;
 }

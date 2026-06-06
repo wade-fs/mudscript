@@ -71,12 +71,12 @@ void heart_beat()
     if(!target) return ;
     if( env == environment(target) )
     {
-      message_vision(HIW"\n
+      message_vision(HIW + "\n
 $N橫劍心凝，神形意止，銀封劍開起激出陰冷寒氣，魔風狂舞圍住了在
 場所有的人，溫度隨著$N的意識直線降低     
-瞬間，$N將銀封劍直指向天，凜凜一式"HIC"「十等千斷  寒水無封」"HIW"，凜冽
+瞬間，$N將銀封劍直指向天，凜凜一式" + HIC + "「十等千斷  寒水無封」" + HIW + "，凜冽
 的魔風盡化利刃劍氣，聞血而腥 
-\n"NOR,mob,target);
+\n" + NOR,mob,target);
       target->receive_damage("kee",550);
       target->start_busy(2);
       COMBAT_D->report_status(target, 1);

@@ -6,7 +6,7 @@ inherit	UNARMED;
 void create()
 {
         seteuid(getuid());
-        set_name(YEL"土色靈爪"NOR,({"soil claw","claw"}));
+        set_name(YEL + "土色靈爪" + NOR,({"soil claw","claw"}));
         set_weight(8000);
         if( clonep() )
                 set_default_object(__FILE__);

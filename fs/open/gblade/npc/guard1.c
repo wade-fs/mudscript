@@ -52,9 +52,9 @@ if( random(100) > 50)
 target=enemy[random(i)];
     if( env == environment(target) )
     {
-message_vision(HIC"
+message_vision(HIC + "
 莫無歡雙目怒視，施展出魔龍狂刀『屠人十百～屍體遍野』\n"+
-"$N閃避不及，被打中要害，血流滿地\n"NOR,target);
+"$N閃避不及，被打中要害，血流滿地\n" + NOR,target);
       target->receive_damage("kee",500,mob);
       COMBAT_D->report_status(target,1);
     }

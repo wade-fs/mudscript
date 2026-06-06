@@ -3,7 +3,7 @@ inherit COMBINED_ITEM;
 
 void create()
 {
-	set_name(HIB"惡蠱卵"NOR,({"evil-gu ovum","ovum"}));
+	set_name(HIB + "惡蠱卵" + NOR,({"evil-gu ovum","ovum"}));
         set("long",
 "邪靈界的產物, 以萬蠱相鬥的道理, 找出所有蠱種最強的蠱蟲, 然後使用密法
 將其退化成可食用的蠱卵, 每種蠱蟲都有不同的用法, 此種蠱卵服食後, 服食

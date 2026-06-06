@@ -60,12 +60,12 @@ int do_enter(string arg)
    if(who->query("class")!="killer")
    return notify_fail("這是殺手專用密道,一般人無法進入!\n");
    if((arg="water") || (arg=="water")) {
-   message_vision(GRN"$N進入了小水池中\n"NOR,who);
+   message_vision(GRN + "$N進入了小水池中\n" + NOR,who);
    tell_object(who,"\n你只聽到～～～～嘩啦～～～～
     ～～～～～～～～～～～～～～～～～～～～～～～～～嘩啦～～～\n\n");
-   tell_object(who,HIW"只見一陣強大的水勢迎面而來～～ \n"NOR);
+   tell_object(who,HIW + "只見一陣強大的水勢迎面而來～～ \n" + NOR);
    tell_object(who,"你在無法反抗之下被水流帶往他處 \n");
-tell_object(who,HIC"\n你感覺水勢減弱,隨便亂抓之下,抱住一顆大石頭 \n\n"NOR);
+tell_object(who,HIC + "\n你感覺水勢減弱,隨便亂抓之下,抱住一顆大石頭 \n\n" + NOR);
 	who->move(__DIR__"r7.c");
    return 1;
    }

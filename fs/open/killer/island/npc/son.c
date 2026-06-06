@@ -80,7 +80,7 @@ if (me->query("class") != "killer"|| !me->query_temp("firstpart") )
   obj->add_amount(1000); 
   obj->wield();
   ob->kill_ob(me);
-  message_vision(HIR"$N突然對$n發動攻勢!!!!!\n"NOR,ob,me);
+  message_vision(HIR + "$N突然對$n發動攻勢!!!!!\n" + NOR,ob,me);
   return "就憑你也想到東瀛島去，就讓你死在我的手下吧......";
 }
 
@@ -142,7 +142,7 @@ int do_nod()
  command("jump");
  command("say 太好了, 我們走吧!!");
  me->delete_temp("nod");
- tell_object(me,HIC"\n當一切準備就緒後,我與魯尋及一些船員,一同前往東瀛.\n\n"NOR);
+ tell_object(me,HIC + "\n當一切準備就緒後,我與魯尋及一些船員,一同前往東瀛.\n\n" + NOR);
  me->move("/open/killer/island/ship");
  return 1;
 }
@@ -150,7 +150,7 @@ return 1;
 }
 void think(object me)
 {
-tell_object(me,HIY"\n
+tell_object(me,HIY + "\n
 原來,麗子並不是商人的女兒,而是海盜首領的女兒,由於跟著父親到處闖蕩,所以能到各
 地探索未知的事物變成了她的心願,可是因為無法忍受父親及其手下凶殘的行為,毅然決
 定離開他們而過著自己的冒險生涯,直到遇到了魯仝,終於發現長久以來的夢想終於有人
@@ -160,7 +160,7 @@ tell_object(me,HIY"\n
 曲之中.
 
 然而, 將夢想藏在屬於我們的歌曲之中??這句話是什麼意思呢??
-\n"NOR);
+\n" + NOR);
 call_out("t1",1,me);
 return ;
 }
@@ -180,9 +180,9 @@ return 1;
 }
 int t3(object me)
 {
-tell_object(me,HIY"
+tell_object(me,HIY + "
 不之過了多久, 天也快亮了, 在你心中總覺得有些事情不對勁, 但是又說不上來...
-睡了一段時間, 你想也差不多該起來看看船隻修復進度了. \n"NOR);
+睡了一段時間, 你想也差不多該起來看看船隻修復進度了. \n" + NOR);
 call_out("t4",2,me);
 return 1;
 }
@@ -208,12 +208,12 @@ void die()
 	
 	if ( winner->query_temp("firstpart")==1 )
 	{
-	  message_vision(HIM"\n$N仔細端詳了屍體，發現此人居然帶著人皮面具？\n"NOR,winner);
-	  message_vision(HIM"\n$N心念一轉，莫非魯尋遭到意外？\n"NOR,winner);
-	  message_vision(HIM"\n$N找了找屍體，並沒有發現任何異樣.....\n"NOR,winner);
-	  message_vision(HIM"\n$N陷入沉思.........................\n"NOR,winner);
-	  message_vision(HIM"\n.................................\n"NOR,winner);
-	  message_vision(HIM"\n東瀛殺手...以前在哪裡出現過呢？.......\n"NOR,winner);
+	  message_vision(HIM + "\n$N仔細端詳了屍體，發現此人居然帶著人皮面具？\n" + NOR,winner);
+	  message_vision(HIM + "\n$N心念一轉，莫非魯尋遭到意外？\n" + NOR,winner);
+	  message_vision(HIM + "\n$N找了找屍體，並沒有發現任何異樣.....\n" + NOR,winner);
+	  message_vision(HIM + "\n$N陷入沉思.........................\n" + NOR,winner);
+	  message_vision(HIM + "\n.................................\n" + NOR,winner);
+	  message_vision(HIM + "\n東瀛殺手...以前在哪裡出現過呢？.......\n" + NOR,winner);
 	  winner->set_temp("firstpart",2);
 	}
       :: die();

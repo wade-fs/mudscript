@@ -8,8 +8,8 @@ set ("short", "古堡三樓");
 光便由骷髏\的兩隻眼睛裡射出，豪華中透著恐怖的氣息。地上也鋪著厚
 厚的地毯，令人不禁驚奇地東張西望。四周的妖魔似乎也都披金戴銀，
 性情也溫和的多，但一身武藝看起來比樓下的是有過之而無不及，你不
-禁懷疑自己真是在魔界？但這裡卻有一扇大門，寫著"HIB"『青龍室』。
-"NOR);
+禁懷疑自己真是在魔界？但這裡卻有一扇大門，寫著" + HIB + "『青龍室』。
+" + NOR);
 
         set("evil", 1);
         set("no_auc", 1);
@@ -43,10 +43,10 @@ int do_unlock(string str){
         else{
         if(present("dragonkey",me)){
           if(present("guard",environment(me))){
-           message_vision(HIY"青龍守衛瞪了你一眼\n"NOR,me);
+           message_vision(HIY + "青龍守衛瞪了你一眼\n" + NOR,me);
            return 0;
                                             }              
-        message_vision(HIC"$N用青龍之鑰打開青龍密室\n"NOR,me);                                
+        message_vision(HIC + "$N用青龍之鑰打開青龍密室\n" + NOR,me);                                
             set("exits/enter",__DIR__"room36");
                   set_temp("have_open",1);
         if (!key) key = present("dragonkey", me);

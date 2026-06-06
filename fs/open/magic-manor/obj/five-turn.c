@@ -10,7 +10,7 @@ object ob=this_object();
 void create()
 {
 	seteuid(getuid());
-	set_name(HIC"五轉"HIW"聚"HIY"靈盤"NOR,({"five turn","five","turn"}));
+	set_name(HIC + "五轉" + HIW + "聚" + HIY + "靈盤" + NOR,({"five turn","five","turn"}));
 	set("long", @LONG
     聚靈山莊的鎮莊寶物，是聚靈莊主「鳳翔天」隨身攜帶的貼身寶
 物，相傳如果能獲得五道靈魂注入此中，可以獲得極大的能量，足以
@@ -75,13 +75,13 @@ int do_compose(string arg)
 
 	  if(!ob->query("five-ball")==1 && (present(arg,me)->query("five-ball")==1) )
 	  {
-	  message_vision(HIM"\n$N"HIM"將"HIC"五轉"HIW"聚"HIY"靈珠"HIM"輕輕的裝在$n"HIM"水晶球凹槽上，\n$N"HIM"見到$n"HIM"發出更強大的靈光快速的運轉!!\n"NOR,me,ob);
+	  message_vision(HIM + "\n$N" + HIM + "將" + HIC + "五轉" + HIW + "聚" + HIY + "靈珠" + HIM + "輕輕的裝在$n" + HIM + "水晶球凹槽上，\n$N" + HIM + "見到$n" + HIM + "發出更強大的靈光快速的運轉!!\n" + NOR,me,ob);
 	  ob->set("five-ball",1);
 	  me->set_temp("five-ball",3);
 	  destruct(present(arg,me));
 	  return 1;
 	  }else{
-	  message_vision(HIR"$N"HIR"已經裝上$n"HIR"了!!\n"NOR,ob,present(arg,me));
+	  message_vision(HIR + "$N" + HIR + "已經裝上$n" + HIR + "了!!\n" + NOR,ob,present(arg,me));
 	  return 1;
 	  }
 	}else{
@@ -109,26 +109,26 @@ int do_find(string arg)
 	{
 	  if( !me->query("magic-manor/kill-gold") )
 	  {
-	  message_vision(YEL"任$N"YEL"怎麼尋找，就是找不到一絲絲的魂魄。\n"NOR,me);
+	  message_vision(YEL + "任$N" + YEL + "怎麼尋找，就是找不到一絲絲的魂魄。\n" + NOR,me);
 	  }else{
 	    if( me->query("magic-manor/kill-gold") > 100 )
 	    {
 	      if( !me->query_temp("magic-manor/goldmagic") && !ob->query("suck1") )
 	      {
-	      message_vision(ob->name()+HIY"泛起一陣靈光，藉$N"HIY"之助將遺失在天地間的金色魂魄吸回$n"HIY"之中!!\n"NOR,me,ob);
+	      message_vision(ob->name()+HIY"泛起一陣靈光，藉$N" + HIY + "之助將遺失在天地間的金色魂魄吸回$n" + HIY + "之中!!\n" + NOR,me,ob);
 	      ob->set("suck1",1);
 	      }else{
 	        if( me->query_temp("magic-manor/goldmagic") )
 	        {
-		message_vision(YEL"一道金色魂魄已經存在$N"YEL"身體之中了!!\n"NOR,me);
+		message_vision(YEL + "一道金色魂魄已經存在$N" + YEL + "身體之中了!!\n" + NOR,me);
 	        }
 		if( ob->query("suck1") )
 		{
-		message_vision(YEL"金色靈光已經運轉中!!\n"NOR,me);
+		message_vision(YEL + "金色靈光已經運轉中!!\n" + NOR,me);
 		}
 	      }
 	    }else{
-	    message_vision(YEL"$N"YEL"的靈力似乎不足，無法借助"+ob->name()+NOR+YEL"吸取失落的金色魂魄!!\n"NOR,me);
+	    message_vision(YEL + "$N" + YEL + "的靈力似乎不足，無法借助"+ob->name()+NOR+YEL"吸取失落的金色魂魄!!\n" + NOR,me);
 	    }
 	  }
 	}
@@ -136,26 +136,26 @@ int do_find(string arg)
 	{
 	  if( !me->query("magic-manor/kill-wood") )
 	  {
-	  message_vision(GRN"任$N"GRN"怎麼尋找，就是找不到一絲絲的魂魄。\n"NOR,me);
+	  message_vision(GRN + "任$N" + GRN + "怎麼尋找，就是找不到一絲絲的魂魄。\n" + NOR,me);
 	  }else{
 	    if( me->query("magic-manor/kill-wood") > 100 )
 	    {
 	      if( !me->query_temp("magic-manor/woodmagic") && !ob->query("suck2") )
 	      {
-	      message_vision(ob->name()+HIG"泛起一陣靈光，藉$N"HIG"之助將遺失在天地間的綠色魂魄吸回$n"HIG"之中!!\n"NOR,me,ob);
+	      message_vision(ob->name()+HIG"泛起一陣靈光，藉$N" + HIG + "之助將遺失在天地間的綠色魂魄吸回$n" + HIG + "之中!!\n" + NOR,me,ob);
       	      ob->set("suck2",1);
 	      }else{
 	        if( me->query_temp("magic-manor/woodmagic") )
 	        {
-		message_vision(GRN"一道綠色魂魄已經存在$N"GRN"身體之中了!!\n"NOR,me);
+		message_vision(GRN + "一道綠色魂魄已經存在$N" + GRN + "身體之中了!!\n" + NOR,me);
 	        }
 		if( ob->query("suck2") )
 		{
-		message_vision(GRN"綠色靈光已經運轉中!!\n"NOR,me);
+		message_vision(GRN + "綠色靈光已經運轉中!!\n" + NOR,me);
 		}
 	      }
 	    }else{
-	    message_vision(GRN"$N"GRN"的靈力似乎不足，無法借助"+ob->name()+NOR+GRN"吸取失落的綠色魂魄!!\n"NOR,me);
+	    message_vision(GRN + "$N" + GRN + "的靈力似乎不足，無法借助"+ob->name()+NOR+GRN"吸取失落的綠色魂魄!!\n" + NOR,me);
 	    }
 	  }
 	}
@@ -163,26 +163,26 @@ int do_find(string arg)
 	{
 	  if( !me->query("magic-manor/kill-water") )
 	  {
-	  message_vision(CYN"任$N"CYN"怎麼尋找，就是找不到一絲絲的魂魄。\n"NOR,me);
+	  message_vision(CYN + "任$N" + CYN + "怎麼尋找，就是找不到一絲絲的魂魄。\n" + NOR,me);
 	  }else{
 	    if( me->query("magic-manor/kill-water") > 100 )
 	    {
 	      if( !me->query_temp("magic-manor/watermagic") && !ob->query("suck3") )
 	      {
-	      message_vision(ob->name()+HIC"泛起一陣靈光，藉$N"HIC"之助將遺失在天地間的水色魂魄吸回$n"HIC"之中!!\n"NOR,me,ob);
+	      message_vision(ob->name()+HIC"泛起一陣靈光，藉$N" + HIC + "之助將遺失在天地間的水色魂魄吸回$n" + HIC + "之中!!\n" + NOR,me,ob);
 	      ob->set("suck3",1);
 	      }else{
 	        if( me->query_temp("magic-manor/watermagic") )
 	        {
-		message_vision(CYN"一道水色魂魄已經存在$N"CYN"身體之中了!!\n"NOR,me);
+		message_vision(CYN + "一道水色魂魄已經存在$N" + CYN + "身體之中了!!\n" + NOR,me);
 	        }
 		if( ob->query("suck3") )
 		{
-		message_vision(CYN"水色靈光已經運轉中!!\n"NOR,me);
+		message_vision(CYN + "水色靈光已經運轉中!!\n" + NOR,me);
 		}
 	      }
 	    }else{
-	    message_vision(CYN"$N"CYN"的靈力似乎不足，無法借助"+ob->name()+NOR+CYN"吸取失落的水色魂魄!!\n"NOR,me);
+	    message_vision(CYN + "$N" + CYN + "的靈力似乎不足，無法借助"+ob->name()+NOR+CYN"吸取失落的水色魂魄!!\n" + NOR,me);
 	    }
 	  }
 	}
@@ -191,26 +191,26 @@ int do_find(string arg)
 	{
 	  if( !me->query("magic-manor/kill-fire") )
 	  {
-	  message_vision(RED"任$N"RED"怎麼尋找，就是找不到一絲絲的魂魄。\n"NOR,me);
+	  message_vision(RED + "任$N" + RED + "怎麼尋找，就是找不到一絲絲的魂魄。\n" + NOR,me);
 	  }else{
 	    if( me->query("magic-manor/kill-fire") > 100 )
 	    {
 	      if( !me->query_temp("magic-manor/firemagic") && !ob->query("suck4") )
 	      {
-	      message_vision(ob->name()+HIR"泛起一陣靈光，藉$N"HIR"之助將遺失在天地間的紅色魂魄吸回$n"HIR"之中!!\n"NOR,me,ob);
+	      message_vision(ob->name()+HIR"泛起一陣靈光，藉$N" + HIR + "之助將遺失在天地間的紅色魂魄吸回$n" + HIR + "之中!!\n" + NOR,me,ob);
 	      ob->set("suck4",1);
 	      }else{
 	        if( me->query_temp("magic-manor/firemagic") )
 	        {
-		message_vision(RED"一道紅色魂魄已經存在$N"RED"身體之中了!!\n"NOR,me);
+		message_vision(RED + "一道紅色魂魄已經存在$N" + RED + "身體之中了!!\n" + NOR,me);
 	        }
 		if( ob->query("suck4") )
 		{
-		message_vision(RED"紅色靈光已經運轉中!!\n"NOR,me);
+		message_vision(RED + "紅色靈光已經運轉中!!\n" + NOR,me);
 		}
 	      }
 	    }else{
-	    message_vision(RED"$N"RED"的靈力似乎不足，無法借助"+ob->name()+NOR+RED"吸取失落的紅色魂魄!!\n"NOR,me);
+	    message_vision(RED + "$N" + RED + "的靈力似乎不足，無法借助"+ob->name()+NOR+RED"吸取失落的紅色魂魄!!\n" + NOR,me);
 	    }
 	  }
 	}
@@ -218,26 +218,26 @@ int do_find(string arg)
 	{
 	  if( !me->query("magic-manor/kill-soil") )
 	  {
-	  message_vision(BLU"任$N"BLU"怎麼尋找，就是找不到一絲絲的魂魄。\n"NOR,me);
+	  message_vision(BLU + "任$N" + BLU + "怎麼尋找，就是找不到一絲絲的魂魄。\n" + NOR,me);
 	  }else{
 	    if( me->query("magic-manor/kill-soil") > 100 )
 	    {
 	      if( !me->query_temp("magic-manor/soilmagic") && !ob->query("suck5") )
 	      {
-	      message_vision(ob->name()+HIB"泛起一陣靈光，藉$N"HIB"之助將遺失在天地間的土色魂魄吸回$n"HIB"之中!!\n"NOR,me,ob);
+	      message_vision(ob->name()+HIB"泛起一陣靈光，藉$N" + HIB + "之助將遺失在天地間的土色魂魄吸回$n" + HIB + "之中!!\n" + NOR,me,ob);
 	      ob->set("suck5",1);
 	      }else{
 	        if( me->query_temp("magic-manor/soilmagic") )
 	        {
-		message_vision(BLU"一道土色魂魄已經存在$N"BLU"身體之中了!!\n"NOR,me);
+		message_vision(BLU + "一道土色魂魄已經存在$N" + BLU + "身體之中了!!\n" + NOR,me);
 	        }
 		if( ob->query("suck5") )
 		{
-		message_vision(BLU"土色靈光已經運轉中!!\n"NOR,me);
+		message_vision(BLU + "土色靈光已經運轉中!!\n" + NOR,me);
 		}
 	      }
 	    }else{
-	    message_vision(BLU"$N"BLU"的靈力似乎不足，無法借助"+ob->name()+NOR+BLU"吸取失落的土色魂魄!!\n"NOR,me);
+	    message_vision(BLU + "$N" + BLU + "的靈力似乎不足，無法借助"+ob->name()+NOR+BLU"吸取失落的土色魂魄!!\n" + NOR,me);
 	    }
 	  }
 	}
@@ -278,55 +278,55 @@ int do_suck(string arg)
 	    {
 	      if( ob->query("suck1") != 1 )
 	      {
-	      message_vision(ob->name()+HIY"泛起一陣靈光，將$N身體中的金色魂魄吸入了"NOR+ob->name()+HIY"。\n"NOR,me);
+	      message_vision(ob->name()+HIY"泛起一陣靈光，將$N身體中的金色魂魄吸入了"NOR+ob->name()+HIY"。\n" + NOR,me);
 	      ob->set("suck1",1);
 	      me->delete_temp("magic-manor/goldmagic");
 	      }else{
-	      message_vision(ob->name()+HIY"已經吸取金色魂魄了。\n"NOR,me);
+	      message_vision(ob->name()+HIY"已經吸取金色魂魄了。\n" + NOR,me);
 	      }
 	    }
 	    if( mag2 == 1 )
 	    {
 	      if( ob->query("suck2") != 1 )
 	      {
-	      message_vision(ob->name()+HIG"泛起一陣靈光，將$N身體中的綠色魂魄吸入了"NOR+ob->name()+HIG"。\n"NOR,me);
+	      message_vision(ob->name()+HIG"泛起一陣靈光，將$N身體中的綠色魂魄吸入了"NOR+ob->name()+HIG"。\n" + NOR,me);
 	      ob->set("suck2",1);
 		  me->delete_temp("magic-manor/woodmagic");
 	      }else{
-	      message_vision(ob->name()+HIG"已經吸取綠色魂魄了。\n"NOR,me);
+	      message_vision(ob->name()+HIG"已經吸取綠色魂魄了。\n" + NOR,me);
 	      }
 	    }
 	    if( mag3 == 1 )
 	    {
 	      if( ob->query("suck3") != 1 )
 	      {
-	      message_vision(ob->name()+HIC"泛起一陣靈光，將$N身體中的水色魂魄吸入了"NOR+ob->name()+HIC"。\n"NOR,me);
+	      message_vision(ob->name()+HIC"泛起一陣靈光，將$N身體中的水色魂魄吸入了"NOR+ob->name()+HIC"。\n" + NOR,me);
 	      ob->set("suck3",1);
 	      me->delete_temp("magic-manor/watermagic");
 	      }else{
-	      message_vision(ob->name()+HIC"已經吸取水色魂魄了。\n"NOR,me);
+	      message_vision(ob->name()+HIC"已經吸取水色魂魄了。\n" + NOR,me);
 	      }
 	    }
 	    if( mag4 == 1 )
 	    {
 	      if( ob->query("suck4") != 1 )
 	      {
-	      message_vision(ob->name()+HIR"泛起一陣靈光，將$N身體中的紅色魂魄吸入了"NOR+ob->name()+HIR"。\n"NOR,me);
+	      message_vision(ob->name()+HIR"泛起一陣靈光，將$N身體中的紅色魂魄吸入了"NOR+ob->name()+HIR"。\n" + NOR,me);
 	      ob->set("suck4",1);
 	      me->delete_temp("magic-manor/firemagic");
 	      }else{
-	      message_vision(ob->name()+HIR"已經吸取紅色魂魄了。\n"NOR,me);
+	      message_vision(ob->name()+HIR"已經吸取紅色魂魄了。\n" + NOR,me);
 	      }
 	    }
 	    if( mag5 == 1 )
 	    {
 	      if( ob->query("suck5") != 1 )
 	      {
-	      message_vision(ob->name()+NOR+YEL"泛起一陣靈光，將$N身體中的土色魂魄吸入了"NOR+ob->name()+NOR+YEL"。\n"NOR,me);
+	      message_vision(ob->name()+NOR+YEL"泛起一陣靈光，將$N身體中的土色魂魄吸入了"NOR+ob->name()+NOR+YEL"。\n" + NOR,me);
 	      ob->set("suck5",1);
 	      me->delete_temp("magic-manor/soilmagic");
 	      }else{
-	      message_vision(ob->name()+NOR+YEL"已經吸取土色魂魄了。\n"NOR,me);
+	      message_vision(ob->name()+NOR+YEL"已經吸取土色魂魄了。\n" + NOR,me);
 	    }
 	  }
 	return 1;
@@ -357,59 +357,59 @@ int do_suck(string arg)
 	    {
 	      if( ob->query("suck1") != 1 )
 	      {
-	      message_vision(ob->name()+HIY"泛起一陣靈光，將$N身體中的金色魂魄吸入了"NOR+ob->name()+HIY"。\n"NOR,npc);
+	      message_vision(ob->name()+HIY"泛起一陣靈光，將$N身體中的金色魂魄吸入了"NOR+ob->name()+HIY"。\n" + NOR,npc);
 	      ob->set("suck1",1);
 	      npc->delete_temp("magic-manor/goldmagic");
 	      }else{
-	      message_vision(ob->name()+HIY"已經吸取金色魂魄了。\n"NOR,npc);
+	      message_vision(ob->name()+HIY"已經吸取金色魂魄了。\n" + NOR,npc);
 	      }
 	    }
 	    if( mag2 == 1 )
 	    {
 	      if( ob->query("suck2") != 1 )
 	      {
-	      message_vision(ob->name()+HIG"泛起一陣靈光，將$N身體中的綠色魂魄吸入了"NOR+ob->name()+HIG"。\n"NOR,npc);
+	      message_vision(ob->name()+HIG"泛起一陣靈光，將$N身體中的綠色魂魄吸入了"NOR+ob->name()+HIG"。\n" + NOR,npc);
 	      ob->set("suck2",1);
 	      npc->delete_temp("magic-manor/woodmagic");
 	      }else{
-	      message_vision(ob->name()+HIG"已經吸取綠色魂魄了。\n"NOR,npc);
+	      message_vision(ob->name()+HIG"已經吸取綠色魂魄了。\n" + NOR,npc);
 	      }
 	    }
 	    if( mag3 == 1 )
 	    {
 	      if( ob->query("suck3") != 1 )
 	      {
-	      message_vision(ob->name()+HIC"泛起一陣靈光，將$N身體中的水色魂魄吸入了"NOR+ob->name()+HIC"。\n"NOR,npc);
+	      message_vision(ob->name()+HIC"泛起一陣靈光，將$N身體中的水色魂魄吸入了"NOR+ob->name()+HIC"。\n" + NOR,npc);
 	      ob->set("suck3",1);
 	      npc->delete_temp("magic-manor/watermagic");
 	      }else{
-	      message_vision(ob->name()+HIC"已經吸取水色魂魄了。\n"NOR,npc);
+	      message_vision(ob->name()+HIC"已經吸取水色魂魄了。\n" + NOR,npc);
 	      }
 	    }
 	    if( mag4 == 1 )
 	    {
 	      if( ob->query("suck4") != 1 )
 	      {
-	      message_vision(ob->name()+HIR"泛起一陣靈光，將$N身體中的紅色魂魄吸入了"NOR+ob->name()+HIR"。\n"NOR,npc);
+	      message_vision(ob->name()+HIR"泛起一陣靈光，將$N身體中的紅色魂魄吸入了"NOR+ob->name()+HIR"。\n" + NOR,npc);
 	      ob->set("suck4",1);
 	      npc->delete_temp("magic-manor/firemagic");
 	      }else{
-	      message_vision(ob->name()+HIR"已經吸取紅色魂魄了。\n"NOR,npc);
+	      message_vision(ob->name()+HIR"已經吸取紅色魂魄了。\n" + NOR,npc);
 	      }
 	    }
 	    if( mag5 == 1 )
 	    {
 	      if( ob->query("suck5") != 1 )
 	      {
-	      message_vision(ob->name()+NOR+YEL"泛起一陣靈光，將$N身體中的土色魂魄吸入了"NOR+ob->name()+NOR+YEL"。\n"NOR,npc);
+	      message_vision(ob->name()+NOR+YEL"泛起一陣靈光，將$N身體中的土色魂魄吸入了"NOR+ob->name()+NOR+YEL"。\n" + NOR,npc);
 	      ob->set("suck5",1);
 	      npc->delete_temp("magic-manor/soilmagic");
 	      }else{
-	      message_vision(ob->name()+NOR+YEL"已經吸取土色魂魄了。\n"NOR,npc);
+	      message_vision(ob->name()+NOR+YEL"已經吸取土色魂魄了。\n" + NOR,npc);
 	      }
 	    }
 	  }else{
-	  message_vision(HIW"$N想從$n身上吸取五靈塔王的魂魄，但是失敗了!!\n"NOR,me,npc);
+	  message_vision(HIW + "$N想從$n身上吸取五靈塔王的魂魄，但是失敗了!!\n" + NOR,me,npc);
 	  tell_object(me,"看來對方並不同意你能吸取他身上的魂魄耶!!\n");
 	  }
 	}
@@ -429,10 +429,10 @@ int do_turn(string arg)
 	if( me->query_temp("magic-manor/turn-five") )
 	return notify_fail("你已經在使用"+ob->name(1)+"。\n");
 
-	message_vision(HIW"$N"HIW"輕輕觸動$n"HIW"上面的透明水晶球，水晶球似是有所感應。\n\n"NOR,me,ob);
-	message_vision(HIY"只見$n"HIY"內中蘊含的魂魄靈力開始運轉不停，發出柔和的光芒。\n"NOR,me,ob);
+	message_vision(HIW + "$N" + HIW + "輕輕觸動$n" + HIW + "上面的透明水晶球，水晶球似是有所感應。\n\n" + NOR,me,ob);
+	message_vision(HIY + "只見$n" + HIY + "內中蘊含的魂魄靈力開始運轉不停，發出柔和的光芒。\n" + NOR,me,ob);
 	me->set_temp("magic-manor/turn-five",1);
-	ob->set("name",HIW"(運轉中) "+ob->name(1));
+	ob->set("name",HIW + "(運轉中) "+ob->name(1));
 	set_heart_beat(1);
 	return 1;
 }
@@ -449,8 +449,8 @@ int do_stop(string arg)
 	if( !me->query_temp("magic-manor/turn-five") )
 	return notify_fail("你沒有使用"+ob->name(1)+"。\n");
 
-	ob->set("name",HIC"五轉"HIW"聚"HIY"靈盤"NOR);
-	message_vision("$n"NOR+YEL"內中蘊含的魂魄靈力慢慢停止運轉，柔和的光芒漸漸暗淡。\n"NOR,me,ob);
+	ob->set("name",HIC + "五轉" + HIW + "聚" + HIY + "靈盤" + NOR);
+	message_vision("$n"NOR+YEL"內中蘊含的魂魄靈力慢慢停止運轉，柔和的光芒漸漸暗淡。\n" + NOR,me,ob);
 	me->delete_temp("magic-manor/turn-five");
 	set_heart_beat(0);
 	return 1;
@@ -495,7 +495,7 @@ void heart_beat()
 	  {
 	    if( random(100) < (int)((kr+sr+cn+cr+si+cs+it+pr)/15) )
 	    {
-	    message_vision(HIW"由"HIC"五轉"HIW"聚"HIY"靈盤"HIW"運轉出微弱的五色靈光，輕輕撫平了$N的傷口。\n"NOR,me,ob);
+	    message_vision(HIW + "由" + HIC + "五轉" + HIW + "聚" + HIY + "靈盤" + HIW + "運轉出微弱的五色靈光，輕輕撫平了$N的傷口。\n" + NOR,me,ob);
 	    me->receive_curing("kee",random(500));
 	    me->receive_heal("kee",random(500));
 	    me->receive_curing("gin",random(500));
@@ -510,10 +510,10 @@ void heart_beat()
 //實際出現機率更小
 	    if( su1 == 1 && random(100) < (8+fv) )//金色主定人
 	    {
-	    message_vision(HIM"\n夕陽殘照，暮色泛起，餘暉映照於大地，"HIY"金極飄魂魄"HIM"感受如此無限晚意輕輕帶出
+	    message_vision(HIM + "\n夕陽殘照，暮色泛起，餘暉映照於大地，" + HIY + "金極飄魂魄" + HIM + "感受如此無限晚意輕輕帶出
 
-              "HIW"----===≡◎ 金封大地式 ◎≡===----
-                   "NOR+YEL"  『"HIY"金靈蛇動．殘陽墜"NOR+YEL"』\n\n"NOR,me);
+              " + HIW + "----===≡◎ 金封大地式 ◎≡===----
+                   "NOR+YEL"  『" + HIY + "金靈蛇動．殘陽墜"NOR+YEL"』\n\n" + NOR,me);
 	      for( j=0 ; j < i ; j++ )
 	      {
 	      k = random(2);
@@ -523,11 +523,11 @@ void heart_beat()
 		  {
 	            if( k > 0 )
 	            {
-	            message_vision(HIY"$N"HIY"被此招式隱含宏大的氣勁給完全的封住了行動!!\n"NOR,enemy[j]);
+	            message_vision(HIY + "$N" + HIY + "被此招式隱含宏大的氣勁給完全的封住了行動!!\n" + NOR,enemy[j]);
 	            enemy[j]->start_busy(k+1);
 	            COMBAT_D->report_status(enemy[j]);
 	            }else{
-	            message_vision(HIW"$N"HIW"看準了來勢，巧妙的避開了這股氣勁宏大的氣勁。\n"NOR,enemy[j]);
+	            message_vision(HIW + "$N" + HIW + "看準了來勢，巧妙的避開了這股氣勁宏大的氣勁。\n" + NOR,enemy[j]);
 	            COMBAT_D->report_status(enemy[j]);
 		    }
 	          }
@@ -536,11 +536,11 @@ void heart_beat()
 	    }
 	    if( su2 == 1 && random(100) < (8+fv) )//綠色主回復
 	    {
-	    message_vision(HIM"\n木影叢叢，森然羅列，草木輕揚於風中，"HIG"木燃落魂魄"HIM"有感於此身形微動隨意發出
+	    message_vision(HIM + "\n木影叢叢，森然羅列，草木輕揚於風中，" + HIG + "木燃落魂魄" + HIM + "有感於此身形微動隨意發出
 
-              "HIW"----===≡◎ 木影森羅式 ◎≡===----
-                   "NOR+GRN"  『"HIG"木光流鶯．驚天鳴"NOR+GRN"』\n\n"NOR,me);
-	    message_vision(HIG"魂魄中釋放出巨大的生命氣息，$N"HIG"感受在這股氣息中有說不出的受用!!\n"NOR,me);
+              " + HIW + "----===≡◎ 木影森羅式 ◎≡===----
+                   "NOR+GRN"  『" + HIG + "木光流鶯．驚天鳴"NOR+GRN"』\n\n" + NOR,me);
+	    message_vision(HIG + "魂魄中釋放出巨大的生命氣息，$N" + HIG + "感受在這股氣息中有說不出的受用!!\n" + NOR,me);
 	    me->receive_curing("gin",500);
 	    me->receive_heal("gin",500);
 	    me->receive_curing("kee",1000);
@@ -557,10 +557,10 @@ void heart_beat()
 	    }
 	    if( su3 == 1 && random(100) < (8+fv) )//藍色主化內力為己用和降enforce
 	    {
-	    message_vision(HIM"\n水氣凝結，龍形漸現，狂嘯奔騰於四海，"HIC"水淵流魂魄"HIM"感同身受狂意漸起慕然使出
+	    message_vision(HIM + "\n水氣凝結，龍形漸現，狂嘯奔騰於四海，" + HIC + "水淵流魂魄" + HIM + "感同身受狂意漸起慕然使出
 
-              "HIW"----===≡◎ 水襲狂濤式 ◎≡===----
-                   "NOR+CYN"  『"HIC"水舞狂龍．蒼海嘯"NOR+CYN"』\n\n"NOR,me);
+              " + HIW + "----===≡◎ 水襲狂濤式 ◎≡===----
+                   "NOR+CYN"  『" + HIC + "水舞狂龍．蒼海嘯"NOR+CYN"』\n\n" + NOR,me);
 	      for( j=0 ; j < i ; j++ )
 	      {
 	      k = random(5);
@@ -570,7 +570,7 @@ void heart_beat()
 		  {
 	            if( k > 0 )
 	            {
-	            message_vision(HIC"$N"HIC"被水氣凝住氣血，漸感使不上力，內力也迅速流失!!\n"NOR,enemy[j]);
+	            message_vision(HIC + "$N" + HIC + "被水氣凝住氣血，漸感使不上力，內力也迅速流失!!\n" + NOR,enemy[j]);
 	              if( enemy[j]->query("force") > 1000 )
 	              {
 	              enemy[j]->set("force",(int)(enemy[j]->query("force")-1000));
@@ -588,7 +588,7 @@ void heart_beat()
 	            enemy[j]->apply_condition("cold",enemy[j]->query_condition("cold")+5);
 	            COMBAT_D->report_status(enemy[j]);
 	            }else{
-	            message_vision(HIW"$N"HIW"看準了來勢，巧妙的避開了這股氣勁宏大的水氣。\n"NOR,enemy[j]);
+	            message_vision(HIW + "$N" + HIW + "看準了來勢，巧妙的避開了這股氣勁宏大的水氣。\n" + NOR,enemy[j]);
 	            COMBAT_D->report_status(enemy[j]);
 	            }
 		  }
@@ -597,10 +597,10 @@ void heart_beat()
 	    }
 	    if( su4 == 1 && random(100) < (8+fv) )//紅色主攻精氣神
 	    {
-	    message_vision(HIM"\n火捲漫天，雲淡風輕，輕煙漫舞於天際，"HIR"火飛笙魂魄"HIM"別有感觸翩然起舞飄然喚出
+	    message_vision(HIM + "\n火捲漫天，雲淡風輕，輕煙漫舞於天際，" + HIR + "火飛笙魂魄" + HIM + "別有感觸翩然起舞飄然喚出
 
-              "HIW"----===≡◎ 火捲風雲式 ◎≡===----
-                   "NOR+RED"  『"HIR"火雲鳳舞．翔風飛"NOR+RED"』\n\n"NOR,me);
+              " + HIW + "----===≡◎ 火捲風雲式 ◎≡===----
+                   "NOR+RED"  『" + HIR + "火雲鳳舞．翔風飛"NOR+RED"』\n\n" + NOR,me);
 	      for( j=0 ; j < i ; j++ )
 	      {
 	      k = random(7);
@@ -610,14 +610,14 @@ void heart_beat()
 		  {
 	            if( k > 0 )
 	            {
-	            message_vision(HIR"$N"HIR"被這漫天的火氣和鋪天蓋\地的焰氣所捲傷，渾身顯的殘破不堪!!\n"NOR,enemy[j]);
+	            message_vision(HIR + "$N" + HIR + "被這漫天的火氣和鋪天蓋\地的焰氣所捲傷，渾身顯的殘破不堪!!\n" + NOR,enemy[j]);
 	            enemy[j]->receive_damage("kee",random(500)+1000);
 	            enemy[j]->receive_damage("gin",random(250)+500);
 	            enemy[j]->receive_damage("sen",random(250)+500);
 	            enemy[j]->apply_condition("burn",enemy[j]->query_condition("burn")+5);
 	            COMBAT_D->report_status(enemy[j]);
 	            }else{
-	            message_vision(HIW"$N"HIW"變幻莫測的巧妙步法使了開來，漫天的火氣只和$N"HIW"擦身而過。\n"NOR,enemy[j]);
+	            message_vision(HIW + "$N" + HIW + "變幻莫測的巧妙步法使了開來，漫天的火氣只和$N" + HIW + "擦身而過。\n" + NOR,enemy[j]);
 	            COMBAT_D->report_status(enemy[j]);
 		    }
 	          }
@@ -626,10 +626,10 @@ void heart_beat()
 	    }
 	    if( su5 == 1 && random(100) < (8+fv) )//藍色主損精氣神之最大值
 	    {
-	    message_vision(HIM"\n雷厲風行，驚天動地，橫掃萬物於須臾，"HIB"土爆波魂魄"HIM"感念深刻聚力一指瞬間擊出
+	    message_vision(HIM + "\n雷厲風行，驚天動地，橫掃萬物於須臾，" + HIB + "土爆波魂魄" + HIM + "感念深刻聚力一指瞬間擊出
 
-              "HIW"----===≡◎ 土爆雷霆式 ◎≡===----
-                   "NOR+BLU"  『"HIB"土假虎威．地雷震"NOR+BLU"』\n\n"NOR,me);
+              " + HIW + "----===≡◎ 土爆雷霆式 ◎≡===----
+                   "NOR+BLU"  『" + HIB + "土假虎威．地雷震"NOR+BLU"』\n\n" + NOR,me);
 	      for( j=0 ; j < i ; j++ )
 	      {
 	      k = random(9);
@@ -639,13 +639,13 @@ void heart_beat()
 		  {
 	            if( k > 0 )
 	            {
-	            message_vision(HIB"$N"HIB"被這萬馬千軍般的飛沙走石刮的渾身是傷，顯得狼狽不堪!!\n"NOR,enemy[j]);
+	            message_vision(HIB + "$N" + HIB + "被這萬馬千軍般的飛沙走石刮的渾身是傷，顯得狼狽不堪!!\n" + NOR,enemy[j]);
 	            enemy[j]->receive_wound("kee",1000);
 	            enemy[j]->receive_wound("gin",500);
 	            enemy[j]->receive_wound("sen",500);
 	            COMBAT_D->report_status(enemy[j]);
 	            }else{
-	            message_vision(HIW"$N"HIW"變幻莫測的巧妙步法使了開來，漫天的飛沙走石只和$N"HIW"擦身而過。\n"NOR,enemy[j]);
+	            message_vision(HIW + "$N" + HIW + "變幻莫測的巧妙步法使了開來，漫天的飛沙走石只和$N" + HIW + "擦身而過。\n" + NOR,enemy[j]);
 	            COMBAT_D->report_status(enemy[j]);
 		    }
 	          }

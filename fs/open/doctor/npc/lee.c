@@ -41,7 +41,7 @@ string ask_secret()
     return "??????????????????你怎麼進來的?????";
   me->set("quests/acupuncture",1);
   me->delete_temp("quests/acup");
-  tell_object(me,HIR"\n\n恭喜你完成衝穴之迷。\n\n");
+  tell_object(me,HIR + "\n\n恭喜你完成衝穴之迷。\n\n");
   return "關於這件事，真是太感謝你了，不過這本秘籍我已經交給師父保管了。\n"+
          "不過我還是可以略為(指導)你幾招。";
 }

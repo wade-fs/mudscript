@@ -18,7 +18,7 @@ void create()
 {
   set("class", "tendo");
   set_name("空間幻術師", ({ "space caster", "space", "caster" }) );
-  set("title",HIW "穿梭古今"NOR);
+  set("title",HIW + "穿梭古今" + NOR);
   set("attitude", "peaceful");
   set("long","謎一般的幻術師，據說有通天遁地之能，擅長空間幻術..\n");
   set("gender","男性");
@@ -99,51 +99,51 @@ void heart_beat()
 
       if(random(7)==3)
       {
-        message_vision(HIM"$N身形暴起，連環使出魔界金典上的滅世武學。\n\n"NOR,me);
-        message_vision(HIW"
-              ζ"HIC"天地神通"HIW"ζ"CYN"《"HIG"風變化"CYN"》
-              \n"NOR,me);
+        message_vision(HIM + "$N身形暴起，連環使出魔界金典上的滅世武學。\n\n" + NOR,me);
+        message_vision(HIW + "
+              ζ" + HIC + "天地神通" + HIW + "ζ" + CYN + "《" + HIG + "風變化" + CYN + "》
+              \n" + NOR,me);
         for(b=0;b<i;b++)
         {
-          message_vision(HIW"狂風驟起，$N感覺到自己的身軀完全失去控制。\n"NOR,target[b]);
+          message_vision(HIW + "狂風驟起，$N感覺到自己的身軀完全失去控制。\n" + NOR,target[b]);
           target[b]->start_busy(1);
           COMBAT_D->report_status(target[b]);
         }
-        message_vision(HIW"
-              ζ"HIC"天地神通"HIW"ζ"CYN"《"HIY"雷變化"CYN"》
-              \n"NOR,me);
+        message_vision(HIW + "
+              ζ" + HIC + "天地神通" + HIW + "ζ" + CYN + "《" + HIY + "雷變化" + CYN + "》
+              \n" + NOR,me);
         for(b=0;b<i;b++)
         {
-          message_vision(HIW"巨雷劈下，$N被狂風捲住無法閃避，完全命中。\n"NOR,target[b]);
+          message_vision(HIW + "巨雷劈下，$N被狂風捲住無法閃避，完全命中。\n" + NOR,target[b]);
           target[b]->set("force",(target[b]->query("force"))*1/3);
           COMBAT_D->report_status(target[b]);
         }
-        message_vision(HIW"
-              ζ"HIC"天地神通"HIW"ζ"CYN"《"HIB"雨變化"CYN"》
-              \n"NOR,me);
+        message_vision(HIW + "
+              ζ" + HIC + "天地神通" + HIW + "ζ" + CYN + "《" + HIB + "雨變化" + CYN + "》
+              \n" + NOR,me);
         for(b=0;b<i;b++)
         {
-          message_vision(HIW"天地變異，$N目瞪口呆，任由隕石雨點般砸下。\n"NOR,target[b]);
+          message_vision(HIW + "天地變異，$N目瞪口呆，任由隕石雨點般砸下。\n" + NOR,target[b]);
           target[b]->receive_damage("kee",3000,me);
           COMBAT_D->report_status(target[b]);
         }
-        message_vision(HIM"
+        message_vision(HIM + "
 
             $N吼道：『無名小輩!!死吧!!』
 
 
-"HIW"               ζ"HIY+BRED"魔典奧義"NOR""HIW"ζ"CYN"《"HIR"血穴神通"CYN"》
-\n\n"NOR,me);
+" + HIW + "               ζ"HIY+BRED"魔典奧義" + NOR + "" + HIW + "ζ" + CYN + "《" + HIR + "血穴神通" + CYN + "》
+\n\n" + NOR,me);
         for(b=0;b<i;b++)
         {   
           if(random(3) == 1)
           {
-            message_vision(HIM"$N閃避不及，整個人撞進血穴之中，完全蒸發消失了。\n"NOR,target[b]);
+            message_vision(HIM + "$N閃避不及，整個人撞進血穴之中，完全蒸發消失了。\n" + NOR,target[b]);
             target[b]-> move ("/open/wiz/courthouse");
           } else {
             target[b]->receive_damage("gin",100,me);
             target[b]->receive_damage("sen",100,me);
-            message_vision(YEL"$N及時由血穴謎陣中抽身，但身心已遭受重創。\n"NOR,target[b]);
+            message_vision(YEL + "$N及時由血穴謎陣中抽身，但身心已遭受重創。\n" + NOR,target[b]);
           }
         }
       }

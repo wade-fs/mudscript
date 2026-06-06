@@ -4,7 +4,7 @@ inherit LANCE;
 void create()
 {           
            seteuid(getuid());
-set_name(HIG"丈八蛇矛"NOR,({"Meter-snake","meter","snake"}));
+set_name(HIG + "丈八蛇矛" + NOR,({"Meter-snake","meter","snake"}));
            set_weight(10000);
            if( clonep() )
    set_default_object(__FILE__);

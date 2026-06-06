@@ -132,9 +132,9 @@ void attempt_apprentice(object ob)
 	command("say 好,你果然是可造之才,從今後就由本教主親自教導!");
 	ob->delete("family");
 	command("recruit "+this_player()->query("id"));
-	message("mud",HIW"〔聖火教皇〕林宏昇笑道:\n 
+	message("mud",HIW + "〔聖火教皇〕林宏昇笑道:\n 
 	哈哈哈哈....本教主實在太高興啦!\n
-	聖火教徒,"+this_player()->name()+": 今後就跟著本教主好好學習如何管理教務吧.\n"NOR,users());
+	聖火教徒,"+this_player()->name()+": 今後就跟著本教主好好學習如何管理教務吧.\n" + NOR,users());
 	ob->set("marks/聖火教主",1);
       　ob->set("title","聖火教嫡傳弟子");
 	return 1;
@@ -153,8 +153,8 @@ int do_join()
 	if(this_player()->query("class"))
 		return notify_fail("你已經加入其他工會了。\n");
 	this_player()->set("class","prayer");
-	message("mud",HIW "林宏昇縱聲大呼 :\n
-	歡迎" +this_player()->name()+"加入聖火教公會!!\n\n"NOR,users());
+	message("mud",HIW + "林宏昇縱聲大呼 :\n
+	歡迎" +this_player()->name()+"加入聖火教公會!!\n\n" + NOR,users());
 	return 1;
 }
 int do_select(string str)
@@ -168,13 +168,13 @@ int do_select(string str)
 	}
 	if(who->query_temp("have_say")==1)
 	{
-	message_vision(sprintf(HIC"$N說道﹕"+str+"\n"NOR),who);
+	message_vision(sprintf(HIC + "$N說道﹕"+str+"\n" + NOR),who);
 	command("say 你不是挑過了?");
 	return 1;
 	}
 	if(str=="天機門" ||  str == "tangi")
         {
-	 message_vision(HIC"$N說道﹕天機門\n"NOR,who);
+	 message_vision(HIC + "$N說道﹕天機門\n" + NOR,who);
 	this_player()->set_temp("allow_1",1);
 	command("smile");
 	command("say 嗯 ,你就去加入天機門吧!");
@@ -183,7 +183,7 @@ int do_select(string str)
 	}
 	if(str == "天樞門" || str == "tanshu")
 	{
-	message_vision(HIC"$N說道﹕天樞門\n"NOR,who);
+	message_vision(HIC + "$N說道﹕天樞門\n" + NOR,who);
 	this_player()->set_temp("allow_2",1);
 	command("smile");
 	command("say 嗯 ,你就加入天樞門吧!");
@@ -192,7 +192,7 @@ int do_select(string str)
 	}
 	if(str == "天權門" || str == "tanchun")
 	{
-	message_vision(HIC"$N說道﹕天權門\n"NOR,who);
+	message_vision(HIC + "$N說道﹕天權門\n" + NOR,who);
 	this_player()->set_temp("allow_3",1);
 	command("smile");
 	command("say 嗯 ,你就進去天權門修練吧!");
@@ -201,7 +201,7 @@ int do_select(string str)
 	}
 	if(str == "天璇門" || str == "tanshun")
 	{
-	message_vision(HIC"$N說道﹕天璇門\n"NOR,who);
+	message_vision(HIC + "$N說道﹕天璇門\n" + NOR,who);
 	this_player()->set_temp("allow_4",1);
 	command("smile");
 	command("say 嗯 ,你就到天璇門好好磨練吧!");
@@ -210,7 +210,7 @@ int do_select(string str)
 	}
 	if(str == "玉衡門" || str == "uhen")
 	{
-	message_vision(HIC"$N說道﹕玉衡門\n"NOR,who);
+	message_vision(HIC + "$N說道﹕玉衡門\n" + NOR,who);
 	this_player()->set_temp("allow_5",1);
 	command("smile");
 	command("say 嗯 ,你就加入玉衡門吧!");
@@ -219,7 +219,7 @@ int do_select(string str)
 	}
 	if(str == "開陽門" || str == "kiyan")
 	{
-	message_vision(HIC"$N說道﹕開陽門\n",who);
+	message_vision(HIC + "$N說道﹕開陽門\n",who);
 	this_player()->set_temp("allow_6",1);
 	command("smile");
 	command("say 嗯 ,你就前往開陽門學習吧!");
@@ -228,7 +228,7 @@ int do_select(string str)
 	}
 	if(str == "瑤光門" || str == "youkoun")
 	{
-	message_vision(HIC"$N說道﹕瑤光門\n"NOR,who);
+	message_vision(HIC + "$N說道﹕瑤光門\n" + NOR,who);
 	this_player()->set_temp("allow_7",1);
 	command("smile");
 	command("say 嗯 ,你就前去瑤光門拜師學藝吧!");
@@ -237,7 +237,7 @@ int do_select(string str)
 	}
 	if(str == "陣勢門" || str == "zhenche")
 	{
-	message_vision(HIC"$N說道﹕陣勢門\n"NOR,who);
+	message_vision(HIC + "$N說道﹕陣勢門\n" + NOR,who);
 	this_player()->set_temp("allow_8",1);
 	command("smile");
 	command("say 嗯 ,你就前去陣勢門拜師學藝吧!");
@@ -246,7 +246,7 @@ int do_select(string str)
 	}
 	if(str == "傳功\長老" || str == "gonfu" || str == "gonfu_elder")
 	{
-	message_vision(HIC"$N說道﹕傳功\長老\n"NOR,who);
+	message_vision(HIC + "$N說道﹕傳功\長老\n" + NOR,who);
 	this_player()->set_temp("allow_9",1);
 	command("smile");
 	command("say 嗯 ,你就去傳功\長老那兒學藝吧!");
@@ -255,7 +255,7 @@ int do_select(string str)
 	}
 	if(str == "執法長老" || str == "lawyer" || str == "lawyer_elder")
 	{
-	message_vision(HIC"$N說道﹕執法長老\n"NOR,who);
+	message_vision(HIC + "$N說道﹕執法長老\n" + NOR,who);
 	this_player()->set_temp("allow_10",1);
 	command("smile");
 	command("say 嗯 ,你就去執法長老那兒學藝吧!");
@@ -264,7 +264,7 @@ int do_select(string str)
 	}
 	if(str == "戒律長老" || str == "behavior" || str == "behavior_elder")
 	{
-	message_vision(HIC"$N說道﹕戒律長老\n"NOR,who);
+	message_vision(HIC + "$N說道﹕戒律長老\n" + NOR,who);
 	this_player()->set_temp("allow_11",1);
 	command("smile");
 	command("say 嗯 ,你就去戒律長老那兒學藝吧!");
@@ -273,7 +273,7 @@ int do_select(string str)
 	}
 	if(str == "武星君" || str == "warrior")
 	{
-	message_vision(HIC"$N說道﹕武星君\n"NOR,who);
+	message_vision(HIC + "$N說道﹕武星君\n" + NOR,who);
 	this_player()->set_temp("allow_12",1);
 	command("smile");
 	command("say 嗯 ,你就去武星君那兒學藝吧!");
@@ -282,7 +282,7 @@ int do_select(string str)
 	}
 	if(str == "文星君" || str == "literate")
 	{
-	message_vision(HIC"$N說道﹕文星君\n"NOR,who);
+	message_vision(HIC + "$N說道﹕文星君\n" + NOR,who);
 	this_player()->set_temp("allow_13",1);
 	command("smile");
 	command("say 嗯 ,你就去文星君那兒學藝吧!");

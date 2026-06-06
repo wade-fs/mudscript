@@ -55,7 +55,7 @@ int do_use(string str)
     return notify_fail("你要使用什麼東西呀!!!\n");
   if(ob->query("sec_kee") != "dragon")
     return notify_fail("只有擁有青龍之氣的人才能使用天靈珠!!!\n");
-  message_vision(HIW"$N將天靈珠放在胸前,$N全身發出光茫!!$N身上的"HIB"青龍之氣"HIW"湧出匯入了天靈珠之中了。\n"NOR,ob);
+  message_vision(HIW + "$N將天靈珠放在胸前,$N全身發出光茫!!$N身上的" + HIB + "青龍之氣" + HIW + "湧出匯入了天靈珠之中了。\n" + NOR,ob);
   ob->set("can_put",1);
   return 1;
 }
@@ -69,8 +69,8 @@ if(!present("sky_lin_stone",this_player()))
     return notify_fail("你要放什麼東西呀!!!\n");
   if( str!="sun")
     return notify_fail("你要放什麼東西呀!!!\n");
-  message_vision(HIW"$N將天靈珠放入"HIY"太陽"HIW"之中，此時壁上的青龍追日圖發出剌目的光線。\n"NOR,ob);
-  message_vision(HIY"一道柔和的光線將$N包住，$N消失在光線之中了.....\n"NOR,ob);
+  message_vision(HIW + "$N將天靈珠放入" + HIY + "太陽" + HIW + "之中，此時壁上的青龍追日圖發出剌目的光線。\n" + NOR,ob);
+  message_vision(HIY + "一道柔和的光線將$N包住，$N消失在光線之中了.....\n" + NOR,ob);
   ob->move(__DIR__"godrom1");
   return 1;
 }

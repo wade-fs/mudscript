@@ -16,7 +16,7 @@ set("inquiry",([
 ]));
 set("chat_chance", 10);
 set("chat_msg", ({
-HIY"左銅門眼珠子咕嚕咕嚕的轉著，看起來似乎很無聊。\n"NOR,
+HIY + "左銅門眼珠子咕嚕咕嚕的轉著，看起來似乎很無聊。\n" + NOR,
 }));
 
 setup();

@@ -3,7 +3,7 @@ inherit ITEM;
 
 void create()
 {
-	set_name(HIG"青蛇護符"NOR,({"snake amulet","amulet","snake-amulet"}));
+	set_name(HIG + "青蛇護符" + NOR,({"snake amulet","amulet","snake-amulet"}));
 	set_weight(1000);
 	if( clonep() )
 		set_default_object(__FILE__);
@@ -67,8 +67,8 @@ object ob,me;
 	ob->set("no_auc",1);
 	ob->set("no_give",1);
 
-	message_vision(HIY"$N對了$n"+HIY+"開始祈禱...$n"+HIY+"發出強烈的光芒。\n"NOR,me,ob);
-	ob->set("name",HIW"( 閃爍 )"NOR+HIG"青蛇護符"NOR);
+	message_vision(HIY + "$N對了$n"+HIY+"開始祈禱...$n"+HIY+"發出強烈的光芒。\n" + NOR,me,ob);
+	ob->set("name",HIW + "( 閃爍 )"NOR+HIG"青蛇護符" + NOR);
 	me->set_temp("snake/pray_snake_amulet",1);
 return 1;
 }
@@ -112,7 +112,7 @@ object ob,me;
 	ob->delete("no_give",1);
 
 	message_vision("$N解除了$n的使用。\n",me,ob);
-	ob->set("name",HIG"青蛇護符"NOR);
+	ob->set("name",HIG + "青蛇護符" + NOR);
 	me->delete_temp("snake/pray_snake_amulet",1);
 return 1;
 }

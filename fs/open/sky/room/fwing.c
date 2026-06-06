@@ -6,7 +6,7 @@ inherit ROOM;
 
 void create ()
 {
-  set ("short", HIW"自由天界"NOR);
+  set ("short", HIW + "自由天界" + NOR);
   set ("long", @LONG
 天靈地界中的羽靈天界，無數的羽毛狀的符籙從這裏的每一個角
 落飄落而下，ㄧ踏入此地便被一股莫名的威壓壟罩，令人感到無比的

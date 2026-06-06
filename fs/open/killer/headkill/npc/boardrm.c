@@ -99,15 +99,15 @@ int do_check(string str)
 	if (!str)
 	{
     	for(i=j=0; i<sizeof(user); i++)
-      		if(user[i]->query("title") == HIR"殺手全力追殺的人頭"NOR)
+      		if(user[i]->query("title") == HIR + "殺手全力追殺的人頭" + NOR)
           		user[j++] = user[i];
-        printf(HIG"\t\t殺手全力追殺的人頭通緝榜:\n\n"NOR);
+        printf(HIG + "\t\t殺手全力追殺的人頭通緝榜:\n\n" + NOR);
         for(i=0; i<j; i++)
         {
 			cme=find_player(user[i]->query("id"));
 			croom=environment(cme);
            tell_object(this_player(),
-              sprintf(HIC"\t%2d 號 %s(%s) 在 %-18s \n"NOR,i+1,
+              sprintf(HIC + "\t%2d 號 %s(%s) 在 %-18s \n" + NOR,i+1,
                       user[i]->query("name"),
                       user[i]->query("id"),
 						croom->query("short") ) );
@@ -132,10 +132,10 @@ int do_exp(object *user,int j)
               }
         }
 
-        printf(HIG"\t\t黑牙聯經驗值排行榜:\n\n"NOR);
+        printf(HIG + "\t\t黑牙聯經驗值排行榜:\n\n" + NOR);
         for(i=0; i<j; i++)
            tell_object(this_player(),
-              sprintf(HIC"\t第%2d名       %-18s %s(%s) \n"NOR,i+1,
+              sprintf(HIC + "\t第%2d名       %-18s %s(%s) \n" + NOR,i+1,
                       user[i]->query("title"),
                       user[i]->query("name"),
                       user[i]->query("id")));
@@ -157,10 +157,10 @@ int do_makee(object *user,int j)
               }
         }
 
-        printf(HIG"\t\t殺手魔氣殺等級排行榜:\n\n"NOR);
+        printf(HIG + "\t\t殺手魔氣殺等級排行榜:\n\n" + NOR);
         for(i=0; i<j; i++)
            tell_object(this_player(),
-              sprintf(HIC"\t第%2d名       %-18s %s(%s) \n"NOR,i+1,
+              sprintf(HIC + "\t第%2d名       %-18s %s(%s) \n" + NOR,i+1,
                       user[i]->query("title"),
                       user[i]->query("name"),
                       user[i]->query("id")));
@@ -183,10 +183,10 @@ int do_rain(object *user,int j) {
               }
         }
 
-        printf(HIG"\t\t黑牙聯霸雨遮魂排行榜:\n\n"NOR);
+        printf(HIG + "\t\t黑牙聯霸雨遮魂排行榜:\n\n" + NOR);
         for(i=0; i<j; i++)
            tell_object(this_player(),
-              sprintf(HIC"\t第%2d名       %-18s %s(%s) \n"NOR,
+              sprintf(HIC + "\t第%2d名       %-18s %s(%s) \n" + NOR,
                       i+1,
                       user[i]->query("title"),
                       user[i]->query("name"),
@@ -210,10 +210,10 @@ int do_shadow(object *user,int j) {
               }
         }
 
-        printf(HIG"\t\t 黑牙聯閻影匕首排行榜:\n\n"NOR);
+        printf(HIG + "\t\t 黑牙聯閻影匕首排行榜:\n\n" + NOR);
         for(i=0; i<j; i++)
            tell_object(this_player(),
-              sprintf(HIC"\t第%2d名       %-18s %s(%s) \n"NOR,
+              sprintf(HIC + "\t第%2d名       %-18s %s(%s) \n" + NOR,
                       i+1,
                       user[i]->query("title"),
                       user[i]->query("name"),

@@ -105,8 +105,8 @@ int accept_object(object who,object ob)
         {
             command("say 太好了！");
             message_vision(
-             HIY "$n將天邪石的神力注入金鱗蟒邪之中﹐然後運勁一砍﹐將腳銬砍斷。\n" NOR,this_player(),this_object());
-            shout(HIR "遠處傳來魔刀莫測的大喝﹕\n\n我自由了！哈哈哈哈！！！\n\n獨孤愁！你這個老賊等者吧！我要一雪這十幾年禁錮之恨！\n" NOR);
+             HIY + "$n將天邪石的神力注入金鱗蟒邪之中﹐然後運勁一砍﹐將腳銬砍斷。\n" + NOR,this_player(),this_object());
+            shout(HIR + "遠處傳來魔刀莫測的大喝﹕\n\n我自由了！哈哈哈哈！！！\n\n獨孤愁！你這個老賊等者吧！我要一雪這十幾年禁錮之恨！\n" + NOR);
        if(who->query_kar()>25)  who->set("can_apprentice",1);
            else who->set("can_apprentice",2);
          command("say 非常感謝你幫我重獲自由。");

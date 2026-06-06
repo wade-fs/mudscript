@@ -4,7 +4,7 @@ inherit HANDS;
 object me=this_player();
 void create()
 {
-        set_name(HIY"劍聖護手"NOR,({"kensai hands","hands"}));
+        set_name(HIY + "劍聖護手" + NOR,({"kensai hands","hands"}));
         set_weight(2000);
         if( clonep() )
                 set_default_object(__FILE__);

@@ -5,7 +5,7 @@ inherit ITEM;
 
 void create()
 {
-	set_name( HIR"<滿>"HIC"十錦琺瑯杯" NOR, ({"full-wine","wine"}));
+	set_name( HIR + "<滿>" + HIC + "十錦琺瑯杯" + NOR, ({"full-wine","wine"}));
 	set_weight(50);
 	set("unit", "個");
 	set("value", 2000);

@@ -35,10 +35,10 @@ int turn_statue(string arg)
         if(!arg || arg != "statue")
                 return notify_fail("你想轉動什麼？\n");
                 message_vision("
-$N"HIR"用盡全身的力氣，將雕像給硬生生的轉了一圈。"HIY"\n
+$N" + HIR + "用盡全身的力氣，將雕像給硬生生的轉了一圈。" + HIY + "\n
 忽然從地面傳來「隆隆」幾聲，竟出現了一個直徑三尺多的大洞。\n
-"NOR,me);
-                message_vision(HIC"蝶魂忽然說道：嗯...接下來$N就只能靠自己了，奴家該走了...\n"NOR,me);
+" + NOR,me);
+                message_vision(HIC + "蝶魂忽然說道：嗯...接下來$N就只能靠自己了，奴家該走了...\n" + NOR,me);
                 room->add("exits/enter","/open/mon/hole");
                 me->set_temp("icestorm/ice_spell",5);
                 call_out("del_exit",30,me);
@@ -59,6 +59,6 @@ int del_exit(object me)
 {
         object ob = this_object();
         
-        tell_room(me,HIR"忽然「口匡！」的一聲，洞口又關了起來...\n"NOR);
+        tell_room(me,HIR + "忽然「口匡！」的一聲，洞口又關了起來...\n" + NOR);
         ob->delete("exits/enter");
 }

@@ -5,7 +5,7 @@ inherit ROOM;
 
 void create ()
 {
-  set ("short", HIW"彩"HIY"靈"HIW"天"HIY"界"NOR);
+  set ("short", HIW + "彩" + HIY + "靈" + HIW + "天" + HIY + "界" + NOR);
   set ("long", @LONG
 天靈地界中的彩靈天界，數不清的水果香味撲鼻傳來，各種不同
 顏色的彩光穿梭縈繞在四周，似真實卻又虛幻的世界中，讓所有見識

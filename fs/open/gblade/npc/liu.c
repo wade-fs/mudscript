@@ -11,7 +11,7 @@ void create()
         set("class","fighter");
         set("family/family_name","雪蒼派");
         set("quests/read_snow",1);
-        set("title",HIC"武學之盡"NOR);
+        set("title",HIC + "武學之盡" + NOR);
         set("force",20000);
         set("max_gin",15000);
         set("max_sen",15000);
@@ -52,13 +52,13 @@ if(random(100) > 50)
 {
 if(random(9) >= 5)
 {
-message_vision(HIY"獨孤莫琉運起『核爆掌』向你一擊，頓時掌氣已印在你的胸膛！\n"NOR,me);
+message_vision(HIY + "獨孤莫琉運起『核爆掌』向你一擊，頓時掌氣已印在你的胸膛！\n" + NOR,me);
 for(j=0;j < i;j++) {
 target[j]->add("kee",-700); }
    }
    else
    {
-message_vision(HIC"獨孤莫琉心感疲狽，運起『獨孤秘傳法咒』一道藍光從蒼天發出，頓時精神百倍。\n"NOR,me);
+message_vision(HIC + "獨孤莫琉心感疲狽，運起『獨孤秘傳法咒』一道藍光從蒼天發出，頓時精神百倍。\n" + NOR,me);
     me->delete_busy();
     me->clear_condition();
 if(random(9) >= 5) {

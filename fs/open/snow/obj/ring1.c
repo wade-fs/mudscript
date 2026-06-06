@@ -7,7 +7,7 @@ inherit UNARMED;
 void create()
 {
         seteuid(getuid());
-set_name(HIR"雪熔爪"NOR,({"snowfire ring","ring"}));
+set_name(HIR + "雪熔爪" + NOR,({"snowfire ring","ring"}));
 set_weight(4000);
 
         if( clonep() )

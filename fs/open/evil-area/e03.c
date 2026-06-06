@@ -3,7 +3,7 @@ inherit ROOM;
 
 void create()
 {
-	set("short",BBLU+YEL"震邪道"NOR);
+	set("short",BBLU+YEL"震邪道" + NOR);
 	set("long",@LONG
 你的頭頂上, 正漂浮著有如波浪斑波動的細沙, 你有一種直覺, 
 那裡似乎就是通往堆滿了沙堆的磚瓦屋內; 在你眼前, 東南西北四

@@ -18,11 +18,11 @@ void init()
 	  kee1=me->query("eff_kee");
 	    if( random(300) > me->query_skill("parry") )
 	    {
-	    message_vision(HIR"$N"HIR"一道烈焰衝向$N，$N慘被烈焰灼傷了!!\n"NOR,me);
+	    message_vision(HIR + "$N" + HIR + "一道烈焰衝向$N，$N慘被烈焰灼傷了!!\n" + NOR,me);
 	    me->receive_wound("kee",kee1/50);
 	    COMBAT_D->report_status(me,1); 
 	    }else{
-	    message_vision(HIW"$N"HIW"$N運足勁力，揮手一揚就將這道烈焰格檔下來了!!\n"NOR,me);
+	    message_vision(HIW + "$N" + HIW + "$N運足勁力，揮手一揚就將這道烈焰格檔下來了!!\n" + NOR,me);
 	    }   
 	  }
 
@@ -71,6 +71,6 @@ void init()
 int up(object me)
 {
 	me=this_player();
-	message_vision(HIR"紅色的靈氣包圍漸漸褪去，一個向上的樓梯漸漸成形在$N眼前。\n"NOR,me);
+	message_vision(HIR + "紅色的靈氣包圍漸漸褪去，一個向上的樓梯漸漸成形在$N眼前。\n" + NOR,me);
 	me->move("/open/magic-manor/fire/up06");
 }

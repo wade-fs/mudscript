@@ -3,7 +3,7 @@ inherit ITEM;			//單一道具
 inherit F_AUTOLOAD;
 void create()
 {
-	set_name(YEL"土靈。焚天珠"NOR, ({"soil pearl","pearl"}));	//名稱
+	set_name(YEL + "土靈。焚天珠" + NOR, ({"soil pearl","pearl"}));	//名稱
 	set_weight(1000);					//重量
         set("no_auc",1);
         set("no_sell",1);
@@ -45,8 +45,8 @@ int do_turn_on(string arg)
 	if(this_player()->query_temp("turn_on/pearl-1"))	return notify_fail("仍在運作中。\n");
 	else
 	{
-		message_vision(HIY"$N轉動著$n。\n
-$n"HIY"在$N手心緩緩旋轉，慢慢漂浮離開$N的手，環繞在$N的身旁並發出強烈的黃色光芒！\n"NOR,this_player(),ob);
+		message_vision(HIY + "$N轉動著$n。\n
+$n" + HIY + "在$N手心緩緩旋轉，慢慢漂浮離開$N的手，環繞在$N的身旁並發出強烈的黃色光芒！\n" + NOR,this_player(),ob);
 		//ob->set("no_get",1);
 		//ob->set("no_auc",1);
 		//ob->set("no_give",1);
@@ -54,7 +54,7 @@ $n"HIY"在$N手心緩緩旋轉，慢慢漂浮離開$N的手，環繞在$N的身�
 		//ob->set("no_sell",1);
 		//ob->set("no_sac",1);
 		//ob->set("no_drop",1);
-		ob->set_name(HIC"《"HIG"驅動中"HIC"（"HIY"黃光"HIC"）》"YEL"土靈。焚天珠"NOR,({"soil pearl","pearl"}));
+		ob->set_name(HIC + "《" + HIG + "驅動中" + HIC + "（" + HIY + "黃光" + HIC + "）》" + YEL + "土靈。焚天珠" + NOR,({"soil pearl","pearl"}));
 		this_player()->set_temp("turn_on/pearl-1",1);
 		this_player()->apply_condition("turn_on_pearl-1",1);
 	}
@@ -69,7 +69,7 @@ int do_turn_off(string arg)
 	if(!this_player()->query_temp("turn_on/pearl-1"))
 		return notify_fail("沒有啟動。\n");
 	{
-		message_vision("$n"HIY"緩緩降落在$N的手中，光芒也漸漸消失了...\n"NOR,this_player(),this_object());
+		message_vision("$n" + HIY + "緩緩降落在$N的手中，光芒也漸漸消失了...\n" + NOR,this_player(),this_object());
 		this_player()->delete_temp("turn_on/pearl-1");
 		//ob->delete("no_get",1);
 		//ob->delete("no_auc",1);
@@ -78,7 +78,7 @@ int do_turn_off(string arg)
 		//ob->delete("no_sell",1);
 		//ob->delete("no_sac",1);
 		//ob->delete("no_drop",1);
-		ob->set_name(YEL"土靈。焚天珠"NOR, ({"soil pearl","pearl"}));
+		ob->set_name(YEL + "土靈。焚天珠" + NOR, ({"soil pearl","pearl"}));
 	}
 	return 1;
 }

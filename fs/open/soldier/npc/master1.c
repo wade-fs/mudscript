@@ -8,7 +8,7 @@ inherit F_MASTER;
 void create()
 {
         set_name("李察雞餌", ({ "lin di", "lin", "di" }) );
-        set("nickname", HIR"魔鬼上將"NOR);
+        set("nickname", HIR + "魔鬼上將" + NOR);
         set("title", "帝國反亂軍");
         set("gender", "男性");
         set("age", 42);
@@ -63,7 +63,7 @@ void create()
 
         setup();
 carry_object("/open/soldier/obj/blood")->wield ();
-        create_family("帝國反亂軍",1,HIR"魔鬼上將"NOR);
+        create_family("帝國反亂軍",1,HIR + "魔鬼上將" + NOR);
         set("family/next_title", "魔鬼傭兵");
         add_money("gold", 30);
         }
@@ -103,7 +103,7 @@ int do_join()
         if( who->query("class") )
                 return notify_fail("你已經加入其他工會了。\n");
         who->set("class", "soldier");
-        message("system", HIR"拿起麥克風大吼：帝國反亂軍又多了一條米蟲了-"HIY+who->query("name")+HIR"\n大家要多多操他啦！哇哈哈！\n"NOR, users());
+        message("system", HIR + "拿起麥克風大吼：帝國反亂軍又多了一條米蟲了-"HIY+who->query("name")+HIR"\n大家要多多操他啦！哇哈哈！\n" + NOR, users());
 
         return 1;
 }
@@ -114,17 +114,17 @@ void die()
         me=query_temp("last_damage_from");
  me->set_temp("blood", 1);
         message_vision("\n",me);
-        message_vision(HIM "你看見李察雞餌應聲倒地。\n" NOR,me);
+        message_vision(HIM + "你看見李察雞餌應聲倒地。\n" + NOR,me);
         message_vision(" 從李察雞餌身上掉出了一個徽章﹐你順勢撿了起來。\n",me);
-        tell_room(me,HIR"李察雞餌吼道: 你等死吧～～!!!哈哈哈。\n");
+        tell_room(me,HIR + "李察雞餌吼道: 你等死吧～～!!!哈哈哈。\n");
 	call_out("msg2",1,me);
 }
  void msg2(object me)
 {	 
 	message_vision("\n",me);
-message_vision(HIY "千里不留行吼道: 順我者生～逆我者亡～!!!納命來～～!!\n" NOR,me);
+message_vision(HIY + "千里不留行吼道: 順我者生～逆我者亡～!!!納命來～～!!\n" + NOR,me);
 
-message_vision(HIG "阿諾啥米碗糕喊道：給我圍起來!!!一個也別跑出去!!!\n" NOR,me);
+message_vision(HIG + "阿諾啥米碗糕喊道：給我圍起來!!!一個也別跑出去!!!\n" + NOR,me);
         tell_room(me,"你心想:完了～這次玩完了～莫非會葬身於此嗎。\n");
         new("/open/soldier/npc/alo.c")->move("/open/soldier/room/r33.c");
   new("/open/soldier/npc/chan1.c")->move("/open/soldier/room/r36.c");

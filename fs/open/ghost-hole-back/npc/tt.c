@@ -7,7 +7,7 @@ void create()
         "他是死靈幽谷的玄冥之氣所匯集而成的魔物，憑著己身強大的力量，把死靈界
 掌握於手中，其『玄冥神掌』更是讓人不敢恭維。\n");
         set("gender","男姓");
-        set("title",BLU"玄冥魔神"NOR);
+        set("title",BLU + "玄冥魔神" + NOR);
         set("age", 100000);
         set("attitude", "aggressive");
         set("max_gin", 80000);
@@ -68,7 +68,7 @@ void heart_beat()
             && enemy[j]->query("id")!="poison dragon")
         {
 	message_vision( HIB
-        "\n一股玄冥之氣排山倒海而來，強大的氣力壓的$N喘不過氣來！！\n"NOR,mob);
+        "\n一股玄冥之氣排山倒海而來，強大的氣力壓的$N喘不過氣來！！\n" + NOR,mob);
         COMBAT_D->report_status(enemy[j]);
         enemy[j]->add("kee",-1500);
         }}
@@ -84,18 +84,18 @@ object me,ob,ob1;
 me=query_temp("last_damage_from");
 ob=new(__DIR__"test01");
 ob1=new(__DIR__"test02");
-tell_object(users(),HIW"
-		～～"BLU"死靈幽谷傳來一陣淒涼的哀嚎聲"HIW"～～
+tell_object(users(),HIW + "
+		～～" + BLU + "死靈幽谷傳來一陣淒涼的哀嚎聲" + HIW + "～～
 
-"HIR"焚天魔王大怒：該死的"+me->query("name")+"～～竟然打敗我的結拜好兄弟幽冥骨魔！！
+" + HIR + "焚天魔王大怒：該死的"+me->query("name")+"～～竟然打敗我的結拜好兄弟幽冥骨魔！！
 	      看來我應該到人間界跟"+me->query("id")+"討回這筆帳！！
 	      
 	      眾魔將們聽命～！！遠征人間界的時間到了！！
 	      
-"HIW"獨孤嵊大笑：哈哈～！！人間界即將大亂，看來我應該出塔助焚天魔王一臂之力！！
+" + HIW + "獨孤嵊大笑：哈哈～！！人間界即將大亂，看來我應該出塔助焚天魔王一臂之力！！
 	    
 	    各樓塔主得令！！火速出塔～～大鬧人間界～～！！
-"NOR);
+" + NOR);
 ob->move("/open/common/room/inn");
 ob1->move("/open/common/room/inn");
 ::die();

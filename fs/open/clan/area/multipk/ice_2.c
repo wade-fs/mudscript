@@ -6,7 +6,7 @@ inherit ROOM;
 
 void create()
 {
-	set( "short", HIW"Ω玄冰島Ω"NOR );
+	set( "short", HIW + "Ω玄冰島Ω" + NOR );
 	set( "long", (: print_msg :) );
 	set( "no_transmit", 1 );
 	set( "light_up", 1 );    

@@ -3,7 +3,7 @@
 inherit ROOM;
 void create ()
 {
-  set ("short", HIC"狂想空間小秘技天地"NOR);
+  set ("short", HIC + "狂想空間小秘技天地" + NOR);
   set ("long","這房間是介紹一些狂想的在玩時的一些小秘技!!
   提供給新玩家參考之用!!!
   秘技三：數量指令!!!

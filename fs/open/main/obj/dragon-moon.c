@@ -8,7 +8,7 @@ int be,bb,k,sp,qq;
 void create()
 {
         seteuid(getuid());
-        set_name(HIC"青龍偃月刀"NOR,({"dragon-moon"}));
+        set_name(HIC + "青龍偃月刀" + NOR,({"dragon-moon"}));
         set_weight(8000);
         if( clonep() )
                 set_default_object(__FILE__);
@@ -38,7 +38,7 @@ int do_wield(string str)
      if( query("equipped") )
      {
         user = this_player();
-message_vision("$N拿著"HIC"青龍偃月刀"NOR",$N覺得渾身充滿了神力\n"NOR,user);
+message_vision("$N拿著" + HIC + "青龍偃月刀" + NOR + ",$N覺得渾身充滿了神力\n" + NOR,user);
         set_heart_beat(1);
      }
 }
@@ -47,7 +47,7 @@ int do_drop(string str)
    if(str=="dragon-moon" || str=="all")
      if( query("equipped") )
      {
-message_vision("$N將手中的"HIC"青龍偃月刀"NOR"插入腰間的刀鞘。\n",user);
+message_vision("$N將手中的" + HIC + "青龍偃月刀" + NOR + "插入腰間的刀鞘。\n",user);
         set_heart_beat(0);
      }
 }
@@ -56,7 +56,7 @@ message_vision("$N將手中的"HIC"青龍偃月刀"NOR"插入腰間的刀鞘。\
   if(str=="dragon-moon" || str=="all")
      if( query("equipped") )
      {
-message_vision("$N將手中的"HIC"青龍偃月刀"NOR"插入腰間的刀鞘。\n",user);
+message_vision("$N將手中的" + HIC + "青龍偃月刀" + NOR + "插入腰間的刀鞘。\n",user);
         set_heart_beat(0);
      }
 }
@@ -68,7 +68,7 @@ int do_unwield(string str)
    if(str=="dragon-moon" || str=="all")
      if( query("equipped") )
      {
-message_vision("$N將手中的"HIC"青龍偃月刀"NOR"插入腰間的刀鞘。\n",user);
+message_vision("$N將手中的" + HIC + "青龍偃月刀" + NOR + "插入腰間的刀鞘。\n",user);
         set_heart_beat(0);
      }
 }
@@ -77,7 +77,7 @@ int do_auc(string str)
   if(str=="dragon-moon" || str=="all")
      if( query("equipped") )
      {
-message_vision("$N將手中的"HIC"青龍偃月刀"NOR"插入腰間的刀鞘。\n",user);
+message_vision("$N將手中的" + HIC + "青龍偃月刀" + NOR + "插入腰間的刀鞘。\n",user);
         set_heart_beat(0);
      }
 }
@@ -101,14 +101,14 @@ void heart_beat()
      enemy=offensive_target(user);
      if(!enemy) return ;
      if( environment(user) == environment(enemy) )
-     message_vision(HIG"\n青龍之魂"HIW"從"HIC"青龍偃月刀"HIW"裡流竄出來！\n"NOR,enemy);  
+     message_vision(HIG + "\n青龍之魂" + HIW + "從" + HIC + "青龍偃月刀" + HIW + "裡流竄出來！\n" + NOR,enemy);  
       if( random(5)>1  )
      {
-      message_vision(HIG"只見$N面露異色，似乎受創不淺!!\n"NOR,enemy);  
+      message_vision(HIG + "只見$N面露異色，似乎受創不淺!!\n" + NOR,enemy);  
 	  enemy->receive_wound("kee",random(250)+250);
       COMBAT_D->report_status(enemy, 0);
      }else
-      message_vision(HIC"只見$N身手不凡，一下躲過了青龍魂魄。\n"NOR,enemy);
+      message_vision(HIC + "只見$N身手不凡，一下躲過了青龍魂魄。\n" + NOR,enemy);
 	  }
   }
   return;

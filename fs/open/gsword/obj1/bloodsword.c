@@ -5,7 +5,7 @@ object user;
 int sp,max;
 void create()
 {
-     set_name( HIR"血咒"NOR,({"blood_sword","sword"}) );
+     set_name( HIR + "血咒" + NOR,({"blood_sword","sword"}) );
      set_weight(7500);
      if( clonep() )
                set_default_object(__FILE__);
@@ -16,7 +16,7 @@ void create()
             set("unit", "件");
             set("value",20000);
             set("material","steal");
-            set("wield_msg", HIR"$N從將$n"+HIR"由畫滿符咒的劍鞘中抽出.\n");
+            set("wield_msg", HIR + "$N從將$n"+HIR"由畫滿符咒的劍鞘中抽出.\n");
             set("unwield_msg", "$N把$n插回劍鞘裡.\n");
            }
         init_sword(99);
@@ -45,7 +45,7 @@ int do_check()
 {
 
  if( query("equipped") )
-   write(HIR"血咒儲存的血氣有 "+sp+" .\n"NOR);
+   write(HIR + "血咒儲存的血氣有 "+sp+" .\n" + NOR);
 
 
  return 1;
@@ -111,7 +111,7 @@ int do_fire()
         }else{
           message_vision(HIR+"$N陷入瘋狂，將手中血劍刺進另一隻手中，只見血咒"
                             +"在吸收$N的鮮血後，散發出耀眼光芒，並釋放出無數"
-                            +"血氣包圍$n!!!\n"NOR,user,enemy[i]);
+                            +"血氣包圍$n!!!\n" + NOR,user,enemy[i]);
           user->receive_damage("kee",300);
           pp=sp*7;
           enemy[i]->start_busy(1);

@@ -36,7 +36,7 @@ object me=this_player();
 add_action("report_ok", "report");
 if (me->query_temp("can_back",1))
 {
-tell_object(me,HIY"\n魯尋突然匆匆忙忙跑過來說: 船隻修好了!!\n魯尋說道: 等你準備好要返行時回報(report)我一聲就行了.\n"NOR);
+tell_object(me,HIY + "\n魯尋突然匆匆忙忙跑過來說: 船隻修好了!!\n魯尋說道: 等你準備好要返行時回報(report)我一聲就行了.\n" + NOR);
 return ;
 }
 return ;
@@ -47,7 +47,7 @@ object me;
 me=this_player();
 if (me->query_temp("can_back")==1)
 {
-tell_object(me,HIY"你說道: 我準備好了, 可以出發了!!\n"NOR);
+tell_object(me,HIY + "你說道: 我準備好了, 可以出發了!!\n" + NOR);
 call_out("b1",2,me);
 me->delete_temp("can_back",1);
 return 1;
@@ -59,26 +59,26 @@ return 0;
 }
 int b1(object me)
 {
-tell_object(me,HIC"\n當一切準備就緒, 我和船員們搭上商船離開這座島嶼. \n"NOR);
+tell_object(me,HIC + "\n當一切準備就緒, 我和船員們搭上商船離開這座島嶼. \n" + NOR);
 me->move(__DIR__"ship");
 call_out("b2",4,me);
 return 1;
 }
 int b2(object me)
 {
-tell_object(me,HIC"船隻在海上緩緩航行, 那座小島在眼中也漸漸變小 ...\n"NOR);
+tell_object(me,HIC + "船隻在海上緩緩航行, 那座小島在眼中也漸漸變小 ...\n" + NOR);
 call_out("b3",6,me);
 return 1;
 }
 int b3(object me)
 {
-tell_object(me,HIC"回程上風平浪淨並沒有發生什麼意外, 過了幾天我們終於回到楓林港. \n"NOR);
+tell_object(me,HIC + "回程上風平浪淨並沒有發生什麼意外, 過了幾天我們終於回到楓林港. \n" + NOR);
 call_out("b4",3,me);
 return 1;
 }
 int b4(object me)
 {
-tell_object(me,HIY"魯尋說道: 我們回到楓林港了, 該去跟我父親回報(report)這次出行發生的事了 !\n"NOR);
+tell_object(me,HIY + "魯尋說道: 我們回到楓林港了, 該去跟我父親回報(report)這次出行發生的事了 !\n" + NOR);
 me->move("/open/port/room/r5-3");
 return 1;
 }

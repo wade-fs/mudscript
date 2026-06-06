@@ -81,31 +81,31 @@ int special_att ()
   int i = sizeof (enemy), damage;
   victim = enemy[random(i)];
   message_vision(HIB+
-     "          －－ "HIW"冥  殿  "HIR"絕  "HIY"學  "HIB"第  一  式 －－"NOR"
-                  "HIB"～『  "HIY"妖 魔 聚 鼎"HIB"  』～"NOR"
-          "HIW"冥殿小妖身形倏而騰飛三丈,凌空劈出一"NOR"
-    "HIW"股掌勁,綿綿掌影,如江河缺堤似,暴瀉而下,掌風如激流"NOR"
-                  "HIW"般地向你隔空劈來!"NOR"
-           "HIB"－－ "HIW"冥  殿  "HIR"絕  "HIY"學  "HIB"第  二  式 －－"NOR"
-                  "HIB"～『  "HIR"魔 性 狂 發"HIB"  』～"NOR"
-          "HIW"冥殿小妖滿頭銀髮迎風如濤,雙目吐光如炬,"NOR"
-    "HIW"忽然雙臂抖舞,幻化成千百條手臂,每一條手臂撲出一般渾"NOR"
-             "HIW"雄的掌風,慢天的掌影向你捲劈而來!"NOR"
-           "HIB"－－ "HIW"冥  殿  "HIR"絕  "HIY"學  "HIB"第  三  式 －－"NOR"
-                  "HIB"～『  "HIW"鬼 氣 貫 腦"HIB"  』～"NOR"
-          "HIW"冥殿小妖雙手暴長，臉部青絲暴露，濃烈的惡"NOR"
-    "HIW"臭從雙掌透出，只見冥殿小妖雙手不停疾舞，勁氣中夾帶著"NOR"
-  "HIW"令人聞之欲嘔的毒氣,使得你受到毒氣的影響，受到不輕的傷害!"NOR"
-           "HIB"－－ "HIW"冥  殿  "HIR"絕  "HIY"學  "HIB"第  四  式 －－"NOR"
-                  "HIB"～『  "HIC"魑 魅 魍 魎"HIB"  』～"NOR"
-          "HIW"冥殿小妖一聲龍吟般的長嘯,挫身飛騰,身形盪"NOR"
-    "HIW"空迴舞,一連串動作在同一石火電光之間完成,自不同的方向,"NOR"
-  "HIW"不同的角度,那宛如似厲鬼魔爪般的掌影,向你詭異奇絕的飛劈而至!"NOR"
-           "HIB"－－ "HIW"冥  殿  "HIR"絕  "HIY"學  "HIB"第  五  式 －－"NOR"
-                  "HIB"～『  "MAG"鬼 魅 拜 月"HIB"  』～"NOR"
-          "HIW"只見冥殿小妖身形一躬，雙掌前劈，一道半月"NOR"
-    "HIW"形的勁氣猛然向前湧去，雄渾的勁氣，刮得地面如飛沙走石般"NOR"
-                       "HIW"地向你狂襲而去!!\n"+NOR,me);
+     "          －－ " + HIW + "冥  殿  " + HIR + "絕  " + HIY + "學  " + HIB + "第  一  式 －－" + NOR + "
+                  " + HIB + "～『  " + HIY + "妖 魔 聚 鼎" + HIB + "  』～" + NOR + "
+          " + HIW + "冥殿小妖身形倏而騰飛三丈,凌空劈出一" + NOR + "
+    " + HIW + "股掌勁,綿綿掌影,如江河缺堤似,暴瀉而下,掌風如激流" + NOR + "
+                  " + HIW + "般地向你隔空劈來!" + NOR + "
+           " + HIB + "－－ " + HIW + "冥  殿  " + HIR + "絕  " + HIY + "學  " + HIB + "第  二  式 －－" + NOR + "
+                  " + HIB + "～『  " + HIR + "魔 性 狂 發" + HIB + "  』～" + NOR + "
+          " + HIW + "冥殿小妖滿頭銀髮迎風如濤,雙目吐光如炬," + NOR + "
+    " + HIW + "忽然雙臂抖舞,幻化成千百條手臂,每一條手臂撲出一般渾" + NOR + "
+             " + HIW + "雄的掌風,慢天的掌影向你捲劈而來!" + NOR + "
+           " + HIB + "－－ " + HIW + "冥  殿  " + HIR + "絕  " + HIY + "學  " + HIB + "第  三  式 －－" + NOR + "
+                  " + HIB + "～『  " + HIW + "鬼 氣 貫 腦" + HIB + "  』～" + NOR + "
+          " + HIW + "冥殿小妖雙手暴長，臉部青絲暴露，濃烈的惡" + NOR + "
+    " + HIW + "臭從雙掌透出，只見冥殿小妖雙手不停疾舞，勁氣中夾帶著" + NOR + "
+  " + HIW + "令人聞之欲嘔的毒氣,使得你受到毒氣的影響，受到不輕的傷害!" + NOR + "
+           " + HIB + "－－ " + HIW + "冥  殿  " + HIR + "絕  " + HIY + "學  " + HIB + "第  四  式 －－" + NOR + "
+                  " + HIB + "～『  " + HIC + "魑 魅 魍 魎" + HIB + "  』～" + NOR + "
+          " + HIW + "冥殿小妖一聲龍吟般的長嘯,挫身飛騰,身形盪" + NOR + "
+    " + HIW + "空迴舞,一連串動作在同一石火電光之間完成,自不同的方向," + NOR + "
+  " + HIW + "不同的角度,那宛如似厲鬼魔爪般的掌影,向你詭異奇絕的飛劈而至!" + NOR + "
+           " + HIB + "－－ " + HIW + "冥  殿  " + HIR + "絕  " + HIY + "學  " + HIB + "第  五  式 －－" + NOR + "
+                  " + HIB + "～『  " + MAG + "鬼 魅 拜 月" + HIB + "  』～" + NOR + "
+          " + HIW + "只見冥殿小妖身形一躬，雙掌前劈，一道半月" + NOR + "
+    " + HIW + "形的勁氣猛然向前湧去，雄渾的勁氣，刮得地面如飛沙走石般" + NOR + "
+                       " + HIW + "地向你狂襲而去!!\n"+NOR,me);
   
   if (random (2) >= 1)
   {
@@ -114,12 +114,12 @@ int special_att ()
       damage = 40;
     if (damage > 250)
       damage = 250;
-    message_vision(HIR"$N不幸被掌風劈中 , 頓時全身血如泉湧.\n"NOR,victim);
+    message_vision(HIR + "$N不幸被掌風劈中 , 頓時全身血如泉湧.\n" + NOR,victim);
     victim->apply_condition ("bleeding", random (i * i));
     victim->receive_damage ("kee", damage, me);
     COMBAT_D->report_status (victim, 0);
   } else {
-    message_vision(HIW"只可惜離$N差了一點, 劈到地上, 轟的一聲巨響, 地皮頓時裂了開來.\n"NOR,victim);
+    message_vision(HIW + "只可惜離$N差了一點, 劈到地上, 轟的一聲巨響, 地皮頓時裂了開來.\n" + NOR,victim);
   }
   start_busy (1);
   return 1;

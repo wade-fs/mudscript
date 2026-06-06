@@ -5,7 +5,7 @@ inherit EQUIP;
 
 void create()
 {
-    set_name(HIG"綠帽"NOR, ({ "green hat", "hat" }) );
+    set_name(HIG + "綠帽" + NOR, ({ "green hat", "hat" }) );
 	set_weight(2200);
 	      	if( clonep() )
 		set_default_object(__FILE__);

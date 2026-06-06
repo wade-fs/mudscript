@@ -4,7 +4,7 @@
 inherit CLOTH;
 void create()
 {
- set_name(HIW"羊毛衣"NOR,({"cloth"}));
+ set_name(HIW + "羊毛衣" + NOR,({"cloth"}));
  set_weight(50);
  if ( clonep() )
  set_default_object(__FILE__);
@@ -34,8 +34,8 @@ void init()
   seteuid(geteuid());
   me = this_player();
   if (me)
-        set_name (me->name(1)+ "的"HIW"羊毛衣"NOR, ({"cloth"}));
+        set_name (me->name(1)+ "的" + HIW + "羊毛衣" + NOR, ({"cloth"}));
   else
-        set_name (HIW"羊毛衣"NOR, ({"cloth"}));
+        set_name (HIW + "羊毛衣" + NOR, ({"cloth"}));
 
 }

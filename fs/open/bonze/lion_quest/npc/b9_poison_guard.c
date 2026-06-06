@@ -190,7 +190,7 @@ int heal_up()
 
   if (!is_fighting() && this_object()->query_temp("count_down") > 40) //心跳一次 1:1.5(秒)==>1.5x40=1min, 15min=1.5x40x15=900 //暫定為解迷mob 所以 縮短時間為40
   { //心跳一次 1:1.5(秒)==>1.5x40=1min, 15min=1.5x40x15=900
-    message_vision (HIY"$N發覺不對勁，於是轉身而逝，消失在陰影裡！\n"NOR, this_object ());
+    message_vision (HIY + "$N發覺不對勁，於是轉身而逝，消失在陰影裡！\n" + NOR, this_object ());
     destruct(this_object());
     return 1;
   } //此括號仍為判斷是否在戰鬥中的if下引號

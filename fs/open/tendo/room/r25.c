@@ -6,7 +6,7 @@ void create()
 {
   string long;
 
-set("short",HIC"八卦遊龍迷陣陣心"NOR);
+set("short",HIC + "八卦遊龍迷陣陣心" + NOR);
 
 long = "\n"+
 "這裡就是陣心了，四處沒什麼東西，只有正中央放著一個奇怪的東西\n"+"(eight)。 由"+

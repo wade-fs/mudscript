@@ -4,31 +4,31 @@
 inherit NPC;
 
 mapping *action = ({
-([ "action" :"$N"HIG"喝聲道，銳利的爪子向$n"HIG"抓了過去，眼看$n"HIG"就要被抓到了!!!"NOR,
+([ "action" :"$N" + HIG + "喝聲道，銳利的爪子向$n" + HIG + "抓了過去，眼看$n" + HIG + "就要被抓到了!!!" + NOR,
              "dodge"      :  -20,
              "parry"      :  -35,
              "damage"     :  270,
              "damage_type":  "抓傷",
            ]),
-([ "action" :"$N"HIG"漫天爪影朝$n"HIG"猛擊下去，$n"HIG"被$N"HIG"的攻勢嚇了一跳，竟然忘了閃躲!!!"NOR,
+([ "action" :"$N" + HIG + "漫天爪影朝$n" + HIG + "猛擊下去，$n" + HIG + "被$N" + HIG + "的攻勢嚇了一跳，竟然忘了閃躲!!!" + NOR,
              "dodge"      :  -20,
              "parry"      :  -35,
              "damage"     :  270,
              "damage_type":  "抓傷",
             ]),
-([ "action" :"$N"HIG"身體忽然快速的旋轉起來，$N"HIG"的尾巴如風車般掃向$n!!!"NOR,
+([ "action" :"$N" + HIG + "身體忽然快速的旋轉起來，$N" + HIG + "的尾巴如風車般掃向$n!!!" + NOR,
              "dodge"      :  -30,
              "parry"      :  -35,
              "damage"     :  240,
              "damage_type":  "內傷",
             ]),
-([ "action" :"$N"HIG"朝$n"HIG"猛撞了過去，碩大的身軀，挾著萬均之勢，令$n"HIG"防無可防!!!"NOR,
+([ "action" :"$N" + HIG + "朝$n" + HIG + "猛撞了過去，碩大的身軀，挾著萬均之勢，令$n" + HIG + "防無可防!!!" + NOR,
              "dodge"      :  -30,
              "parry"      :  -35,
              "damage"     :  275,
              "damage_type":  "撞傷",
             ]),
-([ "action":"$N"HIG"將自己的身體捲的像球一樣，朝$n"HIG"滾去，龐大的身軀下$n"HIG"無處可躲!!!"NOR,
+([ "action":"$N" + HIG + "將自己的身體捲的像球一樣，朝$n" + HIG + "滾去，龐大的身軀下$n" + HIG + "無處可躲!!!" + NOR,
              "dodge"      : -30,
              "parry"      :  -30,
              "damage"     : 292,
@@ -38,9 +38,9 @@ mapping *action = ({
 
 void create()
 {
-  set_name(HIC"傲龍"NOR ,({"dragon guard", "guard"}) );
+  set_name(HIC + "傲龍" + NOR ,({"dragon guard", "guard"}) );
   set("race", "野獸");
-  set("nickname", HIG"天風翔"NOR);
+  set("nickname", HIG + "天風翔" + NOR);
   set("age",1032);
   set("long","蘊藏在幻彩靈戒的四大神獸之一。盡其一生守護其所認定的主人。\n");
   set("str", 45);
@@ -95,8 +95,8 @@ void invocation(object who)
   int i;
   object *enemy;
 
-  message("vision",HIC"什麼人這麼大膽，敢傷害我所守護的人\n"
-    NOR+name() + HIY + "輕輕的說道 : 要命的快離開吧!!\n"NOR,environment(), this_object() );
+  message("vision",HIC + "什麼人這麼大膽，敢傷害我所守護的人\n"
+    NOR+name() + HIY + "輕輕的說道 : 要命的快離開吧!!\n" + NOR,environment(), this_object() );
   enemy = who->query_enemy();
   i = sizeof(enemy);
   while(i--) {
@@ -135,7 +135,7 @@ void heart_beat()
       if(!enemy[i]) return;
       if(environment(me) == environment(enemy[i]))
       {
-        message_vision("$N"HIC"身上發出一道極光向$n"HIC"捲了過去，$n"HIC"走避不及被極光擊中了!!!\n"+NOR,me,enemy[i]);
+        message_vision("$N" + HIC + "身上發出一道極光向$n" + HIC + "捲了過去，$n" + HIC + "走避不及被極光擊中了!!!\n"+NOR,me,enemy[i]);
         enemy[i]->receive_wound("kee", enemy[i]->query("max_kee",1)/450, me);
         enemy[i]->receive_wound("sen", enemy[i]->query("max_sen",1)/450, me);
         enemy[i]->receive_wound("gin", enemy[i]->query("max_gin",1)/450, me);
@@ -150,7 +150,7 @@ void heart_beat()
         if(!enemy[i]) return;
         if(environment(me) == environment(enemy[i]))
         {
-          message_vision("$N"HIC"身上發出數道極光向$n"HIC"飛了過去，$n"HIC"走避不及被極光擊中了!!!\n"+NOR,me,enemy[i]);
+          message_vision("$N" + HIC + "身上發出數道極光向$n" + HIC + "飛了過去，$n" + HIC + "走避不及被極光擊中了!!!\n"+NOR,me,enemy[i]);
           enemy[i]->receive_wound("kee", enemy[i]->query("max_kee",1)/350, me);
           enemy[i]->receive_wound("sen", enemy[i]->query("max_sen",1)/350, me);
           enemy[i]->receive_wound("gin", enemy[i]->query("max_gin",1)/350, me);
@@ -166,7 +166,7 @@ void heart_beat()
         if(!enemy[i]) return;
         if(environment(me) == environment(enemy[i]))
         {
-          message_vision("$N"HIC"身上發出數十道極光向$n"HIC"襲了過去，$n"HIC"走避不及被極光擊中了!!!\n"+NOR,me,enemy[i]);
+          message_vision("$N" + HIC + "身上發出數十道極光向$n" + HIC + "襲了過去，$n" + HIC + "走避不及被極光擊中了!!!\n"+NOR,me,enemy[i]);
           enemy[i]->receive_wound("kee", enemy[i]->query("max_kee",1)/250, me);
           enemy[i]->receive_wound("sen", enemy[i]->query("max_sen",1)/250, me);
           enemy[i]->receive_wound("gin", enemy[i]->query("max_gin",1)/250, me);
@@ -182,7 +182,7 @@ void heart_beat()
         if(!enemy[i]) return;
         if(environment(me) == environment(enemy[i]))
         {
-          message_vision("$N"HIC"身上發出數不清的極光向$n"HIC"撲了過去，$n"HIC"走避不及被極光擊中了!!!\n"+NOR,me,enemy[i]);
+          message_vision("$N" + HIC + "身上發出數不清的極光向$n" + HIC + "撲了過去，$n" + HIC + "走避不及被極光擊中了!!!\n"+NOR,me,enemy[i]);
           enemy[i]->receive_wound("kee", enemy[i]->query("max_kee",1)/150, me);
           enemy[i]->receive_wound("sen", enemy[i]->query("max_sen",1)/150, me);
           enemy[i]->receive_wound("gin", enemy[i]->query("max_gin",1)/150, me);
@@ -208,8 +208,8 @@ void heart_beat()
 void leave()
 {
   object who = query_leader();
-  message_vision ("$N"HIY"說道﹕我已經盡完守護的責任了！與主人暫別！\n" +
-    "靈光漸漸散去，$N"HIY"的身形隱入了幻彩靈戒中了。\n" NOR, this_object());
+  message_vision ("$N" + HIY + "說道﹕我已經盡完守護的責任了！與主人暫別！\n" +
+    "靈光漸漸散去，$N" + HIY + "的身形隱入了幻彩靈戒中了。\n" + NOR, this_object());
   if (who)
     who->set_temp("have_guard",0);
   destruct(this_object());
@@ -220,7 +220,7 @@ void unconcious ()
   object who = query_leader();
   if (who && !who->query_temp("master"))
     who->set_temp("have_guard",0);
-  message_vision ("$N"HIB"慘叫一聲  啊！  恕我無法再保護主人了。\n"NOR, this_object());
+  message_vision ("$N" + HIB + "慘叫一聲  啊！  恕我無法再保護主人了。\n" + NOR, this_object());
   destruct (this_object());
 }
 
@@ -229,7 +229,7 @@ void die()
   object who = query_leader();
   if (who && !who->query_temp("master"))
     who->set_temp("have_guard",0);
-  message_vision ("$N"HIB"慘叫一聲  啊！  恕我無法再保護主人了。\n"NOR, this_object());
+  message_vision ("$N" + HIB + "慘叫一聲  啊！  恕我無法再保護主人了。\n" + NOR, this_object());
   destruct (this_object());
 
   ::die();

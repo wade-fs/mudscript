@@ -3,7 +3,7 @@ inherit ROOM;
 #include "icestorm.c"
 void create()
 {
-        set("short",HIC"東海"HIY"神殿"NOR);
+        set("short",HIC + "東海" + HIY + "神殿" + NOR);
         set ("long", @LONG
 這裡是東海神殿，東海，是中土與鄰國往來必經的重要水域，
 一根高聳入天的石柱佇立在此，看來就是調節東海水量的支柱了，

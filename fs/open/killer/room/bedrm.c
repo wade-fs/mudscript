@@ -58,13 +58,13 @@ int do_turn(string str)
    }
   if(me->query_temp("diray") == 2)
   {
-    message_vision(HIG"隨著花盆的轉動，字畫捲了起來，密門打開。\n",me);
+    message_vision(HIG + "隨著花盆的轉動，字畫捲了起來，密門打開。\n",me);
     message_vision("出現了一本葉秀殺的日記，正好翻到某一頁\n",me);
     message_vision("內容『唉。。。真是不小心，居然因為殺意魔戒放出太多殺氣\n",me);
     message_vision("對招中，使因在密道中躲避不及的柴榮受了傷。\n",me);
     message_vision("可惡，把它封印在（專用兵器室）好了，希望外甥不要說出去\n",me);
     message_vision("不過兵器室的鑰匙，好像上次掉在一樓了，都找不到。。。\n",me);
-    message_vision("正當你想在看下去時，發現外面似乎有人來了，於是急忙退了出去\n\n"NOR,me);
+    message_vision("正當你想在看下去時，發現外面似乎有人來了，於是急忙退了出去\n\n" + NOR,me);
     me->set_temp("diray",1);
     me->move(__DIR__"masterm.c");
     return 1;

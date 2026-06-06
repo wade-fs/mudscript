@@ -8,7 +8,7 @@ void create()
   object ob;
   set_name("金靈獸", ({ "gold beast","gold","beast" }) );
   set("long","出沒於金靈塔中的妖物，擅長使用強烈音波功\。\n");
-  set("title",HIY"(金色靈氣)"NOR);
+  set("title",HIY + "(金色靈氣)" + NOR);
   set("age", 60);
   set("max_gin", 30000);
   set("max_kee", 30000);
@@ -73,7 +73,7 @@ void heart_beat()
 
   if( random(10) > 6 && mob->is_fighting() )
   {
-    message_vision(HIY"$N身上的金色靈氣和金靈塔相互感應，音波一揚，陣陣音波向所有在場的人攻去!!\n"NOR,mob);
+    message_vision(HIY + "$N身上的金色靈氣和金靈塔相互感應，音波一揚，陣陣音波向所有在場的人攻去!!\n" + NOR,mob);
     for (j=0 ; j < i ; j++)
     {
       if( !enemy[j]) continue;
@@ -83,11 +83,11 @@ void heart_beat()
         {
           if( !enemy[j]->query_temp("magic-manor/fire-shield") )
           {
-            message_vision(HIY"$N"HIY"只感一陣頭痛欲裂，震耳欲聾，七孔流出絲絲血跡!!\n"NOR,(enemy[j]));
+            message_vision(HIY + "$N" + HIY + "只感一陣頭痛欲裂，震耳欲聾，七孔流出絲絲血跡!!\n" + NOR,(enemy[j]));
             enemy[j]->receive_wound("kee",400);
             COMBAT_D->report_status(enemy[j]);
           }else{
-            message_vision(HIR"$N"HIR"身上的火靈之氣緩和了部份的音波衝擊!!\n"NOR,(enemy[j]));
+            message_vision(HIR + "$N" + HIR + "身上的火靈之氣緩和了部份的音波衝擊!!\n" + NOR,(enemy[j]));
             enemy[j]->receive_wound("kee",200);
             COMBAT_D->report_status(enemy[j]);
           }

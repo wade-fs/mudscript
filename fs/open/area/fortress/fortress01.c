@@ -40,7 +40,7 @@ int do_put(string arg)
 	if(!present("fortress token",this_player()))	return 0;
 	else
 	{
-		message_vision(HIY"\n$N將令牌放入土牆的凹槽中。\n土牆附近突然出現一個往下的通道！\n\n"NOR,this_player());
+		message_vision(HIY + "\n$N將令牌放入土牆的凹槽中。\n土牆附近突然出現一個往下的通道！\n\n" + NOR,this_player());
 		this_object()->add("exits",(["down":__DIR__"fortress02",]));	//增加通道
 		this_object()->set("long","略微隆起的，光禿禿的地面沒有生長任何樹木，這裡是唯一可以
 被陽光照射的地方，在這片光禿禿的土黃色小山丘上，佇立著一面怪
@@ -57,7 +57,7 @@ int valid_leave(object me,string dir)		//房間移動方向
         if(dir=="down")
         {
                 if(present("thief",environment(me)) || present("robber",environment(me)))
-                        return notify_fail(HIR"極火山寨的小嘍嘍吼著：想下去！當我是死人啊！\n"NOR);
+                        return notify_fail(HIR + "極火山寨的小嘍嘍吼著：想下去！當我是死人啊！\n" + NOR);
                 else
                 {
                 	message_vision("$N往下走入了通道內。\n$N一通過通道，周圍的沙土把往下的通道給堵住了。\n",this_player());

@@ -28,7 +28,7 @@ int do_enter(object me)
 {
 me = this_player();
 
-	message_vision(HIC"$N進入海神廟\n"NOR,me);
+	message_vision(HIC + "$N進入海神廟\n" + NOR,me);
 	me->move("/open/area/sea-temple/s01");
 return 1;
 }

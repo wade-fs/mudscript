@@ -54,8 +54,8 @@ if(me->query("class") != "killer")
 		return notify_fail("你以為你是誰呀，也想要去見他？自己找路吧！！\n");
 	//表示不是殺手且為平民，想要加入殺手者
 	if (me->query("quest/rain") != 1)
-	message_vision(HIG"突然由一旁出現一位紫霞組的高手！！！\n"NOR,me);
-	message_vision(HIG"一陣灰暗後，你居然來到了工會老大面前........！\n"NOR,me);
+	message_vision(HIG + "突然由一旁出現一位紫霞組的高手！！！\n" + NOR,me);
+	message_vision(HIG + "一陣灰暗後，你居然來到了工會老大面前........！\n" + NOR,me);
 	me->move(__DIR__"hru2.c");
 	return 1;
 
@@ -64,8 +64,8 @@ if(me->query("class") != "killer")
   if (me->query("quest/rain") != 1)
 	return notify_fail("孩子，你的能力不足，也想要去見他？必須要自己找路哦！！\n");
 	//有解過魔氣殺的殺手
-  message_vision(HIG"突然由一旁出現一位紫霞組的高手！！！\n"NOR,me);
-  message_vision(HIG"一陣灰暗後，你居然來到了工會老大面前........！\n"NOR,me);
+  message_vision(HIG + "突然由一旁出現一位紫霞組的高手！！！\n" + NOR,me);
+  message_vision(HIG + "一陣灰暗後，你居然來到了工會老大面前........！\n" + NOR,me);
   me->move(__DIR__"hru1.c");
   return 1;
 }

@@ -5,7 +5,7 @@ inherit EQUIP;
 
 void create()
 {
-    set_name(HIB"閻"+HIY"月"+HIW"披風"NOR,({"Dark Moon Cloak","cloak"}));
+    set_name(HIB + "閻"+HIY"月"+HIW"披風" + NOR,({"Dark Moon Cloak","cloak"}));
 	set_weight(1000);
 	set("armor_type","cape");
         if( clonep() )

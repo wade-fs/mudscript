@@ -35,8 +35,8 @@ int do_cast(string arg)
 
     if(me->query_temp("icestorm/lovestory")==3
     && arg == "invocation on statue") {
-        message_vision(HIW"$N喃喃地念了幾句咒語。"HIC"\n
-一陣清風吹過，"HIM"蝶魂"HIC"乘雲緩緩從天而降。\n\n",me, ob);
+        message_vision(HIW + "$N喃喃地念了幾句咒語。" + HIC + "\n
+一陣清風吹過，" + HIM + "蝶魂" + HIC + "乘雲緩緩從天而降。\n\n",me, ob);
         fly->move(environment(me));
         me->delete_temp("icestorm/lovestory");
         me->set_temp("icestorm/ice_spell",1);
@@ -50,7 +50,7 @@ int do_cast(string arg)
 說完便將雙掌置於$N的天靈蓋\，緩緩的輸入真氣...\n
 $N只感到說不出的受用，張口欲言謝，卻吐不出半個字來...\n
 突然間，少婦將手收回，說道：奴家已助$N成就【冰雪風暴】之頂級功\力，盼$N用於正途，就此告辭！\n\n
-一陣白煙飄然而至，完全籠罩住少婦之後，又漸漸散去，那少婦已不知去向何方...\n"NOR,me);
+一陣白煙飄然而至，完全籠罩住少婦之後，又漸漸散去，那少婦已不知去向何方...\n" + NOR,me);
         me->set("allow_icestorm",1);
         me->delete("get_icestorm");
         destruct(ob);

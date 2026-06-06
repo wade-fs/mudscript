@@ -4,7 +4,7 @@ inherit ITEM;
 
 void create()
 {
-        set_name(HIW+"天鼓『"HIC"雷音"HIW"』"+NOR, ({ "drum" }) );
+        set_name(HIW+"天鼓『" + HIC + "雷音"HIW + "』"+NOR, ({ "drum" }) );
         set_weight(700);
         set("long", "傳聞跟四大神獸的龜有關 ,然而沒用過誰也不知道... 
 用法是use drum at xxx。\n");
@@ -36,11 +36,11 @@ int do_use(string arg)
     return notify_fail ("一道閃電劈下來 ,但什麼事都沒發生。\n");
 
  
-    message_vision (HIW"一道天雷直劈下來 ,將盤古真龜的龜殼粉碎了\n"NOR, me);
+    message_vision (HIW + "一道天雷直劈下來 ,將盤古真龜的龜殼粉碎了\n" + NOR, me);
    destruct(turtle);
    
  new("/open/island/npc/turtle2.c")->move("/open/island/room/cold.c");   
-message_vision (HIC"天鼓『雷音』也隨後化成飛灰...\n"NOR, me);
+message_vision (HIC + "天鼓『雷音』也隨後化成飛灰...\n" + NOR, me);
 destruct(this_object());
 
   return 1;

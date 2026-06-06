@@ -6,7 +6,7 @@ void create()
 {
         set_name("劉良",({"liu liang","liang"}));
         set("gender","男性");
-        set("title",YEL"行腳大夫"NOR);
+        set("title",YEL + "行腳大夫" + NOR);
         set("long",@LONG
 自幼隨父親行醫，走遍大江南北，見識過不少奇奇怪怪的怪病；醫術
 是其父所教導，其醫治之方法，十分奇特，雖然能對症下藥，不過卻
@@ -29,7 +29,7 @@ object ob = this_object();
                 if( ob->query_temp("start-cure") && obj->query("id") == "snake gall")
                 {
                         message_vision("\n$N說：這一帖藥沒錯，接下來下一帖，就是親人的心臟．．\n",ob);
-                        message_vision(HIY"\n\n在場的所有人聽到$N說出的這帖藥劑，全都驚訝不已！！\n\n\n"NOR,ob);
+                        message_vision(HIY + "\n\n在場的所有人聽到$N說出的這帖藥劑，全都驚訝不已！！\n\n\n" + NOR,ob);
                         call_out("do_answer",3,me);
                         ob->delete_temp("start-cure");
                 }
@@ -72,18 +72,18 @@ int do_answer3(object me)
         ob = this_object();
         obj = present("baby",environment(ob));
 
-        message_vision(HIW"
+        message_vision(HIW + "
 $N趕忙的將屍體給解剖～取出緩緩跳動的鮮紅心臟．．．
 
 一氣喝成的將蛇膽跟心臟磨碎混合～
-"NOR,ob);
+" + NOR,ob);
 
         if ( obj )
         {
-                message_vision(HIW"
+                message_vision(HIW + "
 
 最後將黯紅色的[混合藥劑]給塗抹在小嬰兒身上．．．
-\n"NOR,ob);
+\n" + NOR,ob);
         destruct(obj);
         obj = new("/open/area/house/npc/children01");
         obj->set_temp("cure_id",me->query("id"));
@@ -92,17 +92,17 @@ $N趕忙的將屍體給解剖～取出緩緩跳動的鮮紅心臟．．．
         }
         else
         {
-                message_vision(HIR"
+                message_vision(HIR + "
 $N瞪大眼睛看尋找著著嬰兒，手中拿著黯紅的[混合藥劑]漸漸變黑．．．
 
 $N搖頭嘆息：唉唉～這藥劑不能接觸空氣太久．．．已經失效了，老夫也無能為力。
-"NOR,ob);
+" + NOR,ob);
         }
                 message_vision("
 $N說：老夫的工作到此告一段落了，接下來就看這孩子的命了，老夫先行告辭～
 
 $N轉頭走出了木屋，留下了錯愕$n．．．
-"NOR,ob,me);
+" + NOR,ob,me);
 
         destruct(ob);
 return 1;

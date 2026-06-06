@@ -79,13 +79,13 @@ int do_throw(string str)
                 ( { me , target } )
               );
      tell_object( target,
-                   HIW"" + me -> name() + "忽然丟一顆雞蛋砸到你身上, "
-                   + "弄得你身上黏糊糊的﹗\n" NOR,
+                   HIW + "" + me -> name() + "忽然丟一顆雞蛋砸到你身上, "
+                   + "弄得你身上黏糊糊的﹗\n" + NOR,
                   ( { me , target } )
                 );
      tell_object( me,
-                  HIC"只見雞蛋準確地砸在" + target -> query("name") +
-                  "的身上, 弄得他身上黏糊糊地一片﹗\n"NOR,
+                  HIC + "只見雞蛋準確地砸在" + target -> query("name") +
+                  "的身上, 弄得他身上黏糊糊地一片﹗\n" + NOR,
                   ( { me , target } )
                 );
      target -> add("bellicosity", -1);

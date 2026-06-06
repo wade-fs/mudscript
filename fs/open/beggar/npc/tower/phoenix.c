@@ -47,8 +47,8 @@ void create()
 int accept_kill(object mob)
 {
         mob = this_object();
-        message_vision(HIG"\n$N發出一聲天籟般的長鳴，彷彿訴說著千年輪迴的無盡滄桑。\n\n"NOR,mob);
-        message_vision(HIW"聖靈"HIB"轉"HIG"生"HIR"焰"HIM"不斷地燃燒著$N的身軀，宛如浴火重生。\n\n"NOR,mob);
+        message_vision(HIG + "\n$N發出一聲天籟般的長鳴，彷彿訴說著千年輪迴的無盡滄桑。\n\n" + NOR,mob);
+        message_vision(HIW + "聖靈" + HIB + "轉" + HIG + "生" + HIR + "焰" + HIM + "不斷地燃燒著$N的身軀，宛如浴火重生。\n\n" + NOR,mob);
         mob->set("eff_gin",350000);
         mob->set("gin",350000);
         mob->set("eff_kee",350000);
@@ -65,10 +65,10 @@ void heart_beat()
 {
         string *msg=
           ({
-            HIY"天上立刻降下攝人的"HIR"焚星炎。\n"NOR,
-            HIY"大地震動，裂縫湧出"HIR"融岩海。\n"NOR,
-            HIY"四周空氣立即燃燒為"HIR"燎原火。\n"NOR,
-            HIY"強光直衝九霄，正是"HIR"殛天焰。\n"NOR
+            HIY + "天上立刻降下攝人的" + HIR + "焚星炎。\n" + NOR,
+            HIY + "大地震動，裂縫湧出" + HIR + "融岩海。\n" + NOR,
+            HIY + "四周空氣立即燃燒為" + HIR + "燎原火。\n" + NOR,
+            HIY + "強光直衝九霄，正是" + HIR + "殛天焰。\n" + NOR
            });
         object mob = this_object();     
         object room= environment(mob);
@@ -84,10 +84,10 @@ void heart_beat()
             if(enemy[m]->query("id") == "yun")
             j = 0;
           }
-          message_vision(HIG"\n$N發出一聲天籟般的長鳴，彷彿訴說著千年輪迴的無盡滄桑。\n\n"NOR,mob);
+          message_vision(HIG + "\n$N發出一聲天籟般的長鳴，彷彿訴說著千年輪迴的無盡滄桑。\n\n" + NOR,mob);
           if(j < 2 && random(3)==1)
           {
-            message_vision(HIW"聖靈"HIB"轉"HIG"生"HIR"焰"HIM"不斷地燃燒著$N的身軀，宛如浴火重生。\n\n"NOR,mob);
+            message_vision(HIW + "聖靈" + HIB + "轉" + HIG + "生" + HIR + "焰" + HIM + "不斷地燃燒著$N的身軀，宛如浴火重生。\n\n" + NOR,mob);
             mob->set("eff_gin",350000);
             mob->set("gin",350000);
             mob->set("eff_kee",350000);
@@ -102,7 +102,7 @@ void heart_beat()
             {
               if(random(5) == 3)
               {
-                message_vision(HIR"$N全身受到高熱衝擊，頓時灼傷，焦爛不堪。\n"NOR,enemy[i]);
+                message_vision(HIR + "$N全身受到高熱衝擊，頓時灼傷，焦爛不堪。\n" + NOR,enemy[i]);
                 enemy[i]->receive_damage("kee",2000);
                 enemy[i]->receive_wound("kee",2000);
                 COMBAT_D->report_status(enemy[i]);
@@ -111,29 +111,29 @@ void heart_beat()
             if(random(5) == 1)
             {
               message_vision("\n\n
-                          "HIR"▁▃"NOR"
-                     "HIR"▂▅▇"NOR""RED""BBLK"▄▁▃"NOR"
-                       "BLK""BRED"▆▄ "RED""BBLK"◣  "HIR"▄▆"NOR""RED""BBLK"▆▅▅▄▃▂▁"NOR"
-                            "RED"◥◣ "HIR"◥"BRED"▉≡ ==—￣ "BLK""BRED"▁ "NOR""RED""BBLK"▆▄▂"NOR"
-                  "HIR"▁▂"NOR"       "RED"◥"BRED" "BBLK"◣"HBRED"▉═￣     "NOR""BLK""BRED"▁▄"NOR"
-               "HIR"◢"BRED"◤◥"BBLK"█▆▅▆▇"BRED"▆  ＼   "NOR""RED""BBLK"▇"BLK""BRED"▄"NOR"
-               "HIR""BRED"▍     ◥◥◥ ◥◥▊  "NOR""RED""BBLK"◣"NOR"
-               "HIR""BRED"▎   ﹨  ◥◥ ＼＼ ＼    "NOR""BLK""BRED"▃"NOR"
-               "HIR""BRED"▏｜  ﹨   ＼ ＼ "NOR""BLK""BRED"▄"NOR" "BLK""BRED"▆▃     "RED""BBLK"▃▂▃▁"NOR,enemy[i]);
+                          " + HIR + "▁▃" + NOR + "
+                     " + HIR + "▂▅▇" + NOR + "" + RED + "" + BBLK + "▄▁▃" + NOR + "
+                       " + BLK + "" + BRED + "▆▄ " + RED + "" + BBLK + "◣  " + HIR + "▄▆" + NOR + "" + RED + "" + BBLK + "▆▅▅▄▃▂▁" + NOR + "
+                            " + RED + "◥◣ " + HIR + "◥" + BRED + "▉≡ ==—￣ " + BLK + "" + BRED + "▁ " + NOR + "" + RED + "" + BBLK + "▆▄▂" + NOR + "
+                  " + HIR + "▁▂" + NOR + "       " + RED + "◥" + BRED + " " + BBLK + "◣" + HBRED + "▉═￣     " + NOR + "" + BLK + "" + BRED + "▁▄" + NOR + "
+               " + HIR + "◢" + BRED + "◤◥" + BBLK + "█▆▅▆▇" + BRED + "▆  ＼   " + NOR + "" + RED + "" + BBLK + "▇" + BLK + "" + BRED + "▄" + NOR + "
+               " + HIR + "" + BRED + "▍     ◥◥◥ ◥◥▊  " + NOR + "" + RED + "" + BBLK + "◣" + NOR + "
+               " + HIR + "" + BRED + "▎   ﹨  ◥◥ ＼＼ ＼    " + NOR + "" + BLK + "" + BRED + "▃" + NOR + "
+               " + HIR + "" + BRED + "▏｜  ﹨   ＼ ＼ " + NOR + "" + BLK + "" + BRED + "▄" + NOR + " " + BLK + "" + BRED + "▆▃     " + RED + "" + BBLK + "▃▂▃▁" + NOR,enemy[i]);
                            message_vision("
-               "HIR""BRED"▏∥         "NOR""BLK""BRED"▄"NOR"            "BLK""BRED"▇"RED""BBLK"◥▄  ▂"BLK""BRED"▇▅"RED""BBLK"▄"NOR"
-               "HIR""BRED"   │     "NOR""RED""BBLK"◥"NOR"                     "BLK""BRED"▅"RED""BBLK"▃"BLK""BRED"▅"RED""BBLK"▃  "BLK""BRED"▅"RED""BBLK"▃"NOR"
-               "HIR""BRED"   ║   "NOR""RED""BBLK"▊▏                         "BLK""BRED"▄"RED""BBLK"◣ "BLK""BRED"▅"RED""BBLK"▃ ◥▃"NOR"
-                "BRED"       "RED""BBLK"▎                              ◥    ◥▃ ◥▃"NOR"
-                "BRED"     "RED""BBLK"▉▏                                ▍     ▌   ◥"NOR"
-                "BLK""BRED"▎  "RED""BBLK"▊▎"NOR"                                  "RED"▍     ◥"NOR"
-                  "BRED"    "RED""BBLK"∥                                  ▎       ▍"NOR"
-                   "BLK""BRED" ∣"NOR"                                    "RED"▍        ▍"NOR"
-                    "RED"◥                                   ▍          ▎"NOR"
-                                                   "RED"▁▂◤             ▏"NOR"
-                                                                    "RED" ▏\n\n"NOR,enemy[i]);
-              message_vision(HIR"\n仙熾火凰全身夾帶著熾熱的火焰，朝著$N疾速飛來。\n"NOR,enemy[i]);
-              message_vision(HIR"\n$N全身被火焰包圍著，痛不欲生。\n"NOR,enemy[i]);
+               " + HIR + "" + BRED + "▏∥         " + NOR + "" + BLK + "" + BRED + "▄" + NOR + "            " + BLK + "" + BRED + "▇" + RED + "" + BBLK + "◥▄  ▂" + BLK + "" + BRED + "▇▅" + RED + "" + BBLK + "▄" + NOR + "
+               " + HIR + "" + BRED + "   │     " + NOR + "" + RED + "" + BBLK + "◥" + NOR + "                     " + BLK + "" + BRED + "▅" + RED + "" + BBLK + "▃" + BLK + "" + BRED + "▅" + RED + "" + BBLK + "▃  " + BLK + "" + BRED + "▅" + RED + "" + BBLK + "▃" + NOR + "
+               " + HIR + "" + BRED + "   ║   " + NOR + "" + RED + "" + BBLK + "▊▏                         " + BLK + "" + BRED + "▄" + RED + "" + BBLK + "◣ " + BLK + "" + BRED + "▅" + RED + "" + BBLK + "▃ ◥▃" + NOR + "
+                " + BRED + "       " + RED + "" + BBLK + "▎                              ◥    ◥▃ ◥▃" + NOR + "
+                " + BRED + "     " + RED + "" + BBLK + "▉▏                                ▍     ▌   ◥" + NOR + "
+                " + BLK + "" + BRED + "▎  " + RED + "" + BBLK + "▊▎" + NOR + "                                  " + RED + "▍     ◥" + NOR + "
+                  " + BRED + "    " + RED + "" + BBLK + "∥                                  ▎       ▍" + NOR + "
+                   " + BLK + "" + BRED + " ∣" + NOR + "                                    " + RED + "▍        ▍" + NOR + "
+                    " + RED + "◥                                   ▍          ▎" + NOR + "
+                                                   " + RED + "▁▂◤             ▏" + NOR + "
+                                                                    " + RED + " ▏\n\n" + NOR,enemy[i]);
+              message_vision(HIR + "\n仙熾火凰全身夾帶著熾熱的火焰，朝著$N疾速飛來。\n" + NOR,enemy[i]);
+              message_vision(HIR + "\n$N全身被火焰包圍著，痛不欲生。\n" + NOR,enemy[i]);
               kee = enemy[i]->query("kee")/20;
               while(j--)
               {
@@ -146,7 +146,7 @@ void heart_beat()
                     enemy[j]->apply_condition("burn",6);
                     COMBAT_D->report_status(enemy[j]);
                   }else{
-                    message_vision(HIM"$N以全身勁力抵擋高熱，一時間無法動彈。\n"NOR,enemy[j]);
+                    message_vision(HIM + "$N以全身勁力抵擋高熱，一時間無法動彈。\n" + NOR,enemy[j]);
                     enemy[j]->start_busy(2);
                   }
                   if(enemy[j]->query("id") == "yun" && !userp(enemy[j]))  enemy[j]->die();
@@ -177,21 +177,21 @@ void die()
   winner->delete_temp("pass");
   if(stair && tower1 && tower2)
   {
-    stair->set("short",HIR"不死鳥ソ塔"HIG"第"+chinese_number(me->query_temp("floor"))+"階"NOR);
-    tower1->set("short",HIR"不死鳥ソ塔"HIY"第"+chinese_number(me->query_temp("floor"))+"層"NOR);
-    tower2->set("short",HIR"不死鳥ソ塔"HIY"第"+chinese_number(me->query_temp("floor"))+"層"NOR);
+    stair->set("short",HIR + "不死鳥ソ塔"HIG + "第"+chinese_number(me->query_temp("floor"))+"階" + NOR);
+    tower1->set("short",HIR + "不死鳥ソ塔"HIY + "第"+chinese_number(me->query_temp("floor"))+"層" + NOR);
+    tower2->set("short",HIR + "不死鳥ソ塔"HIY + "第"+chinese_number(me->query_temp("floor"))+"層" + NOR);
   }
   if (winner->query("kar") > random(33)){
-    tell_room(environment(winner),sprintf(HIY"一片金黃色的羽毛落在%s的身上。\n"NOR,winner->name()));
+    tell_room(environment(winner),sprintf(HIY + "一片金黃色的羽毛落在%s的身上。\n" + NOR,winner->name()));
     feather->move(winner);}
-    tell_object(users(),HIY"\n\n
+    tell_object(users(),HIY + "\n\n
                         幟虹仙鳳痛苦的悲鳴著
 
                 ～～～～吼     吼     吼    吼～～～～
                 
-                                "HIB"頓時天崩地裂～～～轟 轟 轟～～～～～"HIY"
+                                " + HIB + "頓時天崩地裂～～～轟 轟 轟～～～～～" + HIY + "
                 
-                                   聖獸幟虹仙鳳死於"+winner->name()+""HIY"的手中了。
-                                \n"NOR);
+                                   聖獸幟虹仙鳳死於"+winner->name()+"" + HIY + "的手中了。
+                                \n" + NOR);
   :: die();
 }

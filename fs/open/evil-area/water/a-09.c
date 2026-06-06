@@ -3,7 +3,7 @@ inherit ROOM;
 
 void create ()
 {
-	set("short",HIC"琰 揚 湖"NOR);
+	set("short",HIC + "琰 揚 湖" + NOR);
 	set("long",@LONG
 清風吹拂～你繞著湖面走了一段時間，不自覺的停下了腳步坐在
 湖泊一旁長滿著翠綠色的青草地上，看著一些人與邪獸安詳的生活在

@@ -3,7 +3,7 @@ inherit ROOM;
 
 void create ()
 {
-	set ("short", HIC"聚靈正殿"NOR);
+	set ("short", HIC + "聚靈正殿" + NOR);
 	set( "build", 12 );
 	set ("long", @LONG
 殿內繚繞著些許的靈氣，靈氣在空中緩緩飛旋，並慢慢朝著鳳翔

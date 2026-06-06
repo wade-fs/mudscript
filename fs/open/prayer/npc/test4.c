@@ -74,7 +74,7 @@ int accept_kill(object ob)
         ob1 = this_object();
 
         if( !present("hu_fa", environment(ob)) ) {
-        tell_room(environment(ob),HIW"\n突然！衝出兩位護法!!\n\n"NOR);
+        tell_room(environment(ob),HIW + "\n突然！衝出兩位護法!!\n\n" + NOR);
      for(i=0;i<2;i++)
      {
         hu_fa = new("/open/prayer/npc/hu_fa");
@@ -83,7 +83,7 @@ int accept_kill(object ob)
         hu_fa->command("follow "+ob->query("id"));
         hu_fa->kill_ob(ob);
         }}
-     tell_object(users(),HIR "護法縱身飛撲過來叫道：大膽狂徒！長老你也敢動！！\n" NOR);
+     tell_object(users(),HIR + "護法縱身飛撲過來叫道：大膽狂徒！長老你也敢動！！\n" + NOR);
         return 1;
 }
 

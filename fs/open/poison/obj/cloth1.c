@@ -3,7 +3,7 @@ inherit EQUIP;
 
 void create()
 {
-        set_name(HIW"冰蠶寒絲袍"NOR,({"cold cloth","cloth"}) );
+        set_name(HIW + "冰蠶寒絲袍" + NOR,({"cold cloth","cloth"}) );
         set_weight(3000);
         set("gender_only", "女性");
                 if( clonep() )

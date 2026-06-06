@@ -3,7 +3,7 @@ inherit ITEM;
 
 void create()
 {
-        set_name(HIG "柳葉霸刀奧義" NOR, ({ "Leaf_Book","book" }) );
+        set_name(HIG + "柳葉霸刀奧義" + NOR, ({ "Leaf_Book","book" }) );
 
         set("unit", "本");
         set("long", "柳葉山莊的傳家刀法精要，但你天賦不夠聰穎，認定它不是什麼武學秘笈\n");

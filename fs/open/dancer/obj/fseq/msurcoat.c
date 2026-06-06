@@ -5,7 +5,7 @@ inherit CAPE;
 object me=this_player();
 void create()
 {
-        set_name(HIW"菠蘿麵包隱身披風"NOR,({"Wade_cloak","cloak"}));
+        set_name(HIW + "菠蘿麵包隱身披風" + NOR,({"Wade_cloak","cloak"}));
         set_weight(2000);
         if( clonep() )
                 set_default_object(__FILE__);

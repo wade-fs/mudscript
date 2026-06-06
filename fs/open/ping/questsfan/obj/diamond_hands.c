@@ -3,7 +3,7 @@ inherit EQUIP;
 #include <ansi.h>
 void create()
 {
-        set_name(YEL"虹晶狂牙手套"NOR,({"diamond hands","hands"}));
+        set_name(YEL + "虹晶狂牙手套" + NOR,({"diamond hands","hands"}));
         set_weight(7000);
         if( clonep() )
                 set_default_object(__FILE__);
@@ -20,8 +20,8 @@ void create()
         set("armor_prop/attack",15);
         set("armor_prop/parry",10);
         set("armor_prop/stabber",10);
-set("wear_msg", HIR"$N穿上$n"HIR"，周圍的黃光漸漸凝聚成了一股獅形利牙的氣罩，緩緩的把$N的雙手包了起來。\n"NOR);
-set("unequip_msg", HIR"$N將$n"HIR"脫了下來，氣罩又化成黃光緩緩的消逝在雙手上。\n");
+set("wear_msg", HIR + "$N穿上$n" + HIR + "，周圍的黃光漸漸凝聚成了一股獅形利牙的氣罩，緩緩的把$N的雙手包了起來。\n" + NOR);
+set("unequip_msg", HIR + "$N將$n" + HIR + "脫了下來，氣罩又化成黃光緩緩的消逝在雙手上。\n");
         }
         setup();
 }

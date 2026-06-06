@@ -5,7 +5,7 @@ inherit BOOTS;
 object me=this_player();
 void create()
 {
-        set_name(HIR"暴走中兀兒德神靴" NOR,({"Urd_shoes","boots"}) );
+        set_name(HIR + "暴走中兀兒德神靴" + NOR,({"Urd_shoes","boots"}) );
         set_weight(2000);
         if ( clonep() )
                 set_default_object(__FILE__);

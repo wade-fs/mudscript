@@ -3,7 +3,7 @@
 inherit ROOM;
 void create ()
 {
-  set ("short", HIY"狂想空間歷史發展館"NOR);
+  set ("short", HIY + "狂想空間歷史發展館" + NOR);
         set( "long", "那時狂想空間便由中興及分站(Nkit)移至交大研究室中,正當我們在準備
 發展FS及GFS時發生了一些問題..........
 1.FS在交大的主機是借放在Acmesoft某一主管的交大實驗室中,由於我們沒有

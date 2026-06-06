@@ -38,7 +38,7 @@ int do_crash(string arg)
     default:
     return notify_fail("上面有奇怪的圖騰阻檔住你的內力！\n");
   }
-  CHANNEL_D->do_channel(this_object(),"mud",HIR + this_player()->query("name") + "使用了全身的內力，破壞了牆上裂縫。\n"NOR);
+  CHANNEL_D->do_channel(this_object(),"mud",HIR + this_player()->query("name") + "使用了全身的內力，破壞了牆上裂縫。\n" + NOR);
   tell_object(this_player(),"你費盡全身的內力，終於衝破了裂縫，但一個腳軟就掉進洞裡了！\n");
   this_player()->set("force",0);
   this_player()->move(__DIR__"hole04");

@@ -3,7 +3,7 @@ inherit COMBINED_ITEM;
 
 void create()
 {
-        set_name(HIY"土翎板"NOR,({"earth board","board"}));
+        set_name(HIY + "土翎板" + NOR,({"earth board","board"}));
         set_weight(10);
         if(clonep())
                 set_default_object(__FILE__);

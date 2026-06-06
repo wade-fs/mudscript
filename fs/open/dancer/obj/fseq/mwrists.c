@@ -5,7 +5,7 @@ inherit WRISTS;
 object me=this_player();
 void create()
 {
-     set_name(HIC"漂漂玟玟祝福玉鐲"NOR , ({"Swy_bracelet","bracelet"}) );
+     set_name(HIC + "漂漂玟玟祝福玉鐲" + NOR , ({"Swy_bracelet","bracelet"}) );
      set_weight(2000);
      if ( clonep() )
               set_default_object(__FILE__);

@@ -3,7 +3,7 @@ inherit ROOM;
 #include <ansi.h>
 #include "wind-rain.h"
 void create () {
-set ("short",HIG"柳湮溏"NOR);
+set ("short",HIG + "柳湮溏" + NOR);
 set ("long", @LONG
 此橋曲過柳湮溏，以石竹為扶，翠綠相映，扶柱上刻雕麒麟百狀，
 每一隻麒麟口中皆咬含一顆夜明珠，珠光瀲豔如星光點點。又觀水

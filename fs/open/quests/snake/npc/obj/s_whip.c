@@ -4,7 +4,7 @@ inherit WHIP;
 
 void create()
 {
-        set_name(HIY"流星鞭"NOR,({"star whip","whip"}));
+        set_name(HIY + "流星鞭" + NOR,({"star whip","whip"}));
         set_weight(100);
         if( clonep() )
                 set_default_object(__FILE__);

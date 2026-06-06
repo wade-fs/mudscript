@@ -5,8 +5,8 @@ inherit NPC;
 
 void create()
 {
-    set_name( HIW"陸步春"NOR ,({"maker lu","maker","lu"}));
-    set("title", HIR"武器"HIC"鑄造大師"NOR);
+    set_name( HIW + "陸步春" + NOR ,({"maker lu","maker","lu"}));
+    set("title", HIR + "武器" + HIC + "鑄造大師" + NOR);
     set("gender", "男性");
     set("age",43);
     set("attitude","friendly");
@@ -172,7 +172,7 @@ int do_select(string arg)
           who->delete("marks/metal");
           bl->move(who);
         message("system",
-	HIW "\n\n一代鑄造大師陸步春為"+who->name()+"打造了一把絕世兵器"+bl->name()+"\n\n" NOR,users());
+	HIW + "\n\n一代鑄造大師陸步春為"+who->name()+"打造了一把絕世兵器"+bl->name()+"\n\n" + NOR,users());
 	return 1;
 }
 
@@ -197,7 +197,7 @@ int do_select(string arg)
           who->delete("money/sword");
           sw->move(who);
         message("system",
-	HIW "\n\n一代鑄造大師陸步春為"+who->name()+"打造了一把絕世兵器"+sw->name()+"\n\n" NOR,users());
+	HIW + "\n\n一代鑄造大師陸步春為"+who->name()+"打造了一把絕世兵器"+sw->name()+"\n\n" + NOR,users());
 	return 1;
 }
        if( ( arg == "bow") && who->query_temp("money/bow") )
@@ -221,7 +221,7 @@ int do_select(string arg)
           who->delete("money/bow");
           bow->move(who);
         message("system",
-	HIW "\n\n一代鑄造大師陸步春為"+who->name()+"打造了一把絕世兵器"+bow->name()+"\n\n" NOR,users());
+	HIW + "\n\n一代鑄造大師陸步春為"+who->name()+"打造了一把絕世兵器"+bow->name()+"\n\n" + NOR,users());
 	return 1;
 }
        if( ( arg == "whisk") && who->query_temp("money/whisk") )
@@ -245,7 +245,7 @@ int do_select(string arg)
           who->delete("money/whisk");
           wh->move(who);
         message("system",
-	HIW "\n\n一代鑄造大師陸步春為"+who->name()+"打造了一把絕世兵器"+wh->name()+"\n\n" NOR,users());
+	HIW + "\n\n一代鑄造大師陸步春為"+who->name()+"打造了一把絕世兵器"+wh->name()+"\n\n" + NOR,users());
 	return 1;
 }
         if( ( arg == "dagger") && who->query_temp("money/dagger") )
@@ -269,7 +269,7 @@ int do_select(string arg)
           who->delete("money/dagger");
           da->move(who);
         message("system",
-	HIW "\n\n一代鑄造大師陸步春為"+who->name()+"打造了一把絕世兵器"+da->name()+"\n\n" NOR,users());
+	HIW + "\n\n一代鑄造大師陸步春為"+who->name()+"打造了一把絕世兵器"+da->name()+"\n\n" + NOR,users());
 	return 1;
 }
 
@@ -294,7 +294,7 @@ int do_select(string arg)
           who->delete("marks/metal");
           st->move(who);
            message("system",
-	HIW "\n\n一代鑄造大師陸步春為"+who->name()+"打造了一把絕世兵器"+st->name()+"\n\n" NOR,users());
+	HIW + "\n\n一代鑄造大師陸步春為"+who->name()+"打造了一把絕世兵器"+st->name()+"\n\n" + NOR,users());
 	return 1;
 }
 
@@ -319,7 +319,7 @@ int do_select(string arg)
           who->delete("money/unarmed");
           un->move(who);
         message("system",
-	HIW "\n\n一代鑄造大師陸步春為"+who->name()+"打造了一把絕世兵器"+un->name()+"\n\n" NOR,users());
+	HIW + "\n\n一代鑄造大師陸步春為"+who->name()+"打造了一把絕世兵器"+un->name()+"\n\n" + NOR,users());
 	return 1;
 }
         if( ( arg == "fan") && who->query_temp("money/fan") )
@@ -343,7 +343,7 @@ int do_select(string arg)
           who->delete("money/fan");
           fa->move(who);
           message("system",
-	HIW "\n\n一代鑄造大師陸步春為"+who->name()+"打造了一把絕世兵器"+fa->name()+"\n\n" NOR,users());
+	HIW + "\n\n一代鑄造大師陸步春為"+who->name()+"打造了一把絕世兵器"+fa->name()+"\n\n" + NOR,users());
 	return 1;
 }
 

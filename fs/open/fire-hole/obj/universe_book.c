@@ -4,7 +4,7 @@ inherit ITEM;
 
 void create()
 {
-        set_name(HIC"先天乾坤功\"YEL"正卷"NOR, ({ "universe-book","book" }));
+        set_name(HIC + "先天乾坤功\" + YEL + "正卷" + NOR, ({ "universe-book","book" }));
         set_weight(750);
         if( clonep() )
           set_default_object(__FILE__);

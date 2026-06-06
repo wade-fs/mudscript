@@ -116,7 +116,7 @@ string to_hurt()
    command("?");
    return "$N在說什麼呀？";
  }
- tell_object(me,HIY"你中的不是魔氣殺，而是天魔解體大法的陰性氣指，目前只有莊靜柔會使用。\n");
+ tell_object(me,HIY + "你中的不是魔氣殺，而是天魔解體大法的陰性氣指，目前只有莊靜柔會使用。\n");
  tell_object(me,"因此，我想天魔解體大法被她拿走了吧\n");
  tell_object(me,"唉。。。看來她還是找上門來了，這是六年前的事情了。。。\n");
  tell_object(me,"當年柴榮受了說法大長老之託，假裝背叛而忍痛離開了莊靜柔\n");
@@ -131,7 +131,7 @@ string to_hurt()
  tell_object(me,"以免引起黑牙聯與冥蠱魔教的全面對決，才使事件平靜了下來\n");
  tell_object(me,"但是，靜柔她並不原諒柴榮，因為她的心已死\n");
  tell_object(me,"或許你將他們的定情信物-滅神匕首。交給靜柔她，也許她會想起當時的甜蜜\n");
- tell_object(me,"滅神匕首在三樓的北邊房間，我派了一個屍魂人守住，殺了他就可以得到\n"NOR);
+ tell_object(me,"滅神匕首在三樓的北邊房間，我派了一個屍魂人守住，殺了他就可以得到\n" + NOR);
  me->set_temp("god",1);
  return "$N在三樓調查一下，可以找到進去的開關";
 }
@@ -237,7 +237,7 @@ command("say 志不同道不合, 另找明師去吧。\n");
 return 1;
 }
 message("system",
-HIB "紛亂動蕩的武林中～～\n\n又出現一名恐怖的殺手～～\n" NOR,users());
+HIB + "紛亂動蕩的武林中～～\n\n又出現一名恐怖的殺手～～\n" + NOR,users());
 return 1;
 }
 

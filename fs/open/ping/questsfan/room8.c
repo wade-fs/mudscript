@@ -20,6 +20,6 @@ LONG);
   set("outdoors", "/u/d");
 
 set("need_key/out",1);
-create_door("enter",HIY"大木柵柵門"NOR,"out",DOOR_LOCKED);
+create_door("enter",HIY + "大木柵柵門" + NOR,"out",DOOR_LOCKED);
   setup();
 }

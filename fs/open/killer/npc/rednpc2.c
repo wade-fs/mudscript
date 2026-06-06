@@ -62,7 +62,7 @@ int accept_fight(object me)
   if( !present( "guard 2",environment(ob))||!living(guard)) return 1;
   else {
     tell_room(environment(me),"一起上！有人找碴!給我拿下 \n"),
-    message_vision(HIB"\n紅葉組上級殺手看到好友有難，馬上向$N攻過來！\n"NOR,me);
+    message_vision(HIB + "\n紅葉組上級殺手看到好友有難，馬上向$N攻過來！\n" + NOR,me);
     guard->fight_ob(me);
     return 1;
   }

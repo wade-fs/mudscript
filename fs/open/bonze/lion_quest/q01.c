@@ -66,8 +66,8 @@ void do_check(object me)
   if(!me) return;
   if(me->query("combat_exp" ) < 4500000 && userp(me) && living(me))
   {
-    message_vision(HIC"\n抱歉，前方的路對$P來說太艱辛了，大俠$N請回吧！\n"NOR,me);
-    message_vision(HIC"瀧山護法禮貌地將$P請了回去。\n\n"NOR,me);
+    message_vision(HIC + "\n抱歉，前方的路對$P來說太艱辛了，大俠$N請回吧！\n" + NOR,me);
+    message_vision(HIC + "瀧山護法禮貌地將$P請了回去。\n\n" + NOR,me);
     me->move("/open/bonze/room/r2");
     return;
   }

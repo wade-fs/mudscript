@@ -451,7 +451,7 @@ if(!me->query_temp("lovekill"))
 message_vision("
 
 
-" + HIW + "                        "BLINK"『 挽留天涯挽留人．挽留歲月挽留你 』" + NOR + "
+" + HIW + "                        " + BLINK + "『 挽留天涯挽留人．挽留歲月挽留你 』" + NOR + "
 
 " + HIY + "--在天願做比翼鳥．在地願為連理枝--" + NOR + "
 " + HIR + "                                       劍意縱橫，分影倏忽，彷彿斬出了歲月驚心\n" + NOR,me,victim);
@@ -591,7 +591,7 @@ void dream(object me,object victim,object weapon,int damage)
 void heartkill(object me,object victim,object weapon,int damage)
 {
   int i;
-  message_vision(HIC + "\n\n\t只見$N的身形隨著刀式一變，刀身閃出無數耀眼的光芒，震出了一片茫茫的刀幕\n\n" + HIW + "\t～～"BLINK"" + HIR + "   忘棄紅塵．相思八律  " + NOR + "" + HIW + "  ～～\n\n" + NOR,me,victim);
+  message_vision(HIC + "\n\n\t只見$N的身形隨著刀式一變，刀身閃出無數耀眼的光芒，震出了一片茫茫的刀幕\n\n" + HIW + "\t～～" + BLINK + "" + HIR + "   忘棄紅塵．相思八律  " + NOR + "" + HIW + "  ～～\n\n" + NOR,me,victim);
     for(i=1;i<=8;i++)
   {
     switch(i)
@@ -645,7 +645,7 @@ void fast(object me,object victim,object weapon,int damage)
     if( userp(me) && !me->query("yi/dream") ) return;
     if(( (int)me->query("force") > 300 ) && me->query("force_factor") && me->query("bellicosity") < 200  && damage>0)
     {
-       message_vision(CYN + "\n\n\t$N笑意微泛，眼裡彷彿出現一道陰影，一瞬而過，刀光一閃。。。\n\n" + HIW + "\t～～"BLINK"" + HIR + "  碎夢奧義．迴天夢舞" + NOR + "" + HIW + "  ～～\n\n" + NOR,me,victim);
+       message_vision(CYN + "\n\n\t$N笑意微泛，眼裡彷彿出現一道陰影，一瞬而過，刀光一閃。。。\n\n" + HIW + "\t～～" + BLINK + "" + HIR + "  碎夢奧義．迴天夢舞" + NOR + "" + HIW + "  ～～\n\n" + NOR,me,victim);
        for(i=1;i<=3;i++)
        {
          switch(i)

@@ -8,7 +8,7 @@ inherit NECK;
 
 void create()
 {
-  set_name( HIR "狂想新人項鏈" NOR ,({"newbie neck","neck"}));
+  set_name( HIR + "狂想新人項鏈" + NOR ,({"newbie neck","neck"}));
   set_weight(3000);
   if( clonep() )
     set_default_object(__FILE__);

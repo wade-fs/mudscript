@@ -6,7 +6,7 @@ inherit HEAD;
 
 void create()
 {
-  set_name(HIY"妖幻頭帶"NOR, ({"ghost helmet", "helmet"}));
+  set_name(HIY + "妖幻頭帶" + NOR, ({"ghost helmet", "helmet"}));
   set_weight(50);
   if( clonep() )
     set_default_object(__FILE__);
@@ -23,8 +23,8 @@ void create()
     set("armor_prop/attack", 5);
     set("armor_prop/force", 10);
     set("thunder", 100);
-    set("wear_msg", HIW"輕風細雨之中，$n"HIW"戴在$N頭上散發出一股暖暖的熱流。\n"NOR);
-    set("unequip_msg", HIW"$N輕輕的卸下$n"HIW"，所產生的暖流也瞬間消散無蹤。\n"NOR);
+    set("wear_msg", HIW + "輕風細雨之中，$n" + HIW + "戴在$N頭上散發出一股暖暖的熱流。\n" + NOR);
+    set("unequip_msg", HIW + "$N輕輕的卸下$n" + HIW + "，所產生的暖流也瞬間消散無蹤。\n" + NOR);
   }
   setup();
 }
@@ -72,7 +72,7 @@ int do_wear(string str)
       if(!me) me=previous_object();
       if(me)
         me->set_temp("thunder",40);
-      message_vision(HIW"輕風細雨之中﹐"HIY"妖幻頭帶"HIW"戴在$N頭上散發出一股暖暖的熱流。\n"NOR,me);
+      message_vision(HIW + "輕風細雨之中﹐" + HIY + "妖幻頭帶" + HIW + "戴在$N頭上散發出一股暖暖的熱流。\n" + NOR,me);
     }
   }
 }

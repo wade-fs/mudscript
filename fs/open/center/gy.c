@@ -15,7 +15,7 @@ void create()
          set_name("李  喚",({"officer lee","officer","lee"}));
         set("long","他是專門給護國有功\的戰士授與獎勵,你可以用list 跟convert 換取。 \n");
         set("gebder","男性");
-         set("nickname",HIC"首席戰情官"NOR);
+         set("nickname",HIC + "首席戰情官" + NOR);
         set("combat_exp",100);
           set("inquiry",([
              "戰功\":(: answer_war_score :),

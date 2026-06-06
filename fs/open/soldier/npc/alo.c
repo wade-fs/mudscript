@@ -4,7 +4,7 @@ inherit NPC;
 void create()
 {
  seteuid(getuid()); 
-set("nickname",HIB"閃靈悍將"NOR);
+set("nickname",HIB + "閃靈悍將" + NOR);
 set_name("阿諾啥米碗糕",({"a lo","a","lo"}));
 set("long","
     他擁有一副健壯的體格﹐是所有軍中最勇猛慓悍
@@ -47,7 +47,7 @@ add_money("gold",10);
 
 int accept_kill(object who)
 {
-   say(HIY" 老子跟你拼了!!!\n"NOR);
+   say(HIY + " 老子跟你拼了!!!\n" + NOR);
    setup();
    return 1;
 }

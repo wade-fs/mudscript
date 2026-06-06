@@ -5,7 +5,7 @@ inherit ITEM;
 
 void create()
 {
-    set_name(""GRN"高大的樹"NOR"", ({ "tall tree","tree" }) );
+    set_name("" + GRN + "高大的樹" + NOR + "", ({ "tall tree","tree" }) );
     set_weight(1000000);
  if( clonep() )
     set_default_object(__FILE__);
@@ -29,14 +29,14 @@ int do_shake()
   object me = this_player();
   if(me->query_temp("meetgod_1") != 1)
 {
-  write(""HIR"忽然樹間一道紅色的身影迅速掠過！"NOR"\n");
+  write("" + HIR + "忽然樹間一道紅色的身影迅速掠過！" + NOR + "\n");
   me->set_temp("meetgod_1",1);
 }
   else
   if(me->query_temp("meetgod_1") == 1)
   {
-  write(""HIR"忽然樹間一道紅色的身影迅速掠過！"NOR"\n");
-  write(""HIC"忽然間四周仙音繚繞：『"HIG"藏仙谷，谷中仙，仙緣昇，昇得意"HIC"』"NOR"\n");
+  write("" + HIR + "忽然樹間一道紅色的身影迅速掠過！" + NOR + "\n");
+  write("" + HIC + "忽然間四周仙音繚繞：『" + HIG + "藏仙谷，谷中仙，仙緣昇，昇得意" + HIC + "』" + NOR + "\n");
   me->set_temp("meetgod_2",1);
   }
   return 1;

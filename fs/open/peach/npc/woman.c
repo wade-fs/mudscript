@@ -94,6 +94,6 @@ string ask_story()
 			break;
 		default:
         }
-//		write(HIR"恭喜獲得"+str+HIR"獎品！\n"NOR);
+//		write(HIR + "恭喜獲得"+str+HIR"獎品！\n" + NOR);
 		return "";
 }

@@ -7,12 +7,12 @@ object user;
 int kar;
 void create()
 {
-     set_name(CYN""BBLU"冥魔"HIR"指戒"NOR,({"ghost-king-ring","ring"}) );
+     set_name(CYN + "" + BBLU + "冥魔" + HIR + "指戒" + NOR,({"ghost-king-ring","ring"}) );
      set_weight(25);
      if( clonep() )
                set_default_object(__FILE__);
      else {
-            set("long",CYN""BBLU"冥魔戰甲的一部份\n"NOR);
+            set("long",CYN + "" + BBLU + "冥魔戰甲的一部份\n" + NOR);
             set("unit", "件");
             set("value",500);
             set("material","steal");

@@ -8,7 +8,7 @@ int be,bb,k,sp,qq,co,st;
 
 void create()
 {
-	set_name(CYN"化劫菱歸真"NOR,({"hwa-je-icer","icer"}) );
+	set_name(CYN + "化劫菱歸真" + NOR,({"hwa-je-icer","icer"}) );
 	set_weight(10000);
 	if( clonep() ) 
 	set_default_object(__FILE__);
@@ -23,8 +23,8 @@ void create()
 	set("no_steal",1);
 	}
 	init_unarmed(100);
- 	set("wield_msg",CYN"$N"CYN"載上$n"CYN"，$n"CYN"周身泛起黑白兩色的詭異氣息!!\n"NOR);
-        set("unwield_msg","$N輕輕卸下$n，$n周身的詭異氣息也消失殆盡。\n"NOR);
+ 	set("wield_msg",CYN + "$N" + CYN + "載上$n" + CYN + "，$n" + CYN + "周身泛起黑白兩色的詭異氣息!!\n" + NOR);
+        set("unwield_msg","$N輕輕卸下$n，$n周身的詭異氣息也消失殆盡。\n" + NOR);
 
 	setup();
 }                   
@@ -47,10 +47,10 @@ int do_wield(string str)
 	uexp = user->query("combat_exp");
 	  if( uexp < 3000000 )
 	  {
-	  message_vision("$N的經驗並不足以完全支配這樣的神兵利器!!\n"NOR,user);
+	  message_vision("$N的經驗並不足以完全支配這樣的神兵利器!!\n" + NOR,user);
 	  set_heart_beat(0);
 	  }else{
-//	  message_vision(CYN"$N"CYN"載上$n"CYN"，$n"CYN"周身泛起黑白兩色的詭異氣息!!\n"NOR,user,ob);
+//	  message_vision(CYN + "$N" + CYN + "載上$n" + CYN + "，$n" + CYN + "周身泛起黑白兩色的詭異氣息!!\n" + NOR,user,ob);
 	  set_heart_beat(1);
 	  }
 	}
@@ -61,7 +61,7 @@ int do_drop(string str)
 	if(str=="hwa-je-icer" || str=="icer" || str=="all")
 	if( query("equipped") )
 	{
-	message_vision("$N輕輕卸下$n，$n周身的詭異氣息也消失殆盡。\n"NOR,user,ob);
+	message_vision("$N輕輕卸下$n，$n周身的詭異氣息也消失殆盡。\n" + NOR,user,ob);
 	set_heart_beat(0);
 	}
 }
@@ -71,7 +71,7 @@ int do_unwield(string str)
 	if(str=="hwa-je-icer" || str=="icer" || str=="all")
 	if( query("equipped") )
 	{
-//	message_vision("$N輕輕卸下$n，$n周身的詭異氣息也消失殆盡。\n"NOR,user,ob);
+//	message_vision("$N輕輕卸下$n，$n周身的詭異氣息也消失殆盡。\n" + NOR,user,ob);
 	set_heart_beat(0);
 	}
 }
@@ -81,7 +81,7 @@ int do_auc(string str)
 	if(str=="hwa-je-icer" || str=="icer" || str=="all")
 	if( query("equipped") )
 	{
-	message_vision("$N輕輕卸下$n，$n周身的詭異氣息也消失殆盡。\n"NOR,user,ob);
+	message_vision("$N輕輕卸下$n，$n周身的詭異氣息也消失殆盡。\n" + NOR,user,ob);
 	set_heart_beat(0);
 	}
 }
@@ -126,11 +126,11 @@ void heart_beat()
 	  if( environment(user) == environment(enemy[i]) )
 	  if( random(300) > random(enemy[i]->query_skill("dodge",1)) )
 	  {
-	  message_vision(HIB"只見【"NOR"黑"HIW"白"NOR+HIB"】兩道氣勁迅速由"NOR"$n"HIB"竄出，飛向$N"HIB"的周身要害!!\n"NOR,enemy[i],ob);
+	  message_vision(HIB + "只見【" + NOR + "黑"HIW + "白"NOR+HIB"】兩道氣勁迅速由" + NOR + "$n" + HIB + "竄出，飛向$N" + HIB + "的周身要害!!\n" + NOR,enemy[i],ob);
 	  enemy[i]->receive_wound("kee",(int)(qq+be),user);
 	  COMBAT_D->report_status(enemy[i], 0);
 	  }else
-	  message_vision(BLU"只見$N"BLU"，左躲右閃的免強避開這兩道黑白氣勁!!\n"NOR,enemy[i],ob);
+	  message_vision(BLU + "只見$N" + BLU + "，左躲右閃的免強避開這兩道黑白氣勁!!\n" + NOR,enemy[i],ob);
 	  }
 	}
 	return;

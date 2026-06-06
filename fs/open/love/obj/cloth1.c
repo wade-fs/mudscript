@@ -5,7 +5,7 @@ inherit CLOTH;
 object user;
 void create()
 {
-        set_name( HIW "水晶寶衣" NOR ,({"pebble cloth","cloth"}));
+        set_name( HIW + "水晶寶衣" + NOR ,({"pebble cloth","cloth"}));
         set_weight(3000);
         if( clonep() )
                 set_default_object(__FILE__);
@@ -30,8 +30,8 @@ int do_wear(string str)
  if( query("equipped") )
  {
    user = this_player();
-   message_vision(HIW"$N暗運內勁,身上水晶寶衣變形成水晶護體,在$N四周升起淡
-淡的白色光罩.\n"NOR,user);
+   message_vision(HIW + "$N暗運內勁,身上水晶寶衣變形成水晶護體,在$N四周升起淡
+淡的白色光罩.\n" + NOR,user);
    set_heart_beat(1);
  }
 }
@@ -44,7 +44,7 @@ void heart_beat()
    {
      user->receive_curing("kee",30);
      user->receive_heal("kee",30);
-message_vision(HIW"發散出一道白光護住$N的全身,$N的傷勢漸漸復原中.\n"NOR,user);
+message_vision(HIW + "發散出一道白光護住$N的全身,$N的傷勢漸漸復原中.\n" + NOR,user);
      }
        }
    }

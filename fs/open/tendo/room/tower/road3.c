@@ -39,8 +39,8 @@ void death_stage(object ob)
 {
         if( !ob || !present(ob) ) return;
         if ( ob->query("combat_exp") < 450000 ){
-                message_vision(HIW "\n\t你突然感覺到一陣迫人的氣息!\n" NOR,ob,environment());
-                message_vision(HIW "     －－由於你的經驗不足，所以被蘇星河的內力震了出來－－\n\n" NOR,ob,environment());
+                message_vision(HIW + "\n\t你突然感覺到一陣迫人的氣息!\n" + NOR,ob,environment());
+                message_vision(HIW + "     －－由於你的經驗不足，所以被蘇星河的內力震了出來－－\n\n" + NOR,ob,environment());
                 ob->move(__DIR__"road2.c");
         }
         call_out("death_stage", 1, ob);

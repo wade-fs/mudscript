@@ -31,13 +31,13 @@ int valid_leave(object me, string dir)
         if(dir=="enter"&&present("netor",environment(me)))
   {
 
-message_vision(HIY"網中人說：『讓我試試你的能耐吧\n"NOR,me);
+message_vision(HIY + "網中人說：『讓我試試你的能耐吧\n" + NOR,me);
 
 return 0;
   }
        if(dir=="回到人間"){
 me->set("startroom","/open/trans/room/room4");
-message_vision(HIY"一陣天懸地轉,$N已回到人間了\n"NOR,me);
+message_vision(HIY + "一陣天懸地轉,$N已回到人間了\n" + NOR,me);
 return 1;
                           }  
 return 1;

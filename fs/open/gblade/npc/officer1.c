@@ -17,7 +17,7 @@ void create()
   set("long","\n他是比武擂台的主持人。\n\n"+HIY+
     "  你可以輸入以下相關指令：        \n"+
     "    encourage-pkla\n    encourage-pot\n    encourage-stone1\n    encourage-stone10\n    do_change\n"HIG+
-    "相關help，請 help 狂想原石，help ch-stdby，help pkla，help 替身\n\n"NOR);
+    "相關help，請 help 狂想原石，help ch-stdby，help pkla，help 替身\n\n" + NOR);
 
   set("race","人類");
   set("gender","男性");
@@ -53,7 +53,7 @@ int doing_encourage_pkla()
   object me = this_player();
 //2002-12-29 pkla 50場即可喚替身 --by kalin
   if( me->query("pk_convert") >= (me->query("pk_win")/50) ) {
-    tell_object(me,HIY"蔡總管說道：你的獲勝次數還不到獎勵的標準。\n"NOR);
+    tell_object(me,HIY + "蔡總管說道：你的獲勝次數還不到獎勵的標準。\n" + NOR);
     return 1;
   }
 /*  if( !me->query("max_standby"))
@@ -76,12 +76,12 @@ int doing_encourage_pkla()
     me->add("t_standby",1);
     me->add("pk_convert",1);
     me->add("standby",1);
-    tell_object(me,HIY"蔡總管說道：恭喜你在擂台賽中勝負累積達到標準可獲得替身一個，在緊要關頭他會"+
-      "代替你到地府走一趟的。\n"NOR);
+    tell_object(me,HIY + "蔡總管說道：恭喜你在擂台賽中勝負累積達到標準可獲得替身一個，在緊要關頭他會"+
+      "代替你到地府走一趟的。\n" + NOR);
     log_file("pkstdby",sprintf("%s 用pkla換到一個替身 on %s\n",me->query("id"),ctime(time()) ));
   }
   else {
-    tell_object(me,HIY"蔡總管說道：你曾經擁有的替身總數已達上限，無法再增加。\n"NOR);
+    tell_object(me,HIY + "蔡總管說道：你曾經擁有的替身總數已達上限，無法再增加。\n" + NOR);
   }
   return 1;
 }
@@ -91,7 +91,7 @@ int doing_encourage_pot()
   object me = this_player();
   int pots = 25000+25000*(me->query("standby") +1);
   if( (int)me->query("potential") - (int)me->query("learned_points") < pots ) {
-    tell_object(me,HIY"蔡總管說道：你的潛能值不夠換替身，而下個替身需要"+pots+"點。\n"NOR);
+    tell_object(me,HIY + "蔡總管說道：你的潛能值不夠換替身，而下個替身需要"+pots+"點。\n" + NOR);
     return 1;
   }
   if( !me->query("max_standby"))
@@ -116,12 +116,12 @@ int doing_encourage_pot()
     me->add("t_standby",1);
     me->add("potential",-pots);
     me->add("standby",1);
-    tell_object(me,HIY"蔡總管說道：恭喜你用"+pots+"點潛能換得替身一個，在緊要關頭他會"+
-      "代替你到地府走一趟的。\n"NOR);
+    tell_object(me,HIY + "蔡總管說道：恭喜你用"+pots+"點潛能換得替身一個，在緊要關頭他會"+
+      "代替你到地府走一趟的。\n" + NOR);
     log_file("potstdby",sprintf("%s 用pot換到一個替身 on %s\n",me->query("id"),ctime(time()) ));
   }
   else {
-    tell_object(me,HIY"蔡總管說道：你曾經擁有的替身總數已達上限，無法再增加。\n"NOR);
+    tell_object(me,HIY + "蔡總管說道：你曾經擁有的替身總數已達上限，無法再增加。\n" + NOR);
   }
   return 1;
 }
@@ -134,12 +134,12 @@ int doing_encourage_sto1()
 
   if( !stone )
   {
-    tell_object(me,HIY"蔡總管說道：你身上並沒有這樣東西呀!!\n"NOR);
+    tell_object(me,HIY + "蔡總管說道：你身上並沒有這樣東西呀!!\n" + NOR);
     return 1;
   }
   if( !stone->query("stone_id") )
   {
-    tell_object(me,HIY"蔡總管說道：你這東西並不是我所想要的唷!!\n"NOR);
+    tell_object(me,HIY + "蔡總管說道：你這東西並不是我所想要的唷!!\n" + NOR);
     return 1;
   }
 
@@ -161,11 +161,11 @@ int doing_encourage_sto1()
     me->add("t_standby",1);
     me->add("standby",1);
     stone->add_amount(-1);
-    tell_object(me,HIY"蔡總管說道：恭喜你獲得替身一個，在緊要關頭他會"+
-      "代替你到地府走一趟的。\n"NOR);
+    tell_object(me,HIY + "蔡總管說道：恭喜你獲得替身一個，在緊要關頭他會"+
+      "代替你到地府走一趟的。\n" + NOR);
     log_file("potstdby",sprintf("%s 用stone換到一個替身 on %s\n",me->query("id"),ctime(time()) ));
   } else {
-    tell_object(me,HIY"蔡總管說道：你曾經擁有的替身總數已達上限，無法再增加。\n"NOR);
+    tell_object(me,HIY + "蔡總管說道：你曾經擁有的替身總數已達上限，無法再增加。\n" + NOR);
   }
   return 1;
 }
@@ -180,19 +180,19 @@ int doing_encourage_sto10()
     return notify_fail("你的替身已經夠多了!!\n");
   if( !stone )
   {
-    tell_object(me,HIY"蔡總管說道：你身上並沒有這樣東西呀!!\n"NOR);
+    tell_object(me,HIY + "蔡總管說道：你身上並沒有這樣東西呀!!\n" + NOR);
     return 1;
   }
   i = stone->query_amount();
 
   if( i < 10 )
   {
-    tell_object(me,HIY"蔡總管說道：你身上的狂想原石不夠換喔!!\n"NOR);
+    tell_object(me,HIY + "蔡總管說道：你身上的狂想原石不夠換喔!!\n" + NOR);
     return 1;
   }
   if( !stone->query("stone_id") )
   {
-    tell_object(me,HIY"蔡總管說道：你這東西並不是我所想要的唷!!\n"NOR);
+    tell_object(me,HIY + "蔡總管說道：你這東西並不是我所想要的唷!!\n" + NOR);
     return 1;
   }
 
@@ -207,8 +207,8 @@ int doing_encourage_sto10()
 
   me->add("standby",1);
   stone->add_amount(-10);
-  tell_object(me,HIY"蔡總管說道：恭喜你獲得替身一個，在緊要關頭他會"+
-    "代替你到地府走一趟的。\n"NOR);
+  tell_object(me,HIY + "蔡總管說道：恭喜你獲得替身一個，在緊要關頭他會"+
+    "代替你到地府走一趟的。\n" + NOR);
   log_file("potstdby",sprintf("%s 用10stone換到一個替身 on %s\n",me->query("id"),ctime(time()) ));
   return 1;
 }
@@ -228,7 +228,7 @@ int doing_change(string str)
 
   if( !str )
   {
-    tell_object(me,HIC"蔡總管說道：請選擇 suipian, jiao, stone 三種你想兌換的種類唷!!\n"NOR);
+    tell_object(me,HIC + "蔡總管說道：請選擇 suipian, jiao, stone 三種你想兌換的種類唷!!\n" + NOR);
     return 1;
   }
 
@@ -239,12 +239,12 @@ int doing_change(string str)
       if( !powder->query("stone_id") ) return notify_fail("這東西非是狂想原石真品唷!!\n");
       if( powder->query_amount() >= 10 )
       {
-        tell_object(me,HIY"你將身上的十粒狂想原石粉末換成一粒狂想原石碎片。\n"NOR);
+        tell_object(me,HIY + "你將身上的十粒狂想原石粉末換成一粒狂想原石碎片。\n" + NOR);
         powder->add_amount(-10);
         ob2->move(me);
         log_file("/stone/suipian",sprintf("%s 用10粒狂想原石粉末換到一粒狂想原石碎片於 %s\n",me->query("id"),ctime(time())));
       } else {
-        tell_object(me,HIC"蔡總管說道：你所帶來的數量不足夠兌換唷!!\n"NOR);
+        tell_object(me,HIC + "蔡總管說道：你所帶來的數量不足夠兌換唷!!\n" + NOR);
       }
       break;
     case "jiao":
@@ -252,12 +252,12 @@ int doing_change(string str)
       if( !suipian->query("stone_id") ) return notify_fail("這東西非是狂想原石真品唷!!\n");
       if( suipian->query_amount() >= 10 )
       {
-        tell_object(me,HIY"你將身上的十粒狂想原石碎片換成一粒狂想原石一角。\n"NOR);
+        tell_object(me,HIY + "你將身上的十粒狂想原石碎片換成一粒狂想原石一角。\n" + NOR);
         suipian->add_amount(-10);
         ob3->move(me);
         log_file("/stone/jiao",sprintf("%s 用10粒狂想原石碎片換到一粒狂想原石一角於 %s\n",me->query("id"),ctime(time())));
       } else {
-        tell_object(me,HIC"蔡總管說道：你所帶來的數量不足夠兌換唷!!\n"NOR);
+        tell_object(me,HIC + "蔡總管說道：你所帶來的數量不足夠兌換唷!!\n" + NOR);
       }
       break;
     case "stone":
@@ -265,16 +265,16 @@ int doing_change(string str)
       if( !jiao->query("stone_id") ) return notify_fail("這東西非是狂想原石真品唷!!\n");
       if( jiao->query_amount() >= 10 )
       {
-        tell_object(me,HIY"你將身上的十粒狂想原石一角換成一粒"HIC"狂想原石"HIY"。\n"NOR);
+        tell_object(me,HIY + "你將身上的十粒狂想原石一角換成一粒" + HIC + "狂想原石" + HIY + "。\n" + NOR);
         jiao->add_amount(-10);
         ob4->move(me);
         log_file("/stone/stone",sprintf("%s 用10粒狂想原石一角換到一粒狂想原石於 %s\n",me->query("id"),ctime(time())));
       } else {
-        tell_object(me,HIC"蔡總管說道：你所帶來的數量不足夠兌換唷!!\n"NOR);
+        tell_object(me,HIC + "蔡總管說道：你所帶來的數量不足夠兌換唷!!\n" + NOR);
       }
       break;
     default:
-      tell_object(me,HIC"蔡總管說道：只能選擇 suipian, jiao, stone 三種兌換種類唷!!\n"NOR);
+      tell_object(me,HIC + "蔡總管說道：只能選擇 suipian, jiao, stone 三種兌換種類唷!!\n" + NOR);
       break;
   }
   return 1;
@@ -306,9 +306,9 @@ int delete_fighter()
 
 int pk_ing()
 {
-  shout(HIC"蔡總管說道：比賽時間到，停止押注。"NOR);
-  shout(HIC"蔡總管說道：請兩位高手到第一武道館開始比賽。"NOR);
-  shout(HIC"蔡總管說道：比賽時間為二十分鐘。"NOR);
+  shout(HIC + "蔡總管說道：比賽時間到，停止押注。" + NOR);
+  shout(HIC + "蔡總管說道：請兩位高手到第一武道館開始比賽。" + NOR);
+  shout(HIC + "蔡總管說道：比賽時間為二十分鐘。" + NOR);
   pker_master->set_temp("pk_fight",1);
   pker_fighter->set_temp("pk_fight",1);
   pker_master->set_temp("pk_room",environment(pker_master));
@@ -366,10 +366,10 @@ int doing_me(object me)
 
   tell_object(me,"蔡總管說：依您的江湖名聲酌收"+cvalue(i)+"的報名費。\n");
   set_master(me);
-  shout(HIC"\n蔡總管喝道："HIW+me->name()+HIC"願意接受擂台挑戰。"+
-    "請各大武林好手前來切磋武藝。"NOR);
-/*  tell_object(me,HIC"\n蔡總管喝道："HIW+me->name()+HIC"願意接受擂"+
-    "台挑戰。請各大武林好手前來切磋武藝。\n"NOR);*/
+  shout(HIC + "\n蔡總管喝道："HIW+me->name()+HIC"願意接受擂台挑戰。"+
+    "請各大武林好手前來切磋武藝。" + NOR);
+/*  tell_object(me,HIC + "\n蔡總管喝道："HIW+me->name()+HIC"願意接受擂"+
+    "台挑戰。請各大武林好手前來切磋武藝。\n" + NOR);*/
   this_object()->set_temp("wait_pk",1);
   return 1;
 }
@@ -412,12 +412,12 @@ int doing_accept(object me)
   set_fighter(me);
   pker_master->set("break_away" ,1);
   pker_fighter->set("break_away" ,1);
-  shout(HIC"蔡總管喝道："HIW+pker_master->name()+HIC"與"HIW+
-    me->name()+HIC"將在一分鐘後開始比賽。"NOR);
-/*  tell_object(me,HIC"蔡總管喝道："HIW+pker_master->name()+HIC+
-    "與"HIW+me->name()+HIC"將在一分鐘後開始比賽。\n"NOR);*/
-  shout(HIC"蔡總管說道：要押賭注的請儘快，逾時恕不受理。"NOR);
-//  tell_object(me,HIC"蔡總管說道：要押賭注的請儘快，逾時恕不受理。\n"NOR);
+  shout(HIC + "蔡總管喝道："HIW+pker_master->name()+HIC"與"HIW+
+    me->name()+HIC"將在一分鐘後開始比賽。" + NOR);
+/*  tell_object(me,HIC + "蔡總管喝道："HIW+pker_master->name()+HIC+
+    "與"HIW+me->name()+HIC"將在一分鐘後開始比賽。\n" + NOR);*/
+  shout(HIC + "蔡總管說道：要押賭注的請儘快，逾時恕不受理。" + NOR);
+//  tell_object(me,HIC + "蔡總管說道：要押賭注的請儘快，逾時恕不受理。\n" + NOR);
   this_object()->set_temp("pking",1);
   this_object()->delete_temp("wait_pk");
   this_object()->set_temp("pkla_time",1);
@@ -440,10 +440,10 @@ int doing_end(object me)
   }
 
   delete_master();
-  shout(HIC"\n蔡總管喝道："HIW+me->name()+HIC"退出比賽。"+
-    "想稱霸為王者請速洽於我。"NOR);
-/*  tell_object(me,HIC"\n蔡總管喝道："HIW+me->name()+HIC"退出比賽。"+
-    "想稱霸為王者請速洽於我。\n"NOR);*/
+  shout(HIC + "\n蔡總管喝道："HIW+me->name()+HIC"退出比賽。"+
+    "想稱霸為王者請速洽於我。" + NOR);
+/*  tell_object(me,HIC + "\n蔡總管喝道："HIW+me->name()+HIC"退出比賽。"+
+    "想稱霸為王者請速洽於我。\n" + NOR);*/
   this_object()->delete_temp("wait_pk");
   return 1;
 }
@@ -528,7 +528,7 @@ int full_all(object me)
 int pk_winner(object win)
 {
   full_all(win);
-  tell_object(win,HIY"蔡總管說道：比賽結束！\n"NOR);
+  tell_object(win,HIY + "蔡總管說道：比賽結束！\n" + NOR);
   win->remove_all_killer();
   win->clear_condition();
   win->move(win->query_temp("pk_room"));
@@ -551,7 +551,7 @@ int pk_winner(object win)
 int pk_loser(object lose)
 {
   full_all(lose);
-  tell_object(lose,HIY"蔡總管說道：比賽結束！\n"NOR);
+  tell_object(lose,HIY + "蔡總管說道：比賽結束！\n" + NOR);
   lose->remove_all_killer();
   lose->clear_condition();
   lose->delete_temp("over");
@@ -584,25 +584,25 @@ int winner(object win,object lose)
   this_object()->delete_temp("wait_pk");
   if( !win && !lose ) {
     if( pker_master && pker_fighter ) {
-    shout(HIC"\n蔡總管喝道：雙方超過比賽時間未分出勝負，有套招"+"嫌疑，皆罰潛能一百三十點，比賽結束。"NOR);
+    shout(HIC + "\n蔡總管喝道：雙方超過比賽時間未分出勝負，有套招"+"嫌疑，皆罰潛能一百三十點，比賽結束。" + NOR);
     pk_loser(pker_master);
-    tell_object(pker_master,HIR"蔡總管告訴你：很抱歉，你打得太久了，必須受點懲罰。\n"NOR);
+    tell_object(pker_master,HIR + "蔡總管告訴你：很抱歉，你打得太久了，必須受點懲罰。\n" + NOR);
     pk_loser(pker_fighter);
-    tell_object(pker_fighter,HIR"蔡總管告訴你：很抱歉，你打得太久了，必須受點懲罰。\n"NOR);
+    tell_object(pker_fighter,HIR + "蔡總管告訴你：很抱歉，你打得太久了，必須受點懲罰。\n" + NOR);
   }
-  else shout(HIC"\n蔡總管喝道：雙方皆棄權，因此比賽無勝負，請下一組人馬準備。\n"NOR);
+  else shout(HIC + "\n蔡總管喝道：雙方皆棄權，因此比賽無勝負，請下一組人馬準備。\n" + NOR);
   }
   else if( !lose ) {
-    shout(HIC"蔡總管喝道：比賽勝負已分！"HIW+win->name()+HIC"獲得最後的勝利！"NOR);
+    shout(HIC + "蔡總管喝道：比賽勝負已分！"HIW+win->name()+HIC"獲得最後的勝利！" + NOR);
     pk_winner(win);
-    tell_object(win,HIR"蔡總管告訴你：pk獲勝，得到一百點潛能。"+"歡迎下次再來！\n"NOR);
+    tell_object(win,HIR + "蔡總管告訴你：pk獲勝，得到一百點潛能。"+"歡迎下次再來！\n" + NOR);
   }
   else {
-    shout(HIC"蔡總管喝道：比賽勝負已分！"HIW+lose->name()+HIC"慘"+"遭屠戮...，勝者"HIW+win->name()+"！"NOR);
+    shout(HIC + "蔡總管喝道：比賽勝負已分！"HIW+lose->name()+HIC"慘"+"遭屠戮...，勝者"HIW+win->name()+"！" + NOR);
     pk_winner(win);
-    tell_object(win,HIR"蔡總管告訴你：pk 獲勝，得到一百點潛能。"+"歡迎下次再來！\n"NOR);
+    tell_object(win,HIR + "蔡總管告訴你：pk 獲勝，得到一百點潛能。"+"歡迎下次再來！\n" + NOR);
     pk_loser(lose);
-    tell_object(lose,HIR"蔡總管告訴你：pk 敗陣，罰你跪一個月主機板！"+"扣一百三十點潛能，希望你繼續努力，下次再來。\n"NOR);
+    tell_object(lose,HIR + "蔡總管告訴你：pk 敗陣，罰你跪一個月主機板！"+"扣一百三十點潛能，希望你繼續努力，下次再來。\n" + NOR);
   }
   delete_master();
   delete_fighter();
@@ -614,19 +614,19 @@ int winner(object win,object lose)
         if(user[i]->query_temp("bet_pker") == win->query("id")) {
           user[i]->pay_player((int) 2 * user[i]->query_temp("bet_number"));
           tell_object(user[i],
-            NOR"蔡總管背著大袋子走了過來。\n"+
-            HIR"蔡總管告訴你：恭喜你賭場大勝！歡迎下次再來。\n"+
-            NOR"蔡總管從袋子裡拿出一樣東西往你身上一丟。\n"+
-            NOR"蔡總管背著大袋子往第一武道館走了過去。\n"NOR);
+            NOR + "蔡總管背著大袋子走了過來。\n"+
+            HIR + "蔡總管告訴你：恭喜你賭場大勝！歡迎下次再來。\n"+
+            NOR + "蔡總管從袋子裡拿出一樣東西往你身上一丟。\n"+
+            NOR + "蔡總管背著大袋子往第一武道館走了過去。\n" + NOR);
         }
         else tell_object(user[i],
-            HIR"蔡總管告訴你：很抱歉！有賭有賠，請看開點。\n"+
-            NOR"只聽到從第一武道館傳來一陣狂笑："+
-            "賺翻了！賺翻了！哇哈哈哈哈～～\n"NOR);
+            HIR + "蔡總管告訴你：很抱歉！有賭有賠，請看開點。\n"+
+            NOR + "只聽到從第一武道館傳來一陣狂笑："+
+            "賺翻了！賺翻了！哇哈哈哈哈～～\n" + NOR);
       }
       else tell_object(user[i],
-          HIR"蔡總管告訴你：很抱歉！雙方皆棄權了，因此分不出"+"輸贏，賭注也沒法還給你囉！\n"+
-          HIY"蔡總管無奈的聳了聳肩。\n"NOR);
+          HIR + "蔡總管告訴你：很抱歉！雙方皆棄權了，因此分不出"+"輸贏，賭注也沒法還給你囉！\n"+
+          HIY + "蔡總管無奈的聳了聳肩。\n" + NOR);
           user[i]->delete_temp("bet_pker");
           user[i]->delete_temp("bet_number");
     }
@@ -668,7 +668,7 @@ int break_away(object me,string arg)
   me->apply_condition("burn",0);
   me->add("pk_lose",1);
   me->move(me->query("startroom"));
-  tell_object(me,HIR"蔡總管告訴你：pk 絡跑，須罰雙倍，扣兩百"+"點潛能，希望你繼續努力，下次再來！\n"NOR);
+  tell_object(me,HIR + "蔡總管告訴你：pk 絡跑，須罰雙倍，扣兩百"+"點潛能，希望你繼續努力，下次再來！\n" + NOR);
   if( strlen(arg) ) {
     for(i=0; i<strlen(arg); i++) {
       tell_object(me,arg[i]);
@@ -713,7 +713,7 @@ void heart_beat()
       }
       else {
         if( query_temp("pkla_time") == 22 ) //一分鐘的部份
-          shout(HIC"蔡總管喝道：距比賽時間還有十秒，請"+pker_master->name()+"與"+pker_fighter->name()+"兩位預備。"NOR);
+          shout(HIC + "蔡總管喝道：距比賽時間還有十秒，請"+pker_master->name()+"與"+pker_fighter->name()+"兩位預備。" + NOR);
         add_temp("pkla_time",1);
       }
     }

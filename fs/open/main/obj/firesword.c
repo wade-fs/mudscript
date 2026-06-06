@@ -9,7 +9,7 @@ object user;
 int sp,max;
 void create()
 {
-  set_name(HIR"火龍劍"NOR,({"fire dragon sword","sword"}) );
+  set_name(HIR + "火龍劍" + NOR,({"fire dragon sword","sword"}) );
   set_weight(7500);
   if( clonep() ) 
     set_default_object(__FILE__);

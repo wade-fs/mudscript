@@ -3,7 +3,7 @@ inherit ROOM;
 
 void create()
 {
-        set("short",YEL"幽冥"BLU"秘洞"NOR);
+        set("short",YEL + "幽冥" + BLU + "秘洞" + NOR);
         set("long",@LONG
       
     哇！好大的洞穴，好多的生死蝶 (butterfly)在
@@ -31,7 +31,7 @@ void do_check(object me)
 {
 if(!me) return ;
       if(!me->query_temp("ghost-quest/cankill-king" ) && userp(me) && living(me)) {
-        message_vision(HIW"\n天神搖搖頭對$N說道：你這個愛用偷吃步的傢伙，滾回家去吧！\n"NOR,me);
+        message_vision(HIW + "\n天神搖搖頭對$N說道：你這個愛用偷吃步的傢伙，滾回家去吧！\n" + NOR,me);
         me->move(me->query("startroom"));
         me->set( "clan/out","/open/center/room/inn");
       }else  

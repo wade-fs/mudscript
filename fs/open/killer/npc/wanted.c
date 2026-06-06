@@ -38,17 +38,17 @@ void die()
    
  if ( !present("menu",killer) )  //檢查玩家是否有殺人名單
 {
-   say(HIG"可惡！天魔解體大法給你吧！\n"NOR);
-   message_vision(HIG"他一溜煙的消失了，只留下那一本天魔解體大法....\n",this_object());
-   message_vision("正當得意，取的天魔解體大法時，忽然一道氣勁來襲，\n讓你氣血翻騰，快昏倒了，在昏倒前聽到\n"NOR,this_object());
-   message_vision(HIY"受了(魔氣殺之傷)你是保不住的，可惡的葉。。。\n"NOR,this_object());
+   say(HIG + "可惡！天魔解體大法給你吧！\n" + NOR);
+   message_vision(HIG + "他一溜煙的消失了，只留下那一本天魔解體大法....\n",this_object());
+   message_vision("正當得意，取的天魔解體大法時，忽然一道氣勁來襲，\n讓你氣血翻騰，快昏倒了，在昏倒前聽到\n" + NOR,this_object());
+   message_vision(HIY + "受了(魔氣殺之傷)你是保不住的，可惡的葉。。。\n" + NOR,this_object());
    killer->set_temp("hurt",1);
    killer->move("/open/killer/room/outr4.c");
    destruct(this_object());
 }
  else
  {
-  say(HIG"為了殺人名單來殺我？..........可恨呀....居然會死於你的手上....含恨呀....\n"NOR);
+  say(HIG + "為了殺人名單來殺我？..........可恨呀....居然會死於你的手上....含恨呀....\n" + NOR);
    head=new("/open/killer/obj/hou_head.c");
    head->move(this_object());
  }

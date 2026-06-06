@@ -70,13 +70,13 @@ int special_attack()
    ob=this_object()->query_enemy();
    if( k > 2 )
    {
-   message_vision(HIR"葉狂運起『嗜血狂魔大法』向你一指，一道血光從身體中狂爆開來!!\n"NOR,this_object());
+   message_vision(HIR + "葉狂運起『嗜血狂魔大法』向你一指，一道血光從身體中狂爆開來!!\n" + NOR,this_object());
    ob->add("kee",-250);
    ob->start_busy(1);
    }
    if( k < 7 )
    {
-   message_vision(HIW"葉狂運起『天魔療傷心法』不可思議的光芒從葉狂身上發出，葉狂的創傷恢復了!\n"NOR,this_object());
+   message_vision(HIW + "葉狂運起『天魔療傷心法』不可思議的光芒從葉狂身上發出，葉狂的創傷恢復了!\n" + NOR,this_object());
    me->add("force",1200);
    me->add("kee",300);
    me->add("max_kee",100);
@@ -116,14 +116,14 @@ void heart_beat()
  all = all_inventory(room);
  if(count < 5 && me->is_fighting())
  {
-  message_vision(HIR"\n葉狂大喝一聲，無數的震波向大家襲去!!!周遭的生物被震離十步之遠!!\n"NOR,me);
+  message_vision(HIR + "\n葉狂大喝一聲，無數的震波向大家襲去!!!周遭的生物被震離十步之遠!!\n" + NOR,me);
   for( i = 0 ; i < sizeof(all) ; i++)
    {
     obj = all[i];
     if( obj->is_character() && !obj->is_corpse() && living(obj)
     && obj->query("id")!="ya")
      {
-      message_vision(HIR"結果所有人被這威力無比的惡魔震波震傷，哇一聲吐出一大口鮮血!!\n"NOR,obj);
+      message_vision(HIR + "結果所有人被這威力無比的惡魔震波震傷，哇一聲吐出一大口鮮血!!\n" + NOR,obj);
       obj->add("kee",-100);
       obj->start_busy(1);
       COMBAT_D->report_status(obj, 1);
@@ -135,7 +135,7 @@ void heart_beat()
   if( is_fighting() )
   {
    if( query("kee") < query("eff_kee") )
-    message_vision(HIG"\n葉狂使出惡化魔功\之心法，傷口漸漸的癒合了\n"NOR,me);
+    message_vision(HIG + "\n葉狂使出惡化魔功\之心法，傷口漸漸的癒合了\n" + NOR,me);
     me->receive_heal("kee",500);
     me->receive_heal("gin",200);
     me->receive_heal("sen",200);
@@ -171,7 +171,7 @@ void die()
 	  if( j==7 || j==77 || j== 777 || j==1111 || j==55 || j==555 || j==1000 || j==4000 || j==3333 || j==2222 )
 	  {      
 	  new("/open/sky/obj4/free_shells")->move(environment(winner));
-	  message_vision(HIM"\n從葉狂的身上掉下了一件奇怪的東西!!\n"NOR,winner);
+	  message_vision(HIM + "\n從葉狂的身上掉下了一件奇怪的東西!!\n" + NOR,winner);
           write_file("/log/sky/obj4/free_shells",sprintf("%s(%s) 讓葉狂掉下了自由之貝殼於 %s\n",
 	  winner->name(1),winner->query("id"),ctime(time())));
 	  }
@@ -180,7 +180,7 @@ void die()
 	  if( j==5 || j==15 || j== 150 || j==1500 || j==10 || j==100 || j==1000 || j==4000 || j==6666 || j==7777 ) 
 	  {      
 	  new("/open/sky/obj4/free_shells")->move(environment(winner));
-	  message_vision(HIM"\n從葉狂的身上掉下了一件奇怪的東西!!\n"NOR,winner);
+	  message_vision(HIM + "\n從葉狂的身上掉下了一件奇怪的東西!!\n" + NOR,winner);
           write_file("/log/sky/obj4/free_shells",sprintf("%s(%s) 讓葉狂掉下了自由之貝殼於 %s\n",
 	  winner->name(1),winner->query("id"),ctime(time())));
 	  }

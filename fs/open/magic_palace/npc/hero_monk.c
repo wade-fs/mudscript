@@ -13,7 +13,7 @@ void create()
 五大派，以各派武學精華，共同研發出驚世駭俗的武學『英雄真經』，並且以
 灌頂、傳功\等不同方式，將各派絕頂高手的功\力盡傳給一天賦過人的少林弟子
 ，自此以後，此弟子法號即為英雄和尚。
-\n"NOR);
+\n" + NOR);
         set("attitude", "friendly");
         set("chat_chance", 10);
         set("gender","男性");
@@ -26,8 +26,8 @@ void create()
         set("no_kill",1);
         set("class","blademan");
         set("family/family_name","金刀門");
-        set("title",HIY"初代"HIR"『"HIC"英雄真經"HIR"』"HIW"傳人"NOR);
-        set("nickname",HIM"英雄和尚"NOR);
+        set("title",HIY + "初代" + HIR + "『" + HIC + "英雄真經" + HIR + "』" + HIW + "傳人" + NOR);
+        set("nickname",HIM + "英雄和尚" + NOR);
         set("potential",8000000);
         set("max_gin",100000);
         set("max_kee",950000);
@@ -107,11 +107,11 @@ if(!str)
 {
 if(present("New_Hero Book",user))
 {
-   message_vision(HIW"咦!?$N身上有英雄新經，是英雄新經傳人嗎!!很好，就看看新經真經哪個強吧!!\n"NOR,user);
+   message_vision(HIW + "咦!?$N身上有英雄新經，是英雄新經傳人嗎!!很好，就看看新經真經哪個強吧!!\n" + NOR,user);
    user->start_busy(2);
    call_out("do_check",1,user); 
 }else{
-   message_vision(HIW"$N看來也是武學行家，試著在英雄真經下撐過七回合吧!!\n"NOR,user);
+   message_vision(HIW + "$N看來也是武學行家，試著在英雄真經下撐過七回合吧!!\n" + NOR,user);
    user->start_busy(2);
    call_out("do_check",1,user); 
      }
@@ -146,7 +146,7 @@ if(present("New_Hero Book",user) && present("Gold_Magic Book",user) && !user->qu
 {
 destruct(ob1);
 destruct(ob2);
-message_vision(HIB"小水滴說:『"HIW"你這廢材，一隻都沒打，還敢跟我問這是什麼書，沒收！"HIB"』\n"NOR,user);
+message_vision(HIB + "小水滴說:『" + HIW + "你這廢材，一隻都沒打，還敢跟我問這是什麼書，沒收！" + HIB + "』\n" + NOR,user);
 user->move("/open/wiz/courthouse");
 user->set("startroom","/open/wiz/courthouse");
 write_file("/log/magic_palace/destruct_books",sprintf("%s(%s) 被沒收兩本書於 %s\n",user->name(1),user->query("id"),ctime(time())));	    
@@ -158,14 +158,14 @@ return "小水滴說:『沒想到來了個天兵。』\n";
 void do_check2()
 {
 user = this_player();
-message_vision(HIB"小水滴說:『"HIW"希望施主將"HIC"真經"HIW"、"HIC"新經"HIW"和"HIY"魔典"HIW"投入斷陽峰的烈日中焚燬(throw to sun)，畢竟這等驚世駭俗的武學是不該存在於世上的。』\n\n"NOR,user);
+message_vision(HIB + "小水滴說:『" + HIW + "希望施主將" + HIC + "真經" + HIW + "、" + HIC + "新經" + HIW + "和" + HIY + "魔典" + HIW + "投入斷陽峰的烈日中焚燬(throw to sun)，畢竟這等驚世駭俗的武學是不該存在於世上的。』\n\n" + NOR,user);
 call_out("do_check3",1,user); 
 }
 
 void do_check3()
 {
 user = this_player();
-message_vision(HIM"說罷，"HIC"英雄和尚"HIM"-"HIB"小水滴"HIM"便圓寂了...\n\n"NOR,user);
+message_vision(HIM + "說罷，" + HIC + "英雄和尚" + HIM + "-" + HIB + "小水滴" + HIM + "便圓寂了...\n\n" + NOR,user);
 user->set_temp("can_throw",1);
 destruct(this_object());
 }
@@ -202,15 +202,15 @@ if(me->query_temp("hero_test") > 7)
 	{
 	if(tester[b]->query("kee") > (tester[b]->query("max_kee"))/5)
         {
-        message_vision(HIM"
+        message_vision(HIM + "
         
-        小水滴說道:"HIW"『"HIG"很好，你果然有資格和魔也佛交手。"HIW"』\n\n"NOR,tester[b]);
+        小水滴說道:" + HIW + "『" + HIG + "很好，你果然有資格和魔也佛交手。" + HIW + "』\n\n" + NOR,tester[b]);
         tester[b]->delete_busy();
         tester[b]->set_temp("can_fight_final",1);
         }else{
-        message_vision(HIM"
+        message_vision(HIM + "
         
-        小水滴說道:"HIW"『"HIR"這點微末功\夫還想殺佛也魔，自不量力，$N再回去練十年吧!!\n\n"NOR,tester[b]);
+        小水滴說道:" + HIW + "『" + HIR + "這點微末功\夫還想殺佛也魔，自不量力，$N再回去練十年吧!!\n\n" + NOR,tester[b]);
              }
         }     
 	me->remove_all_killer();
@@ -225,9 +225,9 @@ i=sizeof(target);
   {
     if(kee < mkee || sen < msen || gin < mgin)
     {
-message_vision(HIB"$N運起少林寺最高內功\心法"HIW"『"BRED+HIY"本來無一物"NOR""HIW"』"HIB"
+message_vision(HIB + "$N運起少林寺最高內功\心法" + HIW + "『"BRED+HIY"本來無一物" + NOR + "" + HIW + "』" + HIB + "
 內勁變得如黑洞般深不可測，原本散發的凜冽鬥氣剎那間完全消失，
-$N竟與自然化為一體，全身傷勢疾速復原。\n"NOR,me);
+$N竟與自然化為一體，全身傷勢疾速復原。\n" + NOR,me);
           
           ekee=me->query("eff_kee");
           egin=me->query("eff_gin");
@@ -243,12 +243,12 @@ $N竟與自然化為一體，全身傷勢疾速復原。\n"NOR,me);
   }
   if(me->is_busy() && !me->query_temp("unconcious"))
   {
-message_vision(HIR"$N潛運"HIW"ξ"BRED+HIY"本來無一物"NOR""HIW"ξ"HIR"神功\，身形浮起，爆發無匹內勁掙脫束縛，
-接著以閃電山莊的"HIW"ξ"BRED+HIY"閃電身法"NOR""HIW"ξ"HIR"迅速脫離封鎖。\n"NOR,me);
+message_vision(HIR + "$N潛運" + HIW + "ξ"BRED+HIY"本來無一物" + NOR + "" + HIW + "ξ" + HIR + "神功\，身形浮起，爆發無匹內勁掙脫束縛，
+接著以閃電山莊的" + HIW + "ξ"BRED+HIY"閃電身法" + NOR + "" + HIW + "ξ" + HIR + "迅速脫離封鎖。\n" + NOR,me);
           me->delete_busy();
           if(me->is_fighting())
           {
-           message_vision(HIG"並且在電光石火間向每個人出招反擊!!\n"NOR,me);
+           message_vision(HIG + "並且在電光石火間向每個人出招反擊!!\n" + NOR,me);
            for(j=0;j<i;j++)
            {
            if(target[j] && target[j]->is_character() && !target[j]->is_corpse() && room == environment(target[j])) 

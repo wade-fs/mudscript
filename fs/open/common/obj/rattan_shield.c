@@ -15,7 +15,7 @@ void create()
     set("long","明代抗倭名將戚繼光將南蠻藤甲兵慣用盾牌進行改良，為堅藤\n"+
       "所製呈反荷葉形，因其堅固又有伸縮性，所以抵禦刀劍棍斧及\n"+
       "矢鏃彈丸，頗為有效，時至今日，行走江湖常用拳腳的武者也\n"+
-      "紛紛採用，對於近戰時可提供一定的保護與攻擊力。\n"NOR);
+      "紛紛採用，對於近戰時可提供一定的保護與攻擊力。\n" + NOR);
     set("unit","面");
     set("value",35000);
     set("material","wood");
@@ -24,8 +24,8 @@ void create()
     set("armor_prop/unarmed",4);
     set("armor_prop/parry",2);
     set("need_class","fighter");
-    set("wear_msg","$N""舉起$n""，領悟了「盾牌如壁，閃牌如電，遮蔽活潑，起伏得宜」的近戰心得，感覺眾莫能當。\n"NOR);
-    set("unequip_msg","$N""放下了$n""，安全感頓時減少一大半。\n"NOR);
+    set("wear_msg","$N""舉起$n""，領悟了「盾牌如壁，閃牌如電，遮蔽活潑，起伏得宜」的近戰心得，感覺眾莫能當。\n" + NOR);
+    set("unequip_msg","$N""放下了$n""，安全感頓時減少一大半。\n" + NOR);
   }
   setup();
 }

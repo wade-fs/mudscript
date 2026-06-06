@@ -42,6 +42,6 @@ int do_steal(string item)
   r->move(this_player());
   if(me->query_temp("control"))
     me->set_temp("control_rice",1);
-  write(HIW"你成功\的偷取到糯米。\n"NOR);
+  write(HIW + "你成功\的偷取到糯米。\n" + NOR);
   return 1;
 }

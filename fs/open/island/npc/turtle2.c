@@ -3,7 +3,7 @@
 inherit NPC;
 mapping *action = ({
 
-([ "action" :"$N"HIG"獸性一起 ,前爪向$n強勁的抓了過去 ,眼看猛烈的一擊就要打到$n了"NOR"。",
+([ "action" :"$N" + HIG + "獸性一起 ,前爪向$n強勁的抓了過去 ,眼看猛烈的一擊就要打到$n了" + NOR + "。",
           
                 "dodge"      :  -20,
              "parry"      :  -35,
@@ -11,19 +11,19 @@ mapping *action = ({
              "damage_type":  "抓傷",
 
            ]),
-([ "action" :"$N"HIG"迅速往$n的方向衝了過去 ,用厚重的甲殼撞擊著$n ,揚起了滿天沙塵"NOR"。",
+([ "action" :"$N" + HIG + "迅速往$n的方向衝了過去 ,用厚重的甲殼撞擊著$n ,揚起了滿天沙塵" + NOR + "。",
              "dodge"      :  -20,
              "parry"      :  -35,
              "damage"     :  200,
              "damage_type":  "內傷",
             ]),
-([ "action" :"$N"HIG"伸出長長的尾巴 ,對準$n身上狠狠的掃去 ,$n被嚇得措手不及"NOR"。",
+([ "action" :"$N" + HIG + "伸出長長的尾巴 ,對準$n身上狠狠的掃去 ,$n被嚇得措手不及" + NOR + "。",
              "dodge"      :  -30,
              "parry"      :  -35,
              "damage"     :  210,
              "damage_type":  "內傷",
             ]),
-([ "action" :"$N"HIG"朝$n撞了過去 ,數千斤重的身體 ,挾著萬均之勢 ,像要把$n壓進土裡"NOR"。",
+([ "action" :"$N" + HIG + "朝$n撞了過去 ,數千斤重的身體 ,挾著萬均之勢 ,像要把$n壓進土裡" + NOR + "。",
              "dodge"      :  -30,
              "parry"      :  -35,
              "damage"     :  220,
@@ -33,7 +33,7 @@ mapping *action = ({
 
 void create()
 {
-     set_name(HIG"盤古真龜『"HIW"無殼"HIG"』"NOR ,({"penku turtle", "turtle"}) );
+     set_name(HIG + "盤古真龜『" + HIW + "無殼" + HIG + "』" + NOR ,({"penku turtle", "turtle"}) );
      set("race", "野獸");
      set("title", "萬年神獸");    
      set("age",33972);
@@ -83,7 +83,7 @@ void heart_beat()
     {
       enemy = me->query_enemy();
       i=random(sizeof(enemy));
-      message_vision(HIG+"盤古真龜"HIY"狂吼了一聲 ,震到你氣血翻騰!!!\n"+NOR,enemy[i]);
+      message_vision(HIG+"盤古真龜" + HIY + "狂吼了一聲 ,震到你氣血翻騰!!!\n"+NOR,enemy[i]);
      enemy[i]->receive_damage("kee", 90,me);
       COMBAT_D->report_status(enemy[i], 1);
      }
@@ -113,7 +113,7 @@ int do_cmd(string str){
  ob=this_object();
  turtle=present( "turtle",environment(ob) );
  if(str=="askgod turtle" || str=="askgod penku turtle"){
- write(HIC"龜乃是神獸 ,不可逆天行事\n"NOR);
+ write(HIC + "龜乃是神獸 ,不可逆天行事\n" + NOR);
  return 1;                                                 
                   }
 }
@@ -124,7 +124,7 @@ int do_cmd(string str){
 
     new("/open/island/obj/power")->move(environment(winner));
     
-   tell_object(winner,HIR"\n\n真龜的元神緩緩的從屍身上浮起\n\n\n"NOR);                                
+   tell_object(winner,HIR + "\n\n真龜的元神緩緩的從屍身上浮起\n\n\n" + NOR);                                
    
   
             ::die();                                                           

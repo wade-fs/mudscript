@@ -57,7 +57,7 @@ void greeting( object ob )
     if( !ob || environment(ob) != environment() ) return;
 	if(ob->query("combat_exp")>1500000)
 	{    
-     write( HIY"血魔將說道:死吧....人類\n"NOR );
+     write( HIY + "血魔將說道:死吧....人類\n" + NOR );
 	 command("kill ob");
 	 command("follow ob");
 	 kill_ob(ob);
@@ -80,8 +80,8 @@ void heart_beat()
               if(enemy[i])
               if(environment(me) == environment(enemy[i]))
               {
-	      message_vision(HIR"$N高喊:該死的人類...看我的血魔無極殺。\n"NOR,me,enemy[i]);
-              message_vision(HIW"『"HIR"血 染 大 地 蓋\ 紅 塵"HIW"，"HIR"魂 迫 四 方 斬 無 邊"HIW"』\n『"HIY"哈！！血 霸 天 下"HIW"』，$N極招一出造成大地崩裂，江河逆流，$n瞬間遭血氣掩沒。\n"NOR,me,enemy[i]);
+	      message_vision(HIR + "$N高喊:該死的人類...看我的血魔無極殺。\n" + NOR,me,enemy[i]);
+              message_vision(HIW + "『" + HIR + "血 染 大 地 蓋\ 紅 塵" + HIW + "，" + HIR + "魂 迫 四 方 斬 無 邊" + HIW + "』\n『" + HIY + "哈！！血 霸 天 下" + HIW + "』，$N極招一出造成大地崩裂，江河逆流，$n瞬間遭血氣掩沒。\n" + NOR,me,enemy[i]);
               enemy[i]->receive_damage("kee", 500);
               enemy[i]->receive_wound("sen", enemy[i]->query("max_sen",1)/40);
               enemy[i]->receive_wound("gin", enemy[i]->query("max_gin",1)/40);
@@ -121,8 +121,8 @@ void die()
 	return ;
         }
 
-	  tell_object(users(),HIR"\n血魔將吼道：\n\t"HIW"可恨阿~~想不到我百年功\力竟不敵"+winner->query("name")+"！\n\t血魔殿下要記得幫我報仇阿！\n\n"NOR);
-	  message_vision(HIY"\n"+winner->query("name")+"打死血魔將從血魔將身上取下五十點血印!!\n"NOR,winner);
+	  tell_object(users(),HIR + "\n血魔將吼道：\n\t" + HIW + "可恨阿~~想不到我百年功\力竟不敵"+winner->query("name")+"！\n\t血魔殿下要記得幫我報仇阿！\n\n" + NOR);
+	  message_vision(HIY + "\n"+winner->query("name")+"打死血魔將從血魔將身上取下五十點血印!!\n" + NOR,winner);
           write_file("sword/get_bscore",sprintf("%s(%s) 得到三十點血印於 %s\n",winner->query("name"),winner->query("id"),ctime(time())));
 	  winner->add("blood_score",30);
  	::die();

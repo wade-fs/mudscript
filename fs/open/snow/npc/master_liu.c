@@ -156,6 +156,6 @@ int do_join()
 		return notify_fail("你已經加入其他工會了。\n");
 	this_player()->set("class","fighter");
 	message("system",
-	HIC "天生英才.....\n\n一代武者"+this_player()->name()+"誕生了 !!!\n" NOR,users());
+	HIC + "天生英才.....\n\n一代武者"+this_player()->name()+"誕生了 !!!\n" + NOR,users());
 	return 1;
 }

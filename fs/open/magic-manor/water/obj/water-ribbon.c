@@ -6,7 +6,7 @@ inherit UNARMED;
 void create()
 {
         seteuid(getuid());
-        set_name(HIC"水色靈帶"NOR,({"water ribbon","ribbon"}));
+        set_name(HIC + "水色靈帶" + NOR,({"water ribbon","ribbon"}));
         set_weight(8000);
         if( clonep() )
                 set_default_object(__FILE__);

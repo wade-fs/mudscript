@@ -4,7 +4,7 @@
 
 void create ()
 {
-        set("short",YEL"檀間"NOR);
+        set("short",YEL + "檀間" + NOR);
         set("long", @LONG
 通過一扇門簾，走進來便聞到一股濃郁的檀香，顯然是上等檀香
 聞起來令人精神清爽；門簾的位置在於整個房間的西南角落，坐東朝

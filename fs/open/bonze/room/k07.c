@@ -28,7 +28,7 @@ int valid_leave(object who, string dir)
   //通行許可為set_temp("quests/bonze/food_pass") 因為"quests/bonze/food" 作為收集食材完畢時 快速刪除的群組
   if(dir == "east" && who->query("class") != "bonze" && !who->query_temp("quests/bonze/food_pass") )
   {
-    return notify_fail("沒有經過"HIY"【許\可】"NOR"，不要隨便進人家的伙房。\n"); //天呀 括號括起來 這麼明顯的提示 還要問 我補顏色....orz by blazakira
+    return notify_fail("沒有經過" + HIY + "【許\可】" + NOR + "，不要隨便進人家的伙房。\n"); //天呀 括號括起來 這麼明顯的提示 還要問 我補顏色....orz by blazakira
   }
   return 1;
 }

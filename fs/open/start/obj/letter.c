@@ -78,16 +78,16 @@ int do_read2(object who)
 {
 	int i;
 
-	tell_object(who,HIY"想活命的話就乖乖把信留下！\n\n"NOR);
+	tell_object(who,HIY + "想活命的話就乖乖把信留下！\n\n" + NOR);
 	tell_object(who,"不知何時，你已經被一群凶神惡煞的土匪給團團圍住了....\n\n");
 	for(i=0; i<2; i++)
 		new(S_NPC"bandit")->move(environment(who));
 /*
-	tell_object(who,CYN"山賊頭子冷冷的說道：小子，我們注意凌雲村那個老頭已經很久了，今天總算給我逮到機會....哈哈哈哈哈！\n"NOR);
-	tell_object(who,CYN"山賊頭子看著你說：哼哼....交出你身上的錢跟信就饒你一命！\n"NOR);
+	tell_object(who,CYN + "山賊頭子冷冷的說道：小子，我們注意凌雲村那個老頭已經很久了，今天總算給我逮到機會....哈哈哈哈哈！\n" + NOR);
+	tell_object(who,CYN + "山賊頭子看著你說：哼哼....交出你身上的錢跟信就饒你一命！\n" + NOR);
 
 	if( who->can_afford(1000)!=1 ) {
-		tell_object(who,CYN"山賊頭子破口大罵：臭小子，連點錢都沒有。兄弟們，給我打！\n"NOR);
+		tell_object(who,CYN + "山賊頭子破口大罵：臭小子，連點錢都沒有。兄弟們，給我打！\n" + NOR);
 		who->set("gin", 20);
 		who->set("kee", 20);
 		who->set("sen", 20);

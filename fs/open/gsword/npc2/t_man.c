@@ -46,7 +46,7 @@ void create()
 int heal_up()
 {
         if (!is_fighting() ) {
-             message_vision (HIC"兇暴的$N漸漸平息下來，再度變為雲霧。\n"NOR, this_object ());
+             message_vision (HIC + "兇暴的$N漸漸平息下來，再度變為雲霧。\n" + NOR, this_object ());
              destruct(this_object());
              return 1;
         }
@@ -58,7 +58,7 @@ void unconcious ()
     if(!winner) :: unconcious();
     {
         winner->add("quests/test",1);
-        message_vision (HIC"$N咻的一聲，消失的無影無蹤。\n"NOR, this_object ());
+        message_vision (HIC + "$N咻的一聲，消失的無影無蹤。\n" + NOR, this_object ());
 
     }
   destruct (this_object ());
@@ -71,7 +71,7 @@ int spatt()
         if( !i = sizeof(enemy) )
                 return 0;
         victim = enemy[random(i)];
-        message_vision (HIB"$N一聲怒吼，一道閃電向$n直劈而來。\n"NOR,me,victim);
+        message_vision (HIB + "$N一聲怒吼，一道閃電向$n直劈而來。\n" + NOR,me,victim);
         victim->receive_damage("kee",100);
         COMBAT_D->report_status(victim);
         return 1;

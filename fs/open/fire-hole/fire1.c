@@ -2,7 +2,7 @@
 inherit ROOM;
 void create ()
 {
-  set ("short", HIB"神秘洞窟"NOR);
+  set ("short", HIB + "神秘洞窟" + NOR);
 	set( "build", 48 );
   set ("long", @LONG
 神秘的色彩瀰漫, 邪惡的氣息佈滿這裡, 這裡是火龍幻界的中心, 傳說
@@ -33,7 +33,7 @@ int do_search(string str)
    object me = this_player();
    if(!str && me->query_temp("find_scroll") == 3)
    {
-    message_vision(HIG"\n六芒星魔法陣感應到$N身上的洛書河圖武學氣息，發出六色光芒將$N吸入...\n"NOR,me);
+    message_vision(HIG + "\n六芒星魔法陣感應到$N身上的洛書河圖武學氣息，發出六色光芒將$N吸入...\n" + NOR,me);
     me->move( __DIR__"scroll_room.c");
     return 1;
    }
@@ -45,7 +45,7 @@ void do_check(object me)
 {
       if(!me) return;
       if(me->query("combat_exp" ) < 5000000 && userp(me) && living(me)) {
-        message_vision(HIR"$N抵抗不了火龍幻界的熱度，被天神傳送回起點！\n"NOR,me);
+        message_vision(HIR + "$N抵抗不了火龍幻界的熱度，被天神傳送回起點！\n" + NOR,me);
         me->move(me->query("startroom"));
         me->set( "clan/out","/open/center/room/inn");
       }else  

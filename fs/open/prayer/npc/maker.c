@@ -22,11 +22,11 @@ command("say 傳說妖刀有某種神秘力量(power)！");
 wea=new("/autoload/blademan/evil-mblade.c");
 wea->move(who);
 who->set("get-evil-mblade",1);
-message("system",HIC"天空突然烏雲密佈，霎那間從天空中心擊落一道閃電。\n"NOR,users());
-message("system",HIC"\n這道閃電霎有靈性般的擊向"+who->query("name")+"。\n"NOR,users());
-message("system",HIY"\n同時間，大地震裂無數陰靈飛出聚集在"+who->query("name")+"身上。\n"NOR,users());
-message("system",HIR"\n只見"+who->query("name")+"眼露紅光狂笑道 : \n\n\t\t妖刀終於現世\n\n\t\t我稱霸武林之日\n\n\t\t即將到來\n\n\t\t哈哈哈哈哈哈\n\n"NOR,users());
-message("system",HIW"天雷地動～～"+who->query("name")+"縱聲長笑 : \n\n\t\t哈哈哈哈～～"HIG"妖刀"HIW"現世了。\n"NOR,users());
+message("system",HIC + "天空突然烏雲密佈，霎那間從天空中心擊落一道閃電。\n" + NOR,users());
+message("system",HIC + "\n這道閃電霎有靈性般的擊向"+who->query("name")+"。\n" + NOR,users());
+message("system",HIY + "\n同時間，大地震裂無數陰靈飛出聚集在"+who->query("name")+"身上。\n" + NOR,users());
+message("system",HIR + "\n只見"+who->query("name")+"眼露紅光狂笑道 : \n\n\t\t妖刀終於現世\n\n\t\t我稱霸武林之日\n\n\t\t即將到來\n\n\t\t哈哈哈哈哈哈\n\n" + NOR,users());
+message("system",HIW + "天雷地動～～"+who->query("name")+"縱聲長笑 : \n\n\t\t哈哈哈哈～～" + HIG + "妖刀" + HIW + "現世了。\n" + NOR,users());
 who->set("title","妖刀傳人");
 return 1;
 } else {
@@ -39,7 +39,7 @@ int do_nod()
 {
 object me = this_player();
 if(me->query("evil-mblade")!=1) return 0;
-message_vision(HIY"$N看了看$n手上的妖刀。\n"NOR,this_object(),this_player());
+message_vision(HIY + "$N看了看$n手上的妖刀。\n" + NOR,this_object(),this_player());
 command("sigh "+me->query("id"));
 command("say 可惜刀身以毀，不過沒關西，我父親教了我一身好功\夫。");
 command("say 只要你能拿到魔龍鱗和練得純正極火功\我就能幫你。");

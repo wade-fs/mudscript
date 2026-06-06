@@ -72,17 +72,17 @@ void heart_beat()
 		        me->receive_curing("sen",400);
 		if( query("gin") < query("eff_gin") ) 
 		  {
-		        message_vision(HIR"$N抓出暗藏的雪國大龍蝦，喀滋喀滋大口嚼了起來，精力復原不少。\n"NOR,me);
+		        message_vision(HIR + "$N抓出暗藏的雪國大龍蝦，喀滋喀滋大口嚼了起來，精力復原不少。\n" + NOR,me);
 			me->receive_heal("gin",400);
 		  }
 		if( query("kee") < query("eff_kee") )
 		  {
-		        message_vision(HIW"$N抓出暗藏的北海錦鯉魚，喀滋喀滋大口嚼了起來，元氣振奮不少。\n"NOR,me);
+		        message_vision(HIW + "$N抓出暗藏的北海錦鯉魚，喀滋喀滋大口嚼了起來，元氣振奮不少。\n" + NOR,me);
 			me->receive_heal("kee",400);
 		  }
 		if( query("sen") < query("eff_sen") )
 		  { 
-		        message_vision(HIY"$N抓出暗藏的龍宮鮮大蚌，喀滋喀滋大口嚼了起來，神暝\回復不少。\n"NOR,me);
+		        message_vision(HIY + "$N抓出暗藏的龍宮鮮大蚌，喀滋喀滋大口嚼了起來，神暝\回復不少。\n" + NOR,me);
 			me->receive_heal("sen",400);
 		  }
 	   }
@@ -90,21 +90,21 @@ void heart_beat()
 	        {
 	         if(me->is_busy() && random(4) == 1)
 	         {
-	           message_vision(HIW"$N狂吼一聲，以野獸天生的蠻力解除了身上束縛。\n"NOR,me);
+	           message_vision(HIW + "$N狂吼一聲，以野獸天生的蠻力解除了身上束縛。\n" + NOR,me);
 	           me->delete_busy();
 	         }
 	         if(random(2)==1)
 	         {
-	         message_vision(HIW"$N突然轉身，用牠厚重有如鐵板的尾巴朝著你一陣亂掃。\n"NOR,me);
+	         message_vision(HIW + "$N突然轉身，用牠厚重有如鐵板的尾巴朝著你一陣亂掃。\n" + NOR,me);
 	         for( i=0 ; i<j ; i++ )
 	         {
 	          if(random(4)==1)  
 	          {
-	           message_vision(HIY"$N被狠狠的掃中，疼得眼冒金星，耳內嗡嗡作響。\n"NOR,enemy[i]);
+	           message_vision(HIY + "$N被狠狠的掃中，疼得眼冒金星，耳內嗡嗡作響。\n" + NOR,enemy[i]);
 	           enemy[i]->start_busy(random(2));
 	           COMBAT_D->report_status(enemy[i],1);
 	          }else{
-	           message_vision(GRN"$N嚇了一大跳，趕忙仆倒在地躲過。\n"NOR,enemy[i]);
+	           message_vision(GRN + "$N嚇了一大跳，趕忙仆倒在地躲過。\n" + NOR,enemy[i]);
 	           enemy[i]->receive_damage("sen",50);
 	                }
 	         }

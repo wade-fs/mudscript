@@ -15,7 +15,7 @@ void create()
     "招，當年因為心術不正而被逐出師門，但是她的修為似乎比月牙兒更\n高，以舞媚之術稱霸南蠻數年無人能敵。\n");
   set("gender","女性");
   set("class","dancer");
-  set("nickname",HIM"舞"HIW"之"HIG"傳人"NOR);
+  set("nickname",HIM + "舞" + HIW + "之" + HIG + "傳人" + NOR);
   set("combat_exp",7000000);
   set("attitude","heroism");
   set("age",26);
@@ -104,14 +104,14 @@ int accept_kill(object who)
 //  who=this_player();
   command("con reflection");
   kill_ob(who);
-  message_vision(sprintf("\n\t\t"HIC"    "HIW"～　"HIM"憶紅塵"HIW"，"HIG"血染霓裳"HIW"，"HIY"天地無痕各一方\n\n\n"
-    HIC"\t\t\t無奈何"HIW"，"HIB"恨遺飛霜"HIW"，"HIR"孤獨人間恨兩行　"HIW"～\n\n\n"
-    HIR"\t ╭═╮  ╭╗      "HIG"╠╦╦╦╦╯    "HIC"═╗╭══╮    "HIM"◆╭═╮╭═╮\n"
-    HIR"\t ╠═╣╰═╝      "HIG"╰╬╬╬╬╯    "HIC"╰╯║╭╮║    "HIM"◆╠─╣╠─╣\n"
-    HIR"\t ╰╦╯  ╭╗      "HIG"╰╬╩╩╩╯     "HIC"● ║║║║    "HIM"╗╠═╯╰═║\n"
-    HIR"\t ╦╩╦╰═╯        "HIG"╠═╦╬╯     "HIC"╗ ║║║║    "HIM"║║ ╦╬╦ ║\n"
-    HIR"\t ╰╦╯  ╭╗        "HIG"║●╬╬╯     "HIC"║ ║╰╯║    "HIM"║║ ╰︾╯ ║\n"
-    HIR"\t ●║●╰═╯        "HIG"╯  ║║       "HIC"╯ ╰══╯  "HIM"╰╝║ ╭╬╮ ║\n\n\n"),who);
+  message_vision(sprintf("\n\t\t" + HIC + "    " + HIW + "～　" + HIM + "憶紅塵" + HIW + "，" + HIG + "血染霓裳" + HIW + "，" + HIY + "天地無痕各一方\n\n\n"
+    HIC + "\t\t\t無奈何" + HIW + "，" + HIB + "恨遺飛霜" + HIW + "，" + HIR + "孤獨人間恨兩行　" + HIW + "～\n\n\n"
+    HIR + "\t ╭═╮  ╭╗      " + HIG + "╠╦╦╦╦╯    " + HIC + "═╗╭══╮    " + HIM + "◆╭═╮╭═╮\n"
+    HIR + "\t ╠═╣╰═╝      " + HIG + "╰╬╬╬╬╯    " + HIC + "╰╯║╭╮║    " + HIM + "◆╠─╣╠─╣\n"
+    HIR + "\t ╰╦╯  ╭╗      " + HIG + "╰╬╩╩╩╯     " + HIC + "● ║║║║    " + HIM + "╗╠═╯╰═║\n"
+    HIR + "\t ╦╩╦╰═╯        " + HIG + "╠═╦╬╯     " + HIC + "╗ ║║║║    " + HIM + "║║ ╦╬╦ ║\n"
+    HIR + "\t ╰╦╯  ╭╗        " + HIG + "║●╬╬╯     " + HIC + "║ ║╰╯║    " + HIM + "║║ ╰︾╯ ║\n"
+    HIR + "\t ●║●╰═╯        " + HIG + "╯  ║║       " + HIC + "╯ ╰══╯  " + HIM + "╰╝║ ╭╬╮ ║\n\n\n"),who);
   who->start_busy(1);
   return 1;
 }
@@ -140,16 +140,16 @@ void heart_beat()
   }
   if( j < 40 && is_fighting())
   {
-    message_vision(HIW"\n\n\t\t----- "HIY"媚 "HIW"＊ "HIG"影 "HIW"＊ "HIR"舞 "HIW"＊ "HIC"豔"HIW" -----\n\n"
-      HIM"$N"HIM"眼露媚光，隨著夜色迷濛翩翩起舞，朱唇嬌豔，舞姿輕盈，此招正是\n"
-      HIM"$N"HIM"傾國傾城，迷惑天下的妖媚之術，你受到媚術所迷惑，看的入迷三分\n
-不知不覺逐漸被媚術迷惑失神，攻防之值瞬間大降！\n\n"NOR, mob );
+    message_vision(HIW + "\n\n\t\t----- " + HIY + "媚 " + HIW + "＊ " + HIG + "影 " + HIW + "＊ " + HIR + "舞 " + HIW + "＊ " + HIC + "豔" + HIW + " -----\n\n"
+      HIM + "$N" + HIM + "眼露媚光，隨著夜色迷濛翩翩起舞，朱唇嬌豔，舞姿輕盈，此招正是\n"
+      HIM + "$N" + HIM + "傾國傾城，迷惑天下的妖媚之術，你受到媚術所迷惑，看的入迷三分\n
+不知不覺逐漸被媚術迷惑失神，攻防之值瞬間大降！\n\n" + NOR, mob );
     for( k=0 ; k < i ; k++)
     {
       if( !enemy[k] ) continue;
       if( enemy[k]->is_character() && !enemy[k]->is_corpse() && living(enemy[k]) && enemy[k] != mob && !wizardp(enemy[k]) )
       {
-        message_vision(HIR"妖媚之術如天仙下凡，看得你如癡如醉，目瞪口呆！！\n"NOR,enemy[k]);
+        message_vision(HIR + "妖媚之術如天仙下凡，看得你如癡如醉，目瞪口呆！！\n" + NOR,enemy[k]);
         enemy[k]->receive_wound("kee",300,mob);
         enemy[k]->apply_condition("power-down",enemy[k]->query_condition("power-down")+5);
         COMBAT_D->report_status(enemy[k],1);
@@ -163,11 +163,11 @@ void heart_beat()
       if(!enemy[i]) continue;
       if(environment(mob) == environment(enemy[i]))
       {
-        message_vision(HIR"\n\n$N運起鳳凰靈氣，靈氣灌頂游走全身，鳳凰靈氣配合夢玄法鑑，空氣瞬間凝結成冰！\n\n"
-          HIC"\t\t\t◎ "HBBLU+HIR"鳳 "HIW"～ "HIR"凰 "HIW"～ "HIY"展 "HIW"～ "HIY"翅"NOR+HIC" ◎\n\n"
-          HIB"\t\t● "HIR"血 "HIW"、 "HIR"染 "HIW"、 "HIM"紅 "HIW"、 "HIM"塵 "HIW"、 "HIG"舞 "HIW"、 "HIG"秋 "HIW"、 "HIG"風 "HIB"●\n\n\n"
-          HIY"只見$N"HIY"身上散放出一股強大的氣勁，靈氣頓時浮現衝天而去，化成八道不同的靈光疾射\n"
-          HIY"你胸前八大要穴，只見你"HIY"受靈氣所限制，頓時全身內力不斷流失，身體虛弱無力，無法使勁。\n\n"NOR, mob );
+        message_vision(HIR + "\n\n$N運起鳳凰靈氣，靈氣灌頂游走全身，鳳凰靈氣配合夢玄法鑑，空氣瞬間凝結成冰！\n\n"
+          HIC + "\t\t\t◎ "HBBLU+HIR"鳳 " + HIW + "～ " + HIR + "凰 " + HIW + "～ " + HIY + "展 " + HIW + "～ " + HIY + "翅"NOR+HIC" ◎\n\n"
+          HIB + "\t\t● " + HIR + "血 " + HIW + "、 " + HIR + "染 " + HIW + "、 " + HIM + "紅 " + HIW + "、 " + HIM + "塵 " + HIW + "、 " + HIG + "舞 " + HIW + "、 " + HIG + "秋 " + HIW + "、 " + HIG + "風 " + HIB + "●\n\n\n"
+          HIY + "只見$N" + HIY + "身上散放出一股強大的氣勁，靈氣頓時浮現衝天而去，化成八道不同的靈光疾射\n"
+          HIY + "你胸前八大要穴，只見你" + HIY + "受靈氣所限制，頓時全身內力不斷流失，身體虛弱無力，無法使勁。\n\n" + NOR, mob );
         enemy[i]->apply_condition("no_power_e",random(10)+5);
         enemy[i]->receive_damage("kee",1200,mob);
         enemy[i]->receive_damage("gin",500,mob);
@@ -181,7 +181,7 @@ void heart_beat()
     mob->delete_busy();
     if(mob -> query("kee") < mob->query("max_kee")*0.6)
     {
-      message_vision( HIG"\n$N"HIG"使出夢玄法鑑治療術，瞬間身上的傷口漸漸癒合。\n"NOR, mob);
+      message_vision( HIG + "\n$N" + HIG + "使出夢玄法鑑治療術，瞬間身上的傷口漸漸癒合。\n" + NOR, mob);
       mob->clear_condition();
       mob->receive_heal("kee",700);
       mob->receive_curing("kee",700);
@@ -230,10 +230,10 @@ void die()
     ::die();
     return ;
   }
-  tell_object(users(),HIW"\n\n\n    ～ "HIR"媚  舞  迷  離    "HIY"一 夕 成 名    "HIC"敗 盡 多 少 英 雄 豪 傑\n\n"
-    HIG"\t\t夜 夢 天 舞    "HIB"無 數 寒 霜    "HIM"成 就 一 代 雲 舞 幻 姬 "
-    HIW"～\n\n\n"HIR"沒想到我一代舞之傳人，竟然會敗在"+HIG+class1+HIW"弟子"+HIY+name+HIR+"之手。\n難道這真的是上天的安排嗎？我不甘心啊！！\n我的傳人必會為我血洗天下的！！！\n\n\n"NOR);
-  message_vision(HIY"\n"+winner->name()+"打死凌雲飛得到四百點戰功\!!\n"NOR,winner);
+  tell_object(users(),HIW + "\n\n\n    ～ " + HIR + "媚  舞  迷  離    " + HIY + "一 夕 成 名    " + HIC + "敗 盡 多 少 英 雄 豪 傑\n\n"
+    HIG + "\t\t夜 夢 天 舞    " + HIB + "無 數 寒 霜    " + HIM + "成 就 一 代 雲 舞 幻 姬 "
+    HIW + "～\n\n\n" + HIR + "沒想到我一代舞之傳人，竟然會敗在"+HIG+class1+HIW"弟子"+HIY+name+HIR+"之手。\n難道這真的是上天的安排嗎？我不甘心啊！！\n我的傳人必會為我血洗天下的！！！\n\n\n" + NOR);
+  message_vision(HIY + "\n"+winner->name()+"打死凌雲飛得到四百點戰功\!!\n" + NOR,winner);
   write_file("/log/get_warp",sprintf("%s(%s) 打敗凌雲飛得到四百點戰功\於 %s\n",
     winner->name(1),winner->query("id"),ctime(time())));
   winner->add("war_score",400);

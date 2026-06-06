@@ -11,7 +11,7 @@ void create()
         set("long", @LONG
 他是長沙城裏最有名的鐵匠，你可以問問他有在賣些什麼(list)。
 LONG);
-        set("title",HIR"金身火煉"NOR);
+        set("title",HIR + "金身火煉" + NOR);
         set("attitude", "friendly");
         set("combat_exp",50000);
         set_skill("archery",40);

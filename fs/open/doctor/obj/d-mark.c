@@ -3,7 +3,7 @@ inherit ITEM;
 
 void create()
 {
-    set_name(HIR"絕焰令牌"NOR, ({"delfire-mark","mark"}));
+    set_name(HIR + "絕焰令牌" + NOR, ({"delfire-mark","mark"}));
     set("long","一張可以杜絕火焰的令牌!\n");
     set_weight(80);
     set("no_auc",1);

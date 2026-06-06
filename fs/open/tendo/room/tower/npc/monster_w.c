@@ -103,7 +103,7 @@ int accept_kill(object ob)
 
   if( !present("hu-fa", environment(ob)) )
   {
-    tell_room(environment(ob),HIW"\n突然！衝出兩位護法!!\n\n"NOR);
+    tell_room(environment(ob),HIW + "\n突然！衝出兩位護法!!\n\n" + NOR);
     for(i=0;i<2;i++)
     {
       hu_fa = new("/open/tendo/room/tower/npc/hu_fa");
@@ -143,13 +143,13 @@ void heart_beat()
   {
     if( i == 0 && me->is_busy() )
     {
-      message_vision(HIW"$N深吸了一口氣，衝破了所有的禁錮。\n"NOR,me);
+      message_vision(HIW + "$N深吸了一口氣，衝破了所有的禁錮。\n" + NOR,me);
       me->delete_busy();
     }
 
     if( i == 1 )
     {
-      message_vision(HIC"$N運起修羅心法之最高境界"HIW"「"HIM"修羅不滅身"HIW"」"HIC"與自身獨有靈氣融合，回復了部份的狀態。\n"NOR,me);
+      message_vision(HIC + "$N運起修羅心法之最高境界" + HIW + "「" + HIM + "修羅不滅身" + HIW + "」" + HIC + "與自身獨有靈氣融合，回復了部份的狀態。\n" + NOR,me);
       me->receive_curing("kee",random(m)+m);
       me->receive_heal("kee",random(m)+m);
       me->receive_curing("gin",random(m)+m);
@@ -161,7 +161,7 @@ void heart_beat()
 
     if( i == 2 )
     {
-      message_vision(HIC"$N運氣聚於身，大喝一聲，"HIW"「"HIM"修羅不滅身．幻滅定一瞬"HIW"」"HIC"，爆開的氣朝所有人四射飛去，中招者無一能動。\n"NOR,me);
+      message_vision(HIC + "$N運氣聚於身，大喝一聲，" + HIW + "「" + HIM + "修羅不滅身．幻滅定一瞬" + HIW + "」" + HIC + "，爆開的氣朝所有人四射飛去，中招者無一能動。\n" + NOR,me);
       for(j=0;j<sizeof(enemy);j++)
       {
         if(!enemy[j]) continue;
@@ -178,14 +178,14 @@ void heart_beat()
       j = random(sizeof(enemy));
       if( environment(me) == environment(enemy[j]) )
       {
-        message_vision(RED"\n$N"HIW"大喝道：拿出你的本事來接我冥殿絕學吧！！\n\n"NOR,me,enemy[j]);
+        message_vision(RED + "\n$N" + HIW + "大喝道：拿出你的本事來接我冥殿絕學吧！！\n\n" + NOR,me,enemy[j]);
 
         switch(k)
         {
           case 0:
-            message_vision(HIB"          －－ "HIW"冥  殿  "HIR"絕  "HIY"學  "HIB"第  一  式 －－"NOR"
-                  "HIB"～『  "HIY"妖 魔 聚 鼎"HIB"  』～\n"NOR"
-"HIW"$N身形倏而騰飛三丈,凌空劈出一"NOR+HIW"股掌勁,綿綿掌影,如江河缺堤似,暴瀉而下,掌風如激流"NOR+HIW"般地向$n隔空劈來!\n"NOR,me,enemy[j]);
+            message_vision(HIB + "          －－ " + HIW + "冥  殿  " + HIR + "絕  " + HIY + "學  " + HIB + "第  一  式 －－" + NOR + "
+                  " + HIB + "～『  " + HIY + "妖 魔 聚 鼎" + HIB + "  』～\n" + NOR + "
+" + HIW + "$N身形倏而騰飛三丈,凌空劈出一"NOR+HIW"股掌勁,綿綿掌影,如江河缺堤似,暴瀉而下,掌風如激流"NOR+HIW"般地向$n隔空劈來!\n" + NOR,me,enemy[j]);
             enemy[j]->receive_damage("gin",220,me);
             enemy[j]->receive_damage("sen",220,me);
             enemy[j]->receive_wound("kee",400,me);
@@ -193,9 +193,9 @@ void heart_beat()
             break;
 
           case 1:
-            message_vision(HIB"          －－ "HIW"冥  殿  "HIR"絕  "HIY"學  "HIB"第  二  式 －－"NOR"
-                  "HIB"～『  "HIR"魔 性 狂 發"HIB"  』～\n"NOR"
-"HIW"$N滿頭銀髮迎風如濤,雙目吐光如炬,"HIW"忽然雙臂抖舞,幻化成千百條手臂,每一條手臂撲出一般渾"HIW"雄的掌風,慢天的掌影向$n捲劈而來!\n"NOR,me,enemy[j]);
+            message_vision(HIB + "          －－ " + HIW + "冥  殿  " + HIR + "絕  " + HIY + "學  " + HIB + "第  二  式 －－" + NOR + "
+                  " + HIB + "～『  " + HIR + "魔 性 狂 發" + HIB + "  』～\n" + NOR + "
+" + HIW + "$N滿頭銀髮迎風如濤,雙目吐光如炬," + HIW + "忽然雙臂抖舞,幻化成千百條手臂,每一條手臂撲出一般渾" + HIW + "雄的掌風,慢天的掌影向$n捲劈而來!\n" + NOR,me,enemy[j]);
             enemy[j]->receive_damage("gin",320,me);
             enemy[j]->receive_damage("sen",340,me);
             enemy[j]->receive_wound("kee",800,me);
@@ -203,9 +203,9 @@ void heart_beat()
             break;
 
           case 2:
-            message_vision(HIB"          －－ "HIW"冥  殿  "HIR"絕  "HIY"學  "HIB"第  三  式 －－"NOR"
-                  "HIB"～『  "HIW"鬼 氣 貫 腦"HIB"  』～\n"NOR"
-"HIW"$N雙手暴長，臉部青絲暴露，濃烈的惡"HIW"臭從雙掌透出，只見$N雙手不停疾舞，勁氣中夾帶著"HIW"令人聞之欲嘔的毒氣,使得$n受到毒氣的影響，受到不輕的傷害!\n"NOR,me,enemy[j]);
+            message_vision(HIB + "          －－ " + HIW + "冥  殿  " + HIR + "絕  " + HIY + "學  " + HIB + "第  三  式 －－" + NOR + "
+                  " + HIB + "～『  " + HIW + "鬼 氣 貫 腦" + HIB + "  』～\n" + NOR + "
+" + HIW + "$N雙手暴長，臉部青絲暴露，濃烈的惡" + HIW + "臭從雙掌透出，只見$N雙手不停疾舞，勁氣中夾帶著" + HIW + "令人聞之欲嘔的毒氣,使得$n受到毒氣的影響，受到不輕的傷害!\n" + NOR,me,enemy[j]);
             enemy[j]->receive_damage("gin",420,me);
             enemy[j]->receive_damage("sen",460,me);
             enemy[j]->receive_wound("kee",1200,me);
@@ -213,9 +213,9 @@ void heart_beat()
             break;
 
           case 3:
-            message_vision(HIB"          －－ "HIW"冥  殿  "HIR"絕  "HIY"學  "HIB"第  四  式 －－"NOR"
-                  "HIB"～『  "HIC"魑 魅 魍 魎"HIB"  』～\n"NOR"
-"HIW"$N一聲龍吟般的長嘯,挫身飛騰,身形盪"HIW"空迴舞,一連串動作在同一石火電光之間完成,自不同的方向,"HIW"不同的角度,那宛如似厲鬼魔爪般的掌影,向$n詭異奇絕的飛劈而至!\n"NOR,me,enemy[j]);
+            message_vision(HIB + "          －－ " + HIW + "冥  殿  " + HIR + "絕  " + HIY + "學  " + HIB + "第  四  式 －－" + NOR + "
+                  " + HIB + "～『  " + HIC + "魑 魅 魍 魎" + HIB + "  』～\n" + NOR + "
+" + HIW + "$N一聲龍吟般的長嘯,挫身飛騰,身形盪" + HIW + "空迴舞,一連串動作在同一石火電光之間完成,自不同的方向," + HIW + "不同的角度,那宛如似厲鬼魔爪般的掌影,向$n詭異奇絕的飛劈而至!\n" + NOR,me,enemy[j]);
             enemy[j]->receive_damage("gin",enemy[j]->query("max_gin")/21,me);
             enemy[j]->receive_damage("sen",enemy[j]->query("max_sen")/21,me);
             enemy[j]->receive_wound("kee",enemy[j]->query("max_kee")/21,me);
@@ -223,9 +223,9 @@ void heart_beat()
             break;
 
           case 4:
-            message_vision(HIB"          －－ "HIW"冥  殿  "HIR"絕  "HIY"學  "HIB"第  五  式 －－"NOR"
-                  "HIB"～『  "MAG"鬼 魅 拜 月"HIB"  』～\n"NOR"
-"HIW"只見$N身形一躬，雙掌前劈，一道半月"HIW"形的勁氣猛然向前湧去，雄渾的勁氣，刮得地面如飛沙走石般"HIW"地向$n狂襲而去!!\n"NOR,me,enemy[j]);
+            message_vision(HIB + "          －－ " + HIW + "冥  殿  " + HIR + "絕  " + HIY + "學  " + HIB + "第  五  式 －－" + NOR + "
+                  " + HIB + "～『  " + MAG + "鬼 魅 拜 月" + HIB + "  』～\n" + NOR + "
+" + HIW + "只見$N身形一躬，雙掌前劈，一道半月" + HIW + "形的勁氣猛然向前湧去，雄渾的勁氣，刮得地面如飛沙走石般" + HIW + "地向$n狂襲而去!!\n" + NOR,me,enemy[j]);
             enemy[j]->receive_damage("gin",enemy[j]->query("max_gin")/19,me);
             enemy[j]->receive_damage("sen",enemy[j]->query("max_sen")/19,me);
             enemy[j]->receive_wound("kee",enemy[j]->query("max_kee")/19,me);
@@ -233,9 +233,9 @@ void heart_beat()
             break;
 
           case 5:
-            message_vision(HIB"          －－ "HIW"冥  殿  "HIR"絕  "HIY"學  "HIB"第  六  式 －－"NOR"
-                  "HIB"～『  "HIY"掌 不 刃 血"HIB"  』～\n"NOR"
-"HIW"$N雙掌化成千百掌影,掌影又凝成一股驚"HIW"天動魄的勁氣,朝向破風聲來處劈去!!\n"NOR,me,enemy[j]);
+            message_vision(HIB + "          －－ " + HIW + "冥  殿  " + HIR + "絕  " + HIY + "學  " + HIB + "第  六  式 －－" + NOR + "
+                  " + HIB + "～『  " + HIY + "掌 不 刃 血" + HIB + "  』～\n" + NOR + "
+" + HIW + "$N雙掌化成千百掌影,掌影又凝成一股驚" + HIW + "天動魄的勁氣,朝向破風聲來處劈去!!\n" + NOR,me,enemy[j]);
             enemy[j]->receive_damage("gin",enemy[j]->query("max_gin")/17,me);
             enemy[j]->receive_damage("sen",enemy[j]->query("max_sen")/17,me);
             enemy[j]->receive_wound("kee",enemy[j]->query("max_kee")/17,me);
@@ -243,9 +243,9 @@ void heart_beat()
             break;
 
           case 6:
-            message_vision(HIB"          －－ "HIW"冥  殿  "HIR"絕  "HIY"學  "HIB"第  七  式 －－"NOR"
-                  "HIB"～『  "HIC"妖 鬼 莫 測"HIB"  』～\n"NOR"
-"HIW"$N屈體弓身，雙掌緊貼地面，全身籠罩在"HIW"一片藍光中，地面宛如波濤般浮動，隨著蓄積的內勁，藍光不斷"HIW"增加，只見$N突然將雙掌一合，一道駭人藍箭向$n疾射而去!\n"NOR,me,enemy[j]);
+            message_vision(HIB + "          －－ " + HIW + "冥  殿  " + HIR + "絕  " + HIY + "學  " + HIB + "第  七  式 －－" + NOR + "
+                  " + HIB + "～『  " + HIC + "妖 鬼 莫 測" + HIB + "  』～\n" + NOR + "
+" + HIW + "$N屈體弓身，雙掌緊貼地面，全身籠罩在" + HIW + "一片藍光中，地面宛如波濤般浮動，隨著蓄積的內勁，藍光不斷" + HIW + "增加，只見$N突然將雙掌一合，一道駭人藍箭向$n疾射而去!\n" + NOR,me,enemy[j]);
             enemy[j]->receive_damage("gin",enemy[j]->query("max_gin")/15,me);
             enemy[j]->receive_damage("sen",enemy[j]->query("max_sen")/15,me);
             enemy[j]->receive_wound("kee",enemy[j]->query("max_kee")/15,me);
@@ -253,9 +253,9 @@ void heart_beat()
             break;
 
           case 7:
-            message_vision(HIB"          －－ "HIW"冥  殿  "HIR"絕  "HIY"學  "HIB"第  八  式 －－"NOR"
-                  "HIB"～『  "HIR"風 魔 狂 轉"HIB"  』～\n"NOR"
-"HIW"$N以氣貫入雙爪 ,雙爪閃出一陣耀目金光,"HIW"氣提十二成 ,勁注全身 ,蓄勢準備使出最強最霸道的一式,霎時"HIW"狂龍魔氣急速旋繞$N ,無儔魔氣因此驚動天地之氣 ,互抗暴出"HIW"數道紫電雷光 ,$N忽然現身於$n前 ,對$n使出了石破天驚的一擊!\n"NOR,me,enemy[j]);
+            message_vision(HIB + "          －－ " + HIW + "冥  殿  " + HIR + "絕  " + HIY + "學  " + HIB + "第  八  式 －－" + NOR + "
+                  " + HIB + "～『  " + HIR + "風 魔 狂 轉" + HIB + "  』～\n" + NOR + "
+" + HIW + "$N以氣貫入雙爪 ,雙爪閃出一陣耀目金光," + HIW + "氣提十二成 ,勁注全身 ,蓄勢準備使出最強最霸道的一式,霎時" + HIW + "狂龍魔氣急速旋繞$N ,無儔魔氣因此驚動天地之氣 ,互抗暴出" + HIW + "數道紫電雷光 ,$N忽然現身於$n前 ,對$n使出了石破天驚的一擊!\n" + NOR,me,enemy[j]);
             for(j=0;j<sizeof(enemy);j++)
             {
               if(!enemy[j]) continue;
@@ -270,9 +270,9 @@ void heart_beat()
             break;
 
           case 8:
-            message_vision(HIB"          －－ "HIW"冥  殿  "HIR"絕  "HIY"學  "HIB"第  九  式 －－"NOR"
-                  "HIB"～『  "HIY"鬼 影 重 重"HIB"  』～\n"NOR"
-"HIW"無窮無盡的勁力由四周湧入$N體內，只見冥"HIW"殿修羅雙掌不停做著細微的變化，彷彿如黑洞般，將萬物都吞食"HIW"淹滅,忽然雙掌擊向$n的全身!\n"NOR,me,enemy[j]);
+            message_vision(HIB + "          －－ " + HIW + "冥  殿  " + HIR + "絕  " + HIY + "學  " + HIB + "第  九  式 －－" + NOR + "
+                  " + HIB + "～『  " + HIY + "鬼 影 重 重" + HIB + "  』～\n" + NOR + "
+" + HIW + "無窮無盡的勁力由四周湧入$N體內，只見冥" + HIW + "殿修羅雙掌不停做著細微的變化，彷彿如黑洞般，將萬物都吞食" + HIW + "淹滅,忽然雙掌擊向$n的全身!\n" + NOR,me,enemy[j]);
             for(j=0;j<sizeof(enemy);j++)
             {
               if(!enemy[j]) continue;
@@ -287,9 +287,9 @@ void heart_beat()
             break;
 
           case 9:
-            message_vision(HIB"          －－ "HIW"冥  殿  "HIR"絕  "HIY"學  "HIB"第  十  式 －－"NOR"
-                  "HIB"～『  "HIW"鬼 氣 無 濤"HIB"  』～\n"NOR"
-"HIW"$N狂吼一聲,上空平身挪後三寸,左手拍地,右"HIW"手股動內勁,破天而出,掌勁如山,激起無濤的氣勁,夾著雷霆萬駒"HIW"之勢朝$n而來!!\n"NOR,me,enemy[j]);
+            message_vision(HIB + "          －－ " + HIW + "冥  殿  " + HIR + "絕  " + HIY + "學  " + HIB + "第  十  式 －－" + NOR + "
+                  " + HIB + "～『  " + HIW + "鬼 氣 無 濤" + HIB + "  』～\n" + NOR + "
+" + HIW + "$N狂吼一聲,上空平身挪後三寸,左手拍地,右" + HIW + "手股動內勁,破天而出,掌勁如山,激起無濤的氣勁,夾著雷霆萬駒" + HIW + "之勢朝$n而來!!\n" + NOR,me,enemy[j]);
             for(j=0;j<sizeof(enemy);j++)
             {
               if(!enemy[j]) continue;
@@ -304,9 +304,9 @@ void heart_beat()
             break;
 
           case 10:
-            message_vision(HIB"          －－ "HIW"冥  殿  "HIR"絕  "HIY"學  "HIB"第  十  一  式 －－"NOR"
-                  "HIB"～『  "HIC"鬼 焰 凌 厲"HIB"  』～\n"NOR"
-"HIW"$N左足橫移,挫腰沈身,單袖一揚,瞬時狂風拂"HIW"起, 塵沙飛揚,$N趁飛沙走石之際,運起陽剛真氣,身形一旋,"HIW"雙掌內攏,催起一股凌厲的氣焰,朝$n的天靈蓋\連續拍出數掌!\n"NOR,me,enemy[j]);
+            message_vision(HIB + "          －－ " + HIW + "冥  殿  " + HIR + "絕  " + HIY + "學  " + HIB + "第  十  一  式 －－" + NOR + "
+                  " + HIB + "～『  " + HIC + "鬼 焰 凌 厲" + HIB + "  』～\n" + NOR + "
+" + HIW + "$N左足橫移,挫腰沈身,單袖一揚,瞬時狂風拂" + HIW + "起, 塵沙飛揚,$N趁飛沙走石之際,運起陽剛真氣,身形一旋," + HIW + "雙掌內攏,催起一股凌厲的氣焰,朝$n的天靈蓋\連續拍出數掌!\n" + NOR,me,enemy[j]);
             for(j=0;j<sizeof(enemy);j++)
             {
               if(!enemy[j]) continue;
@@ -321,9 +321,9 @@ void heart_beat()
             break;
 
           case 11:
-            message_vision(HIB"          －－ "HIW"冥  殿  "HIR"絕  "HIY"學  "HIB"第  十  二  式 －－"NOR"
-                  "HIB"～『  "HIR"群 魔 亂 舞"HIB"  』～\n"NOR"
-"HIW"$N閃身反掌擊出，一道青色光芒從掌中發出，"HIW"使$n分不清身在何方，只見$N身形一展，幻化成千萬身影,"HIW"身影中夾帶著沉重的掌勁向$n罩下,$n正在遲疑之際已被無數掌影所擊中!\n"NOR,me,enemy[j]);
+            message_vision(HIB + "          －－ " + HIW + "冥  殿  " + HIR + "絕  " + HIY + "學  " + HIB + "第  十  二  式 －－" + NOR + "
+                  " + HIB + "～『  " + HIR + "群 魔 亂 舞" + HIB + "  』～\n" + NOR + "
+" + HIW + "$N閃身反掌擊出，一道青色光芒從掌中發出，" + HIW + "使$n分不清身在何方，只見$N身形一展，幻化成千萬身影," + HIW + "身影中夾帶著沉重的掌勁向$n罩下,$n正在遲疑之際已被無數掌影所擊中!\n" + NOR,me,enemy[j]);
             for(j=0;j<sizeof(enemy);j++)
             {
               if(!enemy[j]) continue;
@@ -338,9 +338,9 @@ void heart_beat()
             break;
 
           case 12:
-            message_vision(HIB"          －－ "HIW"冥  殿  "HIR"絕  "HIY"學  "HIB"之  "HIC"終  "RED"極  "MAG"秘  "HIW"技 "HIB"－－"NOR"
-                  "HIB"～『  "MAG"千  魂  滅  散"HIB"  』～\n"NOR"
-"HIW"$N重重的掌,連疊的拳,萬鈞之力,渾雄之氣,煞"HIW"時天空彷彿突然黑暗下來,妖魔彷彿都從墓地爬了起來,推山倒海,"HIW"大地翻滾,縱橫上下空間,為掌風與掌影所佈,有如綿綿飛際的利刃擊向$n!!\n"+NOR,me,enemy[j]);
+            message_vision(HIB + "          －－ " + HIW + "冥  殿  " + HIR + "絕  " + HIY + "學  " + HIB + "之  " + HIC + "終  " + RED + "極  " + MAG + "秘  " + HIW + "技 " + HIB + "－－" + NOR + "
+                  " + HIB + "～『  " + MAG + "千  魂  滅  散" + HIB + "  』～\n" + NOR + "
+" + HIW + "$N重重的掌,連疊的拳,萬鈞之力,渾雄之氣,煞" + HIW + "時天空彷彿突然黑暗下來,妖魔彷彿都從墓地爬了起來,推山倒海," + HIW + "大地翻滾,縱橫上下空間,為掌風與掌影所佈,有如綿綿飛際的利刃擊向$n!!\n"+NOR,me,enemy[j]);
             for(j=0;j<sizeof(enemy);j++)
             {
               if(!enemy[j]) continue;
@@ -395,8 +395,8 @@ void die()
 
   if(winner)
   {
-    tell_object(users(),"\n"HIG+me->query("name")+"被"+winner->name(1)+"打的魂飛魄散，化成一道青光消散大地了。\n"NOR);
-    message_vision(HIY"\n"+winner->name()+"打死"+this_object()->query("name")+"得到二十點戰功\!!\n"NOR,winner);
+    tell_object(users(),"\n"HIG+me->query("name")+"被"+winner->name(1)+"打的魂飛魄散，化成一道青光消散大地了。\n" + NOR);
+    message_vision(HIY + "\n"+winner->name()+"打死"+this_object()->query("name")+"得到二十點戰功\!!\n" + NOR,winner);
     write_file("/log/get_war/monster",sprintf("%s(%s)    打死%s得到二十點戰功\於 %s\n",winner->name(1),winner->query("id"),this_object()->query("name"),ctime(time())));
     winner->add("war_score",20);
   }

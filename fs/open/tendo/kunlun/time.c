@@ -4,7 +4,7 @@ inherit ROOM;
 
 void create ()
 {
-  set ("short", HIW"雲內"HIY"‧"HIC"時ソ迴廊"NOR);
+  set ("short", HIW + "雲內" + HIY + "‧" + HIC + "時ソ迴廊" + NOR);
   set ("long", @LONG
 這裡是四周被雲霧所包圍的奇異空間，強風的怒嚎聲只能在外面
 憤怒的咆哮著，雖然感覺暫時免於被吹落地面的危險，但身旁的空間
@@ -27,7 +27,7 @@ void init()
  object me = this_player();
  if(me->query("attribute") != "wind" && random(2) == 1)
   {
-    message_vision(HIG"扭曲的時空將你送返最初到達世上的地方。\n"NOR,me);
+    message_vision(HIG + "扭曲的時空將你送返最初到達世上的地方。\n" + NOR,me);
     me->move("/open/common/room/inn.c");
   }
 }

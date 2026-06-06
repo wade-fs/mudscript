@@ -4,7 +4,7 @@ inherit SSERVER;
 
 void create() 
 {
-        set_name(BLU"千針"NOR,({"evil-ghost","ghost"}));
+        set_name(BLU + "千針" + NOR,({"evil-ghost","ghost"}));
         set("long",
             "\n它是隱藏於陣邪塔的邪靈之一，一聞到生人氣息就蹦出來吃人。\n");
         set("age",1937);
@@ -55,7 +55,7 @@ void heart_beat()
 		if( env == environment(target) && random(sk1) > random(sk2))
 		{
                 message_vision("
-\n$N"HIY"迅速的將身上的針射向$n，以針引氣，$N似乎回復了不少氣力!!\n\n"NOR,ob,target);
+\n$N" + HIY + "迅速的將身上的針射向$n，以針引氣，$N似乎回復了不少氣力!!\n\n" + NOR,ob,target);
                 ob->receive_curing("kee",200);
                 ob->receive_heal("kee",200);
                 COMBAT_D->report_status(ob,1);

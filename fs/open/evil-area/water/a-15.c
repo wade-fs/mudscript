@@ -3,7 +3,7 @@ inherit ROOM;
 
 void create ()
 {
-	set("short",HIC"琰 揚 湖"NOR);
+	set("short",HIC + "琰 揚 湖" + NOR);
 	set("long",@LONG
 輕飄而來的花香撲鼻，你忍不住的陶醉其中，回想著人間各地，
 似乎也只有煙雨江南才能與此地相抗衡，風光景色，優美鳥啼，細雨

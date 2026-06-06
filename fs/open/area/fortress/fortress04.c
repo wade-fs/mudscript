@@ -3,7 +3,7 @@ inherit ROOM;
 
 void create ()
 {
-        set ("short",HIR"極火山寨"NOR"  地下一層");
+        set ("short",HIR + "極火山寨" + NOR + "  地下一層");
         set ("long",@LONG
 一條細長的走道，上面黃沙覆蓋，兩側是黃土牆。
 一條三叉路，透過土牆的一些細縫，南邊是一個小型的廳堂，還有兩

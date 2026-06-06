@@ -3,7 +3,7 @@ inherit ROOM;
 
 void create()
 {
-        set("short",HBYEL+HIW"黃金塔"NOR);
+        set("short",HBYEL+HIW"黃金塔" + NOR);
         set("long",@LONG
 黃金塔
 LONG);

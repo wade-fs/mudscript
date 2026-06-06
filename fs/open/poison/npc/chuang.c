@@ -5,7 +5,7 @@ inherit NPC;
 void create()
 {
 	set_name("莊欣宜",({"sin-yi chuang","chuang"}) );
-	set("nickname", HIC "芙蓉仙子" NOR);
+	set("nickname", HIC + "芙蓉仙子" + NOR);
 	set("class","poisoner");
 	set("long","
 冥蠱魔教教主的掌上明珠，此女長的亭亭玉立，可謂人間絕色，一手冥蛇鞭
@@ -66,9 +66,9 @@ int special_att()
 	me=this_player()->query_enemy();
 	i=sizeof(me);
 	one=enemy[random(i)];
-	message_vision(HIW "
+	message_vision(HIW + "
 	莊欣宜喊道:看本姑娘的厲害\n\n"
-		HIY "           玉***女***鞭***法\n\n" NOR,one);
+		HIY + "           玉***女***鞭***法\n\n" + NOR,one);
 	message_vision("莊欣宜手上的如意索從四面八方向$N襲擊而來。\n",one);
 	one->receive_wound("kee",300+random(200));
 	one->apply_condition("bleed",5);

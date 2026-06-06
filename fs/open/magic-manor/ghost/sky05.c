@@ -41,11 +41,11 @@ int do_climb (string str)
 	{
 	  if( i > j )
 	  {
-	  message_vision(HIY"$N"HIY"馬不停蹄的展開絕世輕功\，依附著靈階繼續往山頂上爬去了。\n"NOR, me);
+	  message_vision(HIY + "$N" + HIY + "馬不停蹄的展開絕世輕功\，依附著靈階繼續往山頂上爬去了。\n" + NOR, me);
 	  me->move(__DIR__"sky06");
 	  tell_room(environment(me),sprintf ("%s藉著上乘輕功\攀爬，終於氣喘噓噓漯忖F上來。\n", me->short()),me);
 	  }else{
-	  message_vision(HIR"$N"HIR"腳下一個不小心，竟然從山壁上滾了下來，跌個鼻青臉腫的!!\n"NOR,me);
+	  message_vision(HIR + "$N" + HIR + "腳下一個不小心，竟然從山壁上滾了下來，跌個鼻青臉腫的!!\n" + NOR,me);
 	  me->move(__DIR__"sky02");
 	  me->start_busy(1);
 	  }

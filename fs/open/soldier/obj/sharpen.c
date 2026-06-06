@@ -5,7 +5,7 @@ inherit LANCE;
 void create()
 {
         seteuid(getuid());
-set_name(HIM"紅剡"NOR,({"sharpen"}));
+set_name(HIM + "紅剡" + NOR,({"sharpen"}));
         set_weight(9000);
         if( clonep() )
                 set_default_object(__FILE__);

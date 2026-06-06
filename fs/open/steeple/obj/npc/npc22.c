@@ -18,7 +18,7 @@ set("long","他就是武林第一大宗師 :鄭士欣。現正執掌仙劍門戶
             set("dragon-sword",1);
             set("bellicosity", 490);
         set("age",76);
-        set("title",HIW"～幻影～"NOR"仙劍派第三代掌門人");
+        set("title",HIW + "～幻影～" + NOR + "仙劍派第三代掌門人");
             set("str", 44);
             set("cor", 42);
             set("cps", 18);
@@ -104,7 +104,7 @@ void heart_beat()
 int heal_up()
 {
         if (!is_fighting() ) {
-             message_vision (HIW"系統：戰鬥停止，$N回收中，。\n"NOR, this_object ());
+             message_vision (HIW + "系統：戰鬥停止，$N回收中，。\n" + NOR, this_object ());
              destruct(this_object());
              return 1;
         }
@@ -127,17 +127,17 @@ destruct (this_object ());
 else
 if(me->query("quest/start_game")< 23)
        {
-        message_vision(HIY"
-恭喜"HIW+me->query("name")+HIY"挑戰"HIG"『"HIR"第二十二層試煉ソ塔"HIG"』"HIY"通過！！
+        message_vision(HIY + "
+恭喜"HIW+me->query("name")+HIY"挑戰" + HIG + "『" + HIR + "第二十二層試煉ソ塔" + HIG + "』" + HIY + "通過！！
 
-"HIW"希望"+me->query("name")+"能不負眾望，勇闖"HIG"『"HIY"第二十三層試煉ソ塔"HIG"』"HIW"。
-	"NOR,me);
+" + HIW + "希望"+me->query("name")+"能不負眾望，勇闖" + HIG + "『" + HIY + "第二十三層試煉ソ塔" + HIG + "』" + HIW + "。
+	" + NOR,me);
 	me->set("quest/start_game",23);
         destruct (this_object ());
        }
 {
         :: unconcious();
-	tell_object(me,HIW"系統：你已經通過測試，系統不做任何更改。\n"NOR);
+	tell_object(me,HIW + "系統：你已經通過測試，系統不做任何更改。\n" + NOR);
 	destruct(this_object());
 }
 }

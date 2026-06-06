@@ -188,7 +188,7 @@ void heart_beat()
         if( is_fighting() ){
         if( random(30) < 7 )
         {
-message_vision(HIR"\n只見公孫無策『無策化有策』，回復身上傷害。\n\n\n"NOR,ob);
+message_vision(HIR + "\n只見公孫無策『無策化有策』，回復身上傷害。\n\n\n" + NOR,ob);
           ob->delete_busy();
         ob->add("kee",500);
         ob->add("force",500);

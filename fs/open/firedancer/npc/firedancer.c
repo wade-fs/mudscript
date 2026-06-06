@@ -8,7 +8,7 @@ void create()
 	set("long","極火山寨的大寨主，極火功\無人能及，傳說此技巧是焚天魔王直接傳授的。\n");
 	set("race", "人類");
 	set("gender","女性");
-	set("title",HIR"蒙面俠女"NOR);
+	set("title",HIR + "蒙面俠女" + NOR);
         set("age",40);
         set("attitude","heroism");
         set("combat_exp",50000000);

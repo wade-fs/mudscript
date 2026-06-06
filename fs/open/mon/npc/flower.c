@@ -16,8 +16,8 @@ void create()
 ");
   set("gender","女性");
   set("class","fighter");
-  set("nickname",HIM"雲霧縹緲中"HIW"–"HIM"花香不知處"NOR);
-  set("title",HIY"千年花精"NOR);
+  set("nickname",HIM + "雲霧縹緲中" + HIW + "–" + HIM + "花香不知處" + NOR);
+  set("title",HIY + "千年花精" + NOR);
   set_name("淡情悠",({"tzan yuo","yuo"}));
   set("combat_exp",16000000);
   set("attitude","god");
@@ -109,7 +109,7 @@ int block_cmd( string arg )
 {
   if( (string)query_verb() == "do" ) 
   {
-    write( HIY"淡情悠說：「在我們千年的道行面前，你這一點技倆又算什麼....」\n"NOR );
+    write( HIY + "淡情悠說：「在我們千年的道行面前，你這一點技倆又算什麼....」\n" + NOR );
     if( is_fighting() )
     this_player()->start_busy(1);
     return 1;
@@ -125,21 +125,21 @@ int do_cmd(string str)
 
   if(str=="throw wind" || str=="throw dance wind")
   {
-	write(HIY"淡情悠說：「在我千年的道行面前，你這一點技倆又算什麼....」\n"NOR);
+	write(HIY + "淡情悠說：「在我千年的道行面前，你這一點技倆又算什麼....」\n" + NOR);
 	wind->kill_ob(who);
 	who->start_busy(1);
 	return 1;
   }
   if(str=="askgod wind" || str=="askgod dance wind")
   {
-	write(HIY"淡情悠說：「在我千年的道行面前，你這一點技倆又算什麼....」\n"NOR);
+	write(HIY + "淡情悠說：「在我千年的道行面前，你這一點技倆又算什麼....」\n" + NOR);
 	wind->kill_ob(who);
 	who->start_busy(1);
 	return 1;
   }
   if(str=="bak wind" || str=="bak dance wind")
   {
-	write(HIY"淡情悠說：「在我千年的道行面前，你這一點技倆又算什麼....」\n"NOR);
+	write(HIY + "淡情悠說：「在我千年的道行面前，你這一點技倆又算什麼....」\n" + NOR);
 	wind->kill_ob(who);
 	who->start_busy(1);
     return 1;
@@ -148,19 +148,19 @@ int do_cmd(string str)
 
 void greeting(object me)
 {
-  write(HIC"淡情悠說：「你是誰？怎知來到此地？」\n"NOR); 
+  write(HIC + "淡情悠說：「你是誰？怎知來到此地？」\n" + NOR); 
 }
 
 int accept_fight(object who)
 {
-  write(HIY"淡情悠說：「不、不、不，我不喜歡打打殺殺的！\n"NOR);
+  write(HIY + "淡情悠說：「不、不、不，我不喜歡打打殺殺的！\n" + NOR);
   return 0;
 }
 
 int accept_kill(object who)
 {
   who = this_player();
-  write(HIY"淡情悠身旁飄起無數的花雨，落滿了整個空間!!\n"NOR);
+  write(HIY + "淡情悠身旁飄起無數的花雨，落滿了整個空間!!\n" + NOR);
   command("say 你們人類真是太可惡了！");
   command("cmd god_kee");
   kill_ob(who);
@@ -209,18 +209,18 @@ void heart_beat()
     {
       for(j=0; j<i ;j++)
       {
-	    message_vision(HIY"$N"HIY"張手一揚，散出無數花粉朝$n"HIY"灑了過去!!\n"+NOR,me,enemy[j]);
+	    message_vision(HIY + "$N" + HIY + "張手一揚，散出無數花粉朝$n" + HIY + "灑了過去!!\n"+NOR,me,enemy[j]);
         if( !enemy[j] ) continue;
         {
           if( random(10) > 5 )
           {
-            message_vision(HIY"$n"HIY"避無可避被帶著妖精靈力的花粉灑中了!!\n"+NOR,me,enemy[j]);
+            message_vision(HIY + "$n" + HIY + "避無可避被帶著妖精靈力的花粉灑中了!!\n"+NOR,me,enemy[j]);
             enemy[j]->receive_wound("kee", random(enemy[j]->query("max_kee")/30)+300,me);
             enemy[j]->receive_wound("sen", random(enemy[j]->query("max_sen")/30)+100,me);
             enemy[j]->receive_wound("gin", random(enemy[j]->query("max_gin")/30)+100,me);
             COMBAT_D->report_status(enemy[j], 1);
           }else{
-            message_vision(YEL"危急一刻中，$N"YEL"身子一閃，避開了花粉的攻擊!!\n"NOR,enemy[j]);
+            message_vision(YEL + "危急一刻中，$N" + YEL + "身子一閃，避開了花粉的攻擊!!\n" + NOR,enemy[j]);
           }
         }
       }
@@ -233,7 +233,7 @@ void heart_beat()
     {
       if( query("kee") < query("eff_kee") )
       {
-	    message_vision(HIY"\n$N的身上飄出一股奇異的幽香，隱隱繚繞在$N的周身!!\n"NOR,me);
+	    message_vision(HIY + "\n$N的身上飄出一股奇異的幽香，隱隱繚繞在$N的周身!!\n" + NOR,me);
 	    me->delete_temp("is_busy");
 	    me->delete_busy();
 	    me->delete_temp("no_power_f");
@@ -296,29 +296,29 @@ void do_call()
     {
       if(environment(me) == environment(enemy[j]))
       {
-        message_vision(HIY"
-                      .-~~-. --."HIY"
-                     (          )"HIR"
-               . ~~ -.\\ "HIY"～"HIC"悠"HIY"～"HIR" /.- ~~ ."HIR"
-               >       `.    .'       <"HIR"
-              (   "HIY"～"HIC"花  "MAG".-  -.  "HIC"落"HIY"～"HIR"   )"HIM"
-               `- -.-~  "MAG"`-  -'"HIM"  ~-.- -'"HIM"
-                 (   "HIY"～"HIC"情"HIM"  :  "HIC"淡"HIY"～"HIM"   )"HIG"         _ _ .-:"HIM"
-                  ~--.     :     .--~"HIG"      .-~  .-~  }"HIM"
-                      ~-.-^-.-~ "HIG"\\_      .~  .-~   .~"HIG"
-                               \\ \\'     \\ '_ _ -~"HIG"
-                                `.`.    //"HIB"
-                       . - ~ ~-.__`.`-.//"HIB"
-                   .-~   . - ~  }~ ~ ~-.~-."HIB"
-                 .' .-~      .-~       :/~-.~-./:"HIW"
-                /_~_ _ . - ~                 ~-.~-._"HIW"
+        message_vision(HIY + "
+                      .-~~-. --." + HIY + "
+                     (          )" + HIR + "
+               . ~~ -.\\ " + HIY + "～" + HIC + "悠" + HIY + "～" + HIR + " /.- ~~ ." + HIR + "
+               >       `.    .'       <" + HIR + "
+              (   " + HIY + "～" + HIC + "花  " + MAG + ".-  -.  " + HIC + "落" + HIY + "～" + HIR + "   )" + HIM + "
+               `- -.-~  " + MAG + "`-  -'" + HIM + "  ~-.- -'" + HIM + "
+                 (   " + HIY + "～" + HIC + "情" + HIM + "  :  " + HIC + "淡" + HIY + "～" + HIM + "   )" + HIG + "         _ _ .-:" + HIM + "
+                  ~--.     :     .--~" + HIG + "      .-~  .-~  }" + HIM + "
+                      ~-.-^-.-~ " + HIG + "\\_      .~  .-~   .~" + HIG + "
+                               \\ \\'     \\ '_ _ -~" + HIG + "
+                                `.`.    //" + HIB + "
+                       . - ~ ~-.__`.`-.//" + HIB + "
+                   .-~   . - ~  }~ ~ ~-.~-." + HIB + "
+                 .' .-~      .-~       :/~-.~-./:" + HIW + "
+                /_~_ _ . - ~                 ~-.~-._" + HIW + "
                                                  ~-.<
-        \n"NOR,me);
+        \n" + NOR,me);
         for( j=0;j < i;j++ )
         {
           if( !enemy[j] ) continue;
           {
-            message_vision(HIY"漫天的花辦夾帶著風刃之威，$N"HIY"被片片的花辦割的遍體鱗傷!!\n"NOR,enemy[j]);
+            message_vision(HIY + "漫天的花辦夾帶著風刃之威，$N" + HIY + "被片片的花辦割的遍體鱗傷!!\n" + NOR,enemy[j]);
             enemy[j]->receive_wound("kee", random(500)+500,me);
             enemy[j]->receive_wound("sen", random(200)+100,me);
             enemy[j]->receive_wound("gin", random(200)+100,me);
@@ -331,7 +331,7 @@ void do_call()
     }else{
       if( random(10) > 2 )
       {
-	    message_vision(HIY"$N說道：「我的好朋友們，快來幫幫我呀！！\n"NOR,me);
+	    message_vision(HIY + "$N說道：「我的好朋友們，快來幫幫我呀！！\n" + NOR,me);
         switch(random(5))
         {
           case 0:
@@ -405,15 +405,15 @@ void die()
 //  log_file("log/open-area/kill_yuo", sprintf("%s(%s) 打死淡情悠 on %s\n",name,winner->query("id"), ctime(time()) ));
   enemy = query_enemy();
   i=sizeof(enemy);
-  tell_object(users(),HIC"\n\t啊 ～～\n\n\t淡情悠說道：「舞風揚姐姐，咱們來世再做姐妹吧!!」\n\n\t"HIG"只聞淡情悠發出一聲慘叫後，被"HIM+name+HIG"打回原花精原形了!!\n\n"NOR);
+  tell_object(users(),HIC + "\n\t啊 ～～\n\n\t淡情悠說道：「舞風揚姐姐，咱們來世再做姐妹吧!!」\n\n\t" + HIG + "只聞淡情悠發出一聲慘叫後，被"HIM+name+HIG"打回原花精原形了!!\n\n" + NOR);
 
   if( winner->query("combat_exp") > 30000000 )
   {
 	destruct( present("ghost heart",this_object()) );
-	tell_object(winner,HIY"\n你已變的太強，吸取淡情悠的精元也得不到什麼助益了!!\n"NOR);
+	tell_object(winner,HIY + "\n你已變的太強，吸取淡情悠的精元也得不到什麼助益了!!\n" + NOR);
   }else{
 	destruct( present("ghost heart",this_object()) );
-	tell_object(winner,HIY"\n你吸取到了殘存的淡情悠精元，精驗值和潛能迅速提升不少!!\n"NOR);
+	tell_object(winner,HIY + "\n你吸取到了殘存的淡情悠精元，精驗值和潛能迅速提升不少!!\n" + NOR);
 	winner->add("combat_exp",1000);
 	winner->add("potential",200);
   }

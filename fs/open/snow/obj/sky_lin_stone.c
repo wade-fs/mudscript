@@ -4,7 +4,7 @@
 inherit ITEM;
 void create()
 {
-        set_name(HIM"天靈石"NOR, ({ "sky_lin_stone"}) );
+        set_name(HIM + "天靈石" + NOR, ({ "sky_lin_stone"}) );
         set_weight(5000);
         if( clonep() )
                 set_default_object(__FILE__);

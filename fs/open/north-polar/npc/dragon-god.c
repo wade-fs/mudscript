@@ -9,7 +9,7 @@ void create()
 {
   set_name("海皇", ({ "dragon-god","dragon","god" }) );
   set("long","傳說中的海龍王。\n");
-  set("title",HIY"龍神"NOR);
+  set("title",HIY + "龍神" + NOR);
   set("age", 10000);
   set("class","blademan");
   set("attitude", "friendly");
@@ -87,7 +87,7 @@ void heart_beat()
 
   if( mob->query("kee")<700000 && random(200)<50 && !mob->is_busy() )
   {
-    message_vision(HIW"\n海皇運起神族祕極之"HIM"修羅"HIC"永"HIG"生"HIY"訣"HIW"，身上傷勢立刻復原不少。\n"NOR,mob);
+    message_vision(HIW + "\n海皇運起神族祕極之" + HIM + "修羅" + HIC + "永" + HIG + "生" + HIY + "訣" + HIW + "，身上傷勢立刻復原不少。\n" + NOR,mob);
     mob->receive_curing("kee",1000);
     mob->receive_heal("kee",1000); 
   }
@@ -96,26 +96,26 @@ void heart_beat()
   {
     enemy = all_inventory(environment(mob));
     i=sizeof(enemy);
-    message_vision(BCYN"
-"NOR" ▂▁▁ˍ▁ˍ▁ˍ"WHT"ˍˍ                                          
-"NOR""BYEL"   "WHT+BYEL"▂▅▆▇"BLU+BWHT"▃▅▆▇"HIC+BBLU"                                                               
-"NOR""BYEL"  "BWHT"▇▅▃"WHT+BBLU"▆▅▂                                                                    
-"NOR""BYEL"          "YEL+BWHT"▆▃▂▁"WHT+BBLU"▇▄▂▁                                                        
-"NOR""BYEL"                    "YEL+BWHT"▇▆▅▂"WHT+BBLU"▅                                                    
-"NOR""BYEL+HIC"                 "WHT+BYEL"▂▃▄▅▆"BLU+BWHT"▃"HIC+BBLU"                                                     
-"NOR""BYEL+HIC"                "YEL+BWHT"▇▆▄▃▁"WHT+BBLU"▆▃▁                                                  
-"NOR""BYEL"                            "YEL+BWHT"▅▄▂"WHT+BBLU"▅▄▃▂▁                                      
-"NOR""BYEL"                                    "YEL+BWHT"▇▆▄▃▁"WHT+BBLU"▅                                  
-"NOR""BYEL"                                       ▂▅▆▇"BLU+BWHT"▄"HIC+BBLU"                                 
-"NOR""BYEL+HIC"                                        "YEL+BWHT"▆▅▄▃"WHT+BBLU"▆                                
-"NOR,mob);
-    message_vision(HIB"海皇引發巨大的驚人海嘯，將在場一切完全淹沒。\n"NOR,mob);
+    message_vision(BCYN + "
+" + NOR + " ▂▁▁ˍ▁ˍ▁ˍ" + WHT + "ˍˍ                                          
+" + NOR + "" + BYEL + "   "WHT+BYEL"▂▅▆▇"BLU+BWHT"▃▅▆▇"HIC+BBLU"                                                               
+" + NOR + "" + BYEL + "  " + BWHT + "▇▅▃"WHT+BBLU"▆▅▂                                                                    
+" + NOR + "" + BYEL + "          "YEL+BWHT"▆▃▂▁"WHT+BBLU"▇▄▂▁                                                        
+" + NOR + "" + BYEL + "                    "YEL+BWHT"▇▆▅▂"WHT+BBLU"▅                                                    
+" + NOR + ""BYEL+HIC"                 "WHT+BYEL"▂▃▄▅▆"BLU+BWHT"▃"HIC+BBLU"                                                     
+" + NOR + ""BYEL+HIC"                "YEL+BWHT"▇▆▄▃▁"WHT+BBLU"▆▃▁                                                  
+" + NOR + "" + BYEL + "                            "YEL+BWHT"▅▄▂"WHT+BBLU"▅▄▃▂▁                                      
+" + NOR + "" + BYEL + "                                    "YEL+BWHT"▇▆▄▃▁"WHT+BBLU"▅                                  
+" + NOR + "" + BYEL + "                                       ▂▅▆▇"BLU+BWHT"▄"HIC+BBLU"                                 
+" + NOR + ""BYEL+HIC"                                        "YEL+BWHT"▆▅▄▃"WHT+BBLU"▆                                
+" + NOR,mob);
+    message_vision(HIB + "海皇引發巨大的驚人海嘯，將在場一切完全淹沒。\n" + NOR,mob);
     for (j=0 ; j < i ; j++)
     {
       if(enemy[j] && enemy[j]->is_character() && !enemy[j]->is_corpse() && enemy[j]!=mob && 
         !wizardp(enemy[j]) && env == environment(enemy[j])) 
       {
-        tell_object (enemy[j],HIW"滔天巨浪對你造成毀滅性的衝擊!!\n"NOR);
+        tell_object (enemy[j],HIW + "滔天巨浪對你造成毀滅性的衝擊!!\n" + NOR);
         if(enemy[j]->query("def_cold")) damage = 900 + random(1000);
         else damage = 1800 + random(2000);
         enemy[j]->receive_wound("kee",damage,mob);
@@ -138,7 +138,7 @@ void heart_beat()
     if(!enemy[j]->query_temp("hardshell") || enemy[j]->query("class")=="taoist") continue;
     enemy[j]->delete_temp("hardshell");
     enemy[j]->clear_condition("white_pill");
-    message_vision(HIY"\n海皇的龍睛爆出陣陣耀眼虹光，$N身上的硬甲護持消失了。\n"NOR,enemy[j]);
+    message_vision(HIY + "\n海皇的龍睛爆出陣陣耀眼虹光，$N身上的硬甲護持消失了。\n" + NOR,enemy[j]);
   }*/
 
   set_heart_beat(1);
@@ -154,7 +154,7 @@ int do_use(string str)
   {
     if(mob)
     {
-      message_vision(HIY"\n$n臣服於海皇的神聖氣息，竟爾倒戈向$N出手。\n"NOR,me,mob);
+      message_vision(HIY + "\n$n臣服於海皇的神聖氣息，竟爾倒戈向$N出手。\n" + NOR,me,mob);
       mob->set_leader(me);
       mob->kill_ob(me);
     }
@@ -168,7 +168,7 @@ int do_catch(string str)
   lotch = present("lotch",me);
   if(present("lotch",me) && (str == "dragon-god" || str == "dragon" || str == "god"))
   {
-    message_vision(HIY"\n海皇冷冷的向$N一瞥，一道精光射向手中，"HIB"煉妖壺"HIY"應聲而碎。\n"NOR,me);
+    message_vision(HIY + "\n海皇冷冷的向$N一瞥，一道精光射向手中，" + HIB + "煉妖壺" + HIY + "應聲而碎。\n" + NOR,me);
     destruct(lotch);
   }
   return 1;
@@ -177,7 +177,7 @@ int do_catch(string str)
 void unconcious()
 {
    this_object()->revive();
-   message_vision(HIW"\n海皇頻死之際，赫然運起"HIY"皇"HIB"極"HIM"不"HIG"滅"HIC"身"HIW"，身上傷勢立即痊癒大半。\n"NOR,this_object());
+   message_vision(HIW + "\n海皇頻死之際，赫然運起" + HIY + "皇" + HIB + "極" + HIM + "不" + HIG + "滅" + HIC + "身" + HIW + "，身上傷勢立即痊癒大半。\n" + NOR,this_object());
    this_object()->set("kee",500000);
    this_object()->set("gin",500000);
    this_object()->set("sen",500000);
@@ -192,20 +192,20 @@ void die()
   winner = query_temp("last_damage_from");
   mob = this_object();
   room = environment(mob);
-  tell_object(users(),HIW"\n大水退去，冰山再度凝結，"HIG""+winner->query("name")+""HIW"以不屈不撓挑戰神的勇氣終於擊潰了"HIR"龍神"HIW"。
+  tell_object(users(),HIW + "\n大水退去，冰山再度凝結，" + HIG + ""+winner->query("name")+"" + HIW + "以不屈不撓挑戰神的勇氣終於擊潰了" + HIR + "龍神" + HIW + "。
  
  
-    "HIY"海皇"HIW"與他的霸念，終於自歷史上消失無蹤了... \n\n"NOR);
+    " + HIY + "海皇" + HIW + "與他的霸念，終於自歷史上消失無蹤了... \n\n" + NOR);
 
   if(userp(winner)) {
     if(winner->query("combat_exp") < 30000000)
     {
-      message_vision(HIG"\n$N殺敗$n得到33333點經驗值\n"NOR,winner,mob);
+      message_vision(HIG + "\n$N殺敗$n得到33333點經驗值\n" + NOR,winner,mob);
     }
     if(!present("light-ring",winner))
     {
       new("/autoload/north-polar/light-ring")->move(winner);
-      message_vision(HIG"\n$N從$n身上取下一枚戒指。\n"NOR,winner,mob);
+      message_vision(HIG + "\n$N從$n身上取下一枚戒指。\n" + NOR,winner,mob);
       write_file("/log/north-polar/get_ring",sprintf("%s(%s) 擊敗海皇得到淨水光之戒於 %s\n",winner->name(1),winner->query("id"),ctime(time())));
     }else{winner->set("use_light_ring",0);}
   }
@@ -225,7 +225,7 @@ void die()
 
 int close(object room)
 {
-  message_vision(YEL"\n強光逐漸淡去，通路也隨著消失。\n"NOR,room);	
+  message_vision(YEL + "\n強光逐漸淡去，通路也隨著消失。\n" + NOR,room);	
   room->delete("exits/up");
   return 1;
 }

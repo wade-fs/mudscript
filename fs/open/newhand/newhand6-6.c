@@ -3,7 +3,7 @@
 inherit ROOM;
 void create ()
 {
-  set ("short", HIY"狂想空間歷史發展館"NOR);
+  set ("short", HIY + "狂想空間歷史發展館" + NOR);
   set( "long", "平順一年的狂想在一九九七年起了很大的動盪!!那時由於Urd大大人
 一直在國外很少回來，所以Lum大大便將狂想空間交給Weiwei大大接手， 
 接手的同時就Reopen，但是由於Weiwei大大的處事無法使大多數的玩家  

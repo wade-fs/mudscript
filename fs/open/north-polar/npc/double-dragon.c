@@ -6,7 +6,7 @@ void create()
 {
 
 	set_name("雙頭龍", ({"double dragon","double","dragon"}));
-	set("title",HIG"鄱陽湖"HIY"水神"NOR);
+	set("title",HIG + "鄱陽湖" + HIY + "水神" + NOR);
 	set("age",24);
 	set("long","職司鄱陽湖水域的水神，自古以來掌控著江南穀\倉的興衰。\n");
 	set("race", "野獸");
@@ -93,7 +93,7 @@ if(!room) return ;
 	          	 me->delete_busy();
 	          	 return;
 	          }
-	         message_vision(HIC"\n$N引發大自然力量，"HIR"『"HIY"雙龍"HIW"冰風暴"HIR"』"HIC"一出，身旁頓時風雪大作。\n"NOR,me);
+	         message_vision(HIC + "\n$N引發大自然力量，" + HIR + "『" + HIY + "雙龍" + HIW + "冰風暴" + HIR + "』" + HIC + "一出，身旁頓時風雪大作。\n" + NOR,me);
 	         for (i=0 ; i < j ; i++)
 	         {
 	          if(enemy[i]->is_character() && !enemy[i]->is_corpse() && living(enemy[i]) && enemy[i]->query("id")!="double dragon" && !wizardp(enemy[i]))  
@@ -119,8 +119,8 @@ if(!room) return ;
            {
             if(enemy[j]->query("combat_exp") < 27000000)
              {
-              tell_object(enemy[j],HIG"\n在你費盡千辛萬苦打倒水神後，你感到自身戰鬥經驗又更上一層樓了!!\n"NOR);
-              tell_object(enemy[j],GRN"你的戰鬥經驗上升 3500 點, 潛在能力上升 800 點!!\n"NOR);
+              tell_object(enemy[j],HIG + "\n在你費盡千辛萬苦打倒水神後，你感到自身戰鬥經驗又更上一層樓了!!\n" + NOR);
+              tell_object(enemy[j],GRN + "你的戰鬥經驗上升 3500 點, 潛在能力上升 800 點!!\n" + NOR);
               enemy[j]->add("combat_exp",3500);
               enemy[j]->add("potential",800);
              }
@@ -141,13 +141,13 @@ void die()
 	mob = this_object();
 	room = environment(mob);
 	room->set_temp("can_punch",1);
-	message_vision(HIC"\n$N冷笑道"HIW"："HIY"「"HIR"竟然妄想與神作對，好好等待最後的審判吧。"HIY"」\n"NOR,mob);
+	message_vision(HIC + "\n$N冷笑道" + HIW + "：" + HIY + "「" + HIR + "竟然妄想與神作對，好好等待最後的審判吧。" + HIY + "」\n" + NOR,mob);
 	if( random(36) == 18 && userp(me) )
 	{
 	spirit = new("/open/ghost-hole/obj/ice-spirit");
 	spirit->move(me);
         write_file("/log/sky/spirit/ice-spirit",sprintf("%s(%s)讓雙頭龍掉下了%s於 %s\n",me->name(1),me->query("id"),spirit->query("name"),ctime(time())));
-	message_vision(HIW"薀含在"+this_object()->query("name")+HIW"身體中的"+spirit->query("name")+HIW"飛射而出，落在$N"HIW"手中。\n"NOR,me);
+	message_vision(HIW + "薀含在"+this_object()->query("name")+HIW"身體中的"+spirit->query("name")+HIW"飛射而出，落在$N" + HIW + "手中。\n" + NOR,me);
 	}
         destruct(mob);
 }

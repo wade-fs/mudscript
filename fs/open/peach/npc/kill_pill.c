@@ -3,7 +3,7 @@ inherit COMBINED_ITEM;
 
 void create()
 {
-	set_name(HIM"醃漬桃子"NOR, ({"bellup pill","pill"}) );
+	set_name(HIM + "醃漬桃子" + NOR, ({"bellup pill","pill"}) );
 	set("long","乾乾扁扁的桃子，看來已經存放許\多年了，你不能確定它是否\n可以食用(eat)。不過你可以確定的是它隨時都會風化。\n");
 	set("unit", "盒");
 	set("base_unit", "粒");

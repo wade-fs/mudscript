@@ -6,7 +6,7 @@ void create()
         object ob,who;
         who=this_player();
         set_name("土方歲三", ({"npc08","hijikata doshizou","hijikata","doshizou"}));
-        set("title", ""HIW"【新撰組副局長】"NOR"");
+        set("title", "" + HIW + "【新撰組副局長】" + NOR + "");
         set("long", "
 土方歲三出身東京都，天然理心流，年幼時父母雙亡，隨兄嫂而住．後與近藤勇加入新選組，
 幫助近藤勇取得局長之位，自己則位居副組長\n");
@@ -106,7 +106,7 @@ int do_cmd(string str)
  ob=this_object();
  anmy=present( "anmy",environment(ob) );
  if(str=="askgod souji" || str=="askgod souji"){
-write(HIY"土方歲三偷笑說：「對天神求神問卜，真笑死我了。」!!\n"
+write(HIY + "土方歲三偷笑說：「對天神求神問卜，真笑死我了。」!!\n"
 NOR);
 command("wield dart");
 command("cmd bellup");
@@ -126,14 +126,14 @@ void do_special1()
         i=sizeof(enemy);
         target=enemy[random(i)];
         message_vision( HIG
-        "土方歲三突然眼現殺氣, 全身散發出驚人的殺氣, 你當場被其殺氣給震攝住!!\n"NOR,target);
+        "土方歲三突然眼現殺氣, 全身散發出驚人的殺氣, 你當場被其殺氣給震攝住!!\n" + NOR,target);
         message_vision(
         "土方歲三放聲大喝道:\n
         "+HIC"                   天  然  理  心  流\n
         "+HIR"                ***"+HIR"**"+HBCYN"水"NOR+HIR"**"+HBCYN"平"NOR+HIR"**"+HBCYN"刺"NOR+HIR"**"+HBCYN"法"NOR+HIR"**"+HIR"***"NOR+"\n\n",target);
         message_vision(HIC
-        "土方歲三拔出"HIY"和泉守兼定"HIC"頓時刀光漫天, 全身被刀器所籠罩！！！\n"NOR,target);
-        message_vision(HIW"\n土方歲三的"HIY"和泉守兼定"HIW"在$N胸口對穿而出, 給$N致命的一擊！\n"NOR,target);
+        "土方歲三拔出" + HIY + "和泉守兼定" + HIC + "頓時刀光漫天, 全身被刀器所籠罩！！！\n" + NOR,target);
+        message_vision(HIW + "\n土方歲三的" + HIY + "和泉守兼定" + HIW + "在$N胸口對穿而出, 給$N致命的一擊！\n" + NOR,target);
         target->receive_wound("kee",1000+random(500));
         COMBAT_D->report_status(target);
         COMBAT_D->report_status(target);
@@ -155,16 +155,16 @@ mob->die();
     if( env == environment(target) )
     {
         message_vision( HIG
-        "土方歲三突然眼現殺氣, 全身散發出驚人的殺氣, 你當場被其殺氣給震攝住!!\n"NOR,target);
+        "土方歲三突然眼現殺氣, 全身散發出驚人的殺氣, 你當場被其殺氣給震攝住!!\n" + NOR,target);
         message_vision(
         "土方歲三放聲大喝道:\n
         "+HIW"                   獨  門  禁  斷  技\n
         "+HIB"                ***"+HIB"**"+HBCYN"壬"NOR+HIB"**"+HBCYN"生"NOR+HIB"**"+HBCYN"狼"NOR+HIB"**"+HBCYN"斬"NOR+HIB"**"+HIB"***"NOR+"\n\n",target);
         message_vision(HIC
-        "土方歲三拔出"HIY"和泉守兼定"HIC"頓時刀光漫天, 全身被刀器所籠罩！！！\n"NOR,target);
+        "土方歲三拔出" + HIY + "和泉守兼定" + HIC + "頓時刀光漫天, 全身被刀器所籠罩！！！\n" + NOR,target);
         for(j=1;j<=10;j++)
         {
-        message_vision(HIC"土方歲三快速揮斬"HIG"和泉守兼定"HIC", 如餓狼般朝著$N破綻猛劈！\n"NOR,target);
+        message_vision(HIC + "土方歲三快速揮斬" + HIG + "和泉守兼定" + HIC + ", 如餓狼般朝著$N破綻猛劈！\n" + NOR,target);
         target->receive_wound("kee",100+random(50));
         COMBAT_D->report_status(target);
         }
@@ -188,7 +188,7 @@ mob->die();
 int heal_up()
 {
         if (!is_fighting() ) {
-             message_vision (HIW"系統：戰鬥停止，$N回收中，。\n"NOR, this_object ());
+             message_vision (HIW + "系統：戰鬥停止，$N回收中，。\n" + NOR, this_object ());
              destruct(this_object());
              return 1;
         }
@@ -211,17 +211,17 @@ void die ()
 	}
 	if(me->query("quest/start_game")< 9)
         {
-        tell_object(users(),HIY"
-	恭喜"HIW+me->query("name")+HIY"挑戰"HIG"『"HIR"第八層試煉塔"HIG"』"HIY"通過！！
+        tell_object(users(),HIY + "
+	恭喜"HIW+me->query("name")+HIY"挑戰" + HIG + "『" + HIR + "第八層試煉塔" + HIG + "』" + HIY + "通過！！
 	
-	"HIW"希望"+me->query("name")+"能不負眾望，勇闖"HIG"『"HIY"第九層試煉塔"HIG"』"HIW"。
-	"NOR);
+	" + HIW + "希望"+me->query("name")+"能不負眾望，勇闖" + HIG + "『" + HIY + "第九層試煉塔" + HIG + "』" + HIW + "。
+	" + NOR);
 	me->set("quest/start_game",9);
         destruct (this_object ());
 	return ;
         }
 	{
-	tell_object(me,HIW"系統：你已經通過測試，系統不做任何更改。\n"NOR);
+	tell_object(me,HIW + "系統：你已經通過測試，系統不做任何更改。\n" + NOR);
 	destruct(this_object());
         :: die();
 	}

@@ -47,7 +47,7 @@ if(arg!="butterfly")
 return notify_fail("此生物無法利用生命之水復活!!\n");
 if(!present("death-butterfly",me))
 return notify_fail("你並沒有死蝶可供復活!!\n");
-message_vision(HIY"$N把生命之水滴向死蝶, 突然間, 一道光線直射入蝴蝶體內, 蝴蝶復活了!!\n"NOR,me);
+message_vision(HIY + "$N把生命之水滴向死蝶, 突然間, 一道光線直射入蝴蝶體內, 蝴蝶復活了!!\n" + NOR,me);
 ob2->move(me);
 destruct(ob1);
 destruct(ob);

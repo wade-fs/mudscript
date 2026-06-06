@@ -20,8 +20,8 @@ LONG);
 
   set("gender","男性");
   set("class","blademan");
-  set("nickname",HBBLU+HIC"天"HIR"人合"HIC"一"NOR);
-  set("title",HIC"聚靈莊主"NOR);
+  set("nickname",HBBLU+HIC"天" + HIR + "人合" + HIC + "一" + NOR);
+  set("title",HIC + "聚靈莊主" + NOR);
   set("family/family_name","金刀門");
   set("combat_exp",20000000);
   set("attitude","friendly");
@@ -267,7 +267,7 @@ int do_use(string str)
   {
     if(mob)
     {
-      message_vision(HIY"\n$n受到天地靈界的靈氣影響，竟倒戈向$N出手。\n"NOR,me,mob);
+      message_vision(HIY + "\n$n受到天地靈界的靈氣影響，竟倒戈向$N出手。\n" + NOR,me,mob);
       mob->set_leader(me);
       mob->kill_ob(me);
     }
@@ -640,25 +640,25 @@ void heart_beat()
     if( k == 86 || k == 76 || k == 66 || k == 56 || k == 46 || k == 36 || k == 26 )
     {
 /*
-      message_vision(HIY"\n$N一陣怒意上升，只見陣陣的氣流旋空飛起，$N的八把武器御空飛起\n"NOR,me);
-      message_vision(HIY"  並夾帶威力萬均的氣勢，由$N為中心向四周散射，正是一式驚天神技\n\n"NOR,me);
-      message_vision("                  "HIC"╭      "HIM"翔      "HIC"╮            \n"NOR,me);
-      message_vision("            "HIC"╭      "HIM"天 "HIW"═    ═ "HIM"夢      "HIC"╮      \n"NOR,me);
-      message_vision("      "HIC"╭      "HIM"舞 "HIW"═                ═ "HIM"迴      "HIC"╮\n"NOR,me);
-      message_vision("        "HIM"夜 "HIW"═             "BLINK+HIY"‧"NOR"            "HIW"═ "HIM"轉   \n"NOR,me);
-      message_vision("      "HIC"╰      "HIM"舞 "HIW"═                ═ "HIM"迴      "HIC"╯\n"NOR,me);
-      message_vision("            "HIC"╰      "HIM"天 "HIW"═    ═ "HIM"夢      "HIC"╯      \n"NOR,me);
-      message_vision("                  "HIC"╰      "HIM"翔      "HIC"╯            \n\n"NOR,me);
+      message_vision(HIY + "\n$N一陣怒意上升，只見陣陣的氣流旋空飛起，$N的八把武器御空飛起\n" + NOR,me);
+      message_vision(HIY + "  並夾帶威力萬均的氣勢，由$N為中心向四周散射，正是一式驚天神技\n\n" + NOR,me);
+      message_vision("                  " + HIC + "╭      " + HIM + "翔      " + HIC + "╮            \n" + NOR,me);
+      message_vision("            " + HIC + "╭      " + HIM + "天 " + HIW + "═    ═ " + HIM + "夢      " + HIC + "╮      \n" + NOR,me);
+      message_vision("      " + HIC + "╭      " + HIM + "舞 " + HIW + "═                ═ " + HIM + "迴      " + HIC + "╮\n" + NOR,me);
+      message_vision("        " + HIM + "夜 " + HIW + "═             "BLINK+HIY"‧" + NOR + "            " + HIW + "═ " + HIM + "轉   \n" + NOR,me);
+      message_vision("      " + HIC + "╰      " + HIM + "舞 " + HIW + "═                ═ " + HIM + "迴      " + HIC + "╯\n" + NOR,me);
+      message_vision("            " + HIC + "╰      " + HIM + "天 " + HIW + "═    ═ " + HIM + "夢      " + HIC + "╯      \n" + NOR,me);
+      message_vision("                  " + HIC + "╰      " + HIM + "翔      " + HIC + "╯            \n\n" + NOR,me);
 */
-      tell_room(me,HIY"\n$N一陣怒意上升，只見陣陣的氣流旋空飛起，$N的八把武器御空飛起\n"NOR);
-      tell_room(me,HIY"  並夾帶威力萬均的氣勢，由$N為中心向四周散射，正是一式驚天神技\n\n"NOR);
-      tell_room(me,"                  "HIC"╭      "HIM"翔      "HIC"╮            \n"NOR);
-      tell_room(me,"            "HIC"╭      "HIM"天 "HIW"═    ═ "HIM"夢      "HIC"╮      \n"NOR);
-      tell_room(me,"      "HIC"╭      "HIM"舞 "HIW"═                ═ "HIM"迴      "HIC"╮\n"NOR);
-      tell_room(me,"        "HIM"夜 "HIW"═             "BLINK+HIY"‧"NOR"            "HIW"═ "HIM"轉   \n"NOR);
-      tell_room(me,"      "HIC"╰      "HIM"舞 "HIW"═                ═ "HIM"迴      "HIC"╯\n"NOR);
-      tell_room(me,"            "HIC"╰      "HIM"天 "HIW"═    ═ "HIM"夢      "HIC"╯      \n"NOR);
-      tell_room(me,"                  "HIC"╰      "HIM"翔      "HIC"╯            \n\n"NOR);
+      tell_room(me,HIY + "\n$N一陣怒意上升，只見陣陣的氣流旋空飛起，$N的八把武器御空飛起\n" + NOR);
+      tell_room(me,HIY + "  並夾帶威力萬均的氣勢，由$N為中心向四周散射，正是一式驚天神技\n\n" + NOR);
+      tell_room(me,"                  " + HIC + "╭      " + HIM + "翔      " + HIC + "╮            \n" + NOR);
+      tell_room(me,"            " + HIC + "╭      " + HIM + "天 " + HIW + "═    ═ " + HIM + "夢      " + HIC + "╮      \n" + NOR);
+      tell_room(me,"      " + HIC + "╭      " + HIM + "舞 " + HIW + "═                ═ " + HIM + "迴      " + HIC + "╮\n" + NOR);
+      tell_room(me,"        " + HIM + "夜 " + HIW + "═             "BLINK+HIY"‧" + NOR + "            " + HIW + "═ " + HIM + "轉   \n" + NOR);
+      tell_room(me,"      " + HIC + "╰      " + HIM + "舞 " + HIW + "═                ═ " + HIM + "迴      " + HIC + "╯\n" + NOR);
+      tell_room(me,"            " + HIC + "╰      " + HIM + "天 " + HIW + "═    ═ " + HIM + "夢      " + HIC + "╯      \n" + NOR);
+      tell_room(me,"                  " + HIC + "╰      " + HIM + "翔      " + HIC + "╯            \n\n" + NOR);
       if( i == 1 || random(30) == 7 )
       {
         for( j=0 ; j<i ; j++ )
@@ -667,35 +667,35 @@ void heart_beat()
           {
             if( environment(me) == environment(enemy[j]) )
             {
-              message_vision(HIW"$N的"NOR"楓映天蓮劍"NOR+HIW"疾射而至，眩目的劍光造成$n無法逼視。\n"NOR,me,enemy[j]);
+              message_vision(HIW + "$N的" + NOR + "楓映天蓮劍"NOR+HIW"疾射而至，眩目的劍光造成$n無法逼視。\n" + NOR,me,enemy[j]);
               enemy[j]->apply_condition("no_power",enemy[j]->query_condition("no_power")+5);
               COMBAT_D->report_status(enemy[j]);
 
-              message_vision(HIW"$N的"NOR+YEL"凌微雲扇飄"NOR+HIW"疾射而至，刁鑽的氣勁奔向$n各大要穴。\n"NOR,me,enemy[j]);
+              message_vision(HIW + "$N的"NOR+YEL"凌微雲扇飄"NOR+HIW"疾射而至，刁鑽的氣勁奔向$n各大要穴。\n" + NOR,me,enemy[j]);
               enemy[j]->apply_condition("blockade",enemy[j]->query_condition("blockade")+5);
               COMBAT_D->report_status(enemy[j]);
 
-              message_vision(HIW"$N的"NOR+RED"閻匕影螫魂"NOR+HIW"疾射而至，詭異的黑火造成$n極度傷害。\n"NOR,me,enemy[j]);
+              message_vision(HIW + "$N的"NOR+RED"閻匕影螫魂"NOR+HIW"疾射而至，詭異的黑火造成$n極度傷害。\n" + NOR,me,enemy[j]);
               enemy[j]->apply_condition("hellfire",enemy[j]->query_condition("hellfire")+5);
               COMBAT_D->report_status(enemy[j]);
 
-              message_vision(HIW"$N的"NOR+CYN"化劫菱歸真"NOR+HIW"疾射而至，渾重的氣勁震的$n氣息翻騰。\n"NOR,me,enemy[j]);
+              message_vision(HIW + "$N的"NOR+CYN"化劫菱歸真"NOR+HIW"疾射而至，渾重的氣勁震的$n氣息翻騰。\n" + NOR,me,enemy[j]);
               enemy[j]->apply_condition("tsunami",enemy[j]->query_condition("tsunami")+5);
               COMBAT_D->report_status(enemy[j]);
 
-              message_vision(HIW"$N的"NOR+MAG"雷火彩鳳翔"NOR+HIW"疾射而至，熾熱的氣流灼的$n焚身難受。\n"NOR,me,enemy[j]);
+              message_vision(HIW + "$N的"NOR+MAG"雷火彩鳳翔"NOR+HIW"疾射而至，熾熱的氣流灼的$n焚身難受。\n" + NOR,me,enemy[j]);
               enemy[j]->apply_condition("burn",enemy[j]->query_condition("burn")+5);
               COMBAT_D->report_status(enemy[j]);
 
-              message_vision(HIW"$N的"NOR+BLU"魔爪混天殺"NOR+HIW"疾射而至，冰寒的氣息造成$n痛徹心扉。\n"NOR,me,enemy[j]);
+              message_vision(HIW + "$N的"NOR+BLU"魔爪混天殺"NOR+HIW"疾射而至，冰寒的氣息造成$n痛徹心扉。\n" + NOR,me,enemy[j]);
               enemy[j]->apply_condition("ice",enemy[j]->query_condition("ice")+5);
               COMBAT_D->report_status(enemy[j]);
 
-              message_vision(HIW"$N的"NOR+HIB"刀斬邪元歸"NOR+HIW"疾射而至，沉重的刀氣砍的$n氣息混亂。\n"NOR,me,enemy[j]);
+              message_vision(HIW + "$N的"NOR+HIB"刀斬邪元歸"NOR+HIW"疾射而至，沉重的刀氣砍的$n氣息混亂。\n" + NOR,me,enemy[j]);
               enemy[j]->apply_condition("ff_poison",enemy[j]->query_condition("ff_poison")+5);
               COMBAT_D->report_status(enemy[j]);
 
-              message_vision(HIW"$N的"NOR+GRN"幔羅刀無影"NOR+HIW"疾射而至，輕薄的刀氣切的$n遍體鱗傷。\n"NOR,me,enemy[j]);
+              message_vision(HIW + "$N的"NOR+GRN"幔羅刀無影"NOR+HIW"疾射而至，輕薄的刀氣切的$n遍體鱗傷。\n" + NOR,me,enemy[j]);
               enemy[j]->apply_condition("blade",enemy[j]->query_condition("blade")+5);
               COMBAT_D->report_status(enemy[j]);
             }
@@ -705,7 +705,7 @@ void heart_beat()
               enemy[j]->receive_wound("gin",333,me);
               enemy[j]->receive_wound("sen",333,me);
               COMBAT_D->report_status(enemy[j],1);
-              message_vision(HIR"只見$n承受不了這股強大的神技，應聲被轟飛出廳外了!!\n"NOR,me,enemy[j]);
+              message_vision(HIR + "只見$n承受不了這股強大的神技，應聲被轟飛出廳外了!!\n" + NOR,me,enemy[j]);
               enemy[j]->move("/open/magic-manor/ghost/rest10");
             }
           } else {
@@ -723,49 +723,49 @@ void heart_beat()
             {
               if( n == 0 )
               {
-                message_vision(HIW"$N的"NOR"楓映天蓮劍"NOR+HIW"疾射而至，眩目的劍光造成$n無法逼視。\n"NOR,me,enemy[j]);
+                message_vision(HIW + "$N的" + NOR + "楓映天蓮劍"NOR+HIW"疾射而至，眩目的劍光造成$n無法逼視。\n" + NOR,me,enemy[j]);
                 enemy[j]->apply_condition("no_power",enemy[j]->query_condition("no_power")+5);
                 COMBAT_D->report_status(enemy[j]);
               }
               if( n == 1 )
               {
-                message_vision(HIW"$N的"NOR+YEL"凌微雲扇飄"NOR+HIW"疾射而至，刁鑽的氣勁奔向$n各大要穴。\n"NOR,me,enemy[j]);
+                message_vision(HIW + "$N的"NOR+YEL"凌微雲扇飄"NOR+HIW"疾射而至，刁鑽的氣勁奔向$n各大要穴。\n" + NOR,me,enemy[j]);
                 enemy[j]->apply_condition("blockade",enemy[j]->query_condition("blockade")+5);
                 COMBAT_D->report_status(enemy[j]);
               }
               if( n == 2 )
               {
-                message_vision(HIW"$N的"NOR+RED"閻匕影螫魂"NOR+HIW"疾射而至，詭異的黑火造成$n極度傷害。\n"NOR,me,enemy[j]);
+                message_vision(HIW + "$N的"NOR+RED"閻匕影螫魂"NOR+HIW"疾射而至，詭異的黑火造成$n極度傷害。\n" + NOR,me,enemy[j]);
                 enemy[j]->apply_condition("hellfire",enemy[j]->query_condition("hellfire")+5);
                 COMBAT_D->report_status(enemy[j]);
               }
               if( n == 3 )
               {
-                message_vision(HIW"$N的"NOR+CYN"化劫菱歸真"NOR+HIW"疾射而至，渾重的氣勁震的$n氣息翻騰。\n"NOR,me,enemy[j]);
+                message_vision(HIW + "$N的"NOR+CYN"化劫菱歸真"NOR+HIW"疾射而至，渾重的氣勁震的$n氣息翻騰。\n" + NOR,me,enemy[j]);
                 enemy[j]->apply_condition("tsunami",enemy[j]->query_condition("tsunami")+5);
                 COMBAT_D->report_status(enemy[j]);
               }
               if( n == 4 )
               {
-                message_vision(HIW"$N的"NOR+MAG"雷火彩鳳翔"NOR+HIW"疾射而至，熾熱的氣流灼的$n焚身難受。\n"NOR,me,enemy[j]);
+                message_vision(HIW + "$N的"NOR+MAG"雷火彩鳳翔"NOR+HIW"疾射而至，熾熱的氣流灼的$n焚身難受。\n" + NOR,me,enemy[j]);
                 enemy[j]->apply_condition("burn",enemy[j]->query_condition("burn")+5);
                 COMBAT_D->report_status(enemy[j]);
               }      
               if( n == 5 )
               {
-                message_vision(HIW"$N的"NOR+BLU"魔爪混天殺"NOR+HIW"疾射而至，冰寒的氣息造成$n痛徹心扉。\n"NOR,me,enemy[j]);
+                message_vision(HIW + "$N的"NOR+BLU"魔爪混天殺"NOR+HIW"疾射而至，冰寒的氣息造成$n痛徹心扉。\n" + NOR,me,enemy[j]);
                 enemy[j]->apply_condition("ice",enemy[j]->query_condition("ice")+5);
                 COMBAT_D->report_status(enemy[j]);
               }
               if( n == 6 )
               {
-                message_vision(HIW"$N的"NOR+HIB"刀斬邪元歸"NOR+HIW"疾射而至，沉重的刀氣砍的$n氣息混亂。\n"NOR,me,enemy[j]);
+                message_vision(HIW + "$N的"NOR+HIB"刀斬邪元歸"NOR+HIW"疾射而至，沉重的刀氣砍的$n氣息混亂。\n" + NOR,me,enemy[j]);
                 enemy[j]->apply_condition("ff_poison",enemy[j]->query_condition("ff_poison")+5);
                 COMBAT_D->report_status(enemy[j]);
               }
               if( n == 7 )
               {
-                message_vision(HIW"$N的"NOR+GRN"幔羅刀無影"NOR+HIW"疾射而至，輕薄的刀氣切的$n遍體鱗傷。\n"NOR,me,enemy[j]);
+                message_vision(HIW + "$N的"NOR+GRN"幔羅刀無影"NOR+HIW"疾射而至，輕薄的刀氣切的$n遍體鱗傷。\n" + NOR,me,enemy[j]);
                 enemy[j]->apply_condition("blade",enemy[j]->query_condition("blade")+5);
                 COMBAT_D->report_status(enemy[j]);
               }
@@ -775,7 +775,7 @@ void heart_beat()
                 enemy[j]->receive_wound("gin",333,me);
                 enemy[j]->receive_wound("sen",333,me);
                 COMBAT_D->report_status(enemy[j],1);
-                message_vision(HIR"只見$n承受不了這股強大的神技，應聲被轟飛出廳外了!!\n"NOR,me,enemy[j]);
+                message_vision(HIR + "只見$n承受不了這股強大的神技，應聲被轟飛出廳外了!!\n" + NOR,me,enemy[j]);
                 enemy[j]->move("/open/magic-manor/ghost/rest10");
               }
             }
@@ -785,27 +785,27 @@ void heart_beat()
           }
         }
       }
-      message_vision(HIC"\n神技過後，$N顯的有些疲備，仍然從容的收回所有的兵器緊接著出招。\n\n"NOR,me);
+      message_vision(HIC + "\n神技過後，$N顯的有些疲備，仍然從容的收回所有的兵器緊接著出招。\n\n" + NOR,me);
     }
     if( k == 99 || k == 10 || k == 20 || k == 30 || k == 40 || k == 50 || k == 1 && me->query("kee") > 0 )
     {
-      message_vision(HIY"                                              \n"NOR,me);
-      message_vision(HIY"                        ╰●╯                \n"NOR,me);
-      message_vision(HIY"                                              \n"NOR,me);
-      message_vision(HIY"                        ╰●╯                \n"NOR,me);
-      message_vision(HIG"                    ╰●      ●╯            \n"NOR,me);
-      message_vision(HIG"                        ╰●╯                \n"NOR,me);
-      message_vision(HIG"                    ╰●      ●╯            \n"NOR,me);
-      message_vision(HIC"                ╰●    ╰●╯    ●╯        \n"NOR,me);
-      message_vision(HIC"                    ╰●      ●╯            \n"NOR,me);
-      message_vision(HIC"                ╰●    ╰●╯    ●╯        \n"NOR,me);
-      message_vision(HIR"            ╰●    ╰● ╰╯ ●╯    ●╯    \n"NOR,me);
-      message_vision(HIR"                ╰● ╰╯    ╰╯ ●╯        \n"NOR,me);
-      message_vision(HIB"            ╰● ╰╯            ╰╯ ●╯    \n"NOR,me);
-      message_vision(HIB"        ╰● ╰╯                    ╰╯ ●╯\n"NOR,me);
-      message_vision(HIB"         ╰╯                            ╰╯ \n"NOR,me);
+      message_vision(HIY + "                                              \n" + NOR,me);
+      message_vision(HIY + "                        ╰●╯                \n" + NOR,me);
+      message_vision(HIY + "                                              \n" + NOR,me);
+      message_vision(HIY + "                        ╰●╯                \n" + NOR,me);
+      message_vision(HIG + "                    ╰●      ●╯            \n" + NOR,me);
+      message_vision(HIG + "                        ╰●╯                \n" + NOR,me);
+      message_vision(HIG + "                    ╰●      ●╯            \n" + NOR,me);
+      message_vision(HIC + "                ╰●    ╰●╯    ●╯        \n" + NOR,me);
+      message_vision(HIC + "                    ╰●      ●╯            \n" + NOR,me);
+      message_vision(HIC + "                ╰●    ╰●╯    ●╯        \n" + NOR,me);
+      message_vision(HIR + "            ╰●    ╰● ╰╯ ●╯    ●╯    \n" + NOR,me);
+      message_vision(HIR + "                ╰● ╰╯    ╰╯ ●╯        \n" + NOR,me);
+      message_vision(HIB + "            ╰● ╰╯            ╰╯ ●╯    \n" + NOR,me);
+      message_vision(HIB + "        ╰● ╰╯                    ╰╯ ●╯\n" + NOR,me);
+      message_vision(HIB + "         ╰╯                            ╰╯ \n" + NOR,me);
 
-      message_vision(HIW"\n$N周身冉冉泛出五色的靈光球，光球或急或緩的環繞著$N，\n最後排列成一奇怪的三角形狀，印入$N身體中，令$N的身體\n有無不盡的受用。\n\n"NOR,me);
+      message_vision(HIW + "\n$N周身冉冉泛出五色的靈光球，光球或急或緩的環繞著$N，\n最後排列成一奇怪的三角形狀，印入$N身體中，令$N的身體\n有無不盡的受用。\n\n" + NOR,me);
 
       me->receive_curing("kee",m);
       me->receive_heal("kee",m);
@@ -814,11 +814,11 @@ void heart_beat()
       me->receive_curing("sen",m);
       me->receive_heal("sen",m);
       me->add("force",m*5);
-//      message_vision(HIC"$N目前回復指數「"HIM+m+HIC"」\n"NOR,me);
+//      message_vision(HIC + "$N目前回復指數「"HIM+m+HIC"」\n" + NOR,me);
     } else {
       if( i == 1)
       {
-        message_vision(HIW"\n$N周身冉冉泛出五色的靈光球，光球或急或緩的環繞著$N，\n最後排列成一奇怪的三角形狀，印入$N身體中，令$N的身體\n有無不盡的受用。\n\n"NOR,me);
+        message_vision(HIW + "\n$N周身冉冉泛出五色的靈光球，光球或急或緩的環繞著$N，\n最後排列成一奇怪的三角形狀，印入$N身體中，令$N的身體\n有無不盡的受用。\n\n" + NOR,me);
         me->receive_curing("kee",m*3);
         me->receive_heal("kee",m*3);
         me->receive_curing("gin",m*3);
@@ -947,7 +947,7 @@ void heart_beat()
 
   if( me->query("title") != "聚靈莊主" )
   {
-    me->set("title",HIC"聚靈莊主"NOR);
+    me->set("title",HIC + "聚靈莊主" + NOR);
   }
 
 //  set_heart_beat(1);
@@ -1013,15 +1013,15 @@ void unconcious()
     :: unconcious();
     return ;
   }
-  tell_object(users(),HIR"\n\t鳳翔天再次聚起氣力想再度使出其驚天絕式神技\n\n"
-    "                  "HIC"╭      "HIM"翔      "HIC"╮            \n"NOR
-    "            "HIC"╭      "HIM"天 "HIW"═    ═ "HIM"夢      "HIC"╮      \n"NOR
-    "      "HIC"╭      "HIM"舞 "HIW"═                ═ "HIM"迴      "HIC"╮\n"NOR
-    "        "HIM"夜 "HIW"═             "BLINK+HIY"‧"NOR"            "HIW"═ "HIM"轉   \n"NOR
-    "      "HIC"╰      "HIM"舞 "HIW"═                ═ "HIM"迴      "HIC"╯\n"NOR
-    "            "HIC"╰      "HIM"天 "HIW"═    ═ "HIM"夢      "HIC"╯      \n"NOR
-    "                  "HIC"╰      "HIM"翔      "HIC"╯            \n\n"HIR
-    "\t氣力不繼的鳳翔天嘔出了數口鮮血，癱坐在地上!!\n\n"NOR);
+  tell_object(users(),HIR + "\n\t鳳翔天再次聚起氣力想再度使出其驚天絕式神技\n\n"
+    "                  " + HIC + "╭      " + HIM + "翔      " + HIC + "╮            \n" + NOR
+    "            " + HIC + "╭      " + HIM + "天 " + HIW + "═    ═ " + HIM + "夢      " + HIC + "╮      \n" + NOR
+    "      " + HIC + "╭      " + HIM + "舞 " + HIW + "═                ═ " + HIM + "迴      " + HIC + "╮\n" + NOR
+    "        " + HIM + "夜 " + HIW + "═             "BLINK+HIY"‧" + NOR + "            " + HIW + "═ " + HIM + "轉   \n" + NOR
+    "      " + HIC + "╰      " + HIM + "舞 " + HIW + "═                ═ " + HIM + "迴      " + HIC + "╯\n" + NOR
+    "            " + HIC + "╰      " + HIM + "天 " + HIW + "═    ═ " + HIM + "夢      " + HIC + "╯      \n" + NOR
+    "                  " + HIC + "╰      " + HIM + "翔      " + HIC + "╯            \n\n" + HIR
+    "\t氣力不繼的鳳翔天嘔出了數口鮮血，癱坐在地上!!\n\n" + NOR);
     :: unconcious();
 }
 
@@ -1035,12 +1035,12 @@ void die()
 
   if(userp(winner)) log_file("kill_tian", sprintf("%s(%s) 打死鳳翔天 on %s\n",name,winner->query("id"), ctime(time()) ));
 
-  tell_object(users(),HIY"
+  tell_object(users(),HIY + "
   可恨啊～
-    我"HIC"鳳翔天"HIY"的武學傲視天下～
+    我" + HIC + "鳳翔天" + HIY + "的武學傲視天下～
     
     可嘆啊～
-      竟然敗在"HIM+name+HIY"的手下～\n"NOR);
+      竟然敗在"HIM+name+HIY"的手下～\n" + NOR);
        
   if(userp(winner)) {
     if( !present( "five turn", winner ) ) //沒有五轉聚靈盤就給予
@@ -1049,17 +1049,17 @@ void die()
       new("/autoload/open-area/five-turn")->move(winner);
       if ( winner->query("bloodsword")==2 && winner->query("swordskill/sword6") != 1 )
       {
-        tell_object(winner,HIC"\n 唉~~無奈..狂想..世界的未..來...... ....。\n"NOR);
+        tell_object(winner,HIC + "\n 唉~~無奈..狂想..世界的未..來...... ....。\n" + NOR);
         winner->set_temp("ko_tian",1);
       }
-      tell_room(environment(),sprintf(HIY"\n"HIC"五轉"HIW"聚"HIY"靈盤"NOR+HIG"緩緩自鳳翔天的身體中飄向空中，瞬間發出一點靈光便飛向%s!!\n"NOR,winner->name()));
-      tell_object(winner,HIY"\n"HIC"五轉"HIW"聚"HIY"靈盤"NOR+HIG"發出一道感應，似乎訴說著你就是他新一代的主人!!\n"NOR);
+      tell_room(environment(),sprintf(HIY + "\n" + HIC + "五轉" + HIW + "聚" + HIY + "靈盤"NOR+HIG"緩緩自鳳翔天的身體中飄向空中，瞬間發出一點靈光便飛向%s!!\n" + NOR,winner->name()));
+      tell_object(winner,HIY + "\n" + HIC + "五轉" + HIW + "聚" + HIY + "靈盤"NOR+HIG"發出一道感應，似乎訴說著你就是他新一代的主人!!\n" + NOR);
     } else { //既然有了就給經驗
       if( winner->query("combat_exp") > 30000000 )
       {
         if ( winner->query("bloodsword")==2 && winner->query("swordskill/sword6") != 1 )
         {
-          tell_object(winner,HIC"\n 唉~~無奈..狂想..世界的未..來...... ....。\n"NOR);
+          tell_object(winner,HIC + "\n 唉~~無奈..狂想..世界的未..來...... ....。\n" + NOR);
           winner->set_temp("ko_tian",1);
         }
         if( winner->query("t_standby") > 0 )
@@ -1067,12 +1067,12 @@ void die()
           winner->add("t_standby",-1);
         }
       } else {
-        tell_object(winner,HIY"\n鳳翔天身上散出五道靈光並沒入你的身體之中，你的經驗潛能因此而增長了!!\n"NOR);
+        tell_object(winner,HIY + "\n鳳翔天身上散出五道靈光並沒入你的身體之中，你的經驗潛能因此而增長了!!\n" + NOR);
         winner->add("combat_exp",3000);
         winner->add("potential",600);
         if ( winner->query("bloodsword")==2 && winner->query("swordskill/sword6") != 1 )
         {
-          tell_object(winner,HIC"\n 唉~~無奈..狂想..世界的未..來...... ....。\n"NOR);
+          tell_object(winner,HIC + "\n 唉~~無奈..狂想..世界的未..來...... ....。\n" + NOR);
           winner->set_temp("ko_tian",1);
         }
         if( winner->query("t_standby") > 0 )
@@ -1091,7 +1091,7 @@ void die()
       if( j==7 || j==77 || j== 777 || j==1111 || j==55 || j==555 || j==1000 || j==4000 || j==3333 || j==2222 )
       {
         new("/open/sky/obj12/banana-doll")->move(environment(winner));
-        message_vision(HIM"\n從鳳翔天的身上掉下了一件奇怪的東西!!\n"NOR,winner,me);
+        message_vision(HIM + "\n從鳳翔天的身上掉下了一件奇怪的東西!!\n" + NOR,winner,me);
         write_file("/log/sky/obj12/banana_doll",sprintf("%s(%s) 讓鳳翔天掉下了香蕉娃娃於 %s\n",
           winner->name(1),winner->query("id"),ctime(time())));
       }
@@ -1100,7 +1100,7 @@ void die()
       if( j==5 || j==15 || j== 150 || j==1500 || j==10 || j==100 || j==1000 || j==4000 || j==6666 || j==7777 )
       {
         new("/open/sky/obj12/banana-doll")->move(environment(winner));
-        message_vision(HIM"\n從鳳翔天的身上掉下了一件奇怪的東西!!\n"NOR,winner,me);
+        message_vision(HIM + "\n從鳳翔天的身上掉下了一件奇怪的東西!!\n" + NOR,winner,me);
         write_file("/log/sky/obj12/banana_doll",sprintf("%s(%s) 讓鳳翔天掉下了香蕉娃娃於 %s\n",
           winner->name(1),winner->query("id"),ctime(time())));
       }

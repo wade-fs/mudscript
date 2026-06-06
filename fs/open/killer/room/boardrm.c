@@ -74,41 +74,41 @@ int do_billing(string str)
 	j=sizeof(user);
 	switch(i) {
 	  case 0 : user=sort_array(user,"sort_exp",this_object());
-                   str=sprintf(HIG"黑牙聯經驗值排行榜:\n\n"NOR);
+                   str=sprintf(HIG + "黑牙聯經驗值排行榜:\n\n" + NOR);
 	           for(i=0; i<j; i++)
-                      str+=sprintf(HIC"第%2d名 %30s(%s)\n"NOR,i+1,user[i]->query("name"),user[i]->query("id"));
+                      str+=sprintf(HIC + "第%2d名 %30s(%s)\n" + NOR,i+1,user[i]->query("name"),user[i]->query("id"));
 	           str+="\n";
 		   tell_object(this_player(),str);
 	           break;
 	  case 1 : user=sort_array(user,"sort_rain",this_object());
-	           str=sprintf(HIG"黑牙聯霸雨遮魂排行榜:\n\n"NOR);
+	           str=sprintf(HIG + "黑牙聯霸雨遮魂排行榜:\n\n" + NOR);
                    for(i=0; i<j; i++)
-                      str+=sprintf(HIC"第%2d名 %30s(%s)\n"NOR,i+1,user[i]->query("name"),user[i]->query("id"));
+                      str+=sprintf(HIC + "第%2d名 %30s(%s)\n" + NOR,i+1,user[i]->query("name"),user[i]->query("id"));
                    str+="\n";
 	           tell_object(this_player(),str);
                    break;
 	  case 2 : user=sort_array(user,"sort_manakee",this_object());
-	           str=sprintf(HIG"殺手魔氣殺等級排行榜:\n\n"NOR);
+	           str=sprintf(HIG + "殺手魔氣殺等級排行榜:\n\n" + NOR);
                    for(i=0; i<j; i++)
-                      str+=sprintf(HIC"第%2d名 %30s(%s)\n"NOR,i+1,user[i]->query("name"),user[i]->query("id"));
+                      str+=sprintf(HIC + "第%2d名 %30s(%s)\n" + NOR,i+1,user[i]->query("name"),user[i]->query("id"));
                    str+="\n";
 	           tell_object(this_player(),str);
                    break;
 	  case 3 : user=sort_array(user,"sort_shadow",this_object());
-                   str=sprintf(HIG"黑牙聯閻影匕首排行榜:\n\n"NOR);
+                   str=sprintf(HIG + "黑牙聯閻影匕首排行榜:\n\n" + NOR);
 	           for(i=0; i<j; i++)
-	              str+=sprintf(HIC"第%2d名 %30s(%s)\n"NOR,i+1,user[i]->query("name"),user[i]->query("id"));
+	              str+=sprintf(HIC + "第%2d名 %30s(%s)\n" + NOR,i+1,user[i]->query("name"),user[i]->query("id"));
 	           str+="\n";
 		   tell_object(this_player(),str);
                    break;
 	  case 4 : user=sort_array(user,"sort_force",this_object());
-	           str=sprintf(HIG"黑牙聯內力排行榜:\n\n"NOR);
+	           str=sprintf(HIG + "黑牙聯內力排行榜:\n\n" + NOR);
 	           for(i=0; i<j; i++)
-	              str+=sprintf(HIC"第%2d名 %30s(%s)\n"NOR,i+1,user[i]->query("name"),user[i]->query("id"));
+	              str+=sprintf(HIC + "第%2d名 %30s(%s)\n" + NOR,i+1,user[i]->query("name"),user[i]->query("id"));
 	           str+="\n";
 	           tell_object(this_player(),str);
 	           break;
-	  case 5 : str=sprintf(HIG"黑牙聯師徒關係:\n\n"NOR);
+	  case 5 : str=sprintf(HIG + "黑牙聯師徒關係:\n\n" + NOR);
 	           for(i=0; i<j; i++) {
 	              if( user[i]->query("family/master_is_ppl") ) {
 	                if( master=find_player(user[i]->query("family/master_id"))) {
@@ -123,7 +123,7 @@ int do_billing(string str)
                           }
 	                }
 	              }
-                      str+=sprintf(HIC"%|20s(%|10s)     師承  %|20s(%|10s)\n"NOR,user[i]->query("name"),user[i]->query("id"),user[i]->query("family/master_name"),user[i]->query("family/master_id"));
+                      str+=sprintf(HIC + "%|20s(%|10s)     師承  %|20s(%|10s)\n" + NOR,user[i]->query("name"),user[i]->query("id"),user[i]->query("family/master_name"),user[i]->query("family/master_id"));
 	           }
 	           str+="\n";
 		   tell_object(this_player(),str);
@@ -145,12 +145,12 @@ int do_check(string str)
         {
 	user = filter_array(user,"filter_killerwant",this_object());
         j=sizeof(user);
-        str=sprintf(HIG"殺手全力追殺的人頭通緝榜:\n\n"NOR);
+        str=sprintf(HIG + "殺手全力追殺的人頭通緝榜:\n\n" + NOR);
         for(i=0; i<j; i++)
         {
                         cme=find_player(user[i]->query("id"));
                         croom=environment(cme);
-              str+=sprintf(HIC"%2d 號 %s(%s) 在 %-18s \n"NOR,i+1,user[i]->query("name"),user[i]->query("id"),croom->query("short") );
+              str+=sprintf(HIC + "%2d 號 %s(%s) 在 %-18s \n" + NOR,i+1,user[i]->query("name"),user[i]->query("id"),croom->query("short") );
         }
         str+="\n";
 	tell_object(this_player(),str);
@@ -166,7 +166,7 @@ int filter_family(object family)
 
 int filter_killerwant(object want)
 {
-//              if(user[i]->query("title") == HIR"殺手全力追殺的人頭"NOR)
+//              if(user[i]->query("title") == HIR + "殺手全力追殺的人頭" + NOR)
   if(!wizardp(want) && want->query("killyar") == 1) return 1;
   return 0; 
 }

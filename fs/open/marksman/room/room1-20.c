@@ -4,7 +4,7 @@ inherit ROOM;
 #include "marksman.h"
 void create ()
 {
-  set ("short", HIY"箭盟聚眾"NOR);
+  set ("short", HIY + "箭盟聚眾" + NOR);
 	set( "build", 3 );
   set ("long", @LONG
 這裏是弓箭聚會的場所，也是弓箭手的公會所在。花崗岩所作成

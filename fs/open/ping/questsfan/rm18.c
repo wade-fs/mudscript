@@ -3,7 +3,7 @@ inherit ROOM;
 #include <ansi.h>
 void create ()
 {
-  set ("short", ""HIY"日日"HIG"甘霖"NOR"");
+  set ("short", "" + HIY + "日日" + HIG + "甘霖" + NOR + "");
   set ("long", @LONG
 這兒是一座樹種繁雜，高大的樹林。但是這座樹林最大的特色
 確是沒有一刻停止的小雨，所以這座樹林的別稱就叫〝日日甘霖〞
@@ -32,7 +32,7 @@ void dhk(object who)
 {
   if(who->query_temp("run")!=3 && who->query_temp("run")==2)
   {
-   tell_object(who,""WHT"這道黑色的人影又快速往西邊山下離去，身形雖快卻似曾相識。"NOR"\n");
+   tell_object(who,"" + WHT + "這道黑色的人影又快速往西邊山下離去，身形雖快卻似曾相識。" + NOR + "\n");
    who->set_temp("run",3);
    remove_call_out("dhk");
   }

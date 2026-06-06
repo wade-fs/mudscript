@@ -3,7 +3,7 @@ inherit EQUIP;
 
 void create()
 {
- set_name(HIY"紫羽龍絲彩帶"NOR,({"dragon cape","cape"}));
+ set_name(HIY + "紫羽龍絲彩帶" + NOR,({"dragon cape","cape"}));
         set_weight(3000);
         if ( clonep())
                 set_default_object(__FILE__);

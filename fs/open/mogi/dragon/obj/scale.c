@@ -5,7 +5,7 @@ inherit ITEM;
 inherit F_AUTOLOAD;
 void create()
 {
-                set_name(HIY"魔龍鱗"NOR, ({ "dragon scale","scale",}) ); 
+                set_name(HIY + "魔龍鱗" + NOR, ({ "dragon scale","scale",}) ); 
                 set_weight(50);
                 set("long",
  "黃金甲龍身上的鱗片 ,具有特殊的魔力
@@ -47,15 +47,15 @@ return notify_fail("在這不能用。\n");
 if(me->query("ghost")==1)
 return notify_fail("鬼魂沒資格使用魔龍鱗。\n");
           message_vision( 
-sprintf("一片"HIY"光幕"NOR"慢慢將$N籠罩住 ,傳送回魔界的村莊。\n"), this_player() );
+sprintf("一片" + HIY + "光幕" + NOR + "慢慢將$N籠罩住 ,傳送回魔界的村莊。\n"), this_player() );
 
         me->move("/open/mogi/village/room/room-05.c");
         message_vision( 
-sprintf("天邊出現一道"HIY"閃光"NOR",只見$N飛來了這裡。\n"),this_player());
+sprintf("天邊出現一道" + HIY + "閃光" + NOR + ",只見$N飛來了這裡。\n"),this_player());
    if(me->query_temp("use_scale_number") > 1)
      me->add_temp("use_scale_number",-1);
    else {
-     write("\n"HIY"魔龍鱗"NOR"因法力耗盡而崩散成粉末。\n");
+     write("\n" + HIY + "魔龍鱗" + NOR + "因法力耗盡而崩散成粉末。\n");
      destruct(ob);
      return 1;
    }

@@ -33,7 +33,7 @@ void init()
   if(interactive(me = this_player()))
   {
   	if (me->query_temp("firstpart") == 6)
-  	  tell_object(me,CYN"婆婆看了你一眼，似乎有所想法，或許\你可以告訴他(經過)吧？\n"NOR);
+  	  tell_object(me,CYN + "婆婆看了你一眼，似乎有所想法，或許\你可以告訴他(經過)吧？\n" + NOR);
   }  	 
 //  add_action("do_secret",({"secret"}));
 }
@@ -56,9 +56,9 @@ int do_secret()
  {//避免重複紀錄
 	temp=sprintf("%s 進入殺手醫生的密室，在%s\n",geteuid(me),ctime(time()));
 	CBIP_D->record(temp,"/u/w/wataru/record/secret");
-	message_vision(HIY"葉如玲看了$N一眼!!\n"NOR,me);
+	message_vision(HIY + "葉如玲看了$N一眼!!\n" + NOR,me);
  }
- tell_object(me,HIY"這房間果然有秘密！！發現了通道，你立刻走了過去\n"NOR);
+ tell_object(me,HIY + "這房間果然有秘密！！發現了通道，你立刻走了過去\n" + NOR);
  me->move(__DIR__"mimirm.c");
  return 1;
 }

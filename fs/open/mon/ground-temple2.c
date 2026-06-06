@@ -4,7 +4,7 @@ inherit ROOM;
 
 void create ()
 {
-  set ("short", HIW"古"HIM"‧"YEL"地底"HIY"宮殿"NOR);
+  set ("short", HIW + "古" + HIM + "‧" + YEL + "地底" + HIY + "宮殿" + NOR);
   set ("long", @LONG
 高聳宏偉的石柱將這裡撐起了一片廣大空間，污濁的空氣似乎
 也稀薄許多，腳下是以大理石鋪成的平整地面。雖然在這裡看不見

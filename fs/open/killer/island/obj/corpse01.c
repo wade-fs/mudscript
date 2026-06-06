@@ -30,7 +30,7 @@ tell_object(me,"結果什麼事也沒發生。\n");
 if(me->query_temp("quest_corpse")==1)
 {
 message_vision("$N把$n給裝上去了。\n",me,ob);
-tell_object(me,HIB"\n\n你彷彿聽到了一些聲音：遇到打不開的門，就祈禱吧...。\n"NOR);
+tell_object(me,HIB + "\n\n你彷彿聽到了一些聲音：遇到打不開的門，就祈禱吧...。\n" + NOR);
 me->set_temp("quest_corpse",2);
 }
 

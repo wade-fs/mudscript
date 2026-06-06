@@ -40,9 +40,9 @@ void init()
 string ask_title()
 {
 object me=this_player();
-if(me->query("get-evil-mblade") && me->query("title") != HIG"妖"HIW"刀"HIG"傳"HIR"人"NOR)
+if(me->query("get-evil-mblade") && me->query("title") != HIG + "妖" + HIW + "刀" + HIG + "傳" + HIR + "人" + NOR)
 {
-me->set("title",HIG"妖"HIW"刀"HIG"傳"HIW"人"NOR);
+me->set("title",HIG + "妖" + HIW + "刀" + HIG + "傳" + HIW + "人" + NOR);
 
 return "修正完畢\n";
 //return 0; <--變成不跑
@@ -50,16 +50,16 @@ return "修正完畢\n";
 if(me->query("mk-blade"))
 {
 command("say 我來幫你檢查看看吧...\n");
-if(me->query("gender")=="男性" && me->query("title")!=HIW"漩羽"HIY"刀皇"NOR)
+if(me->query("gender")=="男性" && me->query("title")!=HIW + "漩羽" + HIY + "刀皇" + NOR)
 {
-me->set("title",HIW"漩羽"HIY"刀皇"NOR);
-message_vision(HIW"\n白光散去$N的稱號修正完畢。\n"NOR,me); 
+me->set("title",HIW + "漩羽" + HIY + "刀皇" + NOR);
+message_vision(HIW + "\n白光散去$N的稱號修正完畢。\n" + NOR,me); 
 return "修正完畢";
 }
-else if(me->query("gender")=="女性" && me->query("title")!=HIB"刀魂"HIC"幽姬"NOR)
+else if(me->query("gender")=="女性" && me->query("title")!=HIB + "刀魂" + HIC + "幽姬" + NOR)
 {
-me->set("title",HIB"刀魂"HIC"幽姬"NOR);
-message_vision(HIW"\n白光散去$N的稱號修正完畢。\n"NOR,me);
+me->set("title",HIB + "刀魂" + HIC + "幽姬" + NOR);
+message_vision(HIW + "\n白光散去$N的稱號修正完畢。\n" + NOR,me);
 return "修正完畢";
 }
 }
@@ -116,11 +116,11 @@ string do_game()
     ppl->set_temp("number_quest/number",number);
     tell_object(ppl,"小女孩說道:你要跟我玩遊戲嗎，真是太好了!!!\n");
     tell_object(ppl,"小女孩說道:那我們現在來玩猜數字遊戲。\n");
-    tell_object(ppl,"小女孩說道:我會從"HIY"０～９"NOR"選四個不重覆的數字讓你猜?\n");
-    tell_object(ppl,"小女孩說道:如果你猜的數字中有一個位置是正確的，我會說["HIR"一陽"NOR"]。\n");
-    tell_object(ppl,"小女孩說道:如果有一個你猜的數字對，但是位置不正確，我會說["HIC"一陰"NOR"]。\n");
-    tell_object(ppl,"小女孩說道:這樣反覆讓你猜，如果是["HIR"四陽"NOR"]，完全猜中了，我會送你一個小禮物。\n");
-    tell_object(ppl,"小女孩說道:你想不想跟我玩呢"HIG"(answer yes/no)"NOR"?\n");
+    tell_object(ppl,"小女孩說道:我會從" + HIY + "０～９" + NOR + "選四個不重覆的數字讓你猜?\n");
+    tell_object(ppl,"小女孩說道:如果你猜的數字中有一個位置是正確的，我會說[" + HIR + "一陽" + NOR + "]。\n");
+    tell_object(ppl,"小女孩說道:如果有一個你猜的數字對，但是位置不正確，我會說[" + HIC + "一陰" + NOR + "]。\n");
+    tell_object(ppl,"小女孩說道:這樣反覆讓你猜，如果是[" + HIR + "四陽" + NOR + "]，完全猜中了，我會送你一個小禮物。\n");
+    tell_object(ppl,"小女孩說道:你想不想跟我玩呢" + HIG + "(answer yes/no)" + NOR + "?\n");
     return "";
 }
 int do_answer(string arg)
@@ -149,7 +149,7 @@ int do_answer(string arg)
       else return 0;
     }
     else{
-      tell_object(ppl,HIG"你說:我猜"+arg+"。\n"NOR);
+      tell_object(ppl,HIG + "你說:我猜"+arg+"。\n" + NOR);
       if(sizeof(arg)!=4){
         tell_object(ppl,"你要回答的是四位數字啦!!\n");
         return 1;

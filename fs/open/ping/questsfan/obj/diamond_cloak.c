@@ -5,7 +5,7 @@ inherit EQUIP;
 
 void create()
 {
-        set_name(""HIG"虹晶識皇披風"NOR"",({"diamond cloak","cloak"}) );
+        set_name("" + HIG + "虹晶識皇披風" + NOR + "",({"diamond cloak","cloak"}) );
         set_weight(600);
         set("no_sell",1);
         set("no_auc",1);
@@ -21,8 +21,8 @@ void create()
         set("armor_prop/armor",7);
         set("armor_prop/stabber",7);
         set("armor_prop/parry",7);
-set("wear_msg", HIR"$N穿上$n"HIR"，周圍的綠光忽明忽暗的，漸漸的將$N的氣質改變成皇者般的風範來。\n"NOR);
-set("unequip_msg", HIR"$N將$n"HIR"脫了下來，瞬間四周發出一聲強烈的音爆。\n");
+set("wear_msg", HIR + "$N穿上$n" + HIR + "，周圍的綠光忽明忽暗的，漸漸的將$N的氣質改變成皇者般的風範來。\n" + NOR);
+set("unequip_msg", HIR + "$N將$n" + HIR + "脫了下來，瞬間四周發出一聲強烈的音爆。\n");
          }
         setup();
 }

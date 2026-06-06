@@ -45,7 +45,7 @@ int accept_object( object who , object ob )
                 command("follow " + this_player()->query("id"));
                 return 1;
         }
-  if( ob->query("id") == "poet book" || ob->name() == HIC"獨孤詩文集"
+  if( ob->query("id") == "poet book" || ob->name() == HIC + "獨孤詩文集"
         +NOR )
         {
         command("say 謝謝你!!");
@@ -85,7 +85,7 @@ void create()
 LONG);
         set("attitude", "heroism");
         set("gender","男性");
-        set("nickname",HIC "全才書生" NOR);
+        set("nickname",HIC + "全才書生" + NOR);
         create_family("雪蒼派",5,"弟子");
         set("age", 20);
         set("str", 20);
@@ -250,7 +250,7 @@ LONG + NOR,
         load_object("/open/snow/room/ducu_live1");
         killer->move("/open/snow/room/ducu_live3");
         killer->move("/open/snow/room/ducu_live1");
-        message_vision(HIR "$N吐了一口鮮血﹐似乎受到了極大的內傷了。\n" NOR,killer);
+        message_vision(HIR + "$N吐了一口鮮血﹐似乎受到了極大的內傷了。\n" + NOR,killer);
         message_vision("黑衣人背著獨孤雲一個飛身就消失無蹤了。\n",this_object());
         destruct(this_object());
 }

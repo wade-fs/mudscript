@@ -3,7 +3,7 @@ inherit ROOM;
 
 void create()
 {
-        set("short", HIW"虛空世界－九空靈聖界"NOR);
+        set("short", HIW + "虛空世界－九空靈聖界" + NOR);
         set("long", @LONG
 你眼前一片昏暗，眼前所見一片漆黑，只有你手中的靈筆麗玉蝶蘭發出淡淡的光芒，
 似乎在引導你前進的道路。
@@ -41,8 +41,8 @@ int greeting (object who)
   room->set("exits/north","/open/gsword/second/room/scholar/sch"+ndir);
   room->set("exits/south","/open/gsword/second/room/scholar/sch"+sdir);
   if(who->query("bellicosity") > 500+random(100)) {
-    message_vision(HIR"\n$N進入九空靈聖界後..瞬間九幽之外的破魔七星發出耀眼光芒.\n",who);
-    message_vision(HIR"光芒消失後，數條駭人之巨龍傳送至九空靈聖界之中，攻向$N衝來！！！\n"NOR,who);
+    message_vision(HIR + "\n$N進入九空靈聖界後..瞬間九幽之外的破魔七星發出耀眼光芒.\n",who);
+    message_vision(HIR + "光芒消失後，數條駭人之巨龍傳送至九空靈聖界之中，攻向$N衝來！！！\n" + NOR,who);
     seteuid(getuid());
     i=random(3)+1;
     while(i--) {

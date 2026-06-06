@@ -3,7 +3,7 @@ inherit ROOM;
 
 void create()
 {
-	set("short",YEL"乾坤八卦塔"NOR);
+	set("short",YEL + "乾坤八卦塔" + NOR);
 	set( "build", 12 );
 	set("long",@LONG
 一座筆直通雲霄的高塔，紅色的高頂和漆黑剝落的牆壁，正八角

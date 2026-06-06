@@ -3,7 +3,7 @@
 inherit ROOM;
 void create ()
 {
-  set ("short", HIY"狂想空間歷史發展館"NOR);
+  set ("short", HIY + "狂想空間歷史發展館" + NOR);
         set( "long", "有了新機器的狂想空間，在加上改板完成的driver使得狂想空間
 可以容納一百人左右的玩家,一九九九年我修正了一些主架構的程式
 1.強化security

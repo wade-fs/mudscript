@@ -3,7 +3,7 @@ inherit COMBINED_ITEM;
 
 void create()
 {
-	set_name(HIY"漩氣丹"NOR,({"whirlpool pill","pill"}));
+	set_name(HIY + "漩氣丹" + NOR,({"whirlpool pill","pill"}));
         set("long",
 "邪靈界的產物之一，\n");
 	set("unit","堆");

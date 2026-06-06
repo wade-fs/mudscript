@@ -5,7 +5,7 @@ inherit LANCE;
 void create()
 {
         seteuid(getuid());
-set_name(HIB"藍劫"NOR,({"calamity"}));
+set_name(HIB + "藍劫" + NOR,({"calamity"}));
         set_weight(9000);
         if( clonep() )
                 set_default_object(__FILE__);

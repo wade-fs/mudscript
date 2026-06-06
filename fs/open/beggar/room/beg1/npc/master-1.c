@@ -51,8 +51,8 @@ int do_join()
 	if(this_player()->query("class"))
 		return notify_fail("你已經加入其他工會了。\n");
 	this_player()->set("class","swordsman");
-	message("system",HIW "柳毅縱聲大呼 :\n
-歡迎" +this_player()->name()+"加入劍士公會!!\n\n"NOR,users());
+	message("system",HIW + "柳毅縱聲大呼 :\n
+歡迎" +this_player()->name()+"加入劍士公會!!\n\n" + NOR,users());
 	return 1;
 }
    /*

@@ -2,7 +2,7 @@ inherit COMBINED_ITEM;
 #include <ansi.h>
 void create()
 {
-        set_name(HIY"神龍真元"NOR, ({"dragon vigor","vigor"}) );
+        set_name(HIY + "神龍真元" + NOR, ({"dragon vigor","vigor"}) );
         set("long",
         "這是黃金甲龍的真元，可以大大提升能力，是習武者夢寐以求的珍品。
 可以拿來吞服(swallow)\n");
@@ -40,7 +40,7 @@ int eat_pill(string arg)
                                         }
 
 message_vision(
-"$N服下了"HIY"龍元"NOR"，一股熱流從喉頭進入腹中，$N氣力大增。\n", me);
+"$N服下了" + HIY + "龍元" + NOR + "，一股熱流從喉頭進入腹中，$N氣力大增。\n", me);
   me->add("str",5);
   me->add("cor",5);
   me->set_skill("force",force+10);

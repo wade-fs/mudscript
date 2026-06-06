@@ -4,7 +4,7 @@
 inherit ROOM;
 void create ()
 {
-	set("short",YEL"幽冥道"NOR);
+	set("short",YEL + "幽冥道" + NOR);
 	set("long",@LONG
 腳底踏的很不實在，彷彿站在稀鬆的土壤上面，
 一點厚實感也沒有，四周偶爾總是會傳來陣陣血腥的

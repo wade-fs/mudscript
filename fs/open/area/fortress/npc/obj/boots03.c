@@ -5,7 +5,7 @@ object me=this_player();
 
 void create()
 {
-        set_name(YEL"真。木常靴"NOR,({"jhen mu_chang boots","boots"}));
+        set_name(YEL + "真。木常靴" + NOR,({"jhen mu_chang boots","boots"}));
         set_weight(1000);
         if( clonep() )
                 set_default_object(__FILE__);
@@ -36,7 +36,7 @@ int do_wear(string str)
 			}
 			else
 			{
-				message_vision(YEL"有增加效果，穿上去了\n"NOR,me);
+				message_vision(YEL + "有增加效果，穿上去了\n" + NOR,me);
 				if(me->query("class")=="blademan")  this_object()->set("armor_prop/blade", 1);
 				if(me->query("class")=="fighter")   this_object()->set("armor_prop/unarmed",1);
 				if(me->query("class")=="swordsman") this_object()->set("armor_prop/sword",1);
@@ -57,6 +57,6 @@ int do_remove(string str)
 	if(str=="boots" || str="jhen mu_chang boot")
 		if( query("equipped") )
 		{
-			message_vision(HIC"$N脫下木常靴\n"NOR,me);
+			message_vision(HIC + "$N脫下木常靴\n" + NOR,me);
 		}
 }

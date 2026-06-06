@@ -7,7 +7,7 @@
 
 void create()
 {
-	set_name(HIW "天誅筆" NOR,({"ten pen","pen"}));
+	set_name(HIW + "天誅筆" + NOR,({"ten pen","pen"}));
 	set_weight(3000);
 	if( clonep() )
 		set_default_object(__FILE__);

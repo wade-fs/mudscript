@@ -6,7 +6,7 @@ void create() {
         
         set_name("刁千刃",({"dau-cha-len","dau"}));
         set("title","金風細雨第一樓樓主");
-        set("nickname",HIY"金麟走影"NOR);
+        set("nickname",HIY + "金麟走影" + NOR);
         set("long",@LONG
    練刀成狂, 不到三十卻已滿 
    頭白法, 俊逸的臉上還有些
@@ -72,12 +72,12 @@ void heart_beat()
     enemy=mob->query_enemy();
     i=sizeof(enemy);
 
-      message_vision(HIC"\n
+      message_vision(HIC + "\n
 $N振刀入地，凝神聚力，大地與空氣的震動逐漸增劇，激烈的殺
 氣氾起了波波粼光，就在震動達到最激烈時，$N倏地拔出盤古開
-天，一式"HIW"『開天闢地  捨我其誰』"HIC"刀氣激起了龍捲狂風，以$N為
+天，一式" + HIW + "『開天闢地  捨我其誰』" + HIC + "刀氣激起了龍捲狂風，以$N為
 中心向外撕裂奔旋
-\n"NOR,mob);
+\n" + NOR,mob);
  for(j=0;j < i;j++){
     target=enemy[j];
     if( env == environment(target) )
@@ -109,7 +109,7 @@ void die()
 	  if( j==7 || j==77 || j== 777 || j==1111 || j==55 || j==555 || j==1000 || j==4000 || j==3333 || j==2222 )
 	  {
 	  new("/open/sky/obj11/white-crystal")->move(environment(winner));
-	  message_vision(HIM"\n從刁千刃的身上掉下了一件奇怪的東西!!\n"NOR,winner);
+	  message_vision(HIM + "\n從刁千刃的身上掉下了一件奇怪的東西!!\n" + NOR,winner);
           write_file("/log/sky/obj11/white_crystal",sprintf("%s(%s) 讓刁千刃掉下了白色光晶於 %s\n",
 	  winner->name(1),winner->query("id"),ctime(time())));
 	  }
@@ -118,7 +118,7 @@ void die()
 	  if( j==5 || j==15 || j== 150 || j==1500 || j==10 || j==100 || j==1000 || j==4000 || j==6666 || j==7777 )
 	  {
 	  new("/open/sky/obj11/white-crystal")->move(environment(winner));
-	  message_vision(HIM"\n從刁千刃的身上掉下了一件奇怪的東西!!\n"NOR,winner);
+	  message_vision(HIM + "\n從刁千刃的身上掉下了一件奇怪的東西!!\n" + NOR,winner);
           write_file("/log/sky/obj11/white_crystal",sprintf("%s(%s) 讓刁千刃掉下了白色光晶於 %s\n",
 	  winner->name(1),winner->query("id"),ctime(time())));
 	  }

@@ -2,7 +2,7 @@
 inherit ITEM;
 void create()
 {
-        set_name(HIC"五轉"HIW"聚"HIY"靈珠"NOR, ({ "five turn ball","ball" }) );
+        set_name(HIC + "五轉" + HIW + "聚" + HIY + "靈珠" + NOR, ({ "five turn ball","ball" }) );
         set_weight(5000);
         if( clonep() )
                 set_default_object(__FILE__);

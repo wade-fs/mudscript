@@ -8,7 +8,7 @@ object user;
 int cor;
 void create()
 {
-        set_name(HIW"七彩"HIY"鳳凰筆"NOR,({ "seven_bird pen","pen" }) );
+        set_name(HIW + "七彩" + HIY + "鳳凰筆" + NOR,({ "seven_bird pen","pen" }) );
         set_weight(1000);
         set("no_sell",1);
         set("no_get",1);
@@ -26,7 +26,7 @@ void create()
         set("long", "此筆為女媧補天時用七彩神鳥的羽毛所做的筆，聽說有神秘的力量，只有儒尊才能使用的一支筆。\n");
         set("value", 0);
         set("material", "crimsonsteel");
-        set("wield_msg","$N神態自若，從腰際取出"HIW"七彩"HIY"鳳凰筆"NOR"，$N全身上下散發出一股金光!!!\n");
+        set("wield_msg","$N神態自若，從腰際取出" + HIW + "七彩" + HIY + "鳳凰筆" + NOR + "，$N全身上下散發出一股金光!!!\n");
         set("unwield_msg", "$N將手中$n收回腰際。\n");
         }
         //set("weapon_prop/damage",120);
@@ -73,7 +73,7 @@ int do_wield(string str)
          user->set_temp("wield_bird_pen",1);
          cor = user->query_cor();
          cor = cor *2;
-         message_vision("$N神態自若，從腰際取出"HIW"七彩"HIY"鳳凰筆"NOR"，$N全身上下散發出一股金光!!!\n",user);
+         message_vision("$N神態自若，從腰際取出" + HIW + "七彩" + HIY + "鳳凰筆" + NOR + "，$N全身上下散發出一股金光!!!\n",user);
          set_heart_beat(1);
          }
          }
@@ -117,10 +117,10 @@ void heart_beat()
       j=i;
       for(i=0;i<j;i++)
       {
-      message_vision("$N"HIW"手中七彩鳳凰筆化作七彩神鳥，$N"HIY"命令神鳥直擊$n!!!\n"+NOR,this_object(),enemy[i]);
+      message_vision("$N" + HIW + "手中七彩鳳凰筆化作七彩神鳥，$N" + HIY + "命令神鳥直擊$n!!!\n"+NOR,this_object(),enemy[i]);
     if(80 > random(100))
     {
-    message_vision(HIY"只見神鳥利爪抓向$N，只間$N身上皮開肉綻，鮮血染紅了$N的全身，危在旦夕!!!\n\n"NOR,enemy[i]);
+    message_vision(HIY + "只見神鳥利爪抓向$N，只間$N身上皮開肉綻，鮮血染紅了$N的全身，危在旦夕!!!\n\n" + NOR,enemy[i]);
     enemy[i]->receive_damage("kee",(100*random(5)),user);
     enemy[i]->apply_condition("burn", random(4));
     enemy[i]->apply_condition("hart", random(4));
@@ -129,7 +129,7 @@ void heart_beat()
     }
     else
     {
-    message_vision(HIC"只見$N身手不凡，一下躲過了神鳥的追擊。\n"NOR,enemy[i]);
+    message_vision(HIC + "只見$N身手不凡，一下躲過了神鳥的追擊。\n" + NOR,enemy[i]);
     }
     }
   }

@@ -4,7 +4,7 @@ inherit ITEM;
 
 void create()
 {
-        set_name(HIM"魔偶娃娃"NOR, ({ "puppet","p" }) );
+        set_name(HIM + "魔偶娃娃" + NOR, ({ "puppet","p" }) );
 
         set("unit", "尊");
         set("long", "看起來像是一個普通的洋娃娃。\n");

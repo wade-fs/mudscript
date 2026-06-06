@@ -3,7 +3,7 @@ inherit ROOM;
 
 void create ()
 {
-	set( "short", HIW"【"HIY"RESTORE"HIW"】【"HIC"申請廣場"HIW"】"NOR );
+	set( "short", HIW + "【" + HIY + "RESTORE" + HIW + "】【" + HIC + "申請廣場" + HIW + "】" + NOR );
 	set( "build", 155 );
 	set( "long", @LONG
 	

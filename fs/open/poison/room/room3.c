@@ -29,6 +29,6 @@ int valid_leave(object me, string dir)
 	object who;
 	if ( dir == "west" && who = present("hunter", environment(me)) )
 	     if(me->query("class") != "poisoner")
-		return notify_fail(HIC"獵人怒道﹕想私闖民宅呀!!\n"NOR);
+		return notify_fail(HIC + "獵人怒道﹕想私闖民宅呀!!\n" + NOR);
 	return ::valid_leave(me, dir);
 }

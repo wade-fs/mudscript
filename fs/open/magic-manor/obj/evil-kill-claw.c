@@ -8,7 +8,7 @@ int be,bb,k,sp,qq,co,st;
 
 void create()
 {
-	set_name(BLU"魔爪混天殺"NOR,({"evil-kill-claw","claw"}) );
+	set_name(BLU + "魔爪混天殺" + NOR,({"evil-kill-claw","claw"}) );
 	set_weight(10000);
 	if( clonep() ) 
 	set_default_object(__FILE__);
@@ -23,8 +23,8 @@ void create()
 	set("no_steal",1);
 	}
 	init_unarmed(100);
- 	set("wield_msg",GRN"$N"GRN"載上$n"GRN"，$n"GRN"周身散出濃烈的殺氣，似要吐噬一切事物!!\n"NOR);
-        set("unwield_msg","$N輕輕卸下$n，$n散出的殺氣也漸漸緩和下來。\n"NOR);
+ 	set("wield_msg",GRN + "$N" + GRN + "載上$n" + GRN + "，$n" + GRN + "周身散出濃烈的殺氣，似要吐噬一切事物!!\n" + NOR);
+        set("unwield_msg","$N輕輕卸下$n，$n散出的殺氣也漸漸緩和下來。\n" + NOR);
 
 	setup();
 }                   
@@ -47,10 +47,10 @@ int do_wield(string str)
 	uexp = user->query("combat_exp");
 	  if( uexp < 3000000 )
 	  {
-	  message_vision("$N的經驗並不足以完全支配這樣的神兵利器!!\n"NOR,user);
+	  message_vision("$N的經驗並不足以完全支配這樣的神兵利器!!\n" + NOR,user);
 	  set_heart_beat(0);
 	  }else{
-//	  message_vision(GRN"$N"GRN"載上$n"GRN"，$n"GRN"周身散出濃烈的殺氣，似要吐噬一切事物!!\n"NOR,user,ob);
+//	  message_vision(GRN + "$N" + GRN + "載上$n" + GRN + "，$n" + GRN + "周身散出濃烈的殺氣，似要吐噬一切事物!!\n" + NOR,user,ob);
 	  set_heart_beat(1);
 	  }
 	}
@@ -61,7 +61,7 @@ int do_drop(string str)
 	if(str=="evil-kill-claw" || str=="claw" || str=="all")
 	if( query("equipped") )
 	{
-	message_vision("$N輕輕卸下$n，$n散出的殺氣也漸漸緩和下來。\n"NOR,user,ob);
+	message_vision("$N輕輕卸下$n，$n散出的殺氣也漸漸緩和下來。\n" + NOR,user,ob);
 	set_heart_beat(0);
 	}
 }
@@ -71,7 +71,7 @@ int do_unwield(string str)
 	if(str=="evil-kill-claw" || str=="claw" || str=="all")
 	if( query("equipped") )
 	{
-//	message_vision("$N輕輕卸下$n，$n散出的殺氣也漸漸緩和下來。\n"NOR,user,ob);
+//	message_vision("$N輕輕卸下$n，$n散出的殺氣也漸漸緩和下來。\n" + NOR,user,ob);
 	set_heart_beat(0);
 	}
 }
@@ -81,7 +81,7 @@ int do_auc(string str)
 	if(str=="evil-kill-claw" || str=="claw" || str=="all")
 	if( query("equipped") )
 	{
-	message_vision("$N輕輕卸下$n，$n散出的殺氣也漸漸緩和下來。\n"NOR,user,ob);
+	message_vision("$N輕輕卸下$n，$n散出的殺氣也漸漸緩和下來。\n" + NOR,user,ob);
 	set_heart_beat(0);
 	}
 }
@@ -126,11 +126,11 @@ void heart_beat()
 	  if( environment(user) == environment(enemy[i]) )
 	  if( random(300) > random(enemy[i]->query_skill("dodge",1)) )
 	  {
-	  message_vision(HIB"只見"NOR"$n"HIB"周身散發出的殺氣忽然聚成一道氣勁，直衝$N"HIB"心坎要害!!\n"NOR,enemy[i],ob);
+	  message_vision(HIB + "只見" + NOR + "$n" + HIB + "周身散發出的殺氣忽然聚成一道氣勁，直衝$N" + HIB + "心坎要害!!\n" + NOR,enemy[i],ob);
 	  enemy[i]->receive_wound("kee",(int)(qq+be),user);
 	  COMBAT_D->report_status(enemy[i], 0);
 	  }else
-	  message_vision(BLU"$N"BLU"見狀，不慌不忙的避開了這道極具威力的殺氣!!\n"NOR,enemy[i],ob);
+	  message_vision(BLU + "$N" + BLU + "見狀，不慌不忙的避開了這道極具威力的殺氣!!\n" + NOR,enemy[i],ob);
 	  }
 	}
 	return;

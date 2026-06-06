@@ -9,9 +9,9 @@ int check();
 void confuse1(object me)
 {
 
-  message_vision(CYN"$N說道：好啦，你已經會了 你該回去了！離開身體太久有可能會回不去哦。\n"NOR,this_object());
+  message_vision(CYN + "$N說道：好啦，你已經會了 你該回去了！離開身體太久有可能會回不去哦。\n" + NOR,this_object());
   me->move("/open/scholar/room/house");
-  message_vision(CYN"$N隨手拿了一隻筆和竹簡把剛剛陳平師叔說的話記下來！\n"NOR,me);
+  message_vision(CYN + "$N隨手拿了一隻筆和竹簡把剛剛陳平師叔說的話記下來！\n" + NOR,me);
   new("/open/scholar/magic_square/obj/paper.c")->move(me);
 }
 string quest1()
@@ -60,11 +60,11 @@ void greeting(object ob)
 {
   if(ob->query_temp("quests/confuse") == 10)
   {
-    message_vision(HIC"$N說道：如果解決的話，就請我幫你「檢查」吧！\n"NOR,this_object());
+    message_vision(HIC + "$N說道：如果解決的話，就請我幫你「檢查」吧！\n" + NOR,this_object());
   }
   else
   {
-     message_vision(HIR"$N說道：沒想到，你竟然進來我的夢中了，而在這裡我一直遇到一個陣圖的問題，所以我才一直不醒。\n"NOR,this_object());
+     message_vision(HIR + "$N說道：沒想到，你竟然進來我的夢中了，而在這裡我一直遇到一個陣圖的問題，所以我才一直不醒。\n" + NOR,this_object());
      create_room_link(3);
      ob->set_temp("quests/confuse",10);
   }
@@ -132,7 +132,7 @@ void create_room_link(int times)
   stones[0]->set("no_push",1);
   this_object()->move(home);
   this_player()->move(home);
-  message_vision(YEL"一陣煙霧環繞$N與$n，整個魔方陣的陣型已經改變了。\n"NOR,this_object(),this_player());
+  message_vision(YEL + "一陣煙霧環繞$N與$n，整個魔方陣的陣型已經改變了。\n" + NOR,this_object(),this_player());
   set("times",times);
 }
 int check()

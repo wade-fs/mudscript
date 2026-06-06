@@ -46,7 +46,7 @@ void create()
     "\t因此擅長兩家之長，又會殺手密技--霸雨式。\n");
   set("gender","男性");
   set("class","poisoner");
-  set("nickname", HIR "神秘殺手" NOR);
+  set("nickname", HIR + "神秘殺手" + NOR);
   set("combat_exp",1000000);
   set("attitude","heroism");
   set("age",27);

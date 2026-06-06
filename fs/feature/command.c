@@ -69,6 +69,8 @@ nomask int command_hook(string arg)
 {
         string  verb;
 
+        if (this_object() != this_player()) return 0;
+
         verb = query_verb();
 
         if(verb) {
@@ -111,7 +113,10 @@ void enable_player()
         else set_living_name(query("name"));
 
         enable_commands();
-        add_action("command_hook", "", 1);
+        
+        if (userp(this_object())) {
+                add_action("command_hook", "", 1);
+        }
 
         switch( wizhood(this_object()) ) {
         case "(manager)":

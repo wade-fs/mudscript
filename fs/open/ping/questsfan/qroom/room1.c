@@ -57,10 +57,10 @@ void init()
         }
         if(wizardp(me))
         {
-        printf(HIY"現在時間 "+ctime(time())+"\n"NOR);
-        printf(HIY"分為%d分\n"NOR,min);
-        printf(HIY"時辰為%d點\n"NOR,hour);
-        printf(HIY"日期為%d日\n"NOR,day);
+        printf(HIY + "現在時間 "+ctime(time())+"\n" + NOR);
+        printf(HIY + "分為%d分\n" + NOR,min);
+        printf(HIY + "時辰為%d點\n" + NOR,hour);
+        printf(HIY + "日期為%d日\n" + NOR,day);
         printf("trueroad=%d\n",trueroad);
         }
         switch(trueroad)
@@ -178,7 +178,7 @@ void init()
                 printf("正確的路為%s\n",rightway);
 //add by bss,解過的人怕死,所以解過的可以用飛的
     if(me->query("marks/fan-finger"))
-      tell_object(me,HIM"你對於你的輕功\充滿了信心, 似乎可以飛渡(fly)懸涯!!\n"NOR);
+      tell_object(me,HIM + "你對於你的輕功\充滿了信心, 似乎可以飛渡(fly)懸涯!!\n" + NOR);
       add_action("do_fly","fly");
 }
 int do_fly()
@@ -186,23 +186,23 @@ int do_fly()
     object me=this_player();
     int i;
      
-    message_vision(HIY"$N使出絕頂輕功\, 用力一跳, 往對岸飛去!!!\n"NOR,me);
+    message_vision(HIY + "$N使出絕頂輕功\, 用力一跳, 往對岸飛去!!!\n" + NOR,me);
     if(me->query("marks/fan-finger")){
       me->move("/open/ping/questsfan/qroom/room5");
-      message_vision(HIC"$N在空中翻了三個筋斗, 輕輕的落在地上!!\n"NOR,me);
+      message_vision(HIC + "$N在空中翻了三個筋斗, 輕輕的落在地上!!\n" + NOR,me);
     }
     else{
-      message_vision(HIR"$N在空中忽然感到真氣不足, 一個不留神, 往下摔去!!\n"NOR,me);
+      message_vision(HIR + "$N在空中忽然感到真氣不足, 一個不留神, 往下摔去!!\n" + NOR,me);
       if(sizeof(this_object()->query("exits")) > 2) i=random(50);
       else i=2;
       switch(i){
         case 0..5:
           me->move("/open/ping/questsfan/qroom/room2");
-          tell_object(me,HIM"碰的一聲, 你掉到了橋上, 真是好險!!\n"NOR);
+          tell_object(me,HIM + "碰的一聲, 你掉到了橋上, 真是好險!!\n" + NOR);
           break;
         default:
           me->move("/open/ping/questsfan/qroom/room3");
-          tell_object(me,HIG"眼看你就要掉到橋上了, 但是你忽然發現, 那個橋竟然是幻影!!\n"NOR);
+          tell_object(me,HIG + "眼看你就要掉到橋上了, 但是你忽然發現, 那個橋竟然是幻影!!\n" + NOR);
           break;
       }
     }

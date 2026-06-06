@@ -14,7 +14,7 @@ void create()
 他就是目前世上唯一身負「不傳之技」的銀針門前輩，
 聽說當年其灸功\堪稱天下一絕！\n");
   set("gender", "男性");
-  set("title", HIC"面壁十年"NOR);
+  set("title", HIC + "面壁十年" + NOR);
   set("age", 65);
   set("inquiry",([
     "不傳之技" : (: ask_fon :),
@@ -105,7 +105,7 @@ int accept_object(object me, object ob)
 
   if(me->query("doctor/ask_baby") == 1 && !me->query("doctor/save_die"))
   {
-    if(obj == HIY"魔龍鱗"NOR)
+    if(obj == HIY + "魔龍鱗" + NOR)
     {
       command("tsk");
       command("say 好極了！原來這就是真正的"+ obj +"！");
@@ -126,11 +126,11 @@ int accept_object(object me, object ob)
       me->set("doctor/save_die", 1);
       me->do_command("sk");
       me->set_skill("force",force+5);
-      message_vision(HIC"$N的「基本內功\」進步了﹗\n"NOR+
-                     HIC"$N的「基本內功\」進步了﹗\n"NOR+
-                     HIC"$N的「基本內功\」進步了﹗\n"NOR+
-                     HIC"$N的「基本內功\」進步了﹗\n"NOR+
-                     HIC"$N的「基本內功\」進步了﹗\n"NOR, me);
+      message_vision(HIC + "$N的「基本內功\」進步了﹗\n"NOR+
+                     HIC + "$N的「基本內功\」進步了﹗\n"NOR+
+                     HIC + "$N的「基本內功\」進步了﹗\n"NOR+
+                     HIC + "$N的「基本內功\」進步了﹗\n"NOR+
+                     HIC + "$N的「基本內功\」進步了﹗\n" + NOR, me);
       me->delete("doctor/ask_baby");
       me->delete("doctor/give_baby1");
       me->delete("doctor/give_baby2");
@@ -143,7 +143,7 @@ int accept_object(object me, object ob)
       call_out("fon_die",2,me);
       return 1;
     }
-    else if(obj == HIR"火鳳羽"NOR)
+    else if(obj == HIR + "火鳳羽" + NOR)
     {
       command("tsk");
       command("say 好極了！原來這就是真正的"+ obj +"！");
@@ -164,11 +164,11 @@ int accept_object(object me, object ob)
       me->set("doctor/save_die", 1);
       me->do_command("sk");
       me->set_skill("force",force+5);
-      message_vision(HIC"$N的「基本內功\」進步了﹗\n"NOR+
-                     HIC"$N的「基本內功\」進步了﹗\n"NOR+
-                     HIC"$N的「基本內功\」進步了﹗\n"NOR+
-                     HIC"$N的「基本內功\」進步了﹗\n"NOR+
-                     HIC"$N的「基本內功\」進步了﹗\n"NOR, me);
+      message_vision(HIC + "$N的「基本內功\」進步了﹗\n"NOR+
+                     HIC + "$N的「基本內功\」進步了﹗\n"NOR+
+                     HIC + "$N的「基本內功\」進步了﹗\n"NOR+
+                     HIC + "$N的「基本內功\」進步了﹗\n"NOR+
+                     HIC + "$N的「基本內功\」進步了﹗\n" + NOR, me);
       me->delete("doctor/ask_baby");
       me->delete("doctor/give_baby1");
       me->delete("doctor/give_baby2");
@@ -192,37 +192,37 @@ int accept_object(object me, object ob)
 
 int fon_die(object me)
 {
-  write(HIY"華雲峰突然急撤雙手，一時頭暈目眩，口吐鮮血...\n"NOR,me);
+  write(HIY + "華雲峰突然急撤雙手，一時頭暈目眩，口吐鮮血...\n" + NOR,me);
   call_out("fon_die2",1,me);
 }
 
 int fon_die2(object me)
 {
-  write(HIY"你趕緊為他把把脈，並按摩其各大脈穴...\n"NOR,me);
+  write(HIY + "你趕緊為他把把脈，並按摩其各大脈穴...\n" + NOR,me);
   call_out("fon_die3",5,me);
 }
 
 int fon_die3(object me)
 {
-  write(HIY"須臾...華雲峰總算是醒了過來...\n"NOR,me);
+  write(HIY + "須臾...華雲峰總算是醒了過來...\n" + NOR,me);
   call_out("fon_die4",2,me);
 }
 
 int fon_die4(object me)
 {
-  write(HIY"華雲峰上氣不接下氣的說道：使...用方...式...是..."HIG"cmd"HIY"..."HIG"save_die"HIY"...\n"NOR,me);
-  write(HIY"華雲峰吃力的說道：如...如今...我...已將...此技傳...傳...受予你.....望你好好善用...造福世人...\n"NOR,me);
+  write(HIY + "華雲峰上氣不接下氣的說道：使...用方...式...是..." + HIG + "cmd" + HIY + "..." + HIG + "save_die" + HIY + "...\n" + NOR,me);
+  write(HIY + "華雲峰吃力的說道：如...如今...我...已將...此技傳...傳...受予你.....望你好好善用...造福世人...\n" + NOR,me);
   call_out("fon_die5",2,me);
 }
 
 int fon_die5(object me)
 {
-  write(HIY"說完此話，華雲峰便因氣力用盡而撒手人寰，與世長辭了...\n"NOR,me);
-  tell_object(users(),HIW"
-華陀笑道："HIY"嗚呼哀哉—\n
-          "HIY"逝者已矣，來者猶可追。\n
-          "HIG""+this_player()->name()+""HIY"吾徒！\n
-          唯一慶幸的是咱"HIW"銀針門"HIY"的"HIR"不傳之技"HIY"終於又有傳人了！！\n\n"NOR);
+  write(HIY + "說完此話，華雲峰便因氣力用盡而撒手人寰，與世長辭了...\n" + NOR,me);
+  tell_object(users(),HIW + "
+華陀笑道：" + HIY + "嗚呼哀哉—\n
+          " + HIY + "逝者已矣，來者猶可追。\n
+          " + HIG + ""+this_player()->name()+"" + HIY + "吾徒！\n
+          唯一慶幸的是咱" + HIW + "銀針門" + HIY + "的" + HIR + "不傳之技" + HIY + "終於又有傳人了！！\n\n" + NOR);
   this_object()->die();
   return 1;
 }

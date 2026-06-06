@@ -17,7 +17,7 @@ void create()
 ");
   set("gender","男性");
   set("class","fighter");
-  set("nickname",HIR"極道殺手"NOR);
+  set("nickname",HIR + "極道殺手" + NOR);
   set("title","黑道盟主");
   set_name("莫無愁",({"wu"}));
   set("combat_exp",100000000);
@@ -82,14 +82,14 @@ void init()
     if( ob->query("gender")=="男性" ) {
       if( ob->query("title")!="漩羽刀皇" && !ob->query_temp("powerup") &&
           !ob->query_temp("addbasic")) {
-        tell_object( ob, HIW"你使用邪靈制刀術錯亂, 我幫你還原title...\n"NOR );
+        tell_object( ob, HIW + "你使用邪靈制刀術錯亂, 我幫你還原title...\n" + NOR );
         ob->set( "title", "漩羽刀皇");
       }
     }
     else
       if(ob->query("title")!="刀魂幽姬" && !ob->query_temp("powerup") &&
           !ob->query_temp("addbasic")) {
-        tell_object(ob,HIW"你使用邪靈制刀術錯亂, 我幫你還原title...\n"NOR );
+        tell_object(ob,HIW + "你使用邪靈制刀術錯亂, 我幫你還原title...\n" + NOR );
         ob->set( "title", "刀魂幽姬");
       }
   }
@@ -122,11 +122,11 @@ void greeting(object me)
     me->set("origional_per",10);
     write_file("/u/b/blazakira/fix/autoload/gift_per",sprintf("%s(%s)的天賦per為35，重新設定per為10，於%s。\n",me->name(1),me->query("id"),ctime(time())));
   }
-  if(me->query("title")==HIR"δ"HIW+BRED"血靈"NOR""HIR"δ"HBBLU""BLK"闇月"HIC"劍魔"NOR) {
-    me->set("title",HIR"δ"HIW+BRED"血靈"NOR""HIR"δ"BLK+HBBLU"闇月"HIC+HBBLU"劍魔"NOR);
+  if(me->query("title")==HIR + "δ"HIW+BRED"血靈" + NOR + "" + HIR + "δ" + HBBLU + "" + BLK + "闇月" + HIC + "劍魔" + NOR) {
+    me->set("title",HIR + "δ"HIW+BRED"血靈" + NOR + ""HIR + "δ"BLK+HBBLU"闇月"HIC+HBBLU"劍魔" + NOR);
   }
-  if(me->query("title")==HIW"Π"HIR"魔"HIC"亟"HIY"劍宗"HIW"Π") {
-    me->set("title",HIW"Π"HIR"魔"HIC"亟"HIY"劍宗"HIW"Π"NOR);
+  if(me->query("title")==HIW + "Π" + HIR + "魔" + HIC + "亟" + HIY + "劍宗" + HIW + "Π") {
+    me->set("title",HIW + "Π" + HIR + "魔" + HIC + "亟" + HIY + "劍宗" + HIW + "Π" + NOR);
   }
 }
 
@@ -144,7 +144,7 @@ void do_start_move()
       else {
         tell_object(ppl,HIR+BBLU+"暗殺輔助中。\n"+NOR);
         if( environment(npc) )
-          tell_object(ppl,HIY+BBLU"目前npc位於"+environment(npc)->short()+"  -- "+file_name(environment(npc))+"\n"NOR);
+          tell_object(ppl,HIY+BBLU"目前npc位於"+environment(npc)->short()+"  -- "+file_name(environment(npc))+"\n" + NOR);
       }
     }
   }

@@ -482,13 +482,13 @@ int do_title()
   {
 if(me->query("gender")=="男性")
 {
-me->set("title",""HIY"文凌駕"NOR"『"HIC"飄"NOR"陽"HIC"靈"NOR"帝』");
+me->set("title","" + HIY + "文凌駕" + NOR + "『" + HIC + "飄" + NOR + "陽" + HIC + "靈" + NOR + "帝』");
   me->set("make_ok",1);
 tell_object(me,"你做的不錯，好扇、好扇呀！...哈哈哈　!!!\n");
 }
 else
 {
-me->set("title",""HIM"文翎羽"NOR"『"HIY"玄"NOR"天"HIY"靈"NOR"后』");
+me->set("title","" + HIM + "文翎羽" + NOR + "『" + HIY + "玄" + NOR + "天" + HIY + "靈" + NOR + "后』");
   me->set("make_ok",1);
 tell_object(me,"你做的不錯，好扇、好扇呀！...哈哈哈　!!!\n");
 }

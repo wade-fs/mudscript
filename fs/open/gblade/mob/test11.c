@@ -52,8 +52,8 @@ void invocation(object who)
         object *enemy;
 
         message("vision",
-        HIW"一隻龐然巨物從壺中走出\n"
-        + name() + "發出巨吼 , 響徹雲宵\n"NOR,
+        HIW + "一隻龐然巨物從壺中走出\n"
+        + name() + "發出巨吼 , 響徹雲宵\n" + NOR,
                 environment(), this_object() );
         enemy = who->query_enemy();
         i = sizeof(enemy);
@@ -75,7 +75,7 @@ void invocation(object who)
     int i;
     if(ob->query("force")>500)
     message("vision",
-    HIY "$N使出軒轅劍法 , 劍光壟罩四面八方 , 空氣中充滿劍氣 , 分擊各敵 \n"NOR,this_objects());
+    HIY + "$N使出軒轅劍法 , 劍光壟罩四面八方 , 空氣中充滿劍氣 , 分擊各敵 \n" + NOR,this_objects());
     enemy = ob->query_enemy();
     i=sizeof(enemy);
     while(i--){

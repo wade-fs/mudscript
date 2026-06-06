@@ -6,7 +6,7 @@ int kar;
 void create()
 {
      seteuid(getuid());
-     set_name(HIC"榴槤杖"NOR,({"durian staff","staff"}) );
+     set_name(HIC + "榴槤杖" + NOR,({"durian staff","staff"}) );
      set_weight(2000);
      if( clonep() )
      set_default_object(__FILE__);
@@ -23,8 +23,8 @@ void create()
             set("no_auc",  1);
             set("no_put",  1);
         set("no_get", 1);
-                        set("wield_msg",HIW"$N將內力貫入杖身，"HIC"榴槤杖"HIW"感應到$N"HIW"的感召，發出一陣臭味，燻得在場所有人不是滋味。\n"NOR);
-                        set("unwield_msg",HIR"$N將內力收回，"HIC"榴槤杖"HIR"立刻沉靜了下來，濃濃的臭味突然不見了。\n"NOR);
+                        set("wield_msg",HIW + "$N將內力貫入杖身，" + HIC + "榴槤杖" + HIW + "感應到$N" + HIW + "的感召，發出一陣臭味，燻得在場所有人不是滋味。\n" + NOR);
+                        set("unwield_msg",HIR + "$N將內力收回，" + HIC + "榴槤杖" + HIR + "立刻沉靜了下來，濃濃的臭味突然不見了。\n" + NOR);
             }
         init_staff(20);
         setup();
@@ -43,8 +43,8 @@ void init()
   seteuid(geteuid());
   me = this_player();
   if (me)
-  set_name (me->name(1)+"的"HIC"榴槤杖"NOR, ({ "durian staff","staff" }));
+  set_name (me->name(1)+"的" + HIC + "榴槤杖" + NOR, ({ "durian staff","staff" }));
   else
-  set_name (HIR"一把普通的木杖"NOR, ({ "staff" }));
+  set_name (HIR + "一把普通的木杖" + NOR, ({ "staff" }));
 }
 

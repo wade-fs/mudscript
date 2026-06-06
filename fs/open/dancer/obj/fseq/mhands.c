@@ -5,7 +5,7 @@ inherit HANDS;
 object me=this_player();
 void create()
 {
-        set_name(HIB"諸岡渡天才機關手"NOR,({"Wataru_hands","hands"}));
+        set_name(HIB + "諸岡渡天才機關手" + NOR,({"Wataru_hands","hands"}));
         set_weight(2000);
         if( clonep() )
                 set_default_object(__FILE__);

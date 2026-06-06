@@ -30,7 +30,7 @@ LONG);
 ]));
   set("light_up", 1);
   set("item_desc", ([ /* sizeof() == 1 */
-"note" : HIY"\n你可以help 儒門 來獲得儒門的相關介紹。"NOR,]));
+"note" : HIY + "\n你可以help 儒門 來獲得儒門的相關介紹。" + NOR,]));
 
   setup();
 }
@@ -72,7 +72,7 @@ int do_sleep(string arg)
 
 int wakeup(object who)
 {
-        tell_object(who, HIC"一覺醒來，你覺得你的精神稍稍恢復了。\n"NOR);
+        tell_object(who, HIC + "一覺醒來，你覺得你的精神稍稍恢復了。\n" + NOR);
     who->receive_heal("sen",100);
         who->delete_temp("sleeping");
         return 1;
@@ -134,40 +134,40 @@ int do_billing(string str) {
 	j=sizeof(user);
         switch(i) {
           case 0 : user=sort_array(user,"sort_exp",this_object());
-	           str=sprintf(HIG"儒門經驗值排行榜:\n\n"NOR);
+	           str=sprintf(HIG + "儒門經驗值排行榜:\n\n" + NOR);
 	           for(i=0; i<j; i++)
-	              str+=sprintf(HIC"第%2d名 %30s(%s)\n"NOR,i+1,user[i]->query("name"),user[i]->query("id"));
+	              str+=sprintf(HIC + "第%2d名 %30s(%s)\n" + NOR,i+1,user[i]->query("name"),user[i]->query("id"));
 	           str+="\n";
 	           tell_object(this_player(),str);
 		   break;
 	  case 1 : user=sort_array(user,"sort_force",this_object());
-	           str=sprintf(HIG"儒門內力排行榜:\n\n"NOR);
+	           str=sprintf(HIG + "儒門內力排行榜:\n\n" + NOR);
 	           for(i=0; i<j; i++)
-	              str+=sprintf(HIC"第%2d名 %30s(%s)\n"NOR,i+1,user[i]->query("name"),user[i]->query("id"));
+	              str+=sprintf(HIC + "第%2d名 %30s(%s)\n" + NOR,i+1,user[i]->query("name"),user[i]->query("id"));
 	           str+="\n";
 	           tell_object(this_player(),str);
 		   break;
 	  case 2 : user=sort_array(user,"sort_MKS",this_object());
-	           str=sprintf(HIG"儒門殺人數排行榜:\n\n"NOR);
+	           str=sprintf(HIG + "儒門殺人數排行榜:\n\n" + NOR);
 	           for(i=0; i<j; i++)
-	              str+=sprintf(HIC"第%2d名 %30s(%s)\n"NOR,i+1,user[i]->query("name"),user[i]->query("id"));
+	              str+=sprintf(HIC + "第%2d名 %30s(%s)\n" + NOR,i+1,user[i]->query("name"),user[i]->query("id"));
 	           str+="\n";
 	           tell_object(this_player(),str);
 		   break;
 	  case 3 : user=sort_array(user,"sort_movedown",this_object());
-                   str=sprintf(HIG"儒門七星封穴排行榜:\n\n"NOR);
+                   str=sprintf(HIG + "儒門七星封穴排行榜:\n\n" + NOR);
 	           for(i=0; i<j; i++)
-	              str+=sprintf(HIC"第%2d名 %30s(%s)\n"NOR,i+1,user[i]->query("name"),user[i]->query("id"));
+	              str+=sprintf(HIC + "第%2d名 %30s(%s)\n" + NOR,i+1,user[i]->query("name"),user[i]->query("id"));
 	           str+="\n";
                    tell_object(this_player(),str);
 		   break;
 	  case 4 : user=sort_array(user,"sort_finger",this_object());
-	           str=sprintf(HIG"儒門儒門幻指排行榜:\n\n"NOR);
+	           str=sprintf(HIG + "儒門儒門幻指排行榜:\n\n" + NOR);
 	           for(i=0; i<j; i++)
-	              str+=sprintf(HIC"第%2d名 %30s(%s)\n"NOR,i+1,user[i]->query("name"),user[i]->query("id"));
+	              str+=sprintf(HIC + "第%2d名 %30s(%s)\n" + NOR,i+1,user[i]->query("name"),user[i]->query("id"));
 	           tell_object(this_player(),str);
 		   break;
-	  case 5 : str=sprintf(HIG"儒門師徒關係:\n\n"NOR);
+	  case 5 : str=sprintf(HIG + "儒門師徒關係:\n\n" + NOR);
                    for(i=0; i<j; i++) {
 	              if( user[i]->query("family/master_is_ppl") ) {
 	                if( master=find_player(user[i]->query("family/master_id"))) {
@@ -182,7 +182,7 @@ int do_billing(string str) {
                           }
 	                }
 	              }
-                      str+=sprintf(HIC"%|20s(%|10s)     師承  %|20s(%|10s)\n"NOR,user[i]->query("name"),user[i]->query("id"),user[i]->query("family/master_name"),user[i]->query("family/master_id"));
+                      str+=sprintf(HIC + "%|20s(%|10s)     師承  %|20s(%|10s)\n" + NOR,user[i]->query("name"),user[i]->query("id"),user[i]->query("family/master_name"),user[i]->query("family/master_id"));
 	           }
                    str+="\n";
    	           tell_object(this_player(),str);

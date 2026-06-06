@@ -14,7 +14,7 @@ void create()
   set("class","dancer");
   set("family/family_name","夜夢小築");
   set("nickname","四天女");
-  set("title",HIR"火靈使"NOR);
+  set("title",HIR + "火靈使" + NOR);
   set("combat_exp",5000000);
   set("attitude","heroism");
   set("age",20);
@@ -91,10 +91,10 @@ void heart_beat()
   i=sizeof(enemy);
   if( is_fighting() ) {
     if(random(100)>70) {
-      message_vision(HIR"火舞兒緩緩舞著一段『忘情之舞』\n"NOR,ob);
+      message_vision(HIR + "火舞兒緩緩舞著一段『忘情之舞』\n" + NOR,ob);
       if(random(5)>2)
       {
-        message_vision(HIR"你整個人頓時被那美妙的舞姿給迷住了!!\n"NOR,ob);
+        message_vision(HIR + "你整個人頓時被那美妙的舞姿給迷住了!!\n" + NOR,ob);
         for(j=0;j<i;j++)
         {
           if (!enemy[j]->is_fighting() && enemy[j]->is_character() && !enemy[j]->is_corpse()
@@ -105,7 +105,7 @@ void heart_beat()
         }
       }
       else
-        message_vision("火舞兒忙中有錯，踏錯了步伐導致失去了舞蹈效果。\n"NOR,ob);
+        message_vision("火舞兒忙中有錯，踏錯了步伐導致失去了舞蹈效果。\n" + NOR,ob);
     }
     if(query_temp("ref_shield")!=1)
     {

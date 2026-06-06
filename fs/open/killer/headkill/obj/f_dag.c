@@ -5,7 +5,7 @@ inherit DAGGER;
 void create()
 {
         seteuid(getuid());
-        set_name(HIR"朱雀匕首"NOR,({"juchi"}));
+        set_name(HIR + "朱雀匕首" + NOR,({"juchi"}));
         set_weight(4000);
         if( clonep() )
                 set_default_object(__FILE__);
@@ -18,8 +18,8 @@ void create()
                 set("no_sell",1);
                 set("no_auc",1);
                 set("no_hands",1);
-                set("wield_msg",HIR"$N將$n握在手上，全身已被炎氣籠罩。\n"NOR);
-                set("unwield_msg",HIR"$N畫出一道銀花，將$n放回身邊小袋中。\n"NOR);
+                set("wield_msg",HIR + "$N將$n握在手上，全身已被炎氣籠罩。\n" + NOR);
+                set("unwield_msg",HIR + "$N畫出一道銀花，將$n放回身邊小袋中。\n" + NOR);
        }
         init_dagger(54);
         setup();
@@ -49,11 +49,11 @@ mixed hit_ob(object me)
      {//注意，為了要強調dodge的效用，（現在FS根本不重視）
       //所以，故意以dodge來決定命中度，如果你的dodge大於對方一倍，命中度幾乎100％
       //相對的，如果對方的dodge大於你兩倍的話，命中度幾乎就是0％
-      message_vision(HBRED"\n朱雀圖騰化成朱雀,衝向$N瞬間陷入一片火海!!!\n"NOR,victim);
+      message_vision(HBRED + "\n朱雀圖騰化成朱雀,衝向$N瞬間陷入一片火海!!!\n" + NOR,victim);
       victim->add("kee",-250);
       COMBAT_D->report_status(victim);
      }else
-      message_vision(HIW"火焰由朱雀匕首激發,但被$N巧妙的躲開\n"NOR,victim);
+      message_vision(HIW + "火焰由朱雀匕首激發,但被$N巧妙的躲開\n" + NOR,victim);
      }
   }
 }

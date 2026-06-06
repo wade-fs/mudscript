@@ -195,11 +195,11 @@ int xdo_list_king(object me)
 
   obj=keys(me->query("magic-manor"));
 
-  message_vision(HIW"----------"HIC"你殘殺過的五靈塔王次數一覽表"HIW"----------\n"NOR,this_player());
+  message_vision(HIW + "----------" + HIC + "你殘殺過的五靈塔王次數一覽表" + HIW + "----------\n" + NOR,this_player());
   for(i=0;i<sizeof(obj);i++)
   {
     if( me->query("magic-manor/"+obj[i])==0 ) continue;
-    msg=sprintf(HIM"【"HIW"%-28s"HIM"】"NOR"共殺"HIM"【"HIW"%2d"HIM"】"NOR"次。\n",to_chinese(obj[i]),me->query("magic-manor/"+obj[i]));
+    msg=sprintf(HIM + "【" + HIW + "%-28s" + HIM + "】" + NOR + "共殺" + HIM + "【" + HIW + "%2d" + HIM + "】" + NOR + "次。\n",to_chinese(obj[i]),me->query("magic-manor/"+obj[i]));
     write(msg);
   }
   return 1;

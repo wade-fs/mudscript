@@ -36,7 +36,7 @@ void invocation(object who)
   int i,k;
   object *enemy,mob;
   mob=this_object();
-  message("vision",NOR+name()+NOR"說道：「我來囉!!讓我來幫你!!\n"NOR,environment(),this_object() );
+  message("vision",NOR+name()+NOR"說道：「我來囉!!讓我來幫你!!\n" + NOR,environment(),this_object() );
   enemy = who->query_enemy();
   i = sizeof(enemy);
   while(i--)
@@ -107,13 +107,13 @@ void unconcious()
   object me=query_temp("last_damage_from");
   if( me && this_object() ) {
     me->add("killgrow/bee_sparrow",1);
-    message_vision (HIB"我可憐的朋友！$N被淡情悠的花香旋繞，悠然的消失了!!\n" NOR, this_object());
+    message_vision (HIB + "我可憐的朋友！$N被淡情悠的花香旋繞，悠然的消失了!!\n" + NOR, this_object());
   }
   destruct(this_object());
 }
 
 void leave()
 {
-  message_vision (HIB"$N拍拍翅膀，輕快地飛走了!!\n" NOR, this_object());
+  message_vision (HIB + "$N拍拍翅膀，輕快地飛走了!!\n" + NOR, this_object());
   destruct(this_object());
 }

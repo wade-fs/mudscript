@@ -6,7 +6,7 @@ string show();
 
 void create ()
 {
-        set("short",YEL"元神精煉房"NOR);
+        set("short",YEL + "元神精煉房" + NOR);
 	set( "build", 24 );
         set("long", @LONG
 一踏入門檻，敲打重物的聲音不絕於耳，青銅製的鍋爐，裡面並
@@ -44,12 +44,12 @@ int a,b,c,d,e,f;
         e = me->query("refine/common/move");
         f = me->query("refine/common/parry");
 
-        tell_object(me,HIY"
+        tell_object(me,HIY + "
   元 神 "+a+" 個        精煉等級 "+b+" 級       精煉內力 "+c+" 級
 
  精煉輕功\ "+d+" 級      精煉行動 "+e+" 級       精煉招架 "+f+" 級
 
-\n"NOR,me);
+\n" + NOR,me);
 return "紙上面模糊的記載著這些..\n\n";
 }
 

@@ -7,7 +7,7 @@ inherit COMBINED_ITEM;
 void create()
 {
   seteuid(getuid());
-  set_name(HIC"千年天山雪蓮"NOR, ({"force item","item"}) );
+  set_name(HIC + "千年天山雪蓮" + NOR, ({"force item","item"}) );
   set("long",
     "此物乃是吸收千年天地精華精華的神藥之神藥，可以瞬間恢復內力。\n"+
     "此要須經藥師調配(check_item force item)，方得食用(eat pill)。\n");

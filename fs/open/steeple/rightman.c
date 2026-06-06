@@ -16,7 +16,7 @@ set("inquiry",([
 ]));
 set("chat_chance", 10);
 set("chat_msg", ({
-HIY"右銅門嘴巴歪來歪去，看起來似乎很無聊。\n"NOR,
+HIY + "右銅門嘴巴歪來歪去，看起來似乎很無聊。\n" + NOR,
 }));
 
 setup();

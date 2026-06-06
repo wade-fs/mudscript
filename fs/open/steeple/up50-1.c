@@ -31,8 +31,8 @@ string moveout()
 {
 object me;
 me=this_player();
-tell_object(me,HIW"
-這是一個玻璃柱狀的空柱，旁邊有一些按鈕(button)，你可以按下去。\n"NOR);
+tell_object(me,HIW + "
+這是一個玻璃柱狀的空柱，旁邊有一些按鈕(button)，你可以按下去。\n" + NOR);
 return "\n";
 }
 
@@ -53,7 +53,7 @@ return 1;
 }
 else
 {
-message_vision(HIW"$N緩緩走進了玻璃柱狀內。\n"NOR,me);
+message_vision(HIW + "$N緩緩走進了玻璃柱狀內。\n" + NOR,me);
 me->move(__DIR__"moveroom");
 return 1;
 }

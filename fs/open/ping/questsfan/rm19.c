@@ -46,8 +46,8 @@ tell_object(who,"\n你仔細搜索，終於找到一個隱密的入口。\n\n");
 int valid_leave(object who,string dir){
    if(dir=="search" && query("class")!="scholar")
      {
-     message_vision(HIC"一陣駭人詭異的聲音對$N說道:尊天洞天
-豈是讓人隨意進入的地方?還不快滾!!\n"NOR,who);
+     message_vision(HIC + "一陣駭人詭異的聲音對$N說道:尊天洞天
+豈是讓人隨意進入的地方?還不快滾!!\n" + NOR,who);
        return notify_fail("一陣駭人詭異的聲音對$N說道:尊天洞天豈是讓人
 隨意進入的地方?還不快滾!!\n");
      }

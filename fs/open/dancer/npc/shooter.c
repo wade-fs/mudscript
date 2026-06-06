@@ -7,7 +7,7 @@ inherit SSERVER;
 
 void create()
 {
-  set("title",HIC"天弓"HIW"開霧"NOR);
+  set("title",HIC + "天弓" + HIW + "開霧" + NOR);
 	set_name("神秘箭客", ({"mystery shooter","shooter"}));
 	set("age",75);
 	set("long","謎一般的神秘男子。\n");
@@ -104,7 +104,7 @@ void greeting( object ob )
     {
       if(ob->query("combat_exp") > 5000000) 
       {
-      write( HIY"神秘箭客說道:死吧....漢人\n"NOR ); 
+      write( HIY + "神秘箭客說道:死吧....漢人\n" + NOR ); 
       command("follow "+ob->query("id"));
       set("class","fighter");
       command("exert roar");
@@ -160,7 +160,7 @@ void heart_beat()
               if(!enemy[i]) continue;
               if(environment(me) == environment(enemy[i]))
               {
-			message_vision(HIW"$N眼露兇光，隨著本身殺意的提升『"HIR"邪箭"HIC"無極"HIW"』之招頓然而出，剎時天地變色，血染塵埃。\n"+NOR,me,enemy[i]);
+			message_vision(HIW + "$N眼露兇光，隨著本身殺意的提升『" + HIR + "邪箭" + HIC + "無極" + HIW + "』之招頓然而出，剎時天地變色，血染塵埃。\n"+NOR,me,enemy[i]);
 			enemy[i]->receive_damage("kee", enemy[i]->query("max_kee",1)/15,me);
             enemy[i]->receive_wound("sen", enemy[i]->query("max_sen",1)/20,me);
 //            enemy[i]->receive_wound("gin", enemy[i]->query("max_gin",1)/20,me);
@@ -176,7 +176,7 @@ void heart_beat()
               if(!enemy[i]) continue;
               if(environment(me) == environment(enemy[i]))
               {
-              message_vision(HIW"天地間忽然竄起陣陣火光，$N唸道『"HIG"天"HIW"、"HIM"離火"HIW"、"HIY"一字"HIR"血"HIY"箭"HIW"』化成一道強烈的箭芒貫穿$n。\n"+NOR,me,enemy[i]);
+              message_vision(HIW + "天地間忽然竄起陣陣火光，$N唸道『" + HIG + "天" + HIW + "、" + HIM + "離火" + HIW + "、" + HIY + "一字" + HIR + "血" + HIY + "箭" + HIW + "』化成一道強烈的箭芒貫穿$n。\n"+NOR,me,enemy[i]);
               enemy[i]->receive_wound("kee", enemy[i]->query("max_kee",1)/20,me);
               enemy[i]->receive_damage("sen", enemy[i]->query("max_sen",1)/20,me);
               enemy[i]->receive_damage("gin", enemy[i]->query("max_gin",1)/20,me);
@@ -190,7 +190,7 @@ void heart_beat()
               if(!enemy[i]) continue;
               if(environment(me) == environment(enemy[i]))
               {
-message_vision(HIW"$N全身內力不斷的注入箭中，使出一招『"HIB"箭霸四方"HIW"』，箭氣中挾帶十成功\力奮力射向$n。\n"+NOR,me,enemy[i]);
+message_vision(HIW + "$N全身內力不斷的注入箭中，使出一招『" + HIB + "箭霸四方" + HIW + "』，箭氣中挾帶十成功\力奮力射向$n。\n"+NOR,me,enemy[i]);
               enemy[i]->receive_wound("kee", 2500,me);
 //             enemy[i]->receive_wound("sen", enemy[i]->query("max_sen",1)/15,me);
               enemy[i]->receive_wound("gin", enemy[i]->query("max_gin",1)/15,me);
@@ -204,7 +204,7 @@ message_vision(HIW"$N全身內力不斷的注入箭中，使出一招『"HIB"箭
               if(!enemy[i]) continue;
               if(environment(me) == environment(enemy[i]))
               {
-message_vision(HIW"$N弓朝天指，『"HIY"無極"HIG"箭氣"HIW"』吸收天地靈氣齊聚自身，宏大的箭勁配合凌厲的箭氣迅速射中$n。\n"+NOR,me,enemy[i]);
+message_vision(HIW + "$N弓朝天指，『" + HIY + "無極" + HIG + "箭氣" + HIW + "』吸收天地靈氣齊聚自身，宏大的箭勁配合凌厲的箭氣迅速射中$n。\n"+NOR,me,enemy[i]);
               enemy[i]->receive_wound("kee", enemy[i]->query("max_kee",1)/10,me);
               enemy[i]->receive_wound("sen", enemy[i]->query("max_sen",1)/15,me);
               enemy[i]->receive_wound("gin", enemy[i]->query("max_gin",1)/15,me);
@@ -218,7 +218,7 @@ message_vision(HIW"$N弓朝天指，『"HIY"無極"HIG"箭氣"HIW"』吸收天�
               if(!enemy[i]) continue;
               if(environment(me) == environment(enemy[i]))
               {
-              message_vision(HIR"血"HIY"披天色"HIW"，"HIR"魂"HIG"散四方"HIW"，$N體內『"HIR"血箭"HIB"魔"HIY"氣"HIW"』破體而出造成大地崩裂，江河逆流，$n瞬間遭血氣掩沒。\n"+NOR,me,enemy[i]);
+              message_vision(HIR + "血" + HIY + "披天色" + HIW + "，" + HIR + "魂" + HIG + "散四方" + HIW + "，$N體內『" + HIR + "血箭" + HIB + "魔" + HIY + "氣" + HIW + "』破體而出造成大地崩裂，江河逆流，$n瞬間遭血氣掩沒。\n"+NOR,me,enemy[i]);
               enemy[i]->receive_damage("kee", enemy[i]->query("max_kee",1)/15,me);
               enemy[i]->receive_wound("sen", enemy[i]->query("max_sen",1)/10,me);
               enemy[i]->receive_wound("gin", enemy[i]->query("max_gin",1)/10,me);
@@ -232,12 +232,12 @@ message_vision(HIW"$N弓朝天指，『"HIY"無極"HIG"箭氣"HIW"』吸收天�
               if(enemy[i])
               if(environment(me) == environment(enemy[i]))
               {
-		message_vision(HIR"$N高喊:該死的漢人...看我的無極箭招連擊。\n"+NOR,me,enemy[i]);
-		message_vision(HIW"$N眼露兇光，隨著本身殺意的提升『"HIR"邪箭"HIC"無極"HIW"』之招頓然而出，剎時天地變色，血染塵埃。\n"+NOR,me,enemy[i]);
-		message_vision(HIW"天地間忽然竄起陣陣火光，$N唸道『"HIG"天"HIW"、"HIM"離火"HIW"、"HIY"一字"HIR"血"HIY"箭"HIW"』化成一道強烈的劍氣貫穿$n。\n"+NOR,me,enemy[i]);
-		message_vision(HIW"$N全身內力不斷的注入箭中，使出一招『"HIB"箭霸四方"HIW"』，箭氣中挾帶十成功\力奮力射向$n。\n"+NOR,me,enemy[i]);
-		message_vision(HIW"$N弓朝天指，『"HIY"無極"HIG"箭氣"HIW"』吸收天地靈氣齊聚自身，宏大的箭勁配合凌厲的箭氣迅速射中$n。\n"+NOR,me,enemy[i]);
-		message_vision(HIR"血"HIY"披天色"HIW"，"HIR"魂"HIG"散四方"HIW"，$N體內『"HIR"血箭"HIB"魔"HIY"氣"HIW"』破體而出造成大地崩裂，江河逆流，$n瞬間遭血氣掩沒。\n"+NOR,me,enemy[i]);
+		message_vision(HIR + "$N高喊:該死的漢人...看我的無極箭招連擊。\n"+NOR,me,enemy[i]);
+		message_vision(HIW + "$N眼露兇光，隨著本身殺意的提升『" + HIR + "邪箭" + HIC + "無極" + HIW + "』之招頓然而出，剎時天地變色，血染塵埃。\n"+NOR,me,enemy[i]);
+		message_vision(HIW + "天地間忽然竄起陣陣火光，$N唸道『" + HIG + "天" + HIW + "、" + HIM + "離火" + HIW + "、" + HIY + "一字" + HIR + "血" + HIY + "箭" + HIW + "』化成一道強烈的劍氣貫穿$n。\n"+NOR,me,enemy[i]);
+		message_vision(HIW + "$N全身內力不斷的注入箭中，使出一招『" + HIB + "箭霸四方" + HIW + "』，箭氣中挾帶十成功\力奮力射向$n。\n"+NOR,me,enemy[i]);
+		message_vision(HIW + "$N弓朝天指，『" + HIY + "無極" + HIG + "箭氣" + HIW + "』吸收天地靈氣齊聚自身，宏大的箭勁配合凌厲的箭氣迅速射中$n。\n"+NOR,me,enemy[i]);
+		message_vision(HIR + "血" + HIY + "披天色" + HIW + "，" + HIR + "魂" + HIG + "散四方" + HIW + "，$N體內『" + HIR + "血箭" + HIB + "魔" + HIY + "氣" + HIW + "』破體而出造成大地崩裂，江河逆流，$n瞬間遭血氣掩沒。\n"+NOR,me,enemy[i]);
 		enemy[i]->receive_damage("kee", 3000,me);
 		enemy[i]->receive_wound("sen", enemy[i]->query("max_sen",1)/10,me);
 		enemy[i]->receive_wound("gin", enemy[i]->query("max_gin",1)/10,me);
@@ -286,24 +286,24 @@ void die()
     ob=new("/open/doctor/doctor_book/obj/scrap");
     ob->set("sort","奎");
     ob->move(winner);
-    message_vision(YEL"\n從神秘箭客的身上掉下了一塊靈魂碎片!!\n"NOR,winner);
+    message_vision(YEL + "\n從神秘箭客的身上掉下了一塊靈魂碎片!!\n" + NOR,winner);
   }
   else if(winner && winner->query_temp("not_robot") && random(1000)<125) {
     ob=new("/open/doctor/doctor_book/obj/scrap");
     ob->set("sort","奎");
     ob->move(winner);
-    message_vision(YEL"\n從神秘箭客的身上掉下了一塊靈魂碎片!!\n"NOR,winner);
+    message_vision(YEL + "\n從神秘箭客的身上掉下了一塊靈魂碎片!!\n" + NOR,winner);
   }
 
 	if(j==0)
 	{
 	  new("/open/dancer/obj/dragon_gem")->move(winner);
-	  message_vision(HIM"\n從神秘箭客的身上掉下了一塊玉佩!!\n"NOR,winner);
+	  message_vision(HIM + "\n從神秘箭客的身上掉下了一塊玉佩!!\n" + NOR,winner);
           write_file("/log/get_feq",sprintf("%s(%s) 拿到force gem於 %s\n",
 	  winner->name(1),winner->query("id"),ctime(time())));
 	 }
-	  tell_object(users(),HIC"\n\n神秘箭客吼道：\n\n\t"HIW"想不到我流亡邊疆苦練多年依然不是"+winner->name()+"的對手！\n\n\t看來中原的能人不少，不過我們不會就此罷休的！\n\n"NOR);
-	  message_vision(HIY"\n"+winner->name()+"打死神秘箭客得到一百一十一點戰功\!!\n"NOR,winner);
+	  tell_object(users(),HIC + "\n\n神秘箭客吼道：\n\n\t" + HIW + "想不到我流亡邊疆苦練多年依然不是"+winner->name()+"的對手！\n\n\t看來中原的能人不少，不過我們不會就此罷休的！\n\n" + NOR);
+	  message_vision(HIY + "\n"+winner->name()+"打死神秘箭客得到一百一十一點戰功\!!\n" + NOR,winner);
 	write_file("/log/get_war/shooter",sprintf("%s(%s)	得到一百一十一點戰功\於 %s\n",
 	  winner->name(1),winner->query("id"),ctime(time())));
 	  winner->add("war_score",111);

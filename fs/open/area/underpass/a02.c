@@ -3,7 +3,7 @@ inherit ROOM;
 
 void create()
 {
-	set("short",YEL"古代遺跡=亂葬室"NOR);
+	set("short",YEL + "古代遺跡=亂葬室" + NOR);
 	set("long",@LONG
     一大堆的骨骸就在你的腳底下，這裡猶如骨骸堆置處一般，所有
 的骨骸加起來，少說也有上千人的份量，只不過並非全部都是人類的

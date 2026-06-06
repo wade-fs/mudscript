@@ -7,7 +7,7 @@ int be_free=0;
 void create ()
 {
   seteuid(getuid());   
-        set("short",MAG"地底牢籠"NOR);
+        set("short",MAG + "地底牢籠" + NOR);
 	set( "build", 262 );
         set("long", @LONG
 你來到一間漆黑無比的房間，空氣中全是瀰漫著腐屍和膿血的味道
@@ -48,7 +48,7 @@ int free_dragon(string str)
 if(be_free == 1) return notify_fail("什麼東西都沒有，你想做什麼。\n");
   if( ob->query("force") > 1500)
  {
-  message_vision(HIW"$N運起全身內勁震碎"HIB"玄鐵鎖銬\n"NOR,ob);
+  message_vision(HIW + "$N運起全身內勁震碎" + HIB + "玄鐵鎖銬\n" + NOR,ob);
 be_free = 1;
 ob->set("kill_dragon",1);
   write("\n");
@@ -59,8 +59,8 @@ ob->set("kill_dragon",1);
   }
   else
   {
-   message_vision(HIW"$N運起內勁想要震碎"HIB"玄鐵鎖銬"HIW"，由於內力
-不足反而被鎖銬震傷!!\n"NOR,ob);
+   message_vision(HIW + "$N運起內勁想要震碎" + HIB + "玄鐵鎖銬" + HIW + "，由於內力
+不足反而被鎖銬震傷!!\n" + NOR,ob);
    ob->add("kee",-150);
    return 0;
   }
@@ -68,14 +68,14 @@ ob->set("kill_dragon",1);
 int msg1(object ob)
 {
  message_vision("\n",ob);
- message_vision(HIM"\n只見黃金甲龍鱗片鼓張 ,早已死絕的眼神突然間爆射出精光\n"NOR,ob);
+ message_vision(HIM + "\n只見黃金甲龍鱗片鼓張 ,早已死絕的眼神突然間爆射出精光\n" + NOR,ob);
   call_out("msg2",3,ob);
   return 1;
 }
 int msg2(object ob)
 {
   object ob1;
-  message_vision(HIY"\n黃金甲龍狂吼了一聲 ,緩緩的立起龐大的身軀\n"NOR,ob);
+  message_vision(HIY + "\n黃金甲龍狂吼了一聲 ,緩緩的立起龐大的身軀\n" + NOR,ob);
  
   
   ob1=new("/open/mogi/dragon/npc/dragon-gold");
@@ -86,7 +86,7 @@ int msg2(object ob)
   ob1->set("kill_dragon",1);
   if(ob1) 
   {
-   message("mud",HIB"\n\n  大地劇烈震動 ,海水翻騰不已 ,天劫來臨了 ...\n\n\n\n"NOR,users());
+   message("mud",HIB + "\n\n  大地劇烈震動 ,海水翻騰不已 ,天劫來臨了 ...\n\n\n\n" + NOR,users());
    call_out("msg3",3,ob,ob1);
   }
   return 1;
@@ -95,16 +95,16 @@ int msg3(object ob,object ob1)
 { 
   if(ob1)
   { 
-   message("mud",HIR"    自遙遠"CYN"魔界"HIR"傳來的陣陣驚人吼聲 ,人們開始慌亂...\n
-          地上的鳥獸到處流竄 ,世界當真已走到盡頭了?!\n\n\n"NOR,users());
+   message("mud",HIR + "    自遙遠" + CYN + "魔界" + HIR + "傳來的陣陣驚人吼聲 ,人們開始慌亂...\n
+          地上的鳥獸到處流竄 ,世界當真已走到盡頭了?!\n\n\n" + NOR,users());
    call_out("msg4",3,ob,ob1);
   }
   return 1;
  }
 int msg4(object ob,object ob1)
 {
-  if(ob1) message("mud",HIW"\n  地上颳起了一陣陣的"+HIB+"狂風"+HIW+" ,空中一道道"+HIB+"電光"+HIW+"交加不息...\n
-  家園被洪水沖走的人們正默默的祈導著 ,遠赴魔界的"+HIY+"勇者"+HIW+"呀...\n"NOR,users());
+  if(ob1) message("mud",HIW + "\n  地上颳起了一陣陣的"+HIB+"狂風"+HIW+" ,空中一道道"+HIB+"電光"+HIW+"交加不息...\n
+  家園被洪水沖走的人們正默默的祈導著 ,遠赴魔界的"+HIY+"勇者"+HIW+"呀...\n" + NOR,users());
   return 1;
 }
 

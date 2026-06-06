@@ -4,7 +4,7 @@ inherit ROOM;
 
 void create ()
 {
-  set ("short", HIW"遺忘"HIY""YEL"礦坑"NOR);
+  set ("short", HIW + "遺忘" + HIY + "" + YEL + "礦坑" + NOR);
   set ("long", @LONG
 這裡在從前曾是礦產豐富的淘金聖地，然而自從長白山出現四大
 山精之後，所有的礦工及聚落一夕間全部消失，留下的只有代表過往
@@ -28,7 +28,7 @@ void init()
  object me = this_player();
  if(me->query("attribute") != "ground" && random(2) == 1)
   {
-    message_vision(HIM"地底湧出的惡臭沼氣使$N感到一陣暈眩。\n"NOR,me);
+    message_vision(HIM + "地底湧出的惡臭沼氣使$N感到一陣暈眩。\n" + NOR,me);
     me->unconcious();
   }
 }

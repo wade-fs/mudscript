@@ -3,7 +3,7 @@
 inherit ROOM;                                           
 #include <ansi.h>                                       
 void create () {                                        
-set ("short", MAG"牢籠入口"NOR);                    
+set ("short", MAG + "牢籠入口" + NOR);                    
         set ("long","                                   
 這裡是谷中的禁地 ,平日除了谷主之外沒有任何人
 可以進入裡面 ,四處漆黑一片 ,空氣中到處飄散著腥
@@ -53,8 +53,8 @@ int do_collide(string str){
                                         }                                       
                                                                                 
             me->add("force",-2000);                                             
-            message_vision(HIY"$N運起全身內力一撞，柵欄被撞出一個缺口!!\n",me);                                                                            
-            tell_object(me,HIR"\n你耗盡全身內力,幾欲虛脫。\n"NOR);              
+            message_vision(HIY + "$N運起全身內力一撞，柵欄被撞出一個缺口!!\n",me);                                                                            
+            tell_object(me,HIR + "\n你耗盡全身內力,幾欲虛脫。\n" + NOR);              
             set("exits/enter",__DIR__"f-5");                                  
                   set_temp("have_open",1);                                      
                   remove_call_out("do_closed");                                 

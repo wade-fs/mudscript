@@ -30,13 +30,13 @@ int valid_leave(object me, string dir)
 {
   string wind_rain;
   if(dir=="enter" && present("wind_rain",me)) {
-    message_vision(HIY"雨護衛說：既然閣下持有本樓的風雨令，就是本樓的人。\n"NOR,me);
+    message_vision(HIY + "雨護衛說：既然閣下持有本樓的風雨令，就是本樓的人。\n" + NOR,me);
     return 1;
   }
 
   if(dir=="enter" && present("rain guard",environment(me)))
   {
-    message_vision(HIY"雨護衛說：對不起，這裡不准外人進出。\n"NOR,me);
+    message_vision(HIY + "雨護衛說：對不起，這裡不准外人進出。\n" + NOR,me);
     return 0;
   }
   return 1;

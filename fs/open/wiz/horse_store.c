@@ -3,7 +3,7 @@
 inherit ROOM;
 int do_list();
 void create() {
-set("short",CYN"專門座騎集散中心"NOR);
+set("short",CYN + "專門座騎集散中心" + NOR);
 set("long",@LONG
 
 這裡是傳說中的專門座騎發散中心。只有傳說中的大俠方能在這裏
@@ -125,7 +125,7 @@ case "yukigirl"     :
               break;
 */
 default : return notify_fail(HIY
-"對不起!!!您不是傳說中的大俠,因此沒有專屬的座騎!!\n"NOR);
+"對不起!!!您不是傳說中的大俠,因此沒有專屬的座騎!!\n" + NOR);
         }
         if(!me->query("fs_net3/horsestby")) {
          write("由於時間拖太久了.所以補發二個替身給各位!!\n");
@@ -135,7 +135,7 @@ default : return notify_fail(HIY
         mid->move(environment(me));
         mid->set_leader(me);
         me->set_temp("get_net_horse", 1);
-        message_vision(HIW"一道白光降下!!$N的專屬座騎出現在$N之前！\n"NOR,me);
+        message_vision(HIW + "一道白光降下!!$N的專屬座騎出現在$N之前！\n" + NOR,me);
      log_file("net/horse", sprintf("%s(%s) 領取專屬座騎!!時間是%s!!\n"
      ,me->query("name"),me->query("id"),ctime(time()) ));
 }

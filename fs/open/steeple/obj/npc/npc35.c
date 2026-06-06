@@ -8,7 +8,7 @@ void create() {
    "\n湛天藍衣, 為七人之中最智者, 擅於計謀巧術, 殺人不見血.\n");
 
         set("age",3121);
-        set("title",HIW"～幻影～"NOR);
+        set("title",HIW + "～幻影～" + NOR);
         set("str",35);
         set("cor",35);
         set("race","人類");
@@ -63,14 +63,14 @@ void heart_beat()
     target=enemy[random(i)];
     if( env == environment(target) )
     {
-      message_vision(HIW"\n                        ～幻～影～心～訣～
+      message_vision(HIW + "\n                        ～幻～影～心～訣～
 
-"HIW"\n
+" + HIW + "\n
 $N身形飄忽，髮絲在風中飛動，在$n發現的瞬間，一張天羅地網早
 已交織在$n的上下 
-$N嘴角一揚，一式"HIR"「活殺天羅網」"HIW"開始啟動。只見飛髮滿天，$n猶
+$N嘴角一揚，一式" + HIR + "「活殺天羅網」" + HIW + "開始啟動。只見飛髮滿天，$n猶
 如籠中之獸任$N宰割
-\n"NOR,mob,target);
+\n" + NOR,mob,target);
       target->receive_damage("kee",1600);
 	mob->add("kee",1600);
       target->start_busy(2);
@@ -86,7 +86,7 @@ $N嘴角一揚，一式"HIR"「活殺天羅網」"HIW"開始啟動。只見飛�
 int heal_up()
 {
         if (!is_fighting() ) {
-             message_vision (HIW"系統：戰鬥停止，$N回收中，。\n"NOR, this_object ());
+             message_vision (HIW + "系統：戰鬥停止，$N回收中，。\n" + NOR, this_object ());
              destruct(this_object());
              return 1;
         }
@@ -109,17 +109,17 @@ destruct (this_object ());
 else
 if(me->query("quest/start_game")< 36)
        {
-        message_vision(HIY"
-恭喜"HIW+me->query("name")+HIY"挑戰"HIG"『"HIR"第三十五層試煉ソ塔"HIG"』"HIY"通過！！
+        message_vision(HIY + "
+恭喜"HIW+me->query("name")+HIY"挑戰" + HIG + "『" + HIR + "第三十五層試煉ソ塔" + HIG + "』" + HIY + "通過！！
 
-"HIW"希望"+me->query("name")+"能不負眾望，勇闖"HIG"『"HIY"第三十六層試煉ソ塔"HIG"』"HIW"。
-	"NOR,me);
+" + HIW + "希望"+me->query("name")+"能不負眾望，勇闖" + HIG + "『" + HIY + "第三十六層試煉ソ塔" + HIG + "』" + HIW + "。
+	" + NOR,me);
 	me->set("quest/start_game",36);
         destruct (this_object ());
        }
 {
         :: unconcious();
-	tell_object(me,HIW"系統：你已經通過測試，系統不做任何更改。\n"NOR);
+	tell_object(me,HIW + "系統：你已經通過測試，系統不做任何更改。\n" + NOR);
 	destruct(this_object());
 }
 }

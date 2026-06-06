@@ -17,7 +17,7 @@ void create()
 	set("chat_msg_combat", ({  
               (: this_object(),"heal_me" :),
               (: this_object(),"do_devide" :),
-          HIB" 小鬼憤怒地叫:    吱～ 吱～\n"NOR      }) );
+          HIB + " 小鬼憤怒地叫:    吱～ 吱～\n" + NOR      }) );
 	set_skill("dodge",30);
 	setup();               
 	add_money("coin",100);
@@ -40,7 +40,7 @@ int heal_me()
        now = max;
      }
     tell_room(environment(this_object()),
-    HIG"  突然一陣綠光自上而下罩在綠毛小鬼的身上,你發覺牠更生龍活虎了!!\n"NOR);
+    HIG + "  突然一陣綠光自上而下罩在綠毛小鬼的身上,你發覺牠更生龍活虎了!!\n" + NOR);
     return 1;
  }  
 
@@ -49,7 +49,7 @@ int do_devide()
    if( done<3)
 {
     tell_room(environment(this_object()), 
-    HIG  "   突然綠毛小鬼的身影開始模糊,慢慢地..綠毛小鬼分裂成兩隻了..!!\n"NOR);
+    HIG + "   突然綠毛小鬼的身影開始模糊,慢慢地..綠毛小鬼分裂成兩隻了..!!\n" + NOR);
     here=environment(this_object()); 
     new("/open/gsword/mob/ghost1")->move(here);
  }

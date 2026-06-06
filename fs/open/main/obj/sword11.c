@@ -6,7 +6,7 @@ object user;
 int sp;
 void create()
 {
-     set_name(HIB"連鞘古劍"NOR,({"old sword","sword"}) );
+     set_name(HIB + "連鞘古劍" + NOR,({"old sword","sword"}) );
      set_weight(5000);
      if( clonep() )
                set_default_object(__FILE__);
@@ -46,9 +46,9 @@ int do_wield(string str)
           message_vision("$N的靈性與經驗,並不足以使用此劍.\n",user);
           set_heart_beat(0);
         }else{
-          message_vision(HIW"鞘中之劍感受到$N的靈性,隨著一道青光灑然揚出,原來正是聞名天下的"HIC"倚天劍"NOR".\n"NOR,user);
+          message_vision(HIW + "鞘中之劍感受到$N的靈性,隨著一道青光灑然揚出,原來正是聞名天下的" + HIC + "倚天劍" + NOR + ".\n" + NOR,user);
 
-          set_name(HIC"倚天劍"NOR,({"et-sword","sword"}) );
+          set_name(HIC + "倚天劍" + NOR,({"et-sword","sword"}) );
 
  set("long","\n倚天劍傳聞是以寒湖玄鐵打製,其鋒芒足可分金斷玉,在武林與屠龍刀並列.\n");
           sp = my_spi;
@@ -61,7 +61,7 @@ int do_drop(string str)
    if( str=="all" || str=="sword" || str=="et-sword")
     if( query("equipped") )
      {    message_vision("$N輕輕巧巧的把劍收回腰際.\n",user);
-        set_name(HIB"連鞘古劍"NOR,({"old sword","sword"}) );
+        set_name(HIB + "連鞘古劍" + NOR,({"old sword","sword"}) );
 set("long","\n這是一柄連鞘的古劍 ,古樸的劍鞘中閃爍著異樣的寒光.\n");
 
         set_heart_beat(0);
@@ -75,7 +75,7 @@ set("long","\n這是一柄連鞘的古劍 ,古樸的劍鞘中閃爍著異樣的�
      if( query("equipped") )
      {  
   message_vision("$N輕輕巧巧的把劍收回腰際.\n",user);
-        set_name(HIB"連鞘古劍"NOR,({"old sword","sword"}) );
+        set_name(HIB + "連鞘古劍" + NOR,({"old sword","sword"}) );
 set("long","\n這是一柄連鞘的古劍 ,古樸的劍鞘中閃爍著異樣的寒光.\n");
 
         set_heart_beat(0);
@@ -89,7 +89,7 @@ int do_unwield(string str)
      {
         message_vision("$N輕輕巧巧的把劍收回腰際.\n",user);
 set("long","\n這是一柄連鞘的古劍 ,古樸的劍鞘中閃爍著異樣的寒光.\n");
-       set_name(HIB"連鞘古劍"NOR,({"old sword","sword"}) );
+       set_name(HIB + "連鞘古劍" + NOR,({"old sword","sword"}) );
         set_heart_beat(0);
      }
 }
@@ -98,7 +98,7 @@ int do_auc(string str)
    if( str=="all" || str=="sword" || str=="et-sword")
      if( query("equipped") )
      {    message_vision("$N輕輕巧巧的把劍收回腰際.\n",user);
-        set_name(HIB"連鞘古劍"NOR,({"old sword","sword"}) );
+        set_name(HIB + "連鞘古劍" + NOR,({"old sword","sword"}) );
 set("long","\n這是一柄連鞘的古劍 ,古樸的劍鞘中閃爍著異樣的寒光.\n");
         set_heart_beat(0);
      }
@@ -123,7 +123,7 @@ void heart_beat()
        ob=enemy[i]->query_temp("weapon");
        if( !ob || random(10) > 6 )
        {
-         message_vision("$N大喊"HIY"【 "HIB"倚天不出  誰與爭鋒 !! "HIY"】"NOR,
+         message_vision("$N大喊" + HIY + "【 " + HIB + "倚天不出  誰與爭鋒 !! " + HIY + "】" + NOR,
                          user);
 
          for(j=0;j<=2;j++)
@@ -136,8 +136,8 @@ void heart_beat()
             (!userp(enemy[i]) && random(10) > 8) )
         {
           ob->unequip();
-          message_vision("只聞"HIW"硜然一聲,$N的"+ob->query("name")+HIW
-                             "已被倚天劍斬成兩段!!\n"NOR,enemy[i]);
+          message_vision("只聞" + HIW + "硜然一聲,$N的"+ob->query("name")+HIW
+                             "已被倚天劍斬成兩段!!\n" + NOR,enemy[i]);
           if( !ob->query("bad"))
           {
             ob->set("name", "(斷毀)" + ob->query("name"));
@@ -150,8 +150,8 @@ void heart_beat()
           enemy[i]->rest_action();
           }else{
           ob->unequip();
-          message_vision("只聞"HIC"硜然一聲,$N的"+ob->query("name")+HIC
-                             "已被倚天劍削出一道缺口!!\n"NOR,enemy[i]);
+          message_vision("只聞" + HIC + "硜然一聲,$N的"+ob->query("name")+HIC
+                             "已被倚天劍削出一道缺口!!\n" + NOR,enemy[i]);
           if( !ob->query("bad"))
           {
             ob->set("name", "(折損)" + ob->query("name"));

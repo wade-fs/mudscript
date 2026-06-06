@@ -3,7 +3,7 @@
 inherit ROOM;
 int do_list();
 void create() {
-set ("short",HIG"網聚獎品『玩家防具』發放處"NOR);
+set ("short",HIG + "網聚獎品『玩家防具』發放處" + NOR);
 set ("long","這次網聚共有將近七十位玩家參加!!!!
 網聚的獎品單請打help fs_net及help fs_net2
 此房間是用來發放玩家防具的房間
@@ -51,7 +51,7 @@ int do_get_myeq() {
               mid = new("/autoload/player-eq/pnx");
               break;
 default : return notify_fail(HIY
-"對不起!!!您不在名單之上!!\n"NOR);
+"對不起!!!您不在名單之上!!\n" + NOR);
         }
         mid->move(me);
         me->set("fs_net3/myeq", 1);

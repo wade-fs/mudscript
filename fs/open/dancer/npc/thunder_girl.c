@@ -10,7 +10,7 @@ void create()
             set("class","dancer");
             set("family/family_name","夜夢小築");
             set("nickname","四天女");
-	    set("title",HIC"雷靈使"NOR);
+	    set("title",HIC + "雷靈使" + NOR);
             set("combat_exp",5000000);
             set("attitude","heroism");
             set("age",20);
@@ -83,10 +83,10 @@ void heart_beat()
 	i=sizeof(enemy);
         if( is_fighting() ){
 	if(random(100)>70)
-     message_vision(HIC"雷姞兒眼神猛爆青光, 五雷鼎氣遊走全身!!\n"NOR,this_object());
+     message_vision(HIC + "雷姞兒眼神猛爆青光, 五雷鼎氣遊走全身!!\n" + NOR,this_object());
 	if(random(5)>2)
 	{
-     message_vision(HIR"一道落雷猛然從天空落下，擊中了在場的所有人!!\n"NOR,this_object());
+     message_vision(HIR + "一道落雷猛然從天空落下，擊中了在場的所有人!!\n" + NOR,this_object());
 	for(j=0;j<i;j++)
 	{ 
 	if (!enemy[j]->is_fighting() && enemy[j]->is_character() && !enemy[j]->is_corpse() 

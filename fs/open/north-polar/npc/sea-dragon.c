@@ -6,7 +6,7 @@ void create()
 {
 
 	set_name("海龍", ({"sea dragon","dragon"}));
-	set("title",HIC"太平洋"HIW"海神"NOR);
+	set("title",HIC + "太平洋" + HIW + "海神" + NOR);
 	set("age",24);
 	set("long","太平洋海域的海神，擁有穿梭不同空間的能力。\n");
 	set("race", "野獸");
@@ -91,7 +91,7 @@ void heart_beat()
 	          	 me->delete_busy();
 	          	 return;
 	          }
-	         message_vision(HIM"\n$N劃破一道時空縫隙，"HIB"『"HIY"黃金三角洲"HIB"』"HIM"不斷發出強大的吸扯力量。\n"NOR,me);
+	         message_vision(HIM + "\n$N劃破一道時空縫隙，" + HIB + "『" + HIY + "黃金三角洲" + HIB + "』" + HIM + "不斷發出強大的吸扯力量。\n" + NOR,me);
 	         for (i=0 ; i < j ; i++)
 	         {
 	          if(enemy[i]->is_character() && !enemy[i]->is_corpse() && living(enemy[i]) && enemy[i]->query("id")!="sea dragon" && !wizardp(enemy[i]))  
@@ -100,7 +100,7 @@ void heart_beat()
                       if(enemy[i]->query_temp("def_cold"))  enemy[i]->add("kee",-random(2000));
                     else enemy[i]->add("kee",-random(3800));
                     k = random(6);
-                    if(k >= 3)  message_vision("$n抵抗不住強大的拉力，掉進了時空縫隙之中。\n"NOR,me,enemy[i]);
+                    if(k >= 3)  message_vision("$n抵抗不住強大的拉力，掉進了時空縫隙之中。\n" + NOR,me,enemy[i]);
                     if(k==0)  enemy[i]->apply_condition("cold",12+random(9));
                     if(k==1)  enemy[i]->start_busy(2);
                     if(k==2)  enemy[i]->start_busy(1);
@@ -121,8 +121,8 @@ void heart_beat()
            {
             if(enemy[j]->query("combat_exp") < 27000000)
              {
-              tell_object(enemy[j],HIG"\n在你費盡千辛萬苦打倒海神後，你感到自身戰鬥經驗又更上一層樓了!!\n"NOR);
-              tell_object(enemy[j],GRN"你的戰鬥經驗上升 3200 點, 潛在能力上升 760 點!!\n"NOR);
+              tell_object(enemy[j],HIG + "\n在你費盡千辛萬苦打倒海神後，你感到自身戰鬥經驗又更上一層樓了!!\n" + NOR);
+              tell_object(enemy[j],GRN + "你的戰鬥經驗上升 3200 點, 潛在能力上升 760 點!!\n" + NOR);
               enemy[j]->add("combat_exp",3200);
               enemy[j]->add("potential",760);
              }
@@ -142,6 +142,6 @@ void die()
 	me = this_object();
 	room = environment(me);
 	room->set_temp("can_punch",1);
-	message_vision(HIC"\n$N冷笑道"HIW"："HIY"「"HIR"愚蠢!!準備接受海的報復吧!!"HIY"」\n"NOR,me);
+	message_vision(HIC + "\n$N冷笑道" + HIW + "：" + HIY + "「" + HIR + "愚蠢!!準備接受海的報復吧!!" + HIY + "」\n" + NOR,me);
         destruct(me);
 }

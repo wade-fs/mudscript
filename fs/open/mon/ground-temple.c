@@ -4,7 +4,7 @@ inherit ROOM;
 
 void create ()
 {
-  set ("short", YEL"山魂"HIY"嶽神"HIW"宮"NOR);
+  set ("short", YEL + "山魂" + HIY + "嶽神" + HIW + "宮" + NOR);
   set ("long", @LONG
 這裡是地底宮殿的最深處，四周的巨大石柱在此達到最高點，
 而面前的神桌上供奉著一塊巨大的彩晶礦石(color-stone)，據說是
@@ -81,14 +81,14 @@ int do_touch()
   object me = this_player();
   if(me->query_temp("ask-break-sun")==16)
   {
-   message_vision(HIM"\n五"HIC"彩"HIR"靈"HIY"光"HIW"大盛，$N非常確定這是吸收了天地靈氣的稀有礦石，要取走(take stone)嗎？\n"NOR,me);
+   message_vision(HIM + "\n五" + HIC + "彩" + HIR + "靈" + HIY + "光" + HIW + "大盛，$N非常確定這是吸收了天地靈氣的稀有礦石，要取走(take stone)嗎？\n" + NOR,me);
    return 1;
   }
   if(me->query("attribute") == "ground")
   {
-  	message_vision(YEL"宮殿上部突然開了一個大洞，$N緩緩浮上。\n"NOR,me);
+  	message_vision(YEL + "宮殿上部突然開了一個大洞，$N緩緩浮上。\n" + NOR,me);
   	me->move("/open/common/room/inn");
-  	message_vision(YEL"突然一陣搖晃，地上開了一個大洞，$N由洞中緩緩浮起。\n"NOR,me);
+  	message_vision(YEL + "突然一陣搖晃，地上開了一個大洞，$N由洞中緩緩浮起。\n" + NOR,me);
   }else{
         write("這塊彩晶奇石真的很美。\n");
         }
@@ -113,7 +113,7 @@ int do_blend(string str)
 	  }else{
 	    if( ob2->query("specialitem") == 1 && ob1->query("spirit") == 1 )
 	    {
-	    message_vision("\n"+ob1->query("name")+YEL"和"NOR+ob2->query("name")+YEL"感受到一股無形的力量，緩緩飄浮在空中，\n四周的塵土和飛沙不停的注入"NOR+ob1->query("name")+YEL"和"NOR+ob2->query("name")+YEL"。\n"NOR,me);
+	    message_vision("\n"+ob1->query("name")+YEL"和"NOR+ob2->query("name")+YEL"感受到一股無形的力量，緩緩飄浮在空中，\n四周的塵土和飛沙不停的注入"NOR+ob1->query("name")+YEL"和"NOR+ob2->query("name")+YEL"。\n" + NOR,me);
 	    me->force_me("change unarmed");
 	    me->start_busy(10);
 	    call_out("compose1",5,me);
@@ -133,7 +133,7 @@ int compose1(object me)
 	ob=this_object();
 	ob1=present("ground-spirit",me);
 	ob2=present("soil-emblem",me);
-	message_vision("\n"+ob1->query("name")+NOR+YEL"和"NOR+ob2->query("name")+NOR+YEL"吸收的砂石飛屑環繞在"HIY"$N"NOR+YEL"四周圍，\n幾乎快將$N和這做地底宮殿融為一體。\n"NOR,me);
+	message_vision("\n"+ob1->query("name")+NOR+YEL"和"NOR+ob2->query("name")+NOR+YEL"吸收的砂石飛屑環繞在" + HIY + "$N"NOR+YEL"四周圍，\n幾乎快將$N和這做地底宮殿融為一體。\n" + NOR,me);
 	me->start_busy(10);
 	call_out("compose2",5,me);
 	return 1;
@@ -155,9 +155,9 @@ int compose2(object me)
 	  ob3 = aob[j];
 	}
         write_file("/log/sky/powerup_claw",sprintf("%s(%s)使用了%s和%s加強了%s的型態於 %s\n",me->name(1),me->query("id"),ob1->query("name"),ob2->query("name"),ob3->query("name"),ctime(time())));
-	message_vision(YEL"\n只見"+ob3->query("name")+NOR+YEL"將四周圍所有的飛塵全部吸收而轉變為一個完全的形態！\n"NOR,me);
+	message_vision(YEL + "\n只見"+ob3->query("name")+NOR+YEL"將四周圍所有的飛塵全部吸收而轉變為一個完全的形態！\n" + NOR,me);
 	me->set("weapon/ground-full",1);	//融合完畢後，武器呈現最完美狀態給給定的query。
-	message_vision(ob1->query("name")+NOR+YEL"和"NOR+ob2->query("name")+NOR+YEL"所蘊藏的能量在被吸收殆盡後，也化為虛無消失無蹤。\n"NOR,me);
+	message_vision(ob1->query("name")+NOR+YEL"和"NOR+ob2->query("name")+NOR+YEL"所蘊藏的能量在被吸收殆盡後，也化為虛無消失無蹤。\n" + NOR,me);
 	destruct(ob1);
 	destruct(ob2);
 	me->delete_busy();
@@ -171,7 +171,7 @@ int do_take(string str)
   if(!me->query_temp("ask-break-sun")) return 0;
   if(me->query_temp("ask-break-sun")==16)
   {
-   message_vision(HIR"\n正當$N要取走礦石的時候，把守神宮的護衛現身攔阻。\n"NOR,me);
+   message_vision(HIR + "\n正當$N要取走礦石的時候，把守神宮的護衛現身攔阻。\n" + NOR,me);
    ob = new("/open/marksman/break-sun/npc/mount-god");
    ob->move(environment(me));
    ob->kill_ob(me);
@@ -185,7 +185,7 @@ int do_take(string str)
 	 write("神官大怒：「有我在，你休想得逞!!」");
 	 return 1;
 	}
-   message_vision(HIY"\n$N順利取下一小塊"HIM"五"HIC"彩"HIW"原石"HIY"。\n"NOR,me);
+   message_vision(HIY + "\n$N順利取下一小塊" + HIM + "五" + HIC + "彩" + HIW + "原石" + HIY + "。\n" + NOR,me);
    ob = new("/open/marksman/break-sun/obj/color-stone");
    ob->move(me);
    me->set_temp("ask-break-sun",18);

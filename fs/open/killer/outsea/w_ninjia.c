@@ -55,7 +55,7 @@ void heart_beat()
  {
  if (enemy[j]->is_character() && !enemy[j]->is_corpse() && living(enemy[j]) && enemy[j]->query("id")!="water ninja")
      {   
-     message_vision(HIR"$N對著$n大叫: 入侵者去死吧!!\n"NOR,mob,enemy[j]);
+     message_vision(HIR + "$N對著$n大叫: 入侵者去死吧!!\n" + NOR,mob,enemy[j]);
      enemy[j]->kill_ob(mob);
      mob->kill_ob(enemy[j]);
      }

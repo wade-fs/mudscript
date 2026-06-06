@@ -2,34 +2,34 @@
 #include <ansi.h>
 inherit NPC;
 mapping *action = ({
-([ "action" :"$N"HIY"兇性大發 ,銳利的龍爪向$n狠狠的抓了過去 ,似要撕裂$n"NOR"。",
+([ "action" :"$N" + HIY + "兇性大發 ,銳利的龍爪向$n狠狠的抓了過去 ,似要撕裂$n" + NOR + "。",
              "dodge"      :  -70,
              "parry"      :  -65,
              "damage"     :  60,
              "damage_type":  "抓傷",
            ]),
-([ "action" :"$N"HIY"迅速撲至$n面前 ,滿天爪影朝$n猛擊下去 ,$n當場鮮血飛濺"NOR"。
+([ "action" :"$N" + HIY + "迅速撲至$n面前 ,滿天爪影朝$n猛擊下去 ,$n當場鮮血飛濺" + NOR + "。
 ",
              "dodge"      :  -40,
              "parry"      :  -75,
              "damage"     :  70,
              "damage_type":  "抓傷",
             ]),
-([ "action" :"$N"HIY"將全身力量集中在尾巴 ,對準$n身上狠狠的掃去 ,好不驚人"NOR"。
+([ "action" :"$N" + HIY + "將全身力量集中在尾巴 ,對準$n身上狠狠的掃去 ,好不驚人" + NOR + "。
 ",
              "dodge"      :  -40,
              "parry"      :  -75,
              "damage"     :  70,
              "damage_type":  "內傷",
             ]),
-([ "action" :"$N"HIY"朝$n猛撞了過去 ,千斤重的身體 ,挾著萬均之勢 ,令人髮指"NOR"。
+([ "action" :"$N" + HIY + "朝$n猛撞了過去 ,千斤重的身體 ,挾著萬均之勢 ,令人髮指" + NOR + "。
 ",
              "dodge"      :  -40,
              "parry"      :  -75,
              "damage"     :  75,
              "damage_type":  "撞傷",
             ]),
-([ "action":"$N"HIY"一聲狂吼 ,從口中噴出"HIR" 烈燄 "HIY"將$n的身體整個攏罩住"NOR
+([ "action":"$N" + HIY + "一聲狂吼 ,從口中噴出" + HIR + " 烈燄 " + HIY + "將$n的身體整個攏罩住" + NOR
 "。",
              "dodge"      : 40,
              "parry"      :  -60,
@@ -40,7 +40,7 @@ mapping *action = ({
 
 void create()
 {
-     set_name(HIY"黃金甲龍"NOR ,({"golden dragon", "dragon"}) );
+     set_name(HIY + "黃金甲龍" + NOR ,({"golden dragon", "dragon"}) );
      set("race", "野獸");
      set("title", "炎龍谷守護者");
      set("age",9972);
@@ -86,7 +86,7 @@ int do_cmd(string str){
  ob=this_object();
  king=present( "dragon",environment(ob) );
  if(str=="askgod dragon" || str=="askgod golden dragon"){
- write(HIY"黃金甲龍：「求神問卜!?先把我殺死。」去死吧!!\n"NOR);
+ write(HIY + "黃金甲龍：「求神問卜!?先把我殺死。」去死吧!!\n" + NOR);
  command("perform fireforce.gold-fire");
  king->kill_ob(who);
  return 1;                                                 
@@ -104,7 +104,7 @@ void heart_beat()
     {
       enemy = me->query_enemy();
       i=random(sizeof(enemy));
-      message_vision(HIY+"黃金甲龍"MAG"狠狠的咬住$N的頸子吸血!!!\n"+NOR,enemy[i]
+      message_vision(HIY+"黃金甲龍" + MAG + "狠狠的咬住$N的頸子吸血!!!\n"+NOR,enemy[i]
 );
       enemy[i]->receive_damage("kee", 70,me);
       me->receive_curing("kee",100);

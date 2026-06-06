@@ -163,12 +163,12 @@ void init()
 int do_exchange( object me )
 {
 	if( me->query("clan/exchange") >= (me->query("clan/war")/1000) ) {
-		tell_object(me, HIY"鄭總管說道: 您目前戰績為 "+me->query("clan/war")+" 點, 還不到獎勵的標準。\n"NOR);
+		tell_object(me, HIY + "鄭總管說道: 您目前戰績為 "+me->query("clan/war")+" 點, 還不到獎勵的標準。\n" + NOR);
 		return 1;
 	}
 	me->add( "clan/exchange", 1 );
 	me->add( "standby", 1 );
-	tell_object(me, HIY"鄭總管說道: 恭喜您獲得替身一個, 在緊要關頭他會替您遊地府, 代您走一趟的。\n"NOR);
+	tell_object(me, HIY + "鄭總管說道: 恭喜您獲得替身一個, 在緊要關頭他會替您遊地府, 代您走一趟的。\n" + NOR);
 	return 1;
 }
 
@@ -187,9 +187,9 @@ int do_list( object me )
 				count++;
 			}
 	if( count==0 )		
-		printf( HIC"無任何幫派發起戰爭, 狂想空間瀰漫著祥和之氣。\n"NOR );
+		printf( HIC + "無任何幫派發起戰爭, 狂想空間瀰漫著祥和之氣。\n" + NOR );
 	else
-		printf( HIR"你察覺到%s股濃烈的殺氣...\n"NOR, CHINESE_D->chinese_number(count) );
+		printf( HIR + "你察覺到%s股濃烈的殺氣...\n" + NOR, CHINESE_D->chinese_number(count) );
 
 	return 1;
 }
@@ -223,16 +223,16 @@ int do_multipk( string clan2, string *player )
 	if( multipk[clan1][clan2]["war"] ) {
 
 		// 接戰資料處理 clan1 接戰幫派 clan2 宣戰幫派
-		CHANNEL_D->do_channel( me, "war", "我 -「"+me->query("clan/title")+"」接受"+clan2+"的戰書。\n"NOR);
+		CHANNEL_D->do_channel( me, "war", "我 -「"+me->query("clan/title")+"」接受"+clan2+"的戰書。\n" + NOR);
 
 		if( !ob = find_player(multipk[clan1][clan2]["player1"]) ) {
-			CHANNEL_D->do_channel( this_object(), "war", clan2 + "懼怕與" + clan1 + "對戰, 逃走了。\n"NOR );
+			CHANNEL_D->do_channel( this_object(), "war", clan2 + "懼怕與" + clan1 + "對戰, 逃走了。\n" + NOR );
 			multipk[clan1][clan2]["war"] = 0;
 			return 1;
 		}	
 	}
 	else { // 宣戰資料處理 clan1 宣戰幫派 clan2 接戰幫派
-		CHANNEL_D->do_channel( me, "war", "我 -「"+me->query("clan/title")+"」向"+clan2+"宣戰。\n"NOR);
+		CHANNEL_D->do_channel( me, "war", "我 -「"+me->query("clan/title")+"」向"+clan2+"宣戰。\n" + NOR);
 		multipk[clan2][clan1]["war"] = 1;
 		for( n=1; n<6; n++ )
 			multipk[clan2][clan1]["player"+n] = player[n];
@@ -251,7 +251,7 @@ multipk_player1 += ({ find_player(multipk[clan1][clan2][sprintf("player%d",n)]) 
 		if( find_player(player[n]) )
 multipk_player2 += ({ find_player(player[n]) });
 
-	CHANNEL_D->do_channel( this_object(), "war", "【"+clan2+"】與【"+clan1+"】雙方將於六小時後開戰。\n"NOR); // MUD 6hr = REAL 1min
+	CHANNEL_D->do_channel( this_object(), "war", "【"+clan2+"】與【"+clan1+"】雙方將於六小時後開戰。\n" + NOR); // MUD 6hr = REAL 1min
 
 	multipk_now    = 1;
 	multipk_time   = 1;
@@ -272,8 +272,8 @@ int do_end( object me, string type, string clan2 )
 			tell_object( me, "貴幫並沒有對此幫派宣戰。\n");
 		else {			
 			tell_object( users(),
-				HIW"\n【"+clan1+"】「"+me->query("clan/title")+"」"+me->query("name")+
-				"("+me->query("id")+")送給【"+clan2+"】一封和平協議書。\n\n"NOR );
+				HIW + "\n【"+clan1+"】「"+me->query("clan/title")+"」"+me->query("name")+
+				"("+me->query("id")+")送給【"+clan2+"】一封和平協議書。\n\n" + NOR );
 			multipk[clan2][clan1]["war"] = 0;
 			return 1;
 		}
@@ -328,7 +328,7 @@ void multipk_win( object ob )
 	int	score;
 	object	vs;
 	
-	tell_object( ob, HIC"鄭總管說道: 恭喜, 您獲勝了。\n"NOR );
+	tell_object( ob, HIC + "鄭總管說道: 恭喜, 您獲勝了。\n" + NOR );
 	score = ob->query( "clan/war" ) + ob->query_temp( "war/score" );
 	ob->set( "clan/war", score );
 	tell_object( ob, "您的戰績升為 " + score + " 點。\n" );
@@ -356,7 +356,7 @@ void multipk_lose( object ob )
 	int	score;
 	object	vs; 
 
-	tell_object( ob, HIC"鄭總管說道: 勝負已定, 您輸了。\n"NOR );
+	tell_object( ob, HIC + "鄭總管說道: 勝負已定, 您輸了。\n" + NOR );
 	score = ob->query( "clan/war" ) - war_score(ob->query("combat_exp"));
 	ob->set( "clan/war", score );
 	tell_object( ob, "您的戰績降為 " + score + " 點。\n" );
@@ -460,7 +460,7 @@ void multipk_over()
 		CLAN_D->clan_query( clan_lose, "name" ) + HIR"。" );
 	CHANNEL_D->do_channel( this_object(), "war", HIW +
 		CLAN_D->clan_query( clan_lose, "name" ) + HIR"需賠"HIW +
-		CLAN_D->clan_query( clan_win, "name" ) + HIY"黃金" +CHINESE_D->chinese_number(point)+ "萬兩"HIR"。" );
+		CLAN_D->clan_query( clan_win, "name" ) + HIY"黃金" +CHINESE_D->chinese_number(point)+ "萬兩" + HIR + "。" );
 
 	point *= 10000;
 	CLAN_D->add_money  ( clan_win ,  point );

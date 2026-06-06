@@ -12,7 +12,7 @@ void create()
   set("gender","女性"); 
   set("class","dancer");
   set("title","段家第十代才女");
-  set("nickname",""HIM"心云流水"NOR"");
+  set("nickname","" + HIM + "心云流水" + NOR + "");
   set("attitude","heroism");
   set("age",20);
   set("max_kee",5000);

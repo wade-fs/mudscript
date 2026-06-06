@@ -2,31 +2,31 @@
 #include <ansi.h>
 inherit NPC;
 mapping *action = ({
-([ "action" :"$N"HIW"兇性大發 ,銳利的龍爪向$n狠狠的抓了過去 ,電光滋滋的在$n圍繞"NOR"。",
+([ "action" :"$N" + HIW + "兇性大發 ,銳利的龍爪向$n狠狠的抓了過去 ,電光滋滋的在$n圍繞" + NOR + "。",
              "dodge"      :  -20,
              "parry"      :  -35,
              "damage"     :  290,
              "damage_type":  "抓傷",
            ]),
-([ "action" :"$N"HIW"迅速撲至$n面前 ,龍爪化成一道猛雷朝$n直劈下去 ,$n當場鮮血飛濺"NOR"。",
+([ "action" :"$N" + HIW + "迅速撲至$n面前 ,龍爪化成一道猛雷朝$n直劈下去 ,$n當場鮮血飛濺" + NOR + "。",
              "dodge"      :  -20,
              "parry"      :  -35,
              "damage"     :  280,
              "damage_type":  "抓傷",
             ]),
-([ "action" :"$N"HIW"揚起尖角 ,對準$n身上狠狠的刺去 ,狂猛的來勢好不嚇人"NOR"。",
+([ "action" :"$N" + HIW + "揚起尖角 ,對準$n身上狠狠的刺去 ,狂猛的來勢好不嚇人" + NOR + "。",
              "dodge"      :  -30,
              "parry"      :  -25,
              "damage"     :  230,
              "damage_type":  "刺傷",
             ]),
-([ "action" :"$N"HIW"朝$n狂抓了過去 ,挾帶著閃電的雙爪 ,力道之猛 ,令人髮指"NOR"。",
+([ "action" :"$N" + HIW + "朝$n狂抓了過去 ,挾帶著閃電的雙爪 ,力道之猛 ,令人髮指" + NOR + "。",
              "dodge"      :  -40,
              "parry"      :  -15,
              "damage"     :  245,
              "damage_type":  "抓傷",
             ]),
-([ "action":"$N"HIW"狂吼長嘯 ,背部射出數道閃光 ,在瞬間$n的身體整個都被吞噬掉"NOR"。",
+([ "action":"$N" + HIW + "狂吼長嘯 ,背部射出數道閃光 ,在瞬間$n的身體整個都被吞噬掉" + NOR + "。",
              "dodge"      : -10,
              "parry"      :  -20,
              "damage"     : 255,
@@ -36,7 +36,7 @@ mapping *action = ({
 
 void create()
 {
-     set_name(HIW"雷龍"NOR ,({"thunder dragon", "dragon"}) );
+     set_name(HIW + "雷龍" + NOR ,({"thunder dragon", "dragon"}) );
      set("race", "野獸");
      set("title", "守護者");
      set("age",2419);
@@ -100,9 +100,9 @@ void heart_beat()
 //	new("/open/mogi/dragon/obj/thunder-1")->move(environment(winner));
 
     
-   tell_object(winner,HIY"\n\n經過一番血戰後 ,雷龍終於被你降服了\n"NOR);            
+   tell_object(winner,HIY + "\n\n經過一番血戰後 ,雷龍終於被你降服了\n" + NOR);            
                    
-    tell_object(winner,HIC"\n\n雷龍自口中吐出一塊寶玉\n\n\n"NOR);            
+    tell_object(winner,HIC + "\n\n雷龍自口中吐出一塊寶玉\n\n\n" + NOR);            
             destruct(this_object());
                                                                     
             ::die();                                                           

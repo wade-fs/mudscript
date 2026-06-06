@@ -5,7 +5,7 @@ string ask_train();
 
 void create()
 {
-        set_name(HIW"第一試煉者"NOR, ({ "testman"}) );
+        set_name(HIW + "第一試煉者" + NOR, ({ "testman"}) );
         set("gender", "男性" );
         set("age", 63);
         set("int", 26);
@@ -29,20 +29,20 @@ string ask_test()
 if (this_player()->query("quests/test")>199&& this_player()->query("quests/yan")==2)
  {
   this_player()->set("quests/yan",3);
-  tell_object(this_player(),HIW"你已經通過第一試驗了.所以我送你到第二試煉區去吧.\n"NOR);  
-  message("system",this_player()->name()+HIW"通過仙劍第一試煉。\n"NOR,users());
+  tell_object(this_player(),HIW + "你已經通過第一試驗了.所以我送你到第二試煉區去吧.\n" + NOR);  
+  message("system",this_player()->name()+HIW"通過仙劍第一試煉。\n" + NOR,users());
   this_player()->set("title","仙劍第一試煉劍俠");
   this_player()->move("/open/gsword/room2/shaa1.c"); 
 }
 else if(this_player()->query("quests/yan")>2) {
-  tell_object(this_player(),HIW"你已經通過第一試驗了.所以我送你到第二試煉區去吧.
-\n"NOR);
+  tell_object(this_player(),HIW + "你已經通過第一試驗了.所以我送你到第二試煉區去吧.
+\n" + NOR);
   this_player()->move("/open/gsword/room2/shaa1.c");
 }
 else
 {
-tell_object(this_player(),HIW"第一試驗的目的在於鍛鍊你對仙劍武術的認知及了解..\n"NOR);
- return (HIW"因此你得往北方前進..並在試煉山谷中打倒200個試煉武者才行\n"NOR);
+tell_object(this_player(),HIW + "第一試驗的目的在於鍛鍊你對仙劍武術的認知及了解..\n" + NOR);
+ return (HIW + "因此你得往北方前進..並在試煉山谷中打倒200個試煉武者才行\n" + NOR);
  }
 
 }

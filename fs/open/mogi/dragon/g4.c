@@ -43,10 +43,10 @@ void do_damage (object ob)
     obj= all[i];
     kee= obj->query("eff_kee");
     if (random(300) > obj->query_skill("dodge")) {
-      message_vision (HIR"突然間～谷主用千里奪命手向$N伸去，$N閃躲不及，只聽一聲哀嚎$N已被吸去精力！\n"NOR, obj);
+      message_vision (HIR + "突然間～谷主用千里奪命手向$N伸去，$N閃躲不及，只聽一聲哀嚎$N已被吸去精力！\n" + NOR, obj);
       obj->add("kee", -kee/10);
     }
     else
-      message_vision (HIW"突然間～谷主用千里奪命手向$N伸去，但$N不慌不忙地閃過。\n"NOR, obj);
+      message_vision (HIW + "突然間～谷主用千里奪命手向$N伸去，但$N不慌不忙地閃過。\n" + NOR, obj);
   }
 }  

@@ -6,7 +6,7 @@ void create()
 {
 	set_name("響尾蛇",({"poison-soldier","snake-soldier","soldier"}));
 	set("age",20);
-	set("title",HIC"毒將領"NOR);
+	set("title",HIC + "毒將領" + NOR);
 	set("gender","男性");
         set("attitude","aggressive");
 	set("long","
@@ -57,7 +57,7 @@ int i,j,eff,max,kee;
 	{
 		if( eff < max || kee < eff )
 		{
-			message_vision(HIY"$N服下一貼毒藥，以毒攻毒，將體內的瘀傷逼出～\n"NOR,ob);
+			message_vision(HIY + "$N服下一貼毒藥，以毒攻毒，將體內的瘀傷逼出～\n" + NOR,ob);
 			ob->receive_curing("kee",500);
 			ob->receive_heal("kee",500);
 			COMBAT_D->report_status(ob,1);
@@ -71,7 +71,7 @@ int i,j,eff,max,kee;
 		
 		if( random(i) > random(j) && random(100) < 75 )
 		{
-			message_vision(HIG"$N左手一拋，一包灰色的紙包飛向$n，$n臉色突然一綠，似乎中毒了～\n"NOR,ob,target);
+			message_vision(HIG + "$N左手一拋，一包灰色的紙包飛向$n，$n臉色突然一綠，似乎中毒了～\n" + NOR,ob,target);
 			target->apply_condition("spring",3);
 			target->apply_condition("snake_poison",3);
 		}

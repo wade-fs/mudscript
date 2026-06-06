@@ -4,7 +4,7 @@ inherit ITEM;
 
 void create()
 {
-        set_name(MAG"霞水晶"NOR, ({ "pink-crystal","crystal" }));
+        set_name(MAG + "霞水晶" + NOR, ({ "pink-crystal","crystal" }));
         set("title", "渾天心法之");
         set_weight(750);
         if( clonep() )
@@ -12,7 +12,7 @@ void create()
         else
         {
           set("unit", "根");
-          set("long","這是一根會泛出"MAG"彩霞光芒的水晶"NOR", 裡面刻有"CYN"渾天寶鑑第二層"MAG"玫蕩霞心法"NOR"的練功\口訣。\n");
+          set("long","這是一根會泛出" + MAG + "彩霞光芒的水晶" + NOR + ", 裡面刻有" + CYN + "渾天寶鑑第二層" + MAG + "玫蕩霞心法" + NOR + "的練功\口訣。\n");
           set("value", 800);
           set("material", "gem");
           set("no_drop", 1);

@@ -29,7 +29,7 @@ int valid_leave(object who,string dir)
   {
         if(who->query_temp("meetgod_4")!=1)
         {
-//       tell_object(who,""HIM"谷中仙怒喝:凡夫俗子竟然亂闖藏仙谷，還不速速離去。"NOR"\n");
+//       tell_object(who,"" + HIM + "谷中仙怒喝:凡夫俗子竟然亂闖藏仙谷，還不速速離去。" + NOR + "\n");
         return notify_fail("谷中仙怒喝:凡夫俗子竟然亂闖藏仙谷，還不速速離去。\n");
         }
         return :: valid_leave(who,dir);

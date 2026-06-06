@@ -80,7 +80,7 @@ int accept_fight(object me,object who)
 {
   who=this_player();
   kill_ob(who);
-  command("say "HIC"哈哈哈，就讓你見識什麼是刀者之魂吧！！！\n\n\n\n    "HIR"   ╭─╮            ╔                            ▁▂▃▄▅▆▇◤\n"HIR"       │  ╭╮︽︽︽︽︽║▆▆▆▆▆▆▆▆▆▆▆▆▇███████◤\n"HIR"       │  ╰╯︾︾︾︾︾║███████████████████◤\n"HIR"       ╰╮              ╚\n"HIR"         〨\n"HIR"         ⊙\n"HIR"         ╰═════\n"NOR);
+  command("say " + HIC + "哈哈哈，就讓你見識什麼是刀者之魂吧！！！\n\n\n\n    " + HIR + "   ╭─╮            ╔                            ▁▂▃▄▅▆▇◤\n" + HIR + "       │  ╭╮︽︽︽︽︽║▆▆▆▆▆▆▆▆▆▆▆▆▇███████◤\n" + HIR + "       │  ╰╯︾︾︾︾︾║███████████████████◤\n" + HIR + "       ╰╮              ╚\n" + HIR + "         〨\n" + HIR + "         ⊙\n" + HIR + "         ╰═════\n" + NOR);
   who->start_busy(1);
   return 1;
 }
@@ -89,7 +89,7 @@ int accept_kill(object who)
 {
   who=this_player();
   kill_ob(who);
-  command("say "HIC"哈哈哈，就讓你見識什麼是刀者之魂吧！！！\n\n\n\n    "HIR"   ╭─╮            ╔                            ▁▂▃▄▅▆▇◤\n"HIR"       │  ╭╮︽︽︽︽︽║▆▆▆▆▆▆▆▆▆▆▆▆▇███████◤\n"HIR"       │  ╰╯︾︾︾︾︾║███████████████████◤\n"HIR"       ╰╮              ╚\n"HIR"         〨\n"HIR"         ⊙\n"HIR"         ╰═════\n"NOR);
+  command("say " + HIC + "哈哈哈，就讓你見識什麼是刀者之魂吧！！！\n\n\n\n    " + HIR + "   ╭─╮            ╔                            ▁▂▃▄▅▆▇◤\n" + HIR + "       │  ╭╮︽︽︽︽︽║▆▆▆▆▆▆▆▆▆▆▆▆▇███████◤\n" + HIR + "       │  ╰╯︾︾︾︾︾║███████████████████◤\n" + HIR + "       ╰╮              ╚\n" + HIR + "         〨\n" + HIR + "         ⊙\n" + HIR + "         ╰═════\n" + NOR);
   who->start_busy(1);
   return 1;
 }
@@ -143,75 +143,75 @@ void heart_beat()
       if(!enemy[i]) continue;
       if(environment(mob) == environment(enemy[i]))
       {
-        message_vision(HIY"\n$N隨著體內殺氣無限提升，橫刀高喊："HIW"『  "HIM"魔 威 天 下  "HIW"～  "HIY"刀 "HIB"霸 人 間  "HIW"』\n\n        "HIW"《  "HIR"魔 "HIW"． "HIR"道 "HIW"． "HIR"極 "HIW"． "HIR"殺 "HIW"． "HIR"之   "HIY"狂   龍   "HIC"七   斬   訣  "HIW"》\n\n"NOR,mob,enemy[i]);
+        message_vision(HIY + "\n$N隨著體內殺氣無限提升，橫刀高喊：" + HIW + "『  " + HIM + "魔 威 天 下  " + HIW + "～  " + HIY + "刀 " + HIB + "霸 人 間  " + HIW + "』\n\n        " + HIW + "《  " + HIR + "魔 " + HIW + "． " + HIR + "道 " + HIW + "． " + HIR + "極 " + HIW + "． " + HIR + "殺 " + HIW + "． " + HIR + "之   " + HIY + "狂   龍   " + HIC + "七   斬   訣  " + HIW + "》\n\n" + NOR,mob,enemy[i]);
         damage = random(300)+100;
-        msg = HIB"$N體內戰意源源不絕傾洩而出"HIW"《"HIY"狂龍"HIC"七斬訣"HIW"》"HIB"壹式"HIW"★"HIY"天刀"HIC"驚流痕"HIW"★"HIB"，$n"HIB"被無限刀意砍得體無完膚！\n"NOR;
+        msg = HIB + "$N體內戰意源源不絕傾洩而出" + HIW + "《" + HIY + "狂龍" + HIC + "七斬訣" + HIW + "》" + HIB + "壹式" + HIW + "★" + HIY + "天刀" + HIC + "驚流痕" + HIW + "★" + HIB + "，$n" + HIB + "被無限刀意砍得體無完膚！\n" + NOR;
         if(damage > 200) {
           message_vision(msg,mob,enemy[i]);
           enemy[i]->receive_damage("kee",damage,mob);
           COMBAT_D->report_status(enemy[i]);
         }
         else {
-          msg +="( "HIW"$n出招似有若無，身影疾退數步，在無形之中將此招一一閃過。 "NOR+WHT")\n"NOR;
+          msg +="( " + HIW + "$n出招似有若無，身影疾退數步，在無形之中將此招一一閃過。 "NOR+WHT")\n" + NOR;
           message_vision(msg,mob,enemy[i]);
         }
         damage = random(300)+100;
-        msg = HIB"$N體內戰意源源不絕傾洩而出"HIW"《"HIY"狂龍"HIC"七斬訣"HIW"》"HIB"貳式"HIW"★"HIM"雷刀"HIR"破霜闕"HIW"★"HIB"，$n"HIB"被無限刀意砍得體無完膚！\n"NOR;
+        msg = HIB + "$N體內戰意源源不絕傾洩而出" + HIW + "《" + HIY + "狂龍" + HIC + "七斬訣" + HIW + "》" + HIB + "貳式" + HIW + "★" + HIM + "雷刀" + HIR + "破霜闕" + HIW + "★" + HIB + "，$n" + HIB + "被無限刀意砍得體無完膚！\n" + NOR;
         if(damage > 200) {
           message_vision(msg,mob,enemy[i]);
           enemy[i]->receive_damage("kee",damage,mob);
           COMBAT_D->report_status(enemy[i]);
         }
         else {
-          msg +="( "HIW"$n出招似有若無，身影疾退數步，在無形之中將此招一一閃過。 "NOR+WHT")\n"NOR;
+          msg +="( " + HIW + "$n出招似有若無，身影疾退數步，在無形之中將此招一一閃過。 "NOR+WHT")\n" + NOR;
           message_vision(msg,mob,enemy[i]);
         }
         damage = random(300)+100;
-        msg = HIB"$N體內戰意源源不絕傾洩而出"HIW"《"HIY"狂龍"HIC"七斬訣"HIW"》"HIB"參式"HIW"★"HIY"地刀"HIG"震山河"HIW"★"HIB"，$n"HIB"被無限刀意砍得體無完膚！\n"NOR;
+        msg = HIB + "$N體內戰意源源不絕傾洩而出" + HIW + "《" + HIY + "狂龍" + HIC + "七斬訣" + HIW + "》" + HIB + "參式" + HIW + "★" + HIY + "地刀" + HIG + "震山河" + HIW + "★" + HIB + "，$n" + HIB + "被無限刀意砍得體無完膚！\n" + NOR;
         if(damage > 200) {
           message_vision(msg,mob,enemy[i]);
           enemy[i]->receive_damage("kee",damage,mob);
           COMBAT_D->report_status(enemy[i]);
         }
         else {
-          msg +="( "HIW"$n出招似有若無，身影疾退數步，在無形之中將此招一一閃過。 "NOR+WHT")\n"NOR;
+          msg +="( " + HIW + "$n出招似有若無，身影疾退數步，在無形之中將此招一一閃過。 "NOR+WHT")\n" + NOR;
           message_vision(msg,mob,enemy[i]);
         }
         damage = random(300)+100;
-        msg = HIB"$N體內戰意源源不絕傾洩而出"HIW"《"HIY"狂龍"HIC"七斬訣"HIW"》"HIB"肆式"HIW"★"HIR"火刀"HIY"焚混沌"HIW"★"HIB"，$n"HIB"被無限刀意砍得體無完膚！\n"NOR;
+        msg = HIB + "$N體內戰意源源不絕傾洩而出" + HIW + "《" + HIY + "狂龍" + HIC + "七斬訣" + HIW + "》" + HIB + "肆式" + HIW + "★" + HIR + "火刀" + HIY + "焚混沌" + HIW + "★" + HIB + "，$n" + HIB + "被無限刀意砍得體無完膚！\n" + NOR;
         if(damage > 200) {
           message_vision(msg,mob,enemy[i]);
           enemy[i]->receive_damage("kee",damage,mob);
           COMBAT_D->report_status(enemy[i]);
         }
         else {
-          msg +="( "HIW"$n出招似有若無，身影疾退數步，在無形之中將此招一一閃過。 "NOR+WHT")\n"NOR;
+          msg +="( " + HIW + "$n出招似有若無，身影疾退數步，在無形之中將此招一一閃過。 "NOR+WHT")\n" + NOR;
           message_vision(msg,mob,enemy[i]);
         }
         damage = random(300)+100;
-        msg = HIB"$N體內戰意源源不絕傾洩而出"HIW"《"HIY"狂龍"HIC"七斬訣"HIW"》"HIB"伍式"HIW"★"HIG"風刀"HIR"滅星辰"HIW"★"HIB"，$n"HIB"被無限刀意砍得體無完膚！\n"NOR;
+        msg = HIB + "$N體內戰意源源不絕傾洩而出" + HIW + "《" + HIY + "狂龍" + HIC + "七斬訣" + HIW + "》" + HIB + "伍式" + HIW + "★" + HIG + "風刀" + HIR + "滅星辰" + HIW + "★" + HIB + "，$n" + HIB + "被無限刀意砍得體無完膚！\n" + NOR;
         if(damage > 200) {
           message_vision(msg,mob,enemy[i]);
           enemy[i]->receive_damage("kee",damage,mob);
           COMBAT_D->report_status(enemy[i]);
         }
         else {
-          msg +="( "HIW"$n出招似有若無，身影疾退數步，在無形之中將此招一一閃過。 "NOR+WHT")\n"NOR;
+          msg +="( " + HIW + "$n出招似有若無，身影疾退數步，在無形之中將此招一一閃過。 "NOR+WHT")\n" + NOR;
           message_vision(msg,mob,enemy[i]);
         }
         damage = random(300)+100;
-        msg = HIB"$N體內戰意源源不絕傾洩而出"HIW"《"HIY"狂龍"HIC"七斬訣"HIW"》"HIB"陸式"HIW"★"HIM"雨刀"HIG"淋寰宇"HIW"★"HIB"，$n"HIB"被無限刀意砍得體無完膚！\n"NOR;
+        msg = HIB + "$N體內戰意源源不絕傾洩而出" + HIW + "《" + HIY + "狂龍" + HIC + "七斬訣" + HIW + "》" + HIB + "陸式" + HIW + "★" + HIM + "雨刀" + HIG + "淋寰宇" + HIW + "★" + HIB + "，$n" + HIB + "被無限刀意砍得體無完膚！\n" + NOR;
         if(damage > 200) {
           message_vision(msg,mob,enemy[i]);
           enemy[i]->receive_damage("kee",damage,mob);
           COMBAT_D->report_status(enemy[i]);
         }
         else {
-          msg +="( "HIW"$n出招似有若無，身影疾退數步，在無形之中將此招一一閃過。 "NOR+WHT")\n"NOR;
+          msg +="( " + HIW + "$n出招似有若無，身影疾退數步，在無形之中將此招一一閃過。 "NOR+WHT")\n" + NOR;
           message_vision(msg,mob,enemy[i]);
         }
         damage = random(300)+100;
-        msg = HIB"$N體內戰意源源不絕傾洩而出"HIW"《"HIY"狂龍"HIC"七斬訣"HIW"》"HIB"柒式"HIW"★"HIC"雪刀"HIM"冰千里"HIW"★"HIB"，$n"HIB"被無限刀意砍得體無完膚！\n"NOR;
+        msg = HIB + "$N體內戰意源源不絕傾洩而出" + HIW + "《" + HIY + "狂龍" + HIC + "七斬訣" + HIW + "》" + HIB + "柒式" + HIW + "★" + HIC + "雪刀" + HIM + "冰千里" + HIW + "★" + HIB + "，$n" + HIB + "被無限刀意砍得體無完膚！\n" + NOR;
         if(damage > 200) {
           message_vision(msg,mob,enemy[i]);
           enemy[i]->apply_condition("ad-blade",random(5)+5);
@@ -219,7 +219,7 @@ void heart_beat()
           COMBAT_D->report_status(enemy[i]);
         }
         else {
-          msg +="( "HIW"$n出招似有若無，身影疾退數步，在無形之中將此招一一閃過。 "NOR+WHT")\n"NOR;
+          msg +="( " + HIW + "$n出招似有若無，身影疾退數步，在無形之中將此招一一閃過。 "NOR+WHT")\n" + NOR;
           message_vision(msg,mob,enemy[i]);
         }
       }
@@ -228,7 +228,7 @@ void heart_beat()
 
   if( 70 < j && mob -> query("kee") < mob->query("max_kee")*0.6 )
   {
-    message_vision( HIY"\n秦嘯天運氣丹田，瞬間刀中竄出無數陰魂，身上的傷口也漸漸癒合。\n"NOR, mob);
+    message_vision( HIY + "\n秦嘯天運氣丹田，瞬間刀中竄出無數陰魂，身上的傷口也漸漸癒合。\n" + NOR, mob);
     mob->delete_busy();
     mob->clear_condition();
     mob->receive_heal("kee",1000);
@@ -246,7 +246,7 @@ void heart_beat()
       if(!enemy[i]) continue;
       if(environment(mob) == environment(enemy[i]))
       {
-        message_vision( HIR"\n\n$N目露兇光，大喝一聲 "HIW"『  "HIY"天  雷  刀  "HIW"』\n\n"HIW"瞬間天際閃過數道雷霆從天而降擊中$N\n\n"HIG"$N身上散發出陣陣綠光，將吸收的雷霆逼入刀中，刀法如漫天飛雪般的將$n團團圍住。\n\n"NOR, mob ,enemy[i] );
+        message_vision( HIR + "\n\n$N目露兇光，大喝一聲 " + HIW + "『  " + HIY + "天  雷  刀  " + HIW + "』\n\n" + HIW + "瞬間天際閃過數道雷霆從天而降擊中$N\n\n" + HIG + "$N身上散發出陣陣綠光，將吸收的雷霆逼入刀中，刀法如漫天飛雪般的將$n團團圍住。\n\n" + NOR, mob ,enemy[i] );
         enemy[i]->receive_damage("kee",500,mob);
         enemy[i]->receive_damage("gin",500,mob);
         enemy[i]->receive_damage("sen",500,mob);
@@ -270,11 +270,11 @@ void die()
     ::die();
     return ;
   }
-  tell_object(users(),HIW"\n\n\n    "HIW"『  "HIC"異 域 奇 緣    "HIY"橫 刀 稱 王 霸 群 雄 ！ \n\n"+
-    "             "HIG"鄉 愁 離 情    "HIM"浩 瀚 星 海 恨 悠 悠 ！ "HIW"』\n\n\n"+HIR+
-    "想我"HIC"南雄"HIM"刀霸"HIR"雄據南蠻數十載，如今敗於"+HIC+class1+HIB"弟子"+HIY+name+HIR+"之手。\n"+HIR+
-    "中原果真是臥虎藏龍，深藏不露，恨啊 ！！！\n\n\n"NOR);
-  message_vision(HIY"\n"+winner->name()+"打死秦嘯天得到五百點戰功\!!\n"NOR,winner);
+  tell_object(users(),HIW + "\n\n\n    " + HIW + "『  " + HIC + "異 域 奇 緣    " + HIY + "橫 刀 稱 王 霸 群 雄 ！ \n\n"+
+    "             " + HIG + "鄉 愁 離 情    " + HIM + "浩 瀚 星 海 恨 悠 悠 ！ " + HIW + "』\n\n\n"+HIR+
+    "想我" + HIC + "南雄" + HIM + "刀霸" + HIR + "雄據南蠻數十載，如今敗於"+HIC+class1+HIB"弟子"+HIY+name+HIR+"之手。\n"+HIR+
+    "中原果真是臥虎藏龍，深藏不露，恨啊 ！！！\n\n\n" + NOR);
+  message_vision(HIY + "\n"+winner->name()+"打死秦嘯天得到五百點戰功\!!\n" + NOR,winner);
   write_file("/log/get_warp",sprintf("%s(%s) 打敗秦嘯天得到五百點戰功\於 %s\n",
     winner->name(1),winner->query("id"),ctime(time())));
   winner->add("war_score",500);

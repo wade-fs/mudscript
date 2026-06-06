@@ -3,7 +3,7 @@
 inherit ROOM;
 void create ()
 {
-  set ("short", HIY"狂想空間幫派入門房間"NOR);
+  set ("short", HIY + "狂想空間幫派入門房間" + NOR);
   set ("long","狂想空間另外一項系統就是幫派的系統(clans),新玩家可以
   打help clans,看一下幫派的入門!!幫派及門派的主要不同!!!如下：
   1.幫派是由玩家所組成的!!!門派是由巫師(wizard)所創建的!!

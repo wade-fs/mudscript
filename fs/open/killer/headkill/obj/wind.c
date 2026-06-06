@@ -54,7 +54,7 @@ int do_windrun(string arg)
     return 1;
   }
 
-  message_vision( HIG+"只見地下冒出五鬼，一擁而上，令$N"HIG"眼前一花。\n"+NOR ,me);
+  message_vision( HIG+"只見地下冒出五鬼，一擁而上，令$N" + HIG + "眼前一花。\n"+NOR ,me);
   switch(arg)
   {
     case "1":

@@ -70,7 +70,7 @@ int do_join()
 	}
 	this_player()->set("class","poisoner");
 	message("system",
-	HIR "突然間......狂風大作、晴天霹靂.....\n\n世間上又多一個魔教徒"+this_player()->name()+" !!!\n" NOR,users());
+	HIR + "突然間......狂風大作、晴天霹靂.....\n\n世間上又多一個魔教徒"+this_player()->name()+" !!!\n" + NOR,users());
 	return 1;
 }
 string do_ask()

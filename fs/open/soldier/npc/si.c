@@ -4,7 +4,7 @@ inherit NPC;
 void create()
 {
  seteuid(getuid()); 
-set("nickname",HIM"快槍俠"NOR);
+set("nickname",HIM + "快槍俠" + NOR);
 set_name("辛卡多",({"si ka","si","ka"}));
 set("long","
     他是在軍中有名的快槍俠,出招迅速,據說
@@ -44,7 +44,7 @@ add_money("gold",10);
 
 int accept_kill(object who)
 {
-   say(HIY" 老子跟你拼了!!!\n"NOR);
+   say(HIY + " 老子跟你拼了!!!\n" + NOR);
    setup();
    return 1;
 }

@@ -35,7 +35,7 @@ int valid_leave(object who,string dir){
 if(who->query("marks/fan-finger")!=1)
    if(dir=="east" && who->query("questsfan/quest_step")!=5)
      {
-     message_vision(HIC"寒芸柔聲的對$N說道:晶谷不是讓人隨意進入的地方?請閣下快快離去!!\n"NOR,who);
+     message_vision(HIC + "寒芸柔聲的對$N說道:晶谷不是讓人隨意進入的地方?請閣下快快離去!!\n" + NOR,who);
        return notify_fail("寒芸柔聲的對你說道:晶谷不是讓人隨意進入的地方?請閣下快快離去!!\n");
      }
    return :: valid_leave(who,dir);

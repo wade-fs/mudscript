@@ -2,7 +2,7 @@
 inherit ITEM;
 void create()
 {
-        set_name(HIR"焚天魔王的人頭"NOR, ({ "fire-king-head","head" }) );
+        set_name(HIR + "焚天魔王的人頭" + NOR, ({ "fire-king-head","head" }) );
         set_weight(5000);
         if( clonep() )
                 set_default_object(__FILE__);

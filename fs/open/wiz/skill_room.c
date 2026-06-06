@@ -10,7 +10,7 @@ string *user_gift_2 = ({
 "windows","pzp","copy","ansys","shian","women","roman","aait","namie","leing","chan"});
 void create ()
 {
-set ("short",HIY"網聚獎品『屬性、技能、內力最大值』發放處"NOR);
+set ("short",HIY + "網聚獎品『屬性、技能、內力最大值』發放處" + NOR);
 set ("long","這次網聚共有將近七十位玩家參加!!!!
 網聚的獎品單請打help fs_net及help fs_net2
 此房間是用來發放網聚獎品的房間!!

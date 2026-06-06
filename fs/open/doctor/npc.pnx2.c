@@ -5,9 +5,9 @@ inherit NPC;
 
 void create()
 {
-    set_name(HIR"赤羽火鳳"NOR, ({"fire phoenix","phoenix","pnx"}) );
+    set_name(HIR + "赤羽火鳳" + NOR, ({"fire phoenix","phoenix","pnx"}) );
     set("race", "野獸");
-    set("title",HIY"瀧山鎮派聖獸"NOR);
+    set("title",HIY + "瀧山鎮派聖獸" + NOR);
     set("long", "一隻羽毛非常美麗的火鳳凰，是瀧山派的
 鎮派聖獸，你可以嘗試拔(pluck)牠的羽毛(feather)！\n");
      set_temp("apply/attack",550);
@@ -57,7 +57,7 @@ int do_pluck(string arg)
 {
     if(me->query("doctor/get_fea",1))
 {
-	message_vision(RED"$N貪心的想再拔第二次...不料卻被"HIR"赤羽火鳳"NOR+RED"給發覺......\n"NOR, me);
+	message_vision(RED + "$N貪心的想再拔第二次...不料卻被" + HIR + "赤羽火鳳"NOR+RED"給發覺......\n" + NOR, me);
 	pnx = new("/open/doctor/npc/pnx");
 	pnx->move(environment(me));
 	pnx->kill_ob(me);
@@ -66,16 +66,16 @@ int do_pluck(string arg)
 }
     if(random(100) > spi)
 {
-	message_vision(RED"$N偷偷的靠近"HIR"赤羽火鳳"NOR+RED"......\n"NOR, me);
-	message_vision(HIB"$N成功\的將"HIR"赤羽火鳳"NOR+HIB"的尾羽給拔到手了！\n"NOR, me);
+	message_vision(RED + "$N偷偷的靠近" + HIR + "赤羽火鳳"NOR+RED"......\n" + NOR, me);
+	message_vision(HIB + "$N成功\的將" + HIR + "赤羽火鳳"NOR+HIB"的尾羽給拔到手了！\n" + NOR, me);
 	me->delete("doctor/get_key");
 	me->set("doctor/get_fea",1);
 	fea = new("/open/doctor/obj/feather");
 	fea->move(me);
 	return 1;
 }else{
-	message_vision(RED"$N偷偷的靠近"HIR"赤羽火鳳"NOR+RED"......\n"NOR, me);
-	message_vision(MAG"$N的動作太大，竟然被"HIR"赤羽火鳳"NOR+MAG"給發覺了！\n"NOR, me);
+	message_vision(RED + "$N偷偷的靠近" + HIR + "赤羽火鳳"NOR+RED"......\n" + NOR, me);
+	message_vision(MAG + "$N的動作太大，竟然被" + HIR + "赤羽火鳳"NOR+MAG"給發覺了！\n" + NOR, me);
 	pnx = new("/open/doctor/npc/pnx");
 	pnx->move(environment(me));
 	pnx->kill_ob(me);
@@ -88,7 +88,7 @@ int do_kill(string arg, object me)
 {
     if(arg == "fire phoenix" || arg == "phoenix" || arg == "pnx")
 {
-	message_vision(RED"$N這個笨蛋想吵醒牠嗎？\n"NOR, me);
+	message_vision(RED + "$N這個笨蛋想吵醒牠嗎？\n" + NOR, me);
 	return 1;
   }
 }

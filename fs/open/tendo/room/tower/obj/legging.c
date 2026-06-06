@@ -4,7 +4,7 @@ inherit LEGGINGS;
 object user;
 void create()
 {
-        set_name( HIM "修羅戰鬥護膝" NOR ,({"fiend legging","legging"}));
+        set_name( HIM + "修羅戰鬥護膝" + NOR ,({"fiend legging","legging"}));
         set_weight(3000);
         if( clonep() )
                 set_default_object(__FILE__);

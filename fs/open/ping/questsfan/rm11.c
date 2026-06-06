@@ -34,7 +34,7 @@ void dhk(object who)
 {
   if(who->query_temp("run")!=2 && who->query_temp("run")==1)
   {
-   tell_object(who,""WHT"這道黑色的人影又快速往西邊離去，身形之快匪夷所思。"NOR"\n");
+   tell_object(who,"" + WHT + "這道黑色的人影又快速往西邊離去，身形之快匪夷所思。" + NOR + "\n");
    who->set_temp("run",2);
    remove_call_out("dhk");
   }

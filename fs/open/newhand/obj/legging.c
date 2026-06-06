@@ -7,7 +7,7 @@ inherit LEGGINGS;
 
 void create()
 {
-  set_name( HIM "狂想新人護膝" NOR ,({"newbie legging","legging"}));
+  set_name( HIM + "狂想新人護膝" + NOR ,({"newbie legging","legging"}));
   set_weight(3000);
   if( clonep() )
     set_default_object(__FILE__);

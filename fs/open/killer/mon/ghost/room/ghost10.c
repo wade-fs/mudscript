@@ -42,7 +42,7 @@ int do_say( string arg)
       message_vision("你在念什麼ㄚ, 沒看過阿里巴巴與四十大盜嗎...\n", me);
       return 0;
    }
-   message_vision(HIY"突然間轟的一聲, 只見墓碑緩緩升起, 在你前方出現了一條路。\n"NOR, me);
+   message_vision(HIY + "突然間轟的一聲, 只見墓碑緩緩升起, 在你前方出現了一條路。\n" + NOR, me);
    set("exits/north", __DIR__"ghost16.c");
    return 1;
 }
@@ -51,7 +51,7 @@ int valid_leave(object me, string dir)
 {
    if (dir != "north" && this_object()->query("exits/north"))
    {
-      message_vision(HIY"突然間轟的一聲, 只見墓碑掉了下來, 又將洞口堵住了。\n"NOR, me);
+      message_vision(HIY + "突然間轟的一聲, 只見墓碑掉了下來, 又將洞口堵住了。\n" + NOR, me);
       this_object()->delete("exits/north");
    }
    return 1;

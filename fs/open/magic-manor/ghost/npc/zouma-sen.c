@@ -15,8 +15,8 @@ void create()
 LONG);
   set("gender","女性");
   set("class","killer");
-  set("nickname",NOR+RED"魔"HIR"殺"NOR+RED"螫"HIR"魂"NOR);
-  set("title",HIB"魂靈八傑"NOR);
+  set("nickname",NOR+RED"魔" + HIR + "殺"NOR+RED"螫" + HIR + "魂" + NOR);
+  set("title",HIB + "魂靈八傑" + NOR);
   set("family/family_name","黑牙聯");
   set("combat_exp",10000000);
   set("attitude","friendly");
@@ -163,7 +163,7 @@ void heart_beat()
     {
       if( environment(me) == environment(enemy[i]) )
       {
-        message_vision(HIB"\n$N"HIB"眼神暴露出一股陰狠氣勁，祭起一式攻擊招式\n\n    "HIM"『"HIC"魂轉天地間 "HIW"≡◎≡"HIC" 陰魂不散式"HIM"』"HIB"\n\n瞬間$n"HIB"無從躲避只覺一陣陰風襲來已然中招!!\n"NOR,me,enemy[i]);
+        message_vision(HIB + "\n$N" + HIB + "眼神暴露出一股陰狠氣勁，祭起一式攻擊招式\n\n    " + HIM + "『" + HIC + "魂轉天地間 " + HIW + "≡◎≡" + HIC + " 陰魂不散式" + HIM + "』" + HIB + "\n\n瞬間$n" + HIB + "無從躲避只覺一陣陰風襲來已然中招!!\n" + NOR,me,enemy[i]);
         enemy[i]->receive_wound("kee",random(300)+300,me);
         enemy[i]->receive_damage("sen",random(300)+100,me);
         enemy[i]->receive_damage("gin",random(300)+100,me);
@@ -270,10 +270,10 @@ void die()
     return ;
   }
 
-  tell_object(winner,"\n你打敗"+me->name()+"得到三十點戰功\!!\n"NOR,winner,me);
+  tell_object(winner,"\n你打敗"+me->name()+"得到三十點戰功\!!\n" + NOR,winner,me);
   write_file("/log/get_warp_e",sprintf("%s(%s) 打敗"+me->name()+"得到三十點戰功\於 %s\n",winner->name(1),winner->query("id"),ctime(time())));
   winner->add("war_score",30);
-  message_vision(HIR"\n$n承受不住攻擊，消失在一陣光芒之中，魂魄化身為一顆封魂石!!\n"NOR,winner,me);
+  message_vision(HIR + "\n$n承受不住攻擊，消失在一陣光芒之中，魂魄化身為一顆封魂石!!\n" + NOR,winner,me);
   if( !present("fon stone",me) )
   {
     new("/open/magic-manor/ghost/obj/stone05")->move(environment(me));

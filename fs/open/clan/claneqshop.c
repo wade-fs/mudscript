@@ -122,7 +122,7 @@ write ("你給櫃臺的"+ob->query("name")+"是一件無價之寶，美麗的櫃
     return 1;
   }
 
-  message_vision(HIY"$N將"+ob->query("name")+"送給了美麗的櫃臺小姐。\n"NOR, me);
+  message_vision(HIY + "$N將"+ob->query("name")+"送給了美麗的櫃臺小姐。\n" + NOR, me);
 
 // 改成重複物品不會被吃掉...AceLan...98.8.18...
 // 此處為物品重複部份...

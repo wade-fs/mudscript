@@ -12,10 +12,10 @@ void create()
   set("gender", "男性");
   set("age",77);
   set("attitude", "peaceful");
-  set("long", ""CYN"他是宏禧莊莊主，富甲一方、不可一世。年前外出辦貨\n"
+  set("long", "" + CYN + "他是宏禧莊莊主，富甲一方、不可一世。年前外出辦貨\n"
              +"時，不幸遇到風行山寨土匪，其隨從數百名全數命喪生\n"
              +"，他確僥倖逃過一劫，現下落難中央驛站。而山莊歸途\n"
-             +"又危機四伏，他因失去數百隨從而不敢﹝回家﹞。"NOR"\n");
+             +"又危機四伏，他因失去數百隨從而不敢﹝回家﹞。" + NOR + "\n");
   set("kee",600);
   set("max_kee",600);
   set("goodman",1);
@@ -133,5 +133,5 @@ void greeting(object me)
 void greeting2(object me)
 {
   command("sigh");
-  tell_room(environment(this_object()),HIC"只見老爺爺失望、落陌的神情。\n"NOR);
+  tell_room(environment(this_object()),HIC + "只見老爺爺失望、落陌的神情。\n" + NOR);
 }

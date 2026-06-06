@@ -6,7 +6,7 @@ void create()
 {
         set_name("木燃落", ({ "wood king","wood","king" }) );
         set("long","木靈塔的鎮塔之王，能力比小木妖和木靈獸不知強上幾倍。\n");
-        set("title",HIG"(綠色靈氣)"NOR"木靈塔王"NOR);
+        set("title",HIG + "(綠色靈氣)" + NOR + "木靈塔王" + NOR);
         set("family/family_name","仙劍派");
 	set("gender","男性");
         set("class","swordsman");
@@ -83,10 +83,10 @@ void heart_beat()
 
 	if( random(10) > 6 && mob->is_fighting() )
 	{
-	message_vision(HIM"\n木影叢叢，森然羅列，草木輕揚於風中，$N有感於此身形微動隨意發出
+	message_vision(HIM + "\n木影叢叢，森然羅列，草木輕揚於風中，$N有感於此身形微動隨意發出
 
-            "HIW"----===≡◎ 木影森羅式 ◎≡===----
-                 "NOR+GRN"  『"HIG"木光流鶯．驚天鳴"NOR+GRN"』\n\n"NOR,mob);
+            " + HIW + "----===≡◎ 木影森羅式 ◎≡===----
+                 "NOR+GRN"  『" + HIG + "木光流鶯．驚天鳴"NOR+GRN"』\n\n" + NOR,mob);
           for (j=0 ; j < i ; j++)
           {
 	    if( !enemy[j] ) continue;
@@ -96,12 +96,12 @@ void heart_beat()
               {
 		if( !enemy[j]->query_temp("magic-manor/gold-shield") )
 		{
-		message_vision(HIG"$N"HIG"已經避無可避，只能眼睜睜的讓蔓藤在身上刺出無數血痕!!\n"NOR,(enemy[j]));
+		message_vision(HIG + "$N" + HIG + "已經避無可避，只能眼睜睜的讓蔓藤在身上刺出無數血痕!!\n" + NOR,(enemy[j]));
 		enemy[j]->receive_wound("kee",600);
 		enemy[j]->start_busy(1);
 		COMBAT_D->report_status(enemy[j]);
 		}else{
-		message_vision(HIY"$N"HIY"身上的金靈之氣緩和了部份的蔓藤的刺擊!!\n"NOR,(enemy[j]));
+		message_vision(HIY + "$N" + HIY + "身上的金靈之氣緩和了部份的蔓藤的刺擊!!\n" + NOR,(enemy[j]));
 		enemy[j]->receive_wound("kee",300);
 		enemy[j]->start_busy(k);
 		COMBAT_D->report_status(enemy[j]);
@@ -127,7 +127,7 @@ void die()
 	  if( j==7 || j==77 || j== 777 || j==1111 || j==55 || j==555 || j==1000 || j==4000 || j==3333 || j==2222 )
 	  {      
 	  new("/open/sky/obj12/papaya-doll")->move(environment(me));
-	  message_vision(HIM"\n從木燃落的身上掉下了一件奇怪的東西!!\n"NOR,me,me);
+	  message_vision(HIM + "\n從木燃落的身上掉下了一件奇怪的東西!!\n" + NOR,me,me);
           write_file("/log/sky/obj12/papaya_doll",sprintf("%s(%s) 讓木燃落掉下了木瓜娃娃於 %s\n",
 	  me->name(1),me->query("id"),ctime(time())));
 	  }
@@ -136,7 +136,7 @@ void die()
 	  if( j==5 || j==15 || j== 150 || j==1500 || j==10 || j==100 || j==1000 || j==4000 || j==6666 || j==7777 ) 
 	  {      
 	  new("/open/sky/obj12/papaya-doll")->move(environment(me));
-	  message_vision(HIM"\n從木燃落的身上掉下了一件奇怪的東西!!\n"NOR,me,me);
+	  message_vision(HIM + "\n從木燃落的身上掉下了一件奇怪的東西!!\n" + NOR,me,me);
           write_file("/log/sky/obj12/papaya_doll",sprintf("%s(%s) 讓木燃落掉下了木瓜娃娃於 %s\n",
 	  me->name(1),me->query("id"),ctime(time())));
 	  }
@@ -145,7 +145,7 @@ void die()
 
 	if( !me->query_temp("magic-manor/woodmagic") )
 	{
-	message_vision(HIG"木燃落死後的靈魂忽然化為一道綠色靈光，灌入了$N"HIG"的身體之中!!\n"NOR,me);
+	message_vision(HIG + "木燃落死後的靈魂忽然化為一道綠色靈光，灌入了$N" + HIG + "的身體之中!!\n" + NOR,me);
 	me->set_temp("magic-manor/woodmagic",1);
 	  if( !me->query("magic-manor/kill-wood") )
 	  {

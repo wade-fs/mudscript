@@ -166,7 +166,7 @@ string ask_get_meteor()
   {
  command("say 很好.....我就將終極火燄術流星雨傳授於妳...\n");
  this_player()->set("spells/meteor/level",1);
- message("system",HIW"月牙兒開心的說道:有了"+this_player()->name()+"的幫助定能使舞者更加發揚光大.\n"NOR,users());
+ message("system",HIW + "月牙兒開心的說道:有了"+this_player()->name()+"的幫助定能使舞者更加發揚光大.\n" + NOR,users());
  return "今後要更加努力喔";
 
  }

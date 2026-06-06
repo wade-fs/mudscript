@@ -4,7 +4,7 @@ inherit ROOM;
 
 void create ()
 {
-  set ("short", HIW"雲頂"YEL"‧"HIG"風"GRN"翔"HIY"殿"NOR);
+  set ("short", HIW + "雲頂" + YEL + "‧" + HIG + "風" + GRN + "翔" + HIY + "殿" + NOR);
   set ("long", @LONG
 永不止息的清風緩緩地在四周流過，強風的怒咆似乎被這清風完全
 阻絕在外，世上流動空氣都由此地聖靈所掌管，然而聖靈來無影去無蹤
@@ -90,9 +90,9 @@ int do_touch()
   object me = this_player();
   if(me->query("attribute") == "wind")
   {
-  	message_vision(HIG"一陣清風包圍了$N，向雲底飛去。\n"NOR,me);
+  	message_vision(HIG + "一陣清風包圍了$N，向雲底飛去。\n" + NOR,me);
   	me->move("/open/common/room/inn");
-  	message_vision(HIG"$N隨著一陣清風緩緩由天而降。\n"NOR,me);
+  	message_vision(HIG + "$N隨著一陣清風緩緩由天而降。\n" + NOR,me);
   }else{
         write("清風緩緩的在身旁拂過，真舒服。\n");
         me->add("water",-10);
@@ -118,7 +118,7 @@ int do_blend(string str)
 	  }else{
 	    if( ob2->query("specialitem") == 1 && ob1->query("spirit") == 1 )
 	    {
-	    message_vision("\n"+ob1->query("name")+HIG"和"NOR+ob2->query("name")+HIG"感受到一股無形的力量，緩緩飄浮在空中，\n陣陣宜人清風從"NOR+ob1->query("name")+HIG"和"NOR+ob2->query("name")+HIG"中向外不斷吹拂。\n"NOR,me);
+	    message_vision("\n"+ob1->query("name")+HIG"和"NOR+ob2->query("name")+HIG"感受到一股無形的力量，緩緩飄浮在空中，\n陣陣宜人清風從"NOR+ob1->query("name")+HIG"和"NOR+ob2->query("name")+HIG"中向外不斷吹拂。\n" + NOR,me);
 	    me->force_me("change unarmed");
 	    me->start_busy(10);
 	    call_out("compose1",5,me);
@@ -138,7 +138,7 @@ int compose1(object me)
 	ob=this_object();
 	ob1=present("wind-spirit",me);
 	ob2=present("wind-emblem",me);
-	message_vision("\n"+ob1->query("name")+NOR+HIG"和"NOR+ob2->query("name")+NOR+HIG"放出的陣陣清風慢慢的籠照"HIY"$N"NOR+HIG"四周圍，\n漸漸的，連空間和時間都開始扭曲起來，好像要將$N帶到另一個時空。\n"NOR,me);
+	message_vision("\n"+ob1->query("name")+NOR+HIG"和"NOR+ob2->query("name")+NOR+HIG"放出的陣陣清風慢慢的籠照" + HIY + "$N"NOR+HIG"四周圍，\n漸漸的，連空間和時間都開始扭曲起來，好像要將$N帶到另一個時空。\n" + NOR,me);
 	me->start_busy(10);
 	call_out("compose2",5,me);
 	return 1;
@@ -160,9 +160,9 @@ int compose2(object me)
 	  ob3 = aob[j];
 	}
         write_file("/log/sky/powerup_claw",sprintf("%s(%s)使用了%s和%s加強了%s的型態於 %s\n",me->name(1),me->query("id"),ob1->query("name"),ob2->query("name"),ob3->query("name"),ctime(time())));
-	message_vision(HIG"\n只見"+ob3->query("name")+NOR+HIG"緩緩翻滾於扭曲的時空之中，將時空的震盪轉化為自體能量。\n"NOR,me);
+	message_vision(HIG + "\n只見"+ob3->query("name")+NOR+HIG"緩緩翻滾於扭曲的時空之中，將時空的震盪轉化為自體能量。\n" + NOR,me);
 	me->set("weapon/wind-full",1);	//融合完畢後，武器呈現最完美狀態給給定的query。
-	message_vision(ob1->query("name")+NOR+GRN"和"NOR+ob2->query("name")+NOR+GRN"所蘊藏的能量在被吸收殆盡後，也化為虛無消失無蹤。\n"NOR,me);
+	message_vision(ob1->query("name")+NOR+GRN"和"NOR+ob2->query("name")+NOR+GRN"所蘊藏的能量在被吸收殆盡後，也化為虛無消失無蹤。\n" + NOR,me);
 	destruct(ob1);
 	destruct(ob2);
 	me->delete_busy();

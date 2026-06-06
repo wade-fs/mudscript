@@ -39,7 +39,7 @@ int valid_leave(object who,string dir){
   if(dir=="north" && present("soldier",environment(who)))
    {
     if(dir=="north" && who->query("class")=="officer" && who->query_temp("can_in")!=1)
-        return notify_fail(HIY"皇宮守衛說道:大人要進攻的話,點個頭就好了阿!!!\n"NOR);
+        return notify_fail(HIY + "皇宮守衛說道:大人要進攻的話,點個頭就好了阿!!!\n" + NOR);
 if(dir=="north" && who->query("class")!="officer" && who->query_temp("can_in")!=1)
   return notify_fail("皇宮守衛大聲的對你說:大內禁地，閒雜人等不得進入。\n");
 
@@ -47,18 +47,18 @@ if(dir=="north" && who->query("class")!="officer" && who->query_temp("can_in")!=
 {
            if(who->query("class")=="officer")
        {
-        message_vision(HIC"hmm,你還不能進去喔,等到皇門守衛換班回來你才能進去!!!\n"NOR,who);
+        message_vision(HIC + "hmm,你還不能進去喔,等到皇門守衛換班回來你才能進去!!!\n" + NOR,who);
       return 0;
        }
         if(!flag)
 {
-     tell_object(users(),HIR"
+     tell_object(users(),HIR + "
 轟隆一聲~~~~~~~~~
 
   皇城的大門竟然被"+who->query("name")+"給打開了
 
   皇城禁衛軍頃巢而出,務要致"+who->query("name")+"於死地!!!
-\n"NOR); 
+\n" + NOR); 
        flag=1;
     }
   }
@@ -78,7 +78,7 @@ int do_exert(string str)
  object me;
  me=this_player();
  if(str=="roar"){
- message_vision(HIC"皇宮守衛大聲的對你說:皇城禁地豈容你大聲喧嘩，還不快滾!!!\n"NOR,me);
+ message_vision(HIC + "皇宮守衛大聲的對你說:皇城禁地豈容你大聲喧嘩，還不快滾!!!\n" + NOR,me);
  return 1;
                 }
  else

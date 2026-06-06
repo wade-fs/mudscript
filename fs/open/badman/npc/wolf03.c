@@ -34,8 +34,8 @@ int accept_kill(object me)
   wolf=present( "wolf master",environment(ob) );
   if( !present( "wolf master",environment(ob))||!living(wolf)) return 1;
   else {
-  tell_room(environment(me),HIY"吼...\n"NOR),
-  message_vision(RED"\n筤騂看到愛狼被欺 ,馬上二話不說 ,向$N撲了上來 !\n"NOR,me
+  tell_room(environment(me),HIY + "吼...\n" + NOR),
+  message_vision(RED + "\n筤騂看到愛狼被欺 ,馬上二話不說 ,向$N撲了上來 !\n" + NOR,me
   );
   wolf->kill_ob(me);
   return 1;
@@ -47,8 +47,8 @@ int accept_fight(object me){
   wolf=present( "wolf master",environment(ob) );
   if( !present( "wolf master",environment(ob))||!living(wolf)) return 1;
   else {
-  tell_room(environment(me),HIY"吼...\n"NOR),
-  message_vision(RED"\n筤騂看到愛狼被欺 ,馬上二話不說 ,向$N撲了上來 !\n"NOR,me
+  tell_room(environment(me),HIY + "吼...\n" + NOR),
+  message_vision(RED + "\n筤騂看到愛狼被欺 ,馬上二話不說 ,向$N撲了上來 !\n" + NOR,me
   );
   wolf->kill_ob(me);
   return 1;

@@ -39,7 +39,7 @@ void create()
   set("class", "doctor");
   set_name("華陀", ({ "master tor", "master", "tor" }) );
   set("title","銀針門第三代掌門人");
-  set("nickname",HIC "妙手回春"NOR);
+  set("nickname",HIC + "妙手回春" + NOR);
   set("gender", "男性");
   set("doctor/sosman", 1);
   set("max_gin",10000);
@@ -198,10 +198,10 @@ int do_say(string arg)
     if(me->query("doctor/book_select")==1)
     {
       if(present("book_mark",me))
-        write("既然你已經持有了...那這面「入閣令」就不交給你了...\n"NOR);
+        write("既然你已經持有了...那這面「入閣令」就不交給你了...\n" + NOR);
       else {
-        write("既然你如此堅持...那這面「入閣令」就交給你了...\n"NOR);
-        message_vision("$N給$n一面"HIY"入閣令"NOR"。\n",this_object(),me);
+        write("既然你如此堅持...那這面「入閣令」就交給你了...\n" + NOR);
+        message_vision("$N給$n一面" + HIY + "入閣令" + NOR + "。\n",this_object(),me);
         new("/open/doctor/obj/b-mark")->move(me);
       }
       command("addoil "+me->query("id"));
@@ -210,7 +210,7 @@ int do_say(string arg)
       me->set("doctor/get_mark", 1);
       for(int i = i ; i<= 10; i ++) //因為藏經閣有根據doctor_book的quest 做更動 因此在此順便補上 by blazakira
       {
-        tell_room(sprintf(resolve_path(__DIR__,"../room/book%1d.c"),i),HIG"突然一道疾行的身影閃過眼前，害得你不小心推倒一旁的藏書，導致離開的路徑與先前不同囉。\n"NOR);
+        tell_room(sprintf(resolve_path(__DIR__,"../room/book%1d.c"),i),HIG + "突然一道疾行的身影閃過眼前，害得你不小心推倒一旁的藏書，導致離開的路徑與先前不同囉。\n" + NOR);
       }
       load_object(resolve_path(__DIR__,"../room/book.c"))->random_road();
       return 1;
@@ -280,7 +280,7 @@ int accept_object(object me, object ob)
 {
   if(ob->query("id")=="ball of shen nongshi spirit")
   {
-    write("你恭敬地將"HIB"神農氏靈魂珠"NOR"雙手呈上。\n"NOR);
+    write("你恭敬地將" + HIB + "神農氏靈魂珠" + NOR + "雙手呈上。\n" + NOR);
     command("say 這！這難道是！");
     command("applaud "+me->query("id"));
     command("say 沒想到你竟然能找回吾輩一生的宏願，真是太好了，終於可以見到古神神農氏了！");
@@ -289,22 +289,22 @@ int accept_object(object me, object ob)
     command("say 取回神農氏靈魂珠的你證明有這緣份，進去拿吧!");
     me->set("quest/doctor_book/allow",1); //作為領取入閣令的許可 為永久mark 用以避免獎勵book遺失後 仍可進去重拿
     if(present("book_mark",me))
-      write("既然你已經持有了...那這面「入閣令」就不交給你了...\n"NOR);
+      write("既然你已經持有了...那這面「入閣令」就不交給你了...\n" + NOR);
     else {
-      write("既然你如此堅持...那這面「入閣令」就交給你了...\n"NOR);
-      message_vision("$N給$n一面"HIY"入閣令"NOR"。\n",this_object(),me);
+      write("既然你如此堅持...那這面「入閣令」就交給你了...\n" + NOR);
+      message_vision("$N給$n一面" + HIY + "入閣令" + NOR + "。\n",this_object(),me);
       new("/open/doctor/obj/b-mark")->move(me);
     }
     for(int i = i ; i<= 10; i ++)
     {
-      tell_room(sprintf(resolve_path(__DIR__,"../room/book%1d.c"),i),HIG"突然一道疾行的身影閃過眼前，害得你不小心推倒一旁的藏書，導致離開的路徑與先前不同囉。\n"NOR);
+      tell_room(sprintf(resolve_path(__DIR__,"../room/book%1d.c"),i),HIG + "突然一道疾行的身影閃過眼前，害得你不小心推倒一旁的藏書，導致離開的路徑與先前不同囉。\n" + NOR);
     }
     load_object(resolve_path(__DIR__,"../room/book.c"))->random_road();
     return 1;
   }
   if(me->query_temp("sos_letter") && ob->query("id")=="oldman letter")
   {
-    write("你戰戰兢兢的把信交給了華陀...\n"NOR);
+    write("你戰戰兢兢的把信交給了華陀...\n" + NOR);
     command("mad");
     command("slap "+me->query("id"));
     command("say 你真是丟夠了吾的臉了！");
@@ -317,7 +317,7 @@ int accept_object(object me, object ob)
   }
   if(me->query_temp("get_cornu")==1 && ob->query("id")=="cornu")
   {
-    write("你把獨角虎的角交給了華陀...\n"NOR);
+    write("你把獨角虎的角交給了華陀...\n" + NOR);
     me->delete_temp("get_cornu");
     me->set_temp("find_root",1);
     destruct(ob);
@@ -327,11 +327,11 @@ int accept_object(object me, object ob)
   }
   if(me->query_temp("get_root")==1 && ob->query("id")=="root" && !me->query_temp("give_cornu"))
   {
-    write("你把百年榕樹根交給了華陀...\n"NOR);
+    write("你把百年榕樹根交給了華陀...\n" + NOR);
     destruct(ob);
     command("spank"+me->query("id"));
     command("say 做得好...接下來給你將功\抵罪的機會...");
-    write("華陀把兩樣藥材給製作成一顆藥丸，並交給了你...\n"NOR);
+    write("華陀把兩樣藥材給製作成一顆藥丸，並交給了你...\n" + NOR);
     command("say 把這顆藥餵(feed)給那老人家吃就沒事了...");
     me->delete_temp("give_cornu");
     me->set_temp("get_pill",1);
@@ -341,7 +341,7 @@ int accept_object(object me, object ob)
   }
   if(me->query_temp("sec_letter") && ob->query("id")=="oldman letter2")
   {
-    write("你把老頭的第二封信交給了華陀...\n"NOR);
+    write("你把老頭的第二封信交給了華陀...\n" + NOR);
     command("haha "+me->query("id"));
     command("pat "+me->query("id"));
     command("say 你果然是我善良又老實的好弟子...");
@@ -350,13 +350,13 @@ int accept_object(object me, object ob)
     command("hoho");
     command("say 怎麼樣？沒嚇著你吧？");
     command("say 既然你如此的善良老實，吾想也應該把吾銀針門的奧義傳授給你了！");
-    tell_object(users(),HIW"
-華陀笑道："HIY"哇～哈哈哈！！\n
-          "HIG""+this_player()->name()+""HIY"吾徒！\n
-          吾今天就把咱"HIW"銀針門"HIY"的"HIR"七奇密式"HIY"傳授予你！！！！\n\n"NOR);
+    tell_object(users(),HIW + "
+華陀笑道：" + HIY + "哇～哈哈哈！！\n
+          " + HIG + ""+this_player()->name()+"" + HIY + "吾徒！\n
+          吾今天就把咱" + HIW + "銀針門" + HIY + "的" + HIR + "七奇密式" + HIY + "傳授予你！！！！\n\n" + NOR);
     me->set("doctor/sosman",1);
     me->delete_temp("sec_letter");
-    me->set("title",HBBLU+HIW"ψ"HIY"七奇"HIR"秘針"HIW"ψ"HIG"傳人"NOR);
+    me->set("title",HBBLU+HIW"ψ" + HIY + "七奇" + HIR + "秘針" + HIW + "ψ" + HIG + "傳人" + NOR);
     return 1;
   }
 }
@@ -379,11 +379,11 @@ void attempt_apprentice(object ob)
   command("hmm");
   command("pat" + ob->query("id"));
   command("recruit "+ob->query("id"));
-  message("system",HIR"
-"HIW"銀針門"HIC"內傳出一陣震耳的長嘯聲：\n
-          "HIR"※"HIW"※ "HIY"楓~落~颯~颯~嘆~已~老"HIW" ※"HIR"※ \n
-                     ※"HIW"※ "HIY"林~葉~飄~飄~塵~世~了"HIW" ※"HIR"※ \n
-       "HIW"唉～吾今實老，但"HIC""+this_player()->name()+""HIW"既投入吾門之下，吾定好好栽培他！\n\n"NOR,users());
+  message("system",HIR + "
+" + HIW + "銀針門" + HIC + "內傳出一陣震耳的長嘯聲：\n
+          " + HIR + "※" + HIW + "※ " + HIY + "楓~落~颯~颯~嘆~已~老" + HIW + " ※" + HIR + "※ \n
+                     ※" + HIW + "※ " + HIY + "林~葉~飄~飄~塵~世~了" + HIW + " ※" + HIR + "※ \n
+       " + HIW + "唉～吾今實老，但" + HIC + ""+this_player()->name()+"" + HIW + "既投入吾門之下，吾定好好栽培他！\n\n" + NOR,users());
 }
 
 void heart_beat()
@@ -394,20 +394,20 @@ void heart_beat()
   if(me->query_condition("lyssa"))
   {
     me->clear_condition("lyssa");
-    message_vision(HIY"只見$N雙眼忽然湛放金光，大喝一聲，逼出了身上的狂犬病毒!!!\n",me);
+    message_vision(HIY + "只見$N雙眼忽然湛放金光，大喝一聲，逼出了身上的狂犬病毒!!!\n",me);
   }
   boy=present("medicine boy",me);
   if(boy)
     if(boy->query_condition("lyssa"))
     {
       boy->clear_condition("lyssa");
-      message_vision(HIG"只見$N一掌拍在$n的背後，$n開始渾身冒汗，而$n身上的狂犬病毒似乎也跟著汗水排去!!\n",me,boy);
+      message_vision(HIG + "只見$N一掌拍在$n的背後，$n開始渾身冒汗，而$n身上的狂犬病毒似乎也跟著汗水排去!!\n",me,boy);
     }
   value=random(10);
   if( is_fighting() )
     if( value < 4){
       if( query("kee") < query("eff_kee") ) {
-        message_vision(HIW"\n華陀見情勢不妙,趕緊服下人靈丹,臉色頓時好多了\n"NOR,me);
+        message_vision(HIW + "\n華陀見情勢不妙,趕緊服下人靈丹,臉色頓時好多了\n" + NOR,me);
         me->receive_heal("kee",500);
         me->receive_heal("gin",200);
         me->receive_heal("sen",200);
@@ -459,11 +459,11 @@ void unconcious()
     :: unconcious();
     return ;
   }
-  tell_object(users(),HIW"
-銀針門"HIR"內突然傳出淒厲的慘叫聲...\n
-          "HIR"門主"HIW"華陀"HIY"被"+HIG+winner->query("name")+HIR+"擊中要害，一時口噴鮮血，痛苦不已...\n
-                  "HIR"霎時一道紅光閃過"HIW"楓林港"HIR"的天空...難道竟是天命註定如此...？\n
-\n"NOR);
+  tell_object(users(),HIW + "
+銀針門" + HIR + "內突然傳出淒厲的慘叫聲...\n
+          " + HIR + "門主" + HIW + "華陀" + HIY + "被"+HIG+winner->query("name")+HIR+"擊中要害，一時口噴鮮血，痛苦不已...\n
+                  " + HIR + "霎時一道紅光閃過" + HIW + "楓林港" + HIR + "的天空...難道竟是天命註定如此...？\n
+\n" + NOR);
   :: unconcious();
 }
 
@@ -484,7 +484,7 @@ void die()
       if( j==7 || j==77 || j== 777 || j==1111 || j==55 || j==555 || j==1000 || j==4000 || j==3333 || j==2222 )
       {
         new("/open/sky/obj2/charity_stone")->move(environment(winner));
-        message_vision(HIM"\n從華陀的身上掉下了一件奇怪的東西!!\n"NOR,winner);
+        message_vision(HIM + "\n從華陀的身上掉下了一件奇怪的東西!!\n" + NOR,winner);
         write_file("/log/sky/obj2/charity_stone",sprintf("%s(%s) 讓華陀掉下了仁心石於 %s\n",
           winner->name(1),winner->query("id"),ctime(time())));
       }
@@ -493,17 +493,17 @@ void die()
       if( j==5 || j==15 || j== 150 || j==1500 || j==10 || j==100 || j==1000 || j==4000 || j==6666 || j==7777 )
       {
         new("/open/sky/obj2/charity_stone")->move(environment(winner));
-        message_vision(HIM"\n從華陀的身上掉下了一件奇怪的東西!!\n"NOR,winner);
+        message_vision(HIM + "\n從華陀的身上掉下了一件奇怪的東西!!\n" + NOR,winner);
         write_file("/log/sky/obj2/charity_stone",sprintf("%s(%s) 讓華陀掉下了仁心石於 %s\n",
           winner->name(1),winner->query("id"),ctime(time())));
       }
     }
   }
-  tell_object(users(),HIW"
-銀針門"HIR"內傳出一聲怨恨的嘆息聲～～～\n
-     "HIW"「想我"HIG"華陀"HIW"行醫數十年，救人無數，如今竟命喪-"+HIR+winner->query("name")+HIW+"-之手...」 \n
-             "HIW"一顆"HIY"*流星*"NOR"劃過"HIC"銀針門"HIW"的上空～～～ \n
-                         "HIR"一代神醫"HIG"「華陀」"HIW"就此殞落....\n\n"NOR);
+  tell_object(users(),HIW + "
+銀針門" + HIR + "內傳出一聲怨恨的嘆息聲～～～\n
+     " + HIW + "「想我" + HIG + "華陀" + HIW + "行醫數十年，救人無數，如今竟命喪-"+HIR+winner->query("name")+HIW+"-之手...」 \n
+             " + HIW + "一顆" + HIY + "*流星*" + NOR + "劃過" + HIC + "銀針門" + HIW + "的上空～～～ \n
+                         " + HIR + "一代神醫" + HIG + "「華陀」" + HIW + "就此殞落....\n\n" + NOR);
   ::die();
 }
 
@@ -596,7 +596,7 @@ string ask_pass()
     return "疑？你不是已經持有了？";
   }
   new("/open/doctor/obj/b-mark")->move(me);
-  message_vision(HIW"『"HIG"暢談"HIW"』"HIY"$N說道: 咦？$n想進去看書？好徒兒，有上進心是很不錯的。\n"NOR"$N給$n一面"HIY"入閣令"NOR"。\n",this_object(),me);
+  message_vision(HIW + "『" + HIG + "暢談" + HIW + "』" + HIY + "$N說道: 咦？$n想進去看書？好徒兒，有上進心是很不錯的。\n" + NOR + "$N給$n一面" + HIY + "入閣令" + NOR + "。\n",this_object(),me);
   return "";
 }
 
@@ -604,6 +604,6 @@ int do_take(object me) //保管人是義女華山蝶
 {
   object ob = this_object();
   if ( !me || environment(me) != environment(ob) ) return;
-  tell_object(me,HIY"頓了頓華陀接著說道：你可以先將這片靈魂碎片交由(give)我的義女保管。\n\n"+NOR+
+  tell_object(me,HIY + "頓了頓華陀接著說道：你可以先將這片靈魂碎片交由(give)我的義女保管。\n\n"+NOR+
     "相關說明 help doctor.失落的靈魂碎片\n\n");
 }

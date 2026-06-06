@@ -7,7 +7,7 @@ inherit SWORD;
 
 void create()
 {
-  set_name(HIB"連鞘古劍"NOR,({"old sword","sword"}) );
+  set_name(HIB + "連鞘古劍" + NOR,({"old sword","sword"}) );
   set_weight(5000);
   if( clonep() )
     set_default_object(__FILE__);
@@ -54,8 +54,8 @@ int do_wield(string str)
         message_vision("$N的靈性與經驗，並不足以使用此劍。\n",user);
         set_temp("changed",0);
       }else{
-        message_vision(HIW"鞘中之劍感受到$N"HIW"的靈性，隨著一道青光灑然揚出，原來正是聞名天下的"HIC"倚天劍"HIW"。\n"NOR,user);
-        set_name(HIC"倚天劍"NOR,({"et-sword","sword"}) );
+        message_vision(HIW + "鞘中之劍感受到$N" + HIW + "的靈性，隨著一道青光灑然揚出，原來正是聞名天下的" + HIC + "倚天劍" + HIW + "。\n" + NOR,user);
+        set_name(HIC + "倚天劍" + NOR,({"et-sword","sword"}) );
         set("long","\n倚天劍傳聞是以寒湖玄鐵打製，其鋒芒足可分金斷玉，在武林與屠龍刀並列。\n");
         set_temp("changed",1);
       }
@@ -71,7 +71,7 @@ int do_unwield(string str)
     {
       message_vision("$N輕輕巧巧的把劍收回腰際。\n",user);
       set("long","\n這是一柄連鞘的古劍，古樸的劍鞘中閃爍著異樣的寒光。\n");
-      set_name(HIB"連鞘古劍"NOR,({"old sword","sword"}) );
+      set_name(HIB + "連鞘古劍" + NOR,({"old sword","sword"}) );
       set_temp("changed",0);
     }
 }
@@ -83,7 +83,7 @@ int do_drop(string str)
     if( query("equipped") )
     {    
       message_vision("$N輕輕巧巧的把劍收回腰際。\n",user);
-      set_name(HIB"連鞘古劍"NOR,({"old sword","sword"}) );
+      set_name(HIB + "連鞘古劍" + NOR,({"old sword","sword"}) );
       set("long","\n這是一柄連鞘的古劍，古樸的劍鞘中閃爍著異樣的寒光。\n");
       set_temp("changed",0);
     }
@@ -96,7 +96,7 @@ int do_give(string str)
     if( query("equipped") )
     {  
       message_vision("$N輕輕巧巧的把劍收回腰際。\n",user);
-      set_name(HIB"連鞘古劍"NOR,({"old sword","sword"}) );
+      set_name(HIB + "連鞘古劍" + NOR,({"old sword","sword"}) );
       set("long","\n這是一柄連鞘的古劍，古樸的劍鞘中閃爍著異樣的寒光。\n");
       set_temp("changed",0);
     }
@@ -109,7 +109,7 @@ int do_auc(string str)
     if( query("equipped") )
     {
       message_vision("$N輕輕巧巧的把劍收回腰際。\n",user);
-      set_name(HIB"連鞘古劍"NOR,({"old sword","sword"}) );
+      set_name(HIB + "連鞘古劍" + NOR,({"old sword","sword"}) );
       set("long","\n這是一柄連鞘的古劍，古樸的劍鞘中閃爍著異樣的寒光。\n");
       set_temp("changed",0);
     }

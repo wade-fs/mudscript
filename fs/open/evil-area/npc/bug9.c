@@ -48,7 +48,7 @@ void heart_beat()
 		if( env == environment(target) && random(sk1) > random(sk2))
 		{
                 message_vision("
-\n$N"HIR"口吐熊熊烈火，$n一不小心被灼傷了。\n"NOR,ob,target);
+\n$N" + HIR + "口吐熊熊烈火，$n一不小心被灼傷了。\n" + NOR,ob,target);
                 COMBAT_D->report_status(target,1);
                 target->start_busy(2);
 		}

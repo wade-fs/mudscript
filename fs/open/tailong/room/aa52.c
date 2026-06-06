@@ -31,7 +31,7 @@ int do_pass(string arg)
 
     if(!arg) return notify_fail("你想要穿過什麼??\n");
     if(arg!="竹子") return notify_fail("你想要穿過什麼??\n");
-    message_vision(HIG"$N"HIG"用手撥開竹子，往小徑走去!!\n"NOR,me);
+    message_vision(HIG + "$N" + HIG + "用手撥開竹子，往小徑走去!!\n" + NOR,me);
     if(me->query("family/family_name")!="段家"){
       me->move(__DIR__"d0.c");
     }

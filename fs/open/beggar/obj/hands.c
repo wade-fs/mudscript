@@ -3,7 +3,7 @@
 inherit HANDS;
 void create()
 {
-        set_name(MAG"雲  捃"NOR,({"wind hands","hands"}));
+        set_name(MAG + "雲  捃" + NOR,({"wind hands","hands"}));
         set_weight(2500);
         if( clonep() )
                 set_default_object(__FILE__);

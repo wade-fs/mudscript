@@ -40,11 +40,11 @@ void do_damage(object ob){
    obj = all[i];
    kee1=obj->query("eff_kee");  
    if( random(500) > obj->query_skill("parry")+obj->query_skill("dodge") ) {
-   message_vision(HIR"嗤嗤聲響處，幾枚毒蒺菱快速射出，$N閃躲不及被毒蒺菱給射中！\n"NOR,obj);
+   message_vision(HIR + "嗤嗤聲響處，幾枚毒蒺菱快速射出，$N閃躲不及被毒蒺菱給射中！\n" + NOR,obj);
    obj->add("eff_kee",-kee1/30);
    obj->apply_condition("dark_poison",random(20));
                                                   }                                              
-  else  message_vision(HIW"嗤嗤聲響處，幾枚毒蒺菱快速射出，$N連忙竄高伏低，並揮手擊落射來的暗器\n"NOR,obj);   
+  else  message_vision(HIW + "嗤嗤聲響處，幾枚毒蒺菱快速射出，$N連忙竄高伏低，並揮手擊落射來的暗器\n" + NOR,obj);   
        }
 }
 

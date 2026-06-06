@@ -10,7 +10,7 @@ void create()
 {
 	set_name("火飛笙", ({ "fire king","fire","king" }) );
 	set("long","火靈塔的鎮塔之王，能力比小火妖和火靈獸不知強上幾倍。\n");
-	set("title",HIR"(紅色靈氣)"NOR"火靈塔王"NOR);
+	set("title",HIR + "(紅色靈氣)" + NOR + "火靈塔王" + NOR);
 	set("class","scholar");
 	set("family/family_name","段家");
 	set("gender","女性");
@@ -89,10 +89,10 @@ void heart_beat()
 
 	if(random(10) > 6 && mob->is_fighting() )
 	{
-	message_vision(HIM"火捲漫天，雲淡風輕，輕煙漫舞於天際，$N別有感觸翩然起舞飄然喚出
+	message_vision(HIM + "火捲漫天，雲淡風輕，輕煙漫舞於天際，$N別有感觸翩然起舞飄然喚出
 
-            "HIW"----===≡◎ 火捲風雲式 ◎≡===----
-                 "NOR+RED"  『"HIR"火雲鳳舞．翔風飛"NOR+RED"』\n\n"NOR,mob);
+            " + HIW + "----===≡◎ 火捲風雲式 ◎≡===----
+                 "NOR+RED"  『" + HIR + "火雲鳳舞．翔風飛"NOR+RED"』\n\n" + NOR,mob);
 
       for (j=0 ; j < i ; j++)
       {
@@ -103,12 +103,12 @@ void heart_beat()
           {
             if( !enemy[j]->query_temp("magic-manor/water-shield") )
             {
-            message_vision(HIR"$N"HIR"只感渾身灼熱，還不時傳出陣陣燒焦的臭味!!\n"NOR,(enemy[j]));
+            message_vision(HIR + "$N" + HIR + "只感渾身灼熱，還不時傳出陣陣燒焦的臭味!!\n" + NOR,(enemy[j]));
             enemy[j]->receive_wound("kee",600);
             enemy[j]->start_busy(1);
             COMBAT_D->report_status(enemy[j]);
             }else{
-            message_vision(HIC"$N"HIC"身上的水靈之氣緩和了部份的火焰衝擊!!\n"NOR,(enemy[j]));
+            message_vision(HIC + "$N" + HIC + "身上的水靈之氣緩和了部份的火焰衝擊!!\n" + NOR,(enemy[j]));
             enemy[j]->receive_wound("kee",300);
             enemy[j]->start_busy(k);
             COMBAT_D->report_status(enemy[j]);
@@ -160,7 +160,7 @@ void die()
 	  if( j==7 || j==77 || j== 777 || j==1111 || j==55 || j==555 || j==1000 || j==4000 || j==3333 || j==2222 )
 	  {      
 	  new("/open/sky/obj12/strawberry-doll")->move(environment(me));
-	  message_vision(HIM"\n從火飛笙的身上掉下了一件奇怪的東西!!\n"NOR,me,me);
+	  message_vision(HIM + "\n從火飛笙的身上掉下了一件奇怪的東西!!\n" + NOR,me,me);
           write_file("/log/sky/obj12/strawberry_doll",sprintf("%s(%s) 讓火飛笙掉下了草莓娃娃於 %s\n",
 	  me->name(1),me->query("id"),ctime(time())));
 	  }
@@ -169,7 +169,7 @@ void die()
 	  if( j==5 || j==15 || j== 150 || j==1500 || j==10 || j==100 || j==1000 || j==4000 || j==6666 || j==7777 ) 
 	  {      
 	  new("/open/sky/obj12/strawberry-doll")->move(environment(me));
-	  message_vision(HIM"\n從火飛笙的身上掉下了一件奇怪的東西!!\n"NOR,me,me);
+	  message_vision(HIM + "\n從火飛笙的身上掉下了一件奇怪的東西!!\n" + NOR,me,me);
           write_file("/log/sky/obj12/strawberry_doll",sprintf("%s(%s) 讓火飛笙掉下了草莓娃娃於 %s\n",
 	  me->name(1),me->query("id"),ctime(time())));
 	  }
@@ -177,7 +177,7 @@ void die()
 	}
 	if( !me->query_temp("magic-manor/firemagic") )
 	{
-	message_vision(HIR"火飛笙死後的靈魂忽然化為一道紅色靈光，灌入了$N"HIR"的身體之中!!\n"NOR,me);
+	message_vision(HIR + "火飛笙死後的靈魂忽然化為一道紅色靈光，灌入了$N" + HIR + "的身體之中!!\n" + NOR,me);
 	me->set_temp("magic-manor/firemagic",1);
 	  if( !me->query("magic-manor/kill-fire") )
 	  {

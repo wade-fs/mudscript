@@ -67,7 +67,7 @@ int do_metallurgy(string arg)
 	if(random(sum+1) != 0)
 	{
 		CHANNEL_D->do_channel(this_object(),"mud",
-			sprintf(HIR"一陣火花從狂想某地竄出，%s的%s"HIR"竟然打造失敗而成為一塊癈渣。\n"NOR
+			sprintf(HIR + "一陣火花從狂想某地竄出，%s的%s" + HIR + "竟然打造失敗而成為一塊癈渣。\n" + NOR
 				,me->name(),eqob->name()));
 		destruct(eqob);
 		destruct(itemob);

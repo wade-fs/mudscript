@@ -4,7 +4,7 @@ inherit NECK;
 
 void create()
 {
-        set_name(HIG"蛇型項鍊"NOR , ({"snake gem","gem"}));
+        set_name(HIG + "蛇型項鍊" + NOR , ({"snake gem","gem"}));
      set_weight(1000);
      if ( clonep() )
               set_default_object(__FILE__);

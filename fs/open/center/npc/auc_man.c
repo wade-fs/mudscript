@@ -40,7 +40,7 @@ void ident(object me)
     tell_object(me,"目前沒有任何拍賣物品。\n");
     return ;
   }
-  tell_object(me,HIG"黑市老闆交給你觀看了一下，鑑定結果如下：\n"NOR);
+  tell_object(me,HIG + "黑市老闆交給你觀看了一下，鑑定結果如下：\n" + NOR);
   foreach(object obj in objs )
   {
     "/cmds/std/ident.c"->main(me,obj);
@@ -106,15 +106,15 @@ void auction()
     else {
     if(me->is_ghost()) {
       CHANNEL_D->do_channel(auc_man, "mud", "㊣黑市交易㊣"
-          "太可惜了，竟然沒人想要買"+auc_ob->name()+HIG"。"NOR);
+          "太可惜了，竟然沒人想要買"+auc_ob->name()+HIG"。" + NOR);
       CHANNEL_D->do_channel(auc_man, "mud", "㊣黑市交易㊣"
-          "黑市公司送貨員不能送"+auc_ob->name()+HIG"到陰間只好充公。"NOR);
+          "黑市公司送貨員不能送"+auc_ob->name()+HIG"到陰間只好充公。" + NOR);
       destruct(auc_ob); } else {
       auc_ob->move(me);
       CHANNEL_D->do_channel(auc_man, "mud", "㊣黑市交易㊣"
-          "太可惜了，竟然沒人想要買"+auc_ob->name()+HIG"。"NOR);
+          "太可惜了，竟然沒人想要買"+auc_ob->name()+HIG"。" + NOR);
       CHANNEL_D->do_channel(auc_man, "mud", "㊣黑市交易㊣"
-          "黑市公司送貨員退還"+auc_ob->name()+HIG"給原主"+me->name()+HIG"。"NOR);
+          "黑市公司送貨員退還"+auc_ob->name()+HIG"給原主"+me->name()+HIG"。" + NOR);
     }
     }
     if (arrayp(all_inventory(auc_man))) {
@@ -128,13 +128,13 @@ void auction()
     if (had_auc) {
       had_auc = 0;
       CHANNEL_D->do_channel(auc_man, "mud", "㊣黑市交易㊣"
-        "嘿呦! 有人以"+CHINESE_D->cvalue(value)+HIG"搶標! 歡迎加價!!"NOR);
+        "嘿呦! 有人以"+CHINESE_D->cvalue(value)+HIG"搶標! 歡迎加價!!" + NOR);
       times = 1;
     }
     else {
       CHANNEL_D->do_channel(this_object(), "mud", "㊣黑市交易㊣"
         "第"+chinese_number(times)+"次拍賣"+auc_ob->name()+HIG"! 叫價"+
-        CHINESE_D->cvalue(value)+HIG"! 請出價!"NOR);
+        CHINESE_D->cvalue(value)+HIG"! 請出價!" + NOR);
       times++;
     }
     call_out ("auction", 10);
@@ -150,7 +150,7 @@ void auction()
     {
       CHANNEL_D->do_channel(this_object(), "mud", "㊣黑市交易㊣"+
         auc_ob->name()+HIG"以"+CHINESE_D->cvalue(value)+HIG
-        "拍賣給"+who->name()+HIG"。"NOR);
+        "拍賣給"+who->name()+HIG"。" + NOR);
       if(who->is_ghost()) {
         CHANNEL_D->do_channel(this_object(), "mud", "㊣黑市交易㊣"
           "喔喔, 你是鬼魂唷, 所買到的東西送不到陰間唷!");
@@ -168,9 +168,9 @@ void auction()
         me->pay_player(value);
 
         if(auc_ob)
-        tell_object(me, HIG"㊣黑市交易㊣"
+        tell_object(me, HIG + "㊣黑市交易㊣"
             "你賣出"+chinese_number(auc_ob->query_amount())+auc_ob->query("unit")+auc_ob->name()+HIG"，獲得"+
-            CHINESE_D->cvalue(value)+HIG"。\n"NOR);
+            CHINESE_D->cvalue(value)+HIG"。\n" + NOR);
       }
       else
         CHANNEL_D->do_channel(this_object(), "mud", "㊣黑市交易㊣"
@@ -231,7 +231,7 @@ void do_buy (object me, int new_value)
   if (new_value - value < diff) {
     tell_object (me, "㊣黑市交易㊣"
       "你出的價錢並不符合黑市運作規則，請提高至少"+
-      CHINESE_D->cvalue(diff)+"。\n"NOR);
+      CHINESE_D->cvalue(diff)+"。\n" + NOR);
     return;
   }
   // 做到搶標的人先付錢的話，第一步是：

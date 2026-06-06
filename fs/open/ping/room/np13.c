@@ -31,7 +31,7 @@ void init ()
   object me=this_player ();
   if ( me->query_temp("six_sp_quest") == 7)
       {
-       message_vision(HIY"\n特上級武僧說道:請讓小僧帶路, 前往天龍寺, 拜見方丈. \n\n"NOR,me);
+       message_vision(HIY + "\n特上級武僧說道:請讓小僧帶路, 前往天龍寺, 拜見方丈. \n\n" + NOR,me);
        me->set_temp("six_sp_quest",8);
        me->move("/open/tailong/room/aa39.c");
       }

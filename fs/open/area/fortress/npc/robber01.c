@@ -6,7 +6,7 @@ void create()
 	set("long","橫眉豎眼，臉上有數條刀巴，一臉兇相。\n");
 	set("race", "人類");
 	set("gender","男性");
-	set("title",HIR"極火山寨"NOR);
+	set("title",HIR + "極火山寨" + NOR);
         set("age",30);
         set("attitude","aggressive");
         set("combat_exp",150000);
@@ -74,7 +74,7 @@ int i,n,d,s;
                 	d=100+random(100);
 			target->add("gin",-d); target->add("kee",-d);
                 	target->add("sen",-d); target->add("force",-d);
-                	message_vision(HIR"$N衝向$n！又咬又打，猶如一條瘋狗！！$n受傷了！\n"NOR,ob,target);
+                	message_vision(HIR + "$N衝向$n！又咬又打，猶如一條瘋狗！！$n受傷了！\n" + NOR,ob,target);
                 	COMBAT_D->report_status(target);
                 }
         }

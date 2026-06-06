@@ -66,7 +66,7 @@ object ob,me;
         ob->set("no_give",1);
 	ob->set("no_save",1);
 
-        message_vision(HIW"$N輕輕將$n"+HIW+"放在手掌之中，讓$n"+HIW+"開始吸收聚靈池的靈氣。\n"NOR,me,ob);
+        message_vision(HIW + "$N輕輕將$n"+HIW+"放在手掌之中，讓$n"+HIW+"開始吸收聚靈池的靈氣。\n" + NOR,me,ob);
 	me->start_busy(1);
 	call_out("act1",5,ob);
 
@@ -119,11 +119,11 @@ int act1(object ob,object me)
 	bname = base_name(environment(me));
 	if( bname == "/open/magic-manor/manor53" )
 	{
-        message_vision(HIW"$N"HIW"正緩緩的吸取靈氣中，只見$N"HIW"周身泛起陣陣光芒。\n"NOR,ob);
+        message_vision(HIW + "$N" + HIW + "正緩緩的吸取靈氣中，只見$N" + HIW + "周身泛起陣陣光芒。\n" + NOR,ob);
 	me->start_busy(1);
 	call_out("act2",5,ob);
 	}else{
-	message_vision(HIR"$N"HIR"一時失去了靈氣的導引，忽然暴為粉碎!!\n"NOR,ob);
+	message_vision(HIR + "$N" + HIR + "一時失去了靈氣的導引，忽然暴為粉碎!!\n" + NOR,ob);
 	destruct(ob);
 	}
 	return 1;
@@ -135,11 +135,11 @@ int act2(object ob,object me)
 	bname = base_name(environment(me));
 	if( bname == "/open/magic-manor/manor53" )
 	{
-        message_vision(HIW"$N"HIW"正緩緩的吸取靈氣中，只見$N"HIW"周身泛起陣陣光芒。\n"NOR,ob);
+        message_vision(HIW + "$N" + HIW + "正緩緩的吸取靈氣中，只見$N" + HIW + "周身泛起陣陣光芒。\n" + NOR,ob);
 	me->start_busy(1);
 	call_out("act3",5,ob);
 	}else{
-	message_vision(HIR"$N"HIR"一時失去了靈氣的導引，忽然暴為粉碎!!\n"NOR,ob);
+	message_vision(HIR + "$N" + HIR + "一時失去了靈氣的導引，忽然暴為粉碎!!\n" + NOR,ob);
 	destruct(ob);
 	}
 	return 1;
@@ -151,11 +151,11 @@ int act3(object ob,object me)
 	bname = base_name(environment(me));
 	if( bname == "/open/magic-manor/manor53" )
 	{
-        message_vision(HIW"$N"HIW"正緩緩的吸取靈氣中，只見$N"HIW"周身泛起陣陣光芒。\n"NOR,ob);
+        message_vision(HIW + "$N" + HIW + "正緩緩的吸取靈氣中，只見$N" + HIW + "周身泛起陣陣光芒。\n" + NOR,ob);
 	me->start_busy(1);
 	call_out("act4",5,ob);
 	}else{
-	message_vision(HIR"$N"HIR"一時失去了靈氣的導引，忽然暴為粉碎!!\n"NOR,ob);
+	message_vision(HIR + "$N" + HIR + "一時失去了靈氣的導引，忽然暴為粉碎!!\n" + NOR,ob);
 	destruct(ob);
 	}
 	return 1;
@@ -167,11 +167,11 @@ int act4(object ob,object me)
 	bname = base_name(environment(me));
 	if( bname == "/open/magic-manor/manor53" )
 	{
-        message_vision(HIW"$N"HIW"正緩緩的吸取靈氣中，只見$N"HIW"周身泛起陣陣光芒。\n"NOR,ob);
+        message_vision(HIW + "$N" + HIW + "正緩緩的吸取靈氣中，只見$N" + HIW + "周身泛起陣陣光芒。\n" + NOR,ob);
 	me->start_busy(1);
 	call_out("act5",5,ob);
 	}else{
-	message_vision(HIR"$N"HIR"一時失去了靈氣的導引，忽然暴為粉碎!!\n"NOR,ob);
+	message_vision(HIR + "$N" + HIR + "一時失去了靈氣的導引，忽然暴為粉碎!!\n" + NOR,ob);
 	destruct(ob);
 	}
 	return 1;
@@ -183,11 +183,11 @@ int act5(object ob,object me)
 	bname = base_name(environment(me));
 	if( bname == "/open/magic-manor/manor53" )
 	{
-        message_vision(HIW"$N"HIW"正緩緩的吸取靈氣中，只見$N"HIW"周身泛起陣陣光芒。\n"NOR,ob);
+        message_vision(HIW + "$N" + HIW + "正緩緩的吸取靈氣中，只見$N" + HIW + "周身泛起陣陣光芒。\n" + NOR,ob);
 	me->start_busy(1);
 	call_out("act6",5,ob);
 	}else{
-	message_vision(HIR"$N"HIR"一時失去了靈氣的導引，忽然暴為粉碎!!\n"NOR,ob);
+	message_vision(HIR + "$N" + HIR + "一時失去了靈氣的導引，忽然暴為粉碎!!\n" + NOR,ob);
 	destruct(ob);
 	}
 	return 1;
@@ -199,11 +199,11 @@ int act6(object ob,object me)
 	bname = base_name(environment(me));
 	if( bname == "/open/magic-manor/manor53" )
 	{
-        message_vision(HIW"$N"HIW"正緩緩的吸取靈氣中，只見$N"HIW"周身泛起陣陣光芒。\n"NOR,ob);
+        message_vision(HIW + "$N" + HIW + "正緩緩的吸取靈氣中，只見$N" + HIW + "周身泛起陣陣光芒。\n" + NOR,ob);
 	me->start_busy(1);
 	call_out("act7",5,ob);
 	}else{
-	message_vision(HIR"$N"HIR"一時失去了靈氣的導引，忽然暴為粉碎!!\n"NOR,ob);
+	message_vision(HIR + "$N" + HIR + "一時失去了靈氣的導引，忽然暴為粉碎!!\n" + NOR,ob);
 	destruct(ob);
 	}
 	return 1;
@@ -215,11 +215,11 @@ int act7(object ob,object me)
 	bname = base_name(environment(me));
 	if( bname == "/open/magic-manor/manor53" )
 	{
-        message_vision(HIW"$N"HIW"正緩緩的吸取靈氣中，只見$N"HIW"周身泛起陣陣光芒。\n"NOR,ob);
+        message_vision(HIW + "$N" + HIW + "正緩緩的吸取靈氣中，只見$N" + HIW + "周身泛起陣陣光芒。\n" + NOR,ob);
 	me->start_busy(1);
 	call_out("act8",5,ob);
 	}else{
-	message_vision(HIR"$N"HIR"一時失去了靈氣的導引，忽然暴為粉碎!!\n"NOR,ob);
+	message_vision(HIR + "$N" + HIR + "一時失去了靈氣的導引，忽然暴為粉碎!!\n" + NOR,ob);
 	destruct(ob);
 	}
 	return 1;
@@ -231,11 +231,11 @@ int act8(object ob,object me)
 	bname = base_name(environment(me));
 	if( bname == "/open/magic-manor/manor53" )
 	{
-        message_vision(HIW"$N"HIW"正緩緩的吸取靈氣中，只見$N"HIW"周身泛起陣陣光芒。\n"NOR,ob);
+        message_vision(HIW + "$N" + HIW + "正緩緩的吸取靈氣中，只見$N" + HIW + "周身泛起陣陣光芒。\n" + NOR,ob);
 	me->start_busy(1);
 	call_out("act9",5,ob);
 	}else{
-	message_vision(HIR"$N"HIR"一時失去了靈氣的導引，忽然暴為粉碎!!\n"NOR,ob);
+	message_vision(HIR + "$N" + HIR + "一時失去了靈氣的導引，忽然暴為粉碎!!\n" + NOR,ob);
 	destruct(ob);
 	}
 	return 1;
@@ -245,8 +245,8 @@ int act9(object ob,object me)
 {
 	ob=this_object();
 	me=this_player();
-	message_vision(HIW"只見$N"HIW"已吸足了靈氣，$N"HIW"周身泛起強烈光芒。\n"NOR,ob);
-        ob->set("name",HIW"(聚靈) "NOR+YEL"靈氣土珠"NOR);
+	message_vision(HIW + "只見$N" + HIW + "已吸足了靈氣，$N" + HIW + "周身泛起強烈光芒。\n" + NOR,ob);
+        ob->set("name",HIW + "(聚靈) "NOR+YEL"靈氣土珠" + NOR);
         me->set_temp("magic-manor/gather-soil",1);
 	me->set_temp("magic-manor/soil-shield",1);
 	return 1;

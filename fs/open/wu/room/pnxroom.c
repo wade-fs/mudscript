@@ -5,7 +5,7 @@
 inherit ROOM;
 void create ()
 {
-  set ("short", HIM"瀧山聖地"NOR);
+  set ("short", HIM + "瀧山聖地" + NOR);
   set ("long", @LONG
 這裡就是那瀧山派傳說中的聖地，據說這裡生有一隻美麗的火鳳，以
 其生命不熄之火，源源不斷的供給瀧山派的護派聖火之永遠不滅，老一輩

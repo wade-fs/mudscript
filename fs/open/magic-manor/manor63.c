@@ -3,7 +3,7 @@ inherit ROOM;
 
 void create ()
 {
-	set ("short", HIY"金靈塔"NOR);
+	set ("short", HIY + "金靈塔" + NOR);
 	set ("long", @LONG
 金靈塔的周圍遍滿了奇異的金屬，五彩的金屬不時的碰撞並發出
 無比尖瑞的聲音，若非有一番功力的人，將承受不住這樣大的音波侵

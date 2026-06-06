@@ -31,6 +31,6 @@ int do_act(object ppl)
 }
 void die_msg()
 {
-    message_vision(HIY"$N發覺身上的傷勢嚴重，慘叫了一聲，忽然間變成了一隻蝙蝠，朝裡面飛去！\n"NOR,this_object());
+    message_vision(HIY + "$N發覺身上的傷勢嚴重，慘叫了一聲，忽然間變成了一隻蝙蝠，朝裡面飛去！\n" + NOR,this_object());
     return ;
 }

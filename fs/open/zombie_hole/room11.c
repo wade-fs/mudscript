@@ -22,7 +22,7 @@ string slong = @LONG
 LONG
 ;
 
-return slong  + HIW"\t這裡好像有一個神奇的洞(hole)。\n"NOR;
+return slong  + HIW"\t這裡好像有一個神奇的洞(hole)。\n" + NOR;
 }
 void init()
 {
@@ -34,7 +34,7 @@ object me = this_player();
 if(!arg) return notify_fail("你要去哪裡？");
 if(arg != "hole")
 	return notify_fail("你要去哪裡？");
-message_vision(HIB"$N努力的往洞裡鑽啊鑽的，終於進去了。\n"NOR,me);
+message_vision(HIB + "$N努力的往洞裡鑽啊鑽的，終於進去了。\n" + NOR,me);
 me->move(resolve_path(__DIR__,"room10.c"));
 return 1;
 }

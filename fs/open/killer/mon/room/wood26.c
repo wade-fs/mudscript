@@ -35,14 +35,14 @@ int do_moveup( string arg)
    user= this_player();
    if( user->query("quest/rain")==1)
    {
-      tell_object( user, HIW"你大喝一聲, 運起輕功\, 飛快的往岩頂升去....\n"NOR);
+      tell_object( user, HIW + "你大喝一聲, 運起輕功\, 飛快的往岩頂升去....\n" + NOR);
       user->move("/open/killer/mon/room/wood30.c");
    }
    else
    {
-      tell_object( user, HIW"你大喝一聲, 運起輕功\, 飛快的往岩頂升去....\n"NOR);
-      tell_object( user, HIR"突然你運氣一個不順暢, 氣一濁, 旋即就沉身往下墜去...\n"NOR);
-      tell_object( user, HIB"看來你的輕身功\夫並不足以攀登這片岩壁...\n"NOR);
+      tell_object( user, HIW + "你大喝一聲, 運起輕功\, 飛快的往岩頂升去....\n" + NOR);
+      tell_object( user, HIR + "突然你運氣一個不順暢, 氣一濁, 旋即就沉身往下墜去...\n" + NOR);
+      tell_object( user, HIB + "看來你的輕身功\夫並不足以攀登這片岩壁...\n" + NOR);
    }
    return 1;
 }

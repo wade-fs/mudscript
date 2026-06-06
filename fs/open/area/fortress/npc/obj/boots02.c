@@ -4,7 +4,7 @@ inherit BOOTS;
 object me=this_player();
 void create()
 {
-        set_name(YEL"木常靴"NOR,({"mu chang boots","boots"}));
+        set_name(YEL + "木常靴" + NOR,({"mu chang boots","boots"}));
         set_weight(1000);
         if( clonep() )
                 set_default_object(__FILE__);

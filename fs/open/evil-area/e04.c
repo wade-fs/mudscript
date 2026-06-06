@@ -3,7 +3,7 @@ inherit ROOM;
 
 void create()
 {
-	set("short",BBLU+YEL"震邪道"NOR);
+	set("short",BBLU+YEL"震邪道" + NOR);
 	set("long",@LONG
 你正站立於這房內西邊的木製踏板上, 底下不時的傳來高溫, 彷
 彿是在提醒你〔小心腳底下的熱油鍋〕, 油鍋上, 還漂浮著熊熊的火
@@ -35,18 +35,18 @@ object me=this_player();
 		return 0;
 	if(me->query_temp("evil/f_enter"))
 	{
-		message_vision(HIR"$N握著鐵鍊，卻被鐵鍊上傳來的炙熱高溫給燙的鬆手放開鐵鍊。\n"NOR,me);
+		message_vision(HIR + "$N握著鐵鍊，卻被鐵鍊上傳來的炙熱高溫給燙的鬆手放開鐵鍊。\n" + NOR,me);
 		me->receive_damage("kee",100);
 		COMBAT_D->report_status(me,1);
 		return notify_fail("你心中暗喊疼～\n");
 	}
 	else
 	{
-		message_vision(HIY"$N的手掌突然浮現〔火〕的字樣～
+		message_vision(HIY + "$N的手掌突然浮現〔火〕的字樣～
 
 $N有持無恐的握著鐵鍊，爬著爬著，彷彿絲毫不受鐵鍊的炙熱高溫所影響...
 
-$N爬到了黃金色的踏板，走進了門後。\n"NOR);
+$N爬到了黃金色的踏板，走進了門後。\n" + NOR);
 		me->move(__DIR__"e05");
 		return 1;
 	}

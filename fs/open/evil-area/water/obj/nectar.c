@@ -3,7 +3,7 @@ inherit COMBINED_ITEM;
 
 void create()
 {
-	set_name(HIY"千花蜜"NOR,({"flower nectar","nectar"}));
+	set_name(HIY + "千花蜜" + NOR,({"flower nectar","nectar"}));
 	set_weight(100);
 	if( clonep() )
                 set_default_object(__FILE__);

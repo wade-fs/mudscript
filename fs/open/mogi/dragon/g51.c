@@ -30,7 +30,7 @@ int valid_leave(object me, string dir)
         if(dir=="up"&&present("ghost",environment(me)))
   {
 
-message_vision(HIY"七重冥王怒沖沖說:閒雜人等不得入內。\n"NOR,me);
+message_vision(HIY + "七重冥王怒沖沖說:閒雜人等不得入內。\n" + NOR,me);
 
 return 0;
 }

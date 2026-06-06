@@ -71,7 +71,7 @@ string do_tendo()
   if(who->query("class")!="taoist")
         return "此事為天道派本門機密，貧道豈能告知外人。";
   who->add("quest/ask_tendo_hawk",1);
-  return HIY"唉！！！\n            其實當年眾妖大鬧人間，先師陸皓雲親率本門道魂三使者大戰群魔，\n            不料卻在戰魂坡慘遭群妖圍攻，先師以靈鷹配合天道秘術形成一道強\n            大的陣法困住眾妖危害人間，之後雖然武林中各大派趕來救援不及，\n            導致先師身受重傷，如今生死不明。"NOR;
+  return HIY + "唉！！！\n            其實當年眾妖大鬧人間，先師陸皓雲親率本門道魂三使者大戰群魔，\n            不料卻在戰魂坡慘遭群妖圍攻，先師以靈鷹配合天道秘術形成一道強\n            大的陣法困住眾妖危害人間，之後雖然武林中各大派趕來救援不及，\n            導致先師身受重傷，如今生死不明。" + NOR;
 
 }
 
@@ -81,7 +81,7 @@ string do_master()
   if(who->query("class")!="taoist")
         return "沒聽說過。";
   who->add("quest/ask_tendo_hawk",1);
-  return HIY"其實當年大戰之後先師因傷勢嚴重，便將掌門之位傳於清風師弟，便\n            攜同靈鷹前往崑崙仙境閉關修練道法，日前闡悟道法，長辭人世。"NOR;
+  return HIY + "其實當年大戰之後先師因傷勢嚴重，便將掌門之位傳於清風師弟，便\n            攜同靈鷹前往崑崙仙境閉關修練道法，日前闡悟道法，長辭人世。" + NOR;
 }
 
 string do_hawk()
@@ -90,7 +90,7 @@ string do_hawk()
   if(who->query("class")!="taoist")
         return "聽說過。";
   who->add("quest/ask_tendo_hawk",1);
-  return HIY"嗯！靈鷹乃當年先師遨遊崑崙山時無意中在崑崙仙境發現此吸收靈氣\n            而生長成的靈鷹，由於此鷹極通靈性，加上先師助其靈氣灌頂，靈鷹\n            便長守崑崙山，背負起守護天道派的重責大任。"NOR;
+  return HIY + "嗯！靈鷹乃當年先師遨遊崑崙山時無意中在崑崙仙境發現此吸收靈氣\n            而生長成的靈鷹，由於此鷹極通靈性，加上先師助其靈氣灌頂，靈鷹\n            便長守崑崙山，背負起守護天道派的重責大任。" + NOR;
 }
 
 string do_area()
@@ -99,6 +99,6 @@ string do_area()
   if(who->query("class")!="taoist")
         return "陸清和搖搖頭，說道﹕沒聽說過。";
   who->add("quest/ask_tendo_hawk",1);
-  return HIY"崑崙仙境為先師仙逝之處，亦為我天道禁地，詳情你還是去詢問清風師弟吧！"NOR;
+  return HIY + "崑崙仙境為先師仙逝之處，亦為我天道禁地，詳情你還是去詢問清風師弟吧！" + NOR;
 }
 

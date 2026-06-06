@@ -6,7 +6,7 @@ inherit BLADE;
 
 void create()
 {
-	set_name(HIW"龍虎刀"NOR,({"dragon-tiger blade","blade"}));
+	set_name(HIW + "龍虎刀" + NOR,({"dragon-tiger blade","blade"}));
     set_weight(1000);
 	if( clonep() )
 		set_default_object(__FILE__);

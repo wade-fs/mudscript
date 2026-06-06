@@ -3,7 +3,7 @@ inherit EQUIP;
 
 void create()
 {
-        set_name(HIR"火眼金睛"NOR,({"fire eye","eye"}) );
+        set_name(HIR + "火眼金睛" + NOR,({"fire eye","eye"}) );
         set_weight(2000);
         if (clonep() )
                 set_default_object(__FILE__);

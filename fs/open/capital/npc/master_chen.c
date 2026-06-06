@@ -58,7 +58,7 @@ void create()
         set("officer_power",150);
         set("max_officer_power",150);
         set("office_exp",10000);
-        set("nickname",HIY"執法如山"NOR);
+        set("nickname",HIY + "執法如山" + NOR);
         set("officer_att","good");
         set("combat_exp",1000000);
         set("attitude","heroism");

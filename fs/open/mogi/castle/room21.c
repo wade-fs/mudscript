@@ -41,10 +41,10 @@ void do_damage(object ob){
    obj = all[i];
    kee1=obj->query("eff_kee");  
    if( random(300) > obj->query_skill("dodge") ) {
-   message_vision(HIR"突然間四周無數隻箭射了過來,$N閃躲不及,只聽一聲哀嚎$N已被箭射中！\n"NOR,obj);
+   message_vision(HIR + "突然間四周無數隻箭射了過來,$N閃躲不及,只聽一聲哀嚎$N已被箭射中！\n" + NOR,obj);
    obj->add("kee",-kee1/10);
                                                   }                                              
-  else  message_vision(HIW"突然間四周無數隻箭射了過來,但$N的輕功\了得,危急中避了開去\n"NOR,obj);   
+  else  message_vision(HIW + "突然間四周無數隻箭射了過來,但$N的輕功\了得,危急中避了開去\n" + NOR,obj);   
        }
 }
 

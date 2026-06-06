@@ -32,7 +32,7 @@ int valid_leave(object me,string dir)
 {
     if ( me==this_player() && dir=="north" )
         {
-        tell_object(me,HIM"你輕輕巧巧的穿過力場, 出了魔界村!\n"NOR);
+        tell_object(me,HIM + "你輕輕巧巧的穿過力場, 出了魔界村!\n" + NOR);
         }
     return ::valid_leave(me,dir);
 }

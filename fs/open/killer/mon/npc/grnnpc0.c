@@ -75,9 +75,9 @@ int accept_object( object me, object obj)
       command("say 東西都到齊了, 那就讓我為開始為任盈盈超渡吧...");
       message_vision("只見周八伯又拿起他的鈴鐺, 燃香點燭, 口中念念有詞...\n", me);
       message_vision("隨即大喝一聲, 只聽見任盈盈的聲音在遠處響起\n", me);
-      message_vision(HIB"謝謝$N的大恩大德, 小女子無以為報, 不過小女子在生前曾得到一些相當特別\n"NOR, me);
-      message_vision(HIB"的藥丸, 為了避免被別人發現, 所以就將它藏在你的棺木內, 小女子就以這些\n"NOR, me);
-      message_vision(HIB"丹藥當成對你的報答好了........"NOR, me);
+      message_vision(HIB + "謝謝$N的大恩大德, 小女子無以為報, 不過小女子在生前曾得到一些相當特別\n" + NOR, me);
+      message_vision(HIB + "的藥丸, 為了避免被別人發現, 所以就將它藏在你的棺木內, 小女子就以這些\n" + NOR, me);
+      message_vision(HIB + "丹藥當成對你的報答好了........" + NOR, me);
       me->set_temp("ghost", 4);
    }
    else
@@ -101,7 +101,7 @@ int accept_kill( object me)
    else
    {
       tell_room(environment(me),"一起上！有人找碴!給我拿下 \n"),
-      message_vision(HIB"\n綠雲組一級殺手看到組長有難，馬上向$N攻過來！\n"NOR,me);
+      message_vision(HIB + "\n綠雲組一級殺手看到組長有難，馬上向$N攻過來！\n" + NOR,me);
       guard->kill_ob(me);
       return 1;
    }
@@ -121,7 +121,7 @@ void greeting(object ghost)
       ghost->command("cry "+ me->getuid());
       ghost->command("say 請"+(me->query("gender")=="男性" ? "壯士" : "姑娘")+"替小女子報仇, 據小女子所知, 那人正在黑風組總部作客。");
       ghost->command("say 如能替小女子報得大仇, 小女子願以身相許\...。");
-      message_vision(HIW"任盈盈講完這些話時, 又化成一陣煙消失了。"NOR, me);
+      message_vision(HIW + "任盈盈講完這些話時, 又化成一陣煙消失了。" + NOR, me);
       command("say 都聽到了吧, 快去把那混帳東西的豬頭帶回來, 讓我好好為她超渡一下, 別忘了再去土地公處買些香火 紙錢回來ㄚ。");
       me->set_temp("ghost", 2);
       destruct( ghost);

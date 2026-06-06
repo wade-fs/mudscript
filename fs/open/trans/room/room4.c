@@ -51,7 +51,7 @@ int do_pray()
 {
   if(this_player()->query("combat_exp")>20000)
     return notify_fail("你還是新手嗎，去去去，到別的地方練功\去!\n");
-  message_vision(HIY"天神感應到$N虔誠的心意從天空射出一道光芒將就$N帶走。\n\n"NOR, this_player());
+  message_vision(HIY + "天神感應到$N虔誠的心意從天空射出一道光芒將就$N帶走。\n\n" + NOR, this_player());
   this_player()->move("/open/start/room/newhand5.c");
   return 1;
 }*/

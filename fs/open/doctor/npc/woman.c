@@ -4,7 +4,7 @@ inherit NPC;
 void create()
 {
   set_name("老婦人", ({"old woman","woman"}) );
-  set("title",HIR"焦急無助"NOR);
+  set("title",HIR + "焦急無助" + NOR);
   set("long", "一個焦急無助的老婦人。\n");
   set("gender", "女性");
   set("age", 73);
@@ -53,7 +53,7 @@ int do_say(string arg)
   {
     if( arg == "情況似乎不太妙" ) //將情況似乎不太樂觀改為情況似乎不太妙 是因為zmud會吃字 算是福利玩家吧（攤
     {
-      write("你告訴老婦人，病人的情況似乎不太妙...\n"NOR);
+      write("你告訴老婦人，病人的情況似乎不太妙...\n" + NOR);
       command("nod "+me->query("id"));
       command("say 華神醫也是這樣說的，但神醫好像有提到什麼「不傳之技」之類的...");
       command("say 要是可以找到有人擁有這樣能力的人，該有多好...");
@@ -68,7 +68,7 @@ int do_say(string arg)
 void greeting(object me)
 {
   if(!present("young man",environment(this_object()))) {
-    write(HIY"老婦人眼見兒子沒救，忽然大吼一聲﹕我兒呀……\n"NOR,me);
+    write(HIY + "老婦人眼見兒子沒救，忽然大吼一聲﹕我兒呀……\n" + NOR,me);
     this_object()->die();
     return;
   }
@@ -78,14 +78,14 @@ void greeting(object me)
   }
   else if(me->query("class")=="doctor" && !me->query("doctor/save_die"))
   {
-    write(HIY"老婦人緊緊握著你的手，一臉哀傷的望著你！\n"NOR);
-    write(HIY"老婦人哭道：這位神醫，請您救救我的孩子好不好？！\n"NOR);
+    write(HIY + "老婦人緊緊握著你的手，一臉哀傷的望著你！\n" + NOR);
+    write(HIY + "老婦人哭道：這位神醫，請您救救我的孩子好不好？！\n" + NOR);
     command("sob "+me->query("id"));
   }
   else if(me->query("doctor/save_die")==1 && !me->query("doctor/save_die_gift"))
   {
-    write(HIY"老婦人緊緊握著你的手，一臉哀傷的望著你！\n"NOR);
-    write(HIY"老婦人哭道：這位神醫，既然你已經學會了，就請您救救我的孩子好嗎？！\n"NOR);
+    write(HIY + "老婦人緊緊握著你的手，一臉哀傷的望著你！\n" + NOR);
+    write(HIY + "老婦人哭道：這位神醫，既然你已經學會了，就請您救救我的孩子好嗎？！\n" + NOR);
     command("bow "+me->query("id"));
   }
   else if(me->query("doctor/save_die")==1)

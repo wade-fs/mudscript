@@ -206,7 +206,7 @@ void heart_beat()
       if(environment(me)==environment(victim)) {
         for(k=0;k<5;k++)
         {
-          message_vision(HIR"諸葛邑昭取出諸葛孔明所創之連弩，向$N絕發而出!!\n"NOR,victim);
+          message_vision(HIR + "諸葛邑昭取出諸葛孔明所創之連弩，向$N絕發而出!!\n" + NOR,victim);
 //          victim->add("kee",-800);
           victim->receive_damage("kee",800,me);
           COMBAT_D->report_status(victim);
@@ -214,13 +214,13 @@ void heart_beat()
       }
     }
     if(a<=50&&a>=30) {
-      message_vision(HIB"
+      message_vision(HIB + "
 
 諸葛邑昭取出自祖父所傳的道具 - 衝木流馬!!
 
 邪惡的狂吼：看我的『轉兵逆況之計』 眼前的敵人一一倒下!!
 
-"NOR,me);
+" + NOR,me);
       for(b=0;b<i;b++) {
         if(userp(target[b])) continue;
         target[b]->die();
@@ -228,7 +228,7 @@ void heart_beat()
       }
     }
     if(a<85&&a>65) {
-      message_vision(HIW"\n諸葛邑昭運起諸葛一門之護身內勁，一陣白煙從頭頂上冒出。\n"NOR,me);
+      message_vision(HIW + "\n諸葛邑昭運起諸葛一門之護身內勁，一陣白煙從頭頂上冒出。\n" + NOR,me);
       me->delete_busy();
       me->add("force",300);
       me->receive_curing("kee",500);
@@ -237,7 +237,7 @@ void heart_beat()
       me->receive_heal("gin",100);
     }
     if(a<30&&a>=20) {
-      message_vision(HIW"\n諸葛邑昭拿起道具『六甲天書』，口中念出咒文，讓你身心受到極大的傷害!!!\n"NOR,me);
+      message_vision(HIW + "\n諸葛邑昭拿起道具『六甲天書』，口中念出咒文，讓你身心受到極大的傷害!!!\n" + NOR,me);
       for(b=0;b<i;b++) {
         target[b]->start_busy(1);
 //      target->add("kee",-500);
@@ -246,15 +246,15 @@ void heart_beat()
     }
     if(a >97  && me->is_fighting())
     {
-      message_vision(HIY"
+      message_vision(HIY + "
            諸葛邑昭將奇書六韜置掌上，身上氣勁蘊藏著諸葛家武學
-           之巔，諸葛宏邑叱喝迴盪"HIR"『運籌帷幄 戰無不勝』"HIW"不斷向四周吸引氣勁。\n"NOR,me);
+           之巔，諸葛宏邑叱喝迴盪" + HIR + "『運籌帷幄 戰無不勝』" + HIW + "不斷向四周吸引氣勁。\n" + NOR,me);
       for( i = 0 ; i < sizeof(all) ; i++)
       {
         obj = all[i];
         if( obj->is_character() && !obj->is_corpse() && living(obj) && obj->query("id")!="juka jone")
         {
-          message_vision(HIR"結果所有人內力全受六韜吸引，洩向四周!!\n"NOR,obj);
+          message_vision(HIR + "結果所有人內力全受六韜吸引，洩向四周!!\n" + NOR,obj);
           obj->add("force",-((obj->query("force")/5))*4);
           COMBAT_D->report_status(obj, 1);
         }

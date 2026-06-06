@@ -11,7 +11,7 @@ void create()
         set("class", "marksman");
 set_name("李廣", ({ "master lee", "master", "lee" }) );
         set("title","射日派第二代掌門人");
-        set("nickname",HIC "心定穿石"NOR);
+        set("nickname",HIC + "心定穿石" + NOR);
         set("gender", "男性");
 set("max_kee",5000);
         set("age", 55);
@@ -101,10 +101,10 @@ command("say 給你把弓，可不要用不見啦!");
       command("pat" + ob->query("id"));
       command("recruit "+ob->query("id"));
 ob->set("appraise",random(5));
-message("system",HIR "李廣笑道 :\n
-      "HIW"" +this_player()->name()+ ""NOR""HIR"拜入我門下 !\n
+message("system",HIR + "李廣笑道 :\n
+      " + HIW + "" +this_player()->name()+ "" + NOR + "" + HIR + "拜入我門下 !\n
       他日必可成為一代神射手!\n
-      成為武林至尊!!\n\n"NOR,users());
+      成為武林至尊!!\n\n" + NOR,users());
 
 ob->set("Lbird-shop","YES");
 }

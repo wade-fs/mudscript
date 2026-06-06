@@ -5,7 +5,7 @@ inherit ITEM;
 
 void create()
 {
-    set_name(""HIY"平滑的大石頭"NOR"", ({ "big stone","stone" }) );
+    set_name("" + HIY + "平滑的大石頭" + NOR + "", ({ "big stone","stone" }) );
     set_weight(1000000);
  if( clonep() )
     set_default_object(__FILE__);
@@ -29,14 +29,14 @@ int do_push()
   object me = this_player();
   if(me->query_temp("meetgod_2") != 1)
 {
-  write(""HIC"忽然間...地動山搖...站都站不穩！"NOR"\n");
+  write("" + HIC + "忽然間...地動山搖...站都站不穩！" + NOR + "\n");
   me->set_temp("meetgod_1",0);
 }
   else
   if(me->query_temp("meetgod_2") == 1)
   {
-  write(""HIC"忽然間...地動山搖...站都站不穩！"NOR"\n");
-  write(""HIY"忽然遠遠的傳來一陣聲音：『"HIG"藏仙谷，谷中仙，仙緣昇，昇得意"HIY"』"NOR"\n");
+  write("" + HIC + "忽然間...地動山搖...站都站不穩！" + NOR + "\n");
+  write("" + HIY + "忽然遠遠的傳來一陣聲音：『" + HIG + "藏仙谷，谷中仙，仙緣昇，昇得意" + HIY + "』" + NOR + "\n");
   me->set_temp("meetgod_3",1);
   }
   return 1;

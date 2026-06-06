@@ -29,7 +29,7 @@
   if(skill < 25)
   {
    message_vision(
-"               $N運起洗髓經第一層功\力"HIW"－＝"HIR"V遊－龍－勁]"HIW"＝－"NOR
+"               $N運起洗髓經第一層功\力" + HIW + "－＝" + HIR + "V遊－龍－勁]" + HIW + "＝－" + NOR
 "               只見一道遊龍之氣從$N的靈台穴竄出，使$N的力量源源不絕\n",me);
          me->add_temp("apply/attack",skill);
         me->start_call_out( (: call_other, __FILE__, "remove_effect", me, skill :), skill);
@@ -40,7 +40,7 @@
   } else if ( skill < 50 )
   {
   message_vision(
-"               $N運起洗髓經第二層功\力"HIW"－＝"HIG"W怒－龍－勁\\"HIW"＝－"NOR
+"               $N運起洗髓經第二層功\力" + HIW + "－＝" + HIG + "W怒－龍－勁\\" + HIW + "＝－" + NOR
 "               怒龍之氣從$N的後頂、風池兩穴爆出，使$N的內勁有如狂濤般一波強似一波\n",me);
          me->add_temp("apply/attack",skill);
          me->add("force_factor",skill/10);
@@ -52,7 +52,7 @@
   } else if ( skill < 75 )
   { 
    message_vision(
-"                $N運起洗髓經第三層功\力"HIW"－＝"HIY"X狂－龍－勁["HIW"＝－"NOR
+"                $N運起洗髓經第三層功\力" + HIW + "－＝" + HIY + "X狂－龍－勁[" + HIW + "＝－" + NOR
 "                $N只覺全身內力遊走迅速，一瞬間，狂龍之氣從百會、風府、大椎、神道四穴射出，使你擁有排山倒海的勁氣\n",me);
          me->add_temp("apply/attack",skill);
          me->add("force_factor",skill/10);
@@ -65,7 +65,7 @@
   } else if ( skill >= 100 )
   {
    message_vision(
-"                $N運起洗髓經最上乘功\力"HIW"－＝"HIB"Y降－龍－勁Z"HIW"＝－"NOR
+"                $N運起洗髓經最上乘功\力" + HIW + "－＝" + HIB + "Y降－龍－勁Z" + HIW + "＝－" + NOR
 "                $N以畢生功\力打通全身的奇經八脈，只見降龍氣勁從天而降護住$N全身要穴\n",me);
          me->add_temp("apply/attack",skill);
          me->add("force_factor",skill/10);
@@ -82,7 +82,7 @@
  void remove_effect(object me, int skill)
  { 
   me->delete_temp("dragon-kee");
-  message_vision("$N的"HIC"降龍勁"NOR"開始崩潰渙散了。\n"NOR,me);
+  message_vision("$N的" + HIC + "降龍勁" + NOR + "開始崩潰渙散了。\n" + NOR,me);
   if(skill<25)
   {
   me->add_temp("apply/attack",-skill);

@@ -56,11 +56,11 @@ int do_attack()
       else  {
         me->apply_condition("snake_poison",M+3);
         if( M==0 ) {
-          message_vision(HIR"$N一個不小心，被毒蛇咬了一口，中毒了。\n"NOR,me);
+          message_vision(HIR + "$N一個不小心，被毒蛇咬了一口，中毒了。\n" + NOR,me);
           return 1;
         }
         else {
-          message_vision(HIB"$N又被毒蛇咬了一口，中毒加深了。\n"NOR,me);
+          message_vision(HIB + "$N又被毒蛇咬了一口，中毒加深了。\n" + NOR,me);
           return 1;
         }
         return 1;

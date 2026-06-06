@@ -13,7 +13,7 @@ void create()
   "他是死靈幽谷的玄冥之氣所匯集而成的魔物，憑著己身強大的力量，把死靈界
 掌握於手中，其『玄冥神掌』更是讓人不敢恭維。\n");
   set("gender","男性");
-  set("title",BLU"玄冥魔神"NOR);
+  set("title",BLU + "玄冥魔神" + NOR);
   set("age", 100000);
   set("class", "bandit");
   set("attitude", "aggressive");
@@ -77,7 +77,7 @@ void heart_beat()
 
   if(mob->query("kee") < 250000 && random(100) < 50)
   {
-    message_vision( HIR "\n死靈骨魔大吼一聲，吐出幾口瘀血，臉色看起來好多了。\n"NOR,mob);
+    message_vision( HIR + "\n死靈骨魔大吼一聲，吐出幾口瘀血，臉色看起來好多了。\n" + NOR,mob);
     mob->receive_curing("kee",1000);
     mob->receive_heal("kee",1000); 
   }
@@ -85,7 +85,7 @@ void heart_beat()
   {
     mob->set("force",150000);
     mob->set("force_factor",10);
-    message_vision( HIG"\n死靈骨魔趁大家不注意的時候，偷偷吞下一顆雪蓮丹!!\n"NOR,mob);
+    message_vision( HIG + "\n死靈骨魔趁大家不注意的時候，偷偷吞下一顆雪蓮丹!!\n" + NOR,mob);
   }
 
 //  if (!mob->is_fighting() || mob->is_fighting()) //<<<<這是什麼判斷？？ 不解 暫時取消 by blazakira
@@ -108,7 +108,7 @@ void heart_beat()
         if( enemy[j]->is_character() && !enemy[j]->is_corpse() && living(enemy[j]) &&
             enemy[j]->query("id")!="death ghost king")
         {
-          message_vision( HIB"\n一股玄冥之氣排山倒海而來，強大的氣力壓得你喘不過氣來！！\n"NOR,mob);
+          message_vision( HIB + "\n一股玄冥之氣排山倒海而來，強大的氣力壓得你喘不過氣來！！\n" + NOR,mob);
           enemy[j]->receive_damage("kee",2000,mob);
           enemy[j]->start_busy(random(2));
           if(yun > 4 && enemy[j]->query("id") == "shan yun") enemy[j]->receive_wound("kee",enemy[j]->query("max_kee"),mob);
@@ -129,17 +129,17 @@ void die()
 //  ob1=new(__DIR__"test02");
   ob=new("/open/ghost-hole/obj/jug.c");
   me->set_temp("ko_ghost_king",1);
-  tell_object(users(),HIW"
-                ～～"HIB"死靈幽谷傳來一陣淒涼的哀嚎聲"HIW"～～
+  tell_object(users(),HIW + "
+                ～～" + HIB + "死靈幽谷傳來一陣淒涼的哀嚎聲" + HIW + "～～
 
-                    "HIB"死靈骨魔大吼：好個 "+me->query("name")+" ～～ 
+                    " + HIB + "死靈骨魔大吼：好個 "+me->query("name")+" ～～ 
 
                       本王一定會再回來人間的 ～～
-"NOR);
+" + NOR);
   if ( kill_jobs(5,me,this_object(),"area/hole_stone") ) finish_time(me,"area/hole_stone"); else start_time(me,"area/hole_stone"); // 7.21.93 by Firedancer
   if( random(100) < (int)me->query_kar() )
   {
-    tell_object(me,HIY"\n骨魔幻滅後～地上掉落了一件物品！\n\n"NOR);
+    tell_object(me,HIY + "\n骨魔幻滅後～地上掉落了一件物品！\n\n" + NOR);
     ob->move("/open/ghost-hole/g-s06.c");
   }
   if( me->query("clan/id") ) CLAN_D->add_clanset( me->query("clan/id"), "develop" , 20 );

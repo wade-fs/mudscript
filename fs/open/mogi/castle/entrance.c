@@ -5,7 +5,7 @@ inherit ROOM;
 
 void create ()
 {
-  set ("short", HIC"妖魔古堡入口"NOR);
+  set ("short", HIC + "妖魔古堡入口" + NOR);
   set( "build", 24 );
   set ("long","這裡就是封閉了幾千年的妖魔古堡，外表斑斑駁駁不知經過了多少的
 腥風血雨，不過結構上倒還蠻堅固的。魔雲密佈下映著古堡慘藍的外表，
@@ -55,8 +55,8 @@ int do_collide(string str)
     return 1;
   }
   me->add("force",-2000);
-  message_vision(HIY"$N運起全身內力一撞，轟隆一聲巨響大門以被撞開!!\n",me);
-  tell_object(me,HIR"\n你耗盡全身內力，幾欲虛脫。\n"NOR);
+  message_vision(HIY + "$N運起全身內力一撞，轟隆一聲巨響大門以被撞開!!\n",me);
+  tell_object(me,HIR + "\n你耗盡全身內力，幾欲虛脫。\n" + NOR);
   set("exits/enter",__DIR__"room1");
   set_temp("have_open",1);
   remove_call_out("do_closed");
@@ -77,7 +77,7 @@ int valid_leave(object me, string dir)
   {
     me->add_temp("path/entrance3/mogi/OK",1);
     if( me->query_temp("path/entrance3/mogi/OK") < 3 )
-      message("rumor",HIB+"【謠言】某人: 似乎"+me->query("name")+HIB+"("+me->query("id")+HIB+")靜悄悄地闖入妖魔古堡裡意欲探尋秘寶。\n"NOR,users());
+      message("rumor",HIB+"【謠言】某人: 似乎"+me->query("name")+HIB+"("+me->query("id")+HIB+")靜悄悄地闖入妖魔古堡裡意欲探尋秘寶。\n" + NOR,users());
   }
   return ::valid_leave(me,dir);
 }

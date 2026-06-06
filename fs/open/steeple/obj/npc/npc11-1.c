@@ -25,7 +25,7 @@ void create()
         set("age",16);
         set("long","他是所有的巫師當中最懶的一位，整天無所事事，
 最近才去找到一份『可以偷懶』的工作。\n");
-        set("title",HIR"懶惰成性"NOR+ HIG"巫師"NOR);
+        set("title",HIR + "懶惰成性"NOR+ HIG"巫師" + NOR);
         set("gender","男性");
         set("class","巫師");
         set("str",30);
@@ -77,9 +77,9 @@ void do_special()
         target=enemy[random(i)];
 
                 message_vision(
-HIR "\n懶人舞懶懶的叫了一聲："+target->query("name")+"再不回應～～～，我要purge "+target->query("id")+"囉。\n",target);
+HIR + "\n懶人舞懶懶的叫了一聲："+target->query("name")+"再不回應～～～，我要purge "+target->query("id")+"囉。\n",target);
                 message_vision(
-HIW "\n懶人舞躺了下來，手指揮揮，出現了purge "+target->query("id")+" 的訊息...\n"NOR,target);
+HIW + "\n懶人舞躺了下來，手指揮揮，出現了purge "+target->query("id")+" 的訊息...\n" + NOR,target);
                 target->receive_wound("kee",random(210+270));
         COMBAT_D->report_status(target, 1);
 
@@ -103,17 +103,17 @@ destruct (this_object ());
 else
 if(me->query("quest/start_game")< 12)
        {
-        message_vision(HIY"
-恭喜"HIW+me->query("name")+HIY"挑戰"HIG"『"HIR"第十一層試煉ソ塔"HIG"』"HIY"通過！！
+        message_vision(HIY + "
+恭喜"HIW+me->query("name")+HIY"挑戰" + HIG + "『" + HIR + "第十一層試煉ソ塔" + HIG + "』" + HIY + "通過！！
 
-"HIW"希望"+me->query("name")+"能不負眾望，勇闖"HIG"『"HIY"第十二層試煉ソ塔"HIG"』"HIW"。
-	"NOR,me);
+" + HIW + "希望"+me->query("name")+"能不負眾望，勇闖" + HIG + "『" + HIY + "第十二層試煉ソ塔" + HIG + "』" + HIW + "。
+	" + NOR,me);
 	me->set("quest/start_game",12);
         destruct (this_object ());
        }
 {
         :: unconcious();
-	tell_object(me,HIW"系統：你已經通過測試，系統不做任何更改。\n"NOR);
+	tell_object(me,HIW + "系統：你已經通過測試，系統不做任何更改。\n" + NOR);
 	destruct(this_object());
 }
 }

@@ -4,7 +4,7 @@ inherit ITEM;
 
 void create()
 {
-  set_name(HIB"神農氏靈魂珠"NOR, ({ "ball of shen nongshi spirit","ball","shen nongshi spirit" }) );
+  set_name(HIB + "神農氏靈魂珠" + NOR, ({ "ball of shen nongshi spirit","ball","shen nongshi spirit" }) );
   set_weight(100);
   if( clonep() )
     set_default_object(__FILE__);

@@ -50,7 +50,7 @@ void heart_beat()
 		{
 			if(!enemy[i]->is_corpse() && enemy[i]->query("race")!="野獸" && enemy[i]->is_character() && random(100)<70 && enemy[i]->query("id")!="shadow" )
 			{
-				message_vision(HIY"$N身體分泌出某種液體，$n一不小心碰到，被黏在地上了！\n"NOR,ob,enemy[i]);
+				message_vision(HIY + "$N身體分泌出某種液體，$n一不小心碰到，被黏在地上了！\n" + NOR,ob,enemy[i]);
 				enemy[i]->start_busy(5);
 			}
 		}

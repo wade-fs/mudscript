@@ -7,7 +7,7 @@ void create() {
    "\n黟夜黔衣, 擅使毒, 見聞世間百毒千草, 醫術亦更上一層.\n");
 
         set("age",3121);
-       set("title",HIW"～幻影～"NOR);
+       set("title",HIW + "～幻影～" + NOR);
         set("str",35);
         set("cor",35);
         set("race","人類");
@@ -61,12 +61,12 @@ void heart_beat()
     target=enemy[random(i)];
     if( env == environment(target) )
     {
-      message_vision(HIW"\n                        ～幻～影～心～訣～
+      message_vision(HIW + "\n                        ～幻～影～心～訣～
 
-"HIM"\n
+" + HIM + "\n
 一瞬間，魔氣暴漲，迴風如割，壓風如打，毒氣從地面上滲出，透進魔風之中
-$N一聲低喊"HIW"『送葬行列  剖天墳地』"HIM"，頓時氣旋炸裂，$n無所遁逃
-\n"NOR,mob,target);
+$N一聲低喊" + HIW + "『送葬行列  剖天墳地』" + HIM + "，頓時氣旋炸裂，$n無所遁逃
+\n" + NOR,mob,target);
       target->add("force",-1800);
       target->receive_wound("kee",1800);
 	mob->add("kee",1800);
@@ -81,7 +81,7 @@ $N一聲低喊"HIW"『送葬行列  剖天墳地』"HIM"，頓時氣旋炸裂，
 int heal_up()
 {
         if (!is_fighting() ) {
-             message_vision (HIW"系統：戰鬥停止，$N回收中，。\n"NOR, this_object ());
+             message_vision (HIW + "系統：戰鬥停止，$N回收中，。\n" + NOR, this_object ());
              destruct(this_object());
              return 1;
         }
@@ -104,17 +104,17 @@ destruct (this_object ());
 else
 if(me->query("quest/start_game")< 40)
        {
-        message_vision(HIY"
-恭喜"HIW+me->query("name")+HIY"挑戰"HIG"『"HIR"第三十九層試煉ソ塔"HIG"』"HIY"通過！！
+        message_vision(HIY + "
+恭喜"HIW+me->query("name")+HIY"挑戰" + HIG + "『" + HIR + "第三十九層試煉ソ塔" + HIG + "』" + HIY + "通過！！
 
-"HIW"希望"+me->query("name")+"能不負眾望，勇闖"HIG"『"HIY"第四十層試煉ソ塔"HIG"』"HIW"。
-	"NOR,me);
+" + HIW + "希望"+me->query("name")+"能不負眾望，勇闖" + HIG + "『" + HIY + "第四十層試煉ソ塔" + HIG + "』" + HIW + "。
+	" + NOR,me);
 	me->set("quest/start_game",40);
         destruct (this_object ());
        }
 {
         :: unconcious();
-	tell_object(me,HIW"系統：你已經通過測試，系統不做任何更改。\n"NOR);
+	tell_object(me,HIW + "系統：你已經通過測試，系統不做任何更改。\n" + NOR);
 	destruct(this_object());
 }
 }

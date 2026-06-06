@@ -27,8 +27,8 @@ int open_box(string str)
   me =this_player();
   if( done== 0 )
       {
-      message("system",HIC"\n遠方天空出現突然出現數以千計的藍色光點..\n"NOR,users());
-      message_vision(HIC"\n只見無數彩蝶圍繞在$N身邊，眼前的景象看的你目瞪口呆..\n"NOR,this_player());
+      message("system",HIC + "\n遠方天空出現突然出現數以千計的藍色光點..\n" + NOR,users());
+      message_vision(HIC + "\n只見無數彩蝶圍繞在$N身邊，眼前的景象看的你目瞪口呆..\n" + NOR,this_player());
       call_out("msg1",3,me);
      }
    else
@@ -41,8 +41,8 @@ int open_box(string str)
 int msg1(object me)
 {
   object ob;
-  message("system",HIC"\n轉眼間藍色光點慢慢聚集在世外書香..\n"NOR,users());
-  message_vision(HIC"\n無數彩蝶頓時朝向$N飛去，驚愕之餘，彩蝶已幻化為筆凝聚在$N手中..\n"NOR,me);
+  message("system",HIC + "\n轉眼間藍色光點慢慢聚集在世外書香..\n" + NOR,users());
+  message_vision(HIC + "\n無數彩蝶頓時朝向$N飛去，驚愕之餘，彩蝶已幻化為筆凝聚在$N手中..\n" + NOR,me);
   ob=new("/open/gsword/new/pen.c");
   me->set_temp("liyu_pen",1);
 if(!me->query("quests/shasword")) me->set("quests/shasword",1);

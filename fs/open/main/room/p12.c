@@ -23,7 +23,7 @@ LONG);
 
   setup();
 set("search_desc", ([ /* sizeof() == 1 */
-"trunk" : HIM"樹幹上寫著十二邪星瞬間移動的心法(star)。\n"NOR,
+"trunk" : HIM + "樹幹上寫著十二邪星瞬間移動的心法(star)。\n" + NOR,
 ]));
 }
 
@@ -34,8 +34,8 @@ void init()
 int babe_home( string str )
 {
   object babe = this_player();
-  message_vision(HIW"$N向"HIC"雅典娜女神"HIW"請求"HIY"祝福"HIW"，瞬間身體隱一陣光芒。\n",babe);
+  message_vision(HIW + "$N向" + HIC + "雅典娜女神" + HIW + "請求" + HIY + "祝福" + HIW + "，瞬間身體隱一陣光芒。\n",babe);
 //babe->move("/open/clan/evil/evil.c");
-  message_vision("當$N的身影從"HIY"光芒"NOR"中走出，"HIW""HIC""HIW""HIC""NOR"的"HIB"邪氣"NOR"瞬時圍繞著$N身體四周。\n",babe);
+  message_vision("當$N的身影從" + HIY + "光芒" + NOR + "中走出，" + HIW + "" + HIC + "" + HIW + "" + HIC + "" + NOR + "的" + HIB + "邪氣" + NOR + "瞬時圍繞著$N身體四周。\n",babe);
   return 1;
 }

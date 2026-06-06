@@ -3,7 +3,7 @@ inherit COMBINED_ITEM;
 
 void create()
 {
-	set_name(RED"食蠱蛋"NOR,({"swallow gu egg","egg"}));
+	set_name(RED + "食蠱蛋" + NOR,({"swallow gu egg","egg"}));
 	set_weight(1000);
 	if( clonep() )
 		set_default_object(__FILE__);
@@ -44,8 +44,8 @@ object me,env,ob;
         if( ob != this_object() )
 		return 0;
 	message_vision("$N吞食了一粒蠱蛋。\n",me);
-	tell_object(me,HIR"
-你感覺的到蠱蛋迅速成長，已經在你體內吞食了所有的蠱蟲、蠱卵、以及蠱蛹。\n"NOR);
+	tell_object(me,HIR + "
+你感覺的到蠱蛋迅速成長，已經在你體內吞食了所有的蠱蟲、蠱卵、以及蠱蛹。\n" + NOR);
 	me->delete_temp("evil_no_damage");
 	me->delete_temp("evil_no_enemy");
 	me->clear_condition("evil_pill01");

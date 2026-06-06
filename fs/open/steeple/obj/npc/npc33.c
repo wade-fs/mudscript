@@ -9,7 +9,7 @@ void create() {
         set("age",3121);
         set("str",35);
         set("cor",35);
-        set("title",HIW"～幻影～"NOR);
+        set("title",HIW + "～幻影～" + NOR);
         set("race","人類");
         set("gender","雄性");
         set("attitude","aggressive");
@@ -65,13 +65,13 @@ void heart_beat()
     target=enemy[random(i)];
     if( env == environment(target) )
     {
-      message_vision(HIW"\n                        ～幻～影～心～訣～
+      message_vision(HIW + "\n                        ～幻～影～心～訣～
 
-"HIB"\n
+" + HIB + "\n
 $N魔氣盡放，瞬間妖氣滿溢，形成一個奇異的結界 
 $N腳步輕點剎那間逼近了$n，左手食指往$n眉心點去
-喝道一聲"HIM"『吞噬』"HIB"，$n的精氣神在眨眼間盡被吸入$N體內
-\n"NOR,mob,target);
+喝道一聲" + HIM + "『吞噬』" + HIB + "，$n的精氣神在眨眼間盡被吸入$N體內
+\n" + NOR,mob,target);
       target->receive_damage("kee",1500);
 	mob->add("kee",1500);
       target->add("force",-1800);
@@ -90,7 +90,7 @@ $N腳步輕點剎那間逼近了$n，左手食指往$n眉心點去
 int heal_up()
 {
         if (!is_fighting() ) {
-             message_vision (HIW"系統：戰鬥停止，$N回收中，。\n"NOR, this_object ());
+             message_vision (HIW + "系統：戰鬥停止，$N回收中，。\n" + NOR, this_object ());
              destruct(this_object());
              return 1;
         }
@@ -113,17 +113,17 @@ destruct (this_object ());
 else
 if(me->query("quest/start_game")< 34)
        {
-        message_vision(HIY"
-恭喜"HIW+me->query("name")+HIY"挑戰"HIG"『"HIR"第三十三層試煉ソ塔"HIG"』"HIY"通過！！
+        message_vision(HIY + "
+恭喜"HIW+me->query("name")+HIY"挑戰" + HIG + "『" + HIR + "第三十三層試煉ソ塔" + HIG + "』" + HIY + "通過！！
 
-"HIW"希望"+me->query("name")+"能不負眾望，勇闖"HIG"『"HIY"第三十五層試煉ソ塔"HIG"』"HIW"。
-	"NOR,me);
+" + HIW + "希望"+me->query("name")+"能不負眾望，勇闖" + HIG + "『" + HIY + "第三十五層試煉ソ塔" + HIG + "』" + HIW + "。
+	" + NOR,me);
 	me->set("quest/start_game",34);
         destruct (this_object ());
        }
 {
         :: unconcious();
-	tell_object(me,HIW"系統：你已經通過測試，系統不做任何更改。\n"NOR);
+	tell_object(me,HIW + "系統：你已經通過測試，系統不做任何更改。\n" + NOR);
 	destruct(this_object());
 }
 }

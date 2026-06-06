@@ -54,7 +54,7 @@ int use_rope(string arg)
   if(random(3) == 1)
   {
   message_vision("$N一個不小心，直接摔落山谷，並且發出啊啊啊啊啊啊的慘叫聲。\n",this_player());
-  CHANNEL_D->do_channel(this_object(),"mud",HIR + this_player()->query("name") + "發出一陣慘叫聲就從山上滾到山腳下了。\n"NOR);
+  CHANNEL_D->do_channel(this_object(),"mud",HIR + this_player()->query("name") + "發出一陣慘叫聲就從山上滾到山腳下了。\n" + NOR);
 
   me->receive_wound("kee",me->query("max_kee")/2);
   me->receive_wound("sen",me->query("max_sen")/2);

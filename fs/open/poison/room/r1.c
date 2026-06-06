@@ -65,7 +65,7 @@ int do_put(string arg)
         weapons = ({ nnew});
   else
         weapons += ({ nnew });
-  message_vision(HIC "$N把"+weapon->name()+"放到架子上。\n" NOR, me );
+  message_vision(HIC + "$N把"+weapon->name()+"放到架子上。\n" + NOR, me );
   destruct(weapon);
   return 1;
 }

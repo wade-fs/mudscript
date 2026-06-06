@@ -42,7 +42,7 @@ int do_use( string arg )
 	message_vision("$N在這裡吹奏了青龍之笛 .......\n",this_player());
 	if( me->query("sec_kee") ) 
 		return notify_fail("你的身上已經有一道靈氣了﹐以致青龍不能接近﹐若你要放棄靈氣可(destruct seckee)。\n");
-	message_vision(HIG "突然間在天空的雲際中竄出了一條青龍﹐這條青龍直接奔入$N的體內﹐形成了青龍之氣。\n",this_player());
+	message_vision(HIG + "突然間在天空的雲際中竄出了一條青龍﹐這條青龍直接奔入$N的體內﹐形成了青龍之氣。\n",this_player());
 	me->set("quests/dragon-kee",1);
 	me->set("sec_kee","dragon");
 	me->set("max_s_kee",20);

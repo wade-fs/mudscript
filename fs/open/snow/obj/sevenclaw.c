@@ -7,7 +7,7 @@ inherit UNARMED;
 void create()
 {
         seteuid(getuid());
-set_name(HIB"七步攝魂爪"NOR,({"seven claw","claw"}));
+set_name(HIB + "七步攝魂爪" + NOR,({"seven claw","claw"}));
 set_weight(5000);
 
         if( clonep() )

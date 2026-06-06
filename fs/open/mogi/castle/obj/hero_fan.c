@@ -5,7 +5,7 @@
 inherit STABBER;
 void create()
 {
-     set_name( HIB"半熟洋蔥"NOR,({"onion"}) );
+     set_name( HIB + "半熟洋蔥" + NOR,({"onion"}) );
      set_weight(8000);
      if( clonep() )
                set_default_object(__FILE__);
@@ -38,7 +38,7 @@ int do_change(string str)
    {
      case "unarmed":
            set("skill_type", "unarmed");
-           set_name(HIB"半熟洋蔥爪"NOR,({"onion claws","claws"}));
+           set_name(HIB + "半熟洋蔥爪" + NOR,({"onion claws","claws"}));
            write("半熟洋蔥開始作奇異的變化.\n半熟洋蔥化成了一雙半熟洋蔥爪.\n");
            break;
      case "sword":
@@ -64,7 +64,7 @@ int do_change(string str)
      case "stabber":
      case "fan":
            set("skill_type", "stabber");
-           set_name( HIB"半熟洋蔥"NOR,({"onion device","device"}) );
+           set_name( HIB + "半熟洋蔥" + NOR,({"onion device","device"}) );
            write("半熟洋蔥開始作奇異的變化.\n半熟洋蔥變回原來的形狀.\n");
            break;
      default:

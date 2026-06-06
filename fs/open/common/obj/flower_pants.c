@@ -16,7 +16,7 @@ void create()
       "鳥紋小團花相連，色彩協調，織工精細，花羅之上以朱紅、棕\n"+
       "紅、深綠、深藍與金黃等色絲線，繡出流雲、卷枝花草。著裝\n"+
       "後猶如宋代詩人陸游詞句所言「舉之若無，裁以為衣，真若煙\n"+
-      "霧!!」\n"NOR);
+      "霧!!」\n" + NOR);
     set("unit","件");
     set("value",30000);
     set("material","cloth");
@@ -25,8 +25,8 @@ void create()
 //    set("armor_prop/dodge",1); //太重就會覆蓋dodge的設定值
     set("armor_prop/unarmed",4);
     set("need_class","fighter");
-    set("wear_msg","$N""穿上了$n""，一身桔黃色的光四散，如同沐浴著和煦的春陽。\n"NOR);
-    set("unequip_msg","$N""解下$n""，身體慢慢地變的遲鈍了。\n"NOR);
+    set("wear_msg","$N""穿上了$n""，一身桔黃色的光四散，如同沐浴著和煦的春陽。\n" + NOR);
+    set("unequip_msg","$N""解下$n""，身體慢慢地變的遲鈍了。\n" + NOR);
   }
   setup();
 }

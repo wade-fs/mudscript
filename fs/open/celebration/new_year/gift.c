@@ -5,7 +5,7 @@ string get_file_item();
 
 void create()
 {
-        set_name(HIR"新年禮物"NOR, ({ "gift", }) );
+        set_name(HIR + "新年禮物" + NOR, ({ "gift", }) );
         set("long","新年禮物，可以打開(open)他。\n");
         set("unit", "顆");
        set("value", 100);

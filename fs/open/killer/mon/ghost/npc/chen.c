@@ -64,7 +64,7 @@ int accept_kill( object me)
   if( !present("killer", environment(me)) )
   {
     this_object()->command("say 救命ㄚ，救命ㄚ...快來人救我..........");
-    tell_room(environment(me),HIW"\n好大的膽子，連黑風組的客人也敢動!!\n\n"NOR);
+    tell_room(environment(me),HIW + "\n好大的膽子，連黑風組的客人也敢動!!\n\n" + NOR);
     for(i=0;i<2;i++)
     {
       guard = new("/open/killer/mon/ghost/npc/black5");
@@ -74,7 +74,7 @@ int accept_kill( object me)
     }
   }
   tell_room(environment(me),"黑風兄弟們，把刺客拿下來。\n"),
-  message_vision(HIB"\n黑風組三級殺手一收到命令，馬上向$N攻過來！\n"NOR,me);
+  message_vision(HIB + "\n黑風組三級殺手一收到命令，馬上向$N攻過來！\n" + NOR,me);
   return 1;
 }
 
@@ -86,7 +86,7 @@ void die()
   if( killer->query_temp("ghost") == 2) // 防止 fanset 後又來砍
   {
  //   command("say 我...我...我不甘心ㄚ!!");
-    message_vision("『"+HIG+"暢談"+NOR+"』"+HIY+"$n說道: 我...我...我不甘心ㄚ!!\n" NOR, killer,ob);
+    message_vision("『"+HIG+"暢談"+NOR+"』"+HIY+"$n說道: 我...我...我不甘心ㄚ!!\n" + NOR, killer,ob);
     message_vision("說完之後他就倒下了......\n", killer);
     head=new("/open/killer/mon/ghost/obj/shead.c");
     head->move( environment( killer));
@@ -95,7 +95,7 @@ void die()
   else
   {
 //    command("say 我跟你無怨無仇，為何你要置我於死地...");
-    message_vision("『"+HIG+"暢談"+NOR+"』"+HIY+"$n說道: 我跟你無怨無仇，為何你要置我於死地...\n" NOR, killer,ob);
+    message_vision("『"+HIG+"暢談"+NOR+"』"+HIY+"$n說道: 我跟你無怨無仇，為何你要置我於死地...\n" + NOR, killer,ob);
     message_vision("說完之後他就倒下了......\n", killer);
   }
   ::die();

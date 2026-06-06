@@ -52,7 +52,7 @@ int do_enshrine(string str)
    else {
    write("你將原石供奉給山神，原石開始緩慢的吸收著靈氣。\n");
    write("你不禁嘆息：若真等個十甲子，莫說村子裡的人，連我們那個時代都要被這十個太陽折磨。\n\n");
-   message_vision(HIY"突然，$N腦袋裡閃過一絲靈光！\n"NOR,me);
+   message_vision(HIY + "突然，$N腦袋裡閃過一絲靈光！\n" + NOR,me);
    destruct(present("original stone",me));
    me->set_temp("ask-break-sun",16);
        }

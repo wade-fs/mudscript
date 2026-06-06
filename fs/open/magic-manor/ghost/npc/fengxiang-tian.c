@@ -19,8 +19,8 @@ LONG);
 
   set("gender","男性");
   set("class","blademan");
-  set("nickname",HBBLU+HIC"天"HIR"人合"HIC"一"NOR);
-  set("title",HIC"聚靈莊主"NOR);
+  set("nickname",HBBLU+HIC"天" + HIR + "人合" + HIC + "一" + NOR);
+  set("title",HIC + "聚靈莊主" + NOR);
   set("family/family_name","金刀門");
   set("combat_exp",20000000);
   set("attitude","friendly");
@@ -331,7 +331,7 @@ void heart_beat()
     command("say 啍～");
     command("say 我知道你們想做什麼事，我會在那裏等你們的!!");
     command("say 哈哈哈～～");
-    message_vision(HIY"鳳翔天說完後便消失在一陣靈光之中，並不小心遺落一樣東西!!\n"NOR,me);
+    message_vision(HIY + "鳳翔天說完後便消失在一陣靈光之中，並不小心遺落一樣東西!!\n" + NOR,me);
     if( !me->query("have-new") )
     {
       me->set("have-new",1);
@@ -619,15 +619,15 @@ void heart_beat()
     }
     if( k == 86 || k == 76 || k == 66 || k == 56 || k == 46 || k == 36 || k == 26 )
     {
-      message_vision(HIY"\n$N一陣怒意上升，只見陣陣的氣流旋空飛起，$N的八把武器御空飛起\n"NOR,me);
-      message_vision(HIY"  並夾帶威力萬均的氣勢，由$N為中心向四周散射，正是一式驚天神技\n\n"NOR,me);
-      message_vision("                  "HIC"╭      "HIM"翔      "HIC"╮            \n"NOR,me);
-      message_vision("            "HIC"╭      "HIM"天 "HIW"═    ═ "HIM"夢      "HIC"╮      \n"NOR,me);
-      message_vision("      "HIC"╭      "HIM"舞 "HIW"═                ═ "HIM"迴      "HIC"╮\n"NOR,me);
-      message_vision("        "HIM"夜 "HIW"═             "BLINK+HIY"‧"NOR"            "HIW"═ "HIM"轉   \n"NOR,me);
-      message_vision("      "HIC"╰      "HIM"舞 "HIW"═                ═ "HIM"迴      "HIC"╯\n"NOR,me);
-      message_vision("            "HIC"╰      "HIM"天 "HIW"═    ═ "HIM"夢      "HIC"╯      \n"NOR,me);
-      message_vision("                  "HIC"╰      "HIM"翔      "HIC"╯            \n\n"NOR,me);
+      message_vision(HIY + "\n$N一陣怒意上升，只見陣陣的氣流旋空飛起，$N的八把武器御空飛起\n" + NOR,me);
+      message_vision(HIY + "  並夾帶威力萬均的氣勢，由$N為中心向四周散射，正是一式驚天神技\n\n" + NOR,me);
+      message_vision("                  " + HIC + "╭      " + HIM + "翔      " + HIC + "╮            \n" + NOR,me);
+      message_vision("            " + HIC + "╭      " + HIM + "天 " + HIW + "═    ═ " + HIM + "夢      " + HIC + "╮      \n" + NOR,me);
+      message_vision("      " + HIC + "╭      " + HIM + "舞 " + HIW + "═                ═ " + HIM + "迴      " + HIC + "╮\n" + NOR,me);
+      message_vision("        " + HIM + "夜 " + HIW + "═             "BLINK+HIY"‧" + NOR + "            " + HIW + "═ " + HIM + "轉   \n" + NOR,me);
+      message_vision("      " + HIC + "╰      " + HIM + "舞 " + HIW + "═                ═ " + HIM + "迴      " + HIC + "╯\n" + NOR,me);
+      message_vision("            " + HIC + "╰      " + HIM + "天 " + HIW + "═    ═ " + HIM + "夢      " + HIC + "╯      \n" + NOR,me);
+      message_vision("                  " + HIC + "╰      " + HIM + "翔      " + HIC + "╯            \n\n" + NOR,me);
       if( i == 1 || random(30) == 7 )
       {
         for( j=0 ; j<i ; j++ )
@@ -636,41 +636,41 @@ void heart_beat()
           {
             if( environment(me) == environment(enemy[j]) )
             {
-              message_vision(HIW"$N的"NOR"楓映天蓮劍"NOR+HIW"疾射而至，眩目的劍光造成$n無法逼視。\n"NOR,me,enemy[j]);
+              message_vision(HIW + "$N的" + NOR + "楓映天蓮劍"NOR+HIW"疾射而至，眩目的劍光造成$n無法逼視。\n" + NOR,me,enemy[j]);
               enemy[j]->apply_condition("no_power",enemy[j]->query_condition("no_power")+5);
               COMBAT_D->report_status(enemy[j]);
 
-              message_vision(HIW"$N的"NOR+YEL"凌微雲扇飄"NOR+HIW"疾射而至，刁鑽的氣勁奔向$n各大要穴。\n"NOR,me,enemy[j]);
+              message_vision(HIW + "$N的"NOR+YEL"凌微雲扇飄"NOR+HIW"疾射而至，刁鑽的氣勁奔向$n各大要穴。\n" + NOR,me,enemy[j]);
               enemy[j]->apply_condition("blockade",enemy[j]->query_condition("blockade")+5);
               COMBAT_D->report_status(enemy[j]);
 
-              message_vision(HIW"$N的"NOR+RED"閻匕影螫魂"NOR+HIW"疾射而至，詭異的黑火造成$n極度傷害。\n"NOR,me,enemy[j]);
+              message_vision(HIW + "$N的"NOR+RED"閻匕影螫魂"NOR+HIW"疾射而至，詭異的黑火造成$n極度傷害。\n" + NOR,me,enemy[j]);
               enemy[j]->apply_condition("hellfire",enemy[j]->query_condition("hellfire")+5);
               COMBAT_D->report_status(enemy[j]);
 
-              message_vision(HIW"$N的"NOR+CYN"化劫菱歸真"NOR+HIW"疾射而至，渾重的氣勁震的$n氣息翻騰。\n"NOR,me,enemy[j]);
+              message_vision(HIW + "$N的"NOR+CYN"化劫菱歸真"NOR+HIW"疾射而至，渾重的氣勁震的$n氣息翻騰。\n" + NOR,me,enemy[j]);
               enemy[j]->apply_condition("tsunami",enemy[j]->query_condition("tsunami")+5);
               COMBAT_D->report_status(enemy[j]);
 
-              message_vision(HIW"$N的"NOR+MAG"雷火彩鳳翔"NOR+HIW"疾射而至，熾熱的氣流灼的$n焚身難受。\n"NOR,me,enemy[j]);
+              message_vision(HIW + "$N的"NOR+MAG"雷火彩鳳翔"NOR+HIW"疾射而至，熾熱的氣流灼的$n焚身難受。\n" + NOR,me,enemy[j]);
               enemy[j]->apply_condition("burn",enemy[j]->query_condition("burn")+5);
               COMBAT_D->report_status(enemy[j]);
 
-              message_vision(HIW"$N的"NOR+BLU"魔爪混天殺"NOR+HIW"疾射而至，冰寒的氣息造成$n痛徹心扉。\n"NOR,me,enemy[j]);
+              message_vision(HIW + "$N的"NOR+BLU"魔爪混天殺"NOR+HIW"疾射而至，冰寒的氣息造成$n痛徹心扉。\n" + NOR,me,enemy[j]);
               enemy[j]->apply_condition("ice",enemy[j]->query_condition("ice")+5);
               COMBAT_D->report_status(enemy[j]);
 
-              message_vision(HIW"$N的"NOR+HIB"刀斬邪元歸"NOR+HIW"疾射而至，沉重的刀氣砍的$n氣息混亂。\n"NOR,me,enemy[j]);
+              message_vision(HIW + "$N的"NOR+HIB"刀斬邪元歸"NOR+HIW"疾射而至，沉重的刀氣砍的$n氣息混亂。\n" + NOR,me,enemy[j]);
               enemy[j]->apply_condition("ff_poison",enemy[j]->query_condition("ff_poison")+5);
               COMBAT_D->report_status(enemy[j]);
 
-              message_vision(HIW"$N的"NOR+GRN"幔羅刀無影"NOR+HIW"疾射而至，輕薄的刀氣切的$n遍體鱗傷。\n"NOR,me,enemy[j]);
+              message_vision(HIW + "$N的"NOR+GRN"幔羅刀無影"NOR+HIW"疾射而至，輕薄的刀氣切的$n遍體鱗傷。\n" + NOR,me,enemy[j]);
               enemy[j]->apply_condition("blade",enemy[j]->query_condition("blade")+5);
               COMBAT_D->report_status(enemy[j]);
             }
             if( random(100) > 80 )
             {
-              message_vision(HIR"只見$n承受不了這股強大的神技，應聲被轟飛出廳外了!!\n"NOR,me,enemy[j]);
+              message_vision(HIR + "只見$n承受不了這股強大的神技，應聲被轟飛出廳外了!!\n" + NOR,me,enemy[j]);
               enemy[j]->receive_wound("kee",666,me);
               enemy[j]->receive_wound("gin",333,me);
               enemy[j]->receive_wound("sen",333,me);
@@ -691,55 +691,55 @@ void heart_beat()
             {
               if( n == 0 )
               {
-                message_vision(HIW"$N的"NOR"楓映天蓮劍"NOR+HIW"疾射而至，眩目的劍光造成$n無法逼視。\n"NOR,me,enemy[j]);
+                message_vision(HIW + "$N的" + NOR + "楓映天蓮劍"NOR+HIW"疾射而至，眩目的劍光造成$n無法逼視。\n" + NOR,me,enemy[j]);
                 enemy[j]->apply_condition("no_power",enemy[j]->query_condition("no_power")+5);
                 COMBAT_D->report_status(enemy[j]);
               }
               if( n == 1 )
               {
-                message_vision(HIW"$N的"NOR+YEL"凌微雲扇飄"NOR+HIW"疾射而至，刁鑽的氣勁奔向$n各大要穴。\n"NOR,me,enemy[j]);
+                message_vision(HIW + "$N的"NOR+YEL"凌微雲扇飄"NOR+HIW"疾射而至，刁鑽的氣勁奔向$n各大要穴。\n" + NOR,me,enemy[j]);
                 enemy[j]->apply_condition("blockade",enemy[j]->query_condition("blockade")+5);
                 COMBAT_D->report_status(enemy[j]);
               }
               if( n == 2 )
               {
-                message_vision(HIW"$N的"NOR+RED"閻匕影螫魂"NOR+HIW"疾射而至，詭異的黑火造成$n極度傷害。\n"NOR,me,enemy[j]);
+                message_vision(HIW + "$N的"NOR+RED"閻匕影螫魂"NOR+HIW"疾射而至，詭異的黑火造成$n極度傷害。\n" + NOR,me,enemy[j]);
                 enemy[j]->apply_condition("hellfire",enemy[j]->query_condition("hellfire")+5);
                 COMBAT_D->report_status(enemy[j]);
               }
               if( n == 3 )
               {
-                message_vision(HIW"$N的"NOR+CYN"化劫菱歸真"NOR+HIW"疾射而至，渾重的氣勁震的$n氣息翻騰。\n"NOR,me,enemy[j]);
+                message_vision(HIW + "$N的"NOR+CYN"化劫菱歸真"NOR+HIW"疾射而至，渾重的氣勁震的$n氣息翻騰。\n" + NOR,me,enemy[j]);
                 enemy[j]->apply_condition("tsunami",enemy[j]->query_condition("tsunami")+5);
                 COMBAT_D->report_status(enemy[j]);
               }
               if( n == 4 )
               {
-                message_vision(HIW"$N的"NOR+MAG"雷火彩鳳翔"NOR+HIW"疾射而至，熾熱的氣流灼的$n焚身難受。\n"NOR,me,enemy[j]);
+                message_vision(HIW + "$N的"NOR+MAG"雷火彩鳳翔"NOR+HIW"疾射而至，熾熱的氣流灼的$n焚身難受。\n" + NOR,me,enemy[j]);
                 enemy[j]->apply_condition("burn",enemy[j]->query_condition("burn")+5);
                 COMBAT_D->report_status(enemy[j]);
               }      
               if( n == 5 )
               {
-                message_vision(HIW"$N的"NOR+BLU"魔爪混天殺"NOR+HIW"疾射而至，冰寒的氣息造成$n痛徹心扉。\n"NOR,me,enemy[j]);
+                message_vision(HIW + "$N的"NOR+BLU"魔爪混天殺"NOR+HIW"疾射而至，冰寒的氣息造成$n痛徹心扉。\n" + NOR,me,enemy[j]);
                 enemy[j]->apply_condition("ice",enemy[j]->query_condition("ice")+5);
                 COMBAT_D->report_status(enemy[j]);
               }
               if( n == 6 )
               {
-                message_vision(HIW"$N的"NOR+HIB"刀斬邪元歸"NOR+HIW"疾射而至，沉重的刀氣砍的$n氣息混亂。\n"NOR,me,enemy[j]);
+                message_vision(HIW + "$N的"NOR+HIB"刀斬邪元歸"NOR+HIW"疾射而至，沉重的刀氣砍的$n氣息混亂。\n" + NOR,me,enemy[j]);
                 enemy[j]->apply_condition("ff_poison",enemy[j]->query_condition("ff_poison")+5);
                 COMBAT_D->report_status(enemy[j]);
               }
               if( n == 7 )
               {
-                message_vision(HIW"$N的"NOR+GRN"幔羅刀無影"NOR+HIW"疾射而至，輕薄的刀氣切的$n遍體鱗傷。\n"NOR,me,enemy[j]);
+                message_vision(HIW + "$N的"NOR+GRN"幔羅刀無影"NOR+HIW"疾射而至，輕薄的刀氣切的$n遍體鱗傷。\n" + NOR,me,enemy[j]);
                 enemy[j]->apply_condition("blade",enemy[j]->query_condition("blade")+5);
                 COMBAT_D->report_status(enemy[j]);
               }
               if( random(100) > 80 )
               {
-                message_vision(HIR"只見$n承受不了這股強大的神技，應聲被轟飛出廳外了!!\n"NOR,me,enemy[j]);
+                message_vision(HIR + "只見$n承受不了這股強大的神技，應聲被轟飛出廳外了!!\n" + NOR,me,enemy[j]);
                 enemy[j]->receive_wound("kee",666,me);
                 enemy[j]->receive_wound("gin",333,me);
                 enemy[j]->receive_wound("sen",333,me);
@@ -752,11 +752,11 @@ void heart_beat()
           }
         }
       }
-      message_vision(HIC"\n神技過後，$N顯的有些疲備，仍然從容的收回所有的兵器緊接著出招。\n\n"NOR,me);
+      message_vision(HIC + "\n神技過後，$N顯的有些疲備，仍然從容的收回所有的兵器緊接著出招。\n\n" + NOR,me);
     }
     if( (k == 99 || k == 10 || k == 20 || k == 30 || k == 40 || k == 50 || k == 1) && me->query("kee") > 0 )
     {
-      message_vision(HIW"\n$N周身冉冉泛出五色的靈光球，光球或急或緩的環繞著$N，\n最後排列成一奇怪的三角形狀，印入$N身體中，令$N的身體\n有無不盡的受用。\n\n"NOR,me);
+      message_vision(HIW + "\n$N周身冉冉泛出五色的靈光球，光球或急或緩的環繞著$N，\n最後排列成一奇怪的三角形狀，印入$N身體中，令$N的身體\n有無不盡的受用。\n\n" + NOR,me);
 
       me->receive_curing("kee",m);
       me->receive_heal("kee",m);
@@ -765,7 +765,7 @@ void heart_beat()
       me->receive_curing("sen",m);
       me->receive_heal("sen",m);
       me->add("force",m*5);
-//      message_vision(HIC"$N目前回復指數「"HIM+m+HIC"」\n"NOR,me);
+//      message_vision(HIC + "$N目前回復指數「"HIM+m+HIC"」\n" + NOR,me);
     }
 //技能攻擊部份
     if( !me->is_busy() )
@@ -886,7 +886,7 @@ void heart_beat()
 
   if( me->query("title") != "聚靈莊主" )
   {
-    me->set("title",HIC"聚靈莊主"NOR);
+    me->set("title",HIC + "聚靈莊主" + NOR);
   }
 
   set_heart_beat(1);

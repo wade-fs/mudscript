@@ -4,7 +4,7 @@ inherit SHIELD;
 object user;
 void create()
 {
-        set_name(HIW "諸葛鱗盾" NOR ,({"juka shield","shield"}));
+        set_name(HIW + "諸葛鱗盾" + NOR ,({"juka shield","shield"}));
         set_weight(3000);
         if( clonep() )
                 set_default_object(__FILE__);

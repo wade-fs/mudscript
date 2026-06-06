@@ -3,7 +3,7 @@ inherit ROOM;
 
 void create()
 {
-        set("short",YEL"森林"NOR);
+        set("short",YEL + "森林" + NOR);
         set("long",@LONG
 四周已經被數木呈凹字形給阻隔住了, 除了你來時的路以外, 在
 你的正前方, 站立著一個木像，木像由於受到風、雨水的侵襲，已經

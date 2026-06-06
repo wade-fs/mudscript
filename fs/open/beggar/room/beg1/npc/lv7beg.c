@@ -4,7 +4,7 @@ inherit NPC;
 void create()
 {
         set_name("七袋弟子",({"beg seven beggar","beggar","beg","seven"}));
-        set("nickname",HIC"丐幫幫眾"NOR);
+        set("nickname",HIC + "丐幫幫眾" + NOR);
         set("long","他是丐幫的弟子\n");
         set("gender","男性");
         set("class","beggar");

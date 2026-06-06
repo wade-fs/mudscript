@@ -30,7 +30,7 @@ int eat_bottle(string arg)
 			"$N把瓶子裏的藥丸拿出來並吞進肚裏。\n",who );
 	if (who->query_condition("snake_poison")) {
 	who->apply_condition("snake_poison",0);
-        tell_object(who,HIB"你中的蛇毒解了!\n"NOR);
+        tell_object(who,HIB + "你中的蛇毒解了!\n" + NOR);
 	}
 	else {
 	tell_object(who,"你將藥丸吞下後，甚麼事也沒發生。\n");

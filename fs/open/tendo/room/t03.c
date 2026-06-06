@@ -5,7 +5,7 @@ inherit ROOM;
 void create()
 {
 	set("light_up",1);
-	 set("short", MAG"紫  玄  道  觀"NOR);
+	 set("short", MAG + "紫  玄  道  觀" + NOR);
 set("long", @LONG
 
                                  __      __   ___         

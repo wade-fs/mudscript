@@ -11,9 +11,9 @@ string kind_p;
 
 void create()
 {
-  set_name(HIG"固本丹"NOR, ({"base pill","pill"}) );
-  set("long","別看這顆丹丸不起眼，這可是少林寺聞名天下可增進功\力的秘傳丹藥喔！不過"HBCYN+HIY"無法指定"NOR"增加\n"+
-    "的"HBCYN+HIW"種類"NOR"可就令人感到無奈了。\n"); //tsk 這樣還看不出來獎勵採隨機制 我也沒辦法了（苦笑 by blazakira
+  set_name(HIG + "固本丹" + NOR, ({"base pill","pill"}) );
+  set("long","別看這顆丹丸不起眼，這可是少林寺聞名天下可增進功\力的秘傳丹藥喔！不過"HBCYN+HIY"無法指定" + NOR + "增加\n"+
+    "的"HBCYN+HIW"種類" + NOR + "可就令人感到無奈了。\n"); //tsk 這樣還看不出來獎勵採隨機制 我也沒辦法了（苦笑 by blazakira
   set("unit", "盒");
   set("base_unit", "粒");
   set("no_auc",1);
@@ -86,7 +86,7 @@ int eat_pill(string arg)
       break;
     default :
       me->add("quests/bonze/water/pill/problem",1); //紀錄非正常途徑的mark
-      tell_object(me,BLINK+HIC"哎呀！糟糕，你吃到"HIG"固本丹"HIC"的偽藥了！\n頓時你覺得氣血失調。\n"NOR); //非正當途徑取得時 則無效果
+      tell_object(me,BLINK+HIC"哎呀！糟糕，你吃到" + HIG + "固本丹" + HIC + "的偽藥了！\n頓時你覺得氣血失調。\n" + NOR); //非正當途徑取得時 則無效果
       me->apply_condition("ff_poison",10);
 //      add_amount(-1);
       destruct(ob);
@@ -94,8 +94,8 @@ int eat_pill(string arg)
       break;
   }
   me->add("quests/bonze/water/pill/"+kind_p,1); //紀錄吃過哪種pill
-  tell_object(me,HIW"你吃下之後感到一股熱流在經脈裡流轉！\n"NOR);
-  tell_object(me,"(你發現到你的基礎技能"+HIY+kind_p+NOR+"增加熟練度"+HIY+i+NOR+"點)\n"NOR);
+  tell_object(me,HIW + "你吃下之後感到一股熱流在經脈裡流轉！\n" + NOR);
+  tell_object(me,"(你發現到你的基礎技能"+HIY+kind_p+NOR+"增加熟練度"+HIY+i+NOR+"點)\n" + NOR);
 //  add_amount(-1);
   destruct(ob);
   return 1;

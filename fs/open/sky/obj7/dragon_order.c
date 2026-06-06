@@ -2,7 +2,7 @@ inherit ITEM;
 #include <ansi.h>
 void create()
 {
-	set_name(HIC"青龍結令"NOR,({"dragon-order"}));
+	set_name(HIC + "青龍結令" + NOR,({"dragon-order"}));
 	set("long","一個奇怪的結令，看上去並不值錢，似乎代表著某種權力象徵，任\n"
 		  +"你如何的細看和研究，卻也不知它有何作用，也許\和傳說中的天靈\n"
 		  +"地界有關。\n");

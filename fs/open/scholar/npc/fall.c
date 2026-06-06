@@ -447,13 +447,13 @@ object reload_weapon( object weapon)
    weapon->set("skill_type", fall->query("weapon/type"));
    if( fall->query("weapon/type") == "stabber" || fall->query("weapon/type") == "unarmed")
    {
-      weapon->set("wield_msg", HIW"只見$N大喝一聲, 一道白光迅速由$N懷中竄出, \n在空中盤桓三圈後停在$N的"+wield_part+"化成一"+c_unit+"獨特的"+ fall->query("weapon/name")+"。\n"NOR);
-weapon->set("unwield_msg", HIW"突然間$N的胸腹之間吸足了氣, 朝"+wield_part+"的$n輕輕一吹, 只見$n慢慢的化作一道光芒隱沒在$N的胸腹之間。\n"NOR);
+      weapon->set("wield_msg", HIW + "只見$N大喝一聲, 一道白光迅速由$N懷中竄出, \n在空中盤桓三圈後停在$N的"+wield_part+"化成一"+c_unit+"獨特的"+ fall->query("weapon/name")+"。\n" + NOR);
+weapon->set("unwield_msg", HIW + "突然間$N的胸腹之間吸足了氣, 朝"+wield_part+"的$n輕輕一吹, 只見$n慢慢的化作一道光芒隱沒在$N的胸腹之間。\n" + NOR);
    }
    else // if( c_unit == "把" || c_unit == "柄")// 指 劍 刀 匕首 拂塵...扇子不會出現
    {
-      weapon->set("wield_msg", HIW"$N輕輕的將"+ fall->query("weapon/name")+"由背後抽出, 只見一道耀眼而詭異的光芒注入了$N身上。\n"NOR);
-      weapon->set("unwield_msg", HIW"$N將手中的$n隨手往天上一丟, 只見它巧妙的落回了背後。\n"NOR);
+      weapon->set("wield_msg", HIW + "$N輕輕的將"+ fall->query("weapon/name")+"由背後抽出, 只見一道耀眼而詭異的光芒注入了$N身上。\n" + NOR);
+      weapon->set("unwield_msg", HIW + "$N將手中的$n隨手往天上一丟, 只見它巧妙的落回了背後。\n" + NOR);
    }
    return weapon;
 }
@@ -660,7 +660,7 @@ int accept_object(object me, object obj)
    if( me->query_temp("accept_obj"))
    {
 // 判斷是否宇內五禽
-      if( obj_name == "真龜血晶" || obj_name == HIY"魔龍鱗"NOR)
+      if( obj_name == "真龜血晶" || obj_name == HIY + "魔龍鱗" + NOR)
       {
          command("pat "+getuid(me));
          command("say 太好了, 這是上佳的"+ obj_name+ "。");

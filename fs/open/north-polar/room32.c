@@ -5,7 +5,7 @@ inherit ROOM;
 
 void create()
 {
-        set("short",HIW"極北冰原"NOR);
+        set("short",HIW + "極北冰原" + NOR);
         set("long", (: printf_msg :) );
         set("exits", ([
 	"northeast"	: __DIR__"room31",

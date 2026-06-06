@@ -10,7 +10,7 @@ void create()
         set("combat_exp",100000);
         set("attitude","friendly");
         set("age",40);
-        set("title",HBCYN+HIW"丐幫召集人"NOR);
+        set("title",HBCYN+HIW"丐幫召集人" + NOR);
         set("str", 40);
         set("cor", 40);
         set("cps", 30);
@@ -84,9 +84,9 @@ int do_join()
         if(this_player()->query("class"))
         return notify_fail("你已經加入其他工會了。\n");
         this_player()->set("class","beggar");
-        message("system",HIW "丐胎鴿"HIC"縱聲大笑：\n
+        message("system",HIW + "丐胎鴿" + HIC + "縱聲大笑：\n
 我們丐幫又多了個生力軍" +this_player()->name()+ "囉！\n
-各位夥伴們，一起歡迎他吧！\n\n"NOR,users());
+各位夥伴們，一起歡迎他吧！\n\n" + NOR,users());
         command("smile "+this_player()->query("id"));
         command("say 希望你能好好乞討，才不會餓死！\n");
         return 1;

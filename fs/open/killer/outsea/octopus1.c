@@ -46,7 +46,7 @@ void heart_beat()
  {
  if (enemy[j]->is_character() && !enemy[j]->is_corpse() && living(enemy[j]) && enemy[j]->query("id")!="octopus")
      {   
-     message_vision(HIM"$N被八爪章魚的觸手纏住了, 無法動彈!!\n"NOR,enemy[j]);
+     message_vision(HIM + "$N被八爪章魚的觸手纏住了, 無法動彈!!\n" + NOR,enemy[j]);
      enemy[j]->start_busy(3);
      }
  }

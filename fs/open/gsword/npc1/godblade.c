@@ -8,7 +8,7 @@ string ask_lotch();
 string ask_mogi();
 void create()
 {
-        set_name(HIR"刀神"+HIC"龍震元"NOR,({"blademan","man"}));
+        set_name(HIR + "刀神"+HIC"龍震元" + NOR,({"blademan","man"}));
         set("long","仙魔戰中刀神元靈所換化的守護神,負責阻止閒雜人等進入魔封地。\n");
         set("gender","男性");
         set("class","blademan");
@@ -68,7 +68,7 @@ void heart_beat()
          if( random(100) >random(50) )
           {
            delete_busy();
-           message_vision(HIW"雷虎聖者大喊:刀神附體..破封殺敵!!\n只見無數光芒向其聚集....瞬間衝破被封之穴道\n"NOR);
+           message_vision(HIW + "雷虎聖者大喊:刀神附體..破封殺敵!!\n只見無數光芒向其聚集....瞬間衝破被封之穴道\n" + NOR);
           }
   }
 ::heart_beat();

@@ -34,8 +34,8 @@ int swallow_pill(string arg)
     message_vision("$N看了看藥丸,決定試試這顆所謂的靈丹是否真的神奇。\n",ob);
     message_vision("xxxx\n",ob); //不加ob..system會強迫所傳回的 0 值
     tell_object( ob ,"你感到全身發燙,一股興奮的感覺令你有如身在雲端。\n");
-    tell_object( ob ,HIB"你感到氣力增加了.......\n"NOR);
-    tell_object( ob ,HIG"你感到精力變強了.......^_^\n"NOR);
+    tell_object( ob ,HIB + "你感到氣力增加了.......\n" + NOR);
+    tell_object( ob ,HIG + "你感到精力變強了.......^_^\n" + NOR);
     max1=ob->query("max_gin");
     max2=ob->query("max_kee");
     sen1 = ob->query("sen");

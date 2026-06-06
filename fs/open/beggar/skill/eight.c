@@ -37,10 +37,10 @@ if(!(ob=me->query_temp("weapon"))||(string)ob->query("skill_type")!="staff")
                 return 0;
         }
         message_vision(
-HIR"$N忽然向天怒吼,形化八方、棒化風雨使出打狗棒法之絕學"HIW"「八方風雨」"HIR"只見$N揮舞棒子,越舞越快形成無數的棒影\n"NOR,me,target);
+HIR + "$N忽然向天怒吼,形化八方、棒化風雨使出打狗棒法之絕學" + HIW + "「八方風雨」" + HIR + "只見$N揮舞棒子,越舞越快形成無數的棒影\n" + NOR,me,target);
         {
         message_vision(
-            HIW"只見天地變色、漫天的棒影鋪天蓋地般向$n襲去\n"NOR,me,target);
+            HIW + "只見天地變色、漫天的棒影鋪天蓋地般向$n襲去\n" + NOR,me,target);
             me->add("kee",-30);
              me->add("force",-(100 + ((int)me->query_skill("dragonforce",1)))*3)
 ;
@@ -48,7 +48,7 @@ HIR"$N忽然向天怒吼,形化八方、棒化風雨使出打狗棒法之絕學"
 ")))
         {
  message_vision(
-HIR"\n$n面對漫天的棒勢無法躲避,被無數的棒子擊中要害,棒棒致命、痛苦異常!!!\n"NOR,me,target);
+HIR + "\n$n面對漫天的棒勢無法躲避,被無數的棒子擊中要害,棒棒致命、痛苦異常!!!\n" + NOR,me,target);
                 message_vision( NOR,me);
 target->receive_wound("kee",me->query_skill("pd-staff",1)*3+random(me->query_skill("dragonforce",1)*2));
                 COMBAT_D->report_status(target);
@@ -56,7 +56,7 @@ target->receive_wound("kee",me->query_skill("pd-staff",1)*3+random(me->query_ski
         else
       {
                 message_vision(
-HIW"$n看出棒勢的漏洞，千均一髮之際,躲過『八方風雨』的攻擊!!!\n"NOR,me,target);
+HIW + "$n看出棒勢的漏洞，千均一髮之際,躲過『八方風雨』的攻擊!!!\n" + NOR,me,target);
                 message_vision( NOR,me);
        }
         message_vision(

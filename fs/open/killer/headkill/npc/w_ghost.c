@@ -12,7 +12,7 @@ void create()
     set("age",99);
     set("class","killer");
     set("quest/rain",1);
-    set("title",HIG"風之試煉場關主"NOR);
+    set("title",HIG + "風之試煉場關主" + NOR);
     set("kee",2500);
     set("max_kee",2500);
     set("sen",1500);

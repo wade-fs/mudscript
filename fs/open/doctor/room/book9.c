@@ -10,7 +10,7 @@ string *exit = ({
 
 void create()
 {
-  set("short", YEL"藏經閣"NOR);
+  set("short", YEL + "藏經閣" + NOR);
   set("long",
     (: print_book_msg :),
   );
@@ -78,7 +78,7 @@ int do_enter(string arg)
     write("你緩緩的走進這個暗道之中......\n");
     me->delete("doctor/find_door");
     if(random(100) < kar) {
-      write(HIR"突然間！你一腳踩了個空，向暗道內直滾而去....\n"NOR);
+      write(HIR + "突然間！你一腳踩了個空，向暗道內直滾而去....\n" + NOR);
       call_out("bad1",3,me);
       return 1;
     }else{
@@ -93,7 +93,7 @@ int bad1(object me)
 {
   int kee = (int)me->query("kee")/5;
 
-  write(HIR"你滾啊滾啊滾...你跌跌撞撞...撞得滿身是傷...\n"NOR);
+  write(HIR + "你滾啊滾啊滾...你跌跌撞撞...撞得滿身是傷...\n" + NOR);
   me->add("kee",-kee);
   call_out("bad2",3,me);
 }
@@ -102,7 +102,7 @@ int bad2(object me)
 {
   int kee = (int)me->query("kee")/5;
 
-  write(HIR"你滾啊滾啊滾...你跌跌撞撞...撞得滿身是傷...\n"NOR);
+  write(HIR + "你滾啊滾啊滾...你跌跌撞撞...撞得滿身是傷...\n" + NOR);
   me->add("kee",-kee);
   call_out("bad3",3,me);
 }
@@ -111,7 +111,7 @@ int bad3(object me)
 {
   int kee = (int)me->query("kee")/5;
 
-  write(HIR"你滾啊滾啊滾...你跌跌撞撞...撞得滿身是傷...\n"NOR);
+  write(HIR + "你滾啊滾啊滾...你跌跌撞撞...撞得滿身是傷...\n" + NOR);
   me->add("kee",-kee);
   call_out("bad4",3,me);
 }
@@ -120,9 +120,9 @@ int bad4(object me)
 {
   int kee = (int)me->query("kee")/5;
 
-  write(HIR"你滾啊滾啊滾...你跌跌撞撞...撞得滿身是傷...\n"NOR);
+  write(HIR + "你滾啊滾啊滾...你跌跌撞撞...撞得滿身是傷...\n" + NOR);
   me->add("kee",-kee);
-  write(HIW"你好不容易停了下來，發現自己已落在平坦的地面上頭...\n"NOR);
+  write(HIW + "你好不容易停了下來，發現自己已落在平坦的地面上頭...\n" + NOR);
   me->move("/open/doctor/room/yf-room");
   return 1;
 }

@@ -3,7 +3,7 @@ inherit ROOM;
 #include <ansi.h>
 #include "wind-rain.h"
 void create () {
-set ("short",HIY"遮月天"NOR);
+set ("short",HIY + "遮月天" + NOR);
 	set( "build", 62 );
 set ("long", @LONG
 進入此室，光線彷彿都被吞噬了一般，清涼如夜，忽見微暈，原來  
@@ -34,7 +34,7 @@ int valid_leave(object me, string dir)
         if(dir=="enter" && present("lin-mo",environment(me)))
   {
 
-message_vision(HIY"林牧說: 對不起, 樓主正在休息. \n"NOR,me);
+message_vision(HIY + "林牧說: 對不起, 樓主正在休息. \n" + NOR,me);
 
 return 0;
 }

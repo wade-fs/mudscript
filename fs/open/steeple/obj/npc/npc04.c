@@ -20,7 +20,7 @@ void create()
 int heal_up()
 {
         if (!is_fighting() ) {
-             message_vision (HIW"系統：戰鬥停止，$N回收中，。\n"NOR, this_object ());
+             message_vision (HIW + "系統：戰鬥停止，$N回收中，。\n" + NOR, this_object ());
              destruct(this_object());
              return 1;
         }
@@ -44,17 +44,17 @@ destruct (this_object ());
 else
 if(me->query("quest/start_game")< 5)
        {
-        tell_object(me,HIY"
-恭喜"HIW+me->query("name")+HIY"挑戰"HIG"『"HIR"第四層試煉ソ塔"HIG"』"HIY"通過！！
+        tell_object(me,HIY + "
+恭喜"HIW+me->query("name")+HIY"挑戰" + HIG + "『" + HIR + "第四層試煉ソ塔" + HIG + "』" + HIY + "通過！！
 
-"HIW"希望"+me->query("name")+"能不負眾望，勇闖"HIG"『"HIY"第五層試煉ソ塔"HIG"』"HIW"。
-	"NOR);
+" + HIW + "希望"+me->query("name")+"能不負眾望，勇闖" + HIG + "『" + HIY + "第五層試煉ソ塔" + HIG + "』" + HIW + "。
+	" + NOR);
 	me->set("quest/start_game",5);
         destruct (this_object ());
        }
 {
         :: unconcious();
-	tell_object(me,HIW"系統：你已經通過測試，系統不做任何更改。\n"NOR);
+	tell_object(me,HIW + "系統：你已經通過測試，系統不做任何更改。\n" + NOR);
 	destruct(this_object());
 }
 }

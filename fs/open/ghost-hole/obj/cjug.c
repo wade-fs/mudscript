@@ -35,8 +35,8 @@ int do_break(string str)
   }
   if (!this_player()->query_temp("ghost-quest/cankill-king"))
   return notify_fail("你又沒參予爭討死靈骨魔的行動。\n");
-  message_vision(HIW"\n\n$N大喝一聲，右手持著"HIY"屠龍刀"HIW"，左手握著"HIC"倚天劍"HIW"氣勢萬千的往盒子一砍！\n",this_player() );
-  message_vision(HIY"屠龍刀"HIW"與"HIC"倚天劍"HIW"融合的霸氣擊向千年金磚，迸發出令人刺眼的光芒。\n\n"NOR,this_player());
+  message_vision(HIW + "\n\n$N大喝一聲，右手持著" + HIY + "屠龍刀" + HIW + "，左手握著" + HIC + "倚天劍" + HIW + "氣勢萬千的往盒子一砍！\n",this_player() );
+  message_vision(HIY + "屠龍刀" + HIW + "與" + HIC + "倚天劍" + HIW + "融合的霸氣擊向千年金磚，迸發出令人刺眼的光芒。\n\n" + NOR,this_player());
  
   gift0=new("/open/ghost-hole/obj/eq/ghost-cloak");
   gift1=new("/open/ghost-hole/obj/eq/ghost-armband");
@@ -64,9 +64,9 @@ int do_break(string str)
   diamond->set_amount(1);
   diamond->move("/open/ghost-hole/g-s06");
 
-  message_vision(HIY""BMAG
+  message_vision(HIY + "" + BMAG
     "\n\n鏗鏮！甕頓時碎裂，幻化成無數道光芒....一時之間，你眼前出現黃澄澄的一片，"
-    "金銀財寶就像是一堆黃金山一樣，裡頭還參雜著一些寶物。\n"NOR,this_player()); 
+    "金銀財寶就像是一堆黃金山一樣，裡頭還參雜著一些寶物。\n" + NOR,this_player()); 
   
   j=random(13);   
   switch (j) {

@@ -3,7 +3,7 @@
 inherit BOOTS;
 void create()
 {
-        set_name(HIY"丐祣風之蹴"NOR,({"fly boots","fly","boots"}));
+        set_name(HIY + "丐祣風之蹴" + NOR,({"fly boots","fly","boots"}));
         set_weight(2000);
         if ( clonep() )
                 set_default_object(__FILE__);

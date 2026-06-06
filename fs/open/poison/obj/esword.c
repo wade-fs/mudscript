@@ -25,7 +25,7 @@ mapping *action = ({
 });
 void create()
 {
-	set_name(HIW""NOR+WHT"W"NOR+HIW""NOR+WHT"M"NOR+HIW""NOR+WHT ""NOR+HIW""NOR+WHT"B"NOR,({"blade"}) );
+	set_name(HIW + ""NOR+WHT"W"NOR+HIW""NOR+WHT"M"NOR+HIW""NOR+WHT ""NOR+HIW""NOR+WHT"B" + NOR,({"blade"}) );
 
         set_weight(10000);
         if( clonep() )
@@ -59,7 +59,7 @@ void block(object me,object victim,object weapon,int damage)
 	if(damage > 180)
 {
 	victim->start_busy( random((int)me->query_skill("blade", 1)/100 + 1 ));
-	message_vision(HIW "名刀  村雨的刀身上氾來陣陣刀芒，光芒刺得$n的眼睛睜不開來，使得$n呆立原地，動彈不得!\n" NOR,me,victim);
+	message_vision(HIW + "名刀  村雨的刀身上氾來陣陣刀芒，光芒刺得$n的眼睛睜不開來，使得$n呆立原地，動彈不得!\n" + NOR,me,victim);
 }
 }
 
@@ -71,6 +71,6 @@ void bleed(object me,object victim,object weapon,int damage)
 	cond = victim->query_condition("bleeding");
 	cond += random(me->query_skill("sword", 1)/100 );
 	victim->apply_condition("bleeding", cond);
-	message_vision(HIW "名刀  村雨的刀鋒劃破了$n的皮膚，使得$n大量失血，無法止住!\n" NOR,me,victim);
+	message_vision(HIW + "名刀  村雨的刀鋒劃破了$n的皮膚，使得$n大量失血，無法止住!\n" + NOR,me,victim);
 }
 }

@@ -37,8 +37,8 @@ int jump_skeleton(string str)
 {
         object who;
         who = this_player();
-        message("system",HIR"\n"+who->query("family/family_name")+""HIW"的"HIY""+who->name()+""HIW"不顧一切的跳入死靈骨堡裡，
-誓言要將"HIG"死靈骨堡"HIW"內不可告人的秘密公諸於世。\n\n"NOR,users());
+        message("system",HIR + "\n"+who->query("family/family_name")+"" + HIW + "的" + HIY + ""+who->name()+"" + HIW + "不顧一切的跳入死靈骨堡裡，
+誓言要將" + HIG + "死靈骨堡" + HIW + "內不可告人的秘密公諸於世。\n\n" + NOR,users());
         who->move("/open/ghost-hole/g-h02");
         return 1;
 }

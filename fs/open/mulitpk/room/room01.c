@@ -70,7 +70,7 @@ int valid_leave( object me, string dir )
       pay += CHINESE_D->chinese_number(fee%1000000%10000/100) + "兩銀子";
     if( fee%1000000%10000%100 > 0 )
       pay += CHINESE_D->chinese_number(fee%10000%100) + "文錢";
-    message_vision( HIY"武鬥會場守衛向$N收取武林大會場地費" + pay + "。\n"NOR, me );
+    message_vision( HIY + "武鬥會場守衛向$N收取武林大會場地費" + pay + "。\n" + NOR, me );
   }
 
   return 1;

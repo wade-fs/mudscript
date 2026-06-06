@@ -6,7 +6,7 @@ void create()
 {
 
 	set_name("海馬", ({"sea horse","horse"}));
-	set("title",HIR"印度洋"CYN"海神"NOR);
+	set("title",HIR + "印度洋" + CYN + "海神" + NOR);
 	set("age",24);
 	set("long","印度洋海域的水神，擅長冰火交融的魔法。\n");
 	set("race", "野獸");
@@ -90,7 +90,7 @@ void heart_beat()
 	          	 me->delete_busy();
 	          	 return;
 	          }
-	         message_vision(HIG"\n$N雙臂大開，左聚冰雪，右凝熔岩，"HIC"『"HIR"熱壓"HIW"極光"HIC"』"HIG"的強烈溫差像要將人撕裂。\n"NOR,me);
+	         message_vision(HIG + "\n$N雙臂大開，左聚冰雪，右凝熔岩，" + HIC + "『" + HIR + "熱壓" + HIW + "極光" + HIC + "』" + HIG + "的強烈溫差像要將人撕裂。\n" + NOR,me);
 	         for (i=0 ; i < j ; i++)
 	         {
               if(enemy[i]->is_character() && !enemy[i]->is_corpse() && living(enemy[i]) && enemy[i]->query("name")!="海馬" && !wizardp(enemy[i])) 
@@ -131,7 +131,7 @@ void die()
 	room = environment(me);
 	room->set_temp("can_punch",1);
 	room->set("no_reset",1);
-	message_vision(HIC"\n$N冷笑道"HIW"："HIY"「"HIR"愚蠢!!準備接受海的報復吧!!"HIY"」\n"NOR,me);
+	message_vision(HIC + "\n$N冷笑道" + HIW + "：" + HIY + "「" + HIR + "愚蠢!!準備接受海的報復吧!!" + HIY + "」\n" + NOR,me);
     environment(winner)->delete_temp("block");
         destruct(me);
 }

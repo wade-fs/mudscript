@@ -17,8 +17,8 @@ void create()
 也鮮少與凡人接觸，一個人獨自在這洞中過著她單調而無聊的修行。");
   set("gender","女性");
   set("class","fighter");
-  set("nickname",HIC"千風任起舞"HIW"–"HIC"萬風雲飄揚"NOR);
-  set("title",HIG"千年樹妖"NOR);
+  set("nickname",HIC + "千風任起舞" + HIW + "–" + HIC + "萬風雲飄揚" + NOR);
+  set("title",HIG + "千年樹妖" + NOR);
   set_name("舞風揚",({"dance wind","wind"}));
   set("combat_exp",16500000);
   set("attitude","friendly");
@@ -106,7 +106,7 @@ int block_cmd( string arg )
 {
   if( (string)query_verb() == "do" )
   {
-    write( HIY"舞風揚輕笑說：「想要投機嗎？我最恨投機的人了，納命來吧!!」\n"NOR );
+    write( HIY + "舞風揚輕笑說：「想要投機嗎？我最恨投機的人了，納命來吧!!」\n" + NOR );
     if( is_fighting() )
       this_player()->start_busy(1);
     return 1;
@@ -121,7 +121,7 @@ int do_cmd(string str)
   wind=present( "wind",environment(ob) );
   if(str=="throw wind" || str=="throw dance wind")
   {
-    write(HIY"舞風揚輕笑說：「用這種下三爛的方法就想殺我!去死吧!!」\n"NOR);
+    write(HIY + "舞風揚輕笑說：「用這種下三爛的方法就想殺我!去死吧!!」\n" + NOR);
     command("perform fireforce.gold-fire");
     wind->kill_ob(who);
     who->start_busy(1);
@@ -129,7 +129,7 @@ int do_cmd(string str)
   }
   else if(str=="askgod wind" || str=="askgod dance wind")
   {
-    write(HIY"舞風揚輕笑說：「等你的道行比我高時再來替我算命吧。」呵呵呵!!\n"NOR);
+    write(HIY + "舞風揚輕笑說：「等你的道行比我高時再來替我算命吧。」呵呵呵!!\n" + NOR);
     command("perform fireforce.gold-fire");
     wind->kill_ob(who);
     who->start_busy(1);
@@ -137,7 +137,7 @@ int do_cmd(string str)
   }
   else if(str=="bak wind" || str=="bak dance wind")
   {
-    write(HIY"舞風揚輕笑說：「你們這些凡人，想暗殺我，實在是太可笑了!!\n"NOR);
+    write(HIY + "舞風揚輕笑說：「你們這些凡人，想暗殺我，實在是太可笑了!!\n" + NOR);
     command("perform fireforce.gold-fire");
     wind->kill_ob(who);
     who->start_busy(1);
@@ -147,9 +147,9 @@ int do_cmd(string str)
 
 void greeting(object me)
 {
-  write(HIC"
+  write(HIC + "
 	舞風揚說：「是誰這麼大膽，竟然闖入我了練功\
-	修行的地方，擾我修行的人真是太可惡了！！」\n\n"NOR); 
+	修行的地方，擾我修行的人真是太可惡了！！」\n\n" + NOR); 
   if( !wizardp(me) )
   {
     kill_ob(me);
@@ -160,14 +160,14 @@ void greeting(object me)
 
 int accept_fight(object who)
 {
-  write(HIY"舞風揚冷冷的說：「先打量你是否能活著離開吧！哼哼！！」\n"NOR);
+  write(HIY + "舞風揚冷冷的說：「先打量你是否能活著離開吧！哼哼！！」\n" + NOR);
   return 0;
 }
 
 int accept_kill(object who)
 {
   who = this_player();
-  write(HIY"舞風揚騰空躍起，身形懸浮在平空中。\n"NOR);
+  write(HIY + "舞風揚騰空躍起，身形懸浮在平空中。\n" + NOR);
   command("say 無知的平凡人類呀！休怪我了，納命來吧！");
   command("wield all");
   command("perform force.fight");
@@ -211,15 +211,15 @@ void heart_beat()
 
   if(count == 17 && me->is_fighting())
   {
-    message_vision(HIW"
-	舞風揚輕手一揚，"HIM"『"HIB"電光游走–雷電奔騰"HIM"』"HIW"只見無數道閃電由天
-	而降，剎時間天色大變，觸及閃電者非死即傷！！\n"NOR,me);
+    message_vision(HIW + "
+	舞風揚輕手一揚，" + HIM + "『" + HIB + "電光游走–雷電奔騰" + HIM + "』" + HIW + "只見無數道閃電由天
+	而降，剎時間天色大變，觸及閃電者非死即傷！！\n" + NOR,me);
     for( j=0 ; j < i ; j++ )
     {
       if( !enemy[j] ) continue;
       if( enemy[j]->is_character() && !enemy[j]->is_corpse() && living(enemy[j]) && enemy[j] != me && !wizardp(enemy[j]) )
       {
-        message_vision(HIR"$N被這威力無比的狂雷所電傷，幾乎快撐不住而暈眩！！\n"NOR,enemy[j]);
+        message_vision(HIR + "$N被這威力無比的狂雷所電傷，幾乎快撐不住而暈眩！！\n" + NOR,enemy[j]);
         enemy[j]->receive_wound("kee",750,me);
         enemy[j]->apply_condition("burn",enemy[j]->query_condition("burn")+5);
         COMBAT_D->report_status(enemy[j]);
@@ -229,16 +229,16 @@ void heart_beat()
 
   if(count == 5 && me->is_fighting())
   {
-    message_vision(HIW"
-	上空突然飄下陣陣落葉，無數的落葉化為片片殺人的"HIM"「"HIG"葉"HIM"」"HIW"若有
+    message_vision(HIW + "
+	上空突然飄下陣陣落葉，無數的落葉化為片片殺人的" + HIM + "「" + HIG + "葉" + HIM + "」" + HIW + "若有
 	似無，隱隱若現，眨眼之間，無數的落葉急速聚集，瞬間轉化為
-	一式"HIM"『"HIG"葉落秋舞–葉殺片片"HIM"』"HIW"，急速的飛奔狂殺！！\n"NOR,me);
+	一式" + HIM + "『" + HIG + "葉落秋舞–葉殺片片" + HIM + "』" + HIW + "，急速的飛奔狂殺！！\n" + NOR,me);
     for( j=0 ; j < i ; j++ )
     {
       if( !enemy[j] ) continue;
       if( enemy[j]->is_character() && !enemy[j]->is_corpse() && living(enemy[j]) && enemy[j] != me && !wizardp(enemy[j]) )
       {
-        message_vision(HIR"為了躲避漫天的葉殺，耗損了$N不少的內力！！\n"NOR,enemy[j]);
+        message_vision(HIR + "為了躲避漫天的葉殺，耗損了$N不少的內力！！\n" + NOR,enemy[j]);
         enemy[j]->add("force",-((enemy[j]->query("force")/150))*8);
         enemy[j]->apply_condition("star-stial",enemy[j]->query_condition("star-stial")+5);
         COMBAT_D->report_status(enemy[j]);
@@ -248,15 +248,15 @@ void heart_beat()
 
   if(count == 7 && me->is_fighting())
   {
-    message_vision(HIW"
-	舞風揚一陣怒意橫生，將其化為一式"HIM"『"HIR"怒意橫生–烈火無限"HIM"』"HIW"，
-	無限的烈火恣意橫生，誓將一切燒盡的烈火訊速的蔓沿著！！\n"NOR,me);
+    message_vision(HIW + "
+	舞風揚一陣怒意橫生，將其化為一式" + HIM + "『" + HIR + "怒意橫生–烈火無限" + HIM + "』" + HIW + "，
+	無限的烈火恣意橫生，誓將一切燒盡的烈火訊速的蔓沿著！！\n" + NOR,me);
     for( j=0 ; j < i ; j++)
     {
       if( !enemy[j] ) continue;
       if( enemy[j]->is_character() && !enemy[j]->is_corpse() && living(enemy[j]) && enemy[j] != me && !wizardp(enemy[j]) )
       {
-        message_vision(HIR"$N被無情的烈火渾身沿燒著，正痛苦的嘶吼著！！\n"NOR,enemy[j]);
+        message_vision(HIR + "$N被無情的烈火渾身沿燒著，正痛苦的嘶吼著！！\n" + NOR,enemy[j]);
         enemy[j]->receive_wound("kee",500,me);
         enemy[j]->apply_condition("hellfire",enemy[j]->query_condition("hellfire")+5);
         COMBAT_D->report_status(enemy[j]);
@@ -266,16 +266,16 @@ void heart_beat()
 
   if(count == 10 && me->is_fighting())
   {
-    message_vision(HIW"
+    message_vision(HIW + "
 	舞風揚輕柔百轉的身形，游走於你身旁尋找最佳的攻擊時機，就
-	在你分神的那一瞬間，使出"HIM"『"HIY"分身百轉–勁隨身吐"HIM"』"HIW"，無數道猛
-	烈的氣勁任意的飛奔游竄！！\n"NOR,me);
+	在你分神的那一瞬間，使出" + HIM + "『" + HIY + "分身百轉–勁隨身吐" + HIM + "』" + HIW + "，無數道猛
+	烈的氣勁任意的飛奔游竄！！\n" + NOR,me);
     for( j=0 ; j < i ; j++)
     {
       if( !enemy[j] ) continue;
       if( enemy[j]->is_character() && !enemy[j]->is_corpse() && living(enemy[j]) && enemy[j] != me && !wizardp(enemy[j]) )
       {
-        message_vision(HIR"$N被猛烈的氣勁所傷，痛苦的不能自己而跪地呻吟！！\n"NOR,enemy[j]);
+        message_vision(HIR + "$N被猛烈的氣勁所傷，痛苦的不能自己而跪地呻吟！！\n" + NOR,enemy[j]);
         enemy[j]->receive_wound("kee",500,me);
         enemy[j]->apply_condition("hart",enemy[j]->query_condition("hart")+5);
         COMBAT_D->report_status(enemy[j]);
@@ -285,16 +285,16 @@ void heart_beat()
 
   if(count == 15 && me->is_fighting())
   {
-    message_vision(HIW"
+    message_vision(HIW + "
 	舞風揚一個妖身幻化，轉化成絕世驚豔的美女子，集嬌柔嫵媚於
-	一身，並藉由靈力散發"HIM"『"NOR+MAG"媚豔四射–無限迷惑"HIM"』"HIW"，有如炫目的劍
-	光讓人無法逼視！！\n"NOR,me);
+	一身，並藉由靈力散發" + HIM + "『"NOR+MAG"媚豔四射–無限迷惑" + HIM + "』" + HIW + "，有如炫目的劍
+	光讓人無法逼視！！\n" + NOR,me);
     for( j=0 ; j < i ; j++)
     {
       if( !enemy[j] ) continue;
       if( enemy[j]->is_character() && !enemy[j]->is_corpse() && living(enemy[j]) && enemy[j] != me && !wizardp(enemy[j]) )
       {
-        message_vision(HIR"$N與舞風揚四目交接之下，顯得春心盪漾全無反擊能力！！\n"NOR,enemy[j]);
+        message_vision(HIR + "$N與舞風揚四目交接之下，顯得春心盪漾全無反擊能力！！\n" + NOR,enemy[j]);
         enemy[j]->receive_wound("kee",400,me);
         enemy[j]->apply_condition("flower",enemy[j]->query_condition("flower")+3);
         COMBAT_D->report_status(enemy[j]);
@@ -304,16 +304,16 @@ void heart_beat()
 
   if(count == 3 && me->is_fighting())
   {
-    message_vision(HIW"
+    message_vision(HIW + "
 	舞風揚身形幻化，無數分身迴盪在四周，急速迴旋的氣流在四周
 	激盪不已，產生的無比氣流令人無法呼吸，而瞬時間隨著一聲輕
-	喝"HIM"『"HIC"千風起舞–萬風雲揚"HIM"』"HIW"，刀風化冷氣瘋狂的侵襲著一切！！\n"NOR,me);
+	喝" + HIM + "『" + HIC + "千風起舞–萬風雲揚" + HIM + "』" + HIW + "，刀風化冷氣瘋狂的侵襲著一切！！\n" + NOR,me);
     for( j=0 ; j < i ; j++)
     {
       if( !enemy[j] ) continue;
       if( enemy[j]->is_character() && !enemy[j]->is_corpse() && living(enemy[j]) && enemy[j] != me && !wizardp(enemy[j]) )
       {
-        message_vision(HIR"$N被片片的刀風所刮傷，哀嚎慘叫不已！！\n"NOR,enemy[j]);
+        message_vision(HIR + "$N被片片的刀風所刮傷，哀嚎慘叫不已！！\n" + NOR,enemy[j]);
         enemy[j]->receive_wound("kee",500,me);
         enemy[j]->apply_condition("cold",enemy[j]->query_condition("cold")+5);
         COMBAT_D->report_status(enemy[j]);
@@ -327,7 +327,7 @@ void heart_beat()
     {
       if( query("kee") < query("eff_kee") )
       {
-        message_vision(HIW"\n舞風揚的身上旋繞著"HIR"『"HIM"七"HIY"色"HIC"光"HIG"茫"HIB"』"HIW"，光茫過後，舞風揚精神為之振奮！\n"NOR,me);
+        message_vision(HIW + "\n舞風揚的身上旋繞著" + HIR + "『" + HIM + "七" + HIY + "色" + HIC + "光" + HIG + "茫" + HIB + "』" + HIW + "，光茫過後，舞風揚精神為之振奮！\n" + NOR,me);
         me->delete_temp("is_busy");
         me->delete_busy();
         me->delete_temp("no_power_f");
@@ -383,16 +383,16 @@ void do_special()
 
   if(me->is_fighting())
   {
-    message_vision(HIY"
+    message_vision(HIY + "
 	舞風揚一聲輕喝，一個金黃色光球將舞風揚緊緊的包圍，金黃色
 	光球慢慢的向外擴大，一瞬間，黃金光球散發出一陣耀眼光茫，
-	同一時間，舞風揚發出他最強的一招絕學"HBRED"『金˙光˙萬˙丈』"NOR+HIY"！\n"NOR,me);
+	同一時間，舞風揚發出他最強的一招絕學" + HBRED + "『金˙光˙萬˙丈』"NOR+HIY"！\n" + NOR,me);
     for( j=0 ; j < i ; j++)
     {
       if( !enemy[j] ) continue;
       if( enemy[j]->is_character() && !enemy[j]->is_corpse() && living(enemy[j]) && enemy[j] != me && !wizardp(enemy[j]) )
       {
-        message_vision(HIR"黃金光球暴發無限威力，$N被震飛老遠，內息翻滾不定！！\n"NOR,enemy[j]);
+        message_vision(HIR + "黃金光球暴發無限威力，$N被震飛老遠，內息翻滾不定！！\n" + NOR,enemy[j]);
         enemy[j]->receive_wound("kee",600,me);
         enemy[j]->apply_condition("power-down",enemy[j]->query_condition("power-down")+5);
         if(enemy[j]->query("class")=="fighter")
@@ -423,23 +423,23 @@ void die()
 
   if( class1 == 0 ) class1="無門無派";
 
-  tell_object(users(),HIY"
+  tell_object(users(),HIY + "
 舞風揚輕聲嘆道：
 
-"HIM"『"HIC" 世 間 繁 華 ～ 如 夢 似 幻
+" + HIM + "『" + HIC + " 世 間 繁 華 ～ 如 夢 似 幻
 
      愛 恨 情 仇 ～ 煙 消 雲 散
 
        回 首 陌 路 ～ 凌 亂 不 堪
 
-         遙 望 青 峰 ～ 紅 塵 糾 纏"HIM"』"HIY"
+         遙 望 青 峰 ～ 紅 塵 糾 纏" + HIM + "』" + HIY + "
 
 
 沒想到我千年的道行竟然毀在"+HIC+class1+HIY"的"+HIC+name+HIY"手上！！
 
 天意啊！！      可嘆啊！！
 
-        算了吧！！      罷了吧！！\n"NOR);
+        算了吧！！      罷了吧！！\n" + NOR);
   if ( kill_jobs(5,winner,this_object(),"area/hole_stone") ) finish_time(winner,"area/hole_stone");
   else start_time(winner,"area/hole_stone"); // 7.21.93 by Firedancer
 
@@ -450,47 +450,47 @@ void die()
       if( winner->query_temp("quests/magic-manor-02") == 4 )
       {
         new("/open/magic-manor/obj/leaf")->move(winner);
-        tell_room(environment(),sprintf(HIY"\n一片葉子慢慢飄落，慢慢的落在%s的手上。\n"NOR,winner->name()));
+        tell_room(environment(),sprintf(HIY + "\n一片葉子慢慢飄落，慢慢的落在%s的手上。\n" + NOR,winner->name()));
         winner->set_temp("quests/kill-dance",1);
         log_file("open-area/get_heart", sprintf("%s(%s) 得到妖幻之心於 %s\n",name,winner->query("id"), ctime(time()) ));
         new("/autoload/open-area/ghost-heart")->move(winner);
-        tell_room(environment(),sprintf(HIY"\n舞風揚臨死前發出陣陣的強光，光茫過後，妖幻之心飛向%s便深深的印絡在心中。\n"NOR,winner->name()));
+        tell_room(environment(),sprintf(HIY + "\n舞風揚臨死前發出陣陣的強光，光茫過後，妖幻之心飛向%s便深深的印絡在心中。\n" + NOR,winner->name()));
       }else{
         log_file("open-area/get_heart", sprintf("%s(%s) 得到妖幻之心於 %s\n",name,winner->query("id"), ctime(time()) ));
         new("/autoload/open-area/ghost-heart")->move(winner);
-        tell_room(environment(),sprintf(HIY"\n舞風揚臨死前發出陣陣的強光，光茫過後，妖幻之心飛向%s便深深的印絡在心中。\n"NOR,winner->name()));
+        tell_room(environment(),sprintf(HIY + "\n舞風揚臨死前發出陣陣的強光，光茫過後，妖幻之心飛向%s便深深的印絡在心中。\n" + NOR,winner->name()));
       }
     }else{
       if( winner->query_temp("quests/magic-manor-02") == 4 )
       {
         new("/open/magic-manor/obj/leaf")->move(winner);
-        tell_room(environment(),sprintf(HIY"\n一片葉子慢慢飄落，慢慢的落在%s的手上。\n"NOR,winner->name()));
+        tell_room(environment(),sprintf(HIY + "\n一片葉子慢慢飄落，慢慢的落在%s的手上。\n" + NOR,winner->name()));
         winner->set_temp("quests/kill-dance",1);
         destruct( present("ghost heart",this_object()) );
-        tell_room(environment(),sprintf(HIY"\n舞風揚因為承受過多的重擊，身上的妖幻之心被擊的粉碎了。\n"NOR));
+        tell_room(environment(),sprintf(HIY + "\n舞風揚因為承受過多的重擊，身上的妖幻之心被擊的粉碎了。\n" + NOR));
       }else{
         destruct( present("ghost heart",this_object()) );
-        tell_room(environment(),sprintf(HIY"\n舞風揚因為承受過多的重擊，身上的妖幻之心被擊的粉碎了。\n"NOR));
+        tell_room(environment(),sprintf(HIY + "\n舞風揚因為承受過多的重擊，身上的妖幻之心被擊的粉碎了。\n" + NOR));
       }
     }
   }else{
     if( winner->query_temp("quests/magic-manor-02") == 4 )
     {
       new("/open/magic-manor/obj/leaf")->move(winner);
-      tell_room(environment(),sprintf(HIY"\n一片葉子慢慢飄落，慢慢的落在%s的手上。\n"NOR,winner->name()));
+      tell_room(environment(),sprintf(HIY + "\n一片葉子慢慢飄落，慢慢的落在%s的手上。\n" + NOR,winner->name()));
       winner->set_temp("quests/kill-dance",1);
       destruct( present("ghost heart",this_object()) );
-      tell_object(winner,HIY"\n妖幻之心再度印入心中，一股力量激發了你的最大經驗和潛能!!\n"NOR);
+      tell_object(winner,HIY + "\n妖幻之心再度印入心中，一股力量激發了你的最大經驗和潛能!!\n" + NOR);
       winner->add("combat_exp",1000);
       winner->add("potential",200);
     }else{
       if( winner->query("combat_exp") > 30000000 )
       {
         destruct( present("ghost heart",this_object()) );
-        tell_object(winner,HIY"\n妖幻之心再度印入心中，你已變的太強，再也無法激發你的經驗和潛能了!!\n"NOR);
+        tell_object(winner,HIY + "\n妖幻之心再度印入心中，你已變的太強，再也無法激發你的經驗和潛能了!!\n" + NOR);
       }else{
         destruct( present("ghost heart",this_object()) );
-        tell_object(winner,HIY"\n妖幻之心再度印入心中，一股力量激發了你的最大經驗和潛能!!\n"NOR);
+        tell_object(winner,HIY + "\n妖幻之心再度印入心中，一股力量激發了你的最大經驗和潛能!!\n" + NOR);
         winner->add("combat_exp",1000);
         winner->add("potential",200);
       }

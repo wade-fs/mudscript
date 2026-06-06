@@ -3,7 +3,7 @@ inherit ROOM;
 
 void create()
 {
-	set( "short", HIW"【"HIY"狂想樂透彩券投注站"HIW"】"NOR );
+	set( "short", HIW + "【" + HIY + "狂想樂透彩券投注站" + HIW + "】" + NOR );
 	set( "build", 1 );
 	set( "long", @LONG
 

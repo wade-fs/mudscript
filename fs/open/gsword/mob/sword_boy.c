@@ -62,9 +62,9 @@ int accept_object(object who, object ob)
                            "小狗哀鳴:...嗚...嗚...嗚...\n",
                            }));
                     message("vision",
-                             HIY " 突然, 貪財小劍童大叫: 饒了我,師父!! 師父!!\n"
+                             HIY + " 突然, 貪財小劍童大叫: 饒了我,師父!! 師父!!\n"
                              " 你見到一陣黑霧隴罩著貪財小劍童.\n"
-                             HIR " 你簡直不敢相信,貪財小劍童化為一隻狗 !!!\n" NOR,
+                             HIR + " 你簡直不敢相信,貪財小劍童化為一隻狗 !!!\n" + NOR,
                              environment(), this_object() );
                    done =1 ;          
                 } else {                                   

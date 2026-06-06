@@ -52,7 +52,7 @@ void heart_beat()
  target=offensive_target(mob);
  if(!target) return ;
         if( random(100) < 15 ){
- message_vision(HIG"\n千年冰蟾從嘴裡吐出一團綠霧籠罩住$N，使$N覺得頭昏腦脹\n"NOR,target);
+ message_vision(HIG + "\n千年冰蟾從嘴裡吐出一團綠霧籠罩住$N，使$N覺得頭昏腦脹\n" + NOR,target);
  target->add("eff_kee",-200);
  target->apply_condition("five_poison",random(5)); 
         }

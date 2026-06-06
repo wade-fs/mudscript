@@ -41,7 +41,7 @@ int start_marry()
 int misc()
 {
   remove_call_out("misc");
-  message_vision(HIY"雜耍團突然變換隊形，表演出\t"+word[random(sizeof(word))]+
+  message_vision(HIY + "雜耍團突然變換隊形，表演出\t"+word[random(sizeof(word))]+
 	"\n", this_object());
   call_out("misc", 10+random(3));
   return 1;

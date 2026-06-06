@@ -6,7 +6,7 @@ inherit ROOM;
 
 void create ()
 {
-	set( "short", HIB"︿"HIG""GRN""HIG""GRN""HIG""GRN"^"HIB"︿"NOR );
+	set( "short", HIB + "︿" + HIG + "" + GRN + "" + HIG + "" + GRN + "" + HIG + "" + GRN + "^" + HIB + "︿" + NOR );
 	set( "long", @LONG
 
     四周一片漆黑, 隱約可以看見幾棵枯萎的白楊樹, 狂風吹過樹梢, 發出

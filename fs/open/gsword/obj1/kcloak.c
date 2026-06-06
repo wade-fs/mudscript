@@ -5,7 +5,7 @@ inherit CAPE;
 object me=this_player();
 void create()
 {
-        set_name(HIY"劍聖披肩"NOR,({"kensai cloak","cloak"}));
+        set_name(HIY + "劍聖披肩" + NOR,({"kensai cloak","cloak"}));
         set_weight(2000);
         if( clonep() )
                 set_default_object(__FILE__);

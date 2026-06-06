@@ -10,7 +10,7 @@ set("long", "一個看起來全身髒盻盻的老人，腳上還有一個腳銬�
         create_family("魔刀莫測",1,"開創始祖");
         set("family/family_name","魔刀莫測");
         set("have_book",1);
-        set("title",HIW"～幻影～"NOR"魔仙雪～刀劍蒼");
+        set("title",HIW + "～幻影～" + NOR + "魔仙雪～刀劍蒼");
         set("age",70);
         set("env/魔性六斬","YES");
 set("mpower",1);
@@ -64,7 +64,7 @@ void heart_beat()
 int heal_up()
 {
         if (!is_fighting() ) {
-             message_vision (HIW"系統：戰鬥停止，$N回收中，。\n"NOR, this_object ());
+             message_vision (HIW + "系統：戰鬥停止，$N回收中，。\n" + NOR, this_object ());
              destruct(this_object());
              return 1;
         }
@@ -87,17 +87,17 @@ destruct (this_object ());
 else
 if(me->query("quest/start_game")< 21)
        {
-        message_vision(HIY"
-恭喜"HIW+me->query("name")+HIY"挑戰"HIG"『"HIR"第二十層試煉ソ塔"HIG"』"HIY"通過！！
+        message_vision(HIY + "
+恭喜"HIW+me->query("name")+HIY"挑戰" + HIG + "『" + HIR + "第二十層試煉ソ塔" + HIG + "』" + HIY + "通過！！
 
-"HIW"希望"+me->query("name")+"能不負眾望，勇闖"HIG"『"HIY"第二十一層試煉ソ塔"HIG"』"HIW"。
-	"NOR,me);
+" + HIW + "希望"+me->query("name")+"能不負眾望，勇闖" + HIG + "『" + HIY + "第二十一層試煉ソ塔" + HIG + "』" + HIW + "。
+	" + NOR,me);
 	me->set("quest/start_game",21);
         destruct (this_object ());
        }
 {
         :: unconcious();
-	tell_object(me,HIW"系統：你已經通過測試，系統不做任何更改。\n"NOR);
+	tell_object(me,HIW + "系統：你已經通過測試，系統不做任何更改。\n" + NOR);
 	destruct(this_object());
 }
 }

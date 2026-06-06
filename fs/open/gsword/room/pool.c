@@ -53,7 +53,7 @@ int do_check(string str)
   }
  else if(weapon[str] && ob->query("class")=="swordsman")
   {
-   message_vision(HIW"你將法珠貫入娃娃餘頭骨中.頓時娃娃於大了一分\n"NOR,ob);
+   message_vision(HIW + "你將法珠貫入娃娃餘頭骨中.頓時娃娃於大了一分\n" + NOR,ob);
    if(weapon[str]==1) ob->set_temp("su1",1);
    if(weapon[str]==2) ob->set_temp("su2",1);
    if(weapon[str]==3) ob->set_temp("su3",1);
@@ -63,14 +63,14 @@ int do_check(string str)
   }
  else
   {
-   message_vision(HIW"你觸動機關-四周空氣隨之浮動,瞬間五行掛印浮出並發出一到耀眼的光芒!!!\n"NOR,ob);
+   message_vision(HIW + "你觸動機關-四周空氣隨之浮動,瞬間五行掛印浮出並發出一到耀眼的光芒!!!\n" + NOR,ob);
    ob->unconcious();
    return 0;
   }
  if(ob->query_temp("su1")==1&&ob->query_temp("su2")==1&&ob->query_temp("su3")==1&&ob->query_temp("su4")==1&&ob->query_temp("su5")==1)
   {
    log_file("sword/yao",sprintf("%s(%s) free yao on %s\n",ob->query("name"),ob->query("id"),ctime(time()) ));
-   tell_object(users(),HIC"逍遙子喜道 : 天憐仙劍..總算有人解開我長久以來的封印了...！！\n\n"NOR,ob);
+   tell_object(users(),HIC + "逍遙子喜道 : 天憐仙劍..總算有人解開我長久以來的封印了...！！\n\n" + NOR,ob);
    ob1 = present("wawafish",this_object());
    destruct(ob1);
    call_out("msg1",3,ob);
@@ -79,7 +79,7 @@ int do_check(string str)
 }
 int msg1(object ob)
 {
-   tell_object(users(),HIY"遙遠魔域傳來震天巨響！！！\n\n"NOR,ob);
+   tell_object(users(),HIY + "遙遠魔域傳來震天巨響！！！\n\n" + NOR,ob);
 
    call_out("msg2",3,ob);
    return 1;
@@ -87,14 +87,14 @@ int msg1(object ob)
 
 int msg2(object ob)
 {
-   tell_object(users(),HIY"血魔狂笑道 : 仙劍老賊別得意，如今我封印將破！\n\n            看你還有本事在封我一次嗎??\n\n            哈~  哈~~  哈~~~  \n"NOR,ob);
-   tell_object(users(),HIY"逍遙子嘆道 : 唉~~武道無寧日，從今起，凡我仙劍弟子全力對抗血魔一族 \n"NOR,ob);
+   tell_object(users(),HIY + "血魔狂笑道 : 仙劍老賊別得意，如今我封印將破！\n\n            看你還有本事在封我一次嗎??\n\n            哈~  哈~~  哈~~~  \n" + NOR,ob);
+   tell_object(users(),HIY + "逍遙子嘆道 : 唉~~武道無寧日，從今起，凡我仙劍弟子全力對抗血魔一族 \n" + NOR,ob);
    call_out("msg3",3,ob);
    return 1;
  }
 int msg3(object ob)
 {
-  message_vision(HIY"看樣子你我真是有緣，你到仙劍後山劍聖峰來找我吧..我有其他事交代你。\n"NOR,ob);
+  message_vision(HIY + "看樣子你我真是有緣，你到仙劍後山劍聖峰來找我吧..我有其他事交代你。\n" + NOR,ob);
   ob->set("quests/sunsword",1);
   ob->set("return",1);
   return 1;

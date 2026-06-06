@@ -4,7 +4,7 @@ inherit ROOM;
 
 void create()
 {
-set ("short", HIC"後段入口結界"NOR);
+set ("short", HIC + "後段入口結界" + NOR);
 	set( "build", 18 );
 set ("long","自從炎龍谷主收服了黃金甲龍後 ,由於群龍無首四處為
 亂 ,因而谷主在此封印住一道強力結界 ,希望與世隔絕 ,且

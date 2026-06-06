@@ -33,7 +33,7 @@ int do_catch(string str)
     object dragon = present("Nine Dragon");
     if(dragon)
     {
-    message_vision(HIW"\n完顏烈火冷笑道：「這點小技倆在我面前是行不通的。」\n"NOR,me);
+    message_vision(HIW + "\n完顏烈火冷笑道：「這點小技倆在我面前是行不通的。」\n" + NOR,me);
     me->start_busy(2);
     dragon->kill_ob(me);
     }
@@ -45,7 +45,7 @@ int valid_leave(object me,string dir)
 	object obj = present("Nine Dragon");
         if( dir == "north" )
         {
-        	if(obj)  return notify_fail(HIR"完顏烈火"HIW"冷笑道:『兀那小子，以為這裡是你家!?說走就走!?』\n"NOR);
+        	if(obj)  return notify_fail(HIR + "完顏烈火" + HIW + "冷笑道:『兀那小子，以為這裡是你家!?說走就走!?』\n" + NOR);
         }
 
 return 1;

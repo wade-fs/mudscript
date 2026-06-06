@@ -7,7 +7,7 @@ inherit WRISTS;
 
 void create()
 {
-  set_name( HIG "狂想新人護腕" NOR ,({"newbie wrists","wrists"}));
+  set_name( HIG + "狂想新人護腕" + NOR ,({"newbie wrists","wrists"}));
   set_weight(3000);
   if( clonep() )
     set_default_object(__FILE__);

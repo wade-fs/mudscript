@@ -65,7 +65,7 @@ int block_cmd(string arg)
 void greeting( object ob )
 {   
     if( !ob || environment(ob) != environment() ) return;	   
-     write( HIY"火龍密使說道:去死吧....\n"NOR ); 
+     write( HIY + "火龍密使說道:去死吧....\n" + NOR ); 
      command("follow "+ob->query("id"));
 	 kill_ob(ob);
 	 

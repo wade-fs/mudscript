@@ -34,7 +34,7 @@ int valid_leave(object me,string dir)
         {
         	if(!me->query_temp("can_fight_final"))
         	{
-        	if(obj)  return notify_fail(HIC"小水滴說道:『施主真有能力除去魔也佛嗎，先讓貧僧試一下身手吧(accept_test)!!』\n"NOR);
+        	if(obj)  return notify_fail(HIC + "小水滴說道:『施主真有能力除去魔也佛嗎，先讓貧僧試一下身手吧(accept_test)!!』\n" + NOR);
                 }
         }
 

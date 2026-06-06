@@ -91,7 +91,7 @@ void greeting(object who)
 {
   object ob=this_object();
   if ( who->query_temp("quests/bonze/water/method1")==1 ) {//方法一 殺死和尚
-    write(HIY"阿大看見你時，緊張地快說不出話來﹕施…主，我、我…這就去…挑、挑水。\n只見他慌慌張張地拿起一旁的水桶後迅速離開你眼前。\n"NOR);
+    write(HIY + "阿大看見你時，緊張地快說不出話來﹕施…主，我、我…這就去…挑、挑水。\n只見他慌慌張張地拿起一旁的水桶後迅速離開你眼前。\n" + NOR);
 //    environment(ob)->set("no_reset",1); //當有玩家使用方法一時 同時已在該npc重生的房間做延時rb的功能所以不須在greeting設定了
 //    environment(ob)->start();
     command("flee "+who->query("id"));

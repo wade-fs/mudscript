@@ -2,7 +2,7 @@
 inherit ITEM;
 void create()
 {
-        set_name(YEL"長樂幫總舵主人頭"NOR, ({ "clan-master-head" }) );
+        set_name(YEL + "長樂幫總舵主人頭" + NOR, ({ "clan-master-head" }) );
         set_weight(5000);
         if( clonep() )
                 set_default_object(__FILE__);

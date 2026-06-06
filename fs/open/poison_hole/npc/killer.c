@@ -15,7 +15,7 @@ LONG
   set("combat_exp",3000000);
   set("chat_chance",5);
   set("chat_msg", ({
-        CYN"殺手說道：殺！殺！殺！\n"NOR,
+        CYN + "殺手說道：殺！殺！殺！\n" + NOR,
         }) );
   set("chat_chance_combat",20);
   set("can_use_mobkee",1);

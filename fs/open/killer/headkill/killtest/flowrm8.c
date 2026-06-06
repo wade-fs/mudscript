@@ -56,7 +56,7 @@ int do_move(string arg)
     me->move(__DIR__"flowrm1.c");
     return 1;
   }
-  message_vision(HIW"一道光芒射向$N，一道黑氣由$N身上離去了，看來他的罪業消失了！\n"NOR, me);
+  message_vision(HIW + "一道光芒射向$N，一道黑氣由$N身上離去了，看來他的罪業消失了！\n" + NOR, me);
   me->delete("title");
   me->delete("killyar");
   me->move("/open/killer/room/masterm.c");

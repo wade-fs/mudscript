@@ -3,7 +3,7 @@ inherit ROOM;
 
 void create ()
 {
-	set ("short", HIG"木靈塔"NOR);
+	set ("short", HIG + "木靈塔" + NOR);
 	set ("long", @LONG
 木靈塔的周圍遍滿了蔓藤的包圍，蔓藤不斷的向周圍生長，且上面
 長滿了可怕的尖刺並不時的朝你這裏衍生了過來，若身上沒有可以克制

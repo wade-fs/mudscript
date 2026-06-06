@@ -45,7 +45,7 @@ int do_search( string str)
    if( this_player()->query("quest/rain")==1)  //再檢查一次, 避免當官的殺手帶人來
    {
       message_vision("經過你仔細的搜索之後, 赫然發現地上插著一隻匕首(dagger)...\n",this_player());
-      message_vision("它看起來就像是失落已久的"HIW"滅神匕首"NOR"....\n",this_player());
+      message_vision("它看起來就像是失落已久的" + HIW + "滅神匕首" + NOR + "....\n",this_player());
       message_vision("你可以試著將它拔起(pull)。\n",this_player());
       return 1;
    }
@@ -68,7 +68,7 @@ int do_pull(string str)
          return 0;
       }
       message_vision("..........................................\n",this_player());
-      message_vision("你很用力的將"HIW"滅神匕首"NOR"拔了起來....\n",this_player());
+      message_vision("你很用力的將" + HIW + "滅神匕首" + NOR + "拔了起來....\n",this_player());
       message_vision("突然間山搖地動, 剛才的舉動似乎引起了山崩。\n",this_player());
       message_vision("果然....你從岩壁上摔下去了................\n",this_player());
 

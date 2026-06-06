@@ -7,7 +7,7 @@ void create()
 {
   set_name("碎片", ({ "scrap" }) );
   set("unit", "枚");
-  set("long","這是一枚靈魂碎片，黯淡光芒隱隱閃爍看起來似乎"HIY"馬上就要消失"NOR"的模樣，令人有些擔心，但\n"+
+  set("long","這是一枚靈魂碎片，黯淡光芒隱隱閃爍看起來似乎" + HIY + "馬上就要消失" + NOR + "的模樣，令人有些擔心，但\n"+
     "是你不清楚是哪一位大神的，因此不知道該怎麼幫助這個靈魂，不過你可以到處走訪，或者\n"+
     "某個門派正在尋找也不一定呢。\n");
   set("value",0); //靈魂無價～laugh
@@ -23,19 +23,19 @@ void init()
   switch(str)
   {
     case "角":
-      set_name(RED"角"NOR"之碎片",({"spica soul splinters","spica"}));
+      set_name(RED + "角" + NOR + "之碎片",({"spica soul splinters","spica"}));
       break;
     case "奎":
-      set_name(YEL"奎"NOR"之碎片",({"kui soul splinters","kui"}));
+      set_name(YEL + "奎" + NOR + "之碎片",({"kui soul splinters","kui"}));
       break;
     case "井":
-      set_name(MAG"井"NOR"之碎片",({"jing soul splinters","jing"}));
+      set_name(MAG + "井" + NOR + "之碎片",({"jing soul splinters","jing"}));
       break;
     case "星":
-      set_name(CYN"星"NOR"之碎片",({"star soul splinters","star"}));
+      set_name(CYN + "星" + NOR + "之碎片",({"star soul splinters","star"}));
       break;
     case "麟":
-      set_name(WHT"麟"NOR"之碎片",({"lin soul splinters","lin"}));
+      set_name(WHT + "麟" + NOR + "之碎片",({"lin soul splinters","lin"}));
       break;
     default:
       break;

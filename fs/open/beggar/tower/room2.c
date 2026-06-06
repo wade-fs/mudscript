@@ -6,7 +6,7 @@ string *exit = ({ __DIR__"room1",__DIR__"room1",__DIR__"room1",__DIR__"room1",})
 object room = this_object();
 void create()
 {
-        set("short",HIR"不死鳥ソ塔"NOR);
+        set("short",HIR + "不死鳥ソ塔" + NOR);
         set("long", (: printf_msg :) );
         set("exits", ([
         "south" : exit[random(sizeof(exit))],
@@ -39,13 +39,13 @@ int valid_leave(object me,string dir)
         me->add_temp("pass",1);
         return ::valid_leave( me, dir );
        }else{
-         message_vision(HIG"塔頂的不死鳥發出一陣悲鳴，震得$N頭昏眼花，重重跌落。\n"NOR,me);
+         message_vision(HIG + "塔頂的不死鳥發出一陣悲鳴，震得$N頭昏眼花，重重跌落。\n" + NOR,me);
          num = random(me->query_temp("floor"));
          me->set_temp("floor",num);
          me->set_temp("pass",2*num);
-         stair->set("short",HIR"不死鳥ソ塔"HIG"第"+chinese_number(me->query_temp("floor"))+"階"NOR);
-         tower1->set("short",HIR"不死鳥ソ塔"HIY"第"+chinese_number(me->query_temp("floor"))+"層"NOR);
-         if(tower2)  tower2->set("short",HIR"不死鳥ソ塔"HIY"第"+chinese_number(me->query_temp("floor"))+"層"NOR);
+         stair->set("short",HIR + "不死鳥ソ塔"HIG + "第"+chinese_number(me->query_temp("floor"))+"階" + NOR);
+         tower1->set("short",HIR + "不死鳥ソ塔"HIY + "第"+chinese_number(me->query_temp("floor"))+"層" + NOR);
+         if(tower2)  tower2->set("short",HIR + "不死鳥ソ塔"HIY + "第"+chinese_number(me->query_temp("floor"))+"層" + NOR);
          me->move(stair);
          
             }

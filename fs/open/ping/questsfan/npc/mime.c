@@ -19,7 +19,7 @@ void create()
             +"一見其真面目可謂三生有幸也。\n");
   set("gender","男性");
   set("class","scholar");
-  set("title",""HIY"時雨"WHT"先生"NOR"");
+  set("title","" + HIY + "時雨" + WHT + "先生" + NOR + "");
   set("attitude","heroism");
   set("age",300);
   set("max_kee",10300);
@@ -206,9 +206,9 @@ void greeting(object me)
 void die()
 {
   object winner = query_temp("last_damage_from");
-  tell_object(users(),"\n\t"HIR"『"HIB"千  山  鳥  飛  絕          萬  徑  人  蹤  滅"NOR"\n\n\t\t"HIB"孤  舟  簑  笠  翁          獨  釣  寒  江  雪"HIR"』"NOR"\n"+
-    "\n\t想我"HIC"段"WHT"霾"NOR"雲遊五嶽, 今卻敗於"+winner->query("name")+"之手\n\t"HIY"哈哈哈！"NOR"可謂～"HIC"長江後浪覆前浪矣"NOR"～\n");
-  tell_object(users(),"\n\n"CYN"南方天空畫過一道流星。"NOR"\n\n\t「"HIY+BLINK"天樞星落"NOR"」\n\n");
+  tell_object(users(),"\n\t" + HIR + "『" + HIB + "千  山  鳥  飛  絕          萬  徑  人  蹤  滅" + NOR + "\n\n\t\t" + HIB + "孤  舟  簑  笠  翁          獨  釣  寒  江  雪" + HIR + "』" + NOR + "\n"+
+    "\n\t想我" + HIC + "段" + WHT + "霾" + NOR + "雲遊五嶽, 今卻敗於"+winner->query("name")+"之手\n\t" + HIY + "哈哈哈！" + NOR + "可謂～" + HIC + "長江後浪覆前浪矣" + NOR + "～\n");
+  tell_object(users(),"\n\n" + CYN + "南方天空畫過一道流星。" + NOR + "\n\n\t「"HIY+BLINK"天樞星落" + NOR + "」\n\n");
   :: die();
 }
 
@@ -218,14 +218,14 @@ string do_title()
   if(!me->query("marks/fan-finger")) return 0;
   if(me->query("make_ok"))
   {
-    if(me->query("gender")=="男性" && me->query("title")!=""HIY"文凌駕"NOR"『"HIC"飄"NOR"陽"HIC"靈"NOR"帝』")
+    if(me->query("gender")=="男性" && me->query("title")!="" + HIY + "文凌駕" + NOR + "『" + HIC + "飄" + NOR + "陽" + HIC + "靈" + NOR + "帝』")
     {
-      me->set("title",""HIY"文凌駕"NOR"『"HIC"飄"NOR"陽"HIC"靈"NOR"帝』");
+      me->set("title","" + HIY + "文凌駕" + NOR + "『" + HIC + "飄" + NOR + "陽" + HIC + "靈" + NOR + "帝』");
       tell_object(me,"你的title有些混亂，我幫你恢復過來。\n");
     }
-    else if(me->query("gender")=="女性" && me->query("title")!=""HIM"文翎羽"NOR"『"HIY"玄"NOR"天"HIY"靈"NOR"后』")
+    else if(me->query("gender")=="女性" && me->query("title")!="" + HIM + "文翎羽" + NOR + "『" + HIY + "玄" + NOR + "天" + HIY + "靈" + NOR + "后』")
     {
-      me->set("title",""HIM"文翎羽"NOR"『"HIY"玄"NOR"天"HIY"靈"NOR"后』");
+      me->set("title","" + HIM + "文翎羽" + NOR + "『" + HIY + "玄" + NOR + "天" + HIY + "靈" + NOR + "后』");
       tell_object(me,"你的title有些混亂，我幫你恢復過來。\n");
     }
   }

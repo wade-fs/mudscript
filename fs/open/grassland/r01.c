@@ -35,7 +35,7 @@ int do_climb(string arg)
 {
 	object me = this_player();
 	me->move(__DIR__"r02.c");
-	tell_object(me,HIG"你小心奕奕的穿過警衛，看來要穿過警衛的話要先躲好(hide)。\n"NOR);
+	tell_object(me,HIG + "你小心奕奕的穿過警衛，看來要穿過警衛的話要先躲好(hide)。\n" + NOR);
 	return 1;
 }
 int valid_leave(object me,string path)

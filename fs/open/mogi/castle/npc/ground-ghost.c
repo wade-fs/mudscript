@@ -56,7 +56,7 @@ int do_cmd(string str){
  ob=this_object();
  ghost=present( "ghost",environment(ob) );
  if(str=="askgod ghost" || str=="askgod ground-ghost"){
- write(HIY"地邪鬼冷笑：「在魔王的地盤上面前求神問卜!?先問問魔王還差不多。」去死吧!!\n"NOR);
+ write(HIY + "地邪鬼冷笑：「在魔王的地盤上面前求神問卜!?先問問魔王還差不多。」去死吧!!\n" + NOR);
  ghost->kill_ob(who);
  return 1;                                                 
                   }

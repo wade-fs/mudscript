@@ -3,7 +3,7 @@ inherit NPC;
 
 void create()
 {
-	set_name(HIY"黃金守衛"NOR,({"golden guard","guard"}));
+	set_name(HIY + "黃金守衛" + NOR,({"golden guard","guard"}));
 	set("long","
 長久以來被眾神派首著震邪道的聖物聖靈, 由於身處震邪道的要道,
 故被眾神賦予掌管所有弱勢生物的生殺大權, 你有一種直覺, 除非你
@@ -61,24 +61,24 @@ object me,ob,obj;
 	ob=this_object();
 	obj=new(__DIR__"golden_guard");
 	me=ob->query_temp("last_damage_from");
-	message_vision(HIR"
-\n黃金守衛大怒：我乃管理著震邪道的〔聖靈〕-圖妥，$N膽敢冒犯我！！去死吧！！\n\n"NOR,me);
-	message_vision(HIW"$N化氣成物，手中聚氣為刀，一把極其鋒利的黃金大刀挾器而來！\n
+	message_vision(HIR + "
+\n黃金守衛大怒：我乃管理著震邪道的〔聖靈〕-圖妥，$N膽敢冒犯我！！去死吧！！\n\n" + NOR,me);
+	message_vision(HIW + "$N化氣成物，手中聚氣為刀，一把極其鋒利的黃金大刀挾器而來！\n
 $N大喊：看我的～〔雄霸氣皇〕～
-$N手持黃金大刀直撲你的心臟，你閃躲不及，接連承受了好幾刀!!\n"NOR,ob);
+$N手持黃金大刀直撲你的心臟，你閃躲不及，接連承受了好幾刀!!\n" + NOR,ob);
 	me->receive_wood("kee",(int)me->query("kee")/2);
 	COMBAT_D->report_status(me,1);
 	COMBAT_D->report_status(me,1);
 	COMBAT_D->report_status(me,1);
-	message_vision(HIY"
-$N再一個轉身，手持黃金大刀再度直撲你的頭部，你閃躲不及，生命已經命在旦夕!!\n"NOR,ob);
+	message_vision(HIY + "
+$N再一個轉身，手持黃金大刀再度直撲你的頭部，你閃躲不及，生命已經命在旦夕!!\n" + NOR,ob);
 	me->set("kee",1);
 	me->set("max_kee",1);
 	COMBAT_D->report_status(me,1);
 	COMBAT_D->report_status(me,1);
 	COMBAT_D->report_status(me,1);
-	message_vision(HIR"
-$N瞬間高舉黃金大刀，狠狠的往你的頸部一橫劈。\n"NOR,ob);
+	message_vision(HIR + "
+$N瞬間高舉黃金大刀，狠狠的往你的頸部一橫劈。\n" + NOR,ob);
 	me->die();
 	obj->move(environment(ob));
 	destruct(ob);

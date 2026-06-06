@@ -79,7 +79,7 @@ void die()
 		ob = this_player(1);
 
 	if( !ob ) return;
-	write(HIC"遠方飄來一句：「你也來陪葬吧。」拾荒老頭冷笑的嗓音。\n"NOR);
+	write(HIC + "遠方飄來一句：「你也來陪葬吧。」拾荒老頭冷笑的嗓音。\n" + NOR);
 	  ob->set("last_on", time());
 	  ob->set("last_from", query_ip_name(ob));
 	  ob->set_temp("last_damage_from", ob);

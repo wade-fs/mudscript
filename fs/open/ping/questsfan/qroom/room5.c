@@ -22,7 +22,7 @@ LONG);
   ]));
   set("outdoors", "/u/d");
   set("need_key/out",1);
-  create_door("enter",HIY"大木柵柵門"NOR,"out",DOOR_LOCKED);
+  create_door("enter",HIY + "大木柵柵門" + NOR,"out",DOOR_LOCKED);
   set("item_desc", ([ /* sizeof() == 1 */
     "enter" : (: look_door, "enter" :),
     "木柵" : (: look_door, "enter" :),

@@ -5,7 +5,7 @@ inherit ROOM;
 
 void create ()
 {
-  set ("short", GRN"風靈天界"NOR);
+  set ("short", GRN + "風靈天界" + NOR);
   set ("long", @LONG
 狂風陣陣，雷電交加，阻礙了你眼前的視線，更讓你猶豫是否該
 繼續前進，不過既然已走到這地方，怎麼可以放棄而往回走，冒險正

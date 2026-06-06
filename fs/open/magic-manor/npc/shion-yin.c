@@ -15,8 +15,8 @@ void create()
 LONG);
   set("gender","女性");
   set("class","blademan");
-  set("nickname",NOR+GRN"香"HIG"刀"NOR+GRN"魂"HIG"斷"NOR);
-  set("title",HIC"聚靈八傑"NOR);
+  set("nickname",NOR+GRN"香" + HIG + "刀"NOR+GRN"魂" + HIG + "斷" + NOR);
+  set("title",HIC + "聚靈八傑" + NOR);
   set("family/family_name","金刀門");
   set("combat_exp",10000000);
   set("attitude","friendly");
@@ -124,9 +124,9 @@ void greeting(object ob)
   if(ob->query_temp("know_blade"))
   {
     ob->add_temp("know_blade",1);
-    message_vision(HIW"香靈吟說道:「原來大師兄已將我的身世告訴你了，看來他很信
+    message_vision(HIW + "香靈吟說道:「原來大師兄已將我的身世告訴你了，看來他很信
        任你，不過先祖留下的傳家之寶我還是不能如此
-       輕易的交出來，無論如何，先擊敗我再說吧!!」\n\n"NOR,ob);
+       輕易的交出來，無論如何，先擊敗我再說吧!!」\n\n" + NOR,ob);
              kill_ob(ob);
     command("wield all");
     command("perform blade.fast-dest");
@@ -154,7 +154,7 @@ void heart_beat()
   if( me->is_fighting() )
   {
     int i=me->query_busy();
-    message_vision(HIC"$N目前busy指數「"HIM+i+HIC"」\n"NOR,me);
+    message_vision(HIC + "$N目前busy指數「"HIM+i+HIC"」\n" + NOR,me);
   }
 */
   if( !me->is_fighting() && !me->query_temp("del") )
@@ -230,7 +230,7 @@ void heart_beat()
 
   if( me->query("title") != "聚靈八傑" )
   {
-    me->set("title",HIC"聚靈八傑"NOR);
+    me->set("title",HIC + "聚靈八傑" + NOR);
   }
 
   if( !is_fighting() ) 
@@ -272,8 +272,8 @@ void die()
 
   if(winner->query_temp("know_blade") >= 2)
   {
-    message_vision(HIG"香靈吟說道:「大俠果然武功\高強，妾身心甘情願交出祕笈，望大俠早日為武林除害。」\n"NOR,winner);
-    message_vision(HIR"" + winner->query("name") + "得到了柳葉霸刀奧義。\n"NOR,winner);
+    message_vision(HIG + "香靈吟說道:「大俠果然武功\高強，妾身心甘情願交出祕笈，望大俠早日為武林除害。」\n" + NOR,winner);
+    message_vision(HIR + "" + winner->query("name") + "得到了柳葉霸刀奧義。\n" + NOR,winner);
     obj=new("/open/capital/obj/blade_book");
     obj->move(winner);
   }
@@ -291,7 +291,7 @@ void die()
       if( j==7 || j==77 || j== 777 || j==1111 || j==55 || j==555 || j==1000 || j==4000 || j==3333 || j==2222 )
       {
         new("/open/sky/obj12/muskmelon-doll")->move(environment(winner));
-        message_vision(HIM"\n從香靈吟的身上掉下了一件奇怪的東西!!\n"NOR,winner,me);
+        message_vision(HIM + "\n從香靈吟的身上掉下了一件奇怪的東西!!\n" + NOR,winner,me);
         write_file("/log/sky/obj12/muskmelon_doll",sprintf("%s(%s) 讓香靈吟掉下了香瓜娃娃於 %s\n",
           winner->name(1),winner->query("id"),ctime(time())));
       }
@@ -300,7 +300,7 @@ void die()
       if( j==5 || j==15 || j== 150 || j==1500 || j==10 || j==100 || j==1000 || j==4000 || j==6666 || j==7777 ) 
       {
         new("/open/sky/obj12/muskmelon-doll")->move(environment(winner));
-        message_vision(HIM"\n從香靈吟的身上掉下了一件奇怪的東西!!\n"NOR,winner,me);
+        message_vision(HIM + "\n從香靈吟的身上掉下了一件奇怪的東西!!\n" + NOR,winner,me);
         write_file("/log/sky/obj12/muskmelon_doll",sprintf("%s(%s) 讓香靈吟掉下了香瓜娃娃於 %s\n",
           winner->name(1),winner->query("id"),ctime(time())));
       }
@@ -310,26 +310,26 @@ void die()
   {
     obj=new("/open/magic-manor/obj/golden-ball");
     obj->move(environment(winner));
-    message_vision(CYN"一顆奇怪的珠子從$N的身體裏滾了出來!!\n"NOR,me);
+    message_vision(CYN + "一顆奇怪的珠子從$N的身體裏滾了出來!!\n" + NOR,me);
   } else if( random(9) == 5 )
   {
     obj=new("/open/magic-manor/obj/wood-ball");
     obj->move(environment(winner));
-    message_vision(CYN"一顆奇怪的珠子從$N的身體裏滾了出來!!\n"NOR,me);
+    message_vision(CYN + "一顆奇怪的珠子從$N的身體裏滾了出來!!\n" + NOR,me);
   } else if( random(12) == 7 )
   {
     obj=new("/open/magic-manor/obj/water-ball");
     obj->move(environment(winner));
-    message_vision(CYN"一顆奇怪的珠子從$N的身體裏滾了出來!!\n"NOR,me);
+    message_vision(CYN + "一顆奇怪的珠子從$N的身體裏滾了出來!!\n" + NOR,me);
   } else if( random(15) == 9 )
   {
     obj=new("/open/magic-manor/obj/fire-ball");
     obj->move(environment(winner));
-    message_vision(CYN"一顆奇怪的珠子從$N的身體裏滾了出來!!\n"NOR,me);
+    message_vision(CYN + "一顆奇怪的珠子從$N的身體裏滾了出來!!\n" + NOR,me);
   } else if( random(18) == 11 )
   {
     obj=new("/open/magic-manor/obj/soil-ball");
-    message_vision(CYN"一顆奇怪的珠子從$N的身體裏滾了出來!!\n"NOR,me);
+    message_vision(CYN + "一顆奇怪的珠子從$N的身體裏滾了出來!!\n" + NOR,me);
     obj->move(environment(winner));
   }
   ::die();

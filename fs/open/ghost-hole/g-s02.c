@@ -2,7 +2,7 @@ inherit ROOM;
 #include <ansi.h>
 void create ()
 {
-set("short",YEL"雙冥祭台"NOR);
+set("short",YEL + "雙冥祭台" + NOR);
 set("long",@LONG
 這裡是【生】冥王的祭台, 在你眼前有一個
 小小的石板(stone),除此之外, 裡面還放置了許
@@ -46,15 +46,15 @@ return notify_fail("祭祀神台並不接受你所奉獻的物品!!\n");
 if(!present("death-ghost-head",me))
 return notify_fail("你身上並沒有死冥王的頭!!\n");
 destruct(ob);
-message_vision(HIY"一道黃色的光芒從天而降, 光柱中緩緩落下了一滴
-生命之水, 剛好落在$N的手中!!\n"NOR,me);
+message_vision(HIY + "一道黃色的光芒從天而降, 光柱中緩緩落下了一滴
+生命之水, 剛好落在$N的手中!!\n" + NOR,me);
 ob2->move(me);
 if(me->query_temp("quest/return_sha") && me->query_temp("quest/return_sha")==6)
  {
-  message_vision(HIG"$N低頭一看，正是自己要找的東西!!\n"NOR,me);
+  message_vision(HIG + "$N低頭一看，正是自己要找的東西!!\n" + NOR,me);
   ob2->set_temp("finder",id);
  }
-tell_object(me,HIY"你得到了一滴生命之水\n"NOR);
+tell_object(me,HIY + "你得到了一滴生命之水\n" + NOR);
 me->set_temp("ghost-hole/sac/death",1);
 return 1;
 }

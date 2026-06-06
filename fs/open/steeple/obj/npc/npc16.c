@@ -7,9 +7,9 @@ void create()
         set_name("莊靜柔",({"master low","low"}));
         set("long","她就是武林中令人聞風喪膽的冥蠱魔教教主「莊靜柔」﹐別看她一張秀麗的臉蛋﹐其為人可是十分陰毒。\n");
         set("gender","女性");
-	set("title",HIW"～幻影～"NOR);
+	set("title",HIW + "～幻影～" + NOR);
         set("class","poisoner");
-        set("nickname", HIR "九陰仙子" NOR);
+        set("nickname", HIR + "九陰仙子" + NOR);
         set("combat_exp",5000000);
         set("attitude","heroism");
         set("age",26);
@@ -71,7 +71,7 @@ string poison()
 int heal_up()
 {
         if (!is_fighting() ) {
-             message_vision (HIW"系統：戰鬥停止，$N回收中，。\n"NOR, this_object ());
+             message_vision (HIW + "系統：戰鬥停止，$N回收中，。\n" + NOR, this_object ());
              destruct(this_object());
              return 1;
         }
@@ -94,17 +94,17 @@ destruct (this_object ());
 else
 if(me->query("quest/start_game")< 17)
        {
-        message_vision(HIY"
-恭喜"HIW+me->query("name")+HIY"挑戰"HIG"『"HIR"第十六層試煉ソ塔"HIG"』"HIY"通過！！
+        message_vision(HIY + "
+恭喜"HIW+me->query("name")+HIY"挑戰" + HIG + "『" + HIR + "第十六層試煉ソ塔" + HIG + "』" + HIY + "通過！！
 
-"HIW"希望"+me->query("name")+"能不負眾望，勇闖"HIG"『"HIY"第十七層試煉ソ塔"HIG"』"HIW"。
-	"NOR,me);
+" + HIW + "希望"+me->query("name")+"能不負眾望，勇闖" + HIG + "『" + HIY + "第十七層試煉ソ塔" + HIG + "』" + HIW + "。
+	" + NOR,me);
 	me->set("quest/start_game",17);
         destruct (this_object ());
        }
 {
         :: unconcious();
-	tell_object(me,HIW"系統：你已經通過測試，系統不做任何更改。\n"NOR);
+	tell_object(me,HIW + "系統：你已經通過測試，系統不做任何更改。\n" + NOR);
 	destruct(this_object());
 }
 }

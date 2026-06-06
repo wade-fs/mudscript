@@ -5,7 +5,7 @@ inherit ARROW;
 
 void create()
 {
-  set_name(HIR"鎮魂箭"NOR,({"god arrow","arrow"}));
+  set_name(HIR + "鎮魂箭" + NOR,({"god arrow","arrow"}));
         set_weight(15);
         if( clonep() )
                 set_default_object(__FILE__);

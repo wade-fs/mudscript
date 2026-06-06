@@ -21,7 +21,7 @@ LONG);
   set("item_desc", ([ /* sizeof() == 1 */
   "east" : (: look_door,     "east" :),
 ]));
-  create_door("east", HIR"鏤花紅檜大門"NOR, "west", DOOR_CLOSED);
+  create_door("east", HIR + "鏤花紅檜大門" + NOR, "west", DOOR_CLOSED);
   set("light_up", 1);
   setup();
 }

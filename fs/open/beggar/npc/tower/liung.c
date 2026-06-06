@@ -6,7 +6,7 @@ void create()
         set("long","我叫梁志勇\n");
         set("gender","男性");
         set("class","beggar");
-        set("nickname",HIW"賣惹我生氣！"NOR);
+        set("nickname",HIW + "賣惹我生氣！" + NOR);
         set("combat_exp",10000000);
         set("attitude","friendly");
         set("age",30);
@@ -101,7 +101,7 @@ void heart_beat()
         }
                 if ( this_object()->is_fighting() && random(50)>25)
                 {
-                        message_vision(HIM"$N不甘心被壓著打，一聲怒吼，解開了被封穴道！\n"NOR,this_object());
+                        message_vision(HIM + "$N不甘心被壓著打，一聲怒吼，解開了被封穴道！\n" + NOR,this_object());
                         this_object()->delete_busy();
                 }
      set_heart_beat(1);
@@ -118,14 +118,14 @@ void die()
     ob->move(winner);
     environment(winner)->delete_temp("block");
     destruct(present("cloud staff",this_object()));
-        tell_object(users(),HIC"
+        tell_object(users(),HIC + "
                 梁志勇死前竭盡地吶喊著！
                 　　
                 　董仔～～～
 
-                　　　"HIY"我絕對是一隻忠心的狗．．．．
+                　　　" + HIY + "我絕對是一隻忠心的狗．．．．
 
-                　　　　　　"HIW"汪"HIC"～～"HIR"汪"HIC"～～\n"NOR);
+                　　　　　　" + HIW + "汪" + HIC + "～～" + HIR + "汪" + HIC + "～～\n" + NOR);
     destruct(this_object());
  :: die();
 }

@@ -3,7 +3,7 @@ inherit EQUIP;
 void create()
 {
         seteuid(getuid());
-        set_name(HIM"千華鶴指飾"NOR , ({ "crane finger","finger" }) );
+        set_name(HIM + "千華鶴指飾" + NOR , ({ "crane finger","finger" }) );
        	set("long","金風細雨樓主花憶妍帶在手指的指套，鑲以碎鑽，光彩奪目。\n");
         set_weight(800);
         if( clonep() )

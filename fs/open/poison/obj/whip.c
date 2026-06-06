@@ -6,7 +6,7 @@ inherit WHIP;
 
 void create()
 {
-	set_name(HIR "血龍鞭" NOR,({"bleed whip","whip"}));
+	set_name(HIR + "血龍鞭" + NOR,({"bleed whip","whip"}));
 	set_weight(3000);
 	if( clonep() )
 		set_default_object(__FILE__);

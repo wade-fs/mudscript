@@ -3,7 +3,7 @@ inherit ITEM;
 #include <ansi.h>
 void create()
 {
-  set_name(HIG "武器開光的方法" NOR,({"weapon paper","paper"}));
+  set_name(HIG + "武器開光的方法" + NOR,({"weapon paper","paper"}));
   set("long","這是一張由秦厲害那買來的情報，你可以用(read)來觀看。\n");
   set("unit","張");
   set("no_get", 1);

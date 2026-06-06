@@ -70,7 +70,7 @@ $N說：嗚ㄣ～～人家累了...要去睡了...zzz\n",ob,me);
 			ob->move("/open/evil-area/water/a-"+i);
 		ob->set_temp("evil/water/hide",1);
 		ob->set_temp("evil/water/catch_id",me->query("id"));
-		message_vision(HIB"$N偷偷的說：嗯...這次應該不會被找到了吧...^c^\n"NOR,ob);
+		message_vision(HIB + "$N偷偷的說：嗯...這次應該不會被找到了吧...^c^\n" + NOR,ob);
 	}
 return 1;
 }
@@ -118,7 +118,7 @@ int i;
 	message_vision("
 $N說：就是玩躲貓貓啊～我會去藏起來，如果你抓到(catch)我的話，那我就帶你去一個好地方喔～好了..
 
-"HIY"			開		始		!!!\n\n"NOR,ob);
+" + HIY + "			開		始		!!!\n\n" + NOR,ob);
 	i = random(31)+1;
 	if( i < 10 )
 		ob->move("/open/evil-area/water/a-0"+i);

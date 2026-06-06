@@ -131,7 +131,7 @@ int greeting5()
 	if(!me) return 1;
 	if (environment(me)==environment())
 	{
-		message_vision(HIY"\n一陣陣鞭炮聲響起，象徵著一對新人即將誕生。\n\n"NOR,me);
+		message_vision(HIY + "\n一陣陣鞭炮聲響起，象徵著一對新人即將誕生。\n\n" + NOR,me);
 	}
 	call_out("greeting6",6,me);
 	return 1;
@@ -143,9 +143,9 @@ int greeting6()
 	if(!me) return 1;
 	if (environment(me)==environment())
 	{
-		message_vision(HIY"街坊鄰居也來湊熱鬧共襄盛舉，\n"NOR,me);
-		message_vision(HIY"但是你卻聽見站在你隔壁的三姑正和六婆論著男方的是非。\n"NOR,me);
-		message_vision(HIC"你耳尖地聽見寶物這敏感的字眼。\n\n"NOR,me);
+		message_vision(HIY + "街坊鄰居也來湊熱鬧共襄盛舉，\n" + NOR,me);
+		message_vision(HIY + "但是你卻聽見站在你隔壁的三姑正和六婆論著男方的是非。\n" + NOR,me);
+		message_vision(HIC + "你耳尖地聽見寶物這敏感的字眼。\n\n" + NOR,me);
 	}
 	call_out("greeting7",5,me);
 	return 1;
@@ -157,20 +157,20 @@ int greeting7()
 	if(!me) return 1;
 	if (environment(me)==environment())
 	{
-		message_vision(HIY"只聞道.....\n"NOR,me);
-		message_vision(HIY"三姑說道: 聽說那男方本來是要來搶寶物的，還帶人來搶呢。\n"NOR,me);
-		message_vision(HIY"六婆說道: 真的嗎！外地來的果真沒好心眼。\n"NOR,me);
-		message_vision(HIY"三姑說道: 是呀是呀。\n"NOR,me);
-		message_vision(HIY"六婆說道: 還是我們桃花村的村民最純樸了。\n"NOR,me);
-		message_vision(HIY"三姑說道: 沒錯沒錯。\n"NOR,me);
-		message_vision(HIY"六婆說道: 搞不好那男方會婚變呢。\n"NOR,me);
-		message_vision(HIY"三姑說道: 一定一定。\n"NOR,me);
-		message_vision(HIY"六婆說道: 還好我們村長記性不好，早就忘了那寶物地點。\n"NOR,me);
-		message_vision(HIY"三姑說道: 還好還好。\n"NOR,me);
-		message_vision(HIY"六婆說道: 幸好我還記得。\n"NOR,me);
-		message_vision(HIY"三姑說道: 不就在那水....\n"NOR,me);
-		message_vision(HIY"六婆說道: 噓，小心隔牆有耳...\n"NOR,me);
-		message_vision(HIY"你發覺她們愈說愈小聲....\n\n"NOR,me);
+		message_vision(HIY + "只聞道.....\n" + NOR,me);
+		message_vision(HIY + "三姑說道: 聽說那男方本來是要來搶寶物的，還帶人來搶呢。\n" + NOR,me);
+		message_vision(HIY + "六婆說道: 真的嗎！外地來的果真沒好心眼。\n" + NOR,me);
+		message_vision(HIY + "三姑說道: 是呀是呀。\n" + NOR,me);
+		message_vision(HIY + "六婆說道: 還是我們桃花村的村民最純樸了。\n" + NOR,me);
+		message_vision(HIY + "三姑說道: 沒錯沒錯。\n" + NOR,me);
+		message_vision(HIY + "六婆說道: 搞不好那男方會婚變呢。\n" + NOR,me);
+		message_vision(HIY + "三姑說道: 一定一定。\n" + NOR,me);
+		message_vision(HIY + "六婆說道: 還好我們村長記性不好，早就忘了那寶物地點。\n" + NOR,me);
+		message_vision(HIY + "三姑說道: 還好還好。\n" + NOR,me);
+		message_vision(HIY + "六婆說道: 幸好我還記得。\n" + NOR,me);
+		message_vision(HIY + "三姑說道: 不就在那水....\n" + NOR,me);
+		message_vision(HIY + "六婆說道: 噓，小心隔牆有耳...\n" + NOR,me);
+		message_vision(HIY + "你發覺她們愈說愈小聲....\n\n" + NOR,me);
 	}
 	call_out("greeting8",5,me);
 	return 1;
@@ -182,10 +182,10 @@ int greeting8()
 	if(!me) return 1;
 	if (environment(me)==environment())
 	{
-		message_vision(HIY"她們也發覺你在注意她們....\n"NOR,me);
-		message_vision(HIY"然後她們毅然轉身離去。\n"NOR,me);
-		message_vision(HIY"你隱隱約約知道這桃花村傳說中的寶物就在那水...什麼裡面。\n"NOR,me);
-		message_vision(HIY"現在，你有股衝動想追出去詢問個清楚。\n"NOR,me);
+		message_vision(HIY + "她們也發覺你在注意她們....\n" + NOR,me);
+		message_vision(HIY + "然後她們毅然轉身離去。\n" + NOR,me);
+		message_vision(HIY + "你隱隱約約知道這桃花村傳說中的寶物就在那水...什麼裡面。\n" + NOR,me);
+		message_vision(HIY + "現在，你有股衝動想追出去詢問個清楚。\n" + NOR,me);
 		me->set_temp("quests/peach/mark",11);
 	}
 	return 1;

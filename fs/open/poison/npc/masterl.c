@@ -55,7 +55,7 @@ void create()
   set("long","她就是武林中令人聞風喪膽的冥蠱魔教教主「莊靜柔」，別看她一張秀麗的臉蛋，其為人可是十分陰毒。\n");
   set("gender","女性");
   set("class","poisoner");
-  set("nickname", HIR "九陰仙子" NOR);
+  set("nickname", HIR + "九陰仙子" + NOR);
   set("combat_exp",3000000);
   set("attitude","heroism");
   set("age",26);
@@ -191,7 +191,7 @@ int do_join()
     command("say 很好，既然你已求得兩位長老的同意。");
     command("say 那你就在此宣誓(swear)入教。");
     me->set_temp("master_temp",1);
-    say(HIC"金童說道﹕請施主宣誓『盡忠魔教』以完成儀式。\n"NOR);
+    say(HIC + "金童說道﹕請施主宣誓『盡忠魔教』以完成儀式。\n" + NOR);
     return 1;
   }
 }
@@ -213,19 +213,19 @@ int do_say(string str)
 //        command("poisoner $HIG$讓我們一起歡迎我們的新教徒$HIR$"+me->query("name")+"$HIG$吧。\n");
         command("gt $HIG$讓我們一起歡迎我們的新教徒$HIR$"+me->query("name")+"$HIG$吧。\n");
       }
-      say(HIC"玉女說道﹕歡迎加入魔教，將來要遵從教令哦。\n"NOR);
+      say(HIC + "玉女說道﹕歡迎加入魔教，將來要遵從教令哦。\n" + NOR);
       command("say 這是本教入門書籍，你好好研讀吧。");
       book->move(me);
       me->delete_temp("master_temp");
       return 1;
     }
     else {
-      message_vision(sprintf(HIC"$N發誓說道﹕"+str+"\n"NOR),me);
+      message_vision(sprintf(HIC + "$N發誓說道﹕"+str+"\n" + NOR),me);
       command("say 你說什麼呀，沒誠意就滾回去。");
       me->delete_temp("master_temp");
       return 1;
     }
-    message_vision(sprintf(HIC"$N發誓說道﹕"+str+"\n"),me);
+    message_vision(sprintf(HIC + "$N發誓說道﹕"+str+"\n"),me);
     command("say 我有同意讓你發誓嗎？");
     return 1;
   }
@@ -371,11 +371,11 @@ void die()
     return ;
   }
   tell_object(users(),
-"\n\t"YEL"冥蠱魔教的方位突然傳來一陣嘶聲裂地的怒吼聲!!
-\n\t"YEL"好不甘心呀!!   我"HIM"莊靜柔"NOR+YEL"竟然連區區的一個"HIY+winner->query("name")+NOR+YEL"都打不過!!
-\n\n\t"HIR"我魔教所有的門徒們啊!!    請盡情的去使壞吧!!
-\n\t"HIR"讓那天空降下地獄之火焰!!    讓那大海染成鮮紅!!"HIR"
-\n\t讓那所有生命在我們魔教面前都感到顫慄害怕!!\n\n"NOR);
+"\n\t" + YEL + "冥蠱魔教的方位突然傳來一陣嘶聲裂地的怒吼聲!!
+\n\t" + YEL + "好不甘心呀!!   我" + HIM + "莊靜柔"NOR+YEL"竟然連區區的一個"HIY+winner->query("name")+NOR+YEL"都打不過!!
+\n\n\t" + HIR + "我魔教所有的門徒們啊!!    請盡情的去使壞吧!!
+\n\t" + HIR + "讓那天空降下地獄之火焰!!    讓那大海染成鮮紅!!" + HIR + "
+\n\t讓那所有生命在我們魔教面前都感到顫慄害怕!!\n\n" + NOR);
   if(userp(winner) && winner->query_temp("not_robot") > time() )
   {
     if ( winner->query_temp("bless")==1 )
@@ -384,7 +384,7 @@ void die()
       if( j==7 || j==77 || j== 777 || j==1111 || j==55 || j==555 || j==1000 || j==4000 || j==3333 || j==2222 )
       {
         new("/open/sky/obj1/magic_emblem")->move(environment(winner));
-        message_vision(HIM"\n從莊靜柔的身上掉下了一件奇怪的東西!!\n"NOR,winner);
+        message_vision(HIM + "\n從莊靜柔的身上掉下了一件奇怪的東西!!\n" + NOR,winner);
         write_file("/log/sky/obj1/magic_emblem",sprintf("%s(%s) 讓莊靜柔掉下了幻之紋章於 %s\n",
         winner->name(1),winner->query("id"),ctime(time())));
       }
@@ -393,7 +393,7 @@ void die()
       if( j==5 || j==15 || j== 150 || j==1500 || j==10 || j==100 || j==1000 || j==4000 || j==6666 || j==7777 ) 
       {
         new("/open/sky/obj1/magic_emblem")->move(environment(winner));
-        message_vision(HIM"\n從莊靜柔的身上掉下了一件奇怪的東西!!\n"NOR,winner);
+        message_vision(HIM + "\n從莊靜柔的身上掉下了一件奇怪的東西!!\n" + NOR,winner);
         write_file("/log/sky/obj1/magic_emblem",sprintf("%s(%s) 讓莊靜柔掉下了幻之紋章於 %s\n",
         winner->name(1),winner->query("id"),ctime(time())));
       }

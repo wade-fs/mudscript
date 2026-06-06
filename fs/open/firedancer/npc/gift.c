@@ -7,12 +7,12 @@ void create()
 	set_name("極火",({"huo wu cing","cing"}));
 	set("long","極火山寨的大寨主，極火功\無人能及，傳說此技巧是焚天魔王直接傳授的。
 不過他之所以會在中央驛站的理由，是為了獎賞alucard打倒強大的他。
-"HIY"(請輸入gift領取獎賞)"NOR"
+" + HIY + "(請輸入gift領取獎賞)" + NOR + "
 \n");
 	set("race", "人類");
 	set("gender","男性");
-	set("title",HIR"極火山寨 大寨主"NOR);
-	set("nickname",HIC"極火無敵"NOR);
+	set("title",HIR + "極火山寨 大寨主" + NOR);
+	set("nickname",HIC + "極火無敵" + NOR);
         set("age",40);
         set("attitude","aggressive");
         set("combat_exp",1000000);
@@ -84,9 +84,9 @@ int do_gift()
 	int sk;
     if(this_player()->query("id")!="alucard")
 		return 0;
-	tell_object(users(),HIW"
+	tell_object(users(),HIW + "
 	中央驛站發出一道白色強光直設雲霄！
-	極火  運行畢生的功\力，將所有內力傳入 "+this_player()->query("name")+" 中！\n\n"NOR);
+	極火  運行畢生的功\力，將所有內力傳入 "+this_player()->query("name")+" 中！\n\n" + NOR);
 	tell_object(this_player(),"極火笑道：哈哈～格老子的，算你行，改天我們再較量較量！\n語畢，極火轉身離開了中央驛站。\n");
 	sk=(int)this_player()->query_skill("force",1);
     sk=sk+4;

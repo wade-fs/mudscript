@@ -5,7 +5,7 @@ inherit ITEM;
 
 void create()
 {
-	set_name( HIM"狂想春藥"NOR, ({ "love potion", "potion" }) );
+	set_name( HIM + "狂想春藥" + NOR, ({ "love potion", "potion" }) );
 	set( "long", "一罐強效催淫劑, 請小心使用(use potion), 除了爽快身體也要顧好。" );
 	if( clonep() )
 		set_default_object(__FILE__);
@@ -51,8 +51,8 @@ int do_use( string arg )
 			return notify_fail( "妳沒力氣自慰了, 休息一下吧﹗\n" );
 		if( ob->query("use")>100 )
 			return notify_fail( ob->name() + "已被妳用光了﹗\n" );
-		message_vision( HIY"$N從" + ob->name() + HIY"裡面倒出一顆藥丸吞了下去, 眼睛突然亮了起來。\n"NOR, me );
-		message_vision( HIM"$N靦腆地脫下裙子, 開始自慰。\n"NOR, me );
+		message_vision( HIY + "$N從" + ob->name() + HIY"裡面倒出一顆藥丸吞了下去, 眼睛突然亮了起來。\n" + NOR, me );
+		message_vision( HIM + "$N靦腆地脫下裙子, 開始自慰。\n" + NOR, me );
 		call_out( "do_use_2", 5, me );
 		ob->add( "use", 1 );
 	}
@@ -71,8 +71,8 @@ void do_use_3( object me )
 {
 	object ob;
 	me->do_command( "say 唔~ 人家不行了~ 要去了要去了~" );
-	message_vision( HIY"$N濕了一地。\n"NOR, me );
+	message_vision( HIY + "$N濕了一地。\n" + NOR, me );
 	ob = new("/open/clan/area/home/sex2_2");
-	ob->set_name( HIW + me->name() + "的愛液"NOR , ({ "love water", "water" }) );
+	ob->set_name( HIW + me->name() + "的愛液" + NOR , ({ "love water", "water" }) );
 	ob->move(environment(me));
 }

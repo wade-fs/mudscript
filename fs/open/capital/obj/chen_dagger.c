@@ -6,7 +6,7 @@ inherit DAGGER;
 
 void create()
 {
-        set_name(HIC "傳家匕首" NOR,({"chen dagger","dagger"}));
+        set_name(HIC + "傳家匕首" + NOR,({"chen dagger","dagger"}));
         set_weight(1000);
         if( clonep() )
                 set_default_object(__FILE__);

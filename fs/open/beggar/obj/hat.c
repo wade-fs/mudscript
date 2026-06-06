@@ -4,7 +4,7 @@
 inherit HEAD;
 void create()
 {
-        set_name(RED"竣龍馴之顎"NOR, ({"dragon helmet", "helmet","dragon"}));
+        set_name(RED + "竣龍馴之顎" + NOR, ({"dragon helmet", "helmet","dragon"}));
         set_weight(2500);
 	if( clonep() )
 		set_default_object(__FILE__);

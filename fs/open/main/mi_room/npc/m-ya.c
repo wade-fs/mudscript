@@ -8,7 +8,7 @@ void create()
         set("attitude","aggressive");
         set("clan_kill",1);
         set("title","四大惡人之次");
-        set("nickname",HIG"無惡不作"NOR);
+        set("nickname",HIG + "無惡不作" + NOR);
         set("race", "人類");
         set("gender", "女性");
         set("age", 35);
@@ -55,12 +55,12 @@ void create()
    ob=this_object()->query_enemy();
    if(k > 7)
    {
-   message_vision(HIR"葉二娘藉著地形之利使出"HIY"『狂風拂柳刀』"HIR", 你一不留意, 身中數刀!!\n\n"NOR,this_object());
+   message_vision(HIR + "葉二娘藉著地形之利使出" + HIY + "『狂風拂柳刀』" + HIR + ", 你一不留意, 身中數刀!!\n\n" + NOR,this_object());
    ob->add("kee",-100);
    }
    else
    {
-   message_vision(HIY"\n葉二娘運起『天魔療傷心法』不可思議的光芒從葉二娘身上發出，葉二娘的創傷恢復了!\n"NOR,this_object());
+   message_vision(HIY + "\n葉二娘運起『天魔療傷心法』不可思議的光芒從葉二娘身上發出，葉二娘的創傷恢復了!\n" + NOR,this_object());
 me->add("kee",500);
 me->add("max_kee",100);
    }
@@ -71,7 +71,7 @@ void die()
    object winner;
    winner= query_temp("last_damage_from");
    tell_object(winner,
-HIY"你在葉二娘身後發現的一個密道, 連忙走了進去..\n"NOR);
+HIY + "你在葉二娘身後發現的一個密道, 連忙走了進去..\n" + NOR);
    winner->move("/open/main/room/to_chun2.c");
         ::die();
         return 0;

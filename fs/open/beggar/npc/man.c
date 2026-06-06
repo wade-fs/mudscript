@@ -54,81 +54,81 @@ int accept_object(object me, object obj)
 void do_staff1()
 {
   object me=this_player();
-  message_vision(HIY"老人緩緩唸起了經文～～\n"NOR,me);
-  message_vision("\n\t"HIW"羯諦羯諦。\n"NOR,me);
+  message_vision(HIY + "老人緩緩唸起了經文～～\n" + NOR,me);
+  message_vision("\n\t" + HIW + "羯諦羯諦。\n" + NOR,me);
   call_out("do_staff2",2);
 }
 void do_staff2()
 {
   object me=this_player();
-  message_vision("\n\t"HIM"波羅羯諦。\n"NOR,me);
+  message_vision("\n\t" + HIM + "波羅羯諦。\n" + NOR,me);
   call_out("do_staff3",2);
 }
 void do_staff3()
 {
   object me=this_player();
-  message_vision("\n\t"HIW"波羅僧羯諦。\n"NOR,me);
+  message_vision("\n\t" + HIW + "波羅僧羯諦。\n" + NOR,me);
   call_out("do_staff4",2);
 }
 void do_staff4()
 {
   object me=this_player();
-  message_vision("\n\t"HIM"菩提薩婆訶。\n"NOR,me);
+  message_vision("\n\t" + HIM + "菩提薩婆訶。\n" + NOR,me);
   call_out("do_staff5",2);
 }
 void do_staff5()
 {
   object me=this_player();
-  message_vision("\n"HIR"剎時煉爐嗡嗡作響．．．此時．．．．\n"NOR,me);
-  message_vision(HIR"從爐中緩緩升起一把杖身清澈可透光的奇杖。\n"NOR,me);
-  tell_object(users(),HIC"
-                \t難定紛紛甲子年\n\n"NOR);
+  message_vision("\n" + HIR + "剎時煉爐嗡嗡作響．．．此時．．．．\n" + NOR,me);
+  message_vision(HIR + "從爐中緩緩升起一把杖身清澈可透光的奇杖。\n" + NOR,me);
+  tell_object(users(),HIC + "
+                \t難定紛紛甲子年\n\n" + NOR);
   call_out("do_staff6",2);
 }
 void do_staff6()
 {
-  tell_object(users(),HIC"
-                \t    千魔蕩蕩白陽天\n\n"NOR);
+  tell_object(users(),HIC + "
+                \t    千魔蕩蕩白陽天\n\n" + NOR);
   call_out("do_staff7",2);
 }
 void do_staff7()
 {
-  tell_object(users(),HIC"
-                \t        蒼天旨意著書命\n\n"NOR);
+  tell_object(users(),HIC + "
+                \t        蒼天旨意著書命\n\n" + NOR);
   call_out("do_staff8",2);
 }
 void do_staff8()
 {
-  tell_object(users(),HIC"
-                \t            諸子虔誠扶道顛\n\n"NOR);
+  tell_object(users(),HIC + "
+                \t            諸子虔誠扶道顛\n\n" + NOR);
   call_out("do_staff9",2);
 }
 void do_staff9()
 {
-  tell_object(users(),HIC"
-                \t                殘燈點亮華光現\n\n"NOR);
+  tell_object(users(),HIC + "
+                \t                殘燈點亮華光現\n\n" + NOR);
   call_out("do_staff10",2);
 }
 void do_staff10()
 {
-  tell_object(users(),HIC"
-                \t                    一線生機救末年\n\n"NOR);
+  tell_object(users(),HIC + "
+                \t                    一線生機救末年\n\n" + NOR);
   call_out("do_staff11",2);
 }
 void do_staff11()
 {
   object me=this_player();
-   tell_object(users(),HIW"
+   tell_object(users(),HIW + "
                 "+me->query("name")+"笑道！哈～哈～我出運了！
 
-                費經心力，終於拿到"HIC"稀世珍寶了"HIW"！
+                費經心力，終於拿到" + HIC + "稀世珍寶了" + HIW + "！
                     
-                     以後我將以此來俠義武林！\n\n"NOR);
+                     以後我將以此來俠義武林！\n\n" + NOR);
 }
 void do_staff()
 {
    object me=this_player();
-   message_vision(HIG"$N跟著老人來到聖地，一股神聖之氣油然而生。\n"NOR,me);
+   message_vision(HIG + "$N跟著老人來到聖地，一股神聖之氣油然而生。\n" + NOR,me);
    this_object()->move("/open/beggar/room/staffroom");
    command("say 小兄弟，你把收集到的惡人依序放入各爐內吧！\n");
    command("say 詳細方法請看 VCR！\n");

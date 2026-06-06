@@ -20,13 +20,13 @@ str3="";
 str4="";
 for(int i =  10 - this_player()->query_temp("sun-down") ; i >= 1;i--)
 {
-  str1 += RED"＼ ∣ ／"NOR;
-  str2 += RED"__╭╮__"NOR;
-  str3 += RED"  ╰╯  "NOR;
-  str4 += RED"／ ∣ ＼"NOR;
+  str1 += RED + "＼ ∣ ／" + NOR;
+  str2 += RED + "__╭╮__" + NOR;
+  str3 += RED + "  ╰╯  " + NOR;
+  str4 += RED + "／ ∣ ＼" + NOR;
 }
 
-str += str1+"\n"+str2+"\n"+str3+"\n"+str4+"\n"NOR;
+str += str1+"\n"+str2+"\n"+str3+"\n"+str4+"\n" + NOR;
 }
 return str+"\n";
 

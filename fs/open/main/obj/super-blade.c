@@ -6,7 +6,7 @@ inherit BLADE;
 
 void create()
 {
-	set_name(RED "風林火山" NOR, ({ "nature blade","blade" }) );
+	set_name(RED + "風林火山" + NOR, ({ "nature blade","blade" }) );
 	set_weight(24000);
 	if( clonep() )
 		set_default_object(__FILE__);

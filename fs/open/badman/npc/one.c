@@ -67,7 +67,7 @@ string do_cure()
 	who->pay_money(kee*100);
 	who->set("eff_kee", mkee*8/10);
 	message_vision("萬春流檢查了一下$N的傷勢，並且拿了幾帖外傷藥敷在$N的傷口上。\n", who);
-	tell_object(who, HIC"你感覺到身上的傷口好多了。\n"NOR);
+	tell_object(who, HIC + "你感覺到身上的傷口好多了。\n" + NOR);
 	return "好了，這位"+RANK_D->query_respect(who)+"，以後記得小心一點喔。";
 }
 
@@ -83,7 +83,7 @@ string stop_bleed()
 	who->pay_money(500*bleed);
 	message_vision("你看到萬春流以極熟練的手法迅速的幫$N敷藥並包紮傷口。\n", who);
 	who->apply_condition("bleeding", 0);
-	tell_object(who, HIC"你的傷口停止流血了。\n"NOR);
+	tell_object(who, HIC + "你的傷口停止流血了。\n" + NOR);
 	return "這樣應該就可以了。";
 }
 
@@ -132,9 +132,9 @@ string cure_poison()
 	message_vision("萬春流仔細的檢查了一下$N的狀況，便轉身從櫥櫃上的一個罐子裡\n拿了幾顆黑色藥丸，放在$N的口中。\n", who);
 	tell_object(who, "一陣強烈的臭味從你嘴裡傳了出來，令人作嘔，你只好捏住鼻子一\n口氣把藥丸吞了下去。\n");
 	if( coldpoison )
-		tell_object(who, HIC"你感覺到體內的毒性減弱不少。\n"NOR);
+		tell_object(who, HIC + "你感覺到體內的毒性減弱不少。\n" + NOR);
 	else
-		tell_object(who, HIC"你感覺到舒服多了。\n"NOR);
+		tell_object(who, HIC + "你感覺到舒服多了。\n" + NOR);
 	return "良藥苦口，你就忍忍吧。";
 }
 

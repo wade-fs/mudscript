@@ -171,8 +171,8 @@ void heart_beat()
                 if( userp(enemy[j]) ) enemy[j]->fight_ob(this_object());
                 else enemy[j]->kill_ob(this_object());
                 message("vision",
-                  MAG""+name() + "的分身 "HIC""+this_object()->query("old_name")+
-                  ""NOR""MAG" 看到"+name()+"有危險，馬上跑來救援了。\n"NOR ,
+                  MAG + ""+name() + "的分身 " + HIC + ""+this_object()->query("old_name")+
+                  "" + NOR + "" + MAG + " 看到"+name()+"有危險，馬上跑來救援了。\n" + NOR ,
                   environment(),this_object() );
               }
               if (is_fighting() && !ppl[i]->is_fighting() ) {
@@ -180,7 +180,7 @@ void heart_beat()
                 if( userp(enemy[j]) ) enemy[j]->fight_ob(ppl[i]);
                 else enemy[j]->kill_ob(ppl[i]);
                 message("vision",
-                  MAG""+name() + " 看到分身有危險，馬上加入戰鬥了。\n"NOR ,        
+                  MAG + ""+name() + " 看到分身有危險，馬上加入戰鬥了。\n" + NOR ,        
                   environment(),this_object() );
               }
             }
@@ -207,8 +207,8 @@ int leave()
             return notify_fail("你的內力不夠，無法喚回分身\n");
           }
           ppl[i]->add("force",-50);
-          message("vision",HIY""+name() +
-            "看情況不妙，急忙地叫回分身。\n"NOR ,environment(),this_object() );
+          message("vision",HIY + ""+name() +
+            "看情況不妙，急忙地叫回分身。\n" + NOR ,environment(),this_object() );
         }
         fighter=new("/autoload/killer/pet2.c");
         fighter->set("name",""+this_object()->query("old_name")+"");
@@ -220,8 +220,8 @@ int leave()
     }
   }
   message("vision",
-    MAG""+name() + "的分身 "HIC""+this_object()->query("old_name")+
-    ""NOR""MAG" 歸體了。\n"NOR , environment(),this_object() );
+    MAG + ""+name() + "的分身 " + HIC + ""+this_object()->query("old_name")+
+    "" + NOR + "" + MAG + " 歸體了。\n" + NOR , environment(),this_object() );
   destruct(this_object());
   return 1;
 }
@@ -347,13 +347,13 @@ int see_hp(string arg)
   my=(mapping)ob->query_entire_dbase(); 
   if ( !ob || !ob->is_character() || ob->is_corpse() ) { return 1; }
 
-  printf("%s"NOR"之狀態:\n",(my["back_time"]>0) ?
-    "你的分身『"HIC""+my["old_name"]+"』" : "敵人『"HIC""+my["name"]+"』" );
+  printf("%s" + NOR + "之狀態:\n",(my["back_time"]>0) ?
+    "你的分身『" + HIC + ""+my["old_name"]+"』" : "敵人『" + HIC + ""+my["name"]+"』" );
   printf("%s  %s\n\n□ 年齡：%s歲\t\t性別：%s %s\n□ 看來 %s 練武的好對象\n\n",
     RANK_D->query_rank(ob),
     ob->short(),chinese_number(my["age"]),my["gender"],
     (my["back_time"]>0) ? 
-    "\n□ 將於"HIR""+chinese_number(my["back_time"])+""NOR"系統時間後歸位"+
+    "\n□ 將於" + HIR + ""+chinese_number(my["back_time"])+"" + NOR + "系統時間後歸位"+
     "\n□ 你現在擁有 "+chinese_number(my["sub_exp"])+" 點經驗\t可望得 "+
     chinese_number(my["combat_exp"]-my["old_exp"])+" 點備份經驗"
     : "" ,(my["combat_exp"] < this_object()->query("combat_exp")*3 &&
@@ -361,19 +361,19 @@ int see_hp(string arg)
     "不是",);
 
   write("■精："+tribar_graph(my["gin"],my["eff_gin"],my["max_gin"],MAG)+"");
-  printf("\t%s%3d/%d %s(%d%%) "NOR"靈：%s%3d/%d \n"NOR,
+  printf("\t%s%3d/%d %s(%d%%) " + NOR + "靈：%s%3d/%d \n" + NOR,
     status_color(my["gin"], my["eff_gin"]), my["gin"], my["eff_gin"],
     status_color(my["eff_gin"], my["max_gin"]), my["eff_gin"]*100/my["max_gin"],
     status_color(my["atman"], my["max_atman"]), my["atman"], my["max_atman"],);
 
   write("■氣："+tribar_graph(my["kee"],my["eff_kee"],my["max_kee"],CYN)+"");
-  printf("\t%s%3d/%d %s(%d%%) "NOR"內：%s%3d/%d \n"NOR,
+  printf("\t%s%3d/%d %s(%d%%) " + NOR + "內：%s%3d/%d \n" + NOR,
     status_color(my["kee"], my["eff_kee"]), my["kee"], my["eff_kee"],
     status_color(my["eff_kee"], my["max_kee"]), my["eff_kee"]*100/my["max_kee"],
     status_color(my["force"], my["max_force"]), my["force"], my["max_force"],);
 
   write("■神："+tribar_graph(my["sen"],my["eff_sen"],my["max_sen"],YEL)+"");
-  printf("\t%s%3d/%d %s(%d%%) "NOR"法：%s%3d/%d \n"NOR,
+  printf("\t%s%3d/%d %s(%d%%) " + NOR + "法：%s%3d/%d \n" + NOR,
     status_color(my["sen"], my["eff_sen"]), my["sen"], my["eff_sen"],
     status_color(my["eff_sen"], my["max_sen"]), my["eff_sen"]*100/my["max_sen"],
     status_color(my["mana"], my["max_mana"]), my["mana"], my["max_mana"],);
@@ -401,7 +401,7 @@ int see_hp(string arg)
     }
   }
   printf("\n□ 右手：%s\t\t左手：%s\n", sta, stb,);
-  printf("□ 防護："HIY"%s\n" NOR, str,);
+  printf("□ 防護：" + HIY + "%s\n" + NOR, str,);
   return 1;
 }
 

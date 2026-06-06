@@ -3,7 +3,7 @@
 inherit ROOM;
 void create ()
 {
-  set ("short", HIY"狂想空間歷史發展館"NOR);
+  set ("short", HIY + "狂想空間歷史發展館" + NOR);
         set( "long", "後來我接手人事總管的職務,並負責FS主架構的部份,同時確定了FS的
 一些方針：
 1.建立新的巫師制度,希望可以儘力防止作弊不公的事件

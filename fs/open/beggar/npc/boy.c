@@ -46,7 +46,7 @@ int accept_object(object me,object ob)
 {
   object ob_name=ob->query("name"); 
   me=this_player();
-  if(me->query_temp("ko_phoenix")==1 && (string)ob_name==HIY"鳳凰羽毛"NOR)
+  if(me->query_temp("ko_phoenix")==1 && (string)ob_name==HIY + "鳳凰羽毛" + NOR)
     {
       destruct (ob);
       command ("say 哇~~大叔你幫我拿到羽毛了耶！\n");

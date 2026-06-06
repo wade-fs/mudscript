@@ -6,7 +6,7 @@ inherit LANCE;
   void create()
   {
         seteuid(getuid());
-        set_name( HIR"『血燕』"NOR ,({"blood swallow","blood","swallow"}));
+        set_name( HIR + "『血燕』" + NOR ,({"blood swallow","blood","swallow"}));
         set_weight(8000);
         if( clonep() )
                 set_default_object(__FILE__);
@@ -18,7 +18,7 @@ inherit LANCE;
    ");
                 set("value",100000);
                 set("material", "crimsonsteel");
-        set("wield_msg", "$N從背後抽出$n,忽然覺的"HIR"殺意四起,$N充滿了暴戾之氣。\n"NOR);
+        set("wield_msg", "$N從背後抽出$n,忽然覺的" + HIR + "殺意四起,$N充滿了暴戾之氣。\n" + NOR);
         set("unwield_msg", "$N理性的把$n小心的收回到背後。\n");
       }
         init_lance(100);

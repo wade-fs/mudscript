@@ -2,7 +2,7 @@
 inherit ITEM;
 void create()
 {
-        set_name(HIR"連陽劍晶珠"NOR, ({ "swordball" }));
+        set_name(HIR + "連陽劍晶珠" + NOR, ({ "swordball" }));
         set_weight(5000);
         if( clonep() )
         set_default_object(__FILE__);

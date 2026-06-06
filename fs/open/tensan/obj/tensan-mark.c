@@ -2,7 +2,7 @@
 inherit ITEM;
 void create()
 {
-        set_name(HIW"天山通行令"NOR, ({ "tensan mark","mark" }) );
+        set_name(HIW + "天山通行令" + NOR, ({ "tensan mark","mark" }) );
         set_weight(5000);
         if( clonep() )
                 set_default_object(__FILE__);

@@ -7,7 +7,7 @@ inherit SWORD;
 void create()
 {
 	seteuid(getuid());
-  set_name(HIB"玄鐵劍" NOR,({"heaven sword","sword"}));
+  set_name(HIB + "玄鐵劍" + NOR,({"heaven sword","sword"}));
 	set_weight(13000);
 	if( clonep() )
 		set_default_object(__FILE__);

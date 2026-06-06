@@ -2,7 +2,7 @@
 inherit ITEM;
 void create()
 {
-        set_name(YEL"蛇郎君人頭"NOR, ({ "master-snake-head","head" }) );
+        set_name(YEL + "蛇郎君人頭" + NOR, ({ "master-snake-head","head" }) );
         set_weight(5000);
         if( clonep() )
                 set_default_object(__FILE__);

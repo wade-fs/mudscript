@@ -39,7 +39,7 @@ int do_wear(string str)
            if(!me) me=previous_object();
            if(me)
            me->set_temp("thunder",20);
-           message_vision(HIW"$N戴上一頂散雷帽。\n"NOR,me);
+           message_vision(HIW + "$N戴上一頂散雷帽。\n" + NOR,me);
         }
      }
 }

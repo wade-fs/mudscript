@@ -5,7 +5,7 @@ void move();
 
 void create()
 {
-	set("short",YEL"古代遺跡=亂葬室"NOR);
+	set("short",YEL + "古代遺跡=亂葬室" + NOR);
 	set("long",@LONG
     一大堆的骨骸就在你的腳底下，這裡猶如骨骸堆置處一般，所有
 的骨骸加起來，少說也有上千人的份量，只不過並非全部都是人類的
@@ -76,7 +76,7 @@ void msg05()
 	tell_object(this_player(),"
 骨骸王大笑：哈哈～好久沒吸收到這樣的精華了！
 骨骸王說：我本想直接就把你吸收掉，讓你直接幻滅！不過，本王是守信用的！
-"HIR"骨骸王說：廢物～本王就當同情你！送你一程吧！\n"NOR);
+" + HIR + "骨骸王說：廢物～本王就當同情你！送你一程吧！\n" + NOR);
 	call_out("msg06",7,this_player());
 }
 
@@ -86,13 +86,13 @@ void msg06()
 
 骨骸王對著你喝道﹕「"+this_player()->query("name")+"﹗今日不是你死就是我活﹗」
 
-"HIR"看起來骨骸王想殺死你﹗\n"NOR);
+" + HIR + "看起來骨骸王想殺死你﹗\n" + NOR);
 	call_out("msg07",2,this_player());
 }
 
 void msg07()
 {
-	tell_object(this_player(),HIY"
+	tell_object(this_player(),HIY + "
 
 骨骸王大喝一聲使出『金。龍訣』
 
@@ -111,19 +111,19 @@ void msg07()
 ========================◢▇◤========================◢▇◤
                       ◢▇◤========================◢▇◤
                     ◢▇◤                        ◢▇◤
-\n\n"NOR);
+\n\n" + NOR);
 	this_player()->start_busy(10);
-	tell_object(this_player(),HIR"
-你昏倒了...\n"NOR);
+	tell_object(this_player(),HIR + "
+你昏倒了...\n" + NOR);
 	call_out("msg08",2,this_player());
 }
 
 void msg08()
 {
-	tell_object(this_player(),HIR"你死了。\n"NOR);
+	tell_object(this_player(),HIR + "你死了。\n" + NOR);
 	this_player()->move(__DIR__"b01");
-	tell_object(users(),BLU"
-【死亡快報】骨骸王(???)狂笑說:「可憐的"+this_player()->query("name")+", 死在我手上算是你的福氣。」\n"NOR);
+	tell_object(users(),BLU + "
+【死亡快報】骨骸王(???)狂笑說:「可憐的"+this_player()->query("name")+", 死在我手上算是你的福氣。」\n" + NOR);
 }
 
 void init()
@@ -162,10 +162,10 @@ int do_leave()
 			this_player()->set("/area/underpass/eff_gin",this_player()->query("eff_gin"));
 			this_player()->set("/area/underpass/eff_kee",this_player()->query("eff_kee"));
 			this_player()->set("/area/underpass/eff_sen",this_player()->query("eff_sen"));
-			tell_object(this_player(),HIR"
+			tell_object(this_player(),HIR + "
 你損失了"+this_player()->query("combat_exp")+"經驗值！
 你最大內力為1，基本內功\技能降至1！
-你精、氣、神降到1！\n"NOR);
+你精、氣、神降到1！\n" + NOR);
 			this_player()->set("combat_exp",1);
 			this_player()->set_skill("force",1);
 			this_player()->set("max_force",1);

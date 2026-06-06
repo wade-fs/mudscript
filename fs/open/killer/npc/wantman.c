@@ -422,7 +422,7 @@ void create()
     "目前似乎負責傳達殺手目標物的名單(menu)\n");
   set("gender","男性");
   set("class","poisoner");
-  set("nickname", HIG "幽冥鬼王" NOR);
+  set("nickname", HIG + "幽冥鬼王" + NOR);
   set("combat_exp",700000);
   set("attitude","heroism");
   set("age",60);

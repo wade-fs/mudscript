@@ -18,10 +18,10 @@ int spi=this_player()->query_spi(1);
 int sp_value;
 
 string *parry_msg = ({
-"\n而$n手中的長劍一橫，一招"HIB"『鐵鎖橫江』"NOR"勢挾千斤往前一推一送，噹的一聲碰出了點點火花反把$N手中的$w險些震飛！\n"NOR,
-"\n但$n長劍一轉，順著$N的$w以一招"HIC"『順流而下』"NOR"往$N的手指削去，$N大驚失色下急忙收招回架\n",
+"\n而$n手中的長劍一橫，一招" + HIB + "『鐵鎖橫江』" + NOR + "勢挾千斤往前一推一送，噹的一聲碰出了點點火花反把$N手中的$w險些震飛！\n" + NOR,
+"\n但$n長劍一轉，順著$N的$w以一招" + HIC + "『順流而下』" + NOR + "往$N的手指削去，$N大驚失色下急忙收招回架\n",
 "\n$n劍走輕靈，手中長劍忽削忽刺一連串的兵器撞擊聲後$n已將$N的快招全部化解！\n",
-HIW"\n$n以快制快，$N快但$n更快，連續刺出了七七四十九劍織成一道劍網將$N的招式盡數盪開！\n"NOR,    
+HIW + "\n$n以快制快，$N快但$n更快，連續刺出了七七四十九劍織成一道劍網將$N的招式盡數盪開！\n" + NOR,    
         });
 
 string *unarmed_parry_msg = ({
@@ -67,10 +67,10 @@ void array1()
    if(random(100) > 82 && mean < 75){ 
 hurt=mean*1.4*2;
 message_vision("
-"HIM"$N一聲清嘯，陣形一轉和$n聯手使出陰陽兩儀劍陣的絕招"NOR"
+" + HIM + "$N一聲清嘯，陣形一轉和$n聯手使出陰陽兩儀劍陣的絕招" + NOR + "
 ---鶴翔紫薇---
-"HIM"$N大喝一聲，劍尖閃出了耀眼紫光，敵人為之一時無法睜開眼睛而同時只見$n滿場遊走，動作如仙鶴般優雅輕靈，陣內敵人已在同時全部受到了重創
-\n"NOR,partner[0],partner[1]);
+" + HIM + "$N大喝一聲，劍尖閃出了耀眼紫光，敵人為之一時無法睜開眼睛而同時只見$n滿場遊走，動作如仙鶴般優雅輕靈，陣內敵人已在同時全部受到了重創
+\n" + NOR,partner[0],partner[1]);
  for(j=0;j<i;j++){
  target[j]->receive_damage("kee",hurt);
  COMBAT_D->report_status(target[j], 1);
@@ -79,10 +79,10 @@ message_vision("
 
    else if(random(100) > 82 && mean >= 75){
 hurt=mean*1.9*2;
-message_vision(HIR"
-$N和$n心意相通，使出了陰陽兩儀陣法的精髓---"HIR"『"HIM"二劍穿腸紅"HIR"』
+message_vision(HIR + "
+$N和$n心意相通，使出了陰陽兩儀陣法的精髓---" + HIR + "『" + HIM + "二劍穿腸紅" + HIR + "』
 $N和$n同時縱身一躍，以極快的速度依著陣法移動身形剎那間兩儀陣內紅影穿梭，陰中有陽，陽中有陰...
-"NOR"結果陣內的敵人不知如何防禦，紛紛被劍氣所傷
+" + NOR + "結果陣內的敵人不知如何防禦，紛紛被劍氣所傷
 \n",partner[0],partner[1]);
  for(j=0;j<i;j++){
  target[j]->receive_damage("kee",hurt);
@@ -91,7 +91,7 @@ $N和$n同時縱身一躍，以極快的速度依著陣法移動身形剎那間�
                                           }
 
    else if(random(100) > 80){
-message_vision(HIG"$N和$n不停的移行換位，陰變陽，陽轉陰，使敵人看得眼花撩亂\n"NOR,partner[m],partner[m+1]);
+message_vision(HIG + "$N和$n不停的移行換位，陰變陽，陽轉陰，使敵人看得眼花撩亂\n" + NOR,partner[m],partner[m+1]);
                             }
 }
 
@@ -99,24 +99,24 @@ message_vision(HIG"$N和$n不停的移行換位，陰變陽，陽轉陰，使敵
   if(random(100) > 82){
    if(mean >= 75 && get_sha==3){
 hurt=mean*2.2*3;//三人皆有後三 && sha-array 平均大於75 所以威力上調
-message_vision(HIY"
+message_vision(HIY + "
 陣內三才忽然心意相通，不約而同各使出仙劍後三式中的一招，融合成此曠世絕招
-"HIW"------"HIY"仙劍後三合一式"HIW"------\n
+" + HIW + "------" + HIY + "仙劍後三合一式" + HIW + "------\n
 $N使出仙劍後三式之第一招
-----冰若寒潭"HIW"---                
+----冰若寒潭" + HIW + "---                
 $N以氣行劍,瞬時間一股寒氣籠罩身旁,只見劍上薄冰漸起幻成冰柱,$N手中長劍橫掃,只見冰柱隨劍氣朝敵人猛裂刺去
 敵人瞬間被刺傷多處...\n",partner[0]);
 message_vision("
 $N使出仙劍後三式之第二招
-----萬丈波瀾"HIW"---
+----萬丈波瀾" + HIW + "---
 $N手中長劍急使,愈使愈快,宛若洶湧巨浪向敵人直衝而去,瞬時壓力遽增,
 敵人被巨浪震出內傷,鮮血狂噴....\n",partner[1]);
 message_vision("
 $N使出仙劍後三式之第三招
-----雲譎波詭"HIW"---                             
+----雲譎波詭" + HIW + "---                             
 $N長劍飛舞,霎時四周水波雲氣變化萬千難以預料,敵人瞬間分不清劍在何方
 正在遲疑之際,.劍已穿體而出....\n
-"HIY"三招合一的威勢驚人，一股強大的劍氣在陣內衝撞，敵人非死即傷\n"NOR,partner[2]);
+" + HIY + "三招合一的威勢驚人，一股強大的劍氣在陣內衝撞，敵人非死即傷\n" + NOR,partner[2]);
  for(j=0;j<i;j++){
  target[j]->receive_damage("kee",hurt);
  COMBAT_D->report_status(target[j], 1);
@@ -125,10 +125,10 @@ $N長劍飛舞,霎時四周水波雲氣變化萬千難以預料,敵人瞬間分�
 
    else { 
 hurt=mean*1.5*3;
-message_vision(HIY"
-三才劍陣內祥光隱隱，劍陣絕招"HIW"『"HIY"鱗光三劍"HIW"』"HIY"依三才特性之氣騰出！
+message_vision(HIY + "
+三才劍陣內祥光隱隱，劍陣絕招" + HIW + "『" + HIY + "鱗光三劍" + HIW + "』" + HIY + "依三才特性之氣騰出！
 $N引導三種祥光在陣內流轉，繽紛奪目，傷人於炫麗之中......
-\n"NOR,partner[0]);
+\n" + NOR,partner[0]);
  for(j=0;j<i;j++){
  target[j]->receive_damage("kee",hurt);
  COMBAT_D->report_status(target[j], 1);
@@ -137,7 +137,7 @@ $N引導三種祥光在陣內流轉，繽紛奪目，傷人於炫麗之中......
                                  }
 
    else if(random(100) > 80){
-message_vision(HIY"$N指揮若定，天地人三位配合一體防守得固若金湯\n"NOR,partner[0]);
+message_vision(HIY + "$N指揮若定，天地人三位配合一體防守得固若金湯\n" + NOR,partner[0]);
                             }
 }
 
@@ -146,12 +146,12 @@ message_vision(HIY"$N指揮若定，天地人三位配合一體防守得固若�
    if(mean >= 75 && sha_mean >= 95){
 //曠世絕招，四人皆要有雙十才行，很懷疑能不能有機會用...
 hurt=mean*3.1*4;
-message_vision(HIB"
-陣內四人心意忽然頓悟，決定以身一試期望能融合出曠世絕招"HIY"『"HIB"四龍崩月"HIY"』"HIB"!!!
-\n"HIW"只見陣內四人同時仰天長嘯 ,一齊使出仙劍至極之招"HIR"『 雙～十～旋～龍～斬 』"HIB"!!!
-\n"HIB"四條青龍從四個人的劍尖衝出，在空中不停地聚合盤旋，剎那間!!!天地變色，
-風起雲湧。一輪"HIY"明月"HIB"在龍雲之間現形，而敵人也被此情景所震懾，一瞬間已
-被吞沒於光芒之中。\n\n"NOR,partner[0]);
+message_vision(HIB + "
+陣內四人心意忽然頓悟，決定以身一試期望能融合出曠世絕招" + HIY + "『" + HIB + "四龍崩月" + HIY + "』" + HIB + "!!!
+\n" + HIW + "只見陣內四人同時仰天長嘯 ,一齊使出仙劍至極之招" + HIR + "『 雙～十～旋～龍～斬 』" + HIB + "!!!
+\n" + HIB + "四條青龍從四個人的劍尖衝出，在空中不停地聚合盤旋，剎那間!!!天地變色，
+風起雲湧。一輪" + HIY + "明月" + HIB + "在龍雲之間現形，而敵人也被此情景所震懾，一瞬間已
+被吞沒於光芒之中。\n\n" + NOR,partner[0]);
 
  for(j=0;j<i;j++){
  target[j]->receive_damage("kee",hurt);
@@ -162,11 +162,11 @@ message_vision(HIB"
 
    else { 
 hurt=mean*1.7*4;
-message_vision(HIC"
-眾劍士忽然四劍齊出，使出四象璇嘰劍陣的絕招"HIB"『"HIC"四劍八達"HIB"』"HIC"，颼颼聲響處兩劍直指
+message_vision(HIC + "
+眾劍士忽然四劍齊出，使出四象璇嘰劍陣的絕招" + HIB + "『" + HIC + "四劍八達" + HIB + "』" + HIC + "，颼颼聲響處兩劍直指
 敵人的胸前，同時另兩劍從左右分刺。當敵人想予以招架時四劍又同時分擊合刺，威
 力實在驚人!
-\n"NOR,partner[0]);
+\n" + NOR,partner[0]);
  for(j=0;j<i;j++){
  target[j]->receive_damage("kee",hurt);
  target[j]->start_busy(1);
@@ -176,7 +176,7 @@ message_vision(HIC"
                                  }
 
    else if(random(100) > 80){
-message_vision(HIB"$N以全力運轉四象璇嘰陣，將敵人牢牢的困在陣中\n"NOR,partner[0]);
+message_vision(HIB + "$N以全力運轉四象璇嘰陣，將敵人牢牢的困在陣中\n" + NOR,partner[0]);
                             }
 }
 
@@ -184,22 +184,22 @@ message_vision(HIB"$N以全力運轉四象璇嘰陣，將敵人牢牢的困在�
 //so 威力加強
    else if(k==8){
    if(random(100) >= 75){
-message_vision(HIG"\n$N仰天長嘯，催動八卦遊龍陣使出驚世駭俗的仙劍劍陣至極絕招
+message_vision(HIG + "\n$N仰天長嘯，催動八卦遊龍陣使出驚世駭俗的仙劍劍陣至極絕招
 
-                     "HIW"『"HIR"～禁～斷～連～陽～七～訣～斬"HIW"』"NOR"
+                     " + HIW + "『" + HIR + "～禁～斷～連～陽～七～訣～斬" + HIW + "』" + NOR + "
 
-"HIR"此招一出，驚天動地，傳說自仙劍創派以來從未被使用過!!\n",partner[0]);
-message_vision(sprintf(HIB"\n$N狂性驟起，口中喃喃有辭，使出仙劍禁斷之連陽七訣第一式"HIW"『"HIB"烈陽"HIW"』"HIB"!!\n"NOR ),partner[1]); 
-message_vision(sprintf(HIR"\n$N狂性驟起，口中喃喃有辭，使出仙劍禁斷之連陽七訣第二式"HIW"『"HIR"殘陽"HIW"』"HIR"!!\n"NOR ),partner[2]);
-message_vision(sprintf(HIW"\n$N狂性驟起，口中喃喃有辭，使出仙劍禁斷之連陽七訣第三式"HIW"『豔陽』!!\n"NOR),partner[3]); 
-message_vision(sprintf(HIM"\n$N狂性驟起，口中喃喃有辭，使出仙劍禁斷之連陽七訣第四式"HIW"『"HIM"暖陽"HIW"』"HIM"!!\n"NOR),partner[4]);   
-message_vision(sprintf(HIC"\n$N狂性驟起，口中喃喃有辭，使出仙劍禁斷之連陽七訣第五式"HIW"『"HIC"冬陽"HIW"』"HIC"!!\n"NOR),partner[5]);
-message_vision(sprintf(HIG"\n$N狂性驟起，口中喃喃有辭，使出仙劍禁斷之連陽七訣第六式"HIW"『"HIG"朝陽"HIW"』"HIG"!!\n"NOR),partner[6]); 
-message_vision(sprintf(HIY"\n$N狂性驟起，口中喃喃有辭，使出仙劍禁斷之連陽七訣第七式"HIW"『"HIY"夕陽"HIW"』"HIY"!!\n"NOR), partner[7]);
-message_vision(HIW"\n七道劍虹同時激空而出，「七陽連天」在空中織成一道虹網！
-"HIG"而主陣的$N縱身一躍，凝氣準備發出最後一式以完成這驚天地動的一擊！\n"NOR,partner[0]);
-message_vision(sprintf(HIW"\n只見$N狂性驟起 ,大喝一聲『"HIR"劍影連陽，七陽連天』!!\n"NOR),partner[0]);
-message_vision(HIW"$N的七陽連天氣勢澎礡，激發了先前仙劍禁斷之連陽七訣的七股剛柔不等的劍虹，只見虹氣嘯天，滿天劍影，陣內敵人全都受到了重創\n"NOR,partner[0]);
+" + HIR + "此招一出，驚天動地，傳說自仙劍創派以來從未被使用過!!\n",partner[0]);
+message_vision(sprintf(HIB + "\n$N狂性驟起，口中喃喃有辭，使出仙劍禁斷之連陽七訣第一式" + HIW + "『" + HIB + "烈陽" + HIW + "』" + HIB + "!!\n" + NOR ),partner[1]); 
+message_vision(sprintf(HIR + "\n$N狂性驟起，口中喃喃有辭，使出仙劍禁斷之連陽七訣第二式" + HIW + "『" + HIR + "殘陽" + HIW + "』" + HIR + "!!\n" + NOR ),partner[2]);
+message_vision(sprintf(HIW + "\n$N狂性驟起，口中喃喃有辭，使出仙劍禁斷之連陽七訣第三式" + HIW + "『豔陽』!!\n" + NOR),partner[3]); 
+message_vision(sprintf(HIM + "\n$N狂性驟起，口中喃喃有辭，使出仙劍禁斷之連陽七訣第四式" + HIW + "『" + HIM + "暖陽" + HIW + "』" + HIM + "!!\n" + NOR),partner[4]);   
+message_vision(sprintf(HIC + "\n$N狂性驟起，口中喃喃有辭，使出仙劍禁斷之連陽七訣第五式" + HIW + "『" + HIC + "冬陽" + HIW + "』" + HIC + "!!\n" + NOR),partner[5]);
+message_vision(sprintf(HIG + "\n$N狂性驟起，口中喃喃有辭，使出仙劍禁斷之連陽七訣第六式" + HIW + "『" + HIG + "朝陽" + HIW + "』" + HIG + "!!\n" + NOR),partner[6]); 
+message_vision(sprintf(HIY + "\n$N狂性驟起，口中喃喃有辭，使出仙劍禁斷之連陽七訣第七式" + HIW + "『" + HIY + "夕陽" + HIW + "』" + HIY + "!!\n" + NOR), partner[7]);
+message_vision(HIW + "\n七道劍虹同時激空而出，「七陽連天」在空中織成一道虹網！
+" + HIG + "而主陣的$N縱身一躍，凝氣準備發出最後一式以完成這驚天地動的一擊！\n" + NOR,partner[0]);
+message_vision(sprintf(HIW + "\n只見$N狂性驟起 ,大喝一聲『" + HIR + "劍影連陽，七陽連天』!!\n" + NOR),partner[0]);
+message_vision(HIW + "$N的七陽連天氣勢澎礡，激發了先前仙劍禁斷之連陽七訣的七股剛柔不等的劍虹，只見虹氣嘯天，滿天劍影，陣內敵人全都受到了重創\n" + NOR,partner[0]);
 
  for(j=0;j<i;j++){
  target[j]->receive_damage("kee",800);
@@ -208,7 +208,7 @@ message_vision(HIW"$N的七陽連天氣勢澎礡，激發了先前仙劍禁斷�
                  }
                       }
    else if(random(100) > 60){
-message_vision(HIM"$N指揮八卦遊龍陣內的劍士不停地移行換位，氣勢萬千！\n"NOR,partner[0]);
+message_vision(HIM + "$N指揮八卦遊龍陣內的劍士不停地移行換位，氣勢萬千！\n" + NOR,partner[0]);
                             } 
 }
 
@@ -247,7 +247,7 @@ void drunk()
 mapping *action = ({
 //1
         ([      
-                "action"     :               "$N手捏劍訣，長劍一挺，使出一招"HIC"『泉鳴芙蓉』"NOR"，姿態悠雅，頗有天上仙人下凡間之意",
+                "action"     :               "$N手捏劍訣，長劍一挺，使出一招" + HIC + "『泉鳴芙蓉』" + NOR + "，姿態悠雅，頗有天上仙人下凡間之意",
                 "dodge"      :               -10,
                 "parry"      :               -10,
                 "damage"     :                40,
@@ -256,7 +256,7 @@ mapping *action = ({
         ]),
 //2
         ([     
-                "action"     :               "$N一個旋身，手中的$w在空中閃過一道光芒直刺向$n的$l，姿態瀟灑一氣呵成，正是一招"HIY"『金雁橫空』"NOR,
+                "action"     :               "$N一個旋身，手中的$w在空中閃過一道光芒直刺向$n的$l，姿態瀟灑一氣呵成，正是一招" + HIY + "『金雁橫空』" + NOR,
                 "dodge"      :                0,
                 "parry"      :                0,
                 "damage"     :                80,
@@ -265,7 +265,7 @@ mapping *action = ({
         ]),
 //3
         ([   
-                "action"     :               "$N左肩微沉，左手劍訣斜引，右肘一縮，使出一招"HIM"『有鳳來儀』"NOR"劍勢迅速凌厲直往$n的$l刺去",
+                "action"     :               "$N左肩微沉，左手劍訣斜引，右肘一縮，使出一招" + HIM + "『有鳳來儀』" + NOR + "劍勢迅速凌厲直往$n的$l刺去",
                 "dodge"      :                10,
                 "parry"      :                10,
                 "damage"     :                100,
@@ -274,7 +274,7 @@ mapping *action = ({
         ]),
 //4
         ([  
-                "action"     :               "$N劍勢一改往常的飄逸絕倫，使出一招"HIW"『"HIY"玉碎仙岡"HIW"』"NOR"直削橫劈、氣勢威猛的往$n身上大力斬去",
+                "action"     :               "$N劍勢一改往常的飄逸絕倫，使出一招" + HIW + "『" + HIY + "玉碎仙岡" + HIW + "』" + NOR + "直削橫劈、氣勢威猛的往$n身上大力斬去",
                 "dodge"      :                20,
                 "parry"      :                20,
                 "damage"     :                150,
@@ -283,7 +283,7 @@ mapping *action = ({
         ]),
 //5
         ([ 
-                "action"     :               "$N劍勢大開大闔，使出一招"HIC"『劈竹掃影』"NOR"狂風暴雨般的招式使$n感到難以招架",
+                "action"     :               "$N劍勢大開大闔，使出一招" + HIC + "『劈竹掃影』" + NOR + "狂風暴雨般的招式使$n感到難以招架",
                 "dodge"      :                30,
                 "parry"      :                30,
                 "damage"     :                170,
@@ -292,7 +292,7 @@ mapping *action = ({
         ]),
 //6
         ([
-                "action"     :               "$N劍尖連劃出幾個劍花，一招"HIW"『飄雲穿雪』"NOR"如浮雲般飄逸，化成片片白雪緩緩落於$n的身上",
+                "action"     :               "$N劍尖連劃出幾個劍花，一招" + HIW + "『飄雲穿雪』" + NOR + "如浮雲般飄逸，化成片片白雪緩緩落於$n的身上",
                 "dodge"      :                30,
                 "parry"      :                20,
                 "damage"     :                200,
@@ -300,7 +300,7 @@ mapping *action = ({
                 "damage_type":               "刺傷"
         ]),
 //7
-         ([     "action"     :               "$N將手中的$w斜引，使出一招"HIW"『峭壁斷雲』"NOR"，劍勢雄偉精奇氣勢縱橫使$n感到左支右拙難以招架",
+         ([     "action"     :               "$N將手中的$w斜引，使出一招" + HIW + "『峭壁斷雲』" + NOR + "，劍勢雄偉精奇氣勢縱橫使$n感到左支右拙難以招架",
                 "parry"      :                30,
                 "dodge"      :                40,
                 "damage"     :                220,
@@ -308,7 +308,7 @@ mapping *action = ({
                 "damage_type":                "割傷",
            ]),
 //8
-          ([    "action"     :               "$N真氣灌於手中的$w，使出一招"HIR"『飛虹橫江』"NOR"頓時劍尖衝出半尺來長的紅色劍芒，吞吐閃爍，嗤嗤聲響處往$n疾刺而去",
+          ([    "action"     :               "$N真氣灌於手中的$w，使出一招" + HIR + "『飛虹橫江』" + NOR + "頓時劍尖衝出半尺來長的紅色劍芒，吞吐閃爍，嗤嗤聲響處往$n疾刺而去",
                 "parry"      :                30,
                 "dodge"      :                40,
                 "damage"     :		      240,
@@ -317,7 +317,7 @@ mapping *action = ({
                 "damage_type":                "割傷",
             ]),
 //9
-            ([  "action"     :                "$N手中的$w一閃出鞘，寒芒吞吐，電閃星爍，一招"HIB"『寒芒沖霄』"NOR"劍氣化成點點寒芒往$n身上飛去",
+            ([  "action"     :                "$N手中的$w一閃出鞘，寒芒吞吐，電閃星爍，一招" + HIB + "『寒芒沖霄』" + NOR + "劍氣化成點點寒芒往$n身上飛去",
                 "dodge"      :                50,
                 "parry"      :                30,
                 "damage"     :                260,
@@ -326,7 +326,7 @@ mapping *action = ({
                 "damage_type":                "刺傷",
              ]),
 //10
-            ([  "action"     :                "$N一聲清嘯，手中長劍抖動處數以百計的玉色光芒從$N的劍尖疾飛而出，燦爛如銀河飛濺，正是一招"HIW"『"HIY"盡傾銀河"HIW"』"NOR"！",
+            ([  "action"     :                "$N一聲清嘯，手中長劍抖動處數以百計的玉色光芒從$N的劍尖疾飛而出，燦爛如銀河飛濺，正是一招" + HIW + "『" + HIY + "盡傾銀河" + HIW + "』" + NOR + "！",
                 "dodge"      :                60,
                 "parry"      :                30,
                 "damage"     :                280,
@@ -334,7 +334,7 @@ mapping *action = ({
                 "damage_type":                "刺傷",
              ]),
 //11
-             ([ "action"     :                "$N使出仙劍派之絕招"HIG"『隔紙斷樹』"NOR"，手中的$w虛劃，$n愕然不明所以之際不知自己筋脈已被斬斷...",
+             ([ "action"     :                "$N使出仙劍派之絕招" + HIG + "『隔紙斷樹』" + NOR + "，手中的$w虛劃，$n愕然不明所以之際不知自己筋脈已被斬斷...",
                 "dodge"      :                60,
                 "parry"      :                40,
                 "damage"     :                300,
@@ -343,7 +343,7 @@ mapping *action = ({
                 "damage_type":                "筋脈盡斷",
              ]),
 //12
-             ([ "action"     :                "$N劍泛仙氣，聚精會神地使出了仙劍劍術中的最高境界"HIY"『仙傾霜天』"NOR"！劍由仙化，使劍若仙，金光閃耀下$n全身已被割傷多處...",
+             ([ "action"     :                "$N劍泛仙氣，聚精會神地使出了仙劍劍術中的最高境界" + HIY + "『仙傾霜天』" + NOR + "！劍由仙化，使劍若仙，金光閃耀下$n全身已被割傷多處...",
                 "parry"      :                40,
                 "dodge"      :                70,
                 "damage"     :                300,
@@ -415,7 +415,7 @@ $N迅速地揮動手中的$w，只見滿天血紅宛若落日的餘暉，卻原�
              ]),
 //18
             ([  "action"     :                "$N眉頭緊鎖，愁上心頭不禁仰天長嘆一聲，使出了『秋意愁無限』
-"HIG"$N拔劍出鞘，秋風颯颯，手中的$w"HIG"在$n的四周化為片片落葉，瞬時間$n已被割傷多處..."NOR,
+" + HIG + "$N拔劍出鞘，秋風颯颯，手中的$w" + HIG + "在$n的四周化為片片落葉，瞬時間$n已被割傷多處..." + NOR,
                 "dodge"      :                60,
                 "parry"      :                50,
                 "damage"     :                360,
@@ -424,7 +424,7 @@ $N迅速地揮動手中的$w，只見滿天血紅宛若落日的餘暉，卻原�
              ]),             
 //19 
             ([  "action"     :                "$N心中怒意急升，決定使出仙劍派之禁招---『黃沙怒音揚』！
-$N運劍如風，劍氣縱橫激起地面滾滾塵沙，宛若千軍萬馬馳騁般往$n暴擊而去"NOR,
+$N運劍如風，劍氣縱橫激起地面滾滾塵沙，宛若千軍萬馬馳騁般往$n暴擊而去" + NOR,
                 "dodge"      :                60,
                 "parry"      :                50,
                 "damage"     :                380,
@@ -434,7 +434,7 @@ $N運劍如風，劍氣縱橫激起地面滾滾塵沙，宛若千軍萬馬馳騁
              ]),      
 //20
             ([  "action"     :                "$N突感心中之悲意，驀然使出了『寒夜孤星墜』！
-"HIW"$N縱身而起，一個倒仰竟從空中向$n倒刺而下，此招全然不顧己身可見施展之人心中之悲意及殺意實已到達的極點。而$n看到此招如此施展竟嚇得面如土色，已經不知如何招架！\n",
+" + HIW + "$N縱身而起，一個倒仰竟從空中向$n倒刺而下，此招全然不顧己身可見施展之人心中之悲意及殺意實已到達的極點。而$n看到此招如此施展竟嚇得面如土色，已經不知如何招架！\n",
                 "dodge"      :                60,
                 "parry"      :                50,
                 "damage"     :                400,
@@ -476,16 +476,16 @@ mapping query_action(object me, object *weapon)
  if(skill_level >= 95 && (me->query("family/family_name")=="仙劍派") && me->query("id")!="murofu" && me->query("name")!="慕容復"
  && me->query("force",1) > 200 && random(100) > 85)
                           {
-        message_vision( sprintf(HIW"        
-\n只見$N仰天長嘯 ,使出仙劍至極之招"HIR"『 雙～十～旋～龍～斬 』"HIB"!!!
-"NOR),me ,victim);
-        message_vision(sprintf(HIB"\n$N不停地飛舞著劍，其身形漸漸地化為龍形，"+
+        message_vision( sprintf(HIW + "        
+\n只見$N仰天長嘯 ,使出仙劍至極之招" + HIR + "『 雙～十～旋～龍～斬 』" + HIB + "!!!
+" + NOR),me ,victim);
+        message_vision(sprintf(HIB + "\n$N不停地飛舞著劍，其身形漸漸地化為龍形，"+
          "剎那間!!天地為之變色，四周草木皆非，\n$n也被這股氣勢震嚇住，"+
-         "一瞬間$n已遭龍所吞噬。\n\n "NOR), me ,victim); 
+         "一瞬間$n已遭龍所吞噬。\n\n " + NOR), me ,victim); 
         if(weapon->query("id")=="silver sword"){
-        message_vision(HIW"
-$N的銀鱗古劍感應到"HIR"『 雙～十～旋～龍～斬 』"HIW"的驚人氣勢，劍上的銀鱗白光
-閃耀下化成一道龍形劍氣直撲向$n\n"NOR,me,victim);
+        message_vision(HIW + "
+$N的銀鱗古劍感應到" + HIR + "『 雙～十～旋～龍～斬 』" + HIW + "的驚人氣勢，劍上的銀鱗白光
+閃耀下化成一道龍形劍氣直撲向$n\n" + NOR,me,victim);
          victim->receive_wound("kee",400,me);
          COMBAT_D->report_status(victim, 1);
          victim->start_busy(1); //老是有人動skills
@@ -549,8 +549,8 @@ void sp_attack0(object me, object victim, object  weapon, int damage)
        if(sp_value > 400) sp_value=400;
 if( weapon->query("id")=="han_bin_sword" ||weapon->query("id")=="Sad sword")
         { 
-         message_vision("\n寒冰劍"HIC"劍上寒氣與"NOR"$N"HIC"體內寒勁會合 ,霎時四周溫度遽降 ,一股
-陰寒內勁由$N手中長劍發出朝$n而去\n"NOR,me,victim);
+         message_vision("\n寒冰劍" + HIC + "劍上寒氣與" + NOR + "$N" + HIC + "體內寒勁會合 ,霎時四周溫度遽降 ,一股
+陰寒內勁由$N手中長劍發出朝$n而去\n" + NOR,me,victim);
          victim->add("kee",-sp_value);        
          COMBAT_D->report_status(victim, 1);
          }         
@@ -570,7 +570,7 @@ void sp_attack1(object me, object victim, object  weapon, int damage)
     if(sp_value > 400) sp_value=400;
     if( weapon->query("id")=="hon_water_sword" || weapon->query("id")=="Sad sword" )
     {
-      message_vision("泓水劍"HIW"蘊含水勁磅礡 ,與此招式精義吻合 ,一股柔似水又強如浪的內勁已由"NOR"$N"HIW"發出直向$n而去\n"NOR,me,victim);
+      message_vision("泓水劍" + HIW + "蘊含水勁磅礡 ,與此招式精義吻合 ,一股柔似水又強如浪的內勁已由" + NOR + "$N" + HIW + "發出直向$n而去\n" + NOR,me,victim);
       victim->add("kee",-sp_value);
       COMBAT_D->report_status(victim, 1);
       
@@ -617,7 +617,7 @@ void berserk(object me, object victim, object  weapon, int damage)
      if( me->query("family/master_name")=="鄭士欣" || me->query("name")=="鄭士欣"|| me->query("dragon-sword",1)==1 )
      {
        message_vision( 
-         sprintf(HIW"\n只見$N狂性驟起 ,大喝一聲『"HIR"劍影連陽 七陽連天"HIW"』!!\n"),me ,victim);
+         sprintf(HIW + "\n只見$N狂性驟起 ,大喝一聲『" + HIR + "劍影連陽 七陽連天" + HIW + "』!!\n"),me ,victim);
          message_vision( sprintf("七股剛柔不等的虹色劍氣驀地由$N劍尖射出對$n造成難以估計的傷。\n\n "), me ,victim);
          victim->receive_wound("kee",400,me);
          COMBAT_D->report_status(victim, 1);
@@ -628,7 +628,7 @@ void berserk(object me, object victim, object  weapon, int damage)
          me->query("sha-stop-1",1))
      {   
        message_vision(
-         sprintf(HIW"\n$N狂性驟起，口中喃喃有辭，使出仙劍禁斷之連陽七訣第一式『"HIR"烈陽"HIW"』!!\n"NOR ),me ,victim); 
+         sprintf(HIW + "\n$N狂性驟起，口中喃喃有辭，使出仙劍禁斷之連陽七訣第一式『" + HIR + "烈陽" + HIW + "』!!\n" + NOR ),me ,victim); 
          message_vision(sprintf(m1),me ,victim);
          victim->receive_wound("kee",300,me);
          COMBAT_D->report_status(victim, 1);
@@ -638,7 +638,7 @@ void berserk(object me, object victim, object  weapon, int damage)
          me->query("sha-stop-2",1))
      { 
        message_vision(
-         sprintf(HIW"\n$N狂性驟起，口中喃喃有辭，使出仙劍禁斷之連陽七訣第二式"HIW"『"HIR"殘陽"HIW"』!!。\n"NOR ), me, victim );       
+         sprintf(HIW + "\n$N狂性驟起，口中喃喃有辭，使出仙劍禁斷之連陽七訣第二式" + HIW + "『" + HIR + "殘陽" + HIW + "』!!。\n" + NOR ), me, victim );       
          message_vision(sprintf(m1), me, victim );
          victim->receive_wound("kee",300,me);
          COMBAT_D->report_status(victim, 1);
@@ -647,7 +647,7 @@ void berserk(object me, object victim, object  weapon, int damage)
      if( me->query("family/master_name")=="唐鈺" || 
          me->query("sha-stop-3",1) )
      { 
-       message_vision( sprintf(HIW"\n$N狂性驟起，口中喃喃有辭，使出仙劍禁斷之連陽七訣第三式"HIW"『"HIY"豔陽"HIW"』!!\n"NOR), me ,victim); 
+       message_vision( sprintf(HIW + "\n$N狂性驟起，口中喃喃有辭，使出仙劍禁斷之連陽七訣第三式" + HIW + "『" + HIY + "豔陽" + HIW + "』!!\n" + NOR), me ,victim); 
          message_vision(sprintf(m1), me ,victim);
          victim->receive_wound("kee",300,me);
          COMBAT_D->report_status(victim, 1);
@@ -656,7 +656,7 @@ void berserk(object me, object victim, object  weapon, int damage)
      if( me->query("family/master_name")=="趙鶴" ||
          me->query("sha-stop-4",1))
      {
-        message_vision(sprintf(HIW"\n$N狂性驟起，口中喃喃有辭，使出仙劍禁斷之連陽七訣第四式"HIW"『"HIY"暖陽"HIW"』!!。\n"NOR),me ,victim);    
+        message_vision(sprintf(HIW + "\n$N狂性驟起，口中喃喃有辭，使出仙劍禁斷之連陽七訣第四式" + HIW + "『" + HIY + "暖陽" + HIW + "』!!。\n" + NOR),me ,victim);    
           message_vision( sprintf(m1),me ,victim);
           victim->receive_wound("kee",300,me);
           me->add("force",-15);        
@@ -664,7 +664,7 @@ void berserk(object me, object victim, object  weapon, int damage)
      if( me->query("family/master_name")=="梅影" ||
          me->query("sha-stop-5",1))
      {
-        message_vision(sprintf(HIW"\n$N狂性驟起，口中喃喃有辭，使出仙劍禁斷之連陽七訣第五式"HIW"『"HIC"冬陽"HIW"』!!。\n"NOR),me,victim);   
+        message_vision(sprintf(HIW + "\n$N狂性驟起，口中喃喃有辭，使出仙劍禁斷之連陽七訣第五式" + HIW + "『" + HIC + "冬陽" + HIW + "』!!。\n" + NOR),me,victim);   
            message_vision(sprintf(m1),me,victim);
            victim->receive_wound("kee",300,me);
            COMBAT_D->report_status(victim, 1);
@@ -673,7 +673,7 @@ void berserk(object me, object victim, object  weapon, int damage)
       if(me->query("family/master_name")=="何雙雙" ||
          me->query("sha-stop-6",1))
       {
-        message_vision( sprintf(HIW"\n$N狂性驟起，口中喃喃有辭，使出仙劍禁斷之連陽七訣第六式"HIW"『"HIY"朝陽"HIW"』!!\n"NOR),me ,victim );    
+        message_vision( sprintf(HIW + "\n$N狂性驟起，口中喃喃有辭，使出仙劍禁斷之連陽七訣第六式" + HIW + "『" + HIY + "朝陽" + HIW + "』!!\n" + NOR),me ,victim );    
            message_vision(sprintf(m1),me ,victim ); 
            victim->receive_wound("kee",300,me);
            COMBAT_D->report_status(victim, 1);
@@ -683,7 +683,7 @@ void berserk(object me, object victim, object  weapon, int damage)
         if( me->query_skill("shasword",1) >=60 ||  me->query("sha-stop-7",1))
 // 給改拜player 的人用 
        {
-         message_vision( sprintf(HIW"\n$N狂性驟起，口中喃喃有辭，使出仙劍禁斷之連陽七訣第七式"HIW"『"HIY"夕陽"HIW"』!!\n"NOR), me ,victim );        
+         message_vision( sprintf(HIW + "\n$N狂性驟起，口中喃喃有辭，使出仙劍禁斷之連陽七訣第七式" + HIW + "『" + HIY + "夕陽" + HIW + "』!!\n" + NOR), me ,victim );        
            message_vision(sprintf(m1), me ,victim );
            victim->receive_wound("kee",300,me);
            COMBAT_D->report_status(victim, 1);

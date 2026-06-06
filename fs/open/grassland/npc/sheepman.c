@@ -204,7 +204,7 @@ void heart_beat()
 	  }
 	 else if(j==1)
      {
-	  message_vision(HIW"\n$N牛脾氣上來，以遊牧民族的蠻性硬是掙脫束縛。\n",ob);
+	  message_vision(HIW + "\n$N牛脾氣上來，以遊牧民族的蠻性硬是掙脫束縛。\n",ob);
 	  ob->receive_damage("kee",100);
 	  ob->delete_busy();
 	  COMBAT_D->report_status(ob);
@@ -212,7 +212,7 @@ void heart_beat()
 	 }
 	  else if(j==2)
 	     {
-		   message_vision(HIW"\n$N牛脾氣上來，以遊牧民族的蠻性硬是掙脫束縛。\n",ob);
+		   message_vision(HIW + "\n$N牛脾氣上來，以遊牧民族的蠻性硬是掙脫束縛。\n",ob);
 		   ob->delete_busy();
 		   ob->receive_damage("kee",100);
 		   COMBAT_D->report_status(ob);

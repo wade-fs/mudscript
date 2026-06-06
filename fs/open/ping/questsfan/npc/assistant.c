@@ -5,7 +5,7 @@ inherit NPC;  //副鏢頭 by dhk 2000.4.22
 void create()
 {
     set_name("副鏢頭",({"mercenary assistant","assistant","mercenary"}) );
-    set("title",""HIY"威武"NOR"鏢局");
+    set("title","" + HIY + "威武" + NOR + "鏢局");
     set("gender", "男性");
     set("age",90);
     set("attitude", "peaceful");

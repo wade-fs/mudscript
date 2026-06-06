@@ -3,7 +3,7 @@ inherit ITEM;
 
 void create()
 {
-        set_name(HIY "魔界金典" NOR, ({ "Gold_Magic Book","book" }) );
+        set_name(HIY + "魔界金典" + NOR, ({ "Gold_Magic Book","book" }) );
 
         set("unit", "本");
         set("long", "武林人士夢寐以求的驚世武學，但你天賦不夠聰穎，認定它不是什麼武學秘笈\n");

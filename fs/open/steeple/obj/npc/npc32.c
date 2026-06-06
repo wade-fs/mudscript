@@ -4,7 +4,7 @@ inherit F_MASTER;
 void create()
 {
         set_name("莫無樂", ({ "run mou", "run", "mou" }));
-        set("title",HIW"～幻影～"NOR"魔龍魔刀");
+        set("title",HIW + "～幻影～" + NOR + "魔龍魔刀");
         set("nickname", "屍死無涯");
         set("gender", "男性");
         set("age", 40);
@@ -58,11 +58,11 @@ if( random(100) > 40)
 target=enemy[random(i)];
     if( env == environment(target) )
     {
-message_vision(HIW"\n                        ～幻～影～心～訣～
+message_vision(HIW + "\n                        ～幻～影～心～訣～
 
-"HIC"
+" + HIC + "
 莫無樂表情猙獰，施展出魔龍魔刀『屠人千萬～血流遍野』\n"+
-"$N閃避不及，被打中要害，血流滿地\n"NOR,target);
+"$N閃避不及，被打中要害，血流滿地\n" + NOR,target);
 	mob->add("kee",3000);
       target->receive_damage("kee",1400,mob);
       COMBAT_D->report_status(target,1);
@@ -74,7 +74,7 @@ message_vision(HIW"\n                        ～幻～影～心～訣～
 int heal_up()
 {
         if (!is_fighting() ) {
-             message_vision (HIW"系統：戰鬥停止，$N回收中，。\n"NOR, this_object ());
+             message_vision (HIW + "系統：戰鬥停止，$N回收中，。\n" + NOR, this_object ());
              destruct(this_object());
              return 1;
         }
@@ -97,17 +97,17 @@ destruct (this_object ());
 else
 if(me->query("quest/start_game")< 33)
        {
-        tell_object(me,HIY"
-恭喜"HIW+me->query("name")+HIY"挑戰"HIG"『"HIR"第三十二層試煉ソ塔"HIG"』"HIY"通過！！
+        tell_object(me,HIY + "
+恭喜"HIW+me->query("name")+HIY"挑戰" + HIG + "『" + HIR + "第三十二層試煉ソ塔" + HIG + "』" + HIY + "通過！！
 
-"HIW"希望"+me->query("name")+"能不負眾望，勇闖"HIG"『"HIY"第三十三層試煉ソ塔"HIG"』"HIW"。
-	"NOR);
+" + HIW + "希望"+me->query("name")+"能不負眾望，勇闖" + HIG + "『" + HIY + "第三十三層試煉ソ塔" + HIG + "』" + HIW + "。
+	" + NOR);
 	me->set("quest/start_game",33);
         destruct (this_object ());
        }
 {
         :: unconcious();
-	tell_object(me,HIW"系統：你已經通過測試，系統不做任何更改。\n"NOR);
+	tell_object(me,HIW + "系統：你已經通過測試，系統不做任何更改。\n" + NOR);
 	destruct(this_object());
 }
 }

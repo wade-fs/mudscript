@@ -3,7 +3,7 @@ void heart_beat()
 {
 	if(this_object()->is_fighting())
 	{
-		message_vision(HIW"$N被戰鬥中的內力牽連到，完全無法抵抗，真氣從體內破體而出。\n"NOR,this_object());
+		message_vision(HIW + "$N被戰鬥中的內力牽連到，完全無法抵抗，真氣從體內破體而出。\n" + NOR,this_object());
 		this_object()->die();
 		return ;
 	}

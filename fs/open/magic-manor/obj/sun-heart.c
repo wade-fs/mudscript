@@ -2,7 +2,7 @@
 inherit ITEM;
 void create()
 {
-        set_name(HIY"聚玄靈陽心"NOR, ({ "sun heart","heart" }) );
+        set_name(HIY + "聚玄靈陽心" + NOR, ({ "sun heart","heart" }) );
         set_weight(5000);
         if( clonep() )
                 set_default_object(__FILE__);

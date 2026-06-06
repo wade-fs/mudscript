@@ -7,7 +7,7 @@ inherit EQUIP;
 
 void create()
 {
-  set_name(HIC"古龍紋玉佩"NOR , ({"dragon_gem"}) );
+  set_name(HIC + "古龍紋玉佩" + NOR , ({"dragon_gem"}) );
   set_weight(1000);
   if ( clonep() )
     set_default_object(__FILE__);
@@ -28,8 +28,8 @@ void create()
     set("armor_type","neck");
 //    set("need_class","fighter");
     set("need_exp",1000000);
-    set("wear_msg",HIM"$N"HIM"戴起$n"HIM"，頓時感到一股暖流充斥全身。\n"NOR);
-    set("unequip_msg",YEL"$N"YEL"脫下了$n"YEL"，身上的溫軟感覺也隨之消失。\n"NOR);
+    set("wear_msg",HIM + "$N" + HIM + "戴起$n" + HIM + "，頓時感到一股暖流充斥全身。\n" + NOR);
+    set("unequip_msg",YEL + "$N" + YEL + "脫下了$n" + YEL + "，身上的溫軟感覺也隨之消失。\n" + NOR);
   }
   setup();
 }

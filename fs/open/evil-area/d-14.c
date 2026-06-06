@@ -3,7 +3,7 @@ inherit ROOM;
 
 void create()
 {
-        set("short",HIY"沙漠"NOR);
+        set("short",HIY + "沙漠" + NOR);
         set("long",@LONG
 四周已經被山壁呈凹字形給阻隔住了, 除了你來時的路以外, 在
 你的正前方, 擺飾一個雕刻精美的木材雕像, 形狀彷彿是一個人形, 
@@ -38,10 +38,10 @@ int do_search(string arg)
 object me=this_player();
         if(!arg || arg!="雕像")
                 return 0;
-        tell_object(me,HIW"
+        tell_object(me,HIW + "
 你發現雕像的底盤部分並沒有完全著地, 也就是說, 雕像是漂浮著的!!
 
-你再仔細的觀察了一次, 發覺雕像底下似乎有一個通道。\n"NOR);
+你再仔細的觀察了一次, 發覺雕像底下似乎有一個通道。\n" + NOR);
         me->set_temp("evil/king/statue_search_earth",1);
         return 1;
 }
@@ -71,9 +71,9 @@ object me,ob;
                 message_vision("$N使勁了吃奶的力氣拉著雕像，雕像卻動也不動。\n",me);
                 return notify_fail("你累的一直喘～\n");
         }
-        message_vision(YEL"雕像底盤的部分，受到土翎板的引響，被拉高騰空。
+        message_vision(YEL + "雕像底盤的部分，受到土翎板的引響，被拉高騰空。
 
-$N見機不可失，趕忙的走下了位於雕像底盤的通道。\n\n"NOR,me);
+$N見機不可失，趕忙的走下了位於雕像底盤的通道。\n\n" + NOR,me);
         ob->delete_temp("can_pull");
         me->delete_temp("evil/king/statue_search_earth");  
         message_vision("$N走下了通道，來到這裡。\n",me);

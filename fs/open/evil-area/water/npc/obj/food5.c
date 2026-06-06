@@ -3,7 +3,7 @@ inherit COMBINED_ITEM;
 
 void create()
 {
-	set_name(HIM"清蒸扷屍"NOR,({"food","evil-foods"}));
+	set_name(HIM + "清蒸扷屍" + NOR,({"food","evil-foods"}));
 	set_weight(100);
 	if( clonep() )
                 set_default_object(__FILE__);

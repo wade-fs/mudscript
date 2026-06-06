@@ -31,7 +31,7 @@ void do_check(object me)
 	        {
                 if (!present("snake amulet",me)) 
                 {
-                  message_vision(HIM"一群毒蛇、蜈蚣和蜘蛛衝上來在$N的腿上咬了一大口。\n"NOR,me);
+                  message_vision(HIM + "一群毒蛇、蜈蚣和蜘蛛衝上來在$N的腿上咬了一大口。\n" + NOR,me);
                   me->apply_condition("mogi",3);
                   me->apply_condition("ff_poison",5);
                   me->apply_condition("flower_poison",5);
@@ -44,7 +44,7 @@ void do_check(object me)
                   me->apply_condition("scorpion_poison",5);
                   COMBAT_D->report_status(me);
                 }else{
-                  message_vision(HIG"蛇郎君的庇護使得眾毒物奉$N為王，絲毫不敢侵犯。\n"NOR,me);
+                  message_vision(HIG + "蛇郎君的庇護使得眾毒物奉$N為王，絲毫不敢侵犯。\n" + NOR,me);
                      }
                 call_out("do_check",1,this_player());
                 }

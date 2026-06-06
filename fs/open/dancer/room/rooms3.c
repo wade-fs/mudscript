@@ -6,7 +6,7 @@ inherit ROOM;
 
 void create ()
 {
-  set ("short", HIC"練舞場"NOR);
+  set ("short", HIC + "練舞場" + NOR);
   set( "build", 12 );
   set ("long", @LONG
 這裡是夜夢小築的練舞(武)場，在此你可以看到許多弟子們生澀

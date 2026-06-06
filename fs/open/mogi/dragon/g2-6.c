@@ -34,7 +34,7 @@ int valid_leave(object me, string dir)
         if(dir=="enter"&&present("dragon",environment(me)))
   {
 
-message_vision(HIW"黃金甲龍說:誓死保衛炎龍谷。\n"NOR,me);
+message_vision(HIW + "黃金甲龍說:誓死保衛炎龍谷。\n" + NOR,me);
 
 return 0;
 }

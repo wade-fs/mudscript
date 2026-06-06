@@ -26,7 +26,7 @@ void create()
         set("officer_class","退休大尚書");
         set("guild_master",1);
         set("class","scholar");
-        set("title",HIW"書生公會榮譽會長"NOR);
+        set("title",HIW + "書生公會榮譽會長" + NOR);
         set("combat_exp",1000000);
         set_skill("dodge",60);
         set_skill("be-officer", 20);
@@ -64,10 +64,10 @@ int do_join(string str)
         if(me->query("class")!=0)
           return notify_fail("你已經加入了別的工會了\n");
         me->set("class","scholar");
-        write(HIC"楊書文和藹的對你說﹕從今後﹐你便是書生公會的一員了。\n"NOR);
+        write(HIC + "楊書文和藹的對你說﹕從今後﹐你便是書生公會的一員了。\n" + NOR);
         command("pat "+getuid(me));
         tell_object(users(),query("name")+HIC"長嘯道﹕歡迎"+me->query("name")+
-        "加入書生公會。\n"NOR);
+        "加入書生公會。\n" + NOR);
         return 1;
 }
 string do_agree()

@@ -3,7 +3,7 @@ inherit ITEM;
 
 void create()
 {
-        set_name(HIR"蛇靈石"HIW"(解封印)"NOR,({"snake stone","snake","stone"}));
+        set_name(HIR + "蛇靈石" + HIW + "(解封印)" + NOR,({"snake stone","snake","stone"}));
         set_weight(1000);
         if(clonep())
                 set_default_object(__FILE__);

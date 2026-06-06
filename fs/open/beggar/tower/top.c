@@ -3,7 +3,7 @@ inherit ROOM;
 object me = this_player();
 void create()
 {
-        set("short",HIY"不死鳥ソ塔最上部"NOR);
+        set("short",HIY + "不死鳥ソ塔最上部" + NOR);
         set ("long", @LONG 
 在這距接近雲端的塔頂上，雖然刮著強勁的颶風，
 但更有無盡千年不滅焰火正生生不息的燃燒著，這象徵

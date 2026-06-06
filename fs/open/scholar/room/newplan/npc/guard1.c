@@ -9,7 +9,7 @@ int done=0;
 void create() {
         set_name("凌千峰",({"guard rin","rin","guard"}));
         set("class","fighter");
-        set("title",HIW"屆(地)"NOR);
+        set("title",HIW + "屆(地)" + NOR);
         set("long",
         "\n他是八卦陣的第一個守將。\n");
         set("str",40);
@@ -78,7 +78,7 @@ void heart_beat()
         if( is_fighting() ){
         if(random(100) < 10 )
         {
-message_vision(HIG"\n凌千峰偷偷吃了九轉雄蛇丸，使身上氣力恢復。\n"NOR,ob);
+message_vision(HIG + "\n凌千峰偷偷吃了九轉雄蛇丸，使身上氣力恢復。\n" + NOR,ob);
           ob->delete_busy();
         }
         }

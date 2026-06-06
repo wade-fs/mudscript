@@ -4,7 +4,7 @@ inherit ITEM;
 
 void create()
 {
-    set_name(""HIR"虹"HIC"晶"HIY"礦"HIG"石"NOR"", ({ "hon diamond stone","stone" }) );
+    set_name("" + HIR + "虹" + HIC + "晶" + HIY + "礦" + HIG + "石" + NOR + "", ({ "hon diamond stone","stone" }) );
     set_weight(100);
  if( clonep() )
     set_default_object(__FILE__);

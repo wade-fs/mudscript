@@ -13,7 +13,7 @@ void create()
     set_default_object(__FILE__);
   else {
     set("long","這是一雙從天界傳下來的寶鞋，渾身金光熾盛，如烈焰燃燒，\n"
-      "若不是擁有武者堅忍無畏的膽勢，你可能無法穿上它!!\n"NOR);
+      "若不是擁有武者堅忍無畏的膽勢，你可能無法穿上它!!\n" + NOR);
     set("unit","雙");
     set("value",40000);
     set("material","fur");
@@ -24,8 +24,8 @@ void create()
     set("armor_prop/move",3);
     set("need_exp",5000000);
     set("need_class","fighter");
-    set("wear_msg","$N""穿上$n""，一股暖風圍繞在身邊久久不散，$N""感到身體輕飄飄的，行動更加快速。\n"NOR);
-    set("unequip_msg","$N""脫下$n""，渾身氣力消散，履上之燄消失得無影無蹤。\n"NOR);
+    set("wear_msg","$N""穿上$n""，一股暖風圍繞在身邊久久不散，$N""感到身體輕飄飄的，行動更加快速。\n" + NOR);
+    set("unequip_msg","$N""脫下$n""，渾身氣力消散，履上之燄消失得無影無蹤。\n" + NOR);
   }
   setup();
 }

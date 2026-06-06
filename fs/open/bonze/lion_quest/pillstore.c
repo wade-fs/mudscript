@@ -5,7 +5,7 @@ inherit ROOM;
 
 void create ()
 {
-  set ("short", HIR"陽家藥店"NOR"聯盟臨時販賣處");
+  set ("short", HIR + "陽家藥店" + NOR + "聯盟臨時販賣處");
 	set( "build", 60 );
   set ("long", @LONG
 你走進一間充滿著藥味的帳篷中，這裏是一間藥鋪。在這裏你可

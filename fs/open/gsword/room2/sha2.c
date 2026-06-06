@@ -2,7 +2,7 @@
 inherit ROOM;
 void create()
 {
-   set("short", HIW"仙劍峽谷"NOR);
+   set("short", HIW + "仙劍峽谷" + NOR);
    set("long", @LONG
 一個雜草叢生的峽谷.四周山壁聳立..看起來似乎無法離開此處...
 由前面的走道..我想你只能向前走了.。

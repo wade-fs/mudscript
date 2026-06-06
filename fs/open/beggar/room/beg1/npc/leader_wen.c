@@ -7,11 +7,11 @@ void create()
         set("long","他是丐幫布袋長老中的一員！\n");
         set("gender","男性");
         set("class","beggar");
-        set("nickname",HIY"乞中神仙"NOR);
+        set("nickname",HIY + "乞中神仙" + NOR);
         set("combat_exp",1000000);
         set("attitude","friendly");
         set("age",40);
-        set("title",HIW"八袋長老"NOR);
+        set("title",HIW + "八袋長老" + NOR);
         set("str", 40);
         set("cor", 40);
         set("cps", 30);
@@ -55,7 +55,7 @@ void create()
         }));
         set("chat_msg", ({
    
-            HIC"雲中仙無奈道：今天又討不到東西了, 真煩！\n"NOR,}));
+            HIC + "雲中仙無奈道：今天又討不到東西了, 真煩！\n" + NOR,}));
         setup();
 carry_object("/open/beggar/obj/gstaff.c")->wield();
 carry_object("/open/beggar/obj/hands.c")->wear();

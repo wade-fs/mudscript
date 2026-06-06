@@ -2,7 +2,7 @@ inherit COMBINED_ITEM;
 #include <ansi.h>
 void create()
 {
-        set_name(HIG"碧血龜晶"NOR, ({"turtle crystal","crystal"}) );
+        set_name(HIG + "碧血龜晶" + NOR, ({"turtle crystal","crystal"}) );
         set("long",
         "這是盤古巨龜的精血被洞內寒氣冷凝而成，可以提升一些能力，是習武者夢寐以求的珍品。
 可以拿來服食(eat)\n");
@@ -40,7 +40,7 @@ int eat_pill(string arg)
                                         }
 
 message_vision(
-"$N服下了"HIG"碧血龜晶"NOR"後，一陣寒氣從背脊升起，$N看起來清爽多了。\n", me);
+"$N服下了" + HIG + "碧血龜晶" + NOR + "後，一陣寒氣從背脊升起，$N看起來清爽多了。\n", me);
   me->add("kar",5);
   me->add("cps",5);
   me->set_skill("force",force+10);

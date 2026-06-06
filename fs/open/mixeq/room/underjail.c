@@ -84,7 +84,7 @@ int create_mob()
          mob_file=__DIR__"npc/vampire.c";
     }
     mob=new(mob_file);
-    tell_room(this_object(),sprintf(HIR"忽然幾聲大叫，幾隻%s向你撲了過來!!\n"NOR,mob->name()));
+    tell_room(this_object(),sprintf(HIR + "忽然幾聲大叫，幾隻%s向你撲了過來!!\n" + NOR,mob->name()));
     destruct(mob);
     for(i=0;i<j;i++)
     {

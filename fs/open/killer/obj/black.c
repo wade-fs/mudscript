@@ -58,7 +58,7 @@ int black_shot(string arg)
    message_vision("$N把身上的黑血神針往$n的身上射了過去。\n\n",me,target);
    if( random(sk) > random(target->query_skill("dodge",1)/2))
    {
-        message_vision(HIM "$N一個不留意,被黑血神針刺中了！\n" NOR,target);
+        message_vision(HIM + "$N一個不留意,被黑血神針刺中了！\n" + NOR,target);
         target->apply_condition("blood",sk/10);
         add_amount(-1);
         return 1;
@@ -66,7 +66,7 @@ int black_shot(string arg)
    else
    {
         message_vision(
-        HIC "$N急急忙忙往後跳開, 被黑血神針嚇出了一深冷汗。\n" NOR,target);
+        HIC + "$N急急忙忙往後跳開, 被黑血神針嚇出了一深冷汗。\n" + NOR,target);
         add_amount(-1);
         return 1;
    }

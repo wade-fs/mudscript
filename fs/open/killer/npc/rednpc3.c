@@ -28,7 +28,7 @@ int accept_kill(object who)
 {
    if(who->query_temp("mission1")==1)
    {
-     say(HIY"可惡，居然被你發現了，看我終極技--泣血悲天\n"NOR);
+     say(HIY + "可惡，居然被你發現了，看我終極技--泣血悲天\n" + NOR);
      set("combat_exp", 650000);
      change=1;
      setup();
@@ -44,7 +44,7 @@ void die()
  
    if (change ==1)
    {
-     message_vision(HIY"可惡！居然會敗在你的手下,無法完成任務了\n"NOR,this_object());
+     message_vision(HIY + "可惡！居然會敗在你的手下,無法完成任務了\n" + NOR,this_object());
      message_vision("說完之後他就倒下了。。。。\n",this_object());
      head=new("/open/killer/obj/npc_head.c");
      head->move(this_object());

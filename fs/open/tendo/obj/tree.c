@@ -30,8 +30,8 @@ int do_shake(string arg)
    obj->move("/open/tendo/kunlun/g2");
    message_vision("
 一堆果實掉了下來....劈哩啪啦k的你頭暈眼花。
-......"HIC"★........"HIW"＊....  "HIB"☆..
-.... "MAG"※ .....     "HIY"★"NOR"..........
+......" + HIC + "★........" + HIW + "＊....  " + HIB + "☆..
+.... " + MAG + "※ .....     " + HIY + "★" + NOR + "..........
 哇!!....天上繁星點點......
 ......@&#%#
 \n",this_object());

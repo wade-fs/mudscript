@@ -82,7 +82,7 @@ int do_transmit(string str)
     return 1;
    }
    else {
-   message_vision(HIY"\n魔法陣發出耀眼光芒，四周時空逐漸扭曲......\n"NOR,me);
+   message_vision(HIY + "\n魔法陣發出耀眼光芒，四周時空逐漸扭曲......\n" + NOR,me);
    me->start_busy(5);
    me->set_temp("transmiting",1);
    call_out("transmit2",4,me);
@@ -97,7 +97,7 @@ int transmit2()
  object me = this_player();
  me->move(__DIR__"transmit");
  me->add_temp("break-sun/transmit",-1);
- message_vision(HIG"\n光芒逐漸散去，周圍景象又恢復清晰......\n"NOR,me);
+ message_vision(HIG + "\n光芒逐漸散去，周圍景象又恢復清晰......\n" + NOR,me);
  me->delete_temp("transmiting");
  return 1;
 }

@@ -56,8 +56,8 @@ int do_wield(string str)
       set_name("屠龍刀",({"dragon blade","blade"}) );
       set_heart_beat(0);
     }else{
-      message_vision(HIY"屠龍刀感受到$N的膽識,泛起一層金光.\n"NOR,user);
-      set_name(HIY"屠龍刀"NOR,({"dragon blade","blade"}) );
+      message_vision(HIY + "屠龍刀感受到$N的膽識,泛起一層金光.\n" + NOR,user);
+      set_name(HIY + "屠龍刀" + NOR,({"dragon blade","blade"}) );
       sp = my_cor;
       set_heart_beat(1);
     }
@@ -139,7 +139,7 @@ void heart_beat()
     {
       if( !ob || random(10) > 8 )
       {
-        message_vision("$N大喊"HIY"【 寶刀屠龍, 號令天下, 莫敢不從!!! 】\n"NOR,user);  
+        message_vision("$N大喊" + HIY + "【 寶刀屠龍, 號令天下, 莫敢不從!!! 】\n" + NOR,user);  
         for(j=0;j<=2;j++)
           COMBAT_D->do_attack(user,enemy[i],user->query_temp("weapon"),2);
         return;
@@ -174,7 +174,7 @@ void heart_beat()
 
         if( random(10) > 5 && (1000 - od > 850) )
         {
-          message_vision(HIY"只聽到 __ㄎㄤ__ 一聲，$n"HIY"的"+ob->query("bname")+HIY"已被屠龍刀斬成兩段!!\n"NOR,user,enemy[i]);
+          message_vision(HIY + "只聽到 __ㄎㄤ__ 一聲，$n"HIY + "的"+ob->query("bname")+HIY"已被屠龍刀斬成兩段!!\n" + NOR,user,enemy[i]);
           ob->unequip();
 
           bk=new("/open/main/obj/broken");
@@ -187,7 +187,7 @@ void heart_beat()
           if( qq > 280 && (1000-od <= 850 && 1000-od > 400) )
           {
             //	        ob->unequip();
-            message_vision(HIR"$N的"NOR+obj->name()+HIR"把$n"HIR"的"NOR+ob->query("bname")+HIR"重重的砍出了一個嚴重的缺口!!\n"NOR,user,enemy[i]);
+            message_vision(HIR + "$N的"NOR+obj->name()+HIR"把$n" + HIR + "的"NOR+ob->query("bname")+HIR"重重的砍出了一個嚴重的缺口!!\n" + NOR,user,enemy[i]);
             ob->add("bad",2);
             if( ob->query("bad") >= 11 )
               ob->set("name", "(極盡崩碎)" + ob->query("bname"));
@@ -217,7 +217,7 @@ void heart_beat()
               ob->add("weapon_prop/damage",-10);
               ob->wield();
             }else{
-              message_vision(RED"$n"RED"的"+ob->query("bname")+RED"再也承受不住"HIY"屠龍刀"RED"的攻擊而完全斷毀了!!\n"NOR,user,enemy[i]);
+              message_vision(RED + "$n"RED + "的"+ob->query("bname")+RED"再也承受不住" + HIY + "屠龍刀" + RED + "的攻擊而完全斷毀了!!\n" + NOR,user,enemy[i]);
               ob->unequip();
               bk=new("/open/main/obj/broken");
               bk->set("name", "(完全斷毀)" + ob->query("bname"));
@@ -230,7 +230,7 @@ void heart_beat()
             if( qq > 150 && (1000-od <= 400 && 1000-od > 200) )
             {
               //	          ob->unequip();
-              message_vision(HIY"$N"HIY"的"NOR+obj->name()+HIY"把$n"HIY"的"NOR+ob->query("bname")+HIY"輕輕的砍出了一個小缺口!!\n"NOR,user,enemy[i]);
+              message_vision(HIY + "$N" + HIY + "的"NOR+obj->name()+HIY"把$n"HIY + "的"NOR+ob->query("bname")+HIY"輕輕的砍出了一個小缺口!!\n" + NOR,user,enemy[i]);
               ob->add("bad",1);
               if( ob->query("bad") >= 11 )
                 ob->set("name", "(極盡崩碎)" + ob->query("bname"));
@@ -261,7 +261,7 @@ void heart_beat()
                 ob->add("weapon_prop/damage",-5);
                 ob->wield();
               }else{
-                message_vision(RED"$n"RED"的"+ob->query("bname")+RED"再也承受不住"HIY"屠龍刀"RED"的攻擊而碎裂斷毀了!!\n"NOR,user,enemy[i]);
+                message_vision(RED + "$n"RED + "的"+ob->query("bname")+RED"再也承受不住" + HIY + "屠龍刀" + RED + "的攻擊而碎裂斷毀了!!\n" + NOR,user,enemy[i]);
                 ob->unequip();
                 bk=new("/open/main/obj/broken");
                 bk->set("name", "(碎裂斷毀)" + ob->query("bname"));
@@ -273,15 +273,15 @@ void heart_beat()
             }else{
               if( qq > 100 && (1000-od <= 200 && 1000-od > 100) )
               {
-                message_vision(HIG"$n"HIG"只覺得手中"NOR+ob->query("bname")+HIG"被"NOR+obj->name()+HIG"一震﹐險些脫手飛出!!\n"NOR,user,enemy[i]);
+                message_vision(HIG + "$n" + HIG + "只覺得手中"NOR+ob->query("bname")+HIG"被"NOR+obj->name()+HIG"一震﹐險些脫手飛出!!\n" + NOR,user,enemy[i]);
               }else{
                 if( qq > 50 && (1000-od <= 100 && 1000-od > 0) )
                 {
-                  message_vision(HIW"$N"HIW"的"NOR+obj->name()+HIW"和$n"HIW"的"NOR+ob->query("bname")+HIW"相擊﹐冒出點點的火星。\n"NOR,user,enemy[i]);
+                  message_vision(HIW + "$N" + HIW + "的"NOR+obj->name()+HIW"和$n"HIW + "的"NOR+ob->query("bname")+HIW"相擊﹐冒出點點的火星。\n" + NOR,user,enemy[i]);
                 }else{
                   if( random(10) > 5 && (1000 == od) )
                   {
-                    message_vision(HIM"$N"HIM"的"NOR+obj->name()+HIM"和$n"HIM"的"NOR+ob->query("bname")+HIM"相擊﹐發出響亮清脆的聲音。\n"NOR,user,enemy[i]);
+                    message_vision(HIM + "$N" + HIM + "的"NOR+obj->name()+HIM"和$n"HIM + "的"NOR+ob->query("bname")+HIM"相擊﹐發出響亮清脆的聲音。\n" + NOR,user,enemy[i]);
                   }
                 }
               }

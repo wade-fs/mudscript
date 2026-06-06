@@ -42,6 +42,6 @@ int do_jumpup(string str)
 int do_search()
 {
 	object me = this_player();
-	tell_object(me,HIW"前方好像有一塊凸地,你應該可以跳上去(jump up)。\n",NOR);
+	tell_object(me,HIW + "前方好像有一塊凸地,你應該可以跳上去(jump up)。\n",NOR);
 	return 1;
 }

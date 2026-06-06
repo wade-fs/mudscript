@@ -65,7 +65,7 @@ void heart_beat()
      {            
      	if(me->is_busy() && random(4) == 1)
 	  {
-	   message_vision(HIW"$N「呱」的一聲，搖著屁股一擺\一擺\的掙脫了身上束縛。\n"NOR,me);
+	   message_vision(HIW + "$N「呱」的一聲，搖著屁股一擺\一擺\的掙脫了身上束縛。\n" + NOR,me);
 	   me->delete_busy();
 	  }
      if(me->query("kee") <= 0)    me->die();
@@ -80,7 +80,7 @@ void unconcious()
         object me = this_object();
         if(random(3)==1)
         {
-        message_vision(HIM"$N見情況不對，「噗」的一聲跳下海裡逃走了。\n"NOR,me);
+        message_vision(HIM + "$N見情況不對，「噗」的一聲跳下海裡逃走了。\n" + NOR,me);
         destruct(me);
         }
 }

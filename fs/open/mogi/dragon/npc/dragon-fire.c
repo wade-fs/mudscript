@@ -2,31 +2,31 @@
 #include <ansi.h>
 inherit NPC;
 mapping *action = ({
-([ "action" :"$N"HIR"兇性大發 ,銳利的龍爪向$n狠狠的抓了過去 ,燄火熊熊的圍住$n"NOR"。",
+([ "action" :"$N" + HIR + "兇性大發 ,銳利的龍爪向$n狠狠的抓了過去 ,燄火熊熊的圍住$n" + NOR + "。",
              "dodge"      :  -20,
              "parry"      :  -35,
              "damage"     :  330,
              "damage_type":  "抓傷",
            ]),
-([ "action" :"$N"HIR"迅速撲至$n面前 ,滿天爪影火光朝$n猛擊下去 ,$n當場鮮血飛濺"NOR"。",
+([ "action" :"$N" + HIR + "迅速撲至$n面前 ,滿天爪影火光朝$n猛擊下去 ,$n當場鮮血飛濺" + NOR + "。",
              "dodge"      :  -20,
              "parry"      :  -35,
              "damage"     :  310,
              "damage_type":  "抓傷",
             ]),
-([ "action" :"$N"HIR"張開大口 ,對準$n身上狠狠的咬去 ,龐大的身軀好不嚇人"NOR"。",
+([ "action" :"$N" + HIR + "張開大口 ,對準$n身上狠狠的咬去 ,龐大的身軀好不嚇人" + NOR + "。",
              "dodge"      :  -30,
              "parry"      :  -25,
              "damage"     :  330,
              "damage_type":  "咬傷",
             ]),
-([ "action" :"$N"HIR"朝$n狂抓了過去 ,飛舞著火燄的雙爪 ,力道之猛 ,令人髮指"NOR"。",
+([ "action" :"$N" + HIR + "朝$n狂抓了過去 ,飛舞著火燄的雙爪 ,力道之猛 ,令人髮指" + NOR + "。",
              "dodge"      :  -40,
              "parry"      :  -15,
              "damage"     :  325,
              "damage_type":  "抓傷",
             ]),
-([ "action":"$N"HIR"狂吼長嘯 ,濃濃的火燄 ,在瞬間$n的身體整個都被吞噬掉"NOR"。",
+([ "action":"$N" + HIR + "狂吼長嘯 ,濃濃的火燄 ,在瞬間$n的身體整個都被吞噬掉" + NOR + "。",
              "dodge"      : -10,
              "parry"      :  -20,
              "damage"     : 315,
@@ -36,7 +36,7 @@ mapping *action = ({
 
 void create()
 {
-     set_name(HIR"火龍"NOR ,({"fire dragon", "dragon"}) );
+     set_name(HIR + "火龍" + NOR ,({"fire dragon", "dragon"}) );
      set("race", "野獸");
      set("title", "守護者");
      set("age",2729);
@@ -98,8 +98,8 @@ void heart_beat()
     new("/open/mogi/dragon/obj/fire")->move(environment(winner));
 //	 new("/open/mogi/dragon/obj/fire-1")->move(environment(winner));
 
-   tell_object(winner,HIY"\n\n經過一番血戰後 ,火龍終於被你收服了\n\n"NOR);            
-   tell_object(winner,HIC"\n火龍自口中吐出一塊寶玉\n\n\n"NOR);            
+   tell_object(winner,HIY + "\n\n經過一番血戰後 ,火龍終於被你收服了\n\n" + NOR);            
+   tell_object(winner,HIC + "\n火龍自口中吐出一塊寶玉\n\n\n" + NOR);            
                  
                destruct(this_object());
                                                                     

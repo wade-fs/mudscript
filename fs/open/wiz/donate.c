@@ -4,21 +4,21 @@ inherit ROOM;
 
 void create()
 {
-	set( "short", "【"HIB"狂想石窟"NOR"】" );
-	set( "long", HIW"
-捐款方式"NOR"["HIY"1"NOR"]"HIC"
+	set( "short", "【" + HIB + "狂想石窟" + NOR + "】" );
+	set( "long", HIW + "
+捐款方式" + NOR + "[" + HIY + "1" + NOR + "]" + HIC + "
 
 	ATM 轉帳 700 0281094 0134853
 
-"HIW"捐款方式"NOR"["HIY"2"NOR"]"HIC"
+" + HIW + "捐款方式" + NOR + "[" + HIY + "2" + NOR + "]" + HIC + "
 
 	郵局劃撥帳號 [鄭凱元] 19605741
 	請於劃撥單通訊欄填寫捐款者 ID
 
-"HIG"檔案免費下載服務
+" + HIG + "檔案免費下載服務
 
 	help ftp
-\n"NOR );
+\n" + NOR );
 	set( "no_fight", 1 );
 	set( "exits", ([
         "up"   : "/open/trans/room/room4",

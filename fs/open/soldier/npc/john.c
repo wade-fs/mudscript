@@ -4,7 +4,7 @@ inherit NPC;
 void create()
 {
  seteuid(getuid()); 
-set("nickname",HIR"魔鬼戰將"NOR);
+set("nickname",HIR + "魔鬼戰將" + NOR);
 set_name("約翰屈伏塔",({"john"}));
 set("long","
     他個子高高壯壯,臉稍微胖了點,但是你別小看他
@@ -44,7 +44,7 @@ add_money("gold",10);
 
 int accept_kill(object who)
 {
-   say(HIY" 老子跟你拼了!!!\n"NOR);
+   say(HIY + " 老子跟你拼了!!!\n" + NOR);
    setup();
    return 1;
 }

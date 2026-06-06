@@ -45,8 +45,8 @@ void invocation(object who)
         object *enemy;
 
         message("vision",
-        HIG"一隻惡狼從妖壺中跳了出來 .\n"
-        + name() + "惡狠狠的瞪視各人 !\n"NOR,
+        HIG + "一隻惡狼從妖壺中跳了出來 .\n"
+        + name() + "惡狠狠的瞪視各人 !\n" + NOR,
                 environment(), this_object() );
         enemy = who->query_enemy();
         i = sizeof(enemy);

@@ -3,7 +3,7 @@
 inherit ROOM;
 void create ()
 {
-  set ("short", HIY"狂想空間歷史發展館"NOR);
+  set ("short", HIY + "狂想空間歷史發展館" + NOR);
   set( "long", "狂想空間(Fantasy Space)創建於一九九五年十一月,當時創站的大神
 是Wade(波羅麵包),那時根據Wade口述了解那時Wade是ES的巫師,但是由於
 跟ES的巫師群在理念上有不同的地方,因此用了Es2lib為主要架構,來創

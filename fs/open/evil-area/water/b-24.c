@@ -3,7 +3,7 @@ inherit ROOM;
 
 void create ()
 {
-	set("short",HIG"琰 揚 居 -- 後 院"NOR);
+	set("short",HIG + "琰 揚 居 -- 後 院" + NOR);
 	set("long",@LONG
 你正走在磚瓦鋪地的道路上，兩旁各式一個馬廄與大榕樹，往南
 有一間木製的房屋，隱隱約約中，你可以聽到一些哀怨的哭泣聲，彷

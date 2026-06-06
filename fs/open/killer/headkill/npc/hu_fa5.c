@@ -9,7 +9,7 @@ string askdag();
 void create()
 {
   set_name("喬小雨",({"joecy"}) );
-  set("title",HIB"藍鳳組組長"NOR);
+  set("title",HIB + "藍鳳組組長" + NOR);
   set("long","原以為有機會看到她的廬山真面目，但是她全身籠罩著一股藍氣令你無法看清她的面孔與體\n"
     "態，傳說中她手中握有一把（絕世匕首），威力不凡看來還是問問她（藍鳳絕殺令）吧！\n");
   set("gender","女性");

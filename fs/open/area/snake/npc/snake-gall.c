@@ -3,7 +3,7 @@ inherit ITEM;
 
 void create()
 {
-        set_name(HIG"蛇膽"NOR,({"snake gall","gall"}));
+        set_name(HIG + "蛇膽" + NOR,({"snake gall","gall"}));
         set_weight(1000);
         if(clonep())
                 set_default_object(__FILE__);

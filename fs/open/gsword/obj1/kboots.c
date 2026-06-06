@@ -4,7 +4,7 @@ inherit BOOTS;
 object me=this_player();
 void create()
 {
-        set_name(HIY"劍聖戰靴" NOR,({"kensai boots","boots"}) );
+        set_name(HIY + "劍聖戰靴" + NOR,({"kensai boots","boots"}) );
         set_weight(2000);
         if ( clonep() )
                 set_default_object(__FILE__);

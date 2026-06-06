@@ -28,7 +28,7 @@ setup();
 string screen()
 {
 object me=this_player();
-tell_object(me,HIW"
+tell_object(me,HIW + "
 傳輸資料：
 		使用者："+me->query("name")+"
 
@@ -37,7 +37,7 @@ tell_object(me,HIW"
 
      1. 試煉塔大廳     2. LV10中繼站     3. LV20中繼站
      4. LV30中繼站     5. LV40中繼站     6. LV50傳送站
-"NOR);
+" + NOR);
 return "\n";
 }
 
@@ -54,56 +54,56 @@ j=me->query("quest/start_game");
 sscanf(str,"%d",i);
 switch(i)
 {
-	case 1: tell_room(environment(me),HIW"系統：資料符合，開始傳送挑戰者"HIY+me->query("name")+HIW"。\n"NOR,me);
+	case 1: tell_room(environment(me),HIW + "系統：資料符合，開始傳送挑戰者"HIY+me->query("name")+HIW"。\n" + NOR,me);
 		me->move(__DIR__"ticket");
-		message_vision(HIW"$N緩緩的從玻璃柱狀體內走出來。\n"NOR,me);
+		message_vision(HIW + "$N緩緩的從玻璃柱狀體內走出來。\n" + NOR,me);
 		break;
 	case 2: if(j>10)
-		{tell_room(environment(me),HIW"系統：資料符合，開始傳送挑戰者"HIY+me->query("name")+HIW"。\n"NOR,me);
+		{tell_room(environment(me),HIW + "系統：資料符合，開始傳送挑戰者"HIY+me->query("name")+HIW"。\n" + NOR,me);
 		me->move(__DIR__"up10");
-		message_vision(HIW"$N緩緩的從玻璃柱狀體內走出來。\n"NOR,me);
+		message_vision(HIW + "$N緩緩的從玻璃柱狀體內走出來。\n" + NOR,me);
 		return 1;}
 		else
 		{call_out("lowlevel",1,me);
 		return 1;}
 		break;
 	case 3: if(j>20)
-		{tell_room(environment(me),HIW"系統：資料符合，開始傳送挑戰者"HIY+me->query("name")+HIW"。\n"NOR,me);
+		{tell_room(environment(me),HIW + "系統：資料符合，開始傳送挑戰者"HIY+me->query("name")+HIW"。\n" + NOR,me);
 		me->move(__DIR__"up20-1");
-		message_vision(HIW"$N緩緩的從玻璃柱狀體內走出來。\n"NOR,me);
+		message_vision(HIW + "$N緩緩的從玻璃柱狀體內走出來。\n" + NOR,me);
 		return 1;}
 		else
 		{call_out("lowlevel",1,me);
 		return 1;}
 		break;
 	case 4: if(j>30)
-		{tell_room(environment(me),HIW"系統：資料符合，開始傳送挑戰者"HIY+me->query("name")+HIW"。\n"NOR,me);
+		{tell_room(environment(me),HIW + "系統：資料符合，開始傳送挑戰者"HIY+me->query("name")+HIW"。\n" + NOR,me);
 		me->move(__DIR__"up30-1");
-		message_vision(HIW"$N緩緩的從玻璃柱狀體內走出來。\n"NOR,me);
+		message_vision(HIW + "$N緩緩的從玻璃柱狀體內走出來。\n" + NOR,me);
 		return 1;}
 		else
 		{call_out("lowlevel",1,me);
 		return 1;}
 		break;
 	case 5: if(j>40)
-		{tell_room(environment(me),HIW"系統：資料符合，開始傳送挑戰者"HIY+me->query("name")+HIW"。\n"NOR,me);
+		{tell_room(environment(me),HIW + "系統：資料符合，開始傳送挑戰者"HIY+me->query("name")+HIW"。\n" + NOR,me);
 		me->move(__DIR__"up40-1");
-		message_vision(HIW"$N緩緩的從玻璃柱狀體內走出來。\n"NOR,me);
+		message_vision(HIW + "$N緩緩的從玻璃柱狀體內走出來。\n" + NOR,me);
 		return 1;}
 		else
 		{call_out("lowlevel",1,me);
 		return 1;}
 		break;
 	case 6: if(j>50)
-		{tell_room(environment(me),HIW"系統：資料符合，開始傳送挑戰者"HIY+me->query("name")+HIW"。\n"NOR,me);
+		{tell_room(environment(me),HIW + "系統：資料符合，開始傳送挑戰者"HIY+me->query("name")+HIW"。\n" + NOR,me);
 		me->move(__DIR__"up50-1");
-		message_vision(HIW"$N緩緩的從玻璃柱狀體內走出來。\n"NOR,me);
+		message_vision(HIW + "$N緩緩的從玻璃柱狀體內走出來。\n" + NOR,me);
 		return 1;}
 		else
 		{call_out("lowlevel",1,me);
 		return 1;}
 		break;
-	default: tell_object(me,HIW"系統：無法判斷，請重新輸入。\n"NOR);
+	default: tell_object(me,HIW + "系統：無法判斷，請重新輸入。\n" + NOR);
 		break;
 }
 return 1;
@@ -111,6 +111,6 @@ return 1;
 
 int lowlevel(object me)
 {
-tell_object(me,HIR"系統：錯誤！你的等級尚不足以通往該處。\n"NOR);
+tell_object(me,HIR + "系統：錯誤！你的等級尚不足以通往該處。\n" + NOR);
 return 1;
 }

@@ -5,8 +5,8 @@ inherit ITEM;
 
 void create()
 {
-	set_name( HIR"情趣禮盒"NOR, ({ "sex box", "box" }) );
-	set( "long", HIM"裡面裝著全套情趣用品(open box)。"NOR );
+	set_name( HIR + "情趣禮盒" + NOR, ({ "sex box", "box" }) );
+	set( "long", HIM + "裡面裝著全套情趣用品(open box)。" + NOR );
 	if( clonep() )
 		set_default_object(__FILE__);
 	else {

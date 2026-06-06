@@ -6,7 +6,7 @@ inherit EQUIP;
 
 void create()
 {
-  set_name(MAG "玲瓏靴" NOR,({"boots"}) );
+  set_name(MAG + "玲瓏靴" + NOR,({"boots"}) );
   set_weight(2000);
   if ( clonep() )
     set_default_object(__FILE__);
@@ -23,8 +23,8 @@ void create()
     set("material","leather");
     set("armor_type","boots");
     set("gender_only","女性");
-    set("wear_msg", HIM"$N穿上$n"HIM"忽然感到身子輕盈了起來，好似要飛一般。\n"NOR);
-    set("unequip_msg", YEL"$N將$N"YEL"脫了下來，感到身體一沉，又恢復原狀了。\n"NOR);
+    set("wear_msg", HIM + "$N穿上$n" + HIM + "忽然感到身子輕盈了起來，好似要飛一般。\n" + NOR);
+    set("unequip_msg", YEL + "$N將$N" + YEL + "脫了下來，感到身體一沉，又恢復原狀了。\n" + NOR);
   }
   setup();
 }
@@ -35,7 +35,7 @@ int wear()
   int ret = ::wear();
   if( query("equipped") && !me->query_temp("have_wear_boots") )
   {
-//    message_vision(HIM"$N穿上玲瓏靴忽然感到身子輕盈了起來，好似要飛一般。\n"NOR,me);
+//    message_vision(HIM + "$N穿上玲瓏靴忽然感到身子輕盈了起來，好似要飛一般。\n" + NOR,me);
     if(me->query("class")=="dancer")  me->add_temp("apply/unarmed", 5);
     if(me->query("class")=="dancer")  me->add_temp("apply/dodge",8);
     me->set_temp("have_wear_boots",1);
@@ -48,7 +48,7 @@ int unequip()
   object me=environment();
   if( query("equipped") && me->query_temp("have_wear_boots")==1 )
   {
-//    message_vision(YEL"$N將玲瓏靴脫了下來，感到身體一沉，又恢復原狀了。\n"NOR,me);
+//    message_vision(YEL + "$N將玲瓏靴脫了下來，感到身體一沉，又恢復原狀了。\n" + NOR,me);
     if(me->query("class")=="dancer")  me->add_temp("apply/unarmed", -5);
     if(me->query("class")=="dancer")  me->add_temp("apply/dodge",-8);
     me->delete_temp("have_wear_boots");

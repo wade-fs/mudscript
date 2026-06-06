@@ -3,7 +3,7 @@
 
 void create()
 {
-        set_name(HIR"蛇靈石"NOR,({"snake stone","snake","stone"}));
+        set_name(HIR + "蛇靈石" + NOR,({"snake stone","snake","stone"}));
         set_weight(1000);
         if(clonep())
                 set_default_object(__FILE__);
@@ -48,7 +48,7 @@ int do_catch(string arg)
 
         if( random(100) < 35 )
         {
-                message_vision(HIW"$N伸手一抓～迅速的將$n握在手中收在懷中。\n"NOR,me,ob);
+                message_vision(HIW + "$N伸手一抓～迅速的將$n握在手中收在懷中。\n" + NOR,me,ob);
                 obj->move(me);
                 ob->move(r02);
                 present("iv xiu lian",environment(ob))->delete_temp("string");
@@ -57,7 +57,7 @@ int do_catch(string arg)
         else
         {
                 i = random(10);
-                message_vision(HIY"正當$N準備出手抓取的那一瞬間，$n消失不見了！\n"NOR,me,ob);
+                message_vision(HIY + "正當$N準備出手抓取的那一瞬間，$n消失不見了！\n" + NOR,me,ob);
                 switch(i)
                 {
                         case 0 :

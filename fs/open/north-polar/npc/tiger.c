@@ -5,7 +5,7 @@ void create()
 {
 
 	set_name("劍齒虎", ({"saber-toothed tiger","tiger"}));
-	set("title",HIY"洞庭湖"HIM"水神"NOR);
+	set("title",HIY + "洞庭湖" + HIM + "水神" + NOR);
 	set("age",24);
 	set("long","洞庭湖水域的水神，自古即為中土重要神祇之一。\n");
 	set("race", "野獸");
@@ -90,7 +90,7 @@ void heart_beat()
 	          	 me->delete_busy();
 	          	 return;
 	          }
-	         message_vision(HIY"\n$N對空咆嘯，"HIG"『"HIB"藍天"HIG"碧脈衝"HIB"』"HIY"帶著在場所有人的元力直衝九霄。\n"NOR,me);
+	         message_vision(HIY + "\n$N對空咆嘯，" + HIG + "『" + HIB + "藍天" + HIG + "碧脈衝" + HIB + "』" + HIY + "帶著在場所有人的元力直衝九霄。\n" + NOR,me);
 	         for (i=0 ; i < j ; i++)
 	         {
 	          if(enemy[i]->is_character() && !enemy[i]->is_corpse() && living(enemy[i]) && enemy[i]->query("id")!="saber-toothed tiger" && !wizardp(enemy[i]))  
@@ -122,8 +122,8 @@ void heart_beat()
            {
             if(enemy[j]->query("combat_exp") < 27000000)
              {
-              tell_object(enemy[j],HIG"\n在你費盡千辛萬苦打倒水神後，你感到自身戰鬥經驗又更上一層樓了!!\n"NOR);
-              tell_object(enemy[j],GRN"你的戰鬥經驗上升 3300 點, 潛在能力上升 780 點!!\n"NOR);
+              tell_object(enemy[j],HIG + "\n在你費盡千辛萬苦打倒水神後，你感到自身戰鬥經驗又更上一層樓了!!\n" + NOR);
+              tell_object(enemy[j],GRN + "你的戰鬥經驗上升 3300 點, 潛在能力上升 780 點!!\n" + NOR);
               enemy[j]->add("combat_exp",3300);
               enemy[j]->add("potential",780);
              }
@@ -143,13 +143,13 @@ void die()
 	winner = mob->query_temp("last_damage_from");
 	room = environment(mob);
 	room->set_temp("can_punch",1);
-	message_vision(HIC"\n$N冷笑道"HIW"："HIY"「"HIR"算你們運氣好，不過也僅止於此了。"HIY"」\n"NOR,mob);
+	message_vision(HIC + "\n$N冷笑道" + HIW + "：" + HIY + "「" + HIR + "算你們運氣好，不過也僅止於此了。" + HIY + "」\n" + NOR,mob);
 	if( (random(36) == 18 && userp(winner)) || wizardp(winner))
 	{
 	spirit = new("/open/ghost-hole/obj/water-spirit");
 	spirit->move(winner);
         write_file("/log/sky/spirit/water-spirit",sprintf("%s(%s)讓劍齒虎掉下了%s於 %s\n",winner->name(1),winner->query("id"),spirit->query("name"),ctime(time())));
-	message_vision(HIW"薀含在"+this_object()->query("name")+HIW"身體中的"+spirit->query("name")+HIW"飛射而出，落在$N"HIW"手中。\n"NOR,winner);
+	message_vision(HIW + "薀含在"+this_object()->query("name")+HIW"身體中的"+spirit->query("name")+HIW"飛射而出，落在$N" + HIW + "手中。\n" + NOR,winner);
 	}
         destruct(mob);
 }

@@ -4,7 +4,7 @@ string stone();
 
 void create ()
 {
-	set("short",BBLU+YEL"震邪道"NOR+RED"-"BLU"="HIY"幻"HIG"結"HIC"界"NOR+BLU"="RED"-"NOR);
+	set("short",BBLU+YEL"震邪道"NOR+RED"-" + BLU + "=" + HIY + "幻" + HIG + "結" + HIC + "界"NOR+BLU"=" + RED + "-" + NOR);
 	set("long",@LONG
 一個由七彩色所構成的一個網狀結界, 而結界網似乎破了一個洞
 , 震邪道剛好就位於網狀破洞的位置, 恰好彌補了結界的漏洞, 你可
@@ -26,7 +26,7 @@ LONG);
 string stone()
 {
 object me=this_player();
-	message_vision(HIY"\n$N專注的注視著結晶石。\n\n"NOR,me);
+	message_vision(HIY + "\n$N專注的注視著結晶石。\n\n" + NOR,me);
 	call_out("check",1,me);
 	return "\n";
 }
@@ -37,33 +37,33 @@ object me;
 int kar,i;
 	me=this_player();
 	kar=(int)me->query_kar();
-		message_vision(HIY"\n$N整個人被吸入了結晶石內～\n"NOR,me);
+		message_vision(HIY + "\n$N整個人被吸入了結晶石內～\n" + NOR,me);
 	if(kar < 10)
 		kar=10;
 	if(random(40) > kar)
 	{
-		tell_object(me,HIR"\n結晶石內的通道突然產生劇烈晃動～!!\n\n"NOR);
+		tell_object(me,HIR + "\n結晶石內的通道突然產生劇烈晃動～!!\n\n" + NOR);
 		i=random(kar);
 		me->move(__DIR__"e"+i);
-		tell_room(__DIR__"e"+i,HIM"空間突然出現一個裂縫，"+me->query("name")+"從裂縫中掉了出來。\n"NOR);
-		message_vision(HIR"\n〔碰〕的一聲，$N跌坐在地。\n"NOR,me);
+		tell_room(__DIR__"e"+i,HIM + "空間突然出現一個裂縫，"+me->query("name")+"從裂縫中掉了出來。\n" + NOR);
+		message_vision(HIR + "\n〔碰〕的一聲，$N跌坐在地。\n" + NOR,me);
 		me->receive_wood("kee",100);
 		COMBAT_D->report_status(me,1);
 	}
 	else
 	{
-		tell_object(me,HIW"結晶石的通道十分的平穩舒適～
+		tell_object(me,HIW + "結晶石的通道十分的平穩舒適～
 
-"HIR"\n直到突破了一層紅色的火牆後，你感覺開始到有些震動...\n\n"NOR);
-		tell_object(users(),HIY"\n\n
+" + HIR + "\n直到突破了一層紅色的火牆後，你感覺開始到有些震動...\n\n" + NOR);
+		tell_object(users(),HIY + "\n\n
 眾神之一陣怒吼：
 
-	阻隔著人類與邪靈的火牆 "RED"-"BLU"="HIY"幻"HIG"結"HIC"界"NOR+BLU"="RED"-"NOR" 
+	阻隔著人類與邪靈的火牆 " + RED + "-" + BLU + "=" + HIY + "幻" + HIG + "結" + HIC + "界"NOR+BLU"=" + RED + "-" + NOR + " 
 
-		"HIY"竟然被 "HIC+me->query("family/family_name")+HIY" 的 "HIW+me->query("name")+HIY" 給闖入了～
+		" + HIY + "竟然被 "HIC+me->query("family/family_name")+HIY" 的 "HIW+me->query("name")+HIY" 給闖入了～
 
 	如今，結界再度破損了一角！後果由你們人類自行負責吧！
-\n\n"NOR);
+\n\n" + NOR);
 	me->move(__DIR__"w11");
 	}
 return 1;

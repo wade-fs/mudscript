@@ -4,7 +4,7 @@ inherit HEAD;
 object me=this_player();
 void create()
 {
-        set_name(YEL"山寨頭套"NOR,({"fortress headgear","headgear"}));
+        set_name(YEL + "山寨頭套" + NOR,({"fortress headgear","headgear"}));
         set_weight(2000);
         if( clonep() )
                 set_default_object(__FILE__);

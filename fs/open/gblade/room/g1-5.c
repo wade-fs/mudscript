@@ -49,13 +49,13 @@ int do_take(string str)
 /*
   if(!who)
   {
-    message_vision(sprintf("$N偷偷走了過去，摸走了一隻"+HIC+"十錦琺瑯杯"NOR"。\n"),me);
+    message_vision(sprintf("$N偷偷走了過去，摸走了一隻"+HIC+"十錦琺瑯杯" + NOR + "。\n"),me);
     new("/open/gblade/obj/cup")->move(me);
     i=i+1;
   }
   else if(who && random(100) < 50)
   {
-    message_vision(sprintf("$N偷偷走了過去，摸走了一隻"+HIC+"十錦琺瑯杯"NOR"。\n"),me);
+    message_vision(sprintf("$N偷偷走了過去，摸走了一隻"+HIC+"十錦琺瑯杯" + NOR + "。\n"),me);
     new("/open/gblade/obj/cup")->move(me);
     i=i+1;
   }
@@ -66,18 +66,18 @@ int do_take(string str)
     who->kill_ob(me);
     return 1;
   }
-  message_vision(sprintf("$N趁著沒人注意，幹走了一隻"+HIC"十錦琺瑯杯"NOR"。\n"),me);
+  message_vision(sprintf("$N趁著沒人注意，幹走了一隻"+HIC"十錦琺瑯杯" + NOR + "。\n"),me);
   new("/open/gblade/obj/cup")->move(me);
 */
   if(who && random(100) > 50)
   {
-    message_vision(sprintf("$N偷偷走了過去，正當要摸走了一隻"+HIC+"十錦琺瑯杯"NOR"時。\n"),me);
+    message_vision(sprintf("$N偷偷走了過去，正當要摸走了一隻"+HIC+"十錦琺瑯杯" + NOR + "時。\n"),me);
     message_vision("王福突然心有靈犀轉過頭來，恰好發現$N的異狀！\n",me);
     message_vision("王福對$N大喝：我宰了你!!\n",me);
     who->kill_ob(me);
     return 1;
   }
-  message_vision(sprintf("$N趁著沒人注意，偷偷走了過去，幹走了一隻"+HIC"十錦琺瑯杯"NOR"。\n"),me);
+  message_vision(sprintf("$N趁著沒人注意，偷偷走了過去，幹走了一隻"+HIC"十錦琺瑯杯" + NOR + "。\n"),me);
   new("/open/gblade/obj/cup")->move(me);
   me->delete("doctor/find_cup");
   me->set("doctor/get_cup",1);

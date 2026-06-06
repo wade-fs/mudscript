@@ -5,7 +5,7 @@ inherit EQUIP;
 
 void create()
 {
-    set_name(HIY"九天玄女"HIW"羽裳"NOR,({"goddness cloth","cloth"}) );
+    set_name(HIY + "九天玄女" + HIW + "羽裳" + NOR,({"goddness cloth","cloth"}) );
 	set_weight(2000);
 	if( clonep() )
 		set_default_object(__FILE__);

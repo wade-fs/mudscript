@@ -7,7 +7,7 @@ inherit BLADE;
 void create()
 {
 	seteuid(getuid());
-	set_name(HIC"夜千鳥"NOR,({"bird-blade","blade"}));
+	set_name(HIC + "夜千鳥" + NOR,({"bird-blade","blade"}));
 	set_weight(8000);
 	if( clonep() )
 		set_default_object(__FILE__);

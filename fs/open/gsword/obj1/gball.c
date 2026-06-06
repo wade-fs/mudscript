@@ -2,7 +2,7 @@
 inherit ITEM;
 void create()
 {
-        set_name(HIR"金法珠"NOR, ({ "gball" }));
+        set_name(HIR + "金法珠" + NOR, ({ "gball" }));
         set_weight(5000);
         if( clonep() )
         set_default_object(__FILE__);

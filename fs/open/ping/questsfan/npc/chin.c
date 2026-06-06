@@ -7,7 +7,7 @@ inherit F_VENDOR;
 void create()
 {
   set_name("秦厲害",({"vendor chin","vendor","chin"}));
-  set("title",""HIR"火龍神探"NOR"");
+  set("title","" + HIR + "火龍神探" + NOR + "");
   set("gender", "男性" );
   set("age", 27);
   set("long", @LONG

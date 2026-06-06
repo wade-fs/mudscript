@@ -4,7 +4,7 @@ inherit SHIELD;
 object me=this_player();
 void create()
 {
-        set_name(HIY"聖者之盾"NOR,({"kensai shield","shield"}));
+        set_name(HIY + "聖者之盾" + NOR,({"kensai shield","shield"}));
         set_weight(2000);
         if( clonep() )
                 set_default_object(__FILE__);

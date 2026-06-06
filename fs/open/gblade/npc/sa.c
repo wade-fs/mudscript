@@ -97,7 +97,7 @@ int do_team(string arg)
 int do_cmd_do(string arg)
 {
   if((string)query_verb()=="do") {
-    write(HIY"獨孤嵊冷笑 :「用 do 我會 do run 喔」\n"NOR);
+    write(HIY + "獨孤嵊冷笑 :「用 do 我會 do run 喔」\n" + NOR);
     return 1;
   }
   if((string)query_verb() == "cm") {
@@ -149,9 +149,9 @@ void heart_beat()
     player=me->query_enemy();
     if(i=sizeof(target)) {
       if(a>=6&&a<=35) {
-        message_vision(HIC"\n獨孤嵊突然眼露兇光，周圍聚集陰冷內勁\n\n"NOR"
-            "HIR"獨孤嵊邪惡的狂吼：看我的『滅屍溶血掌』\n\n"NOR"
-            "HIB"頓時一股強烈的屍臭味瀰天而生隴罩四周圍\n\n"NOR,me);
+        message_vision(HIC + "\n獨孤嵊突然眼露兇光，周圍聚集陰冷內勁\n\n" + NOR + "
+            " + HIR + "獨孤嵊邪惡的狂吼：看我的『滅屍溶血掌』\n\n" + NOR + "
+            " + HIB + "頓時一股強烈的屍臭味瀰天而生隴罩四周圍\n\n" + NOR,me);
         for(b=0;b<i;b++) {
           if(userp(target[b])) continue;
           target[b]->die();
@@ -169,7 +169,7 @@ void heart_beat()
           if(a>=1&&a<=5) {
             if(environment(me)==environment(victim)) {
               for(k=0;k<7;k++) {
-                message_vision(HIG"獨孤嵊大喝一聲，融合雪蒼與瀧山絕學，向$N擊出『玄冰離火掌---毀天滅地式』\n"NOR,victim);
+                message_vision(HIG + "獨孤嵊大喝一聲，融合雪蒼與瀧山絕學，向$N擊出『玄冰離火掌---毀天滅地式』\n" + NOR,victim);
                 victim->receive_damage("kee",1000,me); 
                 COMBAT_D->report_status(victim);
               }
@@ -178,42 +178,42 @@ void heart_beat()
           } else if(a>=36&&a<=45) {
             if(environment(me)==environment(victim))
               for(b=0;b<1;b++) {
-                message_vision(HIR"獨孤嵊大喝一聲，融合雪蒼絕學，向$N擊出『玄冰離火掌一式』\n"NOR,victim);
+                message_vision(HIR + "獨孤嵊大喝一聲，融合雪蒼絕學，向$N擊出『玄冰離火掌一式』\n" + NOR,victim);
                 victim->receive_damage("kee",1000,me);
                 COMBAT_D->report_status(victim);
               }
           } else if(a>=56&&a<=60) {
             if(environment(me)==environment(victim))
               for(b=0;b<2;b++) {
-                message_vision(HIY"獨孤嵊大喝一聲，融合雪蒼絕學，向$N擊出『玄冰離火掌二式』\n"NOR,victim);
+                message_vision(HIY + "獨孤嵊大喝一聲，融合雪蒼絕學，向$N擊出『玄冰離火掌二式』\n" + NOR,victim);
                 victim->receive_damage("kee",1000,me);
                 COMBAT_D->report_status(victim);
               }
           } else if(a>=71&&a<=75) {
             if(environment(me)==environment(victim))
               for(b=0;b<3;b++) {
-                message_vision(HIM"獨孤嵊大喝一聲，融合雪蒼絕學，向$N擊出『玄冰離火掌三式』\n"NOR,victim);
+                message_vision(HIM + "獨孤嵊大喝一聲，融合雪蒼絕學，向$N擊出『玄冰離火掌三式』\n" + NOR,victim);
                 victim->receive_damage("kee",1000,me);
                 COMBAT_D->report_status(victim);
               }
           } else if(a>=86&&a<=90) {
             if(environment(me)==environment(victim))
               for(b=0;b<4;b++) {
-                message_vision(HIB"獨孤嵊大喝一聲，融合瀧山絕學，向$N擊出『玄冰離火掌四式』\n"NOR,victim);
+                message_vision(HIB + "獨孤嵊大喝一聲，融合瀧山絕學，向$N擊出『玄冰離火掌四式』\n" + NOR,victim);
                 victim->receive_damage("kee",1000,me);
                 COMBAT_D->report_status(victim);
               }
           } else if(a>=94&&a<=98) {
             if(environment(me)==environment(victim))
               for(b=0;b<5;b++) {
-                message_vision(HIC"獨孤嵊大喝一聲，融合瀧山絕學，向$N擊出『玄冰離火掌五式』\n"NOR,victim);
+                message_vision(HIC + "獨孤嵊大喝一聲，融合瀧山絕學，向$N擊出『玄冰離火掌五式』\n" + NOR,victim);
                 victim->receive_damage("kee",1000,me);
                 COMBAT_D->report_status(victim);
               }
           } else if(a==99||a==66||a==0) {
             if(environment(me)==environment(victim))
               for(b=0;b<6;b++) {
-                message_vision(HIW"獨孤嵊大喝一聲，融合雪蒼和瀧山絕學，向$N擊出『玄冰離火掌---無涯式』\n"NOR,victim);
+                message_vision(HIW + "獨孤嵊大喝一聲，融合雪蒼和瀧山絕學，向$N擊出『玄冰離火掌---無涯式』\n" + NOR,victim);
                 victim->receive_wound("kee",1200,me);
                 COMBAT_D->report_status(victim);
               }
@@ -231,7 +231,7 @@ void heart_beat()
         {
           if(random(10) >= 5)
           {
-            message_vision(HIY"獨孤嵊運起『離火掌』向你一擊，頓時你鮮血狂噴！\n"NOR,me);
+            message_vision(HIY + "獨孤嵊運起『離火掌』向你一擊，頓時你鮮血狂噴！\n" + NOR,me);
             for(j=0;j < i;j++) 
             {
               if ( !target[j] || environment(me) != environment(target[j]) ) continue;
@@ -240,7 +240,7 @@ void heart_beat()
               COMBAT_D->report_status(target[j]);
             }
           } else {
-            message_vision(HIC"獨孤嵊心感疲狽，運起『獨孤秘傳法咒』一道藍光從蒼天發出，頓時精神百倍。\n"NOR,me);
+            message_vision(HIC + "獨孤嵊心感疲狽，運起『獨孤秘傳法咒』一道藍光從蒼天發出，頓時精神百倍。\n" + NOR,me);
             me->receive_curing("gin",5000);
             me->receive_heal("gin",5000);
             me->receive_curing("kee",9000);
@@ -255,13 +255,13 @@ void heart_beat()
         } else {
           if(random(10) >= 5) {
             message_vision(
-                HIC"\n獨孤嵊運起雪蒼寒勁，頓時只見獨孤嵊藍光護身，霎似天神！\n"
-                HIY"☆★☆★☆★☆★☆★☆★☆★☆★☆★☆\n\n"
+                HIC + "\n獨孤嵊運起雪蒼寒勁，頓時只見獨孤嵊藍光護身，霎似天神！\n"
+                HIY + "☆★☆★☆★☆★☆★☆★☆★☆★☆★☆\n\n"
 
-                HIR"獨孤嵊怒吼：看我的『綻藍光體術』！！！\n\n"
+                HIR + "獨孤嵊怒吼：看我的『綻藍光體術』！！！\n\n"
 
-                HIY"※※※※※※※※※※※※※※※※※※※\n"
-                HIC"頓時一陣強烈的藍光似猛虎似的把你吞沒在口中！\n\n"
+                HIY + "※※※※※※※※※※※※※※※※※※※\n"
+                HIC + "頓時一陣強烈的藍光似猛虎似的把你吞沒在口中！\n\n"
                 NOR,me);
             for(j=0;j < i;j++) 
             {
@@ -283,7 +283,7 @@ void heart_beat()
               COMBAT_D->report_status(target[j]);
             }
           } else {
-            message_vision(HIC"獨孤嵊心感疲狽，運起『綻藍光體術』一道藍光從蒼天發出，頓時精神百倍。\n"NOR,me);
+            message_vision(HIC + "獨孤嵊心感疲狽，運起『綻藍光體術』一道藍光從蒼天發出，頓時精神百倍。\n" + NOR,me);
             me->receive_curing("gin",8000);
             me->receive_heal("gin",8000);
             me->receive_curing("kee",15000);
@@ -301,7 +301,7 @@ void heart_beat()
     if((me->query("eff_kee") < 4000 || me->query("kee") < 4000) && !me->query("change"))
     {
       tell_object(users(),"");
-      tell_object(users(),HIW"\n可惡呀！獨孤嵊怒道：老虎不發威，你當病貓！\n\n看來我只好使出百分之二百的力量了！\n\n可恨的"+winner->query("name")+"等死吧！\n\n"NOR);
+      tell_object(users(),HIW + "\n可惡呀！獨孤嵊怒道：老虎不發威，你當病貓！\n\n看來我只好使出百分之二百的力量了！\n\n可恨的"+winner->query("name")+"等死吧！\n\n" + NOR);
       tell_object(users(),"");
       me->set("force_factor",95);
       me->set("eff_kee",70000);
@@ -328,7 +328,7 @@ void heart_beat()
       me->delete_busy();
       me->clear_condition();
 			me->delete_temp("five-1");
-      me->set("title",HIC"『綻藍聖光』"+HIW+"武天至聖"NOR);
+      me->set("title",HIC + "『綻藍聖光』"+HIW+"武天至聖" + NOR);
 
     }
   }
@@ -374,7 +374,7 @@ void die()
       if( j==7 || j==77 || j== 777 || j==1111 || j==55 || j==555 || j==1000 || j==4000 || j==3333 || j==2222 )
       {      
         new("/open/sky/obj7/fox-order")->move(environment(winner));
-        message_vision(HIM"\n從獨孤嵊的身上掉下了一件奇怪的東西!!\n"NOR,winner);
+        message_vision(HIM + "\n從獨孤嵊的身上掉下了一件奇怪的東西!!\n" + NOR,winner);
         write_file("/log/sky/obj7/fox_order",sprintf("%s(%s) 讓獨孤嵊掉下了九尾結令於 %s\n",
               winner->name(1),winner->query("id"),ctime(time())));
       }
@@ -383,7 +383,7 @@ void die()
       if( j==5 || j==15 || j== 150 || j==1500 || j==10 || j==100 || j==1000 || j==4000 || j==6666 || j==7777 ) 
       {      
         new("/open/sky/obj7/fox-order")->move(environment(winner));
-        message_vision(HIM"\n從獨孤嵊的身上掉下了一件奇怪的東西!!\n"NOR,winner);
+        message_vision(HIM + "\n從獨孤嵊的身上掉下了一件奇怪的東西!!\n" + NOR,winner);
         write_file("/log/sky/obj7/fox_order",sprintf("%s(%s) 讓獨孤嵊掉下了九尾結令於 %s\n",
               winner->name(1),winner->query("id"),ctime(time())));
       }
@@ -394,7 +394,7 @@ void die()
      CLAN_D->add_clanset( winner->query("clan/id"), "develop" ,  20 );
      */         
   tell_room(environment(),sprintf("%s從獨孤嵊身上切下一顆人頭。\n",winner->name()));
-  tell_object(users(),HIW"\n\n獨孤嵊奄奄一息道：\n\n\t可恨！可恨呀！沒想到我一代武聖！\n\n\t竟敗於"+winner->name()+"這無名小輩！可恨啊！\n\n"NOR);
+  tell_object(users(),HIW + "\n\n獨孤嵊奄奄一息道：\n\n\t可恨！可恨呀！沒想到我一代武聖！\n\n\t竟敗於"+winner->name()+"這無名小輩！可恨啊！\n\n" + NOR);
   :: die();
 }
 

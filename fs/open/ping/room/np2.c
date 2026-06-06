@@ -24,7 +24,7 @@ int valid_leave(object me, string dir)
 {
          if( dir=="southeast" && me->query("family/family_name")!="段家" )
          if(!wizardp(me))
-      return notify_fail(HIC"洋蔥小丸子"NOR"似笑非笑的對你說: 不給進。\n");
+      return notify_fail(HIC + "洋蔥小丸子" + NOR + "似笑非笑的對你說: 不給進。\n");
         return ::valid_leave(me, dir);
 }
 

@@ -32,6 +32,6 @@ void init()
 int do_fill(string arg)
 {
   if (!arg ) return 0; //沒有指定對象 則不做動作>>>arg不存在
-  message_vision(HIY"當$N伸手想掬起一些水時，突然一旁有人重重地拍了一下$N的腦袋說﹕就在缺水了，還讓你裝水勒。\n"NOR,this_player());
+  message_vision(HIY + "當$N伸手想掬起一些水時，突然一旁有人重重地拍了一下$N的腦袋說﹕就在缺水了，還讓你裝水勒。\n" + NOR,this_player());
   return 1;
 }

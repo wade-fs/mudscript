@@ -3,7 +3,7 @@
 inherit BANK;
 void create ()
 {
-	set("short",HIY"＄史家錢莊＄"NOR);
+	set("short",HIY + "＄史家錢莊＄" + NOR);
 	set( "build", 36 );
   set ("long", @LONG
 

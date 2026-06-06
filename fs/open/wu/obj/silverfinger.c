@@ -7,7 +7,7 @@ inherit UNARMED;
 void create()
 {
         seteuid(getuid());
-set_name(HIB"狂風戰爪"NOR,({"wind claws","claws"}));
+set_name(HIB + "狂風戰爪" + NOR,({"wind claws","claws"}));
 set_weight(6000);
 
         if( clonep() )

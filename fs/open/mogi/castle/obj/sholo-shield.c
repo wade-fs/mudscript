@@ -7,7 +7,7 @@ inherit SHIELD;
 
 void create()
 {
-        set_name(MAG"修羅氣盾"NOR,({"sholo shield","shield"}) );
+        set_name(MAG + "修羅氣盾" + NOR,({"sholo shield","shield"}) );
 	set_weight(4700);
         if( clonep() )
                 set_default_object(__FILE__);

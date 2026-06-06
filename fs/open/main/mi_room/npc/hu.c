@@ -8,7 +8,7 @@ void create()
         set("attitude","aggressive");
         set("clan_kill",1);
         set("title","四大惡人之末");
-        set("nickname",HIR"窮兇極惡"NOR);
+        set("nickname",HIR + "窮兇極惡" + NOR);
         set("race", "人類");
         set("gender", "男性");
         set("age", 35);
@@ -53,15 +53,15 @@ void create()
    ob=this_object()->query_enemy();
    if(k > 7)
    {
-   message_vision(HIB"
+   message_vision(HIB + "
 \n雲中鶴身形越轉越快, 激起一陣陣的旋風, 只見狂風中四有無數鬼爪向你攻來, \n
 此正是邪派終極殺招\n\n"
-HIR"\t～～"HIG"『狂風煉獄爪』"HIR"～～\n\n"NOR,this_object());
+HIR + "\t～～" + HIG + "『狂風煉獄爪』" + HIR + "～～\n\n" + NOR,this_object());
   ob->add("kee",200);
    }
    else
    {
-   message_vision(HIY"\n雲中鶴運起『天魔療傷心法』不可思議的光芒從雲中鶴身上發出，雲中鶴的創傷恢復了!\n"NOR,this_object());
+   message_vision(HIY + "\n雲中鶴運起『天魔療傷心法』不可思議的光芒從雲中鶴身上發出，雲中鶴的創傷恢復了!\n" + NOR,this_object());
 me->add("kee",500);
 me->add("max_kee",100);
    }
@@ -72,7 +72,7 @@ void die()
    object winner;
    winner= query_temp("last_damage_from");
    tell_object(winner,
-HIY"你正在喘息之際, 突然腳下一空, 掉入了一個深洞之中..\n"NOR);
+HIY + "你正在喘息之際, 突然腳下一空, 掉入了一個深洞之中..\n" + NOR);
    winner->move("/open/main/mi_room/mi08.c");
         ::die();
         return 0;

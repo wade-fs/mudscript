@@ -49,8 +49,8 @@ if (!present("finger fan"))
 {
   if ( me->query("family/family_name") =="段家" && sun >= 120 && force >=80 && me->query("combat_exp") >= 2000000 && present("hon diamond stone"))
   {
-  tell_object(me,""HIY"你花了數個時辰，終於把飄陽扇造出來了。"NOR"\n");
-  tell_object(me,""HIC"『我一定要把飄陽扇給段雲鑑賞一下﹝show_fan_to_duan﹞，嗯!!!一定要這麼做』"NOR"\n");
+  tell_object(me,"" + HIY + "你花了數個時辰，終於把飄陽扇造出來了。" + NOR + "\n");
+  tell_object(me,"" + HIC + "『我一定要把飄陽扇給段雲鑑賞一下﹝show_fan_to_duan﹞，嗯!!!一定要這麼做』" + NOR + "\n");
   me->set("marks/fan-finger",1);
   fan->move(me);
   record=me->query("name")+"("+getuid(me)+")取得飄陽扇於"+ctime(time())+"!!!\n";
@@ -64,7 +64,7 @@ if (!present("finger fan"))
     return notify_fail("你根本做不出來。\n");
 }
 else
-  return notify_fail(""HIM"你打算造幾把???????"NOR"\n");
+  return notify_fail("" + HIM + "你打算造幾把???????" + NOR + "\n");
   return 1;
 }
 

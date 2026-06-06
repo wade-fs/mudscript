@@ -90,7 +90,7 @@ int valid_leave(object who, string dir)
         if (dir == "北門" || dir == "南門" || dir == "西門" || dir == "東門")
         {
                 if(!who->query_temp("exit_ok",1))
-                  return notify_fail(HIY"玄武幻陣正在變換陣形，你最好不要輕舉妄動!!\n"NOR);     
+                  return notify_fail(HIY + "玄武幻陣正在變換陣形，你最好不要輕舉妄動!!\n" + NOR);     
                 who->delete_temp("exit_ok",1);
                 inv = all_inventory(environment(who));
                 for(i=0;i<sizeof(inv);i++)

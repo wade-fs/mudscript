@@ -10,7 +10,7 @@ inherit F_SAVE;
 
 void create()
 {
-	set_name(HIW "楓"HIG"之"HIM"舞" NOR, ({"maple ribbon","ribbon"}));
+	set_name(HIW + "楓" + HIG + "之" + HIM + "舞" + NOR, ({"maple ribbon","ribbon"}));
 	set_weight(2000);
 	if( clonep() )
 		set_default_object(__FILE__);

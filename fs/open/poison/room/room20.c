@@ -17,6 +17,6 @@ LONG);
 	"/open/poison/npc/yun" : 1,
 ]));
   set("need_key/north",1);
-  create_door("north",HIR"紅色鐵門"NOR,"south",DOOR_LOCKED);
+  create_door("north",HIR + "紅色鐵門" + NOR,"south",DOOR_LOCKED);
   setup();
 }

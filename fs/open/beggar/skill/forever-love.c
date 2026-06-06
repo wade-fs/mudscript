@@ -278,12 +278,12 @@ if(poi > 250 && random(9) >= 7 && me->query("class") == "poisoner")
                         kee = enemy[i]->query("kee")/40;
                         if(kee > 80) kee=80;
                         enemy[i]->add("kee", (int) -kee);
-write(HIW "\n你體內寒毒流轉，詩意了然於胸，連綿不絕的向對手攻去。\n" NOR);
-message_vision(HIB "\n$N左支右拙，被這一鞭掃中。\n" NOR, enemy[i]);
+write(HIW + "\n你體內寒毒流轉，詩意了然於胸，連綿不絕的向對手攻去。\n" + NOR);
+message_vision(HIB + "\n$N左支右拙，被這一鞭掃中。\n" + NOR, enemy[i]);
                         COMBAT_D->report_status(enemy[i]);
                     }
               else
-message_vision(HIB "\n$N福至心靈，瞧破了這招的招意，輕鬆避了開去。\n" NOR,enemy[i]);
+message_vision(HIB + "\n$N福至心靈，瞧破了這招的招意，輕鬆避了開去。\n" + NOR,enemy[i]);
                 }
             }
             if(random(me->query("poison",1))<random(300) ) {

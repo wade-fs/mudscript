@@ -28,7 +28,7 @@ void create() {
         set("chat_chance",30);
         set("chat_msg",({
 
-            HIC"微風輕拂林間的枝葉，你感受到森林的幽靜～\n"NOR,
+            HIC + "微風輕拂林間的枝葉，你感受到森林的幽靜～\n" + NOR,
       }));
         setup();
  }

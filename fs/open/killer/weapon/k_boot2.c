@@ -3,7 +3,7 @@
 inherit EQUIP;
 void create()
 {
-        set_name(MAG "忍者鞋" NOR,({"boots"}) );
+        set_name(MAG + "忍者鞋" + NOR,({"boots"}) );
         set_weight(1000);
         if ( clonep() )
                 set_default_object(__FILE__);

@@ -72,7 +72,7 @@ if( random(100) < 10 && this_object()->is_fighting())
     force = target->query("force",1);
     if( env == environment(target) )
     {
-      message_vision(HIY"\n金妖狐催動了妖狐陣法，$N身陷在妖氣瀰漫的陣心無法動彈!\n"NOR,target);
+      message_vision(HIY + "\n金妖狐催動了妖狐陣法，$N身陷在妖氣瀰漫的陣心無法動彈!\n" + NOR,target);
 
       target->start_busy(2);
     }

@@ -6,7 +6,7 @@ inherit UNARMED;
 void create()
 {
   seteuid(getuid());
-  set_name(HIR"幻界龍爪"NOR,({"dragon claws","claws"}));
+  set_name(HIR + "幻界龍爪" + NOR,({"dragon claws","claws"}));
   set_weight(4500);
   if( clonep() )
                 set_default_object(__FILE__);
@@ -31,6 +31,6 @@ void init()
 {
      object me = this_player();
      if(me)
-     set_name (HIR + me->name(1) + HIR"的幻界龍爪"NOR, ({ "dragon claws", "claws" }));
+     set_name (HIR + me->name(1) + HIR"的幻界龍爪" + NOR, ({ "dragon claws", "claws" }));
 }
 

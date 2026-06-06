@@ -6,7 +6,7 @@ inherit EQUIP;
 
 void create()
 {
-        set_name(HIC"虹晶雙翼鎧"NOR,({"diamond armor","armor"}) );
+        set_name(HIC + "虹晶雙翼鎧" + NOR,({"diamond armor","armor"}) );
             set_weight(10000);
         set("no_sell",1);
         set("no_auc",1);
@@ -25,8 +25,8 @@ void create()
         set("armor_prop/stabber",7);
         set("armor_prop/parry",10);
         set("armor_prop/attack",5);
-set("wear_msg", HIY"$N穿上$n"HIY"，光芒一閃火紅色的異光已將$N的四周護住\n"NOR);
-set("unequip_msg", HIY"$N將$n"HIY"卸了下來，四周的火光也慢慢離散開來了。\n"NOR);
+set("wear_msg", HIY + "$N穿上$n" + HIY + "，光芒一閃火紅色的異光已將$N的四周護住\n" + NOR);
+set("unequip_msg", HIY + "$N將$n" + HIY + "卸了下來，四周的火光也慢慢離散開來了。\n" + NOR);
         }
         setup();
 }

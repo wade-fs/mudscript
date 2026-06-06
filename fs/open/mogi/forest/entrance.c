@@ -3,7 +3,7 @@ inherit ROOM;
 
 void create ()
 {
-  set ("short", HIW"天樞樓"NOR);
+  set ("short", HIW + "天樞樓" + NOR);
 	set( "build", 44 );
   set ("long", @LONG
 這是七星塔中的最後一層, 看了看四周, 心中深感不可思議,
@@ -46,7 +46,7 @@ int do_jump(string str){
 	if(present("starman",environment(me)))
 	{
         if(me)
-        tell_object(me,HIY"鬼宿說：還沒打敗我就想去那裏呢？\n"NOR);
+        tell_object(me,HIY + "鬼宿說：還沒打敗我就想去那裏呢？\n" + NOR);
         return 0;
 	}
 	if(exp < 340000)
@@ -55,14 +55,14 @@ int do_jump(string str){
         return 0;
         }
         tell_object(me,"你縱身跳進這黑色的漩渦，頓時神智昏迷，迷迷糊糊中被傳到某一地方.....。\n");
-        tell_object(users(),HIB"
+        tell_object(users(),HIB + "
                    風蕭蕭兮易水寒～～
                                      壯士一去兮不復還～～         
 
-      "HIM"七星塔頂烏雲密佈，魔界的入口漸漸浮現..."+HIY+name+HIM"毅然踏上了遠征
+      " + HIM + "七星塔頂烏雲密佈，魔界的入口漸漸浮現..."+HIY+name+HIM"毅然踏上了遠征
       魔界的路途，誓言以自身之絕世武功\剷平魔界所有危害人類的妖怪...
                    
-"NOR);
+" + NOR);
 
             me->move("/open/mogi/forest/room1");
             return 1;
@@ -89,7 +89,7 @@ int do_search()
 int valid_leave(object me, string dir)
 {
 	if( dir=="up" && present("starman",environment(me)))
-	return notify_fail(HIY"鬼宿說：還沒打敗我就想去那裏呢？\n"NOR);
+	return notify_fail(HIY + "鬼宿說：還沒打敗我就想去那裏呢？\n" + NOR);
 	return ::valid_leave(me,dir);
 
 }

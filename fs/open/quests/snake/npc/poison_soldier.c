@@ -55,7 +55,7 @@ int i,j;
 		
 		if( random(i) > random(j) && random(100) < 40 )
 		{
-			message_vision(HIG"$N左手一拋，一包灰色的紙包飛向$n，$n臉色突然一綠，似乎中毒了～\n"NOR,ob,target);
+			message_vision(HIG + "$N左手一拋，一包灰色的紙包飛向$n，$n臉色突然一綠，似乎中毒了～\n" + NOR,ob,target);
 			target->apply_condition("spring",3);
 			target->apply_condition("snake_poison",3);
 		}

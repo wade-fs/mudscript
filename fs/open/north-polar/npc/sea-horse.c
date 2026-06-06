@@ -6,7 +6,7 @@ void create()
 {
 
 	set_name("海馬", ({"sea horse","horse"}));
-	set("title",HIR"印度洋"CYN"海神"NOR);
+	set("title",HIR + "印度洋" + CYN + "海神" + NOR);
 	set("age",24);
 	set("long","印度洋海域的水神，擅長冰火交融的魔法。\n");
 	set("race", "野獸");
@@ -91,7 +91,7 @@ void heart_beat()
 	          	 me->delete_busy();
 	          	 return;
 	          }
-	         message_vision(HIG"\n$N雙臂大開，左聚冰雪，右凝熔岩，"HIC"『"HIR"熱壓"HIW"極光"HIC"』"HIG"的強烈溫差像要將人撕裂。\n"NOR,me);
+	         message_vision(HIG + "\n$N雙臂大開，左聚冰雪，右凝熔岩，" + HIC + "『" + HIR + "熱壓" + HIW + "極光" + HIC + "』" + HIG + "的強烈溫差像要將人撕裂。\n" + NOR,me);
 	         for (i=0 ; i < j ; i++)
 	         {
               if(enemy[i]->is_character() && !enemy[i]->is_corpse() && living(enemy[i]) && enemy[i]->query("name")!="海馬" && !wizardp(enemy[i])) 
@@ -129,8 +129,8 @@ void heart_beat()
            {
             if(enemy[j]->query("combat_exp") < 27000000)
              {
-              tell_object(enemy[j],HIG"\n在你費盡千辛萬苦打倒海神後，你感到自身戰鬥經驗又更上一層樓了!!\n"NOR);
-              tell_object(enemy[j],GRN"你的戰鬥經驗上升 3000 點, 潛在能力上升 750 點!!\n"NOR);
+              tell_object(enemy[j],HIG + "\n在你費盡千辛萬苦打倒海神後，你感到自身戰鬥經驗又更上一層樓了!!\n" + NOR);
+              tell_object(enemy[j],GRN + "你的戰鬥經驗上升 3000 點, 潛在能力上升 750 點!!\n" + NOR);
               enemy[j]->add("combat_exp",3000);
               enemy[j]->add("potential",750);
              }
@@ -150,6 +150,6 @@ void die()
 	me = this_object();
 	room = environment(me);
 	room->set_temp("can_punch",1);
-	message_vision(HIC"\n$N冷笑道"HIW"："HIY"「"HIR"愚蠢!!準備接受海的報復吧!!"HIY"」\n"NOR,me);
+	message_vision(HIC + "\n$N冷笑道" + HIW + "：" + HIY + "「" + HIR + "愚蠢!!準備接受海的報復吧!!" + HIY + "」\n" + NOR,me);
         destruct(me);
 }

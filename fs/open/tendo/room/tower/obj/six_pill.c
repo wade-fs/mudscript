@@ -4,7 +4,7 @@ inherit COMBINED_ITEM;
 #include <ansi.h>
 void create()
 {
-        set_name(HIG"六合聚神丹"NOR, ({"six pill","pill"}) );
+        set_name(HIG + "六合聚神丹" + NOR, ({"six pill","pill"}) );
         set("long",
         "鎖妖塔之冥殿修羅用其妖力聚合而成，能療復所有的神冥。\n");
         set("unit", "盒");
@@ -31,7 +31,7 @@ int eat_pill(string arg)
         if( !ob = present(arg,me) )     return 0;
         if( ob != this_object() )       return 0;
         message_vision(
-                "$N吃下一粒"HIG"六合聚神丹"NOR"，神冥變的清爽無礙了。\n", me);
+                "$N吃下一粒" + HIG + "六合聚神丹" + NOR + "，神冥變的清爽無礙了。\n", me);
         me->set("sen",maxsen);
         me->set("eff_sen",maxsen);
         add_amount(-1);

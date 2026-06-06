@@ -4,34 +4,34 @@
 #include <ansi.h>
 inherit NPC;
 mapping *action = ({
-([ "action" :"$N"HIK"兇性大發 ,銳利的指甲向$n狠狠的抓了過去 ,似要撕裂$n"NOR"。",
+([ "action" :"$N" + HIK + "兇性大發 ,銳利的指甲向$n狠狠的抓了過去 ,似要撕裂$n" + NOR + "。",
              "dodge"      :  -20,
              "parry"      :  -35,
              "damage"     :  270,
              "damage_type":  "抓傷",
            ]),
-([ "action" :"$N"HIK"迅速撲至$n面前 ,滿天揮舞著雙掌朝$n猛擊下去 ,$n當場鮮血飛濺"NOR"。
+([ "action" :"$N" + HIK + "迅速撲至$n面前 ,滿天揮舞著雙掌朝$n猛擊下去 ,$n當場鮮血飛濺" + NOR + "。
 ",
              "dodge"      :  -20,
              "parry"      :  -35,
              "damage"     :  270,
              "damage_type":  "抓傷",
             ]),
-([ "action" :"$N"HIK"將全身力量集中在手上 ,狠狠的往$n脖子夾住 ,好不驚人"NOR"。
+([ "action" :"$N" + HIK + "將全身力量集中在手上 ,狠狠的往$n脖子夾住 ,好不驚人" + NOR + "。
 ",
              "dodge"      :  -30,
              "parry"      :  -35,
              "damage"     :  240,
              "damage_type":  "內傷",
             ]),
-([ "action" :"$N"HIK"朝$n猛撞了過去 ,千斤重的身體 ,挾著萬均之勢 ,令人髮指"NOR"。
+([ "action" :"$N" + HIK + "朝$n猛撞了過去 ,千斤重的身體 ,挾著萬均之勢 ,令人髮指" + NOR + "。
 ",
              "dodge"      :  -30,
              "parry"      :  -35,
              "damage"     :  275,
              "damage_type":  "撞傷",
             ]),
-([ "action":"$N"HIK"一聲狂吼 ,從口中噴出"HIR" 毒氣 "HIK"將$n的身體整個攏罩住"NOR"。",
+([ "action":"$N" + HIK + "一聲狂吼 ,從口中噴出" + HIR + " 毒氣 " + HIK + "將$n的身體整個攏罩住" + NOR + "。",
              "dodge"      : -30,
              "parry"      :  -30,
              "damage"     : 292,
@@ -41,7 +41,7 @@ mapping *action = ({
 
 void create()
 {
-  set_name(HIK"殭屍"NOR ,({"zombie"}) );
+  set_name(HIK + "殭屍" + NOR ,({"zombie"}) );
   set("long","生前身上帶著許\多金銀財寶下葬，但因為埋的地點不對，而變成殭屍。\n");
   set("race", "人類");
   set("clan_kill",1);
@@ -89,20 +89,20 @@ void heart_beat()
   room = environment(me);
   if(!room) return ;
   if(!query("owner")) {
-    message_vision(HIB"\n跳啊跳的，跳到角落去躲起來。\n"NOR,this_object());
+    message_vision(HIB + "\n跳啊跳的，跳到角落去躲起來。\n" + NOR,this_object());
     destruct(this_object());
     return;
   }
   all = all_inventory(room);
   if(count < 30 && me->is_fighting())
   {
-    message_vision(me->query("name")+MAG"瘋狂的亂竄，四處饑渴的吸食鮮血。\n"NOR,me);
+    message_vision(me->query("name")+MAG"瘋狂的亂竄，四處饑渴的吸食鮮血。\n" + NOR,me);
     for( i = 0 ; i < sizeof(all) ; i++)
     {
       obj = all[i];
       if( obj->is_character() && !obj->is_corpse() && living(obj) && obj->query("id")!="zombie")
       {
-        message_vision(HIR"\n你被飛濺的血浪震攝住，也受到不小的衝擊。\n"NOR,obj);
+        message_vision(HIR + "\n你被飛濺的血浪震攝住，也受到不小的衝擊。\n" + NOR,obj);
         obj->receive_damage("kee",420,me);
 //        obj->add("kee",-420);
         obj->start_busy(1);
@@ -112,17 +112,17 @@ void heart_beat()
   }
   if(count < 20  && me->is_fighting())
   {
-    message_vision(me->query("name")+HIR"兇性大發，對你"HIR"做出猛烈的攻擊！\n\n"NOR,me);
+    message_vision(me->query("name")+HIR"兇性大發，對你" + HIR + "做出猛烈的攻擊！\n\n" + NOR,me);
     for( i = 0 ; i < sizeof(all) ; i++)
     {
       obj = all[i];
       if( obj->is_character() && !obj->is_corpse() && living(obj) && obj->query("id")!="zombie")
       {
         if( !me->query("crazy") )
-          me->set("name","("HIR"狂暴"NOR")"+me->query("name"));
+          me->set("name","(" + HIR + "狂暴"NOR + ")"+me->query("name"));
         for(j=0;j<10;j++)
         {
-          message_vision(HIK"$N"HIK"被("HIR"狂暴"NOR")"HIK"殭屍狠狠抓中，滿身血痕！\n"NOR,obj);
+          message_vision(HIK + "$N" + HIK + "被(" + HIR + "狂暴" + NOR + ")" + HIK + "殭屍狠狠抓中，滿身血痕！\n" + NOR,obj);
           if (obj->query("class")=="fighter" && obj->query_temp("keeup")==1)
             obj->receive_wound("kee",100+random(300),me);
           else if ((obj->query("class")=="prayer" && obj->query_temp("hwa_je")==1)
@@ -135,7 +135,7 @@ void heart_beat()
           me->set("crazy",1);
           COMBAT_D->report_status(obj, 1);
         }
-        message_vision(HIB"\n殭屍瘋狂的撕咬後，"NOR+me->query("name")+HIB"漸漸平靜下來。\n\n"NOR,me);
+        message_vision(HIB + "\n殭屍瘋狂的撕咬後，"NOR+me->query("name")+HIB"漸漸平靜下來。\n\n" + NOR,me);
         me->start_busy(1);
       }
     }
@@ -145,12 +145,12 @@ void heart_beat()
     if( is_fighting() )
     {
       if( me->query("king") == 1 )
-        me->set("name",HIK"殭屍王"NOR);
+        me->set("name",HIK + "殭屍王" + NOR);
       else
-        me->set("name",HIK"殭屍"NOR);
+        me->set("name",HIK + "殭屍" + NOR);
 
       if( query("kee") < query("eff_kee") )
-        message_vision(HIK"\n"+me->query("name")+HIK"身上發出耀眼的光芒，傷口似乎慢慢癒合了\n"NOR,me);
+        message_vision(HIK + "\n"+me->query("name")+HIK"身上發出耀眼的光芒，傷口似乎慢慢癒合了\n" + NOR,me);
       me->receive_heal("kee",1000);
       me->receive_heal("gin",1000);
       me->receive_heal("sen",1000);
@@ -235,7 +235,7 @@ void die()
   winner->add("zombie_kill",1);
   if( winner->query_temp("not_robot") < time() )
   {
-    tell_object(winner,HIG"你的太極防護之力已經消失了，被一陣毒氣逼出到殭屍洞外了。\n"NOR);
+    tell_object(winner,HIG + "你的太極防護之力已經消失了，被一陣毒氣逼出到殭屍洞外了。\n" + NOR);
     room = load_object(resolve_path(__DIR__,"../enter.c"));
     winner->move(room);
     destruct(me);
@@ -251,7 +251,7 @@ void die()
     ob1->move(environment(me));
     me->set("have_item",1);
     name = winner->query("name");
-    message_vision(HIM"\n從"+me->name(1)+HIM"的身上掉下了一個「"+ob1->query("name")+HIM"」!!\n"NOR,winner,me);
+    message_vision(HIM + "\n從"+me->name(1)+HIM"的身上掉下了一個「"+ob1->query("name")+HIM"」!!\n" + NOR,winner,me);
     CHANNEL_D->do_channel(this_object(),"sys",sprintf("%s(%s)	讓%s掉下了%s於 %s",winner->name(1),winner->query("id"),me->query("name"),ob1->query("name"),ctime(time())));
     write_file("/log/sky/zombie",sprintf("%s(%s)	讓%s掉下了%s於 %s\n",winner->name(1),winner->query("id"),me->query("name"),ob1->query("name"),ctime(time())));
   }
@@ -259,7 +259,7 @@ void die()
   if(query("owner") != winner)
   {
     winner->add_temp("not_robot",-1200);
-    tell_object(winner,HIG"殭屍噴出另一種毒氣，消減了你的太極之力。\n"NOR);
+    tell_object(winner,HIG + "殭屍噴出另一種毒氣，消減了你的太極之力。\n" + NOR);
   }
   room = load_object(resolve_path(__DIR__,sprintf("../room%02d.c",random(10)+1)));
 
@@ -278,7 +278,7 @@ void die()
     npc->set("max_sen",100000+kt*200);
     npc->set("eff_sen",100000+kt*200);
     npc->set("sen",100000+kt*200);
-    npc->set("name",HIK"殭屍王"NOR);
+    npc->set("name",HIK + "殭屍王" + NOR);
     npc->set("combat_exp",10000000+random(winner->query("combat_exp")/10));
     npc->set("king",1);
   }else{
@@ -292,6 +292,6 @@ void die()
     npc->set("eff_sen",50000+kt*100);
     npc->set("sen",50000+kt*100);
   }
-  message_vision(HIB"\n一陣毒煙吹過～遠方傳來一陣叫聲～哈哈哈～我復活了～～～～。\n"NOR,this_object());
+  message_vision(HIB + "\n一陣毒煙吹過～遠方傳來一陣叫聲～哈哈哈～我復活了～～～～。\n" + NOR,this_object());
   destruct(this_object());
 }

@@ -52,7 +52,7 @@ void die()
 	  if( j==7 || j==77 || j== 777 || j==1111 || j==55 || j==555 || j==1000 || j==4000 || j==3333 || j==2222 )
 	  {      
 	  new("/open/sky/obj8/winter_wind")->move(environment(winner));
-	  message_vision(HIM"\n從凌落風的身上掉下了一件奇怪的東西!!\n"NOR,winner);
+	  message_vision(HIM + "\n從凌落風的身上掉下了一件奇怪的東西!!\n" + NOR,winner);
           write_file("/log/sky/obj8/winter_wind",sprintf("%s(%s) 讓凌落風掉下了冬極風於 %s\n",
 	  winner->name(1),winner->query("id"),ctime(time())));
 	  }
@@ -61,7 +61,7 @@ void die()
 	  if( j==5 || j==15 || j== 150 || j==1500 || j==10 || j==100 || j==1000 || j==4000 || j==6666 || j==7777 ) 
 	  {      
 	  new("/open/sky/obj8/winter_wind")->move(environment(winner));
-	  message_vision(HIM"\n從凌落風的身上掉下了一件奇怪的東西!!\n"NOR,winner);
+	  message_vision(HIM + "\n從凌落風的身上掉下了一件奇怪的東西!!\n" + NOR,winner);
           write_file("/log/sky/obj8/winter_wind",sprintf("%s(%s) 讓凌落風掉下了冬極風於 %s\n",
 	  winner->name(1),winner->query("id"),ctime(time())));
 	  }

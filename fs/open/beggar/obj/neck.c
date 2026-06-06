@@ -3,7 +3,7 @@
 inherit NECK;
 void create()
 {
-        set_name(CYN"七公傳生鏈"NOR, ({"oldman gem","gem"}) );
+        set_name(CYN + "七公傳生鏈" + NOR, ({"oldman gem","gem"}) );
      set_weight(1500);
      if ( clonep() )
               set_default_object(__FILE__);

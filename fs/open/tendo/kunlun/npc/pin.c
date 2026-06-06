@@ -10,8 +10,8 @@ string star3();
 void create()
 {
 	set_name("平催牛",({"pin"}) );
-        set("long","一個道貌岸然的"HIW"算命"NOR"先生，到處招搖撞騙，手裡拿著一面招牌上面寫著『鐵口直斷』四個大字。
-兩旁還寫著兩行小字--上知"HIW"天文"NOR"，下知地理。\n");
+        set("long","一個道貌岸然的" + HIW + "算命" + NOR + "先生，到處招搖撞騙，手裡拿著一面招牌上面寫著『鐵口直斷』四個大字。
+兩旁還寫著兩行小字--上知" + HIW + "天文" + NOR + "，下知地理。\n");
         set("gender","男性");
         set("class","officer");
         set("combat_exp",60000);
@@ -57,14 +57,14 @@ string magic1()
 
 string star1()
 {
- return NOR"哈哈！！這你就問對人了。看你要問個"HIW"七星，八星"NOR"都沒問題啦。"NOR;
+ return NOR + "哈哈！！這你就問對人了。看你要問個" + HIW + "七星，八星" + NOR + "都沒問題啦。" + NOR;
 }
 
 string star2()
 {
   
-  message_vision (HIC"平催牛說道: 這個簡單，依序就是天樞，天璇，天機，天權，天衡，開陽，瑤光這七顆南斗七星嘛。\n",this_object());
-  write(HIC"你不禁心想: 哇勒！....南斗七星?....這個人的話靠的住嗎？\n"NOR);
+  message_vision (HIC + "平催牛說道: 這個簡單，依序就是天樞，天璇，天機，天權，天衡，開陽，瑤光這七顆南斗七星嘛。\n",this_object());
+  write(HIC + "你不禁心想: 哇勒！....南斗七星?....這個人的話靠的住嗎？\n" + NOR);
   return "hmm....這種小問題，收你十兩銀子就好";  
 }
 
@@ -72,7 +72,7 @@ string star3()
 {
  object who=this_player();
 
- message_vision (HIC"平催牛說道:八星就是七星加太陰啦!!..連這都不懂，小孩子要好好念書知道嗎!\n",who);
+ message_vision (HIC + "平催牛說道:八星就是七星加太陰啦!!..連這都不懂，小孩子要好好念書知道嗎!\n",who);
  command("pat "+who->query("id"));
  write("你好像有種受騙的感覺....>.<\n\n");
  return "處罰你不認真唸書，收你一兩黃金";

@@ -2,7 +2,7 @@
 inherit ROOM;
 void create ()
 {
-set("short",BLU"死靈幽谷"NOR);
+set("short",BLU + "死靈幽谷" + NOR);
 set("long",@LONG
 抬頭一望, 可以依稀看到你所跳下來的細縫露出了些
 微的亮光, 地上長滿了野草, 使得你跳下細縫時並沒有受

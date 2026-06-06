@@ -21,7 +21,7 @@ LONG
 int valid_leave(object me, string dir)
 {
         if( !me->query("lungshan_test") ) {
-		tell_object(me, HIY"在你離開的時候，忽然發現一旁的牆壁似乎寫著四個字：【瀧…山…拳…法】。\n\n"NOR);
+		tell_object(me, HIY + "在你離開的時候，忽然發現一旁的牆壁似乎寫著四個字：【瀧…山…拳…法】。\n\n" + NOR);
 		}
         return 1;
 }

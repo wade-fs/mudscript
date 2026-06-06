@@ -30,7 +30,7 @@ int valid_leave(object who,string dir)
     who=this_player();
         if(dir=="eastdown"&&who->query_temp("stupid")==1)
   {
-// tell_object(who,""HIM"谷中仙說道:閣下仙緣已盡，快走吧！"NOR"\n");
+// tell_object(who,"" + HIM + "谷中仙說道:閣下仙緣已盡，快走吧！" + NOR + "\n");
         return notify_fail("谷中仙說道:閣下仙緣已盡，快走吧！\n");
         return :: valid_leave(who,dir);
   }

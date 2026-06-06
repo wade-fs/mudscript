@@ -2,7 +2,7 @@ inherit ROOM;
 #include <ansi.h>
 void create()
 {
-        set("short",HIY"不死鳥ソ塔最上部"NOR);
+        set("short",HIY + "不死鳥ソ塔最上部" + NOR);
         set ("long", @LONG 
 再往上走去就是塔頂了，強風在上頭呼嘯著，灼熱
 的高溫更是越發駭人，好不容易來到這裡，記得千萬要

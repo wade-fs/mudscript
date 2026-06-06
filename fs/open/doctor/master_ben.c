@@ -13,7 +13,7 @@ void create()
 	"\n扁鵲的第四代子孫，繼承先組的遺志，廣傳醫學，
         別看他個頭小小的，被他扎上一針可就有你受的。
         緊急時需醫病(cure me)，每次一粒鑽石。\n");
-	set("nickname",HIC"藥到病除"NOR);
+	set("nickname",HIC + "藥到病除" + NOR);
 	set("gender", "男性" );
 	set("combat_exp",1000000);
 	set("force"       , 4000);
@@ -78,10 +78,10 @@ int do_join(string str)
 	this_object()->name(),me->name());
 */
 	tell_object(me,"恭禧你！你已經成為醫者的一員了。\n");
-	 message("system",HIC "扁鳩縱聲大笑 :\n
+	 message("system",HIC + "扁鳩縱聲大笑 :\n
 	 歡迎" +this_player()->name()+ "加入銀針門 !\n
 	 我們醫者終於後繼有人了 !\n
-	 各位夥伴們 , 讓我們一起歡迎他吧 !!\n\n"NOR,users());
+	 各位夥伴們 , 讓我們一起歡迎他吧 !!\n\n" + NOR,users());
 	        
 	
 	
@@ -110,8 +110,8 @@ int do_cure(string str)
 	me->set("eff_kee",me->query("max_kee"));
 	me->set("eff_gin",me->query("max_gin"));
 	me->set("eff_sen",me->query("max_sen"));
-	message_vision(HIC"\n只見$N翻出壓箱的藥丸讓$n一吞，再為$n運氣行功\一番。\n"NOR,ob,me);
-	message_vision(HIC"\n$n身上的傷勢和狀態都一掃而光，再度變的生龍活虎的樣子。\n"NOR,ob,me);
+	message_vision(HIC + "\n只見$N翻出壓箱的藥丸讓$n一吞，再為$n運氣行功\一番。\n" + NOR,ob,me);
+	message_vision(HIC + "\n$n身上的傷勢和狀態都一掃而光，再度變的生龍活虎的樣子。\n" + NOR,ob,me);
 	return 1;
 	}else{
 	command("say 如果需要療傷，治療狀態，請打cure me就行了!!");

@@ -3,7 +3,7 @@
 inherit ARMBANDS;
 void create()
 {
-        set_name(HIC"雪翎護臂"NOR,({"snow_armband","snow","armband"}));
+        set_name(HIC + "雪翎護臂" + NOR,({"snow_armband","snow","armband"}));
         set_weight(4000);
         if( clonep() )
                 set_default_object(__FILE__);

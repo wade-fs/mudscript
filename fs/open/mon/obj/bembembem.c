@@ -31,7 +31,7 @@ int do_search(string str)
 	case "rabbit":
 	if(ob->query("find")!=1)
 	{
-          message_vision("找來找去，$N終於在草叢中找到了幾隻兔子!!\n"NOR,me);
+          message_vision("找來找去，$N終於在草叢中找到了幾隻兔子!!\n" + NOR,me);
 	  new("/open/mon/npc/rabbit")->move(environment(me));
 	  new("/open/mon/npc/rabbit")->move(environment(me));
 	  new("/open/mon/npc/rabbit")->move(environment(me));

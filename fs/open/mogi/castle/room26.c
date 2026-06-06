@@ -44,12 +44,12 @@ void do_damage(object ob)
     if(!obj) continue;
     kee1=obj->query("eff_kee");
     if( random(300) > obj->query_skill("parry") ) {
-      message_vision(HIR"忽然破空之聲尖銳響起，數支破甲錐快速奔向$N且射穿了$N，血流不止！\n"NOR,obj);
+      message_vision(HIR + "忽然破空之聲尖銳響起，數支破甲錐快速奔向$N且射穿了$N，血流不止！\n" + NOR,obj);
 //      obj->add("eff_kee",-kee1/10);
       obj->receive_wound("kee",kee1/10,obj);
       obj->apply_condition("bleeding",random(30));
     }
-    else message_vision(HIW"忽然破空之聲尖銳響起，數支破甲錐快速奔向$N，但被$N一一打落在地！\n"NOR,obj);
+    else message_vision(HIW + "忽然破空之聲尖銳響起，數支破甲錐快速奔向$N，但被$N一一打落在地！\n" + NOR,obj);
   }
-  write(HIC"四周響起「嘿 嘿......」的冷笑聲。\n"NOR);
+  write(HIC + "四周響起「嘿 嘿......」的冷笑聲。\n" + NOR);
 }

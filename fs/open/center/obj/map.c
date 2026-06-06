@@ -30,8 +30,8 @@ int do_read(string arg)
     if (query2 == 2) me->set_temp("quests/help_water_god", 3);
     set ( "book_path", BOOK_PATH + BOOK_NAME1 );
     if (::do_read(arg)) {
-      write (HIY"當你仔細看完地圖時，發現有一個地方怪怪的，"+
-             "值得去看一看，也許\那兒正是哭風坡。\n"NOR);
+      write (HIY + "當你仔細看完地圖時，發現有一個地方怪怪的，"+
+             "值得去看一看，也許\那兒正是哭風坡。\n" + NOR);
       return 1;
     }
     else return 0;

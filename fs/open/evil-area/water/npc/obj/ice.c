@@ -9,7 +9,7 @@ int drink_func();
 
 void create()
 {
-  set_name(HIC"千年冰"NOR, ({ "thousand year's ice","ice" }) );
+  set_name(HIC + "千年冰" + NOR, ({ "thousand year's ice","ice" }) );
   set_weight(2000);
   if( clonep() )
     set_default_object(__FILE__);
@@ -22,7 +22,7 @@ void create()
   }
   set("液體", ([
     "種類"          : "茶",
-    "名稱"          : HIW"琰揚湖水"NOR,
+    "名稱"          : HIW + "琰揚湖水" + NOR,
     "剩"            : 3,
     "止渴"          : 300,
     "飲用訊息"      : (: drink_func :),
@@ -36,7 +36,7 @@ int extra_func()
 {
   if( !query("液體/剩") )
   {
-    write( HIW"千年冰已經被你的內力給融化掉了。\n"NOR );
+    write( HIW + "千年冰已經被你的內力給融化掉了。\n" + NOR );
     destruct( this_object() );
     return 1;
   }
@@ -46,7 +46,7 @@ int extra_func()
 int drink_func()
 {
   object me = this_player();
-  message_vision( HIC"$N輕運內力，以氣力之熱溶化千年冰，並吸吮其融化之水。\n"NOR, me );
+  message_vision( HIC + "$N輕運內力，以氣力之熱溶化千年冰，並吸吮其融化之水。\n" + NOR, me );
   me->add("force",-100);
   me->add("food",-300);
   return 1;

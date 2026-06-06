@@ -36,7 +36,7 @@ void init()
   object me;
   seteuid(geteuid());
   me = this_player();
-  this_object()->set_name(""+(string)this_player()->name(1)+"的"HIC"令牌"NOR,({"wood board","board"}));
+  this_object()->set_name(""+(string)this_player()->name(1)+"的" + HIC + "令牌" + NOR,({"wood board","board"}));
 }
 
                    

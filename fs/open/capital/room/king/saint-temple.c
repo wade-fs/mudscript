@@ -4,7 +4,7 @@ inherit ROOM;
 
 void create ()
 {
-  set ("short", HIY"皇陵"NOR"-"HIW"永眠ソ地"NOR);
+  set ("short", HIY + "皇陵" + NOR + "-" + HIW + "永眠ソ地" + NOR);
   set ("long", @LONG
 一座巨大的石塚佇立於此，顯然這裡曾埋葬了不少人，然而由
 墓碑(tomb)上的文獻判斷，得以在此長眠的，皆是對世間有著無法
@@ -104,9 +104,9 @@ int do_clear()
   }
   if(me->query("attribute") == "saint")
   {
-  	message_vision(HIR"墓塚內傳來ㄧ陣天音：『$N，今後救世的責任就交到你手上嘍，回去降妖除魔吧。』\n"NOR,me);
+  	message_vision(HIR + "墓塚內傳來ㄧ陣天音：『$N，今後救世的責任就交到你手上嘍，回去降妖除魔吧。』\n" + NOR,me);
   	me->move("/open/common/room/inn");
-  	message_vision(HIR"一道神光壟罩之下，$N現身於光幕之中。\n"NOR,me);
+  	message_vision(HIR + "一道神光壟罩之下，$N現身於光幕之中。\n" + NOR,me);
   }else{
         write("你悠然神遊於傳說的英雄事蹟當中。\n");
         }
@@ -131,7 +131,7 @@ int do_blend(string str)
 	  }else{
 	    if( ob2->query("specialitem") == 1 && ob1->query("spirit") == 1 )
 	    {
-	    message_vision("\n"+ob1->query("name")+HIY"和"NOR+ob2->query("name")+HIY"感受到一股無形的力量，緩緩飄浮在空中，\n墓碑內不斷湧出浩然正氣，滲入"NOR+ob1->query("name")+HIR"和"NOR+ob2->query("name")+HIY"之中。\n"NOR,me);
+	    message_vision("\n"+ob1->query("name")+HIY"和"NOR+ob2->query("name")+HIY"感受到一股無形的力量，緩緩飄浮在空中，\n墓碑內不斷湧出浩然正氣，滲入"NOR+ob1->query("name")+HIR"和"NOR+ob2->query("name")+HIY"之中。\n" + NOR,me);
 	    me->force_me("change unarmed");
 	    me->start_busy(10);
 	    call_out("compose1",5,me);
@@ -151,7 +151,7 @@ int compose1(object me)
 	ob=this_object();
 	ob1=present("light-spirit",me);
 	ob2=present("light-emblem",me);
-	message_vision(HIY"\n長眠於此的英魂似乎甦醒了過來。\n"+ob1->query("name")+NOR+HIY"和"NOR+ob2->query("name")+NOR+HIY"吸收了英魂之氣後，逐漸在"HIW"$N"NOR+HIY"四周圍繞。\n"NOR,me);
+	message_vision(HIY + "\n長眠於此的英魂似乎甦醒了過來。\n"+ob1->query("name")+NOR+HIY"和"NOR+ob2->query("name")+NOR+HIY"吸收了英魂之氣後，逐漸在" + HIW + "$N"NOR+HIY"四周圍繞。\n" + NOR,me);
 	me->start_busy(10);
 	call_out("compose2",5,me);
 	return 1;
@@ -173,9 +173,9 @@ int compose2(object me)
 	  ob3 = aob[j];
 	}
         write_file("/log/sky/powerup_claw",sprintf("%s(%s)使用了%s和%s加強了%s的型態於 %s\n",me->name(1),me->query("id"),ob1->query("name"),ob2->query("name"),ob3->query("name"),ctime(time())));
-	message_vision(HIY"\n只見"+ob3->query("name")+NOR+HIY"完全吸收了歷代英魂給予的浩然正氣，化為最後的型態！\n"NOR,me);
+	message_vision(HIY + "\n只見"+ob3->query("name")+NOR+HIY"完全吸收了歷代英魂給予的浩然正氣，化為最後的型態！\n" + NOR,me);
 	me->set("weapon/saint-full",1);	//融合完畢後，武器呈現最完美狀態給給定的query。
-	message_vision(ob1->query("name")+NOR+YEL"和"NOR+ob2->query("name")+NOR+YEL"所蘊藏的能量在被吸收殆盡後，也化為虛無消失無蹤。\n"NOR,me);
+	message_vision(ob1->query("name")+NOR+YEL"和"NOR+ob2->query("name")+NOR+YEL"所蘊藏的能量在被吸收殆盡後，也化為虛無消失無蹤。\n" + NOR,me);
 	destruct(ob1);
 	destruct(ob2);
 	me->delete_busy();

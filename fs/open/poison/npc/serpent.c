@@ -33,8 +33,8 @@ void create()
  int special_att()
 {
 	object me=this_player()->query_enemy();
-	tell_room(me,HIG "
-巨蟒狠狠的咬了你一口，你突然覺得頭昏眼花，似乎中毒了。\n" NOR );
+	tell_room(me,HIG + "
+巨蟒狠狠的咬了你一口，你突然覺得頭昏眼花，似乎中毒了。\n" + NOR );
 	me->apply_condition("snake_poison", 1);
 	return 1;
 }

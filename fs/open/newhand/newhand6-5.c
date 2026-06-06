@@ -3,7 +3,7 @@
 inherit ROOM;
 void create ()
 {
-  set ("short", HIY"狂想空間歷史發展館"NOR);
+  set ("short", HIY + "狂想空間歷史發展館" + NOR);
   set( "long", "後來聽說Lum大大也要入伍服役!!所以就又把大神的位置交給了下一
 任的konn大大,在這一段時期,那時在konn大大的主導下狂想也更上一層樓
 但是konn大大本身有一些私人的因素!!後來就由Urd大大來接手狂想空間的

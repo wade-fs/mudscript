@@ -17,7 +17,7 @@ LONG
   set("combat_exp",3000000);
   set("chat_chance",5);
   set("chat_msg", ({
-        CYN"老人說道: 身上的毒，應該只有帥父能救了。\n"NOR,
+        CYN + "老人說道: 身上的毒，應該只有帥父能救了。\n" + NOR,
         }) );
   set("inquiry",([
     "李秋凡":"你為什麼知道，就是我，是師父派你來找我的嘛？",
@@ -188,14 +188,14 @@ void call_find_master(object user,object master)
   command("say 師父~~~~~~~~~~~~~~~~~~~");
   command("sorry");
   command("say 對不起師父，徒兒在取得秘籍時，被一群匪人逼入山洞，所以徒兒回來晚了。");
-  tell_object(user,CYN+"\n\n"+this_object()->name()+ "將秘籍恭恭敬敬的交給"+master->name()+"。\n"NOR);
+  tell_object(user,CYN+"\n\n"+this_object()->name()+ "將秘籍恭恭敬敬的交給"+master->name()+"。\n" + NOR);
   call_out("call_find_master2",2,user,master);
 }
 void call_find_master2(object user,object master)
 {
-  tell_object(user,CYN+master->name()+"說道：回來就好，你就先回去休息吧。\n"NOR);
+  tell_object(user,CYN+master->name()+"說道：回來就好，你就先回去休息吧。\n" + NOR);
   if(user->query("family/family_name") == "冥蠱魔教")
-  tell_object(user,CYN+master->name()+"說道：雖然你是冥蠱魔教的，不過我還是非常的感謝您的幫忙，以後歡迎你來看看秋凡徒兒。\n"NOR);
+  tell_object(user,CYN+master->name()+"說道：雖然你是冥蠱魔教的，不過我還是非常的感謝您的幫忙，以後歡迎你來看看秋凡徒兒。\n" + NOR);
 
   user->set_temp("quests/acup",12);
   destruct(this_object());
@@ -206,6 +206,6 @@ int return_home(object home)
 }
 void die()
 {
-  say(HIR"\n\n您的任務失敗了，請等重生後再次嘗試\n\n"NOR);
+  say(HIR + "\n\n您的任務失敗了，請等重生後再次嘗試\n\n" + NOR);
   ::die();
 }

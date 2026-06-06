@@ -8,7 +8,7 @@ inherit ITEM;
 
 void create()
 {
-	set_name( HIW"卍乾坤袋卍"NOR, ({ "universal bag", "hae_bag", "bag" }) );
+	set_name( HIW + "卍乾坤袋卍" + NOR, ({ "universal bag", "hae_bag", "bag" }) );
 	set( "long", @LONG
 	一個又小又輕的袋子, 似乎輕輕一丟(throw)就會飛走的樣子。
 
@@ -68,8 +68,8 @@ int do_throw( string str )
 	}
 
 	me->add( "force", -random(10)-1 );
-	message_vision( YEL"$N"HIY"取出$n"HIY", 朝著天空奮力一擲...\n"NOR, me, bag );
-	message_vision( HIY"只見$n"HIY"以極快的速度, 又高又遠地飛了出去, 剎那間已沒入了雲端。\n"NOR, me, bag );
+	message_vision( YEL + "$N" + HIY + "取出$n" + HIY + ", 朝著天空奮力一擲...\n" + NOR, me, bag );
+	message_vision( HIY + "只見$n" + HIY + "以極快的速度, 又高又遠地飛了出去, 剎那間已沒入了雲端。\n" + NOR, me, bag );
 
 	if( !str )
 		str = me->query("id");
@@ -80,8 +80,8 @@ int do_throw( string str )
         target=me;
        if(target->query("id")=="cgy" || target->query("env/隱身","YES"))
 	    target = me;
-	message_vision( HIC"\n突然間... 一道激烈的破空之聲, 由遠而近地朝"CYN"$N"HIC"而來...\n"NOR, target );
-	message_vision( HIC"砰... 一個$n"HIC"將"CYN"$N"HIC"撞倒在地...\n"NOR, target, bag );
+	message_vision( HIC + "\n突然間... 一道激烈的破空之聲, 由遠而近地朝" + CYN + "$N" + HIC + "而來...\n" + NOR, target );
+	message_vision( HIC + "砰... 一個$n" + HIC + "將" + CYN + "$N" + HIC + "撞倒在地...\n" + NOR, target, bag );
 	bag->move( environment(target) );
 	if (wizardp(me))
 	log_file("wiz/throw_bag", sprintf("%s(%s) 丟擲乾坤袋給 %s(%s) %s\n"

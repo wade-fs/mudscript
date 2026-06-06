@@ -2,7 +2,7 @@
 inherit ITEM;
 void create()
 {
-      set_name(HIR"獨孤嵊的人頭"NOR, ({ "sa-head","head" }));
+      set_name(HIR + "獨孤嵊的人頭" + NOR, ({ "sa-head","head" }));
         set_weight(5000);
         set("feed",1); //可以餵馬
         if( clonep() )

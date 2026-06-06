@@ -31,11 +31,11 @@ if(!me->query_temp("move_stone"))
 return notify_fail("你不知道該如何打開這個箱子。\n");
 else{
 ob=new("/open/killer/island/obj/card");
-tell_object(me,HIY"
+tell_object(me,HIY + "
 你打開了盒子，只見其中金光閃閃，裝滿了各式各樣的寶物!!
 你在之中發現了一塊「令牌」，外貌非常熟悉，原來是一塊黑牙聯的殺手密令!!
 盒子中裝著各式各樣的寶物，令你不禁想拿走一些!!
-\n"NOR);
+\n" + NOR);
 ob->move(me);
 me->set_temp("openbox",1);
 return 1;

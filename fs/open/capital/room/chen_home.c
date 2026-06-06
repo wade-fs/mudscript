@@ -5,7 +5,7 @@ inherit ROOM;
 
 void create ()
 {
-    set("short",HIC"大理寺"NOR);
+    set("short",HIC + "大理寺" + NOR);
 	set( "build", 62 );
   set ("long", @LONG
 這裡就是全國最高的司法機構「大理寺」﹐這裡專門處裡一些重大案件
@@ -58,20 +58,20 @@ object *user,me,master;
 	j=sizeof(user);
         switch(i) {
 	  case 0 : user=sort_array(user,"sort_exp",this_object());
-                   str=sprintf(HIG"朝廷命官經驗值排行榜:\n\n"NOR);
+                   str=sprintf(HIG + "朝廷命官經驗值排行榜:\n\n" + NOR);
 	           for(i=0; i<j; i++)
-	              str+=sprintf(HIC"第%2d名 %30s(%s)\n"NOR,i+1,user[i]->query("name"),user[i]->query("id"));
+	              str+=sprintf(HIC + "第%2d名 %30s(%s)\n" + NOR,i+1,user[i]->query("name"),user[i]->query("id"));
 	           str+="\n";
 	           tell_object(this_player(),str);
 		   break;
 	  case 1 : user=sort_array(user,"sort_force",this_object());
-                   str=sprintf(HIG"朝廷命官內力排行榜:\n\n"NOR);
+                   str=sprintf(HIG + "朝廷命官內力排行榜:\n\n" + NOR);
                    for(i=0; i<j; i++)
-                      str+=sprintf(HIC"第%2d名 %30s(%s)\n"NOR,i+1,user[i]->query("title"),user[i]->query("name"),user[i]->query("id"));
+                      str+=sprintf(HIC + "第%2d名 %30s(%s)\n" + NOR,i+1,user[i]->query("title"),user[i]->query("name"),user[i]->query("id"));
                    str+="\n";
 	           tell_object(this_player(),str);
 		   break;
-	  case 2 : str=sprintf(HIG"朝廷命官師徒關係:\n\n"NOR);
+	  case 2 : str=sprintf(HIG + "朝廷命官師徒關係:\n\n" + NOR);
 	           for(i=0; i<j; i++) {
 	              if( user[i]->query("family/master_is_ppl") ) {
 	                if( master=find_player(user[i]->query("family/master_id"))) {
@@ -86,7 +86,7 @@ object *user,me,master;
                           }
 	                }
 	              }
-	              str+=sprintf(HIC"%|20s(%|10s)     師承  %|20s(%|10s)\n"NOR,user[i]->query("name"),user[i]->query("id"),user[i]->query("family/master_name"),user[i]->query("family/master_id"));
+	              str+=sprintf(HIC + "%|20s(%|10s)     師承  %|20s(%|10s)\n" + NOR,user[i]->query("name"),user[i]->query("id"),user[i]->query("family/master_name"),user[i]->query("family/master_id"));
 	           }
 	           str+="\n";
 	           tell_object(this_player(),str);

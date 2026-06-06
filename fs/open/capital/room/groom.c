@@ -66,7 +66,7 @@ int do_change(string arg)
 
 int wakeup(object who)
 {
- tell_object(who, HIC"徐大夫摸摸你的下面，奸笑的點了點頭。。\n"NOR);
+ tell_object(who, HIC + "徐大夫摸摸你的下面，奸笑的點了點頭。。\n" + NOR);
   if( who->query("gender") == "男性")
 {    who->set("gender","女性");
 }

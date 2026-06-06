@@ -35,7 +35,7 @@ mixed hit_ob( object me,object victim)
   {
    enemy=me->query_enemy();
    i=random(sizeof(enemy));
-   message_vision(HIY"$N被$n的鐵菱子砸中穴道，身形為之一滯\n"NOR,me,enemy[i]);
+   message_vision(HIY + "$N被$n的鐵菱子砸中穴道，身形為之一滯\n" + NOR,me,enemy[i]);
    enemy[i]->start_busy(1);
   } 
  }

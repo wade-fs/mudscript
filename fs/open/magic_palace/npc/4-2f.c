@@ -11,8 +11,8 @@ void create()
 LONG);
 	set("gender","男性");
 	set("class","dancer");
-	set("nickname",HIG"萬世魔王"NOR);
-	set("title",HIM"萬世教主"NOR);
+	set("nickname",HIG + "萬世魔王" + NOR);
+	set("title",HIM + "萬世教主" + NOR);
 	set("family/family_name","夜夢小築");
 	set("combat_exp",1000000);
 	set("attitude","aggressive");
@@ -59,6 +59,6 @@ LONG);
 
 void unconcious ()
 {
-        message_vision(HIG"重掌擊中巴斯八後，卻發現只是打中命運的幻影而已。\n"NOR,this_player());
+        message_vision(HIG + "重掌擊中巴斯八後，卻發現只是打中命運的幻影而已。\n" + NOR,this_player());
         destruct(this_object());
 }

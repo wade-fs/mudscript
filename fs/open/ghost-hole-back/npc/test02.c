@@ -31,6 +31,6 @@ void die()
 object me,ob;
 ob=this_object();
 me=query_temp("last_damage_from");
-tell_object(me,HIY"獨孤嵊說：別打這麼大力ㄇ...人家會痛的啊...不理你了...嗚嗚..\n"NOR);
+tell_object(me,HIY + "獨孤嵊說：別打這麼大力ㄇ...人家會痛的啊...不理你了...嗚嗚..\n" + NOR);
 destruct(ob);
 }

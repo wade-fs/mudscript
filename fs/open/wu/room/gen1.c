@@ -5,7 +5,7 @@ inherit ROOM;
 void create ()
 {
   seteuid(getuid());    // 不是說要加這一行嗎?
-        set("short",RED "-迷宮入口-" NOR);
+        set("short",RED + "-迷宮入口-" + NOR);
         set("long", @LONG
 這是傳說瀧山派地下迷官的入口處，房間的環境陰暗潮溼仔細一看，發
 現四周牆上，刻有青龍、白虎、朱崔、玄武等四種古代的神獸。北邊的

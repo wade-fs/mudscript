@@ -19,7 +19,7 @@ void create()
 	set("long","　　烏溜溜的長髮及腰與裸露出雪白晶瑩的雙肩襯出一身高挑姣好的身\n"
               +"材，鮮紅的櫻唇、靈動的雙眼，帶著清純知性美的氛圍讓她擁有一群堅\n"
               +"定的擁護者，是以得罪了她，走在路上就得小心些。\n");
-    set("nickname",HIC "亂"HIY"世"HIM"妖女"NOR);
+    set("nickname",HIC + "亂" + HIY + "世" + HIM + "妖女" + NOR);
 	set("gender", "女性" );
 	set("class","swordsman");
 	set("combat_exp",1001);
@@ -106,7 +106,7 @@ int accept_object(object who, object ob)
   default : break;
   }
   switch(object_name) { //判斷收到物品的name
-  case HIY"屠龍刀"NOR:
+  case HIY + "屠龍刀" + NOR:
        if (who->query("quests/bonze/qualified/temporary")+24*59*60 > time()) {
          say("周芷若說：急什麼，過段時間再來向我證明你的能力，口亨！\n");
          command("drop dragon blade"); //因為是有效的屠龍刀 所以予以讓玩家保留
@@ -156,9 +156,9 @@ int broken_wp0(object me)
 //  object me = this_player();
   if(!me) return 1; //判斷玩家是否待在同一間房間
   if(environment(this_object()) != environment(me)) return 1; //判斷玩家是否待在同一間房間
-  message_vision(HIM"只見周芷若一手舉起"HIC"倚天劍"HIM"，不停地嘖嘖稱奇。\n"NOR,me);
-  message_vision(HIM"另一手舉起"HIY"屠龍刀"HIM"，心中的竊喜掩不住，突然間放聲大笑。\n"NOR,me);
-  message_vision(HIM"張狂的笑聲令人心驚不已。\n\n"NOR,me);
+  message_vision(HIM + "只見周芷若一手舉起" + HIC + "倚天劍" + HIM + "，不停地嘖嘖稱奇。\n" + NOR,me);
+  message_vision(HIM + "另一手舉起" + HIY + "屠龍刀" + HIM + "，心中的竊喜掩不住，突然間放聲大笑。\n" + NOR,me);
+  message_vision(HIM + "張狂的笑聲令人心驚不已。\n\n" + NOR,me);
   call_out("broken_wp",5,me);
   return 1;
 }
@@ -168,18 +168,18 @@ int broken_wp(object me)
 //  object me = this_player();
   if(!me) return 1;
   if(environment(this_object()) != environment(me)) return 1;
-  message_vision(HIM"突然間卻看見周芷若運功\使刀劍互擊。\n"NOR,me);
-  message_vision(HIM"「鏘—」但見兩把最不可能毀損的刀劍竟然從中斷裂了。\n"NOR,me);
+  message_vision(HIM + "突然間卻看見周芷若運功\使刀劍互擊。\n" + NOR,me);
+  message_vision(HIM + "「鏘—」但見兩把最不可能毀損的刀劍竟然從中斷裂了。\n" + NOR,me);
 bk=new("/open/main/obj/broken");
-bk->set("name", RED"(斷毀兩段)" + HIC"倚天劍"NOR);
+bk->set("name", RED + "(斷毀兩段)" + HIC"倚天劍" + NOR);
 bk->set("id", "et-sword");
 bk->move(environment(me)); //me 為給予物品的人物
 bk=new("/open/main/obj/broken");
-bk->set("name", RED"(斷毀兩段)" + HIY"屠龍刀"NOR);
+bk->set("name", RED + "(斷毀兩段)" + HIY"屠龍刀" + NOR);
 bk->set("id", "dragon blade");
 bk->move(environment(me)); //me 為給予物品的人物
   me->set_temp("quests/bonze/obj/ticket",1); //為完成入門任務所作的標記 //★需改為非temp的mark
-message_vision(HIM"周芷若從斷裂的刀劍中取出兩張字條。\n"NOR,me);
+message_vision(HIM + "周芷若從斷裂的刀劍中取出兩張字條。\n" + NOR,me);
 tell_object(me,"（沒想到刀劍中竟然藏有驚天秘密，你心裡忍不住驚訝，急忙掩著即將脫口而出的驚呼。\n");
 tell_object(me,"不過你懷疑下一秒就會被人滅口。）\n");
 tell_object(me,"但見她不以為意的抬起頭來看著你，帶著邪惡的笑容對你點了點頭。\n");
@@ -253,15 +253,15 @@ void die()
    string class1 = winner->query("family/family_name");
    tell_object(users(), //winner, 指打死的人 users()指全體玩家
 "\n"
-HIY"　　　從少林寺後山傳來一聲嘆息～\n"
+HIY + "　　　從少林寺後山傳來一聲嘆息～\n"
 "\n"
-HIY"　　　　　三位神僧同聲共念：「阿彌陀佛～」\n"
+HIY + "　　　　　三位神僧同聲共念：「阿彌陀佛～」\n"
 "\n"
-HIM"　只聞"HIW"周芷若"HIM"大喊：要不是參透不了"HIY"刀"HIW"劍"HIM"中的秘密，我也不至於敗在"+HIR+class1+HIM"弟子"+HIR+name+HIM"手中，\n"
-HIM"　　　　　　　　　我恨…那男人為何不把心放在我身上…\n"
-HIM"　　　　　　　　　我恨…師父為何那樣命令我…\n"
-HIM"　　　　　　　　　我好恨…我好恨上天為什麼這麼不公呀！\n"
+HIM + "　只聞" + HIW + "周芷若" + HIM + "大喊：要不是參透不了" + HIY + "刀" + HIW + "劍" + HIM + "中的秘密，我也不至於敗在"+HIR+class1+HIM"弟子"+HIR+name+HIM"手中，\n"
+HIM + "　　　　　　　　　我恨…那男人為何不把心放在我身上…\n"
+HIM + "　　　　　　　　　我恨…師父為何那樣命令我…\n"
+HIM + "　　　　　　　　　我好恨…我好恨上天為什麼這麼不公呀！\n"
 "\n"
-HIW"　　　　　　"HBMAG"一顆暗沉的帝星散發出刺眼的璀璨光芒後，落入仙劍派的秘境之中。\n"NOR);
+HIW + "　　　　　　" + HBMAG + "一顆暗沉的帝星散發出刺眼的璀璨光芒後，落入仙劍派的秘境之中。\n" + NOR);
 ::die();
 }

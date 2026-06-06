@@ -14,8 +14,8 @@ void create()
         set("combat_exp",5000000);
         set("attitude","friendly");
         set("age",40);
-        set("title",HIR"北丐"NOR);
-        set("nickname",HIG"九指神丐"NOR);
+        set("title",HIR + "北丐" + NOR);
+        set("nickname",HIG + "九指神丐" + NOR);
         set("str", 50);
         set("cor", 40);
         set("cps", 30);
@@ -197,10 +197,10 @@ int accept_object(object me,object ob)
     }
     command("spank "+me->query("id"));
     command("say 你果然有二下子，我就把秘招三式傳授與你吧！");
-    tell_object(users(),HIY"\t洪七公縱聲大笑......\n\n\t\t"+name+""HIW"我很中意你，我這就傳予你本幫不傳秘招吧！\n"NOR);
+    tell_object(users(),HIY + "\t洪七公縱聲大笑......\n\n\t\t"+name+"" + HIW + "我很中意你，我這就傳予你本幫不傳秘招吧！\n" + NOR);
     me->set("beggar/got_secret",1);
     destruct(ob);
-    me->set("title",""BRED""HIW"打狗謎樣再現"NOR);
+    me->set("title","" + BRED + "" + HIW + "打狗謎樣再現" + NOR);
     return 1;}else{
     command ("say 先生！您哪位，不要隨給把垃圾給我！\n");
     command ("slap "+me->query("id"));
@@ -257,10 +257,10 @@ void do_cloudstaff(object me)
   lv = me->query_skill("force",1);
   command ("say 小兄弟，我還需借助你的幾成功\力來開光！\n");
   me->set_skill("force",lv-30);
-  tell_object(me,HIR"洪七公一隻手放在你的天靈蓋\上。\n"NOR);
-  tell_object(me,HIR"洪七公在自己手指割了一洞，將鮮血滴在杖身。\n"NOR);
-  tell_object(me,HIY"只見此杖發出異常光芒。\n"NOR);
-  tell_object(me,HIW"一陣刺眼後，出現眼前的即是期待已久的．．"HIC"流雲杖\n"NOR);
+  tell_object(me,HIR + "洪七公一隻手放在你的天靈蓋\上。\n" + NOR);
+  tell_object(me,HIR + "洪七公在自己手指割了一洞，將鮮血滴在杖身。\n" + NOR);
+  tell_object(me,HIY + "只見此杖發出異常光芒。\n" + NOR);
+  tell_object(me,HIW + "一陣刺眼後，出現眼前的即是期待已久的．．" + HIC + "流雲杖\n" + NOR);
   call_out("do_cloudstaff1",2);
 }
 
@@ -278,14 +278,14 @@ void do_cloudstaff1(object me)
 void do_cloudstaff2(object me)
 {
   me=this_player();
-  message_vision(HIG"洪七公隻手放在$N的天靈蓋\，試將$N的潛在能力激發出來！\n"NOR,me);
-  tell_object(me,HIG"突然間整個尋寶過程在你腦海裡上演了一次。"NOR);
-  tell_object(me,HIG"身體一陣火熱，你把與火鳳的戰鬥過程演化成自己的能力。\n"NOR);
+  message_vision(HIG + "洪七公隻手放在$N的天靈蓋\，試將$N的潛在能力激發出來！\n" + NOR,me);
+  tell_object(me,HIG + "突然間整個尋寶過程在你腦海裡上演了一次。" + NOR);
+  tell_object(me,HIG + "身體一陣火熱，你把與火鳳的戰鬥過程演化成自己的能力。\n" + NOR);
   command("say 小子，你如今已更上一層樓了，加油吧\n");
   command("say 想使出火鳳的能力：perform staff.phoenix \n");
   me->set("beggar/got_phoenix",1);
   me->set("beggar/got_cloudstaff",1);
-  me->set("title",HIC"丐幫"HIW"『"HIY"究極武學"HIW"』"HIR"烈焰"HIW"長空"NOR);
+  me->set("title",HIC + "丐幫" + HIW + "『" + HIY + "究極武學" + HIW + "』" + HIR + "烈焰" + HIW + "長空" + NOR);
   me->delete_temp("got_poor_staff");
   me->delete_temp("ko_pin");
   me->delete_temp("ko_chung");

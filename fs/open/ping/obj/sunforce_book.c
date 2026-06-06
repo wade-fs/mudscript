@@ -5,7 +5,7 @@ inherit ITEM;
 
 void create()
 {
-        set_name(HIY"一陽心法秘笈"NOR, ({"sunforce book","book" }));
+        set_name(HIY + "一陽心法秘笈" + NOR, ({"sunforce book","book" }));
         set_weight(100);
         if( clonep() )
           set_default_object(__FILE__);

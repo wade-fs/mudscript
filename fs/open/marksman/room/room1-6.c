@@ -10,7 +10,7 @@ inherit "/std/room/shop";
 
 void create ()
 {
-  set ("short", YEL"宋家商店"NOR);
+  set ("short", YEL + "宋家商店" + NOR);
   set ("long", @LONG
 這裡擺滿了各式各樣剛剛打造出來的防具和武器，屋裡到處是皮
 革金屬布料和刀劍。你似乎看到在牆上及桌上看到零零散散的火把及

@@ -14,7 +14,7 @@ void create()
 	set("attitude","aggressive");
 	set("chat_chance_combat", 15);
 	set("chat_msg_combat", ({  
-          HIB" 小鬼憤怒地叫:    吱～ 吱～\n"NOR      }) );
+          HIB + " 小鬼憤怒地叫:    吱～ 吱～\n" + NOR      }) );
 	set_skill("dodge",35);
 	setup();               
 }

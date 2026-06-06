@@ -5,7 +5,7 @@ inherit STICK;
 
 void create()
 {
-        set_name( HIR"聖火令"NOR,({"Fire-stick"}) );
+        set_name( HIR + "聖火令" + NOR,({"Fire-stick"}) );
      set_weight(20000);
      if( clonep() ) 
                set_default_object(__FILE__);

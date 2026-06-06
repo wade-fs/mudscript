@@ -52,13 +52,13 @@ int do_look(string str)
 				}
 				else
 				{
-					write("盒子中空無一物。\n"NOR);
+					write("盒子中空無一物。\n" + NOR);
 				}
 				return 1;
 			}
 			else
 			{
-				write("你可以看出有人從盒中把東西拿走的痕跡。\n"NOR);
+				write("你可以看出有人從盒中把東西拿走的痕跡。\n" + NOR);
 			}
 			return 1;
 	return 1;
@@ -71,11 +71,11 @@ int do_give()
 				ob = new(__DIR__"npc/kill_pill.c");
 				ob->set_amount(3);
 				ob->move(me);
-				write("你從盒子中取出三粒"HIM"醃漬桃子"NOR);
+				write("你從盒子中取出三粒" + HIM + "醃漬桃子" + NOR);
         ob = new(__DIR__"npc/kee_pill.c");
         ob->move(me);
-        write("\n你從盒子中取出一粒"HIM + ob->name() + "\n"NOR);
-/*				write("你從盒子中取出三粒"+HIR "生生造化丹\n"NOR);*/
+        write("\n你從盒子中取出一粒"HIM + ob->name() + "\n" + NOR);
+/*				write("你從盒子中取出三粒"+HIR "生生造化丹\n" + NOR);*/
 				me->set("quests/peach",1); // 開放前須將此設為固定變數
 				me->delete_temp("quests/peach");
 				me->delete("quest/peach");

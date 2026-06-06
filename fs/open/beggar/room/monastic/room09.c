@@ -3,7 +3,7 @@ inherit ROOM;
 
 void create()
 {
- set("short",""HIC"降龍堂"NOR"");
+ set("short","" + HIC + "降龍堂" + NOR + "");
  set("long",@LONG
   偌大的房間裡，一尊數尺高的降龍羅漢象聳立在前方，
   一條龍磐踞在降龍羅漢的身上，纏住降龍羅漢的十二大

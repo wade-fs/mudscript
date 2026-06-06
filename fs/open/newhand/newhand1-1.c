@@ -3,7 +3,7 @@
 inherit ROOM;
 void create ()
 {
-  set ("short", HIW"狂想空間指令入門房間"NOR);
+  set ("short", HIW + "狂想空間指令入門房間" + NOR);
   set ("long","狂想空間的指令集分成二大系統!!!
   1.一般指令系統(help cmds)       (所有的玩家都可以使用)
   2.幫派指令系統(help clancmds)   (部份有開放給一般玩家,除此之外限定幫派才能使用)

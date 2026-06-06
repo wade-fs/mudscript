@@ -54,7 +54,7 @@ void heart_beat(object me)
  {
  if (enemy[j]->is_character() && !enemy[j]->is_corpse() && living(enemy[j]) && enemy[j]->query("id")!="water ninja")
      {   
-     message_vision(HIR"$N對著$n大叫: 入侵者去死吧!!\n"NOR,mob,enemy[j]);
+     message_vision(HIR + "$N對著$n大叫: 入侵者去死吧!!\n" + NOR,mob,enemy[j]);
      enemy[j]->kill_ob(mob);
      mob->kill_ob(enemy[j]);
      }
@@ -68,8 +68,8 @@ void heart_beat(object me)
     target=enemy[random(i)];
     if( env == environment(target) )
     {
-        message_vision(HIR"\n$N抓住$n身體之後瞬間爆炸, 炸的連碎片都不剩!!\n"NOR,mob,target);
-        message_vision(HIR"\n$N被炸的全身是傷, 嚇到一點殺意都沒了!!\n"NOR,target);
+        message_vision(HIR + "\n$N抓住$n身體之後瞬間爆炸, 炸的連碎片都不剩!!\n" + NOR,mob,target);
+        message_vision(HIR + "\n$N被炸的全身是傷, 嚇到一點殺意都沒了!!\n" + NOR,target);
         mob->move("/open/killer/outsea/trashroom.c");
 	mob->set("combat_exp",0);
 	damage=target->query("kee")*0.9;

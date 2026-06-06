@@ -4,7 +4,7 @@
 inherit ITEM;
 void create()
 {
-        set_name(HIC"封神寶瓶" NOR, ({"god-bottle"}));
+        set_name(HIC + "封神寶瓶" + NOR, ({"god-bottle"}));
         set("long","神話時代流傳下來的古器，以g-catch使用。\n");
         set("unit", "瓶");
         set("weight",500);
@@ -51,20 +51,20 @@ int catch_enemy(string str)
         }
         
         
-        message_vision( sprintf(HIG"$N喃喃唸道："HIW"「"HIC"天地無極、乾坤借法。多瑪奇莎拉姆..."HIW"」"HIG"，瞬間，一道強光由瓶中射向$n。\n"NOR),this_player(),ob);
+        message_vision( sprintf(HIG + "$N喃喃唸道：" + HIW + "「" + HIC + "天地無極、乾坤借法。多瑪奇莎拉姆..." + HIW + "」" + HIG + "，瞬間，一道強光由瓶中射向$n。\n" + NOR),this_player(),ob);
         this_player()->start_busy(1);
         exp1= (int)ob->query("combat_exp");
         exp2=(int)this_player()->query("combat_exp");
         if( random(exp2) > random(exp1) )
         {
-        message_vision( sprintf(HIY"$N悶哼一聲，不由自主的化作一道清煙竄入瓶中。\n"NOR),ob);
+        message_vision( sprintf(HIY + "$N悶哼一聲，不由自主的化作一道清煙竄入瓶中。\n" + NOR),ob);
         environment(ob)->set_temp("god-die",1);
         destruct(ob);
         this_player()->add("sen",-15);
         this_object()->set("be_used",1);
         return 1;
         }
-        message_vision( sprintf(HIR"$N神的力量驟現，"HIM"『"HIW"神古忌流"HIY"‧"HIB"煉破反衝壁"HIM"』"HIR"將強光能源完全吸收，並立即反攻。\n\n"NOR),ob);
+        message_vision( sprintf(HIR + "$N神的力量驟現，" + HIM + "『" + HIW + "神古忌流" + HIY + "‧" + HIB + "煉破反衝壁" + HIM + "』" + HIR + "將強光能源完全吸收，並立即反攻。\n\n" + NOR),ob);
         this_player()->add("sen",-1);
         ob->receive_curing("kee",1000);
         ob->receive_heal("kee",1000);

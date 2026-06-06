@@ -6,7 +6,7 @@ void create()
 {
 	set_name("狂蛇",({"crazy snake","snake"}));
 	set("age",20);
-	set("title",HIW"服毒使"NOR);
+	set("title",HIW + "服毒使" + NOR);
 	set("gender","男性");
         set("attitude","aggressive");
 	set("long","
@@ -55,12 +55,12 @@ int i,j;
 		
 		if( random(i) > random(j) && random(100) < 50 )
 		{
-			message_vision(HIR"$N服食蛇毒後，凶性大發，不顧一切撲向$n，只求兩敗俱傷～\n"NOR,ob,target);
+			message_vision(HIR + "$N服食蛇毒後，凶性大發，不顧一切撲向$n，只求兩敗俱傷～\n" + NOR,ob,target);
 			target->receive_wound("kee",500);
 			ob->receive_wound("kee",500);
 			COMBAT_D->report_status(target,1);
 			COMBAT_D->report_status(ob,1);
-			message_vision(HIC"$N像是謝了氣的皮球...動也不動的呆立著。\n"NOR,ob);
+			message_vision(HIC + "$N像是謝了氣的皮球...動也不動的呆立著。\n" + NOR,ob);
 			ob->start_busy(1);
 		}
 	}

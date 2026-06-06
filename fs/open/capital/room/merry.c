@@ -322,8 +322,8 @@ void start_merry()
 
   remove_call_out("start_merry");
   CHANNEL_D->do_channel(this_object(), "mud",
-	HIY"新郎"+husband_name+"和新娘"+wife_name+"的結婚儀式開始........\n"+
-	"各路親朋好友請來民政司送禮見證..........\n"NOR);
+	HIY + "新郎"+husband_name+"和新娘"+wife_name+"的結婚儀式開始........\n"+
+	"各路親朋好友請來民政司送禮見證..........\n" + NOR);
 
   call_out("step1", 60);
 }
@@ -331,8 +331,8 @@ void start_merry()
 void step1()
 {
   CHANNEL_D->do_channel(this_object(), "mud",
-	HIY"繞京城一周....樂隊、炮隊、雜耍團等都請就位....\n"
-	"新郎請上俊馬，新娘請上花轎。\n"NOR);
+	HIY + "繞京城一周....樂隊、炮隊、雜耍團等都請就位....\n"
+	"新郎請上俊馬，新娘請上花轎。\n" + NOR);
   tell_room (this_object(), "你看到新郎上了俊馬新娘上了花轎。\n", 
 	husband, wife);
   tell_object(husband, "你高高興興的上了俊馬。\n");
@@ -373,7 +373,7 @@ void forward(string go_way, int times)
     }
     else {
 	CHANNEL_D->do_channel(this_object(), "mud",
-	  HIY"禮成....新郎新娘送入洞房，其他人作鳥獸散。\n"NOR);
+	  HIY + "禮成....新郎新娘送入洞房，其他人作鳥獸散。\n" + NOR);
 	call_out ("stop_merry", 1);
     }
 

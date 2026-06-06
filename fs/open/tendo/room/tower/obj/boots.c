@@ -4,7 +4,7 @@ inherit EQUIP;
 
 void create()
 {
-        set_name(HIB"修羅戰鬥靴"NOR,({"fiend boots","boots"}) );
+        set_name(HIB + "修羅戰鬥靴" + NOR,({"fiend boots","boots"}) );
         set_weight(600);
         if( clonep() )
                 set_default_object(__FILE__);
@@ -14,7 +14,7 @@ void create()
         set("value", 50000);
         set("material","leather");
         set("armor_type","boots");
-        set("wear_msg",HIC"穿上$n之後，$N的身體頓時受到冥殿之氣的牽引，徐徐升起。\n"NOR);
+        set("wear_msg",HIC + "穿上$n之後，$N的身體頓時受到冥殿之氣的牽引，徐徐升起。\n" + NOR);
         set("armor_prop/move", 5);
         set("armor_prop/dodge", 5);
         set("armor_prop/armor", 5);

@@ -34,7 +34,7 @@ int valid_leave(object me, string dir)
         if(dir=="east"&&present("king",environment(me)))
   {
 
-message_vision(HIY"亂陽天說:「先露一手武功\再說吧！」\n"NOR,me);
+message_vision(HIY + "亂陽天說:「先露一手武功\再說吧！」\n" + NOR,me);
 
 return 0;
 }

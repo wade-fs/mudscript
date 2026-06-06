@@ -3,7 +3,7 @@ inherit COMBINED_ITEM;
 
 void create()
 {
-        set_name(HIB"水血"NOR,({"water blood","blood"}));
+        set_name(HIB + "水血" + NOR,({"water blood","blood"}));
         set_weight(10);
         if(clonep())
                 set_default_object(__FILE__);

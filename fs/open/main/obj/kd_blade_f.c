@@ -56,8 +56,8 @@ int do_wield(string str)
           set_name("屠龍刀",({"dragon blade","blade"}) );
           set_heart_beat(0);
         }else{
-          message_vision(HIY"屠龍刀感受到$N的膽識,泛起一層金光.\n"NOR,user);
-          set_name(HIY"屠龍刀"NOR,({"dragon blade","blade"}) );
+          message_vision(HIY + "屠龍刀感受到$N的膽識,泛起一層金光.\n" + NOR,user);
+          set_name(HIY + "屠龍刀" + NOR,({"dragon blade","blade"}) );
           sp = my_cor;
           set_heart_beat(1);
         }

@@ -37,7 +37,7 @@ int valid_leave(object me, string dir)
         if(dir=="north"&&present("ghost",environment(me)))
   {
 
-message_vision(HIY"醉魔喃喃說：「唔...酒再來一罈...」\n"NOR,me);
+message_vision(HIY + "醉魔喃喃說：「唔...酒再來一罈...」\n" + NOR,me);
 
 return 0;
 }

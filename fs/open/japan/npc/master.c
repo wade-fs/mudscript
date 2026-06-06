@@ -14,9 +14,9 @@ void do_special()
         target=enemy[random(i)];
 
                 message_vision(
-HIM"\n奈美念起忍術：「啊～～～凍體封念」\n"NOR,target);
+HIM + "\n奈美念起忍術：「啊～～～凍體封念」\n" + NOR,target);
                 message_vision(
-HIW"\n四周空氣急冷$N的力氣全部都消失了！！！\n"NOR,target);
+HIW + "\n四周空氣急冷$N的力氣全部都消失了！！！\n" + NOR,target);
                 target->receive_wound("kee",random(50+100));
                 target->start_busy(5);
                 COMBAT_D->report_status(target);
@@ -29,7 +29,7 @@ void create()
         set_name("澄香奈美",({"Master Ma","master","ma"}));
         set("gender","女性");
         set("class","killer");
-        set("title",HIM"女影門究極奧義流傳人"NOR);
+        set("title",HIM + "女影門究極奧義流傳人" + NOR);
         set("attitude","heroism");
         set("long","她是女影門未來的首領");
         set("age",21);
@@ -117,7 +117,7 @@ void die(){
 	object killer;
 	killer = query_temp("last_damage_from");
         killer->set_temp("blood", 1);
-        message_vision(HIR"$N狠狠地瞪著$n說:$n.....你.別得意....我...教..中人.....會為我..報...
-........ .仇...的..........(斷氣)"NOR,this_object(),killer);
+        message_vision(HIR + "$N狠狠地瞪著$n說:$n.....你.別得意....我...教..中人.....會為我..報...
+........ .仇...的..........(斷氣)" + NOR,this_object(),killer);
 	::die();
 }	

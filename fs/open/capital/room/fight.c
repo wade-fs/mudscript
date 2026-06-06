@@ -40,7 +40,7 @@ int valid_leave( object me, string dir )
         me->query("atman") < me->query("max_atman")/2 )
       return notify_fail( "目前尚未處於最佳狀態, 還是等做好萬全準備後再進武鬥會場吧。\n" );
     if( !userp(me) ) {
-      tell_room( this_object(), me->query("name") + "不是玩家, 不得進入武鬥會場。\n"NOR, me );
+      tell_room( this_object(), me->query("name") + "不是玩家, 不得進入武鬥會場。\n" + NOR, me );
       return 0;
     }
     if( me->query("clan") )

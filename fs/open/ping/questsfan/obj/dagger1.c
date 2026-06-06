@@ -5,7 +5,7 @@ inherit DAGGER;
 
 void create()
 {
-        set_name(HIC "沉璧" NOR,({"moon dagger","dagger"}));
+        set_name(HIC + "沉璧" + NOR,({"moon dagger","dagger"}));
         set_weight(800);
         if( clonep() )
                 set_default_object(__FILE__);
@@ -17,8 +17,8 @@ void create()
                 set("material", "steel");
         }
         init_dagger(100);
-        set("wield_msg", HIY"$N雙手忽然一抖，$n就像變魔術般的出現在$N手上。\n"NOR);
-        set("unwield_msg",HIY"$N將手一抖，$n便消失了。\n"NOR);
+        set("wield_msg", HIY + "$N雙手忽然一抖，$n就像變魔術般的出現在$N手上。\n" + NOR);
+        set("unwield_msg",HIY + "$N將手一抖，$n便消失了。\n" + NOR);
         setup();
 }
 

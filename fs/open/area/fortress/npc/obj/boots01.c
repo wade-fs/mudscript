@@ -4,7 +4,7 @@ inherit BOOTS;
 object me=this_player();
 void create()
 {
-        set_name(YEL"山寨靴"NOR,({"fortress boots","boots"}));
+        set_name(YEL + "山寨靴" + NOR,({"fortress boots","boots"}));
         set_weight(2000);
         if( clonep() )
                 set_default_object(__FILE__);

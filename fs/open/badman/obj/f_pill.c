@@ -39,7 +39,7 @@ int eat_pill2(object me)
   max = me->query("max_force");
   force = me->query("force");
   tell_object(me, "\n你感到一股雄渾的內勁在你體內流竄。\n");
-  tell_object(me, HIC"你的內力恢復了！\n"NOR);
+  tell_object(me, HIC + "你的內力恢復了！\n" + NOR);
   if( force < max )
     me->set("force", max);
   destruct(this_object());

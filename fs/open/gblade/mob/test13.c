@@ -55,8 +55,8 @@ void invocation(object who)
         object *enemy;
 
         message("vision",
-        HIG"一道綠光從妖壺衝出 , 一個面目猙獰的押差走了出來\n"
-        + name() + "說道 : 抓你到冥界玩玩如何\n"NOR,
+        HIG + "一道綠光從妖壺衝出 , 一個面目猙獰的押差走了出來\n"
+        + name() + "說道 : 抓你到冥界玩玩如何\n" + NOR,
                 environment(), this_object() );
         enemy = who->query_enemy();
         i = sizeof(enemy);
@@ -81,7 +81,7 @@ void invocation(object who)
     i=sizeof(enemy);
     target=enemy[random(i)];
     message("vision",
-    HIR "$N使出鬼哭神嚎 , 叫的$N心神不凝 \n"NOR,target);
+    HIR + "$N使出鬼哭神嚎 , 叫的$N心神不凝 \n" + NOR,target);
     target->add("sen",-10);
     ob->add("mana",-50);
   }

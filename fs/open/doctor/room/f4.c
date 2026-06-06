@@ -35,14 +35,14 @@ int do_dig(string arg)
 
     if(me->query_temp("sos_tor")==1 && !me->query_temp("get_root") && arg == "土地")
 {
-	write("你把這鬆軟的泥土給挖開，並摘取了幾條榕樹根...\n"NOR);
+	write("你把這鬆軟的泥土給挖開，並摘取了幾條榕樹根...\n" + NOR);
 	ob->move(me);
 	me->set_temp("get_root",1);
 	return 1;
 }
     else
 {
-	write("你挖ㄚ挖的，老半天也沒挖到啥東西！\n"NOR);
+	write("你挖ㄚ挖的，老半天也沒挖到啥東西！\n" + NOR);
 	return 1;
   }
 }

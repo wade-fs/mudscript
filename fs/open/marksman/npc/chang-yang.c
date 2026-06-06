@@ -9,7 +9,7 @@ create_family("射日派",3,"弟子");
         set("gender", "男性" );
         set("age", 40);
         set("long", "李廣身邊最貼身的護法之一。\n");
-        set("nickname",HIY"左護法"NOR);
+        set("nickname",HIY + "左護法" + NOR);
 set("combat_exp",200000);
         set("max_force",1000);
 	set("force",1000);

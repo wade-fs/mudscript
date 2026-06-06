@@ -6,7 +6,7 @@ object me=this_player();
 void create()
 {
         seteuid(getuid());
-        set_name(HIR"烈燄手裏劍"NOR,({"fire knife","knife"}));
+        set_name(HIR + "烈燄手裏劍" + NOR,({"fire knife","knife"}));
         set_weight(4000);
         if( clonep() )
                 set_default_object(__FILE__);
@@ -43,7 +43,7 @@ mixed hit_ob(object me)
   {
     if( random(100) > 70 && random(bb*3)  > victim->query_skill("dodge")+10)
     {
-      message_vision(HIR"$N順手一揮, 烈燄手裏劍的熱氣已在$n身上劃出一道熾熱的傷口!!!\n"NOR,user,victim);
+      message_vision(HIR + "$N順手一揮, 烈燄手裏劍的熱氣已在$n身上劃出一道熾熱的傷口!!!\n" + NOR,user,victim);
       victim->receive_wound("kee",250+me->query_skill("dagger"));
       victim->apply_condition("burn",random(3)+1);
       COMBAT_D->report_status(victim);
@@ -66,7 +66,7 @@ if( me->is_fighting() && query("equipped") )
   {
       if( random(me->query_skill("throwing")) > 155 )
      {
-message_vision(HIR"$N趁著空檔時機, 將"HIR"烈燄手裏劍"HIR"對準$n擲去,$n無法躲避, 被割出了幾道細長的血痕。\n"NOR,me,enemy[i]);
+message_vision(HIR + "$N趁著空檔時機, 將" + HIR + "烈燄手裏劍" + HIR + "對準$n擲去,$n無法躲避, 被割出了幾道細長的血痕。\n" + NOR,me,enemy[i]);
 enemy[i]->receive_wound("kee",200+me->query_skill("throwing")+me->query("functions/manakee/level"));
 enemy[i]->apply_condition("burn",random(3)+1);
 COMBAT_D->report_status(enemy[i]);

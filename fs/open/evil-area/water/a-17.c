@@ -3,7 +3,7 @@ inherit ROOM;
 
 void create ()
 {
-	set("short",HIC"琰 揚 湖"NOR);
+	set("short",HIC + "琰 揚 湖" + NOR);
 	set("long",@LONG
 在你的正北方的湖面上，漂浮著一座建築物，你不斷的觀看著建
 築物本身，可惜由於你身處於建築物背面不遠的南邊岸上，所以根本

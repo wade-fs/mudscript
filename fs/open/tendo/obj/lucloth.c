@@ -6,7 +6,7 @@ inherit EQUIP;
 
 void create()
 {
-	set_name( MAG"紫綬仙衣" NOR ,({"silk cloth","cloth"}));
+	set_name( MAG + "紫綬仙衣" + NOR ,({"silk cloth","cloth"}));
 	set("long","以紫色絲綢製成，上面還繡了幅老君太極圖\n");
 	set_weight(1500);
         set("armor_type","cloth");
@@ -20,8 +20,8 @@ void create()
 set("no_get",1);
 set("no_give",1);
                 set("armor_prop/spell", 10);
-		set("wear_msg","$N裝備上$n，四周極光籠罩，$N只覺得體力充沛，說不出的受用。\n"NOR);
-                set("remove_msg",HIW"$N脫下$n"HIW"，身旁的光芒慢慢地黯淡下來。\n"NOR);
+		set("wear_msg","$N裝備上$n，四周極光籠罩，$N只覺得體力充沛，說不出的受用。\n" + NOR);
+                set("remove_msg",HIW + "$N脫下$n" + HIW + "，身旁的光芒慢慢地黯淡下來。\n" + NOR);
 	}
         setup();
 }
@@ -36,7 +36,7 @@ int wear(){
   if( !me->query_temp("armor/cloth") ) {
   	me->add("max_kee",val);
   	me->set_temp("silk_cloth",val);
-//	me->add_temp("apply/name",({me->name()+HIW"(仙綬之衣)"NOR}));
+//	me->add_temp("apply/name",({me->name()+HIW"(仙綬之衣)" + NOR}));
   }
   return ::wear();
 }

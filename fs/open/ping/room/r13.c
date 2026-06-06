@@ -23,7 +23,7 @@ LONG);
   "south" : __DIR__"r15.c",
   "north" : __DIR__"r12.c",
 ]));
-create_door("north",HIW"白鐵濱花門"NOR,"south",DOOR_CLOSED);
+create_door("north",HIW + "白鐵濱花門" + NOR,"south",DOOR_CLOSED);
 
   setup();
 }

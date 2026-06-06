@@ -27,7 +27,7 @@ int valid_leave(object me,string dir)
 	object obj = present("Sword Shining");
         if( dir == "north" )
         {
-          if(obj)  return notify_fail(HIY"劍光芒"HIW"怒道:『中原武人無不對我敬若天神，你卻敢無視我的存在!?』\n"NOR);
+          if(obj)  return notify_fail(HIY + "劍光芒" + HIW + "怒道:『中原武人無不對我敬若天神，你卻敢無視我的存在!?』\n" + NOR);
         }
 
 return 1;

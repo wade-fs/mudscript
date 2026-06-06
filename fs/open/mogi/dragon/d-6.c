@@ -3,7 +3,7 @@ inherit ROOM;
 #include <ansi.h>
 void create ()
 {
-  set ("short", HIW"天雷崖上"NOR);
+  set ("short", HIW + "天雷崖上" + NOR);
   set ("long", @LONG
 艱難的靠著山壁間凸起的石塊 ,你登上了這座山
 崖。濃雲密怖著 ,處處閃爍著電光 ,周圍的樹木盡

@@ -62,7 +62,7 @@ void die()
 	object me;
 	me=query_temp("last_damage_from");
 	message_vision("\n",me);
-	message_vision(HIR "一大蓬的鮮血濺在你的臉上。\n" NOR,me);
+	message_vision(HIR + "一大蓬的鮮血濺在你的臉上。\n" + NOR,me);
 	message_vision(" 將軍的身體倒在血泊中微微地顫抖著。\n",me);
 	tell_room(me,"將軍說:你......你會害死村裡的人....的。\n");
 	call_out("msg2",1,me);
@@ -70,9 +70,9 @@ void die()
  void msg2(object me)
 {	 
 	message_vision("\n",me);
-message_vision(HIG "山賊嘍囉大叫:那個惹人厭的將軍死掉啦，哈哈哈!!\n" NOR,me);
+message_vision(HIG + "山賊嘍囉大叫:那個惹人厭的將軍死掉啦，哈哈哈!!\n" + NOR,me);
 
-message_vision(HIG "山賊頭目喊道:小子們，傢伙準備好，要開工啦!!!\n" NOR,me);
+message_vision(HIG + "山賊頭目喊道:小子們，傢伙準備好，要開工啦!!!\n" + NOR,me);
 	tell_room(me,"你不禁心想:糟!犯大錯了。\n");
 	new("/open/poison/npc/bandit4.c")->move("/open/poison/room/v2-6.c");
 	new("/open/poison/npc/bandit2.c")->move("/open/poison/room/v2-6.c");

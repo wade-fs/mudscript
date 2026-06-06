@@ -3,7 +3,7 @@
 inherit ROOM;
 void create()
 {
-   set("short", HIW"仙劍第三試煉峽谷"NOR);
+   set("short", HIW + "仙劍第三試煉峽谷" + NOR);
    set("long", @LONG
 步入此處.和你之前所見的完全不同...此處好比世外桃源.在你進入之後..
 你發現在你的前方有一個逐漸成型的人影..看樣子他就是此處的試煉者了.。

@@ -3,7 +3,7 @@ inherit ROOM;
 
 void create ()
 {
-	set ("short", HIB"絕道"NOR" - "HIY"封靈道"NOR" - "HIB"無邊"NOR);
+	set ("short", HIB + "絕道" + NOR + " - " + HIY + "封靈道" + NOR + " - " + HIB + "無邊" + NOR);
 	set( "build", 24 );
 	set ("long", @LONG
 封靈道的最後一關，由聚靈山莊的莊主親自坐鎮，為了防止不宵

@@ -4,7 +4,7 @@ inherit ROOM;
 
 void create ()
 {
-  set ("short", HIY"皇陵"NOR);
+  set ("short", HIY + "皇陵" + NOR);
   set ("long", @LONG
 四週瀰漫著莊嚴肅穆的氣氛，這裡是皇朝歷代帝皇駕崩後的安葬
 之地，此地不但不像一般墓園的陰森，反而還瀰漫著高貴優雅的氣息

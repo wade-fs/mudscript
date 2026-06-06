@@ -75,8 +75,8 @@ string ask_well()
 		{
 			command("say 謝謝你幫忙老婆子把髮簪還給玲玲。");
 			command("say 老婆子特地告訴你一個秘密吧。");
-			write(HIY"六婆特地在你耳邊悄悄地對你說。\n"NOR);
-			write(HIY"六婆說道: 聽說水井是可以爬下去的。\n"NOR);
+			write(HIY + "六婆特地在你耳邊悄悄地對你說。\n" + NOR);
+			write(HIY + "六婆說道: 聽說水井是可以爬下去的。\n" + NOR);
 			me->set_temp("quests/peach/know",1);
 		}
 		else

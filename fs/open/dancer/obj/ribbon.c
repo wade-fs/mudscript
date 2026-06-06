@@ -9,7 +9,7 @@ inherit F_SAVE;
 
 void create()
 {
-  set_name(HIC "七"HIM"彩"HIG"緞"HIW"帶" NOR, ({"rainbow ribbon","ribbon"}));
+  set_name(HIC + "七" + HIM + "彩" + HIG + "緞" + HIW + "帶" + NOR, ({"rainbow ribbon","ribbon"}));
   set_weight(2000);
   if( clonep() )
     set_default_object(__FILE__);

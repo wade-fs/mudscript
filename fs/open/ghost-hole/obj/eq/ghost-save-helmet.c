@@ -6,8 +6,8 @@
 inherit EQUIP;
 void create()
 {
-    set_name(MAG"ω"CYN""BBLU"冥魔"HIR"帝冠"NOR""MAG"ω"NOR,({"ghost-helmet","helmet"}));
-    set("long",CYN""BBLU"冥魔戰甲的一部份"NOR);   
+    set_name(MAG + "ω" + CYN + "" + BBLU + "冥魔" + HIR + "帝冠" + NOR + "" + MAG + "ω" + NOR,({"ghost-helmet","helmet"}));
+    set("long",CYN + "" + BBLU + "冥魔戰甲的一部份" + NOR);   
     set_weight(25);
         set("armor_type","head");
         if( clonep() )
@@ -30,8 +30,8 @@ void create()
                 set("no_steal",1);
                 set("no_save",1);
                 set("thunder", 1000000000000);
-                set("wear_msg",HIG"$N戴上$n"HIG"，突然只想瘋狂的沉醉於殺戮之中。\n"NOR);
-                set("unequip_msg",HIW"$N拿下$n"HIW"，殺意退散，恢復仁慈的本性。\n"NOR);
+                set("wear_msg",HIG + "$N戴上$n" + HIG + "，突然只想瘋狂的沉醉於殺戮之中。\n" + NOR);
+                set("unequip_msg",HIW + "$N拿下$n" + HIW + "，殺意退散，恢復仁慈的本性。\n" + NOR);
        }
         setup();
 }
@@ -41,7 +41,7 @@ void init()
   seteuid(geteuid());
   me = this_player();
   if (me)
-        set_name (me->name(1)+ "的"MAG"ω"CYN""BBLU"冥魔"HIR"帝冠"NOR""MAG"ω"NOR,({"ghost-helmet","helmet"}));
+        set_name (me->name(1)+ "的" + MAG + "ω" + CYN + "" + BBLU + "冥魔" + HIR + "帝冠" + NOR + "" + MAG + "ω" + NOR,({"ghost-helmet","helmet"}));
   else
-        set_name (MAG"ω"CYN""BBLU"冥魔"HIR"帝冠"NOR""MAG"ω"NOR,({"ghost-helmet","helmet"}));
+        set_name (MAG + "ω" + CYN + "" + BBLU + "冥魔" + HIR + "帝冠" + NOR + "" + MAG + "ω" + NOR,({"ghost-helmet","helmet"}));
 }

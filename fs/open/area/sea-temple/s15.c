@@ -4,7 +4,7 @@ inherit ROOM;
 
 void create()
 {
-	set("short",HIB"海神廟-廳堂入口"NOR);
+	set("short",HIB + "海神廟-廳堂入口" + NOR);
 	set("long",@LONG
   眼前是海神廟廳堂的入口，整個海神廟可以說是浮在海洋之上，
 廳堂的入口兩側有兩條龍攀升而上的乳白石柱，在兩個石柱中，有一
@@ -28,7 +28,7 @@ void init()
 
 int do_touch()
 {
-	message_vision(HIC"$N接觸了鏡面，人一瞬間被吸入其中！\n"NOR,this_player());
+	message_vision(HIC + "$N接觸了鏡面，人一瞬間被吸入其中！\n" + NOR,this_player());
 	this_player()->move(__DIR__"s16");
 	return 1;
 }

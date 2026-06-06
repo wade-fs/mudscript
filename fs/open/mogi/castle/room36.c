@@ -1,7 +1,7 @@
 inherit ROOM;
 #include <ansi.h>
 void create () {
-set ("short",HIB"青龍室"NOR);
+set ("short",HIB + "青龍室" + NOR);
 	set( "build", 12 );
         set ("long","這裡就是青龍密室，牆上雕著一隻栩栩如生張牙舞爪的青色巨龍，
 但是屋內正中央放著一本密笈，隱隱有火焰繚繞，寶光流動不息，

@@ -8,13 +8,13 @@ void create ()
 {
 
   string long;
-  set ("short", HIY "夜夢殿堂" NOR );
+  set ("short", HIY + "夜夢殿堂" + NOR );
   set( "build", 189 );
 
 long = ""+
-"                        "HIY"夜夢殿堂"NOR"      \n"+
+"                        " + HIY + "夜夢殿堂" + NOR + "      \n"+
 "\n"+
-"      這裡是夜夢小築的大殿"HIC"《"HIY"夜夢殿堂"HIC"》"NOR"，這裡是夜夢弟子們平常\n"+
+"      這裡是夜夢小築的大殿" + HIC + "《" + HIY + "夜夢殿堂" + HIC + "》" + NOR + "，這裡是夜夢弟子們平常\n"+
 "  學習舞蹈、武術的地方，建築得美侖美煥，美麗的建築再加上舞者\n"+
 "  們優美的舞蹈，真是會令人以為身處幻境。往西則是舞者專用的聊\n"+
 "  天休息室喔！\n"+
@@ -79,20 +79,20 @@ int do_billing(string str)
   j=sizeof(user);
   switch(i) {
     case 0 : user=sort_array(user,"sort_exp",this_object());
-             str=sprintf(HIG"夜夢小築經驗值排行榜:\n\n"NOR);
+             str=sprintf(HIG + "夜夢小築經驗值排行榜:\n\n" + NOR);
              for(i=0; i<j; i++)
-               { str+=sprintf(HIC"第%2d名 %30s(%s)\n"NOR,i+1,user[i]->query("name"),user[i]->query("id")); }
+               { str+=sprintf(HIC + "第%2d名 %30s(%s)\n" + NOR,i+1,user[i]->query("name"),user[i]->query("id")); }
              str+="\n";
              tell_object(this_player(),str);
              break;
     case 1 : user=sort_array(user,"sort_force",this_object());
-             str=sprintf(HIG"夜夢小築內力排行榜:\n\n"NOR);
+             str=sprintf(HIG + "夜夢小築內力排行榜:\n\n" + NOR);
              for(i=0; i<j; i++)
-               { str+=sprintf(HIC"第%2d名 %30s(%s)\n"NOR,i+1,user[i]->query("name"),user[i]->query("id")); }
+               { str+=sprintf(HIC + "第%2d名 %30s(%s)\n" + NOR,i+1,user[i]->query("name"),user[i]->query("id")); }
              str+="\n";
              tell_object(this_player(),str);
              break;
-    case 2 : str=sprintf(HIG"夜夢小築師徒關係:\n\n"NOR);
+    case 2 : str=sprintf(HIG + "夜夢小築師徒關係:\n\n" + NOR);
              for(i=0; i<j; i++) {
                if( user[i]->query("family/master_is_ppl") ) {
                  if( master=find_player(user[i]->query("family/master_id"))) {
@@ -107,7 +107,7 @@ int do_billing(string str)
                    }
                  }
                }
-               str+=sprintf(HIC"%|20s(%|10s)     師承  %|20s(%|10s)\n"NOR,user[i]->query("name"),user[i]->query("id"),user[i]->query("family/master_name"),user[i]->query("family/master_id"));
+               str+=sprintf(HIC + "%|20s(%|10s)     師承  %|20s(%|10s)\n" + NOR,user[i]->query("name"),user[i]->query("id"),user[i]->query("family/master_name"),user[i]->query("family/master_id"));
              }
              str+="\n";
              tell_object(this_player(),str);

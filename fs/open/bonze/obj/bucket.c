@@ -70,11 +70,11 @@ int do_pour(string arg) //需補充 在解quest的途中倒水才有效 解完�
   else if ( query("fill") != 1 ) //如果倒過水的話
     return notify_fail("你發現水桶裡面沒有水。\n");
   else if ( obj->query("液體/剩") > 900 ) //為水缸次數的判斷
-    return notify_fail(HIY"你發現水缸已經滿了。\n"NOR);
+    return notify_fail(HIY + "你發現水缸已經滿了。\n" + NOR);
   set("液體/剩",0);
   set("液體/止渴",0);
   set("fill",0); //倒過水
-  message_vision(CYN"$N提起$n將靈水倒進水缸裡。\n"NOR,me,ob);
+  message_vision(CYN + "$N提起$n將靈水倒進水缸裡。\n" + NOR,me,ob);
   me->add_temp("quests/bonze/water/times",1); //在身上紀錄次數 是作為勤奮的判斷
   ob->add_temp("quests/bonze/water/times",1); //可作為隨機毀損=漏水的參數 預計作為水桶受損而無法裝水的可能性 使玩家再次領水桶而費時
   obj->add("液體/剩",1);

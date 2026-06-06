@@ -39,7 +39,7 @@ int valid_leave(object me, string dir)
 {
         if( dir=="out" )
         message("system",
- HIW"\n\t武林之中傳來一道消息 : 非常遺憾～"HIY""+this_player()->name()+""HIW"因膽怯而退出了"HIR"鎖妖塔"HIW" !!\n"NOR,users());
+ HIW + "\n\t武林之中傳來一道消息 : 非常遺憾～" + HIY + ""+this_player()->name()+"" + HIW + "因膽怯而退出了" + HIR + "鎖妖塔" + HIW + " !!\n" + NOR,users());
         return ::valid_leave(me, dir);
 }
 void init()
@@ -53,7 +53,7 @@ void init()
 void fire_wound(object ob)
 {
         if( !ob || !present(ob) ) return;
-       tell_object(ob,HIR"～鬼影幢幢～你覺得胸中一陣翻滾，忽然一道血箭從你的嘴裡噴了出來。\n"NOR);
+       tell_object(ob,HIR + "～鬼影幢幢～你覺得胸中一陣翻滾，忽然一道血箭從你的嘴裡噴了出來。\n" + NOR);
        ob->add("kee",-100);
        call_out("fire_wound", 6,ob);
 }

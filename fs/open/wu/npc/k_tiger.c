@@ -48,7 +48,7 @@ int special_attack()
    ob=this_object()->query_enemy();
    if(k > 7)
    {
-   message_vision(HIW"獨角虎向天狂吼!!!吸收大地的精萃，使獨角虎創傷恢復了!\n"NOR,this_object());
+   message_vision(HIW + "獨角虎向天狂吼!!!吸收大地的精萃，使獨角虎創傷恢復了!\n" + NOR,this_object());
    me->add("kee",500);
    }
   return 1;

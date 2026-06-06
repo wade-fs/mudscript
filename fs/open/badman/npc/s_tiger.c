@@ -49,7 +49,7 @@ int accept_kill(object who)
    if(!ob->query_temp("my_mother")) {
 
 	if( !present("big tiger", environment(ob)) ) {
-	tell_room(environment(ob),HIW"\n突然，一隻巨大的母老虎向你衝了過來！\n\n"NOR);
+	tell_room(environment(ob),HIW + "\n突然，一隻巨大的母老虎向你衝了過來！\n\n" + NOR);
 	tiger = new(BAD_NPC"tiger");
 	tiger->move(environment(ob));
 	tiger->kill_ob(who);
@@ -57,7 +57,7 @@ int accept_kill(object who)
     ob->set_temp("my_mother",1);
   } else
   {
-   tell_room(environment(ob),HIR"\n只見小老虎全身發抖,爬在地下!!!!\n\n"NOR);
+   tell_room(environment(ob),HIR + "\n只見小老虎全身發抖,爬在地下!!!!\n\n" + NOR);
   }
 	return 1;
 }

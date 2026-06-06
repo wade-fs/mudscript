@@ -168,7 +168,7 @@ void heart_beat()
         if( is_fighting() ){
         if( random(20) < 5 )
         {
-message_vision(HIC"\n司徒躬瞱運起儒門『正氣浩然』，身上散出陣陣紫光。\n"NOR,ob);
+message_vision(HIC + "\n司徒躬瞱運起儒門『正氣浩然』，身上散出陣陣紫光。\n" + NOR,ob);
           ob->delete_busy();
           ob->add("kee",500);
           ob->add("force",500);

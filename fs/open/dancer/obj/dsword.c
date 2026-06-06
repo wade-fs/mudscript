@@ -7,7 +7,7 @@ inherit SWORD;
 void create()
 {
 	seteuid(getuid());
-        set_name(HIR"真‧連陽劍" NOR,({"Sad sword"}));
+        set_name(HIR + "真‧連陽劍" + NOR,({"Sad sword"}));
 	set_weight(9000);
 	if( clonep() )
 		set_default_object(__FILE__);
@@ -22,7 +22,7 @@ void create()
 		set("no_put",1);
 		set("material", "crimsonsteel");
 		set("rigidity",200);
- 	set("wield_msg", "$N拔出"HIR"連陽劍"NOR", 剎那間虹光閃耀, 不可逼視。\n");
+ 	set("wield_msg", "$N拔出" + HIR + "連陽劍" + NOR + ", 剎那間虹光閃耀, 不可逼視。\n");
 	set("unwield_msg", "$N將右手內勁收回,$n消失無形 。\n");
         set("weapon_prop/sword",10);
 	}

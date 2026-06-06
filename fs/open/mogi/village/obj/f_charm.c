@@ -41,25 +41,25 @@ int do_freeze(string arg)
         return notify_fail("你沒有足夠的精神去念咒!\n");
     if (me->is_fighting(target) || me->is_killing(target))
         {
-        message_vision(HIW"$N口中念道: 天 地 之 靈 聽 我 之 命～\n"NOR,me,target);
+        message_vision(HIW + "$N口中念道: 天 地 之 靈 聽 我 之 命～\n" + NOR,me,target);
         me->start_busy(1);
-        message_vision(HIY"$N丟出一張符咒, 大喝：～～～封～～～\n"NOR,me,target);
+        message_vision(HIY + "$N丟出一張符咒, 大喝：～～～封～～～\n" + NOR,me,target);
      if(arg=="fire king" || arg=="king"){
         me->add("sen",-40);
         add_amount(-1);
-      write(HIC"結果封印剛飛到一半，就被焚天魔王的"HIR"極火真氣"HIC"焚毀!!\n"NOR);
+      write(HIC + "結果封印剛飛到一半，就被焚天魔王的" + HIR + "極火真氣" + HIC + "焚毀!!\n" + NOR);
         return 1;
                                         }
      else if(random(100)>50) {
       me->add("sen",-40);
-      message_vision(HIY"$n瞬時發出強大的內力使$N的封魔符法力,無法發揮!!\n"NOR,me,target);
+      message_vision(HIY + "$n瞬時發出強大的內力使$N的封魔符法力,無法發揮!!\n" + NOR,me,target);
       add_amount(-1);
       return 1;
       }
      else {                                   
        target->start_busy(3);
     me->add("sen",-40);
-        message_vision(HIC"$n受到$N封魔符的封印, 變得無法動彈!!\n"NOR,me,target);
+        message_vision(HIC + "$n受到$N封魔符的封印, 變得無法動彈!!\n" + NOR,me,target);
         add_amount(-1);
         return 1;
           }

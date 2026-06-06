@@ -8,7 +8,7 @@ void create()
   object ob;
   set_name("土靈獸", ({ "soil beast","soil","beast" }) );
   set("long","出沒於土靈塔中的妖物，擅長使用強烈音波功\。\n");
-  set("title",HIB"(土色靈氣)"NOR);
+  set("title",HIB + "(土色靈氣)" + NOR);
   set("age", 60);
   set("max_gin", 30000);
   set("max_kee", 30000);
@@ -73,7 +73,7 @@ void heart_beat()
 
   if( random(10) < 6 && mob->is_fighting() )
   {
-    message_vision(YEL"$N身上的土色靈氣和土靈塔相互感應，滿地泥濘，漫天飛沙向所有在場的人攻去!!\n"NOR,mob);
+    message_vision(YEL + "$N身上的土色靈氣和土靈塔相互感應，滿地泥濘，漫天飛沙向所有在場的人攻去!!\n" + NOR,mob);
     for (j=0 ; j < i ; j++)
     {
       if( !enemy[j]) continue;
@@ -83,11 +83,11 @@ void heart_beat()
         {
           if( !enemy[j]->query_temp("magic-manor/wood-shield") )
           {
-            message_vision(YEL"$N"YEL"只感呼吸困難，行走不便，只能任由飛沙走石在身上無情的鞭打!!\n"NOR,(enemy[j]));
+            message_vision(YEL + "$N" + YEL + "只感呼吸困難，行走不便，只能任由飛沙走石在身上無情的鞭打!!\n" + NOR,(enemy[j]));
             enemy[j]->receive_wound("kee",400);
             COMBAT_D->report_status(enemy[j]);
           }else{
-            message_vision(HIG"$N"HIG"身上的木靈之氣緩和了部份的飛沙走石衝擊!!\n"NOR,(enemy[j]));
+            message_vision(HIG + "$N" + HIG + "身上的木靈之氣緩和了部份的飛沙走石衝擊!!\n" + NOR,(enemy[j]));
             enemy[j]->receive_wound("kee",200);
             COMBAT_D->report_status(enemy[j]);
           }

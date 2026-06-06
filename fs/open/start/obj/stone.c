@@ -6,7 +6,7 @@ inherit STABBER;
 
 void create()
 {
-        set_name(HIR"紅寶石"NOR,({"stone"}));
+        set_name(HIR + "紅寶石" + NOR,({"stone"}));
         set_weight(100);
 	if( clonep() )
 		set_default_object(__FILE__);

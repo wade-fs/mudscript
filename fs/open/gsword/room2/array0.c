@@ -3,7 +3,7 @@ inherit ROOM;
 
 void create()
 {
-        set("short", HIW"天地破魔陣"NOR);
+        set("short", HIW + "天地破魔陣" + NOR);
         set("long", @LONG
 這是傳說中由破魔師-於蘭天武所設計的破魔奇陣..陣中遙遙望去發現陣眼安置了
 傳說中的破魔七星..據說此七星乃是女媧補天所用九天玄晶所製成..乃破魔至極之物
@@ -46,8 +46,8 @@ this_player()->delete_temp("find_tesin6");
   room->set("exits/north","/open/gsword/room2/array"+ndir);
   room->set("exits/south","/open/gsword/room2/array"+sdir);
   if(who->query("bellicosity") > 500+random(100)) {
-    message_vision(HIR"\n$N進入天地破魔陣後..瞬間陣眼中的破魔七星發出耀眼光芒.\n",who);
-    message_vision(HIR"光芒消失後，數條駭人之巨龍向$N衝來！！！\n"NOR,who);
+    message_vision(HIR + "\n$N進入天地破魔陣後..瞬間陣眼中的破魔七星發出耀眼光芒.\n",who);
+    message_vision(HIR + "光芒消失後，數條駭人之巨龍向$N衝來！！！\n" + NOR,who);
     seteuid(getuid());
     i=random(3)+1;
     while(i--) {

@@ -65,7 +65,7 @@ int i,j,k;
         }
         else if ( i < 6 )
         {
-                tell_object(me,HIR"你打開盒子，盒內突然冒出一團黑霧，你不慎吸入了幾口，全身痛苦不堪!\n"NOR);
+                tell_object(me,HIR + "你打開盒子，盒內突然冒出一團黑霧，你不慎吸入了幾口，全身痛苦不堪!\n" + NOR);
                 me->receive_damage("gin", (int)me->query("gin")/7 );
                 me->receive_damage("kee", (int)me->query("kee")/5 );
                 me->receive_damage("sen", (int)me->query("sen")/7 );
@@ -81,7 +81,7 @@ int i,j,k;
         else if ( i < 9 )
         {
                 me->start_busy(10);
-                tell_object(me,HIR"你打開盒子，盒內突然冒出一團白霧，你不慎吸入了幾口，全身動彈不得!\n"NOR);
+                tell_object(me,HIR + "你打開盒子，盒內突然冒出一團白霧，你不慎吸入了幾口，全身動彈不得!\n" + NOR);
         }
         else if ( i < 10 )
         {

@@ -5,7 +5,7 @@ inherit ROOM;
 
 void create ()
 {
-  set ("short", HIB"晶靈天界"NOR);
+  set ("short", HIB + "晶靈天界" + NOR);
   set ("long", @LONG
 天靈地界中的晶靈天界，黃色與紅色的晶石光彩漫布在這個空間
 中，一片的奇幻讓你看的目瞪口呆，晶光流舞，炫彩奪目，已令渾然

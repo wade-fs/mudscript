@@ -9,7 +9,7 @@ void create()
         set("combat_exp",13000000);
         set("long","魔龍塔守護者，由幻影系統copy。\n");
         set("sec_kee","tiger");
-        set("title",HIW"～幻影～"NOR);
+        set("title",HIW + "～幻影～" + NOR);
         set("attitude","heroism");
         set("max_s_kee",1000);
         set("family/family_name","金刀門");
@@ -62,13 +62,13 @@ if(random(100) > 50)
 {
 if(random(9) >= 5)
 {
-message_vision(HIY"頂級金刀把刀一晃，你為了閃避，冷不防的被打了一拳！\n"NOR,me);
+message_vision(HIY + "頂級金刀把刀一晃，你為了閃避，冷不防的被打了一拳！\n" + NOR,me);
 for(j=0;j < i;j++) {
 target[j]->add("kee",-1500); }
    }
    else
    {
-message_vision(HIC"頂級金刀仰天一笑，瞬時內息穩固。\n"NOR,me);
+message_vision(HIC + "頂級金刀仰天一笑，瞬時內息穩固。\n" + NOR,me);
 if(random(9) >= 5) {
 me->receive_curing("kee",2000);
 me->receive_heal("kee",2000);
@@ -108,7 +108,7 @@ string do_special_fight()
 int heal_up()
 {
         if (!is_fighting() ) {
-             message_vision (HIW"系統：戰鬥停止，$N回收中，。\n"NOR, this_object ());
+             message_vision (HIW + "系統：戰鬥停止，$N回收中，。\n" + NOR, this_object ());
              destruct(this_object());
              return 1;
         }
@@ -131,17 +131,17 @@ destruct (this_object ());
 else
 if(me->query("quest/start_game")< 35)
        {
-        message_vision(HIY"
-恭喜"HIW+me->query("name")+HIY"挑戰"HIG"『"HIR"第三十四層試煉ソ塔"HIG"』"HIY"通過！！
+        message_vision(HIY + "
+恭喜"HIW+me->query("name")+HIY"挑戰" + HIG + "『" + HIR + "第三十四層試煉ソ塔" + HIG + "』" + HIY + "通過！！
 
-"HIW"希望"+me->query("name")+"能不負眾望，勇闖"HIG"『"HIY"第三十五層試煉ソ塔"HIG"』"HIW"。
-	"NOR,me);
+" + HIW + "希望"+me->query("name")+"能不負眾望，勇闖" + HIG + "『" + HIY + "第三十五層試煉ソ塔" + HIG + "』" + HIW + "。
+	" + NOR,me);
 	me->set("quest/start_game",35);
         destruct (this_object ());
        }
 {
         :: unconcious();
-	tell_object(me,HIW"系統：你已經通過測試，系統不做任何更改。\n"NOR);
+	tell_object(me,HIW + "系統：你已經通過測試，系統不做任何更改。\n" + NOR);
 	destruct(this_object());
 }
 }

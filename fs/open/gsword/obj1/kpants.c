@@ -3,7 +3,7 @@
 inherit PANTS;
 void create()
 {
-       set_name(HIY "劍聖束甲" NOR, ({ "kensai pants" ,"pants" }) );
+       set_name(HIY + "劍聖束甲" + NOR, ({ "kensai pants" ,"pants" }) );
        set_weight(2000);
         if( clonep() )
                 set_default_object(__FILE__);
@@ -11,7 +11,7 @@ void create()
                 set("unit", "件");
                 set("value", 0);
                 set("long","銀製護具...主要在串連劍聖防具所遺漏之部分。\n");
-            set("wear_msg",HIC"穿上$n後，劍聖之力瞬間竄起。\n"NOR);
+            set("wear_msg",HIC + "穿上$n後，劍聖之力瞬間竄起。\n" + NOR);
                 set("material", "sliver");
                 set("armor_prop/armor", 15);
         set("no_auc",1);

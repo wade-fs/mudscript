@@ -7,7 +7,7 @@ object me=this_player();
 int cor,kar,intt,spi,cps;
 void create()
 {
-  set_name(HIY"血魔戒"NOR,({"bloodring","ring"}) );
+  set_name(HIY + "血魔戒" + NOR,({"bloodring","ring"}) );
   set_weight(2000);
   if( clonep() )
     set_default_object(__FILE__);
@@ -24,8 +24,8 @@ void create()
     set("no_get",1);
     set("armor_type","finger");
     set("armor_prop/armor",20);
-//    set("wear_msg",HIC"戴上$n"HIC"……$n"HIC"因吸收$N"HIC"身上血氣而光芒四射。\n"NOR);
-//    set("unequip_msg",YEL"$N脫下了$n"HIC"……$N"YEL"身上的血光頓時消失。\n"NOR);
+//    set("wear_msg",HIC + "戴上$n" + HIC + "……$n" + HIC + "因吸收$N" + HIC + "身上血氣而光芒四射。\n" + NOR);
+//    set("unequip_msg",YEL + "$N脫下了$n" + HIC + "……$N" + YEL + "身上的血光頓時消失。\n" + NOR);
   }
   setup();
 }
@@ -46,7 +46,7 @@ int do_wear(string str)
     cps = me->query_cps(1);
     spi = me->query_spi(1);
     intt = me->query_int(1);
-    message_vision(HIC"戴上血魔戒……血魔戒因吸收$N"HIC"身上血氣而光芒四射。\n"NOR,me);
+    message_vision(HIC + "戴上血魔戒……血魔戒因吸收$N" + HIC + "身上血氣而光芒四射。\n" + NOR,me);
     set_heart_beat(1);
   }
 }
@@ -56,7 +56,7 @@ int do_remove(string str)
   if(str=="swordmaster ring" || str=="all" || str=="ring")
     if( query("equipped") )
     {
-      message_vision(YEL"$N脫下了血魔戒……$N"YEL"身上的血光頓時消失。\n"NOR,me);
+      message_vision(YEL + "$N脫下了血魔戒……$N" + YEL + "身上的血光頓時消失。\n" + NOR,me);
       set_heart_beat(0);
     }
 }
@@ -80,7 +80,7 @@ void heart_beat()
     if( random(cor+cps+spi) > 100-random(kar+intt) )
     {
       me->delete_busy();
-      message_vision(HIR+"\n血魔戒發出強烈血光頓時血氣籠罩$N"HIR"全身……$N"HIR"吸收血氣之後精神為之一振。\n\n"+NOR,me);
+      message_vision(HIR+"\n血魔戒發出強烈血光頓時血氣籠罩$N" + HIR + "全身……$N" + HIR + "吸收血氣之後精神為之一振。\n\n"+NOR,me);
     }
   }
   return;

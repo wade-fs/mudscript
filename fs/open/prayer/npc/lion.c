@@ -38,7 +38,7 @@ void heart_beat()
       if(environment(me) == environment(enemy[i]))
       if( random(10) > 7)
       {
-       message_vision(HIG"翼獅展開翅膀引起了巨大的砂風暴攻擊$N!!!\n"+NOR,enemy[i]);
+       message_vision(HIG + "翼獅展開翅膀引起了巨大的砂風暴攻擊$N!!!\n"+NOR,enemy[i]);
        enemy[i]->receive_damage("kee",300,me);
        COMBAT_D->report_status(enemy[i], 0);
       }else{

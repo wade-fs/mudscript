@@ -12,7 +12,7 @@ string ask_woodball();
 string ask_soilball();
 void create()
 {
-        set_name(HIR"儒俠"+HIC"文冠天"NOR,({"scholar"}));
+        set_name(HIR + "儒俠"+HIC"文冠天" + NOR,({"scholar"}));
         set("long","仙魔戰中儒俠元靈所換化的守護神,負責阻止閒雜人等進入魔封地。\n");
         set("gender","男性");
         set("class","swordsman");
@@ -124,14 +124,14 @@ int accept_kill(object who)
 //   winner->set_temp("killtiger",1);
 if (winner->query_temp("swordquest/findball")<7 )
 {
-tell_object(winner,HIC"\n
-唉~~無奈..狂想..世界的未..來.... .... ....。\n"NOR);
+tell_object(winner,HIC + "\n
+唉~~無奈..狂想..世界的未..來.... .... ....。\n" + NOR);
 ::die();
 }
 else
 {
-  tell_object(winner,HIC"\n
-  一代新人..換舊人，既然你已可殺敗我，那我想你已經擁有足夠能力判斷是非..狂想..世界的未..來就操控在....你的決定了。\n"NOR);
+  tell_object(winner,HIC + "\n
+  一代新人..換舊人，既然你已可殺敗我，那我想你已經擁有足夠能力判斷是非..狂想..世界的未..來就操控在....你的決定了。\n" + NOR);
   destruct (this_object ());
 }
 }

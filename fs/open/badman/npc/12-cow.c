@@ -19,7 +19,7 @@ void create()
   set("gin",750);
   set("force_factor",45);
   set("bellicosity",1723);
-  set("title", HIY"十二"HIW"星象"NOR);
+  set("title", HIY + "十二" + HIW + "星象" + NOR);
 
   set_skill("unarmed",100);
   set_skill("dodge",90);

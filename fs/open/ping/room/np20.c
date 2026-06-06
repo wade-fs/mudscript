@@ -36,7 +36,7 @@ LONG);
 int valid_leave(object me, string dir)
 {
 if( dir=="pray" && me->query("family/family_name")!="段家" )
-return notify_fail("洋蔥小丸子"NOR"似笑非笑的對你說: 不給進。\n");
+return notify_fail("洋蔥小丸子" + NOR + "似笑非笑的對你說: 不給進。\n");
         return ::valid_leave(me, dir);
 }
 string do_shelf()

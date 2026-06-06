@@ -45,7 +45,7 @@ int search_here(string arg)
         }
     else if(me->query_temp("know_book"))
         {
-   message_vision("$N從血池中拿出一本殷紅的殘缺古冊，但隨即被古冊散發出的驚天魔氣給鎮攝住，因而當場昏厥。\n"NOR,me);
+   message_vision("$N從血池中拿出一本殷紅的殘缺古冊，但隨即被古冊散發出的驚天魔氣給鎮攝住，因而當場昏厥。\n" + NOR,me);
    new("/open/badman/obj/evil_book.c")->move(me);
    me->unconcious();
         }

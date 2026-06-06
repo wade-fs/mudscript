@@ -3,7 +3,7 @@ inherit ROOM;
 
 void create ()
 {
-	set("short",HIC"琰 揚 湖"NOR);
+	set("short",HIC + "琰 揚 湖" + NOR);
 	set("long",@LONG
 兩旁的沙丘高聳，你有一種快窒息的壓迫感～眼前有一座土堆堆
 置而成的屋子，在屋頂的排氣孔還不斷的冒著黑煙，感覺上十分的詭

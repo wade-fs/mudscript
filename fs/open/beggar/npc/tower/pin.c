@@ -6,7 +6,7 @@ void create()
         set("long","我叫方平\n");
         set("gender","男性");
         set("class","beggar");
-        set("nickname",HIW"德國總裁！"NOR);
+        set("nickname",HIW + "德國總裁！" + NOR);
         set("combat_exp",10000000);
         set("attitude","friendly");
         set("age",30);
@@ -101,7 +101,7 @@ void heart_beat()
         }
                 if ( this_object()->is_fighting() && random(50)>25)
                 {
-                        message_vision(HIM"$N不甘心被壓著打，一聲怒吼，解開了被封穴道！\n"NOR,this_object());
+                        message_vision(HIM + "$N不甘心被壓著打，一聲怒吼，解開了被封穴道！\n" + NOR,this_object());
                         this_object()->delete_busy();
                 }
 
@@ -118,14 +118,14 @@ void die()
     winner->set_temp("ko_pin",1);
     environment(winner)->delete_temp("block");
     destruct(present("cloud staff",this_object()));
-        tell_object(users(),HIC"
+        tell_object(users(),HIC + "
                 方平死前竭盡地吶喊著！
                 　　
                 　玉珊～～
 
-                　　　"HIY"爸爸先走一步了．．．．
+                　　　" + HIY + "爸爸先走一步了．．．．
 
-                　　　　　　"HIW"你要好好替爸爸弄好"HIC"ｓｌｉｍｂｏｄｙ"HIW"～～\n"NOR);
+                　　　　　　" + HIW + "你要好好替爸爸弄好" + HIC + "ｓｌｉｍｂｏｄｙ" + HIW + "～～\n" + NOR);
 
     destruct(this_object());
  :: die();

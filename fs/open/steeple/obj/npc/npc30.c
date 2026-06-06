@@ -15,7 +15,7 @@ LONG);
         set("gender","男性");
         set("clan_kill",1);
         set("class","prayer");
-        set("nickname",HIW"～幻影～"NOR"武林神話");
+        set("nickname",HIW + "～幻影～" + NOR + "武林神話");
         set("title","聖火教皇～～");
         set("combat_exp",12000000);
         set("attitude","heroism");
@@ -106,7 +106,7 @@ void greeting(object ob)
 int heal_up()
 {
         if (!is_fighting() ) {
-             message_vision (HIW"系統：戰鬥停止，$N回收中，。\n"NOR, this_object ());
+             message_vision (HIW + "系統：戰鬥停止，$N回收中，。\n" + NOR, this_object ());
              destruct(this_object());
              return 1;
         }
@@ -129,17 +129,17 @@ destruct (this_object ());
 else
 if(me->query("quest/start_game")< 31)
        {
-        tell_object(users(),HIY"
-恭喜"HIW+me->query("name")+HIY"挑戰"HIG"『"HIR"第三十層試煉ソ塔"HIG"』"HIY"通過！！
+        tell_object(users(),HIY + "
+恭喜"HIW+me->query("name")+HIY"挑戰" + HIG + "『" + HIR + "第三十層試煉ソ塔" + HIG + "』" + HIY + "通過！！
 
-"HIW"希望"+me->query("name")+"能不負眾望，勇闖"HIG"『"HIY"第三十一層試煉ソ塔"HIG"』"HIW"。
-	"NOR);
+" + HIW + "希望"+me->query("name")+"能不負眾望，勇闖" + HIG + "『" + HIY + "第三十一層試煉ソ塔" + HIG + "』" + HIW + "。
+	" + NOR);
 	me->set("quest/start_game",31);
         destruct (this_object ());
        }
 {
         :: unconcious();
-	tell_object(me,HIW"系統：你已經通過測試，系統不做任何更改。\n"NOR);
+	tell_object(me,HIW + "系統：你已經通過測試，系統不做任何更改。\n" + NOR);
 	destruct(this_object());
 }
 }
@@ -159,7 +159,7 @@ void heart_beat()
   if( is_fighting() )
   {
    if( query("kee") < query("max_kee") )
-    message_vision(HIR"\n林宏昇出渾天心法之冰心訣，身上的傷口奇蹟式癒合了\n"NOR,me);
+    message_vision(HIR + "\n林宏昇出渾天心法之冰心訣，身上的傷口奇蹟式癒合了\n" + NOR,me);
     me->receive_heal("kee",2000);
     me->receive_heal("gin",200);
     me->add("force",10000);

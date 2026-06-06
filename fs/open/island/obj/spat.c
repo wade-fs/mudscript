@@ -6,7 +6,7 @@ inherit ITEM;
 
 void create()
 {
-  set_name(HIY"小黃金甲龍"HIC"(呼呼大睡中)"NOR,({"gold-dragon"}));
+  set_name(HIY + "小黃金甲龍" + HIC + "(呼呼大睡中)" + NOR,({"gold-dragon"}));
 
   set("long","drop it\n");
 
@@ -31,8 +31,8 @@ int do_drop(string str)
           return 0;
    if(name != "gold-dragon")
           return 0;
-message_vision (HIC"$N輕輕地將黃金甲龍放了下來
-小甲龍揉揉惺忪的雙眼醒了過來\n"NOR,this_player());
+message_vision (HIC + "$N輕輕地將黃金甲龍放了下來
+小甲龍揉揉惺忪的雙眼醒了過來\n" + NOR,this_player());
    room = environment(this_player());
    mob = new("/open/island/obj/pat");
    mob->move(room);

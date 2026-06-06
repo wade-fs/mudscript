@@ -18,7 +18,7 @@ void skill_improved(object me)
 {
         int s;
 
-        tell_object(me, HIW "你頭上冒起一股"HIM"綠色"HIW"的冥殿氣勁,你的修羅心法又更進一層了!! \n"NOR);
+        tell_object(me, HIW + "你頭上冒起一股" + HIM + "綠色" + HIW + "的冥殿氣勁,你的修羅心法又更進一層了!! \n" + NOR);
 }
 string exert_function_file(string act)
 {

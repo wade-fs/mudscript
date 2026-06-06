@@ -4,7 +4,7 @@ inherit ITEM;
 
 void create()
 {
-     set_name(HIY"大木柵柵門鑰匙"NOR,({"wooddoor key","key"}));
+     set_name(HIY + "大木柵柵門鑰匙" + NOR,({"wooddoor key","key"}));
      set("unit","把");
      set("long","這是一把可以打開大木柵柵門的鑰匙。\n");
      set("key_of_room",({"/open/ping/questsfan/qroom/room5"}));

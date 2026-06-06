@@ -71,14 +71,14 @@ void heart_beat()
 	    {
 	      if( random(2) == 1 )
 	      {
-	      message_vision(HIR"靈芝仙獸張口一吐，一道紅色光茫朝著$N"HIR"直射，令$N"HIR"無力招架！！！\n"+NOR,enemy[i]);
+	      message_vision(HIR + "靈芝仙獸張口一吐，一道紅色光茫朝著$N" + HIR + "直射，令$N" + HIR + "無力招架！！！\n"+NOR,enemy[i]);
 	      enemy[i]->receive_wound("kee", kkee );
 	      enemy[i]->receive_damage("sen", random(300)+100 );
 	      enemy[i]->receive_damage("gin", random(300)+100 );
 	      enemy[i]->apply_condition("burn",enemy[i]->query_condition("burn")+5);
 	      COMBAT_D->report_status(enemy[i],0);
 	      }else{
-	      message_vision(HIC"靈芝仙獸張口一吐，一道青色光茫朝著$N"HIC"直射，令$N"HIC"無力招架！！！\n"+NOR,enemy[i]);
+	      message_vision(HIC + "靈芝仙獸張口一吐，一道青色光茫朝著$N" + HIC + "直射，令$N" + HIC + "無力招架！！！\n"+NOR,enemy[i]);
 	      enemy[i]->receive_wound("kee", kkee );
 	      enemy[i]->receive_damage("sen", random(300)+100 );
 	      enemy[i]->receive_damage("gin", random(300)+100 );

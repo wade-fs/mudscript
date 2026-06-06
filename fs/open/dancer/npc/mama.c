@@ -74,7 +74,7 @@ void init()
 小姑娘, 據說她可以同時接發三十隻飛鏢, 宛如千手觀音, 因而
 得名.
 ");
-  message_vision(HIG"劉媽氣的兩眼直視,神情好似"HIR"柳如虹"HIG"再世!!!\n"NOR,this_player());
+  message_vision(HIG + "劉媽氣的兩眼直視,神情好似" + HIR + "柳如虹" + HIG + "再世!!!\n" + NOR,this_player());
   command("stare "+ob->query("id"));
   command("say 想殺我??? 你知道我是誰嗎!!!");
   command("wield knife");

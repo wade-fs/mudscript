@@ -2,7 +2,7 @@
 inherit EQUIP;
 void create()
 {
- set_name(HIY"紫羽龍絲腰帶"NOR,({"dragon belt","belt"}));
+ set_name(HIY + "紫羽龍絲腰帶" + NOR,({"dragon belt","belt"}));
  set_weight(100);
      if ( clonep() )
               set_default_object(__FILE__);

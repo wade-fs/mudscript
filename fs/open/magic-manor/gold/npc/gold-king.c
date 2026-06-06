@@ -10,7 +10,7 @@ void create()
 {
   set_name("金極飄", ({ "golden king","golden","king" }) );
   set("long","金靈塔的鎮塔之王，能力比小金妖和金靈獸不知強上幾倍。\n");
-  set("title",HIY"(金色靈氣)"NOR"金靈塔王"NOR);
+  set("title",HIY + "(金色靈氣)" + NOR + "金靈塔王" + NOR);
   set("gender","男性");
   set("age", 60);
   set("max_gin", 80000);
@@ -86,10 +86,10 @@ void heart_beat()
 
   if(random(10) > 6 && mob->is_fighting() )
   {
-    tell_room(mob,HIM"\n夕陽殘照，暮色泛起，餘暉映照於大地，$N感受如此無限晚意輕輕帶出
+    tell_room(mob,HIM + "\n夕陽殘照，暮色泛起，餘暉映照於大地，$N感受如此無限晚意輕輕帶出
 
-      "HIW"----===≡◎ 金封大地式 ◎≡===----
-     "NOR+YEL"  『"HIY"金靈蛇動．殘陽墜"NOR+YEL"』\n\n"NOR);
+      " + HIW + "----===≡◎ 金封大地式 ◎≡===----
+     "NOR+YEL"  『" + HIY + "金靈蛇動．殘陽墜"NOR+YEL"』\n\n" + NOR);
     for (j=0 ; j < i ; j++)
     {
       if( !enemy[j] ) continue;
@@ -99,12 +99,12 @@ void heart_beat()
         {
           if( !enemy[j]->query_temp("magic-manor/fire-shield") )
           {
-            message_vision(HIY"$N"HIY"只感一陣頭痛欲裂，震耳欲聾，七孔流出絲絲血跡!!\n"NOR,(enemy[j]));
+            message_vision(HIY + "$N" + HIY + "只感一陣頭痛欲裂，震耳欲聾，七孔流出絲絲血跡!!\n" + NOR,(enemy[j]));
             enemy[j]->receive_wound("kee",600,mob);
             enemy[j]->start_busy(2);
             COMBAT_D->report_status(enemy[j],1);
           } else {
-            message_vision(HIR"$N"HIR"身上的火靈之氣緩和了部份的招式衝擊!!\n"NOR,(enemy[j]));
+            message_vision(HIR + "$N" + HIR + "身上的火靈之氣緩和了部份的招式衝擊!!\n" + NOR,(enemy[j]));
             enemy[j]->receive_wound("kee",300,mob);
             enemy[j]->start_busy(k);
             COMBAT_D->report_status(enemy[j],1);
@@ -129,7 +129,7 @@ void die()
       if( j==7 || j==77 || j== 777 || j==1111 || j==55 || j==555 || j==1000 || j==4000 || j==3333 || j==2222 )
       {
         new("/open/sky/obj12/guava-doll")->move(environment(me));
-        message_vision(HIM"\n從金極飄的身上掉下了一件奇怪的東西!!\n"NOR,me,me);
+        message_vision(HIM + "\n從金極飄的身上掉下了一件奇怪的東西!!\n" + NOR,me,me);
         write_file("/log/sky/obj12/guava_doll",sprintf("%s(%s) 讓金極飄掉下了芭樂娃娃於 %s\n",
           me->name(1),me->query("id"),ctime(time())));
       }
@@ -138,7 +138,7 @@ void die()
       if( j==5 || j==15 || j== 150 || j==1500 || j==10 || j==100 || j==1000 || j==4000 || j==6666 || j==7777 )
       {
         new("/open/sky/obj12/guava-doll")->move(environment(me));
-        message_vision(HIM"\n從金極飄的身上掉下了一件奇怪的東西!!\n"NOR,me,me);
+        message_vision(HIM + "\n從金極飄的身上掉下了一件奇怪的東西!!\n" + NOR,me,me);
         write_file("/log/sky/obj12/guava_doll",sprintf("%s(%s) 讓金極飄掉下了芭樂娃娃於 %s\n",
           me->name(1),me->query("id"),ctime(time())));
       }
@@ -147,7 +147,7 @@ void die()
   if( me ) {
     if( !me->query_temp("magic-manor/goldmagic") )
     {
-      message_vision(HIY"金極飄死後的靈魂忽然化為一道金色靈光，灌入了$N"HIY"的身體之中!!\n"NOR,me);
+      message_vision(HIY + "金極飄死後的靈魂忽然化為一道金色靈光，灌入了$N" + HIY + "的身體之中!!\n" + NOR,me);
       me->set_temp("magic-manor/goldmagic",1);
       if( !me->query("magic-manor/kill-gold") )
       {

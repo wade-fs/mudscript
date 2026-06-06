@@ -128,9 +128,9 @@ void do_special()
         target=enemy[random(i)];
 
                 message_vision(
-        HIY "\n夜叉大喝一聲，看我的『夜叉獨門絕技』～～～毒  龍  鑽\n",target);
+        HIY + "\n夜叉大喝一聲，看我的『夜叉獨門絕技』～～～毒  龍  鑽\n",target);
                 message_vision(
-        HIB "\n夜叉手上的雙爪突然快速旋轉由意想不到的位置攻擊!!\n"NOR,target);
+        HIB + "\n夜叉手上的雙爪突然快速旋轉由意想不到的位置攻擊!!\n" + NOR,target);
                 target->receive_wound("kee",random(50+100));
                 COMBAT_D->report_status(target);
 

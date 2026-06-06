@@ -3,7 +3,7 @@ inherit COMBINED_ITEM;
 
 void create()
 {
-	set_name(HIY"黃金印"NOR,({"golden seal","seal"}));
+	set_name(HIY + "黃金印" + NOR,({"golden seal","seal"}));
 	set_weight(1000);
 	if(clonep())
 		set_default_object(__FILE__);

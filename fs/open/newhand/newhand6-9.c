@@ -3,7 +3,7 @@
 inherit ROOM;
 void create ()
 {
-  set ("short", HIY"狂想空間歷史發展館"NOR);
+  set ("short", HIY + "狂想空間歷史發展館" + NOR);
   set( "long", "後來不知什麼原因,狂想空間便停止了發展的腳步,那時我正在玩狂想空間
 ,同時在南部的狂想空間分站,一開始在架設時遭遇了很多的問題,如時間不會走
 ,Perform不能用..等,還好有大神Acelan及Konn的幫忙,他們都是之前在狂想空間

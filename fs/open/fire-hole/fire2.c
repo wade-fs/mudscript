@@ -2,7 +2,7 @@
 inherit ROOM;
 void create ()
 {
-  set ("short", HIR"火龍王窟"NOR);
+  set ("short", HIR + "火龍王窟" + NOR);
 	set( "build", 12 );
   set ("long", @LONG
 這裡是火龍幻界的統治者--火龍王所居住的地方, 雄雄的火燄好像有
@@ -26,7 +26,7 @@ void init()
      room->query_temp("ko_y") && room->query_temp("ko_w") && room->query_temp("ko_r"))
   if(!present("dragon king"))
   {
-   message_vision(HIR"\n六光龍魂的悲泣引發了火之王者的怒意，從熊熊烈火中飛躍而出，誓要血洗人間。\n\n"NOR,this_player());
+   message_vision(HIR + "\n六光龍魂的悲泣引發了火之王者的怒意，從熊熊烈火中飛躍而出，誓要血洗人間。\n\n" + NOR,this_player());
    new("open/fire-hole/npc/fire-dragon")->move(room);
    this_player()->delete_temp("fight_dking");
   }

@@ -44,7 +44,7 @@ command("smile");
 command("say 謝謝你把定水珠找回來。");
 message_vision("海坊老手一揮，$N從這間房間消失了。\n",me);
 me->move(__DIR__"sea01");
-return HIY"呵呵...我會用定水珠的能力保護你的\n"NOR;
+return HIY + "呵呵...我會用定水珠的能力保護你的\n" + NOR;
 }
 }
 int help01(object me)
@@ -74,22 +74,22 @@ int help03(object me)
 message_vision("海坊老拿起了$N給的定水珠，把定水珠裝進了雕像內。\n",me);
 message_vision("緊接著一陣晃動，$N從這間房間消失了。\n",me);
 me->move(__DIR__"sea01");
-tell_object(me,HIY"海坊老用千里傳音跟你說：呵呵...我會用定水珠的能力保護你的\n"NOR);
+tell_object(me,HIY + "海坊老用千里傳音跟你說：呵呵...我會用定水珠的能力保護你的\n" + NOR);
 call_out("time",1,me);
 return 1;
 }
 int time(object me)
 {
 me->set_temp("put_water",1);
-message_vision(HIB"$N的體內似乎散發著藍光。\n"NOR,me);
-//tell_object(me,HIW"(你有十分鐘的時間受到定水珠的保護。)\n"NOR);
+message_vision(HIB + "$N的體內似乎散發著藍光。\n" + NOR,me);
+//tell_object(me,HIW + "(你有十分鐘的時間受到定水珠的保護。)\n" + NOR);
 //call_out("timeout",600,me);
 return 1;
 }
 int timeout(object me)
 {
 me->delete_temp("put_water");
-tell_object(me,HIW"定水珠的能力失效了。"NOR);
-message_vision(HIR"$N身體上的藍光漸漸退去。\n"NOR,me);
+tell_object(me,HIW + "定水珠的能力失效了。" + NOR);
+message_vision(HIR + "$N身體上的藍光漸漸退去。\n" + NOR,me);
 return 1;
 }

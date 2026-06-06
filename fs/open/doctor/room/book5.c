@@ -9,7 +9,7 @@ __DIR__"book7",__DIR__"book8",__DIR__"book9",});
 
 void create()
 {
-  set("short", YEL"藏經閣"NOR);
+  set("short", YEL + "藏經閣" + NOR);
   set("long",
     (: print_book_msg :),
   );

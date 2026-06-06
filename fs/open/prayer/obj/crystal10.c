@@ -4,7 +4,7 @@ inherit ITEM;
 
 void create()
 {
-        set_name(YEL"褐水晶"NOR, ({ "sepia-crystal","crystal" }));
+        set_name(YEL + "褐水晶" + NOR, ({ "sepia-crystal","crystal" }));
         set("title", "渾天心法之");
         set_weight(750);
         if( clonep() )
@@ -12,7 +12,7 @@ void create()
         else
         {
           set("unit", "根");
-          set("long","這是一根會泛出"YEL"山靈之氣的水晶"NOR", 裡面刻有"CYN"渾天寶鑑第三層"YEL"土崑崙心法"NOR"的練功\口訣。\n");
+          set("long","這是一根會泛出" + YEL + "山靈之氣的水晶" + NOR + ", 裡面刻有" + CYN + "渾天寶鑑第三層" + YEL + "土崑崙心法" + NOR + "的練功\口訣。\n");
           set("value", 800);
           set("material", "gem");
           set("no_drop", 1);

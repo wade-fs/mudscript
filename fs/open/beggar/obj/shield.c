@@ -5,7 +5,7 @@ inherit EQUIP;
 
 void create()
 {
-    set_name(HIY"真"HIW"翔"HIY"龍"HIW"轉"HIY"念"HIW"盤"NOR,({"dragon turn shield","shield","dragon","turn"}));
+    set_name(HIY + "真" + HIW + "翔" + HIY + "龍" + HIW + "轉" + HIY + "念" + HIW + "盤" + NOR,({"dragon turn shield","shield","dragon","turn"}));
     set_weight(3000);
         if( clonep() )
 		set_default_object(__FILE__);

@@ -9,7 +9,7 @@ int done=0;
 void create() {
         set_name("申公豹\",({"guard bero","bero","guard"}));
         set("class","blademan");
-        set("title",HIB"艮(雷)"NOR);
+        set("title",HIB + "艮(雷)" + NOR);
         set("long",
         "\n他是八卦陣的最後一個個守將。\n");
         set("str",40);
@@ -87,7 +87,7 @@ void heart_beat()
         if( is_fighting() ){
         if(random(100)<10)
         {
- message_vision(HIG"\n申公豹\偷偷吃了九轉雄蛇丸，使身上氣力恢復。\n"NOR,ob);
+ message_vision(HIG + "\n申公豹\偷偷吃了九轉雄蛇丸，使身上氣力恢復。\n" + NOR,ob);
           ob->delete_busy();
         }
         }

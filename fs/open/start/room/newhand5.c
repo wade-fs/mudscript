@@ -34,7 +34,7 @@ int valid_leave(object who, string dir)
 	{
 		if(who->query("combat_exp")>20000)
 		{
-		  message_vision( HIY"\n天神取走$N身上多餘的經驗值!!\n"NOR,who); 
+		  message_vision( HIY + "\n天神取走$N身上多餘的經驗值!!\n" + NOR,who); 
 	          who->set("combat_exp",20001);
 	        }
         }

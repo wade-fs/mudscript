@@ -3,7 +3,7 @@ inherit ROOM;
 
 void create ()
 {
-	set("short",HIC"琰 揚 湖"HIG" 同 心 橋 "NOR);
+	set("short",HIC + "琰 揚 湖" + HIG + " 同 心 橋 " + NOR);
 	set("long",@LONG
 兩個強大的邪靈正站立於兩旁，彷彿門神般的守護著這，感覺上
 裡面似乎住著十分尊貴的人物，不過卻有一種被軟禁的感覺，看來儘

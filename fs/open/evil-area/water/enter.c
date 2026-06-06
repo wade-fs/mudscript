@@ -3,7 +3,7 @@ inherit ROOM;
 
 void create ()
 {
-	set("short",HIC"琰 揚 湖"NOR);
+	set("short",HIC + "琰 揚 湖" + NOR);
 	set("long",@LONG
 你的腳下正踩著咒術陣，這裡是琰揚湖與外界的出路口，你可以
 清楚的看到琰揚湖是一座被許多巨大的沙丘所包圍的湖泊，你四處的

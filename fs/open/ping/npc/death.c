@@ -16,7 +16,7 @@ void create()
 {
   set_name( "老不死", ({ "master death", "master", "death" }) );
   set( "title", "墳場老者" );
-  set( "nickname", HIB"太歲"NOR );
+  set( "nickname", HIB + "太歲" + NOR );
   set( "gender", "男性" );
   set( "age", 1000 );
   set( "attitude", "hero");
@@ -55,8 +55,8 @@ void create()
          "            由於他渡劫失敗，但是因他早年治療眾生所累積的福報，使得眾多仙人傾力相助，雖得\n"+
          "            保持靈魂不滅，但是卻也支離破碎因而四散各處。目前已知尚有五個靈魂碎片被人持有\n"+
          "            著。\n",
-    "五大王者"     : "當今的五大王者呀…\n\t「"HIR"魔界之王"CYN"」焚天魔王、\n\t「"BLU"玄冥魔神"CYN"」死靈骨魔、\n\t「"HIR"煉獄蛇王"CYN"」蛇郎君、\n\t「"HIR"火之王者"CYN"」火龍王、\n\t「"HIY"龍神"CYN"」海皇等這五位。",
-    "抵抗惡靈"     : "笨蛋，惡靈最怕的當然就是我，我號稱"HIC"三才子"CYN"耶，這還要問。\n",
+    "五大王者"     : "當今的五大王者呀…\n\t「" + HIR + "魔界之王" + CYN + "」焚天魔王、\n\t「" + BLU + "玄冥魔神" + CYN + "」死靈骨魔、\n\t「" + HIR + "煉獄蛇王" + CYN + "」蛇郎君、\n\t「" + HIR + "火之王者" + CYN + "」火龍王、\n\t「" + HIY + "龍神" + CYN + "」海皇等這五位。",
+    "抵抗惡靈"     : "笨蛋，惡靈最怕的當然就是我，我號稱" + HIC + "三才子" + CYN + "耶，這還要問。\n",
     "靈魂碎片組合" : (: ask_spirit2 :),
     "組合\碎片"    : (: ask_spirit3 :),
     "生之力"       : (: ask_spirit4 :),
@@ -83,9 +83,9 @@ int accept_fight( object who )
 {
   object me = this_object();
   command( "say 找死!!!\n" );
-  message_vision( HIR"$N祭起頂級"RED"御魂術"HIR", 臉孔陡變透明, 地底不斷竄出無數邪靈。\n\n"NOR, me );
-  message_vision( HIR"霎時間怒吼與狂嘯聲不絕, 震得人耳鼓欲破。\n\n"NOR, me );
-  message_vision( HIR"$N被邪靈團團圍住, 瞬間便被啃蝕殆盡, 恐怖駭人。\n\n"NOR, who );
+  message_vision( HIR + "$N祭起頂級" + RED + "御魂術" + HIR + ", 臉孔陡變透明, 地底不斷竄出無數邪靈。\n\n" + NOR, me );
+  message_vision( HIR + "霎時間怒吼與狂嘯聲不絕, 震得人耳鼓欲破。\n\n" + NOR, me );
+  message_vision( HIR + "$N被邪靈團團圍住, 瞬間便被啃蝕殆盡, 恐怖駭人。\n\n" + NOR, who );
   tell_object( who , "你的眼前一片黑暗......\n" );
   who->remove_all_killer();
   who->unconcious();
@@ -98,9 +98,9 @@ int accept_kill( object who )
 {
   object me = this_object();
   command( "say 找死!!!\n" );
-  message_vision( HIR"$N祭起頂級"RED"御魂術"HIR", 臉孔陡變透明, 地底不斷竄出無數邪靈。\n\n"NOR, me );
-  message_vision( HIR"霎時間怒吼與狂嘯聲不絕, 震得人耳鼓欲破。\n\n"NOR, me );
-  message_vision( HIR"$N被邪靈團團圍住, 瞬間便被啃蝕殆盡, 恐怖駭人。\n\n"NOR, who );
+  message_vision( HIR + "$N祭起頂級" + RED + "御魂術" + HIR + ", 臉孔陡變透明, 地底不斷竄出無數邪靈。\n\n" + NOR, me );
+  message_vision( HIR + "霎時間怒吼與狂嘯聲不絕, 震得人耳鼓欲破。\n\n" + NOR, me );
+  message_vision( HIR + "$N被邪靈團團圍住, 瞬間便被啃蝕殆盡, 恐怖駭人。\n\n" + NOR, who );
   tell_object( who , "你的眼前一片黑暗......\n" );
   who->remove_all_killer();
   who->unconcious();
@@ -142,8 +142,8 @@ void greeting(object obj)
         present("lin soul splinters",obj) ) { //如果遇到的玩家持有關鍵道具 且並非第一次遇到
       obj->set_temp("quests/doctor_book/ask",1);
       do_command("arc "+obj->query("id"));
-      tell_object(obj,HIY"老不死說道﹕你身上竟然有神屬靈魂，但支離破碎，可惜……\n"+NOR);
-      set( "title", HIC"靈魂使者"NOR );
+      tell_object(obj,HIY + "老不死說道﹕你身上竟然有神屬靈魂，但支離破碎，可惜……\n"+NOR);
+      set( "title", HIC + "靈魂使者" + NOR );
     }
 //完成五樣靈魂之力的收集 且為銀針門限定
   if( present("spica soul energy",obj) && present("kui soul energy",obj) &&
@@ -268,12 +268,12 @@ string spiritism()
     command( "say 快夾著尾巴逃吧! 哈!" );
     return "";
   }        
-  message_vision( HIY"\n$N一陣狂笑。\n\n"NOR, me );
+  message_vision( HIY + "\n$N一陣狂笑。\n\n" + NOR, me );
   command( "say 很好, 老夫很欣賞" + respect + "。" );
   command( "say 這就傳" + respect + "此術心法, 以免後世無知小輩無幸觀此驚世絕學。" );
   command( "say 老夫先以內力助" + g + "通過此術最為凶險的關卡。" );
   command( "say 當心了!" );
-  tell_room( environment(me), HIM + me->query("name") + "運起至陰"RED"御魂術"HIM", 散發出陣陣濃烈的死亡氣息。\n"NOR, who );
+  tell_room( environment(me), HIM + me->query("name") + "運起至陰" + RED + "御魂術" + HIM + ", 散發出陣陣濃烈的死亡氣息。\n" + NOR, who );
   who->set( "spiritism/0", 1 );
   who->unconcious();
   return "";
@@ -284,9 +284,9 @@ void die()
   object  who = query_temp("last_damage_from");
   object  me  = this_object();
   command( "say 找死!!!\n" );
-  message_vision( HIR"$N祭起頂級"RED"御魂術"HIR", 臉孔陡變透明, 地底不斷竄出無數邪靈。\n\n"NOR, me );
-  message_vision( HIR"霎時間怒吼與狂嘯聲不絕, 震得人耳鼓欲破。\n\n"NOR, me );
-  message_vision( HIR"$N被邪靈團團圍住, 瞬間便被啃蝕殆盡, 恐怖駭人。\n\n"NOR, who );
+  message_vision( HIR + "$N祭起頂級" + RED + "御魂術" + HIR + ", 臉孔陡變透明, 地底不斷竄出無數邪靈。\n\n" + NOR, me );
+  message_vision( HIR + "霎時間怒吼與狂嘯聲不絕, 震得人耳鼓欲破。\n\n" + NOR, me );
+  message_vision( HIR + "$N被邪靈團團圍住, 瞬間便被啃蝕殆盡, 恐怖駭人。\n\n" + NOR, who );
   tell_object( who , "你的眼前一片黑暗......\n" );
         who->remove_all_killer();
         who->die();
@@ -379,8 +379,8 @@ int do_accept()
     if( !present("spirit blade",who) ) {
       new("/open/doctor/doctor_book/obj/spirit_blade_v1.c")->move(who);
       who->apply_condition("spirit_curse",10);
-      message_vision("$N給$n一把"+HBYEL+HIW"雙"HIC"界"HIR"刀"NOR"。\n",me,who);
-      message_vision(HIR"失去$N控制的"+HBYEL+HIW"雙"HIC"界"HIR"刀"NOR+HIR"瞬間失控，無數邪靈纏繞其上，$n感到有些擔心。\n"NOR,me,who);
+      message_vision("$N給$n一把"+HBYEL+HIW"雙" + HIC + "界" + HIR + "刀" + NOR + "。\n",me,who);
+      message_vision(HIR + "失去$N控制的"+HBYEL+HIW"雙" + HIC + "界"HIR + "刀"NOR+HIR"瞬間失控，無數邪靈纏繞其上，$n感到有些擔心。\n" + NOR,me,who);
     }
     else {
       command( "stare "+who->query("id") );
@@ -401,9 +401,9 @@ int do_unaccept()
   if(who->query_temp("quests/doctor_book/ask")==6)
   {
     command( "say 不成材的懦夫！\n" );
-    message_vision( HIR"$N祭起頂級"RED"御魂術"HIR", 臉孔陡變透明, 地底不斷竄出無數邪靈。\n\n"NOR, me );
-    message_vision( HIR"霎時間怒吼與狂嘯聲不絕, 震得人耳鼓欲破。\n\n"NOR, me );
-    message_vision( HIR"$N被邪靈團團圍住, 瞬間便被啃蝕殆盡, 恐怖駭人。\n\n"NOR, who );
+    message_vision( HIR + "$N祭起頂級" + RED + "御魂術" + HIR + ", 臉孔陡變透明, 地底不斷竄出無數邪靈。\n\n" + NOR, me );
+    message_vision( HIR + "霎時間怒吼與狂嘯聲不絕, 震得人耳鼓欲破。\n\n" + NOR, me );
+    message_vision( HIR + "$N被邪靈團團圍住, 瞬間便被啃蝕殆盡, 恐怖駭人。\n\n" + NOR, who );
     tell_object( who , "你的眼前一片黑暗......\n" );
     who->remove_all_killer();
     who->unconcious();
@@ -448,8 +448,8 @@ int do_answer(string str)
       who->add("force",-7000);
       command("say 準備好了，那就開始吧。");
       set( "chat_chance" , 0 ); //暫時關閉
-      tell_object(who,HIW"只見老不死口中唸唸有詞，而你卻一點也不明白其中涵意，難道這就是天界語？這疑問閃過\n"
-        "你腦海，但你並未深思，一邊把神農氏靈魂碎片放置手中，屏氣凝神將內力緩緩輸入其中。\n"NOR
+      tell_object(who,HIW + "只見老不死口中唸唸有詞，而你卻一點也不明白其中涵意，難道這就是天界語？這疑問閃過\n"
+        "你腦海，但你並未深思，一邊把神農氏靈魂碎片放置手中，屏氣凝神將內力緩緩輸入其中。\n" + NOR
         "（承受不住時，可逃離現場，每分鐘一發天劫雷電。）\n");
       call_out("godthunder",1,who);
       return 1;
@@ -460,8 +460,8 @@ int do_answer(string str)
   }
   command("grin "+who->query("id"));
   new("/open/doctor/doctor_book/obj/spirit_blade_v1.c")->move(who);
-  message_vision("$N給$n一把"+HBYEL+HIW"雙"HIC"界"HIR"刀"NOR"。\n",ob,who);
-  message_vision(HIR"失去$N控制的"+HBYEL+HIW"雙"HIC"界"HIR"刀"NOR+HIR"瞬間失控，無數邪靈纏繞其上。\n"NOR,ob,who);
+  message_vision("$N給$n一把"+HBYEL+HIW"雙" + HIC + "界" + HIR + "刀" + NOR + "。\n",ob,who);
+  message_vision(HIR + "失去$N控制的"+HBYEL+HIW"雙" + HIC + "界"HIR + "刀"NOR+HIR"瞬間失控，無數邪靈纏繞其上。\n" + NOR,ob,who);
   return 1;
 }
 
@@ -477,11 +477,11 @@ int godthunder(object me)
   if (i==9) call_out("godthunder10",1,me);
   else if (i <9) //有接受過這次的天劫就不需要再打一次了 //這mark為暫存 在任務完成後會刪除
   {
-    message_vision(YEL"\n\t（一道閃電從不遠的天上直直的命中$N，$N身上到處都是閃電過後留下的焦痕。）\n"NOR,me);
+    message_vision(YEL + "\n\t（一道閃電從不遠的天上直直的命中$N，$N身上到處都是閃電過後留下的焦痕。）\n" + NOR,me);
     me->add("quest/doctor_book/godthunder",1);
     if (me->query("kee") < i*1000+1000)
     {
-      message_vision(YEL"\t（$N受到難以承受的重傷之後發出一聲慘叫……）\n\n"NOR,me);
+      message_vision(YEL + "\t（$N受到難以承受的重傷之後發出一聲慘叫……）\n\n" + NOR,me);
       me->remove_all_killer();
       me->unconcious();
 //給予昏迷者死亡的參數:p
@@ -493,7 +493,7 @@ int godthunder(object me)
       me->set("sen",-100);
     }
     else {
-      message_vision(HIG"\t（$N拍拍身上的灰塵，大呼爽快！）\n\n"NOR,me);
+      message_vision(HIG + "\t（$N拍拍身上的灰塵，大呼爽快！）\n\n" + NOR,me);
       me->receive_damage("kee", i*1000+1000,ob ); //第三個參數為ob=last_damage_from 設為老不死 不然要給天劫一個名稱有點麻煩:p
       me->receive_wound("kee", i*1000+1000,ob );
       call_out("godthunder",30,me);
@@ -516,7 +516,7 @@ int godthunder10(object me)
         present("jing soul energy",me) && present("star soul energy",me) &&
         present("lin soul energy",me) ) {
       tell_object(me,"\n老不死看起來由衷感到喜悅﹕銀針門復甦有望了，老友也會相當高興吧。\n"+
-        "                          這顆"HIB"神農氏靈魂珠"NOR"你趕快拿去給他。\n");
+        "                          這顆" + HIB + "神農氏靈魂珠" + NOR + "你趕快拿去給他。\n");
 //      me->delete("quest/doctor_book"); //由於碎片可作裝備升級機率的媒介所以不全部刪除 改為以下逐項刪除
       me->delete("quest/doctor_book/godthunder");
 /* 暫時不刪除 也許可以作為二次獎勵的先置限制
@@ -537,9 +537,9 @@ int godthunder10(object me)
     }
     else {
       tell_object(me,"\n老不死生氣地對著你說﹕滾！東西沒帶還敢接受測試，去死吧！\n");
-      message_vision( HIR"$N祭起頂級"RED"御魂術"HIR", 臉孔陡變透明, 地底不斷竄出無數邪靈。\n\n"NOR, ob );
-      message_vision( HIR"霎時間怒吼與狂嘯聲不絕, 震得人耳鼓欲破。\n\n"NOR, ob );
-      message_vision( HIR"$N被邪靈團團圍住, 瞬間便被啃蝕殆盡, 恐怖駭人。\n\n"NOR, me );
+      message_vision( HIR + "$N祭起頂級" + RED + "御魂術" + HIR + ", 臉孔陡變透明, 地底不斷竄出無數邪靈。\n\n" + NOR, ob );
+      message_vision( HIR + "霎時間怒吼與狂嘯聲不絕, 震得人耳鼓欲破。\n\n" + NOR, ob );
+      message_vision( HIR + "$N被邪靈團團圍住, 瞬間便被啃蝕殆盡, 恐怖駭人。\n\n" + NOR, me );
       tell_object( me , "你的眼前一片黑暗......\n" );
       me->remove_all_killer();
 //      me->unconcious();
@@ -556,8 +556,8 @@ string ask_blade()
     new("/open/doctor/doctor_book/obj/spirit_blade_v1.c")->move(who);
     command( "say 喔～你想拿拿看呀，那借你玩玩吧。" );
     command( "grin" );
-    message_vision("$N給$n一把"+HBYEL+HIW"雙"HIC"界"HIR"刀"NOR"。\n",me,who);
-    message_vision(HIR"失去$N控制的"+HBYEL+HIW"雙"HIC"界"HIR"刀"NOR+HIR"瞬間失控，無數邪靈纏繞其上，$n感到有些擔心。\n"NOR,me,who);
+    message_vision("$N給$n一把"+HBYEL+HIW"雙" + HIC + "界" + HIR + "刀" + NOR + "。\n",me,who);
+    message_vision(HIR + "失去$N控制的"+HBYEL+HIW"雙" + HIC + "界"HIR + "刀"NOR+HIR"瞬間失控，無數邪靈纏繞其上，$n感到有些擔心。\n" + NOR,me,who);
   }
   else {
     command( "stare "+who->query("id") );

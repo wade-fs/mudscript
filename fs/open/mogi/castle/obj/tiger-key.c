@@ -3,7 +3,7 @@ inherit ITEM;
 #include <ansi.h>
 void create()
 {
-        set_name(HIW"白虎之鑰"NOR, ({ "tigerkey","key" }) );
+        set_name(HIW + "白虎之鑰" + NOR, ({ "tigerkey","key" }) );
         set("long", "一把神秘的鑰匙。\n");
         set("unit", "把");
         set_weight(800);

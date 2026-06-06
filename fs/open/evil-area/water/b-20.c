@@ -3,7 +3,7 @@ inherit ROOM;
 
 void create ()
 {
-	set("short",HIG"琰 揚 居 -- 後 院"NOR);
+	set("short",HIG + "琰 揚 居 -- 後 院" + NOR);
 	set("long",@LONG
 高聳的天空，彷彿能藉著登上這棵大松樹而到達最頂端，這棵樹
 可真所謂之高聳入雲霄，歲月的痕跡已經留在牠那斑駁而充滿樹洞的

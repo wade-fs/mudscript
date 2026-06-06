@@ -19,7 +19,7 @@ void create()
   set("gin",1500);
   set("force_factor",10);
   set("bellicosity",1982);
-  set("title",YEL"十二"HIW"星象"NOR);
+  set("title",YEL + "十二" + HIW + "星象" + NOR);
   set("nickname","猴");
 
   set_skill("unarmed",120);

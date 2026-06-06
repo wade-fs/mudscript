@@ -14,7 +14,7 @@ void create()
   set("class","dancer");
   set("family/family_name","夜夢小築");
   set("nickname","四天女");
-  set("title",HIB"水靈使"NOR);
+  set("title",HIB + "水靈使" + NOR);
   set("combat_exp",5000000);
   set("attitude","heroism");
   set("age",20);
@@ -91,10 +91,10 @@ void heart_beat()
   i=sizeof(enemy);
   if( is_fighting() ) {
     if(random(100)>70) {
-      message_vision(HIB"水瞳兒使出了本身絕學『水纏術』，天空突然一陣大雨，所有的水珠往你身上猛撲!!\n"NOR,ob);
+      message_vision(HIB + "水瞳兒使出了本身絕學『水纏術』，天空突然一陣大雨，所有的水珠往你身上猛撲!!\n" + NOR,ob);
       if(random(5)>2)
       {
-        message_vision(HIR"你一個閃躲不及，整個人被包圍在水中動彈不得!!\n"NOR,ob);
+        message_vision(HIR + "你一個閃躲不及，整個人被包圍在水中動彈不得!!\n" + NOR,ob);
         for(j=0;j<i;j++)
         {
           if (!enemy[j]->is_fighting() && enemy[j]->is_character() && !enemy[j]->is_corpse()
@@ -105,7 +105,7 @@ void heart_beat()
         }
       }
       else
-        message_vision("看破攻勢的你閃躲了這招。\n"NOR,ob);
+        message_vision("看破攻勢的你閃躲了這招。\n" + NOR,ob);
     }
     if(query_temp("ref_shield")!=1)
     {

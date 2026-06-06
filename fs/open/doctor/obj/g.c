@@ -4,7 +4,7 @@
 
    void create()
    {
-       set_name(HIY"入閣令"NOR, ({"book_mark","mark"}));
+       set_name(HIY + "入閣令" + NOR, ({"book_mark","mark"}));
        set("long","一張入藏經閣的令牌!\n");
        set_weight(50);
        set("no_get",1);

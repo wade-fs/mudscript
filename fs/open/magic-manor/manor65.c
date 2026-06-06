@@ -3,7 +3,7 @@ inherit ROOM;
 
 void create ()
 {
-	set ("short", YEL"土靈塔"NOR);
+	set ("short", YEL + "土靈塔" + NOR);
 	set( "build", 1 );
 	set ("long", @LONG
 土靈塔的周圍遍滿了土牆的包圍，若有靈性的土牆會朝有生命的

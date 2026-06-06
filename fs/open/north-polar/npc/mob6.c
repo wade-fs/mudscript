@@ -6,7 +6,7 @@ void create()
 {
 
 	set_name("猛瑪", ({"mammoth"}));
-	set("title",HIW"史前"HIY"巨象"NOR);
+	set("title",HIW + "史前" + HIY + "巨象" + NOR);
 	set("age",24);
 	set("long","身行碩大的長毛象，兩支長長象牙有著無比的威嚇力。，。\n");
 	set("race", "野獸");
@@ -76,17 +76,17 @@ void heart_beat()
 		        me->receive_curing("sen",400);
 		if( query("gin") < query("eff_gin") ) 
 		  {
-		        message_vision(HIR"$N抓出暗藏的雪國大龍蝦，喀滋喀滋大口嚼了起來，精力復原不少。\n"NOR,me);
+		        message_vision(HIR + "$N抓出暗藏的雪國大龍蝦，喀滋喀滋大口嚼了起來，精力復原不少。\n" + NOR,me);
 			me->receive_heal("gin",400);
 		  }
 		if( query("kee") < query("eff_kee") )
 		  {
-		        message_vision(HIW"$N抓出暗藏的北海錦鯉魚，喀滋喀滋大口嚼了起來，元氣振奮不少。\n"NOR,me);
+		        message_vision(HIW + "$N抓出暗藏的北海錦鯉魚，喀滋喀滋大口嚼了起來，元氣振奮不少。\n" + NOR,me);
 			me->receive_heal("kee",400);
 		  }
 		if( query("sen") < query("eff_sen") )
 		  { 
-		        message_vision(HIY"$N抓出暗藏的龍宮鮮大蚌，喀滋喀滋大口嚼了起來，神暝\回復不少。\n"NOR,me);
+		        message_vision(HIY + "$N抓出暗藏的龍宮鮮大蚌，喀滋喀滋大口嚼了起來，神暝\回復不少。\n" + NOR,me);
 			me->receive_heal("sen",400);
 		  }
 	   }
@@ -94,24 +94,24 @@ void heart_beat()
 	        {
 	         if(me->is_busy() && random(4) == 1)
 	         {
-	           message_vision(HIW"$N狂吼一聲，以天生巨力解除了身上束縛。\n"NOR,me);
+	           message_vision(HIW + "$N狂吼一聲，以天生巨力解除了身上束縛。\n" + NOR,me);
 	           me->delete_busy();
 	         }
 	         if(random(3)==1)
 	         {
-	         message_vision(HIY"$N大吼一聲，用牠長的尖銳象牙往前一戳。\n"NOR,me);
+	         message_vision(HIY + "$N大吼一聲，用牠長的尖銳象牙往前一戳。\n" + NOR,me);
 	         for( i=0 ; i<j ; i++ )
 	         {
 	          if(random(3)!=1)  
 	          {
 	           if(environment(enemy[i]) != environment(me))   continue;
-	           message_vision(HIW"$N慘遭象牙戳中要害，痛不欲生。\n"NOR,enemy[i]);
+	           message_vision(HIW + "$N慘遭象牙戳中要害，痛不欲生。\n" + NOR,enemy[i]);
 	           enemy[i]->receive_wound("gin",50);
 	           enemy[i]->receive_wound("kee",100);
 	           enemy[i]->receive_wound("sen",50);
 	           COMBAT_D->report_status(enemy[i]);
 	          }else{
-	           message_vision(YEL"$N嚇了一大跳，趕忙仆倒在地躲過。\n"NOR,enemy[i]);
+	           message_vision(YEL + "$N嚇了一大跳，趕忙仆倒在地躲過。\n" + NOR,enemy[i]);
 	           enemy[i]->start_busy(1);
 	                }
 	         }

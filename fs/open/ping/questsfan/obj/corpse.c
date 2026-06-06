@@ -47,7 +47,7 @@ int do_yes()
     if(me->query_temp("search_ok")==1)
   {
   letter->move(me);
-  tell_object(this_player(),"找到一封"HIR"沾血的遺書"NOR"\n");
+  tell_object(this_player(),"找到一封" + HIR + "沾血的遺書" + NOR + "\n");
     me->set_temp("search_ok",0);
 }
   return 1;

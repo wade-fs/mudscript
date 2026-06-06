@@ -67,7 +67,7 @@ void greeting(object who)
 {
   object ob=this_object();
   if ( who->query_temp("quests/bonze/water/method1")==1 ) {
-    write(HIY"阿三看見你時，緊張地快說不出話來﹕施…主，我、我…這就去…挑、挑水。\n只見他慌慌張張地拿起一旁的水桶後迅速離開你眼前。\n"NOR);
+    write(HIY + "阿三看見你時，緊張地快說不出話來﹕施…主，我、我…這就去…挑、挑水。\n只見他慌慌張張地拿起一旁的水桶後迅速離開你眼前。\n" + NOR);
     command("flee "+who->query("id"));
     destruct(ob);
   }

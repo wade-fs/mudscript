@@ -6,7 +6,7 @@ void create() {
         
         set_name("花憶妍",({"hau-yi-yan","hau"}));
         set("title","金風細雨第二樓樓主");
-        set("nickname",HIC"百蕊千香"NOR);
+        set("nickname",HIC + "百蕊千香" + NOR);
         set("long",@LONG
    冰肌玉膚唇紅齒白還不足以形容她的十分之一, 高貴典
    雅的氣質比起皇室更是有過之而無不及, 是金風細雨樓
@@ -71,11 +71,11 @@ void heart_beat()
     enemy=mob->query_enemy();
     i=sizeof(enemy);
 
-      message_vision(HIM"\n
+      message_vision(HIM + "\n
        $N輕抖匕尖，迴舞拂袖，在空氣中開始響起微微的聲調，還瀰漫著一
        股淡淡的花香，敵人漸漸亂了方寸；忽然華瓣漫天，香煙茵茵，一式
-      "HIC"『古香撲朔  今音迷離』"HIM"粼起華風旋旋，馥郁直接從皮膚沁如體內。
-\n"NOR,mob);
+      " + HIC + "『古香撲朔  今音迷離』" + HIM + "粼起華風旋旋，馥郁直接從皮膚沁如體內。
+\n" + NOR,mob);
  for(j=0;j < i;j++){
     target=enemy[j];
     if( env == environment(target) )

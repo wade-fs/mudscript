@@ -3,7 +3,7 @@ inherit ROOM;
 
 void create ()
 {
-	set("short",HIC"琰 揚 湖"HIG" 同 心 橋 "NOR);
+	set("short",HIC + "琰 揚 湖" + HIG + " 同 心 橋 " + NOR);
 	set("long",@LONG
 在你的正南方，也就是同心橋的終點，有著一個類似人間的建築
 物，看起來雖然有點簡陋，卻不失風雅，感覺上裡面似乎居住著一位

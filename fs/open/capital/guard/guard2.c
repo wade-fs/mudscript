@@ -6,32 +6,32 @@
 #include <ansi.h>
 inherit NPC;
 mapping *action = ({
-([ "action" :"$N嘎嘎大叫，銳利的爪子向$n抓了過去，眼看$n就要被抓到了"NOR"。",
+([ "action" :"$N嘎嘎大叫，銳利的爪子向$n抓了過去，眼看$n就要被抓到了" + NOR + "。",
              "dodge"      :  -20,
              "parry"      :  -35,
              "damage"     :  270,
              "damage_type":  "抓傷",
            ]),
-([ "action" :"$N迅速撲至$n面前，快速的搧動羽翼，$n在強風吹撫之下，顯得搖搖欲墜，$N見機不可失，尖嘴以疾快的速度朝$n刺去"NOR"!!",
+([ "action" :"$N迅速撲至$n面前，快速的搧動羽翼，$n在強風吹撫之下，顯得搖搖欲墜，$N見機不可失，尖嘴以疾快的速度朝$n刺去" + NOR + "!!",
              "dodge"      :  -20,
              "parry"      :  -35,
              "damage"     :  270,
              "damage_type":  "破體之傷",
             ]),
-([ "action" :"$N忽然用眼睛緊盯著$n，$n只覺得$n眼前的$N忽然變得好大，使$n心生膽怯，身體因過度驚嚇而無法動彈"NOR"。",
+([ "action" :"$N忽然用眼睛緊盯著$n，$n只覺得$n眼前的$N忽然變得好大，使$n心生膽怯，身體因過度驚嚇而無法動彈" + NOR + "。",
              "dodge"      :  -30,
              "parry"      :  -35,
              "damage"     :  240,
              "damage_type":  "恐懼之傷",
             ]),
-([ "action" :"$N朝$n猛撞了過去，因飛行所產生的巨風，挾著萬均之勢，令敵人膽顫心驚"NOR"。",
+([ "action" :"$N朝$n猛撞了過去，因飛行所產生的巨風，挾著萬均之勢，令敵人膽顫心驚" + NOR + "。",
              "dodge"      :  -30,
              "parry"      :  -35,
              "damage"     :  275,
              "damage_type":  "撞傷",
             ]),
 ([ "action":"$N自己的身上的火燄燃到最高點，使得全身有如火球一般，炙熱非常，$N一展翅，就這麼朝$n飛去，
-$n被這種攻勢所驚嚇，除了逃之外，似乎沒有別條路了!!"NOR,
+$n被這種攻勢所驚嚇，除了逃之外，似乎沒有別條路了!!" + NOR,
              "dodge"      : -100,
              "parry"      :  -100,
              "damage"     : 892,
@@ -41,7 +41,7 @@ $n被這種攻勢所驚嚇，除了逃之外，似乎沒有別條路了!!"NOR,
 
 void create()
 {
-  set_name(HIR"火鳳凰"NOR ,({"ring guard", "guard"}) );
+  set_name(HIR + "火鳳凰" + NOR ,({"ring guard", "guard"}) );
   set("race", "野獸");
   set("clan_kill",1);
   set("no_exp",1);
@@ -88,7 +88,7 @@ void invocation(object who)
 
   message("vision",
     BLINK+HBMAG+HIY"一道強光從戒指射出，一隻巨大的鳳凰從戒指中飛出。\n\n"
-    + name() +BLINK+HBMAG+HIY "緩緩的說道：人不犯我，我不犯人!!\n"NOR,
+    + name() +BLINK+HBMAG+HIY "緩緩的說道：人不犯我，我不犯人!!\n" + NOR,
     environment(), this_object() );
   enemy = who->query_enemy();
   i = sizeof(enemy);
@@ -132,8 +132,8 @@ void heart_beat()
 void leave()
 {
   object who = query_leader ();
-  message_vision (HIR"$N"HIR"說道：我已經幫主人你戰鬥完畢囉，下次見！\n" +
-    "一陣清風吹過，$N"HIR"的身形隨之不見了。\n" NOR, this_object ());
+  message_vision (HIR + "$N" + HIR + "說道：我已經幫主人你戰鬥完畢囉，下次見！\n" +
+    "一陣清風吹過，$N" + HIR + "的身形隨之不見了。\n" + NOR, this_object ());
   if (who)
     who->set_temp("have_guard",0);
   destruct(this_object());
@@ -145,7 +145,7 @@ void unconcious ()
   if (who)
     if(!who->query("capital_king"))
       who->set_temp("have_guard",0);
-  message_vision (HIB"$N慘叫一聲啊！消失得無影無蹤。\n", this_object ());
+  message_vision (HIB + "$N慘叫一聲啊！消失得無影無蹤。\n", this_object ());
   destruct (this_object ());
 }
 
@@ -155,7 +155,7 @@ void die()
   if (who)
     if(!who->query("capital_king"))
       who->set_temp("have_guard",0);
-  message_vision (HIB"$N慘叫一聲啊！消失得無影無蹤。\n", this_object ());
+  message_vision (HIB + "$N慘叫一聲啊！消失得無影無蹤。\n", this_object ());
   destruct (this_object ());
   ::die();
 }

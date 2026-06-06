@@ -3,7 +3,7 @@ inherit ROOM;
 
 void create ()
 {
-	set("short",HIG"琰 揚 居"NOR);
+	set("short",HIG + "琰 揚 居" + NOR);
 	set("long",@LONG
 在你身旁擺放著一張石桌，石桌旁擺放著一些小石凳，石桌上擺
 著一些素果與鮮花，給人一種樸素的親切感，很顯然的你可以猜測到

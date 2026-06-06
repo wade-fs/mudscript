@@ -5,7 +5,7 @@ inherit ROOM;
 
 void create ()
 {
-  set ("short", HIY"金靈天界"NOR);
+  set ("short", HIY + "金靈天界" + NOR);
   set ("long", @LONG
 天靈地界中的金靈天界，金色的光茫從這裏的每一個角落透出，
 一片金黃色的世界裏，令人感到心境愉快，忍不住想在這奇幻的天界

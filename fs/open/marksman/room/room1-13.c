@@ -4,7 +4,7 @@ inherit ROOM;
 #include "marksman.h"
 void create ()
 {
-  set ("short",GRN"長沙道"NOR);
+  set ("short",GRN + "長沙道" + NOR);
   set ("long", @LONG
 走這個長沙道之中而到處充滿著鳥語花香的小路上，路旁的那些
 花正飄來那濃郁的花香，聞著令人清爽的花香，耳邊傳來鳥兒們似乎

@@ -51,7 +51,7 @@ void init()
 int heal_up()
 {
         if (!is_fighting() ) {
-             message_vision (HIB"魔石雕像發出一陣強光，把$N再度吸回雕像中了！\n"NOR, this_object ());
+             message_vision (HIB + "魔石雕像發出一陣強光，把$N再度吸回雕像中了！\n" + NOR, this_object ());
              destruct(this_object());
              return 1;
         }

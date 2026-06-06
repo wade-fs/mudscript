@@ -57,7 +57,7 @@ int do_cmd(string str){
  ob=this_object();
  queen=present( "queen",environment(ob) );
  if(str=="askgod queen" || str=="askgod locha queen"){
- write(HIY"煉陰女冷笑：「在魔王的地盤上面前求神問卜!?先問問魔王還差不多。」去死吧!!\n"NOR);
+ write(HIY + "煉陰女冷笑：「在魔王的地盤上面前求神問卜!?先問問魔王還差不多。」去死吧!!\n" + NOR);
  queen->kill_ob(who);
  return 1;                                                 
                   }
@@ -93,7 +93,7 @@ void die()
 	  if( j==7 || j==77 || j== 777 || j==1111 || j==55 || j==555 || j==1000 || j==4000 || j==3333 || j==2222 )
 	  {
 	  new("/open/sky/obj11/black-crystal")->move(environment(winner));
-	  message_vision(HIM"\n從煉陰女的身上掉下了一件奇怪的東西!!\n"NOR,winner);
+	  message_vision(HIM + "\n從煉陰女的身上掉下了一件奇怪的東西!!\n" + NOR,winner);
           write_file("/log/sky/obj11/black_crystal",sprintf("%s(%s) 讓煉陰女掉下了黑色光晶於 %s\n",
 	  winner->name(1),winner->query("id"),ctime(time())));
 	  }
@@ -102,7 +102,7 @@ void die()
 	  if( j==5 || j==15 || j== 150 || j==1500 || j==10 || j==100 || j==1000 || j==4000 || j==6666 || j==7777 )
 	  {
 	  new("/open/sky/obj11/black-crystal")->move(environment(winner));
-	  message_vision(HIM"\n從煉陰女的身上掉下了一件奇怪的東西!!\n"NOR,winner);
+	  message_vision(HIM + "\n從煉陰女的身上掉下了一件奇怪的東西!!\n" + NOR,winner);
           write_file("/log/sky/obj11/black_crystal",sprintf("%s(%s) 讓煉陰女掉下了黑色光晶於 %s\n",
 	  winner->name(1),winner->query("id"),ctime(time())));
 	  }

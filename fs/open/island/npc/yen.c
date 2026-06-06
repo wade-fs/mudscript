@@ -82,7 +82,7 @@ string ask_me(object who)
         set("have_ask_me",1);
         set("family/family_name","仙劍派");
         set("dragon-sword",1);
-        set("nickname", HIW"絕代劍俠"NOR);  
+        set("nickname", HIW + "絕代劍俠" + NOR);  
         set("long",
                 "他是鄭士欣的師兄 ,為了出外找尋先祖逍遙子 ,而將掌門之位
 讓給了鄭士欣 ,但他的劍術造詣無人可知 ,加上多年來苦心創
@@ -98,7 +98,7 @@ string ask_me(object who)
         kill_ob(this_player());
         if(!present("blood-river sword")){ 
         message("vision",
-                HIM " \n"              
+                HIM + " \n"              
                 "顏子復慢慢的抽出了腰間後的配劍 ..一把血紅劍身的絕代好劍 .\n\n"
                 ,environment(), this_object() );
         set("attitude","aggressive");
@@ -110,11 +110,11 @@ string ask_me(object who)
         set("combat_exp", 2500000);
         set("revealed", 1);
        message("vision","顏子復左手朝天一指 ..手上隱隱約約的飄起了一陣煙霧...\n\n"
-           HIW"在煙嵐散去後他的手中多了一把"+HIR"血河"NOR+"\n\n\n",
+           HIW + "在煙嵐散去後他的手中多了一把"+HIR"血河"NOR+"\n\n\n",
         environment(), this_object());
         command("unwield sword");
         carry_object("/open/island/eqs/sword1.c")->wield();
-        return HIY"神劍"HIR"血河"HIY"出鞘 ,必飲鮮血而回 ,小子受死吧 !\n"NOR;
+        return HIY + "神劍" + HIR + "血河" + HIY + "出鞘 ,必飲鮮血而回 ,小子受死吧 !\n" + NOR;
                                            }        
  }
 int special_att()
@@ -125,15 +125,15 @@ int special_att()
         i=sizeof(me);
         one=enemy[random(i)];
         before = me->query("kee");
-        message_vision( HIR "
+        message_vision( HIR + "
         顏子復長嘯道 : 嘗嘗仙劍之極意 !接招了 !
-        \n" NOR ,one);
+        \n" + NOR ,one);
         message_vision( " 
-        顏子復平舉劍喝道 :\n\n"+HIR"                      "HIC"仙"+HIR"--"+HIW"霞"+HIR"--"+HIC"殘"+HIR"--"+HIW"光"+HIR"--"+HIC"閃"+HIR" "NOR+"\n\n",one);
-        message_vision(HIB"
-        劍氣如海浪般的飛過來 !\n"NOR,one);
-        message_vision(HIM"
-        $N全身的血管都被劍氣割破了 !\n"NOR,one);
+        顏子復平舉劍喝道 :\n\n"+HIR"                      " + HIC + "仙"+HIR"--"+HIW"霞"+HIR"--"+HIC"殘"+HIR"--"+HIW"光"+HIR"--"+HIC"閃"+HIR" "NOR+"\n\n",one);
+        message_vision(HIB + "
+        劍氣如海浪般的飛過來 !\n" + NOR,one);
+        message_vision(HIM + "
+        $N全身的血管都被劍氣割破了 !\n" + NOR,one);
         after = me->query("kee");
         one->receive_wound("kee",50+random(70));
          COMBAT_D->report_status(one);
@@ -147,15 +147,15 @@ int special_att2()
         i=sizeof(me);
         one=enemy[random(i)];
         before = me->query("kee");
-        message_vision( HIR "
+        message_vision( HIR + "
         顏子復低吟道 : 仙劍之極招 !!
-        \n" NOR ,one);
+        \n" + NOR ,one);
         message_vision( "
         顏子復斜舉劍喝道 :\n\n"+HIR"                         ***"+HIW"白"+HIR"**"+HIW"龍"+HIR"**"+HIW"飛"+HIR"**"+HIW"翔"+HIR"**"+HIW"閃"+HIR"*** "NOR+"\n",one);
-        message_vision(HIR"
-        你只看到眼前一片紅白交錯之光 !\n"NOR,one);
-        message_vision(RED"
-        $N全身上下佈滿著滿是像被凶獸啃掉了的大小不等的傷口 !\n"NOR,one);
+        message_vision(HIR + "
+        你只看到眼前一片紅白交錯之光 !\n" + NOR,one);
+        message_vision(RED + "
+        $N全身上下佈滿著滿是像被凶獸啃掉了的大小不等的傷口 !\n" + NOR,one);
         after = me->query("kee");
         one->receive_wound("kee",60+random(70));
          COMBAT_D->report_status(one);
@@ -168,18 +168,18 @@ int special_att3()
         me=this_player()->query_enemy();
         i=sizeof(me);
         one=enemy[random(i)];
-        message_vision( HIB"
+        message_vision( HIB + "
         顏子復怒吼道 : 仙劍之禁斷劍意 !接招了 !
-        \n\n" NOR,one);
-        message_vision(HIW"
+        \n\n" + NOR,one);
+        message_vision(HIW + "
         顏子復迅速的往你一刺 !只見一到白光從劍中閃出 !\n\n\n\n"
-        "你看不清楚眼前到底出現了甚麼東西 !\n"NOR
+        "你看不清楚眼前到底出現了甚麼東西 !\n" + NOR
         ,one);
-        message_vision(HIR"一股如噴泉般的血$N身上不停的噴出 !!\n\n"NOR
-                       HIY"那個速度極快的東西仍然不停的以高速在噬咬$N的身體!!\n"NOR
+        message_vision(HIR + "一股如噴泉般的血$N身上不停的噴出 !!\n\n" + NOR
+                       HIY + "那個速度極快的東西仍然不停的以高速在噬咬$N的身體!!\n" + NOR
                        "一條速度極快的"+HIW" 白龍 "NOR+"在$N身邊不斷的飛舞著 !! 
 瞬間便將可憐的$N緊緊的纏繞著!!
-        \n"NOR,one);
+        \n" + NOR,one);
         one->receive_wound("kee",40+random(50));
         one->apply_condition("bleeding",10);
         one->start_busy(1);
@@ -192,7 +192,7 @@ int special_att3()
     if(query("have_ask_me")==1)
  {
     new("/open/island/obj/bon.c")->move(environment(winner));   
-    tell_object(winner,HIB"\n\n顏子復的懷中滾落出一件事物\n\n\n"NOR); 
+    tell_object(winner,HIB + "\n\n顏子復的懷中滾落出一件事物\n\n\n" + NOR); 
            
   }                   
     ::die();                                                           

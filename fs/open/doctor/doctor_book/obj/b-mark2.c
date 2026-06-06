@@ -4,7 +4,7 @@ inherit ITEM;
 
 void create()
 {
-  set_name(HIY"入閣令"NOR, ({"book_mark","mark"}));
+  set_name(HIY + "入閣令" + NOR, ({"book_mark","mark"}));
   set_weight(50);
   if( clonep() )
     set_default_object(__FILE__);

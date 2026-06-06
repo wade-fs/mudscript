@@ -64,12 +64,12 @@ int do_enter(string arg)
    if(who->query("class")!="killer")
    return notify_fail("這是殺手專用密道,一般人無法進入!\n");
    if((arg="water") || (arg=="water")) {
-   message_vision(GRN"$N進入了小水池中\n"NOR,who);
+   message_vision(GRN + "$N進入了小水池中\n" + NOR,who);
    tell_object(who,"\n你只聽到～～～～嘩啦～～～～
     ～～～～～～～～～～～～～～～～～～～～～～～～～嘩啦～～～\n\n");
-   tell_object(who,HIW"只見一陣強大的水勢迎面而來～～ \n"NOR);
+   tell_object(who,HIW + "只見一陣強大的水勢迎面而來～～ \n" + NOR);
    tell_object(who,"你在無法反抗之下被水流帶往他處 \n");
-tell_object(who,HIC"\n你感覺水勢減弱,隨便亂抓之下,抱住一顆大石頭 \n\n"NOR);
+tell_object(who,HIC + "\n你感覺水勢減弱,隨便亂抓之下,抱住一顆大石頭 \n\n" + NOR);
 who->move(__DIR__"stonerm.c");
    return 1;
    }
@@ -88,14 +88,14 @@ int do_wash(string arg)
    {
    	tell_object(who,"\n你將富士山秘草放入這個怪顏色的水池中，
 		      嘩啦地洗了起來～\n\n");
-	tell_object(who,HIW"只見一陣奇怪的顏色變化～～ \n"NOR);
+	tell_object(who,HIW + "只見一陣奇怪的顏色變化～～ \n" + NOR);
 	tell_object(who,"秘草發出了奇異的光芒，應該可以了吧 ?。。 \n");
 	who->set_temp("herb_1",1);
 	return 1;
    }
    if(who->query_temp("herb_1")==1)
    {
-     tell_object(who,HIW"但是由於你再一次洗秘草～～ \n"NOR);
+     tell_object(who,HIW + "但是由於你再一次洗秘草～～ \n" + NOR);
      tell_object(who,"使得秘草發出了金色的光芒，終於可以了！ \n");
      who->set_temp("herb_1",2);
    }

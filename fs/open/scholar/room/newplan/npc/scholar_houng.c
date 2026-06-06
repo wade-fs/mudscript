@@ -197,7 +197,7 @@ void heart_beat()
         if( is_fighting() ){
         if(random(14) >9)
         {
-message_vision(HIY"\n\n\n一陣氣勁劃過所有人，只見夏侯仲淵大喊 :『天地悠悠在我心』，使身上氣力恢復。\n\n\n"NOR,ob);
+message_vision(HIY + "\n\n\n一陣氣勁劃過所有人，只見夏侯仲淵大喊 :『天地悠悠在我心』，使身上氣力恢復。\n\n\n" + NOR,ob);
           ob->delete_busy();
         ob->add("kee",1000);
         ob->add("force",500);

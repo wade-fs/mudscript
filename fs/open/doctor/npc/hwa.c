@@ -140,25 +140,25 @@ int do_raised(string arg)
   str ="華山蝶說道﹕你存有以下\n";
   if(!arg) {
     if(a)
-      str += "\t"WHT"麟"NOR"之碎片(lin soul splinters)共"HIG+a+NOR"個\n";
+      str += "\t" + WHT + "麟" + NOR + "之碎片(lin soul splinters)共"HIG+a+NOR"個\n";
     if(b)
-      str += "\t"CYN"星"NOR"之碎片(star soul splinters)共"HIG+b+NOR"個\n";
+      str += "\t" + CYN + "星" + NOR + "之碎片(star soul splinters)共"HIG+b+NOR"個\n";
     if(c)
-      str += "\t"MAG"井"NOR"之碎片(jing soul splinters)共"HIG+c+NOR"個\n";
+      str += "\t" + MAG + "井" + NOR + "之碎片(jing soul splinters)共"HIG+c+NOR"個\n";
     if(d)
-      str += "\t"YEL"奎"NOR"之碎片(kui soul splinters)共"HIG+d+NOR"個\n";
+      str += "\t" + YEL + "奎" + NOR + "之碎片(kui soul splinters)共"HIG+d+NOR"個\n";
     if(e)
-      str += "\t"RED"角"NOR"之碎片(spica soul splinters)共"HIG+e+NOR"個\n";
+      str += "\t" + RED + "角" + NOR + "之碎片(spica soul splinters)共"HIG+e+NOR"個\n";
     if(f)
-      str += "\t"HIW"麟"NOR"之力(lin soul energy)共"HIG+f+NOR"個\n";
+      str += "\t" + HIW + "麟" + NOR + "之力(lin soul energy)共"HIG+f+NOR"個\n";
     if(g)
-      str += "\t"HIC"星"NOR"之力(star soul energy)共"HIG+g+NOR"個\n";
+      str += "\t" + HIC + "星" + NOR + "之力(star soul energy)共"HIG+g+NOR"個\n";
     if(h)
-      str += "\t"HIM"井"NOR"之力(jing soul energy)共"HIG+h+NOR"個\n";
+      str += "\t" + HIM + "井" + NOR + "之力(jing soul energy)共"HIG+h+NOR"個\n";
     if(i)
-      str += "\t"HIY"奎"NOR"之力(kui soul energy)共"HIG+i+NOR"個\n";
+      str += "\t" + HIY + "奎" + NOR + "之力(kui soul energy)共"HIG+i+NOR"個\n";
     if(j)
-      str += "\t"HIR"角"NOR"之力(spica soul energy)共"HIG+j+NOR"個\n";
+      str += "\t" + HIR + "角" + NOR + "之力(spica soul energy)共"HIG+j+NOR"個\n";
     str +="這些。\n\n";
     if(!a&&!b&&!c&&!d&&!e&&!f&&!g&&!h&&!i&&!j)
       tell_object(me,"華山蝶說道﹕很抱歉你什麼東西都沒有存在我這。\n\n");
@@ -248,7 +248,7 @@ int do_raised(string arg)
     command("say 疑？這東西你沒有寄放在我這裡呀。");
   else {
     if(!me->pay_money(100000)) {
-      tell_object(me,CYN"華山蝶說道﹕你身上錢不夠付保管費，最少也要十兩黃金。\n"NOR);
+      tell_object(me,CYN + "華山蝶說道﹕你身上錢不夠付保管費，最少也要十兩黃金。\n" + NOR);
       return 1;
     }
     ob->move(me);
@@ -276,7 +276,7 @@ void die()
       if( j==7 || j==77 || j== 777 || j==1111 || j==55 || j==555 || j==1000 || j==4000 || j==3333 || j==2222 )
       {      
         new("/open/sky/obj8/spring_wind")->move(environment(winner));
-        message_vision(HIM"\n從華山蝶的身上掉下了一件奇怪的東西!!\n"NOR,winner);
+        message_vision(HIM + "\n從華山蝶的身上掉下了一件奇怪的東西!!\n" + NOR,winner);
         write_file("/log/sky/obj8/spring_wind",sprintf("%s(%s) 讓華山蝶掉下了春情風於 %s\n",
         winner->name(1),winner->query("id"),ctime(time())));
       }
@@ -285,7 +285,7 @@ void die()
       if( j==5 || j==15 || j== 150 || j==1500 || j==10 || j==100 || j==1000 || j==4000 || j==6666 || j==7777 )
       {      
         new("/open/sky/obj8/spring_wind")->move(environment(winner));
-        message_vision(HIM"\n從華山蝶的身上掉下了一件奇怪的東西!!\n"NOR,winner);
+        message_vision(HIM + "\n從華山蝶的身上掉下了一件奇怪的東西!!\n" + NOR,winner);
         write_file("/log/sky/obj8/spring_wind",sprintf("%s(%s) 讓華山蝶掉下了春情風於 %s\n",
         winner->name(1),winner->query("id"),ctime(time())));
       }

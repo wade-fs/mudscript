@@ -30,11 +30,11 @@ if(dir=="up")
 int check=me->query("quest/start_game");
 if(check<=9)
 {
-tell_object(me,HIR"系統：你的晶片資料不足以通往樓上。\n"NOR);
+tell_object(me,HIR + "系統：你的晶片資料不足以通往樓上。\n" + NOR);
 return 0;
 }
 {
-message_vision(HIW"系統：讀取"+me->query("name")+"晶片，通過。\n"NOR,me);
+message_vision(HIW + "系統：讀取"+me->query("name")+"晶片，通過。\n" + NOR,me);
 return 1;
 }
 }

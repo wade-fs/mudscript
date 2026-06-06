@@ -39,10 +39,10 @@ void do_damage(object ob){
    obj = all[i];
    kee1=obj->query("eff_kee");
    if( random(300) > obj->query_skill("dodge") ) {
-   message_vision(HIR"突然間一陣洪水向$N奔來，$N閃躲不及,已被洪水衝昏了!\n"NOR,obj);
+   message_vision(HIR + "突然間一陣洪水向$N奔來，$N閃躲不及,已被洪水衝昏了!\n" + NOR,obj);
 this_player()->add("sen", -100);
                                                   }
 
-  else  message_vision(HIW"突然間一陣洪水向$N奔來，但$N身法硬是要得,危急中避了開去! \n"NOR,obj);
+  else  message_vision(HIW + "突然間一陣洪水向$N奔來，但$N身法硬是要得,危急中避了開去! \n" + NOR,obj);
        }
 }

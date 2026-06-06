@@ -34,7 +34,7 @@ int valid_leave(object me, string dir)
         if(dir=="enter"&&present("ghost",environment(me)))
   {
 
-message_vision(HIW"鬼姥姥說:想進去先過我這關，納命來吧。\n"NOR,me);
+message_vision(HIW + "鬼姥姥說:想進去先過我這關，納命來吧。\n" + NOR,me);
 
 return 0;
 }

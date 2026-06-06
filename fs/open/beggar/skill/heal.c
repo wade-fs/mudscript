@@ -20,7 +20,7 @@ int exert(object me, object target)
         if( (int)me->query("eff_kee") < (int)me->query("max_kee") / 3 )
                 return notify_fail("你已經受傷過重，只怕一運真氣會被洗髓勁反撲！\n");
 
-        write( HIW "你盤坐在地，逆運洗髓經調理你全身的傷勢，使你的傷勢好多了。\n" NOR);
+        write( HIW + "你盤坐在地，逆運洗髓經調理你全身的傷勢，使你的傷勢好多了。\n" + NOR);
         message("vision",
                 me->name() + "運起洗髓經開始療傷，一股真氣從頭上冒出，吐出一口瘀血，看起來好多了。\n",
                 environment(me), me);

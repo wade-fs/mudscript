@@ -73,8 +73,8 @@ void create()
         map_skill("force","shinnoforce");
         set("chat_chance_combat",20);
         set("chat_msg_combat",({
-            HIY"劉進泉說道: 真的要打嗎? 你恐怕不是我的對手吧!\n"NOR,
-            HIY"劉進泉說道: 就讓你嚐嚐苦頭吧! 好讓你知道天有多高地有多厚!\n"NOR,
+            HIY + "劉進泉說道: 真的要打嗎? 你恐怕不是我的對手吧!\n" + NOR,
+            HIY + "劉進泉說道: 就讓你嚐嚐苦頭吧! 好讓你知道天有多高地有多厚!\n" + NOR,
       }));
         set("inquiry",([
               "靈魂出竅"     : (: ask_soul:),
@@ -141,16 +141,16 @@ void do_soul(object me,int step)
   switch(step)
   {
     case 1:
-      message_vision(CYN"$N把蠍毒與天靈丹放置於砵盤中攪碎，再加上一些水。\n"NOR,this_object());
+      message_vision(CYN + "$N把蠍毒與天靈丹放置於砵盤中攪碎，再加上一些水。\n" + NOR,this_object());
     break;
     case 2:
-      message_vision(CYN"$N把再把三葉芝蘭之草放置於砵盤中攪碎，再加上一些酒。\n"NOR,this_object());
+      message_vision(CYN + "$N把再把三葉芝蘭之草放置於砵盤中攪碎，再加上一些酒。\n" + NOR,this_object());
     break;
     case 3:
-      message_vision(CYN"$N把針沾上剛剛混合的藥物。\n"NOR,this_object());
+      message_vision(CYN + "$N把針沾上剛剛混合的藥物。\n" + NOR,this_object());
     break;
     case 4:
-      message_vision(CYN"接著，$N把針往$n的太陽穴一插，$n就突然就不醒人事了。\n"NOR,this_object(),me);
+      message_vision(CYN + "接著，$N把針往$n的太陽穴一插，$n就突然就不醒人事了。\n" + NOR,this_object(),me);
       { 
         object * obs  = all_inventory(me);
         CHAR_D->make_corpse(me,this_object())->move(environment());
@@ -166,7 +166,7 @@ void do_soul(object me,int step)
       me->revive();
       me->delete_busy();
       me->move(environment(me));
-      message_vision(CYN"$n看了一下地上的屍體，就直接進入陳平的夢中了。\n"NOR,this_object(),me);
+      message_vision(CYN + "$n看了一下地上的屍體，就直接進入陳平的夢中了。\n" + NOR,this_object(),me);
       step++;
       call_out("do_soul",1,me,step);
       return ;

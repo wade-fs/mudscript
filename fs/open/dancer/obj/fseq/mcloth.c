@@ -7,7 +7,7 @@ int cor;
 int ekee=me->query("max_kee",1);
 void create()
 {
-        set_name( HIW "神奇的天才小布衣 " NOR ,({"Chan_cloth","cloth"}));
+        set_name( HIW + "神奇的天才小布衣 " + NOR ,({"Chan_cloth","cloth"}));
         set_weight(3000);
         if( clonep() )
                 set_default_object(__FILE__);
@@ -46,7 +46,7 @@ int do_wear(string str)
      {
         cor = me->query_kar(1);
         cor = cor *2;
-message_vision(HIB"$N將神奇的天才小布衣往身上一穿,神奇的天才小布衣瞬時飄出陣陣虹彩將$N籠罩。\n"NOR,me);
+message_vision(HIB + "$N將神奇的天才小布衣往身上一穿,神奇的天才小布衣瞬時飄出陣陣虹彩將$N籠罩。\n" + NOR,me);
         set_heart_beat(1);
      }
 }
@@ -55,7 +55,7 @@ int do_remove(string str)
    if(str=="Chan_cloth" || str=="all" || str=="cloth")
      if( query("equipped") )
      {
-message_vision(YEL"$N脫下了神奇的天才小布衣,奇異的虹光也隨之消逝。\n"NOR,me);
+message_vision(YEL + "$N脫下了神奇的天才小布衣,奇異的虹光也隨之消逝。\n" + NOR,me);
         set_heart_beat(0);
      }
 }

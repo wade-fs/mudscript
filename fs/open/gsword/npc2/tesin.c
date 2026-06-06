@@ -9,7 +9,7 @@ string ask_array2();
 string ask_ball();
 void create()
 {
-set_name(HIW"龍鐵心"NOR,({"tesin long","tesin"}));
+set_name(HIW + "龍鐵心" + NOR,({"tesin long","tesin"}));
 set("long","傳說中的大劍師..開天三靈器的創作人.生平事跡不為常人所知..生活方式亦出人意料.\n");
         set("gender","男性");
         set("class","swordsman");
@@ -19,7 +19,7 @@ set("long","傳說中的大劍師..開天三靈器的創作人.生平事跡不�
             set("dragon-sword",1);
             set("bellicosity", 5000);
         set("age",120);
-        set("title",HIY"大劍師"NOR);
+        set("title",HIY + "大劍師" + NOR);
             set("str", 50);
             set("cor", 50);
             set("cps", 50);

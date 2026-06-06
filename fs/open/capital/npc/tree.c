@@ -10,14 +10,14 @@ void create()
 {
   set_name("木無言",({"Silent Tree","tree"}));
   set("long","
-英雄真經傳人，自幼修習三百年前的正道第一武學『"HIW"英雄真經"NOR"』
+英雄真經傳人，自幼修習三百年前的正道第一武學『" + HIW + "英雄真經" + NOR + "』
 經內記載當代五大玄門正派的頂級武功\，包括：
-"HIW"無雙寺："HIM"無雙拳
-"HIW"閃電山莊："HIY"閃電步
-"HIW"天劍宗："CYN"馭天劍-"HIC"本來無一劍
-"HIW"柳葉山莊："GRN"超絕霸刀-"HIG"柳葉霸刀
-"HIW"少林寺："RED"菩提拂拭神功\-"HIR"本來無一物
-\n"NOR);
+" + HIW + "無雙寺：" + HIM + "無雙拳
+" + HIW + "閃電山莊：" + HIY + "閃電步
+" + HIW + "天劍宗：" + CYN + "馭天劍-" + HIC + "本來無一劍
+" + HIW + "柳葉山莊：" + GRN + "超絕霸刀-" + HIG + "柳葉霸刀
+" + HIW + "少林寺：" + RED + "菩提拂拭神功\-" + HIR + "本來無一物
+\n" + NOR);
   set("attitude", "heroism");
   set("gender","男性");
   set("no_get",1);
@@ -29,7 +29,7 @@ void create()
   set("age",24);
   set("class","blademan");
   set("family/family_name","我流");
-  set("title",HIC"『英雄真經』"HIW"傳人"NOR);
+  set("title",HIC + "『英雄真經』" + HIW + "傳人" + NOR);
   set("max_gin",90000);
   set("max_kee",150000);
   set("max_sen",90000);
@@ -94,7 +94,7 @@ int do_use(string arg)
   object ppl = this_player();
   if(arg == "lotch")
   {
-    message_vision(HIR"\n$N：「......」(什麼軒轅劍俠刀神的，在我手下全都不堪一擊。)\n"NOR,this_object());
+    message_vision(HIR + "\n$N：「......」(什麼軒轅劍俠刀神的，在我手下全都不堪一擊。)\n" + NOR,this_object());
     ppl->unconcious();
     return 1;
   }
@@ -137,9 +137,9 @@ void heart_beat()
   {
     if(kee < mkee || sen < msen || gin < mgin)
     {
-      message_vision(HIB"$N運起少林寺最高內功\心法"HIW"『"BRED+HIY"本來無一物"NOR""HIW"』"HIB"
+      message_vision(HIB + "$N運起少林寺最高內功\心法" + HIW + "『"BRED+HIY"本來無一物" + NOR + "" + HIW + "』" + HIB + "
 內勁變得如黑洞般深不可測，原本散發的凜冽鬥氣剎那間完全消失，
-$N竟與自然化為一體，全身傷勢疾速復原。\n"NOR,me);
+$N竟與自然化為一體，全身傷勢疾速復原。\n" + NOR,me);
 
       ekee=me->query("eff_kee");
       egin=me->query("eff_gin");
@@ -155,12 +155,12 @@ $N竟與自然化為一體，全身傷勢疾速復原。\n"NOR,me);
   }
   if(me->is_busy() && random(100)< 40 && !me->query_temp("unconcious"))
   {
-message_vision(HIR"$N潛運"HIW"ξ"BRED+HIY"本來無一物"NOR""HIW"ξ"HIR"神功\，身形浮起，爆發無匹內勁掙脫束縛，
-接著以閃電山莊的"HIW"ξ"BRED+HIY"閃電身法"NOR""HIW"ξ"HIR"迅速脫離封鎖。\n"NOR,me);
+message_vision(HIR + "$N潛運" + HIW + "ξ"BRED+HIY"本來無一物" + NOR + "" + HIW + "ξ" + HIR + "神功\，身形浮起，爆發無匹內勁掙脫束縛，
+接著以閃電山莊的" + HIW + "ξ"BRED+HIY"閃電身法" + NOR + "" + HIW + "ξ" + HIR + "迅速脫離封鎖。\n" + NOR,me);
     me->delete_busy();
     if(me->is_fighting())
     {
-      message_vision(HIG"並且在電光石火間向每個人出招反擊!!\n"NOR,me);
+      message_vision(HIG + "並且在電光石火間向每個人出招反擊!!\n" + NOR,me);
       for(j=0;j<i;j++)
       {
         if(target[j] && target[j]->is_character() && !target[j]->is_corpse() && room == environment(target[j])) 
@@ -186,31 +186,31 @@ void die()
 */
   if( winner->query("clan/id") && userp(winner) )
     CLAN_D->add_clanset( winner->query("clan/id"), "develop" ,  1 );
-  tell_object(users(),HIG"\n就在木無言將被"+winner->query("name")+"擊斃的同時，烏雲密佈的京城上空降下一道曙光，
+  tell_object(users(),HIG + "\n就在木無言將被"+winner->query("name")+"擊斃的同時，烏雲密佈的京城上空降下一道曙光，
 一位和尚撐著雨傘，緩緩御風而降...
 
 
-黃帝病"HIM"朗聲說道"HIW"：
-                貧僧身負"HIW"ζ"HIY+BRED"魔界金典"NOR""HIW"ζ，和修習∮"HIC+BBLU"英雄真經"NOR""HIW"∮的木無言
+黃帝病" + HIM + "朗聲說道" + HIW + "：
+                貧僧身負" + HIW + "ζ"HIY+BRED"魔界金典" + NOR + "" + HIW + "ζ，和修習∮"HIC+BBLU"英雄真經" + NOR + "" + HIW + "∮的木無言
                 乃命中宿敵，在貧僧轟下木無言之前，任何人都沒資格敗他
                 想殺他的人，就只有死!!
 
-                "HIR""+winner->query("name")+""HIW"!!  來領死吧!!\n\n"NOR);
+                " + HIR + ""+winner->query("name")+"" + HIW + "!!  來領死吧!!\n\n" + NOR);
 
   if(winner && !winner->query_temp("not_robot") && random(400)==0) {
     ob=new("/open/doctor/doctor_book/obj/scrap");
     ob->set("sort","井");
     ob->move(winner);
-    message_vision(MAG"\n從木無言的身上掉下了一塊靈魂碎片!!\n"NOR,winner);
+    message_vision(MAG + "\n從木無言的身上掉下了一塊靈魂碎片!!\n" + NOR,winner);
   }
   else if(winner && winner->query_temp("not_robot") && random(400)<133) {
     ob=new("/open/doctor/doctor_book/obj/scrap");
     ob->set("sort","井");
     ob->move(winner);
-    message_vision(MAG"\n從木無言的身上掉下了一塊靈魂碎片!!\n"NOR,winner);
+    message_vision(MAG + "\n從木無言的身上掉下了一塊靈魂碎片!!\n" + NOR,winner);
   }
 
-  message_vision(HIY"\n"+winner->name()+"打敗木無言得到一百二十點戰功\!!\n"NOR,winner);
+  message_vision(HIY + "\n"+winner->name()+"打敗木無言得到一百二十點戰功\!!\n" + NOR,winner);
   write_file("/log/get_warp",sprintf("%s(%s) 打敗木無言得到一百二十點戰功\於 %s\n",
     winner->name(1),winner->query("id"),ctime(time())));
   winner->add("war_score",120);
@@ -222,7 +222,7 @@ void die()
     spirit = new("/open/ghost-hole/obj/light-spirit");
     spirit->move(winner);
     log_file("/sky/spirit/light-spirit",sprintf("%s(%s)讓木無言掉下了%s於 %s\n",winner->name(1),winner->query("id"),spirit->query("name"),ctime(time())));
-    message_vision(HIY"薀含在"+me->query("name")+HIY"身體中的"+spirit->query("name")+HIY"飛射而出，落在$N"HIY"手中。\n"NOR,winner);
+    message_vision(HIY + "薀含在"+me->query("name")+HIY"身體中的"+spirit->query("name")+HIY"飛射而出，落在$N" + HIY + "手中。\n" + NOR,winner);
   }
   sick->kill_ob(winner);
   winner->start_busy(1);

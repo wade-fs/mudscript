@@ -47,7 +47,7 @@ void create()
         (: random_move :),
         "少林二廚說道﹕大廚的夢想就是吾輩的夢想…\n",
         "少林二廚說道﹕現在的年輕弟子究竟有什麼心結呀，挑水而已有什麼好苦惱的。\n",
-        HIY"少林二廚說道﹕誠心提醒施主，遊戲歸遊戲，不要太著相了。\n"NOR,
+        HIY + "少林二廚說道﹕誠心提醒施主，遊戲歸遊戲，不要太著相了。\n" + NOR,
         }));
         set_temp("quests/bonze/stop",1); //設定為阻擋npc離開房間
         setup();
@@ -96,7 +96,7 @@ string bonze_food()
   int i,j;
   j=(int)(random(me->query("per"))/5+3);
   if (j>10) { j=10; } //限定最大值
-  if( wizardp(me) ) { message_vision(HBBLU"測試 給予的數量為【"+j+"】\n"NOR,me); } //給巫師看的
+  if( wizardp(me) ) { message_vision(HBBLU + "測試 給予的數量為【"+j+"】\n" + NOR,me); } //給巫師看的
 
   if(me->query_temp("quests/bonze/food/finish") == 1) { //第一道菜
     me->delete_temp("quests/bonze/food/finish"); //理論上此時應該只有一個食材任務所以刪除應不會有其他影響

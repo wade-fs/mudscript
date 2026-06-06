@@ -26,7 +26,7 @@ void create()
         set("age",26);
         set("long","此人是甲斐派的風組下級忍者，專司水上的暗殺行動。\n"
         "東瀛忍者的武術非一般招式可以比擬，必須留意!!\n");
-        set("title",HIC"甲斐風組"NOR+ HIG"下級忍者"NOR);
+        set("title",HIC + "甲斐風組"NOR+ HIG"下級忍者" + NOR);
         set("gender","男性");
         set("class","甲斐忍者");
         set("str",30);
@@ -77,9 +77,9 @@ void do_special()
         target=enemy[random(i)];
 
                 message_vision(
-HIR "\n 田中的身影突然消失掉，使出甲斐身法裡面的 『幻  殺 』\n",target);
+HIR + "\n 田中的身影突然消失掉，使出甲斐身法裡面的 『幻  殺 』\n",target);
                 message_vision(
-HIW "\n身影快速的由$N的身邊飛過！！$N感覺到身體受到創傷了!！\n"NOR,target);
+HIW + "\n身影快速的由$N的身邊飛過！！$N感覺到身體受到創傷了!！\n" + NOR,target);
                 target->receive_wound("kee",random(700));
                 COMBAT_D->report_status(target);
 
@@ -92,7 +92,7 @@ void die()
    killer=query_temp("last_damage_from");
    if (random (100) < 10)
    {
-     message_vision(HIY"由屍體掉出來一項東西\n"NOR,this_object());
+     message_vision(HIY + "由屍體掉出來一項東西\n" + NOR,this_object());
      message_vision("你順手把他撿起來\n",this_object());
      head=new("/open/killer/obj/herb.c");
      head->move(this_object());

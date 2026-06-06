@@ -6,6 +6,6 @@ inherit F_CLEAN_UP;
 
 int main(object me, string arg)
 {
-	tell_object(me, CLR HOME);
+	tell_object(me, CLR + HOME);
 	return 1;
 }

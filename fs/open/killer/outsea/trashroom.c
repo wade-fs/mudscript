@@ -3,7 +3,7 @@ inherit ROOM;
 
 void create ()
 {
-        set ("short", YEL"垃圾場"NOR);
+        set ("short", YEL + "垃圾場" + NOR);
         set ("long", @LONG
 
         掩埋垃圾跟屍體的地方......

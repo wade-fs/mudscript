@@ -3,7 +3,7 @@ inherit ROOM;
 
 void create ()
 {
-	set ("short", HIB"封靈祭臺"NOR);
+	set ("short", HIB + "封靈祭臺" + NOR);
 	set ("long", @LONG
 豎立在這裏的是一個大型的祭台，歷經久遠的歲月，祭台已顯得
 殘破，卻不失其形，四周已長滿了青苔和佈滿和蛛網，祭台上空無一

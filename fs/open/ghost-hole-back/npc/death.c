@@ -2,56 +2,56 @@ inherit NPC;
 #include <ansi.h>
 
 mapping *action = ({
-([     "action"     :   "$N冷冷的道："HIB"『死到臨頭』"NOR"，納命來吧！一聲說完就向$n攻去！",
+([     "action"     :   "$N冷冷的道：" + HIB + "『死到臨頭』" + NOR + "，納命來吧！一聲說完就向$n攻去！",
                 "dodge"      :   -35,
                 "parry"      :   -35,
                 "damage"     :    250,
                 "force"      :    250,
                 "damage_type":   "內傷",
            ]),
-([     "action"     :   "$N一聲唉嘆：生命有何意，隨即使出一招"HIB"『一心求死』"NOR"，$n去死吧！",
+([     "action"     :   "$N一聲唉嘆：生命有何意，隨即使出一招" + HIB + "『一心求死』" + NOR + "，$n去死吧！",
                 "dodge"      :   -35,
                 "parry"      :   -35,
                 "damage"     :    350,
                 "force"      :    350,
                 "damage_type":   "暗傷",
            ]),
-([     "action"     :   "$N瘋狂的使出"HIB"『嗜死如歸』"NOR"，一股兇惡的神情令$n不敢逼視！",
+([     "action"     :   "$N瘋狂的使出" + HIB + "『嗜死如歸』" + NOR + "，一股兇惡的神情令$n不敢逼視！",
                 "dodge"      :   -35,
                 "parry"      :   -35,
                 "damage"     :    300,
                 "force"      :    450,
                 "damage_type":   "內傷",
            ]),
-([     "action"     :   "$N奸笑道：看我的"HIB"『慾仙慾死』"NOR"，就讓$n魂然忘我的死在$N手裏吧！",
+([     "action"     :   "$N奸笑道：看我的" + HIB + "『慾仙慾死』" + NOR + "，就讓$n魂然忘我的死在$N手裏吧！",
                 "dodge"      :   -35,
                 "parry"      :   -35,
                 "damage"     :    250,
                 "force"      :    350,
                 "damage_type":   "暗傷",
            ]),
-([     "action"     :   "$N祭出一式"HIB"『死神召喚』"NOR"，瞬間$n猶如死神降臨一般，已無戰力！",
+([     "action"     :   "$N祭出一式" + HIB + "『死神召喚』" + NOR + "，瞬間$n猶如死神降臨一般，已無戰力！",
                 "dodge"      :   -35,
                 "parry"      
                 "damage"     :    350,
                 "force"      :    250,
                 "damage_type":   "無情撕傷",
            ]),
-([     "action"     :   "$N怒聲喝道：一式"HIB"『雖死猶榮』"NOR"，死在$N手裏，$n也不枉此生！",
+([     "action"     :   "$N怒聲喝道：一式" + HIB + "『雖死猶榮』" + NOR + "，死在$N手裏，$n也不枉此生！",
                 "dodge"      :   -35,
                 "parry"      :   -35,
                 "damage"     :    500,
                 "force"      :    500,
                 "damage_type":   "撞傷",
            ]),
-([     "action"     :   "$N身形搖搖慾墜，使出一式"HIB"『哀莫大於心死』"NOR"，身形飄乎不定的攻向$n！",
+([     "action"     :   "$N身形搖搖慾墜，使出一式" + HIB + "『哀莫大於心死』" + NOR + "，身形飄乎不定的攻向$n！",
                 "dodge"      :   -35,
                 "parry"      :   -35,
                 "damage"     :    450,
                 "force"      :    350,
                 "damage_type":   "裂傷",
            ]),
-([    "action"     :    "$N暴發了全身的力量使出了"HIB"『不死狂心』"NOR"，將所有力量聚集一點，向$n拼命襲去！",
+([    "action"     :    "$N暴發了全身的力量使出了" + HIB + "『不死狂心』" + NOR + "，將所有力量聚集一點，向$n拼命襲去！",
                 "dodge"      :    40,
                 "parry"      :   -50,
                 "damage"     :    250,
@@ -62,8 +62,8 @@ mapping *action = ({
 
 void create()
 {
-        set("nickname",HIC"嗜死如命"NOR);
-        set("title",HIB"【死】冥王"NOR);
+        set("nickname",HIC + "嗜死如命" + NOR);
+        set("title",HIB + "【死】冥王" + NOR);
         set_name("斷魂絕", ({"ghost death","ghost","death"}));
         set("age",30);
         set("long","死靈骨魔的兩大護法之一，負責掌管【死】，面如死灰，完全看不出一點表情，只有冷冷的一雙間正注視著你。\n");
@@ -126,7 +126,7 @@ int do_cmd(string str){
  ob=this_object();
  ghost=present( "ghost",environment(ob) );
  if(str=="askgod ghost" || str=="askgod white-ghost"){
- write(HIY"死冥王冷笑：「別在我面前佔卜了，準備料理你的後事吧！」\n"NOR);
+ write(HIY + "死冥王冷笑：「別在我面前佔卜了，準備料理你的後事吧！」\n" + NOR);
  ghost->kill_ob(who);
  who->start_busy(1);
  return 1;                                                 
@@ -162,12 +162,12 @@ void heart_beat()
     target=enemy[random(i)];
     if( env == environment(target) )
     {
-      message_vision(HIW"
-$N一聲狂喝"HIB"「魔音穿腦」"HIW"不斷的向$n傳來，你雙耳鳴住
+      message_vision(HIW + "
+$N一聲狂喝" + HIB + "「魔音穿腦」" + HIW + "不斷的向$n傳來，你雙耳鳴住
 卻也抵檔不了這陣陣的魔音....
-\n"NOR,mob);
+\n" + NOR,mob);
       for(j=0;j < i;j++){
-      message_vision(HIR"$N被這震人心神的魔音所傷，精神正不斷的頹靡流失\n"NOR,(enemy[j]));
+      message_vision(HIR + "$N被這震人心神的魔音所傷，精神正不斷的頹靡流失\n" + NOR,(enemy[j]));
       enemy[j]->start_busy(2);
       enemy[j]->add("kee",-800);
       enemy->apply_condition("death",random(2)+1);
@@ -184,12 +184,12 @@ $N一聲狂喝"HIB"「魔音穿腦」"HIW"不斷的向$n傳來，你雙耳鳴住
     target=enemy[random(i)];
     if( env == environment(target) )
     {
-      message_vision(HIW"
-$N起手一式"HIR"「焰火無界」"HIW"，一道道雄雄的烈火向$n飛撲而至
+      message_vision(HIW + "
+$N起手一式" + HIR + "「焰火無界」" + HIW + "，一道道雄雄的烈火向$n飛撲而至
 剎時間，$n已被雄雄的烈火所包圍....
-\n"NOR,mob,(enemy[j]));
+\n" + NOR,mob,(enemy[j]));
       for(j=0;j < i;j++){
-      message_vision(HIR"$N正被無情的烈火所燒著，發出陣陣痛苦的哀嚎聲！！\n"NOR,(enemy[j]));
+      message_vision(HIR + "$N正被無情的烈火所燒著，發出陣陣痛苦的哀嚎聲！！\n" + NOR,(enemy[j]));
       enemy[j]->start_busy(2);
       enemy[j]->add("kee",-800);
       enemy->apply_condition("burn",random(5)+10);

@@ -3,7 +3,7 @@ inherit ITEM;
         
 void create()
 {
-        set_name(WHT"玄冥符"NOR,({"black dark tally","tally"}));
+        set_name(WHT + "玄冥符" + NOR,({"black dark tally","tally"}));
         set_weight(1000);
 	set("long","
 一個古老傳說的符文﹔在你急需救助，抑或是瀕臨死亡之時，可以回復
@@ -98,7 +98,7 @@ int i,max;
                 return notify_fail("最低值不可為0。\n");
 
         message_vision("$N雙手和握，$n從$N手中的細縫，溢出陣陣黑煙。\n",me,ob);
-        ob->set("name",BRED"～ 附身 ～"+WHT" 玄冥符"NOR);
+        ob->set("name",BRED + "～ 附身 ～"+WHT" 玄冥符" + NOR);
         ob->set("can_use", (string)me->query("id"));
         me->set_temp("tally/"+args,i);
 return 1;

@@ -34,7 +34,7 @@ int valid_leave(object me, string dir)
         if(dir=="up"&&present("ghost",environment(me)))
   {
 
-message_vision(HIY"地邪鬼對$N怒喝 : 幹什麼！？\n"NOR,me);
+message_vision(HIY + "地邪鬼對$N怒喝 : 幹什麼！？\n" + NOR,me);
  ob->kill_ob(me);
 
 return 0;

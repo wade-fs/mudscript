@@ -6,14 +6,14 @@ int exert_sunforce();
 
 void create()
 {
-  set_name(""HIY"天皇"NOR"",({"sky haung","sky","haung"}));
-set("long","他是由"HIR"天神"HIC"司徒無我"NOR"親自封贈"HIM"先權"HIR"五"HIY"皇"NOR"之一的中嶽守護神將\n"
-            +"─"HIY"天皇"NOR"。他和其他四皇因為相爭為守而訂定護不支援，要看\n"
+  set_name("" + HIY + "天皇" + NOR + "",({"sky haung","sky","haung"}));
+set("long","他是由" + HIR + "天神" + HIC + "司徒無我" + NOR + "親自封贈" + HIM + "先權" + HIR + "五" + HIY + "皇" + NOR + "之一的中嶽守護神將\n"
+            +"─" + HIY + "天皇" + NOR + "。他和其他四皇因為相爭為守而訂定護不支援，要看\n"
             +"由誰掌管之山嶽為最後常青之嶽。\n");
   set("gender","男性");
   set("class","fighter");
-  set("nickname",""HIY"中嶽"NOR"─"HIC"守護者"NOR"");
-  set("title",""HIM"先權"HIR"五"HIY"皇"NOR"");
+  set("nickname","" + HIY + "中嶽" + NOR + "─" + HIC + "守護者" + NOR + "");
+  set("title","" + HIM + "先權" + HIR + "五" + HIY + "皇" + NOR + "");
   set("attitude","heroism");
   set("age",1000);
   set("max_kee",500000);
@@ -95,10 +95,10 @@ void die()
 {
         object winner = query_temp("last_damage_from");
         //if(!wizardp(winner)){
-        tell_object(users(),"\n\n\t◆"HIY"想  不  到  我  中  嶽  竟  是  五  嶽  之  中  "NOR"◆\n\n\t\t◆"HIY"最  先  被  擊  破  之  山  嶽"NOR"◆\n"+
-        "\n\n\n\t"HIB"想不到我"HIY"天皇"HIB"為五皇之首, 今日敗於"NOR""+winner->query("name")+""HIB"之手"NOR"\n\t"HIR"可恨呀！！！"NOR"\n");
+        tell_object(users(),"\n\n\t◆" + HIY + "想  不  到  我  中  嶽  竟  是  五  嶽  之  中  " + NOR + "◆\n\n\t\t◆" + HIY + "最  先  被  擊  破  之  山  嶽" + NOR + "◆\n"+
+        "\n\n\n\t" + HIB + "想不到我" + HIY + "天皇" + HIB + "為五皇之首, 今日敗於" + NOR + ""+winner->query("name")+"" + HIB + "之手" + NOR + "\n\t" + HIR + "可恨呀！！！" + NOR + "\n");
 
-     tell_object(users(),"\n\n"HIR"天皇用盡最後一口真氣使出"NOR"閉脈"HIR"、"NOR"枯\血"HIR"、"NOR"鎖氣"HIR"。"NOR"\n\n\t「"HIY+BLINK"天皇自盡身亡"NOR"」\n\n");
+     tell_object(users(),"\n\n" + HIR + "天皇用盡最後一口真氣使出" + NOR + "閉脈" + HIR + "、" + NOR + "枯\血" + HIR + "、" + NOR + "鎖氣"HIR + "。" + NOR + "\n\n\t「"HIY+BLINK"天皇自盡身亡" + NOR + "」\n\n");
 
         //}
         :: die();

@@ -16,7 +16,7 @@ void create()
   set_name("火龍王", ({ "dragon king","dragon","king" }) );
   set("long","傳說中的火龍王。\n");
   set("race", "野獸");
-  set("title",HIR"火之王者"NOR);
+  set("title",HIR + "火之王者" + NOR);
   set("age", 100000);
   set("attitude", "aggressive");
   set("family/family_name","火龍窟");
@@ -91,7 +91,7 @@ void heart_beat()
     // 總要讓 dragon 用什麼來轉換吧？wade
     mob->set("force",1250000);
     mob->set("force_factor",40);
-    message_vision( HIR"\n火龍王燃起熾熱火焰將自身的內力倍增六成!!\n"NOR,mob);
+    message_vision( HIR + "\n火龍王燃起熾熱火焰將自身的內力倍增六成!!\n" + NOR,mob);
   }
 
   if ( mob->query("kee")<900000 && random(200)<50 && !mob->is_busy() )
@@ -101,7 +101,7 @@ void heart_beat()
      mob->receive_heal("kee",4000); 
    */
 
-    message_vision( HIY "\n火龍王運起神功\為自身療傷，傷口也慢慢癒合了\n"NOR,mob);
+    message_vision( HIY + "\n火龍王運起神功\為自身療傷，傷口也慢慢癒合了\n" + NOR,mob);
     mob->receive_curing("kee",1000);
     mob->receive_heal("kee",1000); 
   }
@@ -130,40 +130,40 @@ void heart_beat()
     target=enemy[random(i)];
     if (mob->is_fighting())
     {
-message_vision(HIR"                                        &.  &.     .\n"NOR,mob);
-message_vision(HIR"                                        ~ss.&ss. .s'\n"NOR,mob);
-message_vision(HIR"                                .     .ss&&&&&&&&&&s.\n"NOR,mob);
-message_vision(HIR"                                &. s&&&&&&&&&&&&&&`&&Ss\n"NOR,mob);
-message_vision(HIR"                                ~&&&&&&&&&&&&&&&&&&o&&&       .\n"NOR,mob);
-message_vision(HIR"                               s&&&&&&&&&&&&&&&&&&&&&&&&s.  .s\n"NOR,mob);
-message_vision(HIR"                              s&&&&&&&&&~&&&&&&~~~~&&&&&&~&&&&&.\n"NOR,mob);
-message_vision(HIR"                              s&&&&&&&&&&s~~&&&&ssssss~&&&&&&&&~\n"NOR,mob);
-message_vision(HIR"                             s&&&&&&&&&&'         `~~~ss~&~&s~~\n"NOR,mob);
-message_vision(HIR"                             s&&&&&&&&&&.              `~~~~~&  .s&&s\n"NOR,mob);
-message_vision(HIR"                             s&&&&&&&&&&&&s....               `s&&'  `\n"NOR,mob);
-message_vision(HIR"                         `ssss&&&&&&&&&&&&&&&&&&&&####s.     .&&~&.   . s-\n"NOR,mob);
-message_vision(HIR"                           `~~~~&&&&&&&&&&&&&&&&&&&&#####&&&&&&~     &.&'\n"NOR,mob);
-message_vision(HIR"                                 ~&&&&&&&&&&&&&&&&&&&&&####s~~     .&&&|\n"NOR,mob);
-message_vision(HIR"                                  ~&&&&&&&&&&&&&&&&&&&&&&&&##s    .&&~ &\n"NOR,mob);
-message_vision(HIR"                                   &&~~&&&&&&&&&&&&&&&&&&&&&&&&&&&&&~   `\n"NOR,mob);
-message_vision(HIR"                                  &&~  ~&~&&&&&&&&&&&&&&&&&&&&S~~~~'\n"NOR,mob);
-message_vision(HIR"                             .   .~     '  &&&&&&&&&&&&&&&&####s\n"NOR,mob);
-message_vision(HIR"                             &.          .s&&&&&&&&&&&&&&&&&####~\n"NOR,mob);
-message_vision(HIR"                 .           ~&s.   ..ssS&&&&&&&&&&&&&&&&&&&####~\n"NOR,mob);
-message_vision(HIR"                 &           .&&&S&&&&&&&&&&&&&&&&&&&&&&&&#####~\n"NOR,mob);
-message_vision(HIR"                 Ss     ..sS&&&&&&&&&&&&&&&&&&&&&&&&&&&######~~\n"NOR,mob);
-message_vision(HIR"                  ~&&sS&&&&&&&&&&&&&&&&&&&&&&&&&&&########~\n"NOR,mob);
-message_vision(HIR"           .      s&&&&&&&&&&&&&&&&&&&&&&&&#########~~'\n"NOR,mob);
-message_vision(HIR"           &    s&&&&&&&&&&&&&&&&&&&&&#######~~'      s'         .\n"NOR,mob);
-message_vision(HIR"           &&..&&&&&&&&&&&&&&&&&&######~'       .....&&....    .&\n"NOR,mob);
-message_vision(HIR"            ~&&&&&&&&&&&&&&&######~' .     .sS&&&&&&&&&&&&&&&&s&&\n"NOR,mob);
-message_vision(HIR"              &&&&&&&&&&&&#####~     &. .s&&&&&&&&&&&&&&&&&&&&&&&&s.\n"NOR,mob);
-message_vision(HIR"   )          &&&&&&&&&&&#####'      `&&&&&&&&&###########&&&&&&&&&&&.\n"NOR,mob);
-message_vision(HIR"  ((          &&&&&&&&&&&#####       &&&&&&&&###~       ~####&&&&&&&&&&\n"NOR,mob);
-message_vision(HIR"  ) )         &&&&&&&&&&&&####.     &&&&&&###~             ~###&&&&&&&&&   s'\n"NOR,mob);
-message_vision(HIR" (   )        &&&&&&&&&&&&&####.   &&&&&###~                ####&&&&&&&&s&&'\n"NOR,mob);
-message_vision(HIR" )  ( (       &&~&&&&&&&&&&&#####.&&&&&###'                .###&&&&&&&&&&~\n"NOR,mob);
-message_vision(HIR" (  )  )   _.&~   &&&&&&&&&&&&######.&&##'                .###&&&&&&&&&&\n\n\n\n"NOR,mob);
+message_vision(HIR + "                                        &.  &.     .\n" + NOR,mob);
+message_vision(HIR + "                                        ~ss.&ss. .s'\n" + NOR,mob);
+message_vision(HIR + "                                .     .ss&&&&&&&&&&s.\n" + NOR,mob);
+message_vision(HIR + "                                &. s&&&&&&&&&&&&&&`&&Ss\n" + NOR,mob);
+message_vision(HIR + "                                ~&&&&&&&&&&&&&&&&&&o&&&       .\n" + NOR,mob);
+message_vision(HIR + "                               s&&&&&&&&&&&&&&&&&&&&&&&&s.  .s\n" + NOR,mob);
+message_vision(HIR + "                              s&&&&&&&&&~&&&&&&~~~~&&&&&&~&&&&&.\n" + NOR,mob);
+message_vision(HIR + "                              s&&&&&&&&&&s~~&&&&ssssss~&&&&&&&&~\n" + NOR,mob);
+message_vision(HIR + "                             s&&&&&&&&&&'         `~~~ss~&~&s~~\n" + NOR,mob);
+message_vision(HIR + "                             s&&&&&&&&&&.              `~~~~~&  .s&&s\n" + NOR,mob);
+message_vision(HIR + "                             s&&&&&&&&&&&&s....               `s&&'  `\n" + NOR,mob);
+message_vision(HIR + "                         `ssss&&&&&&&&&&&&&&&&&&&&####s.     .&&~&.   . s-\n" + NOR,mob);
+message_vision(HIR + "                           `~~~~&&&&&&&&&&&&&&&&&&&&#####&&&&&&~     &.&'\n" + NOR,mob);
+message_vision(HIR + "                                 ~&&&&&&&&&&&&&&&&&&&&&####s~~     .&&&|\n" + NOR,mob);
+message_vision(HIR + "                                  ~&&&&&&&&&&&&&&&&&&&&&&&&##s    .&&~ &\n" + NOR,mob);
+message_vision(HIR + "                                   &&~~&&&&&&&&&&&&&&&&&&&&&&&&&&&&&~   `\n" + NOR,mob);
+message_vision(HIR + "                                  &&~  ~&~&&&&&&&&&&&&&&&&&&&&S~~~~'\n" + NOR,mob);
+message_vision(HIR + "                             .   .~     '  &&&&&&&&&&&&&&&&####s\n" + NOR,mob);
+message_vision(HIR + "                             &.          .s&&&&&&&&&&&&&&&&&####~\n" + NOR,mob);
+message_vision(HIR + "                 .           ~&s.   ..ssS&&&&&&&&&&&&&&&&&&&####~\n" + NOR,mob);
+message_vision(HIR + "                 &           .&&&S&&&&&&&&&&&&&&&&&&&&&&&&#####~\n" + NOR,mob);
+message_vision(HIR + "                 Ss     ..sS&&&&&&&&&&&&&&&&&&&&&&&&&&&######~~\n" + NOR,mob);
+message_vision(HIR + "                  ~&&sS&&&&&&&&&&&&&&&&&&&&&&&&&&&########~\n" + NOR,mob);
+message_vision(HIR + "           .      s&&&&&&&&&&&&&&&&&&&&&&&&#########~~'\n" + NOR,mob);
+message_vision(HIR + "           &    s&&&&&&&&&&&&&&&&&&&&&#######~~'      s'         .\n" + NOR,mob);
+message_vision(HIR + "           &&..&&&&&&&&&&&&&&&&&&######~'       .....&&....    .&\n" + NOR,mob);
+message_vision(HIR + "            ~&&&&&&&&&&&&&&&######~' .     .sS&&&&&&&&&&&&&&&&s&&\n" + NOR,mob);
+message_vision(HIR + "              &&&&&&&&&&&&#####~     &. .s&&&&&&&&&&&&&&&&&&&&&&&&s.\n" + NOR,mob);
+message_vision(HIR + "   )          &&&&&&&&&&&#####'      `&&&&&&&&&###########&&&&&&&&&&&.\n" + NOR,mob);
+message_vision(HIR + "  ((          &&&&&&&&&&&#####       &&&&&&&&###~       ~####&&&&&&&&&&\n" + NOR,mob);
+message_vision(HIR + "  ) )         &&&&&&&&&&&&####.     &&&&&&###~             ~###&&&&&&&&&   s'\n" + NOR,mob);
+message_vision(HIR + " (   )        &&&&&&&&&&&&&####.   &&&&&###~                ####&&&&&&&&s&&'\n" + NOR,mob);
+message_vision(HIR + " )  ( (       &&~&&&&&&&&&&&#####.&&&&&###'                .###&&&&&&&&&&~\n" + NOR,mob);
+message_vision(HIR + " (  )  )   _.&~   &&&&&&&&&&&&######.&&##'                .###&&&&&&&&&&\n\n\n\n" + NOR,mob);
       mob->apply_condition("burn", 0);
       for (j=0 ; j < i ; j++)
       {
@@ -184,7 +184,7 @@ message_vision(HIR" (  )  )   _.&~   &&&&&&&&&&&&######.&&##'                .##
               defire=900;
             else if(enemy[j]->query("ring_type")==5)
               defire=1000;
-            tell_object (enemy[j],HIG"火龍王的強烈火焰捲起一陣高熱焚風\n"NOR);
+            tell_object (enemy[j],HIG + "火龍王的強烈火焰捲起一陣高熱焚風\n" + NOR);
             //完全不清楚為何要如此壓抑門派特色 所以取消 by frequency
 //            if (enemy[j]->query("class")=="fighter" && enemy[j]->query_temp("keeup")==1) {
 //            hurt = 3000+random(-1);}
@@ -196,24 +196,24 @@ message_vision(HIR" (  )  )   _.&~   &&&&&&&&&&&&######.&&##'                .##
             // hurt = 3000+random(2500);
             //不知道前版code之用意 都說躲過了hurt還比別的class多??  故修正 by frequency
               hurt = 0;
-              tell_object (enemy[j],HIG"你憑著你的機智躲過了火龍王的火焰!!\n"NOR);}
+              tell_object (enemy[j],HIG + "你憑著你的機智躲過了火龍王的火焰!!\n" + NOR);}
             else{
               ohurt=hurt;
               if(enemy[j]->query_temp("def_fire")==1 && enemy[j]->query_temp("def_fire1")==1) {
                 hurt = hurt-defire*1.6-1400;
-                tell_object (enemy[j],HIG"你身上的焰氣訣與火龍鱗發生共鳴緩和了火龍王的火焰!!\n"NOR);}      
+                tell_object (enemy[j],HIG + "你身上的焰氣訣與火龍鱗發生共鳴緩和了火龍王的火焰!!\n" + NOR);}      
               else if(enemy[j]->query_temp("def_fire")==1) {
                 hurt = hurt-2000;
-                tell_object (enemy[j],HIG"你身上的焰氣訣緩和了火龍王的火焰!!\n"NOR);}
+                tell_object (enemy[j],HIG + "你身上的焰氣訣緩和了火龍王的火焰!!\n" + NOR);}
               else if(enemy[j]->query_temp("def_fire1")==1) {
                 hurt = hurt-defire*2;
-                tell_object (enemy[j],HIG"你身上的火龍鱗緩和了火龍王的火焰!!\n"NOR);}
+                tell_object (enemy[j],HIG + "你身上的火龍鱗緩和了火龍王的火焰!!\n" + NOR);}
               else if(enemy[j]->query_temp("gold-fire")==1 &&
                       enemy[j]->query("functions/gold-fire/level","gold-fire") == 90) {
                 hurt = hurt-1000;
-                tell_object (enemy[j],HIG"你身上的極火金身緩和了火龍王的火焰!!\n"NOR);}
+                tell_object (enemy[j],HIG + "你身上的極火金身緩和了火龍王的火焰!!\n" + NOR);}
 //              message_vision( HIG
-//                "\n火龍鱗耐火值為"+defire+",火龍原始害值為"+ohurt+",最後傷害值為"+hurt+"!!\n"NOR,mob);                
+//                "\n火龍鱗耐火值為"+defire+",火龍原始害值為"+ohurt+",最後傷害值為"+hurt+"!!\n" + NOR,mob);                
               if(hurt < 0) hurt = 50;
               enemy[j]->receive_wound("kee",hurt,mob);
               COMBAT_D->report_status(enemy[j]);
@@ -233,7 +233,7 @@ message_vision(HIR" (  )  )   _.&~   &&&&&&&&&&&&######.&&##'                .##
     //天道硬甲是其門派特色  不應該讓天道也無法使用 by frequency
     enemy[j]->delete_temp("hardshell");
     enemy[j]->clear_condition("white_pill");
-    message_vision(HIG"\n火龍王發出一道強烈綠光，$N身上的白龍能量消失了。\n"NOR,enemy[j]);
+    message_vision(HIG + "\n火龍王發出一道強烈綠光，$N身上的白龍能量消失了。\n" + NOR,enemy[j]);
   }
 
   if(random(1000) > 800)
@@ -242,7 +242,7 @@ message_vision(HIR" (  )  )   _.&~   &&&&&&&&&&&&######.&&##'                .##
     target=enemy[random(i)];
     if (mob->is_fighting())
     {
-      message_vision( HIY"\n火龍王突然發出震耳欲聾的吼聲，強大的能量逼得你無法喘息!!\n"NOR,mob);
+      message_vision( HIY + "\n火龍王突然發出震耳欲聾的吼聲，強大的能量逼得你無法喘息!!\n" + NOR,mob);
       for (j=0 ; j < i ; j++)
       {
         if(enemy[j]) {
@@ -300,7 +300,7 @@ void die()
     {
       scale=new("/autoload/killer/dragon-scale");
       scale->move(winner);
-      tell_room(environment(),sprintf(HIW"%s從火龍王身上得到火龍之鱗。\n",winner->name()));
+      tell_room(environment(),sprintf(HIW + "%s從火龍王身上得到火龍之鱗。\n",winner->name()));
     }
     if(!ring || (ring && !winner->query("ring_type")))
     {
@@ -314,13 +314,13 @@ void die()
         winner->set("ring_type",4);
       else if(chance >= 5 )
         winner->set("ring_type",5);
-      tell_room(environment(),sprintf(HIW"火龍之鱗發出光芒擁有了耐火的能力。\n",winner->name()));
+      tell_room(environment(),sprintf(HIW + "火龍之鱗發出光芒擁有了耐火的能力。\n",winner->name()));
     }
 
     if(ring)
     {
       int old_ring_type = winner->query("ring_type");
-      tell_room(environment(),sprintf(HIW"%s從火龍王身上得到火龍之鱗。\n",winner->name()));
+      tell_room(environment(),sprintf(HIW + "%s從火龍王身上得到火龍之鱗。\n",winner->name()));
       if(chance < 2 && old_ring_type < 1)
         winner->set("ring_type",1);
       else if(chance < 3 && chance >= 2 && old_ring_type < 2)
@@ -331,7 +331,7 @@ void die()
         winner->set("ring_type",4);
       else if(chance >= 5 && old_ring_type < 5 )
         winner->set("ring_type",5);
-      tell_room(environment(),sprintf(HIW"火龍之鱗發出光芒擁有了耐火的能力。\n",winner->name()));
+      tell_room(environment(),sprintf(HIW + "火龍之鱗發出光芒擁有了耐火的能力。\n",winner->name()));
     }
   }
   me = this_player();
@@ -390,10 +390,10 @@ void die()
 	    //為了維護FS經驗的生態，所以額外的獎勵就做一個限制 by Neverend
         if( enemy[j]->query("combat_exp") > 30000000 )
         {
-          tell_object(enemy[j],HIR"\n你的戰鬥經驗已超越火龍之王，無法再從火龍之王身上得到額外的經驗了!!\n"NOR);
+          tell_object(enemy[j],HIR + "\n你的戰鬥經驗已超越火龍之王，無法再從火龍之王身上得到額外的經驗了!!\n" + NOR);
         } else {
-	      tell_object(enemy[j],HIY"\n由於你的努力，終於打倒了火龍之王，你辛苦的代價換來了寶貴的經驗!!\n"NOR);
-          tell_object(enemy[j],HIC"你的戰鬥經驗上升 "+exp+" 點，潛在能力上升 "+pot+" 點!!\n"NOR);
+	      tell_object(enemy[j],HIY + "\n由於你的努力，終於打倒了火龍之王，你辛苦的代價換來了寶貴的經驗!!\n" + NOR);
+          tell_object(enemy[j],HIC + "你的戰鬥經驗上升 "+exp+" 點，潛在能力上升 "+pot+" 點!!\n" + NOR);
           enemy[j]->add("combat_exp",exp);
           enemy[j]->add("potential",pot);
           enemy[j]->delete_temp("fight_dking");
@@ -401,9 +401,9 @@ void die()
       }
     }
   }
-  tell_object(users(),HIW"\n火龍幻界內傳來吱～吱～聲的垂死哀嚎，一代幻界霸主就此殞落！\n
-"HIR"火龍王"HIY"心有不甘的吐出最後一口怨氣："HIG""+winner->query("name")+""HIY"！你別得意....來世...我一定...會找你...報....仇...的....
-\n"NOR); 
+  tell_object(users(),HIW + "\n火龍幻界內傳來吱～吱～聲的垂死哀嚎，一代幻界霸主就此殞落！\n
+" + HIR + "火龍王" + HIY + "心有不甘的吐出最後一口怨氣：" + HIG + ""+winner->query("name")+"" + HIY + "！你別得意....來世...我一定...會找你...報....仇...的....
+\n" + NOR); 
   if ( kill_jobs(5,winner,this_object(),"area/hole_stone") ) finish_time(winner,"area/hole_stone");	else start_time(winner,"area/hole_stone");	// 7.21.93 by Firedancer
 
   if( present("dragon claws",mob) )

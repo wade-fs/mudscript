@@ -2,7 +2,7 @@
 inherit ROOM;
 #include <ansi.h>
 void create () {
-    set ("short", HIR"焚天魔域"NOR);
+    set ("short", HIR + "焚天魔域" + NOR);
     set( "build", 113 );
     set ("long","這個房間一片通紅，牆上有團紅色的火焰，烈焰奔騰，火焰隨著你的情緒起伏有秩。
 看起來蠻嚇人的，不妨(search)一番看看有啥收穫。

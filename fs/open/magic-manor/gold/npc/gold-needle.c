@@ -29,29 +29,29 @@ int perform(object me,object target)
 	em_lv=target->query_skill("dodge"); //是算出enable dodge的值!!
 	em_lv=em_lv /3;
 	message_vision("
- "HIW"                $N暗運真氣，手上的針閃放出如"HIC"繁星"HIW"般的針芒，真氣從針尖激射而出～\n\n"NOR""
-""HIW"                            $N眼視$n全身大穴，繁星般點點使出～～\n\n"NOR""
-""HIY"                                    "HIC+HBBLU"ψ "HIY"金 "HIW"-- "HIY"針 "HIW"-- "HIY"封 "HIW"-- "HIY"穴 "HIC"ψ\n\n"NOR""
-""HIC"                        突然間～"HIY"漫天針芒"HIW"～向$n的全身大穴急襲而去！！！\n\n"NOR,me,target);
+ " + HIW + "                $N暗運真氣，手上的針閃放出如" + HIC + "繁星" + HIW + "般的針芒，真氣從針尖激射而出～\n\n" + NOR + ""
+"" + HIW + "                            $N眼視$n全身大穴，繁星般點點使出～～\n\n" + NOR + ""
+"" + HIY + "                                    "HIC+HBBLU"ψ " + HIY + "金 " + HIW + "-- " + HIY + "針 " + HIW + "-- " + HIY + "封 " + HIW + "-- " + HIY + "穴 " + HIC + "ψ\n\n" + NOR + ""
+"" + HIC + "                        突然間～" + HIY + "漫天針芒" + HIW + "～向$n的全身大穴急襲而去！！！\n\n" + NOR,me,target);
 	sk_lv=random(sk_lv);
 	value=random(value);
     if((value > 40) && (sk_lv > em_lv)) {
-	message_vision(HIW"$n身上的奇經八脈被$N金針封住,身上的真氣無法運行。\n" NOR,me,target);
+	message_vision(HIW + "$n身上的奇經八脈被$N金針封住,身上的真氣無法運行。\n" + NOR,me,target);
 	target->start_busy(4);
 }
     else if((value > 20) && (sk_lv > em_lv)) {
-	message_vision(HIY"$n身上的氣海被$N金針氣勁所侵,真氣運行為之一頓!!\n" NOR,me,target);
+	message_vision(HIY + "$n身上的氣海被$N金針氣勁所侵,真氣運行為之一頓!!\n" + NOR,me,target);
 	target->start_busy(3);
 }
     else if((value > 0 ) && (sk_lv > em_lv)) {
-	message_vision(GRN"結果$n手太陰經脈諸穴被$N金針封住,功\力大打折扣!!\n" NOR,me,target);
+	message_vision(GRN + "結果$n手太陰經脈諸穴被$N金針封住,功\力大打折扣!!\n" + NOR,me,target);
 	target->start_busy(2);
 }
 	else
 {
-	message_vision(MAG"$n看出針芒中有一空隙,使出步法避開$N的攻擊範圍!!\n" NOR,me,target);
+	message_vision(MAG + "$n看出針芒中有一空隙,使出步法避開$N的攻擊範圍!!\n" + NOR,me,target);
 }
-	message_vision(HIR"$N使出金針封穴後!!內勁損耗過大，趕緊運氣調息。\n"NOR,me);
+	message_vision(HIR + "$N使出金針封穴後!!內勁損耗過大，趕緊運氣調息。\n" + NOR,me);
 	me->start_busy(1);
 	COMBAT_D->report_status(target, 1);
 	value = (int)query_function("gold-needle");

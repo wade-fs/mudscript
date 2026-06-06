@@ -2,7 +2,7 @@
 inherit ROOM;
 void create ()
 {
-set("short",HIW"走道"NOR);
+set("short",HIW + "走道" + NOR);
 set("long",@LONG
 一堆已經腐化的屍體氣味夾雜著食物的腐敗臭味直衝你鼻口，令你不由得喉嚨
 一陣酸澀，你掩住鼻子望了下四周，看來食物都早已經腐爛消失了，所剩的都只有

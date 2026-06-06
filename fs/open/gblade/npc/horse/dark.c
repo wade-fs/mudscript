@@ -2,7 +2,7 @@
 #include <mudlib.h>
 inherit NPC;
 void create() {
-set_name(HIB"黑夜"+HIW+"奔雷"NOR, ({"dark horse" , "horse"}));
+set_name(HIB + "黑夜"+HIW+"奔雷" + NOR, ({"dark horse" , "horse"}));
 set("title", "傳說中的神駒");
 set("long", "因為是個傳說，所以再怎麼看也看不懂。\n");
 set("str",45);
@@ -115,7 +115,7 @@ if(me->query("family/family_name")=="魔刀門" ||
           me->add_temp("apply/damage",-45);
           me->add_temp("apply/armor", -45); }
 	me->delete_temp("ride_name");
-        message_vision(HIW"$N一個翻身下了馬來！\n"NOR,me);
+        message_vision(HIW + "$N一個翻身下了馬來！\n" + NOR,me);
         return 1;
 }
 
@@ -182,9 +182,9 @@ if( random(100) > 85)
     target=enemy[random(i)];
     if( env == environment(target) )
     {
-message_vision(HIY"
+message_vision(HIY + "
 突然間，黑夜奔雷像發狂似的向$N衝撞而來\n"+
-"$N閃避不及，被撞個四腳朝天，鮮血直吐\n"NOR,target);
+"$N閃避不及，被撞個四腳朝天，鮮血直吐\n" + NOR,target);
 target->receive_damage("kee",300);
       target->start_busy(1);
       COMBAT_D->report_status(target,1);

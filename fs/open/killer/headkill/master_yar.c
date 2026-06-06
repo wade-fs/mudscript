@@ -122,7 +122,7 @@ string to_hurt()
    command("?");
    return "$N在說什麼呀？";
  }
- tell_object(me,HIY"你中的不是魔氣殺，而是天魔解體大法的陰性氣指，目前只有莊靜柔
+ tell_object(me,HIY + "你中的不是魔氣殺，而是天魔解體大法的陰性氣指，目前只有莊靜柔
 會使用。\n");
  tell_object(me,"因此，我想天魔解體大法被她拿走了吧\n");
  tell_object(me,"唉。。。看來她還是找上門來了，這是六年前的事情了。。。\n");
@@ -143,7 +143,7 @@ string to_hurt()
 tell_object(me,"或許\你將他們的定情信物-滅神匕首。交給靜柔她，也許\她會想起當時
 的甜蜜\n");
  tell_object(me,"滅神匕首在三樓的北邊房間，我派了一個屍魂人守住，殺了他就可以得
-到\n"NOR);
+到\n" + NOR);
  me->set_temp("god",1);
  return "$N在三樓調查一下，可以找到進去的開關";
 }
@@ -269,7 +269,7 @@ command("say 志不同道不合, 另找明師去吧。\n");
 return 1;
 }
 message("system",
-HIB "紛亂動蕩的武林中～～\n\n又出現一名恐怖的殺手～～\n" NOR,users());
+HIB + "紛亂動蕩的武林中～～\n\n又出現一名恐怖的殺手～～\n" + NOR,users());
 return 1;
 }
 
@@ -287,7 +287,7 @@ if( me->query_temp("head") != 10)
 command("nod");
 command("chat* spank "+me->query("id"));
 command("say 好小子，居然讓你完成這項任務，就讓我賜你當代殺手之名吧！！");
-me->set("title",HIR"當"+HIG"代"+HIY"殺"+HIB"手"NOR);
+me->set("title",HIR + "當"+HIG"代"+HIY"殺"+HIB"手" + NOR);
 me->set("quest/head-kill",1);
 command("say 老夫為了獎勵你，就傳你殺意魔氣吧！");
 message_vision("$N由掌心竄出一道紫氣射入$n體內。\n",this_object(),this_player());
@@ -295,8 +295,8 @@ me->set("sec_kee","mkill");
 command("say 你已經資格知道到藍鳳組所在地，就是在地下水道二層，但目前仍沒有獲喬小雨同意。");
 command("say 等小渡一段時間，他把藍鳳組機關做好，或許\喬小雨就會同意你去吧！");
 message("system",
-HIM "葉秀殺大笑：『哈哈。。。江山代有才人出！一代新人換舊人\n\n"+me->query("name")
-    +"你就代替老夫在武林裡面，將與黑牙聯作對的人一一消滅吧！』\n"NOR,users());
+HIM + "葉秀殺大笑：『哈哈。。。江山代有才人出！一代新人換舊人\n\n"+me->query("name")
+    +"你就代替老夫在武林裡面，將與黑牙聯作對的人一一消滅吧！』\n" + NOR,users());
 }
 
 string ask_blade()
@@ -315,12 +315,12 @@ void unconcious()
        object hu_fa;
         object winner = query_temp("last_damage_from");
        
-       message("system",HIM"想不到我葉秀殺，居然會敗在"+winner->query("name")+"
+       message("system",HIM + "想不到我葉秀殺，居然會敗在"+winner->query("name")+"
 手中\n"+
                 "看來"+winner->query("id")+"你是皮在癢了！！！！\n",users());
        message("system"
-                ,HIR"可惡！！紅葉組，銀狼組！把"+winner->query("name")+"人頭提來
-見我！\n"NOR,users());
+                ,HIR + "可惡！！紅葉組，銀狼組！把"+winner->query("name")+"人頭提來
+見我！\n" + NOR,users());
 
        hu_fa = new("/open/killer/npc/silnpc2.c");
        hu_fa->move(environment(winner));
@@ -342,14 +342,14 @@ void die()
         object winner = query_temp("last_damage_from");
        if (winner->query("class") != "killer")
        {
-         message("system",HIR "超級殺手柴容放聲大叫，\n各位殺手聽著，"+winner->query("name")+
-                "把葉秀殺給掛了\n各位殺手給我全力追殺，"+winner->query("id")+"！！\n"NOR,users());
+         message("system",HIR + "超級殺手柴容放聲大叫，\n各位殺手聽著，"+winner->query("name")+
+                "把葉秀殺給掛了\n各位殺手給我全力追殺，"+winner->query("id")+"！！\n" + NOR,users());
 		/*	這樣設會有問題..修正 by chan
-			winner->set("title",HIR"殺手全力追殺的人頭"NOR);
+			winner->set("title",HIR + "殺手全力追殺的人頭" + NOR);
 		*/
         head=winner->query("title");
         winner->set("KILLTITLE",head); //暫存.等回來,回來在damage.c中
-	winner->set("title",HIR"殺手全力追殺的人頭"NOR);
+	winner->set("title",HIR + "殺手全力追殺的人頭" + NOR);
         }
         :: die();
 }

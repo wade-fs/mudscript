@@ -62,7 +62,7 @@ int do_cmd(string str){
  ob=this_object();
  king=present( "ghost",environment(ob) );
  if(str=="askgod ghost" || str=="askgod ghost woman"){
- write(HIY"鬼姥老笑說：「在姥姥面前求神問卜!?問誰呀？。」去死吧!!\n"NOR);
+ write(HIY + "鬼姥老笑說：「在姥姥面前求神問卜!?問誰呀？。」去死吧!!\n" + NOR);
  king->kill_ob(who);
  return 1;                                                 
                   }

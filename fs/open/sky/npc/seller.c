@@ -9,8 +9,8 @@ void create()
 {
 	set_name("醉問天",({"mystery papt","papt"}));
 	set("age",33);
-	set("title",HIM"天靈地界"HIW"神祕使者"NOR);
-        set("nickname",HIC"悠遊靈間"NOR);
+	set("title",HIM + "天靈地界" + HIW + "神祕使者" + NOR);
+        set("nickname",HIC + "悠遊靈間" + NOR);
 	set("gender","男性");
 	set("long",@LONG
     一位悠遊於天地間的神秘人物，喜歡搜集各式各樣的奇珍異寶，尤
@@ -72,21 +72,21 @@ int do_pay()
 	i=50000000;
 //	coin=(int)me->query("bank/coin");
 
-        if( me->query_temp("quests/sky/pay") ) return notify_fail(HIW"醉問天說：「別急！別急！一樣一樣慢慢來。」\n"NOR);
+        if( me->query_temp("quests/sky/pay") ) return notify_fail(HIW + "醉問天說：「別急！別急！一樣一樣慢慢來。」\n" + NOR);
 	if( !me->pay_money(i) )
 	{
 	command("hmm "+me->query("id"));
-	message_vision(HIW"$N的身上沒有足夠的錢付保管費了，請帶了足夠的錢再來找我吧！\n"NOR,me);
+	message_vision(HIW + "$N的身上沒有足夠的錢付保管費了，請帶了足夠的錢再來找我吧！\n" + NOR,me);
 	return 1;
 	}
 //	if(coin < 50000000 )
-//	return notify_fail(HIY"你目前的存款只剩下"HIM"【"HIW+coin/100000+HIM"】"HIY"張銀票左右而已，不夠 500 張銀票喔。\n"NOR);
+//	return notify_fail(HIY + "你目前的存款只剩下" + HIM + "【"HIW+coin/100000+HIM"】" + HIY + "張銀票左右而已，不夠 500 張銀票喔。\n" + NOR);
 //	coin=coin-50000000;
 //	me->set("bank/coin",coin);
 	me->set_temp("quests/sky/pay",1);
-//	message_vision(HIY"醉問天說：收到$N"HIY"的五百張銀票了，$N"HIY"目前的存款還剩下"HIM"【 "HIW+coin/100000+HIM"】"HIY"張銀票左右!!\n"NOR,me);
+//	message_vision(HIY + "醉問天說：收到$N" + HIY + "的五百張銀票了，$N" + HIY + "目前的存款還剩下" + HIM + "【 "HIW+coin/100000+HIM"】" + HIY + "張銀票左右!!\n" + NOR,me);
 	command("smile "+me->query("id"));
-	message_vision(HIY"醉問天說：$N"HIY"想保管什麼物品呢？付一次錢只能保管一樣東西喔！\n"NOR,me);
+	message_vision(HIY + "醉問天說：$N" + HIY + "想保管什麼物品呢？付一次錢只能保管一樣東西喔！\n" + NOR,me);
 	return 1;
 }
 
@@ -104,16 +104,16 @@ int accept_object(object me,object ob)
 	{
 	  if(me->query_temp("quests/magic-manor-01") == 3 && os != 1 && oa == 1 )
 	  {
-	  message_vision(HIY"醉問天說：多謝你幫我找回這樣信物，沒這樣東西，我還真不知道如何回聚靈山莊呢！\n"NOR,me);
+	  message_vision(HIY + "醉問天說：多謝你幫我找回這樣信物，沒這樣東西，我還真不知道如何回聚靈山莊呢！\n" + NOR,me);
 	  me->set_temp("quests/magic-manor-01",4);
 	  }else{
 	    if(oa == 1)
 	    {
-	    message_vision(HIY"醉問天說：哈哈哈.....你怎知這是我要的東西呀？\n"NOR,me);
-	    message_vision(HIY"醉問天說：既然幫我找回來了，就多謝啦!!\n"NOR,me);
+	    message_vision(HIY + "醉問天說：哈哈哈.....你怎知這是我要的東西呀？\n" + NOR,me);
+	    message_vision(HIY + "醉問天說：既然幫我找回來了，就多謝啦!!\n" + NOR,me);
 	    destruct(ob);
 	    }else{
-	    message_vision(HIY"醉問天說：$N"HIY"沒有付(pay)我金錢，我不會免費幫你保管的「"+ob->query("name")+HIY"」就當您送給我了。\n"NOR,me);
+	    message_vision(HIY + "醉問天說：$N" + HIY + "沒有付(pay)我金錢，我不會免費幫你保管的「"+ob->query("name")+HIY"」就當您送給我了。\n" + NOR,me);
 	    destruct(ob);
 	    return 1;
 	    }
@@ -123,19 +123,19 @@ int accept_object(object me,object ob)
 	  {
 	    if( me->query_temp("quests/sky/pay") == 1 )
 	    {
-	    message_vision(HIY"醉問天說：交給我保管的東西，就請$N"HIY"放一百二十個心吧，絕對妥當!!\n"NOR,me);
+	    message_vision(HIY + "醉問天說：交給我保管的東西，就請$N" + HIY + "放一百二十個心吧，絕對妥當!!\n" + NOR,me);
 	    me->add("sky/"+oo,1);
 	    me->delete_temp("quests/sky/pay");
             write_file("/log/sky/accept",sprintf("%-28s 將 %s 交給醉問天於 %s\n",
             me->name(1)+"("+me->query("id")+")",on,ctime(time())));
 	    destruct(ob);
 	    }else{
-	    message_vision(HIR"醉問天說：「要我保管東西，總該有一點點的付出吧！」\n"NOR,me);
-	    message_vision(HIR"只見到醉問天隨手就將"NOR+ob->query("name")+HIR"丟了出去！\n"NOR,me);
+	    message_vision(HIR + "醉問天說：「要我保管東西，總該有一點點的付出吧！」\n" + NOR,me);
+	    message_vision(HIR + "只見到醉問天隨手就將"NOR+ob->query("name")+HIR"丟了出去！\n" + NOR,me);
 	    command("drop "+ob->query("id"));
 	    }
 	  }else{
-	  message_vision(HIY"醉問天說：「"+ob->query("name")+HIY"」怎麼看也不像是寶物，不過既然$N送給我了，我就不客氣的收下了 ^^\n"NOR,me);
+	  message_vision(HIY + "醉問天說：「"+ob->query("name")+HIY"」怎麼看也不像是寶物，不過既然$N送給我了，我就不客氣的收下了 ^^\n" + NOR,me);
 	  destruct(ob);
 	  }
 	}
@@ -165,7 +165,7 @@ int do_want(string arg)
 	tb=new("/open/sky/obj2/"+arg);
 	tb->move(me);
 	message_vision("醉問天將$n交還給$N。\n",me,tb);
-	message_vision(HIY"醉問天說：希望還有機會為$N"HIY"服務，歡迎$N"HIY"的再度來臨!!\n"NOR,me,tb);
+	message_vision(HIY + "醉問天說：希望還有機會為$N" + HIY + "服務，歡迎$N" + HIY + "的再度來臨!!\n" + NOR,me,tb);
 	write_file("/log/sky/want",sprintf("%-28s 跟醉問天要了 %s 於 %s\n",
 	me->name(1)+"("+me->query("id")+")",tb->query("name"),ctime(time())));
 	me->add("sky/"+arg,-1);
@@ -174,7 +174,7 @@ int do_want(string arg)
 	  me->delete("sky/"+arg);
 	  }
 	}else{
-	message_vision(HIY"醉問天說：$N"HIY"沒有在我這裏寄放這樣東西吧？\n"NOR,me);
+	message_vision(HIY + "醉問天說：$N" + HIY + "沒有在我這裏寄放這樣東西吧？\n" + NOR,me);
 	}
 	break;
 
@@ -193,7 +193,7 @@ int do_want(string arg)
 	tb=new("/open/sky/obj1/"+arg);
 	tb->move(me);
 	message_vision("醉問天將$n交還給$N。\n",me,tb);
-	message_vision(HIY"醉問天說：希望還有機會為$N"HIY"服務，歡迎$N"HIY"的再度來臨!!\n"NOR,me,tb);
+	message_vision(HIY + "醉問天說：希望還有機會為$N" + HIY + "服務，歡迎$N" + HIY + "的再度來臨!!\n" + NOR,me,tb);
         write_file("/log/sky/want",sprintf("%-28s 跟醉問天要了 %s 於 %s\n",
         me->name(1)+"("+me->query("id")+")",tb->query("name"),ctime(time())));
 	me->add("sky/"+arg,-1);
@@ -202,7 +202,7 @@ int do_want(string arg)
 	  me->delete("sky/"+arg);
 	  }
 	}else{
-	message_vision(HIY"醉問天說：$N"HIY"沒有在我這裏寄放這樣東西吧？\n"NOR,me);
+	message_vision(HIY + "醉問天說：$N" + HIY + "沒有在我這裏寄放這樣東西吧？\n" + NOR,me);
 	}
 	break;
 
@@ -219,7 +219,7 @@ int do_want(string arg)
 	tb=new("/open/sky/obj3/"+arg);
 	tb->move(me);
 	message_vision("醉問天將$n交還給$N。\n",me,tb);
-	message_vision(HIY"醉問天說：希望還有機會為$N"HIY"服務，歡迎$N"HIY"的再度來臨!!\n"NOR,me,tb);
+	message_vision(HIY + "醉問天說：希望還有機會為$N" + HIY + "服務，歡迎$N" + HIY + "的再度來臨!!\n" + NOR,me,tb);
         write_file("/log/sky/want",sprintf("%-28s 跟醉問天要了 %s 於 %s\n",
         me->name(1)+"("+me->query("id")+")",tb->query("name"),ctime(time())));
 	me->add("sky/"+arg,-1);
@@ -228,7 +228,7 @@ int do_want(string arg)
 	  me->delete("sky/"+arg);
 	  }
 	}else{
-	message_vision(HIY"醉問天說：$N"HIY"沒有在我這裏寄放這樣東西吧？\n"NOR,me);
+	message_vision(HIY + "醉問天說：$N" + HIY + "沒有在我這裏寄放這樣東西吧？\n" + NOR,me);
 	}
 	break;
 
@@ -244,7 +244,7 @@ int do_want(string arg)
 	tb=new("/open/sky/obj5/"+arg);
 	tb->move(me);
 	message_vision("醉問天將$n交還給$N。\n",me,tb);
-	message_vision(HIY"醉問天說：希望還有機會為$N"HIY"服務，歡迎$N"HIY"的再度來臨!!\n"NOR,me,tb);
+	message_vision(HIY + "醉問天說：希望還有機會為$N" + HIY + "服務，歡迎$N" + HIY + "的再度來臨!!\n" + NOR,me,tb);
         write_file("/log/sky/want",sprintf("%-28s 跟醉問天要了 %s 於 %s\n",
 	me->name(1)+"("+me->query("id")+")",tb->query("name"),ctime(time())));
 	me->add("sky/"+arg,-1);
@@ -253,7 +253,7 @@ int do_want(string arg)
 	  me->delete("sky/"+arg);
 	  }
 	}else{
-	message_vision(HIY"醉問天說：$N"HIY"沒有在我這裏寄放這樣東西吧？\n"NOR,me);
+	message_vision(HIY + "醉問天說：$N" + HIY + "沒有在我這裏寄放這樣東西吧？\n" + NOR,me);
 	}
 	break;
 
@@ -269,7 +269,7 @@ int do_want(string arg)
 	tb=new("/open/sky/obj4/"+arg);
 	tb->move(me);
 	message_vision("醉問天將$n交還給$N。\n",me,tb);
-	message_vision(HIY"醉問天說：希望還有機會為$N"HIY"服務，歡迎$N"HIY"的再度來臨!!\n"NOR,me,tb);
+	message_vision(HIY + "醉問天說：希望還有機會為$N" + HIY + "服務，歡迎$N" + HIY + "的再度來臨!!\n" + NOR,me,tb);
         write_file("/log/sky/want",sprintf("%-28s 跟醉問天要了 %s 於 %s\n",
         me->name(1)+"("+me->query("id")+")",tb->query("name"),ctime(time())));
 	me->add("sky/"+arg,-1);
@@ -278,7 +278,7 @@ int do_want(string arg)
 	  me->delete("sky/"+arg);
 	  }
 	}else{
-	message_vision(HIY"醉問天說：$N"HIY"沒有在我這裏寄放這樣東西吧？\n"NOR,me);
+	message_vision(HIY + "醉問天說：$N" + HIY + "沒有在我這裏寄放這樣東西吧？\n" + NOR,me);
 	}
 	break;
 
@@ -298,7 +298,7 @@ int do_want(string arg)
 	tb=new("/open/sky/obj6/"+arg);
 	tb->move(me);
 	message_vision("醉問天將$n交還給$N。\n",me,tb);
-	message_vision(HIY"醉問天說：希望還有機會為$N"HIY"服務，歡迎$N"HIY"的再度來臨!!\n"NOR,me,tb);
+	message_vision(HIY + "醉問天說：希望還有機會為$N" + HIY + "服務，歡迎$N" + HIY + "的再度來臨!!\n" + NOR,me,tb);
         write_file("/log/sky/want",sprintf("%-28s 跟醉問天要了 %s 於 %s\n",
 	me->name(1)+"("+me->query("id")+")",tb->query("name"),ctime(time())));
 	me->add("sky/"+arg,-1);
@@ -307,7 +307,7 @@ int do_want(string arg)
 	  me->delete("sky/"+arg);
 	  }
 	}else{
-	message_vision(HIY"醉問天說：$N"HIY"沒有在我這裏寄放這樣東西吧？\n"NOR,me);
+	message_vision(HIY + "醉問天說：$N" + HIY + "沒有在我這裏寄放這樣東西吧？\n" + NOR,me);
 	}
 	break;
 
@@ -324,7 +324,7 @@ int do_want(string arg)
 	tb=new("/open/sky/obj7/"+arg);
 	tb->move(me);
 	message_vision("醉問天將$n交還給$N。\n",me,tb);
-	message_vision(HIY"醉問天說：希望還有機會為$N"HIY"服務，歡迎$N"HIY"的再度來臨!!\n"NOR,me,tb);
+	message_vision(HIY + "醉問天說：希望還有機會為$N" + HIY + "服務，歡迎$N" + HIY + "的再度來臨!!\n" + NOR,me,tb);
         write_file("/log/sky/want",sprintf("%-28s 跟醉問天要了 %s 於 %s\n",
 	me->name(1)+"("+me->query("id")+")",tb->query("name"),ctime(time())));
 	me->add("sky/"+arg,-1);
@@ -333,7 +333,7 @@ int do_want(string arg)
 	  me->delete("sky/"+arg);
 	  }
 	}else{
-	message_vision(HIY"醉問天說：$N"HIY"沒有在我這裏寄放這樣東西吧？\n"NOR,me);
+	message_vision(HIY + "醉問天說：$N" + HIY + "沒有在我這裏寄放這樣東西吧？\n" + NOR,me);
 	}
 	break;
 
@@ -350,7 +350,7 @@ int do_want(string arg)
 	tb=new("/open/sky/obj8/"+arg);
 	tb->move(me);
 	message_vision("醉問天將$n交還給$N。\n",me,tb);
-	message_vision(HIY"醉問天說：希望還有機會為$N"HIY"服務，歡迎$N"HIY"的再度來臨!!\n"NOR,me,tb);
+	message_vision(HIY + "醉問天說：希望還有機會為$N" + HIY + "服務，歡迎$N" + HIY + "的再度來臨!!\n" + NOR,me,tb);
         write_file("/log/sky/want",sprintf("%-28s 跟醉問天要了 %s 於 %s\n",
         me->name(1)+"("+me->query("id")+")",tb->query("name"),ctime(time())));
 	me->add("sky/"+arg,-1);
@@ -359,7 +359,7 @@ int do_want(string arg)
 	  me->delete("sky/"+arg);
 	  }
 	}else{
-	message_vision(HIY"醉問天說：$N"HIY"沒有在我這裏寄放這樣東西吧？\n"NOR,me);
+	message_vision(HIY + "醉問天說：$N" + HIY + "沒有在我這裏寄放這樣東西吧？\n" + NOR,me);
 	}
 	break;
 
@@ -376,7 +376,7 @@ int do_want(string arg)
 	tb=new("/open/sky/obj9/"+arg);
 	tb->move(me);
 	message_vision("醉問天將$n交還給$N。\n",me,tb);
-	message_vision(HIY"醉問天說：希望還有機會為$N"HIY"服務，歡迎$N"HIY"的再度來臨!!\n"NOR,me,tb);
+	message_vision(HIY + "醉問天說：希望還有機會為$N" + HIY + "服務，歡迎$N" + HIY + "的再度來臨!!\n" + NOR,me,tb);
         write_file("/log/sky/want",sprintf("%-28s 跟醉問天要了 %s 於 %s\n",
 	me->name(1)+"("+me->query("id")+")",tb->query("name"),ctime(time())));
 	me->add("sky/"+arg,-1);
@@ -385,7 +385,7 @@ int do_want(string arg)
 	  me->delete("sky/"+arg);
 	  }
 	}else{
-	message_vision(HIY"醉問天說：$N"HIY"沒有在我這裏寄放這樣東西吧？\n"NOR,me);
+	message_vision(HIY + "醉問天說：$N" + HIY + "沒有在我這裏寄放這樣東西吧？\n" + NOR,me);
 	}
 	break;
   case "banyan-yin":
@@ -418,7 +418,7 @@ int do_want(string arg)
 	tb=new("/open/sky/obj10/"+arg);
 	tb->move(me);
 	message_vision("醉問天將$n交還給$N。\n",me,tb);
-	message_vision(HIY"醉問天說：希望還有機會為$N"HIY"服務，歡迎$N"HIY"的再度來臨!!\n"NOR,me,tb);
+	message_vision(HIY + "醉問天說：希望還有機會為$N" + HIY + "服務，歡迎$N" + HIY + "的再度來臨!!\n" + NOR,me,tb);
         write_file("/log/sky/want",sprintf("%-28s 跟醉問天要了 %s 於 %s\n",
         me->name(1)+"("+me->query("id")+")",tb->query("name"),ctime(time())));
 	me->add("sky/"+arg,-1);
@@ -427,7 +427,7 @@ int do_want(string arg)
 	  me->delete("sky/"+arg);
 	  }
 	}else{
-	message_vision(HIY"醉問天說：$N"HIY"沒有在我這裏寄放這樣東西吧？\n"NOR,me);
+	message_vision(HIY + "醉問天說：$N" + HIY + "沒有在我這裏寄放這樣東西吧？\n" + NOR,me);
 	}
 	break;
 
@@ -446,7 +446,7 @@ int do_want(string arg)
 	tb=new("/open/sky/obj11/"+arg);
 	tb->move(me);
 	message_vision("醉問天將$n交還給$N。\n",me,tb);
-	message_vision(HIY"醉問天說：希望還有機會為$N"HIY"服務，歡迎$N"HIY"的再度來臨!!\n"NOR,me,tb);
+	message_vision(HIY + "醉問天說：希望還有機會為$N" + HIY + "服務，歡迎$N" + HIY + "的再度來臨!!\n" + NOR,me,tb);
         write_file("/log/sky/want",sprintf("%-28s 跟醉問天要了 %s 於 %s\n",
 	me->name(1)+"("+me->query("id")+")",tb->query("name"),ctime(time())));
 	me->add("sky/"+arg,-1);
@@ -455,7 +455,7 @@ int do_want(string arg)
 	  me->delete("sky/"+arg);
 	  }
 	}else{
-	message_vision(HIY"醉問天說：$N"HIY"沒有在我這裏寄放這樣東西吧？\n"NOR,me);
+	message_vision(HIY + "醉問天說：$N" + HIY + "沒有在我這裏寄放這樣東西吧？\n" + NOR,me);
 	}
 	break;
 
@@ -480,7 +480,7 @@ int do_want(string arg)
 	tb=new("/open/sky/obj12/"+arg);
 	tb->move(me);
 	message_vision("醉問天將$n交還給$N。\n",me,tb);
-	message_vision(HIY"醉問天說：希望還有機會為$N"HIY"服務，歡迎$N"HIY"的再度來臨!!\n"NOR,me,tb);
+	message_vision(HIY + "醉問天說：希望還有機會為$N" + HIY + "服務，歡迎$N" + HIY + "的再度來臨!!\n" + NOR,me,tb);
         write_file("/log/sky/want",sprintf("%-28s 跟醉問天要了 %s 於 %s\n",
 	me->name(1)+"("+me->query("id")+")",tb->query("name"),ctime(time())));
 	me->add("sky/"+arg,-1);
@@ -489,7 +489,7 @@ int do_want(string arg)
 	  me->delete("sky/"+arg);
 	  }
 	}else{
-	message_vision(HIY"醉問天說：$N"HIY"沒有在我這裏寄放這樣東西吧？\n"NOR,me);
+	message_vision(HIY + "醉問天說：$N" + HIY + "沒有在我這裏寄放這樣東西吧？\n" + NOR,me);
 	}
 	break;
 
@@ -517,7 +517,7 @@ int do_list(string arg)
 	{
 	if( me->query("sky/"+obj[i])==0 ) continue;
 	if(arg != "all" && strsrch(obj[i],"-"+arg) == -1) continue;
-	printf(HIM"【"HIW"%-28s"HIM"】"NOR"共有"HIM"【"HIW"%2d"HIM"】"NOR" 個。\n",to_chinese(obj[i])+"("+obj[i]+")",me->query("sky/"+obj[i]));
+	printf(HIM + "【" + HIW + "%-28s" + HIM + "】" + NOR + "共有" + HIM + "【" + HIW + "%2d" + HIM + "】" + NOR + " 個。\n",to_chinese(obj[i])+"("+obj[i]+")",me->query("sky/"+obj[i]));
 	}
 
 	return 1;
@@ -653,7 +653,7 @@ void greeting2(object me)
 {
 	command("sigh");
 	command("say 雖然你不能幫我，不過還是多謝了！");
-	tell_room(environment(this_object()),HIY"只見到醉問天，低下頭，神情卻顯得落寞。\n"NOR);
+	tell_room(environment(this_object()),HIY + "只見到醉問天，低下頭，神情卻顯得落寞。\n" + NOR);
 }
 
 void greeting3(object me)

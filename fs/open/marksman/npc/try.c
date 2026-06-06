@@ -11,7 +11,7 @@ void create()
         set("class", "marksman");
 set_name("李廣", ({ "master lee", "master", "lee" }) );
         set("title","射日派第二代掌門人");
-        set("nickname",HIC "心定穿石"NOR);
+        set("nickname",HIC + "心定穿石" + NOR);
         set("gender", "男性");
 set("max_kee",5000);
         set("age", 55);
@@ -111,10 +111,10 @@ command("say 給你把弓和哨子，可不要用不見啦!");
       command("pat" + ob->query("id"));
       command("recruit "+ob->query("id"));
 ob->set("appraise",random(4)+1);
-message("system",HIR "李廣笑道 :\n
-      "HIW"" +this_player()->name()+ ""NOR""HIR"拜入我門下 !\n
+message("system",HIR + "李廣笑道 :\n
+      " + HIW + "" +this_player()->name()+ "" + NOR + "" + HIR + "拜入我門下 !\n
       他日必可成為一代神射手!\n
-      成為武林至尊!!\n\n"NOR,users());
+      成為武林至尊!!\n\n" + NOR,users());
 
 ob->set("Lbird-shop","YES");
 }
@@ -179,11 +179,11 @@ void die()
 {    
         object winner = query_temp("last_damage_from");
 
-        tell_object(users(),HIW"
-    忽然自"GRN"長沙城"HIW"之中射出一道白光，映著朝日，直竄達天際～～～\n
-        射日派掌門人－"HIY"李廣"HIW"臨死前喟然嘆道～～～\n
-            「啊～～～罷了...想我堂堂一名"HIC"飛將軍"HIW"，居然是如此不堪一擊...」\n
-                名動天下的"HIC"「飛將軍」"HIY"李廣"HIW"，竟被"HIR"『"+winner->name()+"』"HIW"給一招擊斃於"HIY"廣義堂"HIW"內...\n
-\n\n"NOR);
+        tell_object(users(),HIW + "
+    忽然自" + GRN + "長沙城" + HIW + "之中射出一道白光，映著朝日，直竄達天際～～～\n
+        射日派掌門人－" + HIY + "李廣" + HIW + "臨死前喟然嘆道～～～\n
+            「啊～～～罷了...想我堂堂一名" + HIC + "飛將軍" + HIW + "，居然是如此不堪一擊...」\n
+                名動天下的" + HIC + "「飛將軍」" + HIY + "李廣" + HIW + "，竟被" + HIR + "『"+winner->name()+"』" + HIW + "給一招擊斃於" + HIY + "廣義堂" + HIW + "內...\n
+\n\n" + NOR);
         ::die();
 }

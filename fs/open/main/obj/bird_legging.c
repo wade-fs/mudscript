@@ -5,7 +5,7 @@ inherit EQUIP;
 
 void create()
 {
-      set_name(HIR"火鳥"HIW"脛甲"NOR,({"fire bird leggings","leggings"}));
+      set_name(HIR + "火鳥" + HIW + "脛甲" + NOR,({"fire bird leggings","leggings"}));
 	set_weight(1000);
         if( clonep() )
 		set_default_object(__FILE__);

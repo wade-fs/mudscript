@@ -6,7 +6,7 @@ inherit STABBER;
 void create()
 {
         seteuid(getuid());
-        set_name(HIR"火靈焰扇"NOR,({"fire fan","fan"}));
+        set_name(HIR + "火靈焰扇" + NOR,({"fire fan","fan"}));
         set_weight(8000);
         if( clonep() )
                 set_default_object(__FILE__);

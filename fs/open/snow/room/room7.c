@@ -8,10 +8,10 @@ inherit ROOM;
 void create()
 {
   string long; //設定為文字變數
-  set("short",HIY"藏經閣"NOR);
+  set("short",HIY + "藏經閣" + NOR);
   long = "這裡是雪蒼派的藏經閣，裡面所放的都是雪蒼派的秘笈，但是一\n"
-"般的弟子，在沒經過掌門"HIG"准許\"NOR"，是不得動裡面的書籍，在門口有一張\n"
-"藏經閣的藏書表(list)，只有經過掌門"HIG"准許\"NOR"的人才能在此研讀裡面的\n"
+"般的弟子，在沒經過掌門" + HIG + "准許\" + NOR + "，是不得動裡面的書籍，在門口有一張\n"
+"藏經閣的藏書表(list)，只有經過掌門" + HIG + "准許\" + NOR + "的人才能在此研讀裡面的\n"
 "藏書。\n";
   set("long", long);
 
@@ -39,12 +39,12 @@ int do_list()
 {
   string long;
   object me=this_player();
-  long=WHT"  這裡的藏書有：\n"
-       HIW"      雪蒼秘錄 (Snow book)\n"
-       HIW"      狂風鬼影腳秘笈 (feet book)\n"
-       HIW"      枯\葉殘風錄 (star book)\n"
-       WHT"      雪影幻指(ice-fingers)\n"
-       WHT"      凌霜奇訣(snow-powerup)\n"NOR;
+  long=WHT + "  這裡的藏書有：\n"
+       HIW + "      雪蒼秘錄 (Snow book)\n"
+       HIW + "      狂風鬼影腳秘笈 (feet book)\n"
+       HIW + "      枯\葉殘風錄 (star book)\n"
+       WHT + "      雪影幻指(ice-fingers)\n"
+       WHT + "      凌霜奇訣(snow-powerup)\n" + NOR;
   tell_object(me,long);
 /*  tell_object(me,@LONG
   這裡的藏書有﹕

@@ -64,7 +64,7 @@ int do_sleep(string arg)
 
 int wakeup(object who)
 {
-	tell_object(who, HIC"一覺醒來，你覺得你的精神稍稍恢復了。\n"NOR);
+	tell_object(who, HIC + "一覺醒來，你覺得你的精神稍稍恢復了。\n" + NOR);
 	who->receive_heal("kee", 40);
 	who->delete_temp("sleeping");
 	return 1;

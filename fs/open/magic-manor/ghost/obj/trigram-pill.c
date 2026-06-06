@@ -2,7 +2,7 @@ inherit COMBINED_ITEM;
 #include <ansi.h>
 void create()
 {
-        set_name(HIC"八卦"NOR+HIB"定"HIC"魂丹"NOR, ({"trigram pill","pill"}) );
+        set_name(HIC + "八卦"NOR+HIB"定" + HIC + "魂丹" + NOR, ({"trigram pill","pill"}) );
 	set("long","相傳有定魂、鎮魂、趨魂、招魂的效果，如果是平常人誤食的話，會招來鬼氣纏身。\n");
 	set("unit", "顆");
 	set("no_steal",1);

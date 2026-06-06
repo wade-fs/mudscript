@@ -9,7 +9,7 @@ void create()
   set_name("流星射手", ({ "shooting marksman","marksman","shooting","m" }) );
   set("long", "為了追尋強者之道，身懷絕技的這一代弟子的她們離開將軍府歷練，
 冀望剷除世間不平事，求取俠名以威射日派。\n");
-  set("nickname",HIC "滅"HIY"獅"NOR"聯盟");
+  set("nickname",HIC + "滅" + HIY + "獅" + NOR + "聯盟");
   set("gender", "女性" );
   set("class","marksman");
   set("combat_exp",8800000);
@@ -19,7 +19,7 @@ void create()
   set("age", 29);
 //  set_temp("roared", 1 ); //雙重roar 判斷 以增加mob差異性
   set("quest/gold-fire", 1 ); //技能奧義新增 解過fire-king , exp 三百萬以上 
-//  set("marksman/punch_rock",1); //為使用"HIC"虛空馭天箭"HIM"的mark 隔空傷害玩家 暫不開放 讓玩家有路可跑 因本mob exp<1000
+//  set("marksman/punch_rock",1); //為使用" + HIC + "虛空馭天箭" + HIM + "的mark 隔空傷害玩家 暫不開放 讓玩家有路可跑 因本mob exp<1000
 //  set("break-sun",1); //可使用破日驚天絕技的mark之一 並取得  set("title","$HBBLU$$HIB$破$HIY$日$HIC$驚$BLK$天$HIW$傳人$NOR$");
 //  set("env/arrow_element","gold"); //使用破日驚天的絕技需要設定元素箭 //help 破日驚天
   set("str", 28);
@@ -127,7 +127,7 @@ void do_busy()
   object ob;
   if( random(7)>4 )
     command("exert flyarrow");
-  message_vision(HIC"流星射手強大的氣機鎖住你，令你無法行動！\n"NOR,this_object());
+  message_vision(HIC + "流星射手強大的氣機鎖住你，令你無法行動！\n" + NOR,this_object());
   ob=this_object()->query("last_damage_from");
   if(ob)
     ob->start_busy(1);
@@ -148,7 +148,7 @@ void greeting()
   if (!ob->is_fighting() && ppl->query_temp("quests/bonze/fight") == 1
       && ppl->is_fighting() && (ob->query("kee") > ob->query("max_kee")*0.3))
   {
-    message_vision (HIY"$N大喊：無事生非者，殺無赦！\n"NOR, ob);
+    message_vision (HIY + "$N大喊：無事生非者，殺無赦！\n" + NOR, ob);
     fight_ob(ppl);
   }
 
@@ -174,9 +174,9 @@ void greeting()
         ob->add("max_sen",20000+random(15000));
         ob->add("force_factor",10+random(10));
         ob->set_temp("quests/bonze/power_up",1);
-        message_vision (HIR"$n眼尖發現了$N拿出一罐秘藥並喝了下去。\n"NOR, ob, ppl);
+        message_vision (HIR + "$n眼尖發現了$N拿出一罐秘藥並喝了下去。\n" + NOR, ob, ppl);
       }
-      message_vision (HIR"$n看出$N的身上散發著不斷高漲的殺氣。\n"NOR, ob, ppl);
+      message_vision (HIR + "$n看出$N的身上散發著不斷高漲的殺氣。\n" + NOR, ob, ppl);
       fight_ob(ppl);
     }
     else {
@@ -227,7 +227,7 @@ void heart_beat()
 //將影響的機率分別計算 戰鬥中與 非戰鬥中 且不能暈倒 暈倒還自補 那就搞笑哩XD
   if (is_fighting() && me->query("kee") < maxkee*0.30 && me->query_temp("unconcious") != 1 && (random(100) < 40))
   {
-    tell_room(environment(), name()+"強行運轉家傳秘技"HIR"鳳凰訣"NOR"，頓時全身活力不斷湧現。\n");
+    tell_room(environment(), name()+"強行運轉家傳秘技" + HIR + "鳳凰訣" + NOR + "，頓時全身活力不斷湧現。\n");
 //補血不能有小數 所以用(int)與非小數的方式來取整數 且括號後面的計算式以便debug
     me->receive_curing("kee",(int)(maxkee/100*2));
     me->receive_heal("kee",(int)(maxkee/100*7));
@@ -277,7 +277,7 @@ int heal_up()
 {
   if (!is_fighting() && this_object()->query_temp("count_down") > 600)
   {//心跳一次 1:1.5(秒)==>1.5x40=1min, 15min=1.5x40x15=900 //縮短為10分 因為在沒有玩家經過或者存在時 心跳功能會停止
-    message_vision (HIY"$N見到小兵送來上級的手令，於是轉身飛奔離去，消失在你的眼前。\n"NOR, this_object());
+    message_vision (HIY + "$N見到小兵送來上級的手令，於是轉身飛奔離去，消失在你的眼前。\n" + NOR, this_object());
     destruct(this_object());
     return 1;
   } //此括號仍為判斷是否在戰鬥中的if下引號

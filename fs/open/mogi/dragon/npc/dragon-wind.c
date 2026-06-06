@@ -2,31 +2,31 @@
 #include <ansi.h>
 inherit NPC;
 mapping *action = ({
-([ "action" :"$N"HIC"兇性大發 ,雙翼狂振 ,捲起狂烈的真空氣旋將$n整體圍繞住"NOR"。",
+([ "action" :"$N" + HIC + "兇性大發 ,雙翼狂振 ,捲起狂烈的真空氣旋將$n整體圍繞住" + NOR + "。",
              "dodge"      :  -20,
              "parry"      :  -35,
              "damage"     :  290,
              "damage_type":  "割傷",
            ]),
-([ "action" :"$N"HIC"迅速撲至$n面前 ,龍爪如旋風般朝$n直抓下去 ,$n當場鮮血飛濺"NOR"。",
+([ "action" :"$N" + HIC + "迅速撲至$n面前 ,龍爪如旋風般朝$n直抓下去 ,$n當場鮮血飛濺" + NOR + "。",
              "dodge"      :  -20,
              "parry"      :  -35,
              "damage"     :  280,
              "damage_type":  "抓傷",
             ]),
-([ "action" :"$N"HIC"身形忽轉 ,捲起一陣陣的狂風朝著$n襲去 ,狂猛的來勢好不嚇人"NOR"。",
+([ "action" :"$N" + HIC + "身形忽轉 ,捲起一陣陣的狂風朝著$n襲去 ,狂猛的來勢好不嚇人" + NOR + "。",
              "dodge"      :  -30,
              "parry"      :  -25,
              "damage"     :  260,
              "damage_type":  "內傷",
             ]),
-([ "action" :"$N"HIC"朝$n直抓了過去 ,挾帶著狂風的真空爪勁 ,力道之猛 ,令人髮指"NOR"。",
+([ "action" :"$N" + HIC + "朝$n直抓了過去 ,挾帶著狂風的真空爪勁 ,力道之猛 ,令人髮指" + NOR + "。",
              "dodge"      :  -40,
              "parry"      :  -15,
              "damage"     :  275,
              "damage_type":  "抓傷",
             ]),
-([ "action":"$N"HIC"狂吼長嘯 ,天地為之色變 ,強勁氣旋 ,$n的身體整個都被吞噬掉"NOR"。",
+([ "action":"$N" + HIC + "狂吼長嘯 ,天地為之色變 ,強勁氣旋 ,$n的身體整個都被吞噬掉" + NOR + "。",
              "dodge"      : -10,
              "parry"      :  -20,
              "damage"     : 315,
@@ -36,7 +36,7 @@ mapping *action = ({
 
 void create()
 {
-     set_name(HIC"風龍"NOR ,({"wind dragon", "dragon"}) );
+     set_name(HIC + "風龍" + NOR ,({"wind dragon", "dragon"}) );
      set("race", "野獸");
      set("title", "守護者");
      set("age",2579);
@@ -83,7 +83,7 @@ void heart_beat()
 
       i=random(sizeof(enemy));
 
-    message_vision(HIC+"天際狂風忽起 ,形成無數真空漩渦 ,$N被割的體無完膚!!!\n"NOR,enemy[i]);
+    message_vision(HIC+"天際狂風忽起 ,形成無數真空漩渦 ,$N被割的體無完膚!!!\n" + NOR,enemy[i]);
       
       enemy[i]->receive_damage("kee", 100,me);
       COMBAT_D->report_status(enemy[i], 1);
@@ -102,8 +102,8 @@ void heart_beat()
     new("/open/mogi/dragon/obj/wind")->move(environment(winner));
 //	new("/open/mogi/dragon/obj/wind-1")->move(environment(winner));
 
-   tell_object(winner,HIY"\n\n經過一番血戰後 ,風龍終於被你降服了\n\n"NOR);            
-  tell_object(winner,HIC"\n風龍自口中吐出一塊寶玉\n\n\n"NOR);                             
+   tell_object(winner,HIY + "\n\n經過一番血戰後 ,風龍終於被你降服了\n\n" + NOR);            
+  tell_object(winner,HIC + "\n風龍自口中吐出一塊寶玉\n\n\n" + NOR);                             
                destruct(this_object());
                                                                     
             ::die();                                                           

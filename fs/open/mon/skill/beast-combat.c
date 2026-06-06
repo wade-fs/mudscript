@@ -47,7 +47,7 @@ void bite(object me, object victim,object weapon, int damage)
 {
 	if( random(2) == 1 )
 	{
-        message_vision(GRN"$N"GRN"再大力一咬，在$n"GRN"身上咬出了一個很大的齒痕!!\n"NOR,me,victim);
+        message_vision(GRN + "$N" + GRN + "再大力一咬，在$n" + GRN + "身上咬出了一個很大的齒痕!!\n" + NOR,me,victim);
 	victim->receive_wound("kee", random(300)+150,me);
 	victim->receive_wound("gin", random(50)+25,me);
 	victim->receive_wound("sen", random(50)+25,me);
@@ -59,7 +59,7 @@ void bite2(object me, object victim,object weapon, int damage)
 {
 	if( random(2) == 1 )
 	{
-        message_vision(RED"$N"RED"狠狠用力的一咬，在$n"RED"身上咬出了一個奇大無比的齒痕!!\n"NOR,me,victim);
+        message_vision(RED + "$N" + RED + "狠狠用力的一咬，在$n" + RED + "身上咬出了一個奇大無比的齒痕!!\n" + NOR,me,victim);
 	victim->receive_wound("kee", random(500)+250,me);
 	victim->receive_wound("gin", random(100)+50,me);
 	victim->receive_wound("sen", random(100)+50,me);
@@ -71,7 +71,7 @@ void claw(object me, object victim,object weapon, int damage)
 {
 	if( random(2) == 1 )
 	{
-        message_vision(YEL"$N"YEL"朝$n"YEL"身上狠狠用力一抓，抓出了數條泛紅的血爪痕!!\n"NOR,me,victim);
+        message_vision(YEL + "$N" + YEL + "朝$n" + YEL + "身上狠狠用力一抓，抓出了數條泛紅的血爪痕!!\n" + NOR,me,victim);
 	victim->receive_wound("kee", random(700)+350,me);
 	victim->receive_wound("gin", random(150)+75,me);
 	victim->receive_wound("sen", random(150)+75,me);
@@ -83,7 +83,7 @@ void kick(object me, object victim,object weapon, int damage)
 {
 	if( random(2) == 1 )
 	{
-        message_vision(CYN"$N"CYN"大力往$n"CYN"身上一踢，將$n"CYN"踢出個老遠，痛的$n"CYN"哭天搶地的!!\n"NOR,me,victim);
+        message_vision(CYN + "$N" + CYN + "大力往$n" + CYN + "身上一踢，將$n" + CYN + "踢出個老遠，痛的$n" + CYN + "哭天搶地的!!\n" + NOR,me,victim);
 	victim->receive_wound("kee", random(900)+450,me);
 	victim->receive_wound("gin", random(200)+100,me);
 	victim->receive_wound("sen", random(200)+100,me);

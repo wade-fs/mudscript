@@ -3,7 +3,7 @@
 inherit EQUIP;
 void create()
 {
-        set_name(HIW"羊皮大衣"NOR,({"sheep-cloth"}));
+        set_name(HIW + "羊皮大衣" + NOR,({"sheep-cloth"}));
         set_weight(2700);
         set("unit","件");
         set("value", 0);
@@ -21,6 +21,6 @@ void create()
         set("armor_prop/parry", 3);
         set("armor_prop/force", 5);
         set("armor_prop/armor", 10);
-		set("wear_msg", HIY"$N穿上$n，頓時覺得身軀暖烘烘，說不出的受用。\n");
+		set("wear_msg", HIY + "$N穿上$n，頓時覺得身軀暖烘烘，說不出的受用。\n");
 		setup();
 }

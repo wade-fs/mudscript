@@ -35,7 +35,7 @@ void init()
 void fire_wound(object ob)
 {
         if( !ob || !present(ob) ) return;
-       tell_object(ob,HIR"～鬼影幢幢～你覺得胸中一陣翻滾，忽然一道血箭從你的嘴裡噴了出來。\n"NOR);
+       tell_object(ob,HIR + "～鬼影幢幢～你覺得胸中一陣翻滾，忽然一道血箭從你的嘴裡噴了出來。\n" + NOR);
        ob->add("kee",-100);
        call_out("fire_wound", 3,ob);
 }

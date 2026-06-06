@@ -5,7 +5,7 @@ inherit ROOM;
 
 void create ()
 {
-  set ("short", GRN"長沙道"NOR);
+  set ("short", GRN + "長沙道" + NOR);
   set ("long", @LONG
 你來到了一個雙叉廣場，無數的民眾正向著一些小攤販買著一些
 家庭所需要的物品。長沙城的風景十分美麗，一陣陣的飄風飄來了一

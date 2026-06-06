@@ -5,7 +5,7 @@ inherit THROWING;
 
 void create()
 {
-        set_name(HIR "千古恨" NOR,({"hate knife","knife"}));
+        set_name(HIR + "千古恨" + NOR,({"hate knife","knife"}));
         set_weight(700);
         if( clonep() )
                 set_default_object(__FILE__);
@@ -42,11 +42,11 @@ mixed hit_ob( object me,object victim)
   {
    enemy=me->query_enemy();
    i=random(sizeof(enemy));
-   message_vision(HIC"======  "HIW"$N 使 出 霸 雨 螫 魂 奧 義 "HIY"流 星 幻 雨 "HIC" ====== \n\n"NOR,me);
-   message_vision(HIW"$N擲出的"HIR"千古恨"HIW"突然在空中幻化出數條殘影, 令$n無法捉摸!!\n\n"NOR,me,enemy[i]);
+   message_vision(HIC + "======  " + HIW + "$N 使 出 霸 雨 螫 魂 奧 義 " + HIY + "流 星 幻 雨 " + HIC + " ====== \n\n" + NOR,me);
+   message_vision(HIW + "$N擲出的" + HIR + "千古恨" + HIW + "突然在空中幻化出數條殘影, 令$n無法捉摸!!\n\n" + NOR,me,enemy[i]);
    for(j=0;j<(random(cor)+2)/2;j++)
    {
-   message_vision(HIR"$N在錯愕間已被千古恨的殘影掃中, 割出一條傷口, 鮮血直流!!\n"NOR,enemy[i]);
+   message_vision(HIR + "$N在錯愕間已被千古恨的殘影掃中, 割出一條傷口, 鮮血直流!!\n" + NOR,enemy[i]);
    enemy[i]->receive_wound("kee",h);
    me->add("force", -30);
    me->add("bellicosity", -10);

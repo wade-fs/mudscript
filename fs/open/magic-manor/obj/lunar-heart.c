@@ -2,7 +2,7 @@
 inherit ITEM;
 void create()
 {
-        set_name(HIC"散玄冥陰心"NOR, ({ "lunar heart","heart" }) );
+        set_name(HIC + "散玄冥陰心" + NOR, ({ "lunar heart","heart" }) );
         set_weight(5000);
         if( clonep() )
                 set_default_object(__FILE__);

@@ -6,7 +6,7 @@ inherit ROOM;
 
 void create ()
 {
-  set ("short", HIY"幽雅的莊院"NOR);
+  set ("short", HIY + "幽雅的莊院" + NOR);
   set ("long", @LONG
 在你的面前是一座幽雅的莊院，而四周則種滿了鮮花傳來陣陣花
 香，看來此處就是傳說中的夜夢小築了。門口還有兩位美麗的少女在

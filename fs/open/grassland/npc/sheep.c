@@ -90,10 +90,10 @@ void heart_beat()
 	if(dodge < 40 && me && userp(me))
 	if(mob->is_fighting(me) && me && weapon && weapon->query("equipped") == "wielded" && (mob->is_busy()|| (k > 5)))
 	{ 
-	 message_vision(HIR"$N發狂似的朝前方猛烈一撞!!\n"NOR,mob);
+	 message_vision(HIR + "$N發狂似的朝前方猛烈一撞!!\n" + NOR,mob);
 	 if(weapon->query("skill_type")=="unarmed" && !me->query_condition("power-down"))  
 	 {//若所裝武器為unarmed系，則不震武器，改為附加虛弱狀態,enf越高虛弱越久
-	  tell_object(me,HIY"你被撞得眼冒金星，頓時渾身酸軟!!\n\n"NOR);
+	  tell_object(me,HIY + "你被撞得眼冒金星，頓時渾身酸軟!!\n\n" + NOR);
 	  enf = me->query("force_factor");
 	  enf = enf/10;
 	  if(enf>5) enf=5;
@@ -102,7 +102,7 @@ void heart_beat()
 	  me->apply_condition("flower",enf);
 	 } else {
 	         weapon->unequip();
-			 tell_object(me,HIY"你被撞得眼冒金星，手中兵器頓時鬆脫!!\n\n"NOR);
+			 tell_object(me,HIY + "你被撞得眼冒金星，手中兵器頓時鬆脫!!\n\n" + NOR);
 	        }
     }
 	

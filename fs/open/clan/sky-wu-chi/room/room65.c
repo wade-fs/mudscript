@@ -1,6 +1,6 @@
 inherit ROOM;
 void create() {
-	set( "short", "U" );
+	set( "short", " + U + " );
 	set( "exits", ([
 		"out"       : "/open/clan/sky-wu-chi/room/room17",
 	]) );

@@ -9,7 +9,7 @@ void create()
 {
   set_name("紫舞者",({"violet dancer","violet","dancer","d"}));
   set("long","為夜夢小築一派裡夜夢殿堂內堂初階弟子，今奉前代宮主之令前來支援。\n");
-  set("nickname",HIC "滅"HIY"獅"NOR"聯盟");
+  set("nickname",HIC + "滅" + HIY + "獅" + NOR + "聯盟");
   set("gender","女性");
   set("class","dancer");
   set("combat_exp",8920000);
@@ -23,7 +23,7 @@ void create()
   set("allow_meteor",1); //打倒水靈兒便可取得mark
   set("adv_dancer",1); //古舞者傳人 可使用fireball最高奧義 怒火燒盡九重天
 //  set("allow_hellfire",1); //古舞者傳人 可使用地獄雷火術
-//  set("allow_fdragon",1); //解謎並打倒月半彎可取得 set("title",HIW"【"HIR"炎ソ舞者"HIW"】"NOR);
+//  set("allow_fdragon",1); //解謎並打倒月半彎可取得 set("title",HIW + "【" + HIR + "炎ソ舞者" + HIW + "】" + NOR);
   set("str", 30);
   set("cor", 27);
   set("cps", 45);
@@ -109,7 +109,7 @@ void greeting()
   if (!ob->is_fighting() && ppl->query_temp("quests/bonze/fight") == 1
       && ppl->is_fighting() && (ob->query("kee") > ob->query("max_kee")*0.3))
   {
-    message_vision (HIY"$N大喊：無事生非者，殺無赦！\n"NOR, ob);
+    message_vision (HIY + "$N大喊：無事生非者，殺無赦！\n" + NOR, ob);
     fight_ob(ppl);
   }
 
@@ -135,9 +135,9 @@ void greeting()
         ob->add("max_sen",20000+random(15000));
         ob->add("force_factor",10+random(10));
         ob->set_temp("quests/bonze/power_up",1);
-      message_vision (HIR"$n眼尖發現了$N拿出一罐秘藥並喝了下去。\n"NOR, ob, ppl);
+      message_vision (HIR + "$n眼尖發現了$N拿出一罐秘藥並喝了下去。\n" + NOR, ob, ppl);
       }
-      message_vision (HIR"$n看出$N的身上散發著不斷高漲的殺氣。\n"NOR, ob, ppl);
+      message_vision (HIR + "$n看出$N的身上散發著不斷高漲的殺氣。\n" + NOR, ob, ppl);
       fight_ob(ppl);
     }
     else {
@@ -201,11 +201,11 @@ void heart_beat()
       if (me->query("atman") < me->query("max_atman") ) {
         command("respirate 200");
 //        command("exert regenerate");
-//        message_vision( me->name()+"閉上眼睛開始打坐。\n"NOR,me);
+//        message_vision( me->name()+"閉上眼睛開始打坐。\n" + NOR,me);
       }
       if (me->query("force") < me->query("max_force") ) {
         command("ex 30");
-//        message_vision( me->name()+"坐下來運氣用功\﹐一股內息開始在體內流動。\n"NOR,me);
+//        message_vision( me->name()+"坐下來運氣用功\﹐一股內息開始在體內流動。\n" + NOR,me);
       }
     }
   } //戰鬥與否到此判斷結束
@@ -214,7 +214,7 @@ void heart_beat()
 //將影響的機率分別計算 戰鬥中與 非戰鬥中 且不能暈倒 暈倒還自補 那就搞笑哩XD
   if (me->query("kee") < maxkee*0.6 && me->query_temp("unconcious") != 1 && (random(100) < 30))
   {
-    message_vision(HIG"$N使出了夢玄法鑑中的"HIC"治療術"HIG"﹐只見一陣神奇光芒籠照全身。\n"NOR, me);
+    message_vision(HIG + "$N使出了夢玄法鑑中的" + HIC + "治療術" + HIG + "﹐只見一陣神奇光芒籠照全身。\n" + NOR, me);
     me->delete_busy();
     me->clear_condition();
 //補血不能有小數 所以用(int)與非小數的方式來取整數 且括號後面的計算式以便debug
@@ -281,7 +281,7 @@ int heal_up()
 { //此外可以利用重生(召喚)時 直接紀錄重生時間 藉由玩家經過直接來做比較是否該destruct 不過累積隻數也是相當不錯的風險 所以此判斷方式不變
   if (!is_fighting() && this_object()->query_temp("count_down") > 600)
   { //心跳一次 1:1.5(秒)==>1.5x40=1min, 15min=1.5x40x15=900 //縮短為10分 因為在沒有玩家經過或者存在時 心跳功能會停止
-    message_vision (HIY"$N見到小兵送來上級的手令，於是轉身飛奔離去，消失在你的眼前。\n"NOR, this_object());
+    message_vision (HIY + "$N見到小兵送來上級的手令，於是轉身飛奔離去，消失在你的眼前。\n" + NOR, this_object());
     destruct(this_object());
     return 1;
   } //此括號仍為判斷是否在戰鬥中的if下引號

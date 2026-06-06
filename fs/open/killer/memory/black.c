@@ -78,17 +78,17 @@ int accept_object(object wo,object ob)
     }
     command("say 果然是孤城密令！！幹的好，小鬼！看來我們殺手後繼有人了！！");
     command("say  就讓我給你殺手密令吧！！");
-    message_vision(HIR"渡永天交給$N一面殺手密令\n"NOR,me);	
+    message_vision(HIR + "渡永天交給$N一面殺手密令\n" + NOR,me);	
     ob2=new("/open/killer/memory/killer_card.c");
     ob2->move(me);
     command("say  這是證明殺手有資格在各組任職的密令，不見了記得回來找我要( 殺手密令）");
     command("say  只要小渡把任職系統做好，你就可以任職於各組織間");
     command("say   現在就讓我幫你把魔氣殺的限制打開到第二層，讓你可以提高到50級!!");
-    message_vision(HIR"渡永天迅速在$N身上拍打\n"NOR,me);	
+    message_vision(HIR + "渡永天迅速在$N身上拍打\n" + NOR,me);	
     tell_object(me,"你感到體內一陣真氣運行，看來魔氣殺可以發揮更強大的威力了\n");
-   message("system",HIW "渡永天縱聲大呼 :\n
-		" +this_player()->name()+"你已經可以把魔氣殺變的更強大了!!\n\n"NOR,users());
-    me->set("title",HIM"新生代特級殺手"NOR);
+   message("system",HIW + "渡永天縱聲大呼 :\n
+		" +this_player()->name()+"你已經可以把魔氣殺變的更強大了!!\n\n" + NOR,users());
+    me->set("title",HIM + "新生代特級殺手" + NOR);
     me->set_temp("memory",0);
     me->set("quest/memory",1);
     return 1;
@@ -102,8 +102,8 @@ int do_join()
 	if(this_player()->query("class"))
 		return notify_fail("你已經加入其他工會了。\n");
 	this_player()->set("class","avatar");
-	message("system",HIW "黑衣人縱聲大呼 :\n
-		歡迎" +this_player()->name()+"加入工會!!\n\n"NOR,users());
+	message("system",HIW + "黑衣人縱聲大呼 :\n
+		歡迎" +this_player()->name()+"加入工會!!\n\n" + NOR,users());
 	return 1;
 }
 

@@ -43,7 +43,7 @@ void create()
 {
   set_name("幽嵐", ({"beauty any","any","beauty" }) );
   set("gender", "女性");
-  set("nickname", HIC"馨嵐公主"NOR);
+  set("nickname", HIC + "馨嵐公主" + NOR);
   set("age", 20);
   set("long","你看到一個清秀的女孩出現在你面前，她長得絕頂美麗，還帶著一種不同於其他人的氣質，\n她似乎失落了一些東西。\n");
   set("per", 40);
@@ -85,8 +85,8 @@ int accept_object(object who , object item)
     if( !who->query("quests/stone") && who->query_temp("stone")==1 )
     {
       who->add("combat_exp",1000);
-      tell_object(who,HIY"你完成了失落的寶石之謎！\n"NOR);
-      tell_object(who,HIC"你的經驗增加了 :p\n"NOR);
+      tell_object(who,HIY + "你完成了失落的寶石之謎！\n" + NOR);
+      tell_object(who,HIC + "你的經驗增加了 :p\n" + NOR);
       who->set("quests/stone", 1);
     }
   }
@@ -99,15 +99,15 @@ string ask_leader()
   if( !me->query("quests/leader") ) {
     if( k > 5 )
     {
-      command("say 謝謝"+me->query("name")+"大俠你幫本公主收集到這消息，我要回去告訴父皇。\n"NOR"(俏皮地說完就蹦蹦跳跳地跑回皇城裡。)");
-      tell_object(me,HIY"你完成了尋找武林盟主的下落！\n"NOR);
-      tell_object(me,HIC"你的經驗與潛能增加了 :p\n"NOR);
+      command("say 謝謝"+me->query("name")+"大俠你幫本公主收集到這消息，我要回去告訴父皇。\n" + NOR + "(俏皮地說完就蹦蹦跳跳地跑回皇城裡。)");
+      tell_object(me,HIY + "你完成了尋找武林盟主的下落！\n" + NOR);
+      tell_object(me,HIC + "你的經驗與潛能增加了 :p\n" + NOR);
       me->add("combat_exp",k*100);
       me->add("potential",k*50);
       if( me->query("combat_exp") < 100000 ) {
         obj=new("/autoload/wind-rain/mark.c");
         obj->move(me);
-        command("say 對了！對了～\n"NOR"(雀躍地跑回來，像是想起了什麼事。)");
+        command("say 對了！對了～\n" + NOR + "(雀躍地跑回來，像是想起了什麼事。)");
         command("say 這片是小時候到風雨樓遊玩時所使用的通行證明，就暫時交給你使用，\n"+
           "                  或許\你能到風雨樓裡磨練一下自己的武藝。");
         message("vision",sprintf("%s給你一%s%s。\n",ob->name(),obj->query("unit"),obj->name()),me );
@@ -121,7 +121,7 @@ string ask_leader()
     else if( !me->query_temp("ask_leader/start") )
     {
       me->set_temp("ask_leader/start",1); //任務開始
-      tell_object(me,HIC"幽嵐公主憂心著說：怎麼辦？怎麼辦？武林就要大亂了…\n"NOR);
+      tell_object(me,HIC + "幽嵐公主憂心著說：怎麼辦？怎麼辦？武林就要大亂了…\n" + NOR);
       return "";
     }
   }
@@ -139,9 +139,9 @@ string ask_leader2()
   {
     return 0;
   }
-  tell_object(me,HIC"幽嵐公主對著你說：\n"+
+  tell_object(me,HIC + "幽嵐公主對著你說：\n"+
   "　　詳細情況我也不清楚，但是據說現任盟主被不明人士所暗殺，至此下落不明，也許\各大\n"+
-  "　　門派掌握某些線索。\n\n"NOR);
+  "　　門派掌握某些線索。\n\n" + NOR);
   me->set_temp("ask_leader/start",2);
   return "";
 }
@@ -153,11 +153,11 @@ string ask_leader3()
   {
     return 0;
   }
-  tell_object(me,HIC"幽嵐公主對著你說：\n"+
+  tell_object(me,HIC + "幽嵐公主對著你說：\n"+
   "　　有些消息不一定由門主所掌握，但是還是集中在上層人士手中。由於我不能隨意離開京\n"+
   "　　城，但是我想為了百姓和平的日子盡些心力，能麻煩你幫我到各門派詢問武林盟主的下\n"+
   "　　落嗎？我希望避免各大門派之間的內耗，使得外人入侵本土，使百姓生靈塗炭。\n"+
-  "　　\n"NOR"(拜訪各門派的路徑，請參詳help 路徑)\n\n");
+  "　　\n" + NOR + "(拜訪各門派的路徑，請參詳help 路徑)\n\n");
   me->set_temp("ask_leader/start",3);
   return "";
 }

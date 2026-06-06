@@ -56,7 +56,7 @@ void heart_beat()
     {
      user->receive_curing("kee",30);
      user->receive_heal("kee",30);
-message_vision(HIY"紫芸仙鍊"HIY"散出淡淡的仙氣,$N在仙氣沐浴下,$N所受的創傷恢復了.\n"NOR,user);
+message_vision(HIY + "紫芸仙鍊" + HIY + "散出淡淡的仙氣,$N在仙氣沐浴下,$N所受的創傷恢復了.\n" + NOR,user);
       }
   }
   return;

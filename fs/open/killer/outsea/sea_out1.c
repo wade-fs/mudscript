@@ -22,7 +22,7 @@ void init()
 {
 object me;
 me=this_player();
-message_vision(HIY"$N誤入了深海漩渦之中, 強大的水流將$N捲的昏迷不醒....\n"NOR,me);
+message_vision(HIY + "$N誤入了深海漩渦之中, 強大的水流將$N捲的昏迷不醒....\n" + NOR,me);
 if(present("dragon_stone",me)) destruct(present("dragon_stone",me));
 call_out("wake_up",30,me);
 me->unconcious();

@@ -9,7 +9,7 @@ inherit SSERVER;
 void create()
 {
   set("title","浪跡天涯");
-  set("nickname",HIY"小東邪"NOR);
+  set("nickname",HIY + "小東邪" + NOR);
   set_name("郭襄", ({"gao-shion","gao","shion"}));
   set("age",27);
   set("long","此為郭靖，黃蓉之女，浪跡天涯只為尋找神雕俠楊過及小龍女。\n");
@@ -141,7 +141,7 @@ void heart_beat()
     hurt=target->query("max_kee") *0.3;
     if( env == environment(target) )
     {
-      message_vision(HIW"\n郭襄揉手迭起，使出家傳絕學『"HIM"落英神劍掌"HIW"』，狠狠擊中$N"HIW"要害！\n"NOR,target);
+      message_vision(HIW + "\n郭襄揉手迭起，使出家傳絕學『" + HIM + "落英神劍掌" + HIW + "』，狠狠擊中$N" + HIW + "要害！\n" + NOR,target);
 //      target->add("kee",-hurt);
       target->receive_damage("kee",(int)hurt,mob);
       COMBAT_D->report_status(target);
@@ -150,7 +150,7 @@ void heart_beat()
 
   if((mob->query("kee")< 20000) && (random(100) < 30))
   {
-    tell_room(environment(), name()+"吞下"HIC"九玉清心露"NOR"。\n");
+    tell_room(environment(), name()+"吞下" + HIC + "九玉清心露" + NOR + "。\n");
     mob->receive_curing("kee",5000);
     mob->receive_heal("kee",5000);
     mob->receive_curing("sen",2000);
@@ -190,7 +190,7 @@ void die()
   if( !ob->query("no_really") && wp1 )
   {
     wp1->set_temp("quests/bonze/online","ok"); //避免玩家不斷庫存本道具致他人無法解謎的情況 by blazakira
-    wp1->set_name(HIB"連鞘古劍"NOR,({"old sword","sword"}) );
+    wp1->set_name(HIB + "連鞘古劍" + NOR,({"old sword","sword"}) );
   } else {
     wp1 = present("et-sword",ob);
     wp2 = present("old sword",ob);
@@ -208,7 +208,7 @@ void die()
       if( j==7 || j==77 || j== 777 || j==1111 || j==55 || j==555 || j==1000 || j==4000 || j==3333 || j==2222 )
       {
         new("/open/sky/obj2/loyal_stone")->move(environment(winner));
-        message_vision(HIM"\n從郭襄的身上掉下了一件奇怪的東西!!\n"NOR,winner);
+        message_vision(HIM + "\n從郭襄的身上掉下了一件奇怪的東西!!\n" + NOR,winner);
         write_file("/log/sky/obj2/loyal_stone",sprintf("%s(%s) 讓郭襄掉下了忠貞石於 %s\n",
           winner->name(1),winner->query("id"),ctime(time())));
       }
@@ -217,7 +217,7 @@ void die()
       if( j==5 || j==15 || j== 150 || j==1500 || j==10 || j==100 || j==1000 || j==4000 || j==6666 || j==7777 )
       {
         new("/open/sky/obj2/loyal_stone")->move(environment(winner));
-        message_vision(HIM"\n從郭襄的身上掉下了一件奇怪的東西!!\n"NOR,winner);
+        message_vision(HIM + "\n從郭襄的身上掉下了一件奇怪的東西!!\n" + NOR,winner);
         write_file("/log/sky/obj2/loyal_stone",sprintf("%s(%s) 讓郭襄掉下了忠貞石於 %s\n",
           winner->name(1),winner->query("id"),ctime(time())));
       }

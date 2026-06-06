@@ -3,7 +3,7 @@ inherit ROOM;
 int leave(object me);
 void create()
 {
-  set("short", HIY"世界的角落"NOR);
+  set("short", HIY + "世界的角落" + NOR);
   set("long", @LONG
     這邊是世界的角落，這邊有許多的浪人在此流浪著，流浪在此
 的人，機乎是無惡不作的大壞蛋，被朝廷放逐到此的罪人，通常如
@@ -49,7 +49,7 @@ int leave(object me)
         string msg="";
         if(me->query("mud_age")>me->query("jail_time"))
         {
-        write(HIY"請好好重新作人，別再犯了。\n"NOR);
+        write(HIY + "請好好重新作人，別再犯了。\n" + NOR);
         me->delete("jail_time");
         me->move("/open/common/room/inn.c",1);
         }

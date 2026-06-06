@@ -26,7 +26,7 @@ int do_cut(string arg)
         return notify_fail("你要切什麼東西？\n");
  if(!me->query_temp("find_cornu")==1 )
         return notify_fail("你還要切什麼？這是[獨角虎]的頭ㄟ...\n");
-        write("你隨手撿了把刀，「唰」的一聲，把獨角虎頭的角給切了下來...\n"NOR);
+        write("你隨手撿了把刀，「唰」的一聲，把獨角虎頭的角給切了下來...\n" + NOR);
         ob=new("/open/doctor/obj/cornu");
         ob->move(me);
         ob->set_temp("for_cut",1);

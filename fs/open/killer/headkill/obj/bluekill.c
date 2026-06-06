@@ -3,7 +3,7 @@ inherit COMBINED_ITEM;
 
 void create()
 {
-        set_name(HIB"藍鳳絕殺令"NOR, ({"bluekill card","card"}) );
+        set_name(HIB + "藍鳳絕殺令" + NOR, ({"bluekill card","card"}) );
 	set("long",
 "這就是傳說中的藍鳳絕殺令，經歷了千辛萬苦後，終於拿到手了。\n"+
 "藍鳳組並不會任意出動，只有殺手全力追殺的人頭才會出動，因此可以利用它來追殺。\n"+
@@ -58,7 +58,7 @@ int blue_kill(string arg)
       return notify_fail("你想追殺的人不在線上哦???\n");
     if(ob==me)
       return notify_fail("你想追殺自己呀!!!有沒有搞錯呀???\n");
-     if(ob->query("title") != HIR"殺手全力追殺的人頭"NOR)
+     if(ob->query("title") != HIR + "殺手全力追殺的人頭" + NOR)
       return notify_fail("這種小角色，藍鳳組不會出動啦！\n");
 
     if (!me->query("use_blue") )
@@ -68,24 +68,24 @@ int blue_kill(string arg)
     obn=ob->query("name");
     //防止使用瞬間移動
     ob->set_temp("no_transmit",1);  
-    message_vision(HIM"$N使用藍鳳絕殺令,要派藍鳳組追殺$n\n",me,ob);
+    message_vision(HIM + "$N使用藍鳳絕殺令,要派藍鳳組追殺$n\n",me,ob);
     //證明這個玩家使用過藍鳳絕殺令
     me->set_temp("head",10);
-    message("system",HIW "藍鳳組組長喬小雨千里傳音：『\n
-                藍鳳組聽令，藍鳳絕殺令已現，全力追殺" +ob->name()+"，至死方休!!』\n\n "NOR,users());
+    message("system",HIW + "藍鳳組組長喬小雨千里傳音：『\n
+                藍鳳組聽令，藍鳳絕殺令已現，全力追殺" +ob->name()+"，至死方休!!』\n\n " + NOR,users());
     if (me->query("use_blue") > 4)
     {
-            message("system",HIW "藍鳳組組長喬小雨千里傳音：『\n藍鳳組聽令" 
-        +me->name()+"第"+me->query("use_blue")+"次請我們出動』\n\n "NOR,users());
+            message("system",HIW + "藍鳳組組長喬小雨千里傳音：『\n藍鳳組聽令" 
+        +me->name()+"第"+me->query("use_blue")+"次請我們出動』\n\n " + NOR,users());
     }   
      ob4->move(environment(ob));
      ob3->move(environment(ob));
      ob2->move(environment(ob));
      ob1->move(environment(ob));
      message_vision(
-             HIM"突然之間四道人影從四方閃出藍鳳組的殺手出現這裡。\n"NOR,ob);
+             HIM + "突然之間四道人影從四方閃出藍鳳組的殺手出現這裡。\n" + NOR,ob);
      message_vision(
-             HIM"藍鳳殺手喝道﹕"+ob->name()+" 你的死期到了!!\n"NOR,ob,ob);
+             HIM + "藍鳳殺手喝道﹕"+ob->name()+" 你的死期到了!!\n" + NOR,ob,ob);
 
      ob4->kill_ob(ob);
      ob3->kill_ob(ob);

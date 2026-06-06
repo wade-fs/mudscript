@@ -69,8 +69,8 @@ int greeting2(object me)
 		if (me->query_temp("quests/peach/borrow") == 1 && me->query("quest/peach")!=2) //如果有先歸還髮簪　才觸發遺忘桃禮物
 		{
 			message_vision("\n與眾人敬了一巡酒之後，這對新人來到你面前。\n",me);
-			message_vision(HIY"玲玲羞赧地對你說: 因為有您的協助，所以我們才能在一起。\n"NOR,me);
-			message_vision(HIY"玲玲說道: 這雖然並不珍貴，但卻是我們的一點小小心意，請您收下。\n"NOR,me);
+			message_vision(HIY + "玲玲羞赧地對你說: 因為有您的協助，所以我們才能在一起。\n" + NOR,me);
+			message_vision(HIY + "玲玲說道: 這雖然並不珍貴，但卻是我們的一點小小心意，請您收下。\n" + NOR,me);
 			message_vision("你打開包袱，發現到原來是一顆"+HIM"醃漬桃子"NOR+"。\n",me);
 			gift = new(__DIR__"kill_pill.c");
 			gift->set_amount(1);
@@ -81,8 +81,8 @@ int greeting2(object me)
 		else
 		{
 			message_vision("\n與眾人敬了一巡酒之後，這對新人來到你面前。\n",me);
-			message_vision(HIY"玲玲羞赧地對你說: 因為有您的協助，所以我們才能在一起。\n"NOR,me);
-			message_vision(HIY"玲玲說道: 這雖然不多，但卻是我們的一點小小心意，請您收下。\n"NOR,me);
+			message_vision(HIY + "玲玲羞赧地對你說: 因為有您的協助，所以我們才能在一起。\n" + NOR,me);
+			message_vision(HIY + "玲玲說道: 這雖然不多，但卻是我們的一點小小心意，請您收下。\n" + NOR,me);
 			message_vision("你打開包袱，發現到原來是"+HIY"十兩金元寶"NOR+"。\n",me);
 			gift = new("/obj/money/gold");
 			gift->set_amount(10);

@@ -34,12 +34,12 @@ int valid_leave(object me, string dir)
    {
 	if (number > 1) {
           me->set_temp("poison_nopass",number+1);
-          return notify_fail(HIC"冥蠱守衛喝道﹕有我在，休想進入。\n"NOR);
+          return notify_fail(HIC + "冥蠱守衛喝道﹕有我在，休想進入。\n" + NOR);
         }
         if (me->query_temp("weapon")) {
           me->set_temp("poison_nopass",number+1);
-	  message_vision(HIC"冥蠱守衛怒道﹕不準帶武器入內，$N想到此滋事呀。\n"NOR,me);
-          return notify_fail(HIC"冥蠱守衛喝道﹕這裡可能會不歡迎你。\n"NOR);
+	  message_vision(HIC + "冥蠱守衛怒道﹕不準帶武器入內，$N想到此滋事呀。\n" + NOR,me);
+          return notify_fail(HIC + "冥蠱守衛喝道﹕這裡可能會不歡迎你。\n" + NOR);
         }
    }
    return ::valid_leave(me ,dir);

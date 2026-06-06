@@ -5,7 +5,7 @@ inherit WAIST;
 object me=this_player();
 void create()
 {
-    set_name(HIM"小笨笨的蛋蛋腰帶"NOR, ({"Acelan_belt","belt"}) );
+    set_name(HIM + "小笨笨的蛋蛋腰帶" + NOR, ({"Acelan_belt","belt"}) );
     set_weight(1000);
      if ( clonep() )
               set_default_object(__FILE__);

@@ -3,7 +3,7 @@ inherit ROOM;
 
 void create ()
 {
-	set("short",HIC"琰 揚 湖"NOR);
+	set("short",HIC + "琰 揚 湖" + NOR);
 	set("long",@LONG
 西邊有一個木製的建築物，上面掛著一個泛黃的招牌寫著幾個大
 字，不過你似乎從未見過那種字體，北邊已經是被山丘所擋住而無去

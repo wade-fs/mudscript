@@ -11,7 +11,7 @@ void create()
         set("get_sha_sp",1);
         set("max_s_kee",1000);
         set("s_kee",1000);
-        set("title",HIW"～幻影～"NOR);
+        set("title",HIW + "～幻影～" + NOR);
         set("age",60);
         set("class","swordsman");
         set("family/family_name","仙劍派");
@@ -56,13 +56,13 @@ if(random(100) > 50)
 {
 if(random(9) >= 5)
 {
-message_vision(HIY"仙劍雙俠用劍氣往你身上一劃，頓時傷及見骨！\n"NOR,me);
+message_vision(HIY + "仙劍雙俠用劍氣往你身上一劃，頓時傷及見骨！\n" + NOR,me);
 for(j=0;j < i;j++) {
 target[j]->add("kee",-1800); }
    }
    else
    {
-message_vision(HIC"仙劍雙俠仰天一笑，瞬時內息穩固。\n"NOR,me);
+message_vision(HIC + "仙劍雙俠仰天一笑，瞬時內息穩固。\n" + NOR,me);
 if(random(9) >= 5) {
 me->receive_curing("kee",2000);
 me->receive_heal("kee",2000); }
@@ -87,7 +87,7 @@ int accept_kill(object who)
 int heal_up()
 {
         if (!is_fighting() ) {
-             message_vision (HIW"系統：戰鬥停止，$N回收中，。\n"NOR, this_object ());
+             message_vision (HIW + "系統：戰鬥停止，$N回收中，。\n" + NOR, this_object ());
              destruct(this_object());
              return 1;
         }

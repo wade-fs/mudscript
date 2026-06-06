@@ -107,7 +107,7 @@ int accept_kill(object who)
 
         if( !present("king guard", environment(ob)) ) {
           if (ob->query_temp("killking")!=1){
-         tell_room(environment(ob),HIW"\n突然！衝出兩位御前護衛！\n\n"NOR);
+         tell_room(environment(ob),HIW + "\n突然！衝出兩位御前護衛！\n\n" + NOR);
       for(i=0;i<2;i++)
       ob->start_busy(2);
       for(i=0;i<2;i++)
@@ -119,12 +119,12 @@ int accept_kill(object who)
         guard->kill_ob(who);
        }
            ob->set_temp("killking",1);
-      tell_object(users(),HIR "御前護衛大叫：有刺客！快保護太后！！\n" NOR);
+      tell_object(users(),HIR + "御前護衛大叫：有刺客！快保護太后！！\n" + NOR);
 }
 else {
 
               command("say 可惡..逆賊.你還來..找死...");
-              tell_object(this_player(),HIC"太后啟動機關..你一時閃避不及慘遭重擊\n"NOR);
+              tell_object(this_player(),HIC + "太后啟動機關..你一時閃避不及慘遭重擊\n" + NOR);
               this_player()->receive_wound("kee",(this_player()->query("max_kee")/2));
     }
 

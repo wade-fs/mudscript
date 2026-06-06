@@ -34,7 +34,7 @@ int valid_leave(object me, string dir)
         if(dir=="north"&&present("locha queen",environment(me)))
   {
 
-message_vision(HIY"煉陰女說:「先露一手能服我的真功\夫吧！」\n"NOR,me);
+message_vision(HIY + "煉陰女說:「先露一手能服我的真功\夫吧！」\n" + NOR,me);
 
 return 0;
 }

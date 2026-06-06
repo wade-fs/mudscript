@@ -29,7 +29,7 @@ int valid_leave(object who, string dir)
 	if (dir == "southwest" || dir == "southeast")
 	{
 		if(!who->query_temp("check_ok",1))
-		  return notify_fail(HIY"趕著去死也不用衝這麼快吧!!\n"NOR);     
+		  return notify_fail(HIY + "趕著去死也不用衝這麼快吧!!\n" + NOR);     
 	        who->delete_temp("check_ok",1);
         }
         return :: valid_leave(who,dir);

@@ -66,7 +66,7 @@ string do_ask()
    if(who->query("class")!="bandit")
   {
   kill_ob(this_player());
-    return(HIW"你是惡人谷的嗎 ?你怎麼知道這個秘密!?還不領死...!!?"NOR);
+    return(HIW + "你是惡人谷的嗎 ?你怎麼知道這個秘密!?還不領死...!!?" + NOR);
   }
   if(who->query_temp("marks/allow")!=1)
   {
@@ -77,7 +77,7 @@ string do_ask()
   else
   {
    command("say 想去惡人森林...?好吧 ,看在同是惡人谷的一份子 ,就讓你進去吧 .");
-   tell_object(who,HIY"你忽然覺得腳下一空....哇喔..你覺得被騙了...\n"HIG"再度有了知覺時 ,只看到眼前綠茫茫一片 ,看來這裡就是惡人森林!!\n"NOR,me);
+   tell_object(who,HIY + "你忽然覺得腳下一空....哇喔..你覺得被騙了...\n" + HIG + "再度有了知覺時 ,只看到眼前綠茫茫一片 ,看來這裡就是惡人森林!!\n" + NOR,me);
    who->move("/open/badman/room/forest01.c");
    return "就是這裡 !";
   }

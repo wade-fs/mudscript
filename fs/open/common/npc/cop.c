@@ -71,10 +71,10 @@ LONG
         set("verbs", ({ "bite", "claw" }) );
 	set("random_move",-1);
 	set("chat_msg_combat", ({
-	    CYN "九省總巡捕說道: 棄暗投明吧?!\n" NOR,
-	    CYN "九省總巡捕說道: 你現在所說的一切, 將作為呈堂證供。\n" NOR,
-	    CYN "九省總巡捕說道: 人吃五穀雜糧, 誰能無過?!\n" NOR,
-	    CYN "九省總巡捕說道: 放下屠刀, 立地成佛, 乖乖受死吧。\n" NOR,
+	    CYN + "九省總巡捕說道: 棄暗投明吧?!\n" + NOR,
+	    CYN + "九省總巡捕說道: 你現在所說的一切, 將作為呈堂證供。\n" + NOR,
+	    CYN + "九省總巡捕說道: 人吃五穀雜糧, 誰能無過?!\n" + NOR,
+	    CYN + "九省總巡捕說道: 放下屠刀, 立地成佛, 乖乖受死吧。\n" + NOR,
 	}) );
 
 	set("inquiry", ([
@@ -84,12 +84,12 @@ LONG
 
         set("chat_chance", 6);
         set("chat_msg", ({
-	    CYN "九省總巡捕說道: 我生平最恨殺人放火的事了。\n" NOR,
-	    CYN "九省總巡捕說道: 唉, 為了追捕汪洋大盜，害我殺孽頗重。\n" NOR,
-	    CYN "九省總巡捕說道: 我不入地獄誰入地獄?\n" NOR,
-	    CYN "九省總巡捕說道: 偶而做做壞事也就罷了, 別殺人喔。\n" NOR,
-	    CYN "九省總巡捕說道: 別以為九省巡捕是叫假的。\n" NOR,
-	    CYN "九省總巡捕說道: 你知道鐵鎖橫江的真義嗎?\n" NOR,
+	    CYN + "九省總巡捕說道: 我生平最恨殺人放火的事了。\n" + NOR,
+	    CYN + "九省總巡捕說道: 唉, 為了追捕汪洋大盜，害我殺孽頗重。\n" + NOR,
+	    CYN + "九省總巡捕說道: 我不入地獄誰入地獄?\n" + NOR,
+	    CYN + "九省總巡捕說道: 偶而做做壞事也就罷了, 別殺人喔。\n" + NOR,
+	    CYN + "九省總巡捕說道: 別以為九省巡捕是叫假的。\n" + NOR,
+	    CYN + "九省總巡捕說道: 你知道鐵鎖橫江的真義嗎?\n" + NOR,
         }) );
 
         set_temp("apply/armor", 2);
@@ -100,7 +100,7 @@ LONG
 int random_move ()
 {
   tell_room (environment(this_object()),
-             CYN "九省總巡捕說道: 我走了...\n" NOR);
+             CYN + "九省總巡捕說道: 我走了...\n" + NOR);
   ::random_move();
 }
 
@@ -124,19 +124,19 @@ int accept_kill(object who)
     if ( !PK_D->get_pk_time ( pker ) ) {
       if (PK_D->add_pker (pker, time()))
         message("system",
-                CYN"九省總巡捕大聲叫道: "+who->short()+
+                CYN + "九省總巡捕大聲叫道: "+who->short()+
                 "竟敢公然侮辱法律向我挑戰!!\n"+
                 "九省總巡捕大聲叫道: 我以鐵鎖橫江的的名號保證,"+
-	        " 不抓他歸案誓不成佛!!\n"NOR,
+	        " 不抓他歸案誓不成佛!!\n" + NOR,
                 users()
         );
     }
     else {
       message("system",
-              CYN"九省總巡捕大聲叫道: "+who->short()+
+              CYN + "九省總巡捕大聲叫道: "+who->short()+
               "這江洋大盜碰到我不敢快逃走, 還敢找我單挑!!\n"+
               "九省總巡捕大聲叫道: 我以鐵鎖橫江的的名號保證,"+
-              " 不抓他歸案誓不成佛!!\n"NOR,
+              " 不抓他歸案誓不成佛!!\n" + NOR,
               users()
       );
 
@@ -157,7 +157,7 @@ int accept_object(object who, object item)
   }
   else
     tell_object (who, 
-      CYN "九省總巡捕告訴你: 你想賄賂我? 難不成你把我看成貪官污吏?!\n" NOR);
+      CYN + "九省總巡捕告訴你: 你想賄賂我? 難不成你把我看成貪官污吏?!\n" + NOR);
 
   return 1;
 }
@@ -166,7 +166,7 @@ int accept_object(object who, object item)
 void killed_enemy(object who)
 {
   if ( PK_D->delete_pker (who->query("id")) ) 
-    shout (CYN"九省總巡捕大聲叫道: 逮捕江洋大盜"+who->name()+"("+
+    shout (CYN + "九省總巡捕大聲叫道: 逮捕江洋大盜"+who->name()+"("+
            who->query("id")+")一名。\n");
 }
 
@@ -182,7 +182,7 @@ string do_ask (object me)
       pkers += i+" "+pklist[i-1]+"\n";
     return pkers;
   }
-  else return CYN "最近江湖雖然風起雲湧, 但是海內綏平, 國境平安。\n" NOR;
+  else return CYN + "最近江湖雖然風起雲湧, 但是海內綏平, 國境平安。\n" + NOR;
 }
 
 void init ()

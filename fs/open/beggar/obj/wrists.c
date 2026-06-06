@@ -3,7 +3,7 @@
 inherit WRISTS;
 void create()
 {
-     set_name(HIB"真武腕罩"NOR , ({"fight wrists","wrists","fight"}) );
+     set_name(HIB + "真武腕罩" + NOR , ({"fight wrists","wrists","fight"}) );
      set_weight(2000);
      if ( clonep() )
               set_default_object(__FILE__);

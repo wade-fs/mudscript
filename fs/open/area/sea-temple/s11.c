@@ -4,7 +4,7 @@ inherit ROOM;
 
 void create()
 {
-	set("short",HIB"海神廟"NOR);
+	set("short",HIB + "海神廟" + NOR);
 	set("long", (:mlong():) );
 	set("defence-build",10);
 	set("exits",([

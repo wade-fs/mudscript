@@ -2,7 +2,7 @@
 inherit EQUIP;
 void create()
 {
-        set_name(HIY "龍飛鞋" NOR,({"boots"}) );
+        set_name(HIY + "龍飛鞋" + NOR,({"boots"}) );
         set_weight(2000);
         if ( clonep() )
                 set_default_object(__FILE__);

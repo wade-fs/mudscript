@@ -6,7 +6,7 @@ inherit ROOM;
 
 void create ()
 {
-  set ("short", HIY "舞者公會" NOR );
+  set ("short", HIY + "舞者公會" + NOR );
   set ("long", @LONG
 
                 舞者公會

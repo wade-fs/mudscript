@@ -3,7 +3,7 @@ inherit ROOM;
 #include <ansi.h>
 #include "wind-rain.h"
 void create () {
-set ("short",HIC"夢樨殿"NOR);
+set ("short",HIC + "夢樨殿" + NOR);
 	set( "build", 38 );
 set ("long",@LONG
 馨香撲鼻，華光刺目，一具巨大的水晶虹色琉璃燈垂掛於頂，光彩

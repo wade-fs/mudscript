@@ -4,7 +4,7 @@
 inherit STABBER;
 void create()
 {
-        set_name(HIW"ξ"HIR"赤焰"HIW"ξ"HIY"鳳羽針"NOR, ({"pnx_needle", "needle"}) );
+        set_name(HIW + "ξ" + HIR + "赤焰" + HIW + "ξ" + HIY + "鳳羽針" + NOR, ({"pnx_needle", "needle"}) );
         set_weight(3000);
         if( clonep() )
         set_default_object(__FILE__);

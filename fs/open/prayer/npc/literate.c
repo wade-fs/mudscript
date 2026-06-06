@@ -96,7 +96,7 @@ int accept_kill(object ob)
         ob1 = this_object();
 
         if( !present("hu-fa", environment(ob)) ) {
-        tell_room(environment(ob),HIW"\n突然！衝出兩位護法!!\n\n"NOR);
+        tell_room(environment(ob),HIW + "\n突然！衝出兩位護法!!\n\n" + NOR);
         for(i=0;i<2;i++)
         {
         hu_fa = new("/open/prayer/npc/hu_fa");
@@ -111,7 +111,7 @@ int accept_kill(object ob)
 		ob->start_busy(1);
 	}
 	ob->add_temp( "lochichi", 1 );
-	message_vision( HIR"護法縱身飛撲過來叫道：大膽狂徒！軍師你也敢冒犯！！\n" NOR, ob );
+	message_vision( HIR + "護法縱身飛撲過來叫道：大膽狂徒！軍師你也敢冒犯！！\n" + NOR, ob );
         return 1;
 }
 
@@ -149,7 +149,7 @@ void die()
 	  if( j==7 || j==77 || j== 777 || j==1111 || j==55 || j==555 || j==1000 || j==4000 || j==3333 || j==2222 )
 	  {
 	  new("/open/sky/obj4/stable_shells")->move(environment(winner));
-	  message_vision(HIM"\n從駱芝芝的身上掉下了一件奇怪的東西!!\n"NOR,winner);
+	  message_vision(HIM + "\n從駱芝芝的身上掉下了一件奇怪的東西!!\n" + NOR,winner);
           write_file("/log/sky/obj4/stable_shells",sprintf("%s(%s) 讓駱芝芝掉下了穩定之貝殼於 %s\n",
 	  winner->name(1),winner->query("id"),ctime(time())));
 	  }
@@ -158,7 +158,7 @@ void die()
 	  if( j==5 || j==15 || j== 150 || j==1500 || j==10 || j==100 || j==1000 || j==4000 || j==6666 || j==7777 )
 	  {
 	  new("/open/sky/obj4/stable_shells")->move(environment(winner));
-	  message_vision(HIM"\n從駱芝芝的身上掉下了一件奇怪的東西!!\n"NOR,winner);
+	  message_vision(HIM + "\n從駱芝芝的身上掉下了一件奇怪的東西!!\n" + NOR,winner);
           write_file("/log/sky/obj4/stable_shells",sprintf("%s(%s) 讓駱芝芝掉下了穩定之貝殼於 %s\n",
 	  winner->name(1),winner->query("id"),ctime(time())));
 	  }

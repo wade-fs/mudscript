@@ -4,7 +4,7 @@ inherit ITEM;
 
 void create()
 {
-        set_name(HIB"藍鑰匙"NOR, ({ "bluekey","key", "blue" }) );
+        set_name(HIB + "藍鑰匙" + NOR, ({ "bluekey","key", "blue" }) );
         set("unit", "把");
         set("no_auc",1);
 set("no_get",1);

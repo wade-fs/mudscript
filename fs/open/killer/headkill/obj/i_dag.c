@@ -4,7 +4,7 @@ inherit DAGGER;
 void create()
 {
         seteuid(getuid());
-        set_name(HIC"白虎匕首"NOR,({"bihu"}));
+        set_name(HIC + "白虎匕首" + NOR,({"bihu"}));
         set_weight(5000);
         if( clonep() )
                 set_default_object(__FILE__);
@@ -17,8 +17,8 @@ void create()
                 set("no_sell",1);
                 set("no_auc",1);
                 set("no_hands",1);
-                set("wield_msg",HIC"$N將$n握在手上，感到全身似乎充滿勁道。\n"NOR);
-                set("unwield_msg",HIC"$N畫出一道銀花，將$n放回身邊小袋中。\n"NOR);
+                set("wield_msg",HIC + "$N將$n握在手上，感到全身似乎充滿勁道。\n" + NOR);
+                set("unwield_msg",HIC + "$N畫出一道銀花，將$n放回身邊小袋中。\n" + NOR);
         }
         init_dagger(63);
         setup();
@@ -48,11 +48,11 @@ mixed hit_ob(object me)
      {//注意，為了要強調dodge的效用，（現在FS根本不重視）
       //所以，故意以dodge來決定命中度，如果你的dodge大於對方一倍，命中度幾乎100％
       //相對的，如果對方的dodge大於你兩倍的話，命中度幾乎就是0％
-      message_vision(HIC"白虎圖騰化成白虎幻影,包圍$N令其動作遲緩!!"NOR,enemy[i]);
+      message_vision(HIC + "白虎圖騰化成白虎幻影,包圍$N令其動作遲緩!!" + NOR,enemy[i]);
       enemy[i]->start_busy(1);
      }
       else
-      	message_vision(HIW"由白虎匕首喚出的幻影，被$N識破根本無效\n"NOR,enemy[i]);
+      	message_vision(HIW + "由白虎匕首喚出的幻影，被$N識破根本無效\n" + NOR,enemy[i]);
     }
   }
   return;

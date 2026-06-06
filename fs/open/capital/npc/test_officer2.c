@@ -75,7 +75,7 @@ void init()
 void do_prepare()
 {
 	CHANNEL_D->do_channel(this_object(), "mud",
-	HIY "\n從京城裡傳來消息﹕\n秋試即將開始了.....\n" NOR);
+	HIY + "\n從京城裡傳來消息﹕\n秋試即將開始了.....\n" + NOR);
 }
 
 int query_test()
@@ -92,7 +92,7 @@ void do_start()
 	int	i;
 	set("test_men_id",([]));
 	CHANNEL_D->do_channel(this_object(), "mud",
-	HIG "\n從京城裡傳來消息﹕\n秋試正式開始了....!!!\n" NOR);
+	HIG + "\n從京城裡傳來消息﹕\n秋試正式開始了....!!!\n" + NOR);
 	command("say 現在請各位要參加考試的考生開始考試(join)。");
 	dict2=query("set_test_men");
 	for(i=0;i<3;i++)
@@ -112,7 +112,7 @@ void do_start()
 void do_end()
 {
           CHANNEL_D->do_channel(this_object(), "mud",
-            HIC "\n從京裡傳來消息﹕\n秋試結束了.....\n" NOR);
+            HIC + "\n從京裡傳來消息﹕\n秋試結束了.....\n" + NOR);
           command("say 好了 ! 考試時間到了。\n");
 }
 
@@ -143,13 +143,13 @@ void do_report()
 	if(dict2[name2[i]]>dict2[name2[th3]]&&i!=th1&&i!=th2)
 		th3=i;
 	msg = 
-	    HIR"從京裡傳來的消息﹕\n秋試結果﹕.....\n狀元﹕"+
+	    HIR + "從京裡傳來的消息﹕\n秋試結果﹕.....\n狀元﹕"+
 	    name2[th1]+"\n榜眼﹕"+name2[th2]+"\n探花﹕"+name2[th3]+"\n";
 	msg += "落榜者﹕\n";
 	for(i=0;i<sizeof(dict1);i++)
 	  if(name2[th1]!=name1[i]&&name2[th2]!=name1[i]&&name2[th3]!=name1[i])
 	    msg += name1[i]+"\n";
-	msg += HIY "考取者請儘速來報到(report)\n" NOR;
+	msg += HIY + "考取者請儘速來報到(report)\n" + NOR;
 	CHANNEL_D->do_channel(this_object(), "mud", msg);
 	dict1=([]);
 	dict2=query("test_men_id");
@@ -183,7 +183,7 @@ return notify_fail("你所屬門派不能當官喔。\n");
 	if(me->query("officer_class"))
 		return notify_fail("你不當過官了嗎﹐再報名考試就是犯了欺君之罪。\n");
 	message_vision(
-	CYN "$N說道﹕我要參加考試 !\n" NOR,me);
+	CYN + "$N說道﹕我要參加考試 !\n" + NOR,me);
 	if(me->query("class")=="officer")
 	{
 		command("say 大人 ! 別跟我開玩笑了。");

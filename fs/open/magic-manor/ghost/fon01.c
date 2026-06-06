@@ -63,7 +63,7 @@ int do_insert (string str)
 
 	if(!ob->query("sun")==1 && (present(str,me)->query("go-sky")==1) )
 	{
-	message_vision(HIG"$N將"NOR"$n"HIG"鑲入了牆上$n"HIG"的位置上!!\n"NOR,me,present(str,me));
+	message_vision(HIG + "$N將" + NOR + "$n" + HIG + "鑲入了牆上$n" + HIG + "的位置上!!\n" + NOR,me,present(str,me));
 	ob->set("sun",1);
 	destruct(present(str,me));
 	call_out("check",1,ob);
@@ -78,7 +78,7 @@ int do_insert (string str)
 
 	if(!ob->query("lunar")==1 && (present(str,me)->query("go-sky")==1) )
 	{
-	message_vision(HIG"$N將"NOR"$n"HIG"鑲入了牆上$n"HIG"的位置上!!\n"NOR,me,present(str,me));
+	message_vision(HIG + "$N將" + NOR + "$n" + HIG + "鑲入了牆上$n" + HIG + "的位置上!!\n" + NOR,me,present(str,me));
 	ob->set("lunar",1);
 	destruct(present(str,me));
 	call_out("check",1,ob);
@@ -95,7 +95,7 @@ int do_insert (string str)
 
 	if( !ob->query("five") == 1 && (present(str,me)->query("magic-manor-f") == 1) )
 	{
-	message_vision(HIG"$N將"NOR"$n"HIG"鑲入了牆上$n"HIG"的位置上!!\n"NOR,me,present(str,me));
+	message_vision(HIG + "$N將" + NOR + "$n" + HIG + "鑲入了牆上$n" + HIG + "的位置上!!\n" + NOR,me,present(str,me));
 	ob->set("five",1);
 	destruct(present(str,me));
 	call_out("check",1,ob);
@@ -124,13 +124,13 @@ int check(object me)
 
 	if(room->query("check") == 2 )
 	{
-	message_vision(HIY"\n\n忽然間，左右兩邊的獸形圖案各發出了一道強光!!\n"NOR,me);
-	message_vision(HIY"\n強光交匯在兩獸的中央，形成了一個若有似無的五行圖缺口!!\n\n"NOR,me);
+	message_vision(HIY + "\n\n忽然間，左右兩邊的獸形圖案各發出了一道強光!!\n" + NOR,me);
+	message_vision(HIY + "\n強光交匯在兩獸的中央，形成了一個若有似無的五行圖缺口!!\n\n" + NOR,me);
 	}
 
 	if(room->query("check") == 3 )
 	{
-	message_vision(HIY"\n只見鑲入牆上的三樣靈器發出強烈的光芒，交匯融合著，不斷的催生一股強大的力量!!\n\n"NOR,me);
+	message_vision(HIY + "\n只見鑲入牆上的三樣靈器發出強烈的光芒，交匯融合著，不斷的催生一股強大的力量!!\n\n" + NOR,me);
 	call_out("msg1",5,me);
 	}
 	return 1;
@@ -138,8 +138,8 @@ int check(object me)
 
 int msg1(object me)
 {
-	message_vision(HIM"\n就在一陣光芒中，光滑的牆面開始一分為二，緩緩的向兩旁推開!!\n\n"NOR,me);
-	tell_object(users(),HIC"\n大地開始搖動不止，靈力正從天靈地界之中瘋狂的宣洩出來!!\n\n"NOR);
+	message_vision(HIM + "\n就在一陣光芒中，光滑的牆面開始一分為二，緩緩的向兩旁推開!!\n\n" + NOR,me);
+	tell_object(users(),HIC + "\n大地開始搖動不止，靈力正從天靈地界之中瘋狂的宣洩出來!!\n\n" + NOR);
 	call_out("msg2",10,me);
 	return 1;
 }
@@ -148,7 +148,7 @@ int msg2(object me)
 {
 	object room = environment(me);
 	room->start();
-	tell_object(users(),HIC"\n天搖地動和宣洩的靈氣漸漸的止息，通往天靈地界的唯一入口卻緩緩的開啟了!!\n\n"NOR);
+	tell_object(users(),HIC + "\n天搖地動和宣洩的靈氣漸漸的止息，通往天靈地界的唯一入口卻緩緩的開啟了!!\n\n" + NOR);
 	room->add("exits/takeroad","/open/magic-manor/ghost/sky01");
 	call_out("close",600,room);
 	return 1;
@@ -158,7 +158,7 @@ int close(object room)
 {
 	room = this_object();
 
-	tell_object(users(),HIB"\n大地又開始一陣輕微的搖晃，卻是天靈地界的入口緩緩的自行關閉了!!\n\n"NOR);
+	tell_object(users(),HIB + "\n大地又開始一陣輕微的搖晃，卻是天靈地界的入口緩緩的自行關閉了!!\n\n" + NOR);
 	room->delete("exits/takeroad");
 	return 1;
 }

@@ -5,7 +5,7 @@ int be,bb,inn,sp,qq;
 void create()
 {
         seteuid(getuid());
-        set_name(HIY"玄武匕首"NOR,({"sawu"}));
+        set_name(HIY + "玄武匕首" + NOR,({"sawu"}));
         set_weight(6000);
         if( clonep() )
                 set_default_object(__FILE__);
@@ -18,8 +18,8 @@ void create()
                 set("no_sell",1);
                 set("no_hands",1);
 		set("no_auc",1);
-	       set("wield_msg",HIY"$N將$n握在手上，感到一種沈穩的感覺。\n"NOR);
-	       set("unwield_msg",HIY"$N畫出一道銀花，將$n放回身邊小袋中。\n"NOR);
+	       set("wield_msg",HIY + "$N將$n握在手上，感到一種沈穩的感覺。\n" + NOR);
+	       set("unwield_msg",HIY + "$N畫出一道銀花，將$n放回身邊小袋中。\n" + NOR);
 	}
         init_dagger(60);
         setup();
@@ -48,13 +48,13 @@ mixed hit_ob(object me)
      {//注意，為了要強調dodge的效用，（現在FS根本不重視）
       //所以，故意以dodge來決定命中度，如果你的dodge大於對方一倍，命中度幾乎100％
       //相對的，如果對方的dodge大於你兩倍的話，命中度幾乎就是0％
-      message_vision(HIY"\n匕首揚起一陣重壓的感覺，令$N感到陣陣的壓力\n"NOR,victim);
+      message_vision(HIY + "\n匕首揚起一陣重壓的感覺，令$N感到陣陣的壓力\n" + NOR,victim);
       victim->add("sen",-200);
       victim->add("gin",-200);
       COMBAT_D->report_status(victim);
      }
      else
-     	 message_vision(HIW"玄武匕首揚起的壓力被$N巧妙的躲開\n"NOR,victim);
+     	 message_vision(HIW + "玄武匕首揚起的壓力被$N巧妙的躲開\n" + NOR,victim);
      }
   }
   return;

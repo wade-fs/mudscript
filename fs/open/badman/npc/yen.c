@@ -232,7 +232,7 @@ int accept_kill(object who)
 /*
 void die()
 {
-  CHANNEL_D->do_channel(this_object(), "mud", HIY"\n惡人谷被人入侵了！！"NOR);
+  CHANNEL_D->do_channel(this_object(), "mud", HIY + "\n惡人谷被人入侵了！！" + NOR);
   ::die();
 }
 */

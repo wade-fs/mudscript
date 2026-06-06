@@ -38,7 +38,7 @@ int do_turn_wheel( string arg)
    user= this_player();
    if( arg == "wheel")
    {
-      tell_object( this_player(), HIY"你將轉盤轉了兩圈之後, 地板開始慢慢的上升, 把你送出了地道...\n"NOR);
+      tell_object( this_player(), HIY + "你將轉盤轉了兩圈之後, 地板開始慢慢的上升, 把你送出了地道...\n" + NOR);
       user->move("/open/killer/mon/room/wood13.c");
       return 1;
    }
@@ -51,7 +51,7 @@ int do_press_wheel( string arg)
 {
    if( arg == "button")
    {
-      tell_object( this_player(), HIY"一按下按鈕, 東側的牆壁無聲無息的打開了, 你讚嘆這機關的巧妙..\n"NOR);
+      tell_object( this_player(), HIY + "一按下按鈕, 東側的牆壁無聲無息的打開了, 你讚嘆這機關的巧妙..\n" + NOR);
       set("exits/east", "/open/killer/mon/room/wood18.c");
       return 1;
    }

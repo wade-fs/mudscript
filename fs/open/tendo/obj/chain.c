@@ -6,7 +6,7 @@ inherit WHIP;
 
 void create()
 {
-	set_name(HIG "青龍崩雲鎖" NOR,({"dragon chain","chain"}));
+	set_name(HIG + "青龍崩雲鎖" + NOR,({"dragon chain","chain"}));
 	set_weight(5000);
 	if( clonep() )
 		set_default_object(__FILE__);

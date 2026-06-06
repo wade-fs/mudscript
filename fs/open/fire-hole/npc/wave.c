@@ -16,8 +16,8 @@ LONG);
         set("clan_kill",1);
         set("class","prayer");
         set("family/family_name","聖火教");
-        set("nickname",HIC"鬥心不滅"NOR);
-        set("title",RED"教皇"HIY"御前第一傳人"NOR);
+        set("nickname",HIC + "鬥心不滅" + NOR);
+        set("title",RED + "教皇" + HIY + "御前第一傳人" + NOR);
         set("combat_exp",6900000);
         set("attitude","friendly");
         set("score",1000000);
@@ -93,9 +93,9 @@ void heart_beat()
    object me=this_object();
    if(me->is_busy())
    {
-   	 message_vision(HIY"\n
+   	 message_vision(HIY + "\n
    	 $N逆運渾天寶鑑心法，硬生生將周遭的阻礙全數震開!!
-   	 \n"NOR,me);
+   	 \n" + NOR,me);
    	 me->delete_busy();
    }
    command("perform force.supertengin");

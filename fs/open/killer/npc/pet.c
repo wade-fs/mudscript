@@ -107,7 +107,7 @@ int bit_pet(string arg)
    {
     if( buf > 30 )
     {
-     message_vision(HIG"$N毫無警覺,被"+ob->name()+HIR+"背刺了！\n" NOR,target);
+     message_vision(HIG + "$N毫無警覺,被"+ob->name()+HIR+"背刺了！\n" + NOR,target);
      t_kee=target->query("max_kee")/13;
      target->add("kee",-t_kee);
      ob->add("bak_times",1);
@@ -115,7 +115,7 @@ int bit_pet(string arg)
     }
     if( buf > 60 )
     {
-     message_vision(HIG"$N毫無警覺,被"+ob->name()+HIR+"狠狠地背刺了！\n" NOR,target);
+     message_vision(HIG + "$N毫無警覺,被"+ob->name()+HIR+"狠狠地背刺了！\n" + NOR,target);
      t_kee=target->query("max_kee")/10;
      target->add("kee",-t_kee);
      ob->add("bak_times",1);
@@ -123,13 +123,13 @@ int bit_pet(string arg)
     }
     if( buf > 90 )
     {
-     message_vision(HIG""+ob->name()+HIR+"狠狠地使出雙重背刺！！$N受創很深！\n" NOR,target);
+     message_vision(HIG + ""+ob->name()+HIR+"狠狠地使出雙重背刺！！$N受創很深！\n" + NOR,target);
      t_kee=target->query("max_kee")/5;
      target->add("kee",-t_kee);
      ob->add("bak_times",1);
      return 1;
     }
-    message_vision(HIG"$N一個不留意,被"+ob->name()+HIR+"背刺了！\n" NOR,target);
+    message_vision(HIG + "$N一個不留意,被"+ob->name()+HIR+"背刺了！\n" + NOR,target);
     t_kee=target->query("max_kee")/20;
     target->add("kee",-t_kee);
     ob->add("bak_times",1);
@@ -137,7 +137,7 @@ int bit_pet(string arg)
    }
    else
    {
-    message_vision(HIC"$N急急忙忙往後跳開, 被"+ob->name()+HIC+"嚇出了一深冷汗。\n" NOR,target);
+    message_vision(HIC + "$N急急忙忙往後跳開, 被"+ob->name()+HIC+"嚇出了一深冷汗。\n" + NOR,target);
     target->add("sen",-5);
     ob->add("bak_times",1);
     return 1;

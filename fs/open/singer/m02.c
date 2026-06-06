@@ -3,7 +3,7 @@ inherit ROOM;
 
 void create()
 {
-	set("short",HIC"晶樂閣"NOR);
+	set("short",HIC + "晶樂閣" + NOR);
 	set("long",@LONG
 
 四周淡藍的水晶波瀾四處遊晃，由淡藍水晶圍繞而成的空間，令人有

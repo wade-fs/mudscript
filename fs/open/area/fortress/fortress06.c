@@ -3,7 +3,7 @@ inherit ROOM;
 
 void create ()
 {
-        set ("short",HIR"極火山寨"NOR"  地下一層  "YEL"守衛室"NOR);
+        set ("short",HIR + "極火山寨" + NOR + "  地下一層  " + YEL + "守衛室" + NOR);
         set ("long",@LONG
 這裡是一個寬敞的方形空間，頭頂上是黃沙覆蓋的土地，周圍依
 舊是由黃土牆所包圍著，在這片寬敞的空間中，擺滿了石桌與石椅，

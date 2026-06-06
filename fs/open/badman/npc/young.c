@@ -39,13 +39,13 @@ void greeting(object ob)
 {
   if (ob->query("quests/karup",1))
   {
-    message_vision(HIW"少年說道﹕嗯？怎麼還不離開勒？？\n"NOR,ob);
+    message_vision(HIW + "少年說道﹕嗯？怎麼還不離開勒？？\n" + NOR,ob);
   }
   else {
-  message_vision(HIG"\n少年說道﹕嗯，沒事吧？還好我及時趕到，不然你就危險了。
-　　　　　這邊可是惡人谷的禁地，以後還是別亂闖的好。"HIC"
-　　　　　這是你要找的東西嗎？嘻，給你吧，以後要小心點啊。"HIW"
-　　　　　從這邊往上爬可以爬到谷頂，別再逗留了，危險啊！\n"NOR,ob);
+  message_vision(HIG + "\n少年說道﹕嗯，沒事吧？還好我及時趕到，不然你就危險了。
+　　　　　這邊可是惡人谷的禁地，以後還是別亂闖的好。" + HIC + "
+　　　　　這是你要找的東西嗎？嘻，給你吧，以後要小心點啊。" + HIW + "
+　　　　　從這邊往上爬可以爬到谷頂，別再逗留了，危險啊！\n" + NOR,ob);
   new("/autoload/badman/ste.c")->move(ob);
   ob->set("quests/karup",1);
 //查不到who->query("marks/fish",1)所代表的意義 所以暫時關閉 by blazakira 2010/11/8

@@ -248,7 +248,7 @@ protected void _input(string str, object pl, int fresh) // 讀得輸入字串
                 case ESC + "OH":
                 case ESC + "[H":
                 case ESC + "1~":
-                case ESC + "[1~":  me["sChar"] = "HOME";	break;
+                case ESC + "[1~":  me["sChar"] = " + HOME + ";	break;
                 case ESC + "[2~":  me["sChar"] = "INSERT";break;
                 case ESC + "[3~":  me["sChar"] = "DELETE";break;
                 case ESC + "4~":   me["sChar"] = "END";	break;
@@ -288,7 +288,7 @@ protected void _input(string str, object pl, int fresh) // 讀得輸入字串
                         	case 18: me["sChar"]="Ctrl-R"; break;
                         	case 19: me["sChar"]="Ctrl-S"; break;
                         	case 20: me["sChar"]="Ctrl-T"; break;
-                        	case 21: me["sChar"]="Ctrl-U"; break;
+                        	case 21: me["sChar"]="Ctrl-U + "; break;
                         	case 22: me["sChar"]="Ctrl-V"; break;
                         	case 23: me["sChar"]="Ctrl-W"; break;
                         	case 24: me["sChar"]="Ctrl-X"; break;
@@ -383,7 +383,7 @@ private int _dispatcher(object pl)                // 分派指令到不同函式
                         case "DELETE":
                         case "Ctrl-X":   _del_char(pl, 0);        break;
                         case "A": 
-                        case "HOME":
+                        case " + HOME + ":
                         case "Ctrl-A":   _home(pl);        break;
                         case "B":
                         case "PAGEUP":
@@ -397,8 +397,8 @@ private int _dispatcher(object pl)                // 分派指令到不同函式
                         case "J":
                         case "Ctrl-P": _join(pl);         break;
                         case "O": _insert_line(pl);         break;
-                        case "U":
-                        case "Ctrl-U": _file_head(pl);        break;
+                        case " + U + ":
+                        case "Ctrl-U + ": _file_head(pl);        break;
                         case "V":
                         case "Ctrl-V": _file_end(pl);        break;
                         case "?":

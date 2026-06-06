@@ -6,7 +6,7 @@ void create()
 {
   string long;
 
-set("short",HIW"八卦遊龍迷陣"NOR);
+set("short",HIW + "八卦遊龍迷陣" + NOR);
 
 long = "\n"+
 "                         "+BGRN"                      \n"NOR+
@@ -16,7 +16,7 @@ long = "\n"+
 "                   "+BWHT"                              "+BGRN"    \n"NOR+
 "                  "+BWHT"             "+HIB"震門"+HIW"(n)"+"            "+BGRN"   \n"NOR+
 "                  "+BWHT"            "+HIB" ˍˍˍ"+"             "+BGRN"   \n"NOR+
-"                  "+BWHT"     "+HIB"乾門"+HIW"(w)"+HIB" ˍ　ˍ"+" 艮門"HIW"(e)"
+"                  "+BWHT"     "+HIB"乾門"+HIW"(w)"+HIB" ˍ　ˍ"+" 艮門" + HIW + "(e)"
 +"     "+BGRN"   \n"NOR+
 "                  "+BWHT"            "+HIB" ˍˍˍ"+"             "+BGRN"   \n"NOR+
 "                  "+BWHT"                                "+BGRN"   \n"NOR+

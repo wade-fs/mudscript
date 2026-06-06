@@ -6,11 +6,11 @@ int leave( object me );
 
 void create()
 {
-	set( "short", HIB"世界的角落"NOR );
+	set( "short", HIB + "世界的角落" + NOR );
 	set( "long", "
     這裡是世界的角落, 流浪於此地的人, 幾乎都是無惡不作的大壞蛋, 或是
 被朝廷放逐的罪人, 通常如果尚未服滿刑期的話, 是不會釋放的。\n
-	"HIR"[check] 可以查詢是否能回到中原。\n\n"NOR
+	" + HIR + "[check] 可以查詢是否能回到中原。\n\n" + NOR
 	);
 
 	set( "no_kill",  1 );
@@ -33,7 +33,7 @@ void init()
 		return;
 	for( i=0; i<sizeof(inv); i++ ) {
 		if(userp(inv[i])) continue;
-		message_vision( HIM"～～地底冒出陣陣濃煙～～\n"NOR, inv[i] );
+		message_vision( HIM + "～～地底冒出陣陣濃煙～～\n" + NOR, inv[i] );
 		destruct(inv[i]);
 	}
 }
@@ -63,7 +63,7 @@ int leave( object me )
         string msg="";
 
 	if( me->query("mud_age") > me->query("jail_time") ) {
-		write( HIY"\n請好好重新作人, 別再犯囉。\n\n"NOR );
+		write( HIY + "\n請好好重新作人, 別再犯囉。\n\n" + NOR );
 // 新增 變回原先的title...
 // by avgirl
       if(me->query("tmp_title")){
@@ -72,7 +72,7 @@ int leave( object me )
 }
 		me->delete("jail_time");
 		me->move( "/open/common/room/inn.c" );
-		tell_object( users(), HIW"\n" + me->query("name") + "從世界的角落返回中原了。\n\n"NOR );
+		tell_object( users(), HIW + "\n" + me->query("name") + "從世界的角落返回中原了。\n\n" + NOR );
 		return 1;
 	}
 	outtime = me->query("jail_time")-me->query("mud_age");
@@ -84,7 +84,7 @@ int leave( object me )
 		msg += HIR + outtime/60 + HIW" 分 ";
 	if( outtime%60 )
 		msg += HIR + outtime%60 + HIW" 秒";
-	write( HIW"你還要服刑 " + msg + NOR"。\n" );
+	write( HIW + "你還要服刑 " + msg + NOR"。\n" );
 
 	return 1;
 }

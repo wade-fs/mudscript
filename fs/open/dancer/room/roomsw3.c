@@ -6,7 +6,7 @@ inherit ROOM;
 
 void create ()
 {
-  set ("short", HIG"夢月閣"NOR);
+  set ("short", HIG + "夢月閣" + NOR);
   set ("long", @LONG
 這裡是夢月閣，也算是夜夢小築的重心之一，走到這裡你聞到了
 陣陣香味，原來南邊是廚房傳來了陣陣的飯菜香，而北方則是藥房也

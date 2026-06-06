@@ -3,7 +3,7 @@
 inherit LEGGINGS;
 void create()
 {
-        set_name(HIR"鴻都脛甲"NOR,({"large legging","legging"}));
+        set_name(HIR + "鴻都脛甲" + NOR,({"large legging","legging"}));
         set_weight(3000);
         if( clonep() )
                 set_default_object(__FILE__);

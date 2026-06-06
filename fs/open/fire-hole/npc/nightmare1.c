@@ -4,7 +4,7 @@ inherit SSERVER;
 #include <ansi.h>
 void create()
 {
-        set("nickname",HIY"夢嵐舞空"NOR);
+        set("nickname",HIY + "夢嵐舞空" + NOR);
         set_name("夜無嵐", ({"nightmare lan","lan"}));        
         set("age",9700);
         set("long","吸收上古時期無盡玄陰之氣的夜之魂。 \n");
@@ -100,12 +100,12 @@ void heart_beat()
         force = target->query("force");
     if( env == environment(target) )
     {
-      message_vision(HIW"
+      message_vision(HIW + "
 $N步法漸快身影漸散，空氣之中香氣郁郁，撩人心神。使
-出了一式"HIY"『太陰虛幻神鑑●嵐之章』"HIW"
+出了一式" + HIY + "『太陰虛幻神鑑●嵐之章』" + HIW + "
 $N的一舉一動完全牽制住$n的所有動作，$n被困在舞陣之
 中動彈不得 
-\n"NOR,mob,target);
+\n" + NOR,mob,target);
     
     for(i=0;i<5;i++)    
  COMBAT_D->do_attack(mob, target, mob->query_temp("weapon"));

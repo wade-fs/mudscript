@@ -3,7 +3,7 @@ inherit ROOM;		//房間不會update	firedancer
 #include "road.msg"
 #include "damage.c"
 //string look_token();
-//	"HIY"<<你發現地上有一塊土黃色火焰形狀的令牌(token)>>"NOR"
+//	" + HIY + "<<你發現地上有一塊土黃色火焰形狀的令牌(token)>>" + NOR + "
 void create ()
 {
         set ("short","森林");

@@ -7,7 +7,7 @@ int have_weapon=0;
 void create()
 {
         set_name("慕容復", ({"murofu"}));
-        set("title", HIB"以彼之道 "+HIC+"還彼之身"NOR);
+        set("title", HIB + "以彼之道 "+HIC+"還彼之身" + NOR);
         set("long", "蘇杭名士慕容復,善各家武功\,乃江南第一高手.\n");
         set("age", 40);
         set("str", 35);
@@ -102,7 +102,7 @@ int block_cmd(string arg)
 	    (string)query_verb()=="ena" ||
 	    (string)query_verb()=="enab" ||
 	    (string)query_verb()=="enabl")&& this_player()->is_fighting()){
-		write(HIY"面對慕容復的快攻，你毫無機會換招\n"NOR );
+		write(HIY + "面對慕容復的快攻，你毫無機會換招\n" + NOR );
 		return 1;}
 //	else if((string)query_verb()=="co" ||           //於心跳中加強對dancer與taoist故暫時取消對法術的限制
 //	        (string)query_verb()=="con" ||
@@ -113,27 +113,27 @@ int block_cmd(string arg)
 //	        (string)query_verb()=="ca" ||
 //	        (string)query_verb()=="cas" ||
 //	        (string)query_verb()=="cast"){
-//	            write(HIY"慕容復身上的天尊石發出耀眼光芒使敵人的法術失效了\n"NOR );
+//	            write(HIY + "慕容復身上的天尊石發出耀眼光芒使敵人的法術失效了\n" + NOR );
 //               return 1;}
        else if((string)query_verb()=="team") {          //為了防止用賤招打murofu,禁止使用team指令
-	            write(HIY"以多欺寡不太好吧!!\n"NOR );
+	            write(HIY + "以多欺寡不太好吧!!\n" + NOR );
 	       return 1;}
        else if((string)query_verb()=="steal") {          //為了防止用賤招打murofu,禁止使用steal指令
-	            write(HIY"慕容復怒道：憑你這點本領也想從我手上偷東西？\n"NOR );
+	            write(HIY + "慕容復怒道：憑你這點本領也想從我手上偷東西？\n" + NOR );
 	       return 1;}
        else if((string)query_verb()=="cm" ||	         //為了防止用賤招打murofu,禁止使用cmd指令
 	        (string)query_verb()=="cmd") {
-	            write(HIY"慕容復怒道：這種濫招對我是沒用的\n"NOR );
+	            write(HIY + "慕容復怒道：這種濫招對我是沒用的\n" + NOR );
 	       return 1;}
        else if((string)query_verb()=="unwield" && this_player()->is_fighting()) {	//為了防止用賤招打murofu,在戰鬥中禁止使用unwield指令        
-	       	    write(HIY"慕容復怒道：想棄械投降？別想\n"NOR );
+	       	    write(HIY + "慕容復怒道：想棄械投降？別想\n" + NOR );
 	       return 1;}       
        else if(((string)query_verb()=="dro" ||               //為了防止用賤招打murofu,在戰鬥中禁止使用drop指令
                (string)query_verb()=="drop") && this_player()->is_fighting()) {	        
-	       	    write(HIY"你無法在此時丟掉任何物品\n"NOR );
+	       	    write(HIY + "你無法在此時丟掉任何物品\n" + NOR );
 	       return 1;}
        else if((string)query_verb()=="wield" && this_player()->is_fighting()) {      //為了防止用賤招打murofu,在戰鬥中禁止使用wield指令
-	            write(HIY"你找不到使用武器的機會\n"NOR );
+	            write(HIY + "你找不到使用武器的機會\n" + NOR );
 	       return 1;}
 }
 int accept_kill(object me)
@@ -231,7 +231,7 @@ int change( object me )
 				weapon->query("id")=="sun_moon blade" ||
 				weapon->query("id")=="world") )
        	  {
-     	  say(HIY"慕容復說: 竟拿此神兵利器，看我玄冰護體!!\n"NOR);
+     	  say(HIY + "慕容復說: 竟拿此神兵利器，看我玄冰護體!!\n" + NOR);
 	  set_temp("ref_shield",1);
       }  */
         setup();
@@ -258,7 +258,7 @@ void die()
 	  if( j==7 || j==77 || j== 777 || j==1111 || j==55 || j==555 || j==1000 || j==4000 || j==3333 || j==2222 )
 	  {      
 	  new("/open/sky/obj2/sky_stone")->move(environment(winner));
-	  message_vision(HIM"\n從慕容復的身上掉下了一件奇怪的東西!!\n"NOR,winner);
+	  message_vision(HIM + "\n從慕容復的身上掉下了一件奇怪的東西!!\n" + NOR,winner);
           write_file("/log/sky/obj2/sky_stone",sprintf("%s(%s) 讓慕容復掉下了天尊石於 %s\n",
 	  winner->name(1),winner->query("id"),ctime(time())));
 	  }
@@ -267,7 +267,7 @@ void die()
 	  if( j==5 || j==15 || j== 150 || j==1500 || j==10 || j==100 || j==1000 || j==4000 || j==6666 || j==7777 ) 
 	  {      
 	  new("/open/sky/obj2/sky_stone")->move(environment(winner));
-	  message_vision(HIM"\n從慕容復的身上掉下了一件奇怪的東西!!\n"NOR,winner);
+	  message_vision(HIM + "\n從慕容復的身上掉下了一件奇怪的東西!!\n" + NOR,winner);
           write_file("/log/sky/obj2/sky_stone",sprintf("%s(%s) 讓慕容復掉下了天尊石於 %s\n",
 	  winner->name(1),winner->query("id"),ctime(time())));
 	  }
@@ -309,25 +309,25 @@ void heart_beat()
 				k++;
 			if(((enemy[i]->query("class")== "killer" ||     //針對殺手與惡人增加功擊
 			    enemy[i]->query("class")== "bandit") && random(10)<3) && environment(this_object())==environment(enemy[i])) {
-		                say(HIR"\n\n慕容復狂傲的說道: 邪門歪道看我慕容家絕學"+HIB"『以彼之道 "+HIC+"還彼之身』\n\n"NOR);
-                                message_vision(HIG"幕容復自家內力一催，將$N招式中攻擊的力道納為己用，頓時龍氣集結於上空往$N位置迅速衝去\n\n"NOR,enemy[i]);
+		                say(HIR + "\n\n慕容復狂傲的說道: 邪門歪道看我慕容家絕學"+HIB"『以彼之道 "+HIC+"還彼之身』\n\n" + NOR);
+                                message_vision(HIG + "幕容復自家內力一催，將$N招式中攻擊的力道納為己用，頓時龍氣集結於上空往$N位置迅速衝去\n\n" + NOR,enemy[i]);
                                 if((enemy[i]->query_kar()+enemy[i]->query_cps()) < random(150)){
-                                    message_vision(HIR"$N慘遭自己招式所幻化之龍氣反蝕\n\n"NOR,enemy[i]);
+                                    message_vision(HIR + "$N慘遭自己招式所幻化之龍氣反蝕\n\n" + NOR,enemy[i]);
                                     if((enemy[i]->query("force_factor")-5)>0)
                                         enemy[i]->add("force_factor",-5);
                                     else enemy[i]->set("force_factor",0);
                                     enemy[i]->receive_wound("kee",random((int) enemy[i]->query("max_kee")* 0.2),this_object());
                                     COMBAT_D->report_status(enemy[i],0);
                                 }else
-                                    message_vision(HIW"$N凝氣定神竟好運的躲過此招\n\n"NOR,enemy[i]);
+                                    message_vision(HIW + "$N凝氣定神竟好運的躲過此招\n\n" + NOR,enemy[i]);
                         }            
                         if(((enemy[i]->query("class")== "dancer" ||     //針對法術系門派增加功擊
 			    enemy[i]->query("class")== "taoist") && random(10)<3) && environment(this_object())==environment(enemy[i])) {
-		                say(HIR"\n\n慕容復狂傲的說道: 別以為使用法術我就拿你沒輒，看我家傳秘寶"+HIY"『天尊石』\n\n"NOR);
-                                message_vision(HIG"拿出天尊石，頓時天地無光，似乎天地萬物所有的靈氣都被天尊石給吸盡了\n\n"NOR,enemy[i]);
+		                say(HIR + "\n\n慕容復狂傲的說道: 別以為使用法術我就拿你沒輒，看我家傳秘寶"+HIY"『天尊石』\n\n" + NOR);
+                                message_vision(HIG + "拿出天尊石，頓時天地無光，似乎天地萬物所有的靈氣都被天尊石給吸盡了\n\n" + NOR,enemy[i]);
                                 if((enemy[i]->query_kar()+enemy[i]->query_cps()) < random(150)){
-                                    message_vision(HIR"$N被天尊石所吸引，身上靈氣不斷外洩\n\n"+
-                                                   MAG"慕容復口中喃喃道著咒語瞬間一道皓光從天尊石射出往$N疾飛而去\n\n"NOR,enemy[i]);
+                                    message_vision(HIR + "$N被天尊石所吸引，身上靈氣不斷外洩\n\n"+
+                                                   MAG + "慕容復口中喃喃道著咒語瞬間一道皓光從天尊石射出往$N疾飛而去\n\n" + NOR,enemy[i]);
                                     atman= -(int) enemy[i]->query("max_atman")*0.4;
                                     mana= -(int) enemy[i]->query("max_mana")*0.4;  
                                     if((enemy[i]->query("atman")+atman)>0)                                         
@@ -340,7 +340,7 @@ void heart_beat()
                                     COMBAT_D->report_status(enemy[i],0);
                                     enemy[i]->start_busy(2);
                                 }else
-                                    message_vision(HIW"$N凝氣定神竟好運的躲過此光束的攻擊\n\n"NOR,enemy[i]);
+                                    message_vision(HIW + "$N凝氣定神竟好運的躲過此光束的攻擊\n\n" + NOR,enemy[i]);
 		}	   	
 		}	   
                 }
@@ -350,7 +350,7 @@ void heart_beat()
 //                 delete_temp("ref_shield");
 	        if(is_busy() && random(10)<3){
 	        	delete_busy();
-	                message_vision(HIC"\n\n慕容復全身泛起紫氣衝開了被封的穴道\n\n"NOR,this_object());
+	                message_vision(HIC + "\n\n慕容復全身泛起紫氣衝開了被封的穴道\n\n" + NOR,this_object());
 	        }
 	                  	        	
 	}
@@ -372,7 +372,7 @@ void heart_beat()
 			delete_busy();
 			add_temp( "heal", 1 );
 			tell_room( environment(), HIW + name() +
-				"使出家傳絕學, 簡簡單單地治好自己的傷口。\n"NOR );
+				"使出家傳絕學, 簡簡單單地治好自己的傷口。\n" + NOR );
 		}
 	if(!is_fighting())
 	remove_all_killer();      //讓murofu不會記恨

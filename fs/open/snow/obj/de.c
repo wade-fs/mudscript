@@ -2,7 +2,7 @@ inherit ITEM;
 #include <ansi.h>
 void create()
 {
-	set_name(HIG "青龍之笛" NOR,({"de"}));
+	set_name(HIG + "青龍之笛" + NOR,({"de"}));
 	set("unit","支");
 	set("value",20000);
         setup();

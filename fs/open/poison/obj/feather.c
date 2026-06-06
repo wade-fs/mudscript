@@ -4,7 +4,7 @@ inherit EQUIP;
 
 void create()
 {
-    set_name(HIW"鳳凰羽飾"NOR,({"phoenix feather","feather"}) );
+    set_name(HIW + "鳳凰羽飾" + NOR,({"phoenix feather","feather"}) );
 	set_weight(3000);
 	if (clonep() )
 		set_default_object(__FILE__);

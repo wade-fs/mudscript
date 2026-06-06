@@ -58,10 +58,10 @@ int accept_fight(object me)
 
 int accept_kill(object me)
 {
-  message_vision(HIR""+me->query("name")+"，這是你自找死路，可別怪我。\n"+
+  message_vision(HIR + ""+me->query("name")+"，這是你自找死路，可別怪我。\n"+
 	"突然，燕南天拔出手中的長劍一揮，就在那一瞬間.....\n"+
 	"$N感覺自己飛了起來，滿天星空一片血紅....\n"+
-	"......那......不正是$N的身體嗎?....\n"NOR, me);
+	"......那......不正是$N的身體嗎?....\n" + NOR, me);
   me->die();
   return notify_fail("");
 }

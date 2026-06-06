@@ -3,7 +3,7 @@ inherit ROOM;
 #include "icestorm.c"
 void create()
 {
-        set("short",HIC"北冰洋"HIY"神殿"NOR);
+        set("short",HIC + "北冰洋" + HIY + "神殿" + NOR);
         set ("long", @LONG
 這裡是北冰洋神殿，北冰洋為中土七大水域之中最北端的海洋，
 一根高聳入天的石柱佇立在此，看來就是調節北冰洋水量的支柱了，

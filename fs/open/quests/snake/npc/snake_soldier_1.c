@@ -44,8 +44,8 @@ object me,ob,obj;
 	if( random(100) < 30 )
 	{
 		obj = new(__DIR__"obj/snake-key-1");
-		message_vision(HIY"$N抵擋不住$n的攻擊～急急忙忙的逃命跑走了...
-在跑走的時候，不小心遺落了東西。\n"NOR,ob,me);
+		message_vision(HIY + "$N抵擋不住$n的攻擊～急急忙忙的逃命跑走了...
+在跑走的時候，不小心遺落了東西。\n" + NOR,ob,me);
 		obj->move(environment(me));
 		destruct(ob);
 	}

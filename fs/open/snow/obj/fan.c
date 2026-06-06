@@ -2,7 +2,7 @@ inherit ITEM;
 #include <ansi.h>
 void create()
 {
-	set_name(HIW "羽扇" NOR,({"feature fan","fan"}));
+	set_name(HIW + "羽扇" + NOR,({"feature fan","fan"}));
 	set("long","這是一支用羽毛作成的扇子。\n");
 	set("no_drop",1);
 	set("no_give",1);

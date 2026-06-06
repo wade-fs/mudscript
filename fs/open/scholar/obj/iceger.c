@@ -7,7 +7,7 @@ int be,bb,k,sp,qq;
 void create()
 {
         seteuid(getuid());
-        set_name(HIR"絕焱"NOR,({"fireger"}));
+        set_name(HIR + "絕焱" + NOR,({"fireger"}));
         set_weight(3500);
         if( clonep() )
                 set_default_object(__FILE__);
@@ -34,7 +34,7 @@ int do_wield(string str)
      if( query("equipped") )
      {
         user = this_player();
-message_vision(HIR"$N將絕焱戴在手上，全身已被烈火籠罩。\n"NOR,user);
+message_vision(HIR + "$N將絕焱戴在手上，全身已被烈火籠罩。\n" + NOR,user);
         set_heart_beat(1);
      }
 }
@@ -43,7 +43,7 @@ int do_drop(string str)
    if(str=="fireger" || str=="all")
      if( query("equipped") )
      {
-message_vision(HIC"$N運起體內身環氣勁，身旁烈火已消失無蹤。\n"NOR,user);
+message_vision(HIC + "$N運起體內身環氣勁，身旁烈火已消失無蹤。\n" + NOR,user);
         set_heart_beat(0);
      }
 }
@@ -52,7 +52,7 @@ message_vision(HIC"$N運起體內身環氣勁，身旁烈火已消失無蹤。\n
   if(str=="fireger" || str=="all")
      if( query("equipped") )
      {
-message_vision(HIC"$N運起體內身環氣勁，身旁烈火已消失無蹤。\n"NOR,user);
+message_vision(HIC + "$N運起體內身環氣勁，身旁烈火已消失無蹤。\n" + NOR,user);
         set_heart_beat(0);
      }
 }
@@ -61,7 +61,7 @@ int do_unwield(string str)
    if(str=="fireger" || str=="all")
      if( query("equipped") )
      {
-message_vision(HIC"$N運起體內身環氣勁，身旁烈火已消失無蹤。\n"NOR,user);
+message_vision(HIC + "$N運起體內身環氣勁，身旁烈火已消失無蹤。\n" + NOR,user);
         set_heart_beat(0);
      }
 }
@@ -70,7 +70,7 @@ int do_auc(string str)
   if(str=="fireger" || str=="all")
      if( query("equipped") )
      {
-message_vision(HIC"$N運起體內身環氣勁，身旁烈火已消失無蹤。\n"NOR,user);
+message_vision(HIC + "$N運起體內身環氣勁，身旁烈火已消失無蹤。\n" + NOR,user);
         set_heart_beat(0);
      }
 }
@@ -101,11 +101,11 @@ void heart_beat()
      if( environment(user) == environment(enemy) )
        if( random(300) > enemy->query_skill("dodge") )
      {
-message_vision(HIY"一道火舌由絕焱激射而出，直接射入$N的心坎。\n"NOR,enemy);
+message_vision(HIY + "一道火舌由絕焱激射而出，直接射入$N的心坎。\n" + NOR,enemy);
       enemy->receive_damage("kee",qq+be,user);
       COMBAT_D->report_status(enemy, 0);
      }else
-message_vision(HIW"一道火舌由絕焱激射而出，可惜被$N身環氣勁所打散。\n"NOR,enemy);
+message_vision(HIW + "一道火舌由絕焱激射而出，可惜被$N身環氣勁所打散。\n" + NOR,enemy);
      }
   }
   return;

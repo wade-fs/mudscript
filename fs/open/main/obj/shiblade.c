@@ -4,7 +4,7 @@ inherit BLADE;
 void create()
 {
 	seteuid(getuid());
-        set_name(HIM"邪刀"NOR,({"shi-blade","blade"}));
+        set_name(HIM + "邪刀" + NOR,({"shi-blade","blade"}));
         set_weight(5000);
 	if( clonep() )
 		set_default_object(__FILE__);

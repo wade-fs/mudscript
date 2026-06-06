@@ -15,7 +15,7 @@ void create()
         set("class","fighter");
         set("family/family_name","雪蒼派");
         set("quests/read_snow",3);
-        set("title",HIW"～幻影～"NOR"武天至聖");
+        set("title",HIW + "～幻影～" + NOR + "武天至聖");
         set("force",4500000);
         set("max_gin",200000);
         set("max_kee",500000);
@@ -101,7 +101,7 @@ if(a <= 10) {
 victim=player[random(f)];
 if(environment(me)==environment(victim)) {
 for(k=0;k<10;k++) {
-message_vision(HIG"獨孤嵊大喝一聲，融合雪蒼與瀧山絕學，向$N擊出『玄冰離火掌』\n"NOR,victim);
+message_vision(HIG + "獨孤嵊大喝一聲，融合雪蒼與瀧山絕學，向$N擊出『玄冰離火掌』\n" + NOR,victim);
 victim->add("kee",-3000);
 COMBAT_D->report_status(victim);
 }
@@ -110,15 +110,15 @@ victim->die();
 }
 }
 if(a>=50&&a<=75) {
-message_vision(HIW"
+message_vision(HIW + "
 
 獨孤嵊突然眼露兇光，周圍聚集陰冷內勁 
 
-"HIR"獨孤嵊邪惡的狂吼：看我的『滅屍溶血掌』 
+" + HIR + "獨孤嵊邪惡的狂吼：看我的『滅屍溶血掌』 
 
-"HIB"頓時一股強烈的屍臭味瀰天而生隴罩四周圍 
+" + HIB + "頓時一股強烈的屍臭味瀰天而生隴罩四周圍 
 
-"NOR,me);
+" + NOR,me);
 for(b=0;b<i;b++) {
 if(userp(target[b])) continue;
 target[b]->die();
@@ -129,7 +129,7 @@ if((me->query("eff_kee") < 4000 || me->query("kee") < 4000) &&
 !me->query("change"))
 {
 tell_object(me,"");
-tell_object(me,HIR"\n可惡呀！獨孤嵊怒道：老虎不發威，你當病貓！\n\n看來我只好使出百分之二百的力量了！\n\n可恨的"+me->query("name")+"等死吧！\n\n");
+tell_object(me,HIR + "\n可惡呀！獨孤嵊怒道：老虎不發威，你當病貓！\n\n看來我只好使出百分之二百的力量了！\n\n可恨的"+me->query("name")+"等死吧！\n\n");
 tell_object(me,"");
         me->set("force_factor",40);
         me->set("eff_kee",200000);
@@ -155,7 +155,7 @@ tell_object(me,"");
         me->set("change",1);
         me->delete_busy();
         me->clear_condition();
-        me->set("nickname",HIW"～幻影～"HIC"『綻藍聖光』"+HIW+"武天至聖"NOR);
+        me->set("nickname",HIW + "～幻影～" + HIC + "『綻藍聖光』"+HIW+"武天至聖" + NOR);
 }
 if(i=sizeof(target)) {
 if(random(100) > 27)
@@ -164,13 +164,13 @@ if(!me->query("change"))
 {
 if(random(10) >= 5)
 {
-message_vision(HIY"獨孤嵊運起『離火掌』向你一擊，頓時你鮮血狂噴！\n"NOR,me);
+message_vision(HIY + "獨孤嵊運起『離火掌』向你一擊，頓時你鮮血狂噴！\n" + NOR,me);
 for(j=0;j < i;j++) {
 target[j]->add("kee",-3000);
 target[j]->apply_condition("hart",5);
 }
 } else {
-message_vision(HIC"獨孤嵊心感疲狽，運起『獨孤秘傳法咒』一道藍光從蒼天發出，頓時精神百倍。\n"NOR,me);
+message_vision(HIC + "獨孤嵊心感疲狽，運起『獨孤秘傳法咒』一道藍光從蒼天發出，頓時精神百倍。\n" + NOR,me);
 if(random(10) >= 5) {
 me->receive_curing("kee",10000);
 me->receive_heal("kee",10000);
@@ -181,22 +181,22 @@ me->receive_heal("kee",10000);
 }
 } else {
 if(random(10) >= 5) {
-message_vision(HIB"
+message_vision(HIB + "
 
 獨孤嵊運起雪蒼寒勁，頓時只見獨孤嵊藍光護身，霎似天神！
-"HIY"☆★☆★☆★☆★☆★☆★☆★☆★☆★☆
+" + HIY + "☆★☆★☆★☆★☆★☆★☆★☆★☆★☆
 
-"HIR"獨孤嵊怒吼：看我的『綻藍光體術』！！！
+" + HIR + "獨孤嵊怒吼：看我的『綻藍光體術』！！！
 
-"HIY"※※※※※※※※※※※※※※※※※※※
-"HIB"頓時一陣強烈的藍光似猛虎似的把你吞沒在口中！
+" + HIY + "※※※※※※※※※※※※※※※※※※※
+" + HIB + "頓時一陣強烈的藍光似猛虎似的把你吞沒在口中！
 
 
-"NOR,me);
+" + NOR,me);
 for(j=0;j < i;j++) {
 target[j]->add("kee",-5000);
 }} else {
-message_vision(HIC"獨孤嵊心感疲狽，運起『綻藍光體術』一道藍光從蒼天發出，頓時精神百倍。\n"NOR,me);
+message_vision(HIC + "獨孤嵊心感疲狽，運起『綻藍光體術』一道藍光從蒼天發出，頓時精神百倍。\n" + NOR,me);
 if(random(10) >= 5) {
 me->receive_curing("kee",5000);
 me->receive_heal("kee",5000);
@@ -214,7 +214,7 @@ me->clear_condition();
 int heal_up()
 {
         if (!is_fighting() ) {
-             message_vision (HIW"系統：戰鬥停止，$N回收中，。\n"NOR, this_object ());
+             message_vision (HIW + "系統：戰鬥停止，$N回收中，。\n" + NOR, this_object ());
              destruct(this_object());
              return 1;
         }
@@ -237,17 +237,17 @@ destruct (this_object ());
 else
 if(me->query("quest/start_game")< 51)
        {
-        tell_object(users(),HIY"
-恭喜"HIW+me->query("name")+HIY"挑戰"HIG"『"HIR"第五十層試煉ソ塔"HIG"』"HIY"通過！！
+        tell_object(users(),HIY + "
+恭喜"HIW+me->query("name")+HIY"挑戰" + HIG + "『" + HIR + "第五十層試煉ソ塔" + HIG + "』" + HIY + "通過！！
 
-期望"HIW+me->query("name")+HIY"也能在"HIG"『"HIW"天ソ閣"HIG"』"HIY"創下佳績。
-	"NOR);
+期望"HIW+me->query("name")+HIY"也能在" + HIG + "『" + HIW + "天ソ閣" + HIG + "』" + HIY + "創下佳績。
+	" + NOR);
 	me->set("quest/start_game",51);
         destruct (this_object ());
        }
 {
         :: unconcious();
-	tell_object(me,HIW"系統：你已經通過測試，系統不做任何更改。\n"NOR);
+	tell_object(me,HIW + "系統：你已經通過測試，系統不做任何更改。\n" + NOR);
 	destruct(this_object());
 }
 }

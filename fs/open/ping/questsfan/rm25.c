@@ -4,7 +4,7 @@ inherit ROOM;
 #include "/open/open.h"
 void create ()
 {
-  set ("short", ""HIY"望"HIC"星"WHT"坪"NOR"");
+  set ("short", "" + HIY + "望" + HIC + "星" + WHT + "坪" + NOR + "");
   set ("long", @LONG
 穿過潮濕的〝日日甘霖〞來到一處高地，名曰『望星坪』。因為
 每當月兔西升時，這裡就成了最佳觀星賞月地。當我們向東南方向望
@@ -33,7 +33,7 @@ void dhk(object who)
 {
   if(who->query_temp("run")!=1 && who->query_temp("mime")==1)
     {
-     tell_object(who,"\n"WHT"忽然一道黑色的人影快速往西邊離去，身形之快匪夷所思。"NOR"\n");
+     tell_object(who,"\n" + WHT + "忽然一道黑色的人影快速往西邊離去，身形之快匪夷所思。" + NOR + "\n");
        who->set_temp("run",1);
      remove_call_out("dhk");
     }

@@ -5,7 +5,7 @@
 inherit HEAD;
 void create()
 {
-        set_name(HIM"虹晶頭釵"NOR, ({"diamond hairpin", "hairpin"}));
+        set_name(HIM + "虹晶頭釵" + NOR, ({"diamond hairpin", "hairpin"}));
         set_weight(3000);
         if( clonep() )
                 set_default_object(__FILE__);

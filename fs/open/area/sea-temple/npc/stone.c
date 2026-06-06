@@ -29,7 +29,7 @@ int do_hold()
 	if(!ob->query_temp("change"))
 	{
 		message_vision("$N雙手緊握住$n，$n由手中的縫隙發出淡淡的金光！\n",me,ob);
-		ob->set("name",HIY"(閃耀金光)"HIC"海佬石"NOR);
+		ob->set("name",HIY + "(閃耀金光)" + HIC + "海佬石" + NOR);
 		ob->set_temp("change",1);
 	}
 	
@@ -85,7 +85,7 @@ int do_hold()
 				if ( random(100) < i )
 				{
 					i= random(1)+1;
-					tell_object(me,HIR"海佬用千里傳音告訴你：快～某處正被野人破壞，趕快想辦法啊！\n"NOR);
+					tell_object(me,HIR + "海佬用千里傳音告訴你：快～某處正被野人破壞，趕快想辦法啊！\n" + NOR);
 					mob=new(__DIR__"wild0"+i);
 					i = random(15)+1;
 					if( i < 10 )

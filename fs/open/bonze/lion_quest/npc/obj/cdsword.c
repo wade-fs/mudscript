@@ -4,7 +4,7 @@
 inherit SWORD;
 void create()
 {
-set_name(HIW"雲"HIC"龍"HIR"仙劍"NOR,({"cloud-dragon sword","sword"}) );
+set_name(HIW + "雲" + HIC + "龍" + HIR + "仙劍" + NOR,({"cloud-dragon sword","sword"}) );
 set_weight(5000);
 if( clonep() )
 set_default_object(__FILE__);

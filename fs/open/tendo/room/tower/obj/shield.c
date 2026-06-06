@@ -4,7 +4,7 @@ inherit SHIELD;
 object user;
 void create()
 {
-        set_name( HIB "修羅戰鬥盾" NOR ,({"fiend shield","shield"}));
+        set_name( HIB + "修羅戰鬥盾" + NOR ,({"fiend shield","shield"}));
         set_weight(3000);
         if( clonep() )
                 set_default_object(__FILE__);

@@ -4,7 +4,7 @@ inherit HEAD;
 object me=this_player();
 void create()
 {
-        set_name(HIY"聖者頭巾"NOR, ({"kensai scarf", "scarf"}));
+        set_name(HIY + "聖者頭巾" + NOR, ({"kensai scarf", "scarf"}));
         set_weight(2000);
         if( clonep() )
                 set_default_object(__FILE__);

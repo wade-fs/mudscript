@@ -12,7 +12,7 @@ void create()
 {
   set_name("瀧山護法",({"guard fighter","fighter","guard","f"}));
   set("long","瀧山派的第一線護派弟子，為十大門派聯盟的先鋒成員。\n");
-  set("nickname",HIC "滅"HIY"獅"NOR"聯盟");
+  set("nickname",HIC + "滅" + HIY + "獅" + NOR + "聯盟");
   set("gender","男性");
   set("class","fighter");
   set("combat_exp",5510000);
@@ -104,8 +104,8 @@ int do_exert( string str )
   if(me->query("class")=="fighter") //如果判斷該玩家等於 ("class","fighter") 就不跳出來
     if( str=="roar" ) 
     {
-      message_vision(HIC"\n$N發覺$N被人用氣機鎖住，使$N無法發出吼聲…\n"NOR, me);
-      message_vision(HIC"瀧山護法對$N搖搖手說：本是武者一脈，相煎何太急呢？\n"NOR, me);
+      message_vision(HIC + "\n$N發覺$N被人用氣機鎖住，使$N無法發出吼聲…\n" + NOR, me);
+      message_vision(HIC + "瀧山護法對$N搖搖手說：本是武者一脈，相煎何太急呢？\n" + NOR, me);
       return 1; //return 0;會將保留原訊息再加上述訊息 而 return 1 則否，不保留原exert roar 訊息
                 //放在if裡面並不會影響到指令如本次的exert +heal 之類的 放在if裡面根據條件只有roar
     }
@@ -200,8 +200,8 @@ int accept_kill(object who)
 //應該不論kill or fight 只要設定成一個 其他圍攻的npc 統統下fight好了 這樣比較容易
   if( !present( "guard fighter 2",environment(ob)) || !living(guard)) return 1;
   else {
-    tell_room(environment(who),HIR+ob->name()+HIR+"大吼：有人找碴！並肩上！\n"NOR);
-    message_vision(HIY"\n瀧山護法看到有人要硬闖，馬上向$N攻過來！\n"NOR,who);
+    tell_room(environment(who),HIR+ob->name()+HIR+"大吼：有人找碴！並肩上！\n" + NOR);
+    message_vision(HIY + "\n瀧山護法看到有人要硬闖，馬上向$N攻過來！\n" + NOR,who);
     guard->kill_ob(who);
     return 1;
   }
@@ -212,7 +212,7 @@ int accept_fight(object who)
 {
   who->start_busy(3);
   message_vision("護法弟子急忙地對你說：大俠你等等，我先運一下功\……\n",who); 
-  message_vision("護法弟子紮了馬步大喝：哼哼哈兮 ，看我的"HIR"烈焰浩氣\n\n"NOR,who); 
+  message_vision("護法弟子紮了馬步大喝：哼哼哈兮 ，看我的" + HIR + "烈焰浩氣\n\n" + NOR,who); 
   command("perform haoforce.kang_power");
   command("cough");
   command("cough");
@@ -256,7 +256,7 @@ int heal_up()
 {
   if (!is_fighting() && this_object()->query_temp("count_down") > 1770) //由於本npc為顧門口的 所以延長時間為兩倍
   {//心跳一次 1:1.5(秒)==>1.5x40=1min, 15min=1.5x40x15=900 //縮短為10分 因為在沒有玩家經過或者存在時 心跳功能會停止
-    message_vision (HIY"$N見到小兵送來上級的手令，於是轉身飛奔離去，消失在你的眼前。\n"NOR, this_object());
+    message_vision (HIY + "$N見到小兵送來上級的手令，於是轉身飛奔離去，消失在你的眼前。\n" + NOR, this_object());
     destruct(this_object());
     return 1;
   } //此括號仍為判斷是否在戰鬥中的if下引號

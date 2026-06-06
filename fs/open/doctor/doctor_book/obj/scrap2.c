@@ -21,19 +21,19 @@ void init()
   switch(str)
   {
     case "角":
-      set_name(HIR"角"NOR"之力",({"spica soul energy","spica"}));
+      set_name(HIR + "角" + NOR + "之力",({"spica soul energy","spica"}));
       break;
     case "奎":
-      set_name(HIY"奎"NOR"之力",({"kui soul energy","kui"}));
+      set_name(HIY + "奎" + NOR + "之力",({"kui soul energy","kui"}));
       break;
     case "井":
-      set_name(HIM"井"NOR"之力",({"jing soul energy","jing"}));
+      set_name(HIM + "井" + NOR + "之力",({"jing soul energy","jing"}));
       break;
     case "星":
-      set_name(HIC"星"NOR"之力",({"star soul energy","star"}));
+      set_name(HIC + "星" + NOR + "之力",({"star soul energy","star"}));
       break;
     case "麟":
-      set_name(HIW"麟"NOR"之力",({"lin soul energy","lin"}));
+      set_name(HIW + "麟" + NOR + "之力",({"lin soul energy","lin"}));
       break;
     default:
       break;

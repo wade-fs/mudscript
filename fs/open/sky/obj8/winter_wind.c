@@ -2,7 +2,7 @@ inherit ITEM;
 #include <ansi.h>
 void create()
 {
-	set_name(HIG"冬極風"NOR,({"winter-wind"}));
+	set_name(HIG + "冬極風" + NOR,({"winter-wind"}));
 	set("long","帶著點風的質感，握在手中可以隱隱感覺到一陣暖風流過心中，任\n"
 		  +"你如何的細看和研究，卻也不知它有何作用，也許\和傳說中的天靈\n"
 		  +"地界有關。\n");

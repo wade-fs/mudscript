@@ -40,7 +40,7 @@ int do_wear(string str)
            if(!me) me=previous_object();
            if(me)
            me->set_temp("thunder",30);
-           message_vision(HIW"$N慢慢的將邪惡頭盔戴上，臉上的表情突然變得猙獰了起來。\n"NOR,me);        }
+           message_vision(HIW + "$N慢慢的將邪惡頭盔戴上，臉上的表情突然變得猙獰了起來。\n" + NOR,me);        }
      }
 }
 

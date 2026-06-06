@@ -2,7 +2,7 @@ inherit ITEM;
 #include <ansi.h>
 void create()
 {
-	set_name(HIG"杉靈之印"NOR,({"fir-yin"}));
+	set_name(HIG + "杉靈之印" + NOR,({"fir-yin"}));
 	set("long","一塊注有杉之靈印，在靈印上面不時的閃爍著一點奇怪的靈光，任\n"
 		  +"你如何的細看和研究，卻也不知它有何作用，也許\和傳說中的天靈\n"
 		  +"地界有關。\n");

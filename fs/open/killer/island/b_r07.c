@@ -35,7 +35,7 @@ if(me->query_temp("quest_corpse")!=2)
 return notify_fail("你輕聲的向大門祈禱，卻什麼是也沒發生。\n");
 else{
 tell_object(me,"你似乎感覺的到有人在跟你道謝....\n\n");
-message_vision(HIB"      $N的身體突然被一團藍光包圍住，整個人騰空消失了！！\n\n"NOR,me);
+message_vision(HIB + "      $N的身體突然被一團藍光包圍住，整個人騰空消失了！！\n\n" + NOR,me);
 tell_object(me,"你穿過了門板，進入了房間內。\n");
 me->move(__DIR__"b_q");
 return 1;

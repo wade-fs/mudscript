@@ -32,7 +32,7 @@ int greeting(object ob)
     if(!ob) return 1;
 	if(ob->is_fighting() && ob->is_environment(this_object()) )
 	{
-	tell_object(ob,HIC"\n膽敢在此搗亂！\n\n"NOR);
+	tell_object(ob,HIC + "\n膽敢在此搗亂！\n\n" + NOR);
 	kill_ob(ob);
 	}
 	else
@@ -47,7 +47,7 @@ int greeting2(object ob)
 	if( !ob ) return 0;
 	if(ob->is_fighting() && ob->is_environment(this_object()) )
 	{
-	tell_object(ob,HIC"\n膽敢在此搗亂！\n\n"NOR);
+	tell_object(ob,HIC + "\n膽敢在此搗亂！\n\n" + NOR);
 	kill_ob(ob);
 	}
 	else

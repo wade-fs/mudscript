@@ -3,7 +3,7 @@ inherit ROOM;
 
 void create ()
 {
-	set("short",HIG"琰 揚 居 -- 後 院"NOR);
+	set("short",HIG + "琰 揚 居 -- 後 院" + NOR);
 	set("long",@LONG
 在你眼前，有一座木製的馬廄，馬廄內只養育一匹金黃色的駿馬
 ，全身泛著金黃色的光芒，十分的炯炯有神，彷彿天將神兵一般的氣

@@ -6,7 +6,7 @@ void do_sleep();
 
 void create()
 { 
-  set_name(HIY"小黃金甲龍"NOR,({"gold-dragon","dragon"}));
+  set_name(HIY + "小黃金甲龍" + NOR,({"gold-dragon","dragon"}));
   set("age",1);
   set("long","pat it or order <動作>\n");
   set("no_kill",1);
@@ -16,14 +16,14 @@ void create()
   set("combat_exp",7000000);
   set("chat_chance", 35);
   set("chat_msg", ({
-  HIY+"黃金小甲龍高興的在你身旁繞來繞去～～～\n"NOR,
-  HIY+"黃金小甲龍眨了眨大大的雙眼，很無辜的望著你....\n"NOR,
-  HIY+"黃金小甲龍大吼: ㄚ～～～～ㄨ～～～～\n"NOR,
-  HIY+"黃金小甲龍用腳在地上無聊地畫著圈圈....\n"NOR,
-  HIY+"黃金小甲龍伸手一指，變出了一堆食物........開始躲在一旁大快朵頤 :D~~\n"NOR,
-  HIY+"黃金小甲龍爬到你肩上舔了舔你的臉。哇！....好噁心ㄛ..\n"NOR,     
-  HIY+"黃金小甲龍依偎在你腳邊撒嬌。\n"NOR,
-  HIY+"黃金小甲龍很累地打了一個哈欠...Zzzz\n"NOR,
+  HIY+"黃金小甲龍高興的在你身旁繞來繞去～～～\n" + NOR,
+  HIY+"黃金小甲龍眨了眨大大的雙眼，很無辜的望著你....\n" + NOR,
+  HIY+"黃金小甲龍大吼: ㄚ～～～～ㄨ～～～～\n" + NOR,
+  HIY+"黃金小甲龍用腳在地上無聊地畫著圈圈....\n" + NOR,
+  HIY+"黃金小甲龍伸手一指，變出了一堆食物........開始躲在一旁大快朵頤 :D~~\n" + NOR,
+  HIY+"黃金小甲龍爬到你肩上舔了舔你的臉。哇！....好噁心ㄛ..\n" + NOR,     
+  HIY+"黃金小甲龍依偎在你腳邊撒嬌。\n" + NOR,
+  HIY+"黃金小甲龍很累地打了一個哈欠...Zzzz\n" + NOR,
   (: do_sleep :),
   }));
 
@@ -66,7 +66,7 @@ int do_pat(string str) {
           return 0;
   if(name != "gold-dragon")
           return 0;
-  message_vision (HIC"$N拍拍黃金小甲龍的頭，黃金小甲龍又變成了木雕。\n"NOR,this_player());
+  message_vision (HIC + "$N拍拍黃金小甲龍的頭，黃金小甲龍又變成了木雕。\n" + NOR,this_player());
   room = environment(this_player());
   new("/open/island/obj/statue")->move(room); 
   destruct(this_object());
@@ -81,7 +81,7 @@ int do_order(string str)
  if(this_player()!=this_object()->query_leader())
        return 0;
   if(!str)
-       return notify_fail(HIY"黃金小甲龍眨了眨雙眼，疑惑地望著你....\n"NOR);
+       return notify_fail(HIY + "黃金小甲龍眨了眨雙眼，疑惑地望著你....\n" + NOR);
   if(sscanf(str, "%s %s",act,tar)==2) {
      command(act+" "+tar);
      return 1;
@@ -104,7 +104,7 @@ void do_sleep()
   allnum=sizeof(all);
   for(i=0;i<allnum;i++) {
       if(userp(all[i])) {
-          message_vision (HIY"小甲龍偷偷鑽進了$N的懷裡....睡著了....\n"NOR,all[i]);
+          message_vision (HIY + "小甲龍偷偷鑽進了$N的懷裡....睡著了....\n" + NOR,all[i]);
           new("/open/island/obj/spat")->move(all[i]);
           i=allnum+1;              
       }

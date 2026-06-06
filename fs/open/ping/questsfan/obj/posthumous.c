@@ -28,10 +28,10 @@ int do_read(string arg)
        {
        me->set_temp("buy_ok",1);
        cat( sprintf(__DIR__"posthumous") );
-tell_object(me,"當你一看"HIR"沾血的遺書"NOR"後，忽然氣血翻騰、真氣逆衝。\n\n");
-tell_object(me,""HIR"你的眼前一黑，接著什麼也不知道了...."NOR"\n\n");
+tell_object(me,"當你一看" + HIR + "沾血的遺書" + NOR + "後，忽然氣血翻騰、真氣逆衝。\n\n");
+tell_object(me,"" + HIR + "你的眼前一黑，接著什麼也不知道了...." + NOR + "\n\n");
 me->set_temp("can_not_do_anything",1);
-  tell_object(me,"你忽然領悟了"HIC"北冥神功\"NOR"中的"HIM"『北冥回朔法』"NOR"，心隨神移。\n\n");
+  tell_object(me,"你忽然領悟了" + HIC + "北冥神功\" + NOR + "中的" + HIM + "『北冥回朔法』" + NOR + "，心隨神移。\n\n");
 tell_object(me,"就在你迷迷糊糊之中，你忽然見到一位面如冠玉、超凡脫俗\n"
               +"的青年男子。接著他開口說話了，他說道：『欲過虹晶橋，\n"
               +"只有在每一個時辰之一刻、兩刻、三刻鐘以及下一個時辰來\n"
@@ -57,7 +57,7 @@ tell_object(me,"就在你迷迷糊糊之中，你忽然見到一位面如冠玉�
               +"漸漸地！！！\n"
               +"漸漸地！！！\n");
 tell_object(me,"那青年的身影漸漸模糊，消失了。\n\n");
-tell_object(me,""HIY"慢慢地你終於又有了知覺...."NOR"\n\n");
+tell_object(me,"" + HIY + "慢慢地你終於又有了知覺...." + NOR + "\n\n");
 me->set_temp("can_not_do_anything",0);       
 tell_object(me,"這一切宛如作夢一般。\n");
        return 1;

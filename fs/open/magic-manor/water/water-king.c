@@ -16,7 +16,7 @@ void create()
 {
         set_name("水淵流", ({ "water king","water","king" }) );
         set("long","水靈塔的鎮塔之王，能力比小水妖和水靈獸不知強上幾倍。\n");
-        set("title",HIC"(水色靈氣)"NOR"水靈塔王"NOR);
+        set("title",HIC + "(水色靈氣)" + NOR + "水靈塔王" + NOR);
         set("family/family_name","夜夢小築");
 	set("gender","女性");
         set("age", 60);
@@ -121,10 +121,10 @@ void heart_beat()
 
 	if( random(10) > 6 && mob->is_fighting() )
 	{
-	message_vision(HIM"水氣凝結，龍形漸現，狂嘯奔騰於四海，$N感同身受狂意漸起慕然使出
+	message_vision(HIM + "水氣凝結，龍形漸現，狂嘯奔騰於四海，$N感同身受狂意漸起慕然使出
 
-            "HIW"----===≡◎ 水襲狂濤式 ◎≡===----
-                 "NOR+CYN"  『"HIC"水舞狂龍．蒼海嘯"NOR+CYN"』\n"NOR,mob);
+            " + HIW + "----===≡◎ 水襲狂濤式 ◎≡===----
+                 "NOR+CYN"  『" + HIC + "水舞狂龍．蒼海嘯"NOR+CYN"』\n" + NOR,mob);
 	  for( j=0 ; j < i ; j++ )
 	  {
             if( !enemy[j] ) continue;
@@ -134,12 +134,12 @@ void heart_beat()
               {
 		if( !enemy[j]->query_temp("magic-manor/fire-shield") )
 		{
-		message_vision(HIC"$N"HIC"只感全身漸漸麻木不聽使喚，凍氣仍來回無情的攻擊著!!\n"NOR,(enemy[j]));
+		message_vision(HIC + "$N" + HIC + "只感全身漸漸麻木不聽使喚，凍氣仍來回無情的攻擊著!!\n" + NOR,(enemy[j]));
 		enemy[j]->receive_wound("kee",600);
 		enemy[j]->start_busy(1);
 		COMBAT_D->report_status(enemy[j]);
 		}else{
-		message_vision(YEL"$N"YEL"身上的土靈之氣緩和了部份的凍攻擊，使得$N"YEL"受創大為減小!!\n"NOR,(enemy[j]));
+		message_vision(YEL + "$N" + YEL + "身上的土靈之氣緩和了部份的凍攻擊，使得$N" + YEL + "受創大為減小!!\n" + NOR,(enemy[j]));
 		enemy[j]->receive_wound("kee",300);
 		enemy[j]->start_busy(k);
 		COMBAT_D->report_status(enemy[j]);
@@ -159,7 +159,7 @@ void die()
 
 	if( !me->query_temp("magic-manor/watermagic") )
 	{
-	message_vision(HIC"水淵流死後的靈魂忽然化為一道水色靈光，灌入了$N"HIC"的身體之中!!\n"NOR,me);
+	message_vision(HIC + "水淵流死後的靈魂忽然化為一道水色靈光，灌入了$N" + HIC + "的身體之中!!\n" + NOR,me);
 	me->set_temp("magic-manor/watermagic",1);
 	  if( !me->query("magic-manor/kill-water") )
 	  {

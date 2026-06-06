@@ -3,7 +3,7 @@
 
 void create()
 {
-        set_name(HIR"紅色石頭"NOR,({"red stone","stone"}));
+        set_name(HIR + "紅色石頭" + NOR,({"red stone","stone"}));
         set_weight(1000);
         if(clonep())
                 set_default_object(__FILE__);

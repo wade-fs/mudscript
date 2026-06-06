@@ -2,7 +2,7 @@
 inherit ROOM;
 void create ()
 {
-  set ("short", HIW"迷陣入口"NOR);
+  set ("short", HIW + "迷陣入口" + NOR);
   set ("long", @LONG
 虛幻的入口.飄邈的景象...似乎在訴說著這裡隱藏著無數的可能性
 LONG);

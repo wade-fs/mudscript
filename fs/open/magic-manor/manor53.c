@@ -3,7 +3,7 @@ inherit ROOM;
 
 void create ()
 {
-	set ("short", HIY"聚靈池"NOR);
+	set ("short", HIY + "聚靈池" + NOR);
 	set ("long", @LONG
 聚靈池，是聚靈山莊的一個奇特的池子，山莊飄散出來的靈氣大
 都會飄往這裏，最後被聚靈池吸收，在聚靈池中心，聚集著強大的靈

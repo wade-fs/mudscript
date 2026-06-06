@@ -6,7 +6,7 @@ inherit EQUIP;
 
 void create()
 {
-        set_name( ""MAG"虹晶紫裙"NOR"" , ({ "diamond skirt" ,"skirt" }) );
+        set_name( "" + MAG + "虹晶紫裙" + NOR + "" , ({ "diamond skirt" ,"skirt" }) );
         set_weight(1200);
         if( clonep() )
                 set_default_object(__FILE__);
@@ -20,7 +20,7 @@ set("value", 4000);
                 set("material", "diamond");
                 set("armor_type", "pants");
             set("armor_prop/armor",8);
-set("wear_msg", HIR"$N穿上$n"HIR"，裙擺\緩緩的飄動令$N增添不少天人的丰采。\n"NOR);
+set("wear_msg", HIR + "$N穿上$n" + HIR + "，裙擺\緩緩的飄動令$N增添不少天人的丰采。\n" + NOR);
         }
         setup();
 }

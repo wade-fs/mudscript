@@ -6,7 +6,7 @@ inherit ROOM;
 
 void create ()
 {
-  set ("short", HIR"玄關"NOR);
+  set ("short", HIR + "玄關" + NOR);
 	set( "build", 12 );
   set ("long", @LONG
 這裡是夜夢小築的玄關，在這裡有兩個美麗的女子看守，看她們

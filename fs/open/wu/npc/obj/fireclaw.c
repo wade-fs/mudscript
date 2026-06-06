@@ -7,7 +7,7 @@ inherit UNARMED;
 void create()
 {
         seteuid(getuid());
-set_name(HIR"烈焰神爪"NOR,({"fire claw","claw"}));
+set_name(HIR + "烈焰神爪" + NOR,({"fire claw","claw"}));
 set_weight(4000);
 
         if( clonep() )

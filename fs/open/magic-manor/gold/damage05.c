@@ -18,11 +18,11 @@ void init()
 	  kee1=me->query("eff_kee");
 	    if( random(600) > me->query_skill("force") )
 	    {
-	    message_vision(HIR"$N"HIR"一時運功\不足，慘被強烈的音波給震傷了!!\n"NOR,me);
+	    message_vision(HIR + "$N" + HIR + "一時運功\不足，慘被強烈的音波給震傷了!!\n" + NOR,me);
 	    me->receive_wound("kee",kee1/50);
 	    COMBAT_D->report_status(me,1); 
 	    }else{
-	    message_vision(HIW"$N"HIW"運足內家功\力，抵擋住了音波攻擊!!\n"NOR,me);
+	    message_vision(HIW + "$N" + HIW + "運足內家功\力，抵擋住了音波攻擊!!\n" + NOR,me);
 	    }   
 	  }
 	  if( !present("gold monster",environment(me)) && !present("gold beast",environment(me)) )
@@ -63,6 +63,6 @@ void init()
 int up(object me)
 {
 	me=this_player();
-	message_vision(HIY"金色的靈氣包圍漸漸褪去，一個向上的樓梯漸漸成形在$N眼前。\n"NOR,me);
+	message_vision(HIY + "金色的靈氣包圍漸漸褪去，一個向上的樓梯漸漸成形在$N眼前。\n" + NOR,me);
 	me->move("/open/magic-manor/gold/up05");
 }

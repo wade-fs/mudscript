@@ -6,7 +6,7 @@ inherit EQUIP;
 
 void create()
 {
-        set_name(HIR"妖帥面罩"NOR,({"ghost armor","armor"}) );
+        set_name(HIR + "妖帥面罩" + NOR,({"ghost armor","armor"}) );
         set_weight(7000);
         if( clonep() )
                 set_default_object(__FILE__);

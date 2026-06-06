@@ -21,7 +21,7 @@ string *meq_id = ({
 });
 void create ()
 {
-set ("short",HIW"『天界防具』發放處"NOR);
+set ("short",HIW + "『天界防具』發放處" + NOR);
 set ("long",@LONG
 
 以下玩者能領 :

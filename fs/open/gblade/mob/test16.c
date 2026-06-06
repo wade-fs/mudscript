@@ -58,8 +58,8 @@ void invocation(object who)
         object *enemy;
 
         message("vision",
-        HIM"一名滿身鮮血的陰界僧人從妖壺中一躍而出 \n"
-        + name() + "怒道: 一念成魔斷仙風 , 一斬戮世譴塵緣\n"NOR,
+        HIM + "一名滿身鮮血的陰界僧人從妖壺中一躍而出 \n"
+        + name() + "怒道: 一念成魔斷仙風 , 一斬戮世譴塵緣\n" + NOR,
                 environment(), this_object() );
         enemy = who->query_enemy();
         i = sizeof(enemy);
@@ -83,7 +83,7 @@ void invocation(object who)
         enemy=this_object()->query_enemy();
     i=sizeof(enemy);
     target=enemy[random(i)];
-        message_vision(sprintf(HIR"戮世妖僧手中的血斬開始泣血 , 漸漸將$N籠罩在一片血霧之中\n"NOR),target);
+        message_vision(sprintf(HIR + "戮世妖僧手中的血斬開始泣血 , 漸漸將$N籠罩在一片血霧之中\n" + NOR),target);
         target->add("kee",-50);
         this_object()->add("force",-100);
         COMBAT_D->report_status(target);

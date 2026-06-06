@@ -14,7 +14,7 @@ set("long","南宮勳乃是段氏嫡族中肩負、擔任晶谷守關的四天�
   set("gender","男性"); 
   set("class","swordsman");
   set("title","段家第十代劍宗");
-  set("nickname",""HIY"識劍"NOR"");
+  set("nickname","" + HIY + "識劍" + NOR + "");
   set("attitude","heroism");
   set("age",39);
   set("max_kee",4000);
@@ -52,7 +52,7 @@ set("long","南宮勳乃是段氏嫡族中肩負、擔任晶谷守關的四天�
   set("chat_msg", ({
             ""+HIY+"南宮勳自言自語的道: 『劍』乃王道的表現。"+NOR+"\n",
             ""+HIY+"南宮勳對著手上的劍說: 我手上這把"+HIR+"連陽"+HIY+"堪稱上上之選，但世上還有一把比之更尊之劍。"+NOR+"\n",
-            ""+HIC+"南宮勳嘆道: 真想見識一下傳聞中的皇者之劍"+HIR+"～"HIW"黑暗的禁忌"+HIC+"呀！"+NOR+"\n",
+            ""+HIC+"南宮勳嘆道: 真想見識一下傳聞中的皇者之劍"+HIR+"～" + HIW + "黑暗的禁忌"+HIC+"呀！"+NOR+"\n",
                }));
 setup();
   add_money("gold",10);

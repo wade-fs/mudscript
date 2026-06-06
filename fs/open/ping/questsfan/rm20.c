@@ -3,7 +3,7 @@ inherit ROOM;
 #include <ansi.h>
 void create ()
 {
-  set ("short", ""WHT"石林"NOR"");
+  set ("short", "" + WHT + "石林" + NOR + "");
   set ("long", @LONG
 這兒是一處寸草不生，堅石林立的地方。而且這兒淨是一些奇
 形怪狀的巨石四處林立。但是卻又不是人造而成的，所以此地得名
@@ -31,7 +31,7 @@ void dhk(object who)
 {
   if(who->query_temp("run")!=5 && who->query_temp("run")==4)
   {
-   tell_object(who,""WHT"這道黑色的人影又快速朝西邊奔去，還是追趕不及。"NOR"\n");
+   tell_object(who,"" + WHT + "這道黑色的人影又快速朝西邊奔去，還是追趕不及。" + NOR + "\n");
    who->set_temp("run",5);
    remove_call_out("dhk");
   }

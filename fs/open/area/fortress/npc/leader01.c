@@ -7,8 +7,8 @@ void create()
 	set("long","極火山寨的二寨主，極火功\已經登峰造極，功\力僅次於大寨主。\n");
 	set("race", "人類");
 	set("gender","男性");
-	set("title",HIR"極火山寨 二寨主"NOR);
-	set("nickname",HIC"極火無情"NOR);
+	set("title",HIR + "極火山寨 二寨主" + NOR);
+	set("nickname",HIC + "極火無情" + NOR);
         set("age",40);
         set("attitude","aggressive");
         set("combat_exp",700000);
@@ -81,7 +81,7 @@ int i,n,d,s;
                 	d=200+random(200);
 			target->add("gin",-d); target->add("kee",-d);
                 	target->add("sen",-d); target->add("force",-d);
-                	message_vision(HIR"$N張開血盆大口，見人就咬！$n來不及閃躲，受傷了！\n"NOR,ob,target);
+                	message_vision(HIR + "$N張開血盆大口，見人就咬！$n來不及閃躲，受傷了！\n" + NOR,ob,target);
                 	COMBAT_D->report_status(target);
                 	target->add("gin",-d); target->add("kee",-d);
                 	target->add("sen",-d); target->add("force",-d);
@@ -130,8 +130,8 @@ string do_steal()
 		if(present(style,enemy[j]))		//有此style類型的錢才偷
 		{
 			money=present(style,enemy[j])->query_amount();
-			message_vision(HIY"\n$N的 "+cstyle+" 被$n給偷光了！！\n"NOR,enemy[j],ob);
-			tell_object(enemy[j],HIY"（你遺失了 "+cstyle+" "+money+" "+present(style,enemy[j])->query("base_unit")+"）\n\n"NOR);
+			message_vision(HIY + "\n$N的 "+cstyle+" 被$n給偷光了！！\n" + NOR,enemy[j],ob);
+			tell_object(enemy[j],HIY + "（你遺失了 "+cstyle+" "+money+" "+present(style,enemy[j])->query("base_unit")+"）\n\n" + NOR);
 			present(style,enemy[j])->set_amount(0);		//全部偷光
 		}
 	}

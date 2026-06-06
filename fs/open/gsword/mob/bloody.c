@@ -34,7 +34,7 @@ int add_att()
    if (tt <1) { 
      this_object()->add_temp("apply/attack",att);
      message_vision ("不知道是不是錯覺 , "
-	"你發現血妖的身軀突然變得粗壯許\多\n"NOR,this_object());
+	"你發現血妖的身軀突然變得粗壯許\多\n" + NOR,this_object());
    }
    tt++;
    return 1;

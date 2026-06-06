@@ -4,8 +4,8 @@ void create()
 {
 	set_name("傅劍寒的雕像",({"cgy statue","cgy"}));
 	set("long","狂想之神。狂想的玩家為了能瞻仰他，紀念他的德行，所以特別建立了此一雕像。\n你可以試著(pray id)也許\有奇妙的效果喔!!\n");
-	set("title",HIR"惡魔城主"NOR);
-	set("nickname",HIW"神"HIG"劍"HIC"飛"HIY"龍"NOR);
+	set("title",HIR + "惡魔城主" + NOR);
+	set("nickname",HIW + "神" + HIG + "劍" + HIC + "飛" + HIY + "龍" + NOR);
 	set("unit","尊");
 	set("age",291);
 	set("value",100);
@@ -30,7 +30,7 @@ int do_pray(string arg)
 	object me=this_player();
 
 	call_out("greeting",2,me,arg);
-	message_vision(HIW"一陣光芒籠罩$N"HIW"的全身，光芒過後，已將$N"HIW"的祈禱傳送到大神的耳邊。\n"NOR,me);
+	message_vision(HIW + "一陣光芒籠罩$N" + HIW + "的全身，光芒過後，已將$N" + HIW + "的祈禱傳送到大神的耳邊。\n" + NOR,me);
 
 	return 1;
 }

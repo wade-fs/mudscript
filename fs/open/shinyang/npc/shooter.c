@@ -49,7 +49,7 @@ void create()
 	set("chat_chance_combat",25);
 	set("chat_msg_combat",({
 
-	HIC "\n"+this_object()->name() + "說道: 衝丫！！突破襄陽城大軍！！\n",
+	HIC + "\n"+this_object()->name() + "說道: 衝丫！！突破襄陽城大軍！！\n",
 	}));
 	set_temp("apply/armor",500);
 	set_temp("apply/damage",80);
@@ -206,7 +206,7 @@ void heart_beat()
         exits  = copy(environment(this_object())->query("exits"));
         if(!sizeof(exits)) continue;
 
-        message_vision(HIY"$N拉住馬韁往$n身上衝去！$n瞬間被衝到不知道哪裡去了！\n"+NOR,me,enemy[i]);
+        message_vision(HIY + "$N拉住馬韁往$n身上衝去！$n瞬間被衝到不知道哪裡去了！\n"+NOR,me,enemy[i]);
         if(sizeof(environment(this_object())->query("item_desc")))
         {
         foreach(string dir ,mixed desc in environment(this_object())->query("item_desc"))
@@ -259,7 +259,7 @@ void die()
         }
 
 	
-//	  message_vision(HIY"\n"+winner->name()+"打死"+this_object()->name()+"得到十點戰功\!!\n"NOR,winner);
+//	  message_vision(HIY + "\n"+winner->name()+"打死"+this_object()->name()+"得到十點戰功\!!\n" + NOR,winner);
 //	  winner->add("war_score",10);
   room->add_killer(this_object(),winner);
   :: die();

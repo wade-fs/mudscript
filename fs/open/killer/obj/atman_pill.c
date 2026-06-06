@@ -3,7 +3,7 @@ inherit COMBINED_ITEM;
 
 void create()
 {
-        set_name(HIC"聚靈丹"NOR, ({"atman pill","pill"}) );
+        set_name(HIC + "聚靈丹" + NOR, ({"atman pill","pill"}) );
 set("long","比殺手密藥更具療效的藥丸, 不易取得, 可以恢復靈力.\n");
         set("unit", "盒");
         set("base_unit", "粒");

@@ -14,7 +14,7 @@ void create()
   set("long",
     "全身泛著黃光的火龍，守護著火龍窟的結界交點。\n");
   set("race", "野獸");
-  set("title",HIY"(黃光)"NOR);
+  set("title",HIY + "(黃光)" + NOR);
   set("age", 45000);
   set("attitude", "aggressive");
   set("family/family_name","火龍窟");
@@ -78,7 +78,7 @@ void heart_beat()
   if (mob->query("force") < 1000000) { // 總要讓 dragon 用什麼來轉換吧？wade
     mob->set("force",1250000);
     mob->set("force_factor",40);
-    message_vision(HIR"\n黃光火龍燃起熾熱火焰將自身的內力倍增六成!!\n"NOR,mob);
+    message_vision(HIR + "\n黃光火龍燃起熾熱火焰將自身的內力倍增六成!!\n" + NOR,mob);
   }
 
   if (mob->query("kee")<90000 && random(200)<50 && !mob->is_busy())
@@ -87,7 +87,7 @@ void heart_beat()
     mob->receive_curing("kee",4000);
     mob->receive_heal("kee",4000);
 */
-    message_vision(HIY"\n黃光火龍運起神功\為自身療傷，傷口也慢慢癒合了\n"NOR,mob);
+    message_vision(HIY + "\n黃光火龍運起神功\為自身療傷，傷口也慢慢癒合了\n" + NOR,mob);
     mob->receive_curing("kee",2000);
     mob->receive_heal("kee",2000);
   }
@@ -117,7 +117,7 @@ void heart_beat()
     target=enemy[random(i)];
     if (mob->is_fighting() && mob->query_temp("unconcious") != 1)
     {
-      message_vision(HIY"\n黃光火龍雙眼一睜, 強烈的黃光由黃光火龍眼睛射出, 刺眼的光線遮蔽了你的視線!!\n"NOR,mob);
+      message_vision(HIY + "\n黃光火龍雙眼一睜, 強烈的黃光由黃光火龍眼睛射出, 刺眼的光線遮蔽了你的視線!!\n" + NOR,mob);
       for (j=0 ; j < i ; j++)
       {
         if(enemy[j]){
@@ -218,8 +218,8 @@ void die()
         }
         if(enemy[j]->query("combat_exp") < 25000000)
         {
-          tell_object(enemy[j],HIY"\n由於你的努力, 終於打倒了黃光火龍, 你辛苦的代價換來了寶貴的經驗!!\n"NOR);
-          tell_object(enemy[j],HIC"你的戰鬥經驗上升 "+exp+" 點, 潛在能力上升 "+pot+" 點!!\n"NOR);
+          tell_object(enemy[j],HIY + "\n由於你的努力, 終於打倒了黃光火龍, 你辛苦的代價換來了寶貴的經驗!!\n" + NOR);
+          tell_object(enemy[j],HIC + "你的戰鬥經驗上升 "+exp+" 點, 潛在能力上升 "+pot+" 點!!\n" + NOR);
           enemy[j]->add("combat_exp",exp);
           enemy[j]->add("potential",pot);
           enemy[j]->delete_temp("fight_yellow");
@@ -240,7 +240,7 @@ void die()
     spirit->move(me);
 //    write_file("/log/sky/spirit/fire-spirit",sprintf("%s(%s)讓黃光火龍掉下了%s於 %s\n",me->name(1),me->query("id"),spirit->query("name"),ctime(time())));
     log_file("sky/spirit/fire-spirit",sprintf("%s(%s)讓黃光火龍掉下了%s於 %s\n",me->name(1),me->query("id"),spirit->query("name"),ctime(time())));
-    message_vision(HIW"薀含在"+this_object()->query("name")+HIW"身體中的"+spirit->query("name")+HIW"飛射而出，落在$N"HIW"手中。\n"NOR,me);
+    message_vision(HIW + "薀含在"+this_object()->query("name")+HIW"身體中的"+spirit->query("name")+HIW"飛射而出，落在$N" + HIW + "手中。\n" + NOR,me);
   }
   environment(mob)->set("no_reset",1);
   environment(mob)->start();

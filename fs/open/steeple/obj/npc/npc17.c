@@ -13,16 +13,16 @@ void create()
         set("long", 
 "天道紫玄觀的掌門，兩鬢斑白，一對長眉垂頰。看來歲數應該
 不少了，但臉上卻依然神采奕奕，到十足像個三四十歲的中年
-人。據說他不但精通"HIG"易經"NOR"，"HIG"老莊"NOR"，而且還擅於"HIG"星象"NOR"卜卦一類。\n"
+人。據說他不但精通" + HIG + "易經" + NOR + "，" + HIG + "老莊" + NOR + "，而且還擅於" + HIG + "星象" + NOR + "卜卦一類。\n"
 );
        
         set("gender","男性");
         set("class","taoist");
-        set("nickname",MAG"紫玄老道"NOR);
+        set("nickname",MAG + "紫玄老道" + NOR);
         set("combat_exp",6000000);
         set("attitude","friendly");
         set("age",88);
-        set("title",HIW"～幻影～"NOR"天道派掌門人");
+        set("title",HIW + "～幻影～" + NOR + "天道派掌門人");
         set("str",20);
         set("cps",30);
         set("cor",25);
@@ -131,7 +131,7 @@ return "\n";
 int heal_up()
 {
         if (!is_fighting() ) {
-             message_vision (HIW"系統：戰鬥停止，$N回收中，。\n"NOR, this_object ());
+             message_vision (HIW + "系統：戰鬥停止，$N回收中，。\n" + NOR, this_object ());
              destruct(this_object());
              return 1;
         }
@@ -168,17 +168,17 @@ destruct (this_object ());
 else
 if(me->query("quest/start_game")< 18)
        {
-        message_vision(HIY"
-恭喜"HIW+me->query("name")+HIY"挑戰"HIG"『"HIR"第十七層試煉ソ塔"HIG"』"HIY"通過！！
+        message_vision(HIY + "
+恭喜"HIW+me->query("name")+HIY"挑戰" + HIG + "『" + HIR + "第十七層試煉ソ塔" + HIG + "』" + HIY + "通過！！
 
-"HIW"希望"+me->query("name")+"能不負眾望，勇闖"HIG"『"HIY"第十八層試煉ソ塔"HIG"』"HIW"。
-	"NOR,me);
+" + HIW + "希望"+me->query("name")+"能不負眾望，勇闖" + HIG + "『" + HIY + "第十八層試煉ソ塔" + HIG + "』" + HIW + "。
+	" + NOR,me);
 	me->set("quest/start_game",18);
         destruct (this_object ());
        }
 {
         :: unconcious();
-	tell_object(me,HIW"系統：你已經通過測試，系統不做任何更改。\n"NOR);
+	tell_object(me,HIW + "系統：你已經通過測試，系統不做任何更改。\n" + NOR);
 	destruct(this_object());
 }
 }

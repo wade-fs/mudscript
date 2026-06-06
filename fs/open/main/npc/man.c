@@ -32,8 +32,8 @@ LONG);
   set("chat_chance", 80);
   set("chat_msg", ({
     (:random_move:),
-    HIC"太極長老說道：這個問題(question)還真是困難啊。\n"NOR,
-    HIC"太極長老說道：怎麼看了哪麼久的圖，還是看不懂這個圖在畫什麼。\n"NOR
+    HIC + "太極長老說道：這個問題(question)還真是困難啊。\n" + NOR,
+    HIC + "太極長老說道：怎麼看了哪麼久的圖，還是看不懂這個圖在畫什麼。\n" + NOR
   }) );
   set("inquiry", ([
     "question":   (:do_ask:),
@@ -82,7 +82,7 @@ string do_ask ()
   word = "/adm/daemons/word1.c"->get_word(5);
   me->set_temp("ask_word",word[0]);
   set("random_move",1000);
-  tell_object(me,HIC "長老翻開他的書本，上面畫著：\n"+word[2]+"\n(註：回答全為小寫)\n");
+  tell_object(me,HIC + "長老翻開他的書本，上面畫著：\n"+word[2]+"\n(註：回答全為小寫)\n");
   return "你能幫我看看上面的圖寫什麼嘛(ans)？";
 }
 
@@ -93,7 +93,7 @@ string do_ask2() //這是為了盲人朋友所額外設計的動作 未經報備
   name1=me->query("name");
   name2=ob->query("name"); //一般玩家 我都提示你這麼清楚了(加括號 再補顏色) 你還犯錯 嘖嘖（聳肩
   tell_object(me,name2+"呵呵說道：是你呀，"+name1+"，上面有交代要我便宜行事，因此得免去一些程序。\n"+
-    name2+"從懷裡拿出紙跟筆來迅速地在上面寫"HIY"(log)"NOR"些什麼。\n\n"+
+    name2+"從懷裡拿出紙跟筆來迅速地在上面寫" + HIY + "(log)" + NOR + "些什麼。\n\n"+
     name2+"嚴肅說道：在此我要慎重地提醒你，這是在你這角色報備後才能使用的簡易流程，\n"+
     "                  如果沒問題那就請繼續下個動作(answer yes)。\n");
   if( me->query("id")== "kiven" || me->query("id")== "cureman" || me->query("id")== "kyoya" ||
@@ -112,12 +112,12 @@ int do_ans2(string arg) //只要上線之後 問過上面的問題一次後 都�
   log_file("太極內力",sprintf("%s(%s)於%s這時間向%s祈求太極內力。(%s)\n",me->query("name"),me->query("id"),
     ctime(time()),ob->query("name"),query_ip_name(me) ));
   if( me->query_temp("welcome_to_fs") =="ng") {
-    tell_object(me,""HIW"『"HIG"暢談"HIW"』"HIY"太極長老說道﹕你不合規定免流程的名單，掰掰～\n"NOR);
+    tell_object(me,"" + HIW + "『" + HIG + "暢談" + HIW + "』" + HIY + "太極長老說道﹕你不合規定免流程的名單，掰掰～\n" + NOR);
     me->do_command( "sleep 1 0 0 7" ); //冰起來
   }
   else if( me->query_temp("welcome_to_fs") =="not_robot") {
-    tell_object(me,""HIW"『"HIG"暢談"HIW"』"HIY"太極長老說道﹕嗯嗯，盡情享受這段時間吧。\n"NOR);
-    tell_object(me,""HIW"『"HIG"暢談"HIW"』"HIY"太極長老說道﹕讓我傳一些功\力給你，二小時之內，你在練功\時，會覺得獲得更多。\n"NOR);
+    tell_object(me,"" + HIW + "『" + HIG + "暢談" + HIW + "』" + HIY + "太極長老說道﹕嗯嗯，盡情享受這段時間吧。\n" + NOR);
+    tell_object(me,"" + HIW + "『" + HIG + "暢談" + HIW + "』" + HIY + "太極長老說道﹕讓我傳一些功\力給你，二小時之內，你在練功\時，會覺得獲得更多。\n" + NOR);
     me->delete_temp("ask_word");
     me->set_temp("not_robot",time() + 60*120);
   }

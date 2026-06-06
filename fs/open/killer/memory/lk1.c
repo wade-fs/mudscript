@@ -35,13 +35,13 @@ int do_search(string arg)
     return 0;
   else if (me->query_temp("memory") < 4)
   {
-    message_vision(HIY"$N哇勒....你是怎麼來到這裡的，作弊呀？？可惡........\n"NOR, me);
-    message_vision(HIY"一瞬間一陣機關鳴動聲............\n"NOR,me);
+    message_vision(HIY + "$N哇勒....你是怎麼來到這裡的，作弊呀？？可惡........\n" + NOR, me);
+    message_vision(HIY + "一瞬間一陣機關鳴動聲............\n" + NOR,me);
     max=me->query("kee");
     max= (int) (max/2);
 //    me->add("kee",-max);
     me->receive_damage("kee", max, me);
-    tell_object(me,HIY"一陣衝撞力將你彈飛，落入陷阱之中一直墜落～～\n"NOR);
+    tell_object(me,HIY + "一陣衝撞力將你彈飛，落入陷阱之中一直墜落～～\n" + NOR);
     COMBAT_D->report_status(me);
     me->move("/open/killer/room/firstrm.c");
   }

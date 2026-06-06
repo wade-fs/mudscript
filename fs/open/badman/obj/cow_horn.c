@@ -5,7 +5,7 @@ inherit UNARMED;
 void create()
 {
   seteuid(getuid());
-  set_name(HIY"牛神錐"NOR,({"cow horn","cow","horn"}));
+  set_name(HIY + "牛神錐" + NOR,({"cow horn","cow","horn"}));
   set_weight(2100);
   if( clonep() )
                 set_default_object(__FILE__);

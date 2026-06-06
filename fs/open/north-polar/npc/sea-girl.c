@@ -6,7 +6,7 @@ void create()
 {
 
 	set_name("海魔音", ({"sea girl","girl"}));
-	set("title",HIM"東海"HIY"海神"NOR);
+	set("title",HIM + "東海" + HIY + "海神" + NOR);
 	set("age",24);
 	set("long","東海海域的水神，其音樂方面的造詣古今罕有。\n");
 	set("race", "野獸");
@@ -92,7 +92,7 @@ void heart_beat()
 	          	 me->delete_busy();
 	          	 return;
 	          }
-	         message_vision(HIB"\n$N朱唇湊近橫笛，"HIC"『"HIR"死亡交響樂"HIC"』"HIB"的悽美旋律遠遠傳了開來，所有人如癡如醉。\n"NOR,me);
+	         message_vision(HIB + "\n$N朱唇湊近橫笛，" + HIC + "『" + HIR + "死亡交響樂" + HIC + "』" + HIB + "的悽美旋律遠遠傳了開來，所有人如癡如醉。\n" + NOR,me);
 	         for (i=0 ; i < j ; i++)
 	         {
 	          if(enemy[i]->is_character() && !enemy[i]->is_corpse() && living(enemy[i]) && enemy[i]->query("id")!="sea girl" && !wizardp(enemy[i]))  
@@ -100,7 +100,7 @@ void heart_beat()
                     if(environment(me)!= environment(enemy[i]))  continue;
                     if(random(100) == 24)
                      {
-                      message_vision(HIB"\n$N演奏的樂章終了前，"HIY"『"HIB"死亡最高潮"HIY"』"HIB"同時將$n葬送於美麗的"+room->query("short")+"。\n"NOR,me,enemy[i]);
+                      message_vision(HIB + "\n$N演奏的樂章終了前，" + HIY + "『" + HIB + "死亡最高潮" + HIY + "』" + HIB + "同時將$n葬送於美麗的"+room->query("short")+"。\n" + NOR,me,enemy[i]);
                       enemy[i]->die();
                       continue;
                      }
@@ -132,8 +132,8 @@ void heart_beat()
            {
             if(enemy[j]->query("combat_exp") < 27000000)
              {
-              tell_object(enemy[j],HIG"\n在你費盡千辛萬苦打倒海神後，你感到自身戰鬥經驗又更上一層樓了!!\n"NOR);
-              tell_object(enemy[j],GRN"你的戰鬥經驗上升 3300 點, 潛在能力上升 770 點!!\n"NOR);
+              tell_object(enemy[j],HIG + "\n在你費盡千辛萬苦打倒海神後，你感到自身戰鬥經驗又更上一層樓了!!\n" + NOR);
+              tell_object(enemy[j],GRN + "你的戰鬥經驗上升 3300 點, 潛在能力上升 770 點!!\n" + NOR);
               enemy[j]->add("combat_exp",3300);
               enemy[j]->add("potential",770);
              }
@@ -153,6 +153,6 @@ void die()
 	me = this_object();
 	room = environment(me);
 	room->set_temp("can_punch",1);
-	message_vision(HIC"\n$N嘆道"HIW"："HIY"「"HIR"想不到最後的死亡樂章竟是為我自己而奏。"HIY"」\n"NOR,me);
+	message_vision(HIC + "\n$N嘆道" + HIW + "：" + HIY + "「" + HIR + "想不到最後的死亡樂章竟是為我自己而奏。" + HIY + "」\n" + NOR,me);
         destruct(me);
 }

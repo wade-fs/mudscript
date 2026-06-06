@@ -10,7 +10,7 @@ void create()
       像是讀書人,但是精通武學,練就了一身快手。\n");
                 set("gender","男性");
 	set("class","fighter");
-   set("nickname",HIW"快手"NOR);
+   set("nickname",HIW + "快手" + NOR);
          set("combat_exp",100000);
           set("attitude","heroism");
           set("age",20);

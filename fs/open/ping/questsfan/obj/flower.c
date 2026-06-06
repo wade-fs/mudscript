@@ -5,7 +5,7 @@ inherit ITEM;
 
 void create()
 {
-    set_name(""HIB"美麗的"HIM"小花"NOR"", ({ "small flower","flower" }) );
+    set_name("" + HIB + "美麗的" + HIM + "小花" + NOR + "", ({ "small flower","flower" }) );
     set_weight(1000000);
  if( clonep() )
     set_default_object(__FILE__);
@@ -29,18 +29,18 @@ int do_smell()
   object me = this_player();
   if(me->query_temp("meetgod_3") != 1)
   {
-  write(""HIM"忽然間一陣的暈眩！"NOR"\n");
-  write(""HIR"你眼一黑，什麼也不知道了。"NOR"\n");
+  write("" + HIM + "忽然間一陣的暈眩！" + NOR + "\n");
+  write("" + HIR + "你眼一黑，什麼也不知道了。" + NOR + "\n");
   me->set_temp("meetgod_1",0);
   me->set_temp("meetgod_2",0);
   }
   else
   if(me->query_temp("meetgod_3") == 1)
   {
-  write(""HIM"忽然間一陣的暈眩！"NOR"\n");
-  write(""HIR"你眼一黑，什麼也不知道了。"NOR"\n\n\n\n\n\n\n");
-  write(""HIY"你慢慢的恢復知覺了。"NOR"\n");
-  write(""HIC"忽然間身邊傳出人聲：『"HIG"藏仙谷，谷中仙，仙緣昇，昇得意"HIC"』"NOR"\n");
+  write("" + HIM + "忽然間一陣的暈眩！" + NOR + "\n");
+  write("" + HIR + "你眼一黑，什麼也不知道了。" + NOR + "\n\n\n\n\n\n\n");
+  write("" + HIY + "你慢慢的恢復知覺了。" + NOR + "\n");
+  write("" + HIC + "忽然間身邊傳出人聲：『" + HIG + "藏仙谷，谷中仙，仙緣昇，昇得意" + HIC + "』" + NOR + "\n");
   me->set_temp("meetgod_4",1);
   }
   return 1;

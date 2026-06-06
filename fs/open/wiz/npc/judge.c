@@ -14,7 +14,7 @@ void create()
   set( "long",
     "這是一位審查玩家是否為笨蛋的審判官，你必須連續答對(answer)他三個問題才能\n"
     "脫離他的魔掌。\n\n");
-  set("nickname", HIB"冷血無情"NOR);
+  set("nickname", HIB + "冷血無情" + NOR);
   set("title","專門對付笨蛋的審判官");
   set("gender", "男性");
   set("attitude","heroism");
@@ -52,7 +52,7 @@ int babe_jail() // 新增強力判斷 action 防止玩家亂搞 by ACKY
     ((string)query_verb() =="do") ||
     ((string)query_verb() =="c_in") ||
     ((string)query_verb() =="c_home") ) {
-    write (HIY"冰判官說道：「在這兒除了回答問題，你還想幹嘛？」\n"NOR);
+    write (HIY + "冰判官說道：「在這兒除了回答問題，你還想幹嘛？」\n" + NOR);
     return 1;
   }
   if( ((string)query_verb()=="ct") ||
@@ -70,7 +70,7 @@ int babe_jail() // 新增強力判斷 action 防止玩家亂搞 by ACKY
     ((string)query_verb() =="cb") ||
     ((string)query_verb() =="mud") ||
     ((string)query_verb() =="es") ) {
-    write (HIY"冰判官說道：「想搬救兵？門兒都沒有！」\n"NOR);
+    write (HIY + "冰判官說道：「想搬救兵？門兒都沒有！」\n" + NOR);
     return 1;
   }
   return 0;
@@ -141,9 +141,9 @@ void judge( object me )
       break;
   }
   if( random(2) )
-    tell_room( environment(), HIY"冰判官問道：「" + color() + name + oper + HIY"」\n"NOR );
+    tell_room( environment(), HIY + "冰判官問道：「" + color() + name + oper + HIY"」\n" + NOR );
   else
-    tell_object( me, HIY"冰判官問道：「" + color() + oper + HIY"」\n"NOR );
+    tell_object( me, HIY + "冰判官問道：「" + color() + oper + HIY"」\n" + NOR );
   call_out( "say_answer", 20+random(6), me );
   me->set_temp( "quiz/q", answer );
 }
@@ -183,7 +183,7 @@ int do_answer( string arg )
   notify_fail( "請回答一組數字。\n" );
   if( !arg ) return 0;
 
-  tell_object( me, CYN"你答道： " + arg + "\n"NOR );
+  tell_object( me, CYN + "你答道： " + arg + "\n" + NOR );
   name = me->query("name") + "(" + me->query("id") + ")";
   if( sscanf( arg, "%d", ans )==1 ) {
     if( ans==me->query_temp("quiz/q") ) {
@@ -223,8 +223,8 @@ void die()
     ::die();
     return;
   }
-  write( HIW"冰判官冷笑道：「連我你也敢殺。」\n"NOR );
-  tell_object( users(), "【"HIC"閒聊"NOR"】"HIC"冰判官(judge)說道：心狠手辣的" + ob->query("name") + "竟敢將我殺害，快通知 wiz 幫我報仇！\n"NOR );
+  write( HIW + "冰判官冷笑道：「連我你也敢殺。」\n" + NOR );
+  tell_object( users(), "【" + HIC + "閒聊" + NOR + "】" + HIC + "冰判官(judge)說道：心狠手辣的" + ob->query("name") + "竟敢將我殺害，快通知 wiz 幫我報仇！\n" + NOR );
   ob->add("kill_judge",1);
   write_file("/log/kill_judge",sprintf("%s(%s) 殺死冰判官於 %s\n",ob->name(1),ob->query("id"),ctime(time())));
   ::die();

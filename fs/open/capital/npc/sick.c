@@ -14,7 +14,7 @@ string magic5();
 
 void create()
 {
-  set("title",HIY"『魔界金典』"+HIW+"傳人"NOR);
+  set("title",HIY + "『魔界金典』"+HIW+"傳人" + NOR);
   set_name("黃帝病",({"Empire sick","sick"}));
   set("long","
 身負三百年前天下無敵的超級武學──魔界金典，
@@ -112,7 +112,7 @@ int do_use(string arg)
   object ppl = this_player();
   if(arg == "lotch")
   {
-    message_vision(HIR"\n$N冷冷的說道：「什麼軒轅劍俠刀神的，在我手下全都不堪一擊。」\n"NOR,this_object());
+    message_vision(HIR + "\n$N冷冷的說道：「什麼軒轅劍俠刀神的，在我手下全都不堪一擊。」\n" + NOR,this_object());
     ppl->unconcious();
     return 1;
   }
@@ -239,25 +239,25 @@ void die()
 
   if( winner->query("clan/id") && userp(winner) )
     CLAN_D->add_clanset( winner->query("clan/id"), "develop" ,  5 );
-  tell_object(users(),HIY"\n\n黃帝病悲嘆道："HIW"
+  tell_object(users(),HIY + "\n\n黃帝病悲嘆道：" + HIW + "
         善哉!!善哉!!中原覆滅在即，貧僧身負曠世絕學，意欲引渡天下蒼生，
-        孰料今日竟敗於未曾修習∮"HIC+BBLU"英雄真經"NOR""HIW"∮的"HIG""+clan+""HIR""+winner->name()+""HIW"手下，
-        貧僧死不瞑目啊!!\n\n"NOR);
+        孰料今日竟敗於未曾修習∮"HIC+BBLU"英雄真經" + NOR + "" + HIW + "∮的" + HIG + ""+clan+"" + HIR + ""+winner->name()+"" + HIW + "手下，
+        貧僧死不瞑目啊!!\n\n" + NOR);
 
   if(winner && !winner->query_temp("not_robot") && random(400)==0) {
     ob=new("/open/doctor/doctor_book/obj/scrap");
     ob->set("sort","井");
     ob->move(winner);
-    message_vision(MAG"\n從黃帝病的身上掉下了一塊靈魂碎片!!\n"NOR,winner);
+    message_vision(MAG + "\n從黃帝病的身上掉下了一塊靈魂碎片!!\n" + NOR,winner);
   }
   else if(winner && winner->query_temp("not_robot") && random(400)<133) {
     ob=new("/open/doctor/doctor_book/obj/scrap");
     ob->set("sort","井");
     ob->move(winner);
-    message_vision(MAG"\n從黃帝病的身上掉下了一塊靈魂碎片!!\n"NOR,winner);
+    message_vision(MAG + "\n從黃帝病的身上掉下了一塊靈魂碎片!!\n" + NOR,winner);
   }
 
-  message_vision(HIY"\n"+winner->name()+"打敗黃帝病得到一百三十點戰功\!!\n"NOR,winner);
+  message_vision(HIY + "\n"+winner->name()+"打敗黃帝病得到一百三十點戰功\!!\n" + NOR,winner);
   write_file("/log/get_warp",sprintf("%s(%s) 打敗黃帝病得到一百三十點戰功\於 %s\n",
     winner->name(1),winner->query("id"),ctime(time())));
   winner->add("war_score",130);

@@ -3,7 +3,7 @@ inherit ROOM;
 #include <ansi.h>
 void create ()
 {
-  set ("short", "山林"HIG"麒"NOR"路");
+  set ("short", "山林" + HIG + "麒" + NOR + "路");
   set ("long", @LONG
 勞過許多彎彎曲曲、崎嶇不平的山路。總覺得好像路都
 走不完似的，但是總算一路平安。這時你又發現一塊快腐爛

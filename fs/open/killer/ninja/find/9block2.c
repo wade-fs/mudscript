@@ -144,7 +144,7 @@ int valid_leave(object me, string dir)
    	     
    	       //到這裡已經到達目標......
    	       me->set_temp("firstpart",11);
-   message_vision(HIY"忽然一道光芒出現，讓$N眼睛睜不開來，行囊中似乎多了一點東西\n"NOR, me);
+   message_vision(HIY + "忽然一道光芒出現，讓$N眼睛睜不開來，行囊中似乎多了一點東西\n" + NOR, me);
    	       new("/open/killer/ninja/find/greenring.c")->move(me);
    	       me->move("/open/killer/mon/ghost/room/ghost12.c");
    	       return 0;

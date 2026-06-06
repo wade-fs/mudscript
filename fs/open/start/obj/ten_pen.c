@@ -8,7 +8,7 @@ int special_att();
 
 void create()
 {
-	set_name(HIG "靈龍天筆" NOR,({"ten pen","pen"}));
+	set_name(HIG + "靈龍天筆" + NOR,({"ten pen","pen"}));
 	set_weight(1000);
 	if( clonep() )
 	 set_default_object(__FILE__);

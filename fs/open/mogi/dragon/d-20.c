@@ -3,7 +3,7 @@ inherit ROOM;
 #include <ansi.h>
 void create ()
 {
-  set ("short", HIC"迎風台上"NOR);
+  set ("short", HIC + "迎風台上" + NOR);
   set ("long", @LONG
 冒著陣陣強風的襲捲 ,你艱辛的爬上一片高地。但
 迎面而來的狂風令你連眼睛都難以睜開 ,在呼嘯的風

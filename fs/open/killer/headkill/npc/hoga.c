@@ -31,7 +31,7 @@ void create()
         set("age",15);
         set("long","他是屬於青銅級的聖鬥士，在三大聖戰中一直是護衛著雅典娜女神，\n"
         "而現在的實力是遠超過黃金聖鬥士，是雅典娜忠心的護衛。\n");
-        set("title",HIW"白鳥座"NOR+ HIG"聖鬥士"NOR);
+        set("title",HIW + "白鳥座"NOR+ HIG"聖鬥士" + NOR);
 	set("class","聖鬥士");
         set("gender","男性");
         set("str",30);
@@ -82,10 +82,10 @@ void do_special()
         target=enemy[random(i)];
 
                 message_vision(
-        HIY "\n冰河大喝一聲：看我的『曙  光  女  神  之  寬  恕』～～～\n",target);
+        HIY + "\n冰河大喝一聲：看我的『曙  光  女  神  之  寬  恕』～～～\n",target);
                 message_vision(
-        HIW "\n冰河的身後出現了曙光女神，而曙光女神手中的水瓶發出光茫！！光茫過後，冰
-河的身影已在$N的身後了。\n"NOR,target);
+        HIW + "\n冰河的身後出現了曙光女神，而曙光女神手中的水瓶發出光茫！！光茫過後，冰
+河的身影已在$N的身後了。\n" + NOR,target);
                 target->receive_wound("kee",random(170+220));
                 COMBAT_D->report_status(target);
 }

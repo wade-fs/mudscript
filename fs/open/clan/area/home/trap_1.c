@@ -6,7 +6,7 @@ inherit ITEM;
 void create()
 {
 	seteuid(getuid());
-	set_name( HIG"毒蒺菱"NOR, ({ "" }) );
+	set_name( HIG + "毒蒺菱" + NOR, ({ "" }) );
 	set( "no_get", 1 );
 	set( "no_sac", 1 );
 	set( "unit", "組" );
@@ -26,12 +26,12 @@ void init()
 	set( "setup", 0 );
 	inv = all_inventory(environment());
 	if(random(2))
-		message_vision( YEL"$N觸動了" + query("maker") + YEL"所裝設的機關。\n"NOR, me );
+		message_vision( YEL + "$N觸動了" + query("maker") + YEL"所裝設的機關。\n" + NOR, me );
 	for( i=0, n=sizeof(inv); i<n ; i++ ) {
 		if( !userp(inv[i]) || wizardp(inv[i]) || inv[i]->query("age")<18 )
 			continue;
 		if( random(1000) > inv[i]->query_skill("parry") + inv[i]->query_skill("dodge") ) {
-			message_vision( HIG"「嗤~嗤~」聲響處, 幾枚毒蒺菱快速射出, $N閃躲不及, 被毒蒺菱擊中!\n"NOR, inv[i] );
+			message_vision( HIG + "「嗤~嗤~」聲響處, 幾枚毒蒺菱快速射出, $N閃躲不及, 被毒蒺菱擊中!\n" + NOR, inv[i] );
 			switch(random(17)) {
 				case  1: type = "ashura_sex"; break;
 				case  2: type = "blood"; break;
@@ -54,7 +54,7 @@ void init()
 			inv[i]->apply_condition( type, random(20) );
 		}
 		else
-			message_vision( GRN"「嗤~嗤~」聲響處, 幾枚毒蒺菱快速射出, $N頭也不回地隨手擊落射來的暗器。\n"NOR, inv[i] );
+			message_vision( GRN + "「嗤~嗤~」聲響處, 幾枚毒蒺菱快速射出, $N頭也不回地隨手擊落射來的暗器。\n" + NOR, inv[i] );
 	}
 	call_out( "dest", 3 );
 }

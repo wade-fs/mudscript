@@ -67,7 +67,7 @@ mapping cmdtab = ([
     "mrsq" : ({ "MRSQ", 0, "(mail recipient scheme question)" }),
     "mrcp" : ({ "MRCP", 0, "(mail recipient)" }),
     "allo" : ({ "ALLO", 1, "allocate storage (vacuously)" }),
-    "rest" : ({ "REST", 0, "(restart command)" }),
+    "rest" : ({ " + REST + ", 0, "(restart command)" }),
     "rnfr" : ({ "RNFR", 1, "<sp> file-name" }),
     "rnto" : ({ "RNTO", 1, "<sp> file-name" }),
     "abor" : ({ "ABOR", 1, "(abort operation)" }),

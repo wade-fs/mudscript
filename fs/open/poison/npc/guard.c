@@ -55,7 +55,7 @@ void init()
 }
 void greetings1(object me)
 {
-      message_vision(HIC"冥蠱守衛怒道﹕可惡! $N還敢再來呀!\n"NOR,me);
+      message_vision(HIC + "冥蠱守衛怒道﹕可惡! $N還敢再來呀!\n" + NOR,me);
       command("say 我看你是活膩啦。乖乖送死吧!");
       this_object()->kill_ob(me);
 }

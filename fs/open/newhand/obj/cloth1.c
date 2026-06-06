@@ -9,7 +9,7 @@ object user;
 
 void create()
 {
-  set_name( HIW "狂想新人寶衣" NOR ,({"newbie cloth","cloth"}));
+  set_name( HIW + "狂想新人寶衣" + NOR ,({"newbie cloth","cloth"}));
   set_weight(3000);
   if( clonep() )
     set_default_object(__FILE__);
@@ -37,7 +37,7 @@ int wear()
   if( query("equipped") )
   {
     user = environment(this_object());//this_player(); // 取得使用者
-    message_vision(HIW"$N"HIW"暗運內勁，在$N四周升起淡淡的白色光罩。\n"NOR,user);
+    message_vision(HIW + "$N" + HIW + "暗運內勁，在$N四周升起淡淡的白色光罩。\n" + NOR,user);
     set_heart_beat(1);
   }
 }
@@ -64,7 +64,7 @@ void heart_beat()
     {
       user->receive_curing("kee",30);
       user->receive_heal("kee",30);
-      message_vision(query("name")+HIW"發散出一道白光護住$N"HIW"的全身，$N"HIW"的傷勢緩慢復原中。\n"NOR,user);
+      message_vision(query("name")+HIW"發散出一道白光護住$N" + HIW + "的全身，$N" + HIW + "的傷勢緩慢復原中。\n" + NOR,user);
     }
   }
 }

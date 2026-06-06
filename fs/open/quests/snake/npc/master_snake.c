@@ -11,8 +11,8 @@ void create()
 {
   set_name("蛇郎君",({"master snake","snake"}));
   set("age",32);
-  set("title",HIR"煉獄蛇王"NOR);
-  set("nickname",HIW"人面蛇心"NOR);
+  set("title",HIR + "煉獄蛇王" + NOR);
+  set("nickname",HIW + "人面蛇心" + NOR);
   set("attitude","aggressive");
   set("gender","男性");
   set("long","蛇寨寨主，生性殘暴，是非不分，佔據蛇寨為王，四處姦淫擄掠，無惡不作。\n");
@@ -64,7 +64,7 @@ void heart_beat()
 
   if( ob->query_busy() && random(100) < 80 )
   {
-    message_vision(HIW+"$N大喝一聲～破～!!$N的奇經六脈恢復了正常!!\n"NOR,ob);
+    message_vision(HIW+"$N大喝一聲～破～!!$N的奇經六脈恢復了正常!!\n" + NOR,ob);
     ob->delete_busy();
   }
 
@@ -72,7 +72,7 @@ void heart_beat()
   {
     if( eff < max || kee < eff )
     {
-      message_vision(HIY"$N點穴療傷，將體內的瘀傷給逼出，氣色恢復了許\多～\n"NOR,ob);
+      message_vision(HIY + "$N點穴療傷，將體內的瘀傷給逼出，氣色恢復了許\多～\n" + NOR,ob);
       ob->receive_curing("kee",800);
       ob->receive_heal("kee",800);
       COMBAT_D->report_status(ob,1);
@@ -86,23 +86,23 @@ void heart_beat()
     
     if( random(i) > random(j) && (int)target->query_busy() < 3 )
     {
-      message_vision(HIY"$N使出自創步法"+HIW+"‵"+HIG+"蛇行步"+HIW+"‵"+HIY+"～
+      message_vision(HIY + "$N使出自創步法"+HIW+"‵"+HIG+"蛇行步"+HIW+"‵"+HIY+"～
 
         左右晃動，似有若無的規律性，不斷的尾隨於$n的身後～
 
-                $N看準時機，猛然握著鞭柄往$n的各路穴道打去～\n"NOR,ob,target);
+                $N看準時機，猛然握著鞭柄往$n的各路穴道打去～\n" + NOR,ob,target);
       target->start_busy(1);
     }
 
     if( random(i) > random(j) )
     {
-      message_vision(HIY"
+      message_vision(HIY + "
 $N領略到"+NOR+YEL+"〔"+MAG+"邪靈"+WHT+"。"+CYN+"蛇鞭"+YEL+"〕"+HIY+"之奧義
 
                         "+HIW+"～　"+HIC+"萬　鞭　歸　一　"+HIW+"～"+HIY+"
 
-鞭法幻化成無數多條，以左右夾擊之勢，攻向$n。\n"NOR,ob,target);
-      message_vision(HIY"$N閃避不及，只好正面抵擋$n的攻勢～\n"NOR,target,ob);
+鞭法幻化成無數多條，以左右夾擊之勢，攻向$n。\n" + NOR,ob,target);
+      message_vision(HIY + "$N閃避不及，只好正面抵擋$n的攻勢～\n" + NOR,target,ob);
       target->receive_wound("kee",800,ob);
       COMBAT_D->report_status(target,1);
     }
@@ -130,7 +130,7 @@ void die()
 //  else
 //    arg = arg+me->query("family/family_name");
 
-  tell_object(users(),HIC"
+  tell_object(users(),HIC + "
 天空突然一陣雷雨交加～
 
         "HIG+ob->name(1)+"大怒道：該死的 "HIC+arg+HIG" 啊～
@@ -146,12 +146,12 @@ void die()
       if( me->query_temp("quests/magic-manor-02") == 6 )
       {
         me->set_temp("quests/kill-snake",1);
-        message_vision(HIY"$N在臨死之前掉了一件護身符在$n的身上。\n"NOR,ob,me);
+        message_vision(HIY + "$N在臨死之前掉了一件護身符在$n的身上。\n" + NOR,ob,me);
         log_file("open-area/get_amulet", sprintf("%s(%s) 得到青蛇護符於 %s\n",name,me->query("id"), ctime(time()) ));
         obj = new("/autoload/open-area/snake_amulet");
         obj->move(me);
       } else {
-        message_vision(HIY"$N在臨死之前掉了一件護身符在$n的身上。\n"NOR,ob,me);
+        message_vision(HIY + "$N在臨死之前掉了一件護身符在$n的身上。\n" + NOR,ob,me);
         log_file("open-area/get_amulet", sprintf("%s(%s) 得到青蛇護符於 %s\n",name,me->query("id"), ctime(time()) ));
         obj = new("/autoload/open-area/snake_amulet");
         obj->move(me);
@@ -171,11 +171,11 @@ void die()
   {
     if( random(2) == 1 && me && me->query_temp("wu/ask_crazydragon") == 4 )
     {
-      message_vision(HIR"$N"HIR"一招勁力太強橫，竟然把$n"HIR"給轟的支離破碎了，連賞金的頭也給轟爛了!!\n"NOR,me,this_object());
+      message_vision(HIR + "$N" + HIR + "一招勁力太強橫，竟然把$n" + HIR + "給轟的支離破碎了，連賞金的頭也給轟爛了!!\n" + NOR,me,this_object());
     }
     else
     {
-      message_vision(HIW"$N"HIW"順利的擊殺了$n"HIW"，並將$n"HIW"的賞金頭給割了下來!!\n"NOR,me,this_object());
+      message_vision(HIW + "$N" + HIW + "順利的擊殺了$n" + HIW + "，並將$n" + HIW + "的賞金頭給割了下來!!\n" + NOR,me,this_object());
       if(me && me->query_temp("wu/ask_crazydragon") == 4) {
         obh->set_temp("wu/ask_crazydragon",5);
       }
@@ -186,7 +186,7 @@ void die()
       }
     }
   } else {
-    message_vision(HIR"$N"HIR"一招勁力太強橫，竟然把$n"HIR"給轟的支離破碎了，連賞金的頭也給轟爛了!!\n"NOR,me,this_object());
+    message_vision(HIR + "$N" + HIR + "一招勁力太強橫，竟然把$n" + HIR + "給轟的支離破碎了，連賞金的頭也給轟爛了!!\n" + NOR,me,this_object());
   }
 
 //加入銀針門神農quest所需 temp by blazakira

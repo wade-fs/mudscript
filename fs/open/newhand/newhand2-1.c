@@ -3,7 +3,7 @@
 inherit ROOM;
 void create ()
 {
-  set ("short", HIW"狂想空間新手入門"NOR);
+  set ("short", HIW + "狂想空間新手入門" + NOR);
   set ("long","狂想空間跟一般的Mud一樣都附有新手入門的文件(help newbie)
   所以請新手你們可以打help newbie,先看一下新手入門的文件!!!
   所以新手入門第一步就是看help newbie

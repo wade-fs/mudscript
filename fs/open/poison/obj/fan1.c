@@ -3,7 +3,7 @@
 inherit STABBER;
 void create()
 {
-        set_name(MAG"美人摺扇"NOR,({"beauty fan","fan"}) );
+        set_name(MAG + "美人摺扇" + NOR,({"beauty fan","fan"}) );
         set_weight(25000);
         if( clonep() )
                 set_default_object(__FILE__);

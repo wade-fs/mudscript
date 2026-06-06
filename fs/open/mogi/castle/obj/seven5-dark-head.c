@@ -2,7 +2,7 @@
 inherit ITEM;
 void create()
 {
-        set_name(YEL"墨衣魔將的人頭"NOR, ({ "seven-dark-head","head" }) );
+        set_name(YEL + "墨衣魔將的人頭" + NOR, ({ "seven-dark-head","head" }) );
         set_weight(5000);
         if( clonep() )
                 set_default_object(__FILE__);

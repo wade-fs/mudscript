@@ -2,7 +2,7 @@
 inherit ROOM;
 void create ()
 {
-        set("short",YEL"幽冥道"NOR"小村");
+        set("short",YEL + "幽冥道" + NOR + "小村");
         set("long",@LONG
 南邊有一個草造的茅草屋, 聽說裡面住著一個
 通曉幽冥界的智者, 也許你應該先去拜訪他一下, 

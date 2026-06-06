@@ -37,7 +37,7 @@ int valid_leave(object me,string dir)
 		{
 			message_vision("$N努力的想爬上去，可是卻不小心的沒抓好樹幹～\n",me);
 			call_out("move",1,me);
-			return notify_fail(HIY"你心想～不好了...:~...\n"NOR);
+			return notify_fail(HIY + "你心想～不好了...:~...\n" + NOR);
 		}
 	message_vision("$N順利的爬了上去。\n",me);
 	me->delete_temp("evil/water/climb");
@@ -51,5 +51,5 @@ int move(object me)
 	me->move("/open/evil-area/water/b-20");
 	me->receive_wound("kee",500);
 	COMBAT_D->report_status(me,1);
-	message_vision(HIR"\n$N重重的從樹上跌落於地～\n"NOR);
+	message_vision(HIR + "\n$N重重的從樹上跌落於地～\n" + NOR);
 }

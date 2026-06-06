@@ -49,8 +49,8 @@ void invocation(object who)
         object *enemy;
 
         message("vision",
-        HIM"一隻巨大的怪物在妖壺中慢慢幻化成形\n"
-        + name() + "說道 : 舞邪杖，催喪鐘，殺！\n"NOR,
+        HIM + "一隻巨大的怪物在妖壺中慢慢幻化成形\n"
+        + name() + "說道 : 舞邪杖，催喪鐘，殺！\n" + NOR,
                 environment(), this_object() );
         enemy = who->query_enemy();
         i = sizeof(enemy);
@@ -76,7 +76,7 @@ void special_attack()
         enemy=this_object()->query_enemy();
     i=sizeof(enemy);
     target=enemy[random(i)];
-        message_vision(sprintf(HIR"舞蠱冥怪喃喃催動舞蠱咒 , $N顯的非常痛苦\n"NOR),target);
+        message_vision(sprintf(HIR + "舞蠱冥怪喃喃催動舞蠱咒 , $N顯的非常痛苦\n" + NOR),target);
     target->add("sen",-10);
         target->start_busy(1);
         this_object()->add("mana",-50);

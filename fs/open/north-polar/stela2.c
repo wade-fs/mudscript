@@ -3,7 +3,7 @@ inherit ROOM;
 #include "icestorm.c"
 void create()
 {
-        set("short",HIC"鄱陽湖"HIY"神殿"NOR);
+        set("short",HIC + "鄱陽湖" + HIY + "神殿" + NOR);
         set ("long", @LONG
 這裡是鄱陽湖神殿，鄱陽湖為中土長江流域之中的第一大湖泊，
 一根高聳入天的石柱佇立在此，看來就是調節鄱陽湖水量的支柱了，

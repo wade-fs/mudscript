@@ -40,6 +40,6 @@ void die()
       object killer;
       killer=query_temp("last_damage_from");
       killer->set_temp("blood",1);
-      message_vision(HIR"\n幾滴鮮血濺到了$N的衣服上。\n"NOR,killer);
+      message_vision(HIR + "\n幾滴鮮血濺到了$N的衣服上。\n" + NOR,killer);
       ::die();
 }

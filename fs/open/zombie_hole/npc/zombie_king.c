@@ -208,7 +208,7 @@ void heart_beat()
     }
     if(random(10) == 0 )
     {
-      message_vision(HIY"$N由體內散出一道金光，$N又回復無敵的刀槍不入的金身了！\n",me);
+      message_vision(HIY + "$N由體內散出一道金光，$N又回復無敵的刀槍不入的金身了！\n",me);
       me->set("force",50000);
       me->delete_temp("break");
       me->clear_condition();
@@ -237,8 +237,8 @@ void die()
           new("/open/zombie_hole/obj/head.c")->move(winner);
           winner->set_temp("control",5);
         }
-        tell_object(users(),HIW"          
-          "+this_object()->name()+""HIG"叫道：現在"HIC+name+HIG"或許\打敗了我，但是我還是會生生世世的復活的!!!!!!\n"NOR);
+        tell_object(users(),HIW + "          
+          "+this_object()->name()+"" + HIG + "叫道：現在"HIC+name+HIG"或許\打敗了我，但是我還是會生生世世的復活的!!!!!!\n" + NOR);
 ::die();
 }
 

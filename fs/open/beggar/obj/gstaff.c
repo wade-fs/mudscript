@@ -7,7 +7,7 @@ inherit STAFF;
 
 void create()
 {
-       set_name(HIG"綠竹青棍"NOR, ({ "green staff","staff","green" }) );
+       set_name(HIG + "綠竹青棍" + NOR, ({ "green staff","staff","green" }) );
        set_weight(800);
        if( clonep() )
                 set_default_object(__FILE__);

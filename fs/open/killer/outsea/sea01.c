@@ -36,7 +36,7 @@ return notify_fail("你被強力的海潮沖了回來。\n");
 }
 else
 {
-message_vision(HIY"$N運起強大的內力，使得水壓不置於壓迫其身。\n"NOR,me);
+message_vision(HIY + "$N運起強大的內力，使得水壓不置於壓迫其身。\n" + NOR,me);
 me->add("force",-100);
 return 1;
 }
@@ -68,20 +68,20 @@ return "一個你從未見過的雕像，十分的怪異，令你目不轉睛的
 }
 int move01(object me)
 {
-message_vision(HIB"\n\n$N傻傻的看著雕像。\n"NOR,me);
+message_vision(HIB + "\n\n$N傻傻的看著雕像。\n" + NOR,me);
 me->start_busy(5);
 call_out("move02",2,me);
 return 1;
 }
 int move02(object me)
 {
-message_vision(HIB"\n\n雕像似乎緩緩的張開了眼睛。\n"NOR,me);
+message_vision(HIB + "\n\n雕像似乎緩緩的張開了眼睛。\n" + NOR,me);
 call_out("move03",3,me);
 return 1;
 }
 int move03(object me)
 {
-message_vision(HIY"\n\n一瞬間，雕像銳利的雙眼把$N給吸了進去！！\n"NOR,me);
+message_vision(HIY + "\n\n一瞬間，雕像銳利的雙眼把$N給吸了進去！！\n" + NOR,me);
 me->move(__DIR__"statueroom");
 me->delete_temp("look_statue");
 return 1;

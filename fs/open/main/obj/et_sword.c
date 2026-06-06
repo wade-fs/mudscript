@@ -8,7 +8,7 @@ inherit SWORD;
 
 void create()
 {
-  set_name(HIB"連鞘古劍"NOR,({"old sword","sword"}) );
+  set_name(HIB + "連鞘古劍" + NOR,({"old sword","sword"}) );
   set_weight(5000);
   if( clonep() )
     set_default_object(__FILE__);
@@ -56,8 +56,8 @@ int do_wield(string str)
         set_temp("changed",0);
         set_heart_beat(0);
       } else {
-        message_vision(HIW"鞘中之劍感受到$N"HIW"的靈性，隨著一道青光灑然揚出，原來正是聞名天下的"HIC"倚天劍"HIW"。\n"NOR,user);
-        set_name(HIC"倚天劍"NOR,({"et-sword","sword"}) );
+        message_vision(HIW + "鞘中之劍感受到$N" + HIW + "的靈性，隨著一道青光灑然揚出，原來正是聞名天下的" + HIC + "倚天劍" + HIW + "。\n" + NOR,user);
+        set_name(HIC + "倚天劍" + NOR,({"et-sword","sword"}) );
         set("long","\n倚天劍傳聞是以寒湖玄鐵打製，其鋒芒足可分金斷玉，在武林與屠龍刀並列。\n");
         sp = my_spi;
         set_temp("changed",1);
@@ -83,7 +83,7 @@ int do_unwield(string str)
     {
       message_vision("$N輕輕巧巧的把劍收回腰際。\n",user);
       set("long","\n這是一柄連鞘的古劍，古樸的劍鞘中閃爍著異樣的寒光。\n");
-      set_name(HIB"連鞘古劍"NOR,({"old sword","sword"}) );
+      set_name(HIB + "連鞘古劍" + NOR,({"old sword","sword"}) );
       set_temp("changed",0);
       set_heart_beat(0);
     }
@@ -95,7 +95,7 @@ int do_drop(string str)
     if( query("equipped") )
     {
       message_vision("$N輕輕巧巧的把劍收回腰際。\n",user);
-      set_name(HIB"連鞘古劍"NOR,({"old sword","sword"}) );
+      set_name(HIB + "連鞘古劍" + NOR,({"old sword","sword"}) );
       set("long","\n這是一柄連鞘的古劍，古樸的劍鞘中閃爍著異樣的寒光。\n");
       set("changed",0);
       set_heart_beat(0);
@@ -108,7 +108,7 @@ int do_auc(string str)
     if( query("equipped") )
     {
       message_vision("$N輕輕巧巧的把劍收回腰際。\n",user);
-      set_name(HIB"連鞘古劍"NOR,({"old sword","sword"}) );
+      set_name(HIB + "連鞘古劍" + NOR,({"old sword","sword"}) );
       set("long","\n這是一柄連鞘的古劍，古樸的劍鞘中閃爍著異樣的寒光。\n");
       set("changed",0);
       set_heart_beat(0);
@@ -150,7 +150,7 @@ void heart_beat()
     {
       if( !ob || random(10) > 6 )
       {
-        message_vision("$N大喊"HIY"【 "HIB"倚天不出  誰與爭鋒 !! "HIY"】\n"NOR,user);
+        message_vision("$N大喊" + HIY + "【 " + HIB + "倚天不出  誰與爭鋒 !! " + HIY + "】\n" + NOR,user);
         for(j=0;j<=2;j++)
           COMBAT_D->do_attack(user,enemy[i],user->query_temp("weapon"),2);
         return;
@@ -185,7 +185,7 @@ void heart_beat()
 
         if( random(10) > 5 && (1000 - od > 850) )
         {
-          message_vision(HIC"只聽到 __ㄎㄤ__ 一聲，$n"HIC"的"+ob->query("bname")+HIC"已被倚天劍斬成兩段!!\n"NOR,user,enemy[i]);
+          message_vision(HIC + "只聽到 __ㄎㄤ__ 一聲，$n"HIC + "的"+ob->query("bname")+HIC"已被倚天劍斬成兩段!!\n" + NOR,user,enemy[i]);
           ob->unequip();
           bk=new("/open/main/obj/broken");
           bk->set("name", "(斷毀兩段)" + ob->query("bname"));
@@ -197,7 +197,7 @@ void heart_beat()
           if( qq > 280 && (1000-od <= 850 && 1000-od > 400) )
           {
             //	        ob->unequip();
-            message_vision(HIR"$N的"NOR+obj->name()+HIR"把$n"HIR"的"NOR+ob->query("bname")+HIR"重重的砍出了一個嚴重的缺口!!\n"NOR,user,enemy[i]);
+            message_vision(HIR + "$N的"NOR+obj->name()+HIR"把$n" + HIR + "的"NOR+ob->query("bname")+HIR"重重的砍出了一個嚴重的缺口!!\n" + NOR,user,enemy[i]);
             ob->add("bad",2);
             if( ob->query("bad") >= 11 )
               ob->set("name", "(極盡崩碎)" + ob->query("bname"));
@@ -228,7 +228,7 @@ void heart_beat()
               ob->add("weapon_prop/damage",-10);
               ob->wield();
             } else {
-              message_vision(RED"$n"RED"的"+ob->query("bname")+RED"再也承受不住"HIC"倚天劍"RED"的攻擊而完全斷毀了!!\n"NOR,user,enemy[i]);
+              message_vision(RED + "$n"RED + "的"+ob->query("bname")+RED"再也承受不住" + HIC + "倚天劍" + RED + "的攻擊而完全斷毀了!!\n" + NOR,user,enemy[i]);
               ob->unequip();
               bk=new("/open/main/obj/broken");
               bk->set("name", "(完全斷毀)" + ob->query("bname"));
@@ -241,7 +241,7 @@ void heart_beat()
             if( qq > 150 && (1000-od <= 400 && 1000-od > 200) )
             {
               //	          ob->unequip();
-              message_vision(HIY"$N"HIY"的"NOR+obj->name()+HIY"把$n"HIY"的"NOR+ob->query("bname")+HIY"輕輕的砍出了一個小缺口!!\n"NOR,user,enemy[i]);
+              message_vision(HIY + "$N" + HIY + "的"NOR+obj->name()+HIY"把$n"HIY + "的"NOR+ob->query("bname")+HIY"輕輕的砍出了一個小缺口!!\n" + NOR,user,enemy[i]);
               ob->add("bad",1);
               if( ob->query("bad") >= 11 )
                 ob->set("name", "(極盡崩碎)" + ob->query("bname"));
@@ -272,7 +272,7 @@ void heart_beat()
                 ob->add("weapon_prop/damage",-5);
                 ob->wield();
               } else {
-                message_vision(RED"$n"RED"的"+ob->query("bname")+RED"再也承受不住"HIC"倚天劍"RED"的攻擊而碎裂斷毀了!!\n"NOR,user,enemy[i]);
+                message_vision(RED + "$n"RED + "的"+ob->query("bname")+RED"再也承受不住" + HIC + "倚天劍" + RED + "的攻擊而碎裂斷毀了!!\n" + NOR,user,enemy[i]);
                 ob->unequip();
                 bk=new("/open/main/obj/broken");
                 bk->set("name", "(碎裂斷毀)" + ob->query("bname"));
@@ -284,15 +284,15 @@ void heart_beat()
             } else {
               if( qq > 100 && (1000-od <= 200 && 1000-od > 100) )
               {
-                message_vision(HIG"$n"HIG"只覺得手中"NOR+ob->query("bname")+HIG"被"NOR+obj->name()+HIG"一震，險些脫手飛出!!\n"NOR,user,enemy[i]);
+                message_vision(HIG + "$n" + HIG + "只覺得手中"NOR+ob->query("bname")+HIG"被"NOR+obj->name()+HIG"一震，險些脫手飛出!!\n" + NOR,user,enemy[i]);
               } else {
                 if( qq > 50 && (1000-od <= 100 && 1000-od > 0 ) )
                 {
-                  message_vision(HIW"$N"HIW"的"NOR+obj->name()+HIW"和$n"HIW"的"NOR+ob->query("bname")+HIW"相擊，冒出點點的火星。\n"NOR,user,enemy[i]);
+                  message_vision(HIW + "$N" + HIW + "的"NOR+obj->name()+HIW"和$n"HIW + "的"NOR+ob->query("bname")+HIW"相擊，冒出點點的火星。\n" + NOR,user,enemy[i]);
                 } else {
                   if( random(10) > 5 && (1000 == od) )
                   {
-                    message_vision(HIM"$N"HIM"的"NOR+obj->name()+HIM"和$n"HIM"的"NOR+ob->query("bname")+HIM"相擊，發出響亮清脆的聲音。\n"NOR,user,enemy[i]);
+                    message_vision(HIM + "$N" + HIM + "的"NOR+obj->name()+HIM"和$n"HIM + "的"NOR+ob->query("bname")+HIM"相擊，發出響亮清脆的聲音。\n" + NOR,user,enemy[i]);
                   }
                 }
               }

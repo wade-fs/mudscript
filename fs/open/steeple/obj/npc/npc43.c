@@ -8,7 +8,7 @@ void create() {
 
         set("age",3121);
         set("str",35);
-        set("title",HIW"～幻影～"NOR);
+        set("title",HIW + "～幻影～" + NOR);
         set("cor",35);
         set("race","人類");
         set("gender","雄性");
@@ -62,14 +62,14 @@ void heart_beat()
     target=enemy[random(i)];
     if( env == environment(target) )
     {
-      message_vision(HIW"\n                        ～幻～影～心～訣～
+      message_vision(HIW + "\n                        ～幻～影～心～訣～
 
-"HIB"\n
+" + HIB + "\n
 $N指圓為心，方圓百里的妖邪魂魄瞬間飛奔群聚於此，鬼哭獸吼直
 竄腦中轟然欲裂
-隨$N迅雷一指，一式"MAG"『千首積屍  天懲無視』"HIB"的噬血屍氣活若閻羅
+隨$N迅雷一指，一式" + MAG + "『千首積屍  天懲無視』" + HIB + "的噬血屍氣活若閻羅
 直奔逼竄$n的七孔之中
-\n"NOR,mob,target);
+\n" + NOR,mob,target);
 	mob->add("kee",2000);
       target->receive_damage("kee",2000);
       COMBAT_D->report_status(target, 1);
@@ -82,7 +82,7 @@ $N指圓為心，方圓百里的妖邪魂魄瞬間飛奔群聚於此，鬼哭獸
 int heal_up()
 {
         if (!is_fighting() ) {
-             message_vision (HIW"系統：戰鬥停止，$N回收中，。\n"NOR, this_object ());
+             message_vision (HIW + "系統：戰鬥停止，$N回收中，。\n" + NOR, this_object ());
              destruct(this_object());
              return 1;
         }
@@ -105,17 +105,17 @@ destruct (this_object ());
 else
 if(me->query("quest/start_game")< 44)
        {
-        message_vision(HIY"
-恭喜"HIW+me->query("name")+HIY"挑戰"HIG"『"HIR"第四十三層試煉ソ塔"HIG"』"HIY"通過！！
+        message_vision(HIY + "
+恭喜"HIW+me->query("name")+HIY"挑戰" + HIG + "『" + HIR + "第四十三層試煉ソ塔" + HIG + "』" + HIY + "通過！！
 
-"HIW"希望"+me->query("name")+"能不負眾望，勇闖"HIG"『"HIY"第四十四層試煉ソ塔"HIG"』"HIW"。
-	"NOR,me);
+" + HIW + "希望"+me->query("name")+"能不負眾望，勇闖" + HIG + "『" + HIY + "第四十四層試煉ソ塔" + HIG + "』" + HIW + "。
+	" + NOR,me);
 	me->set("quest/start_game",44);
         destruct (this_object ());
        }
 {
         :: unconcious();
-	tell_object(me,HIW"系統：你已經通過測試，系統不做任何更改。\n"NOR);
+	tell_object(me,HIW + "系統：你已經通過測試，系統不做任何更改。\n" + NOR);
 	destruct(this_object());
 }
 }

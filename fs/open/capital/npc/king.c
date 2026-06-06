@@ -4,7 +4,7 @@ inherit NPC;
 int accept_kill(object who);
 void create()
 {
-        set_name(HIM "天子" NOR, ({ "king" }) );
+        set_name(HIM + "天子" + NOR, ({ "king" }) );
         set("title","當今皇上");
         set("gender", "男性" );
         set("age",50);
@@ -82,7 +82,7 @@ int accept_kill(object who)
         ob = this_object();
 
         if( !present("king guard", environment(ob)) ) {
-        tell_room(environment(ob),HIW"\n突然！衝出五位御前護衛！\n\n"NOR);
+        tell_room(environment(ob),HIW + "\n突然！衝出五位御前護衛！\n\n" + NOR);
      for(i=0;i<5;i++)
      {
         guard = new(__DIR__"fuguard");
@@ -92,7 +92,7 @@ int accept_kill(object who)
         guard->kill_ob(who);
         }
         }
-     tell_object(users(),HIR "御前護衛大叫：有刺客！快保護殿下！！\n" NOR);
+     tell_object(users(),HIR + "御前護衛大叫：有刺客！快保護殿下！！\n" + NOR);
         return 1;
 }
 

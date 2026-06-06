@@ -3,7 +3,7 @@ inherit COMBINED_ITEM;
 
 void create()
 {
-	set_name(HIR"(毀壞的)燃木材"NOR,({"bad torch","torch"}));
+	set_name(HIR + "(毀壞的)燃木材" + NOR,({"bad torch","torch"}));
 	set_weight(100);
 	if( clonep() )
                 set_default_object(__FILE__);

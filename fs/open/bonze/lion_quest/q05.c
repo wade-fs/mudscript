@@ -26,7 +26,7 @@ LONG);
 	]));
 //需注意就是門一定要在兩邊同時定義
 //  set("need_key/east",1);       //設定door的房向及key哦 不設定此行就無須鑰匙
-  create_door("west",YEL"駐地柵門"NOR,"east",DOOR_CLOSED);
+  create_door("west",YEL + "駐地柵門" + NOR,"east",DOOR_CLOSED);
   set("item_desc", ([ /* sizeof() == 1 */
   "west" : (: look_door,     "west" :),
 ]));

@@ -27,7 +27,7 @@ void create()
         set("age",16);
         set("long","他是屬於青銅級的聖鬥士，在三大聖戰中一直是護衛著雅典娜女神。\n"
         "而現在的實力是遠超過黃金聖鬥士，是雅典娜忠心的護衛。\n");
-        set("title",HIR"鳳凰座"NOR+ HIG"聖鬥士"NOR);
+        set("title",HIR + "鳳凰座"NOR+ HIG"聖鬥士" + NOR);
         set("gender","男性");
         set("class","聖鬥士");
         set("str",30);
@@ -79,9 +79,9 @@ void do_special()
         target=enemy[random(i)];
 
                 message_vision(
-HIR "\n一輝燃燒了全身的小宇宙，大喝：看我的『鳳  翼  天  翔』～～～\n",target);
+HIR + "\n一輝燃燒了全身的小宇宙，大喝：看我的『鳳  翼  天  翔』～～～\n",target);
                 message_vision(
-HIW "\n一輝的身影突然變成一隻火鳳凰，快速的由$N的身邊飛過！！$N感覺到一股強大的火燄從$N身邊經過，等$N回過身來時，一輝已在$N身後等著了！！！\n"NOR,target);
+HIW + "\n一輝的身影突然變成一隻火鳳凰，快速的由$N的身邊飛過！！$N感覺到一股強大的火燄從$N身邊經過，等$N回過身來時，一輝已在$N身後等著了！！！\n" + NOR,target);
                 target->receive_wound("kee",random(210+270));
                 COMBAT_D->report_status(target);
 

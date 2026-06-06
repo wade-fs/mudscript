@@ -3,7 +3,7 @@ inherit EQUIP;
 
 void create()
 {
- set_name(HIR"紫羽龍絲臂環"NOR,({"dragon armband","armband"}));
+ set_name(HIR + "紫羽龍絲臂環" + NOR,({"dragon armband","armband"}));
         set_weight(10000);
         if( clonep() )
                 set_default_object(__FILE__);
