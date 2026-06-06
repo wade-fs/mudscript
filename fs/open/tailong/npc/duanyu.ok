@@ -1,0 +1,187 @@
+#include <ansi.h>
+#include </open/open.h>
+inherit NPC;
+void do_wield();
+string do_linpo();
+void create()
+{
+        set_name("段譽",({"duan yu","duan","yu"}));
+        set("title",HBMAG+HIC"六脈劍聖"NOR);
+        set("long","他可是第一位將六脈神劍融會貫通的人,他的六脈神劍已達爐火純青的
+地步\n");
+        set("gender","男性");
+        set("combat_exp", 8000000);
+        set("attitude","friendly");
+        set("bellicosity",3000);
+        set("family/family_name","段家");
+        set("age",28);
+        set("str", 44);
+        set("cor", 44);
+        set("cps", 45);
+        set("per", 30);
+        set("int", 42);
+        set("food",1000);
+        set("water",1000);
+        set("force",100000);
+        set("max_force",50000);
+        set("kee",40000);
+        set("max_kee",40000);
+        set("gin",40000);
+        set("max_gin",40000);
+        set("sen",40000);
+        set("max_sen",40000);
+        set("chat_chance", 5);
+        set("chat_msg", ({
+        "段譽道: 唉!好不容易想出來的絕招，卻找不到傳人。\n",
+        "段譽道: 自由自在的生活，真是太棒了。\n",
+        }));
+        set("inquiry", ([
+        "凌波微步" : "那是我在瑯環福地的神仙姊姊那學到的步法，在打不過別人，要逃跑的時候最有用了!!\n",
+        "步法" : "你要學凌波微步???真的想學的話去找段雲吧，我有把凌波微步的秘笈給他。\n",
+        "精華" : (: do_linpo :),
+        ]));
+        set_skill("force",400);
+        set_skill("unarmed",120);
+        set_skill("sunforce",230);
+        set_skill("linpo-steps",100);
+        set_skill("six-fingers",125);
+        set_skill("parry",100);
+        set_skill("dodge",100);
+        set_skill("move",100);
+        set_skill("stabber",120);
+        set_skill("literate",150);
+        map_skill("force","sunforce");
+        map_skill("dodge","linpo-steps");
+        map_skill("move","linpo-steps");
+        map_skill("parry","six-fingers");
+        map_skill("unarmed","six-fingers");
+        map_skill("stabber","six-fingers");
+        set("force_factor",25);
+        set("marks/six_sp",3);
+        set("marks/six-fingers",3);
+        set("marks/sun-finger",1);
+        set("marks/linpo-steps",1);
+        set("marks/handwriting",1);
+        set_temp("apply/armor",300);
+        set_temp("apply/stagger",50);
+        set_temp("apply/defense",100);
+        set_temp("apply/damage",120);
+        set("mpower",3);
+        set("six_spsp",1);
+        set("env/quick_fan","YES");
+        set("chat_chance_combat", 100);
+        set("chat_msg_combat", ({
+                (: perform_action("stabber.handwriting") :),
+                (: exert_function("threeforce") :),
+        }));
+        set("functions/handwriting/level",150);
+        set("functions/threeforce/level",100);
+
+        setup();
+        carry_object(PING_OBJ"neck0")->wear();
+        carry_object(PING_OBJ"cloud_fan");
+        add_money("gold",100);
+}
+void init()
+{
+    call_out("do_wield",1);
+}
+void do_wield()
+{
+    command("wield all");
+}
+string do_linpo()
+{
+    object ppl;
+
+    ppl=this_player();
+
+    if(ppl->query("family/family_name") != "段家")
+      return "嗯?你怎可能到得了這邊??";
+    if(ppl->query("marks/ask_linpo")!=4)
+      return "哈哈!易經精華之所在，可不是三言兩語就可以說盡的。";
+    if(ppl->query("int") > 33) ppl->set_temp("teach_time",2);
+    else ppl->set_temp("teach_time",4);
+    call_out("teach_step1",4,ppl);
+    return HIY"原來你是要學逃跑的技巧阿，哈哈，沒問題，我馬上表演一次給你看，看清楚了喔!!"NOR;
+}
+int teach_step1(object ppl)
+{
+    if(!ppl) return 1;
+    if(environment(this_object()) != environment(ppl)) return 1;
+    message_vision(HIC"只見$N開始在$n"HIC"面前走來走去，$n"HIC"忽然眼睛一花，$N不見了!!\n"NOR,this_object(),ppl);
+    call_out("teach_step2",2,ppl);
+    return 1;
+}
+int teach_step2(object ppl)
+{
+    if(!ppl) return 1;
+    if(environment(this_object()) != environment(ppl)) return 1;
+    command("say 如何，看懂了嗎???");
+    call_out("teach_step3",2,ppl);
+    return 1;
+}
+int teach_step3(object ppl)
+{
+    if(!ppl) return 1;
+    if(environment(this_object()) != environment(ppl)) return 1;
+    ppl->add_temp("teach_time",-1);
+    if(ppl->query_temp("teach_time") > 0){
+      ppl->do_command("shake");
+      call_out("teach_step4",2,ppl);
+      return 1;
+    }
+    else
+    {
+      ppl->do_command("nod");
+      call_out("teach_step5",2,ppl);
+      return 1;
+    }
+}
+int teach_step4(object ppl)
+{
+    if(!ppl) return 1;
+    if(environment(this_object()) != environment(ppl)) return 1;
+    command("say 看不懂阿，沒關係，我再做一次，看清楚囉!!");
+    call_out("teach_step1",2,ppl);
+    return 1;
+}
+int teach_step5(object ppl)
+{
+    if(!ppl) return 1;
+    if(environment(this_object()) != environment(ppl)) return 1;
+    message_vision(HIG"只見$N"HIG"開始在$n面前走來走去，$n忽然眼睛一花，$N"HIG"繞到了$n的背後!!\n",ppl,this_object());
+    call_out("end_step",2,ppl);
+    return 1;
+}
+int end_step(object ppl)
+{
+    if(!ppl) return 1;
+    if(environment(this_object()) != environment(ppl)) return 1;
+    command("haha");
+    command("spank "+ppl->query("id"));
+    command("say 幹得好，以後幾乎沒人可以奈何得了你了!!");
+    command("say 不過有兩點要注意的!!");
+    command("say 好漢不敵人多，所以千萬不要一對多，到時候跑不掉，死的就是你了");
+    command("say 跑進了死胡同，逃跑的路徑少了，也就減少了你逃跑的機會");
+    command("say 一定要注意這兩點，知道嗎?");
+    ppl->set("marks/linpo-steps",1);
+    ppl->delete("marks/ask_linpo");
+    return 1;
+}
+void unconcious()
+{
+    message_vision("
+$N忽然領悟"HIC"『凌波微步』"NOR"的要旨所在，腳步作到"HIY"「動無常則，若危若安，進止難期，
+若往若還」"NOR",霎時一片人影紛飛，讓敵人頭昏眼花\n",this_object());
+    message_vision(HIC"$N趁著這個機會逃離開這裡!!\n"NOR,this_object());
+    destruct(this_object());
+}
+void die()
+{
+    message_vision("
+$N心中默念，將"HIC"『凌波微步』"NOR"的六十四卦步法，自「明夷」起始，經「賁」
+ 、「既濟」、「家人」，走了一大圈而至「旡妄」，終於順利擺\脫敵人的糾纏。\n"NOR,this_object());
+    message_vision(HIC"$N趁著這個機會逃離開這裡!!\n"NOR,this_object());
+    destruct(this_object());
+}
