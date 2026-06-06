@@ -32,11 +32,15 @@ func (d *Driver) LoadObject(filename string) (*object.LPCObject, error) {
 }
 
 func (d *Driver) loadObjectInternal(filename string) (*object.LPCObject, bool, error) {
+	filename = d.NormalizePath(filename)
+	if filename == "" {
+		return nil, false, fmt.Errorf("file not found: empty path")
+	}
+
 	// 🚀 關鍵強化：強制進行 .c 尾碼正規化
 	if !strings.HasSuffix(filename, ".c") && !strings.Contains(filename, "#") {
 		filename += ".c"
 	}
-	filename = d.NormalizePath(filename)
 	
 	d.mu.RLock()
 	if obj, exists := d.ObjectTable[filename]; exists {

@@ -11,6 +11,9 @@ import (
 
 func (d *Driver) NormalizePath(path string) string {
 	cleanPath := filepath.Clean(path)
+	if cleanPath == "." || cleanPath == "/" {
+		return ""
+	}
 	cleanPath = filepath.ToSlash(cleanPath)
 	if !strings.HasPrefix(cleanPath, "/") {
 		cleanPath = "/" + cleanPath

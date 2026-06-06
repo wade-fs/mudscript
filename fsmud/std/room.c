@@ -247,7 +247,7 @@ void init() {
 // ── 移動 ───────────────────────────────────────────────
 int do_go(string dir) {
     mixed cmd = dir;
-    if (!cmd) {
+    if (!cmd || cmd == "") {
         cmd = query_verb();
     }
 

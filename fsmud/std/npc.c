@@ -357,6 +357,8 @@ void do_wander() {
     string dir = dirs[random(sizeof(dirs))];
     string dest_path = exits[dir];
     
+    if (!dest_path || dest_path == "" || dest_path == "/") return;
+
     object dest = load_object(dest_path);
     if (!dest) return;
 
@@ -383,10 +385,14 @@ void do_wander() {
 
 // ── 巡邏邏輯 ─────────────────────────────────────────────────────
 void do_patrol() {
-    if (!patrol_rooms) return;
+    if (!patrol_rooms || sizeof(patrol_rooms) == 0) return;
     patrol_idx = (patrol_idx + 1) % sizeof(patrol_rooms);
-    object dest = find_object(patrol_rooms[patrol_idx]);
-    if (!dest) dest = load_object(patrol_rooms[patrol_idx]);
+    
+    string path = patrol_rooms[patrol_idx];
+    if (!path || path == "" || path == "/") return;
+
+    object dest = find_object(path);
+    if (!dest) dest = load_object(path);
     if (dest && dest != environment(this_object())) {
         move_object(this_object(), dest);
     }

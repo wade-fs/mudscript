@@ -415,14 +415,13 @@ func (d *Driver) registerSystemAndFiles(obj *object.LPCObject) {
 	obj.Vars.Set("load_object", &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
 			if len(args) < 1 {
-				return &object.Nil{}
+				return evaluator.NilValue
 			}
-			path := ""
-			if s, ok := args[0].(*object.String); ok {
-				path = s.Value
-			} else {
-				path = args[0].Inspect()
+			pathObj, ok := args[0].(*object.String)
+			if !ok || pathObj.Value == "" || pathObj.Value == "/" {
+				return evaluator.NilValue
 			}
+			path := pathObj.Value
 
 			resolvedPath := d.ResolvePath(obj.Filename, path)
 			if !strings.HasSuffix(resolvedPath, ".c") {

@@ -217,7 +217,7 @@ func (d *Driver) ProcessCommand(pConn *PlayerConnection, input string) bool {
 			if exitsMap, ok := exitsVal.(*object.Mapping); ok {
 				verbKey := (&object.String{Value: verb}).HashKey()
 				if _, hasExit := exitsMap.Pairs[verbKey]; hasExit {
-					// 轉換為 go 指令
+					// 轉換為 go 指令並直接處理，若成功則不再繼續
 					if d.ProcessCommand(pConn, "go "+input) {
 						return true
 					}
@@ -235,7 +235,7 @@ func (d *Driver) ProcessCommand(pConn *PlayerConnection, input string) bool {
 		return true
 	}
 
-	// 若完全找不到指令，且沒被攔截處理，報錯
+	// 若完全找不到指令，報錯
 	pConn.Send("什麼？\n")
 	d.CallFunction(obj, "write_prompt", nil)
 
