@@ -40,3 +40,6 @@ debug_*
 fs/log
 *.tmp
 *.log
+fs/log/USAGE
+fs/log/init.log
+fs/u/b/bss/record/no_in_open
