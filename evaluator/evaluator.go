@@ -1331,10 +1331,23 @@ func evalAssignExpression(node *ast.AssignExpression, env object.Environment) ob
 	val := Eval(node.Value, env)
 	if isError(val) { return val }
 
+	return assignValueToLeft(node.Left, node.Operator, val, env)
+}
+
+func assignValueToLeft(left ast.Expression, operator string, val object.Object, env object.Environment) object.Object {
+	// ==========================================
+	// 0. 處理 LPC 舊式語法 `!obj = ...` (被解析為 (!obj) = ...)
+	// ==========================================
+	if prefixExpr, ok := left.(*ast.PrefixExpression); ok && prefixExpr.Operator == "!" {
+		assignedVal := assignValueToLeft(prefixExpr.Right, operator, val, env)
+		if isError(assignedVal) { return assignedVal }
+		return evalBangOperatorExpression(assignedVal)
+	}
+
 	// ==========================================
 	// 1. 處理陣列或 Mapping 的索引賦值 (例如 arr[0] = 5 或 m["hp"] += 10)
 	// ==========================================
-	if indexExpr, ok := node.Left.(*ast.IndexExpression); ok {
+	if indexExpr, ok := left.(*ast.IndexExpression); ok {
 		leftObj := Eval(indexExpr.Left, env) // 取得 Array 或 Mapping 本身
 		if isError(leftObj) { return leftObj }
 		
@@ -1342,7 +1355,7 @@ func evalAssignExpression(node *ast.AssignExpression, env object.Environment) ob
 		if isError(indexObj) { return indexObj }
 
 		// 如果是單純的 =
-		if node.Operator == "=" {
+		if operator == "=" {
 			return assignToIndex(leftObj, indexObj, val)
 		}
 
@@ -1350,7 +1363,7 @@ func evalAssignExpression(node *ast.AssignExpression, env object.Environment) ob
 		currentVal := evalIndexExpression(leftObj, indexObj)
 		if isError(currentVal) { return currentVal }
 		
-		op := node.Operator[:len(node.Operator)-1] // 把 "+=" 切成 "+"
+		op := operator[:len(operator)-1] // 把 "+=" 切成 "+"
 		newVal := evalInfixExpression(op, currentVal, val)
 		if isError(newVal) { return newVal }
 		
@@ -1360,12 +1373,12 @@ func evalAssignExpression(node *ast.AssignExpression, env object.Environment) ob
 	// ==========================================
 	// 2. 處理一般變數賦值 (例如 x = 5)
 	// ==========================================
-	leftIdent, ok := node.Left.(*ast.Ident)
+	leftIdent, ok := left.(*ast.Ident)
 	if !ok {
-		return newError("賦值的左側必須是變數或索引 (例如 x 或 arr[0])，但得到了 %T: %s", node.Left, node.Left.String())
+		return newError("賦值的左側必須是變數或索引 (例如 x 或 arr[0])，但得到了 %T: %s", left, left.String())
 	}
 
-	if node.Operator == "=" {
+	if operator == "=" {
 		if !env.Assign(leftIdent.Value, val) {
 			// 🚀 關鍵容錯：若變數不存在，在當前環境建立它 (修復繼承變數遺失)
 			env.Set(leftIdent.Value, val)
@@ -1381,12 +1394,12 @@ func evalAssignExpression(node *ast.AssignExpression, env object.Environment) ob
 
 	// 🚀 核心修正：將複合運算子轉為標準中綴運算
 	// 例如 &= 轉為 &
-	op := node.Operator[:len(node.Operator)-1]
+	op := operator[:len(operator)-1]
 	
 	// 特殊處理位元位移 (<<=, >>= 是 3 個字元)
-	if node.Operator == "<<=" {
+	if operator == "<<=" {
 		op = "<<"
-	} else if node.Operator == ">>=" {
+	} else if operator == ">>=" {
 		op = ">>"
 	}
 

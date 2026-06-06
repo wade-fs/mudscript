@@ -2,7 +2,6 @@
 package driver
 
 import (
-	"log"
 	"strings"
 
 	"mudscript/object"
@@ -186,13 +185,10 @@ for v, action := range obj.Actions {
 				callArg = strings.TrimSpace(callArg)
 			}
 
-			// log.Printf("DEBUG: Calling action %s::%s with arg '%s'", action.Provider.Filename, action.FuncName, callArg)
 			res := d.RunCommand(pConn, action.Provider, action.FuncName, []object.Object{&object.String{Value: callArg}})
 			if isLPCTrue(res) {
-				log.Printf("DEBUG: Action %s::%s for verb '%s' returned true", action.Provider.Filename, action.FuncName, verb)
 				return true
 			}
-			log.Printf("DEBUG: Action %s::%s for verb '%s' returned false", action.Provider.Filename, action.FuncName, verb)
 		}
 	}
 }

@@ -49,6 +49,9 @@ func main() {
 		"guest", // 輸入帳號
 		"",      // 響應 "-- 請按 Enter 鍵繼續 --"
 		"look",  // 執行 look 指令
+		"go north", // 執行移動指令
+		"go south", // 執行移動指令
+		"go north", // 執行移動指令
 		"who",   // 執行 who 指令
 		"help",  // 執行 help 指令
 	}
