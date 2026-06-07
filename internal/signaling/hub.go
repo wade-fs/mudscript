@@ -5,6 +5,7 @@ import (
 	"strings"
 
 	"mudscript/driver"
+	"mudscript/object"
 )
 
 type Hub struct {
@@ -36,6 +37,7 @@ func (h *Hub) Run() {
 				pConn := driver.NewPlayerConnection(nil, nil) 
 				pConn.SessionID = client.ID
 				pConn.Username = client.Username
+				pConn.Object.Vars.Set("is_web", &object.Integer{Value: 1})
 				
 				pConn.OutputCallback = func(mudText string) {
 					defer func() { recover() }() // 🚀 安全防護

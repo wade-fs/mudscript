@@ -2,6 +2,7 @@
 package driver
 
 import (
+	"encoding/json"
 	"mudscript/object"
 )
 
@@ -77,8 +78,7 @@ func getTarget(args []object.Object, defaultObj *object.LPCObject) *object.LPCOb
 
 // SetupEfuns 為每個載入的 LPC 物件注入專屬的內建函式
 func (d *Driver) SetupEfuns(obj *object.LPCObject) {
-	// 🚀 新增：初始化 Efuns 環境，用於儲存原始 Efun (不被 SimulEfun 覆蓋)
-	obj.Efuns = object.NewEnvironment()
+obj.Efuns = object.NewEnvironment()
 
 	d.registerTypePredicates(obj)
 	d.registerTypeCasting(obj)
@@ -116,6 +116,40 @@ func (d *Driver) SetupEfuns(obj *object.LPCObject) {
 	d.registerParseEfuns(obj)
 	d.registerDebugEfuns(obj)
 	d.registerPerformanceEfuns(obj)
+
+	// 🚀 Web IDE 支援
+	obj.Vars.Set("is_web_client", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			target := obj
+			if len(args) > 0 {
+				if t, ok := args[0].(*object.LPCObject); ok {
+					target = t
+				}
+			}
+			if conn := d.GetConnectionFromObject(target); conn != nil {
+				if conn.OutputCallback != nil {
+					return &object.Integer{Value: 1}
+				}
+			}
+			return &object.Integer{Value: 0}
+		},
+	})
+
+	obj.Vars.Set("request_web_edit", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 1 { return &object.Nil{} }
+			path, ok := args[0].(*object.String)
+			if !ok { return &object.Nil{} }
+			p := d.GetCurrentPlayer()
+			if p == nil && obj.IsInteractive { p = d.GetConnectionFromObject(obj) }
+			if p == nil || !p.IsActive { return &object.Nil{} }
+			content, _ := d.ReadFile(path.Value)
+			payload := map[string]string{"path": path.Value, "content": string(content)}
+			jsonData, _ := json.Marshal(payload)
+			p.Send("__EDIT__" + string(jsonData))
+			return &object.Nil{}
+		},
+	})
 
 	// 🚩 關鍵修正：將所有剛註冊進 Vars 的 Builtin (原始 Efun) 備份到 Efuns 中
 	for k, v := range obj.Vars.GetAll() {

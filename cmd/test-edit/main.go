@@ -49,9 +49,10 @@ func main() {
 		time.Sleep(1 * time.Second)
 	}
 
-	send("1")      // English
+	send("2")      // Traditional Chinese
 	send("wade")   // ID
 	send("jj")     // Pass
+	time.Sleep(3 * time.Second) // Wait for login to finish
 	send("edit /master.c")
 	
 	deadline := time.Now().Add(10 * time.Second)

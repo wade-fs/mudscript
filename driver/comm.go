@@ -99,7 +99,7 @@ func (d *Driver) ProcessCommand(pConn *PlayerConnection, input string) bool {
 		pConn.InputHidden = false
 
 		lpcInput := &object.String{Value: input}
-		callArgs := append([]object.Object{obj, lpcInput}, args...)
+		callArgs := append([]object.Object{lpcInput}, args...)
 
 		if closure != nil {
 			d.ExecuteCallback(obj, closure, callArgs)

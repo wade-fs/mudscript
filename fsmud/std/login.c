@@ -42,8 +42,8 @@ void logon() {
     write("\n" + HIW("Welcome to MudScript World!") + "\n");
     write("Please select your language / 請選擇您的語系：\n");
     write("[1] English\n");
-    write("[2] 繁體中文 (Traditional Chinese)\n");
-    write("[3] 简体中文 (Simplified Chinese)\n");
+    write("[2] 正體中文 (Traditional Chinese)\n");
+    write("[3] 邪体中文 (Simplified Chinese)\n");
     write("Selection: ");
     input_to("get_language");
 }

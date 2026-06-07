@@ -159,6 +159,10 @@ void setup() {
         set_name(id);
     }
 
+    if (role == "god" || role == "wizard") {
+        enable_wizard();
+    }
+
     recalc_stats();
 
 	// 🚀 新增：賦予種族天性
