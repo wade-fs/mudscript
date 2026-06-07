@@ -115,23 +115,7 @@ func (d *Driver) ProcessCommand(pConn *PlayerConnection, input string) bool {
 		return true
 	}
 
-	// 🚀 新增：攔截 Web IDE 存檔指令 (Phase 1)
-	if strings.HasPrefix(input, "__save_web_file__ ") {
-		rest := strings.TrimPrefix(input, "__save_web_file__ ")
-		parts := strings.SplitN(rest, "\n", 2)
-		if len(parts) == 2 {
-			path := strings.TrimSpace(parts[0])
-			content := parts[1]
-			if err := d.WriteFile(path, []byte(content)); err == nil {
-				d.TellObject(obj, "✅ 檔案 " + path + " 已透過 Web IDE 存檔。\n")
-				// 自動執行 update
-				d.ProcessCommand(pConn, "update " + path)
-			} else {
-				d.TellObject(obj, "❌ 存檔失敗：" + err.Error() + "\n")
-			}
-		}
-		return true
-	}
+
 
 	// 解析動詞與參數
 	input = strings.TrimSpace(input)

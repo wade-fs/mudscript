@@ -139,7 +139,27 @@ func (h *Hub) Run() {
 				// 這會確保 Web 客戶端與原生客戶端的行為完全一致
 				h.mudDriver.ProcessCommand(p, msg.Payload)
 
-			} else if msg.Type == "chat" {
+			
+			} else if msg.Type == "save_file" {
+				client, ok := h.clients[msg.From]
+				if !ok || client.MudConn == nil { continue }
+				
+				var data struct {
+					Path    string `json:"path"`
+					Content string `json:"content"`
+				}
+				if err := json.Unmarshal([]byte(msg.Payload), &data); err == nil {
+					if err := h.mudDriver.WriteFile(data.Path, []byte(data.Content)); err == nil {
+						h.mudDriver.TellObject(client.MudConn.Object, "✅ 檔案 " + data.Path + " 已儲存。
+")
+						// 自動 update
+						h.mudDriver.ProcessCommand(client.MudConn, "update " + data.Path)
+					} else {
+						h.mudDriver.TellObject(client.MudConn.Object, "❌ 儲存失敗：" + err.Error() + "
+")
+					}
+				}
+} else if msg.Type == "chat" {
 				if h.mudDriver != nil && h.mudDriver.OnP2PMessage != nil {
 					h.mudDriver.OnP2PMessage(msg.Username, msg.Payload)
 				}

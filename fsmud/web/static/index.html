@@ -76,6 +76,7 @@
         .suggest-item { padding: 10px 20px; cursor: pointer; border-bottom: 1px solid #333; display: flex; justify-content: space-between; }
         .suggest-item.active { background: #4CAF50; color: #fff; }
     </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.44.0/min/vs/loader.js"></script>
 </head>
 <body>
 <div id="wrapper">
@@ -102,9 +103,7 @@
             <span onclick="togglePanel('panel-editor')" style="cursor:pointer">×</span>
         </div>
         <div class="panel-content" style="display:flex; flex-direction:column; gap:10px; padding: 0;">
-            <textarea id="editor-area" 
-                      style="flex:1; background:#1e1e1e; color:#d4d4d4; border:none; font-family:'Consolas', monospace; padding:20px; font-size:16px; line-height:1.5; outline:none; resize:none;"
-                      spellcheck="false"></textarea>
+            <div id="editor-container" style="flex:1; background:#1e1e1e;"></div>
             <div style="background:#252526; padding:10px 15px; display:flex; gap:10px; border-top:1px solid #333;">
                 <button class="tool-btn" onclick="saveEditorFile()" style="background:#2196F3; border-color:#2196F3;">💾 Save (Ctrl+S)</button>
                 <button class="tool-btn" onclick="togglePanel('panel-editor')">❌ Close</button>
@@ -486,6 +485,71 @@
             }
         }
     });
+
+    
+    let monacoEditor = null;
+    let currentEditPath = "";
+
+    // 初始化 Monaco
+    require.config({ paths: { 'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.44.0/min/vs' }});
+    require(['vs/editor/editor.main'], function() {
+        // 定義 LPC 語法高亮 (基於 C 擴充)
+        monaco.languages.register({ id: 'lpc' });
+        monaco.languages.setMonarchTokensProvider('lpc', {
+            tokenizer: {
+                root: [
+                    [/[a-zA-Z_]\w*/, {
+                        cases: {
+                            'inherit|mixed|object|string|int|float|mapping|array|void|private|protected|public|nomask|varargs|virtual|static|status': 'keyword',
+                            '@default': 'identifier'
+                        }
+                    }],
+                    { include: 'vs/basic-languages/cpp/cpp' } // 繼承 C++ 基礎
+                ]
+            }
+        });
+
+        monacoEditor = monaco.editor.create(document.getElementById('editor-container'), {
+            value: '',
+            language: 'cpp', // 暫時先用 cpp，之後改進 lpc
+            theme: 'vs-dark',
+            automaticLayout: true,
+            fontSize: 16,
+            minimap: { enabled: true }
+        });
+
+        // 快捷鍵支援
+        monacoEditor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyS, function() {
+            saveEditorFile();
+        });
+    });
+
+    function openEditor(data) {
+        currentEditPath = data.path;
+        document.getElementById("editor-title").innerText = "📝 Editing: " + data.path;
+        
+        if (monacoEditor) {
+            const ext = data.path.split('.').pop();
+            const lang = (ext === 'c' || ext === 'h') ? 'cpp' : 'plaintext';
+            monaco.editor.setModelLanguage(monacoEditor.getModel(), lang);
+            monacoEditor.setValue(data.content);
+        }
+        
+        document.getElementById("editor-status").innerText = "";
+        togglePanel('panel-editor');
+        if (monacoEditor) setTimeout(() => monacoEditor.focus(), 100);
+    }
+
+    function saveEditorFile() {
+        if (!currentEditPath || !monacoEditor) return;
+        const content = monacoEditor.getValue();
+        ws.send(JSON.stringify({ 
+            type: "save_file", 
+            payload: JSON.stringify({ path: currentEditPath, content: content }) 
+        }));
+        document.getElementById("editor-status").innerText = "Saving...";
+        setTimeout(() => { document.getElementById("editor-status").innerText = "Saved at " + new Date().toLocaleTimeString(); }, 500);
+    }
 
     function sendCmd(cmd) {
         if (cmd !== "") {
