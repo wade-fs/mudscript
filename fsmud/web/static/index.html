@@ -221,7 +221,12 @@
                 }
                 if (p.startsWith("{") && p.endsWith("}")) {
                     try { handleUIData(JSON.parse(p)); } catch (err) { handleMultiJSON(p); }
-                } else appendLook(p);
+                } else if (p.startsWith("<") && p.includes(">")) {
+                    // server 送來的已是 HTML（登入畫面、公告等），直接插入不做 escape
+                    appendRaw(p);
+                } else {
+                    appendLook(p);
+                }
             }
         };    }
 
@@ -451,9 +456,10 @@
         div.style.whiteSpace = "pre-wrap";
         div.innerHTML = html;
         content.appendChild(div);
-        setTimeout(() => { area.scrollTop = area.scrollHeight; }
+        setTimeout(() => { area.scrollTop = area.scrollHeight; }, 10);
+    }
 
-function appendLook(t) {
+    function appendLook(t) {
         const area = document.getElementById("look-area"), content = document.getElementById("look-content");
         // 所有輸入一律視為純文字，先 escape HTML，再交給 parseOutput 處理
         let p = t
@@ -464,7 +470,7 @@ function appendLook(t) {
         // [顯示文字|指令] 可點擊連結
         p = p.replace(/\[(.*?)\]/g, (m, p1) => {
             let pts = p1.split('|'), d = pts[0], c = pts.length > 1 ? pts[1] : pts[0];
-            return `<span class="cmd-link" onclick="sendCmd('${c.replace(/'/g, "\'")}')">${d}</span>`;
+            return `<span class="cmd-link" onclick="sendCmd('${c.replace(/'/g, "\\'")}')">${d}</span>`;
         });
         const div = document.createElement("div");
         div.style.whiteSpace = "pre-wrap";

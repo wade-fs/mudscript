@@ -221,7 +221,12 @@
                 }
                 if (p.startsWith("{") && p.endsWith("}")) {
                     try { handleUIData(JSON.parse(p)); } catch (err) { handleMultiJSON(p); }
-                } else appendLook(p);
+                } else if (p.startsWith("<") && p.includes(">")) {
+                    // server 送來的已是 HTML（登入畫面、公告等），直接插入不做 escape
+                    appendRaw(p);
+                } else {
+                    appendLook(p);
+                }
             }
         };    }
 
