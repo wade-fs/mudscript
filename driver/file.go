@@ -136,3 +136,33 @@ func (d *Driver) formatParserErrors(filename string, errors []string) error {
 	}
 	return fmt.Errorf("%s", sb.String())
 }
+
+// 🚀 新增：掃描目錄檔案 (get_dir)
+func (d *Driver) GetDir(path string) ([]string, error) {
+	resolvedPath := d.ResolvePath("", path)
+	
+	// 處理萬用字元 (如 /data/*.o)
+	if strings.Contains(resolvedPath, "*") {
+		fullPattern := filepath.Join(d.Config.MudLibPath, resolvedPath)
+		matches, err := filepath.Glob(fullPattern)
+		if err != nil { return nil, err }
+		
+		var results []string
+		for _, m := range matches {
+			results = append(results, filepath.Base(m))
+		}
+		return results, nil
+	}
+
+	fullPath := filepath.Join(d.Config.MudLibPath, resolvedPath)
+	files, err := os.ReadDir(fullPath)
+	if err != nil { return nil, err }
+
+	var results []string
+	for _, f := range files {
+		name := f.Name()
+		if f.IsDir() { name += "/" }
+		results = append(results, name)
+	}
+	return results, nil
+}

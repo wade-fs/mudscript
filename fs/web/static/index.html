@@ -76,7 +76,7 @@
         .suggest-item { padding: 10px 20px; cursor: pointer; border-bottom: 1px solid #333; display: flex; justify-content: space-between; }
         .suggest-item.active { background: #4CAF50; color: #fff; }
     </style>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.44.0/min/vs/loader.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.44.0/min/vs/loader.js"></script>
 </head>
 <body>
 <div id="wrapper">
@@ -96,13 +96,17 @@
         <div id="cmds-area" class="panel-content">Loading commands...</div>
     </div>
 
-    
-    <div id="panel-editor" class="overlay-panel" style="width: 80%; height: 80%; top: 10%; left: 10%; border: 2px solid #2196F3;">
+    <div id="panel-socials" class="overlay-panel">
+        <div class="panel-header">Social Actions <span onclick="togglePanel('panel-socials')" style="cursor:pointer">×</span></div>
+        <div id="socials-area" class="panel-content"></div>
+    </div>
+
+    <div id="panel-editor" class="overlay-panel" style="width: 80%; height: 80%; top: 10%; left: 10%; border: 2px solid #2196F3; z-index: 2000;">
         <div class="panel-header" style="background: #1565C0;">
             <span id="editor-title">Editor</span>
             <span onclick="togglePanel('panel-editor')" style="cursor:pointer">×</span>
         </div>
-        <div class="panel-content" style="display:flex; flex-direction:column; gap:10px; padding: 0;">
+        <div class="panel-content" style="display:flex; flex-direction:column; gap:0; padding: 0;">
             <div id="editor-container" style="flex:1; background:#1e1e1e;"></div>
             <div style="background:#252526; padding:10px 15px; display:flex; gap:10px; border-top:1px solid #333;">
                 <button class="tool-btn" onclick="saveEditorFile()" style="background:#2196F3; border-color:#2196F3;">💾 Save (Ctrl+S)</button>
@@ -110,10 +114,6 @@
                 <span id="editor-status" style="margin-left:auto; font-size:12px; color:#888; align-self:center;"></span>
             </div>
         </div>
-    </div>
-    <div id="panel-socials" class="overlay-panel">
-        <div class="panel-header">Social Actions <span onclick="togglePanel('panel-socials')" style="cursor:pointer">×</span></div>
-        <div id="socials-area" class="panel-content"></div>
     </div>
 
     <div id="panel-import" class="overlay-panel">
@@ -181,6 +181,8 @@
 <script>
     let ws, historyCmds = [], histIdx = -1, msgInput, suggestIdx = -1, isInputHidden = false;
     let mcData = null, mcMode = false, mcAction = 'dig', mcZoom = 32;
+    let monacoEditor = null, currentEditPath = "";
+
     const mcColors = {
         grass:'#4CAF50', dirt:'#795548', stone:'#9E9E9E',
         wood:'#8D6E63', log:'#5D4037', planks:'#FFCC80',
@@ -188,6 +190,39 @@
         coal:'#37474F', iron:'#B0BEC5', gold:'#FFD600',
         brick:'#BF360C', player:'#2196F3', self:'#FFEB3B'
     };
+
+    // Monaco 初始化 (安全檢查)
+    if (typeof require !== "undefined") {
+        require.config({ paths: { 'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.44.0/min/vs' }});
+        require(['vs/editor/editor.main'], function() {
+            monaco.languages.register({ id: 'lpc' });
+            monaco.languages.setMonarchTokensProvider('lpc', {
+                tokenizer: {
+                    root: [
+                        [/[a-zA-Z_]\w*/, {
+                            cases: {
+                                'inherit|mixed|object|string|int|float|mapping|array|void|private|protected|public|nomask|varargs|virtual|static|status': 'keyword',
+                                '@default': 'identifier'
+                            }
+                        }],
+                        { include: 'vs/basic-languages/cpp/cpp' }
+                    ]
+                }
+            });
+
+            monacoEditor = monaco.editor.create(document.getElementById('editor-container'), {
+                value: '',
+                theme: 'vs-dark',
+                automaticLayout: true,
+                fontSize: 16,
+                minimap: { enabled: true }
+            });
+
+            monacoEditor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyS, function() {
+                saveEditorFile();
+            });
+        });
+    }
 
     window.onload = () => {
         msgInput = document.getElementById("msg");
@@ -200,11 +235,8 @@
     function togglePanel(id, btn) {
         const panel = document.getElementById(id);
         const isActive = panel.classList.contains('active');
-        
-        // 關閉所有面板
         document.querySelectorAll('.overlay-panel').forEach(p => p.classList.remove('active'));
         document.querySelectorAll('.tool-btn').forEach(b => b.classList.remove('active'));
-
         if (!isActive) {
             panel.classList.add('active');
             if (btn) btn.classList.add('active');
@@ -228,8 +260,9 @@
         ws = new WebSocket(protocol + "//" + location.host + "/ws");
         ws.onmessage = (e) => {
             const msg = JSON.parse(e.data);
-            if (msg.type === "mud_text" || msg.type === "mud_html" || msg.type === "edit_file" || msg.type === "chat") {
-                const p = (msg.type === "chat" ? (msg.username + ": " + msg.payload) : msg.payload).trim();
+            // 🚀 核心優化：處理任何包含 payload 的訊息
+            if (msg.payload !== undefined && msg.payload !== null) {
+                const p = (msg.type === "chat" ? (msg.username + ": " + msg.payload) : msg.payload);
                 if (p === "__INPUT_HIDDEN__") {
                     isInputHidden = true;
                     msgInput.style.webkitTextSecurity = "disc";
@@ -239,7 +272,7 @@
                 if (msg.type === "mud_html") { appendRaw(p); return; }
                 if (msg.type === "edit_file") { openEditor(JSON.parse(p)); return; }
 
-                if (p.startsWith("{") && p.endsWith("}")) {
+                if (typeof p === "string" && p.startsWith("{") && p.endsWith("}")) {
                     try { handleUIData(JSON.parse(p)); } catch (err) { handleMultiJSON(p); }
                 } else {
                     appendLook(p);
@@ -261,7 +294,7 @@
             document.getElementById("info-area").innerHTML = `
                 <div class="stat-box"><span class="stat-label">❤️ HP</span><span class="stat-value">${d.hp}/${d.max_hp}</span></div>
                 <div class="stat-box"><span class="stat-label">✨ MP</span><span class="stat-value">${d.mp}/${d.max_mp}</span></div>
-                <div class="stat-box"><span class="stat-label">💰 GOLD</span><span class="stat-value">${parseColorTags(d.money)}</span></div>
+                <div class="stat-box"><span class="stat-label">💰 GOLD</span><span class="stat-value">${parseOutput(d.money)}</span></div>
             `;
         } else if (ui.ui === "cmd_list") { renderCmdList(ui.data, ui.title); window.allCommands = ui.data; }
         else if (ui.ui === "socials") { renderSocials(ui.data, ui.title); window.allSocials = ui.data; }
@@ -269,6 +302,31 @@
         else if (ui.ui === "nature") handleNatureData(ui.data);
         else if (ui.ui === "mc_map") handleMCMap(ui.data);
         else if (ui.ui === "mc_exit") toggleMCMode(false); 
+    }
+
+    function openEditor(data) {
+        currentEditPath = data.path;
+        document.getElementById("editor-title").innerText = "📝 Editing: " + data.path;
+        if (monacoEditor) {
+            const ext = data.path.split('.').pop();
+            const lang = (ext === 'c' || ext === 'h') ? 'cpp' : 'plaintext';
+            monaco.editor.setModelLanguage(monacoEditor.getModel(), lang);
+            monacoEditor.setValue(data.content);
+        }
+        document.getElementById("editor-status").innerText = "";
+        togglePanel('panel-editor');
+        if (monacoEditor) setTimeout(() => monacoEditor.focus(), 100);
+    }
+
+    function saveEditorFile() {
+        if (!currentEditPath || !monacoEditor) return;
+        const content = monacoEditor.getValue();
+        ws.send(JSON.stringify({ 
+            type: "save_file", 
+            payload: JSON.stringify({ path: currentEditPath, content: content }) 
+        }));
+        document.getElementById("editor-status").innerText = "Saving...";
+        setTimeout(() => { document.getElementById("editor-status").innerText = "Saved at " + new Date().toLocaleTimeString(); }, 500);
     }
 
     function renderCmdList(cats, title) {
@@ -302,9 +360,7 @@
     function handleMCMap(data) {
         if (!mcMode) toggleMCMode(true);
         mcData = data;
-        if (data.world_name) {
-            document.querySelector("#mc-ui span").innerText = data.world_name;
-        }
+        if (data.world_name) document.querySelector("#mc-ui span").innerText = data.world_name;
         renderMCMap();
     }
 
@@ -349,9 +405,7 @@
         const selfPos = players[self_id] || [Math.floor(width/2), Math.floor(height/2)];
         const cw = canvas.width, ch = canvas.height;
         const centerX = cw / 2, centerY = ch / 2;
-
         ctx.fillStyle = '#0d1b2a'; ctx.fillRect(0, 0, cw, ch);
-
         const wx0 = centerX + (0 - selfPos[0]) * mcZoom;
         const wy0 = centerY - (0 - selfPos[1]) * mcZoom;
         const wx1 = centerX + (width - selfPos[0]) * mcZoom;
@@ -360,7 +414,6 @@
         ctx.setLineDash([6, 4]);
         ctx.strokeRect(wx0, wy1, wx1 - wx0, wy0 - wy1);
         ctx.setLineDash([]);
-
         if (mcZoom >= 20) {
             ctx.strokeStyle = 'rgba(255,255,255,0.04)'; ctx.lineWidth = 0.5;
             const startX = Math.floor((0 - centerX / mcZoom) + selfPos[0]);
@@ -374,7 +427,6 @@
                 ctx.beginPath(); ctx.moveTo(0, sy); ctx.lineTo(cw, sy); ctx.stroke();
             }
         }
-
         for (let key in blocks) {
             const [bx, by] = key.split(',').map(Number);
             const sx = centerX + (bx - selfPos[0]) * mcZoom;
@@ -386,14 +438,7 @@
                 ctx.strokeStyle = 'rgba(0,0,0,0.25)'; ctx.lineWidth = 0.5;
                 ctx.strokeRect(sx, sy - mcZoom, mcZoom, mcZoom);
             }
-            if (mcZoom >= 40) {
-                ctx.fillStyle = 'rgba(255,255,255,0.7)';
-                ctx.font = Math.max(8, mcZoom/4) + 'px monospace';
-                ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-                ctx.fillText(blocks[key], sx + mcZoom/2, sy - mcZoom/2);
-            }
         }
-
         for (let pid in players) {
             const ppos = players[pid];
             const sx = centerX + (ppos[0] - selfPos[0]) * mcZoom;
@@ -409,28 +454,12 @@
             ctx.textAlign = 'center'; ctx.textBaseline = 'bottom';
             ctx.fillText(pid, sx + mcZoom/2, sy - mcZoom - 2);
         }
-
-        if (mcData.npcs) {
-            for (let nid in mcData.npcs) {
-                const npos = mcData.npcs[nid];
-                const sx = centerX + (npos[0] - selfPos[0]) * mcZoom;
-                const sy = centerY - (npos[1] - selfPos[1]) * mcZoom;
-                const icon = npos[2] || '👾';
-                ctx.font = Math.max(12, mcZoom * 0.8) + 'px sans-serif';
-                ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-                ctx.fillText(icon, sx + mcZoom/2, sy - mcZoom/2);
-            }
-        }
-
         ctx.fillStyle = 'rgba(0,0,0,0.55)'; ctx.fillRect(6, 6, 160, 22);
         ctx.fillStyle = '#adf'; ctx.font = '12px monospace'; ctx.textAlign = 'left'; ctx.textBaseline = 'top';
         ctx.fillText(`pos (${selfPos[0]}, ${selfPos[1]})  zoom ${mcZoom}px`, 10, 10);
     }
 
-    function promptImportMap() {
-        togglePanel('panel-import');
-    }
-
+    function promptImportMap() { togglePanel('panel-import'); }
     function submitMapImport() {
         const input = document.getElementById("import-area").value;
         if (input) {
@@ -454,101 +483,6 @@
         m.innerHTML = html; m.style.display = "grid";
     }
 
-    
-    let currentEditPath = "";
-    function openEditor(data) {
-        currentEditPath = data.path;
-        document.getElementById("editor-title").innerText = "📝 Editing: " + data.path;
-        document.getElementById("editor-area").value = data.content;
-        document.getElementById("editor-status").innerText = "";
-        togglePanel('panel-editor');
-        setTimeout(() => document.getElementById("editor-area").focus(), 100);
-    }
-
-    function saveEditorFile() {
-        if (!currentEditPath) return;
-        const content = document.getElementById("editor-area").value;
-        ws.send(JSON.stringify({ type: "cmd", payload: "__save_web_file__ " + currentEditPath + "\n" + content }));
-        document.getElementById("editor-status").innerText = "Saving...";
-        setTimeout(() => { document.getElementById("editor-status").innerText = "Saved at " + new Date().toLocaleTimeString(); }, 500);
-    }
-
-    // 監聽 Ctrl+S
-    document.addEventListener('keydown', (e) => {
-        if (e.ctrlKey && e.key === 's') {
-            const editor = document.getElementById('panel-editor');
-            if (editor.classList.contains('active')) {
-                e.preventDefault();
-                saveEditorFile();
-            }
-        }
-    });
-
-    
-    let monacoEditor = null;
-    let currentEditPath = "";
-
-    // 初始化 Monaco
-    require.config({ paths: { 'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.44.0/min/vs' }});
-    require(['vs/editor/editor.main'], function() {
-        // 定義 LPC 語法高亮 (基於 C 擴充)
-        monaco.languages.register({ id: 'lpc' });
-        monaco.languages.setMonarchTokensProvider('lpc', {
-            tokenizer: {
-                root: [
-                    [/[a-zA-Z_]\w*/, {
-                        cases: {
-                            'inherit|mixed|object|string|int|float|mapping|array|void|private|protected|public|nomask|varargs|virtual|static|status': 'keyword',
-                            '@default': 'identifier'
-                        }
-                    }],
-                    { include: 'vs/basic-languages/cpp/cpp' } // 繼承 C++ 基礎
-                ]
-            }
-        });
-
-        monacoEditor = monaco.editor.create(document.getElementById('editor-container'), {
-            value: '',
-            language: 'cpp', // 暫時先用 cpp，之後改進 lpc
-            theme: 'vs-dark',
-            automaticLayout: true,
-            fontSize: 16,
-            minimap: { enabled: true }
-        });
-
-        // 快捷鍵支援
-        monacoEditor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyS, function() {
-            saveEditorFile();
-        });
-    });
-
-    function openEditor(data) {
-        currentEditPath = data.path;
-        document.getElementById("editor-title").innerText = "📝 Editing: " + data.path;
-        
-        if (monacoEditor) {
-            const ext = data.path.split('.').pop();
-            const lang = (ext === 'c' || ext === 'h') ? 'cpp' : 'plaintext';
-            monaco.editor.setModelLanguage(monacoEditor.getModel(), lang);
-            monacoEditor.setValue(data.content);
-        }
-        
-        document.getElementById("editor-status").innerText = "";
-        togglePanel('panel-editor');
-        if (monacoEditor) setTimeout(() => monacoEditor.focus(), 100);
-    }
-
-    function saveEditorFile() {
-        if (!currentEditPath || !monacoEditor) return;
-        const content = monacoEditor.getValue();
-        ws.send(JSON.stringify({ 
-            type: "save_file", 
-            payload: JSON.stringify({ path: currentEditPath, content: content }) 
-        }));
-        document.getElementById("editor-status").innerText = "Saving...";
-        setTimeout(() => { document.getElementById("editor-status").innerText = "Saved at " + new Date().toLocaleTimeString(); }, 500);
-    }
-
     function sendCmd(cmd) {
         if (cmd !== "") {
             if (historyCmds.length === 0 || historyCmds[historyCmds.length - 1] !== cmd) {
@@ -562,7 +496,6 @@
         appendRaw("<span style='color:#888'>&gt;&gt; " + echo + "</span>");
     }
 
-    // appendRaw: 已是 HTML，直接插入，不做 escape 或 parseOutput
     function appendRaw(html) {
         const area = document.getElementById("look-area"), content = document.getElementById("look-content");
         const div = document.createElement("div");
@@ -573,95 +506,64 @@
     }
 
     function appendLook(t) {
+        if (typeof t !== "string") return;
         const area = document.getElementById("look-area"), content = document.getElementById("look-content");
-        // 所有輸入一律視為純文字，先 escape HTML，再交給 parseOutput 處理
-        let p = t
-            .replace(/&/g, "&amp;")
-            .replace(/</g, "&lt;")
-            .replace(/>/g, "&gt;");
+        let p = t.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
         p = parseOutput(p);
-        // [顯示文字|指令] 可點擊連結
         p = p.replace(/\[(.*?)\]/g, (m, p1) => {
             let pts = p1.split('|'), d = pts[0], c = pts.length > 1 ? pts[1] : pts[0];
             return `<span class="cmd-link" onclick="sendCmd('${c.replace(/'/g, "\\'")}')">${d}</span>`;
         });
-        const div = document.createElement("div");
-        div.style.whiteSpace = "pre-wrap";
-        div.innerHTML = p;
-        content.appendChild(div);
-        setTimeout(() => { area.scrollTop = area.scrollHeight; }, 10);
+        appendRaw(p);
     }
 
-    // parseOutput: 統一處理所有輸出轉換
-    // 順序：ANSI → $TAG$ → {tag} → markdown
-    // 輸入已是 HTML-escaped 純文字，輸出是帶 HTML 標籤的字串。
     function parseOutput(t) {
-        let res = t;
-        let open = 0;
-        // ── 0. 標題佔位符（最先跑，在所有 HTML 生成之前）────────────────────
+        if (typeof t !== "string") return t;
+        let res = t, open = 0;
         res = res.replace(/###([^#\n]+)###/g, "\x00H3\x00$1\x00/H3\x00");
         res = res.replace(/##([^#\n]+)##/g,   "\x00H2\x00$1\x00/H2\x00");
         res = res.replace(/#([^#\n]+)#/g,     "\x00H1\x00$1\x00/H1\x00");
 
-
-        // ── 1. ANSI escape code ─────────────────────────────────────────────
-        // 串連式用法：HIR + "文字" + NOR 展開後是 \x1b[1;31m文字\x1b[0m
         const ansiMap = {
-            "0;30":"#555",    "0;31":"#ff5555", "0;32":"#55ff55", "0;33":"#ffff55",
-            "0;34":"#5555ff", "0;35":"#ff55ff", "0;36":"#55ffff", "0;37":"#ffffff",
-            "30":"#555",      "31":"#ff5555",   "32":"#55ff55",   "33":"#ffff55",
-            "34":"#5555ff",   "35":"#ff55ff",   "36":"#55ffff",   "37":"#ffffff",
-            "1;30":"#888",    "1;31":"#ff7777", "1;32":"#77ff77", "1;33":"#ffff77",
-            "1;34":"#7777ff", "1;35":"#ff77ff", "1;36":"#77ffff", "1;37":"#ffffff",
-            "41;1":"bg:#a33", "42;1":"bg:#3a3", "43;1":"bg:#aa3",
-            "44;1":"bg:#33a", "45;1":"bg:#a3a", "46;1":"bg:#3aa", "47;1":"bg:#aaa",
-            "40":"bg:#000",   "41":"bg:#500",   "42":"bg:#050",   "43":"bg:#550",
-            "44":"bg:#005",   "45":"bg:#505",   "46":"bg:#055",   "47":"bg:#555",
+            "0;30":"#555", "0;31":"#ff5555", "0;32":"#55ff55", "0;33":"#ffff55", "0;34":"#5555ff", "0;35":"#ff55ff", "0;36":"#55ffff", "0;37":"#ffffff",
+            "30":"#555", "31":"#ff5555", "32":"#55ff55", "33":"#ffff55", "34":"#5555ff", "35":"#ff55ff", "36":"#55ffff", "37":"#ffffff",
+            "1;30":"#888", "1;31":"#ff7777", "1;32":"#77ff77", "1;33":"#ffff77", "1;34":"#7777ff", "1;35":"#ff77ff", "1;36":"#77ffff", "1;37":"#ffffff",
+            "41;1":"bg:#a33", "42;1":"bg:#3a3", "43;1":"bg:#aa3", "44;1":"bg:#33a", "45;1":"bg:#a3a", "46;1":"bg:#3aa", "47;1":"bg:#aaa",
+            "40":"bg:#000", "41":"bg:#500", "42":"bg:#050", "43":"bg:#550", "44":"bg:#005", "45":"bg:#505", "46":"bg:#055", "47":"bg:#555",
             "1":"bold", "4":"underline", "5":"blink", "7":"reverse", "1;7":"bold-reverse",
         };
         res = res.replace(/\x1b\[([0-9;]+)m/g, (m, code) => {
             if (code === "0" || code === "2;37;0") {
                 let s = ""; while (open > 0) { s += "</span>"; open--; } return s;
             }
-            const v = ansiMap[code];
-            if (!v) return "";
+            const v = ansiMap[code]; if (!v) return "";
             open++;
-            if (v === "bold")         return `<span style="font-weight:bold">`;
-            if (v === "underline")    return `<span style="text-decoration:underline">`;
-            if (v === "blink")        return `<span style="animation:blink 1s step-end infinite">`;
-            if (v === "reverse")      return `<span style="filter:invert(1)">`;
+            if (v === "bold") return `<span style="font-weight:bold">`;
+            if (v === "underline") return `<span style="text-decoration:underline">`;
+            if (v === "blink") return `<span style="animation:blink 1s step-end infinite">`;
+            if (v === "reverse") return `<span style="filter:invert(1)">`;
             if (v === "bold-reverse") return `<span style="font-weight:bold;filter:invert(1)">`;
-            if (v.startsWith("bg:"))  return `<span style="background:${v.slice(3)}">`;
+            if (v.startsWith("bg:")) return `<span style="background:${v.slice(3)}">`;
             return `<span style="color:${v}">`;
         });
         while (open > 0) { res += "</span>"; open--; }
         open = 0;
 
-        // ── 2. $TAG$ 嵌入式顏色巨集 ─────────────────────────────────────────
-        // 嵌入式用法："xxx$HIY$yyy$NOR$zzz"
-        // $ 不是 HTML 特殊字元，escape 後仍是原樣
         if (res.includes("$")) {
             const tagMap = {
-                "$BLK$":"#555",     "$RED$":"#ff5555", "$GRN$":"#55ff55", "$YEL$":"#ffff55",
-                "$BLU$":"#5555ff",  "$MAG$":"#ff55ff", "$CYN$":"#55ffff", "$WHT$":"#ffffff",
-                "$HIK$":"#888",
-                "$HIR$":"#ff7777",  "$HIG$":"#77ff77", "$HIY$":"#ffff77",
-                "$HIB$":"#7777ff",  "$HIM$":"#ff77ff", "$HIC$":"#77ffff", "$HIW$":"#ffffff",
-                "$U$":"underline",  "$REV$":"reverse", "$HIREV$":"bold-reverse",
-                "$BLINK$":"blink",  "$BOLD$":"bold",
+                "$BLK$":"#555", "$RED$":"#ff5555", "$GRN$":"#55ff55", "$YEL$":"#ffff55", "$BLU$":"#5555ff", "$MAG$":"#ff55ff", "$CYN$":"#55ffff", "$WHT$":"#ffffff",
+                "$HIK$":"#888", "$HIR$":"#ff7777", "$HIG$":"#77ff77", "$HIY$":"#ffff77", "$HIB$":"#7777ff", "$HIM$":"#ff77ff", "$HIC$":"#77ffff", "$HIW$":"#ffffff",
+                "$U$":"underline", "$REV$":"reverse", "$HIREV$":"bold-reverse", "$BLINK$":"blink", "$BOLD$":"bold",
             };
             res = res.replace(/\$([A-Z0-9]+)\$/g, (m, name) => {
                 const key = "$" + name + "$";
-                if (key === "$NOR$") {
-                    let s = ""; while (open > 0) { s += "</span>"; open--; } return s;
-                }
-                const v = tagMap[key];
-                if (!v) return m;
+                if (key === "$NOR$") { let s = ""; while (open > 0) { s += "</span>"; open--; } return s; }
+                const v = tagMap[key]; if (!v) return m;
                 open++;
-                if (v === "bold")         return `<span style="font-weight:bold">`;
-                if (v === "underline")    return `<span style="text-decoration:underline">`;
-                if (v === "blink")        return `<span style="animation:blink 1s step-end infinite">`;
-                if (v === "reverse")      return `<span style="filter:invert(1)">`;
+                if (v === "bold") return `<span style="font-weight:bold">`;
+                if (v === "underline") return `<span style="text-decoration:underline">`;
+                if (v === "blink") return `<span style="animation:blink 1s step-end infinite">`;
+                if (v === "reverse") return `<span style="filter:invert(1)">`;
                 if (v === "bold-reverse") return `<span style="font-weight:bold;filter:invert(1)">`;
                 return `<span style="color:${v}">`;
             });
@@ -669,48 +571,25 @@
             open = 0;
         }
 
-        // ── 3. {r}{g} 舊式標籤（向下相容）──────────────────────────────────
         if (res.includes("{")) {
-            const oldMap = {
-                "r":"#ff5555","g":"#55ff55","b":"#5555ff","y":"#ffff55",
-                "c":"#55ffff","m":"#ff55ff","w":"#ffffff","gr":"#888",
-            };
+            const oldMap = { "r":"#ff5555","g":"#55ff55","b":"#5555ff","y":"#ffff55","c":"#55ffff","m":"#ff55ff","w":"#ffffff","gr":"#888" };
             res = res.replace(/\{([a-z]+)\}/g, (m, tag) => {
-                if (tag === "n") {
-                    let s = ""; while (open > 0) { s += "</span>"; open--; } return s;
-                }
-                if (oldMap[tag]) { open++; return `<span style="color:${oldMap[tag]}">`;  }
+                if (tag === "n") { let s = ""; while (open > 0) { s += "</span>"; open--; } return s; }
+                if (oldMap[tag]) { open++; return `<span style="color:${oldMap[tag]}">`; }
                 return m;
             });
             while (open > 0) { res += "</span>"; open--; }
         }
 
-        // ── 4. Markdown-like 語法（標題已在步驟 0 標記）───────────────────────
-        // 分隔線（單獨一行）
         res = res.replace(/^---\s*$/gm, "<hr style='border:none;border-top:1px solid #444;margin:4px 0'>");
         res = res.replace(/^===\s*$/gm, "<hr style='border:none;border-top:2px double #888;margin:4px 0'>");
-
-        // 刪除線
-        res = res.replace(/~~([^\n~]+)~~/g,
-            "<span style='text-decoration:line-through;opacity:0.7'>$1</span>");
-
-        // 粗斜體 *** 先比對
-        res = res.replace(/\*{3}([^\n*]+)\*{3}/g,
-            "<span style='font-weight:bold;font-style:italic;color:#ffe'>$1</span>");
-        // 粗體
-        res = res.replace(/\*{2}([^\n*]+)\*{2}/g,
-            "<span style='font-weight:bold;color:#fff'>$1</span>");
-        // 斜體
-        res = res.replace(/\*([^\n*]+)\*/g,
-            "<span style='font-style:italic;color:#cce'>$1</span>");
-
-        // 佔位符 → 標題 HTML（inline span，不換行）
-        res = res.replace(/\x00H3\x00([^\x00]*)\x00\/H3\x00/g,
-            "<span style='font-size:1.0em;font-weight:bold;color:rgb(170,170,170)'>$1</span>");
-        res = res.replace(/\x00H2\x00([^\x00]*)\x00\/H2\x00/g,
-            "<span style='font-size:1.2em;font-weight:bold;color:rgb(221,221,221)'>$1</span>");
-        res = res.replace(/\x00H1\x00([^\x00]*)\x00\/H1\x00/g,
-            "<span style='font-size:1.4em;font-weight:bold;color:rgb(255,255,119)'>$1</span>");
+        res = res.replace(/~~([^\n~]+)~~/g, "<span style='text-decoration:line-through;opacity:0.7'>$1</span>");
+        res = res.replace(/\*{3}([^\n*]+)\*{3}/g, "<span style='font-weight:bold;font-style:italic;color:#ffe'>$1</span>");
+        res = res.replace(/\*{2}([^\n*]+)\*{2}/g, "<span style='font-weight:bold;color:#fff'>$1</span>");
+        res = res.replace(/\*([^\n*]+)\*/g, "<span style='font-style:italic;color:#cce'>$1</span>");
+        res = res.replace(/\x00H3\x00([^\x00]*)\x00\/H3\x00/g, "<span style='font-size:1.0em;font-weight:bold;color:rgb(170,170,170)'>$1</span>");
+        res = res.replace(/\x00H2\x00([^\x00]*)\x00\/H2\x00/g, "<span style='font-size:1.2em;font-weight:bold;color:rgb(221,221,221)'>$1</span>");
+        res = res.replace(/\x00H1\x00([^\x00]*)\x00\/H1\x00/g, "<span style='font-size:1.4em;font-weight:bold;color:rgb(255,255,119)'>$1</span>");
 
         return res;
     }
@@ -726,11 +605,7 @@
     }
 
     function initInputHandlers() {
-        msgInput.onclick = (e) => {
-            e.stopPropagation();
-            if (historyCmds.length > 0) showHistory();
-        };
-
+        msgInput.onclick = (e) => { e.stopPropagation(); if (historyCmds.length > 0) showHistory(); };
         window.addEventListener('keydown', (e) => {
             if (mcMode) {
                 if (document.activeElement === msgInput && msgInput.value !== "" && e.key !== "Enter") return;
@@ -738,7 +613,6 @@
                 let dir = { w: 'n', s: 's', a: 'w', d: 'e', arrowup: 'n', arrowdown: 's', arrowleft: 'w', arrowright: 'e' }[key];
                 if (dir) { e.preventDefault(); sendCmd(`mc move ${dir}`); return; }
             }
-
             if (document.activeElement === msgInput) {
                 if (e.key === "ArrowUp") { e.preventDefault(); if (histIdx > 0) { histIdx--; msgInput.value = historyCmds[histIdx]; } }
                 else if (e.key === "ArrowDown") { e.preventDefault(); if (histIdx < historyCmds.length - 1) { histIdx++; msgInput.value = historyCmds[histIdx]; } else { histIdx = historyCmds.length; msgInput.value = ""; } }
@@ -752,9 +626,7 @@
         const box = document.getElementById("history-box");
         let html = '<div class="history-header"><span>Command History</span><span onclick="hideHistory()" style="cursor:pointer">×</span></div>';
         const recent = historyCmds.slice(-10).reverse();
-        recent.forEach(cmd => {
-            html += `<div class="history-item" onclick="useHistory('${cmd.replace(/'/g, "\\'")}')">${cmd}</div>`;
-        });
+        recent.forEach(cmd => { html += `<div class="history-item" onclick="useHistory('${cmd.replace(/'/g, "\\'")}')">${cmd}</div>`; });
         box.innerHTML = html; box.style.display = "block";
     }
 
@@ -762,12 +634,8 @@
     function useHistory(cmd) { msgInput.value = cmd; hideHistory(); msgInput.focus(); }
 
     function sendMsg() { 
-        const v = msgInput.value;
-        sendCmd(v); 
-        msgInput.value = ""; 
-        isInputHidden = false;
-        msgInput.style.webkitTextSecurity = "none";
-        msgInput.focus(); 
+        const v = msgInput.value; sendCmd(v); msgInput.value = ""; 
+        isInputHidden = false; msgInput.style.webkitTextSecurity = "none"; msgInput.focus(); 
     }
     function fillInput(c) { msgInput.value = c + " "; msgInput.focus(); }
     function handleNatureData(d) {
