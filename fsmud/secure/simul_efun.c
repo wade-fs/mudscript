@@ -46,13 +46,5 @@ string _t(string key) {
 }
 
 // 判斷玩家是否使用 Web 客戶端
-int is_web_client(object ob) {
-    if (!ob) ob = this_player();
-    if (!ob) return 0;
-    return efun::is_web_client(ob);
-}
 
 // 請求前端開啟 Web 編輯器
-void request_web_edit(string path) {
-    efun::request_web_edit(path);
-}

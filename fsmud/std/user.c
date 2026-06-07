@@ -159,7 +159,7 @@ void setup() {
         set_name(id);
     }
 
-    if (role == "god" || role == "wizard") {
+    if (query("role") == "god" || query("role") == "wizard") {
         enable_wizard();
     }
 

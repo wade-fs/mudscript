@@ -1,6 +1,7 @@
 package signaling
 
 import (
+	"encoding/json"
 	"fmt"
 	"strings"
 
@@ -19,10 +20,10 @@ type Hub struct {
 
 func NewHub(d *driver.Driver) *Hub {
 	return &Hub{
-		clients:    map[string]*Client{},
+		clients:    make(map[string]*Client),
 		register:   make(chan *Client),
 		unregister: make(chan *Client),
-		forward:    make(chan Message, 1024),
+		forward:    make(chan Message),
 		mudDriver:  d,
 	}
 }
@@ -37,8 +38,7 @@ func (h *Hub) Run() {
 				pConn := driver.NewPlayerConnection(nil, nil) 
 				pConn.SessionID = client.ID
 				pConn.Username = client.Username
-				
-				
+
 				pConn.OutputCallback = func(mudText string) {
 					defer func() { recover() }() // 🚀 安全防護
 					if pConn.IsActive {
@@ -64,9 +64,9 @@ func (h *Hub) Run() {
 				userObj := h.mudDriver.AcceptConnection(pConn, client.Language)
 				if userObj != nil {
 					pConn.Object = userObj
-							if pConn.Object != nil {
-								pConn.Object.Vars.Set("is_web", &object.Integer{Value: 1})
-							}
+					if pConn.Object != nil {
+						pConn.Object.Vars.Set("is_web", &object.Integer{Value: 1})
+					}
 					h.mudDriver.RegisterInteractive(userObj, pConn)
 					h.mudDriver.RunCommand(pConn, userObj, "logon", nil)
 					client.MudConn = pConn 
@@ -107,14 +107,12 @@ func (h *Hub) Run() {
 				delete(h.clients, client.ID)
 				
 				if client.MudConn != nil {
-					client.MudConn.IsActive = false
 					if client.MudConn.Object != nil {
-						h.mudDriver.RunCommand(client.MudConn, client.MudConn.Object, "net_dead", nil)
 						h.mudDriver.UnregisterInteractive(client.MudConn.Object)
 					}
 					client.MudConn.OutputCallback = nil
 				}
-				
+
 				close(client.Send)
 			}
 
@@ -134,12 +132,8 @@ func (h *Hub) Run() {
 					continue
 				}
 				p := client.MudConn
-				
-				// 🚀 關鍵修正：統一調用 Driver 的核心指令處理邏輯
-				// 這會確保 Web 客戶端與原生客戶端的行為完全一致
 				h.mudDriver.ProcessCommand(p, msg.Payload)
 
-			
 			} else if msg.Type == "save_file" {
 				client, ok := h.clients[msg.From]
 				if !ok || client.MudConn == nil { continue }
@@ -150,16 +144,13 @@ func (h *Hub) Run() {
 				}
 				if err := json.Unmarshal([]byte(msg.Payload), &data); err == nil {
 					if err := h.mudDriver.WriteFile(data.Path, []byte(data.Content)); err == nil {
-						h.mudDriver.TellObject(client.MudConn.Object, "✅ 檔案 " + data.Path + " 已儲存。
-")
-						// 自動 update
+						h.mudDriver.TellObject(client.MudConn.Object, "✅ 檔案 " + data.Path + " 已儲存。\n")
 						h.mudDriver.ProcessCommand(client.MudConn, "update " + data.Path)
 					} else {
-						h.mudDriver.TellObject(client.MudConn.Object, "❌ 儲存失敗：" + err.Error() + "
-")
+						h.mudDriver.TellObject(client.MudConn.Object, "❌ 儲存失敗：" + err.Error() + "\n")
 					}
 				}
-} else if msg.Type == "chat" {
+			} else if msg.Type == "chat" {
 				if h.mudDriver != nil && h.mudDriver.OnP2PMessage != nil {
 					h.mudDriver.OnP2PMessage(msg.Username, msg.Payload)
 				}
@@ -178,10 +169,12 @@ func (h *Hub) Run() {
 					}
 				}
 			} else {
-				if peer, ok := h.clients[msg.To]; ok {
-					select {
-					case peer.Send <- msg:
-					default:
+				if msg.To != "" {
+					if peer, ok := h.clients[msg.To]; ok {
+						select {
+						case peer.Send <- msg:
+						default:
+						}
 					}
 				}
 			}
@@ -195,11 +188,11 @@ func (h *Hub) UpdateClientUsername(id, newName string) {
 	}
 }
 
-func (h *Hub) BroadcastChat(sender, content string) {
-	h.forward <- Message{
+func (h *Hub) BroadcastChat(username, payload string) {
+	msg := Message{
 		Type:     "chat",
-		From:     "local",
-		Username: sender,
-		Payload:  content,
+		Username: username,
+		Payload:  payload,
 	}
+	h.forward <- msg
 }

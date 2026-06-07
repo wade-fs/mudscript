@@ -10,8 +10,6 @@ import (
 // 輔助工具函式 (Internal Helpers)
 // ==========================================
 
-// IsLPCTrue 判斷 LPC 中的真假值
-// 🚀 關鍵相容：在 MudOS/LPC 中，只有整數 0 為假，其餘 (包含空字串、空陣列、空 Mapping) 皆為真！
 func (d *Driver) IsLPCTrue(o object.Object) bool {
 	if o == nil || o.TokenType() == object.NilType || o.TokenType() == object.ErrorType {
 		return false
@@ -44,8 +42,6 @@ func isLPCTrue(o object.Object) bool {
 	return true
 }
 
-
-// isEqual 比較兩個 LPC 物件是否相等 (給 member_array 等使用)
 func isEqual(a, b object.Object) bool {
 	if a.TokenType() != b.TokenType() {
 		return false
@@ -62,7 +58,6 @@ func isEqual(a, b object.Object) bool {
 	return a.Inspect() == b.Inspect()
 }
 
-// getTarget 取得目標物件，若未提供則預設為呼叫者 this_object
 func getTarget(args []object.Object, defaultObj *object.LPCObject) *object.LPCObject {
 	if len(args) > 0 {
 		if o, ok := args[0].(*object.LPCObject); ok {
@@ -76,9 +71,8 @@ func getTarget(args []object.Object, defaultObj *object.LPCObject) *object.LPCOb
 // efun 註冊進入點
 // ==========================================
 
-// SetupEfuns 為每個載入的 LPC 物件注入專屬的內建函式
 func (d *Driver) SetupEfuns(obj *object.LPCObject) {
-obj.Efuns = object.NewEnvironment()
+	obj.Efuns = object.NewEnvironment()
 
 	d.registerTypePredicates(obj)
 	d.registerTypeCasting(obj)
@@ -112,30 +106,51 @@ obj.Efuns = object.NewEnvironment()
 	d.registerBufferEfuns(obj)
 	d.registerBitEfuns(obj)
 	d.registerWizardEfuns(obj)
-	d.registerNetworkEfuns(obj) // 🚀 新增：Stub Network Efuns
+	d.registerNetworkEfuns(obj)
 	d.registerParseEfuns(obj)
 	d.registerDebugEfuns(obj)
 	d.registerPerformanceEfuns(obj)
 
-	// 🚀 Web IDE 支援
-	obj.Vars.Set("is_web_client", &object.Builtin{
+	for k, v := range obj.Vars.GetAll() {
+		if _, ok := v.(*object.Builtin); ok {
+			obj.Efuns.Set(k, v)
+		}
+	}
+
+	d.RegisterSimulEfuns(obj)
+	d.registerWebIDEEfuns(obj)
+}
+
+func (d *Driver) RegisterSimulEfuns(obj *object.LPCObject) {
+	if d.SimulEfunObj == nil || obj == d.SimulEfunObj {
+		return
+	}
+	for name, val := range d.SimulEfunObj.Vars.GetAll() {
+		if _, ok := val.(*object.Function); ok {
+			funcName := name
+			obj.Vars.Set(funcName, &object.Builtin{
+				Fn: func(args ...object.Object) object.Object {
+					return d.CallFunction(d.SimulEfunObj, funcName, args)
+				},
+			})
+		}
+	}
+}
+
+func (d *Driver) registerWebIDEEfuns(obj *object.LPCObject) {
+	isWeb := &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
-			target := obj
-			if len(args) > 0 {
-				if t, ok := args[0].(*object.LPCObject); ok {
-					target = t
-				}
-			}
+			target := getTarget(args, obj)
 			if conn := d.GetConnectionFromObject(target); conn != nil {
-				if conn.OutputCallback != nil {
-					return &object.Integer{Value: 1}
-				}
+				if conn.OutputCallback != nil { return &object.Integer{Value: 1} }
 			}
 			return &object.Integer{Value: 0}
 		},
-	})
+	}
+	obj.Vars.Set("MUD_IS_WEB", isWeb)
+	obj.Efuns.Set("MUD_IS_WEB", isWeb)
 
-	obj.Vars.Set("request_web_edit", &object.Builtin{
+	webEdit := &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
 			if len(args) < 1 { return &object.Nil{} }
 			path, ok := args[0].(*object.String)
@@ -149,36 +164,7 @@ obj.Efuns = object.NewEnvironment()
 			p.Send("__EDIT__" + string(jsonData))
 			return &object.Nil{}
 		},
-	})
-
-	// 🚩 關鍵修正：將所有剛註冊進 Vars 的 Builtin (原始 Efun) 備份到 Efuns 中
-	for k, v := range obj.Vars.GetAll() {
-		if _, ok := v.(*object.Builtin); ok {
-			obj.Efuns.Set(k, v)
-		}
 	}
-
-	// 🚀 新增：註冊 SimulEfuns
-	d.RegisterSimulEfuns(obj)
-}
-
-// RegisterSimulEfuns 掃描 SimulEfun 物件並將其函式注入目標物件
-func (d *Driver) RegisterSimulEfuns(obj *object.LPCObject) {
-	if d.SimulEfunObj == nil || obj == d.SimulEfunObj {
-		return
-	}
-
-	// 遍歷 SimulEfun 物件的所有變數/函式
-	for name, val := range d.SimulEfunObj.Vars.GetAll() {
-		// 只注入函式 (Function)，不注入一般變數
-		if _, ok := val.(*object.Function); ok {
-			// 使用閉包包裝呼叫，確保執行時的 context 正確
-			funcName := name // 捕獲變數
-			obj.Vars.Set(funcName, &object.Builtin{
-				Fn: func(args ...object.Object) object.Object {
-					return d.CallFunction(d.SimulEfunObj, funcName, args)
-				},
-			})
-		}
-	}
+	obj.Vars.Set("MUD_REQUEST_EDIT", webEdit)
+	obj.Efuns.Set("MUD_REQUEST_EDIT", webEdit)
 }
