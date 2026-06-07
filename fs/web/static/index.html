@@ -212,21 +212,26 @@
         ws = new WebSocket(protocol + "//" + location.host + "/ws");
         ws.onmessage = (e) => {
             const msg = JSON.parse(e.data);
-            if (msg.type === "mud_text" || msg.type === "chat") {
+            if (msg.type === "mud_text" || msg.type === "mud_html" || msg.type === "chat") {
                 const p = (msg.type === "chat" ? (msg.username + ": " + msg.payload) : msg.payload).trim();
                 if (p === "__INPUT_HIDDEN__") {
                     isInputHidden = true;
                     msgInput.style.webkitTextSecurity = "disc";
                     return;
                 }
+                
+                if (msg.type === "mud_html") {
+                    appendRaw(p);
+                    return;
+                }
+
                 if (p.startsWith("{") && p.endsWith("}")) {
                     try { handleUIData(JSON.parse(p)); } catch (err) { handleMultiJSON(p); }
-                } else if (p.startsWith("<") && p.includes(">")) {
-                    // server 送來的已是 HTML（登入畫面、公告等），直接插入不做 escape
-                    appendRaw(p);
                 } else {
                     appendLook(p);
                 }
+            }
+        };
             }
         };    }
 

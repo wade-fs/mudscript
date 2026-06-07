@@ -2,6 +2,7 @@ package signaling
 
 import (
 	"fmt"
+	"strings"
 
 	"mudscript/driver"
 )
@@ -39,10 +40,16 @@ func (h *Hub) Run() {
 				pConn.OutputCallback = func(mudText string) {
 					defer func() { recover() }() // 🚀 安全防護
 					if pConn.IsActive {
+						msgType := "mud_text"
+						payload := mudText
+						if strings.HasPrefix(mudText, "__RAW__") {
+							msgType = "mud_html"
+							payload = strings.TrimPrefix(mudText, "__RAW__")
+						}
 						select {
 						case client.Send <- Message{
-							Type:    "mud_text",
-							Payload: mudText,
+							Type:    msgType,
+							Payload: payload,
 						}:
 						default:
 						}

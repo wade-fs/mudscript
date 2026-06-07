@@ -10,6 +10,7 @@ import (
 
 type PlayerConnection struct {
 	SessionID      string // 🚀 新增：WebSocket 工作階段 ID
+	OutputRaw      bool   // 🚀 新增：標記當前發送是否為原始 HTML
 	Conn           net.Conn
 	Object         *object.LPCObject
 	Username       string
@@ -70,7 +71,9 @@ func (p *PlayerConnection) writePump() {
 
 		// 否則，如果連線存在，走傳統 TCP 輸出
 		if p.Conn != nil {
-			_, err := p.Conn.Write([]byte(msg))
+			// 如果是 TCP 連線，移除 __RAW__ 標記 (Telnet 不支援 HTML)
+			cleanMsg := strings.TrimPrefix(msg, "__RAW__")
+			_, err := p.Conn.Write([]byte(cleanMsg))
 			if err != nil {
 				p.IsActive = false
 				break
@@ -89,8 +92,13 @@ func (p *PlayerConnection) Send(msg string) {
 		p.SnoopedBy.Send("%" + msg) // Snoop 訊息通常加個前綴
 	}
 
+	finalMsg := msg
+	if p.OutputRaw {
+		finalMsg = "__RAW__" + msg
+	}
+
 	select {
-	case p.sendChan <- msg:
+	case p.sendChan <- finalMsg:
 		// 成功放入緩衝區
 	default:
 		// 緩衝區滿了 (彈性丟棄)

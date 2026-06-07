@@ -75,6 +75,36 @@ func (d *Driver) registerCommEfuns(obj *object.LPCObject) {
 		},
 	})
 
+	// 語法: void write_raw(string msg)
+	// 說明: 發送原始 HTML 訊息給玩家 (不進行 ANSI 解析與 Markdown 處理)。
+	// 範例: write_raw("<div style='color:red'>Hello</div>");
+	obj.Vars.Set("write_raw", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			msg := ""
+			if len(args) > 0 {
+				if s, ok := args[0].(*object.String); ok {
+					msg = s.Value
+				} else {
+					msg = args[0].Inspect()
+				}
+			}
+
+			p := d.GetCurrentPlayer()
+			if p == nil && obj.IsInteractive {
+				p = d.GetConnectionFromObject(obj)
+			}
+
+			if p != nil && p.IsActive {
+				p.OutputRaw = true
+				p.Send(msg)
+				p.OutputRaw = false
+			} else {
+				fmt.Print(msg)
+			}
+			return &object.Nil{}
+		},
+	})
+
 	// 語法: void say(string msg, [mixed exclude])
 	// 說明: 將訊息廣播給與當前物件處於同一環境(房間)內的所有其他物件。
 	// 範例: say("一陣微風吹過。\n");

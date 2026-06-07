@@ -72,7 +72,7 @@ void get_language(string input) {
     if (!issue) issue = read_file(ISSUE_FILE);
 
     if (issue) {
-        write(issue);
+        write_raw(issue);
     } else {
         write("\n" + CYAN(_t("welcome")) + "\n");
     }
