@@ -121,7 +121,7 @@ func (h *Hub) Run() {
 				p := client.MudConn
 				
 				// 🚀 關鍵修正：統一調用 Driver 的核心指令處理邏輯
-				// 這會確保 Web 客戶端與 Telnet 客戶端的行為完全一致
+				// 這會確保 Web 客戶端與原生客戶端的行為完全一致
 				h.mudDriver.ProcessCommand(p, msg.Payload)
 
 			} else if msg.Type == "chat" {

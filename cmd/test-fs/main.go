@@ -3,30 +3,38 @@ package main
 
 import (
 	"bufio"
+	"encoding/json"
 	"fmt"
 	"log"
-	"net"
+	"net/url"
 	"os"
 	"os/exec"
 	"strings"
 	"time"
+
+	"github.com/gorilla/websocket"
 )
+
+type WsMsg struct {
+	Type    string `json:"type"`
+	Payload string `json:"payload"`
+}
 
 func main() {
 	// 1. 啟動 bin/fs 伺服器 (Legacy FS 模式)
 	log.Println("🚀 正在啟動 Legacy FS 伺服器進行整合測試...")
-	
+
 	// 使用內嵌了 fs 資源的專屬 binary
-	cmd := exec.Command("./bin/fs", "-mudlib", "fs", "-master", "/adm/obj/master.c", "-legacy", "-telnet", "4000")
-	
+	cmd := exec.Command("./bin/fs", "-mudlib", "fs", "-master", "/adm/obj/master.c", "-legacy")
+
 	// 為了能觀察內部錯誤，我們捕獲輸出
 	stdout, _ := cmd.StdoutPipe()
 	cmd.Stderr = os.Stderr
-	
+
 	if err := cmd.Start(); err != nil {
 		log.Fatalf("無法啟動伺服器: %v", err)
 	}
-	
+
 	// 非同步讀取伺服器日誌
 	go func() {
 		scanner := bufio.NewScanner(stdout)
@@ -46,9 +54,10 @@ func main() {
 	// 2. 等待伺服器就緒
 	time.Sleep(3 * time.Second)
 
-	// 3. 建立 Telnet 連線
-	log.Println("🔌 正在建立 Telnet 連線至 localhost:4000...")
-	conn, err := net.Dial("tcp", "localhost:4000")
+	// 3. 建立 WebSocket 連線
+	log.Println("🔌 正在建立 WebSocket 連線至 localhost:8080...")
+	u := url.URL{Scheme: "ws", Host: "localhost:8080", Path: "/ws"}
+	conn, _, err := websocket.DefaultDialer.Dial(u.String(), nil)
 	if err != nil {
 		log.Fatalf("連線失敗: %v", err)
 	}
@@ -57,11 +66,18 @@ func main() {
 	// 讀取回傳並匹配關鍵字
 	received := make(chan string, 100)
 	go func() {
-		scanner := bufio.NewScanner(conn)
-		for scanner.Scan() {
-			text := scanner.Text()
-			fmt.Printf("🖥️  [Server]: %s\n", text)
-			received <- text
+		for {
+			_, message, err := conn.ReadMessage()
+			if err != nil {
+				return
+			}
+			var msg WsMsg
+			if err := json.Unmarshal(message, &msg); err == nil {
+				if msg.Type == "mud_text" || msg.Type == "chat" {
+					fmt.Printf("🖥️  [Server]: %s\n", msg.Payload)
+					received <- msg.Payload
+				}
+			}
 		}
 	}()
 
@@ -82,11 +98,16 @@ func main() {
 	}
 
 	// 4. 模擬登入流程
-	
+
 	// A. 輸入 guest
 	log.Println("⌨️  [Client]: 正在輸入 'guest'...")
-	fmt.Fprintf(conn, "guest\n")
-	
+	sendMsg := func(text string) {
+		payload, _ := json.Marshal(WsMsg{Type: "cmd", Payload: text})
+		conn.WriteMessage(websocket.TextMessage, payload)
+	}
+
+	sendMsg("guest")
+
 	if !waitFor("請按 Enter 鍵繼續", 5*time.Second) {
 		log.Println("⚠️  未偵測到 '請按 Enter' 提示")
 	}
@@ -94,8 +115,8 @@ func main() {
 	// B. 關鍵測試：純 Enter
 	time.Sleep(1 * time.Second)
 	log.Println("⌨️  [Client]: 正在按下 'Enter' (空字串)...")
-	fmt.Fprintf(conn, "\n")
-	
+	sendMsg("")
+
 	if waitFor("最新消息", 5*time.Second) {
 		log.Println("✅ 成功通過 '純 Enter' 測試，看到最新消息！")
 	} else {
@@ -106,9 +127,9 @@ func main() {
 	log.Println("🔄 正在模擬網頁 refresh (斷線並重新連線)...")
 	conn.Close()
 	time.Sleep(1 * time.Second)
-	
+
 	log.Println("🔌 重新連線...")
-	conn2, err := net.Dial("tcp", "localhost:4000")
+	conn2, _, err := websocket.DefaultDialer.Dial(u.String(), nil)
 	if err == nil {
 		log.Println("✅ 重新連線成功，伺服器未崩潰！")
 		conn2.Close()

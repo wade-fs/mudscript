@@ -2,11 +2,9 @@
 package main
 
 import (
-	"bufio"
 	"flag"
 	"io/fs"
 	"log"
-	"net"
 	"net/http"
 	"os"
 	"strings"
@@ -22,7 +20,6 @@ import (
 func main() {
 	hubURL := flag.String("hub", "wss://wade-fs-fsmud-hub.hf.space/ws", "Signaling hub URL (set to 'none' to run in isolation)")
 	port := flag.String("port", "8080", "HTTP server port")
-	telnetPort := flag.String("telnet", "4000", "Telnet server port")
 	mudlib := flag.String("mudlib", "fsmud", "mudlib directory")
 	master := flag.String("master", "master.c", "Master of world in mudlib directory")
 	simul := flag.String("simul", "", "SimulEfun file path (optional, master's get_simul_efun takes precedence)")
@@ -63,9 +60,6 @@ func main() {
 		log.Fatalf("致命錯誤: %v", err)
 	}
 	log.Println("MUD 引擎啟動成功！")
-
-	// 3. 啟動 TCP Telnet 伺服器 (供自動化測試或舊客戶端使用)
-	go startTelnetServer(d, *telnetPort)
 
 	// 4. 初始化 WebSocket 與 P2P 信令中心
 	hub := signaling.NewHub(d)
@@ -151,47 +145,4 @@ func setupStaticServer(mudlib string) {
 		}
 		http.Handle("/", http.FileServer(http.FS(subFS)))
 	}
-}
-
-func startTelnetServer(d *driver.Driver, port string) {
-	ln, err := net.Listen("tcp", ":"+port)
-	if err != nil {
-		log.Printf("⚠️ 無法啟動 Telnet 伺服器: %v\n", err)
-		return
-	}
-	log.Printf("🔌 Telnet 伺服器監聽中 :%s\n", port)
-
-	for {
-		conn, err := ln.Accept()
-		if err != nil {
-			continue
-		}
-		go handleTelnetConnection(d, conn)
-	}
-}
-
-func handleTelnetConnection(d *driver.Driver, conn net.Conn) {
-	pConn := driver.NewPlayerConnection(conn, nil)
-	userObj := d.AcceptConnection(pConn, 0)
-	if userObj == nil {
-		conn.Write([]byte("系統目前無法接受連線。\r\n"))
-		conn.Close()
-		return
-	}
-
-	pConn.Object = userObj
-	d.RegisterInteractive(userObj, pConn)
-
-	log.Printf("新 Telnet 連線: %s -> %s", conn.RemoteAddr(), userObj.Filename)
-	d.RunCommand(pConn, userObj, "logon", nil)
-
-	scanner := bufio.NewScanner(conn)
-	for scanner.Scan() {
-		input := scanner.Text()
-		d.ProcessCommand(pConn, input)
-	}
-
-	log.Printf("Telnet 連線中斷: %s", conn.RemoteAddr())
-	d.UnregisterInteractive(userObj)
-	conn.Close()
 }
