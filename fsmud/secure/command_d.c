@@ -21,7 +21,7 @@ int rehash() {
             string full_path = dir + file;
             object cmd_ob = find_object(full_path);
             if (!cmd_ob) cmd_ob = load_object(full_path);
-            if (!cmd_ob) continue;
+            if (!cmd_ob || errorp(cmd_ob)) continue;
 
             mixed verbs = cmd_ob->query_verbs();
             if (!verbs || !sizeof(verbs)) {

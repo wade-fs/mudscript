@@ -47,13 +47,32 @@ func (n *Node) Start() {
 }
 
 func (n *Node) connectLoop() {
+	retryInterval := 5 * time.Second
+	maxInterval := 5 * time.Minute
+
 	for !n.stopped {
 		err := n.connect()
 		if err != nil {
-			log.Printf("⚠️ Signaling connection failed: %v. Retrying in 5s...", err)
-			time.Sleep(5 * time.Second)
-			continue
+			log.Printf("⚠️ Signaling connection failed: %v. Retrying in %v...", err, retryInterval)
+			
+			select {
+			case <-time.After(retryInterval):
+				// Exponential backoff
+				retryInterval *= 2
+				if retryInterval > maxInterval {
+					retryInterval = maxInterval
+				}
+				continue
+			case <-func() <-chan struct{} {
+				// 這裡可以預留一個停止信號
+				return nil
+			}():
+				return
+			}
 		}
+
+		// 連線成功，重置重試間隔
+		retryInterval = 5 * time.Second
 
 		// readLoop blocks until connection is lost
 		n.readLoop()
