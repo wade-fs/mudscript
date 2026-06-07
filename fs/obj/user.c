@@ -8,17 +8,7 @@ inherit F_MESSAGE;
 inherit F_MORE;
 inherit F_AUTOLOAD;
 
-// ── Compatibility for fsmud ported logic ────────────────────────
-string query_role() { 
-    string hood = wizhood(this_object());
-    if (hood == "(admin)" || hood == "(manager)") return "god";
-    if (hood == "(arch)" || hood == "(wizard)") return "wizard";
-    return "player";
-}
 
-string query_full_id() {
-    return query("id") + "@" + load_object("/secure/system_d")->query_mudlib_id();
-}
 
 static int last_age_set, count=0;
 

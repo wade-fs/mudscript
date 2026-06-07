@@ -7,17 +7,16 @@ string icon = "👾";
 
 void create() {
     
-    set_name(([ "en": "Mob", "zh-TW": "生物", "zh-CN": "生物" ]));
-    set_short(([ "en": "a mob", "zh-TW": "一隻生物", "zh-CN": "一只生物" ]));
-    set_long("這是一隻在創界中遊蕩的生物。\n");
-    set_id(({"mob", "生物"}));
+    set("name", select_lang(([ "en": "Mob", "zh-TW": "生物", "zh-CN": "生物" ])));
+    set("short", select_lang(([ "en": "a mob", "zh-TW": "一隻生物", "zh-CN": "一只生物" ])));
+    set("long", select_lang("這是一隻在創界中遊蕩的生物。\n"));
+    set("id", ({"mob", "生物"}));
 
-    level = 1;
-    stat_str = 5;
-    stat_dex = 5;
-    stat_con = 5;
-    recalc_stats();
-    hp = max_hp;
+    set("level", 1);
+    set("str", 5);
+    set("dex", 5);
+    set("con", 5);
+    set("hp", query("max_hp"));
 }
 
 void set_icon(string i) {

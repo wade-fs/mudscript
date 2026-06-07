@@ -174,15 +174,15 @@ void init_default_world() {
 // ── 房間生命週期 ─────────────────────────────────────────────
 void create() {
     seteuid(getuid());
-    set_short("輕量創界");
-    set_long(
+    set("short", select_lang("輕量創界"));
+    set("long", select_lang(
         "═══ Light Minecraft 世界 ═══\n" +
         "這是一片 " + "60×40" + " 的開放土地。\n" +
         "輸入 " + "mc map" + " 開啟圖形介面，" +
         "mc help" + " 查看所有指令。\n" +
         "WASD 鍵可直接移動，滾輪縮放地圖。\n"
-    );
-    set_no_combat(1);
+    ));
+    set("no_combat", 1);
 
     if (!mapp(blocks)) blocks = ([]);
     if (!mapp(player_pos)) player_pos = ([]);

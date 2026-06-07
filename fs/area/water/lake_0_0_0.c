@@ -4,22 +4,22 @@ inherit ROOM;
 
 void create() {
     
-    set_short(([
+    set("short", select_lang(([
         "en": "Lake Shore",
         "zh-TW": "湖邊",
         "zh-CN": "湖边"
-    ]));
-    set_long(([
+    ])));
+    set("long", select_lang(([
         "en": "The water is calm and clear.
 ",
         "zh-TW": "湖水寧靜而清澈。
 ",
         "zh-CN": "湖水宁静而清澈。
 "
-    ]));
-    set_coordinate(10, 0, 0);
+    ])));
+    set("coordinate", ({ 10, 0, 0 }));
     
-    add_exit("west", "../newbie/room_1_0.c");
+    set("exits/" + "west", "../newbie/room_1_0.c");
 }
 
 void reset() {

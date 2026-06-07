@@ -317,10 +317,4 @@ string long()
   return query("long");
 }
 
-// ── Compatibility for fsmud ported files ────────────────────────
-void set_short(mixed s) { set("short", select_lang(s)); }
-void set_long(mixed s)  { set("long", select_lang(s)); }
-void add_exit(string dir, string path) { set("exits/" + dir, path); }
-void set_coordinate(int x, int y, int z) { set("coordinate", ({ x, y, z })); }
-void set_no_combat(int v) { set("no_combat", v); }
-int query_is_lm_world() { return query("is_lm_world"); }
+

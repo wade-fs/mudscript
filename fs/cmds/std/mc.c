@@ -93,8 +93,7 @@ int main(object me, string arg) {
 
     // ── mc build ──────────────────────────────────────────────
     if (sub == "build") {
-        string role = me->query_role();
-        if (role != "god" && role != "wizard") {
+        if (!wizardp(me)) {
             write("你沒有此指令的權限。\n"); return 1;
         }
         if (sizeof(parts) < 2) {
@@ -118,8 +117,7 @@ int main(object me, string arg) {
 
     // ── mc import ─────────────────────────────────────────────
     if (sub == "import") {
-        string role = me->query_role();
-        if (role != "god" && role != "wizard") {
+        if (!wizardp(me)) {
             write("你沒有此指令的權限。\n"); return 1;
         }
         if (sizeof(parts) < 2) {
@@ -233,8 +231,7 @@ int main(object me, string arg) {
 
     // ── mc give（測試/管理指令）─────────────────────────────
     if (sub == "give") {
-        string role = me->query_role();
-        if (role != "god" && role != "wizard") {
+        if (!wizardp(me)) {
             write("你沒有此指令的權限。\n"); return 1;
         }
         if (sizeof(parts) < 2) {

@@ -14,10 +14,10 @@ void create() {
 
 void set_block_type(string t) {
     block_type = t;
-    set_name(t);
-    set_short(t + " 方塊");
-    set_long("一塊 " + t + "，可以放置到世界中。\n");
-    set_id(({ t, t + "_block", "block" }));
+    set("name", select_lang(t));
+    set("short", select_lang(t + " 方塊"));
+    set("long", select_lang("一塊 " + t + "，可以放置到世界中。\n"));
+    set("id", ({ t, t + "_block", "block" }));
 }
 
 string query_block_type() { return block_type; }

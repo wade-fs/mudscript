@@ -6,13 +6,13 @@ inherit "/area/lm/world.c";
 
 void create() {
     ::create();
-    set_short("公會創界 - 鬥技場");
-    set_long(
+    set("short", select_lang("公會創界 - 鬥技場"));
+    set("long", select_lang(
         "═══ 公會創界：烈火鬥技場 ═══\n" +
         "這是一處粗獷的訓練場，四周圍繞著厚實的紅磚牆，地面則是踏實的泥土。\n" +
         "空氣中瀰漫著戰鬥與汗水的氣息。新手冒險者們常在此練習搭建掩體與堡壘。\n" +
         "這裡歡迎任何大膽的實驗與破壞。\n"
-    );
+    ));
 
     if (!mapp(blocks)) blocks = ([]);
 }

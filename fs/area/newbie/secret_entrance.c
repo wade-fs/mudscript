@@ -3,13 +3,13 @@ inherit "/std/room";
 
 void create() {
     
-    set_short("幽暗的山腳下");
-    set_long("這裡是一處偏僻的山腳，四周雜草叢生，亂石堆疊。\n" +
-             "北邊是一座高聳入雲的山峰，看起來無法攀爬。\n");
+    set("short", select_lang("幽暗的山腳下"));
+    set("long", select_lang("這裡是一處偏僻的山腳，四周雜草叢生，亂石堆疊。\n" +
+             "北邊是一座高聳入雲的山峰，看起來無法攀爬。\n"));
     
-    set_coordinate(10, 10, 0);
+    set("coordinate", ({ 10, 10, 0 }));
     
-    add_exit("south", "./room_0_0.c"); // 假設連接回起點
+    set("exits/" + "south", "./room_0_0.c"); // 假設連接回起點
     
     // 加入隱藏出口
     add_hidden_element("north", ([

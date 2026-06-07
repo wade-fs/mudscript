@@ -4,19 +4,19 @@ inherit ROOM;
 
 void create() {
     
-    set_short(([
+    set("short", select_lang(([
         "en": "Town Street",
         "zh-TW": "城鎮街道",
         "zh-CN": "城镇街道"
-    ]));
-    set_long(([
+    ])));
+    set("long", select_lang(([
         "en": "This is a quiet street, with occasional residents passing by.\n",
         "zh-TW": "這裡是一條安靜的街道，偶爾有居民走過。\n",
         "zh-CN": "这里是一条安静的街道，偶尔有居民走过。\n"
-    ]));
-    set_coordinate(6, 5, 0);
-    add_exit("west", "./room_5_5.c");
-    add_exit("east", "./room_7_5.c");
-    add_exit("south", "./room_6_4.c");
-    add_exit("north", "./room_6_6.c");
+    ])));
+    set("coordinate", ({ 6, 5, 0 }));
+    set("exits/" + "west", "./room_5_5.c");
+    set("exits/" + "east", "./room_7_5.c");
+    set("exits/" + "south", "./room_6_4.c");
+    set("exits/" + "north", "./room_6_6.c");
 }
