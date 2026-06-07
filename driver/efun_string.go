@@ -3,6 +3,7 @@ package driver
 
 import (
 	"fmt"
+	"log"
 	"os"
 	"path/filepath"
 	"regexp"
@@ -296,24 +297,27 @@ func (d *Driver) registerStringEfuns(obj *object.LPCObject) {
 				return object.NewError("第一個參數必須是字串")
 			}
 
+			// 🚀 關鍵最佳化：使用正規表示式取代所有 LPC 格式標籤為 %s，並將所有參數轉換為字串
+			var re = regexp.MustCompile("%[dsfO]")
+			formatStr := re.ReplaceAllString(formatObj.Value, "%s")
+			
 			var goArgs []interface{}
 			for _, arg := range args[1:] {
 				if arg == nil {
 					goArgs = append(goArgs, "nil")
-					continue
-				}
-				switch a := arg.(type) {
-				case *object.Integer:
-					goArgs = append(goArgs, a.Value)
-				case *object.String:
-					goArgs = append(goArgs, a.Value)
-				case *object.Float:
-					goArgs = append(goArgs, a.Value)
-				default:
-					goArgs = append(goArgs, a.Inspect())
+				} else {
+					// 🚀 直接利用 Inspect() 取得該物件的 LPC 表達方式，確保格式統一
+					goArgs = append(goArgs, arg.Inspect())
 				}
 			}
-			formatStr := strings.ReplaceAll(formatObj.Value, "%O", "%s")
+			
+			// 防護：使用 recover 避免 sprintf 拋出 panic
+			defer func() {
+				if r := recover(); r != nil {
+					log.Printf("sprintf error: %v, format: %s", r, formatStr)
+				}
+			}()
+
 			result := fmt.Sprintf(formatStr, goArgs...)
 			return &object.String{Value: result}
 		},
@@ -771,6 +775,11 @@ func (d *Driver) registerAdvancedStringEfuns2(obj *object.LPCObject) {
 			m, ok2 := args[1].(*object.Mapping)
 			if !ok1 || !ok2 {
 				return args[0]
+			}
+
+			// 🚀 關鍵最佳化：若字串不含 '$'，直接回傳，避免不必要的開銷
+			if !strings.Contains(str.Value, "$") {
+				return str
 			}
 
 			res := str.Value

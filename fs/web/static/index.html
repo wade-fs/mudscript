@@ -444,15 +444,24 @@
 
     function appendLook(t) {
         const area = document.getElementById("look-area"), content = document.getElementById("look-content");
-        let p = t; const hasTags = /<[a-z/][^>]*>/i.test(t);
-        if (hasTags) p = p.replace(/<script\b[^>]*>([\s\S]*?)<\/script>/gmi, " [Blocked] ").replace(/\bon\w+\s*=\s*("[^"]*"|'[^']*'|[^\s>]*)/gmi, "");
-        else p = p.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-        p = parseColorTags(p).replace(/\[(.*?)\]/g, (m, p1) => {
+        
+        // 直接進行標籤解析，不再預先全面 escape
+        let p = parseOutput(t);
+        
+        // 🚀 最佳化：移除所有雙引號與空括號，解決 Driver 序列化產生雜訊的問題
+        p = p.replace(/"/g, "").replace(/\(\)/g, "");
+        
+        // [顯示文字|指令] 可點擊連結
+        p = p.replace(/\[(.*?)\]/g, (m, p1) => {
             let pts = p1.split('|'), d = pts[0], c = pts.length > 1 ? pts[1] : pts[0];
             return `<span class="cmd-link" onclick="sendCmd('${c.replace(/'/g, "\\'")}')">${d}</span>`;
         });
-        const div = document.createElement("div"); if (!hasTags) div.style.whiteSpace = "pre-wrap";
-        div.innerHTML = p; content.appendChild(div); setTimeout(() => { area.scrollTop = area.scrollHeight; }, 10);
+        
+        const div = document.createElement("div");
+        div.style.whiteSpace = "pre-wrap";
+        div.innerHTML = p;
+        content.appendChild(div);
+        setTimeout(() => { area.scrollTop = area.scrollHeight; }, 10);
     }
 
     function parseColorTags(t) {
