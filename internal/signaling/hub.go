@@ -37,7 +37,7 @@ func (h *Hub) Run() {
 				pConn := driver.NewPlayerConnection(nil, nil) 
 				pConn.SessionID = client.ID
 				pConn.Username = client.Username
-				pConn.Object.Vars.Set("is_web", &object.Integer{Value: 1})
+				
 				
 				pConn.OutputCallback = func(mudText string) {
 					defer func() { recover() }() // 🚀 安全防護
@@ -64,6 +64,9 @@ func (h *Hub) Run() {
 				userObj := h.mudDriver.AcceptConnection(pConn, client.Language)
 				if userObj != nil {
 					pConn.Object = userObj
+							if pConn.Object != nil {
+								pConn.Object.Vars.Set("is_web", &object.Integer{Value: 1})
+							}
 					h.mudDriver.RegisterInteractive(userObj, pConn)
 					h.mudDriver.RunCommand(pConn, userObj, "logon", nil)
 					client.MudConn = pConn 
