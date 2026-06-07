@@ -95,6 +95,23 @@
         <div id="cmds-area" class="panel-content">Loading commands...</div>
     </div>
 
+    
+    <div id="panel-editor" class="overlay-panel" style="width: 80%; height: 80%; top: 10%; left: 10%; border: 2px solid #2196F3;">
+        <div class="panel-header" style="background: #1565C0;">
+            <span id="editor-title">Editor</span>
+            <span onclick="togglePanel('panel-editor')" style="cursor:pointer">×</span>
+        </div>
+        <div class="panel-content" style="display:flex; flex-direction:column; gap:10px; padding: 0;">
+            <textarea id="editor-area" 
+                      style="flex:1; background:#1e1e1e; color:#d4d4d4; border:none; font-family:'Consolas', monospace; padding:20px; font-size:16px; line-height:1.5; outline:none; resize:none;"
+                      spellcheck="false"></textarea>
+            <div style="background:#252526; padding:10px 15px; display:flex; gap:10px; border-top:1px solid #333;">
+                <button class="tool-btn" onclick="saveEditorFile()" style="background:#2196F3; border-color:#2196F3;">💾 Save (Ctrl+S)</button>
+                <button class="tool-btn" onclick="togglePanel('panel-editor')">❌ Close</button>
+                <span id="editor-status" style="margin-left:auto; font-size:12px; color:#888; align-self:center;"></span>
+            </div>
+        </div>
+    </div>
     <div id="panel-socials" class="overlay-panel">
         <div class="panel-header">Social Actions <span onclick="togglePanel('panel-socials')" style="cursor:pointer">×</span></div>
         <div id="socials-area" class="panel-content"></div>
@@ -212,7 +229,7 @@
         ws = new WebSocket(protocol + "//" + location.host + "/ws");
         ws.onmessage = (e) => {
             const msg = JSON.parse(e.data);
-            if (msg.type === "mud_text" || msg.type === "mud_html" || msg.type === "chat") {
+            if (msg.type === "mud_text" || msg.type === "mud_html" || msg.type === "edit_file" || msg.type === "chat") {
                 const p = (msg.type === "chat" ? (msg.username + ": " + msg.payload) : msg.payload).trim();
                 if (p === "__INPUT_HIDDEN__") {
                     isInputHidden = true;
@@ -220,10 +237,8 @@
                     return;
                 }
                 
-                if (msg.type === "mud_html") {
-                    appendRaw(p);
-                    return;
-                }
+                if (msg.type === "mud_html") { appendRaw(p); return; }
+                if (msg.type === "edit_file") { openEditor(JSON.parse(p)); return; }
 
                 if (p.startsWith("{") && p.endsWith("}")) {
                     try { handleUIData(JSON.parse(p)); } catch (err) { handleMultiJSON(p); }
@@ -439,6 +454,36 @@
         }
         m.innerHTML = html; m.style.display = "grid";
     }
+
+    
+    let currentEditPath = "";
+    function openEditor(data) {
+        currentEditPath = data.path;
+        document.getElementById("editor-title").innerText = "📝 Editing: " + data.path;
+        document.getElementById("editor-area").value = data.content;
+        document.getElementById("editor-status").innerText = "";
+        togglePanel('panel-editor');
+        setTimeout(() => document.getElementById("editor-area").focus(), 100);
+    }
+
+    function saveEditorFile() {
+        if (!currentEditPath) return;
+        const content = document.getElementById("editor-area").value;
+        ws.send(JSON.stringify({ type: "cmd", payload: "__save_web_file__ " + currentEditPath + "\n" + content }));
+        document.getElementById("editor-status").innerText = "Saving...";
+        setTimeout(() => { document.getElementById("editor-status").innerText = "Saved at " + new Date().toLocaleTimeString(); }, 500);
+    }
+
+    // 監聽 Ctrl+S
+    document.addEventListener('keydown', (e) => {
+        if (e.ctrlKey && e.key === 's') {
+            const editor = document.getElementById('panel-editor');
+            if (editor.classList.contains('active')) {
+                e.preventDefault();
+                saveEditorFile();
+            }
+        }
+    });
 
     function sendCmd(cmd) {
         if (cmd !== "") {

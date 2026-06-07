@@ -73,8 +73,8 @@ func main() {
 			}
 			var msg WsMsg
 			if err := json.Unmarshal(message, &msg); err == nil {
-				if msg.Type == "mud_text" || msg.Type == "chat" {
-					fmt.Printf("🖥️  [Server]: %s\n", msg.Payload)
+				if msg.Type == "mud_text" || msg.Type == "chat" || msg.Type == "mud_html" || msg.Type == "edit_file" {
+					fmt.Printf("🖥️  [%s]: %s\n", msg.Type, msg.Payload)
 					received <- msg.Payload
 				}
 			}

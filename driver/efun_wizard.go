@@ -2,6 +2,7 @@
 package driver
 
 import (
+	"encoding/json"
 	"mudscript/evaluator"
 	"mudscript/object"
 )
@@ -166,6 +167,59 @@ func (d *Driver) registerWizardEfuns(obj *object.LPCObject) {
 			
 			gid := getGID()
 			d.playerContexts.Store(gid, conn)
+			return evaluator.NilValue
+		},
+	})
+
+	// 語法: int is_web_client([object ob])
+	// 說明: 判斷玩家是否使用 Web 客戶端。
+	obj.Vars.Set("is_web_client", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			target := getTarget(args, obj)
+			if conn := d.GetConnectionFromObject(target); conn != nil {
+				if conn.OutputCallback != nil {
+					return &object.Integer{Value: 1}
+				}
+			}
+			return &object.Integer{Value: 0}
+		},
+	})
+
+	// 語法: void request_web_edit(string path)
+	// 說明: 請求前端開啟 Web 編輯器處理指定檔案。
+	obj.Vars.Set("request_web_edit", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 1 {
+				return evaluator.NilValue
+			}
+			path, ok := args[0].(*object.String)
+			if !ok {
+				return evaluator.NilValue
+			}
+
+			p := d.GetCurrentPlayer()
+			if p == nil && obj.IsInteractive {
+				p = d.GetConnectionFromObject(obj)
+			}
+			if p == nil || !p.IsActive {
+				return evaluator.NilValue
+			}
+
+			content, err := d.ReadFile(path.Value)
+			if err != nil {
+				// 如果檔案不存在，給空字串
+				content = []byte("")
+			}
+
+			// 包裝成 JSON
+			payload := map[string]string{
+				"path":    path.Value,
+				"content": string(content),
+			}
+			jsonData, _ := json.Marshal(payload)
+
+			// 使用 __EDIT__ 前綴送出
+			p.Send("__EDIT__" + string(jsonData))
 			return evaluator.NilValue
 		},
 	})

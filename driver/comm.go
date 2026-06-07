@@ -98,42 +98,39 @@ func (d *Driver) ProcessCommand(pConn *PlayerConnection, input string) bool {
 		pConn.NextInputArgs = nil
 		pConn.InputHidden = false
 
-		finalArgs := append([]object.Object{&object.String{Value: input}}, args...)
+		lpcInput := &object.String{Value: input}
+		callArgs := append([]object.Object{obj, lpcInput}, args...)
 
 		if closure != nil {
-			restore := d.setPlayerContext(pConn)
-			defer restore()
-			d.ExecuteCallback(obj, closure, finalArgs)
+			d.ExecuteCallback(obj, closure, callArgs)
 		} else {
-			if targetObj == nil {
-				targetObj = obj
+			if targetObj != nil {
+				d.CallFunction(targetObj, funcName, callArgs)
+			} else {
+				d.CallFunction(obj, funcName, callArgs)
 			}
-			d.RunCommand(pConn, targetObj, funcName, finalArgs)
 		}
-		return true 
-	}
 
-	input = strings.TrimSpace(input)
-	if input == "" {
-		return true 
-	}
-
-	// 處理動詞歷史與 ! 展開
-	input = pConn.ExpandHistory(input)
-	if input == "" {
+		d.CallFunction(obj, "write_prompt", nil)
 		return true
 	}
 
-	// ==========================================
-	// 1. 呼叫 process_input (別名擴展)
-	// ==========================================
-	resInput := d.RunCommand(pConn, obj, "process_input", []object.Object{&object.String{Value: input}})
-	if resInput != nil && resInput.TokenType() != object.NilType {
-		if s, ok := resInput.(*object.String); ok && s.Value != "" {
-			input = s.Value // 指令被改寫
-		} else if d.IsLPCTrue(resInput) {
-			return true // 已被完全處理
+	// 🚀 新增：攔截 Web IDE 存檔指令 (Phase 1)
+	if strings.HasPrefix(input, "__save_web_file__ ") {
+		rest := strings.TrimPrefix(input, "__save_web_file__ ")
+		parts := strings.SplitN(rest, "\n", 2)
+		if len(parts) == 2 {
+			path := strings.TrimSpace(parts[0])
+			content := parts[1]
+			if err := d.WriteFile(path, []byte(content)); err == nil {
+				d.TellObject(obj, "✅ 檔案 " + path + " 已透過 Web IDE 存檔。\n")
+				// 自動執行 update
+				d.ProcessCommand(pConn, "update " + path)
+			} else {
+				d.TellObject(obj, "❌ 存檔失敗：" + err.Error() + "\n")
+			}
 		}
+		return true
 	}
 
 	// 解析動詞與參數
@@ -157,51 +154,41 @@ func (d *Driver) ProcessCommand(pConn *PlayerConnection, input string) bool {
 	// 2. 檢查 add_action 註冊的指令
 	// ==========================================
 	if obj.Actions != nil {
-		// A. 精確匹配
-		if action, exists := obj.Actions[verb]; exists {
+		// 優先精確匹配
+		if action, ok := obj.Actions[verb]; ok {
 			oldVerb := pConn.CurrentVerb
 			pConn.CurrentVerb = verb
-			res := d.RunCommand(pConn, action.Provider, action.FuncName, []object.Object{&object.String{Value: arg}})
+			res := d.CallFunction(action.Provider, action.FuncName, []object.Object{&object.String{Value: arg}})
 			pConn.CurrentVerb = oldVerb
-			if d.IsLPCTrue(res) {
+			if isLPCTrue(res) {
+				d.postCommandCleanup(pConn)
 				return true
 			}
 		}
 
-		// B. 前綴匹配與萬用攔截 ("")
+		// 前綴匹配 (flag == 1)
 		for v, action := range obj.Actions {
 			if action.Flags == 1 {
-				// 略過空動詞匹配 (保留給最後處理)
 				if v == "" { continue }
-
 				if strings.HasPrefix(verb, v) {
 					oldVerb := pConn.CurrentVerb
 					pConn.CurrentVerb = v
-
-					callArg := arg
-					if len(verb) > len(v) {
-						callArg = verb[len(v):] + " " + arg
-						callArg = strings.TrimSpace(callArg)
-					}
-
-					res := d.RunCommand(pConn, action.Provider, action.FuncName, []object.Object{&object.String{Value: callArg}})
+					// 前綴匹配時，剩餘部分併入參數
+					remaining := strings.TrimPrefix(input, v)
+					res := d.CallFunction(action.Provider, action.FuncName, []object.Object{&object.String{Value: remaining}})
 					pConn.CurrentVerb = oldVerb
-
-					if d.IsLPCTrue(res) {
+					if isLPCTrue(res) {
 						d.postCommandCleanup(pConn)
 						return true
 					}
 				}
 			}
 		}
-		
-		// C. 專門處理萬用攔截器 (Legacy FS 專用)
-		if action, exists := obj.Actions[""]; exists && action.Flags == 1 {
-			oldVerb := pConn.CurrentVerb
-			pConn.CurrentVerb = verb
-			res := d.RunCommand(pConn, action.Provider, action.FuncName, []object.Object{&object.String{Value: arg}})
-			pConn.CurrentVerb = oldVerb
-			if d.IsLPCTrue(res) {
+
+		// 最後處理空動詞匹配 (攔截所有輸入)
+		if action, ok := obj.Actions[""]; ok && action.Flags == 1 {
+			res := d.CallFunction(action.Provider, action.FuncName, []object.Object{&object.String{Value: input}})
+			if isLPCTrue(res) {
 				d.postCommandCleanup(pConn)
 				return true
 			}
@@ -211,13 +198,11 @@ func (d *Driver) ProcessCommand(pConn *PlayerConnection, input string) bool {
 	// ==========================================
 	// 3. 智慧出口後備機制 (Smart Exit Fallback)
 	// ==========================================
-	// 🚀 重要修正：只有在非 "go" 開頭時才執行，避免無限遞迴
 	if verb != "go" && obj.Location != nil && !obj.Location.IsDestructed {
 		if exitsVal, exists := obj.Location.Vars.Get("exits"); exists {
 			if exitsMap, ok := exitsVal.(*object.Mapping); ok {
 				verbKey := (&object.String{Value: verb}).HashKey()
 				if _, hasExit := exitsMap.Pairs[verbKey]; hasExit {
-					// 轉換為 go 指令並直接處理，若成功則不再繼續
 					if d.ProcessCommand(pConn, "go "+input) {
 						return true
 					}
@@ -227,11 +212,11 @@ func (d *Driver) ProcessCommand(pConn *PlayerConnection, input string) bool {
 	}
 
 	// ==========================================
-	// 4. 處理失敗訊息 (notify_fail)
+	// 4. 呼叫 process_input (別名擴展與最後機會)
 	// ==========================================
-	if pConn.NotifyFail != "" {
-		pConn.Send(pConn.NotifyFail)
-		pConn.NotifyFail = "" 
+	resInput := d.RunCommand(pConn, obj, "process_input", []object.Object{&object.String{Value: input}})
+	if isLPCTrue(resInput) {
+		d.postCommandCleanup(pConn)
 		return true
 	}
 

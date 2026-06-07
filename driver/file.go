@@ -35,26 +35,17 @@ func (d *Driver) ResolvePath(basePath, relPath string) string {
 	}
 
 	// 2. 處理絕對路徑 (關鍵：跨服沙盒自動重導向)
-	// 如果發起呼叫的物件 (basePath) 位於遠端緩存目錄中
-	// 例如：/data/fs_cache/fantasy.space/area/newbie/room_0_0.c
 	if strings.HasPrefix(basePath, "/data/fs_cache/") {
-		// 提取 mudlib_id
 		parts := strings.Split(strings.TrimPrefix(basePath, "/data/fs_cache/"), "/")
 		if len(parts) > 0 {
 			mudlibID := parts[0]
 			sandboxPrefix := "/data/fs_cache/" + mudlibID
-
-			// 如果目標路徑是以 / 開頭的絕對路徑，且不在「全域白名單」中
 			if strings.HasPrefix(relPath, "/") {
-				// 白名單：不需要重導向的目錄
 				if !strings.HasPrefix(relPath, "/std/") &&
 					!strings.HasPrefix(relPath, "/secure/") &&
 					!strings.HasPrefix(relPath, "/include/") &&
 					!strings.HasPrefix(relPath, "/cmds/") &&
 					!strings.HasPrefix(relPath, "/data/fs_cache/") {
-
-					// 自動加上沙盒前綴
-					// 例如：/area/newbie/... -> /data/fs_cache/fantasy.space/area/newbie/...
 					return sandboxPrefix + relPath
 				}
 			}
@@ -77,9 +68,6 @@ func (d *Driver) ReadFile(filename string) ([]byte, error) {
 
 	for _, f := range tryFiles {
 		relPath := strings.TrimPrefix(f, "/")
-
-		// 1. 優先從實體磁碟讀取
-		// 🚀 關鍵：確保路徑不會逃脫 MudLibPath (Virtual Chroot)
 		fullPath := filepath.Join(d.Config.MudLibPath, relPath)
 		cleanMudLib := filepath.Clean(d.Config.MudLibPath)
 		cleanFull := filepath.Clean(fullPath)
@@ -91,16 +79,10 @@ func (d *Driver) ReadFile(filename string) ([]byte, error) {
 			return os.ReadFile(fullPath)
 		}
 
-		// 2. 備援從嵌入式系統讀取
 		if d.Config.EmbeddedFS != nil {
-			// 🚀 關鍵修正：根據配置的 MudLibPath 來尋找內嵌資源路徑
-			// 例如 MudLibPath 為 "fsmud", 則 relPath 為 "master.c" -> embedPath 為 "fsmud/master.c"
 			embedPath := filepath.Join(d.Config.MudLibPath, relPath)
-			
-			// 正規化內嵌路徑 (必須是正斜線且不帶開頭斜線)
 			embedPath = filepath.ToSlash(embedPath)
 			embedPath = strings.TrimPrefix(embedPath, "/")
-
 			if content, err := fs.ReadFile(d.Config.EmbeddedFS, embedPath); err == nil {
 				return content, nil
 			}
@@ -108,6 +90,23 @@ func (d *Driver) ReadFile(filename string) ([]byte, error) {
 	}
 
 	return nil, fmt.Errorf("file not found: %s", filename)
+}
+
+// 🚀 新增：寫入檔案 (支援 Virtual Chroot)
+func (d *Driver) WriteFile(filename string, content []byte) error {
+	relPath := strings.TrimPrefix(filename, "/")
+	fullPath := filepath.Join(d.Config.MudLibPath, relPath)
+	
+	cleanMudLib := filepath.Clean(d.Config.MudLibPath)
+	cleanFull := filepath.Clean(fullPath)
+	if !strings.HasPrefix(cleanFull, cleanMudLib) {
+		return fmt.Errorf("chroot violation: %s", filename)
+	}
+
+	// 確保父目錄存在
+	os.MkdirAll(filepath.Dir(fullPath), 0755)
+
+	return os.WriteFile(fullPath, content, 0644)
 }
 
 func (d *Driver) DiscoverMasterFile() string {

@@ -45,6 +45,9 @@ func (h *Hub) Run() {
 						if strings.HasPrefix(mudText, "__RAW__") {
 							msgType = "mud_html"
 							payload = strings.TrimPrefix(mudText, "__RAW__")
+						} else if strings.HasPrefix(mudText, "__EDIT__") {
+							msgType = "edit_file"
+							payload = strings.TrimPrefix(mudText, "__EDIT__")
 						}
 						select {
 						case client.Send <- Message{

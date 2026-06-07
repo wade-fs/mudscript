@@ -70,6 +70,19 @@ MudScript is a high-performance MUD engine that combines a Go-based driver with 
 - Use `sync.Mutex` for protecting shared state in the driver.
 - Ensure all new Efuns are documented in `docs/README-efuns.md`.
 
+## 🚀 Future Roadmap: Web IDE & Online Development
+To replace the legacy `ed()` line editor, MudScript will transition to a modern Web-based IDE integrated directly into the browser client.
+
+### 1. Architectural Vision
+- **Monaco/Ace Integration**: The frontend will host a professional code editor (supporting syntax highlighting, auto-indent, and LPC snippets).
+- **Explicit Protocol**: Use `msg.type === "edit_file"` and `msg.type === "save_file"` for reliable asynchronous file operations.
+- **Hot Reload Integration**: Saving a file in the Web IDE will automatically trigger an `update` command in the driver, with compilation errors streamed back to the editor's status bar.
+
+### 2. Implementation Steps
+- **Driver**: Implement `request_web_edit(path)` and `save_web_file(path, content)` Efuns.
+- **Security**: Ensure all web-based file operations strictly adhere to Wizard/UID permissions (no escaping to system-level directories).
+- **State**: Maintain `in_edit()` status within the Driver to prevent race conditions during collaborative editing or simultaneous updates.
+
 ## 🔍 Key Files
 - `driver/driver.go`: Main driver loop and object management.
 - `evaluator/evaluator.go`: The core execution logic.
