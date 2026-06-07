@@ -303,12 +303,15 @@ func (d *Driver) registerStringEfuns(obj *object.LPCObject) {
 			
 			var goArgs []interface{}
 			for _, arg := range args[1:] {
-				if arg == nil {
-					goArgs = append(goArgs, "nil")
-				} else {
-					// 🚀 直接利用 Inspect() 取得該物件的 LPC 表達方式，確保格式統一
-					goArgs = append(goArgs, arg.Inspect())
-				}
+			        if arg == nil {
+			                goArgs = append(goArgs, "nil")
+			        } else if s, ok := arg.(*object.String); ok {
+			                // 🚀 對於字串，直接使用其原始值，避免雙引號
+			                goArgs = append(goArgs, s.Value)
+			        } else {
+			                // 🚀 其他物件利用 Inspect() 取得其 LPC 表達方式
+			                goArgs = append(goArgs, arg.Inspect())
+			        }
 			}
 			
 			// 防護：使用 recover 避免 sprintf 拋出 panic

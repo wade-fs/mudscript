@@ -445,16 +445,17 @@
 
     function appendLook(t) {
         const area = document.getElementById("look-area"), content = document.getElementById("look-content");
-        
-        // 直接進行標籤解析，不再預先全面 escape
-        let p = parseOutput(t);
-        
+        // 所有輸入一律視為純文字，先 escape HTML，再交給 parseOutput 處理
+        let p = t
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;");
+        p = parseOutput(p);
         // [顯示文字|指令] 可點擊連結
         p = p.replace(/\[(.*?)\]/g, (m, p1) => {
             let pts = p1.split('|'), d = pts[0], c = pts.length > 1 ? pts[1] : pts[0];
             return `<span class="cmd-link" onclick="sendCmd('${c.replace(/'/g, "\\'")}')">${d}</span>`;
         });
-        
         const div = document.createElement("div");
         div.style.whiteSpace = "pre-wrap";
         div.innerHTML = p;
@@ -468,6 +469,11 @@
     function parseOutput(t) {
         let res = t;
         let open = 0;
+        // ── 0. 標題佔位符（最先跑，在所有 HTML 生成之前）────────────────────
+        res = res.replace(/###([^#\n]+)###/g, "\x00H3\x00$1\x00/H3\x00");
+        res = res.replace(/##([^#\n]+)##/g,   "\x00H2\x00$1\x00/H2\x00");
+        res = res.replace(/#([^#\n]+)#/g,     "\x00H1\x00$1\x00/H1\x00");
+
 
         // ── 1. ANSI escape code ─────────────────────────────────────────────
         // 串連式用法：HIR + "文字" + NOR 展開後是 \x1b[1;31m文字\x1b[0m
@@ -550,32 +556,32 @@
             while (open > 0) { res += "</span>"; open--; }
         }
 
-        // ── 4. Markdown-like 語法 ────────────────────────────────────────────
+        // ── 4. Markdown-like 語法（標題已在步驟 0 標記）───────────────────────
         // 分隔線（單獨一行）
         res = res.replace(/^---\s*$/gm, "<hr style='border:none;border-top:1px solid #444;margin:4px 0'>");
-        res = res.replace(/^===\s*$/gm, "<hr style='border:none;border-top:2px solid #666;margin:4px 0'>");
-
-        // 標題（必須從行首開始，長符號先比對）
-        res = res.replace(/^###([^\n]+)$/gm,
-            "<span style='display:block;font-size:1.0em;font-weight:bold;color:#aaa;margin:2px 0'>$1</span>");
-        res = res.replace(/^##([^\n]+)$/gm,
-            "<span style='display:block;font-size:1.15em;font-weight:bold;color:#ddd;margin:3px 0'>$1</span>");
-        res = res.replace(/^#([^\n]+)$/gm,
-            "<span style='display:block;font-size:1.3em;font-weight:bold;color:#ffff77;margin:4px 0'>$1</span>");
+        res = res.replace(/^===\s*$/gm, "<hr style='border:none;border-top:2px double #888;margin:4px 0'>");
 
         // 刪除線
         res = res.replace(/~~([^\n~]+)~~/g,
-            "<span style='text-decoration:line-through'>$1</span>");
+            "<span style='text-decoration:line-through;opacity:0.7'>$1</span>");
 
-        // 粗斜體（*** 先比對）
+        // 粗斜體 *** 先比對
         res = res.replace(/\*{3}([^\n*]+)\*{3}/g,
-            "<span style='font-weight:bold;font-style:italic'>$1</span>");
+            "<span style='font-weight:bold;font-style:italic;color:#ffe'>$1</span>");
         // 粗體
         res = res.replace(/\*{2}([^\n*]+)\*{2}/g,
-            "<span style='font-weight:bold'>$1</span>");
+            "<span style='font-weight:bold;color:#fff'>$1</span>");
         // 斜體
         res = res.replace(/\*([^\n*]+)\*/g,
-            "<span style='font-style:italic'>$1</span>");
+            "<span style='font-style:italic;color:#cce'>$1</span>");
+
+        // 佔位符 → 標題 HTML（inline span，不換行）
+        res = res.replace(/\x00H3\x00([^\x00]*)\x00\/H3\x00/g,
+            "<span style='font-size:1.0em;font-weight:bold;color:rgb(170,170,170)'>$1</span>");
+        res = res.replace(/\x00H2\x00([^\x00]*)\x00\/H2\x00/g,
+            "<span style='font-size:1.2em;font-weight:bold;color:rgb(221,221,221)'>$1</span>");
+        res = res.replace(/\x00H1\x00([^\x00]*)\x00\/H1\x00/g,
+            "<span style='font-size:1.4em;font-weight:bold;color:rgb(255,255,119)'>$1</span>");
 
         return res;
     }

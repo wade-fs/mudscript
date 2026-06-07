@@ -105,12 +105,12 @@ test-fsmud: fsmud
 # 正常執行伺服器
 run-fsmud: fsmud
 	@echo "🚀 Starting MudScript Server (Connecting to Global Hub)..."
-	@ ./bin/fsmud -mudlib fsmud -master master.c
+	@ ./bin/fsmud -mudlib fsmud -master master.c 2>&1 | tee run-fsmud.txt
 
 # 正常執行 Legacy FS 伺服器
 run-fs: fs
 	@echo "🚀 Starting Legacy FS MudScript Server..."
-	@ ./bin/fs -mudlib fs -master /adm/obj/master.c -legacy
+	@ ./bin/fs -mudlib fs -master /adm/obj/master.c -legacy 2>&1 | tee run-fs.txt
 
 # 執行 Legacy FS 登入測試
 test-fs: fs

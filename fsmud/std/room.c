@@ -291,7 +291,8 @@ int do_go(string dir) {
     } else {
         string fail_msg = _t("move_fail_err");
         fail_msg = replace_string(fail_msg, "$dir", cmd);
-        write(fail_msg + "\n");
+        write(fail_msg + "
+");
     }
     return 1;
 }
