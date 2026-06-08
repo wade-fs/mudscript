@@ -52,6 +52,11 @@ void run_tests(object me) {
     assert_equal(1, regexp("apple", "pp"), "regexp on string should return 1 for match");
     assert_equal(0, regexp("apple", "zz"), "regexp on string should return 0 for no match");
 
+    // 3.1 strcmp 測試
+    assert_equal(0, strcmp("abc", "abc"), "strcmp equal should return 0");
+    assert_equal(-1, strcmp("abc", "def"), "strcmp less should return -1");
+    assert_equal(1, strcmp("def", "abc"), "strcmp greater should return 1");
+
     string long_str = "This is a very long string that should be broken into multiple lines.";
     string broken = break_string(long_str, 20);
     assert_true(strsrch(broken, "\n") != -1, "break_string should insert newlines");
@@ -75,7 +80,14 @@ void run_tests(object me) {
     assert_true(pointerp(({ })), "pointerp should be true for array");
     assert_true(functionp((: create :)), "functionp should be true for closure");
 
-    // 6. SimulEfun 測試
+    // 6. 進階數學測試 (sin, cos, floor, ceil, abs)
+    assert_true(sin(0.0) == 0.0, "sin(0.0) should be 0.0");
+    assert_true(cos(0.0) == 1.0, "cos(0.0) should be 1.0");
+    assert_equal(1.0, floor(1.9), "floor(1.9) should be 1.0");
+    assert_equal(2.0, ceil(1.1), "ceil(1.1) should be 2.0");
+    assert_equal(5, abs(-5), "abs(-5) should be 5");
+
+    // 7. SimulEfun 測試
     string t = chinese_time();
     assert_true(stringp(t), "simul_efun chinese_time() should return a string");
 

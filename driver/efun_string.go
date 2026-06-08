@@ -7,6 +7,7 @@ import (
         "os"
         "path/filepath"
         "regexp"
+        "strconv"
         "strings"
 
         "golang.org/x/crypto/bcrypt"
@@ -194,6 +195,27 @@ func (d *Driver) registerStringEfuns(obj *object.LPCObject) {
                         }
 
                         return &object.Array{Elements: elements}
+                },
+        })
+
+        // 語法: int strcmp(string str1, string str2)
+        // 說明: 比較兩個字串。若 str1 < str2 回傳 -1，相等回傳 0，str1 > str2 回傳 1。
+        obj.Vars.Set("strcmp", &object.Builtin{
+                Fn: func(args ...object.Object) object.Object {
+                        if len(args) < 2 {
+                                return &object.Integer{Value: 0}
+                        }
+                        s1, ok1 := args[0].(*object.String)
+                        s2, ok2 := args[1].(*object.String)
+                        if !ok1 || !ok2 {
+                                return &object.Integer{Value: 0}
+                        }
+                        if s1.Value < s2.Value {
+                                return &object.Integer{Value: -1}
+                        } else if s1.Value > s2.Value {
+                                return &object.Integer{Value: 1}
+                        }
+                        return &object.Integer{Value: 0}
                 },
         })
 
@@ -660,25 +682,233 @@ func (d *Driver) registerStringEfuns(obj *object.LPCObject) {
         // 說明: 將陣列中的元素依分隔符號組合成字串。
         // 範例: implode(({ "a", "b", "c" }), ",") -> "a,b,c"
         obj.Vars.Set("implode", &object.Builtin{
-                Fn: func(args ...object.Object) object.Object {
-                        if len(args) < 2 {
-                                return &object.String{Value: ""}
-                        }
-                        arr, ok1 := args[0].(*object.Array)
-                        del, ok2 := args[1].(*object.String)
-                        if !ok1 || !ok2 {
-                                return &object.String{Value: ""}
-                        }
-                        parts := make([]string, len(arr.Elements))
-                        for i, el := range arr.Elements {
-                                if s, ok := el.(*object.String); ok {
-                                        parts[i] = s.Value
-                                } else {
-                                        parts[i] = el.Inspect()
-                                }
-                        }
-                        return &object.String{Value: strings.Join(parts, del.Value)}
-                },
-        })
+        		Fn: func(args ...object.Object) object.Object {
+        				if len(args) < 2 {
+        						return &object.String{Value: ""}
+        				}
+        				arr, ok1 := args[0].(*object.Array)
+        				del, ok2 := args[1].(*object.String)
+        				if !ok1 || !ok2 {
+        						return &object.String{Value: ""}
+        				}
+        				parts := make([]string, len(arr.Elements))
+        				for i, el := range arr.Elements {
+        						if s, ok := el.(*object.String); ok {
+        								parts[i] = s.Value
+        						} else {
+        								parts[i] = el.Inspect()
+        						}
+        				}
+        				return &object.String{Value: strings.Join(parts, del.Value)}
+        		},
+        		})
 
-}
+        		// 語法: void printf(string format, ...)
+        		// 說明: 格式化輸出到當前物件。
+        		// 範例: printf("等級: %d", level);
+        		obj.Vars.Set("printf", &object.Builtin{
+        		Fn: func(args ...object.Object) object.Object {
+        			if len(args) < 1 {
+        				return &object.Nil{}
+        			}
+        			fmtStr, ok := args[0].(*object.String)
+        			if !ok {
+        				return &object.Nil{}
+        			}
+
+        			// 簡易處理 %O：在格式化前先將 Object 轉為 Inspect() 字串，並將 %O 替換為 %s
+        			format := fmtStr.Value
+        			var fmtArgs []interface{}
+        			argIdx := 1
+
+        			// 簡單處理格式化，不使用原始的 fmt.Sprintf，避免 %O 處理問題
+        			// 註：這是一個非常基礎的實作
+        			result := format
+        			for strings.Contains(result, "%O") && argIdx < len(args) {
+        				result = strings.Replace(result, "%O", "%s", 1)
+        				fmtArgs = append(fmtArgs, args[argIdx].Inspect())
+        				argIdx++
+        			}
+
+        			for _, arg := range args[argIdx:] {
+        				switch v := arg.(type) {
+        				case *object.Integer:
+        					fmtArgs = append(fmtArgs, v.Value)
+        				case *object.String:
+        					fmtArgs = append(fmtArgs, v.Value)
+        				default:
+        					fmtArgs = append(fmtArgs, arg.Inspect())
+        				}
+        			}
+
+        			msg := fmt.Sprintf(result, fmtArgs...)
+        			d.TellObject(obj, msg)
+        			return &object.Nil{}
+        		},
+        		})
+
+        		obj.Vars.Set("reg_assoc", &object.Builtin{
+        			Fn: func(args ...object.Object) object.Object {
+        				if len(args) < 3 {
+        					return &object.Array{Elements: []object.Object{}}
+        				}
+        				str, ok1 := args[0].(*object.String)
+        				patArr, ok2 := args[1].(*object.Array)
+        				tokArr, ok3 := args[2].(*object.Array)
+        				if !ok1 || !ok2 || !ok3 {
+        					return &object.Array{Elements: []object.Object{}}
+        				}
+
+        				// 簡化實作：MudOS 的 reg_assoc 非常複雜，這裡提供一個基礎相容介面
+        				// 僅支援單一模式匹配
+        				_ = tokArr // 標記為使用
+        				pattern := ""
+        				if len(patArr.Elements) > 0 {
+        					if p, ok := patArr.Elements[0].(*object.String); ok {
+        						pattern = p.Value
+        					}
+        				}
+
+        				re, err := regexp.Compile(pattern)
+        				if err != nil {
+        					return &object.Array{Elements: []object.Object{}}
+        				}
+
+        				matches := re.FindAllString(str.Value, -1)
+        				var res []object.Object
+        				for _, m := range matches {
+        					res = append(res, &object.String{Value: m})
+        				}
+        				return &object.Array{Elements: res}
+        			},
+        		})
+
+        		// 語法: string process_string(string str)
+        		// 說明: 處理字串中的 @@function:filename|arg@@ 格式並執行。
+        		// 範例: write(process_string("Current time: @@time@@"));
+        		obj.Vars.Set("process_string", &object.Builtin{
+        			Fn: func(args ...object.Object) object.Object {
+        				if len(args) < 1 {
+        					return &object.String{Value: ""}
+        				}
+        				str, ok := args[0].(*object.String)
+        				if !ok {
+        					return &object.String{Value: ""}
+        				}
+
+        				re := regexp.MustCompile("@@([^@]+)@@")
+        				result := re.ReplaceAllStringFunc(str.Value, func(match string) string {
+        					content := re.FindStringSubmatch(match)[1]
+        					res := d.CallFunction(obj, content, nil)
+        					if s, ok := res.(*object.String); ok {
+        						return s.Value
+        					}
+        					return match
+        				})
+        				return &object.String{Value: result}
+        			},
+        		})
+
+        		// 語法: mixed process_value(string str)
+        		// 說明: 與 process_string 類似，但回傳物件而非字串。
+        		// 範例: mixed val = process_value("func");
+        		obj.Vars.Set("process_value", &object.Builtin{
+        			Fn: func(args ...object.Object) object.Object {
+        				if len(args) < 1 {
+        					return &object.Nil{}
+        				}
+        				str, ok := args[0].(*object.String)
+        				if !ok {
+        					return &object.Nil{}
+        				}
+
+        				return d.CallFunction(obj, str.Value, nil)
+        			},
+        		})
+
+        		// 語法: int sscanf(string str, string fmtStr, mixed var1, ...)
+        		obj.Vars.Set("sscanf", &object.Builtin{
+        			Fn: func(args ...object.Object) object.Object {
+        				if len(args) < 2 {
+        					return &object.Integer{Value: 0}
+        				}
+        				str, ok1 := args[0].(*object.String)
+        				fmtStr, ok2 := args[1].(*object.String)
+        				if !ok1 || !ok2 {
+        					return &object.Integer{Value: 0}
+        				}
+
+        				// 🚀 強化版 sscanf：支援簡單的字串提取 (例如 "%s.c")
+        				// 我們使用正規表達式來模擬 sscanf 的行為
+        				pattern := fmtStr.Value
+        				// 將 %s 轉換為 ([^ ]+)，將 %d 轉換為 ([-+]?[0-9]+)
+        				// 注意：這只是簡易模擬
+        				pattern = regexp.QuoteMeta(pattern)
+        				pattern = strings.ReplaceAll(pattern, "\\%s", "(.+)")
+        				pattern = strings.ReplaceAll(pattern, "\\%d", "([-+]?[0-9]+)")
+        				pattern = strings.ReplaceAll(pattern, "\\%*s", ".+")
+        				pattern = strings.ReplaceAll(pattern, "\\%*d", "[0-9]+")
+
+        				re, err := regexp.Compile("^" + pattern + "$")
+        				if err != nil {
+        					return &object.Integer{Value: 0}
+        				}
+
+        				matches := re.FindStringSubmatch(str.Value)
+        				if matches == nil {
+        					return &object.Integer{Value: 0}
+        				}
+
+        				// 將匹配結果填回參數
+        				matchIdx := 1
+        				for i := 2; i < len(args); i++ {
+        					if matchIdx >= len(matches) {
+        						break
+        					}
+        					val := matches[matchIdx]
+
+        					switch target := args[i].(type) {
+        					case *object.String:
+        						target.Value = val
+        						matchIdx++
+        					case *object.Integer:
+        						if v, err := strconv.ParseInt(val, 10, 64); err == nil {
+        							target.Value = v
+        							matchIdx++
+        						}
+        					}
+        				}
+
+        				return &object.Integer{Value: int64(matchIdx - 1)}
+        			},
+        		})
+
+        		// 語法: string terminal_colour(string str, mapping m)
+        		obj.Vars.Set("terminal_colour", &object.Builtin{
+        			Fn: func(args ...object.Object) object.Object {
+        				if len(args) < 2 {
+        					return args[0]
+        				}
+        				str, ok1 := args[0].(*object.String)
+        				m, ok2 := args[1].(*object.Mapping)
+        				if !ok1 || !ok2 {
+        					return args[0]
+        				}
+
+        				// 🚀 關鍵最佳化：若字串不含 '$'，直接回傳，避免不必要的開銷
+        				if !strings.Contains(str.Value, "$") {
+        					return str
+        				}
+
+        				res := str.Value
+        				for _, pair := range m.Pairs {
+        					key, kOk := pair.Key.(*object.String)
+        					val, vOk := pair.Value.(*object.String)
+        					if kOk && vOk {
+        						res = strings.ReplaceAll(res, key.Value, val.Value)
+        					}
+        				}
+        				return &object.String{Value: res}
+        			},
+        		})
+        		}
