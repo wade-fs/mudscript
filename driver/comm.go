@@ -2,7 +2,6 @@
 package driver
 
 import (
-	"fmt"
 	"strings"
 
 	"mudscript/object"

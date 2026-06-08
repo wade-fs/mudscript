@@ -20,24 +20,6 @@ import (
 // 9. 系統與檔案 (System & Files)
 // ==========================================
 func (d *Driver) registerSystemAndFiles(obj *object.LPCObject) {
-	// 語法: string *get_dir(string path)
-	obj.Vars.Set("get_dir", &object.Builtin{
-		Fn: func(args ...object.Object) object.Object {
-			if len(args) < 1 { return &object.Array{Elements: []object.Object{}} }
-			path, ok := args[0].(*object.String)
-			if !ok { return &object.Array{Elements: []object.Object{}} }
-
-			files, err := d.GetDir(path.Value)
-			if err != nil { return &object.Array{Elements: []object.Object{}} }
-
-			elements := make([]object.Object, len(files))
-			for i, f := range files {
-				elements[i] = &object.String{Value: f}
-			}
-			return &object.Array{Elements: elements}
-		},
-	})
-
 	// 語法: int rm(string file)
 	// 說明: 刪除檔案。回傳 1 成功，0 失敗。
 	// 範例: rm("/log/old.log");
