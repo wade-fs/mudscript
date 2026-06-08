@@ -93,6 +93,7 @@ func (d *Driver) SetupEfuns(obj *object.LPCObject) {
 	d.registerBindingEfuns(obj)
 	d.registerStringEfuns(obj)
 	d.registerAdvancedStringEfuns2(obj)
+	d.registerCryptEfun(obj)
 	d.registerSystemAndFiles(obj)
 	d.registerMonitorEfuns(obj)
 	d.registerPersistenceEfuns(obj)

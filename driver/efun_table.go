@@ -228,7 +228,8 @@ func (d *Driver) registerDataStructures(obj *object.LPCObject) {
 			}
 			m, ok := args[0].(*object.Mapping)
 			if !ok {
-				return object.NewError("keys() 參數必須是 mapping")
+				// 🚀 相容 MudOS/FluffOS: 如果不是 mapping (例如 0 或 nil)，回傳空陣列
+				return &object.Array{Elements: []object.Object{}}
 			}
 			elements := make([]object.Object, 0, len(m.Pairs))
 			for _, pair := range m.Pairs {

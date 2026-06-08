@@ -48,3 +48,8 @@ string _t(string key) {
 // 判斷玩家是否使用 Web 客戶端
 
 // 請求前端開啟 Web 編輯器
+
+// 轉換時間為中文格式
+string chinese_time() {
+    return ctime(time()); // 簡化版本，因為只是測試 simul_efun 是否可用
+}

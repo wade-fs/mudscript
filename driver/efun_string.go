@@ -7,6 +7,8 @@ import (
 	"regexp"
 	"strings"
 
+	"golang.org/x/crypto/bcrypt"
+	"mudscript/evaluator"
 	"mudscript/object"
 )
 
@@ -291,6 +293,48 @@ func (d *Driver) registerStringEfuns(obj *object.LPCObject) {
 	})
 }
 
+func (d *Driver) registerCryptEfun(obj *object.LPCObject) {
+	// 語法: string crypt(string str, [string seed])
+	// 說明: 使用 bcrypt 進行字串雜湊加密或驗證。
+	obj.Vars.Set("crypt", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 1 {
+				return evaluator.NilValue
+			}
+			
+			strObj, ok := args[0].(*object.String)
+			if !ok {
+				return evaluator.NilValue
+			}
+			
+			str := strObj.Value
+			seed := ""
+			
+			if len(args) > 1 {
+				if seedObj, ok := args[1].(*object.String); ok {
+					seed = seedObj.Value
+				} else if _, ok := args[1].(*object.Integer); ok {
+					seed = "" // 0 等同於無 seed
+				}
+			}
+			
+			if seed != "" && len(seed) > 10 {
+				err := bcrypt.CompareHashAndPassword([]byte(seed), []byte(str))
+				if err == nil {
+					return &object.String{Value: seed}
+				}
+			}
+			
+			hash, err := bcrypt.GenerateFromPassword([]byte(str), bcrypt.DefaultCost)
+			if err != nil {
+				return evaluator.NilValue
+			}
+			
+			return &object.String{Value: string(hash)}
+		},
+	})
+}
+
 func (d *Driver) registerAdvancedStringEfuns2(obj *object.LPCObject) {
 	// 🚀 新增：sprintf 強化版別名 (與某些 Mudlib 相容)
 	obj.Vars.Set("printf", &object.Builtin{
@@ -300,6 +344,92 @@ func (d *Driver) registerAdvancedStringEfuns2(obj *object.LPCObject) {
 				d.TellObject(obj, s.Value)
 			}
 			return res
+		},
+	})
+
+	// 語法: mixed regexp(string|string* data, string pattern)
+	// 說明: 對字串或字串陣列進行正規表達式比對。
+	obj.Vars.Set("regexp", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 2 {
+				return evaluator.NilValue
+			}
+			
+			patternObj, ok := args[1].(*object.String)
+			if !ok {
+				return evaluator.NilValue
+			}
+			re, err := regexp.Compile(patternObj.Value)
+			if err != nil {
+				return evaluator.NilValue
+			}
+
+			if strObj, isStr := args[0].(*object.String); isStr {
+				if re.MatchString(strObj.Value) {
+					return &object.Integer{Value: 1}
+				}
+				return &object.Integer{Value: 0}
+			}
+
+			if arrObj, isArr := args[0].(*object.Array); isArr {
+				var matches []object.Object
+				for _, elem := range arrObj.Elements {
+					if strElem, ok := elem.(*object.String); ok {
+						if re.MatchString(strElem.Value) {
+							matches = append(matches, strElem)
+						}
+					}
+				}
+				return &object.Array{Elements: matches}
+			}
+
+			return evaluator.NilValue
+		},
+	})
+
+	// 語法: string break_string(string str, int width, [string indent])
+	// 說明: 將長字串依指定寬度斷行。
+	obj.Vars.Set("break_string", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 2 {
+				return evaluator.NilValue
+			}
+			
+			strObj, ok1 := args[0].(*object.String)
+			widthObj, ok2 := args[1].(*object.Integer)
+			if !ok1 || !ok2 || widthObj.Value <= 0 {
+				return evaluator.NilValue
+			}
+			
+			indent := ""
+			if len(args) > 2 {
+				if indObj, ok := args[2].(*object.String); ok {
+					indent = indObj.Value
+				}
+			}
+			
+			str := strObj.Value
+			width := int(widthObj.Value)
+			
+			var result strings.Builder
+			runes := []rune(str)
+			length := len(runes)
+			
+			for i := 0; i < length; {
+				end := i + width
+				if end > length {
+					end = length
+				}
+				if i > 0 {
+					result.WriteString("\n" + indent)
+				} else {
+					result.WriteString(indent)
+				}
+				result.WriteString(string(runes[i:end]))
+				i = end
+			}
+			
+			return &object.String{Value: result.String()}
 		},
 	})
 }
