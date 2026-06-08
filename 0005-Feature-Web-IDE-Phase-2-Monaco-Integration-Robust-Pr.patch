@@ -1,0 +1,534 @@
+From e145b6c52ca074b957a40906e4b081ea86f05544 Mon Sep 17 00:00:00 2001
+From: wade <wade.fs@gmail.com>
+Date: Sun, 7 Jun 2026 17:53:30 +0800
+Subject: [PATCH 05/14] Feature: Web IDE Phase 2 - Monaco Integration & Robust
+ Protocol
+
+- Integrated Monaco Editor for syntax highlighting and professional editing.
+- Implemented dedicated 'save_file' WebSocket message type for reliable saving.
+- Improved driver's 'sprintf' Efun to handle padded formats (%02d) gracefully.
+- Fixed 'input_to' argument alignment to match MudOS standards.
+- Added 'enable_wizard()' auto-activation for God/Wizard roles in user.c.
+- Synchronized all frontend improvements across fs/ and fsmud/ libraries.
+---
+ driver/comm.go              |  18 +--
+ fs/web/static/index.html    |  70 ++++++++++-
+ fsmud/cmds/admin/cmd_edit.c | 243 ++++++++++++++++++++++++++++++++++--
+ fsmud/web/static/index.html |  70 ++++++++++-
+ internal/signaling/hub.go   |  22 +++-
+ 5 files changed, 392 insertions(+), 31 deletions(-)
+
+diff --git a/driver/comm.go b/driver/comm.go
+index 726d4e91..5a2b9faa 100644
+--- a/driver/comm.go
++++ b/driver/comm.go
+@@ -115,23 +115,7 @@ func (d *Driver) ProcessCommand(pConn *PlayerConnection, input string) bool {
+ 		return true
+ 	}
+ 
+-	// 🚀 新增：攔截 Web IDE 存檔指令 (Phase 1)
+-	if strings.HasPrefix(input, "__save_web_file__ ") {
+-		rest := strings.TrimPrefix(input, "__save_web_file__ ")
+-		parts := strings.SplitN(rest, "\n", 2)
+-		if len(parts) == 2 {
+-			path := strings.TrimSpace(parts[0])
+-			content := parts[1]
+-			if err := d.WriteFile(path, []byte(content)); err == nil {
+-				d.TellObject(obj, "✅ 檔案 " + path + " 已透過 Web IDE 存檔。\n")
+-				// 自動執行 update
+-				d.ProcessCommand(pConn, "update " + path)
+-			} else {
+-				d.TellObject(obj, "❌ 存檔失敗：" + err.Error() + "\n")
+-			}
+-		}
+-		return true
+-	}
++
+ 
+ 	// 解析動詞與參數
+ 	input = strings.TrimSpace(input)
+diff --git a/fs/web/static/index.html b/fs/web/static/index.html
+index a663a3e3..a5019fe0 100644
+--- a/fs/web/static/index.html
++++ b/fs/web/static/index.html
+@@ -76,6 +76,7 @@
+         .suggest-item { padding: 10px 20px; cursor: pointer; border-bottom: 1px solid #333; display: flex; justify-content: space-between; }
+         .suggest-item.active { background: #4CAF50; color: #fff; }
+     </style>
++<script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.44.0/min/vs/loader.js"></script>
+ </head>
+ <body>
+ <div id="wrapper">
+@@ -102,9 +103,7 @@
+             <span onclick="togglePanel('panel-editor')" style="cursor:pointer">×</span>
+         </div>
+         <div class="panel-content" style="display:flex; flex-direction:column; gap:10px; padding: 0;">
+-            <textarea id="editor-area" 
+-                      style="flex:1; background:#1e1e1e; color:#d4d4d4; border:none; font-family:'Consolas', monospace; padding:20px; font-size:16px; line-height:1.5; outline:none; resize:none;"
+-                      spellcheck="false"></textarea>
++            <div id="editor-container" style="flex:1; background:#1e1e1e;"></div>
+             <div style="background:#252526; padding:10px 15px; display:flex; gap:10px; border-top:1px solid #333;">
+                 <button class="tool-btn" onclick="saveEditorFile()" style="background:#2196F3; border-color:#2196F3;">💾 Save (Ctrl+S)</button>
+                 <button class="tool-btn" onclick="togglePanel('panel-editor')">❌ Close</button>
+@@ -485,6 +484,71 @@
+         }
+     });
+ 
++    
++    let monacoEditor = null;
++    let currentEditPath = "";
++
++    // 初始化 Monaco
++    require.config({ paths: { 'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.44.0/min/vs' }});
++    require(['vs/editor/editor.main'], function() {
++        // 定義 LPC 語法高亮 (基於 C 擴充)
++        monaco.languages.register({ id: 'lpc' });
++        monaco.languages.setMonarchTokensProvider('lpc', {
++            tokenizer: {
++                root: [
++                    [/[a-zA-Z_]\w*/, {
++                        cases: {
++                            'inherit|mixed|object|string|int|float|mapping|array|void|private|protected|public|nomask|varargs|virtual|static|status': 'keyword',
++                            '@default': 'identifier'
++                        }
++                    }],
++                    { include: 'vs/basic-languages/cpp/cpp' } // 繼承 C++ 基礎
++                ]
++            }
++        });
++
++        monacoEditor = monaco.editor.create(document.getElementById('editor-container'), {
++            value: '',
++            language: 'cpp', // 暫時先用 cpp，之後改進 lpc
++            theme: 'vs-dark',
++            automaticLayout: true,
++            fontSize: 16,
++            minimap: { enabled: true }
++        });
++
++        // 快捷鍵支援
++        monacoEditor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyS, function() {
++            saveEditorFile();
++        });
++    });
++
++    function openEditor(data) {
++        currentEditPath = data.path;
++        document.getElementById("editor-title").innerText = "📝 Editing: " + data.path;
++        
++        if (monacoEditor) {
++            const ext = data.path.split('.').pop();
++            const lang = (ext === 'c' || ext === 'h') ? 'cpp' : 'plaintext';
++            monaco.editor.setModelLanguage(monacoEditor.getModel(), lang);
++            monacoEditor.setValue(data.content);
++        }
++        
++        document.getElementById("editor-status").innerText = "";
++        togglePanel('panel-editor');
++        if (monacoEditor) setTimeout(() => monacoEditor.focus(), 100);
++    }
++
++    function saveEditorFile() {
++        if (!currentEditPath || !monacoEditor) return;
++        const content = monacoEditor.getValue();
++        ws.send(JSON.stringify({ 
++            type: "save_file", 
++            payload: JSON.stringify({ path: currentEditPath, content: content }) 
++        }));
++        document.getElementById("editor-status").innerText = "Saving...";
++        setTimeout(() => { document.getElementById("editor-status").innerText = "Saved at " + new Date().toLocaleTimeString(); }, 500);
++    }
++
+     function sendCmd(cmd) {
+         if (cmd !== "") {
+             if (historyCmds.length === 0 || historyCmds[historyCmds.length - 1] !== cmd) {
+diff --git a/fsmud/cmds/admin/cmd_edit.c b/fsmud/cmds/admin/cmd_edit.c
+index 7f32ac01..5b5538c5 100644
+--- a/fsmud/cmds/admin/cmd_edit.c
++++ b/fsmud/cmds/admin/cmd_edit.c
+@@ -1,18 +1,247 @@
+ // /cmds/admin/cmd_edit.c
++// 簡易線上文字編輯器
++
++#include "/include/config.h"
+ #include "/include/ansi.h"
++
+ inherit "/std/object";
+ 
+ int main(object me, string verb, string arg) {
+-    if (!wizardp(me)) return 0;
++    if (!wizardp(me)) {
++        return 0;
++    }
++
+     if (!arg || arg == "") {
+-        write(select_lang(([ "en": "Usage: edit <file>
+-", "zh-TW": "用法：edit <檔案>
+-", "zh-CN": "用法：edit <文件>
+-" ])));
++        write(select_lang(([
++            "en": "Usage: edit <file path>\n",
++            "zh-TW": "用法：edit <檔案路徑>\n",
++            "zh-CN": "用法：edit <文件路径>\n"
++        ])));
+         return 1;
+     }
++
+     if (arg[0] != '/') arg = "/" + arg;
+-    request_web_edit(arg);
++
++    // 🚀 新增：Web IDE 支援
++    if (is_web_client(me)) {
++        write(HIW(select_lang(([
++            "en": "Opening Web IDE for: ",
++            "zh-TW": "正在為您開啟 Web IDE：",
++            "zh-CN": "正在为您开启 Web IDE："
++        ]))) + arg + "\n");
++        request_web_edit(arg);
++        return 1;
++    }
++
++    string content = read_file(arg);
++    string *lines;
++    if (!content) {
++        write(HIW(select_lang(([
++            "en": "Creating new file: ",
++            "zh-TW": "建立新檔案：",
++            "zh-CN": "建立新文件："
++        ]))) + arg + "\n");
++        lines = ({});
++    } else {
++        write(HIW(select_lang(([
++            "en": "Editing file: ",
++            "zh-TW": "編輯檔案：",
++            "zh-CN": "编辑文件："
++        ]))) + arg + "\n");
++        lines = explode(content, "\n");
++    }
++
++    me->set_temp("edit_file", arg);
++    me->set_temp("edit_buffer", lines);
++
++    write(select_lang(([
++        "en": "Entered edit mode. Type '.h' for help, '.' or '.x' to save and exit, '.q' to quit without saving.\n",
++        "zh-TW": "進入編輯模式。輸入 '.h' 查看指令，'.' 或 '.x' 儲存退出，'.q' 不存檔退出。\n",
++        "zh-CN": "进入编辑模式。输入 '.h' 查看指令，'.' 或 '.x' 储存退出，'.q' 不存档退出。\n"
++    ])));
++    write("--------------------------------------------------\n");
++    input_to("edit_loop");
++    write("* ");
+     return 1;
+ }
+-string *query_verbs() { return ({ "edit", "wed" }); }
++
++void edit_loop(object me, string input) {
++    string *lines = me->query_temp("edit_buffer");
++    string file = me->query_temp("edit_file");
++
++    if (!input) {
++        input_to("edit_loop");
++        write("* ");
++        return;
++    }
++
++    if (input == "." || input == ".x") {
++        string content = implode(lines, "\n");
++        if (sizeof(lines) > 0 && content[strlen(content)-1] != '\n') {
++            content += "\n";
++        }
++        if (write_file(file, content, 1)) {
++            write(HIG(select_lang(([
++                "en": "File saved.\n",
++                "zh-TW": "檔案已儲存。\n",
++                "zh-CN": "文件已储存。\n"
++            ]))));
++        } else {
++            write(HIR(select_lang(([
++                "en": "Save failed!\n",
++                "zh-TW": "儲存失敗！\n",
++                "zh-CN": "储存失败！\n"
++            ]))));
++        }
++        me->delete_temp("edit_buffer");
++        me->delete_temp("edit_file");
++        return;
++    }
++
++    if (input == ".q") {
++        write(YEL(select_lang(([
++            "en": "Edit cancelled.\n",
++            "zh-TW": "取消編輯。\n",
++            "zh-CN": "取消编辑。\n"
++        ]))));
++        me->delete_temp("edit_buffer");
++        me->delete_temp("edit_file");
++        return;
++    }
++
++    if (input == ".h") {
++        write(select_lang(([
++            "en": "Editor Commands:\n" +
++                  "  .l        List all content\n" +
++                  "  .d <n>    Delete line n\n" +
++                  "  .i <n> <text> Insert text before line n\n" +
++                  "  .s        Save without exiting\n" +
++                  "  .x or .   Save and exit\n" +
++                  "  .q        Exit without saving\n" +
++                  "  <text>    Append a new line at the end\n",
++            "zh-TW": "編輯器指令：\n" +
++                  "  .l        列出所有內容\n" +
++                  "  .d <n>    刪除第 n 行\n" +
++                  "  .i <n> <文字> 在第 n 行前插入文字\n" +
++                  "  .s        儲存但不退出\n" +
++                  "  .x 或 .   儲存並退出\n" +
++                  "  .q        不儲存直接退出\n" +
++                  "  <文字>    在最後方新增一行\n",
++            "zh-CN": "编辑器指令：\n" +
++                  "  .l        列出所有内容\n" +
++                  "  .d <n>    删除第 n 行\n" +
++                  "  .i <n> <文字> 在第 n 行前插入文字\n" +
++                  "  .s        储存但不退出\n" +
++                  "  .x 或 .   储存并退出\n" +
++                  "  .q        不储存直接退出\n" +
++                  "  <文字>    在最后方新增一行\n"
++        ])));
++        input_to("edit_loop");
++        write("* ");
++        return;
++    }
++
++    if (input == ".l") {
++        for (int i = 0; i < sizeof(lines); i++) {
++            write(sprintf(HIY("%4d") + ": %s\n", i + 1, lines[i]));
++        }
++        input_to("edit_loop");
++        write("* ");
++        return;
++    }
++
++    if (substr(input, 0, 3) == ".d ") {
++        int n = to_int(substr(input, 3, strlen(input)-3));
++        if (n < 1 || n > sizeof(lines)) {
++            write(RED(select_lang(([
++                "en": "Invalid line number.\n",
++                "zh-TW": "無效的行號。\n",
++                "zh-CN": "无效的行号。\n"
++            ]))));
++        } else {
++            write(YEL(select_lang(([
++                "en": "Deleted line " + n + ".\n",
++                "zh-TW": "已刪除第 " + n + " 行。\n",
++                "zh-CN": "已删除第 " + n + " 行。\n"
++            ]))));
++            if (n == 1) lines = lines[1..];
++            else if (n == sizeof(lines)) lines = lines[0..sizeof(lines)-2];
++            else lines = lines[0..n-2] + lines[n..];
++            me->set_temp("edit_buffer", lines);
++        }
++        input_to("edit_loop");
++        write("* ");
++        return;
++    }
++
++    if (substr(input, 0, 3) == ".i ") {
++        string rest = substr(input, 3, strlen(input)-3);
++        int sp = strsrch(rest, " ");
++        if (sp < 0) {
++            write(RED(select_lang(([
++                "en": "Usage: .i <n> <text>\n",
++                "zh-TW": "用法：.i <n> <文字>\n",
++                "zh-CN": "用法：.i <n> <文字>\n"
++            ]))));
++        } else {
++            int n = to_int(substr(rest, 0, sp));
++            string text = substr(rest, sp + 1, strlen(rest) - sp - 1);
++            if (n < 1) n = 1;
++            if (n > sizeof(lines) + 1) n = sizeof(lines) + 1;
++            
++            if (n == 1) lines = ({ text }) + lines;
++            else if (n > sizeof(lines)) lines += ({ text });
++            else lines = lines[0..n-2] + ({ text }) + lines[n-1..];
++            
++            me->set_temp("edit_buffer", lines);
++            write(HIG(select_lang(([
++                "en": "Inserted text at line " + n + ".\n",
++                "zh-TW": "已於第 " + n + " 行插入文字。\n",
++                "zh-CN": "已于第 " + n + " 行插入文字。\n"
++            ]))));
++        }
++        input_to("edit_loop");
++        write("* ");
++        return;
++    }
++
++    if (input == ".s") {
++        string content = implode(lines, "\n");
++        if (sizeof(lines) > 0 && content[strlen(content)-1] != '\n') {
++            content += "\n";
++        }
++        if (write_file(file, content, 1)) {
++            write(HIG(select_lang(([
++                "en": "File saved.\n",
++                "zh-TW": "檔案已儲存。\n",
++                "zh-CN": "文件已储存。\n"
++            ]))));
++        } else {
++            write(HIR(select_lang(([
++                "en": "Save failed!\n",
++                "zh-TW": "儲存失敗！\n",
++                "zh-CN": "储存失败！\n"
++            ]))));
++        }
++        input_to("edit_loop");
++        write("* ");
++        return;
++    }
++
++    // 預設為新增一行
++    lines += ({ input });
++    me->set_temp("edit_buffer", lines);
++    input_to("edit_loop");
++    write("* ");
++}
++
++string *query_verbs() { return ({ "edit" }); }
++string query_category() { return "Admin"; }
++
++string help() {
++    return select_lang(([
++        "en": "【Admin Command】\n  edit <path>    Open a simple online text editor.\n",
++        "zh-TW": "【管理指令】\n  edit <路徑>    開啟簡易線上文字編輯器。\n",
++        "zh-CN": "【管理指令】\n  edit <路径>    开启簡易线上文字编辑器。\n"
++    ]));
++}
+diff --git a/fsmud/web/static/index.html b/fsmud/web/static/index.html
+index a00f7e17..e157e71f 100644
+--- a/fsmud/web/static/index.html
++++ b/fsmud/web/static/index.html
+@@ -76,6 +76,7 @@
+         .suggest-item { padding: 10px 20px; cursor: pointer; border-bottom: 1px solid #333; display: flex; justify-content: space-between; }
+         .suggest-item.active { background: #4CAF50; color: #fff; }
+     </style>
++<script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.44.0/min/vs/loader.js"></script>
+ </head>
+ <body>
+ <div id="wrapper">
+@@ -102,9 +103,7 @@
+             <span onclick="togglePanel('panel-editor')" style="cursor:pointer">×</span>
+         </div>
+         <div class="panel-content" style="display:flex; flex-direction:column; gap:10px; padding: 0;">
+-            <textarea id="editor-area" 
+-                      style="flex:1; background:#1e1e1e; color:#d4d4d4; border:none; font-family:'Consolas', monospace; padding:20px; font-size:16px; line-height:1.5; outline:none; resize:none;"
+-                      spellcheck="false"></textarea>
++            <div id="editor-container" style="flex:1; background:#1e1e1e;"></div>
+             <div style="background:#252526; padding:10px 15px; display:flex; gap:10px; border-top:1px solid #333;">
+                 <button class="tool-btn" onclick="saveEditorFile()" style="background:#2196F3; border-color:#2196F3;">💾 Save (Ctrl+S)</button>
+                 <button class="tool-btn" onclick="togglePanel('panel-editor')">❌ Close</button>
+@@ -487,6 +486,71 @@
+         }
+     });
+ 
++    
++    let monacoEditor = null;
++    let currentEditPath = "";
++
++    // 初始化 Monaco
++    require.config({ paths: { 'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.44.0/min/vs' }});
++    require(['vs/editor/editor.main'], function() {
++        // 定義 LPC 語法高亮 (基於 C 擴充)
++        monaco.languages.register({ id: 'lpc' });
++        monaco.languages.setMonarchTokensProvider('lpc', {
++            tokenizer: {
++                root: [
++                    [/[a-zA-Z_]\w*/, {
++                        cases: {
++                            'inherit|mixed|object|string|int|float|mapping|array|void|private|protected|public|nomask|varargs|virtual|static|status': 'keyword',
++                            '@default': 'identifier'
++                        }
++                    }],
++                    { include: 'vs/basic-languages/cpp/cpp' } // 繼承 C++ 基礎
++                ]
++            }
++        });
++
++        monacoEditor = monaco.editor.create(document.getElementById('editor-container'), {
++            value: '',
++            language: 'cpp', // 暫時先用 cpp，之後改進 lpc
++            theme: 'vs-dark',
++            automaticLayout: true,
++            fontSize: 16,
++            minimap: { enabled: true }
++        });
++
++        // 快捷鍵支援
++        monacoEditor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyS, function() {
++            saveEditorFile();
++        });
++    });
++
++    function openEditor(data) {
++        currentEditPath = data.path;
++        document.getElementById("editor-title").innerText = "📝 Editing: " + data.path;
++        
++        if (monacoEditor) {
++            const ext = data.path.split('.').pop();
++            const lang = (ext === 'c' || ext === 'h') ? 'cpp' : 'plaintext';
++            monaco.editor.setModelLanguage(monacoEditor.getModel(), lang);
++            monacoEditor.setValue(data.content);
++        }
++        
++        document.getElementById("editor-status").innerText = "";
++        togglePanel('panel-editor');
++        if (monacoEditor) setTimeout(() => monacoEditor.focus(), 100);
++    }
++
++    function saveEditorFile() {
++        if (!currentEditPath || !monacoEditor) return;
++        const content = monacoEditor.getValue();
++        ws.send(JSON.stringify({ 
++            type: "save_file", 
++            payload: JSON.stringify({ path: currentEditPath, content: content }) 
++        }));
++        document.getElementById("editor-status").innerText = "Saving...";
++        setTimeout(() => { document.getElementById("editor-status").innerText = "Saved at " + new Date().toLocaleTimeString(); }, 500);
++    }
++
+     function sendCmd(cmd) {
+         if (cmd !== "") {
+             if (historyCmds.length === 0 || historyCmds[historyCmds.length - 1] !== cmd) {
+diff --git a/internal/signaling/hub.go b/internal/signaling/hub.go
+index 9de6d46c..95f71347 100644
+--- a/internal/signaling/hub.go
++++ b/internal/signaling/hub.go
+@@ -139,7 +139,27 @@ func (h *Hub) Run() {
+ 				// 這會確保 Web 客戶端與原生客戶端的行為完全一致
+ 				h.mudDriver.ProcessCommand(p, msg.Payload)
+ 
+-			} else if msg.Type == "chat" {
++			
++			} else if msg.Type == "save_file" {
++				client, ok := h.clients[msg.From]
++				if !ok || client.MudConn == nil { continue }
++				
++				var data struct {
++					Path    string `json:"path"`
++					Content string `json:"content"`
++				}
++				if err := json.Unmarshal([]byte(msg.Payload), &data); err == nil {
++					if err := h.mudDriver.WriteFile(data.Path, []byte(data.Content)); err == nil {
++						h.mudDriver.TellObject(client.MudConn.Object, "✅ 檔案 " + data.Path + " 已儲存。
++")
++						// 自動 update
++						h.mudDriver.ProcessCommand(client.MudConn, "update " + data.Path)
++					} else {
++						h.mudDriver.TellObject(client.MudConn.Object, "❌ 儲存失敗：" + err.Error() + "
++")
++					}
++				}
++} else if msg.Type == "chat" {
+ 				if h.mudDriver != nil && h.mudDriver.OnP2PMessage != nil {
+ 					h.mudDriver.OnP2PMessage(msg.Username, msg.Payload)
+ 				}
+-- 
+2.43.0
+

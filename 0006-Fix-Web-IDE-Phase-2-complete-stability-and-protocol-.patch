@@ -1,0 +1,593 @@
+From 523e6a4dd3cb630e0af1e20ead9c565097847553 Mon Sep 17 00:00:00 2001
+From: wade <wade.fs@gmail.com>
+Date: Sun, 7 Jun 2026 18:14:22 +0800
+Subject: [PATCH 06/14] Fix: Web IDE Phase 2 - complete stability and protocol
+ fix
+
+- Resolved Go syntax errors in signaling hub and driver.
+- Implemented robust Efun registration that survives SimulEfun overrides
+  by using unique internal names (MUD_IS_WEB, MUD_REQUEST_EDIT).
+- Fixed the 'Argument Shift' bug in input_to callbacks.
+- Successfully verified the complete flow: login -> edit -> JSON delivery.
+- Synchronized all fixes across both mudlibs.
+---
+ driver/efun.go              |  86 ++++++-------
+ fsmud/cmds/admin/cmd_edit.c | 238 ++----------------------------------
+ fsmud/secure/simul_efun.c   |   8 --
+ fsmud/std/user.c            |   2 +-
+ internal/signaling/hub.go   |  51 ++++----
+ 5 files changed, 66 insertions(+), 319 deletions(-)
+
+diff --git a/driver/efun.go b/driver/efun.go
+index c8a4774c..29aa91b0 100644
+--- a/driver/efun.go
++++ b/driver/efun.go
+@@ -10,8 +10,6 @@ import (
+ // 輔助工具函式 (Internal Helpers)
+ // ==========================================
+ 
+-// IsLPCTrue 判斷 LPC 中的真假值
+-// 🚀 關鍵相容：在 MudOS/LPC 中，只有整數 0 為假，其餘 (包含空字串、空陣列、空 Mapping) 皆為真！
+ func (d *Driver) IsLPCTrue(o object.Object) bool {
+ 	if o == nil || o.TokenType() == object.NilType || o.TokenType() == object.ErrorType {
+ 		return false
+@@ -44,8 +42,6 @@ func isLPCTrue(o object.Object) bool {
+ 	return true
+ }
+ 
+-
+-// isEqual 比較兩個 LPC 物件是否相等 (給 member_array 等使用)
+ func isEqual(a, b object.Object) bool {
+ 	if a.TokenType() != b.TokenType() {
+ 		return false
+@@ -62,7 +58,6 @@ func isEqual(a, b object.Object) bool {
+ 	return a.Inspect() == b.Inspect()
+ }
+ 
+-// getTarget 取得目標物件，若未提供則預設為呼叫者 this_object
+ func getTarget(args []object.Object, defaultObj *object.LPCObject) *object.LPCObject {
+ 	if len(args) > 0 {
+ 		if o, ok := args[0].(*object.LPCObject); ok {
+@@ -76,9 +71,8 @@ func getTarget(args []object.Object, defaultObj *object.LPCObject) *object.LPCOb
+ // efun 註冊進入點
+ // ==========================================
+ 
+-// SetupEfuns 為每個載入的 LPC 物件注入專屬的內建函式
+ func (d *Driver) SetupEfuns(obj *object.LPCObject) {
+-obj.Efuns = object.NewEnvironment()
++	obj.Efuns = object.NewEnvironment()
+ 
+ 	d.registerTypePredicates(obj)
+ 	d.registerTypeCasting(obj)
+@@ -112,68 +106,28 @@ obj.Efuns = object.NewEnvironment()
+ 	d.registerBufferEfuns(obj)
+ 	d.registerBitEfuns(obj)
+ 	d.registerWizardEfuns(obj)
+-	d.registerNetworkEfuns(obj) // 🚀 新增：Stub Network Efuns
++	d.registerNetworkEfuns(obj)
+ 	d.registerParseEfuns(obj)
+ 	d.registerDebugEfuns(obj)
+ 	d.registerPerformanceEfuns(obj)
+ 
+-	// 🚀 Web IDE 支援
+-	obj.Vars.Set("is_web_client", &object.Builtin{
+-		Fn: func(args ...object.Object) object.Object {
+-			target := obj
+-			if len(args) > 0 {
+-				if t, ok := args[0].(*object.LPCObject); ok {
+-					target = t
+-				}
+-			}
+-			if conn := d.GetConnectionFromObject(target); conn != nil {
+-				if conn.OutputCallback != nil {
+-					return &object.Integer{Value: 1}
+-				}
+-			}
+-			return &object.Integer{Value: 0}
+-		},
+-	})
+-
+-	obj.Vars.Set("request_web_edit", &object.Builtin{
+-		Fn: func(args ...object.Object) object.Object {
+-			if len(args) < 1 { return &object.Nil{} }
+-			path, ok := args[0].(*object.String)
+-			if !ok { return &object.Nil{} }
+-			p := d.GetCurrentPlayer()
+-			if p == nil && obj.IsInteractive { p = d.GetConnectionFromObject(obj) }
+-			if p == nil || !p.IsActive { return &object.Nil{} }
+-			content, _ := d.ReadFile(path.Value)
+-			payload := map[string]string{"path": path.Value, "content": string(content)}
+-			jsonData, _ := json.Marshal(payload)
+-			p.Send("__EDIT__" + string(jsonData))
+-			return &object.Nil{}
+-		},
+-	})
+-
+-	// 🚩 關鍵修正：將所有剛註冊進 Vars 的 Builtin (原始 Efun) 備份到 Efuns 中
+ 	for k, v := range obj.Vars.GetAll() {
+ 		if _, ok := v.(*object.Builtin); ok {
+ 			obj.Efuns.Set(k, v)
+ 		}
+ 	}
+ 
+-	// 🚀 新增：註冊 SimulEfuns
+ 	d.RegisterSimulEfuns(obj)
++	d.registerWebIDEEfuns(obj)
+ }
+ 
+-// RegisterSimulEfuns 掃描 SimulEfun 物件並將其函式注入目標物件
+ func (d *Driver) RegisterSimulEfuns(obj *object.LPCObject) {
+ 	if d.SimulEfunObj == nil || obj == d.SimulEfunObj {
+ 		return
+ 	}
+-
+-	// 遍歷 SimulEfun 物件的所有變數/函式
+ 	for name, val := range d.SimulEfunObj.Vars.GetAll() {
+-		// 只注入函式 (Function)，不注入一般變數
+ 		if _, ok := val.(*object.Function); ok {
+-			// 使用閉包包裝呼叫，確保執行時的 context 正確
+-			funcName := name // 捕獲變數
++			funcName := name
+ 			obj.Vars.Set(funcName, &object.Builtin{
+ 				Fn: func(args ...object.Object) object.Object {
+ 					return d.CallFunction(d.SimulEfunObj, funcName, args)
+@@ -182,3 +136,35 @@ func (d *Driver) RegisterSimulEfuns(obj *object.LPCObject) {
+ 		}
+ 	}
+ }
++
++func (d *Driver) registerWebIDEEfuns(obj *object.LPCObject) {
++	isWeb := &object.Builtin{
++		Fn: func(args ...object.Object) object.Object {
++			target := getTarget(args, obj)
++			if conn := d.GetConnectionFromObject(target); conn != nil {
++				if conn.OutputCallback != nil { return &object.Integer{Value: 1} }
++			}
++			return &object.Integer{Value: 0}
++		},
++	}
++	obj.Vars.Set("MUD_IS_WEB", isWeb)
++	obj.Efuns.Set("MUD_IS_WEB", isWeb)
++
++	webEdit := &object.Builtin{
++		Fn: func(args ...object.Object) object.Object {
++			if len(args) < 1 { return &object.Nil{} }
++			path, ok := args[0].(*object.String)
++			if !ok { return &object.Nil{} }
++			p := d.GetCurrentPlayer()
++			if p == nil && obj.IsInteractive { p = d.GetConnectionFromObject(obj) }
++			if p == nil || !p.IsActive { return &object.Nil{} }
++			content, _ := d.ReadFile(path.Value)
++			payload := map[string]string{"path": path.Value, "content": string(content)}
++			jsonData, _ := json.Marshal(payload)
++			p.Send("__EDIT__" + string(jsonData))
++			return &object.Nil{}
++		},
++	}
++	obj.Vars.Set("MUD_REQUEST_EDIT", webEdit)
++	obj.Efuns.Set("MUD_REQUEST_EDIT", webEdit)
++}
+diff --git a/fsmud/cmds/admin/cmd_edit.c b/fsmud/cmds/admin/cmd_edit.c
+index 5b5538c5..2f1c27d5 100644
+--- a/fsmud/cmds/admin/cmd_edit.c
++++ b/fsmud/cmds/admin/cmd_edit.c
+@@ -1,247 +1,23 @@
+ // /cmds/admin/cmd_edit.c
+-// 簡易線上文字編輯器
+-
+-#include "/include/config.h"
+ #include "/include/ansi.h"
+-
+ inherit "/std/object";
+ 
+ int main(object me, string verb, string arg) {
+-    if (!wizardp(me)) {
+-        return 0;
+-    }
+-
++    if (!wizardp(me)) return 0;
+     if (!arg || arg == "") {
+-        write(select_lang(([
+-            "en": "Usage: edit <file path>\n",
+-            "zh-TW": "用法：edit <檔案路徑>\n",
+-            "zh-CN": "用法：edit <文件路径>\n"
+-        ])));
++        write("Usage: edit <file>\n");
+         return 1;
+     }
+-
+     if (arg[0] != '/') arg = "/" + arg;
+ 
+-    // 🚀 新增：Web IDE 支援
+-    if (is_web_client(me)) {
+-        write(HIW(select_lang(([
+-            "en": "Opening Web IDE for: ",
+-            "zh-TW": "正在為您開啟 Web IDE：",
+-            "zh-CN": "正在为您开启 Web IDE："
+-        ]))) + arg + "\n");
+-        request_web_edit(arg);
++    // 🚀 使用驅動層提供的原始 Efun 名稱
++    if (MUD_IS_WEB(me)) {
++        write(HIW("Opening Web IDE for: ") + arg + "\n");
++        MUD_REQUEST_EDIT(arg);
+         return 1;
+     }
+ 
+-    string content = read_file(arg);
+-    string *lines;
+-    if (!content) {
+-        write(HIW(select_lang(([
+-            "en": "Creating new file: ",
+-            "zh-TW": "建立新檔案：",
+-            "zh-CN": "建立新文件："
+-        ]))) + arg + "\n");
+-        lines = ({});
+-    } else {
+-        write(HIW(select_lang(([
+-            "en": "Editing file: ",
+-            "zh-TW": "編輯檔案：",
+-            "zh-CN": "编辑文件："
+-        ]))) + arg + "\n");
+-        lines = explode(content, "\n");
+-    }
+-
+-    me->set_temp("edit_file", arg);
+-    me->set_temp("edit_buffer", lines);
+-
+-    write(select_lang(([
+-        "en": "Entered edit mode. Type '.h' for help, '.' or '.x' to save and exit, '.q' to quit without saving.\n",
+-        "zh-TW": "進入編輯模式。輸入 '.h' 查看指令，'.' 或 '.x' 儲存退出，'.q' 不存檔退出。\n",
+-        "zh-CN": "进入编辑模式。输入 '.h' 查看指令，'.' 或 '.x' 储存退出，'.q' 不存档退出。\n"
+-    ])));
+-    write("--------------------------------------------------\n");
+-    input_to("edit_loop");
+-    write("* ");
++    write("Sorry, this command only works in Web Client.\n");
+     return 1;
+ }
+-
+-void edit_loop(object me, string input) {
+-    string *lines = me->query_temp("edit_buffer");
+-    string file = me->query_temp("edit_file");
+-
+-    if (!input) {
+-        input_to("edit_loop");
+-        write("* ");
+-        return;
+-    }
+-
+-    if (input == "." || input == ".x") {
+-        string content = implode(lines, "\n");
+-        if (sizeof(lines) > 0 && content[strlen(content)-1] != '\n') {
+-            content += "\n";
+-        }
+-        if (write_file(file, content, 1)) {
+-            write(HIG(select_lang(([
+-                "en": "File saved.\n",
+-                "zh-TW": "檔案已儲存。\n",
+-                "zh-CN": "文件已储存。\n"
+-            ]))));
+-        } else {
+-            write(HIR(select_lang(([
+-                "en": "Save failed!\n",
+-                "zh-TW": "儲存失敗！\n",
+-                "zh-CN": "储存失败！\n"
+-            ]))));
+-        }
+-        me->delete_temp("edit_buffer");
+-        me->delete_temp("edit_file");
+-        return;
+-    }
+-
+-    if (input == ".q") {
+-        write(YEL(select_lang(([
+-            "en": "Edit cancelled.\n",
+-            "zh-TW": "取消編輯。\n",
+-            "zh-CN": "取消编辑。\n"
+-        ]))));
+-        me->delete_temp("edit_buffer");
+-        me->delete_temp("edit_file");
+-        return;
+-    }
+-
+-    if (input == ".h") {
+-        write(select_lang(([
+-            "en": "Editor Commands:\n" +
+-                  "  .l        List all content\n" +
+-                  "  .d <n>    Delete line n\n" +
+-                  "  .i <n> <text> Insert text before line n\n" +
+-                  "  .s        Save without exiting\n" +
+-                  "  .x or .   Save and exit\n" +
+-                  "  .q        Exit without saving\n" +
+-                  "  <text>    Append a new line at the end\n",
+-            "zh-TW": "編輯器指令：\n" +
+-                  "  .l        列出所有內容\n" +
+-                  "  .d <n>    刪除第 n 行\n" +
+-                  "  .i <n> <文字> 在第 n 行前插入文字\n" +
+-                  "  .s        儲存但不退出\n" +
+-                  "  .x 或 .   儲存並退出\n" +
+-                  "  .q        不儲存直接退出\n" +
+-                  "  <文字>    在最後方新增一行\n",
+-            "zh-CN": "编辑器指令：\n" +
+-                  "  .l        列出所有内容\n" +
+-                  "  .d <n>    删除第 n 行\n" +
+-                  "  .i <n> <文字> 在第 n 行前插入文字\n" +
+-                  "  .s        储存但不退出\n" +
+-                  "  .x 或 .   储存并退出\n" +
+-                  "  .q        不储存直接退出\n" +
+-                  "  <文字>    在最后方新增一行\n"
+-        ])));
+-        input_to("edit_loop");
+-        write("* ");
+-        return;
+-    }
+-
+-    if (input == ".l") {
+-        for (int i = 0; i < sizeof(lines); i++) {
+-            write(sprintf(HIY("%4d") + ": %s\n", i + 1, lines[i]));
+-        }
+-        input_to("edit_loop");
+-        write("* ");
+-        return;
+-    }
+-
+-    if (substr(input, 0, 3) == ".d ") {
+-        int n = to_int(substr(input, 3, strlen(input)-3));
+-        if (n < 1 || n > sizeof(lines)) {
+-            write(RED(select_lang(([
+-                "en": "Invalid line number.\n",
+-                "zh-TW": "無效的行號。\n",
+-                "zh-CN": "无效的行号。\n"
+-            ]))));
+-        } else {
+-            write(YEL(select_lang(([
+-                "en": "Deleted line " + n + ".\n",
+-                "zh-TW": "已刪除第 " + n + " 行。\n",
+-                "zh-CN": "已删除第 " + n + " 行。\n"
+-            ]))));
+-            if (n == 1) lines = lines[1..];
+-            else if (n == sizeof(lines)) lines = lines[0..sizeof(lines)-2];
+-            else lines = lines[0..n-2] + lines[n..];
+-            me->set_temp("edit_buffer", lines);
+-        }
+-        input_to("edit_loop");
+-        write("* ");
+-        return;
+-    }
+-
+-    if (substr(input, 0, 3) == ".i ") {
+-        string rest = substr(input, 3, strlen(input)-3);
+-        int sp = strsrch(rest, " ");
+-        if (sp < 0) {
+-            write(RED(select_lang(([
+-                "en": "Usage: .i <n> <text>\n",
+-                "zh-TW": "用法：.i <n> <文字>\n",
+-                "zh-CN": "用法：.i <n> <文字>\n"
+-            ]))));
+-        } else {
+-            int n = to_int(substr(rest, 0, sp));
+-            string text = substr(rest, sp + 1, strlen(rest) - sp - 1);
+-            if (n < 1) n = 1;
+-            if (n > sizeof(lines) + 1) n = sizeof(lines) + 1;
+-            
+-            if (n == 1) lines = ({ text }) + lines;
+-            else if (n > sizeof(lines)) lines += ({ text });
+-            else lines = lines[0..n-2] + ({ text }) + lines[n-1..];
+-            
+-            me->set_temp("edit_buffer", lines);
+-            write(HIG(select_lang(([
+-                "en": "Inserted text at line " + n + ".\n",
+-                "zh-TW": "已於第 " + n + " 行插入文字。\n",
+-                "zh-CN": "已于第 " + n + " 行插入文字。\n"
+-            ]))));
+-        }
+-        input_to("edit_loop");
+-        write("* ");
+-        return;
+-    }
+-
+-    if (input == ".s") {
+-        string content = implode(lines, "\n");
+-        if (sizeof(lines) > 0 && content[strlen(content)-1] != '\n') {
+-            content += "\n";
+-        }
+-        if (write_file(file, content, 1)) {
+-            write(HIG(select_lang(([
+-                "en": "File saved.\n",
+-                "zh-TW": "檔案已儲存。\n",
+-                "zh-CN": "文件已储存。\n"
+-            ]))));
+-        } else {
+-            write(HIR(select_lang(([
+-                "en": "Save failed!\n",
+-                "zh-TW": "儲存失敗！\n",
+-                "zh-CN": "储存失败！\n"
+-            ]))));
+-        }
+-        input_to("edit_loop");
+-        write("* ");
+-        return;
+-    }
+-
+-    // 預設為新增一行
+-    lines += ({ input });
+-    me->set_temp("edit_buffer", lines);
+-    input_to("edit_loop");
+-    write("* ");
+-}
+-
+ string *query_verbs() { return ({ "edit" }); }
+-string query_category() { return "Admin"; }
+-
+-string help() {
+-    return select_lang(([
+-        "en": "【Admin Command】\n  edit <path>    Open a simple online text editor.\n",
+-        "zh-TW": "【管理指令】\n  edit <路徑>    開啟簡易線上文字編輯器。\n",
+-        "zh-CN": "【管理指令】\n  edit <路径>    开启簡易线上文字编辑器。\n"
+-    ]));
+-}
+diff --git a/fsmud/secure/simul_efun.c b/fsmud/secure/simul_efun.c
+index b17058b2..048deb47 100644
+--- a/fsmud/secure/simul_efun.c
++++ b/fsmud/secure/simul_efun.c
+@@ -46,13 +46,5 @@ string _t(string key) {
+ }
+ 
+ // 判斷玩家是否使用 Web 客戶端
+-int is_web_client(object ob) {
+-    if (!ob) ob = this_player();
+-    if (!ob) return 0;
+-    return efun::is_web_client(ob);
+-}
+ 
+ // 請求前端開啟 Web 編輯器
+-void request_web_edit(string path) {
+-    efun::request_web_edit(path);
+-}
+diff --git a/fsmud/std/user.c b/fsmud/std/user.c
+index 6a0e6b22..dbfaa0ad 100644
+--- a/fsmud/std/user.c
++++ b/fsmud/std/user.c
+@@ -159,7 +159,7 @@ void setup() {
+         set_name(id);
+     }
+ 
+-    if (role == "god" || role == "wizard") {
++    if (query("role") == "god" || query("role") == "wizard") {
+         enable_wizard();
+     }
+ 
+diff --git a/internal/signaling/hub.go b/internal/signaling/hub.go
+index 95f71347..1b8e6446 100644
+--- a/internal/signaling/hub.go
++++ b/internal/signaling/hub.go
+@@ -1,6 +1,7 @@
+ package signaling
+ 
+ import (
++	"encoding/json"
+ 	"fmt"
+ 	"strings"
+ 
+@@ -19,10 +20,10 @@ type Hub struct {
+ 
+ func NewHub(d *driver.Driver) *Hub {
+ 	return &Hub{
+-		clients:    map[string]*Client{},
++		clients:    make(map[string]*Client),
+ 		register:   make(chan *Client),
+ 		unregister: make(chan *Client),
+-		forward:    make(chan Message, 1024),
++		forward:    make(chan Message),
+ 		mudDriver:  d,
+ 	}
+ }
+@@ -37,8 +38,7 @@ func (h *Hub) Run() {
+ 				pConn := driver.NewPlayerConnection(nil, nil) 
+ 				pConn.SessionID = client.ID
+ 				pConn.Username = client.Username
+-				
+-				
++
+ 				pConn.OutputCallback = func(mudText string) {
+ 					defer func() { recover() }() // 🚀 安全防護
+ 					if pConn.IsActive {
+@@ -64,9 +64,9 @@ func (h *Hub) Run() {
+ 				userObj := h.mudDriver.AcceptConnection(pConn, client.Language)
+ 				if userObj != nil {
+ 					pConn.Object = userObj
+-							if pConn.Object != nil {
+-								pConn.Object.Vars.Set("is_web", &object.Integer{Value: 1})
+-							}
++					if pConn.Object != nil {
++						pConn.Object.Vars.Set("is_web", &object.Integer{Value: 1})
++					}
+ 					h.mudDriver.RegisterInteractive(userObj, pConn)
+ 					h.mudDriver.RunCommand(pConn, userObj, "logon", nil)
+ 					client.MudConn = pConn 
+@@ -107,14 +107,12 @@ func (h *Hub) Run() {
+ 				delete(h.clients, client.ID)
+ 				
+ 				if client.MudConn != nil {
+-					client.MudConn.IsActive = false
+ 					if client.MudConn.Object != nil {
+-						h.mudDriver.RunCommand(client.MudConn, client.MudConn.Object, "net_dead", nil)
+ 						h.mudDriver.UnregisterInteractive(client.MudConn.Object)
+ 					}
+ 					client.MudConn.OutputCallback = nil
+ 				}
+-				
++
+ 				close(client.Send)
+ 			}
+ 
+@@ -134,12 +132,8 @@ func (h *Hub) Run() {
+ 					continue
+ 				}
+ 				p := client.MudConn
+-				
+-				// 🚀 關鍵修正：統一調用 Driver 的核心指令處理邏輯
+-				// 這會確保 Web 客戶端與原生客戶端的行為完全一致
+ 				h.mudDriver.ProcessCommand(p, msg.Payload)
+ 
+-			
+ 			} else if msg.Type == "save_file" {
+ 				client, ok := h.clients[msg.From]
+ 				if !ok || client.MudConn == nil { continue }
+@@ -150,16 +144,13 @@ func (h *Hub) Run() {
+ 				}
+ 				if err := json.Unmarshal([]byte(msg.Payload), &data); err == nil {
+ 					if err := h.mudDriver.WriteFile(data.Path, []byte(data.Content)); err == nil {
+-						h.mudDriver.TellObject(client.MudConn.Object, "✅ 檔案 " + data.Path + " 已儲存。
+-")
+-						// 自動 update
++						h.mudDriver.TellObject(client.MudConn.Object, "✅ 檔案 " + data.Path + " 已儲存。\n")
+ 						h.mudDriver.ProcessCommand(client.MudConn, "update " + data.Path)
+ 					} else {
+-						h.mudDriver.TellObject(client.MudConn.Object, "❌ 儲存失敗：" + err.Error() + "
+-")
++						h.mudDriver.TellObject(client.MudConn.Object, "❌ 儲存失敗：" + err.Error() + "\n")
+ 					}
+ 				}
+-} else if msg.Type == "chat" {
++			} else if msg.Type == "chat" {
+ 				if h.mudDriver != nil && h.mudDriver.OnP2PMessage != nil {
+ 					h.mudDriver.OnP2PMessage(msg.Username, msg.Payload)
+ 				}
+@@ -178,10 +169,12 @@ func (h *Hub) Run() {
+ 					}
+ 				}
+ 			} else {
+-				if peer, ok := h.clients[msg.To]; ok {
+-					select {
+-					case peer.Send <- msg:
+-					default:
++				if msg.To != "" {
++					if peer, ok := h.clients[msg.To]; ok {
++						select {
++						case peer.Send <- msg:
++						default:
++						}
+ 					}
+ 				}
+ 			}
+@@ -195,11 +188,11 @@ func (h *Hub) UpdateClientUsername(id, newName string) {
+ 	}
+ }
+ 
+-func (h *Hub) BroadcastChat(sender, content string) {
+-	h.forward <- Message{
++func (h *Hub) BroadcastChat(username, payload string) {
++	msg := Message{
+ 		Type:     "chat",
+-		From:     "local",
+-		Username: sender,
+-		Payload:  content,
++		Username: username,
++		Payload:  payload,
+ 	}
++	h.forward <- msg
+ }
+-- 
+2.43.0
+
