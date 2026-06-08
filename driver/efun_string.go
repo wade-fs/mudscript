@@ -2,434 +2,683 @@
 package driver
 
 import (
-	"fmt"
-	"log"
-	"regexp"
-	"strings"
+        "fmt"
+        "log"
+        "os"
+        "path/filepath"
+        "regexp"
+        "strings"
 
-	"golang.org/x/crypto/bcrypt"
-	"mudscript/evaluator"
-	"mudscript/object"
+        "golang.org/x/crypto/bcrypt"
+        "mudscript/object"
 )
 
+// ==========================================
+// 8. 字串操作 (Strings)
+// ==========================================
 func (d *Driver) registerStringEfuns(obj *object.LPCObject) {
-	// 語法: string capitalize(string str)
-	// 說明: 將字串的第一個字母轉換為大寫。
-	// 範例: capitalize("hello") -> "Hello"
-	obj.Vars.Set("capitalize", &object.Builtin{
-		Fn: func(args ...object.Object) object.Object {
-			if len(args) == 0 {
-				return &object.String{Value: ""}
-			}
-			str, ok := args[0].(*object.String)
-			if !ok {
-				return &object.String{Value: args[0].Inspect()}
-			}
-			if len(str.Value) == 0 {
-				return &object.String{Value: ""}
-			}
-			return &object.String{Value: strings.ToUpper(str.Value[:1]) + str.Value[1:]}
-		},
-	})
 
-	// 語法: string lower_case(string str)
-	// 說明: 將字串全部轉換為小寫。
-	// 範例: lower_case("HELLO") -> "hello"
-	obj.Vars.Set("lower_case", &object.Builtin{
-		Fn: func(args ...object.Object) object.Object {
-			if len(args) == 0 {
-				return &object.String{Value: ""}
-			}
-			str, ok := args[0].(*object.String)
-			if !ok {
-				return &object.String{Value: strings.ToLower(args[0].Inspect())}
-			}
-			return &object.String{Value: strings.ToLower(str.Value)}
-		},
-	})
+        // 語法: string *get_dir(string path, [int recursive])
+        // 說明: 取得指定路徑下的所有檔案與目錄清單。
+        //       - 支援萬用字元，例如 "/cmds/*.c"
+        //       - 若為目錄，回傳的名稱結尾會帶有 "/" 方便判斷
+        //       - recursive = 1 時，會遞迴往下掃描所有子目錄 (此模式下不支援萬用字元，需 傳入明確目錄)
+        // 範例:
+        //   get_dir("/cmds/")          -> ({ "cmd_info.c", "cmd_look.c", "login.c", ... })
+        //   get_dir("/data/user/*.o")  -> ({ "wade.o", "admin.o" })
+        //   get_dir("/cmds/", 1)       -> ({ "cmd_info.c", "admin/cmd_shutdown.c", ... })
+        obj.Vars.Set("get_dir", &object.Builtin{
+                Fn: func(args ...object.Object) object.Object {
+                        if len(args) < 1 {
+                                return &object.Array{Elements: []object.Object{}}
+                        }
+                        pathArg, ok := args[0].(*object.String)
+                        if !ok {
+                                return object.NewError("get_dir 的第一個參數必須是字串")
+                        }
 
-	// 語法: string upper_case(string str)
-	// 說明: 將字串全部轉換為大寫。
-	// 範例: upper_case("hello") -> "HELLO"
-	obj.Vars.Set("upper_case", &object.Builtin{
-		Fn: func(args ...object.Object) object.Object {
-			if len(args) == 0 {
-				return &object.String{Value: ""}
-			}
-			str, ok := args[0].(*object.String)
-			if !ok {
-				return &object.String{Value: strings.ToUpper(args[0].Inspect())}
-			}
-			return &object.String{Value: strings.ToUpper(str.Value)}
-		},
-	})
+                        resolvedPath := d.ResolvePath(obj.Filename, pathArg.Value)
 
-	// 語法: string sprintf(string format, ...)
-	// 說明: C 語言風格的字串格式化。
-	// 範例: sprintf("HP: %d/%d", 10, 20) -> "HP: 10/20"
-	obj.Vars.Set("sprintf", &object.Builtin{
-		Fn: func(args ...object.Object) object.Object {
-			if len(args) == 0 {
-				return object.NewError("sprintf 需要參數")
-			}
-			formatObj, ok := args[0].(*object.String)
-			if !ok {
-				return object.NewError("第一個參數必須是字串")
-			}
+                        // 🚀 權限檢查
+                        allowed, errMsg := d.checkReadPermission(obj, resolvedPath, "get_dir")
+                        if !allowed {
+                                if p := d.GetCurrentPlayer(); p != nil {
+                                        p.Send(fmt.Sprintf("\r\n[系統安全攔截]: %s\r\n", errMsg))
+                                }
+                                return &object.Array{Elements: []object.Object{}}
+                        }
 
-			// 🚀 關鍵最佳化：將 LPC 格式標籤轉換為 Go 相容格式
-			// 我們將 %d, %s, %f, %O 等轉換為 %v，但保留填充與寬度
-			// e.g. %02d -> %02v, %-10s -> %-10v
-			// 注意：不匹配 %% (轉義的百分比)
-			var re = regexp.MustCompile(`%[-+ #0]*[0-9]*(\.[0-9]+)?[dsfO]`)
-			formatStr := re.ReplaceAllStringFunc(formatObj.Value, func(m string) string {
-				return m[:len(m)-1] + "v"
-			})
+                        recursive := false
+                        details := false
+                        if len(args) > 1 {
+                                if flag, ok := args[1].(*object.Integer); ok {
+                                        if flag.Value > 0 {
+                                                recursive = true
+                                        } else if flag.Value == -1 {
+                                                details = true
+                                        }
+                                }
+                        }
 
-			var goArgs []interface{}
-			for _, arg := range args[1:] {
-				if arg == nil {
-					goArgs = append(goArgs, "nil")
-				} else {
-					switch v := arg.(type) {
-					case *object.Integer:
-						goArgs = append(goArgs, v.Value)
-					case *object.Float:
-						goArgs = append(goArgs, v.Value)
-					case *object.String:
-						goArgs = append(goArgs, v.Value)
-					default:
-						goArgs = append(goArgs, arg.Inspect())
-					}
-				}
-			}
+                        // 處理路徑與安全防護 (防止 ../ 跳出 MudLib 目錄)
+                        searchPath := resolvedPath
+                        if !strings.HasPrefix(searchPath, "/") {
+                                searchPath = "/" + searchPath
+                        }
+                        fullPath := filepath.Clean(filepath.Join(d.Config.MudLibPath, searchPath))
+                        if !strings.HasPrefix(fullPath, filepath.Clean(d.Config.MudLibPath)) {
+                                return object.NewError("get_dir 權限錯誤：無法存取根目錄以外的檔案")
+                        }
 
-			// 防護：使用 recover 避免 sprintf 拋出 panic
-			defer func() {
-				if r := recover(); r != nil {
-					log.Printf("sprintf error: %v, format: %s", r, formatStr)
-				}
-			}()
+                        // 定義結果結構
+                        type fileInfo struct {
+                                Name  string
+                                Size  int64
+                                MTime int64
+                                IsDir bool
+                        }
+                        var results []fileInfo
 
-			result := fmt.Sprintf(formatStr, goArgs...)
-			return &object.String{Value: result}
-		},
-	})
+                        if recursive {
+                                // ── 模式 1：遞迴掃描目錄 ──
+                                info, err := os.Stat(fullPath)
+                                if err == nil && info.IsDir() {
+                                        filepath.WalkDir(fullPath, func(path string, entry os.DirEntry, err error) error {
+                                                if err != nil {
+                                                        return nil
+                                                }
+                                                if path == fullPath {
+                                                        return nil
+                                                } // 略過根目錄自己
 
-	// 語法: int strlen(string str)
-	// 說明: 回傳字串長度。
-	// 範例: strlen("hello") -> 5
-	obj.Vars.Set("strlen", &object.Builtin{
-		Fn: func(args ...object.Object) object.Object {
-			if len(args) == 0 {
-				return &object.Integer{Value: 0}
-			}
-			str, ok := args[0].(*object.String)
-			if !ok {
-				return &object.Integer{Value: int64(len(args[0].Inspect()))}
-			}
-			return &object.Integer{Value: int64(len(str.Value))}
-		},
-	})
+                                                // 取得相對於目標目錄的路徑
+                                                rel, _ := filepath.Rel(fullPath, path)
+                                                // 統一轉換路徑斜線為 LPC 習慣的 "/"
+                                                rel = filepath.ToSlash(rel)
 
-	// 語法: string *explode(string str, string del)
-	// 說明: 將字串依分隔符號切割成陣列。
-	// 範例: explode("a,b,c", ",") -> ({ "a", "b", "c" })
-	obj.Vars.Set("explode", &object.Builtin{
-		Fn: func(args ...object.Object) object.Object {
-			if len(args) < 2 {
-				return &object.Array{Elements: []object.Object{}}
-			}
-			str, ok1 := args[0].(*object.String)
-			del, ok2 := args[1].(*object.String)
-			if !ok1 || !ok2 {
-				return &object.Array{Elements: []object.Object{}}
-			}
-			if del.Value == "" {
-				// 特殊情況：空分隔符號，切割每個字元 (包含多位元組 UTF-8)
-				parts := strings.Split(str.Value, "")
-				elements := make([]object.Object, len(parts))
-				for i, p := range parts {
-					elements[i] = &object.String{Value: p}
-				}
-				return &object.Array{Elements: elements}
-			}
-			parts := strings.Split(str.Value, del.Value)
-			elements := make([]object.Object, len(parts))
-			for i, p := range parts {
-				elements[i] = &object.String{Value: p}
-			}
-			return &object.Array{Elements: elements}
-		},
-	})
+                                                info, _ := entry.Info()
+                                                var size, mtime int64
+                                                if info != nil {
+                                                        size = info.Size()
+                                                        mtime = info.ModTime().Unix()
+                                                }
 
-	// 語法: string implode(string *arr, string del)
-	// 說明: 將陣列中的元素依分隔符號組合成字串。
-	// 範例: implode(({ "a", "b", "c" }), ",") -> "a,b,c"
-	obj.Vars.Set("implode", &object.Builtin{
-		Fn: func(args ...object.Object) object.Object {
-			if len(args) < 2 {
-				return &object.String{Value: ""}
-			}
-			arr, ok1 := args[0].(*object.Array)
-			del, ok2 := args[1].(*object.String)
-			if !ok1 || !ok2 {
-				return &object.String{Value: ""}
-			}
-			parts := make([]string, len(arr.Elements))
-			for i, el := range arr.Elements {
-				if s, ok := el.(*object.String); ok {
-					parts[i] = s.Value
-				} else {
-					parts[i] = el.Inspect()
-				}
-			}
-			return &object.String{Value: strings.Join(parts, del.Value)}
-		},
-	})
+                                                name := rel
+                                                if entry.IsDir() {
+                                                        name += "/"
+                                                }
 
-	// 語法: string replace_string(string str, string old, string new)
-	// 說明: 取代字串中所有的特定子字串。
-	// 範例: replace_string("hello", "l", "w") -> "hewwo"
-	obj.Vars.Set("replace_string", &object.Builtin{
-		Fn: func(args ...object.Object) object.Object {
-			if len(args) < 3 {
-				if len(args) > 0 {
-					return args[0]
-				}
-				return &object.String{Value: ""}
-			}
-			str, ok1 := args[0].(*object.String)
-			old, ok2 := args[1].(*object.String)
-			newS, ok3 := args[2].(*object.String)
-			if !ok1 || !ok2 || !ok3 {
-				return args[0]
-			}
-			return &object.String{Value: strings.ReplaceAll(str.Value, old.Value, newS.Value)}
-		},
-	})
+                                                results = append(results, fileInfo{
+                                                        Name:  name,
+                                                        Size:  size,
+                                                        MTime: mtime,
+                                                        IsDir: entry.IsDir(),
+                                                })
+                                                return nil
+                                        })
+                                }
+                        } else {
+                                // ── 模式 2：單層目錄或萬用字元 ──
+                                if strings.Contains(searchPath, "*") || strings.Contains(searchPath, "?") {
+                                        // 處理萬用字元 (例如 /cmds/*.c)
+                                        matches, err := filepath.Glob(fullPath)
+                                        if err == nil {
+                                                for _, match := range matches {
+                                                        info, err := os.Stat(match)
+                                                        if err != nil {
+                                                                continue
+                                                        }
+                                                        _, name := filepath.Split(match)
+                                                        if info.IsDir() {
+                                                                name += "/"
+                                                        }
+                                                        results = append(results, fileInfo{
+                                                                Name:  name,
+                                                                Size:  info.Size(),
+                                                                MTime: info.ModTime().Unix(),
+                                                                IsDir: info.IsDir(),
+                                                        })
+                                                }
+                                        }
+                                } else {
+                                        // 處理單純目錄讀取 (例如 /cmds/)
+                                        entries, err := os.ReadDir(fullPath)
+                                        if err == nil {
+                                                for _, entry := range entries {
+                                                        info, _ := entry.Info()
+                                                        var size, mtime int64
+                                                        if info != nil {
+                                                                size = info.Size()
+                                                                mtime = info.ModTime().Unix()
+                                                        }
+                                                        name := entry.Name()
+                                                        if entry.IsDir() {
+                                                                name += "/"
+                                                        }
+                                                        results = append(results, fileInfo{
+                                                                Name:  name,
+                                                                Size:  size,
+                                                                MTime: mtime,
+                                                                IsDir: entry.IsDir(),
+                                                        })
+                                                }
+                                        } else {
+                                                // 如果不是目錄但檔案存在，就回傳它自己
+                                                info, err := os.Stat(fullPath)
+                                                if err == nil && !info.IsDir() {
+                                                        _, name := filepath.Split(fullPath)
+                                                        results = append(results, fileInfo{
+                                                                Name:  name,
+                                                                Size:  info.Size(),
+                                                                MTime: info.ModTime().Unix(),
+                                                                IsDir: false,
+                                                        })
+                                                }
+                                        }
+                                }
+                        }
 
-	// 語法: int strsrch(string str, string sub, [int start])
-	// 說明: 搜尋子字串第一次出現的位置。回傳 -1 代表未找到。
-	// 範例: strsrch("hello", "e") -> 1
-	obj.Vars.Set("strsrch", &object.Builtin{
-		Fn: func(args ...object.Object) object.Object {
-			if len(args) < 2 {
-				return &object.Integer{Value: -1}
-			}
-			str, ok1 := args[0].(*object.String)
-			sub, ok2 := args[1].(*object.String)
-			if !ok1 || !ok2 {
-				return &object.Integer{Value: -1}
-			}
-			start := 0
-			if len(args) > 2 {
-				if i, ok := args[2].(*object.Integer); ok {
-					start = int(i.Value)
-				}
-			}
-			if start < 0 {
-				start = 0
-			}
-			if start >= len(str.Value) {
-				return &object.Integer{Value: -1}
-			}
-			pos := strings.Index(str.Value[start:], sub.Value)
-			if pos == -1 {
-				return &object.Integer{Value: -1}
-			}
-			return &object.Integer{Value: int64(pos + start)}
-		},
-	})
+                        // 轉換為 LPC Array 回傳
+                        elements := make([]object.Object, len(results))
+                        for i, res := range results {
+                                if details {
+                                        // 回傳 ({ name, size, mtime })
+                                        elements[i] = &object.Array{Elements: []object.Object{
+                                                &object.String{Value: res.Name},
+                                                &object.Integer{Value: res.Size},
+                                                &object.Integer{Value: res.MTime},
+                                        }}
+                                } else {
+                                        elements[i] = &object.String{Value: res.Name}
+                                }
+                        }
 
-	// 語法: string substr(string str, int start, [int length])
-	// 說明: 取得子字串。
-	// 範例: substr("hello", 1, 2) -> "el"
-	obj.Vars.Set("substr", &object.Builtin{
-		Fn: func(args ...object.Object) object.Object {
-			if len(args) < 2 {
-				if len(args) == 1 {
-					return args[0]
-				}
-				return &object.String{Value: ""}
-			}
-			str, ok1 := args[0].(*object.String)
-			start, ok2 := args[1].(*object.Integer)
-			if !ok1 || !ok2 {
-				return &object.String{Value: ""}
-			}
-			
-			s := int(start.Value)
-			if s < 0 { s = 0 }
-			if s >= len(str.Value) { return &object.String{Value: ""} }
+                        return &object.Array{Elements: elements}
+                },
+        })
 
-			if len(args) > 2 {
-				length, ok3 := args[2].(*object.Integer)
-				if ok3 {
-					l := int(length.Value)
-					if s+l > len(str.Value) { l = len(str.Value) - s }
-					if l < 0 { l = 0 }
-					return &object.String{Value: str.Value[s : s+l]}
-				}
-			}
-			return &object.String{Value: str.Value[s:]}
-		},
-	})
+        // 語法: string lower_case(string str)
+        // 說明: 將字串中所有的大寫英文字母轉換為小寫。
+        // 範例: lower_case("HELLO") -> "hello"
+        obj.Vars.Set("lower_case", &object.Builtin{
+                Fn: func(args ...object.Object) object.Object {
+                        if len(args) == 0 {
+                                return &object.String{Value: ""}
+                        }
+                        if s, ok := args[0].(*object.String); ok {
+                                return &object.String{Value: strings.ToLower(s.Value)}
+                        }
+                        return &object.String{Value: ""}
+                },
+        })
 
-	// 語法: string trim(string str)
-	// 說明: 移除字串前後的空白與換行。
-	// 範例: trim("  hello  \n") -> "hello"
-	obj.Vars.Set("trim", &object.Builtin{
-		Fn: func(args ...object.Object) object.Object {
-			if len(args) == 0 {
-				return &object.String{Value: ""}
-			}
-			str, ok := args[0].(*object.String)
-			if !ok {
-				return &object.String{Value: strings.TrimSpace(args[0].Inspect())}
-			}
-			return &object.String{Value: strings.TrimSpace(str.Value)}
-		},
-	})
-}
+        // 語法: string upper_case(string str)
+        // 說明: 將字串中所有的小寫英文字母轉換為大寫。
+        // 範例: upper_case("hello") -> "HELLO"
+        obj.Vars.Set("upper_case", &object.Builtin{
+                Fn: func(args ...object.Object) object.Object {
+                        if len(args) == 0 {
+                                return &object.String{Value: ""}
+                        }
+                        if s, ok := args[0].(*object.String); ok {
+                                return &object.String{Value: strings.ToUpper(s.Value)}
+                        }
+                        return &object.String{Value: ""}
+                },
+        })
 
-func (d *Driver) registerCryptEfun(obj *object.LPCObject) {
-	// 語法: string crypt(string str, [string seed])
-	// 說明: 使用 bcrypt 進行字串雜湊加密或驗證。
-	obj.Vars.Set("crypt", &object.Builtin{
-		Fn: func(args ...object.Object) object.Object {
-			if len(args) < 1 {
-				return evaluator.NilValue
-			}
-			
-			strObj, ok := args[0].(*object.String)
-			if !ok {
-				return evaluator.NilValue
-			}
-			
-			str := strObj.Value
-			seed := ""
-			
-			if len(args) > 1 {
-				if seedObj, ok := args[1].(*object.String); ok {
-					seed = seedObj.Value
-				} else if _, ok := args[1].(*object.Integer); ok {
-					seed = "" // 0 等同於無 seed
-				}
-			}
-			
-			if seed != "" && len(seed) > 10 {
-				err := bcrypt.CompareHashAndPassword([]byte(seed), []byte(str))
-				if err == nil {
-					return &object.String{Value: seed}
-				}
-			}
-			
-			hash, err := bcrypt.GenerateFromPassword([]byte(str), bcrypt.DefaultCost)
-			if err != nil {
-				return evaluator.NilValue
-			}
-			
-			return &object.String{Value: string(hash)}
-		},
-	})
-}
+        // 語法: string capitalize(string str)
+        // 說明: 將字串的第一個英文字母轉換為大寫。
+        // 範例: capitalize("apple") -> "Apple"
+        obj.Vars.Set("capitalize", &object.Builtin{
+                Fn: func(args ...object.Object) object.Object {
+                        if len(args) == 0 {
+                                return &object.String{Value: ""}
+                        }
+                        if s, ok := args[0].(*object.String); ok && len(s.Value) > 0 {
+                                runes := []rune(s.Value)
+                                runes[0] = []rune(strings.ToUpper(string(runes[0])))[0]
+                                return &object.String{Value: string(runes)}
+                        }
+                        return &object.String{Value: ""}
+                },
+        })
 
-func (d *Driver) registerAdvancedStringEfuns2(obj *object.LPCObject) {
-	// 🚀 新增：sprintf 強化版別名 (與某些 Mudlib 相容)
-	obj.Vars.Set("printf", &object.Builtin{
-		Fn: func(args ...object.Object) object.Object {
-			res := obj.Vars.GetMust("sprintf").(*object.Builtin).Fn(args...)
-			if s, ok := res.(*object.String); ok {
-				d.TellObject(obj, s.Value)
-			}
-			return res
-		},
-	})
+        // 語法: string trim(string str, [string cutset])
+        // 說明: 移除字串前後的空白字元 (包含空白、換行與 Tab)。
+        // 範例: trim("  hello  ") -> "hello"
+        obj.Vars.Set("trim", &object.Builtin{
+                Fn: func(args ...object.Object) object.Object {
+                        if len(args) == 0 {
+                                return &object.String{Value: ""}
+                        }
+                        s, ok := args[0].(*object.String)
+                        if !ok {
+                                return &object.String{Value: ""}
+                        }
+                        if len(args) > 1 {
+                                if cutset, ok := args[1].(*object.String); ok {
+                                        return &object.String{Value: strings.Trim(s.Value, cutset.Value)}
+                                }
+                        }
+                        return &object.String{Value: strings.TrimSpace(s.Value)}
+                },
+        })
 
-	// 語法: mixed regexp(string|string* data, string pattern)
-	// 說明: 對字串或字串陣列進行正規表達式比對。
-	obj.Vars.Set("regexp", &object.Builtin{
-		Fn: func(args ...object.Object) object.Object {
-			if len(args) < 2 {
-				return evaluator.NilValue
-			}
-			
-			patternObj, ok := args[1].(*object.String)
-			if !ok {
-				return evaluator.NilValue
-			}
-			re, err := regexp.Compile(patternObj.Value)
-			if err != nil {
-				return evaluator.NilValue
-			}
+        // 語法: string replace_string(string str, string pattern, string replace)
+        // 說明: 將字串 str 中的所有 pattern 替換為 replace。
+        // 範例: replace_string("hello world", "world", "mud") -> "hello mud"
+        obj.Vars.Set("replace_string", &object.Builtin{
+                Fn: func(args ...object.Object) object.Object {
+                        if len(args) < 3 {
+                                return object.NewError("replace_string 需要 3 個參數")
+                        }
+                        str, ok1 := args[0].(*object.String)
+                        pattern, ok2 := args[1].(*object.String)
+                        repl, ok3 := args[2].(*object.String)
+                        if !ok1 || !ok2 || !ok3 {
+                                return object.NewError("replace_string 的參數必須都是字串")
+                        }
+                        return &object.String{Value: strings.ReplaceAll(str.Value, pattern.Value, repl.Value)}
+                },
+        })
 
-			if strObj, isStr := args[0].(*object.String); isStr {
-				if re.MatchString(strObj.Value) {
-					return &object.Integer{Value: 1}
-				}
-				return &object.Integer{Value: 0}
-			}
+        // 語法: string sprintf(string format, ...)
+        // 說明: C 語言風格的字串格式化。
+        // 範例: sprintf("HP: %d/%d", 10, 20) -> "HP: 10/20"
+        obj.Vars.Set("sprintf", &object.Builtin{
+                Fn: func(args ...object.Object) object.Object {
+                        if len(args) == 0 {
+                                return object.NewError("sprintf 需要參數")
+                        }
+                        formatObj, ok := args[0].(*object.String)
+                        if !ok {
+                                return object.NewError("第一個參數必須是字串")
+                        }
 
-			if arrObj, isArr := args[0].(*object.Array); isArr {
-				var matches []object.Object
-				for _, elem := range arrObj.Elements {
-					if strElem, ok := elem.(*object.String); ok {
-						if re.MatchString(strElem.Value) {
-							matches = append(matches, strElem)
-						}
-					}
-				}
-				return &object.Array{Elements: matches}
-			}
+                        // 🚀 關鍵最佳化：使用正規表示式取代所有 LPC 格式標籤為 %s，並將所 有參數轉換為字串
+                        var re = regexp.MustCompile("%[dsfO]")
+                        formatStr := re.ReplaceAllString(formatObj.Value, "%s")
 
-			return evaluator.NilValue
-		},
-	})
+                        var goArgs []interface{}
+                        for _, arg := range args[1:] {
+                                if arg == nil {
+                                        goArgs = append(goArgs, "nil")
+                                } else if s, ok := arg.(*object.String); ok {
+                                        // 🚀 對於字串，直接使用其原始值，避免雙引號
+                                        goArgs = append(goArgs, s.Value)
+                                } else {
+                                        // 🚀 其他物件利用 Inspect() 取得其 LPC 表達方式
+                                        goArgs = append(goArgs, arg.Inspect())
+                                }
+                        }
 
-	// 語法: string break_string(string str, int width, [string indent])
-	// 說明: 將長字串依指定寬度斷行。
-	obj.Vars.Set("break_string", &object.Builtin{
-		Fn: func(args ...object.Object) object.Object {
-			if len(args) < 2 {
-				return evaluator.NilValue
-			}
-			
-			strObj, ok1 := args[0].(*object.String)
-			widthObj, ok2 := args[1].(*object.Integer)
-			if !ok1 || !ok2 || widthObj.Value <= 0 {
-				return evaluator.NilValue
-			}
-			
-			indent := ""
-			if len(args) > 2 {
-				if indObj, ok := args[2].(*object.String); ok {
-					indent = indObj.Value
-				}
-			}
-			
-			str := strObj.Value
-			width := int(widthObj.Value)
-			
-			var result strings.Builder
-			runes := []rune(str)
-			length := len(runes)
-			
-			for i := 0; i < length; {
-				end := i + width
-				if end > length {
-					end = length
-				}
-				if i > 0 {
-					result.WriteString("\n" + indent)
-				} else {
-					result.WriteString(indent)
-				}
-				result.WriteString(string(runes[i:end]))
-				i = end
-			}
-			
-			return &object.String{Value: result.String()}
-		},
-	})
+                        // 防護：使用 recover 避免 sprintf 拋出 panic
+                        defer func() {
+                                if r := recover(); r != nil {
+                                        log.Printf("sprintf error: %v, format: %s", r, formatStr)
+                                }
+                        }()
+
+                        result := fmt.Sprintf(formatStr, goArgs...)
+                        return &object.String{Value: result}
+                },
+        })
+
+        // 語法: int strlen(string str)
+        // 說明: 回傳字串長度。
+        // 範例: strlen("hello") -> 5
+        obj.Vars.Set("strlen", &object.Builtin{
+                Fn: func(args ...object.Object) object.Object {
+                        if len(args) != 1 {
+                                return &object.Integer{Value: 0}
+                        }
+                        if str, ok := args[0].(*object.String); ok {
+                                return &object.Integer{Value: int64(len([]rune(str.Value)))}
+                        }
+                        return &object.Integer{Value: 0}
+                },
+        })
+
+        // 語法: string substr(string str, int start, [int length])
+        // 說明: 截取子字串。
+        // 範例: substr("hello", 1, 3) -> "ell"
+        obj.Vars.Set("substr", &object.Builtin{
+                Fn: func(args ...object.Object) object.Object {
+                        if len(args) < 2 {
+                                return object.NewError("substr 需 2 個參數")
+                        }
+                        str, ok1 := args[0].(*object.String)
+                        start, ok2 := args[1].(*object.Integer)
+                        if !ok1 || !ok2 {
+                                return object.NewError("substr 型別錯誤")
+                        }
+
+                        runes := []rune(str.Value)
+                        length := len(runes)
+                        sIdx := int(start.Value)
+                        if sIdx < 0 {
+                                sIdx = length + sIdx
+                        }
+                        if sIdx < 0 {
+                                sIdx = 0
+                        }
+                        if sIdx >= length {
+                                return &object.String{Value: ""}
+                        }
+
+                        eIdx := length
+                        if len(args) > 2 {
+                                if l, ok := args[2].(*object.Integer); ok {
+                                        eIdx = sIdx + int(l.Value)
+                                }
+                        }
+                        if eIdx > length {
+                                eIdx = length
+                        }
+                        if eIdx < sIdx {
+                                return &object.String{Value: ""}
+                        }
+
+                        return &object.String{Value: string(runes[sIdx:eIdx])}
+                },
+        })
+
+        // 語法: mixed regexp(mixed list, string pattern)
+        // 說明: 若 list 為字串，則回傳 1 (匹配) 或 0 (不匹配)。
+        // 範例: regexp(({ "apple", "banana" }), "a") -> ({ "apple", "banana" })
+        obj.Vars.Set("regexp", &object.Builtin{
+                Fn: func(args ...object.Object) object.Object {
+                        if len(args) < 2 {
+                                return object.NewError("regexp 需 2 個參數")
+                        }
+                        patternObj, ok := args[1].(*object.String)
+                        if !ok {
+                                return object.NewError("regexp 第二個參數必須是字串")
+                        }
+
+                        re, err := regexp.Compile(patternObj.Value)
+                        if err != nil {
+                                return object.NewError("regexp 格式錯誤: %v", err)
+                        }
+
+                        switch list := args[0].(type) {
+                        case *object.String:
+                                if re.MatchString(list.Value) {
+                                        return &object.Integer{Value: 1}
+                                }
+                                return &object.Integer{Value: 0}
+                        case *object.Array:
+                                var result []object.Object
+                                for _, el := range list.Elements {
+                                        if s, ok := el.(*object.String); ok {
+                                                if re.MatchString(s.Value) {
+                                                        result = append(result, s)
+                                                }
+                                        }
+                                }
+                                return &object.Array{Elements: result}
+                        default:
+                                return object.NewError("regexp 第一個參數必須是字串或陣列")
+                        }
+                },
+        })
+
+        // 語法: string break_string(string str, int width, [int indent])
+        // 說明: 將字串按指定寬度折行。
+        // 範例: break_string(long_desc, 78)
+        obj.Vars.Set("break_string", &object.Builtin{
+                Fn: func(args ...object.Object) object.Object {
+                        if len(args) < 2 {
+                                return args[0]
+                        }
+                        str, ok1 := args[0].(*object.String)
+                        width, ok2 := args[1].(*object.Integer)
+                        if !ok1 || !ok2 {
+                                return args[0]
+                        }
+
+                        indent := ""
+                        if len(args) > 2 {
+                                if i, ok := args[2].(*object.String); ok {
+                                        indent = i.Value
+                                }
+                                if i, ok := args[2].(*object.Integer); ok {
+                                        indent = strings.Repeat(" ", int(i.Value))
+                                }
+                        }
+
+                        w := int(width.Value)
+                        if w < 1 {
+                                w = 80
+                        }
+
+                        words := strings.Fields(str.Value)
+                        if len(words) == 0 {
+                                return &object.String{Value: ""}
+                        }
+
+                        var result strings.Builder
+                        currentLine := indent
+                        for _, word := range words {
+                                if len(currentLine)+len(word)+1 > w {
+                                        result.WriteString(currentLine + "\n")
+                                        currentLine = indent + word
+                                } else {
+                                        if currentLine == indent {
+                                                currentLine += word
+                                        } else {
+                                                currentLine += " " + word
+                                        }
+                                }
+                        }
+                        result.WriteString(currentLine + "\n")
+                        return &object.String{Value: result.String()}
+                },
+        })
+
+        // 語法: int strsrch(string str, string pattern, [int reverse])
+        // 說明: 尋找 pattern 在 str 中第一次出現的位置。
+        // 範例: strsrch("hello", "l") -> 2
+        obj.Vars.Set("strsrch", &object.Builtin{
+                Fn: func(args ...object.Object) object.Object {
+                        if len(args) < 2 {
+                                return object.NewError("strsrch 需 2 個參數")
+                        }
+                        str, ok1 := args[0].(*object.String)
+                        if !ok1 {
+                                return object.NewError("strsrch 第一個參數必須是字串")
+                        }
+
+                        var patternStr string
+                        if p, ok := args[1].(*object.String); ok {
+                                patternStr = p.Value
+                        } else if p, ok := args[1].(*object.Integer); ok {
+                                patternStr = string(byte(p.Value))
+                        } else {
+                                return object.NewError("strsrch 第二個參數必須是字串或整數")
+                        }
+
+                        reverse := false
+                        if len(args) > 2 {
+                                if flag, ok := args[2].(*object.Integer); ok && flag.Value != 0 {
+                                        reverse = true
+                                }
+                        }
+
+                        var byteIdx int
+                        if reverse {
+                                byteIdx = strings.LastIndex(str.Value, patternStr)
+                        } else {
+                                byteIdx = strings.Index(str.Value, patternStr)
+                        }
+
+                        if byteIdx == -1 {
+                                return &object.Integer{Value: -1}
+                        }
+                        runeIdx := len([]rune(str.Value[:byteIdx]))
+                        return &object.Integer{Value: int64(runeIdx)}
+                },
+        })
+
+        // 語法: string pad_str(string str, int width)
+        // 說明: 計算終端機顯示寬度，將字串向右補空白直到滿足 width。
+        // 範例: pad_str("攻擊", 10) -> "攻擊      "
+        obj.Vars.Set("pad_str", &object.Builtin{
+                Fn: func(args ...object.Object) object.Object {
+                        if len(args) < 2 {
+                                return &object.String{Value: ""}
+                        }
+                        str, ok1 := args[0].(*object.String)
+                        width, ok2 := args[1].(*object.Integer)
+                        if !ok1 || !ok2 {
+                                return &object.String{Value: ""}
+                        }
+
+                        s := str.Value
+                        targetWidth := int(width.Value)
+                        currentWidth := 0
+                        for _, r := range s {
+                                if r > 127 {
+                                        currentWidth += 2
+                                } else {
+                                        currentWidth += 1
+                                }
+                        }
+                        if currentWidth < targetWidth {
+                                s += strings.Repeat(" ", targetWidth-currentWidth)
+                        }
+                        return &object.String{Value: s}
+                },
+        })
+
+        // 語法: string|int crypt(string str, [string salt])
+        // 說明: 使用 bcrypt 加密字串。如果只有一個參數，則生成隨機鹽值。
+        // 範例: crypt("password") -> "$2a$10$..."
+        //       crypt("password", "$2a$10$abcdefghabcdefghabcdefgh") -> "$2a$10$abcdefghabcdefghabcdefgh..."
+        obj.Vars.Set("crypt", &object.Builtin{
+                Fn: func(args ...object.Object) object.Object {
+                        if len(args) < 1 {
+                                return object.NewError("crypt 需要至少一個參數")
+                        }
+                        str, ok := args[0].(*object.String)
+                        if !ok {
+                                return object.NewError("crypt 第一個參數必須是字串")
+                        }
+
+                        if len(args) == 1 {
+                                // Generate hash
+                                hashedPassword, err := bcrypt.GenerateFromPassword([]byte(str.Value), bcrypt.DefaultCost)
+                                if err != nil {
+                                        return object.NewError("crypt 錯誤: %v", err)
+                                }
+                                return &object.String{Value: string(hashedPassword)}
+                        } else if len(args) == 2 {
+                                // Compare hash
+                                hashToCompare, ok := args[1].(*object.String)
+                                if !ok {
+                                        return object.NewError("crypt 第二個參數必須是字串")
+                                }
+                                err := bcrypt.CompareHashAndPassword([]byte(hashToCompare.Value), []byte(str.Value))
+                                if err != nil {
+                                        // Mismatch or error (e.g., invalid hash format)
+                                        return &object.Integer{Value: 0}
+                                }
+                                // Match
+                                return &object.Integer{Value: 1}
+                        }
+                        return object.NewError("crypt 參數數量錯誤")
+                },
+        })
+
+        // 語法: int match_pattern(string str, string pattern)
+        // 說明: 判斷字串是否符合模式 (支援 * 和 ?)。
+        // 範例: match_pattern("hello", "h*o") -> 1
+        obj.Vars.Set("match_pattern", &object.Builtin{
+                Fn: func(args ...object.Object) object.Object {
+                        if len(args) != 2 {
+                                return object.NewError("match_pattern 需 2 個參數")
+                        }
+                        str, ok1 := args[0].(*object.String)
+                        pattern, ok2 := args[1].(*object.String)
+                        if !ok1 || !ok2 {
+                                return object.NewError("match_pattern 參數型別錯誤")
+                        }
+
+                        // 將 LPC 模式轉換為 Go 正規表達式
+                        // * 匹配 0 或多個字元
+                        // ? 匹配 1 個字元
+                        goPattern := strings.ReplaceAll(pattern.Value, ".", regexp.QuoteMeta(".")) // 轉義點
+                        goPattern = strings.ReplaceAll(goPattern, "*", ".*")
+                        goPattern = strings.ReplaceAll(goPattern, "?", ".")
+                        goPattern = "^" + goPattern + "$" // 確保匹配整個字串
+
+                        re, err := regexp.Compile(goPattern)
+                        if err != nil {
+                                return object.NewError("match_pattern 模式錯誤: %v", err)
+                        }
+
+                        if re.MatchString(str.Value) {
+                                return &object.Integer{Value: 1}
+                        }
+                        return &object.Integer{Value: 0}
+                },
+        })
+
+        // 語法: string *explode(string str, string del)
+        // 說明: 將字串依分隔符號切割成陣列。
+        // 範例: explode("a,b,c", ",") -> ({ "a", "b", "c" })
+        obj.Vars.Set("explode", &object.Builtin{
+                Fn: func(args ...object.Object) object.Object {
+                        if len(args) < 2 {
+                                return &object.Array{Elements: []object.Object{}}
+                        }
+                        str, ok1 := args[0].(*object.String)
+                        del, ok2 := args[1].(*object.String)
+                        if !ok1 || !ok2 {
+                                return &object.Array{Elements: []object.Object{}}
+                        }
+                        if del.Value == "" {
+                                // 特殊情況：空分隔符號，切割每個字元 (包含多位元組 UTF-8)
+                                parts := strings.Split(str.Value, "")
+                                elements := make([]object.Object, len(parts))
+                                for i, p := range parts {
+                                        elements[i] = &object.String{Value: p}
+                                }
+                                return &object.Array{Elements: elements}
+                        }
+                        parts := strings.Split(str.Value, del.Value)
+                        elements := make([]object.Object, len(parts))
+                        for i, p := range parts {
+                                elements[i] = &object.String{Value: p}
+                        }
+                        return &object.Array{Elements: elements}
+                },
+        })
+
+        // 語法: string implode(string *arr, string del)
+        // 說明: 將陣列中的元素依分隔符號組合成字串。
+        // 範例: implode(({ "a", "b", "c" }), ",") -> "a,b,c"
+        obj.Vars.Set("implode", &object.Builtin{
+                Fn: func(args ...object.Object) object.Object {
+                        if len(args) < 2 {
+                                return &object.String{Value: ""}
+                        }
+                        arr, ok1 := args[0].(*object.Array)
+                        del, ok2 := args[1].(*object.String)
+                        if !ok1 || !ok2 {
+                                return &object.String{Value: ""}
+                        }
+                        parts := make([]string, len(arr.Elements))
+                        for i, el := range arr.Elements {
+                                if s, ok := el.(*object.String); ok {
+                                        parts[i] = s.Value
+                                } else {
+                                        parts[i] = el.Inspect()
+                                }
+                        }
+                        return &object.String{Value: strings.Join(parts, del.Value)}
+                },
+        })
+
 }
