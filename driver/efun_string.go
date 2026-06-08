@@ -603,11 +603,11 @@ func (d *Driver) registerStringEfuns(obj *object.LPCObject) {
                                 }
                                 err := bcrypt.CompareHashAndPassword([]byte(hashToCompare.Value), []byte(str.Value))
                                 if err != nil {
-                                        // Mismatch or error (e.g., invalid hash format)
-                                        return &object.Integer{Value: 0}
+                                        // Mismatch or error
+                                        return &object.String{Value: "invalid_hash"}
                                 }
-                                // Match
-                                return &object.Integer{Value: 1}
+                                // Match: return the hash string to satisfy (crypt(p, s) == s)
+                                return hashToCompare
                         }
                         return object.NewError("crypt 參數數量錯誤")
                 },

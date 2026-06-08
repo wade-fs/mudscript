@@ -348,6 +348,9 @@ void record_exploration(string room_file) {
 
 string *query_write_paths() { return write_paths; }
 void add_write_path(string p) {
+    if (!write_paths || !arrayp(write_paths)) {
+        write_paths = ({ });
+    }
     if (member_array(p, write_paths) == -1) {
         write_paths += ({ p });
     }

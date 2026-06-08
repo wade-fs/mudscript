@@ -401,6 +401,8 @@ func lpcToGoValue(o object.Object) interface{} {
 		return nil
 	}
 	switch v := o.(type) {
+	case *object.Nil:
+		return 0
 	case *object.Integer:
 		return v.Value
 	case *object.Float:
