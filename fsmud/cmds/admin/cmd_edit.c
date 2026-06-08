@@ -22,6 +22,18 @@ int main(object me, string verb, string arg) {
 
     if (arg[0] != '/') arg = "/" + arg;
 
+    // 🚀 新增：Web IDE 支援
+    if (is_web_client(me)) {
+        write(HIW(select_lang(([
+            "en": "Opening Web IDE for: ",
+            "zh-TW": "正在為您開啟 Web IDE：",
+            "zh-CN": "正在为您开启 Web IDE："
+        ]))) + arg + "\n");
+        me->set_in_edit(arg);
+        request_web_edit(arg);
+        return 1;
+    }
+
     string content = read_file(arg);
     string *lines;
     if (!content) {

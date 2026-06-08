@@ -14,6 +14,7 @@ string nature;
 string guild; // 🚀 新增：職業/公會
 string guild_rank; // 🚀 新增：公會職位
 string lang; // 🚀 新增：語系設定
+string in_edit; // 🚀 新增：Web IDE 正在編輯的檔案路徑
 int    guild_exp;  // 🚀 新增：公會貢獻/經驗
 int    bank_balance; // 🚀 新增：銀行存款
 int    last_bank_time; // 🚀 新增：上次計算利息時間
@@ -66,6 +67,8 @@ void create() {
 // ── 查詢函式 ────────────────────────────────────────────
 string query_current_mudlib() { return current_mudlib; }
 string query_data_base_path() { return data_base_path; }
+string query_in_edit() { return in_edit; }
+void set_in_edit(string path) { in_edit = path; }
 string query_start_room() {
     if (current_mudlib != "") {
         object fs_d = find_object("/secure/fs_d.c");

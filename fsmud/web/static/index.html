@@ -72,10 +72,31 @@
         .star { position: absolute; background: white; border-radius: 50%; opacity: 0.3; animation: twinkle var(--duration) infinite; pointer-events: none; }
         @keyframes twinkle { 0%, 100% { opacity: 0.2; transform: scale(1); } 50% { opacity: 1; transform: scale(1.2); } }
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+        /* 🚀 Web IDE / Explorer Styles */
+        #editor-layout { display: flex; flex: 1; overflow: hidden; }
+        #explorer-sidebar { width: 220px; background: #252526; border-right: 1px solid #333; display: flex; flex-direction: column; }
+        #explorer-header { padding: 8px 12px; background: #333; font-size: 11px; color: #888; display: flex; justify-content: space-between; border-bottom: 1px solid #444; }
+        #explorer-tree { flex: 1; overflow-y: auto; padding: 5px; font-size: 13px; }
+        .tree-item { padding: 4px 8px; cursor: pointer; border-radius: 3px; display: flex; align-items: center; gap: 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .tree-item:hover { background: #2a2d2e; }
+        .tree-item.active { background: #37373d; color: #fff; }
+        .tree-folder { color: #dcb67a; }
+        .tree-file { color: #ccc; }
+
+        /* Scaffolding Dialog */
+        #scaffolding-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); display: none; align-items: center; justify-content: center; z-index: 2000; }
+        #scaffolding-dialog { background: #252526; border: 1px solid #4CAF50; border-radius: 8px; width: 400px; padding: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.8); }
+        .template-option { background: #333; border: 1px solid #444; padding: 12px; margin-bottom: 8px; border-radius: 6px; cursor: pointer; transition: all 0.2s; }
+        .template-option:hover { background: #444; border-color: #4CAF50; }
+        .template-name { font-weight: bold; color: #4CAF50; display: block; }
+        .template-desc { font-size: 12px; color: #888; }
+
         #suggestion-box { position: absolute; bottom: 65px; left: 15px; right: 15px; background: rgba(20, 20, 20, 0.98); border: 1px solid #4CAF50; max-height: 250px; overflow-y: auto; display: none; z-index: 1100; border-radius: 8px; }
         .suggest-item { padding: 10px 20px; cursor: pointer; border-bottom: 1px solid #333; display: flex; justify-content: space-between; }
         .suggest-item.active { background: #4CAF50; color: #fff; }
     </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.44.0/min/vs/loader.js"></script>
 </head>
 <body>
 <div id="wrapper">
@@ -110,6 +131,50 @@
             <div style="display:flex; gap:10px;">
                 <button class="mc-btn" onclick="document.getElementById('import-area').value=''" style="flex:1;">Clear</button>
                 <button class="mc-btn" onclick="submitMapImport()" style="flex:2; background:#4CAF50;">Confirm Import</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="panel-editor" class="overlay-panel" style="width: 80%; height: 80%; top: 10%; left: 10%; border: 2px solid #2196F3;">
+        <div class="panel-header" style="background: #1565C0;">
+            <span id="editor-title">Editor</span>
+            <div style="display:flex; gap:10px;">
+                <button class="tool-btn" onclick="requestTemplates()" title="New File from Template">➕ New File</button>
+                <button class="tool-btn" onclick="refreshExplorer()" title="Refresh Explorer">🔄 Refresh</button>
+                <span onclick="togglePanel('panel-editor')" style="cursor:pointer; margin-left:10px;">×</span>
+            </div>
+        </div>
+        <div class="panel-content" style="display:flex; flex-direction:column; padding: 0;">
+            <div id="editor-layout">
+                <div id="explorer-sidebar">
+                    <div id="explorer-header">
+                        <span id="explorer-path">/</span>
+                        <span onclick="goParentDir()" style="cursor:pointer" title="Go Parent">⬆️</span>
+                    </div>
+                    <div id="explorer-tree"></div>
+                </div>
+                <div id="editor-container" style="flex:1; background:#1e1e1e;"></div>
+            </div>
+            <div style="background:#252526; padding:10px 15px; display:flex; gap:10px; border-top:1px solid #333;">
+                <button class="tool-btn" onclick="saveEditorFile()" style="background:#2196F3; border-color:#2196F3;">💾 Save (Ctrl+S)</button>
+                <button class="tool-btn" onclick="togglePanel('panel-editor')">❌ Close</button>
+                <span id="editor-status" style="margin-left:auto; font-size:12px; color:#888; align-self:center;"></span>
+            </div>
+        </div>
+    </div>
+
+    <div id="scaffolding-overlay" onclick="closeScaffolding()">
+        <div id="scaffolding-dialog" onclick="event.stopPropagation()">
+            <div class="panel-header" style="background:transparent; padding:0 0 15px 0; border-bottom:1px solid #444; margin-bottom:15px;">
+                <span>Choose Template</span>
+                <span onclick="closeScaffolding()" style="cursor:pointer">×</span>
+            </div>
+            <div id="template-list">
+                <!-- Templates will be injected here -->
+            </div>
+            <div style="margin-top:15px; display:flex; flex-direction:column; gap:10px;">
+                <input id="new-file-path" type="text" placeholder="/path/to/new_file.c" style="background:#000; border:1px solid #4CAF50; color:#fff; padding:8px; outline:none;">
+                <button class="mc-btn" onclick="confirmScaffolding()" style="background:#4CAF50;">Create File</button>
             </div>
         </div>
     </div>
@@ -212,7 +277,7 @@
         ws = new WebSocket(protocol + "//" + location.host + "/ws");
         ws.onmessage = (e) => {
             const msg = JSON.parse(e.data);
-            if (msg.type === "mud_text" || msg.type === "mud_html" || msg.type === "chat") {
+            if (msg.type === "mud_text" || msg.type === "mud_html" || msg.type === "edit_file" || msg.type === "chat") {
                 const p = (msg.type === "chat" ? (msg.username + ": " + msg.payload) : msg.payload).trim();
                 if (p === "__INPUT_HIDDEN__") {
                     isInputHidden = true;
@@ -220,10 +285,8 @@
                     return;
                 }
                 
-                if (msg.type === "mud_html") {
-                    appendRaw(p);
-                    return;
-                }
+                if (msg.type === "mud_html") { appendRaw(p); return; }
+                if (msg.type === "edit_file") { openEditor(JSON.parse(p)); return; }
 
                 if (p.startsWith("{") && p.endsWith("}")) {
                     try { handleUIData(JSON.parse(p)); } catch (err) { handleMultiJSON(p); }
@@ -255,6 +318,8 @@
         else if (ui.ui === "nature") handleNatureData(ui.data);
         else if (ui.ui === "mc_map") handleMCMap(ui.data);
         else if (ui.ui === "mc_exit") toggleMCMode(false); 
+        else if (ui.ui === "ls") renderExplorer(ui.path, ui.data);
+        else if (ui.ui === "templates") showScaffolding(ui.data);
     }
 
     function renderCmdList(cats, title) {
@@ -664,6 +729,179 @@
     function handleNatureData(d) {
         document.body.style.background = d.is_day ? "linear-gradient(to bottom, #1a2a6c, #b21f1f, #fdbb2d)" : "linear-gradient(to bottom, #000000, #0f0c29, #000000)";
     }
+
+    // --- Web IDE / Monaco Editor Logic ---
+    let monacoEditor = null;
+    let currentEditPath = "";
+
+    // 初始化 Monaco
+    require.config({ paths: { 'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.44.0/min/vs' }});
+    require(['vs/editor/editor.main'], function() {
+        // 定義 LPC 語法高亮 (基於 C 擴充)
+        monaco.languages.register({ id: 'lpc' });
+        monaco.languages.setMonarchTokensProvider('lpc', {
+            tokenizer: {
+                root: [
+                    [/[a-zA-Z_]\w*/, {
+                        cases: {
+                            'inherit|mixed|object|string|int|float|mapping|array|void|private|protected|public|nomask|varargs|virtual|static|status': 'keyword',
+                            '@default': 'identifier'
+                        }
+                    }],
+                    { include: 'vs/basic-languages/cpp/cpp' } // 繼承 C++ 基礎
+                ]
+            }
+        });
+
+        monacoEditor = monaco.editor.create(document.getElementById('editor-container'), {
+            value: '',
+            language: 'cpp', // 預設先用 cpp
+            theme: 'vs-dark',
+            automaticLayout: true,
+            fontSize: 16,
+            minimap: { enabled: true }
+        });
+
+        // 快捷鍵支援
+        monacoEditor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyS, function() {
+            saveEditorFile();
+        });
+    });
+
+    function openEditor(data) {
+        currentEditPath = data.path;
+        document.getElementById("editor-title").innerText = "📝 Editing: " + data.path;
+        
+        if (monacoEditor) {
+            const ext = data.path.split('.').pop();
+            const lang = (ext === 'c' || ext === 'h') ? 'lpc' : 'plaintext';
+            monaco.editor.setModelLanguage(monacoEditor.getModel(), lang);
+            monacoEditor.setValue(data.content);
+        }
+        
+        document.getElementById("editor-status").innerText = "";
+        togglePanel('panel-editor');
+        if (monacoEditor) setTimeout(() => monacoEditor.focus(), 100);
+
+        // 如果 Explorer 是空的，自動重新整理
+        if (document.getElementById("explorer-tree").innerHTML === "") {
+            refreshExplorer();
+        }
+    }
+
+    function saveEditorFile() {
+        if (!currentEditPath || !monacoEditor) return;
+        const content = monacoEditor.getValue();
+        ws.send(JSON.stringify({ 
+            type: "save_file", 
+            payload: JSON.stringify({ path: currentEditPath, content: content }) 
+        }));
+        document.getElementById("editor-status").innerText = "Saving...";
+        setTimeout(() => { 
+            document.getElementById("editor-status").innerText = "Saved at " + new Date().toLocaleTimeString(); 
+        }, 500);
+    }
+
+    // --- File Explorer Logic ---
+    let currentExplorerPath = "/";
+
+    function refreshExplorer() {
+        sendCmd("ls_json " + currentExplorerPath);
+    }
+
+    function renderExplorer(path, data) {
+        currentExplorerPath = path;
+        document.getElementById("explorer-path").innerText = path;
+        const tree = document.getElementById("explorer-tree");
+        tree.innerHTML = "";
+
+        // data: ({ ({ name, size, mtime }), ... })
+        data.forEach(item => {
+            const name = item[0];
+            const isDir = name.endsWith("/");
+            const div = document.createElement("div");
+            div.className = "tree-item " + (isDir ? "tree-folder" : "tree-file");
+            div.innerHTML = (isDir ? "📁 " : "📄 ") + name;
+            div.onclick = () => {
+                if (isDir) {
+                    openDir(path + name);
+                } else {
+                    editFile(path + name);
+                }
+            };
+            tree.appendChild(div);
+        });
+    }
+
+    function openDir(path) {
+        // 規範化路徑：確保以 / 結尾且不重複 //
+        let p = path.replace(/\/+/g, "/");
+        if (!p.endsWith("/")) p += "/";
+        currentExplorerPath = p;
+        refreshExplorer();
+    }
+
+    function goParentDir() {
+        if (currentExplorerPath === "/") return;
+        let parts = currentExplorerPath.split("/").filter(x => x !== "");
+        parts.pop();
+        let p = "/" + parts.join("/");
+        if (p !== "/") p += "/";
+        openDir(p);
+    }
+
+    function editFile(path) {
+        sendCmd("edit " + path);
+    }
+
+    // --- Scaffolding Logic ---
+    let currentTemplates = {};
+    let selectedTemplate = "";
+
+    function requestTemplates() {
+        sendCmd("templates");
+    }
+
+    function showScaffolding(templates) {
+        currentTemplates = templates;
+        const list = document.getElementById("template-list");
+        list.innerHTML = "";
+        selectedTemplate = "";
+
+        for (let type in templates) {
+            const div = document.createElement("div");
+            div.className = "template-option";
+            div.id = "tpl-" + type;
+            div.innerHTML = `
+                <span class="template-name">${type.toUpperCase()}</span>
+                <span class="template-desc">Create a new ${type} from basic structure.</span>
+            `;
+            div.onclick = () => {
+                document.querySelectorAll(".template-option").forEach(o => o.style.borderColor = "#444");
+                div.style.borderColor = "#4CAF50";
+                selectedTemplate = type;
+            };
+            list.appendChild(div);
+        }
+        document.getElementById("scaffolding-overlay").style.display = "flex";
+        document.getElementById("new-file-path").value = currentExplorerPath + "new_file.c";
+    }
+
+    function closeScaffolding() {
+        document.getElementById("scaffolding-overlay").style.display = "none";
+    }
+
+    function confirmScaffolding() {
+        if (!selectedTemplate) { alert("Please select a template."); return; }
+        const path = document.getElementById("new-file-path").value;
+        if (!path) { alert("Please enter a file path."); return; }
+        
+        const content = currentTemplates[selectedTemplate];
+        // 直接開啟編輯器並填入內容 (尚未存檔)
+        openEditor({ path: path, content: content });
+        closeScaffolding();
+    }
+
     document.addEventListener('click', (e) => {
         hideHistory();
         if (['INPUT','BUTTON','A','SELECT','OPTION'].includes(e.target.tagName) || e.target.classList.contains('cmd-link') || e.target.classList.contains('map-exit')) return;
