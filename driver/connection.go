@@ -2,6 +2,7 @@
 package driver
 
 import (
+	"fmt"
 	"net"
 	"strings"
 
@@ -95,6 +96,14 @@ func (p *PlayerConnection) Send(msg string) {
 	finalMsg := msg
 	if p.OutputRaw {
 		finalMsg = "__RAW__" + msg
+	}
+
+	if p.sendChan == nil {
+		// 🚀 關鍵修正：如果是虛擬連線 (由 set_this_player 產生)，直接印到伺服器終端機
+		// 這裡我們不處理 ANSI 轉換，因為 write efun 已經處理過或會在外部處理
+		// 或者我們統一在這裡處理？ 其實 write efun 比較適合處理
+		fmt.Print(msg)
+		return
 	}
 
 	select {

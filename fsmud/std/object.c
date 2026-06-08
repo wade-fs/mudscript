@@ -97,6 +97,15 @@ int is_living() { return 0; }
 // catch_tell(string msg) - 收到訊息（預設不處理）
 void catch_tell(string msg) {}
 
+// 🚀 新增：標準存檔與讀檔介面 (供 call_other 使用)
+int save_object(string file) {
+    return efun::save_object(file);
+}
+
+int restore_object(string file) {
+    return efun::restore_object(file);
+}
+
 // 🚀 新增：標準移動函式
 int move(mixed dest) {
     if (!dest) return 0;

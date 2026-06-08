@@ -27,6 +27,10 @@ void run_test_mode() {
         object fake_me = clone_object("/std/user.c");
         fake_me->set_id("tester");
         fake_me->set_role("god");
+        
+        // 🚀 新增：設定當前玩家上下文，這對 _t() 等函式至關重要
+        set_this_player(fake_me);
+        
         int failures = test_cmd->main(fake_me, "tests", "");
         destruct(fake_me);
 

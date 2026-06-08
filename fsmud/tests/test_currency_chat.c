@@ -8,12 +8,16 @@ void run_tests(object me) {
     tester->set_id("tester");
     tester->set_name("測試富豪");
     tester->set_lang("zh-TW"); // 🚀 設定語系以匹配斷言
+    set_this_player(tester);
     
     // 1. 測試貨幣兌換
     // 1 酷金幣 = 1,000,000 銅幣
     tester->add_money(1000000); 
     string m_str = tester->query_money_string();
     assert_true(strsrch(m_str, "酷金幣") != -1, "1,000,000 銅幣應顯示包含酷金幣");
+    
+    // 恢復 context
+    set_this_player(me);
     
     // 2. 測試頻道收費
     object channel_d = load_object("/secure/channel_d.c");

@@ -429,13 +429,20 @@ void create() {
 }
 
 string translate(string key, string lang) {
-    if (!lang || !translations[lang]) {
-        if (strsrch(lang, "zh-") == 0) lang = "zh-TW";
+    if (!lang || lang == "0") lang = "en";
+    
+    if (!translations[lang]) {
+        if (stringp(lang) && strsrch(lang, "zh-") == 0) lang = "zh-TW";
         else lang = "en";
     }
 
     if (translations[lang] && translations[lang][key]) {
         return translations[lang][key];
+    }
+    
+    // 🚀 二次嘗試：若當前語系找不到，回傳英文版的該 key
+    if (lang != "en" && translations["en"] && translations["en"][key]) {
+        return translations["en"][key];
     }
     
     return key;

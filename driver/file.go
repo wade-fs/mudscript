@@ -155,6 +155,15 @@ func (d *Driver) GetDir(path string) ([]string, error) {
 	}
 
 	fullPath := filepath.Join(d.Config.MudLibPath, resolvedPath)
+	
+	// 🚀 關鍵修正：判斷目標是否為檔案而非目錄
+	info, err := os.Stat(fullPath)
+	if err != nil { return nil, err }
+	
+	if !info.IsDir() {
+		return []string{filepath.Base(fullPath)}, nil
+	}
+
 	files, err := os.ReadDir(fullPath)
 	if err != nil { return nil, err }
 

@@ -23,14 +23,17 @@ string get_name(object ob) {
 varargs string select_lang(mixed data, string lang) {
     if (stringp(data)) return data;
     if (!mapp(data)) return to_string(data);
+    
+    if (!lang || lang == "0") {
+        object tp = this_player();
+        if (tp) lang = tp->query_lang();
+    }
+    
     if (!lang || lang == "0") {
         object ob = previous_object();
         if (ob) lang = ob->query_lang();
-        if (!lang || lang == "0") {
-            object tp = this_player();
-            if (tp) lang = tp->query_lang();
-        }
     }
+    
     if (!lang || lang == "0") lang = "en";
     if (data[lang]) return data[lang];
     if (data["en"]) return data["en"];
@@ -40,8 +43,19 @@ varargs string select_lang(mixed data, string lang) {
 
 // 語系翻譯
 string _t(string key) {
+    string lang;
     object tp = this_player();
-    string lang = tp ? tp->query_lang() : "en";
+    if (tp) lang = tp->query_lang();
+    
+    if (!lang || lang == "0" || lang == "en") {
+        object ob = previous_object();
+        if (ob) {
+            string ob_lang = ob->query_lang();
+            if (ob_lang && ob_lang != "0") lang = ob_lang;
+        }
+    }
+    
+    if (!lang || lang == "0") lang = "en";
     return load_object("/secure/language_d.c")->translate(key, lang);
 }
 
