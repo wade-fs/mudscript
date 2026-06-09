@@ -48,7 +48,8 @@ int main(object me, string verb, string arg) {
         "/tests/test_localization.c",
         "/tests/p3_test.c",
         "/tests/p4_test.c",
-        "/tests/test_file_mgmt.c"
+        "/tests/test_file_mgmt.c",
+        "/tests/test_var_decl.c"
     });
 
     int total = 0;

@@ -546,6 +546,11 @@ func evalInfixExpression(operator string, left, right object.Object) object.Obje
 	}
 
 	switch {
+	case operator == "==":
+		return nativeBoolToBooleanObject(evalEquality(left, right))
+	case operator == "!=":
+		return nativeBoolToBooleanObject(!evalEquality(left, right))
+
 	case left.TokenType() == object.IntegerType && right.TokenType() == object.IntegerType:
 		return evalIntegerInfixExpression(operator, left, right)
 	case left.TokenType() == object.FloatType || right.TokenType() == object.FloatType:
@@ -561,10 +566,6 @@ func evalInfixExpression(operator string, left, right object.Object) object.Obje
 		return evalArrayInfixExpression(operator, left, right)
 	case left.TokenType() == object.MAPPING_OBJ && right.TokenType() == object.MAPPING_OBJ:
 		return evalMappingInfixExpression(operator, left, right)
-	case operator == "==":
-		return nativeBoolToBooleanObject(evalEquality(left, right))
-	case operator == "!=":
-		return nativeBoolToBooleanObject(!evalEquality(left, right))
 
 	// 🚀 關鍵相容：處理不同型別的比較 (將 Nil 視為 0)
 	case left.TokenType() != right.TokenType():
@@ -608,13 +609,32 @@ func evalEquality(left, right object.Object) bool {
 	if left == right {
 		return true
 	}
+	
 	// 🚀 關鍵相容：Integer 數值比較
 	if left.TokenType() == object.IntegerType && right.TokenType() == object.IntegerType {
 		return left.(*object.Integer).Value == right.(*object.Integer).Value
 	}
+	// 🚀 關鍵相容：Float 數值比較
+	if left.TokenType() == object.FloatType && right.TokenType() == object.FloatType {
+		return left.(*object.Float).Value == right.(*object.Float).Value
+	}
 	// 🚀 關鍵相容：String 字串內容比較
 	if left.TokenType() == object.StringType && right.TokenType() == object.StringType {
 		return left.(*object.String).Value == right.(*object.String).Value
+	}
+
+	// 🚀 關鍵相容：Array/Mapping 深度比較 (簡化版：比對 Inspect 字串)
+	if (left.TokenType() == object.ArrayType && right.TokenType() == object.ArrayType) ||
+	   (left.TokenType() == object.MAPPING_OBJ && right.TokenType() == object.MAPPING_OBJ) {
+		return left.Inspect() == right.Inspect()
+	}
+
+	// 🚀 關鍵相容：數值混合比較 (Integer vs Float)
+	if left.TokenType() == object.IntegerType && right.TokenType() == object.FloatType {
+		return float64(left.(*object.Integer).Value) == right.(*object.Float).Value
+	}
+	if left.TokenType() == object.FloatType && right.TokenType() == object.IntegerType {
+		return left.(*object.Float).Value == float64(right.(*object.Integer).Value)
 	}
 
 	// Integer vs Boolean (0 == false, non-zero == true)
