@@ -520,6 +520,23 @@ func evalInfixExpression(operator string, left, right object.Object) object.Obje
 		return right
 	}
 
+	// 🚀 關鍵相容：處理「0 為萬用空值」的特性
+	// 在 LPC 中，0 + ({ 1 }) 應該等於 ({ 1 })，而不應該報型別錯誤
+	if operator == "+" {
+		// 左值是 0，回傳右值 (前提是右值是複合型別)
+		if l, ok := left.(*object.Integer); ok && l.Value == 0 {
+			if right.TokenType() == object.ArrayType || right.TokenType() == object.MAPPING_OBJ || right.TokenType() == object.StringType {
+				return right
+			}
+		}
+		// 右值是 0，回傳左值
+		if r, ok := right.(*object.Integer); ok && r.Value == 0 {
+			if left.TokenType() == object.ArrayType || left.TokenType() == object.MAPPING_OBJ || left.TokenType() == object.StringType {
+				return left
+			}
+		}
+	}
+
 	if left == nil || left.TokenType() == object.NilType {
 		left = &object.Integer{Value: 0}
 	}

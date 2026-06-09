@@ -7,72 +7,69 @@ string query_role() { return "god"; }
 void run_tests(object me) {
     start_test("檔案管理與 CWD 權限驗證");
 
-    // 建立一個測試用的巫師
+    write("DEBUG: 1. 建立測試目錄 (由具備 god 權限的測試物件執行)\n");
+    mkdir("/a");
+    mkdir("/a/b");
+    mkdir("/x");
+    mkdir("/x/y");
+    mkdir("/area");
+
+    write("DEBUG: 2. 建立一個測試用的巫師\n");
     object wizard = clone_object("/std/user.c");
     wizard->set_id("test_wizard");
     wizard->set_role("wizard");
-    wizard->enable_wizard(); // 🚀 重要：啟用巫師權限
-    
-    write("DEBUG: wizard created, role=" + wizard->query_role() + ", wizardp=" + wizardp(wizard) + "\n");
-    
-    // 初始化授權路徑: write_paths({ "/a/b", "/x/y" })
-    wizard->set("write_paths", ({ "/a/b", "/x/y" }));
+    wizard->enable_wizard(); 
+
+    write("DEBUG: 3. 初始化授權路徑 (使用正確的函式)\n");
+    wizard->add_write_path("/a/b");
+    wizard->add_write_path("/x/y");
     wizard->set_cwd("/");
 
-    // 載入 cd 指令物件
+    write("DEBUG: 4. 載入指令\n");
     object cd_cmd = load_object("/cmds/admin/cmd_cd.c");
-    if (!cd_cmd) {
-        assert_true(0, "無法載入 cd 指令物件");
-        destruct(wizard);
-        return;
-    }
     
-    // 設定 this_player() 讓 simul_efun 的 resolv_path 正確運作
+    write("DEBUG: 測試 A: cd /a/b (授權路徑) -> 預期成功\n");
     set_this_player(wizard);
-    tell_object(me, "DEBUG: this_player is " + (this_player() ? object_name(this_player()) : "0") + "\n");
-
-    // 建立測試目錄 (God 權限或系統內部呼叫 mkdir)
-    tell_object(me, "DEBUG: Creating test directories...\n");
-    int m1 = mkdir("/a");
-    int m2 = mkdir("/a/b");
-    int m3 = mkdir("/x");
-    int m4 = mkdir("/x/y");
-    tell_object(me, sprintf("DEBUG: mkdir results: /a:%d, /a/b:%d, /x:%d, /x/y:%d\n", m1, m2, m3, m4));
-
-    // 1. 測試 cd /a/b (預期成功)
-    tell_object(me, "測試: cd /a/b (授權路徑)\n");
+    write("DEBUG: 測試 A.1 cd /a/b\n");
     cd_cmd->main(wizard, "cd", "/a/b");
-    assert_equal("/a/b", wizard->query_cwd(), "cd /a/b 應該成功切換");
+    write("DEBUG: 測試 A.2 set_this_player(me)\n");
+    set_this_player(me);
+    assert_equal("/a/b", wizard->query_cwd(), "cd /a/b (授權路徑) 應該成功");
 
-    // 2. 測試 cd /a (預期失敗)
-    tell_object(me, "測試: cd /a (未授權路徑)\n");
+    write("DEBUG: 測試 B: cd /a (未授權父目錄) -> 預期失敗\n");
+    wizard->set_cwd("/a/b"); 
+    set_this_player(wizard);
     cd_cmd->main(wizard, "cd", "/a");
-    assert_equal("/a/b", wizard->query_cwd(), "cd /a 應該失敗 (保持在 /a/b)");
+    set_this_player(me);
+    assert_equal("/a/b", wizard->query_cwd(), "cd /a (未授權) 應該失敗並保持原位");
 
-    // 3. 測試 cd /x/y (預期成功)
-    tell_object(me, "測試: cd /x/y (另一個授權路徑)\n");
+    write("DEBUG: 測試 C: cd /x/y (另一個授權路徑) -> 預期成功\n");
+    set_this_player(wizard);
     cd_cmd->main(wizard, "cd", "/x/y");
-    assert_equal("/x/y", wizard->query_cwd(), "cd /x/y 應該成功切換");
+    set_this_player(me);
+    assert_equal("/x/y", wizard->query_cwd(), "cd /x/y (授權路徑) 應該成功");
 
-    // 4. 測試 cd .. (預期失敗)
-    tell_object(me, "測試: cd .. (跳到未授權路徑)\n");
+    write("DEBUG: 測試 D: cd .. (跳到未授權的 /x) -> 預期失敗\n");
+    set_this_player(wizard);
     cd_cmd->main(wizard, "cd", "..");
-    assert_equal("/x/y", wizard->query_cwd(), "cd .. 應該失敗 (保持在 /x/y)");
+    set_this_player(me);
+    assert_equal("/x/y", wizard->query_cwd(), "cd .. (跳向未授權) 應該失敗");
 
-    // 5. 測試 cd /area (預期成功)
-    mkdir("/area");
-    tell_object(me, "測試: cd /area (預設開放目錄)\n");
+    write("DEBUG: 測試 E: cd /area (預設開放目錄) -> 預期成功\n");
+    set_this_player(wizard);
     cd_cmd->main(wizard, "cd", "/area");
-    assert_equal("/area", wizard->query_cwd(), "cd /area 應該成功");
+    set_this_player(me);
+    assert_equal("/area", wizard->query_cwd(), "cd /area (預設開放) 應該成功");
 
-
-    // 清理測試目錄
+    write("DEBUG: 清理\n");
+    set_this_player(me);
     rmdir("/x/y");
     rmdir("/x");
     rmdir("/a/b");
     rmdir("/a");
-    // 不清理 /area，因為它是系統預設目錄
-    
+
     destruct(wizard);
+    write("DEBUG: Finalizing file management tests...\n");
     report_results();
 }
+

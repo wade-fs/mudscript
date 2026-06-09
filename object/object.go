@@ -46,6 +46,7 @@ const (
 	BREAK_VALUE_OBJ    = "BREAK_VALUE"
 	CONTINUE_VALUE_OBJ = "CONTINUE_VALUE"
 	AsyncPauseType     = "ASYNC_PAUSE"
+	UNINITIALIZED_OBJ  = "UNINITIALIZED"
 	)
 
 	// Object represents an object of Monkey language.
@@ -450,6 +451,12 @@ func (b *BreakValue) Inspect() string { return "break" }
 type ContinueValue struct{}
 func (c *ContinueValue) TokenType() TokenType { return CONTINUE_VALUE_OBJ }
 func (c *ContinueValue) Inspect() string { return "continue" }
+
+// Uninitialized: 代表宣告了但尚未賦值的變數 (LPC 延遲零值)
+type Uninitialized struct{}
+func (u *Uninitialized) TokenType() TokenType { return UNINITIALIZED_OBJ }
+func (u *Uninitialized) Inspect() string { return "uninitialized" }
+func (u *Uninitialized) HashKey() HashKey { return HashKey{TokenType: UNINITIALIZED_OBJ, Value: 0} }
 
 // Closure 表示 LPC 的函數指標或 Lambda
 type Closure struct {

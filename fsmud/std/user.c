@@ -61,6 +61,7 @@ void create() {
     if (!explored_rooms) explored_rooms = ([]);
     init_aliases();
     
+    write_paths = ({ }); // 🚀 關鍵修正：初始化空陣列
     current_mudlib = "";
     data_base_path = "/mudlib/data/";
     cwd = "/";
