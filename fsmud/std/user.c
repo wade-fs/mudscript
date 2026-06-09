@@ -61,10 +61,10 @@ void create() {
     if (!explored_rooms) explored_rooms = ([]);
     init_aliases();
     
-    write_paths = ({ }); // 🚀 關鍵修正：初始化空陣列
+    write_paths = ({ }); 
     current_mudlib = "";
     data_base_path = "/mudlib/data/";
-    cwd = "/";
+    cwd = "/"; // 🚀 預設為根目錄
 }
 
 // ── 查詢函式 ────────────────────────────────────────────
@@ -73,7 +73,7 @@ string query_data_base_path() { return data_base_path; }
 string query_in_edit() { return in_edit; }
 void set_in_edit(string path) { in_edit = path; }
 string query_cwd() { 
-    if (!cwd || cwd == "") return "/";
+    if (!stringp(cwd) || cwd == "") return "/";
     return cwd; 
 }
 void set_cwd(string path) { cwd = path; }

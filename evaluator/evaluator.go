@@ -515,33 +515,34 @@ func evalMinusPrefixOperatorExpression(right object.Object) object.Object {
 }
 
 func evalInfixExpression(operator string, left, right object.Object) object.Object {
-	// 🚀 關鍵相容：逗號運算子 (Comma Operator)
-	if operator == "," {
-		return right
-	}
-
-	// 🚀 關鍵相容：處理「0 為萬用空值」的特性
-	// 在 LPC 中，0 + ({ 1 }) 應該等於 ({ 1 })，而不應該報型別錯誤
-	if operator == "+" {
-		// 左值是 0，回傳右值 (前提是右值是複合型別)
-		if l, ok := left.(*object.Integer); ok && l.Value == 0 {
-			if right.TokenType() == object.ArrayType || right.TokenType() == object.MAPPING_OBJ || right.TokenType() == object.StringType {
-				return right
-			}
-		}
-		// 右值是 0，回傳左值
-		if r, ok := right.(*object.Integer); ok && r.Value == 0 {
-			if left.TokenType() == object.ArrayType || left.TokenType() == object.MAPPING_OBJ || left.TokenType() == object.StringType {
-				return left
-			}
-		}
-	}
-
+	// 1. 基本防錯：確保 left/right 不為 nil
 	if left == nil || left.TokenType() == object.NilType {
 		left = &object.Integer{Value: 0}
 	}
 	if right == nil || right.TokenType() == object.NilType {
 		right = &object.Integer{Value: 0}
+	}
+
+	// 🚀 關鍵相容：逗號運算子 (Comma Operator)
+	if operator == "," {
+		return right
+	}
+
+	// 🚀 關鍵相容：處理「0 為萬用空值」的特性 (僅限 Array 與 Mapping)
+	// 在 LPC 中，0 + ({ 1 }) 應該等於 ({ 1 })
+	if operator == "+" {
+		// 左值是 0，回傳右值
+		if l, ok := left.(*object.Integer); ok && l.Value == 0 {
+			if right.TokenType() == object.ArrayType || right.TokenType() == object.MAPPING_OBJ {
+				return right
+			}
+		}
+		// 右值是 0，回傳左值
+		if r, ok := right.(*object.Integer); ok && r.Value == 0 {
+			if left.TokenType() == object.ArrayType || left.TokenType() == object.MAPPING_OBJ {
+				return left
+			}
+		}
 	}
 
 	switch {
@@ -1236,6 +1237,12 @@ func evalArrayIndexExpression(array, index object.Object) object.Object {
 func evalTypedVarDecl(node *ast.TypedVarDecl, env object.Environment) object.Object {
 	var val object.Object
 
+	// 執行型別檢查！
+	expectedType := node.Token.Literal
+	if node.IsArray {
+		expectedType = "array"
+	}
+
 	// 1. 如果有等號賦值 (例如: int x = 10;)
 	if node.Value != nil {
 		val = Eval(node.Value, env)
@@ -1243,15 +1250,8 @@ func evalTypedVarDecl(node *ast.TypedVarDecl, env object.Environment) object.Obj
 			return val
 		}
 	} else {
-		// 2. 如果沒有賦值，給予預設值 (LPC 慣例：int 為 0, string 為 0 或 "", mapping 為 ([]) 等)
-		// 目前我們先簡單給 NilValue，後續可依型別給予不同初始值
-		val = NilValue 
-	}
-
-	// 執行型別檢查！
-	expectedType := node.Token.Literal
-	if node.IsArray {
-		expectedType = "array"
+		// 2. 🚀 關鍵相容：使用對應型別的預設值
+		val = GetDefaultLPCValue(expectedType)
 	}
 
 	if !checkTypeMatch(expectedType, val) {
@@ -1284,6 +1284,9 @@ func checkTypeMatch(lpcType string, obj object.Object) bool {
 		}
 		return tt == object.StringType
 	case "float":
+		if i, ok := obj.(*object.Integer); ok && i.Value == 0 {
+			return true // 🚀 關鍵相容：允許 0 指派給 float
+		}
 		return obj.TokenType() == object.FloatType
 	case "mixed":
 		return true
@@ -1311,8 +1314,10 @@ func checkTypeMatch(lpcType string, obj object.Object) bool {
 
 // GetDefaultLPCValue 取得 LPC 的預設值
 func GetDefaultLPCValue(lpcType string) object.Object {
-	// 🚀 關鍵相容：在 MudOS/LPC 中，所有未初始化的變數預設值皆為整數 0
-	// 即使是 string, object, mapping 或 array 類型也是如此
+	if lpcType == "float" {
+		return &object.Float{Value: 0.0}
+	}
+	// 🚀 關鍵相容：在 MudOS/LPC 中，大部分未初始化的變數預設值皆為整數 0
 	return &object.Integer{Value: 0}
 }
 

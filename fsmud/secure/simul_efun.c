@@ -114,17 +114,24 @@ varargs void message(string category, string msg, mixed target, mixed exclude) {
     }
 }
 
-// 🚀 新增：路徑解析 (相對於玩家的 CWD)
-string resolv_path(string path) {
-    if (!path || path == "") return this_player()->query_cwd();
+// 🚀 強化版路徑解析 (可指定對象，否則預設為 this_player())
+varargs string resolv_path(string path, object user) {
+    if (!user) user = this_player();
+    if (!user) return path; // 沒人就回傳原路徑
+
+    if (!path || path == "") {
+        string c = user->query_cwd();
+        return stringp(c) ? c : "/";
+    }
     if (path[0] == '/') return path;
     
     // 如果不以 . 開頭，補上 ./ 使其符合 efun resolve_path 的相對路徑格式
     if (path[0] != '.') path = "./" + path;
     
-    string cwd = this_player()->query_cwd();
-    if (!cwd || cwd == "") cwd = "/";
+    string cwd = user->query_cwd();
+    if (!stringp(cwd) || cwd == "") cwd = "/";
     if (cwd[strlen(cwd)-1] != '/') cwd += "/";
     
     return resolve_path(path, cwd);
 }
+

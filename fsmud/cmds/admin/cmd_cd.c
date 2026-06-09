@@ -16,7 +16,7 @@ int main(object me, string verb, string arg) {
         return 1;
     }
     
-    string path = resolv_path(arg);
+    string path = resolv_path(arg, me);
     
     // 規範化路徑：確保不以 / 結尾 (除非是根目錄)
     if (strlen(path) > 1 && path[strlen(path)-1] == '/') {
