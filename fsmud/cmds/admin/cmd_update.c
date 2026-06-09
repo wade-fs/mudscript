@@ -11,14 +11,44 @@ int main(object me, string verb, string arg) {
         return 1;
     }
 
-    if (me->query_role() != "god") {
-        write("只有管理員可以使用此指令。\n");
-        return 1;
+    if (me->query_role() != "god" && me->query_role() != "wizard") {
+        return 0;
     }
 
-    if (substr(arg, 0, 1) != "/") {
-        arg = "/" + arg;
+    arg = resolv_path(arg);
+
+    // 授權檢查 (God 不受限)
+    if (me->query_role() != "god") {
+        string *wp = me->query_write_paths();
+        int allowed = 0;
+        
+        // 1. 檢查自定義授權路徑
+        if (wp) {
+            foreach (string p in wp) {
+                if (strsrch(arg, p) == 0) {
+                    allowed = 1;
+                    break;
+                }
+            }
+        }
+        
+        // 2. 檢查 Wizard 預設授權路徑
+        if (!allowed && me->query_role() == "wizard") {
+            string *default_paths = ({ "/area/", "/npc/", "/item/", "/cmds/", "/log/", "/open/", "/tests/", "/u/" });
+            foreach (string p in default_paths) {
+                if (strsrch(arg, p) == 0) {
+                    allowed = 1;
+                    break;
+                }
+            }
+        }
+        
+        if (!allowed) {
+            write("update: permission denied: " + arg + "\n");
+            return 1;
+        }
     }
+
     if (substr(arg, strlen(arg)-2, 2) != ".c") {
         arg = arg + ".c";
     }

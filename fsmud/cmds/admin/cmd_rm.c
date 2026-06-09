@@ -10,17 +10,50 @@ int main(object me, string verb, string arg) {
     if (me->query_role() != "god" && me->query_role() != "wizard") {
         return 0;
     }
+if (!arg || arg == "") {
+    write(select_lang(([
+        "en": "Usage: rm <file path>\n",
+        "zh-TW": "用法：rm <檔案路徑>\n",
+        "zh-CN": "用法：rm <文件路径>\n"
+    ])));
+    return 1;
+}
 
-    if (!arg || arg == "") {
-        write(select_lang(([
-            "en": "Usage: rm <file path>\n",
-            "zh-TW": "用法：rm <檔案路徑>\n",
-            "zh-CN": "用法：rm <文件路径>\n"
-        ])));
-        return 1;
+arg = resolv_path(arg);
+
+// 授權檢查 (God 不受限)
+if (me->query_role() != "god") {
+    string *wp = me->query_write_paths();
+    int allowed = 0;
+
+    // 1. 檢查自定義授權路徑
+    if (wp) {
+        foreach (string p in wp) {
+            if (strsrch(arg, p) == 0) {
+                allowed = 1;
+                break;
+            }
+        }
     }
 
-    if (arg[0] != '/') arg = "/" + arg;
+    // 2. 檢查 Wizard 預設授權路徑
+    if (!allowed && me->query_role() == "wizard") {
+        string *default_paths = ({ "/area/", "/npc/", "/item/", "/cmds/", "/log/", "/open/", "/tests/", "/u/" });
+        foreach (string p in default_paths) {
+            if (strsrch(arg, p) == 0) {
+                allowed = 1;
+                break;
+            }
+        }
+    }
+
+    if (!allowed) {
+        write("rm: permission denied: " + arg + "\n");
+        return 1;
+    }
+}
+
+if (rm(arg)) {
 
     if (file_size(arg) == -1) {
         write(RED(select_lang(([

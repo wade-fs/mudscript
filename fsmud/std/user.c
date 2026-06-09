@@ -15,13 +15,14 @@ string guild; // 🚀 新增：職業/公會
 string guild_rank; // 🚀 新增：公會職位
 string lang; // 🚀 新增：語系設定
 string in_edit; // 🚀 新增：Web IDE 正在編輯的檔案路徑
+string cwd;     // 🚀 新增：當前工作目錄 (CWD)
 int    guild_exp;  // 🚀 新增：公會貢獻/經驗
 int    bank_balance; // 🚀 新增：銀行存款
 int    last_bank_time; // 🚀 新增：上次計算利息時間
 string *write_paths;
 mapping aliases;
 mapping quests; // 🚀 新增：任務紀錄
-mapping muted_channels; // 🚀 新增：屏蔽的頻道
+mapping muted_channels; // 🚀 新願：屏蔽的頻道
 mapping explored_rooms; // 🚀 新增：已探索房間 ([ "room_file": 1 ])
 string *saved_inventory = ({ });
 string last_location;
@@ -62,6 +63,7 @@ void create() {
     
     current_mudlib = "";
     data_base_path = "/mudlib/data/";
+    cwd = "/";
 }
 
 // ── 查詢函式 ────────────────────────────────────────────
@@ -69,6 +71,11 @@ string query_current_mudlib() { return current_mudlib; }
 string query_data_base_path() { return data_base_path; }
 string query_in_edit() { return in_edit; }
 void set_in_edit(string path) { in_edit = path; }
+string query_cwd() { 
+    if (!cwd || cwd == "") return "/";
+    return cwd; 
+}
+void set_cwd(string path) { cwd = path; }
 string query_start_room() {
     if (current_mudlib != "") {
         object fs_d = find_object("/secure/fs_d.c");
@@ -163,6 +170,16 @@ void setup() {
     }
 
     recalc_stats();
+
+    // 🚀 新增：初始化 CWD (針對巫師與管理員)
+    if ((role == "wizard" || role == "god") && (!cwd || cwd == "" || cwd == "/")) {
+        string *wp = query_write_paths();
+        if (wp && sizeof(wp) > 0) {
+            cwd = wp[0];
+        } else {
+            cwd = "/";
+        }
+    }
 
 	// 🚀 新增：賦予種族天性
 	if (race == "dwarf") {

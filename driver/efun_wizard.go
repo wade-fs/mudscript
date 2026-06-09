@@ -183,13 +183,10 @@ func (d *Driver) registerWizardEfuns(obj *object.LPCObject) {
 			}
 
 			// 4. 封裝 JSON 並發送
-			// 這裡直接呼叫 p.Send，但因為是 Web IDE 專用協議，我們需要一種方式讓 Frontend 識別
-			// 在 hub.go 中，OutputCallback 會將訊息封裝成 {"type": "mud_text", "payload": ...}
-			// 如果我們想傳送自定義 type，我們需要讓 OutputCallback 支援原始 JSON
 			// 技巧：我們發送一個帶有特殊前綴的字串，讓 hub.go 攔截並重組
-			
-			payload := fmt.Sprintf("__JSON_MSG__{ \"type\": \"edit_file\", \"path\": \"%s\", \"content\": %q }", 
-				resolvedPath, string(content))
+			// 🚀 關鍵修正：Payload 必須是 JSON 字串，因為 Frontend 會解析它
+			innerPayload := fmt.Sprintf("{ \"path\": \"%s\", \"content\": %q }", resolvedPath, string(content))
+			payload := fmt.Sprintf("__JSON_MSG__{ \"type\": \"edit_file\", \"payload\": %q }", innerPayload)
 			p.Send(payload)
 
 			return &object.Integer{Value: 1}
@@ -211,7 +208,8 @@ func (d *Driver) registerWizardEfuns(obj *object.LPCObject) {
 			conn := d.GetConnectionFromObject(target)
 			if conn == nil {
 				// 如果不是互動玩家，建立一個臨時的虛擬連線以支持 GetCurrentPlayer().Object
-				conn = &PlayerConnection{Object: target, IsActive: true}
+				// 🚀 修正：必須使用 NewPlayerConnection 以初始化通道與啟動 WritePump
+				conn = NewPlayerConnection(nil, target)
 			}
 			
 			gid := getGID()

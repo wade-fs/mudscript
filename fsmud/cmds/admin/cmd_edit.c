@@ -20,14 +20,46 @@ int main(object me, string verb, string arg) {
         return 1;
     }
 
-    if (arg[0] != '/') arg = "/" + arg;
+    arg = resolv_path(arg);
+
+    // 授權檢查 (God 不受限)
+    if (me->query_role() != "god") {
+        string *wp = me->query_write_paths();
+        int allowed = 0;
+        
+        // 1. 檢查自定義授權路徑
+        if (wp) {
+            foreach (string p in wp) {
+                if (strsrch(arg, p) == 0) {
+                    allowed = 1;
+                    break;
+                }
+            }
+        }
+
+        // 2. 檢查 Wizard 預設授權路徑
+        if (!allowed && me->query_role() == "wizard") {
+            string *default_paths = ({ "/area/", "/npc/", "/item/", "/cmds/", "/log/", "/open/", "/tests/", "/u/" });
+            foreach (string p in default_paths) {
+                if (strsrch(arg, p) == 0) {
+                    allowed = 1;
+                    break;
+                }
+            }
+        }
+
+        if (!allowed) {
+            write(HIR("edit: permission denied: " + arg + "\n"));
+            return 1;
+        }
+    }
 
     // 🚀 新增：Web IDE 支援
     if (is_web_client(me)) {
         write(HIW(select_lang(([
             "en": "Opening Web IDE for: ",
             "zh-TW": "正在為您開啟 Web IDE：",
-            "zh-CN": "正在为您开启 Web IDE："
+            "zh-CN": "正在为您開啟 Web IDE："
         ]))) + arg + "\n");
         me->set_in_edit(arg);
         request_web_edit(arg);
@@ -47,7 +79,7 @@ int main(object me, string verb, string arg) {
         write(HIW(select_lang(([
             "en": "Editing file: ",
             "zh-TW": "編輯檔案：",
-            "zh-CN": "编辑文件："
+            "zh-CN": "編輯文件："
         ]))) + arg + "\n");
         lines = explode(content, "\n");
     }
@@ -135,7 +167,7 @@ void edit_loop(object me, string input) {
                   "  .s        储存但不退出\n" +
                   "  .x 或 .   储存并退出\n" +
                   "  .q        不储存直接退出\n" +
-                  "  <文字>    在最后方新增一行\n"
+                  "  <文字>    在最後方新增一行\n"
         ])));
         input_to("edit_loop");
         write("* ");
@@ -219,7 +251,7 @@ void edit_loop(object me, string input) {
             ]))));
         } else {
             write(HIR(select_lang(([
-                "en": "Save failed!\n",
+                "en": "儲存失敗！\n",
                 "zh-TW": "儲存失敗！\n",
                 "zh-CN": "储存失败！\n"
             ]))));

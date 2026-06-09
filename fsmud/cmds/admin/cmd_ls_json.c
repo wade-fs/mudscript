@@ -4,8 +4,44 @@ inherit "/std/object";
 int main(object me, string verb, string arg) {
     if (!wizardp(me)) return 0;
 
-    if (!arg || arg == "") arg = "/";
-    if (arg[0] != '/') arg = "/" + arg;
+    if (!arg || arg == "") arg = me->query_cwd();
+    else arg = resolv_path(arg);
+
+    // 授權檢查 (God 不受限)
+    if (me->query_role() != "god") {
+        string *wp = me->query_write_paths();
+        int allowed = 0;
+        
+        // 1. 檢查自定義授權路徑
+        if (wp) {
+            foreach (string p in wp) {
+                if (strsrch(arg, p) == 0) {
+                    allowed = 1;
+                    break;
+                }
+            }
+        }
+        
+        // 2. 檢查 Wizard 預設授權路徑
+        if (!allowed && me->query_role() == "wizard") {
+            string *default_paths = ({ "/area/", "/npc/", "/item/", "/cmds/", "/log/", "/open/", "/tests/", "/u/" });
+            foreach (string p in default_paths) {
+                if (strsrch(arg, p) == 0) {
+                    allowed = 1;
+                    break;
+                }
+            }
+        }
+        
+        if (!allowed) {
+            if (is_web_client(me)) {
+                write(sprintf("{\"ui\": \"ls\", \"path\": \"%s\", \"data\": [], \"error\": \"Permission denied\"}\n", arg));
+            } else {
+                write("ls_json: permission denied: " + arg + "\n");
+            }
+            return 1;
+        }
+    }
 
     mixed *files = get_dir(arg, -1);
     if (!files) {

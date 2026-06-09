@@ -113,3 +113,18 @@ varargs void message(string category, string msg, mixed target, mixed exclude) {
         if (env) tell_room(env, msg, exclude);
     }
 }
+
+// 🚀 新增：路徑解析 (相對於玩家的 CWD)
+string resolv_path(string path) {
+    if (!path || path == "") return this_player()->query_cwd();
+    if (path[0] == '/') return path;
+    
+    // 如果不以 . 開頭，補上 ./ 使其符合 efun resolve_path 的相對路徑格式
+    if (path[0] != '.') path = "./" + path;
+    
+    string cwd = this_player()->query_cwd();
+    if (!cwd || cwd == "") cwd = "/";
+    if (cwd[strlen(cwd)-1] != '/') cwd += "/";
+    
+    return resolve_path(path, cwd);
+}

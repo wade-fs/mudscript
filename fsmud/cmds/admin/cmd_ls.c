@@ -13,10 +13,42 @@ int main(object me, string verb, string arg) {
 
     string path = arg;
     if (!path || path == "") {
-        path = "/";
+        path = me->query_cwd();
+    } else {
+        path = resolv_path(path);
     }
 
-    if (path[0] != '/') path = "/" + path;
+    // 授權檢查 (God 不受限)
+    if (me->query_role() != "god") {
+        string *wp = me->query_write_paths();
+        int allowed = 0;
+        
+        // 1. 檢查自定義授權路徑
+        if (wp) {
+            foreach (string p in wp) {
+                if (strsrch(path, p) == 0) {
+                    allowed = 1;
+                    break;
+                }
+            }
+        }
+        
+        // 2. 檢查 Wizard 預設授權路徑
+        if (!allowed && me->query_role() == "wizard") {
+            string *default_paths = ({ "/area/", "/npc/", "/item/", "/cmds/", "/log/", "/open/", "/tests/", "/u/" });
+            foreach (string p in default_paths) {
+                if (strsrch(path, p) == 0) {
+                    allowed = 1;
+                    break;
+                }
+            }
+        }
+        
+        if (!allowed) {
+            write("ls: permission denied: " + path + "\n");
+            return 1;
+        }
+    }
 
     string *files = get_dir(path);
     if (!files || !sizeof(files)) {

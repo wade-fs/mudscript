@@ -46,6 +46,7 @@ int main(object me, string verb, string arg) {
         "/tests/test_init_action.c",
         "/tests/test_look_dir.c",
         "/tests/test_localization.c",
+        "/tests/test_file_mgmt.c",
         "/tests/p3_test.c",
         "/tests/p4_test.c"
     });
