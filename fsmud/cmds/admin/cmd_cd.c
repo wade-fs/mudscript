@@ -45,7 +45,7 @@ int main(object me, string verb, string arg) {
         
         // 2. 檢查 Wizard 預設授權路徑 (與 valid.c 一致)
         if (!allowed && me->query_role() == "wizard") {
-            string *default_paths = ({ "/area/", "/npc/", "/item/", "/cmds/", "/log/", "/open/", "/tests/", "/u/" });
+            string *default_paths = ({ "/area", "/npc", "/item", "/cmds", "/log", "/open", "/tests", "/u" });
             foreach (string p in default_paths) {
                 if (strsrch(path, p) == 0) {
                     allowed = 1;
