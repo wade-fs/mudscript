@@ -83,6 +83,12 @@ MudScript 具備強大的 P2P 跨服互連能力。您不僅能與其他伺服�
     - `ask edmund job` (詢問工作)
     - `ask edmund topics` (列出所有可聊的話題)
 
+### 💻 Web IDE (線上編輯器)
+
+MudScript 內建了 Web IDE，供管理員 (god) 與巫師 (wizard) 直接透過瀏覽器編輯與儲存 LPC 腳本。
+- **權限**：需使用具有 `god` 或 `wizard` 身份的帳號登入。
+- **使用方式**：支援即時存檔並立即反映在運作中的伺服器，讓開發流程更加順暢。
+
 ### 📂 目錄結構與文件
 
 - `/cmd`: 伺服器進入點 (fsmud)。
@@ -92,6 +98,7 @@ MudScript 具備強大的 P2P 跨服互連能力。您不僅能與其他伺服�
 - `/web/static`: 前端網頁資源。
 - [**Efuns 參考手冊**](docs/README-efuns.md)：完整的內建函式清單與用法說明。
 - [**LM 系統手冊**](docs/README-lm.md)：輕量創界沙盒世界的操作指南。
+- [**更新歷史 (History)**](History.md)：版本歷史與更新日誌。
 
 ---
 

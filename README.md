@@ -92,6 +92,12 @@ In MudScript, you don't need to type long names manually.
     - `ask edmund job`
     - `ask edmund topics` (list all available topics)
 
+### 💻 Web IDE (Online Editing)
+
+MudScript features a built-in Web IDE for admins and wizards, allowing you to edit and save LPC scripts directly from your browser.
+- **Access**: Log in with an account having `god` or `wizard` role.
+- **Usage**: You can use the web ide to edit files, it supports real-time saving and instant updates.
+
 ### 📂 Directory Structure
 
 - `/cmd`: Server entry point (fsmud).
@@ -101,6 +107,7 @@ In MudScript, you don't need to type long names manually.
 - `/web/static`: Frontend web resources.
 - [**Efuns Reference**](docs/README-efuns.md): Complete list of built-in functions.
 - [**LM System Guide**](docs/README-lm.md): Documentation for the Light Minecraft sandbox world.
+- [**History / Changelog**](History.md): Version history and update logs.
 
 ---
 
