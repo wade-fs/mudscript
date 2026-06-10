@@ -19,7 +19,7 @@ int create_party(object me) {
     }
     me->set_leader(me);
     me->add_follower(me); // 隊長也把自己加入 followers 以便同步
-    write(HIG("隊伍建立成功！你現在是隊長。\n"));
+    write("$HIG$隊伍建立成功！你現在是隊長。\n$NOR$");
     return 1;
 }
 
@@ -34,8 +34,8 @@ int invite_player(object me, object target) {
     }
     
     invitations[target->get_id()] = me->get_id();
-    write(HIW("你邀請 " + target->query_name() + " 加入隊伍。\n"));
-    tell_object(target, HIW(me->query_name() + " 邀請你加入隊伍。輸入 'party join " + me->get_id() + "' 接受邀請。\n"));
+    write("$HIW$你邀請 " + target->query_name() + " 加入隊伍。\n$NOR$");
+    tell_object(target, "$HIW$" + me->query_name() + " 邀請你加入隊伍。輸入 'party join " + me->get_id() + "' 接受邀請。\n$NOR$");
     return 1;
 }
 
@@ -55,8 +55,8 @@ int join_party(object me, object leader) {
     me->set_leader(leader);
     leader->add_follower(me);
     
-    write(HIG("你加入了 " + leader->query_name() + " 的隊伍。\n"));
-    tell_object(leader, HIG(me->query_name() + " 加入了你的隊伍。\n"));
+    write("$HIG$你加入了 " + leader->query_name() + " 的隊伍。\n$NOR$");
+    tell_object(leader, "$HIG$" + me->query_name() + " 加入了你的隊伍。\n$NOR$");
     return 1;
 }
 
@@ -73,19 +73,19 @@ int leave_party(object me) {
         foreach (object m in members) {
             if (m == me) continue;
             m->set_leader(0);
-            tell_object(m, HIR("隊長解散了隊伍。\n"));
+            tell_object(m, "$HIR$隊長解散了隊伍。\n$NOR$");
         }
         // 重置隊長自己的 followers
         for (int i = 0; i < sizeof(members); i++) {
             me->remove_follower(members[i]);
         }
         me->set_leader(0);
-        write(HIR("隊伍已解散。\n"));
+        write("$HIR$隊伍已解散。\n$NOR$");
     } else {
         leader->remove_follower(me);
         me->set_leader(0);
-        write(HIR("你離開了隊伍。\n"));
-        tell_object(leader, HIR(me->query_name() + " 離開了你的隊伍。\n"));
+        write("$HIR$你離開了隊伍。\n$NOR$");
+        tell_object(leader, "$HIR$" + me->query_name() + " 離開了你的隊伍。\n$NOR$");
     }
     return 1;
 }

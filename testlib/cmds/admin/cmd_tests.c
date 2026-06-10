@@ -11,7 +11,7 @@ int main(object me, string verb, string arg) {
         return 1;
     }
 
-    write(HIW("🚀 開始執行 MudScript 核心功能驗證...\n"));
+    write("$HIW$🚀 開始執行 MudScript 核心功能驗證...\n$NOR$");
 
     string old_lang = me->query_lang();
     me->set_lang("zh-TW"); // 🚀 強制設定為中文，以滿足測試案例中的硬編碼斷言
@@ -58,7 +58,7 @@ int main(object me, string verb, string arg) {
     foreach (string file in test_files) {
         object test_ob = load_object(file);
         if (!test_ob) {
-            write(HIR("❌ 無法載入測試檔案: ") + file + "\n");
+            write("$HIR$❌ 無法載入測試檔案: $NOR$" + file + "\n");
             continue;
         }
         
@@ -70,13 +70,13 @@ int main(object me, string verb, string arg) {
         destruct(test_ob);
     }
 
-    write(BOLD_WHT("==========================================") + "\n");
+    write("$HIW$==========================================$NOR$" + "\n");
     if (passed == total) {
-        write(BOLD_GRN("✨ 恭喜！所有核心測試全部通過！(" + passed + "/" + total + ")") + "\n");
+        write("$HIG$✨ 恭喜！所有核心測試全部通過！(" + passed + "/" + total + ")$NOR$" + "\n");
     } else {
-        write(BOLD_RED("⚠️ 警報！共有 " + (total - passed) + " 個測試項目失敗！") + "\n");
+        write("$HIR$⚠️ 警報！共有 " + (total - passed) + " 個測試項目失敗！$NOR$" + "\n");
     }
-    write(BOLD_WHT("==========================================") + "\n");
+    write("$HIW$==========================================$NOR$" + "\n");
 
     me->set_lang(old_lang); // 🚀 恢復原本語系
 

@@ -33,10 +33,10 @@ string query_remote_room()   { return remote_room; }
 
 string query_name()  { return remote_name; }
 string query_short() { 
-    return HIM("(星際旅人) ") + remote_name + GRA(" @" + remote_mudlib);
+    return "$HIM$(星際旅人) $NOR$" + remote_name + "$GRA$ @" + remote_mudlib + "$NOR$";
 }
 string query_long() {
-    return remote_name + " 是來自星際網路 " + HIY(remote_mudlib) + " 的旅行者。\n" +
+    return remote_name + " 是來自星際網路 " + "$HIY$" + remote_mudlib + "$NOR$" + " 的旅行者。\n" +
            "他們目前的位置為：" + remote_room + "\n" +
            "你們身處不同的世界，但透過 Fantasy Space 的星際連結，彼此感知到了對方的存在。\n";
 }

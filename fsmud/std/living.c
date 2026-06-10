@@ -179,7 +179,7 @@ string query_display_name() {
     }
     // 🚀 新增：騎乘狀態顯示
     if (is_riding && active_pet) {
-        res += HIY(" <騎乘中: " + active_pet->query_name() + ">");
+        res += "$HIY$ <騎乘中: " + active_pet->query_name() + ">$NOR$";
     }
     return res;
 }
@@ -208,7 +208,7 @@ int move(mixed dest, string dir) {
     if (active_pet && environment(active_pet) == old_env) {
         active_pet->move_object(new_env);
         if (is_riding) {
-            tell_object(me, HIY("你騎著 " + active_pet->query_name() + " 抵達了目的地。\n"));
+            tell_object(me, "$HIY$你騎著 " + active_pet->query_name() + " 抵達了目的地。\n$NOR$");
         }
     }
 
@@ -318,8 +318,8 @@ void die() {
     object me = this_object();
     object env = environment(me);
     
-    write(HIR("\n👻 你感覺到靈魂正在脫離肉體... 你死了。\n\n"));
-    say(HIR(query_name() + " 的呼吸停止了，靈魂飄向了另一個世界。\n"));
+    write("$HIR$\n👻 你感覺到靈魂正在脫離肉體... 你死了。\n\n$NOR$");
+    say("$HIR$" + query_name() + " 的呼吸停止了，靈魂飄向了另一個世界。\n$NOR$");
 
     // 1. 產生屍體
     object corpse = clone_object("/std/corpse.c");
@@ -346,7 +346,7 @@ void die() {
             object money_ob = clone_object("/std/object.c");
             if (money_ob) {
                 money_ob->set_name("銅幣袋");
-                money_ob->set_short(YEL("一袋銅幣 (" + drop_cash + ")"));
+                money_ob->set_short("$YEL$一袋銅幣 (" + drop_cash + ")$NOR$");
                 money_ob->set_id(({"money bag", "bag", "錢袋"}));
                 money_ob->set_money_value(drop_cash);
                 move_object(money_ob, corpse);
@@ -377,7 +377,7 @@ void die() {
         potential -= lost_pot;
         if (lv_down && level > 1) {
             level--;
-            write(HIR("你的等級下降了！現在是等級 " + level + "。\n"));
+            write("$HIR$你的等級下降了！現在是等級 " + level + "。\n$NOR$");
         }
 
         // 🚀 技能熟練度下降 (所有學過的技能隨機掉 1~5% 熟練度)
@@ -394,7 +394,7 @@ void die() {
     if (pk_score > 0) {
         pk_score = 0;
         pk_timer = 0;
-        write(HIG("你的罪孽在死亡中得到了洗贖，你不再是紅名了。\n"));
+        write("$HIG$你的罪孽在死亡中得到了洗贖，你不再是紅名了。\n$NOR$");
     }
 
     is_dead = 1;
@@ -423,7 +423,7 @@ void revive() {
     object start = load_object(start_path);
     if (start) {
         move_object(start);
-        write(HIW("你在祈禱室緩緩睜開雙眼，感覺身體非常虛弱。\n"));
+        write("$HIW$你在祈禱室緩緩睜開雙眼，感覺身體非常虛弱。\n$NOR$");
         start->look_room(this_object());
     }
     this_object()->save();
@@ -476,12 +476,12 @@ string query_money_string() {
     int c  = rem;
 
     string res = "";
-    if (cg > 0) res += HIY(to_string(cg) + " " + _t("coin_cool_gold") + " ");
-    if (g  > 0) res += HIY(to_string(g)  + " " + _t("coin_gold") + " ");
-    if (s  > 0) res += WHT(to_string(s)  + " " + _t("coin_silver") + " ");
-    if (c  > 0) res += YEL(to_string(c)  + " " + _t("coin_copper") + " ");
+    if (cg > 0) res += "$HIY$" + to_string(cg) + " " + _t("coin_cool_gold") + " $NOR$";
+    if (g  > 0) res += "$HIY$" + to_string(g) + " " + _t("coin_gold") + " $NOR$";
+    if (s  > 0) res += "$WHT$" + to_string(s) + " " + _t("coin_silver") + " $NOR$";
+    if (c  > 0) res += "$YEL$" + to_string(c) + " " + _t("coin_copper") + " $NOR$";
     
-    if (res == "") return YEL("0 " + _t("coin_copper"));
+    if (res == "") return "$YEL$0 " + _t("coin_copper") + "$NOR$";
     return res;
 }
 

@@ -1,52 +1,69 @@
 #ifndef ANSI_H
 #define ANSI_H
 
-/* 顏色標記定義 */
-#define CLR_RED     "{r}"
-#define CLR_GRN     "{g}"
-#define CLR_YEL     "{y}"
-#define CLR_BLU     "{b}"
-#define CLR_MAG     "{m}"
-#define CLR_CYN     "{c}"
-#define CLR_WHT     "{w}"
-#define CLR_GRA     "{gr}"
-#define CLR_NOR     "{n}"
+/* 常用顏色標記定義 (對應前端 $TAG$ 語法) */
+#define NOR "$NOR$"
+#define BLK "$BLK$"
+#define RED "$RED$"
+#define GRN "$GRN$"
+#define YEL "$YEL$"
+#define BLU "$BLU$"
+#define MAG "$MAG$"
+#define CYN "$CYN$"
+#define WHT "$WHT$"
+#define GRA "$GRA$"
 
-/* 常用輔助宏 (全名 - 供 login.c 等舊程式碼使用) */
-#define RED(x)      CLR_RED + x + CLR_NOR
-#define GREEN(x)    CLR_GRN + x + CLR_NOR
-#define YELLOW(x)   CLR_YEL + x + CLR_NOR
-#define BLUE(x)     CLR_BLU + x + CLR_NOR
-#define MAGENTA(x)  CLR_MAG + x + CLR_NOR
-#define CYAN(x)     CLR_CYN + x + CLR_NOR
-#define WHITE(x)    CLR_WHT + x + CLR_NOR
-#define GRAY(x)     CLR_GRA + x + CLR_NOR
+/* 高亮度系列 */
+#define HIK "$HIK$"
+#define HIR "$HIR$"
+#define HIG "$HIG$"
+#define HIY "$HIY$"
+#define HIB "$HIB$"
+#define HIM "$HIM$"
+#define HIC "$HIC$"
+#define HIW "$HIW$"
 
-/* 常用縮寫 (3字母) */
-#define GRN(x)      CLR_GRN + x + CLR_NOR
-#define YEL(x)      CLR_YEL + x + CLR_NOR
-#define BLU(x)      CLR_BLU + x + CLR_NOR
-#define MAG(x)      CLR_MAG + x + CLR_NOR
-#define CYN(x)      CLR_CYN + x + CLR_NOR
-#define WHT(x)      CLR_WHT + x + CLR_NOR
-#define GRA(x)      CLR_GRA + x + CLR_NOR
+/* 舊代碼相容全名定義 */
+#define GREEN   "$GRN$"
+#define YELLOW  "$YEL$"
+#define BLUE    "$BLU$"
+#define MAGENTA "$MAG$"
+#define CYAN    "$CYN$"
+#define WHITE   "$WHT$"
+#define GRAY    "$GRA$"
 
-/* 高亮度系列 (HI* 系列) */
-#define HIR(x)      CLR_RED + x + CLR_NOR
-#define HIG(x)      CLR_GRN + x + CLR_NOR
-#define HIY(x)      CLR_YEL + x + CLR_NOR
-#define HIB(x)      CLR_BLU + x + CLR_NOR
-#define HIM(x)      CLR_MAG + x + CLR_NOR
-#define HIC(x)      CLR_CYN + x + CLR_NOR
-#define HIW(x)      CLR_WHT + x + CLR_NOR
+/* BOLD 粗體系列 */
+#define BOLD_RED   "$HIR$"
+#define BOLD_GRN   "$HIG$"
+#define BOLD_YEL   "$HIY$"
+#define BOLD_BLU   "$HIB$"
+#define BOLD_MAG   "$HIM$"
+#define BOLD_CYN   "$HIC$"
+#define BOLD_WHT   "$HIW$"
 
-/* BOLD 系列 (與 HI* 映射相同) */
-#define BOLD_RED(x) CLR_RED + x + CLR_NOR
-#define BOLD_GRN(x) CLR_GRN + x + CLR_NOR
-#define BOLD_YEL(x) CLR_YEL + x + CLR_NOR
-#define BOLD_BLU(x) CLR_BLU + x + CLR_NOR
-#define BOLD_MAG(x) CLR_MAG + x + CLR_NOR
-#define BOLD_CYN(x) CLR_CYN + x + CLR_NOR
-#define BOLD_WHT(x) CLR_WHT + x + CLR_NOR
+/* 特殊效果 */
+#define U     "$U$"
+#define REV   "$REV$"
+#define HIREV "$HIREV$"
+#define BLINK "$BLINK$"
+#define BOLD  "$BOLD$"
+
+/* 背景顏色 (如果需要相容) */
+#define BBLK  "$BBLK$"
+#define BRED  "$BRED$"
+#define BGRN  "$BGRN$"
+#define BYEL  "$BYEL$"
+#define BBLU  "$BBLU$"
+#define BMAG  "$BMAG$"
+#define BCYN  "$BCYN$"
+#define BWHT  "$BWHT$"
+
+#define HBRED "$HBRED$"
+#define HBGRN "$HBGRN$"
+#define HBYEL "$HBYEL$"
+#define HBBLU "$HBBLU$"
+#define HBMAG "$HBMAG$"
+#define HBCYN "$HBCYN$"
+#define HBWHT "$HBWHT$"
 
 #endif

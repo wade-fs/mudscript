@@ -5,9 +5,9 @@ inherit "/std/room.c";
 void create() {
     ::create();
     set_short(([
-        "en": MAG("Drunken Dream Tavern"),
-        "zh-TW": MAG("醉夢酒館"),
-        "zh-CN": MAG("醉梦酒馆")
+        "en": "$MAG$Drunken Dream Tavern$NOR$",
+        "zh-TW": "$MAG$醉夢酒館$NOR$",
+        "zh-CN": "$MAG$醉梦酒馆$NOR$"
     ]));
     set_long(([
         "en": "The tavern is bustling with noise and the smell of cheap ale. Several rough wooden tables are filled with boasting adventurers.\nBuck, the owner, is busy wiping glasses at the bar.\n",

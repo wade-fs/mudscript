@@ -5,9 +5,9 @@ inherit "/std/room.c";
 void create() {
     ::create();
     set_short(([
-        "en": HIB("Kevin's Armoury"),
-        "zh-TW": HIB("凱文的防具店"),
-        "zh-CN": HIB("凯文的防具店")
+        "en": "$HIB$Kevin's Armoury$NOR$",
+        "zh-TW": "$HIB$凱文的防具店$NOR$",
+        "zh-CN": "$HIB$凯文的防具店$NOR$"
     ]));
     set_long(([
         "en": "Various types of leather and chain mail are on display in the shop, emitting the smell of leather and metal. Several ornately decorated shields hang on the walls.\n",

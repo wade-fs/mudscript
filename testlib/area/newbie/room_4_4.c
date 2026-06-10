@@ -6,8 +6,8 @@ void create() {
     ::create();
     set_short(([
         "en": "Central Square",
-        "zh-TW": CYAN("中央廣場"),
-        "zh-CN": CYAN("中央广场")
+        "zh-TW": "$CYN$中央廣場$NOR$",
+        "zh-CN": "$CYN$中央广场$NOR$"
     ]));
     set_long(([
         "en": "This is the center of the Newbie Village. The spacious square is paved with clean flagstones. A giant fountain stands in the middle, its water glistening in the sunlight.",

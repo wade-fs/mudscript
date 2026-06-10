@@ -23,7 +23,7 @@ int main(object me, string verb, string arg) {
         object system_d = load_object("/secure/system_d");
         if (system_d) {
             system_d->set_mudlib_name(gname, gid);
-            write(HIG("全域 MUD 重新命名為：") + gname + " (" + gid + ")\n");
+            write("$HIG$全域 MUD 重新命名為：$NOR$" + gname + " (" + gid + ")\n");
             return 1;
         }
     }
@@ -32,13 +32,13 @@ int main(object me, string verb, string arg) {
     object env = environment(me);
     if (env && env->query_is_lm_world()) {
         env->set_world_name(arg);
-        write(HIG("目前的創界地圖已重新命名為：") + arg + "\n");
+        write("$HIG$目前的創界地圖已重新命名為：$NOR$" + arg + "\n");
         // 強制廣播給所有人更新 UI (包含標題)
         env->broadcast_map_all();
         return 1;
     }
 
-    write(RED("這裡不是創界地圖，無法進行局部命名。\n"));
+    write("$RED$這裡不是創界地圖，無法進行局部命名。\n$NOR$");
     return 1;
 }
 

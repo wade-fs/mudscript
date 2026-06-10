@@ -16,12 +16,12 @@ void create() {
 // 取得顏色前綴
 string get_channel_prefix(string type, string cid) {
     switch (type) {
-        case "chat":  return HIW("【全域】");
-        case "area":  return HIC("【區域】");
-        case "guild": return HIG("【公會】");
-        case "team":  return HIY("【團隊】");
-        case "friend":return HIM("【" + cid + "】");
-        case "sys":   return HIR("【系統】");
+        case "chat":  return "$HIW$【全域】$NOR$";
+        case "area":  return "$HIC$【區域】$NOR$";
+        case "guild": return "$HIG$【公會】$NOR$";
+        case "team":  return "$HIY$【團隊】$NOR$";
+        case "friend":return "$HIM$【" + cid + "】$NOR$";
+        case "sys":   return "$HIR$【系統】$NOR$";
         default:      return "【頻道】";
     }
 }
@@ -41,7 +41,7 @@ int join_friend_channel(object me, string cid) {
     if (!friend_channels[cid]) friend_channels[cid] = ({});
     if (member_array(me->get_id(), friend_channels[cid]) == -1) {
         friend_channels[cid] += ({ me->get_id() });
-        write(HIG("你加入了好友頻道：") + cid + "\n");
+        write("$HIG$你加入了好友頻道：$NOR$" + cid + "\n");
         return 1;
     }
     return 0;
@@ -50,7 +50,7 @@ int join_friend_channel(object me, string cid) {
 int leave_friend_channel(object me, string cid) {
     if (!friend_channels[cid]) return 0;
     friend_channels[cid] -= ({ me->get_id() });
-    write(HIR("你離開了好友頻道：") + cid + "\n");
+    write("$HIR$你離開了好友頻道：$NOR$" + cid + "\n");
     return 1;
 }
 
@@ -62,7 +62,7 @@ void broadcast(string type, object sender, string msg, string cid) {
         int cost = get_chat_cost(type);
         if (cost > 0) {
             if (sender->query_money() < cost) {
-                tell_object(sender, HIR("你的錢不夠支付發言費用！(需要 " + (cost/COIN_SILVER) + " 銀幣)\n"));
+                tell_object(sender, "$HIR$你的錢不夠支付發言費用！(需要 " + (cost/COIN_SILVER) + " 銀幣)\n$NOR$");
                 return;
             }
             sender->add_money(-cost);

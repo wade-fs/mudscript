@@ -116,7 +116,7 @@ mixed do_craft(object me, string type, object *items) {
                     for (int k = 0; k < sizeof(items); k++) {
                         if (items[k] != base) destruct(items[k]);
                     }
-                    write(HIG("鑲嵌成功！") + r["msg"] + "\n");
+                    write("$HIG$鑲嵌成功！$NOR$" + r["msg"] + "\n");
                     return 1;
                 }
             }
@@ -128,11 +128,11 @@ mixed do_craft(object me, string type, object *items) {
             
             object res_ob = clone_object(r["result"]);
             if (res_ob && !errorp(res_ob)) {
-                write(HIG("合成成功！") + r["msg"] + "\n");
+                write("$HIG$合成成功！$NOR$" + r["msg"] + "\n");
                 move_object(res_ob, me); // 直接移動
                 return 1;
             } else {
-                write(HIR("合成失敗：無法產生產物物件。\n"));
+                write("$HIR$合成失敗：無法產生產物物件。\n$NOR$");
                 return 0;
             }
         }

@@ -8,7 +8,7 @@ inherit "/std/room.c";
 
 void create() {
     ::create();
-    set_short(HIY("靈魂祈願所"));
+    set_short("$HIY$靈魂祈願所$NOR$");
     set_long("這裡是一片純白的世界，感覺不到重力也感覺不到痛苦。四周飄渺的雲霧中彷彿有無數的聲音在輕聲低語。\n這裡是死後靈魂回歸輪迴前的中轉站。\n");
 
     

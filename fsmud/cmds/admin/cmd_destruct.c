@@ -25,12 +25,12 @@ int main(object me, string verb, string arg) {
     if (ob) {
         string name = ob->query_short();
         if (ob == me) {
-            write(HIR("你不能銷毀你自己！\n"));
+            write("$HIR$你不能銷毀你自己！\n$NOR$");
             return 1;
         }
-        write(HIW("正在銷毀物件：") + name + " (" + object_name(ob) + ")\n");
+        write("$HIW$正在銷毀物件：$NOR$" + name + " (" + object_name(ob) + ")\n");
         destruct(ob);
-        write(HIG("銷毀成功。\n"));
+        write("$HIG$銷毀成功。\n$NOR$");
         return 1;
     }
 
@@ -39,13 +39,13 @@ int main(object me, string verb, string arg) {
     ob = find_object(arg);
 
     if (ob) {
-        write(HIW("正在從記憶體移除藍圖物件：") + arg + "\n");
+        write("$HIW$正在從記憶體移除藍圖物件：$NOR$" + arg + "\n");
         destruct(ob);
-        write(HIG("移除成功。\n"));
+        write("$HIG$移除成功。\n$NOR$");
         return 1;
     }
 
-    write(RED("錯誤：找不到指定 ID 或已載入的檔案路徑 " + arg + "\n"));
+    write("$RED$錯誤：找不到指定 ID 或已載入的檔案路徑 " + arg + "\n$NOR$");
     return 1;
 }
 

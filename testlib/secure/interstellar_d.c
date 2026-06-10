@@ -146,9 +146,9 @@ void receive_p2p_message(string sender, string content, string type) {
     string full_msg;
     
     if (type == "system") {
-        full_msg = HIW("【FS 廣播】") + content + "\n";
+        full_msg = "$HIW$【FS 廣播】$NOR$" + content + "\n";
     } else {
-        string prefix = HIM(select_lang(([ "en": "[Fantasy Space] ", "zh-TW": "【Fantasy Space】", "zh-CN": "【Fantasy Space】" ])));
+        string prefix = "$HIM$" + select_lang(([ "en": "[Fantasy Space] ", "zh-TW": "【Fantasy Space】", "zh-CN": "【Fantasy Space】" ])) + "$NOR$";
         full_msg = prefix + sender + "：" + content + "\n";
     }
     

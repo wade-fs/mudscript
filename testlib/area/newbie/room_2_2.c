@@ -5,9 +5,9 @@ inherit "/std/room.c";
 void create() {
     ::create();
     set_short(([
-        "en": GRN("Apothecary"),
-        "zh-TW": GRN("藥劑店"),
-        "zh-CN": GRN("药剂店")
+        "en": "$GRN$Apothecary$NOR$",
+        "zh-TW": "$GRN$藥劑店$NOR$",
+        "zh-CN": "$GRN$药剂店$NOR$"
     ]));
     set_long(([
         "en": "This is a cozy little wooden hut, and the room is filled with a faint fragrance of herbs.\nElla is busy here, and there are several bottles of brightly colored potions on the counter.\n",

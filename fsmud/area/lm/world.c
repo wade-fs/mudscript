@@ -179,10 +179,10 @@ void create() {
     ::create();
     set_short("輕量創界");
     set_long(
-        HIW("═══ Light Minecraft 世界 ═══\n") +
-        "這是一片 " + CYAN("60×40") + " 的開放土地。\n" +
-        "輸入 " + YELLOW("mc map") + " 開啟圖形介面，" +
-        YELLOW("mc help") + " 查看所有指令。\n" +
+        "$HIW$═══ Light Minecraft 世界 ═══\n$NOR$" +
+        "這是一片 " + "$CYN$60×40$NOR$" + " 的開放土地。\n" +
+        "輸入 " + "$YEL$mc map$NOR$" + " 開啟圖形介面，" +
+        "$YEL$mc help$NOR$" + " 查看所有指令。\n" +
         "WASD 鍵可直接移動，滾輪縮放地圖。\n"
     );
     set_no_combat(1);
@@ -249,7 +249,7 @@ void push_map_delayed(object player) {
     if (!player || !objectp(player)) return;
     broadcast_map(player);
     tell_lm_room(
-        CYAN(player->query_name()) + " 進入了創界。\n",
+        "$CYN$" + player->query_name() + "$NOR$" + " 進入了創界。\n",
         player
     );
 }
@@ -430,7 +430,7 @@ void player_leave(object player) {
     string pid = player->get_id();
     m_delete(player_pos, pid);
     tell_lm_room(
-        CYAN(player->query_name()) + " 離開了創界。\n",
+        "$CYN$" + player->query_name() + "$NOR$" + " 離開了創界。\n",
         player
     );
     broadcast_map_all();

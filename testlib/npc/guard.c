@@ -5,7 +5,7 @@ inherit "/std/npc.c";
 void create() {
     ::create();
     set_name(([ "en": "Orc Guard Grog", "zh-TW": "守衛 葛羅格", "zh-CN": "守卫 葛罗格" ]));
-    set_short(([ "en": RED("Strong Orc Guard") + " Grog", "zh-TW": RED("強壯的獸人守衛") + " 葛羅格", "zh-CN": RED("强壮的兽人守卫") + " 葛罗格" ]));
+    set_short(([ "en": "$RED$Strong Orc Guard$NOR$" + " Grog", "zh-TW": "$RED$強壯的獸人守衛$NOR$" + " 葛羅格", "zh-CN": "$RED$强壮的兽人守卫$NOR$" + " 葛罗格" ]));
     set_long(([ 
         "en": "This orc has rough skin, exposed tusks, and holds a heavy giant axe in his hand.\nAlthough he looks fierce, he is faithfully performing his patrol mission.\n", 
         "zh-TW": "這個獸人皮膚粗糙，獠牙外露，手裡握著一柄沉重的巨斧。\n雖然看起來很兇，但他正忠實地執行著巡邏任務。\n",

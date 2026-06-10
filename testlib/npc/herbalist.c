@@ -5,7 +5,7 @@ inherit "/std/npc.c";
 void create() {
     ::create();
     set_name(([ "en": "Aela the Herbalist", "zh-TW": "藥劑師 艾拉", "zh-CN": "药剂师 艾拉" ]));
-    set_short(([ "en": GRN("Elegant Elf Herbalist") + " Aela", "zh-TW": GRN("優雅的精靈藥劑師") + " 艾拉", "zh-CN": GRN("优雅的精灵药剂师") + " 艾拉" ]));
+    set_short(([ "en": "$GRN$Elegant Elf Herbalist$NOR$" + " Aela", "zh-TW": "$GRN$優雅的精靈藥劑師$NOR$" + " 艾拉", "zh-CN": "$GRN$优雅的精灵药剂师$NOR$" + " 艾拉" ]));
     set_long(([
         "en": "This elf woman has long golden hair, and every move she makes is full of elegance.\nShe is carefully concocting a potion that emits a faint glow.\n",
         "zh-TW": "這位精靈女性有著一頭金色的長髮，舉手投足間充滿了優雅。\n她正在細心地調配一種散發著微光的藥劑。\n",

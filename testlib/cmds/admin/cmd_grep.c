@@ -38,11 +38,11 @@ int main(object me, string verb, string arg) {
 
     string content = read_file(path);
     if (!content) {
-        write(RED(select_lang(([
+        write("$RED$" + select_lang(([
             "en": "Error: Cannot read file ",
             "zh-TW": "錯誤：無法讀取檔案 ",
             "zh-CN": "错误：无法读取文件 "
-        ]))) + path + "\n");
+        ])) + "$NOR$" + path + "\n");
         return 1;
     }
 
@@ -52,21 +52,21 @@ int main(object me, string verb, string arg) {
 
     for (int i = 0; i < sizeof(lines); i++) {
         if (regexp(lines[i], pattern)) {
-            output += sprintf(HIY("%4d") + ": %s\n", i + 1, lines[i]);
+            output += sprintf("$HIY$%4d$NOR$" + ": %s\n", i + 1, lines[i]);
             count++;
         }
     }
 
     if (count > 0) {
-        write(HIW(select_lang(([
+        write("$HIW$" + select_lang(([
             "en": "Search Results (",
             "zh-TW": "搜尋結果 (",
             "zh-CN": "搜索结果 ("
-        ]))) + pattern + HIW(select_lang(([
+        ])) + "$NOR$" + pattern + "$HIW$" + select_lang(([
             "en": ") in ",
             "zh-TW": ") 於 ",
             "zh-CN": ") 於 "
-        ]))) + path + "：\n");
+        ])) + "$NOR$" + path + "：\n");
         write("--------------------------------------------------\n");
         write(output);
         write("--------------------------------------------------\n");

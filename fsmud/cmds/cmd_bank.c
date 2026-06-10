@@ -10,11 +10,11 @@ int main(object me, string verb, string arg) {
     
     if (!arg || arg == "") {
         bank_d->update_interest(me);
-        write(HIW(select_lang(([ "en": "\n=== Adventurer's Bank ===\n", "zh-TW": "\n=== 冒險者銀行 ===\n", "zh-CN": "\n=== 冒险者银行 ===\n" ]))));
+        write("$HIW$" + select_lang(([ "en": "\n=== Adventurer's Bank ===\n", "zh-TW": "\n=== 冒險者銀行 ===\n", "zh-CN": "\n=== 冒险者银行 ===\n" ])) + "$NOR$");
         write(select_lang(([ "en": "  Cash on hand: ", "zh-TW": "  身上現金：", "zh-CN": "  身上现金：" ])) + me->query_money_string() + "\n");
         write(select_lang(([ "en": "  Bank balance: ", "zh-TW": "  銀行存款：", "zh-CN": "  银行存款：" ])) + me->query_bank_balance() + select_lang(([ "en": " copper coins\n", "zh-TW": " 銅幣\n", "zh-CN": " 铜币\n" ])));
         write(select_lang(([ "en": "  Last interest: ", "zh-TW": "  上次計息：", "zh-CN": "  上次计息：" ])) + ctime(me->query_last_bank_time()) + "\n");
-        write(HIW("==================\n"));
+        write("$HIW$==================\n$NOR$");
         write(select_lang(([ "en": "Usage: bank deposit <amount> / bank withdraw <amount>\n", "zh-TW": "用法：bank deposit <數量> / bank withdraw <數量>\n", "zh-CN": "用法：bank deposit <数量> / bank withdraw <数量>\n" ])));
         return 1;
     }

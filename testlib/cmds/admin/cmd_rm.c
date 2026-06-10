@@ -56,35 +56,35 @@ if (me->query_role() != "god") {
 if (rm(arg)) {
 
     if (file_size(arg) == -1) {
-        write(RED(select_lang(([
+        write("$RED$" + select_lang(([
             "en": "Error: File does not exist ",
             "zh-TW": "錯誤：檔案不存在 ",
             "zh-CN": "错误：文件不存在 "
-        ]))) + arg + "\n");
+        ])) + "$NOR$" + arg + "\n");
         return 1;
     }
 
     if (file_size(arg) == -2) {
-        write(RED(select_lang(([
+        write("$RED$" + select_lang(([
             "en": "Error: Target is a directory, please use rmdir.\n",
             "zh-TW": "錯誤：目標是目錄，請使用 rmdir。\n",
             "zh-CN": "错误：目标是目录，请使用 rmdir。\n"
-        ]))));
+        ])) + "$NOR$");
         return 1;
     }
 
     if (rm(arg)) {
-        write(HIG(select_lang(([
+        write("$HIG$" + select_lang(([
             "en": "File successfully deleted: ",
             "zh-TW": "檔案已成功刪除：",
             "zh-CN": "文件已成功删除："
-        ]))) + arg + "\n");
+        ])) + "$NOR$" + arg + "\n");
     } else {
-        write(HIR(select_lang(([
+        write("$HIR$" + select_lang(([
             "en": "Delete failed. Please check permissions or file status.\n",
             "zh-TW": "刪除失敗。請檢查權限或檔案狀態。\n",
             "zh-CN": "删除失败。请检查权限或文件状态。\n"
-        ]))));
+        ])) + "$NOR$");
     }
 
     return 1;

@@ -15,7 +15,7 @@ int main(object me, string verb, string arg) {
     // 發送 list 查詢給 Hub
     fs_d->list_muds();
     
-    write(HIW("[Fantasy Space] ") + "正在向星際中心查詢在線節點...\n");
+    write("$HIW$[Fantasy Space] $NOR$" + "正在向星際中心查詢在線節點...\n");
     return 1;
 }
 

@@ -7,9 +7,9 @@ void create() {
     ::create();
     set_name(([ "en": "Saruman", "zh-TW": "導師 薩魯曼", "zh-CN": "导师 萨鲁曼" ]));
     set_short(([
-        "en": HIC("Senior Magic Mentor") + " Saruman",
-        "zh-TW": HIC("資深魔法導師") + " 薩魯曼",
-        "zh-CN": HIC("资深魔法导师") + " 萨鲁曼"
+        "en": "$HIC$Senior Magic Mentor$NOR$" + " Saruman",
+        "zh-TW": "$HIC$資深魔法導師$NOR$" + " 薩魯曼",
+        "zh-CN": "$HIC$资深魔法导师$NOR$" + " 萨鲁曼"
     ]));
     set_long(([
         "en": "He is an old man with a white beard reaching down to his waist. His eyes are deep, as if they can insight into all the truths of the world.\n",

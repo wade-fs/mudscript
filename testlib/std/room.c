@@ -124,7 +124,7 @@ void look_room(object who) {
 
     // 顯示天氣與時間 (僅限室外)
     if (is_outdoor) {
-        write(HIG(load_object("/secure/nature_d.c")->query_weather_string()) + "\n");
+        write("$HIG$" + load_object("/secure/nature_d.c")->query_weather_string() + "$NOR$" + "\n");
     }
 
     write("【" + query_short() + "】\n");

@@ -111,7 +111,7 @@ void update_weather() {
                     if (!lang) lang = "en";
                     
                     string msg = load_object("/secure/language_d.c")->translate("weather_" + current_weather, lang);
-                    tell_object(user, "\n" + HIW(msg) + "\n");
+                    tell_object(user, "\n" + "$HIW$" + msg + "$NOR$" + "\n");
                 }
             }
         }

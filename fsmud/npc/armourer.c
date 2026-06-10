@@ -5,7 +5,7 @@ inherit "/std/npc.c";
 void create() {
     ::create();
     set_name(([ "en": "Shopkeeper Kevin", "zh-TW": "老闆 凱文", "zh-CN": "老板 凯文" ]));
-    set_short(([ "en": HIB("Shrewd Armour Shop Owner") + " Kevin", "zh-TW": HIB("精明的防具店老闆") + " 凱文", "zh-CN": HIB("精明的防具店老板") + " 凯文" ]));
+    set_short(([ "en": "$HIB$Shrewd Armour Shop Owner$NOR$" + " Kevin", "zh-TW": "$HIB$精明的防具店老闆$NOR$" + " 凱文", "zh-CN": "$HIB$精明的防具店老板$NOR$" + " 凯文" ]));
     set_long(([
         "en": "Kevin is a shrewd businessman, always wearing a professional smile.\nHe knows the structure of armor inside out and can recommend the most suitable equipment based on your body type.\n",
         "zh-TW": "凱文是個精明的生意人，總是帶著一副職業性的微笑。\n他對防具的構造瞭如指掌，能根據你的體型推薦最適合的裝備。\n",

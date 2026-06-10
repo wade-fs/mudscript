@@ -39,7 +39,7 @@ void check_kill_penalty(object killer, object victim) {
     // 如果是惡意殺害無辜玩家
     if (!is_legal_attack(killer, victim)) {
         killer->add_pk_score(1);
-        tell_object(killer, HIR("⚠️ 你殺害了無辜玩家，罪惡值提升了！你現在是紅名狀態。\n"));
-        shout(HIR("【公告】") + killer->query_name() + " 在 " + environment(killer)->query_short() + " 惡意殺害了 " + victim->query_name() + "！\n");
+        tell_object(killer, "$HIR$⚠️ 你殺害了無辜玩家，罪惡值提升了！你現在是紅名狀態。\n$NOR$");
+        shout("$HIR$【公告】$NOR$" + killer->query_name() + " 在 " + environment(killer)->query_short() + " 惡意殺害了 " + victim->query_name() + "！\n");
     }
 }

@@ -48,16 +48,16 @@ int main(object me, string verb, string arg) {
         }
     }
 
-    if (mkdir(arg)) write(HIG(select_lang(([
+    if (mkdir(arg)) write("$HIG$" + select_lang(([
         "en": "Successfully created directory: ",
         "zh-TW": "成功建立目錄：",
         "zh-CN": "成功建立目录："
-    ]))) + arg + "\n");
-    else write(HIR(select_lang(([
+    ])) + "$NOR$" + arg + "\n");
+    else write("$HIR$" + select_lang(([
         "en": "Failed to create directory.\n",
         "zh-TW": "建立目錄失敗。\n",
         "zh-CN": "建立目录失败。\n"
-    ]))));
+    ])) + "$NOR$");
     return 1;
 }
 string *query_verbs() { return ({ "mkdir" }); }

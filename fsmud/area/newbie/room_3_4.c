@@ -5,9 +5,9 @@ inherit "/std/room.c";
 void create() {
     ::create();
     set_short(([
-        "en": HIY("Blacksmith"),
-        "zh-TW": HIY("鐵匠鋪"),
-        "zh-CN": HIY("铁匠铺")
+        "en": "$HIY$Blacksmith$NOR$",
+        "zh-TW": "$HIY$鐵匠鋪$NOR$",
+        "zh-CN": "$HIY$铁匠铺$NOR$"
     ]));
     set_long(([
         "en": "This is a steaming workshop with a blazing fire. Various iron-forged swords, axes, and shields are displayed on wall racks. Some discarded metal residues are scattered on the floor.\n",

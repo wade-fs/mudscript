@@ -5,9 +5,9 @@ inherit "/std/room.c";
 void create() {
     ::create();
     set_short(([
-        "en": HIW("Adventurers Guild"),
-        "zh-TW": HIW("冒險者公會"),
-        "zh-CN": HIW("冒险者公会")
+        "en": "$HIW$Adventurers Guild$NOR$",
+        "zh-TW": "$HIW$冒險者公會$NOR$",
+        "zh-CN": "$HIW$冒险者公会$NOR$"
     ]));
     set_long(([
         "en": "This is the guild hall of the Newbie Village. The ceiling is high, and the walls are decorated with various trophies and maps.\nSeveral adventurers are resting on the benches, and the atmosphere is both serious and lively.\n",

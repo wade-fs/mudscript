@@ -186,6 +186,10 @@ void setup() {
     set_heart_beat(1);
     enable_commands();
 
+    if (role == "wizard" || role == "god") {
+        enable_wizard();
+    }
+
     if (!name) {
         set_name(id);
     }
@@ -262,7 +266,7 @@ int process_input(string input) {
         // 如果輸入以 "!" 開頭，代表強制在本機執行 (類似 SSH 的 ~)
         if (substr(input, 0, 1) == "!") {
             input = substr(input, 1, strlen(input) - 1);
-            write(CYN("【本機指令】") + input + "\n");
+            write("$CYN$【本機指令】$NOR$" + input + "\n");
         } else {
             object ssh_d = find_object("/secure/ssh_d.c");
             if (ssh_d) {
@@ -278,7 +282,7 @@ int process_input(string input) {
         // 如果輸入以 "!" 開頭，代表強制在本機執行 (類似 SSH 的 ~)
         if (substr(input, 0, 1) == "!") {
             input = substr(input, 1, strlen(input) - 1);
-            write(CYN("【本機指令】") + input + "\n");
+            write("$CYN$【本機指令】$NOR$" + input + "\n");
         } else {
             if (env->do_proxy_cmd(input)) {
                 return 1;
@@ -313,7 +317,16 @@ string query_full_id() {
     return id + "@" + FS_MUDLIB_ID;
 }
 void set_full_id(string fid) { full_id = fid; }
-void set_role(string r) { if (r == "god" || r == "wizard" || r == "user") role = r; }
+void set_role(string r) {
+    if (r == "god" || r == "wizard" || r == "user") {
+        role = r;
+        if (role == "wizard" || role == "god") {
+            enable_wizard();
+        } else {
+            disable_wizard();
+        }
+    }
+}
 
 // 供 Proxy Room 使用：執行初始的 look
 void remote_look() {
@@ -414,7 +427,7 @@ void heart_beat() {
 
 // ── 死亡 ─────────────────────────────────────────────────
 void on_death() {
-    write(RED("\n你感覺到世界在眼前漸漸模糊... 你死亡了。\n"));
+    write("$RED$\n你感覺到世界在眼前漸漸模糊... 你死亡了。\n$NOR$");
     write("你的靈魂緩緩脫離了肉體，進入了一片純白的世界...\n\n");
 
     
@@ -429,7 +442,7 @@ void on_death() {
     if (gold > 0) {
         int lost = gold / 5;
         gold -= lost;
-        write(YEL("你遺失了 " + sprintf("%d", lost) + " 枚金幣。\n"));
+        write("$YEL$你遺失了 " + sprintf("%d", lost) + " 枚金幣。\n$NOR$");
     }
 
     
@@ -445,7 +458,7 @@ void on_death() {
 }
 
 void revive() {
-    write(HIY("\n一陣溫暖的光芒包圍了你，你感覺到生命力正在重新注入靈魂...\n"));
+    write("$HIY$\n一陣溫暖的光芒包圍了你，你感覺到生命力正在重新注入靈魂...\n$NOR$");
     write("你在中央廣場睜開了眼睛。\n\n");
 
     // 恢復基礎狀態

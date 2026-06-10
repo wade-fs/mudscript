@@ -38,7 +38,7 @@ void update_interest(object me) {
 
     if (interest > 0) {
         me->add_bank_balance(interest);
-        tell_object(me, HIG("【銀行】結算利息，你的帳戶增加了 ") + interest + HIG(" 銅幣。\n"));
+        tell_object(me, "$HIG$【銀行】結算利息，你的帳戶增加了 $NOR$" + interest + "$HIG$ 銅幣。\n$NOR$");
     }
 
     me->set_last_bank_time(now);
@@ -49,12 +49,12 @@ int deposit(object me, int amount) {
     update_interest(me);
     if (amount <= 0) return 0;
     if (me->query_money() < amount) {
-        write(HIR("你身上沒有那麼多錢。\n"));
+        write("$HIR$你身上沒有那麼多錢。\n$NOR$");
         return 0;
     }
     me->add_money(-amount);
     me->add_bank_balance(amount);
-    write(HIG("你存入了 ") + amount + HIG(" 銅幣。目前餘額：") + me->query_bank_balance() + "\n");
+    write("$HIG$你存入了 $NOR$" + amount + "$HIG$ 銅幣。目前餘額：$NOR$" + me->query_bank_balance() + "\n");
     me->save();
     return 1;
 }
@@ -63,12 +63,12 @@ int withdraw(object me, int amount) {
     update_interest(me);
     if (amount <= 0) return 0;
     if (me->query_bank_balance() < amount) {
-        write(HIR("你的銀行存款不足。\n"));
+        write("$HIR$你的銀行存款不足。\n$NOR$");
         return 0;
     }
     me->add_bank_balance(-amount);
     me->add_money(amount);
-    write(HIW("你提領了 ") + amount + HIW(" 銅幣。目前餘額：") + me->query_bank_balance() + "\n");
+    write("$HIW$你提領了 $NOR$" + amount + "$HIW$ 銅幣。目前餘額：$NOR$" + me->query_bank_balance() + "\n");
     me->save();
     return 1;
 }

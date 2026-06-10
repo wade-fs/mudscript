@@ -6,9 +6,9 @@ inherit "/std/room.c";
 void create() {
     ::create();
     set_short(([
-        "en": HIC("Magic Lab"),
-        "zh-TW": HIC("魔法研究室"),
-        "zh-CN": HIC("魔法研究室")
+        "en": "$HIC$Magic Lab$NOR$",
+        "zh-TW": "$HIC$魔法研究室$NOR$",
+        "zh-CN": "$HIC$魔法研究室$NOR$"
     ]));
     set_long(([
         "en": "The air here is filled with a faint aura of arcane energy. The bookshelves around are piled high with thick magic books.\nMaster Saruman is sitting quietly behind the desk, studying an ancient scroll.\n",

@@ -107,7 +107,7 @@ int do_get(object me, string arg) {
         }
         
         if (my_tid != owner_tid) {
-            write(HIR(_t("loot_protected_err")) + "\n");
+            write("$HIR$" + _t("loot_protected_err") + "$NOR$" + "\n");
             return 1;
         }
     }
@@ -126,7 +126,7 @@ int do_get(object me, string arg) {
             if (back_exp > 0 || back_pot > 0) {
                 me->gain_exp(back_exp);
                 me->gain_potential(back_pot);
-                write(HIY(_t("corpse_run_success")) + "\n");
+                write("$HIY$" + _t("corpse_run_success") + "$NOR$" + "\n");
                 // 清除屍體上的懲罰紀錄，避免重複領取
                 container->set_penalty_data(([]));
             }
@@ -139,7 +139,7 @@ int do_get(object me, string arg) {
         me->add_money(m);
         string msg = _t("get_money");
         msg = replace_string(msg, "$m", to_string(m));
-        write(HIG(msg) + "\n");
+        write("$HIG$" + msg + "$NOR$" + "\n");
         destruct(item);
         return 1;
     }

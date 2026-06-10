@@ -61,7 +61,7 @@ int main(object me, string verb, string arg) {
     // 只有當玩家主動輸入指令 (如 score, status) 時，才顯示文字版
     // 如果 verb 為空 (代表由 heart_beat 或系統背景觸發)，則不顯示文字
     if (verb && verb != "") {
-        write("\n" + HIW("【角色資訊】 " + data["name"]) + "\n");
+        write("\n" + "$HIW$【角色資訊】 " + data["name"] + "$NOR$" + "\n");
         write(sprintf("  %-10s : %d\n", "等級", data["level"]));
         write(sprintf("  %-10s : %d / %d\n", data["label_hp"], data["hp"], data["max_hp"]));
         write(sprintf("  %-10s : %d / %d\n", data["label_mp"], data["mp"], data["max_mp"]));

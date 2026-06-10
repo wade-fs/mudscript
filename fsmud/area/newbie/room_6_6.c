@@ -6,9 +6,9 @@ inherit "/std/room.c";
 void create() {
     ::create();
     set_short(([
-        "en": GRN("Green Meadow"),
-        "zh-TW": GRN("翠綠草原"),
-        "zh-CN": GRN("翠绿草原")
+        "en": "$GRN$Green Meadow$NOR$",
+        "zh-TW": "$GRN$翠綠草原$NOR$",
+        "zh-CN": "$GRN$翠绿草原$NOR$"
     ]));
     set_long(([
         "en": "This is a vast meadow. The breeze blows, and the grass waves. In the distance, several wild horses can be seen grazing leisurely.\n",

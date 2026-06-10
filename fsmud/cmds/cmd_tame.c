@@ -58,7 +58,7 @@ int main(object me, string verb, string arg) {
     if (chance > 95 && !getenv("MUD_TEST_MODE")) chance = 95; // 最高 95%
 
     if (random(100) < chance) {
-        write(HIG(select_lang(([ "en": "Success! ", "zh-TW": "成功了！", "zh-CN": "成功了！" ]))) + target->query_name() + select_lang(([ "en": " meekly lowers its head and acknowledges you as master.\n", "zh-TW": " 溫順地低下了頭，認你為主。\n", "zh-CN": " 温顺地低下了头，认你为主。\n" ])));
+        write("$HIG$" + select_lang(([ "en": "Success! ", "zh-TW": "成功了！", "zh-CN": "成功了！" ])) + "$NOR$" + target->query_name() + select_lang(([ "en": " meekly lowers its head and acknowledges you as master.\n", "zh-TW": " 溫順地低下了頭，認你為主。\n", "zh-CN": " 温顺地低下了头，认你为主。\n" ])));
         say(target->query_name() + select_lang(([ "en": " acknowledges ", "zh-TW": " 認 ", "zh-CN": " 认 " ])) + me->query_name() + select_lang(([ "en": " as master.\n", "zh-TW": " 為主人了。\n", "zh-CN": " 为主人了。\n" ])));
         
         // 🚀 關鍵轉換：將 NPC 轉為 Pet 物件

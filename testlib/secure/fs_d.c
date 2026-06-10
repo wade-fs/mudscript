@@ -50,7 +50,7 @@ string init_fsgoto(object me, string mudlib_id) {
         string entrance = joined_muds[mudlib_id]["entrance"];
         if (!entrance || entrance == "") return "無法取得該伺服器的入口點。\n";
 
-        write(HIM("【傳送門】你踏入了一陣扭曲的光芒中，前往了星際網路的彼端...\n"));
+        write("$HIM$【傳送門】你踏入了一陣扭曲的光芒中，前往了星際網路的彼端...\n$NOR$");
         object dest = get_remote_room(mudlib_id, entrance);
         if (dest) {
             // 通知遠端：本玩家進入
@@ -62,7 +62,7 @@ string init_fsgoto(object me, string mudlib_id) {
             _show_remote_players_in_room(me, mudlib_id, entrance);
             return "";
         }
-        return RED("傳送失敗：無法載入目標房間。\n");
+        return "$RED$傳送失敗：無法載入目標房間。\n$NOR$";
     }
 
     if (!pending_travel[mudlib_id]) pending_travel[mudlib_id] = ({});
@@ -72,7 +72,7 @@ string init_fsgoto(object me, string mudlib_id) {
         do_join(me, mudlib_id);
     }
 
-    return HIW("[Fantasy Space] ") + "正在查詢 " + mudlib_id + " 的資訊並準備傳送...\n";
+    return "$HIW$[Fantasy Space] $NOR$" + "正在查詢 " + mudlib_id + " 的資訊並準備傳送...\n";
 }
 
 // 當本地玩家離開跨服房間時，通知遠端
@@ -121,7 +121,7 @@ void _show_remote_players_in_room(object me, string mudlib_id, string room_path)
         if (gm == mudlib_id && gr == room_path) count++;
     }
     if (count == 0) {
-        write(GRA("（這個跨服空間目前沒有其他來自遠方的旅人。）\n"));
+        write("$GRA$（這個跨服空間目前沒有其他來自遠方的旅人。）\n$NOR$");
     }
 }
 
@@ -166,8 +166,8 @@ void create_ghost(string remote_mudlib, string player_name, string room_path) {
     ghost_objects[gkey] = ghost;
 
     // 通知本地房間內的玩家
-    string arrive_msg = HIM("[Fantasy Space] ") + HIY(player_name) +
-                        GRA(" @" + remote_mudlib) + " 從星際網路抵達了這個空間。\n";
+    string arrive_msg = "$HIM$[Fantasy Space] $NOR$" + "$HIY$" + player_name + "$NOR$" +
+                        "$GRA$ @" + remote_mudlib + "$NOR$" + " 從星際網路抵達了這個空間。\n";
 
     object *inv = all_inventory(room_ob);
     foreach (object ob in inv) {
@@ -187,8 +187,8 @@ void destroy_ghost(string remote_mudlib, string player_name, string room_path) {
 
     // 通知房間裡的本地玩家
     if (env) {
-        string leave_msg = HIM("[Fantasy Space] ") + HIY(player_name) +
-                           GRA(" @" + remote_mudlib) + " 離開了這個跨服空間。\n";
+        string leave_msg = "$HIM$[Fantasy Space] $NOR$" + "$HIY$" + player_name + "$NOR$" +
+                           "$GRA$ @" + remote_mudlib + "$NOR$" + " 離開了這個跨服空間。\n";
         object *inv = all_inventory(env);
         foreach (object ob in inv) {
             if (ob && userp(ob) && interactive(ob) && !ob->is_fs_ghost()) {
@@ -224,8 +224,8 @@ void receive_remote_say(string from_mudlib, string player_name,
     object ghost = ghost_objects[gkey];
     if (!ghost) return;
 
-    string display = HIM("[" + from_mudlib + "] ") +
-                     HIY(player_name) + " 說道：" + msg + "\n";
+    string display = "$HIM$[" + from_mudlib + "] $NOR$" +
+                     "$HIY$" + player_name + "$NOR$" + " 說道：" + msg + "\n";
     ghost->receive_remote_say(display);
 }
 
@@ -351,7 +351,7 @@ void list_muds(object me) {
 void receive_fs_response(string mudlib_id, string resp_type, string payload) {
     if (resp_type == "list") {
         string *muds = explode(payload, ",");
-        string output = HIW("\n【Fantasy Space 星際節點清單】\n");
+        string output = "$HIW$\n【Fantasy Space 星際節點清單】\n$NOR$";
         foreach (string mud in muds) {
             string *parts = explode(mud, "|");
             if (sizeof(parts) >= 2) {

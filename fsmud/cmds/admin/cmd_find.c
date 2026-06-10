@@ -32,15 +32,15 @@ int main(object me, string verb, string arg) {
 
     if (root[0] != '/') root = "/" + root;
 
-    write(HIW(select_lang(([
+    write("$HIW$" + select_lang(([
         "en": "Searching for files (",
         "zh-TW": "正在搜尋檔案 (",
         "zh-CN": "正在搜尋檔案 ("
-    ]))) + pattern + HIW(select_lang(([
+    ])) + "$NOR$" + pattern + "$HIW$" + select_lang(([
         "en": ") in ",
         "zh-TW": ") 於 ",
         "zh-CN": ") 於 "
-    ]))) + root + " ...\n");
+    ])) + "$NOR$" + root + " ...\n");
 
     string *files = get_dir(root, 1);
     if (!files || !sizeof(files)) {

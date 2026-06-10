@@ -9,7 +9,7 @@ int main(object me, string verb, string arg) {
     mapping skills = me->query_skills();
     object skill_d = load_object("/secure/skill_d.c");
 
-    write(HIW(select_lang(([ "en": "\n=== Skills Status (Potential: ", "zh-TW": "\n=== 技能狀態 (潛能: ", "zh-CN": "\n=== 技能状态 (潜能: " ])) + me->query_potential() + select_lang(([ "en": ") ===\n", "zh-TW": ") ===\n", "zh-CN": ") ===\n" ]))));
+    write("$HIW$" + select_lang(([ "en": "\n=== Skills Status (Potential: ", "zh-TW": "\n=== 技能狀態 (潛能: ", "zh-CN": "\n=== 技能状态 (潜能: " ])) + me->query_potential() + select_lang(([ "en": ") ===\n", "zh-TW": ") ===\n", "zh-CN": ") ===\n" ])) + "$NOR$");
 
     if (!skills || sizeof(skills) == 0) {
         write(select_lang(([ "en": "You have not learned any skills yet.\n", "zh-TW": "你目前尚未學會任何技能。\n", "zh-CN": "你目前尚未学会任何技能。\n" ])));
@@ -26,7 +26,7 @@ int main(object me, string verb, string arg) {
                 skill_d->query_skill_name(sid), lv, progress));
         }
     }
-    write(HIW("==================================\n\n"));
+    write("$HIW$==================================\n\n$NOR$");
 
     return 1;
 }

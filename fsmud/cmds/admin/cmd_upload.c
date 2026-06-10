@@ -25,11 +25,11 @@ int main(object me, string verb, string arg) {
     me->set_temp("upload_file", arg);
     me->set_temp("upload_buffer", ({}));
 
-    write(HIW(select_lang(([
+    write("$HIW$" + select_lang(([
         "en": "Preparing to upload to: ",
         "zh-TW": "準備上傳至：",
         "zh-CN": "准备上传至："
-    ]))) + arg + "\n");
+    ])) + "$NOR$" + arg + "\n");
     write(select_lang(([
         "en": "Please start pasting file content. To finish, type a single line of '.' or '__END__'.\n",
         "zh-TW": "請開始貼上檔案內容。結束請輸入單獨一行 '.' 或 '__END__'\n",
@@ -48,17 +48,17 @@ void upload_loop(object me, string input) {
         if (sizeof(lines) > 0) content += "\n";
         
         if (write_file(file, content, 1)) {
-            write(HIG(select_lang(([
+            write("$HIG$" + select_lang(([
                 "en": "File uploaded successfully: ",
                 "zh-TW": "檔案上傳成功：",
                 "zh-CN": "文件上传成功："
-            ]))) + file + " (" + strlen(content) + " bytes)\n");
+            ])) + "$NOR$" + file + " (" + strlen(content) + " bytes)\n");
         } else {
-            write(HIR(select_lang(([
+            write("$HIR$" + select_lang(([
                 "en": "File write failed! Please check path and permissions.\n",
                 "zh-TW": "檔案寫入失敗！請檢查路徑與權限。\n",
                 "zh-CN": "文件写入失败！请检查路径 with 权限。\n"
-            ]))));
+            ])) + "$NOR$");
         }
         me->delete_temp("upload_file");
         me->delete_temp("upload_buffer");

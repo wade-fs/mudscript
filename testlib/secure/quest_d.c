@@ -90,7 +90,7 @@ int accept_quest(object me, string qid) {
     
     string accept_msg = to_string(_t("quest_accept"));
     accept_msg = replace_string(accept_msg, "$quest", to_string(select_lang(info["name"])));
-    write(HIG(accept_msg) + "\n");
+    write("$HIG$" + accept_msg + "$NOR$" + "\n");
     
     string desc_msg = to_string(_t("quest_desc"));
     desc_msg = replace_string(desc_msg, "$desc", to_string(select_lang(info["desc"])));
@@ -146,7 +146,7 @@ int complete_quest(object me, string qid) {
         int gexp = reward["exp"] / 5; // 預設貢獻度為經驗值的 20%
         if (gexp < 1) gexp = 1;
         me->add_guild_exp(gexp);
-        tell_object(me, HIG(sprintf("%s%d\n", to_string(_t("guild_exp_gain")), gexp)));
+        tell_object(me, "$HIG$" + sprintf("%s%d\n", to_string(_t("guild_exp_gain")), gexp) + "$NOR$");
     }
 
     if (reward["badge"]) {
@@ -176,7 +176,7 @@ int complete_quest(object me, string qid) {
     
     string complete_msg = to_string(_t("quest_complete"));
     complete_msg = replace_string(complete_msg, "$quest", to_string(select_lang(info["name"])));
-    write(HIY(complete_msg) + "\n");
+    write("$HIY$" + complete_msg + "$NOR$" + "\n");
     
     me->save();
     return 1;
@@ -202,14 +202,14 @@ void check_kill_progress(object me, string monster_file) {
             
             me->update_quest_progress(qid, "count", current);
             string progress_msg = to_string(_t("quest_progress"));
-            if (progress_msg == "quest_progress") progress_msg = HIG("【任務進度】") + "$quest：$current / $total";
+            if (progress_msg == "quest_progress") progress_msg = "$HIG$【任務進度】$NOR$" + "$quest：$current / $total";
             progress_msg = replace_string(progress_msg, "$quest", to_string(select_lang(info["name"])));
             progress_msg = replace_string(progress_msg, "$current", sprintf("%d", current));
             progress_msg = replace_string(progress_msg, "$total", sprintf("%d", total));
             tell_object(me, progress_msg + "\n");
 
             if (current >= total) {
-                tell_object(me, HIY(to_string(_t("quest_goal_met")) + "\n"));
+                tell_object(me, "$HIY$" + to_string(_t("quest_goal_met")) + "\n$NOR$");
             }
         }
     }

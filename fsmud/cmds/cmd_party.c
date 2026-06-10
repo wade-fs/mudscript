@@ -47,7 +47,7 @@ int main(object me, string verb, string arg) {
             if (!my_leader) {
                 write(select_lang(([ "en": "You are not in any party right now.\n", "zh-TW": "你目前不在任何隊伍中。\n", "zh-CN": "你目前不在任何队伍中。\n" ])));
             } else {
-                write(HIW(select_lang(([ "en": "\n=== Party Status ===\n", "zh-TW": "\n=== 隊伍狀態 ===\n", "zh-CN": "\n=== 队伍状态 ===\n" ]))));
+                write("$HIW$" + select_lang(([ "en": "\n=== Party Status ===\n", "zh-TW": "\n=== 隊伍狀態 ===\n", "zh-CN": "\n=== 队伍状态 ===\n" ])) + "$NOR$");
                 write(select_lang(([ "en": "Leader: ", "zh-TW": "隊長：", "zh-CN": "队长：" ])) + my_leader->query_name() + "\n");
                 object *members = my_leader->query_followers();
                 write(select_lang(([ "en": "Members:\n", "zh-TW": "隊員：\n", "zh-CN": "队员：\n" ])));
@@ -55,7 +55,7 @@ int main(object me, string verb, string arg) {
                     string role = (m == my_leader ? select_lang(([ "en": "[Leader]", "zh-TW": "[隊長]", "zh-CN": "[队长]" ])) : select_lang(([ "en": "[Member]", "zh-TW": "[隊員]", "zh-CN": "[队员]" ])));
                     write("  " + role + " " + m->query_name() + "\n");
                 }
-                write(HIW("================\n\n"));
+                write("$HIW$================\n\n$NOR$");
             }
             return 1;
     }

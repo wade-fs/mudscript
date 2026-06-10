@@ -51,7 +51,7 @@ string draw_map(object me, int range) {
     title = replace_string(title, "$y", sprintf("%d", cur_y));
     title = replace_string(title, "$z", sprintf("%d", cur_z));
     
-    string out = "\n" + BOLD_WHT(title) + "\n";
+    string out = "\n" + "$HIW$" + title + "$NOR$" + "\n";
     
     // 從北到南 (y 遞減)
     for (int y = cur_y + range; y >= cur_y - range; y--) {
@@ -95,21 +95,21 @@ string draw_map(object me, int range) {
 
             // 1. 繪製房間符號
             if (x == cur_x && y == cur_y) {
-                room_line += HIY(" * "); // 當前位置
+                room_line += "$HIY$ * $NOR$"; // 當前位置
             } else if (!visible) {
                 room_line += "   "; // 不可見則留白
             } else if (explored && explored[r_file]) {
                 object r_ob = find_object(r_file);
                 if (!r_ob) r_ob = load_object(r_file);
 
-                if (r_ob->query_has_bank()) room_line += HIW(" B ");
-                else if (r_ob->query_has_shop()) room_line += HIY(" A ");
-                else if (r_ob->query_has_tavern()) room_line += MAG(" T ");
-                else if (r_ob->query_has_guild()) room_line += HIB(" G ");
-                else if (r_ob->query_has_forge()) room_line += YEL(" F ");
-                else if (r_ob->query_has_lab()) room_line += HIG(" L ");
-                else if (r_ob->query_no_combat()) room_line += HIC(" S ");
-                else room_line += WHT(" # ");
+                if (r_ob->query_has_bank()) room_line += "$HIW$ B $NOR$";
+                else if (r_ob->query_has_shop()) room_line += "$HIY$ A $NOR$";
+                else if (r_ob->query_has_tavern()) room_line += "$MAG$ T $NOR$";
+                else if (r_ob->query_has_guild()) room_line += "$HIB$ G $NOR$";
+                else if (r_ob->query_has_forge()) room_line += "$YEL$ F $NOR$";
+                else if (r_ob->query_has_lab()) room_line += "$HIG$ L $NOR$";
+                else if (r_ob->query_no_combat()) room_line += "$HIC$ S $NOR$";
+                else room_line += "$WHT$ # $NOR$";
             } else {
                 room_line += " ? "; // 通路連接但未曾進入
             }
@@ -172,8 +172,8 @@ string draw_map(object me, int range) {
         
     string legend = _t("minimap_legend");
 
-    out += BOLD_WHT("----------------------") + "\n";
-    out += CYN(compass);
+    out += "$HIW$----------------------$NOR$" + "\n";
+    out += "$CYN$" + compass + "$NOR$";
     out += legend + "\n";
     return out;
 }

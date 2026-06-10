@@ -5,9 +5,9 @@ inherit "/std/room.c";
 void create() {
     ::create();
     set_short(([
-        "en": HIC("Recruit Training Ground"),
-        "zh-TW": HIC("新兵訓練場"),
-        "zh-CN": HIC("新兵训练场")
+        "en": "$HIC$Recruit Training Ground$NOR$",
+        "zh-TW": "$HIC$新兵訓練場$NOR$",
+        "zh-CN": "$HIC$新兵训练场$NOR$"
     ]));
     set_long(([
         "en": "This is a level open space with the ground trodden firm. Some wooden dummies and practice wooden swords are placed around.\nThe training instructor is here guiding recruits on how to perform basic combat.\n",

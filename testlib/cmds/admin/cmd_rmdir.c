@@ -48,16 +48,16 @@ int main(object me, string verb, string arg) {
         }
     }
 
-    if (rmdir(arg)) write(HIG(select_lang(([
+    if (rmdir(arg)) write("$HIG$" + select_lang(([
         "en": "Successfully removed directory: ",
         "zh-TW": "成功移除目錄：",
         "zh-CN": "成功移除目录："
-    ]))) + arg + "\n");
-    else write(HIR(select_lang(([
+    ])) + "$NOR$" + arg + "\n");
+    else write("$HIR$" + select_lang(([
         "en": "Failed to remove directory (maybe not empty?).\n",
         "zh-TW": "移除目錄失敗（可能目錄非空？）。\n",
         "zh-CN": "移除目录失败（可能目录非空？）。\n"
-    ]))));
+    ])) + "$NOR$");
     return 1;
 }
 string *query_verbs() { return ({ "rmdir" }); }

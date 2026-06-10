@@ -39,7 +39,7 @@ void logon() {
     write(sprintf("{\"ui\": \"commands\", \"title\": \"%s\", \"data\": %s}", 
         lang_d->translate("label_commands", l), json_encode(cmds)));
 
-    write("\n" + HIW("Welcome to MudScript World!") + "\n");
+    write("\n" + "$HIW$Welcome to MudScript World!$NOR$" + "\n");
     write("Please select your language / 請選擇您的語系：\n");
     write("[1] English\n");
     write("[2] 繁體中文 (Traditional Chinese)\n");
@@ -74,7 +74,7 @@ void get_language(string input) {
     if (issue) {
         write_raw(issue);
     } else {
-        write("\n" + CYAN(_t("welcome")) + "\n");
+        write("\n" + "$CYN$" + _t("welcome") + "$NOR$" + "\n");
     }
     write("\n" + _t("prompt_id") + " ");
     input_to("get_id");
@@ -82,7 +82,7 @@ void get_language(string input) {
 
 void get_id(string id) {
     if (!id || id == "") {
-        write(RED(_t("prompt_id_empty")) + " ");
+        write("$RED$" + _t("prompt_id_empty") + "$NOR$" + " ");
         input_to("get_id");
         return;
     }
@@ -91,12 +91,12 @@ void get_id(string id) {
     
     object temp_user = clone_object("/std/user.c");
     if (!temp_user) {
-        write(RED("致命錯誤：無法載入 /std/user.c") + "\n");
+        write("$RED$致命錯誤：無法載入 /std/user.c$NOR$" + "\n");
         return;
     }
     
     if (errorp(temp_user)) {
-        write(RED("載入 /std/user.c 發生錯誤：") + "\n" + sprintf("%v", temp_user) + "\n");
+        write("$RED$載入 /std/user.c 發生錯誤：$NOR$" + "\n" + sprintf("%v", temp_user) + "\n");
         return;
     }
 
@@ -107,7 +107,7 @@ void get_id(string id) {
         input_to("check_pass", 1);
     } else {
         string msg = _t("prompt_new_pass");
-        msg = replace_string(msg, "$id", YELLOW(id));
+        msg = replace_string(msg, "$id", "$YEL$" + id + "$NOR$");
         write(msg + " ");
         input_to("new_pass", 1);
     }
@@ -139,14 +139,14 @@ void check_pass(string pass) {
 
             string msg_login = load_object("/secure/language_d.c")->translate("login_success", user->query_lang());
             msg_login = replace_string(msg_login, "$name", user->query_name());
-            write("\n" + GREEN(msg_login) + "\n");
+            write("\n" + "$RED$" + msg_login + "$NOR$" + "\n");
             destruct(this_object());
         } else {
-            write(RED("系統錯誤：無法轉移連線。") + "\n");
+            write("$RED$系統錯誤：無法轉移連線。$NOR$" + "\n");
             destruct(user);
         }
     } else {
-        write(RED(_t("prompt_pass_wrong")) + " ");
+        write("$RED$" + _t("prompt_pass_wrong") + "$NOR$" + " ");
         destruct(user);
         input_to("check_pass", 1);
     }
@@ -154,7 +154,7 @@ void check_pass(string pass) {
 
 void new_pass(string pass) {
     if (!pass || pass == "") {
-        write(RED(_t("prompt_new_pass_empty")) + " ");
+        write("$RED$" + _t("prompt_new_pass_empty") + "$NOR$" + " ");
         input_to("new_pass", 1);
         return;
     }
@@ -166,14 +166,14 @@ void new_pass(string pass) {
 
 void get_nickname(string nick) {
     if (!nick || nick == "") {
-        write(RED("暱稱不能為空") + "，請重新輸入您的暱稱：");
+        write("$RED$暱稱不能為空$NOR$" + "，請重新輸入您的暱稱：");
         input_to("get_nickname");
         return;
     }
     current_nick = nick;
 
     // 開始選擇種族
-    write("\n" + BOLD_WHT("── 選擇您的種族 ──") + "\n");
+    write("\n" + "$HIW$── 選擇您的種族 ──$NOR$" + "\n");
     mapping races = RACE_DATA;
     // 🚀 關鍵修正：使用穩定的排序，並將結果存入變數
     menu_keys = sort_array(keys(races), (: $1 > $2 ? 1 : -1 :));
@@ -195,15 +195,15 @@ void get_race(string input) {
     } else if (member_array(input, menu_keys) != -1) {
         current_race = input;
     } else {
-        write(RED("無效的選擇，請重新輸入："));
+        write("$RED$無效的選擇，請重新輸入：$NOR$");
         input_to("get_race");
         return;
     }
 
-    write("\n您選擇了 " + CYAN(races[current_race]["name"]) + "。\n");
+    write("\n您選擇了 " + "$CYN$" + races[current_race]["name"] + "$NOR$" + "。\n");
     
     // 開始選擇天性
-    write("\n" + BOLD_WHT("── 選擇您的天性 ──") + "\n");
+    write("\n" + "$HIW$── 選擇您的天性 ──$NOR$" + "\n");
     mapping natures = NATURE_DATA;
     // 🚀 關鍵修正：更新為天性的排序 Key
     menu_keys = sort_array(keys(natures), (: $1 > $2 ? 1 : -1 :));
@@ -225,16 +225,16 @@ void get_nature(string input) {
     } else if (member_array(input, menu_keys) != -1) {
         current_nature = input;
     } else {
-        write(RED("無效的選擇，請重新輸入："));
+        write("$RED$無效的選擇，請重新輸入：$NOR$");
         input_to("get_nature");
         return;
     }
 
-    write("\n您選擇了 " + CYAN(natures[current_nature]["name"]) + "。\n");
+    write("\n您選擇了 " + "$CYN$" + natures[current_nature]["name"] + "$NOR$" + "。\n");
     
     string *files = get_dir("/data/user/*.o");
     if (!sizeof(files)) {
-        write("\n" + HIW("【系統初始化】") + "\n");
+        write("\n" + "$HIW$【系統初始化】$NOR$" + "\n");
         write("偵測到您是本伺服器第一位玩家，請為您的 MUD 伺服器命名。\n");
         write("命名規則：最多四個英文單字，總長最多 64 個字母。\n");
         write("例如：fantasy space\n");
@@ -248,12 +248,12 @@ void get_nature(string input) {
 
 void get_mudlib_name(string input) {
     if (!input || input == "") {
-        write(RED("名稱不能為空，請重新輸入："));
+        write("$RED$名稱不能為空，請重新輸入：$NOR$");
         input_to("get_mudlib_name");
         return;
     }
     if (strlen(input) > 64) {
-        write(RED("名稱太長（最多 64 字母），請重新輸入："));
+        write("$RED$名稱太長（最多 64 字母），請重新輸入：$NOR$");
         input_to("get_mudlib_name");
         return;
     }
@@ -263,7 +263,7 @@ void get_mudlib_name(string input) {
 
     // 🛑 核心驗證：保留字元與官方伺服器防撞名
     if (id == "fantasy.space") {
-        write(RED("⚠️ 註冊失敗：『fantasy.space』為官方星際中心保留名稱，請使用其他名稱！\n"));
+        write("$RED$⚠️ 註冊失敗：『fantasy.space』為官方星際中心保留名稱，請使用其他名稱！\n$NOR$");
         write("請重新輸入伺服器名稱：");
         input_to("get_mudlib_name");
         return;
@@ -274,7 +274,7 @@ void get_mudlib_name(string input) {
         system_d->set_mudlib_name(input, id);
     }
 
-    write(HIW("[Fantasy Space] ") + "伺服器已命名為：" + HIY(input) + "，識別字為：" + HIY(id) + "\n");
+    write("$HIW$[Fantasy Space] $NOR$" + "伺服器已命名為：" + "$HIY$" + input + "$NOR$" + "，識別字為：" + "$HIY$" + id + "$NOR$" + "\n");
     
     create_character();
 }
@@ -318,11 +318,11 @@ void create_character() {
     if (!sizeof(files)) {
         user->set_role("god");
         user->add_write_path("/");
-        write(MAGENTA("【創世神】您是本服第一位玩家，已自動獲得 god 權限！") + "\n");
+        write("$MAG$【創世神】您是本服第一位玩家，已自動獲得 god 權限！$NOR$" + "\n");
         string id = load_object("/secure/system_d.c")->query_mudlib_id();
-        write(HIW("[Fantasy Space] ") + "本 mudlib 識別字為：" + HIY(id) + "\n");
-        write(HIW("[Fantasy Space] ") + "你的跨服身份為：" + HIY(user->get_id() + "@" + id) + "\n");
-        write(HIW("[Fantasy Space] ") + "使用 fsgoto <mudlib_id> 連接其他伺服器。\n");
+        write("$HIW$[Fantasy Space] $NOR$" + "本 mudlib 識別字為：" + "$HIY$" + id + "$NOR$" + "\n");
+        write("$HIW$[Fantasy Space] $NOR$" + "你的跨服身份為：" + "$HIY$" + user->get_id() + "@" + id + "$NOR$" + "\n");
+        write("$HIW$[Fantasy Space] $NOR$" + "使用 fsgoto <mudlib_id> 連接其他伺服器。\n");
     } else {
         user->set_role("user");
         user->add_write_path(user->query_save_file());
@@ -336,12 +336,12 @@ void finish_create_character(object user) {
         string lang = user->query_lang() ? user->query_lang() : browser_lang;
         string msg_login = load_object("/secure/language_d.c")->translate("login_success", lang);
         msg_login = replace_string(msg_login, "$name", user->query_name());
-        write("\n" + GREEN(msg_login) + "\n");
+        write("\n" + "$RED$" + msg_login + "$NOR$" + "\n");
         user->save();
         user->setup();
         destruct(this_object());
     } else {
-        write(RED("系統錯誤：無法轉移連線。") + "\n");
+        write("$RED$系統錯誤：無法轉移連線。$NOR$" + "\n");
         destruct(user);
     }
 }

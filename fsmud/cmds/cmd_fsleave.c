@@ -36,7 +36,7 @@ int main(object me, string verb, string arg) {
         }
     }
 
-    write(HIM("【傳送門】") + "你從 " + HIY(remote_mud) +
+    write("$HIM$【傳送門】$NOR$" + "你從 " + "$HIY$" + remote_mud + "$NOR$" +
           " 離線，意識回到了本機...\n");
 
     // 把玩家移回本機起始點
@@ -45,7 +45,7 @@ int main(object me, string verb, string arg) {
         me->move(home, "portal");
         home->look_room(me);
     } else {
-        write(RED("警告：找不到本機起始點 " + START_ROOM + "\n"));
+        write("$RED$警告：找不到本機起始點 " + START_ROOM + "\n$NOR$");
     }
 
     // 銷毀 proxy room

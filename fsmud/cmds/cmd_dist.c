@@ -16,14 +16,14 @@ int main(object me, string verb, string arg) {
             write("目前沒有物件。\n");
             return 1;
         }
-        write(HIW("【全域物件 UUID 清單】\n"));
+        write("$HIW$【全域物件 UUID 清單】\n$NOR$");
         foreach (object ob in obs) {
             write(sprintf("  %-36s : %O\n", query_uuid(ob), ob));
         }
         return 1;
     }
 
-    write(HIW("【Distributed Object Model 狀態】\n") +
+    write("$HIW$【Distributed Object Model 狀態】\n$NOR$" +
           "用法：dist objects      顯示目前已註冊 UUID 的物件\n");
     return 1;
 }

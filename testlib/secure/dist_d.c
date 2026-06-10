@@ -93,8 +93,8 @@ private void handle_disconnect(string from_mudlib, mapping payload) {
         object env = environment(shadow);
         if (env) {
             string pname = shadow->query_name();
-            string msg   = HIM("[Fantasy Space] ") + HIY(pname) +
-                           GRA(" @" + from_mudlib) + " 離開了這個世界。
+            string msg   = "$HIM$[Fantasy Space] $NOR$" + "$HIY$" + pname + "$NOR$" +
+                           "$GRA$ @" + from_mudlib + "$NOR$" + " 離開了這個世界。
 ";
             object *inv = all_inventory(env);
             foreach (object ob in inv) {
@@ -163,7 +163,7 @@ private void handle_connect_reply(string from_mudlib, mapping payload) {
         object env = environment(me);
         if (env && env->is_proxy_room()) {
             env->set_shadow_uuid(shadow_uuid);
-            write(HIG("[DistD] 分散式連結成功，影子 ID: " + shadow_uuid + "\n"));
+            write("$HIG$[DistD] 分散式連結成功，影子 ID: " + shadow_uuid + "\n$NOR$");
             me->remote_look();
         }
     }
@@ -274,14 +274,14 @@ void start_fsgoto(object me, string to_mudlib) {
     // 建立 Proxy Room 並立刻移入（玩家在這裡等待連線）
     object proxy_room = clone_object("/std/proxy/room.c");
     if (!proxy_room) {
-        write(RED("系統錯誤：無法建立 Proxy Room。\n"));
+        write("$RED$系統錯誤：無法建立 Proxy Room。\n$NOR$");
         return;
     }
     proxy_room->set_remote_mud(to_mudlib);
     me->move(proxy_room, "portal");
 
-    write(HIM("[Fantasy Space] ") + "正在連接 " + HIY(to_mudlib) + "...\n" +
-          GRA("（連線後所有指令將在遠端執行；輸入 fsleave 返回本機）\n"));
+    write("$HIM$[Fantasy Space] $NOR$" + "正在連接 " + "$HIY$" + to_mudlib + "$NOR$" + "...\n" +
+          "$GRA$（連線後所有指令將在遠端執行；輸入 fsleave 返回本機）\n$NOR$");
 
     // 送出連線請求
     send_dist_msg(to_mudlib, "connect", ([

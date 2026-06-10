@@ -14,13 +14,13 @@ int main(object me, string verb, string arg) {
         return 1;
     }
 
-    write(HIW(select_lang(([ "en": "\n=== My Quest List ===\n", "zh-TW": "\n=== 我的任務清單 ===\n", "zh-CN": "\n=== 我的任务清单 ===\n" ]))));
+    write("$HIW$" + select_lang(([ "en": "\n=== My Quest List ===\n", "zh-TW": "\n=== 我的任務清單 ===\n", "zh-CN": "\n=== 我的任务清单 ===\n" ])) + "$NOR$");
     mixed ks = keys(quests);
     foreach (string qid in ks) {
         mapping qdata = quests[qid];
         mapping info = quest_d->query_quest_info(qid);
         
-        string status_str = (qdata["status"] == "active" ? HIG(select_lang(([ "en": "[Active]", "zh-TW": "[進行中]", "zh-CN": "[进行中]" ]))) : HIY(select_lang(([ "en": "[Completed]", "zh-TW": "[已完成]", "zh-CN": "[已完成]" ]))));
+        string status_str = (qdata["status"] == "active" ? "$HIG$" + select_lang(([ "en": "[Active]", "zh-TW": "[進行中]", "zh-CN": "[进行中]" ])) + "$NOR$" : "$HIY$" + select_lang(([ "en": "[Completed]", "zh-TW": "[已完成]", "zh-CN": "[已完成]" ])) + "$NOR$");
         write(status_str + " " + info["name"] + "\n");
         write(select_lang(([ "en": "  Desc: ", "zh-TW": "  描述：", "zh-CN": "  描述：" ])) + info["desc"] + "\n");
         
@@ -30,7 +30,7 @@ int main(object me, string verb, string arg) {
             write(sprintf(select_lang(([ "en": "  Progress: %d / %d\n", "zh-TW": "  進度：%d / %d\n", "zh-CN": "  进度：%d / %d\n" ])), current, goal["count"]));
         }
     }
-    write(HIW("====================\n\n"));
+    write("$HIW$====================\n\n$NOR$");
 
     return 1;
 }

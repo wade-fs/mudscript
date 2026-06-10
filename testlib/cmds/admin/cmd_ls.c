@@ -60,11 +60,11 @@ int main(object me, string verb, string arg) {
         return 1;
     }
 
-    write(HIW(select_lang(([
+    write("$HIW$" + select_lang(([
         "en": "Directory Listing: ",
         "zh-TW": "目錄清單：",
         "zh-CN": "目录清单："
-    ]))) + path + "\n");
+    ])) + "$NOR$" + path + "\n");
     write("--------------------------------------------------\n");
 
     // 分列顯示，簡單排版
@@ -73,7 +73,7 @@ int main(object me, string verb, string arg) {
     foreach (string f in files) {
         string display = f;
         if (f[strlen(f)-1] == '/') {
-            display = HIG(f); // 目錄顯示綠色
+            display = "$HIG$" + f + "$NOR$"; // 目錄顯示綠色
         } else {
             // 取得檔案大小
             int size = file_size((path[strlen(path)-1] == '/' ? path : path + "/") + f);

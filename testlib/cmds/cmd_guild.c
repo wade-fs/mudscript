@@ -21,12 +21,12 @@ int main(object me, string verb, string arg) {
     }
 
     mapping info = guild_d->query_guild_info(gid);
-    write(HIW(select_lang(([ "en": "\n=== Guild Information ===\n", "zh-TW": "\n=== 所屬公會資訊 ===\n", "zh-CN": "\n=== 所属公会资讯 ===\n" ]))));
+    write("$HIW$" + select_lang(([ "en": "\n=== Guild Information ===\n", "zh-TW": "\n=== 所屬公會資訊 ===\n", "zh-CN": "\n=== 所属公会资讯 ===\n" ])) + "$NOR$");
     write(select_lang(([ "en": "Name: ", "zh-TW": "名稱：", "zh-CN": "名称：" ])) + info["name"] + "\n");
     write(select_lang(([ "en": "Rank: ", "zh-TW": "職位：", "zh-CN": "职位：" ])) + me->query_guild_rank() + "\n");
     write(select_lang(([ "en": "Contribution: ", "zh-TW": "貢獻：", "zh-CN": "贡献：" ])) + me->query_guild_exp() + "\n");
     write(select_lang(([ "en": "Description: ", "zh-TW": "描述：", "zh-CN": "描述：" ])) + info["desc"] + "\n");
-    write(HIW("====================\n\n"));
+    write("$HIW$====================\n\n$NOR$");
 
     if (arg == "promote") {
         guild_d->promote_member(me);

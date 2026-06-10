@@ -29,7 +29,7 @@ void create() {
 // 設定是誰的屍體
 void set_owner(string owner_name) {
     set_name(owner_name + " 的屍體");
-    set_short(owner_name + " 的" + RED("死體"));
+    set_short(owner_name + " 的" + "$RED$死體$NOR$");
     set_long("這是一具 " + owner_name + " 的屍體，隨著時間流逝正在漸漸變冷。\n");
 }
 

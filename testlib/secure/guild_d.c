@@ -88,7 +88,7 @@ int join_guild(object me, string gid) {
 
     string success = to_string(_t("guild_join_success"));
     success = replace_string(success, "$guild", guild_name);
-    write(HIW(success) + "\n");
+    write("$HIW$" + success + "$NOR$" + "\n");
 
     string rank_msg = to_string(_t("guild_rank_is"));
     rank_msg = replace_string(rank_msg, "$rank", to_string(me->query_guild_rank()));
@@ -132,7 +132,7 @@ int promote_member(object me) {
     
     string success = _t("guild_promote_success");
     success = replace_string(success, "$rank", next_rank);
-    write(HIY(success) + "\n");
+    write("$HIY$" + success + "$NOR$" + "\n");
     
     me->save();
     return 1;

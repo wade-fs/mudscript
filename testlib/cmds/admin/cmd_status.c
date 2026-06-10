@@ -54,7 +54,7 @@ int main(object me, string verb, string arg) {
         others++;
     }
 
-    write(HIW("\n========= 📊 MudScript 系統狀態中心 =========\n"));
+    write("$HIW$\n========= 📊 MudScript 系統狀態中心 =========\n$NOR$");
     write(sprintf("  %-15s : %d\n", "總物件載入數", total));
     write(sprintf("  %-15s : %d\n", "線上玩家", players));
     write(sprintf("  %-15s : %d\n", "活物 (NPC)", npcs));
@@ -65,7 +65,7 @@ int main(object me, string verb, string arg) {
     write(sprintf("  %-15s : %d\n", "跨服緩存物件", remote));
     write(separator("-", 40));
     write(sprintf("  %-15s : %s\n", "系統時間", ctime(time())));
-    write(HIW("============================================\n\n"));
+    write("$HIW$============================================\n\n$NOR$");
 
     return 1;
 }

@@ -45,7 +45,7 @@ void check_upgrade(object me, string sid) {
         level++;
         req = query_upgrade_exp(level);
         
-        tell_object(me, HIY("✨ 你的『" + query_skill_name(sid) + "』進步了！現在是等級 " + level + "。\n"));
+        tell_object(me, "$HIY$✨ 你的『" + query_skill_name(sid) + "』進步了！現在是等級 " + level + "。\n$NOR$");
         me->set_skill(sid, level);
         me->update_quest_progress(sid, "exp", exp); // 這裡需要一個更通用的 update 方式，先用 set_skill 搞定
         

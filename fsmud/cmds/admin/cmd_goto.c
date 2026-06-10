@@ -21,7 +21,7 @@ int main(object me, string verb, string arg) {
     // 1. 嘗試作為玩家 ID 搜尋
     target = find_player(arg);
     if (target && environment(target)) {
-        write(HIW("正在前往玩家 " + target->query_name() + " 所在處...\n"));
+        write("$HIW$正在前往玩家 " + target->query_name() + " 所在處...\n$NOR$");
         me->move(environment(target));
         environment(me)->look_room(me);
         return 1;
@@ -34,16 +34,16 @@ int main(object me, string verb, string arg) {
     if (!target) target = load_object(arg);
 
     if (target) {
-        write(HIW("正在前往房間：" + arg + "\n"));
+        write("$HIW$正在前往房間：" + arg + "\n$NOR$");
         if (me->move(target)) {
             target->look_room(me);
         } else {
-            write(RED("移動失敗：無法進入目標物件。\n"));
+            write("$RED$移動失敗：無法進入目標物件。\n$NOR$");
         }
         return 1;
     }
 
-    write(RED("錯誤：找不到玩家或房間 " + arg + "\n"));
+    write("$RED$錯誤：找不到玩家或房間 " + arg + "\n$NOR$");
     return 1;
 }
 

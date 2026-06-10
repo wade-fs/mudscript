@@ -11,8 +11,8 @@ int main(object me, string verb, string arg) {
         return 1;
     }
 
-    write(HIR("🛑 正在關閉伺服器...\n"));
-    shout(HIW("系統管理員關閉了伺服器。\n"));
+    write("$HIR$🛑 正在關閉伺服器...\n$NOR$");
+    shout("$HIW$系統管理員關閉了伺服器。\n$NOR$");
     
     // 呼叫 Driver 的 shutdown efun
     shutdown();

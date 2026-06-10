@@ -23,7 +23,7 @@ GO_FLAGS := -ldflags="-s -w"
 COMMON_ENV := CGO_CFLAGS="-Wno-return-local-addr"
 ENVW := $(COMMON_ENV) CGO_ENABLED=1 GOOS=windows GOARCH=amd64 CC="x86_64-w64-mingw32-gcc -fno-stack-protector -D_FORTIFY_SOURCE=0 -lssp"
 
-.PHONY: all clean test test-driver fsmud fsmud.exe fs fs.exe mud-universal mud-universal.exe mudscript mudscript.exe run-fsmud run-fs push inject-hash
+.PHONY: all clean test test-driver test-fsmud fsmud fsmud.exe fs fs.exe mud-universal mud-universal.exe mudscript mudscript.exe run-fsmud run-fs push inject-hash
 
 all: fsmud fsmud.exe fs fs.exe mud-universal mud-universal.exe mudscript mudscript.exe
 
@@ -118,6 +118,12 @@ run-fs: fs
 test-fs: fs
 	@echo "🧪 Running Connection & Login Test on Legacy FS..."
 	@go run ./cmd/test-fs/main.go 2>&1 | tee test-fs.txt
+
+# 執行 FSMUD 自動登入與互動測試
+test-fsmud:
+	@echo "🧪 Running Connection, Auto-Login & Interactive Client on FSMUD..."
+	@go run ./cmd/test-fsmud/main.go
+
 
 clean:
 	@rm -rf *.log *txt $(OUT)/*

@@ -71,13 +71,13 @@ void update_inventory(mapping data) {
 void look_room(object viewer) {
     if (!connected) {
         tell_object(viewer,
-            HIM("[Fantasy Space] ") + "正在連接 " + HIY(remote_mud) + "...\n");
+            "$HIM$[Fantasy Space] $NOR$" + "正在連接 " + "$HIY$" + remote_mud + "$NOR$" + "...\n");
         return;
     }
 
     // 標題
-    string out = HIW("【" + r_short + "】") +
-                 GRA(" @" + remote_mud) + "\n";
+    string out = "$HIW$【" + r_short + "】$NOR$" +
+                 "$GRA$ @" + remote_mud + "$NOR$" + "\n";
 
     // 描述
     out += r_long;
@@ -87,7 +87,7 @@ void look_room(object viewer) {
         string *exit_list = keys(r_exits);
         out += "出口：" + implode(exit_list, "  ") + "\n";
     } else {
-        out += GRA("（沒有出口）\n");
+        out += "$GRA$（沒有出口）\n$NOR$";
     }
 
     // 房間內的物件與其他玩家
@@ -99,7 +99,7 @@ void look_room(object viewer) {
             string ishort = item["short"];
             int    iliving = item["is_living"];
             if (iliving) {
-                out += "  " + HIG("(生物) ") + iname;
+                out += "  " + "$HIG$(生物) $NOR$" + iname;
             } else {
                 out += "  " + iname;
             }
@@ -117,7 +117,7 @@ void look_room(object viewer) {
 // 由 user.c 的 process_input 判斷 is_proxy_room() 後呼叫
 int do_proxy_cmd(string input) {
     if (!connected || !shadow_uuid || shadow_uuid == "") {
-        write(GRA("（尚未連線，請稍候...）\n"));
+        write("$GRA$（尚未連線，請稍候...）\n$NOR$");
         return 1;
     }
 
@@ -130,7 +130,7 @@ int do_proxy_cmd(string input) {
     object dist_d = find_object("/secure/dist_d.c");
     if (!dist_d) dist_d = load_object("/secure/dist_d.c");
     if (!dist_d) {
-        write(RED("連線錯誤：無法找到 dist_d。\n"));
+        write("$RED$連線錯誤：無法找到 dist_d。\n$NOR$");
         return 1;
     }
 

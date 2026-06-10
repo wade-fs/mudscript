@@ -43,7 +43,7 @@ void start_session(object player, string target_mudlib) {
     player->set_temp("ssh_pending", session_id);
     player->set_temp("ssh_target", target_mudlib);
     
-    tell_object(player, HIM("[Fantasy Space] ") + "正在請求連線至 " + target_mudlib + "...\n");
+    tell_object(player, "$HIM$[Fantasy Space] $NOR$" + "正在請求連線至 " + target_mudlib + "...\n");
 
     string payload = player->query_id() + "|" + player->query_name();
     string msg = "fs_session|" + FS_MUDLIB_ID + "|" + target_mudlib + "|connect|" + session_id + "|" + payload;
@@ -72,7 +72,7 @@ void client_send_disconnect(object player) {
     player->delete_temp("ssh_session_id");
     player->delete_temp("ssh_pending");
     player->delete_temp("ssh_target");
-    tell_object(player, HIM("[Fantasy Space] ") + "連線已關閉，你回到了現實。\n");
+    tell_object(player, "$HIM$[Fantasy Space] $NOR$" + "連線已關閉，你回到了現實。\n");
 }
 
 // ──────────────────────────────────────────────────────────
@@ -124,7 +124,7 @@ void receive_fs_session(string content) {
         if (player && player->query_temp("ssh_pending") == session_id) {
             player->delete_temp("ssh_pending");
             player->set_temp("ssh_session_id", session_id);
-            tell_object(player, HIM("[Fantasy Space] ") + "連線成功！你已登臨異界！\n\n");
+            tell_object(player, "$HIM$[Fantasy Space] $NOR$" + "連線成功！你已登臨異界！\n\n");
             if (payload != "") tell_object(player, payload + "\n");
         }
         return;
@@ -134,7 +134,7 @@ void receive_fs_session(string content) {
         if (player) {
             player->delete_temp("ssh_pending");
             player->delete_temp("ssh_target");
-            tell_object(player, RED("連線被拒絕：" + payload + "\n"));
+            tell_object(player, "$RED$連線被拒絕：" + payload + "\n$NOR$");
             map_delete(client_sessions, session_id);
         }
         return;
@@ -152,7 +152,7 @@ void receive_fs_session(string content) {
         // 作為 Client 收到：
         object player = client_sessions[session_id];
         if (player) {
-            tell_object(player, RED("\n【遠端伺服器中斷連線】" + payload + "\n"));
+            tell_object(player, "$RED$\n【遠端伺服器中斷連線】" + payload + "\n$NOR$");
             player->delete_temp("ssh_session_id");
             player->delete_temp("ssh_pending");
             player->delete_temp("ssh_target");
@@ -191,7 +191,7 @@ void receive_fs_session(string content) {
         
         server_sessions[session_id] = guest;
 
-        string welcome = HIG("歡迎來到 " + FS_MUDLIB_ID + "！這是一個全新的世界。\n");
+        string welcome = "$HIG$歡迎來到 " + FS_MUDLIB_ID + "！這是一個全新的世界。\n$NOR$";
         send_msg(from_mudlib, "fs_session|" + FS_MUDLIB_ID + "|" + from_mudlib + "|ack|" + session_id + "|" + welcome);
 
         guest->move_to_start(); 

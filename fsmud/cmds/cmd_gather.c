@@ -38,7 +38,7 @@ int main(object me, string verb, string arg) {
     if (random(100) < harvest["chance"]) {
         object material = clone_object(harvest["file"]);
         if (material) {
-            write(HIG(select_lang(([ "en": "Gathering successful! You obtained ", "zh-TW": "採集成功！你獲得了 ", "zh-CN": "采集成功！你获得了 " ])) + material->query_short() + select_lang(([ "en": ".\n", "zh-TW": "。\n", "zh-CN": "。\n" ]))));
+            write("$HIG$" + select_lang(([ "en": "Gathering successful! You obtained ", "zh-TW": "採集成功！你獲得了 ", "zh-CN": "采集成功！你获得了 " ])) + material->query_short() + select_lang(([ "en": ".\n", "zh-TW": "。\n", "zh-CN": "。\n" ])) + "$NOR$");
             if (!move_object(material, me)) {
                 write(select_lang(([ "en": "But your backpack is too heavy, so you drop it on the ground.\n", "zh-TW": "但你的背包太重了，只好把它丟在地上。\n", "zh-CN": "但你的背包太重了，只好把它丢在地上。\n" ])));
                 move_object(material, here);

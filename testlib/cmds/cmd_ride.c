@@ -26,7 +26,7 @@ int main(object me, string verb, string arg) {
 
         // 簡單判定：只要是寵物都能騎 (未來可以加 is_mount 標記)
         me->set_riding(1);
-        write(HIG(select_lang(([ "en": "You mount ", "zh-TW": "你翻身騎上了 ", "zh-CN": "你翻身骑上了 " ])) + pet->query_name() + select_lang(([ "en": ".\n", "zh-TW": "。\n", "zh-CN": "。\n" ]))));
+        write("$HIG$" + select_lang(([ "en": "You mount ", "zh-TW": "你翻身騎上了 ", "zh-CN": "你翻身骑上了 " ])) + pet->query_name() + select_lang(([ "en": ".\n", "zh-TW": "。\n", "zh-CN": "。\n" ])) + "$NOR$");
         say(me->query_name() + select_lang(([ "en": " mounts ", "zh-TW": " 翻身騎上了 ", "zh-CN": " 翻身骑上了 " ])) + pet->query_name() + select_lang(([ "en": ".\n", "zh-TW": "。\n", "zh-CN": "。\n" ])));
         return 1;
     }
@@ -38,7 +38,7 @@ int main(object me, string verb, string arg) {
         }
 
         me->set_riding(0);
-        write(HIW(select_lang(([ "en": "You dismount from your ride.\n", "zh-TW": "你從座騎上下來了。\n", "zh-CN": "你从座骑下来了。\n" ]))));
+        write("$HIW$" + select_lang(([ "en": "You dismount from your ride.\n", "zh-TW": "你從座騎上下來了。\n", "zh-CN": "你从座骑下来了。\n" ])) + "$NOR$");
         say(me->query_name() + select_lang(([ "en": " dismounts from their ride.\n", "zh-TW": " 從座騎上下來了。\n", "zh-CN": " 从座骑下来了。\n" ])));
         return 1;
     }

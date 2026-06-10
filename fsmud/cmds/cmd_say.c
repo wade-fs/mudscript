@@ -19,7 +19,7 @@ int main(object me, string verb, string arg) {
     object env = environment(me);
     if (!env) return 1;
 
-    string local_msg = HIY(player_name) + " 說道：" + arg + "\n";
+    string local_msg = "$HIY$" + player_name + "$NOR$" + " 說道：" + arg + "\n";
     write("你說道：" + arg + "\n");
     say(local_msg);
 

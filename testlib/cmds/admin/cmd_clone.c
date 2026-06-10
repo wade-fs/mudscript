@@ -52,11 +52,11 @@ int main(object me, string verb, string arg) {
     
     object ob = clone_object(arg);
     if (!ob) {
-        write(HIR("複製失敗：無法載入或編譯檔案 " + arg + "\n"));
+        write("$HIR$複製失敗：無法載入或編譯檔案 " + arg + "\n$NOR$");
         return 1;
     }
 
-    string msg = HIG("成功複製物件：") + ob->query_short() + " (" + base_name(ob) + ")\n";
+    string msg = "$HIG$成功複製物件：$NOR$" + ob->query_short() + " (" + base_name(ob) + ")\n";
     
     // 如果是物品，嘗試移入玩家背包
     if (ob->move(me)) {

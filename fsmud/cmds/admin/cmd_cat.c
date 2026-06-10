@@ -56,19 +56,19 @@ int main(object me, string verb, string arg) {
 
     string content = read_file(arg);
     if (!content) {
-        write(RED(select_lang(([
+        write("$RED$" + select_lang(([
             "en": "Error: Cannot read file ",
             "zh-TW": "錯誤：無法讀取檔案 ",
             "zh-CN": "错误：无法读取文件 "
-        ]))) + arg + "\n");
+        ])) + "$NOR$" + arg + "\n");
         return 1;
     }
 
-    write(HIW(select_lang(([
+    write("$HIW$" + select_lang(([
         "en": "File Content: ",
         "zh-TW": "檔案內容：",
         "zh-CN": "文件内容："
-    ]))) + arg + "\n");
+    ])) + "$NOR$" + arg + "\n");
     write("--------------------------------------------------\n");
     write(content);
     if (strlen(content) > 0 && content[strlen(content)-1] != '\n') write("\n");

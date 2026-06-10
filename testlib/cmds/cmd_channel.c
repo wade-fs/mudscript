@@ -7,11 +7,11 @@ inherit "/std/object";
 
 int main(object me, string verb, string arg) {
     if (!arg || arg == "") {
-        write(HIW(select_lang(([ "en": "\n=== Channel Subscription Status ===\n", "zh-TW": "\n=== 頻道訂閱狀態 ===\n", "zh-CN": "\n=== 频道订阅状态 ===\n" ]))));
+        write("$HIW$" + select_lang(([ "en": "\n=== Channel Subscription Status ===\n", "zh-TW": "\n=== 頻道訂閱狀態 ===\n", "zh-CN": "\n=== 频道订阅状态 ===\n" ])) + "$NOR$");
         string *chs = ({ "chat", "area", "guild", "team" });
         foreach (string ch in chs) {
             int open = me->is_channel_open(ch);
-            write(sprintf("  %-10s : %s\n", ch, (open ? HIG(select_lang(([ "en": "ON", "zh-TW": "開啟", "zh-CN": "开启" ]))) : HIR(select_lang(([ "en": "OFF", "zh-TW": "關閉", "zh-CN": "关闭" ]))))));
+            write(sprintf("  %-10s : %s\n", ch, (open ? "$HIG$" + select_lang(([ "en": "ON", "zh-TW": "開啟", "zh-CN": "开启" ])) + "$NOR$" : "$HIR$" + select_lang(([ "en": "OFF", "zh-TW": "關閉", "zh-CN": "关闭" ])) + "$NOR$")));
         }
         write(select_lang(([ "en": "Usage: channel <channel ID> on/off\n", "zh-TW": "用法：channel <頻道ID> on/off\n", "zh-CN": "用法：channel <频道ID> on/off\n" ])));
         return 1;
@@ -28,10 +28,10 @@ int main(object me, string verb, string arg) {
 
     if (status == "on" || status == "開啟") {
         me->set_channel_status(ch, 1);
-        write(HIG(select_lang(([ "en": "You have opened the ", "zh-TW": "你開啟了 ", "zh-CN": "你开启了 " ])) + ch + select_lang(([ "en": " channel.\n", "zh-TW": " 頻道。\n", "zh-CN": " 频道。\n" ]))));
+        write("$HIG$" + select_lang(([ "en": "You have opened the ", "zh-TW": "你開啟了 ", "zh-CN": "你开启了 " ])) + ch + select_lang(([ "en": " channel.\n", "zh-TW": " 頻道。\n", "zh-CN": " 频道。\n" ])) + "$NOR$");
     } else if (status == "off" || status == "關閉") {
         me->set_channel_status(ch, 0);
-        write(HIR(select_lang(([ "en": "You have closed the ", "zh-TW": "你關閉了 ", "zh-CN": "你关闭了 " ])) + ch + select_lang(([ "en": " channel.\n", "zh-TW": " 頻道。\n", "zh-CN": " 频道。\n" ]))));
+        write("$HIR$" + select_lang(([ "en": "You have closed the ", "zh-TW": "你關閉了 ", "zh-CN": "你关闭了 " ])) + ch + select_lang(([ "en": " channel.\n", "zh-TW": " 頻道。\n", "zh-CN": " 频道。\n" ])) + "$NOR$");
     } else if (status == "join" || status == "加入") {
         load_object("/secure/channel_d.c")->join_friend_channel(me, ch);
     } else if (status == "leave" || status == "離開") {

@@ -18,7 +18,7 @@ int main(object me, string verb, string arg) {
     }
 
     int count = cmd_d->rehash();
-    write(HIW("指令系統重新掃描完成，共載入 " + count + " 個動詞。\n"));
+    write("$HIW$指令系統重新掃描完成，共載入 " + count + " 個動詞。\n$NOR$");
 
     // 🚀 向所有在線玩家推送最新的 UI 指令清單
     object *us = users();
@@ -27,7 +27,7 @@ int main(object me, string verb, string arg) {
         foreach (object u in us) {
             if (u && userp(u)) {
                 help_ob->do_help_list(u, "");
-                tell_object(u, HIG("【系統提示】指令系統已更新。\n"));
+                tell_object(u, "$HIG$【系統提示】指令系統已更新。\n$NOR$");
             }
         }
     }

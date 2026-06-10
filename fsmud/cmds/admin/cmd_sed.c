@@ -40,11 +40,11 @@ int main(object me, string verb, string arg) {
 
     string content = read_file(path);
     if (!content) {
-        write(RED(select_lang(([
+        write("$RED$" + select_lang(([
             "en": "Error: Cannot read file ",
             "zh-TW": "錯誤：無法讀取檔案 ",
             "zh-CN": "错误：无法读取文件 "
-        ]))) + path + "\n");
+        ])) + "$NOR$" + path + "\n");
         return 1;
     }
 
@@ -60,22 +60,22 @@ int main(object me, string verb, string arg) {
     string new_content = replace_string(content, old_str, new_str);
     
     if (write_file(path, new_content, 1)) {
-        write(HIG(select_lang(([
+        write("$HIG$" + select_lang(([
             "en": "File successfully modified: ",
             "zh-TW": "檔案已成功修改：",
             "zh-CN": "文件已成功修改："
-        ]))) + path + "\n");
+        ])) + "$NOR$" + path + "\n");
         write(select_lang(([
             "en": "Replaced '" + old_str + "' with '" + new_str + "'.\n",
             "zh-TW": "將「" + old_str + "」替換為「" + new_str + "」。\n",
             "zh-CN": "将「" + old_str + "」替换为「" + new_str + "」。\n"
         ])));
     } else {
-        write(HIR(select_lang(([
+        write("$HIR$" + select_lang(([
             "en": "Write failed. Please check permissions.\n",
             "zh-TW": "寫入失敗。請檢查權限。\n",
             "zh-CN": "写入失败。请检查权限。\n"
-        ]))));
+        ])) + "$NOR$");
     }
 
     return 1;

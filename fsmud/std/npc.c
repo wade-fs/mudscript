@@ -495,7 +495,7 @@ void do_attack() {
     if (equip_weapon && random(100) < 1) {
         equip_weapon->damage_durability(1);
         if (equip_weapon->query_durability() <= 0) {
-            tell_object(this_object(), HIW("你的 " + equip_weapon->query_name() + " 損壞了！\n"));
+            tell_object(this_object(), "$HIW$你的 " + equip_weapon->query_name() + " 損壞了！\n$NOR$");
             recalc_stats(); // 重新計算屬性
         }
     }
@@ -571,7 +571,7 @@ void attacked_by(object attacker) {
         if (armour) {
             armour->damage_durability(1);
             if (armour->query_durability() <= 0) {
-                tell_object(this_object(), HIW("你的 " + armour->query_name() + " 損壞了！\n"));
+                tell_object(this_object(), "$HIW$你的 " + armour->query_name() + " 損壞了！\n$NOR$");
                 recalc_stats();
             }
         }
@@ -654,7 +654,7 @@ void on_death() {
                         m->gain_exp(final_exp / count);
                         m->gain_potential(exp_reward / 10 / count + 1);
                         m->gain_gold(final_gold / count + 1);
-                        tell_object(m, HIW("【團隊】你分到了 ") + (final_exp/count) + " 點經驗值。\n");
+                        tell_object(m, "$HIW$【團隊】你分到了 $NOR$" + (final_exp/count) + " 點經驗值。\n");
                     }
                 }
             } else {

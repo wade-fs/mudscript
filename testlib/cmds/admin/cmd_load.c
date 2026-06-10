@@ -52,9 +52,9 @@ int main(object me, string verb, string arg) {
     
     object ob = load_object(arg);
     if (ob) {
-        write(HIG("物件載入成功：") + arg + "\n");
+        write("$HIG$物件載入成功：$NOR$" + arg + "\n");
     } else {
-        write(HIR("物件載入失敗：") + arg + "\n");
+        write("$HIR$物件載入失敗：$NOR$" + arg + "\n");
     }
 
     return 1;

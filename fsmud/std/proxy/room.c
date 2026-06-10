@@ -43,26 +43,26 @@ void update_inventory(mapping data) {
 // 模擬 look_room
 void look_room(object me) {
     if (!room_data || !room_data["short"]) {
-        tell_object(me, GRA("正在連線至星際空間...\n"));
+        tell_object(me, "$GRA$正在連線至星際空間...\n$NOR$");
         return;
     }
 
-    string output = HIW(room_data["short"] + " [跨服: " + remote_mud + "]\n") +
+    string output = "$HIW$" + room_data["short"] + " [跨服: " + remote_mud + "]\n$NOR$" +
                    room_data["long"] + "\n";
 
     // 顯示出口
     mapping exits = room_data["exits"];
     if (mapp(exits) && sizeof(exits) > 0) {
-        output += HIG("  明顯的出口有：") + implode(keys(exits), ", ") + "\n";
+        output += "$HIG$  明顯的出口有：$NOR$" + implode(keys(exits), ", ") + "\n";
     } else {
-        output += HIG("  這裡沒有明顯的出口。\n");
+        output += "$HIG$  這裡沒有明顯的出口。\n$NOR$";
     }
 
     // 顯示物品與生物
     mixed items = room_data["items"];
     if (pointerp(items)) {
         foreach (mapping item in items) {
-            output += "  " + (item["is_living"] ? HIY(item["name"]) : item["name"]) + "\n";
+            output += "  " + (item["is_living"] ? "$HIY$" + item["name"] + "$NOR$" : item["name"]) + "\n";
         }
     }
 
@@ -78,7 +78,7 @@ mapping query_exits() {
 // 攔截並轉發指令
 int do_proxy_cmd(string input) {
     if (!shadow_uuid) {
-        write(GRA("分散式連結尚未就緒，請稍候...\n"));
+        write("$GRA$分散式連結尚未就緒，請稍候...\n$NOR$");
         return 1; // 攔截但不執行，防止本地出錯
     }
 

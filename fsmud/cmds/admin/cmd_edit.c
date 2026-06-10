@@ -58,7 +58,7 @@ int main(object me, string verb, string arg) {
         }
 
         if (!allowed) {
-            write(HIR("edit: permission denied: " + file + "\n"));
+            write("$HIR$edit: permission denied: " + file + "\n$NOR$");
             return 1;
         }
     }
@@ -70,7 +70,7 @@ int main(object me, string verb, string arg) {
     if (ide_d) {
         object editor = ide_d->query_lock(file);
         if (editor && editor != me) {
-            write(HIR("錯誤：") + "巫師 " + editor->query_id() + " 正在編輯此檔案，請稍後再試。\n");
+            write("$HIR$錯誤：$NOR$" + "巫師 " + editor->query_id() + " 正在編輯此檔案，請稍後再試。\n");
             return 1;
         }
         ide_d->request_lock(file, me);
@@ -83,18 +83,18 @@ int main(object me, string verb, string arg) {
         if (td) {
             content = td->query_template(template);
             if (content) {
-                write(HIW("使用範本：") + template + "\n");
+                write("$HIW$使用範本：$NOR$" + template + "\n");
             }
         }
     }
 
     // 🚀 新增：Web IDE 支援
     if (is_web_client(me)) {
-        write(HIW(select_lang(([
+        write("$HIW$" + select_lang(([
             "en": "Opening Web IDE for: ",
             "zh-TW": "正在為您開啟 Web IDE：",
             "zh-CN": "正在为您開啟 Web IDE："
-        ]))) + file + "\n");
+        ])) + "$NOR$" + file + "\n");
 
         me->set_in_edit(file);
 
@@ -109,18 +109,18 @@ int main(object me, string verb, string arg) {
 
     string *lines;
     if (!content) {
-        write(HIW(select_lang(([
+        write("$HIW$" + select_lang(([
             "en": "Creating new file: ",
             "zh-TW": "建立新檔案：",
             "zh-CN": "建立新文件："
-        ]))) + file + "\n");
+        ])) + "$NOR$" + file + "\n");
         lines = ({});
     } else {
-        write(HIW(select_lang(([
+        write("$HIW$" + select_lang(([
             "en": "Editing file: ",
             "zh-TW": "編輯檔案：",
             "zh-CN": "編輯文件："
-        ]))) + file + "\n");
+        ])) + "$NOR$" + file + "\n");
         lines = explode(content, "\n");
     }
 
@@ -154,17 +154,17 @@ void edit_loop(object me, string input) {
             content += "\n";
         }
         if (write_file(file, content, 1)) {
-            write(HIG(select_lang(([
+            write("$HIG$" + select_lang(([
                 "en": "File saved.\n",
                 "zh-TW": "檔案已儲存。\n",
                 "zh-CN": "文件已储存。\n"
-            ]))));
+            ])) + "$NOR$");
         } else {
-            write(HIR(select_lang(([
+            write("$HIR$" + select_lang(([
                 "en": "Save failed!\n",
                 "zh-TW": "儲存失敗！\n",
                 "zh-CN": "储存失败！\n"
-            ]))));
+            ])) + "$NOR$");
         }
 
         // 🚀 新增：釋放鎖定
@@ -177,11 +177,11 @@ void edit_loop(object me, string input) {
     }
 
     if (input == ".q") {
-        write(YEL(select_lang(([
+        write("$YEL$" + select_lang(([
             "en": "Edit cancelled.\n",
             "zh-TW": "取消編輯。\n",
             "zh-CN": "取消编辑。\n"
-        ]))));
+        ])) + "$NOR$");
 
         // 🚀 新增：釋放鎖定
         object ide_d = find_object("/secure/ide_d.c");
@@ -227,7 +227,7 @@ void edit_loop(object me, string input) {
 
     if (input == ".l") {
         for (int i = 0; i < sizeof(lines); i++) {
-            write(sprintf(HIY("%4d") + ": %s\n", i + 1, lines[i]));
+            write(sprintf("$HIY$%4d$NOR$" + ": %s\n", i + 1, lines[i]));
         }
         input_to("edit_loop");
         write("* ");
@@ -237,17 +237,17 @@ void edit_loop(object me, string input) {
     if (substr(input, 0, 3) == ".d ") {
         int n = to_int(substr(input, 3, strlen(input)-3));
         if (n < 1 || n > sizeof(lines)) {
-            write(RED(select_lang(([
+            write("$RED$" + select_lang(([
                 "en": "Invalid line number.\n",
                 "zh-TW": "無效的行號。\n",
                 "zh-CN": "无效的行号。\n"
-            ]))));
+            ])) + "$NOR$");
         } else {
-            write(YEL(select_lang(([
+            write("$YEL$" + select_lang(([
                 "en": "Deleted line " + n + ".\n",
                 "zh-TW": "已刪除第 " + n + " 行。\n",
                 "zh-CN": "已删除第 " + n + " 行。\n"
-            ]))));
+            ])) + "$NOR$");
             if (n == 1) lines = lines[1..];
             else if (n == sizeof(lines)) lines = lines[0..sizeof(lines)-2];
             else lines = lines[0..n-2] + lines[n..];
@@ -262,11 +262,11 @@ void edit_loop(object me, string input) {
         string rest = substr(input, 3, strlen(input)-3);
         int sp = strsrch(rest, " ");
         if (sp < 0) {
-            write(RED(select_lang(([
+            write("$RED$" + select_lang(([
                 "en": "Usage: .i <n> <text>\n",
                 "zh-TW": "用法：.i <n> <文字>\n",
                 "zh-CN": "用法：.i <n> <文字>\n"
-            ]))));
+            ])) + "$NOR$");
         } else {
             int n = to_int(substr(rest, 0, sp));
             string text = substr(rest, sp + 1, strlen(rest) - sp - 1);
@@ -278,11 +278,11 @@ void edit_loop(object me, string input) {
             else lines = lines[0..n-2] + ({ text }) + lines[n-1..];
             
             me->set_temp("edit_buffer", lines);
-            write(HIG(select_lang(([
+            write("$HIG$" + select_lang(([
                 "en": "Inserted text at line " + n + ".\n",
                 "zh-TW": "已於第 " + n + " 行插入文字。\n",
                 "zh-CN": "已于第 " + n + " 行插入文字。\n"
-            ]))));
+            ])) + "$NOR$");
         }
         input_to("edit_loop");
         write("* ");
@@ -295,17 +295,17 @@ void edit_loop(object me, string input) {
             content += "\n";
         }
         if (write_file(file, content, 1)) {
-            write(HIG(select_lang(([
+            write("$HIG$" + select_lang(([
                 "en": "File saved.\n",
                 "zh-TW": "檔案已儲存。\n",
                 "zh-CN": "文件已储存。\n"
-            ]))));
+            ])) + "$NOR$");
         } else {
-            write(HIR(select_lang(([
+            write("$HIR$" + select_lang(([
                 "en": "儲存失敗！\n",
                 "zh-TW": "儲存失敗！\n",
                 "zh-CN": "储存失败！\n"
-            ]))));
+            ])) + "$NOR$");
         }
         input_to("edit_loop");
         write("* ");

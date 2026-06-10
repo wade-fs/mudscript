@@ -22,7 +22,7 @@ object query_home(string player_id) {
     // 這裡可以從一個模板 clone
     object home = clone_object("/std/room.c");
     if (home) {
-        home->set_short(HIW(player_id + " 的個人空間 ($HOME)"));
+        home->set_short("$HIW$" + player_id + " 的個人空間 ($HOME)$NOR$");
         home->set_long("這是一個屬於你的私密空間。你可以透過這裡連結到其他的星際節點。\n" +
                       "四周閃爍著淡淡的星光，顯示出這裡處於虛擬空間的邊緣。\n");
         player_homes[player_id] = home;

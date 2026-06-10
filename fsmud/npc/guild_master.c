@@ -5,7 +5,7 @@ inherit "/std/npc.c";
 void create() {
     ::create();
     set_name(([ "en": "Guild Master Edmund", "zh-TW": "公會會長 艾德蒙", "zh-CN": "公会会长 艾德蒙" ]));
-    set_short(([ "en": HIW("Adventurer Guild Master") + " Edmund", "zh-TW": HIW("冒險者公會會長") + " 艾德蒙", "zh-CN": HIW("冒险者公会会长") + " 艾德蒙" ]));
+    set_short(([ "en": "$HIW$Adventurer Guild Master$NOR$" + " Edmund", "zh-TW": "$HIW$冒險者公會會長$NOR$" + " 艾德蒙", "zh-CN": "$HIW$冒险者公会会长$NOR$" + " 艾德蒙" ]));
     set_long(([
         "en": "An experienced human warrior who is the head of this guild.\nHe wears a polished silver armor, and his eyes show authority.\n",
         "zh-TW": "一位看起來經驗豐富的人類戰士，他是這間公會的負責人。\n他穿著一套擦得發亮的銀色鎧甲，眼神中透著威嚴。\n",

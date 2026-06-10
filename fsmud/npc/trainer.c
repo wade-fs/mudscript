@@ -6,9 +6,9 @@ void create() {
     ::create();
     set_name(([ "en": "Kyle", "zh-TW": "教官 凱爾", "zh-CN": "教官 凯尔" ]));
     set_short(([
-        "en": HIC("Experienced Training Instructor") + " Kyle",
-        "zh-TW": HIC("經驗豐富的訓練教官") + " 凱爾",
-        "zh-CN": HIC("经验丰富的训练教官") + " 凯尔"
+        "en": "$HIC$Experienced Training Instructor$NOR$" + " Kyle",
+        "zh-TW": "$HIC$經驗豐富的訓練教官$NOR$" + " 凱爾",
+        "zh-CN": "$HIC$经验丰富的训练教官$NOR$" + " 凯尔"
     ]));
     set_long(([
         "en": "Kyle was once a captain of the Royal Guard. After retiring, he returned to the Newbie Village to serve as an instructor.\nHe is burly with sharp eyes, and his body is covered in scars from battle.\n",

@@ -12,12 +12,12 @@ int main(object me, string verb, string arg) {
     arg = trim(arg);
 
     if (!arg || arg == "") {
-        write(HIW("【Fantasy Space 跨服傳送】\n") +
+        write("$HIW$【Fantasy Space 跨服傳送】\n$NOR$" +
               "用法：fsgoto <mudlib_id>\n\n" +
               "  抵達後，你的所有指令都在遠端執行，就像轉世投胎。\n" +
-              "  輸入 " + CYN("fsleave") + " 返回本機。\n" +
-              "  輸入 " + CYN("!<指令>") + " 強制在本機執行。\n\n" +
-              "  使用 " + CYN("fslist") + " 查詢可抵達的星際節點。\n");
+              "  輸入 " + "$CYN$fsleave$NOR$" + " 返回本機。\n" +
+              "  輸入 " + "$CYN$!<指令>$NOR$" + " 強制在本機執行。\n\n" +
+              "  使用 " + "$CYN$fslist$NOR$" + " 查詢可抵達的星際節點。\n");
         return 1;
     }
 
@@ -29,14 +29,14 @@ int main(object me, string verb, string arg) {
     // 不允許重複跨服（已在 proxy room 裡）
     object env = environment(me);
     if (env && env->is_proxy_room()) {
-        write(YEL("你已經在 ") + env->query_remote_mud() +
-              YEL(" 裡了。請先 fsleave 返回本機再跨服。\n"));
+        write("$YEL$你已經在 $NOR$" + env->query_remote_mud() +
+              "$YEL$ 裡了。請先 fsleave 返回本機再跨服。\n$NOR$");
         return 1;
     }
 
     object ssh_d = load_object("/secure/ssh_d.c");
     if (!ssh_d) {
-        write(RED("系統錯誤：無法載入 ssh_d。\n"));
+        write("$RED$系統錯誤：無法載入 ssh_d。\n$NOR$");
         return 1;
     }
 
@@ -50,7 +50,7 @@ string query_category() {
 }
 
 string help() {
-    return HIW("【fsgoto】跨服傳送\n") +
+    return "$HIW$【fsgoto】跨服傳送\n$NOR$" +
            "  fsgoto <mudlib_id>   連接到指定的遠端伺服器。\n" +
            "  進入後所有指令在遠端執行，fsleave 返回本機。\n";
 }

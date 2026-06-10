@@ -56,14 +56,14 @@ int main(object me, string verb, string arg) {
     object ob = find_object(arg);
     if (ob) {
         destruct(ob);
-        write(HIW("物件已從記憶體移除：") + arg + "\n");
+        write("$HIW$物件已從記憶體移除：$NOR$" + arg + "\n");
     }
 
     object new_ob = load_object(arg);
     if (new_ob) {
-        write(HIG("物件已重新載入成功：") + arg + "\n");
+        write("$HIG$物件已重新載入成功：$NOR$" + arg + "\n");
     } else {
-        write(HIR("物件載入失敗！") + "\n");
+        write("$HIR$物件載入失敗！$NOR$" + "\n");
     }
 
     return 1;

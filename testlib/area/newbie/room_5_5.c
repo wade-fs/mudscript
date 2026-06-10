@@ -5,9 +5,9 @@ inherit "/std/room.c";
 void create() {
     ::create();
     set_short(([
-        "en": HIM("Town General Store"),
-        "zh-TW": HIM("城鎮雜貨鋪"),
-        "zh-CN": HIM("城镇杂货铺")
+        "en": "$HIM$Town General Store$NOR$",
+        "zh-TW": "$HIM$城鎮雜貨鋪$NOR$",
+        "zh-CN": "$HIM$城镇杂货铺$NOR$"
     ]));
     set_long(([
         "en": "This is a small shop filled with a dazzling array of items. The shelves are piled with all kinds of sundries: torches, ropes, rations, and some unknown small parts. It sells various essentials for travel and adventure.\n",
