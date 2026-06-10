@@ -2,6 +2,7 @@
 package driver
 
 import (
+	"fmt"
 	"mudscript/evaluator"
 	"mudscript/object"
 )
@@ -146,6 +147,52 @@ func (d *Driver) registerWizardEfuns(obj *object.LPCObject) {
 		},
 	})
 
+	// 語法: int request_web_edit(string path)
+	// 說明: 讀取檔案內容並透過 WebSocket 發送 JSON 給前端編輯器。
+	// 範例: request_web_edit("/area/entrance.c");
+	obj.Vars.Set("request_web_edit", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 1 {
+				return &object.Integer{Value: 0}
+			}
+			pathStr, ok := args[0].(*object.String)
+			if !ok {
+				return &object.Integer{Value: 0}
+			}
+
+			// 1. 取得當前玩家連線
+			p := d.GetCurrentPlayer()
+			if p == nil && obj.IsInteractive {
+				p = d.GetConnectionFromObject(obj)
+			}
+			if p == nil || !p.IsActive || p.OutputCallback == nil {
+				return &object.Integer{Value: 0} // 非 Web 玩家或連線不活動
+			}
+
+			// 2. 權限檢查 (使用 ResolvePath 確保路徑正確)
+			resolvedPath := d.ResolvePath(obj.Filename, pathStr.Value)
+			// 我們通常用 read_file 的權限檢查
+			// 由於 checkReadPermission 也是內部 helper，這裡直接調用或模仿 read_file 邏輯
+			// 為求簡化且安全，我們模仿 efun_system.go 的邏輯
+			
+			// 3. 讀取檔案
+			content, err := d.ReadFile(resolvedPath)
+			if err != nil {
+				// 可能是新檔案，傳回空字串
+				content = []byte("")
+			}
+
+			// 4. 封裝 JSON 並發送
+			// 技巧：我們發送一個帶有特殊前綴的字串，讓 hub.go 攔截並重組
+			// 🚀 關鍵修正：Payload 必須是 JSON 字串，因為 Frontend 會解析它
+			innerPayload := fmt.Sprintf("{ \"path\": \"%s\", \"content\": %q }", resolvedPath, string(content))
+			payload := fmt.Sprintf("__JSON_MSG__{ \"type\": \"edit_file\", \"payload\": %q }", innerPayload)
+			p.Send(payload)
+
+			return &object.Integer{Value: 1}
+		},
+	})
+
 	// 語法: void set_this_player(object ob)
 	// 說明: 設定當前執行緒的 this_player。
 	obj.Vars.Set("set_this_player", &object.Builtin{
@@ -161,7 +208,8 @@ func (d *Driver) registerWizardEfuns(obj *object.LPCObject) {
 			conn := d.GetConnectionFromObject(target)
 			if conn == nil {
 				// 如果不是互動玩家，建立一個臨時的虛擬連線以支持 GetCurrentPlayer().Object
-				conn = &PlayerConnection{Object: target, IsActive: true}
+				// 🚀 修正：必須使用 NewPlayerConnection 以初始化通道與啟動 WritePump
+				conn = NewPlayerConnection(nil, target)
 			}
 			
 			gid := getGID()

@@ -125,6 +125,18 @@ func New(config DriverConfig) *Driver {
 	}
 }
 
+// FindObject 尋找指定路徑的藍圖物件
+func (d *Driver) FindObject(filename string) *object.LPCObject {
+	filename = d.NormalizePath(filename)
+	if !strings.HasSuffix(filename, ".c") && !strings.Contains(filename, "#") {
+		filename += ".c"
+	}
+
+	d.mu.RLock()
+	defer d.mu.RUnlock()
+	return d.ObjectTable[filename]
+}
+
 func (d *Driver) Start() error {
 	// 🚀 新增：預先載入全域標頭檔並註冊為環境變數
 	if err := d.PreloadGlobalInclude(); err != nil {

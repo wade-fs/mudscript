@@ -66,7 +66,12 @@ type condState struct {
 }
 
 func (p *Preprocessor) Process(filename, input string) (string, error) {
-	return p.processInternal(filename, input, 0)
+	content, err := p.processInternal(filename, input, 0)
+	if err != nil {
+		return "", err
+	}
+	result, _ := p.replaceMacros(content, false)
+	return result, nil
 }
 
 // replaceMacros 執行巨集替換，支援遞迴替換
@@ -188,11 +193,19 @@ func (p *Preprocessor) replaceFuncMacro(line, name string, m Macro) string {
 			continue
 		}
 
-		// 尋找成對的 ')' (支援巢狀括號)
+		// 尋找成對的 ')' (支援巢狀括號，且必須避開字串)
 		start := idx + len(name) + lparenIdx + 1
 		depth := 1
 		rparenIdx := -1
+		inString := false
 		for i := start; i < len(outLine); i++ {
+			if outLine[i] == '"' && (i == 0 || outLine[i-1] != '\\') {
+				inString = !inString
+				continue
+			}
+			if inString {
+				continue
+			}
 			if outLine[i] == '(' {
 				depth++
 			} else if outLine[i] == ')' {
@@ -567,10 +580,9 @@ func (p *Preprocessor) processInternal(filename, input string, depth int) (strin
 		}
 
 		// ==========================================
-		// 4. 處理一般程式碼：替換巨集與修飾詞剝除
+		// 4. 處理一般程式碼：修飾詞剝除
 		// ==========================================
-		var outLine string
-		outLine, inString = p.replaceMacros(cleanLine, inString)
+		outLine := cleanLine
 		if p.StripModifiers {
 			outLine = p.stripModifiers(outLine)
 		}

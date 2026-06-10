@@ -515,11 +515,7 @@ func evalMinusPrefixOperatorExpression(right object.Object) object.Object {
 }
 
 func evalInfixExpression(operator string, left, right object.Object) object.Object {
-	// 🚀 關鍵相容：逗號運算子 (Comma Operator)
-	if operator == "," {
-		return right
-	}
-
+	// 1. 基本防錯：確保 left/right 不為 nil
 	if left == nil || left.TokenType() == object.NilType {
 		left = &object.Integer{Value: 0}
 	}
@@ -527,7 +523,34 @@ func evalInfixExpression(operator string, left, right object.Object) object.Obje
 		right = &object.Integer{Value: 0}
 	}
 
+	// 🚀 關鍵相容：逗號運算子 (Comma Operator)
+	if operator == "," {
+		return right
+	}
+
+	// 🚀 關鍵相容：處理「0 為萬用空值」的特性 (僅限 Array 與 Mapping)
+	// 在 LPC 中，0 + ({ 1 }) 應該等於 ({ 1 })
+	if operator == "+" {
+		// 左值是 0，回傳右值
+		if l, ok := left.(*object.Integer); ok && l.Value == 0 {
+			if right.TokenType() == object.ArrayType || right.TokenType() == object.MAPPING_OBJ {
+				return right
+			}
+		}
+		// 右值是 0，回傳左值
+		if r, ok := right.(*object.Integer); ok && r.Value == 0 {
+			if left.TokenType() == object.ArrayType || left.TokenType() == object.MAPPING_OBJ {
+				return left
+			}
+		}
+	}
+
 	switch {
+	case operator == "==":
+		return nativeBoolToBooleanObject(evalEquality(left, right))
+	case operator == "!=":
+		return nativeBoolToBooleanObject(!evalEquality(left, right))
+
 	case left.TokenType() == object.IntegerType && right.TokenType() == object.IntegerType:
 		return evalIntegerInfixExpression(operator, left, right)
 	case left.TokenType() == object.FloatType || right.TokenType() == object.FloatType:
@@ -543,10 +566,6 @@ func evalInfixExpression(operator string, left, right object.Object) object.Obje
 		return evalArrayInfixExpression(operator, left, right)
 	case left.TokenType() == object.MAPPING_OBJ && right.TokenType() == object.MAPPING_OBJ:
 		return evalMappingInfixExpression(operator, left, right)
-	case operator == "==":
-		return nativeBoolToBooleanObject(evalEquality(left, right))
-	case operator == "!=":
-		return nativeBoolToBooleanObject(!evalEquality(left, right))
 
 	// 🚀 關鍵相容：處理不同型別的比較 (將 Nil 視為 0)
 	case left.TokenType() != right.TokenType():
@@ -590,13 +609,32 @@ func evalEquality(left, right object.Object) bool {
 	if left == right {
 		return true
 	}
+	
 	// 🚀 關鍵相容：Integer 數值比較
 	if left.TokenType() == object.IntegerType && right.TokenType() == object.IntegerType {
 		return left.(*object.Integer).Value == right.(*object.Integer).Value
 	}
+	// 🚀 關鍵相容：Float 數值比較
+	if left.TokenType() == object.FloatType && right.TokenType() == object.FloatType {
+		return left.(*object.Float).Value == right.(*object.Float).Value
+	}
 	// 🚀 關鍵相容：String 字串內容比較
 	if left.TokenType() == object.StringType && right.TokenType() == object.StringType {
 		return left.(*object.String).Value == right.(*object.String).Value
+	}
+
+	// 🚀 關鍵相容：Array/Mapping 深度比較 (簡化版：比對 Inspect 字串)
+	if (left.TokenType() == object.ArrayType && right.TokenType() == object.ArrayType) ||
+	   (left.TokenType() == object.MAPPING_OBJ && right.TokenType() == object.MAPPING_OBJ) {
+		return left.Inspect() == right.Inspect()
+	}
+
+	// 🚀 關鍵相容：數值混合比較 (Integer vs Float)
+	if left.TokenType() == object.IntegerType && right.TokenType() == object.FloatType {
+		return float64(left.(*object.Integer).Value) == right.(*object.Float).Value
+	}
+	if left.TokenType() == object.FloatType && right.TokenType() == object.IntegerType {
+		return left.(*object.Float).Value == float64(right.(*object.Integer).Value)
 	}
 
 	// Integer vs Boolean (0 == false, non-zero == true)
@@ -1219,6 +1257,12 @@ func evalArrayIndexExpression(array, index object.Object) object.Object {
 func evalTypedVarDecl(node *ast.TypedVarDecl, env object.Environment) object.Object {
 	var val object.Object
 
+	// 執行型別檢查！
+	expectedType := node.Token.Literal
+	if node.IsArray {
+		expectedType = "array"
+	}
+
 	// 1. 如果有等號賦值 (例如: int x = 10;)
 	if node.Value != nil {
 		val = Eval(node.Value, env)
@@ -1226,15 +1270,8 @@ func evalTypedVarDecl(node *ast.TypedVarDecl, env object.Environment) object.Obj
 			return val
 		}
 	} else {
-		// 2. 如果沒有賦值，給予預設值 (LPC 慣例：int 為 0, string 為 0 或 "", mapping 為 ([]) 等)
-		// 目前我們先簡單給 NilValue，後續可依型別給予不同初始值
-		val = NilValue 
-	}
-
-	// 執行型別檢查！
-	expectedType := node.Token.Literal
-	if node.IsArray {
-		expectedType = "array"
+		// 2. 🚀 關鍵相容：使用對應型別的預設值
+		val = GetDefaultLPCValue(expectedType)
 	}
 
 	if !checkTypeMatch(expectedType, val) {
@@ -1267,6 +1304,9 @@ func checkTypeMatch(lpcType string, obj object.Object) bool {
 		}
 		return tt == object.StringType
 	case "float":
+		if i, ok := obj.(*object.Integer); ok && i.Value == 0 {
+			return true // 🚀 關鍵相容：允許 0 指派給 float
+		}
 		return obj.TokenType() == object.FloatType
 	case "mixed":
 		return true
@@ -1294,8 +1334,10 @@ func checkTypeMatch(lpcType string, obj object.Object) bool {
 
 // GetDefaultLPCValue 取得 LPC 的預設值
 func GetDefaultLPCValue(lpcType string) object.Object {
-	// 🚀 關鍵相容：在 MudOS/LPC 中，所有未初始化的變數預設值皆為整數 0
-	// 即使是 string, object, mapping 或 array 類型也是如此
+	if lpcType == "float" {
+		return &object.Float{Value: 0.0}
+	}
+	// 🚀 關鍵相容：在 MudOS/LPC 中，大部分未初始化的變數預設值皆為整數 0
 	return &object.Integer{Value: 0}
 }
 

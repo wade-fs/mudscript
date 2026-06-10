@@ -297,21 +297,27 @@ func (d *Driver) registerStringEfuns(obj *object.LPCObject) {
 				return object.NewError("第一個參數必須是字串")
 			}
 
-			// 🚀 關鍵最佳化：使用正規表示式取代所有 LPC 格式標籤為 %s，並將所有參數轉換為字串
-			var re = regexp.MustCompile("%[dsfO]")
-			formatStr := re.ReplaceAllString(formatObj.Value, "%s")
+			// 🚀 對於 %O 格式符（LPC 物件 Inspect），將其替換為 %s（因為 arguments 都會被轉成字串表示法）
+			// 保留寬度/對齊修飾，例如 %-20O 轉成 %-20s
+			var reO = regexp.MustCompile(`(%[-+ 0]*[0-9]*(\.[0-9]+)?)O`)
+			formatStr := reO.ReplaceAllString(formatObj.Value, "${1}s")
 			
 			var goArgs []interface{}
 			for _, arg := range args[1:] {
-			        if arg == nil {
-			                goArgs = append(goArgs, "nil")
-			        } else if s, ok := arg.(*object.String); ok {
-			                // 🚀 對於字串，直接使用其原始值，避免雙引號
-			                goArgs = append(goArgs, s.Value)
-			        } else {
-			                // 🚀 其他物件利用 Inspect() 取得其 LPC 表達方式
-			                goArgs = append(goArgs, arg.Inspect())
-			        }
+				if arg == nil {
+					goArgs = append(goArgs, "nil")
+				} else {
+					switch v := arg.(type) {
+					case *object.Integer:
+						goArgs = append(goArgs, v.Value)
+					case *object.Float:
+						goArgs = append(goArgs, v.Value)
+					case *object.String:
+						goArgs = append(goArgs, v.Value)
+					default:
+						goArgs = append(goArgs, arg.Inspect())
+					}
+				}
 			}
 			
 			// 防護：使用 recover 避免 sprintf 拋出 panic

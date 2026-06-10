@@ -20,6 +20,7 @@
   "can_open": 0,
   "combat_target": 0,
   "current_mudlib": "",
+  "cwd": "/",
   "data_base_path": "/mudlib/data/",
   "defence": 18,
   "equip_body": null,
@@ -30,25 +31,30 @@
   "equip_weapon": null,
   "exp": 0,
   "exp_to_next": 1000,
-  "explored_rooms": {},
+  "explored_rooms": {
+    "/area/lm/center_world.c": 1,
+    "/area/newbie/room_0_0.c": 1,
+    "/area/newbie/room_4_4.c": 1
+  },
   "followers": [],
   "full_id": "",
   "guild": "",
   "guild_exp": 0,
   "guild_rank": "",
-  "heart_beat_count": 0,
+  "heart_beat_count": 3,
   "hp": 135,
   "id": "wade",
   "id_list": [
     "wade"
   ],
   "in_combat": 0,
+  "in_edit": 0,
   "is_closed": 0,
   "is_dead": 0,
   "is_riding": 0,
   "lang": "zh-TW",
-  "last_bank_time": 0,
-  "last_location": "",
+  "last_bank_time": 1781088373,
+  "last_location": "/area/lm/center_world.c",
   "leader": null,
   "level": 1,
   "long_name": "這是一個沒有描述的東西。",
@@ -86,7 +92,10 @@
   "stat_int": 12,
   "stat_str": 15,
   "stat_wis": 12,
-  "temp_vars": {},
+  "temp_vars": {
+    "last_location": "/area/newbie/room_4_4.c",
+    "lm_return_room": "/area/newbie/room_4_4.c"
+  },
   "write_paths": [
     "/"
   ]

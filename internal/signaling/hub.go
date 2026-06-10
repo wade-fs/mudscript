@@ -1,7 +1,10 @@
 package signaling
 
 import (
+	"encoding/json"
 	"fmt"
+	"os"
+	"path/filepath"
 	"strings"
 
 	"mudscript/driver"
@@ -40,6 +43,19 @@ func (h *Hub) Run() {
 				pConn.OutputCallback = func(mudText string) {
 					defer func() { recover() }() // 🚀 安全防護
 					if pConn.IsActive {
+						// 🚀 關鍵：偵測是否為原始 JSON 訊息
+						if strings.HasPrefix(mudText, "__JSON_MSG__") {
+							rawJson := strings.TrimPrefix(mudText, "__JSON_MSG__")
+							var customMsg Message
+							if err := json.Unmarshal([]byte(rawJson), &customMsg); err == nil {
+								select {
+								case client.Send <- customMsg:
+								default:
+								}
+								return
+							}
+						}
+
 						msgType := "mud_text"
 						payload := mudText
 						if strings.HasPrefix(mudText, "__RAW__") {
@@ -130,6 +146,90 @@ func (h *Hub) Run() {
 				// 🚀 關鍵修正：統一調用 Driver 的核心指令處理邏輯
 				// 這會確保 Web 客戶端與原生客戶端的行為完全一致
 				h.mudDriver.ProcessCommand(p, msg.Payload)
+
+			} else if msg.Type == "save_file" {
+				// 🚀 關鍵：Web IDE 存檔處理
+				client, ok := h.clients[msg.From]
+				if !ok || client.MudConn == nil || client.MudConn.Object == nil {
+					continue
+				}
+				p := client.MudConn
+				obj := p.Object
+
+				// 從 Payload 解析 JSON (預期格式: {"path": "...", "content": "..."})
+				var saveReq struct {
+					Path    string `json:"path"`
+					Content string `json:"content"`
+				}
+				if err := json.Unmarshal([]byte(msg.Payload), &saveReq); err != nil {
+					h.mudDriver.TellObject(obj, "❌ 存檔失敗：無效的 JSON 格式\n")
+					continue
+				}
+
+				// 1. 權限檢查
+				resolvedPath := h.mudDriver.ResolvePath(obj.Filename, saveReq.Path)
+				allowed, errMsg := h.mudDriver.CheckWritePermission(obj, resolvedPath, "save_web_file")
+				if !allowed {
+					h.mudDriver.TellObject(obj, "❌ 存檔失敗：" + errMsg + "\n")
+					continue
+				}
+
+				// 2. 寫入檔案
+				fullPath := filepath.Join(h.mudDriver.Config.MudLibPath, resolvedPath)
+				if err := os.MkdirAll(filepath.Dir(fullPath), 0755); err != nil {
+					h.mudDriver.TellObject(obj, "❌ 存檔失敗：無法建立目錄\n")
+					continue
+				}
+				if err := os.WriteFile(fullPath, []byte(saveReq.Content), 0644); err != nil {
+					h.mudDriver.TellObject(obj, "❌ 存檔失敗：" + err.Error() + "\n")
+					continue
+				}
+
+				h.mudDriver.TellObject(obj, "✅ 檔案 " + resolvedPath + " 已儲存。\n")
+
+				// 3. 嘗試編譯並載入 (以獲取錯誤訊息)
+				// 先移除舊物件
+				if ob := h.mudDriver.FindObject(resolvedPath); ob != nil {
+					h.mudDriver.DestructObject(ob)
+				}
+				
+				_, err := h.mudDriver.LoadObject(resolvedPath)
+				if err != nil {
+					// 🚀 發送編譯錯誤給 Web IDE
+					errMsg := err.Error()
+					client.Send <- Message{
+						Type:    "compile_error",
+						From:    "system",
+						To:      client.ID,
+						Payload: errMsg,
+					}
+					h.mudDriver.TellObject(obj, "❌ 編譯失敗：" + errMsg + "\n")
+				} else {
+					// 🚀 發送編譯成功給 Web IDE
+					client.Send <- Message{
+						Type:    "compile_success",
+						From:    "system",
+						To:      client.ID,
+						Payload: resolvedPath,
+					}
+					h.mudDriver.TellObject(obj, "✅ 編譯成功。\n")
+				}
+
+			} else if msg.Type == "request_edit" {
+				// 🚀 關鍵：前端主動請求編輯檔案
+				client, ok := h.clients[msg.From]
+				if !ok || client.MudConn == nil {
+					continue
+				}
+				h.mudDriver.ProcessCommand(client.MudConn, "edit " + msg.Payload)
+
+			} else if msg.Type == "close_file" {
+				// 🚀 關鍵：前端關閉編輯器，釋放鎖定
+				client, ok := h.clients[msg.From]
+				if ok && client.MudConn != nil && client.MudConn.Object != nil {
+					// 呼叫 user.c 中的 cleanup_editor
+					h.mudDriver.CallFunction(client.MudConn.Object, "cleanup_editor", nil)
+				}
 
 			} else if msg.Type == "chat" {
 				if h.mudDriver != nil && h.mudDriver.OnP2PMessage != nil {

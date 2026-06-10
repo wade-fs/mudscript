@@ -80,6 +80,11 @@ func (d *Driver) ExecuteCallback(obj *object.LPCObject, fnArg object.Object, arg
 	}
 }
 
+// CheckReadPermission 匯出供外部 (如 signaling) 使用
+func (d *Driver) CheckReadPermission(caller *object.LPCObject, path string, efunName string) (bool, string) {
+	return d.checkReadPermission(caller, path, efunName)
+}
+
 // checkReadPermission 呼叫 LPC 的 valid_read 來判定權限
 func (d *Driver) checkReadPermission(caller *object.LPCObject, path string, efunName string) (bool, string) {
 	// 🚀 遞迴防護：防止在 valid_read 內部呼叫 load_object 導致無限循環
@@ -136,8 +141,12 @@ func (d *Driver) checkReadPermission(caller *object.LPCObject, path string, efun
 	}
 }
 
+// CheckWritePermission 匯出供外部 (如 signaling) 使用
+func (d *Driver) CheckWritePermission(caller *object.LPCObject, path string, efunName string) (bool, string) {
+	return d.checkWritePermission(caller, path, efunName)
+}
+
 // checkWritePermission 呼叫 LPC 的 valid_write 來判定權限
-// 回傳值: (是否允許寫入 bool, 錯誤訊息 string)
 func (d *Driver) checkWritePermission(caller *object.LPCObject, path string, efunName string) (bool, string) {
 	// 🚀 遞迴防護：防止在 valid_write 內部再次觸發寫入檢查導致無限循環
 	gid := getGID()
