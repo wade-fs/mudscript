@@ -74,6 +74,7 @@ int main(object me, string verb, string arg) {
             tell_object(me, "{\"ui\": \"mc_exit\"}\n");
             
             me->move(dest);
+            me->save(); // 🚀 修正：離開創界後立即存檔，避免 last_location 殘留
             dest->look_room(me);
         } else {
             write("$RED$找不到目的地。\n$NOR$");

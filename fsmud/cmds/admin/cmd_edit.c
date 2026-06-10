@@ -11,12 +11,8 @@ int main(object me, string verb, string arg) {
         return 0;
     }
 
-    if (!arg || arg == "") {
-        write(select_lang(([
-            "en": "Usage: edit <file path> [template]\n",
-            "zh-TW": "用法：edit <檔案路徑> [範本名稱]\n",
-            "zh-CN": "用法：edit <文件路径> [範本名称]\n"
-        ])));
+    if (!arg || arg == "" || arg == "help") {
+        write(help());
         return 1;
     }
 
