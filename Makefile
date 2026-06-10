@@ -119,9 +119,9 @@ test-fs: fs
 	@echo "🧪 Running Connection & Login Test on Legacy FS..."
 	@go run ./cmd/test-fs/main.go 2>&1 | tee test-fs.txt
 
-# 執行 FSMUD 自動登入與互動測試
-test-fsmud:
-	@echo "🧪 Running Connection, Auto-Login & Interactive Client on FSMUD..."
+# 執行 FSMUD 自動化一鍵整合測試
+test-fsmud: fsmud
+	@echo "🧪 Running Integration Test on FSMUD..."
 	@go run ./cmd/test-fsmud/main.go
 
 

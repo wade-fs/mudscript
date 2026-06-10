@@ -8,6 +8,7 @@ import (
 	"log"
 	"net/url"
 	"os"
+	"os/exec"
 	"strings"
 	"time"
 
@@ -47,11 +48,44 @@ func toAnsi(text string) string {
 }
 
 func main() {
+	// 1. 啟動 bin/fsmud 伺服器
+	log.Println("🚀 正在啟動 fsmud 伺服器進行整合測試...")
+	cmd := exec.Command("./bin/fsmud", "-mudlib", "fsmud", "-master", "master.c")
+
+	// 捕獲輸出以追蹤任何運行期錯誤
+	stdout, _ := cmd.StdoutPipe()
+	cmd.Stderr = os.Stderr
+
+	if err := cmd.Start(); err != nil {
+		log.Fatalf("❌ 無法啟動伺服器: %v", err)
+	}
+
+	// 非同步讀取伺服器日誌
+	go func() {
+		scanner := bufio.NewScanner(stdout)
+		for scanner.Scan() {
+			line := scanner.Text()
+			if strings.Contains(line, "RUNTIME ERROR") || strings.Contains(line, "panic") {
+				fmt.Printf("\n🔥 [SERVER ERROR]: %s\n", line)
+			}
+		}
+	}()
+
+	// 確保結束時伺服器進程被終止
+	defer func() {
+		log.Println("🛑 正在關閉伺服器...")
+		cmd.Process.Kill()
+	}()
+
+	// 2. 等待伺服器就緒
+	time.Sleep(3 * time.Second)
+
+	// 3. 連線至 fsmud 伺服器
 	log.Println("🔌 正在連線至 fsmud 伺服器 (ws://localhost:8080/ws)...")
 	u := url.URL{Scheme: "ws", Host: "localhost:8080", Path: "/ws"}
 	conn, _, err := websocket.DefaultDialer.Dial(u.String(), nil)
 	if err != nil {
-		log.Fatalf("❌ 連線失敗: %v\n請確認伺服器已透過 'make run-fsmud' 啟動，且監聽在 8080 埠。", err)
+		log.Fatalf("❌ 連線失敗: %v\n請確認 8080 埠未被佔用。", err)
 	}
 	defer conn.Close()
 	log.Println("✅ 連線成功！")
@@ -62,7 +96,6 @@ func main() {
 			_, message, err := conn.ReadMessage()
 			if err != nil {
 				log.Println("\n❌ 與伺服器連線中斷。")
-				os.Exit(0)
 				return
 			}
 			var msg WsMsg
@@ -80,7 +113,7 @@ func main() {
 		conn.WriteMessage(websocket.TextMessage, payload)
 	}
 
-	// 模擬自動登入程序與互動
+	// 4. 模擬自動登入程序
 	time.Sleep(500 * time.Millisecond)
 	
 	log.Println("\n🤖 [自動測試] 選擇語系：2 (繁體中文)")
@@ -93,7 +126,7 @@ func main() {
 
 	log.Println("🤖 [自動測試] 輸入密碼：jj")
 	sendMsg("jj")
-	time.Sleep(1500 * time.Millisecond)
+	time.Sleep(3500 * time.Millisecond)
 
 	// 執行測試指令清單
 	testCmds := []string{
@@ -103,25 +136,15 @@ func main() {
 		"out",
 		"lm",
 		"look",
+		"mc leave", // 💡 測試完畢，離開創界世界，回到預設的新手村 (room_0_0)
+		"shutdown",  // 💡 執行系統關閉指令，使伺服器存檔並安全退場
 	}
 
-	for _, cmd := range testCmds {
-		log.Printf("\n🤖 [自動測試] 執行指令：%s", cmd)
-		sendMsg(cmd)
+	for _, cmdStr := range testCmds {
+		log.Printf("\n🤖 [自動測試] 執行指令：%s", cmdStr)
+		sendMsg(cmdStr)
 		time.Sleep(1500 * time.Millisecond) // 等待伺服器回應與看清輸出
 	}
 
-	log.Println("\n🎉 [自動測試] 自動腳本執行完畢！已切換至互動模式。")
-	log.Println("👉 您現在可以直接在下方輸入指令與 MUD 互動（例如輸入 'east'、'look'、'help' 等，輸入 'quit' 可結束）：")
-
-	// 啟動互動式讀取
-	scanner := bufio.NewScanner(os.Stdin)
-	for scanner.Scan() {
-		input := scanner.Text()
-		if input == "quit" || input == "exit" {
-			log.Println("👋 正在離開測試程式...")
-			break
-		}
-		sendMsg(input)
-	}
+	log.Println("\n🎉 [自動測試] 一鍵啟動 → 測試 → 關閉 整合測試執行完畢。")
 }
