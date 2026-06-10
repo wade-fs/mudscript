@@ -23,7 +23,7 @@ GO_FLAGS := -ldflags="-s -w"
 COMMON_ENV := CGO_CFLAGS="-Wno-return-local-addr"
 ENVW := $(COMMON_ENV) CGO_ENABLED=1 GOOS=windows GOARCH=amd64 CC="x86_64-w64-mingw32-gcc -fno-stack-protector -D_FORTIFY_SOURCE=0 -lssp"
 
-.PHONY: all clean test-fsmud fsmud fsmud.exe fs fs.exe mud-universal mud-universal.exe mudscript mudscript.exe run-fsmud run-fs push inject-hash
+.PHONY: all clean test test-driver fsmud fsmud.exe fs fs.exe mud-universal mud-universal.exe mudscript mudscript.exe run-fsmud run-fs push inject-hash
 
 all: fsmud fsmud.exe fs fs.exe mud-universal mud-universal.exe mudscript mudscript.exe
 
@@ -98,9 +98,11 @@ mudscript.exe: $(OUT)
 	@ls -l $(OUT)/$@
 
 # 執行測試
-test-fsmud: fsmud
-	@echo "🧪 Running MudScript Core Tests on fsmud/ mudlib..."
-	@MUD_TEST_MODE=1 $(OUT)/fsmud --hub none 2>&1 | tee test-fsmud.txt
+test-driver: mudscript
+	@echo "🧪 Running MudScript Core Tests on driver in isolation..."
+	@MUD_TEST_MODE=1 $(OUT)/mudscript -mudlib testlib -master master.c --hub none 2>&1 | tee test-driver.txt
+
+test: test-driver
 
 # 正常執行伺服器
 run-fsmud: fsmud

@@ -186,8 +186,34 @@ func (h *Hub) Run() {
 				}
 
 				h.mudDriver.TellObject(obj, "✅ 檔案 " + resolvedPath + " 已儲存。\n")
-				// 3. 自動執行 update
-				h.mudDriver.ProcessCommand(p, "update " + resolvedPath)
+
+				// 3. 嘗試編譯並載入 (以獲取錯誤訊息)
+				// 先移除舊物件
+				if ob := h.mudDriver.FindObject(resolvedPath); ob != nil {
+					h.mudDriver.DestructObject(ob)
+				}
+				
+				_, err := h.mudDriver.LoadObject(resolvedPath)
+				if err != nil {
+					// 🚀 發送編譯錯誤給 Web IDE
+					errMsg := err.Error()
+					client.Send <- Message{
+						Type:    "compile_error",
+						From:    "system",
+						To:      client.ID,
+						Payload: errMsg,
+					}
+					h.mudDriver.TellObject(obj, "❌ 編譯失敗：" + errMsg + "\n")
+				} else {
+					// 🚀 發送編譯成功給 Web IDE
+					client.Send <- Message{
+						Type:    "compile_success",
+						From:    "system",
+						To:      client.ID,
+						Payload: resolvedPath,
+					}
+					h.mudDriver.TellObject(obj, "✅ 編譯成功。\n")
+				}
 
 			} else if msg.Type == "request_edit" {
 				// 🚀 關鍵：前端主動請求編輯檔案
@@ -196,6 +222,14 @@ func (h *Hub) Run() {
 					continue
 				}
 				h.mudDriver.ProcessCommand(client.MudConn, "edit " + msg.Payload)
+
+			} else if msg.Type == "close_file" {
+				// 🚀 關鍵：前端關閉編輯器，釋放鎖定
+				client, ok := h.clients[msg.From]
+				if ok && client.MudConn != nil && client.MudConn.Object != nil {
+					// 呼叫 user.c 中的 cleanup_editor
+					h.mudDriver.CallFunction(client.MudConn.Object, "cleanup_editor", nil)
+				}
 
 			} else if msg.Type == "chat" {
 				if h.mudDriver != nil && h.mudDriver.OnP2PMessage != nil {

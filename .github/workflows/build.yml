@@ -33,8 +33,7 @@ jobs:
     - name: Run MudScript Core Tests
       run: |
         go mod tidy
-        make fsmud
-        MUD_TEST_MODE=1 ./bin/fsmud --hub none
+        make test-driver
 
     - name: Build All Targets
       run: |
