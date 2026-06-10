@@ -53,8 +53,6 @@ if (me->query_role() != "god") {
     }
 }
 
-if (rm(arg)) {
-
     if (file_size(arg) == -1) {
         write("$RED$" + select_lang(([
             "en": "Error: File does not exist ",
@@ -88,7 +86,6 @@ if (rm(arg)) {
     }
 
     return 1;
-}
 
 string *query_verbs() { return ({ "rm" }); }
 string query_category() { return "Admin"; }

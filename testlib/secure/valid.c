@@ -20,7 +20,15 @@ mixed valid_read(string path, object user, string func) {
         return 1;
     }
     
-    string role = user->query_role();
+    // 🚀 核心修正：角色判定應該優先看 this_player()
+    object tp = this_player();
+    string role;
+    if (tp && userp(tp)) {
+        role = tp->query_role();
+    } else {
+        role = user->query_role();
+    }
+    
     if (role == "god") return 1;
 
     // 保護敏感目錄
@@ -84,21 +92,29 @@ mixed valid_write(string path, object user, string func)
         if (strsrch(path, "/log/") == 0) return 1;
     }
 
-    role = user->query_role();
+    // 🚀 核心修正：角色判定應該優先看 this_player()
+    // 如果是玩家下令的動作（透過指令物件），應該以該玩家的權限為準
+    object tp = this_player();
+    if (tp && userp(tp)) {
+        role = tp->query_role();
+    } else {
+        role = user->query_role();
+    }
 
     // 2. 天神擁有絕對權限
     if (role == "god") { return 1; }
 
     // 3. 巫師 (Wizard) 權限：允許開發遊戲內容
     if (role == "wizard") {
-        // 允許寫入區域、NPC、物品、指令等非核心目錄
+        // 允許寫入區域、NPC、物品、指令、使用者工作目錄等非核心目錄
         if (strsrch(path, "/area/") == 0 || 
             strsrch(path, "/npc/") == 0 || 
             strsrch(path, "/item/") == 0 ||
             strsrch(path, "/cmds/") == 0 ||
             strsrch(path, "/log/") == 0 ||
             strsrch(path, "/open/") == 0 ||
-            strsrch(path, "/tests/") == 0) {
+            strsrch(path, "/tests/") == 0 ||
+            strsrch(path, "/u/") == 0) {
             return 1;
             }
 

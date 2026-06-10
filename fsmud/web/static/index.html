@@ -96,7 +96,7 @@
         .suggest-item { padding: 10px 20px; cursor: pointer; border-bottom: 1px solid #333; display: flex; justify-content: space-between; }
         .suggest-item.active { background: #4CAF50; color: #fff; }
     </style>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.44.0/min/vs/loader.js"></script>
+    <script src="monaco-editor.js"></script>
 </head>
 <body>
 <div id="wrapper">
@@ -737,40 +737,77 @@
     // --- Web IDE / Monaco Editor Logic ---
     let monacoEditor = null;
     let currentEditPath = "";
+    let pendingEditorData = null;
 
     // 初始化 Monaco
-    require.config({ paths: { 'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.44.0/min/vs' }});
-    require(['vs/editor/editor.main'], function() {
-        // 定義 LPC 語法高亮 (基於 C 擴充)
-        monaco.languages.register({ id: 'lpc' });
-        monaco.languages.setMonarchTokensProvider('lpc', {
-            tokenizer: {
-                root: [
-                    [/[a-zA-Z_]\w*/, {
-                        cases: {
-                            'inherit|mixed|object|string|int|float|mapping|array|void|private|protected|public|nomask|varargs|virtual|static|status': 'keyword',
-                            '@default': 'identifier'
-                        }
-                    }],
-                    { include: 'vs/basic-languages/cpp/cpp' } // 繼承 C++ 基礎
-                ]
+    require.config({ paths: { 'vs': 'https://cdn.jsdelivr.net/npm/monaco-editor@0.44.0/min/vs' }});
+    
+    function initMonaco() {
+        require(['vs/editor/editor.main'], function() {
+            // 定義 LPC 語法高亮
+            monaco.languages.register({ id: 'lpc' });
+            monaco.languages.setMonarchTokensProvider('lpc', {
+                keywords: [
+                    'inherit', 'mixed', 'object', 'string', 'int', 'float', 'mapping', 'array', 
+                    'void', 'private', 'protected', 'public', 'nomask', 'varargs', 'virtual', 
+                    'static', 'status', 'if', 'else', 'for', 'while', 'foreach', 'switch', 
+                    'case', 'default', 'break', 'continue', 'return'
+                ],
+                tokenizer: {
+                    root: [
+                        [/[a-zA-Z_]\w*/, {
+                            cases: {
+                                '@keywords': 'keyword',
+                                '@default': 'identifier'
+                            }
+                        }],
+                        [/\/\/.*$/, 'comment'],
+                        [/\/\*/, 'comment', '@comment'],
+                        [/"([^"\\]|\\.)*$/, 'string.invalid'],
+                        [/"/, 'string', '@string'],
+                        [/[{}()\[\]]/, '@brackets'],
+                        [/[0-9]+/, 'number'],
+                    ],
+                    comment: [
+                        [/[^\/*]+/, 'comment'],
+                        [/\*\//, 'comment', '@pop'],
+                        [/[\/*]/, 'comment']
+                    ],
+                    string: [
+                        [/[^\\"]+/, 'string'],
+                        [/\\./, 'string.escape'],
+                        [/"/, 'string', '@pop']
+                    ],
+                }
+            });
+
+            monacoEditor = monaco.editor.create(document.getElementById('editor-container'), {
+                value: '',
+                language: 'lpc',
+                theme: 'vs-dark',
+                automaticLayout: true,
+                fontSize: 16,
+                minimap: { enabled: true },
+                wordWrap: "on"
+            });
+
+            // 快捷鍵支援
+            monacoEditor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyS, function() {
+                saveEditorFile();
+            });
+
+            if (pendingEditorData) {
+                openEditor(pendingEditorData);
+                pendingEditorData = null;
             }
+        }, function(err) {
+            console.error("Monaco Load Error:", err);
+            document.getElementById("editor-status").style.color = "#ff5252";
+            document.getElementById("editor-status").innerText = "❌ Engine Load Failed. Check network or try refresh.";
         });
+    }
 
-        monacoEditor = monaco.editor.create(document.getElementById('editor-container'), {
-            value: '',
-            language: 'cpp', // 預設先用 cpp
-            theme: 'vs-dark',
-            automaticLayout: true,
-            fontSize: 16,
-            minimap: { enabled: true }
-        });
-
-        // 快捷鍵支援
-        monacoEditor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyS, function() {
-            saveEditorFile();
-        });
-    });
+    initMonaco();
 
     function handleCompileError(msg) {
         const status = document.getElementById("editor-status");
@@ -792,7 +829,7 @@
             ws.send(JSON.stringify({ type: "close_file", payload: currentEditPath }));
             currentEditPath = null;
         }
-        togglePanel('panel-editor');
+        document.getElementById('panel-editor').classList.remove('active');
     }
 
     function openEditor(data) {
@@ -804,10 +841,14 @@
             const lang = (ext === 'c' || ext === 'h') ? 'lpc' : 'plaintext';
             monaco.editor.setModelLanguage(monacoEditor.getModel(), lang);
             monacoEditor.setValue(data.content);
+            document.getElementById("editor-status").innerText = "";
+        } else {
+            pendingEditorData = data;
+            document.getElementById("editor-status").innerText = "Loading Editor Engine...";
         }
         
-        document.getElementById("editor-status").innerText = "";
-        togglePanel('panel-editor');
+        document.querySelectorAll('.overlay-panel').forEach(p => p.classList.remove('active'));
+        document.getElementById('panel-editor').classList.add('active');
         if (monacoEditor) setTimeout(() => monacoEditor.focus(), 100);
 
         // 如果 Explorer 是空的，自動重新整理
@@ -930,7 +971,10 @@
 
     document.addEventListener('click', (e) => {
         hideHistory();
-        if (['INPUT','BUTTON','A','SELECT','OPTION'].includes(e.target.tagName) || e.target.classList.contains('cmd-link') || e.target.classList.contains('map-exit')) return;
+        if (['INPUT','BUTTON','A','SELECT','OPTION'].includes(e.target.tagName) || 
+            e.target.classList.contains('cmd-link') || 
+            e.target.classList.contains('map-exit') ||
+            e.target.closest('#panel-editor')) return;
         if (!window.getSelection().toString() && msgInput) msgInput.focus();
     });
     function setMCAction(a, btn) {

@@ -218,6 +218,12 @@ void setup() {
 
     // 處理進入世界的位置
     if (last_location && last_location != "" && last_location != "/") {
+        // 🚀 核心修正：如果上次地點在創界 (Genesis World) 或遠端緩存，自動導向起始點
+        // 確保玩家不會卡在創界或緩存目錄中登入
+        if (strsrch(last_location, "/area/lm/") == 0 || strsrch(last_location, FS_CACHE_DIR) == 0) {
+            last_location = query_start_room();
+        }
+
         object loc = load_object(last_location);
         if (loc) {
             move_object(loc);
@@ -249,6 +255,9 @@ int process_input(string input) {
     
     input = trim(input);
     if (!input) return 0;
+
+    // 🚀 核心修正：展開別名 (Aliases)
+    input = expand_alias(input);
 
     // 1. 處理特殊符號指令 (如 ' 代表 say, : 代表 emote)
     if (substr(input, 0, 1) == "'") {
