@@ -8,6 +8,7 @@ require (
 	github.com/pion/stun v0.6.1
 	github.com/pion/webrtc/v4 v4.2.12
 	golang.org/x/crypto v0.48.0
+	gopkg.in/yaml.v3 v3.0.1
 )
 
 require (
