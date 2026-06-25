@@ -8,6 +8,8 @@ import (
 	"strings"
 
 	"mudscript/object"
+
+	"gopkg.in/yaml.v3"
 )
 
 func (d *Driver) registerDataStructures(obj *object.LPCObject) {
@@ -124,6 +126,62 @@ func (d *Driver) registerDataStructures(obj *object.LPCObject) {
 			return goToLPCValue(raw)
 		},
 	})
+
+	// 語法: string yaml_encode(mixed data)
+	// 說明: 將 LPC 物件轉成 YAML 字串
+	// 範例: string yml = yaml_encode(data);
+	obj.Vars.Set("yaml_encode", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 1 {
+				return &object.String{Value: ""}
+			}
+			goVal := lpcToGoValue(args[0])
+			yamlData, err := yaml.Marshal(goVal)
+			if err != nil {
+				return &object.String{Value: ""}
+			}
+			return &object.String{Value: string(yamlData)}
+		},
+	})
+
+	// 語法: mixed yaml_decode(string yaml_str)
+	// 說明: 將 YAML 字串轉回 LPC 物件 (透過 JSON 正規化處理以保證型別一致性)
+	// 範例: mixed data = yaml_decode(yaml_content);
+	obj.Vars.Set("yaml_decode", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 1 {
+				return &object.Nil{}
+			}
+			yamlStr, ok := args[0].(*object.String)
+			if !ok {
+				return &object.Nil{}
+			}
+
+			var raw interface{}
+			err := yaml.Unmarshal([]byte(yamlStr.Value), &raw)
+			if err != nil {
+				fmt.Printf("⚠️ yaml_decode error: %v\n", err)
+				return &object.Nil{}
+			}
+
+			// 透過 JSON 正規化類型，避免 Go map[interface{}]interface{} 類型與整數類型不相容問題
+			jsonBytes, err := json.Marshal(raw)
+			if err != nil {
+				fmt.Printf("⚠️ yaml_decode json marshal error: %v\n", err)
+				return &object.Nil{}
+			}
+
+			var jsonRaw interface{}
+			err = json.Unmarshal(jsonBytes, &jsonRaw)
+			if err != nil {
+				fmt.Printf("⚠️ yaml_decode json unmarshal error: %v\n", err)
+				return &object.Nil{}
+			}
+
+			return goToLPCValue(jsonRaw)
+		},
+	})
+
 	// 語法: mixed *values(mapping m)
 	// 說明: 取得 Mapping 中所有的 Value，回傳為陣列。
 	// 範例: values((["hp": 100, "mp": 50])) -> ({ 100, 50 })
