@@ -13,10 +13,11 @@ void create() {
              "數十丈，山巔罡風呼嘯凜冽，將衣袍吹得獵獵作響。崖頂中央坐落著半座坍\n"
              "塌的白石法壇，壇面雕刻著早已辨認不清的陰陽卦紋，一株盤根錯節的老松\n"
              "迎風挺立在萬丈深淵之畔。遠離了凡間市井牲畜的煙火騷氣，唯有蒼茫天宇\n"
-             "與流轉星漢相伴。\n");
+             "與流轉星漢相伴。順著狹窄石階向下 (down)，可回到山腰的三清偏殿。\n");
 
     set_exits(([
-        "east": "/d/village/square.c",
+        "down": "/d/village/daoist_temple.c",
+        "east": "/d/village/daoist_temple.c",
     ]));
 
     set("is_outdoor", 1);

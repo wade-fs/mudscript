@@ -13,14 +13,17 @@ void create() {
              "磨得凹凸斑駁，泛著深沉的黑青色。街市中央搭著幾間避風的破舊茶棚，\n"
              "旁邊的鐵匠鋪內炭火熊熊，傳出節奏分明的叮噹打鐵聲。幾塊告示牌斜插\n"
              "在老客棧門口，貼滿了鄉民求助與商隊招募的泛黃布告。\n"
-             "向北是一座寸草不生的陡峭黑石斷崖，南邊飄來陣陣水霧與溪流的轟鳴，\n"
-             "東面是遮蔽天日的荊棘荒林，西面則聳立著通往廢棄道壇的孤岩天梯。\n");
+             "向北通往黑石斷崖古礦道，南邊飄來幽霧水谷的陣陣水霧，\n"
+             "東面是炭火正旺的老鐵匠鋪，西面山腰坐落著一間破落道觀，\n"
+             "東南方有獵戶搭建的防獸哨亭，西南後巷則蜿蜒通往破舊柴棚。\n");
 
     set_exits(([
-        "north": "/d/village/mine.c",
-        "south": "/d/village/stream.c",
-        "east":  "/d/village/forest.c",
-        "west":  "/d/village/altar.c",
+        "north":     "/d/village/mine.c",
+        "south":     "/d/village/stream.c",
+        "east":      "/d/village/forge.c",
+        "west":      "/d/village/daoist_temple.c",
+        "southeast": "/d/village/hunter_cabin.c",
+        "southwest": "/d/village/shed.c",
     ]));
 
     set("no_combat", 1);
@@ -46,8 +49,9 @@ string query_long() {
         }
     }
 
-    res += "向北是一座寸草不生的陡峭黑石斷崖，南邊飄來陣陣水霧與溪流的轟鳴，\n"
-           "東面是遮蔽天日的荊棘荒林，西面則聳立著通往廢棄道壇的孤岩天梯。\n";
+    res += "向北通往黑石斷崖古礦道，南邊飄來幽霧水谷的陣陣水霧，\n"
+           "東面是炭火正旺的老鐵匠鋪，西面山腰坐落著一間破落道觀，\n"
+           "東南方有獵戶搭建的防獸哨亭，西南後巷則蜿蜒通往破舊柴棚。\n";
     return res;
 }
 

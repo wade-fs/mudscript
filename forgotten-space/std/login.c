@@ -178,7 +178,7 @@ void get_nickname(string nick) {
     // ── 身世背景選擇 ──
     write("\n" + "$HIW$── 選擇您的身世背景 ──$NOR$" + "\n");
     mapping bgs = BACKGROUND_DATA;
-    menu_keys = sort_array(keys(bgs), (: $1 > $2 ? 1 : -1 :));
+    menu_keys = BACKGROUND_LIST;
     
     for (int i = 0; i < sizeof(menu_keys); i++) {
         string k = menu_keys[i];

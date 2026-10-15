@@ -15,7 +15,9 @@ void create() {
              "竹刺吊套陷阱。遠處林海深處不時傳來沉悶的狼嚎與飛鳥驚起之聲。\n");
 
     set_exits(([
-        "west": "/d/village/square.c",
+        "north":     "/d/village/hunter_cabin.c",
+        "west":      "/d/village/hunter_cabin.c",
+        "northwest": "/d/village/square.c",
     ]));
 
     set("is_outdoor", 1);

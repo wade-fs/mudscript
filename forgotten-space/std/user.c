@@ -112,6 +112,9 @@ string query_start_room() {
         }
         return FS_CACHE_DIR + "/" + current_mudlib + START_ROOM;
     }
+    if (background && BACKGROUND_DATA[background] && BACKGROUND_DATA[background]["start_room"]) {
+        return BACKGROUND_DATA[background]["start_room"];
+    }
     return START_ROOM;
 }
 

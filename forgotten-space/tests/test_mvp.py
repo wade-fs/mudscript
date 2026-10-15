@@ -50,7 +50,7 @@ async def run_test():
         await send("2")
 
         print("=== 步驟 2: 輸入帳號 ===")
-        await read_until("使用者 ID")
+        await read_until("帳號")
         await send("novelist")
 
         print("=== 步驟 3: 設定密碼 ===")
@@ -63,9 +63,11 @@ async def run_test():
 
         print("=== 步驟 5: 選擇身世背景 ===")
         await read_until("選擇您的身世背景")
-        await send("2") # 破落道童
+        await send("4") # 破落道童
 
-        print("=== 步驟 6: 降臨黑石鋪中央廣場 ===")
+        print("=== 步驟 6: 降臨道觀並前往黑石鋪中央廣場 ===")
+        await read_until("三清偏殿")
+        await send("east")
         await read_until("青石街市")
 
         print("=== 步驟 7: 查看角色數值 (score) ===")
@@ -104,27 +106,33 @@ async def run_test():
         await send("south")
         await read_until("青石街市")
 
-        print("=== 步驟 16: 前往東面荒林 (east) ===")
-        await send("east")
+        print("=== 步驟 16: 前往東南哨亭與荒林 (southeast -> south) ===")
+        await send("southeast")
+        await read_until("獵戶哨亭")
+        await send("south")
         await read_until("大荒外緣")
 
         print("=== 步驟 17: 檢視陷阱鍛鍊靈巧感知 (trap) ===")
         await send("trap")
         await read_until("靈巧與感知提升")
 
-        print("=== 步驟 18: 返回中央廣場 (west) ===")
-        await send("west")
+        print("=== 步驟 18: 返回中央廣場 (northwest) ===")
+        await send("northwest")
         await read_until("青石街市")
 
-        print("=== 步驟 19: 前往西面廢棄道壇 (west) ===")
+        print("=== 步驟 19: 前往西面道觀與道壇 (west -> up) ===")
         await send("west")
+        await read_until("三清偏殿")
+        await send("up")
         await read_until("迎風孤岩")
 
         print("=== 步驟 20: 盤膝打坐滋養神識 (meditate) ===")
         await send("meditate")
         await read_until("靈性微幅提升")
 
-        print("=== 步驟 21: 返回中央廣場並退出 (east -> quit) ===")
+        print("=== 步驟 21: 返回中央廣場並退出 (down -> east -> quit) ===")
+        await send("down")
+        await read_until("三清偏殿")
         await send("east")
         await read_until("青石街市")
         await send("quit")
