@@ -38,3 +38,32 @@ void create() {
         "世人笑我太瘋癲，我笑世人瞎了眼！法、力、物三道割裂，各走偏門，到頭來要麼道化化為飛灰，" +
         "要麼肉身氣竭而亡，沒一個能得善終！");
 }
+
+int accept_object(object who, object ob) {
+    if (!who || !ob) return 0;
+
+    if (ob->id("dew herb") || ob->query("herb_type") == "dew") {
+        tell_object(who, HIY "葛半仙雙眼精芒畢露，一把奪過晨露草，狂喜大笑：\n" +
+                         "「好小子！果然是在清晨破曉（卯辰時分）採來的上等晨露草！露水未散，草木清靈之氣猶存！」\n" NOR);
+        tell_object(who, "葛半仙轉身在石臼裡飛快將草藥搗碎，加入兩味不知名的藥散，隨後遞給你一包微溫的藥散。\n");
+        tell_object(who, HIG "【葛半仙為你調配了一包「葛氏活絡散」！】\n" NOR);
+        
+        object powder = clone_object("/clone/item/huoluo_dan.c");
+        if (powder) {
+            powder->move(who);
+        }
+        who->add("exp", 50);
+        destruct(ob);
+        return 1;
+    }
+
+    if (ob->id("herb") || ob->id("chenlucao") || ob->query("herb_type") == "common") {
+        tell_object(who, YEL "葛半仙接過草藥嗅了嗅，直搖頭道：\n" +
+                         "「這草上的晨露早就曬乾了，藥性散了大半！不過也罷，拿去餵兔子吧。」\n" NOR);
+        destruct(ob);
+        return 1;
+    }
+
+    tell_object(who, "葛半仙撇了撇嘴：「老夫只要清晨採得的新鮮靈草，拿這些俗物來糊弄老夫作甚？」\n");
+    return 0;
+}

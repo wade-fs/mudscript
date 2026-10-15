@@ -22,4 +22,5 @@ void create() {
     set("is_outdoor", 0);
 
     spawn_npc("/clone/npc/mo_beggar.c");
+    spawn_item("/clone/item/rubbing_kit.c");
 }

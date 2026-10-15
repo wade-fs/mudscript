@@ -88,7 +88,26 @@ int do_tuoyin(string arg) {
         return 1;
     }
 
-    write("你取出粗紙與炭黑，小心翼翼地敷在石刻凹槽上，均勻拓印...\n");
+    object kit = present("rubbing kit", me);
+    if (!kit) kit = present("kit", me);
+    if (!kit) {
+        object *inv = all_inventory(me);
+        foreach (object ob in inv) {
+            if (ob->query("is_rubbing_kit")) {
+                kit = ob;
+                break;
+            }
+        }
+    }
+
+    if (kit) {
+        write(YEL "你取出隨身攜帶的【粗黃草紙與炭黑條】，就著水氣小心翼翼地敷在石刻凹槽上，均勻拓印...\n" NOR);
+        destruct(kit);
+    } else {
+        write("你身邊未備專用拓具，只得撕下一角粗草紙，拾起半焦木炭，小心翼翼地敷在石刻凹槽上粗糙拓印...\n");
+        write(WHT "（提示：若備有專用的【粗黃草紙與炭黑條】，拓印出的星宿流線將更加完整清晰）\n" NOR);
+    }
+
     write(HIW "一柱香後，你成功將石面上的神秘星紋拓印了下來，獲得了一張【殘缺星圖拓片】！\n" NOR);
 
     object rubbing = clone_object("/clone/relic/stele_rubbing.c");

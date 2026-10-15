@@ -30,6 +30,8 @@ void create() {
     set_required_fate(1);
     set_required_int(2);
     set_inscription("太古天曆：逆行九宿，星軌反震，大清洗紀元始...");
+
+    spawn_npc("/clone/npc/zhang_butcher.c");
 }
 
 string query_long() {
@@ -79,10 +81,88 @@ void init() {
     add_action("do_gather", "gather");
     add_action("do_gather", "採藥");
     add_action("do_gather", "採集");
+    add_action("do_sharpen", "sharpen");
+    add_action("do_sharpen", "磨刀");
+    add_action("do_sharpen", "砥礪");
+    add_action("do_wash", "wash");
+    add_action("do_wash", "洗臉");
+    add_action("do_wash", "洗滌");
+    add_action("do_wash", "掬水");
 }
 
 int do_gather(string arg) {
     return load_object(WORLD_STATE_D)->gather_herb(this_player());
+}
+
+int do_wash(string arg) {
+    object me = this_player();
+    write("你俯下身，將雙手浸入冰涼刺骨的深潭溪水中，捧起一捧甘冽清泉拍在臉上...\n");
+    write(CYN "清澈的水珠沿著面頰滑落，冰冷的水氣驅散了疲憊與濁氣，只覺精神一振，靈台空明！\n" NOR);
+
+    me->add(VITAL_SEN, 15);
+    me->add(VITAL_SP, 10);
+    return 1;
+}
+
+int do_sharpen(string arg) {
+    object me = this_player();
+    object ws = load_object(WORLD_STATE_D);
+
+    if (ws && ws->is_stele_submerged()) {
+        write(HIR "此刻正值山洪暴發，滔滔濁浪早已沒過溪石，無法蹲伏磨刀！\n" NOR);
+        return 1;
+    }
+
+    object weapon = me->query_temp("weapon");
+    if (!weapon && arg) {
+        weapon = present(arg, me);
+    }
+    if (!weapon) {
+        object *inv = all_inventory(me);
+        foreach (object ob in inv) {
+            if (ob->query("weapon_type") == "blade" || ob->id("blade") || ob->id("knife") || ob->id("柴刀") || ob->id("砍刀")) {
+                weapon = ob;
+                break;
+            }
+        }
+    }
+
+    if (!weapon) {
+        write("你想在石板上磨什麼利刃？（請手持或指定刀刃，例如：sharpen blade）\n");
+        return 1;
+    }
+
+    if (me->query(VITAL_SP) < 5) {
+        write(HIR "你精疲力竭，雙臂發軟，連刀都拿不穩了。\n" NOR);
+        return 1;
+    }
+
+    me->add(VITAL_SP, -5);
+
+    write("你蹲在深青色洗衣石板旁，舀了一勺冰涼清澈的溪水澆在石面，\n"
+          "雙手緊握" + weapon->query_short() + "，沉住呼吸，沙沙地在石板凹陷處來回磨礪...\n");
+
+    if (weapon->id("rusty blade") || base_name(weapon) == "/clone/weapon/rusty_blade") {
+        write(HIY "暗紅色的鐵鏽混合著灰白石屑化作濁泥流淌，被清澈急流瞬間沖刷殆盡！\n" NOR);
+        write(HIW "【只見刀刃上的頑固鏽斑盡褪，露出了雪亮刺目的森森精鋼寒芒！】\n" NOR);
+        weapon->set_name("鋼刃柴刀", ({ "sharpened blade", "blade", "chaidao", "柴刀" }));
+        weapon->set_short(HIW "雪亮鋼刃柴刀" NOR);
+        weapon->set_long("一把經過溪灘深青古石精細打磨的厚背柴刀。刃口鋒芒畢露，寒光閃爍，\n"
+                         "揮動時破風之聲清脆，劈柴防獸銳不可當。\n");
+        weapon->set("damage", 10);
+    } else {
+        write(HIC "刀刃與堅硬青石激烈摩擦，濺起點點微弱火星，刃口被磨得格外鋒利錚亮！\n" NOR);
+    }
+
+    if (ws && !ws->is_moss_cleared()) {
+        ws->clear_stream_moss();
+        write(HIR "\n【磨刀的劇烈震顫與石屑剝落，震落了厚厚石垢，露出了深青石板內部森嚴的古怪星紋凹槽！】\n" NOR);
+        write(WHT "你隱約感覺到石面深處有一股極微弱的冷意刺痛了指尖，這絕非普通石板！\n" NOR);
+    }
+
+    me->add(STAT_STR, 1);
+    write(HIG "【在沉穩有力的磨刀推拉中，你的臂力沉凝了幾分！】\n" NOR);
+    return 1;
 }
 
 int do_waterfall(string arg) {

@@ -24,6 +24,8 @@ int main(object me, string verb, string arg) {
         case "appraise":
         case "identify":
             return do_appraise(me, arg);
+        case "give":
+            return do_give(me, arg);
     }
     return 0;
 }
@@ -325,8 +327,56 @@ int do_appraise(object me, string arg) {
     return 1;
 }
 
+int do_give(object me, string arg) {
+    if (!arg || arg == "") {
+        write("你想把什麼東西給誰？用法：give <物品> to <對象>\n");
+        return 1;
+    }
+
+    string item_id, target_id;
+    if (sscanf(arg, "%s to %s", item_id, target_id) != 2 &&
+        sscanf(arg, "%s %s", item_id, target_id) != 2) {
+        write("格式錯誤。用法：give <物品> to <對象>\n");
+        return 1;
+    }
+
+    object target = present(target_id, environment(me));
+    if (!target) {
+        write("這裡沒有「" + target_id + "」。\n");
+        return 1;
+    }
+
+    object item = present(item_id, me);
+    if (!item) {
+        write("你身上沒有「" + item_id + "」。\n");
+        return 1;
+    }
+
+    if (item->query("equipped")) {
+        write("你必須先卸下裝備才能給人。\n");
+        return 1;
+    }
+
+    // 呼叫目標的 accept_object 判定
+    if (function_exists("accept_object", target)) {
+        if (target->accept_object(me, item)) {
+            return 1;
+        }
+    }
+
+    if (item->move(target)) {
+        tell_object(me, "你將一" + (item->query("unit") ? item->query("unit") : "個") + item->query_short() + "交給了" + target->query_name() + "。\n");
+        tell_object(target, me->query_name() + "給了你一" + (item->query("unit") ? item->query("unit") : "個") + item->query_short() + "。\n");
+        tell_room(environment(me), me->query_name() + "給了" + target->query_name() + "一些東西。\n", ({ me, target }));
+        return 1;
+    }
+
+    write("無法將物品交給對方。\n");
+    return 1;
+}
+
 string *query_verbs() {
-    return ({ "inventory", "i", "get", "drop", "wear", "wield", "remove" });
+    return ({ "inventory", "i", "get", "drop", "wear", "wield", "remove", "give" });
 }
 
 string query_category() {
@@ -338,6 +388,7 @@ string help() {
            "  inventory (i)   查看背包內容\n" +
            "  get <物品>      撿起物品\n" +
            "  drop <物品>     丟下物品\n" +
+           "  give <物> to <人> 將物品交給對象\n" +
            "  wear <防具>     穿上防具\n" +
            "  wield <武器>    裝備武器\n" +
            "  remove <裝備>   卸下裝備\n" +
