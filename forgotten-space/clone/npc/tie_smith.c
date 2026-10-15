@@ -35,4 +35,29 @@ void create() {
     add_response(({ "商隊", "金石城", "兵器" }), 
         "金石商會每次來，都要從老子這提走三十把開山柴刀。若是山口商道被雨水沖塌了，" +
         "大夥的生計都要受牽連。");
+
+    add_response(({ "不融黑鐵", "黑鐵", "工聖", "gear" }), 
+        "傳說太古大清洗之前，物宗工聖曾鑄造過一種萬火不融的黑鐵構件，上面銘刻微型齒輪與榫卯。" +
+        "若是能在粗礦胚料中敲出那等神物，便是百工造物之理未絕！");
+}
+
+int accept_object(object who, object ob) {
+    if (!who || !ob) return 0;
+
+    if (ob->id("black iron") || ob->query("relic_type") == "wu_gear") {
+        tell_object(who, HIY "阿鐵雙手劇烈顫抖著捧起那截黑色金屬，眼中爆發出前所未有的狂熱震撼：\n" +
+                         "「這……這是太古不融黑鐵？！上古工聖的傳說竟然是真的！\n" +
+                         "這上面的齒輪微度公差，連老子見過最巧的府城大師傅都造不出來！\n" +
+                         "好小子，百工造物之理未絕！這東西你且好生收著，萬莫讓外頭商會的吸血鬼看見！」\n" NOR);
+        tell_object(who, HIG "阿鐵慎重地將太古不融黑鐵交還到你手中。\n" NOR);
+        who->add("exp", 50);
+        return 1;
+    }
+
+    if (ob->id("ore chunk") || ob->query("is_ore")) {
+        tell_object(who, HIG "阿鐵接過粗鐵礦核掂了掂，又塞回你手裡讚道：「好沉凝的北崖老鐵胎！去鐵砧上拉風箱、掄鐵錘鍛打出來 (strike)！」\n" NOR);
+        return 1;
+    }
+
+    return 0;
 }

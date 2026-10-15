@@ -36,4 +36,35 @@ void create() {
     add_response(({ "野獸", "異動", "狼群" }), 
         "這幾日深山裡總有些古怪聲響，夜裡連狼群都不敢在斷魂嶺多啼。大荒深處有些不可說的古物，" +
         "莫要貪功冒進。");
+
+    add_response(({ "圖騰", "戰神", "totem" }), 
+        "太古大清洗之前，力道宗師以純粹肉身撕天裂地，在荒林泥沼深處留有太古戰神獵獸圖騰。" +
+        "若能以肉身氣血與圖騰共鳴 (totem)，蠻荒戰意將淬入筋骨！");
+
+    add_response(({ "濁血", "煞氣", "異獸" }), 
+        "深山地煞能讓走獸異變嗜血，流出紫黑濁血。獵這種兇物，需備好鐵胎柘木重弓 (heavy bow) 與破甲竹箭！");
+}
+
+int accept_object(object who, object ob) {
+    if (!who || !ob) return 0;
+
+    if (ob->id("tainted pelt") || ob->query("is_tainted_pelt")) {
+        tell_object(who, HIG "趙老獵接過染煞異獸皮翻看，指尖摸過深紫色的焦灼焦痕，倒吸一口涼氣：\n" +
+                             "「好濃烈的地煞凶腥！這是深山泥沼那頭巨獸蛻下的皮甲！\n" +
+                             "好小子，身法果決、膽大心細，沒給咱們獵戶丟臉！拿著這袋鹿肉乾，進山補足氣力！」\n" NOR);
+        object meat = clone_object("/clone/item/dry_meat.c");
+        if (meat) {
+            meat->move(who);
+        }
+        who->add("exp", 60);
+        destruct(ob);
+        return 1;
+    }
+
+    if (ob->id("heavy bow") || ob->query("is_heavy_bow")) {
+        tell_object(who, YEL "趙老獵撫摸著鐵胎柘木弓身，點頭道：「這張硬弓是深山伏獵的重器，好生收著，拉滿弓弦需要足夠的臂力！」\n" NOR);
+        return 1;
+    }
+
+    return 0;
 }

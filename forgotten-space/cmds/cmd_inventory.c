@@ -98,19 +98,21 @@ int do_get(object me, string arg) {
     }
 
     // 🚀 新增：檢查屍體歸屬 (Loot Binding)
-    string owner_tid = container->query_team_owner();
-    if (owner_tid != "") {
-        object my_leader = me->query_leader();
-        string my_tid;
-        if (my_leader) {
-            my_tid = my_leader->get_id();
-        } else {
-            my_tid = me->get_id();
-        }
-        
-        if (my_tid != owner_tid) {
-            write("$HIR$" + _t("loot_protected_err") + "$NOR$" + "\n");
-            return 1;
+    if (function_exists("query_team_owner", container)) {
+        string owner_tid = container->query_team_owner();
+        if (owner_tid && owner_tid != "") {
+            object my_leader = me->query_leader();
+            string my_tid;
+            if (my_leader) {
+                my_tid = my_leader->get_id();
+            } else {
+                my_tid = me->get_id();
+            }
+            
+            if (my_tid != owner_tid) {
+                write("$HIR$" + _t("loot_protected_err") + "$NOR$" + "\n");
+                return 1;
+            }
         }
     }
 
