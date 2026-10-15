@@ -346,6 +346,14 @@ void remote_look() {
 void set_background(string b) { background = b; set("background", b); }
 string query_background() { return background; }
 
+int query_growth_affinity(string stat) {
+    if (background && BACKGROUND_DATA[background] && BACKGROUND_DATA[background]["growth_affinity"]) {
+        mapping ga = BACKGROUND_DATA[background]["growth_affinity"];
+        if (ga[stat]) return ga[stat];
+    }
+    return 100;
+}
+
 void set_guild(string g) { guild = g; }
 string query_guild() { return guild; }
 void set_guild_rank(string r) { guild_rank = r; }

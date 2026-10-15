@@ -204,7 +204,11 @@ void get_background(string input) {
 
     current_race = "human";
     write("\n您選擇的身世背景：" + "$CYN$" + bgs[current_background]["name"] + "$NOR$" + "。\n");
-    write("$HIY$隨身舊物：" + bgs[current_background]["item_desc"] + "$NOR$\n\n");
+    write("$HIY$隨身舊物：" + bgs[current_background]["item_desc"] + "$NOR$\n");
+    if (bgs[current_background]["growth_desc"]) {
+        write("$HIG$先天道基：" + bgs[current_background]["growth_desc"] + "$NOR$\n");
+    }
+    write("\n");
     
     create_character();
 }
@@ -218,13 +222,27 @@ void create_character() {
     user->set_background(current_background);
     user->set_lang(browser_lang);
 
-    // 六維先天屬性皆從 1 點起步（符合世界規則 Rules）
-    user->set_stat("str", 1);
-    user->set_stat("con", 1);
-    user->set_stat("int", 1);
-    user->set_stat("spi", 1);
-    user->set_stat("dex", 1);
-    user->set_stat("per", 1);
+    mapping bg = BACKGROUND_DATA[current_background];
+    mapping bstats = bg ? bg["base_stats"] : 0;
+    if (bstats) {
+        user->set_stat("str", bstats["str"] ? bstats["str"] : 1);
+        user->set_stat("con", bstats["con"] ? bstats["con"] : 1);
+        user->set_stat("int", bstats["int"] ? bstats["int"] : 1);
+        user->set_stat("spi", bstats["spi"] ? bstats["spi"] : 1);
+        user->set_stat("dex", bstats["dex"] ? bstats["dex"] : 1);
+        user->set_stat("per", bstats["per"] ? bstats["per"] : 1);
+    } else {
+        user->set_stat("str", 1);
+        user->set_stat("con", 1);
+        user->set_stat("int", 1);
+        user->set_stat("spi", 1);
+        user->set_stat("dex", 1);
+        user->set_stat("per", 1);
+    }
+
+    if (bg && bg["growth_affinity"]) {
+        user->set("growth_affinity", bg["growth_affinity"]);
+    }
 
     // 終極隱藏屬性 (Meta Attributes)
     user->set("fate", 1);
