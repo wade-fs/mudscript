@@ -21,7 +21,9 @@
 ## 1. 基本資訊與雙軌規劃 (Overview & Dual Roadmap)
 
 ### 1.1 作品元資訊
-* **作品暫定名稱**：*(待進一步定案，候選意象如：三元劫、失落紀元、斷代古道、重洗大荒等)*
+* **作品正式名稱**：**《遺忘的世界》(THE FORGOTTEN SPACE)**
+* **官方封面 (暫定)**：`[fs.jpeg](file:///home/wade/src/github/mudscript/forgotten-space/img/fs.jpeg)`
+* **專案 Mudlib 根目錄**：`/home/wade/src/github/mudscript/forgotten-space/`
 * **題材風格**：東方玄幻 / 仙俠異道 / 史前失落文明探索 / 嚴謹數值設定流。
 * **核心基調 (Tone)**：蒼茫大氣、微觀苦修、人間煙火生活感、撥開全民失憶迷霧的懸疑與壯烈。
 * **核心衝突 (The Core Conflict)**：
