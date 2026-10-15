@@ -105,21 +105,24 @@ test-driver: mudscript
 test: test-driver
 
 # 正常執行伺服器
-run-fsmud: fsmud log
+run-fsmud: log
+	@ [ ! -f bin/fsmud ] && make fsmud || true
 	@echo "🚀 Starting MudScript Server (Connecting to Global Hub)..."
 	@ ./bin/fsmud -mudlib fsmud -master master.c 2>&1 | tee log/run-fsmud.txt
 
-run-forgotten: fsmud log
+run-forgotten: log
+	@ [ ! -f bin/fsmud ] && make fsmud || true
 	@echo "🚀 Starting MudScript Server (Connecting to Global Hub)..."
 	@ ./bin/fsmud -mudlib forgotten-space -master master.c 2>&1 | tee log/run-forgotten.log
 
 # 正常執行 Legacy FS 伺服器
-run-fs: fs log
+run-fs: log
+	@ [ ! -f bin/fs ] && make fs || true
 	@echo "🚀 Starting Legacy FS MudScript Server..."
 	@ ./bin/fs -mudlib fs -master /adm/obj/master.c -legacy 2>&1 | tee log/run-fs.txt
 
 # 執行 Legacy FS 登入測試
-test-fs: fs log
+test-fs: log
 	@echo "🧪 Running Connection & Login Test on Legacy FS..."
 	@go run ./cmd/test-fs/main.go 2>&1 | tee log/test-fs.txt
 
