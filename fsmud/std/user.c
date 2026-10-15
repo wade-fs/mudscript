@@ -26,6 +26,8 @@ mapping muted_channels; // 🚀 新願：屏蔽的頻道
 mapping explored_rooms; // 🚀 新增：已探索房間 ([ "room_file": 1 ])
 string *saved_inventory = ({ });
 string last_location;
+string *footprints; // 🚀 新增：踏印紀錄
+
 
 // ── 查詢 ──────────────────────────────────────────────────
 
@@ -59,6 +61,7 @@ void create() {
     if (!quests) quests = ([]);
     if (!muted_channels) muted_channels = ([]);
     if (!explored_rooms) explored_rooms = ([]);
+    if (!footprints) footprints = ({});
     init_aliases();
     
     write_paths = ({ }); 
@@ -78,9 +81,33 @@ string query_cwd() {
 }
 void set_cwd(string path) { cwd = path; }
 
+string *query_footprints() {
+    if (!footprints) footprints = ({});
+    return footprints;
+}
+
+void add_footprint_record(string fid) {
+    if (!footprints) footprints = ({});
+    if (member_array(fid, footprints) == -1) {
+        footprints += ({ fid });
+        save();
+    }
+}
+
+int has_footprint_record(string fid) {
+    if (!footprints) return 0;
+    return member_array(fid, footprints) != -1;
+}
+
+void clear_footprints() {
+    footprints = ({});
+    save();
+}
+
+
 // 🚀 新增：清理編輯鎖定
 void cleanup_editor() {
-    object ide_d = find_object("/secure/ide_d.c");
+    object ide_d = find_object("/daemon/ide_d.c");
     if (ide_d) {
         ide_d->release_all_locks(this_object());
     }
@@ -239,9 +266,9 @@ void setup() {
 
     // 🚀 新增：發送 UI 初始化資訊給前端
     string l = query_lang();
-    object lang_d = load_object("/secure/language_d.c");
+    object lang_d = load_object("/daemon/language_d.c");
 
-    mapping socials = load_object("/secure/social_d.c")->get_ui_list();
+    mapping socials = load_object("/daemon/social_d.c")->get_ui_list();
     write(sprintf("{\"ui\": \"socials\", \"title\": \"%s\", \"data\": %s}", 
         lang_d->translate("label_actions", l), json_encode(socials)));
 
@@ -277,7 +304,7 @@ int process_input(string input) {
             input = substr(input, 1, strlen(input) - 1);
             write("$CYN$【本機指令】$NOR$" + input + "\n");
         } else {
-            object ssh_d = find_object("/secure/ssh_d.c");
+            object ssh_d = find_object("/daemon/ssh_d.c");
             if (ssh_d) {
                 ssh_d->client_send_input(this_object(), input);
                 return 1;
