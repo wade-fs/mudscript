@@ -6,6 +6,15 @@ inherit "/std/object";
 #include "/include/ansi.h"
 
 int main(object me, string verb, string arg) {
+    object here = environment(me);
+
+    // 優先檢查當前場景是否為可採集草藥之生態環境
+    if (!arg || arg == "" || arg == "herb" || arg == "草藥" || arg == "靈草") {
+        if (here && (here->query("can_gather_herb") || strsrch(object_name(here), "/d/village/stream") != -1)) {
+            return load_object("/daemon/world_state_d.c")->gather_herb(me);
+        }
+    }
+
     if (!arg) {
         write(select_lang(([ "en": "What do you want to gather from? Usage: gather <target>\n", "zh-TW": "你要從什麼東西上面採集？用法：gather <對象>\n", "zh-CN": "你要从什么东西上面采集？用法：gather <对象>\n" ])));
         return 1;
