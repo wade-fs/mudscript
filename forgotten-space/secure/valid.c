@@ -92,6 +92,13 @@ mixed valid_write(string path, object user, string func)
         if (strsrch(path, "/log/") == 0) return 1;
     }
 
+    // 3. /daemon/ 守護進程（world_state_d 等）白名單
+    //    這些物件不在 /secure/ 下，但同樣需要寫入 /data/ 與 /log/
+    if (strsrch(caller_file, "/daemon/") == 0) {
+        if (strsrch(path, "/data/") == 0) return 1;
+        if (strsrch(path, "/log/") == 0) return 1;
+    }
+
     // 🚀 核心修正：角色判定應該優先看 this_player()
     // 如果是玩家下令的動作（透過指令物件），應該以該玩家的權限為準
     object tp = this_player();

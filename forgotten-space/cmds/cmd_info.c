@@ -11,9 +11,16 @@ int main(object me, string verb, string arg) {
         pk_str = select_lang((["en": "Red Name", "zh-TW": "紅名", "zh-CN": "红名"]));
     }
 
+    string bg_key = me->query("background");
+    string bg_name = "一般凡人";
+    if (bg_key && BACKGROUND_DATA[bg_key]) {
+        bg_name = BACKGROUND_DATA[bg_key]["name"];
+    }
+
     // 1. 建立角色數值資料
     mapping data = ([
         "name" : me->query_name(),
+        "background": bg_name,
         "level": me->query_level(),
         "hp"   : me->query_hp(),
         "max_hp": me->query_max_hp(),
@@ -23,6 +30,12 @@ int main(object me, string verb, string arg) {
         "pk"   : pk_str,
         "atk"  : me->query_attack(),
         "def"  : me->query_defence(),
+        "str"  : me->query_stat("str"),
+        "con"  : me->query_stat("con"),
+        "int"  : me->query_stat("int"),
+        "spi"  : me->query_stat("spi"),
+        "dex"  : me->query_stat("dex"),
+        "per"  : me->query_stat("per"),
         "label_hp": _t("label_hp"),
         "label_mp": _t("label_mp"),
         "label_wealth": _t("label_wealth"),
@@ -60,13 +73,8 @@ int main(object me, string verb, string arg) {
     } 
     
     // 只有當玩家主動輸入指令 (如 score, status) 時，才顯示文字版
-    // 如果 verb 為空 (代表由 heart_beat 或系統背景觸發)，則不顯示文字
-    if (verb && verb != "") {
-        string bg_key = me->query("background");
-        string bg_name = "一般凡人";
-        if (bg_key && BACKGROUND_DATA[bg_key]) {
-            bg_name = BACKGROUND_DATA[bg_key]["name"];
-        }
+    // 如果 verb 為空或 score_quiet (代表由 UI 背景刷新)，則不顯示文字
+    if (verb && verb != "" && verb != "score_quiet") {
         write("\n" + "$HIW$【角色資訊】 " + data["name"] + "$NOR$" + "\n");
         write(sprintf("  %-10s : %s\n", "身世背景", bg_name));
         write(sprintf("  %-10s : %d\n", "等級", data["level"]));
@@ -85,7 +93,7 @@ int main(object me, string verb, string arg) {
 }
 
 string *query_verbs() {
-    return ({ "info", "score", "status" });
+    return ({ "info", "score", "status", "score_quiet" });
 }
 
 string query_category() {

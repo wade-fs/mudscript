@@ -228,7 +228,7 @@
 </div>
 
 <script>
-    let ws, historyCmds = [], histIdx = -1, msgInput, suggestIdx = -1, isInputHidden = false;
+    let ws, historyCmds = [], histIdx = -1, msgInput, suggestIdx = -1, isInputHidden = false, quietStatusRequested = false;
     let mcData = null, mcMode = false, mcAction = 'dig', mcZoom = 32;
     const mcColors = {
         grass:'#4CAF50', dirt:'#795548', stone:'#9E9E9E',
@@ -257,6 +257,11 @@
         if (!isActive) {
             panel.classList.add('active');
             if (btn) btn.classList.add('active');
+            if (id === 'panel-info') {
+                quietStatusRequested = true;
+                setTimeout(() => { quietStatusRequested = false; }, 1500);
+                sendCmd('score', true);
+            }
         }
     }
 
@@ -295,6 +300,10 @@
                 if (p.startsWith("{") && p.endsWith("}")) {
                     try { handleUIData(JSON.parse(p)); } catch (err) { handleMultiJSON(p); }
                 } else {
+                    if (quietStatusRequested && (p.includes("【角色資訊】") || p.includes("先天六維屬性") || p.includes("Character Info"))) {
+                        quietStatusRequested = false;
+                        return;
+                    }
                     appendLook(p);
                 }
             }
@@ -308,13 +317,72 @@
         });
     }
 
+    function parseColorTags(t) {
+        if (!t) return "";
+        if (typeof parseOutput === "function") return parseOutput(t);
+        return t;
+    }
+
     function handleUIData(ui) {
         if (ui.ui === "score") {
             const d = ui.data;
+            const hpPct = d.max_hp > 0 ? Math.min(100, Math.round(d.hp / d.max_hp * 100)) : 0;
+            const mpPct = d.max_mp > 0 ? Math.min(100, Math.round(d.mp / d.max_mp * 100)) : 0;
+            const moneyStr = d.money ? parseColorTags(d.money) : "0 銅幣";
             document.getElementById("info-area").innerHTML = `
-                <div class="stat-box"><span class="stat-label">❤️ HP</span><span class="stat-value">${d.hp}/${d.max_hp}</span></div>
-                <div class="stat-box"><span class="stat-label">✨ MP</span><span class="stat-value">${d.mp}/${d.max_mp}</span></div>
-                <div class="stat-box"><span class="stat-label">💰 GOLD</span><span class="stat-value">${parseColorTags(d.money)}</span></div>
+                <div class="stat-box" style="border-left-color: #2196F3;">
+                    <span class="stat-label">👤 角色</span>
+                    <span class="stat-value">${d.name || '未知'} <span style="font-size:13px; color:#888;">(Lv.${d.level || 1})</span></span>
+                    <span style="font-size:12px; color:#4CAF50;">身世：${d.background || '普通百姓'}</span>
+                </div>
+                <div class="stat-box" style="border-left-color: #f44336;">
+                    <span class="stat-label">❤️ ${d.label_hp || '生命'}</span>
+                    <span class="stat-value">${d.hp} / ${d.max_hp}</span>
+                    <div style="background:#333; height:5px; border-radius:3px; margin-top:5px; overflow:hidden;">
+                        <div style="background:#f44336; width:${hpPct}%; height:100%; transition:width 0.3s;"></div>
+                    </div>
+                </div>
+                <div class="stat-box" style="border-left-color: #2196F3;">
+                    <span class="stat-label">✨ ${d.label_mp || '法力'}</span>
+                    <span class="stat-value">${d.mp} / ${d.max_mp}</span>
+                    <div style="background:#333; height:5px; border-radius:3px; margin-top:5px; overflow:hidden;">
+                        <div style="background:#2196F3; width:${mpPct}%; height:100%; transition:width 0.3s;"></div>
+                    </div>
+                </div>
+                <div class="stat-box" style="border-left-color: #FF9800;">
+                    <div style="display:flex; justify-content:space-between;">
+                        <div><span class="stat-label">⚔️ ${d.label_atk || '攻擊力'}</span><span class="stat-value">${d.atk ?? 0}</span></div>
+                        <div><span class="stat-label">🛡️ 防禦力</span><span class="stat-value">${d.def ?? 0}</span></div>
+                    </div>
+                </div>
+                <div class="stat-box" style="border-left-color: #FFD700;">
+                    <span class="stat-label">💰 ${d.label_wealth || '財富'}</span>
+                    <span class="stat-value" style="color:#FFD700;">${moneyStr}</span>
+                </div>
+                <div style="margin-top:15px; margin-bottom:8px; color:#4CAF50; font-weight:bold; font-size:13px; border-bottom:1px solid #333; padding-bottom:4px;">
+                    ── 先天六維屬性 ──
+                </div>
+                <div class="stat-box" style="border-left-color: #e91e63;">
+                    <span class="stat-label">【力之柱】</span>
+                    <div style="display:flex; justify-content:space-between; margin-top:3px; font-size:14px;">
+                        <span>臂力：<b style="color:#fff;">${d.str ?? '-'}</b></span>
+                        <span>根骨：<b style="color:#fff;">${d.con ?? '-'}</b></span>
+                    </div>
+                </div>
+                <div class="stat-box" style="border-left-color: #9c27b0;">
+                    <span class="stat-label">【法之柱】</span>
+                    <div style="display:flex; justify-content:space-between; margin-top:3px; font-size:14px;">
+                        <span>悟性：<b style="color:#fff;">${d.int ?? '-'}</b></span>
+                        <span>靈性：<b style="color:#fff;">${d.spi ?? '-'}</b></span>
+                    </div>
+                </div>
+                <div class="stat-box" style="border-left-color: #00bcd4;">
+                    <span class="stat-label">【物之柱】</span>
+                    <div style="display:flex; justify-content:space-between; margin-top:3px; font-size:14px;">
+                        <span>靈巧：<b style="color:#fff;">${d.dex ?? '-'}</b></span>
+                        <span>感知：<b style="color:#fff;">${d.per ?? '-'}</b></span>
+                    </div>
+                </div>
             `;
         } else if (ui.ui === "cmd_list") { renderCmdList(ui.data, ui.title); window.allCommands = ui.data; }
         else if (ui.ui === "socials") { renderSocials(ui.data, ui.title); window.allSocials = ui.data; }
@@ -509,17 +577,20 @@
         m.innerHTML = html; m.style.display = "grid";
     }
 
-    function sendCmd(cmd) {
-        if (cmd !== "") {
+    function sendCmd(cmd, silent = false) {
+        if (!cmd) return;
+        if (!silent) {
             if (historyCmds.length === 0 || historyCmds[historyCmds.length - 1] !== cmd) {
                 historyCmds.push(cmd);
             }
+            histIdx = historyCmds.length;
+            hideHistory();
         }
-        histIdx = historyCmds.length;
-        hideHistory();
         ws.send(JSON.stringify({ type: "cmd", payload: cmd }));
-        const echo = (isInputHidden ? "******" : cmd).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
-        appendRaw("<span style='color:#888'>&gt;&gt; " + echo + "</span>");
+        if (!silent) {
+            const echo = (isInputHidden ? "******" : cmd).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+            appendRaw("<span style='color:#888'>&gt;&gt; " + echo + "</span>");
+        }
     }
 
     // appendRaw: 已是 HTML，直接插入，不做 escape 或 parseOutput
