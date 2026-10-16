@@ -5,6 +5,10 @@ inherit "/std/object";
 
 #include "/include/globals.h"
 
+mixed query_verbs() {
+    return ({ "quest", "quests", "task", "tasks" });
+}
+
 int main(object me, string verb, string arg) {
     mapping quests = me->query_quests();
     object quest_d = load_object("/secure/quest_d.c");

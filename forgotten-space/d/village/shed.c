@@ -120,5 +120,13 @@ int do_search(string arg) {
     if (md) {
         md->trigger_relic_discovery(me, "search_shed_wood", me);
     }
+
+    object qe = load_object(QUEST_ENGINE_D);
+    if (qe) {
+        qe->trigger_event(me, "action", ([
+            "verb": "search",
+            "target": "wood"
+        ]));
+    }
     return 1;
 }

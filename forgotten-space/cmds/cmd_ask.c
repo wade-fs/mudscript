@@ -4,6 +4,7 @@
 inherit "/std/object";
 
 #include "/include/ansi.h"
+#include "/include/globals.h"
 
 int main(object me, string verb, string arg) {
     if (!arg || arg == "") {
@@ -43,8 +44,25 @@ int main(object me, string verb, string arg) {
     tell_object(me, select_lang(([ "en": "You ask ", "zh-TW": "你向 ", "zh-CN": "你向 " ])) + target_name + select_lang(([ "en": " about '", "zh-TW": " 詢問關於「", "zh-CN": " 询问关于「" ])) + topic + select_lang(([ "en": "'.\n", "zh-TW": "」的事。\n", "zh-CN": "」的事。\n" ])));
     tell_room(environment(me), me->query_name() + select_lang(([ "en": " asks ", "zh-TW": " 向 ", "zh-CN": " 向 " ])) + target_name + select_lang(([ "en": " about something.\n", "zh-TW": " 詢問了一些事。\n", "zh-CN": " 询问了一些事。\n" ])), ({ me }));
 
-    // 呼叫 NPC 的 do_chat，傳入詢問者 me 方便 NPC 直接 tell_object
+    object quest_engine = load_object(QUEST_ENGINE_D);
+    string tid = target->query("id");
+    if (!tid || tid == "") tid = target_id;
+
+    // 1. 若玩家當前有遺失信物，優先觸發 NPC 補領機制
+    if (quest_engine && quest_engine->check_and_handle_lost_item(me, tid, topic)) {
+        return 1;
+    }
+
+    // 2. 呼叫 NPC 的 do_chat，傳入詢問者 me 方便 NPC 直接 tell_object
     if (!target->do_chat(me, topic)) {
+        // 3. 若 NPC 未自訂該話題，嘗試由任務引擎推進對話步驟
+        if (quest_engine && quest_engine->trigger_event(me, "talk", ([
+            "npc": tid,
+            "topic": topic,
+            "npc_obj": target
+        ]))) {
+            return 1;
+        }
         tell_object(me, target_name + select_lang(([ "en": " just looks at you and says nothing.\n", "zh-TW": " 只是看了看你，什麼也沒說。\n", "zh-CN": " 只是看了看你，什么也没说。\n" ])));
     }
 
