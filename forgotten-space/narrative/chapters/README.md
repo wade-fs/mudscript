@@ -6,6 +6,9 @@
 
 ## 第一卷：黑石破曉 / 凡胎驚蟄
 
+![黑石鋪全景簡圖](img/map_black_stone_village.jpg)
+*黑石鋪聚落全景地圖：北依黑石斷崖古礦坑，西立老松殘觀，東設鹿角木柵大荒林口，南臨幽霧寒溪與浣衣磨刀石灘。*
+
 本卷以黑石鋪同一天清晨（破曉時分）為統一時間錨點，從五位不同身世底層少年的生活切入，層層揭開被大清洗掩蓋的太古真相：
 
 * [**第 1 章：晨曦微光與磨刀石**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/ch0001.md)
