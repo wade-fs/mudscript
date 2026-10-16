@@ -13,20 +13,27 @@ int main(object me, string verb, string arg) {
     string dir = arg;
 
     if (verb == "go") {
-        if (!arg) {
+        if (!arg || arg == "") {
             write(_t("go_where") + "\n");
             return 1;
         }
         dir = arg;
     } else {
-        dir = verb;
+        mapping short_dirs = ([
+            "ne": "northeast",
+            "nw": "northwest",
+            "se": "southeast",
+            "sw": "southwest"
+        ]);
+        if (short_dirs[verb]) dir = short_dirs[verb];
+        else dir = verb;
     }
 
     return here->do_go(dir);
 }
 
 string *query_verbs() {
-    return ({ "north", "south", "east", "west", "up", "down", "go" });
+    return ({ "north", "south", "east", "west", "northeast", "northwest", "southeast", "southwest", "ne", "nw", "se", "sw", "up", "down", "go" });
 }
 
 string query_category() {

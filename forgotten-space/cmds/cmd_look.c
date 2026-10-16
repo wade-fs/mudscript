@@ -10,7 +10,7 @@ int main(object me, string verb, string arg) {
         return 1;
     }
 
-    if (!arg) {
+    if (!arg || arg == "") {
         here->look_room(me);
         return 1;
     }
@@ -23,6 +23,10 @@ int main(object me, string verb, string arg) {
         "s": "south", "south": "south", "南": "south", "南方": "south",
         "e": "east",  "east": "east",   "東": "east",  "東方": "east",
         "w": "west",  "west": "west",   "西": "west",  "西方": "west",
+        "ne": "northeast", "northeast": "northeast", "東北": "northeast", "東北方": "northeast",
+        "nw": "northwest", "northwest": "northwest", "西北": "northwest", "西北方": "northwest",
+        "se": "southeast", "southeast": "southeast", "東南": "southeast", "東南方": "southeast",
+        "sw": "southwest", "southwest": "southwest", "西南": "southwest", "西南方": "southwest",
         "u": "up",    "up": "up",       "上": "up",    "上方": "up",
         "d": "down",  "down": "down",   "下": "down",  "下方": "down"
     ]);
@@ -81,7 +85,7 @@ int main(object me, string verb, string arg) {
 
     // 看房間裝飾物
     string item_desc = here->look_at_item(arg);
-    if (item_desc) {
+    if (item_desc && item_desc != "") {
         write(item_desc + "\n");
         return 1;
     }

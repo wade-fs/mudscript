@@ -51,7 +51,7 @@ int execute_social(object me, string verb, string arg) {
     string msg = select_lang(data);
     
     // 如果有目標
-    if (arg) {
+    if (arg && arg != "") {
         object target = present(arg, environment(me));
         if (target && living(target)) {
             string target_name = target->query_name();

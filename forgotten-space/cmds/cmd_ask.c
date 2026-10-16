@@ -6,7 +6,7 @@ inherit "/std/object";
 #include "/include/ansi.h"
 
 int main(object me, string verb, string arg) {
-    if (!arg) {
+    if (!arg || arg == "") {
         write(select_lang(([ "en": "Ask who? Usage: ask <target> about <topic>\n", "zh-TW": "詢問誰？用法：ask <目標> about <話題>\n", "zh-CN": "询问谁？用法：ask <目标> about <话题>\n" ])));
         return 1;
     }

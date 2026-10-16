@@ -8,7 +8,7 @@ int main(object me, string verb, string arg) {
     
     mapping al = me->query_aliases();
 
-    if (!arg) {
+    if (!arg || arg == "") {
         write(select_lang(([ "en": "Usage: unalias <alias name>\n", "zh-TW": "用法：unalias <別名名稱>\n", "zh-CN": "用法：unalias <别名名称>\n" ])));
         return 1;
     }

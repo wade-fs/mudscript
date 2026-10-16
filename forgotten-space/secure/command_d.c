@@ -46,6 +46,24 @@ void create() {
 }
 
 int execute(object me, string verb, string arg) {
+    // 🚀 支援以 ; 串接多個指令 (相容已載入記憶體的玩家物件呼叫)
+    if (verb != "alias" && ((verb && strsrch(verb, ";") != -1) || (arg && stringp(arg) && strsrch(arg, ";") != -1))) {
+        string full_cmd = verb;
+        if (arg && stringp(arg) && arg != "") {
+            full_cmd = verb + " " + arg;
+        }
+        string *cmds = explode(full_cmd, ";");
+        foreach (string c in cmds) {
+            c = trim(c);
+            if (c && c != "") {
+                me->command(c);
+            }
+        }
+        return 1;
+    }
+
+    if (arg == "") arg = 0;
+
     mixed cmd_file = cmd_map[verb];
     
     if (cmd_file) {

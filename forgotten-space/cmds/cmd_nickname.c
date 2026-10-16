@@ -4,7 +4,7 @@
 inherit "/std/object";
 
 int main(object me, string verb, string arg) {
-    if (!arg) {
+    if (!arg || arg == "") {
         write(select_lang(([ "en": "Current nickname is: ", "zh-TW": "目前的暱稱是：", "zh-CN": "目前的昵称是：" ])) + me->query_name() + "\n");
         write(select_lang(([ "en": "Usage: nickname <new nickname>\n", "zh-TW": "用法：nickname <新暱稱>\n", "zh-CN": "用法：nickname <新昵称>\n" ])));
         return 1;

@@ -25,6 +25,13 @@ void create() {
     set("has_forge", 1);
     furnace_heat = 50;
 
+    add_item("bellows", "這是一具一人高的巨型牛皮風箱，連接著地爐底部的通風道。你可以用力拉動它 (bellows) 來鼓旺爐火。");
+    add_item("風箱", "這是一具一人高的巨型牛皮風箱，連接著地爐底部的通風道。你可以用力拉動它 (bellows) 來鼓旺爐火。");
+    add_item("anvil", "一塊重達數百斤的烏黑鐵砧，表面佈滿了長年累月千錘百鍊留下的凹痕。手持鐵錘時可在上面鍛打 (strike / forge)。");
+    add_item("鐵砧", "一塊重達數百斤的烏黑鐵砧，表面佈滿了長年累月千錘百鍊留下的凹痕。手持鐵錘時可在上面鍛打 (strike / forge)。");
+    add_item("trough", "一口整塊青石鑿成的長槽，裡頭盛滿了黑褐色的淬火井水，可以用來為燒紅的鐵胚淬火 (quench)。");
+    add_item("石槽", "一口整塊青石鑿成的長槽，裡頭盛滿了黑褐色的淬火井水，可以用來為燒紅的鐵胚淬火 (quench)。");
+
     spawn_npc("/clone/npc/tie_smith.c");
     spawn_item("/clone/item/ore_chunk.c");
 }

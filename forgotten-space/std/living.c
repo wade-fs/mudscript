@@ -94,13 +94,13 @@ int process_input(string input) {
     string verb, arg;
     
     input = trim(input);
-    if (!input) return 0;
+    if (!input || input == "") return 0;
 
     // 解析動詞與參數
     int sp = strsrch(input, " ");
     if (sp < 0) {
         verb = input;
-        arg = "";
+        arg = 0;
     } else {
         verb = substr(input, 0, sp);
         arg = substr(input, sp + 1, strlen(input) - sp - 1);

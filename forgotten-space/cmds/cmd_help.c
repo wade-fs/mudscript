@@ -11,7 +11,7 @@ int main(object me, string verb, string arg) {
     object cmd_d = load_object("/secure/command_d.c");
     mapping cmd_map = cmd_d->query_cmd_map();
 
-    if (!arg) {
+    if (!arg || arg == "") {
         write(select_lang(([ "en": "=== 📚 Help Center ===\n", "zh-TW": "=== 📚 幫助系統中心 ===\n", "zh-CN": "=== 📚 帮助系统中心 ===\n" ])));
         write(select_lang(([ "en": "You can type help <command name> to view specific usage.\n\n", "zh-TW": "您可以輸入 help <指令名稱> 來查看具體用法。\n\n", "zh-CN": "您可以输入 help <指令名称> 来查看具体用法。\n\n" ])));
         

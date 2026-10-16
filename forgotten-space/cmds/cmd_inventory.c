@@ -50,7 +50,7 @@ int do_get(object me, string arg) {
         write("你目前處於幻影狀態，無法干涉這個世界的物質。\n");
         return 1;
     }
-    if (!arg) { write(_t("get_what") + "\n"); return 1; }
+    if (!arg || arg == "") { write(_t("get_what") + "\n"); return 1; }
 
     object container = environment(me);
     string item_id, cont_id;
@@ -172,7 +172,7 @@ int do_drop(object me, string arg) {
         write("你目前處於幻影狀態，無法拋棄現實世界的負擔。\n");
         return 1;
     }
-    if (!arg) { write(_t("drop_what") + "\n"); return 1; }
+    if (!arg || arg == "") { write(_t("drop_what") + "\n"); return 1; }
     object item = present(arg, me);
     if (!item) {
         string msg = _t("no_item_inv");
@@ -201,7 +201,7 @@ int do_drop(object me, string arg) {
 }
 
 int do_wear(object me, string arg) {
-    if (!arg) { write(_t("wear_what") + "\n"); return 1; }
+    if (!arg || arg == "") { write(_t("wear_what") + "\n"); return 1; }
     object item = present(arg, me);
     if (!item) { 
         string msg = _t("no_item_inv");
@@ -235,7 +235,7 @@ int do_wear(object me, string arg) {
 }
 
 int do_wield(object me, string arg) {
-    if (!arg) { write(_t("wield_what") + "\n"); return 1; }
+    if (!arg || arg == "") { write(_t("wield_what") + "\n"); return 1; }
     object item = present(arg, me);
     if (!item) { 
         string msg = _t("no_item_inv");
@@ -269,7 +269,7 @@ int do_wield(object me, string arg) {
 }
 
 int do_remove(object me, string arg) {
-    if (!arg) { write(_t("remove_what") + "\n"); return 1; }
+    if (!arg || arg == "") { write(_t("remove_what") + "\n"); return 1; }
     mixed slots = ({"weapon", "head", "body", "hands", "feet", "shield"});
     int i;
     for (i = 0; i < sizeof(slots); i++) {
@@ -289,7 +289,7 @@ int do_remove(object me, string arg) {
 }
 
 int do_appraise(object me, string arg) {
-    if (!arg) { write(_t("appraise_what") + "\n"); return 1; }
+    if (!arg || arg == "") { write(_t("appraise_what") + "\n"); return 1; }
     object item = present(arg, me);
     if (!item) item = present(arg, environment(me));
     if (!item) { 

@@ -151,6 +151,54 @@ func (d *Driver) ProcessCommand(pConn *PlayerConnection, input string) bool {
 		return true
 	}
 
+	// 🚀 支援以 ; 串接多個指令 (排除 alias 設定指令本身)
+	if strings.Contains(input, ";") && !isAliasDefinition(input) {
+		cmds := strings.Split(input, ";")
+		allSuccess := true
+		for _, c := range cmds {
+			c = strings.TrimSpace(c)
+			if c == "" {
+				continue
+			}
+			if !d.processSingleCommand(pConn, c) {
+				allSuccess = false
+			}
+		}
+		return allSuccess
+	}
+
+	return d.processSingleCommand(pConn, input)
+}
+
+func isAliasDefinition(input string) bool {
+	if !strings.HasPrefix(input, "alias ") {
+		return false
+	}
+	rest := strings.TrimSpace(input[len("alias "):])
+	semi := strings.Index(rest, ";")
+	if semi == -1 {
+		return false
+	}
+	beforeSemi := strings.TrimSpace(rest[:semi])
+	return strings.Contains(beforeSemi, " ")
+}
+
+func (d *Driver) processSingleCommand(pConn *PlayerConnection, input string) bool {
+	if pConn == nil || pConn.Object == nil {
+		return false
+	}
+	obj := pConn.Object
+
+	// 若在前一個串接指令中觸發了 input_to，交由 ProcessCommand 處理
+	if pConn.NextInputFunc != "" || pConn.NextInputClosure != nil {
+		return d.ProcessCommand(pConn, input)
+	}
+
+	input = strings.TrimSpace(input)
+	if input == "" {
+		return true
+	}
+
 	// ==========================================
 	// 1. 呼叫 process_input (別名擴展)
 	// ==========================================
@@ -158,6 +206,20 @@ func (d *Driver) ProcessCommand(pConn *PlayerConnection, input string) bool {
 	if resInput != nil && resInput.TokenType() != object.NilType {
 		if s, ok := resInput.(*object.String); ok && s.Value != "" {
 			input = s.Value // 指令被改寫
+			if strings.Contains(input, ";") && !isAliasDefinition(input) {
+				cmds := strings.Split(input, ";")
+				allSuccess := true
+				for _, c := range cmds {
+					c = strings.TrimSpace(c)
+					if c == "" {
+						continue
+					}
+					if !d.processSingleCommand(pConn, c) {
+						allSuccess = false
+					}
+				}
+				return allSuccess
+			}
 		} else if d.IsLPCTrue(resInput) {
 			return true // 已被完全處理
 		}
@@ -245,7 +307,7 @@ func (d *Driver) ProcessCommand(pConn *PlayerConnection, input string) bool {
 				verbKey := (&object.String{Value: verb}).HashKey()
 				if _, hasExit := exitsMap.Pairs[verbKey]; hasExit {
 					// 轉換為 go 指令並直接處理，若成功則不再繼續
-					if d.ProcessCommand(pConn, "go "+input) {
+					if d.processSingleCommand(pConn, "go "+input) {
 						return true
 					}
 				}

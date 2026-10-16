@@ -29,7 +29,7 @@ string query_category() {
 }
 
 int do_say_cmd(object me, string arg) {
-    if (!arg) { write(select_lang(([ "en": "Say what?\n", "zh-TW": "說什麼？\n", "zh-CN": "说什么？\n" ]))); return 1; }
+    if (!arg || arg == "") { write(select_lang(([ "en": "Say what?\n", "zh-TW": "說什麼？\n", "zh-CN": "说什么？\n" ]))); return 1; }
     
     // 玩家自己看到這行
     write(select_lang(([ "en": "You say: \"", "zh-TW": "你說：「", "zh-CN": "你说：“" ])) + arg + select_lang(([ "en": "\"\n", "zh-TW": "」\n", "zh-CN": "”\n" ])));
@@ -42,7 +42,7 @@ int do_say_cmd(object me, string arg) {
 }
 
 int do_emote(object me, string arg) {
-    if (!arg) { write(select_lang(([ "en": "Do what emote?\n", "zh-TW": "做什麼動作？\n", "zh-CN": "做什么动作？\n" ]))); return 1; }
+    if (!arg || arg == "") { write(select_lang(([ "en": "Do what emote?\n", "zh-TW": "做什麼動作？\n", "zh-CN": "做什么动作？\n" ]))); return 1; }
     
     write(select_lang(([ "en": "You ", "zh-TW": "你 ", "zh-CN": "你 " ])) + arg + "\n");
     

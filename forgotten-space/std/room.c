@@ -379,8 +379,8 @@ int do_search(string arg) {
 
 // ── 看裝飾物 ────────────────────────────────────────────
 string look_at_item(string id) {
-    if (item_ids[id]) { return item_ids[id]; }
-    return "";
+    if (item_ids && item_ids[id]) { return item_ids[id]; }
+    return 0;
 }
 
 void catch_tell(string msg) {}

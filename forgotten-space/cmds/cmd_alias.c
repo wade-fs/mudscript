@@ -18,7 +18,7 @@ int main(object me, string verb, string arg) {
 int do_alias(object me, string arg) {
     mapping al = me->query_aliases(); // 向玩家取得他的別名表
 
-    if (!arg) {
+    if (!arg || arg == "") {
         mixed ks = keys(al);
         if (!ks) {
             write(select_lang(([ "en": "You haven't set any aliases.\n", "zh-TW": "你沒有設定任何別名。\n", "zh-CN": "你没有设定任何别名。\n" ])));
@@ -61,7 +61,7 @@ int do_alias(object me, string arg) {
 int do_unalias(object me, string arg) {
     mapping al = me->query_aliases();
 
-    if (!arg) {
+    if (!arg || arg == "") {
         write(select_lang(([ "en": "Usage: unalias <alias name>\n", "zh-TW": "用法：unalias <別名名稱>\n", "zh-CN": "用法：unalias <别名名称>\n" ])));
         return 1;
     }

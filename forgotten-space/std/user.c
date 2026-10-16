@@ -38,16 +38,33 @@ void init_aliases() {
             "s" : "go south",
             "e" : "go east",
             "w" : "go west",
+            "ne": "go northeast",
+            "nw": "go northwest",
+            "se": "go southeast",
+            "sw": "go southwest",
             "u" : "go up",
             "d" : "go down",
             "north" : "go north",
             "south" : "go south",
             "east" : "go east",
             "west" : "go west",
+            "northeast": "go northeast",
+            "northwest": "go northwest",
+            "southeast": "go southeast",
+            "southwest": "go southwest",
             "l" : "look",
             "i" : "inventory",
             "sc": "score"
         ]);
+    } else {
+        if (!aliases["ne"]) aliases["ne"] = "go northeast";
+        if (!aliases["nw"]) aliases["nw"] = "go northwest";
+        if (!aliases["se"]) aliases["se"] = "go southeast";
+        if (!aliases["sw"]) aliases["sw"] = "go southwest";
+        if (!aliases["northeast"]) aliases["northeast"] = "go northeast";
+        if (!aliases["northwest"]) aliases["northwest"] = "go northwest";
+        if (!aliases["southeast"]) aliases["southeast"] = "go southeast";
+        if (!aliases["southwest"]) aliases["southwest"] = "go southwest";
     }
 }
 
@@ -248,14 +265,39 @@ void setup() {
         lang_d->translate("label_commands", l), json_encode(cmds)));
 }
 
-int process_input(string input) {
+mixed process_input(string input) {
     string verb, arg;
     
     input = trim(input);
-    if (!input) return 0;
+    if (!input || input == "") return 0;
+    string orig_input = input;
+
+    // 🚀 支援以 ; 串接多個指令 (排除 alias 設定指令本身)
+    if (strsrch(input, ";") != -1 && strsrch(input, "alias ") != 0) {
+        string *cmds = explode(input, ";");
+        foreach (string c in cmds) {
+            c = trim(c);
+            if (c && c != "") {
+                command(c);
+            }
+        }
+        return 1;
+    }
 
     // 🚀 核心修正：展開別名 (Aliases)
     input = expand_alias(input);
+
+    // 若別名展開後包含 ; 串接指令，亦逐一執行
+    if (strsrch(input, ";") != -1 && strsrch(input, "alias ") != 0) {
+        string *cmds2 = explode(input, ";");
+        foreach (string c2 in cmds2) {
+            c2 = trim(c2);
+            if (c2 && c2 != "") {
+                command(c2);
+            }
+        }
+        return 1;
+    }
 
     // 1. 處理特殊符號指令 (如 ' 代表 say, : 代表 emote)
     if (substr(input, 0, 1) == "'") {
@@ -299,6 +341,9 @@ int process_input(string input) {
     
     // 2. 呼叫基底類別處理 (含 command_d 呼叫)
     int res = ::process_input(input);
+    if (!res && input != orig_input) {
+        return input;
+    }
     return res;
 }
 
@@ -552,7 +597,7 @@ string expand_alias(string input) {
 
     if (member_array(verb, ks) >= 0) {
         string expanded = aliases[verb];
-        if (rest) { expanded = expanded + " " + rest; }
+        if (rest && rest != "") { expanded = expanded + " " + rest; }
         return expanded;
     }
     return input;
