@@ -52,3 +52,54 @@ void create() {
         meat->move(this_object());
     }
 }
+
+int do_chat(object me, string topic) {
+    if (!topic || topic == "") return 0;
+    object ws = load_object(WORLD_STATE_D);
+
+    if (topic == "商隊" || topic == "粗鹽" || topic == "金石城" || topic == "caravan") {
+        if (ws) {
+            if (ws->is_caravan_arrived()) {
+                tell_object(me, query_name() + " 咧嘴大笑：「商隊總算到了！老子這案板上的上等好肉總算能換成大把白花花的粗鹽和銀子了！」\n");
+            } else {
+                tell_object(me, query_name() + " 揮舞著剔骨刀罵罵咧咧道：「金石商會要是再被困在山口，聚落的粗鹽可就要見底了！沒鹽巴醃肉，這些新鮮獸肉放上兩天全得臭爛在案板上！" + ws->query_garrison_narrative(1) + "」\n");
+            }
+            return 1;
+        }
+    }
+
+    if (topic == "異動" || topic == "獸群" || topic == "野獸" || topic == "狼群") {
+        if (ws) {
+            tell_object(me, query_name() + " 皺眉道：「" + ws->query_beast_movement_narrative(1) + "」\n");
+            return 1;
+        }
+    }
+
+    if (topic == "任務" || topic == "生計" || topic == "job" || topic == "career" || topic == "力修") {
+        object career = load_object(CAREER_D);
+        int st = career ? career->query_chain_stage(me, "li") : 1;
+        if (st == 2 || st == 3) {
+            tell_object(me, query_name() + " 揮舞著剔骨刀道：「老趙頭讓你來的？把大青石當磨刀石好好磨亮柴刀 (sharpen blade)，或是把獵得的異獸皮送回哨亭給老趙頭！」\n");
+            return 1;
+        } else {
+            tell_object(me, query_name() + " 咧嘴笑道：「深山裡兇獸皮厚，把刀磨鋒利了才好剔骨分肉！」\n");
+            return 1;
+        }
+    }
+
+    return ::do_chat(me, topic);
+}
+
+int accept_object(object who, object ob) {
+    if (!who || !ob) return 0;
+    if (ob->id("tainted pelt") || ob->query("is_tainted_pelt") || ob->id("meat") || ob->query("is_food")) {
+        tell_object(who, YEL "張屠戶接過獸料，掂量了一番讚道：「好硬實的筋骨！老趙頭教出來的崽子果然有股狠勁！快去把刀磨利，回哨亭找老趙頭！」\n" NOR);
+        destruct(ob);
+        object career = load_object(CAREER_D);
+        if (career && career->query_chain_stage(who, "li") == 2) {
+            career->advance_chain_stage(who, "li");
+        }
+        return 1;
+    }
+    return 0;
+}

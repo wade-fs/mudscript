@@ -81,3 +81,24 @@ int accept_object(object who, object ob) {
 
     return 0;
 }
+
+int do_chat(object me, string topic) {
+    if (!topic || topic == "") return 0;
+    object ws = load_object(WORLD_STATE_D);
+
+    if (topic == "黑石關" || topic == "關卡" || topic == "封路" || topic == "官軍" || topic == "商隊" || topic == "news") {
+        if (ws) {
+            tell_object(me, query_name() + " 嗤笑一聲，壓低嗓子道：「" + ws->query_garrison_narrative(1) + " 一張蓋硃砂印的保書路引黑市炒到八十兩，但在太古天門引面前，不過是張擦屁股的廢紙！」\n");
+            return 1;
+        }
+    }
+
+    if (topic == "異動" || topic == "獸群" || topic == "野獸") {
+        if (ws) {
+            tell_object(me, query_name() + " 側耳聽著風聲，哼道：「" + ws->query_beast_movement_narrative(1) + "」\n");
+            return 1;
+        }
+    }
+
+    return ::do_chat(me, topic);
+}

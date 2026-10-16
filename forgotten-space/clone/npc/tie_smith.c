@@ -68,3 +68,50 @@ int accept_object(object who, object ob) {
 
     return 0;
 }
+
+int do_chat(object me, string topic) {
+    if (!topic || topic == "") return 0;
+    object ws = load_object(WORLD_STATE_D);
+
+    if (topic == "商隊" || topic == "金石城" || topic == "兵器" || topic == "caravan") {
+        if (ws) {
+            if (ws->is_caravan_arrived()) {
+                tell_object(me, query_name() + " 擦了把熱汗笑道：「金石商會的掌櫃已經在廣場支攤收購了，老子打好的開山柴刀總算能換成現銀了！」\n");
+            } else {
+                tell_object(me, query_name() + " 沉聲道：「金石商會每次來，都要從老子這提走三十把開山柴刀。若是山口商道斷了，大夥的生計都要受牽連。" + ws->query_garrison_narrative(1) + "」\n");
+            }
+            return 1;
+        }
+    }
+
+    if (topic == "礦坑" || topic == "塌方" || topic == "北崖") {
+        if (ws) {
+            if (ws->is_mine_collapsed()) {
+                tell_object(me, query_name() + " 焦急道：「北崖礦坑塌方了！爐子快要斷料，得趕緊去北崖搬開落石！」\n");
+            } else {
+                tell_object(me, query_name() + sprintf(" 說道：「北崖礦脈目前穩定度在 %d%%，魯老頭他們還在坑裡起礦。」\n", ws->query_mine_stability()));
+            }
+            return 1;
+        }
+    }
+
+    if (topic == "任務" || topic == "生計" || topic == "job" || topic == "career" || topic == "物修") {
+        object career = load_object(CAREER_D);
+        int st = career ? career->query_chain_stage(me, "wu") : 1;
+        if (st == 1) {
+            tell_object(me, query_name() + " 沉聲道：「金石商隊催得急，但鋪子裡粗礦告罄。北崖礦洞地煞鬆動，老礦工魯大山還在坑裡，你速去北崖接應他 (ask lu about 任務)！」\n");
+            return 1;
+        } else if (st == 2) {
+            tell_object(me, query_name() + " 催促道：「聽說魯老頭被毒瘴嗆著了？快去南谷藥廬找葛半仙求藥！」\n");
+            return 1;
+        } else if (st == 3) {
+            tell_object(me, query_name() + " 點頭道：「藥配好了？快把藥散送去給魯老頭，再把好礦帶回爐房！」\n");
+            return 1;
+        } else if (st == 4) {
+            tell_object(me, query_name() + " 笑道：「料子備齊了！手握鐵錘，拉動風箱，在鐵砧上狠狠鍛打粗礦 (strike ore)，打出一柄像樣的開山柴刀！」\n");
+            return 1;
+        }
+    }
+
+    return ::do_chat(me, topic);
+}

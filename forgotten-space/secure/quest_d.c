@@ -10,55 +10,33 @@ mapping quest_list;
 void create() {
     ::create();
     quest_list = ([
+        "pass_village_ceremony": ([
+            "name": ([ "en": "Village Exit Permit", "zh-TW": "出鄉文牒考驗", "zh-CN": "出乡文牒考验" ]),
+            "desc": ([ "en": "Reach level 10 and obtain road pass to Jinshi City.", "zh-TW": "等級達到 10 級，向聚落長者證明實力，取得前往金石城的官辦保書路引。", "zh-CN": "等级达到 10 级，向聚落长者证明实力，取得前往金石城的官办保书路引。" ]),
+            "level": 10,
+            "reward": ([
+                "exp": 1000,
+                "gold": 500,
+                "item": "/clone/item/road_pass.c"
+            ])
+        ]),
         "newbie_badge": ([
-            "name": ([ "en": "Newbie Proof", "zh-TW": "新手證明", "zh-CN": "新手证明" ]),
-            "desc": ([ "en": "Prove your courage to the Guild Master.", "zh-TW": "向公會會長證明你的勇氣。", "zh-CN": "向公会会长证明你的勇气。" ]),
+            "name": ([ "en": "Blackstone Trial", "zh-TW": "黑石聚落試煉", "zh-CN": "黑石聚落试炼" ]),
+            "desc": ([ "en": "Prove your basic survival skills in Blackstone Hamlet.", "zh-TW": "在黑石鋪完成基礎生存歷練。", "zh-CN": "在黑石铺完成基础生存历练。" ]),
             "level": 1,
             "reward": ([
                 "exp": 100,
-                "gold": 50,
-                "badge": "/item/badge_newbie.c"
+                "gold": 50
             ])
         ]),
         "wolf_hunter": ([
-            "name": ([ "en": "Wolf Hunting", "zh-TW": "獵狼行動", "zh-CN": "猎狼行动" ]),
-            "desc": ([ "en": "Eliminate 3 hungry wolves.", "zh-TW": "消滅 3 隻飢餓的野狼。", "zh-CN": "消灭 3 只饥饿的野狼。" ]),
+            "name": ([ "en": "East Forest Threat", "zh-TW": "東林獵狼平煞", "zh-CN": "东林猎狼平煞" ]),
+            "desc": ([ "en": "Eliminate 3 tainted wolves in the east forest.", "zh-TW": "前往東林荒林消滅 3 隻受地煞侵蝕的狂暴野狼。", "zh-CN": "前往东林荒林消灭 3 只受地煞侵蚀的狂暴野狼。" ]),
             "level": 3,
             "goal": ([ "type": "kill", "target": "wolf", "count": 3 ]),
             "reward": ([
                 "exp": 500,
                 "gold": 200
-            ])
-        ]),
-        "collect_fur": ([
-            "name": ([ "en": "Fur Collection", "zh-TW": "毛皮需求", "zh-CN": "毛皮需求" ]),
-            "desc": ([ "en": "Collect 3 wolf furs and give them to the armourer.", "zh-TW": "收集 3 張狼皮交給防具店老闆。", "zh-CN": "收集 3 张狼皮交给防具店老板。" ]),
-            "level": 3,
-            "goal": ([ "type": "item", "target": "狼皮", "count": 3 ]),
-            "reward": ([
-                "exp": 300,
-                "gold": 150,
-                "item": "/item/armour/leather_belt.c"
-            ])
-        ]),
-        "slime_medicine": ([
-            "name": ([ "en": "Medicine Ingredients", "zh-TW": "藥劑材料", "zh-CN": "药剂材料" ]),
-            "desc": ([ "en": "Collect 5 globs of slime jelly and give them to the herbalist.", "zh-TW": "收集 5 團史萊姆黏液交給藥劑師。", "zh-CN": "收集 5 团史莱姆黏液交给药剂师。" ]),
-            "level": 1,
-            "goal": ([ "type": "item", "target": "史萊姆黏液", "count": 5 ]),
-            "reward": ([
-                "exp": 200,
-                "gold": 80
-            ])
-        ]),
-        "crab_armour": ([
-            "name": ([ "en": "Crab Armour", "zh-TW": "加固甲殼", "zh-CN": "加固甲壳" ]),
-            "desc": ([ "en": "Collect 2 crab shells and give them to the blacksmith.", "zh-TW": "收集 2 塊螃蟹殼交給鐵匠。", "zh-CN": "收集 2 块螃蟹壳交给铁匠。" ]),
-            "level": 2,
-            "goal": ([ "type": "item", "target": "螃蟹殼", "count": 2 ]),
-            "reward": ([
-                "exp": 250,
-                "gold": 100
             ])
         ])
     ]);

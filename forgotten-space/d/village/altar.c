@@ -58,6 +58,11 @@ int do_meditate(string arg) {
     if (f_sid && me->query_skill(f_sid) > 0) {
         me->improve_skill(f_sid, 10 + me->query_stat("int") / 2);
     }
+
+    object career = load_object(CAREER_D);
+    if (career && career->query_chain_stage(me, "fa") == 2) {
+        career->advance_chain_stage(me, "fa");
+    }
     return 1;
 }
 
@@ -70,7 +75,7 @@ int do_search(string arg) {
         return 1;
     }
 
-    if (me->query("searched_altar_pine") || (md && md->has_completed_personal_event(me, "search_altar_pine"))) {
+    if (md && md->is_relic_discovered(me, "search_altar_pine")) {
         write("你撥開枯松針，看著深陷於盤根之中的那兩具玉化人形晶骨，心中仍存餘悸，未再發現其他之物。\n");
         return 1;
     }
@@ -81,19 +86,9 @@ int do_search(string arg) {
               "老松粗壯的根系從晶化軀體的胸腔與眼眶穿刺而過，死寂而詭異！\n" NOR);
     write("你屏住呼吸，從其中一具遺骸胸口處取下一塊鬆動脫落的" + HIW "【道化晶石殘片】" NOR + "！\n");
 
-    object crystal = clone_object("/clone/item/dao_crystal.c");
-    if (crystal) {
-        if (!crystal->move(me)) {
-            crystal->move(this_object());
-        }
-    }
-    me->set("searched_altar_pine", 1);
     if (md) {
-        md->complete_personal_event(me, "search_altar_pine", 50, 1);
-    } else {
-        me->gain_exp(50);
+        md->trigger_relic_discovery(me, "search_altar_pine", me);
     }
-    write(HIG "【你觸及太古道化遺骸，看破清修成仙之虛妄，命格微動（天命+1），獲得 50 點經驗！】\n" NOR);
     return 1;
 }
 
@@ -127,18 +122,18 @@ int do_stargaze(string arg) {
     me->add(VITAL_KEE, -15);
     me->add(VITAL_SEN, -20);
 
-    if (!me->query("stargazed") && (!md || !md->has_completed_personal_event(me, "stargaze_altar"))) {
-        me->set("stargazed", 1);
+    if (md && !md->is_relic_discovered(me, "stargaze_altar")) {
         me->add(STAT_INT, 2);
         me->add(STAT_SPI, 2);
-        if (md) {
-            md->complete_personal_event(me, "stargaze_altar", 100, 1);
-        } else {
-            me->gain_exp(100);
-        }
-        write(HIG "【你堪破蒼穹偽籠至暗真相，靈台受太古意志洗禮，悟性+2、靈性+2、天命+1，獲得 100 點經驗！】\n" NOR);
+        md->trigger_relic_discovery(me, "stargaze_altar", me);
+        write(HIG "【你堪破蒼穹偽籠至暗真相，靈台受太古意志洗禮，悟性+2、靈性+2，獲得 100 點經驗！】\n" NOR);
     } else {
         write(YEL "你再次窺探天羅地網，道心更趨堅毅，深知撕破偽籠任重道遠。\n" NOR);
+    }
+
+    object career = load_object(CAREER_D);
+    if (career && career->query_chain_stage(me, "fa") == 2) {
+        career->advance_chain_stage(me, "fa");
     }
 
     return 1;

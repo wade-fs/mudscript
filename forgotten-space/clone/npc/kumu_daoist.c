@@ -65,6 +65,11 @@ int accept_object(object who, object ob) {
         who->add("exp", 100);
         who->add(STAT_SPI, 1);
         destruct(ob);
+
+        object career = load_object(CAREER_D);
+        if (career && career->query_chain_stage(who, "fa") == 3) {
+            career->advance_chain_stage(who, "fa");
+        }
         return 1;
     }
 
@@ -75,3 +80,28 @@ int accept_object(object who, object ob) {
 
     return 0;
 }
+
+int do_chat(object me, string topic) {
+    if (!topic || topic == "") return 0;
+    if (topic == "任務" || topic == "生計" || topic == "job" || topic == "career" || topic == "法修" || topic == "傳道") {
+        object career = load_object(CAREER_D);
+        int st = career ? career->query_chain_stage(me, "fa") : 1;
+        if (st == 1) {
+            tell_object(me, query_name() + " 閉目掐指道：「天地氣機逆亂，陰煞正順水脈滲入聚落。你去南谷溪灘掬水洗心 (wash) 並拓印殘碑 (tuoyin stele)，查探源頭！」\n");
+            return 1;
+        } else if (st == 2) {
+            tell_object(me, query_name() + " 淡淡道：「既已拓得碑文，持拓片登上後方迎風殘壇盤膝入定 (meditate) 或仰觀星軌 (stargaze)！」\n");
+            return 1;
+        } else if (st == 3) {
+            tell_object(me, HIC "枯木老道空洞的眼眶微動，伸出枯槁食指，輕輕點在你的眉心靈台之上...\n" +
+                                 "剎那間，一縷澄澈冰涼的太古道意如清泉灌注神識，心中雜念與陰煞濁氣蕩滌一空！\n" NOR);
+            career->advance_chain_stage(me, "fa");
+            return 1;
+        } else {
+            tell_object(me, query_name() + " 微微頷首道：「大道無形，靈台常清。好生體悟，切莫被偽天迷了道心。」\n");
+            return 1;
+        }
+    }
+    return ::do_chat(me, topic);
+}
+

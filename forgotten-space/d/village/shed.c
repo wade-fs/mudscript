@@ -80,36 +80,18 @@ int do_eavesdrop(string arg) {
                 ws->query_mine_stability(), ws->query_mine_ore_reserve()));
         }
 
-        // 2. 東林地煞與獸潮動態
-        int disha = ws->query_disha_activity();
-        int alert = ws->query_forest_beast_alert();
-        write(sprintf(WHT "二、東林獵場地煞濁氣濃度達 %d%%（獸群警戒度 %d%%），獵戶正加緊巡視陷阱與暗紫濁血獸跡；\n" NOR,
-            disha, alert));
+        // 2. 東林地煞與獸潮動態 (由 WORLD_STATE_D 狀態驅動)
+        write(WHT "二、" + ws->query_beast_movement_narrative(1) + "\n" NOR);
 
-        // 3. 商隊動態與官道黑幕真相（動態對照官方說法與黑幕真相）
-        string c_stat = ws->query_caravan_status();
-        string truth = ws->query_caravan_truth_reason();
-        if (c_stat == "arrived") {
-            write(WHT "三、金石商會車隊已順利入駐前街廣場！酒客私下議論：大掌櫃是咬牙買下黑市炒至八十兩雪花銀的\n"
-                      "    官方【保書路引】（" + truth + "），才得以通關開市！\n" NOR);
-        } else if (c_stat == "blocked") {
-            write(WHT "三、官驛布告欄雖宣稱「" + ws->query_caravan_delay_reason() + "」，但客棧天字號房裡行商摔碗怒罵——\n"
-                      "    實情竟是：" + truth + "！\n" NOR);
-        } else {
-            write(WHT "三、金石商會車隊正行進於大荒官道途中。客棧行商低聲交頭接耳：" + truth + "。\n" NOR);
-        }
+        // 3. 商隊動態與官道黑幕真相 (由 WORLD_STATE_D 官軍封關狀態驅動)
+        write(WHT "三、" + ws->query_garrison_narrative(1) + "\n" NOR);
     }
 
     me->add(VITAL_SEN, -5);
 
-    if (!me->query("eavesdropped_shed") && (!md || !md->has_completed_personal_event(me, "eavesdrop_shed"))) {
-        me->set("eavesdropped_shed", 1);
+    if (md && !md->is_relic_discovered(me, "eavesdrop_shed")) {
         me->add(STAT_PER, 1);
-        if (md) {
-            md->complete_personal_event(me, "eavesdrop_shed", 30, 0);
-        } else {
-            me->gain_exp(30);
-        }
+        md->trigger_relic_discovery(me, "eavesdrop_shed", me);
         write(HIG "【你在市井雜訊中抽絲剝繭洞悉實情，察言觀色能力微幅提升（定力/感知+1），獲得 30 點經驗！】\n" NOR);
     }
     return 1;
@@ -124,7 +106,7 @@ int do_search(string arg) {
         return 1;
     }
 
-    if (me->query("searched_shed_wood") || (md && md->has_completed_personal_event(me, "search_shed_wood"))) {
+    if (md && md->is_relic_discovered(me, "search_shed_wood")) {
         write("柴堆底座深處只剩下潮濕腐爛的爛木樁與黑泥，未再發現其他物件。\n");
         return 1;
     }
@@ -135,18 +117,8 @@ int do_search(string arg) {
     write(HIY "在油布與松脂包裹中，赫然顯露出一枚巴掌大小、通體泛著暗啞青金光澤的非鐵非木古老殘令！\n" NOR);
     write(HIC "令符正面雕著雙龍環抱太古神闕，背面嵌著四個斑駁古篆：【萬物行商・天門引】（目前處於休眠殘缺狀態）！\n" NOR);
 
-    object token = clone_object("/clone/relic/tianmen_token.c");
-    if (token) {
-        if (!token->move(me)) {
-            token->move(this_object());
-        }
-    }
-    me->set("searched_shed_wood", 1);
     if (md) {
-        md->complete_personal_event(me, "search_shed_wood", 50, 1);
-    } else {
-        me->gain_exp(50);
+        md->trigger_relic_discovery(me, "search_shed_wood", me);
     }
-    write(HIG "【你掘出了莫三塵封三十年的太古商道殘令，命格微動（天命+1），獲得 50 點經驗！】\n" NOR);
     return 1;
 }

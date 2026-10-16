@@ -61,6 +61,11 @@ int accept_object(object who, object ob) {
         }
         who->add("exp", 50);
         destruct(ob);
+
+        object career = load_object(CAREER_D);
+        if (career && career->query_chain_stage(who, "wu") == 2) {
+            career->advance_chain_stage(who, "wu");
+        }
         return 1;
     }
 
@@ -73,4 +78,20 @@ int accept_object(object who, object ob) {
 
     tell_object(who, "葛半仙撇了撇嘴：「老夫只要清晨採得的新鮮靈草，拿這些俗物來糊弄老夫作甚？」\n");
     return 0;
+}
+
+int do_chat(object me, string topic) {
+    if (!topic || topic == "") return 0;
+    if (topic == "任務" || topic == "生計" || topic == "job" || topic == "career" || topic == "解毒" || topic == "魯大山") {
+        object career = load_object(CAREER_D);
+        int st = career ? career->query_chain_stage(me, "wu") : 1;
+        if (st == 2) {
+            tell_object(me, query_name() + " 瞪眼道：「魯老頭吸了地底陰瘴？哼，那老骨頭命硬！去南谷溪灘採一株破曉帶露的【晨露草】(gather) 回來，老夫給他配一包葛氏活絡散！」\n");
+            return 1;
+        } else {
+            tell_object(me, query_name() + " 哼道：「天地草木皆含神機，去採點晨露草來，老夫自有用處！」\n");
+            return 1;
+        }
+    }
+    return ::do_chat(me, topic);
 }

@@ -105,6 +105,11 @@ int do_wash(string arg) {
     me->add(VITAL_SEN, 25);
     me->add(VITAL_SP, 25);
     write(HIG "【溪泉洗滌，你的氣血 +15、神識 +25、精力 +25！】\n" NOR);
+
+    object career = load_object(CAREER_D);
+    if (career && career->query_chain_stage(me, "fa") == 1) {
+        career->advance_chain_stage(me, "fa");
+    }
     return 1;
 }
 
@@ -167,6 +172,11 @@ int do_sharpen(string arg) {
     write(HIG "【在沉穩有力的磨刀推拉中，你的臂力沉凝了幾分！】\n" NOR);
     me->train_stat(STAT_STR, 15);
     me->gain_exp(8);
+
+    object career = load_object(CAREER_D);
+    if (career && career->query_chain_stage(me, "li") == 2) {
+        career->advance_chain_stage(me, "li");
+    }
     return 1;
 }
 
@@ -222,5 +232,12 @@ int do_tuoyin(string arg) {
         write(HIR "石板完全沉沒在洶湧濁流之中，無法進行拓印！\n" NOR);
         return 1;
     }
-    return ::do_tuoyin(arg);
+    int ret = ::do_tuoyin(arg);
+    if (ret) {
+        object career = load_object(CAREER_D);
+        if (career && career->query_chain_stage(this_player(), "fa") == 1) {
+            career->advance_chain_stage(this_player(), "fa");
+        }
+    }
+    return ret;
 }

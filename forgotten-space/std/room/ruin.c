@@ -54,8 +54,8 @@ int do_study_ruin(string arg) {
 
     object mys_d = load_object(MYSTERY_D);
 
-    // 1. 認知盲區檢定 (統一由 MYSTERY_D 判定天命、感知靈性與物理去垢條件)
-    if (mys_d && !mys_d->check_amnesia_breakthrough(me, required_fate)) {
+    // 1. 認知盲區檢定 (統一由 MYSTERY_D 判定天命門檻、感知靈性與物理去垢條件)
+    if (mys_d && !mys_d->can_discover_relic(me, "stream_stele")) {
         write(CYN "你看著這些被厚重青苔與泥垢掩蓋的斑駁凹槽，受限於世俗認知盲區，只覺得線條凌亂無章，宛如前人隨手塗鴉或磨刀留下的頑石。\n" NOR);
         write(WHT "（提示：需先以磨刀 sharpen 或待山洪沖去石垢，或具備足夠的感知/靈性/天命共鳴，方能勘破迷障）\n" NOR);
         return 1;
@@ -74,10 +74,9 @@ int do_study_ruin(string arg) {
     write(WHT "你發現這些看似凌亂的凹槽，其夾角與周天星象完全相反，隱隱對應著太古大清洗前的失落星軌！\n" NOR);
     write(HIC "銘文殘意：" + relic_inscription + "\n" NOR);
 
-    // 首次勘破斷碑天機：記錄個人級事件並覺醒天命 +1
-    string ev_key = "study_ruin_" + relic_target;
-    if (mys_d && !mys_d->has_completed_personal_event(me, ev_key)) {
-        mys_d->complete_personal_event(me, ev_key, 30, 1);
+    // 首次勘破斷碑天機：透過 MYSTERY_D 統一記錄個人級事件並覺醒天命 +1
+    if (mys_d && !mys_d->is_relic_discovered(me, "stream_stele")) {
+        mys_d->trigger_relic_discovery(me, "stream_stele", me);
     }
 
     // 鍛鍊悟性

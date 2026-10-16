@@ -64,6 +64,11 @@ int accept_object(object who, object ob) {
         }
         who->add("exp", 60);
         destruct(ob);
+
+        object career = load_object(CAREER_D);
+        if (career && (career->query_chain_stage(who, "li") == 3 || career->query_chain_stage(who, "li") == 4)) {
+            career->advance_chain_stage(who, "li");
+        }
         return 1;
     }
 
@@ -73,4 +78,43 @@ int accept_object(object who, object ob) {
     }
 
     return 0;
+}
+
+int do_chat(object me, string topic) {
+    if (!topic || topic == "") return 0;
+    object ws = load_object(WORLD_STATE_D);
+
+    if (topic == "野獸" || topic == "異動" || topic == "狼群" || topic == "獸潮" || topic == "大荒" || topic == "hunt") {
+        if (ws) {
+            tell_object(me, query_name() + " 望著東面密林，神情嚴峻道：「" + ws->query_beast_movement_narrative(1) + "」\n");
+            return 1;
+        }
+    }
+
+    if (topic == "商隊" || topic == "封路" || topic == "黑石關" || topic == "官軍") {
+        if (ws) {
+            tell_object(me, query_name() + " 哼了一聲道：「" + ws->query_garrison_narrative(1) + "」\n");
+            return 1;
+        }
+    }
+
+    if (topic == "任務" || topic == "生計" || topic == "job" || topic == "career" || topic == "力修") {
+        object career = load_object(CAREER_D);
+        int st = career ? career->query_chain_stage(me, "li") : 1;
+        if (st == 1) {
+            tell_object(me, query_name() + " 望著東面密林道：「東林深處獸群受地煞激盪暴動！你去東面荒林調校獵戶陷阱 (trap)，順著濁血追蹤異獸 (track)！」\n");
+            return 1;
+        } else if (st == 2) {
+            tell_object(me, query_name() + " 催促道：「荒林陷阱與濁血排查得如何了？去林中調校陷阱 (trap) 與追蹤 (track)！」\n");
+            return 1;
+        } else if (st == 3) {
+            tell_object(me, query_name() + " 說道：「帶上獸皮去溪灘找張屠戶，他那把剔骨刀最擅對付異獸筋骨，在石板上磨刀抗煞！」\n");
+            return 1;
+        } else if (st == 4) {
+            tell_object(me, query_name() + " 讚許道：「把獵得的染煞異獸皮交給我 (give tainted pelt to zhao)，老子檢視你的搏殺成果！」\n");
+            return 1;
+        }
+    }
+
+    return ::do_chat(me, topic);
 }

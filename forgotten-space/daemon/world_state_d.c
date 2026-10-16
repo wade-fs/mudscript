@@ -262,6 +262,64 @@ int query_caravan_timer() { return caravan_timer; }
 string query_caravan_delay_reason() { return caravan_delay_reason; }
 string query_caravan_truth_reason() { return caravan_truth_reason; }
 
+// ── 官軍封關與商道敘事驅動 ─────────────────────────────────
+string query_garrison_status() {
+    if (caravan_status == "arrived") return "bribed";
+    if (caravan_status == "blocked") return "blockade";
+    return "eased";
+}
+
+string query_garrison_narrative(int is_truth) {
+    if (caravan_status == "arrived") {
+        if (is_truth) {
+            return "金石商會車隊雖已順利入駐前街廣場開市，但大掌櫃是在黑市硬吞下炒至整整八十兩雪花銀的官方【保書路引】，打點了黑石關守軍，才得以通關！";
+        } else {
+            return "金石商會車隊已順利通關入駐青石街市！大掌櫃錢富貴設鋪開市，高價收購粗礦、良藥與大荒柴刀。";
+        }
+    } else if (caravan_status == "blocked") {
+        if (is_truth) {
+            return "黑石關封路並非單純山體滑坡，乃是城防軍勒索金石商會三成乾股！如今一張官方【保書路引】在黑市已被炒至整整八十兩雪花銀！";
+        } else {
+            return caravan_delay_reason != "" ? caravan_delay_reason : "北崖夜半落石引發黑石關外山體滑坡，金石商會馱隊暫滯關外！";
+        }
+    } else {
+        if (is_truth) {
+            return "金石商會馱隊正行經大荒官道。行商私下嘀咕：黑石關守軍胃口愈來愈大，若無重金打點官方【保書路引】，商隊過關必遭刁難！";
+        } else {
+            return "商會馱隊正在前往黑石鋪途中，大荒官道暫行通暢。";
+        }
+    }
+}
+
+// ── 東林獸群異動與地煞敘事驅動 ─────────────────────────────
+string query_beast_movement_status() {
+    if (forest_beast_alert >= 75) return "frenzied";
+    if (forest_beast_alert >= 50) return "alert";
+    return "calm";
+}
+
+string query_beast_movement_narrative(int is_detailed) {
+    if (forest_beast_alert >= 60) {
+        if (is_detailed) {
+            return "東林鹿角柵欄外傳來三聲急促狼哨，趙老獵正佈設破甲機弩，張屠戶天不亮提刀磨礪準備隨隊進山；林間發現暗紫色的焦灼濁血，地煞濁氣翻湧，狂暴黑熊發狂撞裂古木！";
+        } else {
+            return sprintf("東林獸潮警戒（狼哨頻發・地煞濃度 %d%%・獸群躁動度 %d%%），急需巡視加固陷阱 (trap)！", disha_activity, forest_beast_alert);
+        }
+    } else if (forest_beast_alert >= 40) {
+        if (is_detailed) {
+            return sprintf("東林獵場地煞濁氣濃度達 %d%%（獸群警戒度 %d%%），獵戶正加緊巡視陷阱與暗紫濁血獸跡。", disha_activity, forest_beast_alert);
+        } else {
+            return sprintf("東林外圍野獸偶有躁動咆哮（地煞濃度 %d%%，獸群警戒度 %d%%）。", disha_activity, forest_beast_alert);
+        }
+    } else {
+        if (is_detailed) {
+            return "東林荒莽晨煙靜謐，野獸潛伏深山，防獸陷阱完好無損。";
+        } else {
+            return sprintf("獵場動態：林莽平靜（地煞濃度 %d%%，獸群警戒度 %d%%）。", disha_activity, forest_beast_alert);
+        }
+    }
+}
+
 // ── 採藥業務 (gather_herb) ────────────────────────────────
 
 int gather_herb(object player) {

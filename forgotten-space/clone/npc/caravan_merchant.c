@@ -97,3 +97,17 @@ int do_sell(string arg) {
     write(HIY "錢富貴笑得合不攏嘴，收下物資後遞過一袋銅板：「承惠！共收購 " + count + " 件貨物，合計 " + total_gain + " 銅幣，請收好！」\n" NOR);
     return 1;
 }
+
+int do_chat(object me, string topic) {
+    if (!topic || topic == "") return 0;
+    object ws = load_object(WORLD_STATE_D);
+
+    if (topic == "商隊" || topic == "封路" || topic == "官軍" || topic == "黑石關" || topic == "caravan") {
+        if (ws) {
+            tell_object(me, query_name() + " 嘆了一口氣，撫著錦袍道：「" + ws->query_garrison_narrative(1) + " 我們金石商會這趟在大荒走得提心吊膽啊！」\n");
+            return 1;
+        }
+    }
+
+    return ::do_chat(me, topic);
+}

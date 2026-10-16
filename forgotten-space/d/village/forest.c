@@ -36,8 +36,7 @@ string query_long() {
                  "小徑上有幾道新鮮的野獸蹄印與抓痕，路旁倒伏的斷木下暗藏著獵戶布下的\n"
                  "竹刺吊套陷阱 (trap)。循著泥濘獸道似乎可深入追蹤獸跡 (track)。\n";
     if (ws) {
-        res += sprintf(MAG "【東林氣機】%s（地煞濃度：%d%%，獸群躁動度：%d%%）\n" NOR,
-            ws->query_forest_beast_desc(), ws->query_disha_activity(), ws->query_forest_beast_alert());
+        res += sprintf(MAG "【東林氣機】%s\n" NOR, ws->query_beast_movement_narrative(0));
     } else {
         res += "遠處林海深處不時傳來沉悶的狼嚎與飛鳥驚起之聲。\n";
     }
@@ -77,6 +76,11 @@ int do_inspect_trap(string arg) {
     me->train_stat(STAT_DEX, 15);
     me->train_stat(STAT_PER, 15);
     me->gain_exp(10);
+
+    object career = load_object(CAREER_D);
+    if (career && career->query_chain_stage(me, "li") == 1) {
+        career->advance_chain_stage(me, "li");
+    }
     return 1;
 }
 
@@ -103,6 +107,11 @@ int do_track(string arg) {
     me->set_temp("tracked_totem", 1);
     me->train_stat(STAT_PER, 15);
     me->gain_exp(10);
+
+    object career2 = load_object(CAREER_D);
+    if (career2 && career2->query_chain_stage(me, "li") == 1) {
+        career2->advance_chain_stage(me, "li");
+    }
     return 1;
 }
 
@@ -145,9 +154,8 @@ int do_commune_totem(string arg) {
     me->gain_exp(15);
 
     object md = load_object(MYSTERY_D);
-    if (md && !md->has_completed_personal_event(me, "commune_forest_totem")) {
-        me->set("communed_forest_totem", 1);
-        md->complete_personal_event(me, "commune_forest_totem", 40, 1);
+    if (md && !md->is_relic_discovered(me, "commune_forest_totem")) {
+        md->trigger_relic_discovery(me, "commune_forest_totem", me);
         write(HIG "【你首度以濁血引動太古戰祖圖騰共鳴，體內荒血覺醒（天命+1），額外獲得 40 點經驗！】\n" NOR);
     }
     return 1;

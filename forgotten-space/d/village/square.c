@@ -62,15 +62,15 @@ string look_at_item(string id) {
                      WHT "────────────────────────────────────────\n" + NOR;
 
         if (ws) {
-            // 1. 商道與商隊動態
+            // 1. 商道與商隊動態 (由 WORLD_STATE_D 官軍封關與商隊狀態驅動)
             msg += HIW "【大荒商道・金石商會】\n" + NOR;
             string c_stat = ws->query_caravan_status();
             if (c_stat == "arrived") {
-                msg += HIG "  ● 商隊已抵達青石街市！大掌櫃錢富貴設鋪開市，高價收購粗礦與晨露草 (sell)。\n" + NOR;
+                msg += HIG "  ● 商隊已抵達青石街市！大掌櫃錢富貴設鋪開市，高價收購粗礦、良藥與大荒柴刀 (sell)。\n" + NOR;
             } else if (c_stat == "blocked") {
-                msg += HIR "  ● 【特急警告】" + ws->query_caravan_delay_reason() + "！\n" + NOR;
+                msg += HIR "  ● 【特急警告】" + ws->query_garrison_narrative(0) + "\n" + NOR;
             } else {
-                msg += YEL "  ● 商會馱隊正在前往黑石鋪途中，大荒官道暢通無阻。\n" + NOR;
+                msg += YEL "  ● " + ws->query_garrison_narrative(0) + "\n" + NOR;
             }
 
             // 2. 礦坑安全與儲量
@@ -93,15 +93,13 @@ string look_at_item(string id) {
                 msg += sprintf("  ● 當前水情：%s，兩岸草藥存量：%d/12 (gather)。\n", w_desc, herbs);
             }
 
-            // 4. 東林獵場與地煞獸情
+            // 4. 東林獵場與地煞獸情 (由 WORLD_STATE_D 獸群異動狀態驅動)
             msg += "\n" + HIW "【東林獵場・地煞獸情】\n" + NOR;
-            int disha = ws->query_disha_activity();
             int alert = ws->query_forest_beast_alert();
-            string b_desc = ws->query_forest_beast_desc();
             if (alert >= 60) {
-                msg += sprintf(HIR "  ● 【獸潮警戒】%s (地煞濃度: %d%%，獸群躁動度: %d%%，急需巡視陷阱 trap)！\n" + NOR, b_desc, disha, alert);
+                msg += HIR "  ● 【獸潮警戒】" + ws->query_beast_movement_narrative(0) + "\n" + NOR;
             } else {
-                msg += sprintf("  ● 獵場動態：%s (地煞濃度: %d%%，獸群躁動度: %d%%)。\n", b_desc, disha, alert);
+                msg += "  ● " + ws->query_beast_movement_narrative(0) + "\n";
             }
         }
         msg += WHT "────────────────────────────────────────\n" + NOR;

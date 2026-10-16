@@ -125,7 +125,7 @@ int do_strike(string arg) {
     if (!ore) ore = present("ore chunk", this_object());
     if (!ore) ore = present("ore", me);
 
-    if (ore && ore->query("is_ore")) {
+    if (ore && (ore->query("is_ore") || ore->id("ore chunk") || ore->id("ore") || ore->id("粗礦") || ore->id("礦石"))) {
         write("你用長鐵鉗將" + ore->query_short() + "牢牢鉗在鐵砧上，右臂青筋暴起，高舉鐵錘！\n");
         write(HIY "「當——！！」一聲巨響震徹工坊，漫天火星如暴雨散落，粗糙的岩殼寸寸崩裂！\n" NOR);
 
@@ -133,22 +133,21 @@ int do_strike(string arg) {
 
         // 個人孤本奇遇：首次震裂礦核必定覺醒發現【太古不融黑鐵構件】，此後常規鍛造成【大荒開山柴刀】
         object md = load_object(MYSTERY_D);
-        if (md && !md->has_completed_personal_event(me, "forge_ancient_black_iron")) {
+        if (md && !md->is_relic_discovered(me, "forge_ancient_black_iron")) {
             write(HIR "【反震異變】只聽一聲清脆龍吟，錘面被一股極恐怖的金屬反震彈開！\n" NOR);
             write(HIB "岩石碎殼深處，赫然露出一截通體烏黑、帶有微型齒輪與榫卯的【太古不融黑鐵構件】！\n" NOR);
-            object relic = clone_object("/clone/relic/ancient_black_iron.c");
-            if (relic) {
-                if (!relic->move(me)) relic->move(this_object());
-            }
-            me->set("forged_ancient_iron", 1);
-            md->complete_personal_event(me, "forge_ancient_black_iron", 40, 1);
-            write(HIG "【你在千錘百鍊間觸及太古造物殘片，命格微動（天命+1），獲得 40 點經驗！】\n" NOR);
+            md->trigger_relic_discovery(me, "forge_ancient_black_iron", me);
         } else {
             write(HIW "經過千錘百鍊的敲打，粗鐵胚料褪去雜質，鍛打成了一柄沉甸甸的【大荒開山柴刀】！\n" NOR);
             object blade = clone_object("/clone/weapon/clearing_blade.c");
             if (blade) {
                 if (!blade->move(me)) blade->move(this_object());
             }
+        }
+
+        object career = load_object(CAREER_D);
+        if (career && career->query_chain_stage(me, "wu") == 4) {
+            career->advance_chain_stage(me, "wu");
         }
     } else {
         write("你沉穩地揮動鐵錘在空鐵砧上節奏敲擊，「叮、噹、叮、噹」的金石脆響在工坊迴盪...\n");
