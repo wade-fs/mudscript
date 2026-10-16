@@ -162,6 +162,18 @@ void test_array_mapping_efuns() {
     mixed *arr_mem = ({ "a", "b", "c" });
     assert_equal(1, member_array("b", arr_mem), "member_array() should return index");
     assert_equal(-1, member_array("d", arr_mem), "member_array() should return -1");
+
+    // 測試 in_array
+    assert_equal(1, in_array("b", arr_mem), "in_array() should return 1 for existing item");
+    assert_equal(0, in_array("d", arr_mem), "in_array() should return 0 for non-existing item");
+
+    // 測試 string_in / strings_in / stringsIn
+    assert_equal(1, string_in("b", arr_mem), "string_in() array match");
+    assert_equal(1, string_in("定脈", "定脈, 鎮山, 符"), "string_in() comma string match");
+    assert_equal(1, strings_in("talisman", "定脈, 鎮山, TALISMAN"), "strings_in() case-insensitive match");
+    assert_equal(1, stringsIn("符", "定脈, 鎮山, 符"), "stringsIn() alias match");
+    assert_equal(0, string_in("未知", "定脈, 鎮山, 符"), "string_in() should return 0 for non-match");
+
     
     // 測試 unique_mapping
     mapping m_unq = unique_mapping(({ "a", "b", "a" }), "id");

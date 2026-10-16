@@ -86,7 +86,7 @@ int do_chat(object me, string topic) {
     if (engine && engine->check_and_handle_lost_item(me, "ge", topic)) {
         return 1;
     }
-    if (topic == "任務" || topic == "生計" || topic == "job" || topic == "career" || topic == "解毒" || topic == "魯大山") {
+    if (string_in(topic, "任務, 生計, job, career, 解毒, 魯大山")) {
         object career = load_object(CAREER_D);
         int st = career ? career->query_chain_stage(me, "wu") : 1;
         if (st == 2) {
@@ -97,7 +97,7 @@ int do_chat(object me, string topic) {
             return 1;
         }
     }
-    if (topic == "避毒" || topic == "烈酒" || topic == "wine" || topic == "地煞" || topic == "辟煞酒") {
+    if (string_in(topic, "避毒, 烈酒, wine, 地煞, 辟煞酒")) {
         tell_object(me, query_name() + " 吹鬍子瞪眼大罵道：「地底九幽地煞毒性烈如蛇蠍！拿上這壺老夫秘製的【雄黃辟煞烈血酒】！\n" +
                                        "要是敢給老子死在底下，老子掀了你的祖墳！！」\n");
         if (!present("disha wine", me) && !present("wine", me)) {

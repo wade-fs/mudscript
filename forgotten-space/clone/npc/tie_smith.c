@@ -77,7 +77,7 @@ int do_chat(object me, string topic) {
     if (!topic || topic == "") return 0;
     object ws = load_object(WORLD_STATE_D);
 
-    if (topic == "商隊" || topic == "金石城" || topic == "兵器" || topic == "caravan") {
+    if (string_in(topic, "商隊, 金石城, 兵器, caravan")) {
         if (ws) {
             if (ws->is_caravan_arrived()) {
                 tell_object(me, query_name() + " 擦了把熱汗笑道：「金石商會的掌櫃已經在廣場支攤收購了，老子打好的開山柴刀總算能換成現銀了！」\n");
@@ -88,7 +88,7 @@ int do_chat(object me, string topic) {
         }
     }
 
-    if (topic == "礦坑" || topic == "塌方" || topic == "北崖") {
+    if (string_in(topic, "礦坑, 塌方, 北崖, mine")) {
         if (ws) {
             if (ws->is_mine_collapsed()) {
                 tell_object(me, query_name() + " 焦急道：「北崖礦坑塌方了！爐子快要斷料，得趕緊去北崖搬開落石！」\n");
@@ -99,7 +99,7 @@ int do_chat(object me, string topic) {
         }
     }
 
-    if (topic == "鋼鑿" || topic == "破石" || topic == "chisel" || topic == "玄鐵鋼鑿") {
+    if (string_in(topic, "鋼鑿, 破石, chisel, 玄鐵鋼鑿")) {
         tell_object(me, query_name() + " 虎目圓睜，厲聲喝道：「人命關天！老子剛引地爐千度炭火淬鍊出這批【百煉破煞玄鐵鋼鑿】！\n" +
                                        "拿去！握錘的人心若是軟了，玄鐵也是爛泥！給老子把山鑿穿，把大山全鬚全尾地帶回來！」\n");
         if (!present("steel chisel", me) && !present("chisel", me)) {
@@ -112,7 +112,7 @@ int do_chat(object me, string topic) {
         return 1;
     }
 
-    if (topic == "路引" || topic == "出鄉" || topic == "文牒" || topic == "ceremony" || topic == "pass") {
+    if (string_in(topic, "路引, 出鄉, 文牒, ceremony, pass")) {
         if (me->query_level() < 10) {
             tell_object(me, query_name() + " 揮舞鐵錘敲了敲鐵砧，哼道：「黑石關外世道兇險，臂力筋骨未達 10 級，出去就是給流寇當靶子！先給老子在鐵砧前多掄幾百錘！」\n");
             return 1;

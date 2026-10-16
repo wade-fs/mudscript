@@ -83,7 +83,7 @@ int accept_object(object who, object ob) {
 
 int do_chat(object me, string topic) {
     if (!topic || topic == "") return 0;
-    if (topic == "路引" || topic == "出鄉" || topic == "文牒" || topic == "ceremony" || topic == "pass") {
+    if (string_in(topic, "路引, 出鄉, 文牒, ceremony, pass")) {
         if (me->query_level() < 10) {
             tell_object(me, query_name() + " 雙目微闔，沙啞道：「大荒之外，偽天籠罩，殺機萬重。以你如今微弱道行（需達 10 級），若強行離鄉，頃刻化為齏粉。靈台未淨，莫談遠行。」\n");
             return 1;
@@ -104,7 +104,7 @@ int do_chat(object me, string topic) {
         }
     }
 
-    if (topic == "任務" || topic == "生計" || topic == "job" || topic == "career" || topic == "法修" || topic == "傳道") {
+    if (string_in(topic, "任務, 生計, job, career, 法修, 傳道")) {
         object career = load_object(CAREER_D);
         int st = career ? career->query_chain_stage(me, "fa") : 0;
         if (st == 0 || st == 1) {
@@ -128,7 +128,7 @@ int do_chat(object me, string topic) {
             return 1;
         }
     }
-    if (topic == "定脈" || topic == "鎮山" || topic == "符" || topic == "talisman" || topic == "鎮山符") {
+    if (string_in(topic, "定脈, 鎮山, 符, talisman, 鎮山符")) {
         tell_object(me, query_name() + " 閉目沙啞道：「地脈翻覆，逆者死，順者生。這張以赤陽雄雞血所繪【太上定脈鎮山符】你且拿去，\n" +
                                        "遇岩崩危局，焚符可定石三息，切記不可貪功！」\n");
         if (!present("mountain talisman", me) && !present("talisman", me)) {

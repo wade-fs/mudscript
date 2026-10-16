@@ -301,9 +301,22 @@
 - **範例**: `m_delete(m, "key");`
 
 ### `member_array()`
-- **語法**: `int member_array(mixed item, mixed *arr)`
-- **說明**: 尋找元素索引，找不到回傳 -1。
+- **語法**: `int member_array(mixed item, mixed *arr, [int start])`
+- **說明**: 尋找元素在陣列中的索引位置，找到回傳索引 (0, 1, ...)，找不到回傳 -1。
 - **範例**: `member_array(2, ({1, 2, 3})) -> 1`
+
+### `in_array()`
+- **語法**: `int in_array(mixed item, mixed *arr)`
+- **說明**: 判斷元素是否存在於陣列中，存在回傳 `1`，不存在回傳 `0`。避免 `member_array` 索引 0 在條件式中被誤判為 false 的陷阱。
+- **範例**: `in_array("b", ({"a", "b", "c"})) -> 1`
+
+### `string_in()` / `strings_in()` / `stringsIn()`
+- **語法**: `int string_in(string str, mixed targets)`
+- **說明**: 檢查字串 `str` 是否符合 `targets` 清單。`targets` 可傳入字串陣列 `({"a", "b"})`，亦可直接傳入逗號分隔字串 `"a, b, c"`。比對時自動去除頭尾空白並支援不區分大小寫匹配，極度適合話題與指令別名判定。
+- **範例**: 
+  - `string_in(topic, ({"定脈", "鎮山", "符"})) -> 1`
+  - `string_in(topic, "定脈, 鎮山, 符, talisman") -> 1`
+
 
 ### `explode()` / `implode()`
 - **語法**: `string *explode(string s, string d)` / `string implode(string *a, string d)`

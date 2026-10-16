@@ -44,7 +44,7 @@ void create() {
 int do_chat(object me, string topic) {
     if (!me || !topic || topic == "") return 0;
 
-    if (topic == "委託" || topic == "commission" || topic == "救援" || topic == "rescue") {
+    if (string_in(topic, "委託, commission, 救援, rescue")) {
         tell_object(me, HIY "蘇凝霜神色肅穆，高舉紫金雙龍信印：「凝霜以金石商會少東家之名發布【天字甲級特等緊急救援委託】！\n" +
                             "現場所有鋼釬、絞盤與辟毒藥物皆可調用，只要能救出地下三百米被困的二十三名長輩，\n" +
                             "商會必發千兩白銀撫恤，凝霜更親自為恩公簽發直通金石府城的大荒特等通關保書！」\n" NOR);
@@ -58,7 +58,7 @@ int do_chat(object me, string topic) {
         return 1;
     }
 
-    if (topic == "殘圖" || topic == "blueprint" || topic == "採掘殘圖") {
+    if (string_in(topic, "殘圖, blueprint, 採掘殘圖")) {
         tell_object(me, CYN "蘇凝霜低聲道：「殘圖上清晰標註，地底三百米有一處天然岩石空腔【地煞避風穹頂】，\n" +
                             "但入口被一道【斷龍卡隼石】死死卡住！請恩公帶好殘圖，向鐵鋪阿鐵借鋼鑿破石！」\n" NOR);
         if (!present("mine blueprint", me) && !present("blueprint", me)) {
