@@ -22,6 +22,7 @@ void create() {
     set("is_outdoor", 0);
 
     spawn_npc("/clone/npc/ge_doctor.c");
+    spawn_item("/clone/item/steel_grinder.c");
 }
 
 void init() {

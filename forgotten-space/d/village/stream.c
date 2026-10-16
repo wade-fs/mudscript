@@ -19,6 +19,7 @@ void create() {
 
     set_exits(([
         "north": "/d/village/square.c",
+        "south": "/d/village/falls.c",
         "down":  "/d/village/herb_hut.c",
     ]));
 

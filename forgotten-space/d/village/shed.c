@@ -18,11 +18,13 @@ void create() {
 
     set_exits(([
         "northeast": "/d/village/square.c",
+        "north":     "/d/village/dark_alley.c",
     ]));
 
     set("is_outdoor", 0);
 
     spawn_npc("/clone/npc/mo_beggar.c");
+    spawn_npc("/clone/npc/su_ningshuang.c");
     spawn_item("/clone/item/broken_bowl.c");
 }
 

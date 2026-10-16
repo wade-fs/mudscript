@@ -1,0 +1,53 @@
+{
+  "id": "cycle_of_craft",
+  "name": "百工之環・生計互生",
+  "category": "main",
+  "type": "stage_chain",
+  "total_stages": 1,
+  "stages": [
+    {
+      "stage": 1,
+      "title": "百工交織",
+      "region": "village",
+      "region_name": "黑石鋪",
+      "required_level": 2,
+      "status_on_finish": "completed",
+      "finish_desc": "你體悟了草藥之靈、鍛打之力與荒野之準，三大道統鏈在凡塵生計中生生不息，百煉精鋼藥碾已立於草廬之中！",
+      "on_finish": {
+        "exp": 300,
+        "pot": 150,
+        "msg": "【百工合鳴】你完成了百工生計互生之環，獲得 300 點經驗與 150 點潛能！"
+      },
+      "steps": [
+        {
+          "step": 1,
+          "title": "幽谷採草",
+          "hint": "前往幽霧水谷採集新鮮草藥 (gather)，尋找解火毒的靈草。",
+          "target_type": "action",
+          "action_verb": "gather",
+          "action_target": "herb"
+        },
+        {
+          "step": 2,
+          "title": "寒瀑鍛體",
+          "hint": "前往南谷寒澗墜龍瀑布，赤身頂著萬鈞急流進行極限鍛體 (train_falls)。",
+          "target_type": "action",
+          "action_verb": "train_falls",
+          "action_target": "falls"
+        },
+        {
+          "step": 3,
+          "title": "百工印證",
+          "hint": "前往老鐵匠鋪，向阿鐵打聽百工與神機鍛打之道 (ask tie about 百工)。",
+          "target_type": "talk",
+          "target_npc": "tie",
+          "target_topic": "百工",
+          "on_complete": {
+            "give_item": "/clone/weapon/heavy_wood_blade.c",
+            "msg": "阿鐵師傅拍著你的肩膀豪邁大笑，將一柄剛剛淬火出爐的【加厚開山柴刀】贈與了你！"
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,51 @@
+{
+  "id": "rescue_maiden",
+  "name": "荒澗死鬥・暗巷驚鴻",
+  "category": "main",
+  "type": "stage_chain",
+  "total_stages": 1,
+  "stages": [
+    {
+      "stage": 1,
+      "title": "破局除逆",
+      "region": "village",
+      "region_name": "黑石鋪",
+      "required_level": 3,
+      "status_on_finish": "completed",
+      "finish_desc": "你擊斃了欺凌百姓的商隊兵痞趙四與黑甲弩衛，成功掩護落難千金蘇凝霜，截獲了城防軍屠村分贓的鐵證！",
+      "on_finish": {
+        "exp": 500,
+        "pot": 200,
+        "msg": "【英雄心氣】你揭露了官商勾結的屠村陰謀，天命隱性覺醒 +1，獲得 500 點經驗與 200 點潛能！"
+      },
+      "steps": [
+        {
+          "step": 1,
+          "title": "荒澗誅凶",
+          "hint": "前往南谷墜龍瀑布，擊敗尋釁伏擊的商隊惡奴趙四 (kill zhao)，奪取罪證。",
+          "target_type": "kill",
+          "target_npc": "zhao si"
+        },
+        {
+          "step": 2,
+          "title": "暗巷巡查",
+          "hint": "前往客棧後街青石暗巷搜查 (search boards)，拔除城防軍的暗哨。",
+          "target_type": "action",
+          "action_verb": "search",
+          "action_target": "boards"
+        },
+        {
+          "step": 3,
+          "title": "密證呈交",
+          "hint": "前往客棧背街廢柴房，向蘇凝霜打聽屠村變故 (ask su about 二掌櫃)。",
+          "target_type": "talk",
+          "target_npc": "su",
+          "target_topic": "二掌櫃",
+          "on_complete": {
+            "msg": "蘇凝霜向你深深一福，眼眸中滿是感激與堅定：「有了這封密證與恩公相助，我們定能打破這座吃人的囚籠！」"
+          }
+        }
+      ]
+    }
+  ]
+}
