@@ -32,9 +32,6 @@ void init() {
     add_action("do_train_falls", "train_falls");
     add_action("do_train_falls", "鍛體");
     add_action("do_train_falls", "瀑布鍛體");
-    add_action("do_gather_moss", "gather");
-    add_action("do_gather_moss", "採藥");
-    add_action("do_gather_moss", "採苔");
 }
 
 int do_train_falls(string arg) {
@@ -74,12 +71,9 @@ int do_train_falls(string arg) {
     return 1;
 }
 
-int do_gather_moss(string arg) {
-    object me = this_player();
-
-    if (arg && arg != "moss" && arg != "石膽苔" && arg != "藥") {
-        write("你想採集什麼？提示：gather moss（採集生石膽苔）\n");
-        return 1;
+int do_gather(object me, string arg) {
+    if (!arg || (arg != "moss" && arg != "石膽苔" && arg != "生石膽苔" && arg != "藥")) {
+        return 0;
     }
 
     if (query("moss_stock") <= 0) {
@@ -96,7 +90,7 @@ int do_gather_moss(string arg) {
     me->add(VITAL_SP, -15);
     add("moss_stock", -1);
 
-    object moss = new("/clone/material/stone_moss.c");
+    object moss = new("/clone/item/stone_moss.c");
     if (moss) {
         moss->move(me);
         write(HIG "你獲得了一份【生石膽苔】！\n" NOR);
