@@ -47,34 +47,29 @@ int main(object me, string verb, string arg) {
         "label_atk": _t("label_atk")
     ]);
 
-    // 2. 建立指令清單 (從 command_d 動態取得，避免被截斷)
-    object cmd_d = load_object("/secure/command_d");
-    mapping cmds = ([]);
-    if (cmd_d) {
-        cmds = cmd_d->query_categorized_commands(me->query_lang());
-        
-        // 如果不是巫師，過濾掉管理類別
-        if (me->query_role() != "god" && me->query_role() != "wizard") {
-            object lang_d = load_object("/secure/language_d.c");
-            string admin_cat = lang_d->translate("cat_admin", me->query_lang());
-            m_delete(cmds, admin_cat);
-        }
-    } else {
-        // 備援：若抓不到 daemon 則顯示簡易版
-        cmds = ([
-            _t("cat_basic") : ({ "look", "inventory", "score", "help" })
-        ]);
-    }
-
-    // 3. 組合完整的 UI 更新封包或純文字輸出
+    // 2. 組合完整的 UI 更新封包或純文字輸出
     if (is_web_client(me)) {
         string score_payload = sprintf("{\"ui\": \"score\", \"data\": %s}", json_encode(data));
-        string cmd_payload = sprintf("{\"ui\": \"cmd_list\", \"title\": \"%s\", \"data\": %s}", _t("cmd_list"), json_encode(cmds));
-        
-        // 🚀 使用 tell_object 確保訊息發送給正確的玩家連線，
-        // 且不會在背景更新時（沒有 player context）噴到 server console。
         tell_object(me, score_payload);
-        tell_object(me, cmd_payload);
+
+        if (verb != "score_quiet") {
+            object cmd_d = load_object("/secure/command_d");
+            mapping cmds = ([]);
+            if (cmd_d) {
+                cmds = cmd_d->query_categorized_commands(me->query_lang());
+                if (me->query_role() != "god" && me->query_role() != "wizard") {
+                    object lang_d = load_object("/secure/language_d.c");
+                    string admin_cat = lang_d->translate("cat_admin", me->query_lang());
+                    m_delete(cmds, admin_cat);
+                }
+            } else {
+                cmds = ([
+                    _t("cat_basic") : ({ "look", "inventory", "score", "help" })
+                ]);
+            }
+            string cmd_payload = sprintf("{\"ui\": \"cmd_list\", \"title\": \"%s\", \"data\": %s}", _t("cmd_list"), json_encode(cmds));
+            tell_object(me, cmd_payload);
+        }
     } 
     
     // 只有當玩家主動輸入指令 (如 score, status) 時，才顯示文字版

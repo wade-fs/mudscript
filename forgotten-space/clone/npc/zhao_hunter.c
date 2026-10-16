@@ -21,6 +21,12 @@ void create() {
     set_stat("str", 20);
     recalc_stats();
 
+    set_skill_to_teach("beast_breath", 10);
+
+    add_response(({ "心法", "功法", "山林龜息法", "龜息法", "調息", "beast_breath" }),
+        "在深山老林裡伏擊凶獸，氣息哪怕粗了一分都會驚走獵物！學學這門『山林龜息法(初級)』(learn beast_breath from zhao)，" +
+        "呼吸細若游絲卻綿密深長，最能收斂氣機、恢復體力！");
+
     add_response(({ "打獵", "狩獵", "hunt", "大荒" }), 
         "在大荒裡討生活，光靠死力氣走不遠！靈巧的身法是避劫的根本，敏銳的感知能救你的命。" +
         "一絲腐葉微動、一滴野獸腥臊，都分得出活路還是死局！");

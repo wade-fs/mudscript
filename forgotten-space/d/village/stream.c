@@ -25,9 +25,9 @@ void create() {
     set("is_outdoor", 1);
     set("can_gather_herb", 1);
 
-    // 史前斷碑物象設定
+    // 史前斷碑物象設定 (需天命覺醒 >= 2，或先以 sharpen 磨刀/山洪去除青苔石垢方能勘破)
     set_relic_target("stone");
-    set_required_fate(1);
+    set_required_fate(2);
     set_required_int(2);
     set_inscription("太古天曆：逆行九宿，星軌反震，大清洗紀元始...");
 
@@ -96,6 +96,8 @@ int do_gather(string arg) {
 
 int do_wash(string arg) {
     object me = this_player();
+    if (!me->consume_drink(25)) return 1;
+
     write("你俯下身，將雙手浸入冰涼刺骨的深潭溪水中，捧起一捧甘冽清泉拍在臉上並漱口痛飲...\n");
     write(CYN "清澈的水珠沿著面頰滑落，冰冷的水氣驅散了疲憊與濁氣，只覺精神一振，靈台空明！\n" NOR);
 

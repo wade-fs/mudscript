@@ -401,10 +401,53 @@ object query_equip(string slot) {
     return 0;
 }
 
+// ── 隱藏飲食飽脹度系統 (單純隨心跳時間消化) ───────────────────
+int consume_drink(int amount) {
+    int cur = ::query("water_fullness");
+    if (cur >= 90) {
+        tell_object(this_object(), YEL "你肚子裡已經灌滿了水，脹得直打水嗝，得過一陣子消化後才能再喝。\n" NOR);
+        return 0;
+    }
+    cur += amount;
+    if (cur > 100) cur = 100;
+    ::set("water_fullness", cur);
+    return 1;
+}
+
+int consume_food(int amount) {
+    int cur = ::query("food_fullness");
+    if (cur >= 90) {
+        tell_object(this_object(), YEL "你已經吃得太飽了，肚子撐得慌，得過一陣子消化後才能再吃。\n" NOR);
+        return 0;
+    }
+    cur += amount;
+    if (cur > 100) cur = 100;
+    ::set("food_fullness", cur);
+    return 1;
+}
+
+void digest_food_water(int amount) {
+    int w = ::query("water_fullness");
+    if (w > 0) {
+        w -= amount;
+        if (w < 0) w = 0;
+        ::set("water_fullness", w);
+    }
+    int f = ::query("food_fullness");
+    if (f > 0) {
+        f -= amount;
+        if (f < 0) f = 0;
+        ::set("food_fullness", f);
+    }
+}
+
 // ── 經驗值與升級 ───────────────────────────────────────────
 void gain_exp(int amount) {
     exp = exp + amount;
-    write("你獲得了 " + sprintf("%d", amount) + " 點經驗值。\n");
+    int pot_gain = amount / 4;
+    if (pot_gain < 1) pot_gain = 1;
+    potential += pot_gain;
+    write("你獲得了 " + sprintf("%d", amount) + " 點經驗值（潛能 +" + sprintf("%d", pot_gain) + "）。\n");
 
     while (exp >= exp_to_next && level < MAX_LEVEL) {
         exp = exp - exp_to_next;

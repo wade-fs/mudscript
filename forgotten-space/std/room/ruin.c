@@ -52,17 +52,17 @@ int do_study_ruin(string arg) {
 
     write(HIG "你凝視著眼前的古代殘痕，試圖沉澱雜念、細細推演...\n" NOR);
 
-    // 1. 認知盲區檢定 (天命檢定)
-    int my_fate = me->query(STAT_FATE);
-    if (my_fate < required_fate) {
-        write(CYN "你看著這些斑駁凹槽，只覺得線條凌亂無章，宛如前人隨手塗鴉的頑石，瞧不出個所以然來。\n" NOR);
+    object mys_d = load_object(MYSTERY_D);
+
+    // 1. 認知盲區檢定 (統一由 MYSTERY_D 判定天命、感知靈性與物理去垢條件)
+    if (mys_d && !mys_d->check_amnesia_breakthrough(me, required_fate)) {
+        write(CYN "你看著這些被厚重青苔與泥垢掩蓋的斑駁凹槽，受限於世俗認知盲區，只覺得線條凌亂無章，宛如前人隨手塗鴉或磨刀留下的頑石。\n" NOR);
+        write(WHT "（提示：需先以磨刀 sharpen 或待山洪沖去石垢，或具備足夠的感知/靈性/天命共鳴，方能勘破迷障）\n" NOR);
         return 1;
     }
 
-    // 2. 悟性與神識檢定
-    int my_int = me->query(STAT_INT);
+    // 2. 神識檢定
     int my_sen = me->query(VITAL_SEN);
-
     if (my_sen < 10) {
         write(HIR "你此刻心神渙散，神識不足，強行參悟只覺大腦隱隱刺痛。\n" NOR);
         return 1;
@@ -73,6 +73,12 @@ int do_study_ruin(string arg) {
     write(HIY "【宿命感應】你的眉心忽有一絲神經突觸猛烈跳動，破除了長久以來的認知盲區！\n" NOR);
     write(WHT "你發現這些看似凌亂的凹槽，其夾角與周天星象完全相反，隱隱對應著太古大清洗前的失落星軌！\n" NOR);
     write(HIC "銘文殘意：" + relic_inscription + "\n" NOR);
+
+    // 首次勘破斷碑天機：記錄個人級事件並覺醒天命 +1
+    string ev_key = "study_ruin_" + relic_target;
+    if (mys_d && !mys_d->has_completed_personal_event(me, ev_key)) {
+        mys_d->complete_personal_event(me, ev_key, 30, 1);
+    }
 
     // 鍛鍊悟性
     write(HIG "【你對天地星象的理解加深了，悟性微幅提升！】\n" NOR);
@@ -86,6 +92,19 @@ int do_tuoyin(string arg) {
 
     if (!arg || arg == "" || (arg != relic_target && arg != "stone" && arg != "stele" && arg != "石板" && arg != "斷碑")) {
         write("你想拓印什麼？（例如：tuoyin " + relic_target + "）\n");
+        return 1;
+    }
+
+    object mys_d = load_object(MYSTERY_D);
+    if (mys_d && !mys_d->check_amnesia_breakthrough(me, required_fate)) {
+        write(CYN "這塊石板表面覆滿青苔石垢，在你眼中只是一塊尋常洗衣磨刀石，看不出有何值得拓印的紋路。\n" NOR);
+        return 1;
+    }
+
+    // 防止無限量產拓片：檢查身上是否已有拓片或已完成拓印事件
+    string ev_key = "tuoyin_" + relic_target;
+    if (present("stele rubbing", me) || (mys_d && mys_d->has_completed_personal_event(me, ev_key))) {
+        write(YEL "你已經成功將石面上的【殘缺星圖拓片】完整拓印下來了，無需反覆拓印。\n" NOR);
         return 1;
     }
 
@@ -114,6 +133,10 @@ int do_tuoyin(string arg) {
     object rubbing = clone_object("/clone/relic/stele_rubbing.c");
     if (rubbing) {
         rubbing->move(me);
+    }
+
+    if (mys_d) {
+        mys_d->complete_personal_event(me, ev_key, 25, 0);
     }
     return 1;
 }

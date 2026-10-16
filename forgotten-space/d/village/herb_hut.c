@@ -34,12 +34,19 @@ void init() {
 
 int do_herb_recover(string arg) {
     object me = this_player();
+    if (!me->consume_drink(30)) return 1;
+
     write("你湊近泥爐上咕嘟冒泡的粗陶藥罐，深深吸了一口濃郁甘苦的草木藥氣，並淺啜了半碗溫熱藥湯。\n");
     write(HIG "溫潤醇厚的草木靈氣順著經絡化開，淤積的暗傷與疲勞迅速消融，只覺神清氣爽！\n" NOR);
     me->add(VITAL_KEE, 30);
     me->add(VITAL_SEN, 20);
     me->add(VITAL_SP, 20);
     write(HIG "【藥氣浸潤，你的氣血 +30、神識 +20、精力 +20！】\n" NOR);
+
+    if (me->query("background") == "herbalist" && me->query_skill("herb_breathe") <= 0) {
+        write(CYN "\n瘋郎中葛半仙嘿嘿一笑，指點道：「記住這股草木藥氣入肺的韻律！人在草木間，一呼一吸皆是藥理！」\n" NOR);
+        load_object("/secure/skill_d.c")->grant_starter_force(me, "herb_breathe");
+    }
     return 1;
 }
 

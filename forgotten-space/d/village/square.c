@@ -92,6 +92,17 @@ string look_at_item(string id) {
                 int herbs = ws->query_herb_stock();
                 msg += sprintf("  ● 當前水情：%s，兩岸草藥存量：%d/12 (gather)。\n", w_desc, herbs);
             }
+
+            // 4. 東林獵場與地煞獸情
+            msg += "\n" + HIW "【東林獵場・地煞獸情】\n" + NOR;
+            int disha = ws->query_disha_activity();
+            int alert = ws->query_forest_beast_alert();
+            string b_desc = ws->query_forest_beast_desc();
+            if (alert >= 60) {
+                msg += sprintf(HIR "  ● 【獸潮警戒】%s (地煞濃度: %d%%，獸群躁動度: %d%%，急需巡視陷阱 trap)！\n" + NOR, b_desc, disha, alert);
+            } else {
+                msg += sprintf("  ● 獵場動態：%s (地煞濃度: %d%%，獸群躁動度: %d%%)。\n", b_desc, disha, alert);
+            }
         }
         msg += WHT "────────────────────────────────────────\n" + NOR;
         return msg;
@@ -109,6 +120,8 @@ void init() {
 
 int do_tea(string arg) {
     object me = this_player();
+    if (!me->consume_drink(30)) return 1;
+
     write("你在街市中央的避風破舊茶棚長條凳上坐下，從大陶缸裡盛了一碗溫熱的荒山粗葉茶一飲而盡。\n");
     write(YEL "微苦回甘的熱茶順喉而下，暖流傳遍全身，行路的風霜與困乏一掃而空。\n" NOR);
     me->add(VITAL_KEE, 20);

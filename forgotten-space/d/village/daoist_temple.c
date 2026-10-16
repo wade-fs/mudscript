@@ -35,12 +35,17 @@ void init() {
 
 int do_temple_meditate(string arg) {
     object me = this_player();
-    write("你在三清尊像前的破舊蒲團上盤膝靜坐，伴隨著殘存的檀香餘韻，眼觀鼻、鼻觀心，徐徐調息...\n");
-    write(HIC "偏殿內古井無波，你的神識在寧靜中迅速凝聚，周身氣機流轉圓融。\n" NOR);
-    me->add(VITAL_KEE, 15);
-    me->add(VITAL_SEN, 30);
-    me->add(VITAL_SP, 20);
-    write(HIG "【蒲團靜坐，你的氣血 +15、神識 +30、精力 +20！】\n" NOR);
+    if (me->query("background") == "daoist" && me->query_skill("still_heart") <= 0) {
+        write(HIC "盲眼老道枯木輕叩木魚，淡淡道：「凡心不止，外邪自生。且依老道所授之法，止念存神、不引外氣。」\n" NOR);
+        load_object("/secure/skill_d.c")->grant_starter_force(me, "still_heart");
+    }
+    write("你在三清尊像前的破舊蒲團上盤膝靜坐，伴隨著殘存的檀香餘韻，眼觀鼻、鼻觀心...\n");
+    object rec_cmd = load_object("/cmds/cmd_recover.c");
+    if (rec_cmd) {
+        rec_cmd->main(me, "meditate", arg);
+    }
+    me->add(VITAL_SEN, 10);
+    write(HIC "【三清偏殿檀香餘韻加持，神識額外 +10】\n" NOR);
     return 1;
 }
 

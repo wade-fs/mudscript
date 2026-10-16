@@ -22,6 +22,13 @@ void create() {
     set_stat("con", 15);
     recalc_stats();
 
+    set_skill_to_teach("herb_breathe", 10);
+    set_skill_to_teach("alchemy", 20);
+
+    add_response(({ "心法", "功法", "百草吐納法", "吐納", "調息", "herb_breathe" }),
+        "人在草木間，一呼一吸皆是藥理！老夫這門『百草吐納法(初級)』(learn herb_breathe from ge)，" +
+        "教你如深谷青木般吐濁納清，調息時生機源源不絕！");
+
     add_response(({ "草藥", "採藥", "herb" }), 
         "採藥？哼！天道大清洗把上古仙草洗得一乾二淨！但你若能在清晨破曉（卯辰時分）" +
         "採到晶瑩掛露的【帶露晨露草】，老夫便能為你調配一劑拔毒活絡的淬火藥引！");

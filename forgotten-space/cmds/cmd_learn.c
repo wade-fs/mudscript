@@ -47,6 +47,11 @@ int main(object me, string verb, string arg) {
         return 1;
     }
 
+    object skill_d = load_object("/secure/skill_d.c");
+    if (skill_d) {
+        sid = skill_d->resolve_skill_id(sid);
+    }
+
     mapping teachable = teacher->query_skills_to_teach();
     if (!teachable || !teachable[sid]) {
         write(teacher->query_name() + select_lang(([ "en": " shakes their head and says: I don't know this skill, find someone else.\n", "zh-TW": " 搖搖頭說：我不會這門功夫，你找別人吧。\n", "zh-CN": " 摇摇头说：我不会这门功夫，你找别人吧。\n" ])));
@@ -57,7 +62,7 @@ int main(object me, string verb, string arg) {
     int max_lv = teachable[sid];
 
     if (my_lv >= max_lv) {
-        write(teacher->query_name() + select_lang(([ "en": " says: Your proficiency in '", "zh-TW": " 說：你的『", "zh-CN": " 说：你的『" ])) + load_object("/secure/skill_d.c")->query_skill_name(sid) + select_lang(([ "en": "' is no less than mine.\n", "zh-TW": "』造詣已經不在我之下了。\n", "zh-CN": "』造诣已经不在我之下了。\n" ])));
+        write(teacher->query_name() + select_lang(([ "en": " says: Your proficiency in '", "zh-TW": " 說：你的『", "zh-CN": " 说：你的『" ])) + skill_d->query_skill_name(sid) + select_lang(([ "en": "' is no less than mine.\n", "zh-TW": "』造詣已經不在我之下了。\n", "zh-CN": "』造诣已经不在我之下了。\n" ])));
         return 1;
     }
 

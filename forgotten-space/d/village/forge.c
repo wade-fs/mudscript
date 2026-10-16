@@ -55,6 +55,8 @@ void init() {
 
 int do_drink(string arg) {
     object me = this_player();
+    if (!me->consume_drink(30)) return 1;
+
     write("你走到石槽旁的木桶邊，舀起一瓢冰涼甘冽的深井水，「咕咚咕咚」大口痛飲而下！\n");
     write(HIC "清涼井水順喉而下，瞬間驅散了爐房內灼人的火毒與滿身疲憊，四肢百骸說不出的舒暢！\n" NOR);
     me->add(VITAL_KEE, 25);
@@ -66,7 +68,7 @@ int do_drink(string arg) {
 int do_bellows(string arg) {
     object me = this_player();
     if (me->query(VITAL_KEE) < 10 || me->query(VITAL_SP) < 10) {
-        write(HIR "你氣血虧耗、雙臂酸軟脫力，拉不動這沉重的巨型牛皮風箱了（可 drink 飲水或 rest 調息恢復）。\n" NOR);
+        write(HIR "你氣血虧耗、雙臂酸軟脫力，拉不動這沉重的巨型牛皮風箱了（可 drink 飲水或 調息/吐納 恢復）。\n" NOR);
         return 1;
     }
 
@@ -82,6 +84,11 @@ int do_bellows(string arg) {
     me->train_stat(STAT_STR, 20);
     me->train_stat(STAT_CON, 20);
     me->gain_exp(10);
+
+    if (me->query("background") == "smith" && me->query_skill("crazy_forge") <= 0) {
+        write(YEL "\n老鐵匠阿鐵在一旁沉聲喝道：「小子，別光用死力氣憋氣！拿你的胸膛當風箱、拿你的呼吸跟上爐火的吞吐！」\n" NOR);
+        load_object("/secure/skill_d.c")->grant_starter_force(me, "crazy_forge");
+    }
     return 1;
 }
 
@@ -124,16 +131,24 @@ int do_strike(string arg) {
 
         destruct(ore);
 
-        // 35% 機率震裂出太古不融黑鐵，否則鍛造成大荒開山柴刀
-        if (random(100) < 40) {
+        // 個人孤本奇遇：首次震裂礦核必定覺醒發現【太古不融黑鐵構件】，此後常規鍛造成【大荒開山柴刀】
+        object md = load_object(MYSTERY_D);
+        if (md && !md->has_completed_personal_event(me, "forge_ancient_black_iron")) {
             write(HIR "【反震異變】只聽一聲清脆龍吟，錘面被一股極恐怖的金屬反震彈開！\n" NOR);
             write(HIB "岩石碎殼深處，赫然露出一截通體烏黑、帶有微型齒輪與榫卯的【太古不融黑鐵構件】！\n" NOR);
             object relic = clone_object("/clone/relic/ancient_black_iron.c");
-            if (relic) relic->move(me);
+            if (relic) {
+                if (!relic->move(me)) relic->move(this_object());
+            }
+            me->set("forged_ancient_iron", 1);
+            md->complete_personal_event(me, "forge_ancient_black_iron", 40, 1);
+            write(HIG "【你在千錘百鍊間觸及太古造物殘片，命格微動（天命+1），獲得 40 點經驗！】\n" NOR);
         } else {
             write(HIW "經過千錘百鍊的敲打，粗鐵胚料褪去雜質，鍛打成了一柄沉甸甸的【大荒開山柴刀】！\n" NOR);
             object blade = clone_object("/clone/weapon/clearing_blade.c");
-            if (blade) blade->move(me);
+            if (blade) {
+                if (!blade->move(me)) blade->move(this_object());
+            }
         }
     } else {
         write("你沉穩地揮動鐵錘在空鐵砧上節奏敲擊，「叮、噹、叮、噹」的金石脆響在工坊迴盪...\n");

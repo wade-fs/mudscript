@@ -28,11 +28,12 @@ int do_eat(string arg) {
         return 0;
     }
     object me = this_player();
+    if (!me->consume_food(25)) return 1;
+
     write(HIG "你仰頭將一包葛氏活絡散倒入口中，微苦回甘的藥力如一線溫熱清泉直透四肢百骸...\n" NOR);
     write(HIY "【體內寒氣消散，筋骨活絡舒暢，你的氣血、神識與精力大幅回升！】\n" NOR);
     
-    me->add(VITAL_HP, 40);
-    me->add(VITAL_KEE, 30);
+    me->add(VITAL_KEE, 40);
     me->add(VITAL_SEN, 25);
     me->add(VITAL_SP, 30);
     

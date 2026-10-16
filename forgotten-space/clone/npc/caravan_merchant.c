@@ -40,11 +40,12 @@ void init() {
 
 int do_list(string arg) {
     write("\n" + HIY "【金石商會・收購價目表】" NOR + "\n");
-    write("  粗鐵礦石 (iron ore)     : 每塊 30 銅幣 (用於府城軍械鍛造)\n");
-    write("  新鮮草藥 (fresh herb)   : 每株 15 銅幣 (尋常止血草)\n");
-    write("  帶露晨露草 (dew herb)   : 每株 50 銅幣 (破曉所採之極品靈藥)\n");
-    write("  百年鐵角七 (rare herb)  : 每株 200 銅幣 (絕壁罕見靈根)\n");
-    write("\n輸入指令：sell <物品代號> 或 sell all 即可將採集到的物資換成現錢。\n\n");
+    write("  北崖粗鐵礦核 (ore chunk)    : 每塊 30 銅幣 (用於府城軍械鍛造)\n");
+    write("  大荒開山柴刀 (blade)        : 每柄 80 銅幣 (商隊急需五十柄開山刀闢路)\n");
+    write("  新鮮草藥 (fresh herb)       : 每株 15 銅幣 (尋常止血草)\n");
+    write("  帶露晨露草 (dew herb)       : 每株 50 銅幣 (破曉所採之極品靈藥)\n");
+    write("  百年鐵角七 (rare herb)      : 每株 200 銅幣 (絕壁罕見靈根)\n");
+    write("\n輸入指令：sell <物品代號> 或 sell all 即可將採集或鍛造的物資換成現錢。\n\n");
     return 1;
 }
 
@@ -65,8 +66,12 @@ int do_sell(string arg) {
         string name = ob->query_name();
         int val = 0;
 
-        if (name == "粗鐵礦石" && (arg == "all" || arg == "ore" || arg == "礦石" || arg == "粗鐵礦石")) {
+        if ((ob->query("is_ore") || name == "粗鐵礦" || name == "粗鐵礦石") &&
+            (arg == "all" || arg == "ore" || arg == "ore chunk" || arg == "礦石" || arg == "粗礦" || arg == "粗鐵礦" || arg == "粗鐵礦石")) {
             val = 30;
+        } else if ((name == "開山柴刀" || base_name(ob) == "/clone/weapon/clearing_blade") &&
+                   (arg == "all" || arg == "blade" || arg == "clearing blade" || arg == "柴刀" || arg == "開山柴刀")) {
+            val = 80;
         } else if (name == "新鮮草藥" && (arg == "all" || arg == "herb" || arg == "草藥")) {
             val = 15;
         } else if (name == "帶露晨露草" && (arg == "all" || arg == "dew" || arg == "晨露草")) {

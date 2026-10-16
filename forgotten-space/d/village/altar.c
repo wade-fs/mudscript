@@ -53,18 +53,24 @@ int do_meditate(string arg) {
     write(HIG "【靈台漸入空明，神識得到滋養，你的靈性微幅提升！】\n" NOR);
     me->train_stat(STAT_SPI, 25);
     me->gain_exp(10);
+
+    string f_sid = me->query("enabled_force");
+    if (f_sid && me->query_skill(f_sid) > 0) {
+        me->improve_skill(f_sid, 10 + me->query_stat("int") / 2);
+    }
     return 1;
 }
 
 int do_search(string arg) {
     object me = this_player();
+    object md = load_object(MYSTERY_D);
 
     if (!arg || (arg != "pine" && arg != "tree" && arg != "root" && arg != "老松" && arg != "樹根" && arg != "松針")) {
         write("你想在孤岩殘壇的哪裡仔細搜查？提示：search pine（撥開老松盤根與枯松針）\n");
         return 1;
     }
 
-    if (me->query("searched_altar_pine")) {
+    if (me->query("searched_altar_pine") || (md && md->has_completed_personal_event(me, "search_altar_pine"))) {
         write("你撥開枯松針，看著深陷於盤根之中的那兩具玉化人形晶骨，心中仍存餘悸，未再發現其他之物。\n");
         return 1;
     }
@@ -82,7 +88,12 @@ int do_search(string arg) {
         }
     }
     me->set("searched_altar_pine", 1);
-    me->add("exp", 50);
+    if (md) {
+        md->complete_personal_event(me, "search_altar_pine", 50, 1);
+    } else {
+        me->gain_exp(50);
+    }
+    write(HIG "【你觸及太古道化遺骸，看破清修成仙之虛妄，命格微動（天命+1），獲得 50 點經驗！】\n" NOR);
     return 1;
 }
 
@@ -94,9 +105,18 @@ int do_stargaze(string arg) {
         return 1;
     }
 
+    object ws = load_object(WORLD_STATE_D);
+    object md = load_object(MYSTERY_D);
+
     write(HIC "你盤膝端坐於白石殘壇之巔，微闔雙目，將眉心處的一縷純淨神識向著蒼穹緩緩探出……\n" NOR);
     write("那一瞬間，你的靈識彷彿脫離肉身桎梏，高懸於百丈天幕之上！\n");
-    write("俯瞰大地，黑石鋪晨煙嫋嫋，南谷溪灘、東林獵寨與打鐵地爐的生機歷歷在目。\n");
+    if (ws) {
+        write(sprintf("俯瞰大地，黑石鋪一覽無遺：北崖礦脈穩定度 %d%%、南谷水情（%s）、東林地煞濃度 %d%%，\n"
+                      "全村氣機流轉與地脈濁氣在你的神識映照下纖毫畢現。\n",
+                      ws->query_mine_stability(), ws->query_water_level_desc(), ws->query_disha_activity()));
+    } else {
+        write("俯瞰大地，黑石鋪晨煙嫋嫋，南谷溪灘、東林獵寨與打鐵地爐的生機歷歷在目。\n");
+    }
     write(HIB "然而，當你的神識仰頭望向萬丈星空極致高處時——\n" NOR);
     write(HIW "周天二十八宿璀璨星光的背後，赫然密佈著一層浩瀚無邊、冰冷死寂的暗灰色網格！\n"
               "無數道粗大如實質的暗灰鎖鏈穿透群星，將周天星斗死死拘禁圈養！\n"
@@ -107,12 +127,16 @@ int do_stargaze(string arg) {
     me->add(VITAL_KEE, -15);
     me->add(VITAL_SEN, -20);
 
-    if (!me->query("stargazed")) {
+    if (!me->query("stargazed") && (!md || !md->has_completed_personal_event(me, "stargaze_altar"))) {
         me->set("stargazed", 1);
         me->add(STAT_INT, 2);
         me->add(STAT_SPI, 2);
-        me->add("exp", 100);
-        write(HIG "【你堪破蒼穹偽籠至暗真相，靈台受太古意志洗禮，悟性+2、靈性+2，獲得 100 點經驗！】\n" NOR);
+        if (md) {
+            md->complete_personal_event(me, "stargaze_altar", 100, 1);
+        } else {
+            me->gain_exp(100);
+        }
+        write(HIG "【你堪破蒼穹偽籠至暗真相，靈台受太古意志洗禮，悟性+2、靈性+2、天命+1，獲得 100 點經驗！】\n" NOR);
     } else {
         write(YEL "你再次窺探天羅地網，道心更趨堅毅，深知撕破偽籠任重道遠。\n" NOR);
     }

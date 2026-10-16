@@ -21,6 +21,12 @@ void create() {
     set_stat("int", 20);
     recalc_stats();
 
+    set_skill_to_teach("dream_sleep", 10);
+
+    add_response(({ "心法", "功法", "睡夢大法", "調息", "睡覺", "dream_sleep" }),
+        "叫花子捱餓受凍，哪來的靈丹妙藥？全靠老祖宗傳下來的一手『睡夢大法(初級)』(learn dream_sleep from mo)！" +
+        "睡夢中如老龜蟄伏，哪怕天塌下來也當被蓋，最能養足精氣神！");
+
     add_response(({ "討飯", "乞討", "beg", "市井" }), 
         "在泥濘市井裡刨食，臉皮要比城牆厚，眼色要比野狗尖！誰兜裡有銅板、哪家客棧後廚倒泔水" +
         "帶肉沫，全憑這一雙眼力辨識！");

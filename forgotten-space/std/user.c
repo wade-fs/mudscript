@@ -483,10 +483,11 @@ void heart_beat() {
     // 執行戰鬥回合
     combat_heart_beat();
 
-    // 🚀 每 5 個心跳 (約 10 秒) 進行一次非戰鬥慢速自然調息恢復，並刷新前端 UI
+    // 🚀 每 5 個心跳 (約 10 秒) 進行一次非戰鬥慢速自然調息恢復與飲食自然消化，並刷新前端 UI
     heart_beat_count++;
     if (heart_beat_count >= 5) {
         heart_beat_count = 0;
+        digest_food_water(10);
         if (!in_combat) {
             if (hp < max_hp) add("kee", 1 + stat_con / 3);
             if (mp < max_mp) add("sen", 1 + stat_wis / 3);
@@ -494,7 +495,7 @@ void heart_beat() {
         }
         object cmd_info = load_object("/cmds/cmd_info");
         if (cmd_info) {
-            cmd_info->main(this_object(), "", "");
+            cmd_info->main(this_object(), "score_quiet", "");
         }
     }
 }

@@ -21,6 +21,13 @@ void create() {
     set_stat("dex", 18);
     recalc_stats();
 
+    set_skill_to_teach("crazy_forge", 10);
+    set_skill_to_teach("forging", 20);
+
+    add_response(({ "心法", "功法", "瘋魔打鐵法", "調息", "呼吸", "crazy_forge" }),
+        "打鐵不只是使蠻力，呼吸若跟不上風箱與鐵錘的節奏，不出三年五臟俱裂！" +
+        "老子傳你一套『瘋魔打鐵法(初級)』(learn crazy_forge from tie)，以胸膛為風箱、以意念為鐵錘！");
+
     add_response(({ "打鐵", "鍛造", "forge", "smith" }), 
         "學打鐵，先學耐得住炭火燒、扛得住鐵錘震！臂力不夠，連粗礦都敲不碎；感知不準，火候差一厘就是一爐廢鐵！");
 

@@ -28,10 +28,11 @@ int do_eat(string arg) {
         return 0;
     }
     object me = this_player();
+    if (!me->consume_food(35)) return 1;
+
     write("你撕下一大塊風乾鹿肉乾塞進嘴裡用力咀嚼，鹹香濃郁的肉汁混合著椒香滑入腹中...\n");
     write(HIG "【你感到氣血回暖，飢火頓消，體力與精神恢復了！】\n" NOR);
     
-    me->add(VITAL_HP, 20);
     me->add(VITAL_KEE, 20);
     me->add(VITAL_SP, 15);
     

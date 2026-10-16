@@ -43,5 +43,10 @@ int do_smoke(string arg) {
     me->add(VITAL_KEE, 15);
     me->add(VITAL_SEN, 25);
     me->add(VITAL_SP, 25);
+
+    if (me->query("background") == "hunter" && me->query_skill("beast_breath") <= 0) {
+        write(GRN "\n趙老獵放下手中的竹箭，沉聲點撥道：「聞著艾煙，把呼吸放慢、放細，像林子裡冬眠的老龜一樣斂住全身熱氣！」\n" NOR);
+        load_object("/secure/skill_d.c")->grant_starter_force(me, "beast_breath");
+    }
     return 1;
 }

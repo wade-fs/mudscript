@@ -32,16 +32,19 @@
   * 當世三大道統封鎖真相，唯有極少數身具天命者，從被世人視為塗鴉與頑石的遺跡中拼湊失落歷史，摸索三元歸一的禁忌超脫古道。
 
 ### 1.2 小說與 MUD 雙軌規劃藍圖 (The Dual Blueprint)
+### 1.2 小說與 MUD 雙軌規劃藍圖 (The Dual Blueprint)
 * **【小說軌道（Novel Track）】**：
-  * [ ] 作品正式書名定案
-  * [ ] 主角人物小傳（姓名、性格、金手指與開局命運事件）
-  * [ ] 第一卷「黑石破曉」詳細章節綱要（黑石鋪風雲 $\rightarrow$ 進城路引）
+  * [x] 作品正式書名定案：《遺忘的世界》(THE FORGOTTEN SPACE)
+  * [x] 五重視角主角人物小傳（顧玄、林鐵生、燕隼、柳清虛、沈泥，見 `/narrative/characters/`）
+  * [x] 第一卷「黑石破曉」五大視角章節正文實作（同一天破曉五部曲，見 `/narrative/chapters/ch0001.md ~ ch0005.md`）
+  * [ ] 第二卷「大荒官道與金石古城」章節大綱規劃
 * **【MUD 規格軌道（Mudlib Track）】**：
   * [x] 三元力量生剋與修煉/戰鬥心跳機制（第 3.1 ~ 3.3, 3.6 ~ 3.8 節）
   * [x] 統一數值階梯（T0~T3）與四重進階/天道排斥模型（第 3.9 節）
   * [x] 先天六維、狀態三柱 (`kee/sen/sp`)、天命隱藏屬性底層規格（第 3.10 ~ 3.11 節）
   * [x] 新手聚落立體地形（黑石鋪五方微生態）與三大鏈式 NPC 任務循環（第 4.3 節）
-  * [ ] 新手村 `/d/village/` 房間地圖集 (Map Graph) 與具體 LPC 腳本實作
+  * [x] 新手村 `/d/village/` 房間地圖集 (10間核心房間) 與具體 LPC 腳本實作
+  * [x] 世界動態狀態守護進程 (`WORLD_STATE_D`)、史前奇遇守護 (`MYSTERY_D`)、新手初級心法與三元動態恢復
   * [ ] 二階名門大派名冊與進階絕學庫 (Tier 1~2 門派清單)
   * [ ] 戰鬥守護進程 (`COMBAT_D`) 數值生剋公式代碼化
 
@@ -510,7 +513,7 @@ flowchart LR
 
 ```mermaid
 graph TD
-    OBJECT["【物象核心】：被村民當作洗衣板/磨刀石的史前斷碑 (/d/village/obj/stele.c)"]
+    OBJECT["【物象核心】：被村民當作洗衣板/磨刀石的史前斷碑（/d/village/stream.c 繼承 /std/room/ruin.c）"]
     
     NOVEL["1. 小說敘事層面 (Novel Narrative)<br>主角在晨曦雜役中，敏銳察覺石板凹槽紋路與古籍星象不符，推斷其非凡物"]
     MUD["2. MUD 機制層面 (MUD Mechanics)<br>玩家透過 look, search, study, tuoyin(拓印) 反覆互動，獲取殘卷道具"]
@@ -568,43 +571,69 @@ graph TD
 
 ## 6. 核心人物檔案 (Character Profiles)
 
-### 6.1 主角 (Protagonist)
-> 💡 **註**：主角的具體人設（性格、出身、金手指契機及命運起點）暫不急於定案，留待後續世界架構與門派勢力更清晰時再行敲定，以求與大世界觀深度交融。
+黑石鋪採用**「同一天清晨・羣像五重視角」**的立體敘事架構，五位身世不同的底層少年，分別在黑石鋪五方微生態中遭遇不同的史前遺構與命運奇遇：
 
-* **姓名**：*(待定)*
-* **年齡 / 外觀**：
-* **性格特質**：
-* **出身背景**：
-* **開局困境 (The Starting Conflict)**：
-* **金手指 / 獨特機緣 (The Catalyst)**：
-* **心靈目標與渴望**：
+### 6.1 五重視角核心主角 (The Five Protagonists)
 
-### 6.2 關鍵配角與同行者
-* **領路人/導師**：
-* **摯友/夥伴**：
+1. [**顧玄（採藥孤兒 / herbalist）**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/characters/gu_xuan.md)
+   * **道途定位**：物道感知 / 自然生存。
+   * **出生居所**：南谷懸崖峭壁・採藥草廬 (`/d/village/herb_hut.c`)。
+   * **奇遇機緣**：晨曦在碎石溪灘掬水洗臉，水流沖淨青苔，洞察被當作洗衣磨刀石的【史前逆星斷碑】。
+2. [**林鐵生（打鐵學徒 / smith）**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/characters/lin_tiesheng.md)
+   * **道途定位**：物道工藝 / 百工鍛造。
+   * **出生居所**：街市東側・老鐵匠鋪打鐵爐房 (`/d/village/forge.c`)。
+   * **奇遇機緣**：地爐拉風箱千錘百鍊，震碎粗鐵礦核，顯露出萬度烈火不融的【太古不融黑鐵齒輪構件】。
+3. [**燕隼（獵戶之子 / hunter）**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/characters/yan_sun.md)
+   * **道途定位**：力道搏殺 / 機巧陷阱。
+   * **出生居所**：聚落東南・獵戶哨亭 (`/d/village/hunter_cabin.c`)。
+   * **奇遇機緣**：大荒荊棘荒林追蹤黑熊紫黑濁血，觸動被巨熊撞裂石衣的【太古戰神獵獸圖騰玄柱】血脈共鳴。
+4. [**柳清虛（破落道童 / daoist）**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/characters/liu_qingxu.md)
+   * **道途定位**：法道神識 / 經卷符文。
+   * **出生居所**：西面山腰・破落道觀三清偏殿 (`/d/village/daoist_temple.c`)。
+   * **奇遇機緣**：登上迎風孤岩殘壇觀星打坐，目睹玉化道人晶骨，神識穿透星空驚見【天羅地網活體牢籠】真相。
+5. [**沈泥（流浪乞兒 / beggar）**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/characters/shen_ni.md)
+   * **道途定位**：市井耳目 / 隱匿身法。
+   * **出生居所**：客棧後巷陰暗處・廢柴房 (`/d/village/shed.c`)。
+   * **奇遇機緣**：貼牆偷聽洞悉城防軍勒索商隊內幕，自爛泥深處扒出莫三藏匿的史前商盟【萬物行商・天門引】休眠殘令。
 
-### 6.3 主要反派與對立面
-* **初期阻礙者**：
-* **幕後宿敵**：
+### 6.2 關鍵引路導師 (The Mentors)
+* **瘋郎中 葛半仙**（`/clone/npc/ge_doctor.c`）：採藥孤兒顧玄之養父，瘋癲掩蓋清醒，通曉採藥淬體與古方。
+* **老鐵匠 阿鐵**（`/clone/npc/tie_smith.c`）：打鐵學徒林鐵生之師父，隱世鍛造名匠，傳授「瘋魔打鐵法」。
+* **老獵戶 趙老獵**（`/clone/npc/zhao_hunter.c`）：獵戶之子燕隼之長輩，深諳大荒獸性與破甲機弩。
+* **枯木老道**（`/clone/npc/kumu_daoist.c`）：破落道童柳清虛之師父，殘喘苟活，告誡「想活命，就別信這片天」。
+* **瘸腿老丐 莫三**（`/clone/npc/mo_beggar.c`）：流浪乞兒沈泥之庇護者，三十年前商盟血案唯一倖存者，傳授「睡夢大法」。
 
 ---
 
 ## 7. 小說大綱與章節規劃 (Novel Outline)
 
-### 第一卷：黑石破曉 / 凡胎驚蟄 *(卷名暫定)*
-* **第 1 章：晨曦微光與磨刀石**
-  * 展現黑石鋪的立體地理與人間煙火；
-  * 主角作為無門無派的孤兒/邊緣雜役登場，清晨在水潭溪邊洗臉時，首次注意到那塊被村婦當洗衣板、被屠夫當磨刀石的巨大平石暗藏著非凡銘紋。
-* **第 2 章：三道生計與暗流**
-  * 主角穿梭於鐵匠鋪火爐、南谷迷霧草叢與後山老道壇之間，完成瑣碎生計委託，展現其粗淺卻兼涉「法、力、物」的非凡悟性與靈巧；
-  * 鋪墊北崖礦洞傳出的微弱齒輪機關異響，以及東林獸群的反常躁動。
-* **第 3 章：濁煞破封與初試啼聲**
-  * 礦坑深處爆發未知地煞毒霧，狂暴獸群襲擊外圍哨卡；
-  * 主角結合獵戶陷阱、老道傳授的引氣微法、以及鐵匠鋪重錘，在危機中保護鄉鄰，並在絕境中偶然觸發了磨刀石拓片的微弱共振，化解險情。
-* **第 4 章：出鄉路引與遠行**
-  * 展現 Tier 0 凡胎極限（Level 10 瓶頸）；
-  * 村中長老與三位引路人深知邊陲小村已容不下這塊璞玉，頒發「出鄉文牒」；
-  * 少年懷揣著殘缺石拓與生鏽柴刀，踏上通往 Tier 1 府城大都會的漫漫官道。
+### 第一卷：黑石破曉 / 凡胎驚蟄 (黑石鋪同一天清晨・羣像破曉五部曲)
+
+本卷以黑石鋪同一天清晨（破曉時分）為統一時間錨點，從五位不同身世底層少年的生活切入，層層揭開被大清洗掩蓋的太古真相：
+
+* [**第 1 章：晨曦微光與磨刀石**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/ch0001.md)
+  * **主視角**：顧玄（採藥孤兒）｜**主場景**：南谷碎石溪灘 (`/d/village/stream.c`)
+  * **失落秘密**：洗衣石板深處被水流洗出的【逆行蒼龍七宿星圖】與太古大清洗殘篆。
+* [**第 2 章：爐火、重錘與不融黑鐵**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/ch0002.md)
+  * **主視角**：林鐵生（打鐵學徒）｜**主場景**：老鐵匠鋪・打鐵爐房 (`/d/village/forge.c`)
+  * **失落秘密**：地爐萬度熔火不化的【太古不融黑鐵齒輪構件】，上古工聖失落的微型機械造物。
+* [**第 3 章：鹿角哨亭、陷阱與大荒異動**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/ch0003.md)
+  * **主視角**：燕隼（獵戶之子）｜**主場景**：獵戶哨亭 (`/d/village/hunter_cabin.c`) 與 荒林口 (`/d/village/forest.c`)
+  * **失落秘密**：巨榕根下被黑熊撞開石衣的【太古戰神獵獸圖騰玄柱】，荒古肉身血脈共鳴。
+* [**第 4 章：殘壇罡風、觀星與道化之影**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/ch0004.md)
+  * **主視角**：柳清虛（破落道童）｜**主場景**：迎風孤岩・荒廢道壇 (`/d/village/altar.c`)
+  * **失落秘密**：孤松下玉化晶骨揭開「清修道化」死劫，神識窺天洞悉蒼穹星空背後的【天羅地網活體牢籠】。
+* [**第 5 章：背街柴房、市井耳目與黑市古令**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/ch0005.md)
+  * **主視角**：沈泥（流浪乞兒）｜**主場景**：客棧背街・廢柴房 (`/d/village/shed.c`)
+  * **失落秘密**：客棧後巷爛泥深處發掘的【萬物行商・天門引】青金古令（休眠殘缺），揭開商道被勒索真相。
+
+### 第一卷中後期與第二卷銜接大綱
+* **第 6 章：晨集初開・五方交匯**：
+  * 金石商會馱隊入駐青石街市，五位少年因換藥、賣皮、鍛刀、施捨在中央廣場首次產生交集。
+* **第 7 章：大荒暗流・黑石關卡**：
+  * 黑石關守軍藉北崖地質落石強索三成乾股，東林地煞暴動野獸逼近，五人各展所能化解危機。
+* **第 8 章：出鄉路引與遠行**：
+  * 突破 Tier 0 凡胎極限（Lv.10），取得進城憑證，踏上通往金石大都城的廣袤天地。
 
 ---
 
@@ -615,52 +644,45 @@ graph TD
 本目錄樹完美對應「四層架構模型（正典、規則、狀態、敘事）」，作為 `./mudscript/` 實際檔案佈局的標準規範：
 
 ```
-mudscript/
-├── world/                  # 【01 世界正典 (Canon)】世界定義與不可變靜態資料
+mudscript/forgotten-space/
+├── world/                  # 【01 世界正典 (Canon)】世界定義與不可變靜態資料 (Cosmology & Lore)
 │   ├── history/            # 歷史紀元、大清洗事件
 │   ├── geography/          # 地域境界、官道網絡、通行阻隔條件
 │   ├── factions/           # 三大道統、宗門淵源、陣營關係譜
 │   └── lore/               # 史前大清洗真相、古遺跡密檔、失落知識
 │
 ├── d/                      # 【03 世界狀態 (World State)】空間階梯地圖與現場網絡
-│   ├── village/            # Tier 0：黑石鋪／斷崖集（五方立體微生態）
-│   ├── city/               # Tier 1：大都府城與市井三大世俗勢力
-│   ├── mountain/           # Tier 2：宗門祖庭與名山靈川
-│   ├── realm/              # Tier 3：異界洞天、桃花源單向門戶
-│   └── secret/             # Tier 4：禁忌古道、失落遺跡深層
+│   └── village/            # Tier 0：黑石鋪（中央街市、南谷、北崖、東林、西壇等10間核心房間）
 │
 ├── std/                    # 【02 世界規則 (Rules)】標準可繼承物件 (OOP Core)
-│   ├── char/               # 玩家 (user.c)、NPC (npc.c) 共用行為與屬性
-│   ├── room/               # 房間 (room.c)、遺跡房間 (ruin.c) 與環境動詞互動
-│   └── object/             # 武器 (weapon.c)、防具、太古殘件 (relic.c) 可互動元素
+│   ├── user.c              # 玩家核心邏輯 (六維屬性、三柱池、成長親和、指令處理)
+│   ├── living.c            # 生物實體基類 (氣血、戰鬥心跳、狀態維護)
+│   ├── room.c              # 常規房間基類 (出入口、物件容納、動詞註冊)
+│   ├── item.c              # 常規道具與物品基類
+│   └── room/ruin.c         # 史前遺跡機關房基類 (RUIN_ROOM_OB，支援 study, tuoyin, 盲區檢定)
 │
 ├── daemon/                 # 【02 Rules & 03 State】核心常駐守護進程 (System Daemons)
-│   ├── questd.c            # 主線任務推動與進度檢查 (QUEST_D)
-│   ├── mysteryd.c          # 隱藏線索、史前解謎與天候古陣響應 (MYSTERY_D)
-│   ├── career_d.c          # 生計委託與三大道統閉合任務鏈 (CAREER_D)
-│   ├── skill/              # 法、力、物技能招式與判定守護 (SKILL_D)
-│   └── world_state_d.c     # 世界動態狀態協調 (礦坑坍塌、商隊動態、區域事件)
+│   ├── world_state_d.c     # 世界動態狀態守護進程 (十二時辰天候、水情、礦脈、商隊、地煞)
+│   ├── mysteryd.c          # 史前奇遇與個人級事件守護 (MYSTERY_D，天命覺醒與認知盲區判定)
+│   └── /secure/skill_d.c   # 武學技能守護進程 (初級調息心法、升級經驗、熟練度管理)
 │
 └── narrative/              # 【04 敘事內容 (Narratives)】小說創作與世界事件關聯索引
-    ├── characters/         # 小說主角、關鍵配角與 MUD NPC 的屬性關聯
-    ├── events/             # 小說核心情節及其對世界狀態的推動影響
-    └── chapters/           # 各章節所涉及的場景地點、出場人物與伏筆線索
+    ├── characters/         # 五重視角主角與關鍵配角檔案 (顧玄、林鐵生、燕隼、柳清虛、沈泥)
+    └── chapters/           # 第一卷小說章節正文與詳細綱要 (ch0001.md ~ ch0005.md)
 ```
 
 ### 8.2 LPC 核心類別與守護程序映射表 (LPC Class Mapping)
 
 | 系統模組 | Mudlib 目錄路徑 | LPC 核心類別 / 物件 | 職責與機制說明 |
 | :--- | :--- | :--- | :--- |
-| **玩家主體** | `/std/char/user.c` | `inherit USER;` | 定義先天六維 (`str/con/int/spi/dex/per`)、三柱 (`kee/sen/sp`) 與終極天命 (`kar/fate`) |
-| **通用 NPC** | `/std/char/npc.c` | `inherit NPC;` | 具有生命力、AI 反應、對話樹、戰鬥與好感度邏輯 |
-| **常規房間** | `/std/room/room.c` | `inherit ROOM;` | 空間出入口、環境光暗、短長描述、安全區屬性 |
-| **遺跡機關房** | `/std/room/ruin.c` | `inherit RUIN_ROOM;` | 支援環境動詞 (`search`, `push`, `inspect`, `study`)、太古陷阱與禁制 |
-| **史前遺物殘片** | `/clone/relic/` | `inherit RELIC;` | 具有歷史殘留氣息、遠古文字銘刻、拓印與碎片拼合功能 |
-| **主線任務守護** | `/daemon/questd.c` | `QUEST_D` | 推進主線明軌、進階轉職考核、頒發出鄉路引與宗門令 |
-| **隱藏奇遇守護** | `/daemon/mysteryd.c` | `MYSTERY_D` | 暗線歷史拼圖、無指引線索判定、天候星位與古陣響應 |
-| **鏈式生計驅動** | `/daemon/career_d.c` | `CAREER_D` | 驅動三大道統「閉合循環任務鏈」、專向傳承聲望與動態難度 |
-| **世界狀態協調** | `/daemon/world_state_d.c` | `WORLD_STATE_D` | 維護區域級可變狀態（礦道坍塌、修復進度、商隊出入、地脈潮汐） |
-| **武學技能庫** | `/daemon/skill/<name>.c` | `inherit SKILL;` | 招式判定、冷卻時間、傷害倍率、真元反噬與 perform 絕招 |
+| **玩家主體** | `/std/user.c` | `inherit USER;` | 定義先天六維 (`str/con/int/spi/dex/per`)、三柱 (`kee/sen/sp`)、飽渴度與終極天命 (`fate`) |
+| **生物基底** | `/std/living.c` | `inherit LIVING;` | 具有生命力、三元動態池、戰鬥回合與心跳機制 |
+| **常規房間** | `/std/room.c` | `inherit ROOM;` | 空間出入口、環境光暗、短長描述、安全區與動詞註冊 |
+| **遺跡機關房** | `/std/room/ruin.c` | `inherit RUIN_ROOM_OB;` | 支援環境動詞 (`search`, `study`, `tuoyin`)、太古銘文與盲區認知檢定 |
+| **史前遺物殘片** | `/clone/relic/` | `inherit ITEM;` | 具有歷史殘留氣息、遠古文字銘刻、拓印與碎片拼合功能 (`ancient_black_iron.c`, `tianmen_token.c` 等) |
+| **史前奇遇守護** | `/daemon/mysteryd.c` | `MYSTERY_D` | 個人級事件紀錄 (`personal_event/*`)、天命覺醒 (`fate +1`)、認知盲區突破判定 |
+| **世界狀態協調** | `/daemon/world_state_d.c` | `WORLD_STATE_D` | 維護區域級可變狀態（十二時辰、降雨水谷、礦道坍塌、商隊出入、東林地煞） |
+| **武學技能庫** | `/secure/skill_d.c` | `SKILL_D` | 5 大初級入門心法 (`dream_sleep`, `still_heart` 等)、熟練度成長與技能升級公式 |
 
 ---
 

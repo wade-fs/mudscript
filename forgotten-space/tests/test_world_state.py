@@ -57,6 +57,10 @@ async def run_test():
         await read_until("選擇您的身世背景")
         # 選擇 1: 採藥孤兒 (herbalist)
         await send("1")
+        await read_until("採藥草廬")
+        await send("up")
+        await read_until("碎石溪灘")
+        await send("north")
         await read_until("青石街市")
 
         print("=== 步驟 2: 查看時辰與天氣格式 (look) ===")

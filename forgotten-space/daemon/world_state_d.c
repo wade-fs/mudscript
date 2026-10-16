@@ -1,6 +1,6 @@
 // daemon/world_state_d.c
 // 《遺忘的世界》(THE FORGOTTEN SPACE) 世界狀態守護進程 (03 World State)
-// 維護區域持續性、因果關係、水文生態、礦藏儲量與商道商隊
+// 維護區域持續性、因果關係、水文生態、礦藏儲量、地煞脈動、東林獸潮與商道關卡
 
 #include "/include/ansi.h"
 #include "/include/globals.h"
@@ -8,24 +8,29 @@
 inherit "/std/object.c";
 
 // ── 1. 水谷水文 (valley_stream) ──────────────────────────
-int stream_water_level;     // 水位 0 ~ 100 (預設 40: 平緩適中)
-int stream_moss_cleared;    // 是否已被洪水沖刷青苔露底 (0/1)
+int stream_water_level;     // 水位 0 ~ 100 (預設 42: 平緩適中)
+int stream_moss_cleared;    // 是否已被洪水或磨刀沖刷青苔露底 (0/1)
 int was_flooded;            // 記錄前一刻是否處於山洪狀態
 
 // ── 2. 南谷草藥生態 (valley_herbs) ───────────────────────
 int herb_stock;             // 成熟草藥存量 (0 ~ 12，預設 8)
 int herb_growth_progress;   // 生長進度 (0 ~ 100)
 
-// ── 3. 北崖古礦坑 (blackstone_mine) ──────────────────────
+// ── 3. 北崖古礦坑與地煞 (blackstone_mine & disha) ────────
 int mine_ore_reserve;       // 粗鐵礦存量 (0 ~ 30，預設 15)
-int mine_stability;         // 礦道岩壁穩定度 (0 ~ 100，預設 100)
+int mine_stability;         // 礦道岩壁穩定度 (0 ~ 100，預設 65：昨夜北崖地煞微震落石後略有裂隙)
 int mine_is_collapsed;      // 是否塌方 (0/1)
 int mine_clear_progress;    // 塌方清理進度 (0 ~ 100)
+int disha_activity;         // 地底地煞活躍度 (0 ~ 100，預設 60)
 
-// ── 4. 大荒商隊 (trade_caravan) ──────────────────────────
+// ── 4. 東林獸群暴動警戒 (eastern_forest) ─────────────────
+int forest_beast_alert;     // 東林異獸地煞暴動警戒度 (0 ~ 100，預設 65)
+
+// ── 5. 大荒商隊與關卡權力 (trade_caravan) ────────────────
 string caravan_status;      // "traveling", "arrived", "blocked"
 int caravan_timer;          // 倒數計時 (遊戲分鐘)
-string caravan_delay_reason;// 延誤受阻原因
+string caravan_delay_reason;// 官面公告之延誤受阻原因
+string caravan_truth_reason;// 幕後真實受阻原因 (供聽風/情報網讀取)
 int caravan_visit_count;    // 商隊抵達累積次數
 
 string query_save_file() { return "/data/world_state"; }
@@ -40,17 +45,27 @@ void create() {
     herb_growth_progress = 0;
 
     mine_ore_reserve = 15;
-    mine_stability = 100;
+    mine_stability = 65; // 第2章前提：昨夜北崖地煞微震落石，岩壁已有新鮮裂痕
     mine_is_collapsed = 0;
     mine_clear_progress = 0;
+    disha_activity = 60;
 
-    caravan_status = "traveling";
-    caravan_timer = 90; // 90 遊戲分 (90秒) 後首度抵達
-    caravan_delay_reason = "";
+    forest_beast_alert = 65; // 第3章前提：地煞外溢刺激東林獸群躁動
+
+    caravan_status = "blocked";
+    caravan_timer = 60;
+    caravan_delay_reason = "北崖夜半落石引發黑石關外山體滑坡，金石商會馱隊暫滯關外";
+    caravan_truth_reason = "黑石關城防軍藉昨夜北崖輕微落石之名封鎖官道，向金石商會勒索三成乾股，黑市【保書路引】已炒至八十兩雪花銀";
     caravan_visit_count = 0;
 
     if (file_size(query_save_file() + ".o") > 0) {
         restore_object(query_save_file());
+    }
+    if (mine_stability <= 0 && !mine_is_collapsed) mine_stability = 65;
+    if (disha_activity <= 0) disha_activity = 60;
+    if (forest_beast_alert <= 0) forest_beast_alert = 65;
+    if (!caravan_truth_reason || caravan_truth_reason == "") {
+        caravan_truth_reason = "黑石關城防軍藉北崖落石之名封鎖官道，向金石商會勒索三成乾股，黑市【保書路引】已炒至八十兩雪花銀";
     }
 }
 
@@ -105,38 +120,58 @@ void world_tick(int g_time, string weather) {
         }
     }
 
-    // 3. 礦坑地質自癒
+    // 3. 地煞脈動、北崖礦坑與東林獸潮連動
+    if (g_time % 20 == 0) {
+        int delta = random(7) - 3;
+        disha_activity += delta;
+        if (disha_activity < 30) disha_activity = 30;
+        if (disha_activity > 95) disha_activity = 95;
+
+        if (disha_activity >= 70) {
+            forest_beast_alert += 5;
+            if (forest_beast_alert > 100) forest_beast_alert = 100;
+            object fr = find_object("/d/village/forest.c");
+            if (fr) tell_room(fr, "\n" + HIR "【地煞湧動】地底傳來一陣低沉悶響，泥沼間滲出刺鼻的地煞腥氣，林海深處響起狂暴的獸吼與急促狼哨！\n" NOR);
+        } else if (forest_beast_alert > 40) {
+            forest_beast_alert -= 2;
+        }
+    }
+
     if (!mine_is_collapsed) {
-        if (mine_stability < 100) mine_stability += 1;
+        if (mine_stability < 85 && disha_activity < 65) mine_stability += 1;
         // 地底深處慢速重壓再生礦石
         if (mine_ore_reserve < 20 && (g_time % 60 == 0)) {
             mine_ore_reserve += 1;
         }
     }
 
-    // 4. 商隊進出生命週期
+    // 4. 商隊進出生命週期 (兼顧天災與關卡人禍)
     if (stream_water_level >= 85 || weather == "storm") {
         if (caravan_status == "traveling") {
             caravan_status = "blocked";
             caravan_delay_reason = "大荒商道遭遇暴雨山洪沖毀，商隊暫時在山口驛站避險，無法前行";
+            caravan_truth_reason = "暴雨沖垮山口棧道，且黑石關守軍趁災坐地起價勒索過路乾股，黑市【保書路引】炒至八十兩雪花銀";
             object sq2 = find_object("/d/village/square.c");
             if (sq2) tell_room(sq2, "\n" + YEL "【商道傳聞】一名渾身濕透的驛卒跑進街市：「大荒山口發生泥石流，金石商會的馱隊受阻在外！」\n" NOR);
         }
     } else {
         if (caravan_status == "blocked") {
-            caravan_status = "traveling";
-            caravan_delay_reason = "";
-            object sq3 = find_object("/d/village/square.c");
-            if (sq3) tell_room(sq3, "\n" + HIG "【商道暢通】驛道泥石已被清理開，受阻的金石商會馱隊已重新啟程朝黑石鋪進發！\n" NOR);
-        }
-
-        if (caravan_status == "traveling") {
+            caravan_timer -= 5;
+            if (caravan_timer <= 0) {
+                caravan_status = "traveling";
+                caravan_timer = 45;
+                caravan_delay_reason = "";
+                object sq3 = find_object("/d/village/square.c");
+                if (sq3) tell_room(sq3, "\n" + HIG "【商道重開】金石商會打點妥當黑石關守軍並清開落石，受阻的馱隊已重新啟程朝黑石鋪進發！\n" NOR);
+            }
+        } else if (caravan_status == "traveling") {
             caravan_timer -= 5;
             if (caravan_timer <= 0) {
                 // 商隊抵達
                 caravan_status = "arrived";
                 caravan_timer = 120; // 停留 120 遊戲分 (2分鐘)
                 caravan_visit_count += 1;
+                caravan_truth_reason = "金石商會雖已進村設鋪，但二掌櫃錢富貴在客棧天字號房大發雷霆——黑石關守軍藉落石封路硬吃三成乾股，將一張官方【保書路引】在黑市炒至八十兩雪花銀";
 
                 object sq_room = load_object("/d/village/square.c");
                 if (sq_room) {
@@ -145,15 +180,17 @@ void world_tick(int g_time, string weather) {
                         move_object(merchant, sq_room);
                     }
                     tell_room(sq_room, "\n" + HIY "【商隊抵達】伴隨著一陣清脆悠遠的駝鈴聲，一隊滿載大箱的金石商會馱隊緩緩駛入了青石街市！\n" +
-                              "錢大掌櫃跳下駝獸，滿面紅光地朝四周街坊拱手：「金石商會開市收貨，高價收購粗礦良藥！」\n" NOR);
+                              "錢大掌櫃跳下駝獸，滿面紅光地朝四周街坊拱手：「金石商會開市收貨，高價收購粗礦、柴刀與良藥！」\n" NOR);
                 }
             }
         } else if (caravan_status == "arrived") {
             caravan_timer -= 5;
             if (caravan_timer <= 0) {
-                // 商隊離去
-                caravan_status = "traveling";
-                caravan_timer = 240; // 4分鐘後再次前來
+                // 商隊離去，進入下一輪關卡盤查或行商
+                caravan_status = "blocked";
+                caravan_timer = 90;
+                caravan_delay_reason = "北崖地煞落石與黑石關守軍例行封關盤查，商隊暫滯關外";
+                caravan_truth_reason = "黑石關封路並非單純山體滑坡，乃是城防軍勒索金石商會三成乾股！如今一張官方【保書路引】在黑市已被炒至整整八十兩雪花銀";
 
                 object sq_room2 = find_object("/d/village/square.c");
                 if (sq_room2) {
@@ -174,7 +211,7 @@ void world_tick(int g_time, string weather) {
     }
 }
 
-// ── 查詢介面 ─────────────────────────────────────────────
+// ── 查詢與狀態修改介面 ─────────────────────────────────────
 
 int query_stream_water_level() { return stream_water_level; }
 
@@ -193,14 +230,37 @@ int is_moss_cleared() {
     return stream_moss_cleared;
 }
 
+void clear_stream_moss() {
+    stream_moss_cleared = 1;
+}
+
 int query_herb_stock() { return herb_stock; }
 int query_mine_ore_reserve() { return mine_ore_reserve; }
 int query_mine_stability() { return mine_stability; }
 int is_mine_collapsed() { return mine_is_collapsed; }
 int query_mine_clear_progress() { return mine_clear_progress; }
+int query_disha_activity() { return disha_activity; }
+int query_forest_beast_alert() { return forest_beast_alert; }
+
+string query_forest_status_desc() {
+    if (forest_beast_alert >= 75) return "獸潮狂暴（狼哨三響・極度危險）";
+    if (forest_beast_alert >= 50) return "地煞躁動（紫黑濁血外溢・哨亭戒備）";
+    return "林莽平靜（偶有野獸出沒）";
+}
+
+string query_forest_beast_desc() {
+    return query_forest_status_desc();
+}
+
+void calm_forest_beasts(int v) {
+    forest_beast_alert -= v;
+    if (forest_beast_alert < 20) forest_beast_alert = 20;
+}
+
 string query_caravan_status() { return caravan_status; }
 int query_caravan_timer() { return caravan_timer; }
 string query_caravan_delay_reason() { return caravan_delay_reason; }
+string query_caravan_truth_reason() { return caravan_truth_reason; }
 
 // ── 採藥業務 (gather_herb) ────────────────────────────────
 
@@ -302,6 +362,7 @@ int mine_ore(object player) {
         if (stab_loss < 1) stab_loss = 1;
     }
     mine_stability -= stab_loss;
+    if (disha_activity < 95) disha_activity += 1;
 
     write("你掄起鐵鎬，狠狠砸向堅硬的黑石礦脈，火星四濺！\n");
     write(HIG "【在沉重的揮鎬勞動中，你的雙臂肌肉緊繃，臂力微幅提升！】\n" NOR);
@@ -309,19 +370,13 @@ int mine_ore(object player) {
     player->train_stat(STAT_CON, 10);
     player->gain_exp(10);
 
-    // 產出粗鐵礦石
-    int yield_chance = is_smith ? 60 : 40;
+    // 產出北崖粗鐵礦核 (/clone/item/ore_chunk.c，具備 is_ore = 1，可直接用於 forge.c 鍛造或賣給商隊)
+    int yield_chance = is_smith ? 65 : 45;
     if (random(100) < yield_chance) {
-        object ore = clone_object("/std/item.c");
+        object ore = clone_object("/clone/item/ore_chunk.c");
         if (ore) {
-            ore->set_name("粗鐵礦石", ({ "iron ore", "ore", "礦石" }));
-            ore->set_short("粗鐵礦石");
-            ore->set_long("一塊剛從黑石斷崖開採出來的未精煉粗鐵礦，質地堅硬厚重。\n"
-                         "可賣給金石商會掌櫃換取現銀，亦可用於鐵匠鋪鍛造。\n");
-            ore->set_weight(2000);
-            ore->set_value(30);
             ore->move(player);
-            write(HIY "只聽『叮』的一聲脆響，你從碎石中撬出了一塊【粗鐵礦石】！\n" NOR);
+            write(HIY "只聽『叮』的一聲脆響，你從碎石中撬出了一塊沉甸甸的【北崖粗鐵礦核】（可攜至鐵匠鋪 strike 鍛造或 sell 售予商會）！\n" NOR);
         }
     } else {
         write("碎石崩落一地，只可惜這處岩層盡是雜質廢土。\n");
@@ -383,7 +438,11 @@ int clear_mine_rubble(object player) {
         if (sq_r) {
             tell_room(sq_r, "\n" + HIG "【捷報】北面黑石斷崖的塌方巨石已被清理完畢，老礦工得以脫困，礦道重開！\n" NOR);
         }
-        write(HIY "老礦工滿面塵土，激動地拉住你的手：「多虧了小兄弟相助！這是一塊上好精礦，你拿去防身吧！」\n" NOR);
+        write(HIY "老礦工滿面塵土，激動地拉住你的手：「多虧了小兄弟相助！這是一塊上好精礦，你拿去防身鍛造吧！」\n" NOR);
+        object reward_ore = clone_object("/clone/item/ore_chunk.c");
+        if (reward_ore) {
+            reward_ore->move(player);
+        }
     }
 
     return 1;
