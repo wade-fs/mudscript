@@ -99,6 +99,19 @@ int do_chat(object me, string topic) {
         }
     }
 
+    if (topic == "鋼鑿" || topic == "破石" || topic == "chisel" || topic == "玄鐵鋼鑿") {
+        tell_object(me, query_name() + " 虎目圓睜，厲聲喝道：「人命關天！老子剛引地爐千度炭火淬鍊出這批【百煉破煞玄鐵鋼鑿】！\n" +
+                                       "拿去！握錘的人心若是軟了，玄鐵也是爛泥！給老子把山鑿穿，把大山全鬚全尾地帶回來！」\n");
+        if (!present("steel chisel", me) && !present("chisel", me)) {
+            object ch = clone_object("/clone/item/steel_chisel.c");
+            if (ch) {
+                ch->move(me);
+                tell_object(me, HIG "【阿鐵將一柄沉甸甸的百煉破煞玄鐵鋼鑿塞進了你的手中！】\n" NOR);
+            }
+        }
+        return 1;
+    }
+
     if (topic == "路引" || topic == "出鄉" || topic == "文牒" || topic == "ceremony" || topic == "pass") {
         if (me->query_level() < 10) {
             tell_object(me, query_name() + " 揮舞鐵錘敲了敲鐵砧，哼道：「黑石關外世道兇險，臂力筋骨未達 10 級，出去就是給流寇當靶子！先給老子在鐵砧前多掄幾百錘！」\n");

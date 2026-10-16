@@ -16,6 +16,7 @@ void create() {
 
     set_exits(([
         "south": "/d/village/square.c",
+        "down": "/d/village/mine_depths.c",
     ]));
 
     set("is_outdoor", 1);
@@ -32,7 +33,8 @@ string query_long() {
     if (ws) {
         if (ws->is_mine_collapsed()) {
             res += HIR "【嚴重塌方】數十塊萬斤黑石巨岩徹底堵死了幽深礦洞，碎石泥沙不斷滾落，\n"
-                       "濃重的煙塵自石縫漫出！幾名老礦工急得團團轉，需儘快清理巨石 (clear)！\n" NOR;
+                       "濃重的煙塵自石縫漫出！洞口兩側架設著天車重型絞盤與生鐵索具，\n"
+                       "幾名老礦工急得團團轉，需清理巨石 (clear) 或順著索具攀入地下深處 (down)！\n" NOR;
         } else {
             int stab = ws->query_mine_stability();
             int res_amt = ws->query_mine_ore_reserve();

@@ -58,6 +58,9 @@ void load_all_quests() {
         "/quests/career/fa_chain.json",
         "/quests/side/wolf_hunter.json",
         "/quests/main/village_pass.json",
+        "/quests/main/cycle_of_craft.json",
+        "/quests/main/rescue_maiden.json",
+        "/quests/main/rescue_miners.json",
         "/quests/epic/ancient_order.json"
     });
 
@@ -205,6 +208,18 @@ int has_required_item(object who, string req) {
         }
         if (req == "tianmen" || req == "ancient_token" || req == "tianmen_token") {
             if (ob->id("tianmen token") || ob->id("ancient token") || ob->id("token") || ob->id("青金古令") || ob->query("relic_type") == "shang_token") return 1;
+        }
+        if (req == "mine_blueprint" || req == "blueprint") {
+            if (ob->id("mine blueprint") || ob->id("blueprint") || ob->id("殘圖")) return 1;
+        }
+        if (req == "steel_chisel" || req == "chisel") {
+            if (ob->id("steel chisel") || ob->id("chisel") || ob->id("鋼鑿")) return 1;
+        }
+        if (req == "disha_wine" || req == "wine") {
+            if (ob->id("disha wine") || ob->id("wine") || ob->id("烈酒")) return 1;
+        }
+        if (req == "mountain_talisman" || req == "talisman") {
+            if (ob->id("mountain talisman") || ob->id("talisman") || ob->id("鎮山符")) return 1;
         }
     }
     return 0;

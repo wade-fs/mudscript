@@ -97,5 +97,18 @@ int do_chat(object me, string topic) {
             return 1;
         }
     }
+    if (topic == "避毒" || topic == "烈酒" || topic == "wine" || topic == "地煞" || topic == "辟煞酒") {
+        tell_object(me, query_name() + " 吹鬍子瞪眼大罵道：「地底九幽地煞毒性烈如蛇蠍！拿上這壺老夫秘製的【雄黃辟煞烈血酒】！\n" +
+                                       "要是敢給老子死在底下，老子掀了你的祖墳！！」\n");
+        if (!present("disha wine", me) && !present("wine", me)) {
+            object wn = clone_object("/clone/item/disha_wine.c");
+            if (wn) {
+                wn->move(me);
+                tell_object(me, HIG "【瘋郎中將一小罈熱氣騰騰的雄黃辟煞烈血酒塞進了你懷裡！】\n" NOR);
+            }
+        }
+        return 1;
+    }
+
     return ::do_chat(me, topic);
 }

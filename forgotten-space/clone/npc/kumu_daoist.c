@@ -128,6 +128,19 @@ int do_chat(object me, string topic) {
             return 1;
         }
     }
+    if (topic == "定脈" || topic == "鎮山" || topic == "符" || topic == "talisman" || topic == "鎮山符") {
+        tell_object(me, query_name() + " 閉目沙啞道：「地脈翻覆，逆者死，順者生。這張以赤陽雄雞血所繪【太上定脈鎮山符】你且拿去，\n" +
+                                       "遇岩崩危局，焚符可定石三息，切記不可貪功！」\n");
+        if (!present("mountain talisman", me) && !present("talisman", me)) {
+            object tal = clone_object("/clone/item/mountain_talisman.c");
+            if (tal) {
+                tal->move(me);
+                tell_object(me, HIC "【枯木老道袖袍一抖，一張泛著淡淡金光的太上定脈鎮山符落入你的掌中！】\n" NOR);
+            }
+        }
+        return 1;
+    }
+
     return ::do_chat(me, topic);
 }
 
