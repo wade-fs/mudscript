@@ -35,7 +35,7 @@ void create() {
             "exp_gain" : 40,
             "fate_gain" : 1,
             "legacy_key" : "communed_forest_totem",
-            "title" : "以濁血共鳴戰神圖騰"
+            "title" : "喋血共鳴喚醒戰神圖騰"
         ]),
         "search_altar_pine" : ([
             "name" : "道化晶石殘片",

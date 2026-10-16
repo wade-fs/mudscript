@@ -139,8 +139,12 @@ int do_track(string arg) {
     me->add(VITAL_SP, -5);
     write("你壓低身形，指尖拂過濕潤的泥土與斷裂的草莖，目光如夜隼般搜尋獸道痕跡...\n");
     write(MAG "你在落葉掩蓋的泥坑邊發現了幾滴暗紫色的焦灼濁血，散發著令人心悸的地煞凶腥（地煞濃度 " + disha + "%）！\n" NOR);
-    write("順著發狂黑熊留下的血痕撥開重重鐵線荊棘，在一株枯死巨榕的虯曲盤根下，\n"
-          "但見外層風化石衣已被巨熊撞碎，赫然露出一尊倒插於泥沼中的【太古戰神獵獸圖騰玄柱】(totem)！\n");
+    write(HIR "\n【警兆驟臨・反向伏擊】\n" NOR);
+    write(YEL "頭頂枯樹頂端猛然刮起一陣腥臭狂風！一頭背生森白骨甲、足有兩丈高的狂暴骨魔黑熊悍然暴起撲殺！\n"
+              "你不及多想，借力凌空翻滾避開拍碎古木的千鈞巨掌，手中柴刀順勢狠狠鑿入黑熊眼眶！\n" NOR);
+    write(RED "一人一獸在慘烈嘶吼中翻滾失控，雙雙砸穿化骨泥沼邊緣脆弱的腐泥斷層，直墜百丈地陷死穴！\n" NOR);
+    write(WHT "狂暴撞擊中黑熊當場斃命，而在坑底被砸碎的萬年石衣深處，\n"
+              "赫然露出一尊通體倒插於地心死穴、散發著蒼茫蠻荒神威的【太古戰神獵獸圖騰玄柱】(totem)！\n" NOR);
     totem_discovered = 1;
     me->set_temp("tracked_totem", 1);
     me->train_stat(STAT_PER, 15);
@@ -161,7 +165,7 @@ int do_commune_totem(string arg) {
     }
 
     if (me->query(VITAL_KEE) < 15) {
-        write(HIR "你氣血衰竭，無法承受太古戰神圖騰的狂暴蠻荒意志！\n" NOR);
+        write(HIR "你傷勢過重、氣血衰竭，無法逼出心頭精血承受太古戰神圖騰的狂暴蠻荒意志！\n" NOR);
         return 1;
     }
 
@@ -181,11 +185,12 @@ int do_commune_totem(string arg) {
     }
 
     me->add(VITAL_KEE, -10);
-    write("你伸出沾染著林間暗紫濁血氣息的手指，緩緩按在圖騰柱上那尊手撕萬丈凶獸的荒古巨人石雕凹槽中...\n");
-    write(MAG "石槽內的殘留濁血與地脈煞氣驟然沸騰，化作一道赤紫血芒順著你的指尖逆衝而上！\n" NOR);
+    write(YEL "你強行壓下胸腹重傷，眼神狠厲如狼，屈指狠狠割破掌心，逼出一大口滾燙純陽的【心頭精血】！\n" NOR);
+    write(HIR "殷紅熾烈的人族精血如決堤烈火，狂暴潑灑在圖騰柱中央那尊手撕萬丈神魔的荒古戰祖石雕上！\n" NOR);
+    write(MAG "柱身殘存的萬年青苔石衣如雪崩般轟然震飛，石雕雙目驟然爆發出兩道撕裂九幽的赤金血芒！\n" NOR);
     write(HIR "「吼————！！」\n" NOR);
-    write(HIR "一聲源自遠古蠻荒的凶獸咆哮在你的靈魂深處炸裂，體內每一滴血液如烈火烹油般狂暴沸騰！\n" NOR);
-    write(HIW "【太古戰祖蠻荒血脈共鳴！你的筋骨骨骼爆響，雙目如電，戰鬥敏捷與肉身力道得到了淬鍊！】\n" NOR);
+    write(HIR "一聲源自遠古蠻荒的凶獸咆哮在你的靈魂深處炸裂，浩瀚神魔血氣如狂暴火龍逆流倒灌入體！\n" NOR);
+    write(HIW "【太古戰祖蠻荒血脈共鳴！斷骨續接、經絡重鑄，戰鬥敏捷與肉身力道得到了極致淬鍊！】\n" NOR);
 
     me->train_stat(STAT_STR, 20);
     me->train_stat(STAT_DEX, 30);
@@ -194,7 +199,7 @@ int do_commune_totem(string arg) {
     object md = load_object(MYSTERY_D);
     if (md && !md->is_relic_discovered(me, "commune_forest_totem")) {
         md->trigger_relic_discovery(me, "commune_forest_totem", me);
-        write(HIG "【你首度以濁血引動太古戰祖圖騰共鳴，體內荒血覺醒（天命+1），額外獲得 40 點經驗！】\n" NOR);
+        write(HIG "【你首度以心頭精血引動太古戰祖圖騰共鳴，體內荒血覺醒（天命+1），額外獲得 40 點經驗！】\n" NOR);
     }
     return 1;
 }
