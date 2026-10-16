@@ -518,10 +518,18 @@ flowchart LR
   4. `西台荒壇・老道傳承`：回壇交差，老道推演星盤卦象，欣然為你撫頂點撥，神識破障，傳授更高階的引氣觀想決。
   * **修煉收益**：羅盤測氣鍛鍊 `int`，引水淨化與迎風定神鍛鍊 `spi`，神識池 `sen` 穩固擴張。
 
-#### 3. Mudlib LPC 引擎實現機制
-* 由 `/daemon/career_d.c`（職業生計守護程序）驅動。
-* 玩家身上記錄當前鏈條進度（如 `user->set("task_chain/wu_stage", 2)`）。
-* 完成一輪閉環後，結算該系專屬【傳承聲望 / 匠心 / 道緣 (Affinity)】，並自適應遞進難度（如粗鐵升級為赤銅、野狼變為鐵甲野豬、水脈變為地穴暗河），使玩家能無休止且有目標地沈浸於自己熱愛的修煉路徑。
+#### 3. Mudlib LPC 抽象化任務引擎架構 (`QUEST_ENGINE_D` + `/quests/*.json`)
+* **宣告式靜態配置 (`/quests/`)**：
+  * 所有任務以標準 JSON 格式置於 `/quests/` 獨立目錄（如 `/quests/career/`、`/quests/side/`、`/quests/main/`），受 Git 版本管理，與隨時可被清空的動態存檔區 (`/data/user/`) 徹底解耦。
+* **核心狀態機引擎 (`/daemon/quest_engine_d.c`)**：
+  * 開機時動態掃描並載入全目錄 JSON 任務定義。
+  * 提供統一的事件處理器 (`trigger_event`) 支援 `talk`、`deliver`、`action`、`kill`。
+* **信物遺失防呆補發機制 (Lost Item Fallback)**：
+  * 當玩家意外遺失關鍵信物（如藥散、原礦、獸皮）時，引擎動態標記警告，玩家向發放 NPC 詢問即可直接補領，徹底根絕狀態死鎖問題。
+* **結構化進度清單 (`quest` 指令)**：
+  * 動態渲染已完成 `[✓]`、進行中 `[▶]`、未開始 `[ ]` 與信物缺失警示 `⚠️`。
+* **相容性保證**：
+  * `/daemon/career_d.c` 與 `/cmds/cmd_quest.c` 無縫對接 `QUEST_ENGINE_D`，保持對既有 LPC 呼叫 100% 向後相容。
 
 ### 4.4 跨媒介物象設計範式：以「溪灘洗衣石板（史前殘碑）」為例 (Trans-Media Object Exemplar)
 

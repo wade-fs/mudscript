@@ -31,7 +31,10 @@ int main(object me, string verb, string arg) {
         write("$HIW$====================\n\n$NOR$");
     }
 
-    if (career_d) {
+    object engine_d = load_object(QUEST_ENGINE_D);
+    if (engine_d) {
+        write(engine_d->query_all_status_report(me) + "\n");
+    } else if (career_d) {
         write(career_d->query_all_chains_status(me) + "\n");
     }
 

@@ -1,0 +1,80 @@
+{
+  "id": "wu_chain",
+  "name": "物修之鏈・百工互生環",
+  "category": "career",
+  "path_type": "wu",
+  "type": "loop",
+  "start_npc": "tie",
+  "start_topic": "任務",
+  "requirements": {
+    "level": 1
+  },
+  "steps": [
+    {
+      "step": 1,
+      "title": "接應受困礦工",
+      "hint": "前往北崖黑石古礦坑，向老礦工魯大山詢問 (ask lu about 任務) 接應受困礦工。",
+      "target_type": "talk",
+      "target_npc": "lu",
+      "target_topic": "任務",
+      "on_complete": {
+        "give_item": "/clone/item/ore_chunk.c",
+        "msg": "老礦工魯大山咳嗽著將一塊暗青色的粗鐵礦核塞進你懷中，交代你配製活絡散。"
+      }
+    },
+    {
+      "step": 2,
+      "title": "採藥療毒製散",
+      "hint": "前往南谷溪灘採集帶露晨露草 (gather)，交由草廬瘋郎中葛半仙 (give herb to ge) 配製活絡散。",
+      "target_type": "deliver",
+      "target_npc": "ge",
+      "require_item": "herb_dew",
+      "on_complete": {
+        "give_item": "/clone/item/huoluo_dan.c",
+        "msg": "葛半仙在石臼中搗碎晨露草，為你調配了一包「葛氏活絡散」！"
+      }
+    },
+    {
+      "step": 3,
+      "title": "療毒復命交代開爐",
+      "hint": "將葛半仙調配的活絡散送交北崖老礦工魯大山治傷 (give san to lu)，準備回鐵匠鋪開爐。",
+      "target_type": "deliver",
+      "target_npc": "lu",
+      "require_item": "huoluo_dan",
+      "on_complete": {
+        "msg": "魯大山吞下藥散，濁氣盡褪，交代你速回鐵匠鋪開爐鍛造！"
+      },
+      "lost_item_recovery": {
+        "from_npc": "ge",
+        "ask_topic": "活絡散",
+        "reissue_item": "/clone/item/huoluo_dan.c",
+        "dialogue": "葛半仙吹鬍子瞪眼：『連救命藥散都能弄丟？也罷，老夫石臼裡還有些藥渣，再勻你一包！』"
+      }
+    },
+    {
+      "step": 4,
+      "title": "開爐百工鍛造",
+      "hint": "在老鐵匠鋪手持鐵錘，拉動風箱、鍛打粗礦胚料 (strike ore)，完成百工閉環！",
+      "target_type": "action",
+      "action_verb": "strike",
+      "action_target": "ore",
+      "require_equipped": "hammer",
+      "require_inventory": "ore_chunk",
+      "on_complete": {
+        "msg": "火星激射，鐵胚成形！你完成了本輪物修歷練！"
+      },
+      "lost_item_recovery": {
+        "from_npc": "lu",
+        "ask_topic": "礦石",
+        "reissue_item": "/clone/item/ore_chunk.c",
+        "dialogue": "魯大山敲了敲煙斗：『礦核弄丟了？這塊剛刨出來的拿去，切莫再粗心大意！』"
+      }
+    }
+  ],
+  "rewards": {
+    "exp": 150,
+    "affinity": {
+      "wu": 10
+    }
+  }
+}

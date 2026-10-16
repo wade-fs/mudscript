@@ -82,6 +82,10 @@ int accept_object(object who, object ob) {
 
 int do_chat(object me, string topic) {
     if (!topic || topic == "") return 0;
+    object engine = load_object(QUEST_ENGINE_D);
+    if (engine && engine->check_and_handle_lost_item(me, "ge", topic)) {
+        return 1;
+    }
     if (topic == "任務" || topic == "生計" || topic == "job" || topic == "career" || topic == "解毒" || topic == "魯大山") {
         object career = load_object(CAREER_D);
         int st = career ? career->query_chain_stage(me, "wu") : 1;

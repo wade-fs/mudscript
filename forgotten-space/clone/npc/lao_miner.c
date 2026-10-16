@@ -34,6 +34,10 @@ void create() {
 
 int do_chat(object me, string topic) {
     if (!topic || topic == "") return 0;
+    object engine = load_object(QUEST_ENGINE_D);
+    if (engine && engine->check_and_handle_lost_item(me, "lu", topic)) {
+        return 1;
+    }
     object ws = load_object(WORLD_STATE_D);
 
     if (topic == "塌方" || topic == "落石" || topic == "危險" || topic == "安全") {

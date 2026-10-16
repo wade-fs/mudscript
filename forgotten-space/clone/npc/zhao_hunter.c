@@ -82,6 +82,10 @@ int accept_object(object who, object ob) {
 
 int do_chat(object me, string topic) {
     if (!topic || topic == "") return 0;
+    object engine = load_object(QUEST_ENGINE_D);
+    if (engine && engine->check_and_handle_lost_item(me, "zhao", topic)) {
+        return 1;
+    }
     object ws = load_object(WORLD_STATE_D);
 
     if (topic == "野獸" || topic == "異動" || topic == "狼群" || topic == "獸潮" || topic == "大荒" || topic == "hunt") {

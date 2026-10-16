@@ -1,0 +1,77 @@
+{
+  "id": "li_chain",
+  "name": "力修之鏈・血戰生機環",
+  "category": "career",
+  "path_type": "li",
+  "type": "loop",
+  "start_npc": "zhao",
+  "start_topic": "任務",
+  "requirements": {
+    "level": 1
+  },
+  "steps": [
+    {
+      "step": 1,
+      "title": "荒林戒備指令",
+      "hint": "向獵戶哨亭趙老獵詢問 (ask zhao about 任務) 領取荒林戒備指令。",
+      "target_type": "talk",
+      "target_npc": "zhao",
+      "target_topic": "任務",
+      "on_complete": {
+        "msg": "趙老獵神情凝重，指派你前往東面荒林排查暴動獸群。"
+      }
+    },
+    {
+      "step": 2,
+      "title": "調校陷阱追蹤濁血",
+      "hint": "前往東面荒林調校獵戶陷阱 (trap)，追蹤深山濁血 (track)，排查獸群暴動並取得染煞異獸皮。",
+      "target_type": "action",
+      "action_verb": "trap",
+      "on_complete": {
+        "give_item": "/clone/item/tainted_pelt.c",
+        "msg": "你在草叢血泊中拾獲一張「染煞異獸皮」！"
+      }
+    },
+    {
+      "step": 3,
+      "title": "溪灘磨刀淬礪殺意",
+      "hint": "前往南谷溪灘巨石磨利鋼刃柴刀 (sharpen blade)，淬礪搏殺意志。",
+      "target_type": "action",
+      "action_verb": "sharpen",
+      "action_target": "blade",
+      "require_equipped": "blade",
+      "on_complete": {
+        "msg": "粗石霍霍，刀芒寒冽！你的殺煞意志愈發凝練。"
+      },
+      "lost_item_recovery": {
+        "from_npc": "zhao",
+        "ask_topic": "獸皮",
+        "reissue_item": "/clone/item/tainted_pelt.c",
+        "dialogue": "趙老獵眉頭一緊：『連搏殺憑證都能遺失？荒野粗心即是送命！這張備用獸皮且拿去！』"
+      }
+    },
+    {
+      "step": 4,
+      "title": "搏殺回報受傳武法",
+      "hint": "攜染煞異獸皮返回獵戶哨亭回報趙老獵 (give tainted pelt to zhao)，淬礪氣血，受傳大荒搏殺精義！",
+      "target_type": "deliver",
+      "target_npc": "zhao",
+      "require_item": "tainted_pelt",
+      "on_complete": {
+        "msg": "趙老獵查驗異獸皮濁血，重重拍向你的肩膀，傳你大荒搏殺精義！"
+      },
+      "lost_item_recovery": {
+        "from_npc": "zhao",
+        "ask_topic": "獸皮",
+        "reissue_item": "/clone/item/tainted_pelt.c",
+        "dialogue": "趙老獵遞過另一張獸皮：『荒林凶險，下次切莫再丟失戰利品！』"
+      }
+    }
+  ],
+  "rewards": {
+    "exp": 150,
+    "affinity": {
+      "li": 10
+    }
+  }
+}
