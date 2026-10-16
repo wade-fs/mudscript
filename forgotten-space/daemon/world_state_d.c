@@ -63,9 +63,12 @@ void create() {
     }
     if (mine_stability <= 0 && !mine_is_collapsed) mine_stability = 65;
     if (disha_activity <= 0) disha_activity = 60;
-    if (forest_beast_alert <= 0) forest_beast_alert = 65;
     if (!caravan_truth_reason || caravan_truth_reason == "") {
         caravan_truth_reason = "黑石關城防軍藉北崖落石之名封鎖官道，向金石商會勒索三成乾股，黑市【保書路引】已炒至八十兩雪花銀";
+    }
+    if (!caravan_status || (caravan_status != "arrived" && caravan_status != "traveling" && caravan_status != "blocked")) {
+        caravan_status = "blocked";
+        caravan_timer = 60;
     }
 }
 
@@ -167,42 +170,17 @@ void world_tick(int g_time, string weather) {
         } else if (caravan_status == "traveling") {
             caravan_timer -= 5;
             if (caravan_timer <= 0) {
-                // 商隊抵達
-                caravan_status = "arrived";
-                caravan_timer = 120; // 停留 120 遊戲分 (2分鐘)
-                caravan_visit_count += 1;
-                caravan_truth_reason = "金石商會雖已進村設鋪，但二掌櫃錢富貴在客棧天字號房大發雷霆——黑石關守軍藉落石封路硬吃三成乾股，將一張官方【保書路引】在黑市炒至八十兩雪花銀";
-
-                object sq_room = load_object("/d/village/square.c");
-                if (sq_room) {
-                    object merchant = clone_object("/clone/npc/caravan_merchant.c");
-                    if (merchant) {
-                        move_object(merchant, sq_room);
-                    }
-                    tell_room(sq_room, "\n" + HIY "【商隊抵達】伴隨著一陣清脆悠遠的駝鈴聲，一隊滿載大箱的金石商會馱隊緩緩駛入了青石街市！\n" +
-                              "錢大掌櫃跳下駝獸，滿面紅光地朝四周街坊拱手：「金石商會開市收貨，高價收購粗礦、柴刀與良藥！」\n" NOR);
-                }
+                trigger_caravan_arrival();
             }
         } else if (caravan_status == "arrived") {
             caravan_timer -= 5;
             if (caravan_timer <= 0) {
-                // 商隊離去，進入下一輪關卡盤查或行商
-                caravan_status = "blocked";
-                caravan_timer = 90;
-                caravan_delay_reason = "北崖地煞落石與黑石關守軍例行封關盤查，商隊暫滯關外";
-                caravan_truth_reason = "黑石關封路並非單純山體滑坡，乃是城防軍勒索金石商會三成乾股！如今一張官方【保書路引】在黑市已被炒至整整八十兩雪花銀";
-
-                object sq_room2 = find_object("/d/village/square.c");
-                if (sq_room2) {
-                    object *inv2 = all_inventory(sq_room2);
-                    foreach (object ob in inv2) {
-                        if (ob && ob->query_name() == "錢富貴") {
-                            destruct(ob);
-                        }
-                    }
-                    tell_room(sq_room2, "\n" + YEL "【商隊啟程】駝鈴聲再次響起，金石商會收攏好收購的物資箱籠，在護衛的護送下拔營離去，返回金石城。\n" NOR);
-                }
+                trigger_caravan_departure();
             }
+        } else {
+            // 防禦未定義狀態：恢復為 blocked
+            caravan_status = "blocked";
+            caravan_timer = 60;
         }
     }
 
@@ -257,10 +235,54 @@ void calm_forest_beasts(int v) {
     if (forest_beast_alert < 20) forest_beast_alert = 20;
 }
 
-string query_caravan_status() { return caravan_status; }
+string query_caravan_status() { return caravan_status ? caravan_status : "blocked"; }
 int query_caravan_timer() { return caravan_timer; }
 string query_caravan_delay_reason() { return caravan_delay_reason; }
 string query_caravan_truth_reason() { return caravan_truth_reason; }
+
+int is_caravan_arrived() { return (caravan_status == "arrived"); }
+int is_caravan_blocked() { return (caravan_status == "blocked"); }
+int is_caravan_traveling() { return (caravan_status == "traveling"); }
+
+// ── 商隊到達生命週期函式 ─────────────────────────────────
+void trigger_caravan_arrival() {
+    caravan_status = "arrived";
+    caravan_timer = 120; // 停留 120 遊戲分 (2分鐘)
+    caravan_visit_count += 1;
+    caravan_truth_reason = "金石商會雖已進村設鋪，但二掌櫃錢富貴在客棧天字號房大發雷霆——黑石關守軍藉落石封路硬吃三成乾股，將一張官方【保書路引】在黑市炒至八十兩雪花銀";
+
+    object sq_room = load_object("/d/village/square.c");
+    if (sq_room) {
+        object old_m = present("caravan merchant", sq_room);
+        if (!old_m) {
+            object merchant = clone_object("/clone/npc/caravan_merchant.c");
+            if (merchant) {
+                move_object(merchant, sq_room);
+            }
+        }
+        tell_room(sq_room, "\n" + HIY "【商隊抵達】伴隨著一陣清脆悠遠的駝鈴聲，一隊滿載大箱的金石商會馱隊緩緩駛入了青石街市！\n" +
+                  "錢大掌櫃跳下駝獸，滿面紅光地朝四周街坊拱手：「金石商會開市收貨，高價收購粗礦、柴刀與良藥！」\n" NOR);
+    }
+}
+
+// ── 商隊離去生命週期函式 ─────────────────────────────────
+void trigger_caravan_departure() {
+    caravan_status = "blocked";
+    caravan_timer = 90;
+    caravan_delay_reason = "北崖地煞落石與黑石關守軍例行封關盤查，商隊暫滯關外";
+    caravan_truth_reason = "黑石關封路並非單純山體滑坡，乃是城防軍勒索金石商會三成乾股！如今一張官方【保書路引】在黑市已被炒至整整八十兩雪花銀";
+
+    object sq_room2 = find_object("/d/village/square.c");
+    if (sq_room2) {
+        object *inv2 = all_inventory(sq_room2);
+        foreach (object ob in inv2) {
+            if (ob && (ob->query_name() == "錢富貴" || ob->id("caravan merchant") || ob->id("merchant"))) {
+                destruct(ob);
+            }
+        }
+        tell_room(sq_room2, "\n" + YEL "【商隊啟程】駝鈴聲再次響起，金石商會收攏好收購的物資箱籠，在護衛的護送下拔營離去，返回金石城。\n" NOR);
+    }
+}
 
 // ── 官軍封關與商道敘事驅動 ─────────────────────────────────
 string query_garrison_status() {

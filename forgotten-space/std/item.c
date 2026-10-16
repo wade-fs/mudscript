@@ -47,6 +47,12 @@ int    query_max_durability() { return max_durability; }
 int    query_level_req()      { return level_req; }
 int    query_identified()     { return identified; }
 int    query_indestructible() { return indestructible; }
+string query_slot()           { return query("slot"); }
+string query_slot_name()      { return query("slot_name"); }
+int    query_attack()         { return query("attack"); }
+int    query_defence()        { return query("defence"); }
+string query_element()        { return query("element"); }
+void   set_block_type(mixed t){ set("block_type", t); }
 
 // ── 功能函式 ────────────────────────────────────────────
 // 損耗耐久度

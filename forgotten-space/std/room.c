@@ -407,3 +407,20 @@ int clean_up(int inherited_count) {
 
     return 1;
 }
+
+// ── 相容與代理介面 ──────────────────────────────────────────
+string short() { return query_short(); }
+string long() { return query_long(); }
+int is_proxy_room() { return 0; }
+string query_remote_mud() { return 0; }
+string query_shadow_uuid() { return 0; }
+void set_shadow_uuid(string id) {}
+void update_state(mixed payload) {}
+void update_inventory(mixed payload) {}
+int query_is_loading_room() { return 0; }
+string query_target_mudlib() { return 0; }
+string query_target_room() { return 0; }
+int query_is_lm_world() { return 0; }
+void set_world_name(string n) {}
+void broadcast_map_all() {}
+int do_meditate(string arg) { return 0; }

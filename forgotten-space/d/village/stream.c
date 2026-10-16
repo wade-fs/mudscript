@@ -141,6 +141,9 @@ int do_sharpen(string arg) {
     }
 
     object weapon = me->query_temp("weapon");
+    if (weapon && weapon->query("weapon_type") != "blade" && !weapon->id("blade") && !weapon->id("knife") && !weapon->id("柴刀") && !weapon->id("砍刀")) {
+        weapon = 0;
+    }
     if (!weapon && arg) {
         weapon = present(arg, me);
     }

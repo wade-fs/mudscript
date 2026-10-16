@@ -42,9 +42,9 @@ string query_long() {
                  "斜插在老客棧門口，貼滿了鄉民求助與商隊招募的泛黃布告。\n";
 
     if (ws) {
-        if (ws->query_caravan_status() == "arrived") {
+        if (ws->is_caravan_arrived()) {
             res += HIY "茶棚旁正停駐著金石商會的馱獸與大車，錢大掌櫃設鋪收購粗礦良藥 (sell)！\n" NOR;
-        } else if (ws->query_caravan_status() == "blocked") {
+        } else if (ws->is_caravan_blocked()) {
             res += YEL "客棧門口聚著幾名憂心忡忡的行商，低聲議論著大荒商道受阻的變故。\n" NOR;
         }
     }

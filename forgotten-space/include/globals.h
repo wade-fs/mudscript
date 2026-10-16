@@ -25,7 +25,7 @@
 #define MYSTERY_D       "/daemon/mysteryd.c"
 #define CAREER_D        "/daemon/career_d.c"
 #define WORLD_STATE_D   "/daemon/world_state_d.c"
-#define SKILL_D         "/daemon/skill_d.c"
+#define SKILL_D         "/secure/skill_d.c"
 #define COMBAT_D        "/secure/combat_d.c"
 
 // ── 先天核心六維屬性 (Primary Attributes) ────────────────

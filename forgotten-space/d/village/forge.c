@@ -131,18 +131,18 @@ int do_strike(string arg) {
 
         destruct(ore);
 
-        // 個人孤本奇遇：首次震裂礦核必定覺醒發現【太古不融黑鐵構件】，此後常規鍛造成【大荒開山柴刀】
+        // 個人孤本奇遇：首次震裂礦核必定覺醒發現【太古不融黑鐵構件】
         object md = load_object(MYSTERY_D);
         if (md && !md->is_relic_discovered(me, "forge_ancient_black_iron")) {
             write(HIR "【反震異變】只聽一聲清脆龍吟，錘面被一股極恐怖的金屬反震彈開！\n" NOR);
             write(HIB "岩石碎殼深處，赫然露出一截通體烏黑、帶有微型齒輪與榫卯的【太古不融黑鐵構件】！\n" NOR);
             md->trigger_relic_discovery(me, "forge_ancient_black_iron", me);
-        } else {
-            write(HIW "經過千錘百鍊的敲打，粗鐵胚料褪去雜質，鍛打成了一柄沉甸甸的【大荒開山柴刀】！\n" NOR);
-            object blade = clone_object("/clone/weapon/clearing_blade.c");
-            if (blade) {
-                if (!blade->move(me)) blade->move(this_object());
-            }
+        }
+
+        write(HIW "經過千錘百鍊的敲打，粗鐵胚料褪去雜質，鍛打成了一柄沉甸甸的【大荒開山柴刀】！\n" NOR);
+        object blade = clone_object("/clone/weapon/clearing_blade.c");
+        if (blade) {
+            if (!blade->move(me)) blade->move(this_object());
         }
 
         object career = load_object(CAREER_D);

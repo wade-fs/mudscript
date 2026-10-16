@@ -412,7 +412,26 @@ string query_guild_rank() { return guild_rank; }
 void set_lang(string l) { lang = l; }
 string query_lang() { return lang; }
 void add_guild_exp(int v) { guild_exp += v; }
+void set_guild_exp(int v) { guild_exp = v; }
 int query_guild_exp() { return guild_exp; }
+
+// ── 指令與訊息介面 ─────────────────────────────────────────
+int command(string cmd) {
+    if (!cmd || cmd == "") return 0;
+    return process_input(cmd) ? 1 : 0;
+}
+
+void receive(string msg) {
+    write(msg);
+}
+
+string _t(string key) {
+    string l = query_lang();
+    if (!l || l == "" || l == "0") l = "en";
+    object lang_d = load_object("/secure/language_d.c");
+    if (!lang_d) return key;
+    return lang_d->translate(key, l);
+}
 
 // ── 銀行系統介面 ─────────────────────────────────────────────
 int query_bank_balance() { return bank_balance; }

@@ -194,3 +194,8 @@ int clean_up(int inherited_count) {
 
     return 1;
 }
+
+// 判斷物件是否已銷毀 (存活時恆回傳 0)
+int is_destructed() {
+    return 0;
+}
