@@ -49,9 +49,10 @@ int do_meditate(string arg) {
 
     me->add(VITAL_KEE, -5);
     me->add(VITAL_SEN, 15);
-    me->add(STAT_SPI, 1);
 
     write(HIG "【靈台漸入空明，神識得到滋養，你的靈性微幅提升！】\n" NOR);
+    me->train_stat(STAT_SPI, 25);
+    me->gain_exp(10);
     return 1;
 }
 

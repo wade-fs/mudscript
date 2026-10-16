@@ -262,8 +262,10 @@ int gather_herb(object player) {
     }
 
     // 鍛鍊感知 per 與靈巧 dex
-    player->add(STAT_PER, 1);
     write(HIG "【在泥石與草木微芒的辨識中，你的眼力愈發銳利，感知微幅提升！】\n" NOR);
+    player->train_stat(STAT_PER, 20);
+    player->train_stat(STAT_DEX, 10);
+    player->gain_exp(10);
     return 1;
 }
 
@@ -284,12 +286,13 @@ int mine_ore(object player) {
         return 1;
     }
 
-    if (player->query(VITAL_KEE) < 15) {
-        write(HIR "你氣血衰竭，雙臂酸麻，連鐵鎬都掄不起來了！\n" NOR);
+    if (player->query(VITAL_KEE) < 15 || player->query(VITAL_SP) < 10) {
+        write(HIR "你氣血衰竭、雙臂酸麻，連鐵鎬都掄不起來了！\n" NOR);
         return 1;
     }
 
-    player->add(VITAL_KEE, -15);
+    player->add(VITAL_KEE, -10);
+    player->add(VITAL_SP, -10);
     mine_ore_reserve -= 1;
 
     int stab_loss = random(4) + 2;
@@ -301,8 +304,10 @@ int mine_ore(object player) {
     mine_stability -= stab_loss;
 
     write("你掄起鐵鎬，狠狠砸向堅硬的黑石礦脈，火星四濺！\n");
-    player->add(STAT_STR, 1);
     write(HIG "【在沉重的揮鎬勞動中，你的雙臂肌肉緊繃，臂力微幅提升！】\n" NOR);
+    player->train_stat(STAT_STR, 20);
+    player->train_stat(STAT_CON, 10);
+    player->gain_exp(10);
 
     // 產出粗鐵礦石
     int yield_chance = is_smith ? 60 : 40;
@@ -358,10 +363,11 @@ int clear_mine_rubble(object player) {
 
     player->add(VITAL_KEE, -10);
     mine_clear_progress += 25;
-    player->add(STAT_STR, 1);
 
     write("你咬緊牙關，雙手扣住一塊崩落的黑色稜角巨石，用盡全力將其撬滾到一旁...\n");
     write(sprintf(CYN "【清理進度：%d%%】\n" NOR, mine_clear_progress));
+    player->train_stat(STAT_STR, 25);
+    player->gain_exp(15);
 
     if (mine_clear_progress >= 100) {
         mine_is_collapsed = 0;

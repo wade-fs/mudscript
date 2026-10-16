@@ -35,6 +35,20 @@ void init() {
     add_action("do_search", "search");
     add_action("do_search", "搜查");
     add_action("do_search", "翻找");
+    add_action("do_nap", "nap");
+    add_action("do_nap", "小憩");
+    add_action("do_nap", "窩鋪");
+}
+
+int do_nap(string arg) {
+    object me = this_player();
+    write("你鑽進避風牆角的陳年乾稻草堆裡，蜷縮起身體，聽著前街客棧傳來的熱鬧動靜小憩片刻...\n");
+    write(YEL "鬆軟乾燥的稻草隔絕了寒氣，你紧繃的神經徹底放鬆，手腳重新充滿了力氣。\n" NOR);
+    me->add(VITAL_KEE, 25);
+    me->add(VITAL_SEN, 15);
+    me->add(VITAL_SP, 30);
+    write(HIG "【窩鋪小憩，你的氣血 +25、神識 +15、精力 +30！】\n" NOR);
+    return 1;
 }
 
 int do_eavesdrop(string arg) {

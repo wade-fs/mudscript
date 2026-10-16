@@ -252,6 +252,8 @@ void create_character() {
     user->recalc_stats();
     user->set_hp(user->query_max_hp());
     user->set_mp(user->query_max_mp());
+    user->set_sp(user->query_max_sp());
+    user->set("sp_initialized", 1);
 
     // 身世專屬隨身舊物發放
     mapping bg = BACKGROUND_DATA[current_background];

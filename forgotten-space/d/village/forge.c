@@ -29,8 +29,8 @@ void create() {
     add_item("風箱", "這是一具一人高的巨型牛皮風箱，連接著地爐底部的通風道。你可以用力拉動它 (bellows) 來鼓旺爐火。");
     add_item("anvil", "一塊重達數百斤的烏黑鐵砧，表面佈滿了長年累月千錘百鍊留下的凹痕。手持鐵錘時可在上面鍛打 (strike / forge)。");
     add_item("鐵砧", "一塊重達數百斤的烏黑鐵砧，表面佈滿了長年累月千錘百鍊留下的凹痕。手持鐵錘時可在上面鍛打 (strike / forge)。");
-    add_item("trough", "一口整塊青石鑿成的長槽，裡頭盛滿了黑褐色的淬火井水，可以用來為燒紅的鐵胚淬火 (quench)。");
-    add_item("石槽", "一口整塊青石鑿成的長槽，裡頭盛滿了黑褐色的淬火井水，可以用來為燒紅的鐵胚淬火 (quench)。");
+    add_item("trough", "一口整塊青石鑿成的長槽，裡頭盛滿了黑褐色的淬火井水，可以用來為燒紅的鐵胚淬火 (quench)；槽旁還放著一桶甘冽的深井涼水供人飲水歇息 (drink)。");
+    add_item("石槽", "一口整塊青石鑿成的長槽，裡頭盛滿了黑褐色的淬火井水，可以用來為燒紅的鐵胚淬火 (quench)；槽旁還放著一桶甘冽的深井涼水供人飲水歇息 (drink)。");
 
     spawn_npc("/clone/npc/tie_smith.c");
     spawn_item("/clone/item/ore_chunk.c");
@@ -48,32 +48,47 @@ void init() {
     add_action("do_strike", "敲礦");
     add_action("do_quench", "quench");
     add_action("do_quench", "淬火");
+    add_action("do_drink", "drink");
+    add_action("do_drink", "喝水");
+    add_action("do_drink", "飲水");
+}
+
+int do_drink(string arg) {
+    object me = this_player();
+    write("你走到石槽旁的木桶邊，舀起一瓢冰涼甘冽的深井水，「咕咚咕咚」大口痛飲而下！\n");
+    write(HIC "清涼井水順喉而下，瞬間驅散了爐房內灼人的火毒與滿身疲憊，四肢百骸說不出的舒暢！\n" NOR);
+    me->add(VITAL_KEE, 25);
+    me->add(VITAL_SP, 25);
+    write(HIG "【深井涼水潤澤肺腑，你的氣血 +25、精力 +25！】\n" NOR);
+    return 1;
 }
 
 int do_bellows(string arg) {
     object me = this_player();
-    if (me->query(VITAL_SP) < 10) {
-        write(HIR "你雙臂酸軟脫力，拉不動這沉重的巨型牛皮風箱了。\n" NOR);
+    if (me->query(VITAL_KEE) < 10 || me->query(VITAL_SP) < 10) {
+        write(HIR "你氣血虧耗、雙臂酸軟脫力，拉不動這沉重的巨型牛皮風箱了（可 drink 飲水或 rest 調息恢復）。\n" NOR);
         return 1;
     }
 
-    me->add(VITAL_SP, -10);
+    me->add(VITAL_KEE, -5);
+    me->add(VITAL_SP, -5);
     furnace_heat += 20;
     if (furnace_heat > 150) furnace_heat = 150;
 
     write("你雙手握住牛皮風箱的巨木長柄，沉腰扎馬，大開大合地全力推拉！\n");
     write(HIY "狂風如怒濤般灌入地爐底部，炭火陡然暴亮，熾白的金焰如火龍翻滾！\n" NOR);
 
-    me->add(STAT_STR, 1);
-    me->add(STAT_CON, 1);
     write(HIG "【在與狂暴烈火與厚重風箱的對抗中，你的臂力與根骨得到了磨礪！】\n" NOR);
+    me->train_stat(STAT_STR, 20);
+    me->train_stat(STAT_CON, 20);
+    me->gain_exp(10);
     return 1;
 }
 
 int do_strike(string arg) {
     object me = this_player();
-    if (me->query(VITAL_SP) < 10) {
-        write(HIR "你精疲力竭，手腕發抖，無法精準揮錘。\n" NOR);
+    if (me->query(VITAL_KEE) < 10 || me->query(VITAL_SP) < 10) {
+        write(HIR "你精疲力竭，手腕發抖，無法精準揮錘（可 drink 飲水或 rest 調息恢復）。\n" NOR);
         return 1;
     }
 
@@ -95,6 +110,7 @@ int do_strike(string arg) {
         return 1;
     }
 
+    me->add(VITAL_KEE, -5);
     me->add(VITAL_SP, -10);
 
     // 檢查身上或房間是否有粗鐵礦核
@@ -115,7 +131,7 @@ int do_strike(string arg) {
             object relic = clone_object("/clone/relic/ancient_black_iron.c");
             if (relic) relic->move(me);
         } else {
-            write(HIW "经过千錘百鍊的敲打，粗鐵胚料褪去雜質，鍛打成了一柄沉甸甸的【大荒開山柴刀】！\n" NOR);
+            write(HIW "經過千錘百鍊的敲打，粗鐵胚料褪去雜質，鍛打成了一柄沉甸甸的【大荒開山柴刀】！\n" NOR);
             object blade = clone_object("/clone/weapon/clearing_blade.c");
             if (blade) blade->move(me);
         }
@@ -124,9 +140,10 @@ int do_strike(string arg) {
         write("隨每一次落錘的震顫，你對發力技巧與筋骨協調的領悟又深了一分。\n");
     }
 
-    me->add(STAT_STR, 1);
-    me->add(STAT_DEX, 1);
     write(HIG "【百工手藝在千錘百鍊中昇華，你的臂力與靈巧提升了！】\n" NOR);
+    me->train_stat(STAT_STR, 20);
+    me->train_stat(STAT_DEX, 20);
+    me->gain_exp(12);
     return 1;
 }
 

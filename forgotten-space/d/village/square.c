@@ -98,3 +98,23 @@ string look_at_item(string id) {
     }
     return ::look_at_item(id);
 }
+
+void init() {
+    ::init();
+    add_action("do_tea", "tea");
+    add_action("do_tea", "drink");
+    add_action("do_tea", "喝茶");
+    add_action("do_tea", "歇腳");
+}
+
+int do_tea(string arg) {
+    object me = this_player();
+    write("你在街市中央的避風破舊茶棚長條凳上坐下，從大陶缸裡盛了一碗溫熱的荒山粗葉茶一飲而盡。\n");
+    write(YEL "微苦回甘的熱茶順喉而下，暖流傳遍全身，行路的風霜與困乏一掃而空。\n" NOR);
+    me->add(VITAL_KEE, 20);
+    me->add(VITAL_SEN, 20);
+    me->add(VITAL_SP, 25);
+    write(HIG "【茶棚歇腳，你的氣血 +20、神識 +20、精力 +25！】\n" NOR);
+    return 1;
+}
+

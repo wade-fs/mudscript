@@ -22,10 +22,14 @@ int main(object me, string verb, string arg) {
         "name" : me->query_name(),
         "background": bg_name,
         "level": me->query_level(),
+        "exp"  : me->query_exp(),
+        "exp_to_next": me->query_exp_to_next(),
         "hp"   : me->query_hp(),
         "max_hp": me->query_max_hp(),
         "mp"   : me->query_mp(),
         "max_mp": me->query_max_mp(),
+        "sp"   : me->query_sp(),
+        "max_sp": me->query_max_sp(),
         "money": me->query_money_plain(),
         "pk"   : pk_str,
         "atk"  : me->query_attack(),
@@ -38,6 +42,7 @@ int main(object me, string verb, string arg) {
         "per"  : me->query_stat("per"),
         "label_hp": _t("label_hp"),
         "label_mp": _t("label_mp"),
+        "label_sp": _t("label_sp"),
         "label_wealth": _t("label_wealth"),
         "label_atk": _t("label_atk")
     ]);
@@ -77,15 +82,22 @@ int main(object me, string verb, string arg) {
     if (verb && verb != "" && verb != "score_quiet") {
         write("\n" + "$HIW$【角色資訊】 " + data["name"] + "$NOR$" + "\n");
         write(sprintf("  %-10s : %s\n", "身世背景", bg_name));
-        write(sprintf("  %-10s : %d\n", "等級", data["level"]));
-        write(sprintf("  %-10s : %d / %d\n", data["label_hp"], data["hp"], data["max_hp"]));
-        write(sprintf("  %-10s : %d / %d\n", data["label_mp"], data["mp"], data["max_mp"]));
+        write(sprintf("  %-10s : %d (歷練經驗: %d / %d)\n", "等級", data["level"], data["exp"], data["exp_to_next"]));
+        write(sprintf("  %-10s : %d / %d\n", data["label_hp"] + "(kee)", data["hp"], data["max_hp"]));
+        write(sprintf("  %-10s : %d / %d\n", data["label_mp"] + "(sen)", data["mp"], data["max_mp"]));
+        write(sprintf("  %-10s : %d / %d\n", data["label_sp"] + "(sp)", data["sp"], data["max_sp"]));
         write(sprintf("  %-10s : %s\n", data["label_wealth"], data["money"]));
         write(sprintf("  %-10s : %d  |  %-10s : %d\n", "攻擊力", data["atk"], "防禦力", data["def"]));
-        write("$CYN$── 先天六維屬性 ──$NOR$\n");
-        write(sprintf("  %-10s : 臂力 %-3d  根骨 %-3d\n", "【力之柱】", me->query_stat("str"), me->query_stat("con")));
-        write(sprintf("  %-10s : 悟性 %-3d  靈性 %-3d\n", "【法之柱】", me->query_stat("int"), me->query_stat("spi")));
-        write(sprintf("  %-10s : 靈巧 %-3d  感知 %-3d\n", "【物之柱】", me->query_stat("dex"), me->query_stat("per")));
+        write("$CYN$── 先天六維屬性 (鍛鍊進度) ──$NOR$\n");
+        write(sprintf("  %-10s : 臂力 %-2d (%d/%d)   根骨 %-2d (%d/%d)\n", "【力之柱】",
+            me->query_stat("str"), me->query_stat_train("str"), me->query_stat_train_req("str"),
+            me->query_stat("con"), me->query_stat_train("con"), me->query_stat_train_req("con")));
+        write(sprintf("  %-10s : 悟性 %-2d (%d/%d)   靈性 %-2d (%d/%d)\n", "【法之柱】",
+            me->query_stat("int"), me->query_stat_train("int"), me->query_stat_train_req("int"),
+            me->query_stat("spi"), me->query_stat_train("spi"), me->query_stat_train_req("spi")));
+        write(sprintf("  %-10s : 靈巧 %-2d (%d/%d)   感知 %-2d (%d/%d)\n", "【物之柱】",
+            me->query_stat("dex"), me->query_stat_train("dex"), me->query_stat_train_req("dex"),
+            me->query_stat("per"), me->query_stat_train("per"), me->query_stat_train_req("per")));
         write("\n");
     }
     

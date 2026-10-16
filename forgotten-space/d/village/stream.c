@@ -96,11 +96,13 @@ int do_gather(string arg) {
 
 int do_wash(string arg) {
     object me = this_player();
-    write("你俯下身，將雙手浸入冰涼刺骨的深潭溪水中，捧起一捧甘冽清泉拍在臉上...\n");
+    write("你俯下身，將雙手浸入冰涼刺骨的深潭溪水中，捧起一捧甘冽清泉拍在臉上並漱口痛飲...\n");
     write(CYN "清澈的水珠沿著面頰滑落，冰冷的水氣驅散了疲憊與濁氣，只覺精神一振，靈台空明！\n" NOR);
 
-    me->add(VITAL_SEN, 15);
-    me->add(VITAL_SP, 10);
+    me->add(VITAL_KEE, 15);
+    me->add(VITAL_SEN, 25);
+    me->add(VITAL_SP, 25);
+    write(HIG "【溪泉洗滌，你的氣血 +15、神識 +25、精力 +25！】\n" NOR);
     return 1;
 }
 
@@ -160,8 +162,9 @@ int do_sharpen(string arg) {
         write(WHT "你隱約感覺到石面深處有一股極微弱的冷意刺痛了指尖，這絕非普通石板！\n" NOR);
     }
 
-    me->add(STAT_STR, 1);
     write(HIG "【在沉穩有力的磨刀推拉中，你的臂力沉凝了幾分！】\n" NOR);
+    me->train_stat(STAT_STR, 15);
+    me->gain_exp(8);
     return 1;
 }
 
@@ -195,9 +198,9 @@ int do_waterfall(string arg) {
     }
 
     me->add(VITAL_KEE, -cost);
-    me->add(STAT_CON, gain);
-
-    write(HIG "【在極端水壓的沖刷淬鍊下，你的筋骨發出沉悶雷音，根骨提升了 " + gain + " 點！】\n" NOR);
+    write(HIG "【在極端水壓的沖刷淬鍊下，你的筋骨發出沉悶雷音，根骨得到了磨礪！】\n" NOR);
+    me->train_stat(STAT_CON, gain * 25);
+    me->gain_exp(gain * 12);
     return 1;
 }
 

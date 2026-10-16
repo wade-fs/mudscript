@@ -23,3 +23,23 @@ void create() {
 
     spawn_npc("/clone/npc/ge_doctor.c");
 }
+
+void init() {
+    ::init();
+    add_action("do_herb_recover", "drink");
+    add_action("do_herb_recover", "inhale");
+    add_action("do_herb_recover", "聞藥");
+    add_action("do_herb_recover", "飲湯");
+}
+
+int do_herb_recover(string arg) {
+    object me = this_player();
+    write("你湊近泥爐上咕嘟冒泡的粗陶藥罐，深深吸了一口濃郁甘苦的草木藥氣，並淺啜了半碗溫熱藥湯。\n");
+    write(HIG "溫潤醇厚的草木靈氣順著經絡化開，淤積的暗傷與疲勞迅速消融，只覺神清氣爽！\n" NOR);
+    me->add(VITAL_KEE, 30);
+    me->add(VITAL_SEN, 20);
+    me->add(VITAL_SP, 20);
+    write(HIG "【藥氣浸潤，你的氣血 +30、神識 +20、精力 +20！】\n" NOR);
+    return 1;
+}
+

@@ -38,9 +38,10 @@ int do_smoke(string arg) {
     object me = this_player();
     write("你往火塘裡添了兩捧苦艾乾草與枯松枝，抓起吹火筒輕輕一吹...\n");
     write(HIG "辛香微苦的艾草青煙升騰而起，驅散了窗外嗡嗡作響的荒山毒虻，整間哨亭一片寧靜清幽。\n" NOR);
-    write(YEL "【艾草青煙滌蕩心脾，你的神識清醒，疲憊感消退了。】\n" NOR);
+    write(YEL "【艾草青煙滌蕩心脾，你的神識清醒，疲憊感消退了（氣血 +15、神識 +25、精力 +25）。】\n" NOR);
 
-    me->add(VITAL_SEN, 15);
-    me->add(VITAL_SP, 10);
+    me->add(VITAL_KEE, 15);
+    me->add(VITAL_SEN, 25);
+    me->add(VITAL_SP, 25);
     return 1;
 }

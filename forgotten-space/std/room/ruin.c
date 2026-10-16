@@ -75,8 +75,9 @@ int do_study_ruin(string arg) {
     write(HIC "銘文殘意：" + relic_inscription + "\n" NOR);
 
     // 鍛鍊悟性
-    me->add(STAT_INT, 1);
     write(HIG "【你對天地星象的理解加深了，悟性微幅提升！】\n" NOR);
+    me->train_stat(STAT_INT, 25);
+    me->gain_exp(15);
     return 1;
 }
 

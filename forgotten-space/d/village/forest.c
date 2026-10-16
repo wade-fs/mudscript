@@ -52,20 +52,26 @@ int do_inspect_trap(string arg) {
     write("你蹲下身，手掌在荊棘叢中精巧地撥開落葉，重新調校竹刺彈簧與吊繩套鎖...\n");
 
     // 鍛鍊靈巧 dex 與 感知 per
-    me->add(STAT_DEX, 1);
-    me->add(STAT_PER, 1);
-
     write(HIG "【在穿針引線般的機巧微調中，你的指節愈發靈敏，靈巧與感知提升！】\n" NOR);
+    me->train_stat(STAT_DEX, 15);
+    me->train_stat(STAT_PER, 15);
+    me->gain_exp(10);
     return 1;
 }
 
 int do_track(string arg) {
     object me = this_player();
+    if (me->query(VITAL_SP) < 5) {
+        write(HIR "你精疲力竭，雙眼昏花，難以分辨林間細微的獸跡。\n" NOR);
+        return 1;
+    }
+    me->add(VITAL_SP, -5);
     write("你壓低身形，指尖拂過濕潤的泥土與斷裂的草莖，目光如夜隼般搜尋獸道痕跡...\n");
     write(MAG "你在落葉掩蓋的泥坑邊發現了幾滴暗紫色的焦灼濁血，散發著令人心悸的地煞凶腥！\n" NOR);
     write("順著血痕撥開重重鐵線荊棘，在一株枯死巨榕的虯曲盤根下，赫然露出一尊倒插於泥沼中的【太古戰神獵獸圖騰玄柱】(totem)！\n");
     totem_discovered = 1;
-    me->add(STAT_PER, 1);
+    me->train_stat(STAT_PER, 15);
+    me->gain_exp(10);
     return 1;
 }
 
@@ -85,9 +91,10 @@ int do_commune_totem(string arg) {
     write("你伸出手指，緩緩按在圖騰柱上那尊手撕萬丈凶獸的荒古巨人石雕上...\n");
     write(HIR "「吼————！！」\n" NOR);
     write(HIR "一聲源自遠古蠻荒的凶獸咆哮在你的靈魂深處炸裂，體內每一滴血液如烈火烹油般狂暴沸騰！\n" NOR);
-    write(HIW "【太古戰祖蠻荒血脈共鳴！你的筋骨骨骼爆響，雙目如電，戰鬥敏捷與肉身力道暴漲！】\n" NOR);
+    write(HIW "【太古戰祖蠻荒血脈共鳴！你的筋骨骨骼爆響，雙目如電，戰鬥敏捷與肉身力道得到了淬鍊！】\n" NOR);
 
-    me->add(STAT_STR, 1);
-    me->add(STAT_DEX, 2);
+    me->train_stat(STAT_STR, 20);
+    me->train_stat(STAT_DEX, 30);
+    me->gain_exp(15);
     return 1;
 }

@@ -216,6 +216,10 @@ void setup() {
     }
 
     recalc_stats();
+    if (!query("sp_initialized") && !is_dead) {
+        if (sp <= 0) sp = max_sp;
+        set("sp_initialized", 1);
+    }
 
     // 🚀 新增：初始化 CWD (針對巫師與管理員)
     if ((role == "wizard" || role == "god") && (!cwd || cwd == "" || cwd == "/")) {
@@ -392,6 +396,8 @@ void set_background(string b) { background = b; set("background", b); }
 string query_background() { return background; }
 
 int query_growth_affinity(string stat) {
+    if (stat == "wis") stat = "spi";
+    if (stat == "cha") stat = "per";
     if (background && BACKGROUND_DATA[background] && BACKGROUND_DATA[background]["growth_affinity"]) {
         mapping ga = BACKGROUND_DATA[background]["growth_affinity"];
         if (ga[stat]) return ga[stat];
@@ -477,10 +483,15 @@ void heart_beat() {
     // 執行戰鬥回合
     combat_heart_beat();
 
-    // 🚀 每 5 秒發送一次狀態資訊給前端 UI (減少洗頻)
+    // 🚀 每 5 個心跳 (約 10 秒) 進行一次非戰鬥慢速自然調息恢復，並刷新前端 UI
     heart_beat_count++;
     if (heart_beat_count >= 5) {
         heart_beat_count = 0;
+        if (!in_combat) {
+            if (hp < max_hp) add("kee", 1 + stat_con / 3);
+            if (mp < max_mp) add("sen", 1 + stat_wis / 3);
+            if (sp < max_sp) add("sp", 2 + stat_cha / 3);
+        }
         object cmd_info = load_object("/cmds/cmd_info");
         if (cmd_info) {
             cmd_info->main(this_object(), "", "");
@@ -526,8 +537,9 @@ void revive() {
 
     // 恢復基礎狀態
     is_dead = 0;
-    hp = max_hp / 2; // 復活時只有一半血
+    hp = max_hp / 2; // 復活時只有一半狀態
     mp = max_mp / 2;
+    sp = max_sp / 2;
     set_heart_beat(1);
 
     // 回到起始點

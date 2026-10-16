@@ -24,10 +24,12 @@ int     stat_wis;   // 智慧
 int     stat_cha;   // 魅力
 
 // ── 戰鬥屬性（由 recalc_stats 計算） ─────────────────────
-int     max_hp;
-int     hp;
-int     max_mp;
-int     mp;
+int     max_hp;     // 氣血上限 (kee)
+int     hp;         // 當前氣血 (kee)
+int     max_mp;     // 神識上限 (sen)
+int     mp;         // 當前神識 (sen)
+int     max_sp;     // 精力上限 (sp)
+int     sp;         // 當前精力 (sp)
 int     attack;     // 攻擊力
 int     defence;    // 防禦力
 
@@ -118,6 +120,7 @@ int process_input(string input) {
 void recalc_stats() {
     max_hp  = (stat_str + stat_con) * 10 + level * 10;
     max_mp  = (stat_int + stat_wis) * 10 + level * 10;
+    max_sp  = (stat_dex + stat_cha) * 10 + level * 10;
     attack  = BASE_ATTACK  + stat_str * 2;
     defence = BASE_DEFENCE + stat_con;
 
@@ -143,9 +146,10 @@ void recalc_stats() {
     if (equip_shield) { armour_def = armour_def + equip_shield->query_defence(); }
     defence = defence + armour_def;
 
-    // 確保 HP/MP 不超上限
+    // 確保三柱狀態不超上限
     if (hp > max_hp) { hp = max_hp; }
     if (mp > max_mp) { mp = max_mp; }
+    if (sp > max_sp) { sp = max_sp; }
 }
 
 // ── 設定 / 查詢 ────────────────────────────────────────────
@@ -154,22 +158,26 @@ string query_race()       { return race; }
 void set_level(int l)     { level = l; }
 int query_level()         { return level; }
 int query_exp()           { return exp; }
+int query_exp_to_next()   { return exp_to_next; }
 void set_hp(int v)        { hp = v; }
 int query_hp()            { return hp; }
 int query_max_hp()        { return max_hp; }
 void set_mp(int v)        { mp = v; }
 int query_mp()            { return mp; }
 int query_max_mp()        { return max_mp; }
+void set_sp(int v)        { sp = v; }
+int query_sp()            { return sp; }
+int query_max_sp()        { return max_sp; }
 int query_attack()        { return attack; }
 int query_defence()       { return defence; }
 
 mixed query(string prop) {
     if (prop == "kee" || prop == "hp") return hp;
     if (prop == "sen" || prop == "mp") return mp;
-    if (prop == "sp") return mp;
+    if (prop == "sp") return sp;
     if (prop == "max_kee" || prop == "max_hp") return max_hp;
     if (prop == "max_sen" || prop == "max_mp") return max_mp;
-    if (prop == "max_sp") return max_mp;
+    if (prop == "max_sp") return max_sp;
     if (prop == "str") return stat_str;
     if (prop == "con") return stat_con;
     if (prop == "int") return stat_int;
@@ -186,10 +194,20 @@ void add(string prop, mixed val) {
         if (hp < 0) hp = 0;
         return;
     }
-    if (prop == "sen" || prop == "mp" || prop == "sp") {
+    if (prop == "sen" || prop == "mp") {
         mp += val;
         if (mp > max_mp) mp = max_mp;
         if (mp < 0) mp = 0;
+        return;
+    }
+    if (prop == "sp") {
+        sp += val;
+        if (sp > max_sp) sp = max_sp;
+        if (sp < 0) sp = 0;
+        return;
+    }
+    if (prop == "exp") {
+        if (val > 0) gain_exp(val);
         return;
     }
     if (prop == "str") { stat_str += val; recalc_stats(); return; }
@@ -231,6 +249,66 @@ void set_stat(string s, int v) {
     if (s == STAT_WIS || s == "spi" || s == "wis") { stat_wis = v; }
     if (s == STAT_CHA || s == "per" || s == "cha") { stat_cha = v; }
     recalc_stats();
+}
+
+int query_growth_affinity(string stat) {
+    return 100;
+}
+
+string normalize_stat_key(string s) {
+    if (s == "wis") return "spi";
+    if (s == "cha") return "per";
+    return s;
+}
+
+string query_stat_cn_name(string s) {
+    s = normalize_stat_key(s);
+    if (s == "str") return "臂力";
+    if (s == "con") return "根骨";
+    if (s == "int") return "悟性";
+    if (s == "spi") return "靈性";
+    if (s == "dex") return "靈巧";
+    if (s == "per") return "感知";
+    return s;
+}
+
+int query_stat_train(string s) {
+    s = normalize_stat_key(s);
+    return ::query("stat_train/" + s);
+}
+
+int query_stat_train_req(string s) {
+    int cur = query_stat(s);
+    if (cur < 1) cur = 1;
+    return cur * 50;
+}
+
+// 🚀 屬性鍛鍊進度系統：結合身世親和度累積鍛鍊度，滿門檻 (當前屬性*50) 才 +1
+int train_stat(string stat, int base_pts) {
+    stat = normalize_stat_key(stat);
+    int cur = query_stat(stat);
+    if (cur < 1) cur = 1;
+    int req = cur * 50;
+
+    int aff = this_object()->query_growth_affinity(stat);
+    if (aff <= 0) aff = 100;
+    int gain = base_pts * aff / 100;
+    if (gain < 1) gain = 1;
+
+    int prog = ::query("stat_train/" + stat) + gain;
+    string sname = query_stat_cn_name(stat);
+
+    if (prog >= req) {
+        prog -= req;
+        ::set("stat_train/" + stat, prog);
+        set_stat(stat, cur + 1);
+        tell_object(this_object(), HIY "✨【破障提升】經過千錘百鍊的積累，你的「" + sname + "」正式突破至 " + sprintf("%d", cur + 1) + " 點！\n" NOR);
+        return 1;
+    } else {
+        ::set("stat_train/" + stat, prog);
+        tell_object(this_object(), CYN "  （" + sname + "鍛鍊度 +" + sprintf("%d", gain) + " [" + sprintf("%d", prog) + "/" + sprintf("%d", req) + "]，身世親和 " + sprintf("%d", aff) + "%）\n" NOR);
+        return 0;
+    }
 }
 
 // ── 功能函式 ────────────────────────────────────────────
@@ -343,9 +421,10 @@ void gain_exp(int amount) {
         recalc_stats();
         hp = max_hp;
         mp = max_mp;
+        sp = max_sp;
 
         write("\n✨ 恭喜升級！你現在是 " + sprintf("%d", level) + " 級了！\n");
-        write("六圍屬性各 +1，HP/MP 完全恢復。\n\n");
+        write("六圍屬性各 +1，氣血/神識/精力完全恢復。\n\n");
         say(name + " 升級了！現在是 " + sprintf("%d", level) + " 級。\n");
     }
 }
@@ -450,8 +529,9 @@ void die() {
 
 void revive() {
     is_dead = 0;
-    hp = max_hp / 10; // 復活時只有 10% 血量
+    hp = max_hp / 10; // 復活時只有 10% 狀態
     mp = max_mp / 10;
+    sp = max_sp / 10;
     set_heart_beat(1);
     
     string start_path = START_ROOM;

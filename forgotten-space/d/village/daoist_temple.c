@@ -25,3 +25,22 @@ void create() {
     spawn_npc("/clone/npc/kumu_daoist.c");
     spawn_item("/clone/item/rubbing_kit.c");
 }
+
+void init() {
+    ::init();
+    add_action("do_temple_meditate", "meditate");
+    add_action("do_temple_meditate", "打坐");
+    add_action("do_temple_meditate", "靜坐");
+}
+
+int do_temple_meditate(string arg) {
+    object me = this_player();
+    write("你在三清尊像前的破舊蒲團上盤膝靜坐，伴隨著殘存的檀香餘韻，眼觀鼻、鼻觀心，徐徐調息...\n");
+    write(HIC "偏殿內古井無波，你的神識在寧靜中迅速凝聚，周身氣機流轉圓融。\n" NOR);
+    me->add(VITAL_KEE, 15);
+    me->add(VITAL_SEN, 30);
+    me->add(VITAL_SP, 20);
+    write(HIG "【蒲團靜坐，你的氣血 +15、神識 +30、精力 +20！】\n" NOR);
+    return 1;
+}
+

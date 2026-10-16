@@ -328,6 +328,9 @@
             const d = ui.data;
             const hpPct = d.max_hp > 0 ? Math.min(100, Math.round(d.hp / d.max_hp * 100)) : 0;
             const mpPct = d.max_mp > 0 ? Math.min(100, Math.round(d.mp / d.max_mp * 100)) : 0;
+            const spVal = d.sp ?? 0;
+            const maxSpVal = d.max_sp ?? 0;
+            const spPct = maxSpVal > 0 ? Math.min(100, Math.round(spVal / maxSpVal * 100)) : 0;
             const moneyStr = d.money ? parseColorTags(d.money) : "0 銅幣";
             document.getElementById("info-area").innerHTML = `
                 <div class="stat-box" style="border-left-color: #2196F3;">
@@ -336,17 +339,24 @@
                     <span style="font-size:12px; color:#4CAF50;">身世：${d.background || '普通百姓'}</span>
                 </div>
                 <div class="stat-box" style="border-left-color: #f44336;">
-                    <span class="stat-label">❤️ ${d.label_hp || '生命'}</span>
+                    <span class="stat-label">❤️ ${d.label_hp || '氣血'}</span>
                     <span class="stat-value">${d.hp} / ${d.max_hp}</span>
                     <div style="background:#333; height:5px; border-radius:3px; margin-top:5px; overflow:hidden;">
                         <div style="background:#f44336; width:${hpPct}%; height:100%; transition:width 0.3s;"></div>
                     </div>
                 </div>
                 <div class="stat-box" style="border-left-color: #2196F3;">
-                    <span class="stat-label">✨ ${d.label_mp || '法力'}</span>
+                    <span class="stat-label">🔮 ${d.label_mp || '神識'}</span>
                     <span class="stat-value">${d.mp} / ${d.max_mp}</span>
                     <div style="background:#333; height:5px; border-radius:3px; margin-top:5px; overflow:hidden;">
                         <div style="background:#2196F3; width:${mpPct}%; height:100%; transition:width 0.3s;"></div>
+                    </div>
+                </div>
+                <div class="stat-box" style="border-left-color: #4CAF50;">
+                    <span class="stat-label">⚡ ${d.label_sp || '精力'}</span>
+                    <span class="stat-value">${spVal} / ${maxSpVal}</span>
+                    <div style="background:#333; height:5px; border-radius:3px; margin-top:5px; overflow:hidden;">
+                        <div style="background:#4CAF50; width:${spPct}%; height:100%; transition:width 0.3s;"></div>
                     </div>
                 </div>
                 <div class="stat-box" style="border-left-color: #FF9800;">
