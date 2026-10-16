@@ -1745,6 +1745,10 @@ func evalCallOtherExpression(node *ast.CallOtherExpression, env object.Environme
 		return &object.Integer{Value: 0}
 	}
 
+	if builtin, ok := fnObj.(*object.Builtin); ok {
+		return builtin.Fn(args...)
+	}
+
 	fn, ok := fnObj.(*object.Function)
 	if !ok {
 		return newError("目標物件中的 '%s' 不是一個函式", node.Method.Value)
