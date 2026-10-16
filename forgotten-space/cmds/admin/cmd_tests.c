@@ -28,6 +28,7 @@ int main(object me, string verb, string arg) {
         "/tests/test_logic.c",
 
         "/tests/test_nature.c",
+        "/tests/test_calendar_shichen.c",
         "/tests/test_save.c",
         "/tests/test_ternary.c",
         "/tests/test_security.c",
