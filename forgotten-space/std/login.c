@@ -245,7 +245,12 @@ void create_character() {
     }
 
     // 終極隱藏屬性 (Meta Attributes)
-    user->set("fate", 1);
+    // 採藥孤兒（顧玄）具備先天異數命格，初始天命為 1；其餘身世為 0（需於各自奇遇或重大抉擇中覺醒）
+    if (current_background == "herbalist" || current_nick == "顧玄" || current_nick == "少年顧玄") {
+        user->set("fate", 1);
+    } else {
+        user->set("fate", 0);
+    }
     user->set("kar", 10);
 
     user->set_level(1);

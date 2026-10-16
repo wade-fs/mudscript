@@ -98,10 +98,33 @@ int do_chat(object me, string topic) {
         }
     }
 
+    if (topic == "路引" || topic == "出鄉" || topic == "文牒" || topic == "ceremony" || topic == "pass") {
+        if (me->query_level() < 10) {
+            tell_object(me, query_name() + " 吐出一口草根，搖頭道：「大荒深處與黑石關外儘是豺狼凶煞，手底下沒硬功夫（需達 10 級）出鄉，只會白白送命！且把筋骨底子再磨練磨練！」\n");
+            return 1;
+        }
+        if (me->query("quest/pass_village_ceremony")) {
+            tell_object(me, query_name() + " 笑道：「你早已取得出鄉文牒，大荒萬里任你馳騁！」\n");
+            return 1;
+        }
+        object qd = load_object("/secure/quest_d.c");
+        if (qd) {
+            if (!me->query_quest("pass_village_ceremony")) {
+                qd->accept_quest(me, "pass_village_ceremony");
+            }
+            qd->complete_quest(me, "pass_village_ceremony");
+            me->set("quest/pass_village_ceremony", 1);
+            tell_object(me, HIY + query_name() + " 咧嘴大笑，重重拍了拍你的肩膀：「好小子！以你如今的筋骨氣魄（已達 10 級），黑石鋪困不住你這頭大荒獵隼。老夫以老獵戶的名義替你具保，這紙金石城官辦保書路引你且收好！」\n" + NOR);
+            return 1;
+        }
+    }
+
     if (topic == "任務" || topic == "生計" || topic == "job" || topic == "career" || topic == "力修") {
         object career = load_object(CAREER_D);
-        int st = career ? career->query_chain_stage(me, "li") : 1;
-        if (st == 1) {
+        int st = career ? career->query_chain_stage(me, "li") : 0;
+        if (st == 0 || st == 1) {
+            if (st == 0) career->start_chain(me, "li");
+            career->advance_chain_stage(me, "li");
             tell_object(me, query_name() + " 望著東面密林道：「東林深處獸群受地煞激盪暴動！你去東面荒林調校獵戶陷阱 (trap)，順著濁血追蹤異獸 (track)！」\n");
             return 1;
         } else if (st == 2) {

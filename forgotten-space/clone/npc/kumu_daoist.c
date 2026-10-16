@@ -83,16 +83,42 @@ int accept_object(object who, object ob) {
 
 int do_chat(object me, string topic) {
     if (!topic || topic == "") return 0;
+    if (topic == "路引" || topic == "出鄉" || topic == "文牒" || topic == "ceremony" || topic == "pass") {
+        if (me->query_level() < 10) {
+            tell_object(me, query_name() + " 雙目微闔，沙啞道：「大荒之外，偽天籠罩，殺機萬重。以你如今微弱道行（需達 10 級），若強行離鄉，頃刻化為齏粉。靈台未淨，莫談遠行。」\n");
+            return 1;
+        }
+        if (me->query("quest/pass_village_ceremony")) {
+            tell_object(me, query_name() + " 淡淡道：「你已獲道牒路引，去留隨心，好自為之。」\n");
+            return 1;
+        }
+        object qd = load_object("/secure/quest_d.c");
+        if (qd) {
+            if (!me->query_quest("pass_village_ceremony")) {
+                qd->accept_quest(me, "pass_village_ceremony");
+            }
+            qd->complete_quest(me, "pass_village_ceremony");
+            me->set("quest/pass_village_ceremony", 1);
+            tell_object(me, HIC + query_name() + " 空洞的雙眼微動，枯槁手指拂過一卷宣紙，烙下天道暗印：「你靈台清明，神識已具雛形（已達 10 級）。這紙金石城官辦保書路引你且收好，出關之後，切莫忘了心中明鏡……」\n" + NOR);
+            return 1;
+        }
+    }
+
     if (topic == "任務" || topic == "生計" || topic == "job" || topic == "career" || topic == "法修" || topic == "傳道") {
         object career = load_object(CAREER_D);
-        int st = career ? career->query_chain_stage(me, "fa") : 1;
-        if (st == 1) {
+        int st = career ? career->query_chain_stage(me, "fa") : 0;
+        if (st == 0 || st == 1) {
+            if (st == 0) career->start_chain(me, "fa");
+            career->advance_chain_stage(me, "fa");
             tell_object(me, query_name() + " 閉目掐指道：「天地氣機逆亂，陰煞正順水脈滲入聚落。你去南谷溪灘掬水洗心 (wash) 並拓印殘碑 (tuoyin stele)，查探源頭！」\n");
             return 1;
         } else if (st == 2) {
             tell_object(me, query_name() + " 淡淡道：「既已拓得碑文，持拓片登上後方迎風殘壇盤膝入定 (meditate) 或仰觀星軌 (stargaze)！」\n");
             return 1;
         } else if (st == 3) {
+            tell_object(me, query_name() + " 閉目道：「去孤岩殘壇體悟天地星軌（meditate 或 stargaze），歸來方可點化！」\n");
+            return 1;
+        } else if (st == 4) {
             tell_object(me, HIC "枯木老道空洞的眼眶微動，伸出枯槁食指，輕輕點在你的眉心靈台之上...\n" +
                                  "剎那間，一縷澄澈冰涼的太古道意如清泉灌注神識，心中雜念與陰煞濁氣蕩滌一空！\n" NOR);
             career->advance_chain_stage(me, "fa");

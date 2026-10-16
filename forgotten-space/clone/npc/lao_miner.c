@@ -55,12 +55,19 @@ int do_chat(object me, string topic) {
 
     if (topic == "任務" || topic == "生計" || topic == "job" || topic == "career" || topic == "物道" || topic == "接應") {
         object career = load_object(CAREER_D);
-        int st = career ? career->query_chain_stage(me, "wu") : 1;
-        if (st == 1) {
+        int st = career ? career->query_chain_stage(me, "wu") : 0;
+        if (st == 0 || st == 1) {
             tell_object(me, query_name() + " 咳了兩聲，抹了把臉上的黑灰道：「阿鐵讓你來的？好小子！方才地煞震動，老夫腿腳被滾石砸傷了。這塊剛撬下來的粗礦核你先拿著，但老夫肺裡吸進了地底毒瘴，快去南谷藥廬找葛半仙配一劑解毒活絡散！」\n");
             object ore = clone_object("/clone/item/ore_chunk.c");
             if (ore) ore->move(me);
-            career->advance_chain_stage(me, "wu");
+            if (st == 0) career->start_chain(me, "wu");
+            career->advance_chain_stage(me, "wu"); // advance to 2
+            return 1;
+        } else if (st == 2) {
+            tell_object(me, query_name() + " 咳喘道：「老夫肺裡毒瘴翻湧，快去南谷溪灘採晨露草，找葛半仙配藥！」\n");
+            return 1;
+        } else if (st == 3) {
+            tell_object(me, query_name() + " 欣喜道：「藥配來了嗎？快給老夫服下 (give san to lu)！」\n");
             return 1;
         } else {
             tell_object(me, query_name() + " 笑道：「咱們北崖採出來的上好粗礦，阿鐵最是稀罕！鍛打成柴刀再賣給商隊換銀子，這便是咱們黑石鋪的百工之鏈！」\n");
@@ -78,20 +85,23 @@ int accept_object(object who, object ob) {
         tell_object(who, HIG "魯大山接過藥散服下，長舒了一口氣，大聲讚道：「好霸道的草木藥力！肺裡的悶痛散了大半！快把粗礦帶回鐵匠鋪交給阿鐵開爐！」\n" NOR);
         destruct(ob);
         object career = load_object(CAREER_D);
-        if (career && career->query_chain_stage(who, "wu") == 2) {
-            career->advance_chain_stage(who, "wu");
+        if (career) {
+            int st = career->query_chain_stage(who, "wu");
+            if (st == 2 || st == 3) {
+                while (career->query_chain_stage(who, "wu") < 4) {
+                    career->advance_chain_stage(who, "wu");
+                }
+            }
         }
         return 1;
     }
 
-    // 支援任務鏈：接受加固木料或工具
+    // 支援坑道加固：接受加固木料
     if (ob->id("timber") || ob->id("wood") || ob->id("坑木") || ob->id("加固木料")) {
         write(HIY "魯大山接過加固木料，欣喜道：「太好了！有了這批硬木支柱，礦坑上方又能多頂住一陣子！」\n" NOR);
         destruct(ob);
         object ws = load_object(WORLD_STATE_D);
         if (ws) ws->repair_mine(10);
-        object career = load_object("/daemon/career_d.c");
-        if (career) career->advance_chain_stage(who, "wu");
         return 1;
     }
 

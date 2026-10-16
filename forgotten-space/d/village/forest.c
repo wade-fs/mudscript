@@ -52,6 +52,44 @@ void init() {
     add_action("do_commune_totem", "totem");
     add_action("do_commune_totem", "圖騰");
     add_action("do_commune_totem", "感應圖騰");
+    add_action("do_chop", "chop");
+    add_action("do_chop", "伐木");
+    add_action("do_chop", "砍木");
+}
+
+int do_chop(string arg) {
+    object me = this_player();
+    if (me->query(VITAL_SP) < 15) {
+        write(HIR "你精疲力竭，雙臂酸軟，連柴刀都掄不動了。\n" NOR);
+        return 1;
+    }
+
+    object weapon = me->query_temp("weapon");
+    if (!weapon) {
+        object *inv = all_inventory(me);
+        foreach (object ob in inv) {
+            if (ob->query("weapon_type") == "blade" || ob->query("weapon_type") == "axe" || ob->query("weapon_type") == "hammer" || ob->id("blade") || ob->id("axe") || ob->id("柴刀") || ob->id("hammer") || ob->id("鐵錘") || ob->id("鎬") || ob->id("pickaxe")) {
+                weapon = ob;
+                break;
+            }
+        }
+    }
+
+    if (!weapon) {
+        write("伐木需手持砍刀、斧頭或重錘工具！（例如：wield blade 或 wield hammer）\n");
+        return 1;
+    }
+
+    me->add(VITAL_SP, -15);
+    write("你手持" + weapon->query_short() + "，看準路旁一株倒伏的陳年硬木，沉腰落刃，奮力劈砍！\n");
+    write(HIW "「喀嚓！」木屑紛飛，經過一番費力砍鋸，你砍下了一根結實沉重的【加固硬木料】！\n" NOR);
+    object timber = clone_object("/clone/item/timber.c");
+    if (timber) {
+        if (!timber->move(me)) timber->move(this_object());
+    }
+    me->train_stat(STAT_STR, 15);
+    me->gain_exp(10);
+    return 1;
 }
 
 int do_inspect_trap(string arg) {
@@ -78,7 +116,7 @@ int do_inspect_trap(string arg) {
     me->gain_exp(10);
 
     object career = load_object(CAREER_D);
-    if (career && career->query_chain_stage(me, "li") == 1) {
+    if (career && career->query_chain_stage(me, "li") == 2) {
         career->advance_chain_stage(me, "li");
     }
     return 1;
@@ -109,7 +147,7 @@ int do_track(string arg) {
     me->gain_exp(10);
 
     object career2 = load_object(CAREER_D);
-    if (career2 && career2->query_chain_stage(me, "li") == 1) {
+    if (career2 && career2->query_chain_stage(me, "li") == 2) {
         career2->advance_chain_stage(me, "li");
     }
     return 1;

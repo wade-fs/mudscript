@@ -95,8 +95,9 @@ int do_tuoyin(string arg) {
     }
 
     object mys_d = load_object(MYSTERY_D);
-    if (mys_d && !mys_d->check_amnesia_breakthrough(me, required_fate)) {
+    if (mys_d && !mys_d->can_discover_relic(me, "stream_stele")) {
         write(CYN "這塊石板表面覆滿青苔石垢，在你眼中只是一塊尋常洗衣磨刀石，看不出有何值得拓印的紋路。\n" NOR);
+        write(WHT "（提示：需先以磨刀 sharpen 或掬水清洗 wash 去除石垢，並具備相應天命共鳴，方能勘破迷障）\n" NOR);
         return 1;
     }
 
@@ -135,6 +136,9 @@ int do_tuoyin(string arg) {
     }
 
     if (mys_d) {
+        if (!mys_d->is_relic_discovered(me, "stream_stele")) {
+            mys_d->trigger_relic_discovery(me, "stream_stele", me);
+        }
         mys_d->complete_personal_event(me, ev_key, 25, 0);
     }
     return 1;

@@ -32,7 +32,6 @@
   * 當世三大道統封鎖真相，唯有極少數身具天命者，從被世人視為塗鴉與頑石的遺跡中拼湊失落歷史，摸索三元歸一的禁忌超脫古道。
 
 ### 1.2 小說與 MUD 雙軌規劃藍圖 (The Dual Blueprint)
-### 1.2 小說與 MUD 雙軌規劃藍圖 (The Dual Blueprint)
 * **【小說軌道（Novel Track）】**：
   * [x] 作品正式書名定案：《遺忘的世界》(THE FORGOTTEN SPACE)
   * [x] 五重視角主角人物小傳（顧玄、林鐵生、燕隼、柳清虛、沈泥，見 `/narrative/characters/`）

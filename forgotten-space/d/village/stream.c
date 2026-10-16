@@ -96,6 +96,24 @@ int do_gather(string arg) {
 
 int do_wash(string arg) {
     object me = this_player();
+    object ws = load_object(WORLD_STATE_D);
+
+    if (arg == "stone" || arg == "stele" || arg == "石板" || arg == "斷碑" || arg == "青苔") {
+        if (ws && ws->is_stele_submerged()) {
+            write(HIR "此刻正值山洪暴發，滔滔濁浪早已沒過溪石，無法蹲伏清洗！\n" NOR);
+            return 1;
+        }
+        if (me->query(VITAL_SP) < 5) {
+            write(HIR "你精疲力竭，雙手無力擦洗石板。\n" NOR);
+            return 1;
+        }
+        me->add(VITAL_SP, -5);
+        write("你掬起冰涼刺骨的深潭溪水，捲起衣袖用力擦洗深青色石板上的厚厚青苔與泥垢...\n");
+        write(HIY "在水流沖洗與反覆擦拭下，石板表面的滑膩石垢被漸漸洗淨，露出了古怪凹凸的古老紋理！\n" NOR);
+        me->set_temp("cleared_stele_moss", 1);
+        return 1;
+    }
+
     if (!me->consume_drink(25)) return 1;
 
     write("你俯下身，將雙手浸入冰涼刺骨的深潭溪水中，捧起一捧甘冽清泉拍在臉上並漱口痛飲...\n");
@@ -107,7 +125,7 @@ int do_wash(string arg) {
     write(HIG "【溪泉洗滌，你的氣血 +15、神識 +25、精力 +25！】\n" NOR);
 
     object career = load_object(CAREER_D);
-    if (career && career->query_chain_stage(me, "fa") == 1) {
+    if (career && career->query_chain_stage(me, "fa") == 2) {
         career->advance_chain_stage(me, "fa");
     }
     return 1;
@@ -163,6 +181,7 @@ int do_sharpen(string arg) {
         write(HIC "刀刃與堅硬青石激烈摩擦，濺起點點微弱火星，刃口被磨得格外鋒利錚亮！\n" NOR);
     }
 
+    me->set_temp("cleared_stele_moss", 1);
     if (ws && !ws->is_moss_cleared()) {
         ws->clear_stream_moss();
         write(HIR "\n【磨刀的劇烈震顫與石屑剝落，震落了厚厚石垢，露出了深青石板內部森嚴的古怪星紋凹槽！】\n" NOR);
@@ -174,7 +193,7 @@ int do_sharpen(string arg) {
     me->gain_exp(8);
 
     object career = load_object(CAREER_D);
-    if (career && career->query_chain_stage(me, "li") == 2) {
+    if (career && (career->query_chain_stage(me, "li") == 2 || career->query_chain_stage(me, "li") == 3)) {
         career->advance_chain_stage(me, "li");
     }
     return 1;
@@ -235,7 +254,7 @@ int do_tuoyin(string arg) {
     int ret = ::do_tuoyin(arg);
     if (ret) {
         object career = load_object(CAREER_D);
-        if (career && career->query_chain_stage(this_player(), "fa") == 1) {
+        if (career && career->query_chain_stage(this_player(), "fa") == 2) {
             career->advance_chain_stage(this_player(), "fa");
         }
     }

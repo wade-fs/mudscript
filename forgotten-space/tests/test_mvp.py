@@ -5,6 +5,7 @@ import time
 import websockets
 
 async def run_test():
+    subprocess.run("rm -f forgotten-space/data/user/novelist.o", shell=True)
     print("🚀 啟動 forgotten-space 伺服器...")
     server = subprocess.Popen(
         ["./bin/fsmud", "-mudlib", "forgotten-space", "-master", "master.c", "-hub", "none"],

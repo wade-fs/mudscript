@@ -109,5 +109,26 @@ int do_chat(object me, string topic) {
         }
     }
 
+    if (topic == "路引" || topic == "出鄉" || topic == "文牒" || topic == "ceremony" || topic == "pass") {
+        if (me->query_level() < 10) {
+            tell_object(me, query_name() + " 打量了你幾眼，搖頭笑道：「大荒之外兇險無比，黑石關官軍更是盤剝嚴酷。小兄弟修為尚淺（需達 10 級），此時出鄉無異於自尋死路，還是先在聚落多加歷練吧！」\n");
+            return 1;
+        }
+        if (me->query("quest/pass_village_ceremony")) {
+            tell_object(me, query_name() + " 拱手笑道：「小兄弟早已取得出鄉文牒，商隊啟程之時，自可隨隊通過黑石關，前往繁華的金石府城！」\n");
+            return 1;
+        }
+        object qd = load_object("/secure/quest_d.c");
+        if (qd) {
+            if (!me->query_quest("pass_village_ceremony")) {
+                qd->accept_quest(me, "pass_village_ceremony");
+            }
+            qd->complete_quest(me, "pass_village_ceremony");
+            me->set("quest/pass_village_ceremony", 1);
+            tell_object(me, HIY + query_name() + " 鄭重取出一紙加蓋了金石商會朱印的通關路引交到你手中：「小兄弟年紀輕輕便有如此筋骨造詣，實乃大荒異數！這紙出鄉文牒你且收好，持此信物，黑石關守軍斷不敢刁難於你！」\n" + NOR);
+            return 1;
+        }
+    }
+
     return ::do_chat(me, topic);
 }

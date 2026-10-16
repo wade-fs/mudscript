@@ -459,6 +459,14 @@ int mine_ore(object player) {
     return 1;
 }
 
+// ── 加固與維修礦洞 (repair_mine) ──────────────────────────
+int repair_mine(int amount) {
+    if (amount <= 0) amount = 10;
+    mine_stability += amount;
+    if (mine_stability > 100) mine_stability = 100;
+    return mine_stability;
+}
+
 // ── 清理塌方 (clear_rubble) ──────────────────────────────
 
 int clear_mine_rubble(object player) {

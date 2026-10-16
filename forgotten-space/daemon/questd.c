@@ -14,7 +14,9 @@ void create() {
 int can_enter_tier1(object who) {
     if (!who) return 0;
     int lv = who->query_level();
-    if (lv >= 10 && who->query("quest/pass_village_ceremony")) {
+    mapping q = who->query_quest("pass_village_ceremony");
+    int has_pass = who->query("quest/pass_village_ceremony") || (q && q["status"] == "completed");
+    if (lv >= 10 && has_pass) {
         return 1;
     }
     return 0;

@@ -60,7 +60,7 @@ int do_meditate(string arg) {
     }
 
     object career = load_object(CAREER_D);
-    if (career && career->query_chain_stage(me, "fa") == 2) {
+    if (career && career->query_chain_stage(me, "fa") == 3) {
         career->advance_chain_stage(me, "fa");
     }
     return 1;
@@ -132,7 +132,7 @@ int do_stargaze(string arg) {
     }
 
     object career = load_object(CAREER_D);
-    if (career && career->query_chain_stage(me, "fa") == 2) {
+    if (career && career->query_chain_stage(me, "fa") == 3) {
         career->advance_chain_stage(me, "fa");
     }
 

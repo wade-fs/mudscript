@@ -17,13 +17,12 @@ void create() {
             "required_fate" : 2,
             "exp_gain" : 30,
             "fate_gain" : 1,
-            "allow_moss_bypass" : 1,
             "legacy_key" : "study_ruin_stone",
             "title" : "洞悉太古逆星宿圖"
         ]),
         "forge_ancient_black_iron" : ([
             "name" : "太古不融黑鐵構件",
-            "required_fate" : 1,
+            "required_fate" : 0,
             "exp_gain" : 40,
             "fate_gain" : 1,
             "clone_item" : "/clone/relic/ancient_black_iron.c",
@@ -32,7 +31,7 @@ void create() {
         ]),
         "commune_forest_totem" : ([
             "name" : "太古戰神獵獸圖騰玄柱",
-            "required_fate" : 1,
+            "required_fate" : 0,
             "exp_gain" : 40,
             "fate_gain" : 1,
             "legacy_key" : "communed_forest_totem",
@@ -40,7 +39,7 @@ void create() {
         ]),
         "search_altar_pine" : ([
             "name" : "道化晶石殘片",
-            "required_fate" : 1,
+            "required_fate" : 0,
             "exp_gain" : 50,
             "fate_gain" : 1,
             "clone_item" : "/clone/item/dao_crystal.c",
@@ -57,7 +56,7 @@ void create() {
         ]),
         "search_shed_wood" : ([
             "name" : "萬物行商・天門引",
-            "required_fate" : 1,
+            "required_fate" : 0,
             "exp_gain" : 50,
             "fate_gain" : 1,
             "clone_item" : "/clone/relic/tianmen_token.c",
@@ -66,7 +65,7 @@ void create() {
         ]),
         "eavesdrop_shed" : ([
             "name" : "黑石鋪市井暗流情報",
-            "required_fate" : 1,
+            "required_fate" : 0,
             "exp_gain" : 30,
             "fate_gain" : 0,
             "legacy_key" : "eavesdropped_shed",
@@ -109,21 +108,16 @@ int can_discover_relic(object who, string relic_key) {
     mapping cfg = RELIC_REGISTRY[relic_key];
     int req_fate = cfg ? cfg["required_fate"] : 1;
 
-    int player_fate = who->query(STAT_FATE);
-    if (player_fate < 1) return 0;
-
-    // 天命已達標
-    if (player_fate >= req_fate) return 1;
-
-    // 溪灘斷碑特殊外力破垢途徑 (第1章磨刀或山洪沖洗)
-    if (cfg && cfg["allow_moss_bypass"]) {
-        object ws = find_object(WORLD_STATE_D);
-        if (!ws) ws = load_object(WORLD_STATE_D);
-        if (ws && ws->is_moss_cleared()) return 1;
+    // 溪灘斷碑：若玩家個人曾以磨刀 (sharpen) 或清洗 (wash) 去除石面青苔石垢，天命門檻降低 1 點
+    if (relic_key == "stream_stele" && who->query_temp("cleared_stele_moss")) {
+        req_fate -= 1;
+        if (req_fate < 1) req_fate = 1;
     }
 
-    // 先天神識靈性與悟性皆達極境者 (spi >= 5 && int >= 5) 可憑靈台清明感應
-    if (who->query_stat("spi") >= 5 && who->query_stat("int") >= 5) return 1;
+    int player_fate = who->query(STAT_FATE);
+
+    // 判定天命是否達到該遺物之門檻
+    if (player_fate >= req_fate) return 1;
 
     return 0;
 }

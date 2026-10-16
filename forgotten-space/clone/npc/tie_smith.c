@@ -95,17 +95,42 @@ int do_chat(object me, string topic) {
         }
     }
 
+    if (topic == "路引" || topic == "出鄉" || topic == "文牒" || topic == "ceremony" || topic == "pass") {
+        if (me->query_level() < 10) {
+            tell_object(me, query_name() + " 揮舞鐵錘敲了敲鐵砧，哼道：「黑石關外世道兇險，臂力筋骨未達 10 級，出去就是給流寇當靶子！先給老子在鐵砧前多掄幾百錘！」\n");
+            return 1;
+        }
+        if (me->query("quest/pass_village_ceremony")) {
+            tell_object(me, query_name() + " 笑道：「你早已取得出鄉文牒，隨時可出關前往金石府城！」\n");
+            return 1;
+        }
+        object qd = load_object("/secure/quest_d.c");
+        if (qd) {
+            if (!me->query_quest("pass_village_ceremony")) {
+                qd->accept_quest(me, "pass_village_ceremony");
+            }
+            qd->complete_quest(me, "pass_village_ceremony");
+            me->set("quest/pass_village_ceremony", 1);
+            tell_object(me, HIY + query_name() + " 哈哈大笑：「好小子！這身硬骨頭已打磨得如鋼似鐵（已達 10 級），黑石鋪的爐子容不下你這條游龍！老夫以百工名義為你具保，這紙金石城官辦保書路引你且收好！」\n" + NOR);
+            return 1;
+        }
+    }
+
     if (topic == "任務" || topic == "生計" || topic == "job" || topic == "career" || topic == "物修") {
         object career = load_object(CAREER_D);
-        int st = career ? career->query_chain_stage(me, "wu") : 1;
-        if (st == 1) {
+        int st = career ? career->query_chain_stage(me, "wu") : 0;
+        if (st == 0) {
+            career->start_chain(me, "wu");
             tell_object(me, query_name() + " 沉聲道：「金石商隊催得急，但鋪子裡粗礦告罄。北崖礦洞地煞鬆動，老礦工魯大山還在坑裡，你速去北崖接應他 (ask lu about 任務)！」\n");
             return 1;
+        } else if (st == 1) {
+            tell_object(me, query_name() + " 催促道：「速去北崖接應老礦工魯大山 (ask lu about 任務)！」\n");
+            return 1;
         } else if (st == 2) {
-            tell_object(me, query_name() + " 催促道：「聽說魯老頭被毒瘴嗆著了？快去南谷藥廬找葛半仙求藥！」\n");
+            tell_object(me, query_name() + " 催促道：「聽說魯老頭被毒瘴嗆著了？快去南谷溪灘採晨露草，找葛半仙求藥！」\n");
             return 1;
         } else if (st == 3) {
-            tell_object(me, query_name() + " 點頭道：「藥配好了？快把藥散送去給魯老頭，再把好礦帶回爐房！」\n");
+            tell_object(me, query_name() + " 點頭道：「藥配好了？快把藥散送去北崖給魯老頭治傷 (give san to lu)，治好他便能回爐房開爐了！」\n");
             return 1;
         } else if (st == 4) {
             tell_object(me, query_name() + " 笑道：「料子備齊了！手握鐵錘，拉動風箱，在鐵砧上狠狠鍛打粗礦 (strike ore)，打出一柄像樣的開山柴刀！」\n");
