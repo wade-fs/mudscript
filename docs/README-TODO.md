@@ -68,3 +68,16 @@ input    | 本機→遠端 | session_id\|command
 output   | 遠端→本機 | session_id\|text
 disconnect | 雙向    | session_id\|reason
 ```
+
+---
+
+## 4. NPC 動態生態、時空作息與任務相位系統 (NPC Dynamic Lifecycle)
+> 詳細規格文檔請參閱：[`forgotten-space/docs/npc_dynamic_lifecycle_spec.md`](file:///home/wade/src/github/mudscript/forgotten-space/docs/npc_dynamic_lifecycle_spec.md)
+
+- [ ] **時辰日常作息 (Schedule Matrix)**：
+  - 結合 `/secure/nature_d.c` 十二時辰與天氣，驅動 NPC 在聚落日常作息生活圈內自然移動或定點切換（如張屠戶清晨在溪灘磨刀、上午在街市肉攤叫賣、傍晚在酒棚飲酒）。
+- [ ] **事件任務瞬移與相位切換 (Quest Phasing & Mutate)**：
+  - 當特定主線或災變事件爆發時，NPC 從常駐房間瞬移至危險任務現場（如老礦工魯大山在礦災時被困地底百米坑道 `mine_depths.c`），並動態替換為具有緊迫求救/特殊指令的任務型態 NPC。
+- [ ] **多階段跨地圖連鎖任務分發 (Chained Regional Progression)**：
+  - 同一個 NPC 隨著劇情推進逐步遷徙至前線哨亭、大荒外緣或宗門禁區，分階段發布進階委託，擺脫傳統 MUD NPC 固定站樁之死板體驗。
+
