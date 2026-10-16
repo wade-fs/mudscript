@@ -54,7 +54,14 @@ string query_long() {
         }
 
         if (ws->is_moss_cleared() && wl < 85) {
-            res += HIY "其中一塊深青色石板 (stone) 表面的厚重青苔已被洪水急流沖淨，露出了古怪凹凸的古老紋理。\n" NOR;
+            object nd = load_object("/secure/nature_d.c");
+            int hour = nd ? nd->query_hour() : 7;
+            string weather = nd ? nd->query_weather() : "clear";
+            if ((hour >= 6 && hour <= 8) && weather == "clear") {
+                res += HIY "其中一塊深青色石板 (stone) 表面的厚苔已被洗淨，朝陽正以極低角度斜射在微凹邊緣，投下淡淡的神秘光影 (look stone)！\n" NOR;
+            } else {
+                res += HIY "其中一塊深青色石板 (stone) 表面的厚重青苔已被沖淨，露出平整光滑、堅逾精鋼的墨黑石面 (look stone)。\n" NOR;
+            }
         } else if (wl < 85) {
             res += "其中一塊半浸在水中的深青色石板 (stone)，表面生滿了厚厚青苔。\n";
         }
@@ -264,3 +271,50 @@ int do_tuoyin(string arg) {
     }
     return ret;
 }
+
+string look_at_item(string id) {
+    if (id == "stone" || id == "stele" || id == "石板" || id == "斷碑") {
+        object ws = load_object(WORLD_STATE_D);
+        if (ws && ws->is_stele_submerged()) {
+            return HIR "此刻正逢山洪暴漲，滔滔濁浪早已沒過溪石，石板完全沉在水底！\n" NOR;
+        }
+
+        object nd = load_object("/secure/nature_d.c");
+        int hour = nd ? nd->query_hour() : 7;
+        string weather = nd ? nd->query_weather() : "clear";
+        int moss_cleared = (ws && ws->is_moss_cleared()) || this_player()->query_temp("cleared_stele_moss");
+
+        string desc = "這是一塊斜臥在深潭溪灘邊緣的深青色玄黑石板。\n"
+                      "千百年來，村婦在上面以木槌捶洗衣物，屠夫與獵戶也常用柴刀在邊緣研磨。\n";
+
+        if (!moss_cleared) {
+            desc += "石板表面覆蓋著一層滑膩厚重的青苔與老垢，凡人肉眼只當是一塊尋常洗衣頑石。\n"
+                    "（提示：可以 wash 清洗或 sharpen 磨刀震碎石面厚垢）\n";
+            return desc;
+        }
+
+        desc += HIG "石板表面的厚重青苔與沉積石垢已經被滌蕩震碎，露出了平整光滑、堅逾精鋼的墨色石胎。\n" NOR;
+
+        int is_morning_grazing_light = (hour >= 6 && hour <= 8) && (weather == "clear");
+
+        if (is_morning_grazing_light) {
+            desc += HIY "\n【晨光側影・萬古奇遇】\n" NOR;
+            desc += YEL "此刻晨曦破曉，一輪赤金旭日剛翻過東山絕壁！極低角度的金紅晨光以不到十五度的掠射角貼地橫掃而過。\n"
+                        "石面上那些被無盡歲月磨蝕到不足微米、撫之如鏡的極淺凹槽，在背光一側拉扯出了無數針尖般細微深沉的陰影！\n"
+                        "就如同深空之中唯有在特定日光斜射角度下方才於丘陵陰影中拼出冷峻面孔的「火星人面像」一般——\n"
+                        "微薄水膜折射著晨曦，千萬道灰階陰影在原本光潔無奇的石板上精密咬合，赫然浮現出一幅龐大浩瀚的遠古逆向星圖！\n" NOR;
+            desc += WHT "（隨著朝陽漸升，光角一旦變大，這幅光影星圖將轉瞬即逝！可把握時機 study 參悟 或 tuoyin 拓印）\n" NOR;
+        } else if (hour >= 11 && hour <= 14) {
+            desc += WHT "此刻日照當空，強烈的天光直射而下，石面平滑光潔如鏡，凹槽幾無陰影，肉眼看去只是一塊墨黑頑石。\n"
+                        "（太古刻痕早已被江河磨平至微毫，唯有在破曉清晨旭日貼地斜射時，方能借微雕陰影窺見端倪）\n" NOR;
+        } else {
+            desc += CYN "石板在水光下呈現出深沉墨色，撫之平滑冰涼。太古深刻歷經億萬年沖刷磨礪，肉眼直視難以成象，\n"
+                        "唯有在特定時辰旭日初升、極低角度斜射在石槽背光面時，方能如火星人面像般借由光影浮現真容。\n" NOR;
+        }
+
+        return desc;
+    }
+
+    return ::look_at_item(id);
+}
+
