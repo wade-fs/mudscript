@@ -15,7 +15,7 @@ void create() {
              "背面數十道細密繁複的微型金屬齒輪與暗金符紋已被歲月與大清洗封印徹底鎖死，中央嵌著四個斑駁古篆：\n"
              HIR "「萬物行商・天門引」\n" NOR
              WHT "（此令目前處於【休眠殘缺狀態】，核心樞機凝滯，唯有日後尋得太古商盟遺脈或高階靈樞方能重啟其通行權柄。）\n" NOR);
-    set_weight(800);
+    set_weight(400);
     set_value(200);
     set("is_relic", 1);
     set("relic_type", "shang_token");

@@ -13,7 +13,7 @@ void create() {
     set_long("半卷受潮發黃的道家吐納抄本，邊角已被鼠齧殘缺。\n"
              "上面以墨筆勾畫著幾副粗淺的靜坐調息行氣圖，字跡斑駁。\n"
              "（可使用 read scroll / 研讀 參悟其中的『止心大法(初級)』）\n");
-    set_weight(200);
+    set_weight(60);
     set("is_scroll", 1);
     set_value(10);
 }

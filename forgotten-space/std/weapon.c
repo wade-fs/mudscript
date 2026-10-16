@@ -31,6 +31,7 @@ void create() {
     ammo_type      = 0;
     magic_level    = 0;
     element        = "";
+    set_weight(1000); // 預設武器重量 1kg
 }
 
 void set_attack(int v)          { attack_bonus   = v; }

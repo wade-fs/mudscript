@@ -12,7 +12,7 @@ void create() {
     set_short(YEL "加固硬木料" NOR);
     set_long("一根自東林深處採伐的陳年鐵硬老木，質地沉重如生鐵。\n"
              "可用於北崖古礦道支撐加固 (可交付給北崖老礦工魯大山)。\n");
-    set_weight(250);
+    set_weight(6000);
     set_value(20);
     set("is_timber", 1);
 }

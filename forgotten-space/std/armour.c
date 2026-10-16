@@ -27,6 +27,7 @@ void create() {
     agility_pen    = 0;
     armour_class   = "light";
     set_id         = 0;
+    set_weight(1000); // 預設防具重量 1kg
 }
 
 void set_defence(int v)        { defence_bonus  = v; }

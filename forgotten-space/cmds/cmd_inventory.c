@@ -41,6 +41,15 @@ int do_inventory(object me, string arg) {
     foreach (object ob in inv) {
         write("  " + ob->query_short() + "\n");
     }
+
+    int cur_w = me->query_contents_weight();
+    int max_w = me->query_max_weight();
+    int cur_cnt = sizeof(inv);
+    int max_cnt = me->query_max_items();
+    string cur_kg = sprintf("%d.%02d", cur_w / 1000, (cur_w % 1000) / 10);
+    string max_kg = sprintf("%d.%d", max_w / 1000, (max_w % 1000) / 100);
+    write(sprintf("  ── 負重：%dg / %dg (%skg / %skg)  件數：%d / %d ──\n",
+                  cur_w, max_w, cur_kg, max_kg, cur_cnt, max_cnt));
     return 1;
 }
 
@@ -116,8 +125,13 @@ int do_get(object me, string arg) {
         }
     }
 
-    if (!me->can_receive(item)) {
-        write(_t("inv_full_err") + "\n");
+    int recv_err = me->query_receive_error(item);
+    if (recv_err != 0) {
+        if (recv_err == 4) {
+            write("這件物品太重了，你的負重已達上限，拿不動了。\n");
+        } else {
+            write(_t("inv_full_err") + "\n");
+        }
         return 1;
     }
 
@@ -310,7 +324,13 @@ int do_appraise(object me, string arg) {
 
     string desc = "【" + _t("item_info") + "：" + item->query_name() + "】\n";
     desc += "  " + _t("type") + "：" + item->query_item_type() + "\n";
-    desc += "  " + _t("weight") + "：" + sprintf("%d", item->query_weight()) + "g\n";
+    int item_w = item->query_weight();
+    if (item_w >= 1000) {
+        string w_kg = sprintf("%d.%02d", item_w / 1000, (item_w % 1000) / 10);
+        desc += "  " + _t("weight") + "：" + sprintf("%d", item_w) + "g (" + w_kg + "kg)\n";
+    } else {
+        desc += "  " + _t("weight") + "：" + sprintf("%d", item_w) + "g\n";
+    }
     desc += "  " + _t("value") + "：" + sprintf("%d", item->query_value()) + " " + _t("coin_gold") + "\n";
     desc += "  " + _t("durability") + "：" + sprintf("%d/%d", item->query_durability(), item->query_max_durability()) + "\n";
     desc += "  " + _t("lv_req") + "：" + sprintf("%d", item->query_level_req()) + "\n";
@@ -378,7 +398,7 @@ int do_give(object me, string arg) {
 }
 
 string *query_verbs() {
-    return ({ "inventory", "i", "get", "drop", "wear", "wield", "remove", "give" });
+    return ({ "inventory", "i", "get", "drop", "wear", "wield", "remove", "give", "appraise", "identify" });
 }
 
 string query_category() {

@@ -21,6 +21,8 @@ void create() {
     penalty_data = ([]);
     team_owner = "";
     expire_time = 0;
+    set_max_weight(200000); // 屍體承重 200kg
+    set_max_items(100);     // 屍體容量 100 件
     
     // 預設 60 秒後自動消失 (留點時間給玩家撿寶)
     call_out("destruct_me", 60);

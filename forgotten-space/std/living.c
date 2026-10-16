@@ -150,6 +150,10 @@ void recalc_stats() {
     if (hp > max_hp) { hp = max_hp; }
     if (mp > max_mp) { mp = max_mp; }
     if (sp > max_sp) { sp = max_sp; }
+
+    // 依臂力/力量計算生物負重上限 (基礎 20kg + 每點臂力 3kg)
+    set_max_weight(20000 + stat_str * 3000);
+    set_max_items(30);
 }
 
 // ── 設定 / 查詢 ────────────────────────────────────────────

@@ -12,7 +12,7 @@ void create() {
     set_short(GRN "重羽破甲竹箭" NOR);
     set_long("由老獵戶趙老獵親手削製的重羽竹箭。箭頭裹著硬鐵倒刺，鏃尖淬了黑蝮蛇毒與苦艾油，\n"
              "專破大荒猛獸的重皮厚骨。(傷害力: 8)\n");
-    set_weight(200);
+    set_weight(50);
     set_value(15);
     set("weapon_type", "arrow");
     set("damage", 8);

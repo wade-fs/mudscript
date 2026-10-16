@@ -11,6 +11,6 @@ void create() {
     set_slot(SLOT_RING);
     set_armour_class("accessory");
     set_magic_level(2);
-    set_weight(50);
+    set_weight(15);
     set_value(350);
 }

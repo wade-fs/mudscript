@@ -14,28 +14,37 @@ int can_open;      // 是否可以被開啟/關閉 (例如: 寶箱可開, 但麻
 
 void create() {
     ::create();
-    max_weight = 10000; // 預設 10kg
-    max_items  = 20;    // 預設 20 件
+    max_weight = 50000; // 預設 50kg (50000g)
+    max_items  = 30;    // 預設 30 件
     is_closed  = 0;
     can_open   = 0;
 }
 
 // ── 權限檢查 ───────────────────────────────────────────
 
+// 取得內容物總重量
+int query_contents_weight() {
+    int total = 0;
+    object *inv = all_inventory(this_object());
+    for (int i = 0; i < sizeof(inv); i++) {
+        total += inv[i]->query_weight();
+    }
+    return total;
+}
+
+// 檢查放入原因：0=可放入, 1=無效物件, 2=已關閉, 3=件數滿, 4=超重
+int query_receive_error(object ob) {
+    if (!ob) return 1;
+    if (is_closed) return 2;
+    object *inv = all_inventory(this_object());
+    if (max_items > 0 && sizeof(inv) >= max_items) return 3;
+    if (max_weight > 0 && (query_contents_weight() + ob->query_weight() > max_weight)) return 4;
+    return 0;
+}
+
 // 判斷物件是否可以進入此容器
 int can_receive(object ob) {
-    if (!ob) return 0;
-    
-    // 🚀 若容器已關閉，無法放入東西
-    if (is_closed) return 0;
-
-    // 檢查件數上限
-    object *inv = all_inventory(this_object());
-    if (sizeof(inv) >= max_items) {
-        return 0;
-    }
-    
-    return 1;
+    return (query_receive_error(ob) == 0);
 }
 
 // 判斷物件是否可以離開此容器
@@ -91,14 +100,7 @@ void init() {
 }
 
 
-// 取得當前總重量 (自身重量 + 內容物重量)
+// 取得當前總重量 (預設為內容物重量)
 int query_weight() {
-    int total = 0;
-    // 如果物件本身有重量屬性，應該加上去
-    // 但因為 container.c 不一定繼承 item.c，所以這裡先只算內容物
-    object *inv = all_inventory(this_object());
-    for (int i = 0; i < sizeof(inv); i++) {
-        total += inv[i]->query_weight();
-    }
-    return total;
+    return query_contents_weight();
 }

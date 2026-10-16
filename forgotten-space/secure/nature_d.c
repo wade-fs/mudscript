@@ -7,12 +7,13 @@
 
 inherit "/std/object";
 
-// 遊戲時間與現實時間比例：1 真實秒 = 1 遊戲分鐘 (24 真實分 = 24 遊戲小時)
-#define TIME_RATIO 60
+// 遊戲時間與現實時間比例：4:1 (1 真實秒 = 4 遊戲秒；15 真實秒 = 1 遊戲分鐘；6 真實小時 = 24 遊戲小時/1 晝夜)
+#define TIME_RATIO 4
 
 int game_time;          // 遊戲總分鐘數
+int tick_second;        // 累積真實秒數 (每 15 秒推進 1 遊戲分鐘)
 string current_weather; // 目前天氣 (clear, cloudy, rainy, storm, foggy, snowy)
-int weather_duration;   // 當前天氣維持時間 (遊戲分鐘/秒數)
+int weather_duration;   // 當前天氣維持時間 (遊戲分鐘數)
 int last_update;
 
 string query_save_file() { return "/data/nature"; }
@@ -196,27 +197,45 @@ void update_weather() {
 }
 
 // ── 心跳邏輯 ─────────────────────────────────────────────
-
 void heart_beat() {
-    game_time = game_time + 1;
-    
-    if (weather_duration > 0) {
-        weather_duration = weather_duration - 1;
-    } else {
-        update_weather();
-    }
+    tick_second++;
+    if (tick_second >= 15) {
+        tick_second = 0;
+        game_time = game_time + 1;
+        
+        if (weather_duration > 0) {
+            weather_duration = weather_duration - 1;
+        } else {
+            update_weather();
+        }
 
-    // 每 5 遊戲分鐘通知世界狀態守護進程進行因果推演
-    if (game_time % 5 == 0) {
-        object ws_d = find_object(WORLD_STATE_D);
-        if (ws_d) {
-            ws_d->world_tick(game_time, current_weather);
+        // 每 5 遊戲分鐘 (現實 75 秒) 通知世界狀態守護進程進行因果推演
+        if (game_time % 5 == 0) {
+            object ws_d = find_object(WORLD_STATE_D);
+            if (ws_d) {
+                ws_d->world_tick(game_time, current_weather);
+            }
+        }
+
+        // 每 30 遊戲分鐘 (現實 7.5 分鐘) 存檔一次
+        if (game_time % 30 == 0) {
+            save_object(query_save_file());
         }
     }
+}
 
-    // 每 30 遊戲分鐘存檔一次
-    if (game_time % 30 == 0) {
-        save_object(query_save_file());
+// 取得當前時間比例 (4 代表 4:1)
+int query_time_ratio() {
+    return TIME_RATIO;
+}
+
+// 推進指定遊戲分鐘 (管理員或劇情事件專用)
+void advance_time(int minutes) {
+    if (minutes <= 0) return;
+    game_time += minutes;
+    object ws_d = find_object(WORLD_STATE_D);
+    if (ws_d) {
+        ws_d->world_tick(game_time, current_weather);
     }
 }
 

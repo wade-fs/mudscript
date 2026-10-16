@@ -12,7 +12,7 @@ void create() {
     set_short(HIG "葛氏活絡散" NOR);
     set_long("由瘋郎中葛半仙以清晨帶露晨露草與水谷地陰苔調配而成的草藥散劑，\n"
              "氣味微苦甘辛。服下後氣血充盈，能迅速驅散體內寒濕與勞損。(可使用 eat / 服藥 服用)\n");
-    set_weight(80);
+    set_weight(30);
     set_value(100);
 }
 

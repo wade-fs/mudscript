@@ -12,7 +12,7 @@ void create() {
     set_short(YEL "鐵胎柘木重獸弓" NOR);
     set_long("一柄以百年硬柘木與生鐵薄胎複合壓製的百斤重獸弓。弓梢粗壯，弓弦由荒原巨狼大筋絞合塗油製成，\n"
              "非雙臂具備千鈞神力者難以拉滿。(傷害力: 18)\n");
-    set_weight(3500);
+    set_weight(2000);
     set_value(120);
     set("weapon_type", "bow");
     set("damage", 18);
