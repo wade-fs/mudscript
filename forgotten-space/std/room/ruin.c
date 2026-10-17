@@ -54,10 +54,10 @@ int do_study_ruin(string arg) {
 
     object mys_d = load_object(MYSTERY_D);
 
-    // 1. 認知盲區檢定 (統一由 MYSTERY_D 判定天命門檻、感知靈性與物理去垢條件)
+    // 1. 認知盲區檢定 (統一由 MYSTERY_D 判定身世血脈、天命門檻、感知靈性與物理去垢條件)
     if (mys_d && !mys_d->can_discover_relic(me, "stream_stele")) {
-        write(CYN "你看著這些被厚重青苔與泥垢掩蓋的斑駁凹槽，受限於世俗認知盲區，只覺得線條凌亂無章，宛如前人隨手塗鴉或磨刀留下的頑石。\n" NOR);
-        write(WHT "（提示：需先以磨刀 sharpen 或待山洪沖去石垢，或具備足夠的感知/靈性/天命共鳴，方能勘破迷障）\n" NOR);
+        write(CYN "你看著石板表面那些微淺凹槽，受限於世俗認知盲區與身世血脈靈犀，只覺得線條凌亂無章，宛如前人隨手塗鴉或磨刀留下的頑石。\n" NOR);
+        write(WHT "（提示：需身負採藥童子之草木地脈身世、以磨刀 sharpen 去垢、並在破曉特定時辰旭日斜射時方能勘破迷障）\n" NOR);
         return 1;
     }
 

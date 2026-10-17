@@ -113,11 +113,25 @@ int do_search(string arg) {
         return 1;
     }
 
-    write(YEL "你撲上前去，雙手如利爪般瘋狂扒開那些潮濕腐朽的爛木與碎瓦……\n" NOR);
+    // 身世血統排他性檢定 (非乞兒身世無法化解毒脂或遭老莫三痛斥)
+    if (md && !md->can_discover_relic(me, "search_shed_wood")) {
+        object mo = present("beggar mo", this_object());
+        if (!mo) mo = present("mo", this_object());
+        if (mo) {
+            write(HIR "你剛想伸手去翻扒潮濕柴堆，老丐莫三猛地揚起打狗破竹竿，破口大罵：「哪裡來的手腳不乾淨的賊骨頭！滾！別動老子的柴草窩鋪！」\n" NOR);
+        } else {
+            write(HIR "柴堆深處滿是發黑的倒刺爛木與劇毒腐骨烏頭脂，刺得你手掌陣陣灼痛，險些中毒化骨，你只得趕緊縮回了手。\n" NOR);
+            write(WHT "（身世血脈未通市井聽風與九下流生存技巧，無法化解毒脂掘出生機）\n" NOR);
+        }
+        return 1;
+    }
+
+    write(CYN "你以冷油與酸醋塗抹雙手，五指如狼爪般精巧避開倒刺與腐骨烏頭毒脂，瘋狂扒開那些潮濕腐朽的爛木與碎瓦……\n" NOR);
     write("木屑翻飛間，你在最底層深陷於黑泥半尺深的地方，摸到了一隻被油布層層包裹的沉重金屬鐵盒！\n");
     write("鐵盒銅鎖早已銹死，你撿起半截斷鐵條狠狠一別，「喀嚓」一聲脆響將鎖舌崩斷——\n");
     write(HIY "在油布與松脂包裹中，赫然顯露出一枚巴掌大小、通體泛著暗啞青金光澤的非鐵非木古老殘令！\n" NOR);
-    write(HIC "令符正面雕著雙龍環抱太古神闕，背面嵌著四個斑駁古篆：【萬物行商・天門引】（目前處於休眠殘缺狀態）！\n" NOR);
+    write(HIC "令符正面雕著雙龍環抱太古神闕，背面嵌著四個斑駁古篆：【萬物行商・天門引】（目前齒輪卡死、處於深度休眠狀態）！\n" NOR);
+    write(HIR "\n【微型神械齒輪自行轉動發出「哢嗒」輕鳴，後巷隱隱傳來官道暗探沉重軍靴逼近之聲！柴房已成死地！】\n" NOR);
 
     if (md) {
         md->trigger_relic_discovery(me, "search_shed_wood", me);

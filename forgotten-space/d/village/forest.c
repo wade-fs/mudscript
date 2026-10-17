@@ -174,6 +174,14 @@ int do_commune_totem(string arg) {
     if (!pelt) pelt = present("tainted pelt", this_object());
     int disha = ws ? ws->query_disha_activity() : 60;
 
+    object md = load_object(MYSTERY_D);
+    if (md && !md->can_discover_relic(me, "commune_forest_totem")) {
+        write(HIR "你伸手欲割血抹向圖騰柱，石柱非但毫無回應，反被石雕上積累的萬古凶煞直接震退，\n"
+                  "整條右臂冰冷刺痛、氣血逆亂！（身世非大荒蠻荒神魔血脈，肉身無法承載戰祖煞氣）\n" NOR);
+        me->add(VITAL_KEE, -5);
+        return 1;
+    }
+
     // 檢定：需有獸血/煞獸殘皮為引或地煞翻湧，且肉身氣血根骨足以承受
     if (!pelt && disha < 40) {
         write(YEL "圖騰柱上的石紋冰冷死寂。缺乏沾染地煞的暗紫濁血或煞獸殘皮作為媒介，無法引動太古血脈共鳴。\n" NOR);

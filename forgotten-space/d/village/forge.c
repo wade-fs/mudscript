@@ -139,6 +139,11 @@ int do_strike(string arg) {
             return 1;
         }
 
+        if (md && !md->can_discover_relic(me, "forge_ancient_black_iron")) {
+            write(CYN "你隨手敲了敲廢料坑底層的焦黑頑石，石頭崩裂成一地尋常焦渣，毫無奇異。（身世未具工聖血脈靈犀）\n" NOR);
+            return 1;
+        }
+
         me->add(VITAL_KEE, -5);
         me->add(VITAL_SP, -10);
 

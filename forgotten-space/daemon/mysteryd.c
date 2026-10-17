@@ -14,7 +14,8 @@ void create() {
     RELIC_REGISTRY = ([
         "stream_stele" : ([
             "name" : "史前逆星斷碑",
-            "required_fate" : 2,
+            "required_background" : "herbalist",
+            "required_fate" : 1,
             "exp_gain" : 30,
             "fate_gain" : 1,
             "legacy_key" : "study_ruin_stone",
@@ -22,6 +23,7 @@ void create() {
         ]),
         "forge_ancient_black_iron" : ([
             "name" : "太古不融黑鐵構件",
+            "required_background" : "smith",
             "required_fate" : 0,
             "exp_gain" : 40,
             "fate_gain" : 1,
@@ -31,6 +33,7 @@ void create() {
         ]),
         "commune_forest_totem" : ([
             "name" : "太古戰神獵獸圖騰玄柱",
+            "required_background" : "hunter",
             "required_fate" : 0,
             "exp_gain" : 40,
             "fate_gain" : 1,
@@ -39,6 +42,7 @@ void create() {
         ]),
         "search_altar_pine" : ([
             "name" : "道化晶石殘片",
+            "required_background" : "daoist",
             "required_fate" : 0,
             "exp_gain" : 50,
             "fate_gain" : 1,
@@ -48,6 +52,7 @@ void create() {
         ]),
         "stargaze_altar" : ([
             "name" : "蒼穹天羅偽籠真相",
+            "required_background" : "daoist",
             "required_fate" : 1,
             "exp_gain" : 100,
             "fate_gain" : 1,
@@ -56,6 +61,7 @@ void create() {
         ]),
         "search_shed_wood" : ([
             "name" : "萬物行商・天門引",
+            "required_background" : "beggar",
             "required_fate" : 0,
             "exp_gain" : 50,
             "fate_gain" : 1,
@@ -65,6 +71,7 @@ void create() {
         ]),
         "eavesdrop_shed" : ([
             "name" : "黑石鋪市井暗流情報",
+            "required_background" : "beggar",
             "required_fate" : 0,
             "exp_gain" : 30,
             "fate_gain" : 0,
@@ -106,7 +113,29 @@ int can_discover_relic(object who, string relic_key) {
     if (!relic_key || relic_key == "") return 1;
 
     mapping cfg = RELIC_REGISTRY[relic_key];
-    int req_fate = cfg ? cfg["required_fate"] : 1;
+    if (!cfg) return 1;
+
+    // 1. 身世血統排他性檢定 (避免重複探索領取全部五種天命)
+    string req_bg = cfg["required_background"];
+    if (req_bg && req_bg != "") {
+        string my_bg = who->query("background");
+        string my_nick = who->query("nickname");
+        // 管理員與相容特殊測試判定
+        int is_match = (my_bg == req_bg);
+        if (!is_match && my_nick) {
+            if (req_bg == "herbalist" && (my_nick == "顧玄" || my_nick == "採藥人")) is_match = 1;
+            if (req_bg == "smith" && (my_nick == "林鐵生" || my_nick == "鐵匠")) is_match = 1;
+            if (req_bg == "hunter" && (my_nick == "燕隼" || my_nick == "獵戶")) is_match = 1;
+            if (req_bg == "daoist" && (my_nick == "柳清虛" || my_nick == "道童")) is_match = 1;
+            if (req_bg == "beggar" && (my_nick == "沈泥" || my_nick == "乞兒")) is_match = 1;
+        }
+        if (!is_match && !wizardp(who)) {
+            return 0; // 身世血脈不合，無法成立共鳴
+        }
+    }
+
+    // 2. 天命門檻檢定
+    int req_fate = cfg["required_fate"];
 
     // 溪灘斷碑：若玩家個人曾以磨刀 (sharpen) 或清洗 (wash) 去除石面青苔石垢，天命門檻降低 1 點
     if (relic_key == "stream_stele" && who->query_temp("cleared_stele_moss")) {
