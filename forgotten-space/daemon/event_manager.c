@@ -20,24 +20,24 @@ inherit "/std/object.c";
 #define EVENT_MANAGER_VERSION 1
 
 // ── 全域狀態資料結構 ──────────────────────────────────────────
-// 事件定義池：event_id -> schema mapping
-mapping event_defs;
+// 事件定義池：event_id -> schema mapping (nosave: 絕不存入存檔，重啟由 JSON 即時載入)
+nosave mapping event_defs;
 
 // 事件執行期狀態：event_id -> mapping
-// 包含 stage, metrics, facts, applied_outcomes
+// 包含 stage, metrics, facts, applied_outcomes, final_resolution
 mapping events;
 
 // 物證帳本：evidence_id -> mapping
 mapping evidence_registry;
 
 // 發布/訂閱清單：event_id -> array of mapping ([ "ob": object, "func": string ])
-mapping subscribers;
+nosave mapping subscribers;
 
 // 全域事件歷史日誌
 mixed *event_logs;
 
 // 測試模式旗標 (若為 1，不寫磁碟存檔)
-int test_mode;
+nosave int test_mode;
 
 // ── 存檔設定與版本 ────────────────────────────────────────────
 string query_save_file() { return "/data/world_events"; }
@@ -58,20 +58,20 @@ mapping get_fallback_def(string event_id) {
             "name": "大荒煞潮",
             "version": 1,
             "stages": ({
-                ([ "id": STAGE_BEAST_T_MINUS_3, "name": "異常初顯", "desc": "東林鳥雀驚飛、林冠泛紅霧、北方微風帶硫磺焦味", "duration": 180, "time_cost_impact": ([ ]) ]),
-                ([ "id": STAGE_BEAST_T_MINUS_2, "name": "遷徙確認", "desc": "獸痕密布、食草獸成群南奔；集市爆發米荒衝突", "duration": 240, "time_cost_impact": ([ METRIC_SETTLEMENT_CAPACITY: -1 ]) ]),
-                ([ "id": STAGE_BEAST_T_MINUS_1, "name": "大潮臨近", "desc": "先頭狂狼現蹤；私逃富商車毀人亡；全鎮極限備戰", "duration": 180, "time_cost_impact": ([ METRIC_CIVILIAN_TRUST: -1 ]) ]),
-                ([ "id": STAGE_BEAST_T_0,       "name": "主力過境", "desc": "大地轟鳴，狂潮抵達落龍口；阻獸煙起、鳴鏑尖嘯、落石觸發", "duration": 60, "time_cost_impact": ([ ]) ]),
-                ([ "id": STAGE_BEAST_T_PLUS_1,  "name": "殘獸清剿", "desc": "主力怒折落龍澗；殘獸衝擊木柵；晨曦破曉清點廢墟", "duration": 120, "time_cost_impact": ([ ]) ]),
-                ([ "id": STAGE_BEAST_T_PLUS_2,  "name": "局勢反噬", "desc": "下泄獸群衝斷官道；信差受困；大軍扣關對峙", "duration": 0, "time_cost_impact": ([ ]) ])
+                ([ "id": STAGE_BEAST_T_MINUS_3, "name": "異常初顯", "desc": "東林鳥雀驚飛、林冠泛紅霧、北方微風帶硫磺焦味、捕獲獵物驟減 (第 19 章晨)", "duration": 180, "time_cost_impact": ([ ]) ]),
+                ([ "id": STAGE_BEAST_T_MINUS_2, "name": "遷徙確認", "desc": "獸痕密布、食草獸成群南奔；集市爆發米荒衝突，商隊護衛暗中串聯 (第 20~22 章)", "duration": 240, "time_cost_impact": ([ METRIC_SETTLEMENT_CAPACITY: -1 ]) ]),
+                ([ "id": STAGE_BEAST_T_MINUS_1, "name": "大潮臨近", "desc": "先頭花豹與狂狼現蹤；私逃富商車毀人亡；黑石鋪全鎮進入極限備戰 (第 23~26 章)", "duration": 180, "time_cost_impact": ([ METRIC_CIVILIAN_TRUST: -1 ]) ]),
+                ([ "id": STAGE_BEAST_T_0,       "name": "主力過境", "desc": "大地劇烈轟鳴，萬獸狂潮奔騰抵達落龍口；阻獸煙起、鳴鏑尖嘯、落石觸發 (第 27~28 章)", "duration": 60, "time_cost_impact": ([ ]) ]),
+                ([ "id": STAGE_BEAST_T_PLUS_1,  "name": "殘獸清剿", "desc": "獸潮主力怒折落龍澗；一成殘獸衝擊外圍木柵；晨曦破曉，全鎮虛脫清點 (第 29~30 章)", "duration": 120, "time_cost_impact": ([ ]) ]),
+                ([ "id": STAGE_BEAST_T_PLUS_2,  "name": "局勢反噬・官道衝斷", "desc": "下泄獸群衝斷金石官道；胡百戶哨騎被困；煞潮終局連動觸發府城大軍扣關 (第 31~32 章)", "duration": 0, "time_cost_impact": ([ ]) ])
             }),
             "metrics": ([
                 METRIC_HERD_PRESSURE       : ([ "min": 0, "max": 4, "default": 3, "desc": "獸群總量與衝擊強度" ]),
-                METRIC_ROUTE_CONFIDENCE    : ([ "min": 0, "max": 3, "default": 0, "desc": "主幹逃逸路徑掌握度" ]),
+                METRIC_ROUTE_CONFIDENCE    : ([ "min": 0, "max": 3, "default": 0, "desc": "聚落對獸潮主幹逃逸路徑掌握度" ]),
                 METRIC_DIVERSION_EFFECT    : ([ "min": 0, "max": 3, "default": 0, "desc": "落龍澗工程導流完成度" ]),
-                METRIC_SETTLEMENT_CAPACITY : ([ "min": 0, "max": 4, "default": 4, "desc": "聚落儲備與承載極限" ]),
-                METRIC_EVIDENCE_STRENGTH   : ([ "min": 0, "max": 3, "default": 0, "desc": "地煞逃亡非攻城之物證強度" ]),
-                METRIC_CIVILIAN_TRUST      : ([ "min": 0, "max": 3, "default": 2, "desc": "聚落居民信任度" ])
+                METRIC_SETTLEMENT_CAPACITY : ([ "min": 0, "max": 4, "default": 4, "desc": "聚落物資儲備與承載極限" ]),
+                METRIC_EVIDENCE_STRENGTH   : ([ "min": 0, "max": 3, "default": 0, "desc": "地煞逃亡非攻城之生態物證強度" ]),
+                METRIC_CIVILIAN_TRUST      : ([ "min": 0, "max": 3, "default": 2, "desc": "聚落居民對調查與防禦措施之信任度" ])
             ]),
             "facts": ([
                 "autopsy_performed"       : 0,
@@ -94,15 +94,15 @@ mapping get_fallback_def(string event_id) {
             "name": "黑石關軍事危機",
             "version": 1,
             "stages": ({
-                ([ "id": STAGE_MILITARY_STANDBY,    "name": "待命蟄伏", "desc": "黑石關守軍封鎖山道、商會暗流湧動 (第 19~32 章)", "duration": 300, "time_cost_impact": ([ ]) ]),
-                ([ "id": STAGE_MILITARY_ARRIVAL,    "name": "先鋒扣關", "desc": "三千精銳重弩抵達、胡百戶下達搜查封鎖令 (第 33~34 章)", "duration": 300, "time_cost_impact": ([ ]) ]),
-                ([ "id": STAGE_MILITARY_CONFRONT,   "name": "陣前對峙", "desc": "多方物證呈遞、隨軍軍需官糧草告急、主帥內部立場分歧 (第 35~36 章)", "duration": 300, "time_cost_impact": ([ METRIC_SETTLEMENT_RESILIENCE: -1 ]) ]),
-                ([ "id": STAGE_MILITARY_ULTIMATUM,  "name": "最後通牒", "desc": "強攻箭在弦上、軍令催逼交出名冊、最後抉擇窗口 (第 37 章)", "duration": 180, "time_cost_impact": ([ METRIC_SETTLEMENT_RESILIENCE: -1 ]) ]),
-                ([ "id": STAGE_MILITARY_RESOLUTION, "name": "局勢結算", "desc": "多方博弈塵埃落定、依據客觀事實走向五大現實結局 (第 38 章)", "duration": 0, "time_cost_impact": ([ ]) ])
+                ([ "id": STAGE_MILITARY_STANDBY,    "name": "待命蟄伏", "desc": "黑石關守軍藉落石封鎖山道、金石商會暗流湧動、府城命令尚未明晰 (第 19~32 章)", "duration": 300, "time_cost_impact": ([ ]) ]),
+                ([ "id": STAGE_MILITARY_ARRIVAL,    "name": "先鋒扣關", "desc": "三千精銳重弩抵達、胡百戶下達搜查封鎖令、先鋒軍封鎖黑石鋪外圍 (第 33~34 章)", "duration": 300, "time_cost_impact": ([ ]) ]),
+                ([ "id": STAGE_MILITARY_CONFRONT,   "name": "陣前對峙", "desc": "多方物證呈遞、隨軍軍需官糧草告急、主帥內部面臨言官與後勤雙重顧慮 (第 35~36 章)", "duration": 300, "time_cost_impact": ([ METRIC_SETTLEMENT_RESILIENCE: -1 ]) ]),
+                ([ "id": STAGE_MILITARY_ULTIMATUM,  "name": "最後通牒", "desc": "強攻箭在弦上、軍令催逼交出名冊、黑石鋪進入最後抉擇窗口 (第 37 章)", "duration": 180, "time_cost_impact": ([ METRIC_SETTLEMENT_RESILIENCE: -1 ]) ]),
+                ([ "id": STAGE_MILITARY_RESOLUTION, "name": "局勢結算", "desc": "多方博弈塵埃落定、依據客觀事實與四大指標收斂至五大現實結局 (第 38 章)", "duration": 0, "time_cost_impact": ([ ]) ])
             }),
             "metrics": ([
-                METRIC_INTEL_CONFIDENCE       : ([ "min": 0, "max": 3, "default": 3, "desc": "軍方對平叛軍令情報信任度" ]),
-                METRIC_EVIDENCE_VERIFIABILITY : ([ "min": 0, "max": 3, "default": 0, "desc": "第三方官員核驗物證強度" ]),
+                METRIC_INTEL_CONFIDENCE       : ([ "min": 0, "max": 3, "default": 3, "desc": "軍方統帥對「奉命平叛」原始軍令情報信任度" ]),
+                METRIC_EVIDENCE_VERIFIABILITY : ([ "min": 0, "max": 3, "default": 0, "desc": "第三方官員獨立核驗抗辯物證強度" ]),
                 METRIC_ASSAULT_COST           : ([ "min": 0, "max": 3, "default": 1, "desc": "軍方強攻屠村政治與後勤成本" ]),
                 METRIC_SETTLEMENT_RESILIENCE  : ([ "min": 0, "max": 3, "default": 2, "desc": "黑石鋪承受封鎖對峙之內部韌性" ])
             ]),
@@ -113,7 +113,9 @@ mapping get_fallback_def(string event_id) {
                 "mountain_path_blocked"   : 0,
                 "evacuation_tunnels_open" : 0,
                 "supplies_intercepted"    : 0,
-                "beast_evidence_propagated": 0
+                "beast_evidence_propagated": 0,
+                "road_assault_cost_applied": 0,
+                "resilience_propagated"   : 0
             ])
         ]);
     }
@@ -151,16 +153,22 @@ mapping query_event_def(string event_id) {
     return event_defs[event_id];
 }
 
-// ── 嚴格指標註冊驗證 ──────────────────────────────────────────
+// ── 嚴格指標與事實註冊驗證 ──────────────────────────────────
 int is_valid_metric(string event_id, string metric) {
     mapping def = query_event_def(event_id);
     if (!def || !def["metrics"]) return 0;
-    return !undefinedp(def["metrics"][metric]);
+    return member_array(metric, keys(def["metrics"])) != -1;
+}
+
+int is_valid_fact(string event_id, string key) {
+    mapping def = query_event_def(event_id);
+    if (!def || !def["facts"]) return 0;
+    return member_array(key, keys(def["facts"])) != -1;
 }
 
 mapping query_metric_bounds(string event_id, string metric) {
     mapping def = query_event_def(event_id);
-    if (!def || !def["metrics"] || undefinedp(def["metrics"][metric])) {
+    if (!def || !def["metrics"] || member_array(metric, keys(def["metrics"])) == -1) {
         return ([ ]);
     }
     return def["metrics"][metric];
@@ -243,10 +251,11 @@ void init_event_defaults(string event_id) {
 }
 
 void load_state() {
-    load_event_definitions();
     if (file_size(query_save_file() + ".o") > 0) {
         restore_object(query_save_file());
     }
+    // 關鍵保護：永遠在 restore_object 之後載入 JSON，確保新增指標與最新定義絕對生效
+    load_event_definitions();
 
     // Schema Migration：對齊指標，防止舊存檔缺欄位讀成 0
     foreach (string eid in ({ EVENT_BEAST_SURGE, EVENT_MILITARY_CRISIS })) {
@@ -259,7 +268,7 @@ void load_state() {
 
         if (!events[eid]["metrics"]) events[eid]["metrics"] = ([]);
         foreach (string mk, mapping mcfg in def["metrics"]) {
-            if (undefinedp(events[eid]["metrics"][mk])) {
+            if (member_array(mk, keys(events[eid]["metrics"])) == -1) {
                 events[eid]["metrics"][mk] = mcfg["default"];
             }
         }
@@ -274,6 +283,28 @@ void load_state() {
 
 void reset_event(string event_id) {
     init_event_defaults(event_id);
+
+    if (event_id == EVENT_MILITARY_CRISIS || event_id == "all") {
+        evidence_registry = ([]);
+        if (events && events[EVENT_MILITARY_CRISIS]) {
+            map_delete(events[EVENT_MILITARY_CRISIS], "final_resolution");
+        }
+    }
+
+    if (event_id == EVENT_BEAST_SURGE || event_id == "all") {
+        // 重置煞潮時，同步清理軍事危機因傳播所獲得的事實污染
+        if (events && events[EVENT_MILITARY_CRISIS]) {
+            if (events[EVENT_MILITARY_CRISIS]["facts"]) {
+                events[EVENT_MILITARY_CRISIS]["facts"]["beast_evidence_propagated"] = 0;
+                events[EVENT_MILITARY_CRISIS]["facts"]["road_assault_cost_applied"] = 0;
+                events[EVENT_MILITARY_CRISIS]["facts"]["resilience_propagated"] = 0;
+            }
+            if (evidence_registry && evidence_registry["ev_beast_ecology"]) {
+                map_delete(evidence_registry, "ev_beast_ecology");
+            }
+        }
+    }
+
     save_state();
 }
 
@@ -352,14 +383,17 @@ void unsubscribe(string event_id, object listener) {
 void broadcast_event(string event_id, string event_type, mapping payload) {
     log_event(event_id, event_type, payload["message"] ? payload["message"] : event_type);
 
-    // 1. 通知所有訂閱者
+    // 1. 通知所有訂閱者 (使用 catch 隔離保護，訂閱者錯誤絕不中斷核心)
     if (subscribers && subscribers[event_id]) {
         mixed *clean_subs = ({ });
         foreach (mapping sub in subscribers[event_id]) {
             object ob = sub["ob"];
             string fn = sub["func"];
             if (ob && !ob->is_destructed()) {
-                call_other(ob, fn, event_id, event_type, payload);
+                mixed err = catch(call_other(ob, fn, event_id, event_type, payload));
+                if (err) {
+                    write_file("/log/event_error.log", sprintf("[PUBSUB_ERROR] 訂閱者回調異常：%O, err: %O\n", ob, err), 0);
+                }
                 clean_subs += ({ sub });
             }
         }
@@ -380,6 +414,12 @@ int query_metric(string event_id, string metric) {
     if (!events || !events[event_id] || !events[event_id]["metrics"]) return -999;
     if (!is_valid_metric(event_id, metric)) return -999;
     return events[event_id]["metrics"][metric];
+}
+
+int query_metric_safe(string event_id, string metric, int fallback_val) {
+    int v = query_metric(event_id, metric);
+    if (v == -999) return fallback_val;
+    return v;
 }
 
 mapping query_all_metrics(string event_id) {
@@ -412,13 +452,18 @@ int add_metric(string event_id, string metric, int delta) {
 }
 
 // ── 客觀事實帳本 API ──────────────────────────────────────────
-void set_fact(string event_id, string key, mixed val) {
+int set_fact(string event_id, string key, mixed val) {
     if (!events || !events[event_id]) init_event_defaults(event_id);
+    if (!is_valid_fact(event_id, key)) {
+        write_file("/log/event_error.log", sprintf("[EVENT_ERROR] 拒絕未註冊事實：%s.%s\n", event_id, key), 0);
+        return 0; // 嚴格拒絕未註冊幽靈事實！
+    }
     if (!events[event_id]["facts"]) events[event_id]["facts"] = ([]);
 
     events[event_id]["facts"][key] = val;
     log_event(event_id, "fact_set", sprintf("客觀事實更新：%s = %O", key, val));
     save_state();
+    return 1;
 }
 
 mixed query_fact(string event_id, string key) {
@@ -436,13 +481,29 @@ int register_evidence(string ev_id, mapping data) {
     if (!ev_id || ev_id == "" || !data || !mapp(data)) return 0;
     if (!evidence_registry) evidence_registry = ([]);
 
+    // 防重置防刷分：若已登錄，絕不重置 verified 與 seen_by 狀態！
+    if (evidence_registry[ev_id]) {
+        mapping existing = evidence_registry[ev_id];
+        if (data["strength"] && data["strength"] > existing["strength"]) {
+            existing["strength"] = data["strength"];
+        }
+        if (data["name"] && (!existing["name"] || existing["name"] == "")) {
+            existing["name"] = data["name"];
+        }
+        if (data["source_type"] && (!existing["source_type"] || existing["source_type"] == "general")) {
+            existing["source_type"] = data["source_type"];
+        }
+        save_state();
+        return 1;
+    }
+
     mapping item = copy(data);
     item["id"] = ev_id;
     if (!item["created_at"]) item["created_at"] = time();
     if (!item["seen_by"] || !arrayp(item["seen_by"])) item["seen_by"] = ({ });
-    if (undefinedp(item["strength"])) item["strength"] = 1;
+    if (member_array("strength", keys(item)) == -1) item["strength"] = 1;
     if (!item["source_type"]) item["source_type"] = "general";
-    if (undefinedp(item["verified"])) item["verified"] = 0;
+    if (member_array("verified", keys(item)) == -1) item["verified"] = 0;
 
     evidence_registry[ev_id] = item;
     log_event(EVENT_MILITARY_CRISIS, "evidence_registered",
@@ -503,12 +564,12 @@ mapping evaluate_beast_surge() {
     int evidence    = query_metric(EVENT_BEAST_SURGE, METRIC_EVIDENCE_STRENGTH);
     int trust       = query_metric(EVENT_BEAST_SURGE, METRIC_CIVILIAN_TRUST);
 
-    // 1. 勘測與物證聯動：物證為勘測提供病理與生態支撐
-    int effective_route_knowledge = confidence + (evidence > 0 ? 1 : 0);
+    // 1. 勘測與物證聯動：物證強度 (0~3) 分級提供解剖與生態支撐，消除「只有有無兩檔」
+    int effective_route_knowledge = confidence + (evidence >= 3 ? 2 : (evidence >= 1 ? 1 : 0));
     if (effective_route_knowledge > 3) effective_route_knowledge = 3;
 
-    // 2. 導流偏折計算 (所有因果計算為純運算，無 side effect)
-    int diversion_score = (diversion * 30) + (effective_route_knowledge * 15);
+    // 2. 導流偏折計算：工程(diversion)為主(25%)，勘測(confidence)為輔(15%)，物證(evidence)指引(10%)
+    int diversion_score = (diversion * 25) + (confidence * 15) + (evidence * 10);
     if (diversion_score > 100) diversion_score = 100;
 
     string main_route = "village_impact";
@@ -517,10 +578,12 @@ mapping evaluate_beast_surge() {
 
     if (diversion >= 2 && effective_route_knowledge >= 2) {
         main_route = "canyon";
-        canyon_deflected_percent = 80 + (diversion == 3 ? 15 : 0);
+        canyon_deflected_percent = 70 + (diversion * 5) + (evidence * 5);
+        if (canyon_deflected_percent > 100) canyon_deflected_percent = 100;
     } else if (diversion >= 1 || effective_route_knowledge >= 1) {
         main_route = "partial_deflected";
-        canyon_deflected_percent = 35 + diversion * 15;
+        canyon_deflected_percent = 30 + (diversion * 15) + (evidence * 10);
+        if (canyon_deflected_percent > 85) canyon_deflected_percent = 85;
     } else {
         main_route = "village_impact";
         canyon_deflected_percent = 10;
@@ -534,13 +597,13 @@ mapping evaluate_beast_surge() {
         canyon_road_destroyed = 1; // 部分坍塌受阻
     }
 
-    // 4. 殘餘衝擊聚落壓力與生存態勢 (HERD_PRESSURE, SETTLEMENT_CAPACITY, CIVILIAN_TRUST 閉環)
+    // 4. 殘餘衝擊聚落壓力與生存態勢
     int residual_percent = 100 - canyon_deflected_percent;
     int residual_pressure = pressure * residual_percent / 25;
     int surviving_capacity = capacity - residual_pressure;
 
     string settlement_state = "devastated";
-    if (canyon_deflected_percent >= 80) {
+    if (canyon_deflected_percent >= 75) {
         if (capacity >= 2) settlement_state = "intact";
         else settlement_state = "starvation_risk";
     } else if (surviving_capacity >= 1) {
@@ -549,7 +612,20 @@ mapping evaluate_beast_surge() {
         settlement_state = "devastated";
     }
 
-    int civilian_panic = (trust <= 1 && residual_pressure > 0) ? 1 : 0;
+    int civilian_panic = (trust <= 1 && residual_pressure > 0) ? 1 : (trust == 0 ? 1 : 0);
+
+    // 5. 衍生黑石鋪內部韌性評估 (Settlement Resilience Target: 0~3)
+    // 讓 capacity 與 trust 具備實質下游生命力，直通軍事危機
+    int derived_resilience = 2;
+    if (settlement_state == "intact" && !civilian_panic && trust >= 2) {
+        derived_resilience = 3; // 倉廩實且人心齊
+    } else if (settlement_state == "devastated" || surviving_capacity <= 0 || (trust <= 0 && civilian_panic)) {
+        derived_resilience = 0; // 聚落崩潰，內訌斷糧
+    } else if (settlement_state == "starvation_risk" || civilian_panic || trust <= 1 || surviving_capacity <= 1) {
+        derived_resilience = 1; // 傷痕累累，人心惶惶
+    } else {
+        derived_resilience = 2; // 尚可支撐
+    }
 
     mapping result = ([
         "diversion_score"            : diversion_score,
@@ -561,14 +637,32 @@ mapping evaluate_beast_surge() {
         "residual_pressure"          : residual_pressure,
         "surviving_capacity"         : surviving_capacity,
         "civilian_panic"             : civilian_panic,
+        "derived_resilience"         : derived_resilience,
         "effective_knowledge"        : effective_route_knowledge
     ]);
 
     return result;
 }
 
+// ── 終局結算凍結快照 ──────────────────────────────────────────
+void freeze_resolution() {
+    if (!events || !events[EVENT_MILITARY_CRISIS]) return;
+    if (events[EVENT_MILITARY_CRISIS]["final_resolution"]) return;
+
+    mapping final_eval = evaluate_military_crisis();
+    events[EVENT_MILITARY_CRISIS]["final_resolution"] = copy(final_eval);
+    log_event(EVENT_MILITARY_CRISIS, "resolution_frozen",
+              sprintf("軍事危機最終結算已永久凍結：%s (%s)", final_eval["ending_code"], final_eval["ending_name"]));
+    save_state();
+}
+
 // ── 純函式化動態評估器：黑石關軍事危機 (Pure Evaluator) ───────
 mapping evaluate_military_crisis() {
+    // 結算凍結快照檢查：一旦進入 resolution 階段，結局永久凍結，不受後續指標篡改
+    if (events && events[EVENT_MILITARY_CRISIS] && events[EVENT_MILITARY_CRISIS]["final_resolution"]) {
+        return copy(events[EVENT_MILITARY_CRISIS]["final_resolution"]);
+    }
+
     int intel_conf    = query_metric(EVENT_MILITARY_CRISIS, METRIC_INTEL_CONFIDENCE);
     int verifiability = query_metric(EVENT_MILITARY_CRISIS, METRIC_EVIDENCE_VERIFIABILITY);
     int assault_cost  = query_metric(EVENT_MILITARY_CRISIS, METRIC_ASSAULT_COST);
@@ -594,34 +688,41 @@ mapping evaluate_military_crisis() {
     string ending_desc = "軍方給出限期覆核期限，雙方維持陣前對峙。";
 
     // 結局 D：局部衝突與有限傷亡
-    // 嚴格原則：只有實質發生不可逆流血事件，才允許判為局部衝突！
-    if (blood_drawn) {
+    // 嚴格判定條件：
+    // 1) 實質發生不可逆流血事件 (blood_drawn == 1)
+    // 2) 聚落韌性徹底崩潰 (resilience <= 0)，內部斷糧爆發惡性騷亂與踩踏，引發先鋒軍武力彈壓
+    if (blood_drawn || resilience <= 0) {
         ending_code = ENDING_D_LOCAL_SKIRMISH;
         ending_name = "局部衝突，有限傷亡（代價破局）";
-        ending_desc = "陣前爆發小規模流血摩擦；但流血代價反向驚動後方督撫彈劾御史，迫使主帥緊急鳴金收兵介入問責。";
+        if (blood_drawn) {
+            ending_desc = "陣前爆發小規模流血摩擦；但流血代價反向驚動後方督撫彈劾御史，迫使主帥緊急鳴金收兵介入問責。";
+        } else {
+            ending_desc = "黑石鋪內部儲備耗竭、民心崩解引發陣前混亂騷動；官軍以維持秩序為由強行突入接管，釀成局部死傷。";
+        }
     }
     // 結局 A：暫停進攻，正式調查 (低傷亡最佳路徑)
-    // 條件：未流血 + 情報動搖(<=1) + 核驗度高(>=3) + 獨立來源多樣(>=2) + 證人生還
-    else if (intel_conf <= 1 && verifiability >= 3 && verified_sources >= 2 && witnesses_ok) {
+    // 條件：未流血 + 聚落維持基本秩序 (resilience >= 1) + 情報動搖(intel_conf <= 1) + 核驗度高(verifiability >= 2) + 獨立來源多樣(>=2) + 證人生還
+    else if (intel_conf <= 1 && verifiability >= 2 && verified_sources >= 2 && witnesses_ok && resilience >= 1) {
         ending_code = ENDING_A_FORMAL_INVESTIGATION;
         ending_name = "暫停進攻，正式調查（低傷亡最佳路徑）";
         ending_desc = "多方獨立鐵證呈遞，隨軍監軍與中立將領正式介入，收回胡百戶兵符，成立三堂覆核公堂就地徹查礦難與走私。";
     }
-    // 結局 B：有限封鎖，局部妥協
-    // 條件：未流血 + 強攻成本過高 (>=2)
-    else if (assault_cost >= 2) {
+    // 結局 B：有限封鎖，局部妥協 (常見社會博弈結果)
+    // 條件：未流血 + 聚落具備承受圍困之韌性 (resilience >= 1) + 強攻成本過高 (assault_cost >= 2)
+    else if (assault_cost >= 2 && resilience >= 1) {
         ending_code = ENDING_B_LIMITED_BLOCKADE;
         ending_name = "有限封鎖，局部妥協（常見社會博弈結果）";
         ending_desc = "大軍因後勤糧秣斷絕且山道崩毀，放棄屠村強攻；黑石鋪交出涉案走私帳房與部分乾股名冊，換取官軍有限搜查後退兵。";
     }
-    // 結局 E：疏散撤離，聚落重組
-    // 條件：未流血 + 軍隊強攻意志不可動搖 (intel_conf >= 3) + 暗渠完全暢通
-    else if (intel_conf >= 3 && tunnels_open) {
+    // 結局 E：疏散撤離，聚落重組 (大荒流亡)
+    // 條件：未流血 + 軍隊強攻意志不可動搖 (intel_conf >= 3) + 暗渠完全暢通 + 聚落組織未崩 (resilience >= 1)
+    else if (intel_conf >= 3 && tunnels_open && resilience >= 1) {
         ending_code = ENDING_E_EVACUATION_REBUILD;
         ending_name = "疏散撤離，聚落重組（大荒流亡）";
         ending_desc = "黑石鋪地面空村遭官軍佔領查封，但全鎮主力人口依託暗渠深山撤離，核心罪證由少年攜出走向府城。";
     }
     // 結局 C：延遲進攻，危機未解 (對峙保底)
+    // 條件：未流血 + 聚落韌性尚可支撐對峙 (resilience >= 1)
     else {
         ending_code = ENDING_C_DELAYED_ULTIMATUM;
         ending_name = "延遲進攻，危機未解（時間換空間）";
@@ -646,15 +747,21 @@ mapping evaluate_military_crisis() {
 }
 
 // ── 顯式跨事件因果傳播 (Explicit Cross-Event Propagation) ─────
-// 只在特定時間推進節點 (T0 / T+2) 顯式呼叫一次，杜絕評估器側寫污染
+// 只在特定時間推進節點 (離開 T0 進入 T+1 / 進入 T+2) 顯式呼叫一次，杜絕評估器側寫污染
 void propagate_beast_to_military() {
     mapping eval_b = evaluate_beast_surge();
     int road_destruction = eval_b["canyon_road_destruction"];
 
-    // 1. 下泄狂潮對官道與軍方補給線的實質衝擊
+    // 1. 下泄狂潮對官道衝毀的傳播：
+    // 絕不粗暴覆寫降級！使用 max(目前值, 1 + road_destruction)
     if (road_destruction > 0) {
+        int cur_cost = query_metric(EVENT_MILITARY_CRISIS, METRIC_ASSAULT_COST);
+        int target_cost = 1 + road_destruction;
+        if (target_cost > cur_cost) {
+            set_metric(EVENT_MILITARY_CRISIS, METRIC_ASSAULT_COST, target_cost);
+        }
         set_fact(EVENT_MILITARY_CRISIS, "mountain_path_blocked", road_destruction);
-        set_metric(EVENT_MILITARY_CRISIS, METRIC_ASSAULT_COST, 1 + road_destruction);
+        set_fact(EVENT_MILITARY_CRISIS, "road_assault_cost_applied", road_destruction);
 
         broadcast_event(EVENT_MILITARY_CRISIS, "path_blocked", ([
             "road_destruction": road_destruction,
@@ -662,15 +769,18 @@ void propagate_beast_to_military() {
         ]));
     }
 
-    // 2. METRIC_EVIDENCE_STRENGTH 下游傳播：
-    // 煞潮期間收集到的地煞逃亡與異獸解剖病理生態物證，直接轉移至軍事危機
+    // 2. 聚落態勢 -> 黑石鋪內部韌性傳播 (settlement_capacity & civilian_trust 下游實質接軌)
+    int derived_res = eval_b["derived_resilience"];
+    set_metric(EVENT_MILITARY_CRISIS, METRIC_SETTLEMENT_RESILIENCE, derived_res);
+    set_fact(EVENT_MILITARY_CRISIS, "resilience_propagated", derived_res);
+
+    // 3. METRIC_EVIDENCE_STRENGTH 下游傳播 (分級作用，且冪等累計)
     int ev_strength = query_metric(EVENT_BEAST_SURGE, METRIC_EVIDENCE_STRENGTH);
     int last_propagated = query_fact(EVENT_MILITARY_CRISIS, "beast_evidence_propagated");
     if (ev_strength > last_propagated) {
         int diff = ev_strength - last_propagated;
         set_fact(EVENT_MILITARY_CRISIS, "beast_evidence_propagated", ev_strength);
 
-        // 在物證帳本中登錄或更新生態病理物證
         register_evidence("ev_beast_ecology", ([
             "name": "地煞逃亡與異獸解剖病理卷宗",
             "strength": ev_strength,
@@ -679,10 +789,9 @@ void propagate_beast_to_military() {
             "seen_by": ({ "commander", "inspector" })
         ]));
 
-        // 實質提升軍事抗辯物證核驗度
         add_metric(EVENT_MILITARY_CRISIS, METRIC_EVIDENCE_VERIFIABILITY, diff);
 
-        // 若生態物證強度累計達到 2 以上且之前未扣減情報信任度，直接動搖對平叛軍令的盲信
+        // 強度達 2 以上動搖軍令信任度 (各只扣一次)
         if (ev_strength >= 2 && last_propagated < 2) {
             add_metric(EVENT_MILITARY_CRISIS, METRIC_INTEL_CONFIDENCE, -1);
         }
@@ -693,7 +802,7 @@ void propagate_beast_to_military() {
         ]));
     }
 
-    // 3. 兩條時間軸的耦合規則：
+    // 4. 兩條時間軸的耦合規則：
     // 當煞潮抵達 T+2 (第 31~32 章，局勢反噬・官道衝斷) 時，
     // 若軍事危機尚在 standby (待命蟄伏，第 19~32 章)，
     // 則自動觸發軍事時間軸前進至 arrival (先鋒扣關，第 33~34 章，三千精銳重弩抵達，後路斷絕)
@@ -720,6 +829,23 @@ int query_stage_index(string event_id) {
     return member_array(cur, stages);
 }
 
+// ── T-Clock 排程與定時器 ──────────────────────────────────────
+void on_stage_timeout(string event_id) {
+    if (test_mode) return;
+    advance_event_stage(event_id);
+}
+
+void schedule_stage_timer(string event_id) {
+    if (test_mode) return;
+    remove_call_out("on_stage_timeout");
+    string cur_st = query_event_stage(event_id);
+    mapping st_def = query_stage_def(event_id, cur_st);
+    int dur = st_def["duration"];
+    if (dur > 0) {
+        call_out("on_stage_timeout", dur, event_id);
+    }
+}
+
 int set_event_stage(string event_id, string new_stage, int force) {
     if (!events || !events[event_id]) init_event_defaults(event_id);
     string *valid_stages = query_valid_stages(event_id);
@@ -730,36 +856,53 @@ int set_event_stage(string event_id, string new_stage, int force) {
     string old_stage = events[event_id]["stage"];
     if (old_stage == new_stage && force) return 1;
 
-    // 單調性保護：非 force 模式下只允許嚴格向前推進 (new_idx > cur_idx)
+    // 單調性保護：非 force 模式下只允許向前推進 (new_idx > cur_idx)
     if (!force && new_idx <= cur_idx) {
         write_file("/log/event_error.log", sprintf("[TCLOCK_WARNING] 拒絕非單調推進：%s -> %s\n", old_stage, new_stage), 0);
         return 0;
     }
 
-    events[event_id]["stage"] = new_stage;
-    mapping st_def = query_stage_def(event_id, new_stage);
+    int start_idx = cur_idx + 1;
+    if (force) {
+        start_idx = new_idx;
+    }
 
-    // 觸發時間代價衰減 (Time Cost Impact)
-    if (st_def["time_cost_impact"] && mapp(st_def["time_cost_impact"])) {
-        foreach (string mk, int delta in st_def["time_cost_impact"]) {
-            add_metric(event_id, mk, delta);
+    // 逐階推進與代價/鉤子補算 (防止跳段跳過中間時間代價與關鍵傳播)
+    for (int step = start_idx; step <= new_idx; step++) {
+        string step_stage = valid_stages[step];
+        events[event_id]["stage"] = step_stage;
+        mapping st_def = query_stage_def(event_id, step_stage);
+
+        // 觸發時間代價衰減 (Time Cost Impact)
+        if (st_def["time_cost_impact"] && mapp(st_def["time_cost_impact"])) {
+            foreach (string mk, int delta in st_def["time_cost_impact"]) {
+                add_metric(event_id, mk, delta);
+            }
         }
+
+        // 傳播時機：當煞潮離開 T0 進入 T+1 (主力過境完畢) 或進入 T+2 (局勢反噬・官道衝毀交接)
+        if (event_id == EVENT_BEAST_SURGE && (step_stage == STAGE_BEAST_T_PLUS_1 || step_stage == STAGE_BEAST_T_PLUS_2)) {
+            propagate_beast_to_military();
+        }
+
+        // 終局凍結：當軍事危機進入 resolution 階段，永久凍結結局快照
+        if (event_id == EVENT_MILITARY_CRISIS && step_stage == STAGE_MILITARY_RESOLUTION) {
+            freeze_resolution();
+        }
+
+        string desc = query_stage_desc(event_id, step_stage);
+        log_event(event_id, "stage_advance", sprintf("時間軸推進：%s -> %s（%s）", old_stage, step_stage, desc));
+
+        broadcast_event(event_id, "stage_advance", ([
+            "old_stage": old_stage,
+            "new_stage": step_stage,
+            "broadcast_text": sprintf("天時轉移，世界局勢邁入新階段【%s】！\n%s", step_stage, desc)
+        ]));
+
+        old_stage = step_stage;
     }
 
-    // 當煞潮推進至 T0 主力過境或 T+2 官道衝斷交接時，顯式傳播下泄衝擊至軍事危機
-    if (event_id == EVENT_BEAST_SURGE && (new_stage == STAGE_BEAST_T_0 || new_stage == STAGE_BEAST_T_PLUS_2)) {
-        propagate_beast_to_military();
-    }
-
-    string desc = query_stage_desc(event_id, new_stage);
-    log_event(event_id, "stage_advance", sprintf("時間軸推進：%s -> %s（%s）", old_stage, new_stage, desc));
-
-    broadcast_event(event_id, "stage_advance", ([
-        "old_stage": old_stage,
-        "new_stage": new_stage,
-        "broadcast_text": sprintf("天時轉移，世界局勢邁入新階段【%s】！\n%s", new_stage, desc)
-    ]));
-
+    schedule_stage_timer(event_id);
     save_state();
     return 1;
 }
@@ -781,17 +924,46 @@ mapping apply_quest_outcome(string event_id, string quest_id, mapping outcome, s
     if (!events || !events[event_id]) init_event_defaults(event_id);
     if (!outcome || !mapp(outcome) || !quest_id || quest_id == "") return ([]);
 
+    // 0. 結算凍結檢查：若事件已完成終局凍結，拒絕後續指標篡改
+    if (events[event_id]["final_resolution"]) {
+        log_event(event_id, "outcome_rejected", sprintf("事件已終局結算凍結，拒絕任務【%s】", quest_id));
+        return ([ "status": "rejected", "message": "該世界事件已告終局，歷史已成定局，無法再行篡改！" ]);
+    }
+
+    // 階段限定檢查 (Stage Gating)：支援 deadline_stage 與 valid_stages，逾期行動無法發揮效果
+    string cur_stage = events[event_id]["stage"];
+    string *valid_stages = query_valid_stages(event_id);
+    int cur_idx = member_array(cur_stage, valid_stages);
+
+    if (outcome["valid_stages"] && arrayp(outcome["valid_stages"])) {
+        if (member_array(cur_stage, outcome["valid_stages"]) == -1) {
+            log_event(event_id, "quest_expired", sprintf("任務【%s】不在有效階段清單內（當前：%s）", quest_id, cur_stage));
+            return ([ "status": "expired", "message": "時機已逝，該任務已無法在此階段套用！" ]);
+        }
+    }
+    if (outcome["deadline_stage"] && stringp(outcome["deadline_stage"])) {
+        int dead_idx = member_array(outcome["deadline_stage"], valid_stages);
+        if (dead_idx != -1 && cur_idx > dead_idx) {
+            log_event(event_id, "quest_expired", sprintf("任務【%s】已逾期（當前：%s，截止：%s）", quest_id, cur_stage, outcome["deadline_stage"]));
+            return ([ "status": "expired", "message": "任務已逾期，局勢轉移使該行動失去效果！" ]);
+        }
+    }
+
     // 1. 冪等性檢驗 (Idempotency Key Check)
-    string idemp_key = (actor_id && actor_id != "") ? (quest_id + "@" + actor_id) : quest_id;
+    // 預設為全域世界事件任務 (scope: "global")，防止多帳號重複刷動世界指標
+    // 若明確標註 actor_scoped == 1，則以 quest_id@actor_id 為鍵
+    string idemp_key = quest_id;
+    if (outcome["actor_scoped"] && actor_id && actor_id != "") {
+        idemp_key = quest_id + "@" + actor_id;
+    }
     if (!events[event_id]["applied_outcomes"]) events[event_id]["applied_outcomes"] = ([]);
 
     if (events[event_id]["applied_outcomes"][idemp_key] && !outcome["repeatable"]) {
-        // 重複提交，直接拒絕並返回歷史記錄，保護全域狀態不被重複刷分
         log_event(event_id, "idempotent_reject", sprintf("任務結算冪等拒絕：%s", idemp_key));
         return events[event_id]["applied_outcomes"][idemp_key];
     }
 
-    // 2. 事務性預驗證 (Validation Phase)：檢查傳入的 deltas 是否全為已註冊指標
+    // 2. 事務性預驗證 (Validation Phase)：檢查傳入的 deltas 與 facts 是否全為已註冊項目
     mapping pending_deltas = ([]);
 
     if (outcome["deltas"] && mapp(outcome["deltas"])) {
@@ -812,6 +984,15 @@ mapping apply_quest_outcome(string event_id, string quest_id, mapping outcome, s
                 return ([]);
             }
             pending_deltas[mname] = val;
+        }
+    }
+
+    if (outcome["facts"] && mapp(outcome["facts"])) {
+        foreach (string fk, mixed fv in outcome["facts"]) {
+            if (!is_valid_fact(event_id, fk)) {
+                write_file("/log/event_error.log", sprintf("[TX_ABORT] 任務 %s 傳入未註冊事實：%s\n", quest_id, fk), 0);
+                return ([]);
+            }
         }
     }
 
@@ -852,7 +1033,10 @@ mapping apply_quest_outcome(string event_id, string quest_id, mapping outcome, s
 
     events[event_id]["applied_outcomes"][idemp_key] = q_record;
 
-    // 7. 發布廣播與單次寫入磁碟 (Single Transaction Commit)
+    // 7. 先行持久化存檔 (存檔在廣播之前，杜絕訂閱者出錯導致狀態未儲存)
+    save_state();
+
+    // 8. 發布廣播 (廣播在存檔之後)
     broadcast_event(event_id, "quest_outcome", ([
         "quest_id"       : quest_id,
         "status"         : q_record["status"],
@@ -860,7 +1044,6 @@ mapping apply_quest_outcome(string event_id, string quest_id, mapping outcome, s
         "broadcast_text" : q_record["message"]
     ]));
 
-    save_state();
     return q_record;
 }
 

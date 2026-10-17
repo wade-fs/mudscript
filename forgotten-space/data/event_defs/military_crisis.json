@@ -76,6 +76,8 @@
     "mountain_path_blocked": 0,
     "evacuation_tunnels_open": 0,
     "supplies_intercepted": 0,
-    "beast_evidence_propagated": 0
+    "beast_evidence_propagated": 0,
+    "road_assault_cost_applied": 0,
+    "resilience_propagated": 0
   }
 }
