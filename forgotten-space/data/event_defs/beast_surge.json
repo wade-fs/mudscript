@@ -1,0 +1,103 @@
+{
+  "id": "beast_surge",
+  "name": "大荒煞潮",
+  "version": 1,
+  "stages": [
+    {
+      "id": "T-3",
+      "name": "異常初顯",
+      "desc": "東林鳥雀驚飛、林冠泛紅霧、北方微風帶硫磺焦味、捕獲獵物驟減",
+      "duration": 180,
+      "time_cost_impact": {}
+    },
+    {
+      "id": "T-2",
+      "name": "遷徙確認",
+      "desc": "獸痕密布、食草獸成群南奔；集市爆發米荒衝突，商隊護衛暗中串聯",
+      "duration": 240,
+      "time_cost_impact": {
+        "settlement_capacity": -1
+      }
+    },
+    {
+      "id": "T-1",
+      "name": "大潮臨近",
+      "desc": "先頭花豹與狂狼現蹤；私逃富商車毀人亡；黑石鋪全鎮進入極限備戰",
+      "duration": 180,
+      "time_cost_impact": {
+        "civilian_trust": -1
+      }
+    },
+    {
+      "id": "T0",
+      "name": "主力過境",
+      "desc": "大地劇烈轟鳴，萬獸狂潮奔騰抵達落龍口；阻獸煙起、鳴鏑尖嘯、落石觸發",
+      "duration": 60,
+      "time_cost_impact": {}
+    },
+    {
+      "id": "T+1",
+      "name": "殘獸清剿",
+      "desc": "獸潮主力怒折落龍澗；一成殘獸衝擊外圍木柵；晨曦破曉，全鎮虛脫清點",
+      "duration": 120,
+      "time_cost_impact": {}
+    },
+    {
+      "id": "T+2",
+      "name": "局勢反噬",
+      "desc": "下泄獸群衝斷金石官道；胡百戶哨騎被困；府城三千重弩大軍扣關對峙",
+      "duration": 0,
+      "time_cost_impact": {}
+    }
+  ],
+  "metrics": {
+    "herd_pressure": {
+      "min": 0,
+      "max": 4,
+      "default": 3,
+      "desc": "獸群總量與衝擊強度"
+    },
+    "route_confidence": {
+      "min": 0,
+      "max": 3,
+      "default": 0,
+      "desc": "聚落對獸潮主幹逃逸路徑掌握度"
+    },
+    "diversion_effect": {
+      "min": 0,
+      "max": 3,
+      "default": 0,
+      "desc": "落龍澗工程導流完成度"
+    },
+    "settlement_capacity": {
+      "min": 0,
+      "max": 4,
+      "default": 4,
+      "desc": "聚落物資儲備與承載極限"
+    },
+    "evidence_strength": {
+      "min": 0,
+      "max": 3,
+      "default": 0,
+      "desc": "地煞逃亡非攻城之物證強度"
+    },
+    "civilian_trust": {
+      "min": 0,
+      "max": 3,
+      "default": 2,
+      "desc": "聚落居民對調查與防禦措施之信任度"
+    }
+  },
+  "facts": {
+    "autopsy_performed": 0,
+    "sulfur_poisoning_found": 0,
+    "flight_direction_mapped": 0,
+    "diversion_ditch_dug": 0,
+    "cold_smoke_stock": 0,
+    "signal_arrows_ready": 0,
+    "merchant_fled": 0,
+    "merchant_supplies_looted": 0,
+    "canyon_road_destroyed": 0,
+    "residual_breach_occurred": 0
+  }
+}

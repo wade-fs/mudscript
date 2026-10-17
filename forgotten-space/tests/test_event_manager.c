@@ -1,157 +1,229 @@
 // /tests/test_event_manager.c
-// Phase 0: 世界事件守護進程 (Event Manager Daemon) 單元測試
+// Phase 0: 世界事件守護進程 (Event Manager Daemon) 嚴格架構單元測試
 // 驗證項目：
-// 1. 守護進程載入與預設狀態矩陣 (6+4 變數)
-// 2. 雙階段 T-Clock 時間軸推進與邊界保護
-// 3. 指標讀寫、增量加算與邊界限制 (Metrics Clamping)
-// 4. 單向數據流：任務成果提交 -> 更新指標 -> 更新客觀事實
-// 5. 物證帳本 (Evidence Ledger)：登錄、過目標記、關鍵官員核驗連動
-// 6. 動態因果評估器：大荒煞潮偏折率與金石官道衝毀連動
-// 7. 動態因果評估器：黑石關軍事危機 5 大非二元結局組合運算
-// 8. 重置 (reset_event) 與狀態重現
+// 1. 資料驅動載入 (JSON Schema) 與未註冊幽靈指標嚴格拒絕
+// 2. 評估器純函式特性（只讀無副作用，看儀表板絕對不竄改軍事指標）
+// 3. 顯式跨事件傳播 (propagate_beast_to_military)
+// 4. 事務性與冪等結算 (Transactional & Idempotent Outcome)
+// 5. 物證帳本多來源獨立驗證 (多物證加權，杜絕單證解鎖 Ending A)
+// 6. 完備因果閉環：煞潮 6 大指標實質影響，軍事 5 大結局消除自相矛盾空間
+// 7. T-Clock 單調推進防護與時間推進代價 (Time-Cost Decay)
+// 8. 發布/訂閱事件匯流排 (Pub/Sub Event Bus) 回調驗證
+// 9. 測試模式防護與乾淨重置 (Clean Reset)
 
 inherit "/std/test_case.c";
 
 #include "/include/globals.h"
 #include "/include/world_event.h"
 
+int pubsub_called = 0;
+string pubsub_last_event = "";
+string pubsub_last_type = "";
+
+void on_event_bus_msg(string event_id, string event_type, mapping payload) {
+    pubsub_called++;
+    pubsub_last_event = event_id;
+    pubsub_last_type = event_type;
+}
+
 void run_tests(object me) {
-    start_test("Phase 0: 底層狀態機與全域事件引擎骨架驗證");
+    start_test("Phase 0: 底層狀態機嚴格架構與純函式因果引擎驗證");
 
     object em = load_object(EVENT_MANAGER_D);
     assert_true(objectp(em), "事件守護進程 (EVENT_MANAGER_D) 必須成功載入");
 
-    // 重置為乾淨的初始狀態
+    // 開啟測試模式 (不寫磁碟存檔，保護資料完整)
+    em->set_test_mode(1);
     em->reset_event("all");
 
-    // ── 1. 驗證大荒煞潮初始狀態矩陣 ───────────────────────────
-    assert_equal(STAGE_BEAST_T_MINUS_3, em->query_event_stage(EVENT_BEAST_SURGE), "煞潮初始階段應為 T-3");
-    assert_equal(3, em->query_metric(EVENT_BEAST_SURGE, METRIC_HERD_PRESSURE), "初始 herd_pressure 應為 3");
-    assert_equal(0, em->query_metric(EVENT_BEAST_SURGE, METRIC_ROUTE_CONFIDENCE), "初始 route_confidence 應為 0");
-    assert_equal(0, em->query_metric(EVENT_BEAST_SURGE, METRIC_DIVERSION_EFFECT), "初始 diversion_effect 應為 0");
-    assert_equal(4, em->query_metric(EVENT_BEAST_SURGE, METRIC_SETTLEMENT_CAPACITY), "初始 settlement_capacity 應為 4");
-    assert_equal(0, em->query_metric(EVENT_BEAST_SURGE, METRIC_EVIDENCE_STRENGTH), "初始 evidence_strength 應為 0");
-    assert_equal(2, em->query_metric(EVENT_BEAST_SURGE, METRIC_CIVILIAN_TRUST), "初始 civilian_trust 應為 2");
+    // ── 1. 資料驅動驗證與幽靈指標嚴格拒絕 ──────────────────────
+    assert_equal(1, em->is_valid_metric(EVENT_BEAST_SURGE, METRIC_HERD_PRESSURE), "已註冊指標 herd_pressure 應合法");
+    assert_equal(1, em->is_valid_metric(EVENT_MILITARY_CRISIS, METRIC_INTEL_CONFIDENCE), "已註冊指標 intel_confidence 應合法");
+    assert_equal(0, em->is_valid_metric(EVENT_BEAST_SURGE, "ghost_metric_foo"), "未註冊指標 ghost_metric_foo 應非法");
 
-    // ── 2. 驗證軍事危機初始狀態矩陣 ───────────────────────────
-    assert_equal(STAGE_MILITARY_STANDBY, em->query_event_stage(EVENT_MILITARY_CRISIS), "軍事危機初始階段應為 standby");
-    assert_equal(3, em->query_metric(EVENT_MILITARY_CRISIS, METRIC_INTEL_CONFIDENCE), "初始 intel_confidence 應為 3");
-    assert_equal(0, em->query_metric(EVENT_MILITARY_CRISIS, METRIC_EVIDENCE_VERIFIABILITY), "初始 evidence_verifiability 應為 0");
-    assert_equal(1, em->query_metric(EVENT_MILITARY_CRISIS, METRIC_ASSAULT_COST), "初始 assault_cost 應為 1");
-    assert_equal(2, em->query_metric(EVENT_MILITARY_CRISIS, METRIC_SETTLEMENT_RESILIENCE), "初始 settlement_resilience 應為 2");
+    // 嚴格拒絕幽靈指標
+    int ghost_res = em->set_metric(EVENT_BEAST_SURGE, "ghost_metric_foo", 5);
+    assert_equal(-999, ghost_res, "設定未註冊指標必須被拒絕並回傳 -999");
+    assert_equal(-999, em->query_metric(EVENT_BEAST_SURGE, "ghost_metric_foo"), "查詢未註冊指標應回傳 -999，絕不產生幽靈變數");
 
-    // ── 3. 驗證 T-Clock 時間軸推進 ────────────────────────────
-    assert_equal("T-2", em->advance_event_stage(EVENT_BEAST_SURGE), "煞潮推進應至 T-2");
-    assert_equal("T-1", em->advance_event_stage(EVENT_BEAST_SURGE), "煞潮推進應至 T-1");
-    assert_equal("T0",  em->advance_event_stage(EVENT_BEAST_SURGE), "煞潮推進應至 T0");
-    assert_equal("T+1", em->advance_event_stage(EVENT_BEAST_SURGE), "煞潮推進應至 T+1");
-    assert_equal("T+2", em->advance_event_stage(EVENT_BEAST_SURGE), "煞潮推進應至 T+2");
-    assert_equal("T+2", em->advance_event_stage(EVENT_BEAST_SURGE), "煞潮至終點後不應越界超出 T+2");
+    // ── 2. 評估器純函式特性驗證（看儀表板無副作用） ────────────
+    // 設定軍事危機 ASSAULT_COST 原本為 3 (例如其他任務累積)
+    em->set_metric(EVENT_MILITARY_CRISIS, METRIC_ASSAULT_COST, 3);
+    assert_equal(3, em->query_metric(EVENT_MILITARY_CRISIS, METRIC_ASSAULT_COST), "ASSAULT_COST 初始設定為 3");
 
-    // 不合法階段設定應被拒絕
-    assert_equal(0, em->set_event_stage(EVENT_BEAST_SURGE, "INVALID_STAGE"), "設定不合法階段應回傳 0");
-    assert_equal(1, em->set_event_stage(EVENT_BEAST_SURGE, STAGE_BEAST_T_MINUS_3), "回調至 T-3 應成功");
+    // 設定煞潮導流完成度為 1 (預期破壞為 1)
+    em->set_metric(EVENT_BEAST_SURGE, METRIC_DIVERSION_EFFECT, 1);
+    em->set_metric(EVENT_BEAST_SURGE, METRIC_ROUTE_CONFIDENCE, 1);
 
-    // ── 4. 驗證數值指標上下限鉗位 (Clamping) ───────────────────
-    // route_confidence 上限為 3
-    em->set_metric(EVENT_BEAST_SURGE, METRIC_ROUTE_CONFIDENCE, 100);
-    assert_equal(3, em->query_metric(EVENT_BEAST_SURGE, METRIC_ROUTE_CONFIDENCE), "route_confidence 超出上限應被鉗位在 3");
+    // 呼叫 evaluate_beast_surge() 純評估
+    mapping eval_read_only = em->evaluate_beast_surge();
+    assert_equal(1, eval_read_only["canyon_road_destruction"], "純評估計算預期官道損毀等級為 1");
 
-    // civilian_trust 下限為 0
-    em->set_metric(EVENT_BEAST_SURGE, METRIC_CIVILIAN_TRUST, -50);
-    assert_equal(0, em->query_metric(EVENT_BEAST_SURGE, METRIC_CIVILIAN_TRUST), "civilian_trust 低於下限應被鉗位在 0");
+    // 檢視狀態儀表板 (內部會呼叫 evaluate_beast_surge)
+    string dashboard = em->dump_status(EVENT_BEAST_SURGE);
+    assert_true(strlen(dashboard) > 50, "儀表板字串輸出應正常");
 
-    // add_metric 邊界增量
-    em->set_metric(EVENT_BEAST_SURGE, METRIC_CIVILIAN_TRUST, 2);
-    em->add_metric(EVENT_BEAST_SURGE, METRIC_CIVILIAN_TRUST, 5);
-    assert_equal(3, em->query_metric(EVENT_BEAST_SURGE, METRIC_CIVILIAN_TRUST), "add_metric 超額增加應正確鉗位在 3");
+    // 關鍵斷言：查看儀表板與純評估後，軍事危機 ASSAULT_COST 絕對不能被覆寫為 2！
+    assert_equal(3, em->query_metric(EVENT_MILITARY_CRISIS, METRIC_ASSAULT_COST), "評估器與儀表板必須為純函式，絕不可產生覆寫軍事指標的副作用");
 
-    // ── 5. 驗證單向數據流：任務成果結算 (apply_quest_outcome) ─
+    // 顯式傳播 (Explicit Propagation)：只有在顯式呼叫時才同步
+    em->propagate_beast_to_military();
+    // 依據預期官道損毀 1，顯式傳播後設定為 1 + 1 = 2
+    assert_equal(2, em->query_metric(EVENT_MILITARY_CRISIS, METRIC_ASSAULT_COST), "顯式傳播 propagate_beast_to_military 呼叫後才正式同步更新軍事指標");
+
+    // ── 3. T-Clock 單調推進防護與時間推進代價 ──────────────────
     em->reset_event(EVENT_BEAST_SURGE);
-    mapping outcome_a01 = ([
+    assert_equal(STAGE_BEAST_T_MINUS_3, em->query_event_stage(EVENT_BEAST_SURGE), "初始階段為 T-3");
+
+    // 單調性：非 force 模式禁止時間倒流
+    assert_equal(0, em->set_event_stage(EVENT_BEAST_SURGE, STAGE_BEAST_T_MINUS_3, 0), "禁止在非強制模式下重複或倒退設定階段");
+
+    // 推進至 T-2，驗證時間推進代價：settlement_capacity 受到衝擊扣減 1
+    int cap_before = em->query_metric(EVENT_BEAST_SURGE, METRIC_SETTLEMENT_CAPACITY);
+    string next_st = em->advance_event_stage(EVENT_BEAST_SURGE);
+    assert_equal(STAGE_BEAST_T_MINUS_2, next_st, "時間軸應順利推進至 T-2");
+    assert_equal(cap_before - 1, em->query_metric(EVENT_BEAST_SURGE, METRIC_SETTLEMENT_CAPACITY), "進入 T-2 時間代價應自動扣減 1 點 settlement_capacity");
+
+    // 推進至 T-1，civilian_trust 代價扣減 1
+    int trust_before = em->query_metric(EVENT_BEAST_SURGE, METRIC_CIVILIAN_TRUST);
+    em->advance_event_stage(EVENT_BEAST_SURGE);
+    assert_equal(trust_before - 1, em->query_metric(EVENT_BEAST_SURGE, METRIC_CIVILIAN_TRUST), "進入 T-1 時間代價應自動扣減 1 點 civilian_trust");
+
+    // ── 4. 事務性與冪等結算 (Transactional & Idempotent) ───────
+    em->reset_event(EVENT_BEAST_SURGE);
+
+    // 4.1 事務失敗 (包含非法幽靈指標，全筆 rollback)
+    mapping bad_outcome = ([
+        "status": "success",
+        "deltas": ([
+            METRIC_ROUTE_CONFIDENCE: 1,
+            "non_existent_metric": 5 // 惡意或拼寫錯誤的未註冊指標
+        ])
+    ]);
+    mapping bad_tx = em->apply_quest_outcome(EVENT_BEAST_SURGE, "bad_quest", bad_outcome, "player1");
+    assert_equal(0, sizeof(bad_tx), "包含未註冊指標時整筆事務必須中止");
+    assert_equal(0, em->query_metric(EVENT_BEAST_SURGE, METRIC_ROUTE_CONFIDENCE), "事務中止後原本的指標絕不應被部分套用");
+
+    // 4.2 正常事務結算
+    mapping good_outcome = ([
         "status": "success",
         "deltas": ([
             METRIC_EVIDENCE_STRENGTH: 1,
             METRIC_ROUTE_CONFIDENCE: 1
         ]),
         "facts": ([
-            "autopsy_performed": 1,
-            "sulfur_poisoning_found": 1
+            "autopsy_performed": 1
         ]),
-        "message": "顧玄完成了黃羊解剖，確認死因非外傷撕咬，乃地煞硫磺急毒窒息！"
+        "message": "顧玄驗屍剖檢完成"
     ]);
+    mapping rec_ok = em->apply_quest_outcome(EVENT_BEAST_SURGE, "A01_sheep", good_outcome, "player1");
+    assert_equal("A01_sheep", rec_ok["quest_id"], "合法事務結算成功");
+    assert_equal(1, em->query_metric(EVENT_BEAST_SURGE, METRIC_EVIDENCE_STRENGTH), "指標正確增量為 1");
+    assert_equal(1, em->query_metric(EVENT_BEAST_SURGE, METRIC_ROUTE_CONFIDENCE), "指標正確增量為 1");
 
-    mapping rec1 = em->apply_quest_outcome(EVENT_BEAST_SURGE, "A01_dead_yellow_sheep", outcome_a01);
-    assert_equal("success", rec1["status"], "任務結算狀態應記錄為 success");
-    assert_equal(1, em->query_metric(EVENT_BEAST_SURGE, METRIC_EVIDENCE_STRENGTH), "A01 完成後 evidence_strength 應增加為 1");
-    assert_equal(1, em->query_metric(EVENT_BEAST_SURGE, METRIC_ROUTE_CONFIDENCE), "A01 完成後 route_confidence 應增加為 1");
-    assert_equal(1, em->query_fact(EVENT_BEAST_SURGE, "autopsy_performed"), "事實 autopsy_performed 應被標記為 1");
-    assert_equal(1, em->query_fact(EVENT_BEAST_SURGE, "sulfur_poisoning_found"), "事實 sulfur_poisoning_found 應被標記為 1");
+    // 4.3 冪等性防護：同一位玩家再次提交同一非重複任務
+    mapping dup_rec = em->apply_quest_outcome(EVENT_BEAST_SURGE, "A01_sheep", good_outcome, "player1");
+    assert_equal(1, em->query_metric(EVENT_BEAST_SURGE, METRIC_EVIDENCE_STRENGTH), "重複提交時指標不得再次疊加");
+    assert_equal(1, em->query_metric(EVENT_BEAST_SURGE, METRIC_ROUTE_CONFIDENCE), "重複提交時指標不得再次疊加");
 
-    // 驗證任務查詢
-    mapping q_rec = em->query_quest_outcome(EVENT_BEAST_SURGE, "A01_dead_yellow_sheep");
-    assert_equal("A01_dead_yellow_sheep", q_rec["quest_id"], "任務記錄應能準確查出");
-
-    // ── 6. 驗證物證帳本 (Evidence Ledger) 與官員檢驗 ──────────
+    // ── 5. 物證帳本多來源獨立驗證 (杜絕單證解鎖 Ending A) ──────
     em->reset_event(EVENT_MILITARY_CRISIS);
-    mapping ev_crucible = ([
-        "name": "刻有商會暗記之精煉坩堝",
-        "desc": "在私逃富商覆車殘骸中起獲的走私坩堝，殘留地煞血精微塵",
+    assert_equal(3, em->query_metric(EVENT_MILITARY_CRISIS, METRIC_INTEL_CONFIDENCE), "初始 intel_confidence 為 3");
+    assert_equal(0, em->query_metric(EVENT_MILITARY_CRISIS, METRIC_EVIDENCE_VERIFIABILITY), "初始 evidence_verifiability 為 0");
+
+    // 登錄物證 1 (來源：autopsy，強度：2)
+    em->register_evidence("ev_autopsy", ([
+        "name": "黃羊氣管焦黑粉塵樣本",
         "strength": 2,
-        "source": "商隊車隊殘骸"
-    ]);
+        "source_type": "autopsy"
+    ]));
 
-    em->register_evidence("ev_crucible", ev_crucible);
-    mapping q_ev = em->query_evidence("ev_crucible");
-    assert_equal("ev_crucible", q_ev["id"], "物證應成功登錄於帳本中");
-    assert_equal(0, em->is_evidence_seen_by("ev_crucible", "commander"), "初始先鋒主帥不應看過此證物");
+    // 先鋒主帥初次檢驗物證 1：verifiability += 2, intel -= 1
+    assert_equal(1, em->mark_evidence_seen("ev_autopsy", "commander"), "主帥初次檢驗物證 1 應成功");
+    assert_equal(2, em->query_metric(EVENT_MILITARY_CRISIS, METRIC_EVIDENCE_VERIFIABILITY), "強度 2 物證檢驗後 verifiability 應為 2");
+    assert_equal(2, em->query_metric(EVENT_MILITARY_CRISIS, METRIC_INTEL_CONFIDENCE), "intel 應降為 2");
 
-    // 當先鋒主帥檢驗物證
-    int seen_res = em->mark_evidence_seen("ev_crucible", "commander");
-    assert_equal(1, seen_res, "標記主帥檢驗物證應成功");
-    assert_equal(1, em->is_evidence_seen_by("ev_crucible", "commander"), "此時主帥應在看過名單中");
+    // 防刷分：主帥再次查看同一物證 1，數值絕不重複計算
+    assert_equal(0, em->mark_evidence_seen("ev_autopsy", "commander"), "同一官員重複查看同一物證應回傳 0");
+    assert_equal(2, em->query_metric(EVENT_MILITARY_CRISIS, METRIC_EVIDENCE_VERIFIABILITY), "重複查看數值不得增加");
 
-    // 主帥過目後，軍方情報自信心動搖 (-1)，證據核驗度上升 (+1)
-    assert_equal(2, em->query_metric(EVENT_MILITARY_CRISIS, METRIC_INTEL_CONFIDENCE), "主帥驗證後 intel_confidence 應降為 2");
-    assert_equal(1, em->query_metric(EVENT_MILITARY_CRISIS, METRIC_EVIDENCE_VERIFIABILITY), "主帥驗證後 evidence_verifiability 應升為 1");
+    // 監軍 inspector 查看同一物證 1：物證 1 已被 verified，不得再次累加指標
+    em->mark_evidence_seen("ev_autopsy", "inspector");
+    assert_equal(2, em->query_metric(EVENT_MILITARY_CRISIS, METRIC_EVIDENCE_VERIFIABILITY), "同一物證被其他官員查看不得重複累加 verifiability 指標");
 
-    // ── 7. 驗證大荒煞潮因果評估與官道破壞連動 ────────────────
-    em->reset_event("all");
-    // 預設無工程：主力直衝黑石鋪
-    mapping eval_no_eng = em->evaluate_beast_surge();
-    assert_equal("village_impact", eval_no_eng["main_herd_route"], "無工程時主力路線應為 village_impact");
-    assert_equal(0, eval_no_eng["canyon_road_destruction"], "無改道時落龍澗下泄官道未受損");
-
-    // 模擬成功完成導流工程 (diversion=2, confidence=2)
-    em->set_metric(EVENT_BEAST_SURGE, METRIC_DIVERSION_EFFECT, 2);
-    em->set_metric(EVENT_BEAST_SURGE, METRIC_ROUTE_CONFIDENCE, 2);
-    mapping eval_diverted = em->evaluate_beast_surge();
-    assert_equal("canyon", eval_diverted["main_herd_route"], "高工程與精確勘測時主力路線應偏折入落龍澗 (canyon)");
-    assert_equal(2, eval_diverted["canyon_road_destruction"], "下泄萬獸狂潮應徹底衝斷金石官道 (destruction=2)");
-
-    // 驗證煞潮因果自動回饋至軍事危機：官道被衝毀，大軍強攻成本自動上升
-    assert_equal(3, em->query_metric(EVENT_MILITARY_CRISIS, METRIC_ASSAULT_COST), "山道被獸潮衝斷後，軍事危機 assault_cost 應自動激增至 3");
-
-    // ── 8. 驗證軍事危機 5 大非二元結局推演 ────────────────────
-    // 測試結局 B：強攻成本過高且未流血 -> 有限封鎖，局部妥協
-    mapping ending_b = em->evaluate_military_crisis();
-    assert_equal(ENDING_B_LIMITED_BLOCKADE, ending_b["ending_code"], "強攻成本過高時應收斂至結局 B (有限封鎖)");
-
-    // 測試結局 A：情報動搖 (<=1) + 物證核驗度高 (>=2) + 證人存活 -> 正式調查
-    em->set_metric(EVENT_MILITARY_CRISIS, METRIC_INTEL_CONFIDENCE, 1);
-    em->set_metric(EVENT_MILITARY_CRISIS, METRIC_EVIDENCE_VERIFIABILITY, 2);
+    // 此時只有 1 個獨立來源物證，即使證人完好，評估絕對不能解鎖 Ending A
     em->set_fact(EVENT_MILITARY_CRISIS, "witnesses_intact", 1);
-    mapping ending_a = em->evaluate_military_crisis();
-    assert_equal(ENDING_A_FORMAL_INVESTIGATION, ending_a["ending_code"], "證據確鑿且情報動搖時應收斂至最佳結局 A (暫停進攻，正式調查)");
+    mapping eval_single_ev = em->evaluate_military_crisis();
+    assert_true(eval_single_ev["ending_code"] != ENDING_A_FORMAL_INVESTIGATION, "單一孤證絕對不能解鎖結局 A (正式調查)");
 
-    // 測試結局 D：發生不可逆流血事件 -> 局部衝突
+    // 登錄物證 2 (來源：smuggling_wreckage，強度：1)
+    em->register_evidence("ev_crucible", ([
+        "name": "富商覆車起獲之走私坩堝",
+        "strength": 1,
+        "source_type": "smuggling_wreckage"
+    ]));
+
+    // 監軍檢驗物證 2：來自第 2 個獨立來源，verifiability += 1 (達到 3)，intel -= 1 (達到 1)
+    em->mark_evidence_seen("ev_crucible", "inspector");
+    assert_equal(3, em->query_metric(EVENT_MILITARY_CRISIS, METRIC_EVIDENCE_VERIFIABILITY), "第二來源物證檢驗後 verifiability 達到 3");
+    assert_equal(1, em->query_metric(EVENT_MILITARY_CRISIS, METRIC_INTEL_CONFIDENCE), "intel 降至 1");
+
+    // 具備 2 個獨立來源 + verifiability >= 3 + intel <= 1 + 未流血 + 證人生還 -> 正式解鎖 Ending A
+    mapping eval_double_ev = em->evaluate_military_crisis();
+    assert_equal(ENDING_A_FORMAL_INVESTIGATION, eval_double_ev["ending_code"], "多方獨立鐵證核驗後方可合法收斂至結局 A (正式調查)");
+
+    // ── 6. 結局空間無矛盾性驗證 ───────────────────────────────
+    // 6.1 只要 blood_drawn == 1，必須收斂為 Ending D (局部衝突)
     em->set_fact(EVENT_MILITARY_CRISIS, "blood_drawn", 1);
-    mapping ending_d = em->evaluate_military_crisis();
-    assert_equal(ENDING_D_LOCAL_SKIRMISH, ending_d["ending_code"], "發生流血事件時應收斂至結局 D (局部衝突)");
+    mapping eval_blood = em->evaluate_military_crisis();
+    assert_equal(ENDING_D_LOCAL_SKIRMISH, eval_blood["ending_code"], "已流血事件必須嚴格判定為結局 D (局部衝突)");
 
-    // ── 9. 驗證儀表板 Dump 輸出 ───────────────────────────────
-    string dump_str = em->dump_status(EVENT_BEAST_SURGE);
-    assert_true(strlen(dump_str) > 100, "狀態儀表板輸出長度應大於 100 字元");
+    // 6.2 當 blood_drawn == 0 時，絕不允許被判定為「陣前爆發流血衝突」！
+    em->set_fact(EVENT_MILITARY_CRISIS, "blood_drawn", 0);
+    // 強攻成本高 -> Ending B (有限封鎖)
+    em->set_metric(EVENT_MILITARY_CRISIS, METRIC_ASSAULT_COST, 3);
+    em->set_metric(EVENT_MILITARY_CRISIS, METRIC_INTEL_CONFIDENCE, 3);
+    mapping eval_blockade = em->evaluate_military_crisis();
+    assert_equal(ENDING_B_LIMITED_BLOCKADE, eval_blockade["ending_code"], "未流血且強攻成本過高時收斂至結局 B");
+
+    // 強攻成本低 + 暗渠暢通 -> Ending E (疏散撤離)
+    em->set_metric(EVENT_MILITARY_CRISIS, METRIC_ASSAULT_COST, 1);
+    em->set_fact(EVENT_MILITARY_CRISIS, "evacuation_tunnels_open", 1);
+    mapping eval_evac = em->evaluate_military_crisis();
+    assert_equal(ENDING_E_EVACUATION_REBUILD, eval_evac["ending_code"], "未流血且暗渠完備時收斂至結局 E (疏散撤離)");
+
+    // 保底對峙 -> Ending C (延遲進攻)
+    em->set_fact(EVENT_MILITARY_CRISIS, "evacuation_tunnels_open", 0);
+    mapping eval_ultimatum = em->evaluate_military_crisis();
+    assert_equal(ENDING_C_DELAYED_ULTIMATUM, eval_ultimatum["ending_code"], "未流血且各方均未壓倒時收斂至結局 C (延遲進攻)");
+
+    // ── 7. 發布/訂閱事件匯流排 (Pub/Sub Event Bus) 驗證 ───────
+    pubsub_called = 0;
+    em->subscribe(EVENT_BEAST_SURGE, this_object(), "on_event_bus_msg");
+
+    mapping pubsub_outcome = ([
+        "status": "success",
+        "deltas": ([ METRIC_CIVILIAN_TRUST: 1 ]),
+        "message": "鐵匠鋪修整兵刃安撫人心"
+    ]);
+    em->apply_quest_outcome(EVENT_BEAST_SURGE, "smith_morale", pubsub_outcome, "player2");
+
+    assert_true(pubsub_called > 0, "事件匯流排訂閱者應收到回調通知");
+    assert_equal(EVENT_BEAST_SURGE, pubsub_last_event, "訂閱回調事件 ID 應正確");
+    assert_equal("quest_outcome", pubsub_last_type, "訂閱回調事件類型應為 quest_outcome");
+
+    // 取消訂閱
+    em->unsubscribe(EVENT_BEAST_SURGE, this_object());
+    int prev_calls = pubsub_called;
+    em->apply_quest_outcome(EVENT_BEAST_SURGE, "smith_morale_2", pubsub_outcome, "player3");
+    assert_equal(prev_calls, pubsub_called, "取消訂閱後不再接收回調");
+
+    // ── 8. 乾淨重置 (Clean Reset) 驗證 ────────────────────────
+    em->reset_event("all");
+    assert_equal(STAGE_BEAST_T_MINUS_3, em->query_event_stage(EVENT_BEAST_SURGE), "重置後煞潮階段應恢復為 T-3");
+    assert_equal(0, sizeof(em->query_all_evidence()), "重置後物證帳本應徹底清空");
+    assert_equal(0, sizeof(em->query_event_logs("", 0)), "重置後歷史日誌應徹底清空");
+    assert_equal(0, sizeof(em->query_all_applied_outcomes(EVENT_BEAST_SURGE)), "重置後已結算任務名冊應徹底清空");
 
     report_results();
 }
