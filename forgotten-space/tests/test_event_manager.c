@@ -71,7 +71,27 @@ void run_tests(object me) {
     // 依據預期官道損毀 1，顯式傳播後設定為 1 + 1 = 2
     assert_equal(2, em->query_metric(EVENT_MILITARY_CRISIS, METRIC_ASSAULT_COST), "顯式傳播 propagate_beast_to_military 呼叫後才正式同步更新軍事指標");
 
-    // ── 3. T-Clock 單調推進防護與時間推進代價 ──────────────────
+    // 2.5 生態物證下游因果連動 (EVIDENCE_STRENGTH -> EVIDENCE_VERIFIABILITY / INTEL_CONFIDENCE)
+    em->reset_event("all");
+    em->set_metric(EVENT_BEAST_SURGE, METRIC_EVIDENCE_STRENGTH, 2);
+    assert_equal(3, em->query_metric(EVENT_MILITARY_CRISIS, METRIC_INTEL_CONFIDENCE), "軍事危機初始 INTEL_CONFIDENCE 應為 3");
+    assert_equal(0, em->query_metric(EVENT_MILITARY_CRISIS, METRIC_EVIDENCE_VERIFIABILITY), "軍事危機初始 EVIDENCE_VERIFIABILITY 應為 0");
+
+    // 呼叫顯式傳播
+    em->propagate_beast_to_military();
+    mapping ev_reg = em->query_evidence("ev_beast_ecology");
+    assert_true(sizeof(ev_reg) > 0, "生態物證 ev_beast_ecology 應成功登錄至軍事危機物證帳本");
+    assert_equal(2, ev_reg["strength"], "生態物證強度應為 2");
+    assert_equal(1, ev_reg["verified"], "生態物證應自動標記為已核驗");
+    assert_equal(2, em->query_metric(EVENT_MILITARY_CRISIS, METRIC_EVIDENCE_VERIFIABILITY), "下游 EVIDENCE_VERIFIABILITY 應增加 2");
+    assert_equal(2, em->query_metric(EVENT_MILITARY_CRISIS, METRIC_INTEL_CONFIDENCE), "下游 INTEL_CONFIDENCE 應因強度 >= 2 動搖扣減 1");
+
+    // 再次呼叫顯式傳播，驗證冪等性 (不得重複累加)
+    em->propagate_beast_to_military();
+    assert_equal(2, em->query_metric(EVENT_MILITARY_CRISIS, METRIC_EVIDENCE_VERIFIABILITY), "重複顯式傳播不得重複累加 EVIDENCE_VERIFIABILITY");
+    assert_equal(2, em->query_metric(EVENT_MILITARY_CRISIS, METRIC_INTEL_CONFIDENCE), "重複顯式傳播不得重複扣減 INTEL_CONFIDENCE");
+
+    // ── 3. T-Clock 單調推進防護、時間代價與兩軸耦合 ─────────────
     em->reset_event(EVENT_BEAST_SURGE);
     assert_equal(STAGE_BEAST_T_MINUS_3, em->query_event_stage(EVENT_BEAST_SURGE), "初始階段為 T-3");
 
@@ -88,6 +108,19 @@ void run_tests(object me) {
     int trust_before = em->query_metric(EVENT_BEAST_SURGE, METRIC_CIVILIAN_TRUST);
     em->advance_event_stage(EVENT_BEAST_SURGE);
     assert_equal(trust_before - 1, em->query_metric(EVENT_BEAST_SURGE, METRIC_CIVILIAN_TRUST), "進入 T-1 時間代價應自動扣減 1 點 civilian_trust");
+
+    // 3.5 煞潮 T+2 與軍事危機 standby -> arrival 階段耦合驗證
+    em->reset_event("all");
+    assert_equal(STAGE_MILITARY_STANDBY, em->query_event_stage(EVENT_MILITARY_CRISIS), "軍事危機初始應為 standby (待命蟄伏)");
+
+    // 煞潮強制推進至 T+1
+    em->set_event_stage(EVENT_BEAST_SURGE, STAGE_BEAST_T_PLUS_1, 1);
+    assert_equal(STAGE_MILITARY_STANDBY, em->query_event_stage(EVENT_MILITARY_CRISIS), "煞潮在 T+1 時，軍事危機仍應維持 standby");
+
+    // 煞潮推進至 T+2 (第 31~32 章，局勢反噬・官道衝斷)
+    em->advance_event_stage(EVENT_BEAST_SURGE);
+    assert_equal(STAGE_BEAST_T_PLUS_2, em->query_event_stage(EVENT_BEAST_SURGE), "煞潮應推進至 T+2");
+    assert_equal(STAGE_MILITARY_ARRIVAL, em->query_event_stage(EVENT_MILITARY_CRISIS), "煞潮抵達 T+2 時應自動觸發軍事時間軸前進至 arrival (先鋒扣關)");
 
     // ── 4. 事務性與冪等結算 (Transactional & Idempotent) ───────
     em->reset_event(EVENT_BEAST_SURGE);

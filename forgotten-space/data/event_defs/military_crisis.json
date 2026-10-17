@@ -6,21 +6,21 @@
     {
       "id": "standby",
       "name": "待命蟄伏",
-      "desc": "黑石關守軍藉落石封鎖山道、金石商會暗流湧動、府城命令尚未明晰",
+      "desc": "黑石關守軍藉落石封鎖山道、金石商會暗流湧動、府城命令尚未明晰 (第 19~32 章)",
       "duration": 300,
       "time_cost_impact": {}
     },
     {
       "id": "arrival",
       "name": "先鋒扣關",
-      "desc": "三千精銳重弩抵達、胡百戶下達搜查封鎖令、先鋒軍封鎖黑石鋪外圍",
+      "desc": "三千精銳重弩抵達、胡百戶下達搜查封鎖令、先鋒軍封鎖黑石鋪外圍 (第 33~34 章)",
       "duration": 300,
       "time_cost_impact": {}
     },
     {
       "id": "confrontation",
       "name": "陣前對峙",
-      "desc": "多方物證呈遞、隨軍軍需官糧草告急、主帥內部面臨言官與後勤雙重顧慮",
+      "desc": "多方物證呈遞、隨軍軍需官糧草告急、主帥內部面臨言官與後勤雙重顧慮 (第 35~36 章)",
       "duration": 300,
       "time_cost_impact": {
         "settlement_resilience": -1
@@ -29,7 +29,7 @@
     {
       "id": "ultimatum",
       "name": "最後通牒",
-      "desc": "強攻箭在弦上、軍令催逼交出名冊、黑石鋪進入最後抉擇窗口",
+      "desc": "強攻箭在弦上、軍令催逼交出名冊、黑石鋪進入最後抉擇窗口 (第 37 章)",
       "duration": 180,
       "time_cost_impact": {
         "settlement_resilience": -1
@@ -38,7 +38,7 @@
     {
       "id": "resolution",
       "name": "局勢結算",
-      "desc": "多方博弈塵埃落定、依據客觀事實與四大指標收斂至五大現實結局",
+      "desc": "多方博弈塵埃落定、依據客觀事實與四大指標收斂至五大現實結局 (第 38 章)",
       "duration": 0,
       "time_cost_impact": {}
     }
@@ -75,6 +75,7 @@
     "blood_drawn": 0,
     "mountain_path_blocked": 0,
     "evacuation_tunnels_open": 0,
-    "supplies_intercepted": 0
+    "supplies_intercepted": 0,
+    "beast_evidence_propagated": 0
   }
 }

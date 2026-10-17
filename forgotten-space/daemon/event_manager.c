@@ -94,11 +94,11 @@ mapping get_fallback_def(string event_id) {
             "name": "黑石關軍事危機",
             "version": 1,
             "stages": ({
-                ([ "id": STAGE_MILITARY_STANDBY,    "name": "待命蟄伏", "desc": "黑石關守軍封鎖山道、商會暗流湧動", "duration": 300, "time_cost_impact": ([ ]) ]),
-                ([ "id": STAGE_MILITARY_ARRIVAL,    "name": "先鋒扣關", "desc": "三千精銳重弩抵達、胡百戶下達搜查封鎖令", "duration": 300, "time_cost_impact": ([ ]) ]),
-                ([ "id": STAGE_MILITARY_CONFRONT,   "name": "陣前對峙", "desc": "多方物證呈遞、隨軍軍需官糧草告急、主帥內部立場分歧", "duration": 300, "time_cost_impact": ([ METRIC_SETTLEMENT_RESILIENCE: -1 ]) ]),
-                ([ "id": STAGE_MILITARY_ULTIMATUM,  "name": "最後通牒", "desc": "強攻箭在弦上、軍令催逼交出名冊、最後抉擇窗口", "duration": 180, "time_cost_impact": ([ METRIC_SETTLEMENT_RESILIENCE: -1 ]) ]),
-                ([ "id": STAGE_MILITARY_RESOLUTION, "name": "局勢結算", "desc": "多方博弈塵埃落定、依據客觀事實走向五大現實結局", "duration": 0, "time_cost_impact": ([ ]) ])
+                ([ "id": STAGE_MILITARY_STANDBY,    "name": "待命蟄伏", "desc": "黑石關守軍封鎖山道、商會暗流湧動 (第 19~32 章)", "duration": 300, "time_cost_impact": ([ ]) ]),
+                ([ "id": STAGE_MILITARY_ARRIVAL,    "name": "先鋒扣關", "desc": "三千精銳重弩抵達、胡百戶下達搜查封鎖令 (第 33~34 章)", "duration": 300, "time_cost_impact": ([ ]) ]),
+                ([ "id": STAGE_MILITARY_CONFRONT,   "name": "陣前對峙", "desc": "多方物證呈遞、隨軍軍需官糧草告急、主帥內部立場分歧 (第 35~36 章)", "duration": 300, "time_cost_impact": ([ METRIC_SETTLEMENT_RESILIENCE: -1 ]) ]),
+                ([ "id": STAGE_MILITARY_ULTIMATUM,  "name": "最後通牒", "desc": "強攻箭在弦上、軍令催逼交出名冊、最後抉擇窗口 (第 37 章)", "duration": 180, "time_cost_impact": ([ METRIC_SETTLEMENT_RESILIENCE: -1 ]) ]),
+                ([ "id": STAGE_MILITARY_RESOLUTION, "name": "局勢結算", "desc": "多方博弈塵埃落定、依據客觀事實走向五大現實結局 (第 38 章)", "duration": 0, "time_cost_impact": ([ ]) ])
             }),
             "metrics": ([
                 METRIC_INTEL_CONFIDENCE       : ([ "min": 0, "max": 3, "default": 3, "desc": "軍方對平叛軍令情報信任度" ]),
@@ -112,7 +112,8 @@ mapping get_fallback_def(string event_id) {
                 "blood_drawn"             : 0,
                 "mountain_path_blocked"   : 0,
                 "evacuation_tunnels_open" : 0,
-                "supplies_intercepted"    : 0
+                "supplies_intercepted"    : 0,
+                "beast_evidence_propagated": 0
             ])
         ]);
     }
@@ -650,6 +651,7 @@ void propagate_beast_to_military() {
     mapping eval_b = evaluate_beast_surge();
     int road_destruction = eval_b["canyon_road_destruction"];
 
+    // 1. 下泄狂潮對官道與軍方補給線的實質衝擊
     if (road_destruction > 0) {
         set_fact(EVENT_MILITARY_CRISIS, "mountain_path_blocked", road_destruction);
         set_metric(EVENT_MILITARY_CRISIS, METRIC_ASSAULT_COST, 1 + road_destruction);
@@ -657,6 +659,51 @@ void propagate_beast_to_military() {
         broadcast_event(EVENT_MILITARY_CRISIS, "path_blocked", ([
             "road_destruction": road_destruction,
             "broadcast_text": "【山道劇變】落龍澗下泄萬獸狂潮徹底沖斷金石官道！黑石關官軍糧道受阻，強攻成本劇增！"
+        ]));
+    }
+
+    // 2. METRIC_EVIDENCE_STRENGTH 下游傳播：
+    // 煞潮期間收集到的地煞逃亡與異獸解剖病理生態物證，直接轉移至軍事危機
+    int ev_strength = query_metric(EVENT_BEAST_SURGE, METRIC_EVIDENCE_STRENGTH);
+    int last_propagated = query_fact(EVENT_MILITARY_CRISIS, "beast_evidence_propagated");
+    if (ev_strength > last_propagated) {
+        int diff = ev_strength - last_propagated;
+        set_fact(EVENT_MILITARY_CRISIS, "beast_evidence_propagated", ev_strength);
+
+        // 在物證帳本中登錄或更新生態病理物證
+        register_evidence("ev_beast_ecology", ([
+            "name": "地煞逃亡與異獸解剖病理卷宗",
+            "strength": ev_strength,
+            "source_type": "pathology_ecology",
+            "verified": 1,
+            "seen_by": ({ "commander", "inspector" })
+        ]));
+
+        // 實質提升軍事抗辯物證核驗度
+        add_metric(EVENT_MILITARY_CRISIS, METRIC_EVIDENCE_VERIFIABILITY, diff);
+
+        // 若生態物證強度累計達到 2 以上且之前未扣減情報信任度，直接動搖對平叛軍令的盲信
+        if (ev_strength >= 2 && last_propagated < 2) {
+            add_metric(EVENT_MILITARY_CRISIS, METRIC_INTEL_CONFIDENCE, -1);
+        }
+
+        broadcast_event(EVENT_MILITARY_CRISIS, "evidence_propagated", ([
+            "evidence_strength": ev_strength,
+            "broadcast_text": "【物證轉移】大荒煞潮生態病理卷宗已送達軍陣！異獸肺葉焦黑鐵證使先鋒主帥對平叛軍令產生動搖！"
+        ]));
+    }
+
+    // 3. 兩條時間軸的耦合規則：
+    // 當煞潮抵達 T+2 (第 31~32 章，局勢反噬・官道衝斷) 時，
+    // 若軍事危機尚在 standby (待命蟄伏，第 19~32 章)，
+    // 則自動觸發軍事時間軸前進至 arrival (先鋒扣關，第 33~34 章，三千精銳重弩抵達，後路斷絕)
+    string beast_stage = query_event_stage(EVENT_BEAST_SURGE);
+    string military_stage = query_event_stage(EVENT_MILITARY_CRISIS);
+    if (beast_stage == STAGE_BEAST_T_PLUS_2 && military_stage == STAGE_MILITARY_STANDBY) {
+        set_event_stage(EVENT_MILITARY_CRISIS, STAGE_MILITARY_ARRIVAL, 0);
+        broadcast_event(EVENT_MILITARY_CRISIS, "crisis_triggered", ([
+            "stage": STAGE_MILITARY_ARRIVAL,
+            "broadcast_text": "【大軍壓境】大荒煞潮衝斷金石官道，三千府城先鋒鐵騎破霧扣關！黑石關軍事危機正式爆發！"
         ]));
     }
 }
@@ -699,8 +746,8 @@ int set_event_stage(string event_id, string new_stage, int force) {
         }
     }
 
-    // 當煞潮推進至 T0 主力過境時，顯式傳播下泄衝擊至軍事危機
-    if (event_id == EVENT_BEAST_SURGE && new_stage == STAGE_BEAST_T_0) {
+    // 當煞潮推進至 T0 主力過境或 T+2 官道衝斷交接時，顯式傳播下泄衝擊至軍事危機
+    if (event_id == EVENT_BEAST_SURGE && (new_stage == STAGE_BEAST_T_0 || new_stage == STAGE_BEAST_T_PLUS_2)) {
         propagate_beast_to_military();
     }
 
