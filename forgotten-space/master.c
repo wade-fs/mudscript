@@ -16,6 +16,7 @@ void create() {
     load_object("/secure/guild_d.c");
     load_object("/secure/channel_d.c");
     load_object("/daemon/world_state_d.c");
+    load_object("/daemon/event_manager.c");
     load_object("/daemon/career_d.c");
     load_object("/daemon/mysteryd.c");
     load_object("/daemon/questd.c");

@@ -415,11 +415,7 @@ void add_guild_exp(int v) { guild_exp += v; }
 void set_guild_exp(int v) { guild_exp = v; }
 int query_guild_exp() { return guild_exp; }
 
-// ── 指令與訊息介面 ─────────────────────────────────────────
-int command(string cmd) {
-    if (!cmd || cmd == "") return 0;
-    return process_input(cmd) ? 1 : 0;
-}
+// ── 訊息介面 ─────────────────────────────────────────
 
 void receive(string msg) {
     write(msg);

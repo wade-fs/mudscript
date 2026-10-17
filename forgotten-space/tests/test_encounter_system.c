@@ -44,8 +44,10 @@ void run_tests(object me) {
     tester->set_id("test_gu_xuan");
     tester->set_name("顧玄");
     tester->set("background", "herbalist");
-    tester->set("stat_sen", 500);
-    tester->set("stat_int", 50);
+    tester->set_stat("int", 50);
+    tester->set_mp(500);
+    tester->set_hp(500);
+    tester->set_sp(500);
 
     // 顧玄身為 herbalist，嘗試評估 smith 專屬的 enc_ancient_iron，應被拒絕 (-2)
     int bg_check = qe->evaluate_encounter(tester, "enc_ancient_iron", (["ignore_window": 1]));
@@ -60,9 +62,10 @@ void run_tests(object me) {
     ws->reset_encounter_slots("enc_stele_dawn");
     assert_equal(0, ws->query_encounter_slots_used("enc_stele_dawn"), "重置後名額消耗應為 0");
 
-    assert_equal(1, ws->consume_encounter_slot("enc_stele_dawn", 2), "第 1 個名額應成功消耗");
-    assert_equal(1, ws->consume_encounter_slot("enc_stele_dawn", 2), "第 2 個名額應成功消耗");
-    assert_equal(0, ws->consume_encounter_slot("enc_stele_dawn", 2), "第 3 個名額應被拒絕 (名額耗盡)");
+    assert_equal(1, ws->consume_encounter_slot("enc_stele_dawn", 3), "第 1 個名額應成功消耗");
+    assert_equal(1, ws->consume_encounter_slot("enc_stele_dawn", 3), "第 2 個名額應成功消耗");
+    assert_equal(1, ws->consume_encounter_slot("enc_stele_dawn", 3), "第 3 個名額應成功消耗");
+    assert_equal(0, ws->consume_encounter_slot("enc_stele_dawn", 3), "第 4 個名額應被拒絕 (名額耗盡)");
 
     // 當名額耗盡時，評估成功應發放回聲 (回傳 2)
     int echo_result = qe->evaluate_encounter(tester, "enc_stele_dawn", ([

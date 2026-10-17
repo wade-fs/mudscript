@@ -20,12 +20,15 @@
 #define SECRET_DIR      "/d/secret/"
 #define NARRATIVE_DIR   "/narrative/"
 
+#include "/include/world_event.h"
+
 // ── 核心守護進程 (System Daemons) ───────────────────────
 #define QUEST_D         "/daemon/questd.c"
 #define QUEST_ENGINE_D  "/daemon/quest_engine_d.c"
 #define MYSTERY_D       "/daemon/mysteryd.c"
 #define CAREER_D        "/daemon/career_d.c"
 #define WORLD_STATE_D   "/daemon/world_state_d.c"
+#define EVENT_MANAGER_D "/daemon/event_manager.c"
 #define SKILL_D         "/secure/skill_d.c"
 #define COMBAT_D        "/secure/combat_d.c"
 

@@ -51,7 +51,8 @@ int main(object me, string verb, string arg) {
         "/tests/p4_test.c",
         "/tests/test_file_mgmt.c",
         "/tests/test_var_decl.c",
-        "/tests/test_encounter_system.c"
+        "/tests/test_encounter_system.c",
+        "/tests/test_event_manager.c"
     });
 
     int total = 0;
