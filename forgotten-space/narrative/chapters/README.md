@@ -31,3 +31,16 @@
   * **視角人物**：[沈泥（流浪乞兒）](file:///home/wade/src/github/mudscript/forgotten-space/narrative/characters/shen_ni.md)
   * **主場景**：客棧背街・廢柴房 (`/d/village/shed.c`)
   * **失落秘密**：客棧後巷爛泥深處發掘的【萬物行商・天門引】青金古令，史前商盟通往九大神城的通關信物。
+* [**第 6 章：晨集初開・五方交匯**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/ch0006.md) - 青石街市晨集開市，五位底層少年首次目光交錯。
+* [**第 7 章：百工之環・生計互生**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/ch0007.md) - 鐵匠、藥師、獵戶的底層生活閉環與物道相互依存。
+* [**第 8 章：荒澗伏擊・氣血如爐**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/ch0008.md) - 南谷荒澗遭城防軍暗樁伏擊，燕隼戰神圖騰氣血初顯反殺。
+* [**第 9 章：逆星殘卷・知見道爭**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/ch0009.md) - 暗巷石碑拓片與道門青銅殘圖合契，拼合出太古逆星全圖。
+* [**第 10 章：暗巷驚鴻・少年心氣**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/ch0010.md) - 暴雨夜五子聯手營救金石商隊大小姐蘇凝霜，揭開屠村陰謀。
+* [**第 11 章：瘋醫與盲道・老輩殘影**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/ch0011.md) - 伏擊六名黑甲弩衛，五位底層殘老導師暗中拔刀撐天。
+* [**第 12 章：凡骨微瀾・修為初進**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/ch0012.md) - 柴房溫情與修為精進，突發北崖大塌方，老礦工被埋地底。
+* [**第 13 章：地煞崩鳴・山崩礦塌**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/ch0013.md) - 趙德貴封山滅口，蘇凝霜以紫金雙龍印血書簽署甲級特等救援委託。
+* [**第 14 章：逆流而上・人心如鑑**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/ch0014.md) - 全鎮百工傾力相助，五子立生死狀踏入地下三百米死寂深淵。
+* [**第 15 章：鑿巖破穴・鐵骨生生**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/ch0015.md) - 鐵生重錘撼石眼右腕骨裂，沈泥銜藥冒險爬過兩尺排沙暗穴建救命索。
+* [**第 16 章：死線拔河・命懸一線**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/ch0016.md) - 針藥搶救，燕隼雙殺盲眼岩蜥，鐵生黑鐵卡榫撐開通道，二十三礦工全數救出。
+* [**第 17 章：生還之後・暗流如沸**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/ch0017.md) - 礦坪家屬拜謝，胡百戶率鐵騎逼宮，老輩亮獠牙，魯大山拋軍用引信揭真相。
+* [**第 18 章：分歧之夜・少年道擇**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/ch0018.md) - 廢柴房五子哲學理念激烈交鋒，求真、現實、責任、天命、生存撞擊立下三日出鄉誓約。
