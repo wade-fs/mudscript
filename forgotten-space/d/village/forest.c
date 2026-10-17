@@ -28,6 +28,7 @@ void create() {
 
     spawn_item("/clone/item/tainted_pelt.c");
     spawn_npc("/npc/wolf.c");
+    spawn_npc("/clone/npc/wild_bear.c");
 }
 
 string query_long() {

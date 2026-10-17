@@ -109,5 +109,12 @@ int accept_object(object who, object ob) {
         return 1;
     }
 
+    // 支援採礦生計委託：接受粗鐵礦核
+    if (ob->id("ore chunk") || ob->query("is_ore") || ob->id("粗鐵礦") || ob->id("粗鐵礦核")) {
+        tell_object(who, HIG "魯大山接過粗鐵礦核，用滿是石灰的手指抹了抹石皮，大笑道：「好成色的黑石粗鐵！辛苦了，拿著工錢！」\n" NOR);
+        destruct(ob);
+        return 1;
+    }
+
     return 0;
 }

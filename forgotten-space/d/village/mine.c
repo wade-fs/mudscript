@@ -22,6 +22,7 @@ void create() {
     set("is_outdoor", 1);
 
     spawn_npc("/clone/npc/lao_miner.c");
+    spawn_npc("/clone/npc/mine_rat.c");
 }
 
 string query_long() {

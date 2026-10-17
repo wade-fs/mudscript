@@ -43,7 +43,7 @@ int load_quest_file(string path) {
 void load_all_quests() {
     quest_defs = ([]);
 
-    string *subdirs = ({ "", "career/", "main/", "side/", "epic/" });
+    string *subdirs = ({ "", "career/", "main/", "side/", "epic/", "loop/" });
     foreach (string sub in subdirs) {
         string dir_path = "/quests/" + sub;
         string *files = get_dir(dir_path, 1);
@@ -62,6 +62,8 @@ void load_all_quests() {
         "/quests/career/li_chain.json",
         "/quests/career/fa_chain.json",
         "/quests/side/wolf_hunter.json",
+        "/quests/side/hunting_chain.json",
+        "/quests/loop/mining_loop.json",
         "/quests/main/village_pass.json",
         "/quests/main/cycle_of_craft.json",
         "/quests/main/rescue_maiden.json",
@@ -230,38 +232,74 @@ int has_required_item(object who, string req) {
     return 0;
 }
 
-// 統一獎勵發放器 (全維度支援：經驗、潛能、錢幣、天命、道統親和度、獎勵物品)
-void award_rewards(object who, mapping rw) {
+// 統一獎勵發放器 (全維度支援：經驗、潛能、錢幣、天命、道統親和度、獎勵物品，並支援勞動收益遞減)
+varargs void award_rewards(object who, mapping rw, string qid) {
     if (!who || !mapp(rw)) return;
 
-    if (rw["exp"]) {
-        who->gain_exp(rw["exp"]);
+    mapping actual_rw = ([]);
+    foreach (mixed k, mixed v in rw) {
+        actual_rw[k] = v;
     }
-    if (rw["pot"]) {
-        int pot_val = rw["pot"];
+
+    // 檢查是否配置了收益遞減 (如日常單一循環任務)
+    if (qid && stringp(qid) && quest_defs[qid] && quest_defs[qid]["decay_config"]) {
+        mapping decay = quest_defs[qid]["decay_config"];
+        int round = query_quest_rounds(who, qid);
+        int exp_rounds = decay["exp_rounds"] ? decay["exp_rounds"] : 3;
+        int taper_rounds = decay["taper_rounds"] ? decay["taper_rounds"] : 5;
+        int cutoff_round = decay["cutoff_round"] ? decay["cutoff_round"] : 6;
+
+        if (round >= cutoff_round) {
+            // 保底只剩物質獎勵！經驗值與潛能直接歸零
+            actual_rw["exp"] = 0;
+            actual_rw["pot"] = 0;
+            tell_object(who, WHT "【勞作收益】你今日已完成第 " + sprintf("%d", round) + " 輪供礦，體悟已達瓶頸（不再獲得經驗與潛能），僅獲取工錢與原料物資！\n" NOR);
+            if (decay["material_floor"]) {
+                mapping mf = decay["material_floor"];
+                if (mf["items"]) {
+                    mixed cur_itms = actual_rw["items"];
+                    if (!cur_itms) actual_rw["items"] = mf["items"];
+                    else if (arrayp(cur_itms)) actual_rw["items"] += mf["items"];
+                    else actual_rw["items"] = ({ cur_itms }) + mf["items"];
+                }
+                if (mf["money"]) actual_rw["money"] = mf["money"];
+            }
+        } else if (round > exp_rounds) {
+            // 遞減區間（減半）
+            if (actual_rw["exp"]) actual_rw["exp"] = actual_rw["exp"] / 2;
+            if (actual_rw["pot"]) actual_rw["pot"] = actual_rw["pot"] / 2;
+            tell_object(who, YEL "【勞動遞減】今日已完成第 " + sprintf("%d", round) + " 輪，勞動疲憊使經驗與潛能收益減半。\n" NOR);
+        }
+    }
+
+    if (actual_rw["exp"]) {
+        who->gain_exp(actual_rw["exp"]);
+    }
+    if (actual_rw["pot"]) {
+        int pot_val = actual_rw["pot"];
         who->gain_potential(pot_val);
         tell_object(who, HIY "【修為潛能】獲得 " + sprintf("%d", pot_val) + " 點潛能！\n" NOR);
     }
-    if (rw["money"]) {
-        who->add_money(rw["money"]);
+    if (actual_rw["money"]) {
+        who->add_money(actual_rw["money"]);
     }
-    if (rw["gold"]) {
-        who->gain_gold(rw["gold"]);
+    if (actual_rw["gold"]) {
+        who->gain_gold(actual_rw["gold"]);
     }
-    if (rw["fate"]) {
-        int f_val = rw["fate"];
+    if (actual_rw["fate"]) {
+        int f_val = actual_rw["fate"];
         who->add("fate", f_val);
         tell_object(who, HIM "【天命烙印】天命隱性覺醒度提升了 " + sprintf("%d", f_val) + " 點！\n" NOR);
     }
-    if (rw["affinity"]) {
-        mapping aff = rw["affinity"];
+    if (actual_rw["affinity"]) {
+        mapping aff = actual_rw["affinity"];
         foreach (string k, int v in aff) {
             who->add("affinity/" + k, v);
             tell_object(who, HIG "【傳承共鳴】" + k + " 道統傳承親和度提升了 " + sprintf("%d", v) + " 點！\n" NOR);
         }
     }
-    if (rw["items"]) {
-        mixed itm = rw["items"];
+    if (actual_rw["items"]) {
+        mixed itm = actual_rw["items"];
         string *item_list = ({});
         if (stringp(itm)) item_list = ({ itm });
         else if (arrayp(itm)) item_list = itm;
@@ -278,8 +316,8 @@ void award_rewards(object who, mapping rw) {
             }
         }
     }
-    if (rw["msg"]) {
-        tell_object(who, HIG + rw["msg"] + "\n" NOR);
+    if (actual_rw["msg"]) {
+        tell_object(who, HIG + actual_rw["msg"] + "\n" NOR);
     }
 }
 
@@ -397,7 +435,7 @@ void handle_stage_completion(object who, string qid, mapping q, int cur_stage) {
 
     // 發放該 Stage 的階段性獎勵 (調用統一獎勵發放器)
     if (st_def && st_def["on_finish"]) {
-        award_rewards(who, st_def["on_finish"]);
+        award_rewards(who, st_def["on_finish"], qid);
     }
 
     // 判斷是否還有後續 Stage
@@ -415,11 +453,19 @@ void handle_stage_completion(object who, string qid, mapping q, int cur_stage) {
             }
             return;
         } else {
-            // 直接解鎖下一 Stage
+            // 直接解鎖下一 Stage / 環
             set_quest_stage(who, qid, cur_stage + 1);
             set_quest_step(who, qid, 1);
             set_quest_state(who, qid, "ACTIVE");
-            tell_object(who, HIY "\n【✨ 進入下一階段】Stage " + sprintf("%d", cur_stage + 1) + "\n" NOR);
+            who->set("quests/" + qid + "/progress/kill_count", 0);
+            mapping next_st = query_stage_def(q, cur_stage + 1);
+            string n_title = next_st ? next_st["title"] : "";
+            string stage_label = (q["category"] == "hunting") ? ("第 " + sprintf("%d", cur_stage + 1) + " 環") : ("Stage " + sprintf("%d", cur_stage + 1));
+            tell_object(who, HIY "\n【✨ 階梯晉級】" + stage_label + "試煉啟動：「" + n_title + "」！\n" NOR);
+            mixed *next_steps = query_stage_steps(q, cur_stage + 1);
+            if (sizeof(next_steps) > 0) {
+                tell_object(who, HIG "  指引：" + next_steps[0]["hint"] + "\n\n" NOR);
+            }
             return;
         }
     }
@@ -439,7 +485,7 @@ void handle_stage_completion(object who, string qid, mapping q, int cur_stage) {
 
     // 發放最終任務獎勵 (調用統一獎勵發放器)
     if (q["rewards"]) {
-        award_rewards(who, q["rewards"]);
+        award_rewards(who, q["rewards"], qid);
     }
 
     tell_object(who, HIY "\n【✨ 恭喜完成歷練：「" + q["name"] + "」！】\n" NOR);
@@ -454,6 +500,12 @@ mixed trigger_event(object who, string event_type, mapping data) {
     string npc_id      = stringp(raw_npc) ? raw_npc : "";
     string topic       = data["topic"];
     object item        = data["item"];
+    string itm_id      = data["item_id"];
+    if (!itm_id && item) itm_id = item->query_key_id();
+    string itm_name    = data["item_name"];
+    if (!itm_name && item) itm_name = item->query_name();
+    string itm_file    = data["item_file"];
+    if (!itm_file && item) itm_file = base_name(item);
     string verb        = data["verb"];
     string target      = data["target"];
     object npc_ob      = data["npc_obj"];
@@ -656,7 +708,20 @@ mixed trigger_event(object who, string event_type, mapping data) {
             else if (t_type == "deliver" && event_type == "deliver") {
                 if (npc_id == s["target_npc"] || (npc_ob && npc_ob->id(s["target_npc"]))) {
                     string req = s["require_item"];
-                    if (!req || req == "" || (item && (item->id(req) || item->query("is_" + req) || item->query("herb_type") == req))) {
+                    int item_matched = 0;
+                    if (!req || req == "") {
+                        item_matched = 1;
+                    } else {
+                        if (item) {
+                            if (item->id(req) || item->query("is_" + req) || item->query("herb_type") == req) item_matched = 1;
+                            if (item->id(replace_string(req, "_", " "))) item_matched = 1;
+                            if (replace_string(req, "_", "") == "orechunk" && (item->id("ore") || item->query("is_ore"))) item_matched = 1;
+                        }
+                        if (!item_matched && itm_id && (itm_id == req || itm_id == replace_string(req, "_", " "))) item_matched = 1;
+                        if (!item_matched && itm_file && (strsrch(itm_file, req) != -1 || strsrch(itm_file, replace_string(req, " ", "_")) != -1)) item_matched = 1;
+                        if (!item_matched && itm_name && strsrch(itm_name, req) != -1) item_matched = 1;
+                    }
+                    if (item_matched) {
                         matched = 1;
                     }
                 }
@@ -724,6 +789,10 @@ mixed trigger_event(object who, string event_type, mapping data) {
                     } else if (target_mob == "wolf" && ((victim_name && strsrch(victim_name, "狼") != -1) || (victim_file && strsrch(victim_file, "wolf") != -1))) {
                         mob_matched = 1;
                     } else if (target_mob == "zhao si" && ((victim_name && strsrch(victim_name, "趙四") != -1) || (victim_file && strsrch(victim_file, "zhao") != -1))) {
+                        mob_matched = 1;
+                    } else if ((target_mob == "mine_rat" || target_mob == "rat") && ((victim_name && strsrch(victim_name, "鼠") != -1) || (victim_file && strsrch(victim_file, "rat") != -1))) {
+                        mob_matched = 1;
+                    } else if ((target_mob == "wild_bear" || target_mob == "bear") && ((victim_name && strsrch(victim_name, "熊") != -1) || (victim_file && strsrch(victim_file, "bear") != -1))) {
                         mob_matched = 1;
                     }
                 }
@@ -837,16 +906,17 @@ string query_quest_checklist(object who, string qid) {
         return out;
     }
 
-    // 2. 多階段史詩/奇遇任務 (以 Stage 為宏觀單位)
+    // 2. 多階段史詩/奇遇任務 或 階梯狩獵任務 (以 Stage/環 為宏觀單位)
     if (arrayp(q["stages"]) && sizeof(q["stages"]) > 0) {
         int total_st = sizeof(q["stages"]);
+        int is_hunting = (q["category"] == "hunting");
         string state_badge = "";
         if (q_state == "DORMANT") {
             state_badge = YEL " [Stage " + sprintf("%d", cur_stage) + " 達成・靜候天時]" NOR;
         } else if (q_state == "COMPLETED") {
             state_badge = HIG " [全線圓滿]" NOR;
         } else if (cur_step > 0) {
-            state_badge = HIY " [Stage " + sprintf("%d/%d", cur_stage, total_st) + " 進行中]" NOR;
+            state_badge = is_hunting ? HIY " [第 " + sprintf("%d/%d", cur_stage, total_st) + " 環 進行中]" NOR : HIY " [Stage " + sprintf("%d/%d", cur_stage, total_st) + " 進行中]" NOR;
         } else {
             state_badge = WHT " [未觸發]" NOR;
         }
@@ -858,11 +928,12 @@ string query_quest_checklist(object who, string qid) {
             int s_num = st_def["stage"];
             string st_title = st_def["title"];
             string region = st_def["region_name"] ? st_def["region_name"] : st_def["region"];
+            string st_prefix = is_hunting ? ("第 " + sprintf("%d", s_num) + " 環") : ("Stage " + sprintf("%d", s_num));
 
             if (cur_step == 0) {
-                out += sprintf(CYN "  [ ] Stage %d：%s (%s)\n" NOR, s_num, st_title, region);
+                out += sprintf(CYN "  [ ] %s：%s (%s)\n" NOR, st_prefix, st_title, region);
             } else if (s_num < cur_stage || (s_num == cur_stage && q_state == "DORMANT")) {
-                out += sprintf(HIG "  [✓] Stage %d：%s (%s - 已完成)\n" NOR, s_num, st_title, region);
+                out += sprintf(HIG "  [✓] %s：%s (%s - 已完成)\n" NOR, st_prefix, st_title, region);
                 if (s_num == cur_stage && q_state == "DORMANT") {
                     if (st_def["finish_desc"]) {
                         out += sprintf(CYN "      階段結語：%s\n" NOR, st_def["finish_desc"]);
@@ -873,7 +944,7 @@ string query_quest_checklist(object who, string qid) {
                     }
                 }
             } else if (s_num == cur_stage) {
-                out += sprintf(HIY "  [▶] Stage %d：%s (%s - 進行中)\n" NOR, s_num, st_title, region);
+                out += sprintf(HIY "  [▶] %s：%s (%s - 進行中)\n" NOR, st_prefix, st_title, region);
                 mixed *st_steps = st_def["steps"];
                 if (arrayp(st_steps)) {
                     for (int j = 0; j < sizeof(st_steps); j++) {
@@ -901,14 +972,20 @@ string query_quest_checklist(object who, string qid) {
                     }
                 }
             } else {
-                out += sprintf(WHT "  [ ] Stage %d：%s (待解鎖・需前往 %s)\n" NOR, s_num, st_title, region);
+                out += sprintf(WHT "  [ ] %s：%s (待解鎖・需前往 %s)\n" NOR, st_prefix, st_title, region);
             }
         }
         return out;
     }
 
-    // 3. 一般單階支線/主線
-    string out = sprintf(HIW "【%s】\n" NOR, q["name"]);
+    // 3. 一般單階支線/主線/循環生計
+    string round_info = "";
+    if (q["type"] == "loop") {
+        int r = query_quest_rounds(who, qid);
+        string status_note = (r >= 6 ? "・保底物資" : (r > 3 ? "・收益遞減" : "・全額收益"));
+        round_info = sprintf(" (已完成: %d 輪%s)", r, status_note);
+    }
+    string out = sprintf(HIW "【%s】" NOR "%s\n", q["name"], round_info);
     mixed *steps = q["steps"];
     if (!arrayp(steps)) return out;
 
@@ -940,7 +1017,7 @@ string query_quest_checklist(object who, string qid) {
     return out;
 }
 
-// 產生所有任務的總覽面板 (四方聚合：道統歷練、聚落主線、江湖支線、史詩奇遇)
+// 產生所有任務的總覽面板 (四方聚合：道統歷練、聚落主線、獵戶進階、生計委託、史詩奇遇)
 string query_all_status_report(object who) {
     if (!who) return "";
     string out = HIW "================ 黑石鋪歷練與任務總覽 ================\n" NOR;
@@ -970,7 +1047,41 @@ string query_all_status_report(object who) {
         }
     }
 
-    // 3. 江湖支線委託
+    // 3. 大荒獵戶進階令
+    string *hunting_list = ({ "hunting_chain" });
+    int has_hunting = 0;
+    foreach (string qid in hunting_list) {
+        if (quest_defs[qid]) {
+            int step = who->query("quests/" + qid + "/step");
+            string st = who->query("quests/" + qid + "/state");
+            if (step > 0 || st == "COMPLETED") {
+                if (!has_hunting) {
+                    out += MAG "---------------- 大荒獵戶進階令 ----------------\n" NOR;
+                    has_hunting = 1;
+                }
+                out += query_quest_checklist(who, qid) + "\n";
+            }
+        }
+    }
+
+    // 4. 日常生計委託 (支援收益遞減)
+    string *loop_list = ({ "mining_loop" });
+    int has_loop = 0;
+    foreach (string qid in loop_list) {
+        if (quest_defs[qid]) {
+            int step = who->query("quests/" + qid + "/step");
+            int r = who->query("quests/" + qid + "/rounds");
+            if (step > 0 || r > 0) {
+                if (!has_loop) {
+                    out += YEL "---------------- 日常生計委託 ----------------\n" NOR;
+                    has_loop = 1;
+                }
+                out += query_quest_checklist(who, qid) + "\n";
+            }
+        }
+    }
+
+    // 5. 江湖支線委託
     string *side_list = ({ "wolf_hunter" });
     int has_side = 0;
     foreach (string qid in side_list) {
@@ -987,7 +1098,7 @@ string query_all_status_report(object who) {
         }
     }
 
-    // 4. 史詩奇遇與長線隱藏線索
+    // 6. 史詩奇遇與長線隱藏線索
     string *epic_list = ({ "ancient_order" });
     int has_epic = 0;
     foreach (string qid in epic_list) {

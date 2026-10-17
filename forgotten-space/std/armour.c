@@ -14,7 +14,7 @@ int    element_resist; // 元素抗性
 string element;        // 防具元素屬性（某些防具有特殊元素）
 int    agility_pen;    // 敏捷懲罰（重甲 > 輕甲，影響閃避）
 string armour_class;   // "light" / "medium" / "heavy" / "robe" / "accessory"
-int    set_id;         // 套裝 ID（0 = 非套裝）
+int    armour_set_id;  // 套裝 ID（0 = 非套裝）
 
 void create() {
     ::create();
@@ -26,7 +26,7 @@ void create() {
     element        = "";
     agility_pen    = 0;
     armour_class   = "light";
-    set_id         = 0;
+    armour_set_id  = 0;
     set_weight(1000); // 預設防具重量 1kg
 }
 
@@ -37,7 +37,7 @@ void set_element_resist(int v) { element_resist = v; }
 void set_element(string e)     { element        = e; }
 void set_agility_pen(int v)    { agility_pen    = v; }
 void set_armour_class(string c){ armour_class   = c; }
-void set_armour_set(int v)     { set_id         = v; }
+void set_armour_set(int v)     { armour_set_id  = v; }
 
 int    query_defence() { 
     if (query_max_durability() > 0 && query_durability() <= 0) {
@@ -51,7 +51,7 @@ int    query_element_resist() { return element_resist; }
 string query_element()        { return element; }
 int    query_agility_pen()    { return agility_pen; }
 string query_armour_class()   { return armour_class; }
-int    query_armour_set()     { return set_id; }
+int    query_armour_set()     { return armour_set_id; }
 
 // 查詢部位中文名
 string query_slot_name() {

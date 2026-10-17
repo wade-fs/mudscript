@@ -379,9 +379,35 @@ int do_give(object me, string arg) {
         return 1;
     }
 
+    // 構建交付事件資料（在 accept_object 銷毀前預先擷取物件特徵）
+    mapping deliver_data = ([
+        "npc": target->query_key_id(),
+        "npc_obj": target,
+        "item": item,
+        "item_id": item->query_key_id(),
+        "item_file": base_name(item),
+        "item_name": item->query_name()
+    ]);
+
     // 呼叫目標的 accept_object 判定
     if (function_exists("accept_object", target)) {
         if (target->accept_object(me, item)) {
+            object qe = find_object("/daemon/quest_engine_d.c");
+            if (!qe) qe = load_object("/daemon/quest_engine_d.c");
+            if (qe) {
+                qe->trigger_event(me, "deliver", deliver_data);
+            }
+            return 1;
+        }
+    }
+
+    // 若 NPC 未自訂 accept_object，嘗試由任務引擎推進 deliver 步驟
+    object qe = find_object("/daemon/quest_engine_d.c");
+    if (!qe) qe = load_object("/daemon/quest_engine_d.c");
+    if (qe) {
+        if (qe->trigger_event(me, "deliver", deliver_data)) {
+            tell_object(me, "你將一" + (item->query("unit") ? item->query("unit") : "個") + item->query_short() + "交給了" + target->query_name() + "。\n");
+            destruct(item);
             return 1;
         }
     }
