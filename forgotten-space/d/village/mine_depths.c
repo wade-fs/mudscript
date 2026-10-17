@@ -21,6 +21,8 @@ void create() {
     ]));
 
     set("is_underground", 1);
+    spawn_npc("/clone/npc/mine_rat.c");
+    spawn_npc("/clone/npc/mine_rat.c");
 }
 
 void init() {

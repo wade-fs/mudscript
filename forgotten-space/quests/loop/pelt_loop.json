@@ -1,0 +1,45 @@
+{
+  "id": "pelt_loop",
+  "name": "荒野獵皮・禦寒生計",
+  "category": "loop",
+  "type": "loop",
+  "start_npc": "zhao",
+  "start_topic": "毛皮",
+  "requirements": {
+    "level": 2
+  },
+  "decay_config": {
+    "exp_rounds": 3,
+    "taper_rounds": 5,
+    "cutoff_round": 6,
+    "material_floor": {
+      "money": 25,
+      "items": [
+        "/clone/item/dry_meat.c"
+      ]
+    }
+  },
+  "steps": [
+    {
+      "step": 1,
+      "title": "交付大荒狼皮",
+      "hint": "前往東面大荒外緣荊棘林擊殺野狼並剝取狼皮，將狼皮交給防獸哨亭的趙老獵 (give fur to zhao)。",
+      "target_type": "deliver",
+      "target_npc": "zhao",
+      "require_item": "wolf_fur",
+      "location": "/d/village/hunter_cabin",
+      "on_complete": {
+        "msg": "趙老獵接過狼皮撫摸著厚實的絨毛，滿意點頭：「好皮子！剛好給哨兵縫製禦寒護肩！」"
+      }
+    }
+  ],
+  "rewards": {
+    "exp": 120,
+    "pot": 30,
+    "money": 60,
+    "items": [
+      "/item/material/wolf_fur.c",
+      "/clone/item/dry_meat.c"
+    ]
+  }
+}

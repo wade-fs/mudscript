@@ -218,16 +218,51 @@ async def test_loop_decay_and_hunting_chain():
             assert "獲得獎勵物品" in r6_res, "保底物質材料獎勵（粗鐵礦核）應正常發放"
             print("✅ 臨界輪次驗證通過：經驗潛能歸零，保底純物質材料生效！")
 
+            # ── PART 1B: 驗證「南谷採藥生計循環 (herb_loop)」──
+            print("\n--- 檢驗 3B: 前往草廬，向葛半仙接取並交付採藥生計 (herb_loop) ---")
+            await send("goto /d/village/herb_hut")
+            await read_until("採藥草廬")
+            await send("ask ge about 採藥")
+            herb_accept = await read_until("南谷採藥・百草生計")
+            assert "南谷採藥・百草生計" in herb_accept, "應成功承接南谷採藥生計"
+            print("✅ 成功接取「南谷採藥・百草生計」！")
+
+            await send("clone /clone/item/herb_common.c")
+            await asyncio.sleep(0.3)
+            await send("give herb to ge")
+            herb_finish = await read_until("恭喜完成歷練", timeout=4)
+            assert "南谷採藥・百草生計" in herb_finish, "應完成南谷採藥生計"
+            print("✅ 南谷採藥生計第 1 輪交付成功！")
+
+            # ── PART 1C: 驗證「荒野獵皮生計循環 (pelt_loop)」──
+            print("\n--- 檢驗 3C: 前往哨亭，向趙老獵接取並交付狼皮生計 (pelt_loop) ---")
+            await send("goto /d/village/hunter_cabin")
+            await read_until("防獸哨亭")
+            await send("ask zhao about 毛皮")
+            pelt_accept = await read_until("荒野獵皮・禦寒生計")
+            assert "荒野獵皮・禦寒生計" in pelt_accept, "應成功承接荒野獵皮生計"
+            print("✅ 成功接取「荒野獵皮・禦寒生計」！")
+
+            await send("clone /item/material/wolf_fur.c")
+            await asyncio.sleep(0.3)
+            await send("give fur to zhao")
+            pelt_finish = await read_until("恭喜完成歷練", timeout=4)
+            assert "荒野獵皮・禦寒生計" in pelt_finish, "應完成荒野獵皮生計"
+            print("✅ 荒野獵皮生計第 1 輪交付成功！")
+
+            # 檢查 tasks 面板同時聚合 3 大生計委託
+            await send("tasks")
+            all_loop_panel = await read_until("荒野獵皮・禦寒生計", timeout=4)
+            assert "北崖供礦・工坊生計" in all_loop_panel, "tasks 應包含供礦生計"
+            assert "南谷採藥・百草生計" in all_loop_panel, "tasks 應包含採藥生計"
+            assert "荒野獵皮・禦寒生計" in all_loop_panel, "tasks 應包含獵皮生計"
+            print("✅ tasks 面板成功同時聚合三大生計循環委託（礦、草、皮）！")
+
             # =========================================================
             # PART 2: 驗證「階梯進階式多環狩獵鏈 (hunting_chain)」
             # 鼠(Tier 1) -> 狼(Tier 2) -> 熊(Tier 3)
             # =========================================================
             print("\n--- 檢驗 4: 向趙老獵請領大荒獵戶進階試煉 (hunting_chain) ---")
-            await send("south")     # 回街市
-            await read_until("青石街市")
-            await send("southeast") # 到哨亭
-            await read_until("防獸哨亭")
-
             await send("ask zhao about 獵師")
             h_accept = await read_until("大荒逐獸・獵師之路")
             assert "大荒逐獸・獵師之路" in h_accept, "應成功承接獵師試煉"

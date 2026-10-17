@@ -52,10 +52,20 @@ void create() {
 
     add_response(({ "獵師", "試煉", "進階", "階梯" }), 
         "好志氣！大荒獵戶有三階除害令：先入深穴除鼠，次入荒林伏狼，終上絕嶺擒熊！若想證明自己，向老夫請領『獵師』試煉！");
+
+    add_response(({ "毛皮", "收皮", "獵皮", "fur", "pelt" }), 
+        "大荒深秋苦寒，哨亭最缺結實耐磨的野獸毛皮防風！去東面荒林獵狼取皮 (give fur to zhao)，老夫必有豐厚肉乾與工錢酬謝！");
 }
 
 int accept_object(object who, object ob) {
     if (!who || !ob) return 0;
+
+    if (ob->id("wolf fur") || ob->id("fur") || ob->id("狼皮")) {
+        tell_object(who, HIG "趙老獵接過狼皮仔細翻看，讚許道：\n" +
+                             "「刀口利落、毛色油亮！是張能禦大荒寒風的好皮子！拿去給哨兵禦寒最合適不過！」\n" NOR);
+        destruct(ob);
+        return 1;
+    }
 
     if (ob->id("tainted pelt") || ob->query("is_tainted_pelt")) {
         tell_object(who, HIG "趙老獵接過染煞異獸皮翻看，指尖摸過深紫色的焦灼焦痕，倒吸一口涼氣：\n" +

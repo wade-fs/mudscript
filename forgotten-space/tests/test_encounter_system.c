@@ -97,6 +97,23 @@ void run_tests(object me) {
     assert_equal(1, fusion_succ, "具備兩種大道身世傳承時應合契成功 (回傳 1)");
     assert_equal(1, tester->query("encounter_clues/star_map_revealed"), "合契成功應解鎖星圖線索");
 
+    // 9. 驗證 Phase 3 可持續遊玩體系：三大生計循環與獵師階梯鏈
+    mapping hc = qe->query_quest("hunting_chain");
+    assert_true(mapp(hc), "大荒獵師階梯鏈 (hunting_chain) 必須存在");
+    assert_equal(3, sizeof(hc["stages"]), "獵師鏈必須擁有 3 環階梯階段 (鼠->狼->熊)");
+
+    mapping ml = qe->query_quest("mining_loop");
+    assert_true(mapp(ml), "北崖供礦循環任務必須存在");
+    assert_true(mapp(ml["decay_config"]), "供礦任務必須具備收益遞減配置 (decay_config)");
+
+    mapping hl = qe->query_quest("herb_loop");
+    assert_true(mapp(hl), "南谷採藥循環任務必須存在");
+    assert_true(mapp(hl["decay_config"]), "採藥任務必須具備收益遞減配置 (decay_config)");
+
+    mapping pl = qe->query_quest("pelt_loop");
+    assert_true(mapp(pl), "荒野獵皮循環任務必須存在");
+    assert_true(mapp(pl["decay_config"]), "獵皮任務必須具備收益遞減配置 (decay_config)");
+
     report_results();
     destruct(tester);
 }

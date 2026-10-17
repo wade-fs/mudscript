@@ -29,9 +29,8 @@ void create() {
         "人在草木間，一呼一吸皆是藥理！老夫這門『百草吐納法(初級)』(learn herb_breathe from ge)，" +
         "教你如深谷青木般吐濁納清，調息時生機源源不絕！");
 
-    add_response(({ "草藥", "採藥", "herb" }), 
-        "採藥？哼！天道大清洗把上古仙草洗得一乾二淨！但你若能在清晨破曉（卯辰時分）" +
-        "採到晶瑩掛露的【帶露晨露草】，老夫便能為你調配一劑拔毒活絡的淬火藥引！");
+    add_response(({ "草藥", "採藥", "收藥", "herb" }), 
+        "天地草木皆含神機！去南谷溪灘採集新鮮草藥 (gather)，送來給老夫 (give herb to ge)，老夫自會給你分潤工錢與活絡藥劑！");
 
     add_response(({ "身世", "孤兒", "background" }), 
         "問老夫你從哪來的？十四年前連日暴雨山洪，你在南谷溪灘的大石板上啼哭，身旁就擱著那只竹編舊藥簍..." +
@@ -70,8 +69,8 @@ int accept_object(object who, object ob) {
     }
 
     if (ob->id("herb") || ob->id("chenlucao") || ob->query("herb_type") == "common") {
-        tell_object(who, YEL "葛半仙接過草藥嗅了嗅，直搖頭道：\n" +
-                         "「這草上的晨露早就曬乾了，藥性散了大半！不過也罷，拿去餵兔子吧。」\n" NOR);
+        tell_object(who, HIG "葛半仙接過新鮮草藥放在鼻尖嗅了嗅，滿意點頭道：\n" +
+                         "「泥土清芬猶在，藥性生機尚存，正好入藥調配百草膏散！這是你的勞動份額！」\n" NOR);
         destruct(ob);
         return 1;
     }

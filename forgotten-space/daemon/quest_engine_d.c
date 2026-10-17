@@ -157,6 +157,8 @@ void load_all_quests() {
         "/quests/side/wolf_hunter.json",
         "/quests/side/hunting_chain.json",
         "/quests/loop/mining_loop.json",
+        "/quests/loop/herb_loop.json",
+        "/quests/loop/pelt_loop.json",
         "/quests/main/village_pass.json",
         "/quests/main/cycle_of_craft.json",
         "/quests/main/rescue_maiden.json",
@@ -650,7 +652,9 @@ varargs void award_rewards(object who, mapping rw, string qid) {
             // 保底只剩物質獎勵！經驗值與潛能直接歸零
             actual_rw["exp"] = 0;
             actual_rw["pot"] = 0;
-            tell_object(who, WHT "【勞作收益】你今日已完成第 " + sprintf("%d", round) + " 輪供礦，體悟已達瓶頸（不再獲得經驗與潛能），僅獲取工錢與原料物資！\n" NOR);
+            mapping q_info = quest_defs[qid];
+            string q_label = (q_info && q_info["name"]) ? q_info["name"] : "生計勞作";
+            tell_object(who, WHT "【勞作收益】你今日已完成第 " + sprintf("%d", round) + " 輪" + q_label + "，體悟已達瓶頸（不再獲得經驗與潛能），僅獲取工錢與原料物資！\n" NOR);
             if (decay["material_floor"]) {
                 mapping mf = decay["material_floor"];
                 if (mf["items"]) {
@@ -1560,7 +1564,7 @@ string query_all_status_report(object who) {
     }
 
     // 4. 日常生計委託 (支援收益遞減)
-    string *loop_list = ({ "mining_loop" });
+    string *loop_list = ({ "mining_loop", "herb_loop", "pelt_loop" });
     int has_loop = 0;
     foreach (string qid in loop_list) {
         if (quest_defs[qid]) {
