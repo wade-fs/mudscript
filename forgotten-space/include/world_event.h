@@ -30,6 +30,7 @@
 #define STAGE_MILITARY_STANDBY      "standby"        // 待命蟄伏 (第 19~32 章，關隘封鎖盤查，大部隊尚未開拔)
 #define STAGE_MILITARY_ARRIVAL      "arrival"        // 先鋒扣關 (第 33~34 章，三千精銳抵達，後路斷絕)
 #define STAGE_MILITARY_CONFRONT     "confrontation"  // 陣前對峙 (第 35~36 章，物證呈遞，隨軍分歧)
+#define STAGE_MILITARY_CONFRONTATION "confrontation" // 別名同上
 #define STAGE_MILITARY_ULTIMATUM    "ultimatum"      // 最後通牒 (第 37 章，通牒逼降，生死抉擇)
 #define STAGE_MILITARY_RESOLUTION   "resolution"     // 局勢結算 (第 38 章，收斂五大結局，第一卷終章)
 
@@ -45,5 +46,12 @@
 #define ENDING_C_DELAYED_ULTIMATUM      "ending_C" // 延遲進攻，危機未解 (對峙保底)
 #define ENDING_D_LOCAL_SKIRMISH         "ending_D" // 局部衝突，有限傷亡 (實質流血)
 #define ENDING_E_EVACUATION_REBUILD     "ending_E" // 疏散撤離，聚落重組 (大荒流亡)
+
+// ── 任務結算結果代碼 (Quest Outcome Results) ───────────────────
+#define EVENT_RESULT_SUCCESS        "success"    // 首次成功套用
+#define EVENT_RESULT_DUPLICATE      "duplicate"  // 冪等重放 (非首次)
+#define EVENT_RESULT_EXPIRED        "expired"    // 任務逾期或階段失效
+#define EVENT_RESULT_REJECTED       "rejected"   // 終局凍結拒絕
+#define EVENT_RESULT_ABORTED        "aborted"    // 幽靈欄位事務中止
 
 #endif // WORLD_EVENT_H

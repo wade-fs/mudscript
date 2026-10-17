@@ -41,6 +41,18 @@ void run_tests(object me) {
     assert_equal(1, em->is_valid_metric(EVENT_MILITARY_CRISIS, METRIC_INTEL_CONFIDENCE), "已註冊指標 intel_confidence 應合法");
     assert_equal(0, em->is_valid_metric(EVENT_BEAST_SURGE, "ghost_metric_foo"), "未註冊指標 ghost_metric_foo 應非法");
 
+    // 1.1 資料一致性斷言：C 程式 Fallback 與磁碟 JSON Schema 的指標與事實鍵必須 100% 雙向對齊
+    foreach (string eid in ({ EVENT_BEAST_SURGE, EVENT_MILITARY_CRISIS })) {
+        mapping fdef = em->get_fallback_def(eid);
+        mapping jdef = em->query_event_def(eid);
+        foreach (string mk in keys(fdef["metrics"])) {
+            assert_true(member_array(mk, keys(jdef["metrics"])) != -1, sprintf("Fallback 指標必須存在於 JSON: %s.%s", eid, mk));
+        }
+        foreach (string fk in keys(fdef["facts"])) {
+            assert_true(member_array(fk, keys(jdef["facts"])) != -1, sprintf("Fallback 事實必須存在於 JSON: %s.%s", eid, fk));
+        }
+    }
+
     // 嚴格拒絕幽靈指標
     int ghost_res = em->set_metric(EVENT_BEAST_SURGE, "ghost_metric_foo", 5);
     assert_equal(-999, ghost_res, "設定未註冊指標必須被拒絕並回傳 -999");
@@ -71,8 +83,19 @@ void run_tests(object me) {
     // 關鍵修復斷言：若原本成本為 3，官道損毀 1 (1 + 1 = 2) 絕不允許覆寫下修，保留 max(3, 2) = 3！
     assert_equal(3, em->query_metric(EVENT_MILITARY_CRISIS, METRIC_ASSAULT_COST), "顯式傳播絕不可覆寫下修既有更高強攻成本 (max 保護)");
 
+    // 2.2 驗證 route_confidence 實質早期預警因果減損
+    em->reset_event(EVENT_BEAST_SURGE);
+    em->set_metric(EVENT_BEAST_SURGE, METRIC_ROUTE_CONFIDENCE, 0);
+    em->set_metric(EVENT_BEAST_SURGE, METRIC_DIVERSION_EFFECT, 0);
+    mapping eval_no_survey = em->evaluate_beast_surge();
+    em->set_metric(EVENT_BEAST_SURGE, METRIC_ROUTE_CONFIDENCE, 3);
+    mapping eval_with_survey = em->evaluate_beast_surge();
+    assert_true(eval_with_survey["surviving_capacity"] > eval_no_survey["surviving_capacity"], "掌握逃逸路徑預警應實質減少殘獸衝擊並保護聚落物資存量");
+
     // 驗證原本成本為預設 1 時，官道損毀 1 會正確提高成本至 2
     em->set_metric(EVENT_MILITARY_CRISIS, METRIC_ASSAULT_COST, 1);
+    em->set_metric(EVENT_BEAST_SURGE, METRIC_DIVERSION_EFFECT, 1);
+    em->set_metric(EVENT_BEAST_SURGE, METRIC_ROUTE_CONFIDENCE, 1);
     em->propagate_beast_to_military();
     assert_equal(2, em->query_metric(EVENT_MILITARY_CRISIS, METRIC_ASSAULT_COST), "成本初始為 1 時，官道損毀 1 應提高至 2");
 
@@ -96,9 +119,17 @@ void run_tests(object me) {
     assert_equal(2, em->query_metric(EVENT_MILITARY_CRISIS, METRIC_EVIDENCE_VERIFIABILITY), "重複顯式傳播不得重複累加 EVIDENCE_VERIFIABILITY");
     assert_equal(2, em->query_metric(EVENT_MILITARY_CRISIS, METRIC_INTEL_CONFIDENCE), "重複顯式傳播不得重複扣減 INTEL_CONFIDENCE");
 
+    // 2.6 重置煞潮時自動還原傳播至軍事側之污染 (Clean Propagation Reversal)
+    em->reset_event(EVENT_BEAST_SURGE);
+    assert_equal(0, em->query_metric(EVENT_MILITARY_CRISIS, METRIC_EVIDENCE_VERIFIABILITY), "重置煞潮後軍事危機核驗度應清零還原");
+    assert_equal(3, em->query_metric(EVENT_MILITARY_CRISIS, METRIC_INTEL_CONFIDENCE), "重置煞潮後軍事危機情報信任度應還原為 3");
+    assert_equal(0, sizeof(em->query_evidence("ev_beast_ecology")), "重置煞潮後生態物證應自帳本移除");
+
     // ── 3. T-Clock 單調推進防護、時間代價與兩軸耦合 ─────────────
     em->reset_event(EVENT_BEAST_SURGE);
     assert_equal(STAGE_BEAST_T_MINUS_3, em->query_event_stage(EVENT_BEAST_SURGE), "初始階段為 T-3");
+    em->start_event(EVENT_BEAST_SURGE);
+    assert_true(em->query_stage_entered_at(EVENT_BEAST_SURGE) > 0, "start_event 應成功排程並記錄 stage_entered_at");
 
     // 單調性：非 force 模式禁止時間倒流
     assert_equal(0, em->set_event_stage(EVENT_BEAST_SURGE, STAGE_BEAST_T_MINUS_3, 0), "禁止在非強制模式下重複或倒退設定階段");
@@ -175,11 +206,23 @@ void run_tests(object me) {
     assert_equal("A01_sheep", rec_ok["quest_id"], "合法事務結算成功");
     assert_equal(1, em->query_metric(EVENT_BEAST_SURGE, METRIC_EVIDENCE_STRENGTH), "指標正確增量為 1");
     assert_equal(1, em->query_metric(EVENT_BEAST_SURGE, METRIC_ROUTE_CONFIDENCE), "指標正確增量為 1");
+    assert_equal(0, rec_ok["duplicate"], "初次結算 duplicate 旗標應為 0");
+    assert_equal(1, rec_ok["is_new"], "初次結算 is_new 旗標應為 1");
+    assert_equal(EVENT_RESULT_SUCCESS, rec_ok["result"], "初次結算 result 應為 EVENT_RESULT_SUCCESS");
+
+    // 4.2.1 查詢已結算成果 (支援 actor_id 專用與全域 fallback)
+    mapping queried_global = em->query_applied_outcome(EVENT_BEAST_SURGE, "A01_sheep", "");
+    assert_equal("A01_sheep", queried_global["quest_id"], "透過全域 quest_id 查詢結算紀錄成功");
+    mapping queried_actor = em->query_applied_outcome(EVENT_BEAST_SURGE, "A01_sheep", "player1");
+    assert_equal("A01_sheep", queried_actor["quest_id"], "透過 actor_id 查詢全域結算紀錄成功 fallback");
 
     // 4.3 冪等性防護：同一位玩家再次提交同一非重複任務
     mapping dup_rec = em->apply_quest_outcome(EVENT_BEAST_SURGE, "A01_sheep", good_outcome, "player1");
     assert_equal(1, em->query_metric(EVENT_BEAST_SURGE, METRIC_EVIDENCE_STRENGTH), "重複提交時指標不得再次疊加");
     assert_equal(1, em->query_metric(EVENT_BEAST_SURGE, METRIC_ROUTE_CONFIDENCE), "重複提交時指標不得再次疊加");
+    assert_equal(1, dup_rec["duplicate"], "重複提交 duplicate 旗標應為 1");
+    assert_equal(0, dup_rec["is_new"], "重複提交 is_new 旗標應為 0");
+    assert_equal(EVENT_RESULT_DUPLICATE, dup_rec["result"], "重複提交 result 應為 EVENT_RESULT_DUPLICATE");
 
     // 4.4 任務階段限定 (Stage Gating)：逾期任務拒絕套用
     em->set_event_stage(EVENT_BEAST_SURGE, STAGE_BEAST_T_0, 1);
@@ -292,6 +335,42 @@ void run_tests(object me) {
     mapping late_outcome = ([ "status": "success", "deltas": ([ METRIC_INTEL_CONFIDENCE: -1 ]) ]);
     mapping late_tx = em->apply_quest_outcome(EVENT_MILITARY_CRISIS, "late_quest", late_outcome, "player1");
     assert_equal("rejected", late_tx["status"], "終局凍結後拒絕後續任務結算");
+
+    // 6.5 標準遊玩因果閉環驗證 (消除 Ending D 85%~92% 鎖死)
+    em->reset_event("all");
+    em->set_metric(EVENT_BEAST_SURGE, METRIC_DIVERSION_EFFECT, 1);
+    em->set_metric(EVENT_BEAST_SURGE, METRIC_ROUTE_CONFIDENCE, 1);
+    em->set_metric(EVENT_BEAST_SURGE, METRIC_SETTLEMENT_CAPACITY, 4);
+    em->set_metric(EVENT_BEAST_SURGE, METRIC_CIVILIAN_TRUST, 2);
+
+    // 煞潮自然推進至 T+2 (自動觸發傳播與軍事危機 arrival)
+    em->set_event_stage(EVENT_BEAST_SURGE, STAGE_BEAST_T_PLUS_2, 0);
+    assert_equal(STAGE_MILITARY_ARRIVAL, em->query_event_stage(EVENT_MILITARY_CRISIS), "煞潮 T+2 自動促成軍事危機抵達 arrival");
+    int res_arrival = em->query_metric(EVENT_MILITARY_CRISIS, METRIC_SETTLEMENT_RESILIENCE);
+    assert_true(res_arrival >= 2, "正常防禦煞潮後，傳播至軍事危機之聚落韌性至少為 2");
+
+    // 軍事時間軸推進至 confrontation (對峙摩擦：扣減 1 點聚落韌性)
+    em->advance_event_stage(EVENT_MILITARY_CRISIS);
+    assert_equal(STAGE_MILITARY_CONFRONTATION, em->query_event_stage(EVENT_MILITARY_CRISIS), "軍事時間軸前進至 confrontation");
+    int res_confront = em->query_metric(EVENT_MILITARY_CRISIS, METRIC_SETTLEMENT_RESILIENCE);
+    assert_true(res_confront >= 1, "經歷陣前對峙消耗後，聚落韌性依然保底 >= 1，絕不崩潰");
+
+    // 軍事時間軸推進至 ultimatum (修正後不再重複雙扣韌性)
+    em->advance_event_stage(EVENT_MILITARY_CRISIS);
+    assert_equal(STAGE_MILITARY_ULTIMATUM, em->query_event_stage(EVENT_MILITARY_CRISIS), "軍事時間軸前進至 ultimatum");
+    int res_ultimatum = em->query_metric(EVENT_MILITARY_CRISIS, METRIC_SETTLEMENT_RESILIENCE);
+    assert_equal(res_confront, res_ultimatum, "最後通牒階段不再重複扣減韌性");
+    assert_true(res_ultimatum >= 1, "結算前夕聚落韌性 >= 1，徹底打破結局 D 鎖死");
+
+    // 驗證在正常遊玩下，評估不會被鎖死在結局 D
+    mapping eval_std_play = em->evaluate_military_crisis();
+    assert_true(eval_std_play["ending_code"] != ENDING_D_LOCAL_SKIRMISH, "標準遊玩未流血且韌性保底時，絕不落入結局 D");
+    assert_equal(ENDING_B_LIMITED_BLOCKADE, eval_std_play["ending_code"], "因官道受損強攻成本提高，標準遊玩順利收斂至結局 B (有限封鎖)");
+
+    // 若強攻成本為 1 且未呈遞鐵證，則收斂至保底結局 C (延遲進攻)
+    em->set_metric(EVENT_MILITARY_CRISIS, METRIC_ASSAULT_COST, 1);
+    mapping eval_c = em->evaluate_military_crisis();
+    assert_equal(ENDING_C_DELAYED_ULTIMATUM, eval_c["ending_code"], "強攻成本一般時順利收斂至保底結局 C (延遲進攻)");
 
     // ── 7. 發布/訂閱事件匯流排 (Pub/Sub Event Bus) 驗證 ───────
     pubsub_called = 0;

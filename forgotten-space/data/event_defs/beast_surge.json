@@ -8,6 +8,7 @@
       "name": "異常初顯",
       "desc": "東林鳥雀驚飛、林冠泛紅霧、北方微風帶硫磺焦味、捕獲獵物驟減 (第 19 章晨)",
       "duration": 180,
+      "duration_unit": "game_minutes",
       "time_cost_impact": {}
     },
     {
@@ -15,6 +16,7 @@
       "name": "遷徙確認",
       "desc": "獸痕密布、食草獸成群南奔；集市爆發米荒衝突，商隊護衛暗中串聯 (第 20~22 章)",
       "duration": 240,
+      "duration_unit": "game_minutes",
       "time_cost_impact": {
         "settlement_capacity": -1
       }
@@ -24,6 +26,7 @@
       "name": "大潮臨近",
       "desc": "先頭花豹與狂狼現蹤；私逃富商車毀人亡；黑石鋪全鎮進入極限備戰 (第 23~26 章)",
       "duration": 180,
+      "duration_unit": "game_minutes",
       "time_cost_impact": {
         "civilian_trust": -1
       }
@@ -33,6 +36,7 @@
       "name": "主力過境",
       "desc": "大地劇烈轟鳴，萬獸狂潮奔騰抵達落龍口；阻獸煙起、鳴鏑尖嘯、落石觸發 (第 27~28 章)",
       "duration": 60,
+      "duration_unit": "game_minutes",
       "time_cost_impact": {}
     },
     {
@@ -40,6 +44,7 @@
       "name": "殘獸清剿",
       "desc": "獸潮主力怒折落龍澗；一成殘獸衝擊外圍木柵；晨曦破曉，全鎮虛脫清點 (第 29~30 章)",
       "duration": 120,
+      "duration_unit": "game_minutes",
       "time_cost_impact": {}
     },
     {
@@ -47,6 +52,7 @@
       "name": "局勢反噬・官道衝斷",
       "desc": "下泄獸群衝斷金石官道；胡百戶哨騎被困；煞潮終局連動觸發府城大軍扣關 (第 31~32 章)",
       "duration": 0,
+      "duration_unit": "game_minutes",
       "time_cost_impact": {}
     }
   ],
