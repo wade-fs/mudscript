@@ -1,0 +1,57 @@
+{
+  "id": "enc_map_fusion",
+  "name": "太古周天逆星殘卷・雙脈合契",
+  "legacy_key": "compare_map",
+  "room": "/d/village/dark_alley",
+  "scope": {
+    "type": "world_slots",
+    "slots": 5,
+    "per": "season"
+  },
+  "gates": [
+    {
+      "type": "world_window",
+      "id": "dark_alley_conspiracy",
+      "desc": "客棧大掌櫃暴斃、城防軍卡哨逼近、暗巷夜黑風急之時"
+    },
+    {
+      "type": "coop",
+      "min_players": 1,
+      "min_unique_backgrounds": 2,
+      "desc": "需同房間存在不同身世（如物修草藥師與法修道童，或持有多重身世傳承殘卷）共同印證"
+    },
+    {
+      "type": "cost",
+      "vital": "sen",
+      "amount": 15,
+      "backlash": {
+        "chance": 0.2,
+        "effect": "dao_clash",
+        "msg": "法物兩道心志激烈交衝，神魂如遭大鎚震盪，靈台一陣劇烈翻騰！"
+      }
+    }
+  ],
+  "roll": {
+    "base": 0.5,
+    "pity": {
+      "per_miss": 0.25,
+      "cap": 1.0
+    }
+  },
+  "rewards": {
+    "exp": 100,
+    "pot": 50,
+    "fate": 1,
+    "title": "暗巷合契勘破偽天大網",
+    "clue_key": "star_map_revealed"
+  },
+  "on_fail": {
+    "clue": "star_map_misaligned",
+    "msg": "殘卷邊緣暗紋未能嚴絲合縫，星軌交匯處泛起微弱青芒後歸於沉寂，但你們對彼此身世道途的軌跡有了更深印證（獲得【星軌互證】線索，下次合契成功率大幅提升）！"
+  },
+  "recovery": {
+    "policy": "echo",
+    "echo_item": "/clone/item/rubbing.c",
+    "echo_desc": "一份殘缺不全、神芒黯淡的合契星圖抄本"
+  }
+}

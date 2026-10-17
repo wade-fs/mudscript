@@ -1,0 +1,58 @@
+{
+  "id": "enc_forest_totem",
+  "name": "太古戰神獵獸圖騰玄柱",
+  "legacy_key": "commune_forest_totem",
+  "room": "/d/village/forest",
+  "scope": {
+    "type": "world_slots",
+    "slots": 3,
+    "per": "season"
+  },
+  "gates": [
+    {
+      "type": "world_window",
+      "id": "beast_blood_tide",
+      "desc": "東林地煞翻湧、異獸暴動、沾染死煞之血"
+    },
+    {
+      "type": "background",
+      "any": [ "hunter" ]
+    },
+    {
+      "type": "resonance",
+      "min": 1,
+      "stat": "con"
+    },
+    {
+      "type": "cost",
+      "vital": "kee",
+      "amount": 25,
+      "backlash": {
+        "chance": 0.3,
+        "effect": "blood_wound",
+        "msg": "精血逆湧澆灌玄柱，氣血大損，胸口戰神血印灼熱如炭！"
+      }
+    }
+  ],
+  "roll": {
+    "base": 0.4,
+    "pity": {
+      "per_miss": 0.2,
+      "cap": 1.0
+    }
+  },
+  "rewards": {
+    "exp": 50,
+    "fate": 1,
+    "title": "喋血共鳴喚醒戰神圖騰",
+    "clue_key": "totem_awakened"
+  },
+  "on_fail": {
+    "clue": "totem_trace",
+    "msg": "血氣未能徹底點亮玄石眼眶，戰神石雕再度沉寂，但柱身上留下了一道鮮血共鳴暗痕（獲得【戰神低吼】線索）！"
+  },
+  "recovery": {
+    "policy": "echo",
+    "echo_desc": "一枚無太古血氣的普通刻痕石碎片"
+  }
+}

@@ -112,6 +112,56 @@ int can_discover_relic(object who, string relic_key) {
     if (!who) return 0;
     if (!relic_key || relic_key == "") return 1;
 
+    // 0. 橋接至 QUEST_ENGINE_D 奇遇定義 (以 JSON 定義為權威)
+    object qe = find_object(QUEST_ENGINE_D);
+    if (!qe) qe = load_object(QUEST_ENGINE_D);
+    if (qe) {
+        string enc_id = qe->query_encounter_id_by_legacy(relic_key);
+        if (!enc_id && strlen(relic_key) > 4 && substr(relic_key, 0, 4) == "enc_") enc_id = relic_key;
+        if (enc_id) {
+            mapping enc = qe->query_encounter(enc_id);
+            if (enc && arrayp(enc["gates"])) {
+                object ws = load_object(WORLD_STATE_D);
+                foreach (mapping g in enc["gates"]) {
+                    if (g["type"] == "world_window") {
+                        if (ws && !ws->is_window_active(g["id"]) && !wizardp(who)) {
+                            return 0; // 世界窗口未開
+                        }
+                    }
+                    if (g["type"] == "background") {
+                        string my_bg = who->query("background");
+                        string my_nick = who->query("nickname");
+                        int match_bg = 0;
+                        if (arrayp(g["any"])) {
+                            foreach (string bg in g["any"]) {
+                                if (my_bg == bg) { match_bg = 1; break; }
+                                if (my_nick) {
+                                    if (bg == "herbalist" && (my_nick == "顧玄" || my_nick == "採藥人")) match_bg = 1;
+                                    if (bg == "smith" && (my_nick == "林鐵生" || my_nick == "鐵匠")) match_bg = 1;
+                                    if (bg == "hunter" && (my_nick == "燕隼" || my_nick == "獵戶")) match_bg = 1;
+                                    if (bg == "daoist" && (my_nick == "柳清虛" || my_nick == "道童")) match_bg = 1;
+                                    if (bg == "beggar" && (my_nick == "沈泥" || my_nick == "乞兒")) match_bg = 1;
+                                }
+                            }
+                        }
+                        if (!match_bg && !wizardp(who)) {
+                            return 0; // 身世血脈不合
+                        }
+                    }
+                    if (g["type"] == "resonance") {
+                        string stat_name = g["stat"];
+                        int min_v = g["min"];
+                        int cur_v = (stat_name == "fate") ? who->query(STAT_FATE) : who->query_stat(stat_name);
+                        if (cur_v < min_v && !wizardp(who)) {
+                            return 0; // 靈性共鳴未達
+                        }
+                    }
+                }
+                return 1;
+            }
+        }
+    }
+
     mapping cfg = RELIC_REGISTRY[relic_key];
     if (!cfg) return 1;
 
@@ -160,6 +210,19 @@ int check_amnesia_breakthrough(object who, int required_fate) {
 mixed trigger_relic_discovery(object who, string relic_key, object dest) {
     if (!who || !relic_key) return 0;
     if (is_relic_discovered(who, relic_key)) return 0;
+
+    // 0. 優先調用 QUEST_ENGINE_D 奇遇三階段評估
+    object qe = find_object(QUEST_ENGINE_D);
+    if (!qe) qe = load_object(QUEST_ENGINE_D);
+    if (qe) {
+        string enc_id = qe->query_encounter_id_by_legacy(relic_key);
+        if (!enc_id && strlen(relic_key) > 4 && substr(relic_key, 0, 4) == "enc_") enc_id = relic_key;
+        if (enc_id && qe->query_encounter(enc_id)) {
+            int ret = qe->evaluate_encounter(who, enc_id, ([]));
+            if (ret > 0) return 1;
+            if (ret <= 0) return 0;
+        }
+    }
 
     mapping cfg = RELIC_REGISTRY[relic_key];
     if (!cfg) return 0;

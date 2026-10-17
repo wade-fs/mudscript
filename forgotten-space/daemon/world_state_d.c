@@ -33,6 +33,10 @@ string caravan_delay_reason;// 官面公告之延誤受阻原因
 string caravan_truth_reason;// 幕後真實受阻原因 (供聽風/情報網讀取)
 int caravan_visit_count;    // 商隊抵達累積次數
 
+// ── 6. 奇遇世界窗口獨立排程與全服名額 (encounter_windows & world_slots) ────
+mapping windows;             // 奇遇世界窗口 (window_id -> 剩餘時間分鐘數)
+mapping encounter_slots;     // 全服奇遇名額消耗 (encounter_id -> 已獲取神物數量)
+
 string query_save_file() { return "/data/world_state"; }
 
 void create() {
@@ -58,8 +62,31 @@ void create() {
     caravan_truth_reason = "黑石關城防軍藉昨夜北崖輕微落石之名封鎖官道，向金石商會勒索三成乾股，黑市【保書路引】已炒至八十兩雪花銀";
     caravan_visit_count = 0;
 
+    windows = ([
+        "stele_dawn": 0,
+        "forge_white_heat": 0,
+        "beast_blood_tide": 0,
+        "altar_frost_gale": 0,
+        "undercurrent_leak": 0,
+        "dark_alley_conspiracy": 0
+    ]);
+    encounter_slots = ([]);
+
     if (file_size(query_save_file() + ".o") > 0) {
         restore_object(query_save_file());
+    }
+    if (!windows || !mapp(windows)) {
+        windows = ([
+            "stele_dawn": 0,
+            "forge_white_heat": 0,
+            "beast_blood_tide": 0,
+            "altar_frost_gale": 0,
+            "undercurrent_leak": 0,
+            "dark_alley_conspiracy": 0
+        ]);
+    }
+    if (!encounter_slots || !mapp(encounter_slots)) {
+        encounter_slots = ([]);
     }
     if (mine_stability <= 0 && !mine_is_collapsed) mine_stability = 65;
     if (disha_activity <= 0) disha_activity = 60;
@@ -100,6 +127,7 @@ void world_tick(int g_time, string weather) {
     } else if (stream_water_level < 70) {
         if (was_flooded) {
             was_flooded = 0;
+            open_window("stele_dawn", 60);
             object st2 = find_object("/d/village/stream.c");
             if (st2) tell_room(st2, "\n" + HIG "【水退石出】咆哮的山洪漸漸退去，溪水重歸清冽。被急流洗刷乾淨的巨石斜臥在岸邊，露出深層的奇異刻痕！\n" NOR);
         }
@@ -133,6 +161,8 @@ void world_tick(int g_time, string weather) {
         if (disha_activity >= 70) {
             forest_beast_alert += 5;
             if (forest_beast_alert > 100) forest_beast_alert = 100;
+            if (forest_beast_alert >= 75) open_window("beast_blood_tide", 60);
+            open_window("forge_white_heat", 60);
             object fr = find_object("/d/village/forest.c");
             if (fr) tell_room(fr, "\n" + HIR "【地煞湧動】地底傳來一陣低沉悶響，泥沼間滲出刺鼻的地煞腥氣，林海深處響起狂暴的獸吼與急促狼哨！\n" NOR);
         } else if (forest_beast_alert > 40) {
@@ -152,6 +182,7 @@ void world_tick(int g_time, string weather) {
     if (stream_water_level >= 85 || weather == "storm") {
         if (caravan_status == "traveling") {
             caravan_status = "blocked";
+            open_window("undercurrent_leak", 60);
             caravan_delay_reason = "大荒商道遭遇暴雨山洪沖毀，商隊暫時在山口驛站避險，無法前行";
             caravan_truth_reason = "暴雨沖垮山口棧道，且黑石關守軍趁災坐地起價勒索過路乾股，黑市【保書路引】炒至八十兩雪花銀";
             object sq2 = find_object("/d/village/square.c");
@@ -184,12 +215,84 @@ void world_tick(int g_time, string weather) {
         }
     }
 
+    // 5. 奇遇世界窗口倒數推演
+    if (windows && sizeof(windows) > 0) {
+        foreach (string wid, int rem in windows) {
+            if (rem > 0) {
+                windows[wid] = rem - 5;
+                if (windows[wid] <= 0) {
+                    windows[wid] = 0;
+                }
+            }
+        }
+    }
+
     if (g_time % 30 == 0) {
         save_object(query_save_file());
     }
 }
 
 // ── 查詢與狀態修改介面 ─────────────────────────────────────
+
+// ── 奇遇世界窗口 (World Windows) 獨立排程介面 ───────────────
+int is_window_active(string wid) {
+    if (!wid || wid == "") return 0;
+    if (windows && windows[wid] > 0) return 1;
+    return 0;
+}
+
+void open_window(string wid, int duration) {
+    if (!wid || wid == "") return;
+    if (!windows) windows = ([]);
+    if (duration <= 0) duration = 60;
+    windows[wid] = duration;
+    save_object(query_save_file());
+}
+
+void close_window(string wid) {
+    if (!wid || wid == "") return;
+    if (!windows) windows = ([]);
+    windows[wid] = 0;
+    save_object(query_save_file());
+}
+
+int query_window_remaining(string wid) {
+    if (!windows || !windows[wid]) return 0;
+    return windows[wid];
+}
+
+mapping query_all_windows() {
+    return windows;
+}
+
+// ── 奇遇名額與回聲政策 (World Slots & Echo) 介面 ────────────
+int query_encounter_slots_used(string enc_id) {
+    if (!encounter_slots || !encounter_slots[enc_id]) return 0;
+    return encounter_slots[enc_id];
+}
+
+int consume_encounter_slot(string enc_id, int max_slots) {
+    if (!enc_id || enc_id == "") return 0;
+    if (!encounter_slots) encounter_slots = ([]);
+    int used = encounter_slots[enc_id];
+    if (max_slots > 0 && used >= max_slots) {
+        return 0; // 名額耗盡，觸發回聲政策
+    }
+    encounter_slots[enc_id] = used + 1;
+    save_object(query_save_file());
+    return 1; // 成功取得正品名額
+}
+
+void reset_encounter_slots(string enc_id) {
+    if (!encounter_slots) return;
+    if (!enc_id || enc_id == "") encounter_slots = ([]);
+    else map_delete(encounter_slots, enc_id);
+    save_object(query_save_file());
+}
+
+mapping query_all_encounter_slots() {
+    return encounter_slots;
+}
 
 int query_stream_water_level() { return stream_water_level; }
 

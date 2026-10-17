@@ -8,15 +8,23 @@
 inherit "/std/object.c";
 
 mapping quest_defs;
+mapping encounter_defs;
+mapping legacy_encounter_map;
 
 void load_all_quests();
 void handle_stage_completion(object who, string qid, mapping q, int cur_stage);
 mapping query_stage_def(mapping q, int stage_num);
 mixed *query_stage_steps(mapping q, int stage_num);
+void audit_encounter(string enc_id, mapping enc, string path);
+mapping query_encounter(string enc_id);
+string query_encounter_id_by_legacy(string legacy_key);
+mixed evaluate_encounter(object who, string enc_id, mapping ctx);
 
 void create() {
     ::create();
     quest_defs = ([]);
+    encounter_defs = ([]);
+    legacy_encounter_map = ([]);
     load_all_quests();
 }
 
@@ -74,6 +82,26 @@ void audit_quest(string qid, mapping q, string path) {
     }
 }
 
+// 奇遇語義與稀有規格稽核器 (Encounter Definition Auditor)
+void audit_encounter(string enc_id, mapping enc, string path) {
+    if (!enc) return;
+    if (!enc["name"] || enc["name"] == "") {
+        write_file("/log/quest_error.log", sprintf("[ENCOUNTER_AUDIT] 警告：奇遇 '%s' (%s) 缺少 name\n", enc_id, path), 0);
+    }
+    if (!enc["gates"] || !arrayp(enc["gates"])) {
+        write_file("/log/quest_error.log", sprintf("[ENCOUNTER_AUDIT] 警告：奇遇 '%s' 缺少門檻閘道 (gates)\n", enc_id), 0);
+    }
+    if (!enc["roll"]) {
+        write_file("/log/quest_error.log", sprintf("[ENCOUNTER_AUDIT] 警告：奇遇 '%s' 缺少機率骰點配置 (roll)\n", enc_id), 0);
+    }
+    if (!enc["scope"] || !enc["scope"]["slots"]) {
+        write_file("/log/quest_error.log", sprintf("[ENCOUNTER_AUDIT] 警告：奇遇 '%s' 缺少全服限量名額 (scope.slots)\n", enc_id), 0);
+    }
+    if (!enc["recovery"] || !enc["recovery"]["policy"]) {
+        write_file("/log/quest_error.log", sprintf("[ENCOUNTER_AUDIT] 警告：奇遇 '%s' 缺少回聲政策配置 (recovery.policy)\n", enc_id), 0);
+    }
+}
+
 // 載入指定 JSON 檔案並加入任務池 (包含規格防呆檢定)
 int load_quest_file(string path) {
     string content = read_file(path);
@@ -86,20 +114,29 @@ int load_quest_file(string path) {
     }
 
     if (!def["name"] || def["name"] == "") {
-        write_file("/log/quest_error.log", "[QUEST_ENGINE] 警告：任務定義缺少 name: " + path + "\n", 0);
+        write_file("/log/quest_error.log", "[QUEST_ENGINE] 警告：定義缺少 name: " + path + "\n", 0);
     }
 
-    audit_quest(def["id"], def, path);
-
-    quest_defs[def["id"]] = def;
+    if (def["gates"] || (strlen(def["id"]) > 4 && substr(def["id"], 0, 4) == "enc_")) {
+        audit_encounter(def["id"], def, path);
+        encounter_defs[def["id"]] = def;
+        if (def["legacy_key"]) {
+            legacy_encounter_map[def["legacy_key"]] = def["id"];
+        }
+    } else {
+        audit_quest(def["id"], def, path);
+        quest_defs[def["id"]] = def;
+    }
     return 1;
 }
 
 // 掃描 /quests/ 各子目錄下的所有 JSON 任務定義檔
 void load_all_quests() {
     quest_defs = ([]);
+    encounter_defs = ([]);
+    legacy_encounter_map = ([]);
 
-    string *subdirs = ({ "", "career/", "main/", "side/", "epic/", "loop/" });
+    string *subdirs = ({ "", "career/", "main/", "side/", "epic/", "loop/", "encounter/" });
     foreach (string sub in subdirs) {
         string dir_path = "/quests/" + sub;
         string *files = get_dir(dir_path, 1);
@@ -124,7 +161,13 @@ void load_all_quests() {
         "/quests/main/cycle_of_craft.json",
         "/quests/main/rescue_maiden.json",
         "/quests/main/rescue_miners.json",
-        "/quests/epic/ancient_order.json"
+        "/quests/epic/ancient_order.json",
+        "/quests/encounter/enc_stele_dawn.json",
+        "/quests/encounter/enc_ancient_iron.json",
+        "/quests/encounter/enc_forest_totem.json",
+        "/quests/encounter/enc_dao_crystal.json",
+        "/quests/encounter/enc_tianmen_token.json",
+        "/quests/encounter/enc_map_fusion.json"
     });
 
     foreach (string path in fallback) {
@@ -133,6 +176,14 @@ void load_all_quests() {
             if (q["id"] && strsrch(path, q["id"]) != -1) {
                 found = 1;
                 break;
+            }
+        }
+        if (!found) {
+            foreach (string eid, mapping e in encounter_defs) {
+                if (e["id"] && strsrch(path, e["id"]) != -1) {
+                    found = 1;
+                    break;
+                }
             }
         }
         if (!found) {
@@ -147,6 +198,256 @@ mapping query_quest(string qid) {
 
 mapping query_all_quests() {
     return quest_defs;
+}
+
+mapping query_encounter(string enc_id) {
+    if (!enc_id || enc_id == "") return 0;
+    if (encounter_defs[enc_id]) return encounter_defs[enc_id];
+    if (legacy_encounter_map[enc_id]) return encounter_defs[legacy_encounter_map[enc_id]];
+    return 0;
+}
+
+mapping query_all_encounters() {
+    return encounter_defs;
+}
+
+string query_encounter_id_by_legacy(string legacy_key) {
+    if (!legacy_key || legacy_key == "") return 0;
+    return legacy_encounter_map[legacy_key];
+}
+
+// ── 奇遇三階段評估分派器 (Encounter Evaluator: Anomaly -> Resonance -> Consequence) ──
+mixed evaluate_encounter(object who, string raw_enc_id, mapping ctx) {
+    if (!who || !raw_enc_id || raw_enc_id == "") return 0;
+
+    string enc_id = raw_enc_id;
+    if (!encounter_defs[enc_id] && legacy_encounter_map[enc_id]) {
+        enc_id = legacy_encounter_map[enc_id];
+    }
+
+    mapping enc = encounter_defs[enc_id];
+    if (!enc) {
+        write_file("/log/quest_error.log", sprintf("[EVAL_ENCOUNTER ERROR] 未知奇遇 ID：%s\n", raw_enc_id), 0);
+        return 0;
+    }
+
+    // 0. 重複性檢驗 (若非測試模式且已達成正品或回聲，不再重複觸發)
+    if (who->query("personal_event/" + enc_id) || (enc["legacy_key"] && who->query("personal_event/" + enc["legacy_key"]))) {
+        if (!ctx || !ctx["force_eval"]) {
+            tell_object(who, CYN "你此前已勘破此處太古天機，此地遺物與道韻已被你洞悉，無需重複參悟。\n" NOR);
+            return 1;
+        }
+    }
+
+    // ── 階段一：發現異常 (Gate 檢定：世界窗口、身世血脈、共鳴門檻、多人合契) ──
+    if (arrayp(enc["gates"])) {
+        foreach (mapping g in enc["gates"]) {
+            string gtype = g["type"];
+
+            // 1. 世界窗口檢定 (獨立排程)
+            if (gtype == "world_window") {
+                string wid = g["id"];
+                object ws = load_object(WORLD_STATE_D);
+                if (ws && !ws->is_window_active(wid) && !wizardp(who) && (!ctx || !ctx["ignore_window"])) {
+                    string wdesc = g["desc"] ? g["desc"] : wid;
+                    tell_object(who, CYN "此處天地異象未生（世界窗口【" + wdesc + "】未開啟），古蹟沉寂無聲。\n" NOR);
+                    return -1;
+                }
+            }
+
+            // 2. 身世血統排他性檢定
+            if (gtype == "background") {
+                string my_bg = who->query("background");
+                string my_nick = who->query("nickname");
+                int match_bg = 0;
+                if (arrayp(g["any"])) {
+                    foreach (string bg in g["any"]) {
+                        if (my_bg == bg) { match_bg = 1; break; }
+                        if (my_nick) {
+                            if (bg == "herbalist" && (my_nick == "顧玄" || my_nick == "採藥人")) match_bg = 1;
+                            if (bg == "smith" && (my_nick == "林鐵生" || my_nick == "鐵匠")) match_bg = 1;
+                            if (bg == "hunter" && (my_nick == "燕隼" || my_nick == "獵戶")) match_bg = 1;
+                            if (bg == "daoist" && (my_nick == "柳清虛" || my_nick == "道童")) match_bg = 1;
+                            if (bg == "beggar" && (my_nick == "沈泥" || my_nick == "乞兒")) match_bg = 1;
+                        }
+                    }
+                }
+                if (!match_bg && !wizardp(who) && (!ctx || !ctx["ignore_bg"])) {
+                    tell_object(who, CYN "你看著眼前的古物，受限於凡俗常人靈覺與身世血脈，只覺其平平無奇，無法勘破深層道韻。（身世血脈不合）\n" NOR);
+                    return -2;
+                }
+            }
+
+            // 3. 屬性/天命共鳴檢定
+            if (gtype == "resonance") {
+                string stat_name = g["stat"];
+                int min_v = g["min"];
+                int cur_v = 0;
+                if (stat_name == "fate") cur_v = who->query(STAT_FATE);
+                else cur_v = who->query_stat(stat_name);
+                if (cur_v < min_v && !wizardp(who) && (!ctx || !ctx["ignore_resonance"])) {
+                    tell_object(who, YEL "你的靈性與神魂共鳴尚淺，不足以引動太古異象。（需 " + stat_name + " >= " + min_v + "）\n" NOR);
+                    return 0;
+                }
+            }
+
+            // 4. 多人/多身世合作拼合檢定 (小說第 9 章暗巷機制)
+            if (gtype == "coop") {
+                int min_u = g["min_unique_backgrounds"];
+                if (min_u > 1) {
+                    int unique_bgs = 1;
+                    string my_bg = who->query("background");
+                    object env = environment(who);
+                    if (env) {
+                        object *inv = all_inventory(env);
+                        foreach (object ob in inv) {
+                            if (ob && ob->is_character() && ob != who) {
+                                string ob_bg = ob->query("background");
+                                if (ob_bg && ob_bg != "" && ob_bg != my_bg) {
+                                    unique_bgs++;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    if (unique_bgs < min_u) {
+                        int alt_found = 0;
+                        if (my_bg != "daoist" && (who->query("encounter_clues/frost_trace") || present("dao crystal", who) || present("crystal", who))) alt_found = 1;
+                        if (my_bg != "herbalist" && (who->query("encounter_clues/stele_trace") || present("stele rubbing", who) || present("rubbing", who))) alt_found = 1;
+                        if (my_bg != "smith" && (who->query("encounter_clues/iron_slag_clue") || present("ancient black iron", who) || present("black iron", who))) alt_found = 1;
+                        if (my_bg != "hunter" && (who->query("encounter_clues/totem_trace") || present("totem fragment", who))) alt_found = 1;
+                        if (my_bg != "beggar" && (who->query("encounter_clues/gear_rattle") || present("tianmen token", who) || present("token", who))) alt_found = 1;
+                        if (alt_found) unique_bgs++;
+                    }
+                    if (unique_bgs < min_u && !wizardp(who) && (!ctx || !ctx["ignore_coop"])) {
+                        tell_object(who, YEL "【合契未成】太古星圖殘卷需至少兩道截然不同的大道身世（如物修草藥師與法修道童，或同室道友印證）共同比對，方能嚴絲合縫拼合！\n" NOR);
+                        return 0;
+                    }
+                }
+            }
+        }
+    }
+
+    // ── 階段二：成立共鳴 (代價扣除、反噬衝擊、骰點與 Pity 保底) ──
+    string vital_type = "sen";
+    int cost_amt = 10;
+    mapping backlash = 0;
+    if (arrayp(enc["gates"])) {
+        foreach (mapping g in enc["gates"]) {
+            if (g["type"] == "cost") {
+                if (g["vital"]) vital_type = g["vital"];
+                if (g["amount"]) cost_amt = g["amount"];
+                backlash = g["backlash"];
+                break;
+            }
+        }
+    }
+
+    string vital_prop = VITAL_SEN;
+    if (vital_type == "kee") vital_prop = VITAL_KEE;
+    else if (vital_type == "sp") vital_prop = VITAL_SP;
+
+    if (who->query(vital_prop) < cost_amt && !wizardp(who)) {
+        tell_object(who, HIR "你心神/氣血損耗過劇，無法強行引動心神與古蹟共鳴！（需 " + vital_type + " " + cost_amt + " 點）\n" NOR);
+        return 0;
+    }
+    who->add(vital_prop, -cost_amt);
+
+    // 觸發反噬
+    if (backlash && random(100) < to_int(backlash["chance"] * 100)) {
+        tell_object(who, HIR + "【道韻反噬】" + backlash["msg"] + "\n" NOR);
+        who->add(vital_prop, -cost_amt / 2);
+    }
+
+    // 骰點計算 (包含 Pity 保底)
+    float base_rate = 0.4;
+    float per_miss = 0.2;
+    float cap_rate = 1.0;
+    if (enc["roll"]) {
+        if (enc["roll"]["base"]) base_rate = enc["roll"]["base"];
+        if (enc["roll"]["pity"]) {
+            if (enc["roll"]["pity"]["per_miss"]) per_miss = enc["roll"]["pity"]["per_miss"];
+            if (enc["roll"]["pity"]["cap"]) cap_rate = enc["roll"]["pity"]["cap"];
+        }
+    }
+
+    int pity_misses = who->query("encounter_pity/" + enc_id);
+    float total_rate = base_rate + (pity_misses * per_miss);
+    if (total_rate > cap_rate) total_rate = cap_rate;
+
+    int roll_val = random(1000);
+    int target_val = to_int(total_rate * 1000);
+
+    if (roll_val >= target_val && (!ctx || !ctx["force_success"])) {
+        // 未過：留下線索與積累保底
+        who->add("encounter_pity/" + enc_id, 1);
+        if (enc["on_fail"]) {
+            if (enc["on_fail"]["clue"]) who->set("encounter_clues/" + enc["on_fail"]["clue"], 1);
+            if (enc["on_fail"]["msg"]) tell_object(who, YEL + enc["on_fail"]["msg"] + "\n" NOR);
+        }
+        return 0;
+    }
+
+    // ── 階段三：留下後果 (正品分配 vs 回聲政策) ──
+    who->delete("encounter_pity/" + enc_id);
+
+    int max_slots = 3;
+    if (enc["scope"] && enc["scope"]["slots"]) max_slots = enc["scope"]["slots"];
+
+    object ws = load_object(WORLD_STATE_D);
+    int got_slot = ws ? ws->consume_encounter_slot(enc_id, max_slots) : 1;
+    if (ctx && ctx["force_echo"]) got_slot = 0;
+
+    if (got_slot) {
+        // 1. 成功獲取正品神物
+        who->set("personal_event/" + enc_id, 1);
+        if (enc["legacy_key"]) {
+            who->set("personal_event/" + enc["legacy_key"], 1);
+            who->set(enc["legacy_key"], 1);
+        }
+        if (enc["rewards"]) {
+            if (enc["rewards"]["exp"]) who->gain_exp(enc["rewards"]["exp"]);
+            if (enc["rewards"]["pot"]) who->add("potential", enc["rewards"]["pot"]);
+            if (enc["rewards"]["fate"]) {
+                int cur_f = who->query(STAT_FATE);
+                who->set(STAT_FATE, cur_f + enc["rewards"]["fate"]);
+                tell_object(who, HIY "【宿命共鳴】你觸及了一角太古真相，體內沉睡的天命微幅覺醒（天命 +" +
+                                 sprintf("%d", enc["rewards"]["fate"]) + "，當前天命：" + sprintf("%d", cur_f + enc["rewards"]["fate"]) + "）！\n" NOR);
+            }
+            if (enc["rewards"]["title"]) who->set("title", enc["rewards"]["title"]);
+            if (enc["rewards"]["clue_key"]) who->set("encounter_clues/" + enc["rewards"]["clue_key"], 1);
+            if (enc["rewards"]["clone_item"]) {
+                object item = clone_object(enc["rewards"]["clone_item"]);
+                if (item) {
+                    if (!item->move(who) && environment(who)) item->move(environment(who));
+                }
+            }
+        }
+        tell_object(who, HIG "【道契圓融】太古異象在靈台中轟然洞開，你成功勘破了【" + enc["name"] + "】的神機！（獲得神物正品）\n" NOR);
+        return 1;
+    } else {
+        // 2. 名額耗盡 -> 回聲政策 (Echo Policy)
+        who->set("personal_event/" + enc_id, 1);
+        who->set("personal_event/" + enc_id + "_echo", 1);
+        if (enc["legacy_key"]) {
+            who->set("personal_event/" + enc["legacy_key"], 1);
+            who->set(enc["legacy_key"], 1);
+        }
+        if (enc["rewards"]) {
+            if (enc["rewards"]["exp"]) who->gain_exp(enc["rewards"]["exp"] / 2);
+            if (enc["rewards"]["clue_key"]) who->set("encounter_clues/" + enc["rewards"]["clue_key"], 1);
+        }
+        if (enc["recovery"] && enc["recovery"]["echo_item"]) {
+            object echo_item = clone_object(enc["recovery"]["echo_item"]);
+            if (echo_item) {
+                if (!echo_item->move(who) && environment(who)) echo_item->move(environment(who));
+            }
+        }
+        string echo_desc = enc["recovery"] ? enc["recovery"]["echo_desc"] : "一枚無神力的拓本抄片";
+        tell_object(who, HIY "【天地回聲】本季太古神物名額已散入天地，你獲得了神力消弭的太古遺物殘響拓本（回聲）！\n" +
+                         WHT + echo_desc + "\n" NOR);
+        return 2;
+    }
 }
 
 // ── 玩家進度查詢與狀態同步 ─────────────────────────────────

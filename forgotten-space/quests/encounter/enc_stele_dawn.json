@@ -1,0 +1,59 @@
+{
+  "id": "enc_stele_dawn",
+  "name": "史前逆星殘碑",
+  "legacy_key": "stream_stele",
+  "room": "/d/village/stream",
+  "scope": {
+    "type": "world_slots",
+    "slots": 3,
+    "per": "season"
+  },
+  "gates": [
+    {
+      "type": "world_window",
+      "id": "stele_dawn",
+      "desc": "深潭枯水水退、巨石青苔被山洪滌淨、朝陽掠射角照射"
+    },
+    {
+      "type": "background",
+      "any": [ "herbalist" ]
+    },
+    {
+      "type": "resonance",
+      "min": 1,
+      "stat": "int"
+    },
+    {
+      "type": "cost",
+      "vital": "sen",
+      "amount": 10,
+      "backlash": {
+        "chance": 0.3,
+        "effect": "sen_drain",
+        "msg": "逆星軌跡反震靈台，你神識遭受劇烈衝擊，眼前一陣眩暈！"
+      }
+    }
+  ],
+  "roll": {
+    "base": 0.4,
+    "pity": {
+      "per_miss": 0.2,
+      "cap": 1.0
+    }
+  },
+  "rewards": {
+    "exp": 50,
+    "fate": 1,
+    "title": "洞悉太古逆星宿圖",
+    "clue_key": "stele_revealed"
+  },
+  "on_fail": {
+    "clue": "stele_trace",
+    "msg": "晨曦掠射角度稍顯偏差，石面微痕若隱若現，但你在心中記下了半幅逆星軌跡（獲得【殘碑微痕】線索，下次參悟機率顯著提升）！"
+  },
+  "recovery": {
+    "policy": "echo",
+    "echo_item": "/clone/item/stele_rubbing.c",
+    "echo_desc": "一枚字跡模糊、無太古神力的粗糙石板拓片複製品"
+  }
+}

@@ -35,29 +35,41 @@ void init() {
 
 int do_compare_map(string arg) {
     object me = this_player();
-    object md = load_object(MYSTERY_D);
 
-    // 檢查是否有拓片
-    if (!me->query_temp("has_stele_rubbing") && !present("stele_rubbing", me) && !present("rubbing", me)) {
-        write("你手頭並無古碑拓片或殘圖，無法在此暗巷深處推演星軌脈絡。\n");
+    // 檢查是否有拓片或殘片
+    int has_piece = 0;
+    if (me->query_temp("has_stele_rubbing") || present("stele_rubbing", me) || present("rubbing", me) ||
+        present("dao crystal", me) || present("crystal", me) ||
+        present("ancient black iron", me) || present("black iron", me) ||
+        present("tianmen token", me) || present("token", me) ||
+        me->query("personal_event/stream_stele")) {
+        has_piece = 1;
+    }
+
+    if (!has_piece) {
+        write("你手頭並無古碑拓片或太古傳承殘件，無法在此暗巷深處推演星軌脈絡。\n");
         return 1;
     }
 
-    write(CYN "你在發霉木板的陰影下避開外界耳目，將手頭的【古碑逆星殘片】輕輕攤開……\n" NOR);
-    write("墨痕所化的逆轉星圖在昏暗死巷中流轉著淡淡幽芒，與頭頂冥冥中的蒼穹星位隱隱逆衝！\n");
-    write(HIY "【逆星合契】：你勘破了九天星宿與大地厚土之間的萬古偽網，道心在震撼中徹底破立！\n" NOR);
-    write(HIG "【你的悟性/定力得到淬煉，獲得 50 點歷練經驗與 30 點潛能！】\n" NOR);
-
-    me->add_exp(50);
-    me->add(STAT_INT, 1);
-
-    object qe = load_object(QUEST_ENGINE_D);
+    object qe = find_object(QUEST_ENGINE_D);
+    if (!qe) qe = load_object(QUEST_ENGINE_D);
     if (qe) {
-        qe->trigger_event(me, "action", ([
-            "verb": "compare_map",
-            "target": "star_map"
-        ]));
+        int res = qe->evaluate_encounter(me, "enc_map_fusion", ([]));
+        if (res > 0) {
+            write(CYN "你在發霉木板的陰影下避開外界耳目，將手頭的太古星圖殘卷輕輕攤開……\n" NOR);
+            write(HIY "【太古周天逆星殘卷・雙脈合契】：青銅古絲與粗紙墨痕嚴絲合縫，太古神魔手撕蒼穹的浩瀚星空半壁在暗巷中綻放出萬道青金微芒！\n" NOR);
+            write("墨痕與青銅暗紋交融，你勘破了九天星宿偽網與大地厚土之間的萬古真相，道心在震撼中徹底破立！\n");
+            qe->trigger_event(me, "action", ([
+                "verb": "compare_map",
+                "target": "star_map"
+            ]));
+            return 1;
+        } else {
+            return 1;
+        }
     }
+
+    write("暗巷深處陰風瑟瑟，殘卷暫時未能引起天地道韻共鳴。\n");
     return 1;
 }
 

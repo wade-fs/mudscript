@@ -46,8 +46,8 @@ void create() {
 }
 
 int execute(object me, string verb, string arg) {
-    // 🚀 支援以 ; 串接多個指令 (相容已載入記憶體的玩家物件呼叫)
-    if (verb != "alias" && ((verb && strsrch(verb, ";") != -1) || (arg && stringp(arg) && strsrch(arg, ";") != -1))) {
+    // 🚀 支援以 ; 串接多個指令 (相容已載入記憶體的玩家物件呼叫，排除 alias 與 eval)
+    if (verb != "alias" && verb != "eval" && ((verb && strsrch(verb, ";") != -1) || (arg && stringp(arg) && strsrch(arg, ";") != -1))) {
         string full_cmd = verb;
         if (arg && stringp(arg) && arg != "") {
             full_cmd = verb + " " + arg;

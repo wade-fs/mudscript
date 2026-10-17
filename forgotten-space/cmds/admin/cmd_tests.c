@@ -6,7 +6,7 @@ inherit "/std/object";
 #include "/include/ansi.h"
 
 int main(object me, string verb, string arg) {
-    if (me->query_role() != "god") {
+    if (!wizardp(me) && me->query_role() != "god" && me->query_role() != "wizard") {
         write("只有管理員可以使用此指令。\n");
         return 1;
     }
@@ -50,7 +50,8 @@ int main(object me, string verb, string arg) {
         "/tests/p3_test.c",
         "/tests/p4_test.c",
         "/tests/test_file_mgmt.c",
-        "/tests/test_var_decl.c"
+        "/tests/test_var_decl.c",
+        "/tests/test_encounter_system.c"
     });
 
     int total = 0;

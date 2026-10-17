@@ -276,8 +276,8 @@ mixed process_input(string input) {
     if (!input || input == "") return 0;
     string orig_input = input;
 
-    // 🚀 支援以 ; 串接多個指令 (排除 alias 設定指令本身)
-    if (strsrch(input, ";") != -1 && strsrch(input, "alias ") != 0) {
+    // 🚀 支援以 ; 串接多個指令 (排除 alias 與 eval 設定指令本身)
+    if (strsrch(input, ";") != -1 && strsrch(input, "alias ") != 0 && strsrch(input, "eval ") != 0) {
         string *cmds = explode(input, ";");
         foreach (string c in cmds) {
             c = trim(c);
@@ -292,7 +292,7 @@ mixed process_input(string input) {
     input = expand_alias(input);
 
     // 若別名展開後包含 ; 串接指令，亦逐一執行
-    if (strsrch(input, ";") != -1 && strsrch(input, "alias ") != 0) {
+    if (strsrch(input, ";") != -1 && strsrch(input, "alias ") != 0 && strsrch(input, "eval ") != 0) {
         string *cmds2 = explode(input, ";");
         foreach (string c2 in cmds2) {
             c2 = trim(c2);
