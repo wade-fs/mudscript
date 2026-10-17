@@ -54,15 +54,19 @@ int main(object me, string verb, string arg) {
     }
 
     // 2. 呼叫 NPC 的 do_chat，傳入詢問者 me 方便 NPC 直接 tell_object
-    if (!target->do_chat(me, topic)) {
-        // 3. 若 NPC 未自訂該話題，嘗試由任務引擎推進對話步驟
-        if (quest_engine && quest_engine->trigger_event(me, "talk", ([
-            "npc": tid,
-            "topic": topic,
-            "npc_obj": target
-        ]))) {
-            return 1;
-        }
+    int chat_handled = target->do_chat(me, topic);
+
+    // 3. 嘗試由任務引擎推進對話步驟或接取任務
+    int quest_handled = 0;
+    if (quest_engine && quest_engine->trigger_event(me, "talk", ([
+        "npc": tid,
+        "topic": topic,
+        "npc_obj": target
+    ]))) {
+        quest_handled = 1;
+    }
+
+    if (!chat_handled && !quest_handled) {
         tell_object(me, target_name + select_lang(([ "en": " just looks at you and says nothing.\n", "zh-TW": " 只是看了看你，什麼也沒說。\n", "zh-CN": " 只是看了看你，什么也没说。\n" ])));
     }
 

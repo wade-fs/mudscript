@@ -27,6 +27,7 @@
           "target_type": "action",
           "action_verb": "search",
           "action_target": "wood",
+          "location": "/d/village/shed",
           "on_complete": {
             "give_item": "/clone/relic/tianmen_token.c",
             "msg": "你在柴堆黑泥半尺深處起出了一隻暗金鐵盒，得到了休眠中的太古信物【萬物行商・天門引】！"
@@ -46,6 +47,7 @@
           "target_npc": "tie",
           "target_topic": "殘令",
           "require_item": "tianmen",
+          "location": "/d/village/forge",
           "on_complete": {
             "msg": "阿鐵雙手捧著殘令，手指劇烈顫抖：「這暗金齒輪與神闕雲紋……是太古九天商盟的引路權杖！相傳金石城的【萬寶樓】藏有太古密閣星圖，若你日後能闖出黑石鋪，定要去金石城一探究竟！」"
           },

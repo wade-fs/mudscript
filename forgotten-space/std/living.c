@@ -483,7 +483,9 @@ void die() {
     object me = this_object();
     object env = environment(me);
     
-    write("$HIR$\n👻 你感覺到靈魂正在脫離肉體... 你死了。\n\n$NOR$");
+    if (userp(me)) {
+        tell_object(me, "$HIR$\n👻 你感覺到靈魂正在脫離肉體... 你死了。\n\n$NOR$");
+    }
     say("$HIR$" + query_name() + " 的呼吸停止了，靈魂飄向了另一個世界。\n$NOR$");
 
     // 1. 產生屍體
@@ -518,39 +520,41 @@ void die() {
             }
         }
 
-        // 2. 🚀 死亡懲罰計算
-        // 損失當前等級升級所需總額的 5%
-        int lost_exp = exp_to_next / 20; 
-        int lost_pot = potential / 5; // 損失潛能的 20%
-        if (lost_exp < 1) lost_exp = 1;
-        
-        int lv_down = 0;
-        if (random(100) < 20) lv_down = 1;
+        // 2. 🚀 死亡懲罰計算 (僅對玩家生效)
+        if (userp(me)) {
+            // 損失當前等級升級所需總額的 5%
+            int lost_exp = exp_to_next / 20; 
+            int lost_pot = potential / 5; // 損失潛能的 20%
+            if (lost_exp < 1) lost_exp = 1;
+            
+            int lv_down = 0;
+            if (random(100) < 20) lv_down = 1;
 
-        // 紀錄懲罰資料，用於跑屍恢復
-        mapping penalty = ([
-            "owner": me->get_id(),
-            "exp": lost_exp,
-            "pot": lost_pot,
-            "level_down": lv_down
-        ]);
-        corpse->set_penalty_data(penalty);
+            // 紀錄懲罰資料，用於跑屍恢復
+            mapping penalty = ([
+                "owner": me->get_id(),
+                "exp": lost_exp,
+                "pot": lost_pot,
+                "level_down": lv_down
+            ]);
+            corpse->set_penalty_data(penalty);
 
-        // 執行懲罰
-        exp -= lost_exp;
-        if (exp < 0) exp = 0;
-        potential -= lost_pot;
-        if (lv_down && level > 1) {
-            level--;
-            write("$HIR$你的等級下降了！現在是等級 " + level + "。\n$NOR$");
-        }
+            // 執行懲罰
+            exp -= lost_exp;
+            if (exp < 0) exp = 0;
+            potential -= lost_pot;
+            if (lv_down && level > 1) {
+                level--;
+                tell_object(me, "$HIR$你的等級下降了！現在是等級 " + level + "。\n$NOR$");
+            }
 
-        // 🚀 技能熟練度下降 (所有學過的技能隨機掉 1~5% 熟練度)
-        if (mapp(skills)) {
-            mixed ks = keys(skills);
-            foreach (string sid in ks) {
-                int s_exp = skills[sid]["exp"];
-                skills[sid]["exp"] = s_exp * 95 / 100;
+            // 🚀 技能熟練度下降 (所有學過的技能隨機掉 1~5% 熟練度)
+            if (mapp(skills)) {
+                mixed ks = keys(skills);
+                foreach (string sid in ks) {
+                    int s_exp = skills[sid]["exp"];
+                    skills[sid]["exp"] = s_exp * 95 / 100;
+                }
             }
         }
     }

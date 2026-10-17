@@ -20,14 +20,19 @@ void create() {
     load_all_quests();
 }
 
-// 載入指定 JSON 檔案並加入任務池
+// 載入指定 JSON 檔案並加入任務池 (包含規格防呆檢定)
 int load_quest_file(string path) {
     string content = read_file(path);
     if (!content || content == "") return 0;
 
     mixed def = json_decode(content);
     if (!mapp(def) || !def["id"]) {
+        write_file("/log/quest_error.log", "[QUEST_ENGINE] 錯誤：檔案非合法 JSON 或缺少 id: " + path + "\n", 0);
         return 0;
+    }
+
+    if (!def["name"] || def["name"] == "") {
+        write_file("/log/quest_error.log", "[QUEST_ENGINE] 警告：任務定義缺少 name: " + path + "\n", 0);
     }
 
     quest_defs[def["id"]] = def;
@@ -225,7 +230,60 @@ int has_required_item(object who, string req) {
     return 0;
 }
 
-// 檢查當前步驟是否有遺失的信物
+// 統一獎勵發放器 (全維度支援：經驗、潛能、錢幣、天命、道統親和度、獎勵物品)
+void award_rewards(object who, mapping rw) {
+    if (!who || !mapp(rw)) return;
+
+    if (rw["exp"]) {
+        who->gain_exp(rw["exp"]);
+    }
+    if (rw["pot"]) {
+        int pot_val = rw["pot"];
+        who->gain_potential(pot_val);
+        tell_object(who, HIY "【修為潛能】獲得 " + sprintf("%d", pot_val) + " 點潛能！\n" NOR);
+    }
+    if (rw["money"]) {
+        who->add_money(rw["money"]);
+    }
+    if (rw["gold"]) {
+        who->gain_gold(rw["gold"]);
+    }
+    if (rw["fate"]) {
+        int f_val = rw["fate"];
+        who->add("fate", f_val);
+        tell_object(who, HIM "【天命烙印】天命隱性覺醒度提升了 " + sprintf("%d", f_val) + " 點！\n" NOR);
+    }
+    if (rw["affinity"]) {
+        mapping aff = rw["affinity"];
+        foreach (string k, int v in aff) {
+            who->add("affinity/" + k, v);
+            tell_object(who, HIG "【傳承共鳴】" + k + " 道統傳承親和度提升了 " + sprintf("%d", v) + " 點！\n" NOR);
+        }
+    }
+    if (rw["items"]) {
+        mixed itm = rw["items"];
+        string *item_list = ({});
+        if (stringp(itm)) item_list = ({ itm });
+        else if (arrayp(itm)) item_list = itm;
+
+        foreach (string item_path in item_list) {
+            object ob = clone_object(item_path);
+            if (ob) {
+                if (ob->query("is_relic") && present(ob->query_name(), who)) {
+                    destruct(ob);
+                } else {
+                    if (!ob->move(who)) ob->move(environment(who));
+                    tell_object(who, HIG "【獲得獎勵物品：" + ob->query_short() + "】\n" NOR);
+                }
+            }
+        }
+    }
+    if (rw["msg"]) {
+        tell_object(who, HIG + rw["msg"] + "\n" NOR);
+    }
+}
+
+// 檢查特定任務是否有遺失的信物 (支援 步驟層級、階段層級、任務頂層陣列)
 mapping check_lost_item(object who, string qid) {
     if (!who || !quest_defs[qid]) return 0;
     mapping q = quest_defs[qid];
@@ -234,38 +292,93 @@ mapping check_lost_item(object who, string qid) {
 
     int cur_stage = query_quest_stage(who, qid);
     mixed *steps = query_stage_steps(q, cur_stage);
-    if (!arrayp(steps)) return 0;
 
-    for (int i = 0; i < sizeof(steps); i++) {
-        mapping s = steps[i];
-        if (s["step"] == cur_step) {
-            string req = s["require_item"];
-            if (req && req != "" && !has_required_item(who, req)) {
-                if (s["lost_item_recovery"]) {
-                    return s["lost_item_recovery"];
+    // 1. 優先檢查當前步驟上的 lost_item_recovery
+    if (arrayp(steps)) {
+        for (int i = 0; i < sizeof(steps); i++) {
+            mapping s = steps[i];
+            if (s["step"] == cur_step) {
+                string req = s["require_item"];
+                if (req && req != "" && !has_required_item(who, req)) {
+                    if (s["lost_item_recovery"]) {
+                        return s["lost_item_recovery"];
+                    }
                 }
+                break;
             }
-            break;
         }
     }
+
+    // 2. 檢查 Stage 層級的 lost_item_recovery
+    mapping st_def = query_stage_def(q, cur_stage);
+    if (st_def && arrayp(st_def["lost_item_recovery"])) {
+        foreach (mapping rec in st_def["lost_item_recovery"]) {
+            if (rec["item"] && !has_required_item(who, rec["item"])) {
+                return rec;
+            }
+        }
+    }
+
+    // 3. 檢查任務頂層的 lost_item_recovery (如 rescue_miners.json)
+    if (arrayp(q["lost_item_recovery"])) {
+        foreach (mapping rec in q["lost_item_recovery"]) {
+            if (rec["item"] && !has_required_item(who, rec["item"])) {
+                return rec;
+            }
+        }
+    }
+
     return 0;
 }
 
-// 專用信物丟失補領處理器
+// 專用信物丟失補領處理器 (全域掃描步驟級、階段級、頂層級遺失信物)
 int check_and_handle_lost_item(object who, string npc_id, string topic) {
     if (!who || !npc_id) return 0;
     foreach (string qid, mapping q in quest_defs) {
-        mapping recovery = check_lost_item(who, qid);
-        if (recovery && (recovery["from_npc"] == npc_id || npc_id == "any")) {
-            if (!recovery["ask_topic"] || topic == recovery["ask_topic"] || topic == "任務" || topic == "信物") {
-                string reissue_path = recovery["reissue_item"];
-                if (reissue_path) {
-                    object re_ob = clone_object(reissue_path);
-                    if (re_ob) {
-                        re_ob->move(who);
-                        tell_object(who, HIY "\n" + recovery["dialogue"] + "\n" NOR);
-                        tell_object(who, HIG "【你重新獲得了關鍵信物：" + re_ob->query_short() + "！】\n\n" NOR);
-                        return 1;
+        int cur_step = query_quest_step(who, qid);
+        if (cur_step <= 0) continue;
+
+        int cur_stage = query_quest_stage(who, qid);
+        mixed *recs = ({});
+
+        // 收集步驟層級
+        mixed *steps = query_stage_steps(q, cur_stage);
+        if (arrayp(steps)) {
+            foreach (mapping s in steps) {
+                if (s["step"] == cur_step && s["lost_item_recovery"]) {
+                    recs += ({ s["lost_item_recovery"] });
+                }
+            }
+        }
+
+        // 收集 Stage 層級
+        mapping st_def = query_stage_def(q, cur_stage);
+        if (st_def && arrayp(st_def["lost_item_recovery"])) {
+            recs += st_def["lost_item_recovery"];
+        }
+
+        // 收集頂層層級
+        if (arrayp(q["lost_item_recovery"])) {
+            recs += q["lost_item_recovery"];
+        }
+
+        foreach (mapping recovery in recs) {
+            string req_item = recovery["item"] ? recovery["item"] : recovery["require_item"];
+            if (req_item && req_item != "" && has_required_item(who, req_item)) {
+                continue; // 身上已有，不重複補發
+            }
+
+            if (recovery["from_npc"] == npc_id || npc_id == "any") {
+                if (!recovery["ask_topic"] || topic == recovery["ask_topic"] || topic == "任務" || topic == "信物") {
+                    string reissue_path = recovery["reissue_item"];
+                    if (reissue_path) {
+                        object re_ob = clone_object(reissue_path);
+                        if (re_ob) {
+                            if (!re_ob->move(who)) re_ob->move(environment(who));
+                            tell_object(who, HIY "\n" + recovery["dialogue"] + "\n" NOR);
+                            tell_object(who, HIG "【你重新獲得了關鍵信物：" + re_ob->query_short() + "！】\n\n" NOR);
+                            return 1;
+                        }
                     }
                 }
             }
@@ -282,12 +395,9 @@ void handle_stage_completion(object who, string qid, mapping q, int cur_stage) {
     mapping st_def = query_stage_def(q, cur_stage);
     int total_stages = (arrayp(q["stages"]) && sizeof(q["stages"]) > 0) ? sizeof(q["stages"]) : 1;
 
-    // 發放該 Stage 的階段性獎勵
+    // 發放該 Stage 的階段性獎勵 (調用統一獎勵發放器)
     if (st_def && st_def["on_finish"]) {
-        mapping of_rew = st_def["on_finish"];
-        if (of_rew["exp"]) who->add("exp", of_rew["exp"]);
-        if (of_rew["fate"]) who->add("fate", of_rew["fate"]);
-        if (of_rew["msg"]) tell_object(who, HIG + of_rew["msg"] + "\n" NOR);
+        award_rewards(who, st_def["on_finish"]);
     }
 
     // 判斷是否還有後續 Stage
@@ -327,17 +437,9 @@ void handle_stage_completion(object who, string qid, mapping q, int cur_stage) {
         set_quest_state(who, qid, "COMPLETED");
     }
 
-    // 發放最終任務獎勵
+    // 發放最終任務獎勵 (調用統一獎勵發放器)
     if (q["rewards"]) {
-        mapping rw = q["rewards"];
-        if (rw["exp"]) who->add("exp", rw["exp"]);
-        if (rw["money"]) who->add_money(rw["money"]);
-        if (rw["affinity"]) {
-            mapping aff = rw["affinity"];
-            foreach (string k, int v in aff) {
-                who->add("affinity/" + k, v);
-            }
-        }
+        award_rewards(who, q["rewards"]);
     }
 
     tell_object(who, HIY "\n【✨ 恭喜完成歷練：「" + q["name"] + "」！】\n" NOR);
@@ -348,12 +450,18 @@ void handle_stage_completion(object who, string qid, mapping q, int cur_stage) {
 mixed trigger_event(object who, string event_type, mapping data) {
     if (!who || !mapp(data)) return 0;
 
-    string npc_id = data["npc"];
-    string topic  = data["topic"];
-    object item   = data["item"];
-    string verb   = data["verb"];
-    string target = data["target"];
-    object npc_ob = data["npc_obj"];
+    mixed raw_npc      = data["npc"];
+    string npc_id      = stringp(raw_npc) ? raw_npc : "";
+    string topic       = data["topic"];
+    object item        = data["item"];
+    string verb        = data["verb"];
+    string target      = data["target"];
+    object npc_ob      = data["npc_obj"];
+    object victim      = data["victim"];
+    mixed raw_victim_id = data["victim_id"];
+    string victim_id   = stringp(raw_victim_id) ? raw_victim_id : ((arrayp(raw_victim_id) && sizeof(raw_victim_id) > 0) ? raw_victim_id[0] : "");
+    string victim_name = data["victim_name"];
+    string victim_file = data["victim_file"];
 
     foreach (string qid, mapping q in quest_defs) {
         int cur_step = query_quest_step(who, qid);
@@ -368,6 +476,18 @@ mixed trigger_event(object who, string event_type, mapping data) {
             int next_stage_num = cur_stage + 1;
             mapping next_stage = query_stage_def(q, next_stage_num);
             if (next_stage) {
+                // 檢查等級門檻
+                int st_req_lvl = next_stage["required_level"];
+                if (st_req_lvl > 0 && who->query_level() < st_req_lvl) {
+                    mapping unl = next_stage["unlock_condition"];
+                    if (event_type == "talk" && unl && unl["target_npc"] && 
+                        (npc_id == unl["target_npc"] || (npc_ob && npc_ob->id(unl["target_npc"])))) {
+                        tell_object(who, HIR "【機緣隱伏】你尚未突破瓶頸（需要等級 " + sprintf("%d", st_req_lvl) + "），暫且無法參悟後續機緣。\n" NOR);
+                        return 1;
+                    }
+                    continue;
+                }
+
                 mapping unlock = next_stage["unlock_condition"];
                 int can_unlock = 0;
                 if (unlock) {
@@ -394,10 +514,32 @@ mixed trigger_event(object who, string event_type, mapping data) {
 
         // 1. 若任務尚未接取 (step == 0)
         if (cur_step == 0) {
+            // 防護：非循環任務已完成不可重複接取
+            if (q["type"] != "loop" && who->query("quests/" + qid + "/state") == "COMPLETED") {
+                continue;
+            }
+
+            // 計算等級要求
+            int req_level = 0;
+            if (q["requirements"] && q["requirements"]["level"]) {
+                req_level = q["requirements"]["level"];
+            } else if (q["required_level"]) {
+                req_level = q["required_level"];
+            } else if (arrayp(q["stages"]) && sizeof(q["stages"]) > 0 && q["stages"][0]["required_level"]) {
+                req_level = q["stages"][0]["required_level"];
+            }
+
             // 方式 A: 向 start_npc 接取
             if (q["start_npc"] && event_type == "talk" && 
                 (npc_id == q["start_npc"] || (npc_ob && npc_ob->id(q["start_npc"]))) && 
                 (!q["start_topic"] || topic == q["start_topic"])) {
+
+                // 檢查等級條件
+                if (req_level > 0 && who->query_level() < req_level) {
+                    tell_object(who, HIR "【修為不足】這項歷練兇險異常，需要修為達到等級 " + sprintf("%d", req_level) + " 方可承接（當前等級：" + sprintf("%d", who->query_level()) + "）！\n" NOR);
+                    return 1;
+                }
+
                 set_quest_stage(who, qid, 1);
                 set_quest_step(who, qid, 1);
                 set_quest_state(who, qid, "ACTIVE");
@@ -405,10 +547,26 @@ mixed trigger_event(object who, string event_type, mapping data) {
                                      "  目標：" + steps[0]["hint"] + "\n" NOR);
                 return 1;
             }
+
             // 方式 B: 隱藏奇遇在 step 1 透過 action 行為直接觸發接取
             mapping s0 = steps[0];
             if (s0["target_type"] == "action" && event_type == "action" && verb == s0["action_verb"]) {
                 if (!s0["action_target"] || target == s0["action_target"]) {
+                    // 地點檢定
+                    string req_loc = s0["location"] ? s0["location"] : s0["room"];
+                    if (req_loc && req_loc != "") {
+                        object env = environment(who);
+                        if (!env || strsrch(base_name(env), req_loc) == -1) {
+                            continue;
+                        }
+                    }
+
+                    // 等級檢定
+                    if (req_level > 0 && who->query_level() < req_level) {
+                        tell_object(who, HIR "【修為不足】此處機緣暗伏，但你氣機尚未凝練（需要等級 " + sprintf("%d", req_level) + "），未能洞悉其中奧秘。\n" NOR);
+                        return 0;
+                    }
+
                     set_quest_stage(who, qid, 1);
                     set_quest_state(who, qid, "ACTIVE");
                     mapping st1 = query_stage_def(q, 1);
@@ -424,7 +582,7 @@ mixed trigger_event(object who, string event_type, mapping data) {
                                 if (r0->query("is_relic") && present(r0->query_name(), who)) {
                                     destruct(r0);
                                 } else {
-                                    r0->move(who);
+                                    if (!r0->move(who)) r0->move(environment(who));
                                     tell_object(who, HIG "【獲得信物：" + r0->query_short() + "】\n" NOR);
                                 }
                             }
@@ -456,7 +614,7 @@ mixed trigger_event(object who, string event_type, mapping data) {
                 if (reissue_path) {
                     object re_ob = clone_object(reissue_path);
                     if (re_ob) {
-                        re_ob->move(who);
+                        if (!re_ob->move(who)) re_ob->move(environment(who));
                         tell_object(who, HIY "\n" + recovery["dialogue"] + "\n" NOR);
                         tell_object(who, HIG "【你重新獲得了關鍵信物：" + re_ob->query_short() + "！】\n\n" NOR);
                         return 1;
@@ -470,9 +628,19 @@ mixed trigger_event(object who, string event_type, mapping data) {
             mapping s = steps[i];
             if (s["step"] != cur_step) continue;
 
+            // 地點檢驗 (若步驟定義了 location / room)
+            string s_loc = s["location"] ? s["location"] : s["room"];
+            if (s_loc && s_loc != "") {
+                object cur_env = environment(who);
+                if (!cur_env || strsrch(base_name(cur_env), s_loc) == -1) {
+                    continue; // 地點不符，不推進
+                }
+            }
+
             int matched = 0;
             string t_type = s["target_type"];
 
+            // A. 對話類步驟 (talk)
             if (t_type == "talk" && event_type == "talk") {
                 if ((npc_id == s["target_npc"] || (npc_ob && npc_ob->id(s["target_npc"]))) && 
                     (!s["target_topic"] || topic == s["target_topic"])) {
@@ -483,16 +651,105 @@ mixed trigger_event(object who, string event_type, mapping data) {
                         tell_object(who, HIR "你身上似乎缺少了對話所需的關鍵信物！\n" NOR);
                     }
                 }
-            } else if (t_type == "deliver" && event_type == "deliver") {
+            }
+            // B. 交付類步驟 (deliver)
+            else if (t_type == "deliver" && event_type == "deliver") {
                 if (npc_id == s["target_npc"] || (npc_ob && npc_ob->id(s["target_npc"]))) {
                     string req = s["require_item"];
                     if (!req || req == "" || (item && (item->id(req) || item->query("is_" + req) || item->query("herb_type") == req))) {
                         matched = 1;
                     }
                 }
-            } else if (t_type == "action" && event_type == "action") {
+            }
+            // C. 行動類步驟 (action)
+            else if (t_type == "action" && event_type == "action") {
                 if (verb == s["action_verb"]) {
                     if (!s["action_target"] || target == s["action_target"]) {
+                        // 裝備檢定
+                        string req_eq = s["require_equipped"];
+                        if (req_eq && req_eq != "") {
+                            int has_eq = 0;
+                            object weapon = who->query_temp("weapon");
+                            if (weapon && (weapon->id(req_eq) || strsrch(base_name(weapon), req_eq) != -1)) {
+                                has_eq = 1;
+                            }
+                            if (!has_eq && has_required_item(who, req_eq)) {
+                                has_eq = 1;
+                            }
+                            if (!has_eq) {
+                                tell_object(who, HIR "你尚未裝備或手持執行此動作所需的道具【" + req_eq + "】！\n" NOR);
+                                break;
+                            }
+                        }
+
+                        // 背包道具檢定
+                        string req_inv = s["require_inventory"] ? s["require_inventory"] : s["require_item"];
+                        if (req_inv && req_inv != "") {
+                            if (!has_required_item(who, req_inv)) {
+                                tell_object(who, HIR "你身上缺少執行此動作所需的關鍵道具【" + req_inv + "】！\n" NOR);
+                                break;
+                            }
+                        }
+
+                        // 消耗品扣除
+                        string con_item = s["consume_item"];
+                        if (con_item && con_item != "") {
+                            object *inv = all_inventory(who);
+                            object con_ob = 0;
+                            foreach (object o in inv) {
+                                if (o->id(con_item) || strsrch(base_name(o), con_item) != -1) {
+                                    con_ob = o;
+                                    break;
+                                }
+                            }
+                            if (con_ob) {
+                                tell_object(who, HIY "【消耗了 " + con_ob->query_short() + "】\n" NOR);
+                                destruct(con_ob);
+                            }
+                        }
+
+                        matched = 1;
+                    }
+                }
+            }
+            // D. 擊殺類步驟 (kill)
+            else if (t_type == "kill" && event_type == "kill") {
+                string target_mob = s["target_mob"] ? s["target_mob"] : (s["target_npc"] ? s["target_npc"] : s["target"]);
+                int mob_matched = 0;
+                if (target_mob && target_mob != "") {
+                    if (victim && (victim->id(target_mob) || (victim_id != "" && victim_id == target_mob) || victim->query_name() == target_mob)) {
+                        mob_matched = 1;
+                    } else if (victim_file && strsrch(victim_file, target_mob) != -1) {
+                        mob_matched = 1;
+                    } else if (target_mob == "wolf" && ((victim_name && strsrch(victim_name, "狼") != -1) || (victim_file && strsrch(victim_file, "wolf") != -1))) {
+                        mob_matched = 1;
+                    } else if (target_mob == "zhao si" && ((victim_name && strsrch(victim_name, "趙四") != -1) || (victim_file && strsrch(victim_file, "zhao") != -1))) {
+                        mob_matched = 1;
+                    }
+                }
+
+                if (mob_matched) {
+                    // 防重計：同一個怪物死亡事件不重計
+                    if (victim && victim->query_temp("counted_for_" + qid)) {
+                        break;
+                    }
+                    if (victim) {
+                        victim->set_temp("counted_for_" + qid, 1);
+                    }
+
+                    int req_cnt = s["required_count"] ? s["required_count"] : 1;
+                    if (req_cnt > 1) {
+                        int cur_cnt = who->query("quests/" + qid + "/progress/kill_count");
+                        cur_cnt++;
+                        if (cur_cnt < req_cnt) {
+                            who->set("quests/" + qid + "/progress/kill_count", cur_cnt);
+                            tell_object(who, HIG "【任務進度】" + q["name"] + "（" + s["title"] + "）：" + sprintf("%d / %d", cur_cnt, req_cnt) + "\n" NOR);
+                            return 1;
+                        } else {
+                            who->delete("quests/" + qid + "/progress/kill_count");
+                            matched = 1;
+                        }
+                    } else {
                         matched = 1;
                     }
                 }
@@ -508,7 +765,7 @@ mixed trigger_event(object who, string event_type, mapping data) {
                             if (reward_ob->query("is_relic") && present(reward_ob->query_name(), who)) {
                                 destruct(reward_ob);
                             } else {
-                                reward_ob->move(who);
+                                if (!reward_ob->move(who)) reward_ob->move(environment(who));
                                 tell_object(who, HIG "【獲得道具：" + reward_ob->query_short() + "】\n" NOR);
                             }
                         }
@@ -625,17 +882,18 @@ string query_quest_checklist(object who, string qid) {
                         if (cur_step > ss_num) {
                             out += sprintf(HIG "      [✓] 第 %d 步：%s\n" NOR, ss_num, ss["title"]);
                         } else if (cur_step == ss_num) {
-                            out += sprintf(HIY "      [▶] 第 %d 步：%s (進行中)\n" NOR, ss_num, ss["title"]);
+                            string progress_info = "";
+                            if (ss["target_type"] == "kill" && ss["required_count"] > 1) {
+                                int cur_k = who->query("quests/" + qid + "/progress/kill_count");
+                                progress_info = sprintf(" (進度: %d / %d)", cur_k, ss["required_count"]);
+                            }
+                            out += sprintf(HIY "      [▶] 第 %d 步：%s (進行中%s)\n" NOR, ss_num, ss["title"], progress_info);
                             out += sprintf(WHT "          指引：%s\n" NOR, ss["hint"]);
-                            string req = ss["require_item"];
-                            if (req && req != "" && !has_required_item(who, req)) {
-                                mapping recovery = ss["lost_item_recovery"];
-                                if (recovery) {
-                                    out += sprintf(HIR "          ⚠️ 身上缺少關鍵信物，可前往向【%s】詢問「%s」補領！\n" NOR,
-                                                  recovery["from_npc"], recovery["ask_topic"]);
-                                } else {
-                                    out += sprintf(HIR "          ⚠️ 身上缺少關鍵交付物品【%s】！\n" NOR, req);
-                                }
+
+                            mapping lost_rec = check_lost_item(who, qid);
+                            if (lost_rec) {
+                                out += sprintf(HIR "          ⚠️ 身上缺少關鍵信物，可前往向【%s】詢問「%s」補領！\n" NOR,
+                                              lost_rec["from_npc"], lost_rec["ask_topic"]);
                             }
                         } else {
                             out += sprintf(GRN "      [ ] 第 %d 步：%s\n" NOR, ss_num, ss["title"]);
@@ -662,8 +920,19 @@ string query_quest_checklist(object who, string qid) {
         } else if (cur_step > s_idx || cur_step == -1) {
             out += sprintf(HIG "  [✓] 第 %d 步：%s (已完成)\n" NOR, s_idx, s["title"]);
         } else if (cur_step == s_idx) {
-            out += sprintf(HIY "  [▶] 第 %d 步：%s (進行中)\n" NOR, s_idx, s["title"]);
+            string progress_info = "";
+            if (s["target_type"] == "kill" && s["required_count"] > 1) {
+                int cur_k = who->query("quests/" + qid + "/progress/kill_count");
+                progress_info = sprintf(" (進度: %d / %d)", cur_k, s["required_count"]);
+            }
+            out += sprintf(HIY "  [▶] 第 %d 步：%s (進行中%s)\n" NOR, s_idx, s["title"], progress_info);
             out += sprintf(WHT "      指引：%s\n" NOR, s["hint"]);
+
+            mapping lost_rec = check_lost_item(who, qid);
+            if (lost_rec) {
+                out += sprintf(HIR "      ⚠️ 身上缺少關鍵信物，可前往向【%s】詢問「%s」補領！\n" NOR,
+                              lost_rec["from_npc"], lost_rec["ask_topic"]);
+            }
         } else {
             out += sprintf(GRN "  [ ] 第 %d 步：%s\n" NOR, s_idx, s["title"]);
         }
@@ -671,11 +940,11 @@ string query_quest_checklist(object who, string qid) {
     return out;
 }
 
-// 產生所有任務的總覽面板
+// 產生所有任務的總覽面板 (四方聚合：道統歷練、聚落主線、江湖支線、史詩奇遇)
 string query_all_status_report(object who) {
     if (!who) return "";
     string out = HIW "================ 黑石鋪歷練與任務總覽 ================\n" NOR;
-    
+
     // 1. 三大道統鏈
     string *career_chains = ({ "wu_chain", "li_chain", "fa_chain" });
     foreach (string qid in career_chains) {
@@ -684,7 +953,41 @@ string query_all_status_report(object who) {
         }
     }
 
-    // 2. 史詩奇遇與長線隱藏線索
+    // 2. 聚落主線歷練
+    string *main_list = ({ "cycle_of_craft", "rescue_maiden", "rescue_miners", "village_pass" });
+    int has_main = 0;
+    foreach (string qid in main_list) {
+        if (quest_defs[qid]) {
+            int step = who->query("quests/" + qid + "/step");
+            string st = who->query("quests/" + qid + "/state");
+            if (step > 0 || st == "COMPLETED") {
+                if (!has_main) {
+                    out += HIG "---------------- 聚落主線歷練 ----------------\n" NOR;
+                    has_main = 1;
+                }
+                out += query_quest_checklist(who, qid) + "\n";
+            }
+        }
+    }
+
+    // 3. 江湖支線委託
+    string *side_list = ({ "wolf_hunter" });
+    int has_side = 0;
+    foreach (string qid in side_list) {
+        if (quest_defs[qid]) {
+            int step = who->query("quests/" + qid + "/step");
+            string st = who->query("quests/" + qid + "/state");
+            if (step > 0 || st == "COMPLETED") {
+                if (!has_side) {
+                    out += CYN "---------------- 江湖支線委託 ----------------\n" NOR;
+                    has_side = 1;
+                }
+                out += query_quest_checklist(who, qid) + "\n";
+            }
+        }
+    }
+
+    // 4. 史詩奇遇與長線隱藏線索
     string *epic_list = ({ "ancient_order" });
     int has_epic = 0;
     foreach (string qid in epic_list) {

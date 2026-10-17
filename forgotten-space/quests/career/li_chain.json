@@ -17,6 +17,7 @@
       "target_type": "talk",
       "target_npc": "zhao",
       "target_topic": "任務",
+      "location": "/d/village/hunter_cabin",
       "on_complete": {
         "msg": "趙老獵神情凝重，指派你前往東面荒林排查暴動獸群。"
       }
@@ -27,6 +28,7 @@
       "hint": "前往東面荒林調校獵戶陷阱 (trap)，追蹤深山濁血 (track)，排查獸群暴動並取得染煞異獸皮。",
       "target_type": "action",
       "action_verb": "trap",
+      "location": "/d/village/forest",
       "on_complete": {
         "give_item": "/clone/item/tainted_pelt.c",
         "msg": "你在草叢血泊中拾獲一張「染煞異獸皮」！"
@@ -40,6 +42,7 @@
       "action_verb": "sharpen",
       "action_target": "blade",
       "require_equipped": "blade",
+      "location": "/d/village/stream",
       "on_complete": {
         "msg": "粗石霍霍，刀芒寒冽！你的殺煞意志愈發凝練。"
       },
@@ -57,6 +60,7 @@
       "target_type": "deliver",
       "target_npc": "zhao",
       "require_item": "tainted_pelt",
+      "location": "/d/village/hunter_cabin",
       "on_complete": {
         "msg": "趙老獵查驗異獸皮濁血，重重拍向你的肩膀，傳你大荒搏殺精義！"
       },

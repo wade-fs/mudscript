@@ -27,7 +27,8 @@
           "hint": "向黑石千金蘇凝霜詢問太古殘圖 (ask su about 殘圖)。",
           "target_type": "talk",
           "target_npc": "su",
-          "target_topic": "殘圖"
+          "target_topic": "殘圖",
+          "location": "/d/village/shed"
         },
         {
           "step": 2,
@@ -35,7 +36,8 @@
           "hint": "前往鐵匠鋪向老鐵匠阿鐵打聽百煉鋼鑿 (ask tie about 鋼鑿)。",
           "target_type": "talk",
           "target_npc": "tie",
-          "target_topic": "鋼鑿"
+          "target_topic": "鋼鑿",
+          "location": "/d/village/forge"
         },
         {
           "step": 3,
@@ -43,14 +45,16 @@
           "hint": "前往南谷水潭草廬向瘋郎中葛半仙打聽辟煞烈酒 (ask ge about 避毒)。",
           "target_type": "talk",
           "target_npc": "ge",
-          "target_topic": "避毒"
+          "target_topic": "避毒",
+          "location": "/d/village/herb_hut"
         },
         {
           "step": 4,
           "title": "伏地聽風",
           "hint": "由黑石斷崖古礦道口下潛至地下深層坑道 (down)，伏地傾聽岩壁暗號 (listen)。",
           "target_type": "action",
-          "action_verb": "listen"
+          "action_verb": "listen",
+          "location": "/d/village/mine_depths"
         },
         {
           "step": 5,
@@ -58,7 +62,10 @@
           "hint": "手持百煉鋼鑿，運氣轟擊斷龍卡隼石石眼 (strike stone / 破石)。",
           "target_type": "action",
           "action_verb": "strike",
-          "action_target": "stone"
+          "action_target": "stone",
+          "location": "/d/village/mine_depths",
+          "require_inventory": "steel_chisel",
+          "consume_item": "disha_wine"
         }
       ]
     }

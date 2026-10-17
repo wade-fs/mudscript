@@ -16,6 +16,7 @@
       "target_type": "kill",
       "target_mob": "wolf",
       "required_count": 3,
+      "location": "/d/village/forest",
       "on_complete": {
         "msg": "東林血霧漸散，你成功肅清了 3 隻狂暴野狼！"
       }
@@ -27,6 +28,7 @@
       "target_type": "talk",
       "target_npc": "zhao",
       "target_topic": "獵狼",
+      "location": "/d/village/hunter_cabin",
       "on_complete": {
         "msg": "趙老獵大笑讚許，發放大荒開荒賞金！"
       }

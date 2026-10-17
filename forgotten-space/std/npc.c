@@ -601,10 +601,17 @@ void attacked_by(object attacker) {
 }
 
 // ── 死亡 ─────────────────────────────────────────────────────────
+void die() {
+    on_death();
+}
+
 void on_death() {
     say(query_name() + " 倒下了！\n");
     
     object killer = combat_target;
+    if (!killer) killer = query_temp("last_damage_from");
+    if (!killer && this_player() && userp(this_player())) killer = this_player();
+
     string owner_team = "";
     if (killer && userp(killer)) {
         object leader = killer->query_leader();
@@ -671,6 +678,16 @@ void on_death() {
         // 🚀 任務進度通知
         if (userp(killer)) {
             load_object("/secure/quest_d.c")->check_kill_progress(killer, base_name(this_object()));
+            object qe = find_object("/daemon/quest_engine_d.c");
+            if (!qe) qe = load_object("/daemon/quest_engine_d.c");
+            if (qe) {
+                qe->trigger_event(killer, "kill", ([
+                    "victim": this_object(),
+                    "victim_id": this_object()->query_key_id(),
+                    "victim_name": this_object()->query_name(),
+                    "victim_file": base_name(this_object())
+                ]));
+            }
         }
     }
 

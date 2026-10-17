@@ -16,6 +16,7 @@
       "target_type": "talk",
       "target_npc": "elder",
       "target_topic": "路引",
+      "location": "/d/village/square",
       "on_complete": {
         "give_item": "/clone/item/road_pass.c",
         "msg": "長老鄭重將一枚加蓋硃砂大印的【金石城官辦保書路引】交於你手中！"

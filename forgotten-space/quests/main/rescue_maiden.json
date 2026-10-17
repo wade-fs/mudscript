@@ -24,7 +24,8 @@
           "title": "荒澗誅凶",
           "hint": "前往南谷墜龍瀑布，擊敗尋釁伏擊的商隊惡奴趙四 (kill zhao)，奪取罪證。",
           "target_type": "kill",
-          "target_npc": "zhao si"
+          "target_npc": "zhao si",
+          "location": "/d/village/falls"
         },
         {
           "step": 2,
@@ -32,7 +33,8 @@
           "hint": "前往客棧後街青石暗巷搜查 (search boards)，拔除城防軍的暗哨。",
           "target_type": "action",
           "action_verb": "search",
-          "action_target": "boards"
+          "action_target": "boards",
+          "location": "/d/village/dark_alley"
         },
         {
           "step": 3,
@@ -41,6 +43,7 @@
           "target_type": "talk",
           "target_npc": "su",
           "target_topic": "二掌櫃",
+          "location": "/d/village/shed",
           "on_complete": {
             "msg": "蘇凝霜向你深深一福，眼眸中滿是感激與堅定：「有了這封密證與恩公相助，我們定能打破這座吃人的囚籠！」"
           }

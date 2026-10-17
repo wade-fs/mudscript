@@ -25,7 +25,8 @@
           "hint": "前往幽霧水谷採集新鮮草藥 (gather)，尋找解火毒的靈草。",
           "target_type": "action",
           "action_verb": "gather",
-          "action_target": "herb"
+          "action_target": "herb",
+          "location": "/d/village/stream"
         },
         {
           "step": 2,
@@ -33,7 +34,8 @@
           "hint": "前往南谷寒澗墜龍瀑布，赤身頂著萬鈞急流進行極限鍛體 (train_falls)。",
           "target_type": "action",
           "action_verb": "train_falls",
-          "action_target": "falls"
+          "action_target": "falls",
+          "location": "/d/village/falls"
         },
         {
           "step": 3,
@@ -42,6 +44,7 @@
           "target_type": "talk",
           "target_npc": "tie",
           "target_topic": "百工",
+          "location": "/d/village/forge",
           "on_complete": {
             "give_item": "/clone/weapon/heavy_wood_blade.c",
             "msg": "阿鐵師傅拍著你的肩膀豪邁大笑，將一柄剛剛淬火出爐的【加厚開山柴刀】贈與了你！"

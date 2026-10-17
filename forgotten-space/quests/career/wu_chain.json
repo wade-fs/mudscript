@@ -17,6 +17,7 @@
       "target_type": "talk",
       "target_npc": "lu",
       "target_topic": "任務",
+      "location": "/d/village/mine",
       "on_complete": {
         "give_item": "/clone/item/ore_chunk.c",
         "msg": "老礦工魯大山咳嗽著將一塊暗青色的粗鐵礦核塞進你懷中，交代你配製活絡散。"
@@ -29,6 +30,7 @@
       "target_type": "deliver",
       "target_npc": "ge",
       "require_item": "herb_dew",
+      "location": "/d/village/herb_hut",
       "on_complete": {
         "give_item": "/clone/item/huoluo_dan.c",
         "msg": "葛半仙在石臼中搗碎晨露草，為你調配了一包「葛氏活絡散」！"
@@ -41,6 +43,7 @@
       "target_type": "deliver",
       "target_npc": "lu",
       "require_item": "huoluo_dan",
+      "location": "/d/village/mine",
       "on_complete": {
         "msg": "魯大山吞下藥散，濁氣盡褪，交代你速回鐵匠鋪開爐鍛造！"
       },
@@ -60,6 +63,7 @@
       "action_target": "ore",
       "require_equipped": "hammer",
       "require_inventory": "ore_chunk",
+      "location": "/d/village/forge",
       "on_complete": {
         "msg": "火星激射，鐵胚成形！你完成了本輪物修歷練！"
       },

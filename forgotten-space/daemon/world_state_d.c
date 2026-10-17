@@ -377,7 +377,14 @@ int gather_herb(object player) {
     }
 
     // 產出草藥
-    if (is_morning || cur_w == "rainy" || cur_w == "storm") {
+    object career = load_object(CAREER_D);
+    int is_wu_quest = (career && career->query_chain_stage(player, "wu") == 2);
+    if (!is_wu_quest) {
+        object qe = find_object(QUEST_ENGINE_D);
+        if (qe && qe->query_quest_step(player, "wu_chain") == 2) is_wu_quest = 1;
+    }
+
+    if (is_morning || cur_w == "rainy" || cur_w == "storm" || is_wu_quest) {
         object h_dew = clone_object("/clone/item/herb_dew.c");
         if (h_dew) {
             h_dew->move(player);

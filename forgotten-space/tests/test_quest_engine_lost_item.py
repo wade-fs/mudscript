@@ -86,7 +86,6 @@ async def test_quest_engine_and_lost_item_recovery():
             # 5. 前往南谷採集晨露草並交給葛半仙 (S2 -> S3)
             await send("south")
             await send("south")
-            await send("south")
             await send("gather")
             await asyncio.sleep(0.4)
             await send("down")

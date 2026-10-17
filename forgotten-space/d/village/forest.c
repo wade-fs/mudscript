@@ -27,6 +27,7 @@ void create() {
     totem_discovered = 0;
 
     spawn_item("/clone/item/tainted_pelt.c");
+    spawn_npc("/npc/wolf.c");
 }
 
 string query_long() {
