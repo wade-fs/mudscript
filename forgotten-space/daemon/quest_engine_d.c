@@ -20,6 +20,60 @@ void create() {
     load_all_quests();
 }
 
+// 任務語義與合法性稽核器 (Quest Definition Auditor)
+void audit_quest(string qid, mapping q, string path) {
+    if (!q) return;
+
+    if (!q["name"] || q["name"] == "") {
+        write_file("/log/quest_error.log", sprintf("[QUEST_AUDIT] 警告：任務 '%s' (%s) 缺少 name\n", qid, path), 0);
+    }
+
+    mixed *all_steps = ({});
+    if (arrayp(q["stages"]) && sizeof(q["stages"]) > 0) {
+        int total_st = sizeof(q["stages"]);
+        for (int i = 0; i < total_st; i++) {
+            mapping st = q["stages"][i];
+            if (!st["stage"]) {
+                write_file("/log/quest_error.log", sprintf("[QUEST_AUDIT] 警告：任務 '%s' 階段索引 %d 缺少 stage 編號\n", qid, i), 0);
+            }
+            if (i == total_st - 1) {
+                if (!st["on_finish"] && !st["rewards"] && !q["rewards"]) {
+                    write_file("/log/quest_error.log", sprintf("[QUEST_AUDIT] 警告：任務 '%s' 終局階段 %d 未定義結算獎勵 (on_finish/rewards)\n", qid, i + 1), 0);
+                }
+            }
+            if (arrayp(st["steps"])) {
+                all_steps += st["steps"];
+            }
+        }
+    } else if (arrayp(q["steps"])) {
+        all_steps = q["steps"];
+        if (!q["rewards"] && !q["on_finish"]) {
+            write_file("/log/quest_error.log", sprintf("[QUEST_AUDIT] 警告：任務 '%s' 未定義任務獎勵 (rewards)\n", qid), 0);
+        }
+    }
+
+    for (int j = 0; j < sizeof(all_steps); j++) {
+        mapping s = all_steps[j];
+        int s_idx = s["step"];
+        string loc = s["location"] ? s["location"] : s["room"];
+        if (loc && loc != "") {
+            string chk = loc;
+            if (strsrch(chk, ".c") == -1) chk += ".c";
+            if (file_size(chk) < 0) {
+                write_file("/log/quest_error.log", sprintf("[QUEST_AUDIT ERROR] 任務 '%s' 第 %d 步關聯房間不存在：%s\n", qid, s_idx, chk), 0);
+            }
+        }
+
+        if (s["on_complete"] && s["on_complete"]["give_item"]) {
+            string itm = s["on_complete"]["give_item"];
+            if (strsrch(itm, ".c") == -1) itm += ".c";
+            if (file_size(itm) < 0) {
+                write_file("/log/quest_error.log", sprintf("[QUEST_AUDIT ERROR] 任務 '%s' 第 %d 步發放道具不存在：%s\n", qid, s_idx, itm), 0);
+            }
+        }
+    }
+}
+
 // 載入指定 JSON 檔案並加入任務池 (包含規格防呆檢定)
 int load_quest_file(string path) {
     string content = read_file(path);
@@ -34,6 +88,8 @@ int load_quest_file(string path) {
     if (!def["name"] || def["name"] == "") {
         write_file("/log/quest_error.log", "[QUEST_ENGINE] 警告：任務定義缺少 name: " + path + "\n", 0);
     }
+
+    audit_quest(def["id"], def, path);
 
     quest_defs[def["id"]] = def;
     return 1;
@@ -189,6 +245,46 @@ mixed *query_stage_steps(mapping q, int stage_num) {
     return arrayp(q["steps"]) ? q["steps"] : ({});
 }
 
+// 輔助函式：NPC 匹配比對（支援字串、陣列或 "any"）
+int npc_matches(mixed target_npc, string npc_id, object npc_ob) {
+    if (!target_npc) return 0;
+    if (stringp(target_npc)) {
+        if (target_npc == "any") return 1;
+        if (npc_id == target_npc) return 1;
+        if (npc_ob && npc_ob->id(target_npc)) return 1;
+        return 0;
+    }
+    if (arrayp(target_npc)) {
+        for (int i = 0; i < sizeof(target_npc); i++) {
+            string tn = target_npc[i];
+            if (tn == "any" || npc_id == tn || (npc_ob && npc_ob->id(tn))) return 1;
+        }
+    }
+    return 0;
+}
+
+// 輔助函式：對話話題匹配比對（支援逗號隔開、陣列或精確比對）
+int topic_matches(mixed target_topic, string topic) {
+    if (!target_topic || target_topic == "" || target_topic == "any") return 1;
+    if (!topic || topic == "") return 0;
+    if (stringp(target_topic)) {
+        if (topic == target_topic) return 1;
+        if (strsrch(target_topic, ",") != -1) {
+            string *parts = explode(target_topic, ",");
+            for (int i = 0; i < sizeof(parts); i++) {
+                if (trim(parts[i]) == topic) return 1;
+            }
+        }
+        return 0;
+    }
+    if (arrayp(target_topic)) {
+        for (int i = 0; i < sizeof(target_topic); i++) {
+            if (target_topic[i] == topic) return 1;
+        }
+    }
+    return 0;
+}
+
 // ── 信物檢查與丟失補領判定 ─────────────────────────────────
 
 // 檢查玩家身上是否持有特定信物
@@ -307,7 +403,7 @@ varargs void award_rewards(object who, mapping rw, string qid) {
         foreach (string item_path in item_list) {
             object ob = clone_object(item_path);
             if (ob) {
-                if (ob->query("is_relic") && present(ob->query_name(), who)) {
+                if ((ob->query("is_relic") || ob->query("is_road_pass")) && (present(ob->query_name(), who) || present("road pass", who))) {
                     destruct(ob);
                 } else {
                     if (!ob->move(who)) ob->move(environment(who));
@@ -433,9 +529,13 @@ void handle_stage_completion(object who, string qid, mapping q, int cur_stage) {
     mapping st_def = query_stage_def(q, cur_stage);
     int total_stages = (arrayp(q["stages"]) && sizeof(q["stages"]) > 0) ? sizeof(q["stages"]) : 1;
 
-    // 發放該 Stage 的階段性獎勵 (調用統一獎勵發放器)
-    if (st_def && st_def["on_finish"]) {
-        award_rewards(who, st_def["on_finish"], qid);
+    // 發放該 Stage 的階段性獎勵 (調用統一獎勵發放器，相容 on_finish 與 rewards 宣告)
+    if (st_def) {
+        if (st_def["on_finish"]) {
+            award_rewards(who, st_def["on_finish"], qid);
+        } else if (st_def["rewards"]) {
+            award_rewards(who, st_def["rewards"], qid);
+        }
     }
 
     // 判斷是否還有後續 Stage
@@ -481,6 +581,9 @@ void handle_stage_completion(object who, string qid, mapping q, int cur_stage) {
     } else {
         set_quest_step(who, qid, -1);
         set_quest_state(who, qid, "COMPLETED");
+        if (qid == "village_pass") {
+            who->set("quest/pass_village_ceremony", 1);
+        }
     }
 
     // 發放最終任務獎勵 (調用統一獎勵發放器)
@@ -533,7 +636,7 @@ mixed trigger_event(object who, string event_type, mapping data) {
                 if (st_req_lvl > 0 && who->query_level() < st_req_lvl) {
                     mapping unl = next_stage["unlock_condition"];
                     if (event_type == "talk" && unl && unl["target_npc"] && 
-                        (npc_id == unl["target_npc"] || (npc_ob && npc_ob->id(unl["target_npc"])))) {
+                        npc_matches(unl["target_npc"], npc_id, npc_ob)) {
                         tell_object(who, HIR "【機緣隱伏】你尚未突破瓶頸（需要等級 " + sprintf("%d", st_req_lvl) + "），暫且無法參悟後續機緣。\n" NOR);
                         return 1;
                     }
@@ -544,8 +647,8 @@ mixed trigger_event(object who, string event_type, mapping data) {
                 int can_unlock = 0;
                 if (unlock) {
                     if (unlock["target_npc"] && event_type == "talk" && 
-                        (npc_id == unlock["target_npc"] || (npc_ob && npc_ob->id(unlock["target_npc"]))) &&
-                        (!unlock["target_topic"] || topic == unlock["target_topic"])) {
+                        npc_matches(unlock["target_npc"], npc_id, npc_ob) &&
+                        topic_matches(unlock["target_topic"], topic)) {
                         can_unlock = 1;
                     }
                 }
@@ -583,8 +686,8 @@ mixed trigger_event(object who, string event_type, mapping data) {
 
             // 方式 A: 向 start_npc 接取
             if (q["start_npc"] && event_type == "talk" && 
-                (npc_id == q["start_npc"] || (npc_ob && npc_ob->id(q["start_npc"]))) && 
-                (!q["start_topic"] || topic == q["start_topic"])) {
+                npc_matches(q["start_npc"], npc_id, npc_ob) && 
+                topic_matches(q["start_topic"], topic)) {
 
                 // 檢查等級條件
                 if (req_level > 0 && who->query_level() < req_level) {
@@ -597,10 +700,45 @@ mixed trigger_event(object who, string event_type, mapping data) {
                 set_quest_state(who, qid, "ACTIVE");
                 tell_object(who, HIG "【接取歷練任務】" + q["name"] + "\n" +
                                      "  目標：" + steps[0]["hint"] + "\n" NOR);
+
+                // 若首步即為向該 NPC 進行相同話題對話（例如 village_pass 或 fa_chain 第 1 步）：直接驗證並推進！
+                mapping s0_talk = steps[0];
+                if (s0_talk && s0_talk["target_type"] == "talk" && 
+                    npc_matches(s0_talk["target_npc"], npc_id, npc_ob) && 
+                    topic_matches(s0_talk["target_topic"], topic)) {
+                    string req_item = s0_talk["require_item"];
+                    if (!req_item || req_item == "" || has_required_item(who, req_item)) {
+                        // 發放 step 1 完成回饋
+                        if (s0_talk["on_complete"]) {
+                            mapping oc0_talk = s0_talk["on_complete"];
+                            if (oc0_talk["give_item"]) {
+                                object r0_talk = clone_object(oc0_talk["give_item"]);
+                                if (r0_talk) {
+                                    if ((r0_talk->query("is_relic") || r0_talk->query("is_road_pass")) && (present(r0_talk->query_name(), who) || present("road pass", who))) {
+                                        destruct(r0_talk);
+                                    } else {
+                                        if (!r0_talk->move(who)) r0_talk->move(environment(who));
+                                        tell_object(who, HIG "【獲得信物：" + r0_talk->query_short() + "】\n" NOR);
+                                    }
+                                }
+                            }
+                            if (oc0_talk["msg"]) {
+                                tell_object(who, HIG + oc0_talk["msg"] + "\n" NOR);
+                            }
+                        }
+
+                        if (sizeof(steps) > 1) {
+                            set_quest_step(who, qid, 2);
+                            tell_object(who, HIG "【任務推進】第 2 步：" + steps[1]["hint"] + "\n\n" NOR);
+                        } else {
+                            handle_stage_completion(who, qid, q, cur_stage);
+                        }
+                    }
+                }
                 return 1;
             }
 
-            // 方式 B: 隱藏奇遇在 step 1 透過 action 行為直接觸發接取
+            // 方式 B: 隱藏奇遇或行為歷練在 step 1 透過 action 行為直接觸發接取
             mapping s0 = steps[0];
             if (s0["target_type"] == "action" && event_type == "action" && verb == s0["action_verb"]) {
                 if (!s0["action_target"] || target == s0["action_target"]) {
@@ -622,8 +760,13 @@ mixed trigger_event(object who, string event_type, mapping data) {
                     set_quest_stage(who, qid, 1);
                     set_quest_state(who, qid, "ACTIVE");
                     mapping st1 = query_stage_def(q, 1);
-                    tell_object(who, HIY "\n【✨ 奇遇觸發・" + q["name"] + "】\n" NOR);
-                    tell_object(who, CYN "你在這方邊陲之地觸動了失落的史前機緣，已踏上「Stage 1・" + (st1 ? st1["title"] : "始動") + "」！\n" NOR);
+                    if (q["category"] == "epic") {
+                        tell_object(who, HIY "\n【✨ 奇遇觸發・" + q["name"] + "】\n" NOR);
+                        tell_object(who, CYN "你在這方邊陲之地觸動了失落的史前機緣，已踏上「Stage 1・" + (st1 ? st1["title"] : "始動") + "」！\n" NOR);
+                    } else {
+                        tell_object(who, HIY "\n【✨ 歷練開啟・" + q["name"] + "】\n" NOR);
+                        tell_object(who, CYN "你在歷練之中有所體悟，已踏上「Stage 1・" + (st1 ? st1["title"] : "始動") + "」！\n" NOR);
+                    }
 
                     // 發放 step 1 完成回饋
                     if (s0["on_complete"]) {
@@ -631,7 +774,7 @@ mixed trigger_event(object who, string event_type, mapping data) {
                         if (oc0["give_item"]) {
                             object r0 = clone_object(oc0["give_item"]);
                             if (r0) {
-                                if (r0->query("is_relic") && present(r0->query_name(), who)) {
+                                if ((r0->query("is_relic") || r0->query("is_road_pass")) && (present(r0->query_name(), who) || present("road pass", who))) {
                                     destruct(r0);
                                 } else {
                                     if (!r0->move(who)) r0->move(environment(who));
@@ -654,14 +797,65 @@ mixed trigger_event(object who, string event_type, mapping data) {
                     return 1;
                 }
             }
+
+            // 方式 C: 戰鬥觸發任務 (首步為 kill 類型且無 start_npc)
+            mapping s0_kill = steps[0];
+            if (!q["start_npc"] && s0_kill["target_type"] == "kill" && event_type == "kill") {
+                string target_mob = s0_kill["target_mob"] ? s0_kill["target_mob"] : (s0_kill["target_npc"] ? s0_kill["target_npc"] : s0_kill["target"]);
+                int mob_matched = 0;
+                if (target_mob && target_mob != "") {
+                    if (victim && (victim->id(target_mob) || (victim_id != "" && victim_id == target_mob) || victim->query_name() == target_mob)) {
+                        mob_matched = 1;
+                    } else if (victim_file && strsrch(victim_file, target_mob) != -1) {
+                        mob_matched = 1;
+                    } else if (target_mob == "zhao si" && ((victim_name && strsrch(victim_name, "趙四") != -1) || (victim_file && strsrch(victim_file, "zhao") != -1))) {
+                        mob_matched = 1;
+                    }
+                }
+                if (mob_matched) {
+                    string req_loc = s0_kill["location"] ? s0_kill["location"] : s0_kill["room"];
+                    if (req_loc && req_loc != "") {
+                        object env = environment(who);
+                        if (!env || strsrch(base_name(env), req_loc) == -1) {
+                            continue;
+                        }
+                    }
+
+                    if (req_level > 0 && who->query_level() < req_level) {
+                        tell_object(who, HIR "【修為不足】你氣機尚未凝練（需要等級 " + sprintf("%d", req_level) + "），未能洞悉此戰牽連的驚天陰謀。\n" NOR);
+                        continue;
+                    }
+
+                    set_quest_stage(who, qid, 1);
+                    set_quest_state(who, qid, "ACTIVE");
+                    mapping st1 = query_stage_def(q, 1);
+                    tell_object(who, HIY "\n【✨ 歷練開啟・" + q["name"] + "】\n" NOR);
+                    tell_object(who, CYN "你在這方邊陲之地踏破迷局，已踏上「Stage 1・" + (st1 ? st1["title"] : "始動") + "」！\n" NOR);
+
+                    if (s0_kill["on_complete"]) {
+                        mapping oc0_kill = s0_kill["on_complete"];
+                        if (oc0_kill["msg"]) {
+                            tell_object(who, HIG + oc0_kill["msg"] + "\n" NOR);
+                        }
+                    }
+
+                    if (sizeof(steps) > 1) {
+                        set_quest_step(who, qid, 2);
+                        tell_object(who, HIG "【任務推進】第 2 步：" + steps[1]["hint"] + "\n\n" NOR);
+                    } else {
+                        handle_stage_completion(who, qid, q, cur_stage);
+                    }
+                    return 1;
+                }
+            }
             continue;
         }
 
         // 2. 檢查信物遺失補領判定 (Lost Item Fallback)
         mapping recovery = check_lost_item(who, qid);
         if (recovery && event_type == "talk") {
-            if ((npc_id == recovery["from_npc"] || (npc_ob && npc_ob->id(recovery["from_npc"]))) && 
-                (!recovery["ask_topic"] || topic == recovery["ask_topic"] || topic == "任務" || topic == "信物")) {
+            if (npc_matches(recovery["from_npc"], npc_id, npc_ob) && 
+                (topic_matches(recovery["ask_topic"], topic) || topic == "任務" || topic == "信物")) {
                 string reissue_path = recovery["reissue_item"];
                 if (reissue_path) {
                     object re_ob = clone_object(reissue_path);
@@ -694,8 +888,8 @@ mixed trigger_event(object who, string event_type, mapping data) {
 
             // A. 對話類步驟 (talk)
             if (t_type == "talk" && event_type == "talk") {
-                if ((npc_id == s["target_npc"] || (npc_ob && npc_ob->id(s["target_npc"]))) && 
-                    (!s["target_topic"] || topic == s["target_topic"])) {
+                if (npc_matches(s["target_npc"], npc_id, npc_ob) && 
+                    topic_matches(s["target_topic"], topic)) {
                     string req = s["require_item"];
                     if (!req || req == "" || has_required_item(who, req)) {
                         matched = 1;
@@ -706,7 +900,7 @@ mixed trigger_event(object who, string event_type, mapping data) {
             }
             // B. 交付類步驟 (deliver)
             else if (t_type == "deliver" && event_type == "deliver") {
-                if (npc_id == s["target_npc"] || (npc_ob && npc_ob->id(s["target_npc"]))) {
+                if (npc_matches(s["target_npc"], npc_id, npc_ob)) {
                     string req = s["require_item"];
                     int item_matched = 0;
                     if (!req || req == "") {

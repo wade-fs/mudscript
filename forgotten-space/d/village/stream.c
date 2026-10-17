@@ -99,7 +99,18 @@ void init() {
 }
 
 int do_gather(string arg) {
-    return load_object(WORLD_STATE_D)->gather_herb(this_player());
+    int ret = load_object(WORLD_STATE_D)->gather_herb(this_player());
+    if (ret) {
+        object qe = find_object(QUEST_ENGINE_D);
+        if (!qe) qe = load_object(QUEST_ENGINE_D);
+        if (qe) {
+            qe->trigger_event(this_player(), "action", ([
+                "verb": "gather",
+                "target": "herb"
+            ]));
+        }
+    }
+    return ret;
 }
 
 int do_wash(string arg) {
@@ -119,6 +130,14 @@ int do_wash(string arg) {
         write("你掬起冰涼刺骨的深潭溪水，捲起衣袖用力擦洗深青色石板上的厚厚青苔與泥垢...\n");
         write(HIY "在水流沖洗與反覆擦拭下，石板表面的滑膩石垢被漸漸洗淨，露出了古怪凹凸的古老紋理！\n" NOR);
         me->set_temp("cleared_stele_moss", 1);
+        object qe = find_object(QUEST_ENGINE_D);
+        if (!qe) qe = load_object(QUEST_ENGINE_D);
+        if (qe) {
+            qe->trigger_event(me, "action", ([
+                "verb": "wash",
+                "target": "stone"
+            ]));
+        }
         return 1;
     }
 
@@ -135,6 +154,15 @@ int do_wash(string arg) {
     object career = load_object(CAREER_D);
     if (career && career->query_chain_stage(me, "fa") == 2) {
         career->advance_chain_stage(me, "fa");
+    }
+
+    object qe = find_object(QUEST_ENGINE_D);
+    if (!qe) qe = load_object(QUEST_ENGINE_D);
+    if (qe) {
+        qe->trigger_event(me, "action", ([
+            "verb": "wash",
+            "target": "face"
+        ]));
     }
     return 1;
 }
@@ -206,6 +234,15 @@ int do_sharpen(string arg) {
     object career = load_object(CAREER_D);
     if (career && (career->query_chain_stage(me, "li") == 2 || career->query_chain_stage(me, "li") == 3)) {
         career->advance_chain_stage(me, "li");
+    }
+
+    object qe = find_object(QUEST_ENGINE_D);
+    if (!qe) qe = load_object(QUEST_ENGINE_D);
+    if (qe) {
+        qe->trigger_event(me, "action", ([
+            "verb": "sharpen",
+            "target": "blade"
+        ]));
     }
     return 1;
 }

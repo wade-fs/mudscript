@@ -109,10 +109,19 @@
           "action_target": "gate"
         }
       ],
+      "on_finish": {
+        "exp": 5000,
+        "fate": 3,
+        "msg": "【虛空神闕】天門大開，太古九天商盟重見天日，獲得 5000 點經驗與天命覺醒度 +3！"
+      },
       "rewards": {
         "exp": 5000,
         "fate": 3
       }
     }
-  ]
+  ],
+  "rewards": {
+    "exp": 5000,
+    "fate": 3
+  }
 }

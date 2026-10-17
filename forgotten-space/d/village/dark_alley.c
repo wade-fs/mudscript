@@ -75,5 +75,14 @@ int do_search_boards(string arg) {
         arrow->move(me);
         write(HIG "你拾取了一枚【精鋼三棱破甲錐】！\n" NOR);
     }
+
+    object qe = find_object(QUEST_ENGINE_D);
+    if (!qe) qe = load_object(QUEST_ENGINE_D);
+    if (qe) {
+        qe->trigger_event(me, "action", ([
+            "verb": "search",
+            "target": "boards"
+        ]));
+    }
     return 1;
 }

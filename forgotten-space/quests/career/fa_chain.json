@@ -17,7 +17,7 @@
       "target_type": "talk",
       "target_npc": "kumu",
       "target_topic": "任務",
-      "location": "/d/village/temple",
+      "location": "/d/village/daoist_temple",
       "on_complete": {
         "msg": "枯木老道空洞眼眶望向黑石後山，指派你排查水脈陰煞異動。"
       }
@@ -51,7 +51,7 @@
       "target_type": "talk",
       "target_npc": "kumu",
       "target_topic": "任務",
-      "location": "/d/village/temple",
+      "location": "/d/village/daoist_temple",
       "on_complete": {
         "msg": "枯木老道枯槁食指點於你的靈台，清冽道意灌注全身，完成天人共鳴閉環！"
       }
