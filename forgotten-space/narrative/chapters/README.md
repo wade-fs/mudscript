@@ -47,5 +47,9 @@
 * [**第 19 章：生息暗湧・晨市米貴**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/ch0019.md) - 封關與百里虎跳營軍情校準，糧價暴漲與商隊算計，鐵生斷煤左錘悟應力、顧玄三包止痛散殘酷分診與寒針截脈，東林矛盾獸跡與無外傷暴斃黃羊現蹤。
 * [**第 20 章：暴斃黃羊・雙重實證**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/ch0020.md) - 顧玄結合礦工石肺經驗剖檢黃羊驗出地煞硫塵急性窒息，清虛與斥候比對北獸南逃糞便蹄印層次，雙重實證確立「逃荒遷徙假說」，拼合古圖驚見二十五里落龍深澗直通虎跳峽官道。
 * [**第 21 章：市井暗火・人心如鑑**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/ch0021.md) - 雜糧鋪搶糧見血、商隊外聘護衛譁變奪馬被彈壓遣散，沈泥與鐵生識破富戶王周二家暗藏封爐耐火泥之「地煞精煉坩堝」欲攜贓私逃，趙老獵當頭棒喝點破強堵必垮與轉嫁官道之道德重擔。
-* [**第 22 章：火塘夜議・落龍借勢**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/ch0022.md) - 深夜柴房密會，釐清谷底重氣沉降與向陽坡西南側逆風之雙層氣流，確立「清東阻西、三十度斜壩偏折頭獸」及窄巷暗渠備案，直面二十五里裂谷分波衝擊官道之因果代價，洞悉大乾軍制三方制衡槓桿。
+* [**第 22 章：火塘夜議・落龍借勢**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/ch0022.md) - 深夜柴房密會，釐清谷底重氣沉降與向陽坡西南側逆風之雙層氣流，確立「清東減阻、斜石導西」及窄巷暗渠備案，直面二十五里裂谷分波衝擊官道之因果代價，洞悉大乾軍制三方制衡槓桿。
+* [**第 23 章：落龍天塹・風眼隘口**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/ch0023.md) - 清晨實地踏勘落龍口，目睹幼鹿因東路亂石折返西路，鐵生識破危岩冰裂紋與千層酥頁岩結構，清虛以三處瓦盆實測鎖定辰末至巳初僅一個時辰的「西南側逆風窗口」與巳正亂流倒灌紅線。
+* [**第 24 章：百工逆行・萬斤落石**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/ch0024.md) - 三十一人逆行施工，鐵生嚴守右腕夾板限制以炭筆判讀應力指揮絞盤，二號危岩因轉向石柱崩塌卡在半坡，魯大山傳授井下「斜向卸力疊石法」，築成前低後高、側翼留有洩壓缺口的三十度品字形碎石導向障。
+* [**第 25 章：逆風草煙・惡臭之陣**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/ch0025.md) - 沈泥以乾饃動員後巷乞兒寡婦搜集狼糞辣蓼，顧玄嚴減三分之二硫磺渣並立下上風位、兩刻鐘換班與沙袋滅煙三條鐵律；小岔道實測證實側風草煙與鳴鏑能誘導黃羊岩鹿改道，卻攔不住受激硬衝的狂躁大野豬。
+* [**第 26 章：私逃血鑑・連鎖破局**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/ch0026.md) - 富戶王周二家雇雷五等十名刀客趕四輛重車強走南谷小道，遭先頭野豬與狼群伏擊車毀人亡堵死南路，徹底粉碎全鎮私逃幻想並迫使街坊投入窄巷防禦；沈泥彈壓爭搶建立戰時配給，破碎鐵箱滾出刻有「金石內造・丙字柒號」之除渣精煉坩堝。
 

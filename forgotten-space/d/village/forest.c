@@ -58,6 +58,12 @@ void init() {
     add_action("do_chop", "chop");
     add_action("do_chop", "伐木");
     add_action("do_chop", "砍木");
+    add_action("do_inspect_gazelle", "inspect");
+    add_action("do_inspect_gazelle", "驗屍");
+    add_action("do_inspect_gazelle", "檢視黃羊");
+    add_action("do_survey_tracks", "survey");
+    add_action("do_survey_tracks", "踏勘");
+    add_action("do_survey_tracks", "勘測獸道");
 }
 
 int do_chop(string arg) {
@@ -118,6 +124,13 @@ int do_inspect_trap(string arg) {
     me->train_stat(STAT_PER, 15);
     me->gain_exp(10);
 
+    object qe = load_object(QUEST_ENGINE_D);
+    if (qe) {
+        qe->trigger_event(me, "action", ([
+            "verb": "trap"
+        ]));
+    }
+
     object career = load_object(CAREER_D);
     if (career && career->query_chain_stage(me, "li") == 2) {
         career->advance_chain_stage(me, "li");
@@ -152,6 +165,13 @@ int do_track(string arg) {
     me->set_temp("tracked_totem", 1);
     me->train_stat(STAT_PER, 15);
     me->gain_exp(10);
+
+    object qe2 = load_object(QUEST_ENGINE_D);
+    if (qe2) {
+        qe2->trigger_event(me, "action", ([
+            "verb": "trap"
+        ]));
+    }
 
     object career2 = load_object(CAREER_D);
     if (career2 && career2->query_chain_stage(me, "li") == 2) {
@@ -214,3 +234,48 @@ int do_commune_totem(string arg) {
     }
     return 1;
 }
+
+int do_inspect_gazelle(string arg) {
+    object me = this_player();
+    if (arg && arg != "" && arg != "gazelle" && arg != "黃羊" && arg != "暴斃黃羊" && arg != "屍體") {
+        write("你想檢視什麼？提示：inspect gazelle（檢視林間凹地暴斃的黃羊屍體）\n");
+        return 1;
+    }
+
+    write(CYN "你蹲在背風凹地的荊棘叢旁，屏住呼吸檢視那頭剛死不久的成年公黃羊。\n" NOR);
+    write("羊屍四肢繃直、脖頸後仰，渾身皮毛完好無損，毫無豺狼撕咬外傷；\n"
+          "但口鼻處卻凝著一團暗紫色的細密血沫，鼻孔內壁沾滿了一層刺鼻的灰黑硫磺粉塵。\n");
+    write(YEL "你用竹片小心刮取氣管內壁與鼻腔的灰黑結晶粉塵，收入油紙包中準備帶回草廬比對。\n" NOR);
+
+    object qe = load_object(QUEST_ENGINE_D);
+    if (qe) {
+        qe->trigger_event(me, "action", ([
+            "verb": "inspect",
+            "target": "gazelle"
+        ]));
+    }
+    return 1;
+}
+
+int do_survey_tracks(string arg) {
+    object me = this_player();
+    if (arg && arg != "" && arg != "tracks" && arg != "獸跡" && arg != "獸道" && arg != "trail") {
+        write("你想踏勘什麼？提示：survey tracks（沿東林北坡獸道抽樣勘測遷徙方向）\n");
+        return 1;
+    }
+
+    write(CYN "你攀上東林北坡的背風高脊，沿著八里獸道逐段抽樣查驗蹄印、糞便與折斷的灌木。\n" NOR);
+    write("只見整片林坡的苦竹與荊棘盡數朝西南方折斷；底層是成群黃羊與山鹿慌亂踩出的深蹄印，\n"
+          "表層則疊著灰狼與花豹的梅花爪印——食草獸先行、肉食獸尾隨，沿途竟無半滴捕食血跡！\n");
+    write(HIY "【勘測實證】這絕非妖獸攻城，而是北方斷魂嶺地脈裂隙噴發地煞重煙，逼得萬獸沿北坡主幹道向西南落龍口亡命奔逃！\n" NOR);
+
+    object qe = load_object(QUEST_ENGINE_D);
+    if (qe) {
+        qe->trigger_event(me, "action", ([
+            "verb": "survey",
+            "target": "tracks"
+        ]));
+    }
+    return 1;
+}
+

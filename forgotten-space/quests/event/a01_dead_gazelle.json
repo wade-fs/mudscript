@@ -1,0 +1,73 @@
+{
+  "id": "A01_dead_gazelle",
+  "name": "A01 暴斃黃羊",
+  "category": "event",
+  "type": "event_quest",
+  "world_event": "beast_surge",
+  "deadline_stage": "T-1",
+  "valid_stages": ["T-3", "T-2", "T-1"],
+  "steps": [
+    {
+      "step": 1,
+      "title": "凹地驗屍",
+      "hint": "前往東面荊棘林口檢視無外傷暴斃的成年公黃羊，刮取口鼻灰黑粉塵樣本 (inspect gazelle)。",
+      "target_type": "action",
+      "action_verb": "inspect",
+      "action_target": "gazelle",
+      "location": "/d/village/forest",
+      "on_complete": {
+        "msg": "【取得樣本】你用竹片刮下黃羊鼻腔與氣管內壁的灰黑硫磺結晶粉塵，準備帶回南谷草廬比對。"
+      }
+    },
+    {
+      "step": 2,
+      "title": "竹片滴水",
+      "hint": "前往南谷懸崖採藥草廬，請瘋郎中葛半仙剖檢肺葉並以清水比對舊礦石髓渣 (ask ge about 黃羊)。",
+      "target_type": "talk",
+      "target_npc": "ge",
+      "target_topic": "黃羊,暴斃黃羊,gazelle,驗屍,剖檢",
+      "location": "/d/village/herb_hut",
+      "on_complete": {
+        "msg": "【病理初證】黃羊肺葉焦紫充血、氣管滿佈含硫灰渣，未見舊例妖化紫黑血晶，初步鎖定為地煞重煙急性窒息！"
+      }
+    },
+    {
+      "step": 3,
+      "title": "廢坑舊證",
+      "hint": "前往北崖古礦道口向老礦工魯大山核對十年前三號廢坑地煞礦災症狀 (ask lu about 石髓渣)。",
+      "target_type": "talk",
+      "target_npc": "lu",
+      "target_topic": "石髓渣,三號廢坑,礦災,黃羊,slag",
+      "location": "/d/village/mine",
+      "on_complete": {
+        "msg": "【雙重實證】魯大山確認黃羊氣管灰渣與十年前北崖三號廢坑地煞爆裂的毒煙完全一致！"
+      }
+    }
+  ],
+  "event_outcomes": {
+    "success": {
+      "status": "success",
+      "deltas": {
+        "evidence_strength": 1,
+        "route_confidence": 1
+      },
+      "facts": {
+        "autopsy_performed": 1,
+        "sulfur_poisoning_found": 1
+      },
+      "evidence": {
+        "id": "ev_gazelle_autopsy",
+        "name": "暴斃黃羊焦黑氣管與三號廢坑石髓渣比對樣本",
+        "strength": 1,
+        "source_type": "pathology_ecology",
+        "verified": 1
+      },
+      "message": "【生態勘測・A01】黃羊剖檢與十年前三號廢坑石髓渣互證成立：確認北方斷魂嶺地脈裂隙噴發地煞重煙，野獸係窒息逃生而非妖化攻城！"
+    }
+  },
+  "rewards": {
+    "exp": 350,
+    "pot": 120,
+    "msg": "【格物致知】你以嚴謹的剖檢與礦史比對揭開了獸潮逃亡的病理起點！"
+  }
+}

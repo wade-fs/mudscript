@@ -1,0 +1,64 @@
+{
+  "id": "D01_last_painkiller",
+  "name": "D01 最後一包止痛散",
+  "category": "event",
+  "type": "event_quest",
+  "start_npc": "ge",
+  "start_topic": "止痛散,麻沸散,painkiller,傷患,孫大牛",
+  "world_event": "beast_surge",
+  "deadline_stage": "T0",
+  "valid_stages": ["T-3", "T-2", "T-1", "T0"],
+  "steps": [
+    {
+      "step": 1,
+      "title": "藥廬急診",
+      "hint": "前往南谷懸崖採藥草廬向瘋郎中葛半仙詢問傷患分診與僅剩的三包麻沸止痛散 (ask ge about 止痛散)。",
+      "target_type": "talk",
+      "target_npc": "ge",
+      "target_topic": "止痛散,麻沸散,painkiller,傷患,孫大牛",
+      "location": "/d/village/herb_hut",
+      "on_complete": {
+        "msg": "【殘酷分診】全身麻沸散僅餘三包，必須留給胸腹重傷者；孫大牛的右小腿開放性斷骨需改用局部寒針截脈！"
+      }
+    },
+    {
+      "step": 2,
+      "title": "寒針截脈",
+      "hint": "在採藥草廬對孫大牛右膝『委中、陽陵泉、足三里』三穴施展寒針截脈法止痛清創 (triage miner)。",
+      "target_type": "action",
+      "action_verb": "triage",
+      "action_target": "miner",
+      "location": "/d/village/herb_hut",
+      "on_complete": {
+        "msg": "【截脈止痛】三寸寒鐵針精準封斷右膝下痛覺，孫大牛順利完成右小腿碎骨清創與杉木皮夾板固定！"
+      }
+    },
+    {
+      "step": 3,
+      "title": "溪灘採藥",
+      "hint": "攀上幽霧水谷碎石溪灘，採集清涼草藥為草廬傷患敷傷退熱 (gather)。",
+      "target_type": "action",
+      "action_verb": "gather",
+      "action_target": "herb",
+      "location": "/d/village/stream",
+      "on_complete": {
+        "msg": "【敷傷退熱】你採得新鮮溪灘草藥替傷患外敷消腫，礦工家屬感激涕零，紛紛主動加入落龍口工程！"
+      }
+    }
+  ],
+  "event_outcomes": {
+    "success": {
+      "status": "success",
+      "deltas": {
+        "settlement_capacity": 1,
+        "civilian_trust": 1
+      },
+      "message": "【醫療救援・D01】以右膝三穴『寒針截脈法』化解麻沸散枯竭危機，保住孫大牛右小腿並救活重傷礦工，礦工家屬全力投身防禦工程！"
+    }
+  },
+  "rewards": {
+    "exp": 350,
+    "pot": 120,
+    "msg": "【醫者仁心】你在藥物枯竭的絕境中以精準分診與寒針截脈術挽救了傷患與人心！"
+  }
+}

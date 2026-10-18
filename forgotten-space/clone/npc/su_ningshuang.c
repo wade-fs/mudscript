@@ -71,6 +71,18 @@ int do_chat(object me, string topic) {
         return 1;
     }
 
+    if (string_in(topic, "盤點存糧, 糧倉盤點, 無主精糧, grain")) {
+        tell_object(me, query_name() + " 翻開商隊存糧清冊，肅然道：\n" +
+                                       "「王、周兩家私逃南谷遭花豹伏擊，車隊遺落的二十四袋精糧已悉數運回，加上商隊行轅撥出的糙米，足夠全鎮支撐七日！請恩公速去鐵匠鋪請阿鐵師傅加蓋百工火印，立下三方封條 (ask tie about 三方封條)！」\n");
+        return 1;
+    }
+
+    if (string_in(topic, "證詞互證, 黑釜, 坩堝, testimony")) {
+        tell_object(me, HIY + query_name() + " 捧起染血的父親暗賬，將『黑釜甲、黑釜乙』除渣紀錄與【金石內造・丙字柒號】坩堝拓印、北崖軍器局雷管引信逐一核對，眼眶泛紅卻語聲鏗鏘：\n" +
+                                       "「工部官窯耐火泥坩堝、軍器局制式雷管、先父暗賬三證合一！這不再是孤證傳聞，而是連隨軍監軍與推官都無法抹殺的鐵證如山！」\n" NOR);
+        return 1;
+    }
+
     return ::do_chat(me, topic);
 }
 

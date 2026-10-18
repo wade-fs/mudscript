@@ -1,0 +1,80 @@
+{
+  "id": "B02_rockfall_diversion",
+  "name": "B02 萬斤落石",
+  "category": "event",
+  "type": "event_quest",
+  "start_npc": "tie",
+  "start_topic": "落龍工程,雙契鐵楔,絞盤,diversion",
+  "world_event": "beast_surge",
+  "deadline_stage": "T0",
+  "valid_stages": ["T-3", "T-2", "T-1", "T0"],
+  "eval_metric": "route_confidence",
+  "eval_min_for_success": 2,
+  "steps": [
+    {
+      "step": 1,
+      "title": "雙契鐵楔",
+      "hint": "前往老鐵匠鋪向阿鐵請領落龍口開石所需的雙契鐵楔與天車絞盤索 (ask tie about 落龍工程)。",
+      "target_type": "talk",
+      "target_npc": "tie",
+      "target_topic": "落龍工程,雙契鐵楔,絞盤,diversion",
+      "location": "/d/village/forge",
+      "on_complete": {
+        "msg": "【百工重器】你領取了阿鐵連夜淬火鍛出的雙契鐵楔與生鐵絞盤鏈。"
+      }
+    },
+    {
+      "step": 2,
+      "title": "斜向卸力",
+      "hint": "前往北崖古礦道口向老礦工魯大山請教危岩冰裂紋與『斜向卸力疊石法』(ask lu about 斜向卸力)。",
+      "target_type": "talk",
+      "target_npc": "lu",
+      "target_topic": "斜向卸力,萬斤落石,疊石法,rockfall,石陣",
+      "location": "/d/village/mine",
+      "on_complete": {
+        "msg": "【工程定策】魯大山敲定『清東減阻、斜石導西』方案：築三十度魚鱗品字形導向障並留西側洩壓缺口！"
+      }
+    },
+    {
+      "step": 3,
+      "title": "品字導障",
+      "hint": "在北崖古礦道口會同三十一名礦工打楔落石，築造三十度斜向卸力導向石陣 (rig barrier)。",
+      "target_type": "action",
+      "action_verb": "rig",
+      "action_target": "barrier",
+      "location": "/d/village/mine",
+      "on_complete": {
+        "msg": "【石陣落成】萬斤玄武岩順著天然冰裂紋轟然滑落，三十度魚鱗品字形導向障與側翼洩壓缺口正式成形！"
+      }
+    }
+  ],
+  "event_outcomes": {
+    "success": {
+      "status": "success",
+      "deltas": {
+        "diversion_effect": 2,
+        "settlement_capacity": -1
+      },
+      "facts": {
+        "diversion_ditch_dug": 1
+      },
+      "message": "【地形工程・B02（精準導流）】結合前期獸道勘測，三十度魚鱗品字形導向石陣精準鎖定落龍口主幹道！主力獸群將被順勢偏折滑入落龍深澗（導流效果 +2，工程耗材 -1）。"
+    },
+    "partial": {
+      "status": "partial",
+      "deltas": {
+        "diversion_effect": 1,
+        "settlement_capacity": -2
+      },
+      "facts": {
+        "diversion_ditch_dug": 1
+      },
+      "message": "【地形工程・B02（盲目施工）】因缺乏充分獸道勘測（route_confidence < 2），石陣傾角存在誤差，雖能迫使部分獸群轉向，但耗費雙倍人力物資且側翼溢漏風險大增（導流效果 +1，工程耗材 -2）。"
+    }
+  },
+  "rewards": {
+    "exp": 450,
+    "pot": 160,
+    "msg": "【百工迴瀾】你以凡人百工的槓桿與汗水，在落龍口布下了改寫萬獸奔流走向的斜向卸力石陣！"
+  }
+}

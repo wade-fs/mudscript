@@ -1,0 +1,67 @@
+{
+  "id": "G01_palisade_breach",
+  "name": "G01 木柵缺口",
+  "category": "event",
+  "type": "event_quest",
+  "start_npc": "zhao",
+  "start_topic": "木柵缺口,殘獸,breach",
+  "world_event": "beast_surge",
+  "deadline_stage": "T+1",
+  "valid_stages": ["T-1", "T0", "T+1"],
+  "steps": [
+    {
+      "step": 1,
+      "title": "缺口告警",
+      "hint": "前往獵戶哨亭向趙老獵了解西側洩壓缺口溢漏殘獸之防禦部署 (ask zhao about 木柵缺口)。",
+      "target_type": "talk",
+      "target_npc": "zhao",
+      "target_topic": "木柵缺口,殘獸,breach",
+      "location": "/d/village/hunter_cabin",
+      "on_complete": {
+        "msg": "【緊急動員】落龍口西側洩壓缺口漏出一至兩成狂躁野豬與傷狼，正猛烈衝擊外圍木柵！"
+      }
+    },
+    {
+      "step": 2,
+      "title": "外柵斬狼",
+      "hint": "前往東面荊棘林口斬殺兩頭衝擊外圍鹿角木柵的狂躁灰狼 (kill wolf)。",
+      "target_type": "kill",
+      "target_mob": "wolf",
+      "required_count": 2,
+      "location": "/d/village/forest",
+      "on_complete": {
+        "msg": "【外圍喋血】你連斬兩頭雙目赤紅的衝陣惡狼，遏止了外圍木柵的全線潰敗！"
+      }
+    },
+    {
+      "step": 3,
+      "title": "窄巷鎖陣",
+      "hint": "退守中央青石街市，拉緊攔街鐵索並以鐵輪板車陣分段困殺突入窄巷的狂躁野豬 (brace breach)。",
+      "target_type": "action",
+      "action_verb": "brace",
+      "action_target": "breach",
+      "location": "/d/village/square",
+      "on_complete": {
+        "msg": "【分段絞殺】突入街口的狂躁野豬被攔街鐵索絆倒、困死在板車窄巷陣內，後街糧倉與水井安然無恙！"
+      }
+    }
+  ],
+  "event_outcomes": {
+    "success": {
+      "status": "success",
+      "deltas": {
+        "herd_pressure": -1,
+        "settlement_capacity": 1
+      },
+      "facts": {
+        "residual_breach_occurred": 1
+      },
+      "message": "【殘獸防衛・G01】以窄巷鐵輪車陣與攔街鐵索成功阻截西路洩壓缺口漏入的狂躁野豬與孤狼，保全了後街糧倉與傷兵草廬！"
+    }
+  },
+  "rewards": {
+    "exp": 420,
+    "pot": 150,
+    "msg": "【巷戰砥柱】你在木柵破裂的生死一線間死守窄巷車陣，替黑石鋪擋下了最後一波殘獸反撲！"
+  }
+}

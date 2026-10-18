@@ -57,6 +57,24 @@ int do_chat(object me, string topic) {
         }
     }
 
+    if (string_in(topic, "石髓渣, 三號廢坑, 礦災, 黃羊, slag")) {
+        tell_object(me, query_name() + " 看著竹片上的灰黑硫渣，粗糙的大手猛地一顫，倒吸涼氣道：\n" +
+                                       "「錯不了！十年前北崖三號廢坑地脈爆裂，噴出的就是這種貼著凹地沉降的灼熱地煞煙塵！當年三個沒跑出來的老弟兄，口鼻血沫和這頭黃羊一模一樣！北方斷魂嶺地脈定是裂開了大口子！」\n");
+        return 1;
+    }
+
+    if (string_in(topic, "斜向卸力, 萬斤落石, 疊石法, rockfall, 石陣")) {
+        tell_object(me, query_name() + " 指著落龍口溜石坡的天然冰裂紋，沉聲喝道：\n" +
+                                       "「想拿幾塊石頭正面堵死幾千頭瘋獸，那是痴人說夢！聽老夫的，順著危岩天然冰裂紋打入鐵楔，用『斜向卸力疊石法』築一道三十度傾角的魚鱗品字形導向障，西側留一丈洩壓缺口 (rig barrier)，把八成獸群順勢滑進落龍深澗！」\n");
+        return 1;
+    }
+
+    if (string_in(topic, "雷管引信, 雷管, 炸礦, detonator")) {
+        tell_object(me, query_name() + " 從懷裡摸出半截燒焦變形的黃銅管殼，雙目赤紅、咬牙切齒道：\n" +
+                                       "「北崖三號坑根本不是天災塌方！老夫在爆心石縫裡親手摳出了這截【軍器局制式火油雷管引信】！有人為了掩蓋私煉地煞血精的罪證，故意炸塌礦洞活埋咱們弟兄！快去後街暗巷查驗那尊私逃覆車摔出的精煉坩堝 (inspect crucible)！」\n");
+        return 1;
+    }
+
     if (topic == "任務" || topic == "生計" || topic == "job" || topic == "career" || topic == "物道" || topic == "接應") {
         object career = load_object(CAREER_D);
         int st = career ? career->query_chain_stage(me, "wu") : 0;

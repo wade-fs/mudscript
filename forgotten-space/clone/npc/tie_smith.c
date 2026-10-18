@@ -112,6 +112,24 @@ int do_chat(object me, string topic) {
         return 1;
     }
 
+    if (string_in(topic, "落龍工程, 雙契鐵楔, 絞盤, diversion")) {
+        tell_object(me, query_name() + " 將十幾枚燒紅淬火的雙契鐵楔與粗鐵絞盤鏈拍在鐵砧上，沉聲喝道：\n" +
+                                       "「鐵生那小子戴著夾板還替大夥聽出了危岩的暗裂空音！帶上這批雙契鐵楔去北崖古礦道口找魯大山，請他指點『斜向卸力疊石法』(ask lu about 斜向卸力)！」\n");
+        return 1;
+    }
+
+    if (string_in(topic, "三方封條, 糧倉封條, 按工發饃, ration")) {
+        tell_object(me, query_name() + " 抓起燒紅的鐵印，在糧倉封條上重重烙下鐵鋪火印，震聲道：\n" +
+                                       "「王、周那兩個蠢貨私逃南谷車毀人亡，追回來的無主精糧加上陳記雜糧鋪存糧，由老子、魯大山和後巷沈泥三方共同加封！從今日起，出工出力者領雙份熱饃，傷患老弱保底配給，誰敢哄搶私藏，先問過老子手裡的八角大錘！」\n");
+        return 1;
+    }
+
+    if (string_in(topic, "街口車陣, 鐵輪板車, 攔街鐵索, barricade")) {
+        tell_object(me, query_name() + " 扛起兩條碗口粗的生鐵鎖鏈與木匠老陳捐出的老榆木房樑，喝道：\n" +
+                                       "「好！把四輛鐵輪板車推去青石街市北口，用老榆木頂死、生鐵索穿軸鎖牢 (fortify street)，就算野豬撞上來也叫它骨斷筋折！」\n");
+        return 1;
+    }
+
     if (string_in(topic, "路引, 出鄉, 文牒, ceremony, pass")) {
         if (me->query_level() < 10) {
             tell_object(me, query_name() + " 揮舞鐵錘敲了敲鐵砧，哼道：「黑石關外世道兇險，臂力筋骨未達 10 級，出去就是給流寇當靶子！先給老子在鐵砧前多掄幾百錘！」\n");

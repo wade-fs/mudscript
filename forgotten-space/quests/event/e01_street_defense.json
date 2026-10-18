@@ -1,0 +1,68 @@
+{
+  "id": "E01_street_defense",
+  "name": "E01 誰來守街口",
+  "category": "event",
+  "type": "event_quest",
+  "start_npc": "zhao",
+  "start_topic": "守街口,鳴鏑,阻獸煙,defense",
+  "world_event": "beast_surge",
+  "deadline_stage": "T0",
+  "valid_stages": ["T-3", "T-2", "T-1", "T0"],
+  "steps": [
+    {
+      "step": 1,
+      "title": "鳴鏑草煙",
+      "hint": "前往獵戶哨亭向趙老獵請領雙孔骨哨鳴鏑與減硫三分之二的苦艾辣蓼煙料 (ask zhao about 守街口)。",
+      "target_type": "talk",
+      "target_npc": "zhao",
+      "target_topic": "守街口,鳴鏑,阻獸煙,defense",
+      "location": "/d/village/hunter_cabin",
+      "on_complete": {
+        "msg": "【哨箭備妥】你領取了雙孔骨哨鳴鏑與嚴格控量（砍去三分之二硫渣）的辣蓼苦艾悶煙包。"
+      }
+    },
+    {
+      "step": 2,
+      "title": "百工車陣",
+      "hint": "前往老鐵匠鋪請阿鐵調撥四輛鐵輪板車、老榆木房樑與攔街生鐵鎖鏈 (ask tie about 街口車陣)。",
+      "target_type": "talk",
+      "target_npc": "tie",
+      "target_topic": "街口車陣,鐵輪板車,攔街鐵索,barricade",
+      "location": "/d/village/forge",
+      "on_complete": {
+        "msg": "【重鏈鎖車】阿鐵與木匠老陳將四輛鐵輪板車與碗口粗的生鐵鎖鏈推至青石街市北口。"
+      }
+    },
+    {
+      "step": 3,
+      "title": "輪值守柵",
+      "hint": "在中央青石街市架設鐵輪板車陣、安置上風悶煙鍋並編組街坊輪值守柵 (fortify street)。",
+      "target_type": "action",
+      "action_verb": "fortify",
+      "action_target": "street",
+      "location": "/d/village/square",
+      "on_complete": {
+        "msg": "【眾志成城】街口鐵輪板車陣與攔街鐵索鎖死完畢，街坊青壯分班輪值，黑石鋪基層防線穩如磐石！"
+      }
+    }
+  ],
+  "event_outcomes": {
+    "success": {
+      "status": "success",
+      "deltas": {
+        "civilian_trust": 1,
+        "settlement_capacity": 1
+      },
+      "facts": {
+        "signal_arrows_ready": 1,
+        "cold_smoke_stock": 1
+      },
+      "message": "【居民協作・E01】鐵輪板車陣、攔街鐵索、骨哨鳴鏑與安全配比阻獸煙全部就位，街坊鄰里建立起嚴密的輪值守柵秩序！"
+    }
+  },
+  "rewards": {
+    "exp": 350,
+    "pot": 120,
+    "msg": "【守望相助】你將一盤散沙的街坊鄰里凝聚成井然有序的基層防衛力量！"
+  }
+}

@@ -19,6 +19,8 @@ void audit_encounter(string enc_id, mapping enc, string path);
 mapping query_encounter(string enc_id);
 string query_encounter_id_by_legacy(string legacy_key);
 mixed evaluate_encounter(object who, string enc_id, mapping ctx);
+int is_event_quest_stage_valid(mapping q);
+mapping apply_world_event_outcome(object who, string qid, mapping q);
 
 void create() {
     ::create();
@@ -34,6 +36,65 @@ void audit_quest(string qid, mapping q, string path) {
 
     if (!q["name"] || q["name"] == "") {
         write_file("/log/quest_error.log", sprintf("[QUEST_AUDIT] 警告：任務 '%s' (%s) 缺少 name\n", qid, path), 0);
+    }
+
+    // 稽核事件型任務欄位 (World Event Quest Schema Audit)
+    if (q["world_event"]) {
+        string *valid_event_metrics = ({
+            "herd_pressure", "route_confidence", "diversion_effect",
+            "settlement_capacity", "evidence_strength", "civilian_trust",
+            "intel_confidence", "evidence_verifiability", "assault_cost", "settlement_resilience"
+        });
+        string *valid_event_facts = ({
+            "autopsy_performed", "sulfur_poisoning_found", "flight_direction_mapped",
+            "diversion_ditch_dug", "cold_smoke_stock", "signal_arrows_ready",
+            "merchant_fled", "merchant_supplies_looted", "canyon_road_destroyed", "residual_breach_occurred"
+        });
+        if (q["eval_metric"] && member_array(q["eval_metric"], valid_event_metrics) == -1) {
+            write_file("/log/quest_error.log", sprintf("[QUEST_AUDIT ERROR] 事件任務 '%s' eval_metric 非法：%s\n", qid, q["eval_metric"]), 0);
+        }
+        if (q["eval_min_for_success"] && !intp(q["eval_min_for_success"])) {
+            write_file("/log/quest_error.log", sprintf("[QUEST_AUDIT ERROR] 事件任務 '%s' eval_min_for_success 需為整數\n", qid), 0);
+        }
+        if (q["deadline_stage"] && !stringp(q["deadline_stage"])) {
+            write_file("/log/quest_error.log", sprintf("[QUEST_AUDIT ERROR] 事件任務 '%s' deadline_stage 需為字串\n", qid), 0);
+        }
+        if (q["valid_stages"] && !arrayp(q["valid_stages"])) {
+            write_file("/log/quest_error.log", sprintf("[QUEST_AUDIT ERROR] 事件任務 '%s' valid_stages 需為陣列\n", qid), 0);
+        }
+        if (!mapp(q["event_outcomes"]) || !q["event_outcomes"]["success"]) {
+            write_file("/log/quest_error.log", sprintf("[QUEST_AUDIT ERROR] 事件任務 '%s' 缺少 event_outcomes.success\n", qid), 0);
+        } else {
+            foreach (string grade_key in ({ "success", "partial", "failure" })) {
+                mapping oc = q["event_outcomes"][grade_key];
+                if (!mapp(oc)) continue;
+                if (!oc["status"] || !oc["message"]) {
+                    write_file("/log/quest_error.log", sprintf("[QUEST_AUDIT] 警告：事件任務 '%s' 分支 '%s' 缺少 status 或 message\n", qid, grade_key), 0);
+                }
+                if (mapp(oc["deltas"])) {
+                    foreach (string mk, int dv in oc["deltas"]) {
+                        if (member_array(mk, valid_event_metrics) == -1) {
+                            write_file("/log/quest_error.log", sprintf("[QUEST_AUDIT ERROR] 事件任務 '%s' 未註冊指標：%s\n", qid, mk), 0);
+                        }
+                    }
+                }
+                if (mapp(oc["facts"])) {
+                    foreach (string fk, mixed fv in oc["facts"]) {
+                        if (member_array(fk, valid_event_facts) == -1) {
+                            write_file("/log/quest_error.log", sprintf("[QUEST_AUDIT ERROR] 事件任務 '%s' 未註冊事實：%s\n", qid, fk), 0);
+                        }
+                    }
+                }
+                foreach (string ev_field in ({ "evidence", "extra_evidence" })) {
+                    mapping ev_def = oc[ev_field];
+                    if (mapp(ev_def)) {
+                        if (!ev_def["id"] || !ev_def["source_type"] || !ev_def["strength"] || !ev_def["verified"]) {
+                            write_file("/log/quest_error.log", sprintf("[QUEST_AUDIT] 警告：事件任務 '%s' 物證欄位不完整\n", qid), 0);
+                        }
+                    }
+                }
+            }
+        }
     }
 
     mixed *all_steps = ({});
@@ -136,7 +197,7 @@ void load_all_quests() {
     encounter_defs = ([]);
     legacy_encounter_map = ([]);
 
-    string *subdirs = ({ "", "career/", "main/", "side/", "epic/", "loop/", "encounter/" });
+    string *subdirs = ({ "", "career/", "main/", "side/", "epic/", "loop/", "encounter/", "event/" });
     foreach (string sub in subdirs) {
         string dir_path = "/quests/" + sub;
         string *files = get_dir(dir_path, 1);
@@ -169,7 +230,15 @@ void load_all_quests() {
         "/quests/encounter/enc_forest_totem.json",
         "/quests/encounter/enc_dao_crystal.json",
         "/quests/encounter/enc_tianmen_token.json",
-        "/quests/encounter/enc_map_fusion.json"
+        "/quests/encounter/enc_map_fusion.json",
+        "/quests/event/a01_dead_gazelle.json",
+        "/quests/event/a02_reverse_tracks.json",
+        "/quests/event/b02_rockfall_diversion.json",
+        "/quests/event/c01_grain_inventory.json",
+        "/quests/event/d01_last_painkiller.json",
+        "/quests/event/e01_street_defense.json",
+        "/quests/event/g01_palisade_breach.json",
+        "/quests/event/f03_testimony_cross_check.json"
     });
 
     foreach (string path in fallback) {
@@ -296,7 +365,8 @@ mixed evaluate_encounter(object who, string raw_enc_id, mapping ctx) {
             // 4. 多人/多身世合作拼合檢定 (小說第 9 章暗巷機制)
             if (gtype == "coop") {
                 int min_u = g["min_unique_backgrounds"];
-                if (min_u > 1) {
+                int min_p = g["min_players"] ? g["min_players"] : 1;
+                if (min_u > 1 || min_p > 1) {
                     int unique_bgs = 1;
                     string my_bg = who->query("background");
                     object env = environment(who);
@@ -359,6 +429,9 @@ mixed evaluate_encounter(object who, string raw_enc_id, mapping ctx) {
     if (backlash && random(100) < to_int(backlash["chance"] * 100)) {
         tell_object(who, HIR + "【道韻反噬】" + backlash["msg"] + "\n" NOR);
         who->add(vital_prop, -cost_amt / 2);
+        if (backlash["effect"]) {
+            who->set_temp("backlash_effect/" + backlash["effect"], time());
+        }
     }
 
     // 骰點計算 (包含 Pity 保底)
@@ -394,7 +467,11 @@ mixed evaluate_encounter(object who, string raw_enc_id, mapping ctx) {
     who->delete("encounter_pity/" + enc_id);
 
     int max_slots = 3;
-    if (enc["scope"] && enc["scope"]["slots"]) max_slots = enc["scope"]["slots"];
+    string slot_per = "season";
+    if (enc["scope"]) {
+        if (enc["scope"]["slots"]) max_slots = enc["scope"]["slots"];
+        if (enc["scope"]["per"]) slot_per = enc["scope"]["per"];
+    }
 
     object ws = load_object(WORLD_STATE_D);
     int got_slot = ws ? ws->consume_encounter_slot(enc_id, max_slots) : 1;
@@ -594,12 +671,19 @@ int topic_matches(mixed target_topic, string topic) {
 int has_required_item(object who, string req) {
     if (!who || !req || req == "") return 1;
 
-    // 1. 直接 present 尋找 id
+    // 1. 直接 present 尋找 id（支援底線與空白互轉）
     if (present(req, who)) return 1;
+    if (strsrch(req, "_") != -1 && present(replace_string(req, "_", " "), who)) return 1;
 
     // 2. 依型別別名與特徵屬性判斷
     object *inv = all_inventory(who);
     foreach (object ob in inv) {
+        if (req == "herb" || req == "herb_common") {
+            if (ob->query("herb_type") || ob->id("herb") || ob->id("草藥")) return 1;
+        }
+        if (req == "wolf_fur" || req == "fur") {
+            if (ob->id("wolf fur") || ob->id("wolf_fur") || ob->id("fur") || ob->id("狼皮")) return 1;
+        }
         if (req == "huoluo_dan" || req == "san") {
             if (ob->id("huoluo san") || ob->id("san") || ob->id("活絡散")) return 1;
         }
@@ -826,13 +910,89 @@ int check_and_handle_lost_item(object who, string npc_id, string topic) {
     return 0;
 }
 
+// ── 世界事件型任務階段檢定與因果結算橋接器 ────────────────────
+
+int is_event_quest_stage_valid(mapping q) {
+    if (!mapp(q) || !q["world_event"]) return 1;
+    object em = load_object(EVENT_MANAGER_D);
+    if (!em) return 1;
+
+    string event_id = q["world_event"];
+    string cur_stage = em->query_event_stage(event_id);
+    string *valid_stages = em->query_valid_stages(event_id);
+    int cur_idx = member_array(cur_stage, valid_stages);
+
+    if (q["valid_stages"] && arrayp(q["valid_stages"])) {
+        if (member_array(cur_stage, q["valid_stages"]) == -1) {
+            return 0;
+        }
+    }
+    if (q["deadline_stage"] && stringp(q["deadline_stage"])) {
+        int dead_idx = member_array(q["deadline_stage"], valid_stages);
+        if (dead_idx != -1 && cur_idx > dead_idx) {
+            return 0;
+        }
+    }
+    return 1;
+}
+
+mapping apply_world_event_outcome(object who, string qid, mapping q) {
+    if (!who || !qid || !mapp(q) || !q["world_event"]) return ([]);
+    object em = load_object(EVENT_MANAGER_D);
+    if (!em) return ([]);
+
+    string event_id = q["world_event"];
+    mapping outcomes = q["event_outcomes"];
+    if (!mapp(outcomes)) return ([]);
+
+    // 動態評估成果等級 (Context-Dependent Grading，例如 B02 檢查 route_confidence)
+    string selected_grade = "success";
+    if (q["eval_metric"] && stringp(q["eval_metric"])) {
+        int cur_val = em->query_metric(event_id, q["eval_metric"]);
+        int req_min = q["eval_min_for_success"] ? q["eval_min_for_success"] : 1;
+        if (cur_val < req_min && outcomes["partial"]) {
+            selected_grade = "partial";
+        }
+    }
+
+    mapping branch = outcomes[selected_grade];
+    if (!mapp(branch)) branch = outcomes["success"];
+    if (!mapp(branch)) return ([]);
+
+    mapping payload = copy(branch);
+    if (q["deadline_stage"]) payload["deadline_stage"] = q["deadline_stage"];
+    if (q["valid_stages"]) payload["valid_stages"] = q["valid_stages"];
+
+    string actor_id = who->query_key_id();
+    if (!actor_id || actor_id == "") actor_id = "player";
+
+    mapping res = em->apply_quest_outcome(event_id, qid, payload, actor_id);
+    if (mapp(res)) {
+        if (res["result"] == EVENT_RESULT_SUCCESS) {
+            // 若有附加第二物證 (如 F03 同時登錄坩堝與雷管雙物證)，一併登錄至物證帳本
+            if (mapp(branch["extra_evidence"]) && branch["extra_evidence"]["id"]) {
+                em->register_evidence(branch["extra_evidence"]["id"], branch["extra_evidence"]);
+            }
+            who->set("quests/" + qid + "/outcome_grade", selected_grade);
+            if (res["message"] && res["message"] != "") {
+                tell_object(who, HIY "\n" + res["message"] + "\n" NOR);
+            }
+        } else if (res["result"] == EVENT_RESULT_DUPLICATE) {
+            tell_object(who, CYN "\n【世界局勢】此項事件行動已由先行者達成，世界狀態不再重複疊加。\n" NOR);
+        } else if (res["result"] == EVENT_RESULT_EXPIRED || res["result"] == EVENT_RESULT_REJECTED) {
+            tell_object(who, HIR "\n【時機已逝】" + (res["message"] ? res["message"] : "世界時間軸已推進，該行動已逾越有效窗口！") + "\n" NOR);
+        }
+    }
+    return res;
+}
+
 // ── 階段與任務結算處理器 (Stage / Quest Completion) ──────────
 
 void handle_stage_completion(object who, string qid, mapping q, int cur_stage) {
     if (!who || !qid || !mapp(q)) return;
 
     mapping st_def = query_stage_def(q, cur_stage);
-    int total_stages = (arrayp(q["stages"]) && sizeof(q["stages"]) > 0) ? sizeof(q["stages"]) : 1;
+    int total_stages = (arrayp(q["stages"]) && sizeof(q["stages"]) > 0) ? sizeof(q["stages"]) : (q["total_stages"] ? q["total_stages"] : 1);
 
     // 發放該 Stage 的階段性獎勵 (調用統一獎勵發放器，相容 on_finish 與 rewards 宣告)
     if (st_def) {
@@ -871,6 +1031,16 @@ void handle_stage_completion(object who, string qid, mapping q, int cur_stage) {
             if (sizeof(next_steps) > 0) {
                 tell_object(who, HIG "  指引：" + next_steps[0]["hint"] + "\n\n" NOR);
             }
+            return;
+        }
+    }
+
+    // 若為全域世界事件任務，先行提交事務性因果結算
+    if (q["world_event"]) {
+        mapping ev_res = apply_world_event_outcome(who, qid, q);
+        if (mapp(ev_res) && (ev_res["result"] == EVENT_RESULT_EXPIRED || ev_res["result"] == EVENT_RESULT_REJECTED)) {
+            set_quest_step(who, qid, -1);
+            set_quest_state(who, qid, "EXPIRED");
             return;
         }
     }
@@ -923,10 +1093,15 @@ mixed trigger_event(object who, string event_type, mapping data) {
     string victim_name = data["victim_name"];
     string victim_file = data["victim_file"];
 
+    // 兩階段分派：第一輪優先推進已接取/進行中 (cur_step > 0) 的任務，避免未接取任務 (cur_step == 0) 的自動觸發搶佔已進行任務的事件
+    for (int pass = 1; pass <= 2; pass++) {
     foreach (string qid, mapping q in quest_defs) {
         int cur_step = query_quest_step(who, qid);
         int cur_stage = query_quest_stage(who, qid);
         string q_state = query_quest_state(who, qid);
+
+        if (pass == 1 && cur_step <= 0) continue;
+        if (pass == 2 && cur_step != 0) continue;
 
         mixed *steps = query_stage_steps(q, cur_stage);
         if (!arrayp(steps) || sizeof(steps) == 0) continue;
@@ -951,7 +1126,8 @@ mixed trigger_event(object who, string event_type, mapping data) {
                 mapping unlock = next_stage["unlock_condition"];
                 int can_unlock = 0;
                 if (unlock) {
-                    if (unlock["target_npc"] && event_type == "talk" && 
+                    if ((!unlock["need_stage"] || cur_stage >= unlock["need_stage"]) &&
+                        unlock["target_npc"] && event_type == "talk" && 
                         npc_matches(unlock["target_npc"], npc_id, npc_ob) &&
                         topic_matches(unlock["target_topic"], topic)) {
                         can_unlock = 1;
@@ -975,7 +1151,7 @@ mixed trigger_event(object who, string event_type, mapping data) {
         // 1. 若任務尚未接取 (step == 0)
         if (cur_step == 0) {
             // 防護：非循環任務已完成不可重複接取
-            if (q["type"] != "loop" && who->query("quests/" + qid + "/state") == "COMPLETED") {
+            if (q["type"] != "loop" && (who->query("quests/" + qid + "/state") == "COMPLETED" || who->query("quests/" + qid + "/state") == "EXPIRED")) {
                 continue;
             }
 
@@ -993,6 +1169,11 @@ mixed trigger_event(object who, string event_type, mapping data) {
             if (q["start_npc"] && event_type == "talk" && 
                 npc_matches(q["start_npc"], npc_id, npc_ob) && 
                 topic_matches(q["start_topic"], topic)) {
+
+                if (q["world_event"] && !is_event_quest_stage_valid(q)) {
+                    tell_object(who, HIR "【時機已逝】世界局勢已推進至新階段，【" + q["name"] + "】的行動窗口已關閉！\n" NOR);
+                    return 1;
+                }
 
                 // 檢查等級條件
                 if (req_level > 0 && who->query_level() < req_level) {
@@ -1054,6 +1235,11 @@ mixed trigger_event(object who, string event_type, mapping data) {
                         if (!env || strsrch(base_name(env), req_loc) == -1) {
                             continue;
                         }
+                    }
+
+                    if (q["world_event"] && !is_event_quest_stage_valid(q)) {
+                        tell_object(who, HIR "【時機已逝】世界局勢已推進至新階段，【" + q["name"] + "】的行動窗口已關閉！\n" NOR);
+                        return 0;
                     }
 
                     // 等級檢定
@@ -1356,6 +1542,7 @@ mixed trigger_event(object who, string event_type, mapping data) {
             break;
         }
     }
+    }
 
     return 0;
 }
@@ -1614,6 +1801,30 @@ string query_all_status_report(object who) {
         }
     }
 
+    // 7. 大荒煞潮・生存事件網 (Phase 1 MVP 8 大標竿任務)
+    string *event_list = ({
+        "A01_dead_gazelle", "A02_reverse_tracks", "B02_rockfall_diversion",
+        "C01_grain_inventory", "D01_last_painkiller", "E01_street_defense",
+        "G01_palisade_breach", "F03_testimony_cross_check"
+    });
+    int has_event_q = 0;
+    foreach (string qid in event_list) {
+        if (quest_defs[qid]) {
+            int step = who->query("quests/" + qid + "/step");
+            string st = who->query("quests/" + qid + "/state");
+            if (step > 0 || st == "COMPLETED" || st == "EXPIRED") {
+                if (!has_event_q) {
+                    object em = load_object(EVENT_MANAGER_D);
+                    string stg = em ? em->query_event_stage(EVENT_BEAST_SURGE) : "T-3";
+                    out += HIR "---------------- 大荒煞潮・生存事件網 (當前階段: " + stg + ") ----------------\n" NOR;
+                    has_event_q = 1;
+                }
+                out += query_quest_checklist(who, qid) + "\n";
+            }
+        }
+    }
+
     out += HIW "======================================================\n" NOR;
     return out;
 }
+

@@ -31,6 +31,9 @@ void init() {
     add_action("do_herb_recover", "inhale");
     add_action("do_herb_recover", "聞藥");
     add_action("do_herb_recover", "飲湯");
+    add_action("do_triage_miner", "triage");
+    add_action("do_triage_miner", "分診");
+    add_action("do_triage_miner", "施針");
 }
 
 int do_herb_recover(string arg) {
@@ -50,4 +53,27 @@ int do_herb_recover(string arg) {
     }
     return 1;
 }
+
+int do_triage_miner(string arg) {
+    object me = this_player();
+    if (arg && arg != "" && arg != "miner" && arg != "daniu" && arg != "傷患" && arg != "孫大牛" && arg != "寒針截脈") {
+        write("你想對誰進行分診施針？提示：triage miner（對傷患進行戰時分診與寒針截脈止痛）\n");
+        return 1;
+    }
+
+    write(CYN "你檢視草廬內哀嚎的傷患：僅剩的三包【麻沸止痛散】必須留給胸腹內傷與碎骨清創的柱子、老李頭與趙老四。\n" NOR);
+    write("面對右小腿脛骨開放性斷裂、疼得滿頭冷汗的孫大牛，你取出三寸寒鐵長針，\n"
+          "精準刺入他右膝後側【委中】與膝下【陽陵泉】、【足三里】三處大穴，施展局部「寒針截脈法」！\n");
+    write(HIG "孫大牛右膝以下瞬間酸麻失覺，劇痛立止，既保住了傷腿清創的時機，也省下了救命的麻沸散！\n" NOR);
+
+    object qe = load_object(QUEST_ENGINE_D);
+    if (qe) {
+        qe->trigger_event(me, "action", ([
+            "verb": "triage",
+            "target": "miner"
+        ]));
+    }
+    return 1;
+}
+
 

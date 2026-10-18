@@ -109,5 +109,18 @@ int do_chat(object me, string topic) {
         return 1;
     }
 
+    if (string_in(topic, "黃羊, 暴斃黃羊, gazelle, 驗屍, 剖檢")) {
+        tell_object(me, query_name() + " 捏起竹片刮下黃羊氣管內壁的灰黑粉塵，滴入清水碗中與十年前舊礦留下的【地煞石髓渣】比對，神色驟變：\n" +
+                                       "「肺葉焦紫充血、氣管被高熱含硫灰渣死死糊住，未見半點舊例妖化的紫黑血晶！這畜生是在低窪背風處吸入了地脈噴發的地煞重煙急性窒息而亡！快去北崖找老礦工魯大山核對十年前三號廢坑的症狀 (ask lu about 石髓渣)！」\n");
+        return 1;
+    }
+
+    if (string_in(topic, "止痛散, 麻沸散, painkiller, 傷患, 孫大牛")) {
+        tell_object(me, query_name() + " 盯著草廬裡僅剩的三包【麻沸止痛散】，咬牙沉聲道：\n" +
+                                       "「全身麻沸散只剩最後三包，必須留給胸腹內傷與碎骨清創的柱子、老李頭和趙老四！\n" +
+                                       "孫大牛右小腿脛骨開放性斷裂，你速以三寸寒針刺他右膝【委中、陽陵泉、足三里】施展『寒針截脈法』(triage miner) 局部止痛，再去溪灘採集新鮮草藥 (gather) 敷傷退熱！」\n");
+        return 1;
+    }
+
     return ::do_chat(me, topic);
 }

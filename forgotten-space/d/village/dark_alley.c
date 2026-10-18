@@ -31,6 +31,9 @@ void init() {
     add_action("do_compare_map", "拼圖");
     add_action("do_search_boards", "search");
     add_action("do_search_boards", "搜查");
+    add_action("do_inspect_crucible", "inspect");
+    add_action("do_inspect_crucible", "查驗坩堝");
+    add_action("do_inspect_crucible", "檢視黑釜");
 }
 
 int do_compare_map(string arg) {
@@ -98,3 +101,26 @@ int do_search_boards(string arg) {
     }
     return 1;
 }
+
+int do_inspect_crucible(string arg) {
+    object me = this_player();
+    if (arg && arg != "" && arg != "crucible" && arg != "坩堝" && arg != "黑釜" && arg != "精煉坩堝") {
+        write("你想查驗什麼證物？提示：inspect crucible（查驗南谷私逃覆車遺留的耐火泥精煉坩堝）\n");
+        return 1;
+    }
+
+    write(CYN "你蹲在暗巷深處，仔細查驗從王、周兩家南谷覆車殘骸中秘密運回的那尊雙層草木灰釉陶器。\n" NOR);
+    write("陶壁厚達兩寸，由金石府城官窯特配的封爐耐火泥燒製；內壁凝結著一層暗紫發黑、散發濃烈地煞腥氣的血精結晶渣。\n"
+          "翻開底座，八個刀刻古篆陰文清晰刺目：" HIY "【金石內造・丙字柒號】" NOR "！\n");
+    write(HIG "【鐵證鎖定】這正是蘇凝霜暗賬上記載的「黑釜」！金石商會二掌櫃與黑石關守軍私煉地煞血精的物證鏈徹底閉合！\n" NOR);
+
+    object qe = load_object(QUEST_ENGINE_D);
+    if (qe) {
+        qe->trigger_event(me, "action", ([
+            "verb": "inspect",
+            "target": "crucible"
+        ]));
+    }
+    return 1;
+}
+

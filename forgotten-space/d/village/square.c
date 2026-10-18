@@ -114,6 +114,12 @@ void init() {
     add_action("do_tea", "drink");
     add_action("do_tea", "喝茶");
     add_action("do_tea", "歇腳");
+    add_action("do_audit_grain", "audit");
+    add_action("do_audit_grain", "盤點存糧");
+    add_action("do_fortify_street", "fortify");
+    add_action("do_fortify_street", "構築街防");
+    add_action("do_brace_breach", "brace");
+    add_action("do_brace_breach", "堵截缺口");
 }
 
 int do_tea(string arg) {
@@ -128,4 +134,68 @@ int do_tea(string arg) {
     write(HIG "【茶棚歇腳，你的氣血 +20、神識 +20、精力 +25！】\n" NOR);
     return 1;
 }
+
+int do_audit_grain(string arg) {
+    object me = this_player();
+    if (arg && arg != "" && arg != "grain" && arg != "存糧" && arg != "糧倉") {
+        write("你想盤點什麼？提示：audit grain（盤點陳記雜糧鋪與南谷追回之無主精糧）\n");
+        return 1;
+    }
+
+    write(CYN "你在青石街市陳記雜糧鋪前壓下騷動的鄉民，當眾清點鋪內存糧與南谷覆車追回的二十四袋無主精糧。\n" NOR);
+    write("你將所有糙米、燕麥麵與粗鹽逐袋過秤登冊，準備交由鐵匠鋪阿鐵、礦工頭魯大山與後巷沈泥三方共同加封，\n"
+          "立下「按工發饃、傷患老弱保底配給」的戰時鐵律！\n");
+
+    object qe = load_object(QUEST_ENGINE_D);
+    if (qe) {
+        qe->trigger_event(me, "action", ([
+            "verb": "audit",
+            "target": "grain"
+        ]));
+    }
+    return 1;
+}
+
+int do_fortify_street(string arg) {
+    object me = this_player();
+    if (arg && arg != "" && arg != "street" && arg != "街口" && arg != "車陣") {
+        write("你想加固哪裡？提示：fortify street（以鐵輪板車、房樑木與攔街鐵索構築街口防線）\n");
+        return 1;
+    }
+
+    write(CYN "你號召街坊青壯與木匠老陳扛出三根百年老榆木房樑，將四輛沉重的鐵輪板車首尾交錯鎖死在北街口！\n" NOR);
+    write("碗口粗的生鐵鎖鏈穿過車軸與青石拴馬樁，上風處三隻破鐵鍋悶燒著辣蓼苦艾與三分之一配比的地煞硫渣，\n"
+          "街坊鄰里手持長矛與雙孔骨哨鳴鏑分班輪值，黑石鋪基層防線巍然成形！\n");
+
+    object qe = load_object(QUEST_ENGINE_D);
+    if (qe) {
+        qe->trigger_event(me, "action", ([
+            "verb": "fortify",
+            "target": "street"
+        ]));
+    }
+    return 1;
+}
+
+int do_brace_breach(string arg) {
+    object me = this_player();
+    if (arg && arg != "" && arg != "breach" && arg != "缺口" && arg != "木柵") {
+        write("你想死守哪處缺口？提示：brace breach（以窄巷車陣與鐵索分段阻滯突破木柵的殘獸）\n");
+        return 1;
+    }
+
+    write(HIR "數頭從落龍口西側洩壓缺口漏出的狂躁野豬與孤狼撞裂外圍木柵，嘶吼著衝入街口窄巷！\n" NOR);
+    write(HIY "你指揮輪值青壯猛然拉緊攔街鐵索，將衝在最前的百斤野豬絆倒在鐵輪板車陣前，\n"
+              "兩側屋頂竹矛與石灰包齊發，硬生生將這股殘獸死死釘在窄巷分段陷阱內，保住了後街糧倉與水井！\n" NOR);
+
+    object qe = load_object(QUEST_ENGINE_D);
+    if (qe) {
+        qe->trigger_event(me, "action", ([
+            "verb": "brace",
+            "target": "breach"
+        ]));
+    }
+    return 1;
+}
+
 

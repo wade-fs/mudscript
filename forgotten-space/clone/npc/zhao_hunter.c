@@ -115,6 +115,30 @@ int do_chat(object me, string topic) {
         }
     }
 
+    if (string_in(topic, "獸跡, 逆行獸跡, tracks")) {
+        tell_object(me, query_name() + " 按著腰間角刀，目光如鷹隼般盯著北方山脊道：\n" +
+                                       "「今晨林子裡反常得緊！成群黃羊跟灰狼混在一塊兒往南跑，卻連一滴捕食血跡都沒有！你速去東林北坡沿著八里獸道抽樣踏勘 (survey tracks)，看清牠們到底在逃什麼！」\n");
+        return 1;
+    }
+
+    if (string_in(topic, "遷徙路線, 主幹道, route")) {
+        tell_object(me, query_name() + " 聽完你的北坡踏勘回報，在獸皮地圖上重重劃下一道炭線：\n" +
+                                       "「食草獸先行、肉食獸尾隨，苦竹盡朝西南折斷——北方斷魂嶺地脈毒煙順北風壓下來，數千頭獸群正沿著北坡主幹道直撲咱們黑石鋪與落龍口！」\n");
+        return 1;
+    }
+
+    if (string_in(topic, "守街口, 鳴鏑, 阻獸煙, defense")) {
+        tell_object(me, query_name() + " 抓起一束削好的雙孔骨哨鳴鏑與苦艾乾草，沉聲道：\n" +
+                                       "「光靠木柵攔不住受驚野獸！我們已按顧玄的方子把硫渣砍去三分之二，混入辣蓼苦艾悶燒刺鼻草煙。你速去找鐵匠阿鐵加固鐵輪板車與攔街鐵索 (ask tie about 街口車陣)，組織街坊輪值守街！」\n");
+        return 1;
+    }
+
+    if (string_in(topic, "木柵缺口, 殘獸, breach")) {
+        tell_object(me, query_name() + " 抹去臉上血水，厲聲喝道：\n" +
+                                       "「落龍口西側洩壓缺口漏出了一成狂躁野豬與傷狼！先去東面荒林外圍斬殺兩頭衝陣惡狼 (kill wolf)，再回青石街市鎖緊窄巷板車陣 (brace breach)，絕不能讓殘獸衝垮糧倉！」\n");
+        return 1;
+    }
+
     if (topic == "路引" || topic == "出鄉" || topic == "文牒" || topic == "ceremony" || topic == "pass") {
         if (me->query_level() < 10) {
             tell_object(me, query_name() + " 吐出一口草根，搖頭道：「大荒深處與黑石關外儘是豺狼凶煞，手底下沒硬功夫（需達 10 級）出鄉，只會白白送命！且把筋骨底子再磨練磨練！」\n");

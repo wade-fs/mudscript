@@ -99,12 +99,13 @@ void init() {
 }
 
 int do_gather(string arg) {
-    int ret = load_object(WORLD_STATE_D)->gather_herb(this_player());
+    object me = this_player();
+    int ret = load_object(WORLD_STATE_D)->gather_herb(me);
     if (ret) {
         object qe = find_object(QUEST_ENGINE_D);
         if (!qe) qe = load_object(QUEST_ENGINE_D);
         if (qe) {
-            qe->trigger_event(this_player(), "action", ([
+            qe->trigger_event(me, "action", ([
                 "verb": "gather",
                 "target": "herb"
             ]));
@@ -151,11 +152,6 @@ int do_wash(string arg) {
     me->add(VITAL_SP, 25);
     write(HIG "【溪泉洗滌，你的氣血 +15、神識 +25、精力 +25！】\n" NOR);
 
-    object career = load_object(CAREER_D);
-    if (career && career->query_chain_stage(me, "fa") == 2) {
-        career->advance_chain_stage(me, "fa");
-    }
-
     object qe = find_object(QUEST_ENGINE_D);
     if (!qe) qe = load_object(QUEST_ENGINE_D);
     if (qe) {
@@ -163,6 +159,11 @@ int do_wash(string arg) {
             "verb": "wash",
             "target": "face"
         ]));
+    }
+
+    object career = load_object(CAREER_D);
+    if (career && career->query_chain_stage(me, "fa") == 2) {
+        career->advance_chain_stage(me, "fa");
     }
     return 1;
 }
@@ -231,11 +232,6 @@ int do_sharpen(string arg) {
     me->train_stat(STAT_STR, 15);
     me->gain_exp(8);
 
-    object career = load_object(CAREER_D);
-    if (career && (career->query_chain_stage(me, "li") == 2 || career->query_chain_stage(me, "li") == 3)) {
-        career->advance_chain_stage(me, "li");
-    }
-
     object qe = find_object(QUEST_ENGINE_D);
     if (!qe) qe = load_object(QUEST_ENGINE_D);
     if (qe) {
@@ -243,6 +239,11 @@ int do_sharpen(string arg) {
             "verb": "sharpen",
             "target": "blade"
         ]));
+    }
+
+    object career = load_object(CAREER_D);
+    if (career && (career->query_chain_stage(me, "li") == 2 || career->query_chain_stage(me, "li") == 3)) {
+        career->advance_chain_stage(me, "li");
     }
     return 1;
 }

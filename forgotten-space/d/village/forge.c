@@ -165,7 +165,15 @@ int do_strike(string arg) {
         write("你用長鐵鉗將" + ore->query_short() + "牢牢鉗在鐵砧上，右臂青筋暴起，高舉鐵錘！\n");
         write(HIY "「當——！！」一聲巨響震徹工坊，漫天火星如暴雨散落，粗糙的岩殼寸寸崩裂！\n" NOR);
 
-        destruct(ore);
+        object qe = load_object(QUEST_ENGINE_D);
+        if (qe) {
+            qe->trigger_event(me, "action", ([
+                "verb": "strike",
+                "target": "ore"
+            ]));
+        }
+
+        if (ore) destruct(ore);
 
         write(HIW "經過千錘百鍊的敲打，粗鐵胚料褪去雜質，鍛打成了一柄沉甸甸的【大荒開山柴刀】！\n" NOR);
         object blade = clone_object("/clone/weapon/clearing_blade.c");

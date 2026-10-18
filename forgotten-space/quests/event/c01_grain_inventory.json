@@ -1,0 +1,65 @@
+{
+  "id": "C01_grain_inventory",
+  "name": "C01 糧倉盤點",
+  "category": "event",
+  "type": "event_quest",
+  "world_event": "beast_surge",
+  "deadline_stage": "T0",
+  "valid_stages": ["T-3", "T-2", "T-1", "T0"],
+  "steps": [
+    {
+      "step": 1,
+      "title": "當眾過秤",
+      "hint": "在中央青石街市陳記雜糧鋪前清點存糧與南谷覆車追回的無主精糧 (audit grain)。",
+      "target_type": "action",
+      "action_verb": "audit",
+      "action_target": "grain",
+      "location": "/d/village/square",
+      "on_complete": {
+        "msg": "【清點造冊】你將陳記雜糧鋪存糧與南谷追回的二十四袋無主精糧當眾過秤登冊，平息了街市搶糧騷動。"
+      }
+    },
+    {
+      "step": 2,
+      "title": "行轅合冊",
+      "hint": "前往客棧背街廢柴房向蘇凝霜核對商隊行轅撥出的賑災糙米清冊 (ask su about 盤點存糧)。",
+      "target_type": "talk",
+      "target_npc": "su",
+      "target_topic": "盤點存糧,糧倉盤點,無主精糧,grain",
+      "location": "/d/village/shed",
+      "on_complete": {
+        "msg": "【存糧合流】蘇凝霜撥出商隊行轅糙米並簽發清冊，全鎮七日戰時口糧正式湊齊！"
+      }
+    },
+    {
+      "step": 3,
+      "title": "三方封條",
+      "hint": "前往老鐵匠鋪請阿鐵加蓋百工火印，立下『阿鐵、魯大山、沈泥』三方共管封條 (ask tie about 三方封條)。",
+      "target_type": "talk",
+      "target_npc": "tie",
+      "target_topic": "三方封條,糧倉封條,按工發饃,ration",
+      "location": "/d/village/forge",
+      "on_complete": {
+        "msg": "【戰時配給】三方封條正式貼上糧倉大門，『出工領雙份熱饃、傷患老弱保底配給』的戰時秩序徹底確立！"
+      }
+    }
+  ],
+  "event_outcomes": {
+    "success": {
+      "status": "success",
+      "deltas": {
+        "settlement_capacity": 2,
+        "civilian_trust": 1
+      },
+      "facts": {
+        "merchant_supplies_looted": 1
+      },
+      "message": "【物資調度・C01】南谷無主精糧與陳記存糧完成三方封條共管，『按工發饃、傷患保底』使聚落儲備與人心大幅回穩！"
+    }
+  },
+  "rewards": {
+    "exp": 350,
+    "pot": 120,
+    "msg": "【倉廩定心】你以公開透明的三方封條與按工配給，在危局中穩住了黑石鋪的生計命脈！"
+  }
+}

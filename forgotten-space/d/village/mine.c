@@ -70,6 +70,9 @@ void init() {
     add_action("do_clear", "clear");
     add_action("do_clear", "清理");
     add_action("do_clear", "搬石");
+    add_action("do_rig_barrier", "rig");
+    add_action("do_rig_barrier", "築造石陣");
+    add_action("do_rig_barrier", "疊石導流");
 }
 
 int do_mine(string arg) {
@@ -79,3 +82,26 @@ int do_mine(string arg) {
 int do_clear(string arg) {
     return load_object(WORLD_STATE_D)->clear_mine_rubble(this_player());
 }
+
+int do_rig_barrier(string arg) {
+    object me = this_player();
+    if (arg && arg != "" && arg != "barrier" && arg != "rockfall" && arg != "石陣" && arg != "導向障") {
+        write("你想架設什麼工程？提示：rig barrier（依斜向卸力疊石法築造三十度品字形碎石導向障）\n");
+        return 1;
+    }
+
+    write(CYN "你會同魯大山與三十一名青壯礦工，在落龍口溜石坡順著危岩天然冰裂紋打入雙契鐵楔！\n" NOR);
+    write("隨著天車絞盤轟然拉動，萬斤玄武岩塊順坡滾落。你們依魯大山傳授的「斜向卸力疊石法」，\n"
+          "將亂石壘成三十度傾角的魚鱗品字形導向矮牆，並在西側預留一道一丈寬的「側翼洩壓缺口」，\n"
+          "同時清理東側通往落龍深澗的倒木與尖石，形成「清東減阻、斜石導西」的分流死穴！\n");
+
+    object qe = load_object(QUEST_ENGINE_D);
+    if (qe) {
+        qe->trigger_event(me, "action", ([
+            "verb": "rig",
+            "target": "barrier"
+        ]));
+    }
+    return 1;
+}
+

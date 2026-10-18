@@ -59,6 +59,13 @@ int do_meditate(string arg) {
         me->improve_skill(f_sid, 10 + me->query_stat("int") / 2);
     }
 
+    object qe = load_object(QUEST_ENGINE_D);
+    if (qe) {
+        qe->trigger_event(me, "action", ([
+            "verb": "stargaze"
+        ]));
+    }
+
     object career = load_object(CAREER_D);
     if (career && career->query_chain_stage(me, "fa") == 3) {
         career->advance_chain_stage(me, "fa");
@@ -110,11 +117,21 @@ int do_stargaze(string arg) {
 
     object ws = load_object(WORLD_STATE_D);
     object md = load_object(MYSTERY_D);
+    object qe = load_object(QUEST_ENGINE_D);
 
     // 身世血統排他性檢定
     if (md && !md->can_discover_relic(me, "stargaze_altar")) {
         write(CYN "你盤膝端坐於白石殘壇之上，抬頭仰觀蒼穹星河……\n" NOR);
         write(WHT "山巔罡風呼嘯凜冽，漫天星斗閃爍如常。你受限於凡俗肉眼凡胎，未能窺見雲層之後的太古天機。\n" NOR);
+        if (qe) {
+            qe->trigger_event(me, "action", ([
+                "verb": "stargaze"
+            ]));
+        }
+        object career0 = load_object(CAREER_D);
+        if (career0 && career0->query_chain_stage(me, "fa") == 3) {
+            career0->advance_chain_stage(me, "fa");
+        }
         return 1;
     }
 
@@ -145,6 +162,12 @@ int do_stargaze(string arg) {
         write(HIY "【你膝前染血的經卷夾層中，隱隱顯露出一角太古青銅絲線交織的「逆星軌道殘紋」！】\n" NOR);
     } else {
         write(YEL "你再次窺探天羅地網，道心更趨堅毅，深知撕破偽籠任重道遠。\n" NOR);
+    }
+
+    if (qe) {
+        qe->trigger_event(me, "action", ([
+            "verb": "stargaze"
+        ]));
     }
 
     object career = load_object(CAREER_D);
