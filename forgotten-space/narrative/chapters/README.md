@@ -44,3 +44,8 @@
 * [**第 16 章：死線拔河・命懸一線**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/ch0016.md) - 針藥搶救，燕隼雙殺盲眼岩蜥，鐵生黑鐵卡榫撐開通道，二十三礦工全數救出。
 * [**第 17 章：生還之後・暗流如沸**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/ch0017.md) - 礦坪家屬拜謝，胡百戶率鐵騎逼宮，老輩亮獠牙，魯大山拋軍用引信揭真相。
 * [**第 18 章：分歧之夜・少年道擇**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/ch0018.md) - 廢柴房五子哲學理念激烈交鋒，求真、現實、責任、天命、生存撞擊立下三日出鄉誓約。
+* [**第 19 章：生息暗湧・晨市米貴**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/ch0019.md) - 封關與百里虎跳營軍情校準，糧價暴漲與商隊算計，鐵生斷煤左錘悟應力、顧玄三包止痛散殘酷分診與寒針截脈，東林矛盾獸跡與無外傷暴斃黃羊現蹤。
+* [**第 20 章：暴斃黃羊・雙重實證**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/ch0020.md) - 顧玄結合礦工石肺經驗剖檢黃羊驗出地煞硫塵急性窒息，清虛與斥候比對北獸南逃糞便蹄印層次，雙重實證確立「逃荒遷徙假說」，拼合古圖驚見二十五里落龍深澗直通虎跳峽官道。
+* [**第 21 章：市井暗火・人心如鑑**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/ch0021.md) - 雜糧鋪搶糧見血、商隊外聘護衛譁變奪馬被彈壓遣散，沈泥與鐵生識破富戶王周二家暗藏封爐耐火泥之「地煞精煉坩堝」欲攜贓私逃，趙老獵當頭棒喝點破強堵必垮與轉嫁官道之道德重擔。
+* [**第 22 章：火塘夜議・落龍借勢**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/ch0022.md) - 深夜柴房密會，釐清谷底重氣沉降與向陽坡西南側逆風之雙層氣流，確立「清東阻西、三十度斜壩偏折頭獸」及窄巷暗渠備案，直面二十五里裂谷分波衝擊官道之因果代價，洞悉大乾軍制三方制衡槓桿。
+
