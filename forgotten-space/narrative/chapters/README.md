@@ -58,3 +58,9 @@
 * [**第 30 章：晨曦灰燼・劫後微光**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/ch0030.md) - 第四天清晨水井坪祭奠老李頭與木匠老陳兩位長者，凝聚全鎮骨血；沈泥以工分榜平息爭端，醫棚內二十二名礦工傷情穩定但全鎮外傷草藥徹底見底，靜候燕隼帶回虎跳峽實況。
 * [**第 31 章：錯位天平・狼狽關防**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/ch0031.md) - 燕隼與石頭叔帶回虎跳峽戰況：先鋒參將陳鎮山領八百輕兵已過北岸，隨後輜重營遭獸潮衝擊，六十丈懸崖木棧道崩塌，十八車糧食重弩墜江；胡百戶斷糧龜縮黑石關，先鋒軍斷糧翻山，形成三層戰略轉機。
 * [**第 32 章：迷局反客・籌碼在手**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/ch0032.md) - 五子直面轉嫁災難之因果重擔，沈泥亮出天門引鐵牌合契商會總堂密室；眾人依大乾軍制「三方互監」分置籌碼（雷管批號拓片、暗賬與丙字坩堝拓片、斷道實圖與礦工家書），敲定借道太古排沙暗渠外延支洞連夜分投先鋒大營。
+* [**第 33 章：迷霧扣關・三軍陣前**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/ch0033.md) - 八百先鋒輕兵列陣扣關，胡百戶誣告謀反；陳鎮山洞察三大矛盾，推遲強攻限令次日午時交出實據。
+* [**第 34 章：暗賬分牒・多點投書**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/ch0034.md) - 沈泥莫三穿行地下排沙暗渠支洞，燕隼鳴鏑掩護，多點投書精準掣肘軍械監軍、主帥陳鎮山與督糧官。
+* [**第 35 章：軍心如鑑・天威難欺**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/ch0035.md) - 校場公開勘驗，軍用雷管鋼印鎖死胡百戶罪名，老礦工與家書動搖軍心，陳鎮山順勢拿下胡德海，改強攻為封存會審。
+* [**第 36 章：商會殘骨・利益之毒**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/ch0036.md) - 提審趙德貴揭穿副會長錢百川走私謀殺大掌櫃黑幕，天字一號密室與天門引暗線浮現，確立五子護送證物赴府城之決心。
+* [**第 37 章：回首黑石・凡胎圓滿**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/ch0037.md) - 聚落展開真實重建重開爐火，五子歷經劫難迎來心性與技藝質變，水到渠成晉升 Lv.10 凡胎圓滿，獲頒官府出鄉路引。
+* [**第 38 章：大荒官道・天門驚蟄**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/ch0038.md) - 虎跳峽便道搶通，五子向五位留守師長深沉道別，護衛商隊踏上大荒官道邁向金石府城，第一卷圓滿落幕。
