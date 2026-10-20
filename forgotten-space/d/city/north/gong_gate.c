@@ -22,4 +22,6 @@ void create() {
     ]));
 
     set("is_outdoor", 1);
+
+    spawn_npc("/clone/npc/gong_gate_tiechigong.c");
 }

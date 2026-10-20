@@ -176,12 +176,13 @@ int query_attack()        { return attack; }
 int query_defence()       { return defence; }
 
 mixed query(string prop) {
-    if (prop == "kee" || prop == "hp") return hp;
-    if (prop == "sen" || prop == "mp") return mp;
-    if (prop == "sp") return sp;
-    if (prop == "max_kee" || prop == "max_hp") return max_hp;
-    if (prop == "max_sen" || prop == "max_mp") return max_mp;
-    if (prop == "max_sp") return max_sp;
+    if (prop == "level") return level;
+    if (prop == "kee" || prop == "hp" || prop == "qi") return hp;
+    if (prop == "sen" || prop == "mp" || prop == "shen") return mp;
+    if (prop == "sp" || prop == "jing" || prop == "gin") return sp;
+    if (prop == "max_kee" || prop == "max_hp" || prop == "max_qi") return max_hp;
+    if (prop == "max_sen" || prop == "max_mp" || prop == "max_shen") return max_mp;
+    if (prop == "max_sp" || prop == "max_jing" || prop == "max_gin") return max_sp;
     if (prop == "str") return stat_str;
     if (prop == "con") return stat_con;
     if (prop == "int") return stat_int;
@@ -192,19 +193,19 @@ mixed query(string prop) {
 }
 
 void add(string prop, mixed val) {
-    if (prop == "kee" || prop == "hp") {
+    if (prop == "kee" || prop == "hp" || prop == "qi") {
         hp += val;
         if (hp > max_hp) hp = max_hp;
         if (hp < 0) hp = 0;
         return;
     }
-    if (prop == "sen" || prop == "mp") {
+    if (prop == "sen" || prop == "mp" || prop == "shen") {
         mp += val;
         if (mp > max_mp) mp = max_mp;
         if (mp < 0) mp = 0;
         return;
     }
-    if (prop == "sp") {
+    if (prop == "sp" || prop == "jing" || prop == "gin") {
         sp += val;
         if (sp > max_sp) sp = max_sp;
         if (sp < 0) sp = 0;

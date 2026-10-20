@@ -20,4 +20,6 @@ void create() {
 
     set("is_outdoor", 0);
     set("has_bank", 1);
+
+    spawn_npc("/clone/npc/bank_chief.c");
 }

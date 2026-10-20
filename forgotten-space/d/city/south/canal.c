@@ -19,4 +19,5 @@ void create() {
     ]));
 
     set("is_outdoor", 1);
+    spawn_npc("/clone/npc/south_canal_caotiemao.c");
 }

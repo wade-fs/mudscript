@@ -23,4 +23,5 @@ void create() {
 
     set("is_outdoor", 1);
     set("has_shop", 1);
+    spawn_npc("/clone/npc/market_special_buyer.c");
 }

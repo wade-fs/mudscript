@@ -121,6 +121,39 @@ void set_move_range(int v)         { move_range        = v; }
 void set_wander_chance(int v)      { wander_chance     = v; }
 void set_aggressive(int v)         { aggressive        = v; }
 
+// 依 tier1_npc_roster.md 第 2 節之 12 原型 (A~L) 與等級計算六維與三柱 (kee/sen/sp)
+void setup_archetype(string arch, int lv) {
+    int b_str = 6, b_con = 7, b_int = 7, b_spi = 5, b_dex = 6, b_per = 7;
+    if (arch == "A")      { b_str = 3;  b_con = 4;  b_int = 10; b_spi = 6;  b_dex = 4;  b_per = 11; }
+    else if (arch == "B") { b_str = 9;  b_con = 9;  b_int = 3;  b_spi = 3;  b_dex = 7;  b_per = 7;  }
+    else if (arch == "C") { b_str = 11; b_con = 10; b_int = 3;  b_spi = 3;  b_dex = 6;  b_per = 5;  }
+    else if (arch == "D") { b_str = 6;  b_con = 6;  b_int = 3;  b_spi = 3;  b_dex = 10; b_per = 10; }
+    else if (arch == "E") { b_str = 9;  b_con = 9;  b_int = 6;  b_spi = 3;  b_dex = 6;  b_per = 5;  }
+    else if (arch == "F") { b_str = 3;  b_con = 5;  b_int = 9;  b_spi = 6;  b_dex = 6;  b_per = 9;  }
+    else if (arch == "G") { b_str = 2;  b_con = 4;  b_int = 11; b_spi = 12; b_dex = 3;  b_per = 6;  }
+    else if (arch == "H") { b_str = 3;  b_con = 4;  b_int = 12; b_spi = 3;  b_dex = 5;  b_per = 11; }
+    else if (arch == "I") { b_str = 5;  b_con = 5;  b_int = 8;  b_spi = 3;  b_dex = 9;  b_per = 8;  }
+    else if (arch == "J") { b_str = 6;  b_con = 7;  b_int = 7;  b_spi = 5;  b_dex = 6;  b_per = 7;  }
+    else if (arch == "K") { b_str = 11; b_con = 11; b_int = 3;  b_spi = 3;  b_dex = 5;  b_per = 5;  }
+    else if (arch == "L") { b_str = 5;  b_con = 5;  b_int = 5;  b_spi = 3;  b_dex = 12; b_per = 8;  }
+
+    if (lv < 1) lv = 1;
+    int total = 18 + lv;
+    level    = lv;
+    stat_str = (b_str * total + 19) / 38; if (stat_str < 1) stat_str = 1;
+    stat_con = (b_con * total + 19) / 38; if (stat_con < 1) stat_con = 1;
+    stat_int = (b_int * total + 19) / 38; if (stat_int < 1) stat_int = 1;
+    stat_wis = (b_spi * total + 19) / 38; if (stat_wis < 1) stat_wis = 1;
+    stat_dex = (b_dex * total + 19) / 38; if (stat_dex < 1) stat_dex = 1;
+    stat_cha = (b_per * total + 19) / 38; if (stat_cha < 1) stat_cha = 1;
+
+    recalc_stats();
+    hp = max_hp;
+    mp = max_mp;
+    sp = max_sp;
+    set("archetype", arch);
+}
+
 string  query_habitat()       { return habitat; }
 int     query_behaviour()     { return behaviour; }
 mapping query_skills_to_teach(){ return skills_to_teach; }

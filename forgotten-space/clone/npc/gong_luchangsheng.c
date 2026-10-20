@@ -1,7 +1,8 @@
 // clone/npc/gong_luchangsheng.c
-// 天工木作大棚把頭 魯長生
+// 天工木作大棚把頭 魯長生 (gong_wood_luchangsheng)
 
 #include "/include/ansi.h"
+#include "/include/globals.h"
 
 inherit "/std/npc.c";
 
@@ -11,12 +12,19 @@ void create() {
     set_short(YEL "大木作把頭" NOR " 魯長生");
     set_long("一位手持墨斗與木鋸的瘦削老木匠，正審視著來自盤木縣的百年冷杉巨樑。\n"
              "他神態專注，精通全城大型絞盤、吊車與守城木構的應力搭建。\n");
-    set_id(({ "luchangsheng", "lu", "carpenter", "魯長生", "把頭" }));
+    set_id(({ "gong_wood_luchangsheng", "luchangsheng", "lu changsheng", "carpenter", "魯長生", "木作把頭" }));
 
-    set_level(25);
-    set_stat("dex", 30);
-    recalc_stats();
+    setup_archetype("E", 30);
+    set("class", "gong_initiate");
+    set("faction", "gong");
+    set("roles", ({ "trainer", "info" }));
+    set("schedule", "day");
 
-    add_response(({ "榫卯", "木作", "大樑", "機關" }),
+    set_skill_to_teach("gong_analysis", 100);
+    set_skill_to_teach("gong_qiaojin", 100);
+    set_skill_to_teach("gong_jiguan", 100);
+    set_skill_to_teach("gong_feizhua", 100);
+
+    add_response(({ "榫卯", "木作", "大樑", "機關", "盤木" }),
         "魯長生敲了敲大木：「千斤大木，全賴三寸榫楔接合。受力若偏半毫，城防絞盤便會崩解！」");
 }

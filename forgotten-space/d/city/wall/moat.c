@@ -14,8 +14,11 @@ void create() {
              "向南沿土坡可繞行至城西近郊青禾田。\n");
 
     set_exits(([
-        "east": "/d/city/outer/farmland_w.c",
+        "east":  "/d/city/outer/farmland_w.c",
+        "enter": "/d/city/under/drain_gate.c",
     ]));
 
     set("is_outdoor", 1);
+
+    spawn_npc("/clone/npc/moat_angler.c");
 }

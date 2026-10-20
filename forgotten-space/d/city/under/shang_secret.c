@@ -18,6 +18,7 @@ void create() {
 
     set_exits(([
         "west": "/d/city/under/canal_hub.c",
+        "up":   "/d/city/south/shanghui_hq.c",
     ]));
 
     set("is_underground", 1);

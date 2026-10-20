@@ -22,4 +22,7 @@ void create() {
 
     set("is_outdoor", 0);
     set("no_combat", 1);
+
+    spawn_npc("/clone/npc/yamen_magistrate.c");
+    spawn_npc("/clone/npc/yamen_zhou.c");
 }

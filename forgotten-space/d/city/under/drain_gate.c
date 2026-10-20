@@ -15,7 +15,9 @@ void create() {
 
     set_exits(([
         "east": "/d/city/under/canal_hub.c",
+        "up":   "/d/city/wall/moat.c",
     ]));
 
     set("is_underground", 1);
+    spawn_npc("/clone/npc/under_drain_gate_diver.c");
 }

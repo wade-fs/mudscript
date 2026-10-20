@@ -19,4 +19,6 @@ void create() {
 
     set("is_outdoor", 0);
     set("has_lab", 1);
+
+    spawn_npc("/clone/npc/gong_alchemy_sunxiansheng.c");
 }

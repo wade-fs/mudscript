@@ -19,4 +19,6 @@ void create() {
     ]));
 
     set("is_outdoor", 1);
+
+    spawn_npc("/clone/npc/outer_irrigation_engineer.c");
 }

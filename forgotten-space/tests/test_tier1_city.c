@@ -90,6 +90,7 @@ void run_tests(object me) {
         "/d/city/south/market_special.c",
         "/d/city/south/shanghui_hq.c",
         "/d/city/south/caravan_yard.c",
+        "/d/city/south/warehouse_shang.c",
         "/d/city/south/yard_material.c",
         "/d/city/south/grain_market.c",
         "/d/city/south/canal.c",
@@ -237,4 +238,96 @@ void run_tests(object me) {
 
     string village_map = map_d->draw_village_map(me);
     assert_true(strsrch(village_map, "黑石鋪") != -1, "村落小地圖必須包含黑石鋪");
+
+    // ── 9. Tier 1 NPC 名冊全數載入、屬性原型與別名防撞驗證 ──────
+    string *tier1_npcs = ({
+        "/clone/npc/gate_north_hanqing.c",
+        "/clone/npc/gate_south_inn_laoliu.c",
+        "/clone/npc/gate_inn_laopi.c",
+        "/clone/npc/wall_tower_n_yanmu.c",
+        "/clone/npc/yamen_zhou.c",
+        "/clone/npc/center_wenchengjing.c",
+        "/clone/npc/yamen_prison_tieliaozhang.c",
+        "/clone/npc/granary_liubingzhong.c",
+        "/clone/npc/center_teacher_lu.c",
+        "/clone/npc/post_station_maqianli.c",
+        "/clone/npc/inn_main_qianbuhuan.c",
+        "/clone/npc/center_doctor_bai.c",
+        "/clone/npc/center_pawn_jia.c",
+        "/clone/npc/dao_xuanji.c",
+        "/clone/npc/dao_xingyuan.c",
+        "/clone/npc/wu_bashan.c",
+        "/clone/npc/wu_zhaomeng.c",
+        "/clone/npc/wu_referee.c",
+        "/clone/npc/gong_gate_tiechigong.c",
+        "/clone/npc/gong_ouyang.c",
+        "/clone/npc/gong_mochui.c",
+        "/clone/npc/gong_luchangsheng.c",
+        "/clone/npc/gong_stone_hanlaodiao.c",
+        "/clone/npc/gong_leather_wenniangzi.c",
+        "/clone/npc/gong_alchemy_sunxiansheng.c",
+        "/clone/npc/south_canal_caotiemao.c",
+        "/clone/npc/outer_farmland_w_zhaodingtian.c",
+        "/clone/npc/outer_post_depot_laowang.c",
+        "/clone/npc/south_qianbaichuan.c",
+        "/clone/npc/city_gate_guard.c",
+        "/clone/npc/gate_south_taxofficer.c",
+        "/clone/npc/gate_south_runner.c",
+        "/clone/npc/south_yard_material_foreman.c",
+        "/clone/npc/gate_east_taxchief.c",
+        "/clone/npc/gate_west_helmsman.c",
+        "/clone/npc/gate_west_inspector.c",
+        "/clone/npc/gate_plaza_deputy.c",
+        "/clone/npc/gate_warehouse_assessor.c",
+        "/clone/npc/wall_tower_s_archerymaster.c",
+        "/clone/npc/wall_tower_e_beaconchief.c",
+        "/clone/npc/wall_tower_w_navalofficer.c",
+        "/clone/npc/moat_angler.c",
+        "/clone/npc/yamen_magistrate.c",
+        "/clone/npc/square_storyteller.c",
+        "/clone/npc/square_watchman.c",
+        "/clone/npc/bank_chief.c",
+        "/clone/npc/black_alley_gatekeeper.c",
+        "/clone/npc/dao_tong.c",
+        "/clone/npc/south_grain_guildhead.c",
+        "/clone/npc/south_warehouse_grain_scale.c",
+        "/clone/npc/outer_irrigation_engineer.c",
+        "/clone/npc/outer_graveyard_keeper.c",
+        "/clone/npc/gong_fireworks_master.c",
+        "/clone/npc/gong_registry_clerk.c",
+        "/clone/npc/shanghui_hq_steward.c",
+        "/clone/npc/market_special_buyer.c",
+        "/clone/npc/caravan_yard_manager.c",
+        "/clone/npc/caravan_yard_biaotou.c",
+        "/clone/npc/warehouse_shang_chief.c",
+        "/clone/npc/wu_gate_squadleader.c",
+        "/clone/npc/wu_plaza_colonel.c",
+        "/clone/npc/wu_hall_enforcer.c",
+        "/clone/npc/wu_armory_quartermaster.c",
+        "/clone/npc/wu_barracks_veteran.c",
+        "/clone/npc/under_black_market_broker.c",
+        "/clone/npc/under_canal_hub_ferryman.c",
+        "/clone/npc/under_drain_gate_diver.c",
+        "/clone/npc/yamen_prison_zhaodegui.c",
+        "/clone/npc/yamen_prison_hubaihu.c"
+    });
+
+    foreach (string npc_path in tier1_npcs) {
+        object nob = clone_object(npc_path);
+        assert_true(objectp(nob), sprintf("Tier 1 NPC 必須成功複製: %s", npc_path));
+        if (nob) {
+            assert_true(nob->query("level") > 0, sprintf("NPC 等級必須大於 0: %s", npc_path));
+            assert_true(nob->query("max_kee") > 0 && nob->query("max_sen") > 0 && nob->query("max_sp") > 0,
+                        sprintf("NPC 三柱上限必須正確初始化: %s", npc_path));
+            assert_true(strlen(nob->query("archetype")) > 0, sprintf("NPC 必須設定屬性原型: %s", npc_path));
+            // 驗證防撞：所有 Tier 1 NPC 不得回應裸單字百家姓 "zhao", "mo", "jia", "lu", "qian", "han"
+            assert_equal(0, nob->id("zhao"), sprintf("NPC 不應回應單字姓 zhao: %s", npc_path));
+            assert_equal(0, nob->id("mo"), sprintf("NPC 不應回應單字姓 mo: %s", npc_path));
+            assert_equal(0, nob->id("jia"), sprintf("NPC 不應回應單字姓 jia: %s", npc_path));
+            assert_equal(0, nob->id("lu"), sprintf("NPC 不應回應單字姓 lu: %s", npc_path));
+            assert_equal(0, nob->id("qian"), sprintf("NPC 不應回應單字姓 qian: %s", npc_path));
+            assert_equal(0, nob->id("han"), sprintf("NPC 不應回應單字姓 han: %s", npc_path));
+            destruct(nob);
+        }
+    }
 }

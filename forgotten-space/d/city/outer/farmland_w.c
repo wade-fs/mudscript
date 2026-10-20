@@ -20,4 +20,6 @@ void create() {
     ]));
 
     set("is_outdoor", 1);
+
+    spawn_npc("/clone/npc/outer_farmland_w_zhaodingtian.c");
 }

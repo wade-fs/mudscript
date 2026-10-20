@@ -24,4 +24,5 @@ void create() {
 
     set("is_outdoor", 0);
     spawn_npc("/clone/npc/wu_bashan.c");
+    spawn_npc("/clone/npc/wu_hall_enforcer.c");
 }

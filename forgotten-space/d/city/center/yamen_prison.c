@@ -18,4 +18,8 @@ void create() {
     ]));
 
     set("is_outdoor", 0);
+
+    spawn_npc("/clone/npc/yamen_prison_tieliaozhang.c");
+    spawn_npc("/clone/npc/yamen_prison_zhaodegui.c");
+    spawn_npc("/clone/npc/yamen_prison_hubaihu.c");
 }

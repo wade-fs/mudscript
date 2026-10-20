@@ -21,4 +21,5 @@ void create() {
 
     set("is_underground", 1);
     set("has_shop", 1);
+    spawn_npc("/clone/npc/under_black_market_broker.c");
 }

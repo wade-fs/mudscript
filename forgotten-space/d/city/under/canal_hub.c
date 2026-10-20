@@ -22,4 +22,5 @@ void create() {
     ]));
 
     set("is_underground", 1);
+    spawn_npc("/clone/npc/under_canal_hub_ferryman.c");
 }

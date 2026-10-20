@@ -19,4 +19,7 @@ void create() {
     ]));
 
     set("is_outdoor", 0);
+
+    spawn_npc("/clone/npc/gate_south_inn_laoliu.c");
+    spawn_npc("/clone/npc/gate_south_runner.c");
 }

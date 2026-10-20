@@ -13,7 +13,7 @@ void create() {
     set_long("一位身形瘦削精悍的老獵人，人稱趙老獵，村裡晚輩與張屠戶等熟人也常呼他為「趙老頭」。\n"
              "臉頰被大荒山風吹得如同枯乾老樹皮，雙目卻亮得宛如夜隼。他身著一件油光發亮的陳舊鹿皮背心，\n"
              "腰間懸著角刀與牛角藥壺，腿上留有幾道被兇獸利爪撕裂的可怖深疤。他正坐在門檻上專注地削製著竹箭。\n");
-    set_id(({ "zhao", "hunter", "old hunter", "趙老獵", "老獵戶", "獵戶", "趙老頭", "老趙頭", "zhao laotou" }));
+    set_id(({ "zhao hunter", "hunter", "old hunter", "趙老獵", "老獵戶", "獵戶", "趙老頭", "老趙頭", "zhao laotou", "zhao laolie" }));
 
     set_level(22);
     set_stat("dex", 28);

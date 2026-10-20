@@ -16,8 +16,10 @@ void create() {
 
     set_exits(([
         "east": "/d/city/south/market_special.c",
+        "down": "/d/city/under/shang_secret.c",
     ]));
 
     set("is_outdoor", 0);
     spawn_npc("/clone/npc/south_qianbaichuan.c");
+    spawn_npc("/clone/npc/shanghui_hq_steward.c");
 }

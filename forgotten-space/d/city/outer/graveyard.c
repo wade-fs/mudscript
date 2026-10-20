@@ -20,4 +20,6 @@ void create() {
 
     set("is_outdoor", 1);
     set("is_graveyard", 1);
+
+    spawn_npc("/clone/npc/outer_graveyard_keeper.c");
 }

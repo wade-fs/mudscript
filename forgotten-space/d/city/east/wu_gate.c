@@ -22,4 +22,5 @@ void create() {
 
     set("is_outdoor", 1);
     spawn_npc("/clone/npc/city_gate_guard.c");
+    spawn_npc("/clone/npc/wu_gate_squadleader.c");
 }

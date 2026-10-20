@@ -18,4 +18,6 @@ void create() {
     ]));
 
     set("is_outdoor", 0);
+
+    spawn_npc("/clone/npc/wu_armory_quartermaster.c");
 }

@@ -18,4 +18,5 @@ void create() {
     ]));
 
     set("is_outdoor", 0);
+    spawn_npc("/clone/npc/south_warehouse_grain_scale.c");
 }

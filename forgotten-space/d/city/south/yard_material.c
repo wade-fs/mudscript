@@ -20,4 +20,5 @@ void create() {
     ]));
 
     set("is_outdoor", 1);
+    spawn_npc("/clone/npc/south_yard_material_foreman.c");
 }

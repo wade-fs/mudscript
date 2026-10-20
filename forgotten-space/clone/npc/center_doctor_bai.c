@@ -1,5 +1,5 @@
 // clone/npc/center_doctor_bai.c
-// 杏林醫館館主 白先生 - 濁氣清心散、試藥童緩衝路徑 C
+// 杏林醫館館主 白先生 (clinic_baixiansheng) - 濁氣清心散、試藥童緩衝路徑 C
 
 #include "/include/ansi.h"
 #include "/include/globals.h"
@@ -12,14 +12,20 @@ void create() {
     set_short(HIG "杏林醫館館主" NOR " 白先生");
     set_long("一位身披白葛長衫、面容慈和的老名醫，身上散發著洗靈草與艾葉的清香。\n"
              "他精通大荒草藥分診與經脈行針，常年配製【清心散】為城中修士百姓清除紅塵濁氣。\n");
-    set_id(({ "doctor_bai", "bai", "physician", "白先生", "館主" }));
+    set_id(({ "clinic_baixiansheng", "doctor_bai", "bai xiansheng", "baixiansheng", "physician", "白先生", "醫館館主" }));
 
-    set_level(25);
-    set_stat("dex", 32);
-    set_stat("per", 35);
-    recalc_stats();
+    setup_archetype("F", 28);
+    set("class", "gong_initiate");
+    set("faction", "folk");
+    set("roles", ({ "shop", "service", "quest_giver", "trainer" }));
+    set("rules", ([ "cleanse_turbidity": 20, "daily_limit": 3, "buffer_days": 10 ]));
+    set("schedule", "24h");
 
-    add_response(({ "濁氣", "清心散", "買藥", "診斷" }),
+    set_skill_to_teach("gong_analysis", 100);
+    set_skill_to_teach("gong_xingzhen", 100);
+    set_skill_to_teach("gong_fengdu", 100);
+
+    add_response(({ "濁氣", "清心散", "買藥", "診斷", "會診" }),
         "白先生把脈道：「市井七情沉澱為紅塵濁氣，侵蝕心神靈台。老夫親手配製之【清心散】(buy pill, 50文) 每劑可清二十點濁氣，每日至多三服。」");
 
     add_response(({ "試藥", "藥囊", "腰牌", "緩衝", "身分" }),
@@ -33,7 +39,7 @@ int do_chat(object me, string topic) {
             object token = clone_object("/clone/item/clinic_token.c");
             if (token) {
                 token->move(me);
-                tell_object(me, HIG "【白先生微笑點頭，贈予你一只《杏林藥囊腰牌》以作合法憑證！】\n" NOR);
+                tell_object(me, HIG "【白先生微笑點頭，贈予你一只《杏林藥囊腰牌》以作合法憑證（+10天合法期）！】\n" NOR);
                 return 1;
             }
         } else {

@@ -16,10 +16,13 @@ void create() {
              "向西走出大院門樓，便回到了六縣專材長街。\n");
 
     set_exits(([
-        "west": "/d/city/south/market_special.c",
+        "west":  "/d/city/south/market_special.c",
+        "south": "/d/city/south/warehouse_shang.c",
     ]));
 
     set("is_outdoor", 1);
+    spawn_npc("/clone/npc/caravan_yard_biaotou.c");
+    spawn_npc("/clone/npc/caravan_yard_manager.c");
 }
 
 void init() {

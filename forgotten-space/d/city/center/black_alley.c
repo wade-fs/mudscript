@@ -20,4 +20,6 @@ void create() {
     ]));
 
     set("is_outdoor", 0);
+
+    spawn_npc("/clone/npc/black_alley_gatekeeper.c");
 }

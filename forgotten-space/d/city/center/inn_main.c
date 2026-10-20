@@ -22,4 +22,6 @@ void create() {
 
     set("is_outdoor", 0);
     set("has_tavern", 1);
+
+    spawn_npc("/clone/npc/inn_main_qianbuhuan.c");
 }

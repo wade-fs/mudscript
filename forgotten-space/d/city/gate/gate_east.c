@@ -21,4 +21,5 @@ void create() {
     set("is_outdoor", 1);
     set("gate_id", "east");
     spawn_npc("/clone/npc/city_gate_guard.c");
+    spawn_npc("/clone/npc/gate_east_taxchief.c");
 }

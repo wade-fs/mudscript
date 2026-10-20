@@ -34,4 +34,7 @@ void create() {
     set("is_outdoor", 1);
     set("has_shop", 1);
     set("no_combat", 1);
+
+    spawn_npc("/clone/npc/square_storyteller.c");
+    spawn_npc("/clone/npc/square_watchman.c");
 }

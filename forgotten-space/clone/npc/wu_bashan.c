@@ -1,5 +1,5 @@
 // clone/npc/wu_bashan.c
-// 八方武館總教頭 霸山 - 力道一階考核與受牌宗師
+// 八方武館總教頭 霸山 (wu_hall_bashan) - 力道一階考核與受牌宗師
 
 #include "/include/ansi.h"
 #include "/include/globals.h"
@@ -12,13 +12,18 @@ void create() {
     set_short(HIR "八方武館總教頭" NOR " 霸山");
     set_long("一位身高近八尺、虎背熊腰的雄壯漢子，胸膛袒露，肌腱若青銅澆鑄。\n"
              "他曾隨軍征戰北天風塞，一身純陽氣血如烘爐滾燙，眼神如電，令人望而生畏。\n");
-    set_id(({ "wu_hall_bashan", "bashan", "chief instructor", "霸山", "總教頭" }));
+    set_id(({ "wu_hall_bashan", "bashan", "ba shan", "chief instructor", "霸山", "總教頭" }));
 
-    set_level(40);
-    set_stat("str", 45);
-    set_stat("con", 42);
-    set_stat("kee", 800);
-    recalc_stats();
+    setup_archetype("C", 50);
+    set("class", "wu_initiate");
+    set("faction", "wu");
+    set("roles", ({ "trainer", "quest_giver", "quest_target" }));
+    set("schedule", "24h");
+
+    set_skill_to_teach("wu_cuigu", 100);
+    set_skill_to_teach("wu_fuhu", 100);
+    set_skill_to_teach("wu_kaishan", 100);
+    set_skill_to_teach("wu_qixue", 100);
 
     add_response(({ "考核", "轉職", "力道", "武道" }),
         "霸山抱臂狂笑：「想入我八方武館？玄門那些虛頭巴腦的引氣法門在此一文不值！先去校場拔起重石鎖，再上擂台受趙教頭三記重拳！」");

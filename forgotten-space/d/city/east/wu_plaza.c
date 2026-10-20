@@ -23,6 +23,8 @@ void create() {
     ]));
 
     set("is_outdoor", 1);
+
+    spawn_npc("/clone/npc/wu_plaza_colonel.c");
 }
 
 void init() {
