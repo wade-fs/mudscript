@@ -215,6 +215,9 @@ void load_all_quests() {
         "/quests/career/wu_chain.json",
         "/quests/career/li_chain.json",
         "/quests/career/fa_chain.json",
+        "/quests/career/quest_tier1_dao.json",
+        "/quests/career/quest_tier1_wu.json",
+        "/quests/career/quest_tier1_gong.json",
         "/quests/side/wolf_hunter.json",
         "/quests/side/hunting_chain.json",
         "/quests/loop/mining_loop.json",
@@ -264,6 +267,10 @@ void load_all_quests() {
 }
 
 mapping query_quest(string qid) {
+    return quest_defs[qid];
+}
+
+mapping query_quest_def(string qid) {
     return quest_defs[qid];
 }
 
@@ -799,6 +806,39 @@ varargs void award_rewards(object who, mapping rw, string qid) {
                     tell_object(who, HIG "【獲得獎勵物品：" + ob->query_short() + "】\n" NOR);
                 }
             }
+        }
+    }
+    if (actual_rw["item"]) {
+        mixed itm_single = actual_rw["item"];
+        string *item_list_s = ({});
+        if (stringp(itm_single)) item_list_s = ({ itm_single });
+        else if (arrayp(itm_single)) item_list_s = itm_single;
+
+        foreach (string item_path in item_list_s) {
+            object ob = clone_object(item_path);
+            if (ob) {
+                if ((ob->query("is_relic") || ob->query("is_road_pass")) && (present(ob->query_name(), who) || present("road pass", who))) {
+                    destruct(ob);
+                } else {
+                    if (!ob->move(who)) ob->move(environment(who));
+                    tell_object(who, HIG "【獲得獎勵物品：" + ob->query_short() + "】\n" NOR);
+                }
+            }
+        }
+    }
+    if (actual_rw["class_grant"]) {
+        string cid = actual_rw["class_grant"];
+        who->set("class", cid);
+        string cname = "未知道途";
+        if (cid == "dao_initiate") cname = "宣道司清虛外門弟子";
+        else if (cid == "wu_initiate") cname = "八方武館外門弟子";
+        else if (cid == "gong_initiate") cname = "百工總會正式學徒";
+        tell_object(who, HIY "\n【✨ 恭喜完成一階道統考核！】\n" +
+                             "你已正式獲頒度牒／腰牌／匠籍，晉升為【" + cname + "】！\n" +
+                             "道統專屬技能樹已解鎖 (可輸入 skills 查看)。\n\n" NOR);
+        object sk_d = load_object("/secure/skill_d.c");
+        if (sk_d) {
+            sk_d->grant_starter_class_skills(who, cid);
         }
     }
     if (actual_rw["msg"]) {

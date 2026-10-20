@@ -31,6 +31,7 @@
 #define EVENT_MANAGER_D "/daemon/event_manager.c"
 #define SKILL_D         "/secure/skill_d.c"
 #define COMBAT_D        "/secure/combat_d.c"
+#define CITY_D          "/daemon/city_d.c"
 
 // ── 先天核心六維屬性 (Primary Attributes) ────────────────
 #define STAT_STR        "str"     // 臂力（力之本）

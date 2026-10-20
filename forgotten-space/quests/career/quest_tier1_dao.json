@@ -1,0 +1,55 @@
+{
+  "id": "tier1_dao_initiation",
+  "name": "宣道司觀象定風考",
+  "category": "career_change",
+  "target_class": "dao_initiate",
+  "type": "once",
+  "start_npc": "dao_observatory_xingyuan",
+  "start_topic": "考核",
+  "requirements": {
+    "level": 10
+  },
+  "steps": [
+    {
+      "step": 1,
+      "title": "領取觀象法器",
+      "desc": "前往宣道司摘星觀測台，向觀星師星淵領取【渾天黃銅鏡】(ask xingyuan about 考核)。",
+      "target_type": "talk",
+      "target_npc": "dao_observatory_xingyuan",
+      "target_topic": "考核",
+      "location": "/d/city/west/dao_observatory",
+      "on_complete": {
+        "msg": "觀星師星淵將一面泛著微光的渾天黃銅鏡交入你的手中，指引你登上偏殿屋頂觀測氣流。"
+      }
+    },
+    {
+      "step": 2,
+      "title": "偏殿屋頂測繪風向",
+      "desc": "登上宣道司偏殿屋頂，手持黃銅鏡觀測西側山嵐氣流 (survey_wind)。",
+      "target_type": "action",
+      "action_verb": "survey_wind",
+      "require_item": "dao mirror",
+      "location": "/d/city/west/dao_roof",
+      "on_complete": {
+        "msg": "你舉起渾天黃銅鏡，鏡面折射出西南側山嵐風向夾角，你已將氣流軌跡悉數記於心神！"
+      }
+    },
+    {
+      "step": 3,
+      "title": "回報真人審閱受牒",
+      "desc": "返回宣道司正堂，向玄機真人呈交測繪心得並受牒 (ask xuanji about 受牒)。",
+      "target_type": "talk",
+      "target_npc": "dao_hall_xuanji",
+      "target_topic": "受牒",
+      "location": "/d/city/west/dao_hall",
+      "on_complete": {
+        "msg": "玄機真人撫鬚微笑：「知微見著，引氣順風，善哉！」"
+      }
+    }
+  ],
+  "rewards": {
+    "exp": 1200,
+    "class_grant": "dao_initiate",
+    "item": "/clone/book/dao_basic_manual.c"
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "id": "tier1_wu_initiation",
+  "name": "八方武館擂台三合試",
+  "category": "career_change",
+  "target_class": "wu_initiate",
+  "type": "once",
+  "start_npc": "wu_hall_bashan",
+  "start_topic": "考核",
+  "requirements": {
+    "level": 10
+  },
+  "steps": [
+    {
+      "step": 1,
+      "title": "力拔重石試煉",
+      "desc": "於武館大校場抱起百二十斤花崗岩重石鎖 (lift stone)，堅持十息不退。",
+      "target_type": "action",
+      "action_verb": "lift",
+      "action_target": "stone",
+      "location": "/d/city/east/wu_plaza",
+      "on_complete": {
+        "msg": "你深吸一口氣，氣血如火，一把將百二十斤石鎖擎起十息，校場眾武卒齊聲喝彩！"
+      }
+    },
+    {
+      "step": 2,
+      "title": "擂台鐵臂之試",
+      "desc": "登上生死擂台向教頭鐵臂趙猛請教 (ask zhaomeng about 比試)，承受鐵砂拳試煉而不倒地。",
+      "target_type": "talk",
+      "target_npc": "wu_arena_zhaomeng",
+      "target_topic": "比試",
+      "location": "/d/city/east/wu_arena",
+      "on_complete": {
+        "msg": "鐵臂趙猛重拳轟落，你以沉穩樁功硬撼三拳，腳步寸步不退！趙猛大讚：「好一副硬骨頭！」"
+      }
+    },
+    {
+      "step": 3,
+      "title": "向總教頭立誓受牌",
+      "desc": "返回八方武館正堂向總教頭霸山敬茶立誓 (ask bashan about 受牌)，領受黑鐵束腰腰牌。",
+      "target_type": "talk",
+      "target_npc": "wu_hall_bashan",
+      "target_topic": "受牌",
+      "location": "/d/city/east/wu_hall",
+      "on_complete": {
+        "msg": "總教頭霸山朗聲大笑，雙手將【八方黑鐵腰牌束帶】賜予你，正式認可你為八方外門弟子！"
+      }
+    }
+  ],
+  "rewards": {
+    "exp": 1200,
+    "class_grant": "wu_initiate",
+    "item": "/clone/armour/wu_iron_belt.c"
+  }
+}

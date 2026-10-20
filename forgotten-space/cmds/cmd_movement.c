@@ -33,7 +33,7 @@ int main(object me, string verb, string arg) {
 }
 
 string *query_verbs() {
-    return ({ "north", "south", "east", "west", "northeast", "northwest", "southeast", "southwest", "ne", "nw", "se", "sw", "up", "down", "go" });
+    return ({ "north", "south", "east", "west", "northeast", "northwest", "southeast", "southwest", "ne", "nw", "se", "sw", "up", "down", "enter", "out", "go" });
 }
 
 string query_category() {

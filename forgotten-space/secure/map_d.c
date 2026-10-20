@@ -31,10 +31,136 @@ string get_room_file(int x, int y, int z) {
     return 0;
 }
 
+// ── 宏觀全域地理拓撲地圖 (World Map) ──────────────────────
+string draw_world_map(object me) {
+    string msg = "\n" + HIY "【《遺忘的世界》全域城鄉拓撲網絡圖 (Tier 1)】" + NOR + "\n";
+    msg += WHT "──────────────────────────────────────────────────────────\n" + NOR;
+    msg += "                          " + HIW + "[ 鎮風縣 ]" + NOR + " (正北 300 里・天風要塞)\n";
+    msg += "                              │\n";
+    msg += "      " + HIG + "[ 青河縣 ]" + NOR + " ────────── " + HIY + "[ 金石府城 ]" + NOR + " ────────── " + HIR + "[ 烈礬縣 ]" + NOR + " (東北 320 里)\n";
+    msg += "     (正西 280 里)                 │                       (硫礬赤銅)\n";
+    msg += "     (藥草水運)                    │                            │\n";
+    msg += "                                   │                      " + HIB + "[ 濁水縣 ]" + NOR + " (東南 350 里)\n";
+    msg += "                       ┌───────────┴───────────┐          (沼澤黑市)\n";
+    msg += "                       │                       │\n";
+    msg += "                  " + HIG + "[ 盤木縣 ]" + NOR + "              " + HIW + "[ 重石縣 ]" + NOR + "\n";
+    msg += "                 (正南 260 里)           (西南 240 里)\n";
+    msg += "                 (林木機巧)              (條石生鐵)\n";
+    msg += "                       │                       │\n";
+    msg += "                       └───────────┬───────────┘\n";
+    msg += "                                   │ (南嶺官道 450 里)\n";
+    msg += "                              " + CYN + "[ 黑石鋪 ]" + NOR + " (極南古脈深山・發跡之地)\n";
+    msg += WHT "──────────────────────────────────────────────────────────\n" + NOR;
+    msg += "提示：輸入 map city 查看都城地圖，輸入 map village 查看黑石鋪地圖。\n\n";
+    return msg;
+}
+
+// ── 金石都城九大分區詳細地圖 (City Map) ─────────────────────
+string draw_city_map(object me) {
+    string cur = me && environment(me) ? base_name(environment(me)) : "";
+    string msg = "\n" + HIY "【金石都城九大分區空間地圖】" + NOR + "\n";
+    msg += WHT "──────────────────────────────────────────────────────────\n" + NOR;
+    msg += "                        [外城大車馬店]\n";
+    msg += "                              │\n";
+    msg += "      [亂葬義塚] ─── " + HIW + "【金石北關】" + NOR + " ── (北城望荒箭樓)\n";
+    msg += "                             │\n";
+    msg += "  [官道大貨棧] ─── [北關前校場] ─── [關外車馬店]\n";
+    msg += "                             │\n";
+    msg += "    [匠籍登記處] ─── " + CYN + "【百工總會】" + NOR + " ─── (分業工坊街：鍛/木/石/革/藥/硝)\n";
+    msg += "                             │\n";
+    msg += "  " + HIC + "【宣道司】" + NOR + " ────── " + HIY + "【中央青石廣場】" + NOR + " ────── " + HIR + "【鎮武軍鎮】" + NOR + " ─── " + HIW + "【東關城門】" + NOR + "\n";
+    msg += "   (玄機真人)          (士民商貿)          (霸山總教頭)      (烈礬/濁水)\n";
+    msg += "   (摘星台/偏殿)       ┌─────┴─────┐          (大校場/生死擂)\n";
+    msg += "   (聽經閣)        [府衙正堂]   [通寶錢莊]     (披甲兵器庫)\n";
+    msg += "                       │           │\n";
+    msg += "                   [學塾/醫館]  [通寶當鋪] ── [鬼市暗巷] (下通城下暗渠)\n";
+    msg += "                       └─────┬─────┘\n";
+    msg += "                             │\n";
+    msg += "                        [六縣專材長街] ─── [金石商會總堂]\n";
+    msg += "                             │                 │\n";
+    msg += "                        [大料初堆棧] ─── [遠行車馬大院]\n";
+    msg += "                             │\n";
+    msg += "  " + HIB + "【西水門】" + NOR + " ────── " + HIW + "【金石南關】" + NOR + " ─── [南關車馬小棧]\n";
+    msg += " (青河水路漕運)              │\n";
+    msg += "                             │ (南嶺官道)\n";
+    msg += "                             ▼\n";
+    msg += "                     往 " + CYN + "【黑石鋪】" + NOR + " 聚落\n";
+    msg += WHT "──────────────────────────────────────────────────────────\n" + NOR;
+    if (me && environment(me)) {
+        msg += "你當前身處：" + HIG + environment(me)->query_short() + NOR + " (" + cur + ")\n";
+    }
+    return msg;
+}
+
+// ── 城下暗渠與舊城廢墟地圖 (Underground Map) ───────────────
+string draw_under_map(object me) {
+    string cur = me && environment(me) ? base_name(environment(me)) : "";
+    string msg = "\n" + MAG "【金石城下・太古暗渠與舊城廢墟地圖】" + NOR + "\n";
+    msg += WHT "──────────────────────────────────────────────────────────\n" + NOR;
+    msg += "                 [地面・鬼市暗巷]\n";
+    msg += "                        │ (down)\n";
+    msg += "                  " + HIY + "【地下鬼市】" + NOR + " (銷贓黑市暗街)\n";
+    msg += "                        │\n";
+    msg += "  [廢棄水閘] ──── " + HIC + "【古暗渠樞紐】" + NOR + " ──── " + HIR + "【天字一號密室】" + NOR + "\n";
+    msg += " (護城河盲區)      (溶洞暗河・擺渡叟)      (需天門引驗證)\n";
+    msg += "                        │\n";
+    msg += "                  " + MAG + "【史前殘殿】" + NOR + " (人面神像・地煞匯聚)\n";
+    msg += WHT "──────────────────────────────────────────────────────────\n" + NOR;
+    if (me && environment(me)) {
+        msg += "你當前身處：" + HIG + environment(me)->query_short() + NOR + " (" + cur + ")\n";
+    }
+    return msg;
+}
+
+// ── 黑石鋪新手村五方微生態地圖 (Village Map) ────────────────
+string draw_village_map(object me) {
+    string cur = me && environment(me) ? base_name(environment(me)) : "";
+    string msg = "\n" + CYN + "【黑石鋪・聚落五方微生態地圖 (Tier 0)】" + NOR + "\n";
+    msg += WHT "──────────────────────────────────────────────────────────\n" + NOR;
+    msg += "                             【黑石古礦道】(北崖古礦坑)\n";
+    msg += "                                   │ (up/down)\n";
+    msg += "                             【地下崩塌坑道】(深井生鐵索具)\n";
+    msg += "                                   │\n";
+    msg += "   【荒廢殘壇】                    │                    往 " + HIY + "【金石府城】" + NOR + "\n";
+    msg += "    (迎風孤岩)                     │                          ▲\n";
+    msg += "        │                         │                          │ (northeast)\n";
+    msg += "   【三清偏殿】 ───────── " + HIY + "【青石街市】" + NOR + " ───────── 【老鐵匠鋪】\n";
+    msg += "    (枯木老道)                 (核心樞紐)                 (阿鐵爐火)\n";
+    msg += "        │                         │                          │\n";
+    msg += "   【客棧後街】 ───────── 【廢柴房】                   【獵戶哨亭】\n";
+    msg += "    (青石暗巷)                 (沈泥窩棚)                 (趙老獵)\n";
+    msg += "                                   │                          │\n";
+    msg += "                             【碎石溪灘】 ───────── 【大荒荒林】\n";
+    msg += "                              (幽霧水谷)                  (東林獸道)\n";
+    msg += "                                   │\n";
+    msg += "                             【墜龍瀑布】\n";
+    msg += "                              (寒潭瀑布淬體)\n";
+    msg += "                                   │\n";
+    msg += "                             【採藥草廬】(葛半仙草堂)\n";
+    msg += WHT "──────────────────────────────────────────────────────────\n" + NOR;
+    if (me && environment(me)) {
+        msg += "你當前身處：" + HIG + environment(me)->query_short() + NOR + " (" + cur + ")\n";
+    }
+    return msg;
+}
+
 string draw_map(object me, int range) {
     if (!me) return "";
     
     object me_env = environment(me);
+    if (me_env) {
+        string loc = base_name(me_env);
+        if (strsrch(loc, "/d/city/under/") != -1) {
+            return draw_under_map(me);
+        }
+        if (strsrch(loc, "/d/city/") != -1) {
+            return draw_city_map(me);
+        }
+        if (strsrch(loc, "/d/village/") != -1) {
+            return draw_village_map(me);
+        }
+    }
+    
     mixed coords = me_env ? me_env->query_coordinate() : 0;
     if (!coords) return _t("map_not_found") + "\n";
     

@@ -20,6 +20,7 @@ void create() {
     load_object("/daemon/career_d.c");
     load_object("/daemon/mysteryd.c");
     load_object("/daemon/questd.c");
+    load_object("/daemon/city_d.c");
 
     if (getenv("MUD_TEST_MODE")) {
         call_out("run_test_mode", 1);
