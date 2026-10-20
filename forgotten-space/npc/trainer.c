@@ -34,13 +34,13 @@ void create() {
     set_skill_to_teach("dodge", 40);
     set_skill_to_teach("parry", 40);
 
-    // 🚀 新增：加入公會
+    // 🚀 新增：加入武館道途
     add_response(({ "join", "加入" }), (:
         object tp = this_player();
-        if (load_object("/secure/guild_d.c")->join_guild(tp, "fighter")) {
-            return "很好！戰士的道路沒有捷徑，只有不斷的磨練。";
+        if (load_object("/secure/guild_d.c")->join_guild(tp, "wu_initiate")) {
+            return "很好！【力】道一途沒有捷徑，唯有千錘百鍊方能氣血如爐。";
         }
-        return "如果你連拿起重劍的力量都沒有，就別想加入我們。";
+        return "如果你連舉起石鎖的臂力都沒有，就別想踏入武館。";
     :));
 
     add_response(({ "戰鬥", "fight", "combat" }), ({

@@ -26,9 +26,9 @@ int main(object me, string verb, string arg) {
 
 string help() {
     return select_lang(([
-        "en": "【Combat Command】\n  perform <skill> [target]    Perform powerful class-specific skills or spells.\n  (e.g.: perform bash, perform fireball, perform heal)\n",
-        "zh-TW": "【戰鬥指令】\n  perform <招式> [目標]    施展職業專屬的強大招式或法術。\n  (例如：perform bash, perform fireball, perform heal)\n",
-        "zh-CN": "【战斗指令】\n  perform <招式> [目标]    施展职业专属的强大招式或法术。\n  (例如：perform bash, perform fireball, perform heal)\n"
+        "en": "【Combat Command】\n  perform <skill> [target]    Perform path-specific techniques of Force (li), Spirit (fa), or Matter (wu).\n  (e.g.: perform wu_fuhu, perform dao_jiefa, perform gong_qiaojin)\n",
+        "zh-TW": "【戰鬥指令】\n  perform <招式> [目標]    施展【力】【法】【物】三道專屬招式、符印或機巧。\n  (例如：perform wu_fuhu, perform dao_jiefa, perform gong_qiaojin)\n",
+        "zh-CN": "【战斗指令】\n  perform <招式> [目标]    施展【力】【法】【物】三道专属招式、符印或机巧。\n  (例如：perform wu_fuhu, perform dao_jiefa, perform gong_qiaojin)\n"
     ]));
 }
 

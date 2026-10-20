@@ -192,21 +192,27 @@ void grant_starter_class_skills(object me, string class_id) {
     if (class_id == "dao_initiate") {
         me->set_path("fa");
         me->join_organization("org_xuandaosi", "清虛外門記名經生");
-        me->grant_qualification("lic_diviner", 1);
+        me->set_org_branch("org_xuandaosi", "hq");
+        me->set_hq_registered("org_xuandaosi", 1);
+        me->grant_qualification_by("lic_diviner", 1, "金石府宣道司");
         if (me->query_skill("dao_tuna") < 31) me->set_skill("dao_tuna", 31);
         if (me->query_skill("dao_jiefa") < 31) me->set_skill("dao_jiefa", 31);
         tell_object(me, HIG "【道途啟蒙】你確立【法】道根基，獲發宣道司受牒度牒，領悟入門『基礎吐納』(Lv 31) 與『借法印訣』(Lv 31)！（其餘分支法術須另行隨師修習）\n" NOR);
     } else if (class_id == "wu_initiate") {
         me->set_path("li");
         me->join_organization("org_bafang", "八方武館外門武卒");
-        me->grant_qualification("lic_escort_guard", 1);
+        me->set_org_branch("org_bafang", "hq");
+        me->set_hq_registered("org_bafang", 1);
+        me->grant_qualification_by("lic_escort_guard", 1, "八方行省武館總舵");
         if (me->query_skill("wu_cuigu") < 31) me->set_skill("wu_cuigu", 31);
         if (me->query_skill("wu_fuhu") < 31) me->set_skill("wu_fuhu", 31);
         tell_object(me, HIG "【道途啟蒙】你確立【力】道根基，獲發八方黑鐵腰牌，領悟入門『鐵砂淬骨』(Lv 31) 與『伏虎重拳』(Lv 31)！（其餘猛將／衛士／重弓絕技須另行隨師修習）\n" NOR);
     } else if (class_id == "gong_initiate") {
         me->set_path("wu");
         me->join_organization("org_baigong", "百工總會註冊學徒");
-        me->grant_qualification("lic_master_artisan", 1);
+        me->set_org_branch("org_baigong", "hq");
+        me->set_hq_registered("org_baigong", 1);
+        me->grant_qualification_by("lic_master_artisan", 1, "府城百工總會匠籍處");
         if (me->query_skill("gong_analysis") < 31) me->set_skill("gong_analysis", 31);
         if (me->query_skill("gong_qiaojin") < 31) me->set_skill("gong_qiaojin", 31);
         tell_object(me, HIG "【道途啟蒙】你確立【物】道根基，獲發百工匠籍，領悟入門『物性辨析』(Lv 31) 與『百工巧勁』(Lv 31)！（其餘鍛造／藥道／機巧專精須另行隨師修習）\n" NOR);
@@ -320,13 +326,225 @@ mapping check_professional_action(object me, string action_type) {
     return ([ "can_do": 0, "legal": 0, "status": "unknown_action" ]);
 }
 
-// 檢驗組織設施存取權：加入組織提供場地存取權，但絕不等於自動掌握該組織整條技能樹
+// ── P0-2 & OPEN-02(B)：六縣多起點地方傳承與初階資格等效認證矩陣 (6縣 × 3道途 = 18處) ──
+mapping COUNTY_QUALIFICATION_ENTRIES = ([
+    "qinghe": ([
+        "fa": ([
+            "inst": "定神靈植道觀（宣道司外派）",
+            "lic_id": "lic_diviner",
+            "org_id": "org_xuandaosi",
+            "branch_id": "branch_qinghe_dao",
+            "rank": "青河靈植觀受牒經生",
+            "skills": ({ "dao_tuna", "dao_jiefa" }),
+            "room": "/d/counties/qinghe/herb_shrine.c",
+            "examiner": "雲松道人"
+        ]),
+        "li": ([
+            "inst": "青河水師營校場（八方武館協訓）",
+            "lic_id": "lic_escort_guard",
+            "org_id": "org_bafang",
+            "branch_id": "branch_qinghe_wu",
+            "rank": "青河水陸護航武卒",
+            "skills": ({ "wu_cuigu", "wu_fuhu" }),
+            "room": "/d/counties/qinghe/drill_ground.c",
+            "examiner": "江萬濤"
+        ]),
+        "wu": ([
+            "inst": "青河洗藥總坊（採百草分堂青河分號）",
+            "lic_id": "lic_apothecary",
+            "org_id": "org_xinglin",
+            "branch_id": "branch_qinghe_yi",
+            "rank": "青河採百草坐堂藥師",
+            "skills": ({ "gong_analysis", "gong_qiaojin" }),
+            "room": "/d/counties/qinghe/herb_mill.c",
+            "examiner": "蘇明月"
+        ])
+    ]),
+    "liefan": ([
+        "fa": ([
+            "inst": "烈礬鎮煞火祠（宣道司外派）",
+            "lic_id": "lic_diviner",
+            "org_id": "org_xuandaosi",
+            "branch_id": "branch_liefan_dao",
+            "rank": "烈礬火祠觀火經生",
+            "skills": ({ "dao_tuna", "dao_jiefa" }),
+            "room": "/d/counties/liefan/fire_shrine.c",
+            "examiner": "赤陽道長"
+        ]),
+        "li": ([
+            "inst": "烈礬護礦武館（八方武館分舵）",
+            "lic_id": "lic_escort_guard",
+            "org_id": "org_bafang",
+            "branch_id": "branch_liefan_wu",
+            "rank": "烈礬護礦黑鐵武卒",
+            "skills": ({ "wu_cuigu", "wu_fuhu" }),
+            "room": "/d/counties/liefan/mine_guard_hall.c",
+            "examiner": "雷震山"
+        ]),
+        "wu": ([
+            "inst": "烈礬百工冶煉分舵（百工總會分舵）",
+            "lic_id": "lic_master_artisan",
+            "org_id": "org_baigong",
+            "branch_id": "branch_liefan_gong",
+            "rank": "烈礬百工冶煉匠徒",
+            "skills": ({ "gong_analysis", "gong_qiaojin" }),
+            "room": "/d/counties/liefan/smelting_branch.c",
+            "examiner": "歐陽炎"
+        ])
+    ]),
+    "panmu": ([
+        "fa": ([
+            "inst": "盤木山神廟（宣道司外派駐點）",
+            "lic_id": "lic_diviner",
+            "org_id": "org_xuandaosi",
+            "branch_id": "branch_panmu_dao",
+            "rank": "盤木山祠望氣經生",
+            "skills": ({ "dao_tuna", "dao_jiefa" }),
+            "room": "/d/counties/panmu/mountain_shrine.c",
+            "examiner": "古木真人"
+        ]),
+        "li": ([
+            "inst": "盤木巡山獵武堂（八方武館分舵）",
+            "lic_id": "lic_escort_guard",
+            "org_id": "org_bafang",
+            "branch_id": "branch_panmu_wu",
+            "rank": "盤木巡山黑鐵獵卒",
+            "skills": ({ "wu_cuigu", "wu_fuhu" }),
+            "room": "/d/counties/panmu/hunter_lodge.c",
+            "examiner": "周獵虎"
+        ]),
+        "wu": ([
+            "inst": "天工木作工棚（百工機巧分舵）",
+            "lic_id": "lic_master_artisan",
+            "org_id": "org_baigong",
+            "branch_id": "branch_panmu_gong",
+            "rank": "盤木天工木作匠徒",
+            "skills": ({ "gong_analysis", "gong_qiaojin" }),
+            "room": "/d/counties/panmu/carpentry_shed.c",
+            "examiner": "魯長林"
+        ])
+    ]),
+    "zhenfeng": ([
+        "fa": ([
+            "inst": "鎮風測風祭壇（宣道司邊塞觀象所）",
+            "lic_id": "lic_diviner",
+            "org_id": "org_xuandaosi",
+            "branch_id": "branch_zhenfeng_dao",
+            "rank": "鎮風邊塞測風經生",
+            "skills": ({ "dao_tuna", "dao_jiefa" }),
+            "room": "/d/counties/zhenfeng/wind_altar.c",
+            "examiner": "凌風子"
+        ]),
+        "li": ([
+            "inst": "八方武館邊關分舵（車馬院北塞總站）",
+            "lic_id": "lic_escort_guard",
+            "org_id": "org_bafang",
+            "branch_id": "branch_zhenfeng_wu",
+            "rank": "鎮風邊關黑鐵武卒",
+            "skills": ({ "wu_cuigu", "wu_fuhu" }),
+            "room": "/d/counties/zhenfeng/bafang_garrison.c",
+            "examiner": "秦烈風"
+        ]),
+        "wu": ([
+            "inst": "鎮風軍械修造所（百工皮革與弓弩分舵）",
+            "lic_id": "lic_master_artisan",
+            "org_id": "org_baigong",
+            "branch_id": "branch_zhenfeng_gong",
+            "rank": "鎮風軍械皮甲匠徒",
+            "skills": ({ "gong_analysis", "gong_qiaojin" }),
+            "room": "/d/counties/zhenfeng/tannery.c",
+            "examiner": "溫鐵衣"
+        ])
+    ]),
+    "zhuoshui": ([
+        "fa": ([
+            "inst": "濁水鎮水祠（宣道司辟瘴觀）",
+            "lic_id": "lic_diviner",
+            "org_id": "org_xuandaosi",
+            "branch_id": "branch_zhuoshui_dao",
+            "rank": "濁水鎮煞辟瘴經生",
+            "skills": ({ "dao_tuna", "dao_jiefa" }),
+            "room": "/d/counties/zhuoshui/miasma_shrine.c",
+            "examiner": "滄浪道人"
+        ]),
+        "li": ([
+            "inst": "濁水護澤武館（八方武館水路分舵）",
+            "lic_id": "lic_escort_guard",
+            "org_id": "org_bafang",
+            "branch_id": "branch_zhuoshui_wu",
+            "rank": "濁水浮橋黑鐵護衛",
+            "skills": ({ "wu_cuigu", "wu_fuhu" }),
+            "room": "/d/counties/zhuoshui/water_fort.c",
+            "examiner": "彭鐵槳"
+        ]),
+        "wu": ([
+            "inst": "濁水百草毒理棚（採百草分堂毒理分號）",
+            "lic_id": "lic_apothecary",
+            "org_id": "org_xinglin",
+            "branch_id": "branch_zhuoshui_yi",
+            "rank": "濁水百草辨毒藥師",
+            "skills": ({ "gong_analysis", "gong_qiaojin" }),
+            "room": "/d/counties/zhuoshui/venom_shed.c",
+            "examiner": "白青竹"
+        ])
+    ]),
+    "zhongshi": ([
+        "fa": ([
+            "inst": "重石測脈亭（宣道司地脈勘驗所）",
+            "lic_id": "lic_diviner",
+            "org_id": "org_xuandaosi",
+            "branch_id": "branch_zhongshi_dao",
+            "rank": "重石測脈觀象經生",
+            "skills": ({ "dao_tuna", "dao_jiefa" }),
+            "room": "/d/counties/zhongshi/leyline_pavilion.c",
+            "examiner": "石璣道人"
+        ]),
+        "li": ([
+            "inst": "重石穿山寨分館（八方武館力士堂）",
+            "lic_id": "lic_escort_guard",
+            "org_id": "org_bafang",
+            "branch_id": "branch_zhongshi_wu",
+            "rank": "重石開山黑鐵力士",
+            "skills": ({ "wu_cuigu", "wu_fuhu" }),
+            "room": "/d/counties/zhongshi/crusher_hall.c",
+            "examiner": "石霸天"
+        ]),
+        "wu": ([
+            "inst": "重石石作總坊（百工石作與生鐵分舵）",
+            "lic_id": "lic_master_artisan",
+            "org_id": "org_baigong",
+            "branch_id": "branch_zhongshi_gong",
+            "rank": "重石百工石作匠徒",
+            "skills": ({ "gong_analysis", "gong_qiaojin" }),
+            "room": "/d/counties/zhongshi/stone_guild.c",
+            "examiner": "韓千鈞"
+        ])
+    ])
+]);
+
+int is_county_branch_facility(string org_id, string room_path) {
+    if (!org_id || !room_path) return 0;
+    foreach (string cid in keys(COUNTY_QUALIFICATION_ENTRIES)) {
+        mapping paths = COUNTY_QUALIFICATION_ENTRIES[cid];
+        foreach (string p in keys(paths)) {
+            mapping entry = paths[p];
+            if (entry["org_id"] == org_id && entry["room"] == room_path) {
+                return 1;
+            }
+        }
+    }
+    return 0;
+}
+
+// 檢驗組織設施存取權：加入組織提供場地存取權，但絕不等於自動掌握該組織整條技能樹；
+// 地方分舵成員可直接存取分舵場地，但調用府城總舵核心設施須先完成「掛單轉錄」(register_at_headquarters)
 mapping check_org_facility_access(object me, string org_id, string room_path) {
     if (!me || !ORGANIZATION_DEFS[org_id]) return ([ "access": 0, "msg": "未知組織" ]);
     string rank = me->query_org_rank(org_id);
     int is_member = (rank && rank != "");
     string *facs = ORGANIZATION_DEFS[org_id]["facilities"];
-    int is_org_fac = (member_array(room_path, facs) != -1);
+    int is_hq_fac = (member_array(room_path, facs) != -1);
+    int is_branch_fac = is_county_branch_facility(org_id, room_path);
 
     // 計算角色在該組織對應道途已學會的高階分支技能數（驗證加入行會 != 自動掌握整條技能樹）
     int advanced_count = 0;
@@ -352,33 +570,103 @@ mapping check_org_facility_access(object me, string org_id, string room_path) {
         if (me->query_skill("dao_jinglei") > 0) advanced_count++;
     }
 
+    if (!is_member) {
+        return ([
+            "access": 0,
+            "status": "not_member",
+            "org_rank": "",
+            "advanced_skills_unlocked": advanced_count,
+            "msg": "你並非該組織成員，無權擅用內部專屬設施。"
+        ]);
+    }
+
+    string branch = me->query_org_branch(org_id);
+    if (is_hq_fac && branch != "" && branch != "hq" && !me->query_hq_registered(org_id)) {
+        return ([
+            "access": 0,
+            "status": "requires_hq_registration",
+            "org_rank": rank,
+            "branch_id": branch,
+            "advanced_skills_unlocked": advanced_count,
+            "msg": "你持有地方分舵資格（" + rank + "），須先於府城總舵完成『掛單轉錄』(register_at_headquarters)，方可調用府城核心工坊／觀星台／武庫設施。"
+        ]);
+    }
+
+    int can_access = (is_hq_fac || is_branch_fac) ? 1 : 0;
     return ([
-        "access": (is_member && is_org_fac) ? 1 : 0,
+        "access": can_access,
+        "status": is_branch_fac ? "branch_facility_access" : (is_hq_fac ? "hq_facility_access" : "unlisted_facility"),
         "org_rank": rank,
+        "branch_id": branch,
         "advanced_skills_unlocked": advanced_count,
-        "msg": is_member ? ("你身為" + ORGANIZATION_DEFS[org_id]["name"] + "成員（" + rank + "），享有內部工坊／校場設施存取權。") : "你並非該組織成員，無權擅用內部專屬設施。"
+        "msg": "你身為" + ORGANIZATION_DEFS[org_id]["name"] + "成員（" + rank + "），享有內部工坊／校場設施存取權。"
     ]);
 }
-
-// ── P0-2：六縣多起點地方傳承與初階資格等效認證規則 ─────────────────
-mapping COUNTY_QUALIFICATION_ENTRIES = ([
-    "qinghe":   ([ "fa": "青河縣學觀潮齋（等效受牒推薦）", "li": "青河水師營校場（等效趟子手／水勇腰牌）", "wu": "青河造船木作行（等效初階匠籍）" ]),
-    "liefan":   ([ "fa": "烈礬地火丹房（等效觀火度牒）",   "li": "烈礬護礦武館（等效護院黑鐵腰牌）",       "wu": "烈礬官窯與銅冶坊（等效百工冶煉匠籍）" ]),
-    "panmu":    ([ "fa": "盤木山神祠講堂（等效山林望氣牒）", "li": "盤木巡山獵營（等效山林武卒腰牌）",     "wu": "盤木百草分堂與大木作（等效藥師／木匠籍）" ]),
-    "zhenfeng": ([ "fa": "鎮風觀星哨台（等效邊塞風候牒）", "li": "鎮風北塞軍屯衛所（等效邊軍黑鐵腰牌）",   "wu": "鎮風軍械修造所（等效軍器匠籍）" ]),
-    "zhuoshui": ([ "fa": "濁水鎮煞祠（等效辟瘴度牒）",     "li": "濁水浮橋水寨（等效水路護衛腰牌）",       "wu": "濁水百草毒理棚（等效辨毒行醫資格）" ]),
-    "zhongshi": ([ "fa": "重石勘脈堂（等效地脈觀象牒）",   "li": "重石開山力士堂（等效重甲力士腰牌）",     "wu": "重石條石總塢（等效百工石作匠籍）" ])
-]);
 
 mapping check_county_qualification_equivalence(string county_id, string path) {
     if (!county_id || !COUNTY_QUALIFICATION_ENTRIES[county_id] || !COUNTY_QUALIFICATION_ENTRIES[county_id][path]) {
         return ([ "equivalent": 0, "canon_rule": "RULE", "msg": "未知的縣份或道途" ]);
     }
+    mapping entry = COUNTY_QUALIFICATION_ENTRIES[county_id][path];
     return ([
         "equivalent": 1,
         "canon_rule": "RULE",
-        "local_institution": COUNTY_QUALIFICATION_ENTRIES[county_id][path],
+        "local_institution": entry["inst"],
+        "lic_id": entry["lic_id"],
+        "org_id": entry["org_id"],
+        "branch_id": entry["branch_id"],
+        "rank_title": entry["rank"],
+        "starter_skills": entry["skills"],
+        "room": entry["room"],
+        "examiner": entry["examiner"],
         "narrative_distinction": "【世界規則】六縣地方機構可核發與金石府城等效之初階資格與師承入口；第二卷五位主角集中赴府城係因背負卷一跨縣證據鏈與生死約定之主動劇情選擇，並非世界唯一流程。"
+    ]);
+}
+
+// 六縣地方分舵初階資格考取與啟蒙發放：核發與府城完全相同之 lic_* 資格 ID，但標註地方核發機構與分舵歸屬
+int grant_county_initiation(object me, string county_id, string path) {
+    if (!me || !county_id || !COUNTY_QUALIFICATION_ENTRIES[county_id] || !COUNTY_QUALIFICATION_ENTRIES[county_id][path]) {
+        return 0;
+    }
+    mapping entry = COUNTY_QUALIFICATION_ENTRIES[county_id][path];
+    string class_id = "gong_initiate";
+    if (path == "fa") class_id = "dao_initiate";
+    else if (path == "li") class_id = "wu_initiate";
+
+    me->set_path(path);
+    me->set("class", class_id);
+    me->set("origin_county", county_id);
+    me->grant_qualification_by(entry["lic_id"], 1, entry["inst"]);
+    me->join_organization(entry["org_id"], entry["rank"]);
+    me->set_org_branch(entry["org_id"], entry["branch_id"]);
+    me->set_hq_registered(entry["org_id"], 0);
+
+    string *sks = entry["skills"];
+    for (int i = 0; i < sizeof(sks); i++) {
+        string sk = sks[i];
+        if (me->query_skill(sk) < 31) me->set_skill(sk, 31);
+    }
+
+    tell_object(me, HIG "【六縣地方啟蒙】你通過「" + entry["inst"] + "」主考官" + entry["examiner"] + "之初階核驗，獲授『" + entry["rank"] + "』身分與等效執業資格，並習得基礎入門技藝 (Lv 31)！\n" NOR);
+    return 1;
+}
+
+// 地方分舵成員赴金石府城總舵辦理「掛單轉錄」，解鎖府城總部核心設施使用權
+mapping register_at_headquarters(object me, string org_id) {
+    if (!me || !org_id || !ORGANIZATION_DEFS[org_id]) {
+        return ([ "registered": 0, "msg": "未知的組織。" ]);
+    }
+    string rank = me->query_org_rank(org_id);
+    if (!rank || rank == "") {
+        return ([ "registered": 0, "msg": "你尚未取得該組織之地方分舵或總舵資格，無法辦理掛單轉錄。" ]);
+    }
+    me->set_hq_registered(org_id, 1);
+    return ([
+        "registered": 1,
+        "org_id": org_id,
+        "branch_id": me->query_org_branch(org_id),
+        "org_rank": rank,
+        "msg": "總舵主事核驗你的地方分舵文牒與印信無誤，已為你完成府城總舵『掛單轉錄』，即日起可依序申請使用府城總部核心設施。"
     ]);
 }
 

@@ -15,20 +15,20 @@ int     money_balance; // 🚀 變更：總財產 (以銅幣為單位)
 int     potential; // 🚀 新增：潛能點數 (用於學習技能)
 mapping skills;    // 格式變更：([ "id": ([ "level": 1, "exp": 0 ]) ])
 
-// ── 六圍屬性 ─────────────────────────────────────────────
-int     stat_str;   // 力量
-int     stat_dex;   // 敏捷
-int     stat_int;   // 智力
-int     stat_con;   //體魄
-int     stat_wis;   // 智慧
-int     stat_cha;   // 魅力
+// ── 先天六維屬性（力：str/con｜法：int/spi｜物：dex/per） ──────
+int     stat_str;   // 臂力（力之本）
+int     stat_con;   // 根骨（力之體）
+int     stat_int;   // 悟性（法之理）
+int     stat_spi;   // 靈性（法之神）
+int     stat_dex;   // 靈巧（物之手）
+int     stat_per;   // 感知（物之心）
 
-// ── 戰鬥屬性（由 recalc_stats 計算） ─────────────────────
-int     max_hp;     // 氣血上限 (kee)
+// ── 動態三柱與戰鬥屬性（由 recalc_stats 計算） ─────────────────
+int     max_hp;     // 氣血上限 (max_kee)
 int     hp;         // 當前氣血 (kee)
-int     max_mp;     // 神識上限 (sen)
+int     max_mp;     // 神識上限 (max_sen)
 int     mp;         // 當前神識 (sen)
-int     max_sp;     // 精力上限 (sp)
+int     max_sp;     // 精力上限 (max_sp)
 int     sp;         // 當前精力 (sp)
 int     attack;     // 攻擊力
 int     defence;    // 防禦力
@@ -63,9 +63,9 @@ void create() {
     exp        = 0;
     exp_to_next= BASE_EXP_PER_LV;
 
-    stat_str = 10;  stat_dex = 10;
-    stat_int = 10;  stat_con = 10;
-    stat_wis = 10;  stat_cha = 10;
+    stat_str = 10;  stat_con = 10;
+    stat_int = 10;  stat_spi = 10;
+    stat_dex = 10;  stat_per = 10;
 
     in_combat      = 0;
     combat_target  = 0;
@@ -119,8 +119,8 @@ int process_input(string input) {
 // ── 重算衍生屬性 ──────────────────────────────────────────
 void recalc_stats() {
     max_hp  = (stat_str + stat_con) * 10 + level * 10;
-    max_mp  = (stat_int + stat_wis) * 10 + level * 10;
-    max_sp  = (stat_dex + stat_cha) * 10 + level * 10;
+    max_mp  = (stat_int + stat_spi) * 10 + level * 10;
+    max_sp  = (stat_dex + stat_per) * 10 + level * 10;
     attack  = BASE_ATTACK  + stat_str * 2;
     defence = BASE_DEFENCE + stat_con;
 
@@ -156,22 +156,32 @@ void recalc_stats() {
     set_max_items(30);
 }
 
-// ── 設定 / 查詢 ────────────────────────────────────────────
+// ── 設定 / 查詢（三柱正典介面 kee / sen / sp 與向下相容介面） ──
 void set_race(string r)   { race = r; }
 string query_race()       { return race; }
 void set_level(int l)     { level = l; }
 int query_level()         { return level; }
 int query_exp()           { return exp; }
 int query_exp_to_next()   { return exp_to_next; }
+
+void set_kee(int v)       { hp = v; }
+int query_kee()           { return hp; }
+int query_max_kee()       { return max_hp; }
+void set_sen(int v)       { mp = v; }
+int query_sen()           { return mp; }
+int query_max_sen()       { return max_mp; }
+void set_sp(int v)        { sp = v; }
+int query_sp()            { return sp; }
+int query_max_sp()        { return max_sp; }
+
+// 相容別名 (供底層戰鬥與前端 UI 對接)
 void set_hp(int v)        { hp = v; }
 int query_hp()            { return hp; }
 int query_max_hp()        { return max_hp; }
 void set_mp(int v)        { mp = v; }
 int query_mp()            { return mp; }
 int query_max_mp()        { return max_mp; }
-void set_sp(int v)        { sp = v; }
-int query_sp()            { return sp; }
-int query_max_sp()        { return max_sp; }
+
 int query_attack()        { return attack; }
 int query_defence()       { return defence; }
 
@@ -186,9 +196,9 @@ mixed query(string prop) {
     if (prop == "str") return stat_str;
     if (prop == "con") return stat_con;
     if (prop == "int") return stat_int;
-    if (prop == "spi" || prop == "wis") return stat_wis;
+    if (prop == "spi") return stat_spi;
     if (prop == "dex") return stat_dex;
-    if (prop == "per" || prop == "cha") return stat_cha;
+    if (prop == "per") return stat_per;
     return ::query(prop);
 }
 
@@ -218,19 +228,20 @@ void add(string prop, mixed val) {
     if (prop == "str") { stat_str += val; recalc_stats(); return; }
     if (prop == "con") { stat_con += val; recalc_stats(); return; }
     if (prop == "int") { stat_int += val; recalc_stats(); return; }
-    if (prop == "spi" || prop == "wis") { stat_wis += val; recalc_stats(); return; }
+    if (prop == "spi") { stat_spi += val; recalc_stats(); return; }
     if (prop == "dex") { stat_dex += val; recalc_stats(); return; }
-    if (prop == "per" || prop == "cha") { stat_cha += val; recalc_stats(); return; }
+    if (prop == "per") { stat_per += val; recalc_stats(); return; }
     ::add(prop, val);
 }
 
 int query_stat(string s)  {
+    s = normalize_stat_key(s);
     if (s == STAT_STR || s == "str") { return stat_str; }
     if (s == STAT_DEX || s == "dex") { return stat_dex; }
     if (s == STAT_INT || s == "int") { return stat_int; }
     if (s == STAT_CON || s == "con") { return stat_con; }
-    if (s == STAT_WIS || s == "spi" || s == "wis") { return stat_wis; }
-    if (s == STAT_CHA || s == "per" || s == "cha") { return stat_cha; }
+    if (s == STAT_SPI || s == "spi") { return stat_spi; }
+    if (s == STAT_PER || s == "per") { return stat_per; }
     return 0;
 }
 string query_display_name() {
@@ -247,12 +258,13 @@ string query_display_name() {
 }
 
 void set_stat(string s, int v) {
+    s = normalize_stat_key(s);
     if (s == STAT_STR || s == "str") { stat_str = v; }
     if (s == STAT_DEX || s == "dex") { stat_dex = v; }
     if (s == STAT_INT || s == "int") { stat_int = v; }
     if (s == STAT_CON || s == "con") { stat_con = v; }
-    if (s == STAT_WIS || s == "spi" || s == "wis") { stat_wis = v; }
-    if (s == STAT_CHA || s == "per" || s == "cha") { stat_cha = v; }
+    if (s == STAT_SPI || s == "spi") { stat_spi = v; }
+    if (s == STAT_PER || s == "per") { stat_per = v; }
     recalc_stats();
 }
 
@@ -349,10 +361,26 @@ int move(mixed dest, string dir) {
     return 1;
 }
 
-int heal_hp(int amount) {
+int heal_kee(int amount) {
     hp = hp + amount;
     if (hp > max_hp) { hp = max_hp; }
     return hp;
+}
+
+int heal_sen(int amount) {
+    mp = mp + amount;
+    if (mp > max_mp) { mp = max_mp; }
+    return mp;
+}
+
+int heal_sp(int amount) {
+    sp = sp + amount;
+    if (sp > max_sp) { sp = max_sp; }
+    return sp;
+}
+
+int heal_hp(int amount) {
+    return heal_kee(amount);
 }
 
 int take_damage(int amount) {
@@ -361,10 +389,42 @@ int take_damage(int amount) {
     return hp;
 }
 
-int use_mp(int amount) {
+int receive_damage(int amount) {
+    return take_damage(amount);
+}
+
+int receive_sen_damage(int amount) {
+    mp = mp - amount;
+    if (mp < 0) { mp = 0; }
+    return mp;
+}
+
+int receive_sp_damage(int amount) {
+    sp = sp - amount;
+    if (sp < 0) { sp = 0; }
+    return sp;
+}
+
+int use_kee(int amount) {
+    if (hp <= amount) { return 0; }
+    hp = hp - amount;
+    return 1;
+}
+
+int use_sen(int amount) {
     if (mp < amount) { return 0; }
     mp = mp - amount;
     return 1;
+}
+
+int use_sp(int amount) {
+    if (sp < amount) { return 0; }
+    sp = sp - amount;
+    return 1;
+}
+
+int use_mp(int amount) {
+    return use_sen(amount);
 }
 
 // ── 裝備管理 ───────────────────────────────────────────────
@@ -459,13 +519,13 @@ void gain_exp(int amount) {
         level = level + 1;
         exp_to_next = exp_to_next + BASE_EXP_PER_LV * level / 2;
 
-        // 升級獎勵：每升一級六圍各 +1
+        // 升級獎勵：每升一級先天六維各 +1
         stat_str = stat_str + 1;
-        stat_dex = stat_dex + 1;
-        stat_int = stat_int + 1;
         stat_con = stat_con + 1;
-        stat_wis = stat_wis + 1;
-        stat_cha = stat_cha + 1;
+        stat_int = stat_int + 1;
+        stat_spi = stat_spi + 1;
+        stat_dex = stat_dex + 1;
+        stat_per = stat_per + 1;
         recalc_stats();
         hp = max_hp;
         mp = max_mp;
@@ -771,9 +831,13 @@ string query_path() {
     string p = ::query("path");
     if (p && p != "") return p;
     string cls = ::query("class");
-    if (cls == "dao_initiate") return "fa";
-    if (cls == "wu_initiate") return "li";
-    if (cls == "gong_initiate") return "wu";
+    if (cls == "dao_initiate" || cls == "fa") return "fa";
+    if (cls == "wu_initiate" || cls == "li") return "li";
+    if (cls == "gong_initiate" || cls == "wu") return "wu";
+    string g = this_object()->query_guild();
+    if (g == "dao_initiate" || g == "fa" || g == "org_xuandaosi") return "fa";
+    if (g == "wu_initiate" || g == "li" || g == "org_bafang") return "li";
+    if (g == "gong_initiate" || g == "wu" || g == "org_baigong") return "wu";
     return "";
 }
 
@@ -786,17 +850,39 @@ void grant_qualification(string lic_id, int rank) {
     ::set("qualifications", q);
 }
 
+void grant_qualification_by(string lic_id, int rank, string issuer) {
+    grant_qualification(lic_id, rank);
+    if (!lic_id || lic_id == "") return;
+    if (!issuer || issuer == "") return;
+    mapping iss = ::query("qualification_issuers");
+    if (!mapp(iss)) iss = ([]);
+    iss[lic_id] = issuer;
+    ::set("qualification_issuers", iss);
+}
+
 void revoke_qualification(string lic_id) {
     mapping q = ::query("qualifications");
-    if (!mapp(q)) return;
-    map_delete(q, lic_id);
-    ::set("qualifications", q);
+    if (mapp(q)) {
+        map_delete(q, lic_id);
+        ::set("qualifications", q);
+    }
+    mapping iss = ::query("qualification_issuers");
+    if (mapp(iss)) {
+        map_delete(iss, lic_id);
+        ::set("qualification_issuers", iss);
+    }
 }
 
 int query_qualification(string lic_id) {
     mapping q = ::query("qualifications");
     if (!mapp(q) || !q[lic_id]) return 0;
     return q[lic_id];
+}
+
+string query_qualification_issuer(string lic_id) {
+    mapping iss = ::query("qualification_issuers");
+    if (!mapp(iss) || !iss[lic_id]) return "";
+    return iss[lic_id];
 }
 
 mapping query_qualifications() {
@@ -814,11 +900,50 @@ void join_organization(string org_id, string rank_title) {
     ::set("organizations", orgs);
 }
 
+void set_org_branch(string org_id, string branch_id) {
+    if (!org_id || org_id == "") return;
+    mapping br = ::query("org_branches");
+    if (!mapp(br)) br = ([]);
+    br[org_id] = branch_id;
+    ::set("org_branches", br);
+}
+
+string query_org_branch(string org_id) {
+    mapping br = ::query("org_branches");
+    if (!mapp(br) || !br[org_id]) return "";
+    return br[org_id];
+}
+
+void set_hq_registered(string org_id, int flag) {
+    if (!org_id || org_id == "") return;
+    mapping hq = ::query("org_hq_registered");
+    if (!mapp(hq)) hq = ([]);
+    hq[org_id] = flag ? 1 : 0;
+    ::set("org_hq_registered", hq);
+}
+
+int query_hq_registered(string org_id) {
+    mapping hq = ::query("org_hq_registered");
+    if (!mapp(hq) || !hq[org_id]) return 0;
+    return hq[org_id];
+}
+
 void leave_organization(string org_id) {
     mapping orgs = ::query("organizations");
-    if (!mapp(orgs)) return;
-    map_delete(orgs, org_id);
-    ::set("organizations", orgs);
+    if (mapp(orgs)) {
+        map_delete(orgs, org_id);
+        ::set("organizations", orgs);
+    }
+    mapping br = ::query("org_branches");
+    if (mapp(br)) {
+        map_delete(br, org_id);
+        ::set("org_branches", br);
+    }
+    mapping hq = ::query("org_hq_registered");
+    if (mapp(hq)) {
+        map_delete(hq, org_id);
+        ::set("org_hq_registered", hq);
+    }
 }
 
 string query_org_rank(string org_id) {

@@ -505,8 +505,8 @@ void heart_beat() {
         digest_food_water(10);
         if (!in_combat) {
             if (hp < max_hp) add("kee", 1 + stat_con / 3);
-            if (mp < max_mp) add("sen", 1 + stat_wis / 3);
-            if (sp < max_sp) add("sp", 2 + stat_cha / 3);
+            if (mp < max_mp) add("sen", 1 + stat_spi / 3);
+            if (sp < max_sp) add("sp", 2 + stat_per / 3);
         }
         object cmd_info = load_object("/cmds/cmd_info");
         if (cmd_info) {

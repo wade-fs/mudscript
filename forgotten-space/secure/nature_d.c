@@ -308,6 +308,15 @@ void heart_beat() {
             }
         }
 
+        // 每 1440 遊戲分鐘 (1 遊戲日) 自動推進六縣與黑石鋪 30 天無主角介入演進時鐘
+        if (game_time % 1440 == 0) {
+            object ws_d = find_object(WORLD_STATE_D);
+            if (!ws_d) ws_d = load_object(WORLD_STATE_D);
+            if (ws_d) {
+                ws_d->advance_county_day("all", 1);
+            }
+        }
+
         // 每 30 遊戲分鐘 (現實 7.5 分鐘) 存檔一次
         if (game_time % 30 == 0) {
             save_object(query_save_file());

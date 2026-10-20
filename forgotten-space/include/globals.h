@@ -15,6 +15,8 @@
 #define D_DIR           "/d/"
 #define VILLAGE_DIR     "/d/village/"
 #define CITY_DIR        "/d/city/"
+#define COUNTIES_DIR    "/d/counties/"
+#define ROUTES_DIR      "/d/routes/"
 #define MOUNTAIN_DIR    "/d/mountain/"
 #define REALM_DIR       "/d/realm/"
 #define SECRET_DIR      "/d/secret/"
@@ -32,6 +34,7 @@
 #define SKILL_D         "/secure/skill_d.c"
 #define COMBAT_D        "/secure/combat_d.c"
 #define CITY_D          "/daemon/city_d.c"
+#define TRAVEL_D        "/daemon/travel_d.c"
 
 // ── 先天核心六維屬性 (Primary Attributes) ────────────────
 #define STAT_STR        "str"     // 臂力（力之本）
@@ -54,6 +57,8 @@
 #define USER_OB         "/std/user.c"
 #define NPC_OB          "/std/npc.c"
 #define ROOM_OB         "/std/room.c"
+#define COUNTY_ROOM_OB  "/std/county_room.c"
+#define ROUTE_ROOM_OB   "/std/route_room.c"
 #define RUIN_ROOM_OB    "/std/room/ruin.c"
 #define WEAPON_OB       "/std/weapon.c"
 #define ARMOUR_OB       "/std/armour.c"

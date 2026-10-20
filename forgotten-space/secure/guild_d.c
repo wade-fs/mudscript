@@ -11,37 +11,48 @@ void create() {
     ::create();
     guilds = ([
         "adventurer": ([
-            "name": ([ "en": "Adventurers Guild", "zh-TW": "冒險者公會", "zh-CN": "冒险者公会" ]),
-            "desc": ([ "en": "Welcome all adventurers, this is your first home.", "zh-TW": "歡迎所有志在四方的冒險者，這裡是你的第一個家。", "zh-CN": "欢迎所有志在四方的冒险者，这里是你的第一个家。" ]),
+            "name": ([ "en": "Wanderers Hall", "zh-TW": "江湖行館", "zh-CN": "江湖行馆" ]),
+            "desc": ([ "en": "Welcome all wanderers, this is your starting post.", "zh-TW": "歡迎所有志在四方的行者，這裡是你的初入驛站。", "zh-CN": "欢迎所有志在四方的行者，这里是你的初入驿站。" ]),
             "ranks": ({ 
-                ([ "en": "Novice Adventurer", "zh-TW": "新手冒險者", "zh-CN": "新手冒险者" ]),
-                ([ "en": "Official Adventurer", "zh-TW": "正式冒險者", "zh-CN": "正式冒险者" ]),
-                ([ "en": "Senior Adventurer", "zh-TW": "資深冒險者", "zh-CN": "资深冒险者" ]),
-                ([ "en": "Legendary Adventurer", "zh-TW": "傳奇冒險者", "zh-CN": "传奇冒险者" ])
+                ([ "en": "Novice Wanderer", "zh-TW": "初入江湖客", "zh-CN": "初入江湖客" ]),
+                ([ "en": "Official Wanderer", "zh-TW": "持牒遊俠", "zh-CN": "持牒游侠" ]),
+                ([ "en": "Senior Wanderer", "zh-TW": "資深行者", "zh-CN": "资深行者" ]),
+                ([ "en": "Legendary Wanderer", "zh-TW": "名震一方", "zh-CN": "名震一方" ])
             }),
             "req": ([ "level": 1, "int": 10, "str": 10 ])
         ]),
-        "mage": ([
-            "name": ([ "en": "Mages Circle", "zh-TW": "魔法師集會", "zh-CN": "魔法师集会" ]),
-            "desc": ([ "en": "The hall for pursuing truth and arcane power.", "zh-TW": "追求真理與奧法力量的殿堂。", "zh-CN": "追求真理与奥法力量的殿堂。" ]),
+        "dao_initiate": ([
+            "name": ([ "en": "Xuandaosi Registry", "zh-TW": "金石宣道司", "zh-CN": "金石宣道司" ]),
+            "desc": ([ "en": "The official observatory of Spirit (Fa) and celestial laws.", "zh-TW": "掌管觀星望氣、繪符鎮煞與度牒核發之【法】道樞紐。", "zh-CN": "掌管观星望气、绘符镇煞与度牒核发之【法】道枢纽。" ]),
             "ranks": ({ 
-                ([ "en": "Apprentice", "zh-TW": "魔法學徒", "zh-CN": "魔法学徒" ]),
-                ([ "en": "Junior Mage", "zh-TW": "初級法師", "zh-CN": "初级法师" ]),
-                ([ "en": "Archmage", "zh-TW": "大法師", "zh-CN": "大法师" ]),
-                ([ "en": "Sage", "zh-TW": "賢者", "zh-CN": "贤者" ])
+                ([ "en": "Registered Initiate", "zh-TW": "外門記名經生", "zh-CN": "外门记名经生" ]),
+                ([ "en": "Licensed Diviner", "zh-TW": "受牒觀象道人", "zh-CN": "受牒观象道人" ]),
+                ([ "en": "Chief Ritualist", "zh-TW": "宣道司典籍", "zh-CN": "宣道司典籍" ]),
+                ([ "en": "Grand Astrologer", "zh-TW": "欽天監正", "zh-CN": "钦天监正" ])
             }),
             "req": ([ "level": 5, "int": 20 ])
         ]),
-        "fighter": ([
-            "name": ([ "en": "Warriors Covenant", "zh-TW": "戰士盟約", "zh-CN": "战士盟约" ]),
-            "desc": ([ "en": "The home of strength and glory, hone your iron will.", "zh-TW": "力量與榮耀的歸宿，磨練鋼鐵般的意志。", "zh-CN": "力量与荣耀的归宿，磨练钢铁般的意志。" ]),
+        "wu_initiate": ([
+            "name": ([ "en": "Bafang Martial Hall", "zh-TW": "八方行省武館", "zh-CN": "八方行省武馆" ]),
+            "desc": ([ "en": "The bastion of Force (Li), blood-furnace cultivation and martial valor.", "zh-TW": "錘鍊肉身烘爐、氣血武道與押鏢軍鎮之【力】道總舵。", "zh-CN": "锤炼肉身烘炉、气血武道与押镖军镇之【力】道总舵。" ]),
             "ranks": ({ 
-                ([ "en": "Trainee Fighter", "zh-TW": "見習鬥士", "zh-CN": "见习斗士" ]),
-                ([ "en": "Brave Warrior", "zh-TW": "勇猛戰士", "zh-CN": "勇猛战士" ]),
-                ([ "en": "Battle Commander", "zh-TW": "戰場統帥", "zh-CN": "战场统帅" ]),
-                ([ "en": "War God", "zh-TW": "戰神", "zh-CN": "战神" ])
+                ([ "en": "Outer Martial Recruit", "zh-TW": "外門武卒", "zh-CN": "外门武卒" ]),
+                ([ "en": "Iron-Belt Vanguard", "zh-TW": "黑鐵銳士", "zh-CN": "黑铁锐士" ]),
+                ([ "en": "Banner Commander", "zh-TW": "鎮武校尉", "zh-CN": "镇武校尉" ]),
+                ([ "en": "Grand Marshal", "zh-TW": "八方武尊", "zh-CN": "八方武尊" ])
             }),
             "req": ([ "level": 5, "str": 20 ])
+        ]),
+        "gong_initiate": ([
+            "name": ([ "en": "Baigong Artisans Guild", "zh-TW": "府城百工總會", "zh-CN": "府城百工总会" ]),
+            "desc": ([ "en": "The guild of Matter (Wu), metallurgy, medicine and mechanisms.", "zh-TW": "匯聚鍛造、木作、醫毒與機巧之【物】道百工總樞。", "zh-CN": "汇聚锻造、木作、医毒与机巧之【物】道百工总枢。" ]),
+            "ranks": ({ 
+                ([ "en": "Registered Apprentice", "zh-TW": "註冊學徒", "zh-CN": "注册学徒" ]),
+                ([ "en": "Licensed Artisan", "zh-TW": "正式大匠", "zh-CN": "正式大匠" ]),
+                ([ "en": "Master Engineer", "zh-TW": "司匠主事", "zh-CN": "司匠主事" ]),
+                ([ "en": "Grand Artificer", "zh-TW": "天工宗師", "zh-CN": "天工宗师" ])
+            }),
+            "req": ([ "level": 5, "dex": 20 ])
         ])
     ]);
 }

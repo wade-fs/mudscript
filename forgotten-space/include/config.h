@@ -1,12 +1,15 @@
 // include/config.h - 全域常數定義
 
-// ── 屬性常數 ────────────────────────────────────────────
+// ── 屬性常數（對齊先天六維：力 str/con、法 int/spi、物 dex/per） ──
 #define STAT_STR    "str"
-#define STAT_DEX    "dex"
-#define STAT_INT    "int"
 #define STAT_CON    "con"
-#define STAT_WIS    "wis"
-#define STAT_CHA    "cha"
+#define STAT_INT    "int"
+#define STAT_SPI    "spi"
+#define STAT_DEX    "dex"
+#define STAT_PER    "per"
+// 相容舊巨集映射至正典六維
+#define STAT_WIS    "spi"
+#define STAT_CHA    "per"
 
 // ── 戰鬥相關 ────────────────────────────────────────────
 #define MAX_HP_PER_CON  10

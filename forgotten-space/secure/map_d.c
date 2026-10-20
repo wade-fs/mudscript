@@ -144,6 +144,58 @@ string draw_village_map(object me) {
     return msg;
 }
 
+// ── 盤木縣空間拓撲地圖 (Panmu County Map) ──────────────────
+string draw_panmu_map(object me) {
+    string cur = me && environment(me) ? base_name(environment(me)) : "";
+    string msg = "\n" + HIG + "【盤木縣・山林巨木與百工機巧城鎮地圖 (14 房)】" + NOR + "\n";
+    msg += WHT "──────────────────────────────────────────────────────────\n" + NOR;
+    msg += "                        往【南嶺林海驛】→ 金石府城 (260 里)\n";
+    msg += "                                  ▲\n";
+    msg += "                                  │\n";
+    msg += "  " + HIC + "【盤木山神廟】" + NOR + " ─── " + HIW + "【北望木城樓】" + NOR + " ─── " + HIR + "【巡山獵武堂】" + NOR + " ── [倒影澗界碑] ── [古冷杉伐木線]\n";
+    msg += "  (【法】道考場)            │            (【力】道考場)\n";
+    msg += "        │                   │\n";
+    msg += "   [盤木縣衙] ────── " + HIY + "【木革山貨集】" + NOR + " ──── " + YEL + "【天工木作工棚】" + NOR + " ── [鞣革符紙坊]\n";
+    msg += "                    ┌───────┼───────┐    (【物】道考場)\n";
+    msg += "             [通寶盤木分號] │  [盤木縣驛]\n";
+    msg += "                            │\n";
+    msg += "                     " + HIW + "【南林柵門】" + NOR + " ─── [青松塢獵村] ─── [防獸陷阱帶]\n";
+    msg += "                            │\n";
+    msg += "                            ▼\n";
+    msg += "                  往【盤木前驛站・虎跳峽】→ 黑石鋪 (190 里)\n";
+    msg += WHT "──────────────────────────────────────────────────────────\n" + NOR;
+    if (me && environment(me)) {
+        msg += "你當前身處：" + HIG + environment(me)->query_short() + NOR + " (" + cur + ")\n";
+    }
+    return msg;
+}
+
+// ── 重石縣空間拓撲地圖 (Zhongshi County Map) ───────────────
+string draw_zhongshi_map(object me) {
+    string cur = me && environment(me) ? base_name(environment(me)) : "";
+    string msg = "\n" + HIW + "【重石縣・條石生鐵與開山力士城鎮地圖 (14 房)】" + NOR + "\n";
+    msg += WHT "──────────────────────────────────────────────────────────\n" + NOR;
+    msg += "                        往【西南條石馳道】→ 金石府城 (240 里)\n";
+    msg += "                                  ▲\n";
+    msg += "                                  │\n";
+    msg += "  " + HIC + "【重石測脈亭】" + NOR + " ─── " + HIW + "【北鎮條石關】" + NOR + " ─── " + HIR + "【穿山力士堂】" + NOR + "\n";
+    msg += "  (【法】道考場)            │            (【力】道考場)\n";
+    msg += "        │                   │                  │\n";
+    msg += "   [重石縣衙] ────── " + HIY + "【石鐵大集】" + NOR + " ───── " + YEL + "【重石石作總坊】" + NOR + " ── [穿山寨] ── [三號絞盤採石場]\n";
+    msg += "                    ┌───────┼───────┐   (【物】道考場)                        │(down)\n";
+    msg += "             [通寶重石分號] │ [磐石騾馬店]                             [台地深溝・太古石槨]\n";
+    msg += "                            │\n";
+    msg += "                     " + HIW + "【西南巨石甕城】" + NOR + " ── [石碾坡匠村] ── [水磨生鐵工坊]\n";
+    msg += "                            │\n";
+    msg += "                            ▼\n";
+    msg += "                  往【落龍西谷懸崖飛棧】→ 黑石鋪 (180 里，禁重車)\n";
+    msg += WHT "──────────────────────────────────────────────────────────\n" + NOR;
+    if (me && environment(me)) {
+        msg += "你當前身處：" + HIG + environment(me)->query_short() + NOR + " (" + cur + ")\n";
+    }
+    return msg;
+}
+
 string draw_map(object me, int range) {
     if (!me) return "";
     
@@ -158,6 +210,15 @@ string draw_map(object me, int range) {
         }
         if (strsrch(loc, "/d/village/") != -1) {
             return draw_village_map(me);
+        }
+        if (strsrch(loc, "/d/counties/panmu/") != -1) {
+            return draw_panmu_map(me);
+        }
+        if (strsrch(loc, "/d/counties/zhongshi/") != -1) {
+            return draw_zhongshi_map(me);
+        }
+        if (strsrch(loc, "/d/routes/") != -1) {
+            return draw_world_map(me);
         }
     }
     

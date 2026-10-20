@@ -30,6 +30,14 @@ int main(object me, string verb, string arg) {
             write(map_d->draw_under_map(me));
             return 1;
         }
+        if (arg == "panmu" || arg == "盤木" || arg == "盤木縣") {
+            write(map_d->draw_panmu_map(me));
+            return 1;
+        }
+        if (arg == "zhongshi" || arg == "重石" || arg == "重石縣") {
+            write(map_d->draw_zhongshi_map(me));
+            return 1;
+        }
     }
 
     int range = 2; // 預設 5x5

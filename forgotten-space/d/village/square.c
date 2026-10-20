@@ -16,7 +16,8 @@ void create() {
              "向北通往黑石斷崖古礦道，南邊飄來幽霧水谷的陣陣水霧，\n"
              "東面是炭火正旺的老鐵匠鋪，西面山腰坐落著一間破落道觀，\n"
              "東南方有獵戶搭建的防獸哨亭，西南後巷則蜿蜒通往破舊柴棚，\n"
-             "東北方向延伸出一條寬闊的南嶺官道 (northeast)，穿越南嶺直通金石府城。\n");
+             "東北方向延伸出通往黑石關與盤木縣的東線山道 (northeast，450 里通重車)，\n"
+             "西北方向則有一條切入落龍西谷懸崖棧道的捷徑 (northwest，420 里禁重車)。\n");
 
     set_exits(([
         "north":     "/d/village/mine.c",
@@ -25,7 +26,8 @@ void create() {
         "west":      "/d/village/daoist_temple.c",
         "southeast": "/d/village/hunter_cabin.c",
         "southwest": "/d/village/shed.c",
-        "northeast": "/d/city/outer/south_road.c",
+        "northeast": "/d/routes/blackstone_pass.c",
+        "northwest": "/d/routes/west_gorge_entry.c",
     ]));
 
     set("no_combat", 1);
@@ -54,7 +56,8 @@ string query_long() {
     res += "向北通往黑石斷崖古礦道，南邊飄來幽霧水谷的陣陣水霧，\n"
            "東面是炭火正旺的老鐵匠鋪，西面山腰坐落著一間破落道觀，\n"
            "東南方有獵戶搭建的防獸哨亭，西南後巷則蜿蜒通往破舊柴棚，\n"
-           "東北方向延伸出一條寬闊的南嶺官道 (northeast)，穿越南嶺直通金石府城。\n";
+           "東北方向延伸出通往黑石關與盤木縣的東線山道 (northeast，450 里通重車)，\n"
+           "西北方向則有一條切入落龍西谷懸崖棧道的捷徑 (northwest，420 里禁重車)。\n";
     return res;
 }
 

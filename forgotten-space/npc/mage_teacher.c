@@ -16,23 +16,23 @@ void create() {
         "zh-TW": "他是一位白鬍子垂到腰間的老者，雙眼深邃，彷彿能洞察世間一切真理。\n",
         "zh-CN": "他是一位白胡子垂到腰间的老者，双眼深邃，仿佛能洞察世间一切真理。\n"
     ]));
-    set_id(({"saruman", "mage", "teacher", "導師"}));
+    set_id(({"saruman", "mentor", "teacher", "導師"}));
     
     set_level(40);
     set_stat("int", 35);
-    set_stat("wis", 30);
+    set_stat("spi", 30);
     recalc_stats();
     hp = max_hp;
 
-    set_skill_to_teach("magic", 50);
-    set_skill_to_teach("fireball", 40);
+    set_skill_to_teach("dao_tuna", 50);
+    set_skill_to_teach("dao_jiefa", 40);
 
     add_response(({ "join", "加入" }), (:
         object tp = this_player();
-        if (load_object("/secure/guild_d.c")->join_guild(tp, "mage")) {
-            return "明智的選擇。魔法的奧秘正等待著你去發掘。";
+        if (load_object("/secure/guild_d.c")->join_guild(tp, "dao_initiate")) {
+            return "善哉。天地靈機與星象法理正等待著你去參悟。";
         }
-        return "如果你還沒準備好，就別來浪費我的時間。";
+        return "若你神識未定，切勿貿然踏入法道。";
     :));
     
     add_response(({ "magic", "魔法" }), "魔法不是戲法，它是對宇宙規律的解構與重組。");

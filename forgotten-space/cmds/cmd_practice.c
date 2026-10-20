@@ -13,8 +13,10 @@ int main(object me, string verb, string arg) {
 
     string sid = trim(arg);
     object skill_d = load_object("/secure/skill_d.c");
+    sid = skill_d->resolve_skill_id(sid);
 
-    if (!skill_d->query_all_skills()[sid]) {
+    mapping s_def = skill_d->query_all_skills()[sid];
+    if (!s_def) {
         write(select_lang(([ "en": "No such skill.\n", "zh-TW": "沒有這種技能。\n", "zh-CN": "没有这种技能。\n" ])));
         return 1;
     }
@@ -24,18 +26,34 @@ int main(object me, string verb, string arg) {
         return 1;
     }
 
-    if (me->query_hp() < 20 || me->query_mp() < 20) {
-        write(select_lang(([ "en": "You are too tired, rest for a while.\n", "zh-TW": "你太累了，先休息一下吧。\n", "zh-CN": "你太累了，先休息一下吧。\n" ])));
-        return 1;
-    }
-
-    // 消耗資源
-    me->take_damage(10);
-    me->use_mp(10);
-
-    // 練習效率：隨機 + 受屬性影響
+    string pool = s_def["cost_pool"];
     int gain = 2 + random(5);
-    gain += me->query_stat("con") / 5;
+
+    if (pool == "sen") {
+        if (me->query_sen() < 20 || me->query_sp() < 10) {
+            write(select_lang(([ "en": "Your spirit (sen) or stamina (sp) is too low, rest for a while.\n", "zh-TW": "你的神識(sen)或精力(sp)不足，先調息片刻吧。\n", "zh-CN": "你的神识(sen)或精力(sp)不足，先调息片刻吧。\n" ])));
+            return 1;
+        }
+        me->use_sen(10);
+        me->use_sp(5);
+        gain += (me->query_stat("int") + me->query_stat("spi")) / 8;
+    } else if (pool == "sp") {
+        if (me->query_sp() < 20 || me->query_kee() < 15) {
+            write(select_lang(([ "en": "Your stamina (sp) or vitality (kee) is too low, rest for a while.\n", "zh-TW": "你的精力(sp)或氣血(kee)不足，先歇息片刻吧。\n", "zh-CN": "你的精力(sp)或气血(kee)不足，先歇息片刻吧。\n" ])));
+            return 1;
+        }
+        me->use_sp(10);
+        me->use_kee(5);
+        gain += (me->query_stat("dex") + me->query_stat("per")) / 8;
+    } else {
+        if (me->query_kee() < 20 || me->query_sp() < 10) {
+            write(select_lang(([ "en": "Your vitality (kee) or stamina (sp) is too low, rest for a while.\n", "zh-TW": "你的氣血(kee)或精力(sp)不足，先調息一下吧。\n", "zh-CN": "你的气血(kee)或精力(sp)不足，先调息一下吧。\n" ])));
+            return 1;
+        }
+        me->use_kee(10);
+        me->use_sp(5);
+        gain += (me->query_stat("str") + me->query_stat("con")) / 8;
+    }
 
     me->improve_skill(sid, gain);
     write(select_lang(([ "en": "You practice '", "zh-TW": "你勤加練習『", "zh-CN": "你勤加练习『" ])) + skill_d->query_skill_name(sid) + select_lang(([ "en": "' diligently and feel more proficient.\n", "zh-TW": "』，感覺熟練了一些。\n", "zh-CN": "』，感觉熟练了一些。\n" ])));
@@ -47,9 +65,9 @@ int main(object me, string verb, string arg) {
 
 string help() {
     return select_lang(([
-        "en": "【Command】\n  practice <skill>    Consume HP and MP to practice a learned skill.\n",
-        "zh-TW": "【指令】\n  practice <技能>    消耗體力與法力自行練習已學會的技能。\n",
-        "zh-CN": "【指令】\n  practice <技能>    消耗体力与法力自行练习已学会的技能。\n"
+        "en": "【Command】\n  practice <skill>    Consume KEE, SEN or SP to practice a learned skill.\n",
+        "zh-TW": "【指令】\n  practice <技能>    依技能道途消耗氣血(kee)、神識(sen)或精力(sp)自行修練已領悟的技藝。\n",
+        "zh-CN": "【指令】\n  practice <技能>    依技能道途消耗气血(kee)、神识(sen)或精力(sp)自行修练已领悟的技艺。\n"
     ]));
 }
 

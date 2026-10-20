@@ -114,15 +114,17 @@ void run_tests(object me) {
         }
     }
 
-    // ── 3. 出村進城拓撲連通性檢驗 ──────────────────────────────
+    // ── 3. 出村進城雙線拓撲連通性檢驗 (450里東線盤木道 & 420里西線重石棧道) ──
     object v_square = load_object("/d/village/square.c");
     assert_true(objectp(v_square), "黑石鋪街市必須載入");
     mapping v_exits = v_square->query_exits();
-    assert_equal("/d/city/outer/south_road.c", v_exits["northeast"], "黑石鋪街市東北方出口必須通向南嶺官道 (south_road)");
+    assert_equal("/d/routes/blackstone_pass.c", v_exits["northeast"], "黑石鋪街市東北方出口必須通向東線起點【黑石關】");
+    assert_equal("/d/routes/west_gorge_entry.c", v_exits["northwest"], "黑石鋪街市西北方出口必須通向西線起點【落龍西谷棧道口】");
 
     object s_road = load_object("/d/city/outer/south_road.c");
     mapping r_exits = s_road->query_exits();
-    assert_equal("/d/village/square.c", r_exits["south"], "南嶺官道南方必須通回黑石鋪");
+    assert_equal("/d/routes/forest_landslide.c", r_exits["southeast"], "南嶺官道匯流口東南方必須接東線【南嶺林海官道】");
+    assert_equal("/d/routes/stone_highway_pavilion.c", r_exits["southwest"], "南嶺官道匯流口西南方必須接西線【西南條石馳道】");
     assert_equal("/d/city/gate/gate_south.c", r_exits["north"], "南嶺官道北方必須直達金石南關");
 
     object c_square = load_object("/d/city/center/square.c");
@@ -402,10 +404,77 @@ void run_tests(object me) {
 
     // ── 11. 《跨系統第一輪審核》與《Tier 1 世界運作模型 v0.1》新增驗證 ──
 
-    // (5) P0-2 六縣多起點地方傳承等效規則驗證
-    mapping county_eq = sk_d->check_county_qualification_equivalence("liefan", "wu");
-    assert_equal(1, county_eq["equivalent"], "六縣分舵（如烈礬官窯）應提供與府城等效之初階資格入口");
-    assert_equal("RULE", county_eq["canon_rule"], "六縣多起點規則狀態應標記為 RULE");
+    // (5) P0-2 & OPEN-02(B) 六縣多起點地方傳承等效規則與 18 處分舵考場驗證
+    string *all_counties = ({ "qinghe", "liefan", "panmu", "zhenfeng", "zhuoshui", "zhongshi" });
+    string *all_paths = ({ "fa", "li", "wu" });
+    foreach (string cid in all_counties) {
+        foreach (string p in all_paths) {
+            mapping ceq = sk_d->check_county_qualification_equivalence(cid, p);
+            assert_equal(1, ceq["equivalent"], sprintf("六縣分舵 (%s/%s) 必須提供等效初階資格入口", cid, p));
+            assert_equal("RULE", ceq["canon_rule"], sprintf("六縣分舵 (%s/%s) 規則狀態應為 RULE", cid, p));
+            assert_true(strlen(ceq["lic_id"]) > 0 && strlen(ceq["org_id"]) > 0 && strlen(ceq["branch_id"]) > 0,
+                        sprintf("六縣分舵 (%s/%s) 必須具備完整 lic_id / org_id / branch_id 結構", cid, p));
+        }
+    }
+
+    // 驗證地方考取資格與府城立籍等效、分舵場地直通、以及府城總舵「掛單轉錄」機制
+    object county_student = clone_object("/std/user.c");
+    int init_ok = sk_d->grant_county_initiation(county_student, "panmu", "wu");
+    assert_equal(1, init_ok, "盤木縣【物】道地方啟蒙應成功執行");
+    assert_equal(1, county_student->query_qualification("lic_master_artisan"), "盤木縣考取資格應核發等效百工匠籍 (lic_master_artisan)");
+    assert_equal("天工木作工棚（百工機巧分舵）", county_student->query_qualification_issuer("lic_master_artisan"), "資格核發機構應記錄為盤木天工木作工棚");
+    assert_true(county_student->query_skill("gong_analysis") >= 31 && county_student->query_skill("gong_qiaojin") >= 31, "地方啟蒙應習得 Lv.31 基礎物道技能");
+
+    // 持六縣資格入府城即享正式立籍豁免（不受 72 小時流民驅逐令限制）
+    mapping county_res = city_d->check_residency_mandate(county_student, 200);
+    assert_equal("formal_resident", county_res["status"], "持六縣等效資格入城應直接視為正式立籍居民 (formal_resident)");
+
+    // 分舵成員可直接存取本縣工坊，但未掛單轉錄前不得直接調用府城總部千錘地爐
+    mapping branch_fac = sk_d->check_org_facility_access(county_student, "org_baigong", "/d/counties/panmu/carpentry_shed.c");
+    assert_equal(1, branch_fac["access"], "盤木分舵成員應可直接存取盤木天工木作工棚");
+    mapping hq_fac_before = sk_d->check_org_facility_access(county_student, "org_baigong", "/d/city/north/gong_forge.c");
+    assert_equal(0, hq_fac_before["access"], "地方分舵成員未辦理掛單轉錄前，不得直接調用府城總舵千錘地爐");
+    assert_equal("requires_hq_registration", hq_fac_before["status"], "未掛單轉錄應回傳 requires_hq_registration 狀態");
+
+    mapping reg_res = sk_d->register_at_headquarters(county_student, "org_baigong");
+    assert_equal(1, reg_res["registered"], "地方分舵成員赴府城總舵辦理掛單轉錄應成功");
+    mapping hq_fac_after = sk_d->check_org_facility_access(county_student, "org_baigong", "/d/city/north/gong_forge.c");
+    assert_equal(1, hq_fac_after["access"], "完成總舵掛單轉錄後應解鎖府城總部千錘地爐存取權");
+    destruct(county_student);
+
+    // 驗證 /std/county_room.c、/std/route_room.c 與 /daemon/travel_d.c 基底架構
+    object c_room_base = load_object(COUNTY_ROOM_OB);
+    assert_true(objectp(c_room_base), "六縣房間基底類別 (/std/county_room.c) 必須成功載入");
+    c_room_base->set_county("qinghe");
+    c_room_base->set_qual_path("wu");
+    assert_true(c_room_base->query_local_price_pct() > 0, "county_room 必須能從 WORLD_STATE_D 讀取當前縣域物價指數");
+    assert_true(strsrch(c_room_base->query_long(), "青河洗藥總坊") != -1, "設定 qual_path 之 county_room 描述應顯示地方傳承入口資訊");
+
+    object r_room_base = load_object(ROUTE_ROOM_OB);
+    assert_true(objectp(r_room_base), "標準路段節點房間基底類別 (/std/route_room.c) 必須成功載入");
+    r_room_base->set_route_segment("seg_blackstone_panmu");
+    assert_true(strsrch(r_room_base->query_long(), "虎跳峽林道") != -1, "route_room 描述應自動整合 CITY_D 標準路段資訊");
+
+    object travel_d = load_object(TRAVEL_D);
+    assert_true(objectp(travel_d), "全域路網通行守護進程 (/daemon/travel_d.c) 必須成功載入");
+    mapping tr_wagon_fail = travel_d->check_segment_traversal(me, "seg_blackstone_zhongshi", "heavy_wagon");
+    assert_equal(0, tr_wagon_fail["allowed"], "落龍西谷棧道應禁止重型大車通行");
+    assert_equal("heavy_wagon_forbidden", tr_wagon_fail["reason"], "禁行原因應為 heavy_wagon_forbidden");
+
+    mapping tr_horse_fail = travel_d->check_segment_traversal(me, "seg_city_qinghe_water", "fast_horse");
+    assert_equal(0, tr_horse_fail["allowed"], "青河漕運水路應禁止騎乘快馬");
+
+    me->set_temp("override_season", "summer");
+    mapping tr_summer_block = travel_d->check_segment_traversal(me, "seg_city_qinghe_water", "water_barge");
+    assert_equal(0, tr_summer_block["allowed"], "品物夏歲洪峰期間青河漕運水路應季節性封航");
+    assert_equal("seasonal_block", tr_summer_block["reason"], "封航原因應為 seasonal_block");
+
+    me->set_temp("override_season", "autumn");
+    int old_li = me->query("travel_distance_li");
+    mapping tr_ok = travel_d->record_segment_traversal(me, "seg_blackstone_panmu", "foot");
+    assert_equal(1, tr_ok["allowed"], "虎跳峽林道秋季步卒應允許通行");
+    assert_equal(old_li + 190, me->query("travel_distance_li"), "通行虎跳峽林道後累計跋涉里程應增加 190 里");
+    me->set_temp("override_season", 0);
 
     // (6) P0-3 路段表標準欄位 (one_way, canon_status, travel_mode, seasonal_block)
     mapping seg_bp = city_d->query_route_segment("seg_blackstone_panmu");
@@ -456,4 +525,100 @@ void run_tests(object me) {
     me->set("tier2_admission_token", 1);
     mapping t1_ready = sk_d->evaluate_tier1_completion_state(me);
     assert_equal(1, t1_ready["ready_for_tier2_trial"], "兼具破障、社會專業資格與宗門考核令後方可進入 Tier 2 山門大考");
+
+    // ── 12. Batch 1：南向雙路網 (8節點)、盤木縣 (14房)、重石縣 (14房) 與 6 處考場驗證 ──
+    string *batch1_route_rooms = ({
+        "/d/routes/blackstone_pass.c",
+        "/d/routes/tiger_leap_gorge.c",
+        "/d/routes/panmu_post_approach.c",
+        "/d/routes/forest_sea_post.c",
+        "/d/routes/forest_landslide.c",
+        "/d/routes/west_gorge_entry.c",
+        "/d/routes/cliff_broken_plank.c",
+        "/d/routes/stone_highway_pavilion.c"
+    });
+    foreach (string rr_path in batch1_route_rooms) {
+        object rrob = load_object(rr_path);
+        assert_true(objectp(rrob), sprintf("南向雙路網節點房間必須載入成功: %s", rr_path));
+        if (rrob) {
+            assert_true(strlen(rrob->query_route_segment()) > 0, sprintf("路網節點必須綁定標準路段 ID: %s", rr_path));
+            assert_true(sizeof(rrob->query_exits()) >= 2, sprintf("路網節點必須具備雙向連通出口: %s", rr_path));
+        }
+    }
+
+    string *panmu_rooms = ({
+        "/d/counties/panmu/south_gate.c",
+        "/d/counties/panmu/market.c",
+        "/d/counties/panmu/yamen.c",
+        "/d/counties/panmu/pawnshop.c",
+        "/d/counties/panmu/post_inn.c",
+        "/d/counties/panmu/carpentry_shed.c",
+        "/d/counties/panmu/tannery_mill.c",
+        "/d/counties/panmu/mountain_shrine.c",
+        "/d/counties/panmu/hunter_lodge.c",
+        "/d/counties/panmu/north_gate.c",
+        "/d/counties/panmu/qingsong_hamlet.c",
+        "/d/counties/panmu/qingsong_traps.c",
+        "/d/counties/panmu/daoying_stream.c",
+        "/d/counties/panmu/fir_logging_line.c"
+    });
+    assert_equal(14, sizeof(panmu_rooms), "盤木縣必須包含完整 14 間實體房間");
+    foreach (string pm_path in panmu_rooms) {
+        object pmob = load_object(pm_path);
+        assert_true(objectp(pmob), sprintf("盤木縣房間必須載入成功: %s", pm_path));
+        if (pmob) {
+            assert_equal("panmu", pmob->query_county(), sprintf("盤木縣房間必須綁定 county_id == panmu: %s", pm_path));
+            assert_true(sizeof(pmob->query_exits()) >= 1, sprintf("盤木縣房間必須具備有效出口: %s", pm_path));
+        }
+    }
+
+    string *zhongshi_rooms = ({
+        "/d/counties/zhongshi/southwest_gate.c",
+        "/d/counties/zhongshi/market.c",
+        "/d/counties/zhongshi/yamen.c",
+        "/d/counties/zhongshi/pawnshop.c",
+        "/d/counties/zhongshi/post_inn.c",
+        "/d/counties/zhongshi/stone_guild.c",
+        "/d/counties/zhongshi/crusher_hall.c",
+        "/d/counties/zhongshi/leyline_pavilion.c",
+        "/d/counties/zhongshi/north_gate.c",
+        "/d/counties/zhongshi/shinian_slope.c",
+        "/d/counties/zhongshi/watermill_forge.c",
+        "/d/counties/zhongshi/chuanshan_camp.c",
+        "/d/counties/zhongshi/quarry_winch3.c",
+        "/d/counties/zhongshi/terrace_trench.c"
+    });
+    assert_equal(14, sizeof(zhongshi_rooms), "重石縣必須包含完整 14 間實體房間");
+    foreach (string zs_path in zhongshi_rooms) {
+        object zsob = load_object(zs_path);
+        assert_true(objectp(zsob), sprintf("重石縣房間必須載入成功: %s", zs_path));
+        if (zsob) {
+            assert_equal("zhongshi", zsob->query_county(), sprintf("重石縣房間必須綁定 county_id == zhongshi: %s", zs_path));
+            assert_true(sizeof(zsob->query_exits()) >= 1, sprintf("重石縣房間必須具備有效出口: %s", zs_path));
+        }
+    }
+
+    // 驗證盤木縣與重石縣 6 處地方考場房間與 SKILL_D 註冊表完全一致
+    string *batch1_counties = ({ "panmu", "zhongshi" });
+    foreach (string bc in batch1_counties) {
+        foreach (string bp in all_paths) {
+            mapping beq = sk_d->check_county_qualification_equivalence(bc, bp);
+            object exam_room = load_object(beq["room"]);
+            assert_true(objectp(exam_room), sprintf("地方考場房間必須存在且可載入: %s", beq["room"]));
+            if (exam_room) {
+                assert_equal(bp, exam_room->query_qual_path(), sprintf("考場房間道途標記必須匹配: %s", beq["room"]));
+                assert_equal(beq["org_id"], exam_room->query_branch_org(), sprintf("考場房間所屬組織必須匹配: %s", beq["room"]));
+            }
+        }
+    }
+
+    // 驗證 MAP_D 盤木縣與重石縣分區地圖渲染
+    object map_d = load_object("/secure/map_d");
+    assert_true(objectp(map_d), "MAP_D 必須載入成功");
+    if (map_d) {
+        string pm_map = map_d->draw_panmu_map(0);
+        string zs_map = map_d->draw_zhongshi_map(0);
+        assert_true(strsrch(pm_map, "盤木縣") != -1, "MAP_D 必須可渲染盤木縣分區地圖");
+        assert_true(strsrch(zs_map, "重石縣") != -1, "MAP_D 必須可渲染重石縣分區地圖");
+    }
 }

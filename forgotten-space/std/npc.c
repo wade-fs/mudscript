@@ -143,9 +143,9 @@ void setup_archetype(string arch, int lv) {
     stat_str = (b_str * total + 19) / 38; if (stat_str < 1) stat_str = 1;
     stat_con = (b_con * total + 19) / 38; if (stat_con < 1) stat_con = 1;
     stat_int = (b_int * total + 19) / 38; if (stat_int < 1) stat_int = 1;
-    stat_wis = (b_spi * total + 19) / 38; if (stat_wis < 1) stat_wis = 1;
+    stat_spi = (b_spi * total + 19) / 38; if (stat_spi < 1) stat_spi = 1;
     stat_dex = (b_dex * total + 19) / 38; if (stat_dex < 1) stat_dex = 1;
-    stat_cha = (b_per * total + 19) / 38; if (stat_cha < 1) stat_cha = 1;
+    stat_per = (b_per * total + 19) / 38; if (stat_per < 1) stat_per = 1;
 
     recalc_stats();
     hp = max_hp;
@@ -561,8 +561,8 @@ void do_attack() {
     combat_target->take_damage(raw);
     tell_object(combat_target,
         crit_str + query_name() + " 對你造成了 " + sprintf("%d", raw) + " 點傷害！" +
-        "（你剩 " + sprintf("%d", combat_target->query_hp()) + "/" +
-        sprintf("%d", combat_target->query_max_hp()) + " HP）\n");
+        "（你剩 " + sprintf("%d", combat_target->query_kee()) + "/" +
+        sprintf("%d", combat_target->query_max_kee()) + " 氣血）\n");
     
     // 🚀 觸發對方的被攻擊判定（讓玩家自動反擊）
     combat_target->attacked_by(this_object());

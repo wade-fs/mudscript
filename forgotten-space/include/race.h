@@ -8,55 +8,50 @@
 
 #define RACE_DATA ([ \
     "human" : ([ \
-        "name" : "人類", \
-        "desc" : "適應力強，各項屬性均衡，是世界的主要種族。", \
-        "stats" : ([ "str": 2, "dex": 2, "int": 2, "con": 2, "wis": 2, "cha": 2 ]) \
+        "name" : "人族", \
+        "desc" : "大乾王朝與邊陲地帶的凡人百工，六維均衡，兼具力、法、物三道潛質。", \
+        "stats" : ([ "str": 2, "con": 2, "int": 2, "spi": 2, "dex": 2, "per": 2 ]) \
     ]), \
-    "elf" : ([ \
-        "name" : "精靈", \
-        "desc" : "優雅且長壽，擅長魔法與敏捷行動，但體力較弱。", \
-        "stats" : ([ "str": -1, "dex": 4, "int": 3, "con": -1, "wis": 3, "cha": 4 ]) \
+    "mountain_folk" : ([ \
+        "name" : "山民", \
+        "desc" : "世代居於南嶺與重石深山的獵戶石工，臂力與根骨強健。", \
+        "stats" : ([ "str": 4, "con": 4, "int": 0, "spi": 0, "dex": 2, "per": 2 ]) \
     ]), \
-    "dwarf" : ([ \
-        "name" : "矮人", \
-        "desc" : "堅韌且強壯，擅長鍛造與戰鬥，不擅長魔法。", \
-        "stats" : ([ "str": 4, "dex": -1, "int": -1, "con": 5, "wis": 1, "cha": 0 ]) \
-    ]), \
-    "orc" : ([ \
-        "name" : "獸人", \
-        "desc" : "充滿力量與狂氣，擁有驚人的體魄，但智力低下。", \
-        "stats" : ([ "str": 6, "dex": 2, "int": -4, "con": 4, "wis": -2, "cha": -2 ]) \
+    "river_folk" : ([ \
+        "name" : "水鄉民", \
+        "desc" : "常年行舟於青河與濁水之間的住民，靈巧與感知敏銳。", \
+        "stats" : ([ "str": 1, "con": 1, "int": 2, "spi": 2, "dex": 3, "per": 3 ]) \
     ]) \
 ])
 
 /* 
    天性 (Nature/Personality) 定義 
-   影響初始技能或微幅屬性修正
+   影響初始技能或微幅六維屬性修正
 */
 #define NATURE_DATA ([ \
     "brave" : ([ \
         "name" : "勇猛", \
-        "desc" : "無所畏懼，戰鬥時更有力量。", \
+        "desc" : "氣血充沛，近身搏殺時更具爆發力。", \
         "stats" : ([ "str": 3, "con": 1 ]), \
-        "skills": ({ "power_strike" }) \
+        "skills": ({ "unarmed" }) \
     ]), \
     "wise" : ([ \
-        "name" : "睿智", \
-        "desc" : "洞察世事，精神力極高。", \
-        "stats" : ([ "int": 3, "wis": 1 ]), \
-        "skills": ({ "meditation" }) \
+        "name" : "悟道", \
+        "desc" : "神識清明，對天地法理與星象感應敏銳。", \
+        "stats" : ([ "int": 3, "spi": 1 ]), \
+        "skills": ({ "dao_tuna" }) \
     ]), \
     "agile" : ([ \
-        "name" : "靈動", \
-        "desc" : "身輕如燕，難以被擊中。", \
-        "stats" : ([ "dex": 3, "cha": 1 ]), \
+        "name" : "機巧", \
+        "desc" : "手眼靈巧，善於辨析物性與結構破綻。", \
+        "stats" : ([ "dex": 3, "per": 1 ]), \
         "skills": ({ "dodge" }) \
     ]), \
     "tough" : ([ \
         "name" : "堅毅", \
-        "desc" : "耐打耐磨，擁有極強的生存能力。", \
+        "desc" : "筋骨強韌，能承受嚴酷環境與重負荷勞作。", \
         "stats" : ([ "con": 3, "str": 1 ]), \
-        "skills": ({ "endurance" }) \
+        "skills": ({ "parry" }) \
     ]) \
 ])
 

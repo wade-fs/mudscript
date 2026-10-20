@@ -24,10 +24,14 @@ int main(object me, string verb, string arg) {
         "level": me->query_level(),
         "exp"  : me->query_exp(),
         "exp_to_next": me->query_exp_to_next(),
-        "hp"   : me->query_hp(),
-        "max_hp": me->query_max_hp(),
-        "mp"   : me->query_mp(),
-        "max_mp": me->query_max_mp(),
+        "kee"   : me->query_kee(),
+        "max_kee": me->query_max_kee(),
+        "sen"   : me->query_sen(),
+        "max_sen": me->query_max_sen(),
+        "hp"   : me->query_kee(),
+        "max_hp": me->query_max_kee(),
+        "mp"   : me->query_sen(),
+        "max_mp": me->query_max_sen(),
         "sp"   : me->query_sp(),
         "max_sp": me->query_max_sp(),
         "money": me->query_money_plain(),
@@ -78,8 +82,8 @@ int main(object me, string verb, string arg) {
         write("\n" + "$HIW$【角色資訊】 " + data["name"] + "$NOR$" + "\n");
         write(sprintf("  %-10s : %s\n", "身世背景", bg_name));
         write(sprintf("  %-10s : %d (歷練經驗: %d / %d)\n", "等級", data["level"], data["exp"], data["exp_to_next"]));
-        write(sprintf("  %-10s : %d / %d\n", data["label_hp"] + "(kee)", data["hp"], data["max_hp"]));
-        write(sprintf("  %-10s : %d / %d\n", data["label_mp"] + "(sen)", data["mp"], data["max_mp"]));
+        write(sprintf("  %-10s : %d / %d\n", data["label_hp"] + "(kee)", data["kee"], data["max_kee"]));
+        write(sprintf("  %-10s : %d / %d\n", data["label_mp"] + "(sen)", data["sen"], data["max_sen"]));
         write(sprintf("  %-10s : %d / %d\n", data["label_sp"] + "(sp)", data["sp"], data["max_sp"]));
         write(sprintf("  %-10s : %s\n", data["label_wealth"], data["money"]));
         write(sprintf("  %-10s : %d  |  %-10s : %d\n", "攻擊力", data["atk"], "防禦力", data["def"]));
@@ -109,8 +113,8 @@ string query_category() {
 
 string help() {
     return select_lang(([
-        "en": "【Status Commands】\n  score / status  View detailed character status, including HP, MP, level and attributes.\n",
-        "zh-TW": "【狀態指令】\n  score / status  查看角色的詳細狀態資訊，包含 HP、MP、等級與屬性。\n",
-        "zh-CN": "【状态指令】\n  score / status  查看角色的详细状态资讯，包含 HP、MP、等级与属性。\n"
+        "en": "【Status Commands】\n  score / status  View detailed character status, including KEE, SEN, SP, level and six attributes.\n",
+        "zh-TW": "【狀態指令】\n  score / status  查看角色的詳細狀態資訊，包含氣血(kee)、神識(sen)、精力(sp)、等級與先天六維屬性。\n",
+        "zh-CN": "【状态指令】\n  score / status  查看角色的详细状态资讯，包含气血(kee)、神识(sen)、精力(sp)、等级与先天六维属性。\n"
     ]));
 }

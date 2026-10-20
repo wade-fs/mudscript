@@ -55,8 +55,8 @@ void do_combat_round() {
     target->take_damage(raw);
     write(crit_str + "你對 " + target->query_name() +
           " 造成了 " + sprintf("%d", raw) + " 點傷害！" +
-          "（對方剩 " + sprintf("%d", target->query_hp()) + "/" +
-          sprintf("%d", target->query_max_hp()) + " HP）\n");
+          "（對方剩 " + sprintf("%d", target->query_kee()) + "/" +
+          sprintf("%d", target->query_max_kee()) + " 氣血）\n");
     say(crit_str + query_name() + " 攻擊了 " + target->query_name() + "！\n");
 
     target->attacked_by(this_object());
@@ -154,22 +154,21 @@ int do_flee(string arg) {
 
 // ── 指令：skills ─────────────────────────────────────────────
 int do_skills(string arg) {
-    write("=== 可用技能 ===\n");
-    write("  fireball <目標> - 火球術（消耗 MP）\n");
-    write("  heal             - 治療自身\n");
-    write("  rage             - 狂暴（ATK+50%，持續 3 回合）\n");
+    write("=== 三元基礎與內建招式 ===\n");
+    write("  perform <招式ID> [目標] - 施展【力】【法】【物】三道專屬招式\n");
+    write("  调息 / breathe          - 運轉心法恢復氣血(kee)、神識(sen)與精力(sp)\n");
     return 1;
 }
 
-// ── 技能：fire ball ──────────────────────────────────────────
+// ── 基礎借法術式（消耗神識 sen） ────────────────────────────
 int do_fireball(string arg) {
     // 🚀 幻影模式攔截
     if (this_object()->query_current_mudlib() != "") {
         write("你目前處於幻影狀態，無法施展破壞性的法術。\n");
         return 1;
     }
-    int mp_cost = 20;
-    if (!arg) { write("用法：fireball <目標>\n"); return 1; }
+    int sen_cost = 20;
+    if (!arg) { write("用法：perform dao_jiefa <目標>\n"); return 1; }
     
     object here = environment(this_object());
     if (here && here->query_no_combat()) {
@@ -177,8 +176,8 @@ int do_fireball(string arg) {
         return 1;
     }
 
-    if (!use_mp(mp_cost)) {
-        write("MP 不足，無法施放火球術！（需要 " + sprintf("%d", mp_cost) + " MP）\n");
+    if (!use_sen(sen_cost)) {
+        write("神識(sen)不足，無法引動借法印訣！（需要 " + sprintf("%d", sen_cost) + " 神識）\n");
         return 1;
     }
 
@@ -188,18 +187,18 @@ int do_fireball(string arg) {
         return 1;
     }
 
-    int dmg = stat_int * 3 + random(20);
+    int dmg = (stat_int + stat_spi) * 2 + random(20);
     target->take_damage(dmg);
-    write("🔥 你向 " + target->query_name() + " 施放了火球術，造成 " +
-          sprintf("%d", dmg) + " 點魔法傷害！\n");
-    say(query_name() + " 施放了火球術！\n");
+    write("🔥 你掐動借法印訣向 " + target->query_name() + " 引動離火靈機，造成 " +
+          sprintf("%d", dmg) + " 點法術傷害！\n");
+    say(query_name() + " 掐動印訣引動了一道離火靈機！\n");
     tell_object(target, "🔥 " + query_name() +
-        " 的火球術對你造成了 " + sprintf("%d", dmg) + " 點傷害！\n");
+        " 的離火印訣對你造成了 " + sprintf("%d", dmg) + " 點傷害！\n");
 
     target->attacked_by(this_object());
 
-    if (target->query_hp() <= 0) {
-        write("火球術將 " + target->query_name() + " 化為灰燼！\n");
+    if (target->query_kee() <= 0) {
+        write("離火靈機將 " + target->query_name() + " 徹底擊潰！\n");
         target->die();
         stop_combat();
     } else if (!in_combat) {
@@ -209,17 +208,17 @@ int do_fireball(string arg) {
     return 1;
 }
 
-// ── 技能：heal ──────────────────────────────────────────────
+// ── 基礎回氣術式（消耗神識 sen） ────────────────────────────
 int do_heal(string arg) {
-    int mp_cost = 15;
-    if (!use_mp(mp_cost)) {
-        write("MP 不足，無法施放治療術！（需要 " + sprintf("%d", mp_cost) + " MP）\n");
+    int sen_cost = 15;
+    if (!use_sen(sen_cost)) {
+        write("神識(sen)不足，無法凝神調理氣血！（需要 " + sprintf("%d", sen_cost) + " 神識）\n");
         return 1;
     }
-    int heal_amount = stat_wis * 3 + random(15);
-    heal_hp(heal_amount);
-    write("✨ 你施放了治療術，恢復了 " + sprintf("%d", heal_amount) + " 點 HP！" +
-          "（HP: " + sprintf("%d", hp) + "/" + sprintf("%d", max_hp) + "）\n");
-    say(query_name() + " 散發出治療的光芒。\n");
+    int heal_amount = stat_spi * 3 + random(15);
+    heal_kee(heal_amount);
+    write("✨ 你運轉靈機調理經脈，恢復了 " + sprintf("%d", heal_amount) + " 點氣血！" +
+          "（氣血: " + sprintf("%d", hp) + "/" + sprintf("%d", max_hp) + "）\n");
+    say(query_name() + " 凝神運氣，周身泛起微光。\n");
     return 1;
 }
