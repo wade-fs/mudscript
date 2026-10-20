@@ -762,6 +762,77 @@ void improve_skill(string s, int v) {
 }
 mapping query_skills() { return skills; }
 
+// ── 四維解耦介面：道途 (Path) ≠ 技能 (Skill) ≠ 資格 (Qualification) ≠ 組織 (Organization) ──
+void set_path(string p) {
+    ::set("path", p);
+}
+
+string query_path() {
+    string p = ::query("path");
+    if (p && p != "") return p;
+    string cls = ::query("class");
+    if (cls == "dao_initiate") return "fa";
+    if (cls == "wu_initiate") return "li";
+    if (cls == "gong_initiate") return "wu";
+    return "";
+}
+
+void grant_qualification(string lic_id, int rank) {
+    if (!lic_id || lic_id == "") return;
+    if (rank <= 0) rank = 1;
+    mapping q = ::query("qualifications");
+    if (!mapp(q)) q = ([]);
+    q[lic_id] = rank;
+    ::set("qualifications", q);
+}
+
+void revoke_qualification(string lic_id) {
+    mapping q = ::query("qualifications");
+    if (!mapp(q)) return;
+    map_delete(q, lic_id);
+    ::set("qualifications", q);
+}
+
+int query_qualification(string lic_id) {
+    mapping q = ::query("qualifications");
+    if (!mapp(q) || !q[lic_id]) return 0;
+    return q[lic_id];
+}
+
+mapping query_qualifications() {
+    mapping q = ::query("qualifications");
+    if (!mapp(q)) return ([]);
+    return q;
+}
+
+void join_organization(string org_id, string rank_title) {
+    if (!org_id || org_id == "") return;
+    if (!rank_title || rank_title == "") rank_title = "member";
+    mapping orgs = ::query("organizations");
+    if (!mapp(orgs)) orgs = ([]);
+    orgs[org_id] = rank_title;
+    ::set("organizations", orgs);
+}
+
+void leave_organization(string org_id) {
+    mapping orgs = ::query("organizations");
+    if (!mapp(orgs)) return;
+    map_delete(orgs, org_id);
+    ::set("organizations", orgs);
+}
+
+string query_org_rank(string org_id) {
+    mapping orgs = ::query("organizations");
+    if (!mapp(orgs) || !orgs[org_id]) return "";
+    return orgs[org_id];
+}
+
+mapping query_organizations() {
+    mapping orgs = ::query("organizations");
+    if (!mapp(orgs)) return ([]);
+    return orgs;
+}
+
 // catch_tell：活物收到訊息，預設不做任何事（子類別可覆寫）
 void catch_tell(string msg) {
 }

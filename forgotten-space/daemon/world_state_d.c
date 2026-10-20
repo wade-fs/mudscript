@@ -37,6 +37,9 @@ int caravan_visit_count;    // 商隊抵達累積次數
 mapping windows;             // 奇遇世界窗口 (window_id -> 剩餘時間分鐘數)
 mapping encounter_slots;     // 全服奇遇名額消耗 (encounter_id -> 已獲取神物數量)
 
+// ── 7. 六縣與黑石鋪 30 天無主角介入之自主演進時鐘 (county_clocks) ──────────
+mapping county_clocks;       // county_id -> ([ "day": 1..30, "stage": 1..4, "price_pct": 100..250, "cycles": 0 ])
+
 string query_save_file() { return "/data/world_state"; }
 
 void create() {
@@ -87,6 +90,9 @@ void create() {
     }
     if (!encounter_slots || !mapp(encounter_slots)) {
         encounter_slots = ([]);
+    }
+    if (!county_clocks || !mapp(county_clocks)) {
+        init_county_clocks();
     }
     if (mine_stability <= 0 && !mine_is_collapsed) mine_stability = 65;
     if (disha_activity <= 0) disha_activity = 60;
@@ -225,6 +231,11 @@ void world_tick(int g_time, string weather) {
                 }
             }
         }
+    }
+
+    // 6. 六縣 30 天自主演進時鐘 (每滿 1440 遊戲分鐘 = 1 遊戲日 自動推進 1 天)
+    if (g_time > 0 && (g_time % 1440 == 0)) {
+        advance_county_day("all", 1);
     }
 
     if (g_time % 30 == 0) {
@@ -644,4 +655,197 @@ int clear_mine_rubble(object player) {
     }
 
     return 1;
+}
+
+// ── 7. 六縣與黑石鋪 30 天自主演進系統 (Autonomous 30-Day Regional Clocks) ───
+// 即使五位主角從未踏足某縣，該縣仍依自身結構性矛盾在 30 天內經歷：
+// Stage 1 (Day 1~7 初兆) -> Stage 2 (Day 8~15 升級) -> Stage 3 (Day 16~23 爆發) -> Stage 4 (Day 24~30 地方自救妥協與次生後遺症)
+
+mapping get_county_timeline_defs() {
+    return ([
+        "qinghe": ([
+            "name": "青河縣",
+            "commodity": "靈草／主糧",
+            "conflict": "上游定神道觀築壩截水保靈圃 vs 下游萬畝糧農與西水門漕幫爭水",
+            "stages": ([
+                "1": ([ "price_pct": 105, "desc": "【初兆】定神道觀私自下放攔水石閘兩尺濾沙，下游蘆花渡水深驟減，重載糧船偶有擱淺。" ]),
+                "2": ([ "price_pct": 125, "desc": "【升級】碼頭水行與百草坪藥農爆發爭水械鬥，漕運船期延誤至五天，都城藥糧價格上浮。" ]),
+                "3": ([ "price_pct": 160, "desc": "【爆發】上游攔水壩淤沙潰漫淹沒道觀外圃，道觀封鎖靈草外銷，都城醫館與採百草堂原材告急！" ]),
+                "4": ([ "price_pct": 130, "desc": "【地方妥協】商會青河分號出資雇工炸開副渠洩水，道觀被迫簽下折價抵債契，四成靈草產能遭商會預先壟斷，古河床沖出半截史前石閘。" ])
+            ])
+        ]),
+        "liefan": ([
+            "name": "烈礬縣",
+            "commodity": "赤銅／硝石／硃砂",
+            "conflict": "百工耐火料分舵官定牌價強徵 vs 紅砂坳私爐礦主怠工摻渣與走私",
+            "stages": ([
+                "1": ([ "price_pct": 110, "desc": "【初兆】黑石鋪血精停產導致烈礬助劑滯銷，礦主資金斷裂，開始在官交赤銅中摻入三成廢礬渣。" ]),
+                "2": ([ "price_pct": 135, "desc": "【升級】百工分舵退回劣銅並開出重罰，地火堡三座大窯熄火罷工，東關生銅入城量減半。" ]),
+                "3": ([ "price_pct": 180, "desc": "【爆發】私爐礦工為趕黑市急單違規過量爆破，孤狼嶺深井毒煙外洩塌方，東麓峽谷戒嚴，銅硝價格飆升！" ]),
+                "4": ([ "price_pct": 140, "desc": "【地方妥協】分舵管事為保考績與礦主達成『明罰暗補』默契，默許每十車官銅夾帶兩車無印私銅流入城下鬼市。" ])
+            ])
+        ]),
+        "panmu": ([
+            "name": "盤木縣",
+            "commodity": "鐵力木／符紙／生革",
+            "conflict": "天工木作大棚越界砍伐擴張 vs 青松塢獵戶宗族山林緩衝禁忌",
+            "stages": ([
+                "1": ([ "price_pct": 105, "desc": "【初兆】伐木隊越過倒影澗界碑砍伐古冷杉，驚動林海深處棘背豪豬與山魈群，外圍獵場陷阱屢遭踩毀。" ]),
+                "2": ([ "price_pct": 130, "desc": "【升級】獵戶宗族拒絕擔任林道斥候護衛，兩支運木重車隊在南嶺半途遇襲棄車，木材與符紙原料上漲。" ]),
+                "3": ([ "price_pct": 165, "desc": "【爆發】過度砍伐坡面遇雨滑坡阻斷盤木至南關主官道，都城天工木作大棚被迫延遲大型工程！" ]),
+                "4": ([ "price_pct": 125, "desc": "【地方妥協】木作工棚讓出兩成山林抽成退回界碑北側，並購置邊軍淘汰硬弓自組護林隊，受驚異獸改道向南壓迫虎跳峽。" ])
+            ])
+        ]),
+        "zhenfeng": ([
+            "name": "鎮風縣",
+            "commodity": "風蝕石英／硬弓／防寒革甲",
+            "conflict": "邊防衛所強徵八成風蝕石英充作軍備 vs 鷹嘴崖採石散人與武館分舵抗爭",
+            "stages": ([
+                "1": ([ "price_pct": 115, "desc": "【初兆】北山朔風轉烈，衛所頒布天風谷入谷管制令，鷹嘴崖散人收入斷絕，轉入黑市私售箭鏃與石英。" ]),
+                "2": ([ "price_pct": 135, "desc": "【升級】衛所抓捕私售散人引來八方武館邊關分舵護短，軍鎮衛所與武館分舵營門對峙，北關硬弓革甲延遲。" ]),
+                "3": ([ "price_pct": 175, "desc": "【爆發】天風谷口遭外荒雪狼群夜襲，散人斥候不願配合通報致外圍烽燧受損，北塞馳道實施半月軍管！" ]),
+                "4": ([ "price_pct": 130, "desc": "【地方妥協】鎮武軍鎮副將雷震調停改為『五五官買』並由商會墊付欠餉，衛所守將自此對商會夜行車隊睜一隻眼閉一隻眼。" ])
+            ])
+        ]),
+        "zhuoshui": ([
+            "name": "濁水縣",
+            "commodity": "粗金砂／毒囊",
+            "conflict": "淘金幫私控黑水埗溶洞水路 vs 浮橋官差緝私勒索與通寶當鋪洗錢",
+            "stages": ([
+                "1": ([ "price_pct": 120, "desc": "【初兆】黑石鋪礦難後大批來歷不明銅件與晶錠流入泥螺灘，淘金幫坐地起價收取三成暗河過道費。" ]),
+                "2": ([ "price_pct": 145, "desc": "【升級】外來亡命客與淘金幫在浮橋火併，水澤瘴氣加劇，縣署封鎖三座木樁浮橋。" ]),
+                "3": ([ "price_pct": 190, "desc": "【爆發】當鋪分號帳房攜涉案底單失蹤，通寶當鋪凍結濁水信用票據兌付，城下暗渠鬼市交易半癱瘓！" ]),
+                "4": ([ "price_pct": 140, "desc": "【地方妥協】淘金幫交出兩名替死鬼並賠百兩赤金贖回當鋪信用，失蹤帳房的半頁殘帳已流入府城暗線。" ])
+            ])
+        ]),
+        "zhongshi": ([
+            "name": "重石縣",
+            "commodity": "重玄條石／粗生鐵錠／黑鐵砂",
+            "conflict": "都城官防條石急徵令轉嫁配額 vs 石碾坡水磨生鐵工坊搶工工傷事故",
+            "stages": ([
+                "1": ([ "price_pct": 110, "desc": "【初兆】黑石鋪塌方後配額全數轉嫁重石縣，穿山寨日夜趕工，水磨坊與採石場因爭搶水源頻發衝突。" ]),
+                "2": ([ "price_pct": 135, "desc": "【升級】主採石場三號巨型絞盤崩斷壓傷石工，條石與武館淬骨黑鐵砂出貨減半。" ]),
+                "3": ([ "price_pct": 170, "desc": "【爆發】石碾坡民夫因工傷撫恤遭剋扣聚眾堵死西南馳道，都城南關外大石堆棧停擺，生鐵價格飆升！" ]),
+                "4": ([ "price_pct": 125, "desc": "【地方妥協】百工總會魯長生派徒弟攜零件南下修妥絞盤，通寶當鋪墊支撫恤平息民憤，台地深溝意外切穿太古石槨氣孔。" ])
+            ])
+        ]),
+        "blackstone": ([
+            "name": "黑石鋪",
+            "commodity": "南山青石／驅煞草藥",
+            "conflict": "北崖廢坑善後自救 vs 黑石關暫代巡檢新設邊山修路捐",
+            "stages": ([
+                "1": ([ "price_pct": 110, "desc": "【初兆】阿鐵與魯大山帶領倖存礦工封死北崖三號毒井，改在南山淺層開採青石維持生計。" ]),
+                "2": ([ "price_pct": 125, "desc": "【升級】胡百戶倒台後北關派來暫代巡檢進駐黑石關，巧立『邊山修路捐』向過往山貨抽稅一成五。" ]),
+                "3": ([ "price_pct": 145, "desc": "【爆發】虎跳峽便道因凍融落石再度受阻，關卡巡兵強徵村民免費修路，鄉民怨聲載道。" ]),
+                "4": ([ "price_pct": 115, "desc": "【地方妥協】莫三透過後巷暗線與盤木、重石腳夫開闢繞關山林小徑，黑石鋪轉型為民間山貨秘密中轉站。" ])
+            ])
+        ])
+    ]);
+}
+
+int calc_stage_for_day(int day) {
+    if (day <= 7) return 1;
+    if (day <= 15) return 2;
+    if (day <= 23) return 3;
+    return 4;
+}
+
+void init_county_clocks() {
+    mapping defs = get_county_timeline_defs();
+    county_clocks = ([]);
+    foreach (string cid in keys(defs)) {
+        mapping def = defs[cid];
+        mapping st1 = def["stages"]["1"];
+        county_clocks[cid] = ([
+            "day": 1,
+            "stage": 1,
+            "price_pct": st1["price_pct"],
+            "cycles": 0,
+            "aftermath_triggered": 0
+        ]);
+    }
+}
+
+// 推進指定縣城（或全縣 `"all"`）的天數（1~30 日循環演進）
+mapping advance_county_day(string county_id, int days) {
+    mapping defs = get_county_timeline_defs();
+    if (!county_clocks || !mapp(county_clocks)) init_county_clocks();
+    if (days <= 0) days = 1;
+
+    string *targets;
+    if (county_id == "all") {
+        targets = keys(defs);
+    } else if (defs[county_id]) {
+        targets = ({ county_id });
+    } else {
+        return ([]);
+    }
+
+    foreach (string cid in targets) {
+        if (!county_clocks[cid]) {
+            county_clocks[cid] = ([ "day": 1, "stage": 1, "price_pct": 100, "cycles": 0, "aftermath_triggered": 0 ]);
+        }
+        int new_day = county_clocks[cid]["day"] + days;
+        int cycles = county_clocks[cid]["cycles"];
+        int aftermath = county_clocks[cid]["aftermath_triggered"];
+
+        while (new_day > 30) {
+            new_day -= 30;
+            cycles += 1;
+            aftermath = 1;
+        }
+        int st = calc_stage_for_day(new_day);
+        if (st == 4) aftermath = 1;
+
+        mapping def = defs[cid];
+        string st_key = sprintf("%d", st);
+        int base_pct = def["stages"][st_key]["price_pct"];
+        // 若已歷經地方妥協後遺症，基準底部墊高 +5%（受硬性上限 250% 與下限 50% 約束）
+        int final_pct = base_pct + (cycles > 0 ? 5 : 0);
+        if (final_pct > 250) final_pct = 250;
+        if (final_pct < 50) final_pct = 50;
+
+        county_clocks[cid]["day"] = new_day;
+        county_clocks[cid]["stage"] = st;
+        county_clocks[cid]["price_pct"] = final_pct;
+        county_clocks[cid]["cycles"] = cycles;
+        county_clocks[cid]["aftermath_triggered"] = aftermath;
+    }
+
+    save_object(query_save_file());
+    if (county_id != "all" && county_clocks[county_id]) {
+        return query_county_status(county_id);
+    }
+    return county_clocks;
+}
+
+mapping query_county_status(string county_id) {
+    mapping defs = get_county_timeline_defs();
+    if (!county_clocks || !mapp(county_clocks)) init_county_clocks();
+    if (!defs[county_id]) return 0;
+    if (!county_clocks[county_id]) init_county_clocks();
+
+    mapping clk = county_clocks[county_id];
+    mapping def = defs[county_id];
+    int st = clk["stage"];
+    string st_key = sprintf("%d", st);
+    mapping st_info = def["stages"][st_key];
+
+    return ([
+        "county_id": county_id,
+        "name": def["name"],
+        "commodity": def["commodity"],
+        "conflict": def["conflict"],
+        "day": clk["day"],
+        "stage": st,
+        "price_pct": clk["price_pct"],
+        "cycles": clk["cycles"],
+        "aftermath_triggered": clk["aftermath_triggered"],
+        "stage_desc": st_info["desc"]
+    ]);
+}
+
+mapping query_all_county_clocks() {
+    if (!county_clocks || !mapp(county_clocks)) init_county_clocks();
+    return county_clocks;
 }

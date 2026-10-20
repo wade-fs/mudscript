@@ -330,4 +330,130 @@ void run_tests(object me) {
             destruct(nob);
         }
     }
+
+    // ── 10. 四大核心支柱驗證：唯一路網、權力會審、六縣30天自走時鐘、技能四維解耦 ──
+
+    // (1) 唯一交通路網模型 (ROUTE_SEGMENTS) 與黑石鋪 450 里 / 420 里雙路線
+    mapping all_segs = city_d->query_all_route_segments();
+    assert_equal(12, sizeof(all_segs), "全域標準交通路段表必須包含 12 條核心路段");
+    mapping comp_routes = city_d->query_composite_routes("blackstone", "city");
+    assert_equal(450, comp_routes["east_panmu_route"]["total_distance_li"], "黑石鋪至府城東線（經盤木林道）總里程應為 450 里");
+    assert_equal(1, comp_routes["east_panmu_route"]["heavy_wagon_allowed"], "黑石鋪至府城東線（盤木線）允許通行重型大車");
+    assert_equal(420, comp_routes["west_zhongshi_route"]["total_distance_li"], "黑石鋪至府城西線（經重石河谷棧道）總里程應為 420 里");
+    assert_equal(0, comp_routes["west_zhongshi_route"]["heavy_wagon_allowed"], "黑石鋪至府城西線（落龍西谷棧道）禁止重型大車通行");
+
+    // (2) 歷史法統、軍令雙印合符與三方會審機制
+    mapping border_auth = city_d->check_military_order_auth("border_patrol", ({ "junzhen_tiger_tally" }));
+    assert_equal(1, border_auth["authorized"], "關外邊防盤查僅需軍鎮虎符即可授權");
+    mapping city_deploy_fail = city_d->check_military_order_auth("city_deployment", ({ "junzhen_tiger_tally" }));
+    assert_equal(0, city_deploy_fail["authorized"], "單憑軍鎮虎符不得擅自調兵入內城或查抄大宗家產");
+    mapping city_deploy_ok = city_d->check_military_order_auth("city_deployment", ({ "yamen_seal", "junzhen_tiger_tally", "supply_warrant" }));
+    assert_equal(1, city_deploy_ok["authorized"], "集齊府衙官印、軍鎮虎符與後勤餉票三印合符方可調兵執法");
+
+    mapping tribunal_res = city_d->conduct_tripartite_tribunal("blackstone_smuggling", ({ "miner_thumbprints", "garrison_bribe_ledger", "crucible_bing_7" }));
+    assert_equal("convicted", tribunal_res["verdict"], "三方會審物證確鑿時應裁定收押定罪");
+    assert_equal(30, tribunal_res["asset_split"]["granary"], "罰沒資產三成應充入常平倉");
+    assert_equal(40, tribunal_res["asset_split"]["military_pay"], "罰沒資產四成應折抵邊軍欠餉");
+
+    // (3) 六縣與黑石鋪 30 天無主角介入之自主演進時間線 (Autonomous 30-Day Clocks)
+    object ws_d = load_object(WORLD_STATE_D);
+    ws_d->init_county_clocks();
+    mapping qh_d1 = ws_d->query_county_status("qinghe");
+    assert_equal(1, qh_d1["stage"], "青河縣 Day 1 應處於第 1 階段（初兆）");
+    mapping qh_d10 = ws_d->advance_county_day("qinghe", 9); // Day 10
+    assert_equal(2, qh_d10["stage"], "青河縣無主角干預至 Day 10 應自主升級至第 2 階段（爭水械鬥）");
+    mapping qh_d20 = ws_d->advance_county_day("qinghe", 10); // Day 20
+    assert_equal(3, qh_d20["stage"], "青河縣無主角干預至 Day 20 應自主進入第 3 階段（潰漫封鎖、藥價告急）");
+    assert_equal(160, qh_d20["price_pct"], "青河縣第 3 階段爆發期藥糧價格指數應達 160%");
+    mapping qh_d26 = ws_d->advance_county_day("qinghe", 6); // Day 26
+    assert_equal(4, qh_d26["stage"], "青河縣無主角干預至 Day 26 應進入第 4 階段（地方自行妥協與後遺症）");
+    assert_equal(1, qh_d26["aftermath_triggered"], "第 4 階段應留下地方妥協之次生後遺症標記");
+
+    // (4) 技能四維解耦：道途 (Path) ≠ 實際能力 (Skill) ≠ 專業資格 (Qualification) ≠ 門派組織 (Organization)
+    me->revoke_qualification("lic_apothecary");
+    me->set_skill("gong_analysis", 40);
+    me->set_skill("gong_xingzhen", 45);
+    mapping act_unlicensed = sk_d->check_professional_action(me, "prescribe_medicine");
+    assert_equal("unlicensed_skill", act_unlicensed["status"], "懂得辨藥行針卻無杏林行醫資格時，應判定為無照私醫 (懂技術 != 有資格開藥)");
+
+    me->set_skill("gong_analysis", 0);
+    me->set_skill("gong_xingzhen", 0);
+    me->set_skill("alchemy", 0);
+    me->grant_qualification("lic_apothecary", 1);
+    mapping act_no_skill = sk_d->check_professional_action(me, "prescribe_medicine");
+    assert_equal("licensed_no_skill", act_no_skill["status"], "持有行醫資格卻未修習醫理功法時，應判定為空有資格無從下手 (有資格 != 必然修得功法)");
+
+    me->set_skill("gong_analysis", 40);
+    me->set_skill("gong_xingzhen", 45);
+    mapping act_both = sk_d->check_professional_action(me, "prescribe_medicine");
+    assert_equal("qualified_practitioner", act_both["status"], "兼具醫理技能與行醫資格時，方可合法坐堂開方");
+
+    // 驗證加入百工總會享有工坊存取權，但不會自動學會高階分支技能樹
+    me->set_skill("gong_yingli", 0);
+    me->set_skill("gong_cuihuo", 0);
+    me->set_skill("gong_xingzhen", 0);
+    me->set_skill("gong_fengdu", 0);
+    me->set_skill("gong_jiguan", 0);
+    me->set_skill("gong_feizhua", 0);
+    me->join_organization("org_baigong", "百工總會註冊學徒");
+    mapping fac_check = sk_d->check_org_facility_access(me, "org_baigong", "/d/city/north/gong_forge.c");
+    assert_equal(1, fac_check["access"], "加入百工總會後應享有千錘地爐坊設施存取權");
+    assert_equal(0, fac_check["advanced_skills_unlocked"], "加入行會不等於自動掌握整條高階技能樹");
+
+    // ── 11. 《跨系統第一輪審核》與《Tier 1 世界運作模型 v0.1》新增驗證 ──
+
+    // (5) P0-2 六縣多起點地方傳承等效規則驗證
+    mapping county_eq = sk_d->check_county_qualification_equivalence("liefan", "wu");
+    assert_equal(1, county_eq["equivalent"], "六縣分舵（如烈礬官窯）應提供與府城等效之初階資格入口");
+    assert_equal("RULE", county_eq["canon_rule"], "六縣多起點規則狀態應標記為 RULE");
+
+    // (6) P0-3 路段表標準欄位 (one_way, canon_status, travel_mode, seasonal_block)
+    mapping seg_bp = city_d->query_route_segment("seg_blackstone_panmu");
+    assert_equal(0, seg_bp["one_way"], "虎跳峽林道應為雙向可逆路段 (one_way == 0)");
+    assert_equal("CANON", seg_bp["canon_status"], "虎跳峽林道應標記為 CANON 正典狀態");
+
+    // (7) P0-4 證據狀態五欄模型與證明力邊界 (lead_only / corroborating / conclusive)
+    mapping ev_broken = city_d->evaluate_evidence_probative_value("under_canal_deed", 0, 1);
+    assert_equal("lead_only", ev_broken["tier"], "暗渠底單若保管鏈有瑕疵，僅能作為調查線索 (lead_only)，不可自動補正真偽");
+    mapping ev_single = city_d->evaluate_evidence_probative_value("detonator_serial_ledger", 1, 1);
+    assert_equal("corroborating", ev_single["tier"], "單一內部軍需簽領簿經認證後為間接佐證 (corroborating)，須與跨機構實物互鎖");
+    mapping ev_conclusive = city_d->evaluate_evidence_probative_value("crucible_bing_7", 1, 1);
+    assert_equal("conclusive", ev_conclusive["tier"], "丙字柒號坩堝具物理殘留、完整保管鏈與雙重認證時為核心實證 (conclusive)");
+
+    // (8) P0-5 權力機構認證性質與專職邊界 (宣道司專業鑑定 vs 行政裁決、文承敬、陳鎮山)
+    mapping auth_xd = city_d->query_power_authority("xuandaosi");
+    assert_equal("technical_forensic_opinion", auth_xd["cert_nature"], "宣道司勘驗結論應界定為專業技術鑑定意見，而非直接行政司法裁決");
+    mapping auth_wcj = city_d->query_power_authority("wen_chengjing");
+    assert_equal("archival_document_notarization", auth_wcj["cert_nature"], "案牘主簿文承敬職權應為官方文書比對公證");
+
+    // (9) 壓力測試節點 1 (Ch.39–46)：72 小時三日通牒與三條緩衝路徑精確法律定義
+    object fresh_visitor = clone_object("/std/user.c");
+    mapping res_48h = city_d->check_residency_mandate(fresh_visitor, 48);
+    assert_equal("initial_72h_window", res_48h["status"], "入城 48 小時無憑證者應處於 72 小時臨時居留登錄期限內");
+    mapping res_80h = city_d->check_residency_mandate(fresh_visitor, 80);
+    assert_equal("unregistered_vagrant", res_80h["status"], "入城逾 72 小時未獲機構擔保者應列為無籍流民");
+    fresh_visitor->set_temp("residency_buffer", "academy");
+    mapping res_buf = city_d->check_residency_mandate(fresh_visitor, 200);
+    assert_equal("buffered_temporary", res_buf["status"], "持蒙學塾保書者於 200 小時仍在 +14 天 (408h) 正式立籍考核寬限期內");
+    destruct(fresh_visitor);
+
+    // (10) 壓力測試節點 3 (Ch.68–76)：通寶分號信用凍結邊界與人為操控核驗
+    mapping freeze_bill = city_d->evaluate_credit_freeze_impact("inter_county_bill");
+    assert_equal(1, freeze_bill["frozen"], "通寶信用凍結期間，跨縣飛錢匯票應停止異地兌付");
+    mapping freeze_cash = city_d->evaluate_credit_freeze_impact("cash_copper_silver");
+    assert_equal(0, freeze_cash["frozen"], "通寶信印非唯一法定貨幣，民間現銅現銀買賣不受票據凍結影響");
+    mapping manip_check = city_d->verify_credit_freeze_manipulation(1, 1);
+    assert_equal(1, manip_check["proven_manipulation"], "同時比對通寶準備金底冊與南關押銀入城稅單即可證實人為惡意操控");
+
+    // (11) 壓力測試節點 4 (Ch.79–82)：卷尾破境與 Tier 1→Tier 2 門檻四維分離
+    me->set_level(50);
+    me->set_skill("gong_analysis", 60); // 尚未達 Lv.100
+    me->set("tier2_admission_token", 0);
+    mapping t1_state = sk_d->evaluate_tier1_completion_state(me);
+    assert_equal(1, t1_state["realm_breakthrough"], "角色達 Lv.50 完成肉身／心神破障");
+    assert_equal(0, t1_state["skill_mastery"], "破障至 Lv.50 不等於技能自動滿值 Lv.100");
+    assert_equal(0, t1_state["ready_for_tier2_trial"], "未取得名山宗門考核令前，僅憑 Lv.50 破障尚未完成二階山門大考報名閉環");
+    me->set("tier2_admission_token", 1);
+    mapping t1_ready = sk_d->evaluate_tier1_completion_state(me);
+    assert_equal(1, t1_ready["ready_for_tier2_trial"], "兼具破障、社會專業資格與宗門考核令後方可進入 Tier 2 山門大考");
 }
