@@ -1,0 +1,31 @@
+{
+  "id": "village_pass",
+  "name": "出鄉文牒考驗",
+  "category": "main",
+  "type": "once",
+  "start_npc": [ "tie", "zhao", "kumu", "caravan_merchant", "ge" ],
+  "start_topic": "路引",
+  "requirements": {
+    "level": 10
+  },
+  "steps": [
+    {
+      "step": 1,
+      "title": "向聚落長者證明實力",
+      "hint": "修為達到 10 級，向黑石鋪傳承導師（阿鐵、趙老獵、葛半仙、枯木老道或商隊大掌櫃）出示修為 (ask <導師> about 路引)，申領出鄉文牒與通關保書。",
+      "target_type": "talk",
+      "target_npc": [ "tie", "zhao", "kumu", "caravan_merchant", "ge" ],
+      "target_topic": "路引",
+      "on_complete": {
+        "msg": "傳承導師肅穆地審視你的筋骨修為，取出加蓋大荒硃砂大印的【金石城官辦保書路引】鄭重交入你手中！"
+      }
+    }
+  ],
+  "rewards": {
+    "exp": 1000,
+    "money": 500,
+    "items": [
+      "/clone/item/road_pass.c"
+    ]
+  }
+}

@@ -1,0 +1,96 @@
+{
+  "id": "rescue_miners",
+  "name": "北崖破壁・九死還魂",
+  "category": "main",
+  "type": "stage_chain",
+  "start_npc": "su",
+  "start_topic": "委託",
+  "total_stages": 1,
+  "stages": [
+    {
+      "stage": 1,
+      "title": "緊急救援",
+      "region": "village",
+      "region_name": "黑石鋪",
+      "required_level": 3,
+      "status_on_finish": "completed",
+      "finish_desc": "你接取了金石千金蘇凝霜的天字委託，取得開山鋼鑿與辟毒烈酒，深入地下百米坑道辨得求救暗號，並成功鑿裂斷龍卡隼石開闢一線生天！",
+      "on_finish": {
+        "exp": 600,
+        "pot": 250,
+        "msg": "【英雄義氣】你頂著地煞毒雲與萬斤重壓開闢生天暗道，獲得 600 點經驗與 250 點潛能！"
+      },
+      "steps": [
+        {
+          "step": 1,
+          "title": "太古殘圖",
+          "hint": "向黑石千金蘇凝霜詢問太古殘圖 (ask su about 殘圖)。",
+          "target_type": "talk",
+          "target_npc": "su",
+          "target_topic": "殘圖",
+          "location": "/d/village/shed"
+        },
+        {
+          "step": 2,
+          "title": "破煞重器",
+          "hint": "前往鐵匠鋪向老鐵匠阿鐵打聽百煉鋼鑿 (ask tie about 鋼鑿)。",
+          "target_type": "talk",
+          "target_npc": "tie",
+          "target_topic": "鋼鑿",
+          "location": "/d/village/forge"
+        },
+        {
+          "step": 3,
+          "title": "辟煞烈酒",
+          "hint": "前往南谷水潭草廬向瘋郎中葛半仙打聽辟煞烈酒 (ask ge about 避毒)。",
+          "target_type": "talk",
+          "target_npc": "ge",
+          "target_topic": "避毒",
+          "location": "/d/village/herb_hut"
+        },
+        {
+          "step": 4,
+          "title": "伏地聽風",
+          "hint": "由黑石斷崖古礦道口下潛至地下深層坑道 (down)，伏地傾聽岩壁暗號 (listen)。",
+          "target_type": "action",
+          "action_verb": "listen",
+          "location": "/d/village/mine_depths"
+        },
+        {
+          "step": 5,
+          "title": "裂石破隼",
+          "hint": "手持百煉鋼鑿，運氣轟擊斷龍卡隼石石眼 (strike stone / 破石)。",
+          "target_type": "action",
+          "action_verb": "strike",
+          "action_target": "stone",
+          "location": "/d/village/mine_depths",
+          "require_inventory": "steel_chisel",
+          "consume_item": "disha_wine"
+        }
+      ]
+    }
+  ],
+  "lost_item_recovery": [
+    {
+      "item": "mine_blueprint",
+      "from_npc": "su",
+      "ask_topic": "殘圖",
+      "reissue_item": "/clone/item/mine_blueprint.c",
+      "dialogue": "蘇凝霜連忙重新抄錄了一份《太古採掘殘圖》遞給你：「恩公切記保管好，地底地煞兇險，此圖是尋找避風穹頂的唯一指引！」"
+    },
+    {
+      "item": "steel_chisel",
+      "from_npc": "tie",
+      "ask_topic": "鋼鑿",
+      "reissue_item": "/clone/item/steel_chisel.c",
+      "dialogue": "阿鐵從火爐旁又夾出一柄通紅的鋼鑿淬火遞給你：「臭小子，連救命的傢伙都能丟！拿好這柄玄鐵鑿，給老子去破石！」"
+    },
+    {
+      "item": "disha_wine",
+      "from_npc": "ge",
+      "ask_topic": "避毒",
+      "reissue_item": "/clone/item/disha_wine.c",
+      "dialogue": "瘋郎中葛半仙破口大罵著又塞給你一壺烈酒：「敗家玩意兒！這雄黃辟煞酒千金難求，最後一壺了，喝了趕緊滾去救人！」"
+    }
+  ]
+}

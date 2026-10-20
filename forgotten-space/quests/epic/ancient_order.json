@@ -1,0 +1,127 @@
+{
+  "id": "ancient_order",
+  "name": "太古遺脈・天門引",
+  "category": "epic",
+  "type": "stage_chain",
+  "total_stages": 3,
+  "stages": [
+    {
+      "stage": 1,
+      "title": "黑石蒙塵",
+      "region": "village",
+      "region_name": "黑石鋪",
+      "required_level": 1,
+      "status_on_finish": "dormant",
+      "finish_desc": "青銅殘令上的玄紋悄然隱退，化作一道晦暗烙印融入你的掌心。冥冥中你感應到，唯有走出這方避塞天地，前往大荒樞紐【金石城】，方能尋得喚醒它的契機。",
+      "next_region_hint": "金石城",
+      "on_finish": {
+        "exp": 100,
+        "fate": 1,
+        "msg": "【天命共鳴】你觸碰了太古失落歷史，天命隱性覺醒 +1，獲得 100 點歷練經驗！"
+      },
+      "steps": [
+        {
+          "step": 1,
+          "title": "荒柴暗格",
+          "hint": "在客棧背街廢柴房最深處翻找陳年爛木堆 (search wood)，尋覓失落的太古機緣。",
+          "target_type": "action",
+          "action_verb": "search",
+          "action_target": "wood",
+          "location": "/d/village/shed",
+          "on_complete": {
+            "give_item": "/clone/relic/tianmen_token.c",
+            "msg": "你在柴堆黑泥半尺深處起出了一隻暗金鐵盒，得到了休眠中的太古信物【萬物行商・天門引】！"
+          },
+          "lost_item_recovery": {
+            "from_npc": "mo",
+            "ask_topic": "天門引",
+            "reissue_item": "/clone/relic/tianmen_token.c",
+            "dialogue": "瘸腿老丐莫三斜睨著你嘿嘿冷笑：『那破銅爛鐵也能丟？老子在泥塘邊替你撿回來了，拿好，別再讓官差撞見！』"
+          }
+        },
+        {
+          "step": 2,
+          "title": "殘令辨識",
+          "hint": "攜帶【萬物行商・天門引】前往老鐵匠鋪，向阿鐵打聽 (ask tie about 殘令) 太古商盟的線索。",
+          "target_type": "talk",
+          "target_npc": "tie",
+          "target_topic": "殘令",
+          "require_item": "tianmen",
+          "location": "/d/village/forge",
+          "on_complete": {
+            "msg": "阿鐵雙手捧著殘令，手指劇烈顫抖：「這暗金齒輪與神闕雲紋……是太古九天商盟的引路權杖！相傳金石城的【萬寶樓】藏有太古密閣星圖，若你日後能闖出黑石鋪，定要去金石城一探究竟！」"
+          },
+          "lost_item_recovery": {
+            "from_npc": "mo",
+            "ask_topic": "天門引",
+            "reissue_item": "/clone/relic/tianmen_token.c",
+            "dialogue": "瘸腿老丐莫三斜睨著你嘿嘿冷笑：『那破銅爛鐵也能丟？老子在泥塘邊替你撿回來了，拿好，別再讓官差撞見！』"
+          }
+        }
+      ]
+    },
+    {
+      "stage": 2,
+      "title": "商海暗潮",
+      "region": "city_jinshi",
+      "region_name": "金石城",
+      "required_level": 10,
+      "status_on_finish": "dormant",
+      "finish_desc": "萬寶樓密閣中的太古星圖殘卷與青金古令嚴絲合縫，古令第三道樞機齒輪緩緩咬合！古令指出天門真正入口隱匿於名山宗門絕頂禁地。",
+      "next_region_hint": "名山宗門",
+      "unlock_condition": {
+        "need_stage": 1,
+        "target_npc": "elder",
+        "target_topic": "天門引"
+      },
+      "steps": [
+        {
+          "step": 1,
+          "title": "萬寶尋珍",
+          "hint": "前往大荒樞紐【金石城・萬寶樓】，尋找鑑寶長老密談 (ask elder about 天門引)。",
+          "target_type": "talk",
+          "target_npc": "elder",
+          "target_topic": "天門引",
+          "require_item": "tianmen"
+        }
+      ]
+    },
+    {
+      "stage": 3,
+      "title": "天門叩道",
+      "region": "mountains",
+      "region_name": "名山宗門",
+      "required_level": 25,
+      "status_on_finish": "completed",
+      "finish_desc": "太古神闕天門大開，太古九天商盟失落的虛空避難所重現天日，三元歸一古道現世！",
+      "unlock_condition": {
+        "need_stage": 2,
+        "target_npc": "gatekeeper",
+        "target_topic": "天門引"
+      },
+      "steps": [
+        {
+          "step": 1,
+          "title": "絕壁天門",
+          "hint": "在名山宗門禁地以完整天門引叩響太古虛空神闕 (strike gate)。",
+          "target_type": "action",
+          "action_verb": "strike",
+          "action_target": "gate"
+        }
+      ],
+      "on_finish": {
+        "exp": 5000,
+        "fate": 3,
+        "msg": "【虛空神闕】天門大開，太古九天商盟重見天日，獲得 5000 點經驗與天命覺醒度 +3！"
+      },
+      "rewards": {
+        "exp": 5000,
+        "fate": 3
+      }
+    }
+  ],
+  "rewards": {
+    "exp": 5000,
+    "fate": 3
+  }
+}

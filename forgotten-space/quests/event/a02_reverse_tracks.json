@@ -1,0 +1,66 @@
+{
+  "id": "A02_reverse_tracks",
+  "name": "A02 逆行獸跡",
+  "category": "event",
+  "type": "event_quest",
+  "start_npc": "zhao",
+  "start_topic": "獸跡,逆行獸跡,tracks",
+  "world_event": "beast_surge",
+  "deadline_stage": "T-1",
+  "valid_stages": ["T-3", "T-2", "T-1"],
+  "steps": [
+    {
+      "step": 1,
+      "title": "哨亭領命",
+      "hint": "前往林邊茅屋獵戶哨亭向趙老獵詢問東林反常獸跡 (ask zhao about 獸跡)。",
+      "target_type": "talk",
+      "target_npc": "zhao",
+      "target_topic": "獸跡,逆行獸跡,tracks",
+      "location": "/d/village/hunter_cabin",
+      "on_complete": {
+        "msg": "【領受踏勘】趙老獵命你前往東林北坡八里獸道抽樣查驗蹄印與折枝方向。"
+      }
+    },
+    {
+      "step": 2,
+      "title": "北坡抽樣",
+      "hint": "前往東面荊棘林口沿北坡獸道抽樣踏勘折枝、糞便與蹄印先後層次 (survey tracks)。",
+      "target_type": "action",
+      "action_verb": "survey",
+      "action_target": "tracks",
+      "location": "/d/village/forest",
+      "on_complete": {
+        "msg": "【獸道實情】苦竹盡朝西南折斷，食草獸蹄印在下、肉食獸爪印在上且毫無捕食血跡！"
+      }
+    },
+    {
+      "step": 3,
+      "title": "標定主幹",
+      "hint": "返回獵戶哨亭向趙老獵回報北坡遷徙路線 (ask zhao about 遷徙路線)。",
+      "target_type": "talk",
+      "target_npc": "zhao",
+      "target_topic": "遷徙路線,主幹道,route",
+      "location": "/d/village/hunter_cabin",
+      "on_complete": {
+        "msg": "【路線鎖定】你們在獸皮地圖上標定出獸潮由北向西南直撲落龍口與黑石鋪的主幹走廊！"
+      }
+    }
+  ],
+  "event_outcomes": {
+    "success": {
+      "status": "success",
+      "deltas": {
+        "route_confidence": 2
+      },
+      "facts": {
+        "flight_direction_mapped": 1
+      },
+      "message": "【生態勘測・A02】東林北坡八里獸道抽樣完成：確認食草獸先行、肉食獸尾隨且無捕食血跡，鎖定獸潮由北向西南落龍口奔逃之主幹路線！"
+    }
+  },
+  "rewards": {
+    "exp": 350,
+    "pot": 120,
+    "msg": "【荒野鷹眼】你憑藉精準的獸道抽樣，為黑石鋪爭取到了寶貴的工程預警與選址依據！"
+  }
+}

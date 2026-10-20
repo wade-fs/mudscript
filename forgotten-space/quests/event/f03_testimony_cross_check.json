@@ -1,0 +1,80 @@
+{
+  "id": "F03_testimony_cross_check",
+  "name": "F03 證詞互證",
+  "category": "event",
+  "type": "event_quest",
+  "start_npc": "lu",
+  "start_topic": "雷管引信,雷管,炸礦,detonator",
+  "world_event": "beast_surge",
+  "deadline_stage": "T+2",
+  "valid_stages": ["T-3", "T-2", "T-1", "T0", "T+1", "T+2"],
+  "steps": [
+    {
+      "step": 1,
+      "title": "爆心雷管",
+      "hint": "前往北崖古礦道口向老礦工魯大山查證三號坑爆心拾獲的軍器局雷管引信 (ask lu about 雷管引信)。",
+      "target_type": "talk",
+      "target_npc": "lu",
+      "target_topic": "雷管引信,雷管,炸礦,detonator",
+      "location": "/d/village/mine",
+      "on_complete": {
+        "msg": "【人證物證】你取得魯大山親手自爆心石縫摳出的【軍器局制式火油雷管引信】與老礦工畫押證詞。"
+      }
+    },
+    {
+      "step": 2,
+      "title": "丙字黑釜",
+      "hint": "前往客棧後街青石暗巷，查驗自南谷私逃覆車殘骸中秘密運回的耐火泥精煉坩堝 (inspect crucible)。",
+      "target_type": "action",
+      "action_verb": "inspect",
+      "action_target": "crucible",
+      "location": "/d/village/dark_alley",
+      "on_complete": {
+        "msg": "【官窯鐵證】坩堝內壁殘留地煞血精紫黑結晶，底座赫然刻著【金石內造・丙字柒號】官窯鋼印！"
+      }
+    },
+    {
+      "step": 3,
+      "title": "三證合契",
+      "hint": "前往客棧背街廢柴房與蘇凝霜比對『黑釜甲乙』除渣暗賬、丙字坩堝與軍器局雷管 (ask su about 證詞互證)。",
+      "target_type": "talk",
+      "target_npc": "su",
+      "target_topic": "證詞互證,黑釜,坩堝,testimony",
+      "location": "/d/village/shed",
+      "on_complete": {
+        "msg": "【鐵證如山】軍器局制式雷管、官窯丙字柒號精煉坩堝、蘇遠山染血暗賬三證嚴絲合縫，完成跨來源獨立互證！"
+      }
+    }
+  ],
+  "event_outcomes": {
+    "success": {
+      "status": "success",
+      "deltas": {
+        "evidence_strength": 2
+      },
+      "facts": {
+        "merchant_fled": 1
+      },
+      "evidence": {
+        "id": "ev_crucible",
+        "name": "【金石內造・丙字柒號】耐火泥精煉坩堝與黑釜暗賬",
+        "strength": 2,
+        "source_type": "physical_craft",
+        "verified": 1
+      },
+      "extra_evidence": {
+        "id": "ev_detonator",
+        "name": "北崖三號坑軍器局制式雷管引信與老礦工證詞",
+        "strength": 2,
+        "source_type": "military_hardware",
+        "verified": 1
+      },
+      "message": "【情報查證・F03】官窯【金石內造・丙字柒號】精煉坩堝、軍器局雷管引信與蘇氏暗賬完成交叉互證，三大獨立物證來源齊備，為後續黑石關軍政博弈奠定關鍵籌碼！"
+    }
+  },
+  "rewards": {
+    "exp": 450,
+    "pot": 160,
+    "msg": "【抽絲剝繭】你將散落的礦災雷管、覆車坩堝與染血暗賬鍛造成無可辯駁的三方鐵證鏈！"
+  }
+}

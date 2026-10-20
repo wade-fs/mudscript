@@ -1,0 +1,44 @@
+{
+  "id": "herb_loop",
+  "name": "南谷採藥・百草生計",
+  "category": "loop",
+  "type": "loop",
+  "start_npc": "ge",
+  "start_topic": "採藥",
+  "requirements": {
+    "level": 1
+  },
+  "decay_config": {
+    "exp_rounds": 3,
+    "taper_rounds": 5,
+    "cutoff_round": 6,
+    "material_floor": {
+      "money": 20,
+      "items": [
+        "/clone/item/herb_common.c"
+      ]
+    }
+  },
+  "steps": [
+    {
+      "step": 1,
+      "title": "交付新鮮草藥",
+      "hint": "前往南谷幽霧溪灘採集新鮮草藥 (gather)，並將草藥交付給草廬中的瘋郎中葛半仙 (give herb to ge)。",
+      "target_type": "deliver",
+      "target_npc": "ge",
+      "require_item": "herb",
+      "location": "/d/village/herb_hut",
+      "on_complete": {
+        "msg": "葛半仙接過草藥嗅了嗅，喜笑顏開道：「這批草藥生機蓬勃，泥土清芬猶在，正好入藥調配百草膏散！」"
+      }
+    }
+  ],
+  "rewards": {
+    "exp": 100,
+    "pot": 25,
+    "money": 50,
+    "items": [
+      "/clone/item/herb_common.c"
+    ]
+  }
+}

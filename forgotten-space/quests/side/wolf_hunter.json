@@ -1,0 +1,41 @@
+{
+  "id": "wolf_hunter",
+  "name": "東林獵狼平煞",
+  "category": "side",
+  "type": "once",
+  "start_npc": "zhao",
+  "start_topic": "獵狼",
+  "requirements": {
+    "level": 3
+  },
+  "steps": [
+    {
+      "step": 1,
+      "title": "肅清東林狂暴野狼",
+      "hint": "前往東林荒林，斬殺 3 隻受地煞侵蝕的狂暴野狼 (kill wolf)。",
+      "target_type": "kill",
+      "target_mob": "wolf",
+      "required_count": 3,
+      "location": "/d/village/forest",
+      "on_complete": {
+        "msg": "東林血霧漸散，你成功肅清了 3 隻狂暴野狼！"
+      }
+    },
+    {
+      "step": 2,
+      "title": "向趙老獵回報戰績",
+      "hint": "返回防獸哨亭，向趙老獵回報獵狼成果 (ask zhao about 獵狼)。",
+      "target_type": "talk",
+      "target_npc": "zhao",
+      "target_topic": "獵狼",
+      "location": "/d/village/hunter_cabin",
+      "on_complete": {
+        "msg": "趙老獵大笑讚許，發放大荒開荒賞金！"
+      }
+    }
+  ],
+  "rewards": {
+    "exp": 500,
+    "money": 200
+  }
+}

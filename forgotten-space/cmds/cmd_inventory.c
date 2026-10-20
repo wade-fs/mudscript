@@ -1,0 +1,444 @@
+// mudlib/cmds/cmd_inventory.c
+// 物品指令守護進程：inventory / i / get / drop / wear / wield / remove
+
+#include "/include/config.h"
+#include "/include/ansi.h"
+
+inherit "/std/object";
+
+int main(object me, string verb, string arg) {
+    switch (verb) {
+        case "inventory":
+        case "i":
+            return do_inventory(me, arg);
+        case "get":
+            return do_get(me, arg);
+        case "drop":
+            return do_drop(me, arg);
+        case "wear":
+            return do_wear(me, arg);
+        case "wield":
+            return do_wield(me, arg);
+        case "remove":
+            return do_remove(me, arg);
+        case "appraise":
+        case "identify":
+            return do_appraise(me, arg);
+        case "give":
+            return do_give(me, arg);
+    }
+    return 0;
+}
+
+int do_inventory(object me, string arg) {
+    object *inv = all_inventory(me);
+    if (!inv || sizeof(inv) == 0) {
+        write(_t("inv_empty") + "\n");
+        return 1;
+    }
+
+    write(_t("inv_header") + "\n");
+    foreach (object ob in inv) {
+        write("  " + ob->query_short() + "\n");
+    }
+
+    int cur_w = me->query_contents_weight();
+    int max_w = me->query_max_weight();
+    int cur_cnt = sizeof(inv);
+    int max_cnt = me->query_max_items();
+    string cur_kg = sprintf("%d.%02d", cur_w / 1000, (cur_w % 1000) / 10);
+    string max_kg = sprintf("%d.%d", max_w / 1000, (max_w % 1000) / 100);
+    write(sprintf("  ── 負重：%dg / %dg (%skg / %skg)  件數：%d / %d ──\n",
+                  cur_w, max_w, cur_kg, max_kg, cur_cnt, max_cnt));
+    return 1;
+}
+
+int do_get(object me, string arg) {
+    // 🚀 幻影模式攔截
+    if (me->query_current_mudlib() != "") {
+        write("你目前處於幻影狀態，無法干涉這個世界的物質。\n");
+        return 1;
+    }
+    if (!arg || arg == "") { write(_t("get_what") + "\n"); return 1; }
+
+    object container = environment(me);
+    string item_id, cont_id;
+
+    // 支援 get item from container (使用新版 sscanf 支援)
+    if (sscanf(arg, "%s from %s", item_id, cont_id) == 2) {
+        container = present(cont_id, environment(me));
+        if (!container) container = present(cont_id, me);
+        
+        if (!container) {
+            string msg = _t("no_container");
+            msg = replace_string(msg, "$id", cont_id);
+            write(msg + "\n");
+            return 1;
+        }
+        if (container->query_closed()) {
+            write(container->query_short() + " " + _t("is_closed") + "\n");
+            return 1;
+        }
+    } else {
+        item_id = arg;
+    }
+
+    object item = present(item_id, container);
+    if (!item) {
+        string loc_name = _t("here");
+        if (container != environment(me)) {
+            loc_name = container->query_short();
+        }
+        string msg = _t("no_item_here");
+        msg = replace_string(msg, "$loc", loc_name);
+        msg = replace_string(msg, "$id", item_id);
+        write(msg + "\n");
+        return 1;
+    }
+
+    if (living(item)) {
+        write(_t("get_living_err") + "\n");
+        return 1;
+    }
+
+    if (item->query_no_get()) {
+        write(item->query_short() + " " + _t("too_heavy_err") + "\n");
+        return 1;
+    }
+
+    // 🚀 新增：檢查屍體歸屬 (Loot Binding)
+    if (function_exists("query_team_owner", container)) {
+        string owner_tid = container->query_team_owner();
+        if (owner_tid && owner_tid != "") {
+            object my_leader = me->query_leader();
+            string my_tid;
+            if (my_leader) {
+                my_tid = my_leader->get_id();
+            } else {
+                my_tid = me->get_id();
+            }
+            
+            if (my_tid != owner_tid) {
+                write("$HIR$" + _t("loot_protected_err") + "$NOR$" + "\n");
+                return 1;
+            }
+        }
+    }
+
+    int recv_err = me->query_receive_error(item);
+    if (recv_err != 0) {
+        if (recv_err == 4) {
+            write("這件物品太重了，你的負重已達上限，拿不動了。\n");
+        } else {
+            write(_t("inv_full_err") + "\n");
+        }
+        return 1;
+    }
+
+    // 🚀 跑屍機制：如果從自己的屍體撿東西
+    if (strsrch(object_name(container), "/std/corpse.c") != -1) {
+        mapping penalty = container->query_penalty_data();
+        if (penalty && penalty["owner"] == me->get_id()) {
+            int back_exp = penalty["exp"] / 2;
+            int back_pot = penalty["pot"] / 2;
+            if (back_exp > 0 || back_pot > 0) {
+                me->gain_exp(back_exp);
+                me->gain_potential(back_pot);
+                write("$HIY$" + _t("corpse_run_success") + "$NOR$" + "\n");
+                // 清除屍體上的懲罰紀錄，避免重複領取
+                container->set_penalty_data(([]));
+            }
+        }
+    }
+
+    // 🚀 新增：錢袋處理
+    if (item->query_money_value() > 0) {
+        int m = item->query_money_value();
+        me->add_money(m);
+        string msg = _t("get_money");
+        msg = replace_string(msg, "$m", to_string(m));
+        write("$HIG$" + msg + "$NOR$" + "\n");
+        destruct(item);
+        return 1;
+    }
+
+    if (move_object(item, me)) {
+        me->save(); // 立即存檔
+        string from_name = _t("ground");
+        if (container != environment(me)) {
+            from_name = container->query_short();
+        }
+        string msg = _t("get_success");
+        msg = replace_string(msg, "$from", from_name);
+        msg = replace_string(msg, "$item", item->query_short());
+        write(msg + "\n");
+        
+        load_object("/secure/language_d.c")->broadcast_event(environment(me), "say_get", ([ "$name": me, "$item": item ]));
+    } else {
+        write(_t("get_fail") + "\n");
+    }
+    return 1;
+}
+
+int do_drop(object me, string arg) {
+    // 🚀 幻影模式攔截
+    if (me->query_current_mudlib() != "") {
+        write("你目前處於幻影狀態，無法拋棄現實世界的負擔。\n");
+        return 1;
+    }
+    if (!arg || arg == "") { write(_t("drop_what") + "\n"); return 1; }
+    object item = present(arg, me);
+    if (!item) {
+        string msg = _t("no_item_inv");
+        msg = replace_string(msg, "$id", arg);
+        write(msg + "\n");
+        return 1;
+    }
+
+    if (item->query_no_drop()) {
+        write(item->query_short() + " " + _t("no_drop_err") + "\n");
+        return 1;
+    }
+
+    object here = environment(me);
+    if (move_object(item, here)) {
+        me->save(); // 立即存檔
+        string msg = _t("drop_success");
+        msg = replace_string(msg, "$item", item->query_short());
+        write(msg + "\n");
+        
+        load_object("/secure/language_d.c")->broadcast_event(here, "say_drop", ([ "$name": me, "$item": item ]));
+    } else {
+        write(_t("drop_fail") + "\n");
+    }
+    return 1;
+}
+
+int do_wear(object me, string arg) {
+    if (!arg || arg == "") { write(_t("wear_what") + "\n"); return 1; }
+    object item = present(arg, me);
+    if (!item) { 
+        string msg = _t("no_item_inv");
+        msg = replace_string(msg, "$id", arg);
+        write(msg + "\n");
+        return 1; 
+    }
+    
+    if (item->query_item_type() != ITEM_ARMOUR) {
+        write(item->query_short() + " " + _t("not_armour_err") + "\n");
+        return 1;
+    }
+
+    if (me->query_level() < item->query_level_req()) {
+        string msg = _t("lv_req_err");
+        msg = replace_string(msg, "$item", item->query_short());
+        msg = replace_string(msg, "$lv", to_string(item->query_level_req()));
+        write(msg + "\n");
+        return 1;
+    }
+
+    if (!me->equip(item)) {
+        write(_t("wear_fail") + " " + item->query_short() + "。\n");
+        return 1;
+    }
+    string msg = _t("wear_success");
+    msg = replace_string(msg, "$item", item->query_short());
+    msg = replace_string(msg, "$def", to_string(item->query_defence()));
+    write(msg + "\n");
+    return 1;
+}
+
+int do_wield(object me, string arg) {
+    if (!arg || arg == "") { write(_t("wield_what") + "\n"); return 1; }
+    object item = present(arg, me);
+    if (!item) { 
+        string msg = _t("no_item_inv");
+        msg = replace_string(msg, "$id", arg);
+        write(msg + "\n");
+        return 1; 
+    }
+    
+    if (item->query_item_type() != ITEM_WEAPON) {
+        write(item->query_short() + " " + _t("not_weapon_err") + "\n");
+        return 1;
+    }
+
+    if (me->query_level() < item->query_level_req()) {
+        string msg = _t("lv_req_err");
+        msg = replace_string(msg, "$item", item->query_short());
+        msg = replace_string(msg, "$lv", to_string(item->query_level_req()));
+        write(msg + "\n");
+        return 1;
+    }
+
+    if (!me->equip(item)) {
+        write(_t("wield_fail") + " " + item->query_short() + "。\n");
+        return 1;
+    }
+    string msg = _t("wield_success");
+    msg = replace_string(msg, "$item", item->query_short());
+    msg = replace_string(msg, "$atk", to_string(item->query_attack()));
+    write(msg + "\n");
+    return 1;
+}
+
+int do_remove(object me, string arg) {
+    if (!arg || arg == "") { write(_t("remove_what") + "\n"); return 1; }
+    mixed slots = ({"weapon", "head", "body", "hands", "feet", "shield"});
+    int i;
+    for (i = 0; i < sizeof(slots); i++) {
+        object e = me->query_equip(slots[i]);
+        if (e && e->id(arg)) {
+            me->unequip_slot(slots[i]);
+            string msg = _t("remove_success");
+            msg = replace_string(msg, "$item", e->query_short());
+            write(msg + "\n");
+            return 1;
+        }
+    }
+    string msg = _t("no_equip_inv");
+    msg = replace_string(msg, "$id", arg);
+    write(msg + "\n");
+    return 1;
+}
+
+int do_appraise(object me, string arg) {
+    if (!arg || arg == "") { write(_t("appraise_what") + "\n"); return 1; }
+    object item = present(arg, me);
+    if (!item) item = present(arg, environment(me));
+    if (!item) { 
+        string msg = _t("not_found");
+        msg = replace_string(msg, "$arg", arg);
+        write(msg + "\n");
+        return 1; 
+    }
+
+    string msg = _t("appraising");
+    msg = replace_string(msg, "$item", item->query_short());
+    write(msg + "\n");
+    
+    if (item->query_identified() == 0) {
+        write(_t("unidentified_err") + "\n");
+        return 1;
+    }
+
+    string desc = "【" + _t("item_info") + "：" + item->query_name() + "】\n";
+    desc += "  " + _t("type") + "：" + item->query_item_type() + "\n";
+    int item_w = item->query_weight();
+    if (item_w >= 1000) {
+        string w_kg = sprintf("%d.%02d", item_w / 1000, (item_w % 1000) / 10);
+        desc += "  " + _t("weight") + "：" + sprintf("%d", item_w) + "g (" + w_kg + "kg)\n";
+    } else {
+        desc += "  " + _t("weight") + "：" + sprintf("%d", item_w) + "g\n";
+    }
+    desc += "  " + _t("value") + "：" + sprintf("%d", item->query_value()) + " " + _t("coin_gold") + "\n";
+    desc += "  " + _t("durability") + "：" + sprintf("%d/%d", item->query_durability(), item->query_max_durability()) + "\n";
+    desc += "  " + _t("lv_req") + "：" + sprintf("%d", item->query_level_req()) + "\n";
+
+    if (item->query_item_type() == ITEM_WEAPON) {
+        desc += "  " + _t("atk_bonus") + "：+" + sprintf("%d", item->query_attack()) + "\n";
+        string attr = item->query_element();
+        if (attr == "") attr = _t("none");
+        desc += "  " + _t("attribute") + "：" + attr + "\n";
+    } else if (item->query_item_type() == ITEM_ARMOUR) {
+        desc += "  " + _t("def_bonus") + "：+" + sprintf("%d", item->query_defence()) + "\n";
+        desc += "  " + _t("slot") + "：" + item->query_slot_name() + "\n";
+    }
+
+    write(desc);
+    return 1;
+}
+
+int do_give(object me, string arg) {
+    if (!arg || arg == "") {
+        write("你想把什麼東西給誰？用法：give <物品> to <對象>\n");
+        return 1;
+    }
+
+    string item_id, target_id;
+    if (sscanf(arg, "%s to %s", item_id, target_id) != 2 &&
+        sscanf(arg, "%s %s", item_id, target_id) != 2) {
+        write("格式錯誤。用法：give <物品> to <對象>\n");
+        return 1;
+    }
+
+    object target = present(target_id, environment(me));
+    if (!target) {
+        write("這裡沒有「" + target_id + "」。\n");
+        return 1;
+    }
+
+    object item = present(item_id, me);
+    if (!item) {
+        write("你身上沒有「" + item_id + "」。\n");
+        return 1;
+    }
+
+    if (item->query("equipped")) {
+        write("你必須先卸下裝備才能給人。\n");
+        return 1;
+    }
+
+    // 構建交付事件資料（在 accept_object 銷毀前預先擷取物件特徵）
+    mapping deliver_data = ([
+        "npc": target->query_key_id(),
+        "npc_obj": target,
+        "item": item,
+        "item_id": item->query_key_id(),
+        "item_file": base_name(item),
+        "item_name": item->query_name()
+    ]);
+
+    // 呼叫目標的 accept_object 判定
+    if (function_exists("accept_object", target)) {
+        if (target->accept_object(me, item)) {
+            object qe = find_object("/daemon/quest_engine_d.c");
+            if (!qe) qe = load_object("/daemon/quest_engine_d.c");
+            if (qe) {
+                qe->trigger_event(me, "deliver", deliver_data);
+            }
+            return 1;
+        }
+    }
+
+    // 若 NPC 未自訂 accept_object，嘗試由任務引擎推進 deliver 步驟
+    object qe = find_object("/daemon/quest_engine_d.c");
+    if (!qe) qe = load_object("/daemon/quest_engine_d.c");
+    if (qe) {
+        if (qe->trigger_event(me, "deliver", deliver_data)) {
+            tell_object(me, "你將一" + (item->query("unit") ? item->query("unit") : "個") + item->query_short() + "交給了" + target->query_name() + "。\n");
+            destruct(item);
+            return 1;
+        }
+    }
+
+    if (item->move(target)) {
+        tell_object(me, "你將一" + (item->query("unit") ? item->query("unit") : "個") + item->query_short() + "交給了" + target->query_name() + "。\n");
+        tell_object(target, me->query_name() + "給了你一" + (item->query("unit") ? item->query("unit") : "個") + item->query_short() + "。\n");
+        tell_room(environment(me), me->query_name() + "給了" + target->query_name() + "一些東西。\n", ({ me, target }));
+        return 1;
+    }
+
+    write("無法將物品交給對方。\n");
+    return 1;
+}
+
+string *query_verbs() {
+    return ({ "inventory", "i", "get", "drop", "wear", "wield", "remove", "give", "appraise", "identify" });
+}
+
+string query_category() {
+    return select_lang(([ "en": "Item", "zh-TW": "物品", "zh-CN": "物品" ]));
+}
+
+string help() {
+    return "【物品指令】\n" +
+           "  inventory (i)   查看背包內容\n" +
+           "  get <物品>      撿起物品\n" +
+           "  drop <物品>     丟下物品\n" +
+           "  give <物> to <人> 將物品交給對象\n" +
+           "  wear <防具>     穿上防具\n" +
+           "  wield <武器>    裝備武器\n" +
+           "  remove <裝備>   卸下裝備\n" +
+           "  appraise <物品> 鑑定並查看詳細屬性\n";
+}

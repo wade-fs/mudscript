@@ -1,0 +1,60 @@
+{
+  "id": "enc_ancient_iron",
+  "name": "太古不融黑鐵構件",
+  "legacy_key": "forge_ancient_black_iron",
+  "room": "/d/village/forge",
+  "scope": {
+    "type": "world_slots",
+    "slots": 3,
+    "per": "season"
+  },
+  "gates": [
+    {
+      "type": "world_window",
+      "id": "forge_white_heat",
+      "desc": "地爐烈焰達到純白熾火、地火脈動共鳴"
+    },
+    {
+      "type": "background",
+      "any": [ "smith" ]
+    },
+    {
+      "type": "resonance",
+      "min": 1,
+      "stat": "str"
+    },
+    {
+      "type": "cost",
+      "vital": "kee",
+      "amount": 20,
+      "backlash": {
+        "chance": 0.3,
+        "effect": "wrist_sprain",
+        "msg": "七斤重錘遭遇沛莫能禦的恐怖反震，虎口撕裂滲血，右腕劇烈震顫！"
+      }
+    }
+  ],
+  "roll": {
+    "base": 0.4,
+    "pity": {
+      "per_miss": 0.2,
+      "cap": 1.0
+    }
+  },
+  "rewards": {
+    "exp": 50,
+    "fate": 1,
+    "clone_item": "/clone/relic/ancient_black_iron.c",
+    "title": "震裂礦核觸及上古工聖黑鐵",
+    "clue_key": "ancient_iron_revealed"
+  },
+  "on_fail": {
+    "clue": "iron_slag_clue",
+    "msg": "地爐火候稍欠分毫，黑石頑劣焦殼未完全崩裂，但你指尖摸出了深處非同凡響的空靈長鳴（獲得【神鐵微鳴】線索）！"
+  },
+  "recovery": {
+    "policy": "echo",
+    "echo_item": "/clone/item/ore_chunk.c",
+    "echo_desc": "一塊焦黑但失去內部微型齒輪神力的普通礦核石"
+  }
+}

@@ -1,0 +1,59 @@
+{
+  "id": "enc_dao_crystal",
+  "name": "道化晶石真身遺骸",
+  "legacy_key": "search_altar_pine",
+  "room": "/d/village/altar",
+  "scope": {
+    "type": "world_slots",
+    "slots": 3,
+    "per": "season"
+  },
+  "gates": [
+    {
+      "type": "world_window",
+      "id": "altar_frost_gale",
+      "desc": "西崖殘壇罡風逆轉、寒霜凝晶之時"
+    },
+    {
+      "type": "background",
+      "any": [ "daoist" ]
+    },
+    {
+      "type": "resonance",
+      "min": 1,
+      "stat": "spi"
+    },
+    {
+      "type": "cost",
+      "vital": "sen",
+      "amount": 20,
+      "backlash": {
+        "chance": 0.3,
+        "effect": "frost_bite",
+        "msg": "死寂晶氣順著神識刺入經絡，如億萬冰針扎入骨髓，靈台一陣劇痛寒顫！"
+      }
+    }
+  ],
+  "roll": {
+    "base": 0.4,
+    "pity": {
+      "per_miss": 0.2,
+      "cap": 1.0
+    }
+  },
+  "rewards": {
+    "exp": 60,
+    "fate": 1,
+    "clone_item": "/clone/item/dao_crystal.c",
+    "title": "發掘太古道化玉晶遺骸",
+    "clue_key": "dao_crystal_revealed"
+  },
+  "on_fail": {
+    "clue": "frost_trace",
+    "msg": "罡風吹散了神識聚焦點，黑泥未被完全掀開，但你指尖採集到了一縷不化死霜（獲得【死霜餘燼】線索）！"
+  },
+  "recovery": {
+    "policy": "echo",
+    "echo_desc": "一撮已無道化生機的灰白凍霜死石粉末"
+  }
+}

@@ -357,6 +357,71 @@ func (d *Driver) registerDataStructures(obj *object.LPCObject) {
 		},
 	})
 
+	// 語法: int in_array(mixed item, mixed *arr)
+	// 說明: 檢查 item 是否存在於陣列中，存在回傳 1，不存在回傳 0。
+	// 範例: in_array("b", ({"a", "b", "c"})) -> 1
+	obj.Vars.Set("in_array", &object.Builtin{
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) < 2 {
+				return &object.Integer{Value: 0}
+			}
+			val := args[0]
+			arr, ok := args[1].(*object.Array)
+			if !ok {
+				return &object.Integer{Value: 0}
+			}
+			for _, elem := range arr.Elements {
+				if isEqual(val, elem) {
+					return &object.Integer{Value: 1}
+				}
+			}
+			return &object.Integer{Value: 0}
+		},
+	})
+
+	// 語法: int string_in(string str, mixed targets)
+	// 說明: 檢查字串 str 是否存在於 targets（可為陣列或逗號分隔字串）中，支援大小寫忽略與空白去除。
+	// 範例: string_in(topic, ({"定脈", "鎮山", "符"})) -> 1
+	//       string_in(topic, "定脈, 鎮山, 符, talisman") -> 1
+	fnStringIn := func(args ...object.Object) object.Object {
+		if len(args) < 2 {
+			return &object.Integer{Value: 0}
+		}
+		strObj, ok := args[0].(*object.String)
+		if !ok {
+			return &object.Integer{Value: 0}
+		}
+		targetStr := strings.TrimSpace(strObj.Value)
+		targetLower := strings.ToLower(targetStr)
+
+		switch t := args[1].(type) {
+		case *object.Array:
+			for _, elem := range t.Elements {
+				if elemStr, ok := elem.(*object.String); ok {
+					s := strings.TrimSpace(elemStr.Value)
+					if s == targetStr || strings.ToLower(s) == targetLower {
+						return &object.Integer{Value: 1}
+					}
+				} else if isEqual(strObj, elem) {
+					return &object.Integer{Value: 1}
+				}
+			}
+		case *object.String:
+			parts := strings.Split(t.Value, ",")
+			for _, p := range parts {
+				p = strings.TrimSpace(p)
+				if p == targetStr || strings.ToLower(p) == targetLower {
+					return &object.Integer{Value: 1}
+				}
+			}
+		}
+		return &object.Integer{Value: 0}
+	}
+	obj.Vars.Set("string_in", &object.Builtin{Fn: fnStringIn})
+	obj.Vars.Set("strings_in", &object.Builtin{Fn: fnStringIn})
+	obj.Vars.Set("stringsIn", &object.Builtin{Fn: fnStringIn})
+
+
 	// 語法: mapping filter_mapping(mapping m, string|closure func, [mixed args...])
 	// 說明: 過濾 Mapping。
 	// 範例: filter_mapping(m, "is_high_score");

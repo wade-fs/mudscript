@@ -77,6 +77,43 @@ mixed random_element(mixed *arr) {
     return element_of(arr);
 }
 
+// 判斷某元素是否存在於陣列中 (回傳 1 或 0，避免 member_array 0 為 falsy 的陷阱)
+int in_array(mixed item, mixed *arr) {
+    if (!arrayp(arr)) return 0;
+    return member_array(item, arr) != -1;
+}
+
+// 判斷字串是否存在於陣列或逗號分隔清單中 (支援忽略大小寫與首尾空白)
+varargs int string_in(string str, mixed targets) {
+    if (!str || str == "") return 0;
+    if (arrayp(targets)) {
+        foreach (mixed elem in targets) {
+            if (stringp(elem)) {
+                if (trim(elem) == trim(str) || lower_case(trim(elem)) == lower_case(trim(str))) return 1;
+            } else if (elem == str) {
+                return 1;
+            }
+        }
+        return 0;
+    }
+    if (stringp(targets)) {
+        string *parts = explode(targets, ",");
+        foreach (string p in parts) {
+            if (trim(p) == trim(str) || lower_case(trim(p)) == lower_case(trim(str))) return 1;
+        }
+    }
+    return 0;
+}
+
+varargs int strings_in(string str, mixed targets) {
+    return string_in(str, targets);
+}
+
+varargs int stringsIn(string str, mixed targets) {
+    return string_in(str, targets);
+}
+
+
 // 翻譯輔助函式
 string _t(string key) {
     string lang = "en";

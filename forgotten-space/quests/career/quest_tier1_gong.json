@@ -1,0 +1,55 @@
+{
+  "id": "tier1_gong_initiation",
+  "name": "百工總會百工格物試",
+  "category": "career_change",
+  "target_class": "gong_initiate",
+  "type": "once",
+  "start_npc": "gong_hall_ouyang",
+  "start_topic": "考核",
+  "requirements": {
+    "level": 10
+  },
+  "steps": [
+    {
+      "step": 1,
+      "title": "地爐千錘辨材",
+      "desc": "前往千錘地爐坊，向莫錘大師請教辨材之道 (ask mochui about 辨材)，盲辨紅沙生鐵核。",
+      "target_type": "talk",
+      "target_npc": "gong_forge_mochui",
+      "target_topic": "辨材",
+      "location": "/d/city/north/gong_forge",
+      "on_complete": {
+        "msg": "莫錘大師點頭稱許：「指掌生感，能識石中金鐵，確實有吃百工飯的天賦！」"
+      }
+    },
+    {
+      "step": 2,
+      "title": "榫卯受力架構",
+      "desc": "在天工木作大棚敲打修補受力榫楔 (strike tenon)，平衡千斤大木結構。",
+      "target_type": "action",
+      "action_verb": "strike",
+      "action_target": "tenon",
+      "location": "/d/city/north/gong_wood",
+      "on_complete": {
+        "msg": "你持錘精準敲入螺旋榫楔，巨大木樑受力瞬間平衡，大木作匠人們齊聲讚嘆！"
+      }
+    },
+    {
+      "step": 3,
+      "title": "呈稟匠首登記匠籍",
+      "desc": "返回萬機正堂向匠首歐陽大師呈稟考核結果 (ask ouyang about 匠籍)，領受天工烏木尺。",
+      "target_type": "talk",
+      "target_npc": "gong_hall_ouyang",
+      "target_topic": "匠籍",
+      "location": "/d/city/north/gong_hall",
+      "on_complete": {
+        "msg": "歐陽大師鄭重在百工總簿落筆登記，並將象徵規矩與應力的【天工烏木尺】授予你！"
+      }
+    }
+  ],
+  "rewards": {
+    "exp": 1200,
+    "class_grant": "gong_initiate",
+    "item": "/clone/tool/gong_ebony_ruler.c"
+  }
+}

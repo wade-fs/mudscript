@@ -1,0 +1,44 @@
+{
+  "id": "mining_loop",
+  "name": "北崖供礦・工坊生計",
+  "category": "loop",
+  "type": "loop",
+  "start_npc": "lu",
+  "start_topic": "採礦",
+  "requirements": {
+    "level": 1
+  },
+  "decay_config": {
+    "exp_rounds": 3,
+    "taper_rounds": 5,
+    "cutoff_round": 6,
+    "material_floor": {
+      "money": 20,
+      "items": [
+        "/clone/item/ore_chunk.c"
+      ]
+    }
+  },
+  "steps": [
+    {
+      "step": 1,
+      "title": "交付北崖粗鐵",
+      "hint": "前往黑石斷崖古礦道開採粗鐵礦核 (mine)，將北崖粗鐵礦核交給老礦工魯大山 (give ore to lu)。",
+      "target_type": "deliver",
+      "target_npc": "lu",
+      "require_item": "ore_chunk",
+      "location": "/d/village/mine",
+      "on_complete": {
+        "msg": "魯大山接過粗鐵礦核，用滿是老繭的粗糙手掌拍了拍你的肩頭：「好後生！這批粗鐵成色極佳，正好給阿鐵開爐打製農具！」"
+      }
+    }
+  ],
+  "rewards": {
+    "exp": 100,
+    "pot": 25,
+    "money": 50,
+    "items": [
+      "/clone/item/ore_chunk.c"
+    ]
+  }
+}

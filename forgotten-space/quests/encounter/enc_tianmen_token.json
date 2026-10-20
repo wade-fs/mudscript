@@ -1,0 +1,59 @@
+{
+  "id": "enc_tianmen_token",
+  "name": "萬物行商・天門引",
+  "legacy_key": "search_shed_wood",
+  "room": "/d/village/shed",
+  "scope": {
+    "type": "world_slots",
+    "slots": 3,
+    "per": "season"
+  },
+  "gates": [
+    {
+      "type": "world_window",
+      "id": "undercurrent_leak",
+      "desc": "黑石關封鎖、官道斷路、雷雨地氣微震共鳴"
+    },
+    {
+      "type": "background",
+      "any": [ "beggar" ]
+    },
+    {
+      "type": "resonance",
+      "min": 1,
+      "stat": "dex"
+    },
+    {
+      "type": "cost",
+      "vital": "sp",
+      "amount": 15,
+      "backlash": {
+        "chance": 0.3,
+        "effect": "poison_gas",
+        "msg": "重盒表層毒脂白煙嗆入口鼻，喉頭陣陣發甜，受了輕微毒氣侵蝕！"
+      }
+    }
+  ],
+  "roll": {
+    "base": 0.4,
+    "pity": {
+      "per_miss": 0.2,
+      "cap": 1.0
+    }
+  },
+  "rewards": {
+    "exp": 60,
+    "fate": 1,
+    "clone_item": "/clone/relic/tianmen_token.c",
+    "title": "掘出太古九天商盟通關殘令",
+    "clue_key": "tianmen_token_revealed"
+  },
+  "on_fail": {
+    "clue": "gear_rattle",
+    "msg": "柴禾縫隙深處的機關齒輪發出一聲卡滯，未能完全挑開，但聽風耳已鎖定地下三寸方位（獲得【齒輪微震】線索）！"
+  },
+  "recovery": {
+    "policy": "echo",
+    "echo_desc": "一枚無太古齒輪轉動神力的凡銅複製品仿牌"
+  }
+}

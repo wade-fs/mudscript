@@ -1,0 +1,66 @@
+{
+  "id": "fa_chain",
+  "name": "法修之鏈・天人共鳴環",
+  "category": "career",
+  "path_type": "fa",
+  "type": "loop",
+  "start_npc": "kumu",
+  "start_topic": "任務",
+  "requirements": {
+    "level": 1
+  },
+  "steps": [
+    {
+      "step": 1,
+      "title": "請受天道法旨",
+      "hint": "向三清偏殿枯木老道詢問 (ask kumu about 任務) 請受天道法旨。",
+      "target_type": "talk",
+      "target_npc": "kumu",
+      "target_topic": "任務",
+      "location": "/d/village/daoist_temple",
+      "on_complete": {
+        "msg": "枯木老道空洞眼眶望向黑石後山，指派你排查水脈陰煞異動。"
+      }
+    },
+    {
+      "step": 2,
+      "title": "溪灘掬水洗心",
+      "hint": "在南谷溪灘掬水洗心 (wash)，澄澈靈台神識，並拓印石板古意。",
+      "target_type": "action",
+      "action_verb": "wash",
+      "location": "/d/village/stream",
+      "on_complete": {
+        "msg": "寒泉滌蕩心神，心中雜念濁氣蕩滌一空，神識微幅凝聚。"
+      }
+    },
+    {
+      "step": 3,
+      "title": "殘壇仰觀星軌",
+      "hint": "登上道觀後山迎風孤岩殘壇，打坐入定 (meditate) 或仰觀星軌 (stargaze)，堪破偽籠天象。",
+      "target_type": "action",
+      "action_verb": "stargaze",
+      "location": "/d/village/altar",
+      "on_complete": {
+        "msg": "長夜天幕在心神中倒映展開，你堪破了一絲扭曲的偽天道軌跡！"
+      }
+    },
+    {
+      "step": 4,
+      "title": "回報老道撫頂點化",
+      "hint": "返回三清殿向枯木老道回報觀星感悟 (ask kumu about 任務)，由老道推演天機、撫頂點化！",
+      "target_type": "talk",
+      "target_npc": "kumu",
+      "target_topic": "任務",
+      "location": "/d/village/daoist_temple",
+      "on_complete": {
+        "msg": "枯木老道枯槁食指點於你的靈台，清冽道意灌注全身，完成天人共鳴閉環！"
+      }
+    }
+  ],
+  "rewards": {
+    "exp": 150,
+    "affinity": {
+      "fa": 10
+    }
+  }
+}
