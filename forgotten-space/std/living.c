@@ -199,10 +199,20 @@ mixed query(string prop) {
     if (prop == "spi") return stat_spi;
     if (prop == "dex") return stat_dex;
     if (prop == "per") return stat_per;
+    if (prop == "money") return money_balance;
     return ::query(prop);
 }
 
+void set(string prop, mixed val) {
+    if (prop == "money") money_balance = val;
+    ::set(prop, val);
+}
+
 void add(string prop, mixed val) {
+    if (prop == "money") {
+        add_money(val);
+        return;
+    }
     if (prop == "kee" || prop == "hp" || prop == "qi") {
         hp += val;
         if (hp > max_hp) hp = max_hp;

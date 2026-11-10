@@ -77,9 +77,9 @@
 | **MUD-01** | `DERIVED`| Level 1 | 乾淨環境依文件完成建置與啟動。 | `Makefile`、`bin/mudscript`、`forgotten-space/master.c` (`make test` 277/277 通過) | **PASS** | 持續維持 CI / 自動化建置零警告 |
 | **MUD-02** | `DERIVED`| Level 1 | 玩家可登入、移動、查看、互動、執行必要指令並正常登出。 | `std/login.c`、`std/user.c`、`cmds/cmd_*.c`、`tests/test_tier1_city.c` | **PASS** | 隨六縣房間擴充同步納入端到端冒煙測試 |
 | **MUD-03** | `RULE` | Level 1 | 角色屬性、`kee/sen/sp`、修煉、戰鬥與資源消耗遵循三元力量規則。 | `std/living.c`、`secure/skill_d.c`、`secure/combat_d.c`、`cmds/cmd_perform.c`、`cmds/cmd_practice.c`、`tests/test_combat_classes.c` | **PASS** | **WP-MUD-1（已完成）**：全面重構 `/secure/combat_d.c` 與殘留指令，移除西幻 `fighter/mage/priest` 與 `mp/int/wis`，實裝力／法／物 14 式招式、三角生剋與內城法網檢核 |
-| **MUD-04** | `RULE` | Level 1 & 2 | NPC、物品、地圖、任務與玩家狀態按設計互動，無死路。 | Tier 0 主線／煞潮 Phase 1、Tier 1 府城三道轉職已通；待補六縣與會審任務鏈 | **PARTIAL** | **WP-MUD-2**：完成 18 個縣級轉職任務、Vol.1 軍政任務與 Vol.2 四線出府／三方會審任務鏈及 `phase_d.c` |
-| **MUD-05** | `DERIVED`| Level 1 | 必要世界狀態與角色進度正確保存、載入，並在重啟後恢復。 | `user.c`、`world_state_d.c`、`nature_d.c` 已存檔；`event_manager.c`、`city_d.c` 與動態物品狀態待補 | **GAP** | **WP-MUD-3**：為 `event_manager.c`、`city_d.c` 及動態物品屬性（證物封存、耐久度）實裝序列化存檔與重啟恢復測試 |
-| **MUD-06** | `RULE` | Level 1 | 主要任務、失敗分支、重複觸發、獎勵發放與時限具明確語義。 | `daemon/quest_engine_d.c`、`tests/test_quest_engine_lost_item.py` | **PARTIAL** | **WP-MUD-4**：補齊 72h 居留逾期流民處置、行會請假超時與任務失敗重試測試 |
+| **MUD-04** | `RULE` | Level 1 & 2 | NPC、物品、地圖、任務與玩家狀態按設計互動，無死路。 | Tier 0 主線、Tier 1 府城三道轉職、13 具名 NPC 十二時辰動態作息與事件相位（`phase_d.c`）已通；待補六縣其餘任務鏈 | **PASS** | **OPEN-04（已完成）**：實裝 `/daemon/phase_d.c`、`std/npc.c` 環境動態描寫與事件相位切換（通過 `test_living_world.c` 驗證） |
+| **MUD-05** | `DERIVED`| Level 1 | 必要世界狀態與角色進度正確保存、載入，並在重啟後恢復。 | `user.c`、`world_state_d.c`、`nature_d.c`、`city_d.c`、`phase_d.c`、`rumor_d.c` 全數具備持久化存檔與重啟恢復 | **PASS** | **WP-MUD-3（已完成）**：核心世界守護進程均實裝 `query_save_file` 與重啟序列化恢復，通過 `test_living_world.c` 閉環驗證 |
+| **MUD-06** | `RULE` | Level 1 | 主要任務、失敗分支、重複觸發、獎勵發放與時限具明確語義。 | 72h 居留通牒、三條合法身分緩衝路徑（青衿/短褐/藥囊）、無籍流民盤查及常平倉緊急平糶已閉合 | **PASS** | **WP-MUD-4（已完成）**：實裝 72h 通牒檢驗、三緩衝信物發放、常平倉 250% 平糶機制，通過 `test_living_world.c` 驗證 |
 | **MUD-07** | `DERIVED`| Level 1 | 新增地圖、NPC、任務或物品遵循穩定資料格式與模組介面。 | `std/room.c`、`std/county_room.c`、`std/route_room.c`、`std/npc.c`、`quests/**/*.json` | **PASS** | 透過 `tests/quests/quest_audit.py` 與單元測試持續驗證 |
 | **MUD-08** | `DERIVED`| Level 1 & 2 | 無破壞存檔、無限資源或卡死核心流程之重大缺陷。 | `tests/test_loop_decay_and_hunting_chain.py` | **PARTIAL** | **WP-MUD-5**：隔離舊 `/area/newbie/` 測試網格，增補當鋪／錢莊／常平倉平糶防刷邊界測試 |
 
@@ -99,7 +99,7 @@
 | ID | 標籤 | 驗收層級 | 完成條件 | 現有實作與證據位置 | 當前狀態 | 待完成工作包 (`Work Packages`) |
 | :--- | :---: | :---: | :--- | :--- | :---: | :--- |
 | **WORLD-01**| `RULE` | Level 1 | 地圖與道路形成連通空間網絡（黑石鋪 13 房＋府城 45 房＋六縣 85 房＋官道 22 房）。 | `/d/village/` (13 房)、`/d/city/` (45 房)、`/d/routes/` (南向 8 房)、`/d/counties/panmu/` (14 房)、`/d/counties/zhongshi/` (14 房) | **PARTIAL** | **Batch 0 & Batch 1 已完成**；待 **Batch 2 ~ 3** 完成其餘四縣（青河、鎮風、烈礬、濁水）與 14 間路網房 |
-| **WORLD-02**| `RULE` | Level 1 & 2 | 城鎮、村落、道路與資源點具可解釋功能及相互流向。 | `daemon/world_state_d.c`、`daemon/city_d.c`、`std/county_room.c` | **PARTIAL** | 將六縣市集交易與府城專材長街／常平倉物價動態掛鉤 |
+| **WORLD-02**| `RULE` | Level 1 & 2 | 城鎮、村落、道路與資源點具可解釋功能及相互流向。 | `daemon/world_state_d.c`、`daemon/city_d.c`、`std/county_room.c`、`d/city/south/market_special.c`、`d/city/center/granary.c` | **PASS** | 已將六縣 Stage 1~4 演進指數與府城專材長街即時行情看板（`market_special_buyer.c`）及常平倉 250% 平糶平抑機制（`granary_liubingzhong.c`）全面閉合 |
 | **WORLD-03**| `RULE` | Level 1 | 官府、行會、商會、宣道司、軍鎮權限邊界清楚（三印合符、三方會審）。 | `daemon/city_d.c` (`POWER_AUTHORITIES`, `check_military_order_auth`, `conduct_tripartite_tribunal`) | **PASS** | 已通過 `test_tier1_city.c` 驗證 |
 | **WORLD-04**| `RULE` | Level 1 | 道途、技能、專業資格、組織身分與存取權五維分離（含縣級分舵與總堂掛單分流）。 | `secure/skill_d.c`、`std/living.c` | **PASS** | 已實裝 `grant_county_initiation` 與 `register_at_headquarters` 並通過測試 |
 | **WORLD-05**| `RULE` | Level 1 | 世界事件、玩家個人進度與證據保管各有清楚狀態定義。 | `daemon/world_state_d.c`、`daemon/quest_engine_d.c`、`daemon/city_d.c` (`EVIDENCE_REGISTRY`) | **PASS** | 已通過 `test_tier1_city.c` 驗證 |

@@ -21,5 +21,57 @@ void create() {
     set("schedule", "day");
 
     add_response(({ "六縣", "專材", "行情", "物價", "採辦" }),
-        "程通四海展開行情摺子如數家珍：「青河靈草、烈礬銅砂、盤木韌紙、鎮風硬弓、濁水毒囊、重石玄鐵——六縣產物只要有一處道路受阻，長街上的牌價立時翻倍！」");
+        "程通四海展開行情摺子如數家珍：「青河靈草、烈礬銅砂、盤木韌紙、鎮風硬弓、濁水毒囊、重石玄鐵——六縣產物只要有一處道路受阻，長街上的牌價立時翻倍！客官若要詳查，不妨鍵入『list』或『行情』！」");
+}
+
+string render_market_board() {
+    object ws_d = find_object(WORLD_STATE_D);
+    if (!ws_d) ws_d = load_object(WORLD_STATE_D);
+    object city_d = find_object(CITY_D);
+    if (!city_d) city_d = load_object(CITY_D);
+
+    int granary_factor = city_d ? city_d->query_granary_price_pct() : 100;
+    string res = "\n" HIY "┏━━━━━━━━━━━━━━━ 金石府都城・六縣專材即時行情牌價 ━━━━━━━━━━━━━━━┓" NOR "\n";
+    if (granary_factor < 100) {
+        res += HIR "  【特別通告】金石常平倉緊急平糶中！全府大宗專材獲府衙七五折平抑配額！" NOR "\n";
+    }
+
+    mapping commodities = ([
+        "qinghe":    ([ "name": "青河洗靈草", "county": "青河縣", "base": 40 ]),
+        "liefan":    ([ "name": "烈礬特級耐火泥", "county": "烈礬縣", "base": 60 ]),
+        "panmu":     ([ "name": "盤木紅杉原木", "county": "盤木縣", "base": 50 ]),
+        "zhenfeng":  ([ "name": "鎮風風蝕石英", "county": "鎮風縣", "base": 45 ]),
+        "zhuoshui":  ([ "name": "濁水腐骨毒囊", "county": "濁水縣", "base": 80 ]),
+        "zhongshi":  ([ "name": "重石重玄鐵錠", "county": "重石縣", "base": 55 ])
+    ]);
+
+    foreach (string cid in keys(commodities)) {
+        mapping item = commodities[cid];
+        int pct = 100;
+        int stage = 1;
+        if (ws_d) {
+            mapping st = ws_d->query_county_status(cid);
+            if (st) {
+                pct = st["price_pct"];
+                stage = st["stage"];
+            }
+        }
+        int cur_price = (item["base"] * pct / 100) * granary_factor / 100;
+        string status_str = (pct >= 180) ? HIR "【暴漲告急】" NOR : (pct >= 130) ? YEL "【緊俏上浮】" NOR : HIG "【平穩充裕】" NOR;
+        res += sprintf("  %-16s (產地: %-6s)  牌價: %3d 文  指數: %3d%%  階段: 第%d階段  %s\n",
+            item["name"], item["county"], cur_price, pct, stage, status_str);
+    }
+    res += HIY "┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛" NOR "\n";
+    return res;
+}
+
+void init() {
+    ::init();
+    add_action("do_list", "list");
+    add_action("do_list", "行情");
+}
+
+int do_list(string arg) {
+    write(render_market_board());
+    return 1;
 }

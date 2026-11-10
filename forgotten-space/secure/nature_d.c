@@ -16,6 +16,7 @@ int time_offset;        // 時間偏移分鐘數 (管理員推進或劇情調整
 string current_weather; // 目前天氣 (clear, cloudy, rainy, storm, foggy, snowy)
 int weather_duration;   // 當前天氣維持時間 (遊戲分鐘數)
 int last_update;
+string last_shichen;    // 記錄前一次時辰，用於觸發相位作息變更
 
 string query_save_file() { return "/data/nature"; }
 
@@ -27,6 +28,7 @@ void create() {
     current_weather = "clear";
     weather_duration = 90; // 維持 90 分鐘 (90 秒真實時間)
     last_update = time();
+    last_shichen = "卯時";
     
     if (file_size(query_save_file() + ".o") > 0) {
         restore_object(query_save_file());
@@ -300,12 +302,35 @@ void heart_beat() {
             update_weather();
         }
 
-        // 每 5 遊戲分鐘 (現實 75 秒) 通知世界狀態守護進程進行因果推演
+        // 檢查時辰更替並觸發 NPC 動態作息 (PHASE_D)
+        string cur_shichen = query_base_shichen_name();
+        if (cur_shichen != last_shichen) {
+            last_shichen = cur_shichen;
+            object phase_d = find_object(PHASE_D);
+            if (!phase_d) phase_d = load_object(PHASE_D);
+            if (phase_d) {
+                phase_d->on_shichen_change(cur_shichen);
+            }
+        }
+
+        // 每 5 遊戲分鐘 (現實 75 秒) 通知世界狀態守護進程與都城法紀進行因果推演
         if (game_time % 5 == 0) {
             object ws_d = find_object(WORLD_STATE_D);
             if (ws_d) {
                 ws_d->world_tick(game_time, current_weather);
             }
+            object city_d = find_object(CITY_D);
+            if (!city_d) city_d = load_object(CITY_D);
+            if (city_d) {
+                city_d->city_tick(game_time);
+            }
+        }
+
+        // 定期驅動市井動態傳聞與更夫廣播 (RUMOR_D)
+        object rumor_d = find_object(RUMOR_D);
+        if (!rumor_d) rumor_d = load_object(RUMOR_D);
+        if (rumor_d) {
+            rumor_d->tick(game_time);
         }
 
         // 每 1440 遊戲分鐘 (1 遊戲日) 自動推進六縣與黑石鋪 30 天無主角介入演進時鐘
@@ -335,9 +360,25 @@ void advance_time(int minutes) {
     time_offset += minutes;
     game_time += minutes;
     save_object(query_save_file());
+
+    string cur_shichen = query_base_shichen_name();
+    if (cur_shichen != last_shichen) {
+        last_shichen = cur_shichen;
+        object phase_d = find_object(PHASE_D);
+        if (!phase_d) phase_d = load_object(PHASE_D);
+        if (phase_d) {
+            phase_d->on_shichen_change(cur_shichen);
+        }
+    }
+
     object ws_d = find_object(WORLD_STATE_D);
     if (ws_d) {
         ws_d->world_tick(game_time, current_weather);
+    }
+    object city_d = find_object(CITY_D);
+    if (!city_d) city_d = load_object(CITY_D);
+    if (city_d) {
+        city_d->city_tick(game_time);
     }
 }
 

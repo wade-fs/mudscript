@@ -1,0 +1,16 @@
+.git
+.github
+bin
+fsmud
+testlib
+docs
+log
+*.log
+*.txt
+*.zip
+*.exe
+forgotten-space/data/user/*.o
+forgotten-space/data/test_save.o
+fs/log/*
+fs/u/b/bss/record/no_in_open
+

@@ -23,7 +23,9 @@ GO_FLAGS := -ldflags="-s -w"
 COMMON_ENV := CGO_CFLAGS="-Wno-return-local-addr"
 ENVW := $(COMMON_ENV) CGO_ENABLED=1 GOOS=windows GOARCH=amd64 CC="x86_64-w64-mingw32-gcc -fno-stack-protector -D_FORTIFY_SOURCE=0 -lssp"
 
-.PHONY: all clean test test-driver test-fsmud fsmud fsmud.exe fs fs.exe mud-universal mud-universal.exe mudscript mudscript.exe run-fsmud run-fs push inject-hash
+DOCKER_IMAGE ?= wadefs/mudscript:latest
+
+.PHONY: all clean test test-driver test-fsmud fsmud fsmud.exe fs fs.exe mud-universal mud-universal.exe mudscript mudscript.exe run-fsmud run-fs push push-github push-hf push-docker docker-build inject-hash
 
 all: fsmud fsmud.exe fs fs.exe mud-universal mud-universal.exe mudscript mudscript.exe
 
@@ -46,6 +48,15 @@ push-hf:
 	@git commit -m "Deploy to HF with official identity and local data" || true
 	@git push hf hf-deploy:main --force
 	@git checkout main
+
+# 🚀 建置並推送到 Docker Hub
+docker-build:
+	@echo "🐳 Building Docker image $(DOCKER_IMAGE)..."
+	@docker build -t $(DOCKER_IMAGE) .
+
+push-docker: docker-build
+	@echo "📤 Pushing $(DOCKER_IMAGE) to Docker Hub..."
+	@docker push $(DOCKER_IMAGE)
 
 clean-txt:
 	@ rm -f *txt *log

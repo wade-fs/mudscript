@@ -22,5 +22,49 @@ void create() {
     set("schedule", "day");
 
     add_response(({ "常平倉", "平糶", "糧價", "開倉", "災荒" }),
-        "劉秉忠撫摸著糧冊肅然道：「民以食為天！常平倉儲備全府三年戰略荒糧，一旦市井糧價衝破兩成半（250%）上限，本官即刻奏請開倉平糶，將米價壓回七至九折！」");
+        (: call_other, this_object(), "respond_granary_status" :));
+}
+
+string respond_granary_status() {
+    object city_d = find_object(CITY_D);
+    if (!city_d) city_d = load_object(CITY_D);
+    if (city_d && city_d->query_granary_open()) {
+        return "劉秉忠抹著汗水笑道：「府尹手諭已下！常平倉現正開倉平糶，平價供應【平糶荒糧袋】(buy grain, 10文)，每人皆可平價購買充飢，平抑物價！」";
+    }
+    return "劉秉忠撫摸著糧冊肅然道：「民以食為天！常平倉儲備全府三年戰略荒糧，一旦市井物價衝破兩成半（250%）上限，本官即刻奏請開倉平糶，將米價壓回七至九折！」";
+}
+
+void init() {
+    ::init();
+    add_action("do_buy", "buy");
+    add_action("do_buy", "買");
+}
+
+int do_buy(string arg, object who) {
+    object me = who ? who : this_player();
+    if (!me) me = this_player();
+    if (!arg || (arg != "grain" && arg != "relief grain" && arg != "糧" && arg != "荒糧")) {
+        write("你想購買什麼物資？若逢平糶可購買平價糧袋 (buy grain)。\n");
+        return 1;
+    }
+
+    object city_d = find_object(CITY_D);
+    if (!city_d) city_d = load_object(CITY_D);
+    if (!city_d || !city_d->query_granary_open()) {
+        write("劉秉忠搖頭道：「常平倉戰略荒糧受法統封存，非遇物價突破 250% 災異平糶，概不對外單獨零售！」\n");
+        return 1;
+    }
+
+    if (me->query("money") < 10) {
+        write("你的銅錢不足（需要 10 文錢）。\n");
+        return 1;
+    }
+
+    me->add_money(-10);
+    object grain = clone_object("/clone/item/relief_grain.c");
+    if (grain) {
+        grain->move(me);
+        tell_object(me, HIY "【劉秉忠在糧冊上記下一筆，從倉頭提了一袋《平糶荒糧袋》交到你手中！】\n" NOR);
+    }
+    return 1;
 }

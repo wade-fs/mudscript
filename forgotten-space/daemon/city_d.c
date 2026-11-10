@@ -7,8 +7,21 @@
 
 inherit "/std/object.c";
 
+int granary_open;           // 常平倉是否開倉平糶中 (0/1)
+int granary_open_timer;     // 開倉剩餘時間 (遊戲分鐘)
+int last_tick;
+
+string query_save_file() { return "/data/city_d"; }
+
 void create() {
     ::create();
+    granary_open = 0;
+    granary_open_timer = 0;
+    last_tick = time();
+
+    if (file_size(query_save_file() + ".o") > 0) {
+        restore_object(query_save_file());
+    }
 }
 
 // ── 1. 紅塵濁氣梯度指數 ──────────────────────────────────────
@@ -653,4 +666,82 @@ mapping verify_credit_freeze_manipulation(int has_vault_reserve_ledger, int has_
         "emergency_authority_triggered": "none",
         "msg": "僅憑單方傳聞或單一帳冊，尚無法戳破商會『押銀在途遭劫、準備金暫時短缺』之抗辯藉口。"
     ]);
+}
+
+// ── 10. 玩家居留即時檢查介面 ─────────────────────────────────
+mapping check_user_residency(object who) {
+    if (!who || !userp(who)) return ([ "status": "invalid" ]);
+
+    int entry_time = who->query("city_entry_time");
+    if (!entry_time) {
+        entry_time = time();
+        who->set("city_entry_time", entry_time);
+    }
+
+    // 15 秒 = 1 遊戲分鐘，900 秒 = 60 遊戲分鐘 = 1 遊戲小時
+    int hours_in_city = (time() - entry_time) / 900;
+    if (hours_in_city < 0) hours_in_city = 0;
+
+    return check_residency_mandate(who, hours_in_city);
+}
+
+// ── 11. 常平倉緊急開倉平糶平抑機制 ────────────────────────────
+int query_granary_open() {
+    return granary_open;
+}
+
+int query_granary_price_pct() {
+    return granary_open ? 75 : 100;
+}
+
+int trigger_granary_stabilization(string cause) {
+    granary_open = 1;
+    granary_open_timer = 120; // 平糶維持 120 遊戲分鐘 (約 30 分鐘真實時間)
+    save_object(query_save_file());
+
+    string notice = sprintf(
+        "\n" HIY "【金石府常平倉平糶告示】府尹秦正明手諭：\n"
+        "鑒於外縣災異與大荒商道受阻（%s），物資價格飆越兩成半（250%%）法統警戒！\n"
+        "金石府衙即刻開常平倉平糶，按平價七五折供應城鄉米糧與急需草料！" NOR "\n",
+        (cause && cause != "") ? cause : "六縣專材告急"
+    );
+
+    object *all_users = users();
+    if (all_users) {
+        foreach (object u in all_users) {
+            if (u) tell_object(u, notice);
+        }
+    }
+    return 1;
+}
+
+void city_tick(int game_time) {
+    if (granary_open) {
+        granary_open_timer--;
+        if (granary_open_timer <= 0) {
+            granary_open = 0;
+            save_object(query_save_file());
+            object *all_users = users();
+            if (all_users) {
+                foreach (object u in all_users) {
+                    if (u) tell_object(u, WHT "\n【常平倉告示】緊急平糶完畢，常平倉大門重新合閉封存，常規市井物價回穩。\n" NOR);
+                }
+            }
+        }
+    } else {
+        // 自主檢核六縣物價是否突破 250%
+        object ws_d = find_object(WORLD_STATE_D);
+        if (!ws_d) ws_d = load_object(WORLD_STATE_D);
+        if (ws_d) {
+            mapping clocks = ws_d->query_all_county_clocks();
+            if (mapp(clocks)) {
+                foreach (string cid in keys(clocks)) {
+                    if (clocks[cid] && clocks[cid]["price_pct"] >= 250) {
+                        trigger_granary_stabilization(sprintf("%s專材價格突破 250%%", cid));
+                        break;
+                    }
+                }
+            }
+        }
+    }
 }

@@ -1,6 +1,7 @@
 // std/npc.c - NPC / 怪物基底類別
 
 #include "/include/config.h"
+#include "/include/ansi.h"
 
 inherit "/std/living.c";
 
@@ -161,6 +162,15 @@ int     query_aggro_range()   { return aggro_range; }
 string  query_home_room()     { return home_room; }
 int     query_move_range()    { return move_range; }
 int     query_tamable()       { return is_tamable; }
+
+string query_long() {
+    string desc = ::query_long();
+    string amb = query_temp("ambient_action");
+    if (amb && amb != "") {
+        desc += HIG "【當前動靜】" NOR + amb + "\n";
+    }
+    return desc;
+}
 
 // ── 輔助：計算兩個房間之間的距離 ─────────────────────
 int calculate_distance(object room1, object room2) {
@@ -345,6 +355,15 @@ int do_chat(object me, string topic) {
         npc_say = replace_string(npc_say, "$msg", msg);
         tell_object(me, npc_say + "\n");
         return 1;
+    }
+    if (topic == "傳聞" || topic == "消息" || topic == "風聲" || topic == "rumor" || topic == "rumors") {
+        object rumor_d = find_object("/daemon/rumor_d.c");
+        if (!rumor_d) rumor_d = load_object("/daemon/rumor_d.c");
+        if (rumor_d) {
+            string r_msg = rumor_d->query_random_rumor(0);
+            tell_object(me, my_name + " 沉吟片刻，低聲告訴你：「" + r_msg + "」\n");
+            return 1;
+        }
     }
     if (topic == "name" || topic == "名字") {
         string msg = _t("npc_name_is");
