@@ -229,6 +229,30 @@
   * **視角人物**：五人群像
   * **路段場景**：府衙死牢 (`/d/city/center/yamen_prison`) ｜ 商會總堂大殿 (`south/shanghui_hq`) ｜ 專材長街 (`south/market_special`)
   * **核心事件**：趙德貴舊疾與餘毒爆發於死牢氣絕，顧玄竭力難救印證凡人之力邊界；三號庫現銀注入恢復飛錢兌付，物價指數回落至 118~124，揭示世界狀態永久痕跡；血精價崩導致烈礬作坊熄火、重石散人失業，底層礦工遷怒五子體現非烏托邦之真實陣痛；病弱正會長萬老會長現身折衷裁定蘇凝霜守孝期暫代總掌櫃兼三老聯署制衡；重石條石運抵虎跳峽正式啟通；第二卷第四幕（Ch. 68 ～ 76）圓滿完結！
+* [**第 77 章：鬼市餘震・共鳴之物與無標記經生**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/ch0077.md)
+  * **視角人物**：[沈泥（流浪乞兒）](file:///home/wade/src/github/mudscript/forgotten-space/narrative/characters/shen_ni.md)
+  * **路段場景**：鬼市暗巷 (`/d/city/center/black_alley`) ｜ 地下鬼市黑集 (`/d/city/under/black_market`)
+  * **核心事件**：血精崩盤引發地下黑市洗牌；沈泥持牙帖過疤臉刀生鐵格柵深入黑渠，天門引溫熱共鳴起獲【史前商盟青銅契版殘片】；自牙商鬼見愁處查得高價收購血精之終端買家為身穿無標記長袍、攜帶二階名山無雜質靈石的採辦經生。
+* [**第 78 章：莫三往事・舊商盟之夜**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/ch0078.md)
+  * **視角人物**：[沈泥（流浪乞兒）](file:///home/wade/src/github/mudscript/forgotten-space/narrative/characters/shen_ni.md)
+  * **路段場景**：南關車馬小棧二樓角房 (`/d/city/gate/gate_south_inn`)
+  * **核心事件**：莫三離城返鄉前夜，沈泥以冷茶對坐陳列死帳、名冊與契版；莫三熱淚吐露三十年前大清洗與十五年前雪地抱回高熱女嬰之真相；沈泥決意不改沈泥之名，但正式接下查明太古舊約之因果。
+* [**第 79 章：精金淬鍊・藥性逆行（物道雙傑破障）**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/ch0079.md)
+  * **視角人物**：[林鐵生（打鐵學徒）](file:///home/wade/src/github/mudscript/forgotten-space/narrative/characters/lin_tiesheng.md) ｜ [顧玄（採藥孤兒）](file:///home/wade/src/github/mudscript/forgotten-space/narrative/characters/gu_xuan.md)
+  * **路段場景**：千錘地爐坊 (`/d/city/north/gong_forge`) ｜ 杏林醫館百草堂丹房 (`/d/city/center/clinic`)
+  * **核心事件**：入城兩百日技藝達 Skill Lv.100 圓滿，雙傑展開生命層次破障：鐵生於千錘地爐直面工具與心眼瓶頸，觀摩太古黑鐵悟通「百工格物心眼」，單錘定音完成精金淬體；顧玄於百草堂在雙師監診下引導七十二味藥力逆行洗髓排出凡俗濁煞，肉身生香成就通靈藥體；物道雙傑齊破 Lv.50！
+* [**第 80 章：氣血逆沖・心魔叩問（力法雙傑破障）**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/ch0080.md)
+  * **視角人物**：[燕隼（獵戶之子）](file:///home/wade/src/github/mudscript/forgotten-space/narrative/characters/yan_sun.md) ｜ [柳清虛（破落道童）](file:///home/wade/src/github/mudscript/forgotten-space/narrative/characters/liu_qingxu.md)
+  * **路段場景**：八方武館大校場 (`/d/city/east/wu_plaza`) ｜ 宣道司靜心閣 (`/d/city/west/dao_quiet`)
+  * **核心事件**：燕隼於大校場硬撼霸山百鈞重戟，收束急躁戾氣領悟獵道真諦，戰神真氣逆沖貫通周天經絡，氣血脫胎換骨；柳清虛於靜心閣直面二十八宿天羅巨籠與道化心魔，以「縱有鐵籠，亦當丈量每一寸公差」之實證道心一劍斬破迷障，眉心青蓮現神識凝實；力法雙傑齊破 Lv.50！
+* [**第 81 章：使者入城・四維分離與宗門考核令**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/ch0081.md)
+  * **視角人物**：五人群像（沈泥、林鐵生、顧玄、燕隼、柳清虛）
+  * **路段場景**：金石府衙後堂 (`/d/city/center/yamen`) ｜ 宣道司正堂 (`/d/city/west/dao_hall`)
+  * **核心事件**：二階名山遊歷道士與經生零散入城；各大公署落實四維分離結算（技能滿值/社會資格/Lv.50破障/考核令），燕隼、清虛、鐵生、顧玄獲頒【Tier 2 名山外門考核令】；沈泥不入封閉宗門，由蘇凝霜與賈朝奉聯署授予【跨州特等通行信印】以自由身行走天下；全隊感知到府城絕靈法網濁氣驅離機制啟動。
+* [**第 82 章：初秋城門・分途之前（第二卷終章）**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/ch0082.md)
+  * **視角人物**：五人群像（沈泥、林鐵生、顧玄、燕隼、柳清虛）
+  * **路段場景**：南關車馬小棧二樓 (`/d/city/gate/gate_south_inn`) ｜ 金石北關城門 (`/d/city/gate/gate_north`)
+  * **核心事件**：黑石鋪 Stage 4 閉環：虎跳峽便道正式通車，馬千里送來故鄉阿鐵卡尺、葛半仙草籽、趙老獵狼牙箭與枯木無字簡；離城前夜五大太古殘片於小棧木案合鳴凝結星光指針直指北方名山；清晨金石北關大門轟然開啟，五子分途出關，踏上二階名山浩瀚仙途；第二卷全卷大圓滿！
 
 
 

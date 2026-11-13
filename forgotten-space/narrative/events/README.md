@@ -84,6 +84,19 @@
 
 ---
 
+## 第二卷 第五幕：歷史回響・晉階之門（第 77～82 章・卷二大結局）
+
+| 章節 | 視角主角 | 核心敘事事件 | MUD 房間與 NPC 互動 | 任務鏈 / 物證關聯 | 系統機制與成果 |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **第 77 章** | 沈泥 | 鬼市暗巷天門引共鳴，收購青銅契版，查明無標記採辦經生 | `/d/city/center/black_alley.c`<br>`/d/city/under/black_market.c`<br>NPC: `black_alley_gatekeeper`<br>`under_black_market_broker` | 任務：`v2_act5_tier2_admission`<br>道具：`bronze_treaty_plate.c` | 天門引共鳴起獲史前商盟青銅契版，查悉血精名山買家。 |
+| **第 78 章** | 沈泥 | 南關小棧莫三吐露三十年清洗真相，接下太古舊約因果 | `/d/city/gate/gate_south_inn.c`<br>NPC: `gate_south_inn_laoliu` | 任務：`v2_act5_tier2_admission` | 莫三往事揭秘，沈泥立志不改沈泥之名、追查舊約。 |
+| **第 79 章** | 林鐵生 / 顧玄 | 鐵生開百工格物心眼精金淬體；顧玄逆行洗髓成通靈藥體 | `/d/city/north/gong_forge.c`<br>`/d/city/center/clinic.c`<br>NPC: `gong_mochui`<br>`center_doctor_bai` | 任務：`v2_act5_tier2_admission` | 物道雙傑完成 Lv.50 肉身破障，突破凡胎極限。 |
+| **第 80 章** | 燕隼 / 柳清虛 | 燕隼收束戾氣氣血脫胎；清虛實證道心斬破天羅道化心魔 | `/d/city/east/wu_plaza.c`<br>`/d/city/west/dao_quiet.c`<br>NPC: `wu_bashan`<br>`dao_xingyuan`<br>`dao_xuanji` | 任務：`v2_act5_tier2_admission` | 力法雙傑完成 Lv.50 肉身心神破障，神識法胎凝實。 |
+| **第 81 章** | 五人群像 | 四維分離結算：四人獲名山考核令；沈泥獲跨州特等信印 | `/d/city/west/dao_hall.c`<br>`/d/city/gate/gate_south_inn.c`<br>NPC: `dao_xuanji`<br>`su_ningshuang` | 任務：`v2_act5_tier2_admission`<br>道具：`tier2_admission_token.c`<br>`cross_state_trade_tally.c` | 獲名山外門考核令與跨州信印；濁氣驅離機制啟動。 |
+| **第 82 章** | 五人群像 | 故土家書抵達，五器合鳴指北；北關大開出關踏上名山仙途 | `/d/city/gate/gate_south_inn.c`<br>`/d/city/gate/gate_north.c`<br>NPC: `gate_north_hanqing` | 任務：`v2_act5_tier2_admission` 完成<br>道具：`ancient_relics_compass.c` | 五器共鳴星光指針直指北方名山，第二卷全卷大圓滿！ |
+
+---
+
 ## 六大物證缺口標準五欄對照表 (The Six Evidence Gaps Ledger)
 
 | 編號 | 物證名稱 (`item`) | 物證型態 (`type`) | 來源鏈與取得者 (`source & chain`) | 證明力限制與當前等級 (`strength & limit`) | 當前狀態與最新進展 (`status`) |

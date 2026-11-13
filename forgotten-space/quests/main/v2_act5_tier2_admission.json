@@ -1,0 +1,106 @@
+{
+  "id": "v2_act5_tier2_admission",
+  "name": "歷史回響：四維分離與名山考核",
+  "category": "main",
+  "type": "once",
+  "start_npc": "black_alley_gatekeeper",
+  "start_topic": "暗巷",
+  "requirements": {
+    "level": 24
+  },
+  "steps": [
+    {
+      "step": 1,
+      "title": "鬼市暗巷驗印通行",
+      "hint": "在鬼市暗巷向守門疤臉刀出示通寶信印 (ask scarface about 暗巷)。",
+      "target_type": "talk",
+      "target_npc": "black_alley_gatekeeper",
+      "target_topic": "暗巷",
+      "location": "/d/city/center/black_alley",
+      "on_complete": {
+        "msg": "【暗巷放行】疤臉刀驗看通寶牙帖，拉開生鐵格柵，准許步入地下鬼市！"
+      }
+    },
+    {
+      "step": 2,
+      "title": "地下黑市分期購得青銅契版",
+      "hint": "在城下暗渠地下鬼市向牙商鬼見愁議購史前契版 (ask guijianchou about 契版)。",
+      "target_type": "talk",
+      "target_npc": "under_black_market_broker",
+      "target_topic": "契版",
+      "location": "/d/city/under/black_market",
+      "on_complete": {
+        "give_item": "/clone/item/bronze_treaty_plate.c",
+        "msg": "【史前契版】鬼見愁立契交割，獲得【史前商盟青銅契版殘片】，並查悉無標記採辦經生真相！"
+      }
+    },
+    {
+      "step": 3,
+      "title": "南關小棧三十年舊商盟往事",
+      "hint": "在南關車馬小棧向老劉與莫三探詢舊盟往事 (ask laoliu about 舊約)。",
+      "target_type": "talk",
+      "target_npc": "gate_south_inn_laoliu",
+      "target_topic": "舊約",
+      "location": "/d/city/gate/gate_south_inn",
+      "on_complete": {
+        "msg": "【太古舊約】莫三吐露暴雪逃難真相，沈泥不改沈泥之名，毅然承接追查太古舊約因果！"
+      }
+    },
+    {
+      "step": 4,
+      "title": "千錘地爐坊精金淬體心眼破障",
+      "hint": "在千錘地爐坊向莫錘大師請益百工心眼 (ask mochui about 心眼)。",
+      "target_type": "talk",
+      "target_npc": "gong_forge_mochui",
+      "target_topic": "心眼",
+      "location": "/d/city/north/gong_forge",
+      "on_complete": {
+        "msg": "【百工心眼】林鐵生以黑鐵悟通格物心眼，一錘定音完成精金淬體，突破 Lv.50 生命極限！"
+      }
+    },
+    {
+      "step": 5,
+      "title": "宣道司正堂頒發名山考核令",
+      "hint": "在宣道司正堂向玄機真人領取名山保薦令 (ask xuanji about 考核令)。",
+      "target_type": "talk",
+      "target_npc": "dao_hall_xuanji",
+      "target_topic": "考核令",
+      "location": "/d/city/west/dao_hall",
+      "on_complete": {
+        "give_item": "/clone/item/tier2_admission_token.c",
+        "msg": "【名山考核】各大道統領袖聯署頒發【Tier 2 名山外門考核令】，取得登天梯與問心谷參試資格！"
+      }
+    },
+    {
+      "step": 6,
+      "title": "商會總堂頒發跨州特等信印",
+      "hint": "在南關車馬小棧向蘇凝霜領取跨州通行特等信印 (ask su about 跨州)。",
+      "target_type": "talk",
+      "target_npc": "su ningshuang",
+      "target_topic": "跨州",
+      "location": "/d/city/gate/gate_south_inn",
+      "on_complete": {
+        "give_item": "/clone/item/cross_state_trade_tally.c",
+        "msg": "【跨州信印】蘇凝霜與賈朝奉為沈泥頒發【跨州特等通行信印】，以自由身縱橫天下商道！"
+      }
+    },
+    {
+      "step": 7,
+      "title": "北關城門五器合鳴分途啟程",
+      "hint": "在金石北關城門向典吏韓清啟關出巡 (ask hanqing about 出關)。",
+      "target_type": "talk",
+      "target_npc": "gate_north_hanqing",
+      "target_topic": "出關",
+      "location": "/d/city/gate/gate_north",
+      "on_complete": {
+        "give_item": "/clone/item/ancient_relics_compass.c",
+        "msg": "【北望名山】太古五器合鳴直指北方仙山！北關大門轟然開啟，五子並肩邁出府城踏上名山仙途，卷二圓滿大結局！"
+      }
+    }
+  ],
+  "rewards": {
+    "exp": 12000,
+    "pot": 4000,
+    "money": 10000
+  }
+}
