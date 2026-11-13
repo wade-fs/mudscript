@@ -2,6 +2,8 @@
 
 本目錄記錄小說各卷各幕的核心敘事事件，及其在 MUD 引擎中由 `QUEST_ENGINE_D` (`/daemon/quest_engine_d.c`)、`MYSTERY_D` (`/daemon/mysteryd.c`)、`WORLD_STATE_D` (`/daemon/world_state_d.c`)、`PHASE_D` (`/daemon/phase_d.c`) 與 `CITY_D` (`/daemon/city_d.c`) 管理的實作映射。
 
+* 卷二專屬事件與詳細機制規範請參見：[第二卷：金石雙壁事件記錄簿](volume2_events.md)
+
 ---
 
 ## 第一卷：黑石破曉事件映射表（第 1～38 章）
