@@ -68,6 +68,22 @@
 
 ---
 
+## 第二卷 第四幕：信用凍結・三方會審（第 68～76 章）
+
+| 章節 | 視角主角 | 核心敘事事件 | MUD 房間與 NPC 互動 | 任務鏈 / 物證關聯 | 系統機制與成果 |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **第 68 章** | 沈泥 | 飛錢成紙引發總號擠兌，比對底冊查明扣押九八足色官銀 | `/d/city/center/pawnshop.c`<br>NPC: `center_pawn_jia` | 任務：`v2_act4_tripartite_tribunal` (Step 1) | 勘破準備金成色破綻，粉碎假象。 |
+| **第 69 章** | 顧玄 | 糧商串通停業哄抬，攜手常平倉呈遞分級保命條陳 | `/d/city/north/granary.c`<br>NPC: `granary_liubingzhong` | 任務：`v2_act4_tripartite_tribunal` (Step 2) | 以工代賑、分級配給平糶，穩住民心。 |
+| **第 70 章** | 顧玄 | 瘴氣倒灌西水門，連夜配製苦參替代方撲滅疫情瓦解黑市 | `/d/city/center/clinic.c`<br>NPC: `center_doctor_bai` | 任務：`v2_act4_tripartite_tribunal` (Step 3) | 熬製苦參辟疫飲解救千人，粉碎藥商囤積。 |
+| **第 71 章** | 林鐵生 | 西水門金剛砂磨毀導軌卡死渠首，螺紋頂升衝沙排險 | `/d/city/gate/gate_west.c`<br>NPC: `gong_mochui` | 任務：`v2_act4_tripartite_tribunal`<br>道具：`miner_thumbprints.c` | 頂升閘葉反向衝沙，取得礦工血指結狀。 |
+| **第 72 章** | 燕隼 | 查訪城防庫與硝火作，對質起獲軍需雷管雙聯火印存根 | `/d/city/north/gong_fireworks.c`<br>NPC: `gong_fireworks_master` | 任務：`v2_act4_tripartite_tribunal`<br>道具：`detonator_serial_ledger.c` | 鋸齒騎縫火印咬合無誤，鎖定錢百貴。 |
+| **第 73 章** | 沈泥 / 莫三 | 水情手令掩護潛入天字一號密室，起獲正底單加蓋火漆 | `/d/city/south/under_canal.c`<br>NPC: `center_wenchengjing` | 任務：`v2_act4_tripartite_tribunal`<br>道具：`under_canal_deed.c` | 搶出三萬斤血精交割正底單，法定保管鏈完備。 |
+| **第 74 章** | 五人群像 | 南關小棧通宵復盤，定罪、政治平衡、民生止血三層籌碼 | `/d/city/gate/gate_south_inn.c` | 任務：`v2_act4_tripartite_tribunal` | 擊退刺探死士，五欄物證模型完備審計。 |
+| **第 75 章** | 全員群像 | 府衙正堂三方會審，三印合符定讞，錢百川革職下獄 | `/d/city/center/yamen_hall.c`<br>NPC: `yamen_magistrate` | 任務：`v2_act4_tripartite_tribunal`<br>道具：`tripartite_warrant.c` | 三印合符定讞，查抄十二萬兩現銀，蘇凝霜雪冤！ |
+| **第 76 章** | 五人群像 | 餘波震盪，世界狀態指數穩定於 118~124，靈台見真立心 | `/d/city/gate/gate_south_inn.c` | 任務：`v2_act4_tripartite_tribunal` 完成 | 全隊進階 Lv. 24，直面殘酷現實，叩響晉階之門。 |
+
+---
+
 ## 六大物證缺口標準五欄對照表 (The Six Evidence Gaps Ledger)
 
 | 編號 | 物證名稱 (`item`) | 物證型態 (`type`) | 來源鏈與取得者 (`source & chain`) | 證明力限制與當前等級 (`strength & limit`) | 當前狀態與最新進展 (`status`) |
@@ -76,5 +92,5 @@
 | **GAP-02** | **烈礬特級耐火泥出貨單** | 地火堡原始提領底單 | 林鐵生於烈礬三號井救險後獲老爐頭韓老調託付，蓋有金蓮環刀印 | **`corroborative` (強間接佐證)**<br>*與府城丙字柒號黑釜殘渣成分物理咬合完全吻合* | **已補齊**（Ch. 63 取得 `liefan_clay_batch.c`） |
 | **GAP-03** | **鎮風關走山令與出關舊檔** | 衛所通行殘牌與公文 | 燕隼於鎮風邊防衛所地下案卷室調閱五年舊檔，起獲燕山箭記殘牌 | **`corroborative` (強間接佐證)**<br>*證實商會五年前秘密勘探北崖礦脈，雷震將軍用印作保* | **已補齊**（Ch. 62 取得 `shan_token_half.c`） |
 | **GAP-04** | **重石抽減鐵木指令拓本** | 採石場機密帳簿拓本 | 林鐵生於重石穿山寨重造絞盤平息罷工後，少工頭杜小山血指畫押 | **`corroborative` (強間接佐證)**<br>*證實商會內堂於塌方前兩個月強令抽減北崖三成鐵木支護* | **已補齊**（Ch. 66 取得 `zhongshi_timber_order.c`） |
-| **GAP-05** | **一號密室總堂交割正底單** | 商會地下核心地契底帳 | 藏於金石商會總堂地下「天字一號密室」子母玄鐵門內 | `lead_only` (線索階段)<br>*需憑雲記沈泥身世信物以「七星合契子母扣」開啟* | **第四幕待突破**（目標物證 `under_canal_deed`） |
-| **GAP-06** | **軍器局雷管雙聯火印存根** | 軍械調撥雙聯存根底冊 | 藏於府城軍器局與硝火作核心值房 | `lead_only` (線索階段)<br>*燕隼需借八方武館黑鐵護衛與石老兵人脈調檔* | **第四幕待突破**（目標物證 `detonator_serial_ledger`） |
+| **GAP-05** | **一號密室總堂交割正底單** | 商會地下核心地契底帳 | 藏於金石商會總堂地下「天字一號密室」外層鐵櫃，文承敬火漆封存 | **`conclusive` (關鍵定罪鐵證)**<br>*三萬斤地煞血精流水與金蓮環刀印完全吻合，法定保管鏈滴水不漏* | **已閉合**（Ch. 73 取得 `under_canal_deed.c`） |
+| **GAP-06** | **軍器局雷管雙聯火印存根** | 軍械調撥雙聯存根底冊 | 城防司披甲庫與硝火作當面對質起獲，鋸齒邊緣咬合吻合 | **`conclusive` (關鍵定罪鐵證)**<br>*鋼齒鋸齒物理咬合分毫不差，雙聯騎縫火印直指錢百貴* | **已閉合**（Ch. 72 取得 `detonator_serial_ledger.c`） |

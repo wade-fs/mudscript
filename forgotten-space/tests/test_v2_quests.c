@@ -24,7 +24,8 @@ void run_tests(object me) {
         "v2_career_tier1_qualifications",
         "v2_west_watergate_crisis",
         "v2_six_evidence_gaps",
-        "v2_six_county_evidence"
+        "v2_six_county_evidence",
+        "v2_act4_tripartite_tribunal"
     });
 
     foreach (string qid in v2_qids) {
@@ -54,7 +55,11 @@ void run_tests(object me) {
         "/clone/item/shan_token_half.c",
         "/clone/item/yunji_roster.c",
         "/clone/item/zhongshi_timber_order.c",
-        "/clone/item/fengshi_quartz.c"
+        "/clone/item/fengshi_quartz.c",
+        "/clone/item/under_canal_deed.c",
+        "/clone/item/detonator_serial_ledger.c",
+        "/clone/item/miner_thumbprints.c",
+        "/clone/item/tripartite_warrant.c"
     });
 
     foreach (string item_path in items_to_test) {
@@ -70,16 +75,19 @@ void run_tests(object me) {
     // ── 3. 核心 NPC 關鍵字回應檢驗 ──────────────────────────
     mapping npc_tests = ([
         "/clone/npc/gate_south_taxofficer.c": ({ "入城", "通牒" }),
-        "/clone/npc/center_wenchengjing.c":   ({ "移交", "文卷" }),
+        "/clone/npc/center_wenchengjing.c":   ({ "移交", "文卷", "密室" }),
         "/clone/npc/gate_south_inn_laoliu.c":  ({ "緩衝信物", "夜議", "四線", "凍結" }),
         "/clone/npc/gate_west_helmsman.c":    ({ "水閘", "合閘" }),
         "/clone/npc/gate_west_inspector.c":   ({ "濁膠" }),
         "/clone/npc/under_drain_gate_diver.c":({ "潛游", "鋼索" }),
-        "/clone/npc/gong_mochui.c":           ({ "校準", "匠帖", "耐火泥" }),
-        "/clone/npc/center_doctor_bai.c":     ({ "辨毒", "醫籍", "毒囊" }),
+        "/clone/npc/gong_mochui.c":           ({ "校準", "匠帖", "耐火泥", "金剛砂" }),
+        "/clone/npc/gong_fireworks_master.c": ({ "存根" }),
+        "/clone/npc/center_doctor_bai.c":     ({ "辨毒", "醫籍", "毒囊", "苦參" }),
+        "/clone/npc/granary_liubingzhong.c":  ({ "分級" }),
+        "/clone/npc/yamen_magistrate.c":      ({ "三印" }),
         "/clone/npc/wu_bashan.c":             ({ "盤石", "鏢師帖", "走山令" }),
         "/clone/npc/dao_xingyuan.c":          ({ "星軌", "觀象牒" }),
-        "/clone/npc/center_pawn_jia.c":       ({ "死帳", "牙帖", "雲記" }),
+        "/clone/npc/center_pawn_jia.c":       ({ "死帳", "牙帖", "雲記", "成色" }),
         "/clone/npc/market_special_buyer.c":  ({ "六縣", "鐵木" }),
         "/clone/npc/su_ningshuang.c":         ({ "四線", "雲記", "停職" })
     ]);
@@ -127,6 +135,16 @@ void run_tests(object me) {
     q_engine->trigger_event(tester, "talk", data3);
     int step3 = q_engine->query_quest_step(tester, "v2_six_county_evidence");
     assert_equal(2, step3, "在南關小棧詢問四線後，v2_six_county_evidence 應推進至 step 2");
+
+    // 測試 v2_act4_tripartite_tribunal 接取 (需 Lv 20)
+    tester->set_level(20);
+    mapping data4 = ([
+        "npc": "pawnshop_jiachaofeng",
+        "topic": "成色"
+    ]);
+    q_engine->trigger_event(tester, "talk", data4);
+    int step4 = q_engine->query_quest_step(tester, "v2_act4_tripartite_tribunal");
+    assert_equal(2, step4, "在通寶當鋪詢問成色後，v2_act4_tripartite_tribunal 應推進至 step 2");
 
     destruct(tester);
 }

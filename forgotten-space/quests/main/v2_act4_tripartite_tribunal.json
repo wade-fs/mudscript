@@ -1,0 +1,106 @@
+{
+  "id": "v2_act4_tripartite_tribunal",
+  "name": "信用凍結：三方會審與大庫之決",
+  "category": "main",
+  "type": "once",
+  "start_npc": "pawnshop_jiachaofeng",
+  "start_topic": "成色",
+  "requirements": {
+    "level": 20
+  },
+  "steps": [
+    {
+      "step": 1,
+      "title": "信用擠兌與準備金成色破綻",
+      "hint": "在通寶當鋪向賈朝奉查驗錢百川準備金成色破綻 (ask jiachaofeng about 成色)。",
+      "target_type": "talk",
+      "target_npc": "pawnshop_jiachaofeng",
+      "target_topic": "成色",
+      "location": "/d/city/center/pawnshop",
+      "on_complete": {
+        "msg": "【成色告破】賈朝奉比對總號底冊與南關入城稅單，揭穿錢百川扣押足色條銀製造擠兌之陰謀！"
+      }
+    },
+    {
+      "step": 2,
+      "title": "常平倉平糶與分級保命條陳",
+      "hint": "在常平倉向劉秉忠呈遞以工代賑分級平糶條陳 (ask liubingzhong about 分級)。",
+      "target_type": "talk",
+      "target_npc": "granary_liubingzhong",
+      "target_topic": "分級",
+      "location": "/d/city/north/granary",
+      "on_complete": {
+        "msg": "【常平定盤】劉秉忠採納五人組分級保命平糶法，以限購代賑穩定西城糧價民心！"
+      }
+    },
+    {
+      "step": 3,
+      "title": "西水門苦參替代方解毒救險",
+      "hint": "在杏林醫館向白先生請教苦參配方替補西水門藥荒 (ask doctor_bai about 苦參)。",
+      "target_type": "talk",
+      "target_npc": "clinic_baixiansheng",
+      "target_topic": "苦參",
+      "location": "/d/city/center/clinic",
+      "on_complete": {
+        "msg": "【苦參替補】白先生以本地苦參大黃替補斷供靈藥，瓦解黑市投機，挽救西水門數千中毒坊民！"
+      }
+    },
+    {
+      "step": 4,
+      "title": "渠首大閘螺紋頂升衝沙排險",
+      "hint": "在千錘地爐坊向莫錘大師核對渠首金剛砂磨損與排沙應對 (ask mochui about 金剛砂)。",
+      "target_type": "talk",
+      "target_npc": "gong_forge_mochui",
+      "target_topic": "金剛砂",
+      "location": "/d/city/north/gong_forge",
+      "on_complete": {
+        "give_item": "/clone/item/miner_thumbprints.c",
+        "msg": "【人證合流】莫錘大師與逃出生天的老礦工淚灑當場，交出二十二枚血指手印控狀，正式頒予【黑石鋪倖存礦工指血結狀】！"
+      }
+    },
+    {
+      "step": 5,
+      "title": "官禁硝火作軍需雷管存根核驗",
+      "hint": "在官禁硝火作向老工匠查核內堂走私雷管領料存根 (ask fireworks_master about 存根)。",
+      "target_type": "talk",
+      "target_npc": "gong_fireworks_master",
+      "target_topic": "存根",
+      "location": "/d/city/north/gong_fireworks",
+      "on_complete": {
+        "give_item": "/clone/item/detonator_serial_ledger.c",
+        "msg": "【火印合牙】老工匠取出鋼齒鋸齒存根，與炸毀古礦的雷管碎片分毫不差，正式頒予【軍需雷管雙聯火印存根】！"
+      }
+    },
+    {
+      "step": 6,
+      "title": "天字一號密室火漆公證正底單",
+      "hint": "在府衙案牘庫向主簿文承敬呈驗地下暗渠起獲的正底單 (ask wenchengjing about 密室)。",
+      "target_type": "talk",
+      "target_npc": "yamen_archive_wenchengjing",
+      "target_topic": "密室",
+      "location": "/d/city/center/yamen_archive",
+      "on_complete": {
+        "give_item": "/clone/item/under_canal_deed.c",
+        "msg": "【火漆公證】主簿文承敬在大水沒頂前完成正底單火漆封印，保管鏈滴水不漏，正式頒予【總堂血精交割正底單】！"
+      }
+    },
+    {
+      "step": 7,
+      "title": "府衙正堂三印合符審定巨蠹",
+      "hint": "在府衙正堂向金石府尹秦正明發起三方會審定讞 (ask yamen_magistrate about 三印)。",
+      "target_type": "talk",
+      "target_npc": "yamen_magistrate",
+      "target_topic": "三印",
+      "location": "/d/city/center/yamen_hall",
+      "on_complete": {
+        "give_item": "/clone/item/tripartite_warrant.c",
+        "msg": "【三印合符】府尹秦正明驚堂木重重拍落！三方會審三印合符定讞，錢百川被革職下獄，正式頒予【三方會審三印合符裁決書】！"
+      }
+    }
+  ],
+  "rewards": {
+    "exp": 8000,
+    "pot": 2500,
+    "money": 5000
+  }
+}

@@ -23,6 +23,9 @@ void create() {
 
     add_response(({ "常平倉", "平糶", "糧價", "開倉", "災荒" }),
         (: call_other, this_object(), "respond_granary_status" :));
+
+    add_response(({ "分級", "配給", "保命", "優先序" }),
+        "劉秉忠雙手抱拳嘆道：「顧小哥這套『重傷礦工、修閘苦力、孕婦幼童優先』的分級保命條陳，真是救了全城百萬生靈！府尹大人已硃批依此平糶！」");
 }
 
 string respond_granary_status() {
