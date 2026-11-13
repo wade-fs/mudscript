@@ -64,3 +64,105 @@
 * [**第 36 章：商會殘骨・利益之毒**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/ch0036.md) - 提審趙德貴揭穿副會長錢百川走私謀殺大掌櫃黑幕，天字一號密室與天門引暗線浮現，確立五子護送證物赴府城之決心。
 * [**第 37 章：回首黑石・凡胎圓滿**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/ch0037.md) - 聚落展開真實重建重開爐火，五子歷經劫難迎來心性與技藝質變，水到渠成晉升 Lv.10 凡胎圓滿，獲頒官府出鄉路引。
 * [**第 38 章：大荒官道・天門驚蟄**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/ch0038.md) - 虎跳峽便道搶通，五子向五位留守師長深沉道別，護衛商隊踏上大荒官道邁向金石府城，第一卷圓滿落幕。
+
+---
+
+## 第二卷：金石風雲 / 入城立籍篇
+
+本卷主舞台移至金石府城（九大分區、45 間正典房間）與周邊六縣區域網。五位少年護送死囚與走私重證，沿東線盤木林道踏入自治城邦，直面世俗體制、五方共治博弈、兩階段居留鐵律與分途立籍考驗：
+
+* [**第 39 章：殘雪驛道・證物同行**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/ch0039.md)
+  * **視角人物**：[沈泥（流浪乞兒）](file:///home/wade/src/github/mudscript/forgotten-space/narrative/characters/shen_ni.md)
+  * **路段場景**：盤木林道東線 (`seg_blackstone_panmu` 190 里) ｜ 青澗驛
+  * **核心事件**：重車難渡西線吊橋，全隊隨陳鎮山押解隊走盤木林道；蘇凝霜與陳鎮山逐項建立證物「保管鏈 (`chain_of_custody`)」；沈泥與顧玄勘破隨隊「犒軍鹹肉」蘊藏透骨草麻痺味覺之致命伏筆；驛站嚴苛計價，五子切身體會 Tier 0 新手保護之撤除。
+* [**第 40 章：墜崖之家**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/ch0040.md)
+  * **視角人物**：[燕隼（獵戶之子）](file:///home/wade/src/github/mudscript/forgotten-space/narrative/characters/yan_sun.md)
+  * **路段場景**：盤木林道 40 里 ｜ 峽下驛（虎跳峽下游斷道收容營）
+  * **核心事件**：直面虎跳峽棧道崩塌墜江死傷兵丁與腳夫家屬；燕隼額角受創不退反進，五子肅然長跪不推諉避責；通宵搶救傷肢、修補車棚樑木、劈柴生火、撫慰孤寡；柳清虛逐名造冊血書畫押立下終生欠償之諾；確立「救村功績不能抵消下游傷亡代價」的硬骨人間道。
+* [**第 41 章：夜半鐵檻**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/ch0041.md)
+  * **視角人物**：[顧玄（採藥孤兒）](file:///home/wade/src/github/mudscript/forgotten-space/narrative/characters/gu_xuan.md)
+  * **路段場景**：盤木林道 150 里 ｜ 松崖驛（盤木縣前哨）
+  * **核心事件**：重囚趙德貴夜半七竅滲黑血暴發「地陰腐骨散」劇毒；顧玄行針鎖心脈、草木灰水催吐、九節菖蒲散吊命，險奪活口卻致其咽喉灼爛神智殘缺；驗明毒源出自高鹽透骨草犒軍鹹肉；嚴守五欄證據邊界將樣本定為 `lead_only`（調查線索），不作無據指控；陳鎮山雷霆隔離死守、內鬼留白。
+* [**第 42 章：盤木林道・木價之痕**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/ch0042.md)
+  * **視角人物**：[林鐵生（打鐵學徒）](file:///home/wade/src/github/mudscript/forgotten-space/narrative/characters/lin_tiesheng.md)
+  * **路段場景**：盤木縣城集材大坪 ｜ 盤木→金石南關林道起點 (`seg_city_panmu` 260 里)
+  * **核心事件**：對接盤木縣 30 天自主演進（獸潮引發林道滑坡、巨木暴漲、天工木作越界毀青松塢陷阱爆發宗族對峙）；萬斤古冷杉卡死斜坡絞盤瀕臨崩塌，林鐵生右臂吊夾板、左手小鍛錘憑「百工析理與應力判讀」一錘定軸化解滅頂危機；獲贈盤木木作特級工牌（連繫城北總把頭魯長生）；車隊踏上最後 260 里進城征途。
+* [**第 43 章：南關入城・濁氣初嚐**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/ch0043.md)
+  * **視角人物**：[柳清虛（破落道童）](file:///home/wade/src/github/mudscript/forgotten-space/narrative/characters/liu_qingxu.md)
+  * **路段場景**：金石府城南關 (`/d/city/gate/gate_south`) ｜ 南關車馬小棧 (`/d/city/south/inn_south`)
+  * **核心事件**：東線 450 里十日跋涉終抵府城南關；稅吏宋算子藉南關稅則（木材 10%、重礦 20%）欲撬箱破壞保管鏈，陳鎮山怒拔斬馬刀霸道震懾通關；流民牙子刁小七兜售黑工契現流民慘狀；柳清虛親嚐「紅塵濁氣梯度（+2/時辰）」與宣道司「絕靈法網」壓制；同鄉老掌櫃老劉警示居留鐵律，第一階段「72 小時臨時擔保通牒 (`initial_registration_72h`)」正式倒數。
+* [**第 44 章：證物入庫・兩面主簿**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/ch0044.md)
+  * **視角人物**：[沈泥（流浪乞兒）](file:///home/wade/src/github/mudscript/forgotten-space/narrative/characters/shen_ni.md)
+  * **路段場景**：金石府衙正堂 (`/d/city/center/yamen`) ｜ 案卷庫 (`yamen_archive`)
+  * **核心事件**：陳鎮山與蘇凝霜登堂交割人犯與證物，府尹秦正明威儀深不可測、未定三方會審日期；趙德貴移交死牢鐵鐐張嚴加死守；案牘主簿文承敬於案卷庫登記保管鏈時，盤查沈泥出身底細，沈泥裝怯瞞過卻窺見其案頭壓著十五年前舊商盟「雲記」查抄名冊；七十二小時大限僅餘四十八時辰。
+* [**第 45 章：總堂吊唁・金蓮微笑**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/ch0045.md)
+  * **視角人物**：[沈泥（流浪乞兒）](file:///home/wade/src/github/mudscript/forgotten-space/narrative/characters/shen_ni.md)
+  * **路段場景**：車馬大院 (`/d/city/south/caravan_yard`) ｜ 商會總堂靈堂 (`/d/city/south/shanghui_hq`)
+  * **核心事件**：蘇氏舊部大掌櫃蘇忠接應預警；靈堂上副會長錢百川滿面悲戚、當眾擲五百兩白銀與「特級商會附庸籍」欲行收買；沈泥洞察附庸籍為剝奪獨立訴訟權之生鐵絞索，五子冷硬回絕；錢算子宣讀內堂令架空蘇凝霜管轄權；雙方不見血撕破臉，居留大限倒數僅剩最後 48 時辰。
+* [**第 46 章：三日通牒・分途之約**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/ch0046.md)
+  * **視角人物**：五人群像（沈泥、顧玄、林鐵生、燕隼、柳清虛）
+  * **路段場景**：南關車馬小棧 ｜ 城中蒙學塾、杏林醫館、車馬大院
+  * **核心事件**：巡防營子時夜搜前夕，五人精確啟用「三條零門檻緩衝路徑」完成第一階段居留擔保（清虛與沈泥赴學塾領青衿生員牌獲 14 天寬限期、顧玄赴醫館應募試藥童獲 10 天寬限期、燕隼與鐵生赴車馬大院簽苦力短契獲 7 天寬限期）；五手相疊立下「分途不分道」之約（旬會核帳、分散藏證、三道互證）；第二卷第一幕（Ch.39 ~ 46）圓滿落幕。
+* [**第 47 章：學徒登記・阿鐵的記號**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/ch0047.md)
+  * **視角人物**：[林鐵生（打鐵學徒）](file:///home/wade/src/github/mudscript/forgotten-space/narrative/characters/lin_tiesheng.md)
+  * **路段場景**：百工總會外門 (`/d/city/north/gong_gate`) ｜ 千錘地爐坊 (`north/gong_forge`)
+  * **核心事件**：鐵生持盤木特級工牌報考匠籍，因右臂骨裂遭司匠薄吏方矩冷嘲拒收；首席鍛造大師莫錘現身，自鐵生左手小錘錘底認出二十年前替罪離城師兄「阿鐵」之本命私印，悲慟震撼；嚴守「五維能力分離」鐵律不給特例，設下「十丈聽聲辨甲、左手校準五百根生鐵銷（誤差不超半絲）」之地獄考核；鐵生慨然應戰踏入地爐。
+* [**第 48 章：杏林藥囊・城裡的病**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/ch0048.md)
+  * **視角人物**：[顧玄（採藥孤兒）](file:///home/wade/src/github/mudscript/forgotten-space/narrative/characters/gu_xuan.md)
+  * **路段場景**：杏林醫館 (`/d/city/center/clinic`) ｜ 四海驛站 (`center/post_office`)
+  * **核心事件**：顧玄盲眼精確辨認三十味大荒藥性、更當場識破生砒地煞染毒「暗毒引」，深得館主白先生激賞，破格獲頒【杏林藥囊腰牌（`clinic_token`）】取得 10 天合法居留；接診揭開平民普遍罹患「金石礦肺」與「濁氣焦燥症」之黑幕（私爐除渣不全與法網靈毒反噬）；赴四海驛站找驛丞馬千里寄出首批急需藥單與回村家信，正式對接黑石鋪 30 天自主演進（Stage 2）。
+* [**第 49 章：大校場・百斤石鎖**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/ch0049.md)
+  * **視角人物**：[燕隼（獵戶之子）](file:///home/wade/src/github/mudscript/forgotten-space/narrative/characters/yan_sun.md)
+  * **路段場景**：八方武館大門 (`/d/city/east/wuguan_gate`) ｜ 大校場 (`east/wuguan_ground`)
+  * **核心事件**：燕隼持車馬大院苦力牌報考黑鐵武籍，遭門房牛大力與執法教頭雷剛刁難；校場徒手平舉兩尊二百斤生鐵石鎖（整整四百斤死重）直臂行走一百步震撼全場，引出軍鎮最高統帥霸山將軍親臨；獲頒【八方黑鐵腰牌（`wuguan_iron_token`）】；嚴守「五維能力分離」邊界（非軍官、無權調閱兵器庫），受命從基層「巡道武卒」做起收斂骨煞。
+* [**第 50 章：宣道司五殿・借鏡觀象**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/ch0050.md)
+  * **視角人物**：[柳清虛（破落道童）](file:///home/wade/src/github/mudscript/forgotten-space/narrative/characters/liu_qingxu.md)
+  * **路段場景**：宣道司山門 (`/d/city/west/dao_gate`) ｜ 摘星觀象台 (`dao_observatory`) ｜ 靜心閣與三清正殿
+  * **核心事件**：柳清虛持學塾青衿赴宣道司，執律道人明鏡道人嚴誡「無牒私引法者列破法死犯」之絕靈法網鐵律；於摘星觀象台以盲算精準推演蒼龍心宿三星仰角折服觀星道人星淵，獲准大考；靜心閣目睹「五十文一炷香清滌濁氣」之修行銅臭真相；三清殿玄機真人講道點破「天羅牢籠」真相，清虛貼身深藏逆星拓片暗伏道爭。
+* [**第 51 章：舊帳微塵・雲妮之名**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/ch0051.md)
+  * **視角人物**：[沈泥（流浪乞兒）](file:///home/wade/src/github/mudscript/forgotten-space/narrative/characters/shen_ni.md)
+  * **路段場景**：通寶當鋪總號 (`/d/city/center/pawnshop`) ｜ 蒙學塾 (`center/academy`)
+  * **核心事件**：沈泥上午學塾抄書維繫保書、午後入通寶當鋪隨老掌櫃賈富春（賈朝奉）分揀十五年前死當爛帳；於天興十四年發霉當票中驚見「行商沈氏、質長命鎖、隨行幼女乳名雲妮」之泣血記錄，指尖觸及胸前玉佩；嚴守身世二階邊界，將單一來源定為 `lead_only`（調查線索）等待交叉驗證；以精妙算力獲頒【通寶掛名牙人信印（`lic_broker`）】立足商道。
+* [**第 52 章：擂台再試・磐石與軍陣**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/ch0052.md)
+  * **視角人物**：[燕隼（獵戶之子）](file:///home/wade/src/github/mudscript/forgotten-space/narrative/characters/yan_sun.md)
+  * **路段場景**：大校場 (`/d/city/east/wu_plaza`) ｜ 生死擂台 (`east/wu_arena`) ｜ 八方武館正堂
+  * **核心事件**：燕隼隨岳千軍苦修「力修・磐石樁功」、聽輪休老兵石老兵剖析「軍陣弓手等號令」之戰略心性；二度登擂硬接外門教頭趙猛三記「鐵砂崩拳」寸步未退、三石鐵胎硬弓百步穿楊連珠貫穿三隻旋轉飛銅鐘震動全軍；獲霸山將軍親授【八方黑鐵護衛武籍（`lic_escort_guard`）】並解鎖出入【披甲兵器庫（`east/wu_armory`）】校準軍械特權。
+* [**第 53 章：屋頂觀風・假天道辯證**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/ch0053.md)
+  * **視角人物**：[柳清虛（破落道童）](file:///home/wade/src/github/mudscript/forgotten-space/narrative/characters/liu_qingxu.md)
+  * **路段場景**：屋頂觀風平台 (`/d/city/west/dao_roof`) ｜ 摘星觀象台 (`west/dao_observatory`)
+  * **核心事件**：柳清虛當值夜班觀風，凌空俯瞰驚見西北常平倉與古暗渠上空紅塵濁氣呈「渦旋逆吸」，與黑石鋪地煞外洩氣息完全暗合，鎖定城內地底大規模私煉黑洞；道官玄機真人夜巡平台以「天心唯公、人欲無厭」叩問天人大道；清虛以老松殘觀質樸無為嚴謹對答避過殺機，玄機冷厲點破「宣道司要的是長明燈，不是野火」予以森寒警告。
+* [**第 54 章：地火殘渣・丙字第七**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/ch0054.md)
+  * **視角人物**：[林鐵生（打鐵學徒）](file:///home/wade/src/github/mudscript/forgotten-space/narrative/characters/lin_tiesheng.md)
+  * **路段場景**：千錘地爐第三坊 (`/d/city/north/gong_forge`) ｜ 司匠局值房 ｜ 地下暗渠入口
+  * **核心事件**：林鐵生通過「五百生鐵銷校準」地獄考驗，獲莫錘大師親授【初級司匠文牒（`lic_artisan`）】；清掏地爐排渣暗溝時以百工析理檢出「地煞血精滲碳」高溫熔渣，並拓獲殘缺翻砂模具捲雲暗紋，與黑石鋪【金石內造・丙字柒號】坩堝物理咬合完全吻合；嚴守證據模型將坩堝工藝出處自線索升級為 `corroborating`（間接佐證），鎖定官造工藝出處。
+* [**第 55 章：辨症行針・毒囊與洗靈草**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/ch0055.md)
+  * **視角人物**：[顧玄（採藥孤兒）](file:///home/wade/src/github/mudscript/forgotten-space/narrative/characters/gu_xuan.md)
+  * **路段場景**：採百草分堂 (`/d/city/north/gong_alchemy`) ｜ 格物化生殿
+  * **核心事件**：白先生保薦顧玄赴採百草分堂受試；顧玄盲測十二味受染靈藥，於第九味「洗靈草」微小結晶中以礬水析出「地陰腐骨散」母液特徵，與松崖驛趙德貴嘔吐殘留交叉比對證實同源——皆出自「濁水縣黑水埗水澤劇毒囊二次提純工藝」；經孫先生、白先生雙重公證，物證 `relay_poison_sample` 升級為 `corroborating`（間接佐證）；顧玄獲頒【杏林行醫與百草藥師雙重資質（`lic_apothecary`）】。
+* [**第 56 章：西水門閘・三道合力**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/ch0056.md)
+  * **視角人物**：五人群像（沈泥、顧玄、林鐵生、燕隼、柳清虛）
+  * **路段場景**：西水門漕運水關 (`/d/city/gate/gate_west`) ｜ 城外排灌水網 (`outer/irrigation`)
+  * **核心事件**：連陰暴雨西水門古石閘卡死，閘官刁監水欲擅自炸閘洩洪淹沒下游三十村；五子各憑新獲正式專業資格（匠籍、藥師、黑鐵護衛、觀象道牌、牙人信印）首度在府城公眾危機中三道合力破局：清虛借鏡精算水脈退峰時差、顧玄調配高熱化冰散、燕隼負重索下水磐石樁定位、鐵生攜魯長生以左手小錘複合榫楔定軸啟閘、沈泥調集沙船避險；成功排洪保全下游與內城。
+* [**第 57 章：暗紋有主・六項缺口**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/ch0057.md)
+  * **視角人物**：全員群像（五子 ＋ 蘇凝霜）
+  * **路段場景**：南關車馬小棧 ｜ 千錘地爐坊 ｜ 披甲兵器庫
+  * **核心事件**：莫錘證實商會內堂曾以特造名義下單丙字柒號坩堝但簽領簿遭調檔；燕隼入兵器庫勘破雷管批號存在「雙聯火印錯位」偷樑換柱；夜會南關依「證據五欄模型」盤點會審勝算，沈泥斷言現存間接佐證不足以扳倒老謀深算之錢百川；確立「六項證據缺口清單」（濁水毒囊出貨單、烈礬耐火泥存根、鎮風走山令舊檔、重石條石暗帳、一號密室正底單、趙德貴親筆口供）；全員兵分四路展開六縣出巡跨區域調查；第二卷第二幕（Ch.47 ~ 57）圓滿完結！
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
