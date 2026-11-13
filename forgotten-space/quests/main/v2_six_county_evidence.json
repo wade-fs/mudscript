@@ -1,0 +1,107 @@
+{
+  "id": "v2_six_county_evidence",
+  "name": "六縣連環：四路物證破局",
+  "category": "main",
+  "type": "once",
+  "start_npc": "gate_south_inn_laoliu",
+  "start_topic": "四線",
+  "requirements": {
+    "level": 15
+  },
+  "steps": [
+    {
+      "step": 1,
+      "title": "南關誓師四路跨縣密查",
+      "hint": "在南關車馬小棧向老劉掌櫃商議四路出府密查大計 (ask laoliu about 四線)。",
+      "target_type": "talk",
+      "target_npc": "gate_south_inn_laoliu",
+      "target_topic": "四線",
+      "location": "/d/city/gate/gate_south_inn",
+      "on_complete": {
+        "msg": "【誓師啟程】老劉拉緊門閂，四路人馬各自立誓分頭出府，深入六縣搜求決定性物證！"
+      }
+    },
+    {
+      "step": 2,
+      "title": "烈礬耐火泥出貨單核驗",
+      "hint": "前往千錘地爐坊向莫錘大師呈遞烈礬出貨底單 (ask mochui about 耐火泥)，核定商會內堂私造血精坩堝鐵證。",
+      "target_type": "talk",
+      "target_npc": "gong_forge_mochui",
+      "target_topic": "耐火泥",
+      "location": "/d/city/north/gong_forge",
+      "on_complete": {
+        "give_item": "/clone/item/liefan_clay_batch.c",
+        "msg": "【工料確證】莫錘大師核對金蓮環刀印與特級耐火白泥批單，證實商會內堂私造坩堝，正式頒予【特級烈礬耐火泥出貨單】！"
+      }
+    },
+    {
+      "step": 3,
+      "title": "濁水毒囊交割底單互鎖",
+      "hint": "前往杏林醫館向白先生呈遞黑水埗毒囊交割單 (ask doctor_bai about 毒囊)，閉合犒軍鹹肉與蘇遠山毒源鏈條。",
+      "target_type": "talk",
+      "target_npc": "clinic_baixiansheng",
+      "target_topic": "毒囊",
+      "location": "/d/city/center/clinic",
+      "on_complete": {
+        "give_item": "/clone/item/relay_poison_sample.c",
+        "msg": "【毒源閉環】白先生銀針驗出地陰腐骨散母液特徵，與趙德貴親筆代簽互鎖，正式頒予【黑水埗毒囊提純交割單】！"
+      }
+    },
+    {
+      "step": 4,
+      "title": "鎮風走山令殘牌舊檔對質",
+      "hint": "前往八方武館正堂向霸山將軍呈示玄鐵走山令殘牌 (ask bashan about 走山令)，揭開五年前商會秘密勘探大案。",
+      "target_type": "talk",
+      "target_npc": "wu_hall_bashan",
+      "target_topic": "走山令",
+      "location": "/d/city/east/wu_hall",
+      "on_complete": {
+        "give_item": "/clone/item/shan_token_half.c",
+        "msg": "【血仇舊案】霸山將軍撫牌大慟，以軍鎮信印作保，證實商會內堂五年前僱傭燕山走山，正式授予【玄鐵走山令殘牌】！"
+      }
+    },
+    {
+      "step": 5,
+      "title": "重石抽減鐵木指令拓本查證",
+      "hint": "前往專材長街向程通四海核實穿山寨鐵木密令 (ask cheng tongsihai about 鐵木)，撕破人為製造塌方陰謀。",
+      "target_type": "talk",
+      "target_npc": "market_special_buyer",
+      "target_topic": "鐵木",
+      "location": "/d/city/south/market_special",
+      "on_complete": {
+        "give_item": "/clone/item/zhongshi_timber_order.c",
+        "msg": "【塌方真相】程通四海比對內堂調配原簿，證實商會抽減北崖三成支護鐵木調包爛木，正式頒予【重石抽減鐵木指令拓本】！"
+      }
+    },
+    {
+      "step": 6,
+      "title": "濁水暗渠雲記手抄名冊確證",
+      "hint": "前往通寶當鋪向賈朝奉出示度支名冊 (ask jiachaofeng about 雲記)，完成身世六階段之階段三關係證實。",
+      "target_type": "talk",
+      "target_npc": "pawnshop_jiachaofeng",
+      "target_topic": "雲記",
+      "location": "/d/city/center/pawnshop",
+      "on_complete": {
+        "give_item": "/clone/item/yunji_roster.c",
+        "msg": "【身世確證】賈朝奉老淚縱橫，三方互鎖證實沈泥確係雲記遺孤沈雲妮，正式頒予【舊商盟雲記名冊手抄底單】！"
+      }
+    },
+    {
+      "step": 7,
+      "title": "南關小棧四線合璧與凍結反擊",
+      "hint": "返回南關車馬小棧向蘇凝霜通報四線鐵證合璧 (ask su about 合璧)，直面錢百川信用凍結與奪權反擊。",
+      "target_type": "talk",
+      "target_npc": "su ningshuang",
+      "target_topic": "合璧",
+      "location": "/d/city/gate/gate_south_inn",
+      "on_complete": {
+        "msg": "【合璧反擊】四路物證嚴密鎖合！長街鑼鼓震天，商會全面凍結六縣飛錢並張榜停職蘇凝霜，第三幕大風暴拉開序幕！"
+      }
+    }
+  ],
+  "rewards": {
+    "exp": 5000,
+    "pot": 1500,
+    "money": 3000
+  }
+}

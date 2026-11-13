@@ -1,7 +1,7 @@
 // /tests/test_v2_quests.c
-// 卷二主線與五道資質認證、西水門危局、六物證缺口任務鏈單元測試
+// 卷二主線與五道資質認證、西水門危局、六物證缺口、六縣連環任務鏈單元測試
 // 驗證項目：
-// 1. QUEST_ENGINE_D 成功載入五大卷二任務定義
+// 1. QUEST_ENGINE_D 成功載入六大卷二任務定義
 // 2. 卷二專屬物證與資質道具實例化及屬性檢驗
 // 3. 核心 NPC 對話關鍵字與響應檢驗
 // 4. 模擬玩家接取與推進任務狀態機檢驗
@@ -12,7 +12,7 @@ inherit "/std/test_case.c";
 #include "/include/ansi.h"
 
 void run_tests(object me) {
-    start_test("Tier 1 卷二主線、五道資質認證與西水門事件任務鏈驗證");
+    start_test("Tier 1 卷二主線、五道資質認證與六縣連環物證任務鏈驗證");
 
     object q_engine = load_object(QUEST_ENGINE_D);
     assert_true(objectp(q_engine), "QUEST_ENGINE_D 必須存在");
@@ -23,7 +23,8 @@ void run_tests(object me) {
         "v2_residency_72h",
         "v2_career_tier1_qualifications",
         "v2_west_watergate_crisis",
-        "v2_six_evidence_gaps"
+        "v2_six_evidence_gaps",
+        "v2_six_county_evidence"
     });
 
     foreach (string qid in v2_qids) {
@@ -47,7 +48,13 @@ void run_tests(object me) {
         "/clone/item/lic_escort_guard.c",
         "/clone/item/lic_diviner.c",
         "/clone/item/lic_broker.c",
-        "/clone/item/evidence_six_gaps.c"
+        "/clone/item/evidence_six_gaps.c",
+        "/clone/item/liefan_clay_batch.c",
+        "/clone/item/relay_poison_sample.c",
+        "/clone/item/shan_token_half.c",
+        "/clone/item/yunji_roster.c",
+        "/clone/item/zhongshi_timber_order.c",
+        "/clone/item/fengshi_quartz.c"
     });
 
     foreach (string item_path in items_to_test) {
@@ -64,15 +71,17 @@ void run_tests(object me) {
     mapping npc_tests = ([
         "/clone/npc/gate_south_taxofficer.c": ({ "入城", "通牒" }),
         "/clone/npc/center_wenchengjing.c":   ({ "移交", "文卷" }),
-        "/clone/npc/gate_south_inn_laoliu.c":  ({ "緩衝信物", "夜議" }),
+        "/clone/npc/gate_south_inn_laoliu.c":  ({ "緩衝信物", "夜議", "四線", "凍結" }),
         "/clone/npc/gate_west_helmsman.c":    ({ "水閘", "合閘" }),
         "/clone/npc/gate_west_inspector.c":   ({ "濁膠" }),
         "/clone/npc/under_drain_gate_diver.c":({ "潛游", "鋼索" }),
-        "/clone/npc/gong_mochui.c":           ({ "校準", "匠帖" }),
-        "/clone/npc/center_doctor_bai.c":     ({ "辨毒", "醫籍" }),
-        "/clone/npc/wu_bashan.c":             ({ "盤石", "鏢師帖" }),
+        "/clone/npc/gong_mochui.c":           ({ "校準", "匠帖", "耐火泥" }),
+        "/clone/npc/center_doctor_bai.c":     ({ "辨毒", "醫籍", "毒囊" }),
+        "/clone/npc/wu_bashan.c":             ({ "盤石", "鏢師帖", "走山令" }),
         "/clone/npc/dao_xingyuan.c":          ({ "星軌", "觀象牒" }),
-        "/clone/npc/center_pawn_jia.c":       ({ "死帳", "牙帖" })
+        "/clone/npc/center_pawn_jia.c":       ({ "死帳", "牙帖", "雲記" }),
+        "/clone/npc/market_special_buyer.c":  ({ "六縣", "鐵木" }),
+        "/clone/npc/su_ningshuang.c":         ({ "四線", "雲記", "停職" })
     ]);
 
     foreach (string npc_path, string *topics in npc_tests) {
@@ -109,6 +118,15 @@ void run_tests(object me) {
     q_engine->trigger_event(tester, "talk", data2);
     int step2 = q_engine->query_quest_step(tester, "v2_residency_72h");
     assert_equal(2, step2, "在金石南關詢問入城後，v2_residency_72h 應推進至 step 2");
+
+    // 測試 v2_six_county_evidence 接取
+    mapping data3 = ([
+        "npc": "gate_south_inn_laoliu",
+        "topic": "四線"
+    ]);
+    q_engine->trigger_event(tester, "talk", data3);
+    int step3 = q_engine->query_quest_step(tester, "v2_six_county_evidence");
+    assert_equal(2, step3, "在南關小棧詢問四線後，v2_six_county_evidence 應推進至 step 2");
 
     destruct(tester);
 }

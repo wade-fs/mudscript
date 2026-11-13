@@ -22,4 +22,5 @@ void create() {
 
     spawn_npc("/clone/npc/gate_south_inn_laoliu.c");
     spawn_npc("/clone/npc/gate_south_runner.c");
+    spawn_npc("/clone/npc/su_ningshuang.c");
 }
