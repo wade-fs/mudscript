@@ -1,0 +1,44 @@
+{
+  "id": "v2_panmu_transport",
+  "name": "東線押解：盤木驛道與鎖解疑案",
+  "category": "main",
+  "type": "once",
+  "start_npc": "caravan_merchant",
+  "start_topic": "押解",
+  "requirements": {
+    "level": 10
+  },
+  "steps": [
+    {
+      "step": 1,
+      "title": "承接押解差遣",
+      "hint": "在黑石鋪集市向金石商會掌櫃領取要犯趙德貴的押解文卷 (ask merchant about 押解)。",
+      "target_type": "talk",
+      "target_npc": "caravan_merchant",
+      "target_topic": "押解",
+      "location": "/d/village/square",
+      "on_complete": {
+        "give_item": "/clone/item/custody_ledger.c",
+        "msg": "【押解公文】商會掌櫃將加蓋黑石關火漆印的【押解移交文卷】慎重交入你手中，命你們沿盤木驛道押解人犯北上！"
+      }
+    },
+    {
+      "step": 2,
+      "title": "核驗沿途驛站簽押",
+      "hint": "抵達府城外城大車馬店，向老馬伕老王出示押解文卷並完成沿途驛站路籤簽押 (ask laowang about 驛道)。",
+      "target_type": "talk",
+      "target_npc": "outer_post_depot_laowang",
+      "target_topic": "驛道",
+      "location": "/d/city/outer/post_depot",
+      "on_complete": {
+        "give_item": "/clone/item/stress_wedge.c",
+        "msg": "【驛籤無訛】老馬伕老王核對了沿途盤木驛與林海驛的火漆，並贈予你們一套備用的【應力雙契木榫】！"
+      }
+    }
+  ],
+  "rewards": {
+    "exp": 1500,
+    "pot": 400,
+    "money": 500
+  }
+}

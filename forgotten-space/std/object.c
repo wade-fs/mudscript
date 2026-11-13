@@ -170,6 +170,13 @@ mapping query_responses() {
     return responses;
 }
 
+mixed query_response(string keyword) {
+    if (!responses || !responses[keyword]) return 0;
+    mixed res = responses[keyword];
+    if (arrayp(res) && sizeof(res) > 0) return res[0];
+    return res;
+}
+
 // ── 生命週期管理：垃圾回收 ─────────────────────────────
 int clean_up(int inherited_count) {
     // 1. 如果是被繼承的基底類別，不清理

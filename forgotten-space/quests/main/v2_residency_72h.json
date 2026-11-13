@@ -1,0 +1,68 @@
+{
+  "id": "v2_residency_72h",
+  "name": "金石南關：七十二時辰限期令",
+  "category": "main",
+  "type": "once",
+  "start_npc": "gate_south_taxofficer",
+  "start_topic": "入城",
+  "requirements": {
+    "level": 10
+  },
+  "steps": [
+    {
+      "step": 1,
+      "title": "南關驗牒換領木牌",
+      "hint": "在金石南關向南關稅吏宋算子出示保書路引 (ask song suanzi about 入城)，領取七十二小時居留通牒。",
+      "target_type": "talk",
+      "target_npc": "gate_south_taxofficer",
+      "target_topic": "入城",
+      "location": "/d/city/gate/gate_south",
+      "on_complete": {
+        "give_item": "/clone/item/residency_tally.c",
+        "msg": "【居留通牒】宋算子冷笑著將一面烙有硃砂時辰印的【金石黃木通牒】扔給你，七十二小時居留倒數正式開始！"
+      }
+    },
+    {
+      "step": 2,
+      "title": "府衙案牘庫人犯移交",
+      "hint": "前往府衙案牘庫向主簿文承敬呈交押解文卷 (ask wenchengjing about 移交)，正式移交人犯趙德貴入死牢。",
+      "target_type": "talk",
+      "target_npc": "yamen_archive_wenchengjing",
+      "target_topic": "移交",
+      "location": "/d/city/center/yamen_archive",
+      "on_complete": {
+        "msg": "【移交完成】文承敬主簿提筆簽押，黑石要犯趙德貴正式押入府衙死牢！"
+      }
+    },
+    {
+      "step": 3,
+      "title": "商會總堂正面交鋒",
+      "hint": "前往商會總堂會面副會長錢百川 (ask qianbaichuan about 趙德貴)，正面承受商會巨賈的試探與震懾。",
+      "target_type": "talk",
+      "target_npc": "shanghui_hq_qianbaichuan",
+      "target_topic": "趙德貴",
+      "location": "/d/city/south/shanghui_hq",
+      "on_complete": {
+        "msg": "【交鋒試探】錢百川皮笑肉不笑地將責任推得一乾二淨，但其言辭閃爍間已露破綻！"
+      }
+    },
+    {
+      "step": 4,
+      "title": "老劉客棧謀劃緩衝",
+      "hint": "返回南關車馬小棧向老劉打探三日居留期限的解套門路 (ask laoliu about 緩衝信物)。",
+      "target_type": "talk",
+      "target_npc": "gate_south_inn_laoliu",
+      "target_topic": "緩衝信物",
+      "location": "/d/city/gate/gate_south_inn",
+      "on_complete": {
+        "give_item": "/clone/item/caravan_token.c",
+        "msg": "【居留解套】老劉熱心指點了城中三條合法緩衝路徑，並先將一面【車馬行短褐腰牌】交予你作為臨時庇護！"
+      }
+    }
+  ],
+  "rewards": {
+    "exp": 2000,
+    "pot": 500,
+    "money": 800
+  }
+}

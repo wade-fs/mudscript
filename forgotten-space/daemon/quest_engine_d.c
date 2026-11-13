@@ -241,7 +241,12 @@ void load_all_quests() {
         "/quests/event/d01_last_painkiller.json",
         "/quests/event/e01_street_defense.json",
         "/quests/event/g01_palisade_breach.json",
-        "/quests/event/f03_testimony_cross_check.json"
+        "/quests/event/f03_testimony_cross_check.json",
+        "/quests/main/v2_panmu_transport.json",
+        "/quests/main/v2_residency_72h.json",
+        "/quests/main/v2_six_evidence_gaps.json",
+        "/quests/career/v2_career_tier1_qualifications.json",
+        "/quests/event/v2_west_watergate_crisis.json"
     });
 
     foreach (string path in fallback) {

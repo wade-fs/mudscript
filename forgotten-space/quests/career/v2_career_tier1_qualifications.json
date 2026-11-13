@@ -1,0 +1,83 @@
+{
+  "id": "v2_career_tier1_qualifications",
+  "name": "府城初試：五道並立之資質認證",
+  "category": "career",
+  "type": "once",
+  "start_npc": "gong_forge_mochui",
+  "start_topic": "校準",
+  "requirements": {
+    "level": 10
+  },
+  "steps": [
+    {
+      "step": 1,
+      "title": "百工千錘校準考核",
+      "hint": "前往千錘地爐坊向莫錘大師請益鍛造公差 (ask mochui about 校準)，展現百工規矩造詣。",
+      "target_type": "talk",
+      "target_npc": "gong_forge_mochui",
+      "target_topic": "校準",
+      "location": "/d/city/north/gong_forge",
+      "on_complete": {
+        "give_item": "/clone/item/lic_artisan.c",
+        "msg": "【百工匠帖】莫錘大師對你精準的下錘與公差控制讚賞有加，正式授予你【百工初階匠帖】！"
+      }
+    },
+    {
+      "step": 2,
+      "title": "杏林百草辨毒考驗",
+      "hint": "前往杏林醫館向館主白先生請益本草毒理 (ask doctor_bai about 辨毒)，辨析七十二味藥材與濁水之毒。",
+      "target_type": "talk",
+      "target_npc": "clinic_baixiansheng",
+      "target_topic": "辨毒",
+      "location": "/d/city/center/clinic",
+      "on_complete": {
+        "give_item": "/clone/item/lic_apothecary.c",
+        "msg": "【杏林醫籍】白先生對你洞察毒理脈象的造詣極為稱許，正式頒發【杏林初階醫籍】！"
+      }
+    },
+    {
+      "step": 3,
+      "title": "八方武館盤石之試",
+      "hint": "前往八方武館正堂向總教頭霸山請教樁功 (ask bashan about 盤石)，展現如山重樁血氣。",
+      "target_type": "talk",
+      "target_npc": "wu_hall_bashan",
+      "target_topic": "盤石",
+      "location": "/d/city/east/wu_hall",
+      "on_complete": {
+        "give_item": "/clone/item/lic_escort_guard.c",
+        "msg": "【八方鏢帖】霸山被你的沉穩樁步與剛烈氣血折服，大笑著將【八方鏢師總帖】交到你手中！"
+      }
+    },
+    {
+      "step": 4,
+      "title": "宣道司摘星台測軌",
+      "hint": "前往宣道司摘星觀測台向觀星師星淵請益歲差算力 (ask xingyuan about 星軌)，推演天星與濁氣渦旋。",
+      "target_type": "talk",
+      "target_npc": "dao_observatory_xingyuan",
+      "target_topic": "星軌",
+      "location": "/d/city/west/dao_observatory",
+      "on_complete": {
+        "give_item": "/clone/item/lic_diviner.c",
+        "msg": "【觀象之牒】星淵為你入微的心算與窺破暗渦的直覺深深震撼，簽發【宣道司觀象牒】！"
+      }
+    },
+    {
+      "step": 5,
+      "title": "通寶當鋪死帳審計",
+      "hint": "前往通寶當鋪向賈朝奉查驗三十年前沈氏舊帳 (ask jiachaofeng about 死帳)，獲取牙行資格。",
+      "target_type": "talk",
+      "target_npc": "pawnshop_jiachaofeng",
+      "target_topic": "死帳",
+      "location": "/d/city/center/pawnshop",
+      "on_complete": {
+        "give_item": "/clone/item/lic_broker.c",
+        "msg": "【商行牙帖】賈朝奉被你對契約與帳目的精敏判斷所震懾，鄭重將【金石商行牙帖】交出！"
+      }
+    }
+  ],
+  "rewards": {
+    "exp": 3000,
+    "pot": 800,
+    "money": 1000
+  }
+}

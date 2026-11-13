@@ -1,0 +1,67 @@
+{
+  "id": "v2_six_evidence_gaps",
+  "name": "南關夜議：六大物證缺口鎖合",
+  "category": "main",
+  "type": "once",
+  "start_npc": "gate_south_inn_laoliu",
+  "start_topic": "夜議",
+  "requirements": {
+    "level": 10
+  },
+  "steps": [
+    {
+      "step": 1,
+      "title": "南關客棧深夜合議",
+      "hint": "前往南關車馬小棧二樓背街靜房，向老劉掌櫃交代閉門夜議 (ask laoliu about 夜議)。",
+      "target_type": "talk",
+      "target_npc": "gate_south_inn_laoliu",
+      "target_topic": "夜議",
+      "location": "/d/city/gate/gate_south_inn",
+      "on_complete": {
+        "msg": "【夜議啟幕】老劉關好房門，五子在油燈下圍坐，將連日來各道所獲線索逐一攤在木桌上！"
+      }
+    },
+    {
+      "step": 2,
+      "title": "府衙死牢審趙提要",
+      "hint": "前往府衙死牢提訊趙德貴 (ask zhaodegui about 口供)，補齊除渣坩堝與秘密運載之親供口供。",
+      "target_type": "talk",
+      "target_npc": "yamen_prison_zhaodegui",
+      "target_topic": "口供",
+      "location": "/d/city/center/yamen_prison",
+      "on_complete": {
+        "msg": "【親供具結】趙德貴在鐵欄後顫抖畫押，將商會三號庫與錢百川私調坩堝的口供悉數吐實！"
+      }
+    },
+    {
+      "step": 3,
+      "title": "專材長街對質六縣流向",
+      "hint": "前往六縣專材長街向程通四海打探濁水毒囊與烈礬耐火泥的轉運帳目 (ask cheng tongsihai about 六縣)。",
+      "target_type": "talk",
+      "target_npc": "market_special_buyer",
+      "target_topic": "六縣",
+      "location": "/d/city/south/market_special",
+      "on_complete": {
+        "msg": "【六縣脈絡】程通四海展開大帳，證實濁水腐毒與烈礬灰陶票根皆被列為特批暗帳！"
+      }
+    },
+    {
+      "step": 4,
+      "title": "案牘總庫封閉六大物證",
+      "hint": "前往案牘庫向主簿文承敬呈遞彙總卷宗 (ask wenchengjing about 案卷)，將六缺口案卷正式歸檔。",
+      "target_type": "talk",
+      "target_npc": "yamen_archive_wenchengjing",
+      "target_topic": "案卷",
+      "location": "/d/city/center/yamen_archive",
+      "on_complete": {
+        "give_item": "/clone/item/evidence_six_gaps.c",
+        "msg": "【鐵證合璧】文承敬主簿在公案前長嘆一聲，用硃砂印將這份改寫府城局勢的【六缺口物證案卷】正式烙印封存！"
+      }
+    }
+  ],
+  "rewards": {
+    "exp": 3500,
+    "pot": 1000,
+    "money": 1500
+  }
+}

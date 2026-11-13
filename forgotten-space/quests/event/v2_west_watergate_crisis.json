@@ -1,0 +1,68 @@
+{
+  "id": "v2_west_watergate_crisis",
+  "name": "西水門驚瀾：千斤閘危局五子合力",
+  "category": "event",
+  "type": "once",
+  "start_npc": "gate_west_helmsman",
+  "start_topic": "水閘",
+  "requirements": {
+    "level": 10
+  },
+  "steps": [
+    {
+      "step": 1,
+      "title": "西水門閘口告急",
+      "hint": "前往西水門向守舵官江平波詢問暴漲洪峰與水閘卡死險情 (ask helmsman about 水閘)。",
+      "target_type": "talk",
+      "target_npc": "gate_west_helmsman",
+      "target_topic": "水閘",
+      "location": "/d/city/gate/gate_west",
+      "on_complete": {
+        "msg": "【水門告急】江平波大聲疾呼，千斤水閘被濁水生物黏膠卡死，若不迅速化膠錨索，水門將破！"
+      }
+    },
+    {
+      "step": 2,
+      "title": "水關查驗暗算濁膠",
+      "hint": "向水關緝私吏盧緝私索取對付生化水膠的藥理線索 (ask lu jisi about 濁膠)。",
+      "target_type": "talk",
+      "target_npc": "gate_west_inspector",
+      "target_topic": "濁膠",
+      "location": "/d/city/gate/gate_west",
+      "on_complete": {
+        "give_item": "/clone/item/solvent_resin.c",
+        "msg": "【化膠靈劑】盧緝私取出杏林秘製的【化脂融膠散】，及時化解了水閘絞盤齒輪上的頑固水生凝膠！"
+      }
+    },
+    {
+      "step": 3,
+      "title": "暗渠深潭錨定地牛",
+      "hint": "前往地下廢棄排水水閘向翻江鼠領取重索 (ask diver about 潛游)，在深潭暗流中套鎖地牛玄武樁。",
+      "target_type": "talk",
+      "target_npc": "under_drain_gate_diver",
+      "target_topic": "潛游",
+      "location": "/d/city/under/drain_gate",
+      "on_complete": {
+        "give_item": "/clone/item/sluice_cable.c",
+        "msg": "【深潭錨定】翻江鼠將【截流精鋼索】交予你，藉磐石重樁之力在湍急漩渦底牢牢套住沉底地牛！"
+      }
+    },
+    {
+      "step": 4,
+      "title": "五子合力落閘定波",
+      "hint": "返回西水門向守舵官江平波回報並安裝雙契木榫平衡應力 (ask helmsman about 合閘)。",
+      "target_type": "talk",
+      "target_npc": "gate_west_helmsman",
+      "target_topic": "合閘",
+      "location": "/d/city/gate/gate_west",
+      "on_complete": {
+        "msg": "【千斤落閘】雙契木榫精準平衡剪切應力，轟鳴巨響中千斤鑄鐵閘穩穩沉入閘槽，狂暴水勢瞬間被馴服！"
+      }
+    }
+  ],
+  "rewards": {
+    "exp": 2500,
+    "pot": 600,
+    "money": 1000
+  }
+}
