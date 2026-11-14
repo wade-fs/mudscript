@@ -17,6 +17,7 @@ void create() {
     set_exits(([
         "west":      "/d/city/outer/farmland_w.c",
         "northwest": "/d/city/outer/irrigation.c",
+        "southwest": "/d/routes/qinghe_barge_channel.c",
         "east":      "/d/city/south/canal.c",
         "up":        "/d/city/wall/wall_path_w.c",
     ]));

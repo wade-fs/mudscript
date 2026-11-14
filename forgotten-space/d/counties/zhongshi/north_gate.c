@@ -20,6 +20,7 @@ void create() {
         "west":      "/d/counties/zhongshi/leyline_pavilion.c",
         "east":      "/d/counties/zhongshi/crusher_hall.c",
         "northeast": "/d/routes/stone_highway_pavilion.c",
+        "north":     "/d/routes/west_ridge_trail.c",
     ]));
 
     set_coordinate(-3, 7, 0);

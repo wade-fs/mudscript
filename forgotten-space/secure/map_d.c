@@ -196,6 +196,107 @@ string draw_zhongshi_map(object me) {
     return msg;
 }
 
+// ── 青河縣空間拓撲地圖 (Qinghe County Map) ─────────────────
+string draw_qinghe_map(object me) {
+    string cur = me && environment(me) ? base_name(environment(me)) : "";
+    string msg = "\n" + HIG + "【青河縣・水網藥圃與漕運集散城鎮地圖 (14 房)】" + NOR + "\n";
+    msg += WHT "──────────────────────────────────────────────────────────\n" + NOR;
+    msg += "  " + HIC + "【定神靈植道觀】" + NOR + "(【法】道考場)\n";
+    msg += "        │\n";
+    msg += "  [上游攔水石閘] ─── " + YEL + "【青河洗藥總坊】" + NOR + " ─── " + HIR + "【青河水師營】" + NOR + "\n";
+    msg += "        │             (【物】道考場)      (【力】道考場)\n";
+    msg += "        │                   │                  │\n";
+    msg += "   [青河縣衙] ────── " + HIY + "【百草糧油水集】" + NOR + " ─── " + HIW + "【東迎水陸關】" + NOR + " ──► 柳堤官道 (280里)\n";
+    msg += "                    ┌───────┼───────┐          │\n";
+    msg += "             [通寶青河分號] │  [青河縣驛]  [漕運駁船碼頭] ──► 青河水路 (300里)\n";
+    msg += "                            │                  │\n";
+    msg += "       [曬藥竹棚] ─── [百草坪梯田]        [蘆花渡漁集]\n";
+    msg += "                            │                  │\n";
+    msg += "                            ▼             [古河床・史前石閘]\n";
+    msg += "                  往【西嶺支脈山道】→ 重石縣 (160 里)\n";
+    msg += WHT "──────────────────────────────────────────────────────────\n" + NOR;
+    if (me && environment(me)) {
+        msg += "你當前身處：" + HIG + environment(me)->query_short() + NOR + " (" + cur + ")\n";
+    }
+    return msg;
+}
+
+// ── 鎮風縣空間拓撲地圖 (Zhenfeng County Map) ───────────────
+string draw_zhenfeng_map(object me) {
+    string cur = me && environment(me) ? base_name(environment(me)) : "";
+    string msg = "\n" + HIW + "【鎮風縣・天風要塞與邊關硬弓城鎮地圖 (14 房)】" + NOR + "\n";
+    msg += WHT "──────────────────────────────────────────────────────────\n" + NOR;
+    msg += "  " + HIC + "【鎮風測風祭壇】" + NOR + " ─── [北塞防風石壩・望荒烽燧] ─── " + YEL + "【鎮風軍械修造所】" + NOR + "\n";
+    msg += "  (【法】道考場)                  │                  (【物】道考場)\n";
+    msg += "        │                         │                        │\n";
+    msg += "   [鎮風縣衛所] ──────── " + HIY + "【皮甲硬弓邊集】" + NOR + " ───────── " + HIR + "【八方武館邊關分舵】" + NOR + "\n";
+    msg += "     │(down)             ┌────────┼────────┐         (【力】道考場)\n";
+    msg += " [地下案卷室・走山令] [通寶鎮風分號] │ [鎮風縣驛]\n";
+    msg += "                                  │\n";
+    msg += "  [風蝕石英礦脈]                  │                  [軍屯地下糧窖]\n";
+    msg += "     ▲(up)                        │                        │\n";
+    msg += "  [鷹嘴崖石窟] ───────── " + HIW + "【南塞巨石甕城門】" + NOR + " ───────── [碎冰堡屯寨]\n";
+    msg += "                                  │\n";
+    msg += "                                  ▼\n";
+    msg += "                        往【天風谷・北塞馳道】→ 金石北關 (300 里)\n";
+    msg += WHT "──────────────────────────────────────────────────────────\n" + NOR;
+    if (me && environment(me)) {
+        msg += "你當前身處：" + HIG + environment(me)->query_short() + NOR + " (" + cur + ")\n";
+    }
+    return msg;
+}
+
+// ── 烈礬縣空間拓撲地圖 (Liefan County Map) ─────────────────
+string draw_liefan_map(object me) {
+    string cur = me && environment(me) ? base_name(environment(me)) : "";
+    string msg = "\n" + HIR + "【烈礬縣・紅石斷脈與硫礬冶銅城鎮地圖 (14 房)】" + NOR + "\n";
+    msg += WHT "──────────────────────────────────────────────────────────\n" + NOR;
+    msg += "  [地火堡官造大窯] ─── " + HIC + "【烈礬鎮煞火祠】" + NOR + " ─── [烈礬縣衙]\n";
+    msg += "        │               (【法】道考場)          │\n";
+    msg += "   [地火堡聚落]                                 │\n";
+    msg += "        │                                       │\n";
+    msg += "  " + HIW + "【西迎赤石關】" + NOR + " ─────────── " + HIY + "【銅礬硃砂大集】" + NOR + " ─── " + YEL + "【烈礬百工冶煉分舵】" + NOR + " ── [銅駝嶺礦區]\n";
+    msg += "   (通礬石峽谷)              ┌────────┼────────┐   (【物】道考場)          │(down)\n";
+    msg += "        │             [通寶烈礬分號]  │   [烈礬縣驛]                 [三號深井・毒煙]\n";
+    msg += "   [紅砂坳聚落] ── [廢礬渣堆]   " + HIR + "【烈礬護礦武館】" + NOR + "(【力】道考場)\n";
+    msg += "        │\n";
+    msg += "        ▼\n";
+    msg += "  往【東麓峽谷私梟道】→ 濁水縣 (210 里)\n";
+    msg += WHT "──────────────────────────────────────────────────────────\n" + NOR;
+    if (me && environment(me)) {
+        msg += "你當前身處：" + HIG + environment(me)->query_short() + NOR + " (" + cur + ")\n";
+    }
+    return msg;
+}
+
+// ── 濁水縣空間拓撲地圖 (Zhuoshui County Map) ───────────────
+string draw_zhuoshui_map(object me) {
+    string cur = me && environment(me) ? base_name(environment(me)) : "";
+    string msg = "\n" + HIB + "【濁水縣・沼澤浮橋與淘金暗渠城鎮地圖 (15 房)】" + NOR + "\n";
+    msg += WHT "──────────────────────────────────────────────────────────\n" + NOR;
+    msg += "                        往【東南沼澤浮橋道】→ 金石東關 (350 里)\n";
+    msg += "                                  ▲\n";
+    msg += "   [泥螺灘棚戶] ──────── " + HIW + "【北鎮高腳木樁門】" + NOR + " ──────── " + HIR + "【濁水護澤武館】" + NOR + "\n";
+    msg += "        │                         │                   (【力】道考場)\n";
+    msg += "   [水磨篩金灘]  " + HIC + "【濁水鎮水祠】" + NOR + "   │\n";
+    msg += "                 (【法】道考場)   │\n";
+    msg += "                       │          │\n";
+    msg += "                  [濁水縣署] ─ " + HIY + "【浮橋金砂水集】" + NOR + " ─── " + YEL + "【濁水百草毒理棚】" + NOR + "\n";
+    msg += "                               ┌──┴───┬──────┐      (【物】道考場)\n";
+    msg += "                        [通寶濁水分號]│ [濁水縣驛]\n";
+    msg += "                                      │\n";
+    msg += "                               [黑水埗浮橋] ─────── [水上毒囊交割暗寮]\n";
+    msg += "                                  │(down)\n";
+    msg += "                            [廢棄排石暗渠] ──────── [柯九算石室・雲記名冊]\n";
+    msg += "                                  │\n";
+    msg += "                            [溶洞地下暗埠] ──► 地下溶洞暗河 (310里通城下暗渠)\n";
+    msg += WHT "──────────────────────────────────────────────────────────\n" + NOR;
+    if (me && environment(me)) {
+        msg += "你當前身處：" + HIG + environment(me)->query_short() + NOR + " (" + cur + ")\n";
+    }
+    return msg;
+}
+
 string draw_map(object me, int range) {
     if (!me) return "";
     
@@ -216,6 +317,18 @@ string draw_map(object me, int range) {
         }
         if (strsrch(loc, "/d/counties/zhongshi/") != -1) {
             return draw_zhongshi_map(me);
+        }
+        if (strsrch(loc, "/d/counties/qinghe/") != -1) {
+            return draw_qinghe_map(me);
+        }
+        if (strsrch(loc, "/d/counties/zhenfeng/") != -1) {
+            return draw_zhenfeng_map(me);
+        }
+        if (strsrch(loc, "/d/counties/liefan/") != -1) {
+            return draw_liefan_map(me);
+        }
+        if (strsrch(loc, "/d/counties/zhuoshui/") != -1) {
+            return draw_zhuoshui_map(me);
         }
         if (strsrch(loc, "/d/routes/") != -1) {
             return draw_world_map(me);

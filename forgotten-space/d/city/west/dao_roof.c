@@ -43,7 +43,9 @@ int do_survey(string arg) {
 
     object q_engine = load_object(QUEST_ENGINE_D);
     if (q_engine) {
-        q_engine->trigger_quest_event(me, "action", ({ "survey_wind", "" }));
+        q_engine->trigger_event(me, "action", ([
+            "verb": "survey_wind"
+        ]));
     }
     return 1;
 }

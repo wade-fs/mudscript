@@ -35,7 +35,7 @@ for f in glob.glob(R+'/d/village/*.c'):
 action_verbs = {(v,t) for (_,v,t) in emitters['action']}
 
 # --- rooms / npcs / items
-rooms = [os.path.splitext(os.path.basename(p))[0] for p in glob.glob(R+'/d/village/*.c')]
+rooms = ['/' + os.path.splitext(os.path.relpath(p, R))[0] for p in glob.glob(R+'/d/**/*.c', recursive=True)]
 npc_ids = {}
 for f in glob.glob(R+'/clone/npc/*.c') + glob.glob(R+'/npc/*.c'):
     s = open(f, encoding='utf-8', errors='replace').read()
@@ -58,7 +58,8 @@ alias_ok = {
     'huoluo_dan','san','herb_dew','dew_herb','tainted_pelt','pelt',
     'ore_chunk','ore','tianmen','ancient_token','tianmen_token',
     'mine_blueprint','blueprint','steel_chisel','chisel',
-    'disha_wine','wine','mountain_talisman','talisman'
+    'disha_wine','wine','mountain_talisman','talisman',
+    'dao_mirror','dao mirror','brass_mirror'
 }
 
 def steps_of(q):
@@ -99,8 +100,8 @@ for qid,(f,q) in Q.items():
     for stg, reg, s in steps_of(q):
         loc = s.get('location')
         if not loc: continue
-        sub = any(loc in ('/d/village/'+r) for r in rooms)
-        if not sub: print(f"  ✗ {qid} S{stg}.{s['step']}  location={loc}  → 沒有任何房間的路徑包含此字串 (現有: {', '.join(sorted(rooms))})")
+        sub = any(loc in r for r in rooms)
+        if not sub: print(f"  ✗ {qid} S{stg}.{s['step']}  location={loc}  → 沒有任何房間的路徑包含此字串")
 
 print("\n"+"="*70); print("C. NPC id 是否存在（精確比對 set_name/set_id）"); print("="*70)
 refs = collections.defaultdict(set)
@@ -132,6 +133,7 @@ def items(o):
     if isinstance(o, dict):
         for k,v in o.items():
             if k in ('give_item','reissue_item') and isinstance(v,str): yield v
+            if k=='item' and isinstance(v,str) and v.startswith('/'): yield v
             if k=='items' and isinstance(v,list):
                 for x in v: yield x
             yield from items(v)
@@ -140,13 +142,14 @@ def items(o):
 for qid,(f,q) in Q.items():
     for p in set(items(q)):
         print(f"  {'OK' if os.path.exists(R+p) else '✗ '} {p}  <- {qid}")
-def reqs(o):
+def reqs(o, parent_key=None):
     if isinstance(o, dict):
         for k,v in o.items():
-            if k in ('require_item','require_inventory','item') and isinstance(v,str): yield k,v
-            yield from reqs(v)
+            if k in ('require_item','require_inventory') and isinstance(v,str): yield k,v
+            elif k == 'item' and parent_key == 'lost_item_recovery' and isinstance(v,str): yield k,v
+            yield from reqs(v, k)
     elif isinstance(o, list):
-        for x in o: yield from reqs(x)
+        for x in o: yield from reqs(x, parent_key)
 for qid,(f,q) in Q.items():
     for k,v in set(reqs(q)):
         in_whitelist = v in alias_ok

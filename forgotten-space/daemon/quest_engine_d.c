@@ -21,6 +21,8 @@ string query_encounter_id_by_legacy(string legacy_key);
 mixed evaluate_encounter(object who, string enc_id, mapping ctx);
 int is_event_quest_stage_valid(mapping q);
 mapping apply_world_event_outcome(object who, string qid, mapping q);
+mixed trigger_event(object who, string event_type, mapping data);
+mixed trigger_quest_event(object who, string event_type, mixed *args);
 
 void create() {
     ::create();
@@ -245,6 +247,9 @@ void load_all_quests() {
         "/quests/main/v2_panmu_transport.json",
         "/quests/main/v2_residency_72h.json",
         "/quests/main/v2_six_evidence_gaps.json",
+        "/quests/main/v2_six_county_evidence.json",
+        "/quests/main/v2_act4_tripartite_tribunal.json",
+        "/quests/main/v2_act5_tier2_admission.json",
         "/quests/career/v2_career_tier1_qualifications.json",
         "/quests/event/v2_west_watergate_crisis.json"
     });
@@ -723,6 +728,9 @@ int has_required_item(object who, string req) {
         if (req == "mountain_talisman" || req == "talisman") {
             if (ob->id("mountain talisman") || ob->id("talisman") || ob->id("鎮山符")) return 1;
         }
+        if (req == "dao_mirror" || req == "dao mirror" || req == "brass_mirror") {
+            if (ob->id("dao mirror") || ob->id("dao_mirror") || ob->id("brass mirror") || ob->id("渾天黃銅鏡")) return 1;
+        }
     }
     return 0;
 }
@@ -1108,13 +1116,37 @@ void handle_stage_completion(object who, string qid, mapping q, int cur_stage) {
 
     // 發放最終任務獎勵 (調用統一獎勵發放器)
     if (q["rewards"]) {
-        award_rewards(who, q["rewards"], qid);
+        mapping final_rw = copy(q["rewards"]);
+        if (!final_rw["class_grant"] && q["target_class"]) {
+            final_rw["class_grant"] = q["target_class"];
+        }
+        award_rewards(who, final_rw, qid);
     }
 
     tell_object(who, HIY "\n【✨ 恭喜完成歷練：「" + q["name"] + "」！】\n" NOR);
 }
 
 // ── 事件觸發與推進器 (Event Dispatcher) ─────────────────────
+
+mixed trigger_quest_event(object who, string event_type, mixed *args) {
+    if (!who || !event_type) return 0;
+    mapping data = ([]);
+    if (arrayp(args)) {
+        if (event_type == "talk") {
+            if (sizeof(args) > 0) data["npc"] = args[0];
+            if (sizeof(args) > 1) data["topic"] = args[1];
+        } else if (event_type == "action") {
+            if (sizeof(args) > 0) data["verb"] = args[0];
+            if (sizeof(args) > 1) data["target"] = args[1];
+        } else if (event_type == "deliver") {
+            if (sizeof(args) > 0) data["npc"] = args[0];
+            if (sizeof(args) > 1) data["item_id"] = args[1];
+        } else if (event_type == "kill") {
+            if (sizeof(args) > 0) data["victim_id"] = args[0];
+        }
+    }
+    return trigger_event(who, event_type, data);
+}
 
 mixed trigger_event(object who, string event_type, mapping data) {
     if (!who || !mapp(data)) return 0;
@@ -1863,6 +1895,29 @@ string query_all_status_report(object who) {
                     string stg = em ? em->query_event_stage(EVENT_BEAST_SURGE) : "T-3";
                     out += HIR "---------------- 大荒煞潮・生存事件網 (當前階段: " + stg + ") ----------------\n" NOR;
                     has_event_q = 1;
+                }
+                out += query_quest_checklist(who, qid) + "\n";
+            }
+        }
+    }
+
+    // 8. 第二卷・金石風雲與六縣巡迴歷練
+    string *v2_list = ({
+        "tier1_dao_initiation", "tier1_wu_initiation", "tier1_gong_initiation",
+        "v2_panmu_transport", "v2_residency_72h", "v2_six_evidence_gaps",
+        "v2_career_tier1_qualifications", "v2_west_watergate_crisis",
+        "v2_six_county_evidence", "v2_act4_tripartite_tribunal",
+        "v2_act5_tier2_admission"
+    });
+    int has_v2_q = 0;
+    foreach (string qid in v2_list) {
+        if (quest_defs[qid]) {
+            int step = who->query("quests/" + qid + "/step");
+            string st = who->query("quests/" + qid + "/state");
+            if (step > 0 || st == "COMPLETED" || st == "EXPIRED") {
+                if (!has_v2_q) {
+                    out += HIC "---------------- 金石風雲・府城與六縣主線 ----------------\n" NOR;
+                    has_v2_q = 1;
                 }
                 out += query_quest_checklist(who, qid) + "\n";
             }

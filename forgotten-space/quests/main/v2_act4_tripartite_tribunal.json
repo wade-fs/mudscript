@@ -28,7 +28,7 @@
       "target_type": "talk",
       "target_npc": "granary_liubingzhong",
       "target_topic": "分級",
-      "location": "/d/city/north/granary",
+      "location": "/d/city/center/granary",
       "on_complete": {
         "msg": "【常平定盤】劉秉忠採納五人組分級保命平糶法，以限購代賑穩定西城糧價民心！"
       }
@@ -91,7 +91,7 @@
       "target_type": "talk",
       "target_npc": "yamen_magistrate",
       "target_topic": "三印",
-      "location": "/d/city/center/yamen_hall",
+      "location": "/d/city/center/yamen",
       "on_complete": {
         "give_item": "/clone/item/tripartite_warrant.c",
         "msg": "【三印合符】府尹秦正明驚堂木重重拍落！三方會審三印合符定讞，錢百川被革職下獄，正式頒予【三方會審三印合符裁決書】！"

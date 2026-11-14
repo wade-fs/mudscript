@@ -13,7 +13,7 @@ void create() {
     set_long("一位身著團花綢緞錦袍的富態中年商賈，手指上戴著幾枚溫潤的玉韘。\n"
              "他身旁堆放著幾口厚重的紅木行商大箱，幾名體格彪悍的護衛正警惕地按刀\n"
              "四顧。他滿臉堆笑，正精明地撥弄著手中的紫檀算盤。\n");
-    set_id(({ "merchant", "caravan merchant", "qian", "fugui", "錢富貴", "掌櫃" }));
+    set_id(({ "caravan_merchant", "merchant", "caravan merchant", "qian", "fugui", "錢富貴", "掌櫃" }));
 
     set_level(15);
     set_stat("str", 15);

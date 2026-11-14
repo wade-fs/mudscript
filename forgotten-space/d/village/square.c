@@ -36,6 +36,8 @@ void create() {
     set("has_forge", 1);
 
     add_item("board", "一張告示牌");
+
+    spawn_npc("/clone/npc/caravan_merchant.c");
 }
 
 string query_long() {

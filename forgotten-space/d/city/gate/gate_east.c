@@ -14,8 +14,10 @@ void create() {
              "往西穿過城門便進入鎮武軍鎮區外轅門，拾階而上 (up) 可登上東城烽燧步道。\n");
 
     set_exits(([
-        "west": "/d/city/east/wu_gate.c",
-        "up":   "/d/city/wall/wall_path_e.c",
+        "west":      "/d/city/east/wu_gate.c",
+        "up":        "/d/city/wall/wall_path_e.c",
+        "northeast": "/d/routes/red_stone_pass.c",
+        "southeast": "/d/routes/swamp_causeway.c",
     ]));
 
     set("is_outdoor", 1);

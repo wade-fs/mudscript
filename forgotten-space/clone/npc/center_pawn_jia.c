@@ -13,7 +13,7 @@ void create() {
     set_long("一位頭戴瓜皮小帽、手戴碧玉扳指的老掌櫃，瞇縫著一雙精明老辣的小眼睛，人稱賈朝奉，行內送諢號「賽半仙」。\n"
              "他身後是高逾數丈的黑漆典當櫃檯。通寶當鋪在全府六縣皆有分號，\n"
              "重石採石場工頭是他子侄，宣道司外圍經生是他舊友，各路暗貨黑金無不知曉。\n");
-    set_id(({ "pawnshop_jiachaofeng", "jia chaofeng", "jiachaofeng", "pawn_jia", "pawnbroker", "jia fuchun", "pawn chaofeng", "賈朝奉", "賈掌櫃", "賈富春", "當鋪朝奉", "賽半仙", "賈半仙" }));
+    set_id(({ "pawnshop_jiachaofeng", "jia chaofeng", "jiachaofeng", "pawn_jia", "pawnbroker", "jia fuchun", "pawn chaofeng", "elder", "賈朝奉", "賈掌櫃", "賈富春", "當鋪朝奉", "賽半仙", "賈半仙", "鑑寶長老" }));
 
     setup_archetype("H", 30);
     set("class", "mortal");
@@ -35,4 +35,7 @@ void create() {
 
     add_response(({ "成色", "準備金", "足色條銀", "破綻" }),
         "賈朝奉壓低嗓門，眼中透著精明凶光：「老朽偷偷看過總號底冊……上面寫著七成生銀，但南關入城稅單上明明是十二萬兩九八足色官鑄條銀！錢百川早就把銀子扣在三號大庫了！」");
+
+    add_response(({ "天門引", "萬寶尋珍", "萬寶樓" }),
+        "賈朝奉透過老花水晶鏡片細細端詳青金古令，失聲驚呼：「萬物行商・天門引！老朽兼任萬寶樓首席鑑寶長老數十年，只在總號密閣的太古星圖殘卷上見過這第三道樞機齒輪！此令所指的天門真正入口，就隱匿在北方名山宗門絕頂禁地之中！」");
 }

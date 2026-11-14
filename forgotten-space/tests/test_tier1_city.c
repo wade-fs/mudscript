@@ -526,8 +526,8 @@ void run_tests(object me) {
     mapping t1_ready = sk_d->evaluate_tier1_completion_state(me);
     assert_equal(1, t1_ready["ready_for_tier2_trial"], "兼具破障、社會專業資格與宗門考核令後方可進入 Tier 2 山門大考");
 
-    // ── 12. Batch 1：南向雙路網 (8節點)、盤木縣 (14房)、重石縣 (14房) 與 6 處考場驗證 ──
-    string *batch1_route_rooms = ({
+    // ── 12. 全域路網 (22節點)、六大次級縣城 (85房) 與 18 處地方考場完整驗證 ──
+    string *all_route_rooms = ({
         "/d/routes/blackstone_pass.c",
         "/d/routes/tiger_leap_gorge.c",
         "/d/routes/panmu_post_approach.c",
@@ -535,11 +535,26 @@ void run_tests(object me) {
         "/d/routes/forest_landslide.c",
         "/d/routes/west_gorge_entry.c",
         "/d/routes/cliff_broken_plank.c",
-        "/d/routes/stone_highway_pavilion.c"
+        "/d/routes/stone_highway_pavilion.c",
+        "/d/routes/qinghe_willow_dike.c",
+        "/d/routes/qinghe_post.c",
+        "/d/routes/qinghe_barge_channel.c",
+        "/d/routes/qinghe_shallow_bend.c",
+        "/d/routes/west_ridge_trail.c",
+        "/d/routes/north_wind_highway.c",
+        "/d/routes/tianfeng_gorge_pass.c",
+        "/d/routes/red_stone_pass.c",
+        "/d/routes/alum_canyon_post.c",
+        "/d/routes/swamp_causeway.c",
+        "/d/routes/pontoon_toll_post.c",
+        "/d/routes/under_karst_river.c",
+        "/d/routes/under_whirlpool_cave.c",
+        "/d/routes/east_ravine_smuggler.c"
     });
-    foreach (string rr_path in batch1_route_rooms) {
+    assert_equal(22, sizeof(all_route_rooms), "全域路網必須包含完整 22 間節點房間");
+    foreach (string rr_path in all_route_rooms) {
         object rrob = load_object(rr_path);
-        assert_true(objectp(rrob), sprintf("南向雙路網節點房間必須載入成功: %s", rr_path));
+        assert_true(objectp(rrob), sprintf("路網節點房間必須載入成功: %s", rr_path));
         if (rrob) {
             assert_true(strlen(rrob->query_route_segment()) > 0, sprintf("路網節點必須綁定標準路段 ID: %s", rr_path));
             assert_true(sizeof(rrob->query_exits()) >= 2, sprintf("路網節點必須具備雙向連通出口: %s", rr_path));
@@ -598,9 +613,113 @@ void run_tests(object me) {
         }
     }
 
-    // 驗證盤木縣與重石縣 6 處地方考場房間與 SKILL_D 註冊表完全一致
-    string *batch1_counties = ({ "panmu", "zhongshi" });
-    foreach (string bc in batch1_counties) {
+    string *qinghe_rooms = ({
+        "/d/counties/qinghe/east_gate.c",
+        "/d/counties/qinghe/ferry_dock.c",
+        "/d/counties/qinghe/market.c",
+        "/d/counties/qinghe/yamen.c",
+        "/d/counties/qinghe/pawnshop.c",
+        "/d/counties/qinghe/post_inn.c",
+        "/d/counties/qinghe/herb_shrine.c",
+        "/d/counties/qinghe/drill_ground.c",
+        "/d/counties/qinghe/herb_mill.c",
+        "/d/counties/qinghe/upper_dam.c",
+        "/d/counties/qinghe/luhuadu_dock.c",
+        "/d/counties/qinghe/luhuadu_shoal.c",
+        "/d/counties/qinghe/baicaoping_fields.c",
+        "/d/counties/qinghe/baicaoping_drying.c"
+    });
+    assert_equal(14, sizeof(qinghe_rooms), "青河縣必須包含完整 14 間實體房間");
+    foreach (string qh_path in qinghe_rooms) {
+        object qhob = load_object(qh_path);
+        assert_true(objectp(qhob), sprintf("青河縣房間必須載入成功: %s", qh_path));
+        if (qhob) {
+            assert_equal("qinghe", qhob->query_county(), sprintf("青河縣房間必須綁定 county_id == qinghe: %s", qh_path));
+            assert_true(sizeof(qhob->query_exits()) >= 1, sprintf("青河縣房間必須具備有效出口: %s", qh_path));
+        }
+    }
+
+    string *zhenfeng_rooms = ({
+        "/d/counties/zhenfeng/south_gate.c",
+        "/d/counties/zhenfeng/market.c",
+        "/d/counties/zhenfeng/yamen.c",
+        "/d/counties/zhenfeng/yamen_vault.c",
+        "/d/counties/zhenfeng/pawnshop.c",
+        "/d/counties/zhenfeng/post_inn.c",
+        "/d/counties/zhenfeng/wind_altar.c",
+        "/d/counties/zhenfeng/bafang_garrison.c",
+        "/d/counties/zhenfeng/tannery.c",
+        "/d/counties/zhenfeng/north_beacon.c",
+        "/d/counties/zhenfeng/yingzui_cliff.c",
+        "/d/counties/zhenfeng/yingzui_quartz.c",
+        "/d/counties/zhenfeng/suibing_fort.c",
+        "/d/counties/zhenfeng/suibing_granary.c"
+    });
+    assert_equal(14, sizeof(zhenfeng_rooms), "鎮風縣必須包含完整 14 間實體房間");
+    foreach (string zf_path in zhenfeng_rooms) {
+        object zfob = load_object(zf_path);
+        assert_true(objectp(zfob), sprintf("鎮風縣房間必須載入成功: %s", zf_path));
+        if (zfob) {
+            assert_equal("zhenfeng", zfob->query_county(), sprintf("鎮風縣房間必須綁定 county_id == zhenfeng: %s", zf_path));
+            assert_true(sizeof(zfob->query_exits()) >= 1, sprintf("鎮風縣房間必須具備有效出口: %s", zf_path));
+        }
+    }
+
+    string *liefan_rooms = ({
+        "/d/counties/liefan/west_gate.c",
+        "/d/counties/liefan/market.c",
+        "/d/counties/liefan/yamen.c",
+        "/d/counties/liefan/pawnshop.c",
+        "/d/counties/liefan/post_inn.c",
+        "/d/counties/liefan/fire_shrine.c",
+        "/d/counties/liefan/mine_guard_hall.c",
+        "/d/counties/liefan/smelting_branch.c",
+        "/d/counties/liefan/hongsha_hollow.c",
+        "/d/counties/liefan/hongsha_slag.c",
+        "/d/counties/liefan/dihuo_fort.c",
+        "/d/counties/liefan/dihuo_kiln.c",
+        "/d/counties/liefan/tongtuo_ridge.c",
+        "/d/counties/liefan/tongtuo_shaft3.c"
+    });
+    assert_equal(14, sizeof(liefan_rooms), "烈礬縣必須包含完整 14 間實體房間");
+    foreach (string lf_path in liefan_rooms) {
+        object lfob = load_object(lf_path);
+        assert_true(objectp(lfob), sprintf("烈礬縣房間必須載入成功: %s", lf_path));
+        if (lfob) {
+            assert_equal("liefan", lfob->query_county(), sprintf("烈礬縣房間必須綁定 county_id == liefan: %s", lf_path));
+            assert_true(sizeof(lfob->query_exits()) >= 1, sprintf("烈礬縣房間必須具備有效出口: %s", lf_path));
+        }
+    }
+
+    string *zhuoshui_rooms = ({
+        "/d/counties/zhuoshui/north_gate.c",
+        "/d/counties/zhuoshui/market.c",
+        "/d/counties/zhuoshui/yamen.c",
+        "/d/counties/zhuoshui/pawnshop.c",
+        "/d/counties/zhuoshui/post_inn.c",
+        "/d/counties/zhuoshui/miasma_shrine.c",
+        "/d/counties/zhuoshui/water_fort.c",
+        "/d/counties/zhuoshui/venom_shed.c",
+        "/d/counties/zhuoshui/niluo_shoal.c",
+        "/d/counties/zhuoshui/niluo_panning.c",
+        "/d/counties/zhuoshui/heishui_pontoon.c",
+        "/d/counties/zhuoshui/heishui_waterhouse.c",
+        "/d/counties/zhuoshui/old_canal_entry.c",
+        "/d/counties/zhuoshui/kejiusuan_vault.c",
+        "/d/counties/zhuoshui/smuggler_dock.c"
+    });
+    assert_equal(15, sizeof(zhuoshui_rooms), "濁水縣必須包含完整 15 間實體房間");
+    foreach (string zshu_path in zhuoshui_rooms) {
+        object zshuob = load_object(zshu_path);
+        assert_true(objectp(zshuob), sprintf("濁水縣房間必須載入成功: %s", zshu_path));
+        if (zshuob) {
+            assert_equal("zhuoshui", zshuob->query_county(), sprintf("濁水縣房間必須綁定 county_id == zhuoshui: %s", zshu_path));
+            assert_true(sizeof(zshuob->query_exits()) >= 1, sprintf("濁水縣房間必須具備有效出口: %s", zshu_path));
+        }
+    }
+
+    // 驗證全六縣 18 處地方考場房間與 SKILL_D 註冊表完全一致
+    foreach (string bc in all_counties) {
         foreach (string bp in all_paths) {
             mapping beq = sk_d->check_county_qualification_equivalence(bc, bp);
             object exam_room = load_object(beq["room"]);
@@ -612,13 +731,15 @@ void run_tests(object me) {
         }
     }
 
-    // 驗證 MAP_D 盤木縣與重石縣分區地圖渲染
+    // 驗證 MAP_D 六大縣城分區地圖渲染
     object map_d = load_object("/secure/map_d");
     assert_true(objectp(map_d), "MAP_D 必須載入成功");
     if (map_d) {
-        string pm_map = map_d->draw_panmu_map(0);
-        string zs_map = map_d->draw_zhongshi_map(0);
-        assert_true(strsrch(pm_map, "盤木縣") != -1, "MAP_D 必須可渲染盤木縣分區地圖");
-        assert_true(strsrch(zs_map, "重石縣") != -1, "MAP_D 必須可渲染重石縣分區地圖");
+        assert_true(strsrch(map_d->draw_panmu_map(0), "盤木縣") != -1, "MAP_D 必須可渲染盤木縣分區地圖");
+        assert_true(strsrch(map_d->draw_zhongshi_map(0), "重石縣") != -1, "MAP_D 必須可渲染重石縣分區地圖");
+        assert_true(strsrch(map_d->draw_qinghe_map(0), "青河縣") != -1, "MAP_D 必須可渲染青河縣分區地圖");
+        assert_true(strsrch(map_d->draw_zhenfeng_map(0), "鎮風縣") != -1, "MAP_D 必須可渲染鎮風縣分區地圖");
+        assert_true(strsrch(map_d->draw_liefan_map(0), "烈礬縣") != -1, "MAP_D 必須可渲染烈礬縣分區地圖");
+        assert_true(strsrch(map_d->draw_zhuoshui_map(0), "濁水縣") != -1, "MAP_D 必須可渲染濁水縣分區地圖");
     }
 }

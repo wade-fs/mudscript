@@ -15,6 +15,7 @@ void create() {
 
     set_exits(([
         "south": "/d/city/gate/gate_north.c",
+        "north": "/d/routes/north_wind_highway.c",
     ]));
 
     set("is_outdoor", 1);

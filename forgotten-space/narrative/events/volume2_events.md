@@ -191,20 +191,21 @@
 * **主視角**：顧玄
 * **核心事件**：顧玄水路三百里抵青河縣直面青河 Stage 2~3 危機；道觀截水濾沙、商會霸佔閘口引發藥農流血械鬥；集市藥價暴漲，商會以高利貸逼迫藥農賣田；顧玄亮出醫籍當場揭穿以陳草冒充新草暴利壟斷之黑幕。
 * **關聯機制**：`CITY_D->query_route_segment("seg_city_qinghe_water")`，青河物價指數波動
-* **MUD 房間**：`/d/routes/qinghe_waterway.c`、青河縣城百草集市
+* **MUD 房間**：`/d/routes/qinghe_barge_channel.c`、`/d/counties/qinghe/market.c`、`/d/counties/qinghe/upper_dam.c`
 
 ### 事件 EV-222：九城藥材・四線書信與水脈開閘
 * **章節**：第 60 章
 * **主視角**：五人跨縣群像剪輯
 * **核心事件**：四海驛站快郵匯總四線書信，打破一次性低價買齊幻想；顧玄以「次級苦參替代方＋盤木赤松茯苓」破局，並憑孫先生公函說服靈植道觀開閘放水三個時辰兼平價放藥，將十二大箱救命藥草發往黑石鋪；驚覺商會大宗採購解毒藥與毒囊之異動。
 * **關聯機制**：`WORLD_STATE_D` 六縣物價連鎖平抑機制
+* **MUD 房間**：`/d/counties/qinghe/post_inn.c`、`/d/counties/qinghe/herb_shrine.c`
 
 ### 事件 EV-223：天風谷口・頂風採石與石英核
 * **章節**：第 61 章
 * **主視角**：柳清虛
 * **核心事件**：柳清虛與燕隼馳抵鎮風縣直面邊軍欠餉強徵石英之危機；恪守法修器具邊界，清虛以水銀渾天鏡精算三息風眼窗口，燕隼以磐石沉錨與神箭引索，採得八枚極品風蝕石英核；折抵邊軍冬糧與撫恤，平息流血兵變。
 * **產生物證**：【天風谷風蝕石英核】(`/clone/item/fengshi_quartz.c`)
-* **MUD 房間**：鎮風縣天風谷鷹嘴崖、邊防衛所
+* **MUD 房間**：`/d/counties/zhenfeng/yingzui_quartz.c`、`/d/counties/zhenfeng/yamen.c`
 
 ### 事件 EV-224：走山令・衛所舊檔與玄鐵殘牌
 * **章節**：第 62 章
@@ -212,7 +213,7 @@
 * **核心事件**：雪狼夜襲軍屯糧站，燕隼以重箭射殺狼王、清虛打出符火火障，二人協防死守保全糧站；獲准調閱塵封五年舊檔，查明五年前金石商會出資三萬兩僱傭燕隼大伯燕山持特批走山令深入北麓探礦換取水文圖；起獲燕山箭記走山令殘牌；恪守五欄鐵律定為 `corroborative` 級別。
 * **產生物證**：【玄鐵走山令殘牌】(`/clone/item/shan_token_half.c`)
 * **關聯任務**：`v2_six_county_evidence`（Step 4）
-* **MUD 房間**：鎮風邊防衛所地下案卷室、北塞烽燧
+* **MUD 房間**：`/d/counties/zhenfeng/yamen_vault.c`、`/d/counties/zhenfeng/north_beacon.c`、`/d/counties/zhenfeng/suibing_granary.c`
 
 ### 事件 EV-225：地火堡・耐火泥出貨單與排險救人
 * **章節**：第 63 章
@@ -220,7 +221,7 @@
 * **核心事件**：鐵生馳抵烈礬直面減爐之痛與 Stage 2~3 礦難危機：黑石鋪停產導致赤礬暴跌作坊熄火；三號井地火引燃氣脈塌方，鐵生憑百工應力與通風計算率眾鑿穿側風道救出 122 名礦工；憑阿鐵短錘記號獲老爐頭韓老調生死託付，起獲蓋有商會內堂金蓮環刀印之特級耐火白泥原始出貨單，升為 `corroborative` 強佐證。
 * **產生物證**：【特級烈礬耐火泥出貨單】(`/clone/item/liefan_clay_batch.c`)
 * **關聯任務**：`v2_six_county_evidence`（Step 2）
-* **MUD 房間**：烈礬地火堡紅砂坳、銅駝嶺三號深井
+* **MUD 房間**：`/d/counties/liefan/dihuo_kiln.c`、`/d/counties/liefan/tongtuo_shaft3.c`
 
 ### 事件 EV-226：浮橋濁水・毒囊提純交割底單
 * **章節**：第 64 章
@@ -228,7 +229,7 @@
 * **核心事件**：沈泥踏上泥沼浮橋道入濁水直面淘金水銀劇毒與火併危機；老牙人方平斗勾結商會設伏，沈泥恪守市井鐵律金蟬脫殼避過連弩伏擊潛入毒囊提純地下作坊；起獲商會後勤房提領六十斤高純度地陰腐骨散專供黑石關犒軍乾肉之原始交割底單，四方互鎖逼近 `conclusive` 關鍵定罪鐵證。
 * **產生物證**：【黑水埗毒囊提純交割單】(`/clone/item/relay_poison_sample.c`)
 * **關聯任務**：`v2_six_county_evidence`（Step 3）
-* **MUD 房間**：濁水縣泥螺灘黑水埗高腳浮橋、排石暗渠與水樓
+* **MUD 房間**：`/d/counties/zhuoshui/heishui_pontoon.c`、`/d/counties/zhuoshui/heishui_waterhouse.c`
 
 ### 事件 EV-227：舊盟殘部・「雲記」名冊與身世三階證實
 * **章節**：第 65 章
@@ -236,7 +237,7 @@
 * **核心事件**：沈泥於暗渠深處尋獲前朝舊商盟老帳房柯九算，取出貼身玉佩與手抄名冊對照，交叉比對刑部舊卷、通寶死帳，三方獨立互鎖達成【身世六階段・階段三：關係證實】：十五年前黑石嶺覆滅之沈氏旁支商號定名「雲記」，沈泥確為雲記少東之女「沈雲妮」；老帳房揭露幕後黑手深植內堂，嚴守不知真容不越界指認之邊界；獲取手抄底單。
 * **產生物證**：【舊商盟雲記名冊手抄底單】(`/clone/item/yunji_roster.c`)
 * **關聯任務**：`v2_six_county_evidence`（Step 6）
-* **MUD 房間**：濁水縣黑水埗廢棄暗渠舊址、柯九算度支石室
+* **MUD 房間**：`/d/counties/zhuoshui/old_canal_entry.c`、`/d/counties/zhuoshui/kejiusuan_vault.c`
 
 ### 事件 EV-228：重石台地・雙齒棘輪絞盤與抽減鐵木指令拓本
 * **章節**：第 66 章
@@ -244,7 +245,7 @@
 * **核心事件**：鐵生馳赴重石直面城防配額轉嫁、絞盤主軸崩斷民夫封錘罷工之 Stage 2~4 危機；憑沈泥通寶牙人信印與阿鐵短錘工記雙重信物觸發深層人脈；以百工應力析理聯手魯小木重造「雙齒棘輪複合防逆轉巨型絞盤」化解罷工；少工頭杜小山解鎖跨縣材料特惠並發車修復虎跳峽斷道；揭露商會內堂礦難前兩個月強令抽減北崖三成沉陰鐵木支護調包爛木之致命證言；深溝炸穿太古石槨氣孔伏筆。
 * **產生物證**：【重石抽減鐵木指令拓本】(`/clone/item/zhongshi_timber_order.c`)
 * **關聯任務**：`v2_six_county_evidence`（Step 5）
-* **MUD 房間**：重石縣石碾坡穿山寨二號採石場、西南馳道 (`seg_city_zhongshi` 240 里)
+* **MUD 房間**：`/d/counties/zhongshi/quarry_winch3.c`、`/d/counties/zhongshi/terrace_trench.c`、`/d/routes/stone_highway_pavilion.c`
 
 ### 事件 EV-229：歸途匯流・四線合璧與商會信用凍結反撲
 * **章節**：第 67 章
@@ -262,14 +263,14 @@
 * **主視角**：沈泥
 * **核心事件**：全城通寶飛錢暴跌為紙，通寶當鋪總號前爆發大規模擠兌暴動；沈泥與賈朝奉穿透假象，比對總號存銀底冊與南關入城稅單，揭露商會準備金並非短缺，而是錢百川扣押十二萬兩九八足色官銀以製造擠兌、轉移貪腐焦點。
 * **關聯任務**：`v2_act4_tripartite_tribunal`（Step 1）
-* **MUD 房間**：`/d/city/center/pawnshop.c`、`/d/city/center/center_square.c`
+* **MUD 房間**：`/d/city/center/pawnshop.c`、`/d/city/center/square.c`
 
 ### 事件 EV-231：平糶之議・常平倉與分級保命條陳
 * **章節**：第 69 章
 * **主視角**：顧玄
 * **核心事件**：城內糧商串通停業哄抬糧價，西城流民面臨斷炊暴動；顧玄與五子攜手常平倉主事劉秉忠，提出「以工代賑、分級配給、限制平糶」條陳，以官倉老米穩住西城數萬饑民生計，遏阻第一波金融流血暴亂。
 * **關聯任務**：`v2_act4_tripartite_tribunal`（Step 2）
-* **MUD 房間**：`/d/city/north/granary.c`
+* **MUD 房間**：`/d/city/center/granary.c`
 
 ### 事件 EV-232：瘴氣入城・西水門藥荒與苦參救煞
 * **章節**：第 70 章
@@ -300,7 +301,7 @@
 * **核心事件**：沈泥在文承敬主簿持水情手令掩護下，深夜與莫三潛入總堂地下天字一號密室；沈泥以身世印信開啟外層鐵櫃，搶出三萬斤地煞血精交割正底單並由文承敬當場加蓋府衙火漆公印；在內層太古玄鐵重門前恪守能力邊界，果斷撤出。
 * **產生物證**：【總堂血精交割正底單】(`/clone/item/under_canal_deed.c`)
 * **關聯任務**：`v2_act4_tripartite_tribunal`（Step 6）
-* **MUD 房間**：`/d/city/south/under_canal.c`、`/d/city/center/yamen_archive.c`
+* **MUD 房間**：`/d/city/under/shang_secret.c`、`/d/city/center/yamen_archive.c`
 
 ### 事件 EV-236：會審前夜・雙帳比對與籌碼分層
 * **章節**：第 74 章
@@ -315,7 +316,7 @@
 * **核心事件**：金石府衙正堂明鏡高懸，三方會審庭大審。錢百川勾結訟師百般狡辯，蘇凝霜與五子當堂出示火漆正底單、鋸齒雙聯火印存根與礦工指血結狀，法定保管鏈滴水不漏；秦正明、霸山、劉秉忠聯手拍板「三印合符」，當堂革去錢百川商會副會長官職枷鎖投入死牢候審，查抄三號大庫十二萬兩現銀，蘇凝霜蒙冤昭雪！
 * **產生物證**：【三方會審三印合符裁決書】(`/clone/item/tripartite_warrant.c`)
 * **關聯任務**：`v2_act4_tripartite_tribunal`（Step 7 完成）
-* **MUD 房間**：`/d/city/center/yamen_hall.c`
+* **MUD 房間**：`/d/city/center/yamen.c`
 
 ### 事件 EV-238：餘波・非烏托邦的世界狀態
 * **章節**：第 76 章

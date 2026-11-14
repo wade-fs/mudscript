@@ -46,7 +46,10 @@ int do_strike(string arg) {
 
     object q_engine = load_object(QUEST_ENGINE_D);
     if (q_engine) {
-        q_engine->trigger_quest_event(me, "action", ({ "strike", "tenon" }));
+        q_engine->trigger_event(me, "action", ([
+            "verb": "strike",
+            "target": "tenon"
+        ]));
     }
     return 1;
 }

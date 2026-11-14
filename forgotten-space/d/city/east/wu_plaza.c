@@ -52,7 +52,10 @@ int do_lift(string arg) {
 
     object q_engine = load_object(QUEST_ENGINE_D);
     if (q_engine) {
-        q_engine->trigger_quest_event(me, "action", ({ "lift", "stone" }));
+        q_engine->trigger_event(me, "action", ([
+            "verb": "lift",
+            "target": "stone"
+        ]));
     }
     return 1;
 }

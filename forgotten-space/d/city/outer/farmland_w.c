@@ -14,9 +14,10 @@ void create() {
              "東面通往西水門關口，向北沿渠堤可抵達青河水閘樞紐。\n");
 
     set_exits(([
-        "east":  "/d/city/gate/gate_west.c",
-        "north": "/d/city/outer/irrigation.c",
-        "west":  "/d/city/wall/moat.c",
+        "east":      "/d/city/gate/gate_west.c",
+        "north":     "/d/city/outer/irrigation.c",
+        "west":      "/d/city/wall/moat.c",
+        "southwest": "/d/routes/qinghe_willow_dike.c",
     ]));
 
     set("is_outdoor", 1);

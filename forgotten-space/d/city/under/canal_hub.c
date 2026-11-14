@@ -15,10 +15,11 @@ void create() {
              "東面有一道緊閉的太古玄鐵重門【天字一號密室】，向南則延伸入史前殘殿地宮。\n");
 
     set_exits(([
-        "north": "/d/city/under/black_market.c",
-        "west":  "/d/city/under/drain_gate.c",
-        "east":  "/d/city/under/shang_secret.c",
-        "south": "/d/city/under/ruins_hall.c",
+        "north":     "/d/city/under/black_market.c",
+        "west":      "/d/city/under/drain_gate.c",
+        "east":      "/d/city/under/shang_secret.c",
+        "south":     "/d/city/under/ruins_hall.c",
+        "southeast": "/d/routes/under_karst_river.c",
     ]));
 
     set("is_underground", 1);
