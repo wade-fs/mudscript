@@ -8,10 +8,10 @@
 
 | 檔案 | 內容說明 | 關聯指令 |
 | :--- | :--- | :--- |
-| [world_map.md](file:///home/wade/src/github/mudscript/forgotten-space/docs/maps/world_map.md) | **宏觀世界網絡圖**：金石府城、六大外縣與黑石鋪地脈關係、貨運路線與里數 | `map world` |
-| [city_map.md](file:///home/wade/src/github/mudscript/forgotten-space/docs/maps/city_map.md) | **金石都城九大分區詳細拓撲圖**：四大城門、百工總會、宣道司、鎮武軍鎮、市井核心與商貿區 | `map city` |
-| [underground_map.md](file:///home/wade/src/github/mudscript/forgotten-space/docs/maps/underground_map.md) | **城下太古暗渠與舊城廢墟圖**：鬼市暗街、古暗渠樞紐、天字一號密室與史前殘殿 | `map under` |
-| [village_map.md](file:///home/wade/src/github/mudscript/forgotten-space/docs/maps/village_map.md) | **黑石鋪新手聚落五方微生態圖**：青石街市、古礦坑、三清偏殿、老鐵匠鋪、墜龍瀑布 | `map village` |
+| [world_map.md](file:///home/wade/src/github/mudscript/forgotten-space/narrative/docs/maps/world_map.md) | **宏觀世界網絡圖**：金石府城、六大外縣（85 間房）、官道山徑（22 間房）與黑石鋪地脈關係 | `map world` / `map <county>` |
+| [city_map.md](file:///home/wade/src/github/mudscript/forgotten-space/narrative/docs/maps/city_map.md) | **金石都城九大分區詳細拓撲圖（67 間房）**：四大城門、百工總會、宣道司、鎮武軍鎮、市井核心與商貿區 | `map city` |
+| [underground_map.md](file:///home/wade/src/github/mudscript/forgotten-space/narrative/docs/maps/underground_map.md) | **城下太古暗渠與舊城廢墟圖**：鬼市暗街、古暗渠樞紐、天字一號密室與史前殘殿 | `map under` |
+| [village_map.md](file:///home/wade/src/github/mudscript/forgotten-space/narrative/docs/maps/village_map.md) | **黑石鋪新手聚落五方微生態圖（13 間房）**：青石街市、黑石古礦、三清偏殿、老鐵匠鋪、碎石溪灘、落龍口與黑石關 | `map village` |
 
 ---
 
@@ -32,8 +32,14 @@ map village
 # 4. 檢視地下鬼市與太古暗渠廢墟圖
 map under
 
-# 5. 檢視全域六縣一府宏觀網絡圖
+# 5. 檢視全域六縣一府宏觀網絡圖與六大外縣專屬地圖
 map world
+map panmu
+map zhongshi
+map qinghe
+map zhenfeng
+map liefan
+map zhuoshui
 
 # 6. 檢視周遭動態雷達小地圖 (自訂可視半徑 1-5 格)
 map 2

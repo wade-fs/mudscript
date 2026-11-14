@@ -11,7 +11,7 @@
 * **外觀**：身形勻稱消瘦卻結實，面容清秀溫和，目光澄澈平靜，肌膚晶瑩如玉，呼吸間自帶草木冷香。腰懸藥囊與銀針囊，著洗得泛白的素色布袍。
 * **隨身舊物與重要器具**：竹編藥簍 (`/clone/item/herb_basket.c`)、九轉度氣銀針、葛半仙野菊草籽、黑石古礦地煞晶核殘片、太古五器合鳴星光指針 (`/clone/item/ancient_relics_compass.c`)
 * **出生居所**：南谷懸崖峭壁・採藥草廬 (`/d/village/herb_hut.c`)
-* **府城居所與人脈**：金石南關車馬小棧 (`/d/city/gate/gate_south_inn.c`)；受杏林醫館白先生 (`/clone/npc/center_doctor_bai.c`) 與宣道司孫先生賞識與保薦。
+* **府城居所與人脈**：金石南關車馬小棧 (`/d/city/south/inn_south.c`)；受杏林醫館白先生 (`/clone/npc/center_doctor_bai.c`) 與採百草分堂堂主孫先生 (`/clone/npc/gong_alchemy_sunxiansheng.c`) 賞識與保薦。
 * **引路導師**：瘋郎中 葛半仙 (`/clone/npc/ge_doctor.c`)、杏林醫館 白先生 (`/clone/npc/center_doctor_bai.c`)
 
 ## 性格特質與才能

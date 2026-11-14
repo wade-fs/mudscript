@@ -1,17 +1,17 @@
 # 《遺忘的世界》需求追溯與交付範圍基線矩陣・實施計畫 (Implementation Plan)
 
 ## Goal Description
-依據 [completed-spec.md](file:///home/wade/src/github/mudscript/forgotten-space/docs/completed-spec.md) 定義之 6 大驗收領域（共 37 項正式驗收條件）、三層驗收標準（`Level 1 ~ 3`）、六類需求標籤（`CANON` / `RULE` / `DERIVED` / `QUALITY` / `OPTIONAL` / `OPEN`）與五道交付閘門，對現有 `forgotten-space/` 進行**零美化、找反例的真實盤點**，並在你拍板下列 `OPEN` 決策後，正式於專案建立 [traceability_and_scope_baseline.md](file:///home/wade/src/github/mudscript/forgotten-space/docs/traceability_and_scope_baseline.md)，作為後續 `/goal` 或 `/teamwork-preview` 長程自動化開發的權威驗收基線。
+依據 [completed-spec.md](file:///home/wade/src/github/mudscript/forgotten-space/narrative/docs/completed-spec.md) 定義之 6 大驗收領域（共 37 項正式驗收條件）、三層驗收標準（`Level 1 ~ 3`）、六類需求標籤（`CANON` / `RULE` / `DERIVED` / `QUALITY` / `OPTIONAL` / `OPEN`）與五道交付閘門，對現有 `forgotten-space/` 進行**零美化、找反例的真實盤點**，並在你拍板下列 `OPEN` 決策後，正式於專案建立 [traceability_and_scope_baseline.md](file:///home/wade/src/github/mudscript/forgotten-space/narrative/docs/traceability_and_scope_baseline.md)，作為後續 `/goal` 或 `/teamwork-preview` 長程自動化開發的權威驗收基線。
 
 ---
 
 ## User Review Required & Open Questions (`OPEN` 待裁決事項)
 
 > [!IMPORTANT]
-> 以下 **5 項 `OPEN` 決策**直接對應 [completed-spec.md](file:///home/wade/src/github/mudscript/forgotten-space/docs/completed-spec.md#L202-L210) 第六節指出的「正式交付範圍推導」與「未決世界／系統邊界」。請在審閱後告訴我你的選擇，我將據此鎖定基線矩陣：
+> 以下 **5 項 `OPEN` 決策**直接對應 [completed-spec.md](file:///home/wade/src/github/mudscript/forgotten-space/narrative/docs/completed-spec.md#L202-L210) 第六節指出的「正式交付範圍推導」與「未決世界／系統邊界」。請在審閱後告訴我你的選擇，我將據此鎖定基線矩陣：
 
 ### `OPEN-01`：第一階段「正式可交付版本（Release v1.0）」的範圍切分（解決第六節問題一）
-[world_setting.md](file:///home/wade/src/github/mudscript/forgotten-space/world_setting.md) 規劃了 Tier 0 ~ Tier 4（共五卷），但誠如 [completed-spec.md](file:///home/wade/src/github/mudscript/forgotten-space/docs/completed-spec.md#L75-L206) 所言：「不能縮減成只有新手村，也不能把所有想得到的內容都塞進第一版導致永遠停留在建設中」。
+[world_setting.md](file:///home/wade/src/github/mudscript/forgotten-space/narrative/world_setting.md) 規劃了 Tier 0 ~ Tier 4（共五卷），但誠如 [completed-spec.md](file:///home/wade/src/github/mudscript/forgotten-space/narrative/docs/completed-spec.md#L75-L206) 所言：「不能縮減成只有新手村，也不能把所有想得到的內容都塞進第一版導致永遠停留在建設中」。
 我建議將完整交付拆為**三個可獨立驗收的里程碑版本（Milestones）**，請確認是否同意此切分：
 - **Milestone 1（`v1.0 凡塵雙卷完整交付版`：Tier 0 黑石鋪 ＋ Tier 1 金石府城與六縣區域網）** — **[建議作為當前首要正式交付範圍]**：
   - **小說範圍**：第一卷【黑石驚蟄】（Ch.1 ~ Ch.38 正文已完稿）＋ 第二卷【金石風雲】（Ch.39 ~ Ch.82 全 44 章完整正文完稿）。
@@ -34,7 +34,7 @@
 
 ### `OPEN-03`：新手村目錄路徑與舊西幻殘留區域（`/area/*`）的處置（影響 `WORLD-01`、`CROSS-01`、`MUD-08`）
 盤點代碼時發現兩處結構性反例：
-1. [tier1_world_operating_model_v0_1.md](file:///home/wade/src/github/mudscript/forgotten-space/docs/tier1_world_operating_model_v0_1.md#L176) 寫「黑石鋪 `/d/blackstone/*` 35 間房」，但實際已實裝且通過測試的黑石鋪位於 **`/d/village/*.c`（共 13 間核心房間）**。
+1. [tier1_world_operating_model_v0_1.md](file:///home/wade/src/github/mudscript/forgotten-space/narrative/docs/tier1_world_operating_model_v0_1.md#L176) 寫「黑石鋪 `/d/blackstone/*` 35 間房」，但實際已實裝且通過測試的黑石鋪位於 **`/d/village/*.c`（共 13 間核心房間）**。
 2. `forgotten-space/area/` 目錄下仍留有早期模板的 `area/newbie/room_0_0.c ~ room_7_7.c`（64 間網格房）、`area/cave/`、`area/tower/`、`area/lm/`，且 `/secure/combat_d.c` 仍寫著西幻的 `fighter`（連環快劍）、`mage`（火球術）、`priest`（治療術）。
 請問：
 1. 黑石鋪正典路徑是否**統一鎖定為現有 `/d/village/`**（並考慮按需擴充北崖三號井、虎跳峽口等 3~5 間房），不再另建 `/d/blackstone/`？
@@ -43,7 +43,7 @@
 ---
 
 ### `OPEN-04`：NPC 三態生命週期（`PHASE_D`）在 v1.0 的驗收邊界（影響 `MUD-04`、`WORLD-05`）
-[npc_dynamic_lifecycle_spec.md](file:///home/wade/src/github/mudscript/forgotten-space/docs/npc_dynamic_lifecycle_spec.md) 規劃了 `PHASE_D`（讓 NPC 隨十二時辰走動、在礦難/獸潮時瞬移至險境、事件後回歸並改變對話）。目前部分房間透過房間腳本與 `QUEST_ENGINE_D` 判斷狀態，但尚未建立統一的 `/daemon/phase_d.c`。
+[npc_dynamic_lifecycle_spec.md](file:///home/wade/src/github/mudscript/forgotten-space/narrative/docs/npc_dynamic_lifecycle_spec.md) 規劃了 `PHASE_D`（讓 NPC 隨十二時辰走動、在礦難/獸潮時瞬移至險境、事件後回歸並改變對話）。目前部分房間透過房間腳本與 `QUEST_ENGINE_D` 判斷狀態，但尚未建立統一的 `/daemon/phase_d.c`。
 請問這項機制在 v1.0 應列為：
 1. **(推薦) `DERIVED`（v1.0 必備核心機制，針對核心具名 NPC 實裝 `/daemon/phase_d.c` 三態切換）**：確保魯大山、趙老獵、張屠戶、陳鎮山、文承敬、莫三等核心人物符合小說與事件相位。
 2. **`QUALITY` / `OPTIONAL`（列為品質強化項，維持現有房間與任務狀態判斷即可）**。
@@ -132,7 +132,7 @@ flowchart LR
 
 ### 1. 需求追溯與交付範圍基線文件 (`docs/`)
 
-#### [NEW] [traceability_and_scope_baseline.md](file:///home/wade/src/github/mudscript/forgotten-space/docs/traceability_and_scope_baseline.md)
+#### [NEW] [traceability_and_scope_baseline.md](file:///home/wade/src/github/mudscript/forgotten-space/narrative/docs/traceability_and_scope_baseline.md)
 建立《遺忘的世界》完成規格需求追溯與交付範圍基線矩陣（v1.0），完整包含：
 1. **分階段交付範圍定義（Milestones M1 / M2 / M3）**：明確劃定 v1.0（Tier 0 + Tier 1 雙卷完整版）的交付邊界，以及 Tier 2 ~ Tier 4 的擴充路線與伏筆保留規範。
 2. **37 項驗收條件（`NOV-01~06`、`MUD-01~08`、`CROSS-01~06`、`WORLD-01~06`、`MYST-01~05`、`MAINT-01~06`）完整追溯矩陣**：
@@ -151,4 +151,4 @@ make test && MUD_TEST_MODE=1 ./bin/mudscript -mudlib forgotten-space -master mas
 ```
 
 ### Manual Verification
-請審閱本計畫中的 **`OPEN-01 ~ OPEN-05`** 並提供你的裁決（或直接點擊 Proceed 採納推薦方案），我將立即生成正式的 [traceability_and_scope_baseline.md](file:///home/wade/src/github/mudscript/forgotten-space/docs/traceability_and_scope_baseline.md)。
+請審閱本計畫中的 **`OPEN-01 ~ OPEN-05`** 並提供你的裁決（或直接點擊 Proceed 採納推薦方案），我將立即生成正式的 [traceability_and_scope_baseline.md](file:///home/wade/src/github/mudscript/forgotten-space/narrative/docs/traceability_and_scope_baseline.md)。

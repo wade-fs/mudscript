@@ -38,22 +38,20 @@
 ### 1.2 小說與 MUD 雙軌規劃藍圖 (The Dual Blueprint)
 * **【小說軌道（Novel Track）】**：
   * [x] 作品正式書名定案：《遺忘的世界》(THE FORGOTTEN SPACE)
-  * [x] 五重視角主角人物小傳（顧玄、林鐵生、燕隼、柳清虛、沈泥，見 `/narrative/characters/`）
-  * [x] 第一卷「黑石驚蟄」全 38 章宏觀五幕架構確立（見 `/narrative/volume1.md` 與 `/narrative/novel_outline.md`）
-  * [x] 第一卷第 1 ~ 32 章正文完全實作與前後邏輯校驗完畢（見 `/narrative/chapters/ch0001.md ~ ch0032.md`）
-  * [ ] 第一卷第 33 ~ 38 章（第五幕：關前博弈・破局遠行）正文推進與全卷收官
-  * [x] 第二卷「金石風雲」整體架構重規劃（大荒官道、三層空間拓撲、非帝國官僚地方治理、三道哲學深化、五花八門組織解耦、四階段轉職與多起點匯流任務網，見第 3.14 節）
+  * [x] 五重視角主角人物小傳與重要配角檔案（顧玄、林鐵生、燕隼、柳清虛、沈泥及 12 位核心 NPC，見 `/narrative/characters/` 與 `/narrative/character_profiles.md`）
+  * [x] 第一卷「黑石驚蟄」全 38 章五幕架構與正文完全實作（見 `/narrative/volume1.md` 與 `/narrative/chapters/ch0001.md ~ ch0038.md`）
+  * [x] 第二卷「金石風雲」全 44 章五幕架構與正文完全實作（見 `/narrative/volume2.md` 與 `/narrative/chapters/ch0039.md ~ ch0082.md`）
+  * [x] 第三卷「名山問道」全 44 章（Ch.83 ~ Ch.126）五幕大綱展開與伏筆對接（見 `/narrative/volume3.md` 與 `/narrative/novel_outline.md`）
 * **【MUD 規格軌道（Mudlib Track）】**：
   * [x] 三元力量生剋與修煉/戰鬥心跳機制（第 3.1 ~ 3.3, 3.6 ~ 3.8 節）
   * [x] 統一數值階梯（T0~T3）與四重進階/天道排斥模型（第 3.9 節）
   * [x] 先天六維、狀態三柱 (`kee/sen/sp`)、天命隱藏屬性底層規格（第 3.10 ~ 3.11 節）
-  * [x] 新手聚落立體地形（黑石鋪五方微生態）與三大鏈式 NPC 任務循環（第 4.3 節）
-  * [x] 宣告式 JSON 任務架構與狀態機引擎 (`QUEST_ENGINE_D` + `/quests/*.json`) 全面實裝
-  * [x] 新手村 `/d/village/` 房間地圖集 (10間核心房間) 與具體 LPC 腳本實作
-  * [x] 世界動態狀態守護進程 (`WORLD_STATE_D`)、史前奇遇守護 (`MYSTERY_D`)、新手初級心法與三元動態恢復
-  * [ ] **近期規劃**：五大身世「世界驗證」任務分歧實作（同一任務依身世不同，開放不同解題線索與 NPC 互動）
-  * [ ] **近期規劃**：戰鬥守護進程 (`COMBAT_D`) 實裝（三角生剋公式、氣血狂潮打斷、機關消耗與佈陣邏輯）
-  * [ ] **中遠期規劃**：Tier 1 區域城鄉網絡地圖集 (`/d/city/`)、專業資格認證轉職與五大任務模組實裝
+  * [x] 新手聚落立體地形（黑石鋪 `/d/village/` 13 間核心房間）與三大鏈式 NPC 任務循環（第 4.3 節）
+  * [x] 宣告式 JSON 任務架構與狀態機引擎 (`QUEST_ENGINE_D` + `/quests/*.json` 共 37 條任務鏈) 全面實裝
+  * [x] 世界動態狀態守護進程 (`WORLD_STATE_D`)、事件時間軸 (`EVENT_MANAGER_D`)、史前奇遇守護 (`MYSTERY_D`)、動態相位 (`PHASE_D`)
+  * [x] 戰鬥守護進程 (`COMBAT_D`) 實裝（三角生剋公式、氣血狂潮打斷、機關消耗與佈陣邏輯）
+  * [x] Tier 1 區域城鄉網絡地圖集（全境 187 間房：金石府城 `/d/city/` 67 間房、六大外縣 `/d/counties/` 85 間房、官道山徑 `/d/routes/` 22 間房）、路引制度 (`CITY_D`) 與遠行事件 (`TRAVEL_D`) 全面實裝
+  * [ ] **中遠期規劃**：Tier 2 名山大派與雲津萬山商埠地圖集 (`/d/sects/`、`/d/yunjin/`) 及二階內外門晉升機制實裝
   * [ ] **架構演進**：Web 端現代化 IDE（整合 Monaco Editor，以 `edit_file` / `save_file` 協定連動 Driver 熱重載）
 
 ### 1.3 核心架構四層模型 (The Four-Layer Architecture)
@@ -668,7 +666,7 @@ Tier 1 不是「Tier 0 的高等級版」，也不是升級換皮的數值灌水
   基礎生計與身世入口）         地方規矩）
 ```
 
-* **三層空間職能（六大次級縣城與十二新手村詳細全景請參閱 [`docs/tier1_regional_network_and_career_spec.md`](file:///home/wade/src/github/mudscript/forgotten-space/docs/tier1_regional_network_and_career_spec.md)）**：
+* **三層空間職能（六大次級縣城與十二新手村詳細全景請參閱 [`docs/tier1_regional_network_and_career_spec.md`](file:///home/wade/src/github/mudscript/forgotten-space/narrative/docs/tier1_regional_network_and_career_spec.md)）**：
   * **區域主城（金石府城）**：承擔跨縣城協調、主要大宗交易、流派交流與區域公共事件。有城主但非皇帝；官方組織負責公共設施、治安與秩序維持，受地方勢力與居民利益實質制約。
   * **六大次級縣城**：生活與生產的核心節點。各自具備獨特的地方傳統與產業分工：
     1. **青河縣**（草藥水網、藥圃集散，轄下新手村：**蘆花渡**、**百草坪**）；
@@ -1042,10 +1040,11 @@ graph TD
   * **【物】行會工坊與百草堂**：天工百工行會、冶煉爐房、採百草堂、窯坊（物性分析、基礎鍛造、採藥製劑與機巧組裝）。
   * **商旅工商業網絡**：金石商會總分堂、車馬棧房、暗巷黑市、茶樓聽風閣（物資流通、信用借貸、非正式情報與失落古物交易）。
 
-### 5.2 Tier 2 名門名山大派 (二階深造)
-* **【法宗大派】紫霄道宮 (暫定)**：以符籙天雷、御劍乘風見長，講求代天行道。
-* **【力宗大派】霸王崩山宗 (暫定)**：以血氣化罡、肉身硬撼神兵見長，講求唯我獨尊。
-* **【物宗大派】千機百巧門 (暫定)**：以機關獸、靈能火器、重樓陣圖見長，講求人巧奪天。
+### 5.2 Tier 2 名門名山大派與仙集商埠 (二階深造)
+* **【法宗大派】太清玄天宮（古稱紫霄道宮）**：坐落北境雲頂絕峰，以觀星定數、符籙天雷、御劍乘風見長，講求順天借法、代天行道；門下分「周天星律」與「太清雷符」二脈，高階長老卻面臨神魂被假天規則同化之「道化結晶」隱憂。
+* **【力宗大派】八荒武山／八荒武宗（古號霸王崩山宗）**：盤踞北荒裂谷大黑山，以血氣化罡、煞火淬骨、肉身硬撼神兵與荒獸見長，講求一力破萬法；門下駐守北荒裂谷防線，高階武修卻深陷「氣血如爐、五臟乾涸」之折壽死結。
+* **【物宗大派】千機百巧門（下轄「天工閣」與「丹鼎宗」兩大主脈）**：依傍萬仞天工山火脈而建，分為專精重型機關獸、地火百煉與重樓陣圖的器道主脈**【天工閣】**，以及專司靈草百毒、地肺丹火與生機改造的藥道主脈**【丹鼎宗】**，講求人巧奪天；然極度依賴罕見外物與地煞血精，易陷「心為物役、靈樞反噬」之危。
+* **【山門樞紐】雲津仙集（萬山商埠）**：位於三大名山交匯處的雲海峽谷自由商埠，為凡俗跨州行商、名山外門採買、黑市情報與上古遺物交易的咽喉之地，由持「跨州行商總勘合」的各大商號與名山執事共同維持脆弱平衡。
 
 ### 5.3 Tier 3 異界古老教派 (三階巨擘)
 * **【太虛神宮】**：掌控桃花源天界秩序的純法古神遺脈。
@@ -1066,12 +1065,12 @@ graph TD
 * **核心人物檔案 (Character Profiles)** ➔ 請參閱 [`narrative/character_profiles.md`](file:///home/wade/src/github/mudscript/forgotten-space/narrative/character_profiles.md)  
   包含五重視角核心主角（顧玄、林鐵生、燕隼、柳清虛、沈泥）深度設定、理解世界方式、關鍵引路導師（葛半仙、阿鐵、趙老獵、枯木老道、莫三）與重要配角群像（蘇凝霜、魯大山、老李頭、木匠老陳、胡百戶、趙德貴、陳鎮山等）。
 
-* **小說大綱與章節規劃 (Novel Outline)** ➔ 請參閱 [`narrative/novel_outline.md`](file:///home/wade/src/github/mudscript/forgotten-space/narrative/novel_outline.md) 與 [`narrative/volume1.md`](file:///home/wade/src/github/mudscript/forgotten-space/narrative/volume1.md)  
-  包含第一卷【黑石驚蟄】全 38 章五幕式宏大架構（第 1 ~ 38 章全卷已圓滿完結）、第二卷【金石風雲】（Tier 1 府城篇）主線規劃，以及跨卷修煉空間晉升藍圖。
+* **小說大綱與章節規劃 (Novel Outline)** ➔ 請參閱 [`narrative/novel_outline.md`](file:///home/wade/src/github/mudscript/forgotten-space/narrative/novel_outline.md)、[`narrative/volume1.md`](file:///home/wade/src/github/mudscript/forgotten-space/narrative/volume1.md)、[`narrative/volume2.md`](file:///home/wade/src/github/mudscript/forgotten-space/narrative/volume2.md) 與 [`narrative/volume3.md`](file:///home/wade/src/github/mudscript/forgotten-space/narrative/volume3.md)  
+  包含第一卷【黑石驚蟄】全 38 章（已完結）、第二卷【金石風雲】全 44 章（已完結）、第三卷【名山問道】全 44 章五幕大綱，以及跨卷修煉空間晉升藍圖。
 
 * **Mudlib LPC 機制與專案目錄架構映射 (Mudlib LPC Mapping)** ➔ 請參閱 [`narrative/mudlib_lpc_mapping.md`](file:///home/wade/src/github/mudscript/forgotten-space/narrative/mudlib_lpc_mapping.md)  
   包含四層架構目錄藍圖（`world/`, `d/`, `std/`, `daemon/`, `narrative/`）、LPC 核心類別映射表、宣告式任務狀態機引擎 (`QUEST_ENGINE_D` + `/quests/*.json`) 與戰鬥守護進程 (`COMBAT_D`) 實裝規範。
 
-* **Tier 1 區域生活網絡、次級縣城拓撲與一階道途規範書** ➔ 請參閱 [`docs/tier1_regional_network_and_career_spec.md`](file:///home/wade/src/github/mudscript/forgotten-space/docs/tier1_regional_network_and_career_spec.md)  
+* **Tier 1 區域生活網絡、次級縣城拓撲與一階道途規範書** ➔ 請參閱 [`narrative/docs/tier1_regional_network_and_career_spec.md`](file:///home/wade/src/github/mudscript/forgotten-space/narrative/docs/tier1_regional_network_and_career_spec.md)  
   包含六大次級縣城與十二新手村地理拓撲、生活網絡事件持續性三層規範、金石都城 `/d/city/` 房間架構、三大一階門派（清虛道壇、八方武館、天工行會）完整技能樹與轉職 JSON 規格，以及五大主角偏科補足與邊界矩陣。
 

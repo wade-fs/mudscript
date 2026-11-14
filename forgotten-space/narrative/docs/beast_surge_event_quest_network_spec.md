@@ -2,7 +2,7 @@
 # (World Event Quest Network Specification: The Great Wilderness Fiend Surge)
 
 > **文件定位**：MUD 引擎與小說共用之事件型任務網（World Event Quest Network）架構設計規格書。  
-> **關聯系統**：[`forgotten-space/quests/`](file:///home/wade/src/github/mudscript/forgotten-space/quests/), [`village_crisis_ledger.md`](file:///home/wade/src/github/mudscript/forgotten-space/narrative/village_crisis_ledger.md), [`ch19_38_planning_and_guidelines.md`](file:///home/wade/src/github/mudscript/forgotten-space/narrative/ch19_38_planning_and_guidelines.md)  
+> **關聯系統**：[`forgotten-space/quests/`](file:///home/wade/src/github/mudscript/forgotten-space/quests/), [`village_crisis_ledger.md`](file:///home/wade/src/github/mudscript/forgotten-space/narrative/village_crisis_ledger.md), [`volume1.md`](file:///home/wade/src/github/mudscript/forgotten-space/narrative/volume1.md)  
 > **核心哲學**：**任務不是世界的因果本身，而是玩家介入世界因果的入口。**
 
 ---

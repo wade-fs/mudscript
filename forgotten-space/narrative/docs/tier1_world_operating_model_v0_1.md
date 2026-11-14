@@ -1,6 +1,6 @@
 # 《遺忘的世界》Tier 1 世界運作模型 v0.1 (World Operating Model v0.1)
 
-> **文件定位**：回應 [《遺忘的世界》跨系統第一輪審核](file:///home/wade/src/github/mudscript/forgotten-space/docs/forgotten_space_first_pass_audit.md) 第五節之七大工作包與第七節指定交付物。本文件鎖定**設定狀態分層、唯一交通路網、權力與管轄邊界、證據狀態五欄模型、角色能力五欄分離表、第二卷四節點壓力測試規則、以及最小可玩切片驗證基準**，作為後續劇情推演與 Mudlib 實作的唯一底層規則骨架。
+> **文件定位**：回應 [《遺忘的世界》跨系統第一輪審核](file:///home/wade/src/github/mudscript/forgotten-space/narrative/docs/forgotten_space_first_pass_audit.md) 第五節之七大工作包與第七節指定交付物。本文件鎖定**設定狀態分層、唯一交通路網、權力與管轄邊界、證據狀態五欄模型、角色能力五欄分離表、第二卷四節點壓力測試規則、以及最小可玩切片驗證基準**，作為後續劇情推演與 Mudlib 實作的唯一底層規則骨架。
 
 ---
 
@@ -173,7 +173,7 @@
 
 ### 7.1 切片結構：黑石鋪 → 盤木／府城路網 → 公共事件與證據會審
 本模型已在 Mudlib 引擎中完成最小可玩切片落地與自動化驗證，確保「任務進度、證據證明力、地方 30 天時間線、角色五維能力」四者完全解耦：
-1. **起點聚落（黑石鋪 `/d/blackstone/*`）**：35 間雙向連通房間，具備礦坑深井、村鎮生活與離村後持續運轉的 30 天演化狀態（`WORLD_STATE_D->advance_county_day("blackstone", days)`）。
+1. **起點聚落（黑石鋪 `/d/village/*.c`）**：13 間核心雙向連通房間（連通雙路出關山徑 `/d/routes/` 22 間、六大外縣 `/d/counties/` 85 間與金石都城 `/d/city/` 67 間，全境共 187 間房），具備礦坑深井、村鎮生活與離村後持續運轉的 30 天演化狀態（`WORLD_STATE_D->advance_county_day("blackstone", days)`）。
 2. **路網與縣城節點（`CITY_D->query_route_segment` & `WORLD_STATE_D`）**：12 條標準路段（含 `one_way` 與 `canon_status`）及六縣無主角介入之 30 天四階段自主演進（Day 1–7 潛伏、Day 8–15 惡化、Day 16–23 爆發、Day 24–30 地方自救妥協與次生後遺症）。
 3. **公共事件與制度博弈（`CITY_D` & `SKILL_D`）**：
    - **72 小時立籍與三緩衝路徑**：`CITY_D->check_residency_mandate(who, hours)`。

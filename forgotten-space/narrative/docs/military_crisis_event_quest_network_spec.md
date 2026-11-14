@@ -2,7 +2,7 @@
 # (World Event Quest Network Specification: Black Stone Pass Military Crisis)
 
 > **文件定位**：MUD 引擎與小說共用之「第二階段：黑石關軍事危機」事件型任務網（World Event Quest Network）架構設計規格書。  
-> **關聯系統**：[`forgotten-space/docs/beast_surge_event_quest_network_spec.md`](file:///home/wade/src/github/mudscript/forgotten-space/docs/beast_surge_event_quest_network_spec.md), [`ch19_38_planning_and_guidelines.md`](file:///home/wade/src/github/mudscript/forgotten-space/narrative/ch19_38_planning_and_guidelines.md), [`village_crisis_ledger.md`](file:///home/wade/src/github/mudscript/forgotten-space/narrative/village_crisis_ledger.md)  
+> **關聯系統**：[`beast_surge_event_quest_network_spec.md`](file:///home/wade/src/github/mudscript/forgotten-space/narrative/docs/beast_surge_event_quest_network_spec.md), [`volume1.md`](file:///home/wade/src/github/mudscript/forgotten-space/narrative/volume1.md), [`village_crisis_ledger.md`](file:///home/wade/src/github/mudscript/forgotten-space/narrative/village_crisis_ledger.md)  
 > **核心命題**：**核心問題不是如何打敗三千官軍，而是如何讓一支奉命而來、掌握武力、內部立場卻不一致的軍隊，無法輕易地把黑石鋪定性為叛亂並加以摧毀。**
 
 ---
