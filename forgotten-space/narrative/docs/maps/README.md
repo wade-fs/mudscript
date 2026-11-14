@@ -118,3 +118,12 @@ flowchart TD
 2. **絕靈法網防衛 (Spirit-Sealing Grid)**：
    - 都城市井行政及核心區域受官府法網全面覆蓋，壓制未經報備的高階法術爆發。
    - 地下暗渠、城外荒郊與亂葬塚則位於法網死角之外，不受官府壓制。
+
+
+---
+
+## Tier 2 名山疆域（第三卷）
+
+第三卷地圖草案集中於 [`tier2/`](tier2/README.md)，包含太清玄天宮、八荒武山、天工閣、丹鼎宗、雲津仙集及北荒裂谷。此組地圖是小說與 MUD 共用的邏輯拓撲提案，尚未與 LPC 房間實作對照，也尚未通過 BFS／雙向可逆性測試。
+
+**路徑決策提醒**：`world_setting.md` 既有 Tier 2 根目錄記載為 `/d/mountain/`；第三卷大綱曾提出 `/d/sects/`、`/d/yunjin/`、`/d/wastes/` 作分區。第一階段先保留邏輯區域與建議 room ID，第二階段需選定實際根目錄並一次同步更新此地圖集、`world_setting.md`、`mudlib_lpc_mapping.md` 與 LPC 路由。
