@@ -1,0 +1,50 @@
+{
+  "id": "v3_bahuang_bloodline_watch",
+  "name": "八荒巡防：傷兵、血丹與走山舊案",
+  "category": "main",
+  "type": "once",
+  "start_npc": "lei_lie",
+  "start_topic": "巡防",
+  "steps": [
+    {
+      "step": 1,
+      "title": "巡查傷兵症狀",
+      "hint": "向杜青禾了解黑山營傷兵的症狀與既有病史。",
+      "target_type": "talk",
+      "target_npc": "du_qinghe",
+      "target_topic": "傷兵",
+      "location": "/d/sects/bahuang/medical_yard.c",
+      "on_complete": {
+        "msg": "症狀被記錄，但不能直接歸因於血精。"
+      }
+    },
+    {
+      "step": 2,
+      "title": "核對夜間藥丸",
+      "hint": "向雷烈詢問前線藥丸的配發來源與使用紀錄。",
+      "target_type": "talk",
+      "target_npc": "lei_lie",
+      "target_topic": "藥丸",
+      "location": "/d/sects/bahuang/black_mountain_camp.c",
+      "on_complete": {
+        "msg": "雷烈只確認部分傷兵使用不明藥丸，拒絕以傳聞定罪。"
+      }
+    },
+    {
+      "step": 3,
+      "title": "調閱走山隊軍需副本",
+      "hint": "向祁無傷查詢五年前走山隊的軍需與撤離紀錄。",
+      "target_type": "talk",
+      "target_npc": "qi_wushang",
+      "target_topic": "走山隊",
+      "location": "/d/sects/bahuang/black_mountain_camp.c",
+      "on_complete": {
+        "msg": "取得可供比對的軍需副本，燕山生死仍未確認。"
+      }
+    }
+  ],
+  "rewards": {
+    "exp": 850,
+    "pot": 250
+  }
+}

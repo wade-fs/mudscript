@@ -1,0 +1,50 @@
+{
+  "id": "v3_ark_excavation_evidence",
+  "name": "母脈盜掘：阻止方舟陣基失衡",
+  "category": "main",
+  "type": "once",
+  "start_npc": "wenjiu",
+  "start_topic": "盜掘",
+  "steps": [
+    {
+      "step": 1,
+      "title": "確認鑽山傀儡批次",
+      "hint": "向聞九查驗鑽山傀儡的工造批次。",
+      "target_type": "talk",
+      "target_npc": "wenjiu",
+      "target_topic": "傀儡批次",
+      "location": "/d/wastes/ark_foundation.c",
+      "on_complete": {
+        "msg": "傀儡批次與天工閣工造紀錄出現關聯，命令來源未明。"
+      }
+    },
+    {
+      "step": 2,
+      "title": "記錄母脈壓力變化",
+      "hint": "向白岩提交地脈壓力與樣本紀錄。",
+      "target_type": "talk",
+      "target_npc": "bai_yan",
+      "target_topic": "母脈壓力",
+      "location": "/d/wastes/ark_foundation.c",
+      "on_complete": {
+        "msg": "母脈壓力異常被記錄，仍需查明操作者與授權鏈。"
+      }
+    },
+    {
+      "step": 3,
+      "title": "封存現場物證",
+      "hint": "向韓素登錄工具痕跡與現場物證。",
+      "target_type": "talk",
+      "target_npc": "han_su",
+      "target_topic": "物證封存",
+      "location": "/d/wastes/black_ice_gorge.c",
+      "on_complete": {
+        "msg": "物證完成編號與封存，避免只依死士口供定案。"
+      }
+    }
+  ],
+  "rewards": {
+    "exp": 900,
+    "pot": 280
+  }
+}

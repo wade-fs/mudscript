@@ -1,0 +1,87 @@
+{
+  "id": "v3_crystal_quarantine_response",
+  "name": "晶化毒域：撤離、隔離與病患救援",
+  "category": "event",
+  "type": "event_quest",
+  "start_npc": "sun_wenlu",
+  "start_topic": "毒域應變",
+  "world_event": "tier2_crisis",
+  "deadline_stage": "T0",
+  "valid_stages": [
+    "T0",
+    "T+1"
+  ],
+  "steps": [
+    {
+      "step": 1,
+      "title": "劃定隔離區",
+      "hint": "向孫聞露確認患者分區與隔離規則。",
+      "target_type": "talk",
+      "target_npc": "sun_wenlu",
+      "target_topic": "隔離區",
+      "location": "/d/sects/danding/medical_hall.c"
+    },
+    {
+      "step": 2,
+      "title": "維持撤離通道",
+      "hint": "向杜青禾回報傷患與撤離通道狀態。",
+      "target_type": "talk",
+      "target_npc": "du_qinghe",
+      "target_topic": "撤離通道",
+      "location": "/d/sects/bahuang/medical_yard.c"
+    },
+    {
+      "step": 3,
+      "title": "提交樣本與照護紀錄",
+      "hint": "向顧玄提交樣本編號與照護紀錄。",
+      "target_type": "talk",
+      "target_npc": "sun_wenlu",
+      "target_topic": "照護紀錄",
+      "location": "/d/sects/danding/medical_hall.c"
+    }
+  ],
+  "event_outcomes": {
+    "success": {
+      "status": "success",
+      "deltas": {
+        "settlement_resilience": 2,
+        "civilian_trust": 1,
+        "evidence_verifiability": 1
+      },
+      "facts": {
+        "autopsy_performed": 1
+      },
+      "evidence": {
+        "id": "v3_quarantine_records",
+        "name": "晶化毒域分區與病患照護紀錄",
+        "strength": 2,
+        "source_type": "medical_record",
+        "verified": 1
+      },
+      "message": "隔離區與撤離通道維持運作，樣本和照護紀錄可供後續追蹤。"
+    },
+    "partial": {
+      "status": "partial",
+      "deltas": {
+        "settlement_resilience": 1
+      },
+      "facts": {},
+      "message": "部分病患完成轉移，但隔離與照護資源不足。"
+    },
+    "failure": {
+      "status": "failure",
+      "deltas": {
+        "settlement_resilience": -2,
+        "civilian_trust": -1
+      },
+      "facts": {},
+      "message": "隔離與撤離未能及時完成，傷患與救援者承受額外風險。"
+    }
+  },
+  "rewards": {
+    "exp": 700,
+    "pot": 220
+  },
+  "eval_metric": "settlement_resilience",
+  "eval_min_for_success": 2
+}

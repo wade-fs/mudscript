@@ -1,0 +1,50 @@
+{
+  "id": "v3_taiqing_star_archive",
+  "name": "太清星律：原始星圖與修訂本",
+  "category": "main",
+  "type": "once",
+  "start_npc": "song_zhiwei",
+  "start_topic": "星圖校讀",
+  "steps": [
+    {
+      "step": 1,
+      "title": "取得星圖校讀差事",
+      "hint": "向宋知微申領舊星圖校讀差事。",
+      "target_type": "talk",
+      "target_npc": "song_zhiwei",
+      "target_topic": "星圖校讀",
+      "location": "/d/sects/taiqing/star_law_hall.c",
+      "on_complete": {
+        "msg": "柳清虛取得有限度的檔案校讀權。"
+      }
+    },
+    {
+      "step": 2,
+      "title": "比對藏星秘閣檔案",
+      "hint": "向余守拙查閱不同年代的原始星圖與修訂本。",
+      "target_type": "talk",
+      "target_npc": "yu_shouzhuo",
+      "target_topic": "原始星圖",
+      "location": "/d/sects/taiqing/hidden_archive.c",
+      "on_complete": {
+        "msg": "你確認多份星圖存在修訂差異，但修訂原因尚未查明。"
+      }
+    },
+    {
+      "step": 3,
+      "title": "保存異常觀測紀錄",
+      "hint": "向陸觀瀾提交歲差計算與差異清單。",
+      "target_type": "talk",
+      "target_npc": "lu_guanlan",
+      "target_topic": "歲差",
+      "location": "/d/sects/taiqing/star_law_hall.c",
+      "on_complete": {
+        "msg": "差異清單被封存為可供後續交叉驗證的線索。"
+      }
+    }
+  ],
+  "rewards": {
+    "exp": 700,
+    "pot": 200
+  }
+}

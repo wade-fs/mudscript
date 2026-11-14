@@ -1,0 +1,50 @@
+{
+  "id": "v3_postwar_reform_and_restitution",
+  "name": "雲津新約：封存、補償與共同治理",
+  "category": "main",
+  "type": "once",
+  "start_npc": "luo_jiucheng",
+  "start_topic": "新約",
+  "steps": [
+    {
+      "step": 1,
+      "title": "登錄停採與封爐決議",
+      "hint": "向羅九秤登錄三宗暫停採掘與封存丹爐決議。",
+      "target_type": "talk",
+      "target_npc": "luo_jiucheng",
+      "target_topic": "停採",
+      "location": "/d/yunjin/hearing_hall.c",
+      "on_complete": {
+        "msg": "相關作業暫停，仍須處理前線替代資源。"
+      }
+    },
+    {
+      "step": 2,
+      "title": "建立受害者補償名冊",
+      "hint": "向韓素提交失蹤者、傷兵與受害者資料。",
+      "target_type": "talk",
+      "target_npc": "han_su",
+      "target_topic": "補償名冊",
+      "location": "/d/wastes/missing_families_hall.c",
+      "on_complete": {
+        "msg": "補償名冊開始建立，失蹤者不得直接登記為死亡。"
+      }
+    },
+    {
+      "step": 3,
+      "title": "成立商戶共同治理席",
+      "hint": "向邱禾提交多商號共同承運與查帳方案。",
+      "target_type": "talk",
+      "target_npc": "qiu_he",
+      "target_topic": "共同治理",
+      "location": "/d/yunjin/mudway_store.c",
+      "on_complete": {
+        "msg": "雲津臨時互市協約成立，泥途總號不取得獨占治理權。"
+      }
+    }
+  ],
+  "rewards": {
+    "exp": 900,
+    "pot": 300
+  }
+}

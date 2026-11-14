@@ -1,0 +1,50 @@
+{
+  "id": "v3_danding_blood_pill_cases",
+  "name": "丹鼎病案：延命丹與血精疑雲",
+  "category": "main",
+  "type": "once",
+  "start_npc": "sun_wenlu",
+  "start_topic": "病案",
+  "steps": [
+    {
+      "step": 1,
+      "title": "核對藥田異常批次",
+      "hint": "向葉青枝查詢藥田與水渠異常批次。",
+      "target_type": "talk",
+      "target_npc": "ye_qingzhi",
+      "target_topic": "藥田",
+      "location": "/d/sects/danding/herb_garden.c",
+      "on_complete": {
+        "msg": "藥田異常被分批採樣，污染來源尚未確定。"
+      }
+    },
+    {
+      "step": 2,
+      "title": "比對廢丹與病例",
+      "hint": "向孫聞露調閱病案、爐次與廢丹批號。",
+      "target_type": "talk",
+      "target_npc": "sun_wenlu",
+      "target_topic": "病案",
+      "location": "/d/sects/danding/medical_hall.c",
+      "on_complete": {
+        "msg": "病例與批次出現關聯疑點，尚需獨立樣本驗證。"
+      }
+    },
+    {
+      "step": 3,
+      "title": "保存病理樣本",
+      "hint": "向陶生確認廢丹回收批次與封存位置。",
+      "target_type": "talk",
+      "target_npc": "tao_sheng",
+      "target_topic": "封存",
+      "location": "/d/sects/danding/discarded_cliff.c",
+      "on_complete": {
+        "msg": "取得樣本來源紀錄，不能單憑藥渣推定所有長老成癮。"
+      }
+    }
+  ],
+  "rewards": {
+    "exp": 850,
+    "pot": 260
+  }
+}

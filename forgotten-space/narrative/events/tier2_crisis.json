@@ -1,0 +1,121 @@
+{
+  "id": "tier2_crisis",
+  "name": "Tier 2 北荒與三宗危機",
+  "version": 1,
+  "stages": [
+    {
+      "id": "T-2",
+      "name": "異常線索匯集",
+      "desc": "三宗與北荒出現星曆、藥田、機件及獸群異常。",
+      "duration": 0,
+      "duration_unit": "game_minutes",
+      "time_cost_impact": {}
+    },
+    {
+      "id": "T-1",
+      "name": "北荒勘探與盜掘升高",
+      "desc": "勘探隊進入北荒，母脈壓力與私盟活動升高。",
+      "duration": 0,
+      "duration_unit": "game_minutes",
+      "time_cost_impact": {}
+    },
+    {
+      "id": "T0",
+      "name": "雲頂質證與道化急變",
+      "desc": "公開質證、長老道化與撤離危機同時發生。",
+      "duration": 0,
+      "duration_unit": "game_minutes",
+      "time_cost_impact": {}
+    },
+    {
+      "id": "T+1",
+      "name": "北荒獸潮與三元鎮脈",
+      "desc": "獸潮壓迫長城，三元協作進行有限鎮脈。",
+      "duration": 0,
+      "duration_unit": "game_minutes",
+      "time_cost_impact": {}
+    },
+    {
+      "id": "T+2",
+      "name": "戰後改革與洞天準備",
+      "desc": "危機受控後進入改革、修復與單向古陣準備。",
+      "duration": 0,
+      "duration_unit": "game_minutes",
+      "time_cost_impact": {}
+    }
+  ],
+  "metrics": {
+    "herd_pressure": {
+      "min": 0,
+      "max": 5,
+      "default": 0,
+      "desc": "herd_pressure"
+    },
+    "route_confidence": {
+      "min": 0,
+      "max": 5,
+      "default": 0,
+      "desc": "route_confidence"
+    },
+    "diversion_effect": {
+      "min": 0,
+      "max": 5,
+      "default": 0,
+      "desc": "diversion_effect"
+    },
+    "settlement_capacity": {
+      "min": 0,
+      "max": 5,
+      "default": 0,
+      "desc": "settlement_capacity"
+    },
+    "evidence_strength": {
+      "min": 0,
+      "max": 5,
+      "default": 0,
+      "desc": "evidence_strength"
+    },
+    "civilian_trust": {
+      "min": 0,
+      "max": 5,
+      "default": 2,
+      "desc": "civilian_trust"
+    },
+    "intel_confidence": {
+      "min": 0,
+      "max": 5,
+      "default": 0,
+      "desc": "intel_confidence"
+    },
+    "evidence_verifiability": {
+      "min": 0,
+      "max": 5,
+      "default": 1,
+      "desc": "evidence_verifiability"
+    },
+    "assault_cost": {
+      "min": 0,
+      "max": 5,
+      "default": 2,
+      "desc": "assault_cost"
+    },
+    "settlement_resilience": {
+      "min": 0,
+      "max": 5,
+      "default": 2,
+      "desc": "settlement_resilience"
+    }
+  },
+  "facts": {
+    "autopsy_performed": 0,
+    "sulfur_poisoning_found": 0,
+    "flight_direction_mapped": 0,
+    "diversion_ditch_dug": 0,
+    "cold_smoke_stock": 0,
+    "signal_arrows_ready": 0,
+    "merchant_fled": 0,
+    "merchant_supplies_looted": 0,
+    "canyon_road_destroyed": 0,
+    "residual_breach_occurred": 0
+  }
+}

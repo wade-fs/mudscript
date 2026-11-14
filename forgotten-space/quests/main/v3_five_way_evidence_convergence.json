@@ -1,0 +1,62 @@
+{
+  "id": "v3_five_way_evidence_convergence",
+  "name": "五方對帳：把線索變成可查證的證據",
+  "category": "main",
+  "type": "once",
+  "start_npc": "qiu_he",
+  "start_topic": "五方對帳",
+  "steps": [
+    {
+      "step": 1,
+      "title": "整理星曆差異",
+      "hint": "向余守拙提交太清星圖差異清單。",
+      "target_type": "talk",
+      "target_npc": "yu_shouzhuo",
+      "target_topic": "差異清單",
+      "location": "/d/sects/taiqing/hidden_archive.c",
+      "on_complete": {
+        "msg": "星曆線索進入跨線索對帳。"
+      }
+    },
+    {
+      "step": 2,
+      "title": "整理軍需與傷兵紀錄",
+      "hint": "向雷烈提交可核對的軍需副本與傷兵紀錄。",
+      "target_type": "talk",
+      "target_npc": "lei_lie",
+      "target_topic": "軍需對帳",
+      "location": "/d/sects/bahuang/black_mountain_camp.c",
+      "on_complete": {
+        "msg": "軍需記錄與症狀資料分開保存，尚未直接定罪。"
+      }
+    },
+    {
+      "step": 3,
+      "title": "整理丹藥批次與商帳",
+      "hint": "向邱禾提交商棧貨單與丹藥批次對照。",
+      "target_type": "talk",
+      "target_npc": "qiu_he",
+      "target_topic": "貨單對帳",
+      "location": "/d/yunjin/mudway_store.c",
+      "on_complete": {
+        "msg": "貨物流與藥物批次形成可追查關係，但供應鏈仍有缺口。"
+      }
+    },
+    {
+      "step": 4,
+      "title": "封存五方對帳副本",
+      "hint": "向顧蘭舟申請多方封存副本。",
+      "target_type": "talk",
+      "target_npc": "gu_lanzhou",
+      "target_topic": "封存副本",
+      "location": "/d/yunjin/exchange_hall.c",
+      "on_complete": {
+        "msg": "形成可交叉核驗的副本，不將推論直接升格為定論。"
+      }
+    }
+  ],
+  "rewards": {
+    "exp": 1000,
+    "pot": 300
+  }
+}

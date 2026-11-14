@@ -1,0 +1,90 @@
+{
+  "id": "v3_north_wall_beast_surge",
+  "name": "北荒獸潮：守關與撤離協同",
+  "category": "event",
+  "type": "event_quest",
+  "start_npc": "lei_lie",
+  "start_topic": "守關",
+  "world_event": "tier2_crisis",
+  "deadline_stage": "T+1",
+  "valid_stages": [
+    "T0",
+    "T+1"
+  ],
+  "steps": [
+    {
+      "step": 1,
+      "title": "確認防線分段",
+      "hint": "向雷烈確認黑山關防線分段與守軍輪替。",
+      "target_type": "talk",
+      "target_npc": "lei_lie",
+      "target_topic": "防線",
+      "location": "/d/sects/bahuang/black_mountain_camp.c"
+    },
+    {
+      "step": 2,
+      "title": "完成民間補給交接",
+      "hint": "向邱禾核對商隊補給與床弩物資交接。",
+      "target_type": "talk",
+      "target_npc": "qiu_he",
+      "target_topic": "補給",
+      "location": "/d/yunjin/mudway_store.c"
+    },
+    {
+      "step": 3,
+      "title": "回報撤離與關門狀態",
+      "hint": "向祁十六回報撤離隊伍與關門狀態。",
+      "target_type": "talk",
+      "target_npc": "qi_shiliu",
+      "target_topic": "撤離",
+      "location": "/d/wastes/black_mountain_pass.c"
+    }
+  ],
+  "event_outcomes": {
+    "success": {
+      "status": "success",
+      "deltas": {
+        "settlement_resilience": 2,
+        "civilian_trust": 1,
+        "assault_cost": 1
+      },
+      "facts": {
+        "signal_arrows_ready": 1
+      },
+      "evidence": {
+        "id": "v3_defense_dispatch_log",
+        "name": "黑山關防線輪替與補給交接紀錄",
+        "strength": 1,
+        "source_type": "military_logistics",
+        "verified": 1
+      },
+      "message": "防線、補給與撤離完成協同，仍有局部失守與傷亡。"
+    },
+    "partial": {
+      "status": "partial",
+      "deltas": {
+        "settlement_resilience": 1,
+        "assault_cost": 1
+      },
+      "facts": {},
+      "message": "部分防線與補給完成協同，撤離仍有缺口。"
+    },
+    "failure": {
+      "status": "failure",
+      "deltas": {
+        "settlement_resilience": -2,
+        "assault_cost": -1
+      },
+      "facts": {
+        "residual_breach_occurred": 1
+      },
+      "message": "關防協同失敗，局部防線失守擴大。"
+    }
+  },
+  "rewards": {
+    "exp": 850,
+    "pot": 260
+  },
+  "eval_metric": "settlement_resilience",
+  "eval_min_for_success": 3
+}

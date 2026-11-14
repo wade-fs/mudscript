@@ -1,0 +1,62 @@
+{
+  "id": "v3_north_wastes_expedition",
+  "name": "北荒勘探：走山隊與方舟陣基",
+  "category": "main",
+  "type": "once",
+  "start_npc": "qi_shiliu",
+  "start_topic": "勘探隊",
+  "steps": [
+    {
+      "step": 1,
+      "title": "報到聯合勘探隊",
+      "hint": "向祁十六報到並確認隊伍分工。",
+      "target_type": "talk",
+      "target_npc": "qi_shiliu",
+      "target_topic": "勘探隊",
+      "location": "/d/wastes/expedition_camp.c",
+      "on_complete": {
+        "msg": "勘探隊成行，各方任務與私下目的並不完全相同。"
+      }
+    },
+    {
+      "step": 2,
+      "title": "調查永凍血原獸跡",
+      "hint": "向穆雪回報獸跡、風向與補給風險。",
+      "target_type": "talk",
+      "target_npc": "mu_xue",
+      "target_topic": "獸跡",
+      "location": "/d/wastes/frozen_blood_plain.c",
+      "on_complete": {
+        "msg": "獸群遷徙與地脈異常存在關聯疑點。"
+      }
+    },
+    {
+      "step": 3,
+      "title": "查驗黑冰斷谷遺址",
+      "hint": "向韓素登錄走山隊遺物與失蹤名冊。",
+      "target_type": "talk",
+      "target_npc": "han_su",
+      "target_topic": "遺址",
+      "location": "/d/wastes/black_ice_gorge.c",
+      "on_complete": {
+        "msg": "燕家箭記與走山隊物證被分別編號，燕山生死未定。"
+      }
+    },
+    {
+      "step": 4,
+      "title": "勘驗方舟陣基",
+      "hint": "向白岩提交陣基附近樣本與觀測紀錄。",
+      "target_type": "talk",
+      "target_npc": "bai_yan",
+      "target_topic": "陣基",
+      "location": "/d/wastes/ark_foundation.c",
+      "on_complete": {
+        "msg": "取得方舟陣基初步勘驗資料，完整用途尚未解明。"
+      }
+    }
+  ],
+  "rewards": {
+    "exp": 1200,
+    "pot": 350
+  }
+}

@@ -1,0 +1,125 @@
+{
+  "id": "v3_five_relic_resonance",
+  "name": "五器再鳴：方舟殘篇與九城舊約",
+  "category": "epic",
+  "type": "stage_chain",
+  "total_stages": 3,
+  "stages": [
+    {
+      "stage": 1,
+      "title": "五器殘響",
+      "region": "wastes",
+      "region_name": "北荒",
+      "required_level": 55,
+      "status_on_finish": "dormant",
+      "finish_desc": "五件遺物各自提供不完整的訊號；影像仍有缺頁與缺聲。",
+      "next_region_hint": "北荒方舟艙段",
+      "steps": [
+        {
+          "step": 1,
+          "title": "校準五器訊號",
+          "hint": "向宋知微提交星象與五器共鳴紀錄。",
+          "target_type": "talk",
+          "target_npc": "song_zhiwei",
+          "target_topic": "五器訊號",
+          "location": "/d/wastes/ark_foundation.c",
+          "on_complete": {
+            "msg": "五器訊號完成初步校準，不能由此推知完整歷史。"
+          }
+        },
+        {
+          "step": 2,
+          "title": "核對黑鐵結構",
+          "hint": "向季衡提交機件結構測繪。",
+          "target_type": "talk",
+          "target_npc": "ji_heng",
+          "target_topic": "黑鐵結構",
+          "location": "/d/wastes/ark_foundation.c",
+          "on_complete": {
+            "msg": "結構資料顯示不同遺物可能對應不同功能槽位。"
+          }
+        }
+      ]
+    },
+    {
+      "stage": 2,
+      "title": "九城契版",
+      "region": "yunjin",
+      "region_name": "雲津",
+      "required_level": 60,
+      "status_on_finish": "dormant",
+      "finish_desc": "九城舊約資料顯示商盟曾負責後勤調度與契約驗證；法律效力仍待查核。",
+      "next_region_hint": "三宗祖庭",
+      "unlock_condition": {
+        "need_stage": 1,
+        "target_npc": "gu_lanzhou",
+        "target_topic": "九城契版"
+      },
+      "steps": [
+        {
+          "step": 1,
+          "title": "拼合契版記錄",
+          "hint": "向顧蘭舟比對契版與票號舊帳。",
+          "target_type": "talk",
+          "target_npc": "gu_lanzhou",
+          "target_topic": "九城契版",
+          "location": "/d/yunjin/exchange_hall.c",
+          "on_complete": {
+            "msg": "契版內容得到部分釋讀，沈泥的身世與舊盟責任仍未定論。"
+          }
+        },
+        {
+          "step": 2,
+          "title": "核對後勤契約",
+          "hint": "向鬼見愁查詢舊約的交易副本。",
+          "target_type": "talk",
+          "target_npc": "gui_jianchou",
+          "target_topic": "舊約",
+          "location": "/d/yunjin/ghost_market.c",
+          "on_complete": {
+            "msg": "取得另一來源副本，兩份資料仍需交叉校驗。"
+          }
+        }
+      ]
+    },
+    {
+      "stage": 3,
+      "title": "方舟主陣基",
+      "region": "wastes",
+      "region_name": "北荒",
+      "required_level": 65,
+      "status_on_finish": "completed",
+      "finish_desc": "五件遺物與九城契版共同完成一次有限驗證，方舟仍有大量未知。",
+      "unlock_condition": {
+        "need_stage": 2,
+        "target_npc": "qi_shiliu",
+        "target_topic": "主陣基"
+      },
+      "steps": [
+        {
+          "step": 1,
+          "title": "完成主陣基驗證",
+          "hint": "向祁十六回報五器與契版驗證結果。",
+          "target_type": "talk",
+          "target_npc": "qi_shiliu",
+          "target_topic": "主陣基",
+          "location": "/d/wastes/ark_core_chamber.c",
+          "on_complete": {
+            "msg": "方舟主陣基完成有限驗證，仍不能確認洞天安全或可返回。"
+          }
+        }
+      ],
+      "on_finish": {
+        "exp": 1800,
+        "pot": 500,
+        "msg": "【五器再鳴】取得方舟殘篇與九城契約的交叉資料。"
+      }
+    }
+  ],
+  "rewards": {
+    "exp": 1800,
+    "pot": 500
+  },
+  "start_npc": "song_zhiwei",
+  "start_topic": "五器訊號"
+}

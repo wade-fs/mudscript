@@ -1,0 +1,51 @@
+{
+  "id": "v3_northbound_and_yunjin_arrival",
+  "name": "北境行旅：八百里與雲津入市",
+  "category": "main",
+  "type": "once",
+  "start_npc": "mu_xue",
+  "start_topic": "北境行旅",
+  "steps": [
+    {
+      "step": 1,
+      "title": "北境退門者的口述",
+      "hint": "在北境官道驛站向穆雪了解退門者遭遇。",
+      "target_type": "talk",
+      "target_npc": "mu_xue",
+      "target_topic": "退門者",
+      "location": "/d/wastes/north_road/post_station.c",
+      "on_complete": {
+        "msg": "你記下退門者的經歷，但個人證言尚不足以代表整個宗門制度。"
+      }
+    },
+    {
+      "step": 2,
+      "title": "雲津入市登記",
+      "hint": "抵達雲津仙集，向羅九秤詢問新商號登記規則。",
+      "target_type": "talk",
+      "target_npc": "luo_jiucheng",
+      "target_topic": "登記",
+      "location": "/d/yunjin/public_office.c",
+      "on_complete": {
+        "msg": "羅九秤確認跨州信印不免除保證金與倉儲責任。"
+      }
+    },
+    {
+      "step": 3,
+      "title": "首批供貨試單",
+      "hint": "向何萬金談妥一筆可追溯來源的小額試單。",
+      "target_type": "talk",
+      "target_npc": "he_wanjin",
+      "target_topic": "試單",
+      "location": "/d/yunjin/wanbao_pavilion.c",
+      "on_complete": {
+        "msg": "沈泥以供貨紀錄取得試單，仍須承擔履約風險。"
+      }
+    }
+  ],
+  "rewards": {
+    "exp": 600,
+    "pot": 180,
+    "money": 300
+  }
+}

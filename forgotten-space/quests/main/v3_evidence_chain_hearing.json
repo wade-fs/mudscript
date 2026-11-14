@@ -1,0 +1,62 @@
+{
+  "id": "v3_evidence_chain_hearing",
+  "name": "雲頂質證：帳冊、病案與走山鐵證",
+  "category": "main",
+  "type": "once",
+  "start_npc": "luo_jiucheng",
+  "start_topic": "公開質證",
+  "steps": [
+    {
+      "step": 1,
+      "title": "提交九城契約與商帳",
+      "hint": "向羅九秤提交契版副本與商埠交割紀錄。",
+      "target_type": "talk",
+      "target_npc": "luo_jiucheng",
+      "target_topic": "商帳",
+      "location": "/d/yunjin/hearing_hall.c",
+      "on_complete": {
+        "msg": "商帳進入查核程序，票據本身不代表所有交易均違法。"
+      }
+    },
+    {
+      "step": 2,
+      "title": "提交走山隊軍需物證",
+      "hint": "向雷烈提交走山隊遺址物證與軍需副本。",
+      "target_type": "talk",
+      "target_npc": "lei_lie",
+      "target_topic": "走山物證",
+      "location": "/d/sects/bahuang/black_mountain_camp.c",
+      "on_complete": {
+        "msg": "走山隊撤離名單遭刪改的疑點進入公開核查。"
+      }
+    },
+    {
+      "step": 3,
+      "title": "提交血丹病理與批次紀錄",
+      "hint": "向孫聞露提交病案、丹渣與爐次對照。",
+      "target_type": "talk",
+      "target_npc": "sun_wenlu",
+      "target_topic": "病理證據",
+      "location": "/d/sects/danding/medical_hall.c",
+      "on_complete": {
+        "msg": "病理證據接受交叉檢驗，患者個體差異仍需保留。"
+      }
+    },
+    {
+      "step": 4,
+      "title": "提交方舟盜掘物證",
+      "hint": "向季衡提交傀儡批次與陣基損傷記錄。",
+      "target_type": "talk",
+      "target_npc": "ji_heng",
+      "target_topic": "盜掘物證",
+      "location": "/d/sects/tiangong/machine_vault.c",
+      "on_complete": {
+        "msg": "三宗成立查核程序，相關作業暫停但審理尚未結束。"
+      }
+    }
+  ],
+  "rewards": {
+    "exp": 1200,
+    "pot": 350
+  }
+}

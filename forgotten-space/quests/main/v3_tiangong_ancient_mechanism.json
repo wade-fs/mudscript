@@ -1,0 +1,50 @@
+{
+  "id": "v3_tiangong_ancient_mechanism",
+  "name": "天工地窟：不融黑鐵與巨靈神機",
+  "category": "main",
+  "type": "once",
+  "start_npc": "ji_heng",
+  "start_topic": "機件檢修",
+  "steps": [
+    {
+      "step": 1,
+      "title": "檢查巨靈神機傳動軸",
+      "hint": "向季衡申領巨靈神機維護工作。",
+      "target_type": "talk",
+      "target_npc": "ji_heng",
+      "target_topic": "維護",
+      "location": "/d/sects/tiangong/machine_vault.c",
+      "on_complete": {
+        "msg": "林鐵生獲准檢查部分傳動機件。"
+      }
+    },
+    {
+      "step": 2,
+      "title": "記錄異常脈衝",
+      "hint": "向聞九提交振動頻率與結構測繪紀錄。",
+      "target_type": "talk",
+      "target_npc": "wenjiu",
+      "target_topic": "脈衝",
+      "location": "/d/sects/tiangong/array_workshop.c",
+      "on_complete": {
+        "msg": "機件異常脈衝被記錄；母機用途仍屬推論。"
+      }
+    },
+    {
+      "step": 3,
+      "title": "要求停止未知晶柱試車",
+      "hint": "向魯長老提交風險評估。",
+      "target_type": "talk",
+      "target_npc": "lu_zhanglao",
+      "target_topic": "停機",
+      "location": "/d/sects/tiangong/machine_vault.c",
+      "on_complete": {
+        "msg": "天工閣內部對是否停機產生分歧。"
+      }
+    }
+  ],
+  "rewards": {
+    "exp": 750,
+    "pot": 220
+  }
+}

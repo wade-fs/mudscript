@@ -1,0 +1,94 @@
+{
+  "id": "v3_preserve_field_evidence",
+  "name": "北荒封存：現場物證與獨立來源保全",
+  "category": "event",
+  "type": "event_quest",
+  "start_npc": "han_su",
+  "start_topic": "物證封存",
+  "world_event": "tier2_crisis",
+  "deadline_stage": "T0",
+  "valid_stages": [
+    "T-1",
+    "T0"
+  ],
+  "steps": [
+    {
+      "step": 1,
+      "title": "為走山遺物編號",
+      "hint": "向韓素登錄走山隊遺物來源與發現位置。",
+      "target_type": "talk",
+      "target_npc": "han_su",
+      "target_topic": "遺物編號",
+      "location": "/d/wastes/black_ice_gorge.c",
+      "on_complete": {
+        "msg": "走山隊遺物逐件編號，來源與發現位置分開記錄。"
+      }
+    },
+    {
+      "step": 2,
+      "title": "封存陣基樣本",
+      "hint": "向白岩登錄方舟陣基樣本與採集人。",
+      "target_type": "talk",
+      "target_npc": "bai_yan",
+      "target_topic": "樣本封存",
+      "location": "/d/wastes/ark_foundation.c",
+      "on_complete": {
+        "msg": "陣基樣本完成封存，採集人與封存時間列入紀錄。"
+      }
+    },
+    {
+      "step": 3,
+      "title": "建立雙份保管副本",
+      "hint": "向顧蘭舟建立可追溯的雙份保管副本。",
+      "target_type": "talk",
+      "target_npc": "gu_lanzhou",
+      "target_topic": "雙份保管",
+      "location": "/d/yunjin/exchange_hall.c",
+      "on_complete": {
+        "msg": "物證保管鏈建立，副本由不同保管人分別保存。"
+      }
+    }
+  ],
+  "event_outcomes": {
+    "success": {
+      "status": "success",
+      "deltas": {
+        "evidence_verifiability": 1,
+        "evidence_strength": 1
+      },
+      "evidence": {
+        "id": "v3_field_evidence_chain",
+        "name": "走山遺物與方舟樣本雙份保管鏈",
+        "strength": 2,
+        "source_type": "field_evidence_chain",
+        "verified": 1
+      },
+      "message": "現場物證完成獨立編號與雙份保管，後續公開質證可追溯來源。"
+    },
+    "partial": {
+      "status": "partial",
+      "deltas": {
+        "evidence_verifiability": 1
+      },
+      "evidence": {
+        "id": "v3_field_evidence_partial",
+        "name": "未完成雙份保管的現場樣本紀錄",
+        "strength": 1,
+        "source_type": "field_evidence_chain",
+        "verified": 0
+      },
+      "message": "部分物證已登錄，但保管鏈尚不完整。"
+    },
+    "failure": {
+      "status": "failure",
+      "deltas": {
+        "civilian_trust": -1
+      },
+      "message": "物證未能在時限內妥善封存，公開質證將面臨來源爭議。"
+    }
+  },
+  "rewards": {
+    "exp": 450,
+    "pot": 120
+  }
+}

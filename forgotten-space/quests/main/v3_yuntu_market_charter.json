@@ -1,0 +1,51 @@
+{
+  "id": "v3_yuntu_market_charter",
+  "name": "泥途商棧：信用從第一筆貨單開始",
+  "category": "main",
+  "type": "once",
+  "start_npc": "luo_jiucheng",
+  "start_topic": "商棧登記",
+  "steps": [
+    {
+      "step": 1,
+      "title": "核對租約與保證金",
+      "hint": "向羅九秤核對貨棧租約、保證金與貨損責任。",
+      "target_type": "talk",
+      "target_npc": "luo_jiucheng",
+      "target_topic": "租約",
+      "location": "/d/yunjin/public_office.c",
+      "on_complete": {
+        "msg": "商棧取得登記資格，但保證金與貨損責任仍由沈泥承擔。"
+      }
+    },
+    {
+      "step": 2,
+      "title": "建立交割帳簿",
+      "hint": "向邱禾建立貨單、倉單與交割簽收制度。",
+      "target_type": "talk",
+      "target_npc": "qiu_he",
+      "target_topic": "帳簿",
+      "location": "/d/yunjin/mudway_store.c",
+      "on_complete": {
+        "msg": "泥途商棧建立第一套可追溯帳簿。"
+      }
+    },
+    {
+      "step": 3,
+      "title": "首次履約爭議",
+      "hint": "向顧蘭舟協商延誤貨物的票據與分批交割。",
+      "target_type": "talk",
+      "target_npc": "gu_lanzhou",
+      "target_topic": "履約",
+      "location": "/d/yunjin/exchange_hall.c",
+      "on_complete": {
+        "msg": "沈泥以賠償與分批履約維持信用，商棧資金因此承壓。"
+      }
+    }
+  ],
+  "rewards": {
+    "exp": 800,
+    "pot": 240,
+    "money": 500
+  }
+}

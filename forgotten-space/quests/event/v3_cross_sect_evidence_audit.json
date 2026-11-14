@@ -1,0 +1,94 @@
+{
+  "id": "v3_cross_sect_evidence_audit",
+  "name": "三宗查核：證據保管鏈與交叉驗證",
+  "category": "event",
+  "type": "event_quest",
+  "start_npc": "luo_jiucheng",
+  "start_topic": "查核席",
+  "world_event": "tier2_crisis",
+  "deadline_stage": "T0",
+  "valid_stages": [
+    "T-1",
+    "T0"
+  ],
+  "steps": [
+    {
+      "step": 1,
+      "title": "登錄第一來源",
+      "hint": "向羅九秤登錄商帳與契版副本。",
+      "target_type": "talk",
+      "target_npc": "luo_jiucheng",
+      "target_topic": "第一來源",
+      "location": "/d/yunjin/hearing_hall.c"
+    },
+    {
+      "step": 2,
+      "title": "登錄第二來源",
+      "hint": "向雷烈登錄走山隊軍需副本。",
+      "target_type": "talk",
+      "target_npc": "lei_lie",
+      "target_topic": "第二來源",
+      "location": "/d/sects/bahuang/black_mountain_camp.c"
+    },
+    {
+      "step": 3,
+      "title": "完成保管鏈互證",
+      "hint": "向孫聞露提交病案與樣本封存紀錄。",
+      "target_type": "talk",
+      "target_npc": "sun_wenlu",
+      "target_topic": "保管鏈",
+      "location": "/d/sects/danding/medical_hall.c"
+    }
+  ],
+  "event_outcomes": {
+    "success": {
+      "status": "success",
+      "deltas": {
+        "evidence_strength": 2,
+        "evidence_verifiability": 2,
+        "intel_confidence": 1
+      },
+      "facts": {
+        "autopsy_performed": 1
+      },
+      "evidence": {
+        "id": "v3_cross_source_bundle",
+        "name": "三宗交易、軍需與病案交叉查核副本",
+        "strength": 2,
+        "source_type": "cross_source_record",
+        "verified": 1
+      },
+      "message": "三個獨立來源完成保管鏈互證，證據可供正式查核。"
+    },
+    "partial": {
+      "status": "partial",
+      "deltas": {
+        "evidence_strength": 1,
+        "evidence_verifiability": 1
+      },
+      "facts": {},
+      "evidence": {
+        "id": "v3_partial_evidence_bundle",
+        "name": "未完整互證的三宗查核副本",
+        "strength": 1,
+        "source_type": "cross_source_record",
+        "verified": 0
+      },
+      "message": "部分來源完成登錄，但保管鏈仍有缺口。"
+    },
+    "failure": {
+      "status": "failure",
+      "deltas": {
+        "civilian_trust": -1
+      },
+      "facts": {},
+      "message": "證據未能在時限內完成封存，公開質證將承受更高的信任成本。"
+    }
+  },
+  "rewards": {
+    "exp": 650,
+    "pot": 180
+  },
+  "eval_metric": "evidence_verifiability",
+  "eval_min_for_success": 2
+}

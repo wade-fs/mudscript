@@ -1,0 +1,162 @@
+{
+  "id": "v3_tier2_departure",
+  "name": "凡間排斥：五器驗證與桃花源古陣",
+  "category": "epic",
+  "type": "stage_chain",
+  "total_stages": 3,
+  "stages": [
+    {
+      "stage": 1,
+      "title": "五人各自完成二階圓滿",
+      "region": "sects",
+      "region_name": "三宗",
+      "required_level": 95,
+      "status_on_finish": "dormant",
+      "finish_desc": "五人各自完成最後一項修行與責任，不以同一種方式突破。",
+      "next_region_hint": "北境陣基",
+      "steps": [
+        {
+          "step": 1,
+          "title": "完成祛道療法追蹤",
+          "hint": "向孫聞露提交顧玄整理的祛道療法樣本與患者追蹤紀錄。",
+          "target_type": "talk",
+          "target_npc": "sun_wenlu",
+          "target_topic": "戰後修復",
+          "location": "/d/sects/danding/medical_hall.c",
+          "on_complete": {
+            "msg": "顧玄完成療法追蹤與樣本紀錄。"
+          }
+        },
+        {
+          "step": 2,
+          "title": "完成巨靈神機回授修復",
+          "hint": "向季衡提交林鐵生的可拆卸機械回授測試紀錄。",
+          "target_type": "talk",
+          "target_npc": "ji_heng",
+          "target_topic": "機械回授",
+          "location": "/d/sects/tiangong/machine_vault.c",
+          "on_complete": {
+            "msg": "林鐵生完成不依賴永久神識接入的機械回授修復。"
+          }
+        },
+        {
+          "step": 3,
+          "title": "完成武道與星律校準",
+          "hint": "向雷烈提交燕隼的氣血控制紀錄，再向宋知微提交柳清虛的星曆模型修正。",
+          "target_type": "talk",
+          "target_npc": "lei_lie",
+          "target_topic": "破境紀錄",
+          "location": "/d/sects/bahuang/black_mountain_camp.c",
+          "on_complete": {
+            "msg": "燕隼完成氣血控制收束；柳清虛的星律模型仍保留可檢驗誤差。"
+          }
+        },
+        {
+          "step": 4,
+          "title": "完成商道託管安排",
+          "hint": "向邱禾確認萬山泥途總號共同治理與交接名冊。",
+          "target_type": "talk",
+          "target_npc": "qiu_he",
+          "target_topic": "商道託管",
+          "location": "/d/yunjin/mudway_store.c",
+          "on_complete": {
+            "msg": "沈泥完成商道責任交接，不把總號交給單一代理人。"
+          }
+        }
+      ]
+    },
+    {
+      "stage": 2,
+      "title": "假天排斥與避險方案",
+      "region": "taiqing",
+      "region_name": "太清祖庭",
+      "required_level": 100,
+      "status_on_finish": "dormant",
+      "finish_desc": "五人確認排斥雲層與陣基回應相關；桃花源古陣仍有未知風險。",
+      "next_region_hint": "方舟主傳送室",
+      "unlock_condition": {
+        "need_stage": 1,
+        "target_npc": "song_zhiwei",
+        "target_topic": "假天排斥"
+      },
+      "steps": [
+        {
+          "step": 1,
+          "title": "確認排斥雲層觀測",
+          "hint": "向宋知微提交五人共鳴與星象觀測紀錄。",
+          "target_type": "talk",
+          "target_npc": "song_zhiwei",
+          "target_topic": "假天排斥",
+          "location": "/d/sects/taiqing/outer_observatory.c",
+          "on_complete": {
+            "msg": "排斥雲層與遺物／陣基回應存在關聯，但不是普遍Lv.100天劫。"
+          }
+        },
+        {
+          "step": 2,
+          "title": "確認單向古陣風險",
+          "hint": "向季衡核對古陣能源、結構與撤退限制。",
+          "target_type": "talk",
+          "target_npc": "ji_heng",
+          "target_topic": "古陣風險",
+          "location": "/d/sects/tiangong/machine_vault.c",
+          "on_complete": {
+            "msg": "古陣的單向與回返風險被列明，成功抵達仍無保證。"
+          }
+        }
+      ]
+    },
+    {
+      "stage": 3,
+      "title": "踏入桃花源洞天",
+      "region": "wastes",
+      "region_name": "北方方舟",
+      "required_level": 100,
+      "status_on_finish": "completed",
+      "finish_desc": "五人通過古陣驗證並進入Tier 3；抵達後的安全性與回返可能未知。",
+      "next_region_hint": "Tier 3桃花源洞天",
+      "unlock_condition": {
+        "need_stage": 2,
+        "target_npc": "qi_shiliu",
+        "target_topic": "啟動古陣"
+      },
+      "steps": [
+        {
+          "step": 1,
+          "title": "完成同行者知情確認",
+          "hint": "向祁十六確認物資、同行者與最後撤離安排。",
+          "target_type": "talk",
+          "target_npc": "qi_shiliu",
+          "target_topic": "同行確認",
+          "location": "/d/wastes/ark_core_chamber.c",
+          "on_complete": {
+            "msg": "同行者已知悉單向古陣風險。"
+          }
+        },
+        {
+          "step": 2,
+          "title": "啟動五器與契版驗證",
+          "hint": "向宋知微回報五器、契版與古陣的驗證結果。",
+          "target_type": "talk",
+          "target_npc": "song_zhiwei",
+          "target_topic": "啟動古陣",
+          "location": "/d/wastes/ark_core_chamber.c",
+          "on_complete": {
+            "msg": "古陣開啟，五人進入Tier 3；不能確認安全返回。"
+          }
+        }
+      ],
+      "on_finish": {
+        "exp": 2500,
+        "pot": 700,
+        "msg": "【桃花源洞天】Tier 2 主線完成，新的世界尚未揭示真相。"
+      }
+    }
+  ],
+  "rewards": {
+    "exp": 2500,
+    "pot": 700
+  },
+  "start_npc": "sun_wenlu",
+  "start_topic": "戰後修復"
+}
