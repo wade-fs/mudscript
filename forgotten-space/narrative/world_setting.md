@@ -39,9 +39,9 @@
 * **【小說軌道（Novel Track）】**：
   * [x] 作品正式書名定案：《遺忘的世界》(THE FORGOTTEN SPACE)
   * [x] 五重視角主角人物小傳與重要配角檔案（顧玄、林鐵生、燕隼、柳清虛、沈泥及 12 位核心 NPC，見 `/narrative/characters/` 與 `/narrative/character_profiles.md`）
-  * [x] 第一卷「黑石驚蟄」全 38 章五幕架構與正文完全實作（見 `/narrative/volume1.md` 與 `/narrative/chapters/ch0001.md ~ ch0038.md`）
-  * [x] 第二卷「金石風雲」全 44 章五幕架構與正文完全實作（見 `/narrative/volume2.md` 與 `/narrative/chapters/ch0039.md ~ ch0082.md`）
-  * [x] 第三卷「名山問道」全 44 章（Ch.83 ~ Ch.126）五幕大綱展開與伏筆對接（見 `/narrative/volume3.md` 與 `/narrative/novel_outline.md`）
+  * [x] 第一卷「黑石驚蟄」全 38 章五幕架構與正文完全實作（見 `/narrative/volume1.md` 與 `/narrative/chapters/volume1/ch0001.md ~ ch0038.md`）
+  * [x] 第二卷「金石風雲」全 44 章五幕架構與正文完全實作（見 `/narrative/volume2.md` 與 `/narrative/chapters/volume2/ch0039.md ~ ch0082.md`）
+  * [x] 第三卷「名山問道」全 44 章五幕架構與正文完全實作（見 `/narrative/volume3.md` 與 `/narrative/chapters/volume3/ch0083.md ~ ch0126.md`）
 * **【MUD 規格軌道（Mudlib Track）】**：
   * [x] 三元力量生剋與修煉/戰鬥心跳機制（第 3.1 ~ 3.3, 3.6 ~ 3.8 節）
   * [x] 統一數值階梯（T0~T3）與四重進階/天道排斥模型（第 3.9 節）

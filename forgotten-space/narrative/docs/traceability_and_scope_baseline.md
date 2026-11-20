@@ -63,12 +63,12 @@
 
 | ID | 標籤 | 驗收層級 | 完成條件（v1.0 範圍） | 現有實作與證據位置 | 當前狀態 | 待完成工作包 (`Work Packages`) |
 | :--- | :---: | :---: | :--- | :--- | :---: | :--- |
-| **NOV-01** | `CANON` | Level 1 & 2 | 第一卷（Ch.1~38）與第二卷（Ch.39~82）所有規劃章節正文均已完成，無占位符。 | `narrative/chapters/ch0001.md` ~ `ch0082.md` (全 82 章正文 100% 完稿)；`volume1.md`、`volume2.md` | **PASS** | **WP-NOV-1（已完成）**：完成第一卷 38 章與第二卷 44 章共 82 章正式正文 |
+| **NOV-01** | `CANON` | Level 1 & 2 | 第一卷（Ch.1~38）與第二卷（Ch.39~82）所有規劃章節正文均已完成，無占位符。 | `narrative/chapters/volume1/ch0001.md` ~ `ch0082.md` (全 82 章正文 100% 完稿)；`volume1.md`、`volume2.md` | **PASS** | **WP-NOV-1（已完成）**：完成第一卷 38 章與第二卷 44 章共 82 章正式正文 |
 | **NOV-02** | `CANON` | Level 2 | 五位主角與核心配角（蘇凝霜、陳鎮山、莫三等）具備完整初始處境、關鍵選擇、五維成長與階段性結果。 | `narrative/character_profiles.md`、`narrative/characters/*.md` (17 份檔案)、`ch0001.md` ~ `ch0082.md` | **PASS** | **WP-NOV-2（已完成）**：於第二卷正文與人物誌完整落實五人分途立籍、六縣歷練與四維破境弧線 |
 | **NOV-03** | `RULE` | Level 2 | 重大事件具合理前因、觸發條件與後果，不靠巧合或機械降神。 | `narrative/events/README.md`、`volume1_events.md`、`volume2_events.md`（EV-101~125、EV-201~244） | **PASS** | **WP-NOV-3（已完成）**：逐幕核對證據五欄、三印合符與風險天平轉折 |
 | **NOV-04** | `CANON` | Level 2 | 重要伏筆與真相有一致揭露順序；跨卷未解伏筆均已登錄為刻意保留。 | 本文件第四節《全書伏筆登錄表》、`shen_ni.md` 六階段、`volume2.md` §一 | **PASS** | 已完成全 82 章伏筆落點與跨卷保留勾稽 |
 | **NOV-05** | `RULE` | Level 1 & 2 | 人物能力、知識、位置、旅行時間、銀兩與持有證物符合當下狀態。 | `docs/novel_mud_audit.md`、`tests/quests/quest_audit.py`、`tests/test_tier1_city.c` | **PASS** | **WP-NOV-4（已完成）**：全 82 章與 37 條任務鏈空間、NPC、道具與狀態連續性 100% 對齊 |
-| **NOV-06** | `QUALITY`| Level 2 & 3 | 正文具備可閱讀之文學品質（感官細節、人物動機、節奏張力、非烏托邦代價），非設定流水帳。 | `narrative/chapters/ch0001.md` ~ `ch0082.md` | **PASS** | **WP-NOV-5（已完成）**：全 82 章正文通過審視與細節校對 |
+| **NOV-06** | `QUALITY`| Level 2 & 3 | 正文具備可閱讀之文學品質（感官細節、人物動機、節奏張力、非烏托邦代價），非設定流水帳。 | `narrative/chapters/volume1/ch0001.md` ~ `ch0082.md` | **PASS** | **WP-NOV-5（已完成）**：全 82 章正文通過審視與細節校對 |
 
 ### B. LPC Mudlib 可運作性 (`MUD-01 ~ MUD-08`)
 
@@ -189,5 +189,5 @@
 - **`WP-MUD-3 ~ 5`（跨重啟持久化與冪等性防刷驗證）——【✅ 已完成並通過測試】**：為 `event_manager.c`、`city_d.c`、`phase_d.c`、`rumor_d.c` 與動態證物屬性補齊 `save_object` / `restore_object`，隔離舊 `/area/newbie/` 網格，並通過重啟恢復與冪等性測試。
 
 ### 階段三：小說第二卷【金石風雲】全 44 章正文撰寫與雙軌審查（`WP-NOV-1 ~ 5`）——【✅ 已完成並通過測試】
-- 按五幕結構（第一幕 Ch.39~46、第二幕 Ch.47~57、第三幕 Ch.58~67、第四幕 Ch.68~76、第五幕 Ch.77~82）完成 `forgotten-space/narrative/chapters/ch0039.md` ~ `ch0082.md` 全 44 章正文（連同第一卷 Ch.1~38 合計 82 章）。
+- 按五幕結構（第一幕 Ch.39~46、第二幕 Ch.47~57、第三幕 Ch.58~67、第四幕 Ch.68~76、第五幕 Ch.77~82）完成 `forgotten-space/narrative/chapters/volume2/ch0039.md` ~ `ch0082.md` 全 44 章正文（連同第一卷 Ch.1~38 合計 82 章）。
 - 全 82 章正文、187 間房間、37 條任務鏈與核心守護進程均已通過 `Level 1`（`make test` 277 項 + `forgotten-space` 2,323 項斷言 + `quest_audit.py` 0 錯誤）與 `Level 2`（跨章空間、NPC、道具與事件鏈審查）。

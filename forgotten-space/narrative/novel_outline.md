@@ -40,19 +40,19 @@ flowchart TD
 
 ### 【第一幕：破曉微光・命運初啼】（第 1 ~ 5 章・已完結）
 以黑石鋪同一天清晨（破曉時分）為統一時間錨點，從五位不同身世底層少年的生活切入，層層揭開被大清洗掩蓋的太古真相：
-* [**第 1 章：晨曦微光與磨刀石**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/ch0001.md)
+* [**第 1 章：晨曦微光與磨刀石**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/volume1/ch0001.md)
   * 主視角：顧玄（採藥孤兒）｜主場景：南谷碎石溪灘 (`/d/village/stream.c`)
   * 失落秘密：洗衣石板深處被水流沖洗出的【逆行蒼龍七宿星圖】與太古大清洗殘篆。
-* [**第 2 章：爐火、重錘與不融黑鐵**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/ch0002.md)
+* [**第 2 章：爐火、重錘與不融黑鐵**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/volume1/ch0002.md)
   * 主視角：林鐵生（打鐵學徒）｜主場景：老鐵匠鋪・打鐵爐房 (`/d/village/forge.c`)
   * 失落秘密：地爐萬度熔火不化的【太古不融黑鐵齒輪構件】，上古工聖失落的微型機械造物。
-* [**第 3 章：鹿角哨亭、陷阱與大荒異動**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/ch0003.md)
+* [**第 3 章：鹿角哨亭、陷阱與大荒異動**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/volume1/ch0003.md)
   * 主視角：燕隼（獵戶之子）｜主場景：獵戶哨亭 (`/d/village/hunter_cabin.c`) 與荒林口
   * 失落秘密：化骨泥沼巨榕下被黑熊撞開石衣的【太古戰神獵獸圖騰玄柱】，荒古肉身血脈共鳴。
-* [**第 4 章：殘壇罡風、觀星與道化之影**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/ch0004.md)
+* [**第 4 章：殘壇罡風、觀星與道化之影**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/volume1/ch0004.md)
   * 主視角：柳清虛（破落道童）｜主場景：迎風孤岩・荒廢道壇 (`/d/village/altar.c`)
   * 失落秘密：孤松下玉化晶骨揭開「清修道化」死劫，神識窺天洞悉蒼穹星空背後的【天羅地網活體牢籠】。
-* [**第 5 章：背街柴房、市井耳目與黑市古令**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/ch0005.md)
+* [**第 5 章：背街柴房、市井耳目與黑市古令**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/volume1/ch0005.md)
   * 主視角：沈泥（流浪乞兒）｜主場景：客棧背街・廢柴房 (`/d/village/shed.c`)
   * 失落秘密：客棧後巷爛泥深處發掘的【萬物行商・天門引】青金古令（休眠殘缺），揭開商道被勒索真相。
 
@@ -73,18 +73,18 @@ flowchart TD
 * **官道斷絕與三層籌碼**：先頭獸群與後續主力衝出深澗，將虎跳峽半里木棧道徹底壓垮，押運糧車墜崖，官道與軍需全線斷絕；五子與蘇凝霜按證明力梳理出三大籌碼（雷管批號拓印、精煉坩堝暗賬、22名倖存礦工按手印證言）。
 
 ### 【第五幕：多方博弈・破局遠行】（第 33 ~ 38 章・已完結）
-* [**第 33 章：迷霧扣關・三軍陣前**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/ch0033.md) - 府城先鋒軍八百精銳扣關，胡百戶誣告謀反；陳鎮山洞悉三大破綻推遲強攻；
-* [**第 34 章：暗賬分牒・多點投書**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/ch0034.md) - 沈泥莫三穿行地下暗渠支洞，燕隼外圍掩護，三路密信精準制衡軍械監軍、主帥陳鎮山與督糧官；
-* [**第 35 章：軍心如鑑・天威難欺**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/ch0035.md) - 校場公開質證，雷管鋼印與老礦工血淚動搖軍心，陳鎮山解職胡百戶改強攻為封存會審；
-* [**第 36 章：商會殘骨・利益之毒**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/ch0036.md) - 提審趙德貴揭穿副會長錢百川走私謀殺黑幕，天門引與總堂密室線索浮現，確立赴府城之必然推力；
-* [**第 37 章：回首黑石・凡胎圓滿**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/ch0037.md) - 聚落展開真實重建，五子心性與技藝全面突破晉升 **Tier 0 凡胎圓滿（Level 10）**，獲頒出鄉路引腰牌；
-* [**第 38 章：大荒官道・天門驚蟄**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/ch0038.md) - 虎跳峽便道搶通，五子向五位師長深沉道別，護衛商隊踏上大荒官道邁向金石府城，第一卷正式圓滿收官！
+* [**第 33 章：迷霧扣關・三軍陣前**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/volume1/ch0033.md) - 府城先鋒軍八百精銳扣關，胡百戶誣告謀反；陳鎮山洞悉三大破綻推遲強攻；
+* [**第 34 章：暗賬分牒・多點投書**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/volume1/ch0034.md) - 沈泥莫三穿行地下暗渠支洞，燕隼外圍掩護，三路密信精準制衡軍械監軍、主帥陳鎮山與督糧官；
+* [**第 35 章：軍心如鑑・天威難欺**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/volume1/ch0035.md) - 校場公開質證，雷管鋼印與老礦工血淚動搖軍心，陳鎮山解職胡百戶改強攻為封存會審；
+* [**第 36 章：商會殘骨・利益之毒**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/volume1/ch0036.md) - 提審趙德貴揭穿副會長錢百川走私謀殺黑幕，天門引與總堂密室線索浮現，確立赴府城之必然推力；
+* [**第 37 章：回首黑石・凡胎圓滿**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/volume1/ch0037.md) - 聚落展開真實重建，五子心性與技藝全面突破晉升 **Tier 0 凡胎圓滿（Level 10）**，獲頒出鄉路引腰牌；
+* [**第 38 章：大荒官道・天門驚蟄**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/volume1/ch0038.md) - 虎跳峽便道搶通，五子向五位師長深沉道別，護衛商隊踏上大荒官道邁向金石府城，第一卷正式圓滿收官！
 
 ---
 
 ## 三、第二卷：【金石風雲・入城立籍篇】(全 44 章 Ch.39 ~ 82 / Tier 1 初入道途)
 
-> 💡 **進度狀態**：全卷五幕宏觀大綱與 **第 39 ~ 82 章（共 44 章）全卷正文已全部撰寫完畢並完成雙軌校驗**！第二卷【金石風雲】正式圓滿完結，詳見 [**第二卷大綱【金石風雲】**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/volume2.md) 與 [`narrative/chapters/ch0039.md`](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/ch0039.md) ～ [`narrative/chapters/ch0082.md`](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/ch0082.md)。
+> 💡 **進度狀態**：全卷五幕宏觀大綱與 **第 39 ~ 82 章（共 44 章）全卷正文已全部撰寫完畢並完成雙軌校驗**！第二卷【金石風雲】正式圓滿完結，詳見 [**第二卷大綱【金石風雲】**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/volume2.md) 與 [`narrative/chapters/volume2/ch0039.md`](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/volume2/ch0039.md) ～ [`narrative/chapters/volume2/ch0082.md`](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/volume2/ch0082.md)。
 
 ```mermaid
 flowchart TD
@@ -122,7 +122,7 @@ flowchart TD
 
 ## 四、第三卷：【名山問道・脫俗爭鋒篇】(全 44 章 Ch.83 ~ 126 / Tier 2 宗門深造)
 
-> 💡 **進度狀態**：全卷 44 章（Ch.83 ~ Ch.126）五幕式完整大綱已展開，詳見 [**第三卷大綱【名山問道】**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/volume3.md)。
+> 💡 **進度狀態**：全卷 44 章（Ch.83 ~ Ch.126）五幕式大綱與**全卷正文已全部撰寫完畢並完成正典與用語校驗**，詳見 [**第三卷大綱【名山問道】**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/volume3.md) 與 [`narrative/chapters/volume3/ch0083.md`](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/volume3/ch0083.md) ～ [`narrative/chapters/volume3/ch0126.md`](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/volume3/ch0126.md)。
 
 ```mermaid
 flowchart TD
@@ -137,13 +137,13 @@ flowchart TD
 
 ### 1. 空間場景：北境三大名山祖庭與雲津仙集（萬山商埠）
 * **【法宗大派】太清玄天宮（古稱紫霄道宮）**：雲頂天柱峰，分周天觀星閣與太清雷符殿，柳清虛於此深造，直面「借法越深、神魂越易化為無情晶石」的道化真相。
-* **【力宗大派】八荒武山／八荒武宗（古號霸王崩山宗）**：北荒裂谷大黑山，鎮守外荒獸潮裂隙，燕隼於此淬鍊煞血霸體，一面追查二叔燕山五年前「走山令」失蹤真相，一面抗衡「氣血如爐、五臟焚枯」的反噬。
+* **【力宗大派】八荒武山／八荒武宗（古號霸王崩山宗）**：北荒裂谷大黑山，鎮守外荒獸潮裂隙，燕隼於此淬鍊煞血霸體，一面追查大伯燕山五年前「走山令」失蹤真相，一面抗衡「氣血如爐、五臟焚枯」的反噬。
 * **【物宗大派】千機百巧門（天工閣／丹鼎宗）**：萬仞天工山火脈，林鐵生入器道主脈【天工閣】研習地火重機與古傀應力，顧玄入藥道主脈【丹鼎宗】鑽研地肺丹火與生機病理，兩人分別撞破名山高層收購「地煞血精晶錠」的真正用途。
 * **【山門樞紐】雲津仙集（萬山商埠）**：三山交匯的雲海峽谷自由商埠，沈泥憑【跨州行商總勘合】創立「泥途商棧」，掌控三宗外門大宗物資流轉、黑市暗標與跨山門情報傳遞。
 
 ### 2. 主線深層衝突
 * **地煞血精終極買家揭曉（`FS-06` 回收）**：名山太上長老為延緩自身「清修道化結晶」與「氣血乾涸」，暗中以地煞血精煉製逆命禁丹、催動太古鎮山傀儡，這正是三十年前舊商盟拒絕配合而遭滅口的根源。
-* **北荒走山令與五器陣基共鳴（`FS-01 ~ FS-07` 推進）**：燕隼於北荒裂谷深處尋獲二叔燕山留下的骨弓與戰神遺塚線索，五件史前遺物在北荒太古破界陣基產生第二次高階共鳴，揭開三大名山祖庭實為鎮壓「太古破界方舟殘骸」的三座陣眼。
+* **北荒走山令與五器陣基共鳴（`FS-01 ~ FS-07` 推進）**：燕隼於北荒裂谷深處尋獲大伯燕山留下的護心鏡與戰神遺塚線索，五件史前遺物在北荒太古破界陣基產生第二次高階共鳴，揭開三大名山祖庭實為鎮壓「太古破界方舟殘骸」的三座陣眼。
 * **二階頂峰與凡間排斥（Lv.100 破障）**：五人突破至二階頂峰（Lv.100，技能 Lv.200），引發凡間殘缺天道的劇烈排斥與滅世雷劫鎖定，唯有啟動祖庭深處的單向古傳送陣，方能踏入第四卷【洞天避難】（Tier 3 桃花源／異界洞天）。
 
 ---
