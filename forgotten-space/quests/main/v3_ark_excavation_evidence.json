@@ -1,50 +1,90 @@
 {
   "id": "v3_ark_excavation_evidence",
-  "name": "母脈盜掘：阻止方舟陣基失衡",
+  "name": "母脈盜掘：鎖死總閘與冰谷封證",
   "category": "main",
   "type": "once",
+  "region": "wastes",
+  "requirements": { "level": 78 },
   "start_npc": "wenjiu",
   "start_topic": "盜掘",
   "steps": [
     {
       "step": 1,
-      "title": "確認鑽山傀儡批次",
-      "hint": "向聞九查驗鑽山傀儡的工造批次。",
-      "target_type": "talk",
-      "target_npc": "wenjiu",
-      "target_topic": "傀儡批次",
-      "location": "/d/wastes/ark_foundation.c",
+      "title": "強鎖方舟東側太古手動總閘門",
+      "hint": "潛入方舟東側冷卻外殼豁口，輸入 lock valve 以雪線苔冰霧與黑鐵齒輪鎖死七成母液噴流。",
+      "target_type": "action",
+      "action_verb": "lock",
+      "action_target": "valve",
+      "location": "/d/wastes/ark_cooling_breach",
       "on_complete": {
-        "msg": "傀儡批次與天工閣工造紀錄出現關聯，命令來源未明。"
+        "give_item": "/clone/item/ev3_drill_head.c",
+        "msg": "液壓倒灌炸毀前排五具鑽山傀儡，你搶獲天工閣出廠批號鑽頭殘件並救出四名工役。"
       }
     },
     {
       "step": 2,
-      "title": "記錄母脈壓力變化",
-      "hint": "向白岩提交地脈壓力與樣本紀錄。",
-      "target_type": "talk",
-      "target_npc": "bai_yan",
-      "target_topic": "母脈壓力",
-      "location": "/d/wastes/ark_foundation.c",
+      "title": "冰谷窄口引爆萬年雪簷阻敵",
+      "hint": "在冰谷窄口伏擊道配合紫微偏轉星陣與腐金毒煙，輸入 trigger avalanche 引雪崩斷去死士後路。",
+      "target_type": "action",
+      "action_verb": "trigger",
+      "action_target": "avalanche",
+      "location": "/d/wastes/ice_valley_exit",
       "on_complete": {
-        "msg": "母脈壓力異常被記錄，仍需查明操作者與授權鏈。"
+        "give_item": "/clone/item/ev3_mother_liquid_vial.c",
+        "msg": "雪崩掩埋弩手並暴露大執事咽喉死角，同時妥善封固半瓶血精母液封裝玉瓶！"
       }
     },
     {
       "step": 3,
-      "title": "封存現場物證",
-      "hint": "向韓素登錄工具痕跡與現場物證。",
+      "title": "狙殺滅口頭目奪取密令令牌",
+      "hint": "在冰谷窄口伏擊道運轉沉岳引一擊擊斃私盟大執事（private_league_envoy）。",
+      "target_type": "kill",
+      "target_mob": "private_league_envoy",
+      "location": "/d/wastes/ice_valley_exit",
+      "on_complete": {
+        "give_item": "/clone/item/ev3_envoy_tally.c",
+        "msg": "私盟大執事未留口供伏誅；你戴手套取下千機堂副執印暗金令牌、密令底頁與雙聯印記配刀拓錄。"
+      }
+    },
+    {
+      "step": 4,
+      "title": "天工陣圖工房核對鑽山傀儡出廠批次",
+      "hint": "返回天工閣陣圖工房向聞九出示鑽頭殘件並核對「傀儡批次」。",
+      "target_type": "talk",
+      "target_npc": "wenjiu",
+      "target_topic": "傀儡批次",
+      "location": "/d/sects/tiangong/array_drafting_room",
+      "on_complete": {
+        "msg": "確認22–30號高壓鑽頭確係千機堂內庫批條撥出，尚待會武當眾核對工坊原始領用簿。"
+      }
+    },
+    {
+      "step": 5,
+      "title": "千機院請託魯長老出任會武批次裁判",
+      "hint": "至天工閣千機院向魯長老出示「鑽頭殘件」，邀請其會武百工試親查材料批次簿。",
+      "target_type": "talk",
+      "target_npc": "lu_zhanglao",
+      "target_topic": "鑽頭殘件",
+      "location": "/d/sects/tiangong/thousand_mechanisms_hall",
+      "on_complete": {
+        "msg": "魯長老首肯十日後親坐問道天台百工試裁判席盯死材料批次檢驗簿。"
+      }
+    },
+    {
+      "step": 6,
+      "title": "互助所登錄雙人封條與四名工役證言",
+      "hint": "於失蹤者家屬互助所向韓素封存全部現場物證並完成「物證封存」登記。",
       "target_type": "talk",
       "target_npc": "han_su",
       "target_topic": "物證封存",
-      "location": "/d/wastes/black_ice_gorge.c",
+      "location": "/d/wastes/missing_families_hall",
       "on_complete": {
-        "msg": "物證完成編號與封存，避免只依死士口供定案。"
+        "msg": "四組火漆密封物證與獲救工役手印完整入檔，守住「不以敵人口供代定罪」的法理邊界。"
       }
     }
   ],
   "rewards": {
-    "exp": 900,
-    "pot": 280
+    "exp": 1250,
+    "pot": 360
   }
 }

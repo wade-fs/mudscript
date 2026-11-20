@@ -1371,7 +1371,7 @@ string dump_status(string event_id) {
         }
     }
 
-    if (event_id == EVENT_MILITARY_CRISIS && evidence_registry && sizeof(evidence_registry) > 0) {
+    if ((event_id == EVENT_MILITARY_CRISIS || event_id == EVENT_TIER2_CRISIS) && evidence_registry && sizeof(evidence_registry) > 0) {
         out += CYN + "【物證帳本】\n" + NOR;
         foreach (string ek, mapping ev in evidence_registry) {
             out += sprintf("  * [%s] %s | 強度: %d | 來源: %s | 核驗: %d | 過目者: %s\n",

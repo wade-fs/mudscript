@@ -22,4 +22,5 @@ void create() {
 
     set("is_outdoor", 1);
     spawn_npc("/clone/npc/jian_su.c");
+    spawn_npc("/clone/npc/yuan_qing.c");
 }

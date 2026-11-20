@@ -15,37 +15,37 @@
     {
       "step": 1,
       "title": "為走山遺物編號",
-      "hint": "向韓素登錄走山隊遺物來源與發現位置。",
+      "hint": "在失蹤者家屬互助所向韓素登錄黑冰斷谷遺物來源與發現位置（「遺物編號」）。",
       "target_type": "talk",
       "target_npc": "han_su",
       "target_topic": "遺物編號",
-      "location": "/d/wastes/black_ice_gorge.c",
+      "location": "/d/wastes/missing_families_hall",
       "on_complete": {
         "msg": "走山隊遺物逐件編號，來源與發現位置分開記錄。"
       }
     },
     {
       "step": 2,
-      "title": "封存陣基樣本",
-      "hint": "向白岩登錄方舟陣基樣本與採集人。",
+      "title": "封存母脈樣本",
+      "hint": "至北荒前哨醫所向老醫師白岩登錄母液與肺部病例雙人封蠟簽名（「樣本封存」）。",
       "target_type": "talk",
       "target_npc": "bai_yan",
       "target_topic": "樣本封存",
-      "location": "/d/wastes/ark_foundation.c",
+      "location": "/d/wastes/north_outpost_infirmary",
       "on_complete": {
-        "msg": "陣基樣本完成封存，採集人與封存時間列入紀錄。"
+        "msg": "冷卻生物質樣本與病例對照完成雙人封存，採集人與時間戳列入紀錄。"
       }
     },
     {
       "step": 3,
       "title": "建立雙份保管副本",
-      "hint": "向顧蘭舟建立可追溯的雙份保管副本。",
+      "hint": "返雲津三宗交割廳暨雲海票號向顧蘭舟建立可追溯的「雙份保管」封存副本。",
       "target_type": "talk",
       "target_npc": "gu_lanzhou",
       "target_topic": "雙份保管",
-      "location": "/d/yunjin/exchange_hall.c",
+      "location": "/d/yunjin/exchange_hall",
       "on_complete": {
-        "msg": "物證保管鏈建立，副本由不同保管人分別保存。"
+        "msg": "物證保管鏈建立，四組火漆原件分存地窖暗格與票號雙鑰匣。"
       }
     }
   ],

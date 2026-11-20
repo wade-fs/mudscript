@@ -1,0 +1,90 @@
+{
+  "id": "v3_act3_war_god_tomb",
+  "name": "絕谷戰塚：走山血書與燕山護心鏡",
+  "category": "side",
+  "type": "once",
+  "region": "wastes",
+  "requirements": { "level": 72 },
+  "start_npc": "han_su",
+  "start_topic": "韓林",
+  "steps": [
+    {
+      "step": 1,
+      "title": "領受失蹤名簿與乙十七銅哨特徵圖",
+      "hint": "在失蹤者家屬互助所向韓素打聽《北荒失蹤者登記簿》第三頁與韓林特徵圖。",
+      "target_type": "talk",
+      "target_npc": "han_su",
+      "target_topic": "韓林",
+      "location": "/d/wastes/missing_families_hall",
+      "on_complete": {
+        "msg": "韓素記明五年前燕山與韓林等十一名斥候苦力同行失聯，期盼帶回不帶敷衍的白紙黑字。"
+      }
+    },
+    {
+      "step": 2,
+      "title": "墨黑雪壁鑿釘垂降黑冰斷谷",
+      "hint": "子時摸上墨黑雪壁垂降崖，輸入 rappel cliff 順岩釘麻繩垂降並紀錄人工爆破碎石帶。",
+      "target_type": "action",
+      "action_verb": "rappel",
+      "action_target": "cliff",
+      "location": "/d/wastes/rift_watch",
+      "on_complete": {
+        "give_item": "/clone/item/ev3_expedition_roster.c",
+        "msg": "成功垂降爆破穀口並取得藏於箭筒夾層之走山隊名冊殘頁。"
+      }
+    },
+    {
+      "step": 3,
+      "title": "舊勘探隊營地岩石凹槽搶救血書",
+      "hint": "在舊勘探隊營地廢墟輸入 search alcove 以油燈微溫及細竹夾完整剝離羊皮血書。",
+      "target_type": "action",
+      "action_verb": "search",
+      "action_target": "alcove",
+      "location": "/d/wastes/old_expedition_camp",
+      "on_complete": {
+        "give_item": "/clone/item/ev3_yanshan_blood_note.c",
+        "msg": "完整封存殘留「雷……非……」與「山」字落款之羊皮血書（後半腐毀，尚不能單獨定案元兇）。"
+      }
+    },
+    {
+      "step": 4,
+      "title": "荒古戰神遺塚擊退堵路冰熊王",
+      "hint": "在荒古戰神巨石遺塚擊退嗅血封口的二階高階北荒冰熊王（ice_bear_king）。",
+      "target_type": "kill",
+      "target_mob": "ice_bear_king",
+      "location": "/d/wastes/war_god_tomb",
+      "on_complete": {
+        "msg": "你按住《沉岳引》節律傷其咽喉後不戀戰收招，免於被冰霧重重包圍。"
+      }
+    },
+    {
+      "step": 5,
+      "title": "遺塚巨柱骨片共鳴並拾取凹損護心鏡",
+      "hint": "在荒古戰神巨石遺塚輸入 resonate totem 啟動圖騰共鳴，收存裂隙前五尺血跡盡頭之護心鏡。",
+      "target_type": "action",
+      "action_verb": "resonate",
+      "action_target": "totem",
+      "location": "/d/wastes/war_god_tomb",
+      "on_complete": {
+        "give_item": "/clone/item/ev3_heart_guard_mirror.c",
+        "msg": "領悟荒古鎖煞呼吸節律並收妥帶「燕」字護心鏡（裂隙無遺骸亦無火跡，燕山生死仍維持未決）。"
+      }
+    },
+    {
+      "step": 6,
+      "title": "歸返互助所登錄銅哨並嚴守失蹤定性",
+      "hint": "返抵失蹤者家屬互助所，以「遺址」話題向韓素交還銅哨與九具遺骸實測圖。",
+      "target_type": "talk",
+      "target_npc": "han_su",
+      "target_topic": "遺址",
+      "location": "/d/wastes/missing_families_hall",
+      "on_complete": {
+        "msg": "韓素落淚將乙十七銅哨與實測圖登簿封存，約定十日後問道天台替受冤斥候與腳夫討回公道。"
+      }
+    }
+  ],
+  "rewards": {
+    "exp": 1150,
+    "pot": 320
+  }
+}
