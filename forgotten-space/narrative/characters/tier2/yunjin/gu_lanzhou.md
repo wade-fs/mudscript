@@ -39,9 +39,9 @@
 | 首次登場 | 第三卷第 84 章（第 85 章續見帳務分紅） |
 | 首次接觸方式 | 沈泥攜蘇晚晴、賈朝奉聯署通行信印與雲岩契書赴交割廳雲海票號開戶核驗（五百靈石起存、三分匯水，Ch. 84） |
 | 當前狀態 | 存活 |
-| 關係變化 | Ch. 84 僅認實物契書與清算紀錄；Ch. 98 揭示「三萬兩千枚準備金」暗流與灰襖小額飛錢；Ch. 101 封存五方對帳副本；Ch. 108–111 與莫三核對『乙巳年舊盟：玄木』暨『丹鼎丙柒／天工赤火／太清雷律』飛錢對流並鎖入雙鑰暗匣，穩住泥途商棧匯兌兼查萬寶閣挪用三宗準備金缺口 |
-| 相關事件 | `EV302`、`EV309`、`EV316`、`EV319` |
-| 相關任務 | `v3_yuntu_market_charter`、`v3_five_way_evidence_convergence`、`v3_act2_yunjin_ghost_and_sanyuan`、`v3_five_relic_resonance`（Stage 2 步驟 1 比對「九城契版」）、`v3_preserve_field_evidence`（步驟 3「雙份保管」） |
+| 關係變化 | Ch. 84–111 清算核帳並鎖入雙鑰暗匣 → Ch. 115–116 交割廳當眾亮出萬寶閣四筆共一百八十萬靈石票異常匯兌總冊破局假倉單並查獲後庫七口黑鐵帳箱；Ch. 119–120 以雲海票號實物準備金為萬山廣場雙倍徵運聯保底契，戰後聯署《雲津萬山臨時互市與救濟協約》兼掌公開準備金監督與大宗採買透明查帳席位 |
+| 相關事件 | `EV302`、`EV309`、`EV316`、`EV319`–`EV325` |
+| 相關任務 | `v3_yuntu_market_charter`、`v3_five_way_evidence_convergence`、`v3_act2_yunjin_ghost_and_sanyuan`、`v3_five_relic_resonance`、`v3_preserve_field_evidence`、`v3_act4_cloud_top_tournament`、`v3_postwar_reform_and_restitution`（步驟 3 多商號治理席） |
 
 ## 寫作限制
 

@@ -145,6 +145,19 @@
 
 ---
 
+## 第三卷 第四幕：雲頂論道・三元鎮脈（第 112～120 章・Act 4 已實裝）
+
+> 第四幕新增 `/d/yunjin/` 6 間會武／隔離／回收廠房間與 `/d/sects/bahuang/west_wall_breach.c`（合計 +7 房），新增 8 名 NPC／掌門／首徒兼二階極境【冰獄骨龍王】（`zixiao_zhenren`、`tiebei_shanzhu`、`xuanshu_menzhu`、`zhao_lie`、`li_qingyun`、`wang_tieniu`、`han_cang`、`ice_bone_dragon`），新增 6 項道具物證，實裝與補齊 7 條 Act 4 任務（含新增 `v3_act4_cloud_top_tournament`、`v3_act4_sanyuan_defense`）暨 `EVENT_TIER2_CRISIS` `defense_outcome` 三檔評價。
+
+| 章節 | 視角主角 | 核心敘事事件 | MUD 房間與 NPC 互動 | 任務鏈 / 實裝道具 | 系統機制與成果 |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **第 112～114 章** | 五人群像 | 偏峰合力剝除元青晶絲；問道天台百工試三錘破煞火魔偶、雙盲銀針檢九轉血丹、點星震敗王鐵牛並踏東北三度半息死角勝韓蒼 | `/d/sects/taiqing/quiet_peak.c`、`/d/yunjin/{tournament_craft_arena,tournament_combat_arena}.c`<br>NPC: `jian_su`, `yuan_qing`, `zhao_lie`, `li_qingyun`, `wang_tieniu`, `han_cang` | 支線：`v3_act4_cloud_top_tournament`<br>道具：`sanyuan_shengji_dan.c`, `brittle_shahuomou_shard.c`, `wang_red_pill_vial.c` | `strip yuanqing`／`strike puppet`／`test doubleblind`／`dodge thunder` 檢出比試違規暨早期晶化病象。 |
+| **第 115～116 章** | 沈泥 / 群像 | 交割大廳拆穿萬寶閣百八十萬期貨挪用封七口帳箱；問道天台高台四線呈堂促使三掌門頒聯席令兼觸發鶴壽吞液、玄冥毀令 | `/d/yunjin/{exchange_hall,hearing_hall}.c`<br>NPC: `luo_jiucheng`, `gu_lanzhou`, `he_wanjin`, `zixiao_zhenren`, `tiebei_shanzhu`, `xuanshu_menzhu` | 主線：`v3_evidence_chain_hearing`<br>事件：`v3_cross_sect_evidence_audit`<br>道具：`wanbao_black_iron_box.c` | `audit wanbao` 封庫與 `EV320–EV321` 程序保管鏈實證。 |
+| **第 117～119 章** | 群像 | 毒域東側搶救護箱衛士與陸觀瀾；石牌坊生石灰暨百草中和隔離霧截毒；萬機玄鐵暗門推巨靈神機撐長城西段缺口破核退骨龍王 | `/d/yunjin/{stone_arch_quarantine,crystal_poison_edge}.c`、`/d/sects/bahuang/west_wall_breach.c`<br>NPC: `lu_guanlan`, `du_qinghe`, `ice_bone_dragon` | 主線：`v3_act4_sanyuan_defense`<br>事件：`v3_crystal_quarantine_response`、`v3_north_wall_beast_surge`<br>道具：`sanyuan_isolation_mist.c` | `rescue box`／`spread lime`／`brace gate` 暨擊退 Lv.95 `ice_bone_dragon`；驗證三元有限協同。 |
+| **第 120 章** | 沈泥 / 韓素 | 停採封爐、走山隊忠烈平反與「雲記」復名（高層姓氏仍缺）；開設西街無毒回收廠安置陶生窯工兼簽《雲津萬山互市協約》 | `/d/yunjin/west_street_recycling.c`、`/d/wastes/missing_families_hall.c`<br>NPC: `han_su`, `tao_sheng`, `mo_san` | 主線：`v3_postwar_reform_and_restitution`<br>道具：`yunjin_relief_treaty.c` | `open recycling` 與 `EV325` 改革落地；`evaluate_tier2_crisis()` 計入 `defense_outcome`。 |
+
+---
+
 ## 六大物證缺口標準五欄對照表 (The Six Evidence Gaps Ledger)
 
 | 編號 | 物證名稱 (`item`) | 物證型態 (`type`) | 來源鏈與取得者 (`source & chain`) | 證明力限制與當前等級 (`strength & limit`) | 當前狀態與最新進展 (`status`) |

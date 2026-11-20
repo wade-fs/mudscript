@@ -91,6 +91,12 @@
 | `yanshan_broken_arrow` | 燕山鷹記斷折骨箭 | evidence | 鬼哭冰澗三尺冰層探冰起獲（附染血八方舊皮甲，`/clone/item/yanshan_broken_arrow.c`） | 重斧／破甲弩斜切痕；僅證曾遭攔截未見遺骸（Ch. 94） | `lead_only` (Act 2 實裝) |
 | `bahuang_logistics_copy` | 黑山軍需出庫副本 | evidence | 雷烈箭樓交付之天興十九年出庫副聯（`/clone/item/bahuang_logistics_copy.c`） | 證實三十斤千機火藥調往鬼哭冰澗，無高層親簽（Ch. 94） | `corroborative` (Act 2 實裝) |
 | `ev3_private_purchase_ledger` | 北境三宗延命私盟密帳索引 | evidence | 雲海鬼市後門暗巷截自灰袍經生馬背（`/clone/item/ev3_private_purchase_ledger.c`） | 含十三府城、三代號與「玄木」轉帳代號，尚需與三宗對帳（Ch. 98） | `corroborative` (Act 2 實裝) |
+| `sanyuan_shengji_dan` | 三元生機丹 | consumable | 顧玄西台丹試所煉淡青試丹（`/clone/item/sanyuan_shengji_dan.c`） | 溫和固脈、不含血煞引子，無法治癒逾五年老病灶（Ch. 113） | `canon` (Act 4 實裝) |
+| `brittle_shahuomou_shard` | 煞火魔偶脆化晶柱碎片 | evidence | 東側器試台趙烈魔偶遭三錘震裂封存檢材（`/clone/item/brittle_shahuomou_shard.c`） | 證實異常暗紅晶柱致主軸脆化麻點，由魯長老火漆封證（Ch. 113） | `corroborative` (Act 4 實裝) |
+| `wang_red_pill_vial` | 王鐵牛私藏暗紅丸藥瓶 | evidence | 青鋼演武場《點星》震破護心甲所得（`/clone/item/wang_red_pill_vial.c`） | 佐證比試違法服藥與急鎮丸依賴，須核來源簿冊（Ch. 114） | `corroborative` (Act 4 實裝) |
+| `wanbao_black_iron_box` | 萬寶閣暗標黑鐵帳箱 | evidence | 雲津交割廳擠兌封庫後起獲貼三宗暗標箱（`/clone/item/wanbao_black_iron_box.c`） | 載明百八十萬靈石票期貨挪用暨「丹鼎丙柒／天工赤火／太清雷律」對流；缺親筆原署（Ch. 115–116） | `corroborative` (Act 4 實裝) |
+| `sanyuan_isolation_mist` | 百草中和隔離霧劑 | consumable/tool | 雪線苔乾粉、苦參、甘草暨微溫礦灰調劑（`/clone/item/sanyuan_isolation_mist.c`） | 黏壓結晶孢子並阻毒域於盆地半里外；殺不死鶴壽體內毒瘤（Ch. 119） | `canon` (Act 4 實裝) |
+| `yunjin_relief_treaty` | 雲津萬山臨時互市與救濟協約 | credential/lore | 沈泥聯合公所與票號起草、三大掌門聯署新約（`/clone/item/yunjin_relief_treaty.c`） | 除籍沒收何萬金家產並首設三宗與商埠共同議事席，屬制度第一步仍脆弱（Ch. 120） | `canon` (Act 4 實裝) |
 
 ## 7. 道具資料欄位建議
 

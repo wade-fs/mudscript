@@ -128,10 +128,14 @@
 - **EV319（Ch. 111｜`v3_preserve_field_evidence`）**：半月返抵黑山長城，五人皆穩登 **Lv.85**；親還韓素乙十七銅哨與實測名冊副本、於泥途地窖封妥四組火漆密封鐵證；並分頭串聯雷烈（備《急鎮丸依賴與死因統計簿》）、魯長老（允坐會武百工試裁判席盯材料批次）及太清苦修派【簡素真人】（`jian_su`）定下「三日後子時為【清修偏峰】Lv.73 老弟子【元青】（`yuan_qing`）穩妥剝離早期晶絲以換雲頂證詞」之實證約，同步於引擎側將 `EVENT_TIER2_CRISIS` 備妥 `T-1 → T0`（`hearing_ready`）與 `dump_status` 證物帳本檢視。
 - **EV320**：三宗論道會武是公開盛會，包含技藝、武備、丹器與商埠交割展示；不應只作為主角比武舞台。
 - **EV321**：各方提出帳冊、病案、軍需與器材記錄，證據互相矛盾之處要保留，讓讀者看到調查成本。
-- **EV322**：長老道化急變。病患危機先於政治揭露；救治與隔離有時間壓力，不能只當成反派變身。
-- **EV323**：獸潮壓迫防線，迫使各宗門暫時合作。傷亡、城寨損毀與戰後補給必須入帳。
-- **EV324**：三元互濟只能完成有限病例或局部機制驗證，不等於徹底治癒所有反噬。
-- **EV325**：改革提案遭遇利益反彈。血精禁用、替代療法、工匠生計、前線戰力與宗門權力必須同時考慮。
+### EV320–EV325：公開會武、道化驚變、三元鎮脈與雲津新約（第 112–120 章實裝）
+
+- **EV320（Ch. 112–114, 116｜`v3_act4_cloud_top_tournament`、`v3_evidence_chain_hearing`）**：清修偏峰五子歷一個半時辰為 Lv.73 元青剝離晶絲換【簡素真人】登雲頂作證；十年一度【雲頂三宗論道會武】於【問道天台】開幕（`tournament_craft_arena.c`、`tournament_combat_arena.c`、`hearing_hall.c`），林鐵生三錘破趙烈（`zhao_lie`）煞火魔偶封存暗紅脆化晶屑（`/clone/item/brittle_shahuomou_shard.c`）、顧玄雙盲試毒逼出李青雲（`li_qingyun`）紅血引子來源（`/clone/item/sanyuan_shengji_dan.c`）、燕隼擊敗過量服藥之王鐵牛（`wang_tieniu`，`/clone/item/wang_red_pill_vial.c`）、柳清虛踩東北三度半息避雷死角敗韓蒼（`han_cang`）；高台四線呈證觸發【紫霄真人】、【鐵背山主】、【玄樞門主】頒三宗聯席令暫停三長老職權立五方查核席，並於【鶴壽】自飲兩管母液兼【玄冥】拍碎護山主令瞬間引爆死局。
+- **EV321（Ch. 115–116｜`v3_act4_cloud_top_tournament`、`v3_cross_sect_evidence_audit`）**：交割廳（`exchange_hall.c`）聯手十七債權商戶擠兌萬寶閣，揭發百八十萬靈石票偽造越冬燃料倉單炒作黑市礦藥期貨並封存後庫七口黑鐵帳箱（`/clone/item/wanbao_black_iron_box.c`），同時嚴守「缺親筆原署名印章比對」與「先查原簿後定謀逆」之程序保管鏈邊界。
+- **EV322（Ch. 117｜`v3_crystal_quarantine_response`、`v3_act4_sanyuan_defense`）**：鶴壽結晶孢子與玄冥碎柱極寒毒氣交壓下沉形成半里→百丈半山毒域；【石牌坊迎風口】（`stone_arch_quarantine.c`）緊急設甲區救治三十餘名傷員，【陸觀瀾】以廢半邊經絡為代價死壓【毒域東側副陣柱】（`crystal_poison_edge.c`）三十息換柳清虛與顧玄二十息搶回護箱衛士，赤煉趁初三息掀維修井暗門潛逃（`down`→`machinery_depths`）。
+- **EV323（Ch. 118–119｜`v3_north_wall_beast_surge`、`v3_act4_sanyuan_defense`）**：赤煉鑽探殘煞疊加天台主陣崩毀致鎮山陣脈斷流半數，Lv.95【冰獄骨龍王】（`ice_bone_dragon`）率上千頭二階荒獸轟垮【黑山長城西段】（`west_wall_breach.c`）三十丈城牆暨兩座弩樓，累積八十多具軍民屍骨；燕隼偕祁無傷護韓素、阿滿與家屬撤入東側排水石道，林鐵生偕魯長老等以純蒸汽熱壓推【巨靈神機】循玄鐵暗門（`machinery_depths` `north`）頂住第二道內門樑柱。
+- **EV324（Ch. 119｜`v3_act4_sanyuan_defense`、`v3_crystal_quarantine_response`、`v3_north_wall_beast_surge`）**：不依賴血精之五線有限協同——沈泥萬山廣場雙倍運價急調八十餘雪橇五百腳夫分流東西道；顧玄二十口鐵鍋調制【百草中和隔離霧】（`/clone/item/sanyuan_isolation_mist.c`）配杜青禾十丈生石灰線阻毒於盆地半里外（明記殺不死鶴壽體內毒瘤）；柳清虛等撥正十二柱東三度七分立【三元鎮脈陣】壓慢骨龍三成；唐映紅旗三段輪替、燕隼藉巨靈神機右傾半息施《破核》重創骨龍左肋舊創迫退獸群（連接桿過載報廢）；鶴壽重傷鎖押丹鼎鐵室、玄冥斷臂落網。
+- **EV325（Ch. 120｜`v3_postwar_reform_and_restitution`）**：聯席公告停採封爐兼平反走山隊（韓林入碑，燕山生死續 `open`）暨「雲記」三十年前除名案（高層簽署姓氏仍空白）；面對停爐致【陶生】與窯工家庭斷炊之現實反彈，重組拍賣萬寶閣空倉開設【西街無毒廢料回收廠】（`west_street_recycling.c`），並簽署《雲津萬山臨時互市與救濟協約》（`/clone/item/yunjin_relief_treaty.c`）除籍何萬金兼首立三宗商埠共同議事席（推進 `EVENT_TIER2_CRISIS` 至 `T+2`／`defense_outcome` 三檔結算）。
 
 ### EV326–EV327：卷末跨界
 

@@ -1,6 +1,6 @@
 # Tier 2 NPC 名冊（第三卷素材庫）
 
-> 本名冊索引 `characters/tier2/` 內人物檔，並同步標註已實裝於 `/clone/npc/` 之 Mudlib 物件。`canon` 表示既有文件或第三卷正文已確立該人物（第一至三幕 Ch.83–111 出場人物、敵對執事與二階荒獸已全數完成正文與 Mudlib 實裝）。
+> 本名冊索引 `characters/tier2/` 內人物檔，並同步標註已實裝於 `/clone/npc/` 之 Mudlib 物件。`canon` 表示既有文件或第三卷正文已確立該人物（第一至四幕 Ch.83–120 出場人物、敵對首徒與二階骨龍王已全數完成正文與 Mudlib 實裝）。
 
 | ID | 姓名 | 所屬 | 職能 | 登場章節 / Mudlib 狀態 |
 |---|---|---|---|---|
@@ -9,8 +9,10 @@
 | `shen_zhaochen` | 沈照塵 | 太清玄天宮 | 外門／內門競爭者 | canon（Ch.86 登場；`/clone/npc/shen_zhaochen.c`） |
 | `yu_shouzhuo` | 余守拙 | 太清玄天宮 | 藏星秘閣檔案老吏 | canon（Ch.91 登場；`/clone/npc/yu_shouzhuo.c`） |
 | `jian_su` | 簡素真人 | 太清玄天宮 | 苦修派長老 | canon（Ch.92、111 登場；`/clone/npc/jian_su.c`） |
-| `yuan_qing` | 元青 | 太清玄天宮／偏峰 | Lv.73 早期晶化弟子／見證人 | canon（Ch.111 登場；`/clone/npc/yuan_qing.c`） |
-| `xuan_ming` | 玄冥真人 | 太清玄天宮 | 雷符殿與刑律執法長老 | canon（Ch.92、96、101 登場；`/clone/npc/xuan_ming.c`） |
+| `yuan_qing` | 元青 | 太清玄天宮／偏峰 | Lv.73 早期晶化弟子／見證人 | canon（Ch.111–112 登場兼剝離晶絲；`/clone/npc/yuan_qing.c`） |
+| `xuan_ming` | 玄冥真人 | 太清玄天宮 | 雷符殿與刑律執法長老 | canon（Ch.92、96、101、116–120；`/clone/npc/xuan_ming.c`；Ch.117 斷臂關押） |
+| `zixiao_zhenren` | 紫霄真人 | 太清玄天宮 | 太清玄天宮掌門 | canon（Ch.112–120 登場；`/clone/npc/zixiao_zhenren.c`） |
+| `han_cang` | 韓蒼 | 太清玄天宮 | 太清內門首徒（Lv.90 避雷銅柱戰） | canon（Ch.114 登場；`/clone/npc/han_cang.c`） |
 | `lei_lie` | 雷烈 | 八荒武山 | 黑山營獨臂老將 | canon（Ch.87 登場；`/clone/npc/lei_lie.c`） |
 | `yue_tingshan` | 岳停山 | 八荒武山 | 煞血營教頭 | canon（Ch.87 登場；`/clone/npc/yue_tingshan.c`） |
 | `tang_ying` | 唐映 | 八荒武山 | 破軍重弓塞女校尉 | canon（Ch.87 登場；`/clone/npc/tang_ying.c`） |
@@ -18,13 +20,18 @@
 | `iron_yak` | 鐵甲寒犛 | 北荒／長城防線 | 長城三號豁口二階成年荒獸 | canon（Ch.93 登場；`/clone/npc/iron_yak.c`） |
 | `du_qinghe` | 杜青禾 | 八荒武山 | 傷兵養息院醫官 | canon（Ch.93 登場；`/clone/npc/du_qinghe.c`） |
 | `qi_wushang` | 祁無傷 | 八荒武山 | 北荒巡哨隊斥候 | canon（Ch.94 登場；`/clone/npc/qi_wushang.c`） |
-| `a_man` | 阿滿 | 八荒武山 | 軍寨炊事／家屬聯絡 | canon（Ch.94 登場；`/clone/npc/a_man.c`） |
+| `a_man` | 阿滿 | 八荒武山 | 軍寨炊事／家屬聯絡 | canon（Ch.94、118 登場；`/clone/npc/a_man.c`） |
+| `tiebei_shanzhu` | 鐵背山主 | 八荒武山 | 八荒武山掌門 | canon（Ch.112–120 登場；`/clone/npc/tiebei_shanzhu.c`） |
+| `wang_tieniu` | 王鐵牛 | 八荒武山 | 力道會武首徒（Lv.89 服藥違規者） | canon（Ch.114 登場；`/clone/npc/wang_tieniu.c`） |
 | `lu_zhanglao` | 魯長老（本名待定） | 天工閣 | 千機院長老 | canon（Ch.88 登場；`/clone/npc/lu_zhanglao.c`） |
 | `zhang_bailian` | 章百鍊 | 天工閣 | 地火鍛兵台總匠 | canon（Ch.88 登場；`/clone/npc/zhang_bailian.c`） |
 | `ji_heng` | 季衡 | 天工閣 | 萬機地窟值守匠師 | canon（Ch.95 登場；`/clone/npc/ji_heng.c`） |
 | `wenjiu` | 聞九 | 天工閣 | 陣圖工房女陣匠 | canon（Ch.95 登場；`/clone/npc/wenjiu.c`） |
-| `chi_lian` | 赤煉 | 天工閣 | 長老／血精母脈線 | canon（Ch.95 登場；`/clone/npc/chi_lian.c`；Ch.120 潛逃） |
-| `he_shou` | 鶴壽 | 丹鼎宗 | 大長老／延命丹線 | canon（Ch.89 登場；`/clone/npc/he_shou.c`） |
+| `chi_lian` | 赤煉 | 天工閣 | 長老／血精母脈線 | canon（Ch.95 登場；`/clone/npc/chi_lian.c`；Ch.117–120 潛逃） |
+| `xuanshu_menzhu` | 玄樞門主 | 千機百巧門 | 天工／丹鼎總門主 | canon（Ch.112–120 登場；`/clone/npc/xuanshu_menzhu.c`） |
+| `zhao_lie` | 趙烈 | 天工閣／千機 | 器試首徒（Lv.84 操煞火魔偶） | canon（Ch.113 登場；`/clone/npc/zhao_lie.c`） |
+| `he_shou` | 鶴壽 | 丹鼎宗 | 大長老／延命丹線 | canon（Ch.89 登場；`/clone/npc/he_shou.c`；Ch.116–120 重傷監禁） |
+| `li_qingyun` | 李青雲 | 丹鼎宗 | 丹試首徒（Lv.84 煉九轉增元丹） | canon（Ch.113 登場；`/clone/npc/li_qingyun.c`） |
 | `bai_henian` | 白鶴年 | 丹鼎宗 | 外聘醫理師 | canon（Ch.89 登場；`/clone/npc/bai_henian.c`） |
 | `ye_qingzhi` | 葉青枝 | 丹鼎宗 | 百草谷靈植管事 | canon（Ch.89 登場；`/clone/npc/ye_qingzhi.c`） |
 | `sun_wenlu` | 孫聞露 | 丹鼎宗 | 醫理院病案掌記 | canon（Ch.89、97 登場；`/clone/npc/sun_wenlu.c`） |
@@ -47,7 +54,8 @@
 | `ice_bear_king` | 北荒冰熊王 | 北荒／戰神遺塚 | 二階高階（Lv.82）阻路凶獸 | canon（Ch.105 登場；`/clone/npc/ice_bear_king.c`） |
 | `private_league_envoy` | 私盟大執事 | 私盟／天工閣暗線 | 二階（Lv.88）千機堂副執印頭目 | canon（Ch.109–110 登場；`/clone/npc/private_league_envoy.c`） |
 | `tiger_mech_beast` | 虎煞戰鬥機關獸 | 私盟／天工閣暗線 | 二階重甲（Lv.84）戰鬥傀儡 | canon（Ch.110 登場；`/clone/npc/tiger_mech_beast.c`） |
-| `yan_shan` | 燕山 | 北荒／失蹤 | 走山隊領隊、燕隼大伯 | canon（生死未明，Ch.94、104–105 遺物線） |
+| `ice_bone_dragon` | 冰獄骨龍王 | 北荒極寒裂谷 | 太古亞龍種凶獸王（Lv.95 左肋舊創） | canon（Ch.118–119 登場；`/clone/npc/ice_bone_dragon.c`） |
+| `yan_shan` | 燕山 | 北荒／失蹤 | 走山隊領隊、燕隼大伯 | canon（Ch.94、104–105 遺物線；Ch.120 平反未尋獲，生死未明） |
 
 ## 名冊使用規則
 
