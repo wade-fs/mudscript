@@ -1148,6 +1148,18 @@ mixed trigger_quest_event(object who, string event_type, mixed *args) {
     return trigger_event(who, event_type, data);
 }
 
+int match_kill_mob(string target_mob, object victim, string victim_id, string victim_name, string victim_file) {
+    if (!target_mob || target_mob == "") return 0;
+    if (victim_id != "" && victim_id == target_mob) return 1;
+    if (victim && (victim->id(target_mob) || victim->query_name() == target_mob)) return 1;
+    if (victim_file && strsrch(victim_file, target_mob) != -1) return 1;
+    if (target_mob == "wolf" && ((victim_name && strsrch(victim_name, "狼") != -1) || (victim_file && strsrch(victim_file, "wolf") != -1))) return 1;
+    if (target_mob == "zhao si" && ((victim_name && strsrch(victim_name, "趙四") != -1) || (victim_file && strsrch(victim_file, "zhao") != -1))) return 1;
+    if ((target_mob == "mine_rat" || target_mob == "rat") && ((victim_name && strsrch(victim_name, "鼠") != -1) || (victim_file && strsrch(victim_file, "rat") != -1))) return 1;
+    if ((target_mob == "wild_bear" || target_mob == "bear") && ((victim_name && strsrch(victim_name, "熊") != -1) || (victim_file && strsrch(victim_file, "bear") != -1))) return 1;
+    return 0;
+}
+
 mixed trigger_event(object who, string event_type, mapping data) {
     if (!who || !mapp(data)) return 0;
 
@@ -1370,16 +1382,7 @@ mixed trigger_event(object who, string event_type, mapping data) {
             mapping s0_kill = steps[0];
             if (!q["start_npc"] && s0_kill["target_type"] == "kill" && event_type == "kill") {
                 string target_mob = s0_kill["target_mob"] ? s0_kill["target_mob"] : (s0_kill["target_npc"] ? s0_kill["target_npc"] : s0_kill["target"]);
-                int mob_matched = 0;
-                if (target_mob && target_mob != "") {
-                    if (victim && (victim->id(target_mob) || (victim_id != "" && victim_id == target_mob) || victim->query_name() == target_mob)) {
-                        mob_matched = 1;
-                    } else if (victim_file && strsrch(victim_file, target_mob) != -1) {
-                        mob_matched = 1;
-                    } else if (target_mob == "zhao si" && ((victim_name && strsrch(victim_name, "趙四") != -1) || (victim_file && strsrch(victim_file, "zhao") != -1))) {
-                        mob_matched = 1;
-                    }
-                }
+                int mob_matched = match_kill_mob(target_mob, victim, victim_id, victim_name, victim_file);
                 if (mob_matched) {
                     string req_loc = s0_kill["location"] ? s0_kill["location"] : s0_kill["room"];
                     if (req_loc && req_loc != "") {
@@ -1542,22 +1545,7 @@ mixed trigger_event(object who, string event_type, mapping data) {
             // D. 擊殺類步驟 (kill)
             else if (t_type == "kill" && event_type == "kill") {
                 string target_mob = s["target_mob"] ? s["target_mob"] : (s["target_npc"] ? s["target_npc"] : s["target"]);
-                int mob_matched = 0;
-                if (target_mob && target_mob != "") {
-                    if (victim && (victim->id(target_mob) || (victim_id != "" && victim_id == target_mob) || victim->query_name() == target_mob)) {
-                        mob_matched = 1;
-                    } else if (victim_file && strsrch(victim_file, target_mob) != -1) {
-                        mob_matched = 1;
-                    } else if (target_mob == "wolf" && ((victim_name && strsrch(victim_name, "狼") != -1) || (victim_file && strsrch(victim_file, "wolf") != -1))) {
-                        mob_matched = 1;
-                    } else if (target_mob == "zhao si" && ((victim_name && strsrch(victim_name, "趙四") != -1) || (victim_file && strsrch(victim_file, "zhao") != -1))) {
-                        mob_matched = 1;
-                    } else if ((target_mob == "mine_rat" || target_mob == "rat") && ((victim_name && strsrch(victim_name, "鼠") != -1) || (victim_file && strsrch(victim_file, "rat") != -1))) {
-                        mob_matched = 1;
-                    } else if ((target_mob == "wild_bear" || target_mob == "bear") && ((victim_name && strsrch(victim_name, "熊") != -1) || (victim_file && strsrch(victim_file, "bear") != -1))) {
-                        mob_matched = 1;
-                    }
-                }
+                int mob_matched = match_kill_mob(target_mob, victim, victim_id, victim_name, victim_file);
 
                 if (mob_matched) {
                     // 防重計：同一個怪物死亡事件不重計

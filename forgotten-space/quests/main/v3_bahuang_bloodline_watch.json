@@ -3,43 +3,44 @@
   "name": "八荒巡防：傷兵、血丹與走山舊案",
   "category": "main",
   "type": "once",
+  "region": "bahuang",
   "start_npc": "lei_lie",
   "start_topic": "巡防",
   "steps": [
     {
       "step": 1,
-      "title": "巡查傷兵症狀",
-      "hint": "向杜青禾了解黑山營傷兵的症狀與既有病史。",
+      "title": "巡查傷兵養息院病案",
+      "hint": "前往傷兵養息院向女醫官杜青禾了解宿將夜咳黑血、躁狂與既有病史。",
       "target_type": "talk",
       "target_npc": "du_qinghe",
       "target_topic": "傷兵",
-      "location": "/d/sects/bahuang/medical_yard.c",
+      "location": "/d/sects/bahuang/restoration_hall",
       "on_complete": {
-        "msg": "症狀被記錄，但不能直接歸因於血精。"
+        "msg": "杜青禾出示溫度與臟腑衰弱統計，堅持在未驗清藥物成分前不憑傳聞扣帽。"
       }
     },
     {
       "step": 2,
-      "title": "核對夜間藥丸",
-      "hint": "向雷烈詢問前線藥丸的配發來源與使用紀錄。",
+      "title": "核對定心急鎮丸來源",
+      "hint": "向黑山營獨臂老將雷烈詢問營內無藥單藥丸的配給來源與守關難處。",
       "target_type": "talk",
       "target_npc": "lei_lie",
       "target_topic": "藥丸",
-      "location": "/d/sects/bahuang/black_mountain_camp.c",
+      "location": "/d/sects/bahuang/black_mountain_camp",
       "on_complete": {
-        "msg": "雷烈只確認部分傷兵使用不明藥丸，拒絕以傳聞定罪。"
+        "msg": "雷烈坦承老兵靠配給急鎮丸硬撐長城防線換防，拒絕憑氣味臆測輕易定罪。"
       }
     },
     {
       "step": 3,
-      "title": "調閱走山隊軍需副本",
-      "hint": "向祁無傷查詢五年前走山隊的軍需與撤離紀錄。",
+      "title": "訪查北荒斥候營巡哨紀錄",
+      "hint": "前往北荒巡哨營向斥候祁無傷詢問鬼哭冰澗地底異動與五年前走山隊路線。",
       "target_type": "talk",
       "target_npc": "qi_wushang",
       "target_topic": "走山隊",
-      "location": "/d/sects/bahuang/black_mountain_camp.c",
+      "location": "/d/sects/bahuang/north_watch",
       "on_complete": {
-        "msg": "取得可供比對的軍需副本，燕山生死仍未確認。"
+        "msg": "祁無傷確認冰澗崩塌位置與夜間規律地底震動，燕山生死尚須現場探冰取證。"
       }
     }
   ],

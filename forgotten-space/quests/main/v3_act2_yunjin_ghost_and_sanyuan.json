@@ -1,0 +1,78 @@
+{
+  "id": "v3_act2_yunjin_ghost_and_sanyuan",
+  "name": "泥途夜聚：鬼市密帳與三元剝離晶絲",
+  "category": "main",
+  "type": "once",
+  "region": "yunjin",
+  "start_npc": "gu_lanzhou",
+  "start_topic": "匯兌",
+  "steps": [
+    {
+      "step": 1,
+      "title": "雲海鬼市購買黑鐵箱情報",
+      "hint": "經三宗物資街與山道車馬行西角暗門入雲海鬼市，向鬼見愁打聽半夜搬運黑鐵箱之無標記經生。",
+      "target_type": "talk",
+      "target_npc": "gui_jianchou",
+      "target_topic": "黑鐵箱",
+      "location": "/d/yunjin/ghost_market",
+      "on_complete": {
+        "msg": "鬼見愁不保真假地供出初七廿二半夜萬寶閣後門黑鐵箱與何萬金險些遺落密帳的線索。"
+      }
+    },
+    {
+      "step": 2,
+      "title": "暗巷散播稽核風聲截獲密帳",
+      "hint": "抵萬寶閣後門暗巷交界輸入 rumor audit 放出通寶總號稽核風聲驚走灰袍經生。",
+      "target_type": "action",
+      "action_verb": "rumor",
+      "action_target": "audit",
+      "location": "/d/yunjin/wanbao_back_alley",
+      "on_complete": {
+        "give_item": "/clone/item/ev3_private_purchase_ledger.c",
+        "msg": "灰袍經生慌亂落馬遺下餘溫猶存的《延命私盟密帳索引》，揭出十三府城與三組代號。"
+      }
+    },
+    {
+      "step": 3,
+      "title": "莫三入津核對玄木代號",
+      "hint": "返泥途商棧地下石室將密帳示予隨冬糧大車隊北上的莫三辨認舊錄。",
+      "target_type": "talk",
+      "target_npc": "mo_san",
+      "target_topic": "玄木",
+      "location": "/d/yunjin/mudway_store_cellar",
+      "on_complete": {
+        "msg": "莫三借老花銅鏡認出「乙巳年舊盟未結轉帳代號：玄木」，將舊商盟滅門因果與今日私盟掛鉤。"
+      }
+    },
+    {
+      "step": 4,
+      "title": "五子地窖協力剝離早期道化晶絲",
+      "hint": "於泥途商棧地下石室輸入 strip filament 執行「法・力・物・商・醫」三元互濟手術。",
+      "target_type": "action",
+      "action_verb": "strip",
+      "action_target": "filament",
+      "location": "/d/yunjin/mudway_store_cellar",
+      "on_complete": {
+        "give_item": "/clone/item/cyan_crystal_filament_vial.c",
+        "msg": "五人順利從柳清虛太淵穴剝出半寸淡青晶絲，同時如實記下指端麻木與半日短暫失憶副作用。"
+      }
+    },
+    {
+      "step": 5,
+      "title": "借聯合勘探破局稽查反撲",
+      "hint": "歷經玄冥私印突擊外庫查封與憑跨州信印保下阿四後，至萬山商埠公所向羅九秤確認三宗聯合勘探隊輜重招標規則。",
+      "target_type": "talk",
+      "target_npc": "luo_jiucheng",
+      "target_topic": "聯合勘探",
+      "location": "/d/yunjin/public_office",
+      "on_complete": {
+        "msg": "泥途商棧以雙聯副帳與跨州信印保住根基，並鎖定十日後隨軍輜重雪橇投標與北荒勘探入局名單。"
+      }
+    }
+  ],
+  "rewards": {
+    "exp": 1100,
+    "pot": 320,
+    "money": 400
+  }
+}

@@ -13,10 +13,14 @@ void create() {
              "紫紅斑紋的變異「寒髓草」。石台邊架著文火炭爐與小陶壺，細觀寒髓草根鬚末端，\n"
              "隱見泛著冰藍光澤的共生「雪線苔」（指令：extract moss）。驗藥席前立著白鶴年、\n"
              "葉青枝，以及在遠處負手觀考的大長老鶴壽。\n"
-             "往西南退回【百草丹門】。\n");
+             "往西南退回【百草丹門】，向北步入【醫理院暨病案封存室】，西北山背石道通往【廢丹崖】，\n"
+             "順螺旋石階向下可入地下三百丈【地肺丹火窟】。\n");
 
     set_exits(([
         "southwest": "/d/sects/danding/gate.c",
+        "north":     "/d/sects/danding/medical_archive.c",
+        "northwest": "/d/sects/danding/discarded_pill_cliff.c",
+        "down":      "/d/sects/danding/earth_fire_pill_cave.c",
     ]));
 
     set("is_outdoor", 1);

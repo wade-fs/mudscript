@@ -11,7 +11,7 @@ void create() {
     set_name("鬼見愁");
     set_short(MAG "地下黑市牙商" NOR " 鬼見愁");
     set_long("一位戴著青銅半臉鬼面、披著寬大黑斗篷的神秘牙商，在磷火搖曳的地下鬼市收售違禁毒藥、無印生銅與黑貨。\n");
-    set_id(({ "under_black_market_broker", "guijianchou", "gui jianchou", "black market broker", "鬼見愁", "黑市牙商", "牙商" }));
+    set_id(({ "gui_jianchou", "under_black_market_broker", "guijianchou", "gui jianchou", "black market broker", "鬼見愁", "黑市牙商", "牙商" }));
 
     setup_archetype("I", 25);
     set("class", "mortal");
@@ -24,4 +24,10 @@ void create() {
 
     add_response(({ "契版", "青銅契版", "史前" }),
         "鬼見愁壓低聲音：「這塊【史前商盟青銅契版殘片】是濁水暗河淘出來的古物。實不相瞞，過去半年在黑市大批掃貨收購高純血精的，正是那些身穿無標記長袍、持有二階名山靈石的採辦經生！」");
+
+    add_response(({ "黑鐵箱", "萬寶閣", "舊約", "情報", "延命私盟" }),
+        "鬼見愁發出夜梟似的低笑，伸出乾枯手指比出三道價碼：「雲海鬼市可不替你保什麼證據鏈！\n"
+        "一枚靈石聽市井傳聞；五枚靈石說實見證——初七廿二半夜有人從萬寶閣後門扛出三口黑鐵箱，領隊穿著沒三宗標記的洗白灰布棉襖；\n"
+        "三十枚靈石票不還價——昨日下午何萬金在後門茶攤差點掉了一本未上公所帳的『北境延命私盟』薄索引冊。\n"
+        "那灰袍經生每回交割後常走萬寶閣後門與鬼市暗巷交界……你若敢散『通寶總號稽核跨州飛錢』風聲（wanbao_back_alley 指令：rumor audit），自有驚弓之鳥替你掉東西。」");
 }

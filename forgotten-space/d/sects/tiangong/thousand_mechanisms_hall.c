@@ -13,10 +13,12 @@ void create() {
              "每座石台正中央架著一具半人高的二階「青銅搬山傀儡」右臂驅動關節（puppet），\n"
              "一側堆放著高碳熟鐵條、溫油淬槽與測試用的三百斤重鐵坨（指令：repair puppet）。\n"
              "主考台前站著千機院魯長老與地火鍛兵台總匠章百鍊。\n"
-             "向西穿過閘門可返【千鍛百巧門】。\n");
+             "向西穿過閘門可返【千鍛百巧門】，向東走入【地火鍛兵台】，向南步入【陣圖工房】。\n");
 
     set_exits(([
-        "west": "/d/sects/tiangong/gate.c",
+        "west":  "/d/sects/tiangong/gate.c",
+        "east":  "/d/sects/tiangong/forge_yard.c",
+        "south": "/d/sects/tiangong/array_drafting_room.c",
     ]));
 
     set("is_outdoor", 0);

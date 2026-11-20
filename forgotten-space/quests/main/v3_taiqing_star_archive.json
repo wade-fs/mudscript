@@ -3,48 +3,62 @@
   "name": "太清星律：原始星圖與修訂本",
   "category": "main",
   "type": "once",
+  "region": "taiqing",
   "start_npc": "song_zhiwei",
   "start_topic": "星圖校讀",
   "steps": [
     {
       "step": 1,
       "title": "取得星圖校讀差事",
-      "hint": "向宋知微申領舊星圖校讀差事。",
+      "hint": "於周天星律院向宋知微申領限時三日之藏星秘閣校讀手令。",
       "target_type": "talk",
       "target_npc": "song_zhiwei",
       "target_topic": "星圖校讀",
-      "location": "/d/sects/taiqing/star_law_hall.c",
+      "location": "/d/sects/taiqing/star_law_hall",
       "on_complete": {
-        "msg": "柳清虛取得有限度的檔案校讀權。"
+        "msg": "柳清虛取得有限度的檔案校讀手令，得入天柱峰背陰藏星秘閣。"
       }
     },
     {
       "step": 2,
-      "title": "比對藏星秘閣檔案",
-      "hint": "向余守拙查閱不同年代的原始星圖與修訂本。",
+      "title": "查閱三版本紫微星官錄",
+      "hint": "前往藏星秘閣向檔案老吏余守拙詢問原始星圖與三十年前「校順」重抄經過。",
       "target_type": "talk",
       "target_npc": "yu_shouzhuo",
       "target_topic": "原始星圖",
-      "location": "/d/sects/taiqing/hidden_archive.c",
+      "location": "/d/sects/taiqing/hidden_archive",
       "on_complete": {
-        "msg": "你確認多份星圖存在修訂差異，但修訂原因尚未查明。"
+        "msg": "余守拙指出蟲蛀舊箱內原測廢頁與南境青檀宣紙的年代矛盾，嚴囑莫將紙墨猜測寫進執法彙報。"
       }
     },
     {
       "step": 3,
-      "title": "保存異常觀測紀錄",
-      "hint": "向陸觀瀾提交歲差計算與差異清單。",
+      "title": "以分規炭筆抄錄星曆誤差",
+      "hint": "在藏星秘閣輸入 collate archive 核對甲子冬至星宿一度半平推誤差。",
+      "target_type": "action",
+      "action_verb": "collate",
+      "action_target": "archive",
+      "location": "/d/sects/taiqing/hidden_archive",
+      "on_complete": {
+        "give_item": "/clone/item/tool_star_observation_plate.c",
+        "msg": "你核錄下紙墨斷層與一度半人為平推數據，製作為可重複核驗之星曆觀測校驗板。"
+      }
+    },
+    {
+      "step": 4,
+      "title": "向授業師報備異常觀測",
+      "hint": "前往太清雲梯山門向陸觀瀾稟報歲差計算與風雪預警誤差清單。",
       "target_type": "talk",
       "target_npc": "lu_guanlan",
       "target_topic": "歲差",
-      "location": "/d/sects/taiqing/star_law_hall.c",
+      "location": "/d/sects/taiqing/gate",
       "on_complete": {
-        "msg": "差異清單被封存為可供後續交叉驗證的線索。"
+        "msg": "差異清單被謹慎封存於草稿之中，預留後續於觀星台進行雙向盲測。"
       }
     }
   ],
   "rewards": {
-    "exp": 700,
-    "pot": 200
+    "exp": 750,
+    "pot": 220
   }
 }

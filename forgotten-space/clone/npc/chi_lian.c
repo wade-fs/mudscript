@@ -1,0 +1,30 @@
+// /clone/npc/chi_lian.c
+// 赤煉・天工閣實權長老 (chi_lian) - 萬機地窟 (Ch.95)
+
+#include "/include/ansi.h"
+#include "/include/globals.h"
+
+inherit "/std/npc.c";
+
+void create() {
+    ::create();
+    set_name("赤煉");
+    set_short(HIR "天工閣長老" NOR " 赤煉真人");
+    set_long("身形高大的二階巔峰強者，披著赤紅暗金雲紋長袍，鬢角微霜而神態偏執狂熱。\n"
+             "他身後常隨著抬鉛封鐵箱的親信，堅信為鎮守北荒防線不惜以高能晶柱強啟鎮山母機。\n");
+    set_id(({ "chi_lian", "chi lian", "chilian", "赤煉", "赤煉長老", "赤煉真人" }));
+
+    setup_archetype("E", 92);
+    set("class", "gong");
+    set("faction", "tiangong");
+    set("roles", ({ "elder", "artisan" }));
+    set("home_room", "/d/sects/tiangong/machinery_depths.c");
+
+    add_response(({ "晶柱", "特殊工單", "四號庫房", "試車" }),
+        "赤煉長老冷冷掃過四週，二階巔峰威壓如烈火貼面：「北荒大裂谷外獸群異動今年提前了整整一個月！\n"
+        "八荒長城西段去年凍裂七處基座還沒錢重修——三宗百年不破，靠的就是這尊趴了五年的鎮山母機！\n"
+        "這六根乙字三號口徑血精晶柱暫封進四號庫房，等三宗聯合勘探隊測回北荒母脈壓強圖，看誰還敢攔！」");
+
+    add_response(({ "規程", "魯長老", "脆化" }),
+        "赤煉哼了一聲，將簽妥的特殊工單拍在石桌上：「一切責任記本座頭上，難不成看著三階獸王踏平關牆？」");
+}

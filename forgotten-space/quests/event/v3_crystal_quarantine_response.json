@@ -19,7 +19,7 @@
       "target_type": "talk",
       "target_npc": "sun_wenlu",
       "target_topic": "隔離區",
-      "location": "/d/sects/danding/medical_hall.c"
+      "location": "/d/sects/danding/medical_archive"
     },
     {
       "step": 2,
@@ -28,7 +28,7 @@
       "target_type": "talk",
       "target_npc": "du_qinghe",
       "target_topic": "撤離通道",
-      "location": "/d/sects/bahuang/medical_yard.c"
+      "location": "/d/sects/bahuang/restoration_hall"
     },
     {
       "step": 3,
@@ -37,7 +37,7 @@
       "target_type": "talk",
       "target_npc": "sun_wenlu",
       "target_topic": "照護紀錄",
-      "location": "/d/sects/danding/medical_hall.c"
+      "location": "/d/sects/danding/medical_archive"
     }
   ],
   "event_outcomes": {

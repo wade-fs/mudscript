@@ -47,6 +47,7 @@ int register_evidence(string ev_id, mapping data);
 int mark_evidence_seen(string ev_id, string actor_id);
 mapping evaluate_beast_surge();
 mapping evaluate_military_crisis();
+mapping evaluate_tier2_crisis();
 void freeze_resolution();
 void propagate_beast_to_military();
 string query_event_stage(string event_id);
@@ -881,6 +882,57 @@ mapping evaluate_military_crisis() {
     return breakdown;
 }
 
+// ── 純函式化動態評估器：Tier 2 北荒與三宗危機 (Pure Evaluator) ──
+mapping evaluate_tier2_crisis() {
+    string stage        = query_event_stage(EVENT_TIER2_CRISIS);
+    if (!stage || stage == "") stage = STAGE_TIER2_T_MINUS_2;
+
+    int ev_strength     = query_metric(EVENT_TIER2_CRISIS, METRIC_EVIDENCE_STRENGTH);
+    int verifiability   = query_metric(EVENT_TIER2_CRISIS, METRIC_EVIDENCE_VERIFIABILITY);
+    int intel_conf      = query_metric(EVENT_TIER2_CRISIS, METRIC_INTEL_CONFIDENCE);
+    int trust           = query_metric(EVENT_TIER2_CRISIS, METRIC_CIVILIAN_TRUST);
+    int resilience      = query_metric(EVENT_TIER2_CRISIS, METRIC_SETTLEMENT_RESILIENCE);
+    int pressure        = query_metric(EVENT_TIER2_CRISIS, METRIC_HERD_PRESSURE);
+
+    int v3_verified_sources = 0;
+    if (evidence_registry && mapp(evidence_registry)) {
+        foreach (string eid, mapping ev in evidence_registry) {
+            if (strsrch(eid, "v3_") == 0 && ev["verified"]) {
+                v3_verified_sources += 1;
+            }
+        }
+    }
+
+    string readiness = "insufficient_leads";
+    if (verifiability >= 3 && ev_strength >= 3) {
+        readiness = "hearing_ready";
+    } else if (verifiability >= 2 || ev_strength >= 2) {
+        readiness = "corroborating_chain";
+    }
+
+    string expedition_posture = "fact_gathering";
+    if (stage == STAGE_TIER2_T_MINUS_1) {
+        expedition_posture = "expedition_mobilized";
+    } else if (stage == STAGE_TIER2_T_0) {
+        expedition_posture = "public_hearing_and_crisis";
+    } else if (stage == STAGE_TIER2_T_PLUS_1 || stage == STAGE_TIER2_T_PLUS_2) {
+        expedition_posture = "stabilization_and_reform";
+    }
+
+    return ([
+        "stage"               : stage,
+        "evidence_strength"   : ev_strength,
+        "verifiability"       : verifiability,
+        "intel_confidence"    : intel_conf,
+        "civilian_trust"      : trust,
+        "resilience"          : resilience,
+        "herd_pressure"       : pressure,
+        "v3_verified_sources" : v3_verified_sources,
+        "readiness"           : readiness,
+        "expedition_posture"  : expedition_posture
+    ]);
+}
+
 // ── 顯式跨事件因果傳播 (Explicit Cross-Event Propagation) ─────
 // 只在特定時間推進節點 (離開 T0 進入 T+1 / 進入 T+2) 顯式呼叫一次，杜絕評估器側寫污染
 void propagate_beast_to_military() {
@@ -973,6 +1025,7 @@ int query_stage_entered_at(string event_id) {
 string get_timeout_func(string event_id) {
     if (event_id == EVENT_BEAST_SURGE) return "on_stage_timeout_beast_surge";
     if (event_id == EVENT_MILITARY_CRISIS) return "on_stage_timeout_military_crisis";
+    if (event_id == EVENT_TIER2_CRISIS) return "on_stage_timeout_tier2_crisis";
     return "on_stage_timeout";
 }
 
@@ -984,6 +1037,11 @@ void on_stage_timeout_beast_surge() {
 void on_stage_timeout_military_crisis() {
     if (test_mode) return;
     advance_event_stage(EVENT_MILITARY_CRISIS);
+}
+
+void on_stage_timeout_tier2_crisis() {
+    if (test_mode) return;
+    advance_event_stage(EVENT_TIER2_CRISIS);
 }
 
 void on_stage_timeout(string event_id) {
@@ -1340,6 +1398,12 @@ string dump_status(string event_id) {
         out += sprintf(HIY + "【軍事危機即時衍生視圖（純只讀）】\n" + NOR);
         out += sprintf("  收斂結局代碼：%s (%s)\n", eval_m["ending_code"], eval_m["ending_name"]);
         out += sprintf("  結局說明：%s\n", eval_m["description"]);
+    }
+    if (event_id == EVENT_TIER2_CRISIS) {
+        mapping eval_t2 = evaluate_tier2_crisis();
+        out += sprintf(HIY + "【Tier 2 三宗與北荒危機即時視圖（純只讀）】\n" + NOR);
+        out += sprintf("  階段態勢：%s (%s) | 證據鏈成熟度：%s\n", eval_t2["stage"], eval_t2["expedition_posture"], eval_t2["readiness"]);
+        out += sprintf("  證據強度：%d | 可驗證度：%d | 民間信任：%d\n", eval_t2["evidence_strength"], eval_t2["verifiability"], eval_t2["civilian_trust"]);
     }
 
     out += HIW + "========================================================\n" + NOR;

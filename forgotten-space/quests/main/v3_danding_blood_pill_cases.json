@@ -3,48 +3,75 @@
   "name": "丹鼎病案：延命丹與血精疑雲",
   "category": "main",
   "type": "once",
-  "start_npc": "sun_wenlu",
-  "start_topic": "病案",
+  "region": "danding",
+  "start_npc": "ye_qingzhi",
+  "start_topic": "藥田",
   "steps": [
     {
       "step": 1,
-      "title": "核對藥田異常批次",
-      "hint": "向葉青枝查詢藥田與水渠異常批次。",
+      "title": "核對藥田上游水脈微滲",
+      "hint": "於百草谷向靈植管事葉青枝確認兩處水渠礦酸微滲批次對照樣本。",
       "target_type": "talk",
       "target_npc": "ye_qingzhi",
       "target_topic": "藥田",
-      "location": "/d/sects/danding/herb_garden.c",
+      "location": "/d/sects/danding/herb_garden",
       "on_complete": {
-        "msg": "藥田異常被分批採樣，污染來源尚未確定。"
+        "msg": "葉青枝確認水渠酸蝕對照點並維持小區樣本隔離，調你轉往地肺丹火窟外圍控火。"
       }
     },
     {
       "step": 2,
-      "title": "比對廢丹與病例",
-      "hint": "向孫聞露調閱病案、爐次與廢丹批號。",
-      "target_type": "talk",
-      "target_npc": "sun_wenlu",
-      "target_topic": "病案",
-      "location": "/d/sects/danding/medical_hall.c",
+      "title": "清理排煙夾層窺見丙柒秘密煉爐",
+      "hint": "於地肺丹火窟戴妥甘草口罩輸入 peek flue 清通硫磺排煙並刮取門縫暗紫殘灰。",
+      "target_type": "action",
+      "action_verb": "peek",
+      "action_target": "flue",
+      "location": "/d/sects/danding/earth_fire_pill_cave",
       "on_complete": {
-        "msg": "病例與批次出現關聯疑點，尚需獨立樣本驗證。"
+        "give_item": "/clone/item/pill_reverse_dao_life.c",
+        "msg": "你目睹鶴壽與太清、天工無標記密使清點「萬山乙零四・南十三」含汞血精晶錠煉製血丹，封存門縫殘灰。"
       }
     },
     {
       "step": 3,
-      "title": "保存病理樣本",
-      "hint": "向陶生確認廢丹回收批次與封存位置。",
+      "title": "取信廢丹崖工頭陶生",
+      "hint": "經丙柒暗道或後山雪徑抵廢丹崖，向缺指工頭陶生詢問紫泥廢渣與深溝鐵罐去向。",
       "target_type": "talk",
       "target_npc": "tao_sheng",
       "target_topic": "封存",
-      "location": "/d/sects/danding/discarded_cliff.c",
+      "location": "/d/sects/danding/discarded_pill_cliff",
       "on_complete": {
-        "msg": "取得樣本來源紀錄，不能單憑藥渣推定所有長老成癮。"
+        "msg": "陶生感於你實幹守規，指出石棚後深溝藏著兩只未撒石灰的紫泥廢渣鐵罐與試藥白猿。"
+      }
+    },
+    {
+      "step": 4,
+      "title": "剖檢白猿與封存紫泥廢渣樣本",
+      "hint": "在廢丹崖戴口罩與厚鹿皮手套輸入 dissect ape 剖檢白猿心肺肝腎病變並取證。",
+      "target_type": "action",
+      "action_verb": "dissect",
+      "action_target": "ape",
+      "location": "/d/sects/danding/discarded_pill_cliff",
+      "on_complete": {
+        "give_item": "/clone/item/sample_discarded_pill.c",
+        "msg": "你記錄下血煞癌變實相並令陶生押印作證，製成雙層封存木匣樣本。"
+      }
+    },
+    {
+      "step": 5,
+      "title": "醫理院櫃後互核十七份匿名病案",
+      "hint": "前往醫理院暨病案封存室向孫聞露保證匿名保密並核對長期病程統計。",
+      "target_type": "talk",
+      "target_npc": "sun_wenlu",
+      "target_topic": "病案",
+      "location": "/d/sects/danding/medical_archive",
+      "on_complete": {
+        "msg": "白猿剖檢與「甲一、乙三」匿名病案互鎖證實：血丹僅造成前三月壓抑幻象，停藥逾七日將反撲致死；白鶴年囑將樣本帶下山保管。"
       }
     }
   ],
   "rewards": {
-    "exp": 850,
-    "pot": 260
+    "exp": 950,
+    "pot": 280
   }
 }
