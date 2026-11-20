@@ -13,11 +13,14 @@ void create() {
              "地肺深處傳來低沉嗡鳴，中央玄鐵底座上赫然半跪矗立著十丈高的天工鎮山重器【巨靈神機】\n"
              "——左臂足有兩間屋粗，胸腔維修鐵門敞開著，旁邊搭起臨時三層木質腳手架（指令：inspect core）。\n"
              "值守匠師季衡手抱《地窟安全閘巡檢簿》守於台前，長老赤煉眼神狂熱地盯著主軸動力槽。\n"
-             "向上沿斜行石道可返【地火鍛兵台】，向東則是封存異質能源的【萬機四號庫房】。\n");
+             "向上沿斜行石道可返【地火鍛兵台】，向東則是封存異質能源的【萬機四號庫房】，北面緊閉之\n"
+             "玄鐵暗門與東北上方檢修井暗道分連【黑山長城西段缺口】暨【問道天台救援邊緣】。\n");
 
     set_exits(([
-        "up":   "/d/sects/tiangong/forge_yard.c",
-        "east": "/d/sects/tiangong/vault_four.c",
+        "up":      "/d/sects/tiangong/forge_yard.c",
+        "east":    "/d/sects/tiangong/vault_four.c",
+        "north":   "/d/sects/bahuang/west_wall_breach.c",
+        "northup": "/d/yunjin/crystal_poison_edge.c",
     ]));
 
     set("is_outdoor", 0);

@@ -1,0 +1,102 @@
+{
+  "id": "v3_act4_cloud_top_tournament",
+  "name": "雲頂會武：偏峰試治與百工萬商試",
+  "category": "side",
+  "type": "once",
+  "region": "yunjin",
+  "requirements": { "level": 82 },
+  "start_npc": "jian_su",
+  "start_topic": "三日後",
+  "steps": [
+    {
+      "step": 1,
+      "title": "清修偏峰五子協力剝除元青晶絲",
+      "hint": "於太清清修偏峰石屋輸入 cure yuanqing，歷經一個半時辰依法力、銀針、黑鐵震波與陽氣穩妥抽出元青左臂早期晶絲。",
+      "target_type": "action",
+      "action_verb": "cure",
+      "action_target": "yuanqing",
+      "location": "/d/sects/taiqing/quiet_peak",
+      "on_complete": {
+        "msg": "元青左臂晶光停止啃噬心脈且仍保留局部麻木實據，簡素真人賜下暗灰木牌允於雲頂替眾人發聲。"
+      }
+    },
+    {
+      "step": 2,
+      "title": "東側器試台三錘震破煞火魔偶脆化軸",
+      "hint": "赴問道天台百工丹器雙試台輸入 smash puppet，以烏金長柄鍛錘連落三錘定軸停機而不傷趙烈。",
+      "target_type": "action",
+      "action_verb": "smash",
+      "action_target": "puppet",
+      "location": "/d/yunjin/tournament_craft_arena",
+      "on_complete": {
+        "give_item": "/clone/item/brittle_shahuomou_shard.c",
+        "msg": "魯長老當眾刮封煞火魔偶腹內暗紫脆化軸屑並核對萬機地窟領用簿。"
+      }
+    },
+    {
+      "step": 3,
+      "title": "西側丹試台雙盲銀針檢出九轉血毒",
+      "hint": "留在百工丹器雙試台輸入 test needle，以雙盲純銀試針暨雪線苔活葉比對三元生機丹與九轉增元丹。",
+      "target_type": "action",
+      "action_verb": "test",
+      "action_target": "needle",
+      "location": "/d/yunjin/tournament_craft_arena",
+      "on_complete": {
+        "give_item": "/clone/item/sanyuan_shengji_dan.c",
+        "msg": "九轉增元丹毒枯雪線苔逼出李青雲潰問鶴壽紅血引子來源，顧玄克制封存樣本待審。"
+      }
+    },
+    {
+      "step": 4,
+      "title": "青鋼演武場擊敗過量服藥之王鐵牛",
+      "hint": "步入問道天台力法演武大比台擊敗服下暗紅催血丹虛衝的王鐵牛（wang_tieniu）。",
+      "target_type": "kill",
+      "target_mob": "wang_tieniu",
+      "location": "/d/yunjin/tournament_combat_arena",
+      "on_complete": {
+        "give_item": "/clone/item/wang_red_pill_vial.c",
+        "msg": "鈍頭重箭震裂其護心甲，杜青禾與唐映衝上台雙簽封存掉出的暗紅丸藥瓷瓶。"
+      }
+    },
+    {
+      "step": 5,
+      "title": "避雷銅柱千分之三息死角破韓蒼青玉佩",
+      "hint": "於力法演武大比台輸入 step deadzone 閃過紫霄雷網死角，隨後擊敗露出結晶左眼的韓蒼（han_cang）。",
+      "target_type": "action",
+      "action_verb": "step",
+      "action_target": "deadzone",
+      "location": "/d/yunjin/tournament_combat_arena",
+      "on_complete": {
+        "msg": "眉心青玉佩碎裂顯出韓蒼賽前既存的淡青晶紋與玉珠化瞳孔，簡素亮牌攔下玄冥強抓。"
+      }
+    },
+    {
+      "step": 6,
+      "title": "擊退八柱雷網台衛首徒韓蒼",
+      "hint": "在問道天台力法演武大比台結束韓蒼（han_cang）之比試對決並交醫理院存案。",
+      "target_type": "kill",
+      "target_mob": "han_cang",
+      "location": "/d/yunjin/tournament_combat_arena",
+      "on_complete": {
+        "msg": "宋知微與孫聞露當場接管韓蒼留痕歸入病案追踪冊。"
+      }
+    },
+    {
+      "step": 7,
+      "title": "雲津交割廳拆穿萬寶閣百八十萬期貨黑幕",
+      "hint": "返三宗交割廳暨雲海票號輸入 audit wanbao 聯合羅九秤與顧蘭舟核驗異常匯兌並查封後庫暗標箱。",
+      "target_type": "action",
+      "action_verb": "audit",
+      "action_target": "wanbao",
+      "location": "/d/yunjin/exchange_hall",
+      "on_complete": {
+        "give_item": "/clone/item/wanbao_black_iron_box.c",
+        "msg": "萬寶閣倉房與七口三宗暗標黑鐵帳箱遭依法查封，泥途商棧以跨州匯票穩住全埠糧藥退約。"
+      }
+    }
+  ],
+  "rewards": {
+    "exp": 1600,
+    "pot": 420
+  }
+}

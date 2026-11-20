@@ -3,48 +3,63 @@
   "name": "雲津新約：封存、補償與共同治理",
   "category": "main",
   "type": "once",
+  "region": "yunjin",
+  "requirements": { "level": 90 },
   "start_npc": "luo_jiucheng",
   "start_topic": "新約",
   "steps": [
     {
       "step": 1,
       "title": "登錄停採與封爐決議",
-      "hint": "向羅九秤登錄三宗暫停採掘與封存丹爐決議。",
+      "hint": "於問道天台向羅九秤登錄三宗全面停採北荒與拆封「丙字柒號」丹爐之聯席決議（「停採」）。",
       "target_type": "talk",
       "target_npc": "luo_jiucheng",
       "target_topic": "停採",
-      "location": "/d/yunjin/hearing_hall.c",
+      "location": "/d/yunjin/hearing_hall",
       "on_complete": {
-        "msg": "相關作業暫停，仍須處理前線替代資源。"
+        "msg": "三宗停採拆爐、何萬金除籍清算，然大量底層炭工窯戶面臨斷炊反彈，仍須立刻落實安置。"
       }
     },
     {
       "step": 2,
-      "title": "建立受害者補償名冊",
-      "hint": "向韓素提交失蹤者、傷兵與受害者資料。",
+      "title": "建立受害者補償名冊與忠烈碑籍",
+      "hint": "至失蹤者家屬互助所向韓素提交《忠烈歸籍憑證》與傷兵家屬補償名冊（「補償名冊」）。",
       "target_type": "talk",
       "target_npc": "han_su",
       "target_topic": "補償名冊",
-      "location": "/d/wastes/missing_families_hall.c",
+      "location": "/d/wastes/missing_families_hall",
       "on_complete": {
-        "msg": "補償名冊開始建立，失蹤者不得直接登記為死亡。"
+        "msg": "韓林入刻烈士碑並洗清擅離職守污名；失蹤未見屍之燕山等人維持失蹤欄位絕不胡亂銷戶。"
       }
     },
     {
       "step": 3,
-      "title": "成立商戶共同治理席",
-      "hint": "向邱禾提交多商號共同承運與查帳方案。",
+      "title": "成立商埠多商號共同治理席",
+      "hint": "至泥途商棧與邱禾商議共同承運、透明查帳與雲津公所三宗商埠共同議事制（「共同治理」）。",
       "target_type": "talk",
       "target_npc": "qiu_he",
       "target_topic": "共同治理",
-      "location": "/d/yunjin/mudway_store.c",
+      "location": "/d/yunjin/mudway_store",
       "on_complete": {
-        "msg": "雲津臨時互市協約成立，泥途總號不取得獨占治理權。"
+        "msg": "萬山公所改組共議制，泥途與合規票號首次獲准參與三宗外門採買透明查帳與仲裁席。"
+      }
+    },
+    {
+      "step": 4,
+      "title": "重組西街空倉設立無毒回收廠並落簽協約",
+      "hint": "踏入西街無毒炭料回收廠輸入 sign treaty 安置陶生暨失業窯戶並簽署《雲津萬山臨時互市與救濟協約》。",
+      "target_type": "action",
+      "action_verb": "sign",
+      "action_target": "treaty",
+      "location": "/d/yunjin/west_street_recycling",
+      "on_complete": {
+        "give_item": "/clone/item/yunjin_relief_treaty.c",
+        "msg": "正式領取《雲津萬山臨時互市與救濟協約》，三十年舊盟高層簽字名單與追捕赤煉依然待續。"
       }
     }
   ],
   "rewards": {
-    "exp": 900,
-    "pot": 300
+    "exp": 1350,
+    "pot": 390
   }
 }

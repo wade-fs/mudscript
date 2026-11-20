@@ -919,6 +919,19 @@ mapping evaluate_tier2_crisis() {
         expedition_posture = "stabilization_and_reform";
     }
 
+    int signals_ok = query_fact(EVENT_TIER2_CRISIS, "signal_arrows_ready");
+    int breach_bad = query_fact(EVENT_TIER2_CRISIS, "residual_breach_occurred");
+    string defense_outcome = "pending";
+    if (stage == STAGE_TIER2_T_PLUS_1 || stage == STAGE_TIER2_T_PLUS_2) {
+        if (breach_bad && resilience < 2) {
+            defense_outcome = "critical_breach";
+        } else if (signals_ok && resilience >= 2) {
+            defense_outcome = "contained_with_scars";
+        } else {
+            defense_outcome = "fragile_hold";
+        }
+    }
+
     return ([
         "stage"               : stage,
         "evidence_strength"   : ev_strength,
@@ -929,7 +942,8 @@ mapping evaluate_tier2_crisis() {
         "herd_pressure"       : pressure,
         "v3_verified_sources" : v3_verified_sources,
         "readiness"           : readiness,
-        "expedition_posture"  : expedition_posture
+        "expedition_posture"  : expedition_posture,
+        "defense_outcome"     : defense_outcome
     ]);
 }
 
@@ -1402,7 +1416,7 @@ string dump_status(string event_id) {
     if (event_id == EVENT_TIER2_CRISIS) {
         mapping eval_t2 = evaluate_tier2_crisis();
         out += sprintf(HIY + "【Tier 2 三宗與北荒危機即時視圖（純只讀）】\n" + NOR);
-        out += sprintf("  階段態勢：%s (%s) | 證據鏈成熟度：%s\n", eval_t2["stage"], eval_t2["expedition_posture"], eval_t2["readiness"]);
+        out += sprintf("  階段態勢：%s (%s) | 證據鏈成熟度：%s | 防線與救災結果：%s\n", eval_t2["stage"], eval_t2["expedition_posture"], eval_t2["readiness"], eval_t2["defense_outcome"]);
         out += sprintf("  證據強度：%d | 可驗證度：%d | 民間信任：%d\n", eval_t2["evidence_strength"], eval_t2["verifiability"], eval_t2["civilian_trust"]);
     }
 

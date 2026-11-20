@@ -59,7 +59,8 @@ int main(object me, string verb, string arg) {
         "/tests/test_v2_quests.c",
         "/tests/test_v3_act1.c",
         "/tests/test_v3_act2.c",
-        "/tests/test_v3_act3.c"
+        "/tests/test_v3_act3.c",
+        "/tests/test_v3_act4.c"
     });
 
     int total = 0;

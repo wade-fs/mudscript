@@ -15,7 +15,7 @@
     {
       "step": 1,
       "title": "劃定隔離區",
-      "hint": "向孫聞露確認患者分區與隔離規則。",
+      "hint": "於丹鼎醫理院向孫聞露確認石牌坊甲區患者分區與隔離規則（「隔離區」）。",
       "target_type": "talk",
       "target_npc": "sun_wenlu",
       "target_topic": "隔離區",
@@ -24,7 +24,7 @@
     {
       "step": 2,
       "title": "維持撤離通道",
-      "hint": "向杜青禾回報傷患與撤離通道狀態。",
+      "hint": "於八荒養息院向杜青禾回報傷患與十丈生石灰暨排水撤離通道狀態（「撤離通道」）。",
       "target_type": "talk",
       "target_npc": "du_qinghe",
       "target_topic": "撤離通道",
@@ -33,7 +33,7 @@
     {
       "step": 3,
       "title": "提交樣本與照護紀錄",
-      "hint": "向顧玄提交樣本編號與照護紀錄。",
+      "hint": "返丹鼎醫理院向孫聞露提交三十餘名毒域傷員照護紀錄與呼吸道清洗登錄（「照護紀錄」）。",
       "target_type": "talk",
       "target_npc": "sun_wenlu",
       "target_topic": "照護紀錄",
@@ -58,7 +58,7 @@
         "source_type": "medical_record",
         "verified": 1
       },
-      "message": "隔離區與撤離通道維持運作，樣本和照護紀錄可供後續追蹤。"
+      "message": "隔離區與撤離通道維持運作，救下數十名危重傷員且病案可供後續研究。"
     },
     "partial": {
       "status": "partial",

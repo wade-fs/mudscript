@@ -24,3 +24,25 @@ void create() {
     spawn_npc("/clone/npc/jian_su.c");
     spawn_npc("/clone/npc/yuan_qing.c");
 }
+
+void init() {
+    ::init();
+    add_action("do_cure", "cure");
+}
+
+int do_cure(string arg) {
+    object me = this_player();
+    if (!me) return 0;
+    if (arg != "yuanqing" && arg != "yuan_qing" && arg != "元青" && arg != "晶絲") {
+        notify_fail("你想施行什麼救治處置？試試：cure yuanqing\n");
+        return 0;
+    }
+    message_vision("$N於偏峰石屋點亮四盞防風油燈，五人費時一個半時辰依法力標註神經節點、\n"
+                   "銀針鎖脈、高頻黑鐵微震暨三分陽剛氣血，穩穩將纏繞元青左臂半年的早期道化\n"
+                   "晶絲主脈抽落玉盤——晶光雖止啃噬心脈卻仍留局部麻木寒意，贏得簡素真人暗灰木牌！\n", me);
+    object qe = load_object(QUEST_ENGINE_D);
+    if (qe) {
+        qe->trigger_event(me, "action", ([ "verb": "cure", "target": "yuanqing" ]));
+    }
+    return 1;
+}

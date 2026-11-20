@@ -15,25 +15,25 @@
     {
       "step": 1,
       "title": "登錄第一來源",
-      "hint": "向羅九秤登錄商帳與契版副本。",
+      "hint": "於問道天台向羅九秤登錄萬寶後庫帳箱與契版副本（「第一來源」）。",
       "target_type": "talk",
       "target_npc": "luo_jiucheng",
       "target_topic": "第一來源",
-      "location": "/d/yunjin/hearing_hall.c"
+      "location": "/d/yunjin/hearing_hall"
     },
     {
       "step": 2,
       "title": "登錄第二來源",
-      "hint": "向雷烈登錄走山隊軍需副本。",
+      "hint": "於八荒黑山營向雷烈登錄走山隊軍需出庫副本（「第二來源」）。",
       "target_type": "talk",
       "target_npc": "lei_lie",
       "target_topic": "第二來源",
-      "location": "/d/sects/bahuang/black_mountain_camp.c"
+      "location": "/d/sects/bahuang/black_mountain_camp"
     },
     {
       "step": 3,
       "title": "完成保管鏈互證",
-      "hint": "向孫聞露提交病案與樣本封存紀錄。",
+      "hint": "至丹鼎醫理院向孫聞露提交十七份病案與試毒封樣（「保管鏈」）。",
       "target_type": "talk",
       "target_npc": "sun_wenlu",
       "target_topic": "保管鏈",
@@ -58,7 +58,7 @@
         "source_type": "cross_source_record",
         "verified": 1
       },
-      "message": "三個獨立來源完成保管鏈互證，證據可供正式查核。"
+      "message": "三個獨立來源完成保管鏈互證，證據可供五方查核席正式查檔。"
     },
     "partial": {
       "status": "partial",
