@@ -1,0 +1,23 @@
+// /d/sects/taiqing/star_law_hall.c
+// 太清玄天宮・周天星律院 (Ch.86, Ch.91：星曆誤差對照與觀測主殿)
+
+#include "/include/ansi.h"
+#include "/include/globals.h"
+
+inherit "/std/room.c";
+
+void create() {
+    ::create();
+    set_short("太清玄天宮・周天星律院");
+    set_long("大殿中央架著一座巨大的黃銅渾天儀，兩側紫檀長案上堆滿了羊皮星曆卷宗與\n"
+             "近三十年雲津暴風雪誤差校對簿。空氣裡飄著淡淡松煙墨香，掌院宋知微正於案前\n"
+             "靜靜核驗各觀測哨提交的原始讀數。\n"
+             "向南走出【太清外門雲舍】。\n");
+
+    set_exits(([
+        "south": "/d/sects/taiqing/outer_court.c",
+    ]));
+
+    set("is_outdoor", 0);
+    spawn_npc("/clone/npc/song_zhiwei.c");
+}

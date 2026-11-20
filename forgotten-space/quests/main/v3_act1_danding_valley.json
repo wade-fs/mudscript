@@ -1,0 +1,53 @@
+{
+  "id": "v3_act1_danding_valley",
+  "name": "丹鼎辨偽：雪線苔溫火冷萃",
+  "category": "main",
+  "type": "once",
+  "region": "danding",
+  "start_npc": "ye_qingzhi",
+  "start_topic": "寒髓草",
+  "steps": [
+    {
+      "step": 1,
+      "title": "檢視藥田變異根鬚",
+      "hint": "於百毒試藥谷向葉青枝詢問寒髓草葉斑與上游水脈異常。",
+      "target_type": "talk",
+      "target_npc": "ye_qingzhi",
+      "target_topic": "藥田",
+      "location": "/d/sects/danding/herb_garden",
+      "on_complete": {
+        "msg": "葉青枝告知水渠沉積帶酸與根鬚寄生的雪線苔特性。"
+      }
+    },
+    {
+      "step": 2,
+      "title": "借雪線苔溫火冷萃辟煞散",
+      "hint": "於百毒試藥谷輸入 extract moss 以溫火冷萃法提煉不傷經脈的辟煞散。",
+      "target_type": "action",
+      "action_verb": "extract",
+      "action_target": "moss",
+      "location": "/d/sects/danding/herb_garden",
+      "on_complete": {
+        "give_item": "/clone/item/snowline_moss_sample.c",
+        "msg": "你成功析出純淨無火毒的辟煞散，並暗中封存少許根部雪線苔與酸垢樣本。"
+      }
+    },
+    {
+      "step": 3,
+      "title": "銀針驗毒受領百草谷藥牌",
+      "hint": "請白鶴年公證驗針並領取百草谷藥牌。",
+      "target_type": "talk",
+      "target_npc": "bai_henian",
+      "target_topic": "試藥",
+      "location": "/d/sects/danding/herb_garden",
+      "on_complete": {
+        "give_item": "/clone/item/cred_danding_medical_tag.c",
+        "msg": "白鶴年銀針試毒澄澈無黑斑，公允頒下丹鼎百草谷藥牌。"
+      }
+    }
+  ],
+  "rewards": {
+    "exp": 720,
+    "pot": 220
+  }
+}

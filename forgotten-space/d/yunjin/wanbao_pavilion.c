@@ -1,0 +1,23 @@
+// /d/yunjin/wanbao_pavilion.c
+// 雲津仙集・萬寶閣雲津分號 (Ch.84, Ch.90：何萬金與排他條款)
+
+#include "/include/ansi.h"
+#include "/include/globals.h"
+
+inherit "/std/room.c";
+
+void create() {
+    ::create();
+    set_short("雲津仙集・萬寶閣雲津分號");
+    set_long("雕樑畫棟、沉香濃郁的三層大商號，堂內陳列著成排上好靈材箱籠與紫檀算盤。\n"
+             "萬寶閣掌控著雲津西街多數甲字大倉與高價冬草馬隊配額，掌櫃何萬金常在雅座間\n"
+             "以保證金、排他供應條款篩選合作小商號。\n"
+             "向北退出大門可返【萬山商埠公所】。\n");
+
+    set_exits(([
+        "north": "/d/yunjin/public_office.c",
+    ]));
+
+    set("is_outdoor", 0);
+    spawn_npc("/clone/npc/he_wanjin.c");
+}

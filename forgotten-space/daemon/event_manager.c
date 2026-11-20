@@ -189,7 +189,8 @@ void load_event_definitions() {
 
     string *def_files = ({
         "/data/event_defs/beast_surge.json",
-        "/data/event_defs/military_crisis.json"
+        "/data/event_defs/military_crisis.json",
+        "/data/event_defs/tier2_crisis.json"
     });
 
     foreach (string path in def_files) {
@@ -301,7 +302,7 @@ void init_event_defaults(string event_id) {
     if (!events) events = ([]);
     load_event_definitions();
 
-    string *target_ids = (event_id == "all") ? ({ EVENT_BEAST_SURGE, EVENT_MILITARY_CRISIS }) : ({ event_id });
+    string *target_ids = (event_id == "all") ? ({ EVENT_BEAST_SURGE, EVENT_MILITARY_CRISIS, EVENT_TIER2_CRISIS }) : ({ event_id });
 
     foreach (string eid in target_ids) {
         mapping def = query_event_def(eid);
@@ -340,7 +341,7 @@ void load_state() {
     load_event_definitions();
 
     // Schema Migration：對齊指標，防止舊存檔缺欄位讀成 0
-    foreach (string eid in ({ EVENT_BEAST_SURGE, EVENT_MILITARY_CRISIS })) {
+    foreach (string eid in ({ EVENT_BEAST_SURGE, EVENT_MILITARY_CRISIS, EVENT_TIER2_CRISIS })) {
         if (!events || !events[eid] || !mapp(events[eid])) {
             init_event_defaults(eid);
             continue;
@@ -377,6 +378,9 @@ void reset_event(string event_id) {
     }
     if (event_id == "all" || event_id == EVENT_MILITARY_CRISIS) {
         cancel_stage_timer(EVENT_MILITARY_CRISIS);
+    }
+    if (event_id == "all" || event_id == EVENT_TIER2_CRISIS) {
+        cancel_stage_timer(EVENT_TIER2_CRISIS);
     }
 
     init_event_defaults(event_id);

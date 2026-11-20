@@ -13,7 +13,7 @@
       "target_type": "talk",
       "target_npc": "mu_xue",
       "target_topic": "退門者",
-      "location": "/d/wastes/north_road/post_station.c",
+      "location": "/d/wastes/north_road/post_station",
       "on_complete": {
         "msg": "你記下退門者的經歷，但個人證言尚不足以代表整個宗門制度。"
       }
@@ -25,7 +25,7 @@
       "target_type": "talk",
       "target_npc": "luo_jiucheng",
       "target_topic": "登記",
-      "location": "/d/yunjin/public_office.c",
+      "location": "/d/yunjin/public_office",
       "on_complete": {
         "msg": "羅九秤確認跨州信印不免除保證金與倉儲責任。"
       }
@@ -37,7 +37,7 @@
       "target_type": "talk",
       "target_npc": "he_wanjin",
       "target_topic": "試單",
-      "location": "/d/yunjin/wanbao_pavilion.c",
+      "location": "/d/yunjin/wanbao_pavilion",
       "on_complete": {
         "msg": "沈泥以供貨紀錄取得試單，仍須承擔履約風險。"
       }

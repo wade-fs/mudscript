@@ -1,0 +1,31 @@
+// /clone/npc/gu_lanzhou.c
+// 顧蘭舟・雲津靈石票號女掌櫃 (gu_lanzhou) - 三宗交割廳暨雲海票號 (Ch.84, Ch.90)
+
+#include "/include/ansi.h"
+#include "/include/globals.h"
+
+inherit "/std/npc.c";
+
+void create() {
+    ::create();
+    set_name("顧蘭舟");
+    set_short(HIC "雲海票號女掌櫃" NOR " 顧蘭舟");
+    set_long("四十一歲的幹練女掌櫃，梳著一絲不苟的烏黑圓髻，著一身洗得發白的青灰布衫。\n"
+             "手裡撥弄著一把黃楊木大算盤，精於準備金盤點與跨宗匯兌；五年前曾經歷擠兌重創，只認實物擔保。\n");
+    set_id(({ "gu_lanzhou", "gu lanzhou", "lanzhou", "顧蘭舟", "女掌櫃" }));
+
+    setup_archetype("H", 50);
+    set("class", "mortal");
+    set("faction", "cloud_exchange_bank");
+    set("roles", ({ "banker", "auditor" }));
+    set("home_room", "/d/yunjin/exchange_hall.c");
+
+    add_response(({ "保書", "準備金", "開戶", "靈石票" }),
+        "顧蘭舟手指停在算盤珠上，眸光沉靜：「我不信口頭承諾，也不開無擔保空頭票。\n"
+        "拿金石府六縣實物直供契紙做抵押，再將現銀全數折成靈石票鎖入專用押金戶，逾期三日任我直接劃扣賠付——\n"
+        "敢把全部退路押上檯面的，這張實物足額準備金驗明保書，我雲海票號才敢替你簽。」");
+
+    add_response(({ "履約", "賠償", "延誤", "交割" }),
+        "顧蘭舟點頭翻閱剛寫好的雙聯賠付回執，語氣難得柔和一分：「冷風坡雪崩是天災，能不哭窮不賴帳、\n"
+        "當場賠足四百枚靈石票並自扛餘貨上山，這份履約紀錄足以抵過十張虛浮保薦書。下月帳期，雲海票號照章替你保底。」");
+}

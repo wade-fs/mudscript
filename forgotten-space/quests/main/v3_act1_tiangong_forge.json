@@ -1,0 +1,53 @@
+{
+  "id": "v3_act1_tiangong_forge",
+  "name": "天工拆解：搬山傀儡半厘偏角",
+  "category": "main",
+  "type": "once",
+  "region": "tiangong",
+  "start_npc": "zhang_bailian",
+  "start_topic": "搬山傀儡",
+  "steps": [
+    {
+      "step": 1,
+      "title": "領取地火拆解考題",
+      "hint": "在千鍛地火廊向章百鍊確認青銅搬山傀儡考核規格。",
+      "target_type": "talk",
+      "target_npc": "zhang_bailian",
+      "target_topic": "考核",
+      "location": "/d/sects/tiangong/thousand_mechanisms_hall",
+      "on_complete": {
+        "msg": "章百鍊指出世家徒以秘銀硬填的炸膛隱患，要求從結構公差著手。"
+      }
+    },
+    {
+      "step": 2,
+      "title": "測修軸套偏角與雙契榫楔",
+      "hint": "於千鍛地火廊輸入 repair puppet 測繪軸套偏角並完成三百斤負重起落複驗。",
+      "target_type": "action",
+      "action_verb": "repair",
+      "action_target": "puppet",
+      "location": "/d/sects/tiangong/thousand_mechanisms_hall",
+      "on_complete": {
+        "give_item": "/clone/item/puppet_tolerance_record.c",
+        "msg": "你量出半厘偏角與內壁暗紫脆化麻點，以高碳熟鐵雙契榫楔完美復原並寫就工單。"
+      }
+    },
+    {
+      "step": 3,
+      "title": "呈交可複製應力工單",
+      "hint": "將測繪修正工單呈交魯長老驗收。",
+      "target_type": "talk",
+      "target_npc": "lu_zhanglao",
+      "target_topic": "工單",
+      "location": "/d/sects/tiangong/thousand_mechanisms_hall",
+      "on_complete": {
+        "give_item": "/clone/item/cred_tiangong_artisan_tag.c",
+        "msg": "魯長老肯定這份可複製工單與脆化異常紀錄，授你天工閣外門匠牌。"
+      }
+    }
+  ],
+  "rewards": {
+    "exp": 720,
+    "pot": 220
+  }
+}

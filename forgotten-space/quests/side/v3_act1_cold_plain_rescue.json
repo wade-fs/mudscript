@@ -1,0 +1,52 @@
+{
+  "id": "v3_act1_cold_plain_rescue",
+  "name": "寒原風雪：野菊湯劑與退門者",
+  "category": "side",
+  "type": "once",
+  "region": "wastes",
+  "start_npc": "mu_xue",
+  "start_topic": "凍傷",
+  "steps": [
+    {
+      "step": 1,
+      "title": "熬煮野菊抗寒湯劑",
+      "hint": "在斷崖石棚驛站火塘邊輸入 brew decoction 熬煮野菊湯劑救治凍傷腳夫。",
+      "target_type": "action",
+      "action_verb": "brew",
+      "action_target": "decoction",
+      "location": "/d/wastes/north_road/post_station",
+      "on_complete": {
+        "give_item": "/clone/item/cold_herbal_decoction.c",
+        "msg": "你以野菊花與防瘴草籽熬成抗寒湯劑救下凍傷腳夫，並向穆雪結清額外炭火折銀。"
+      }
+    },
+    {
+      "step": 2,
+      "title": "訪談斷臂退門武師",
+      "hint": "向斷崖石棚內的退門武師周鐵山詢問八荒武山歲貢與傷退遭遇。",
+      "target_type": "talk",
+      "target_npc": "zhou_tieshan",
+      "target_topic": "退門者",
+      "location": "/d/wastes/north_road/post_station",
+      "on_complete": {
+        "msg": "周鐵山講述了欠繳歲貢被派往缺口與斷臂退役的經過。"
+      }
+    },
+    {
+      "step": 3,
+      "title": "紀錄藥徒手傷來源",
+      "hint": "向退門藥徒陳青詢問百草谷藥田水脈發酸之異常經歷。",
+      "target_type": "talk",
+      "target_npc": "chen_qing",
+      "target_topic": "潰爛",
+      "location": "/d/wastes/north_road/post_station",
+      "on_complete": {
+        "msg": "陳青的雙手礦酸傷痕令你第一次看見名山制度轉嫁給山外普通人的外部代價。"
+      }
+    }
+  ],
+  "rewards": {
+    "exp": 500,
+    "pot": 150
+  }
+}

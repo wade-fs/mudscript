@@ -13,7 +13,7 @@
       "target_type": "talk",
       "target_npc": "luo_jiucheng",
       "target_topic": "租約",
-      "location": "/d/yunjin/public_office.c",
+      "location": "/d/yunjin/public_office",
       "on_complete": {
         "msg": "商棧取得登記資格，但保證金與貨損責任仍由沈泥承擔。"
       }
@@ -25,7 +25,7 @@
       "target_type": "talk",
       "target_npc": "qiu_he",
       "target_topic": "帳簿",
-      "location": "/d/yunjin/mudway_store.c",
+      "location": "/d/yunjin/mudway_store",
       "on_complete": {
         "msg": "泥途商棧建立第一套可追溯帳簿。"
       }
@@ -37,7 +37,7 @@
       "target_type": "talk",
       "target_npc": "gu_lanzhou",
       "target_topic": "履約",
-      "location": "/d/yunjin/exchange_hall.c",
+      "location": "/d/yunjin/exchange_hall",
       "on_complete": {
         "msg": "沈泥以賠償與分批履約維持信用，商棧資金因此承壓。"
       }

@@ -9,6 +9,14 @@
 // ── 事件識別字 (World Event IDs) ──────────────────────────
 #define EVENT_BEAST_SURGE       "beast_surge"        // 第一階段：大荒煞潮
 #define EVENT_MILITARY_CRISIS   "military_crisis"    // 第二階段：黑石關軍事危機
+#define EVENT_TIER2_CRISIS      "tier2_crisis"       // 第三卷：Tier 2 北荒與三宗危機
+
+// ── Tier 2 北荒與三宗危機 階段常數 (第三卷 Ch.83 ~ 126) ────
+#define STAGE_TIER2_T_MINUS_2   "T-2"   // 異常線索匯集
+#define STAGE_TIER2_T_MINUS_1   "T-1"   // 北荒勘探與盜掘升高
+#define STAGE_TIER2_T_0         "T0"    // 雲頂質證與道化急變
+#define STAGE_TIER2_T_PLUS_1    "T+1"   // 北荒獸潮與三元鎮脈
+#define STAGE_TIER2_T_PLUS_2    "T+2"   // 戰後改革與洞天準備
 
 // ── 大荒煞潮 T-Clock 階段常數 (第 19 ~ 32 章) ──────────────
 #define STAGE_BEAST_T_MINUS_3   "T-3"   // 異常初顯 (第 19 章晨)

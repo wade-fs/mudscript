@@ -1,0 +1,31 @@
+// /clone/npc/lu_zhanglao.c
+// 魯長老・天工閣千機院長老 (lu_zhanglao) - 千鍛地火廊暨千機院 (Ch.88)
+
+#include "/include/ansi.h"
+#include "/include/globals.h"
+
+inherit "/std/npc.c";
+
+void create() {
+    ::create();
+    set_name("魯長老");
+    set_short(HIY "天工千機院長老" NOR " 魯長老");
+    set_long("六十歲上下的瘦乾老匠師，十根手指指節因長年打鐵而粗大變形，說話簡短精確。\n"
+             "他極為看重材料應力公差、失敗工單紀錄與安全規程，與宗門內急功近利的奪天派暗中相左。\n");
+    set_id(({ "lu_zhanglao", "lu zhanglao", "lu elder", "魯長老", "長老" }));
+
+    setup_archetype("E", 86);
+    set("class", "gong");
+    set("faction", "tiangong");
+    set("roles", ({ "master", "examiner", "quest" }));
+    set("home_room", "/d/sects/tiangong/thousand_mechanisms_hall.c");
+
+    add_response(({ "工單", "拆解", "匠牌", "公差" }),
+        "魯長老粗糙變形的指尖輕輕摩挲過工單上「暗紫脆化麻點」那行炭筆字，眼底閃過一絲精芒：\n"
+        "「寫得清清楚楚，量得明明白白，誰照這張尺寸圖都能打出雙契榫楔復原軸承。這才叫可複製的天工實學！\n"
+        "進千機院外門領匠牌吧，往後要把哪批材料偷工減料、為何會脆裂也給老夫盯緊！」");
+
+    add_response(({ "脆化", "麻點", "巨靈神機" }),
+        "魯長老神色嚴肅地壓低聲音：「這幾處焦黑脆化不是普通鍛鐵磨損。把樣本與工單留在自己身邊收好，\n"
+        "等日後進了萬機地窟，你自然明白老夫為何要求每件廢料都得記錄清楚。」");
+}

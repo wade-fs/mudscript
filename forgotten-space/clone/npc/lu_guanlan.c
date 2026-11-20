@@ -1,0 +1,31 @@
+// /clone/npc/lu_guanlan.c
+// 陸觀瀾・太清周天星律院授業師 (lu_guanlan) - 登天雲梯山門 (Ch.86)
+
+#include "/include/ansi.h"
+#include "/include/globals.h"
+
+inherit "/std/npc.c";
+
+void create() {
+    ::create();
+    set_name("陸觀瀾");
+    set_short(HIC "太清星律院授業師" NOR " 陸觀瀾");
+    set_long("三十六歲的藍袍女道官，以樸素木簪束髮，眉目溫和沉靜，對初學者極有耐心。\n"
+             "她深信太清星律觀測確實救過無數北境山民，卻對師兄長年觀星留下的隱疾深感矛盾。\n");
+    set_id(({ "lu_guanlan", "lu guanlan", "guanlan", "陸觀瀾", "授業師" }));
+
+    setup_archetype("G", 68);
+    set("class", "dao");
+    set("faction", "taiqing");
+    set("roles", ({ "examiner", "mentor", "quest" }));
+    set("home_room", "/d/sects/taiqing/gate.c");
+
+    add_response(({ "登天梯", "問心陣", "考核", "入山" }),
+        "陸觀瀾輕敲手中的青銅小磬，溫聲道：「千丈登天雲梯設有三百六十五階主陣眼，引九天星煞照拂神魂。\n"
+        "世家子弟大多以叩拜順天卸去重壓，然我太清考的不只是順從，更看你神識能否在威壓之下維持清明。\n"
+        "若要實測陣眼誤差，可在雲梯邊緣仔細推演測算（指令：measure ladder）。」");
+
+    add_response(({ "歲差", "誤差", "天數有誤", "玉牌" }),
+        "陸觀瀾接過記錄紙稿，目光微動，隨即壓低聲音叮囑：「這些實測偏差值你先自行封存好，交給宋掌院閱覽即可。\n"
+        "切記——拿著外門玉牌只許出入雲舍與星律院課業，未經批令不得擅進藏星秘閣，更莫要在執法堂面前隨口議論『天數有誤』四字。」");
+}
