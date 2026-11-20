@@ -1,16 +1,17 @@
 # 角色檔案：孫聞露（醫理院病案掌記）
 
 > `character_id`: `sun_wenlu`  
-> `status`: `canon (Ch. 89 登場／Act 2 實裝)`  
+> `status`: `canon (Act 2 實裝／Ch. 89 初見伏筆)`  
 > `faction`: 千機百巧門／丹鼎宗  
 > `path/domain`: 藥道／文職  
-> `home_room`: `/d/sects/danding/medical_records`（Act 1 Ch. 89 於 `herb_garden` 隨考登場；專屬醫案室 NPC 待二幕實裝）
+> `home_room`: `/d/sects/danding/medical_archive.c`（醫理院暨病案封存室；原 `medical_records` 合併實裝於 `medical_archive.c`）  
+> `mudlib_path`: `/clone/npc/sun_wenlu.c`
 
 ## 基本資料
 
 - **姓名／稱謂**：孫聞露／醫理院病案掌記
 - **所屬**：千機百巧門／丹鼎宗
-- **活動地點**：`/d/sects/danding/medical_records`
+- **活動地點**：`/d/sects/danding/medical_archive.c`
 - **角色定位**：Tier 2 世界人物；其職能、知情範圍與利益關係以本檔為界。
 
 ## 人物設定與敘事功能
@@ -35,12 +36,12 @@
 
 | 欄位 | 初始值 |
 |---|---|
-| 首次登場 | 第三卷第 89 章（百毒試藥谷隨白鶴年旁觀試藥；正線病案追查於第 97 章起展開） |
-| 首次接觸方式 | 懷抱硬皮病案冊立於白鶴年身側；當顧玄提起上游水渠異狀時飛快低頭，以袖口遮住半頁寫著紅字的單據（Ch. 89） |
+| 首次登場 | 第三卷第 89 章（試藥谷袖掩紅字單據）；第 97 章（醫理院病案櫃後正線互核） |
+| 首次接觸方式 | Ch. 89 抱硬皮病案冊隨白鶴年旁觀；Ch. 97 聞顧玄剖檢試藥白猿圖譜後拉其躲至病案櫃後，於匿名承諾下調出「甲一、乙三」等十七份病案統計 |
 | 當前狀態 | 存活 |
-| 關係變化 | Ch. 89 初留伏筆，後續於醫理院掌記病案對接顧玄追查 |
-| 相關事件 | `EV303`（旁觀伏筆）、`EV307`、`EV308` |
-| 相關任務 | Act 1 未獨立實裝 NPC；二幕起接續 `v3_danding_blood_pill_cases` |
+| 關係變化 | Ch. 89 初留伏筆 → Ch. 97 與顧玄形成「嚴守病人隱私與證據邊界」之醫療秘密同盟 |
+| 相關事件 | `EV303`、`EV308` |
+| 相關任務 | `v3_danding_blood_pill_cases`（步驟 5）、四幕續接 `v3_cross_sect_evidence_audit`、`v3_crystal_quarantine_response` |
 
 ## 寫作限制
 

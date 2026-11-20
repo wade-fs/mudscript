@@ -51,3 +51,8 @@
 ## 卷三第一幕進展（第 83～90 章・實裝於 Act 1）
 13. **西街製匾與北境整裝（Ch. 84–85）**：隨商隊歷十七日抵雲津仙集，親手替「泥途商棧」（`/d/yunjin/mudway_store.c`）刨木刻匾，並於立冬前餞別沈泥赴千機百巧門。
 14. **天工閣千鍛地火廊半厘偏角復原（Ch. 88、90）**：立冬於千鍛地火廊（`/d/sects/tiangong/thousand_mechanisms_hall.c`）應試修復「青銅搬山傀儡」右臂關節，棄世家強填流銀之路，以阿鐵卡尺量出半厘軸套偏角並發現內壁暗紫脆化麻點，打造高碳熟鐵雙契榫楔通過三百斤三十次負重複驗，獲章百鍊與魯長老賞識，領取【天工閣外門匠牌】（`/clone/item/cred_tiangong_artisan_tag.c`）與實測公差工單（`/clone/item/puppet_tolerance_record.c`、`v3_act1_tiangong_forge`），隨後藉耐火碳與廢鐵供貨單打通暗線。
+
+## 卷三第二幕進展（第 91～101 章・實裝於 Act 2）
+15. **連跳內門與萬機地窟同源共鳴（Ch. 95）**：於【地火鍛兵台】（`/d/sects/tiangong/forge_yard.c`）一月內修復十七具礦車絞盤並提交標準化圖紙，連跳兩級升任天工閣內門弟子。隨章百鍊、女陣匠聞九（`wenjiu`）入地下二十丈【萬機地窟】（`/d/sects/tiangong/machinery_depths.c`）檢修十丈鎮山重器【巨靈神機】（`inspect core`），腰間太古不融黑鐵齒輪與三尺黑色主軸劇烈磁吸共鳴，雙曲線螺紋出自同源母模；值守匠師季衡（`ji_heng`）更揭露次級銅管遭暗紅晶柱腐蝕之「脆化麻點」與三次異常脈衝。
+16. **推進錨機延長線與停機風波（Ch. 95）**：於【陣圖工房】（`/d/sects/tiangong/array_drafting_room.c`）與聞九以炭筆繪出斜樑受力延長線（`trace blueprint`），證實神機實為超巨型船體或平台側面之「推進錨機／轉向關節」而非人形戰偶（`/clone/item/tiangong_anchor_blueprint.c`）。隨後配合章百鍊、季衡及魯長老依安全規程擋下赤煉長老（`chi_lian`）強塞六根高純度地煞血精晶柱的企圖，將晶柱暫封入【萬機四號庫房】（`/d/sects/tiangong/vault_four.c`、`v3_tiangong_ancient_mechanism`）。
+17. **地窖高頻震波剝離晶絲（Ch. 99–100）**：於【泥途商棧地下石室】（`/d/yunjin/mudway_store_cellar.c`）打製雙契暗鎖護庫，在五方對帳比對出「地窟內壁脆化麻點」與府城百工坊滲碳熔渣同源；隨後在三元互濟手術中將太古不融黑鐵齒輪貼肘、以阿鐵精鋼小鍛錘節律敲出高頻微震，協助鬆動柳清虛經脈上的道化晶絲（`strip filament`）。

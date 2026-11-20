@@ -1,16 +1,17 @@
 # 角色檔案：阿滿（北線軍寨炊事與家屬聯絡人）
 
 > `character_id`: `a_man`  
-> `status`: `proposed`  
+> `status`: `canon (Act 2 實裝)`  
 > `faction`: 八荒武山  
 > `path/domain`: 平民  
-> `home_room`: `/d/sects/bahuang/north_garrison_kitchen`
+> `home_room`: `/d/sects/bahuang/north_garrison_kitchen.c`  
+> `mudlib_path`: `/clone/npc/a_man.c`
 
 ## 基本資料
 
 - **姓名／稱謂**：阿滿／北線軍寨炊事與家屬聯絡人
 - **所屬**：八荒武山
-- **活動地點**：`/d/sects/bahuang/north_garrison_kitchen`
+- **活動地點**：`/d/sects/bahuang/north_garrison_kitchen.c`
 - **角色定位**：Tier 2 世界人物；其職能、知情範圍與利益關係以本檔為界。
 
 ## 人物設定與敘事功能
@@ -35,12 +36,12 @@
 
 | 欄位 | 初始值 |
 |---|---|
-| 首次登場 | 第三卷待排章節 |
-| 首次接觸方式 | 正式差遣／交易／事故／日常生活，依章節安排 |
-| 當前狀態 | 存活（燕山除外：失蹤待查） |
-| 關係變化 | 待事件帳更新 |
-| 相關事件 | `EV3xx` 待綁定 |
-| 相關任務 | 第一階段不建立任務 JSON，第二階段綁定 |
+| 首次登場 | 第三卷第 94 章（炊事房碗櫃底層取出天興十九年失蹤名冊） |
+| 首次接觸方式 | 應唐映指點在軍寨後勤區接見攜斷箭前來查訪的燕隼，翻出畫有黑槓的五年前舊簿並點出接應斥候之妹韓素住於南沿互助棚（Ch. 94） |
+| 當前狀態 | 存活 |
+| 關係變化 | Ch. 94 牽線揭開走山隊與失蹤軍屬未被記錄之傷痕 |
+| 相關事件 | `EV312` 前哨追查（Ch. 94）、`EV323`（Ch. 118） |
+| 相關任務 | `v3_act2_bahuang_ghost_gorge`（步驟 3；`/clone/npc/a_man.c`） |
 
 ## 寫作限制
 

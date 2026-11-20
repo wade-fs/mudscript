@@ -1,16 +1,17 @@
 # 角色檔案：杜青禾（傷兵養息院醫官）
 
 > `character_id`: `du_qinghe`  
-> `status`: `proposed`  
+> `status`: `canon (Act 2 實裝)`  
 > `faction`: 八荒武山  
 > `path/domain`: 醫療／力道輔助  
-> `home_room`: `/d/sects/bahuang/restoration_hall`
+> `home_room`: `/d/sects/bahuang/restoration_hall.c`  
+> `mudlib_path`: `/clone/npc/du_qinghe.c`
 
 ## 基本資料
 
 - **姓名／稱謂**：杜青禾／傷兵養息院醫官
 - **所屬**：八荒武山
-- **活動地點**：`/d/sects/bahuang/restoration_hall`
+- **活動地點**：`/d/sects/bahuang/restoration_hall.c`
 - **角色定位**：Tier 2 世界人物；其職能、知情範圍與利益關係以本檔為界。
 
 ## 人物設定與敘事功能
@@ -35,12 +36,12 @@
 
 | 欄位 | 初始值 |
 |---|---|
-| 首次登場 | 第三卷待排章節 |
-| 首次接觸方式 | 正式差遣／交易／事故／日常生活，依章節安排 |
-| 當前狀態 | 存活（燕山除外：失蹤待查） |
-| 關係變化 | 待事件帳更新 |
-| 相關事件 | `EV3xx` 待綁定 |
-| 相關任務 | 第一階段不建立任務 JSON，第二階段綁定 |
+| 首次登場 | 第三卷第 93 章（傷兵養息院照料雷烈與吐黑血宿將） |
+| 首次接觸方式 | 子夜端黑陶藥盤勸阻雷烈超量乾吞「定心急鎮丸」，門外向假裝領麻布的燕隼說明煞血功髒腑燥傷病案實據（Ch. 93） |
+| 當前狀態 | 存活 |
+| 關係變化 | Ch. 93 與燕隼共持「先留病案統計、不憑氣味空口定罪」之審慎共識 |
+| 相關事件 | `EV305`、`EV322` |
+| 相關任務 | `v3_bahuang_bloodline_watch`（步驟 1）、`v3_crystal_quarantine_response`（步驟 2） |
 
 ## 寫作限制
 

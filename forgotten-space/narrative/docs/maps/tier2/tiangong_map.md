@@ -1,17 +1,19 @@
 # 天工閣地圖
 
-> 狀態：`draft`。下列 room ID 為建議穩定 ID，尚未與現有 LPC 實作對照；拓撲需於程式實作後跑 BFS 與雙向連線驗證。
+> 狀態：`Act 1–2 implemented (6 房)`。第三卷第一至二幕（Ch. 88、95）全部核心空間已於 `/d/sects/tiangong/*.c` 實裝並通過 `quest_audit.py` 與 `test_v3_act2.c`。
+>
+> **拓撲定案（依 Ch. 95 正文）**：十丈「巨靈神機」與地下二十丈岩窟合併實裝為單一巨型空間 `machinery_depths`（萬機地窟），並依正文於東側新增 `vault_four`（萬機四號庫房，暫封赤煉長老所調六根高純度血精晶柱）。
 
 ## 房間與拓撲
 
-| Room ID | 顯示名稱 | 建議／實裝路徑 | 主要出口 | 用途／限制（Act 1 前 2 房已實裝） |
+| Room ID | 顯示名稱 | 建議／實裝路徑 | 主要出口 | 用途／限制（6 房全數實裝） |
 |---|---|---|---|---|
-| `gate` | 天工閣・千鍛百巧門 | `/d/sects/tiangong/gate.c` | `west`→`/d/yunjin/wanshan_square.c`、`east`→`thousand_mechanisms_hall` | 〔實裝〕驗匠牌、材料與安全檢查 |
-| `thousand_mechanisms_hall` | 天工閣・千鍛地火廊暨千機院 | `/d/sects/tiangong/thousand_mechanisms_hall.c` | `west`→`gate`（`draft`: `forge_yard`） | 〔實裝，Ch. 88〕兼攝千機院與入門鍛台實測（動作 `repair puppet`）；駐點：`lu_zhanglao`（魯長老）、`zhang_bailian`（章百鍊） |
-| `forge_yard` | 地火鍛兵台 | `/d/sects/tiangong/forge_yard.c` | `array_drafting_room` | 鍛造、合金、熱處理 |
-| `array_drafting_room` | 陣圖工房 | `/d/sects/tiangong/array_drafting_room.c` | `machinery_depths` | 陣圖設計與施工檔案 |
-| `machinery_depths` | 萬機地窟上層 | `/d/sects/tiangong/machinery_depths.c` | `ancient_mother_core` | 古傀存放、拆解區；需雙人值守 |
-| `ancient_mother_core` | 太古天工母機殘骸室 | `/d/sects/tiangong/ancient_mother_core.c` | `區域出口／劇情門禁` | 劇情鎖定；母機殘骸並非可任意啟動的普通機關 |
+| `gate` | 天工閣・千鍛百巧門 | `/d/sects/tiangong/gate.c` | `west`→`/d/yunjin/wanshan_square.c`、`east`→`thousand_mechanisms_hall` | 〔實裝，Ch. 88〕驗匠牌、材料與安全檢查 |
+| `thousand_mechanisms_hall` | 天工閣・千鍛地火廊暨千機院 | `/d/sects/tiangong/thousand_mechanisms_hall.c` | `west`→`gate`、`east`→`forge_yard`、`south`→`array_drafting_room` | 〔實裝，Ch. 88、95〕千機院與入門鍛台實測（動作 `repair puppet`）；駐點：`lu_zhanglao`（魯長老）、`zhang_bailian`（章百鍊） |
+| `forge_yard` | 天工閣・地火鍛兵台 | `/d/sects/tiangong/forge_yard.c` | `west`→`thousand_mechanisms_hall`、`down`→`machinery_depths` | 〔實裝，Ch. 95〕礦車絞盤標準化維修、材料疲勞曲線與通往地底二十丈石道 |
+| `array_drafting_room` | 天工閣・陣圖工房 | `/d/sects/tiangong/array_drafting_room.c` | `north`→`thousand_mechanisms_hall` | 〔實裝，Ch. 95〕分段圖紙與推進錨機受力延長線測繪（動作 `trace blueprint`）；駐點：`wenjiu`（聞九） |
+| `machinery_depths` | 天工閣・萬機地窟 | `/d/sects/tiangong/machinery_depths.c` | `up`→`forge_yard`、`east`→`vault_four` | 〔實裝，Ch. 95〕地下二十丈岩窟、十丈【巨靈神機】主軸同源共鳴與脆化麻點檢測（動作 `inspect core`）；駐點：`ji_heng`（季衡）、`chi_lian`（赤煉） |
+| `vault_four` | 天工閣・萬機四號庫房 | `/d/sects/tiangong/vault_four.c` | `west`→`machinery_depths` | 〔實裝，Ch. 95 新增〕魯長老與監察文吏會同查封之鉛封鐵箱（六根血精晶柱與《特殊工單》） |
 
 ## 區域連線圖
 
@@ -19,15 +21,15 @@
 flowchart TD
   gate["千鍛百巧門<br/>gate (實裝)"]
   thousand_mechanisms_hall["千鍛地火廊暨千機院<br/>thousand_mechanisms_hall (實裝)"]
-  forge_yard["地火鍛兵台<br/>forge_yard (draft)"]
-  array_drafting_room["陣圖工房<br/>array_drafting_room (draft)"]
-  machinery_depths["萬機地窟上層<br/>machinery_depths (draft)"]
-  ancient_mother_core["太古天工母機殘骸室<br/>ancient_mother_core (draft)"]
+  forge_yard["地火鍛兵台<br/>forge_yard (實裝)"]
+  array_drafting_room["陣圖工房<br/>array_drafting_room (實裝)"]
+  machinery_depths["萬機地窟暨巨靈神機<br/>machinery_depths (實裝)"]
+  vault_four["萬機四號庫房<br/>vault_four (實裝)"]
   gate --> thousand_mechanisms_hall
-  thousand_mechanisms_hall -.-> forge_yard
-  forge_yard -.-> array_drafting_room
-  array_drafting_room -.-> machinery_depths
-  machinery_depths -.-> ancient_mother_core
+  thousand_mechanisms_hall --> forge_yard
+  thousand_mechanisms_hall --> array_drafting_room
+  forge_yard --> machinery_depths
+  machinery_depths --> vault_four
 ```
 
 ## 房間設計規則

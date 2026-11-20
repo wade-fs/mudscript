@@ -22,7 +22,7 @@
 | `relic_tianmen_yin` | 萬物行商・天門引 | 沈泥／莫三保管史 | relic/credential | 舊商盟信物與契約資料入口 | 不會因血脈自動認主；資料可能殘缺 | canon |
 | `relic_bronze_treaty_plate` | 史前商盟青銅契版殘片 | 沈泥 | relic/evidence | 與九城商盟契約紀錄有關 | 不是天門引本體；需拼合與校驗 | canon |
 | `evidence_yunji_roster_copy` | 舊商盟雲記名冊手抄底單 | 沈泥 | evidence | 證明雲記旁支及姓名關係 | 只能支持身世關係，不能單獨證明清洗主使 | canon |
-| `item_dao_crystal` | 道化晶石殘片 | 柳清虛 | material/evidence | 用於研究道化晶化病理 | 與顧玄古礦地煞晶核殘片不同物件 | canon |
+| `item_dao_crystal` | 道化晶石殘片 | 柳清虛 | material/evidence | 用於研究道化晶化病理（`/clone/item/dao_crystal.c`，Ch. 92 升仙台採集重現） | 與顧玄古礦地煞晶核殘片不同物件 | canon (Act 2 實裝) |
 
 > **五器共鳴規則待核**：原始文件在「五器」數量與沈泥持有的天門引、青銅契版之間存在口徑問題。建議把五件共鳴核心定義為五條遺物承載線，而不是把沈泥的兩件物品直接算成兩個核心槽位；最終須以第二卷第 82 章正文及物品檔裁定。不得自行用道化晶石替換顧玄的古礦地煞晶核。
 
@@ -54,20 +54,22 @@
 
 | ID | 名稱 | 類型 | 用途 | 風險／敘事限制 | 狀態 |
 |---|---|---|---|---|---|
-| `pill_reverse_dao_life` | 逆道延命血丹 | consumable/evidence | 暫時壓制部分道化／氣血症狀的禁藥 | 可能以血精為原料；短期療效不等於長期安全 | canon premise |
+| `pill_reverse_dao_life` | 逆道延命血丹殘樣／血丹 | consumable/evidence | 地肺丹火窟丙柒門縫暗紫爐灰與「萬山乙零四・南十三」批號紀錄（`/clone/item/pill_reverse_dao_life.c`） | 前三月壓抑、四月起血煞癌變，停藥七日反撲致死（Ch. 96–97） | canon (Act 2 實裝) |
 | `pill_clear_mind` | 清心散 | consumable | 緩解低階神識躁動 | 不治療道化根因 | derived |
 | `pill_blood_cooling` | 沸血降燥湯 | consumable | 暫時降低氣血燥火 | 需監測體溫與內臟負荷 | proposed |
 | `pill_herb_poultice` | 雪線續脈膏 | consumable | 凍傷與筋脈損傷輔助處理 | 不可替代醫療與休養 | proposed |
 | `cold_herbal_decoction` | 野菊抗寒湯劑 | consumable | 金石野菊與防瘴草籽抗寒湯劑（`/clone/item/cold_herbal_decoction.c`） | 緩解早期凍傷與風寒失溫 | canon (Act 1 實裝) |
 | `snowline_moss_sample` | 雪線苔與水垢密封管 | evidence/material | 寒髓草共生微苔與酸澀水垢樣本（`/clone/item/snowline_moss_sample.c`） | 僅屬個案對照樣本 (`lead_only`) | canon (Act 1 實裝) |
 | `puppet_tolerance_record` | 傀儡軸套公差工單 | evidence/tool | 搬山傀儡半厘偏角與脆化麻點測繪（`/clone/item/puppet_tolerance_record.c`） | 含雙契榫楔工藝與脆化異常紀錄 (`lead_only`) | canon (Act 1 實裝) |
-| `sample_discarded_pill` | 廢丹批次樣本 | evidence/material | 對照丹爐批次與藥渣 | 需封存、記錄封泥與保管鏈 | proposed |
+| `sample_discarded_pill` | 廢丹紫泥樣本匣 | evidence/material | 紫泥封口硬渣、試藥白猿病理圖譜與十七份匿名病案對照（`/clone/item/sample_discarded_pill.c`） | 陶生押印作證 (`corroborative`，不輕斷急鎮丸) | canon (Act 2 實裝) |
+| `cyan_crystal_filament_vial` | 淡青晶絲樣本管 | evidence/material | 三元互濟手術自柳清虛太淵穴剝出之半寸晶絲（`/clone/item/cyan_crystal_filament_vial.c`） | 證實早期單根晶絲可剝離，伴指麻與短暫失憶代價（Ch. 100） | canon (Act 2 實裝) |
 
 ## 5. 工具、儀器與機關構件
 
 | ID | 名稱 | 類型 | 用途 | 限制 | 狀態 |
 |---|---|---|---|---|---|
-| `tool_star_observation_plate` | 星曆觀測校驗板 | tool | 對照原始觀測與重抄星圖 | 只能量測差異，不會自行解釋原因 | proposed |
+| `tool_star_observation_plate` | 星曆觀測校驗板 | tool/evidence | 對照北境粗麻原卷與南境青檀宣紙定本一度半平推誤差（`/clone/item/tool_star_observation_plate.c`） | 僅能標定紙墨與度數誤差，不證幕後指使者（Ch. 91） | canon (Act 2 實裝) |
+| `tiangong_anchor_blueprint` | 推進錨機延長線草圖 | evidence/tool | 巨靈神機斜樑受力延長線暨脆化鐵屑封樣（`/clone/item/tiangong_anchor_blueprint.c`） | 證實巨靈神機原係船體／平台推進錨機或轉向關節（Ch. 95） | canon (Act 2 實裝) |
 | `tool_black_iron_caliper` | 阿鐵精鋼卡尺 | tool | 精密量測機件公差 | 量測精度受校準與操作者影響 | canon |
 | `tool_rift_seismic_pin` | 裂谷地脈震針 | tool | 記錄地層震動與週期 | 只能記錄局部資料，不能定位整條母脈 | proposed |
 | `tool_sample_seal_case` | 雙層封存匣 | tool/evidence container | 保存血精、藥渣與水土樣本 | 封存需雙人簽名與時間戳 | proposed |
@@ -84,7 +86,9 @@
 | `ev3_drill_head` | 內造鑽山傀儡鑽頭殘件 | evidence | 盜掘現場 | 需比對工坊批次、領用簿與命令 | corroborative（來源比對後） |
 | `ev3_mother_liquid_vial` | 血精母液封裝玉瓶 | evidence/material | 北荒母脈現場 | 需檢驗封裝、採樣與污染；不直接證明高層授意 | lead_only |
 | `ev3_expedition_roster` | 五年前走山隊名冊殘頁 | evidence | 舊營地遺址 | 名冊缺頁，不能證明全隊名單完整 | corroborative（多方核驗後） |
-| `ev3_private_purchase_ledger` | 無標記經生採辦帳頁 | evidence | 待取得 | 須追查書手、貨主、付款來源與交割地 | lead_only |
+| `yanshan_broken_arrow` | 燕山鷹記斷折骨箭 | evidence | 鬼哭冰澗三尺冰層探冰起獲（附染血八方舊皮甲，`/clone/item/yanshan_broken_arrow.c`） | 重斧／破甲弩斜切痕；僅證曾遭攔截未見遺骸（Ch. 94） | `lead_only` (Act 2 實裝) |
+| `bahuang_logistics_copy` | 黑山軍需出庫副本 | evidence | 雷烈箭樓交付之天興十九年出庫副聯（`/clone/item/bahuang_logistics_copy.c`） | 證實三十斤千機火藥調往鬼哭冰澗，無高層親簽（Ch. 94） | `corroborative` (Act 2 實裝) |
+| `ev3_private_purchase_ledger` | 北境三宗延命私盟密帳索引 | evidence | 雲海鬼市後門暗巷截自灰袍經生馬背（`/clone/item/ev3_private_purchase_ledger.c`） | 含十三府城、三代號與「玄木」轉帳代號，尚需與三宗對帳（Ch. 98） | `corroborative` (Act 2 實裝) |
 
 ## 7. 道具資料欄位建議
 

@@ -1,7 +1,7 @@
 # 角色檔案：羅九秤（萬山商埠公所掌印）
 
 > `character_id`: `luo_jiucheng`  
-> `status`: `canon (Act 1 實裝)`  
+> `status`: `canon (Act 1–2 實裝)`  
 > `faction`: 雲津仙集／萬山商埠公所  
 > `path/domain`: 官商仲裁  
 > `home_room`: `/d/yunjin/public_office.c`（萬山商埠公所；依任務規格定名為 `public_office.c`）  
@@ -39,9 +39,9 @@
 | 首次登場 | 第三卷第 84 章（第 90 章續見交割違約賠償見證） |
 | 首次接觸方式 | 審驗沈泥所持蘇晚晴與賈朝奉聯署特等通行信印，拒絶以情面免除保證金，照章核批西街甲字七號倉契（Ch. 84） |
 | 當前狀態 | 存活 |
-| 關係變化 | Ch. 84 按規矩立契；Ch. 90 親見邱禾當場拍出四百靈石票賠清冷風坡雪崩違約金 |
+| 關係變化 | Ch. 84 按規矩立契；Ch. 90 親見邱禾當場拍出四百靈石票賠清違約金；Ch. 100 依法審查跨州特等通行信印之「東家代行保釋權」，限兩日檢驗確定為無害對照樣本後釋放阿四並准追討耐火炭破損賠款；Ch. 101 宣告三宗聯合勘探隊輜重雪橇標十日後依資金與履約紀錄公開招標 |
 | 相關事件 | `EV302`、`EV309` |
-| 相關任務 | `v3_northbound_and_yunjin_arrival`（步驟 2）、`v3_yuntu_market_charter`（start_npc／步驟 1） |
+| 相關任務 | `v3_northbound_and_yunjin_arrival`（步驟 2）、`v3_yuntu_market_charter`（start_npc／步驟 1）、`v3_act2_yunjin_ghost_and_sanyuan`（結算 `target_npc` 依法仲裁保釋與公佈招標） |
 
 ## 寫作限制
 

@@ -1,16 +1,17 @@
 # 角色檔案：聞九（陣圖工房女陣匠）
 
 > `character_id`: `wenjiu`  
-> `status`: `proposed`  
+> `status`: `canon (Act 2 實裝)`  
 > `faction`: 千機百巧門／天工閣  
 > `path/domain`: 物道／陣圖  
-> `home_room`: `/d/sects/tiangong/array_drafting_room`
+> `home_room`: `/d/sects/tiangong/array_drafting_room.c`  
+> `mudlib_path`: `/clone/npc/wenjiu.c`
 
 ## 基本資料
 
 - **姓名／稱謂**：聞九／陣圖工房女陣匠
 - **所屬**：千機百巧門／天工閣
-- **活動地點**：`/d/sects/tiangong/array_drafting_room`
+- **活動地點**：`/d/sects/tiangong/array_drafting_room.c`
 - **角色定位**：Tier 2 世界人物；其職能、知情範圍與利益關係以本檔為界。
 
 ## 人物設定與敘事功能
@@ -35,12 +36,12 @@
 
 | 欄位 | 初始值 |
 |---|---|
-| 首次登場 | 第三卷待排章節 |
-| 首次接觸方式 | 正式差遣／交易／事故／日常生活，依章節安排 |
-| 當前狀態 | 存活（燕山除外：失蹤待查） |
-| 關係變化 | 待事件帳更新 |
-| 相關事件 | `EV3xx` 待綁定 |
-| 相關任務 | 第一階段不建立任務 JSON，第二階段綁定 |
+| 首次登場 | 第三卷第 95 章（隨章百鍊引領入萬機地窟並於陣圖工房共繪延長線） |
+| 首次接觸方式 | 初戒林鐵生僅測外圈齒輪勿碰黑軸，聞其質疑斜樑受力後以炭筆三息繪出延長線，共破巨靈神機實為「推進錨機／轉向關節」（Ch. 95） |
+| 當前狀態 | 存活 |
+| 關係變化 | Ch. 95 共守秘密結構草圖並與林鐵生形成務實工藝互信 |
+| 相關事件 | `EV306` |
+| 相關任務 | `v3_tiangong_ancient_mechanism`（步驟 3；`/clone/npc/wenjiu.c`） |
 
 ## 寫作限制
 

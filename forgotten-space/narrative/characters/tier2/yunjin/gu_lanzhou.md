@@ -1,7 +1,7 @@
 # 角色檔案：顧蘭舟（雲津靈石票號女掌櫃）
 
 > `character_id`: `gu_lanzhou`  
-> `status`: `canon (Act 1 實裝)`  
+> `status`: `canon (Act 1–2 實裝)`  
 > `faction`: 雲津仙集／雲海票號  
 > `path/domain`: 金融／商賈  
 > `home_room`: `/d/yunjin/exchange_hall.c`（三宗交割廳暨雲海票號；原草案 `cloud_exchange_bank` 併入交割廳實裝）  
@@ -39,9 +39,9 @@
 | 首次登場 | 第三卷第 84 章（第 85 章續見帳務分紅） |
 | 首次接觸方式 | 沈泥攜蘇晚晴、賈朝奉聯署通行信印與雲岩契書赴交割廳雲海票號開戶核驗（五百靈石起存、三分匯水，Ch. 84） |
 | 當前狀態 | 存活 |
-| 關係變化 | Ch. 84 僅認實物契書與清算紀錄；Ch. 85 起付予沈泥校對舊帳紅利 |
+| 關係變化 | Ch. 84 僅認實物契書與清算紀錄；Ch. 85 起付予沈泥校對舊帳紅利；Ch. 98 揭示初七、廿二「三萬兩千枚準備金」暗流缺口與灰布襖文弱男子零散兌換無標記小額飛錢線索；Ch. 101 嚴守「三方獨立來源未完全咬合前不作定案」規矩，替眾人將五方跨線索證物副本封入編號紅木封印匣 |
 | 相關事件 | `EV302`、`EV309` |
-| 相關任務 | `v3_yuntu_market_charter`（交割廳票號擔保與清算） |
+| 相關任務 | `v3_yuntu_market_charter`（交割廳票號擔保與清算）、`v3_five_way_evidence_convergence`（`target_npc` 封存五方副本）、`v3_act2_yunjin_ghost_and_sanyuan`（`start_npc`） |
 
 ## 寫作限制
 

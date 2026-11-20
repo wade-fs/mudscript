@@ -118,6 +118,20 @@
 
 ---
 
+## 第三卷 第二幕：宗門深造・偏科之影（第 91～101 章・Act 2 已實裝）
+
+> 第二幕新增 21 間房間、14 名 NPC＋1 荒獸（並擴充複用 `mo_beggar`／`under_black_market_broker`）、8 項新道具、8 條主支線任務與 `evaluate_tier2_crisis()`。
+
+| 章節 | 視角主角 | 核心敘事事件 | MUD 房間與 NPC 互動 | 任務鏈 / 實裝道具 | 系統機制與成果 |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **第 91～92 章** | 柳清虛 | 藏星秘閣校出三百年「一度半」平推差異；升仙台見證 Lv.92 鶴鳴真人玉化取晶 | `/d/sects/taiqing/{hidden_archive,outer_observatory,quiet_peak,ascension_platform}.c`<br>NPC: `yu_shouzhuo`, `jian_su`, `xuan_ming` | 主線：`v3_taiqing_star_archive`<br>支線：`v3_act2_taiqing_ascension_secret`<br>道具：`tool_star_observation_plate.c`, `dao_crystal.c` | `collate archive`／`collect crystal` 揭示紙墨矛盾與玉化抽靈真相。 |
+| **第 93～94 章** | 燕隼 | 長城射殺鐵甲寒犛、養息院探定心急鎮丸；鬼哭冰澗探冰起獲燕山斷箭與火藥出庫副本 | `/d/sects/bahuang/{restoration_hall,north_garrison_kitchen,great_wall_gate,north_watch,ghost_cry_gorge}.c`<br>NPC: `du_qinghe`, `qi_wushang`, `a_man`, `iron_yak` | 主線：`v3_bahuang_bloodline_watch`<br>支線：`v3_act2_bahuang_ghost_gorge`<br>道具：`yanshan_broken_arrow.c`, `bahuang_logistics_copy.c` | Lv.70 `iron_yak` 實戰、`probe ice` 與天興十九年火藥副本互鎖。 |
+| **第 95 章** | 林鐵生 | 萬機地窟黑鐵齒輪共鳴十丈巨靈神機，陣圖工房破譯「推進錨機」構造並擋下晶柱試車 | `/d/sects/tiangong/{forge_yard,array_drafting_room,machinery_depths,vault_four}.c`<br>NPC: `ji_heng`, `wenjiu`, `chi_lian` | 主線：`v3_tiangong_ancient_mechanism`<br>道具：`tiangong_anchor_blueprint.c` | `inspect core`／`trace blueprint` 檢出脆化麻點並依規封存六根血精晶柱於四號庫房。 |
+| **第 96～97 章** | 顧玄 | 地肺丹火窟暗隙窺見「萬山乙零四・南十三」煉血丹；廢丹崖剖白猿、醫理院互核十七份病案 | `/d/sects/danding/{earth_fire_pill_cave,discarded_pill_cliff,medical_archive}.c`<br>NPC: `tao_sheng`, `sun_wenlu` | 主線：`v3_danding_blood_pill_cases`<br>道具：`pill_reverse_dao_life.c`, `sample_discarded_pill.c` | `peek flue`／`dissect ape`／`crosscheck cases` 鎖定「三月壓抑、四月癌變、停藥七日反撲」病理邊界。 |
+| **第 98～101 章** | 沈泥 / 群像 | 雲海鬼市散播稽核風聲截《私盟密帳索引》、莫三北上認「玄木」；地窖五方對帳、三元剝離晶絲與玄冥私印稽查破局 | `/d/yunjin/{mudway_store_cellar,three_sect_market,mountain_caravan_yard,ghost_market,wanbao_back_alley}.c`<br>NPC: `mo_san`, `gui_jianchou`, `gray_robed_scribe`, `a_si` | 主線：`v3_five_way_evidence_convergence`、`v3_act2_yunjin_ghost_and_sanyuan`<br>道具：`ev3_private_purchase_ledger.c`, `cyan_crystal_filament_vial.c` | `rumor audit`／`strip filament` 並啟動 `evaluate_tier2_crisis()` 推進至 `T-1` 北荒勘探局勢。 |
+
+---
+
 ## 六大物證缺口標準五欄對照表 (The Six Evidence Gaps Ledger)
 
 | 編號 | 物證名稱 (`item`) | 物證型態 (`type`) | 來源鏈與取得者 (`source & chain`) | 證明力限制與當前等級 (`strength & limit`) | 當前狀態與最新進展 (`status`) |

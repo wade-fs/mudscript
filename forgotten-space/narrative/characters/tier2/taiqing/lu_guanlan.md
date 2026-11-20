@@ -1,10 +1,10 @@
 # 角色檔案：陸觀瀾（柳清虛外門授業師）
 
 > `character_id`: `lu_guanlan`  
-> `status`: `canon (Act 1 實裝)`  
+> `status`: `canon (Act 1–2 實裝)`  
 > `faction`: 太清玄天宮  
 > `path/domain`: 法道  
-> `home_room`: `/d/sects/taiqing/gate.c`（Act 1 登天雲梯山門外門主考；二幕後往 `outer_observatory` 草案）  
+> `home_room`: `/d/sects/taiqing/gate.c`（Act 1–2 駐點登天雲梯山門；Ch. 92 赴後山偏峰老松亭）  
 > `mudlib_path`: `/clone/npc/lu_guanlan.c`
 
 ## 基本資料
@@ -39,9 +39,9 @@
 | 首次登場 | 第三卷第 86 章（太清登天雲梯山門初試驗牒） |
 | 首次接觸方式 | 宣讀三百六十五階問心陣考核規程，驗看宣道司外門考核令並監看柳清虛登階（Ch. 86） |
 | 當前狀態 | 存活 |
-| 關係變化 | Ch. 86 見證柳清虛不跪叩而以步頻測出東北測星柱滯後公差 |
-| 相關事件 | `EV303` |
-| 相關任務 | `v3_act1_taiqing_ladder`（start_npc／步驟 1） |
+| 關係變化 | Ch. 86 見證柳清虛不跪叩而以步頻測出東北測星柱滯後公差；Ch. 92 於偏峰老松亭坦承師兄鶴鳴真人八十四重左眼晶化後被迫在昂貴「暗紅丸藥」與閉關等死間二選一，仍堅持太清星律曾救山民而不應一概抹殺 |
+| 相關事件 | `EV303`、`EV305` |
+| 相關任務 | `v3_act1_taiqing_ladder`（start_npc／步驟 1）、`v3_taiqing_star_archive`（核驗對接 `target_npc`）、`v3_act2_taiqing_ascension_secret`（start_npc／收存結晶樣本 `target_npc`） |
 
 ## 寫作限制
 

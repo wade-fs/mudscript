@@ -1,16 +1,17 @@
 # 角色檔案：祁無傷（北荒巡哨隊斥候）
 
 > `character_id`: `qi_wushang`  
-> `status`: `proposed`  
+> `status`: `canon (Act 2 實裝)`  
 > `faction`: 八荒武山  
 > `path/domain`: 力道／斥候  
-> `home_room`: `/d/sects/bahuang/north_watch`
+> `home_room`: `/d/sects/bahuang/north_watch.c`  
+> `mudlib_path`: `/clone/npc/qi_wushang.c`
 
 ## 基本資料
 
 - **姓名／稱謂**：祁無傷／北荒巡哨隊斥候
 - **所屬**：八荒武山
-- **活動地點**：`/d/sects/bahuang/north_watch`
+- **活動地點**：`/d/sects/bahuang/north_watch.c`
 - **角色定位**：Tier 2 世界人物；其職能、知情範圍與利益關係以本檔為界。
 
 ## 人物設定與敘事功能
@@ -35,12 +36,12 @@
 
 | 欄位 | 初始值 |
 |---|---|
-| 首次登場 | 第三卷待排章節 |
-| 首次接觸方式 | 正式差遣／交易／事故／日常生活，依章節安排 |
-| 當前狀態 | 存活（燕山除外：失蹤待查） |
-| 關係變化 | 待事件帳更新 |
-| 相關事件 | `EV3xx` 待綁定 |
-| 相關任務 | 第一階段不建立任務 JSON，第二階段綁定 |
+| 首次登場 | 第三卷第 94 章（隨唐映率六人小隊踏察鬼哭冰澗） |
+| 首次接觸方式 | 手持綁紅布測冰長鐵簽協助燕隼與唐映檢驗鬼哭冰澗暗河冰殼承重並警告去年雪崩與夜間地底規律震動（Ch. 94） |
+| 當前狀態 | 存活 |
+| 關係變化 | Ch. 94 起成為燕隼在巡哨邊線的可信技術斥候同伴 |
+| 相關事件 | `EV305`（延伸走山踏查）、`EV310` |
+| 相關任務 | `v3_bahuang_bloodline_watch`（步驟 3；`/clone/npc/qi_wushang.c`） |
 
 ## 寫作限制
 

@@ -1,10 +1,10 @@
 # 角色檔案：唐映（破軍重弓塞女校尉）
 
 > `character_id`: `tang_ying`  
-> `status`: `canon (Act 1 實裝)`  
+> `status`: `canon (Act 1–2 實裝)`  
 > `faction`: 八荒武山  
 > `path/domain`: 力道／弓術  
-> `home_room`: `/d/sects/bahuang/gate.c`（Act 1 萬鈞問心谷配箭稽查；二幕後往 `broken_army_bow_fort` 草案）  
+> `home_room`: `/d/sects/bahuang/gate.c`（Act 1–2 駐點萬鈞問心谷暨長城三號豁口執勤；後續往 `broken_army_bow_fort` 草案）  
 > `mudlib_path`: `/clone/npc/tang_ying.c`
 
 ## 基本資料
@@ -39,9 +39,9 @@
 | 首次登場 | 第三卷第 87 章（萬鈞問心谷監考配箭紀律） |
 | 首次接觸方式 | 宣示「配箭射完不補、棄考捏響箭即除籍」規矩，與岳停山、雷烈同台監考（Ch. 87） |
 | 當前狀態 | 存活 |
-| 關係變化 | Ch. 87 依規點驗燕隼封存多餘箭支，保持軍紀中立觀察 |
-| 相關事件 | `EV303` |
-| 相關任務 | Act 1 `/d/sects/bahuang/gate.c` 監考互動 NPC（`v3_act1_bahuang_gorge` 同場駐點）；二幕續接 `v3_bahuang_bloodline_watch` |
+| 關係變化 | Ch. 87 依規點驗燕隼封存多餘箭支，保持軍紀中立觀察；Ch. 93–94 於長城豁口授以破鐵甲寒犛腋下軟筋之法並嚴禁追進三倍白霧雪溝，同時引薦東側鬼哭冰澗測距實勘與切口繪圖 |
+| 相關事件 | `EV303`、`EV306` |
+| 相關任務 | `v3_act1_bahuang_gorge`（同場駐點）、`v3_act2_bahuang_ghost_gorge`（start_npc；引領前往 `great_wall_gate` 與 `ghost_cry_gorge`） |
 
 ## 寫作限制
 

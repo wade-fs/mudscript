@@ -1,7 +1,7 @@
 # 角色檔案：邱禾（泥途商棧管事）
 
 > `character_id`: `qiu_he`  
-> `status`: `canon (Act 1 實裝)`  
+> `status`: `canon (Act 1–2 實裝)`  
 > `faction`: 雲津仙集／泥途商棧  
 > `path/domain`: 商賈／後勤  
 > `home_room`: `/d/yunjin/mudway_store.c`（泥途商棧；依任務規格定名為 `mudway_store.c`）  
@@ -39,9 +39,9 @@
 | 首次登場 | 第三卷第 84 章（西街門檻拍短契應聘；第 85、90 章要角） |
 | 首次接觸方式 | 見沈泥在車馬行替凍傷腳夫墊付藥錢後，拎雪鏟上門以月錢兩百文加千分之三抽成簽下三個月短契（Ch. 84） |
 | 當前狀態 | 存活 |
-| 關係變化 | Ch. 84 初持僱傭防線，Ch. 90 親見沈泥自掏家底賠清冷風坡雪崩違約金後真正信服 |
+| 關係變化 | Ch. 84 初持僱傭防線，Ch. 90 親見沈泥自掏家底賠清冷風坡雪崩違約金後真正信服；Ch. 98–101 藉朔望雙聯帳簿與莫三押陣金石車隊公所預登記副帳，逼退何萬金暨太清執法使藉查封兩小包未申報樣本奪棧之舉，並力主競標三宗聯合勘探隊隨軍輜重雪橇承運標 |
 | 相關事件 | `EV302`、`EV309` |
-| 相關任務 | `v3_yuntu_market_charter`（步驟 2 建帳；`/clone/npc/qiu_he.c`） |
+| 相關任務 | `v3_yuntu_market_charter`（步驟 2 建帳；`/clone/npc/qiu_he.c`）、`v3_five_way_evidence_convergence`（`start_npc`／彙整貨單 `target_npc`） |
 
 ## 寫作限制
 

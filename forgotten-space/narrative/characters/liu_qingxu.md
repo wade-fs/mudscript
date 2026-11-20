@@ -51,3 +51,8 @@
 ## 卷三第一幕進展（第 83～90 章・實裝於 Act 1）
 13. **寒原護隊與雲津候試（Ch. 83–85）**：十七日北行與立冬前二十日於雲津西街推演星煞微變；餞別沈泥後單身赴太清玄天宮。
 14. **登天雲梯實測公差入星律院（Ch. 86、90）**：立冬於太清登天雲梯山門（`/d/sects/taiqing/gate.c`）拒學沈照塵等人叩拜順天，反以神識丈量星煞威壓，捕捉到東北測星柱固定滯後千分之三息的結構誤差（`measure ladder`），挺直脊背連跨石階登頂；周天星律院掌院宋知微於 `/d/sects/taiqing/star_law_hall.c` 收下其實測草稿並破格錄為外門上等經生，頒予【太清外門玉牌】（`/clone/item/cred_taiqing_outer_token.c`、`v3_act1_taiqing_ladder`），月末藉泥途商棧朱砂符紙回執維持外聯。
+
+## 卷三第二幕進展（第 91～101 章・實裝於 Act 2）
+15. **預警暴雪與藏星秘閣校書（Ch. 91）**：晉升 Lv.70+，依《雲津風雪誤差核對簿》提前兩日測出四分半星芒氣壓誤差並連夜預警救下馱馬雜役；持宋知微手令入天柱背陰【藏星秘閣】（`/d/sects/taiqing/hidden_archive.c`），在老吏余守拙（`yu_shouzhuo`）點撥下核對《紫微星官錄》（`collate archive`），以北境粗麻原卷 vs 南境青檀宣紙三十年前「校順」定本證實甲子冬至星象曾被人為順時針平推「一度半」，獲【星曆觀測校驗板】（`/clone/item/tool_star_observation_plate.c`、`v3_taiqing_star_archive`），預約【天柱觀星台】（`/d/sects/taiqing/outer_observatory.c`）朔日雙向盲測。
+16. **升仙台見證玉化與老松亭密談（Ch. 92）**：隨陸觀瀾經【清修偏峰】（`/d/sects/taiqing/quiet_peak.c`，初遇苦修派簡素真人 `jian_su`）赴【升仙台】（`/d/sects/taiqing/ascension_platform.c`），見證 Lv.92 鶴鳴真人「坐化」實係玉化為輸送星流之晶像，趁執法長老玄冥真人（`xuan_ming`）發雷符驅離之際自雪縫夾起道化晶屑（`collect crystal`、`/clone/item/dao_crystal.c`、`v3_act2_taiqing_ascension_secret`），並從陸觀瀾得知 Lv.84 師兄眼見星軌與「暗紅丸藥」困境。
+17. **太淵晶絲剝離與密送勘探公文（Ch. 99–101）**：修習《太清周天星訣》後左腕手太陰肺經太淵穴滋生半寸「道化晶絲」，於【泥途商棧地下石室】（`/d/yunjin/mudway_store_cellar.c`）靠五子「三元互濟」成功剝除（`strip filament`、`/clone/item/cyan_crystal_filament_vial.c`），留有左食中指麻木與半日記憶缺損代價（記不清偏移為三百零四抑或三百四十年）；隨即在 Ch. 101 深夜持【三宗聯合勘探隊】公開公文密會沈泥，推動四人隨隊入北荒破局。

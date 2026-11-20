@@ -52,3 +52,8 @@
 ## 卷三第一幕進展（第 83～90 章・實裝於 Act 1）
 14. **寒原戒備與退門斷臂武卒（Ch. 83）**：過黑風口識破雪豹窺伺護隊進斷崖石棚驛站（`/d/wastes/north_road/post_station.c`），並從八荒黑山營斷臂退門武卒周鐵山處首次獲悉武山歲貢折銀與傷退外包的殘酷真相。
 15. **萬鈞問心谷至黑山營領牌（Ch. 87、90）**：立冬於八荒萬鈞問心谷（`/d/sects/bahuang/gate.c`）依岳停山與唐映軍紀封存多餘箭支，僅攜百斤鐵胎柘木弓與三支三稜鐵箭穿過八十里黑石峽試煉道（`/d/sects/bahuang/black_stone_gorge.c`），精準射殺缺耳鐵背荒狼王（`ironback_wolf`）並護住鬼門彎棄考傷兵；抵達黑山煞血營（`/d/sects/bahuang/black_mountain_camp.c`）時因扣弓壓腕習慣與箭羽護指動作被獨臂老將雷烈認出（暗繫大伯燕山舊案），獲頒【八荒黑山營腰牌】（`/clone/item/cred_bahuang_camp_plate.c`、`v3_act1_bahuang_gorge`）。
+
+## 卷三第二幕進展（第 91～101 章・實裝於 Act 2）
+16. **長城殺寒犛與養息院窺見「急鎮丸」（Ch. 93）**：修《煞血霸體訣》刻意壓氣血沉丹田免於衝腦；隨軍登上【北線長城巡防牆】（`/d/sects/bahuang/great_wall_gate.c`）三號豁口兩箭穿殺二階「鐵甲寒犛」（Lv.70 `iron_yak`），嚴守軍紀未追殘敵入三倍地煞之「白霧雪溝」而回護傷兵；子夜經過【傷兵養息院】（`/d/sects/bahuang/restoration_hall.c`）撞見雷烈與老卒吐瀝青黑血、乾吞腥甜硫磺味「定心急鎮丸」，向醫官杜青禾（`du_qinghe`）核對病案並透過朔望貨單密函顧玄協查丹鼎宗線索（`v3_bahuang_bloodline_watch`）。
+17. **鬼哭冰澗斷箭與天興十九年火藥秘檔（Ch. 94）**：經長城東側鐵包邊門隨唐映、斥候祁無傷（`qi_wushang`）踏察【鬼哭冰澗】（`/d/sects/bahuang/ghost_cry_gorge.c`），以測冰長鐵簽探冰垂降（`probe ice`），自三尺冰層起獲刻有大伯「燕山箭記」且遭破甲兵刃斜切之斷折骨箭與「八方」舊皮甲（`/clone/item/yanshan_broken_arrow.c`）；經炊事婦人阿滿（`a_man`）於【北線軍寨炊事後勤區】（`/d/sects/bahuang/north_garrison_kitchen.c`）查閱失蹤名冊得悉韓素線索後，於箭樓聞雷烈自首錯簽假撤防密令並取得記載「三十斤千機百巧門烈性開山火藥調往鬼哭冰澗」之【黑山軍需出庫副本】（`/clone/item/bahuang_logistics_copy.c`、`v3_act2_bahuang_ghost_gorge`）。
+18. **地窖五方對帳與三分煞血護脈（Ch. 99–100）**：臘月廿三返【泥途商棧地下石室】（`/d/yunjin/mudway_store_cellar.c`）呈上三件物證；在替柳清虛剝除道化晶絲過程中，將《煞血霸體訣》熾烈氣血精準壓制為三分溫和熱力循經脈引導，護住血管免遭星煞反噬寒毒凍裂（`strip filament`、`v3_act2_yunjin_ghost_and_sanyuan`）。

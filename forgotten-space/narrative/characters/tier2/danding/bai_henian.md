@@ -1,10 +1,10 @@
 # 角色檔案：白鶴年（丹鼎宗外聘醫理師）
 
 > `character_id`: `bai_henian`  
-> `status`: `canon (Act 1 實裝)`  
+> `status`: `canon (Act 1–2 實裝)`  
 > `faction`: 千機百巧門／丹鼎宗  
 > `path/domain`: 藥道／醫療  
-> `home_room`: `/d/sects/danding/herb_garden.c`（Act 1 百毒試藥谷暨百草谷；二幕後往 `medical_archive` 草案）  
+> `home_room`: `/d/sects/danding/herb_garden.c`（Act 1–2 駐點百草谷；後續可兼赴 `medical_archive`）  
 > `mudlib_path`: `/clone/npc/bai_henian.c`
 
 ## 基本資料
@@ -39,9 +39,9 @@
 | 首次登場 | 第三卷第 89 章（百毒試藥谷監考驗藥） |
 | 首次接觸方式 | 台上遠見顧玄避嫌不私授，隨後走下高台品評並以銀針試毒認證「借雪線苔溫火冷萃法」澄澈無火毒（Ch. 89） |
 | 當前狀態 | 存活 |
-| 關係變化 | Ch. 89 以公允實證替顧玄在鶴壽面前確認成藥生機保全七成半 |
-| 相關事件 | `EV303` |
-| 相關任務 | `v3_act1_danding_valley`（步驟 3 銀針驗毒公證）；二幕續接 `v3_danding_blood_pill_cases` |
+| 關係變化 | Ch. 89 以公允實證替顧玄在鶴壽面前確認成藥生機保全七成半；Ch. 96–97 暗塞泡過甘草冷水的厚棉口罩與《地火中毒救護手記》予顧玄，叮囑「鼻子多記氣味、耳朵少聽閒話」，要求將地火藥窟與棄丹崖樣本帶出宗門交由信得過之人 |
+| 相關事件 | `EV303`、`EV308` |
+| 相關任務 | `v3_act1_danding_valley`（步驟 3 銀針驗毒公證）；Ch. 96–97 `v3_danding_blood_pill_cases` 同期對話線索NPC |
 
 ## 寫作限制
 

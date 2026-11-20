@@ -1,16 +1,17 @@
 # 角色檔案：季衡（萬機地窟值守匠師）
 
 > `character_id`: `ji_heng`  
-> `status`: `proposed`  
+> `status`: `canon (Act 2 實裝)`  
 > `faction`: 千機百巧門／天工閣  
 > `path/domain`: 物道／機關  
-> `home_room`: `/d/sects/tiangong/machinery_depths`
+> `home_room`: `/d/sects/tiangong/machinery_depths.c`  
+> `mudlib_path`: `/clone/npc/ji_heng.c`
 
 ## 基本資料
 
 - **姓名／稱謂**：季衡／萬機地窟值守匠師
 - **所屬**：千機百巧門／天工閣
-- **活動地點**：`/d/sects/tiangong/machinery_depths`
+- **活動地點**：`/d/sects/tiangong/machinery_depths.c`
 - **角色定位**：Tier 2 世界人物；其職能、知情範圍與利益關係以本檔為界。
 
 ## 人物設定與敘事功能
@@ -35,12 +36,12 @@
 
 | 欄位 | 初始值 |
 |---|---|
-| 首次登場 | 第三卷待排章節 |
-| 首次接觸方式 | 正式差遣／交易／事故／日常生活，依章節安排 |
-| 當前狀態 | 存活（燕山除外：失蹤待查） |
-| 關係變化 | 待事件帳更新 |
-| 相關事件 | `EV3xx` 待綁定 |
-| 相關任務 | 第一階段不建立任務 JSON，第二階段綁定 |
+| 首次登場 | 第三卷第 95 章（萬機地窟持《安全閘巡檢簿》值守並阻攔赤煉） |
+| 首次接觸方式 | 查驗林鐵生內門雙人批令銅牌、準予外圈檢修並揭露主軸三次異常脈衝與銅管脆化麻點，挺身擋在鉛封晶柱鐵箱前（Ch. 95） |
+| 當前狀態 | 存活 |
+| 關係變化 | Ch. 95 敬重林鐵生嚴守安全規程與工藝實證，紀錄異常數據存檔 |
+| 相關事件 | `EV306` |
+| 相關任務 | `v3_tiangong_ancient_mechanism`（start_npc／步驟 1；`/clone/npc/ji_heng.c`） |
 
 ## 寫作限制
 

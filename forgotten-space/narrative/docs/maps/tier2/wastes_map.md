@@ -13,7 +13,7 @@
 | `snow_caravan_camp` | 雪原行腳營地 | `/d/wastes/snow_caravan_camp.c` | `north_outpost_infirmary` | 補給、獸材交易、隊伍整備 |
 | `north_outpost_infirmary` | 北荒前哨醫所 | `/d/wastes/north_outpost_infirmary.c` | `rift_watch` | 傷病救治、地煞暴露觀察 |
 | `rift_watch` | 裂谷觀測崖 | `/d/wastes/rift_watch.c` | `black_ice_valley` | 監測冰層、獸潮與地脈震動 |
-| `black_ice_valley` | 黑冰斷谷 | `/d/wastes/black_ice_valley.c` | `old_expedition_camp` | 五年前走山隊遺址；需證據採集與安全繩索 |
+| `black_ice_valley` | 黑冰斷谷 | `/d/wastes/black_ice_valley.c` | `old_expedition_camp` | 五年前走山隊主遺址（九具遺骸與燕山血書處，Ch. 104；區別於二幕大黑山東側 `bahuang/ghost_cry_gorge.c` 鬼哭冰澗斷箭現場） |
 | `old_expedition_camp` | 舊勘探隊營地 | `/d/wastes/old_expedition_camp.c` | `war_god_tomb` | 保存營具、名冊與血書線索 |
 | `war_god_tomb` | 荒古戰神遺塚 | `/d/wastes/war_god_tomb.c` | `north_ark_array` | 遺物共鳴區；不是普通寶庫 |
 | `north_ark_array` | 太古破界方舟北方主陣基 | `/d/wastes/north_ark_array.c` | `區域出口／劇情門禁` | 核心劇情區；需多件遺物、結構穩定與撤退方案 |

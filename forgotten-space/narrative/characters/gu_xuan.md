@@ -52,3 +52,8 @@
 ## 卷三第一幕進展（第 83～90 章・實裝於 Act 1）
 15. **寒原野菊湯劑與退門藥徒證言（Ch. 83）**：隨穆雪商隊北上至斷崖石棚驛站（`/d/wastes/north_road/post_station.c`），以葛半仙遺贈野菊草籽熬煮抗寒湯劑（`/clone/item/cold_herbal_decoction.c`）救回凍傷腳夫；並為丹鼎宗退門藥徒陳青檢查帶著鐵鏽與硫磺酸氣的手腕潰爛，記下百草谷藥田水脈發酸之異兆（`v3_act1_cold_plain_rescue`）。
 16. **丹鼎百毒試藥谷溫火冷萃（Ch. 89–90）**：立冬大考於百毒試藥谷暨百草谷（`/d/sects/danding/herb_garden.c`）受試，察覺變異寒髓草根部共生「雪線苔」可吸煞化毒，遂棄猛火爐而改以溫火冷萃法析出七成半生機且毫無火毒之辟煞散；經白鶴年銀針試毒澄澈無斑、鶴壽長老親允頒授【丹鼎百草谷外門藥牌】（`/clone/item/cred_danding_medical_tag.c`），並悄悄封存雪線苔酸泥樣本（`/clone/item/snowline_moss_sample.c`），同時藉泥途商棧貨單建立跨山醫藥聯絡（`v3_act1_danding_valley`）。
+
+## 卷三第二幕進展（第 91～101 章・實裝於 Act 2）
+17. **地肺丹火窟暗隙窺丹（Ch. 96）**：協助葉青枝查出兩處水渠礦酸微滲後調入地下三百丈【地肺丹火窟】（`/d/sects/danding/earth_fire_pill_cave.c`）丙字區控火。牢記白鶴年所贈甘草濕口罩與《地火中毒救護手記》遺訓，臘月初八清灰排煙時撞破「丙字柒號」秘密內窟——見鶴壽與太清雷紋銅印、天工測溫棒兩密使清點標號「萬山乙零四・南十三」之三十塊含汞缺額血精晶錠配三階荒獸心血煉製十二顆【逆道延命血丹】，悄悄括取門縫暗紫爐灰樣本（`/clone/item/pill_reverse_dao_life.c`、`peek flue`）。
+18. **廢丹崖剖猿與病案互核（Ch. 97）**：結識缺指回收工頭陶生（`tao_sheng`），於【廢丹崖】（`/d/sects/danding/discarded_pill_cliff.c`）取回紫泥硬渣與試藥白猿凍屍（`dissect ape`），在後山解剖室證實血丹前三月假性壓抑道化、第四月起引發「血煞癌變」且停藥七日反撲暴斃；複於【醫理院】（`/d/sects/danding/medical_archive.c`）櫃後承諾匿名保密，與掌記孫聞露（`sun_wenlu`）交叉互核「甲一、乙三」等十七份病案統計（`v3_danding_blood_pill_cases`、`/clone/item/sample_discarded_pill.c`），嚴格寫下「不對八荒急鎮丸妄加臆測」科學邊界。
+19. **泥途地窖五方對帳與三元剝離（Ch. 99–100）**：臘月廿三攜帶樣本盒赴【泥途商棧地下石室】（`/d/yunjin/mudway_store_cellar.c`）與夥伴匯合；診出柳清虛左腕太淵穴早期「道化晶絲」後主導醫理封護，以九轉銀針配雪線苔冷萃液開米粒小口、引林鐵生黑鐵震波與燕隼三分陽氣成功剝離半寸淡青晶絲（`/clone/item/cyan_crystal_filament_vial.c`、`strip filament`），如實記錄僅對超早期單根晶絲有效之邊界。

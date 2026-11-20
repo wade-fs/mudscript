@@ -1,16 +1,17 @@
 # 角色檔案：赤煉（天工閣長老）
 
 > `character_id`: `chi_lian`  
-> `status`: `canon`  
+> `status`: `canon (Act 2 實裝)`  
 > `faction`: 千機百巧門／天工閣  
 > `path/domain`: 物道  
-> `home_room`: `/d/sects/tiangong/elder_court`
+> `home_room`: `/d/sects/tiangong/machinery_depths.c`（Act 2 萬機地窟強裝現場；另掌四號庫房／長老殿草案）  
+> `mudlib_path`: `/clone/npc/chi_lian.c`
 
 ## 基本資料
 
 - **姓名／稱謂**：赤煉／天工閣長老
 - **所屬**：千機百巧門／天工閣
-- **活動地點**：`/d/sects/tiangong/elder_court`
+- **活動地點**：`/d/sects/tiangong/machinery_depths.c`（二幕後兼涉 `vault_four.c` 與 `elder_court` 草案）
 - **角色定位**：Tier 2 世界人物；其職能、知情範圍與利益關係以本檔為界。
 
 ## 人物設定與敘事功能
@@ -35,12 +36,12 @@
 
 | 欄位 | 初始值 |
 |---|---|
-| 首次登場 | 第三卷待排章節 |
-| 首次接觸方式 | 正式差遣／交易／事故／日常生活，依章節安排 |
-| 當前狀態 | 存活（燕山除外：失蹤待查） |
-| 關係變化 | 待事件帳更新 |
-| 相關事件 | `EV3xx` 待綁定 |
-| 相關任務 | 第一階段不建立任務 JSON，第二階段綁定 |
+| 首次登場 | 第三卷第 95 章（帶六根高純度地煞血精晶柱闖萬機地窟強裝試車） |
+| 首次接觸方式 | 拍下私人《特殊工單》欲按「乙字三號改裝口徑」強啟巨靈神機抗衡北荒獸群異動，遭魯長老與季衡依規攔下封入四號庫房（Ch. 95） |
+| 當前狀態 | 存活（Ch. 120 潛逃去向不明） |
+| 關係變化 | Ch. 95 與林鐵生、章百鍊、魯長老及季衡形成安全規程與強行試車之正面衝突 |
+| 相關事件 | `EV306`、`EV317` |
+| 相關任務 | Act 2 `/d/sects/tiangong/machinery_depths.c` 駐點長老（關聯 `v3_tiangong_ancient_mechanism`）；三幕核心關聯 `v3_ark_excavation_evidence` |
 
 ## 寫作限制
 

@@ -39,11 +39,11 @@ Tier 1 南端入口]
 | 區域 ID | 名稱 | 與其他區域關係 | 通行特性 | 實裝狀態 |
 |---|---|---|---|---|
 | `tier2_north_road` | 北境雪原官道 | 金石府鎮風關北塞（`/d/counties/zhenfeng/north_beacon.c` `north`）→ 雲津南口 | 約八百里；依序經 `cold_plain_entry`（黑風口雪坡）→ `post_station`（斷崖石棚驛站）→ `qing_pass`（青石埡口） | Act 1 實裝（3 房） |
-| `yunjin` | 雲津仙集 | 南接 `qing_pass`，北連太清、西北連八荒、東連天工、東北連丹鼎 | 中立商埠；廣場與交割／公所／西街貨棧已連通；鬼市／車馬行等仍待二幕以後實裝 | Act 1 實裝（7 房）／其餘 `draft` |
-| `taiqing` | 太清玄天宮 | `wanshan_square` 正北入口（`north`） | 登天雲梯（`measure ladder`）→ 外門雲舍 → 周天星律院 | Act 1 實裝（3 房）／深處 `draft` |
-| `bahuang` | 八荒武山 | `wanshan_square` 西北入口（`northwest`） | 萬鈞問心谷 → 黑石峽試煉道 → 黑山煞血營 | Act 1 實裝（3 房）／深處 `draft` |
-| `qianji`（`tiangong`／`danding`） | 千機百巧門（天工閣／丹鼎宗） | `wanshan_square` 正東往天工閣（`east`）、東北往丹鼎宗（`northeast`） | 天工閣（`gate`→`thousand_mechanisms_hall`，`repair puppet`）；丹鼎宗（`gate`→`herb_garden`，`extract moss`） | Act 1 實裝（各 2 房）／深處 `draft` |
-| `wastes` | 北荒裂谷 | 八荒防線以北 | 高危區；受天候、獸潮、地煞影響 |
+| `yunjin` | 雲津仙集 | 南接 `qing_pass`，北連太清、西北連八荒、東連天工、東北連丹鼎 | 中立商埠；廣場、交割票號、西街、泥途地下石室、三宗交易街、車馬行與雲海鬼市後門暗巷已全線連通 | Act 1–2 實裝（12 房） |
+| `taiqing` | 太清玄天宮 | `wanshan_square` 正北入口（`north`） | 雲梯山門 → 外門雲舍 → 星律院 → 藏星秘閣／觀星台 → 清修偏峰 → 升仙台石築靈堂 | Act 1–2 實裝（7 房）／深處 `draft` |
+| `bahuang` | 八荒武山 | `wanshan_square` 西北入口（`northwest`） | 問心谷 → 黑石峽 → 黑山營 → 養息院／炊事區／長城關口 → 巡哨營／鬼哭冰澗 | Act 1–2 實裝（8 房）／裂谷 `draft` |
+| `qianji`（`tiangong`／`danding`） | 千機百巧門（天工閣／丹鼎宗） | `wanshan_square` 正東往天工閣（`east`）、東北往丹鼎宗（`northeast`） | 天工閣（6 房全實裝至萬機地窟／四號庫房）；丹鼎宗（5 房全實裝至地肺丹火窟／醫理院／廢丹崖） | Act 1–2 實裝（共 11 房） |
+| `wastes` | 北荒裂谷 | 八荒長城以北（`black_ice_valley` 為三幕深處主遺址；外圍 `ghost_cry_gorge` 已於二幕實裝） | 高危區；受天候、獸潮、地煞影響 | Act 3+ `draft` |
 | `ark_north_array` | 方舟北方主陣基 | 裂谷深層 | 劇情鎖定區；未解鎖前不得視為可自由往返 |
 
 ## 空間設計注意
