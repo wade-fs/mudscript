@@ -1,16 +1,17 @@
 # 角色檔案：鶴壽（丹鼎宗長老）
 
 > `character_id`: `he_shou`  
-> `status`: `canon`  
+> `status`: `canon (Act 1 實裝)`  
 > `faction`: 千機百巧門／丹鼎宗  
 > `path/domain`: 物道／藥道  
-> `home_room`: `/d/sects/danding/elder_dan_chamber`
+> `home_room`: `/d/sects/danding/herb_garden.c`（Act 1 試藥谷主考駐點；內門丹室 `elder_dan_chamber` 為二幕後草案）  
+> `mudlib_path`: `/clone/npc/he_shou.c`
 
 ## 基本資料
 
 - **姓名／稱謂**：鶴壽／丹鼎宗長老
 - **所屬**：千機百巧門／丹鼎宗
-- **活動地點**：`/d/sects/danding/elder_dan_chamber`
+- **活動地點**：`/d/sects/danding/herb_garden.c`（內門丹室 `elder_dan_chamber` 待實裝）
 - **角色定位**：Tier 2 世界人物；其職能、知情範圍與利益關係以本檔為界。
 
 ## 人物設定與敘事功能
@@ -35,12 +36,12 @@
 
 | 欄位 | 初始值 |
 |---|---|
-| 首次登場 | 第三卷待排章節 |
-| 首次接觸方式 | 正式差遣／交易／事故／日常生活，依章節安排 |
-| 當前狀態 | 存活（燕山除外：失蹤待查） |
-| 關係變化 | 待事件帳更新 |
-| 相關事件 | `EV3xx` 待綁定 |
-| 相關任務 | 第一階段不建立任務 JSON，第二階段綁定 |
+| 首次登場 | 第三卷第 89 章（百毒試藥谷親臨主考） |
+| 首次接觸方式 | 考驗顧玄雪線苔冷萃法之適用邊界，並在其提出查驗上游水渠後核准歸入百草谷外門、賜予藥牌（Ch. 89） |
+| 當前狀態 | 存活 |
+| 關係變化 | Ch. 89 表面溫和勉勵顧玄先習控火藥理，實則眼角冷掃葉青枝並將其置於白鶴年近側觀察 |
+| 相關事件 | `EV303` |
+| 相關任務 | Act 1 `/d/sects/danding/herb_garden.c` 主考駐點 NPC；二幕核心關聯 `v3_danding_blood_pill_cases` |
 
 ## 寫作限制
 

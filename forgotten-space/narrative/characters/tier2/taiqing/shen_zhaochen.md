@@ -1,16 +1,17 @@
 # 角色檔案：沈照塵（周天星律院內門弟子）
 
 > `character_id`: `shen_zhaochen`  
-> `status`: `proposed`  
+> `status`: `canon (Act 1 實裝)`  
 > `faction`: 太清玄天宮  
 > `path/domain`: 法道  
-> `home_room`: `/d/sects/taiqing/outer_courtyard`
+> `home_room`: `/d/sects/taiqing/outer_court.c`（外門雲舍；依地圖定名為 `outer_court.c`）  
+> `mudlib_path`: `/clone/npc/shen_zhaochen.c`
 
 ## 基本資料
 
-- **姓名／稱謂**：沈照塵／周天星律院內門弟子
+- **姓名／稱謂**：沈照塵／周天星律院內門（外門試煉同梯）弟子
 - **所屬**：太清玄天宮
-- **活動地點**：`/d/sects/taiqing/outer_courtyard`
+- **活動地點**：`/d/sects/taiqing/outer_court.c`
 - **角色定位**：Tier 2 世界人物；其職能、知情範圍與利益關係以本檔為界。
 
 ## 人物設定與敘事功能
@@ -35,12 +36,12 @@
 
 | 欄位 | 初始值 |
 |---|---|
-| 首次登場 | 第三卷待排章節 |
-| 首次接觸方式 | 正式差遣／交易／事故／日常生活，依章節安排 |
-| 當前狀態 | 存活（燕山除外：失蹤待查） |
-| 關係變化 | 待事件帳更新 |
-| 相關事件 | `EV3xx` 待綁定 |
-| 相關任務 | 第一階段不建立任務 JSON，第二階段綁定 |
+| 首次登場 | 第三卷第 86 章（千丈雲梯登階同梯對照） |
+| 首次接觸方式 | 與柳清虛同場登三百六十五階問心陣，以依規叩拜誦銘文登階並對照其異數表現（Ch. 86） |
+| 當前狀態 | 存活 |
+| 關係變化 | Ch. 86 初識競爭對照，後續進入周天星律院同期較量 |
+| 相關事件 | `EV303` |
+| 相關任務 | Act 1 `/d/sects/taiqing/outer_court.c` 駐點互動 NPC；二幕續接 `v3_taiqing_star_archive` |
 
 ## 寫作限制
 

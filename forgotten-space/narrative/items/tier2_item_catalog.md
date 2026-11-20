@@ -30,10 +30,11 @@
 
 | ID | 名稱 | 類型 | 來源／用途 | 權限限制 | 狀態 |
 |---|---|---|---|---|---|
-| `cred_taiqing_outer_token` | 太清玄天宮外門玉牌 | credential | 外門身分、課業與基本山門通行 | 不可進藏星秘閣 | proposed |
-| `cred_bahuang_camp_plate` | 八荒黑山營腰牌 | credential | 軍營編制、輪值與補給領取 | 非軍令不得進北線關口 | proposed |
-| `cred_tiangong_artisan_tag` | 天工閣外門匠牌 | credential | 工坊工具與材料領用 | 高危地窟需雙人批令 | proposed |
-| `cred_danding_medical_tag` | 丹鼎宗百草谷藥牌 | credential | 藥田、醫理院基礎權限 | 病案室需病患授權或院令 | proposed |
+| `cred_taiqing_outer_token` | 太清玄天宮外門玉牌 | credential | 外門身分、課業與基本山門通行（`/clone/item/cred_taiqing_outer_token.c`） | 不可進藏星秘閣 | canon (Act 1 實裝) |
+| `cred_bahuang_camp_plate` | 八荒黑山營腰牌 | credential | 軍營編制、輪值與補給領取（`/clone/item/cred_bahuang_camp_plate.c`） | 非軍令不得進北線關口 | canon (Act 1 實裝) |
+| `cred_tiangong_artisan_tag` | 天工閣外門匠牌 | credential | 工坊工具與材料領用（`/clone/item/cred_tiangong_artisan_tag.c`） | 高危地窟需雙人批令 | canon (Act 1 實裝) |
+| `cred_danding_medical_tag` | 丹鼎宗百草谷藥牌 | credential | 藥田、醫理院基礎權限（`/clone/item/cred_danding_medical_tag.c`） | 病案室需病患授權或院令 | canon (Act 1 實裝) |
+| `yunjin_trade_ledger` | 泥途朔望雙聯貨單 | credential/evidence | 泥途商棧可追溯帳簿與朔望繩結暗記（`/clone/item/yunjin_trade_ledger.c`） | 公開帳與暗號分離 | canon (Act 1 實裝) |
 | `cred_yunjin_trade_seal` | 雲津商埠行商印 | credential | 攤位、倉契、票號與交割 | 不等於免稅或公所席位 | proposed |
 | `cred_north_expedition_pass` | 北荒聯合勘探通行牌 | credential | 進入指定勘探區 | 有效期、隊伍與路線綁定 | proposed |
 
@@ -57,6 +58,9 @@
 | `pill_clear_mind` | 清心散 | consumable | 緩解低階神識躁動 | 不治療道化根因 | derived |
 | `pill_blood_cooling` | 沸血降燥湯 | consumable | 暫時降低氣血燥火 | 需監測體溫與內臟負荷 | proposed |
 | `pill_herb_poultice` | 雪線續脈膏 | consumable | 凍傷與筋脈損傷輔助處理 | 不可替代醫療與休養 | proposed |
+| `cold_herbal_decoction` | 野菊抗寒湯劑 | consumable | 金石野菊與防瘴草籽抗寒湯劑（`/clone/item/cold_herbal_decoction.c`） | 緩解早期凍傷與風寒失溫 | canon (Act 1 實裝) |
+| `snowline_moss_sample` | 雪線苔與水垢密封管 | evidence/material | 寒髓草共生微苔與酸澀水垢樣本（`/clone/item/snowline_moss_sample.c`） | 僅屬個案對照樣本 (`lead_only`) | canon (Act 1 實裝) |
+| `puppet_tolerance_record` | 傀儡軸套公差工單 | evidence/tool | 搬山傀儡半厘偏角與脆化麻點測繪（`/clone/item/puppet_tolerance_record.c`） | 含雙契榫楔工藝與脆化異常紀錄 (`lead_only`) | canon (Act 1 實裝) |
 | `sample_discarded_pill` | 廢丹批次樣本 | evidence/material | 對照丹爐批次與藥渣 | 需封存、記錄封泥與保管鏈 | proposed |
 
 ## 5. 工具、儀器與機關構件

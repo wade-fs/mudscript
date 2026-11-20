@@ -40,10 +40,15 @@ flowchart TD
 
 ## 3. 任務包與章節覆蓋
 
-| 任務 ID | 類型 | 章節 | 事件 | 主責人物 | 功能 |
-|---|---|---:|---|---|---|
-| `v3_northbound_and_yunjin_arrival` | main | 83–85 | EV301–303 | 五人／穆雪／羅九秤 | 北上、退門者、雲津入市與考核分流 |
-| `v3_yuntu_market_charter` | main | 84、90、98–101 | EV302、309 | 沈泥 | 商棧登記、履約與信用 |
+| 任務 ID | 類型 | 章節 | 事件 | 主責人物 | 功能 | 實裝狀態 |
+|---|---|---:|---|---|---|---|
+| `v3_northbound_and_yunjin_arrival` | main | 83–84 | EV301–302 | 五人／穆雪／羅九秤／何萬金 | 北上斷崖石棚、雲津入市與試單 | Act 1 實裝 |
+| `v3_act1_cold_plain_rescue` | side | 83 | EV301 | 顧玄／穆雪／周鐵山／陳青 | 斷崖石棚 `brew decoction` 救傷與訪談兩位退門者 | Act 1 實裝 |
+| `v3_yuntu_market_charter` | main | 84–85、90、98–101 | EV302、EV309 | 沈泥／羅九秤／邱禾／顧蘭舟 | 商棧登記、交割帳簿與信用履約 | Act 1 實裝 |
+| `v3_act1_taiqing_ladder` | main | 86 | EV303 | 柳清虛／陸觀瀾／宋知微 | 千丈雲梯 `measure ladder` 測千分之三息公差領玉牌 | Act 1 實裝 |
+| `v3_act1_bahuang_gorge` | main | 87 | EV303 | 燕隼／岳停山／雷烈 | 黑石峽擊殺缺耳鐵背荒狼王領黑山營腰牌 | Act 1 實裝 |
+| `v3_act1_tiangong_forge` | main | 88 | EV303 | 林鐵生／章百鍊／魯長老 | 千鍛地火廊 `repair puppet` 量半厘偏角領匠牌 | Act 1 實裝 |
+| `v3_act1_danding_valley` | main | 89 | EV303 | 顧玄／葉青枝／白鶴年 | 百毒試藥谷 `extract moss` 溫火冷萃領百草谷藥牌 | Act 1 實裝 |
 | `v3_taiqing_star_archive` | main | 86、91–92 | EV303–304 | 柳清虛 | 入門、原始星圖與道化個案觀察 |
 | `v3_bahuang_bloodline_watch` | main | 87、93–94 | EV303、305、312 | 燕隼 | 巡防、傷兵症狀、走山舊案 |
 | `v3_tiangong_ancient_mechanism` | main | 88、95 | EV303、306 | 林鐵生 | 入門、巨靈神機與黑鐵同源 |
@@ -134,41 +139,46 @@ flowchart TD
 
 目前事件稽核器允許的 metric：`herd_pressure`、`route_confidence`、`diversion_effect`、`settlement_capacity`、`evidence_strength`、`civilian_trust`、`intel_confidence`、`evidence_verifiability`、`assault_cost`、`settlement_resilience`。facts 使用既有 allowlist：`autopsy_performed`、`sulfur_poisoning_found`、`flight_direction_mapped`、`diversion_ditch_dug`、`cold_smoke_stock`、`signal_arrows_ready`、`merchant_fled`、`merchant_supplies_looted`、`canyon_road_destroyed`、`residual_breach_occurred`。不要在本批 JSON 任意創造新鍵。
 
-## 6. JSON 初稿清單
+## 6. JSON 任務清單（Act 1 已實裝 ＋ Act 2–5 初稿）
 
-本套件新增 `quests/` 內的 17 份任務 JSON，以及 `data/event_defs/tier2_crisis.json` 世界事件定義（`narrative/events/tier2_crisis.json` 為敘事側同步副本）。它們刻意採用現有引擎已知欄位；所有 Tier 2 NPC ID 與地圖路徑都是依素材庫名冊／地圖草案建立的**待實裝參照**，不是已存在的 LPC 檔案。
+`quests/` 內目前包含 **22 份第三卷任務 JSON**（7 份第一幕任務＋15 份第二至五幕任務初稿），以及 `data/event_defs/tier2_crisis.json` 世界事件定義（`narrative/events/tier2_crisis.json` 為敘事側同步副本）。其中 **7 份 Act 1 任務（Ch. 83–90）** 已連通實際存在的 20 間 LPC 房間、19 名 NPC 與 8 項實體道具並通過 `quest_audit.py` 與 `test_v3_act1.c` 驗證；其餘 15 份 Act 2–5 任務仍為待實裝架構初稿：
 
 | 檔案 | 目前狀態 |
 |---|---|
-| `main/v3_northbound_and_yunjin_arrival.json` | 格式初稿；房間與 NPC 待實裝 |
-| `main/v3_yuntu_market_charter.json` | 格式初稿；房間與 NPC 待實裝 |
-| `main/v3_taiqing_star_archive.json` | 格式初稿；房間與 NPC 待實裝 |
-| `main/v3_bahuang_bloodline_watch.json` | 格式初稿；房間與 NPC 待實裝 |
-| `main/v3_tiangong_ancient_mechanism.json` | 格式初稿；房間與 NPC 待實裝 |
-| `main/v3_danding_blood_pill_cases.json` | 格式初稿；房間與 NPC 待實裝 |
+| `main/v3_northbound_and_yunjin_arrival.json` | **Act 1 已實裝**（已對齊 `post_station`／`public_office`／`wanbao_pavilion` 無 `.c` 路徑並通過測試） |
+| `side/v3_act1_cold_plain_rescue.json` | **Act 1 已實裝**（新增；斷崖石棚 `brew decoction` 救治凍傷腳夫與訪談周鐵山、陳青） |
+| `main/v3_yuntu_market_charter.json` | **Act 1 已實裝**（已對齊 `public_office`／`mudway_store`／`exchange_hall` 並通過測試） |
+| `main/v3_act1_taiqing_ladder.json` | **Act 1 已實裝**（新增；太清登天雲梯 `measure ladder` 測算公差並領取玉牌） |
+| `main/v3_act1_bahuang_gorge.json` | **Act 1 已實裝**（新增；黑石峽擊殺缺耳鐵背荒狼王並於黑山營領取腰牌） |
+| `main/v3_act1_tiangong_forge.json` | **Act 1 已實裝**（新增；千鍛地火廊 `repair puppet` 修複傀儡軸套並領取匠牌） |
+| `main/v3_act1_danding_valley.json` | **Act 1 已實裝**（新增；百毒試藥谷 `extract moss` 溫火冷萃並領取百草谷藥牌） |
+| `main/v3_taiqing_star_archive.json` | 格式初稿（二幕起接續實裝；`star_law_hall` 已落成，深處房間待實裝） |
+| `main/v3_bahuang_bloodline_watch.json` | 格式初稿（二幕起接續實裝；`black_mountain_camp` 已落成，其餘營區待實裝） |
+| `main/v3_tiangong_ancient_mechanism.json` | 格式初稿（二幕起接續實裝；`thousand_mechanisms_hall` 已落成，地窟待實裝） |
+| `main/v3_danding_blood_pill_cases.json` | 格式初稿（二幕起接續實裝；`herb_garden` 已落成，醫理院／丹窟待實裝） |
 | `main/v3_five_way_evidence_convergence.json` | 格式初稿；跨任務 prerequisite 尚待引擎支援 |
-| `main/v3_north_wastes_expedition.json` | 格式初稿；房間與 NPC 待實裝 |
+| `main/v3_north_wastes_expedition.json` | 格式初稿；深處北荒房間與 NPC 待實裝 |
 | `epic/v3_five_relic_resonance.json` | 格式初稿；stage chain 需實測 |
-| `main/v3_ark_excavation_evidence.json` | 格式初稿；房間與 NPC 待實裝 |
+| `main/v3_ark_excavation_evidence.json` | 格式初稿；深處房間與 NPC 待實裝 |
 | `main/v3_evidence_chain_hearing.json` | 格式初稿；房間與 NPC 待實裝 |
 | `event/v3_preserve_field_evidence.json` | 格式初稿；先建立物證保管鏈並提升可驗證度 |
-| `event/v3_cross_sect_evidence_audit.json` | 格式初稿；需註冊 tier2_crisis event，依 `evidence_verifiability` 判定 success／partial |
-| `event/v3_crystal_quarantine_response.json` | 格式初稿；需註冊 tier2_crisis event，依 `settlement_resilience` 判定 success／partial |
-| `event/v3_north_wall_beast_surge.json` | 格式初稿；需註冊 tier2_crisis event，依前置救援成果判定 success／partial |
+| `event/v3_cross_sect_evidence_audit.json` | 格式初稿；需 `tier2_crisis` 動態評估函式配合 `evidence_verifiability` |
+| `event/v3_crystal_quarantine_response.json` | 格式初稿；需 `tier2_crisis` 動態評估函式配合 `settlement_resilience` |
+| `event/v3_north_wall_beast_surge.json` | 格式初稿；需 `tier2_crisis` 動態評估函式配合前置救援成果 |
 | `main/v3_postwar_reform_and_restitution.json` | 格式初稿；房間與 NPC 待實裝 |
 | `epic/v3_tier2_departure.json` | 格式初稿；stage chain 與終局條件需實測 |
 
-## 7. 目前 JSON 與引擎的落差／待開發項目
+## 7. 目前 JSON 與引擎的落差／實裝進度
 
 1. **跨任務前置條件**：目前沒有一般任務依賴 DAG 或 `requires_quest`，需新增查詢 API；在此之前，任務間依賴只在本文件標示，不可假裝 JSON 能執行。
 2. **條件分支**：目前線性 step chain 不支援 `if/else`；可先用獨立支線任務與 `event_outcomes` 的 success/partial；現行引擎不會選取 failure，真正分支需擴充引擎。
-3. **NPC／地圖存在性**：Tier 2 NPC roster 與地圖仍是 draft，所有新 NPC ID、room path 在 LPC 實裝前會通不過完整資源稽核。
-4. **事件資料註冊**：定義檔放在 `data/event_defs/tier2_crisis.json`，但 `daemon/event_manager.c` 的 `load_event_definitions()` 目前只列出 `beast_surge.json` 與 `military_crisis.json`；`init_event_defaults()` 與 `load_state()` 也把事件 ID 寫死為兩個。必須同步擴充這三處，否則新事件不會被正常初始化／遷移。
+3. **NPC／地圖存在性（Act 1 已落地／Act 2+ 待續）**：第一幕所需的 20 間房間（`/d/wastes/north_road/*` 3、`/d/yunjin/*` 7、`/d/sects/*` 10）與 19 名 NPC（`/clone/npc/*.c`）已實裝並通過 `quest_audit.py` 與 `test_v3_act1.c`；第二幕以後深入區域與剩餘 Tier 2 名冊 NPC 仍為 `draft`。
+4. **事件資料註冊與動態評估**：`EVENT_TIER2_CRISIS` 已於 `include/world_event.h` 定義，`/data/event_defs/tier2_crisis.json` 亦已於 `daemon/event_manager.c` 的 `load_event_definitions()`、`init_event_defaults()`、`load_state()` 與 `reset_event()` 完成註冊初始化；尚待開發的是對應階段超時與指標結算的 `evaluate_tier2_crisis()` 及 `on_stage_timeout_tier2_crisis()` 函式。
 5. **`deliver` 事件**：引擎有 deliver 分支判斷，但現有程式沒有穩定事件發送端；本批先不使用。
-6. **事件定義白名單與存檔初始化**：除新增 `data/event_defs/tier2_crisis.json` 外，必須在 `event_manager.c` 的 `load_event_definitions()` 檔案清單、`init_event_defaults()` 的 `target_ids`、`load_state()` 的遷移迴圈與 `reset_event()`／事件重置路徑中註冊 `tier2_crisis`。現有程式只初始化兩個既有事件，單純放入 JSON 檔不會生效。
+6. **事件推進與階段切換（待 Act 2–5 接續）**：目前 `event_manager.c` 已載入 `tier2_crisis` 定義與階段常數（`T-2` 至 `T+2`），後續需補齊 `evaluate_tier2_crisis()` 以驅動第二至四幕的世界危機自動判定。
 7. **世界狀態與 NPC 動態狀態**：本批使用既有 event metrics/facts，不自創 NPC state 欄位；NPC 職務、態度、出場位置與派系立場需後續由世界狀態服務接管。
 8. **任務失敗與重試**：一般 `once` 任務的逾時、放棄、重試與永久失敗政策仍需釐清；事件任務依 `deadline_stage` 判斷過期。
-9. **物品與證據**：本批不發放尚未建立的 clone item；物證登錄目前以 event manager 的 evidence 結構為主。
+9. **物品與證據（Act 1 已實裝 8 項道具）**：第一幕已於 `/clone/item/` 建立 8 項實體道具（`cold_herbal_decoction`、`snowline_moss_sample`、`puppet_tolerance_record`、`yunjin_trade_ledger` 及四枚外門信物 `cred_*.c`）並納入任務獎勵；Act 2–5 高階物證與太古樣本尚待建立。
 
 ## 8. 推進建議與驗收順序
 
@@ -177,9 +187,9 @@ flowchart TD
 - 新增 `requires_quest`／任務 DAG API，至少支援 ALL/ANY 條件與完成狀態查詢。
 - 為 `deliver` 增加事件發送端，否則維持禁用。
 
-**Phase B — Tier 2 基礎資料落地**
-- 先實作六區域地圖與主要出入口，再實作 roster 中 NPC ID。
-- 讓任務 JSON 的 `location` 逐一通過房間存在性稽核。
+**Phase B — Tier 2 基礎資料落地（Act 1 已完成）**
+- 已完成北境官道、雲津仙集、三宗四脈外圍共 20 間房間、19 名 NPC、8 項道具及 7 條 Act 1 任務（Ch. 83–90），並通過 `quest_audit.py` 與 `test_v3_act1.c`。
+- 後續進度（Act 2–5）：依 `events/volume3_events.md` 逐步擴充宗門深處與北荒裂谷房間／NPC，令其餘 15 份任務 JSON 通過存在性稽核。
 
 **Phase C — 五條人物主線 MVP**
 - 優先落地沈泥商道、柳清虛星律、燕隼走山、林鐵生機件、顧玄病理五條線。
@@ -193,11 +203,9 @@ flowchart TD
 - 完成修行收束、假天排斥、託付與單向古陣。
 - 驗證任一支線失敗不會阻止小說正典必要事件，但會改變可見證據、資源與代價。
 
-## 9. 作者裁定事項
+## 9. 作者裁定與正典定案事項
 
-- 三年甄選週期與第82章初秋離城日期的精確對齊。
-- 莫三於第82章離隊後，何時、為何、如何重新北上；在交代前不把他放在北荒或雲津現場。
-- 魯長老正式姓名與職位；白鶴年正式職位。
-- 八荒武山是否直接供應血精、哪些層級知情。
-- 五件遺物與沈泥持有天門引／九城青銅契版的槽位與驗證程序。
-- Tier 2 Lv.100 成長節奏、洞天古陣能源成本與單向風險。
+- **已定案（Vol 3 正文）**：三山開山甄選為**三年一度、固定於立冬同日**舉行（銜接第 82 章秋末離城 → 17 日北行抵青石埡口／霜降後 → 雲津候試近 20 日至立冬，見 `tier2_timeline.md`）。
+- **已定案（Vol 3 正文）**：莫三於第 82 章先隨陸大山南返（Ch. 85–86 餞別宴僅於對話提及），不置入 `EV301`／Act 1 現場，至第 98 章（第二幕）始率金石冬糧車隊北上與沈泥會合。
+- **已定案（角色與職位）**：白鶴年定為丹鼎宗外聘醫理師；魯長老為千機院長老（本名仍依正典刻意留白，與 Tier 1 `魯長生` 區分）。
+- **尚待二至五幕實裝收束**：八荒武山高層對血精供應的涉入層級、五件遺物與天門引／九城青銅契版槽位驗證程序、Lv.100 成長節奏與單向古陣成本。

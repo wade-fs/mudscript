@@ -1,16 +1,17 @@
 # 角色檔案：魯長老（天工閣千機院長老；本名待定）
 
 > `character_id`: `lu_zhanglao`  
-> `status`: `proposed`  
+> `status`: `canon (Act 1 實裝)`  
 > `faction`: 千機百巧門／天工閣  
 > `path/domain`: 物道／機關  
-> `home_room`: `/d/sects/tiangong/thousand_mechanisms_hall`
+> `home_room`: `/d/sects/tiangong/thousand_mechanisms_hall.c`  
+> `mudlib_path`: `/clone/npc/lu_zhanglao.c`
 
 ## 基本資料
 
 - **姓名／稱謂**：魯長老（本名待定）／天工閣千機院長老
 - **所屬**：千機百巧門／天工閣
-- **活動地點**：`/d/sects/tiangong/thousand_mechanisms_hall`
+- **活動地點**：`/d/sects/tiangong/thousand_mechanisms_hall.c`
 - **角色定位**：Tier 2 世界人物；其職能、知情範圍與利益關係以本檔為界。
 
 ## 人物設定與敘事功能
@@ -35,12 +36,12 @@
 
 | 欄位 | 初始值 |
 |---|---|
-| 首次登場 | 第三卷待排章節 |
-| 首次接觸方式 | 正式差遣／交易／事故／日常生活，依章節安排 |
-| 當前狀態 | 存活（燕山除外：失蹤待查） |
-| 關係變化 | 待事件帳更新 |
-| 相關事件 | `EV3xx` 待綁定 |
-| 相關任務 | 第一階段不建立任務 JSON，第二階段綁定 |
+| 首次登場 | 第三卷第 88 章（千鍛地火廊外門拆解主考） |
+| 首次接觸方式 | 限時兩個時辰考核修復「青銅搬山傀儡」右臂關節並承受三百斤重鐵起落三十次，驗收林鐵生實測誤差與異變麻點工單（Ch. 88） |
+| 當前狀態 | 存活 |
+| 關係變化 | Ch. 88 肯定林鐵生「可複製的應力公差工單」勝於秘銀硬填，親授天工閣外門匠牌 |
+| 相關事件 | `EV303` |
+| 相關任務 | `v3_act1_tiangong_forge`（步驟 3 頒發 `/clone/item/cred_tiangong_artisan_tag.c`）；二幕續接 `v3_tiangong_ancient_mechanism` |
 
 ## 寫作限制
 

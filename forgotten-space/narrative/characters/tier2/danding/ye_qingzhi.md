@@ -1,16 +1,17 @@
 # 角色檔案：葉青枝（百草谷靈植管事）
 
 > `character_id`: `ye_qingzhi`  
-> `status`: `proposed`  
+> `status`: `canon (Act 1 實裝)`  
 > `faction`: 千機百巧門／丹鼎宗  
 > `path/domain`: 藥道／靈植  
-> `home_room`: `/d/sects/danding/herb_valley`
+> `home_room`: `/d/sects/danding/herb_garden.c`（依任務與地圖實裝定名為 `herb_garden.c`）  
+> `mudlib_path`: `/clone/npc/ye_qingzhi.c`
 
 ## 基本資料
 
 - **姓名／稱謂**：葉青枝／百草谷靈植管事
 - **所屬**：千機百巧門／丹鼎宗
-- **活動地點**：`/d/sects/danding/herb_valley`
+- **活動地點**：`/d/sects/danding/herb_garden.c`
 - **角色定位**：Tier 2 世界人物；其職能、知情範圍與利益關係以本檔為界。
 
 ## 人物設定與敘事功能
@@ -35,12 +36,12 @@
 
 | 欄位 | 初始值 |
 |---|---|
-| 首次登場 | 第三卷待排章節 |
-| 首次接觸方式 | 正式差遣／交易／事故／日常生活，依章節安排 |
-| 當前狀態 | 存活（燕山除外：失蹤待查） |
-| 關係變化 | 待事件帳更新 |
-| 相關事件 | `EV3xx` 待綁定 |
-| 相關任務 | 第一階段不建立任務 JSON，第二階段綁定 |
+| 首次登場 | 第三卷第 89 章（百毒試藥谷高台後側陪考） |
+| 首次接觸方式 | 聽見顧玄在鶴壽長老面前建言排查藥谷上游水渠是否滲入他物時指尖微緊、神色微變（Ch. 89） |
+| 當前狀態 | 存活 |
+| 關係變化 | Ch. 89 初留意顧玄對水脈與根部微變的敏銳眼力 |
+| 相關事件 | `EV303` |
+| 相關任務 | `v3_act1_danding_valley`（start_npc／步驟 1）；二幕續接 `v3_danding_blood_pill_cases` |
 
 ## 寫作限制
 

@@ -34,15 +34,15 @@ Tier 1 南端入口]
   RIFT --> ICE --> ARK
 ```
 
-## 區域關係
+## 區域關係（第三卷第一幕已打通北上幹道與雲津三宗入口）
 
-| 區域 ID | 名稱 | 與其他區域關係 | 通行特性 |
-|---|---|---|---|
-| `tier2_north_road` | 北境雪原官道 | 金石北關至雲津 | 約八百里；風雪、補給與驛站決定行程 |
-| `yunjin` | 雲津仙集 | 三山交匯 | 中立商埠；宗門山道由各宗門管理 |
-| `taiqing` | 太清玄天宮 | 雲津北側高峰（方位為草案） | 登天雲梯、符陣門禁 |
-| `bahuang` | 八荒武山 | 大黑山、北荒裂谷南沿 | 軍營與長城有軍令管制 |
-| `qianji` | 千機百巧門 | 萬仞天工山 | 外門、工坊與地窟分層管理 |
+| 區域 ID | 名稱 | 與其他區域關係 | 通行特性 | 實裝狀態 |
+|---|---|---|---|---|
+| `tier2_north_road` | 北境雪原官道 | 金石府鎮風關北塞（`/d/counties/zhenfeng/north_beacon.c` `north`）→ 雲津南口 | 約八百里；依序經 `cold_plain_entry`（黑風口雪坡）→ `post_station`（斷崖石棚驛站）→ `qing_pass`（青石埡口） | Act 1 實裝（3 房） |
+| `yunjin` | 雲津仙集 | 南接 `qing_pass`，北連太清、西北連八荒、東連天工、東北連丹鼎 | 中立商埠；廣場與交割／公所／西街貨棧已連通；鬼市／車馬行等仍待二幕以後實裝 | Act 1 實裝（7 房）／其餘 `draft` |
+| `taiqing` | 太清玄天宮 | `wanshan_square` 正北入口（`north`） | 登天雲梯（`measure ladder`）→ 外門雲舍 → 周天星律院 | Act 1 實裝（3 房）／深處 `draft` |
+| `bahuang` | 八荒武山 | `wanshan_square` 西北入口（`northwest`） | 萬鈞問心谷 → 黑石峽試煉道 → 黑山煞血營 | Act 1 實裝（3 房）／深處 `draft` |
+| `qianji`（`tiangong`／`danding`） | 千機百巧門（天工閣／丹鼎宗） | `wanshan_square` 正東往天工閣（`east`）、東北往丹鼎宗（`northeast`） | 天工閣（`gate`→`thousand_mechanisms_hall`，`repair puppet`）；丹鼎宗（`gate`→`herb_garden`，`extract moss`） | Act 1 實裝（各 2 房）／深處 `draft` |
 | `wastes` | 北荒裂谷 | 八荒防線以北 | 高危區；受天候、獸潮、地煞影響 |
 | `ark_north_array` | 方舟北方主陣基 | 裂谷深層 | 劇情鎖定區；未解鎖前不得視為可自由往返 |
 

@@ -1,16 +1,17 @@
 # 角色檔案：唐映（破軍重弓塞女校尉）
 
 > `character_id`: `tang_ying`  
-> `status`: `proposed`  
+> `status`: `canon (Act 1 實裝)`  
 > `faction`: 八荒武山  
 > `path/domain`: 力道／弓術  
-> `home_room`: `/d/sects/bahuang/broken_army_bow_fort`
+> `home_room`: `/d/sects/bahuang/gate.c`（Act 1 萬鈞問心谷配箭稽查；二幕後往 `broken_army_bow_fort` 草案）  
+> `mudlib_path`: `/clone/npc/tang_ying.c`
 
 ## 基本資料
 
 - **姓名／稱謂**：唐映／破軍重弓塞女校尉
 - **所屬**：八荒武山
-- **活動地點**：`/d/sects/bahuang/broken_army_bow_fort`
+- **活動地點**：`/d/sects/bahuang/gate.c`（二幕後往 `broken_army_bow_fort` 草案）
 - **角色定位**：Tier 2 世界人物；其職能、知情範圍與利益關係以本檔為界。
 
 ## 人物設定與敘事功能
@@ -35,12 +36,12 @@
 
 | 欄位 | 初始值 |
 |---|---|
-| 首次登場 | 第三卷待排章節 |
-| 首次接觸方式 | 正式差遣／交易／事故／日常生活，依章節安排 |
-| 當前狀態 | 存活（燕山除外：失蹤待查） |
-| 關係變化 | 待事件帳更新 |
-| 相關事件 | `EV3xx` 待綁定 |
-| 相關任務 | 第一階段不建立任務 JSON，第二階段綁定 |
+| 首次登場 | 第三卷第 87 章（萬鈞問心谷監考配箭紀律） |
+| 首次接觸方式 | 宣示「配箭射完不補、棄考捏響箭即除籍」規矩，與岳停山、雷烈同台監考（Ch. 87） |
+| 當前狀態 | 存活 |
+| 關係變化 | Ch. 87 依規點驗燕隼封存多餘箭支，保持軍紀中立觀察 |
+| 相關事件 | `EV303` |
+| 相關任務 | Act 1 `/d/sects/bahuang/gate.c` 監考互動 NPC（`v3_act1_bahuang_gorge` 同場駐點）；二幕續接 `v3_bahuang_bloodline_watch` |
 
 ## 寫作限制
 

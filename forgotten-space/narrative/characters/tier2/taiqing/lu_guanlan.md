@@ -1,16 +1,17 @@
 # 角色檔案：陸觀瀾（柳清虛外門授業師）
 
 > `character_id`: `lu_guanlan`  
-> `status`: `proposed`  
+> `status`: `canon (Act 1 實裝)`  
 > `faction`: 太清玄天宮  
 > `path/domain`: 法道  
-> `home_room`: `/d/sects/taiqing/outer_observatory`
+> `home_room`: `/d/sects/taiqing/gate.c`（Act 1 登天雲梯山門外門主考；二幕後往 `outer_observatory` 草案）  
+> `mudlib_path`: `/clone/npc/lu_guanlan.c`
 
 ## 基本資料
 
 - **姓名／稱謂**：陸觀瀾／柳清虛外門授業師
 - **所屬**：太清玄天宮
-- **活動地點**：`/d/sects/taiqing/outer_observatory`
+- **活動地點**：`/d/sects/taiqing/gate.c`（二幕後兼赴 `outer_observatory` 草案）
 - **角色定位**：Tier 2 世界人物；其職能、知情範圍與利益關係以本檔為界。
 
 ## 人物設定與敘事功能
@@ -35,12 +36,12 @@
 
 | 欄位 | 初始值 |
 |---|---|
-| 首次登場 | 第三卷待排章節 |
-| 首次接觸方式 | 正式差遣／交易／事故／日常生活，依章節安排 |
-| 當前狀態 | 存活（燕山除外：失蹤待查） |
-| 關係變化 | 待事件帳更新 |
-| 相關事件 | `EV3xx` 待綁定 |
-| 相關任務 | 第一階段不建立任務 JSON，第二階段綁定 |
+| 首次登場 | 第三卷第 86 章（太清登天雲梯山門初試驗牒） |
+| 首次接觸方式 | 宣讀三百六十五階問心陣考核規程，驗看宣道司外門考核令並監看柳清虛登階（Ch. 86） |
+| 當前狀態 | 存活 |
+| 關係變化 | Ch. 86 見證柳清虛不跪叩而以步頻測出東北測星柱滯後公差 |
+| 相關事件 | `EV303` |
+| 相關任務 | `v3_act1_taiqing_ladder`（start_npc／步驟 1） |
 
 ## 寫作限制
 

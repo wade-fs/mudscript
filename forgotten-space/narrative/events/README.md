@@ -3,6 +3,7 @@
 本目錄記錄小說各卷各幕的核心敘事事件，及其在 MUD 引擎中由 `QUEST_ENGINE_D` (`/daemon/quest_engine_d.c`)、`MYSTERY_D` (`/daemon/mysteryd.c`)、`WORLD_STATE_D` (`/daemon/world_state_d.c`)、`PHASE_D` (`/daemon/phase_d.c`) 與 `CITY_D` (`/daemon/city_d.c`) 管理的實作映射。
 
 * 卷二專屬事件與詳細機制規範請參見：[第二卷：金石雙壁事件記錄簿](volume2_events.md)
+* 卷三專屬事件與任務網規範請參見：[第三卷事件索引（EV301–EV327）](volume3_events.md) ｜ [Tier 2 任務網絡規劃](../docs/tier2_quest_network.md)
 
 ---
 
@@ -98,6 +99,22 @@
 | **第 80 章** | 燕隼 / 柳清虛 | 燕隼收束戾氣氣血脫胎；清虛實證道心斬破天羅道化心魔 | `/d/city/east/wu_plaza.c`<br>`/d/city/west/dao_quiet.c`<br>NPC: `wu_bashan`<br>`dao_xingyuan`<br>`dao_xuanji` | 任務：`v2_act5_tier2_admission` | 力法雙傑完成 Lv.50 肉身心神破障，神識法胎凝實。 |
 | **第 81 章** | 五人群像 | 四維分離結算：四人獲名山考核令；沈泥獲跨州特等信印 | `/d/city/west/dao_hall.c`<br>`/d/city/gate/gate_south_inn.c`<br>NPC: `dao_xuanji`<br>`su_ningshuang` | 任務：`v2_act5_tier2_admission`<br>道具：`tier2_admission_token.c`<br>`cross_state_trade_tally.c` | 獲名山外門考核令與跨州信印；濁氣驅離機制啟動。 |
 | **第 82 章** | 五人群像 | 故土家書抵達，五器合鳴指北；北關大開出關踏上名山仙途 | `/d/city/gate/gate_south_inn.c`<br>`/d/city/gate/gate_north.c`<br>NPC: `gate_north_hanqing` | 任務：`v2_act5_tier2_admission` 完成<br>道具：`ancient_relics_compass.c` | 五器共鳴星光指針直指北方名山，第二卷全卷大圓滿！ |
+
+---
+
+## 第三卷 第一幕：北境風雪與三山入山考（第 83～90 章・Act 1 已實裝）
+
+> 第一幕對應 `d/wastes/north_road/`（3 房）、`d/yunjin/`（7 房）、`d/sects/`（10 房）、19 名 NPC、8 項道具、7 條任務與 `EVENT_TIER2_CRISIS`（`/data/event_defs/tier2_crisis.json`）；二至五幕詳見 [volume3_events.md](volume3_events.md)。
+
+| 章節 | 視角主角 | 核心敘事事件 | MUD 房間與 NPC 互動 | 任務鏈 / 實裝道具 | 系統機制與成果 |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **第 83 章** | 五人群像 | 八百里寒原行旅、黑風口避雪豹、斷崖石棚熬藥救腳夫與訪談周鐵山、陳青 | `/d/wastes/north_road/{cold_plain_entry,post_station,qing_pass}.c`<br>NPC: `mu_xue`, `zhou_tieshan`, `chen_qing` | 支線：`v3_act1_cold_plain_rescue`（`brew decoction`）<br>道具：`cold_herbal_decoction.c` | 打通鎮風關北塞北上路徑，揭開名山歲貢債務與藥田酸蝕外部代價。 |
+| **第 84～85 章** | 沈泥 | 抵雲津入市公所驗契、開戶雲海票號、抗衡萬寶閣並掛牌「泥途商棧」聘邱禾、餞別四友 | `/d/yunjin/{north_road_gate,wanshan_square,public_office,exchange_hall,wanbao_pavilion,western_warehouse_street,mudway_store}.c`<br>NPC: `luo_jiucheng`, `gu_lanzhou`, `he_wanjin`, `qiu_he` | 主線：`v3_northbound_and_yunjin_arrival`、`v3_yuntu_market_charter` 前兩步<br>道具：`yunjin_trade_ledger.c` | 四維分離自立開張，建立貨單與三個月短契帳務制度。 |
+| **第 86 章** | 柳清虛 | 太清立冬大考：千丈雲梯不跪而實測東北測星柱滯後千分之三息，破格入周天星律院 | `/d/sects/taiqing/{gate,outer_court,star_law_hall}.c`<br>NPC: `lu_guanlan`, `shen_zhaochen`, `song_zhiwei` | 主線：`v3_act1_taiqing_ladder`（`measure ladder`）<br>道具：`cred_taiqing_outer_token.c` | 獲太清外門玉牌，以可重複公差實錄取代順天叩拜。 |
+| **第 87 章** | 燕隼 | 八荒立冬大考：黑石峽百斤重弓三箭擊殺缺耳鐵背荒狼王，黑山營雷烈認出扣弓舊習 | `/d/sects/bahuang/{gate,black_stone_gorge,black_mountain_camp}.c`<br>NPC: `yue_tingshan`, `tang_ying`, `ironback_wolf`, `lei_lie` | 主線：`v3_act1_bahuang_gorge`<br>道具：`cred_bahuang_camp_plate.c` | 獲八荒黑山營腰牌，暗繫燕山走山隊與軍方舊檔線索。 |
+| **第 88 章** | 林鐵生 | 天工立冬大考：千鍛地火廊量出搬山傀儡半厘偏角與脆化麻點，熟鐵雙契復原過檢 | `/d/sects/tiangong/{gate,thousand_mechanisms_hall}.c`<br>NPC: `zhang_bailian`, `lu_zhanglao` | 主線：`v3_act1_tiangong_forge`（`repair puppet`）<br>道具：`puppet_tolerance_record.c`, `cred_tiangong_artisan_tag.c` | 獲天工閣外門匠牌與實測公差工單，紀錄內壁暗紫脆化異象。 |
+| **第 89 章** | 顧玄 | 丹鼎立冬大考：百毒試藥谷察覺寒髓草共生雪線苔，溫火冷萃去火毒並封存酸泥樣本 | `/d/sects/danding/{gate,herb_garden}.c`<br>NPC: `ye_qingzhi`, `bai_henian`, `he_shou` | 主線：`v3_act1_danding_valley`（`extract moss`）<br>道具：`snowline_moss_sample.c`, `cred_danding_medical_tag.c` | 獲丹鼎百草谷藥牌，銀針澄澈無斑並留存水脈滲漏線索。 |
+| **第 90 章** | 沈泥 | 冷風坡雪崩與何萬金搶馬逼宮，自掏四百靈石票賠清違約金換取三宗「朔望結算回執」暗網 | `/d/yunjin/{mudway_store,public_office,exchange_hall}.c`<br>NPC: `qiu_he`, `gu_lanzhou`, `luo_jiucheng` | 主線：`v3_yuntu_market_charter` 第三步<br>事件：`EVENT_TIER2_CRISIS` 已註冊 | 泥途商棧以實金立信，初步打通三宗底層採買合規對帳暗網。 |
 
 ---
 

@@ -1,16 +1,17 @@
 # 角色檔案：岳停山（煞血霸體營教頭）
 
 > `character_id`: `yue_tingshan`  
-> `status`: `proposed`  
+> `status`: `canon (Act 1 實裝)`  
 > `faction`: 八荒武山  
 > `path/domain`: 力道  
-> `home_room`: `/d/sects/bahuang/blood_body_camp`
+> `home_room`: `/d/sects/bahuang/gate.c`（Act 1 萬鈞問心谷主考；二幕後往 `blood_body_camp` 草案）  
+> `mudlib_path`: `/clone/npc/yue_tingshan.c`
 
 ## 基本資料
 
 - **姓名／稱謂**：岳停山／煞血霸體營教頭
 - **所屬**：八荒武山
-- **活動地點**：`/d/sects/bahuang/blood_body_camp`
+- **活動地點**：`/d/sects/bahuang/gate.c`（二幕後往 `blood_body_camp` 草案）
 - **角色定位**：Tier 2 世界人物；其職能、知情範圍與利益關係以本檔為界。
 
 ## 人物設定與敘事功能
@@ -35,12 +36,12 @@
 
 | 欄位 | 初始值 |
 |---|---|
-| 首次登場 | 第三卷待排章節 |
-| 首次接觸方式 | 正式差遣／交易／事故／日常生活，依章節安排 |
-| 當前狀態 | 存活（燕山除外：失蹤待查） |
-| 關係變化 | 待事件帳更新 |
-| 相關事件 | `EV3xx` 待綁定 |
-| 相關任務 | 第一階段不建立任務 JSON，第二階段綁定 |
+| 首次登場 | 第三卷第 87 章（萬鈞問心谷宣讀八荒入山試煉三律） |
+| 首次接觸方式 | 宣布禁甲冑私丹與配箭上限，指派考生穿過八十里黑石峽迎戰二階鐵背荒狼並抵黑山營（Ch. 87） |
+| 當前狀態 | 存活 |
+| 關係變化 | Ch. 87 見證燕隼帶自備百斤鐵胎柘木弓留三箭過關 |
+| 相關事件 | `EV303` |
+| 相關任務 | `v3_act1_bahuang_gorge`（start_npc／步驟 1） |
 
 ## 寫作限制
 

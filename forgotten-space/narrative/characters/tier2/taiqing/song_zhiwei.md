@@ -1,16 +1,17 @@
 # 角色檔案：宋知微（周天星律院掌院）
 
 > `character_id`: `song_zhiwei`  
-> `status`: `proposed`  
+> `status`: `canon (Act 1 實裝)`  
 > `faction`: 太清玄天宮  
 > `path/domain`: 法道  
-> `home_room`: `/d/sects/taiqing/star_law_hall`
+> `home_room`: `/d/sects/taiqing/star_law_hall.c`  
+> `mudlib_path`: `/clone/npc/song_zhiwei.c`
 
 ## 基本資料
 
 - **姓名／稱謂**：宋知微／周天星律院掌院
 - **所屬**：太清玄天宮
-- **活動地點**：`/d/sects/taiqing/star_law_hall`
+- **活動地點**：`/d/sects/taiqing/star_law_hall.c`
 - **角色定位**：Tier 2 世界人物；其職能、知情範圍與利益關係以本檔為界。
 
 ## 人物設定與敘事功能
@@ -35,12 +36,12 @@
 
 | 欄位 | 初始值 |
 |---|---|
-| 首次登場 | 第三卷待排章節 |
-| 首次接觸方式 | 正式差遣／交易／事故／日常生活，依章節安排 |
-| 當前狀態 | 存活（燕山除外：失蹤待查） |
-| 關係變化 | 待事件帳更新 |
-| 相關事件 | `EV3xx` 待綁定 |
-| 相關任務 | 第一階段不建立任務 JSON，第二階段綁定 |
+| 首次登場 | 第三卷第 86 章（立冬雲梯頂驗看誤差草稿） |
+| 首次接觸方式 | 審閱柳清虛於星煞壓頂下實測的千分之三息滯後草稿，破格錄入周天星律院上等外門經生（Ch. 86） |
+| 當前狀態 | 存活 |
+| 關係變化 | Ch. 86 肯認「能冷靜抄下誤差數字」勝於單純算快，頒予太清外門玉牌 |
+| 相關事件 | `EV303` |
+| 相關任務 | `v3_act1_taiqing_ladder`（步驟 3 收尾並頒發 `/clone/item/cred_taiqing_outer_token.c`）；二幕續接 `v3_taiqing_star_archive` |
 
 ## 寫作限制
 

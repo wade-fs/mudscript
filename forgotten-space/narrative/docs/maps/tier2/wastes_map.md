@@ -4,8 +4,11 @@
 
 ## 房間與拓撲
 
-| Room ID | 顯示名稱 | 建議路徑 | 主要出口 | 用途／限制 |
+| Room ID | 顯示名稱 | 建議／實裝路徑 | 主要出口 | 用途／限制（北境官道前 3 房 Act 1 已實裝） |
 |---|---|---|---|---|
+| `cold_plain_entry` | 北境寒原・黑風口雪坡 | `/d/wastes/north_road/cold_plain_entry.c` | `south`→`/d/counties/zhenfeng/north_beacon.c`、`north`→`post_station` | 〔實裝，Ch. 83〕離開鎮風關北塞後的第一段高寒官道 |
+| `post_station` | 北境官道・斷崖石棚驛站 | `/d/wastes/north_road/post_station.c` | `south`→`cold_plain_entry`、`north`→`qing_pass` | 〔實裝，Ch. 83〕避雪與熬藥（動作 `brew decoction`）；駐點：`mu_xue`（穆雪）、`zhou_tieshan`（周鐵山）、`chen_qing`（陳青） |
+| `qing_pass` | 北境官道・青石埡口 | `/d/wastes/north_road/qing_pass.c` | `south`→`post_station`、`north`→`/d/yunjin/north_road_gate.c` | 〔實裝，Ch. 83–84〕翻越分水嶺俯瞰雲津峽谷的最後關隘 |
 | `south_approach` | 北荒南沿入口 | `/d/wastes/south_approach.c` | `snow_caravan_camp` | 由八荒長城關口進入；軍令與嚮導核驗 |
 | `snow_caravan_camp` | 雪原行腳營地 | `/d/wastes/snow_caravan_camp.c` | `north_outpost_infirmary` | 補給、獸材交易、隊伍整備 |
 | `north_outpost_infirmary` | 北荒前哨醫所 | `/d/wastes/north_outpost_infirmary.c` | `rift_watch` | 傷病救治、地煞暴露觀察 |
@@ -20,23 +23,28 @@
 
 ```mermaid
 flowchart TD
-  south_approach["北荒南沿入口<br/>south_approach"]
-  snow_caravan_camp["雪原行腳營地<br/>snow_caravan_camp"]
-  north_outpost_infirmary["北荒前哨醫所<br/>north_outpost_infirmary"]
-  rift_watch["裂谷觀測崖<br/>rift_watch"]
-  black_ice_valley["黑冰斷谷<br/>black_ice_valley"]
-  old_expedition_camp["舊勘探隊營地<br/>old_expedition_camp"]
-  war_god_tomb["荒古戰神遺塚<br/>war_god_tomb"]
-  north_ark_array["太古破界方舟北方主陣基<br/>north_ark_array"]
-  missing_families_shelter["失蹤者家屬互助所<br/>missing_families_shelter"]
-  south_approach --> snow_caravan_camp
-  snow_caravan_camp --> north_outpost_infirmary
-  north_outpost_infirmary --> rift_watch
-  rift_watch --> black_ice_valley
-  black_ice_valley --> old_expedition_camp
-  old_expedition_camp --> war_god_tomb
-  war_god_tomb --> north_ark_array
-  missing_families_shelter --> south_approach
+  cold_plain_entry["黑風口雪坡<br/>north_road/cold_plain_entry (實裝)"]
+  post_station["斷崖石棚驛站<br/>north_road/post_station (實裝)"]
+  qing_pass["青石埡口<br/>north_road/qing_pass (實裝)"]
+  south_approach["北荒南沿入口<br/>south_approach (draft)"]
+  snow_caravan_camp["雪原行腳營地<br/>snow_caravan_camp (draft)"]
+  north_outpost_infirmary["北荒前哨醫所<br/>north_outpost_infirmary (draft)"]
+  rift_watch["裂谷觀測崖<br/>rift_watch (draft)"]
+  black_ice_valley["黑冰斷谷<br/>black_ice_valley (draft)"]
+  old_expedition_camp["舊勘探隊營地<br/>old_expedition_camp (draft)"]
+  war_god_tomb["荒古戰神遺塚<br/>war_god_tomb (draft)"]
+  north_ark_array["太古破界方舟北方主陣基<br/>north_ark_array (draft)"]
+  missing_families_shelter["失蹤者家屬互助所<br/>missing_families_shelter (draft)"]
+  cold_plain_entry --> post_station
+  post_station --> qing_pass
+  south_approach -.-> snow_caravan_camp
+  snow_caravan_camp -.-> north_outpost_infirmary
+  north_outpost_infirmary -.-> rift_watch
+  rift_watch -.-> black_ice_valley
+  black_ice_valley -.-> old_expedition_camp
+  old_expedition_camp -.-> war_god_tomb
+  war_god_tomb -.-> north_ark_array
+  missing_families_shelter -.-> south_approach
 ```
 
 ## 房間設計規則

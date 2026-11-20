@@ -4,10 +4,11 @@
 
 ## 房間與拓撲
 
-| Room ID | 顯示名稱 | 建議路徑 | 主要出口 | 用途／限制 |
+| Room ID | 顯示名稱 | 建議／實裝路徑 | 主要出口 | 用途／限制（Act 1 前 3 房已實裝） |
 |---|---|---|---|---|
-| `gate` | 萬鈞問心谷 | `/d/sects/bahuang/gate.c` | `black_mountain_camp` | 入山考核、氣血負荷測試 |
-| `black_mountain_camp` | 黑山煞血營 | `/d/sects/bahuang/black_mountain_camp.c` | `blood_body_camp` | 訓練、軍令、弟子編制 |
+| `gate` | 八荒武山・萬鈞問心谷 | `/d/sects/bahuang/gate.c` | `southeast`→`/d/yunjin/wanshan_square.c`、`north`→`black_stone_gorge` | 〔實裝〕入山考核規程、領弓驗箭；駐點：`yue_tingshan`（岳停山）、`tang_ying`（唐映） |
+| `black_stone_gorge` | 八荒武山・黑石峽試煉道 | `/d/sects/bahuang/black_stone_gorge.c` | `south`→`gate`、`north`→`black_mountain_camp` | 〔實裝，Ch. 87 新增〕八十里風煞峽谷與群狼試煉；敵對 NPC：`ironback_wolf`（缺耳鐵背荒狼王） |
+| `black_mountain_camp` | 八荒武山・黑山煞血營 | `/d/sects/bahuang/black_mountain_camp.c` | `south`→`black_stone_gorge`（`draft`: `blood_body_camp`） | 〔實裝〕外門前哨、頒發黑山營腰牌；駐點：`lei_lie`（雷烈） |
 | `blood_body_camp` | 煞血霸體營 | `/d/sects/bahuang/blood_body_camp.c` | `broken_army_bow_fort` | 功法訓練；需控制燥火與氣血負荷 |
 | `broken_army_bow_fort` | 破軍重弓塞 | `/d/sects/bahuang/broken_army_bow_fort.c` | `restoration_hall` | 弓械庫、射界、遠程防線 |
 | `restoration_hall` | 傷兵養息院 | `/d/sects/bahuang/restoration_hall.c` | `north_watch` | 療傷、復健、退役安置 |
@@ -19,21 +20,23 @@
 
 ```mermaid
 flowchart TD
-  gate["萬鈞問心谷<br/>gate"]
-  black_mountain_camp["黑山煞血營<br/>black_mountain_camp"]
-  blood_body_camp["煞血霸體營<br/>blood_body_camp"]
-  broken_army_bow_fort["破軍重弓塞<br/>broken_army_bow_fort"]
-  restoration_hall["傷兵養息院<br/>restoration_hall"]
-  north_watch["北荒巡哨營<br/>north_watch"]
-  north_garrison_kitchen["北線軍寨後勤區<br/>north_garrison_kitchen"]
-  great_wall_gate["北荒長城關口<br/>great_wall_gate"]
-  gate --> black_mountain_camp
-  black_mountain_camp --> blood_body_camp
-  blood_body_camp --> broken_army_bow_fort
-  broken_army_bow_fort --> restoration_hall
-  restoration_hall --> north_watch
-  north_watch --> north_garrison_kitchen
-  north_garrison_kitchen --> great_wall_gate
+  gate["萬鈞問心谷<br/>gate (實裝)"]
+  black_stone_gorge["黑石峽試煉道<br/>black_stone_gorge (實裝)"]
+  black_mountain_camp["黑山煞血營<br/>black_mountain_camp (實裝)"]
+  blood_body_camp["煞血霸體營<br/>blood_body_camp (draft)"]
+  broken_army_bow_fort["破軍重弓塞<br/>broken_army_bow_fort (draft)"]
+  restoration_hall["傷兵養息院<br/>restoration_hall (draft)"]
+  north_watch["北荒巡哨營<br/>north_watch (draft)"]
+  north_garrison_kitchen["北線軍寨後勤區<br/>north_garrison_kitchen (draft)"]
+  great_wall_gate["北荒長城關口<br/>great_wall_gate (draft)"]
+  gate --> black_stone_gorge
+  black_stone_gorge --> black_mountain_camp
+  black_mountain_camp -.-> blood_body_camp
+  blood_body_camp -.-> broken_army_bow_fort
+  broken_army_bow_fort -.-> restoration_hall
+  restoration_hall -.-> north_watch
+  north_watch -.-> north_garrison_kitchen
+  north_garrison_kitchen -.-> great_wall_gate
 ```
 
 ## 房間設計規則

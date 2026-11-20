@@ -4,10 +4,10 @@
 
 ## 房間與拓撲
 
-| Room ID | 顯示名稱 | 建議路徑 | 主要出口 | 用途／限制 |
+| Room ID | 顯示名稱 | 建議／實裝路徑 | 主要出口 | 用途／限制（Act 1 前 2 房已實裝） |
 |---|---|---|---|---|
-| `gate` | 百草丹門 | `/d/sects/danding/gate.c` | `herb_valley` | 藥材檢查與入門辨識 |
-| `herb_valley` | 百草谷 | `/d/sects/danding/herb_valley.c` | `medical_archive` | 靈植培育、灌溉與採收 |
+| `gate` | 丹鼎宗・百草丹門 | `/d/sects/danding/gate.c` | `southwest`→`/d/yunjin/wanshan_square.c`、`northeast`→`herb_garden` | 〔實裝〕藥材檢查與入門辨識 |
+| `herb_garden` | 丹鼎宗・百毒試藥谷暨百草谷 | `/d/sects/danding/herb_garden.c` | `southwest`→`gate`（`draft`: `medical_archive`） | 〔實裝，Ch. 89〕依任務規格定名為 `herb_garden.c`（兼併百毒試藥谷考場）；動作 `extract moss`；駐點：`bai_henian`（白鶴年）、`ye_qingzhi`（葉青枝）、`he_shou`（鶴壽） |
 | `medical_archive` | 醫理院與病案室 | `/d/sects/danding/medical_archive.c` | `medical_records` | 診療、病例、藥效追蹤 |
 | `medical_records` | 病案封存室 | `/d/sects/danding/medical_records.c` | `earth_fire_pill_cave` | 需病患授權或院內批令 |
 | `earth_fire_pill_cave` | 地肺丹火窟 | `/d/sects/danding/earth_fire_pill_cave.c` | `discarded_pill_cliff` | 煉丹、丹火、藥性反應 |
@@ -17,17 +17,17 @@
 
 ```mermaid
 flowchart TD
-  gate["百草丹門<br/>gate"]
-  herb_valley["百草谷<br/>herb_valley"]
-  medical_archive["醫理院與病案室<br/>medical_archive"]
-  medical_records["病案封存室<br/>medical_records"]
-  earth_fire_pill_cave["地肺丹火窟<br/>earth_fire_pill_cave"]
-  discarded_pill_cliff["廢丹崖<br/>discarded_pill_cliff"]
-  gate --> herb_valley
-  herb_valley --> medical_archive
-  medical_archive --> medical_records
-  medical_records --> earth_fire_pill_cave
-  earth_fire_pill_cave --> discarded_pill_cliff
+  gate["百草丹門<br/>gate (實裝)"]
+  herb_garden["百毒試藥谷暨百草谷<br/>herb_garden (實裝)"]
+  medical_archive["醫理院與病案室<br/>medical_archive (draft)"]
+  medical_records["病案封存室<br/>medical_records (draft)"]
+  earth_fire_pill_cave["地肺丹火窟<br/>earth_fire_pill_cave (draft)"]
+  discarded_pill_cliff["廢丹崖<br/>discarded_pill_cliff (draft)"]
+  gate --> herb_garden
+  herb_garden -.-> medical_archive
+  medical_archive -.-> medical_records
+  medical_records -.-> earth_fire_pill_cave
+  earth_fire_pill_cave -.-> discarded_pill_cliff
 ```
 
 ## 房間設計規則

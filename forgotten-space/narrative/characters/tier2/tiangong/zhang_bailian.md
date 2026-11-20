@@ -1,16 +1,17 @@
 # 角色檔案：章百鍊（地火鍛兵台總匠）
 
 > `character_id`: `zhang_bailian`  
-> `status`: `proposed`  
+> `status`: `canon (Act 1 實裝)`  
 > `faction`: 千機百巧門／天工閣  
 > `path/domain`: 物道／鍛造  
-> `home_room`: `/d/sects/tiangong/forge_yard`
+> `home_room`: `/d/sects/tiangong/thousand_mechanisms_hall.c`（Act 1 千鍛地火廊主考；二幕後往 `forge_yard` 草案）  
+> `mudlib_path`: `/clone/npc/zhang_bailian.c`
 
 ## 基本資料
 
 - **姓名／稱謂**：章百鍊／地火鍛兵台總匠
 - **所屬**：千機百巧門／天工閣
-- **活動地點**：`/d/sects/tiangong/forge_yard`
+- **活動地點**：`/d/sects/tiangong/thousand_mechanisms_hall.c`（二幕後往 `forge_yard` 草案）
 - **角色定位**：Tier 2 世界人物；其職能、知情範圍與利益關係以本檔為界。
 
 ## 人物設定與敘事功能
@@ -35,12 +36,12 @@
 
 | 欄位 | 初始值 |
 |---|---|
-| 首次登場 | 第三卷待排章節 |
-| 首次接觸方式 | 正式差遣／交易／事故／日常生活，依章節安排 |
-| 當前狀態 | 存活（燕山除外：失蹤待查） |
-| 關係變化 | 待事件帳更新 |
-| 相關事件 | `EV3xx` 待綁定 |
-| 相關任務 | 第一階段不建立任務 JSON，第二階段綁定 |
+| 首次登場 | 第三卷第 88 章（千鍛地火廊監考傀儡復原） |
+| 首次接觸方式 | 斥責世家考生用流銀硬填致炸膛卡死，讚許林鐵生拆解量測半厘偏角與雙契熟鐵榫楔（Ch. 88） |
+| 當前狀態 | 存活 |
+| 關係變化 | Ch. 88 起賞識林鐵生扎實工藝與實證紀錄習慣 |
+| 相關事件 | `EV303` |
+| 相關任務 | `v3_act1_tiangong_forge`（start_npc／步驟 1） |
 
 ## 寫作限制
 

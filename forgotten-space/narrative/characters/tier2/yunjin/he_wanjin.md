@@ -1,16 +1,17 @@
 # 角色檔案：何萬金（萬寶閣雲津分號掌櫃）
 
 > `character_id`: `he_wanjin`  
-> `status`: `proposed`  
+> `status`: `canon (Act 1 實裝)`  
 > `faction`: 雲津仙集／萬寶閣  
 > `path/domain`: 商賈  
-> `home_room`: `/d/yunjin/western_warehouse_street`
+> `home_room`: `/d/yunjin/wanbao_pavilion.c`（萬寶閣雲津分號；依任務規格定名為 `wanbao_pavilion.c`）  
+> `mudlib_path`: `/clone/npc/he_wanjin.c`
 
 ## 基本資料
 
 - **姓名／稱謂**：何萬金／萬寶閣雲津分號掌櫃
 - **所屬**：雲津仙集／萬寶閣
-- **活動地點**：`/d/yunjin/western_warehouse_street`
+- **活動地點**：`/d/yunjin/wanbao_pavilion.c`
 - **角色定位**：Tier 2 世界人物；其職能、知情範圍與利益關係以本檔為界。
 
 ## 人物設定與敘事功能
@@ -35,12 +36,12 @@
 
 | 欄位 | 初始值 |
 |---|---|
-| 首次登場 | 第三卷待排章節 |
-| 首次接觸方式 | 正式差遣／交易／事故／日常生活，依章節安排 |
-| 當前狀態 | 存活（燕山除外：失蹤待查） |
-| 關係變化 | 待事件帳更新 |
-| 相關事件 | `EV3xx` 待綁定 |
-| 相關任務 | 第一階段不建立任務 JSON，第二階段綁定 |
+| 首次登場 | 第三卷第 84 章（第 90 章續涉冷風坡卡馬施壓） |
+| 首次接觸方式 | 在萬山公所欲代收西街甲字七號倉契並壓價兼併未果，轉以雙倍罰則試單壓榨泥途商棧（Ch. 84） |
+| 當前狀態 | 存活 |
+| 關係變化 | Ch. 84 起將泥途商棧視為需壓制的新商號；Ch. 90 冷風坡雪崩時重金搶斷驛站備用雪橇馬，反促使沈泥自賠信用立足 |
+| 相關事件 | `EV302`、`EV309` |
+| 相關任務 | `v3_northbound_and_yunjin_arrival`（步驟 3） |
 
 ## 寫作限制
 
