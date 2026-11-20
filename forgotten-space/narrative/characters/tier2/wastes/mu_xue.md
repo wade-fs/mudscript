@@ -1,10 +1,10 @@
 # 角色檔案：穆雪（雪原行腳隊領隊）
 
 > `character_id`: `mu_xue`  
-> `status`: `canon (Act 1 實裝)`  
+> `status`: `canon (Act 1–3 實裝)`  
 > `faction`: 北荒裂谷／北境行腳商隊  
 > `path/domain`: 平民／運輸  
-> `home_room`: `/d/wastes/north_road/post_station.c`（Act 1 斷崖石棚驛站；二幕後另涉車隊營地草案）  
+> `home_room`: `/d/wastes/north_road/post_station.c`（Act 1 斷崖石棚驛站；Act 3 隨軍雪橇營地進駐 `snow_caravan_camp.c`）  
 > `mudlib_path`: `/clone/npc/mu_xue.c`
 
 ## 基本資料
@@ -39,9 +39,9 @@
 | 首次登場 | 第三卷第 83 章（帶領商隊與五名主角北上八百里官道） |
 | 首次接觸方式 | 在金石北關談妥搭夥北上工價與每日配額，於黑風口與斷崖石棚驛站照行規收額外炭火折銀、對症救人後讓出避雪處（Ch. 83） |
 | 當前狀態 | 存活 |
-| 關係變化 | Ch. 83 見證顧玄野菊湯劑救下凍傷腳夫與沈泥當場結清帳目後對五人產生務實信任 |
-| 相關事件 | `EV301` |
-| 相關任務 | `v3_northbound_and_yunjin_arrival`（start_npc／步驟 1）、`v3_act1_cold_plain_rescue`（start_npc） |
+| 關係變化 | Ch. 83 見證顧玄救人與沈泥結清帳目後產生務實信任；Ch. 102–103 與沈泥合夥標下隨軍輜重二十四輛雪橇並於永凍血原斷繩護馬扛損（折損兩橇與兩成乾糧、護出傷員） |
+| 相關事件 | `EV301`、`EV310`–`EV311` |
+| 相關任務 | `v3_northbound_and_yunjin_arrival`（start_npc／步驟 1）、`v3_act1_cold_plain_rescue`（start_npc）；Act 3 `snow_caravan_camp` 對話延伸 |
 
 ## 寫作限制
 

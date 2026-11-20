@@ -1,16 +1,17 @@
 # 角色檔案：韓素（失蹤者家屬互助會記錄人）
 
 > `character_id`: `han_su`  
-> `status`: `proposed`  
+> `status`: `canon (Act 3 實裝)`  
 > `faction`: 北荒裂谷  
 > `path/domain`: 平民／記錄者  
-> `home_room`: `/d/wastes/missing_families_shelter`
+> `home_room`: `/d/wastes/missing_families_hall.c`  
+> `mudlib_path`: `/clone/npc/han_su.c`
 
 ## 基本資料
 
 - **姓名／稱謂**：韓素／失蹤者家屬互助會記錄人
-- **所屬**：北荒裂谷
-- **活動地點**：`/d/wastes/missing_families_shelter`
+- **所屬**：北荒裂谷（黑山長城北門外三百步草頂木棚）
+- **活動地點**：`/d/wastes/missing_families_hall.c`
 - **角色定位**：Tier 2 世界人物；其職能、知情範圍與利益關係以本檔為界。
 
 ## 人物設定與敘事功能
@@ -35,12 +36,12 @@
 
 | 欄位 | 初始值 |
 |---|---|
-| 首次登場 | 第三卷待排章節 |
-| 首次接觸方式 | 正式差遣／交易／事故／日常生活，依章節安排 |
-| 當前狀態 | 存活（燕山除外：失蹤待查） |
-| 關係變化 | 待事件帳更新 |
-| 相關事件 | `EV3xx` 待綁定 |
-| 相關任務 | 第一階段不建立任務 JSON，第二階段綁定 |
+| 首次登場 | 第三卷第 102 章（黑山關外草頂木棚守《北荒失蹤者登記簿》；第 94 章阿滿預提；第 111 章核收銅哨） |
+| 首次接觸方式 | Ch. 102 由阿滿牽線委託燕隼攜帶「北線斥候・乙十七」銅哨特徵圖尋兄韓林並交白麵傷藥；Ch. 111 收回生鏽銅哨與黑冰斷谷九具遺骸公證副本 |
+| 當前狀態 | 存活 |
+| 關係變化 | Ch. 102 嚴守不信空口英雄之原則 → Ch. 111 見白紙黑字實測圖與嚴守「燕山失蹤非已亡」原欄後徹底信任五子，蓄勢於問道天台替十一名殉職斥候腳夫討說法 |
+| 相關事件 | `EV305`、`EV310`、`EV312`、`EV319` |
+| 相關任務 | `v3_act3_war_god_tomb`（`start_npc`／步驟 1、6）、`v3_ark_excavation_evidence`（步驟 6 封存）、`v3_preserve_field_evidence`（`start_npc`／步驟 1）；後續 `v3_postwar_reform_and_restitution` |
 
 ## 寫作限制
 

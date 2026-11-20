@@ -13,7 +13,7 @@
 | `black_mountain_camp` | 八荒武山・黑山煞血營 | `/d/sects/bahuang/black_mountain_camp.c` | `south`→`black_stone_gorge`、`west`→`restoration_hall`、`east`→`north_garrison_kitchen`、`north`→`great_wall_gate` | 〔實裝，Ch. 87、93–94〕外門前哨、頒發腰牌與箭樓軍需密談；駐點：`lei_lie`（雷烈） |
 | `restoration_hall` | 八荒武山・傷兵養息院 | `/d/sects/bahuang/restoration_hall.c` | `east`→`black_mountain_camp` | 〔實裝，Ch. 93〕長城內側傷兵紀錄與「定心急鎮丸」黑血病案（動作 `inspect records`）；駐點：`du_qinghe`（杜青禾） |
 | `north_garrison_kitchen` | 黑山營・北線軍寨炊事後勤區 | `/d/sects/bahuang/north_garrison_kitchen.c` | `west`→`black_mountain_camp` | 〔實裝，Ch. 94〕炊事與《天興十九年失蹤者與未寄家書簿》保管處；駐點：`a_man`（阿滿） |
-| `great_wall_gate` | 八荒武山・北線長城巡防牆暨關口 | `/d/sects/bahuang/great_wall_gate.c` | `south`→`black_mountain_camp`、`west`→`north_watch`、`east`→`ghost_cry_gorge` | 〔實裝，Ch. 93–94〕三號豁口守防與白霧雪溝禁令；敵對 NPC：`iron_yak`（鐵甲寒犛 Lv.70） |
+| `great_wall_gate` | 八荒武山・北線長城巡防牆暨關口 | `/d/sects/bahuang/great_wall_gate.c` | `south`→`black_mountain_camp`、`west`→`north_watch`、`east`→`ghost_cry_gorge`、`north`→`/d/wastes/black_mountain_pass.c` | 〔實裝，Ch. 93–94、102〕三號豁口守防與北出【黑山長城北關雪道】；敵對 NPC：`iron_yak`（鐵甲寒犛 Lv.70） |
 | `north_watch` | 八荒武山・北荒巡哨營 | `/d/sects/bahuang/north_watch.c` | `east`→`great_wall_gate` | 〔實裝，Ch. 94〕巡哨整備、測冰長鐵簽與夜間地底震聲記錄；駐點：`qi_wushang`（祁無傷） |
 | `ghost_cry_gorge` | 大黑山東側・鬼哭冰澗 | `/d/sects/bahuang/ghost_cry_gorge.c` | `west`→`great_wall_gate` | 〔實裝，Ch. 94 新增〕鷹喙岩脊外三里塌陷雪崖與暗河裂縫，起獲燕山斷箭與八方舊甲（動作 `probe ice`） |
 | `blood_body_camp` | 煞血霸體營校場 | `/d/sects/bahuang/blood_body_camp.c` | `draft` | 〔draft〕煞血梅花樁訓練；需控制燥火與氣血負荷 |

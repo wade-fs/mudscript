@@ -57,7 +57,7 @@
 | `pill_reverse_dao_life` | 逆道延命血丹殘樣／血丹 | consumable/evidence | 地肺丹火窟丙柒門縫暗紫爐灰與「萬山乙零四・南十三」批號紀錄（`/clone/item/pill_reverse_dao_life.c`） | 前三月壓抑、四月起血煞癌變，停藥七日反撲致死（Ch. 96–97） | canon (Act 2 實裝) |
 | `pill_clear_mind` | 清心散 | consumable | 緩解低階神識躁動 | 不治療道化根因 | derived |
 | `pill_blood_cooling` | 沸血降燥湯 | consumable | 暫時降低氣血燥火 | 需監測體溫與內臟負荷 | proposed |
-| `pill_herb_poultice` | 雪線續脈膏 | consumable | 凍傷與筋脈損傷輔助處理 | 不可替代醫療與休養 | proposed |
+| `pill_herb_poultice` | 雪線續脈膏暨雄黃煙袋 | consumable/tool | 永凍血原半寸對照消腫七成之續脈膏配三枚沸血雄黃煙（`/clone/item/pill_herb_poultice.c`） | 不可替代休養；低壓側風口倒灌會嗆肺（Ch. 103） | canon (Act 3 實裝) |
 | `cold_herbal_decoction` | 野菊抗寒湯劑 | consumable | 金石野菊與防瘴草籽抗寒湯劑（`/clone/item/cold_herbal_decoction.c`） | 緩解早期凍傷與風寒失溫 | canon (Act 1 實裝) |
 | `snowline_moss_sample` | 雪線苔與水垢密封管 | evidence/material | 寒髓草共生微苔與酸澀水垢樣本（`/clone/item/snowline_moss_sample.c`） | 僅屬個案對照樣本 (`lead_only`) | canon (Act 1 實裝) |
 | `puppet_tolerance_record` | 傀儡軸套公差工單 | evidence/tool | 搬山傀儡半厘偏角與脆化麻點測繪（`/clone/item/puppet_tolerance_record.c`） | 含雙契榫楔工藝與脆化異常紀錄 (`lead_only`) | canon (Act 1 實裝) |
@@ -80,12 +80,14 @@
 
 | ID | 名稱 | 類型 | 來源鏈 | 證明力限制 | 初始等級 |
 |---|---|---|---|---|---|
-| `ev3_yanshan_blood_note` | 燕山血書 | evidence | 黑冰斷谷遺址現場採集、雙人封存 | 可證明有人留下記錄；筆跡與內容需鑑定 | lead_only |
-| `ev3_yanshan_arrow_mark` | 燕山箭記骨箭 | evidence | 燕隼辨識、現場位置記錄 | 可支持身分與行動路線，不能單獨證明死亡／生還 | corroborative（鑑定後） |
-| `ev3_heart_guard_mirror` | 燕山護心鏡 | evidence/item | 裂隙邊緣發現 | 只能證明物品曾在此，不證明持有人去向 | lead_only |
-| `ev3_drill_head` | 內造鑽山傀儡鑽頭殘件 | evidence | 盜掘現場 | 需比對工坊批次、領用簿與命令 | corroborative（來源比對後） |
-| `ev3_mother_liquid_vial` | 血精母液封裝玉瓶 | evidence/material | 北荒母脈現場 | 需檢驗封裝、採樣與污染；不直接證明高層授意 | lead_only |
-| `ev3_expedition_roster` | 五年前走山隊名冊殘頁 | evidence | 舊營地遺址 | 名冊缺頁，不能證明全隊名單完整 | corroborative（多方核驗後） |
+| `hanlin_copper_whistle` | 北線斥候乙十七銅哨 | evidence | 黑冰斷谷遺骸頸間配物（Ch. 104、111 交還韓素，`/clone/item/hanlin_copper_whistle.c`） | 證實韓林係奉命接應遭軍弩伏殺，非擅離職守 | `corroborative` (Act 3 實裝) |
+| `ev3_yanshan_blood_note` | 燕山羊皮血書殘片 | evidence | 黑冰斷谷岩凹竹夾剝離封樣（`/clone/item/ev3_yanshan_blood_note.c`） | 殘見「山」字落款與「雷……非……」，後半腐毀缺署名蓋印（Ch. 104） | `corroborative` (Act 3 實裝) |
+| `ev3_heart_guard_mirror` | 燕山精銅護心鏡 | evidence/item | 戰神遺塚暖風裂隙前血跡盡頭（`/clone/item/ev3_heart_guard_mirror.c`） | 砸凹半邊刻「燕」字；僅證曾抵裂隙邊緣，未見遺骸（Ch. 105） | `lead_only` (Act 3 實裝) |
+| `ev3_drill_head` | 鑽山傀儡鑽頭殘件 | evidence | 方舟東側豁口砸鎖總閘炸飛後撿獲（`/clone/item/ev3_drill_head.c`） | 帶天工閣內造批號與四工役手印，尚需比對工坊原始領用簿（Ch. 109） | `corroborative` (Act 3 實裝) |
+| `ev3_mother_liquid_vial` | 血精母液封裝玉瓶 | evidence/material | 東側冷卻豁口封蠟接液瓶（`/clone/item/ev3_mother_liquid_vial.c`） | 含冷卻生物質與水銀結晶；不直接證明高層本人親令（Ch. 106、109） | `corroborative` (Act 3 實裝) |
+| `ev3_expedition_roster` | 五年前走山隊名冊殘頁 | evidence | 舊營地生牛皮箭筒夾層所得（`/clone/item/ev3_expedition_roster.c`） | 記燕山、韓林與十腳夫配額，缺頁待多方互核（Ch. 104） | `corroborative` (Act 3 實裝) |
+| `ev3_envoy_tally` | 千機堂副執印暗金令牌暨密令 | evidence | 冰谷窄口斃殺私盟大執事搜獲（`/clone/item/ev3_envoy_tally.c`） | 大執事無遺言自白，赤煉本人親令須對照工坊領用簿（Ch. 110） | `corroborative` (Act 3 實裝) |
+| `ninety_city_treaty_copy` | 九城總契拓錄暨舊盟抄頁 | evidence/lore | 方舟後勤石鋼廳室合璧臨摹本（`/clone/item/ninety_city_treaty_copy.c`） | 載《禁毀條例第七條》暨「雲記／玄木」及三宗代號；缺掌門知情鏈（Ch. 108） | `corroborative` (Act 3 實裝) |
 | `yanshan_broken_arrow` | 燕山鷹記斷折骨箭 | evidence | 鬼哭冰澗三尺冰層探冰起獲（附染血八方舊皮甲，`/clone/item/yanshan_broken_arrow.c`） | 重斧／破甲弩斜切痕；僅證曾遭攔截未見遺骸（Ch. 94） | `lead_only` (Act 2 實裝) |
 | `bahuang_logistics_copy` | 黑山軍需出庫副本 | evidence | 雷烈箭樓交付之天興十九年出庫副聯（`/clone/item/bahuang_logistics_copy.c`） | 證實三十斤千機火藥調往鬼哭冰澗，無高層親簽（Ch. 94） | `corroborative` (Act 2 實裝) |
 | `ev3_private_purchase_ledger` | 北境三宗延命私盟密帳索引 | evidence | 雲海鬼市後門暗巷截自灰袍經生馬背（`/clone/item/ev3_private_purchase_ledger.c`） | 含十三府城、三代號與「玄木」轉帳代號，尚需與三宗對帳（Ch. 98） | `corroborative` (Act 2 實裝) |

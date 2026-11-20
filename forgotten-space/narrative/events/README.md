@@ -132,6 +132,19 @@
 
 ---
 
+## 第三卷 第三幕：絕嶺尋蹤・萬古迷霧（第 102～111 章・Act 3 已實裝）
+
+> 第三幕新增 `/d/wastes/` 16 間房間、8 名 NPC／荒獸與敵對頭目（`qi_shiliu`、`han_su`、`bai_yan`、`yuan_qing`、`shuangtou_dilong`、`ice_bear_king`、`private_league_envoy`、`tiger_mech_beast`）、9 項道具物證與 5 條 Act 3 任務。
+
+| 章節 | 視角主角 | 核心敘事事件 | MUD 房間與 NPC 互動 | 任務鏈 / 實裝道具 | 系統機制與成果 |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **第 102～103 章** | 燕隼 / 顧玄 | 黑山北關雪道會韓素領韓林特徵圖、雪橇磁偏角揭重車偽裝；永凍血原協破雙頭霜甲地龍與前哨半寸對照實驗 | `/d/wastes/{black_mountain_pass,missing_families_hall,south_approach,snow_caravan_camp,north_outpost_infirmary,frozen_blood_plain}.c`<br>NPC: `qi_shiliu`, `han_su`, `bai_yan`, `shuangtou_dilong`, `mu_xue` | 主線：`v3_north_wastes_expedition`<br>道具：`pill_herb_poultice.c` | `inspect sleighs`／`test poultice`／`throw smoke` 與 Lv.82 `shuangtou_dilong` 對戰確立染煞病例互核。 |
+| **第 104～106 章** | 燕隼 / 林鐵生 / 顧玄 | 墨黑雪壁釘岩垂降黑冰斷谷驗九骸與血書名冊；戰神遺塚《沉岳引》護心鏡與冰熊王；方舟冷卻艙三息化驗 | `/d/wastes/{expedition_camp,rift_watch,black_ice_valley,old_expedition_camp,war_god_tomb,ark_foundation}.c`<br>NPC: `ice_bear_king` | 支線：`v3_act3_war_god_tomb`<br>道具：`hanlin_copper_whistle.c`, `ev3_yanshan_blood_note.c`, `ev3_expedition_roster.c`, `ev3_heart_guard_mirror.c` | `rappel cliff`／`excavate remains`／`search alcove`／`resonate totem`／`test coolant` 嚴守「燕山生死 open」與無蓋印邊界。 |
+| **第 107～108 章** | 柳清虛 / 沈泥 | 八角核心圓台五器再鳴見三大先民職能光影；後勤石鋼廳室合璧九城總契與乙巳舊盟抄頁揭「沈雲妮」舊約 | `/d/wastes/{ark_core_chamber,ark_logistics_hall}.c`<br>聯動 `star_law_hall` / `machinery_depths` / `exchange_hall` / `ghost_market` | 史詩：`v3_five_relic_resonance`<br>道具：`ninety_city_treaty_copy.c` | `place relics`／`join treaty` 完成 Stage 1–3 五器再鳴與第五階段舊約核對（仍缺三宗掌門知情鏈）。 |
+| **第 109～111 章** | 群像 | 鎖死東側七成總閘取鑽頭玉瓶；冰谷雪崩破敵並一箭絕殺大執事奪副執印；返關歸還銅哨、串聯三宗與偏峰定約 | `/d/wastes/{ark_cooling_breach,ice_valley_exit}.c`、`/d/sects/taiqing/quiet_peak.c`<br>NPC: `private_league_envoy`, `tiger_mech_beast`, `yuan_qing`, `jian_su` | 主線：`v3_ark_excavation_evidence`<br>事件：`v3_preserve_field_evidence`<br>道具：`ev3_drill_head.c`, `ev3_mother_liquid_vial.c`, `ev3_envoy_tally.c` | `lock valve`／`trigger avalanche` 並達成 `EV319` 與 `EVENT_TIER2_CRISIS` `T-1 → T0`（`hearing_ready`）就緒。 |
+
+---
+
 ## 六大物證缺口標準五欄對照表 (The Six Evidence Gaps Ledger)
 
 | 編號 | 物證名稱 (`item`) | 物證型態 (`type`) | 來源鏈與取得者 (`source & chain`) | 證明力限制與當前等級 (`strength & limit`) | 當前狀態與最新進展 (`status`) |

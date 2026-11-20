@@ -1,6 +1,6 @@
 # Tier 2 NPC 名冊（第三卷素材庫）
 
-> 本名冊索引 `characters/tier2/` 內人物檔，並同步標註已實裝於 `/clone/npc/` 之 Mudlib 物件。`canon` 表示既有文件或第三卷正文已確立該人物（第一、二幕 Ch.83–101 出場人物已全數完成正文與 Mudlib 實裝）。
+> 本名冊索引 `characters/tier2/` 內人物檔，並同步標註已實裝於 `/clone/npc/` 之 Mudlib 物件。`canon` 表示既有文件或第三卷正文已確立該人物（第一至三幕 Ch.83–111 出場人物、敵對執事與二階荒獸已全數完成正文與 Mudlib 實裝）。
 
 | ID | 姓名 | 所屬 | 職能 | 登場章節 / Mudlib 狀態 |
 |---|---|---|---|---|
@@ -9,6 +9,7 @@
 | `shen_zhaochen` | 沈照塵 | 太清玄天宮 | 外門／內門競爭者 | canon（Ch.86 登場；`/clone/npc/shen_zhaochen.c`） |
 | `yu_shouzhuo` | 余守拙 | 太清玄天宮 | 藏星秘閣檔案老吏 | canon（Ch.91 登場；`/clone/npc/yu_shouzhuo.c`） |
 | `jian_su` | 簡素真人 | 太清玄天宮 | 苦修派長老 | canon（Ch.92、111 登場；`/clone/npc/jian_su.c`） |
+| `yuan_qing` | 元青 | 太清玄天宮／偏峰 | Lv.73 早期晶化弟子／見證人 | canon（Ch.111 登場；`/clone/npc/yuan_qing.c`） |
 | `xuan_ming` | 玄冥真人 | 太清玄天宮 | 雷符殿與刑律執法長老 | canon（Ch.92、96、101 登場；`/clone/npc/xuan_ming.c`） |
 | `lei_lie` | 雷烈 | 八荒武山 | 黑山營獨臂老將 | canon（Ch.87 登場；`/clone/npc/lei_lie.c`） |
 | `yue_tingshan` | 岳停山 | 八荒武山 | 煞血營教頭 | canon（Ch.87 登場；`/clone/npc/yue_tingshan.c`） |
@@ -39,10 +40,14 @@
 | `mu_xue` | 穆雪 | 北境官道／北荒 | 雪原行腳隊領隊 | canon（Ch.83 登場；`/clone/npc/mu_xue.c`） |
 | `zhou_tieshan` | 周鐵山 | 北境官道／退門者 | 原八荒黑山營斷臂武師 | canon（Ch.83 登場；`/clone/npc/zhou_tieshan.c`） |
 | `chen_qing` | 陳青 | 北境官道／退門者 | 原丹鼎百草谷傷手藥徒 | canon（Ch.83 登場；`/clone/npc/chen_qing.c`） |
-| `qi_shiliu` | 祁十六 | 北荒 | 聯合勘探隊嚮導 | canon（Ch.102 登場） |
-| `han_su` | 韓素 | 北荒 | 失蹤者家屬互助會記錄人 | canon（Ch.102 登場） |
-| `bai_yan` | 白岩 | 北荒 | 前哨醫師 | canon（Ch.103 登場） |
-| `yan_shan` | 燕山 | 北荒／失蹤 | 走山隊領隊、燕隼大伯 | canon（生死未明，Ch.104–105 遺物線） |
+| `qi_shiliu` | 祁十六 | 北荒 | 聯合勘探隊嚮導 | canon（Ch.102–111 登場；`/clone/npc/qi_shiliu.c`） |
+| `han_su` | 韓素 | 北荒 | 失蹤者家屬互助會記錄人 | canon（Ch.102、111 登場；`/clone/npc/han_su.c`） |
+| `bai_yan` | 白岩 | 北荒 | 前哨醫師 | canon（Ch.103 登場；`/clone/npc/bai_yan.c`） |
+| `shuangtou_dilong` | 雙頭霜甲地龍 | 北荒／永凍血原 | 二階頂峰（Lv.82）雙首凶獸 | canon（Ch.103 登場；`/clone/npc/shuangtou_dilong.c`） |
+| `ice_bear_king` | 北荒冰熊王 | 北荒／戰神遺塚 | 二階高階（Lv.82）阻路凶獸 | canon（Ch.105 登場；`/clone/npc/ice_bear_king.c`） |
+| `private_league_envoy` | 私盟大執事 | 私盟／天工閣暗線 | 二階（Lv.88）千機堂副執印頭目 | canon（Ch.109–110 登場；`/clone/npc/private_league_envoy.c`） |
+| `tiger_mech_beast` | 虎煞戰鬥機關獸 | 私盟／天工閣暗線 | 二階重甲（Lv.84）戰鬥傀儡 | canon（Ch.110 登場；`/clone/npc/tiger_mech_beast.c`） |
+| `yan_shan` | 燕山 | 北荒／失蹤 | 走山隊領隊、燕隼大伯 | canon（生死未明，Ch.94、104–105 遺物線） |
 
 ## 名冊使用規則
 

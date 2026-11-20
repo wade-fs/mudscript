@@ -39,9 +39,9 @@
 | 首次登場 | 第三卷第 87 章（萬鈞問心谷點名與黑山營接考） |
 | 首次接觸方式 | 觀察到燕隼扣弓壓腕習慣與箭羽護指小動作，於黑山前哨鐘台親頒黑山營外門腰牌（Ch. 87） |
 | 當前狀態 | 存活 |
-| 關係變化 | Ch. 87 起對燕隼（燕山舊識線索）暗生疑念與關照；Ch. 94 取出天興十九年冬三層蠟紙封存的軍需副聯（揭露三十斤非軍制開山火藥由千機百巧門工坊印記調往鬼哭冰澗），坦承當年受黑山議武堂假三階獸潮急令撤防之愧疚 |
-| 相關事件 | `EV303`、`EV306` |
-| 相關任務 | `v3_act1_bahuang_gorge`（步驟 3 頒發 `/clone/item/cred_bahuang_camp_plate.c`）、`v3_bahuang_bloodline_watch`（start_npc／結算 `target_npc`）、`v3_act2_bahuang_ghost_gorge`（`target_npc` 核對火藥副聯）、`v3_five_way_evidence_convergence`（取證 `target_npc`） |
+| 關係變化 | Ch. 87 起對燕隼暗生疑念與關照；Ch. 94 取出三十斤千機火藥軍需副聯自首愧疚；Ch. 102–111 主動護衛聯合勘探隊正營並護住歸眾免遭赤煉趁機搜身，Ch. 104 羊皮血書『雷……非……』初清其嫌疑，聯手杜青禾、唐映理出《急鎮丸依賴與死因統計簿》兼落印韓素副本備戰會武 |
+| 相關事件 | `EV303`、`EV306`、`EV310`–`EV312`、`EV319` |
+| 相關任務 | `v3_act1_bahuang_gorge`、`v3_bahuang_bloodline_watch`、`v3_act2_bahuang_ghost_gorge`、`v3_five_way_evidence_convergence`；Act 3–4 延續會武與獸潮防務 |
 
 ## 寫作限制
 

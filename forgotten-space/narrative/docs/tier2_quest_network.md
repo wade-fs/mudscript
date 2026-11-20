@@ -57,11 +57,11 @@ flowchart TD
 | `v3_danding_blood_pill_cases` | main | 89、96–97 | EV303、307–308 | 顧玄／葉青枝／陶生／孫聞露 | 丹火窟 `peek flue`、廢丹崖 `dissect ape` 與十七份匿名病案互核 | Act 2 實裝 |
 | `v3_five_way_evidence_convergence` | main | 99–101 | EV304–309 | 五人／余守拙／雷烈／邱禾／顧蘭舟 | 五線線索分袋封存與跨來源對帳（保留四大缺口） | Act 2 實裝 |
 | `v3_act2_yunjin_ghost_and_sanyuan` | main | 98–101 | EV309 | 沈泥／顧蘭舟／鬼見愁／莫三／羅九秤 | 鬼市情報、`rumor audit` 截密帳、莫三認玄木、`strip filament` 剝晶絲 | Act 2 實裝 |
-| `v3_north_wastes_expedition` | main | 102–108 | EV310–316 | 五人／祁十六 | 北荒勘探、走山隊、方舟與契版 |
-| `v3_five_relic_resonance` | epic | 107–108 | EV315–316 | 五人 | 五件遺物與九城契版的分階段有限驗證 |
-| `v3_ark_excavation_evidence` | main | 109–111 | EV317–319 | 林鐵生／顧玄／燕隼 | 盜掘、母脈壓力、物證封存 |
-| `v3_evidence_chain_hearing` | main | 112–116 | EV320–321 | 五人 | 會武與跨來源公開質證 |
-| `v3_preserve_field_evidence` | event | 104–111 | EV312–319 | 韓素／白岩／顧蘭舟 | 走山遺物與方舟樣本的編號、雙份保管及可驗證度 |
+| `v3_north_wastes_expedition` | main | 102–106 | EV310–314 | 五人／祁十六／白岩 | 北荒出關、測車偏、破雙頭地龍、半寸膏實驗、黑冰九骸與化驗母脈 | Act 3 實裝 |
+| `v3_act3_war_god_tomb` | side | 104–111 | EV312–313、319 | 燕隼／韓素／冰熊王 | 鑿釘垂降、竹夾護血書、戰神遺塚《沉岳引》護心鏡與歸還乙十七銅哨 | Act 3 實裝 |
+| `v3_five_relic_resonance` | epic | 107–111 | EV315–316 | 五人／宋知微／季衡／顧蘭舟 | 八角核心圓台五器再鳴、後勤總契合璧揭沈雲妮身世與雙鑰舊盟對帳 | Act 3 實裝 |
+| `v3_ark_excavation_evidence` | main | 109–111 | EV317–319 | 林鐵生／顧玄／燕隼／聞九 | 鎖死東側七成總閘、雪崩伏擊斬大執事奪令牌、聞九魯長老核批並封證 | Act 3 實裝 |
+| `v3_preserve_field_evidence` | event | 104–111 | EV312–319 | 韓素／白岩／顧蘭舟 | 走山遺物與方舟樣本雙人封蠟、雙份保管鏈暨 `tier2_crisis` 推進 `T0` | Act 3 實裝 |
 | `v3_cross_sect_evidence_audit` | event | 115–116 | EV321 | 沈泥／羅九秤 | 保管鏈與證據完整度的世界事件結果 |
 | `v3_crystal_quarantine_response` | event | 117–120 | EV322、324 | 顧玄／柳清虛 | 晶化毒域隔離、病患救援 |
 | `v3_north_wall_beast_surge` | event | 118–119 | EV323–324 | 燕隼／林鐵生／沈泥 | 防線、補給與撤離協同 |
@@ -142,9 +142,9 @@ flowchart TD
 
 目前事件稽核器允許的 metric：`herd_pressure`、`route_confidence`、`diversion_effect`、`settlement_capacity`、`evidence_strength`、`civilian_trust`、`intel_confidence`、`evidence_verifiability`、`assault_cost`、`settlement_resilience`。facts 使用既有 allowlist：`autopsy_performed`、`sulfur_poisoning_found`、`flight_direction_mapped`、`diversion_ditch_dug`、`cold_smoke_stock`、`signal_arrows_ready`、`merchant_fled`、`merchant_supplies_looted`、`canyon_road_destroyed`、`residual_breach_occurred`。不要在本批 JSON 任意創造新鍵。
 
-## 6. JSON 任務清單（Act 1–2 已實裝 ＋ Act 3–5 初稿）
+## 6. JSON 任務清單（Act 1–3 已實裝 ＋ Act 4–5 初稿）
 
-`quests/` 內目前包含 **25 份第三卷任務 JSON**（15 份第一、二幕已實裝任務 ＋ 10 份第三至五幕架構初稿），以及 `data/event_defs/tier2_crisis.json` 世界事件定義（`narrative/events/tier2_crisis.json` 為敘事側同步副本）。其中 **Act 1–2 計 15 份任務（Ch. 83–101）** 已連通實際存在的 41 間 LPC 房間、33 名具名 NPC／2 頭二階荒獸與 16 項實體道具（含 `dao_crystal.c` 在內之 Act 1–2 新實裝物證），並通過 `quest_audit.py`、`test_v3_act1.c` 與 `test_v3_act2.c` 驗證；其餘 10 份 Act 3–5 任務仍為待實裝架構初稿：
+`quests/` 內目前包含 **26 份第三卷任務 JSON**（20 份第一至三幕已實裝任務 ＋ 6 份第四至五幕架構初稿），以及 `data/event_defs/tier2_crisis.json` 世界事件定義（`narrative/events/tier2_crisis.json` 為敘事側同步副本）。其中 **Act 1–3 計 20 份任務（Ch. 83–111）** 已連通實際存在的 57 間 Tier 2 LPC 房間、37 個新建 `/clone/npc/*.c`（另複用 `mo_beggar`、`under_black_market_broker`）與 25 項新實裝物證／道具（另複用 `dao_crystal.c`），並通過 `quest_audit.py`、`test_v3_act1.c`、`test_v3_act2.c` 與 `test_v3_act3.c` 驗證；其餘 6 份 Act 4–5 任務仍為待實裝架構初稿：
 
 | 檔案 | 目前狀態 |
 |---|---|
@@ -163,11 +163,11 @@ flowchart TD
 | `main/v3_danding_blood_pill_cases.json` | **Act 2 已實裝**（涵蓋地肺丹火窟 `peek flue`、廢丹崖 `dissect ape` 與醫理院病案互核） |
 | `main/v3_five_way_evidence_convergence.json` | **Act 2 已實裝**（已對齊 `hidden_archive`／`black_mountain_camp`／`mudway_store`／`exchange_hall` 五方對帳） |
 | `main/v3_act2_yunjin_ghost_and_sanyuan.json` | **Act 2 已實裝**（新增；鬼市 `rumor audit` 截密帳、莫三認 `玄木`、地窖 `strip filament` 與聯合勘探鋪路） |
-| `main/v3_north_wastes_expedition.json` | 格式初稿（三幕起實裝；深處北荒房間與 NPC 待實裝） |
-| `epic/v3_five_relic_resonance.json` | 格式初稿（雲津篇 `exchange_hall`／`ghost_market`／`gui_jianchou` 已落地；北荒 Stage 3 待續） |
-| `main/v3_ark_excavation_evidence.json` | 格式初稿（三幕起實裝；深處房間與 NPC 待實裝） |
-| `main/v3_evidence_chain_hearing.json` | 格式初稿（四幕起實裝；會武房間 `hearing_hall` 等待實裝） |
-| `event/v3_preserve_field_evidence.json` | 格式初稿（三幕起實裝；需北荒現場物證登錄配合 `tier2_crisis`） |
+| `v3_north_wastes_expedition.json` | **Act 3 已實裝**（6 步：出關→雪橇測偏→雙頭霜甲地龍→前哨膏藥對照→黑冰斷谷銅哨→方舟母液化驗） |
+| `side/v3_act3_war_god_tomb.json` | **Act 3 已實裝**（新增；垂降雪壁、岩凹取血書、北荒冰熊王、戰神遺塚護心鏡與歸還韓素乙十七銅哨） |
+| `epic/v3_five_relic_resonance.json` | **Act 3 已實裝**（三階段完整閉環：`ark_core_chamber` 五器入龕 → `ark_logistics_hall` 九城總契合璧 → 返山兼雲海雙鑰對帳與祁十六安全備案） |
+| `main/v3_ark_excavation_evidence.json` | **Act 3 已實裝**（6 步：鎖死七成總閘取鑽頭→冰谷雪崩→斬殺私盟大執事取暗金令牌→聞九魯長老核批兼互助所雙封存） |
+| `event/v3_preserve_field_evidence.json` | **Act 3 已實裝**（對齊 `missing_families_hall`、`north_outpost_infirmary`、`exchange_hall` 並聯動 `tier2_crisis`） |
 | `event/v3_cross_sect_evidence_audit.json` | 格式初稿（已對齊 `medical_archive`；待補齊四幕 `hearing_hall`） |
 | `event/v3_crystal_quarantine_response.json` | 格式初稿（已對齊 `medical_archive` 與 `restoration_hall`；對應四幕毒域） |
 | `event/v3_north_wall_beast_surge.json` | 格式初稿（`black_mountain_camp`／`mudway_store` 已落地；待接續 `black_mountain_pass` 與 `qi_shiliu`） |
@@ -178,10 +178,10 @@ flowchart TD
 
 1. **跨任務前置條件**：目前沒有一般任務依賴 DAG 或 `requires_quest`，需新增查詢 API；在此之前，任務間依賴只在本文件標示，不可假裝 JSON 能執行。
 2. **條件分支**：目前線性 step chain 不支援 `if/else`；可先用獨立支線任務與 `event_outcomes` 的 success/partial；現行引擎不會選取 failure，真正分支需擴充引擎。
-3. **NPC／地圖存在性（Act 1–2 已落地 41 房／Act 3+ 待續）**：第一至二幕所需的 41 間房間（`north_road` 3、`yunjin` 12、`taiqing` 7、`bahuang` 8、`tiangong` 6、`danding` 5）與全數一、二幕登場 NPC（含複用 `mo_beggar`/`mo_san` 與 `under_black_market_broker`/`gui_jianchou` 及兩頭二階荒獸 `ironback_wolf`、`iron_yak`）已實裝並通過 `quest_audit.py`、`test_v3_act1.c` 與 `test_v3_act2.c`；第三至五幕北荒裂谷與會武深處區域仍為 `draft`。
-4. **事件資料註冊與動態評估（Act 2 已補齊純函式評估器）**：`EVENT_TIER2_CRISIS` 已於 `include/world_event.h` 定義並由 `daemon/event_manager.c` 註冊載入 `/data/event_defs/tier2_crisis.json`；第二幕已實裝純函式評估器 `evaluate_tier2_crisis()` 與階段逾時鉤子 `on_stage_timeout_tier2_crisis()`，可計算證據成熟度（`insufficient_leads` / `corroborating_chain` / `hearing_ready`）與支援 `T-2` → `T-1`（Ch. 101 聯合勘探動員）推進。
+3. **NPC／地圖存在性（Act 1–3 已落地 57 房／Act 4+ 待續）**：第一至三幕所需的 57 間房間（`north_road` 3、`wastes` 16、`yunjin` 12、`taiqing` 7、`bahuang` 8、`tiangong` 6、`danding` 5）與全數一至三幕登場人物、敵對執事及二階荒獸已實裝並通過 `quest_audit.py`、`test_v3_act1.c`、`test_v3_act2.c` 與 `test_v3_act3.c`；第四至五幕雲頂會武會場與封存深處區域仍待實裝。
+4. **事件資料註冊與動態評估（Act 2–3 `T-2 → T-1 → T0` 已貫通）**：`EVENT_TIER2_CRISIS` 已於 `daemon/event_manager.c` 實裝 `evaluate_tier2_crisis()`、`on_stage_timeout_tier2_crisis()` 與 `dump_status()` 證物帳本檢視，支援由 `T-2` 進至 `T-1` 再推進至 `T0`（`public_hearing_and_crisis`／`hearing_ready`）。
 5. **`deliver` 事件**：引擎有 deliver 分支判斷，但現有程式沒有穩定事件發送端；本批先不使用。
-6. **事件推進與階段切換（T-2 → T-1 已驗證／T0–T+2 待 Act 3–5）**：`test_v3_act2.c` 已驗證 `T-2` 至 `T-1` 單調推進與評估視圖；三至四幕之 `T0` 質證、`T+1` 獸潮與 `T+2` 改革仍待後續劇本接軌。
+6. **事件推進與階段切換（`T-2 → T-1 → T0` 已驗證／`T+1`–`T+2` 待 Act 4–5）**：`test_v3_act2.c` 與 `test_v3_act3.c` 已驗證 `T-2 → T-1 → T0` 單調推進與評估視圖；四至五幕之 `T+1` 獸潮與 `T+2` 改革仍待後續劇本接軌。
 7. **世界狀態與 NPC 動態狀態**：本批使用既有 event metrics/facts，不自創 NPC state 欄位；NPC 職務、態度、出場位置與派系立場需後續由世界狀態服務接管。
 8. **任務失敗與重試**：一般 `once` 任務的逾時、放棄、重試與永久失敗政策仍需釐清；事件任務依 `deadline_stage` 判斷過期。
 9. **物品與證據（Act 1–2 已實裝 16 項物件）**：於 `/clone/item/` 累積建立 8 項 Act 1 道具 ＋ 8 項 Act 2 新道具（`tool_star_observation_plate`、`yanshan_broken_arrow`、`bahuang_logistics_copy`、`tiangong_anchor_blueprint`、`pill_reverse_dao_life`、`sample_discarded_pill`、`ev3_private_purchase_ledger`、`cyan_crystal_filament_vial`）並復用既有 `dao_crystal.c`；三至五幕高階遺物尚待建立。

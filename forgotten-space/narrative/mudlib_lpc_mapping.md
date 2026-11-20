@@ -47,18 +47,18 @@ mudscript/forgotten-space/
 │   ├── quest_engine_d.c    # 宣告式任務狀態機核心引擎 (QUEST_ENGINE_D，支援 talk, deliver, action, kill, item)
 │   └── career_d.c          # 職業導引與技能晉升守護
 │
-├── quests/                 # 【02 Rules & 04 Narratives】宣告式標準 JSON 任務定義庫 (共 63 份 JSON，含 Tier 2 Vol 3 共 25 份)
+├── quests/                 # 【02 Rules & 04 Narratives】宣告式標準 JSON 任務定義庫 (共 64 份 JSON，含 Tier 2 Vol 3 共 26 份)
 │   ├── career/             # 三大流派職業日常任務鏈（7 份）
 │   ├── loop/               # 採藥、採礦、狩獵循環任務（herb_loop, mining_loop, pelt_loop 共 3 份）
 │   ├── encounter/          # 史前遺物奇遇與殘圖拼合任務（enc_black_iron, enc_map_fusion 等 6 份）
-│   ├── main/               # 一至三卷主線任務鏈（含 Tier 2 Act 1–2 共 12 條已實裝主線與 Act 3–4 初稿共 26 份）
-│   ├── side/               # 市井日常、身世機緣與寒原／偏峰／鬼哭冰澗支線（共 5 份）
-│   ├── event/              # 世界危機事件連動任務（含 Vol 3 事件任務 4 份初稿共 13 份）
-│   └── epic/               # 跨卷大型史詩任務鏈（含 `v3_five_relic_resonance`、`v3_tier2_departure` 等 3 份）
+│   ├── main/               # 一至三卷主線任務鏈（含 Tier 2 Act 1–3 共 14 條已實裝主線與 Act 4 初稿共 26 份）
+│   ├── side/               # 市井日常、身世機緣與寒原／偏峰／鬼哭冰澗／戰神遺塚支線（共 6 份）
+│   ├── event/              # 世界危機事件連動任務（含 Vol 3 事件任務 Act 3 `v3_preserve_field_evidence` 等 13 份）
+│   └── epic/               # 跨卷大型史詩任務鏈（含已實裝 `v3_five_relic_resonance` 與初稿 `v3_tier2_departure` 等 3 份）
 │
 ├── clone/                  # 【03 State】實體化角色與道具複製物
-│   ├── npc/                # 含第三卷第一至二幕 33 名實裝具名／複用別名 NPC 與 2 頭二階荒獸（`ironback_wolf`、`iron_yak`）
-│   └── item/               # 含第三卷第一至二幕 16 項新實裝道具與證物（另復用 `dao_crystal.c`）
+│   ├── npc/                # 含第三卷第一至三幕 41 個新建 `/clone/npc/*.c`（具名 NPC、私盟大執事與 4 種二階荒獸／傀儡，另複用 `mo_beggar`、`under_black_market_broker`）
+│   └── item/               # 含第三卷第一至三幕 25 項新實裝道具與證物（另復用 `dao_crystal.c`）
 │
 ├── secure/                 # 【02 Rules】特權管理與核心系統模組
 │   ├── master.c            # Master Object 系統核心
@@ -98,7 +98,7 @@ mudscript/forgotten-space/
 | **金石府城治理** | `/daemon/city_d.c` | `CITY_D` | 四關稅則、72 小時兩階段居留法、絕靈法網、通寶信用凍結、五欄證物保管鏈、三印合符與三方會審 |
 | **長途旅行引擎** | `/daemon/travel_d.c` | `TRAVEL_D` |  관리 12 條縣際路段通行檢定、重車限制、精力與飲食扣除、時間壓縮與個人旅途天數累計 |
 | **NPC 生命週期** | `/daemon/phase_d.c` | `PHASE_D` | 管理核心具名 NPC 的十二時辰作息位移、世界事件相位覆寫與退場保護 |
-| **任務狀態機引擎** | `/daemon/quest_engine_d.c` | `QUEST_ENGINE_D` | 統一掃描 `/quests/**/*.json`（共 63 份，含 Vol 3 Act 1–2 共 15 條可執行任務），處理 `talk`、`deliver`、`action`、`kill`、`item` 事件與冪等發獎 |
+| **任務狀態機引擎** | `/daemon/quest_engine_d.c` | `QUEST_ENGINE_D` | 統一掃描 `/quests/**/*.json`（共 64 份，含 Vol 3 Act 1–3 共 20 條已實裝任務），處理 `talk`、`deliver`、`action`、`kill`、`item` 事件與冪等發獎 |
 | **武學與資格庫** | `/secure/skill_d.c` | `SKILL_D` | 5 大初級心法、一階三道轉職、六縣 18 處地方分舵等效發證 (`grant_county_initiation`) 與總堂掛單 (`register_at_headquarters`) |
 | **三元戰鬥守護** | `/secure/combat_d.c` | `COMBAT_D` | 力／法／物 14 式招式、三角生剋（力剋法、法剋物、物剋力）、內城絕靈法網反噬與度牒豁免檢核 |
 

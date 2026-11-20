@@ -1,16 +1,17 @@
 # 角色檔案：白岩（北荒前哨醫師）
 
 > `character_id`: `bai_yan`  
-> `status`: `proposed`  
+> `status`: `canon (Act 3 實裝)`  
 > `faction`: 北荒裂谷  
 > `path/domain`: 醫療  
-> `home_room`: `/d/wastes/north_outpost_infirmary`
+> `home_room`: `/d/wastes/north_outpost_infirmary.c`  
+> `mudlib_path`: `/clone/npc/bai_yan.c`
 
 ## 基本資料
 
 - **姓名／稱謂**：白岩／北荒前哨醫師
 - **所屬**：北荒裂谷
-- **活動地點**：`/d/wastes/north_outpost_infirmary`
+- **活動地點**：`/d/wastes/north_outpost_infirmary.c`
 - **角色定位**：Tier 2 世界人物；其職能、知情範圍與利益關係以本檔為界。
 
 ## 人物設定與敘事功能
@@ -35,12 +36,12 @@
 
 | 欄位 | 初始值 |
 |---|---|
-| 首次登場 | 第三卷待排章節 |
-| 首次接觸方式 | 正式差遣／交易／事故／日常生活，依章節安排 |
-| 當前狀態 | 存活（燕山除外：失蹤待查） |
-| 關係變化 | 待事件帳更新 |
-| 相關事件 | `EV3xx` 待綁定 |
-| 相關任務 | 第一階段不建立任務 JSON，第二階段綁定 |
+| 首次登場 | 第三卷第 103 章（永凍血原臨時前哨醫帳；第 102 章提及肺部病例） |
+| 首次接觸方式 | 排斥世家子弟空談試藥後與顧玄合做車夫左腕半寸「雪線續脈膏」雙盲對照實驗，一夜見效消腫七成遂攤開《採冰礦肺部染煞病例簿》共簽歸檔（Ch. 103） |
+| 當前狀態 | 存活 |
+| 關係變化 | Ch. 103 經實證實驗轉為醫理同行戰友，後續雙人封蠟簽押方舟冷卻母液樣本與肺部染煞對照紀錄 |
+| 相關事件 | `EV311`、`EV314`、`EV319` |
+| 相關任務 | `v3_north_wastes_expedition`（步驟 4）、`v3_preserve_field_evidence`（步驟 2 樣本封存） |
 
 ## 寫作限制
 

@@ -13,7 +13,7 @@
 | `star_law_hall` | 太清玄天宮・周天星律院 | `/d/sects/taiqing/star_law_hall.c` | `south`→`outer_court`、`north`→`hidden_archive`、`east`→`outer_observatory`、`northeast`→`quiet_peak` | 〔實裝，Ch. 86、91〕星曆校讀、測算與實證封存；駐點：`song_zhiwei`（宋知微） |
 | `hidden_archive` | 太清玄天宮・藏星秘閣 | `/d/sects/taiqing/hidden_archive.c` | `south`→`star_law_hall` | 〔實裝，Ch. 91〕天柱背陰花崗岩山腹；《紫微星官錄》三版本與蟲蛀舊箱廢頁（動作 `collate archive`）；駐點：`yu_shouzhuo`（余守拙） |
 | `outer_observatory` | 太清玄天宮・天柱觀星台 | `/d/sects/taiqing/outer_observatory.c` | `west`→`star_law_hall`、`north`→`quiet_peak` | 〔實裝，Ch. 91〕黃銅渾儀朔望雙向盲測與暴雪氣壓誤差校驗（動作 `observe sphere`） |
-| `quiet_peak` | 太清後山・清修偏峰 | `/d/sects/taiqing/quiet_peak.c` | `southwest`→`star_law_hall`、`south`→`outer_observatory`、`north`→`ascension_platform` | 〔實裝，Ch. 92〕老松亭與簡素真人崖壁柴扉石屋；駐點：`jian_su`（簡素真人） |
+| `quiet_peak` | 太清後山・清修偏峰 | `/d/sects/taiqing/quiet_peak.c` | `southwest`→`star_law_hall`、`south`→`outer_observatory`、`north`→`ascension_platform` | 〔實裝，Ch. 92、111〕老松亭與簡素真人崖壁柴扉石屋；駐點：`jian_su`（簡素真人）、`yuan_qing`（元青，Lv.73 早期晶化弟子） |
 | `ascension_platform` | 太清偏峰・升仙台石築靈堂 | `/d/sects/taiqing/ascension_platform.c` | `south`→`quiet_peak` | 〔實裝，Ch. 92 新增〕鶴鳴真人玉化晶像與主聚星抽取陣紋（動作 `collect crystal`）；駐點：`xuan_ming`（玄冥真人） |
 | `thunder_talisman_hall` | 太清雷符殿 | `/d/sects/taiqing/thunder_talisman_hall.c` | `draft` | 〔draft〕雷符訓練、護山陣維護與執法調度 |
 | `sealed_observatory` | 封存觀測室 | `/d/sects/taiqing/sealed_observatory.c` | `draft`（區域出口／劇情門禁） | 〔draft〕劇情門禁（Ch. 124）；保管被封存的異常觀測檔案 |
