@@ -22,6 +22,27 @@ void create() {
     ]));
 
     set("is_outdoor", 1);
+
+    set_bg_sensory("daoist", HIC "【破落道童感官】山巔罡風吹衣欲裂，你眉心無垢靈台清澈如鏡，能清晰感知白石殘壇卦紋與老松盤根下死寂冷晶的吸魂寒意。" NOR);
+    set_bg_sensory("herbalist", CYN "【採藥感官】崖畔老松向陰處的松針凝著奇異的灰白死霜，尋常草木在此寸草不生，唯有老松根系異常粗黑。" NOR);
+    set_bg_sensory("smith", YEL "【百工感官】坍塌的白石法壇並非凡間石匠砌成，斷口處隱約可見幾何對稱的導流凹槽，與溪灘石板出自同一時代。" NOR);
+    set_bg_sensory("hunter", MAG "【獵戶感官】站在數十丈危岩之巔，東林林冠的紅霧與北崖礦場的煙塵盡收眼底，風裡沒有半點鳥獸敢靠近此處。" NOR);
+    set_bg_sensory("beggar", WHT "【市井感官】這鬼地方冷得骨頭縫發疼，連半文香火錢都沒有，唯有崖下黑石鋪街市的炊煙看著讓人踏實。" NOR);
+}
+
+string query_touch(string target) {
+    if (target == "pine" || target == "root" || target == "老松" || target == "樹根") {
+        return HIW "你伸手觸碰老松向陰的主根，指尖瞬間被一層死寂灰白冷霜刺得發麻——樹根堅硬如鐵，底下似乎死死箍著某種冰冷如玉的骨骸（search pine）。" NOR;
+    }
+    return CYN "你撫過坍塌的白石法壇，風化千年的陰陽卦紋粗糲刺手，山巔罡風刮過手背如刀割般生疼。" NOR;
+}
+
+string query_smell(string target) {
+    return HIC "高空完全遠離了市井牲畜的煙火騷氣，只有刺骨凜冽的高山寒風、陳年枯松針與一絲若有若無的冷晶死氣。" NOR;
+}
+
+string query_listen(string target) {
+    return WHT "萬丈深淵罡風呼嘯如鬼哭，老松枝葉在狂風中劇烈搖曳，偶爾彷彿能聽見九天雲層極高處傳來鎖鏈繃緊的微弱冷鳴。" NOR;
 }
 
 void init() {

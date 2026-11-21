@@ -24,6 +24,38 @@ void create() {
     spawn_npc("/clone/npc/lao_miner.c");
     spawn_npc("/clone/npc/mine_rat.c");
     spawn_npc("/clone/npc/mine_rat.c");
+
+    set_bg_sensory("smith", YEL "【百工感官】你一眼看出洞口支撐木樑的受力已經偏斜，岩壁裂紋處殘留著官禁開山雷管定向爆破的焦黑火痕！" NOR);
+    set_bg_sensory("herbalist", CYN "【採藥感官】礦洞深處湧出的陰風帶著刺鼻的血精煞毒與硫磺石粉，老礦工咳出的黑痰裡已有輕微晶化徵兆。" NOR);
+    set_bg_sensory("hunter", MAG "【獵戶感官】礦道口的灰鼠成群往外逃竄，這是地底岩層即將發生次生震動或地煞噴發的先兆。" NOR);
+    set_bg_sensory("daoist", HIC "【道童感官】北崖斷層深處有一股狂暴的地煞靈脈正被外力強行撕開，濁氣順著古礦道源源不斷外溢。" NOR);
+    set_bg_sensory("beggar", WHT "【市井感官】地上散落的鐵鎬與絞盤索具全是官造制式旁邊剔下來的舊貨，礦工手上的血泡說明最近有人在強逼趕工。" NOR);
+}
+
+string query_touch(string target) {
+    object ws = load_object(WORLD_STATE_D);
+    int collapsed = ws ? ws->is_mine_collapsed() : 0;
+    int stab = ws ? ws->query_mine_stability() : 70;
+    if (collapsed) {
+        return HIR "你手掌按在堵死洞口的萬斤黑石巨岩上，斷裂面還殘留著火藥爆破後的刺手焦溫與硫磺結晶，岩層仍在微微震顫！" NOR;
+    }
+    return sprintf(YEL "你伸手觸摸黝黑的礦脈石壁，粗糲的鐵青色礦紋冰冷刺骨，指尖能感覺到地底深處傳來的細微震動（當前岩層穩定度 %d%%）。" NOR, stab);
+}
+
+string query_smell(string target) {
+    object ws = load_object(WORLD_STATE_D);
+    if (ws && ws->is_mine_collapsed()) {
+        return HIR "濃重的石粉煙塵中夾雜著刺鼻的官禁硝火雷管餘味與地底湧出的暗紅血精腥氣！" NOR;
+    }
+    return CYN "山風裡滿是黑石礦粉的鐵腥味、老礦工身上的汗酸，以及從幽暗礦洞深處滲出的陰涼地煞氣息。" NOR;
+}
+
+string query_listen(string target) {
+    object ws = load_object(WORLD_STATE_D);
+    if (ws && ws->is_mine_collapsed()) {
+        return HIR "碎石簌簌滾落的悶響、老礦工焦急的喘息聲，與地底深處被困者的微弱敲擊回音交織在一起！" NOR;
+    }
+    return WHT "幽暗礦洞深處傳來空洞的滴水聲、生鐵軌道微弱的金屬共鳴，以及山風掠過黑石斷崖的呼嘯。" NOR;
 }
 
 string query_long() {

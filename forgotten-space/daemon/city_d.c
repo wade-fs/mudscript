@@ -745,3 +745,295 @@ void city_tick(int game_time) {
         }
     }
 }
+
+// ── 12. 物證污染 / 修復與主動出示、互相印證系統 (Evidence Presentation & Corroboration) ──
+string normalize_evidence_id(object ev_ob, string raw_id) {
+    string id = raw_id ? lower_case(raw_id) : "";
+    if (ev_ob) {
+        string bn = base_name(ev_ob);
+        if (strsrch(bn, "detonator_serial_ledger") != -1) return "detonator_serial_ledger";
+        if (strsrch(bn, "liefan_clay_batch") != -1) return "liefan_clay_batch";
+        if (strsrch(bn, "relay_poison_sample") != -1) return "relay_poison_sample";
+        if (strsrch(bn, "miner_thumbprints") != -1) return "miner_thumbprints";
+        if (strsrch(bn, "under_canal_deed") != -1) return "under_canal_deed";
+        if (strsrch(bn, "custody_ledger") != -1) return "custody_ledger";
+        if (strsrch(bn, "crucible_bing_7") != -1) return "crucible_bing_7";
+        if (strsrch(bn, "yunji_roster") != -1) return "yunji_roster";
+        if (strsrch(bn, "bronze_treaty_plate") != -1) return "bronze_treaty_plate";
+        if (strsrch(bn, "tianmen_token") != -1) return "tianmen_token";
+        if (ev_ob->query("evidence_id")) return ev_ob->query("evidence_id");
+    }
+    if (id == "detonator" || id == "雷管批號" || id == "簽領簿") return "detonator_serial_ledger";
+    if (id == "clay" || id == "耐火泥") return "liefan_clay_batch";
+    if (id == "poison" || id == "毒囊" || id == "毒樣") return "relay_poison_sample";
+    if (id == "thumbprints" || id == "血手印" || id == "供狀") return "miner_thumbprints";
+    if (id == "deed" || id == "底單" || id == "舊商盟底單") return "under_canal_deed";
+    if (id == "crucible" || id == "坩堝") return "crucible_bing_7";
+    return id;
+}
+
+// 觸發物證污染（例如攜帶未封存紙本底單或毒樣涉過暗渠污水或遭暴雨浸泡）
+mapping contaminate_evidence(object ev_ob, string reason) {
+    if (!ev_ob) return ([ "contaminated": 0, "msg": "無效物證" ]);
+    if (ev_ob->query("sealed_custody")) {
+        return ([
+            "contaminated": 0,
+            "msg": sprintf("【封存完好】%s 已由火漆或封靈玉瓶嚴密封存，未受「%s」污染。", ev_ob->query_short(), reason ? reason : "外在環境")
+        ]);
+    }
+    ev_ob->set("contaminated", 1);
+    ev_ob->set("contamination_reason", reason ? reason : "保管不當受潮污損");
+    return ([
+        "contaminated": 1,
+        "reason": ev_ob->query("contamination_reason"),
+        "msg": sprintf(HIR "【物證污染警告】%s 因「%s」導致墨跡暈染或樣本受污，保管鏈出現瑕疵！須找案牘主簿文承敬或醫館白先生重新鑑定封存。" NOR,
+                       ev_ob->query_short(), ev_ob->query("contamination_reason"))
+    ]);
+}
+
+// 由權威公證人（文承敬 / 白先生 / 歐陽大師）修復或封存認證物證
+mapping certify_or_cleanse_evidence(object me, object ev_ob, object certifier) {
+    if (!ev_ob) return ([ "certified": 0, "msg": "無效物證" ]);
+    string cname = certifier ? certifier->query_name() : "公證官";
+    int was_contaminated = ev_ob->query("contaminated");
+    ev_ob->set("contaminated", 0);
+    ev_ob->set("sealed_custody", 1);
+    ev_ob->set("certified", 1);
+    ev_ob->set("certified_by", cname);
+
+    string ev_id = normalize_evidence_id(ev_ob, "");
+    object em = load_object(EVENT_MANAGER_D);
+    if (em && ev_id != "") {
+        em->register_evidence(ev_id, ([
+            "name": ev_ob->query_short(),
+            "strength": 2,
+            "source_type": "certified_physical",
+            "verified": 1
+        ]));
+    }
+
+    return ([
+        "certified": 1,
+        "cleansed": was_contaminated ? 1 : 0,
+        "msg": sprintf(HIG "【公證封存完畢】%s 仔細比對底檔印鑑與殘留理化特徵，為 %s 重新加蓋火漆封條與核驗印記（保管鏈完整，已具呈堂效力）！" NOR,
+                       cname, ev_ob->query_short())
+    ]);
+}
+
+// 評估玩家已出示物證集合的「互相印證（Mutual Corroboration）」協同效應
+mapping evaluate_corroboration_synergy(string *presented_ids) {
+    if (!presented_ids) presented_ids = ({});
+    int has_detonator = (member_array("detonator_serial_ledger", presented_ids) != -1);
+    int has_clay      = (member_array("liefan_clay_batch", presented_ids) != -1);
+    int has_crucible  = (member_array("crucible_bing_7", presented_ids) != -1);
+    int has_miners    = (member_array("miner_thumbprints", presented_ids) != -1);
+    int has_deed      = (member_array("under_canal_deed", presented_ids) != -1);
+    int has_poison    = (member_array("relay_poison_sample", presented_ids) != -1);
+    int has_custody   = (member_array("custody_ledger", presented_ids) != -1);
+
+    string *synergies = ({});
+    int bonus_weight = 0;
+
+    // 1. 礦難蓄意爆破與私煉鐵證鏈（雷管批號 + 坩堝/耐火泥 + 倖存礦工血手印）
+    if (has_detonator && (has_clay || has_crucible) && has_miners) {
+        synergies += ({ "mine_sabotage_triad" });
+        bonus_weight += 3;
+    }
+    // 2. 雙帳咬合與三十年前產權黑幕（暗渠舊商盟底單 + 保管鏈/耐火泥稅單）
+    if (has_deed && (has_custody || has_clay)) {
+        synergies += ({ "double_ledger_match" });
+        bonus_weight += 2;
+    }
+    // 3. 物流投毒滅口鏈（驛站毒樣 + 暗渠底單/礦工供狀）
+    if (has_poison && (has_deed || has_miners)) {
+        synergies += ({ "poison_silencing_chain" });
+        bonus_weight += 2;
+    }
+
+    string tier = "isolated_lead";
+    string summary = "【孤證難鳴】目前僅出示單一面向物證，涉案勢力極易推脫為「下屬盜印」或「意外巧合」，尚不足以令三方會審拍板定案。";
+    if (sizeof(synergies) >= 2 || bonus_weight >= 4) {
+        tier = "ironclad_chain";
+        summary = HIY "【雙帳咬合・鐵證如山】多源獨立物證互相印證閉合！軍需出庫、百工坩堝、暗渠底單與活人血手印環環相扣，徹底封死錢百川一切卸責退路！" NOR;
+    } else if (sizeof(synergies) == 1 || sizeof(presented_ids) >= 2) {
+        tier = "corroborated";
+        summary = HIG "【交叉印證・信任質變】物證之間已形成跨部門互鎖（軍需／百工／人證互相咬合），主審官員的態度由謹慎觀望轉為正式採信！" NOR;
+    }
+
+    return ([
+        "tier": tier,
+        "synergies": synergies,
+        "bonus_weight": bonus_weight,
+        "count": sizeof(presented_ids),
+        "summary": summary
+    ]);
+}
+
+// 玩家主動向 NPC 出示物證 (present <item> to <npc>)，根據 NPC 立場與印證狀態返回差異化反應
+mapping present_evidence_to_npc(object me, object ev_ob, object npc) {
+    if (!me || !ev_ob || !npc) return ([ "handled": 0, "msg": "出示對象無效。" ]);
+
+    string ev_id = normalize_evidence_id(ev_ob, ev_ob->query_key_id());
+    string npc_path = base_name(npc);
+    string npc_name = npc->query_name();
+
+    // 1. 檢查物證是否受污染
+    if (ev_ob->query("contaminated")) {
+        // 若出示給文承敬或白先生，直接觸發公證修復與重新封存！
+        if (strsrch(npc_path, "wenchengjing") != -1 || strsrch(npc_path, "doctor_bai") != -1 ||
+            strsrch(npc_name, "文承敬") != -1 || strsrch(npc_name, "白先生") != -1) {
+            mapping clean_res = certify_or_cleanse_evidence(me, ev_ob, npc);
+            return ([
+                "handled": 1,
+                "status": "cleansed_and_certified",
+                "ev_id": ev_id,
+                "msg": sprintf(CYN "%s 接過受污的 %s，眉頭微蹙：「保管鏈怎可如此疏忽！幸好底紋火印與殘留藥理尚存，老夫這便為你重新比對封存。」\n" NOR "%s",
+                               npc_name, ev_ob->query_short(), clean_res["msg"])
+            ]);
+        }
+        return ([
+            "handled": 1,
+            "status": "rejected_contaminated",
+            "ev_id": ev_id,
+            "msg": sprintf(HIR "%s 瞥了一眼 %s，搖頭沉聲道：「此物墨跡暈染、封條破損（%s），在公堂上必被錢百川反咬為偽造！快去請案牘庫文主簿或杏林白先生重新核驗封存！」" NOR,
+                           npc_name, ev_ob->query_short(), ev_ob->query("contamination_reason") ? ev_ob->query("contamination_reason") : "保管鏈瑕疵")
+        ]);
+    }
+
+    // 2. 記錄已向該 NPC / 全域出示的物證清單
+    string *presented = me->query_temp("presented_evidence_list");
+    if (!arrayp(presented)) presented = ({});
+    if (ev_id != "" && member_array(ev_id, presented) == -1) {
+        presented += ({ ev_id });
+        me->set_temp("presented_evidence_list", presented);
+    }
+
+    mapping syn = evaluate_corroboration_synergy(presented);
+
+    // 同步登錄至 EVENT_MANAGER_D
+    object em = load_object(EVENT_MANAGER_D);
+    string actor_role = "observer";
+    if (strsrch(npc_path, "yamen_magistrate") != -1 || strsrch(npc_name, "秦正明") != -1) actor_role = "judge";
+    else if (strsrch(npc_path, "wenchengjing") != -1 || strsrch(npc_name, "文承敬") != -1) actor_role = "inspector";
+    else if (strsrch(npc_path, "chen_zhenshan") != -1 || strsrch(npc_path, "wu_bashan") != -1 || strsrch(npc_name, "陳鎮山") != -1 || strsrch(npc_name, "霸山") != -1) actor_role = "commander";
+
+    if (em && ev_id != "") {
+        mapping reg_def = EVIDENCE_REGISTRY[ev_id];
+        em->register_evidence(ev_id, ([
+            "name": reg_def ? reg_def["name"] : ev_ob->query_short(),
+            "strength": (syn["tier"] == "ironclad_chain" ? 3 : 2),
+            "source_type": reg_def ? reg_def["tribunal_domain"] : "general"
+        ]));
+        em->mark_evidence_seen(ev_id, actor_role);
+    }
+
+    // 3. 依據 NPC 立場與單證/互證狀態生成小說化反應
+    string reaction = "";
+    if (strsrch(npc_name, "秦正明") != -1 || strsrch(npc_path, "yamen_magistrate") != -1) {
+        if (syn["tier"] == "isolated_lead") {
+            reaction = sprintf(CYN "府尹秦正明凝視著 %s，手指輕敲驚堂木，沉吟道：「此物確有疑點，但單憑這一件孤證，商會隨時能推給下面管事頂罪。你若能再找來百工坩堝暗帳與活人血手印互相印證，本府才能動用荒政律拿人！」" NOR, ev_ob->query_short());
+        } else {
+            reaction = sprintf(HIY "府尹秦正明猛然拍案而起，目光如電掃過 %s 與前番呈堂諸證：「好！軍需雷管、百工耐火泥、暗渠雙帳與礦工血手印環環咬死！來人，備府衙大印，即刻召開三方會審！」" NOR, ev_ob->query_short());
+        }
+    } else if (strsrch(npc_name, "文承敬") != -1 || strsrch(npc_path, "wenchengjing") != -1) {
+        ev_ob->set("certified", 1);
+        ev_ob->set("sealed_custody", 1);
+        reaction = sprintf(HIG "案牘主簿文承敬推了推花鏡，取出三十年前底冊與 %s 逐字比對，指尖微微發顫：「字跡、火印、騎縫章分毫不差！老夫這便加蓋案牘庫公證火漆，為你鎖死這條保管鏈！」" NOR, ev_ob->query_short());
+    } else if (strsrch(npc_name, "莫錘") != -1 || strsrch(npc_name, "歐陽") != -1 || strsrch(npc_path, "gong_") != -1) {
+        reaction = sprintf(HIR "%s 接過 %s，粗大的指節捏得咯咯作響，怒喝道：「丙字柒號特規坩堝與烈礬耐火泥竟被拿去私煉地煞血精！這群敗類辱沒百工祖師，百工總會這一票，投定了！」" NOR, npc_name, ev_ob->query_short());
+    } else if (strsrch(npc_name, "陳鎮山") != -1 || strsrch(npc_name, "霸山") != -1 || strsrch(npc_name, "雷震") != -1) {
+        if (syn["tier"] == "isolated_lead") {
+            reaction = sprintf(YEL "%s 盯著 %s 冷哼一聲：「軍鎮虎符豈能因一紙孤證輕動？把百工出庫火印或生還礦工供狀一併拿來，本將絕不護短！」" NOR, npc_name, ev_ob->query_short());
+        } else {
+            reaction = sprintf(HIR "%s 虎目圓睜，一掌按在刀柄上：「竟敢盜用邊軍雷管炸塌民礦、截留軍餉！多證互鎖之下鐵證如山，鎮武軍鎮願出虎符與府衙合符拿人！」" NOR, npc_name);
+        }
+    } else if (strsrch(npc_name, "錢百川") != -1 || strsrch(npc_name, "錢不換") != -1) {
+        if (syn["tier"] == "isolated_lead") {
+            reaction = sprintf(WHT "%s 眼皮都沒抬，冷笑道：「就憑這點捕風捉影的破紙片也想攀咬金石商會？不過是底下帳房手腳不乾淨罷了，你能奈我何？」" NOR, npc_name);
+        } else {
+            reaction = sprintf(HIR "%s 看見 %s 與雙帳鐵證並陳，臉色瞬間煞白，額角青筋暴跳，退後半步厲聲道：「你們……你們竟從暗渠死水裡把三十年前的底單翻出來了？！」" NOR, npc_name, ev_ob->query_short());
+        }
+    } else {
+        reaction = sprintf(CYN "%s 仔細端詳著你出示的 %s，神色微變：「原來坊間傳聞竟是真的……這件物證可要收好，千萬別落入商會暗探手裡！」" NOR, npc_name, ev_ob->query_short());
+    }
+
+    return ([
+        "handled": 1,
+        "status": syn["tier"],
+        "ev_id": ev_id,
+        "corroboration": syn,
+        "msg": reaction + "\n" + syn["summary"]
+    ]);
+}
+
+// ── 13. 嚴格區分「會做（Skill）」與「有資格做（Social Qualification / Residency）」 ──
+mapping check_qualification_vs_skill(object me, string domain, string action_name) {
+    if (!me) return ([ "allowed": 0, "reason": "invalid_user" ]);
+    if (!action_name || action_name == "") action_name = "公開執業";
+
+    // 1. 先檢查三日通牒居留狀態
+    mapping res = check_user_residency(me);
+    if (res["status"] == "unregistered_vagrant" || res["status"] == "buffer_expired") {
+        return ([
+            "allowed": 0,
+            "reason": "unregistered_residency",
+            "msg": sprintf(HIR "【會做 ≠ 有資格做：無籍流民禁令】你雖具備相關技藝，但目前在金石府屬「無籍流民」（三日通牒逾期未立籍），府衙巡防隊嚴禁無籍者在城內公開進行「%s」！" NOR, action_name)
+        ]);
+    }
+
+    mapping quals = me->query_qualifications();
+    if (!mapp(quals)) quals = ([]);
+
+    string req_lic = "";
+    string req_title = "";
+    string guild_authority = "";
+
+    if (domain == "medical" || domain == "clinic" || domain == "醫道") {
+        req_lic = "lic_apothecary";
+        req_title = "杏林坐堂醫士資格";
+        guild_authority = "杏林醫館與百草堂";
+    } else if (domain == "forge" || domain == "craft" || domain == "百工") {
+        req_lic = "lic_artisan";
+        req_title = "百工正式匠籍";
+        guild_authority = "府城百工總會";
+    } else if (domain == "escort" || domain == "martial" || domain == "武館") {
+        req_lic = "lic_escort_guard";
+        req_title = "外門黑鐵腰牌／護院武籍";
+        guild_authority = "八方武館與城防司";
+    } else if (domain == "diviner" || domain == "dao" || domain == "法道") {
+        req_lic = "lic_diviner";
+        req_title = "宣道司大乾度牒";
+        guild_authority = "金石府宣道司";
+    } else if (domain == "commerce" || domain == "broker" || domain == "行商") {
+        req_lic = "lic_broker";
+        req_title = "通寶牙行經紀印牌";
+        guild_authority = "金石商會與通寶牙行";
+    }
+
+    int has_qual = 0;
+    if (req_lic != "") {
+        if (quals[req_lic] || present(req_lic, me) || me->query("qualification/" + req_lic)) {
+            has_qual = 1;
+        }
+    } else {
+        has_qual = 1;
+    }
+
+    if (!has_qual) {
+        return ([
+            "allowed": 0,
+            "reason": "missing_qualification",
+            "required_license": req_lic,
+            "msg": sprintf(YEL "【手藝與法統之別】你的技藝造詣或許足以勝任「%s」，但在金石府城，「會做」不等於「有資格做」！\n"
+                               "未持【%s (%s)】而私自公開執業，將遭 %s 與府衙巡檢聯手取締。請先完成立籍與行會考核。" NOR,
+                           action_name, req_title, req_lic, guild_authority)
+        ]);
+    }
+
+    return ([
+        "allowed": 1,
+        "reason": "qualified",
+        "required_license": req_lic,
+        "msg": sprintf(HIG "【行會資格核驗通過】你出示【%s】，合法在金石府執行「%s」。" NOR, req_title, action_name)
+    ]);
+}

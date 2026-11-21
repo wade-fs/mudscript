@@ -186,3 +186,48 @@ void tick(int game_time) {
         }
     }
 }
+
+// ── 8. 傳聞衰減與市井扭曲機制 (Rumor Decay & Distortion vs Truth) ──
+// 俗民經三次轉述後的傳聞往往將制度性腐敗扭曲為「山鬼作祟」或「流寇劫道」；
+// 唯有乞兒身世 (beggar)、高感知 (per >= 25) 或已掌握實證者，能從市井雜訊中聽出幕後真相。
+mapping query_distorted_rumor(string topic, object listener) {
+    object ws_d = find_object(WORLD_STATE_D);
+    if (!ws_d) ws_d = load_object(WORLD_STATE_D);
+
+    string surface_hearsay = "";
+    string hidden_truth = "";
+    int distortion_hops = 3;
+
+    if (!topic || topic == "" || topic == "caravan" || topic == "商隊") {
+        string delay = ws_d ? ws_d->query_caravan_delay_reason() : "虎跳峽落石封路";
+        string truth = ws_d ? ws_d->query_caravan_truth_reason() : "金石商會與黑石關巡防營暗中扣留物資哄抬市價";
+        surface_hearsay = sprintf("【三手市井傳聞（失真度 70%%）】茶客繪聲繪影地說：「聽說南嶺山神發怒降下天雷巨石（%s），連山魈野鬼都出來吃人啦，大家快去搶購高價米糧！」", delay);
+        hidden_truth = sprintf("【聽風破妄・幕後實情】你從茶客誇大其詞的傳聞裡剔除鬼神噱頭，精準捕捉到車夫隨口漏出的車轍印深淺——所謂天災封路純屬幌子，真相實為：%s！", truth);
+    } else if (topic == "mine" || topic == "礦難" || topic == "blackstone") {
+        surface_hearsay = "【三手市井傳聞（失真度 65%）】街頭巷尾都在傳：「黑石鋪北崖礦工挖斷了山龍地脈，惹怒了地底火煞才遭了天譴塌方！」";
+        hidden_truth = "【聽風破妄・幕後實情】你冷笑一聲，從傳言裡的『悶雷三響』與『黃煙刺鼻』判斷：那絕非天然地脈塌方，而是城防司官禁連號雷管定向爆破封井！";
+    } else if (topic == "credit" || topic == "通寶" || topic == "銀票") {
+        surface_hearsay = "【三手市井傳聞（失真度 80%）】外城百姓慌亂傳言：「通寶當鋪的運銀大車在濁水澤被水鬼連人帶車拖進無底洞了，手裡的飛錢銀票全要變廢紙啦！」";
+        hidden_truth = "【聽風破妄・幕後實情】你留意到南關重車入城時青石板被壓出的兩寸深印——十二萬兩現銀分明早已運入南城商會暗庫，所謂水鬼劫銀不過是錢百川凍結跨縣清算的苦肉計！";
+    } else {
+        string raw = query_random_rumor(topic);
+        surface_hearsay = "【市井流言】" + raw;
+        hidden_truth = "【底層脈絡】" + raw;
+    }
+
+    int can_discern = 0;
+    if (listener) {
+        if (listener->query("background") == "beggar") can_discern = 1;
+        else if (listener->query_stat("per") >= 20 || listener->query("per") >= 20) can_discern = 1;
+        else if (arrayp(listener->query_temp("presented_evidence_list")) && sizeof(listener->query_temp("presented_evidence_list")) > 0) can_discern = 1;
+    }
+
+    return ([
+        "topic": topic ? topic : "caravan",
+        "distortion_hops": distortion_hops,
+        "surface_hearsay": surface_hearsay,
+        "hidden_truth": hidden_truth,
+        "can_discern_truth": can_discern,
+        "display_msg": can_discern ? (surface_hearsay + "\n" + HIY + hidden_truth + NOR) : surface_hearsay
+    ]);
+}

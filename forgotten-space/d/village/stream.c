@@ -32,7 +32,47 @@ void create() {
     set_required_int(2);
     set_inscription("太古天曆：逆行九宿，星軌反震，大清洗紀元始...");
 
+    set_bg_sensory("herbalist", CYN "【採藥感官】赤足踩在冰涼刺骨的鵝卵石上，腳趾縫沾著晨露草特有的微腥汁液與石縫幽藍微光。" NOR);
+    set_bg_sensory("smith", YEL "【百工感官】你聽見張屠戶柴刀刮過深青石板的脆響——那石板的硬度遠超尋常青石，倒像某種太古冷鍛合金。" NOR);
+    set_bg_sensory("hunter", MAG "【獵戶感官】水霧雖濃，你卻從下風處嗅出了上游山澗沖刷下來的淡淡硫磺與野獸飲水留下的腥氣。" NOR);
+    set_bg_sensory("daoist", HIC "【道童感官】深潭水氣寒徹骨髓，石板下方似乎有一股逆著周天星位的太古微瀾在輕輕搏動。" NOR);
+    set_bg_sensory("beggar", WHT "【市井感官】洗衣婦留下的皂角沫與屠戶磨刀的血水混在淺灘，你一眼就看出哪塊石頭不滑腳、哪條藤蔓能逃命。" NOR);
+
     spawn_npc("/clone/npc/zhang_butcher.c");
+}
+
+string query_touch(string target) {
+    object ws = load_object(WORLD_STATE_D);
+    int wl = ws ? ws->query_stream_water_level() : 50;
+    int moss_cleared = (ws && ws->is_moss_cleared()) || (this_player() && this_player()->query_temp("cleared_stele_moss"));
+    if (target == "stone" || target == "stele" || target == "石板" || target == "斷碑") {
+        if (wl >= 85) {
+            return HIR "狂暴山洪沒過石板，你剛伸手探入濁流便被刺骨急流與翻滾碎石撞得手腕生疼！" NOR;
+        }
+        if (!moss_cleared) {
+            return CYN "你伸手按上深青色石板，指腹滿是滑膩冰冷的厚青苔與皂角老垢；但用力下按時，仍能感覺到底下石胎堅硬得不像凡石。" NOR;
+        }
+        return HIY "你赤手撫過洗淨青苔的墨黑石胎——觸手冰寒如鐵、平滑如鏡，指腹老繭卻能清晰摩挲到那些深不足微米、邊緣鋒利如規尺刻出的逆向星軌凹槽！" NOR;
+    }
+    return CYN "你赤足踩在溪灘冰涼的鵝卵石上，刺骨寒意順著腳心直竄小腿，指尖拂過帶露的草葉，滿手清冽濕潤。" NOR;
+}
+
+string query_smell(string target) {
+    object ws = load_object(WORLD_STATE_D);
+    int wl = ws ? ws->query_stream_water_level() : 50;
+    if (wl >= 85) {
+        return YEL "空氣裡翻湧著山洪暴發帶來的濃重土腥味、斷裂腐木與上游沖下的微量地煞硫磺味。" NOR;
+    }
+    return HIG "濃重的濕冷水霧裡混著晨露草的清苦藥香、青苔的潮腥，以及婦人洗衣留下的淡淡皂角氣。" NOR;
+}
+
+string query_listen(string target) {
+    object ws = load_object(WORLD_STATE_D);
+    int wl = ws ? ws->query_stream_water_level() : 50;
+    if (wl >= 85) {
+        return HIR "瀑布化作狂暴黃龍轟鳴砸落，水底巨石相互撞擊發出沉悶如雷的滾動聲！" NOR;
+    }
+    return CYN "山澗自崖頂墜落的轟鳴聲中，夾雜著溪水拍打鵝卵石的嘩啦聲與柴刀磨過青石板的沙沙脆響。" NOR;
 }
 
 string query_long() {

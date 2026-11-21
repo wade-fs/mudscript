@@ -18,12 +18,43 @@ void create() {
 
     set_exits(([]));
     set("is_outdoor", 1);
+
+    set_bg_sensory("herbalist", CYN "【百草通玄感官】腳下灰白枯草並非凡間植物，而是半金屬化的噬靈菌絲；每一次呼吸都像吞入帶鐵鏽與苦杏仁味的冷霜。" NOR);
+    set_bg_sensory("smith", YEL "【天工造物感官】高原碎石中混雜著無數太古神械崩碎後的暗紅黑鐵螺紋殘片，正東地平線傳來萬物主機城巨型齒輪的低頻共振！" NOR);
+    set_bg_sensory("hunter", MAG "【荒血破障感官】風裡沒有半點凡間鳥獸的生機，西南焦土裂谷騰湧的洪荒凶煞血氣讓你的荒血本能地繃緊了弓弦。" NOR);
+    set_bg_sensory("daoist", HIC "【太虛演天感官】頭頂暗鐵青色天穹沒有二十八宿天羅鐵網，但此界濃烈三倍的太古源質正試圖主動同化你的神魂經絡！" NOR);
+    set_bg_sensory("beggar", WHT "【萬山共治感官】掌心【天門引】在跨界後變得滾燙，遠處荒野邊緣那幾點幽冷燈火，意味著此界仍有苟延殘喘的太古遺民聚落。" NOR);
+}
+
+string query_touch(string target) {
+    return HIC "你蹲下身抓起一把高原灰褐砂礫——砂石中混著鋒利的暗紅玄鐵碎屑與灰白鹽霜，枯死如鐵絲的草莖一折即發出金石脆響；掌心【天門引】正微微發燙。" NOR;
+}
+
+string query_smell(string target) {
+    return HIW "冰冷稀薄的空氣裡沒有半點桃花芬芳，只有一股濃烈的苦杏仁鹽霜味、焦土鐵鏽氣與高濃度太古源質的電離臭氧味。" NOR;
+}
+
+string query_listen(string target) {
+    return HIY "狂風捲著鐵砂掠過高原的嗚咽聲中，正東萬物主機城的低頻齒輪轟鳴、西南戰祖魔殿的裂谷煞嘯與正北太虛神宮的玉石冷鳴在天地間形成三極共振。" NOR;
 }
 
 void init() {
     ::init();
     add_action("do_gaze", "gaze");
     add_action("do_vision", "vision");
+    add_action("do_breathe", "breathe");
+    add_action("do_breathe", "吐納");
+}
+
+int do_breathe(string arg) {
+    object me = this_player();
+    if (!me) return 0;
+    tell_object(me, HIR
+        "【異界源質吐納警兆（第四卷法則）】\n"
+        "你試圖依凡間吐納法門吸納一口洞天靈氣——比凡間濃烈三倍的太古源質如滾燙鉛水般湧入經脈！\n"
+        "此界源質毫無假天濾網稀釋，兼具『玉石結晶化（法）』、『血肉狂暴畸變（力）』與『金屬電路同化（物）』三重侵蝕性，\n"
+        "你連忙以三元互濟之法強行鎖住氣海，方才將那股同化排異感壓下！\n" NOR);
+    return 1;
 }
 
 int do_gaze(string arg) {

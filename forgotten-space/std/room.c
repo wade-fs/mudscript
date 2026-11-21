@@ -13,6 +13,12 @@ mixed   item_ids;      // 房間內可互動的裝飾物描述表
 // 🚀 新增：隱藏元素 (用於 search)
 mapping hidden_elements; // ([ "id": ([ "type": "exit/item", "value": "...", "msg": "..." ]) ])
 
+// 🚀 新增：五感與物質反饋描述表 (touch / smell / listen) 與身世視角濾鏡
+mapping touch_descs;
+mapping smell_descs;
+mapping listen_descs;
+mapping bg_sensory_descs;
+
 // 🚀 新增空間座標 (注意：配合 Go 解析器限制，逐行宣告)
 int x;
 int y;
@@ -33,6 +39,10 @@ void create() {
     exits      = ([]);
     item_ids   = ([]);
     hidden_elements = ([]);
+    touch_descs = ([]);
+    smell_descs = ([]);
+    listen_descs = ([]);
+    bg_sensory_descs = ([]);
     x = 0;
     y = 0;
     z = 0;
@@ -108,6 +118,80 @@ void add_hidden_element(string id, mapping data) {
     hidden_elements[id] = data;
 }
 
+// ── 五感與身世濾鏡設定與查詢 ──────────────────────────────
+void set_touch(string target, string desc) {
+    if (!touch_descs) touch_descs = ([]);
+    if (!target || target == "") target = "default";
+    touch_descs[target] = desc;
+}
+
+void set_smell(string target, string desc) {
+    if (!smell_descs) smell_descs = ([]);
+    if (!target || target == "") target = "default";
+    smell_descs[target] = desc;
+}
+
+void set_listen(string target, string desc) {
+    if (!listen_descs) listen_descs = ([]);
+    if (!target || target == "") target = "default";
+    listen_descs[target] = desc;
+}
+
+void set_bg_sensory(string bg_id, string desc) {
+    if (!bg_sensory_descs) bg_sensory_descs = ([]);
+    if (!bg_id || bg_id == "") return;
+    bg_sensory_descs[bg_id] = desc;
+}
+
+string query_touch(string target) {
+    if (!touch_descs) return 0;
+    if (!target || target == "") target = "default";
+    if (touch_descs[target]) return touch_descs[target];
+    return touch_descs["default"];
+}
+
+string query_smell(string target) {
+    if (!smell_descs) return 0;
+    if (!target || target == "") target = "default";
+    if (smell_descs[target]) return smell_descs[target];
+    return smell_descs["default"];
+}
+
+string query_listen(string target) {
+    if (!listen_descs) return 0;
+    if (!target || target == "") target = "default";
+    if (listen_descs[target]) return listen_descs[target];
+    return listen_descs["default"];
+}
+
+string query_bg_sensory_line(object who) {
+    if (!who) return "";
+    string bg = who->query("background");
+    if (!bg || bg == "") return "";
+    if (bg_sensory_descs && bg_sensory_descs[bg]) {
+        return bg_sensory_descs[bg];
+    }
+    string rpath = object_name(this_object());
+    if (strsrch(rpath, "/d/village/") == 0) {
+        if (bg == "herbalist") {
+            return CYN "【採藥學徒觸覺】指腹老繭對空氣裡的濕氣與草木苦腥格外敏感，你能從泥縫微光裡分辨藥性與地煞殘毒。" NOR;
+        }
+        if (bg == "smith") {
+            return YEL "【打鐵學徒視角】你的目光本能地掃過四周岩層與木樑的受力節點，耳膜總在捕捉金石碰撞的應力餘音。" NOR;
+        }
+        if (bg == "hunter") {
+            return MAG "【山林獵戶直覺】你逆著風向微翕鼻翼，從泥地壓痕深淺與風裡的血腥氣中讀出了生靈走過的軌跡。" NOR;
+        }
+        if (bg == "daoist") {
+            return HIC "【破落道童靈覺】眉心無垢靈台微涼，你隱約察覺天地間那層看似溫潤的靈氣底下藏著一絲滯澀的冷意。" NOR;
+        }
+        if (bg == "beggar") {
+            return WHT "【流浪乞兒耳目】你的視線習慣性貼著別人的鞋底泥印、腰間錢袋垂度與退路暗角游走，先算生路再算買賣。" NOR;
+        }
+    }
+    return "";
+}
+
 // ── NPC 產生與重生 ─────────────────────────────────────
 object spawn_npc(string file) {
     string path = resolve_path(file, object_name(this_object()));
@@ -166,6 +250,11 @@ void look_room(object who) {
 
     write("【" + query_short() + "】\n");
     write(query_long() + "\n");
+
+    string bg_line = query_bg_sensory_line(who);
+    if (bg_line && bg_line != "" && (!who || !who->query("brief_sensory"))) {
+        write(bg_line + "\n");
+    }
 
     mixed exit_dirs = keys(exits);
     if (exit_dirs) {
@@ -265,6 +354,12 @@ void init() {
 
     add_action("do_search", "search");
     add_action("do_search", "搜尋");
+    add_action("do_touch", "touch");
+    add_action("do_touch", "觸摸");
+    add_action("do_smell", "smell");
+    add_action("do_smell", "嗅聞");
+    add_action("do_listen_room", "listen");
+    add_action("do_listen_room", "傾聽");
 
     // 🚀 新增：地圖探索紀錄
     object tp = this_player();
@@ -381,6 +476,52 @@ int do_search(string arg) {
 string look_at_item(string id) {
     if (item_ids && item_ids[id]) { return item_ids[id]; }
     return 0;
+}
+
+// ── 互動：觸摸、嗅聞、傾聽 (感官與物質細節反饋) ───────────
+int do_touch(string arg) {
+    string key = (arg && arg != "") ? lower_case(arg) : "default";
+    string desc = query_touch(key);
+    if (!desc && arg && item_ids && item_ids[key]) {
+        desc = "你伸手觸摸【" + arg + "】，指腹傳來粗糙而真實的質感：\n" + item_ids[key];
+    }
+    if (!desc) {
+        if (is_outdoor) {
+            desc = "你蹲下身，掌心貼著微涼粗糙的泥石地面，能清晰感受到大地深處細微的脈動與濕度。";
+        } else {
+            desc = "你伸手撫過冰涼的牆垣與木石器物，指腹老繭摩擦出沙沙的細響。";
+        }
+    }
+    write(desc + "\n");
+    return 1;
+}
+
+int do_smell(string arg) {
+    string key = (arg && arg != "") ? lower_case(arg) : "default";
+    string desc = query_smell(key);
+    if (!desc) {
+        if (is_outdoor) {
+            desc = "你微翕鼻翼深吸一口氣，空氣裡混雜著泥土、草木微腥與山風的冷冽氣息。";
+        } else {
+            desc = "你輕嗅四周，鼻端縈繞著陳年木料、灰塵與人間煙火留下的氣味。";
+        }
+    }
+    write(desc + "\n");
+    return 1;
+}
+
+int do_listen_room(string arg) {
+    string key = (arg && arg != "") ? lower_case(arg) : "default";
+    string desc = query_listen(key);
+    if (!desc) {
+        if (is_outdoor) {
+            desc = "你屏息凝神傾聽，風掠過山石林梢的低鳴與遠處隱約的人聲犬吠交織在一起。";
+        } else {
+            desc = "你側耳細聽，屋樑微不可察的應力輕響與四周細碎的呼吸步履聲清晰可辨。";
+        }
+    }
+    write(desc + "\n");
+    return 1;
 }
 
 void catch_tell(string msg) {}

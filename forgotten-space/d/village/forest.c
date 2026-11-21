@@ -30,6 +30,37 @@ void create() {
     spawn_npc("/npc/wolf.c");
     spawn_npc("/npc/wolf.c");
     spawn_npc("/clone/npc/wild_bear.c");
+
+    set_bg_sensory("hunter", MAG "【獵戶感官】你指尖撚開泥濘上的腐葉，一眼便從蹄印邊緣未乾的泥漿與風中暗紫血腥味，鎖定了野獸受驚逃竄的方位。" NOR);
+    set_bg_sensory("herbalist", CYN "【採藥感官】腐葉下彌漫著腐骨松脂與微量地煞硫磺粉塵，林間幾株苦竹葉尖已呈暗紫焦枯之色。" NOR);
+    set_bg_sensory("smith", YEL "【百工感官】獵戶布下的竹刺吊套陷阱利用了老藤的扭力與老竹的彈性極限，卡榫咬合得相當緊密。" NOR);
+    set_bg_sensory("daoist", HIC "【道童感官】林冠上方飄浮著淡淡的暗紅煞霧，北方地脈裂隙溢出的地煞正迫使萬獸躁動南奔。" NOR);
+    set_bg_sensory("beggar", WHT "【市井感官】這林子危機四伏，你緊盯著退回鹿角柵欄的泥徑，絕不把後背留給黑沉沉的灌木叢。" NOR);
+}
+
+string query_touch(string target) {
+    if (target == "trap" || target == "陷阱") {
+        return CYN "你指尖輕觸倒木下的竹刺彈簧與麻繩套鎖，竹片削得鋒利如刀，麻繩上還塗著掩蓋人味的松脂與獸糞。" NOR;
+    }
+    if (target == "totem" || target == "圖騰") {
+        if (!totem_discovered && (!this_player() || !this_player()->query_temp("tracked_totem"))) {
+            return "四周只有盤根錯節的古木與腐葉，你尚未尋獲圖騰蹤跡（需先 track 追蹤）。";
+        }
+        return HIR "你手掌按在倒插地心死穴的太古戰祖圖騰玄柱上，粗糙蒼涼的石刻紋路下彷彿有滾燙的蠻荒獸血在奔湧撞擊！" NOR;
+    }
+    return "你蹲下身觸摸泥濘獸道，腐葉濕滑冰冷，新鮮的獸蹄印邊緣泥土尚軟，還沾著幾根剛折斷的苦竹刺。";
+}
+
+string query_smell(string target) {
+    object ws = load_object(WORLD_STATE_D);
+    int disha = ws ? ws->query_disha_activity() : 60;
+    return sprintf(MAG "潮濕的腐葉與松脂氣息中，混雜著一股令人心悸的暗紫地煞硫磺腥味與野獸焦躁的汗腺腥臭（地煞濃度 %d%%）。" NOR, disha);
+}
+
+string query_listen(string target) {
+    object ws = load_object(WORLD_STATE_D);
+    int alert = ws ? ws->query_forest_beast_alert() : 50;
+    return sprintf(YEL "密林深處枯枝斷裂聲此起彼落，飛鳥驚起撲翅，遠處傳來低沉壓抑的狼嚎（獸群躁動度 %d%%）。" NOR, alert);
 }
 
 string query_long() {

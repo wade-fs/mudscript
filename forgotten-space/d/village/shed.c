@@ -26,6 +26,27 @@ void create() {
     spawn_npc("/clone/npc/mo_beggar.c");
     spawn_npc("/clone/npc/su_ningshuang.c");
     spawn_item("/clone/item/broken_bowl.c");
+
+    set_bg_sensory("beggar", WHT "【流浪乞兒感官】破木板蛀孔透出的肉湯油氣、後巷泥地靴印的深淺、爛木堆底腐骨烏頭脂的酸腥，全在你的算計之中。" NOR);
+    set_bg_sensory("herbalist", CYN "【採藥感官】你一進柴房便嗅出最深處爛木堆下塗著劇毒『腐骨烏頭脂』，若不以冷油酸醋護手，尋常人一碰即潰。" NOR);
+    set_bg_sensory("smith", YEL "【百工感官】柴堆最底層黑泥裡似乎埋著某種極高密度的青金神械構件，正發出極其微弱的齒輪咬合震顫。" NOR);
+    set_bg_sensory("hunter", MAG "【獵戶感官】後巷泥濘裡除了客商伙計的草鞋印，還混著幾雙步幅極大、落地沉重的官道暗探軍靴印。" NOR);
+    set_bg_sensory("daoist", HIC "【道童感官】這破爛柴棚雖滿是紅塵油煙與霉味，卻恰好遮蔽了天穹法網的窺探。" NOR);
+}
+
+string query_touch(string target) {
+    if (target == "wood" || target == "firewood" || target == "柴堆" || target == "爛木") {
+        return HIR "你小心試探著觸碰深處的潮濕朽木，木刺表面黏著一層暗黑滑膩的腐骨毒脂，底下黑泥深處似乎藏著硬物（search wood）。" NOR;
+    }
+    return YEL "你摸了摸牆角鋪著的陳年乾稻草與豁口破陶碗，稻草雖粗糙卻乾燥避風，是亂世裡難得的安身窩鋪。" NOR;
+}
+
+string query_smell(string target) {
+    return CYN "前街客棧大廚房飄來的滾燙牛雜肉湯香、高粱酒氣，與柴房內潮濕朽木的霉味、黑泥腥氣混雜在一起。" NOR;
+}
+
+string query_listen(string target) {
+    return WHT "貼近木板縫隙，前街客商酒客的划拳吆喝聲、夥計跑堂聲，以及後巷泥水裡偶爾掠過的沉重腳步聲歷歷在耳（可 eavesdrop 聽風）。" NOR;
 }
 
 void init() {

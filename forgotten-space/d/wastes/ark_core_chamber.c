@@ -21,6 +21,9 @@ void create() {
     ]));
 
     set("is_outdoor", 0);
+    set_touch("default", HIC "你伸手撫過八角形暗銀金屬圓台，台面幾何凹槽的加工精度達到微米級，五個嵌入式凹龕內壁分別刻著星軌、齒輪、骨紋、晶簇與青金契印。" NOR);
+    set_smell("default", CYN "艙室裡瀰漫著封存萬載的惰性冷卻液氣味與淡淡的金屬電離氣息。" NOR);
+    set_listen("default", WHT "圓台底部傳來極其微弱的殘餘電容脈衝聲，彷彿整座沉睡的方舟正等待五器歸位校驗。" NOR);
 }
 
 void init() {

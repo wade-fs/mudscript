@@ -38,6 +38,30 @@ void create() {
 
     spawn_npc("/clone/npc/tie_smith.c");
     spawn_item("/clone/item/ore_chunk.c");
+
+    set_bg_sensory("smith", HIY "【打鐵學徒感官】掌心厚繭貼著溫熱錚亮的舊錘柄，你光聽牛皮風箱的喘息聲與炭火色澤，就知道爐溫差幾分火候。" NOR);
+    set_bg_sensory("herbalist", CYN "【採藥感官】刺鼻的煤炭硫磺煙氣熏得你眼眶發熱，你一眼便注意到淬火石槽邊緣結著一層灰白礦鹽。" NOR);
+    set_bg_sensory("hunter", MAG "【獵戶感官】巨型牛皮風箱用整張老野牛皮縫製，空氣裡滿是炙烤皮革、汗水與滾燙鐵屑的燥烈氣息。" NOR);
+    set_bg_sensory("daoist", HIC "【道童感官】地爐純陽烈火逼退了山村濕寒，卻唯獨融不化西北角廢料堆底那股沉寂萬古的冷硬氣機。" NOR);
+    set_bg_sensory("beggar", WHT "【市井感官】打鐵爐房四季暖和，你打量著滿地碎鐵渣與角落的深井水桶，盤算著哪些廢鐵頭能換兩文銅錢。" NOR);
+}
+
+string query_touch(string target) {
+    if (target == "dark stone" || target == "stone" || target == "頑石" || target == "scrap" || target == "廢料堆") {
+        return HIB "你伸手握住廢料坑底那塊拳頭大的焦黑頑石——入手沉墜如鉛鼎！明明躺在滾燙炭灰旁，石殼深處卻透出一股刺痛虎口的太古冷硬，指甲括過隱約能觸及精密的微米齒槽。" NOR;
+    }
+    if (target == "anvil" || target == "鐵砧") {
+        return YEL "你手掌撫過數百斤重的烏黑鐵砧，表面佈滿了千錘百鍊砸出的細密凹痕，餘溫尚存，沉穩得如同扎根在大地脈絡上。" NOR;
+    }
+    return sprintf(HIR "爐房內熱浪撲面（當前爐溫 %d），木樑與鐵器表面都覆著一層乾燥溫熱的煤灰與細微鐵粉。" NOR, furnace_heat);
+}
+
+string query_smell(string target) {
+    return YEL "濃烈的木炭焦香、粗鐵礦燒紅後的硫磺腥氣、淬火水蒸騰的白霧與汗水味交織在一起，直衝肺腑。" NOR;
+}
+
+string query_listen(string target) {
+    return HIY "牛皮風箱沉悶的「呼哧、呼哧」喘息聲、地爐炭火霹啪爆裂聲，與鐵錘砸落鐵砧時震耳欲聾的金石嗡鳴迴盪不休。" NOR;
 }
 
 void init() {

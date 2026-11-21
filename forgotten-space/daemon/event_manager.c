@@ -60,10 +60,17 @@ string advance_event_stage(string event_id);
 int start_event(string event_id);
 mapping apply_quest_outcome(string event_id, string quest_id, mapping outcome, string actor_id);
 mapping query_applied_outcome(string event_id, string quest_id, string actor_id);
+mapping query_novel_act_info(string event_id);
+int record_player_contribution(string event_id, string player_id, string action_id, int weight);
+mapping query_player_contributions(string event_id);
+string query_event_replay_summary(string event_id);
 
 // ── 全域狀態資料結構 ──────────────────────────────────────────
 // 事件定義池：event_id -> schema mapping (nosave: 絕不存入存檔，重啟由 JSON 即時載入)
 nosave mapping event_defs;
+
+// 多人共享世界：玩家貢獻度帳本 event_id -> ([ player_id: ([ "score": int, "actions": ({...}) ]) ])
+mapping player_contributions;
 
 // 事件執行期狀態：event_id -> mapping
 // 包含 stage, stage_entered_at, metrics, facts, applied_outcomes, final_resolution
@@ -367,6 +374,7 @@ void load_state() {
     }
 
     if (!evidence_registry || !mapp(evidence_registry)) evidence_registry = ([]);
+    if (!player_contributions || !mapp(player_contributions)) player_contributions = ([]);
     if (!event_logs || !arrayp(event_logs)) event_logs = ({ });
     if (!subscribers || !mapp(subscribers)) subscribers = ([]);
 }
@@ -1320,6 +1328,10 @@ mapping apply_quest_outcome(string event_id, string quest_id, mapping outcome, s
 
     events[event_id]["applied_outcomes"][idemp_key] = q_record;
 
+    if (actor_id && actor_id != "") {
+        record_player_contribution(event_id, actor_id, quest_id, 10);
+    }
+
     // 7. 先行持久化存檔 (存檔在廣播之前，杜絕訂閱者出錯導致狀態未儲存)
     save_state();
 
@@ -1421,5 +1433,137 @@ string dump_status(string event_id) {
     }
 
     out += HIW + "========================================================\n" + NOR;
+    return out;
+}
+
+// ── 小說卷幕對應、多玩家貢獻度帳本與歷史回放摘要 (Novel Act Mapping & Multi-Player Replay) ──
+mapping query_novel_act_info(string event_id) {
+    string stage = query_event_stage(event_id);
+    if (event_id == EVENT_BEAST_SURGE) {
+        string ch_span = "Ch.019 ~ Ch.032";
+        string modifier_desc = "採藥與狩獵遭遇煞化異獸風險 +50%，落龍口防禦工程與病理勘測回報加倍";
+        if (stage == STAGE_BEAST_T_MINUS_3 || stage == STAGE_BEAST_T_MINUS_2) {
+            ch_span = "Ch.019 ~ Ch.022";
+        } else if (stage == STAGE_BEAST_T_MINUS_1 || stage == STAGE_BEAST_T_0) {
+            ch_span = "Ch.023 ~ Ch.028";
+        } else {
+            ch_span = "Ch.029 ~ Ch.032";
+        }
+        return ([
+            "event_id": event_id,
+            "volume": 1,
+            "act": 4,
+            "act_title": "第一卷第四幕：大荒煞潮",
+            "chapter_span": ch_span,
+            "stage": stage,
+            "world_task_modifier": modifier_desc
+        ]);
+    }
+    if (event_id == EVENT_MILITARY_CRISIS) {
+        return ([
+            "event_id": event_id,
+            "volume": 1,
+            "act": 5,
+            "act_title": "第一卷第五幕：多方博弈與黑石扣關",
+            "chapter_span": "Ch.033 ~ Ch.038",
+            "stage": stage,
+            "world_task_modifier": "官道商隊封鎖，情報呈遞、暗渠疏散與陣前質證互動大幅增加"
+        ]);
+    }
+    if (event_id == EVENT_TIER2_CRISIS) {
+        int act_num = 3;
+        string act_title = "第三卷第三幕：北荒深探與太古方舟";
+        string ch_span = "Ch.099 ~ Ch.108";
+        if (stage == STAGE_TIER2_T_MINUS_2) {
+            act_num = 2;
+            act_title = "第三卷第二幕：三宗立足與暗流匯集";
+            ch_span = "Ch.091 ~ Ch.098";
+        } else if (stage == STAGE_TIER2_T_0 || stage == STAGE_TIER2_T_PLUS_1) {
+            act_num = 4;
+            act_title = "第三卷第四幕：雲頂會武、道化驚變與三元鎮脈";
+            ch_span = "Ch.109 ~ Ch.120";
+        } else if (stage == STAGE_TIER2_T_PLUS_2) {
+            act_num = 5;
+            act_title = "第三卷第五幕：凡間排斥與桃花源開門";
+            ch_span = "Ch.121 ~ Ch.126";
+        }
+        return ([
+            "event_id": event_id,
+            "volume": 3,
+            "act": act_num,
+            "act_title": act_title,
+            "chapter_span": ch_span,
+            "stage": stage,
+            "world_task_modifier": "北荒裂谷與三宗質證開啟，五器共鳴與跨道協同收益提升"
+        ]);
+    }
+    return ([
+        "event_id": event_id,
+        "volume": 2,
+        "act": 1,
+        "act_title": "第二卷：金石風雲與六縣追查",
+        "chapter_span": "Ch.039 ~ Ch.082",
+        "stage": stage,
+        "world_task_modifier": "金石府城三日通牒、六縣專材查案與三方會審常態運行"
+    ]);
+}
+
+int record_player_contribution(string event_id, string player_id, string action_id, int weight) {
+    if (!event_id || !player_id || player_id == "") return 0;
+    if (!player_contributions) player_contributions = ([]);
+    if (!player_contributions[event_id]) player_contributions[event_id] = ([]);
+    if (!player_contributions[event_id][player_id]) {
+        player_contributions[event_id][player_id] = ([
+            "score": 0,
+            "actions": ({})
+        ]);
+    }
+    if (weight <= 0) weight = 1;
+    player_contributions[event_id][player_id]["score"] += weight;
+    string *acts = player_contributions[event_id][player_id]["actions"];
+    if (!arrayp(acts)) acts = ({});
+    if (action_id && action_id != "" && member_array(action_id, acts) == -1) {
+        acts += ({ action_id });
+    }
+    player_contributions[event_id][player_id]["actions"] = acts;
+    save_state();
+    return player_contributions[event_id][player_id]["score"];
+}
+
+mapping query_player_contributions(string event_id) {
+    if (!player_contributions || !player_contributions[event_id]) return ([]);
+    return copy(player_contributions[event_id]);
+}
+
+// 觀察者模式 / 歷史回放功能：讓後加入的玩家理解世界已發生的重大因果與參與者貢獻
+string query_event_replay_summary(string event_id) {
+    if (!events || !events[event_id]) return "查無此世界事件紀錄。\n";
+    mapping act_info = query_novel_act_info(event_id);
+    string cur_stage = query_event_stage(event_id);
+
+    string out = HIY "\n================【世界事件歷史回放・觀察者紀要】================\n" NOR;
+    out += sprintf("  事件名稱：%s (%s)\n", act_info["act_title"], act_info["chapter_span"]);
+    out += sprintf("  當前階段：%s\n", query_stage_desc(event_id, cur_stage));
+    out += sprintf("  世界法則：%s\n", act_info["world_task_modifier"]);
+
+    mapping contribs = query_player_contributions(event_id);
+    if (sizeof(contribs) > 0) {
+        out += CYN "  【共築歷史之先行者貢獻榜】\n" NOR;
+        foreach (string pid, mapping cdata in contribs) {
+            out += sprintf("    ・%-16s 貢獻度：%d （完成關鍵行動：%s）\n",
+                           pid, cdata["score"], implode(cdata["actions"], ", "));
+        }
+    } else {
+        out += WHT "  【先行者紀錄】目前尚無玩家在此階段留下署名貢獻。\n" NOR;
+    }
+
+    mixed *logs = query_event_logs(event_id, 5);
+    if (sizeof(logs) > 0) {
+        out += CYN "  【近期關鍵因果軌跡】\n" NOR;
+        foreach (mapping l in logs) {
+            out += sprintf("    - [%s] %s\n", l["type"], l["msg"]);
+        }
+    }
+    out += HIY "================================================================\n" NOR;
     return out;
 }
