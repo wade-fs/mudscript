@@ -31,6 +31,31 @@ void create() {
 void init() {
     ::init();
     add_action("do_inspect", "inspect");
+    add_action("do_install", "install");
+}
+
+int do_install(string arg) {
+    object me = this_player();
+    if (!me) return 0;
+    if (arg != "rig" && arg != "feedback" && arg != "連動台" && arg != "回授台") {
+        notify_fail("你想改裝什麼機械結構？試試：install rig\n");
+        return 0;
+    }
+    message_vision(HIY "$N牢記『人使錘子、錘子不能反過來使喚人』之訓，當眾拒絕將本命神識接入七根太古神經導線！\n"
+                       "以【太古不融黑鐵齒輪】翻砂鍛成複合合金副軸，裝妥『三段式可拆卸機械力回授連動台』與三個\n"
+                       "可隨時拔掉卡榫輪換的標準操作席，不用一克血精令十丈巨靈神機誤差不超半厘平穩行出軍禮！\n" NOR, me);
+    if (!present("detachable_feedback_spec", me)) {
+        object ob = clone_object("/clone/item/detachable_feedback_spec.c");
+        if (ob) {
+            ob->move(me);
+            tell_object(me, HIY "你獲發並封存《三段式可拆卸機械力回授連動台圖紙》。\n" NOR);
+        }
+    }
+    object qe = load_object(QUEST_ENGINE_D);
+    if (qe) {
+        qe->trigger_event(me, "action", ([ "verb": "install", "target": "rig" ]));
+    }
+    return 1;
 }
 
 int do_inspect(string arg) {

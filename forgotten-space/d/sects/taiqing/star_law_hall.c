@@ -25,3 +25,32 @@ void create() {
     set("is_outdoor", 0);
     spawn_npc("/clone/npc/song_zhiwei.c");
 }
+
+void init() {
+    ::init();
+    add_action("do_publish", "publish");
+}
+
+int do_publish(string arg) {
+    object me = this_player();
+    if (!me) return 0;
+    if (arg != "addendum" && arg != "star" && arg != "補遺" && arg != "歲差") {
+        notify_fail("你想公開校驗什麼星律文稿？試試：publish addendum\n");
+        return 0;
+    }
+    message_vision(HIW "$N於周天星律院公開《逆星歲差實測補遺》，首頁題明「僅限近三百年北境校正、歡迎反例推翻」，\n"
+                       "引導沈照塵將兩組氣流反例原樣補入公開觀測欄——在誠實承認二十八宿天羅法陣背後猶有\n"
+                       "看不見之齒輪操縱者而徹底放下『完美絕對天道』執念的一瞬，心鏡澄澈窺見假天裂縫！\n" NOR, me);
+    if (!present("reverse_star_addendum", me)) {
+        object ob = clone_object("/clone/item/reverse_star_addendum.c");
+        if (ob) {
+            ob->move(me);
+            tell_object(me, HIW "你完成核校並領存《逆星歲差實測補遺》。\n" NOR);
+        }
+    }
+    object qe = load_object(QUEST_ENGINE_D);
+    if (qe) {
+        qe->trigger_event(me, "action", ([ "verb": "publish", "target": "addendum" ]));
+    }
+    return 1;
+}

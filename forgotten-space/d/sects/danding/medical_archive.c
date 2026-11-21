@@ -21,11 +21,37 @@ void create() {
 
     set("is_outdoor", 0);
     spawn_npc("/clone/npc/sun_wenlu.c");
+    spawn_npc("/clone/npc/zhou_shishu.c");
 }
 
 void init() {
     ::init();
     add_action("do_crosscheck", "crosscheck");
+    add_action("do_publish", "publish");
+}
+
+int do_publish(string arg) {
+    object me = this_player();
+    if (!me) return 0;
+    if (arg != "bencao" && arg != "draft" && arg != "三元本草" && arg != "祛道錄") {
+        notify_fail("你想公開整理什麼醫典？試試：publish bencao\n");
+        return 0;
+    }
+    message_vision(HIG "$N將百草谷醫療隔離區三十餘傷患脈象、廢丹崖樣本與白岩北荒寒症病例逐條寫清：\n"
+                       "公開《三元本草祛道錄》禁忌單與『三元互濟』可重複溫度曲線，嚴守病人拒絕權與醫理邊界！\n"
+                       "太清周執事讀罷默默赴醫理院領藥，上游藥渠湧出清冽無酸泉水，醫道實證歸返本心。\n" NOR, me);
+    if (!present("sanyuan_bencao_draft", me)) {
+        object ob = clone_object("/clone/item/sanyuan_bencao_draft.c");
+        if (ob) {
+            ob->move(me);
+            tell_object(me, HIG "你整理完畢並領存《三元本草祛道錄》初稿。\n" NOR);
+        }
+    }
+    object qe = load_object(QUEST_ENGINE_D);
+    if (qe) {
+        qe->trigger_event(me, "action", ([ "verb": "publish", "target": "bencao" ]));
+    }
+    return 1;
 }
 
 int do_crosscheck(string arg) {
