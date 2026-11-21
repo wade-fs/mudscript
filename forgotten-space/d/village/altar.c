@@ -45,6 +45,22 @@ string query_listen(string target) {
     return WHT "萬丈深淵罡風呼嘯如鬼哭，老松枝葉在狂風中劇烈搖曳，偶爾彷彿能聽見九天雲層極高處傳來鎖鏈繃緊的微弱冷鳴。" NOR;
 }
 
+string query_long() {
+    string res = ::query_long();
+    object nd = find_object("/secure/nature_d.c");
+    if (nd) {
+        int is_day = nd->is_day();
+        if (!is_day) {
+            res += HIB "【夜幕星象】此刻夜色沉沉，周天二十八宿星光冷冽地傾瀉在白石殘壇之上，正是出神觀星 (stargaze) 窺測天幕異動的時機。\n" NOR;
+        }
+    }
+    object ws = find_object(WORLD_STATE_D);
+    if (ws && ws->query_disha_activity() >= 60) {
+        res += MAG "【山風煞氣】從崖底東林方向翻湧上來的淡淡暗紅煞霧，正貼著絕壁石梯邊緣盤旋消散。\n" NOR;
+    }
+    return res;
+}
+
 void init() {
     ::init();
     add_action("do_meditate", "meditate");

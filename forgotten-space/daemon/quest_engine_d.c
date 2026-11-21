@@ -735,13 +735,84 @@ int has_required_item(object who, string req) {
     return 0;
 }
 
-// 統一獎勵發放器 (全維度支援：經驗、潛能、錢幣、天命、道統親和度、獎勵物品，並支援勞動收益遞減)
+// 計算當前小說幕次對任務獎勵的動態倍率 (依據 EVENT_MANAGER_D 卷幕映射)
+int query_act_reward_pct(mapping q) {
+    if (!mapp(q)) return 100;
+    object em = find_object(EVENT_MANAGER_D);
+    if (!em) em = load_object(EVENT_MANAGER_D);
+    if (!em) return 100;
+
+    string cat = q["category"] ? q["category"] : "";
+    string b_stage = em->query_event_stage(EVENT_BEAST_SURGE);
+    if (b_stage == STAGE_BEAST_T_MINUS_2 || b_stage == STAGE_BEAST_T_MINUS_1 || b_stage == STAGE_BEAST_T_0) {
+        if (cat == "gathering" || cat == "hunting" || cat == "loop" || cat == "event") {
+            return 130; // 大荒煞潮危機期：採藥/狩獵/工程冒險風險與報酬提升 30%
+        }
+    }
+    string m_stage = em->query_event_stage(EVENT_MILITARY_CRISIS);
+    if (m_stage == STAGE_MILITARY_ARRIVAL || m_stage == STAGE_MILITARY_CONFRONT || m_stage == STAGE_MILITARY_ULTIMATUM) {
+        if (cat == "event" || cat == "encounter" || cat == "city") {
+            return 125; // 軍事對峙與扣關期：情報/證據與交涉報酬提升 25%
+        }
+    }
+    return 100;
+}
+
+// 計算同場／組隊不同身世背景的協同加成 (呼應五子立約互補)
+int query_party_background_synergy_pct(object who) {
+    if (!who) return 0;
+    object env = environment(who);
+    if (!env) return 0;
+
+    mapping bgs = ([]);
+    string my_bg = who->query("background");
+    if (my_bg && my_bg != "") bgs[my_bg] = 1;
+
+    mixed *inv = all_inventory(env);
+    object my_leader = who->query_leader();
+    if (arrayp(inv)) {
+        foreach (object ob in inv) {
+            if (ob && ob != who && (userp(ob) || strsrch(base_name(ob), "/std/user") == 0 || ob->query("is_companion"))) {
+                string ob_bg = ob->query("background");
+                object ob_leader = ob->query_leader();
+                int is_teammate = (ob_leader == who) || (my_leader && (ob == my_leader || ob_leader == my_leader));
+                if (ob_bg && ob_bg != "" && is_teammate) {
+                    bgs[ob_bg] = 1;
+                }
+            }
+        }
+    }
+    int distinct = sizeof(bgs);
+    if (distinct >= 2) {
+        int bonus = (distinct - 1) * 10;
+        if (bonus > 30) bonus = 30;
+        return bonus;
+    }
+    return 0;
+}
+
+// 統一獎勵發放器 (全維度支援：經驗、潛能、錢幣、天命、道統親和度、獎勵物品，並支援勞動收益遞減、幕次倍率與五子互補)
 varargs void award_rewards(object who, mapping rw, string qid) {
     if (!who || !mapp(rw)) return;
 
     mapping actual_rw = ([]);
     foreach (mixed k, mixed v in rw) {
         actual_rw[k] = v;
+    }
+
+    int act_pct = (qid && quest_defs[qid]) ? query_act_reward_pct(quest_defs[qid]) : 100;
+    int syn_pct = query_party_background_synergy_pct(who);
+    int total_pct = act_pct + syn_pct;
+    if (total_pct != 100) {
+        if (actual_rw["exp"]) actual_rw["exp"] = actual_rw["exp"] * total_pct / 100;
+        if (actual_rw["pot"]) actual_rw["pot"] = actual_rw["pot"] * total_pct / 100;
+        if (actual_rw["money"]) actual_rw["money"] = actual_rw["money"] * total_pct / 100;
+        if (act_pct > 100) {
+            tell_object(who, sprintf(YEL "【幕次世局加給】當前風雲局勢使此行風險與歷練收穫提升（%d%%）！\n" NOR, act_pct));
+        }
+        if (syn_pct > 0) {
+            tell_object(who, sprintf(HIG "【五道協同互補】不同身世同伴默契配合，觸類旁通額外提升收益 +%d%%！\n" NOR, syn_pct));
+        }
     }
 
     // 檢查是否配置了收益遞減 (如日常單一循環任務)

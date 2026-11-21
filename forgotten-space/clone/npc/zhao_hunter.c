@@ -109,6 +109,14 @@ int do_chat(object me, string topic) {
     }
 
     if (topic == "商隊" || topic == "封路" || topic == "黑石關" || topic == "官軍") {
+        object rumor_d = load_object(RUMOR_D);
+        if (rumor_d) {
+            mapping rd = rumor_d->query_distorted_rumor("caravan", me);
+            if (mapp(rd) && rd["display_msg"]) {
+                tell_object(me, query_name() + " 吐了口草根，冷眼望著關口方向道：\n" + rd["display_msg"] + "\n");
+                return 1;
+            }
+        }
         if (ws) {
             tell_object(me, query_name() + " 哼了一聲道：「" + ws->query_garrison_narrative(1) + "」\n");
             return 1;

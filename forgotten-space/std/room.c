@@ -19,6 +19,9 @@ mapping smell_descs;
 mapping listen_descs;
 mapping bg_sensory_descs;
 
+// 🚀 新增：宣告式動作規則表 (減少硬編碼 do_xxx，支援第四卷以後擴充)
+mapping action_rules;
+
 // 🚀 新增空間座標 (注意：配合 Go 解析器限制，逐行宣告)
 int x;
 int y;
@@ -43,6 +46,7 @@ void create() {
     smell_descs = ([]);
     listen_descs = ([]);
     bg_sensory_descs = ([]);
+    action_rules = ([]);
     x = 0;
     y = 0;
     z = 0;
@@ -192,6 +196,126 @@ string query_bg_sensory_line(object who) {
     return "";
 }
 
+// ── 宣告式動作規則系統 (Declarative Room Action Rules) ──────
+void add_action_rule(string verb, mapping rule_def) {
+    if (!action_rules) action_rules = ([]);
+    if (!verb || verb == "" || !mapp(rule_def)) return;
+    action_rules[verb] = rule_def;
+}
+
+mapping query_action_rules() {
+    if (!action_rules) return ([]);
+    return action_rules;
+}
+
+int do_declarative_action(string arg) {
+    string verb = query_verb();
+    object me = this_player();
+    if (!me || !action_rules || !action_rules[verb]) return 0;
+
+    mapping rule = action_rules[verb];
+
+    // 1. 目標比對
+    if (rule["targets"] && arrayp(rule["targets"]) && sizeof(rule["targets"]) > 0) {
+        string t = arg ? lower_case(arg) : "";
+        int matched = 0;
+        foreach (string cand in rule["targets"]) {
+            if (t == lower_case(cand)) { matched = 1; break; }
+        }
+        if (!matched) {
+            write((rule["usage_msg"] ? rule["usage_msg"] : ("請指定目標（" + implode(rule["targets"], " / ") + "）。")) + "\n");
+            return 1;
+        }
+    }
+
+    // 2. 身世條件
+    if (rule["require_background"] && me->query("background") != rule["require_background"]) {
+        write((rule["fail_msg"] ? rule["fail_msg"] : "你的身世歷練與此處機巧並不相契。") + "\n");
+        return 1;
+    }
+
+    // 3. 物品條件
+    if (rule["require_item"] && !present(rule["require_item"], me)) {
+        write((rule["missing_item_msg"] ? rule["missing_item_msg"] : ("缺少必需物品：" + rule["require_item"])) + "\n");
+        return 1;
+    }
+
+    // 4. 資格檢定 (會做 vs 有資格做)
+    if (rule["require_qualification"]) {
+        object cd = load_object("/daemon/city_d.c");
+        if (cd) {
+            mapping qres = cd->check_qualification_vs_skill(me, rule["require_qualification"], rule["action_label"] ? rule["action_label"] : verb);
+            if (mapp(qres) && !qres["allowed"]) {
+                write(qres["msg"] + "\n");
+                return 1;
+            }
+        }
+    }
+
+    // 5. 精力／氣血／神識消耗
+    int sp_cost = rule["sp_cost"];
+    if (sp_cost > 0) {
+        if (me->query("sp") < sp_cost) {
+            write(HIR "你精力不濟，手腳發軟，暫時無法進行這項操作。\n" NOR);
+            return 1;
+        }
+        me->add("sp", -sp_cost);
+    }
+
+    // 6. 感官與物質描述先行
+    if (rule["sensory_msg"]) {
+        write(rule["sensory_msg"] + "\n");
+    }
+
+    // 7. 數值與經驗回饋（後置）
+    if (rule["train_stat"] && mapp(rule["train_stat"])) {
+        foreach (string sk, int pts in rule["train_stat"]) {
+            me->train_stat(sk, pts);
+        }
+    }
+    if (rule["exp_gain"] > 0) {
+        me->gain_exp(rule["exp_gain"]);
+    }
+
+    // 8. 任務引擎觸發
+    if (rule["quest_verb"] || rule["quest_target"]) {
+        object qe = load_object("/daemon/quest_engine_d.c");
+        if (qe) {
+            qe->trigger_event(me, "action", ([
+                "verb": rule["quest_verb"] ? rule["quest_verb"] : verb,
+                "target": rule["quest_target"] ? rule["quest_target"] : ""
+            ]));
+        }
+    }
+    return 1;
+}
+
+// ── 動態環境與時辰呼吸片段 (PHASE_D & WORLD_STATE 整合) ──────
+string query_phase_ambient_line() {
+    string rpath = object_name(this_object());
+    object pd = find_object("/daemon/phase_d.c");
+    if (!pd) pd = load_object("/daemon/phase_d.c");
+    if (!pd) return "";
+
+    string period = pd->query_current_period();
+    mapping scheds = pd->query_all_schedules();
+    if (!mapp(scheds)) return "";
+
+    string *notes = ({});
+    foreach (string nk, mapping ndef in scheds) {
+        if (!mapp(ndef) || !ndef["schedules"]) continue;
+        string target_r = pd->query_npc_target_room(nk, period);
+        if (target_r && strsrch(rpath, replace_string(target_r, ".c", "")) == 0) {
+            string amb = pd->query_npc_ambient_desc(nk, period);
+            if (amb && amb != "") notes += ({ amb });
+        }
+    }
+    if (sizeof(notes) > 0) {
+        return HIG "【時辰動靜】" NOR + implode(notes, " ");
+    }
+    return "";
+}
+
 // ── NPC 產生與重生 ─────────────────────────────────────
 object spawn_npc(string file) {
     string path = resolve_path(file, object_name(this_object()));
@@ -250,6 +374,11 @@ void look_room(object who) {
 
     write("【" + query_short() + "】\n");
     write(query_long() + "\n");
+
+    string phase_line = query_phase_ambient_line();
+    if (phase_line && phase_line != "") {
+        write(phase_line + "\n");
+    }
 
     string bg_line = query_bg_sensory_line(who);
     if (bg_line && bg_line != "" && (!who || !who->query("brief_sensory"))) {
@@ -360,6 +489,12 @@ void init() {
     add_action("do_smell", "嗅聞");
     add_action("do_listen_room", "listen");
     add_action("do_listen_room", "傾聽");
+
+    if (action_rules && sizeof(action_rules) > 0) {
+        foreach (string rverb in keys(action_rules)) {
+            add_action("do_declarative_action", rverb);
+        }
+    }
 
     // 🚀 新增：地圖探索紀錄
     object tp = this_player();

@@ -74,6 +74,21 @@ void init() {
     add_action("do_list", "行情");
 }
 
+int do_chat(object me, string topic) {
+    if (topic && (topic == "商隊" || topic == "通寶" || topic == "銀票" || topic == "風聲" || topic == "傳聞")) {
+        object rumor_d = load_object(RUMOR_D);
+        if (rumor_d) {
+            string t = (topic == "風聲" || topic == "傳聞") ? "credit" : topic;
+            mapping rd = rumor_d->query_distorted_rumor(t, me);
+            if (mapp(rd) && rd["display_msg"]) {
+                tell_object(me, query_name() + " 合上行情摺子，左右張望一眼低聲道：\n" + rd["display_msg"] + "\n");
+                return 1;
+            }
+        }
+    }
+    return ::do_chat(me, topic);
+}
+
 int do_list(string arg) {
     write(render_market_board());
     return 1;

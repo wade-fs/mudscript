@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
 """
 《遺忘的世界》敘事—代碼雙向同步稽核工具 (Narrative <-> Mudlib Sync Audit)
-對應 narrative/ss.md 第四節建議：
-- 自動檢查三卷 126 章小說、各卷 README 大事記、任務 JSON、關鍵房間感官接口、物證帳本與世界事件指標的雙向一致性。
+對應 ss.md 第四節建議：
+- 核驗三卷 126 章小說與卷末導讀完整性
+- 核驗 data/canon_sync_matrix.json 中宣告的每一個任務 ID、房間路徑、物證/遺物檔案是否真實存在
+- 核驗感官介面、主動出示/互相印證/污染與偽造、五器多階段校驗、傳聞扭曲、資格區隔、宣告式動作規則與歷史回放命令是否齊備
 """
 import glob
 import json
 import os
-import re
 import sys
 
 ROOT = os.path.abspath(sys.argv[1] if len(sys.argv) > 1 else ".")
@@ -41,11 +42,47 @@ def main():
         if not os.path.exists(recap_path):
             errors.append(f"[{vol}] 缺少本卷大事記與人物狀態一覽 README.md")
 
-    # 2. 檢查感官與物質反饋接口 (std/room.c & 核心房間)
+    # 2. 載入所有任務 ID
+    quest_ids = set()
+    quest_files = sorted(glob.glob(os.path.join(ROOT, "quests/*/*.json")))
+    for qf in quest_files:
+        try:
+            with open(qf, encoding="utf-8") as f:
+                data = json.load(f)
+            if "id" in data:
+                quest_ids.add(data["id"])
+        except Exception as exc:
+            errors.append(f"[JSON 解析失敗] {qf}: {exc}")
+
+    # 3. 檢查 data/canon_sync_matrix.json 雙向對照矩陣與 docs/CANON_CHANGELOG.md
+    matrix_path = os.path.join(ROOT, "data/canon_sync_matrix.json")
+    matrix_acts = 0
+    if not os.path.exists(matrix_path):
+        errors.append("[缺失] data/canon_sync_matrix.json 章節↔程式追蹤矩陣不存在")
+    else:
+        with open(matrix_path, encoding="utf-8") as f:
+            matrix = json.load(f)
+        for entry in matrix.get("mappings", []):
+            matrix_acts += 1
+            aid = entry.get("act_id", "unknown")
+            for qid in entry.get("quests", []):
+                if qid not in quest_ids:
+                    errors.append(f"[canon_sync_matrix:{aid}] 找不到任務 ID：{qid}")
+            for rpath in entry.get("rooms", []):
+                if not os.path.exists(os.path.join(ROOT, rpath)):
+                    errors.append(f"[canon_sync_matrix:{aid}] 找不到房間檔：{rpath}")
+            for epath in entry.get("evidence_or_relics", []):
+                if not os.path.exists(os.path.join(ROOT, epath)):
+                    errors.append(f"[canon_sync_matrix:{aid}] 找不到物證/遺物檔：{epath}")
+
+    if not os.path.exists(os.path.join(ROOT, "docs/CANON_CHANGELOG.md")):
+        errors.append("[缺失] docs/CANON_CHANGELOG.md 正典變更日誌不存在")
+
+    # 4. 檢查基底感官、宣告式動作規則與房間動態融合
     room_base = read_text("std/room.c")
-    for fn in ("do_touch", "do_smell", "do_listen_room", "query_bg_sensory_line"):
+    for fn in ("do_touch", "do_smell", "do_listen_room", "query_bg_sensory_line", "add_action_rule", "query_phase_ambient_line"):
         if fn not in room_base:
-            errors.append(f"[std/room.c] 缺少感官或身世濾鏡函式：{fn}")
+            errors.append(f"[std/room.c] 缺少核心介面：{fn}")
 
     sensory_rooms = [
         "d/village/stream.c",
@@ -54,6 +91,12 @@ def main():
         "d/village/altar.c",
         "d/village/shed.c",
         "d/village/mine.c",
+        "d/city/center/square.c",
+        "d/city/center/clinic.c",
+        "d/city/north/gong_forge.c",
+        "d/city/south/market_special.c",
+        "d/city/west/dao_hall.c",
+        "d/city/under/canal_hub.c",
         "d/sects/taiqing/ark_portal_chamber.c",
         "d/wastes/ark_core_chamber.c",
         "d/realm/peach_plateau.c",
@@ -70,7 +113,11 @@ def main():
         if "query_listen" not in src and "set_listen" not in src:
             errors.append(f"[感官缺失] {sr} 未實作 listen 聽覺反饋")
 
-    # 3. 檢查物證出示、互相印證與污染機制
+    # 5. 檢查指令與守護進程關鍵接線
+    for cmd_file in ("cmds/cmd_present.c", "cmds/cmd_chronicle.c", "cmds/cmd_set.c"):
+        if not os.path.exists(os.path.join(ROOT, cmd_file)):
+            errors.append(f"[指令缺失] {cmd_file}")
+
     city_d_src = read_text("daemon/city_d.c")
     for fn in (
         "present_evidence_to_npc",
@@ -78,43 +125,41 @@ def main():
         "contaminate_evidence",
         "certify_or_cleanse_evidence",
         "check_qualification_vs_skill",
+        "is_forged",
     ):
         if fn not in city_d_src:
-            errors.append(f"[daemon/city_d.c] 缺少小說化證據或資格檢定接口：{fn}")
+            errors.append(f"[daemon/city_d.c] 缺少功能實作：{fn}")
 
-    if not os.path.exists(os.path.join(ROOT, "cmds/cmd_present.c")):
-        errors.append("[cmds/cmd_present.c] 缺少主動出示物證指令")
-
-    # 4. 檢查五器共鳴多階段技術校驗狀態機
     portal_src = read_text("d/sects/taiqing/ark_portal_chamber.c")
-    for st in ("north", "northeast", "northwest", "southwest", "south", "do_calibrate"):
+    for st in ("north", "northeast", "northwest", "southwest", "south", "do_calibrate", "inspect_station_relic_support"):
         if st not in portal_src:
-            errors.append(f"[ark_portal_chamber.c] 缺少五台技術校驗節點或指令：{st}")
+            errors.append(f"[ark_portal_chamber.c] 缺少五台校驗節點或實體信物檢定：{st}")
 
-    # 5. 檢查傳聞扭曲、卷幕映射與多玩家歷史回放
-    rumor_src = read_text("daemon/rumor_d.c")
-    if "query_distorted_rumor" not in rumor_src:
-        errors.append("[daemon/rumor_d.c] 缺少傳聞衰減與扭曲接口 query_distorted_rumor")
+    core_src = read_text("d/wastes/ark_core_chamber.c")
+    if "query_core_placed_count" not in core_src:
+        errors.append("[ark_core_chamber.c] 缺少多階段凹龕校驗")
+
+    npc_src = read_text("std/npc.c")
+    if "query_distorted_rumor" not in npc_src or "query_bg_attitude_prefix" not in npc_src:
+        errors.append("[std/npc.c] 缺少傳聞扭曲或身世差別態度接線")
+
+    qe_src = read_text("daemon/quest_engine_d.c")
+    if "query_act_reward_pct" not in qe_src or "query_party_background_synergy_pct" not in qe_src:
+        errors.append("[daemon/quest_engine_d.c] 缺少幕次倍率或五道協同組隊加成")
 
     em_src = read_text("daemon/event_manager.c")
-    for fn in ("query_novel_act_info", "record_player_contribution", "query_event_replay_summary"):
+    for fn in ("query_novel_act_info", "record_player_contribution", "distribute_contribution_rewards", "query_event_replay_summary"):
         if fn not in em_src:
-            errors.append(f"[daemon/event_manager.c] 缺少小說幕次對應或歷史回放接口：{fn}")
-
-    # 6. 檢查章節 → 任務 JSON 追蹤矩陣
-    quest_files = sorted(glob.glob(os.path.join(ROOT, "quests/*/*.json")))
-    if len(quest_files) < 40:
-        warnings.append(f"任務 JSON 數量偏少 ({len(quest_files)})")
+            errors.append(f"[daemon/event_manager.c] 缺少接口：{fn}")
 
     print("=" * 72)
     print("《遺忘的世界》敘事—代碼雙向同步稽核報告 (Novel <-> Mudlib Sync Matrix)")
     print("=" * 72)
     print(f"  ・已核驗小說章節總數 : {total_chapters} 章 (Vol.1: 38, Vol.2: 44, Vol.3: 44)")
+    print(f"  ・已核驗章節追蹤矩陣 : {matrix_acts} 個故事幕次節點 (data/canon_sync_matrix.json)")
     print(f"  ・已核驗宣告式任務數 : {len(quest_files)} 個 JSON 任務定義")
-    print(f"  ・已核驗核心感官房間 : {len(sensory_rooms)} 間 (支援 touch/smell/listen + 身世濾鏡)")
-    print(f"  ・物證出示與互相印證 : OK (cmd_present + CITY_D 孤證/互鎖/污染修復)")
-    print(f"  ・五器多階段技術校驗 : OK (5 座工程石台順序校驗 + 歲差/公差/頻率診斷)")
-    print(f"  ・世界狀態與卷幕映射 : OK (RUMOR_D 傳聞扭曲 + EVENT_MANAGER_D 幕次與回放)")
+    print(f"  ・已核驗核心感官房間 : {len(sensory_rooms)} 間 (含 Tier 0/1/2/3 五感＋動態狀態)")
+    print(f"  ・核心體驗與機制接線 : OK (cmd_present/chronicle/set + 宣告式規則 + 五器校驗)")
     print("-" * 72)
 
     if warnings:

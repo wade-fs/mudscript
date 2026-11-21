@@ -329,11 +329,17 @@ int train_stat(string stat, int base_pts) {
         prog -= req;
         ::set("stat_train/" + stat, prog);
         set_stat(stat, cur + 1);
-        tell_object(this_object(), HIY "✨【破障提升】經過千錘百鍊的積累，你的「" + sname + "」正式突破至 " + sprintf("%d", cur + 1) + " 點！\n" NOR);
+        if (query("brief_numeric")) {
+            tell_object(this_object(), HIY "✨【筋骨契機】千錘百鍊的水磨工夫終於水到渠成，你的「" + sname + "」隱隱邁入了全新境界！\n" NOR);
+        } else {
+            tell_object(this_object(), HIY "✨【破障提升】經過千錘百鍊的積累，你的「" + sname + "」正式突破至 " + sprintf("%d", cur + 1) + " 點！\n" NOR);
+        }
         return 1;
     } else {
         ::set("stat_train/" + stat, prog);
-        tell_object(this_object(), CYN "  （" + sname + "鍛鍊度 +" + sprintf("%d", gain) + " [" + sprintf("%d", prog) + "/" + sprintf("%d", req) + "]，身世親和 " + sprintf("%d", aff) + "%）\n" NOR);
+        if (!query("brief_numeric")) {
+            tell_object(this_object(), CYN "  （" + sname + "鍛鍊度 +" + sprintf("%d", gain) + " [" + sprintf("%d", prog) + "/" + sprintf("%d", req) + "]，身世親和 " + sprintf("%d", aff) + "%）\n" NOR);
+        }
         return 0;
     }
 }
@@ -522,7 +528,9 @@ void gain_exp(int amount) {
     int pot_gain = amount / 4;
     if (pot_gain < 1) pot_gain = 1;
     potential += pot_gain;
-    write("你獲得了 " + sprintf("%d", amount) + " 點經驗值（潛能 +" + sprintf("%d", pot_gain) + "）。\n");
+    if (!query("brief_numeric")) {
+        write("你獲得了 " + sprintf("%d", amount) + " 點經驗值（潛能 +" + sprintf("%d", pot_gain) + "）。\n");
+    }
 
     while (exp >= exp_to_next && level < MAX_LEVEL) {
         exp = exp - exp_to_next;
@@ -541,8 +549,12 @@ void gain_exp(int amount) {
         mp = max_mp;
         sp = max_sp;
 
-        write("\n✨ 恭喜升級！你現在是 " + sprintf("%d", level) + " 級了！\n");
-        write("六圍屬性各 +1，氣血/神識/精力完全恢復。\n\n");
+        if (query("brief_numeric")) {
+            write("\n✨ 一股沉凝沛然的氣息在四肢百骸間化開，你感覺自己比昨日更厚實了幾分！\n\n");
+        } else {
+            write("\n✨ 恭喜升級！你現在是 " + sprintf("%d", level) + " 級了！\n");
+            write("六圍屬性各 +1，氣血/神識/精力完全恢復。\n\n");
+        }
         say(name + " 升級了！現在是 " + sprintf("%d", level) + " 級。\n");
     }
 }

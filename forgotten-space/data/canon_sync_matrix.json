@@ -1,0 +1,153 @@
+{
+  "version": "1.0",
+  "description": "《遺忘的世界》敘事章節與 Mudlib 任務／房間／狀態變數雙向追蹤矩陣",
+  "mappings": [
+    {
+      "act_id": "vol1_act1_roots",
+      "novel_span": "Vol.1 Ch.0001 ~ Ch.0006",
+      "title": "寒村五子生存與初見微光",
+      "world_event": null,
+      "quests": ["village_pass", "herb_loop", "mining_loop", "pelt_loop"],
+      "rooms": [
+        "d/village/stream.c",
+        "d/village/herb_hut.c",
+        "d/village/forge.c",
+        "d/village/hunter_cabin.c",
+        "d/village/daoist_temple.c",
+        "d/village/shed.c"
+      ],
+      "world_state_vars": ["stream_water_level", "stream_moss_cleared", "herb_stock"],
+      "evidence_or_relics": ["clone/item/stele_rubbing.c", "clone/item/dao_crystal.c"]
+    },
+    {
+      "act_id": "vol1_act2_3_relics_and_mine",
+      "novel_span": "Vol.1 Ch.0007 ~ Ch.0018",
+      "title": "五器初鳴與古礦危機",
+      "world_event": "beast_surge",
+      "quests": [
+        "enc_stele_dawn",
+        "enc_ancient_iron",
+        "enc_forest_totem",
+        "enc_dao_crystal",
+        "enc_tianmen_token",
+        "rescue_miners"
+      ],
+      "rooms": [
+        "d/village/stream.c",
+        "d/village/forge.c",
+        "d/village/forest.c",
+        "d/village/altar.c",
+        "d/village/shed.c",
+        "d/village/mine.c"
+      ],
+      "world_state_vars": ["mine_stability", "mine_collapsed", "disha_activity"],
+      "evidence_or_relics": ["clone/item/miner_thumbprints.c", "clone/item/detonator_serial_ledger.c"]
+    },
+    {
+      "act_id": "vol1_act4_beast_surge",
+      "novel_span": "Vol.1 Ch.0019 ~ Ch.0032",
+      "title": "大荒煞潮",
+      "world_event": "beast_surge",
+      "quests": [
+        "A01_dead_gazelle",
+        "A02_reverse_tracks",
+        "B02_rockfall_diversion",
+        "C01_grain_inventory",
+        "D01_last_painkiller",
+        "E01_street_defense",
+        "G01_palisade_breach"
+      ],
+      "rooms": [
+        "d/village/square.c",
+        "d/village/forest.c",
+        "d/village/mine.c",
+        "d/village/herb_hut.c"
+      ],
+      "world_state_vars": ["forest_beast_alert", "caravan_status", "caravan_delay_reason"],
+      "evidence_or_relics": ["clone/item/tainted_pelt.c"]
+    },
+    {
+      "act_id": "vol1_act5_military_crisis",
+      "novel_span": "Vol.1 Ch.0033 ~ Ch.0038",
+      "title": "黑石關多方博弈",
+      "world_event": "military_crisis",
+      "quests": ["F03_testimony_cross_check", "village_pass"],
+      "rooms": ["d/village/square.c", "d/village/shed.c"],
+      "world_state_vars": ["garrison_lockdown", "caravan_truth_reason"],
+      "evidence_or_relics": ["clone/item/custody_ledger.c", "clone/item/road_pass.c"]
+    },
+    {
+      "act_id": "vol2_city_and_tribunal",
+      "novel_span": "Vol.2 Ch.0039 ~ Ch.0082",
+      "title": "金石立籍、六縣追查與三方會審",
+      "world_event": null,
+      "quests": [
+        "v2_residency_72h",
+        "v2_career_tier1_qualifications",
+        "v2_six_county_evidence",
+        "v2_six_evidence_gaps",
+        "v2_west_watergate_crisis",
+        "v2_act4_tripartite_tribunal",
+        "v2_act5_tier2_admission"
+      ],
+      "rooms": [
+        "d/city/center/square.c",
+        "d/city/center/clinic.c",
+        "d/city/center/yamen.c",
+        "d/city/center/yamen_archive.c",
+        "d/city/north/gong_forge.c",
+        "d/city/south/market_special.c",
+        "d/city/south/shanghui_hq.c",
+        "d/city/west/dao_hall.c",
+        "d/city/under/canal_hub.c"
+      ],
+      "world_state_vars": ["county_clocks", "granary_open"],
+      "evidence_or_relics": [
+        "clone/item/liefan_clay_batch.c",
+        "clone/item/relay_poison_sample.c",
+        "clone/item/under_canal_deed.c",
+        "clone/item/bronze_treaty_plate.c"
+      ]
+    },
+    {
+      "act_id": "vol3_sects_wastes_and_portal",
+      "novel_span": "Vol.3 Ch.0083 ~ Ch.0126",
+      "title": "北上三宗、北荒方舟與桃花源開門",
+      "world_event": "tier2_crisis",
+      "quests": [
+        "v3_northbound_and_yunjin_arrival",
+        "v3_act1_danding_valley",
+        "v3_act1_tiangong_forge",
+        "v3_act1_bahuang_gorge",
+        "v3_act1_taiqing_ladder",
+        "v3_five_way_evidence_convergence",
+        "v3_north_wastes_expedition",
+        "v3_five_relic_resonance",
+        "v3_north_wall_beast_surge",
+        "v3_act4_sanyuan_defense",
+        "v3_act5_lvl100_trials",
+        "v3_tier2_departure"
+      ],
+      "rooms": [
+        "d/yunjin/wanshan_square.c",
+        "d/sects/danding/medical_archive.c",
+        "d/sects/tiangong/machinery_depths.c",
+        "d/sects/bahuang/black_mountain_camp.c",
+        "d/sects/taiqing/star_law_hall.c",
+        "d/wastes/ark_core_chamber.c",
+        "d/sects/taiqing/ark_portal_chamber.c",
+        "d/realm/peach_plateau.c"
+      ],
+      "world_state_vars": ["tier2_crisis"],
+      "evidence_or_relics": [
+        "clone/item/ev3_drill_head.c",
+        "clone/item/ev3_mother_liquid_vial.c",
+        "clone/item/ev3_private_purchase_ledger.c",
+        "clone/item/ev3_expedition_roster.c",
+        "clone/item/ev3_yanshan_blood_note.c",
+        "clone/item/ev3_heart_guard_mirror.c",
+        "clone/item/wanshan_charter_deed.c"
+      ]
+    }
+  ]
+}

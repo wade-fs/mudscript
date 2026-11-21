@@ -2,6 +2,7 @@
 // 城下暗渠・古暗渠樞紐 (匯集全城排污排澇、天然溶洞水系)
 
 #include "/include/ansi.h"
+#include "/include/globals.h"
 
 inherit "/std/room.c";
 
@@ -23,5 +24,41 @@ void create() {
     ]));
 
     set("is_underground", 1);
+    set("is_outdoor", 0);
+    set_touch("default", CYN "石階覆著一層滑膩冰寒的墨綠淤泥，涉水處濁浪拍打小腿，刺骨腥臭。" NOR);
+    set_smell("default", YEL "濃重的腐泥排污臭氣、潮濕青苔味與地下陰寒地煞水氣撲鼻而來。" NOR);
+    set_listen("default", WHT "黑色濁浪拍擊太古石拱的悶響聲中，夾雜著盲叟竹篙點水的輕響與地下溶洞回音。" NOR);
     spawn_npc("/clone/npc/under_canal_hub_ferryman.c");
+}
+
+void init() {
+    ::init();
+    object me = this_player();
+    if (!me || (!userp(me) && strsrch(base_name(me), "/std/user") != 0)) return;
+
+    object cd = find_object(CITY_D);
+    if (!cd) cd = load_object(CITY_D);
+    if (!cd) return;
+
+    object *inv = all_inventory(me);
+    if (!inv) return;
+    foreach (object ob in inv) {
+        string bn = base_name(ob);
+        int is_fragile_ev = (
+            strsrch(bn, "detonator_serial_ledger") != -1 ||
+            strsrch(bn, "liefan_clay_batch") != -1 ||
+            strsrch(bn, "relay_poison_sample") != -1 ||
+            strsrch(bn, "miner_thumbprints") != -1 ||
+            strsrch(bn, "under_canal_deed") != -1 ||
+            strsrch(bn, "ev3_yanshan_blood_note") != -1 ||
+            strsrch(bn, "ev3_private_purchase_ledger") != -1 ||
+            strsrch(bn, "ev3_expedition_roster") != -1
+        );
+        if (is_fragile_ev && !ob->query("sealed_custody") && !ob->query("contaminated")) {
+            mapping cres = cd->contaminate_evidence(ob, "暗渠腥濁污水浸透");
+            if (mapp(cres) && cres["msg"]) {
+                tell_object(me, cres["msg"] + "\n");
+            }
+        }
+    }
 }

@@ -33,6 +33,11 @@ void run_tests(object me) {
 
     object tester = clone_object("/std/user.c");
     tester->set_id("ss_opt_tester");
+    tester->enable_commands();
+    tester->recalc_stats();
+    tester->set_kee(100);
+    tester->set_sen(100);
+    tester->set_sp(100);
     tester->set("background", "herbalist");
     string bg_line = stream->query_bg_sensory_line(tester);
     assert_true(stringp(bg_line) && strsrch(bg_line, "晨露草") != -1,
@@ -82,27 +87,25 @@ void run_tests(object me) {
 
     // ── 3. 五器共鳴多階段技術校驗與錯誤診斷驗證 ────────────────────────
     object port = load_object("/d/sects/taiqing/ark_portal_chamber.c");
-    tester->move(port);
-    set_this_player(tester);
-    port->do_calibrate("reset");
+    move_object(tester, port);
+    tester->command("calibrate reset");
     assert_equal(0, port->query_calibrated_count(tester), "重置後五台校驗進度應為 0/5");
 
     // 跳步校驗應被攔截並給出工程診斷
-    port->do_calibrate("northeast");
+    tester->command("calibrate northeast");
     assert_equal(0, port->query_calibrated_count(tester), "未鎖定正北座標前強行校驗東北傳動台應失敗");
 
     // 粗暴操作 (rough) 應給出公差/歲差警告
-    port->do_calibrate("north rough");
+    tester->command("calibrate north rough");
     assert_equal(0, port->query_calibrated_count(tester), "未補償歲差強按星盤應校驗失敗");
 
     // 依序完成五台精密技術校驗
-    port->do_calibrate("north");
-    port->do_calibrate("northeast");
-    port->do_calibrate("northwest");
-    port->do_calibrate("southwest");
-    port->do_calibrate("south");
+    tester->command("calibrate north");
+    tester->command("calibrate northeast");
+    tester->command("calibrate northwest");
+    tester->command("calibrate southwest");
+    tester->command("calibrate south");
     assert_equal(5, port->query_calibrated_count(tester), "依序完成五台技術校驗後進度應達 5/5");
-    set_this_player(me);
 
     // ── 4. 傳聞扭曲 vs 聽風破妄、會做 vs 有資格做、卷幕映射與歷史回放 ──
     object rumor_d = load_object(RUMOR_D);
@@ -133,10 +136,111 @@ void run_tests(object me) {
     assert_true(stringp(replay) && strsrch(replay, "ss_opt_tester") != -1,
                 "歷史回放摘要應包含先行者貢獻紀錄");
 
+    // ── 5. 進階接線與宣告式架構驗證 ───────────────────────────────────
+    // 5.1 cmd_set 與 brief_numeric 偏好切換
+    object cmd_set = load_object("/cmds/cmd_set.c");
+    assert_true(objectp(cmd_set), "cmd_set 指令應正常載入");
+    cmd_set->main(tester, "set", "brief_numeric 1");
+    assert_equal(1, tester->query("brief_numeric"), "應能開啟 brief_numeric 純感官模式");
+    cmd_set->main(tester, "set", "brief_numeric 0");
+    assert_equal(0, tester->query("brief_numeric"), "應能關閉 brief_numeric 恢復數值提示");
+
+    // 5.2 cmd_chronicle 歷史回放指令
+    object cmd_chr = load_object("/cmds/cmd_chronicle.c");
+    assert_true(objectp(cmd_chr), "cmd_chronicle 指令應正常載入");
+    int chr_ret = cmd_chr->main(tester, "chronicle", "");
+    assert_equal(1, chr_ret, "chronicle 總覽應成功執行");
+
+    // 5.3 暗渠樞紐移動自動污染未封存物證 + 偽造反噬 + 三卷互證
+    object ev_unsealed = clone_object("/clone/item/liefan_clay_batch.c");
+    ev_unsealed->move(tester);
+    object canal = load_object("/d/city/under/canal_hub.c");
+    assert_true(objectp(canal), "canal_hub 必須載入");
+    move_object(tester, canal);
+    assert_equal(1, ev_unsealed->query("contaminated"), "攜帶未封存物證進入暗渠污水應自動觸發污染");
+
+    object ev_fake = clone_object("/clone/item/detonator_serial_ledger.c");
+    ev_fake->set("is_forged", 1);
+    mapping fake_res = city_d->present_evidence_to_npc(tester, ev_fake, qin);
+    assert_equal("rejected_forged", fake_res["status"], "出示偽造物證應遭識破並觸發反噬");
+    assert_true(tester->query("reputation_penalty") >= 10, "偽造被識破應扣除聲望");
+
+    tester->set_temp("presented_evidence_list", ({}));
+    object ev_v3_drill = clone_object("/clone/item/ev3_drill_head.c");
+    object ev_v3_priv  = clone_object("/clone/item/ev3_private_purchase_ledger.c");
+    city_d->present_evidence_to_npc(tester, ev_v3_drill, qin);
+    mapping v3_syn = city_d->present_evidence_to_npc(tester, ev_v3_priv, qin);
+    assert_true(member_array("v3_tiangong_sabotage_chain", v3_syn["corroboration"]["synergies"]) != -1,
+                "三卷北荒鑽頭與秘密採辦帳冊應觸發 v3_tiangong_sabotage_chain 互鎖");
+
+    // 5.4 宣告式動作規則與府城「會做 vs 有資格做」現場攔截 (clinic)
+    object clinic = load_object("/d/city/center/clinic.c");
+    assert_true(objectp(clinic) && sizeof(clinic->query_action_rules()) >= 1,
+                "杏林醫館應使用 std/room 宣告式動作規則");
+    move_object(tester, clinic);
+    int pre_exp = tester->query_exp();
+    tester->revoke_qualification("lic_apothecary");
+    tester->command("diagnose");
+    assert_equal(pre_exp, tester->query_exp(), "無行醫資格證時於醫館公開坐診應遭攔截");
+    tester->grant_qualification_by("lic_apothecary", 1, "杏林醫館");
+    tester->command("diagnose");
+    assert_true(tester->query_exp() > pre_exp, "持有行醫資格證後於醫館坐診應成功獲得歷練");
+
+    // 5.5 五器校驗 strict 實體信物＋隊友協同 + ark_core_chamber 5 階凹龕
+    object teammate = clone_object("/std/user.c");
+    teammate->set_id("ss_teammate");
+    teammate->enable_commands();
+    teammate->set("background", "daoist");
+    object rubbing = clone_object("/clone/item/stele_rubbing.c");
+    rubbing->move(teammate);
+    move_object(tester, port);
+    move_object(teammate, port);
+    tester->command("calibrate reset");
+    tester->command("calibrate north strict");
+    assert_equal(1, port->query_calibrated_count(tester), "同殿隊友持有逆星拓片應能協助通過 strict 模式正北校驗");
+
+    object core = load_object("/d/wastes/ark_core_chamber.c");
+    move_object(tester, core);
+    tester->command("place reset");
+    tester->command("place northeast");
+    assert_equal(0, core->query_core_placed_count(tester), "核心圓台未嵌入正北星軌龕前嵌入東北龕應失敗");
+    tester->command("place north");
+    tester->command("place northeast");
+    assert_equal(2, core->query_core_placed_count(tester), "依序嵌入核心圓台凹龕應正確推進進度");
+
+    // 5.6 QUEST_ENGINE_D 幕次倍率 + 五道組隊協同 + NPC 身世態度 + EVENT_MANAGER 貢獻階梯結算
+    object qe = load_object(QUEST_ENGINE_D);
+    move_object(teammate, core);
+    teammate->set_leader(tester);
+    int syn_pct = qe->query_party_background_synergy_pct(tester);
+    assert_true(syn_pct >= 10, "不同身世隊友同場應觸發五道協同互補獎勵加成");
+
+    object mochui = clone_object("/clone/npc/gong_mochui.c");
+    mochui->set("faction", "baigong");
+    tester->set("background", "smith");
+    string att = mochui->query_bg_attitude_prefix(tester);
+    assert_true(stringp(att) && strsrch(att, "厚繭") != -1, "百工 NPC 對打鐵學徒身世應展現專屬態度差異");
+
+    int old_tm = em->query_test_mode();
+    em->set_test_mode(1);
+    em->reset_event(EVENT_TIER2_CRISIS);
+    em->record_player_contribution(EVENT_TIER2_CRISIS, "ss_opt_tester", "calib", 15);
+    mapping settled = em->distribute_contribution_rewards(EVENT_TIER2_CRISIS);
+    em->set_test_mode(old_tm);
+    assert_true(mapp(settled) && mapp(settled["ss_opt_tester"]) && settled["ss_opt_tester"]["tier"] == "pillar",
+                "事件貢獻結算應依貢獻度頒發對應榮譽階梯");
+
+    if (ev_unsealed) destruct(ev_unsealed);
+    if (ev_fake) destruct(ev_fake);
+    if (ev_v3_drill) destruct(ev_v3_drill);
+    if (ev_v3_priv) destruct(ev_v3_priv);
+    if (mochui) destruct(mochui);
+    if (teammate) destruct(teammate);
     if (ev_det) destruct(ev_det);
     if (ev_clay) destruct(ev_clay);
     if (ev_miners) destruct(ev_miners);
     if (qin) destruct(qin);
     if (wen) destruct(wen);
     if (tester) destruct(tester);
+    report_results();
 }

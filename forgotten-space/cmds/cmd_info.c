@@ -97,6 +97,24 @@ int main(object me, string verb, string arg) {
         write(sprintf("  %-10s : 靈巧 %-2d (%d/%d)   感知 %-2d (%d/%d)\n", "【物之柱】",
             me->query_stat("dex"), me->query_stat_train("dex"), me->query_stat_train_req("dex"),
             me->query_stat("per"), me->query_stat_train("per"), me->query_stat_train_req("per")));
+
+        // 區分個人技藝與社會資格/法統居留
+        object city_d = find_object(CITY_D);
+        if (!city_d) city_d = load_object(CITY_D);
+        mapping res_info = city_d ? city_d->check_user_residency(me) : ([]);
+        mapping quals = me->query_qualifications();
+        string *q_names = ({});
+        if (mapp(quals)) {
+            foreach (string qk, mixed qv in quals) {
+                if (qv) q_names += ({ qk });
+            }
+        }
+        write("$HIY$── 社會資格與法統居留（會做 ≠ 有資格做） ──$NOR$\n");
+        write(sprintf("  %-10s : %s\n", "府城戶籍",
+                      (mapp(res_info) && res_info["status"] == "formal_resident") ? HIG "正式立籍" NOR :
+                      ((mapp(res_info) && res_info["msg"]) ? res_info["status"] : "邊陲未立籍")));
+        write(sprintf("  %-10s : %s\n", "執業憑證",
+                      sizeof(q_names) > 0 ? HIG + implode(q_names, ", ") + NOR : WHT "（尚無任何行會執照或官發度牒）" NOR));
         write("\n");
     }
     

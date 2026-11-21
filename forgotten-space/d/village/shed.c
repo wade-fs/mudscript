@@ -49,6 +49,19 @@ string query_listen(string target) {
     return WHT "貼近木板縫隙，前街客商酒客的划拳吆喝聲、夥計跑堂聲，以及後巷泥水裡偶爾掠過的沉重腳步聲歷歷在耳（可 eavesdrop 聽風）。" NOR;
 }
 
+string query_long() {
+    string res = ::query_long();
+    object ws = find_object(WORLD_STATE_D);
+    if (ws) {
+        if (ws->is_caravan_blocked()) {
+            res += YEL "【後巷動靜】木板那頭傳來比往日更嘈雜的爭執與押運官卒靴聲，看來黑石關封道已令街市氣氛緊繃。\n" NOR;
+        } else if (ws->query_forest_beast_alert() >= 60) {
+            res += HIR "【山村戒備】客棧後門已被粗木閂從裡面頂死，街市隱約傳來巡防梆子急促的敲擊聲。\n" NOR;
+        }
+    }
+    return res;
+}
+
 void init() {
     ::init();
     add_action("do_eavesdrop", "eavesdrop");

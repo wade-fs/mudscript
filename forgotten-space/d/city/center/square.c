@@ -34,7 +34,23 @@ void create() {
     set("is_outdoor", 1);
     set("has_shop", 1);
     set("no_combat", 1);
+    set_touch("default", WHT "腳下重石條石被數十萬隻車輪與鞋底磨得光潤，即使晴日裡也能感覺到地底暗渠傳來的微弱潮氣。" NOR);
+    set_smell("default", YEL "煎餅油煙、商旅汗酸、馬糞與客棧高粱酒氣匯成濃重的紅塵人間味。" NOR);
+    set_listen("default", HIY "醒木清脆一拍，說書聲、茶客爭執聲與城防巡卒鐵尺碰擊腰牌的聲響混成一團。" NOR);
 
     spawn_npc("/clone/npc/square_storyteller.c");
     spawn_npc("/clone/npc/square_watchman.c");
+}
+
+string query_long() {
+    string res = ::query_long();
+    object cd = find_object(CITY_D);
+    if (cd && cd->query_granary_open()) {
+        res += HIY "【府城動態】東北方常平倉前排起長龍，衙役正維持秩序按平價七五折平糶糧米！\n" NOR;
+    }
+    object ws = find_object(WORLD_STATE_D);
+    if (ws && ws->query_caravan_status() == "blocked") {
+        res += WHT "【茶棚風聲】告示木屏前圍滿憂慮的商旅，人人都在打聽外縣官道被誰封死的流言。\n" NOR;
+    }
+    return res;
 }

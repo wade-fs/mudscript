@@ -64,6 +64,20 @@ string query_listen(string target) {
     return HIY "牛皮風箱沉悶的「呼哧、呼哧」喘息聲、地爐炭火霹啪爆裂聲，與鐵錘砸落鐵砧時震耳欲聾的金石嗡鳴迴盪不休。" NOR;
 }
 
+string query_long() {
+    string res = ::query_long();
+    if (furnace_heat >= 100) {
+        res += HIR "【爐火熾盛】地爐內赤金火焰正達白熾高溫，映得整間工坊牆壁赤紅，正適合作高階精鋼鍛打！\n" NOR;
+    } else if (furnace_heat <= 30) {
+        res += CYN "【炭火漸熄】爐膛內只餘暗紅餘燼，需全力推拉風箱 (bellows) 重新鼓旺火勢。\n" NOR;
+    }
+    object ws = find_object(WORLD_STATE_D);
+    if (ws && ws->is_mine_collapsed()) {
+        res += YEL "【礦難影響】北崖礦場封井後新礦運入中斷，地上剩餘的粗鐵礦胚顯得格外珍貴。\n" NOR;
+    }
+    return res;
+}
+
 void init() {
     ::init();
     add_action("do_bellows", "bellows");

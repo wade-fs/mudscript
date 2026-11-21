@@ -298,11 +298,40 @@ void catch_tell(string msg) {
     }
 }
 
+// 依據玩家身世與當前 NPC 所屬勢力，給出差別態度前綴 (Background Attitude)
+string query_bg_attitude_prefix(object me) {
+    if (!me) return "";
+    string bg = me->query("background");
+    string fac = query("faction");
+    if (!bg || bg == "" || !fac || fac == "") return "";
+
+    if (fac == "baigong" && bg == "smith") {
+        return YEL "（他瞥見你虎口與指節上的厚繭，態度頓時親近了幾分）" NOR;
+    }
+    if (fac == "xuandaosi" && bg == "daoist") {
+        return HIC "（他感應到你眉心微弱的無垢靈台清氣，微微頷首）" NOR;
+    }
+    if (fac == "junzhen" && bg == "hunter") {
+        return MAG "（他打量著你身經荒林搏殺的沉穩站姿，眼中露出一絲讚許）" NOR;
+    }
+    if (fac == "shanghui" && bg == "beggar") {
+        return WHT "（他原本帶著幾分市儈輕蔑，接觸到你銳利冷靜的眼神後不由微收斂了神色）" NOR;
+    }
+    if ((fac == "xinglin" || fac == "danding") && bg == "herbalist") {
+        return HIG "（他嗅到你袖間常年採藥沾染的苦草藥氣，神色柔和了許多）" NOR;
+    }
+    if (fac == "yamen" && bg == "beggar") {
+        return WHT "（他下意識按住腰間文書袋，目光警惕地掃了你一眼）" NOR;
+    }
+    return "";
+}
+
 int do_chat(object me, string topic) {
     if (!topic || topic == "") return 0;
     
     mapping all_resp = query_all_responses();
     string my_name = query_name();
+    string att_prefix = query_bg_attitude_prefix(me);
 
     // 優先精確匹配
     if (all_resp[topic]) {
@@ -317,7 +346,7 @@ int do_chat(object me, string topic) {
         }
         if (final_msg != "") {
             if (mapp(final_msg)) final_msg = select_lang(final_msg);
-            tell_object(me, my_name + " 告訴你：「" + final_msg + "」\n");
+            tell_object(me, att_prefix + my_name + " 告訴你：「" + final_msg + "」\n");
             return 1;
         }
     }
@@ -356,13 +385,30 @@ int do_chat(object me, string topic) {
         tell_object(me, npc_say + "\n");
         return 1;
     }
-    if (topic == "傳聞" || topic == "消息" || topic == "風聲" || topic == "rumor" || topic == "rumors") {
+    if (topic == "傳聞" || topic == "消息" || topic == "風聲" || topic == "流言" || topic == "rumor" || topic == "rumors") {
         object rumor_d = find_object("/daemon/rumor_d.c");
         if (!rumor_d) rumor_d = load_object("/daemon/rumor_d.c");
         if (rumor_d) {
+            string *dist_topics = ({ "caravan", "mine", "credit" });
+            mapping r_data = rumor_d->query_distorted_rumor(dist_topics[random(sizeof(dist_topics))], me);
+            if (mapp(r_data) && r_data["display_msg"]) {
+                tell_object(me, att_prefix + my_name + " 壓低聲音說道：\n" + r_data["display_msg"] + "\n");
+                return 1;
+            }
             string r_msg = rumor_d->query_random_rumor(0);
-            tell_object(me, my_name + " 沉吟片刻，低聲告訴你：「" + r_msg + "」\n");
+            tell_object(me, att_prefix + my_name + " 沉吟片刻，低聲告訴你：「" + r_msg + "」\n");
             return 1;
+        }
+    }
+    if (topic == "商隊" || topic == "礦難" || topic == "通寶" || topic == "銀票") {
+        object rumor_d2 = find_object("/daemon/rumor_d.c");
+        if (!rumor_d2) rumor_d2 = load_object("/daemon/rumor_d.c");
+        if (rumor_d2) {
+            mapping r2 = rumor_d2->query_distorted_rumor(topic, me);
+            if (mapp(r2) && r2["display_msg"]) {
+                tell_object(me, att_prefix + my_name + " 環顧左右，低聲道：\n" + r2["display_msg"] + "\n");
+                return 1;
+            }
         }
     }
     if (topic == "name" || topic == "名字") {

@@ -22,6 +22,20 @@ void create() {
 
     add_response(({ "講古", "三大道統", "金石城" }),
         "瞎子陳一拍醒木，朗聲唱道：「話說那八百里落龍古脈環抱金石府，西有宣道司觀星借法，東有八方館淬骨開山，北有百工坊巧奪天工，南有金石商會富甲六縣——殊不知這青石板底下，還壓著萬年前大清洗的太古廢墟哩！」");
+}
 
-    add_response(({ "傳聞", "消息", "風聲", "六縣", "大荒" }), (: call_other, "/daemon/rumor_d.c", "query_random_rumor", 0 :));
+int do_chat(object me, string topic) {
+    if (topic && (topic == "傳聞" || topic == "消息" || topic == "風聲" || topic == "流言" ||
+                  topic == "商隊" || topic == "礦難" || topic == "通寶" || topic == "六縣")) {
+        object rumor_d = load_object(RUMOR_D);
+        if (rumor_d) {
+            string q_top = (topic == "傳聞" || topic == "消息" || topic == "風聲" || topic == "流言") ? "caravan" : topic;
+            mapping rd = rumor_d->query_distorted_rumor(q_top, me);
+            if (mapp(rd) && rd["display_msg"]) {
+                tell_object(me, "瞎子陳一敲梨花醒木，壓低聲音對你說道：\n" + rd["display_msg"] + "\n");
+                return 1;
+            }
+        }
+    }
+    return ::do_chat(me, topic);
 }

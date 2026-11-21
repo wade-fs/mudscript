@@ -63,6 +63,7 @@ mapping query_applied_outcome(string event_id, string quest_id, string actor_id)
 mapping query_novel_act_info(string event_id);
 int record_player_contribution(string event_id, string player_id, string action_id, int weight);
 mapping query_player_contributions(string event_id);
+mapping distribute_contribution_rewards(string event_id);
 string query_event_replay_summary(string event_id);
 
 // ── 全域狀態資料結構 ──────────────────────────────────────────
@@ -116,7 +117,7 @@ void set_test_mode(int mode) {
 int query_test_mode() { return test_mode; }
 
 void save_state() {
-    if (test_mode) return;
+    if (test_mode || getenv("MUD_TEST_MODE")) return;
     save_object(query_save_file());
 }
 
@@ -398,7 +399,15 @@ void reset_event(string event_id) {
         evidence_registry = ([]);
         if (events && events[EVENT_MILITARY_CRISIS]) {
             map_delete(events[EVENT_MILITARY_CRISIS], "final_resolution");
+            map_delete(events[EVENT_MILITARY_CRISIS], "contribution_settled");
         }
+    }
+    if (player_contributions) {
+        if (event_id == "all") player_contributions = ([]);
+        else if (player_contributions[event_id]) map_delete(player_contributions, event_id);
+    }
+    if (event_id != "all" && events && events[event_id]) {
+        map_delete(events[event_id], "contribution_settled");
     }
 
     if (event_id == EVENT_BEAST_SURGE || event_id == "all") {
@@ -797,6 +806,7 @@ void freeze_resolution() {
     events[EVENT_MILITARY_CRISIS]["final_resolution"] = copy(final_eval);
     log_event(EVENT_MILITARY_CRISIS, "resolution_frozen",
               sprintf("軍事危機最終結算已永久凍結：%s (%s)", final_eval["ending_code"], final_eval["ending_name"]));
+    distribute_contribution_rewards(EVENT_MILITARY_CRISIS);
     save_state();
 }
 
@@ -1533,6 +1543,48 @@ int record_player_contribution(string event_id, string player_id, string action_
 mapping query_player_contributions(string event_id) {
     if (!player_contributions || !player_contributions[event_id]) return ([]);
     return copy(player_contributions[event_id]);
+}
+
+// 依先行者貢獻度階梯結算與頒發稱號獎賞（支援冪等不重複發放）
+mapping distribute_contribution_rewards(string event_id) {
+    if (!events || !events[event_id]) return ([]);
+    if (mapp(events[event_id]["contribution_settled"])) {
+        return copy(events[event_id]["contribution_settled"]);
+    }
+
+    mapping contribs = query_player_contributions(event_id);
+    mapping settled = ([]);
+    foreach (string pid, mapping cdata in contribs) {
+        int sc = cdata["score"];
+        string tier = "witness";
+        string honor = "同舟共濟之士";
+        int exp_bonus = 50;
+        if (sc >= 30) {
+            tier = "pioneer";
+            honor = "破局先驅功臣";
+            exp_bonus = 300;
+        } else if (sc >= 10) {
+            tier = "pillar";
+            honor = "共治中堅骨幹";
+            exp_bonus = 150;
+        }
+        settled[pid] = ([
+            "score": sc,
+            "tier": tier,
+            "honor": honor,
+            "exp_bonus": exp_bonus
+        ]);
+        object u = find_player(pid);
+        if (u) {
+            u->gain_exp(exp_bonus);
+            u->set("event_honors/" + event_id, honor);
+            tell_object(u, sprintf(HIY "\n【歷史定格・貢獻結算】因你在「%s」中的參與（貢獻度 %d），獲頒【%s】榮譽！\n" NOR,
+                                   event_id, sc, honor));
+        }
+    }
+    events[event_id]["contribution_settled"] = settled;
+    save_state();
+    return copy(settled);
 }
 
 // 觀察者模式 / 歷史回放功能：讓後加入的玩家理解世界已發生的重大因果與參與者貢獻

@@ -761,6 +761,12 @@ string normalize_evidence_id(object ev_ob, string raw_id) {
         if (strsrch(bn, "yunji_roster") != -1) return "yunji_roster";
         if (strsrch(bn, "bronze_treaty_plate") != -1) return "bronze_treaty_plate";
         if (strsrch(bn, "tianmen_token") != -1) return "tianmen_token";
+        if (strsrch(bn, "ev3_drill_head") != -1) return "ev3_drill_head";
+        if (strsrch(bn, "ev3_mother_liquid_vial") != -1) return "ev3_mother_liquid_vial";
+        if (strsrch(bn, "ev3_private_purchase_ledger") != -1) return "ev3_private_purchase_ledger";
+        if (strsrch(bn, "ev3_expedition_roster") != -1) return "ev3_expedition_roster";
+        if (strsrch(bn, "ev3_yanshan_blood_note") != -1) return "ev3_yanshan_blood_note";
+        if (strsrch(bn, "ev3_heart_guard_mirror") != -1) return "ev3_heart_guard_mirror";
         if (ev_ob->query("evidence_id")) return ev_ob->query("evidence_id");
     }
     if (id == "detonator" || id == "雷管批號" || id == "簽領簿") return "detonator_serial_ledger";
@@ -830,6 +836,10 @@ mapping evaluate_corroboration_synergy(string *presented_ids) {
     int has_deed      = (member_array("under_canal_deed", presented_ids) != -1);
     int has_poison    = (member_array("relay_poison_sample", presented_ids) != -1);
     int has_custody   = (member_array("custody_ledger", presented_ids) != -1);
+    int has_v3_tech   = (member_array("ev3_drill_head", presented_ids) != -1 || member_array("ev3_mother_liquid_vial", presented_ids) != -1);
+    int has_v3_priv   = (member_array("ev3_private_purchase_ledger", presented_ids) != -1);
+    int has_v3_roster = (member_array("ev3_expedition_roster", presented_ids) != -1);
+    int has_v3_blood  = (member_array("ev3_yanshan_blood_note", presented_ids) != -1 || member_array("ev3_heart_guard_mirror", presented_ids) != -1);
 
     string *synergies = ({});
     int bonus_weight = 0;
@@ -848,6 +858,16 @@ mapping evaluate_corroboration_synergy(string *presented_ids) {
     if (has_poison && (has_deed || has_miners)) {
         synergies += ({ "poison_silencing_chain" });
         bonus_weight += 2;
+    }
+    // 4. 第三卷北荒母脈盜掘與秘密採辦互證鏈（鑽頭/母液 + 私下採辦帳冊）
+    if (has_v3_tech && has_v3_priv) {
+        synergies += ({ "v3_tiangong_sabotage_chain" });
+        bonus_weight += 3;
+    }
+    // 5. 第三卷戰祖古墓血書與失蹤名冊互證鏈（名冊 + 燕山血書/護心鏡）
+    if (has_v3_roster && has_v3_blood) {
+        synergies += ({ "v3_expedition_truth" });
+        bonus_weight += 3;
     }
 
     string tier = "isolated_lead";
@@ -876,6 +896,19 @@ mapping present_evidence_to_npc(object me, object ev_ob, object npc) {
     string ev_id = normalize_evidence_id(ev_ob, ev_ob->query_key_id());
     string npc_path = base_name(npc);
     string npc_name = npc->query_name();
+
+    // 0. 檢查是否為蓄意偽造之物證（偽造風險與反噬）
+    if (ev_ob->query("is_forged")) {
+        me->add("reputation_penalty", 10);
+        me->set_temp("last_forgery_caught", ev_id);
+        return ([
+            "handled": 1,
+            "status": "rejected_forged",
+            "ev_id": ev_id,
+            "msg": sprintf(HIR "【偽證反噬！】%s 只看了一眼 %s 的火印與筆跡，便冷笑拍案：「騎縫章墨色浮躁、紙質年份對不上——這是偽造的假證！你想誣告還是蓄意攪局？！」（聲望受損，已紀錄在案）" NOR,
+                           npc_name, ev_ob->query_short())
+        ]);
+    }
 
     // 1. 檢查物證是否受污染
     if (ev_ob->query("contaminated")) {

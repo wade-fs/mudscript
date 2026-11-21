@@ -72,6 +72,53 @@ int query_calibrated_count(object me) {
     return cnt;
 }
 
+// 檢查玩家本人或同房間隊友是否持有對應石台所需之實體遺物／圖譜憑證
+mapping inspect_station_relic_support(object me, string station) {
+    object *holders = ({ me });
+    object env = environment(me);
+    if (env) {
+        object *inv = all_inventory(env);
+        if (arrayp(inv)) {
+            foreach (object ob in inv) {
+                if (ob && ob != me && (userp(ob) || strsrch(base_name(ob), "/std/user") == 0)) holders += ({ ob });
+            }
+        }
+    }
+
+    string *match_ids = ({});
+    string label = "";
+    if (station == "north") {
+        match_ids = ({ "stele rubbing", "rubbing", "reverse_star_addendum", "星圖拓片", "逆星歲差實測補遺" });
+        label = "【逆星斷碑拓片 / 逆星歲差實測補遺】";
+    } else if (station == "northeast") {
+        match_ids = ({ "ancient black iron", "black iron", "detachable_feedback_spec", "steel_caliper", "太古不融黑鐵", "回授連動台圖紙" });
+        label = "【太古不融黑鐵構件 / 回授連動台圖紙】";
+    } else if (station == "northwest") {
+        match_ids = ({ "totem bone", "totem", "bahuang_rotation_manual", "圖騰骨片", "黑山分段輪替操典" });
+        label = "【獵獸圖騰骨片 / 黑山分段輪替操典】";
+    } else if (station == "southwest") {
+        match_ids = ({ "disha crystal", "crystal core", "sanyuan_bencao_draft", "sanyuan_shengji_dan", "晶核殘片", "三元本草祛道錄" });
+        label = "【古礦地煞晶核 / 三元本草祛道錄】";
+    } else if (station == "south") {
+        match_ids = ({ "tianmen token", "bronze treaty plate", "wanshan_charter_deed", "天門引", "青銅契版", "萬山共治託付書" });
+        label = "【天門引 / 青銅契版 / 萬山共治託付書】";
+    }
+
+    foreach (object h in holders) {
+        foreach (string mid in match_ids) {
+            if (present(mid, h)) {
+                return ([
+                    "found": 1,
+                    "holder": (h == me) ? "self" : "teammate",
+                    "holder_name": h->query_name(),
+                    "label": label
+                ]);
+            }
+        }
+    }
+    return ([ "found": 0, "label": label ]);
+}
+
 int do_status(string arg) {
     object me = this_player();
     mapping st = query_calibration_state(me);
@@ -113,6 +160,18 @@ int do_calibrate(string arg) {
     if (target == "南" || target == "正南" || target == "5") target = "south";
 
     mapping st = query_calibration_state(me);
+    mapping rel_info = inspect_station_relic_support(me, target);
+    if (mode == "strict" && !rel_info["found"]) {
+        tell_object(me, sprintf(HIR "【技術校驗失敗 — 實體信物／圖紙缺席】\n"
+                                    "嚴格校驗模式要求本人或同殿隊友實際持有 %s 方可扣入導流槽，目前檢測無此實體信物！\n" NOR,
+                                rel_info["label"]));
+        return 1;
+    }
+
+    string relic_note = rel_info["found"]
+        ? sprintf(HIG "（實體信物 %s 由%s現場扣入導流槽並耗費微許神識催動）\n" NOR,
+                  rel_info["label"], (rel_info["holder"] == "teammate") ? ("隊友 " + rel_info["holder_name"]) : "你")
+        : CYN "（由祖庭備用拓印與同門協作矩陣補足實體介面，若帶齊實體遺物可觸發 strict 零損校驗）\n" NOR;
 
     if (target == "reset" || target == "重置") {
         reset_stations();
@@ -134,7 +193,7 @@ int do_calibrate(string arg) {
         me->set_temp("ark_portal_calib", st);
         tell_object(me, HIC "【第一階校驗通過：正北水銀星盤控台（座標鎖定）】\n"
                             "你將【逆星斷碑拓片】覆於水銀星象凹盤上，依《太古逆星補遺》微調三十六枚青銅游標。\n"
-                            "水銀珠沿逆行九宿溝槽精準歸位，「錚」地一聲清鳴，跨界空間座標向量徹底釘死（偏差 0.00°）！\n" NOR);
+                            "水銀珠沿逆行九宿溝槽精準歸位，「錚」地一聲清鳴，跨界空間座標向量徹底釘死（偏差 0.00°）！\n" NOR + relic_note);
         return 1;
     }
 
@@ -155,7 +214,7 @@ int do_calibrate(string arg) {
         me->set_temp("ark_portal_calib", st);
         tell_object(me, HIY "【第二階校驗通過：東北傳動主台（結構校準）】\n"
                             "你左手抵住阿鐵師傅留下的精鋼卡尺，測量主導管在雷劫震動下的微米級形變，\n"
-                            "右手在震波波谷的一瞬將【太古不融黑鐵齒輪】精準推入榫卯！「哢嗒——」三百六十齒嚴絲合縫，空間撕裂應力被死死鎖住！\n" NOR);
+                            "右手在震波波谷的一瞬將【太古不融黑鐵齒輪】精準推入榫卯！「哢嗒——」三百六十齒嚴絲合縫，空間撕裂應力被死死鎖住！\n" NOR + relic_note);
         return 1;
     }
 
@@ -175,7 +234,7 @@ int do_calibrate(string arg) {
         me->set_temp("ark_portal_calib", st);
         tell_object(me, MAG "【第三階校驗通過：西北黑岩陣台（生命屏蔽）】\n"
                             "你將【獵獸圖騰骨片】按入黑岩血槽，屏息收斂狂暴殺氣，以八荒綿長勻稱的呼吸節律引導氣血脈動。\n"
-                            "暗紅荒血紋路與黑岩導流槽同頻搏動，一層堅韌的太古生命屏蔽場如穹頂般張開，隔絕了跨界虛空壓差！\n" NOR);
+                            "暗紅荒血紋路與黑岩導流槽同頻搏動，一層堅韌的太古生命屏蔽場如穹頂般張開，隔絕了跨界虛空壓差！\n" NOR + relic_note);
         return 1;
     }
 
@@ -196,7 +255,7 @@ int do_calibrate(string arg) {
         me->set_temp("ark_portal_calib", st);
         tell_object(me, HIG "【第四階校驗通過：西南高壓閥門台（能源點火）】\n"
                             "你將【古礦地煞晶核殘片】嵌入高壓閥芯，同時以百草三元溫和藥靈真氣包裹暴烈地煞作為催化引信。\n"
-                            "地底儲備萬載的靈石總庫轟然點燃，狂暴的地脈火能被藥靈梳理成純淨璀璨的青金洪流，灌入三丈星門外環！\n" NOR);
+                            "地底儲備萬載的靈石總庫轟然點燃，狂暴的地脈火能被藥靈梳理成純淨璀璨的青金洪流，灌入三丈星門外環！\n" NOR + relic_note);
         return 1;
     }
 
@@ -212,7 +271,7 @@ int do_calibrate(string arg) {
         tell_object(me, HIW "【第五階校驗通過：正南行商總約石碑（行商認證）】\n"
                             "你將微溫的【天門引】與【九城總契銅版】並排扣入正南石碑雙槽！\n"
                             "令符內部休眠萬古的微型神械齒輪高速旋轉，將五人一路收集的雙帳鐵證、三元本草、百工規約與黑石鋪生靈名冊逐一造冊校驗——\n"
-                            "「叮——五器共鳴校驗 100% 通過！太古破界方舟主星門授權解鎖（可執行 activate gate）！」\n" NOR);
+                            "「叮——五器共鳴校驗 100% 通過！太古破界方舟主星門授權解鎖（可執行 activate gate）！」\n" NOR + relic_note);
         return 1;
     }
 
