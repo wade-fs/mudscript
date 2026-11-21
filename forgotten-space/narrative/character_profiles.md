@@ -2,7 +2,7 @@
 
 > **所屬專案**：`forgotten-space` 敘事設定集  
 > **關聯文檔**：[世界觀與 Mudlib 架構設定集](file:///home/wade/src/github/mudscript/forgotten-space/narrative/world_setting.md) ｜ [第一卷大綱【黑石驚蟄】](file:///home/wade/src/github/mudscript/forgotten-space/narrative/volume1.md) ｜ [第二卷大綱【金石風雲】](file:///home/wade/src/github/mudscript/forgotten-space/narrative/volume2.md) ｜ [第三卷大綱【名山問道】](file:///home/wade/src/github/mudscript/forgotten-space/narrative/volume3.md)  
-> **更新時間**：2026-11-14  
+> **更新時間**：2026-11-21（同步第三卷 Ch. 83–126 完稿與 Mudlib 全實裝）  
 
 ---
 
@@ -51,7 +51,7 @@ flowchart TD
 
 ### 3. 燕隼（獵戶之子 / hunter）
 * **詳細檔案**：[`yan_sun.md`](file:///home/wade/src/github/mudscript/forgotten-space/narrative/characters/yan_sun.md)
-* **年齡與身世**：十六歲。父親與親二叔燕山多年前失陷於大荒，由老獵戶趙老獵教養長大。
+* **年齡與身世**：十六歲。父親與親大伯燕山多年前失陷於大荒，由老獵戶趙老獵教養長大。
 * **道途定位**：力道搏殺 / 行為痕跡、荒野追蹤與獸行預判。
 * **出生居所**：聚落東南・獵戶哨亭 (`/d/village/hunter_cabin.c`)。
 * **先天六維**：STR 3, CON 3, **DEX 4**, INT 1, SPI 2, **PER 5**（總分 18）。
@@ -59,7 +59,7 @@ flowchart TD
 * **怎麼理解世界**：**【從行為與痕跡理解世界】**。追蹤獵物、辨認危險、預測野生動物與敵人的行動動線，以荒野搏殺經驗解讀危機。看到林中獸跡混亂，第一反應是推測動物的受驚方向、遷徙規模、捕食與逃亡本能，以及前排頭獸的盲從習性。
 * **太古機緣**：大荒荊棘荒林追蹤黑熊紫黑濁血，在化骨泥沼巨榕根下觸動被巨熊撞裂石衣的【太古戰神獵獸圖騰玄柱】血脈共鳴。
 * **卷一關鍵行動**：手持趙伯所傳百斤牛筋蛟骨大弓（五石力）；巡查東林發現陷阱空置與獸群遷徙跡象；地穴中連珠三箭與柴刀開腹凶悍擊殺盲眼巨蜥；落龍口居高臨下以鳴鏑火矢精準迫退前排頭獸。
-* **卷二關鍵行動與二階去向**：於八方武館師從霸山總教頭，撐過三合擂台考取【八方黑鐵腰牌 (`lic_militia`)】並轉職 `wu_initiate`；赴鎮風縣鷹嘴崖協防風口要塞，查獲五年前二叔燕山受商會「走山令」深入北荒失蹤之鐵證；於生死擂台逆沖氣血大關臻至一階圓滿（Lv.50），獲霸山保薦取得**【八荒武山／八荒武宗（霸王崩山宗）】**二階入門信物，決意北上尋叔。
+* **卷二關鍵行動與二階去向**：於八方武館師從霸山總教頭，撐過三合擂台考取【八方黑鐵腰牌 (`lic_militia`)】並轉職 `wu_initiate`；赴鎮風縣鷹嘴崖協防風口要塞，查獲五年前大伯燕山受商會「走山令」深入北荒失蹤之鐵證；於生死擂台逆沖氣血大關臻至一階圓滿（Lv.50），獲霸山保薦取得**【八荒武山／八荒武宗（霸王崩山宗）】**二階入門信物，決意北上尋親。
 
 ---
 

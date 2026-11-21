@@ -4,14 +4,14 @@
 > `status`: `canon (Act 1 實裝)`  
 > `faction`: 千機百巧門／丹鼎宗  
 > `path/domain`: 物道／藥道  
-> `home_room`: `/d/sects/danding/herb_garden.c`（Act 1 試藥谷主考駐點；內門丹室 `elder_dan_chamber` 為二幕後草案）  
+> `home_room`: `/d/sects/danding/herb_garden.c`（Act 1 試藥谷主考；二幕地肺丹火窟 `earth_fire_pill_cave` 密煉血丹；Ch. 117 問道天台失控後遭鎖押丹鼎隔離鐵室）  
 > `mudlib_path`: `/clone/npc/he_shou.c`
 
 ## 基本資料
 
 - **姓名／稱謂**：鶴壽／丹鼎宗長老
 - **所屬**：千機百巧門／丹鼎宗
-- **活動地點**：`/d/sects/danding/herb_garden.c`（內門丹室 `elder_dan_chamber` 待實裝）
+- **活動地點**：`/d/sects/danding/herb_garden.c`（關聯場景 `/d/sects/danding/earth_fire_pill_cave.c`、`/d/yunjin/hearing_hall.c`）
 - **角色定位**：Tier 2 世界人物；其職能、知情範圍與利益關係以本檔為界。
 
 ## 人物設定與敘事功能

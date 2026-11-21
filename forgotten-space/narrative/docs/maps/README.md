@@ -122,8 +122,8 @@ flowchart TD
 
 ---
 
-## Tier 2 名山疆域（第三卷）
+## Tier 2 名山疆域（第三卷・已全數實裝）
 
-第三卷地圖草案集中於 [`tier2/`](tier2/README.md)，包含太清玄天宮、八荒武山、天工閣、丹鼎宗、雲津仙集及北荒裂谷。此組地圖是小說與 MUD 共用的邏輯拓撲提案，尚未與 LPC 房間實作對照，也尚未通過 BFS／雙向可逆性測試。
+第三卷地圖集於 [`tier2/`](tier2/README.md)，包含太清玄天宮（9 房）、八荒武山（9 房實裝＋2 預留營區 `draft`）、天工閣（6 房）、丹鼎宗（5 房）、雲津仙集暨問道天台（18 房）及北境官道與北荒裂谷／方舟（19 房），合計 **66 間實裝房間**（並於祖庭主傳送室單向接通 Tier 3 初臨點 `/d/realm/peach_plateau.c`）。
 
-**路徑決策提醒**：`world_setting.md` 既有 Tier 2 根目錄記載為 `/d/mountain/`；第三卷大綱曾提出 `/d/sects/`、`/d/yunjin/`、`/d/wastes/` 作分區。第一階段先保留邏輯區域與建議 room ID，第二階段需選定實際根目錄並一次同步更新此地圖集、`world_setting.md`、`mudlib_lpc_mapping.md` 與 LPC 路由。
+**路徑定案**：原草案曾預擬 `/d/mountain/` 總目錄；現已與 `world_setting.md`、`mudlib_lpc_mapping.md` 及實際 LPC 路由統一定案為 `/d/sects/`、`/d/yunjin/` 與 `/d/wastes/`，並已全數通過 `quest_audit.py`、`test_v3_act1.c`～`test_v3_act5.c` 及從 `/d/village/square.c` 出發之 BFS 全圖連通與雙向可逆審計（253/254 靜態連通，僅 Tier 3 單向高原依正典設為 `enter gate` 進入）。

@@ -2,7 +2,7 @@
 
 > **卷次定位**：Tier 2 名門名山大派與萬山商埠篇（角色等級 Lv.50 → Lv.100 ／ 技能等級 Lv.101 → Lv.200）  
 > **章節規模**：全 44 章（第 83 章 ～ 第 126 章，五幕結構）  
-> **文件狀態**：結構修訂版；作為後續正文寫作基準，章節場景與人物反應保留創作彈性。  
+> **文件狀態**：第三卷正文（Ch. 83–126）暨 Tier 2 Mudlib（`/d/wastes/`、`/d/yunjin/`、`/d/sects/`）均已依本大綱與設計規約全數實裝並通過雙軌驗證；原規劃之 `/d/mountain/` 根目錄已正典化拆分為 `/d/sects/`（四脈 29 房）、`/d/yunjin/`（18 房）與 `/d/wastes/`（19 房），並於 `/d/realm/peach_plateau.c` 接通 Tier 3 初臨點。
 > **修訂原則**：保留原五幕主線，優先修正跨卷正典、證據強度、人物弧線、宗門社會層次與高潮節奏。  
 > **關聯正典**：[世界觀與 Mudlib 架構設定集](file:///home/wade/src/github/mudscript/forgotten-space/narrative/world_setting.md) ｜ [小說總大綱](file:///home/wade/src/github/mudscript/forgotten-space/narrative/novel_outline.md) ｜ [第一卷大綱【黑石驚蟄】](file:///home/wade/src/github/mudscript/forgotten-space/narrative/volume1.md) ｜ [第二卷大綱【金石風雲】](file:///home/wade/src/github/mudscript/forgotten-space/narrative/volume2.md) ｜ [核心人物檔案](file:///home/wade/src/github/mudscript/forgotten-space/narrative/character_profiles.md)  
 > **核心命題**：**當修行的代價不再只是凡俗的皮肉勞苦，而是「神魂結晶道化（法）」、「氣血如爐枯竭（力）」、「心為外物靈樞所役（物）」時，五位自黑石鋪泥塗走出的少年，如何在名山正統的偏科絕路中守住人性，並撕開名山高層收購「地煞血精」延命的萬古黑幕？**
@@ -84,7 +84,7 @@
 
 ## 四、第三卷空間拓撲與 Mudlib 規劃藍圖（敘事分區與實作映射）
 
-> **目錄正典說明**：`world_setting.md` 目前將 Tier 2 地理根目錄記為 `/d/mountain/`。本節的 `/d/sects/`、`/d/yunjin/`、`/d/wastes/` 是本卷敘事分區的建議映射，不應在尚未完成架構決策前視為已定案的 Mudlib 根目錄。若實作沿用 `/d/mountain/`，可將三者作為其下子區或邏輯區域；若改為獨立根目錄，須同步更新世界設定與實際路由。
+> **目錄正典定案**：原規劃草稿階段 `world_setting.md` 曾記為 `/d/mountain/`；經第三卷第一至五幕實裝定案並同步更新 `world_setting.md` 與 `mudlib_lpc_mapping.md`，Tier 2 實際 Mudlib 根目錄正式劃分為 `/d/sects/`（太清 9、八荒 9、天工 6、丹鼎 5）、`/d/yunjin/`（18 房）與 `/d/wastes/`（官道 3、裂谷及方舟 16）。
 
 ```mermaid
 flowchart TD
@@ -387,7 +387,7 @@ flowchart LR
 | 五件太古遺物 | 柳清虛：逆星斷碑拓片；林鐵生：太古不融黑鐵齒輪構件；燕隼：獵獸圖騰骨片；顧玄：古礦地煞晶核殘片；沈泥：天門引與九城青銅契版（同一商盟遺物線） | 第 107、126 章依此清單；不得用「道化晶石殘片」替換顧玄持有物 |
 | Tier 1 → Tier 2 門檻 | Lv.50 破障、社會資格、考核令與通過入門考核彼此分離 | 第 85 章考核令只代表報名資格；四人通過考核後才取得外門身分 |
 | 三道宗門結構 | 太清玄天宮、八荒武山、千機百巧門（天工閣／丹鼎宗兩主脈） | 名稱與隸屬關係全卷一致 |
-| 地理目錄 | `world_setting.md` Tier 2 根目錄目前記為 `/d/mountain/` | 本卷提出的分區目錄只作規劃映射，待程式架構決策後同步正典 |
+| 地理目錄 | `world_setting.md` 已同步定案為 `/d/sects/`、`/d/yunjin/`、`/d/wastes/` | 全部 66 間 Tier 2 房間及 `/d/realm/peach_plateau.c` 已落地並通過 BFS 連通驗證 |
 | 時間 | 第二卷第五幕為盛夏至初秋，約 70 日，卷末由金石府北關啟程 | 第 83 章起須交代八百里路程、季節推移與抵達日期；三年一次的外門甄選必須符合既定週期，不得為劇情方便臨時改期 |
 | 沈泥身世 | 第二卷已取得天門引與青銅契版殘片，舊約內容尚未完整揭露 | 第三卷推進第五階段；不得把第五階段和第六階段混寫成已完成 |
 
@@ -426,4 +426,4 @@ flowchart LR
 | 物品 | [`items/tier2_item_catalog.md`](items/tier2_item_catalog.md) | 太古遺物、材料、丹藥、工具、證物與資格 |
 | 時間軸 | [`docs/tier2_timeline.md`](docs/tier2_timeline.md) | 北行、季節、大考、北荒勘探與會武時間校準 |
 
-**資料狀態規則**：`canon` 為既有文件已明載；`proposed` 為本次新增提案；`derived` 為合理推導；`open` 為待作者裁定。提案不得在正文中被悄悄升格為既定正典。地圖 room ID 與 LPC 路徑目前均為草案，尚未代表程式已實裝或通過可達性測試。
+**資料狀態說明**：`canon` 為既有文件與已寫成章節正文確立；`proposed`／`derived` 為第一階段世界觀補強；`open` 為依小說正典刻意保留之長線懸念（如燕山下落、門後洞天實質、二十八宿天羅幕後操縱者、舊商盟清洗完整簽字高層名錄）。第三卷全部 **29 份任務 JSON、66 間 Tier 2 房間（＋1 間 Tier 3 `peach_plateau.c`）、50 名新 NPC（＋2 複用）與 38 項新道具** 均已實裝並通過 `quest_audit.py`、`test_v3_act1`～`act5` 及 BFS 雙向連通審計。
