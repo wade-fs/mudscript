@@ -1065,8 +1065,8 @@ graph TD
 * **核心人物檔案 (Character Profiles)** ➔ 請參閱 [`narrative/character_profiles.md`](file:///home/wade/src/github/mudscript/forgotten-space/narrative/character_profiles.md)  
   包含五重視角核心主角（顧玄、林鐵生、燕隼、柳清虛、沈泥）深度設定、理解世界方式、關鍵引路導師（葛半仙、阿鐵、趙老獵、枯木老道、莫三）與重要配角群像（蘇凝霜、魯大山、老李頭、木匠老陳、胡百戶、趙德貴、陳鎮山等）。
 
-* **小說大綱與章節規劃 (Novel Outline)** ➔ 請參閱 [`narrative/novel_outline.md`](file:///home/wade/src/github/mudscript/forgotten-space/narrative/novel_outline.md)、[`narrative/volume1.md`](file:///home/wade/src/github/mudscript/forgotten-space/narrative/volume1.md)、[`narrative/volume2.md`](file:///home/wade/src/github/mudscript/forgotten-space/narrative/volume2.md) 與 [`narrative/volume3.md`](file:///home/wade/src/github/mudscript/forgotten-space/narrative/volume3.md)  
-  包含第一卷【黑石驚蟄】全 38 章（已完結）、第二卷【金石風雲】全 44 章（已完結）、第三卷【名山問道】全 44 章五幕大綱，以及跨卷修煉空間晉升藍圖。
+* **小說大綱與章節規劃 (Novel Outline)** ➔ 請參閱 [`narrative/novel_outline.md`](file:///home/wade/src/github/mudscript/forgotten-space/narrative/novel_outline.md)、[`narrative/volume1.md`](file:///home/wade/src/github/mudscript/forgotten-space/narrative/volume1.md)、[`narrative/volume2.md`](file:///home/wade/src/github/mudscript/forgotten-space/narrative/volume2.md)、[`narrative/volume3.md`](file:///home/wade/src/github/mudscript/forgotten-space/narrative/volume3.md) 與 [`narrative/volume4.md`](file:///home/wade/src/github/mudscript/forgotten-space/narrative/volume4.md)  
+  包含第一至三卷全 126 章（已完結兼 Mudlib 全實裝）、第四卷【洞天問真】44 章規劃藍圖，以及跨卷修煉空間晉升架構。
 
 * **Mudlib LPC 機制與專案目錄架構映射 (Mudlib LPC Mapping)** ➔ 請參閱 [`narrative/mudlib_lpc_mapping.md`](file:///home/wade/src/github/mudscript/forgotten-space/narrative/mudlib_lpc_mapping.md)  
   包含四層架構目錄藍圖（`world/`, `d/`, `std/`, `daemon/`, `narrative/`）、LPC 核心類別映射表、宣告式任務狀態機引擎 (`QUEST_ENGINE_D` + `/quests/*.json`) 與戰鬥守護進程 (`COMBAT_D`) 實裝規範。

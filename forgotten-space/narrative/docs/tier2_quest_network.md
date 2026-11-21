@@ -1,6 +1,6 @@
 # 第三卷跨章任務網絡與 JSON 設計（第二階段延伸）
 
-> 版本：0.1｜範圍：第83–126章｜性質：任務網絡設計與 JSON 初稿，不是已完成 LPC 實裝。
+> 版本：1.0｜範圍：第83–126章｜狀態：全卷一至五幕 29 份 `v3_*` 任務 JSON、66 間 Tier 2 房間及 `/d/realm/peach_plateau.c` 均已完成 LPC 實裝並通過 `quest_audit.py` 與 `test_v3_act1`～`act5` 自動化驗證。
 > 依據：`narrative/volume3_story_design.md`、`events/volume3_events.md`、Tier 2 NPC 名冊與地圖草案，以及現有 `quests/**/*.json`、`daemon/quest_engine_d.c` 的實際格式。
 
 ## 1. 設計決策

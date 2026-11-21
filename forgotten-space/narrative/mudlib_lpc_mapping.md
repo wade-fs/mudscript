@@ -1,7 +1,7 @@
 # 《遺忘的世界》Mudlib LPC 機制與專案目錄架構映射 (Mudlib LPC Mapping)
 
 > **所屬專案**：`forgotten-space` 系統規格集  
-> **關聯文檔**：[世界觀與 Mudlib 架構設定集](file:///home/wade/src/github/mudscript/forgotten-space/narrative/world_setting.md) ｜ [第一卷大綱【黑石驚蟄】](file:///home/wade/src/github/mudscript/forgotten-space/narrative/volume1.md) ｜ [第二卷大綱【金石風雲】](file:///home/wade/src/github/mudscript/forgotten-space/narrative/volume2.md) ｜ [第三卷大綱【名山問道】](file:///home/wade/src/github/mudscript/forgotten-space/narrative/volume3.md) ｜ [事件與任務鏈總表](file:///home/wade/src/github/mudscript/forgotten-space/narrative/events/README.md)  
+> **關聯文檔**：[世界觀與 Mudlib 架構設定集](file:///home/wade/src/github/mudscript/forgotten-space/narrative/world_setting.md) ｜ [第一卷大綱【黑石驚蟄】](file:///home/wade/src/github/mudscript/forgotten-space/narrative/volume1.md) ｜ [第二卷大綱【金石風雲】](file:///home/wade/src/github/mudscript/forgotten-space/narrative/volume2.md) ｜ [第三卷大綱【名山問道】](file:///home/wade/src/github/mudscript/forgotten-space/narrative/volume3.md) ｜ [第四卷規劃【洞天問真】](file:///home/wade/src/github/mudscript/forgotten-space/narrative/volume4.md) ｜ [事件與任務鏈總表](file:///home/wade/src/github/mudscript/forgotten-space/narrative/events/README.md)  
 > **更新時間**：2026-11-21（同步第三卷全五幕 Ch. 83–126 Tier 2 全數落地與 Tier 3 初窺高原）  
 
 ---
@@ -71,11 +71,12 @@ mudscript/forgotten-space/
 └── narrative/              # 【04 敘事內容 (Narratives)】小說創作與世界事件關聯索引
     ├── characters/         # 五位主角、一二卷配角與第三卷 Tier 2 人物檔案
     ├── chapters/           # 依卷分目錄：volume1/ (ch0001~0038)、volume2/ (ch0039~0082)、volume3/ (ch0083~0126) 共 126 章完稿正文
-    ├── events/             # 第一卷 (EV-101~125)、第二卷 (EV-201~244) 與第三卷 (EV301~EV327／tier2_crisis.json)
-    ├── docs/               # 需求追溯矩陣、Tier 2 地圖／人物名冊／時間軸／任務網絡設計文檔
+    ├── events/             # 第一卷 (EV-101~125)、第二卷 (EV-201~244)、第三卷 (EV301~EV327／tier2_crisis.json) 與第四卷規劃 (EV401~EV422)
+    ├── docs/               # 需求追溯矩陣、Tier 2 地圖／名冊／任務設計 ＋ Tier 3（洞天篇）地圖／人物／任務規劃
     ├── volume1.md          # 第一卷【黑石驚蟄】全 38 章宏觀五幕大綱
     ├── volume2.md          # 第二卷【金石風雲】全 44 章宏觀五幕大綱
     ├── volume3.md          # 第三卷【名山問道】全 44 章（第 83–126 章）五幕大綱
+    ├── volume4.md          # 第四卷【洞天問真】全 44 章（第 127–170 章）Tier 3 五幕規劃大綱
     ├── character_profiles.md # 核心人物檔案與身世世界觀設定
     ├── novel_outline.md    # 小說大綱與各卷宏觀規劃
     └── mudlib_lpc_mapping.md # 本文檔：LPC 架構映射

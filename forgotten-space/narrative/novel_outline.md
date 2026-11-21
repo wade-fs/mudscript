@@ -148,6 +148,19 @@ flowchart TD
 
 ---
 
+## 五、第四卷：【洞天問真・異界三極篇】(規劃 44 章 Ch.127 ~ 170 / Tier 3 規劃中)
+
+> 💡 **進度狀態**：全卷規劃套件已比照第三卷結構編製完成，詳細設計請參閱 [**第四卷大綱【洞天問真】**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/volume4.md)、[`narrative/docs/maps/tier3/`](file:///home/wade/src/github/mudscript/forgotten-space/narrative/docs/maps/tier3/README.md)、[`narrative/events/volume4_events.md`](file:///home/wade/src/github/mudscript/forgotten-space/narrative/events/volume4_events.md) 與 [`narrative/docs/tier3_quest_network.md`](file:///home/wade/src/github/mudscript/forgotten-space/narrative/docs/tier3_quest_network.md)（Mudlib 已先行於 `/d/realm/peach_plateau.c` 實裝初臨點）。
+
+* **五幕宏觀規劃（Ch. 127 ~ Ch. 170）**：
+  1. **第一幕：碎石寒原・遺民餘燼（Ch.127 ~ 134）**：踏出荒蕪碎石高原尋見【灰燼石堡】炊煙，揭露十七批先輩真實結局、體感 `K`/`U` 認知代價（舊技三倍高耗），並初現「律令排異症」與燕山五年鷹記刻痕。
+  2. **第二幕：三極分探・洞天規則（Ch.135 ~ 144）**：五子分赴正北【太虛神宮】（見二十八宿天羅與玉化電池真相）、正東【萬物主機城】（查清北荒方舟實為「九號離艦救生艙」兼啟動沈泥【九城離線總節點】）、西南【戰祖魔殿】（重逢斷目大伯**燕山**），確立「飛升收割」封閉循環。
+  3. **第三幕：真假飛升・三極暗戰（Ch.145 ~ 154）**：串聯三極底層工役／獵隊密約、截獲帶天工「赤火」篆印之跨界走私晶箱（串連 `FS-06`），偏折星鎖掃描三息並以可拆卸扣具自鬥獸坑搶出燕山，沈泥憑《保全人類火種》休眠條款迫主機暫緩清零。
+  4. **第四幕：鼎足破局・三元共鳴（Ch.155 ~ 164）**：三百年大校準夜結合二十四站大停工、柳清虛偏星一度半、燕隼守哨卡兼獲燕山五年加密殘牌、林鐵生匯流井換栓，沈泥正式登記【沈雲妮】法理身分廢除獨裁調度完成第六階段身世，同時觸發【歸墟古淵】十歲象倒數警報。
+  5. **第五幕：雙向初通・返鄉前夜（Ch.165 ~ 170）**：耗高代價建立三息微光信標傳回首信致人間三年守望之莫三（三十年約剩廿七載），五子首聚【純淨混沌三元流】並開啟碎石高原萬丈極深之【歸墟古淵】（Tier 4 `/d/secret/`）入口。
+
+---
+
 ## 五、核心創作守則與敘事原則 (Writing Canon)
 
 1. **嚴格因果律（拒絕機械降神）**：主角的勝利來自情報收集、物理結構、生態規律、制度制衡與代價承擔，絕非臨陣爆種或老爺爺天降解圍。
