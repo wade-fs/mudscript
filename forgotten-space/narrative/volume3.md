@@ -5,6 +5,7 @@
 > **文件狀態**：第三卷正文（Ch. 83–126）暨 Tier 2 Mudlib（`/d/wastes/`、`/d/yunjin/`、`/d/sects/`）均已依本大綱與設計規約全數實裝並通過雙軌驗證；原規劃之 `/d/mountain/` 根目錄已正典化拆分為 `/d/sects/`（四脈 29 房）、`/d/yunjin/`（18 房）與 `/d/wastes/`（19 房），並於 `/d/realm/peach_plateau.c` 接通 Tier 3 初臨點。
 > **修訂原則**：保留原五幕主線，優先修正跨卷正典、證據強度、人物弧線、宗門社會層次與高潮節奏。  
 > **關聯正典**：[世界觀與 Mudlib 架構設定集](file:///home/wade/src/github/mudscript/forgotten-space/narrative/world_setting.md) ｜ [小說總大綱](file:///home/wade/src/github/mudscript/forgotten-space/narrative/novel_outline.md) ｜ [第一卷大綱【黑石驚蟄】](file:///home/wade/src/github/mudscript/forgotten-space/narrative/volume1.md) ｜ [第二卷大綱【金石風雲】](file:///home/wade/src/github/mudscript/forgotten-space/narrative/volume2.md) ｜ [核心人物檔案](file:///home/wade/src/github/mudscript/forgotten-space/narrative/character_profiles.md)  
+> **讀者導讀**：純小說向《[第三卷大事記與人物狀態一覽](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/volume3/README.md)》  
 > **核心命題**：**當修行的代價不再只是凡俗的皮肉勞苦，而是「神魂結晶道化（法）」、「氣血如爐枯竭（力）」、「心為外物靈樞所役（物）」時，五位自黑石鋪泥塗走出的少年，如何在名山正統的偏科絕路中守住人性，並撕開名山高層收購「地煞血精」延命的萬古黑幕？**
 
 ---

@@ -6,6 +6,8 @@
 
 ## 第一卷：黑石破曉 / 凡胎驚蟄
 
+> 📖 **純小說讀者導讀與卷末回顧**：[**【第一卷大事記與人物狀態一覽】**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/volume1/README.md)
+
 ![黑石鋪全景簡圖](img/map_black_stone_village.jpg)
 *黑石鋪聚落全景地圖：北依黑石斷崖古礦坑，西立老松殘觀，東設鹿角木柵大荒林口，南臨幽霧寒溪與浣衣磨刀石灘。*
 
@@ -68,6 +70,8 @@
 ---
 
 ## 第二卷：金石風雲 / 入城立籍篇
+
+> 📖 **純小說讀者導讀與卷末回顧**：[**【第二卷大事記與人物狀態一覽】**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/volume2/README.md)
 
 本卷主舞台移至金石府城（九大分區、45 間正典房間）與周邊六縣區域網。五位少年護送死囚與走私重證，沿東線盤木林道踏入自治城邦，直面世俗體制、五方共治博弈、兩階段居留鐵律與分途立籍考驗：
 
@@ -225,7 +229,7 @@
   * **視角人物**：全員群像
   * **路段場景**：府衙正堂 (`/d/city/center/yamen`) ｜ 商會地下三號大庫 (`south/warehouse_shang`)
   * **核心事件**：依共治盟約三方會審庭隆重開審（秦正明/文承敬/玄機、霸山/陳鎮山/雷震、歐陽大師/商會內堂元老）；錢百川妄圖反客為主，五子接連砸下火漆正底單、耐火泥單、毒囊交割單、雷管雙聯存根與礦工血狀；趙德貴崩潰招供；沈泥甩出雙帳比對表，揭露十二萬兩現銀扣押於三號大庫之實情，徹底撬動風險天平促使商會內堂棄車保帥；府尹正印、軍鎮虎符、糧餉總印「三印合符」，錢百川革職枷鎖投入死牢；強制破封三號庫釋放十二萬兩現銀，平糶、補餉、恢復飛錢；蘇凝霜昭雪復職。
-* [**第 76 章：餘波・非烏托邦的世界狀態**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/volume2/ch0076.md)
+* [**第 76 章：餘波・傷痕未平的世道**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/volume2/ch0076.md)
   * **視角人物**：五人群像
   * **路段場景**：府衙死牢 (`/d/city/center/yamen_prison`) ｜ 商會總堂大殿 (`south/shanghui_hq`) ｜ 專材長街 (`south/market_special`)
   * **核心事件**：趙德貴舊疾與餘毒爆發於死牢氣絕，顧玄竭力難救印證凡人之力邊界；三號庫現銀注入恢復飛錢兌付，物價指數回落至 118~124，揭示世界狀態永久痕跡；血精價崩導致烈礬作坊熄火、重石散人失業，底層礦工遷怒五子體現非烏托邦之真實陣痛；病弱正會長萬老會長現身折衷裁定蘇凝霜守孝期暫代總掌櫃兼三老聯署制衡；重石條石運抵虎跳峽正式啟通；第二卷第四幕（Ch. 68 ～ 76）圓滿完結！
@@ -245,7 +249,7 @@
   * **視角人物**：[燕隼（獵戶之子）](file:///home/wade/src/github/mudscript/forgotten-space/narrative/characters/yan_sun.md) ｜ [柳清虛（破落道童）](file:///home/wade/src/github/mudscript/forgotten-space/narrative/characters/liu_qingxu.md)
   * **路段場景**：八方武館大校場 (`/d/city/east/wu_plaza`) ｜ 宣道司靜心閣 (`/d/city/west/dao_quiet`)
   * **核心事件**：燕隼於大校場硬撼霸山百鈞重戟，收束急躁戾氣領悟獵道真諦，戰神真氣逆沖貫通周天經絡，氣血脫胎換骨；柳清虛於靜心閣直面二十八宿天羅巨籠與道化心魔，以「縱有鐵籠，亦當丈量每一寸公差」之實證道心一劍斬破迷障，眉心青蓮現神識凝實；力法雙傑齊破 Lv.50！
-* [**第 81 章：使者入城・四維分離與宗門考核令**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/volume2/ch0081.md)
+* [**第 81 章：使者入城・人間根基與名山考核令**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/volume2/ch0081.md)
   * **視角人物**：五人群像（沈泥、林鐵生、顧玄、燕隼、柳清虛）
   * **路段場景**：金石府衙後堂 (`/d/city/center/yamen`) ｜ 宣道司正堂 (`/d/city/west/dao_hall`)
   * **核心事件**：二階名山遊歷道士與經生零散入城；各大公署落實四維分離結算（技能滿值/社會資格/Lv.50破障/考核令），燕隼、清虛、鐵生、顧玄獲頒【Tier 2 名山外門考核令】；沈泥不入封閉宗門，由蘇凝霜與賈朝奉聯署授予【跨州特等通行信印】以自由身行走天下；全隊感知到府城絕靈法網濁氣驅離機制啟動。
@@ -257,6 +261,8 @@
 ---
 
 ## 第三卷：名山問道・脫俗爭鋒篇
+
+> 📖 **純小說讀者導讀與卷末回顧**：[**【第三卷大事記與人物狀態一覽】**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/volume3/README.md)
 
 本卷主舞台移至北境三大名山祖庭（太清玄天宮、八荒武山、千機百巧門［天工閣／丹鼎宗］）、三宗交匯中立樞紐「雲津仙集（萬山商埠）」與「北荒外荒大裂谷」。五子經歷三山考核、二階偏科反噬、北荒尋親與方舟揭秘、三宗會武與毒域獸潮危機，終至觸動假天排斥並開啟「桃花源單向古陣」邁入 Tier 3 異界洞天：
 
@@ -293,7 +299,7 @@
 * [**第 105 章：荒古戰神遺塚・不屈的血脈共鳴**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/volume3/ch0105.md) - 燕隼；於三十丈戰神遺塚裂隙邊緣尋獲燕山拖拽血跡與凹陷【護心鏡】，圖騰骨片共鳴習得古老節律與《八荒破天弓》第一式「沉岳引」（Lv.80），放棄追擊冰熊王護同伴撤離。
 * [**第 106 章：地底方舟艙段・北荒破界主陣基**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/volume3/ch0106.md) - 林鐵生、柳清虛；穿過裂隙直擊永凍冰層下方數十里【太古破界方舟北方主引擎陣基】，查明「血精母脈」實為方舟冷卻管線破裂洩漏高能生物質暨北境地脈安全閥。
 * [**第 107 章：五件遺物再鳴・太古影像殘篇**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/volume3/ch0107.md) - 柳清虛、群像；五件遺物依各自功能驗證共鳴，喚醒殘缺太古光影，窺見破界工程突破二十八宿天羅結構與法力物三部原始分工，保留未破譯缺口。
-* [**第 108 章：九城銅券合璧・舊約第五階段揭曉**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/volume3/ch0108.md) - 沈泥；於方舟後勤主控室拼合【九城古商盟總契銅版】並以天門引驗證，推進身世第五階段，揭開「禁毀母脈冷卻層」舊約與三十年前雲記拒交圖紙遭洗牌根源。
+* [**第 108 章：九城銅券合璧・雲記舊約重現**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/volume3/ch0108.md) - 沈泥；於方舟後勤主控室拼合【九城古商盟總契銅版】並以天門引驗證，推進身世第五階段，揭開「禁毀母脈冷卻層」舊約與三十年前雲記拒交圖紙遭洗牌根源。
 * [**第 109 章：母脈危機・赤煉長老的瘋狂盜掘**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/volume3/ch0109.md) - 林鐵生、顧玄；赤煉率三十具鑽山傀儡鑿穿冷卻外殼強取母液誘發獸潮；顧玄冷萃藥霧抑毒、鐵生嵌入不融黑鐵齒輪鎖死七成主閥門，帶離部分苦力並保存鑽頭殘件與母液玉瓶。
 * [**第 110 章：冰谷伏擊・斬殺滅口私盟執事**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/volume3/ch0110.md) - 群像；私盟 Lv.88 大執事帶死士與虎煞機關獸封谷滅口，五子地形與五道協同，燕隼破甲重箭貫喉擊殺大執事，搜獲調遣暗令副本嚴格封存。
 * [**第 111 章：攜證歸山・暴風雨前的寧靜**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/volume3/ch0111.md) - 沈泥、柳清虛；返程交還韓林銅哨予韓素，全隊晉升 Lv.85；聯絡雷烈、魯長老及苦修派簡素真人（簡素真人提出先救治早期晶化弟子元青之實證考題），鎖定【雲頂三宗論道會武】。
@@ -314,27 +320,7 @@
 
 * [**第 121 章：百草通玄與天工開物**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/volume3/ch0121.md) - 顧玄、林鐵生；顧玄尊重傷患知情與拒絕權完成《三元本草祛道錄》初稿，林鐵生拒絕神識永久接駁神機改用可拆卸機械回授台，兩人踏實晉升 Lv.100。
 * [**第 122 章：八荒不滅與紫微破妄**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/volume3/ch0122.md) - 燕隼、柳清虛；燕隼於傷亡名冊前放下復仇執念建立分段操典（保留舊傷），柳清虛公開《逆星歲差》誤差反例拒絕新教條，雙雙破境 Lv.100。
-* [**第 123 章：萬山執牛耳・不入仙門的 Lv.100**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/volume3/ch0123.md) - 沈泥；拒絕接管萬寶閣式商業壟斷，主動公開帳目與拆分承運標段簽訂《萬山共治分權章程》，以自由行商身分觸及 Lv.100，「泥途商棧」升格為共治樞紐【萬山泥途總號】。
+* [**第 123 章：萬山執牛耳・不入仙門的極境**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/volume3/ch0123.md) - 沈泥；拒絕接管萬寶閣式商業壟斷，主動公開帳目與拆分承運標段簽訂《萬山共治分權章程》，以自由行商身分觸及 Lv.100，「泥途商棧」升格為共治樞紐【萬山泥途總號】。
 * [**第 124 章：天道排斥・滅世劫雲的鎖定**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/volume3/ch0124.md) - 柳清虛、群像；五人圓滿並於封存觀測室共振五件遺物觸發假天監測、陣基回饋與空間負荷複合危機，紫黑劫雲鎖定北境；三宗掌門坦白單向【桃花源古陣】及未知風險。
 * [**第 125 章：泥途託付・莫三與故人們的守望**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/volume3/ch0125.md) - 沈泥、群像；沈泥將總號分權託付邱禾、顧蘭舟、八商戶議事代表及蘇氏商隊（雷烈僅協防北線），接獲阿鐵、葛半仙、趙老獵、枯木老道與蘇凝霜家書，與莫三立下不承諾必返之三十年約。
 * [**第 126 章：五件遺物開門・踏入桃花源洞天（第三卷終）**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/volume3/ch0126.md) - 群像；祖庭地底主傳送室內九天滅世雷劫轟落護陣，五件遺物分別執行座標、結構、生靈頻率、能源樣本與後勤清單五重驗證程序撕開光門；五子踏入 Tier 3 異界洞天，遙望荒原盡頭彼此對峙的【太虛神宮】、【戰祖魔殿】與【萬物主機城】——第三卷圓滿完結！
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
