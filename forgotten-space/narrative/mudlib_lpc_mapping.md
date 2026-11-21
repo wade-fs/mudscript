@@ -2,7 +2,7 @@
 
 > **所屬專案**：`forgotten-space` 系統規格集  
 > **關聯文檔**：[世界觀與 Mudlib 架構設定集](file:///home/wade/src/github/mudscript/forgotten-space/narrative/world_setting.md) ｜ [第一卷大綱【黑石驚蟄】](file:///home/wade/src/github/mudscript/forgotten-space/narrative/volume1.md) ｜ [第二卷大綱【金石風雲】](file:///home/wade/src/github/mudscript/forgotten-space/narrative/volume2.md) ｜ [第三卷大綱【名山問道】](file:///home/wade/src/github/mudscript/forgotten-space/narrative/volume3.md) ｜ [事件與任務鏈總表](file:///home/wade/src/github/mudscript/forgotten-space/narrative/events/README.md)  
-> **更新時間**：2026-11-21（同步第三卷第一至四幕 Ch. 83–120 Tier 2 落地與全文 126 章完稿）  
+> **更新時間**：2026-11-21（同步第三卷全五幕 Ch. 83–126 Tier 2 全數落地與 Tier 3 初窺高原）  
 
 ---
 
@@ -27,14 +27,15 @@ mudscript/forgotten-space/
 │   ├── item.c              # 常規道具與物品基類
 │   └── room/ruin.c         # 史前遺跡機關房基類 (RUIN_ROOM_OB，支援 study, tuoyin, 盲區檢定)
 │
-├── d/                      # 【03 世界狀態 (World State)】空間階梯地圖與現場網絡 (共 251 間實體房間：Tier 0–1 187 間 ＋ Tier 2 Act 1–4 64 間)
+├── d/                      # 【03 世界狀態 (World State)】空間階梯地圖與現場網絡 (共 254 間實體房間：Tier 0–1 187 間 ＋ Tier 2 66 間 ＋ Tier 3 初臨 1 間)
 │   ├── village/            # Tier 0：黑石鋪（中央街市、南谷、北崖、東林、西壇、黑石關等 13 間核心房間）
 │   ├── city/               # Tier 1：金石府城（四關、外城、南市、中樞、東武、西道、北工、地下暗渠等 67 間房間）
 │   ├── counties/           # Tier 1：六大次級縣城（盤木、重石、青河、鎮風、烈礬、濁水，6 縣共 85 間房間與 18 處考場；鎮風關北塞接通 Tier 2）
 │   ├── routes/             # Tier 1：12 條縣際官道、水路與地下暗河節點（共 22 間路段房間）
 │   ├── wastes/             # Tier 2 Act 1 & 3：北境官道 `north_road/`（3 房）暨北荒裂谷、戰神遺塚、太古破界方舟北方陣基（16 房），共 19 間房間
 │   ├── yunjin/             # Tier 2 Act 1–4：雲津仙集暨問道天台（廣場、公所、交割票號、萬寶閣、西街回收廠、石牌坊隔離線、天台質證高台暨東西比試台與雷網演武台、毒域東側副陣柱等共 18 間房間）
-│   └── sects/              # Tier 2 Act 1–4：三山四脈場域（太清 7、八荒 9、天工 6、丹鼎 5 共 27 間房間）
+│   ├── sects/              # Tier 2 Act 1–5：三山四脈場域（太清 9 [含封存觀測室暨祖庭方舟主傳送室]、八荒 9、天工 6、丹鼎 5 共 29 間房間）
+│   └── realm/              # Tier 3 初窺入口：桃花源洞天・荒蕪碎石高原（`peach_plateau.c` 單向入陣點 1 間，共預覽三大太古巨構）
 │
 ├── daemon/                 # 【02 Rules & 03 State】核心常駐守護進程 (System Daemons)
 │   ├── world_state_d.c     # 世界動態狀態守護進程 (十二時辰天候、水情、礦脈、商隊、地煞、六縣 30 天演進時鐘)
@@ -47,18 +48,18 @@ mudscript/forgotten-space/
 │   ├── quest_engine_d.c    # 宣告式任務狀態機核心引擎 (QUEST_ENGINE_D，支援 talk, deliver, action, kill, item)
 │   └── career_d.c          # 職業導引與技能晉升守護
 │
-├── quests/                 # 【02 Rules & 04 Narratives】宣告式標準 JSON 任務定義庫 (共 66 份 JSON，含 Tier 2 Vol 3 共 28 份)
+├── quests/                 # 【02 Rules & 04 Narratives】宣告式標準 JSON 任務定義庫 (共 67 份 JSON，含 Tier 2 Vol 3 共 29 份全數實裝)
 │   ├── career/             # 三大流派職業日常任務鏈（7 份）
 │   ├── loop/               # 採藥、採礦、狩獵循環任務（herb_loop, mining_loop, pelt_loop 共 3 份）
 │   ├── encounter/          # 史前遺物奇遇與殘圖拼合任務（enc_black_iron, enc_map_fusion 等 6 份）
-│   ├── main/               # 一至三卷主線任務鏈（含 Tier 2 Act 1–4 共 17 條全數已實裝主線）
-│   ├── side/               # 市井日常、身世機緣與寒原／偏峰／鬼哭冰澗／戰神遺塚／問道天台會武支線（含 Act 4 `v3_act4_cloud_top_tournament`）
-│   ├── event/              # 世界危機事件連動任務（含 Vol 3 Act 3–4 `v3_preserve_field_evidence`、`v3_cross_sect_evidence_audit`、`v3_crystal_quarantine_response`、`v3_north_wall_beast_surge` 等）
-│   └── epic/               # 跨卷大型史詩任務鏈（含已實裝 `v3_five_relic_resonance` 與待 Act 5 收官之 `v3_tier2_departure` 等 3 份）
+│   ├── main/               # 一至三卷主線任務鏈（含 Tier 2 Act 1–5 共 18 條全數已實裝主線）
+│   ├── side/               # 市井日常、身世機緣與寒原／偏峰／鬼哭冰澗／戰神遺塚／問道天台會武支線（含 Vol 3 5 條）
+│   ├── event/              # 世界危機事件連動任務（含 Vol 3 Act 3–4 4 條）
+│   └── epic/               # 跨卷大型史詩任務鏈（含已全段實裝之 `v3_five_relic_resonance` 與 `v3_tier2_departure` 等 3 份）
 │
 ├── clone/                  # 【03 State】實體化角色與道具複製物
-│   ├── npc/                # 含第三卷第一至四幕 49 個新建 `/clone/npc/*.c`（含三掌門、四首徒、私盟大執事、5 種二階荒獸／骨龍王／機關獸，另複用 `mo_beggar`、`under_black_market_broker`）
-│   └── item/               # 含第三卷第一至四幕 31 項新實裝道具與證物（另復用 `dao_crystal.c`）
+│   ├── npc/                # 含第三卷第一至五幕 50 個新建 `/clone/npc/*.c`（含周師叔、三掌門、四首徒、私盟大執事、5 種二階荒獸／骨龍王／機關獸，另複用 `mo_beggar`、`under_black_market_broker`）
+│   └── item/               # 含第三卷第一至五幕 38 項新實裝道具與證物（另復用 `dao_crystal.c`）
 │
 ├── secure/                 # 【02 Rules】特權管理與核心系統模組
 │   ├── master.c            # Master Object 系統核心
@@ -98,7 +99,7 @@ mudscript/forgotten-space/
 | **金石府城治理** | `/daemon/city_d.c` | `CITY_D` | 四關稅則、72 小時兩階段居留法、絕靈法網、通寶信用凍結、五欄證物保管鏈、三印合符與三方會審 |
 | **長途旅行引擎** | `/daemon/travel_d.c` | `TRAVEL_D` |  관리 12 條縣際路段通行檢定、重車限制、精力與飲食扣除、時間壓縮與個人旅途天數累計 |
 | **NPC 生命週期** | `/daemon/phase_d.c` | `PHASE_D` | 管理核心具名 NPC 的十二時辰作息位移、世界事件相位覆寫與退場保護 |
-| **任務狀態機引擎** | `/daemon/quest_engine_d.c` | `QUEST_ENGINE_D` | 統一掃描 `/quests/**/*.json`（共 66 份，含 Vol 3 Act 1–4 共 27 條已實裝任務），處理 `talk`、`deliver`、`action`、`kill`、`item` 事件與冪等發獎 |
+| **任務狀態機引擎** | `/daemon/quest_engine_d.c` | `QUEST_ENGINE_D` | 統一掃描 `/quests/**/*.json`（共 67 份，含 Vol 3 Act 1–5 全部 29 條已實裝任務），處理 `talk`、`deliver`、`action`、`kill`、`item` 事件與冪等發獎 |
 | **武學與資格庫** | `/secure/skill_d.c` | `SKILL_D` | 5 大初級心法、一階三道轉職、六縣 18 處地方分舵等效發證 (`grant_county_initiation`) 與總堂掛單 (`register_at_headquarters`) |
 | **三元戰鬥守護** | `/secure/combat_d.c` | `COMBAT_D` | 力／法／物 14 式招式、三角生剋（力剋法、法剋物、物剋力）、內城絕靈法網反噬與度牒豁免檢核 |
 
@@ -111,7 +112,7 @@ mudscript/forgotten-space/
    * **動態世界狀態 (World State)**：黑石礦坑坍塌、商道阻斷、六縣 30 天危機演進（青河秋汛、鎮風煞潮、烈礬走私、濁水沉船、盤木扣車、重石暗傷），由 `WORLD_STATE_D` 與 `CITY_D` 隨伺服器時間與進度驅動。
    * **個人進度保存 (Personal State)**：玩家拜師、地方分舵或府城總堂立籍、NPC 好感、拓印碑文，存於個人存檔。小說主角的專屬奇遇不強迫每位玩家完全複製，但共享相同的底層因果律。
 2. **宣告式 JSON 任務架構對應小說事件**：
-   * 任務配置完全與代碼邏輯分離，置於 `/quests/` 目錄（涵蓋第一至二卷 38 條任務鏈與第三卷 28 份任務配置）。
-   * 小說中的重大情節已轉化為標準 JSON 任務步驟與房間動作；第三卷第一至四幕（第 83–120 章）已實裝 64 間 Tier 2 房間、49 名具名 NPC／掌門／首徒（另複用 `mo_beggar`、`under_black_market_broker`）＋5 種二階荒獸／骨龍王／機關獸、31 項新增道具（另復用 `dao_crystal.c`）、27 條 Act 1–4 主支線／史詩／世界事件任務與 `EVENT_TIER2_CRISIS`（含 `evaluate_tier2_crisis()`、`defense_outcome` 與 `T-2 → T+2` 推進），並通過 `tests/quests/quest_audit.py`、`test_v3_act1.c`～`test_v3_act4.c` 與 `make test` 全數自動化驗證。
+   * 任務配置完全與代碼邏輯分離，置於 `/quests/` 目錄（涵蓋第一至二卷 38 條任務鏈與第三卷 29 份全實裝任務配置）。
+   * 小說中的重大情節已轉化為標準 JSON 任務步驟與房間動作；第三卷全五幕（第 83–126 章）已全面實裝 66 間 Tier 2 房間 ＋ 1 間 Tier 3 初臨點（`peach_plateau.c`）、50 名新建具名 NPC／掌門／首徒（另複用 `mo_beggar`、`under_black_market_broker`）＋5 種二階荒獸／骨龍王／機關獸、38 項新增道具（另復用 `dao_crystal.c`）、29 條主支線／史詩／世界事件任務與 `EVENT_TIER2_CRISIS`（含 `evaluate_tier2_crisis()`、`defense_outcome` 與 `T-2 → T+2` 推進），並通過 `tests/quests/quest_audit.py`、`test_v3_act1.c`～`test_v3_act5.c` 與 `make test` 全數自動化驗證。
 3. **身世世界驗證分支與多起點等效立籍（World Verification & Multi-Origin Parity）**：
    * 支援基於身世的條件分支（採藥孤兒、打鐵學徒、獵戶之子、破落道童、流浪乞兒），以及府城總堂與六大縣城 18 處分舵的「資格全府等效、組織與設施權限分流」模型，全方位體現真實運轉的修真城鄉世界。

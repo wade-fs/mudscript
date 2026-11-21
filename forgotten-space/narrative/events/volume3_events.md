@@ -137,10 +137,10 @@
 - **EV324（Ch. 119｜`v3_act4_sanyuan_defense`、`v3_crystal_quarantine_response`、`v3_north_wall_beast_surge`）**：不依賴血精之五線有限協同——沈泥萬山廣場雙倍運價急調八十餘雪橇五百腳夫分流東西道；顧玄二十口鐵鍋調制【百草中和隔離霧】（`/clone/item/sanyuan_isolation_mist.c`）配杜青禾十丈生石灰線阻毒於盆地半里外（明記殺不死鶴壽體內毒瘤）；柳清虛等撥正十二柱東三度七分立【三元鎮脈陣】壓慢骨龍三成；唐映紅旗三段輪替、燕隼藉巨靈神機右傾半息施《破核》重創骨龍左肋舊創迫退獸群（連接桿過載報廢）；鶴壽重傷鎖押丹鼎鐵室、玄冥斷臂落網。
 - **EV325（Ch. 120｜`v3_postwar_reform_and_restitution`）**：聯席公告停採封爐兼平反走山隊（韓林入碑，燕山生死續 `open`）暨「雲記」三十年前除名案（高層簽署姓氏仍空白）；面對停爐致【陶生】與窯工家庭斷炊之現實反彈，重組拍賣萬寶閣空倉開設【西街無毒廢料回收廠】（`west_street_recycling.c`），並簽署《雲津萬山臨時互市與救濟協約》（`/clone/item/yunjin_relief_treaty.c`）除籍何萬金兼首立三宗商埠共同議事席（推進 `EVENT_TIER2_CRISIS` 至 `T+2`／`defense_outcome` 三檔結算）。
 
-### EV326–EV327：卷末跨界
+### EV326–EV327：百草通玄破境、假天排斥與單向開門入洞天（第 121–126 章實裝）
 
-- **EV326**：五人二階圓滿及假天排斥徵兆。修為提升不等於理解全部法則；排斥機制須依 `world_setting.md` §3.9、§3.13 補足成本與條件。
-- **EV327**：北方古陣開啟，通往 Tier 3 的入口呈現單向或高風險特性。開啟前須確認撤退、補給、同行者知情及回返可能性；不得把進入洞天當成無成本傳送。
+- **EV326（Ch. 121–124｜`v3_act5_lvl100_trials`、`v3_tier2_departure` Stage 1–2）**：五人皆以「守人與可推翻實證」無聲破入二階大圓滿（Lv.100）且保留各自身體代價與認知邊界——顧玄於隔離區保障周師叔拒絕權編定《三元本草祛道錄》（`publish bencao`、`/clone/item/sanyuan_bencao_draft.c`）、林鐵生引五十年前陸明前車之鑒拒接神識改製【可拆卸連動台】（`install rig`、`/clone/item/detachable_feedback_spec.c`）、燕隼定稿《黑山分段輪替操典》並三百步粉石（`compile manual`、`/clone/item/bahuang_rotation_manual.c`）、柳清虛題明可推翻反例聲明聯沈照塵校正《逆星歲差補遺》（`publish addendum`、`/clone/item/reverse_star_addendum.c`）、沈泥將泥途商棧更匾【萬山泥途總號】並月讓四成利立《萬山共治分權章程》（`decentralize ledger`、`/clone/item/wanshan_charter_deed.c`）；Ch. 124 五人攜五遺物登太清【封存觀測室】（`sealed_observatory.c`、`resonate relics`）觸動十倍共鳴暨二十八宿天羅排斥劫雲鎖定，紫霄、鐵背、玄樞揭封《祖師密錄》（`/clone/item/ancestor_secret_record.c`）坦白十七位先賢單向無歸實錄。
+- **EV327（Ch. 125–126｜`v3_act5_lvl100_trials` Step 6、`v3_tier2_departure` Stage 3）**：最後一晝夜於萬山泥途總號拆權交割《多方交接總錄》（過萬票須邱禾／顧蘭舟／八家代表三方會簽），接收【南方故人加急家書驛袋】（`/clone/item/hometown_letters_bag.c`）與韓素手縫厚羊毛護腕，並於地窖與莫三立下「三十年看門之約」；子夜循陡峭深黑螺旋階梯下行千餘丈至三大祖庭保護之【太古破界方舟・主傳送室】（`ark_portal_chamber.c`、`activate gate`），於外陣兩刻鐘極限雷壓下依序完成正北座標鎖定、東北卡尺黑鐵鎖壓、西北血脈屏蔽、西南晶核點火、正南天門引與九城契版造冊，最後一息入星門（`enter gate`）墜入 **Tier 3【桃花源洞天・荒蕪碎石高原】**（`/d/realm/peach_plateau.c`），身後星門崩毀成煙塵，遠望【太虛神宮】、【戰祖魔殿】、【萬物主機城】三巨構開啟第四卷懸念（門後性質、燕山下落與假天操縱者俱維持 `open`）。
 
 ## 3. 第二卷正典銜接檢查
 

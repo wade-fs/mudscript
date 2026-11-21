@@ -97,6 +97,13 @@
 | `wanbao_black_iron_box` | 萬寶閣暗標黑鐵帳箱 | evidence | 雲津交割廳擠兌封庫後起獲貼三宗暗標箱（`/clone/item/wanbao_black_iron_box.c`） | 載明百八十萬靈石票期貨挪用暨「丹鼎丙柒／天工赤火／太清雷律」對流；缺親筆原署（Ch. 115–116） | `corroborative` (Act 4 實裝) |
 | `sanyuan_isolation_mist` | 百草中和隔離霧劑 | consumable/tool | 雪線苔乾粉、苦參、甘草暨微溫礦灰調劑（`/clone/item/sanyuan_isolation_mist.c`） | 黏壓結晶孢子並阻毒域於盆地半里外；殺不死鶴壽體內毒瘤（Ch. 119） | `canon` (Act 4 實裝) |
 | `yunjin_relief_treaty` | 雲津萬山臨時互市與救濟協約 | credential/lore | 沈泥聯合公所與票號起草、三大掌門聯署新約（`/clone/item/yunjin_relief_treaty.c`） | 除籍沒收何萬金家產並首設三宗與商埠共同議事席，屬制度第一步仍脆弱（Ch. 120） | `canon` (Act 4 實裝) |
+| `sanyuan_bencao_draft` | 《三元本草祛道錄》初稿 | evidence/lore | 百草谷隔離區統整三十餘傷患暨白岩病例（`/clone/item/sanyuan_bencao_draft.c`） | 明列僅對皮下三寸早期減緩三至五成暨副作用、保障拒絕權；逾五年老病灶無救（Ch. 121） | `corroborative` (Act 5 實裝) |
+| `detachable_feedback_spec` | 可拆卸機械力回授連動台圖紙 | tool/evidence | 林鐵生拒接神識導線設計之純機械回授圖紙（`/clone/item/detachable_feedback_spec.c`） | 留三席可拔卡榫席位，免神識綁死而誤差不超半厘（Ch. 121） | `conclusive` (Act 5 實裝) |
+| `bahuang_rotation_manual` | 《黑山分段輪替操典暨八十七人安置名冊》 | lore/evidence | 燕隼偕雷烈、岳停山、杜青禾彙編軍制暨撫恤合冊（`/clone/item/bahuang_rotation_manual.c`） | 附「大伯燕山失聯案備忘頁」，取代血祭霸體兼保留右肩舊傷實情（Ch. 122） | `conclusive` (Act 5 實裝) |
+| `reverse_star_addendum` | 《逆星歲差實測補遺（附反例欄）》 | lore/evidence | 柳清虛於星律院公開題寫反例推翻聲明並納入沈照塵兩組氣流反例（`/clone/item/reverse_star_addendum.c`） | 限三百年北境高寒帶校正，二十八宿幕後操縱者暨假天疆域續 `open`（Ch. 122） | `conclusive` (Act 5 實裝) |
+| `wanshan_charter_deed` | 《萬山共治分權章程暨交接總錄》 | credential/evidence | 沈泥拒為土皇帝、月讓四成利拆六標段兼過萬票三方會簽（`/clone/item/wanshan_charter_deed.c`） | 三宗武力猶強，多方共治制度仍屬凡間自守anchors（Ch. 123, 125） | `conclusive` (Act 5 實裝) |
+| `hometown_letters_bag` | 南方故人加急家書驛袋 | lore/keepsake | 蘇凝霜親筆、阿鐵代筆、葛半仙野菊花種三包、趙老獵口信、枯木老道乾松枝（`/clone/item/hometown_letters_bag.c`） | 確認人間後路與故友守望，無任何戰力加成（Ch. 125） | `canon` (Act 5 實裝) |
+| `ancestor_secret_record` | 《三宗祖師密錄（封存抄頁）》 | lore/evidence | 封存觀測室玄鐵舊木匣記載歷代十七位 Lv.100 先賢單向遁入桃花源古陣（`/clone/item/ancestor_secret_record.c`） | 載明從無歸返證明亦無法確認門後係避難所或屠宰場（Ch. 124） | `conclusive` (Act 5 實裝) |
 
 ## 7. 道具資料欄位建議
 

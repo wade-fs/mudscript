@@ -158,6 +158,17 @@
 
 ---
 
+## 第三卷 第五幕：百草格物與萬古星門（第 121～126 章・Act 5 已實裝）
+
+> 第五幕新增 3 間終局與跨界節點（`/d/sects/taiqing/{sealed_observatory,ark_portal_chamber}.c`、`/d/realm/peach_plateau.c`）、`zhou_shishu.c`（太清外門周執事）、7 項破境暨託付道具物證與 2 條終局任務（`v3_act5_lvl100_trials` 暨全段實裝收官之 `v3_tier2_departure`），完整落實第三卷全五幕。
+
+| 章節 | 視角主角 | 核心敘事事件 | MUD 房間與 NPC 互動 | 任務鏈 / 實裝道具 | 系統機制與成果 |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **第 121～123 章** | 五人分進 | 丹鼎《三元本草祛道錄》立拒絕權、天工拒接神識立可拆卸連動台、八荒《分段輪替操典》粉青岩、太清《逆星歲差補遺》納反例、泥途更匾總號暨《萬山共治章程》破境 Lv.100 | `/d/sects/danding/medical_archive.c`、`/d/sects/tiangong/machinery_depths.c`、`/d/sects/bahuang/black_mountain_camp.c`、`/d/sects/taiqing/star_law_hall.c`、`/d/yunjin/mudway_store.c`<br>NPC: `zhou_shishu`, `sun_wenlu`, `ji_heng`, `lei_lie`, `shen_zhaochen`, `qiu_he` | 主線：`v3_act5_lvl100_trials`<br>史詩：`v3_tier2_departure` Stage 1<br>道具：`sanyuan_bencao_draft.c`, `detachable_feedback_spec.c`, `bahuang_rotation_manual.c`, `reverse_star_addendum.c`, `wanshan_charter_deed.c` | `publish bencao` / `install rig` / `compile manual` / `publish addendum` / `decentralize ledger` 不入偏科破境人間錨點。 |
+| **第 124～126 章** | 五人群像 | 封存觀測室五器十倍共振召假天排斥劫雲兼揭十七先輩《祖師密錄》；總號拆權收故人家書與莫三三十年約；祖庭主傳送室五石台同步開星門墜入 Tier 3 望見三座太古巨構 | `/d/sects/taiqing/{sealed_observatory,ark_portal_chamber}.c`、`/d/yunjin/mudway_store_cellar.c`、`/d/realm/peach_plateau.c`<br>NPC: `zixiao_zhenren`, `tiebei_shanzhu`, `xuanshu_menzhu`, `song_zhiwei`, `qi_shiliu`, `mo_san`, `han_su` | 主線：`v3_act5_lvl100_trials` Step 6<br>史詩：`v3_tier2_departure` Stage 2–3<br>道具：`ancestor_secret_record.c`, `hometown_letters_bag.c` | `resonate relics` / `activate gate` / `enter gate` / `gaze horizon` 完成《第三卷・名山問道》全卷閉環。 |
+
+---
+
 ## 六大物證缺口標準五欄對照表 (The Six Evidence Gaps Ledger)
 
 | 編號 | 物證名稱 (`item`) | 物證型態 (`type`) | 來源鏈與取得者 (`source & chain`) | 證明力限制與當前等級 (`strength & limit`) | 當前狀態與最新進展 (`status`) |

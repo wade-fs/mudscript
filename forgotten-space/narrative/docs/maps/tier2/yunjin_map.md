@@ -14,7 +14,7 @@
 | `exchange_hall` | 雲津仙集・三宗交割廳暨雲海票號 | `/d/yunjin/exchange_hall.c` | `west`→`public_office` | 〔實裝，Ch. 84、90、98–99、115〕準備金核驗、`audit wanbao` 封庫與匯兌清算；駐點：`gu_lanzhou`（顧蘭舟） |
 | `wanbao_pavilion` | 雲津仙集・萬寶閣雲津分號 | `/d/yunjin/wanbao_pavilion.c` | `north`→`public_office`、`south`→`wanbao_back_alley` | 〔實裝，Ch. 84、90、98、101、115〕跨州商會據點；駐點：`he_wanjin`（何萬金） |
 | `western_warehouse_street` | 雲津仙集・西街貨棧區 | `/d/yunjin/western_warehouse_street.c` | `north`→`west_street_recycling`、`east`→`wanshan_square`、`west`→`mudway_store`、`south`→`three_sect_market` | 〔實裝，Ch. 84、90、101、120〕貨棧長街 |
-| `mudway_store` | 雲津仙集・泥途商棧 | `/d/yunjin/mudway_store.c` | `east`→`western_warehouse_street`、`down`→`mudway_store_cellar` | 〔實裝，Ch. 84、90、98–101〕沈泥主場與貨單總帳；駐點：`qiu_he`（邱禾）、`a_si`（阿四） |
+| `mudway_store` | 雲津仙集・萬山泥途總號（原泥途商棧） | `/d/yunjin/mudway_store.c` | `east`→`western_warehouse_street`、`down`→`mudway_store_cellar` | 〔實裝，Ch. 84、90、98–101、123、125〕沈泥主場、貨單總帳暨萬山共治分權總號（動作 `decentralize ledger`）；駐點：`qiu_he`（邱禾）、`a_si`（阿四） |
 | `mudway_store_cellar` | 雲津仙集・泥途商棧地下石室 | `/d/yunjin/mudway_store_cellar.c` | `up`→`mudway_store` | 〔實裝，Ch. 98–101 新增〕雙契暗鎖地窖、五方對帳與三元剝離晶絲（動作 `strip filament`）；駐點：`mo_san`（莫三 `/clone/npc/mo_beggar.c`） |
 | `three_sect_market` | 雲津仙集・三宗物資交易街 | `/d/yunjin/three_sect_market.c` | `north`→`western_warehouse_street`、`south`→`mountain_caravan_yard` | 〔實裝，Ch. 98、101〕符材、藥材、耐火炭交易長街 |
 | `mountain_caravan_yard` | 雲津仙集・山道車馬行 | `/d/yunjin/mountain_caravan_yard.c` | `north`→`three_sect_market`、`down`→`ghost_market` | 〔實裝，Ch. 98、101〕雙馬雪橇車棚、勘探輜重招標榜欄與死巷暗門 |

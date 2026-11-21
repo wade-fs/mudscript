@@ -1,12 +1,12 @@
 # Tier 2 NPC 名冊（第三卷素材庫）
 
-> 本名冊索引 `characters/tier2/` 內人物檔，並同步標註已實裝於 `/clone/npc/` 之 Mudlib 物件。`canon` 表示既有文件或第三卷正文已確立該人物（第一至四幕 Ch.83–120 出場人物、敵對首徒與二階骨龍王已全數完成正文與 Mudlib 實裝）。
+> 本名冊索引 `characters/tier2/` 內人物檔，並同步標註已實裝於 `/clone/npc/` 之 Mudlib 物件。`canon` 表示既有文件或第三卷正文已確立該人物（全卷一至五幕 Ch.83–126 出場人物、掌門首徒、敵對執事與二階骨龍王已全數完成正文與 Mudlib 實裝）。
 
 | ID | 姓名 | 所屬 | 職能 | 登場章節 / Mudlib 狀態 |
 |---|---|---|---|---|
 | `song_zhiwei` | 宋知微 | 太清玄天宮 | 星律院掌院 | canon（Ch.86 登場；`/clone/npc/song_zhiwei.c`） |
-| `lu_guanlan` | 陸觀瀾 | 太清玄天宮 | 柳清虛授業師 | canon（Ch.86 登場；`/clone/npc/lu_guanlan.c`） |
-| `shen_zhaochen` | 沈照塵 | 太清玄天宮 | 外門／內門競爭者 | canon（Ch.86 登場；`/clone/npc/shen_zhaochen.c`） |
+| `lu_guanlan` | 陸觀瀾 | 太清玄天宮 | 柳清虛授業師 | canon（Ch.86 登場；`/clone/npc/lu_guanlan.c`；Ch.117 廢脈） |
+| `shen_zhaochen` | 沈照塵 | 太清玄天宮 | 外門／內門競爭者 | canon（Ch.86 登場、Ch.122 稽首補反例；`/clone/npc/shen_zhaochen.c`） |
 | `yu_shouzhuo` | 余守拙 | 太清玄天宮 | 藏星秘閣檔案老吏 | canon（Ch.91 登場；`/clone/npc/yu_shouzhuo.c`） |
 | `jian_su` | 簡素真人 | 太清玄天宮 | 苦修派長老 | canon（Ch.92、111 登場；`/clone/npc/jian_su.c`） |
 | `yuan_qing` | 元青 | 太清玄天宮／偏峰 | Lv.73 早期晶化弟子／見證人 | canon（Ch.111–112 登場兼剝離晶絲；`/clone/npc/yuan_qing.c`） |
@@ -35,7 +35,8 @@
 | `bai_henian` | 白鶴年 | 丹鼎宗 | 外聘醫理師 | canon（Ch.89 登場；`/clone/npc/bai_henian.c`） |
 | `ye_qingzhi` | 葉青枝 | 丹鼎宗 | 百草谷靈植管事 | canon（Ch.89 登場；`/clone/npc/ye_qingzhi.c`） |
 | `sun_wenlu` | 孫聞露 | 丹鼎宗 | 醫理院病案掌記 | canon（Ch.89、97 登場；`/clone/npc/sun_wenlu.c`） |
-| `tao_sheng` | 陶生 | 丹鼎宗 | 廢丹崖回收工頭 | canon（Ch.97 登場；`/clone/npc/tao_sheng.c`） |
+| `tao_sheng` | 陶生 | 丹鼎宗 | 廢丹崖回收工頭／西街回收廠師傅 | canon（Ch.97、120、123 登場；`/clone/npc/tao_sheng.c`） |
+| `zhou_shishu` | 周師叔 | 太清／丹鼎隔離區 | 外門執事／祛道錄早期患者見證 | canon（Ch.121 登場；`/clone/npc/zhou_shishu.c`） |
 | `he_wanjin` | 何萬金 | 雲津／萬寶閣 | 分號掌櫃 | canon（Ch.84 登場；`/clone/npc/he_wanjin.c`） |
 | `luo_jiucheng` | 羅九秤 | 雲津公所 | 公所掌印 | canon（Ch.84 登場；`/clone/npc/luo_jiucheng.c`） |
 | `qiu_he` | 邱禾 | 雲津／泥途商棧 | 商棧管事 | canon（Ch.84 登場；`/clone/npc/qiu_he.c`） |
