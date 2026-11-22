@@ -701,13 +701,13 @@ $$\text{最終物價} = \text{基準價} \times \operatorname{Clamp}\left(1 + \s
 3. **多角色／多玩家影響**：若 MUD 環境中有多名角色同時行動，供給恢復速度可加快，但信用凍結等「人為」衝擊仍需對應人脈解決。
 4. **與三日通牒的銜接**：未完成一階轉職的流民只能接取「臨時腳力」級跨縣任務（運送、傳信），無法接取需匠籍或武館腰牌的正式委託。
 
-### 4. 與現有設計的對齊檢查清單
+### 4. 與現有設計的對齊檢查清單（已完成實測核對）
 
-- [ ] 物價波動是否只影響「生活與生產」，而不直接變成數值刷怪來源？
-- [ ] 每一個高價／低價狀態是否都能在都城對應設施找到可視化反應（限購、開倉、延遲工程）？
-- [ ] 跨縣任務是否同時服務「區域存在性」「網絡連結」「事件持續性」三項審核標準？
-- [ ] 主角偏科補足裝備／藥物是否仍受物價影響（例如解毒散劑在青河歉收時變貴）？
-- [ ] 黑石鋪歷史事件（礦難）是否仍能透過烈礬原料暴跌 → 都城黑市晶錠上漲 → 濁水暗潮，形成跨卷因果？
+- [x] 物價波動是否只影響「生活與生產」，而不直接變成數值刷怪來源？——*已於 `daemon/world_state_d.c`（`market_stocks`／`query_causal_bonus_pct`）與 `tests/test_world_liveness.c`（十步經濟閉環與虧損防刷）驗證*。
+- [x] 每一個高價／低價狀態是否都能在都城對應設施找到可視化反應（限購、開倉、延遲工程）？——*已於 `d/city/south/market_special.c`、`d/city/center/granary.c` 與 `tests/test_living_world.c`、`tests/test_world_liveness.c` 驗證*。
+- [x] 跨縣任務是否同時服務「區域存在性」「網絡連結」「事件持續性」三項審核標準？——*已於 `quests/main/v2_six_county_evidence.json`、`tests/test_tier1_city.c` 與 `tests/quests/quest_audit.py` 驗證*。
+- [x] 主角偏科補足裝備／藥物是否仍受物價影響（例如解毒散劑在青河歉收時變貴）？——*已於 `daemon/world_state_d.c` 與 `tests/test_world_liveness.c` 驗證*。
+- [x] 黑石鋪歷史事件（礦難）是否仍能透過烈礬原料暴跌 → 都城黑市晶錠上漲 → 濁水暗潮，形成跨卷因果？——*已於 `daemon/world_state_d.c`（`advance_county_day`／`mine_shutdown` 因果鏈）與 `tests/test_tier1_city.c`、`tests/test_world_liveness.c` 驗證*。
 
 ---
 

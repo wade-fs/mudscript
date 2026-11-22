@@ -8,16 +8,16 @@
 
 | 檔案 | 內容說明 | 關聯指令 |
 | :--- | :--- | :--- |
-| [world_map.md](file:///home/wade/src/github/mudscript/forgotten-space/narrative/docs/maps/world_map.md) | **宏觀世界網絡圖**：金石府城、六大外縣（91 間房）、官道山徑（22 間房）與黑石鋪地脈關係 | `map world` / `map <county>` |
-| [city_map.md](file:///home/wade/src/github/mudscript/forgotten-space/narrative/docs/maps/city_map.md) | **金石都城九大分區詳細拓撲圖（75 間房）**：四大城門、百工總會、宣道司、鎮武軍鎮、市井核心與外城生活區 | `map city` |
-| [underground_map.md](file:///home/wade/src/github/mudscript/forgotten-space/narrative/docs/maps/underground_map.md) | **城下太古暗渠與舊城廢墟圖**：鬼市暗街、古暗渠樞紐、天字一號密室與史前殘殿 | `map under` |
-| [village_map.md](file:///home/wade/src/github/mudscript/forgotten-space/narrative/docs/maps/village_map.md) | **黑石鋪新手聚落微生態圖（22 間房）**：青石街市、古礦道、三清偏殿、鐵匠鋪、溪灘草廬與村莊生活圈 | `map village` |
+| [world_map.md](world_map.md) | **宏觀世界網絡圖**：金石府城、六大外縣（91 間房）、官道山徑（22 間房）與黑石鋪地脈關係 | `map world` / `map <county>` |
+| [city_map.md](city_map.md) | **金石都城九大分區詳細拓撲圖（75 間房）**：四大城門、百工總會、宣道司、鎮武軍鎮、市井核心與外城生活區 | `map city` |
+| [underground_map.md](underground_map.md) | **城下太古暗渠與舊城廢墟圖**：鬼市暗街、古暗渠樞紐、天字一號密室與史前殘殿 | `map under` |
+| [village_map.md](village_map.md) | **黑石鋪新手聚落微生態圖（22 間房）**：青石街市、古礦道、三清偏殿、鐵匠鋪、溪灘草廬與村莊生活圈 | `map village` |
 
 ---
 
 ## 🎮 遊戲內地圖指令指南
 
-玩家與管理者可在遊戲內隨時呼叫由 [`/cmds/cmd_map.c`](file:///home/wade/src/github/mudscript/forgotten-space/cmds/cmd_map.c) 及 [`/secure/map_d.c`](file:///home/wade/src/github/mudscript/forgotten-space/secure/map_d.c) 提供之地圖服務：
+玩家與管理者可在遊戲內隨時呼叫由 [`/cmds/cmd_map.c`](../../../cmds/cmd_map.c) 及 [`/secure/map_d.c`](../../../secure/map_d.c) 提供之地圖服務：
 
 ```bash
 # 1. 檢視當前所在區域地圖（根據當前所在房間自動切換）
@@ -108,7 +108,7 @@ flowchart TD
 
 ## 🛡️ 系統環境規則分佈
 
-各地區依據世界觀設定受到 [`/daemon/city_d.c`](file:///home/wade/src/github/mudscript/forgotten-space/daemon/city_d.c) 的動態環境矩陣管轄：
+各地區依據世界觀設定受到 [`/daemon/city_d.c`](../../../daemon/city_d.c) 的動態環境矩陣管轄：
 
 1. **紅塵濁氣梯度 (Turbidity Gradient)**：
    - 市井商貿核心（中央廣場、六縣專材街、大客棧）：`100%`（紅塵萬丈，靈機晦澀）。

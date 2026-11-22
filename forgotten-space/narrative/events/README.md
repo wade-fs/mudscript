@@ -2,9 +2,12 @@
 
 本目錄記錄小說各卷各幕的核心敘事事件，及其在 MUD 引擎中由 `QUEST_ENGINE_D` (`/daemon/quest_engine_d.c`)、`MYSTERY_D` (`/daemon/mysteryd.c`)、`WORLD_STATE_D` (`/daemon/world_state_d.c`)、`PHASE_D` (`/daemon/phase_d.c`) 與 `CITY_D` (`/daemon/city_d.c`) 管理的實作映射。
 
-* 卷二專屬事件與詳細機制規範請參見：[第二卷：金石雙壁事件記錄簿](volume2_events.md)
-* 卷三專屬事件與任務網規範請參見：[第三卷事件索引（EV301–EV327）](volume3_events.md) ｜ [Tier 2 任務網絡規劃](../docs/tier2_quest_network.md)
+* 卷二專屬事件與詳細機制規範請參見：[第二卷：金石雙壁事件記錄簿（EV-201～EV-244）](volume2_events.md)
+* 卷三專屬事件與任務網規範請參見：[第三卷事件索引（EV301～EV327）](volume3_events.md) ｜ [Tier 2 任務網絡規劃](../docs/tier2_quest_network.md)
+* 卷四規劃事件與對照規範（規劃中）：[第四卷事件索引（EV401～EV422）](volume4_events.md)
 * 平凡日常支線（24 條 `side_*.json`）、5 大經濟因果事件與 `PHASE_D` 樞紐互動索引請參見：[凡塵生活層名冊與支線總表](../docs/living_world_folk_and_side_roster.md)
+
+> **全書事件編號連續性說明**：第二卷采 `EV-201`–`EV-244`（對應連字號別名 `EV201`–`EV244`）、第三卷 `EV301`–`EV327`、第四卷規劃 `EV401`–`EV422`，由 `tests/quests/novel_mud_sync_audit.py` 自動檢核連續性。
 
 ---
 

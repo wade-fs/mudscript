@@ -1,6 +1,6 @@
 # 角色檔案：柳清虛（破落道童 / 觀象生）
 
-![柳清虛人物照](../chapters/img/ch04_liu_qingxu.jpg)
+<!-- 待補人物插圖：../chapters/img/ch04_liu_qingxu.jpg -->
 
 ## 基本資訊
 * **姓名**：柳清虛

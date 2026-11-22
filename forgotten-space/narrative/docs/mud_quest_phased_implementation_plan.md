@@ -3,10 +3,10 @@
 
 > **文件定位**：MUD 引擎與小說雙軌並行之「事件型任務網分階段實作與驗收計劃書」。  
 > **關聯正典文件**：
-> - 小說大綱：[`forgotten-space/narrative/volume1.md`](file:///home/wade/src/github/mudscript/forgotten-space/narrative/volume1.md)
-> - 危機時間軸與資源帳本：[`forgotten-space/narrative/village_crisis_ledger.md`](file:///home/wade/src/github/mudscript/forgotten-space/narrative/village_crisis_ledger.md)
-> - 任務規格一（煞潮）：[`beast_surge_event_quest_network_spec.md`](file:///home/wade/src/github/mudscript/forgotten-space/narrative/docs/beast_surge_event_quest_network_spec.md)
-> - 任務規格二（軍事）：[`military_crisis_event_quest_network_spec.md`](file:///home/wade/src/github/mudscript/forgotten-space/narrative/docs/military_crisis_event_quest_network_spec.md)
+> - 小說大綱：[`forgotten-space/narrative/volume1.md`](../volume1.md)
+> - 危機時間軸與資源帳本：[`forgotten-space/narrative/village_crisis_ledger.md`](../village_crisis_ledger.md)
+> - 任務規格一（煞潮）：[`beast_surge_event_quest_network_spec.md`](beast_surge_event_quest_network_spec.md)
+> - 任務規格二（軍事）：[`military_crisis_event_quest_network_spec.md`](military_crisis_event_quest_network_spec.md)
 > 
 > **最高實施原則**：**小說先行，生長細節；分階段落地，反哺玩法；絕不一次性搶跑代碼綁架小說創作！**
 

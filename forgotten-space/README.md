@@ -30,12 +30,16 @@ forgotten-space/
 │   ├── career_d.c          # 生計委託與三大道統閉合任務鏈 (CAREER_D)
 │   └── world_state_d.c     # 區域級可變動態狀態協調 (WORLD_STATE_D)
 │
-├── d/                      # 【03 世界狀態 (World State)】空間階梯地圖網絡
-│   ├── village/            # Tier 0：黑石鋪／斷崖集（五方立體微生態）
-│   ├── city/               # Tier 1：大都府城與市井三大世俗勢力
-│   ├── mountain/           # Tier 2：宗門祖庭與名山靈川
-│   ├── realm/              # Tier 3：異界洞天、桃花源單向門戶
-│   └── secret/             # Tier 4：禁忌古道、失落遺跡深層
+├── d/                      # 【03 世界狀態 (World State)】空間階梯地圖網絡（288 間實裝房間）
+│   ├── village/            # Tier 0：黑石鋪（22 間生活與核心房間）
+│   ├── city/               # Tier 1：金石府城九大分區與外城生活區（75 間房）
+│   ├── counties/           # Tier 1：六大次級縣城（盤木/重石/青河/鎮風/烈礬/濁水共 91 間房）
+│   ├── routes/             # Tier 1：縣際官道、水路與地下暗河節點（22 間房）
+│   ├── yunjin/             # Tier 2：雲津仙集暨問道天台（21 間房）
+│   ├── sects/              # Tier 2：三山四脈宗門祖庭（太清/八荒/天工/丹鼎共 36 間房）
+│   ├── wastes/             # Tier 2：北境雪原官道與北荒裂谷／方舟陣基（20 間房）
+│   ├── realm/              # Tier 3：異界洞天初臨點（`peach_plateau.c` 1 房；其餘分區規劃中）
+│   └── secret/             # Tier 4：禁忌古道、歸墟古淵（規劃預留）
 │
 ├── narrative/              # 【04 敘事內容 (Narratives)】小說創作與世界事件索引
 │   ├── characters/         # 小說人物小傳與 MUD 角色關聯

@@ -60,11 +60,11 @@ flowchart TD
 
 | 檔案路徑 | 名稱 | 方位與出口 | 特殊機制 / 核心 NPC |
 | :--- | :--- | :--- | :--- |
-| [`under/black_market.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/city/under/black_market.c) | 地下鬼市 | `up` $\to$ 地面鬼市暗巷<br>`south` $\to$ 古暗渠樞紐 | 銷贓交易商、黑市情報販子、無名刺客。濁氣 5%，法網死角。 |
-| [`under/canal_hub.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/city/under/canal_hub.c) | 古暗渠樞紐 | `north` $\to$ 地下鬼市<br>`west` $\to$ 廢棄水閘<br>`east` $\to$ 天字一號密室<br>`south` $\to$ 史前殘殿 | 暗河擺渡叟（擺渡過河）、溶洞水滴聲。四通八達地下樞紐。 |
-| [`under/drain_gate.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/city/under/drain_gate.c) | 廢棄水閘 | `east` $\to$ 古暗渠樞紐<br>`up` $\to$ 護城河盲區 | **城防潛入隱蔽通道**：可繞過金石四關守衛盤查，從護城河潛水直達地下。 |
-| [`under/shang_secret.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/city/under/shang_secret.c) | 天字一號密室 | `west` $\to$ 古暗渠樞紐 | **門禁防護**：進入需身懷金石商盟腰牌（天門引 / `caravan_token`）。內設機關鎖與金庫大箱。 |
-| [`under/ruins_hall.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/city/under/ruins_hall.c) | 史前殘殿 | `north` $\to$ 古暗渠樞紐 | **地煞靈眼**：聳立殘破十二丈人面神像，地底地煞之氣匯聚，為法道修士淬煉神識與探尋失落紀元的禁地。 |
+| [`under/black_market.c`](../../../d/city/under/black_market.c) | 地下鬼市 | `up` $\to$ 地面鬼市暗巷<br>`south` $\to$ 古暗渠樞紐 | 銷贓交易商、黑市情報販子、無名刺客。濁氣 5%，法網死角。 |
+| [`under/canal_hub.c`](../../../d/city/under/canal_hub.c) | 古暗渠樞紐 | `north` $\to$ 地下鬼市<br>`west` $\to$ 廢棄水閘<br>`east` $\to$ 天字一號密室<br>`south` $\to$ 史前殘殿 | 暗河擺渡叟（擺渡過河）、溶洞水滴聲。四通八達地下樞紐。 |
+| [`under/drain_gate.c`](../../../d/city/under/drain_gate.c) | 廢棄水閘 | `east` $\to$ 古暗渠樞紐<br>`up` $\to$ 護城河盲區 | **城防潛入隱蔽通道**：可繞過金石四關守衛盤查，從護城河潛水直達地下。 |
+| [`under/shang_secret.c`](../../../d/city/under/shang_secret.c) | 天字一號密室 | `west` $\to$ 古暗渠樞紐 | **門禁防護**：進入需身懷金石商盟腰牌（天門引 / `caravan_token`）。內設機關鎖與金庫大箱。 |
+| [`under/ruins_hall.c`](../../../d/city/under/ruins_hall.c) | 史前殘殿 | `north` $\to$ 古暗渠樞紐 | **地煞靈眼**：聳立殘破十二丈人面神像，地底地煞之氣匯聚，為法道修士淬煉神識與探尋失落紀元的禁地。 |
 
 ---
 
@@ -72,4 +72,4 @@ flowchart TD
 
 1. **濁氣極低 (5%)**：地表百萬凡俗的七情六慾紅塵之氣無法穿透厚重地層，修士在此調息不會引發嚴重的濁氣反噬。
 2. **絕靈法網盲區 (Spirit-Sealing Grid = 0)**：官府設於地表的絕靈法陣無法覆蓋深層地宮，在此施展術法、催動符籙皆無官府禁制限制。
-3. **戰術偷渡要道**：通往城西護城河（[`moat.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/city/wall/moat.c)）的廢棄水閘，是玩家攜帶管制物品或被通緝時進出都城的絕佳匿蹤路線。
+3. **戰術偷渡要道**：通往城西護城河（[`moat.c`](../../../d/city/wall/moat.c)）的廢棄水閘，是玩家攜帶管制物品或被通緝時進出都城的絕佳匿蹤路線。

@@ -1,7 +1,7 @@
 # 第三卷大事記與人物狀態一覽：《名山問道・脫俗爭鋒篇》（第 83 ～ 126 章）
 
 > 本頁專為純小說讀者整理第三卷時序脈絡、五大主角踏入未知世界時的「認知邊界」與主要角色狀態，方便無縫銜接第四卷《洞天避難》。  
-> 前卷：[第一卷一覽](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/volume1/README.md) ｜ [第二卷一覽](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/volume2/README.md) ｜ 總目錄：[小說章節目錄](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/README.md)
+> 前卷：[第一卷一覽](../volume1/README.md) ｜ [第二卷一覽](../volume2/README.md) ｜ 總目錄：[小說章節目錄](../README.md)
 
 ---
 

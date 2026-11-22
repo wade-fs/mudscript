@@ -1,7 +1,7 @@
 # 第二卷大事記與人物狀態一覽：《金石風雲・入城立籍篇》（第 39 ～ 82 章）
 
 > 本頁專為純小說讀者整理第二卷時序脈絡與卷末人物狀態，方便銜接第三卷《名山問道》；不劇透後續卷次尚未揭曉之真相。  
-> 前卷：[第一卷一覽](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/volume1/README.md) ｜ 總目錄：[小說章節目錄](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/README.md) ｜ 續卷：[第三卷一覽](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/volume3/README.md)
+> 前卷：[第一卷一覽](../volume1/README.md) ｜ 總目錄：[小說章節目錄](../README.md) ｜ 續卷：[第三卷一覽](../volume3/README.md)
 
 ---
 

@@ -1,7 +1,7 @@
 # 《遺忘的世界》小說大綱與章節規劃 (Novel Outline)
 
 > **所屬專案**：`forgotten-space` 敘事設定集  
-> **關聯文檔**：[世界觀與 Mudlib 架構設定集](file:///home/wade/src/github/mudscript/forgotten-space/narrative/world_setting.md) ｜ [第一卷大綱【黑石驚蟄】](file:///home/wade/src/github/mudscript/forgotten-space/narrative/volume1.md) ｜ [第二卷大綱【金石風雲】](file:///home/wade/src/github/mudscript/forgotten-space/narrative/volume2.md) ｜ [第三卷大綱【名山問道】](file:///home/wade/src/github/mudscript/forgotten-space/narrative/volume3.md) ｜ [章節正文目錄](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/README.md)  
+> **關聯文檔**：[世界觀與 Mudlib 架構設定集](world_setting.md) ｜ [第一卷大綱【黑石驚蟄】](volume1.md) ｜ [第二卷大綱【金石風雲】](volume2.md) ｜ [第三卷大綱【名山問道】](volume3.md) ｜ [章節正文目錄](chapters/README.md)  
 > **更新時間**：2026-11-14  
 
 ---
@@ -40,19 +40,19 @@ flowchart TD
 
 ### 【第一幕：破曉微光・命運初啼】（第 1 ~ 5 章・已完結）
 以黑石鋪同一天清晨（破曉時分）為統一時間錨點，從五位不同身世底層少年的生活切入，層層揭開被大清洗掩蓋的太古真相：
-* [**第 1 章：晨曦微光與磨刀石**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/volume1/ch0001.md)
+* [**第 1 章：晨曦微光與磨刀石**](chapters/volume1/ch0001.md)
   * 主視角：顧玄（採藥孤兒）｜主場景：南谷碎石溪灘 (`/d/village/stream.c`)
   * 失落秘密：洗衣石板深處被水流沖洗出的【逆行蒼龍七宿星圖】與太古大清洗殘篆。
-* [**第 2 章：爐火、重錘與不融黑鐵**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/volume1/ch0002.md)
+* [**第 2 章：爐火、重錘與不融黑鐵**](chapters/volume1/ch0002.md)
   * 主視角：林鐵生（打鐵學徒）｜主場景：老鐵匠鋪・打鐵爐房 (`/d/village/forge.c`)
   * 失落秘密：地爐萬度熔火不化的【太古不融黑鐵齒輪構件】，上古工聖失落的微型機械造物。
-* [**第 3 章：鹿角哨亭、陷阱與大荒異動**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/volume1/ch0003.md)
+* [**第 3 章：鹿角哨亭、陷阱與大荒異動**](chapters/volume1/ch0003.md)
   * 主視角：燕隼（獵戶之子）｜主場景：獵戶哨亭 (`/d/village/hunter_cabin.c`) 與荒林口
   * 失落秘密：化骨泥沼巨榕下被黑熊撞開石衣的【太古戰神獵獸圖騰玄柱】，荒古肉身血脈共鳴。
-* [**第 4 章：殘壇罡風、觀星與道化之影**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/volume1/ch0004.md)
+* [**第 4 章：殘壇罡風、觀星與道化之影**](chapters/volume1/ch0004.md)
   * 主視角：柳清虛（破落道童）｜主場景：迎風孤岩・荒廢道壇 (`/d/village/altar.c`)
   * 失落秘密：孤松下玉化晶骨揭開「清修道化」死劫，神識窺天洞悉蒼穹星空背後的【天羅地網活體牢籠】。
-* [**第 5 章：背街柴房、市井耳目與黑市古令**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/volume1/ch0005.md)
+* [**第 5 章：背街柴房、市井耳目與黑市古令**](chapters/volume1/ch0005.md)
   * 主視角：沈泥（流浪乞兒）｜主場景：客棧背街・廢柴房 (`/d/village/shed.c`)
   * 失落秘密：客棧後巷爛泥深處發掘的【萬物行商・天門引】青金古令（休眠殘缺），揭開商道被勒索真相。
 
@@ -73,18 +73,18 @@ flowchart TD
 * **官道斷絕與三層籌碼**：先頭獸群與後續主力衝出深澗，將虎跳峽半里木棧道徹底壓垮，押運糧車墜崖，官道與軍需全線斷絕；五子與蘇凝霜按證明力梳理出三大籌碼（雷管批號拓印、精煉坩堝暗賬、22名倖存礦工按手印證言）。
 
 ### 【第五幕：多方博弈・破局遠行】（第 33 ~ 38 章・已完結）
-* [**第 33 章：迷霧扣關・三軍陣前**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/volume1/ch0033.md) - 府城先鋒軍八百精銳扣關，胡百戶誣告謀反；陳鎮山洞悉三大破綻推遲強攻；
-* [**第 34 章：暗賬分牒・多點投書**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/volume1/ch0034.md) - 沈泥莫三穿行地下暗渠支洞，燕隼外圍掩護，三路密信精準制衡軍械監軍、主帥陳鎮山與督糧官；
-* [**第 35 章：軍心如鑑・天威難欺**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/volume1/ch0035.md) - 校場公開質證，雷管鋼印與老礦工血淚動搖軍心，陳鎮山解職胡百戶改強攻為封存會審；
-* [**第 36 章：商會殘骨・利益之毒**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/volume1/ch0036.md) - 提審趙德貴揭穿副會長錢百川走私謀殺黑幕，天門引與總堂密室線索浮現，確立赴府城之必然推力；
-* [**第 37 章：回首黑石・凡胎圓滿**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/volume1/ch0037.md) - 聚落展開真實重建，五子心性與技藝全面突破晉升 **Tier 0 凡胎圓滿（Level 10）**，獲頒出鄉路引腰牌；
-* [**第 38 章：大荒官道・天門驚蟄**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/volume1/ch0038.md) - 虎跳峽便道搶通，五子向五位師長深沉道別，護衛商隊踏上大荒官道邁向金石府城，第一卷正式圓滿收官！
+* [**第 33 章：迷霧扣關・三軍陣前**](chapters/volume1/ch0033.md) - 府城先鋒軍八百精銳扣關，胡百戶誣告謀反；陳鎮山洞悉三大破綻推遲強攻；
+* [**第 34 章：暗賬分牒・多點投書**](chapters/volume1/ch0034.md) - 沈泥莫三穿行地下暗渠支洞，燕隼外圍掩護，三路密信精準制衡軍械監軍、主帥陳鎮山與督糧官；
+* [**第 35 章：軍心如鑑・天威難欺**](chapters/volume1/ch0035.md) - 校場公開質證，雷管鋼印與老礦工血淚動搖軍心，陳鎮山解職胡百戶改強攻為封存會審；
+* [**第 36 章：商會殘骨・利益之毒**](chapters/volume1/ch0036.md) - 提審趙德貴揭穿副會長錢百川走私謀殺黑幕，天門引與總堂密室線索浮現，確立赴府城之必然推力；
+* [**第 37 章：回首黑石・凡胎圓滿**](chapters/volume1/ch0037.md) - 聚落展開真實重建，五子心性與技藝全面突破晉升 **Tier 0 凡胎圓滿（Level 10）**，獲頒出鄉路引腰牌；
+* [**第 38 章：大荒官道・天門驚蟄**](chapters/volume1/ch0038.md) - 虎跳峽便道搶通，五子向五位師長深沉道別，護衛商隊踏上大荒官道邁向金石府城，第一卷正式圓滿收官！
 
 ---
 
 ## 三、第二卷：【金石風雲・入城立籍篇】(全 44 章 Ch.39 ~ 82 / Tier 1 初入道途)
 
-> 💡 **進度狀態**：全卷五幕宏觀大綱與 **第 39 ~ 82 章（共 44 章）全卷正文已全部撰寫完畢並完成雙軌校驗**！第二卷【金石風雲】正式圓滿完結，詳見 [**第二卷大綱【金石風雲】**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/volume2.md) 與 [`narrative/chapters/volume2/ch0039.md`](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/volume2/ch0039.md) ～ [`narrative/chapters/volume2/ch0082.md`](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/volume2/ch0082.md)。
+> 💡 **進度狀態**：全卷五幕宏觀大綱與 **第 39 ~ 82 章（共 44 章）全卷正文已全部撰寫完畢並完成雙軌校驗**！第二卷【金石風雲】正式圓滿完結，詳見 [**第二卷大綱【金石風雲】**](volume2.md) 與 [`narrative/chapters/volume2/ch0039.md`](chapters/volume2/ch0039.md) ～ [`narrative/chapters/volume2/ch0082.md`](chapters/volume2/ch0082.md)。
 
 ```mermaid
 flowchart TD
@@ -97,9 +97,9 @@ flowchart TD
     V2A1 --> V2A2 --> V2A3 --> V2A4 --> V2A5
 ```
 
-### 1. 空間場景：金石府城九大分區 (`/d/city/` 67 間房) 與六大外縣 (`/d/counties/` 85 間房)
-* **東線盤木林道、西線重石山徑（`/d/routes/` 22 間房）與六縣區域網**：黑石鋪分雙路經盤木縣與重石縣入府城，並輻射青河、烈礬、盤木、鎮風、濁水、重石六大次級縣城（各具 30 天無主角介入自主演進時間線）。
-* **金石府城九大分區 (`/d/city/` 67 間實裝房間)**：
+### 1. 空間場景：金石府城九大分區 (`/d/city/` 75 間房) 與六大外縣 (`/d/counties/` 91 間房)
+* **東線盤木林道、西線重石山徑（`/d/routes/` 22 間房）與六縣區域網**：黑石鋪分雙路經盤木縣與重石縣入府城，並輻射青河、烈礬、盤木、鎮風、濁水、重石六大次級縣城（各具 30 天無主角介入自主演進時間線與生活支翼）。
+* **金石府城九大分區 (`/d/city/` 75 間實裝房間)**：
   * **四關稅防區 (`gate/`)**：南關（木材稅 10%）、東關（銅鐵礦稅 20%）、西水門（漕運水關）、北關（外荒軍防）。
   * **城心政商中樞 (`center/`)**：金石府衙、案卷庫、死牢、常平倉、通寶錢莊、通寶當鋪、杏林醫館、蒙學塾、四海驛站、鬼市暗巷。
   * **城南商貿與漕運區 (`south/`)**：金石商會總堂（`shanghui_hq`）、六縣專材長街、米糧行、車馬大院、運河碼頭、商會三號大庫、城南老客棧。
@@ -122,7 +122,7 @@ flowchart TD
 
 ## 四、第三卷：【名山問道・脫俗爭鋒篇】(全 44 章 Ch.83 ~ 126 / Tier 2 宗門深造)
 
-> 💡 **進度狀態**：全卷 44 章（Ch.83 ~ Ch.126）五幕式大綱與**全卷正文已全部撰寫完畢並完成正典與用語校驗**，詳見 [**第三卷大綱【名山問道】**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/volume3.md) 與 [`narrative/chapters/volume3/ch0083.md`](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/volume3/ch0083.md) ～ [`narrative/chapters/volume3/ch0126.md`](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/volume3/ch0126.md)。
+> 💡 **進度狀態**：全卷 44 章（Ch.83 ~ Ch.126）五幕式大綱與**全卷正文已全部撰寫完畢並完成正典與用語校驗**，詳見 [**第三卷大綱【名山問道】**](volume3.md) 與 [`narrative/chapters/volume3/ch0083.md`](chapters/volume3/ch0083.md) ～ [`narrative/chapters/volume3/ch0126.md`](chapters/volume3/ch0126.md)。
 
 ```mermaid
 flowchart TD
@@ -150,7 +150,7 @@ flowchart TD
 
 ## 五、第四卷：【洞天問真・異界三極篇】(規劃 44 章 Ch.127 ~ 170 / Tier 3 規劃中)
 
-> 💡 **進度狀態**：全卷規劃套件已比照第三卷結構編製完成，詳細設計請參閱 [**第四卷大綱【洞天問真】**](file:///home/wade/src/github/mudscript/forgotten-space/narrative/volume4.md)、[`narrative/docs/maps/tier3/`](file:///home/wade/src/github/mudscript/forgotten-space/narrative/docs/maps/tier3/README.md)、[`narrative/events/volume4_events.md`](file:///home/wade/src/github/mudscript/forgotten-space/narrative/events/volume4_events.md) 與 [`narrative/docs/tier3_quest_network.md`](file:///home/wade/src/github/mudscript/forgotten-space/narrative/docs/tier3_quest_network.md)（Mudlib 已先行於 `/d/realm/peach_plateau.c` 實裝初臨點）。
+> 💡 **進度狀態**：全卷規劃套件已比照第三卷結構編製完成，詳細設計請參閱 [**第四卷大綱【洞天問真】**](volume4.md)、[`narrative/docs/maps/tier3/`](docs/maps/tier3/README.md)、[`narrative/events/volume4_events.md`](events/volume4_events.md) 與 [`narrative/docs/tier3_quest_network.md`](docs/tier3_quest_network.md)（Mudlib 已先行於 `/d/realm/peach_plateau.c` 實裝初臨點）。
 
 * **五幕宏觀規劃（Ch. 127 ~ Ch. 170）**：
   1. **第一幕：碎石寒原・遺民餘燼（Ch.127 ~ 134）**：踏出荒蕪碎石高原尋見【灰燼石堡】炊煙，揭露十七批先輩真實結局、體感 `K`/`U` 認知代價（舊技三倍高耗），並初現「律令排異症」與燕山五年鷹記刻痕。

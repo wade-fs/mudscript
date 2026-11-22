@@ -16,9 +16,9 @@
    * [3.14 Tier 1 初入道途：地方生活世界、三道哲學根基與任務社會網絡](#314-tier-1-初入道途地方生活世界三道哲學根基與任務社會網絡-tier-1-architecture-regional-society-three-paths--quest-networks)
 4. [地理地圖與城鎮分區 (Geography & World Map)](#4-地理地圖與城鎮分區-geography--world-map)
 5. [勢力宗門與陣營設定 (Factions & Sects)](#5-勢力宗門與陣營設定-factions--sects)
-* **[延伸文檔]** [核心人物檔案 (Character Profiles)](file:///home/wade/src/github/mudscript/forgotten-space/narrative/character_profiles.md)
-* **[延伸文檔]** [小說大綱與章節規劃 (Novel Outline)](file:///home/wade/src/github/mudscript/forgotten-space/narrative/novel_outline.md)
-* **[延伸文檔]** [Mudlib LPC 機制映射 (Mudlib LPC Mapping)](file:///home/wade/src/github/mudscript/forgotten-space/narrative/mudlib_lpc_mapping.md)
+* **[延伸文檔]** [核心人物檔案 (Character Profiles)](character_profiles.md)
+* **[延伸文檔]** [小說大綱與章節規劃 (Novel Outline)](novel_outline.md)
+* **[延伸文檔]** [Mudlib LPC 機制映射 (Mudlib LPC Mapping)](mudlib_lpc_mapping.md)
 
 ---
 
@@ -26,7 +26,7 @@
 
 ### 1.1 作品元資訊
 * **作品正式名稱**：**《遺忘的世界》(THE FORGOTTEN SPACE)**
-* **官方封面 (暫定)**：`[fs.jpeg](file:///home/wade/src/github/mudscript/forgotten-space/img/fs.jpeg)`
+* **官方封面 (暫定)**：`[fs.jpeg](../img/fs.jpeg)`
 * **專案 Mudlib 根目錄**：`/home/wade/src/github/mudscript/forgotten-space/`
 * **題材風格**：東方玄幻 / 仙俠異道 / 史前失落文明探索 / 嚴謹數值設定流。
 * **核心基調 (Tone)**：蒼茫大氣、微觀苦修、人間煙火生活感、撥開全民失憶迷霧的懸疑與壯烈。
@@ -46,12 +46,12 @@
   * [x] 三元力量生剋與修煉/戰鬥心跳機制（第 3.1 ~ 3.3, 3.6 ~ 3.8 節）
   * [x] 統一數值階梯（T0~T3）與四重進階/天道排斥模型（第 3.9 節）
   * [x] 先天六維、狀態三柱 (`kee/sen/sp`)、天命隱藏屬性底層規格（第 3.10 ~ 3.11 節）
-  * [x] 新手聚落立體地形（黑石鋪 `/d/village/` 13 間核心房間）與三大鏈式 NPC 任務循環（第 4.3 節）
-  * [x] 宣告式 JSON 任務架構與狀態機引擎 (`QUEST_ENGINE_D` + `/quests/*.json` 共 37 條任務鏈) 全面實裝
-  * [x] 世界動態狀態守護進程 (`WORLD_STATE_D`)、事件時間軸 (`EVENT_MANAGER_D`)、史前奇遇守護 (`MYSTERY_D`)、動態相位 (`PHASE_D`)
+  * [x] 新手聚落立體地形（黑石鋪 `/d/village/` 22 間生活與核心房間）與三大鏈式／日常 NPC 任務循環（第 4.3 節）
+  * [x] 宣告式 JSON 任務架構與狀態機引擎 (`QUEST_ENGINE_D` + `/quests/**/*.json` 共 91 份任務定義) 全面實裝
+  * [x] 世界動態狀態守護進程 (`WORLD_STATE_D`)、事件時間軸 (`EVENT_MANAGER_D`)、史前奇遇守護 (`MYSTERY_D`)、動態相位 (`PHASE_D` 23 名作息角色／6 大樞紐互動)
   * [x] 戰鬥守護進程 (`COMBAT_D`) 實裝（三角生剋公式、氣血狂潮打斷、機關消耗與佈陣邏輯）
-  * [x] Tier 1 區域城鄉網絡地圖集（全境 187 間房：金石府城 `/d/city/` 67 間房、六大外縣 `/d/counties/` 85 間房、官道山徑 `/d/routes/` 22 間房）、路引制度 (`CITY_D`) 與遠行事件 (`TRAVEL_D`) 全面實裝
-  * [ ] **中遠期規劃**：Tier 2 名山大派與雲津萬山商埠地圖集 (`/d/sects/`、`/d/yunjin/`) 及二階內外門晉升機制實裝
+  * [x] Tier 1 區域城鄉網絡地圖集（全境 210 間房：黑石鋪 22、金石府城 `/d/city/` 75、六大外縣 `/d/counties/` 91、官道山徑 `/d/routes/` 22）、路引制度 (`CITY_D`) 與遠行事件 (`TRAVEL_D`) 全面實裝
+  * [x] **二階名山實裝（77 房 ＋ `/d/realm/peach_plateau.c` 1 房，全站合計 288 房）**：Tier 2 三山四脈 (`/d/sects/` 36)、雲津仙集 (`/d/yunjin/` 21) 與北境北荒 (`/d/wastes/` 20) 全面落地並通過 World Liveness 2.0 稽核
   * [ ] **架構演進**：Web 端現代化 IDE（整合 Monaco Editor，以 `edit_file` / `save_file` 協定連動 Driver 熱重載）
 
 ### 1.3 核心架構四層模型 (The Four-Layer Architecture)
@@ -666,7 +666,7 @@ Tier 1 不是「Tier 0 的高等級版」，也不是升級換皮的數值灌水
   基礎生計與身世入口）         地方規矩）
 ```
 
-* **三層空間職能（六大次級縣城與十二新手村詳細全景請參閱 [`docs/tier1_regional_network_and_career_spec.md`](file:///home/wade/src/github/mudscript/forgotten-space/narrative/docs/tier1_regional_network_and_career_spec.md)）**：
+* **三層空間職能（六大次級縣城與十二新手村詳細全景請參閱 [`docs/tier1_regional_network_and_career_spec.md`](docs/tier1_regional_network_and_career_spec.md)）**：
   * **區域主城（金石府城）**：承擔跨縣城協調、主要大宗交易、流派交流與區域公共事件。有城主但非皇帝；官方組織負責公共設施、治安與秩序維持，受地方勢力與居民利益實質制約。
   * **六大次級縣城**：生活與生產的核心節點。各自具備獨特的地方傳統與產業分工：
     1. **青河縣**（草藥水網、藥圃集散，轄下新手村：**蘆花渡**、**百草坪**）；
@@ -1062,15 +1062,15 @@ graph TD
 
 原設定集第 6、7、8 章內容已完全分離並遷移至 `narrative/` 目錄，以保持世界觀正典與動態敘事文檔各司其職、獨立演進：
 
-* **核心人物檔案 (Character Profiles)** ➔ 請參閱 [`narrative/character_profiles.md`](file:///home/wade/src/github/mudscript/forgotten-space/narrative/character_profiles.md)  
+* **核心人物檔案 (Character Profiles)** ➔ 請參閱 [`narrative/character_profiles.md`](character_profiles.md)  
   包含五重視角核心主角（顧玄、林鐵生、燕隼、柳清虛、沈泥）深度設定、理解世界方式、關鍵引路導師（葛半仙、阿鐵、趙老獵、枯木老道、莫三）與重要配角群像（蘇凝霜、魯大山、老李頭、木匠老陳、胡百戶、趙德貴、陳鎮山等）。
 
-* **小說大綱與章節規劃 (Novel Outline)** ➔ 請參閱 [`narrative/novel_outline.md`](file:///home/wade/src/github/mudscript/forgotten-space/narrative/novel_outline.md)、[`narrative/volume1.md`](file:///home/wade/src/github/mudscript/forgotten-space/narrative/volume1.md)、[`narrative/volume2.md`](file:///home/wade/src/github/mudscript/forgotten-space/narrative/volume2.md)、[`narrative/volume3.md`](file:///home/wade/src/github/mudscript/forgotten-space/narrative/volume3.md) 與 [`narrative/volume4.md`](file:///home/wade/src/github/mudscript/forgotten-space/narrative/volume4.md)  
+* **小說大綱與章節規劃 (Novel Outline)** ➔ 請參閱 [`narrative/novel_outline.md`](novel_outline.md)、[`narrative/volume1.md`](volume1.md)、[`narrative/volume2.md`](volume2.md)、[`narrative/volume3.md`](volume3.md) 與 [`narrative/volume4.md`](volume4.md)  
   包含第一至三卷全 126 章（已完結兼 Mudlib 全實裝）、第四卷【洞天問真】44 章規劃藍圖，以及跨卷修煉空間晉升架構。
 
-* **Mudlib LPC 機制與專案目錄架構映射 (Mudlib LPC Mapping)** ➔ 請參閱 [`narrative/mudlib_lpc_mapping.md`](file:///home/wade/src/github/mudscript/forgotten-space/narrative/mudlib_lpc_mapping.md)  
+* **Mudlib LPC 機制與專案目錄架構映射 (Mudlib LPC Mapping)** ➔ 請參閱 [`narrative/mudlib_lpc_mapping.md`](mudlib_lpc_mapping.md)  
   包含四層架構目錄藍圖（`world/`, `d/`, `std/`, `daemon/`, `narrative/`）、LPC 核心類別映射表、宣告式任務狀態機引擎 (`QUEST_ENGINE_D` + `/quests/*.json`) 與戰鬥守護進程 (`COMBAT_D`) 實裝規範。
 
-* **Tier 1 區域生活網絡、次級縣城拓撲與一階道途規範書** ➔ 請參閱 [`narrative/docs/tier1_regional_network_and_career_spec.md`](file:///home/wade/src/github/mudscript/forgotten-space/narrative/docs/tier1_regional_network_and_career_spec.md)  
+* **Tier 1 區域生活網絡、次級縣城拓撲與一階道途規範書** ➔ 請參閱 [`narrative/docs/tier1_regional_network_and_career_spec.md`](docs/tier1_regional_network_and_career_spec.md)  
   包含六大次級縣城與十二新手村地理拓撲、生活網絡事件持續性三層規範、金石都城 `/d/city/` 房間架構、三大一階門派（清虛道壇、八方武館、天工行會）完整技能樹與轉職 JSON 規格，以及五大主角偏科補足與邊界矩陣。
 

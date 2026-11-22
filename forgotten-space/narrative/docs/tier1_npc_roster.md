@@ -253,7 +253,7 @@ mapping npc_data = ([
 | **趙德貴**（前商會二掌櫃） | 府死牢「收押處」 | 已實裝 `/clone/npc/yamen_prison_zhaodegui.c`，收押於 `center/yamen_prison.c`（`quest_target` / `info`，可追問三號暗庫、丙字柒號與錢百川線索） |
 | **胡百戶**（前黑石關城防百戶） | 府死牢「收押處」；2.2 節寫他倒台後黑石關換新暫代巡檢 | 已實裝 `/clone/npc/yamen_prison_hubaihu.c`，收押於 `center/yamen_prison.c`（`quest_target` / `info`，可追問黑石關軍械放行與城防勾結內幕） |
 | **蘇凝霜**（商會大小姐） | 3.3 節：其「信印」可喚醒各城人脈 | 本體維持於 Tier 0 黑石鋪 `d/village/shed.c`（避免多玩家同時在線時新舊手分身衝突）；都城端由蘇氏舊部大掌櫃**蘇忠**（`/clone/npc/caravan_yard_manager.c`）駐守 `south/caravan_yard.c` 作為蘇凝霜信印接應代表 |
-| **莫三 / 阿鐵** | 3.3 節：其私信、工具記號可喚醒人脈；2.2 節說莫三仍在後巷打探 | 留駐黑石鋪（`d/village/alley.c`、`d/village/smithy.c`），都城端可憑其工具記號與百工鍛造大師莫錘（莫三堂叔）交涉 |
+| **莫三 / 阿鐵** | 3.3 節：其私信、工具記號可喚醒人脈；2.2 節說莫三仍在後巷打探 | 留駐黑石鋪（`d/village/dark_alley.c` / `shed.c`、`d/village/forge.c`），都城端可憑其工具記號與百工鍛造大師莫錘（莫三堂叔）交涉 |
 
 ---
 

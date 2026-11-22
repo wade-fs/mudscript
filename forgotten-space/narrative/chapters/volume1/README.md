@@ -1,7 +1,7 @@
 # 第一卷大事記與人物狀態一覽：《黑石凡胎・驚蟄篇》（第 1 ～ 38 章）
 
 > 本頁專為純小說讀者整理第一卷時序脈絡與卷末人物狀態，方便銜接第二卷《金石風雲》；不劇透後續卷次尚未揭曉之伏筆與真相。  
-> 總目錄：[小說章節目錄](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/README.md) ｜ 續卷：[第二卷一覽](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/volume2/README.md)
+> 總目錄：[小說章節目錄](../README.md) ｜ 續卷：[第二卷一覽](../volume2/README.md)
 
 ---
 

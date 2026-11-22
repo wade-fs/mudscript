@@ -99,18 +99,18 @@
    - [x] **離線與重啟持久化一致性**：`market_stocks`、`merchant_strategies` 與 `last_settled_gtime` 全面持久化並具冪等時間戳防重入，重啟後不重複結算不亂帳。
 
 3. **P2：日常支線進化 —「參與地方生活」與「選擇不介入」機制（已完成）**
-   - [x] `miners_tea_shed.c` 實裝 `decline`／`拒絕` 非強制路徑：玩家可婉拒作保賒糧而不受懲罰，礦工家屬處境持續存在；[earth_shrine.c](file:///home/wade/src/github/mudscript/forgotten-space/d/village/earth_shrine.c)（`offer_rite`／社祭）與 [temple_tea_fair.c](file:///home/wade/src/github/mudscript/forgotten-space/d/yunjin/temple_tea_fair.c)（`beat_drum`／敲社鼓）補齊地方文化參與維度。
+   - [x] `miners_tea_shed.c` 實裝 `decline`／`拒絕` 非強制路徑：玩家可婉拒作保賒糧而不受懲罰，礦工家屬處境持續存在；[earth_shrine.c](forgotten-space/d/village/earth_shrine.c)（`offer_rite`／社祭）與 [temple_tea_fair.c](forgotten-space/d/yunjin/temple_tea_fair.c)（`beat_drum`／敲社鼓）補齊地方文化參與維度。
 
 4. **P3：`RUMOR_D` 結構化六維資訊品質（交叉驗證真相）（已完成）**
    - [x] `RUMOR_D->query_cross_check_rumors()` 全面產出含 `source`、`event_id`、`credibility`、`region`、`timestamp`、`is_stale` 六維欄位之五方視角傳聞（烈礬礦場停工五方口徑、北荒寒潮五方口徑、青河截水口徑），並接線至廟會茶攤 `tea_gossip` / `聽茶客`。
 
 5. **Phase 3 端對端十步驗收場景（已完成）**
-   - [x] 於 [test_world_liveness.c](file:///home/wade/src/github/mudscript/forgotten-space/tests/test_world_liveness.c) 完成十步寒潮經濟閉環、運輸虧損風險、防重入結算與過時標記自動化驗收。
+   - [x] 於 [test_world_liveness.c](forgotten-space/tests/test_world_liveness.c) 完成十步寒潮經濟閉環、運輸虧損風險、防重入結算與過時標記自動化驗收。
 
 ---
 
 ### Phase 4：世界鮮活度 2.0 稽核與前三卷小說交叉審查（已完成）
-- [x] **升級 [world_liveness_audit.py](file:///home/wade/src/github/mudscript/forgotten-space/tests/quests/world_liveness_audit.py) 至 2.0 規範**：
+- [x] **升級 [world_liveness_audit.py](forgotten-space/tests/quests/world_liveness_audit.py) 至 2.0 規範**：
   - [x] 檢核房間「真・空房率 = 0%」與「五感覆寫 = 100%」。
   - [x] 新增鮮活度深度指標稽核：
     - NPC 工作與活動時段（`PHASE_D` 23 名作息角色＋目標房間驗證＋30 位庶民 NPC `add_response` 互動檢核）
@@ -119,12 +119,49 @@
     - 地點真實經濟活動與 6D 資訊品質（`market_stocks`、`economic_batch_tick`、`merchant_strategies`、`query_social_tier`、`query_cross_check_rumors`）
     - 檢查全站 288 間房 `set_long` 提及之指令動詞於房間／NPC 皆可實際互動（`set_long cmd mismatches: 0`）
 - [x] **前三卷小說 ↔ Mudlib 雙向反哺審查**：
-  - [x] 核對 `narrative/chapters/volume1`～`volume3`（黑石鋪、六縣、金石府城、雲津、三宗、北荒）里程（東線盤木 450 里＝190+260、西線重石 420 里＝180+240、烈礬 320 里、雲津北行 800 里）、時序與稱謂一致，並於 [ch0002.md](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/volume1/ch0002.md)、[ch0043.md](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/volume2/ch0043.md) 與 [ch0084.md](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/volume3/ch0084.md) 補入庶民市井生活肌理反哺。
-  - [x] 同步更新 [canon_sync_matrix.json](file:///home/wade/src/github/mudscript/forgotten-space/data/canon_sync_matrix.json)（新增 `living_world_folk_layer`）、[CANON_CHANGELOG.md](file:///home/wade/src/github/mudscript/forgotten-space/docs/CANON_CHANGELOG.md) 與 [novel_mud_sync_audit.py](file:///home/wade/src/github/mudscript/forgotten-space/tests/quests/novel_mud_sync_audit.py)。
+  - [x] 核對 `narrative/chapters/volume1`～`volume3`（黑石鋪、六縣、金石府城、雲津、三宗、北荒）里程（東線盤木 450 里＝190+260、西線重石 420 里＝180+240、烈礬 320 里、雲津北行 800 里）、時序與稱謂一致，並於 [ch0002.md](forgotten-space/narrative/chapters/volume1/ch0002.md)、[ch0043.md](forgotten-space/narrative/chapters/volume2/ch0043.md) 與 [ch0084.md](forgotten-space/narrative/chapters/volume3/ch0084.md) 補入庶民市井生活肌理反哺。
+  - [x] 同步更新 [canon_sync_matrix.json](forgotten-space/data/canon_sync_matrix.json)（新增 `living_world_folk_layer`）、[CANON_CHANGELOG.md](forgotten-space/docs/CANON_CHANGELOG.md) 與 [novel_mud_sync_audit.py](forgotten-space/tests/quests/novel_mud_sync_audit.py)。
 
 ---
 
-### Phase 5：銜接第四卷（Tier 3 異界洞天篇）
-- [ ] 確認凡間前三卷已具備獨立生命力後，再展開：
-  - [ ] `/d/realm/` 四大分區實裝（`edge/`、`taixu/`、`zhanzu/`、`wanwu/`），落實 `K × U` 機制與高代價雙向信標。
-  - [ ] 依 [narrative/volume4.md](file:///home/wade/src/github/mudscript/forgotten-space/narrative/volume4.md) 撰寫《第四卷》第 127～170 章正文。
+### Phase 5：文件衛生、稽核自動化強化與房描品質檢核（Phase 6 前置整備）
+> 整合 `thinking.md` 對文件、稽核與玩家體感品質的全面檢視（成本低、建議先做）：
+
+1. **文件衛生與 `docs lint` 自動化**
+   - [x] **相對連結化**：清查並將各文件內殘留之本機絕對路徑 `file:///home/wade/...`（25 個檔案、376 處）全面改為相對連結，並修正 `docs/README-TODO.md` 失效路徑。
+   - [x] **處置過期審計檔 `novel_mud_audit.md`**：已明確標示為「早期 Ch.1–5 原型歷史審計快照」，並補附舊原型房間 ID（`smithy`/`white_altar`/`deep_pool`/`firewood_shed`/`inn_alley` 等）對照正典 22 房 ID 映射表。
+   - [x] **清除殘餘數字與目錄漂移**：同步 `README.md` 實裝目錄樹（`sects/`、`yunjin/`、`wastes/`、`counties/`、`routes/`）、`novel_outline.md`（府城 75／六縣 91）、`world_setting.md`、`tier2_quest_network.md`（Tier 2 77 ＋ realm 1）與標註 `implementation_plan.md` 歷史規劃快照。
+   - [x] **收斂未勾選驗收清單**：依現有實測檔案核對並勾選 `military_crisis_event_quest_network_spec.md`（8 項，對應 `test_event_manager.c`／`event_manager_model_check.py`）與 `tier1_regional_network_and_career_spec.md`（5 項，對應 `test_world_liveness.c`／`test_tier1_city.c`）。
+   - [x] **事件編號連續性**：為 `volume2_events.md` 補上 `EV2xx`／`EV-2xx` 對照說明並於 `events/README.md` 串接全書事件索引（`EV-201~EV-244` → `EV301~EV327` → `EV401~EV422`）。
+   - [x] **上線 `docs lint` 並掛入 `novel_mud_sync_audit.py`**：自動檢查本機絕對連結、相對連結可達性、過時路徑／房間 ID 漂移、EV 連續性、實況統計輸出（126 章／288 房／91 任務／30 庶民）與房描 n-gram 重複度指標。
+
+2. **房描品質與外部玩家實測（補足「覆蓋率 ≠ 品質」缺口）**
+   - [x] **房描去模板化抽檢與 n-gram 優化**：透過 n-gram 掃描鎖定 14 間重複句式最嚴重之六縣分舵考場（原每間共用 7–37 組 15-gram 考取模板句）及抽檢生活支翼，全面改寫為兼具地方職人語氣與實景感官的獨立敘述，達成 288 房零跨房 15-gram 套版重複並維持 `world_liveness_audit.py` 零遺漏。
+   - [ ] **外部盲測**：招募 3–5 位未參與開發的測試者從 Tier 0 黑石鋪推進至金石府城，實際觀察卡關點與流失節點，不再僅依賴內部自動化測試。（人工外部協作項）
+
+---
+
+### Phase 6：銜接第四卷（Tier 3 異界洞天篇・雙軌工作順序）
+
+1. **Step 1：第四卷開寫前決策包（需作者拍板裁決）**
+   - [ ] **「保全人類火種」條款因果重構**（消除 Ch.152 機械降神感）：檢視並裁決讓條款於 Ch.142–144 有代價地取得與受限（如：Ch.137–138 登錄庫將石堡遺民判為「材料」而非「人」，須透過 Ch.142–143「平民避難配額總帳」逐戶登記方得生效，使配額帳、第六階段身世與停工密約收束為同一條因果線）。
+   - [ ] **倒數時鐘前移埋線**：將「三月後三百年校準」壓力從 Ch.144 前移至 Ch.129–134 石堡日常（先埋配給或徵收異常），使 Ch.144 成為「實證確鑿」而非「突然揭露」。
+   - [ ] **三極各有「有臉的中階反派」**：於九霄巡天執律使之外，為三極各自補定具私利、可交鋒談判的中階具名反派（取代泛稱仲裁子機／戰尊／監軍），強化 Act 4 對峙戲劇張力。
+   - [ ] **第二幕跨極牽動與代價帳對等**：
+     - [ ] 為第二幕（Ch.135–144）三極結尾各設計帶入下一極的物件或債務（如衡真日誌需以鐵生換芯件交換），避免寫成三段獨立遊記。
+     - [ ] 依 `§3.12` 建立「每人每幕代價帳」，補足顧玄護陣、柳清虛偏星於第四卷的明確代價（避免高光與代價過度集中於沈泥與燕隼）。
+   - [ ] **詞彙禁令與掃描防護**：建立「規劃詞 → 正文詞」對照表（如電池 → 儲能晶柱，清除 `volume4_events.md` 與 `tier3_*` 中二十餘處「電池」以及熱插拔、格式化、BUFF 等禁詞滲漏風險），並加入 `chapters/` 自動禁詞掃描。
+   - [ ] **持續世界 vs 一次性結局裁定（`CROSS-05`）**：裁決「校準夜」於 MUD 世界中為已發生的一次性正典結局（玩家抵 Tier 3 接「善後與餘波」任務）或週期事件（玩家可「參與」），並寫明主角 Ch.170 開門與玩家 Tier 4 解鎖門檻（`traceability §4.2`）的制度性區隔。
+
+2. **Step 2：逐章設計規格定稿**
+   - [ ] **撰寫 `volume4_story_design.md`**：比照第三卷 71KB 逐章「場景／章末狀態／伏筆進展」體例編制第四卷設計書（優先完成 Act 1：Ch.127–134）。
+
+3. **Step 3：Tier 3 Mudlib 底層與防歪樓測試（先搭底層、後掛任務）**
+   - [ ] **`K × U` 機制落地與規格鎖定**：`tier3_k/<domain>`、`tier3_u/<domain>` 禁止做成長度計數旗標，必須通過「可驗證環境實驗」寫入能力標記；將三倍高耗與 `U` 路徑成本集中於單一可調表，並實作自動化測試驗證（1）舊招式三倍消耗、半威力；（2）同一種 `U` 可由兩種不同觀察路徑取得。
+   - [ ] **高代價雙向信標與 `EVENT_TIER3_CALIBRATION` 空殼＋測試**：先完成事件骨幹與評分界面，暫不死綁單一任務。
+   - [ ] **重組卷四任務密度（修正 12 份/44 章過低問題）**：參考前三卷 0.72 份/章標準，拆細 Act 1 任務量，並將 Act 4 依五條並行戰線拆為 4–5 條非二元且不綁特定身世的並行支線共同計入 `EVENT_TIER3_CALIBRATION`。
+
+4. **Step 4：分幕雙軌實作與卷五邊界控管**
+   - [ ] **Act 1（Ch.127–134）雙軌推進**：完成正文撰寫、實作 `/d/realm/edge/` 分區房間、將 `v4_act1` 拆細為約 3 條任務，通過 `quest_audit.py` 與 BFS 連通檢核。
+   - [ ] **Act 2–4（`taixu/`、`zhanzu/`、`wanwu/` 等分區）依序雙軌推進**：Act 4 開寫前先進行一次整幕並行戰線與經濟／校準狀態機模擬跑（Simulation Run）。
+   - [ ] **卷五（Tier 4 歸墟殘塚）範圍凍結**：僅保留既有骨架與 `traceability §4.2` 稀有門檻規格，不於第四卷完工前提前展開。

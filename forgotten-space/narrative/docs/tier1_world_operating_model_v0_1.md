@@ -1,6 +1,6 @@
 # 《遺忘的世界》Tier 1 世界運作模型 v0.1 (World Operating Model v0.1)
 
-> **文件定位**：回應 [《遺忘的世界》跨系統第一輪審核](file:///home/wade/src/github/mudscript/forgotten-space/narrative/docs/forgotten_space_first_pass_audit.md) 第五節之七大工作包與第七節指定交付物。本文件鎖定**設定狀態分層、唯一交通路網、權力與管轄邊界、證據狀態五欄模型、角色能力五欄分離表、第二卷四節點壓力測試規則、以及最小可玩切片驗證基準**，作為後續劇情推演與 Mudlib 實作的唯一底層規則骨架。
+> **文件定位**：回應 [《遺忘的世界》跨系統第一輪審核](forgotten_space_first_pass_audit.md) 第五節之七大工作包與第七節指定交付物。本文件鎖定**設定狀態分層、唯一交通路網、權力與管轄邊界、證據狀態五欄模型、角色能力五欄分離表、第二卷四節點壓力測試規則、以及最小可玩切片驗證基準**，作為後續劇情推演與 Mudlib 實作的唯一底層規則骨架。
 
 ---
 

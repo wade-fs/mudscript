@@ -2,7 +2,7 @@
 # (World Event Quest Network Specification: Black Stone Pass Military Crisis)
 
 > **文件定位**：MUD 引擎與小說共用之「第二階段：黑石關軍事危機」事件型任務網（World Event Quest Network）架構設計規格書。  
-> **關聯系統**：[`beast_surge_event_quest_network_spec.md`](file:///home/wade/src/github/mudscript/forgotten-space/narrative/docs/beast_surge_event_quest_network_spec.md), [`volume1.md`](file:///home/wade/src/github/mudscript/forgotten-space/narrative/volume1.md), [`village_crisis_ledger.md`](file:///home/wade/src/github/mudscript/forgotten-space/narrative/village_crisis_ledger.md)  
+> **關聯系統**：[`beast_surge_event_quest_network_spec.md`](beast_surge_event_quest_network_spec.md), [`volume1.md`](../volume1.md), [`village_crisis_ledger.md`](../village_crisis_ledger.md)  
 > **核心命題**：**核心問題不是如何打敗三千官軍，而是如何讓一支奉命而來、掌握武力、內部立場卻不一致的軍隊，無法輕易地把黑石鋪定性為叛亂並加以摧毀。**
 
 ---
@@ -328,16 +328,16 @@
 
 ## 八、第二階段驗收檢核清單 (8-Point Acceptance Checklist)
 
-在任何任務或代碼實作完成後，依照下列 8 項指標進行驗收：
+在任務與事件系統完成實裝後，依照下列 8 項指標完成驗收（均已納入自動化驗證）：
 
-- [ ] **1. 任務非線性**：玩家不必依照固定順序完成任務；至少存在 3 種截然不同的破局路徑（改變將領認知 / 抬高攻城成本 / 疏散保全人證）。
-- [ ] **2. 證據有層次**：傳聞、物證（雷管/坩堝）、證詞（礦工血書）與第三方核驗具有嚴格不同的法律與信服力度。
-- [ ] **3. 資訊有權限**：NPC 只能根據自己「親眼看到或接獲的情報」做出決策，不存在全知全能的 NPC。
-- [ ] **4. 軍方有內部差異**：先鋒將領、胡百戶、軍需官、基層士卒至少有 4 種截然不同的利益考量與自主行動。
-- [ ] **5. 時間會推進**：玩家不在場或選擇旁觀時，軍隊、商會與居民仍會依據 T-Clock 自行採取行動。
-- [ ] **6. 失敗仍有後續**：任務失敗（如某份信件被截、證人退縮）只會改變世界參數，絕不彈出「任務失敗請讀檔重來」。
-- [ ] **7. 談判不是萬能**：提交證據只能改變將領的決策條件，絕不保證軍方立刻下跪認錯或撤軍。
-- [ ] **8. 結局可以組合**：封鎖、調查、撤離、傷亡及證據保存可以生成多種複合結局，拒絕二元開關。
+- [x] **1. 任務非線性**：玩家不必依照固定順序完成任務；至少存在 3 種截然不同的破局路徑（改變將領認知 / 抬高攻城成本 / 疏散保全人證）——*已於 `tests/test_event_manager.c`（`evaluate_military_crisis`）與 `tests/quests/event_manager_model_check.py` 驗證*。
+- [x] **2. 證據有層次**：傳聞、物證（雷管/坩堝）、證詞（礦工血書）與第三方核驗具有嚴格不同的法律與信服力度——*已於 `daemon/city_d.c`（`EVIDENCE_MODEL`）、`quests/side/F03_testimony_cross_check.json` 與 `tests/test_beast_surge_mvp.c` 驗證*。
+- [x] **3. 資訊有權限**：NPC 只能根據自己「親眼看到或接獲的情報」做出決策，不存在全知全能的 NPC——*已於 `daemon/phase_d.c`、`quests/event/F*.json` 與 `tests/test_event_manager.c` 驗證*。
+- [x] **4. 軍方有內部差異**：先鋒將領、胡百戶、軍需官、基層士卒至少有 4 種截然不同的利益考量與自主行動——*已於 `tests/test_event_manager.c`（`evaluate_military_crisis` 多角色指標）驗證*。
+- [x] **5. 時間會推進**：玩家不在場或選擇旁觀時，軍隊、商會與居民仍會依據 T-Clock 自行採取行動——*已於 `tests/test_event_manager.c` 與 `tests/quests/event_manager_model_check.py` 驗證*。
+- [x] **6. 失敗仍有後續**：任務失敗（如某份信件被截、證人退縮）只會改變世界參數，絕不彈出「任務失敗請讀檔重來」——*已於 `daemon/event_manager.c` 複合結局模型與 `tests/test_event_manager.c` 驗證*。
+- [x] **7. 談判不是萬能**：提交證據只能改變將領的決策條件，絕不保證軍方立刻下跪認錯或撤軍——*已於 `tests/test_event_manager.c`（`eval_single_ev`／`eval_double_ev` 實測）驗證*。
+- [x] **8. 結局可以組合**：封鎖、調查、撤離、傷亡及證據保存可以生成多種複合結局，拒絕二元開關——*已於 `tests/test_event_manager.c` 與 `tests/quests/event_manager_model_check.py` 驗證*。
 
 ---
 

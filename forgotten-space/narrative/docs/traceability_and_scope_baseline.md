@@ -10,7 +10,7 @@
 
 ## 一、已裁決之範圍與架構決策 (`OPEN-01 ~ OPEN-05` & `Q1 ~ Q6` 正式鎖定)
 
-針對 [completed-spec.md](file:///home/wade/src/github/mudscript/forgotten-space/narrative/docs/completed-spec.md#L202-L210) 第六節所列之未決範圍與規則邊界，經作者拍板裁定如下：
+針對 [completed-spec.md](completed-spec.md#L202-L210) 第六節所列之未決範圍與規則邊界，經作者拍板裁定如下：
 
 ### 1. 正式交付範圍與分期里程碑 (`OPEN-01`：`RULE`)
 為兼顧「不縮減成只有新手村」與「不因無止境擴充而永遠無法交付」，全專案劃分為三個可獨立驗收之正式版本：
@@ -23,11 +23,11 @@
     - **Tier 1 金石府城（`/d/city/` 9 大分區、67 間實裝房間）**：四關稅則、紅塵濁氣梯度、絕靈法網、72 小時兩階段居留法、三道總堂轉職、五維能力分離、通寶信用凍結與三印合符／三方會審。
     - **Tier 1 六大次級縣城與官道網路（採方案 B 完整城鎮規模：六縣 `/d/counties/` 85 間房＋官道 `/d/routes/` 22 間節點房＝107 間房，全境合計 187 間房）**：青河、烈礬、盤木、鎮風、濁水、重石六縣完整街區、6 縣 × 3 道＝18 個地方等效初階資格認證入口、壓縮旅行系統（`travel_d.c`）與 30 天無主角介入自主演進時間線（Stage 1~4）。
     - **核心系統閉環**：力／法／物三元戰鬥系統（取代舊西幻 `combat_d.c`）、NPC 三態生命週期（`phase_d.c`）、以及角色／世界／事件／證物保管鏈之跨重啟持久化存檔（`MUD-05`）。
-- **Milestone 2（`Release v2.0：名山問道擴充版`）**：小說第三卷大綱（[`volume3.md`](file:///home/wade/src/github/mudscript/forgotten-space/narrative/volume3.md)，全 44 章 Ch.83~126 已展開）與正文 ＋ Tier 2 三大名山宗門與雲津仙集地圖、登天梯／問心谷山門大考與二階道化機制。
+- **Milestone 2（`Release v2.0：名山問道擴充版`）**：小說第三卷大綱（[`volume3.md`](../volume3.md)，全 44 章 Ch.83~126 已展開）與正文 ＋ Tier 2 三大名山宗門與雲津仙集地圖、登天梯／問心谷山門大考與二階道化機制。
 - **Milestone 3（`Release v3.0：洞天與歸墟終局版`）**：小說第四、五卷正文 ＋ Tier 3 桃花源洞天與 Tier 4 歸墟殘塚終局奇遇。
 
 ### 2. 六縣空間粒度與「多起點等效資格模型」 (`OPEN-02` 方案 B & `Q1 ~ Q5`：`RULE`)
-依據 [tier1_world_operating_model_v0_1.md](file:///home/wade/src/github/mudscript/forgotten-space/narrative/docs/tier1_world_operating_model_v0_1.md#L22) `R-01`（「六縣分舵、縣學、地方武館與工坊均可提供等效的初階資格認證與師承入口，玩家不必事事湧向金石府城」），鎖定以下五項設計：
+依據 [tier1_world_operating_model_v0_1.md](tier1_world_operating_model_v0_1.md#L22) `R-01`（「六縣分舵、縣學、地方武館與工坊均可提供等效的初階資格認證與師承入口，玩家不必事事湧向金石府城」），鎖定以下五項設計：
 1. **空間規模（方案 B）**：六大縣城各建 **14～15 間實體房間**（合計 **85 間縣城房**，位於 `/d/counties/<county_id>/`），外加 12 條標準路段的 **22 間具名官道／水路／暗河節點房**（位於 `/d/routes/`），並修正黑石鋪 `square.c` 直通府城 `south_road.c` 的空間跳躍缺陷。
 2. **長途旅行壓縮機制（`Q1` / `CROSS-06`）**：由 `/daemon/travel_d.c` 統一管理路段通行。玩家於官道節點移動時，依 `ROUTE_SEGMENTS` 檢查季節封路與重車限制、扣除相應精力（`sp`）與飲食、進行短時間壓縮步進並累加個人敘事旅途天數；另提供車馬大院與漕船付費搭乘。
 3. **「資格全府等效，組織與設施權限分流」模型（`Q2` / `WORLD-04`）**：
@@ -169,7 +169,7 @@
 
 ## 五、邁向 `Release v1.0` 的模組化派工藍圖 (`Work Packages`)
 
-為達成 [completed-spec.md](file:///home/wade/src/github/mudscript/forgotten-space/narrative/docs/completed-spec.md#L190-L201) 的五道最終交付閘門，將所有 `PARTIAL` / `GAP` 項目拆解為以下可獨立執行與驗收的工作包：
+為達成 [completed-spec.md](completed-spec.md#L190-L201) 的五道最終交付閘門，將所有 `PARTIAL` / `GAP` 項目拆解為以下可獨立執行與驗收的工作包：
 
 ### 階段一：Tier 1 城鄉路網與六縣等效資格系統（對應 `six_county_network_plan.md`）
 - **批次 0（底層基類與等效資格核心引擎）——【✅ 已完成並通過測試】**

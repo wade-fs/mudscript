@@ -1,7 +1,7 @@
 # 《遺忘的世界》核心人物檔案 (Character Profiles)
 
 > **所屬專案**：`forgotten-space` 敘事設定集  
-> **關聯文檔**：[世界觀與 Mudlib 架構設定集](file:///home/wade/src/github/mudscript/forgotten-space/narrative/world_setting.md) ｜ [第一卷大綱【黑石驚蟄】](file:///home/wade/src/github/mudscript/forgotten-space/narrative/volume1.md) ｜ [第二卷大綱【金石風雲】](file:///home/wade/src/github/mudscript/forgotten-space/narrative/volume2.md) ｜ [第三卷大綱【名山問道】](file:///home/wade/src/github/mudscript/forgotten-space/narrative/volume3.md)  
+> **關聯文檔**：[世界觀與 Mudlib 架構設定集](world_setting.md) ｜ [第一卷大綱【黑石驚蟄】](volume1.md) ｜ [第二卷大綱【金石風雲】](volume2.md) ｜ [第三卷大綱【名山問道】](volume3.md)  
 > **更新時間**：2026-11-21（同步第三卷 Ch. 83–126 完稿與 Mudlib 全實裝）  
 
 ---
@@ -22,7 +22,7 @@ flowchart TD
 ---
 
 ### 1. 顧玄（採藥孤兒 / herbalist）
-* **詳細檔案**：[`gu_xuan.md`](file:///home/wade/src/github/mudscript/forgotten-space/narrative/characters/gu_xuan.md)
+* **詳細檔案**：[`gu_xuan.md`](characters/gu_xuan.md)
 * **年齡與身世**：十六歲。十六年前大洪水中被沖刷到石板上的棄嬰，由瘋郎中葛半仙撫養長大。
 * **道途定位**：物道感知 / 自然現象與生態勘測。
 * **出生居所**：南谷懸崖峭壁・採藥草廬 (`/d/village/herb_hut.c`)。
@@ -36,7 +36,7 @@ flowchart TD
 ---
 
 ### 2. 林鐵生（打鐵學徒 / smith）
-* **詳細檔案**：[`lin_tiesheng.md`](file:///home/wade/src/github/mudscript/forgotten-space/narrative/characters/lin_tiesheng.md)
+* **詳細檔案**：[`lin_tiesheng.md`](characters/lin_tiesheng.md)
 * **年齡與身世**：十七歲。八歲被老鐵匠阿鐵收留，在老鐵匠鋪當學徒整整九年，性格敦厚堅毅、惜字如金。
 * **道途定位**：物道工藝 / 物質實作、材料結構與百工應力。
 * **出生居所**：街市東側・老鐵匠鋪打鐵爐房 (`/d/village/forge.c`)。
@@ -50,7 +50,7 @@ flowchart TD
 ---
 
 ### 3. 燕隼（獵戶之子 / hunter）
-* **詳細檔案**：[`yan_sun.md`](file:///home/wade/src/github/mudscript/forgotten-space/narrative/characters/yan_sun.md)
+* **詳細檔案**：[`yan_sun.md`](characters/yan_sun.md)
 * **年齡與身世**：十六歲。父親與親大伯燕山多年前失陷於大荒，由老獵戶趙老獵教養長大。
 * **道途定位**：力道搏殺 / 行為痕跡、荒野追蹤與獸行預判。
 * **出生居所**：聚落東南・獵戶哨亭 (`/d/village/hunter_cabin.c`)。
@@ -64,7 +64,7 @@ flowchart TD
 ---
 
 ### 4. 柳清虛（破落道童 / daoist）
-* **詳細檔案**：[`liu_qingxu.md`](file:///home/wade/src/github/mudscript/forgotten-space/narrative/characters/liu_qingxu.md)
+* **詳細檔案**：[`liu_qingxu.md`](characters/liu_qingxu.md)
 * **年齡與身世**：十六歲。五歲被枯木老道收養於殘破道觀，自幼苦修吐納，體質清癯蒼白。
 * **道途定位**：法道神識 / 知識典籍、符文規律與超常天道。
 * **出生居所**：西面山腰・破落道觀三清偏殿 (`/d/village/daoist_temple.c`)。
@@ -78,7 +78,7 @@ flowchart TD
 ---
 
 ### 5. 沈泥（流浪乞兒 / beggar）
-* **詳細檔案**：[`shen_ni.md`](file:///home/wade/src/github/mudscript/forgotten-space/narrative/characters/shen_ni.md)
+* **詳細檔案**：[`shen_ni.md`](characters/shen_ni.md)
 * **年齡與日常身分**：十四至十五歲，個頭瘦小。黑石鋪後巷流浪孤兒，長年受瘸腿老丐莫三庇護。為在弱肉強食的市井底層求生，長年以油垢破襖、爛氈帽與一臉黑泥遮蔽女兒身，唯莫三私下喚其「泥丫頭」。
 * **道途定位**：市井耳目 / 人際關係、利益動機、契約信用與社會秩序推演。
 * **出生居所**：客棧後巷陰暗處・廢柴房 (`/d/village/shed.c`)。
@@ -161,14 +161,14 @@ flowchart TD
 
 ### 3. 官軍與府城勢力（詳細檔案見 `/narrative/characters/`）
 * **胡百戶**：黑石關巡檢司守將。勾結趙德貴挪用軍火盜採地煞血精，炸塌北崖後企圖屠村滅口、封關斷糧，於第一卷末被解職收押。
-* **趙德貴**（[`zhao_degui.md`](file:///home/wade/src/github/mudscript/forgotten-space/narrative/characters/zhao_degui.md)）：金石商會駐鎮二掌櫃。盜採血精元兇，卷二押入府衙死牢，於第 75 章三方會審當庭招出錢百川罪證後，於第 76 章因長年接觸地煞血精與慢毒反噬斃命。
+* **趙德貴**（[`zhao_degui.md`](characters/zhao_degui.md)）：金石商會駐鎮二掌櫃。盜採血精元兇，卷二押入府衙死牢，於第 75 章三方會審當庭招出錢百川罪證後，於第 76 章因長年接觸地煞血精與慢毒反噬斃命。
 * **陳鎮山**：金石城防司左參將（兼虎跳大營冬防演武先鋒主將）。老於官場宿將，在三方證據面前審時度勢解除胡百戶職權，卷二於府城會審中代表鎮武軍鎮蓋下軍方合符大印。
-* **錢百川**（[`qian_baichuan.md`](file:///home/wade/src/github/mudscript/forgotten-space/narrative/characters/qian_baichuan.md)）：金石商會副會長，卷二頭號幕後黑手。三十年前背叛舊商盟上位，暗中操控六縣地煞血精提煉與走私，製造飛錢擠兌風暴；第 75 章在三方會審鐵證前垮台入獄，供出血精終極買家來自北境名山。
-* **白鶴年**（[`doctor_bai.md`](file:///home/wade/src/github/mudscript/forgotten-space/narrative/characters/doctor_bai.md)）：城心杏林醫館館主（Lv.42），顧玄之入城引路恩師，主持行醫資格考核與防疫分診，保薦顧玄赴丹鼎宗。
-* **莫錘**（[`mo_chui.md`](file:///home/wade/src/github/mudscript/forgotten-space/narrative/characters/mo_chui.md)）：城北百工總會千錘地爐坊大匠師（Lv.44），阿鐵故交、林鐵生之府城恩師，主持百工匠籍考核與西水門搶修，保薦鐵生赴天工閣。
-* **霸山**（[`ba_shan.md`](file:///home/wade/src/github/mudscript/forgotten-space/narrative/characters/ba_shan.md)）：城東八方武館總教頭（Lv.45），燕山舊友、燕隼之府城恩師，主持擂台三合試，保薦燕隼赴八荒武山。
-* **玄機真人**（[`xuanji_zhenren.md`](file:///home/wade/src/github/mudscript/forgotten-space/narrative/characters/xuanji_zhenren.md)）與 **星淵**（[`xing_yuan.md`](file:///home/wade/src/github/mudscript/forgotten-space/narrative/characters/xing_yuan.md)）：城西宣道司清虛宮掌印真人（Lv.45）與摘星台首席觀星師（Lv.38），柳清虛之引路師長，保薦清虛赴太清玄天宮（紫霄道宮）。
-* **宋算子**（[`song_suanzi.md`](file:///home/wade/src/github/mudscript/forgotten-space/narrative/characters/song_suanzi.md)）、**陸夫子**、**賈朝奉**（[`jia_chaofeng.md`](file:///home/wade/src/github/mudscript/forgotten-space/narrative/characters/jia_chaofeng.md)）、**文承敬**（[`wen_chengjing.md`](file:///home/wade/src/github/mudscript/forgotten-space/narrative/characters/wen_chengjing.md)）、**老劉**（[`lao_liu.md`](file:///home/wade/src/github/mudscript/forgotten-space/narrative/characters/lao_liu.md)）：南關主稅吏、蒙學塾算學老夫子、通寶當鋪大朝奉、府衙案牘主簿與南關小棧掌櫃，共同構成金石府城制度與市井生態的真實支點。
+* **錢百川**（[`qian_baichuan.md`](characters/qian_baichuan.md)）：金石商會副會長，卷二頭號幕後黑手。三十年前背叛舊商盟上位，暗中操控六縣地煞血精提煉與走私，製造飛錢擠兌風暴；第 75 章在三方會審鐵證前垮台入獄，供出血精終極買家來自北境名山。
+* **白鶴年**（[`doctor_bai.md`](characters/doctor_bai.md)）：城心杏林醫館館主（Lv.42），顧玄之入城引路恩師，主持行醫資格考核與防疫分診，保薦顧玄赴丹鼎宗。
+* **莫錘**（[`mo_chui.md`](characters/mo_chui.md)）：城北百工總會千錘地爐坊大匠師（Lv.44），阿鐵故交、林鐵生之府城恩師，主持百工匠籍考核與西水門搶修，保薦鐵生赴天工閣。
+* **霸山**（[`ba_shan.md`](characters/ba_shan.md)）：城東八方武館總教頭（Lv.45），燕山舊友、燕隼之府城恩師，主持擂台三合試，保薦燕隼赴八荒武山。
+* **玄機真人**（[`xuanji_zhenren.md`](characters/xuanji_zhenren.md)）與 **星淵**（[`xing_yuan.md`](characters/xing_yuan.md)）：城西宣道司清虛宮掌印真人（Lv.45）與摘星台首席觀星師（Lv.38），柳清虛之引路師長，保薦清虛赴太清玄天宮（紫霄道宮）。
+* **宋算子**（[`song_suanzi.md`](characters/song_suanzi.md)）、**陸夫子**、**賈朝奉**（[`jia_chaofeng.md`](characters/jia_chaofeng.md)）、**文承敬**（[`wen_chengjing.md`](characters/wen_chengjing.md)）、**老劉**（[`lao_liu.md`](characters/lao_liu.md)）：南關主稅吏、蒙學塾算學老夫子、通寶當鋪大朝奉、府衙案牘主簿與南關小棧掌櫃，共同構成金石府城制度與市井生態的真實支點。
 * **隨軍軍械監軍 & 督糧官**：陳鎮山軍中制衡力量。監軍核查雷管批號，督糧官憂心糧道斷絕，共同形成制度性制衡。
 
 ### 4. 市井投機勢力

@@ -171,7 +171,7 @@ graph LR
    * 指令 `tuoyin stone` 消耗 15 點精力（SP）；
    * 先以清水洗滌石槽泥沙，覆紙撫平，以炭條均勻打拓；
 3. **成果持久化**：
-   * 獲得 [`/clone/item/stele_rubbing.c`](file:///home/wade/src/github/mudscript/forgotten-space/clone/item/stele_rubbing.c)；
+   * 獲得 [`/clone/item/stele_rubbing.c`](../../clone/item/stele_rubbing.c)；
    * 拓片可保存在背包、存入客棧儲物櫃、交給枯木老道鑑定，或帶入 Tier 1 府城學府，無須反覆跑回新手溪灘。
 
 ---

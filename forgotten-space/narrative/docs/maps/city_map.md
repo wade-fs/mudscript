@@ -250,66 +250,66 @@ flowchart TD
 
 | 分區 | 檔案路徑 | 名稱 | 濁氣指數 | 絕靈法網 | 核心 NPC / 機制 |
 | :--- | :--- | :--- | :---: | :---: | :--- |
-| **中央核心** | [`center/square.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/city/center/square.c) | 中央青石廣場 | 100% | 覆蓋 | 四通八達樞紐 |
-| | [`center/yamen.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/city/center/yamen.c) | 金石府衙正堂 | 90% | 覆蓋 | 府尹文承敬、通緝與入籍 |
-| | [`center/yamen_archive.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/city/center/yamen_archive.c) | 案牘庫 | 80% | 覆蓋 | 戶籍、地契密檔 |
-| | [`center/yamen_prison.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/city/center/yamen_prison.c) | 府衙大牢 | 95% | 覆蓋 | 刑具、禁魔牢籠 |
-| | [`center/granary.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/city/center/granary.c) | 官平糧倉 | 90% | 覆蓋 | 府城儲糧重地 |
-| | [`center/academy.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/city/center/academy.c) | 流泉學塾 | 70% | 覆蓋 | 陸夫子、讀書識字 |
-| | [`center/clinic.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/city/center/clinic.c) | 百草堂醫館 | 75% | 覆蓋 | 白芷醫師、療傷解毒、濁氣淨化 |
-| | [`center/bank.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/city/center/bank.c) | 通寶錢莊 | 95% | 覆蓋 | 存提款、銀票匯兌 |
-| | [`center/pawnshop.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/city/center/pawnshop.c) | 聚珍當鋪 | 95% | 覆蓋 | 賈掌櫃、典當淘寶 |
-| | [`center/black_alley.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/city/center/black_alley.c) | 鬼市暗巷 | 90% | 死角 | 暗道枯井（通往城下鬼市） |
-| | [`center/inn_main.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/city/center/inn_main.c) | 金石大客棧 | 100% | 覆蓋 | 歇腳恢復、客棧小二 |
-| | [`center/post_station.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/city/center/post_station.c) | 官辦驛傳總所 | 95% | 覆蓋 | 官道通關文牒、急件快遞 |
-| **百工總會** | [`north/gong_gate.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/city/north/gong_gate.c) | 百工總會大門 | 65% | 覆蓋 | 工匠守衛、物道入門指引 |
-| | [`north/gong_registry.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/city/north/gong_registry.c) | 匠籍登記處 | 55% | 覆蓋 | 魯長生、考核與專利授權 |
-| | [`north/gong_hall.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/city/north/gong_hall.c) | 天工殿堂 | 45% | 覆蓋 | 歐陽玄會長、轉職考核、墨玉尺 |
-| | [`north/gong_forge.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/city/north/gong_forge.c) | 鍛鐵金石坊 | 50% | 覆蓋 | 莫大錘、兵甲鍛造 |
-| | [`north/gong_wood.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/city/north/gong_wood.c) | 機巧木作坊 | 50% | 覆蓋 | 機巧傀儡、機關盒 |
-| | [`north/gong_stone.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/city/north/gong_stone.c) | 精研石雕坊 | 50% | 覆蓋 | 符印基石、靈石打磨 |
-| | [`north/gong_leather.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/city/north/gong_leather.c) | 百鞣皮甲坊 | 50% | 覆蓋 | 異獸鞣皮、輕甲防禦 |
-| | [`north/gong_alchemy.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/city/north/gong_alchemy.c) | 丹丸物性坊 | 50% | 覆蓋 | 藥渣萃取、清心散合成 |
-| | [`north/gong_fireworks.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/city/north/gong_fireworks.c) | 烈性火硝坊 | 50% | 覆蓋 | 硫礬火器、霹靂信號彈 |
-| **宣道司** | [`west/dao_gate.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/city/west/dao_gate.c) | 宣道司山門 | 60% | 覆蓋 | 道童迎客、入觀法規 |
-| | [`west/dao_hall.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/city/west/dao_hall.c) | 太虛三清殿 | 45% | 覆蓋 | 玄機真人、法道入門、引氣訣 |
-| | [`west/dao_observatory.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/city/west/dao_observatory.c) | 摘星台 | 35% | 覆蓋 | 行遠道人、星宿推演、渾天鏡 |
-| | [`west/dao_roof.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/city/west/dao_roof.c) | 聽經閣頂層 | 35% | 覆蓋 | 高層冥想、神識演練 |
-| | [`west/dao_quiet.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/city/west/dao_quiet.c) | 清修靜室 | 40% | 覆蓋 | 闢穀定境、驅除心魔 |
-| **鎮武軍鎮** | [`east/wu_gate.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/city/east/wu_gate.c) | 軍鎮大閘門 | 70% | 覆蓋 | 鐵甲衛士、軍紀盤查 |
-| | [`east/wu_plaza.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/city/east/wu_plaza.c) | 演武大校場 | 60% | 覆蓋 | 霸山總教頭、力道轉職、黑鐵腰牌 |
-| | [`east/wu_arena.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/city/east/wu_arena.c) | 黑鐵生死擂 | 65% | 覆蓋 | 趙猛裁判、切磋比武 |
-| | [`east/wu_hall.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/city/east/wu_hall.c) | 偏將軍帳 | 60% | 覆蓋 | 軍令發布、大荒煞潮軍報 |
-| | [`east/wu_armory.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/city/east/wu_armory.c) | 披甲兵器庫 | 65% | 覆蓋 | 軍鎮鐵戟、百煉玄鐵甲 |
-| | [`east/wu_barracks.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/city/east/wu_barracks.c) | 鎮武兵營 | 65% | 覆蓋 | 駐軍歇息所 |
-| **南部商貿** | [`south/market_special.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/city/south/market_special.c) | 六縣專材長街 | 100% | 覆蓋 | 六縣珍異特產交流 |
-| | [`south/shanghui_hq.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/city/south/shanghui_hq.c) | 金石商會總堂 | 95% | 覆蓋 | 會長錢百川、商盟憑證 |
-| | [`south/caravan_yard.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/city/south/caravan_yard.c) | 遠行車馬大院 | 95% | 覆蓋 | 商隊組織、鏢局招募 |
-| | [`south/yard_material.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/city/south/yard_material.c) | 大料初堆棧 | 90% | 覆蓋 | 粗料卸載、初階分類 |
-| | [`south/grain_market.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/city/south/grain_market.c) | 米糧行市 | 95% | 覆蓋 | 盤木大米、粗糧交易 |
-| | [`south/canal.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/city/south/canal.c) | 青河漕運水關 | 80% | 覆蓋 | 水運貨船、擺渡碼頭 |
-| | [`south/warehouse_grain.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/city/south/warehouse_grain.c) | 義倉常平窖 | 85% | 覆蓋 | 平抑物價、糧款備庫 |
-| **城門外城** | [`gate/gate_south.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/city/gate/gate_south.c) | 金石南關 | 80% | 覆蓋 | 盤查守軍、南出官道大門 |
-| | [`gate/gate_north.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/city/gate/gate_north.c) | 金石北關 | 75% | 覆蓋 | 迎風要道、出北荒門戶 |
-| | [`gate/gate_east.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/city/gate/gate_east.c) | 金石東關 | 80% | 覆蓋 | 東出烈礬/濁水門戶 |
-| | [`gate/gate_west.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/city/gate/gate_west.c) | 金石西關 | 75% | 覆蓋 | 西往青河門戶 |
-| | [`outer/south_road.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/city/outer/south_road.c) | 南嶺官道 | 20% | 無 | 直通黑石鋪新手村（450里） |
-| | [`outer/farmland_w.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/city/outer/farmland_w.c) | 西郊官田 | 15% | 無 | 城西郊野、百工藥田 |
-| | [`outer/irrigation.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/city/outer/irrigation.c) | 引水渠壩 | 10% | 無 | 青河引水水利設施 |
-| | [`outer/graveyard.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/city/outer/graveyard.c) | 亂葬義塚 | 10% | 無 | 北門外亂墳崗、陰煞初現 |
-| | [`outer/post_depot.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/city/outer/post_depot.c) | 外城大車馬店 | 60% | 無 | 北門外大宗牲畜車馬歇息地 |
-| **生活擴建＆城門補充** | [`center/tea_alley.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/city/center/tea_alley.c) | 城中・槐蔭茶肆 | 90% | 覆蓋 | 茶博士老林 (`tea_doctor_lin`)、茶肆市井聽風 |
-| | [`north/scrap_yard.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/city/north/scrap_yard.c) | 百工坊外・官造廢鐵回爐區 | 65% | 覆蓋 | 老匠工 (`county_worker`)、廢鐵回爐檢料 |
-| | [`south/warehouse_shang.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/city/south/warehouse_shang.c) | 金石商會・一至三號大庫 | 95% | 覆蓋 | 丁鐵鎖 (`warehouse_shang_chief`)、商會大庫暗貨線索 |
-| | [`south/wine_tavern.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/city/south/wine_tavern.c) | 城南水陸・金石老酒肆 | 95% | 覆蓋 | 跑商陳大牙 (`tavern_merchant`)、`PHASE_D` 樞紐劇本與《跑商聽風》 |
-| | [`south/dye_alley.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/city/south/dye_alley.c) | 金石城南・染坊窄巷 | 85% | 覆蓋 | 老匠工 (`county_worker`)、染坊日常作業 |
-| | [`outer/river_wharf.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/city/outer/river_wharf.c) | 青河入城・外城貨運碼頭 | 65% | 無 | 挑夫阿福 (`roaming_porter`) 與碼頭搬運工 |
-| | [`outer/fish_market.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/city/outer/fish_market.c) | 青河入城・外城河埠魚市 | 65% | 無 | 魚販劉三娘 (`fishmonger_liu`)、鮮魚議價與市井口徑 |
-| | [`outer/tenement_alley.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/city/outer/tenement_alley.c) | 南關外・流民賃居矮巷 | 60% | 無 | 孫老車夫 (`sun_old_carter`)、《暫住牌》、2 文通鋪／3 文菜粥、`PHASE_D` 樞紐與《家書代筆》 |
-| | [`outer/charity_clinic_shed.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/city/outer/charity_clinic_shed.c) | 南關外・施藥義棚 | 55% | 無 | 義診老藥工周伯 (`charity_herbalist`)、流民免費義診 |
-| | [`gate/gate_plaza.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/city/gate/gate_plaza.c) | 北關門內・前校場 | 75% | 覆蓋 | 巡防副將雷震 (`gate_plaza_deputy`) |
-| | [`gate/gate_inn.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/city/gate/gate_inn.c) | 北關門前・關外車馬店 | 70% | 覆蓋 | 店小二老皮 (`gate_inn_laopi`) |
-| | [`gate/gate_warehouse.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/city/gate/gate_warehouse.c) | 北關門側・官道大貨棧 | 75% | 覆蓋 | 驗貨掌櫃金算盤 (`gate_warehouse_assessor`) |
-| | [`gate/gate_south_inn.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/city/gate/gate_south_inn.c) | 南關門下・車馬小棧 | 80% | 覆蓋 | 老劉 (`gate_south_inn_laoliu`)、流民牙子刁小七、蘇凝霜 |
+| **中央核心** | [`center/square.c`](../../../d/city/center/square.c) | 中央青石廣場 | 100% | 覆蓋 | 四通八達樞紐 |
+| | [`center/yamen.c`](../../../d/city/center/yamen.c) | 金石府衙正堂 | 90% | 覆蓋 | 府尹文承敬、通緝與入籍 |
+| | [`center/yamen_archive.c`](../../../d/city/center/yamen_archive.c) | 案牘庫 | 80% | 覆蓋 | 戶籍、地契密檔 |
+| | [`center/yamen_prison.c`](../../../d/city/center/yamen_prison.c) | 府衙大牢 | 95% | 覆蓋 | 刑具、禁魔牢籠 |
+| | [`center/granary.c`](../../../d/city/center/granary.c) | 官平糧倉 | 90% | 覆蓋 | 府城儲糧重地 |
+| | [`center/academy.c`](../../../d/city/center/academy.c) | 流泉學塾 | 70% | 覆蓋 | 陸夫子、讀書識字 |
+| | [`center/clinic.c`](../../../d/city/center/clinic.c) | 百草堂醫館 | 75% | 覆蓋 | 白芷醫師、療傷解毒、濁氣淨化 |
+| | [`center/bank.c`](../../../d/city/center/bank.c) | 通寶錢莊 | 95% | 覆蓋 | 存提款、銀票匯兌 |
+| | [`center/pawnshop.c`](../../../d/city/center/pawnshop.c) | 聚珍當鋪 | 95% | 覆蓋 | 賈掌櫃、典當淘寶 |
+| | [`center/black_alley.c`](../../../d/city/center/black_alley.c) | 鬼市暗巷 | 90% | 死角 | 暗道枯井（通往城下鬼市） |
+| | [`center/inn_main.c`](../../../d/city/center/inn_main.c) | 金石大客棧 | 100% | 覆蓋 | 歇腳恢復、客棧小二 |
+| | [`center/post_station.c`](../../../d/city/center/post_station.c) | 官辦驛傳總所 | 95% | 覆蓋 | 官道通關文牒、急件快遞 |
+| **百工總會** | [`north/gong_gate.c`](../../../d/city/north/gong_gate.c) | 百工總會大門 | 65% | 覆蓋 | 工匠守衛、物道入門指引 |
+| | [`north/gong_registry.c`](../../../d/city/north/gong_registry.c) | 匠籍登記處 | 55% | 覆蓋 | 魯長生、考核與專利授權 |
+| | [`north/gong_hall.c`](../../../d/city/north/gong_hall.c) | 天工殿堂 | 45% | 覆蓋 | 歐陽玄會長、轉職考核、墨玉尺 |
+| | [`north/gong_forge.c`](../../../d/city/north/gong_forge.c) | 鍛鐵金石坊 | 50% | 覆蓋 | 莫大錘、兵甲鍛造 |
+| | [`north/gong_wood.c`](../../../d/city/north/gong_wood.c) | 機巧木作坊 | 50% | 覆蓋 | 機巧傀儡、機關盒 |
+| | [`north/gong_stone.c`](../../../d/city/north/gong_stone.c) | 精研石雕坊 | 50% | 覆蓋 | 符印基石、靈石打磨 |
+| | [`north/gong_leather.c`](../../../d/city/north/gong_leather.c) | 百鞣皮甲坊 | 50% | 覆蓋 | 異獸鞣皮、輕甲防禦 |
+| | [`north/gong_alchemy.c`](../../../d/city/north/gong_alchemy.c) | 丹丸物性坊 | 50% | 覆蓋 | 藥渣萃取、清心散合成 |
+| | [`north/gong_fireworks.c`](../../../d/city/north/gong_fireworks.c) | 烈性火硝坊 | 50% | 覆蓋 | 硫礬火器、霹靂信號彈 |
+| **宣道司** | [`west/dao_gate.c`](../../../d/city/west/dao_gate.c) | 宣道司山門 | 60% | 覆蓋 | 道童迎客、入觀法規 |
+| | [`west/dao_hall.c`](../../../d/city/west/dao_hall.c) | 太虛三清殿 | 45% | 覆蓋 | 玄機真人、法道入門、引氣訣 |
+| | [`west/dao_observatory.c`](../../../d/city/west/dao_observatory.c) | 摘星台 | 35% | 覆蓋 | 行遠道人、星宿推演、渾天鏡 |
+| | [`west/dao_roof.c`](../../../d/city/west/dao_roof.c) | 聽經閣頂層 | 35% | 覆蓋 | 高層冥想、神識演練 |
+| | [`west/dao_quiet.c`](../../../d/city/west/dao_quiet.c) | 清修靜室 | 40% | 覆蓋 | 闢穀定境、驅除心魔 |
+| **鎮武軍鎮** | [`east/wu_gate.c`](../../../d/city/east/wu_gate.c) | 軍鎮大閘門 | 70% | 覆蓋 | 鐵甲衛士、軍紀盤查 |
+| | [`east/wu_plaza.c`](../../../d/city/east/wu_plaza.c) | 演武大校場 | 60% | 覆蓋 | 霸山總教頭、力道轉職、黑鐵腰牌 |
+| | [`east/wu_arena.c`](../../../d/city/east/wu_arena.c) | 黑鐵生死擂 | 65% | 覆蓋 | 趙猛裁判、切磋比武 |
+| | [`east/wu_hall.c`](../../../d/city/east/wu_hall.c) | 偏將軍帳 | 60% | 覆蓋 | 軍令發布、大荒煞潮軍報 |
+| | [`east/wu_armory.c`](../../../d/city/east/wu_armory.c) | 披甲兵器庫 | 65% | 覆蓋 | 軍鎮鐵戟、百煉玄鐵甲 |
+| | [`east/wu_barracks.c`](../../../d/city/east/wu_barracks.c) | 鎮武兵營 | 65% | 覆蓋 | 駐軍歇息所 |
+| **南部商貿** | [`south/market_special.c`](../../../d/city/south/market_special.c) | 六縣專材長街 | 100% | 覆蓋 | 六縣珍異特產交流 |
+| | [`south/shanghui_hq.c`](../../../d/city/south/shanghui_hq.c) | 金石商會總堂 | 95% | 覆蓋 | 會長錢百川、商盟憑證 |
+| | [`south/caravan_yard.c`](../../../d/city/south/caravan_yard.c) | 遠行車馬大院 | 95% | 覆蓋 | 商隊組織、鏢局招募 |
+| | [`south/yard_material.c`](../../../d/city/south/yard_material.c) | 大料初堆棧 | 90% | 覆蓋 | 粗料卸載、初階分類 |
+| | [`south/grain_market.c`](../../../d/city/south/grain_market.c) | 米糧行市 | 95% | 覆蓋 | 盤木大米、粗糧交易 |
+| | [`south/canal.c`](../../../d/city/south/canal.c) | 青河漕運水關 | 80% | 覆蓋 | 水運貨船、擺渡碼頭 |
+| | [`south/warehouse_grain.c`](../../../d/city/south/warehouse_grain.c) | 義倉常平窖 | 85% | 覆蓋 | 平抑物價、糧款備庫 |
+| **城門外城** | [`gate/gate_south.c`](../../../d/city/gate/gate_south.c) | 金石南關 | 80% | 覆蓋 | 盤查守軍、南出官道大門 |
+| | [`gate/gate_north.c`](../../../d/city/gate/gate_north.c) | 金石北關 | 75% | 覆蓋 | 迎風要道、出北荒門戶 |
+| | [`gate/gate_east.c`](../../../d/city/gate/gate_east.c) | 金石東關 | 80% | 覆蓋 | 東出烈礬/濁水門戶 |
+| | [`gate/gate_west.c`](../../../d/city/gate/gate_west.c) | 金石西關 | 75% | 覆蓋 | 西往青河門戶 |
+| | [`outer/south_road.c`](../../../d/city/outer/south_road.c) | 南嶺官道 | 20% | 無 | 直通黑石鋪新手村（450里） |
+| | [`outer/farmland_w.c`](../../../d/city/outer/farmland_w.c) | 西郊官田 | 15% | 無 | 城西郊野、百工藥田 |
+| | [`outer/irrigation.c`](../../../d/city/outer/irrigation.c) | 引水渠壩 | 10% | 無 | 青河引水水利設施 |
+| | [`outer/graveyard.c`](../../../d/city/outer/graveyard.c) | 亂葬義塚 | 10% | 無 | 北門外亂墳崗、陰煞初現 |
+| | [`outer/post_depot.c`](../../../d/city/outer/post_depot.c) | 外城大車馬店 | 60% | 無 | 北門外大宗牲畜車馬歇息地 |
+| **生活擴建＆城門補充** | [`center/tea_alley.c`](../../../d/city/center/tea_alley.c) | 城中・槐蔭茶肆 | 90% | 覆蓋 | 茶博士老林 (`tea_doctor_lin`)、茶肆市井聽風 |
+| | [`north/scrap_yard.c`](../../../d/city/north/scrap_yard.c) | 百工坊外・官造廢鐵回爐區 | 65% | 覆蓋 | 老匠工 (`county_worker`)、廢鐵回爐檢料 |
+| | [`south/warehouse_shang.c`](../../../d/city/south/warehouse_shang.c) | 金石商會・一至三號大庫 | 95% | 覆蓋 | 丁鐵鎖 (`warehouse_shang_chief`)、商會大庫暗貨線索 |
+| | [`south/wine_tavern.c`](../../../d/city/south/wine_tavern.c) | 城南水陸・金石老酒肆 | 95% | 覆蓋 | 跑商陳大牙 (`tavern_merchant`)、`PHASE_D` 樞紐劇本與《跑商聽風》 |
+| | [`south/dye_alley.c`](../../../d/city/south/dye_alley.c) | 金石城南・染坊窄巷 | 85% | 覆蓋 | 老匠工 (`county_worker`)、染坊日常作業 |
+| | [`outer/river_wharf.c`](../../../d/city/outer/river_wharf.c) | 青河入城・外城貨運碼頭 | 65% | 無 | 挑夫阿福 (`roaming_porter`) 與碼頭搬運工 |
+| | [`outer/fish_market.c`](../../../d/city/outer/fish_market.c) | 青河入城・外城河埠魚市 | 65% | 無 | 魚販劉三娘 (`fishmonger_liu`)、鮮魚議價與市井口徑 |
+| | [`outer/tenement_alley.c`](../../../d/city/outer/tenement_alley.c) | 南關外・流民賃居矮巷 | 60% | 無 | 孫老車夫 (`sun_old_carter`)、《暫住牌》、2 文通鋪／3 文菜粥、`PHASE_D` 樞紐與《家書代筆》 |
+| | [`outer/charity_clinic_shed.c`](../../../d/city/outer/charity_clinic_shed.c) | 南關外・施藥義棚 | 55% | 無 | 義診老藥工周伯 (`charity_herbalist`)、流民免費義診 |
+| | [`gate/gate_plaza.c`](../../../d/city/gate/gate_plaza.c) | 北關門內・前校場 | 75% | 覆蓋 | 巡防副將雷震 (`gate_plaza_deputy`) |
+| | [`gate/gate_inn.c`](../../../d/city/gate/gate_inn.c) | 北關門前・關外車馬店 | 70% | 覆蓋 | 店小二老皮 (`gate_inn_laopi`) |
+| | [`gate/gate_warehouse.c`](../../../d/city/gate/gate_warehouse.c) | 北關門側・官道大貨棧 | 75% | 覆蓋 | 驗貨掌櫃金算盤 (`gate_warehouse_assessor`) |
+| | [`gate/gate_south_inn.c`](../../../d/city/gate/gate_south_inn.c) | 南關門下・車馬小棧 | 80% | 覆蓋 | 老劉 (`gate_south_inn_laoliu`)、流民牙子刁小七、蘇凝霜 |
 | **城牆護城河 (9 房)** | `wall/wall_path_{n,e,s,w}.c`、`wall/wall_tower_{n,e,s,w}.c`、`wall/moat.c` | 巡城步道與四方箭樓／護城深河 | 30~60% | 部分 | 嚴目、百步楊、耿烽、水連環與獨釣叟（`moat` 潛入暗渠 `drain_gate`） |
 | **城下暗渠 (5 房)** | `under/{black_market,canal_hub,drain_gate,shang_secret,ruins_hall}.c` | 地下鬼市、古暗渠樞紐、水閘、密室、史前殘殿 | 5% | 死角 | 鬼見愁、擺渡盲叟、翻江鼠；詳見 [`underground_map.md`](underground_map.md) |

@@ -3,7 +3,7 @@
 > **卷次定位**：Tier 3 桃花源／異界洞天篇（世界階位 `Lv.101 → Lv.150` ／ 技藝造詣 `Lv.201 → Lv.300`；核心躍遷依循 `world_setting.md` §3.13 **`K`（認知）× `U`（運用）**，而非純數值膨脹）  
 > **預計篇幅**：全 44 章（第 127 章 ～ 第 170 章，五幕結構）  
 > **文件狀態**：第四卷規劃基準版（比照第三卷規劃規範編製；章節正文尚待後續撰寫，MUD 先行落地起點 `/d/realm/peach_plateau.c`）  
-> **關聯正典**：[世界觀與 Mudlib 架構設定集](file:///home/wade/src/github/mudscript/forgotten-space/narrative/world_setting.md) ｜ [小說總大綱](file:///home/wade/src/github/mudscript/forgotten-space/narrative/novel_outline.md) ｜ [第三卷大綱【名山問道】](file:///home/wade/src/github/mudscript/forgotten-space/narrative/volume3.md) ｜ [核心人物檔案](file:///home/wade/src/github/mudscript/forgotten-space/narrative/character_profiles.md)  
+> **關聯正典**：[世界觀與 Mudlib 架構設定集](world_setting.md) ｜ [小說總大綱](novel_outline.md) ｜ [第三卷大綱【名山問道】](volume3.md) ｜ [核心人物檔案](character_profiles.md)  
 > **核心命題**：**當五位少年在滅世排斥雷劫前闖入沒有十里桃花的【桃花源洞天】，發現這片被二十八宿天羅供奉了一千年的「避難聖地」實質上是三大太古巨構進行「飛升收割」的封閉場域時，他們如何靠資源制衡、契約網絡與「認知改寫運用」，撕開返鄉之門並守住人間三十年之約？**
 
 ---

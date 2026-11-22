@@ -1,10 +1,12 @@
-# 《被遺忘的空間・黑石破曉》小說與 MUD 世界觀交叉審核報告書
-**Forgotten Space: 5-Chapter Narrative & Mudlib LPC Cross-Verification & Consistency Audit**
+# 《被遺忘的世界・黑石破曉》小說與 MUD 世界觀交叉審核報告書（早期原型歷史快照）
+**Forgotten Space: Initial Ch.1–5 Narrative & Early Prototype Consistency Snapshot**
 
-> **版本**：v1.0 (正典基準版)  
-> **關聯分支**：`MudNovel`  
-> **審核範疇**：小說第一卷第一至五章（`ch0001.md` ~ `ch0005.md`）、五大身世角色檔案（`gu_xuan.md` 等）、Mudlib LPC 房間與 NPC（`/d/village/`, `/clone/npc/`）、六維雙軌成長系統（`background.h`, `login.c`, `user.c`）。  
-> **整體一致性核定狀態**：**32/32 全項核對通過 (100%)**
+> **歷史快照聲明 (Historical Archive Notice, 2026-11-22)**：  
+> 本報告書完成於專案極早期階段（僅涵蓋第一卷第 1～5 章與初期黑石鋪原型），當時部分原型房間檔案尚採用舊名（見下表對照）。**現行正式實裝地圖已擴展至全服 288 房（黑石鋪 22 房），正典與實碼一致性稽核請以 [`../../tests/quests/novel_mud_sync_audit.py`](../../tests/quests/novel_mud_sync_audit.py) 與 [`../mudlib_lpc_mapping.md`](../mudlib_lpc_mapping.md) 為準。**  
+>
+> **早期原型 ID → 現行正典 `/d/village/` 對照**：`smithy.c`→`forge.c`、`white_altar.c`→`altar.c`、`deep_pool.c`→`stream.c`／`falls.c`、`firewood_shed.c`→`shed.c`、`inn_alley.c`→`dark_alley.c`、`abandoned_mine.c`→`mine.c`、`deer_gate.c`→`hunter_cabin.c`、`bone_mire.c`→`forest.c`、`north_path.c`→`/d/routes/blackstone_pass.c`（其餘如 `stone_stele.c` / `west_cliff.c` / `south_path.c` 已併入 `stream.c` / `altar.c` / `falls.c` 場景描寫）。
+>
+> **原版本**：v1.0 (初期五章基準版，關聯分支 `MudNovel`，歷史審核 32/32)
 
 ---
 

@@ -186,7 +186,7 @@ flowchart TD
 
 1. **跨任務前置條件**：目前沒有一般任務依賴 DAG 或 `requires_quest`，需新增查詢 API；在此之前，任務間依賴只在本文件標示，不可假裝 JSON 能執行。
 2. **條件分支**：目前線性 step chain 不支援 `if/else`；可先用獨立支線任務與 `event_outcomes` 的 success/partial；現行引擎不會選取 failure，真正分支需擴充引擎。
-3. **NPC／地圖存在性（Act 1–5 全部 67 房全數落地）**：第一至五幕所需的 66 間 Tier 2 房間與 1 間 Tier 3 初窺高原（`north_road` 3、`wastes` 深處 16、`yunjin` 18、`taiqing` 9、`bahuang` 9、`tiangong` 6、`danding` 5、`realm` 1）與全數登場人物、掌門首徒、敵對執事及二階骨龍王已實裝並通過 `quest_audit.py`、`test_v3_act1.c` 至 `test_v3_act5.c` 全數驗證。
+3. **NPC／地圖存在性（Act 1–5 核心 67 房 ＋ 生活擴建 11 房＝78 房全數落地）**：第一至五幕核心 66 間 Tier 2 房間、1 間 Tier 3 初窺高原與 Phase 1–2A 新增的 11 間庶民生活房（`north_road` 3、`wastes` 深處 17、`yunjin` 21、`taiqing` 11、`bahuang` 10、`tiangong` 8、`danding` 7、`realm` 1，合計 78 房）與全數登場人物、掌門首徒、敵對執事及二階骨龍王已實裝並通過 `quest_audit.py`、`world_liveness_audit.py`、`test_v3_act1.c` 至 `test_v3_act5.c` 全數驗證。
 4. **事件資料註冊與動態評估（Act 2–5 `T-2 → T+2` 全數貫通）**：`EVENT_TIER2_CRISIS` 已於 `daemon/event_manager.c` 實裝 `evaluate_tier2_crisis()`、`on_stage_timeout_tier2_crisis()` 與 `dump_status()` 證物帳本檢視，涵蓋會武前評估至毒域獸潮三檔 `defense_outcome`（`contained_with_scars` / `fragile_hold` / `critical_breach`）。
 5. **`deliver` 事件**：引擎有 deliver 分支判斷，但本批仍以 action/talk/kill 為主保持跨區域統一驅動。
 6. **事件推進與階段切換（`T-2 → T+2` 全階段齊備）**：`test_v3_act2.c`～`test_v3_act5.c` 已全面驗證會武定案、雙重危機隔離、戰後善後評估與單向古陣離境。

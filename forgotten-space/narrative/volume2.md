@@ -6,7 +6,7 @@
 > **階位**：Tier 1 初入道途（角色等級 Lv.10 → Lv.50，一階技能 Skill Lv.31 → 100；嚴格區分技能滿值、社會資格、肉身破障與二階宗門考核令）  
 > **核心主題**：**「入城立籍、分途不分道、證據成鏈、信用為網」**  
 > **對應 MUD 任務進程**：Tier 1 四條任務網匯流（生存環境／制度勢力／修行轉職／歷史謎題）＋ 三種跨區域模式（A 事件型・B 任務型・C 人物型）＋ 六縣 30 天無主角介入自主演進時間線  
-> **讀者導讀**：純小說向《[第二卷大事記與人物狀態一覽](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/volume2/README.md)》  
+> **讀者導讀**：純小說向《[第二卷大事記與人物狀態一覽](chapters/volume2/README.md)》  
 > **依據權威文件**：
 > - `01 Canon`：`world_setting.md`（§2.5、§3.14）、`narrative/character_profiles.md`、`narrative/characters/shen_ni.md`、`narrative/volume1.md`
 > - `02 System Rules`：`docs/tier1_regional_network_and_career_spec.md` v2.1、`docs/tier1_npc_roster.md`、`docs/tier1_world_operating_model_v0_1.md`、`docs/forgotten_space_first_pass_audit.md`
