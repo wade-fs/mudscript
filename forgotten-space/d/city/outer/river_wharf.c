@@ -39,4 +39,5 @@ void create() {
     add_action_rule("扛包", unload_rule);
 
     spawn_npc("/clone/npc/folk/county_worker.c");
+    spawn_npc("/clone/npc/folk/roaming_porter.c");
 }

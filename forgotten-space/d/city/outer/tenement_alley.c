@@ -40,3 +40,57 @@ void create() {
 
     spawn_npc("/clone/npc/folk/sun_old_carter.c");
 }
+
+void init() {
+    ::init();
+    add_action("do_alley_sleep", "lodge");
+    add_action("do_alley_sleep", "投宿");
+    add_action("do_alley_porridge", "porridge");
+    add_action("do_alley_porridge", "買粥");
+    add_action("do_register_temp_pass", "register_pass");
+    add_action("do_register_temp_pass", "領暫住牌");
+}
+
+int do_alley_sleep(string arg) {
+    object me = this_player();
+    if (!me) return 0;
+    int money = me->query("money");
+    if (money >= 2) {
+        me->add_money(-2);
+        write(WHT "你掏出兩文銅錢分了一席潮濕稻草通鋪，裹著舊布衫在微弱炭火旁勉強睡了一覺。（氣血 +15、精力 +20）\n" NOR);
+    } else {
+        write(WHT "看你身上連兩文通鋪錢都湊不出，孫伯擺手讓你免費擠在屋簷角落草堆避寒打盹。（氣血 +10、精力 +15）\n" NOR);
+    }
+    me->add(VITAL_KEE, 15);
+    me->add(VITAL_SP, 20);
+    return 1;
+}
+
+int do_alley_porridge(string arg) {
+    object me = this_player();
+    if (!me) return 0;
+    if (me->query("money") < 3) {
+        write("你摸了摸空空如也的錢袋，連三文錢一碗的碎米菜粥都買不起，只好抓把熱水充飢。\n");
+        return 1;
+    }
+    me->add_money(-3);
+    write(YEL "你花三文銅錢向巷口老嫗打了碗熱氣騰騰的粗米青菜粥灌下，肚腹暖和了些。（氣血 +12、精力 +18）\n" NOR);
+    me->add(VITAL_KEE, 12);
+    me->add(VITAL_SP, 18);
+    return 1;
+}
+
+int do_register_temp_pass(string arg) {
+    object me = this_player();
+    if (!me) return 0;
+    if (present("temp residency pass", me)) {
+        write("你懷裡已經領過《金石南關暫住牌》了，不必重複領取。\n");
+        return 1;
+    }
+    object pass_ob = clone_object("/clone/item/temp_residency_pass.c");
+    if (pass_ob) {
+        pass_ob->move(me);
+        write(HIY "你在矮巷保正帳簿上捺下手印報明去向，領到一面薄槐木刻字《金石南關暫住牌》！自此可在外城正大光明扛包做散活、免遭夜間無籍鎖拿。\n" NOR);
+    }
+    return 1;
+}

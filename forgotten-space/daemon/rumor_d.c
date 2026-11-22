@@ -128,9 +128,48 @@ string query_slice_of_life_rumor() {
         "【碼頭市井】外城河埠魚市的劉三娘一早又把賣剩的小雜魚半賣半送給南關外流民矮巷，熬魚湯的香氣飄了半條街。",
         "【南市酒肆】金石城南老酒肆裡跑商陳大牙昨晚喝高了，又在吹噓盤木縣的熟革跟烈礬縣的耐火泥一轉手能翻幾成利。",
         "【雲津河畔】冰河碼頭這幾日搶在徹底封凍前加緊扛木，苦力們拿著竹籌在算帳棚核帳，就怕包頭少算兩趟工錢。",
-        "【北荒寒風】聽黑山北關的戍卒說，牧戶烏蘭家有頭獨角黃羊受驚跑丟了，這大冷天的也不知找回來沒有。"
+        "【北荒寒風】聽黑山北關的戍卒說，牧戶烏蘭家有頭獨角黃羊受驚跑丟了，這大冷天的也不知找回來沒有。",
+        "【青河渡口】蘆花渡的挑夫一早就為了昨日那趟藥簍少算兩文錢跟管事吵起來，柳伯邊補船底邊勸他們等午船開了再算。"
     });
     return folk[random(sizeof(folk))];
+}
+
+// ── 4c. 取得因果經濟波動解釋傳聞（讓玩家聽懂為何漲價）────────────
+string query_causal_economy_rumor() {
+    object ws_d = find_object(WORLD_STATE_D);
+    if (!ws_d) ws_d = load_object(WORLD_STATE_D);
+    if (!ws_d) return "近來六縣山貨入城平穩，米炭雜貨價碼尚稱公道。";
+
+    mapping active_ev = ws_d->query_active_causal_events();
+    if (mapp(active_ev) && sizeof(active_ev) > 0) {
+        string *ev_keys = keys(active_ev);
+        string pick = ev_keys[random(sizeof(ev_keys))];
+        mapping ev = active_ev[pick];
+        if (mapp(ev)) {
+            if (pick == "landslide_rain") {
+                return "【山道行情】聽南嶺腳夫說，山路連日暴雨滑坡砸斷了半幅棧道，盤木原木與符紙車隊進不了城，長街木料應聲漲價兩成半！";
+            }
+            if (pick == "mine_shutdown") {
+                return "【礦工停工】北崖與烈礬幾口深井塌方停採，下工的礦工沒活可做全擠在粗茶棚裡喝苦茶嘆氣，條石明礬價碼立刻水漲船高！";
+            }
+            if (pick == "river_surge_sluice") {
+                return "【水運告急】上游水閘攔水外加河水暴漲，青河平底駁船在九曲淺灘擱了兩艘，府城米糧與草藥馬上跟著緊俏！";
+            }
+            if (pick == "gate_tax_lockdown") {
+                return "【關卡風聲】四關守軍最近又把路引稅卡收緊了！正經貨車多繳過關錢，沒路引的流民只能窩在南關外土坯巷接散活，暗渠私貨倒是旺了起來！";
+            }
+            if (pick == "northern_cold_snap") {
+                return "【冬寒急報】北荒寒潮南壓下來了！南市鋪子裡的鎮風生羊皮襖、黑石鋪硬木炭跟濁水老薑湯三天不到就被搶貴了三四成！";
+            }
+            return sprintf("【因果行情】%s：%s。", ev["name"], ev["source"]);
+        }
+    }
+
+    object nat_d = find_object("/secure/nature_d.c");
+    if (nat_d && nat_d->query_season() == "winter") {
+        return "【歲暮寒冬】如今正值玄冥冬歲，木炭、羊皮襖與老薑湯比平日俏手了兩成，大車過北關也要多備防寒草料。";
+    }
+    return "【市井行情】這幾日六縣水陸運道尚算通暢，粗茶糙米與柴炭價錢還守在常平線內。";
 }
 
 // ── 5. 匯整當前全域所有傳聞清單 ─────────────────────────────
@@ -144,6 +183,7 @@ string *query_all_rumors() {
     list += ({ query_weather_rumor() });
     list += ({ query_city_law_rumor() });
     list += ({ query_slice_of_life_rumor() });
+    list += ({ query_causal_economy_rumor() });
     return list;
 }
 

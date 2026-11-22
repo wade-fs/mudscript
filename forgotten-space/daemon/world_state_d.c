@@ -40,7 +40,49 @@ mapping encounter_slots;     // 全服奇遇名額消耗 (encounter_id -> 已獲
 // ── 7. 六縣與黑石鋪 30 天無主角介入之自主演進時鐘 (county_clocks) ──────────
 mapping county_clocks;       // county_id -> ([ "day": 1..30, "stage": 1..4, "price_pct": 100..250, "cycles": 0 ])
 
+// ── 8. Phase 2B：因果經濟與氣候／災害聯動表 (causal_events) ─────────────
+mapping causal_events;       // ev_id -> ([ "active": 0/1, "timer": mins, "auto": 0/1, "source": "..." ])
+
+int query_causal_bonus_pct(string target_id);
+string query_causal_reason(string target_id);
+void init_county_clocks();
+
 string query_save_file() { return "/data/world_state"; }
+
+void init_causal_events() {
+    causal_events = ([
+        "landslide_rain": ([
+            "name": "山路暴雨／滑坡",
+            "active": 0, "timer": 0, "auto": 0,
+            "source": "山道連雨引發邊坡坍塌，大車阻滯山道",
+            "impacts": ([ "panmu": 25, "freight": 20 ])
+        ]),
+        "mine_shutdown": ([
+            "name": "礦場塌方／停工",
+            "active": 0, "timer": 0, "auto": 0,
+            "source": "礦洞塌方停採或危井封禁，礦工無活可接群聚茶棚",
+            "impacts": ([ "liefan": 30, "zhongshi": 30, "charcoal": 15 ])
+        ]),
+        "river_surge_sluice": ([
+            "name": "河水暴漲／水閘攔水",
+            "active": 0, "timer": 0, "auto": 0,
+            "source": "上游截水閘放水不均或山洪暴漲，青河渡船停運與淺灘擱淺",
+            "impacts": ([ "qinghe": 25, "grain": 20 ])
+        ]),
+        "gate_tax_lockdown": ([
+            "name": "官道稅卡加嚴／封關",
+            "active": 0, "timer": 0, "auto": 0,
+            "source": "關卡抽稅封關，商貨運費攀升、暗渠私貨活躍且無引流民受困關外",
+            "impacts": ([ "zhenfeng": 20, "freight": 25, "undercurrent": 40 ])
+        ]),
+        "northern_cold_snap": ([
+            "name": "北荒寒潮來襲",
+            "active": 0, "timer": 0, "auto": 0,
+            "source": "北疆與寒原朔風驟冷、飛雪封道，鎮風皮襖、黑石鋪木炭與濁水老薑湯急缺",
+            "impacts": ([ "fur_cloak": 40, "charcoal": 35, "ginger_soup": 30, "grain": 15, "zhenfeng": 15 ])
+        ])
+    ]);
+}
 
 void create() {
     ::create();
@@ -93,6 +135,9 @@ void create() {
     }
     if (!county_clocks || !mapp(county_clocks)) {
         init_county_clocks();
+    }
+    if (!causal_events || !mapp(causal_events)) {
+        init_causal_events();
     }
     if (mine_stability <= 0 && !mine_is_collapsed) mine_stability = 65;
     if (disha_activity <= 0) disha_activity = 60;
@@ -236,6 +281,71 @@ void world_tick(int g_time, string weather) {
     // 6. 六縣 30 天自主演進時鐘 (每滿 1440 遊戲分鐘 = 1 遊戲日 自動推進 1 天)
     if (g_time > 0 && (g_time % 1440 == 0)) {
         advance_county_day("all", 1);
+    }
+
+    // 7. 因果經濟聯動同步 (Weather/Flood/Mine/Caravan/Season -> causal_events)
+    if (!causal_events || !mapp(causal_events)) init_causal_events();
+    object nat2 = find_object("/secure/nature_d.c");
+    string cur_season = nat2 ? nat2->query_season() : "autumn";
+
+    // (a) 暴雨/盤木第3階段 -> landslide_rain
+    int panmu_st = (county_clocks && county_clocks["panmu"]) ? county_clocks["panmu"]["stage"] : 1;
+    if (weather == "storm" || panmu_st >= 3) {
+        causal_events["landslide_rain"]["active"] = 1;
+        causal_events["landslide_rain"]["auto"] = 1;
+        if (causal_events["landslide_rain"]["timer"] < 30) causal_events["landslide_rain"]["timer"] = 30;
+    }
+
+    // (b) 礦坑塌方 / 烈礬或重石第3階段 -> mine_shutdown
+    int lf_st = (county_clocks && county_clocks["liefan"]) ? county_clocks["liefan"]["stage"] : 1;
+    int zs_st = (county_clocks && county_clocks["zhongshi"]) ? county_clocks["zhongshi"]["stage"] : 1;
+    if (mine_is_collapsed || lf_st >= 3 || zs_st >= 3) {
+        causal_events["mine_shutdown"]["active"] = 1;
+        causal_events["mine_shutdown"]["auto"] = 1;
+        if (causal_events["mine_shutdown"]["timer"] < 30) causal_events["mine_shutdown"]["timer"] = 30;
+    }
+
+    // (c) 水位 >= 75 / 青河第2階段以上 -> river_surge_sluice
+    int qh_st = (county_clocks && county_clocks["qinghe"]) ? county_clocks["qinghe"]["stage"] : 1;
+    if (stream_water_level >= 75 || qh_st >= 2) {
+        causal_events["river_surge_sluice"]["active"] = 1;
+        causal_events["river_surge_sluice"]["auto"] = 1;
+        if (causal_events["river_surge_sluice"]["timer"] < 30) causal_events["river_surge_sluice"]["timer"] = 30;
+    }
+
+    // (d) 商隊封關受阻 / 鎮風第3階段 -> gate_tax_lockdown
+    int zf_st = (county_clocks && county_clocks["zhenfeng"]) ? county_clocks["zhenfeng"]["stage"] : 1;
+    if (caravan_status == "blocked" || zf_st >= 3) {
+        causal_events["gate_tax_lockdown"]["active"] = 1;
+        causal_events["gate_tax_lockdown"]["auto"] = 1;
+        if (causal_events["gate_tax_lockdown"]["timer"] < 30) causal_events["gate_tax_lockdown"]["timer"] = 30;
+    }
+
+    // (e) 冬季 / 降雪 -> northern_cold_snap
+    if (cur_season == "winter" || weather == "snowy") {
+        causal_events["northern_cold_snap"]["active"] = 1;
+        causal_events["northern_cold_snap"]["auto"] = 1;
+        if (causal_events["northern_cold_snap"]["timer"] < 60) causal_events["northern_cold_snap"]["timer"] = 60;
+    }
+
+    // 倒數並自動解除已過期的自動事件
+    foreach (string cev in keys(causal_events)) {
+        mapping ev = causal_events[cev];
+        if (ev["active"] && ev["timer"] > 0) {
+            ev["timer"] -= 5;
+            if (ev["timer"] <= 0) {
+                ev["timer"] = 0;
+                // 若觸發條件已消失則解除
+                int still_on = 0;
+                if (cev == "landslide_rain" && (weather == "storm" || panmu_st >= 3)) still_on = 1;
+                if (cev == "mine_shutdown" && (mine_is_collapsed || lf_st >= 3 || zs_st >= 3)) still_on = 1;
+                if (cev == "river_surge_sluice" && (stream_water_level >= 75 || qh_st >= 2)) still_on = 1;
+                if (cev == "gate_tax_lockdown" && (caravan_status == "blocked" || zf_st >= 3)) still_on = 1;
+                if (cev == "northern_cold_snap" && (cur_season == "winter" || weather == "snowy")) still_on = 1;
+                if (!still_on) ev["active"] = 0;
+                else ev["timer"] = 30;
+            }
+        }
     }
 
     if (g_time % 30 == 0) {
@@ -831,6 +941,10 @@ mapping query_county_status(string county_id) {
     string st_key = sprintf("%d", st);
     mapping st_info = def["stages"][st_key];
 
+    int c_bonus = query_causal_bonus_pct(county_id);
+    int eff_pct = clk["price_pct"] + c_bonus;
+    if (eff_pct > 250) eff_pct = 250;
+
     return ([
         "county_id": county_id,
         "name": def["name"],
@@ -839,6 +953,9 @@ mapping query_county_status(string county_id) {
         "day": clk["day"],
         "stage": st,
         "price_pct": clk["price_pct"],
+        "causal_bonus_pct": c_bonus,
+        "effective_price_pct": eff_pct,
+        "causal_reason": query_causal_reason(county_id),
         "cycles": clk["cycles"],
         "aftermath_triggered": clk["aftermath_triggered"],
         "stage_desc": st_info["desc"]
@@ -848,4 +965,129 @@ mapping query_county_status(string county_id) {
 mapping query_all_county_clocks() {
     if (!county_clocks || !mapp(county_clocks)) init_county_clocks();
     return county_clocks;
+}
+
+// ── 9. Phase 2B：因果經濟事件查詢、手動觸發與民生價格聯動介面 ──
+void trigger_causal_event(string ev_id, int duration) {
+    if (!causal_events || !mapp(causal_events)) init_causal_events();
+    if (!ev_id || !causal_events[ev_id]) return;
+    if (duration <= 0) duration = 60;
+    causal_events[ev_id]["active"] = 1;
+    causal_events[ev_id]["timer"] = duration;
+    causal_events[ev_id]["auto"] = 0;
+    save_object(query_save_file());
+}
+
+void resolve_causal_event(string ev_id) {
+    if (!causal_events || !mapp(causal_events)) init_causal_events();
+    if (!ev_id || !causal_events[ev_id]) return;
+    causal_events[ev_id]["active"] = 0;
+    causal_events[ev_id]["timer"] = 0;
+    save_object(query_save_file());
+}
+
+int is_causal_event_active(string ev_id) {
+    if (!causal_events || !mapp(causal_events)) init_causal_events();
+    if (!ev_id || !causal_events[ev_id]) return 0;
+    return causal_events[ev_id]["active"] ? 1 : 0;
+}
+
+int is_mine_economy_halted() {
+    return (mine_is_collapsed || is_causal_event_active("mine_shutdown")) ? 1 : 0;
+}
+
+mapping query_active_causal_events() {
+    if (!causal_events || !mapp(causal_events)) init_causal_events();
+    mapping res = ([]);
+    foreach (string ev_id, mapping ev in causal_events) {
+        if (mapp(ev) && ev["active"]) {
+            res[ev_id] = ev;
+        }
+    }
+    return res;
+}
+
+// 計算指定目標（六縣ID 或 fur_cloak/charcoal/ginger_soup/grain/freight/undercurrent）的因果加成百分比
+int query_causal_bonus_pct(string target_id) {
+    if (!causal_events || !mapp(causal_events)) init_causal_events();
+    if (!target_id || target_id == "") return 0;
+
+    int bonus = 0;
+    foreach (string ev_id, mapping ev in causal_events) {
+        if (!mapp(ev) || !ev["active"]) continue;
+        mapping imps = ev["impacts"];
+        if (mapp(imps) && imps[target_id]) {
+            bonus += imps[target_id];
+        }
+    }
+
+    // 季節即時底層需求反映：冬季自動讓皮襖／木炭／老薑湯需求升高（即使尚未觸發寒潮）
+    object nat = find_object("/secure/nature_d.c");
+    string season = nat ? nat->query_season() : "";
+    if (season == "winter" && !is_causal_event_active("northern_cold_snap")) {
+        if (target_id == "fur_cloak") bonus += 25;
+        else if (target_id == "charcoal") bonus += 20;
+        else if (target_id == "ginger_soup") bonus += 20;
+    }
+
+    return bonus;
+}
+
+// 回傳指定目標的因果價格百分比 (100 為常態基準，並結合縣級演進或冬日貨物)
+int query_causal_price_pct(string target_id) {
+    int base_pct = 100;
+    mapping defs = get_county_timeline_defs();
+    if (defs[target_id]) {
+        mapping cst = query_county_status(target_id);
+        if (mapp(cst) && cst["price_pct"]) base_pct = cst["price_pct"];
+    }
+    int final_pct = base_pct + query_causal_bonus_pct(target_id);
+    if (final_pct > 250) final_pct = 250;
+    return final_pct;
+}
+
+// 回傳人話因果解釋（供牌價看板與 RUMOR_D 使用）
+string query_causal_reason(string target_id) {
+    if (!causal_events || !mapp(causal_events)) init_causal_events();
+    string *reasons = ({});
+    foreach (string ev_id, mapping ev in causal_events) {
+        if (!mapp(ev) || !ev["active"]) continue;
+        mapping imps = ev["impacts"];
+        if (mapp(imps) && imps[target_id]) {
+            reasons += ({ sprintf("%s（+%d%%：%s）", ev["name"], imps[target_id], ev["source"]) });
+        }
+    }
+    object nat = find_object("/secure/nature_d.c");
+    string season = nat ? nat->query_season() : "";
+    if (season == "winter" && !is_causal_event_active("northern_cold_snap")) {
+        if (target_id == "fur_cloak" || target_id == "charcoal" || target_id == "ginger_soup") {
+            reasons += ({ "玄冥冬歲氣溫驟降，取暖避寒物資需求倍增" });
+        }
+    }
+    if (!sizeof(reasons)) return "產地供需與道路秩序平穩";
+    return implode(reasons, "；");
+}
+
+mapping query_seasonal_goods_market() {
+    mapping goods = ([
+        "fur_cloak":   ([ "name": "鎮風生羊皮襖", "origin": "鎮風縣", "base": 120 ]),
+        "charcoal":    ([ "name": "黑石鋪硬木炭", "origin": "黑石鋪", "base": 25 ]),
+        "ginger_soup": ([ "name": "濁水老薑驅寒湯", "origin": "濁水縣", "base": 12 ]),
+        "grain":       ([ "name": "市井糙米糧", "origin": "青河／常平", "base": 18 ])
+    ]);
+    mapping out = ([]);
+    foreach (string gid, mapping def in goods) {
+        int pct = query_causal_price_pct(gid);
+        int price = def["base"] * pct / 100;
+        if (price < 1) price = 1;
+        out[gid] = ([
+            "name": def["name"],
+            "origin": def["origin"],
+            "base": def["base"],
+            "price_pct": pct,
+            "price": price,
+            "reason": query_causal_reason(gid)
+        ]);
+    }
+    return out;
 }

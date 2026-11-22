@@ -39,4 +39,6 @@ void create() {
     ]);
     add_action_rule("check_gauge", gauge_rule);
     add_action_rule("量水尺", gauge_rule);
+
+    spawn_npc("/clone/npc/folk/qinghe_herb_woman.c");
 }

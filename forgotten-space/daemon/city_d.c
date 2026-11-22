@@ -611,6 +611,18 @@ mapping check_residency_mandate(object who, int hours_in_city) {
             "msg": "憑車馬大院趟子手腰牌完成臨時居留擔保，免除無籍流民拘役，並獲延長 7 日（共 240 小時）正式立籍考核寬限期。"
         ]);
     }
+    if (present("temp residency pass", who) || who->query_temp("residency_buffer") == "temp_pass") {
+        int limit = 72 + 5 * 24; // 72h + 5天(120h) = 192h
+        return ([
+            "status": (hours_in_city <= limit) ? "outer_temp_pass" : "buffer_expired",
+            "buffer_type": "temp_pass",
+            "extension_days": 5,
+            "obligation": "complete_formal_qualification",
+            "grace_hours_total": limit,
+            "hours_remaining": (limit > hours_in_city) ? (limit - hours_in_city) : 0,
+            "msg": "持《金石南關暫住牌》完成外城去向登記，免遭夜間當街拘役，可於外城碼頭做散工，但仍須設法取得正式保書或考牒方能立籍內城。"
+        ]);
+    }
 
     // 未持緩衝擔保者：受 72 小時（三日通牒）臨時居留擔保登錄限制
     if (hours_in_city <= 72) {
@@ -1068,5 +1080,101 @@ mapping check_qualification_vs_skill(object me, string domain, string action_nam
         "reason": "qualified",
         "required_license": req_lic,
         "msg": sprintf(HIG "【行會資格核驗通過】你出示【%s】，合法在金石府執行「%s」。" NOR, req_title, action_name)
+    ]);
+}
+
+// ── 14. Phase 2B：社會階層四維度結構模型（身分 × 生計 × 資源 × 流動） ──
+mapping query_social_tier(object who) {
+    if (!who) {
+        return ([ "tier_id": "invalid", "tier_name": "未知身分" ]);
+    }
+
+    mapping res = check_residency_mandate(who, 0);
+    if (userp(who)) {
+        res = check_user_residency(who);
+    }
+
+    string status = mapp(res) ? res["status"] : "initial_72h_window";
+    string my_class = who->query("class");
+    string guild = who->query("guild");
+    mapping quals = who->query_qualifications();
+    int has_qual = (mapp(quals) && sizeof(keys(quals)) > 0) ? 1 : 0;
+    int has_temp_pass = (present("temp residency pass", who) || status == "outer_temp_pass") ? 1 : 0;
+    int has_buffer = (status == "buffered_temporary") ? 1 : 0;
+
+    string tier_id = "unregistered_vagrant";
+    string tier_name = "無籍流民／底層散工";
+    string identity_desc = "未持路引、保書與行會籍冊，夜間受宵禁盤查，僅能滯留南關外土坯棚區。";
+    string livelihood_desc = "僅能於關外碼頭、流民矮巷與冰河棧道接黑工或按件領取竹籌，嚴禁進入內城大坊正式受僱。";
+    string housing_desc = "僅能宿於【南關外・流民賃居矮巷】土坯通鋪（2文），內城中心客棧拒絕無憑據散客立約投宿。";
+    string medical_desc = "限於【南關外・施藥義棚】領取免費甘草粗湯，難負擔內城杏林醫館高昂診金與靈材方劑。";
+    string mobility_desc = "先於南關外申請《暫住牌》，或赴學塾（青衿）、醫館（試藥藥囊）、車馬大院（短褐腰牌）取得保書；再透過考牒、工會作保或跨縣等價認證取得正式匠／醫／武／道籍。";
+
+    int inner_work = 0;
+    int inner_inn = 0;
+    int inn_cost = 50;
+    int clinic_discount = 0;
+
+    if (has_qual || (my_class && my_class != "" && my_class != "mortal")) {
+        tier_id = "formal_guild";
+        tier_name = "在籍門人／行會正職";
+        identity_desc = "已取得金石府正式匠籍、醫士資格、軍武腰牌或宗門／宣道度牒。";
+        livelihood_desc = "可合法於內城百工工坊、杏林醫館或四大宗門執業掛單，支領正規俸祿與行會份例。";
+        housing_desc = "可自由投宿【金石大客棧】雅間（50文），無懼夜間宵禁巡防。";
+        medical_desc = "享有杏林醫館正式掛號優先權與丹鼎藥爐合方資格。";
+        mobility_desc = "可跨城出使雲津、北荒或以公證人／保人身分引薦新進子弟立籍。";
+        inner_work = 1;
+        inner_inn = 1;
+        clinic_discount = 1;
+    } else if (guild && guild != "") {
+        tier_id = "sect_outer";
+        tier_name = "宗門／組織外門名籍";
+        identity_desc = sprintf("已錄入【%s】外門名籍，具備基本組織庇護與出入識別。", guild);
+        livelihood_desc = "可在宗門或分舵接領外門差事、採藥護隊與軍鎮操練，亦可兼接城南商隊護衛。";
+        housing_desc = "可借住宗門外院通鋪或城內外合規客棧。";
+        medical_desc = "內外城醫館皆可看診，然高階丹藥仍須另行核算貢獻。";
+        mobility_desc = "累積門內貢獻升任內門，或兼考百工／杏林／武館執業資格。";
+        inner_work = 1;
+        inner_inn = 1;
+        inn_cost = 35;
+    } else if (has_buffer) {
+        tier_id = "buffered_sojourner";
+        tier_name = "持保書暫居客（青衿／試藥／趟子手）";
+        identity_desc = "憑學塾青衿、醫館試藥藥囊或車馬院腰牌取得臨時居留寬限，暫免流民驅逐。";
+        livelihood_desc = "可在擔保機構轄下打雜學藝並承接行商短活，尚待正式考牒方能獨立掛牌。";
+        housing_desc = "可投宿城內外客棧（50文），亦可至南關外省錢落腳。";
+        medical_desc = "可憑保條進入杏林醫館候診（50文），重病急症時亦不至被拒諸門外。";
+        mobility_desc = "把握寬限期完成學塾考牒、百工入行、杏林坐堂或武館腰牌正式評定。";
+        inner_work = 0;
+        inner_inn = 1;
+    } else if (status == "initial_72h_window" || has_temp_pass) {
+        tier_id = "outer_sojourner";
+        tier_name = has_temp_pass ? "持《暫住牌》外城短工" : "新入關待籍行旅（72時辰內）";
+        identity_desc = has_temp_pass
+            ? "持有《金石南關暫住牌》，外城去向有案可查，可免夜間當街抓捕。"
+            : "甫抵金石界尚未滿三日通牒，須儘快覓得保人或領取暫住牌。";
+        livelihood_desc = "限於南關車馬、外城碼頭與魚市扛貨記竹籌掙取銅錢，無法簽訂內城大坊正契。";
+        housing_desc = "建議先歇於南關外矮巷通鋪或南關車馬小棧（2～5文）節省盤纏。";
+        medical_desc = "多赴【南關外・施藥義棚】免費取粗湯調養，內城中心醫館診費高昂。";
+        mobility_desc = "先向南關小棧／流民巷探詢保人，取得學塾、醫館或車馬院三條緩衝保書之一。";
+        inner_work = 0;
+        inner_inn = 0;
+    }
+
+    return ([
+        "tier_id": tier_id,
+        "tier_name": tier_name,
+        "residency_status": status,
+        "identity": identity_desc,
+        "livelihood": livelihood_desc,
+        "resources": ([
+            "housing": housing_desc,
+            "medical": medical_desc,
+            "inner_inn_allowed": inner_inn,
+            "inner_inn_cost": inn_cost,
+            "clinic_discount": clinic_discount
+        ]),
+        "mobility": mobility_desc,
+        "can_work_inner_guild": inner_work
     ]);
 }

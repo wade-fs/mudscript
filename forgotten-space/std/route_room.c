@@ -55,6 +55,24 @@ string query_long() {
         seg["name"], seg["distance_li"], seg["travel_mode"], seg["normal_duration"],
         seg["seasonal_block"], seg["risk"]
     );
+
+    object nat = find_object("/secure/nature_d.c");
+    if (!nat) nat = load_object("/secure/nature_d.c");
+    string cur_s = nat ? nat->query_season() : "";
+    mapping s_lim = seg["seasonal_limits"];
+    if (mapp(s_lim) && cur_s != "" && s_lim[cur_s]) {
+        info += sprintf("\n" HIR "【當季路況實警】正值 %s：%s，行旅損耗與阻斷風險顯著上升！" NOR,
+                        nat->query_year_season_title(), s_lim[cur_s]);
+    }
+
+    object ws = find_object(WORLD_STATE_D);
+    if (ws && ws->is_causal_event_active("gate_tax_lockdown")) {
+        info += "\n" YEL "【關卡盤查】官道稅卡近期加嚴封檢，無正式路引或商會保單者難免滯留。" NOR;
+    }
+    if (ws && ws->is_causal_event_active("landslide_rain")) {
+        info += "\n" HIR "【山道滑坡】連日暴雨沖刷邊坡，南嶺重車運輸延誤、山貨運費看漲。" NOR;
+    }
+
     return base + info;
 }
 

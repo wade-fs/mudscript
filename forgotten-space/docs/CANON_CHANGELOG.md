@@ -2,6 +2,12 @@
 
 本文件追蹤《遺忘的世界》小說正典修訂與 Mudlib 可執行世界之間的雙向同步紀錄，配合 [data/canon_sync_matrix.json](../data/canon_sync_matrix.json) 與 [tests/quests/novel_mud_sync_audit.py](../tests/quests/novel_mud_sync_audit.py) 使用。
 
+## 2026-11-22 — Phase 2B 世界運作機制（日夜季節節律、庶民動態互動、因果經濟與階層落差）
+* **時間維度 × 季節節律**：`NATURE_D` 新增季節覆寫與 `PHASE_D->query_room_rhythm_line()`，全站呈現清晨／上午／午後／黃昏／夜間作息脈動；`std/route_room.c` 依季節顯示封道／積雪實警。
+* **庶民作息與樞紐 NPC-to-NPC 互動**：`PHASE_D` 擴充至 23 名作息註冊角色（含 `roaming_porter` 阿福、`qinghe_herb_woman` 翠嬸與六縣／城郊勞動群體），並於青河渡口、黑石街市、南關流民矮巷、烈礬茶棚、雲津碼頭與城南酒肆實裝多節拍 NPC-to-NPC 日常互動（支援 `observe` / `旁觀` 指令與定期脈動）。
+* **因果經濟與民生牌價**：`WORLD_STATE_D` 實裝五大因果事件（`landslide_rain`、`mine_shutdown`、`river_surge_sluice`、`gate_tax_lockdown`、`northern_cold_snap`），連動礦工停工聚集、`market_special_buyer.c`（含皮襖／木炭／老薑湯／糙米行情）與 `RUMOR_D->query_causal_economy_rumor()`。
+* **社會階層四維度落差**：`CITY_D->query_social_tier()` 與南關矮巷（《暫住牌》、2 文通鋪、3 文菜粥）、施藥義棚（免費義診）、內城中心客棧與杏林醫館完成身分／生計／資源／流動差異化。
+
 ## 2026-11-22 — Phase 1 / Phase 2A 世界真實化與「空房歸零」擴建
 * **生活空間與非主線支線擴建（254 → 288 間房、18 條平凡日常支線）**：
   * 六縣（`std/county_room.c`）與官道（`std/route_room.c`）全面具備動態風土五感、地方住民／關卡巡檢與歇腳／路況／盤查互動，並於六縣補入具名庶民生活支翼。

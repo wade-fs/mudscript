@@ -102,6 +102,7 @@ int main(object me, string verb, string arg) {
         object city_d = find_object(CITY_D);
         if (!city_d) city_d = load_object(CITY_D);
         mapping res_info = city_d ? city_d->check_user_residency(me) : ([]);
+        mapping tier_info = city_d ? city_d->query_social_tier(me) : ([]);
         mapping quals = me->query_qualifications();
         string *q_names = ({});
         if (mapp(quals)) {
@@ -110,6 +111,8 @@ int main(object me, string verb, string arg) {
             }
         }
         write("$HIY$── 社會資格與法統居留（會做 ≠ 有資格做） ──$NOR$\n");
+        write(sprintf("  %-10s : %s\n", "社會階層",
+                      (mapp(tier_info) && tier_info["tier_name"]) ? tier_info["tier_name"] : "一般凡人"));
         write(sprintf("  %-10s : %s\n", "府城戶籍",
                       (mapp(res_info) && res_info["status"] == "formal_resident") ? HIG "正式立籍" NOR :
                       ((mapp(res_info) && res_info["msg"]) ? res_info["status"] : "邊陲未立籍")));

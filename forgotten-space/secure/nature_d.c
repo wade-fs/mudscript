@@ -17,6 +17,7 @@ string current_weather; // 目前天氣 (clear, cloudy, rainy, storm, foggy, sno
 int weather_duration;   // 當前天氣維持時間 (遊戲分鐘數)
 int last_update;
 string last_shichen;    // 記錄前一次時辰，用於觸發相位作息變更
+string season_override; // 測試或劇情強制季節覆寫 ("", "spring", "summer", "autumn", "winter")
 
 string query_save_file() { return "/data/nature"; }
 
@@ -29,10 +30,12 @@ void create() {
     weather_duration = 90; // 維持 90 分鐘 (90 秒真實時間)
     last_update = time();
     last_shichen = "卯時";
+    season_override = "";
     
     if (file_size(query_save_file() + ".o") > 0) {
         restore_object(query_save_file());
     }
+    if (!season_override) season_override = "";
     
     set_heart_beat(1);
 }
@@ -150,13 +153,30 @@ int is_day() {
     return (h >= 6 && h < 18);
 }
 
-// 當前季節 (春夏秋冬)
+// 當前季節 (春夏秋冬，支援劇情與測試覆寫)
 string query_season() {
+    if (season_override && season_override != "") {
+        return season_override;
+    }
     int m = query_calendar_month();
     if (m >= 3 && m <= 5) return "spring";
     if (m >= 6 && m <= 8) return "summer";
     if (m >= 9 && m <= 11) return "autumn";
     return "winter";
+}
+
+void set_season_override(string s) {
+    if (!s || s == "" || s == "none") {
+        season_override = "";
+        return;
+    }
+    if (s == "spring" || s == "summer" || s == "autumn" || s == "winter") {
+        season_override = s;
+    }
+}
+
+string query_season_override() {
+    return season_override ? season_override : "";
 }
 
 string query_season_name() {
@@ -331,6 +351,12 @@ void heart_beat() {
         if (!rumor_d) rumor_d = load_object(RUMOR_D);
         if (rumor_d) {
             rumor_d->tick(game_time);
+        }
+
+        // 每 10 遊戲分鐘推進一次有玩家駐留之樞紐 NPC-to-NPC 日常互動
+        if (game_time % 10 == 0) {
+            object pd2 = find_object(PHASE_D);
+            if (pd2) pd2->pulse_hub_scenes();
         }
 
         // 每 1440 遊戲分鐘 (1 遊戲日) 自動推進六縣與黑石鋪 30 天無主角介入演進時鐘

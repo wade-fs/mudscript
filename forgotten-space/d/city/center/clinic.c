@@ -38,3 +38,31 @@ void create() {
 
     spawn_npc("/clone/npc/center_doctor_bai.c");
 }
+
+void init() {
+    ::init();
+    add_action("do_clinic_treat", "treat");
+    add_action("do_clinic_treat", "診治");
+}
+
+int do_clinic_treat(string arg) {
+    object me = this_player();
+    if (!me) return 0;
+    object city_d = load_object(CITY_D);
+    mapping tier = city_d ? city_d->query_social_tier(me) : ([]);
+    if (mapp(tier) && tier["tier_id"] == "unregistered_vagrant") {
+        write(HIR "藥房管事攔住你皺眉道：「杏林內堂診治須查驗居留保書或路引名籍，無籍散客請出南關往【施藥義棚】取粗湯罷！」\n" NOR);
+        return 1;
+    }
+    int fee = 50;
+    if (me->query("money") < fee) {
+        write(YEL "醫館夥計翻開帳簿道：「內城杏林精方連藥帶診須五十文現錢，盤纏不夠可先去南關外施藥義棚湊合著喝。」\n" NOR);
+        return 1;
+    }
+    me->add_money(-fee);
+    if (city_d) city_d->cleanse_turbidity(me, 15);
+    me->add(VITAL_KEE, 60);
+    me->add(VITAL_SEN, 40);
+    write(HIG "你繳足五十文診金，白先生親手施以金針過脈並賜下一貼清心靈草方。（氣血 +60、神識 +40、紅塵濁氣減輕）\n" NOR);
+    return 1;
+}

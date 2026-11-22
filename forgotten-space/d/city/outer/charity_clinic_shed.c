@@ -37,3 +37,18 @@ void create() {
 
     spawn_npc("/clone/npc/folk/charity_herbalist.c");
 }
+
+void init() {
+    ::init();
+    add_action("do_charity_heal", "heal");
+    add_action("do_charity_heal", "義診");
+}
+
+int do_charity_heal(string arg) {
+    object me = this_player();
+    if (!me) return 0;
+    write(HIG "老藥工周伯不問路引戶籍，只輕按你脈門便舀來一大碗滾燙的甘草苦參湯，並仔細為你敷好外傷。（氣血 +30、神識 +15）\n" NOR);
+    me->add(VITAL_KEE, 30);
+    me->add(VITAL_SEN, 15);
+    return 1;
+}

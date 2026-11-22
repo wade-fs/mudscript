@@ -297,21 +297,40 @@ string query_phase_ambient_line() {
     if (!pd) pd = load_object("/daemon/phase_d.c");
     if (!pd) return "";
 
+    string *lines = ({});
+
+    // 1. 區域時辰 × 季節節律描寫
+    string rhythm = pd->query_room_rhythm_line(this_object());
+    if (rhythm && rhythm != "") {
+        lines += ({ rhythm });
+    }
+
+    // 2. NPC-to-NPC 樞紐日常劇本切片
+    string hub_line = pd->query_current_hub_scene(base_name(this_object()));
+    if (hub_line && hub_line != "") {
+        lines += ({ HIC "【市井日常】" NOR + hub_line });
+    }
+
+    // 3. 註冊於此房間之時辰作息 NPC 動靜
     string period = pd->query_current_period();
     mapping scheds = pd->query_all_schedules();
-    if (!mapp(scheds)) return "";
-
-    string *notes = ({});
-    foreach (string nk, mapping ndef in scheds) {
-        if (!mapp(ndef) || !ndef["schedules"]) continue;
-        string target_r = pd->query_npc_target_room(nk, period);
-        if (target_r && strsrch(rpath, replace_string(target_r, ".c", "")) == 0) {
-            string amb = pd->query_npc_ambient_desc(nk, period);
-            if (amb && amb != "") notes += ({ amb });
+    if (mapp(scheds)) {
+        string *notes = ({});
+        foreach (string nk, mapping ndef in scheds) {
+            if (!mapp(ndef) || !ndef["schedules"]) continue;
+            string target_r = pd->query_npc_target_room(nk, period);
+            if (target_r && strsrch(rpath, replace_string(target_r, ".c", "")) == 0) {
+                string amb = pd->query_npc_ambient_desc(nk, period);
+                if (amb && amb != "") notes += ({ amb });
+            }
+        }
+        if (sizeof(notes) > 0) {
+            lines += ({ HIG "【時辰動靜】" NOR + implode(notes, " ") });
         }
     }
-    if (sizeof(notes) > 0) {
-        return HIG "【時辰動靜】" NOR + implode(notes, " ");
+
+    if (sizeof(lines) > 0) {
+        return implode(lines, "\n");
     }
     return "";
 }
@@ -489,6 +508,8 @@ void init() {
     add_action("do_smell", "嗅聞");
     add_action("do_listen_room", "listen");
     add_action("do_listen_room", "傾聽");
+    add_action("do_observe_scene", "observe");
+    add_action("do_observe_scene", "旁觀");
 
     if (action_rules && sizeof(action_rules) > 0) {
         foreach (string rverb in keys(action_rules)) {
@@ -656,6 +677,25 @@ int do_listen_room(string arg) {
         }
     }
     write(desc + "\n");
+    return 1;
+}
+
+int do_observe_scene(string arg) {
+    object pd = find_object("/daemon/phase_d.c");
+    if (!pd) pd = load_object("/daemon/phase_d.c");
+    if (!pd) return 0;
+
+    string beat = pd->advance_hub_scene(this_object());
+    if (beat && beat != "") {
+        write("\n" HIC "【市井旁觀】" NOR + beat + "\n");
+        return 1;
+    }
+    string rhythm = pd->query_room_rhythm_line(this_object());
+    if (rhythm && rhythm != "") {
+        write("\n" + rhythm + "\n");
+        return 1;
+    }
+    write("你靜立片刻，留心周遭來往行人的神色與動靜，暫無特別異狀。\n");
     return 1;
 }
 

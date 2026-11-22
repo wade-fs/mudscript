@@ -292,6 +292,127 @@ void run_tests(object me) {
                     "舊房應具備聽覺描寫: " + srp);
     }
 
+    // ── 6. Phase 2B：日夜季節節律、庶民排程互動、因果經濟與階層四維度 ──
+    object pd = load_object(PHASE_D);
+    object ws = load_object(WORLD_STATE_D);
+    object nd = load_object("/secure/nature_d.c");
+    object cd = load_object(CITY_D);
+
+    // (6a) 日夜時辰 × 季節節律描寫
+    object f_mkt = load_object("/d/city/outer/fish_market.c");
+    object q_ferry = load_object("/d/counties/qinghe/ferry_dock.c");
+    object tf_pass = load_object("/d/routes/tianfeng_gorge_pass.c");
+    assert_true(objectp(f_mkt) && objectp(q_ferry) && objectp(tf_pass), "Phase 2B 核心時節樞紐房間應正常載入");
+    nd->set_season_override("winter");
+    string rhythm_fm = pd->query_room_rhythm_line(f_mkt);
+    assert_true(strsrch(rhythm_fm, "時辰風物") != -1, "PHASE_D 應生成區域時辰風物動態描寫");
+    assert_true(strsrch(rhythm_fm, "玄冥冬歲") != -1, "冬季覆寫下應呈現玄冥冬歲禦寒行情");
+    string tf_long = tf_pass->query_long();
+    assert_true(strsrch(tf_long, "當季路況實警") != -1, "冬季天風峽官道應動態顯示當季積雪封道實警");
+
+    // (6b) 庶民自主作息與 NPC-to-NPC 可觀察互動劇本
+    string *folk_keys = ({
+        "fishmonger_liu", "sun_old_carter", "qinghe_boatman", "qinghe_herb_woman",
+        "roaming_porter", "liefan_old_miner", "zhou_quarryman", "panmu_raftsman",
+        "peddler_hu", "charity_herbalist"
+    });
+    foreach (string fk in folk_keys) {
+        assert_true(mapp(pd->query_npc_schedule(fk)), "PHASE_D 應已註冊庶民作息: " + fk);
+    }
+    assert_equal("/d/city/outer/fish_market.c", pd->query_npc_target_room("roaming_porter", "dawn"),
+                 "挑夫阿福破曉應至魚市搶頭批貨擔");
+    assert_equal("/d/city/outer/tenement_alley.c", pd->query_npc_target_room("roaming_porter", "dusk"),
+                 "挑夫阿福黃昏應回流民矮巷歇腳");
+    assert_equal("/d/counties/qinghe/ferry_dock.c", pd->query_npc_target_room("qinghe_boatman", "morning"),
+                 "柳伯上午應在青河駁船碼頭撐船");
+    assert_equal("/d/counties/qinghe/river_tea_shed.c", pd->query_npc_target_room("qinghe_boatman", "dusk"),
+                 "柳伯黃昏收纜後應赴蘆花渡粗茶棚喝茶");
+
+    // 驗證青河渡口四段式 NPC-to-NPC 互動序列
+    string s_b0 = pd->query_hub_scene_line("/d/counties/qinghe/ferry_dock.c", 0);
+    string s_b1 = pd->query_hub_scene_line("/d/counties/qinghe/ferry_dock.c", 1);
+    string s_b2 = pd->query_hub_scene_line("/d/counties/qinghe/ferry_dock.c", 2);
+    string s_b3 = pd->query_hub_scene_line("/d/counties/qinghe/ferry_dock.c", 3);
+    assert_true(strsrch(s_b0, "船底") != -1 && strsrch(s_b1, "木籌") != -1 &&
+                strsrch(s_b2, "漲了兩文") != -1 && strsrch(s_b3, "安靜") != -1,
+                "青河渡口應完整涵蓋檢船、爭工錢、怨船資與船離後靜謐四拍互動");
+    string adv_b = pd->advance_hub_scene(q_ferry);
+    assert_true(strlen(adv_b) > 10, "advance_hub_scene 應能依序推進樞紐日常互動節拍");
+
+    // (6c) 因果經濟鏈聯動（礦場停工／暴雨滑坡／河水暴漲／寒潮來襲）
+    ws->trigger_causal_event("mine_shutdown", 60);
+    ws->trigger_causal_event("northern_cold_snap", 60);
+    ws->trigger_causal_event("landslide_rain", 60);
+    assert_equal(1, ws->is_mine_economy_halted(), "觸發 mine_shutdown 後礦業經濟停擺標記應為 1");
+    assert_equal("/d/counties/liefan/miners_tea_shed.c",
+                 pd->query_npc_target_room("liefan_old_miner", "morning"),
+                 "礦場停工期羅七上午應聚集粗茶棚而非下井");
+    assert_true(ws->query_causal_bonus_pct("fur_cloak") >= 40, "寒潮期間鎮風皮襖因果漲幅應 >= 40%");
+    assert_true(ws->query_causal_bonus_pct("charcoal") >= 35, "寒潮期間黑石鋪木炭因果漲幅應 >= 35%");
+    assert_true(ws->query_causal_bonus_pct("panmu") >= 25, "山路暴雨滑坡應使盤木因果漲幅 >= 25%");
+    mapping s_goods = ws->query_seasonal_goods_market();
+    assert_true(mapp(s_goods) && mapp(s_goods["ginger_soup"]) && s_goods["ginger_soup"]["price_pct"] >= 130,
+                "濁水老薑驅寒湯在寒潮期間行情應升至 >= 130%");
+    object buyer = load_object("/clone/npc/market_special_buyer.c");
+    string mb_txt = buyer ? buyer->render_market_board() : "";
+    assert_true(strsrch(mb_txt, "民生／歲時急需貨物即時牌價") != -1 && strsrch(mb_txt, "寒潮") != -1,
+                "採辦牌價看板應動態顯示冬寒民生急需價格與因果成因");
+    string c_rum = rum_d->query_causal_economy_rumor();
+    assert_true(stringp(c_rum) && strlen(c_rum) > 10, "RUMOR_D 應能輸出因果漲價見聞");
+    ws->resolve_causal_event("mine_shutdown");
+    ws->resolve_causal_event("northern_cold_snap");
+    ws->resolve_causal_event("landslide_rain");
+    nd->set_season_override("");
+
+    // (6d) 社會階層四維度結構（身分 × 生計 × 資源 × 流動）
+    tester->set("class", "");
+    tester->set("guild", "");
+    tester->set("city_entry_time", time() - 80 * 900); // 逾期 > 72h -> unregistered_vagrant
+    mapping tier_v = cd->query_social_tier(tester);
+    assert_equal("unregistered_vagrant", tier_v["tier_id"], "逾期無憑證者應歸為 unregistered_vagrant");
+    assert_equal(0, tier_v["resources"]["inner_inn_allowed"], "無籍流民不可入住內城中心客棧雅間");
+
+    object alley_rm = load_object("/d/city/outer/tenement_alley.c");
+    object charity_rm = load_object("/d/city/outer/charity_clinic_shed.c");
+    object clinic_rm = load_object("/d/city/center/clinic.c");
+    object inn_rm = load_object("/d/city/center/inn_main.c");
+    tester->add_money(200);
+
+    move_object(tester, alley_rm);
+    tester->command("porridge");
+    tester->command("lodge");
+    move_object(tester, charity_rm);
+    int k_before = tester->query(VITAL_KEE);
+    tester->command("heal");
+    assert_true(tester->query(VITAL_KEE) >= k_before, "南關外施藥義棚應免費醫治無籍流民");
+
+    // 內城醫館與中心客棧應拒絕無籍流民
+    move_object(tester, clinic_rm);
+    int m_before = tester->query("money");
+    tester->command("treat");
+    assert_equal(m_before, tester->query("money"), "杏林醫館應拒絕無籍流民而不扣診金");
+
+    move_object(tester, inn_rm);
+    tester->command("lodge");
+    assert_equal(m_before, tester->query("money"), "金石大客棧應拒絕無籍流民投宿雅間");
+
+    // 階層流動：先領《暫住牌》 -> 再獲學塾青衿保書 -> 即可入中心客棧與醫館 -> 再立籍
+    move_object(tester, alley_rm);
+    tester->command("register_pass");
+    assert_true(objectp(present("temp residency pass", tester)), "register_pass 應成功領取《金石南關暫住牌》");
+    mapping tier_tp = cd->query_social_tier(tester);
+    assert_equal("outer_sojourner", tier_tp["tier_id"], "領取《暫住牌》後階層應升為外城短工 (outer_sojourner)");
+
+    object acad_tok = clone_object("/clone/item/academy_token.c");
+    acad_tok->move(tester);
+    mapping tier_buf = cd->query_social_tier(tester);
+    assert_equal("buffered_sojourner", tier_buf["tier_id"], "取得青衿保書後階層應升為持保書暫居客");
+    assert_equal(1, tier_buf["resources"]["inner_inn_allowed"], "持保書暫居客應獲准入住中心客棧");
+    move_object(tester, inn_rm);
+    int m_inn_before = tester->query("money");
+    tester->command("lodge");
+    assert_equal(m_inn_before - 50, tester->query("money"), "持保書入宿金石大客棧應扣除 50 文雅間房資");
+
     if (tester) destruct(tester);
     report_results();
 }

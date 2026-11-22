@@ -51,19 +51,37 @@ string render_market_board() {
     foreach (string cid in keys(commodities)) {
         mapping item = commodities[cid];
         int pct = 100;
+        int eff_pct = 100;
         int stage = 1;
+        string c_reason = "";
         if (ws_d) {
             mapping st = ws_d->query_county_status(cid);
             if (st) {
                 pct = st["price_pct"];
+                eff_pct = st["effective_price_pct"] ? st["effective_price_pct"] : pct;
                 stage = st["stage"];
+                if (st["causal_bonus_pct"] > 0 && st["causal_reason"]) {
+                    c_reason = " -> " + st["causal_reason"];
+                }
             }
         }
-        int cur_price = (item["base"] * pct / 100) * granary_factor / 100;
-        string status_str = (pct >= 180) ? HIR "【暴漲告急】" NOR : (pct >= 130) ? YEL "【緊俏上浮】" NOR : HIG "【平穩充裕】" NOR;
-        res += sprintf("  %-16s (產地: %-6s)  牌價: %3d 文  指數: %3d%%  階段: 第%d階段  %s\n",
-            item["name"], item["county"], cur_price, pct, stage, status_str);
+        int cur_price = (item["base"] * eff_pct / 100) * granary_factor / 100;
+        string status_str = (eff_pct >= 180) ? HIR "【暴漲告急】" NOR : (eff_pct >= 130) ? YEL "【緊俏上浮】" NOR : HIG "【平穩充裕】" NOR;
+        res += sprintf("  %-16s (產地: %-6s)  牌價: %3d 文  指數: %3d%%  階段: 第%d階段  %s%s\n",
+            item["name"], item["county"], cur_price, eff_pct, stage, status_str, c_reason);
     }
+
+    if (ws_d) {
+        mapping s_goods = ws_d->query_seasonal_goods_market();
+        if (mapp(s_goods) && sizeof(s_goods) > 0) {
+            res += CYN "  ── 民生／歲時急需貨物即時牌價 ──\n" NOR;
+            foreach (string gid, mapping g in s_goods) {
+                res += sprintf("  %-14s (%s)  牌價: %3d 文 (%3d%%)  成因：%s\n",
+                    g["name"], g["origin"], g["price"], g["price_pct"], g["reason"]);
+            }
+        }
+    }
+
     res += HIY "┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛" NOR "\n";
     return res;
 }
