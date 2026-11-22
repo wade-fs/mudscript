@@ -3,7 +3,7 @@
 > `character_id`: `wanwu_auditor_qi`  
 > `status`: `planned (Vol 4 Act 2 Ch.137 規劃人物)`  
 > `faction`: 萬物主機城・外環維修工會  
-> `path/domain`: 物道／標準模組與熱插拔工程  
+> `path/domain`: 物道／標準模組與帶壓活榫工程  
 > `planned_home_room`: `/d/realm/wanwu/scrap_ring.c`
 
 ## 基本資料

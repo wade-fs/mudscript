@@ -131,6 +131,27 @@ def run_docs_lint(root_dir, errors, warnings, room_count, quest_count):
             f"[docs_lint:room_template] 發現 {len(repeated_clusters)} 組 15-gram 在 >=3 間房重複（最高 {top_cnt} 房：'{top_gram}'）"
         )
 
+    # 5. 正文章節現代科技禁詞掃描 (Q5 拍板：只禁現代科幻/資訊/工業用語，保留武俠/修仙/傳統遊戲詞彙)
+    tech_banned_common = (
+        ("電池", re.compile(r"電池")),
+        ("熱插拔", re.compile(r"熱插拔")),
+        ("格式化", re.compile(r"格式化")),
+        ("代碼", re.compile(r"代碼")),
+        ("電流", re.compile(r"電流")),
+        ("數據", re.compile(r"數據")),
+        ("AI", re.compile(r"\bAI\b")),
+        ("BUFF", re.compile(r"\bBUFF\b")),
+        ("電源", re.compile(r"電源(?!晶柱)")),
+    )
+    v4_extra_banned = (("電源", re.compile(r"電源")),)
+    for ch_path in sorted(glob.glob(os.path.join(root_dir, "narrative/chapters/volume*/ch*.md"))):
+        rel_ch = os.path.relpath(ch_path, root_dir)
+        ch_txt = open(ch_path, encoding="utf-8", errors="replace").read()
+        patterns = tech_banned_common + (v4_extra_banned if "/volume4/" in rel_ch else ())
+        for label, pat in patterns:
+            if pat.search(ch_txt):
+                errors.append(f"[docs_lint:tech_jargon] {rel_ch} 出現禁用現代科技詞彙：{label}")
+
     return checked_links
 
 
