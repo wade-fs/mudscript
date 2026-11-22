@@ -2,6 +2,10 @@
 
 本文件追蹤《遺忘的世界》小說正典修訂與 Mudlib 可執行世界之間的雙向同步紀錄，配合 [data/canon_sync_matrix.json](../data/canon_sync_matrix.json) 與 [tests/quests/novel_mud_sync_audit.py](../tests/quests/novel_mud_sync_audit.py) 使用。
 
+## 2026-11-22 — Phase 4 世界鮮活度 2.0 稽核與前三卷小說雙向反哺
+* **World Liveness 2.0 全面稽核**：升級 `tests/quests/world_liveness_audit.py`，全面驗證 288 間房 `set_long` 括號指令 0 遺漏、`PHASE_D` 23 名排程 NPC 與 6 大樞紐互動劇本、`30` 名庶民 NPC 對話覆蓋、動態庫存與 6 維傳聞品質。
+* **前三卷小說 ↔ Mudlib 雙向反哺**：核對全三卷 126 章里程時序一致性（盤木 190+260=450 里、烈礬 320 里、雲津北行 800 里），於第 2、43、84 章補入黑石村塾雜糧鋪、南關外流民矮巷施藥棚與雲津冰河碼頭苦力竹籌等凡俗市井肌理，並於 `data/canon_sync_matrix.json` 新增 `living_world_folk_layer` 納入 `novel_mud_sync_audit.py` 自動驗證。
+
 ## 2026-11-22 — Phase 3B / 3D 因果經濟持續性、庫存供需閉環、六維資訊品質與地方文化選擇
 * **真實庫存、供需反哺與運輸風險**：`WORLD_STATE_D` 實作區域 `market_stocks`、定期持續性批次結算 `economic_batch_tick()`（含 `last_settled_gtime` 防重入）與 NPC 商販策略切換 `merchant_strategies`；`route_room.c` ＋ `trade_cargo.c` 實裝暴雨折損成色與封關補稅風險，飽和出貨將造成真實虧損。
 * **非強制選擇與地方文化參與**：`miners_tea_shed.c` 支援明確 `decline`（拒絕賒糧且無懲罰，世界現況持續演進），`earth_shrine.c` 與 `temple_tea_fair.c` 補入「社祭／敲社鼓／茶攤聽風」文化民俗互動。

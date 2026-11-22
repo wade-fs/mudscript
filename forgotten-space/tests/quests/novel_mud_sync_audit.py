@@ -125,10 +125,20 @@ def main():
         "contaminate_evidence",
         "certify_or_cleanse_evidence",
         "check_qualification_vs_skill",
+        "query_social_tier",
         "is_forged",
     ):
         if fn not in city_d_src:
             errors.append(f"[daemon/city_d.c] 缺少功能實作：{fn}")
+
+    ws_d_src = read_text("daemon/world_state_d.c")
+    for fn in ("market_stocks", "economic_batch_tick", "query_trade_quote", "merchant_strategies"):
+        if fn not in ws_d_src:
+            errors.append(f"[daemon/world_state_d.c] 缺少生活經濟連動實作：{fn}")
+
+    rumor_d_src = read_text("daemon/rumor_d.c")
+    if "query_cross_check_rumors" not in rumor_d_src:
+        errors.append("[daemon/rumor_d.c] 缺少六維交叉查證傳聞實作：query_cross_check_rumors")
 
     portal_src = read_text("d/sects/taiqing/ark_portal_chamber.c")
     for st in ("north", "northeast", "northwest", "southwest", "south", "do_calibrate", "inspect_station_relic_support"):

@@ -148,6 +148,44 @@
         "clone/item/ev3_heart_guard_mirror.c",
         "clone/item/wanshan_charter_deed.c"
       ]
+    },
+    {
+      "act_id": "living_world_folk_layer",
+      "novel_span": "Vol.1~3 平民日常、時節因果與地方經濟連動",
+      "title": "凡間生活生態、六縣自主演進、因果跑商與六維傳聞",
+      "world_event": null,
+      "quests": [
+        "side_village_charcoal_stove",
+        "side_village_grain_errand",
+        "side_village_school_ink",
+        "side_city_vagrant_letter",
+        "side_city_trade_rumor",
+        "side_county_liefan_credit_grain",
+        "side_county_qinghe_mooring",
+        "side_county_panmu_charcoal_sled",
+        "side_route_storm_cargo",
+        "side_route_winter_hearth",
+        "side_route_wheel_repair",
+        "side_sect_bahuang_ration_tally",
+        "side_yunjin_coolie_tally"
+      ],
+      "rooms": [
+        "d/village/chen_grain_shop.c",
+        "d/village/peddler_corner.c",
+        "d/village/earth_shrine.c",
+        "d/city/outer/tenement_alley.c",
+        "d/city/outer/charity_clinic_shed.c",
+        "d/city/outer/fish_market.c",
+        "d/counties/qinghe/ferry_dock.c",
+        "d/counties/liefan/miners_tea_shed.c",
+        "d/yunjin/river_wharf.c",
+        "d/yunjin/temple_tea_fair.c"
+      ],
+      "world_state_vars": ["market_stocks", "causal_events", "merchant_strategies"],
+      "evidence_or_relics": [
+        "clone/item/temp_residency_pass.c",
+        "clone/item/trade_cargo.c"
+      ]
     }
   ]
 }

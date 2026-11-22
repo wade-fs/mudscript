@@ -194,7 +194,7 @@ void ensure_county_residents() {
     int has_living = 0;
     if (arrayp(inv)) {
         foreach (object ob in inv) {
-            if (living(ob) && !userp(ob)) { has_living = 1; break; }
+            if (living(ob) && !userp(ob) && !ob->query_temp("phase_migrated")) { has_living = 1; break; }
         }
     }
     if (!has_living) {

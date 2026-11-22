@@ -109,18 +109,18 @@
 
 ---
 
-### Phase 4：世界鮮活度 2.0 稽核與前三卷小說交叉審查
-- [ ] **升級 [world_liveness_audit.py](file:///home/wade/src/github/mudscript/forgotten-space/tests/quests/world_liveness_audit.py) 至 2.0 規範**：
-  - [ ] 檢核房間「真・空房率 = 0%」。
-  - [ ] 新增鮮活度深度指標稽核：
-    - NPC 是否有明確工作與活動時段（`schedule` / 工作行為）
-    - NPC 是否存在與其他 NPC 的社會關係或互動訊息
-    - 房間是否隨日夜／季節／地方經濟階段改變描述或生態
-    - 地點是否具備真實經濟活動（買賣、工錢、借貸、過秤或物價因果）
-    - 檢查房間 `set_long` 中提及之店鋪人員與動詞在房間內是否皆可實際互動
-- [ ] **前三卷小說 ↔ Mudlib 雙向反哺審查**：
-  - [ ] 逐區回查 `narrative/chapters/volume1`～`volume3`（黑石鋪、六縣、金石府城、雲津、三宗、北荒），確認新增平民生活細節與時間軸、地理距離、官制稱謂一致，並反哺修訂前三卷略顯單薄的生活場景。
-  - [ ] 同步更新 [CANON_CHANGELOG.md](file:///home/wade/src/github/mudscript/forgotten-space/docs/CANON_CHANGELOG.md) 與 [novel_mud_sync_audit.py](file:///home/wade/src/github/mudscript/forgotten-space/tests/quests/novel_mud_sync_audit.py)。
+### Phase 4：世界鮮活度 2.0 稽核與前三卷小說交叉審查（已完成）
+- [x] **升級 [world_liveness_audit.py](file:///home/wade/src/github/mudscript/forgotten-space/tests/quests/world_liveness_audit.py) 至 2.0 規範**：
+  - [x] 檢核房間「真・空房率 = 0%」與「五感覆寫 = 100%」。
+  - [x] 新增鮮活度深度指標稽核：
+    - NPC 工作與活動時段（`PHASE_D` 23 名作息角色＋目標房間驗證＋30 位庶民 NPC `add_response` 互動檢核）
+    - NPC 社會關係與多節拍樞紐互動劇本（`PHASE_D` 6 大樞紐 `hub_scenes`＋`relationships`＋`do_observe_scene`）
+    - 房間隨日夜／季節／地方經濟階段動態變化（`query_room_rhythm_line`、`set_season_override`、`county_room`/`route_room`）
+    - 地點真實經濟活動與 6D 資訊品質（`market_stocks`、`economic_batch_tick`、`merchant_strategies`、`query_social_tier`、`query_cross_check_rumors`）
+    - 檢查全站 288 間房 `set_long` 提及之指令動詞於房間／NPC 皆可實際互動（`set_long cmd mismatches: 0`）
+- [x] **前三卷小說 ↔ Mudlib 雙向反哺審查**：
+  - [x] 核對 `narrative/chapters/volume1`～`volume3`（黑石鋪、六縣、金石府城、雲津、三宗、北荒）里程（東線盤木 450 里＝190+260、西線重石 420 里＝180+240、烈礬 320 里、雲津北行 800 里）、時序與稱謂一致，並於 [ch0002.md](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/volume1/ch0002.md)、[ch0043.md](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/volume2/ch0043.md) 與 [ch0084.md](file:///home/wade/src/github/mudscript/forgotten-space/narrative/chapters/volume3/ch0084.md) 補入庶民市井生活肌理反哺。
+  - [x] 同步更新 [canon_sync_matrix.json](file:///home/wade/src/github/mudscript/forgotten-space/data/canon_sync_matrix.json)（新增 `living_world_folk_layer`）、[CANON_CHANGELOG.md](file:///home/wade/src/github/mudscript/forgotten-space/docs/CANON_CHANGELOG.md) 與 [novel_mud_sync_audit.py](file:///home/wade/src/github/mudscript/forgotten-space/tests/quests/novel_mud_sync_audit.py)。
 
 ---
 

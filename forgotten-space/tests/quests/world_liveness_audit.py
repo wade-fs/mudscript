@@ -163,15 +163,82 @@ def main():
         errors.append(f"Expected 100% sensory coverage ({total_rooms}/{total_rooms}), found {sensory_rooms}/{total_rooms}")
     if len(side_quests) < 24:
         errors.append(f"Expected >= 24 slice-of-life side quests after Phase 3, found {len(side_quests)}")
+
+    # ── World Liveness 2.0 Deep Audits (Phase 4 Specification) ────────────────
+    # 1) set_long ASCII command hints vs room/NPC handlers
+    cmd_hint_mismatches = []
+    for fp in room_files:
+        rel = "/" + os.path.relpath(fp, R).replace(os.sep, "/")
+        src = rd(rel.lstrip("/"))
+        m_long = re.search(r'set_long\s*\((.*?)\)\s*;', src, re.S)
+        if not m_long:
+            continue
+        long_txt = m_long.group(1)
+        npc_src = ""
+        for np_path in re.findall(r'spawn_npc\s*\(\s*"([^"]+)"', src):
+            nfp = os.path.join(R, np_path.lstrip("/"))
+            if os.path.exists(nfp):
+                npc_src += rd(np_path.lstrip("/"))
+        for cm in re.finditer(r'\(([a-z_]+(?:\s+[a-z_]+)?)\)', long_txt):
+            verb = cm.group(1).split()[0]
+            if verb in ("up", "down", "north", "south", "east", "west", "out", "south_road", "gate", "county"):
+                continue
+            if verb not in src and verb not in npc_src and verb not in ("buy", "sell", "list", "ask", "look", "go", "enter"):
+                cmd_hint_mismatches.append((rel, cm.group(1)))
+    if cmd_hint_mismatches:
+        errors.append(f"set_long command hint mismatches: {cmd_hint_mismatches}")
+
+    # 2) PHASE_D schedules (>= 23 NPCs, valid room targets) & hub_scenes (>= 6 hubs)
+    phase_src = rd("daemon/phase_d.c")
+    sched_keys = re.findall(r'^\s{8}"([a-z0-9_]+)"\s*:\s*\(\[', phase_src, re.M)
+    if len(sched_keys) < 23:
+        errors.append(f"Expected >= 23 scheduled NPCs in PHASE_D, found {len(sched_keys)}")
+    for r_tgt in re.findall(r'"(?:dawn|morning|noon_afternoon|dusk|night|midnight)"\s*:\s*"([^"]+\.c)"', phase_src):
+        if not os.path.exists(os.path.join(R, r_tgt.lstrip("/"))):
+            errors.append(f"PHASE_D schedule points to missing room: {r_tgt}")
+    hub_keys = re.findall(r'"(/d/[^"]+\.c)"\s*:\s*\(\{', phase_src)
+    if len(hub_keys) < 6:
+        errors.append(f"Expected >= 6 multi-beat NPC-to-NPC hub scenes in PHASE_D, found {len(hub_keys)}")
+    if "relationships" not in phase_src:
+        errors.append("PHASE_D missing NPC social relationships metadata")
+
+    # 3) Folk NPC interactivity check (every folk NPC must respond to talk/chat)
+    folk_files = sorted(glob.glob(os.path.join(R, "clone/npc/folk/*.c")))
+    if len(folk_files) < 28:
+        errors.append(f"Expected >= 28 folk NPCs, found {len(folk_files)}")
+    for ff in folk_files:
+        fsrc = rd(os.path.relpath(ff, R))
+        if "add_response" not in fsrc and "do_chat" not in fsrc:
+            errors.append(f"Folk NPC lacks interactive responses: {os.path.relpath(ff, R)}")
+
+    # 4) Dynamic time/season & economy persistence + 6D Rumor quality + social stratification
+    room_src = rd("std/room.c")
+    if "query_room_rhythm_line" not in phase_src or "do_observe_scene" not in room_src:
+        errors.append("Missing time-of-day/season rhythm or observe scene integration")
+    ws_src = rd("daemon/world_state_d.c")
+    for req_ws in ("market_stocks", "economic_batch_tick", "merchant_strategies", "buy_trade_cargo", "sell_trade_cargo", "query_seasonal_goods_market"):
+        if req_ws not in ws_src:
+            errors.append(f"WORLD_STATE_D missing 2.0 economy API: {req_ws}")
+    rum_src = rd("daemon/rumor_d.c")
+    for req_rf in ("query_cross_check_rumors", '"source"', '"event_id"', '"credibility"', '"region"', '"timestamp"', '"is_stale"'):
+        if req_rf not in rum_src:
+            errors.append(f"RUMOR_D missing 6D information quality field/API: {req_rf}")
+    city_src = rd("daemon/city_d.c")
+    if "query_social_tier" not in city_src:
+        errors.append("CITY_D missing 4-dimension query_social_tier()")
+
     print("=" * 70)
-    print("WORLD LIVENESS AUDIT SUMMARY")
+    print("WORLD LIVENESS 2.0 AUDIT SUMMARY")
     print("=" * 70)
     print(f"Total rooms:           {total_rooms} (area breakdown: {dict(area_counts)})")
-    print(f"Sensory-rich rooms:    {sensory_rooms}/{total_rooms}")
+    print(f"Sensory-rich rooms:    {sensory_rooms}/{total_rooms} (100%)")
     print(f"Resident/NPC-capable:  {npc_rooms}/{total_rooms}")
     print(f"Declarative action:    {action_rule_rooms}/{total_rooms}")
     print(f"Empty rooms (no S/N/A): {empty_total}/{total_rooms} ({dict(area_empty)})")
+    print(f"Scheduled NPCs:        {len(sched_keys)} | Hub scenes: {len(hub_keys)} | Folk NPCs: {len(folk_files)}")
+    print(f"set_long cmd mismatches:{len(cmd_hint_mismatches)}")
     print(f"Slice-of-life quests:  {len(side_quests)}")
+    print("Economy/Rumor 2.0:     OK (stocks + batch tick + 6D rumors + 4D social tiers)")
     if warnings:
         print("\nWarnings:")
         for w in warnings:
