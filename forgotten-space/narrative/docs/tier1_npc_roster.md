@@ -1,7 +1,8 @@
 # 《遺忘的世界》Tier 1 NPC 清單（建物件用）
 
 > **來源**：`docs/tier1_regional_network_and_career_spec.md` v2.1  
-> **用途**：依此清單逐一建立 `/d/city/<zone>/npc/<id>.c`（路徑為建議，規範書未定義 NPC 檔案位置）
+> **用途**：依此清單逐一建立 `/d/city/<zone>/npc/<id>.c`（路徑為建議，規範書未定義 NPC 檔案位置）  
+> **庶民生活層補充**：Phase 1–4 新增的 **30 名凡俗庶民 NPC**（`/clone/npc/folk/*.c`）與 **`PHASE_D` 23 名作息排程／6 大樞紐互動**，請參閱 [living_world_folk_and_side_roster.md](living_world_folk_and_side_roster.md)。
 
 ---
 

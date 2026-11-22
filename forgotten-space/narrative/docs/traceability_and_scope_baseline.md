@@ -1,8 +1,9 @@
 # 《遺忘的世界》需求追溯與交付範圍基線矩陣 v1.0
 # (Requirements Traceability & Release Scope Baseline Specification)
 
-> **版本**：v1.0（依據 `docs/completed-spec.md` 正式審定）  
+> **版本**：v1.1（依據 `docs/completed-spec.md` 正式審定；2026-11-22 附註 Phase 1–4 世界擴建現況）  
 > **定位**：連接《完成規格 (`completed-spec.md`)》、《世界設定集 (`world_setting.md`)》、《Tier 1 世界運作模型 (`tier1_world_operating_model_v0_1.md`)》與實際小說正文／LPC 程式碼的**唯一驗收與派工基線（Single Source of Truth for Acceptance & Autonomous Execution）**。  
+> **實況演進附註（2026-11-22）**：繼 Release v1.0（187 房、37 條任務）與 Release v2.0（Vol.3 Tier 2 落地、254 房）達標後，Phase 1–4 已進一步將全服擴展至 **288 間實裝房間**（黑石鋪 22、府城 75、六縣 91、官道 22、北境與北荒 20、雲津 21、四大宗門 36、Tier 3 初臨 1）、**91 份 JSON 任務**（含 24 條生活支線）、**30 名庶民 NPC**（`/clone/npc/folk/`）與 **23 名 `PHASE_D` 排程角色／6 大樞紐互動**；下列 Milestone 1 原基線表格保留作為初版交付核對歷史紀錄，最新明細見 [`mudlib_lpc_mapping.md`](../mudlib_lpc_mapping.md) 與 [`living_world_folk_and_side_roster.md`](living_world_folk_and_side_roster.md)。
 > **用途**：供後續長程自主開發（`/goal`、`/teamwork-preview`）與獨立審查代理（Level 1 機器驗證 / Level 2 獨立審查 / Level 3 作者裁決）逐項核驗，防止提早宣布完成（Premature Completion）或越權竄改正典（Canon Drift）。
 
 ---

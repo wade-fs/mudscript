@@ -8,10 +8,10 @@
 
 | 檔案 | 內容說明 | 關聯指令 |
 | :--- | :--- | :--- |
-| [world_map.md](file:///home/wade/src/github/mudscript/forgotten-space/narrative/docs/maps/world_map.md) | **宏觀世界網絡圖**：金石府城、六大外縣（85 間房）、官道山徑（22 間房）與黑石鋪地脈關係 | `map world` / `map <county>` |
-| [city_map.md](file:///home/wade/src/github/mudscript/forgotten-space/narrative/docs/maps/city_map.md) | **金石都城九大分區詳細拓撲圖（67 間房）**：四大城門、百工總會、宣道司、鎮武軍鎮、市井核心與商貿區 | `map city` |
+| [world_map.md](file:///home/wade/src/github/mudscript/forgotten-space/narrative/docs/maps/world_map.md) | **宏觀世界網絡圖**：金石府城、六大外縣（91 間房）、官道山徑（22 間房）與黑石鋪地脈關係 | `map world` / `map <county>` |
+| [city_map.md](file:///home/wade/src/github/mudscript/forgotten-space/narrative/docs/maps/city_map.md) | **金石都城九大分區詳細拓撲圖（75 間房）**：四大城門、百工總會、宣道司、鎮武軍鎮、市井核心與外城生活區 | `map city` |
 | [underground_map.md](file:///home/wade/src/github/mudscript/forgotten-space/narrative/docs/maps/underground_map.md) | **城下太古暗渠與舊城廢墟圖**：鬼市暗街、古暗渠樞紐、天字一號密室與史前殘殿 | `map under` |
-| [village_map.md](file:///home/wade/src/github/mudscript/forgotten-space/narrative/docs/maps/village_map.md) | **黑石鋪新手聚落五方微生態圖（13 間房）**：青石街市、黑石古礦、三清偏殿、老鐵匠鋪、碎石溪灘、落龍口與黑石關 | `map village` |
+| [village_map.md](file:///home/wade/src/github/mudscript/forgotten-space/narrative/docs/maps/village_map.md) | **黑石鋪新手聚落微生態圖（22 間房）**：青石街市、古礦道、三清偏殿、鐵匠鋪、溪灘草廬與村莊生活圈 | `map village` |
 
 ---
 
@@ -124,6 +124,6 @@ flowchart TD
 
 ## Tier 2 名山疆域（第三卷・已全數實裝）
 
-第三卷地圖集於 [`tier2/`](tier2/README.md)，包含太清玄天宮（9 房）、八荒武山（9 房實裝＋2 預留營區 `draft`）、天工閣（6 房）、丹鼎宗（5 房）、雲津仙集暨問道天台（18 房）及北境官道與北荒裂谷／方舟（19 房），合計 **66 間實裝房間**（並於祖庭主傳送室單向接通 Tier 3 初臨點 `/d/realm/peach_plateau.c`）。
+第三卷地圖集於 [`tier2/`](tier2/README.md)，包含太清玄天宮（11 房）、八荒武山（10 房實裝＋2 預留營區 `draft`）、天工閣（8 房）、丹鼎宗（7 房）、雲津仙集暨問道天台（21 房）及北境官道與北荒裂谷／方舟（20 房），合計 **77 間實裝房間**（並於祖庭主傳送室單向接通 Tier 3 初臨點 `/d/realm/peach_plateau.c`）。連同 Tier 0–1 的 **210 間房**（黑石鋪 22 ＋ 金石府城 75 ＋ 六縣 91 ＋ 官道 22），全服合計 **288 間實裝房間**。
 
-**路徑定案**：原草案曾預擬 `/d/mountain/` 總目錄；現已與 `world_setting.md`、`mudlib_lpc_mapping.md` 及實際 LPC 路由統一定案為 `/d/sects/`、`/d/yunjin/` 與 `/d/wastes/`，並已全數通過 `quest_audit.py`、`test_v3_act1.c`～`test_v3_act5.c` 及從 `/d/village/square.c` 出發之 BFS 全圖連通與雙向可逆審計（253/254 靜態連通，僅 Tier 3 單向高原依正典設為 `enter gate` 進入）。
+**路徑定案**：原草案曾預擬 `/d/mountain/` 總目錄；現已與 `world_setting.md`、`mudlib_lpc_mapping.md` 及實際 LPC 路由統一定案為 `/d/sects/`、`/d/yunjin/` 與 `/d/wastes/`，並已全數通過 `quest_audit.py`、`world_liveness_audit.py`、`novel_mud_sync_audit.py`、`test_v3_act1.c`～`test_v3_act5.c` 及從 `/d/village/square.c` 出發之全圖 BFS 連通驗證（僅 Tier 3 單向高原依正典設為 `enter gate` 進入）。

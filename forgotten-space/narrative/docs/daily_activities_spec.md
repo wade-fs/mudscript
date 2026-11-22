@@ -1,9 +1,9 @@
 # 《被遺忘的空間・黑石鋪》日常生活活動清單與生態關聯規範書
 **Forgotten Space: Settlement Daily Activities, Spatial Topology & Living Ecosystem Specification**
 
-> **版本**：v1.0 (驗收基準版)  
+> **版本**：v1.1 (2026-11-22 附註全域生活層索引)  
 > **關聯分支**：`MudNovel`  
-> **核心目標**：讓黑石鋪（新手村）從單純的「任務點與地圖房間」昇華為一個「人物真正生活、空間彼此共享、日常循環運轉、物理因果自洽」的真實生態世界。本規範作為第一批 MUD 動態生活機制與驗收項目標準。
+> **核心目標**：讓黑石鋪（新手村）從單純的「任務點與地圖房間」昇華為一個「人物真正生活、空間彼此共享、日常循環運轉、物理因果自洽」的真實生態世界。全服 288 房、30 名庶民 NPC 與 23 名 `PHASE_D` 排程／6 大樞紐互動總表詳見 [`living_world_folk_and_side_roster.md`](living_world_folk_and_side_roster.md)。
 
 ---
 

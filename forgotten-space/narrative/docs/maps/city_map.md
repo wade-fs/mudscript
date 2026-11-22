@@ -1,6 +1,6 @@
 # 金石都城九大分區詳細拓撲圖 (City Map)
 
-金石府城為 Tier 1 區域網絡的政治、商貿、工匠與武衛中心。全城被護城河與高聳城牆環繞，由外城四關門戶進出，內部分為九大核心分區。
+金石府城為 Tier 1 區域網絡的政治、商貿、工匠與武衛中心。全城被護城河與高聳城牆環繞，由外城四關門戶進出，內部分為九大核心分區；經過 Phase 1–2A 擴建後，全區共有 **75 間實裝房間**（中樞 13、百工 10、宣道 5、軍鎮 6、南市商貿 10、城門 8、外城近郊 9、城牆角樓護城河 9、地下暗渠 5）。
 
 ---
 
@@ -86,6 +86,7 @@ flowchart TD
         GONG_HALL --- GONG_LEATHER
         GONG_HALL --- GONG_ALCH
         GONG_HALL --- GONG_FIRE
+        GONG_FORGE --- SCRAP_YARD["官造廢鐵回爐區 (scrap_yard)"]
     end
 
     %% ─────────────────────────────────────────────────────────────
@@ -119,6 +120,7 @@ flowchart TD
         PAWNSHOP["聚珍當鋪 (pawnshop)"]
         BLACK_ALLEY["鬼市暗巷 (black_alley)"]
         INN_MAIN["金石大客棧 (inn_main)"]
+        TEA_ALLEY["槐蔭茶肆 (tea_alley)"]
         POST_STATION["官辦驛傳總所 (post_station)"]
 
         SQUARE --- YAMEN
@@ -130,6 +132,7 @@ flowchart TD
         BANK --- PAWNSHOP
         PAWNSHOP --- BLACK_ALLEY
         SQUARE --- INN_MAIN
+        INN_MAIN --- TEA_ALLEY
         INN_MAIN --- GRANARY
         SQUARE --- POST_STATION
     end
@@ -159,23 +162,29 @@ flowchart TD
         MARKET_SPEC["六縣專材長街 (market_special)"]
         SHANG_HQ["金石商會總堂 (shanghui_hq)"]
         CARAVAN_YARD["遠行車馬大院 (caravan_yard)"]
+        WAREHOUSE_SHANG["商會一至三號大庫 (warehouse_shang)"]
         YARD_MAT["大料初堆棧 (yard_material)"]
         GRAIN_MKT["米糧行市 (grain_market)"]
+        WINE_TAVERN["金石老酒肆 (wine_tavern)"]
+        DYE_ALLEY["染坊窄巷 (dye_alley)"]
         CANAL["青河漕運水關 (canal)"]
+        RIVER_WHARF["外城貨運碼頭 (river_wharf)"]
+        FISH_MKT["外城河埠魚市 (fish_market)"]
         WAREHOUSE_GRN["義倉常平窖 (warehouse_grain)"]
 
         MARKET_SPEC --- SHANG_HQ
-        SHANG_HQ --- CARAVAN_YARD
+        SHANG_HQ --- CARAVAN_YARD --- WAREHOUSE_SHANG
         MARKET_SPEC --- YARD_MAT
         MARKET_SPEC --- GRAIN_MKT
-        GRAIN_MKT --- CANAL
+        GRAIN_MKT --- WINE_TAVERN --- DYE_ALLEY
+        GRAIN_MKT --- CANAL --- RIVER_WHARF --- FISH_MKT
         GRAIN_MKT --- WAREHOUSE_GRN
     end
 
     %% ─────────────────────────────────────────────────────────────
     %% 7. 外城門戶、水門與官道
     %% ─────────────────────────────────────────────────────────────
-    subgraph GateOuterSub["【城門門戶與郊道】"]
+    subgraph GateOuterSub["【城門門戶與郊道生活區】"]
         GATE_E["金石東關 (gate_east)"]
         GATE_W["金石西關 (gate_west)"]
         GATE_S["金石南關 (gate_south)"]
@@ -184,9 +193,12 @@ flowchart TD
         IRRIGATION["引水渠壩 (irrigation)"]
         MOAT["護城河暗港 (moat)"]
         SOUTH_ROAD["南嶺官道 (south_road)"]
+        TENEMENT["流民賃居矮巷 (tenement_alley)"]
+        CHARITY_SHED["施藥義棚 (charity_clinic_shed)"]
 
         GATE_S --- GATE_S_INN
         GATE_S --- SOUTH_ROAD
+        SOUTH_ROAD --- TENEMENT --- CHARITY_SHED
         GATE_W --- FARMLAND --- IRRIGATION
         FARMLAND --- MOAT
     end
@@ -234,7 +246,7 @@ flowchart TD
 
 ---
 
-## 🏛️ 房間清單與環境矩陣 (44 間都城房間)
+## 🏛️ 房間清單與環境矩陣 (75 間都城實裝房間)
 
 | 分區 | 檔案路徑 | 名稱 | 濁氣指數 | 絕靈法網 | 核心 NPC / 機制 |
 | :--- | :--- | :--- | :---: | :---: | :--- |
@@ -286,3 +298,18 @@ flowchart TD
 | | [`outer/irrigation.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/city/outer/irrigation.c) | 引水渠壩 | 10% | 無 | 青河引水水利設施 |
 | | [`outer/graveyard.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/city/outer/graveyard.c) | 亂葬義塚 | 10% | 無 | 北門外亂墳崗、陰煞初現 |
 | | [`outer/post_depot.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/city/outer/post_depot.c) | 外城大車馬店 | 60% | 無 | 北門外大宗牲畜車馬歇息地 |
+| **生活擴建＆城門補充** | [`center/tea_alley.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/city/center/tea_alley.c) | 城中・槐蔭茶肆 | 90% | 覆蓋 | 茶博士老林 (`tea_doctor_lin`)、茶肆市井聽風 |
+| | [`north/scrap_yard.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/city/north/scrap_yard.c) | 百工坊外・官造廢鐵回爐區 | 65% | 覆蓋 | 老匠工 (`county_worker`)、廢鐵回爐檢料 |
+| | [`south/warehouse_shang.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/city/south/warehouse_shang.c) | 金石商會・一至三號大庫 | 95% | 覆蓋 | 丁鐵鎖 (`warehouse_shang_chief`)、商會大庫暗貨線索 |
+| | [`south/wine_tavern.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/city/south/wine_tavern.c) | 城南水陸・金石老酒肆 | 95% | 覆蓋 | 跑商陳大牙 (`tavern_merchant`)、`PHASE_D` 樞紐劇本與《跑商聽風》 |
+| | [`south/dye_alley.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/city/south/dye_alley.c) | 金石城南・染坊窄巷 | 85% | 覆蓋 | 老匠工 (`county_worker`)、染坊日常作業 |
+| | [`outer/river_wharf.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/city/outer/river_wharf.c) | 青河入城・外城貨運碼頭 | 65% | 無 | 挑夫阿福 (`roaming_porter`) 與碼頭搬運工 |
+| | [`outer/fish_market.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/city/outer/fish_market.c) | 青河入城・外城河埠魚市 | 65% | 無 | 魚販劉三娘 (`fishmonger_liu`)、鮮魚議價與市井口徑 |
+| | [`outer/tenement_alley.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/city/outer/tenement_alley.c) | 南關外・流民賃居矮巷 | 60% | 無 | 孫老車夫 (`sun_old_carter`)、《暫住牌》、2 文通鋪／3 文菜粥、`PHASE_D` 樞紐與《家書代筆》 |
+| | [`outer/charity_clinic_shed.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/city/outer/charity_clinic_shed.c) | 南關外・施藥義棚 | 55% | 無 | 義診老藥工周伯 (`charity_herbalist`)、流民免費義診 |
+| | [`gate/gate_plaza.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/city/gate/gate_plaza.c) | 北關門內・前校場 | 75% | 覆蓋 | 巡防副將雷震 (`gate_plaza_deputy`) |
+| | [`gate/gate_inn.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/city/gate/gate_inn.c) | 北關門前・關外車馬店 | 70% | 覆蓋 | 店小二老皮 (`gate_inn_laopi`) |
+| | [`gate/gate_warehouse.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/city/gate/gate_warehouse.c) | 北關門側・官道大貨棧 | 75% | 覆蓋 | 驗貨掌櫃金算盤 (`gate_warehouse_assessor`) |
+| | [`gate/gate_south_inn.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/city/gate/gate_south_inn.c) | 南關門下・車馬小棧 | 80% | 覆蓋 | 老劉 (`gate_south_inn_laoliu`)、流民牙子刁小七、蘇凝霜 |
+| **城牆護城河 (9 房)** | `wall/wall_path_{n,e,s,w}.c`、`wall/wall_tower_{n,e,s,w}.c`、`wall/moat.c` | 巡城步道與四方箭樓／護城深河 | 30~60% | 部分 | 嚴目、百步楊、耿烽、水連環與獨釣叟（`moat` 潛入暗渠 `drain_gate`） |
+| **城下暗渠 (5 房)** | `under/{black_market,canal_hub,drain_gate,shang_secret,ruins_hall}.c` | 地下鬼市、古暗渠樞紐、水閘、密室、史前殘殿 | 5% | 死角 | 鬼見愁、擺渡盲叟、翻江鼠；詳見 [`underground_map.md`](underground_map.md) |

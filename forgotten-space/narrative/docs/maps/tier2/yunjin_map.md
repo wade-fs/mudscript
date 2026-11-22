@@ -1,6 +1,6 @@
 # 雲津仙集地圖
 
-> 狀態：`Act 1–4 implemented (18 房)`。第三卷第一至四幕（Ch. 84–120）雲津與問道天台全部節點已於 `/d/yunjin/*.c` 實裝（Ch. 84–101 核心 12 房 ＋ Ch. 112–120 問道天台／石牌坊／毒域／西街回收廠 6 房），全數通過雙向連線與 `quest_audit.py`、`test_v3_act4.c` 驗證。
+> 狀態：`Act 1–4 & Living World implemented (21 房)`。第三卷第一至四幕（Ch. 84–120）雲津與問道天台全部節點已於 `/d/yunjin/*.c` 實裝（Ch. 84–101 核心 12 房 ＋ Ch. 112–120 問道天台／石牌坊／毒域／西街回收廠 6 房 ＋ Phase 1–2A 新增冰河木筏碼頭／苦力算帳棚／山神廟會茶市 3 房），全數通過雙向連線與 `quest_audit.py`、`world_liveness_audit.py`、`test_v3_act4.c` 驗證。
 >
 > **路徑對齊說明**：原草案 `public_exchange_hall`、`mud_route_inn`、`cloud_exchange_bank` 依任務定義整併定名為 `public_office.c`、`exchange_hall.c`（含交割廳與雲海票號櫃檯）、`wanbao_pavilion.c` 與 `mudway_store.c`；二幕依正文新增 `mudway_store_cellar.c`（泥途地下石室）與 `wanbao_back_alley.c`（鬼市暗巷與萬寶閣後門交界）。
 
@@ -26,6 +26,9 @@
 | `tournament_combat_arena` | 問道天台・青鋼演武暨八柱雷網台 | `/d/yunjin/tournament_combat_arena.c` | `east`→`hearing_hall` | 〔實裝，Ch. 114 新增〕力道青鋼場與八避雷銅柱法場（`step deadzone`）；敵對：`wang_tieniu`、`han_cang` |
 | `crystal_poison_edge` | 問道天台東北・半山毒域東側副陣柱 | `/d/yunjin/crystal_poison_edge.c` | `south`→`hearing_hall`、`down`→`/d/sects/tiangong/machinery_depths.c` | 〔實裝，Ch. 117 新增〕陸觀瀾死壓三十息副陣眼兼維修井逃逸口（`brace pillar`／`rescue box`） |
 | `west_street_recycling` | 雲津西街・萬寶閣廢料回收試辦廠 | `/d/yunjin/west_street_recycling.c` | `south`→`western_warehouse_street`、`east`→`stone_arch_quarantine` | 〔實裝，Ch. 120 新增〕重組空倉設立無毒回收廠暨簽約互市新約（`open recycling` / `sign treaty`） |
+| `river_wharf` | 雲津城・冰河木筏碼頭 | `/d/yunjin/river_wharf.c` | `northeast`→`wanshan_square`、`east`→`dock_coolie_lane` | 〔實裝，生活擴建〕冰河木筏卸貨樞紐與 `PHASE_D` 互動點；駐點：`yunjin_wharf_master` |
+| `dock_coolie_lane` | 雲津碼頭・苦力算帳棚 | `/d/yunjin/dock_coolie_lane.c` | `west`→`river_wharf` | 〔實裝，生活擴建＋Ch. 84 反哺〕竹籌計工與苦力結帳處；駐點：`county_worker` |
+| `temple_tea_fair` | 雲津城・山神廟會茶市 | `/d/yunjin/temple_tea_fair.c` | `east`→`three_sect_market` | 〔實裝，生活擴建＋Phase 3D〕茶攤聽風與山神廟會民俗互動；駐點：`yunjin_tea_vendor` |
 
 ## 區域連線圖
 
@@ -62,6 +65,8 @@ flowchart TD
   hearing_hall --> crystal_poison_edge["毒域東側副陣柱<br/>crystal_poison_edge (實裝)"]
   western_warehouse_street --> west_street_recycling["西街無毒廢料回收廠<br/>west_street_recycling (實裝)"]
   stone_arch_quarantine --> west_street_recycling
+  wanshan_square --> river_wharf["冰河木筏碼頭<br/>river_wharf (實裝)"] --> dock_coolie_lane["苦力算帳棚<br/>dock_coolie_lane (實裝)"]
+  three_sect_market --> temple_tea_fair["山神廟會茶市<br/>temple_tea_fair (實裝)"]
 ```
 
 ## 房間設計規則
@@ -69,5 +74,5 @@ flowchart TD
 - 一般房間不得直接跳過中間節點連到禁地。
 - 需要宗門令牌、軍令、商埠印信或任務狀態的門禁，必須明確記錄拒絕原因。
 - 天候、獸潮、地煞污染可改變房間狀態，但不能無記錄地改變靜態出口。
-- NPC 常駐房間以 `tier2_npc_roster.md` 與人物檔為準；出場時間表於第二階段補充。
-- 此圖不代表遊戲已實裝。
+- NPC 常駐房間以 `tier2_npc_roster.md` 與 [`living_world_folk_and_side_roster.md`](../../living_world_folk_and_side_roster.md) 為準。
+- 以上 21 間房間已全數實裝並通過雙向連通與自動化測試。

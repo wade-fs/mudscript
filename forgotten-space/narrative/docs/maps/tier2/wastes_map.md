@@ -1,6 +1,6 @@
 # 北荒裂谷地圖
 
-> 狀態：`Act 1 & Act 3 implemented (共 19 房：`north_road` 3 房 + `wastes` 主區 16 房)`。第三卷第一幕北境雪原官道（Ch. 83–84）與第三幕北荒聯合勘探、黑冰斷谷、荒古戰神遺塚及太古破界方舟北方陣基／冷卻豁口／冰谷窄口（Ch. 102–111）已全數於 `/d/wastes/*.c` 實裝並通過雙向連線、`quest_audit.py` 與 `test_v3_act3.c` 驗證。
+> 狀態：`Act 1 & Act 3 & Living World implemented (共 20 房：`north_road` 3 房 + `wastes` 主區 17 房)`。第三卷第一幕北境雪原官道（Ch. 83–84）、第三幕北荒聯合勘探／黑冰斷谷／荒古戰神遺塚／方舟北方陣基（Ch. 102–111）及 Phase 1–2A 凍土牧戶避風棚已全數於 `/d/wastes/*.c` 實裝並通過雙向連線、`quest_audit.py`、`world_liveness_audit.py` 與 `test_v3_act3.c` 驗證。
 
 ## 房間與拓撲
 
@@ -12,7 +12,8 @@
 | `black_mountain_pass` | 北荒裂谷・黑山長城北關雪道 | `/d/wastes/black_mountain_pass.c` | `south`→`/d/sects/bahuang/great_wall_gate.c`、`west`→`missing_families_hall`、`north`→`south_approach` | 〔實裝，Ch. 102、EV323〕長城出關咽喉雪道；關外三百步即失蹤者家屬互助所 |
 | `missing_families_hall` | 北荒關外・失蹤者家屬互助所 | `/d/wastes/missing_families_hall.c` | `east`→`black_mountain_pass` | 〔實裝，Ch. 102、111〕草頂木棚暨《失蹤者登記簿》登錄（動作 `log missing`）；駐點：`han_su`（韓素） |
 | `south_approach` | 北荒裂谷・南沿入口 | `/d/wastes/south_approach.c` | `south`→`black_mountain_pass`、`north`→`snow_caravan_camp` | 〔實裝，Ch. 102〕百名勘探精銳與二十四輛「泥」字貨橇集結整隊；駐點：`qi_shiliu`（祁十六） |
-| `snow_caravan_camp` | 北荒裂谷・雪原行腳營地 | `/d/wastes/snow_caravan_camp.c` | `south`→`south_approach`、`east`→`north_outpost_infirmary`、`north`→`frozen_blood_plain` | 〔實裝，Ch. 102〕最後人煙整備營；星盤測赤煉黑布重車磁偏角（動作 `inspect sleighs`） |
+| `snow_caravan_camp` | 北荒裂谷・雪原行腳營地 | `/d/wastes/snow_caravan_camp.c` | `south`→`south_approach`、`east`→`north_outpost_infirmary`、`west`→`frost_hunter_camp`、`north`→`frozen_blood_plain` | 〔實裝，Ch. 102〕最後人煙整備營；星盤測赤煉黑布重車磁偏角（動作 `inspect sleighs`） |
+| `frost_hunter_camp` | 北荒南沿・凍土牧戶避風棚 | `/d/wastes/frost_hunter_camp.c` | `east`→`snow_caravan_camp` | 〔實裝，生活擴建〕老牧戶烏蘭 (`wastes_herder`) 避風棚，連結《凍土尋羊》生活支線 |
 | `north_outpost_infirmary` | 北荒前哨醫所 | `/d/wastes/north_outpost_infirmary.c` | `west`→`snow_caravan_camp` | 〔實裝，Ch. 102–103〕雪線續脈膏半寸對照實驗（動作 `test poultice`）與染煞病例簿；駐點：`bai_yan`（白岩） |
 | `frozen_blood_plain` | 北荒裂谷・永凍血原 | `/d/wastes/frozen_blood_plain.c` | `south`→`snow_caravan_camp`、`north`→`expedition_camp` | 〔實裝，Ch. 103〕裂谷二層血原伏擊陣（動作 `throw smoke`）；敵對凶獸：`shuangtou_dilong`（Lv.82 雙頭霜甲地龍） |
 | `expedition_camp` | 北荒裂谷・冰脊高地勘探大營 | `/d/wastes/expedition_camp.c` | `south`→`frozen_blood_plain`、`northwest`→`rift_watch`、`west`→`ice_valley_exit` | 〔實裝，Ch. 104、110–111〕裂谷深處三百里主營地 |
@@ -54,6 +55,7 @@ flowchart TD
   black_mountain_pass --> missing_families_hall
   black_mountain_pass --> south_approach --> snow_caravan_camp
   snow_caravan_camp --> north_outpost_infirmary
+  snow_caravan_camp --> frost_hunter_camp["凍土牧戶避風棚<br/>frost_hunter_camp (實裝)"]
   snow_caravan_camp --> frozen_blood_plain --> expedition_camp
   expedition_camp --> rift_watch --> black_ice_valley --> old_expedition_camp --> war_god_tomb --> ark_foundation
   ark_foundation --> ark_core_chamber --> ark_logistics_hall

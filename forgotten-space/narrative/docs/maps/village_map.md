@@ -1,36 +1,32 @@
 # 黑石鋪聚落五方微生態圖 (Village Map)
 
-黑石鋪為《遺忘的世界》Tier 0 新手發跡之地。坐落於極南莽古山脈深谷，依傍黑石古礦與墜龍寒潭而建，五方分佈著礦道、三清偏殿、鐵匠鋪、荒林與草廬。
+黑石鋪為《遺忘的世界》Tier 0 新手發跡之地。坐落於極南莽古山脈深谷，依傍黑石古礦與墜龍寒潭而建。經過 Phase 1–2A 聚落生活圈擴建後，全村共有 **22 間實裝房間**（含五大核心傳承場域與雜糧鋪、貨郎棚、晾穀場、村尾蒙館、土地廟、搗衣淺灘、烘肉寮、採石場、伐木雜坡等庶民生活節點）。
 
 ---
 
 ## 💻 遊戲內指令輸出 (`map village`)
 
-當玩家在黑石鋪聚落輸入 `map` 或執行 `map village` 時，顯示如下 ASCII 微生態地圖：
+當玩家在黑石鋪聚落輸入 `map` 或執行 `map village` 時，顯示如下 ASCII 微生態地圖（含外圍出村雙線與聚落生活圈）：
 
 ```text
-【黑石鋪・聚落五方微生態地圖 (Tier 0)】
+【黑石鋪・聚落空間拓撲總覽 (Tier 0・共 22 房)】
 ──────────────────────────────────────────────────────────
-                             【黑石古礦道】(北崖古礦坑)
-                                   │ (up/down)
-                             【地下崩塌坑道】(深井生鐵索具)
-                                   │
-   【荒廢殘壇】                    │                    往 【金石府城】
-    (迎風孤岩)                     │                          ▲
-        │                         │                          │ (northeast)
-   【三清偏殿】 ───────── 【青石街市】 ───────── 【老鐵匠鋪】
-    (枯木老道)                 (核心樞紐)                 (阿鐵爐火)
-        │                         │                          │
-   【客棧後街】 ───────── 【廢柴房】                   【獵戶哨亭】
-    (青石暗巷)                 (沈泥窩棚)                 (趙老獵)
-                                   │                          │
-                             【碎石溪灘】 ───────── 【大荒荒林】
-                              (幽霧水谷)                  (東林獸道)
-                                   │
-                             【墜龍瀑布】
-                              (寒潭瀑布淬體)
-                                   │
-                             【採藥草廬】(葛半仙草堂)
+             往西線官道 (/d/routes/west_gorge_entry)       往東線官道 (/d/routes/blackstone_pass)
+                                ▲                                 ▲
+                                │ (northwest)        【黑石古礦道】 │ (northeast)
+                                │                          │ (down: 地下崩塌坑道)
+  【村尾蒙館】                   │                          │
+       │ (s)                    │                          │
+  【村尾土地廟】 ── (e) ── 【青石暗巷】 ── (e) ── 【青石街市】 ── (e) ── 【老鐵匠鋪】
+       │ (s)                 │ (s)             (enter/sw/se/s)
+  【西嶺伐木坡】 ── (e) ─▶ 【廢柴房】        ├─▶【陳記雜糧鋪】─(s)─【老貨郎雜貨棚】
+                         (兼通三清偏殿)       │        └─(e)─【舊晾穀場】─(s)─【露天青石採石場】
+                                             │                                   │ (w)
+  【荒廢殘壇】 ◀── (up) ── 【三清偏殿】       ├─▶【獵戶哨亭】─(e)─【山麓烘肉寮】   │
+                                             │        └─(s)─【荊棘林口】          │
+                                             └─▶【碎石溪灘】 ──── (e) ──── 【搗衣淺灘】
+                                                      ├─(s)─【墜龍瀑布】
+                                                      └─(down)─【採藥草廬】
 ──────────────────────────────────────────────────────────
 ```
 
@@ -40,75 +36,96 @@
 
 ```mermaid
 flowchart TD
-    subgraph NorthMineSub["【北崖深礦與黑石關區】"]
-        BLACKSTONE_PASS["黑石關隘口 (blackstone_pass)<br>關牆鐵柵・官道咽喉"]
-        MINE["黑石古礦道 (mine)<br>生鐵礦石・幽深豎井"]
-        CLIFF_SIDE["北崖絕壁 / 崩塌坑道 (cliff_side)<br>巨石卡死・生鐵吊桶索具"]
-        BLACKSTONE_PASS <-->|south 關道 / north| MINE
-        MINE <-->|down 攀爬鐵索 / up| CLIFF_SIDE
+    subgraph NorthMineSub["【北崖深礦與雙線出村】"]
+        MINE["黑石古礦道 (mine)"]
+        MINE_DEPTHS["地下崩塌坑道 (mine_depths)"]
+        BLACKSTONE_PASS["黑石關 (/d/routes/blackstone_pass.c)<br>東線經盤木縣往金石府城"]
+        WEST_GORGE["西峽谷口 (/d/routes/west_gorge_entry.c)<br>西線經重石縣往金石府城"]
+        MINE <-->|down / up| MINE_DEPTHS
     end
 
-    subgraph WestTaoistSub["【西山三清道壇】"]
-        ALTAR["荒廢殘壇 (altar)<br>迎風孤岩・殘存太極符印"]
-        DAOIST_TEMPLE["三清偏殿 (daoist_temple)<br>枯木老道・入門基礎引導"]
-        ALTAR <-->|down 石階 / up| DAOIST_TEMPLE
+    subgraph WestLivingSub["【西山道觀與村尾生活圈】"]
+        ALTAR["荒廢殘壇 (altar)"]
+        DAOIST_TEMPLE["三清偏殿 (daoist_temple)"]
+        LUMBER["西嶺伐木雜坡 (lumber_slope)"]
+        SHRINE["村尾土地廟 (earth_shrine)"]
+        SCHOOL["村尾蒙館 (village_school)"]
+        ALTAR <-->|down / up| DAOIST_TEMPLE
+        DAOIST_TEMPLE <-->|west / east| LUMBER
+        LUMBER <-->|north / south| SHRINE
+        SHRINE <-->|north / south| SCHOOL
     end
 
-    subgraph CenterPlazaSub["【聚落核心樞紐】"]
-        VILLAGE_SQUARE["【青石街市】(square)<br>聚落十字路口・告示板・歇腳石"]
-        SHED["客棧背街・廢柴房 (shed)<br>沈泥窩棚・莫三殘燭"]
-        VILLAGE_SQUARE <-->|southwest 背街窄巷 / northeast| SHED
+    subgraph CenterSub["【街市、暗巷與雜糧生活區】"]
+        SQUARE["青石街市 (square)"]
+        GRAIN_SHOP["陳記雜糧鋪 (chen_grain_shop)"]
+        PEDDLER["老貨郎雜貨棚 (peddler_corner)"]
+        GRANARY["舊晾穀場與牛棚 (old_granary_yard)"]
+        DARK_ALLEY["青石暗巷 (dark_alley)"]
+        SHED["廢柴房 (shed)"]
+        SQUARE <-->|enter / out| GRAIN_SHOP
+        GRAIN_SHOP <-->|south / north| PEDDLER
+        GRAIN_SHOP <-->|east / west| GRANARY
+        SQUARE <-->|southwest / northeast| SHED
+        SHED <-->|north / south| DARK_ALLEY
+        DARK_ALLEY <-->|east| SQUARE
+        DARK_ALLEY <-->|west / east| SHRINE
     end
 
-    subgraph EastSmithySub["【東面武備與獵戶道】"]
-        FORGE["老鐵匠鋪 (forge)<br>阿鐵鐵匠・林鐵生・風箱淬火"]
-        HUNTER_CABIN["獵戶哨亭 (hunter_cabin)<br>趙老獵・燕隼・山林預警"]
-        LUOLONG_PASS["落龍口古道 (luolong_pass)<br>斜石導向障・深澗分流口"]
+    subgraph EastSouthSub["【鐵匠、獵戶與水谷採石】"]
+        FORGE["老鐵匠鋪 (forge)"]
+        HUNTER["獵戶哨亭 (hunter_cabin)"]
+        SMOKEHOUSE["山麓烘肉寮 (smokehouse_shed)"]
+        FOREST["荊棘林口 (forest)"]
+        STREAM["碎石溪灘 (stream)"]
+        FALLS["墜龍瀑布 (falls)"]
+        HERB_HUT["採藥草廬 (herb_hut)"]
+        WASH_BANK["搗衣淺灘 (wash_bank)"]
+        QUARRY["露天青石採石場 (south_quarry)"]
+
+        SQUARE <-->|east / west| FORGE
+        SQUARE <-->|southeast / northwest| HUNTER
+        HUNTER <-->|east / west| SMOKEHOUSE
+        HUNTER <-->|south / north| FOREST
+        SQUARE <-->|south / north| STREAM
+        STREAM <-->|south / north| FALLS
+        STREAM <-->|down / up| HERB_HUT
+        STREAM <-->|east / west| WASH_BANK
+        WASH_BANK <-->|east / west| QUARRY
+        GRANARY <-->|south / north| QUARRY
     end
 
-    subgraph SouthWildSub["【南谷幽水與大荒野徑】"]
-        STREAM["碎石溪灘 (stream)<br>逆星斷碑・溪畔洗衣磨刀"]
-        HERB_HUT["採藥草廬 (herb_hut)<br>葛半仙・顧玄・採藥解毒藥臼"]
-        FOREST["荊棘荒林 (forest)<br>大荒獸道・戰神圖騰玄柱"]
-
-        STREAM <-->|up 懸崖麻藤 / down| HERB_HUT
-    end
-
-    subgraph OutboundRoutes["【雙路出關遠行通道】"]
-        TIGER_LEAP["虎跳峽官道 (/d/routes/tiger_leap_gorge.c)<br>東線經盤木縣往金石府城"]
-        LUOLONG_WEST["落龍澗西峽 (/d/routes/luolong_west_canyon.c)<br>西線經重石縣往金石府城"]
-    end
-
-    %% 橫向與縱向主街連通線
-    MINE <-->|south 步出礦坪 / north| VILLAGE_SQUARE
-    DAOIST_TEMPLE <-->|east 下山石階 / west| VILLAGE_SQUARE
-    VILLAGE_SQUARE <-->|southeast 鐵匠爐煙 / northwest| FORGE
-    VILLAGE_SQUARE <-->|east 鹿角柵欄 / west| HUNTER_CABIN
-    VILLAGE_SQUARE <-->|south 青石坡道 / north| STREAM
-    HUNTER_CABIN <-->|east 踏入獸徑 / west| FOREST
-    FOREST <-->|north 險峻山道 / south| LUOLONG_PASS
-
-    %% 雙路出村通道
-    BLACKSTONE_PASS <-->|north 踏上東線官道 / south| TIGER_LEAP
-    LUOLONG_PASS <-->|west 深入落龍西峽 / east| LUOLONG_WEST
+    MINE <-->|south / north| SQUARE
+    DAOIST_TEMPLE <-->|east / west| SQUARE
+    SQUARE <-->|northeast| BLACKSTONE_PASS
+    SQUARE <-->|northwest| WEST_GORGE
 ```
 
 ---
 
-## 🏡 黑石鋪房間與生態功能矩陣 (13 間核心實裝房間)
+## 🏡 黑石鋪房間與生態功能矩陣 (22 間實裝房間)
 
-| 檔案路徑 | 名稱 | 出口方向 | 核心生態功能 / NPC / 遺物 |
+| 檔案路徑 | 名稱 | 主要出口 | 核心生態功能 / NPC / 遺物 |
 | :--- | :--- | :--- | :--- |
-| [`square.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/village/square.c) | 青石街市 | `north` $\to$ 黑石古礦道<br>`south` $\to$ 碎石溪灘<br>`west` $\to$ 三清偏殿<br>`east` $\to$ 獵戶哨亭<br>`southeast` $\to$ 老鐵匠鋪<br>`southwest` $\to$ 廢柴房 | 聚落政治與市集樞紐、商隊駐地、張屠戶肉攤、告示板。 |
-| [`mine.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/village/mine.c) | 黑石古礦道 | `south` $\to$ 青石街市<br>`north` $\to$ 黑石關隘口<br>`down` $\to$ 北崖崩塌坑道 | 魯大山與老礦工、生鐵礦石採集點、北崖地煞爆發點。 |
-| [`cliff_side.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/village/cliff_side.c) | 北崖崩塌坑道 | `up` $\to$ 黑石古礦道 | 地下三百米避風穹頂、受困礦工救援現場、盲眼巨蜥與太古機關城裂隙。 |
-| [`blackstone_pass.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/village/blackstone_pass.c) | 黑石關隘口 | `south` $\to$ 黑石古礦道<br>`north` $\to$ 虎跳峽官道 | 鎮武軍扣關與關前會審現場，北接 `/d/routes/tiger_leap_gorge.c` 東線官道。 |
-| [`daoist_temple.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/village/daoist_temple.c) | 三清偏殿 | `east` $\to$ 青石街市<br>`up` $\to$ 荒廢殘壇 | 枯木老道與柳清虛居所、《太上引氣殘篇》傳授點。 |
-| [`altar.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/village/altar.c) | 迎風孤岩・荒廢殘壇 | `down` $\to$ 三清偏殿 | 孤松玉化道人晶骨、觀星窺破【天羅地網活體牢籠】奇遇點。 |
-| [`shed.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/village/shed.c) | 客棧背街・廢柴房 | `northeast` $\to$ 青石街市 | 瘸腿老丐莫三與沈泥居所、五子火塘立約處、【萬物行商・天門引】發掘點。 |
-| [`forge.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/village/forge.c) | 老鐵匠鋪・打鐵爐房 | `northwest` $\to$ 青石街市 | 老鐵匠阿鐵與林鐵生居所、風箱地爐、【太古不融黑鐵構件】奇遇點。 |
-| [`hunter_cabin.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/village/hunter_cabin.c) | 獵戶哨亭 | `west` $\to$ 青石街市<br>`east` $\to$ 荊棘荒林 | 趙老獵與燕隼居所、鹿角柵欄、弓箭陷阱製作與東林預警哨。 |
-| [`stream.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/village/stream.c) | 碎石溪灘 | `north` $\to$ 青石街市<br>`up` $\to$ 採藥草廬 | 村婦捶衣與屠戶磨刀處、水底【史前逆星斷碑】拓印奇遇點。 |
-| [`herb_hut.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/village/herb_hut.c) | 採藥草廬 | `down` $\to$ 碎石溪灘 | 瘋郎中葛半仙與顧玄居所、草廬分診與解毒配藥重地。 |
-| [`forest.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/village/forest.c) | 荊棘荒林 | `west` $\to$ 獵戶哨亭<br>`north` $\to$ 落龍口古道 | 大荒獸跡勘測點、化骨泥沼巨榕下【太古戰神獵獸圖騰玄柱】奇遇點。 |
-| [`luolong_pass.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/village/luolong_pass.c) | 落龍口古道 | `south` $\to$ 荊棘荒林<br>`west` $\to$ 落龍澗西峽 | 大荒獸潮斜石導向障與草煙改道工程現場，西接 `/d/routes/luolong_west_canyon.c` 西線山徑。 |
+| [`square.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/village/square.c) | 青石街市 | `north`→`mine`、`south`→`stream`、`east`→`forge`、`west`→`daoist_temple`、`southeast`→`hunter_cabin`、`southwest`→`shed`、`enter`→`chen_grain_shop`、`northeast`→`/d/routes/blackstone_pass`、`northwest`→`/d/routes/west_gorge_entry` | 聚落核心樞紐、`PHASE_D` 街市多節拍互動點；常駐 `caravan_merchant`。 |
+| [`mine.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/village/mine.c) | 黑石古礦道 | `south`→`square`、`down`→`mine_depths` | 魯大山 (`lao_miner`) 與礦鼠、採礦循環任務。 |
+| [`mine_depths.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/village/mine_depths.c) | 地下崩塌坑道 | `up`→`mine` | 礦難救援現場與地下深層礦脈。 |
+| [`daoist_temple.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/village/daoist_temple.c) | 三清偏殿 | `east`→`square`、`up`→`altar`、`west`→`lumber_slope` | 枯木老道 (`kumu_daoist`) 與拓印道具點。 |
+| [`altar.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/village/altar.c) | 迎風孤岩・荒廢道壇 | `down`→`daoist_temple`、`east`→`daoist_temple` | 柳清虛觀星窺破【天羅活體牢籠】與道化晶石奇遇點。 |
+| [`forge.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/village/forge.c) | 老鐵匠鋪・打鐵爐房 | `west`→`square` | 老鐵匠阿鐵 (`tie_smith`)、林鐵生【太古不融黑鐵】奇遇點。 |
+| [`hunter_cabin.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/village/hunter_cabin.c) | 獵戶哨亭 | `west`→`square`、`northwest`→`square`、`south`→`forest`、`east`→`smokehouse_shed` | 趙老獵 (`zhao_hunter`)、弓箭與東林預警。 |
+| [`forest.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/village/forest.c) | 荊棘林口 | `north`→`hunter_cabin`、`west`→`hunter_cabin`、`northwest`→`square` | 荒原野熊 (`wild_bear`)、濁血皮毛與【太古戰神圖騰玄柱】奇遇點。 |
+| [`stream.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/village/stream.c) | 碎石溪灘 | `north`→`square`、`south`→`falls`、`down`→`herb_hut`、`east`→`wash_bank` | 張屠戶 (`zhang_butcher`)、水底【史前逆星斷碑】拓印奇遇點。 |
+| [`falls.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/village/falls.c) | 南谷寒澗・墜龍瀑布 | `north`→`stream` | 趙四 (`zhao_si`)、石苔與寒潭淬體點。 |
+| [`herb_hut.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/village/herb_hut.c) | 懸崖峭壁・採藥草廬 | `up`→`stream` | 葛半仙 (`ge_doctor`) 與顧玄草藥配劑重地。 |
+| [`shed.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/village/shed.c) | 客棧背街・廢柴房 | `northeast`→`square`、`north`→`dark_alley` | 莫三 (`mo_beggar`)、蘇凝霜 (`su_ningshuang`)、【天門引】發掘點。 |
+| [`dark_alley.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/village/dark_alley.c) | 客棧後街・青石暗巷 | `south`→`shed`、`east`→`square`、`west`→`earth_shrine` | 黑衣暗哨 (`black_guard`)、後巷接頭與西村通道。 |
+| [`chen_grain_shop.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/village/chen_grain_shop.c) | 黑石鋪・陳記雜糧鋪 | `out`→`square`、`east`→`old_granary_yard`、`south`→`peddler_corner` | 陳老漢 (`chen_grain_owner`)、《鄰里勻米》支線。 |
+| [`peddler_corner.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/village/peddler_corner.c) | 黑石鋪・老貨郎雜貨棚 | `north`→`chen_grain_shop` | 貨郎胡二 (`peddler_hu`)、黑石木炭貨盤交易口。 |
+| [`old_granary_yard.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/village/old_granary_yard.c) | 黑石鋪・舊晾穀場與牛棚 | `west`→`chen_grain_shop`、`south`→`south_quarry` | 晾穀牛棚與通往南山石場農徑。 |
+| [`south_quarry.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/village/south_quarry.c) | 南山坡腳・露天青石採石場 | `north`→`old_granary_yard`、`west`→`wash_bank` | 石匠老周 (`zhou_quarryman`)、《冬日備炭》支線。 |
+| [`wash_bank.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/village/wash_bank.c) | 碎石溪下游・搗衣淺灘 | `west`→`stream`、`east`→`south_quarry` | 王大嬸 (`wang_washerwoman`)、洗衣生計與村婦流言。 |
+| [`smokehouse_shed.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/village/smokehouse_shed.c) | 黑石鋪・山麓烘肉寮 | `west`→`hunter_cabin` | 老套手錢七 (`qian_trapper`)、臘肉燻製與山套保養。 |
+| [`earth_shrine.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/village/earth_shrine.c) | 黑石鋪・村尾土地廟 | `north`→`village_school`、`east`→`dark_alley`、`south`→`lumber_slope` | 民俗社祭與敲社鼓 (`Phase 3D` 地方文化選擇)。 |
+| [`village_school.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/village/village_school.c) | 黑石鋪・村尾蒙館 | `south`→`earth_shrine` | 宋秀才 (`song_xiucai`)、《一錠松煙墨》支線。 |
+| [`lumber_slope.c`](file:///home/wade/src/github/mudscript/forgotten-space/d/village/lumber_slope.c) | 黑石鋪・西嶺伐木雜坡 | `north`→`earth_shrine`、`east`→`daoist_temple` | 西嶺砍柴雜坡與連接後山環道。 |

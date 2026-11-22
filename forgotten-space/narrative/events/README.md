@@ -4,6 +4,7 @@
 
 * 卷二專屬事件與詳細機制規範請參見：[第二卷：金石雙壁事件記錄簿](volume2_events.md)
 * 卷三專屬事件與任務網規範請參見：[第三卷事件索引（EV301–EV327）](volume3_events.md) ｜ [Tier 2 任務網絡規劃](../docs/tier2_quest_network.md)
+* 平凡日常支線（24 條 `side_*.json`）、5 大經濟因果事件與 `PHASE_D` 樞紐互動索引請參見：[凡塵生活層名冊與支線總表](../docs/living_world_folk_and_side_roster.md)
 
 ---
 
