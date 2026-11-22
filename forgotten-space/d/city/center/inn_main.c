@@ -18,6 +18,7 @@ void create() {
         "out":   "/d/city/center/square.c",
         "east":  "/d/city/center/post_station.c",
         "west":  "/d/city/center/granary.c",
+        "north": "/d/city/center/tea_alley.c",
     ]));
 
     set("is_outdoor", 0);

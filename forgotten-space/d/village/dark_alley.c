@@ -18,6 +18,7 @@ void create() {
     set_exits(([
         "south": "/d/village/shed.c",
         "east":  "/d/village/square.c",
+        "west":  "/d/village/earth_shrine.c",
     ]));
 
     set("is_outdoor", 0);

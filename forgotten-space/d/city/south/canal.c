@@ -14,8 +14,9 @@ void create() {
              "往西穿過水門鐵閘即出西水門關口，向東則直通官辦糧食市集。\n");
 
     set_exits(([
-        "west": "/d/city/gate/gate_west.c",
-        "east": "/d/city/south/grain_market.c",
+        "west":  "/d/city/gate/gate_west.c",
+        "east":  "/d/city/south/grain_market.c",
+        "north": "/d/city/outer/river_wharf.c",
     ]));
 
     set("is_outdoor", 1);

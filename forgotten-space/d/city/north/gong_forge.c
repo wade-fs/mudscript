@@ -20,6 +20,7 @@ void create() {
         "south": "/d/city/north/gong_hall.c",
         "east":  "/d/city/north/gong_stone.c",
         "west":  "/d/city/north/gong_fireworks.c",
+        "north": "/d/city/north/scrap_yard.c",
     ]));
 
     set("is_outdoor", 0);

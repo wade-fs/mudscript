@@ -17,6 +17,7 @@ void create() {
     set_exits(([
         "west": "/d/sects/tiangong/thousand_mechanisms_hall.c",
         "down": "/d/sects/tiangong/machinery_depths.c",
+        "east": "/d/sects/tiangong/slag_pit.c",
     ]));
 
     set("is_outdoor", 0);

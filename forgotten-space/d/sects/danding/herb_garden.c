@@ -21,6 +21,8 @@ void create() {
         "north":     "/d/sects/danding/medical_archive.c",
         "northwest": "/d/sects/danding/discarded_pill_cliff.c",
         "down":      "/d/sects/danding/earth_fire_pill_cave.c",
+        "east":      "/d/sects/danding/outer_herb_terrace.c",
+        "south":     "/d/sects/danding/sect_refectory.c",
     ]));
 
     set("is_outdoor", 1);

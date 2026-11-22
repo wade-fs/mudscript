@@ -1,0 +1,41 @@
+{
+  "id": "side_village_charcoal_stove",
+  "name": "南山石場・冬日備炭",
+  "category": "side",
+  "type": "once",
+  "start_npc": "zhou_quarryman",
+  "start_topic": "備炭",
+  "requirements": {
+    "level": 1
+  },
+  "steps": [
+    {
+      "step": 1,
+      "title": "去西嶺伐木坡燻燒雜木炭",
+      "hint": "前往太微觀西側的西嶺伐木與燒炭坡，在土窯前把雜木條悶燒成炭 (burn charcoal)。",
+      "target_type": "action",
+      "action_verb": "burn",
+      "action_target": "charcoal",
+      "location": "/d/village/lumber_slope",
+      "on_complete": {
+        "msg": "土窯封泥啟開時透出清脆金屬叩聲，兩筐上好堅實的雜木炭總算燒成了。"
+      }
+    },
+    {
+      "step": 2,
+      "title": "送炭回南山青石採石場給石匠老周",
+      "hint": "帶著木炭折返村南南山青石採石場，告訴石匠老周木炭已經備妥 (ask zhou_quarryman about 備炭)。",
+      "target_type": "talk",
+      "target_npc": "zhou_quarryman",
+      "target_topic": "備炭",
+      "location": "/d/village/south_quarry",
+      "on_complete": {
+        "msg": "石匠老周把暖爐添旺，凍裂的大手舒展開來，拿磨刀好青石與工錢酬謝了你。"
+      }
+    }
+  ],
+  "rewards": {
+    "exp": 120,
+    "money": 60
+  }
+}

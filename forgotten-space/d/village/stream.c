@@ -21,6 +21,7 @@ void create() {
         "north": "/d/village/square.c",
         "south": "/d/village/falls.c",
         "down":  "/d/village/herb_hut.c",
+        "east":  "/d/village/wash_bank.c",
     ]));
 
     set("is_outdoor", 1);

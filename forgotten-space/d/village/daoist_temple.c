@@ -18,6 +18,7 @@ void create() {
     set_exits(([
         "east": "/d/village/square.c",
         "up":   "/d/village/altar.c",
+        "west": "/d/village/lumber_slope.c",
     ]));
 
     set("is_outdoor", 0);

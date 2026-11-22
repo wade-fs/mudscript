@@ -16,10 +16,11 @@ void create() {
              "向北直登【北線長城巡防牆暨關口】。\n");
 
     set_exits(([
-        "south": "/d/sects/bahuang/black_stone_gorge.c",
-        "west":  "/d/sects/bahuang/restoration_hall.c",
-        "east":  "/d/sects/bahuang/north_garrison_kitchen.c",
-        "north": "/d/sects/bahuang/great_wall_gate.c",
+        "south":     "/d/sects/bahuang/black_stone_gorge.c",
+        "west":      "/d/sects/bahuang/restoration_hall.c",
+        "east":      "/d/sects/bahuang/north_garrison_kitchen.c",
+        "north":     "/d/sects/bahuang/great_wall_gate.c",
+        "southwest": "/d/sects/bahuang/outer_barracks.c",
     ]));
 
     set("is_outdoor", 1);

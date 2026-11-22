@@ -25,6 +25,8 @@ for f in glob.glob(R+'/**/*.c', recursive=True):
                 emitters['action'].add((rel, f'${var_arg}', None))
         else:
             emitters[ev].add((rel,))
+    for m in re.finditer(r'"quest_verb"\s*:\s*"([^"]+)"[^;]*?"quest_target"\s*:\s*"([^"]+)"', s, re.S):
+        emitters['action'].add((rel, m.group(1), m.group(2)))
 # also dynamic verbs (variable verb) - report separately
 dyn = []
 for f in glob.glob(R+'/d/village/*.c'):
@@ -37,7 +39,7 @@ action_verbs = {(v,t) for (_,v,t) in emitters['action']}
 # --- rooms / npcs / items
 rooms = ['/' + os.path.splitext(os.path.relpath(p, R))[0] for p in glob.glob(R+'/d/**/*.c', recursive=True)]
 npc_ids = {}
-for f in glob.glob(R+'/clone/npc/*.c') + glob.glob(R+'/npc/*.c'):
+for f in glob.glob(R+'/clone/npc/**/*.c', recursive=True) + glob.glob(R+'/npc/**/*.c', recursive=True):
     s = open(f, encoding='utf-8', errors='replace').read()
     id_blobs = re.findall(r'set_name\([^;]*?\(\{(.*?)\}\)', s, re.S) + re.findall(r'set_id\(\s*\(\{(.*?)\}\)', s, re.S) + re.findall(r'add_id\(\s*\(\{(.*?)\}\)', s, re.S)
     ids = set(re.findall(r'"([A-Za-z][A-Za-z _]*)"', ' '.join(id_blobs)))

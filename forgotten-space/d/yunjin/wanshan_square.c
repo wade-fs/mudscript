@@ -23,6 +23,7 @@ void create() {
         "northwest": "/d/sects/bahuang/gate.c",
         "east":      "/d/sects/tiangong/gate.c",
         "northeast": "/d/sects/danding/gate.c",
+        "southwest": "/d/yunjin/river_wharf.c",
     ]));
 
     set("is_outdoor", 1);

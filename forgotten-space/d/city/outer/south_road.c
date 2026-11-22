@@ -20,6 +20,7 @@ void create() {
         "southeast": "/d/routes/forest_landslide.c",
         "southwest": "/d/routes/stone_highway_pavilion.c",
         "north":     "/d/city/gate/gate_south.c",
+        "west":      "/d/city/outer/tenement_alley.c",
     ]));
 
     set("is_outdoor", 1);

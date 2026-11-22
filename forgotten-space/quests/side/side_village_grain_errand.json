@@ -1,0 +1,53 @@
+{
+  "id": "side_village_grain_errand",
+  "name": "陳記雜糧・鄰里勻米",
+  "category": "side",
+  "type": "once",
+  "start_npc": "chen_grain_owner",
+  "start_topic": "送糧",
+  "requirements": {
+    "level": 1
+  },
+  "steps": [
+    {
+      "step": 1,
+      "title": "在陳記雜糧鋪替糙米過秤",
+      "hint": "在陳記雜糧鋪用烏木桿秤幫陳老漢將五升糙米秤妥裝袋 (weigh grain)。",
+      "target_type": "action",
+      "action_verb": "weigh",
+      "action_target": "grain",
+      "location": "/d/village/chen_grain_shop",
+      "on_complete": {
+        "msg": "你手腳穩當地將一袋五升糙米過秤封口，準備沿碎石溪下游送往洗衣淺灘。"
+      }
+    },
+    {
+      "step": 2,
+      "title": "向碎石溪洗衣淺灘王大嬸交米",
+      "hint": "沿村南碎石溪畔往東走到洗衣淺灘，將糙米交給洗衣婦王大嬸並聊聊鄰里近況 (ask wang_washerwoman about 送糧)。",
+      "target_type": "talk",
+      "target_npc": "wang_washerwoman",
+      "target_topic": "送糧",
+      "location": "/d/village/wash_bank",
+      "on_complete": {
+        "msg": "王大嬸高高興興接過糙米袋，連誇村頭陳老漢跟小哥都厚道重情義。"
+      }
+    },
+    {
+      "step": 3,
+      "title": "回陳記雜糧鋪覆命領工錢",
+      "hint": "返回青石街市旁陳記雜糧鋪告知陳老漢糙米已妥善送到 (ask chen_grain_owner about 送糧)。",
+      "target_type": "talk",
+      "target_npc": "chen_grain_owner",
+      "target_topic": "送糧",
+      "location": "/d/village/chen_grain_shop",
+      "on_complete": {
+        "msg": "陳老漢撥完算盤，往你手心塞了五十文銅錢與一塊熱糙麥饃。"
+      }
+    }
+  ],
+  "rewards": {
+    "exp": 120,
+    "money": 50
+  }
+}

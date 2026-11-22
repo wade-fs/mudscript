@@ -16,6 +16,8 @@ void create() {
     set_exits(([
         "south": "/d/sects/taiqing/gate.c",
         "north": "/d/sects/taiqing/star_law_hall.c",
+        "east":  "/d/sects/taiqing/scripture_copy_hall.c",
+        "west":  "/d/sects/taiqing/outer_dormitory.c",
     ]));
 
     set("is_outdoor", 1);

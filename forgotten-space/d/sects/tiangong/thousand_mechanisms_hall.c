@@ -19,6 +19,7 @@ void create() {
         "west":  "/d/sects/tiangong/gate.c",
         "east":  "/d/sects/tiangong/forge_yard.c",
         "south": "/d/sects/tiangong/array_drafting_room.c",
+        "north": "/d/sects/tiangong/apprentice_shed.c",
     ]));
 
     set("is_outdoor", 0);

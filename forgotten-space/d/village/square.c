@@ -28,6 +28,7 @@ void create() {
         "southwest": "/d/village/shed.c",
         "northeast": "/d/routes/blackstone_pass.c",
         "northwest": "/d/routes/west_gorge_entry.c",
+        "enter":     "/d/village/chen_grain_shop.c",
     ]));
 
     set("no_combat", 1);
