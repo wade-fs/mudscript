@@ -170,10 +170,12 @@ def keys(o, path=''):
         for x in o: keys(x)
 for qid,(f,q) in Q.items(): keys(q)
 cmdq = rd('cmds/cmd_quest.c')
+ev_mgr_src = rd('daemon/event_manager.c') + '\n'.join(open(ef, encoding='utf-8', errors='replace').read() for ef in glob.glob(R + '/data/event_defs/*.json'))
 dynamic_dict_keys = {'fa', 'li', 'wu'} # rewards.affinity 下由 foreach 動態走訪的鍵
 for k in sorted(used):
     if k in dynamic_dict_keys: continue
-    inng = ('"'+k+'"') in engine_src or ('"'+k+'"') in cmdq
+    quoted = '"' + k + '"'
+    inng = quoted in engine_src or quoted in cmdq or quoted in ev_mgr_src
     if not inng: print(f"  ✗ 欄位 \"{k}\" ({used[k]} 次) 引擎與 cmd_quest 都沒讀")
 print("\n  --- 結算路徑檢查 ---")
 for qid,(f,q) in Q.items():

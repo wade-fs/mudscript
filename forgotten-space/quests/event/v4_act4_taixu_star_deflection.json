@@ -1,0 +1,88 @@
+{
+  "id": "v4_act4_taixu_star_deflection",
+  "name": "太虛校星：偏星一度半與直視晶塔活核",
+  "category": "event",
+  "type": "event_quest",
+  "region": "realm_taixu",
+  "start_npc": "taixu_observer_heng",
+  "start_topic": "嚴平",
+  "world_event": "tier3_calibration",
+  "deadline_stage": "T+1",
+  "valid_stages": [
+    "T0",
+    "T+1"
+  ],
+  "steps": [
+    {
+      "step": 1,
+      "title": "當眾攤開衡真誤差實錄戳破主簿嚴平假帳",
+      "hint": "於白玉接天階以鎖死銅匣與實測記錄質詢嚴平 (ask taixu_observer_heng about 嚴平)。",
+      "target_type": "talk",
+      "target_npc": "taixu_observer_heng",
+      "target_topic": "嚴平",
+      "location": "/d/realm/taixu/white_jade_steps"
+    },
+    {
+      "step": 2,
+      "title": "插入三枚導引銅針將天羅星軸偏轉一度半",
+      "hint": "深入太虛校準偏殿將導引銅針準確插入天羅底座卡槽偏星 (insert needle)。",
+      "target_type": "action",
+      "action_verb": "insert",
+      "action_target": "needle",
+      "location": "/d/realm/taixu/calibration_hall",
+      "on_complete": {
+        "msg": "天羅軸心受銅針分流偏移整整一度半，灰燼邊緣聚落上空的抹除殺機應聲移開！"
+      }
+    },
+    {
+      "step": 3,
+      "title": "直視高塔底座活核並取回真實天道殘頻",
+      "hint": "上登天道晶塔底部觀測裂縫中的玉化高階晶核並記錄實證 (inspect core)。",
+      "target_type": "action",
+      "action_verb": "inspect",
+      "action_target": "core",
+      "location": "/d/realm/taixu/crystal_tower_core",
+      "on_complete": {
+        "msg": "晶塔縫隙裡半具與天道陣脈長死的古代大能遺骸震碎了『飛升長生』神話，你也牢記了這道裂紋。"
+      }
+    }
+  ],
+  "event_outcomes": {
+    "success": {
+      "status": "success",
+      "deltas": {
+        "array_deflection": 2,
+        "charter_legitimacy": 1
+      },
+      "facts": {
+        "array_shifted_1_5_deg": 1,
+        "frequency_drift_logged": 1
+      },
+      "message": "偏星一度半徹底保護了邊緣遺民聚落，且嚴平剋扣鹽晶案被眾修士當庭接管。"
+    },
+    "partial": {
+      "status": "partial",
+      "deltas": {
+        "array_deflection": 1
+      },
+      "facts": {
+        "array_shifted_1_5_deg": 1
+      },
+      "message": "偏星成功將主脈衝壓偏邊界，但偏殿石壁出現嚴重焦裂。"
+    },
+    "failure": {
+      "status": "failure",
+      "deltas": {
+        "array_deflection": -1
+      },
+      "facts": {},
+      "message": "銅針未能及時落位，太虛天羅星陣仍舊筆直壓過邊緣裂隙。"
+    }
+  },
+  "eval_metric": "array_deflection",
+  "eval_min_for_success": 2,
+  "rewards": {
+    "exp": 1800,
+    "pot": 520
+  }
+}

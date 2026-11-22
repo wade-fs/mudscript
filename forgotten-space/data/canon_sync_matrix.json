@@ -213,6 +213,101 @@
         "clone/item/bastion_salt_route_map.c",
         "clone/item/yanshan_eagle_rubbing.c"
       ]
+    },
+    {
+      "act_id": "vol4_act2_three_poles",
+      "novel_span": "Vol.4 Ch.0135 ~ Ch.0144",
+      "title": "分兵三極、九城補冊與九十日倒數合攏",
+      "world_event": "tier3_calibration",
+      "quests": [
+        "v4_act2_taixu_calibration_spy",
+        "v4_act2_wanwu_ark_registry",
+        "v4_act2_zhanzu_yanshan_trail",
+        "v4_act2_law_rejection_clinic",
+        "v4_act2_nine_city_offline_node",
+        "v4_act2_countdown_convergence"
+      ],
+      "rooms": [
+        "d/realm/taixu/white_jade_steps.c",
+        "d/realm/wanwu/scrap_ring.c",
+        "d/realm/wanwu/ark_registry_hall.c",
+        "d/realm/wanwu/nine_city_node.c",
+        "d/realm/zhanzu/hunting_camp.c",
+        "d/realm/edge/edge_clinic.c",
+        "d/realm/edge/ash_watch_post.c"
+      ],
+      "world_state_vars": ["tier3_calibration", "tier3_u"],
+      "evidence_or_relics": [
+        "clone/item/locked_data_casket.c",
+        "clone/item/taixu_calibration_log_copy.c",
+        "clone/item/steady_copper_core.c",
+        "clone/item/ark_pod_nine_manifest.c",
+        "clone/item/law_rejection_buffer_kit.c",
+        "clone/item/human_seed_quota_ledger.c"
+      ]
+    },
+    {
+      "act_id": "vol4_act3_shadow_war",
+      "novel_span": "Vol.4 Ch.0145 ~ Ch.0154",
+      "title": "工役互助密約、偏星三息、鬥獸救伯與十日緩期",
+      "world_event": "tier3_calibration",
+      "quests": [
+        "v4_act3_labor_pact_stations",
+        "v4_act3_three_pole_mutual_compact",
+        "v4_act3_cross_realm_broker_intercept",
+        "v4_act3_taixu_scan_deflection",
+        "v4_act3_arena_rescue_yanshan",
+        "v4_act3_human_seed_bridge_truce",
+        "v4_act3_ten_day_war_prep"
+      ],
+      "rooms": [
+        "d/realm/wanwu/scrap_ring.c",
+        "d/realm/wanwu/arbitration_bridge.c",
+        "d/realm/zhanzu/arena_pit.c",
+        "d/realm/edge/ash_watch_post.c",
+        "d/realm/edge/edge_clinic.c"
+      ],
+      "world_state_vars": ["tier3_calibration", "scan_deflected"],
+      "evidence_or_relics": [
+        "clone/item/three_pole_mutual_compact.c",
+        "clone/item/cross_realm_chihuo_crate.c",
+        "clone/item/yanshan_encrypted_tally.c",
+        "clone/item/sanyuan_shunt_valve.c"
+      ]
+    },
+    {
+      "act_id": "vol4_act4_calibration_break",
+      "novel_span": "Vol.4 Ch.0155 ~ Ch.0164",
+      "title": "大校準之夜五條並行戰線、平權契書與歸墟警報",
+      "world_event": "tier3_calibration",
+      "quests": [
+        "v4_act4_labor_strike_sanction",
+        "v4_act4_taixu_star_deflection",
+        "v4_act4_bone_gate_defense",
+        "v4_act4_clinic_fog_and_conduit",
+        "v4_act4_arbitration_equal_charter",
+        "v4_act4_postwar_clinic_relief"
+      ],
+      "rooms": [
+        "d/realm/wanwu/scrap_ring.c",
+        "d/realm/wanwu/conduit_well.c",
+        "d/realm/wanwu/arbitration_bridge.c",
+        "d/realm/taixu/calibration_hall.c",
+        "d/realm/taixu/crystal_tower_core.c",
+        "d/realm/zhanzu/bone_gate.c",
+        "d/realm/edge/edge_clinic.c"
+      ],
+      "world_state_vars": [
+        "tier3_calibration",
+        "labor_solidarity",
+        "array_deflection",
+        "outpost_defense",
+        "charter_legitimacy",
+        "guixu_seal_alerted"
+      ],
+      "evidence_or_relics": [
+        "clone/item/shen_yunnini_charter_edict.c"
+      ]
     }
   ]
 }

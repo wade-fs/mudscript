@@ -1,0 +1,75 @@
+{
+  "id": "v4_act4_bone_gate_defense",
+  "name": "戰祖巨骨哨卡：無傷卸力陣阻狂獸衝關",
+  "category": "event",
+  "type": "event_quest",
+  "region": "realm_zhanzu",
+  "start_npc": "zhanzu_packmaster_tuo",
+  "start_topic": "韓石",
+  "world_event": "tier3_calibration",
+  "deadline_stage": "T+1",
+  "valid_stages": [
+    "T0",
+    "T+1"
+  ],
+  "steps": [
+    {
+      "step": 1,
+      "title": "當面拆穿管事韓石冒領獸髓與鹽晶黑帳",
+      "hint": "在戰祖外營與託古並肩揭發韓石私扣心核案 (ask zhanzu_packmaster_tuo about 韓石)。",
+      "target_type": "talk",
+      "target_npc": "zhanzu_packmaster_tuo",
+      "target_topic": "韓石",
+      "location": "/d/realm/zhanzu/hunting_camp"
+    },
+    {
+      "step": 2,
+      "title": "卡住巨骨哨卡以楔木與無傷卸力陣阻退狂潮",
+      "hint": "趕赴戰祖巨骨哨卡與燕山、託古死守兩側骨槽引偏熔骨獸潮 (hold gate)。",
+      "target_type": "action",
+      "action_verb": "hold",
+      "action_target": "gate",
+      "location": "/d/realm/zhanzu/bone_gate",
+      "on_complete": {
+        "msg": "三波受校準噪音驚狂的熔骨獸群盡數被楔木斜坡引進乾涸河谷，巨骨哨卡寸步未失！"
+      }
+    }
+  ],
+  "event_outcomes": {
+    "success": {
+      "status": "success",
+      "deltas": {
+        "outpost_defense": 2,
+        "labor_solidarity": 1
+      },
+      "facts": {
+        "salt_levy_exposed": 1
+      },
+      "message": "巨骨哨卡零死亡守住狂獸衝擊，戰祖部落老獵手接管糧草並立約廢除強徵。"
+    },
+    "partial": {
+      "status": "partial",
+      "deltas": {
+        "outpost_defense": 1
+      },
+      "facts": {
+        "salt_levy_exposed": 1
+      },
+      "message": "狂獸被逼退大半，但兩座哨卡骨樑裂損需十日方能復原。"
+    },
+    "failure": {
+      "status": "failure",
+      "deltas": {
+        "outpost_defense": -1
+      },
+      "facts": {},
+      "message": "哨卡防線一度遭衝破，邊緣醫棚不得不緊急後撤。"
+    }
+  },
+  "eval_metric": "outpost_defense",
+  "eval_min_for_success": 1,
+  "rewards": {
+    "exp": 1750,
+    "pot": 500
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "id": "v4_act2_law_rejection_clinic",
+  "name": "三極緩衝方：苦苔礦灰與律令排異針灸",
+  "category": "side",
+  "type": "once",
+  "region": "realm_edge",
+  "start_npc": "stone_clinic_healer_su",
+  "start_topic": "樣本",
+  "steps": [
+    {
+      "step": 1,
+      "title": "核對三極樣本與血樣暗倉座標",
+      "hint": "返回邊緣緩衝醫站向醫者蘇青竹覆核太虛、萬物、戰祖三極帶回的氣機樣本 (ask stone_clinic_healer_su about 樣本)。",
+      "target_type": "talk",
+      "target_npc": "stone_clinic_healer_su",
+      "target_topic": "樣本",
+      "location": "/d/realm/edge/edge_clinic"
+    },
+    {
+      "step": 2,
+      "title": "熬煮緩衝爐霧藥膏並記認代價手冊",
+      "hint": "在醫站以鹽鹼草、熔骨獸髓灰與礦灰配製首劑律令排異緩衝方 (brew buffer)。",
+      "target_type": "action",
+      "action_verb": "brew",
+      "action_target": "buffer",
+      "location": "/d/realm/edge/edge_clinic",
+      "on_complete": {
+        "give_item": "/clone/item/law_rejection_buffer_kit.c",
+        "msg": "緩衝膏成功壓退初期晶化潰瘍，你亦將《三極排異急救草錄》連同藥囊收妥，醫道實證大進。"
+      }
+    }
+  ],
+  "rewards": {
+    "exp": 1000,
+    "pot": 280
+  }
+}

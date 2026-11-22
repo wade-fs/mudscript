@@ -1,0 +1,75 @@
+{
+  "id": "v4_act3_taixu_scan_deflection",
+  "name": "主簿突檢：三息星鎖偏折護名冊",
+  "category": "event",
+  "type": "event_quest",
+  "region": "realm_edge",
+  "start_npc": "taixu_clerk_yanping",
+  "start_topic": "檢索",
+  "world_event": "tier3_calibration",
+  "deadline_stage": "T-1",
+  "valid_stages": [
+    "T-2",
+    "T-1"
+  ],
+  "steps": [
+    {
+      "step": 1,
+      "title": "應對主簿嚴平的全區點名鎖定突襲",
+      "hint": "探查太虛執律閣主簿嚴平的星鎖檢索與校準提前行動 (ask taixu_clerk_yanping about 檢索)。",
+      "target_type": "talk",
+      "target_npc": "taixu_clerk_yanping",
+      "target_topic": "檢索",
+      "location": "/d/realm/taixu/white_jade_steps"
+    },
+    {
+      "step": 2,
+      "title": "於守夜寨佈銅網配合偏星一度半護住名冊",
+      "hint": "趕回灰燼石堡守夜寨以玄武岩高壓銅網引偏太虛掃描光束三息 (deflect scan)。",
+      "target_type": "action",
+      "action_verb": "deflect",
+      "action_target": "scan",
+      "location": "/d/realm/edge/ash_watch_post",
+      "on_complete": {
+        "msg": "銅絲短陣炸出刺目電弧將星鎖偏折一度半三息，保住了四百八十七名遺民的地下火種名冊！"
+      }
+    }
+  ],
+  "event_outcomes": {
+    "success": {
+      "status": "success",
+      "deltas": {
+        "array_deflection": 2,
+        "outpost_defense": 1
+      },
+      "facts": {
+        "scan_deflected": 1
+      },
+      "message": "太虛高空星鎖遭偏折三息，石堡火種名冊與三極聯絡網未遭鎖死清查。"
+    },
+    "partial": {
+      "status": "partial",
+      "deltas": {
+        "array_deflection": 1
+      },
+      "facts": {
+        "scan_deflected": 1
+      },
+      "message": "僅險險護下名冊主頁，外圍哨塔銅網幾近燒毀。"
+    },
+    "failure": {
+      "status": "failure",
+      "deltas": {
+        "outpost_defense": -1
+      },
+      "facts": {},
+      "message": "未能及時引偏星鎖掃描，嚴平得以鎖定部分石堡邊緣熱源。"
+    }
+  },
+  "eval_metric": "array_deflection",
+  "eval_min_for_success": 1,
+  "rewards": {
+    "exp": 1500,
+    "pot": 440
+  }
+}

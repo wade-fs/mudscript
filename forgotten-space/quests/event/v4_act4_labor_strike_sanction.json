@@ -1,0 +1,75 @@
+{
+  "id": "v4_act4_labor_strike_sanction",
+  "name": "萬物外環停工：切斷鹽晶預扣與部落拒徵",
+  "category": "event",
+  "type": "event_quest",
+  "region": "realm_wanwu",
+  "start_npc": "wanwu_auditor_qi",
+  "start_topic": "停工",
+  "world_event": "tier3_calibration",
+  "deadline_stage": "T+1",
+  "valid_stages": [
+    "T0",
+    "T+1"
+  ],
+  "steps": [
+    {
+      "step": 1,
+      "title": "匯合外環二十四座維修站工匠與鹽晶寮鹽夫",
+      "hint": "在萬物外環與齊老匠師確核停工傳信與鹽晶斷供名單 (ask wanwu_auditor_qi about 停工)。",
+      "target_type": "talk",
+      "target_npc": "wanwu_auditor_qi",
+      "target_topic": "停工",
+      "location": "/d/realm/wanwu/scrap_ring"
+    },
+    {
+      "step": 2,
+      "title": "拉下銅閘宣布外環大停工並拒絕強徵",
+      "hint": "在校準子夜在萬物外環同步敲鐘停軸切斷高純鹽晶供應 (declare strike)。",
+      "target_type": "action",
+      "action_verb": "declare",
+      "action_target": "strike",
+      "location": "/d/realm/wanwu/scrap_ring",
+      "on_complete": {
+        "msg": "二十四座維修站與戰祖馱隊同時停擺，陳楷的強徵派工單頓時成了一紙廢文。"
+      }
+    }
+  ],
+  "event_outcomes": {
+    "success": {
+      "status": "success",
+      "deltas": {
+        "labor_solidarity": 2,
+        "charter_legitimacy": 1
+      },
+      "facts": {
+        "strike_executed": 1
+      },
+      "message": "外環大停工與部落拒徵徹底癱瘓了無償調度，強徵令被迫撤回。"
+    },
+    "partial": {
+      "status": "partial",
+      "deltas": {
+        "labor_solidarity": 1
+      },
+      "facts": {
+        "strike_executed": 1
+      },
+      "message": "過半維修站如期停工，少數分流站仍在強壓下勉強維持最低運轉。"
+    },
+    "failure": {
+      "status": "failure",
+      "deltas": {
+        "labor_solidarity": -1
+      },
+      "facts": {},
+      "message": "工役停工未能及時合流，主殿順利抽調出備用鹽晶柱支撐校準。"
+    }
+  },
+  "eval_metric": "labor_solidarity",
+  "eval_min_for_success": 1,
+  "rewards": {
+    "exp": 1700,
+    "pot": 480
+  }
+}

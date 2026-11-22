@@ -1,0 +1,49 @@
+{
+  "id": "v4_act3_arena_rescue_yanshan",
+  "name": "戰祖鬥獸坑：破籠救燕山與九礦奴",
+  "category": "main",
+  "type": "once",
+  "region": "realm_zhanzu",
+  "start_npc": "zhanzu_quartermaster_han",
+  "start_topic": "鬥獸坑",
+  "steps": [
+    {
+      "step": 1,
+      "title": "逼問管事韓石鎖囚鬥獸坑真相",
+      "hint": "在戰祖外營向營帳管事韓石追問失蹤礦奴與鬥獸坑配額處置 (ask zhanzu_quartermaster_han about 鬥獸坑)。",
+      "target_type": "talk",
+      "target_npc": "zhanzu_quartermaster_han",
+      "target_topic": "鬥獸坑",
+      "location": "/d/realm/zhanzu/hunting_camp"
+    },
+    {
+      "step": 2,
+      "title": "破開鬥獸坑重石閘門奪救燕山與九名礦奴",
+      "hint": "潛入戰祖鬥獸坑以玄武岩槓桿配合重錘強啟囚籠鐵鎖 (unlock cage)。",
+      "target_type": "action",
+      "action_verb": "unlock",
+      "action_target": "cage",
+      "location": "/d/realm/zhanzu/arena_pit",
+      "on_complete": {
+        "msg": "鐵柵應聲斷裂，你護著斷目燕山與九名凡間礦奴於駝隊掩護下殺出鬥獸坑！"
+      }
+    },
+    {
+      "step": 3,
+      "title": "從燕山手中接過五年前赤煉簽字軍需密牌",
+      "hint": "向脫險後的燕山詢問當年送他們墜入裂隙的凡間軍需密牌 (ask yan_shan about 密牌)。",
+      "target_type": "talk",
+      "target_npc": "yan_shan",
+      "target_topic": "密牌",
+      "location": "/d/realm/zhanzu/hunting_camp",
+      "on_complete": {
+        "give_item": "/clone/item/yanshan_encrypted_tally.c",
+        "msg": "燕山將貼身藏了五年的赤煉篆印殘牌交給你：雲津外圍軍需黑線與洞天走私的閉環徹底接通。"
+      }
+    }
+  ],
+  "rewards": {
+    "exp": 1600,
+    "pot": 460
+  }
+}

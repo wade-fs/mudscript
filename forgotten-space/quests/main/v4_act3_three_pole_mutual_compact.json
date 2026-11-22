@@ -1,0 +1,37 @@
+{
+  "id": "v4_act3_three_pole_mutual_compact",
+  "name": "灰燼密議：締結《三極維護工役互助密約》",
+  "category": "main",
+  "type": "once",
+  "region": "realm_edge",
+  "start_npc": "zhanzu_packmaster_tuo",
+  "start_topic": "藥膏",
+  "steps": [
+    {
+      "step": 1,
+      "title": "以無毒獸髓藥膏與假帳反制爭取戰祖馱隊倒戈",
+      "hint": "向戰祖馱隊隊長託古確認以反制韓石假帳換取互助盟約 (ask zhanzu_packmaster_tuo about 藥膏)。",
+      "target_type": "talk",
+      "target_npc": "zhanzu_packmaster_tuo",
+      "target_topic": "藥膏",
+      "location": "/d/realm/zhanzu/hunting_camp"
+    },
+    {
+      "step": 2,
+      "title": "於守夜寨與太虛、萬物、戰祖三方代表押署密約",
+      "hint": "在灰燼石堡守夜寨將太虛日誌、外環公差帳與戰祖心核帳並押《三極維護工役互助密約》(sign compact)。",
+      "target_type": "action",
+      "action_verb": "sign",
+      "action_target": "compact",
+      "location": "/d/realm/edge/ash_watch_post",
+      "on_complete": {
+        "give_item": "/clone/item/three_pole_mutual_compact.c",
+        "msg": "三極基層工役、觀測士與馱隊私印首次並押在同一張耐火羊皮密約上，跨極同盟正式成型。"
+      }
+    }
+  ],
+  "rewards": {
+    "exp": 1450,
+    "pot": 420
+  }
+}

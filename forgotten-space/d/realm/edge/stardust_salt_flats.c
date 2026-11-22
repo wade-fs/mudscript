@@ -11,10 +11,11 @@ void create() {
     set_short("荒原邊・星塵鹽田與殘晶黑市");
     set_long("低窪鹽礫坑內一片慘白結晶反光，鹽工們蒙面將粗鹽晶鏟入麻袋，外環牙人正守著全鐵板車驗貨。\n"
              "角落一張歪斜木桌底下竟墊著一塊刻有『九號離艦補給營』字樣的鏽蝕鐵牌；若要核對黑市預扣\n"
-             "與晶柱暴漲帳目，可仔細查帳（audit market）。向西返回【灰燼石堡】。\n");
+             "與晶柱暴漲帳目，可仔細查帳（audit market）。向西返回【灰燼石堡】，向東踏入【萬物主機城外環】。\n");
 
     set_exits(([
         "west" : "/d/realm/edge/ash_watch_post.c",
+        "east" : "/d/realm/wanwu/scrap_ring.c",
     ]));
     set("is_outdoor", 1);
 

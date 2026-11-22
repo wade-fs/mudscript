@@ -162,5 +162,6 @@
 
 4. **Step 4：分幕雙軌實作與卷五邊界控管**
    - [x] **Act 1（Ch.127–134）雙軌推進**：完成正文撰寫（`ch0127.md`–`ch0134.md` 與 `volume4/README.md`）、實作 `/d/realm/edge/` 5 間新房（接通 `peach_plateau.c`）與 5 名 NPC／5 件道具、將 `v4_act1` 拆細為 3 條任務並寫入 [test_v4_act1.c](forgotten-space/tests/test_v4_act1.c)，通過 `quest_audit.py`、`world_liveness_audit.py`、`novel_mud_sync_audit.py` 與 BFS 連通檢核。
-   - [ ] **Act 2–4（`taixu/`、`zhanzu/`、`wanwu/` 等分區）依序雙軌推進**：Act 4 開寫前先進行一次整幕並行戰線與經濟／校準狀態機模擬跑（Simulation Run）。
+   - [x] **Act 2–4（`taixu/`、`zhanzu/`、`wanwu/` 等分區）雙軌推進**：完成 `ch0135.md`–`ch0164.md`（共 30 章）、11 間三極實體房、10 名 NPC、11 件道具與 19 份 Act 2–4 任務 JSON（含 Act 4 五條不綁定身世之並行 `event` 戰線），並透過 `test_v4_act2_4.c` 與 `EVENT_TIER3_CALIBRATION` 狀態機聯動驗證。
+   - [ ] **Act 5（`beacon_relay/` 雙向信標・第 165–170 章）暨 Tier 4 凍結查核**：完成第四卷大結局與《歸墟》第五卷前哨線索引。
    - [ ] **卷五（Tier 4 歸墟殘塚）範圍凍結**：僅保留既有骨架與 `traceability §4.2` 稀有門檻規格，不於第四卷完工前提前展開。

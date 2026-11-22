@@ -1,0 +1,46 @@
+{
+  "id": "v4_act3_cross_realm_broker_intercept",
+  "name": "外環三號暗線：截獲赤火篆印跨界晶箱",
+  "category": "side",
+  "type": "once",
+  "region": "realm_wanwu",
+  "start_npc": "wanwu_auditor_qi",
+  "start_topic": "走私",
+  "steps": [
+    {
+      "step": 1,
+      "title": "打聽三號廢渣轉運道赤火暗記走私傳聞",
+      "hint": "在萬物外環向齊老匠師詢問三號線赤火走私箱與對外通道線索 (ask wanwu_auditor_qi about 走私)。",
+      "target_type": "talk",
+      "target_npc": "wanwu_auditor_qi",
+      "target_topic": "走私",
+      "location": "/d/realm/wanwu/scrap_ring"
+    },
+    {
+      "step": 2,
+      "title": "鎖定跨界暗線掮客口風",
+      "hint": "於萬物外環暗處截問掮客有關赤火、赤煉門與雲津轉運線 (ask cross_realm_broker about 赤火)。",
+      "target_type": "talk",
+      "target_npc": "cross_realm_broker",
+      "target_topic": "赤火",
+      "location": "/d/realm/wanwu/scrap_ring"
+    },
+    {
+      "step": 3,
+      "title": "截留貼有『赤火』朱印之跨界晶箱",
+      "hint": "在萬物外環廢料通道人贓並獲截留赤火晶箱 (ambush broker)。",
+      "target_type": "action",
+      "action_verb": "ambush",
+      "action_target": "broker",
+      "location": "/d/realm/wanwu/scrap_ring",
+      "on_complete": {
+        "give_item": "/clone/item/cross_realm_chihuo_crate.c",
+        "msg": "你扣下貼著雲津『赤火』朱篆封條的高純鹽晶密箱，實證有人私通雲津赤煉殘部並暗備後門。"
+      }
+    }
+  ],
+  "rewards": {
+    "exp": 1380,
+    "pot": 380
+  }
+}

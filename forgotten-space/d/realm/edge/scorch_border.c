@@ -12,10 +12,11 @@ void create() {
     set_long("腳下玄武岩在此逐漸轉為泛著暗紅鐵鏽光的赤黑火山焦岩，空氣裡浮動著硫磺血氣與壓迫重力。\n"
              "遠方濃霧裡不時傳來戰祖骨號聲，幾群原本深伏地穴的低階荒獸正慌亂地往東北方向竄逃。\n"
              "下方背陰赤岩底縫露出一截被黑灰半掩的新鮮刻痕，可貼地拂灰拓印（rub mark）。\n"
-             "向東北退返【玄武岩風道】。\n");
+             "向東北退返【玄武岩風道】，向西南深入（southwest）則是【戰祖巨骨哨卡】。\n");
 
     set_exits(([
         "northeast" : "/d/realm/edge/basalt_ridge.c",
+        "southwest" : "/d/realm/zhanzu/bone_gate.c",
     ]));
     set("is_outdoor", 1);
 

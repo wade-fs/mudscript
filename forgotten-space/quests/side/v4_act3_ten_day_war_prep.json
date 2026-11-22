@@ -1,0 +1,40 @@
+{
+  "id": "v4_act3_ten_day_war_prep",
+  "name": "十日備戰：改鑄分流總栓與三十座緩衝藥爐",
+  "category": "side",
+  "type": "once",
+  "region": "realm_edge",
+  "start_npc": "ash_warden_qi",
+  "start_topic": "配給",
+  "steps": [
+    {
+      "step": 1,
+      "title": "趕鑄三元活榫分流總栓並架設骨閘警報線",
+      "hint": "在灰燼石堡守夜寨將全堡熔爐併爐改鑄分流總栓與鹽硝護城備料 (prepare war)。",
+      "target_type": "action",
+      "action_verb": "prepare",
+      "action_target": "war",
+      "location": "/d/realm/edge/ash_watch_post",
+      "on_complete": {
+        "give_item": "/clone/item/sanyuan_shunt_valve.c",
+        "msg": "三元高壓活榫總栓與全套備用導引銅針鍛造成型，靜候校準夜帶壓換栓！"
+      }
+    },
+    {
+      "step": 2,
+      "title": "點燃三十座緩衝藥爐試騰濾塵草霧",
+      "hint": "於邊緣緩衝醫站協助顧玄與蘇青竹配足三十爐抗排異藥霧原料並試點首灶 (light stoves)。",
+      "target_type": "action",
+      "action_verb": "light",
+      "action_target": "stoves",
+      "location": "/d/realm/edge/edge_clinic",
+      "on_complete": {
+        "msg": "濃郁卻無毒的黃綠草霧在岩縫間穩穩壓住燥烈氣機，石堡眾人總算有了撐過校準夜的喘息陣。"
+      }
+    }
+  ],
+  "rewards": {
+    "exp": 1500,
+    "pot": 420
+  }
+}

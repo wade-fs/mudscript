@@ -1,0 +1,33 @@
+{
+  "id": "v4_act3_labor_pact_stations",
+  "name": "萬物外環：工役聯絡網與停工準備",
+  "category": "main",
+  "type": "once",
+  "region": "realm_wanwu",
+  "start_npc": "wanwu_auditor_qi",
+  "start_topic": "停工",
+  "steps": [
+    {
+      "step": 1,
+      "title": "與齊老匠師清點外環二十四座維修站",
+      "hint": "在萬物外環向齊老匠師詢問大停工條例與監察員陳楷的稽查漏洞 (ask wanwu_auditor_qi about 停工)。",
+      "target_type": "talk",
+      "target_npc": "wanwu_auditor_qi",
+      "target_topic": "停工",
+      "location": "/d/realm/wanwu/scrap_ring"
+    },
+    {
+      "step": 2,
+      "title": "摸清陳楷無主材料清零的稽查死角",
+      "hint": "至萬物外環與陳楷周旋試探，摸清外環工役交接與條例漏洞 (ask wanwu_inspector_chen about 無主材料)。",
+      "target_type": "talk",
+      "target_npc": "wanwu_inspector_chen",
+      "target_topic": "無主材料",
+      "location": "/d/realm/wanwu/scrap_ring"
+    }
+  ],
+  "rewards": {
+    "exp": 1300,
+    "pot": 360
+  }
+}

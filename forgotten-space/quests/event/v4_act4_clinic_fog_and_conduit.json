@@ -1,0 +1,75 @@
+{
+  "id": "v4_act4_clinic_fog_and_conduit",
+  "name": "地底導流井：藥爐護民與帶壓活榫換栓",
+  "category": "event",
+  "type": "event_quest",
+  "region": "realm_wanwu",
+  "start_npc": "stone_clinic_healer_su",
+  "start_topic": "病例",
+  "world_event": "tier3_calibration",
+  "deadline_stage": "T+1",
+  "valid_stages": [
+    "T0",
+    "T+1"
+  ],
+  "steps": [
+    {
+      "step": 1,
+      "title": "依病例簿穩住石堡地窟三十座緩衝藥爐霧氣",
+      "hint": "在邊緣緩衝醫站與顧玄、蘇青竹共同維持三十爐濾塵草霧不散 (light stoves)。",
+      "target_type": "action",
+      "action_verb": "light",
+      "action_target": "stoves",
+      "location": "/d/realm/edge/edge_clinic"
+    },
+    {
+      "step": 2,
+      "title": "下潛地底導流井完成三息帶壓活榫換栓",
+      "hint": "於萬物地底導流井在高壓熱浪下換裝三元活榫分流總栓 (swap valve)。",
+      "target_type": "action",
+      "action_verb": "swap",
+      "action_target": "valve",
+      "location": "/d/realm/wanwu/conduit_well",
+      "on_complete": {
+        "msg": "新總栓準時落榫鎖緊！主導流井高壓隨之引向廢棄礦坑，全堡地基與岩窯免於震塌。"
+      }
+    }
+  ],
+  "event_outcomes": {
+    "success": {
+      "status": "success",
+      "deltas": {
+        "outpost_defense": 2,
+        "labor_solidarity": 1
+      },
+      "facts": {
+        "conduit_valve_swapped": 1
+      },
+      "message": "緩衝藥爐護住四百八十七名遺民性命，且帶壓活榫換栓成功保住石堡外牆與地底總管。"
+    },
+    "partial": {
+      "status": "partial",
+      "deltas": {
+        "outpost_defense": 1
+      },
+      "facts": {
+        "conduit_valve_swapped": 1
+      },
+      "message": "總栓驚險咬合卻造成側壁滲熱，多名工匠與大夫手掌受高溫晶塵灼傷。"
+    },
+    "failure": {
+      "status": "failure",
+      "deltas": {
+        "outpost_defense": -2
+      },
+      "facts": {},
+      "message": "地底導流井過載爆管，邊緣岩窯震毀過半。"
+    }
+  },
+  "eval_metric": "outpost_defense",
+  "eval_min_for_success": 1,
+  "rewards": {
+    "exp": 1850,
+    "pot": 520
+  }
+}

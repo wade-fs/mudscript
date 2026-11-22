@@ -1,0 +1,27 @@
+{
+  "id": "v4_act4_postwar_clinic_relief",
+  "name": "校準夜善後：巡診傷員與清點三極代價",
+  "category": "side",
+  "type": "once",
+  "region": "realm_edge",
+  "start_npc": "stone_clinic_healer_su",
+  "start_topic": "排異",
+  "steps": [
+    {
+      "step": 1,
+      "title": "協助醫站巡視校準夜受傷的匠師與鹽夫",
+      "hint": "在邊緣緩衝醫站替蘇青竹與顧玄敷藥換繃帶並檢視永久代價留痕 (tend wounded)。",
+      "target_type": "action",
+      "action_verb": "tend",
+      "action_target": "wounded",
+      "location": "/d/realm/edge/edge_clinic",
+      "on_complete": {
+        "msg": "你替燙傷工匠與眼盲痛楚的夥伴換上乾淨細布，並替《石堡實錄》登錄下一條不打折扣的真實代價。"
+      }
+    }
+  ],
+  "rewards": {
+    "exp": 1200,
+    "pot": 340
+  }
+}

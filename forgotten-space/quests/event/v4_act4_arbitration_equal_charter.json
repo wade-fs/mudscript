@@ -1,0 +1,77 @@
+{
+  "id": "v4_act4_arbitration_equal_charter",
+  "name": "仲裁橋大對質：簽署平權契書與歸墟警報",
+  "category": "event",
+  "type": "event_quest",
+  "region": "realm_wanwu",
+  "start_npc": "wanwu_arbiter_core",
+  "start_topic": "沈雲妮",
+  "world_event": "tier3_calibration",
+  "deadline_stage": "T+1",
+  "valid_stages": [
+    "T0",
+    "T+1"
+  ],
+  "steps": [
+    {
+      "step": 1,
+      "title": "向裁決核心補驗三極停戰憑據與沈雲妮古篆總約",
+      "hint": "於萬物秩序仲裁橋向裁決核心調閱沈雲妮古約原件並要求重算資源配重 (ask wanwu_arbiter_core about 沈雲妮)。",
+      "target_type": "talk",
+      "target_npc": "wanwu_arbiter_core",
+      "target_topic": "沈雲妮",
+      "location": "/d/realm/wanwu/arbitration_bridge"
+    },
+    {
+      "step": 2,
+      "title": "定立《灰燼石堡百年平權自治契書》",
+      "hint": "在秩序仲裁橋將五方戰線實績並案上呈，迫使中樞裁定平權自治與百年互市 (equalize charter)。",
+      "target_type": "action",
+      "action_verb": "equalize",
+      "action_target": "charter",
+      "location": "/d/realm/wanwu/arbitration_bridge",
+      "on_complete": {
+        "give_item": "/clone/item/shen_yunnini_charter_edict.c",
+        "msg": "三界資源配重改定為平權互市！但仲裁碑底亦隨之浮出一行『歸墟封界門隙鬆動一分八』的幽藍警示。"
+      }
+    }
+  ],
+  "event_outcomes": {
+    "success": {
+      "status": "success",
+      "deltas": {
+        "charter_legitimacy": 2,
+        "beacon_readiness": 1
+      },
+      "facts": {
+        "charter_equalized": 1,
+        "guixu_seal_alerted": 1
+      },
+      "message": "《灰燼石堡百年平權自治契書》當眾落印生效，同時全體洞天人獲知歸墟總閘門鬆動的外敵危機。"
+    },
+    "partial": {
+      "status": "partial",
+      "deltas": {
+        "charter_legitimacy": 1
+      },
+      "facts": {
+        "charter_equalized": 1
+      },
+      "message": "平權契書勉力獲得五十年試運行授權，主殿保守派仍拒不承認歸墟警報。"
+    },
+    "failure": {
+      "status": "failure",
+      "deltas": {
+        "charter_legitimacy": -1
+      },
+      "facts": {},
+      "message": "仲裁裁定未能翻案，邊緣石堡僅能依靠地下暗倉勉力求存。"
+    }
+  },
+  "eval_metric": "charter_legitimacy",
+  "eval_min_for_success": 2,
+  "rewards": {
+    "exp": 2000,
+    "pot": 580
+  }
+}

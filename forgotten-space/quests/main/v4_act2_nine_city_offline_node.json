@@ -1,0 +1,37 @@
+{
+  "id": "v4_act2_nine_city_offline_node",
+  "name": "九城總庫：啟封暗點與人族火種補登總帳",
+  "category": "main",
+  "type": "once",
+  "region": "realm_wanwu",
+  "start_npc": "wanwu_auditor_qi",
+  "start_topic": "銅匣",
+  "steps": [
+    {
+      "step": 1,
+      "title": "與九城聯席遺址守燈線接頭",
+      "hint": "至灰燼石堡守夜寨向戚老頭詢問萬物九城廢棄樞紐暗點與離艦總約 (ask ash_warden_qi about 配給)。",
+      "target_type": "talk",
+      "target_npc": "ash_warden_qi",
+      "target_topic": "配給",
+      "location": "/d/realm/edge/ash_watch_post"
+    },
+    {
+      "step": 2,
+      "title": "啟封九城地庫樞紐並補登石堡四百八十七戶總帳",
+      "hint": "攜帶萬物工匠印信與沈雲妮七條總約餘印進入萬物九城聯席廢棄總庫補登名錄 (register ledger)。",
+      "target_type": "action",
+      "action_verb": "register",
+      "action_target": "ledger",
+      "location": "/d/realm/wanwu/nine_city_node",
+      "on_complete": {
+        "give_item": "/clone/item/human_seed_quota_ledger.c",
+        "msg": "地下銀色晶碑亮起三息後回暗，四百八十七名灰燼石堡遺民的古法補冊配額已壓進《九城火種配額補正帳簿》！"
+      }
+    }
+  ],
+  "rewards": {
+    "exp": 1350,
+    "pot": 380
+  }
+}
