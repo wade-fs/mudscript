@@ -186,6 +186,33 @@
         "clone/item/temp_residency_pass.c",
         "clone/item/trade_cargo.c"
       ]
+    },
+    {
+      "act_id": "vol4_act1_ash_bastion",
+      "novel_span": "Vol.4 Ch.0127 ~ Ch.0134",
+      "title": "碎石寒原、灰燼石堡與初窺 K×U",
+      "world_event": "tier3_calibration",
+      "quests": [
+        "v4_act1_bastion_arrival",
+        "v4_act1_salt_market_stove",
+        "v4_act1_clinic_and_eagle_mark"
+      ],
+      "rooms": [
+        "d/realm/peach_plateau.c",
+        "d/realm/edge/basalt_ridge.c",
+        "d/realm/edge/ash_watch_post.c",
+        "d/realm/edge/stardust_salt_flats.c",
+        "d/realm/edge/edge_clinic.c",
+        "d/realm/edge/scorch_border.c"
+      ],
+      "world_state_vars": ["tier3_calibration", "tier3_k", "tier3_u"],
+      "evidence_or_relics": [
+        "clone/item/edge_ration_wooden_tally.c",
+        "clone/item/spent_salt_crystal_core.c",
+        "clone/item/removable_stove_core.c",
+        "clone/item/bastion_salt_route_map.c",
+        "clone/item/yanshan_eagle_rubbing.c"
+      ]
     }
   ]
 }

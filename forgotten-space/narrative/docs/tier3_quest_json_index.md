@@ -5,9 +5,9 @@
 
 | 類別目錄 | 規劃任務檔名（計 26 份規劃任務） | 對應幕次與章節 | 預估前置區域／NPC／世界事件指標 |
 |---|---|---|---|
-| `quests/main/` | `v4_act1_bastion_arrival.json` | Act 1 (Ch. 127–128) | `/d/realm/peach_plateau` → `/d/realm/edge/ash_watch_post`、`ash_warden_qi`（舊招高耗實測） |
-| `quests/main/` | `v4_act1_salt_market_stove.json` | Act 1 (Ch. 129, 132) | `/d/realm/edge/crystal_black_market`、`ash_warden_qi`（鹽晶預扣查帳＋換芯暖爐，`tier3_u/craft` 路徑一） |
-| `quests/side/` | `v4_act1_clinic_and_eagle_mark.json` | Act 1 (Ch. 130–131, 133–134) | `/d/realm/edge/edge_clinic`、`stone_clinic_healer_su`（向量測繪＋鷹記拓印，`tier3_u/law` 路徑一） |
+| `quests/main/` | `v4_act1_bastion_arrival.json` | Act 1 (Ch. 127–128) | ✅ 已實裝：`/d/realm/peach_plateau` → `/d/realm/edge/ash_watch_post`、`ash_warden_qi`（熄燈＋阻尼實測） |
+| `quests/main/` | `v4_act1_salt_market_stove.json` | Act 1 (Ch. 129, 132) | ✅ 已實裝：`/d/realm/edge/stardust_salt_flats`、`salt_market_broker`、`ash_watch_post`（預扣查帳＋換芯暖爐） |
+| `quests/side/` | `v4_act1_clinic_and_eagle_mark.json` | Act 1 (Ch. 130–131, 133–134) | ✅ 已實裝：`/d/realm/edge/edge_clinic`、`basalt_ridge`、`scorch_border`（排異診斷＋向量測繪＋鷹記拓印） |
 | `quests/main/` | `v4_act2_taixu_calibration_spy.json` | Act 2 (Ch. 135–136) | `/d/realm/taixu/white_jade_steps`、`taixu_observer_heng`、`taixu_clerk_yanping`（玉化晶核＋銅匣債，`tier3_u/law` 路徑二） |
 | `quests/main/` | `v4_act2_wanwu_ark_registry.json` | Act 2 (Ch. 137–138) | `/d/realm/wanwu/scrap_ring`、`wanwu_auditor_qi`、`wanwu_inspector_chen`（拆銅匣＋九號艙檔，`tier3_u/craft` 路徑二） |
 | `quests/main/` | `v4_act2_zhanzu_yanshan_trail.json` | Act 2 (Ch. 139–140) | `/d/realm/zhanzu/hunting_camp`、`zhanzu_packmaster_tuo`、`yan_shan`（重力截息＋斷目重逢，`tier3_u/force` 雙路徑） |

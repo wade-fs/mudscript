@@ -158,7 +158,7 @@ def main():
     errors = []
     warnings = []
 
-    # 1. 檢查三卷小說章節與卷末導讀完整性
+    # 1. 檢查一至三卷完整章節＋第四卷推進章節與卷末導讀完整性
     vol_expected = {
         "volume1": 38,
         "volume2": 44,
@@ -173,6 +173,13 @@ def main():
         recap_path = os.path.join(ROOT, f"narrative/chapters/{vol}/README.md")
         if not os.path.exists(recap_path):
             errors.append(f"[{vol}] 缺少本卷大事記與人物狀態一覽 README.md")
+
+    v4_ch_files = sorted(glob.glob(os.path.join(ROOT, "narrative/chapters/volume4/ch*.md")))
+    total_chapters += len(v4_ch_files)
+    if len(v4_ch_files) < 8:
+        errors.append(f"[volume4] Act 1 章節數量不足：預期至少 8 章，實際 {len(v4_ch_files)}")
+    if not os.path.exists(os.path.join(ROOT, "narrative/chapters/volume4/README.md")):
+        errors.append("[volume4] 缺少本卷大事記與人物狀態一覽 README.md")
 
     # 2. 載入所有任務 ID
     quest_ids = set()
@@ -301,7 +308,7 @@ def main():
     print("=" * 72)
     print("《遺忘的世界》敘事—代碼雙向同步稽核報告 (Novel <-> Mudlib Sync Matrix)")
     print("=" * 72)
-    print(f"  ・已核驗小說章節總數 : {total_chapters} 章 (Vol.1: 38, Vol.2: 44, Vol.3: 44)")
+    print(f"  ・已核驗小說章節總數 : {total_chapters} 章 (Vol.1: 38, Vol.2: 44, Vol.3: 44, Vol.4: {len(v4_ch_files)})")
     print(f"  ・已核驗實體房間總數 : {len(all_rooms)} 間 ｜ 庶民 NPC：{len(folk_npcs)} 名")
     print(f"  ・已核驗章節追蹤矩陣 : {matrix_acts} 個故事幕次節點 (data/canon_sync_matrix.json)")
     print(f"  ・已核驗宣告式任務數 : {len(quest_files)} 個 JSON 任務定義")

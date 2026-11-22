@@ -1,0 +1,53 @@
+{
+  "id": "v4_act1_salt_market_stove",
+  "name": "殘晶黑市核算與換芯暖爐",
+  "category": "main",
+  "type": "once",
+  "region": "realm_edge",
+  "start_npc": "salt_market_broker",
+  "start_topic": "鹽晶",
+  "steps": [
+    {
+      "step": 1,
+      "title": "核對星塵鹽田黑市預扣實帳",
+      "hint": "前往星塵鹽田與殘晶黑市核查鹽晶預扣三成與晶柱暴漲實帳 (audit market)。",
+      "target_type": "action",
+      "action_verb": "audit",
+      "action_target": "market",
+      "location": "/d/realm/edge/stardust_salt_flats",
+      "on_complete": {
+        "give_item": "/clone/item/spent_salt_crystal_core.c",
+        "msg": "你拆穿黑市臨時私戳並辨識出墊桌腳的『九號離艦・外圍四號補給營』鐵牌，帶回一截報廢蓄能柱。"
+      }
+    },
+    {
+      "step": 2,
+      "title": "追問外環預扣與屯料異常",
+      "hint": "向外環牙人打聽外環急徵與預扣戰備折抵的風聲 (ask salt_market_broker about 預扣)。",
+      "target_type": "talk",
+      "target_npc": "salt_market_broker",
+      "target_topic": "預扣",
+      "location": "/d/realm/edge/stardust_salt_flats",
+      "on_complete": {
+        "msg": "牙人失言吐露萬物外環稽核司主事陳楷近來正急著屯料趕工。"
+      }
+    },
+    {
+      "step": 3,
+      "title": "拆解銅鎖並改鑄可拆卸換芯暖爐",
+      "hint": "返回灰燼石堡・守夜寨，以卡尺拆解銅箍並改鑄省料換芯暖爐 (forge stove)。",
+      "target_type": "action",
+      "action_verb": "forge",
+      "action_target": "stove",
+      "location": "/d/realm/edge/ash_watch_post",
+      "on_complete": {
+        "give_item": "/clone/item/bastion_salt_route_map.c",
+        "msg": "換芯暖爐成功點燃並替石堡省下七成耗材！戚老頭終於從牆磚暗格取出《石堡舊鹽道羊皮圖》交付予你。"
+      }
+    }
+  ],
+  "rewards": {
+    "exp": 1100,
+    "pot": 320
+  }
+}

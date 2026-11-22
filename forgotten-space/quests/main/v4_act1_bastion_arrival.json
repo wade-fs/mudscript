@@ -1,0 +1,52 @@
+{
+  "id": "v4_act1_bastion_arrival",
+  "name": "灰燼石堡：熄燈隱匿與阻尼實測",
+  "category": "main",
+  "type": "once",
+  "region": "realm_edge",
+  "start_npc": "ash_warden_qi",
+  "start_topic": "機隼",
+  "steps": [
+    {
+      "step": 1,
+      "title": "熄滅外燈避開巡檢機隼",
+      "hint": "在灰燼石堡・守夜寨依戚老頭喝令拍熄牆外防風油燈 (douse lamps)。",
+      "target_type": "action",
+      "action_verb": "douse",
+      "action_target": "lamps",
+      "location": "/d/realm/edge/ash_watch_post",
+      "on_complete": {
+        "msg": "兩盞油燈熄滅後石窯隱入玄武岩陰影，總算避開了天穹巡檢機隼的記帳掃視。"
+      }
+    },
+    {
+      "step": 2,
+      "title": "實測洞天空間阻尼與三倍耗能",
+      "hint": "在灰燼石堡實測凡間舊招在洞天的耗損變化 (test damping)。",
+      "target_type": "action",
+      "action_verb": "test",
+      "action_target": "damping",
+      "location": "/d/realm/edge/ash_watch_post",
+      "on_complete": {
+        "msg": "舊招消耗飆升三倍而威力折半，徹底證實洞天並非仙境而是高壓孤島。"
+      }
+    },
+    {
+      "step": 3,
+      "title": "核對十七批先輩口述史與領取配給牌",
+      "hint": "向戚老頭打聽歷代先輩下場並領取臨時配給腰牌 (ask ash_warden_qi about 先輩)。",
+      "target_type": "talk",
+      "target_npc": "ash_warden_qi",
+      "target_topic": "先輩",
+      "location": "/d/realm/edge/ash_watch_post",
+      "on_complete": {
+        "give_item": "/clone/item/edge_ration_wooden_tally.c",
+        "msg": "戚老頭收下防風火摺作為押資，發給你一塊焦黑的灰燼石堡熱源配給牌。"
+      }
+    }
+  ],
+  "rewards": {
+    "exp": 900,
+    "pot": 260
+  }
+}

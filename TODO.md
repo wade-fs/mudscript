@@ -161,6 +161,6 @@
    - [x] **重組卷四任務密度（修正 12 份/44 章過低問題）**：更新 [tier3_quest_json_index.md](forgotten-space/narrative/docs/tier3_quest_json_index.md) 與 [tier3_quest_network.md](forgotten-space/narrative/docs/tier3_quest_network.md) 為 **26 份規劃任務／44 章（0.59 份/章）**，將 Act 1 拆為 3 條任務，並將 Act 4 依五條並行戰線拆為 5 條非二元且不綁特定身世的並行支線共同計入 `EVENT_TIER3_CALIBRATION`。
 
 4. **Step 4：分幕雙軌實作與卷五邊界控管**
-   - [ ] **Act 1（Ch.127–134）雙軌推進**：完成正文撰寫、實作 `/d/realm/edge/` 分區房間、將 `v4_act1` 拆細為約 3 條任務，通過 `quest_audit.py` 與 BFS 連通檢核。
+   - [x] **Act 1（Ch.127–134）雙軌推進**：完成正文撰寫（`ch0127.md`–`ch0134.md` 與 `volume4/README.md`）、實作 `/d/realm/edge/` 5 間新房（接通 `peach_plateau.c`）與 5 名 NPC／5 件道具、將 `v4_act1` 拆細為 3 條任務並寫入 [test_v4_act1.c](forgotten-space/tests/test_v4_act1.c)，通過 `quest_audit.py`、`world_liveness_audit.py`、`novel_mud_sync_audit.py` 與 BFS 連通檢核。
    - [ ] **Act 2–4（`taixu/`、`zhanzu/`、`wanwu/` 等分區）依序雙軌推進**：Act 4 開寫前先進行一次整幕並行戰線與經濟／校準狀態機模擬跑（Simulation Run）。
    - [ ] **卷五（Tier 4 歸墟殘塚）範圍凍結**：僅保留既有骨架與 `traceability §4.2` 稀有門檻規格，不於第四卷完工前提前展開。

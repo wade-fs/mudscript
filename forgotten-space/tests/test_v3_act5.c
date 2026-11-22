@@ -48,8 +48,9 @@ void run_tests(object me) {
     assert_equal("/d/sects/taiqing/sealed_observatory.c",
                  port->query_exits()["up"],
                  "祖庭主傳送室 up 應返封存觀測室");
-    assert_equal(0, sizeof(plateau->query_exits()),
-                 "單向古陣毀損後 Tier 3 桃花源高原不應有靜態返程出口");
+    mapping p_exits = plateau->query_exits();
+    assert_true(mapp(p_exits) && (!p_exits["south"] || strsrch(p_exits["south"], "/d/sects/") == -1) && !p_exits["down"],
+                "單向古陣毀損後 Tier 3 桃花源高原不應有靜態返程出口回到 Tier 2");
 
     // ── 3. 第五幕新 NPC（周師叔）與 7 項新道具實例化檢驗 ──────────────
     object zhou = clone_object("/clone/npc/zhou_shishu.c");
