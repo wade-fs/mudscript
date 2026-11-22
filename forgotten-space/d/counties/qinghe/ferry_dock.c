@@ -27,4 +27,16 @@ void create() {
     ]));
 
     set_coordinate(-7, 9, 0);
+
+    mapping gauge_rule = ([
+        "targets": ({ "gauge", "pillar", "水尺", "水勢", "" }),
+        "sp_cost": 5,
+        "sensory_msg": CYN "你沿濕滑青石階梯蹲到河邊，借著水紋仔細讀出紅白水尺上的吃水刻度——水位雖淺，平底小藥船尚可勉力出港。" NOR,
+        "train_stat": ([ "per": 8 ]),
+        "exp_gain": 10,
+        "quest_verb": "check_gauge",
+        "quest_target": "gauge"
+    ]);
+    add_action_rule("check_gauge", gauge_rule);
+    add_action_rule("量水尺", gauge_rule);
 }

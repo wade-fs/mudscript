@@ -93,9 +93,13 @@ void ensure_route_travelers() {
     if (route_npc_init || query("no_auto_npc")) return;
     route_npc_init = 1;
     string oname = base_name(this_object());
-    if (strsrch(oname, "post") != -1 || strsrch(oname, "pass") != -1 ||
-        strsrch(oname, "pavilion") != -1 || strsrch(oname, "dock") != -1 ||
-        strsrch(oname, "toll") != -1 || strsrch(oname, "entry") != -1) {
+    int is_checkpoint = (strsrch(oname, "pass") != -1 || strsrch(oname, "toll") != -1 ||
+                         strsrch(oname, "entry") != -1);
+    int is_waystation = (strsrch(oname, "post") != -1 || strsrch(oname, "pavilion") != -1 ||
+                         strsrch(oname, "dock") != -1 || strsrch(oname, "approach") != -1 ||
+                         strsrch(oname, "bend") != -1 || strsrch(oname, "highway") != -1);
+
+    if (is_checkpoint || is_waystation) {
         object *inv = all_inventory(this_object());
         int has_liv = 0;
         if (arrayp(inv)) {
@@ -103,7 +107,10 @@ void ensure_route_travelers() {
                 if (living(ob) && !userp(ob)) { has_liv = 1; break; }
             }
         }
-        if (!has_liv) spawn_npc("/clone/npc/folk/route_traveler.c");
+        if (!has_liv) {
+            if (is_checkpoint) spawn_npc("/clone/npc/folk/route_guard.c");
+            else spawn_npc("/clone/npc/folk/route_traveler.c");
+        }
     }
 }
 
@@ -115,4 +122,68 @@ void look_room(object who) {
 void init() {
     ::init();
     ensure_route_travelers();
+    string oname = base_name(this_object());
+    add_action("do_route_survey", "survey");
+    add_action("do_route_survey", "路況");
+    if (strsrch(oname, "post") != -1 || strsrch(oname, "pavilion") != -1 ||
+        strsrch(oname, "dock") != -1 || strsrch(oname, "approach") != -1) {
+        add_action("do_route_rest", "rest");
+        add_action("do_route_rest", "drink");
+        add_action("do_route_rest", "歇腳");
+    }
+    if (strsrch(oname, "pass") != -1 || strsrch(oname, "toll") != -1 ||
+        strsrch(oname, "entry") != -1) {
+        add_action("do_route_check_pass", "check_pass");
+        add_action("do_route_check_pass", "盤查");
+    }
+}
+
+int do_route_survey(string arg) {
+    mapping seg = query_segment_info();
+    object ws = load_object(WORLD_STATE_D);
+    string garr = ws ? ws->query_garrison_narrative(0) : "各路段暫無戰時封鎖令。";
+    if (!mapp(seg)) {
+        write("你放眼檢視前後山道與天色雲勢，路面尚可通行。\n" + CYN "【商道風聲】" + garr + "\n" NOR);
+        return 1;
+    }
+    write(sprintf(HIY "\n【官道實測・%s】\n" NOR
+                  "  路段長度：%d 里｜通行方式：%s（正常耗時：%s）\n"
+                  "  地形風險：%s｜季節阻斷：%s\n"
+                  "  關卡現況：%s\n\n",
+                  seg["name"], seg["distance_li"], seg["travel_mode"], seg["normal_duration"],
+                  seg["risk"], seg["seasonal_block"], garr));
+    return 1;
+}
+
+int do_route_rest(string arg) {
+    object me = this_player();
+    if (!me) return 0;
+    write(HIG "你在路邊石凳或茶寮簷下卸下肩擔喘口氣，喝了兩口涼水潤潤乾裂的喉嚨。\n" NOR);
+    me->add(VITAL_KEE, 10);
+    me->add(VITAL_SP, 20);
+    if (!me->query("brief_numeric")) {
+        write(CYN "【官道歇腳：氣血 +10、精力 +20】\n" NOR);
+    }
+    return 1;
+}
+
+int do_route_check_pass(string arg) {
+    object me = this_player();
+    if (!me) return 0;
+    object pass_ob = present("road pass", me);
+    if (!pass_ob) {
+        foreach (object item in all_inventory(me)) {
+            if (item->query("is_road_pass")) { pass_ob = item; break; }
+        }
+    }
+    object ws = load_object(WORLD_STATE_D);
+    int blocked = (ws && ws->is_caravan_blocked());
+    if (pass_ob) {
+        write(HIG "你亮出蓋有官方火漆的【" + pass_ob->query_name() + "】，關卡巡檢卒驗看無誤後揮手放行。\n" NOR);
+    } else if (blocked) {
+        write(HIR "關卡巡檢卒橫槍攔道：「眼下官道戒嚴封鎖，無路引或商會保單一概不得帶貨強過！」\n" NOR);
+    } else {
+        write(YEL "關卡巡檢卒上下打量你兩眼道：「沒帶正式路引只許空身趕路，若夾帶大宗礦藥貨物可得補繳過山錢！」\n" NOR);
+    }
+    return 1;
 }

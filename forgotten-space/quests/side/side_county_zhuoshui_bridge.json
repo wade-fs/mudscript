@@ -1,0 +1,53 @@
+{
+  "id": "side_county_zhuoshui_bridge",
+  "name": "濁水老攤・老薑驅瘴",
+  "category": "side",
+  "type": "once",
+  "start_npc": "zhuoshui_bridgekeeper",
+  "start_topic": "薑湯",
+  "requirements": {
+    "level": 2
+  },
+  "steps": [
+    {
+      "step": 1,
+      "title": "在黑水老薑驅瘴攤顧火熬透驅瘴薑湯",
+      "hint": "在濁水縣黑水老薑驅瘴攤往銅鍋裡添老薑與花椒熬煮驅瘴湯 (boil soup)。",
+      "target_type": "action",
+      "action_verb": "boil",
+      "action_target": "soup",
+      "location": "/d/counties/zhuoshui/ginger_soup_stall",
+      "on_complete": {
+        "msg": "滾燙辛辣的老薑花椒湯已經熬得通透，裝進木桶正冒著驅散水瘴的白氣。"
+      }
+    },
+    {
+      "step": 2,
+      "title": "將熱薑湯送到黑水埗三號浮橋交給修橋工友",
+      "hint": "穿過浮橋水集來到黑水埗・三號木樁浮橋，把熱薑湯分給修橋的地方老匠工 (ask county_worker about 薑湯)。",
+      "target_type": "talk",
+      "target_npc": "county_worker",
+      "target_topic": "薑湯",
+      "location": "/d/counties/zhuoshui/heishui_pontoon",
+      "on_complete": {
+        "msg": "泡在黑水邊修鐵鏈的幾名老匠工趁熱喝下薑湯，頓時暖得直呼痛快。"
+      }
+    },
+    {
+      "step": 3,
+      "title": "回黑水老薑驅瘴攤向老譚交回木桶領工錢",
+      "hint": "返回濁水縣黑水老薑驅瘴攤告訴橋工老譚薑湯已送妥 (ask zhuoshui_bridgekeeper about 薑湯)。",
+      "target_type": "talk",
+      "target_npc": "zhuoshui_bridgekeeper",
+      "target_topic": "薑湯",
+      "location": "/d/counties/zhuoshui/ginger_soup_stall",
+      "on_complete": {
+        "msg": "老譚擦淨空木桶塞給你一百文銅錢與一包驅蚊乾艾草。"
+      }
+    }
+  ],
+  "rewards": {
+    "exp": 210,
+    "money": 100
+  }
+}

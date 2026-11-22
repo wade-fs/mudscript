@@ -36,6 +36,10 @@ void create() {
     set("has_shop", 1);
     set("has_forge", 1);
 
+    set_touch("default", WHT "青石板路面被無數貨車鐵輪與草鞋磨得坑窪冰涼，茶棚木凳邊角油亮發黑。" NOR);
+    set_smell("default", YEL "粗葉茶香、老鐵匠鋪的焦炭煤煙、馬糞與陳記雜糧鋪飄出的穀糠味交織成山村市井氣。" NOR);
+    set_listen("default", HIY "打鐵鋪「叮噹」敲擊聲、商販吆喝聲與茶棚裡過路腳夫的嘆氣講古聲混成一片熱鬧煙火。" NOR);
+
     add_item("board", "一張告示牌");
 
     spawn_npc("/clone/npc/caravan_merchant.c");

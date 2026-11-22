@@ -1,0 +1,41 @@
+{
+  "id": "side_sect_bahuang_bowstring",
+  "name": "外營通鋪・磨刀修弦",
+  "category": "side",
+  "type": "once",
+  "start_npc": "route_traveler",
+  "start_topic": "磨刀",
+  "requirements": {
+    "level": 3
+  },
+  "steps": [
+    {
+      "step": 1,
+      "title": "在八荒殿巡山外營通鋪替巡哨武卒打磨重刀",
+      "hint": "在八荒殿巡山外營通鋪拿起浸過羊油的粗青石磨石把鈍口重刀磨出寒芒 (sharpen blade)。",
+      "target_type": "action",
+      "action_verb": "sharpen",
+      "action_target": "blade",
+      "location": "/d/sects/bahuang/outer_barracks",
+      "on_complete": {
+        "msg": "厚重的開刃破甲刀在青石上摩擦十數下，刃口重新泛起冷冽寒芒。"
+      }
+    },
+    {
+      "step": 2,
+      "title": "向通鋪烤火的旅人覆命",
+      "hint": "在巡山外營通鋪向烤火的趕路趟子手報一聲刀已磨妥 (ask route_traveler about 磨刀)。",
+      "target_type": "talk",
+      "target_npc": "route_traveler",
+      "target_topic": "磨刀",
+      "location": "/d/sects/bahuang/outer_barracks",
+      "on_complete": {
+        "msg": "眾人看著亮晃晃的刀刃連聲誇讚，烤火的旅人也塞給你一把烤乾麵饃與銅錢。"
+      }
+    }
+  ],
+  "rewards": {
+    "exp": 220,
+    "money": 110
+  }
+}

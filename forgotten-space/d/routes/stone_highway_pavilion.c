@@ -22,4 +22,16 @@ void create() {
     ]));
 
     set_coordinate(-2, 9, 0);
+
+    mapping cover_rule = ([
+        "targets": ({ "cargo", "goods", "貨棚", "大車", "" }),
+        "sp_cost": 10,
+        "sensory_msg": YEL "你拉起厚實桐油布死死壓住露天的條石與粗鹽貨垛，再用麻繩打成十字水手結繫緊車輪，趕在山雨砸落前護住了全車貨物！" NOR,
+        "train_stat": ([ "str": 8, "con": 8 ]),
+        "exp_gain": 12,
+        "quest_verb": "cover",
+        "quest_target": "cargo"
+    ]);
+    add_action_rule("cover", cover_rule);
+    add_action_rule("蓋貨", cover_rule);
 }

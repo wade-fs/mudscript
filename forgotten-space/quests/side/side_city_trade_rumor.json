@@ -1,0 +1,41 @@
+{
+  "id": "side_city_trade_rumor",
+  "name": "老酒肆・跑商聽風",
+  "category": "side",
+  "type": "once",
+  "start_npc": "tavern_merchant",
+  "start_topic": "吹牛",
+  "requirements": {
+    "level": 2
+  },
+  "steps": [
+    {
+      "step": 1,
+      "title": "到城南官辦糧食市集向糧行會首米萬倉核實糧價",
+      "hint": "走出金石老酒肆往南來到官辦糧食市集，向米萬倉打聽青河漕糧實價 (ask south_grain_guildhead about 糧價)。",
+      "target_type": "talk",
+      "target_npc": "south_grain_guildhead",
+      "target_topic": "糧價",
+      "location": "/d/city/south/grain_market",
+      "on_complete": {
+        "msg": "你摸清了青河漕運糧油與南市耐火泥的真實差價，不再被酒肆吹牛繞昏頭。"
+      }
+    },
+    {
+      "step": 2,
+      "title": "回金石老酒肆趁行情差價短線倒手物產",
+      "hint": "返回金石老酒肆將物產差價平帳脫手 (trade goods)。",
+      "target_type": "action",
+      "action_verb": "trade",
+      "action_target": "goods",
+      "location": "/d/city/south/wine_tavern",
+      "on_complete": {
+        "msg": "陳大牙朝你豎起大拇指，誇你比老走商還精明，順便再分你一點跑路茶錢。"
+      }
+    }
+  ],
+  "rewards": {
+    "exp": 170,
+    "money": 80
+  }
+}

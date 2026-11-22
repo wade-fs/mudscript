@@ -12,11 +12,12 @@ void create() {
     set_long("一間低矮卻收拾得極為整齊的木板糧鋪，門檻被挑夫的草鞋磨得圓潤光亮。\n"
              "牆邊一排十幾口大敞口粗陶米缸，分別盛著糙米、燕麥麵、高粱與所剩無幾的粗鹽；\n"
              "樑上垂著一桿老舊烏木桿秤 (weigh grain)，陳老漢正戴著袖套在櫃後撥算盤。\n"
-             "向東推開後門通往【舊晾穀場與牛棚】，出門 (out) 即回【青石街市】。\n");
+             "向東推開後門通往【舊晾穀場與牛棚】，向南拐過牆角便是【老貨郎雜貨棚】，出門 (out) 即回【青石街市】。\n");
 
     set_exits(([
-        "out":  "/d/village/square.c",
-        "east": "/d/village/old_granary_yard.c",
+        "out":   "/d/village/square.c",
+        "east":  "/d/village/old_granary_yard.c",
+        "south": "/d/village/peddler_corner.c",
     ]));
 
     set("is_outdoor", 0);

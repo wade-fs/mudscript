@@ -13,11 +13,12 @@ void create() {
     set_long("這座掩映在漫天白蘆葦叢中的水鄉村落，是青河縣轄下兩大基礎聚落之一。\n"
              "村人世代以撐船擺渡、水田種稻與採集水生澤瀉為生。木棧橋邊拴著一排排烏篷小船\n"
              "與捕魚竹簍。向東北沿河堤可往【青河縣・漕運碼頭】，往南涉過蘆葦淺水則通往\n"
-             "河道拐彎處的【蘆花渡古河床淺灘】。\n");
+             "【蘆花渡古河床淺灘】，向西走上堤岸柳蔭則是熱氣騰騰的【蘆花渡・河鮮粗茶棚】。\n");
 
     set_exits(([
         "northeast": "/d/counties/qinghe/ferry_dock.c",
         "south":     "/d/counties/qinghe/luhuadu_shoal.c",
+        "west":      "/d/counties/qinghe/river_tea_shed.c",
     ]));
 
     set_coordinate(-8, 8, 0);

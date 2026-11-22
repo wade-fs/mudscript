@@ -12,10 +12,11 @@ void create() {
     set_short("烈礬縣驛・赤岩客舍");
     set_long("這座紅砂岩砌築的驛館大院內停滿了裝載生銅錠與明礬桶的鐵輪大車。由於\n"
              "烈礬泉水多帶酸苦，店小二特意備有從南嶺運來的甘甜山泉與解毒綠豆湯。向西北\n"
-             "步出院門即回【銅礬硃砂大集】。\n");
+             "步出院門即回【銅礬硃砂大集】，向東繞過紅砂岩牆則是【礦工歇腳粗茶棚】。\n");
 
     set_exits(([
         "northwest": "/d/counties/liefan/market.c",
+        "east":      "/d/counties/liefan/miners_tea_shed.c",
     ]));
 
     set_is_outdoor(0);

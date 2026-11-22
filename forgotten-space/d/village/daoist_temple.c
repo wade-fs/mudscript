@@ -23,6 +23,10 @@ void create() {
 
     set("is_outdoor", 0);
 
+    set_touch("default", WHT "案几上厚厚的冷灰乾燥微澀，泥塑神像肩背的青苔摸起來又涼又潮。" NOR);
+    set_smell("default", CYN "陳舊的檀香灰餘韻、潮濕青苔與泛黃竹紙受潮後的微霉氣味。" NOR);
+    set_listen("default", HIC "殿外山風穿過殘破屋瓦發出低沉嗚咽，屋內偶爾響起老道木魚清脆一叩。" NOR);
+
     spawn_npc("/clone/npc/kumu_daoist.c");
     spawn_item("/clone/item/rubbing_kit.c");
 }

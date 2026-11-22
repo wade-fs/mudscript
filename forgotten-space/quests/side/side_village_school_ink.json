@@ -1,0 +1,41 @@
+{
+  "id": "side_village_school_ink",
+  "name": "村尾蒙館・一錠松煙墨",
+  "category": "side",
+  "type": "once",
+  "start_npc": "song_xiucai",
+  "start_topic": "墨錠",
+  "requirements": {
+    "level": 1
+  },
+  "steps": [
+    {
+      "step": 1,
+      "title": "向老貨郎胡二取回留存的松煙墨與舊字帖",
+      "hint": "沿土地廟東折經陳記雜糧鋪南轉至老貨郎雜貨棚，向貨郎胡二取回宋秀才預留的松煙墨 (ask peddler_hu about 松煙墨)。",
+      "target_type": "talk",
+      "target_npc": "peddler_hu",
+      "target_topic": "松煙墨",
+      "location": "/d/village/peddler_corner",
+      "on_complete": {
+        "msg": "貨郎胡二從貨擔裡遞出油紙包好的便宜松煙墨與兩本舊《千字文》字帖，笑道「記得報給宋先生記帳」。"
+      }
+    },
+    {
+      "step": 2,
+      "title": "將墨錠與字帖帶回村尾蒙館交給宋秀才",
+      "hint": "回到黑石鋪村尾蒙館將松煙墨交給宋秀才 (ask song_xiucai about 墨錠)。",
+      "target_type": "talk",
+      "target_npc": "song_xiucai",
+      "target_topic": "墨錠",
+      "location": "/d/village/village_school",
+      "on_complete": {
+        "msg": "宋秀才接過油紙包連聲致謝，轉身便研墨替孩子們寫起新的描紅大字，還塞給你幾枚銅錢作腳力。"
+      }
+    }
+  ],
+  "rewards": {
+    "exp": 110,
+    "money": 40
+  }
+}

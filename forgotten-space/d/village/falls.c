@@ -24,6 +24,10 @@ void create() {
     set("can_train_falls", 1);
     set("can_gather_moss", 1);
     set("moss_stock", 5);
+    set_touch("default", HIC "四下飛濺的潭霧冰冷透骨，瀑布下的巨型黑石被急流打磨得光滑如鏡、難以立穩。" NOR);
+    set_smell("default", CYN "濃烈清冽的寒潭水汽、深黑岩苔腥味與崖壁陰濕石土氣息撲面而來。" NOR);
+    set_listen("default", HIW "丈許寬的飛瀑砸落寒潭轟鳴震耳，幾乎蓋過周遭一切人聲與山林鳥鳴。" NOR);
+
     spawn_npc("/clone/npc/zhao_si.c");
 }
 

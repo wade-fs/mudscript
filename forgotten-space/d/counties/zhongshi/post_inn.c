@@ -12,10 +12,11 @@ void create() {
     set_short("重石縣驛・磐石騾馬店");
     set_long("寬闊的石砌院落內拴著數十匹骨架粗大的西南挽馬與健騾，專供拖曳萬斤條石\n"
              "大車北上府城之用。店堂內酒香與汗味交雜，幾名從落龍西谷棧道驚魂未定趕來的\n"
-             "行客正大口喝著熱湯壓驚。向西北出院即回【石鐵大集】。\n");
+             "行客正大口喝著熱湯壓驚。向西北出院即回【石鐵大集】，往東穿過石拱門則是【條石大車棚】。\n");
 
     set_exits(([
         "northwest": "/d/counties/zhongshi/market.c",
+        "east":      "/d/counties/zhongshi/carter_yard.c",
     ]));
 
     set_has_tavern(1);

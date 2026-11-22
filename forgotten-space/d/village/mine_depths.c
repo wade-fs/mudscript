@@ -21,6 +21,10 @@ void create() {
     ]));
 
     set("is_underground", 1);
+    set_touch("default", HIB "扭曲的生鐵軌道冰冷濕滑，岩壁縫裡滲著帶刺麻礦粉感的陰寒潮氣。" NOR);
+    set_smell("default", MAG "濃烈刺鼻的硫磺焦臭與地煞紫霧毒煙混在一起，吸進肺裡隱隱發辣。" NOR);
+    set_listen("default", HIY "死寂坑道深處除卻岩水滴落聲，偶爾能聽見極遙遠的金屬輕微回震。" NOR);
+
     spawn_npc("/clone/npc/mine_rat.c");
     spawn_npc("/clone/npc/mine_rat.c");
 }

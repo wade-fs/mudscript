@@ -22,6 +22,10 @@ void create() {
     ]));
 
     set("is_outdoor", 0);
+    set_touch("default", WHT "兩側黃土危牆潮濕掉灰，腳下爛木板長滿滑膩青斑，踩上去吱呀發軟。" NOR);
+    set_smell("default", YEL "死巷積水的黑臭淤泥味、腐木霉味與隱約一絲劣質油腥混雜不散。" NOR);
+    set_listen("default", WHT "牆頭高處隔絕了街市喧鬧，只剩巷底滴水進破瓦罐的「答、答」回音。" NOR);
+
     spawn_npc("/clone/npc/black_guard.c");
 }
 

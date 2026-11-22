@@ -22,6 +22,7 @@ def main():
 
     room_files = sorted(glob.glob(os.path.join(R, "d/**/*.c"), recursive=True))
     area_counts = Counter()
+    area_empty = Counter()
     exits_map = {}
     sensory_rooms = 0
     npc_rooms = 0
@@ -44,17 +45,27 @@ def main():
             if not os.path.exists(target_disk):
                 errors.append(f"Broken exit: {rel} [{d_dir}] -> {target} (missing file)")
 
-        # Check sensory coverage (explicit set_touch/set_smell/set_listen OR dynamic room bases)
-        has_explicit_sensory = any(k in src for k in ("set_touch", "set_smell", "set_listen"))
+        # Check sensory coverage (explicit set_*/query_* OR dynamic room bases)
+        has_explicit_sensory = any(k in src for k in (
+            "set_touch", "set_smell", "set_listen",
+            "query_touch", "query_smell", "query_listen",
+        ))
         inherits_county_or_route = any(k in src for k in ("COUNTY_ROOM_OB", "ROUTE_ROOM_OB", "/std/county_room.c", "/std/route_room.c"))
-        if has_explicit_sensory or inherits_county_or_route:
+        has_sensory = has_explicit_sensory or inherits_county_or_route
+        has_npc = ("spawn_npc" in src) or inherits_county_or_route
+        has_action = ("add_action" in src)
+
+        if has_sensory:
             sensory_rooms += 1
 
-        if "spawn_npc" in src or inherits_county_or_route:
+        if has_npc:
             npc_rooms += 1
 
         if "add_action_rule" in src:
             action_rule_rooms += 1
+
+        if not (has_sensory or has_npc or has_action or ("spawn_item" in src)):
+            area_empty[area] += 1
 
     # Verify new rooms specifically are reachable (have at least 1 incoming exit and 1 valid outgoing exit)
     incoming = Counter()
@@ -69,6 +80,9 @@ def main():
         "/d/village/south_quarry.c",
         "/d/village/earth_shrine.c",
         "/d/village/lumber_slope.c",
+        "/d/village/village_school.c",
+        "/d/village/peddler_corner.c",
+        "/d/village/smokehouse_shed.c",
         "/d/city/outer/tenement_alley.c",
         "/d/city/center/tea_alley.c",
         "/d/city/outer/river_wharf.c",
@@ -81,6 +95,19 @@ def main():
         "/d/sects/tiangong/slag_pit.c",
         "/d/sects/bahuang/outer_barracks.c",
         "/d/yunjin/river_wharf.c",
+        "/d/counties/zhenfeng/garrison_lane.c",
+        "/d/counties/qinghe/river_tea_shed.c",
+        "/d/counties/panmu/timber_wharf.c",
+        "/d/counties/zhongshi/carter_yard.c",
+        "/d/counties/zhuoshui/ginger_soup_stall.c",
+        "/d/counties/liefan/miners_tea_shed.c",
+        "/d/city/south/wine_tavern.c",
+        "/d/city/south/dye_alley.c",
+        "/d/city/outer/charity_clinic_shed.c",
+        "/d/city/outer/fish_market.c",
+        "/d/yunjin/temple_tea_fair.c",
+        "/d/yunjin/dock_coolie_lane.c",
+        "/d/wastes/frost_hunter_camp.c",
     ]
 
     for nr in new_living_rooms:
@@ -108,14 +135,14 @@ def main():
             errors.append(f"std/county_room.c missing {req_fn}")
 
     route_base = rd("std/route_room.c")
-    for req_fn in ("ensure_route_travelers", "query_touch", "query_smell", "query_listen"):
+    for req_fn in ("ensure_route_travelers", "query_touch", "query_smell", "query_listen", "do_route_survey", "do_route_check_pass"):
         if req_fn not in route_base:
             errors.append(f"std/route_room.c missing {req_fn}")
 
     # Verify side quests exist and are valid JSON
     side_quests = sorted(glob.glob(os.path.join(R, "quests/side/side_*.json")))
-    if len(side_quests) < 5:
-        errors.append(f"Expected >= 5 non-mainline slice-of-life side quests, found {len(side_quests)}")
+    if len(side_quests) < 18:
+        errors.append(f"Expected >= 18 non-mainline slice-of-life side quests, found {len(side_quests)}")
     for sq in side_quests:
         try:
             with open(sq, encoding="utf-8") as f:
@@ -126,9 +153,10 @@ def main():
             errors.append(f"Invalid JSON in {sq}: {exc}")
 
     total_rooms = len(room_files)
-    if total_rooms < 272:
-        errors.append(f"Expected >= 272 rooms after expansion, found {total_rooms}")
+    if total_rooms < 288:
+        errors.append(f"Expected >= 288 rooms after Phase 2 batch 2 expansion, found {total_rooms}")
 
+    empty_total = sum(area_empty.values())
     print("=" * 70)
     print("WORLD LIVENESS AUDIT SUMMARY")
     print("=" * 70)
@@ -136,6 +164,7 @@ def main():
     print(f"Sensory-rich rooms:    {sensory_rooms}/{total_rooms}")
     print(f"Resident/NPC-capable:  {npc_rooms}/{total_rooms}")
     print(f"Declarative action:    {action_rule_rooms}/{total_rooms}")
+    print(f"Empty rooms (no S/N/A): {empty_total}/{total_rooms} ({dict(area_empty)})")
     print(f"Slice-of-life quests:  {len(side_quests)}")
     if warnings:
         print("\nWarnings:")

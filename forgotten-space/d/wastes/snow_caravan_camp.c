@@ -12,11 +12,12 @@ void create() {
     set_long("北荒南沿最後一處尚有人煙火塘的紮營谷地，此後再往北便徹底踏入荒無人煙的\n"
              "外荒大裂谷。二十四輛泥途輜重雪橇在此檢查防滑鐵齒與防寒乾糧，十丈外可見赤煉\n"
              "親信提燈巡哨（檢視重車轍深與防滑鐵齒：inspect sleighs）。東側帳篷掛著紅十字布條\n"
-             "通往【北荒前哨醫所】，向北進發【永凍血原】，往南返回【北荒南沿入口】。\n");
+             "通往【北荒前哨醫所】，西側背風坡則是塞外牧民的【凍土牧戶避風棚】，向北進發【永凍血原】，往南返回【北荒南沿入口】。\n");
 
     set_exits(([
         "south": "/d/wastes/south_approach.c",
         "east":  "/d/wastes/north_outpost_infirmary.c",
+        "west":  "/d/wastes/frost_hunter_camp.c",
         "north": "/d/wastes/frozen_blood_plain.c",
     ]));
 

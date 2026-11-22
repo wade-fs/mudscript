@@ -12,10 +12,11 @@ void create() {
     set_short("濁水縣驛・高腳吊腳樓");
     set_long("懸空架於濁水河面三丈之上的竹木吊腳客樓，四角點著驅蚊避瘴的雄黃艾草\n"
              "香盤。大堂內三教九流混雜，既有押送重晶石的行商，也有眼神陰鷙的黑市刀客。\n"
-             "向西北走過木廊即回【浮橋金砂水集】。\n");
+             "向西北走過木廊即回【浮橋金砂水集】，向東跨上露天棧台則是【黑水老薑驅瘴攤】。\n");
 
     set_exits(([
         "northwest": "/d/counties/zhuoshui/market.c",
+        "east":      "/d/counties/zhuoshui/ginger_soup_stall.c",
     ]));
 
     set_is_outdoor(0);

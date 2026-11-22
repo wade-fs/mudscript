@@ -12,15 +12,20 @@ void create() {
     set_long("這是一座依著大荒鹿角柵欄搭建的高腳圓木哨亭。粗木牆上散發著松脂與煙燻\n"
              "氣息，樑上懸掛著幾條風乾肉條、幾張抹了防蟲油的灰狼皮與一副粗重獸弓。\n"
              "角落的火塘 (hearth) 裡燃著苦艾草與枯松枝，青煙裊裊 (smoke)。推開厚木門，\n"
-             "眼前便是遮天蔽日的大荒外緣，遠處不時傳來狼嚎禽鳴。\n");
+             "眼前便是遮天蔽日的大荒外緣，遠處不時傳來狼嚎禽鳴；東側籬笆小門通往【山麓烘肉寮】。\n");
 
     set_exits(([
         "south":     "/d/village/forest.c",
         "west":      "/d/village/square.c",
         "northwest": "/d/village/square.c",
+        "east":      "/d/village/smokehouse_shed.c",
     ]));
 
     set("is_outdoor", 0);
+
+    set_touch("default", YEL "粗圓木牆壁滲著粘手的松脂，樑上垂下的風乾狼皮硬實粗糙、帶點防蟲油膩感。" NOR);
+    set_smell("default", GRN "火塘裡苦艾草與枯松枝燃燒的辛香青煙，壓過了血腥與獸皮硝味。" NOR);
+    set_listen("default", WHT "火塘柴火偶爾劈啪一爆，哨亭外大荒林梢傳來遠處寒鴉與野狼的短促低嗥。" NOR);
 
     spawn_npc("/clone/npc/zhao_hunter.c");
     spawn_item("/clone/weapon/heavy_bow.c");

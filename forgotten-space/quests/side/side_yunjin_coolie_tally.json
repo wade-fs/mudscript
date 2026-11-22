@@ -1,0 +1,41 @@
+{
+  "id": "side_yunjin_coolie_tally",
+  "name": "冰河碼頭・竹籌對帳",
+  "category": "side",
+  "type": "once",
+  "start_npc": "yunjin_wharf_master",
+  "start_topic": "工錢",
+  "requirements": {
+    "level": 3
+  },
+  "steps": [
+    {
+      "step": 1,
+      "title": "前往苦力算帳棚協助核對扛木竹籌與水單",
+      "hint": "沿雲津城冰河木筏碼頭往東進入苦力算帳棚，幫不識字的苦力核對竹籌帳目 (tally chips)。",
+      "target_type": "action",
+      "action_verb": "tally",
+      "action_target": "chips",
+      "location": "/d/yunjin/dock_coolie_lane",
+      "on_complete": {
+        "msg": "你一筆一筆將竹籌與貨棧水單核清，當場揪出管事漏記的十二根扛木籌。"
+      }
+    },
+    {
+      "step": 2,
+      "title": "回冰河木筏碼頭向冰河船把頭覆命",
+      "hint": "返回雲津城冰河木筏碼頭告知冰河船把頭帳目已核清 (ask yunjin_wharf_master about 工錢)。",
+      "target_type": "talk",
+      "target_npc": "yunjin_wharf_master",
+      "target_topic": "工錢",
+      "location": "/d/yunjin/river_wharf",
+      "on_complete": {
+        "msg": "老把頭激動地拍手叫好，碼頭兄弟們湊出兩吊錢與一壺暖胃燒酒硬塞給了你。"
+      }
+    }
+  ],
+  "rewards": {
+    "exp": 240,
+    "money": 130
+  }
+}

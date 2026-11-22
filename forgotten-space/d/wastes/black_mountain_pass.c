@@ -21,4 +21,20 @@ void create() {
     ]));
 
     set("is_outdoor", 1);
+
+    set_touch("default", HIW "黑山北關外的積雪被朔風壓得堅硬如石板，界碑表面結滿刮手冰稜。" NOR);
+    set_smell("default", CYN "刺骨乾冷的塞外飛雪味，偶爾掠過一絲牧羊坡飄來的微弱羊羶乾草氣。" NOR);
+    set_listen("default", WHT "長城女牆缺口處吹過呼嘯黑風，雪道遠端隱約傳來走失黃羊驚惶的咩叫聲。" NOR);
+
+    mapping herd_rule = ([
+        "targets": ({ "goat", "sheep", "黃羊", "獨角羊", "" }),
+        "sp_cost": 10,
+        "sensory_msg": YEL "你在雪堆岩縫裡尋見瑟瑟發抖的獨角黃羊，從懷裡掏出半把乾草哄著給牠套上麻繩牽住！" NOR,
+        "train_stat": ([ "per": 8, "dex": 8 ]),
+        "exp_gain": 15,
+        "quest_verb": "herd",
+        "quest_target": "goat"
+    ]);
+    add_action_rule("herd", herd_rule);
+    add_action_rule("牽羊", herd_rule);
 }

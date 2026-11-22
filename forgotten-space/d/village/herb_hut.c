@@ -21,6 +21,10 @@ void create() {
 
     set("is_outdoor", 0);
 
+    set_touch("default", YEL "竹木藥篩粗糙乾燥，石臼內壁磨得光滑微溫，窗沿還沾著山谷水霧的微潮。" NOR);
+    set_smell("default", HIG "泥爐滾沸的苦參湯汁與曬乾根莖的醇厚藥香充斥整間草廬，令人鼻腔清涼。" NOR);
+    set_listen("default", CYN "粗陶藥罐「咕嘟、咕嘟」冒著水泡，伴隨崖外水谷瀑布遙遠的低沉水聲。" NOR);
+
     spawn_npc("/clone/npc/ge_doctor.c");
     spawn_item("/clone/item/steel_grinder.c");
 }
