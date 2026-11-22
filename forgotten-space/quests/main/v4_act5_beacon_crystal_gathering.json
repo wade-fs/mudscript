@@ -1,0 +1,36 @@
+{
+  "id": "v4_act5_beacon_crystal_gathering",
+  "name": "微光共鳴站：籌備三百斤高純鹽晶儲柱",
+  "category": "main",
+  "type": "once",
+  "region": "realm_edge",
+  "start_npc": "ash_warden_qi",
+  "start_topic": "配給",
+  "steps": [
+    {
+      "step": 1,
+      "title": "向自治議會調撥半年所積高純導流鹽晶",
+      "hint": "在灰燼石堡守夜寨向戚老頭清點籌建微光信標所需鹽晶配額 (ask ash_warden_qi about 配給)。",
+      "target_type": "talk",
+      "target_npc": "ash_warden_qi",
+      "target_topic": "配給",
+      "location": "/d/realm/edge/ash_watch_post"
+    },
+    {
+      "step": 2,
+      "title": "驗收三百斤高純鹽晶儲柱與黑鐵導波環",
+      "hint": "前往荒原高坡・跨界微光共鳴信標台清點鹽晶儲柱並試測熔斷限重 (gather crystal)。",
+      "target_type": "action",
+      "action_verb": "gather",
+      "action_target": "crystal",
+      "location": "/d/realm/edge/beacon_relay",
+      "on_complete": {
+        "msg": "三百斤高純導流鹽晶儲柱與黑鐵導波環就位，口徑嚴鎖半斤以內，絕禁任何肉身與兵器僥倖強渡。"
+      }
+    }
+  ],
+  "rewards": {
+    "exp": 1600,
+    "pot": 440
+  }
+}

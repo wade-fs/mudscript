@@ -1,0 +1,70 @@
+{
+  "id": "v4_act5_two_way_beacon_and_guixu",
+  "name": "雙向微光信標與歸墟古淵之召喚",
+  "category": "epic",
+  "type": "stage_chain",
+  "total_stages": 2,
+  "start_npc": "wanwu_auditor_qi",
+  "start_topic": "銅匣",
+  "stages": [
+    {
+      "stage": 1,
+      "title": "限重半斤・三息微光連接雲津茶館",
+      "region": "realm_edge",
+      "region_name": "荒原微光信標台",
+      "required_level": 100,
+      "status_on_finish": "dormant",
+      "finish_desc": "燒盡三百斤高純鹽晶儲柱與一具黑鐵導波環，開啟三息微光裂縫與雲津總號完成雙向書信暨底單交換。",
+      "next_region_hint": "荒蕪碎石高原・萬丈地底裂隙",
+      "steps": [
+        {
+          "step": 1,
+          "title": "啟動三息微光信標並收下雲津回傳密信",
+          "hint": "在荒原高坡・跨界微光共鳴信標台封裝半斤家書囊並點燃信標（send beacon），嚴格核對不可強渡活人。",
+          "target_type": "action",
+          "action_verb": "send",
+          "action_target": "beacon",
+          "location": "/d/realm/edge/beacon_relay",
+          "on_complete": {
+            "give_item": "/clone/item/two_way_beacon_token.c",
+            "msg": "三息裂隙將熄之際，蘇凝霜逆傳回《三十年前金石內堂簽字底單暨萬仞山赤煉線索》，兩界確認彼此安好！"
+          }
+        }
+      ]
+    },
+    {
+      "stage": 2,
+      "title": "遙見歸墟門縫・第四卷終幕結業",
+      "region": "realm_edge",
+      "region_name": "荒蕪碎石高原",
+      "required_level": 100,
+      "status_on_finish": "completed",
+      "finish_desc": "玄武岩裂隙深處歸墟古淵亮起微光門縫；玩家獲得三階洞天實戰見證並見識 Tier 4 三大獨立門檻阻斷機制。",
+      "next_region_hint": "第五卷：歸墟古淵（待後卷開放）",
+      "steps": [
+        {
+          "step": 1,
+          "title": "於碎石高原窺探歸墟古淵門縫並拓銘存證",
+          "hint": "前往荒蕪碎石高原檢視萬丈地底傳來石顫的深淵裂隙（peer fissure）。",
+          "target_type": "action",
+          "action_verb": "peer",
+          "action_target": "fissure",
+          "location": "/d/realm/peach_plateau",
+          "on_complete": {
+            "give_item": "/clone/item/guixu_threshold_record.c",
+            "msg": "你取得《歸墟古淵門縫拓銘》並見證第四卷結業；深淵總閘門尚須集齊三要件方可啟封。"
+          }
+        }
+      ],
+      "on_finish": {
+        "exp": 3200,
+        "pot": 950,
+        "msg": "【第四卷・洞天問真篇 圓滿收官】三息信標確認人間無恙，五子整裝邁向歸墟古淵之前哨。"
+      }
+    }
+  ],
+  "rewards": {
+    "exp": 3200,
+    "pot": 950
+  }
+}

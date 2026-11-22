@@ -13,7 +13,8 @@ void create() {
              "停格於黎明前最壓抑時刻的巨大靜止天穹，不見熟悉日星與二十八宿，空氣冰冷稀薄。\n"
              "狂風捲著砂礫掠過腳下枯死如鐵絲般的灰白草叢與無盡灰褐碎石高原；遙望北方溝壑邊緣\n"
              "隱現數點孤零幽冷燈火與灰黑煙塵（可循玄武岩風道 north 深入探索）。地平線三個極端盡頭，\n"
-             "相隔不知幾萬里巍然矗立著三座無聲對峙的太古巨構輪廓——可凝神遠眺方位（gaze horizon）。\n"
+             "相隔不知幾萬里巍然矗立著三座無聲對峙的太古巨構輪廓——可凝神遠眺方位（gaze horizon），\n"
+             "或低首窺探高原岩基深裂隙裡隱隱閃動的歸墟古淵門縫（peer fissure）。\n"
              "（※ 單向古陣已因身後雷劫崩毀無歸途；若欲暫以神識回溯人間據點測試可輸入 vision return。）\n");
 
     set_exits(([
@@ -46,6 +47,40 @@ void init() {
     add_action("do_vision", "vision");
     add_action("do_breathe", "breathe");
     add_action("do_breathe", "吐納");
+    add_action("do_peer", "peer");
+}
+
+int do_peer(string arg) {
+    object me = this_player();
+    if (!me) return 0;
+    if (arg != "fissure" && arg != "歸墟" && arg != "門縫") {
+        notify_fail("你要窺探什麼？試試：peer fissure\n");
+        return 0;
+    }
+
+    object t3 = load_object(TIER3_D);
+    mapping gate = t3 ? t3->evaluate_tier4_unlock_eligibility(me) : ([ "eligible": 0, "missing_requirements": ({ "enc_map_fusion", "three_yuan_resonance", "personal_event/pierced_false_heaven" }) ]);
+
+    tell_object(me, HIC
+        "【歸墟古淵門縫召喚與第四卷終章見證（Ch.170）】\n"
+        "碎石高原萬丈地底突然傳來一聲彷彿跨越萬古的沉重石門輕顫——禁忌深淵【歸墟古淵】亮起一線微光門縫！\n" NOR);
+    if (!gate["eligible"]) {
+        string missing_txt = arrayp(gate["missing_requirements"]) ? implode(gate["missing_requirements"], "、") : "三要件未齊";
+        tell_object(me, YEL
+            "（門檻檢定阻斷：你已取得三階洞天實戰見證並見識門縫召喚，但入內仍須獨立集齊 §4.2 三大要件：" + missing_txt + "，絕無自動捷徑。）\n" NOR);
+    } else {
+        tell_object(me, HIY "（三大要件俱備：你已感應通往深層歸墟古淵的微弱門縫座標。）\n" NOR);
+    }
+    say(me->query_name() + " 俯身檢視高原地底傳來沉悶石響的玄武岩裂隙。\n");
+
+    if (!present("guixu_threshold_record", me)) {
+        object rec = clone_object("/clone/item/guixu_threshold_record.c");
+        if (rec) rec->move(me);
+    }
+
+    object qe = load_object(QUEST_ENGINE_D);
+    if (qe) qe->trigger_event(me, "action", ([ "verb": "peer", "target": "fissure" ]));
+    return 1;
 }
 
 int do_breathe(string arg) {

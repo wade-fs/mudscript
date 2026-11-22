@@ -176,8 +176,8 @@ def main():
 
     v4_ch_files = sorted(glob.glob(os.path.join(ROOT, "narrative/chapters/volume4/ch*.md")))
     total_chapters += len(v4_ch_files)
-    if len(v4_ch_files) < 38:
-        errors.append(f"[volume4] Act 1-4 章節數量不足：預期至少 38 章，實際 {len(v4_ch_files)}")
+    if len(v4_ch_files) < 44:
+        errors.append(f"[volume4] Act 1-5 章節數量不足：預期至少 44 章，實際 {len(v4_ch_files)}")
     if not os.path.exists(os.path.join(ROOT, "narrative/chapters/volume4/README.md")):
         errors.append("[volume4] 缺少本卷大事記與人物狀態一覽 README.md")
 

@@ -1,6 +1,6 @@
 # Tier 3 任務 JSON 索引（第四卷規劃藍圖・v1.1 密度重組版）
 
-> 狀態：**Act 1–4 共 22 份任務 JSON 已全部實裝並通過 `quest_audit.py` 驗證**；僅餘 Act 5 (`Ch.165–170`) 4 份預定於最後一幕落地。  
+> 狀態：**第四卷 Act 1–5 全數 26 份任務 JSON 已完整實裝並通過 `quest_audit.py` 驗證**！  
 > **任務密度調整**：依據 `TODO.md` Phase 6 Step 3 檢討，修正原 12 份／44 章（`0.27`/章）過疏問題，參考前三卷（約 `0.72`/章）重組為 **26 份規劃任務／44 章（`0.59`/章）**，特別將 **Act 1 拆細為 3 條任務**、**Act 4 依五條並行戰線拆為 5 條非二元且不綁特定身世之並行支線**共同計入 `EVENT_TIER3_CALIBRATION`。
 
 | 類別目錄 | 規劃任務檔名（計 26 份規劃任務） | 對應幕次與章節 | 預估前置區域／NPC／世界事件指標 |
@@ -27,10 +27,10 @@
 | `quests/event/` | `v4_act4_clinic_fog_and_conduit.json` | Act 4 (Ch. 161–162) | ✅ 已實裝：`/d/realm/edge/edge_clinic` → `/d/realm/wanwu/conduit_well`（戰線四・不綁身世：`outpost_defense`＋`labor_solidarity`，三十座藥爐護民與帶壓活榫換栓） |
 | `quests/event/` | `v4_act4_arbitration_equal_charter.json` | Act 4 (Ch. 163–164) | ✅ 已實裝：`/d/realm/wanwu/arbitration_bridge`（戰線五・不綁身世：`charter_legitimacy`，平權契書、百年停戰與歸墟深碑警報，`T0 → T+1`） |
 | `quests/side/` | `v4_act4_postwar_clinic_relief.json` | Act 4 (Ch. 164 善後) | ✅ 已實裝：`/d/realm/edge/edge_clinic`、`stone_clinic_healer_su`（校準夜後傷員照護與三極貨殖清單巡檢） |
-| `quests/main/` | `v4_act5_beacon_crystal_gathering.json` | Act 5 (Ch. 165–166) | `/d/realm/edge/beacon_relay`（籌備三百斤高純鹽晶儲柱與黑鐵導波環，計入 `beacon_readiness`） |
-| `quests/epic/` | `v4_act5_two_way_beacon_and_guixu.json` | Act 5 (Ch. 167, 170) | `/d/realm/edge/beacon_relay` → `/d/realm/peach_plateau`（三息傳信雲津兼遙見歸墟門縫，`T+2`；不自動解鎖 Tier 4） |
-| `quests/side/` | `v4_act5_bastion_autonomy_council.json` | Act 5 (Ch. 168) | `/d/realm/edge/ash_watch_post`、`ash_warden_qi`（遺民留守自治與去留抉擇議會） |
-| `quests/side/` | `v4_act5_three_yuan_prototype_trial.json` | Act 5 (Ch. 169) | `/d/realm/edge/basalt_ridge`（五人三元雛流試驗，驗證 `§4.2` 共鳴原型而不強制綁定個人解鎖） |
+| `quests/main/` | `v4_act5_beacon_crystal_gathering.json` | Act 5 (Ch. 165–166) | ✅ 已實裝：`/d/realm/edge/beacon_relay`（籌備三百斤高純鹽晶儲柱與黑鐵導波環，計入 `beacon_readiness`） |
+| `quests/epic/` | `v4_act5_two_way_beacon_and_guixu.json` | Act 5 (Ch. 167, 170) | ✅ 已實裝：`/d/realm/edge/beacon_relay` → `/d/realm/peach_plateau`（三息傳信雲津兼遙見歸墟門縫，`T+2`；不自動解鎖 Tier 4） |
+| `quests/side/` | `v4_act5_bastion_autonomy_council.json` | Act 5 (Ch. 168) | ✅ 已實裝：`/d/realm/edge/ash_watch_post`、`ash_warden_qi`（遺民留守自治與去留抉擇議會） |
+| `quests/side/` | `v4_act5_three_yuan_prototype_trial.json` | Act 5 (Ch. 169) | ✅ 已實裝：`/d/realm/edge/basalt_ridge`（五人三元雛流試驗，驗證 `§4.2` 共鳴原型而不強制綁定個人解鎖） |
 
 ---
 

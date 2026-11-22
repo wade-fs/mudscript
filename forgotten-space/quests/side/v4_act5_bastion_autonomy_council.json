@@ -1,0 +1,36 @@
+{
+  "id": "v4_act5_bastion_autonomy_council",
+  "name": "灰燼自治議會：遺民去留抉擇與契約交接",
+  "category": "side",
+  "type": "once",
+  "region": "realm_edge",
+  "start_npc": "ash_warden_qi",
+  "start_topic": "先輩",
+  "steps": [
+    {
+      "step": 1,
+      "title": "彙總遺民生理適應查驗與先輩名錄",
+      "hint": "於守夜寨向戚老頭確認洞天土著與老遺民返鄉風險評估 (ask ash_warden_qi about 先輩)。",
+      "target_type": "talk",
+      "target_npc": "ash_warden_qi",
+      "target_topic": "先輩",
+      "location": "/d/realm/edge/ash_watch_post"
+    },
+    {
+      "step": 2,
+      "title": "召開灰燼石堡第一次自治去留議會",
+      "hint": "在守夜寨議會廳主持表決，移交平權自治契書與半數互市公所權柄 (hold council)。",
+      "target_type": "action",
+      "action_verb": "hold",
+      "action_target": "council",
+      "location": "/d/realm/edge/ash_watch_post",
+      "on_complete": {
+        "msg": "戚老頭與齊老匠師正式接管自治邦貨殖網，燕山則立下拔除戰祖血枷後終須回看黑石鋪之約。"
+      }
+    }
+  ],
+  "rewards": {
+    "exp": 1500,
+    "pot": 420
+  }
+}

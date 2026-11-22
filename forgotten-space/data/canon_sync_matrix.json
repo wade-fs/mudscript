@@ -308,6 +308,33 @@
       "evidence_or_relics": [
         "clone/item/shen_yunnini_charter_edict.c"
       ]
+    },
+    {
+      "act_id": "vol4_act5_beacon_and_guixu",
+      "novel_span": "Vol.4 Ch.0165 ~ Ch.0170",
+      "title": "三百斤微光信標、自治抉擇、三元雛流與歸墟門縫",
+      "world_event": "tier3_calibration",
+      "quests": [
+        "v4_act5_beacon_crystal_gathering",
+        "v4_act5_two_way_beacon_and_guixu",
+        "v4_act5_bastion_autonomy_council",
+        "v4_act5_three_yuan_prototype_trial"
+      ],
+      "rooms": [
+        "d/realm/edge/beacon_relay.c",
+        "d/realm/edge/ash_watch_post.c",
+        "d/realm/edge/basalt_ridge.c",
+        "d/realm/peach_plateau.c"
+      ],
+      "world_state_vars": [
+        "tier3_calibration",
+        "beacon_readiness",
+        "beacon_tested"
+      ],
+      "evidence_or_relics": [
+        "clone/item/two_way_beacon_token.c",
+        "clone/item/guixu_threshold_record.c"
+      ]
     }
   ]
 }

@@ -13,14 +13,15 @@ void create() {
              "牆角擺著粗石鐵砧、卡尺與幾具鎖死銅箍的報廢蓄能石匣；守夜長老戚老頭正警惕巡視。\n"
              "初入石堡須熄燈避檢（douse lamps）、實測阻尼（test damping）或改鑄暖爐（forge stove）；\n"
              "後續更可在此地窖對帳算準九十日倒數（converge ledger）、簽下工役互助密約（sign compact）、\n"
-             "組盾偏折太虛星鎖（deflect scan），或熔爐備戰校準夜（prepare war）。\n"
-             "向南上坡返玄武岩風道，向北攀登【太虛白玉階座】，向東下溝為【星塵鹽田】，向西穿石門為【邊緣醫棚】。\n");
+             "組盾偏折太虛星鎖（deflect scan）、熔爐備戰校準夜（prepare war），或召開自治去留議會（hold council）。\n"
+             "向南上坡返玄武岩風道，向北攀登【太虛白玉階座】，向東下溝為【星塵鹽田】，向西穿石門為【邊緣醫棚】，向西南高坡為【跨界微光信標台】。\n");
 
     set_exits(([
-        "south" : "/d/realm/edge/basalt_ridge.c",
-        "north" : "/d/realm/taixu/white_jade_steps.c",
-        "east"  : "/d/realm/edge/stardust_salt_flats.c",
-        "west"  : "/d/realm/edge/edge_clinic.c",
+        "south"     : "/d/realm/edge/basalt_ridge.c",
+        "north"     : "/d/realm/taixu/white_jade_steps.c",
+        "east"      : "/d/realm/edge/stardust_salt_flats.c",
+        "west"      : "/d/realm/edge/edge_clinic.c",
+        "southwest" : "/d/realm/edge/beacon_relay.c",
     ]));
     set("is_outdoor", 0);
 
@@ -40,6 +41,7 @@ void init() {
     add_action("do_sign_compact", "sign");
     add_action("do_deflect_scan", "deflect");
     add_action("do_prepare_war", "prepare");
+    add_action("do_hold_council", "hold");
 }
 
 int do_douse(string arg) {
@@ -172,5 +174,25 @@ int do_prepare_war(string arg) {
     say(me->query_name() + " 完成最後十日三線戰備整合與器具拆鑄。\n");
     object qe = load_object(QUEST_ENGINE_D);
     if (qe) qe->trigger_event(me, "action", ([ "verb": "prepare", "target": "war" ]));
+    return 1;
+}
+
+int do_hold_council(string arg) {
+    object me = this_player();
+    if (!me) return 0;
+    if (arg != "council" && arg != "議會" && arg != "自治") {
+        notify_fail("你要召開什麼？試試：hold council\n");
+        return 0;
+    }
+    tell_object(me, HIG
+        "【灰燼石堡自治去留議會（Ch.168）】\n"
+        "收到雲津平安回信後，石堡眾人依生理適應真相議定務實折衷：\n"
+        "戚老頭、蘇青竹與多數生於洞天之老遺民選擇留守自治，接手沈泥移交的半數公所權責與百年互市貨殖網；\n"
+        "燕山則定下拔除戰祖血枷後返看黑石鋪之約，雙方正式交割《灰燼石堡百年平權自治契書》運行權柄！\n" NOR);
+    say(me->query_name() + " 與戚老頭、齊老匠師暨燕山召開石堡自治議會並交割互市公所權柄。\n");
+    me->set_temp("tier3/autonomy_council_done", 1);
+
+    object qe = load_object(QUEST_ENGINE_D);
+    if (qe) qe->trigger_event(me, "action", ([ "verb": "hold", "target": "council" ]));
     return 1;
 }

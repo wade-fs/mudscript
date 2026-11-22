@@ -1,0 +1,36 @@
+{
+  "id": "v4_act5_three_yuan_prototype_trial",
+  "name": "玄武岩試驗陣盤：五人純淨三元雛流初試",
+  "category": "side",
+  "type": "once",
+  "region": "realm_edge",
+  "start_npc": "stone_clinic_healer_su",
+  "start_topic": "樣本",
+  "steps": [
+    {
+      "step": 1,
+      "title": "覆核五人實戰傷勢缺口與緩衝藥霧容差",
+      "hint": "前往邊緣緩衝醫站向蘇青竹核對各人傷勢容差指標 (ask stone_clinic_healer_su about 樣本)。",
+      "target_type": "talk",
+      "target_npc": "stone_clinic_healer_su",
+      "target_topic": "樣本",
+      "location": "/d/realm/edge/edge_clinic"
+    },
+    {
+      "step": 2,
+      "title": "在玄武岩風道試驗陣盤試凝三息三元雛流",
+      "hint": "趕赴玄武岩風道曠野陣盤將五股力場以容差讓渡同頻凝鍊三息 (test resonance)。",
+      "target_type": "action",
+      "action_verb": "test",
+      "action_target": "resonance",
+      "location": "/d/realm/edge/basalt_ridge",
+      "on_complete": {
+        "msg": "三枚晶柱瞬間抽空化灰，陣心凝出三息溫潤灰金【純淨混沌三元流】——法力物非不能合，惟舊器難載新道。"
+      }
+    }
+  ],
+  "rewards": {
+    "exp": 1700,
+    "pot": 480
+  }
+}

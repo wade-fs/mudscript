@@ -774,8 +774,8 @@ void sync_all_npc_locations() {
             if (old_room) {
                 tell_room(old_room, sprintf(WHT "【作息更替】%s 收拾手邊物事，邁步往他處走去。\n" NOR, old_npc->query_name()));
             }
-            move_object(old_npc, target_room);
             old_npc->set_temp("phase_migrated", 1);
+            move_object(old_npc, target_room);
             tell_room(target_room, sprintf(WHT "【作息更替】%s 邁步走了過來，開始當前時段的作息。\n" NOR, old_npc->query_name()));
             string amb = query_npc_ambient_desc(npc_key, current_period);
             if (amb != "") old_npc->set_temp("ambient_action", amb);
