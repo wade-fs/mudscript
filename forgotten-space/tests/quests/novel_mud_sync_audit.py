@@ -143,10 +143,10 @@ def run_docs_lint(root_dir, errors, warnings, room_count, quest_count):
         ("電源", re.compile(r"電源(?!晶柱)")),
     )
     v4_extra_banned = (("電源", re.compile(r"電源")),)
-    for ch_path in sorted(glob.glob(os.path.join(root_dir, "narrative/chapters/volume*/ch*.md"))):
+    for ch_path in sorted(glob.glob(os.path.join(root_dir, "article/0*_volume*/ch*.md"))):
         rel_ch = os.path.relpath(ch_path, root_dir)
         ch_txt = open(ch_path, encoding="utf-8", errors="replace").read()
-        patterns = tech_banned_common + (v4_extra_banned if "/volume4/" in rel_ch else ())
+        patterns = tech_banned_common + (v4_extra_banned if "/04_volume4/" in rel_ch or "/volume4/" in rel_ch else ())
         for label, pat in patterns:
             if pat.search(ch_txt):
                 errors.append(f"[docs_lint:tech_jargon] {rel_ch} 出現禁用現代科技詞彙：{label}")
@@ -158,28 +158,27 @@ def main():
     errors = []
     warnings = []
 
-    # 1. 檢查一至三卷完整章節＋第四卷推進章節與卷末導讀完整性
-    vol_expected = {
-        "volume1": 38,
-        "volume2": 44,
-        "volume3": 44,
+    # 1. 檢查一至四卷完整章節與卷導讀完整性
+    vol_mapping = {
+        "volume1": ("01_volume1", 38),
+        "volume2": ("02_volume2", 44),
+        "volume3": ("03_volume3", 44),
+        "volume4": ("04_volume4", 44),
     }
     total_chapters = 0
-    for vol, expected_cnt in vol_expected.items():
-        ch_files = sorted(glob.glob(os.path.join(ROOT, f"narrative/chapters/{vol}/ch*.md")))
+    vol_counts = {}
+    for vol, (dir_name, expected_cnt) in vol_mapping.items():
+        ch_files = sorted(glob.glob(os.path.join(ROOT, f"article/{dir_name}/ch*.md")))
+        vol_counts[vol] = len(ch_files)
         total_chapters += len(ch_files)
         if len(ch_files) != expected_cnt:
             errors.append(f"[{vol}] 章節數量不符：預期 {expected_cnt}，實際 {len(ch_files)}")
-        recap_path = os.path.join(ROOT, f"narrative/chapters/{vol}/README.md")
+        recap_path = os.path.join(ROOT, f"article/{dir_name}/00_intro.md")
         if not os.path.exists(recap_path):
-            errors.append(f"[{vol}] 缺少本卷大事記與人物狀態一覽 README.md")
+            errors.append(f"[{vol}] 缺少本卷導讀 00_intro.md")
 
-    v4_ch_files = sorted(glob.glob(os.path.join(ROOT, "narrative/chapters/volume4/ch*.md")))
-    total_chapters += len(v4_ch_files)
-    if len(v4_ch_files) < 44:
-        errors.append(f"[volume4] Act 1-5 章節數量不足：預期至少 44 章，實際 {len(v4_ch_files)}")
-    if not os.path.exists(os.path.join(ROOT, "narrative/chapters/volume4/README.md")):
-        errors.append("[volume4] 缺少本卷大事記與人物狀態一覽 README.md")
+    if not os.path.exists(os.path.join(ROOT, "article/appendix/chronicle.md")):
+        errors.append("[appendix] 缺少四卷大事紀年表 chronicle.md")
 
     # 2. 載入所有任務 ID
     quest_ids = set()
@@ -308,7 +307,7 @@ def main():
     print("=" * 72)
     print("《遺忘的世界》敘事—代碼雙向同步稽核報告 (Novel <-> Mudlib Sync Matrix)")
     print("=" * 72)
-    print(f"  ・已核驗小說章節總數 : {total_chapters} 章 (Vol.1: 38, Vol.2: 44, Vol.3: 44, Vol.4: {len(v4_ch_files)})")
+    print(f"  ・已核驗小說章節總數 : {total_chapters} 章 (Vol.1: {vol_counts.get('volume1', 0)}, Vol.2: {vol_counts.get('volume2', 0)}, Vol.3: {vol_counts.get('volume3', 0)}, Vol.4: {vol_counts.get('volume4', 0)})")
     print(f"  ・已核驗實體房間總數 : {len(all_rooms)} 間 ｜ 庶民 NPC：{len(folk_npcs)} 名")
     print(f"  ・已核驗章節追蹤矩陣 : {matrix_acts} 個故事幕次節點 (data/canon_sync_matrix.json)")
     print(f"  ・已核驗宣告式任務數 : {len(quest_files)} 個 JSON 任務定義")

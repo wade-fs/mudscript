@@ -42,6 +42,6 @@ flowchart TD
 
 ## 3. 推進階段與驗收標準（Step 4 分幕實作依循規格）
 
-1. **分幕雙軌實作**：詳細 26 份規劃檔名與對應章節見 [`tier3_quest_json_index.md`](tier3_quest_json_index.md)；Step 4 將依 Act 1 → Act 2 → Act 3 → Act 4 → Act 5 順序同步交付正文與 `/d/realm/*`、`/quests/*/v4_*.json`。
+1. **分幕雙軌實作**：詳細 26 份規劃任務位於 `/quests/`；Act 1 → Act 2 → Act 3 → Act 4 → Act 5 同步對接正文與 `/d/realm/*`、`/quests/*/v4_*.json`。
 2. **Act 4 五條並行戰線不綁定身世**：玩家無論為 `herbalist`、`smith`、`hunter`、`daoist` 或 `beggar`，均可自由參與五條戰線任何一條並計入 `EVENT_TIER3_CALIBRATION` 貢獻度。
 3. **驗收閘門**：每幕完成須通過 `novel_mud_sync_audit.py`（含 `docs lint` 與正文現代科技禁詞掃描）、`quest_audit.py`、BFS 連通檢驗、`world_liveness_audit.py` 與 `make test`＋完整 `MUD_TEST_MODE=1` 套件。

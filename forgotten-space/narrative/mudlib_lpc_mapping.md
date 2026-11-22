@@ -1,7 +1,7 @@
 # 《遺忘的世界》Mudlib LPC 機制與專案目錄架構映射 (Mudlib LPC Mapping)
 
 > **所屬專案**：`forgotten-space` 系統規格集  
-> **關聯文檔**：[世界觀與 Mudlib 架構設定集](world_setting.md) ｜ [第一卷大綱【黑石驚蟄】](volume1.md) ｜ [第二卷大綱【金石風雲】](volume2.md) ｜ [第三卷大綱【名山問道】](volume3.md) ｜ [第四卷規劃【洞天問真】](volume4.md) ｜ [事件與任務鏈總表](events/README.md)  
+> **關聯文檔**：[小說典藏整理本全章目錄](../article/SUMMARY.md) ｜ [事件與任務鏈總表](events/README.md) ｜ [天下輿圖](../article/appendix/atlas.md) ｜ [群像人物誌](../article/appendix/characters.md) ｜ [四卷大事紀年表](../article/appendix/chronicle.md)  
 > **更新時間**：2026-11-22（同步 Phase 1–4 世界真實化擴建、World Liveness 2.0 與第三卷全五幕 Ch. 83–126 落地）  
 
 ---
@@ -68,17 +68,11 @@ mudscript/forgotten-space/
 │   ├── skill_d.c           # 武學技能與五維資格守護進程 (初級心法、一階三道轉職、六縣 18 考場等效發證與總堂掛單)
 │   └── combat_d.c          # 三元戰鬥守護進程 (COMBAT_D，力/法/物 14 式招式、三角生剋、內城絕靈法網反噬與度牒豁免)
 │
-└── narrative/              # 【04 敘事內容 (Narratives)】小說創作與世界事件關聯索引
-    ├── characters/         # 五位主角、一二卷配角與第三卷 Tier 2 人物檔案
-    ├── chapters/           # 依卷分目錄：volume1/ (38)、volume2/ (44)、volume3/ (44)、volume4/ (44) 共 170 章完稿正文
+├── article/                # 【04 敘事正文 (Articles)】小說正文典藏整理本（01_volume1~04_volume4 共 170 章完稿正文與五篇附錄）
+│
+└── narrative/              # 【04 敘事正典與規格智庫 (Narrative Specs)】MUD 代碼與小說雙向映射規格
     ├── events/             # 第一卷 (EV-101~125)、第二卷 (EV-201~244)、第三卷 (EV301~EV327／tier2_crisis.json) 與第四卷規劃 (EV401~EV422)
-    ├── docs/               # 需求追溯矩陣、Tier 2 地圖／名冊／任務設計 ＋ Tier 3（洞天篇）地圖／人物／任務規劃
-    ├── volume1.md          # 第一卷【黑石驚蟄】全 38 章宏觀五幕大綱
-    ├── volume2.md          # 第二卷【金石風雲】全 44 章宏觀五幕大綱
-    ├── volume3.md          # 第三卷【名山問道】全 44 章（第 83–126 章）五幕大綱
-    ├── volume4.md          # 第四卷【洞天問真】全 44 章（第 127–170 章）Tier 3 五幕規劃大綱
-    ├── character_profiles.md # 核心人物檔案與身世世界觀設定
-    ├── novel_outline.md    # 小說大綱與各卷宏觀規劃
+    ├── docs/               # Tier 0~3 空間地圖拓撲網絡 (docs/maps/)、NPC 名冊與任務網絡規格
     └── mudlib_lpc_mapping.md # 本文檔：LPC 架構映射
 ```
 
