@@ -201,7 +201,29 @@ int calc_triangular_modifier(string atk_path, string def_path) {
     return 100;
 }
 
-// 內部輔助：套用三角生剋與內城法網修正
+// 內部輔助：查詢 Tier 3 洞天空間阻尼威力百分比與實質招式消耗 (由 TIER3_D 單一可調表驅動)
+int query_effective_power_pct(object me, string atk_path) {
+    object t3 = load_object(TIER3_D);
+    if (!t3) return 100;
+    return t3->query_effective_power_pct(me, atk_path);
+}
+
+int query_effective_perform_cost(object me, string sid) {
+    object sk_d = load_object(SKILL_D);
+    if (sk_d && !skills[sid]) {
+        sid = sk_d->resolve_skill_id(sid);
+    }
+    mapping s = skills[sid];
+    if (!s) return 0;
+    int cost = s["cost"];
+    object t3 = load_object(TIER3_D);
+    if (t3) {
+        cost = t3->query_effective_skill_cost(me, s["path"], cost);
+    }
+    return cost;
+}
+
+// 內部輔助：套用三角生剋、內城法網修正與 Tier 3 洞天法則阻尼
 int apply_combat_modifiers(object me, object target, string atk_path, int base_dmg) {
     int dmg = base_dmg;
     string def_path = target ? target->query_path() : "";
@@ -223,6 +245,13 @@ int apply_combat_modifiers(object me, object target, string atk_path, int base_d
                 dmg = dmg / 2;
             }
         }
+    }
+
+    // Tier 3 洞天空間阻尼檢核：未具該道途 U 運用者，舊招威力折損（預設半威力）
+    int t3_pct = query_effective_power_pct(me, atk_path);
+    if (t3_pct < 100) {
+        write(MAG "【洞天法則阻尼】異界幾何張力沉重，未重塑 U 運用的舊招威力折半！\n" NOR);
+        dmg = dmg * t3_pct / 100;
     }
 
     if (dmg < 1) dmg = 1;
@@ -264,6 +293,9 @@ int skill_wu_gong_sheshi(object me, object target) {
 
 int skill_wu_pijia(object me, object target) {
     int heal = me->query_stat("con") * 5 + random(20);
+    int pct = query_effective_power_pct(me, "li");
+    heal = heal * pct / 100;
+    if (heal < 1) heal = 1;
     target->heal_kee(heal);
     return heal;
 }
@@ -293,10 +325,14 @@ int skill_dao_jinglei(object me, object target) {
 
 int skill_dao_fudun(object me, object target) {
     int heal = me->query_stat("spi") * 5 + random(20);
+    int pct = query_effective_power_pct(me, "fa");
+    heal = heal * pct / 100;
+    if (heal < 1) heal = 1;
+    int sen_heal = me->query_stat("int") * 2 * pct / 100;
     target->heal_kee(heal);
-    target->heal_sen(me->query_stat("int") * 2);
+    target->heal_sen(sen_heal);
     object city_d = load_object(CITY_D);
-    if (city_d) city_d->cleanse_turbidity(target, 15);
+    if (city_d) city_d->cleanse_turbidity(target, 15 * pct / 100);
     return heal;
 }
 
@@ -334,8 +370,11 @@ int skill_gong_jiguan(object me, object target) {
 
 int skill_gong_xingzhen(object me, object target) {
     int heal = me->query_stat("per") * 5 + random(20);
+    int pct = query_effective_power_pct(me, "wu");
+    heal = heal * pct / 100;
+    if (heal < 1) heal = 1;
     target->heal_kee(heal);
-    target->heal_sp(me->query_stat("dex") * 2);
+    target->heal_sp(me->query_stat("dex") * 2 * pct / 100);
     return heal;
 }
 
@@ -366,9 +405,13 @@ int do_perform(object me, string sid, string target_arg) {
         return 0;
     }
 
-    // 3. 檢查三柱資源 (kee / sen / sp)
+    // 3. 檢查三柱資源 (kee / sen / sp)，並套用 TIER3_D 洞天高耗倍率
     string pool = s["cost_pool"];
-    int cost = s["cost"];
+    int base_cost = s["cost"];
+    int cost = query_effective_perform_cost(me, sid);
+    if (cost > base_cost) {
+        write(YEL "【洞天高耗警兆】未習得對應 U 運用，此地空間阻尼令招式消耗增至 " + cost + "（原 " + base_cost + "）！\n" NOR);
+    }
     if (pool == "kee") {
         if (me->query_kee() <= cost) {
             write("你的氣血(kee)不足以催動『" + s["name"] + "』（需要至少保留 1 點氣血並消耗 " + cost + " 點氣血）。\n");

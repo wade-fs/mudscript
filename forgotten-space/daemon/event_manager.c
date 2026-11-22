@@ -48,6 +48,8 @@ int mark_evidence_seen(string ev_id, string actor_id);
 mapping evaluate_beast_surge();
 mapping evaluate_military_crisis();
 mapping evaluate_tier2_crisis();
+mapping evaluate_tier3_calibration();
+int cycle_tier3_calibration();
 void freeze_resolution();
 void propagate_beast_to_military();
 string query_event_stage(string event_id);
@@ -199,7 +201,8 @@ void load_event_definitions() {
     string *def_files = ({
         "/data/event_defs/beast_surge.json",
         "/data/event_defs/military_crisis.json",
-        "/data/event_defs/tier2_crisis.json"
+        "/data/event_defs/tier2_crisis.json",
+        "/data/event_defs/tier3_calibration.json"
     });
 
     foreach (string path in def_files) {
@@ -311,7 +314,9 @@ void init_event_defaults(string event_id) {
     if (!events) events = ([]);
     load_event_definitions();
 
-    string *target_ids = (event_id == "all") ? ({ EVENT_BEAST_SURGE, EVENT_MILITARY_CRISIS, EVENT_TIER2_CRISIS }) : ({ event_id });
+    string *target_ids = (event_id == "all")
+        ? ({ EVENT_BEAST_SURGE, EVENT_MILITARY_CRISIS, EVENT_TIER2_CRISIS, EVENT_TIER3_CALIBRATION })
+        : ({ event_id });
 
     foreach (string eid in target_ids) {
         mapping def = query_event_def(eid);
@@ -350,7 +355,7 @@ void load_state() {
     load_event_definitions();
 
     // Schema Migration：對齊指標，防止舊存檔缺欄位讀成 0
-    foreach (string eid in ({ EVENT_BEAST_SURGE, EVENT_MILITARY_CRISIS, EVENT_TIER2_CRISIS })) {
+    foreach (string eid in ({ EVENT_BEAST_SURGE, EVENT_MILITARY_CRISIS, EVENT_TIER2_CRISIS, EVENT_TIER3_CALIBRATION })) {
         if (!events || !events[eid] || !mapp(events[eid])) {
             init_event_defaults(eid);
             continue;
@@ -391,6 +396,9 @@ void reset_event(string event_id) {
     }
     if (event_id == "all" || event_id == EVENT_TIER2_CRISIS) {
         cancel_stage_timer(EVENT_TIER2_CRISIS);
+    }
+    if (event_id == "all" || event_id == EVENT_TIER3_CALIBRATION) {
+        cancel_stage_timer(EVENT_TIER3_CALIBRATION);
     }
 
     init_event_defaults(event_id);
@@ -965,6 +973,56 @@ mapping evaluate_tier2_crisis() {
     ]);
 }
 
+// ── 純函式化動態評估器：Tier 3 三百年天羅校準與停工博弈 (Pure Evaluator) ──
+mapping evaluate_tier3_calibration() {
+    string stage     = query_event_stage(EVENT_TIER3_CALIBRATION);
+    if (!stage || stage == "") stage = STAGE_TIER3_T_MINUS_2;
+
+    int labor        = query_metric(EVENT_TIER3_CALIBRATION, METRIC_LABOR_SOLIDARITY);
+    int array_def    = query_metric(EVENT_TIER3_CALIBRATION, METRIC_ARRAY_DEFLECTION);
+    int outpost_def  = query_metric(EVENT_TIER3_CALIBRATION, METRIC_OUTPOST_DEFENSE);
+    int charter_leg  = query_metric(EVENT_TIER3_CALIBRATION, METRIC_CHARTER_LEGITIMACY);
+    int beacon_ready = query_metric(EVENT_TIER3_CALIBRATION, METRIC_BEACON_READINESS);
+
+    int composite_score = labor + array_def + outpost_def + charter_leg + beacon_ready;
+
+    string calibration_outcome = "pending_preparation";
+    if (stage == STAGE_TIER3_T_PLUS_1 || stage == STAGE_TIER3_T_PLUS_2) {
+        if (labor >= 3 && array_def >= 3 && outpost_def >= 3 && charter_leg >= 3) {
+            calibration_outcome = "blocked_and_equalized";
+        } else if (array_def >= 2 || outpost_def >= 2 || labor >= 2) {
+            calibration_outcome = "partial_deflection_with_scars";
+        } else {
+            calibration_outcome = "harvest_pressure_uncontained";
+        }
+    }
+
+    int beacon_available = (stage == STAGE_TIER3_T_PLUS_2 && beacon_ready >= 2) ? 1 : 0;
+
+    return ([
+        "stage"              : stage,
+        "labor_solidarity"   : labor,
+        "array_deflection"   : array_def,
+        "outpost_defense"    : outpost_def,
+        "charter_legitimacy" : charter_leg,
+        "beacon_readiness"   : beacon_ready,
+        "composite_score"    : composite_score,
+        "calibration_outcome": calibration_outcome,
+        "beacon_available"   : beacon_available,
+        "is_cyclic"          : 1,
+        "tier4_auto_unlocked": 0
+    ]);
+}
+
+// ── CROSS-05：Tier 3 週期性世界事件重置輪轉 ─────────────────────
+int cycle_tier3_calibration() {
+    if (!check_privilege()) return 0;
+    reset_event(EVENT_TIER3_CALIBRATION);
+    start_event(EVENT_TIER3_CALIBRATION);
+    log_event(EVENT_TIER3_CALIBRATION, "cycle_restart", "【CROSS-05 週期輪轉】三百年校準週期事件重置為 T-2，供新進玩家重新參與。");
+    return 1;
+}
+
 // ── 顯式跨事件因果傳播 (Explicit Cross-Event Propagation) ─────
 // 只在特定時間推進節點 (離開 T0 進入 T+1 / 進入 T+2) 顯式呼叫一次，杜絕評估器側寫污染
 void propagate_beast_to_military() {
@@ -1058,6 +1116,7 @@ string get_timeout_func(string event_id) {
     if (event_id == EVENT_BEAST_SURGE) return "on_stage_timeout_beast_surge";
     if (event_id == EVENT_MILITARY_CRISIS) return "on_stage_timeout_military_crisis";
     if (event_id == EVENT_TIER2_CRISIS) return "on_stage_timeout_tier2_crisis";
+    if (event_id == EVENT_TIER3_CALIBRATION) return "on_stage_timeout_tier3_calibration";
     return "on_stage_timeout";
 }
 
@@ -1074,6 +1133,11 @@ void on_stage_timeout_military_crisis() {
 void on_stage_timeout_tier2_crisis() {
     if (test_mode) return;
     advance_event_stage(EVENT_TIER2_CRISIS);
+}
+
+void on_stage_timeout_tier3_calibration() {
+    if (test_mode) return;
+    advance_event_stage(EVENT_TIER3_CALIBRATION);
 }
 
 void on_stage_timeout(string event_id) {
@@ -1170,6 +1234,11 @@ int set_event_stage(string event_id, string new_stage, int force) {
         // 終局凍結：當軍事危機進入 resolution 階段，永久凍結結局快照
         if (event_id == EVENT_MILITARY_CRISIS && step_stage == STAGE_MILITARY_RESOLUTION) {
             freeze_resolution();
+        }
+
+        // Tier 3 週期事件進入 T+2 時結算本輪先行者貢獻，但不設永久 final_resolution 鎖（支援 cycle_tier3_calibration）
+        if (event_id == EVENT_TIER3_CALIBRATION && step_stage == STAGE_TIER3_T_PLUS_2) {
+            distribute_contribution_rewards(EVENT_TIER3_CALIBRATION);
         }
 
         string desc = query_stage_desc(event_id, step_stage);
@@ -1441,6 +1510,14 @@ string dump_status(string event_id) {
         out += sprintf("  階段態勢：%s (%s) | 證據鏈成熟度：%s | 防線與救災結果：%s\n", eval_t2["stage"], eval_t2["expedition_posture"], eval_t2["readiness"], eval_t2["defense_outcome"]);
         out += sprintf("  證據強度：%d | 可驗證度：%d | 民間信任：%d\n", eval_t2["evidence_strength"], eval_t2["verifiability"], eval_t2["civilian_trust"]);
     }
+    if (event_id == EVENT_TIER3_CALIBRATION) {
+        mapping eval_t3 = evaluate_tier3_calibration();
+        out += sprintf(HIY + "【Tier 3 洞天三百年校準與停工博弈即時視圖（純只讀・週期輪轉）】\n" + NOR);
+        out += sprintf("  階段：%s | 綜合評分：%d/25 | 校準結局：%s | 信標就緒：%d\n",
+                       eval_t3["stage"], eval_t3["composite_score"], eval_t3["calibration_outcome"], eval_t3["beacon_available"]);
+        out += sprintf("  工役同盟：%d | 偏星導流：%d | 哨卡護民：%d | 平權法理：%d | 信標籌備：%d\n",
+                       eval_t3["labor_solidarity"], eval_t3["array_deflection"], eval_t3["outpost_defense"], eval_t3["charter_legitimacy"], eval_t3["beacon_readiness"]);
+    }
 
     out += HIW + "========================================================\n" + NOR;
     return out;
@@ -1505,6 +1582,33 @@ mapping query_novel_act_info(string event_id) {
             "chapter_span": ch_span,
             "stage": stage,
             "world_task_modifier": "北荒裂谷與三宗質證開啟，五器共鳴與跨道協同收益提升"
+        ]);
+    }
+    if (event_id == EVENT_TIER3_CALIBRATION) {
+        int act_num = 1;
+        string act_title = "第四卷第一至二幕：碎石寒原與三極分探";
+        string ch_span = "Ch.127 ~ Ch.144";
+        if (stage == STAGE_TIER3_T_MINUS_1) {
+            act_num = 3;
+            act_title = "第四卷第三幕：真假飛升與三極暗戰";
+            ch_span = "Ch.145 ~ Ch.154";
+        } else if (stage == STAGE_TIER3_T_0 || stage == STAGE_TIER3_T_PLUS_1) {
+            act_num = 4;
+            act_title = "第四卷第四幕：鼎足破局與校準偏星";
+            ch_span = "Ch.155 ~ Ch.164";
+        } else if (stage == STAGE_TIER3_T_PLUS_2) {
+            act_num = 5;
+            act_title = "第四卷第五幕：高代價雙向信標與歸墟門縫";
+            ch_span = "Ch.165 ~ Ch.170";
+        }
+        return ([
+            "event_id": event_id,
+            "volume": 4,
+            "act": act_num,
+            "act_title": act_title,
+            "chapter_span": ch_span,
+            "stage": stage,
+            "world_task_modifier": "洞天法則阻尼生效（無 U 運用時舊招三倍耗能、半威力）；五條平行戰線貢獻計入校準結局"
         ]);
     }
     return ([

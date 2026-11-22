@@ -1,0 +1,94 @@
+{
+  "id": "tier3_calibration",
+  "name": "Tier 3 三百年天羅校準與停工博弈",
+  "version": 1,
+  "cyclic": 1,
+  "stages": [
+    {
+      "id": "T-2",
+      "name": "預熱暗兆與三極滲透",
+      "desc": "鹽晶預扣、幾何頻率夜飄與心核加徵顯現，九十日校準倒數實證確立 (Act 1-2)。",
+      "duration": 0,
+      "duration_unit": "game_minutes",
+      "time_cost_impact": {}
+    },
+    {
+      "id": "T-1",
+      "name": "工役密約與星鎖緩衝",
+      "desc": "締結《三極維護工役互助密約》，偏折星鎖並藉平民配額總帳換取十日緩衝 (Act 3)。",
+      "duration": 0,
+      "duration_unit": "game_minutes",
+      "time_cost_impact": {}
+    },
+    {
+      "id": "T0",
+      "name": "校準夜：五線並進破局",
+      "desc": "二十四站大停工、北塔偏星一度半、巨骨哨卡狙截、藥煙護民與匯流井帶壓換栓 (Act 4)。",
+      "duration": 0,
+      "duration_unit": "game_minutes",
+      "time_cost_impact": {}
+    },
+    {
+      "id": "T+1",
+      "name": "百年停戰與歸墟深碑警報",
+      "desc": "廢除獨裁調度、簽立百年貨殖停戰清單，太虛殘碑露出十歲象歸墟清算警報 (Ch.163-164)。",
+      "duration": 0,
+      "duration_unit": "game_minutes",
+      "time_cost_impact": {}
+    },
+    {
+      "id": "T+2",
+      "name": "微光信標初通與歸墟門縫",
+      "desc": "三息高代價雙向信標寄回雲津家書，純淨混沌三元雛流試成，歸墟門縫微亮 (Act 5)。",
+      "duration": 0,
+      "duration_unit": "game_minutes",
+      "time_cost_impact": {}
+    }
+  ],
+  "metrics": {
+    "labor_solidarity": {
+      "min": 0,
+      "max": 5,
+      "default": 0,
+      "desc": "三極底層工役罷工與斷供協同強度"
+    },
+    "array_deflection": {
+      "min": 0,
+      "max": 5,
+      "default": 0,
+      "desc": "太虛星鎖偏折與一度半角位導流完成度"
+    },
+    "outpost_defense": {
+      "min": 0,
+      "max": 5,
+      "default": 0,
+      "desc": "巨骨哨卡阻截與石堡藥煙護民韌性"
+    },
+    "charter_legitimacy": {
+      "min": 0,
+      "max": 5,
+      "default": 0,
+      "desc": "平民避難配額補冊與平權法理正當性"
+    },
+    "beacon_readiness": {
+      "min": 0,
+      "max": 5,
+      "default": 0,
+      "desc": "雙向微光信標與三元共鳴籌備度"
+    }
+  },
+  "facts": {
+    "salt_levy_exposed": 0,
+    "frequency_drift_logged": 0,
+    "quota_ledger_registered": 0,
+    "broker_intercepted": 0,
+    "scan_deflected": 0,
+    "arena_yanshan_rescued": 0,
+    "strike_executed": 0,
+    "array_shifted_1_5_deg": 0,
+    "conduit_valve_swapped": 0,
+    "charter_equalized": 0,
+    "beacon_tested": 0,
+    "guixu_seal_alerted": 0
+  }
+}

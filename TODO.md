@@ -156,9 +156,9 @@
    - [x] **撰寫 [volume4_story_design.md](forgotten-space/narrative/volume4_story_design.md)**：比照第三卷逐章八欄（「七欄固定＋`§3.12` 代價帳」）體例編制第四卷 44 章（Ch.127–170）完整設計書，並細化 Act 1（Ch.127–134）開寫暨實裝規格。
 
 3. **Step 3：Tier 3 Mudlib 底層與防歪樓測試（先搭底層、後掛任務）**
-   - [ ] **`K × U` 機制落地與規格鎖定**：`tier3_k/<domain>`、`tier3_u/<domain>` 禁止做成長度計數旗標，必須通過「可驗證環境實驗」寫入能力標記；將三倍高耗與 `U` 路徑成本集中於單一可調表，並實作自動化測試驗證（1）舊招式三倍消耗、半威力；（2）同一種 `U` 可由兩種不同觀察路徑取得。
-   - [ ] **高代價雙向信標與 `EVENT_TIER3_CALIBRATION` 空殼＋測試**：先完成事件骨幹與評分界面，暫不死綁單一任務。
-   - [ ] **重組卷四任務密度（修正 12 份/44 章過低問題）**：參考前三卷 0.72 份/章標準，拆細 Act 1 任務量，並將 Act 4 依五條並行戰線拆為 4–5 條非二元且不綁特定身世的並行支線共同計入 `EVENT_TIER3_CALIBRATION`。
+   - [x] **`K × U` 機制落地與規格鎖定**：實作 [tier3_d.c](forgotten-space/daemon/tier3_d.c) 與 [combat_d.c](forgotten-space/secure/combat_d.c) 連動——`tier3_k/<domain>` 嚴禁整數／字串計數冒充，必須通過可驗證環境實驗寫入結構化能力紀錄；`tier3_u/<domain>` 每領域均須由兩條不同觀察路徑之一解鎖；將舊招三倍高耗、半威力與 `U` 路徑成本集中於單一可調表 `tier3_tuning`，並以 [test_tier3_foundation.c](forgotten-space/tests/test_tier3_foundation.c) 完成自動化驗證。
+   - [x] **高代價雙向信標與 `EVENT_TIER3_CALIBRATION` 空殼＋測試**：完成 [tier3_calibration.json](forgotten-space/data/event_defs/tier3_calibration.json)、[world_event.h](forgotten-space/include/world_event.h)、[event_manager.c](forgotten-space/daemon/event_manager.c)（`evaluate_tier3_calibration()` 與週期輪轉 `cycle_tier3_calibration()`）、[quest_engine_d.c](forgotten-space/daemon/quest_engine_d.c) 動態指標稽核，以及 `TIER3_D` 高代價信標檢定（禁活體、限半斤、耗三百斤鹽晶與導波環）暨 `§4.2` Tier 4 門檻隔離驗證。
+   - [x] **重組卷四任務密度（修正 12 份/44 章過低問題）**：更新 [tier3_quest_json_index.md](forgotten-space/narrative/docs/tier3_quest_json_index.md) 與 [tier3_quest_network.md](forgotten-space/narrative/docs/tier3_quest_network.md) 為 **26 份規劃任務／44 章（0.59 份/章）**，將 Act 1 拆為 3 條任務，並將 Act 4 依五條並行戰線拆為 5 條非二元且不綁特定身世的並行支線共同計入 `EVENT_TIER3_CALIBRATION`。
 
 4. **Step 4：分幕雙軌實作與卷五邊界控管**
    - [ ] **Act 1（Ch.127–134）雙軌推進**：完成正文撰寫、實作 `/d/realm/edge/` 分區房間、將 `v4_act1` 拆細為約 3 條任務，通過 `quest_audit.py` 與 BFS 連通檢核。

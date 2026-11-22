@@ -52,8 +52,13 @@ void audit_quest(string qid, mapping q, string path) {
             "diversion_ditch_dug", "cold_smoke_stock", "signal_arrows_ready",
             "merchant_fled", "merchant_supplies_looted", "canyon_road_destroyed", "residual_breach_occurred"
         });
-        if (q["eval_metric"] && member_array(q["eval_metric"], valid_event_metrics) == -1) {
-            write_file("/log/quest_error.log", sprintf("[QUEST_AUDIT ERROR] 事件任務 '%s' eval_metric 非法：%s\n", qid, q["eval_metric"]), 0);
+        object em = load_object(EVENT_MANAGER_D);
+        string ev_id = stringp(q["world_event"]) ? q["world_event"] : "";
+        if (q["eval_metric"]) {
+            int ok_m = (member_array(q["eval_metric"], valid_event_metrics) != -1) || (em && em->is_valid_metric(ev_id, q["eval_metric"]));
+            if (!ok_m) {
+                write_file("/log/quest_error.log", sprintf("[QUEST_AUDIT ERROR] 事件任務 '%s' eval_metric 非法：%s\n", qid, q["eval_metric"]), 0);
+            }
         }
         if (q["eval_min_for_success"] && !intp(q["eval_min_for_success"])) {
             write_file("/log/quest_error.log", sprintf("[QUEST_AUDIT ERROR] 事件任務 '%s' eval_min_for_success 需為整數\n", qid), 0);
@@ -75,14 +80,16 @@ void audit_quest(string qid, mapping q, string path) {
                 }
                 if (mapp(oc["deltas"])) {
                     foreach (string mk, int dv in oc["deltas"]) {
-                        if (member_array(mk, valid_event_metrics) == -1) {
+                        int ok_dm = (member_array(mk, valid_event_metrics) != -1) || (em && em->is_valid_metric(ev_id, mk));
+                        if (!ok_dm) {
                             write_file("/log/quest_error.log", sprintf("[QUEST_AUDIT ERROR] 事件任務 '%s' 未註冊指標：%s\n", qid, mk), 0);
                         }
                     }
                 }
                 if (mapp(oc["facts"])) {
                     foreach (string fk, mixed fv in oc["facts"]) {
-                        if (member_array(fk, valid_event_facts) == -1) {
+                        int ok_df = (member_array(fk, valid_event_facts) != -1) || (em && em->is_valid_fact(ev_id, fk));
+                        if (!ok_df) {
                             write_file("/log/quest_error.log", sprintf("[QUEST_AUDIT ERROR] 事件任務 '%s' 未註冊事實：%s\n", qid, fk), 0);
                         }
                     }

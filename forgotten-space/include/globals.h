@@ -37,6 +37,7 @@
 #define TRAVEL_D        "/daemon/travel_d.c"
 #define PHASE_D         "/daemon/phase_d.c"
 #define RUMOR_D         "/daemon/rumor_d.c"
+#define TIER3_D         "/daemon/tier3_d.c"
 
 // ── 先天核心六維屬性 (Primary Attributes) ────────────────
 #define STAT_STR        "str"     // 臂力（力之本）

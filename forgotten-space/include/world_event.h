@@ -10,6 +10,21 @@
 #define EVENT_BEAST_SURGE       "beast_surge"        // 第一階段：大荒煞潮
 #define EVENT_MILITARY_CRISIS   "military_crisis"    // 第二階段：黑石關軍事危機
 #define EVENT_TIER2_CRISIS      "tier2_crisis"       // 第三卷：Tier 2 北荒與三宗危機
+#define EVENT_TIER3_CALIBRATION "tier3_calibration"  // 第四卷：Tier 3 三百年天羅校準與停工博弈
+
+// ── Tier 3 洞天三百年校準 階段常數 (第四卷 Ch.127 ~ 170) ────
+#define STAGE_TIER3_T_MINUS_2   "T-2"   // 預熱暗兆與三極滲透 (Act 1-2)
+#define STAGE_TIER3_T_MINUS_1   "T-1"   // 互助密約、偏折星鎖與緩衝籌備 (Act 3)
+#define STAGE_TIER3_T_0         "T0"    // 校準夜：大停工・偏星・哨卡・換栓 (Act 4)
+#define STAGE_TIER3_T_PLUS_1    "T+1"   // 百年停戰清單與歸墟深碑警報 (Ch.163-164)
+#define STAGE_TIER3_T_PLUS_2    "T+2"   // 高代價信標初通與歸墟門縫亮起 (Act 5)
+
+// ── Tier 3 校準事件 5 大平行指標 ──────────────────────────────
+#define METRIC_LABOR_SOLIDARITY     "labor_solidarity"      // 三極工役罷工與互助同盟強度
+#define METRIC_ARRAY_DEFLECTION     "array_deflection"      // 太虛星鎖與一度半角位導流完成度
+#define METRIC_OUTPOST_DEFENSE      "outpost_defense"       // 巨骨哨卡阻截與石堡藥煙護民韌性
+#define METRIC_CHARTER_LEGITIMACY   "charter_legitimacy"    // 平民配額補冊與平權法理正當性
+#define METRIC_BEACON_READINESS     "beacon_readiness"      // 雙向微光信標與三元共鳴籌備度
 
 // ── Tier 2 北荒與三宗危機 階段常數 (第三卷 Ch.83 ~ 126) ────
 #define STAGE_TIER2_T_MINUS_2   "T-2"   // 異常線索匯集

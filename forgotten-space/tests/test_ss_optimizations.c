@@ -1,5 +1,5 @@
 // /tests/test_ss_optimizations.c
-// 《從小說看 Mudlib：優化建議》(narrative/ss.md) 全方位功能驗證測試：
+// 《從小說看 Mudlib：優化建議》全方位功能驗證測試：
 // 1. 感官與物質反饋 (touch / smell / listen) + 身世視角濾鏡 (Background Sensory Lens)
 // 2. 物證主動出示 (present)、互相印證 (Mutual Corroboration) 與污染/公證修復 (Contamination & Cleanse)
 // 3. 五器共鳴多階段技術校驗 (5-Station Technical Calibration & Diagnostics)
@@ -12,7 +12,7 @@ inherit "/std/test_case.c";
 #include "/include/world_event.h"
 
 void run_tests(object me) {
-    start_test("《從小說看 Mudlib：優化建議》(ss.md) 核心體驗與機制驗證");
+    start_test("《從小說看 Mudlib：優化建議》核心體驗與機制驗證");
 
     // ── 1. 感官與物質反饋 + 身世視角濾鏡驗證 ──────────────────────────
     object stream = load_object("/d/village/stream.c");
