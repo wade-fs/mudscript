@@ -13,7 +13,7 @@
 * **具備住民／NPC**：`257 / 288`（含 `PHASE_D` **23 名**具十二時辰作息與移動劇本之角色）
 * **真・空房率（無 S/N/A/Item）**：`0 / 288`（**全站 20 間空房已全數清零**）
 * **非主線平凡支線任務**：`24` 條（`quests/side/side_*.json`）
-* **自動化驗證**：`world_liveness_audit.py`、`quest_audit.py`、`novel_mud_sync_audit.py`、`make test`、以及 `forgotten-space` 全套 **3155/3155** 測試通過（含 `test_world_liveness.c` **335/335**）。
+* **自動化驗證**：`world_liveness_audit.py`、`quest_audit.py`、`novel_mud_sync_audit.py`、`make test`、以及 `forgotten-space` 全套 **3171/3171** 測試通過（含 `test_world_liveness.c` **351/351**）。
 
 ### 已完成項目
 
@@ -86,28 +86,26 @@
   - [x] 官道與宗門：`side_route_winter_hearth`（寒夜借火）、`side_route_wheel_repair`（修補車輪）、`side_sect_bahuang_ration_tally`（八荒伙房整理家書）。
 - [x] **`RUMOR_D` 語氣分層初版**：實作 `query_tiered_folk_rumor()` 與 `std/npc.c` 對話串接，區分 `peasant_boatman`（民俗絮語）與 `merchant_artisan`（供需實務判斷）。
 
-### Phase 3B / 3D：因果經濟閉環、持續性與資訊品質深化（整合 `thinking.md` 核心規格，下一步優先）
+### Phase 3B / 3D：因果經濟閉環、持續性與資訊品質深化（已完成 — 整合 `thinking.md` 核心規格）
 > 優先順序：**P0 跨區跑商庫存／風險／防套利** → **P1 Phase 3D 世界經濟持續性** → **P2 可拒絕／地方文化日常參與** → **P3 `RUMOR_D` 六維資訊品質** → **P4 Phase 4 鮮活度 2.0**
 
-1. **P0：因果跨區跑商完整五段經濟循環（先以「木炭・皮襖・藥材」三核心物資精準驗證）**
-   - [ ] **真實庫存與動態供需定價**：為每項商品建立各產地／樞紐的真實 **庫存量 (`stock` / `max_stock`)**、基準價＋供需修正＋運輸成本公式，禁止無上限憑空買賣刷錢。
-   - [ ] **買賣真正反哺世界價格與供應**：在產地買光貨源後當地庫存下降、收購價上浮；運至缺貨城鎮出售後該地庫存補回、收購價回落修正。
-   - [ ] **真實運輸成本與虧損風險**：經官道（`d/routes/`）運送期間受氣候（暴雨濕損）、關卡加稅（扣繳門稅／沒收無引私貨）、價格回落等風險影響，玩家**可能獲利、也可能虧損**。
+1. **P0：因果跨區跑商完整五段經濟循環（已完成）**
+   - [x] **真實庫存與動態供需定價**：`WORLD_STATE_D` 建立各地 `market_stocks`（`0..12`），以產地稀缺度、跨區運距、因果急缺與飽和壓價動態計算買賣價格，禁止無上限憑空買賣。
+   - [x] **買賣真正反哺世界價格與供應**：採購即扣減產地庫存（售罄則停賣待補）；交付後增加目的地庫存並壓低後續收購牌價。
+   - [x] **真實運輸成本與虧損風險**：`trade_cargo.c` 追蹤成色與無引關稅火印；經 `route_room.c` 遇暴雨（`storm`/`landslide_rain`）損耗成色、遇 `gate_tax_lockdown` 無路引補課兩成關稅，交割結果可能大賺亦可能真實虧損。
 
-2. **P1：Phase 3D — 世界經濟的持續性（Persistent Living Economy）**
-   - [ ] **產地再生與 NPC 商販自主行為**：定期批次結算（event-driven / `world_tick`）驅動當地生產者採集補貨（如青河藥農增採、黑石炭窯補燒）與跨區商人路線切換（如丹鼎宗／雲津藥商改尋他處供應或調價）。
-   - [ ] **離線與重啟持久化一致性**：所有區域庫存、價格基準與在途狀態皆經 `save_object` 持久化，斷線或重啟後不會出現重複結算、庫存憑空增減或帳目錯亂。
+2. **P1：Phase 3D — 世界經濟的持續性（Persistent Living Economy）（已完成）**
+   - [x] **產地再生與 NPC 商販自主行為**：`economic_batch_tick()` 依天災／停工狀態執行產地補貨與消費扣減，並自動更新 `merchant_strategies`（如丹鼎藥商於青河阻斷時改道徵購、金石皮貨行於寒潮切換 `surge_bidding`）。
+   - [x] **離線與重啟持久化一致性**：`market_stocks`、`merchant_strategies` 與 `last_settled_gtime` 全面持久化並具冪等時間戳防重入，重啟後不重複結算不亂帳。
 
-3. **P2：日常支線進化 —「參與地方生活」與「選擇不介入」機制**
-   - [ ] 新增**可自由協助或明確拒絕／不介入（decline / ignore）**的日常情境（如礦工家屬賒糧、渡口加價爭執）：拒絕不受懲罰，但該家庭或街坊的處境仍依世界因果持續演化，不讓 NPC 永遠釘死苦等主角。
-   - [ ] 補入「地方文化（廟會／祭祀／節慶／民俗）」生活事件，補全六類參與維度（勞動／交易／人情／社會／突發／文化）。
+3. **P2：日常支線進化 —「參與地方生活」與「選擇不介入」機制（已完成）**
+   - [x] `miners_tea_shed.c` 實裝 `decline`／`拒絕` 非強制路徑：玩家可婉拒作保賒糧而不受懲罰，礦工家屬處境持續存在；[earth_shrine.c](file:///home/wade/src/github/mudscript/forgotten-space/d/village/earth_shrine.c)（`offer_rite`／社祭）與 [temple_tea_fair.c](file:///home/wade/src/github/mudscript/forgotten-space/d/yunjin/temple_tea_fair.c)（`beat_drum`／敲社鼓）補齊地方文化參與維度。
 
-4. **P3：`RUMOR_D` 結構化六維資訊品質（交叉驗證真相）**
-   - [ ] 升級每則 `RUMOR_D` 傳聞資料結構，必含 6 項欄位：`source`（礦工家屬／茶棚老闆／礦工／跑商／官差 等多元視角）、`event_id`（事件關聯）、`credibility`（可信度 0.0~1.0，允許半真半假）、`region`（傳播區域）、`timestamp`（發生時間）與 `is_stale`（是否過時失效）。
-   - [ ] 以同一事件（如「烈礬礦場停工」）呈現五方不同口徑，讓玩家透過交叉詢問自行判斷實情而非閱讀統一系統公告。
+4. **P3：`RUMOR_D` 結構化六維資訊品質（交叉驗證真相）（已完成）**
+   - [x] `RUMOR_D->query_cross_check_rumors()` 全面產出含 `source`、`event_id`、`credibility`、`region`、`timestamp`、`is_stale` 六維欄位之五方視角傳聞（烈礬礦場停工五方口徑、北荒寒潮五方口徑、青河截水口徑），並接線至廟會茶攤 `tea_gossip` / `聽茶客`。
 
-5. **Phase 3 端對端十步驗收場景（自動化完整閉環測試）**
-   - [ ] 建置並通過 `thinking.md` 四節示範場景：**北方寒潮觸發 → 供應減少 → 鎮風皮襖漲價 → 府城／雲津調高收購價 → 茶館出現帶來源與可信度之傳聞 → 玩家取得情報 → 採購並經官道運輸受路況影響 → 出售後庫存與價格回落修正 → 後續商人與 NPC 行為反映新供需狀態，且重載存檔無錯亂**。
+5. **Phase 3 端對端十步驗收場景（已完成）**
+   - [x] 於 [test_world_liveness.c](file:///home/wade/src/github/mudscript/forgotten-space/tests/test_world_liveness.c) 完成十步寒潮經濟閉環、運輸虧損風險、防重入結算與過時標記自動化驗收。
 
 ---
 

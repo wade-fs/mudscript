@@ -35,4 +35,14 @@ void create() {
     ]);
     add_action_rule("pray", pray_rule);
     add_action_rule("上香", pray_rule);
+
+    mapping rite_rule = ([
+        "targets": ({ "grain", "sacrifice", "祭米", "社祭", "" }),
+        "sp_cost": 3,
+        "sensory_msg": YEL "你隨黑石鋪幾位老村婦將半瓢新篩糙米撒在土地神龕前的青石桌上，口念祈山安歲穩的樸素村謠，感受凡間歲時節慶的溫厚連繫。" NOR,
+        "train_stat": ([ "sen": 6 ]),
+        "exp_gain": 8
+    ]);
+    add_action_rule("offer_rite", rite_rule);
+    add_action_rule("社祭", rite_rule);
 }

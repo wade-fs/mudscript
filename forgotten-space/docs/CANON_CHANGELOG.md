@@ -2,6 +2,11 @@
 
 本文件追蹤《遺忘的世界》小說正典修訂與 Mudlib 可執行世界之間的雙向同步紀錄，配合 [data/canon_sync_matrix.json](../data/canon_sync_matrix.json) 與 [tests/quests/novel_mud_sync_audit.py](../tests/quests/novel_mud_sync_audit.py) 使用。
 
+## 2026-11-22 — Phase 3B / 3D 因果經濟持續性、庫存供需閉環、六維資訊品質與地方文化選擇
+* **真實庫存、供需反哺與運輸風險**：`WORLD_STATE_D` 實作區域 `market_stocks`、定期持續性批次結算 `economic_batch_tick()`（含 `last_settled_gtime` 防重入）與 NPC 商販策略切換 `merchant_strategies`；`route_room.c` ＋ `trade_cargo.c` 實裝暴雨折損成色與封關補稅風險，飽和出貨將造成真實虧損。
+* **非強制選擇與地方文化參與**：`miners_tea_shed.c` 支援明確 `decline`（拒絕賒糧且無懲罰，世界現況持續演進），`earth_shrine.c` 與 `temple_tea_fair.c` 補入「社祭／敲社鼓／茶攤聽風」文化民俗互動。
+* **`RUMOR_D` 六維資訊品質與五方口徑**：實裝含 `source`、`event_id`、`credibility`、`region`、`timestamp`、`is_stale` 六欄位的 `query_cross_check_rumors()`，完成寒潮十步端對端經濟閉環測試。
+
 ## 2026-11-22 — Phase 3 因果跨區跑商、分層生活語氣與後續六縣官道宗門日常支線
 * **實體貨包跨區因果套利**：新增 `/clone/item/trade_cargo.c` 與 `WORLD_STATE_D` 六大地區特產貨盤（`panmu_timber`、`liefan_alum`、`zhongshi_iron`、`qinghe_herbs`、`zhenfeng_pelt`、`blackstone_charcoal`），於六縣牙行、`peddler_corner.c`、`wine_tavern.c` 與 `exchange_hall.c` 串接 `cargo list / buy / sell` 跨區套利與同產地防刷檢核。
 * **六縣／官道／宗門日常支線擴充至 24 條**：新增停工賒糧（烈礬）、搶修纜樁（青河）、冬寒送炭（黑石→盤木）、寒夜借火（南嶺林海驛）、修補車輪（青河水驛）與八荒伙房整理家書等 6 條生活支線。

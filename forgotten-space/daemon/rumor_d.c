@@ -228,6 +228,127 @@ string query_persona_rumor(string persona, string topic) {
     return d["msg"];
 }
 
+// ── 5c. Phase 3B：六維結構化資訊品質與五方交叉查證（thinking.md 規範）──
+// 每則傳聞皆具備：source, event_id, credibility(0~100), region, timestamp, is_stale(0/1)
+mapping *query_cross_check_rumors(string event_id) {
+    if (!event_id || event_id == "") event_id = "mine_shutdown";
+    object ws = find_object(WORLD_STATE_D);
+    if (!ws) ws = load_object(WORLD_STATE_D);
+    object nat = find_object("/secure/nature_d.c");
+    int now_gt = nat ? nat->query_game_time() : 300;
+
+    int ev_active = 1;
+    if (ws) {
+        if (event_id == "mine_shutdown") ev_active = ws->is_mine_economy_halted();
+        else if (event_id == "cold_wave" || event_id == "northern_cold_snap") ev_active = ws->is_causal_event_active("northern_cold_snap");
+        else if (event_id == "river_surge_sluice") ev_active = ws->is_causal_event_active("river_surge_sluice");
+    }
+    int stale_flag = ev_active ? 0 : 1;
+
+    if (event_id == "cold_wave" || event_id == "northern_cold_snap") {
+        return ({
+            ([
+                "source": "鎮風牧戶", "event_id": "northern_cold_snap",
+                "credibility": 60, "region": "zhenfeng", "timestamp": now_gt - 15,
+                "is_stale": stale_flag,
+                "text": "聽說北山風神發威，這批羊毛還沒剪下來就凍硬了，老牧主也不肯賤賣皮子。"
+            ]),
+            ([
+                "source": "金石茶館跑商", "event_id": "northern_cold_snap",
+                "credibility": 88, "region": "city", "timestamp": now_gt - 5,
+                "is_stale": stale_flag,
+                "text": "北荒寒潮南壓造成鎮風生羊皮襖與黑石木炭雙雙緊缺！金石與雲津商棧已調高收購價，有貨趕緊運進來。"
+            ]),
+            ([
+                "source": "雲津把頭", "event_id": "northern_cold_snap",
+                "credibility": 82, "region": "yunjin", "timestamp": now_gt - 10,
+                "is_stale": stale_flag,
+                "text": "冰河渡船快結死冰了，城裡羊皮襖跟硬木炭庫存見底，過兩天價錢只會再高。"
+            ]),
+            ([
+                "source": "邊關防卒", "event_id": "northern_cold_snap",
+                "credibility": 70, "region": "zhenfeng", "timestamp": now_gt - 20,
+                "is_stale": stale_flag,
+                "text": "天風谷積雪壓壞半截棧道，無正式路引的私貨車隊過關口多半會被補抽兩成寒冬路稅。"
+            ]),
+            ([
+                "source": "街巷閒婦", "event_id": "northern_cold_snap",
+                "credibility": 35, "region": "city", "timestamp": now_gt - 30,
+                "is_stale": stale_flag,
+                "text": "聽說是雲津有人挖出冰棺才惹來大雪，明天所有皮衣都要封市不賣啦！"
+            ])
+        });
+    }
+
+    if (event_id == "river_surge_sluice") {
+        return ({
+            ([
+                "source": "青河藥婦", "event_id": "river_surge_sluice",
+                "credibility": 55, "region": "qinghe", "timestamp": now_gt - 12,
+                "is_stale": stale_flag,
+                "text": "洗靈草晒場進了水，大家都傳是龍王生氣把上游水路封住了。"
+            ]),
+            ([
+                "source": "老船工柳伯", "event_id": "river_surge_sluice",
+                "credibility": 85, "region": "qinghe", "timestamp": now_gt - 6,
+                "is_stale": stale_flag,
+                "text": "不是龍王，是定神道觀上頭水閘放水太急沖淺了九曲灘，平底藥船載重減半、運費自然翻倍。"
+            ]),
+            ([
+                "source": "丹鼎採辦執事", "event_id": "river_surge_sluice",
+                "credibility": 90, "region": "danding", "timestamp": now_gt - 4,
+                "is_stale": stale_flag,
+                "text": "青河洗靈草庫存不足，我們丹鼎堂已改發急單向盤木與雲津高價收購替代靈草。"
+            ])
+        });
+    }
+
+    // 預設：mine_shutdown（精確對齊 thinking.md 烈礬礦場停工五方口徑）
+    return ({
+        ([
+            "source": "礦工家屬", "event_id": "mine_shutdown",
+            "credibility": 45, "region": "liefan", "timestamp": now_gt - 25,
+            "is_stale": stale_flag,
+            "text": "聽說礦場大掌櫃發不出工錢偷偷躲起來了，這個月家裡的米缸都要見底！"
+        ]),
+        ([
+            "source": "茶棚老闆", "event_id": "mine_shutdown",
+            "credibility": 65, "region": "liefan", "timestamp": now_gt - 15,
+            "is_stale": stale_flag,
+            "text": "最近來買炭喝湯的人少了一大半，礦工兜裡沒錢連兩文甘草茶都捨不得多點。"
+        ]),
+        ([
+            "source": "井下礦工", "event_id": "mine_shutdown",
+            "credibility": 90, "region": "liefan", "timestamp": now_gt - 8,
+            "is_stale": stale_flag,
+            "text": "不是單純欠餉！是深井岩壁裂開又竄毒煙，礦坑出了實打實的結構問題才被迫停工。"
+        ]),
+        ([
+            "source": "跨區跑商", "event_id": "mine_shutdown",
+            "credibility": 85, "region": "city", "timestamp": now_gt - 5,
+            "is_stale": stale_flag,
+            "text": "烈礬礬貨與重石鐵料供應一斷，其他地方庫存很快吃緊，十天內府城收購價必漲三成！"
+        ]),
+        ([
+            "source": "縣衙官差", "event_id": "mine_shutdown",
+            "credibility": 55, "region": "liefan", "timestamp": now_gt - 18,
+            "is_stale": stale_flag,
+            "text": "奉官府諭令礦場暫停作業等候勘驗，一切井然有序，閑雜人等切莫聽信謠言。"
+        ])
+    });
+}
+
+mapping query_structured_rumor(string event_id, string source_filter) {
+    mapping *all = query_cross_check_rumors(event_id);
+    if (!sizeof(all)) return ([]);
+    if (source_filter && source_filter != "") {
+        foreach (mapping r in all) {
+            if (r["source"] == source_filter) return r;
+        }
+    }
+    return all[random(sizeof(all))];
+}
+
 // ── 6. 隨機取得一條傳聞（支援主題關鍵字篩選）─────────────────
 string query_random_rumor(string topic) {
     if (topic && topic != "") {

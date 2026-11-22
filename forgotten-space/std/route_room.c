@@ -154,6 +154,31 @@ void init() {
         add_action("do_route_check_pass", "check_pass");
         add_action("do_route_check_pass", "盤查");
     }
+
+    // Phase 3：攜帶行商貨包經官道時受實時天候與封關稅卡風險影響
+    object me = this_player();
+    if (me && living(me)) {
+        object nat = find_object("/secure/nature_d.c");
+        object ws = find_object(WORLD_STATE_D);
+        string weather = nat ? nat->query_weather() : "clear";
+        int is_storm = (weather == "storm" || (ws && ws->is_causal_event_active("landslide_rain")));
+        int is_lockdown = (ws && ws->is_causal_event_active("gate_tax_lockdown") &&
+                           (strsrch(oname, "pass") != -1 || strsrch(oname, "toll") != -1 || strsrch(oname, "entry") != -1));
+        int has_pass = (present("road pass", me) || present("baoshu", me)) ? 1 : 0;
+
+        foreach (object item in all_inventory(me)) {
+            if (!item || !item->query("is_trade_cargo")) continue;
+            if (is_storm && !item->query_temp("storm_damaged_here")) {
+                item->set_temp("storm_damaged_here", 1);
+                int nc = item->apply_transport_damage(15, "暴雨泥濘滲潮折損成色");
+                tell_object(me, HIR + sprintf("【官道貨損】山雨泥濘滲入包裹，你的「%s」成色降至 %d%%（交割賣價將隨之折損）！\n", item->query_name(), nc) + NOR);
+            }
+            if (is_lockdown && !has_pass && !item->query("tariff_flagged")) {
+                item->flag_tariff("封關稅卡補課兩成私貨罰稅");
+                tell_object(me, YEL + sprintf("【關卡查稅】無正式路引押運「%s」經過封檢卡哨，守卒在貨封蓋下補稅火印（交割須扣兩成罰稅）！\n", item->query_name()) + NOR);
+            }
+        }
+    }
 }
 
 int do_route_survey(string arg) {

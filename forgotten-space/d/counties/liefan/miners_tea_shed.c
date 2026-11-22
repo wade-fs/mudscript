@@ -37,3 +37,26 @@ void create() {
 
     spawn_npc("/clone/npc/folk/liefan_old_miner.c");
 }
+
+void init() {
+    ::init();
+    add_action("do_decline_credit", "decline");
+    add_action("do_decline_credit", "拒絕");
+}
+
+int do_decline_credit(string arg) {
+    object me = this_player();
+    if (!me) return 0;
+    me->set("life_choices/liefan_credit", "declined");
+    write(WHT "你搖頭婉謝了替礦工家屬作保賒糧的請託。羅七沉默半晌點點頭道：「不怪小哥，各人自有難處，大夥去挖點苦菜摻糠照樣熬過去便是。」（無懲罰，礦工家屬仍持續在棚外苦撐）\n" NOR);
+    return 1;
+}
+
+string query_long() {
+    string res = ::query_long();
+    object ws = find_object(WORLD_STATE_D);
+    if (ws && ws->is_mine_economy_halted()) {
+        res += HIR "【停工實況】深井封閉未開，棚裡擠滿兜裡空空的井工與前來討要賒糧條子的家屬，人人面色焦灼。\n" NOR;
+    }
+    return res;
+}

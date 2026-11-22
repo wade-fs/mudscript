@@ -35,5 +35,38 @@ void create() {
     add_action_rule("listen_opera", opera_rule);
     add_action_rule("聽戲", opera_rule);
 
+    mapping folk_drum_rule = ([
+        "targets": ({ "drum", "festival", "社鼓", "廟會", "" }),
+        "sp_cost": 4,
+        "sensory_msg": HIY "你隨山神廟會的北境鄉民一道敲起牛皮祈歲社鼓，渾厚鼓聲震落白楊樹梢碎雪，四周茶客齊聲喝采慶祈來年暖春平安。" NOR,
+        "train_stat": ([ "sen": 6, "spi": 6 ]),
+        "exp_gain": 10
+    ]);
+    add_action_rule("beat_drum", folk_drum_rule);
+    add_action_rule("敲社鼓", folk_drum_rule);
+
     spawn_npc("/clone/npc/folk/yunjin_tea_vendor.c");
+}
+
+void init() {
+    ::init();
+    add_action("do_tea_gossip", "tea_gossip");
+    add_action("do_tea_gossip", "聽茶客");
+}
+
+int do_tea_gossip(string arg) {
+    object me = this_player();
+    if (!me) return 0;
+    object rum_d = load_object(RUMOR_D);
+    if (!rum_d) return 0;
+    string ev = (arg && arg != "") ? arg : "cold_wave";
+    mapping *list = rum_d->query_cross_check_rumors(ev);
+    write(HIY "\n【山神廟茶攤・四方口徑風聲】\n" NOR);
+    foreach (mapping r in list) {
+        write(sprintf("  ・[%s｜%s｜可信:%d%%｜%s] %s\n",
+            r["source"], r["region"], r["credibility"],
+            r["is_stale"] ? WHT "已過時" NOR : HIG "當期實情" NOR, r["text"]));
+    }
+    write("\n");
+    return 1;
 }

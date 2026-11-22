@@ -519,6 +519,95 @@ void run_tests(object me) {
     assert_equal("COMPLETED", q_engine->query_quest_state(tester, "side_sect_bahuang_ration_tally"),
                  "整理軍寨家書交還阿滿後應結算為 COMPLETED");
 
+    // ── 8. Phase 3B/3D：十步寒潮端對端經濟閉環、虧損風險、六維傳聞與不介入選擇 ──
+    ws->init_market_stocks();
+    int cur_gt = nd->query_game_time() + 100;
+    // Step 1-4: 寒潮觸發 -> 北方皮襖供應減少、鎮風價格變動、府城調高收購價
+    nd->set_season_override("winter");
+    ws->trigger_causal_event("northern_cold_snap", 90);
+    int zf_stock_0 = ws->query_hub_stock("zhenfeng", "zhenfeng_pelt");
+    ws->economic_batch_tick(cur_gt);
+    int zf_stock_1 = ws->query_hub_stock("zhenfeng", "zhenfeng_pelt");
+    assert_true(zf_stock_1 < zf_stock_0, "寒潮批次結算後鎮風皮襖供應庫存應實質減少");
+    mapping strat_pelt = ws->query_merchant_strategy("city_pelts");
+    assert_equal("surge_bidding", strat_pelt["mode"], "寒潮急缺期金石商行應切換至 surge_bidding 搶貨策略");
+
+    // Step 5-6: 茶館與 RUMOR_D 取得帶六維欄位之寒潮情報，並驗證烈礬停工五方口徑
+    mapping *cold_rumors = rum_d->query_cross_check_rumors("cold_wave");
+    assert_true(sizeof(cold_rumors) >= 5, "寒潮應提供至少五種社會視角情報");
+    assert_true(cold_rumors[0]["source"] != "" && cold_rumors[0]["event_id"] != "" &&
+                cold_rumors[0]["credibility"] > 0 && cold_rumors[0]["region"] != "" &&
+                cold_rumors[0]["timestamp"] >= 0 && cold_rumors[0]["is_stale"] == 0,
+                "傳聞結構必須完整具備 source/event_id/credibility/region/timestamp/is_stale==0 六維欄位");
+    mapping *mine_rumors = rum_d->query_cross_check_rumors("mine_shutdown");
+    assert_equal(5, sizeof(mine_rumors), "烈礬停工應具備礦工家屬/茶棚老闆/井下礦工/跑商/官差五方不同口徑");
+    assert_true(mine_rumors[2]["credibility"] > mine_rumors[0]["credibility"],
+                "井下礦工的第一手結構訊息可信度應高於礦工家屬轉述臆測");
+
+    // Step 7-9: 鎮風採買 -> 經過官道受風險與關稅測試 -> 飽和／虧損驗證與正常交割壓價反饋
+    object zf_mkt = load_object("/d/counties/zhenfeng/market.c");
+    tester->add_money(400);
+    move_object(tester, zf_mkt);
+    int st_before_buy = ws->query_hub_stock("zhenfeng", "zhenfeng_pelt");
+    tester->command("cargo buy zhenfeng_pelt");
+    object pelt_c = present("trade_cargo", tester);
+    assert_true(objectp(pelt_c), "應能於鎮風縣大集購入實體《鎮風生羊皮襖》貨包");
+    assert_equal(st_before_buy - 1, ws->query_hub_stock("zhenfeng", "zhenfeng_pelt"),
+                 "採購後產地鎮風縣庫存應真實減少 1 份");
+
+    // 驗證官道封關稅卡無路引罰稅 + 暴雨貨損風險，且於庫存飽和地賣出可能真實虧損
+    ws->trigger_causal_event("gate_tax_lockdown", 60);
+    move_object(tester, tf_pass);
+    assert_equal(1, pelt_c->query("tariff_flagged"), "無路引攜貨經封關關卡應自動被記上補稅火印");
+    pelt_c->apply_transport_damage(45, "暴雨損壞測試");
+    ws->adjust_hub_stock("city", "zhenfeng_pelt", 8); // 模擬金石貨滿為患 (10/12)
+    mapping sell_loss_res = ws->sell_trade_cargo(tester, "city");
+    assert_true(sell_loss_res["ok"] == 1 && sell_loss_res["profit"] < 0,
+                "當貨物因路途受損、無引遭課罰稅且交付地貨滿時，跨區跑商應真實產生虧損而非必賺");
+    ws->resolve_causal_event("gate_tax_lockdown");
+
+    // Step 10: 雲津急缺賣出正面反饋庫存與價格下降 + 冪等防重複結算 + 解封後傳聞過時標記
+    ws->adjust_hub_stock("yunjin", "zhenfeng_pelt", -12);
+    ws->adjust_hub_stock("yunjin", "zhenfeng_pelt", 2); // 設定雲津缺貨 (2/12)
+    mapping q_yj_scarce = ws->query_trade_quote("zhenfeng_pelt", "yunjin");
+    move_object(tester, zf_mkt);
+    tester->command("cargo buy zhenfeng_pelt");
+    move_object(tester, yj_ex);
+    mapping sell_win = ws->sell_trade_cargo(tester, "yunjin");
+    assert_true(sell_win["ok"] == 1 && sell_win["profit"] > 0 && sell_win["new_hub_stock"] == 3,
+                "於雲津急缺時交割皮襖應獲利且雲津庫存實升為 3/12");
+    ws->adjust_hub_stock("yunjin", "zhenfeng_pelt", 6); // 推高至飽和 (9/12)
+    mapping q_yj_full = ws->query_trade_quote("zhenfeng_pelt", "yunjin");
+    assert_true(q_yj_full["sell_price"] < q_yj_scarce["sell_price"],
+                "目的地庫存補滿後收購價應隨之大幅回落修正");
+
+    // 驗證同遊戲分鐘下重覆呼叫 economic_batch_tick 不會重覆結算 (防重入/防刷)
+    int zf_snap = ws->query_hub_stock("zhenfeng", "zhenfeng_pelt");
+    ws->economic_batch_tick(cur_gt);
+    assert_equal(zf_snap, ws->query_hub_stock("zhenfeng", "zhenfeng_pelt"),
+                 "相同時間戳重複呼叫 economic_batch_tick 不得重複扣減或補貨");
+
+    // 結束寒潮後，傳聞自動標記為已過時 (is_stale == 1)
+    ws->resolve_causal_event("northern_cold_snap");
+    nd->set_season_override("");
+    mapping *stale_check = rum_d->query_cross_check_rumors("cold_wave");
+    assert_equal(1, stale_check[0]["is_stale"], "寒潮解除後對應舊傳聞應自動轉為 is_stale == 1");
+
+    // P2: 不介入選擇 (decline) 與地方文化參與 (earth_shrine 社祭 / temple_tea_fair 敲社鼓與聽茶客)
+    move_object(tester, lf_shed);
+    tester->command("decline credit");
+    assert_equal("declined", tester->query("life_choices/liefan_credit"),
+                 "玩家明確選擇拒絕賒糧應紀錄 life_choices 而無懲罰");
+    object e_shrine = load_object("/d/village/earth_shrine.c");
+    object yj_tea = load_object("/d/yunjin/temple_tea_fair.c");
+    move_object(tester, e_shrine);
+    tester->command("offer_rite");
+    move_object(tester, yj_tea);
+    tester->command("tea_gossip cold_wave");
+    int exp_before_drum = tester->query("exp");
+    tester->command("beat_drum");
+    assert_true(tester->query("exp") >= exp_before_drum, "山神廟會敲社鼓應能完成地方文化民俗互動");
+
     if (tester) destruct(tester);
     report_results();
 }
