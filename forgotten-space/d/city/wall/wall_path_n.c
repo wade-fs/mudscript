@@ -21,4 +21,20 @@ void create() {
     ]));
 
     set("is_outdoor", 1);
+
+    set_touch("default", HIW "北牆垛口與床弩絞盤鐵件冷得刺骨，表面覆著從天風谷吹來的細白沙塵。" NOR);
+    set_smell("default", CYN "乾燥刺鼻的北方沙塵、冷鐵擦槍油味與獵獵吹拂的高空朔風氣息。" NOR);
+    set_listen("default", WHT "萬丈北風扯動軍旗發出「噼啪」巨響，腳下北關門洞傳來沉重的馬車盤查聲。" NOR);
+
+    mapping lookout_rule = ([
+        "targets": ({ "north", "wastes", "瞭望", "北荒", "" }),
+        "sp_cost": 4,
+        "sensory_msg": CYN "你頂著撲面朔風手搭涼棚北眺，天風谷與遙遠黑山長城的輪廓在灰白天際線上隱約可見。" NOR,
+        "train_stat": ([ "per": 6 ]),
+        "exp_gain": 6
+    ]);
+    add_action_rule("lookout", lookout_rule);
+    add_action_rule("瞭望", lookout_rule);
+
+    spawn_npc("/clone/npc/city_gate_guard.c");
 }

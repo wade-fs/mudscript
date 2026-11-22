@@ -23,5 +23,9 @@ void create() {
 
     set("is_outdoor", 1);
 
+    set_touch("default", HIY "牌坊『巧奪造化』精銅底座被學徒撫摸得溫潤發亮，地面青石沾著木屑與鐵粉。" NOR);
+    set_smell("default", YEL "煤煙鐵腥、新鮮木材松脂與熬製鞣革硝水的複合百工工坊味。" NOR);
+    set_listen("default", HIY "鍛鐵的叮噹、拉大鋸的「呼哧」聲與雕鑿青石的清脆叩擊聲合奏出全城最忙碌的樂章。" NOR);
+
     spawn_npc("/clone/npc/gong_gate_tiechigong.c");
 }

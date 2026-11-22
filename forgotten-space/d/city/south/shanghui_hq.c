@@ -20,6 +20,11 @@ void create() {
     ]));
 
     set("is_outdoor", 0);
+
+    set_touch("default", HIY "商會總堂花梨木地板打蠟得光滑冰涼，紫檀長案擺著精緻紫砂茶具與算盤。" NOR);
+    set_smell("default", YEL "高級龍涎香、名貴茶葉與總堂密賬房裡淡淡的防潮樟木香。" NOR);
+    set_listen("default", WHT "外街喧囂被厚重石牆隔開，堂內只偶爾響起錢百川撥動金算盤的清冷珠聲。" NOR);
+
     spawn_npc("/clone/npc/south_qianbaichuan.c");
     spawn_npc("/clone/npc/shanghui_hq_steward.c");
 }

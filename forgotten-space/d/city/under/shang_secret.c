@@ -23,6 +23,20 @@ void create() {
 
     set("is_underground", 1);
     set("is_secret_room", 1);
+
+    set_touch("default", WHT "整塊澆築的太古黑鐵壁面乾燥冰冷如玄冰，九子連環保祕匣金印紋路卻隱含一絲餘溫。" NOR);
+    set_smell("default", YEL "陳年不散的乾燥古紙墨味、乾涸暗紅血字鐵鏽氣與奇異的太古金屬清味。" NOR);
+    set_listen("default", HIC "密室極靜之中，隱約能聽見腳下極深處太古元力緩緩流轉的低沉嗡鳴。" NOR);
+
+    mapping oath_rule = ([
+        "targets": ({ "oath", "wall", "誓約", "血字", "" }),
+        "sp_cost": 5,
+        "sensory_msg": HIY "你湊近黑鐵壁逐字辨讀三十年前商盟元老留下的未結血字誓約，字裡行間滿是孤注一擲的悲壯決絕。" NOR,
+        "train_stat": ([ "int": 8, "spi": 6 ]),
+        "exp_gain": 10
+    ]);
+    add_action_rule("read_oath", oath_rule);
+    add_action_rule("讀誓", oath_rule);
 }
 
 int can_receive(object ob) {

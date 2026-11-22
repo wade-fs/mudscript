@@ -19,5 +19,9 @@ void create() {
 
     set("is_outdoor", 0);
 
+    set_touch("default", YEL "驛館公文木架邊沿被急遞信差擦得油滑，桌上火漆印章尚帶餘溫。" NOR);
+    set_smell("default", YEL "馬棚乾草、快馬汗味、熱蠟封口與官道郵袋上的乾燥塵土氣。" NOR);
+    set_listen("default", HIY "庭院急遞駿馬嘶鳴與信差腰間銅鈴由遠而近的急促「叮鈴」響動。" NOR);
+
     spawn_npc("/clone/npc/post_station_maqianli.c");
 }

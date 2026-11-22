@@ -20,4 +20,20 @@ void create() {
     ]));
 
     set("is_outdoor", 1);
+
+    set_touch("default", YEL "新上油的鐵爪橇板邊沿油滑冰冷，草料堆乾燥紮手、帶點牲口槽的微溫。" NOR);
+    set_smell("default", YEL "濃烈馬廄草料氣、熱橇板桐油味，以及從西角死巷暗門縫裡隱隱滲出的一絲陰溝霉氣。" NOR);
+    set_listen("default", WHT "北地矮腳駑馬打響鼻踩地的聲音，夾著各家商號管事圍在《招標榜》前爭論算計的低語。" NOR);
+
+    mapping bid_rule = ([
+        "targets": ({ "notice", "sleigh", "招標榜", "雪橇", "" }),
+        "sp_cost": 4,
+        "sensory_msg": CYN "你細看木棚牆上的《輜重雪橇招標榜》，又瞥了眼西角暗門邊刻意掩飾的泥濘腳印，心裡暗暗留神。" NOR,
+        "train_stat": ([ "per": 8 ]),
+        "exp_gain": 8
+    ]);
+    add_action_rule("inspect", bid_rule);
+    add_action_rule("看招標", bid_rule);
+
+    spawn_npc("/clone/npc/folk/sun_old_carter.c");
 }

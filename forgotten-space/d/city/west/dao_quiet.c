@@ -20,6 +20,11 @@ void create() {
     ]));
 
     set("is_outdoor", 0);
+
+    set_touch("default", HIG "厚實乾燥的艾草蒲團坐上去鬆軟微溫，四周布帛經卷垂直靜止不動。" NOR);
+    set_smell("default", CYN "白玉古鼎嫋嫋直上的沉香幽韻與淡淡艾草清氣，使人呼吸自然放緩。" NOR);
+    set_listen("default", HIC "玉磬一聲清敲，空靈餘韻在幽暗閣內久久迴盪，將門外萬丈紅塵徹底隔絕。" NOR);
+
     spawn_npc("/clone/npc/dao_tong.c");
 }
 

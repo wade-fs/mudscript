@@ -23,6 +23,11 @@ void create() {
     ]));
 
     set("is_outdoor", 0);
+
+    set_touch("default", YEL "紫檀長案表面溫潤微涼，羊皮星曆卷宗與校對簿裝訂得嚴密厚實。" NOR);
+    set_smell("default", CYN "淡淡松煙墨香、陳年羊皮味與銅製渾天儀擦拭過的清冷防鏽油味。" NOR);
+    set_listen("default", WHT "大殿內安靜得能聽見沙漏細沙滑落聲，以及案前算籌輕碰的脆響。" NOR);
+
     spawn_npc("/clone/npc/song_zhiwei.c");
 }
 

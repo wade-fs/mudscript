@@ -21,5 +21,10 @@ void create() {
     ]));
 
     set("is_outdoor", 0);
+
+    set_touch("default", YEL "烏木書案冰涼光滑、一塵不染，案角那方端硯磨得圓潤透潤。" NOR);
+    set_smell("default", CYN "上好徽墨的淡雅松煙清香、新裁竹紙味與一絲若有若無的茉莉花茶氣。" NOR);
+    set_listen("default", HIG "講堂內安靜肅穆，只聽見先生戒尺輕叩桌面與眾生謄抄經史的沙沙筆聲。" NOR);
+
     spawn_npc("/clone/npc/center_teacher_lu.c");
 }

@@ -20,5 +20,10 @@ void create() {
     ]));
 
     set("is_outdoor", 0);
+
+    set_touch("default", WHT "丈許高的黑漆當鋪櫃檯壓迫感十足，櫃邊銅護角摩挲得泛冷光。" NOR);
+    set_smell("default", YEL "陳舊當票紙墨氣、樟腦防蛀箱櫃與各類典當舊衣雜物的混雜味道。" NOR);
+    set_listen("default", HIY "紫檀算盤清脆得近乎冷漠的撥珠聲，夾著後堂布簾深處隱隱透來的陰暗微風。" NOR);
+
     spawn_npc("/clone/npc/center_pawn_jia.c");
 }

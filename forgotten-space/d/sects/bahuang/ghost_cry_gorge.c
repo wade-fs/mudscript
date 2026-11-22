@@ -19,6 +19,10 @@ void create() {
     ]));
 
     set("is_outdoor", 1);
+
+    set_touch("default", HIW "冰殼滑膩堅硬，斜坡下方隱約露出纏著雙股黑麻線的冰涼斷箭與人工鑿壁刻痕。" NOR);
+    set_smell("default", CYN "五年陳舊開山火藥殘留的微弱硝石味，混著裂谷暗河飄上的陰寒雪氣。" NOR);
+    set_listen("default", WHT "冰層底下幽暗暗河悄無聲息地流動，偶爾傳來冷風灌進冰縫的幽咽鬼鳴。" NOR);
 }
 
 void init() {

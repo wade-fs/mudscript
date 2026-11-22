@@ -21,6 +21,11 @@ void create() {
     ]));
 
     set("is_outdoor", 0);
+
+    set_touch("default", YEL "修葺過後的厚杉木貨架乾燥結實，櫃面交割單疊得整整齊齊、墨跡未乾。" NOR);
+    set_smell("default", YEL "新劈木板鬆香、乾草料與櫃邊炭盆熬著的一壺粗麥茶暖香。" NOR);
+    set_listen("default", WHT "夥計阿四清點貨單的念數聲、算盤輕響與屋外雪橇車隊卸貨的腳步聲。" NOR);
+
     spawn_npc("/clone/npc/qiu_he.c");
     spawn_npc("/clone/npc/a_si.c");
 }

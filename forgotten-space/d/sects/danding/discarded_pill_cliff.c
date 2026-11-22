@@ -22,6 +22,11 @@ void create() {
     ]));
 
     set("is_outdoor", 1);
+
+    set_touch("default", WHT "崖邊堆滿的『紫泥封口』廢渣硬如焦磚，凍硬的白猿屍身冷得像塊石頭。" NOR);
+    set_smell("default", MAG "變質丹藥酸腐氣、硫磺焦渣味與濃烈刺鼻的毒草敗葉腥臭直衝腦門。" NOR);
+    set_listen("default", WHT "山風掠過廢丹崖發出空洞回聲，偶爾有腐蝕碎渣沿峭壁滾落山澗。" NOR);
+
     spawn_npc("/clone/npc/tao_sheng.c");
 }
 

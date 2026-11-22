@@ -20,6 +20,10 @@ void create() {
     ]));
 
     set("is_outdoor", 1);
+
+    set_touch("default", HIW "墨黑雪壁垂降崖緣的玄石如鐵般冰冷堅硬，垂降麻繩已凍成硬邦邦的粗麻冰柱。" NOR);
+    set_smell("default", CYN "高崖罡風裡沒有半絲煙火氣，只有凜冽雪霧與崖底深谷湧上來的陰寒石氣。" NOR);
+    set_listen("default", WHT "裂谷深處偶爾向上捲來空洞幽遠的回風鳴響，彷彿深淵在低聲吞吐氣息。" NOR);
 }
 
 void init() {

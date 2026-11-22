@@ -25,4 +25,20 @@ void create() {
 
     set("is_outdoor", 1);
     set_coordinate(0, 10, 0);
+
+    set_touch("default", WHT "雙線石闕基座被往來車輪磨出半寸凹痕，青石路邊積著乾燥黃塵。" NOR);
+    set_smell("default", YEL "驢馬草料、熱車軸牛油與南嶺林海吹來的淡淡松木清氣。" NOR);
+    set_listen("default", HIY "東南林海車馬聲與西南條石馳道的鐵輪轆轆聲在此交匯，遠處隱約傳來南關查驗哨音。" NOR);
+
+    mapping road_rule = ([
+        "targets": ({ "stele", "road", "石闕", "路況", "" }),
+        "sp_cost": 4,
+        "sensory_msg": CYN "你繞著高大指路石闕察看兩條官道的車轍深淺與泥水痕跡，盤算著入城或下鄉的腳程。" NOR,
+        "train_stat": ([ "per": 6 ]),
+        "exp_gain": 6
+    ]);
+    add_action_rule("survey", road_rule);
+    add_action_rule("路況", road_rule);
+
+    spawn_npc("/clone/npc/folk/route_traveler.c");
 }

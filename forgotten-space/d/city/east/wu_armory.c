@@ -19,5 +19,9 @@ void create() {
 
     set("is_outdoor", 0);
 
+    set_touch("default", WHT "熟皮鐵甲冰涼沉重、表面塗著一層粘手防鏽油脂，獸骨硬弓拉弦處硬如鋼絲。" NOR);
+    set_smell("default", YEL "濃厚的擦甲牛油、磨刀砂輪鐵粉焦味與皮甲鞣製腥氣。" NOR);
+    set_listen("default", HIY "砂輪打磨開山朴刀時「茲——」的尖銳火花摩擦聲不斷響起。" NOR);
+
     spawn_npc("/clone/npc/wu_armory_quartermaster.c");
 }

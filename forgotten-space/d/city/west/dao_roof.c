@@ -20,6 +20,10 @@ void create() {
     ]));
 
     set("is_outdoor", 1);
+
+    set_touch("default", CYN "琉璃青瓦屋脊被西來山嵐吹得冰涼光滑，踩上去須時刻留神腳下穩妥。" NOR);
+    set_smell("default", HIC "來自青河上游峽谷的純淨草木山風直灌入懷，絲毫不見城中煙火濁氣。" NOR);
+    set_listen("default", HIC "屋脊上長風獵獵呼嘯，偶爾傳來檐角銅鈴清脆而孤冷的叮噹一響。" NOR);
 }
 
 void init() {

@@ -24,6 +24,11 @@ void create() {
 
     set("is_outdoor", 1);
     set("gate_id", "north");
+
+    set_touch("default", HIW "北關巨石門框迎著北風冷得刺手，地面落著一層從荒原飄來的乾燥雪沙。" NOR);
+    set_smell("default", CYN "撲面而來的北方沙塵雪氣中，混著守軍甲葉上的擦槍油腥。" NOR);
+    set_listen("default", WHT "北風穿過門洞發出呼呼嘯聲，與韓青嚴厲核驗出關批文的喝問聲。" NOR);
+
     spawn_npc("/clone/npc/city_gate_guard.c");
     spawn_npc("/clone/npc/gate_north_hanqing.c");
 }

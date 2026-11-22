@@ -19,6 +19,11 @@ void create() {
     ]));
 
     set("is_outdoor", 0);
+
+    set_touch("default", WHT "草頂木棚內粗木長桌被雪水與淚水浸得發暗，火盆邊緣卻保留著一點微弱暖意。" NOR);
+    set_smell("default", YEL "潮濕破棉襖味、劣質木炭煙氣與桌案上攤開的陳舊尋親紙墨氣息。" NOR);
+    set_listen("default", WHT "木棚擋住了半數暴風，只聽見棚外雪粒打在草頂上的沙沙聲與屋內低聲啜泣、翻紙聲。" NOR);
+
     spawn_npc("/clone/npc/han_su.c");
 }
 

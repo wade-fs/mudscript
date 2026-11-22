@@ -24,5 +24,9 @@ void create() {
     set("is_outdoor", 0);
     set("has_tavern", 1);
 
+    set_touch("default", YEL "酸枝木八仙桌打磨得溫潤滑亮，桌邊擺著溫熱潔淨的青花細瓷茶盞。" NOR);
+    set_smell("default", HIY "上等花雕酒香、清蒸河鮮、燻肉與大堂裡名貴檀香交織出內城的富貴氣息。" NOR);
+    set_listen("default", HIY "席間權貴子弟與巨賈舉杯寒暄的笑語聲、堂倌唱菜聲與絲竹餘韻熱鬧不俗。" NOR);
+
     spawn_npc("/clone/npc/inn_main_qianbuhuan.c");
 }

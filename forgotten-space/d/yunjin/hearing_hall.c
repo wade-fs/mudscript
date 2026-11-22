@@ -23,6 +23,11 @@ void create() {
     ]));
 
     set("is_outdoor", 1);
+
+    set_touch("default", HIW "雲海邊緣的高台青石已被山風吹得冷硬刺骨，合抱石柱刻痕深處隱隱透出大陣震動。" NOR);
+    set_smell("default", HIC "萬丈高空的清冽雪霧氣息、香案松煙味與三宗代表齊聚的緊繃火藥氣。" NOR);
+    set_listen("default", HIY "數千名門人與商會代表在台階下屏息低語，山風捲過二十四根星宿石柱發出嗡嗡長鳴。" NOR);
+
     spawn_npc("/clone/npc/zixiao_zhenren.c");
     spawn_npc("/clone/npc/tiebei_shanzhu.c");
     spawn_npc("/clone/npc/xuanshu_menzhu.c");

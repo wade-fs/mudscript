@@ -19,5 +19,9 @@ void create() {
 
     set("is_outdoor", 0);
 
+    set_touch("default", YEL "關前小棧油膩粗木桌凳摸起來微粘，火盆旁炭氣暖烘烘的。" NOR);
+    set_smell("default", YEL "廉價大碗茶、烤燒餅油煙與車夫解下綁腿散出的濃重腳汗味。" NOR);
+    set_listen("default", WHT "老匹與過路行商壓低嗓門扯家常、打聽北關放行風聲的細碎語聲。" NOR);
+
     spawn_npc("/clone/npc/gate_inn_laopi.c");
 }

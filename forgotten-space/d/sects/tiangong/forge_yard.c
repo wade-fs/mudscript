@@ -21,4 +21,20 @@ void create() {
     ]));
 
     set("is_outdoor", 0);
+
+    set_touch("default", RED "地火鍛台邊的鑄鐵絞盤架還殘留餘溫，油槽邊沿沾著滑膩的冷卻黑油。" NOR);
+    set_smell("default", YEL "熾熱鐵漿、高溫淬火油煙與焦煤燃燒後的滾燙燥味充斥整個山腹大廳。" NOR);
+    set_listen("default", RED "數架風箱怒吼鼓風，伴隨著鐵砧受擊震耳欲聾的「叮噹！」金屬交響。" NOR);
+
+    mapping check_winch_rule = ([
+        "targets": ({ "winch", "blueprint", "絞盤", "圖紙", "" }),
+        "sp_cost": 8,
+        "sensory_msg": YEL "你對照牆邊《雙契榫楔應力修正圖紙》檢查礦車絞盤架的疲勞裂紋，順手敲緊了幾枚鬆動鐵銷。" NOR,
+        "train_stat": ([ "int": 8, "str": 6 ]),
+        "exp_gain": 12
+    ]);
+    add_action_rule("check_winch", check_winch_rule);
+    add_action_rule("檢修絞盤", check_winch_rule);
+
+    spawn_npc("/clone/npc/folk/county_worker.c");
 }

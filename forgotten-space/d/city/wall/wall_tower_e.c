@@ -19,5 +19,9 @@ void create() {
 
     set("is_outdoor", 0);
 
+    set_touch("default", WHT "烽燧角樓內銅製狼煙盆冷硬漆黑，牆邊火藥箭筒摸起來乾燥粗糙。" NOR);
+    set_smell("default", YEL "備用狼糞艾草煙餅的乾燥草藥氣、硫磺引信味與塔樓防鏽鐵油味。" NOR);
+    set_listen("default", WHT "東山峽谷山風從箭窗灌入發出低沉哨音，夾著烽燧校尉整理旗號的聲響。" NOR);
+
     spawn_npc("/clone/npc/wall_tower_e_beaconchief.c");
 }

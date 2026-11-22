@@ -24,6 +24,11 @@ void create() {
     ]));
 
     set("is_outdoor", 1);
+
+    set_touch("default", WHT "校場青銅報捷鐘座覆著寒霜，石鎖與鐵木椿表面被無數雙粗糲手掌磨得發黑發亮。" NOR);
+    set_smell("default", YEL "濃烈皮甲擦油味、牲口棚乾草氣、炭盆焦煙與北方武卒粗獷汗味。" NOR);
+    set_listen("default", HIY "校場長槍交擊聲、操練嘶吼與偶爾響起的沉雄報捷銅鐘餘韻在山寨迴盪。" NOR);
+
     spawn_npc("/clone/npc/lei_lie.c");
 }
 

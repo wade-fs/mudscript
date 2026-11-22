@@ -22,6 +22,10 @@ void create() {
     ]));
 
     set("is_outdoor", 1);
+
+    set_touch("default", HIC "青石板表層結著針刺般的淡青冰晶苔蘚，觸碰副陣眼閥門能感到針扎似的星煞麻痺感。" NOR);
+    set_smell("default", MAG "半傾陣眼滲出的刺鼻礦酸寒霧味與雪堆血跡淡淡的鐵鏽腥氣。" NOR);
+    set_listen("default", WHT "被大陣壓制在百丈內的狂暴冰風呼嘯，偶爾傳來石塊崩落與鋼釺撞擊閥門的清響。" NOR);
 }
 
 void init() {

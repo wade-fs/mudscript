@@ -24,6 +24,10 @@ void create() {
 
     set("is_outdoor", 1);
 
+    set_touch("default", WHT "百二十斤花崗岩重石鎖冰冷粗糙、把柄被練武者手掌磨得泛油，黃土場地揚塵撲面。" NOR);
+    set_smell("default", YEL "漫卷黃沙塵土氣、汗水鹹味與數百漢子赤膊操練的滾燙陽氣。" NOR);
+    set_listen("default", HIR "操練都尉的喝令聲、石鎖砸落黃土地的悶響與拳腳破風聲此起彼落。" NOR);
+
     spawn_npc("/clone/npc/wu_plaza_colonel.c");
 }
 

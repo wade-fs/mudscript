@@ -19,6 +19,10 @@ void create() {
 
     set("is_outdoor", 0);
 
+    set_touch("default", HIB "青黑玄武岩牢壁濕冷滲水，生鐵鐐銬粗糲生鏽、重得令人手腕發沉。" NOR);
+    set_smell("default", HIR "潮濕爛稻草霉臭、松明火把黑煙、鐵鏽與久散不去的濃烈血腥氣。" NOR);
+    set_listen("default", WHT "牢房深處鐵鏈偶爾拖地叮噹一響，伴隨角落獄卒擲骰喝酒的壓低笑鬧。" NOR);
+
     spawn_npc("/clone/npc/yamen_prison_tieliaozhang.c");
     spawn_npc("/clone/npc/yamen_prison_zhaodegui.c");
     spawn_npc("/clone/npc/yamen_prison_hubaihu.c");

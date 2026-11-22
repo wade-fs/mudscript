@@ -21,6 +21,11 @@ void create() {
     ]));
 
     set("is_outdoor", 1);
+
+    set_touch("default", HIC "隱蔽冰槽兩側冰壁光滑險峻，伏身摸索時指尖隨時可能被暗伏的鐵蒺藜劃傷。" NOR);
+    set_smell("default", YEL "冰寒風雪中夾著私盟死士身上肅殺的冷鐵油味與虎煞機關獸的濃烈火油氣。" NOR);
+    set_listen("default", HIR "冰谷窄口風聲如嘯，鐵甲衛士踏碎冰殼的「咯吱」聲與機關獸齒輪低沉咬合聲逼近。" NOR);
+
     spawn_npc("/clone/npc/private_league_envoy.c");
     spawn_npc("/clone/npc/tiger_mech_beast.c");
 }

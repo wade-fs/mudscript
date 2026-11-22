@@ -20,6 +20,11 @@ void create() {
     ]));
 
     set("is_outdoor", 0);
+
+    set_touch("default", WHT "天柱背陰山腹石室陰冷乾燥，角落蟲蛀舊箱的銅鎖覆滿陳年灰塵。" NOR);
+    set_smell("default", YEL "數百年羊皮星曆卷宗、防蟲樟腦丸與陳舊松煙墨混雜的古書房氣息。" NOR);
+    set_listen("default", WHT "山腹石室四面厚壁隔絕外風，只聽得見分規尺輕叩案面與細微翻卷聲。" NOR);
+
     spawn_npc("/clone/npc/yu_shouzhuo.c");
 }
 

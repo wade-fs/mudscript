@@ -18,5 +18,10 @@ void create() {
     ]));
 
     set("is_outdoor", 0);
+
+    set_touch("default", YEL "高聳糧倉木門與麻布米袋乾燥微涼，地磅鐵盤冰冷沉實。" NOR);
+    set_smell("default", HIG "陳年稻穀與防潮乾石灰墊層散出的乾爽安穩糧倉氣息。" NOR);
+    set_listen("default", WHT "空曠大糧倉內只有管倉書吏檢斤過磅的鐵鉈碰撞聲與腳步回音。" NOR);
+
     spawn_npc("/clone/npc/south_warehouse_grain_scale.c");
 }

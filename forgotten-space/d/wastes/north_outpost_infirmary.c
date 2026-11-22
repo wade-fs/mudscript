@@ -19,6 +19,11 @@ void create() {
     ]));
 
     set("is_outdoor", 0);
+
+    set_touch("default", CYN "帆布帳篷內架著冰冷的行軍鐵架床，藥瓶與酒精棉布摸上去涼滑潔淨。" NOR);
+    set_smell("default", HIG "濃重的烈酒消毒氣、紫蘇苦參湯藥霧與雪線苔特有的辛涼草木清香。" NOR);
+    set_listen("default", WHT "白燕輕手輕腳整理藥瓶的玻璃叮噹聲，混著帳外雪原營地傳來的呼哨聲。" NOR);
+
     spawn_npc("/clone/npc/bai_yan.c");
 }
 

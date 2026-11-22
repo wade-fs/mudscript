@@ -19,5 +19,10 @@ void create() {
     ]));
 
     set("is_outdoor", 0);
+
+    set_touch("default", WHT "商會密庫石壁厚實冷硬，貨架上的封蠟箱籠摸起來緊實沉重。" NOR);
+    set_smell("default", YEL "熟革、松脂火漆與各縣運抵之冷杉木料混雜出的深沉庫房味。" NOR);
+    set_listen("default", WHT "守衛與庫房管事沿貨架巡檢的沉穩腳步聲與木箱封釘輕響。" NOR);
+
     spawn_npc("/clone/npc/warehouse_shang_chief.c");
 }

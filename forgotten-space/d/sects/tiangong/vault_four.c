@@ -19,4 +19,18 @@ void create() {
     ]));
 
     set("is_outdoor", 0);
+
+    set_touch("default", WHT "鉛封鐵箱冰冷沉重得異常，貼著的雙層火漆封條邊緣乾燥脆硬。" NOR);
+    set_smell("default", MAG "厚重鉛門內側封存著淡淡松脂火漆味與壓抑不住的隱隱血精礦腥氣。" NOR);
+    set_listen("default", WHT "密閉庫房內死寂無聲，唯有鉛封鐵箱深處彷彿有極微弱的低頻嗡動。" NOR);
+
+    mapping inspect_rule = ([
+        "targets": ({ "box", "seal", "鐵箱", "封條", "工單", "" }),
+        "sp_cost": 5,
+        "sensory_msg": HIY "你逐字細讀《特殊工單》上的私印火漆與三方聯署封條，確認此箱未經會審絕不可擅拆。" NOR,
+        "train_stat": ([ "per": 8 ]),
+        "exp_gain": 10
+    ]);
+    add_action_rule("inspect", inspect_rule);
+    add_action_rule("驗封條", inspect_rule);
 }

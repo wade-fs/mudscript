@@ -26,6 +26,11 @@ void create() {
     ]));
 
     set("is_outdoor", 1);
+
+    set_touch("default", HIG "藥圃濕潤黑土鬆軟肥沃，葉片邊緣沾著晨露與藥師灑下的防蟲石灰粉。" NOR);
+    set_smell("default", HIG "百草清香、苦參辛氣與遠處丹房飄來的淡淡硫磺礦酸氣在霧中交錯。" NOR);
+    set_listen("default", CYN "山風拂過大片藥田發出沙沙響動，不時夾雜著採藥師傅對藥草成色的低聲評點。" NOR);
+
     spawn_npc("/clone/npc/bai_henian.c");
     spawn_npc("/clone/npc/ye_qingzhi.c");
     spawn_npc("/clone/npc/he_shou.c");

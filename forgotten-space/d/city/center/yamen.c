@@ -23,6 +23,10 @@ void create() {
     set("is_outdoor", 0);
     set("no_combat", 1);
 
+    set_touch("default", WHT "大堂青磚地板被擦得光可鑑人、冰涼沉肅，公案旁的紅木欄杆威嚴不可輕觸。" NOR);
+    set_smell("default", CYN "公堂上朱砂大印印泥氣、陳茶香與衙役皮靴上的淡淡鐵鏽灰塵味。" NOR);
+    set_listen("default", HIY "堂外偶爾傳來鳴冤鼓餘震，堂內肅靜威嚴得連水火棍輕頓地面都能聽見回聲。" NOR);
+
     spawn_npc("/clone/npc/yamen_magistrate.c");
     spawn_npc("/clone/npc/yamen_zhou.c");
 }

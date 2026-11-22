@@ -20,6 +20,11 @@ void create() {
     ]));
 
     set("is_outdoor", 1);
+
+    set_touch("default", YEL "東側耐火生鐵板隱隱發燙，西側純銀試針握在掌心冰涼細滑。" NOR);
+    set_smell("default", HIG "東台煞火黑鐵焦煙與西台雪線苔、丹藥爐火的濃郁藥氣左右分庭抗禮。" NOR);
+    set_listen("default", HIY "鐵錘重擊煞火魔偶的震天巨響與西台銀針試毒後全場驟然靜下的抽氣聲。" NOR);
+
     spawn_npc("/clone/npc/zhao_lie.c");
     spawn_npc("/clone/npc/li_qingyun.c");
 }

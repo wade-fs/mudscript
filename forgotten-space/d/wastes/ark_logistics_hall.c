@@ -20,6 +20,10 @@ void create() {
     ]));
 
     set("is_outdoor", 0);
+
+    set_touch("default", WHT "玄鐵主控台面與爬滿綠鏽的半塊太古銅版冷硬細膩，驗印槽內壁一塵不染。" NOR);
+    set_smell("default", CYN "變形卷宗格柵裡封存著萬年不腐的金屬氧化物微塵與青金合金特有的冷淡氣味。" NOR);
+    set_listen("default", HIR "拱頂廳室極靜之中，東側極深處地底不斷傳來重型鑽機微弱卻令人心悸的沉悶震動。" NOR);
 }
 
 void init() {

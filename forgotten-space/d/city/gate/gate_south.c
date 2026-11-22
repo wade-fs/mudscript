@@ -24,6 +24,11 @@ void create() {
 
     set("is_outdoor", 1);
     set("gate_id", "south");
+
+    set_touch("default", YEL "南關驗貨地磅木台磨得發亮，入城流民排隊扶過的城門石墩沾滿汗灰。" NOR);
+    set_smell("default", YEL "往來人潮汗氣、騾馬草料、南市糧車穀糠與城外流民矮巷的煤煙交雜。" NOR);
+    set_listen("default", HIY "整座府城最喧騰的關口：稅吏唱報稅額、流民懇求通融入城與車馬鈴聲震耳欲聾。" NOR);
+
     spawn_npc("/clone/npc/city_gate_guard.c");
     spawn_npc("/clone/npc/gate_south_taxofficer.c");
 }

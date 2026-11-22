@@ -20,5 +20,10 @@ void create() {
     ]));
 
     set("is_outdoor", 1);
+
+    set_touch("default", HIW "鬼門彎墨色亂石鋒利冰涼，積雪凹處留著折斷響箭與擦破護具的碎布條。" NOR);
+    set_smell("default", HIR "北荒地煞寒流裹著荒狼身上的野獸腥氣，強催氣血時鼻腔隱隱發熱發酸。" NOR);
+    set_listen("default", WHT "窄峽谷風嘯如鬼哭，石堆上方偶爾傳來爪尖刮擦黑岩的輕響與低沉狼嗥。" NOR);
+
     spawn_npc("/clone/npc/ironback_wolf.c");
 }

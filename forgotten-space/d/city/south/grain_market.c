@@ -23,5 +23,10 @@ void create() {
 
     set("is_outdoor", 1);
     set("has_shop", 1);
+
+    set_touch("default", YEL "竹席上堆得像小山般的稻穀顆粒飽滿微涼，木斗秤邊沿磨得油亮。" NOR);
+    set_smell("default", HIG "乾燥大麥、稻米穀糠香與大桶菜籽油特有的淳樸清香彌漫市集。" NOR);
+    set_listen("default", HIY "糧商坐莊看樣定價的算盤響、倒穀入袋的沙沙聲與米販討價還價。" NOR);
+
     spawn_npc("/clone/npc/south_grain_guildhead.c");
 }

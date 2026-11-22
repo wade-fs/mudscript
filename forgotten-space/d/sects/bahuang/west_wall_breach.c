@@ -21,6 +21,11 @@ void create() {
     ]));
 
     set("is_outdoor", 1);
+
+    set_touch("default", HIW "缺口崩裂的巨石斷面覆著一層極寒冰煞，指尖觸碰會感到刺痛般的陰氣反彈。" NOR);
+    set_smell("default", MAG "深寒冰霧裡混雜著地煞腐蝕氣味與下方排水石道滲出的潮濕泥腥。" NOR);
+    set_listen("default", HIR "凜冽煞風在牆缺口尖嘯盤旋，冰骨龍骸骨摩擦發出令人牙酸的咯吱聲。" NOR);
+
     spawn_npc("/clone/npc/ice_bone_dragon.c");
 }
 

@@ -21,5 +21,9 @@ void create() {
     set("is_outdoor", 0);
     set("has_bank", 1);
 
+    set_touch("default", HIY "青銅櫃檯擦拭得冰涼鋥亮，櫃邊壓單的黃銅鎮紙沉甸甸得令人心生敬畏。" NOR);
+    set_smell("default", YEL "乾燥防潮庫房飄來的松木箱香、新銀錠淡淡金屬味與官印朱砂印泥氣息。" NOR);
+    set_listen("default", HIY "高大廳堂裡只有大朝奉珠算如飛的清脆啪嗒聲，連呼吸都不自覺放輕了幾分。" NOR);
+
     spawn_npc("/clone/npc/bank_chief.c");
 }

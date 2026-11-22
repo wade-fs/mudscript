@@ -21,5 +21,9 @@ void create() {
 
     set("is_outdoor", 0);
 
+    set_touch("default", YEL "厚重麻布糧袋鼓實沉重，倉內乾燥微涼的條石地板不見半滴潮濕水漬。" NOR);
+    set_smell("default", HIG "乾燥稻麥穀殼、新收粳米與防蟲曬乾艾草鋪墊出的厚實安穩糧倉氣息。" NOR);
+    set_listen("default", WHT "高大石倉內回音沉悶，唯有糧倉大使撥動斗秤銅鉈與挑夫落袋的篤篤聲。" NOR);
+
     spawn_npc("/clone/npc/granary_liubingzhong.c");
 }

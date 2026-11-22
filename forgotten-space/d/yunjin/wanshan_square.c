@@ -27,4 +27,20 @@ void create() {
     ]));
 
     set("is_outdoor", 1);
+
+    set_touch("default", YEL "青石板路面被地底火脈烘得微微發溫，踩上去竟不覺得如城外那般刺骨陰寒。" NOR);
+    set_smell("default", YEL "烤羊湯、熱磚茶、硫磺礦砂與三宗弟子袍袖上的淡淡丹藥香在廣場上空交織。" NOR);
+    set_listen("default", HIY "萬山靈石票牌價板前商販喊價聲、雪橇鈴鐺聲與四方山門傳來的鐘磬聲熱鬧鼎沸。" NOR);
+
+    mapping board_rule = ([
+        "targets": ({ "board", "prices", "牌價", "牌價板", "" }),
+        "sp_cost": 2,
+        "sensory_msg": HIY "你擠過圍觀商販細看烏木牌價板上的今日靈石票折算牌價，對雲津仙集近來的物資緊俏心裡有了底。" NOR,
+        "train_stat": ([ "int": 6 ]),
+        "exp_gain": 6
+    ]);
+    add_action_rule("browse", board_rule);
+    add_action_rule("看牌價", board_rule);
+
+    spawn_npc("/clone/npc/folk/route_traveler.c");
 }

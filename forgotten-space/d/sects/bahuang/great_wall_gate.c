@@ -24,5 +24,10 @@ void create() {
     ]));
 
     set("is_outdoor", 1);
+
+    set_touch("default", WHT "長城青黑條石垛口結著厚霜，鐵包邊門上的大銅環凍得粘手。" NOR);
+    set_smell("default", YEL "軍營鐵鍋飯香與關外湧進來的純淨冰雪寒氣在門洞裡冷熱交匯。" NOR);
+    set_listen("default", HIY "測距紅旗在罡風裡獵獵拍打，伴隨守關戰犛牛沉重踏地與換防兵卒的口令聲。" NOR);
+
     spawn_npc("/clone/npc/iron_yak.c");
 }

@@ -18,5 +18,9 @@ void create() {
 
     set("is_outdoor", 0);
 
+    set_touch("default", YEL "映翠箭樓內硬木弓架被掌心汗油養得溫潤光亮，箭羽羽毛柔順乾燥。" NOR);
+    set_smell("default", GRN "南嶺吹來的清新松木風與塗在強弓牛筋弦上的蜂蠟清香。" NOR);
+    set_listen("default", CYN "箭樓外樹梢風聲沙沙作響，偶爾聽見弓箭教頭試拉重弓發出的沉悶弦鳴。" NOR);
+
     spawn_npc("/clone/npc/wall_tower_s_archerymaster.c");
 }

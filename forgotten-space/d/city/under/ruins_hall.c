@@ -21,4 +21,18 @@ void create() {
 
     set("is_underground", 1);
     set("is_ruin", 1);
+
+    set_touch("default", HIB "斷裂的青銅蟠龍柱覆著冰冷滑膩的水垢與銅綠，指腹傳來極其微弱的陰寒震顫。" NOR);
+    set_smell("default", MAG "深埋地底萬年的腐朽石粉氣味與濃厚刺骨的地煞陰寒潮氣。" NOR);
+    set_listen("default", WHT "空曠地宮裡迴盪著地下水滴砸落石像底座的清脆「答、答」聲與低沉風鳴。" NOR);
+
+    mapping inspect_rule = ([
+        "targets": ({ "statue", "glyphs", "石像", "神紋", "" }),
+        "sp_cost": 6,
+        "sensory_msg": HIB "你蹲在傾頹的三丈石像底座前摸索那些史前象形神紋，只覺指尖滲入一絲難以言喻的蒼涼古意。" NOR,
+        "train_stat": ([ "int": 8, "per": 8 ]),
+        "exp_gain": 12
+    ]);
+    add_action_rule("inspect", inspect_rule);
+    add_action_rule("端詳", inspect_rule);
 }

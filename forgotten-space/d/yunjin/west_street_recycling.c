@@ -20,6 +20,10 @@ void create() {
     ]));
 
     set("is_outdoor", 0);
+
+    set_touch("default", WHT "標準磅秤鐵盤冰冷擦得鋥亮，壓成方塊的無毒防寒炭觸手緊實不掉粉。" NOR);
+    set_smell("default", HIG "通風煙道抽走了濁氣，只剩乾燥木炭與新製防毒麻布口罩裡的淡淡艾草氣。" NOR);
+    set_listen("default", HIY "窯工老師傅互相招呼過磅的穩重腳步聲與炭塊整齊碼進竹筐的清脆敲擊聲。" NOR);
 }
 
 void init() {

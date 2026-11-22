@@ -19,5 +19,9 @@ void create() {
 
     set("is_outdoor", 1);
 
+    set_touch("default", WHT "剛鑿開的重玄青石斷口銳利微涼，場內木架與工具表面落著厚厚一層細石粉。" NOR);
+    set_smell("default", WHT "乾燥嗆鼻的青石粉塵埃氣、鋼鑿打火的焦鐵味與石工身上的汗味。" NOR);
+    set_listen("default", HIY "鋼釬敲擊條石發出「叮！叮！叮！」清越尖銳的回響，讓人耳膜微微發震。" NOR);
+
     spawn_npc("/clone/npc/gong_stone_hanlaodiao.c");
 }

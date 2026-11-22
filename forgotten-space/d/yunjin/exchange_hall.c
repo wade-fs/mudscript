@@ -19,6 +19,11 @@ void create() {
     ]));
 
     set("is_outdoor", 0);
+
+    set_touch("default", YEL "高大紅木櫃檯打磨得極為光滑冰涼，竹簡與木質倉單牌碼放得稜角齊整。" NOR);
+    set_smell("default", WHT "堂內只有淡淡油墨印泥、冷鐵櫃鎖與乾燥防潮松木匣的清冷氣味。" NOR);
+    set_listen("default", HIY "算盤珠清脆利落的撥動聲、印章蓋上厚宣紙的沉穩頓響與商戶低聲核對帳目。" NOR);
+
     spawn_npc("/clone/npc/gu_lanzhou.c");
 }
 

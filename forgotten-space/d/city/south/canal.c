@@ -20,5 +20,10 @@ void create() {
     ]));
 
     set("is_outdoor", 1);
+
+    set_touch("default", CYN "西水門青石碼頭階梯被河水打濕而滑溜微涼，麻繩纜樁磨出深溝。" NOR);
+    set_smell("default", CYN "青河泥沙水腥、平底糧船新塗的桐油味與卸貨苦力的汗氣。" NOR);
+    set_listen("default", HIY "漕船撞擊護樁的悶響、腳夫扛包踩過木跳板的踏步聲與曹鐵錨扯嗓調度。" NOR);
+
     spawn_npc("/clone/npc/south_canal_caotiemao.c");
 }

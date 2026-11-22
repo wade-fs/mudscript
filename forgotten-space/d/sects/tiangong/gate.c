@@ -19,4 +19,20 @@ void create() {
     ]));
 
     set("is_outdoor", 1);
+
+    set_touch("default", WHT "青銅大門上的傘齒輪浮雕稜角銳利冰冷，縫隙間沾著微溫的鍛造煙灰。" NOR);
+    set_smell("default", YEL "山門上方排煙孔噴出的地肺白煙、焦煤硫磺與淡淡機油味撲鼻而來。" NOR);
+    set_listen("default", HIY "門後山腹深處不斷傳出巨錘鍛鐵的「當——當——」轟鳴與水力風箱呼嘯聲。" NOR);
+
+    mapping inspect_rule = ([
+        "targets": ({ "gear", "gate", "齒輪", "青銅門", "" }),
+        "sp_cost": 4,
+        "sensory_msg": WHT "你俯身順著門扇上的傘齒輪應力榫卯紋路逐節摸索，隱約體會到力道傳導分流之妙。" NOR,
+        "train_stat": ([ "int": 6 ]),
+        "exp_gain": 8
+    ]);
+    add_action_rule("inspect", inspect_rule);
+    add_action_rule("觀榫卯", inspect_rule);
+
+    spawn_npc("/clone/npc/folk/county_worker.c");
 }

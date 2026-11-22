@@ -23,6 +23,11 @@ void create() {
     ]));
 
     set("is_outdoor", 0);
+
+    set_touch("default", YEL "粗獷鐵力木大柱表面不施漆彩、粗糙沉實，虎皮整皮毛髮硬挺如鋼針。" NOR);
+    set_smell("default", YEL "陳年獸皮腥氣、擦拭重兵器的桐油味與正堂大碗粗茶的微苦茶氣。" NOR);
+    set_listen("default", HIY "堂內眾將領議事時的洪亮嗓門與重戟放入兵器架的沉重鏗鏘聲。" NOR);
+
     spawn_npc("/clone/npc/wu_bashan.c");
     spawn_npc("/clone/npc/wu_hall_enforcer.c");
 }

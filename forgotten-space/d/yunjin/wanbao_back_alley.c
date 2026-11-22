@@ -20,6 +20,11 @@ void create() {
     ]));
 
     set("is_outdoor", 1);
+
+    set_touch("default", HIW "背陰夾道積雪凍得又硬又滑，黑鐵箱拖過的車轍邊緣結著鋒利冰稜。" NOR);
+    set_smell("default", YEL "寒酸茶攤煤爐煙味、凍泥味與夜馬身上飄出的汗馬腥氣。" NOR);
+    set_listen("default", WHT "高牆夾道裡風聲格外陰森，三更前後隱約能聽見孤騎踏雪的急促蹄音。" NOR);
+
     spawn_npc("/clone/npc/gray_robed_scribe.c");
 }
 

@@ -23,6 +23,11 @@ void create() {
     ]));
 
     set("is_outdoor", 0);
+
+    set_touch("default", YEL "百年鐵力木巨樑紋理緊密如鐵，新削出的冷杉刨花捲蓬鬆而微粘松脂。" NOR);
+    set_smell("default", GRN "濃郁清新的松香、冷杉木屑甜味與木作坊特有的乾爽桐油氣息。" NOR);
+    set_listen("default", HIY "大木作長鋸拉木的沉穩節奏、鐵錘敲入榫楔的悶響與滑輪絞繩的吱呀聲。" NOR);
+
     spawn_npc("/clone/npc/gong_luchangsheng.c");
 }
 

@@ -20,5 +20,10 @@ void create() {
     ]));
 
     set("is_outdoor", 1);
+
+    set_touch("default", HIW "凍結凍原表土硬如青磚，二十四道雪橇車轍壓出的冰溝邊緣銳利滑腳。" NOR);
+    set_smell("default", YEL "犛牛與雪橇犬身上的厚重膻氣混著朔風雪塵，令人鼻尖發涼。" NOR);
+    set_listen("default", WHT "隊伍整隊時馬鈴與皮甲碰撞的零碎聲響，逐漸消融在北邊茫茫大裂谷的風濤裡。" NOR);
+
     spawn_npc("/clone/npc/qi_shiliu.c");
 }

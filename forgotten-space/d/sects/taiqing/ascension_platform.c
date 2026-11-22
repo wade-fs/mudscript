@@ -20,6 +20,11 @@ void create() {
     ]));
 
     set("is_outdoor", 1);
+
+    set_touch("default", HIW "升仙台寒玉石階冷得幾乎粘手，雪縫裡滾落的晶體碎屑銳利冰寒如碎冰。" NOR);
+    set_smell("default", HIC "極高寒峰頂沒有半點草木塵氣，唯有一股近乎抽空肺腑的清冽高空雪氣。" NOR);
+    set_listen("default", WHT "雲海罡風在石築靈堂四角發出空靈長嘯，靈堂深處彷彿萬籟俱寂。" NOR);
+
     spawn_npc("/clone/npc/xuan_ming.c");
 }
 

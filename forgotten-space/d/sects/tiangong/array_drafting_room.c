@@ -20,6 +20,11 @@ void create() {
     ]));
 
     set("is_outdoor", 0);
+
+    set_touch("default", YEL "長木繪圖桌邊沿沾滿炭粉，銅製分規與細麻刻度線摸起來精細微涼。" NOR);
+    set_smell("default", WHT "木炭鉛粉氣、羊皮陣盤乾燥革味與石室裡微微悶熱的地肺餘氣。" NOR);
+    set_listen("default", CYN "炭筆在厚羊皮圖紙上「沙沙」劃過，夾著銅分規開合卡榫的清脆輕響。" NOR);
+
     spawn_npc("/clone/npc/wenjiu.c");
 }
 

@@ -20,6 +20,11 @@ void create() {
     ]));
 
     set("is_outdoor", 0);
+
+    set_touch("default", WHT "病案封存櫃冰涼乾爽，舊藥單紙頁邊緣脆黃，案上純銀試毒針擦得纖塵不染。" NOR);
+    set_smell("default", HIG "乾燥藏書竹紙味、甘草艾葉幽香與淡淡的陳舊醋洗藥水味。" NOR);
+    set_listen("default", WHT "室極靜，唯聽見孫聞露輕手翻動病案的紙頁聲與屋外藥谷偶爾傳來的風聲。" NOR);
+
     spawn_npc("/clone/npc/sun_wenlu.c");
     spawn_npc("/clone/npc/zhou_shishu.c");
 }

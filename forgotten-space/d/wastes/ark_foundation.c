@@ -23,6 +23,10 @@ void create() {
     ]));
 
     set("is_outdoor", 0);
+
+    set_touch("default", HIB "巨鯨艙體的漆黑合金鋼架如萬年玄冰般凍結手指，下方礦池卻散出詭異溫熱濕氣。" NOR);
+    set_smell("default", MAG "暗血紫色礦池翻騰著濃郁腥甜的硫磺熱氣，與萬年幽藍堅冰的冷冽形成刺鼻對衝。" NOR);
+    set_listen("default", WHT "地底數百丈空腔裡迴盪著冷卻池緩慢冒泡的「咕嘟」悶響與合金構架熱脹冷縮的輕微脆音。" NOR);
 }
 
 void init() {

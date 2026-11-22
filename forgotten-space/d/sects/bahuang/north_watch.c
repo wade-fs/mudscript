@@ -19,5 +19,10 @@ void create() {
     ]));
 
     set("is_outdoor", 1);
+
+    set_touch("default", HIW "哨營木欄結滿白霜，遠望箭垛上的鐵製測向標冷得刺骨。" NOR);
+    set_smell("default", CYN "只有荒原冰雪寒風與哨卒火盆裡半熄木炭的微弱煙氣。" NOR);
+    set_listen("default", WHT "曠野朔風呼嘯而過，哨塔上偶爾傳來斥候敲響警鐘測試銅音的沉悶一聲。" NOR);
+
     spawn_npc("/clone/npc/qi_wushang.c");
 }

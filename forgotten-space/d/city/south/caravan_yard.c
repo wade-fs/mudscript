@@ -21,6 +21,11 @@ void create() {
     ]));
 
     set("is_outdoor", 1);
+
+    set_touch("default", YEL "車馬大院夯土場地被重車鐵輪壓得堅硬凹凸，貨棧草蓆堆乾燥粗糙。" NOR);
+    set_smell("default", YEL "濃烈牲口糞草氣、熱馬鞍汗味與南來北往貨箱上的陳年油布氣息。" NOR);
+    set_listen("default", HIY "騾馬打響鼻、鏢師清點貨車編號與大院苦力喊著號子扛貨的熱鬧聲響。" NOR);
+
     spawn_npc("/clone/npc/caravan_yard_biaotou.c");
     spawn_npc("/clone/npc/caravan_yard_manager.c");
 }

@@ -19,6 +19,11 @@ void create() {
     ]));
 
     set("is_outdoor", 1);
+
+    set_touch("default", HIW "演武高台青石地板冷硬防滑，邊緣避雷銅柱傳來微弱的靜電麻意。" NOR);
+    set_smell("default", CYN "高寒山風吹散了微弱火藥焦味與金屬摩擦的燥氣，空氣清冽凜然。" NOR);
+    set_listen("default", HIY "高台四周觀眾喝采聲浪與兵器破風、法訣激盪的尖銳嘯鳴交織。" NOR);
+
     spawn_npc("/clone/npc/wang_tieniu.c");
     spawn_npc("/clone/npc/han_cang.c");
 }

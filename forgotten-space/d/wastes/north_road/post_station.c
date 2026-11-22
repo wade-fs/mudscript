@@ -21,6 +21,11 @@ void create() {
     ]));
 
     set("is_outdoor", 0);
+
+    set_touch("default", YEL "厚柏木門板擋住暴風後屋內暖和許多，火塘邊粗陶藥罐燙手卻令人心安。" NOR);
+    set_smell("default", HIG "濕羊皮襖烤乾的膻氣、松柴濃煙與粗陶罐裡滾沸的野菊抗寒草藥清苦味。" NOR);
+    set_listen("default", WHT "門外暴雪砸打崖棚發出呼呼風聲，屋內則是火塘柴爆聲與腳夫們捧著熱湯吸溜飲水的聲音。" NOR);
+
     spawn_npc("/clone/npc/mu_xue.c");
     spawn_npc("/clone/npc/zhou_tieshan.c");
     spawn_npc("/clone/npc/chen_qing.c");

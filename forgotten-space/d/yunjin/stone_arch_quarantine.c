@@ -22,6 +22,10 @@ void create() {
     ]));
 
     set("is_outdoor", 1);
+
+    set_touch("default", HIW "迎風石牌坊表面結著一層冷冽冰霜，地上撒出的生石灰線乾燥澀手。" NOR);
+    set_smell("default", HIG "二十口大鐵鍋熬配『百草中和隔離霧』散出的濃烈辛苦草藥白霧，混著生石灰粉塵味。" NOR);
+    set_listen("default", CYN "迎風口北風呼嘯不絕，鐵鍋滾水咕嘟沸響與守衛喊停查驗的喝令聲清脆傳開。" NOR);
 }
 
 void init() {

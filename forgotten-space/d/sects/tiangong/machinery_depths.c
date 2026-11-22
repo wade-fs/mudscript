@@ -24,6 +24,11 @@ void create() {
     ]));
 
     set("is_outdoor", 0);
+
+    set_touch("default", HIB "十丈巨靈神機的不融黑鐵底座冷硬如玄冰，木質腳手架卻被地底氣流烘得微溫。" NOR);
+    set_smell("default", YEL "地下穹窟特有的陳年機油味、冷鐵氣息與一絲令人不安的暗紅晶塵焦味。" NOR);
+    set_listen("default", HIR "地肺深處傳來巨型軸承緩慢轉動般的低沉嗡鳴，震得腳下玄鐵底座微微發麻。" NOR);
+
     spawn_npc("/clone/npc/ji_heng.c");
     spawn_npc("/clone/npc/chi_lian.c");
 }

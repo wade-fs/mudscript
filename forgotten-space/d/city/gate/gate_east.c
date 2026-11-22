@@ -22,6 +22,11 @@ void create() {
 
     set("is_outdoor", 1);
     set("gate_id", "east");
+
+    set_touch("default", WHT "東關重門鐵皮門釘冰冷粗礪，門洞青石被礦車輪壓出深深凹痕。" NOR);
+    set_smell("default", YEL "礬石山道吹來的乾燥礦粉氣、馬糞味與城內軍鎮的汗氣交匯。" NOR);
+    set_listen("default", HIY "守卒查驗路引稅單的問話聲與重載鐵輪大車轟隆進關的悶響。" NOR);
+
     spawn_npc("/clone/npc/city_gate_guard.c");
     spawn_npc("/clone/npc/gate_east_taxchief.c");
 }

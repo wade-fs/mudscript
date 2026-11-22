@@ -19,6 +19,11 @@ void create() {
     ]));
 
     set("is_outdoor", 0);
+
+    set_touch("default", YEL "木榻邊緣光滑冰涼，煎藥陶罐與軍籍傷冊紙頁摸上去帶著乾燥微溫。" NOR);
+    set_smell("default", HIG "濃烈辛辣的金瘡藥酒氣、艾灸焦味與傷兵繃帶滲出的淡淡血腥氣。" NOR);
+    set_listen("default", WHT "帳內安靜壓抑，只有重傷武卒深沉的喘息聲與醫師翻閱傷病簿的紙頁聲。" NOR);
+
     spawn_npc("/clone/npc/du_qinghe.c");
 }
 

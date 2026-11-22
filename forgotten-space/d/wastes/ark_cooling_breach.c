@@ -21,6 +21,10 @@ void create() {
     ]));
 
     set("is_outdoor", 0);
+
+    set_touch("default", HIB "鑿穿的黑色合金殼體切面冰冷滑膩，高壓血精母液濺起的霧氣帶著灼骨寒刺感。" NOR);
+    set_smell("default", MAG "濃烈刺鼻的高壓血精腥甜味、雪線苔寒霧與地脈毒煞焦臭嗆得人眼眶發酸。" NOR);
+    set_listen("default", RED "破開大口的冷卻管線如怒龍般狂噴嘶鳴，伴隨著手動總閘門齒牙卡死的沉重金屬摩擦聲。" NOR);
 }
 
 void init() {

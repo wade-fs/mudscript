@@ -19,5 +19,9 @@ void create() {
 
     set("is_outdoor", 0);
 
+    set_touch("default", YEL "木板床上疊得方方正正的粗布軍被乾燥硬實，屋角火盆邊緣卻透出溫熱。" NOR);
+    set_smell("default", YEL "廉價燒刀子烈酒、皮靴汗酸氣、旱煙葉與木炭火盆的軍營家常氣息。" NOR);
+    set_listen("default", WHT "輪休老兵擦刀的沙沙聲、偶爾響起的豪爽粗笑與外頭校場的模糊號角。" NOR);
+
     spawn_npc("/clone/npc/wu_barracks_veteran.c");
 }

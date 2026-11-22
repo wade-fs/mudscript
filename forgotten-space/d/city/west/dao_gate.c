@@ -19,4 +19,21 @@ void create() {
     ]));
 
     set("is_outdoor", 1);
+    set("no_combat", 1);
+
+    set_touch("default", HIW "漢白玉牌樓石柱觸手生涼，篆刻筆畫凹槽細膩平順、不染絲毫市井塵灰。" NOR);
+    set_smell("default", HIC "淡雅清冷的柏木靜香與山野露氣隔絕了中央廣場的喧鬧塵囂。" NOR);
+    set_listen("default", HIC "牌樓檐角鐵馬在微風裡清越輕鳴，遠處隱約傳來鐘磬長響與玄鶴清唳。" NOR);
+
+    mapping bow_rule = ([
+        "targets": ({ "gate", "arch", "牌樓", "" }),
+        "sp_cost": 2,
+        "sensory_msg": HIC "你站在『周虛微茫』四字之下整衣微揖，浮躁心氣被這股清冷道意洗去幾分。" NOR,
+        "train_stat": ([ "spi": 5 ]),
+        "exp_gain": 5
+    ]);
+    add_action_rule("bow", bow_rule);
+    add_action_rule("參拜", bow_rule);
+
+    spawn_npc("/clone/npc/dao_tong.c");
 }

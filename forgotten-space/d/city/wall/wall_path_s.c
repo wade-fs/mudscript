@@ -21,4 +21,20 @@ void create() {
     ]));
 
     set("is_outdoor", 1);
+
+    set_touch("default", YEL "向陽青石城磚被日頭曬得微溫乾燥，箭垛旁的硬木弩架打磨得圓滑堅實。" NOR);
+    set_smell("default", GRN "南嶺吹來的草木暖風混著城內市井炊煙與南關官道的馬糞塵氣。" NOR);
+    set_listen("default", HIY "城牆下南關市集與糧行的喧鬧人聲隨風飄上牆頭，夾著巡城兵卒整齊的甲葉摩擦聲。" NOR);
+
+    mapping lookout_rule = ([
+        "targets": ({ "south", "basin", "瞭望", "官道", "" }),
+        "sp_cost": 4,
+        "sensory_msg": CYN "你憑垛南望，向陽盆地的田畝、官道蜿蜒車龍與落龍古脈盡收眼底。" NOR,
+        "train_stat": ([ "per": 6 ]),
+        "exp_gain": 6
+    ]);
+    add_action_rule("lookout", lookout_rule);
+    add_action_rule("瞭望", lookout_rule);
+
+    spawn_npc("/clone/npc/city_gate_guard.c");
 }

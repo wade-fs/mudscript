@@ -21,5 +21,9 @@ void create() {
 
     set("is_outdoor", 0);
 
+    set_touch("default", WHT "暗巷石階長滿黏滑陰冷的青苔，身後生鐵下旋梯把手帶著地下滲出的潮濕水珠。" NOR);
+    set_smell("default", MAG "高牆死角積年的陰溝霉臭、桐油雨披味與地下溶洞湧上的冰涼泥腥。" NOR);
+    set_listen("default", WHT "死巷徹底隔絕了中心廣場的繁華人聲，只餘鐵梯深處傳來的空洞滴水聲。" NOR);
+
     spawn_npc("/clone/npc/black_alley_gatekeeper.c");
 }

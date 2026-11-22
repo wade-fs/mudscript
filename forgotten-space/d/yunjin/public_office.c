@@ -21,5 +21,10 @@ void create() {
     ]));
 
     set("is_outdoor", 0);
+
+    set_touch("default", WHT "商埠公所青銅度量衡與官定標準鐵秤砣觸手冷硬沉重、毫釐不差。" NOR);
+    set_smell("default", YEL "公堂案頭蜂蠟火漆、新裁宣紙公文與炭火烘乾濕靴的微燥氣息。" NOR);
+    set_listen("default", CYN "羅九秤翻閱各地帳冊的刷刷紙聲，偶爾伴隨商號管事在外廊等候傳喚的焦躁腳步。" NOR);
+
     spawn_npc("/clone/npc/luo_jiucheng.c");
 }

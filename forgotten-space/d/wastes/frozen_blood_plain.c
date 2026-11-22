@@ -20,6 +20,11 @@ void create() {
     ]));
 
     set("is_outdoor", 1);
+
+    set_touch("default", HIW "凍硬的暗紅血冰碴尖銳劃手，腳下凍結的荒原苔蘚踩上去碎成一片冰粉。" NOR);
+    set_smell("default", HIR "極寒雪風裡裹著陳年獸血與新近血煞滲出的刺鼻腥冷氣息。" NOR);
+    set_listen("default", WHT "大風吹過凍原冰棱發出嗚咽哀號，地底深處隱約傳來巨獸翻身撞擊冰層的沉悶震響。" NOR);
+
     spawn_npc("/clone/npc/shuangtou_dilong.c");
 }
 

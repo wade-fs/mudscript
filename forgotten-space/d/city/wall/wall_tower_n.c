@@ -19,5 +19,9 @@ void create() {
 
     set("is_outdoor", 0);
 
+    set_touch("default", HIW "望荒箭樓的石砌窗台覆著細白霜沙，精鋼千里望筒冰冷透骨。" NOR);
+    set_smell("default", CYN "北荒吹進箭孔的乾冷風雪味與值守將領炭盆裡的一點餘溫煙氣。" NOR);
+    set_listen("default", WHT "北風撞擊樓頂青瓦發出呼嘯悶響，屋內偶爾響起晏牧調整弩機齒輪的喀嗒聲。" NOR);
+
     spawn_npc("/clone/npc/wall_tower_n_yanmu.c");
 }

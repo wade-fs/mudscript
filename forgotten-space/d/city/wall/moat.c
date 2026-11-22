@@ -20,5 +20,9 @@ void create() {
 
     set("is_outdoor", 1);
 
+    set_touch("default", CYN "護城河畔青苔卵石濕滑冰涼，垂柳拂過水面的水霧帶來陣陣微寒。" NOR);
+    set_smell("default", CYN "護城河水草泥腥味與暗渠排口飄出的一絲幽暗腐泥氣。" NOR);
+    set_listen("default", CYN "河水緩緩流淌拍岸聲、漁翁浮標輕點水面的微響與遠處西門車馬聲。" NOR);
+
     spawn_npc("/clone/npc/moat_angler.c");
 }

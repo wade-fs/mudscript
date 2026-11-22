@@ -24,6 +24,11 @@ void create() {
 
     set("is_outdoor", 1);
     set("gate_id", "west");
+
+    set_touch("default", CYN "西水門石階長期受河霧浸潤而微滑冰涼，水閘鐵鏈手搖輪上覆著一層潮鏽。" NOR);
+    set_smell("default", HIG "青河濕潤水草清氣、駁船桐油味與隱約飄自暗渠閘口的微腥淤泥氣。" NOR);
+    set_listen("default", CYN "活水湧過水門石拱的嘩啦浪聲與船老大喊著落帆靠岸的響亮號子。" NOR);
+
     spawn_npc("/clone/npc/city_gate_guard.c");
     spawn_npc("/clone/npc/gate_west_helmsman.c");
     spawn_npc("/clone/npc/gate_west_inspector.c");

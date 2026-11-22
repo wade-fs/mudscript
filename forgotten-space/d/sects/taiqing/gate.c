@@ -20,6 +20,11 @@ void create() {
     ]));
 
     set("is_outdoor", 1);
+
+    set_touch("default", HIW "登天雲梯白石階被霜雪打磨得滑溜冰涼，山門石獅爪尖覆著薄冰。" NOR);
+    set_smell("default", HIC "淡雅清冷的鬆柏雪氣與門內飄出的淡淡清香隔絕了山腳市井煙塵。" NOR);
+    set_listen("default", HIC "山腰雲霧在雲梯石階間迴盪風聲，遠遠傳來太清觀早課鐘磬的清越餘響。" NOR);
+
     spawn_npc("/clone/npc/lu_guanlan.c");
 }
 

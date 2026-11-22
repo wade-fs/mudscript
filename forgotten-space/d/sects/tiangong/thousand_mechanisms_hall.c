@@ -23,6 +23,11 @@ void create() {
     ]));
 
     set("is_outdoor", 0);
+
+    set_touch("default", RED "地下石廊石壁與爐台邊沿熱浪滾燙，搬山傀儡的青銅關節摸起來滑膩帶油。" NOR);
+    set_smell("default", YEL "熾熱焦煤、溫油淬槽的濃重機油味與高碳熟鐵鍛燒出的刺鼻金屬焦氣。" NOR);
+    set_listen("default", HIY "十二座地肺火爐呼呼作響，夾著傀儡測試時三百斤鐵坨砸落地面的沉重悶響。" NOR);
+
     spawn_npc("/clone/npc/lu_zhanglao.c");
     spawn_npc("/clone/npc/zhang_bailian.c");
 }

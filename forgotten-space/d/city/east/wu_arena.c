@@ -20,6 +20,11 @@ void create() {
     ]));
 
     set("is_outdoor", 1);
+
+    set_touch("default", WHT "重玄巨石擂台磨得粗糙防滑，粗麻擂繩沾著乾涸血漬與掌心老繭汗鹽。" NOR);
+    set_smell("default", HIR "濃烈陽剛的血汗味、抹手滑石粉與熱血激盪後的鐵砂腥氣。" NOR);
+    set_listen("default", HIY "拳肉相搏的沉悶「嘭嘭」聲、擂台外圍武卒齊聲助威的喝采震天。" NOR);
+
     spawn_npc("/clone/npc/wu_zhaomeng.c");
     spawn_npc("/clone/npc/wu_referee.c");
 }

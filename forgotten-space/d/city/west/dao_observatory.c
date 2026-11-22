@@ -20,5 +20,10 @@ void create() {
     ]));
 
     set("is_outdoor", 1);
+
+    set_touch("default", HIC "精銅渾天儀刻度環打磨得冰涼精準，露天石台欄杆在風裡透著微寒。" NOR);
+    set_smell("default", HIC "殿頂高空清冽潔淨的山嵐流風與擦銅水留下的微弱辛香氣。" NOR);
+    set_listen("default", CYN "俯瞰全城的市井喧嘩化作遠處一片模糊嗡嗡聲，身旁唯聽銅儀齒輪微轉輕響。" NOR);
+
     spawn_npc("/clone/npc/dao_xingyuan.c");
 }

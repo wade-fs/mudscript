@@ -19,5 +19,10 @@ void create() {
     ]));
 
     set("is_underground", 1);
+
+    set_touch("default", HIB "閘門粗鐵鍊冰冷滑膩、爬滿水藻，踩在半浸水的石階上寒意直刺腳心。" NOR);
+    set_smell("default", MAG "濃烈發酵的城市暗渠淤泥臭氣與鐵鏽潮味，令人忍不住掩鼻。" NOR);
+    set_listen("default", CYN "污水穿過生鏽閘門鐵柵發出的嘩啦湍流聲在陰暗水道裡迴盪不絕。" NOR);
+
     spawn_npc("/clone/npc/under_drain_gate_diver.c");
 }

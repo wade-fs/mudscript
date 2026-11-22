@@ -22,5 +22,9 @@ void create() {
 
     set("is_outdoor", 1);
 
+    set_touch("default", HIG "田埂濕潤黑土鬆軟沾鞋，田間稻葉邊緣帶著割手的細微鋸齒與晨露。" NOR);
+    set_smell("default", HIG "清新泥土芬芳、田間農家施肥氣味與青河灌渠飄來的濕潤草氣。" NOR);
+    set_listen("default", CYN "蛙鳴蟲唧、水車吱呀轉動與農夫吆喝老牛耕作的純樸田園聲響。" NOR);
+
     spawn_npc("/clone/npc/outer_farmland_w_zhaodingtian.c");
 }

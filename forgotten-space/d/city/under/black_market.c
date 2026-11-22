@@ -21,5 +21,10 @@ void create() {
 
     set("is_underground", 1);
     set("has_shop", 1);
+
+    set_touch("default", HIB "地下溶洞石壁陰寒滲水，交易竹席上的貨箱卻覆著防水冷油布。" NOR);
+    set_smell("default", MAG "幽綠磷燭味、陰濕洞穴泥腥與暗市交易者身上冷冷的鐵鏽油腥。" NOR);
+    set_listen("default", WHT "暗無天日的溶洞裡回音深邃，只有壓低到極致的交易耳語與銀角子輕碰聲。" NOR);
+
     spawn_npc("/clone/npc/under_black_market_broker.c");
 }

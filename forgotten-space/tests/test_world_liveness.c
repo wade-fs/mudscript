@@ -249,12 +249,48 @@ void run_tests(object me) {
     assert_equal("COMPLETED", q_engine->query_quest_state(tester, "side_yunjin_coolie_tally"),
                  "核對竹籌並覆命後 side_yunjin_coolie_tally 應結算為 COMPLETED");
 
-    // ── 5. 平民市井 RUMOR_D 驗證 ───────────────────────────────────────
+    // ── 5. 平民市井 RUMOR_D 與消除空房驗證 ─────────────────────────────
     object rum_d = load_object(RUMOR_D);
     assert_true(objectp(rum_d), "RUMOR_D 應正常載入");
     string folk_rum = rum_d->query_slice_of_life_rumor();
     assert_true(stringp(folk_rum) && strlen(folk_rum) > 10,
                 "RUMOR_D 應能輸出民間市井平凡瑣事傳聞");
+
+    string *former_empty_rooms = ({
+        "/d/city/outer/south_road.c",
+        "/d/city/west/dao_gate.c",
+        "/d/city/wall/wall_path_s.c",
+        "/d/sects/tiangong/vault_four.c",
+        "/d/yunjin/wanshan_square.c",
+        "/d/wastes/expedition_camp.c"
+    });
+    foreach (string erp in former_empty_rooms) {
+        object erm = load_object(erp);
+        assert_true(objectp(erm), "原空房修復後應正常載入: " + erp);
+        assert_true(stringp(erm->query_touch("default")) && strlen(erm->query_touch("default")) > 5,
+                    "原空房修復後應具備觸覺描寫: " + erp);
+    }
+
+    string *sensory_spot_rooms = ({
+        "/d/city/center/yamen.c",
+        "/d/city/east/wu_arena.c",
+        "/d/city/north/gong_alchemy.c",
+        "/d/city/gate/gate_south.c",
+        "/d/sects/bahuang/gate.c",
+        "/d/sects/taiqing/star_law_hall.c",
+        "/d/sects/danding/herb_garden.c",
+        "/d/sects/tiangong/machinery_depths.c"
+    });
+    foreach (string srp in sensory_spot_rooms) {
+        object srm = load_object(srp);
+        assert_true(objectp(srm), "補齊五感之舊房應正常載入: " + srp);
+        assert_true(stringp(srm->query_touch("default")) && strlen(srm->query_touch("default")) > 5,
+                    "舊房應具備觸覺描寫: " + srp);
+        assert_true(stringp(srm->query_smell("default")) && strlen(srm->query_smell("default")) > 5,
+                    "舊房應具備嗅覺描寫: " + srp);
+        assert_true(stringp(srm->query_listen("default")) && strlen(srm->query_listen("default")) > 5,
+                    "舊房應具備聽覺描寫: " + srp);
+    }
 
     if (tester) destruct(tester);
     report_results();

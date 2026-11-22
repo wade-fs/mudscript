@@ -21,5 +21,9 @@ void create() {
     set("is_outdoor", 1);
     set("is_graveyard", 1);
 
+    set_touch("default", WHT "荒塚亂石碑面冷得像冰，腳下枯萎野草踩上去發出乾燥碎裂感。" NOR);
+    set_smell("default", CYN "冷濕黃土氣、燒盡的紙錢灰味與荒郊野草腐敗後的淡淡陰氣。" NOR);
+    set_listen("default", WHT "北郊寒風吹過柏樹林發出孤寂沙沙聲，偶爾傳來烏鴉啞叫與守墓人鐵鍬輕碰。" NOR);
+
     spawn_npc("/clone/npc/outer_graveyard_keeper.c");
 }

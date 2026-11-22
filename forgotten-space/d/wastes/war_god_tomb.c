@@ -21,6 +21,11 @@ void create() {
     ]));
 
     set("is_outdoor", 1);
+
+    set_touch("default", HIB "十二根玄石巨柱粗礪陰冷，右側暖風裂隙邊沿卻奇異地吹出微溫乾燥氣流。" NOR);
+    set_smell("default", HIR "巨石遺塚前濃烈的陳年凍血腥氣、冰熊體騷味與裂隙深處飄出的淡淡金屬熱風。" NOR);
+    set_listen("default", HIR "黑曜石崖夾角風聲如戰鼓轟鳴，偶爾混進一聲震得碎雪撲簌簌落下的沉悶熊吼。" NOR);
+
     spawn_npc("/clone/npc/ice_bear_king.c");
 }
 

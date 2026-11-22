@@ -19,5 +19,9 @@ void create() {
 
     set("is_outdoor", 0);
 
+    set_touch("default", YEL "浸過明礬水的熟牛皮硬甲厚實韌滑，木架邊沿沾著粘膩的動物油脂。" NOR);
+    set_smell("default", MAG "濃烈刺鼻的硝水酸氣、動物油脂與剛刮洗完的生皮腥味撲面而來。" NOR);
+    set_listen("default", WHT "厚皮料浸泡入硝池的水聲、刮皮鐵刀「唰唰」刮動聲與女工低聲對尺寸的交流。" NOR);
+
     spawn_npc("/clone/npc/gong_leather_wenniangzi.c");
 }

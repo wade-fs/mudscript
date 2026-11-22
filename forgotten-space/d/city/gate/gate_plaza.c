@@ -23,5 +23,9 @@ void create() {
 
     set("is_outdoor", 1);
 
+    set_touch("default", WHT "校場碎石夯土地面硬如鐵板，場邊拴馬樁木皮被牲口啃得毛糙。" NOR);
+    set_smell("default", YEL "車馬塵土、牲口草料與北關貨棧飄來的生鐵礦砂味。" NOR);
+    set_listen("default", HIY "車夫吆喝牲口進棧卸貨的喊聲與官兵巡場踏步聲此起彼落。" NOR);
+
     spawn_npc("/clone/npc/gate_plaza_deputy.c");
 }

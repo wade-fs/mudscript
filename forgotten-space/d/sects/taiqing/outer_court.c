@@ -21,5 +21,10 @@ void create() {
     ]));
 
     set("is_outdoor", 1);
+
+    set_touch("default", HIW "外門雲舍青石院坪掃得乾淨微涼，廊柱紅漆在山風裡略顯斑駁。" NOR);
+    set_smell("default", CYN "清淡鬆香、早課焚餘的白檀香灰與山嵐水汽令人神清氣爽。" NOR);
+    set_listen("default", HIC "外門弟子整齊的誦經早課聲自東側抄經堂飄來，間雜幾聲清越山鳥啼鳴。" NOR);
+
     spawn_npc("/clone/npc/shen_zhaochen.c");
 }

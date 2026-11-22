@@ -22,6 +22,10 @@ void create() {
     ]));
 
     set("is_outdoor", 0);
+
+    set_touch("default", HIB "封存室千年黑岩牆壁如鐵般滑冷，室中五座凹龕隱約透出微弱的磁力牽引。" NOR);
+    set_smell("default", CYN "長年封閉的陰冷石氣中，隱含一絲奇異的太古臭氧微味與塵埃味。" NOR);
+    set_listen("default", HIB "室角螺旋深階底下千餘丈彷彿有巨型機械齒輪與古陣脈動在緩緩低鳴。" NOR);
 }
 
 void init() {

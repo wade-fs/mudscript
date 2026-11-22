@@ -19,5 +19,10 @@ void create() {
     ]));
 
     set("is_outdoor", 0);
+
+    set_touch("default", YEL "軍寨伙房油膩厚實的木案板暖烘烘的，大鐵鍋鍋沿燙手卻令人捨不得離遠。" NOR);
+    set_smell("default", HIY "燉羊肉、花椒大蔥、烙粗麥餅與松柴灶煙濃郁得讓人瞬間忘了牆外暴雪。" NOR);
+    set_listen("default", CYN "大鐵勺敲打鍋邊、菜刀篤篤切肉與伙房雜役熱火朝天端湯送飯的吆喝。" NOR);
+
     spawn_npc("/clone/npc/a_man.c");
 }

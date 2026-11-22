@@ -20,6 +20,10 @@ void create() {
 
     set("is_outdoor", 0);
 
+    set_touch("default", YEL "低矮土牆邊粗木長凳有些搖晃，碗裡糙米粥的熱氣暖著冰涼指尖。" NOR);
+    set_smell("default", YEL "粗茶水氣、濕衣烘烤味與剛從外縣逃難進關的行旅風塵氣。" NOR);
+    set_listen("default", WHT "老劉與跑腿小廝在櫃後悄悄互通有無的低語，夾著門外南關盤查喧鬧。" NOR);
+
     spawn_npc("/clone/npc/gate_south_inn_laoliu.c");
     spawn_npc("/clone/npc/gate_south_runner.c");
     spawn_npc("/clone/npc/su_ningshuang.c");

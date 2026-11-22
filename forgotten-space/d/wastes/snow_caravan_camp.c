@@ -22,6 +22,10 @@ void create() {
     ]));
 
     set("is_outdoor", 1);
+
+    set_touch("default", YEL "輜重雪橇防滑鐵齒磨得鋥亮冰冷，隊尾雙層厚黑布帆篷底下輪廓沉重得異常。" NOR);
+    set_smell("default", YEL "營地火塘松柴煙氣、犛牛糞火味、防寒乾糧麥香與牲口槽乾草氣息。" NOR);
+    set_listen("default", HIY "雪橇犬焦躁的低吠聲、鐵匠敲修橇板聲與親信提燈巡哨踏雪的「咯吱」腳步聲。" NOR);
 }
 
 void init() {

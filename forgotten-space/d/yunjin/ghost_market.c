@@ -20,5 +20,10 @@ void create() {
     ]));
 
     set("is_outdoor", 0);
+
+    set_touch("default", HIB "裂縫石壁濕寒滲水，地面積著深冬融雪帶下來的碎石泥漿，摸上去冰冷粘手。" NOR);
+    set_smell("default", MAG "幽綠磷火蠟燭燃燒出的淡淡臭蠟焦味與岩石裂縫深處陳年不散的陰暗潮氣。" NOR);
+    set_listen("default", WHT "無燈暗市裡沒有半聲高聲叫賣，只有斗篷摩擦岩壁與壓到極低的討價還價氣音。" NOR);
+
     spawn_npc("/clone/npc/under_black_market_broker.c");
 }

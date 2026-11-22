@@ -18,5 +18,9 @@ void create() {
 
     set("is_outdoor", 0);
 
+    set_touch("default", CYN "望江水樓欄杆長年受河霧吹拂而微潮發涼，水文水位牌刻度清楚凹凸。" NOR);
+    set_smell("default", CYN "濃厚的青河水汽、濕木船板味與水師軍卒身上的淡淡魚腥氣。" NOR);
+    set_listen("default", CYN "腳下水閘水流奔湧的轟鳴聲與水手旗號呼哨在此清清楚楚。" NOR);
+
     spawn_npc("/clone/npc/wall_tower_w_navalofficer.c");
 }

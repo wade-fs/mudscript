@@ -20,6 +20,10 @@ void create() {
     ]));
 
     set("is_outdoor", 1);
+
+    set_touch("default", HIW "被冰霜半掩的破木箱與斷裂鐵鍬柄覆著厚硬冰殼，一碰便簌簌掉下冰渣。" NOR);
+    set_smell("default", CYN "五年無人踏足的冰封廢墟只有純粹酷寒的雪塵味與陳舊腐朽油布味。" NOR);
+    set_listen("default", WHT "倒塌帆布殘片在寒風裡死氣沉沉地拍打著碎石堆，讓人背脊發涼。" NOR);
 }
 
 void init() {

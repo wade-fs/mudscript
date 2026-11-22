@@ -20,5 +20,10 @@ void create() {
     ]));
 
     set("is_outdoor", 1);
+
+    set_touch("default", WHT "露天堆疊的粗鍛生鐵錠與冷杉巨木摸起來粗糙刺手、沾滿灰塵。" NOR);
+    set_smell("default", YEL "生鐵鏽味、松木樹脂清香與貨場苦力汗味在陽光下蒸騰。" NOR);
+    set_listen("default", HIY "大料堆棧木槓撬動巨木的「嘎吱」聲、鐵錠落地悶響與工頭點名吼聲。" NOR);
+
     spawn_npc("/clone/npc/south_yard_material_foreman.c");
 }

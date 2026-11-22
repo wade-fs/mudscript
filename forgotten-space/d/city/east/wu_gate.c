@@ -21,6 +21,11 @@ void create() {
     ]));
 
     set("is_outdoor", 1);
+
+    set_touch("default", WHT "道旁生鐵包裹的鹿砦拒馬冷硬鋒利，青石地面被軍靴踏得堅硬平實。" NOR);
+    set_smell("default", YEL "滾滾校場黃沙塵氣、馬廄味與軍士身上的鐵甲油腥。" NOR);
+    set_listen("default", HIR "轅門內數百健兒齊聲吶喊操演的震天吼聲撲面而來，令人氣血翻湧。" NOR);
+
     spawn_npc("/clone/npc/city_gate_guard.c");
     spawn_npc("/clone/npc/wu_gate_squadleader.c");
 }

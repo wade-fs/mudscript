@@ -19,5 +19,10 @@ void create() {
     ]));
 
     set("is_outdoor", 0);
+
+    set_touch("default", WHT "樟木書架高冷乾燥，黃皮紙戶籍底冊與陳年稅契頁角微脆。" NOR);
+    set_smell("default", CYN "濃重的防蟲芸草乾香、陳年松煙墨與條石密室獨有的清涼乾爽氣味。" NOR);
+    set_listen("default", WHT "密室極靜之中只聞文承敬翻檢卷宗的沙沙紙聲，偶爾傳出外堂一兩聲模糊鼓響。" NOR);
+
     spawn_npc("/clone/npc/center_wenchengjing.c");
 }

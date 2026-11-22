@@ -20,5 +20,9 @@ void create() {
 
     set("is_outdoor", 1);
 
+    set_touch("default", CYN "灌渠青石堤岸微濕長苔，水閘木輪摸上去沉實濕滑。" NOR);
+    set_smell("default", HIG "清涼活水氣息混著岸邊青苔、泥鰍水腥與農田草香。" NOR);
+    set_listen("default", CYN "活水湧出木製翻車與分水閘口的嘩啦流淌聲清脆悅耳。" NOR);
+
     spawn_npc("/clone/npc/outer_irrigation_engineer.c");
 }

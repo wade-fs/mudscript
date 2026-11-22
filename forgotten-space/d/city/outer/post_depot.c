@@ -20,5 +20,9 @@ void create() {
 
     set("is_outdoor", 1);
 
+    set_touch("default", WHT "外城貨棧石垛沾滿北方吹來的細沙，馬槽木邊被健騾啃得坑坑窪窪。" NOR);
+    set_smell("default", YEL "牲口草料味、熱車輪牛油氣與北方官道飄進來的乾燥沙塵氣息。" NOR);
+    set_listen("default", WHT "騾馬啃食乾草的咀嚼聲、老王修補鞍具的敲擊與官道行車的遙遠鈴聲。" NOR);
+
     spawn_npc("/clone/npc/outer_post_depot_laowang.c");
 }

@@ -20,5 +20,10 @@ void create() {
     ]));
 
     set("is_outdoor", 0);
+
+    set_touch("default", YEL "紫檀櫃檯與雕花扶手摸上去溫潤細膩，絲毫感受不到屋外的冰天雪地。" NOR);
+    set_smell("default", HIY "名貴沉香濃郁而不嗆鼻，夾著珍稀靈材匣子裡的乾燥甘香。" NOR);
+    set_listen("default", WHT "紫檀算盤撥動聲沉穩緩慢，雅座簾幕後偶爾傳出壓低嗓門談條件的客套笑聲。" NOR);
+
     spawn_npc("/clone/npc/he_wanjin.c");
 }

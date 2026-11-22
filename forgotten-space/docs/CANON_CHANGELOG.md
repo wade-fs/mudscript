@@ -2,6 +2,12 @@
 
 本文件追蹤《遺忘的世界》小說正典修訂與 Mudlib 可執行世界之間的雙向同步紀錄，配合 [data/canon_sync_matrix.json](../data/canon_sync_matrix.json) 與 [tests/quests/novel_mud_sync_audit.py](../tests/quests/novel_mud_sync_audit.py) 使用。
 
+## 2026-11-22 — Phase 1 / Phase 2A 世界真實化與「空房歸零」擴建
+* **生活空間與非主線支線擴建（254 → 288 間房、18 條平凡日常支線）**：
+  * 六縣（`std/county_room.c`）與官道（`std/route_room.c`）全面具備動態風土五感、地方住民／關卡巡檢與歇腳／路況／盤查互動，並於六縣補入具名庶民生活支翼。
+  * Tier 0 黑石鋪（22/22）、Tier 1 府城（75/75：含酒肆跑商、施藥義棚、魚市、染坊、四牆步道、暗渠及內外城分層五感）、四大宗門（36/36：含八荒／丹鼎／太清／天工外門雜役與功法場域五感）、Tier 2 雲津（21/21）、北荒（20/20）完成五感覆蓋與互動填實，全站 288 間房達成 **288/288 (100%) 五感覆蓋**與 **0 空房**（均由 `world_liveness_audit.py` 硬性鎖定）。
+  * `RUMOR_D` 新增 `query_slice_of_life_rumor()` 平民日常流言，並新增 `tests/quests/world_liveness_audit.py` 與 `tests/test_world_liveness.c` 長駐回歸檢核。
+
 ## 2026-11-21 — 小說一至三卷修訂與 Mudlib 體驗深度對齊
 * **小說正典（Vol.1–3 共 126 章）**：
   * 完成第一至三卷敘事節奏、五主角聲音辨識度、感官物質細節與第三卷終章洞天前瞻修訂。

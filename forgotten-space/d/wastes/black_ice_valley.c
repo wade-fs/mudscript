@@ -21,6 +21,10 @@ void create() {
     ]));
 
     set("is_outdoor", 1);
+
+    set_touch("default", HIW "萬年黑冰表面光滑如鏡、寒氣透過鞋底直透骨髓，青銅哨遺物表面覆著薄霜與綠鏽。" NOR);
+    set_smell("default", CYN "完全封閉的死寂冰谷裡只有陳年凍血微腥與人工爆破崩岩留下的冷淡硫磺殘氣。" NOR);
+    set_listen("default", WHT "此處無風無鳥獸，寂靜得彷彿能聽見自己心跳與冰層深處偶爾傳來的「喀」一聲微裂。" NOR);
 }
 
 void init() {

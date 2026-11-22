@@ -20,6 +20,11 @@ void create() {
     ]));
 
     set("is_outdoor", 0);
+
+    set_touch("default", WHT "地窖乾燥防潮的青石暗格壁面冰冷細膩，五袋油布密封物證袋摸上去沉實微涼。" NOR);
+    set_smell("default", YEL "防潮石灰、油布封蠟與舊帳冊陳年紙灰安靜地沉在密閉石室裡。" NOR);
+    set_listen("default", WHT "石室隔絕了街面風雪與人聲，偶爾只有莫三那根硬棗木拐杖輕點石面的篤篤聲。" NOR);
+
     spawn_npc("/clone/npc/mo_beggar.c");
 }
 

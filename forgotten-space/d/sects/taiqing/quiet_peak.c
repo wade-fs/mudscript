@@ -22,6 +22,11 @@ void create() {
     ]));
 
     set("is_outdoor", 1);
+
+    set_touch("default", HIW "後山偏峰青石階與古松枝椏裹著晶瑩霧凇，觸碰之下簌簌掉雪。" NOR);
+    set_smell("default", HIG "雪線苔冷萃藥氣、老松樹脂清香與偏峰山泉的甘冽水氣交融。" NOR);
+    set_listen("default", CYN "此處僻靜幽深，唯聽見雪水滴落枯枝與院內偶爾傳來的低聲咳喘。" NOR);
+
     spawn_npc("/clone/npc/jian_su.c");
     spawn_npc("/clone/npc/yuan_qing.c");
 }

@@ -21,4 +21,20 @@ void create() {
     ]));
 
     set("is_outdoor", 1);
+
+    set_touch("default", YEL "長街兩旁攤位木板摩挲得油亮，竹匾裡的青河苦參與朱砂符紙觸感各異。" NOR);
+    set_smell("default", HIG "朱砂墨香、苦參乾草清苦味、耐火炭末與商棧燈油氣味雜陳。" NOR);
+    set_listen("default", HIY "各脈外門弟子低聲討價還價、算盤珠子清脆撥動與長街行人摩肩擦踵的喧鬧。" NOR);
+
+    mapping market_rule = ([
+        "targets": ({ "stalls", "goods", "貨攤", "市價", "" }),
+        "sp_cost": 3,
+        "sensory_msg": HIY "你沿街逐攤比對朱砂、苦參與耐火炭的靈石票折算價碼，把三宗物資行情摸了個七七八八。" NOR,
+        "train_stat": ([ "int": 6 ]),
+        "exp_gain": 8
+    ]);
+    add_action_rule("browse", market_rule);
+    add_action_rule("比價", market_rule);
+
+    spawn_npc("/clone/npc/folk/county_broker.c");
 }

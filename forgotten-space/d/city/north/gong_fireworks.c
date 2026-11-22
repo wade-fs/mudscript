@@ -19,5 +19,9 @@ void create() {
 
     set("is_outdoor", 0);
 
+    set_touch("default", YEL "地上鋪滿吸震乾燥細砂，木質藥篩輕巧絕緣，絕不敢碰觸半點鐵器。" NOR);
+    set_smell("default", HIR "強烈刺鼻的高純度硫磺、烈礬硝石粉末氣味，吸一口便令人眉心微緊。" NOR);
+    set_listen("default", WHT "督造官嚴厲盯場之下無人敢高聲語，只有竹勺輕輕舀砂與紙筒封蠟的細碎聲響。" NOR);
+
     spawn_npc("/clone/npc/gong_fireworks_master.c");
 }

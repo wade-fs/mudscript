@@ -19,5 +19,9 @@ void create() {
 
     set("is_outdoor", 0);
 
+    set_touch("default", WHT "牆上插滿六大縣城的調材令牌硬木微涼，登記簿紙頁翻得邊角起毛。" NOR);
+    set_smell("default", CYN "新刷公文墨汁味、印泥與密閉檔案櫃裡的乾燥樟木氣息。" NOR);
+    set_listen("default", WHT "算盤珠偶爾一撥、毛筆尖在竹紙上沙沙批註與匠人等候驗牌的輕咳聲。" NOR);
+
     spawn_npc("/clone/npc/gong_registry_clerk.c");
 }

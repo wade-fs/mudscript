@@ -20,6 +20,11 @@ void create() {
     ]));
 
     set("is_outdoor", 1);
+
+    set_touch("default", WHT "百丈墨色岩壁刀劈爪痕深嵌數寸，岩面冰冷粗礪如生鐵塊。" NOR);
+    set_smell("default", HIR "北荒地煞寒氣順谷風倒灌，夾著濃重得化不開的陳年血痂鐵鏽味。" NOR);
+    set_listen("default", HIY "谷風穿過兩側石壁發出沉重低吼，高台上教頭冷峻的點名喝令聲字字清晰。" NOR);
+
     spawn_npc("/clone/npc/yue_tingshan.c");
     spawn_npc("/clone/npc/tang_ying.c");
 }

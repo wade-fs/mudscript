@@ -22,5 +22,10 @@ void create() {
     ]));
 
     set("is_outdoor", 0);
+
+    set_touch("default", YEL "樑柱榫卯咬合得天衣無縫、手按上去毫無鬆動，格物案上烏木尺涼潤筆直。" NOR);
+    set_smell("default", CYN "上好陰沉木清香、墨斗線黑墨氣與圖紙捲軸上的乾燥柏木防蟲氣味。" NOR);
+    set_listen("default", WHT "堂內結構靜謐沉穩，唯偶爾傳來歐陽大師輕敲木尺評點學徒榫件的清脆聲音。" NOR);
+
     spawn_npc("/clone/npc/gong_ouyang.c");
 }

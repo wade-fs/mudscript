@@ -21,6 +21,10 @@ void create() {
     ]));
 
     set("is_outdoor", 0);
+
+    set_touch("default", RED "地下三百丈的玄岩洞壁炙熱乾燥，丙字柒號禁牌鐵環摸起來隱隱燙手。" NOR);
+    set_smell("default", HIR "濃郁熾熱的地肺硫磺火氣、重金屬丹砂味與密窟裡隱約滲出的血精腥甜。" NOR);
+    set_listen("default", RED "地底深處傳來岩漿與地火翻滾的低沉轟鳴，伴隨暗道深處微弱詭異的風聲。" NOR);
 }
 
 void init() {

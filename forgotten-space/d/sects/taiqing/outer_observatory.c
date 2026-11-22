@@ -20,6 +20,10 @@ void create() {
     ]));
 
     set("is_outdoor", 1);
+
+    set_touch("default", HIW "觀星台黃銅渾儀與白石欄杆凍得如冰塊般刺骨，表面卻不見半點積塵。" NOR);
+    set_smell("default", HIC "高空寒風裡夾著淡淡金屬冷味與雲霧水氣，吸入肺葉清醒透徹。" NOR);
+    set_listen("default", WHT "天柱峰頂雲濤翻湧，罡風掠過銅儀環圈發出極低沉的金屬共鳴。" NOR);
 }
 
 void init() {
