@@ -7,7 +7,12 @@
       "novel_span": "Vol.1 Ch.0001 ~ Ch.0006",
       "title": "寒村五子生存與初見微光",
       "world_event": null,
-      "quests": ["village_pass", "herb_loop", "mining_loop", "pelt_loop"],
+      "quests": [
+        "village_pass",
+        "herb_loop",
+        "mining_loop",
+        "pelt_loop"
+      ],
       "rooms": [
         "d/village/stream.c",
         "d/village/herb_hut.c",
@@ -16,8 +21,15 @@
         "d/village/daoist_temple.c",
         "d/village/shed.c"
       ],
-      "world_state_vars": ["stream_water_level", "stream_moss_cleared", "herb_stock"],
-      "evidence_or_relics": ["clone/item/stele_rubbing.c", "clone/item/dao_crystal.c"]
+      "world_state_vars": [
+        "stream_water_level",
+        "stream_moss_cleared",
+        "herb_stock"
+      ],
+      "evidence_or_relics": [
+        "clone/item/stele_rubbing.c",
+        "clone/item/dao_crystal.c"
+      ]
     },
     {
       "act_id": "vol1_act2_3_relics_and_mine",
@@ -40,8 +52,15 @@
         "d/village/shed.c",
         "d/village/mine.c"
       ],
-      "world_state_vars": ["mine_stability", "mine_collapsed", "disha_activity"],
-      "evidence_or_relics": ["clone/item/miner_thumbprints.c", "clone/item/detonator_serial_ledger.c"]
+      "world_state_vars": [
+        "mine_stability",
+        "mine_collapsed",
+        "disha_activity"
+      ],
+      "evidence_or_relics": [
+        "clone/item/miner_thumbprints.c",
+        "clone/item/detonator_serial_ledger.c"
+      ]
     },
     {
       "act_id": "vol1_act4_beast_surge",
@@ -63,50 +82,122 @@
         "d/village/mine.c",
         "d/village/herb_hut.c"
       ],
-      "world_state_vars": ["forest_beast_alert", "caravan_status", "caravan_delay_reason"],
-      "evidence_or_relics": ["clone/item/tainted_pelt.c"]
+      "world_state_vars": [
+        "forest_beast_alert",
+        "caravan_status",
+        "caravan_delay_reason"
+      ],
+      "evidence_or_relics": [
+        "clone/item/tainted_pelt.c"
+      ]
     },
     {
       "act_id": "vol1_act5_military_crisis",
       "novel_span": "Vol.1 Ch.0033 ~ Ch.0038",
       "title": "黑石關多方博弈",
       "world_event": "military_crisis",
-      "quests": ["F03_testimony_cross_check", "village_pass"],
-      "rooms": ["d/village/square.c", "d/village/shed.c"],
-      "world_state_vars": ["garrison_lockdown", "caravan_truth_reason"],
-      "evidence_or_relics": ["clone/item/custody_ledger.c", "clone/item/road_pass.c"]
+      "quests": [
+        "F03_testimony_cross_check",
+        "village_pass"
+      ],
+      "rooms": [
+        "d/village/square.c",
+        "d/village/shed.c"
+      ],
+      "world_state_vars": [
+        "garrison_lockdown",
+        "caravan_truth_reason"
+      ],
+      "evidence_or_relics": [
+        "clone/item/custody_ledger.c",
+        "clone/item/road_pass.c"
+      ]
     },
     {
-      "act_id": "vol2_city_and_tribunal",
-      "novel_span": "Vol.2 Ch.0039 ~ Ch.0082",
-      "title": "金石立籍、六縣追查與三方會審",
+      "act_id": "vol2_arc1_arrival_and_detention",
+      "novel_span": "Vol.2 Ch.0039 ~ Ch.0046",
+      "title": "驛道入城・七十二小時居留與證物交接",
       "world_event": null,
       "quests": [
-        "v2_residency_72h",
+        "v2_residency_72h"
+      ],
+      "rooms": [
+        "d/routes/red_stone_pass.c",
+        "d/city/gate/gate_south.c",
+        "d/city/center/yamen.c",
+        "d/city/center/yamen_archive.c"
+      ],
+      "world_state_vars": [
+        "residency_timer_72h",
+        "zhao_degui_custody_status",
+        "evidence_intake_logged"
+      ],
+      "evidence_or_relics": [
+        "clone/item/custody_ledger.c",
+        "clone/item/liefan_clay_batch.c"
+      ]
+    },
+    {
+      "act_id": "vol2_arc2_city_investigation",
+      "novel_span": "Vol.2 Ch.0047 ~ Ch.0057",
+      "title": "府城分線調查・六缺口物證與西水門危機",
+      "world_event": "west_watergate_crisis",
+      "quests": [
         "v2_career_tier1_qualifications",
         "v2_six_county_evidence",
         "v2_six_evidence_gaps",
-        "v2_west_watergate_crisis",
-        "v2_act4_tripartite_tribunal",
-        "v2_act5_tier2_admission"
+        "v2_west_watergate_crisis"
       ],
       "rooms": [
-        "d/city/center/square.c",
-        "d/city/center/clinic.c",
         "d/city/center/yamen.c",
-        "d/city/center/yamen_archive.c",
+        "d/city/center/clinic.c",
         "d/city/north/gong_forge.c",
         "d/city/south/market_special.c",
         "d/city/south/shanghui_hq.c",
         "d/city/west/dao_hall.c",
         "d/city/under/canal_hub.c"
       ],
-      "world_state_vars": ["county_clocks", "granary_open"],
+      "world_state_vars": [
+        "six_evidence_gaps_filled",
+        "watergate_sluice_status",
+        "canal_contamination_level",
+        "clock_anchor_30day"
+      ],
       "evidence_or_relics": [
-        "clone/item/liefan_clay_batch.c",
         "clone/item/relay_poison_sample.c",
         "clone/item/under_canal_deed.c",
-        "clone/item/bronze_treaty_plate.c"
+        "clone/item/evidence_six_gaps.c"
+      ]
+    },
+    {
+      "act_id": "vol2_arc3_fieldwork_tribunal_departure",
+      "novel_span": "Vol.2 Ch.0058 ~ Ch.0082",
+      "title": "六縣實勘・三方會審・出城北上",
+      "world_event": "tripartite_tribunal",
+      "quests": [
+        "v2_act4_tripartite_tribunal",
+        "v2_act5_tier2_admission"
+      ],
+      "rooms": [
+        "d/city/center/yamen.c",
+        "d/city/south/shanghui_hq.c",
+        "d/counties/liefan/west_gate.c",
+        "d/counties/zhuoshui/market.c",
+        "d/counties/panmu/north_gate.c",
+        "d/counties/zhongshi/market.c",
+        "d/counties/qinghe/ferry_dock.c",
+        "d/counties/zhenfeng/south_gate.c",
+        "d/routes/north_wind_highway.c"
+      ],
+      "world_state_vars": [
+        "tribunal_outcome",
+        "shanghui_frozen",
+        "tier2_admission_granted",
+        "WORLD_STATE_D"
+      ],
+      "evidence_or_relics": [
+        "clone/item/bronze_treaty_plate.c",
+        "clone/item/cross_state_trade_tally.c"
       ]
     },
     {
@@ -138,7 +229,9 @@
         "d/sects/taiqing/ark_portal_chamber.c",
         "d/realm/peach_plateau.c"
       ],
-      "world_state_vars": ["tier2_crisis"],
+      "world_state_vars": [
+        "tier2_crisis"
+      ],
       "evidence_or_relics": [
         "clone/item/ev3_drill_head.c",
         "clone/item/ev3_mother_liquid_vial.c",
@@ -181,7 +274,11 @@
         "d/yunjin/river_wharf.c",
         "d/yunjin/temple_tea_fair.c"
       ],
-      "world_state_vars": ["market_stocks", "causal_events", "merchant_strategies"],
+      "world_state_vars": [
+        "market_stocks",
+        "causal_events",
+        "merchant_strategies"
+      ],
       "evidence_or_relics": [
         "clone/item/temp_residency_pass.c",
         "clone/item/trade_cargo.c"
@@ -205,7 +302,11 @@
         "d/realm/edge/edge_clinic.c",
         "d/realm/edge/scorch_border.c"
       ],
-      "world_state_vars": ["tier3_calibration", "tier3_k", "tier3_u"],
+      "world_state_vars": [
+        "tier3_calibration",
+        "tier3_k",
+        "tier3_u"
+      ],
       "evidence_or_relics": [
         "clone/item/edge_ration_wooden_tally.c",
         "clone/item/spent_salt_crystal_core.c",
@@ -236,7 +337,10 @@
         "d/realm/edge/edge_clinic.c",
         "d/realm/edge/ash_watch_post.c"
       ],
-      "world_state_vars": ["tier3_calibration", "tier3_u"],
+      "world_state_vars": [
+        "tier3_calibration",
+        "tier3_u"
+      ],
       "evidence_or_relics": [
         "clone/item/locked_data_casket.c",
         "clone/item/taixu_calibration_log_copy.c",
@@ -267,7 +371,10 @@
         "d/realm/edge/ash_watch_post.c",
         "d/realm/edge/edge_clinic.c"
       ],
-      "world_state_vars": ["tier3_calibration", "scan_deflected"],
+      "world_state_vars": [
+        "tier3_calibration",
+        "scan_deflected"
+      ],
       "evidence_or_relics": [
         "clone/item/three_pole_mutual_compact.c",
         "clone/item/cross_realm_chihuo_crate.c",
@@ -306,8 +413,12 @@
         "guixu_seal_alerted"
       ],
       "evidence_or_relics": [
-        "clone/item/shen_yunnini_charter_edict.c"
-      ]
+        "clone/item/shen_yunnini_charter_edict.c",
+        "clone/item/taixu_calibration_log_copy.c",
+        "clone/item/sanyuan_shunt_valve.c",
+        "clone/item/law_rejection_buffer_kit.c"
+      ],
+      "_evidence_note": "收錄「關鍵正典物證」：沈雲妮總約為制度物證，衡真日誌為太虛星軸物證，分流總栓與緩衝套件為機械工程物證。楔木卸力裝置、連接桿等一般任務道具不收錄。"
     },
     {
       "act_id": "vol4_act5_beacon_and_guixu",
