@@ -25,4 +25,16 @@ void create() {
     set_listen("default", CYN "大鐵勺敲打鍋邊、菜刀篤篤切肉與伙房雜役熱火朝天端湯送飯的吆喝。" NOR);
 
     spawn_npc("/clone/npc/a_man.c");
+
+    mapping letter_rule = ([
+        "targets": ({ "letters", "book", "家書", "書信", "" }),
+        "sp_cost": 6,
+        "sensory_msg": WHT "你坐在灶台邊借著燈光將數十封沾了雪漬與油煙的戍卒家書按哨所月份逐一捆紮編號，紙頁間還掉出半枚舊銅釦。" NOR,
+        "train_stat": ([ "per": 8, "int": 6 ]),
+        "exp_gain": 12,
+        "quest_verb": "sort",
+        "quest_target": "letters"
+    ]);
+    add_action_rule("sort", letter_rule);
+    add_action_rule("理信", letter_rule);
 }

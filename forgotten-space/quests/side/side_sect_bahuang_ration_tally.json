@@ -1,0 +1,41 @@
+{
+  "id": "side_sect_bahuang_ration_tally",
+  "name": "八荒伙房・舊欠家書",
+  "category": "side",
+  "type": "once",
+  "start_npc": "a_man",
+  "start_topic": "家書",
+  "requirements": {
+    "level": 3
+  },
+  "steps": [
+    {
+      "step": 1,
+      "title": "在北線軍寨炊事後勤區替阿滿整理滯留家書與回執",
+      "hint": "留在【黑山營・北線軍寨炊事後勤區】將沾了霜雪的未寄家書與糧單分類歸檔 (sort letters)。",
+      "target_type": "action",
+      "action_verb": "sort",
+      "action_target": "letters",
+      "location": "/d/sects/bahuang/north_garrison_kitchen",
+      "on_complete": {
+        "msg": "一疊疊壓著母親指印與妻兒盼歸字句的家書終於理出頭緒，每一封都在等著邊雪開化後寄出。"
+      }
+    },
+    {
+      "step": 2,
+      "title": "將整理好的家書箱交還炊事婦人阿滿",
+      "hint": "向阿滿覆命家書已清點歸檔 (ask a_man about 家書)。",
+      "target_type": "talk",
+      "target_npc": "a_man",
+      "target_topic": "家書",
+      "location": "/d/sects/bahuang/north_garrison_kitchen",
+      "on_complete": {
+        "msg": "阿滿雙手鄭重抱過木箱，悄悄盛了一大碗熱氣騰騰的燉羊肉湯塞進你手裡。"
+      }
+    }
+  ],
+  "rewards": {
+    "exp": 240,
+    "money": 115
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "id": "side_route_winter_hearth",
+  "name": "林海官道・寒夜借火",
+  "category": "side",
+  "type": "once",
+  "start_npc": "route_traveler",
+  "start_topic": "借火",
+  "requirements": {
+    "level": 2
+  },
+  "steps": [
+    {
+      "step": 1,
+      "title": "在南嶺林海驛替凍僵商旅引燃防風篝火",
+      "hint": "在【南嶺林海驛・巨木轉運站】取防水松脂火摺重燃避寒篝火 (kindle fire)。",
+      "target_type": "action",
+      "action_verb": "kindle",
+      "action_target": "fire",
+      "location": "/d/routes/forest_sea_post",
+      "on_complete": {
+        "msg": "松脂火舌劈啪躍起，凍得牙齒打顫的馬伕與挑夫頓時圍過來烤手。"
+      }
+    },
+    {
+      "step": 2,
+      "title": "與趕路趟子手在火邊飲水覆命",
+      "hint": "告知趕路趟子手火堆已經重新點旺 (ask route_traveler about 借火)。",
+      "target_type": "talk",
+      "target_npc": "route_traveler",
+      "target_topic": "借火",
+      "location": "/d/routes/forest_sea_post",
+      "on_complete": {
+        "msg": "趟子手拍著胸口說山路上最貴的便是一點火種，硬塞給你一串銅錢與半壺燒刀子。"
+      }
+    }
+  ],
+  "rewards": {
+    "exp": 170,
+    "money": 85
+  }
+}

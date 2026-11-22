@@ -161,6 +161,8 @@ def main():
         errors.append(f"Expected 0 empty rooms (no S/N/A/Item), found {empty_total}: {dict(area_empty)}")
     if sensory_rooms < total_rooms:
         errors.append(f"Expected 100% sensory coverage ({total_rooms}/{total_rooms}), found {sensory_rooms}/{total_rooms}")
+    if len(side_quests) < 24:
+        errors.append(f"Expected >= 24 slice-of-life side quests after Phase 3, found {len(side_quests)}")
     print("=" * 70)
     print("WORLD LIVENESS AUDIT SUMMARY")
     print("=" * 70)

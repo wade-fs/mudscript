@@ -40,5 +40,17 @@ void create() {
     add_action_rule("check_gauge", gauge_rule);
     add_action_rule("量水尺", gauge_rule);
 
+    mapping repair_rule = ([
+        "targets": ({ "mooring", "post", "纜樁", "木樁", "" }),
+        "sp_cost": 10,
+        "sensory_msg": CYN "你涉著沒過腳踝的冷河水，用浸過桐油的新麻繩將鬆動的橡木纜樁死死綁緊並打入兩根鐵楔，渡口泊位頓時牢靠許多。" NOR,
+        "train_stat": ([ "str": 10, "con": 8 ]),
+        "exp_gain": 14,
+        "quest_verb": "repair",
+        "quest_target": "mooring"
+    ]);
+    add_action_rule("repair", repair_rule);
+    add_action_rule("搶修", repair_rule);
+
     spawn_npc("/clone/npc/folk/qinghe_herb_woman.c");
 }

@@ -42,3 +42,38 @@ int do_chat(object me, string topic) {
 
     return ::do_chat(me, topic);
 }
+
+void init() {
+    ::init();
+    add_action("do_county_cargo", "cargo");
+    add_action("do_county_cargo", "跑商");
+}
+
+int do_county_cargo(string arg) {
+    object me = this_player();
+    if (!me) return 0;
+    object env = environment(this_object());
+    string cid = (env && env->query_county()) ? env->query_county() : "city";
+    if (!cid || cid == "") cid = "city";
+    object ws = load_object(WORLD_STATE_D);
+    if (!ws) return 0;
+
+    if (!arg || arg == "" || arg == "list" || arg == "行情") {
+        write(ws->format_trade_board(cid));
+        return 1;
+    }
+    string sub = "";
+    string item_id = "";
+    if (sscanf(arg, "%s %s", sub, item_id) == 2 && (sub == "buy" || sub == "買")) {
+        mapping bres = ws->buy_trade_cargo(me, item_id, cid);
+        write(bres["msg"] + "\n");
+        return 1;
+    }
+    if (arg == "sell" || arg == "賣") {
+        mapping sres = ws->sell_trade_cargo(me, cid);
+        write(sres["msg"] + "\n");
+        return 1;
+    }
+    write("用法：cargo list | cargo buy <貨號> | cargo sell\n");
+    return 1;
+}

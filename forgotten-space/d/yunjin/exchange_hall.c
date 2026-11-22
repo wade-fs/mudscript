@@ -30,6 +30,34 @@ void create() {
 void init() {
     ::init();
     add_action("do_audit", "audit");
+    add_action("do_yunjin_cargo", "cargo");
+    add_action("do_yunjin_cargo", "跑商");
+}
+
+int do_yunjin_cargo(string arg) {
+    object me = this_player();
+    if (!me) return 0;
+    object ws = load_object(WORLD_STATE_D);
+    if (!ws) return 0;
+
+    if (!arg || arg == "" || arg == "list" || arg == "行情") {
+        write(ws->format_trade_board("yunjin"));
+        return 1;
+    }
+    string sub = "";
+    string cid = "";
+    if (sscanf(arg, "%s %s", sub, cid) == 2 && (sub == "buy" || sub == "買")) {
+        mapping bres = ws->buy_trade_cargo(me, cid, "yunjin");
+        write(bres["msg"] + "\n");
+        return 1;
+    }
+    if (arg == "sell" || arg == "賣") {
+        mapping sres = ws->sell_trade_cargo(me, "yunjin");
+        write(sres["msg"] + "\n");
+        return 1;
+    }
+    write("用法：cargo list | cargo buy <貨號> | cargo sell\n");
+    return 1;
 }
 
 int do_audit(string arg) {

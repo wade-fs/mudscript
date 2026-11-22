@@ -1,0 +1,41 @@
+{
+  "id": "side_county_liefan_credit_grain",
+  "name": "烈礬礦棚・停工賒糧",
+  "category": "side",
+  "type": "once",
+  "start_npc": "liefan_old_miner",
+  "start_topic": "賒糧",
+  "requirements": {
+    "level": 2
+  },
+  "steps": [
+    {
+      "step": 1,
+      "title": "前往烈礬銅礬硃砂大集替礦工家屬記帳賒糧",
+      "hint": "前往【烈礬縣・銅礬硃砂大集】糧鋪替停工礦工家屬押名賒出糙米 (credit grain)。",
+      "target_type": "action",
+      "action_verb": "credit",
+      "action_target": "grain",
+      "location": "/d/counties/liefan/market",
+      "on_complete": {
+        "msg": "你替銅駝嶺礦工家屬押下賒糧條子，糧店掌櫃點頭清出十斤高粱糙米讓你帶回。"
+      }
+    },
+    {
+      "step": 2,
+      "title": "回烈礬礦工粗茶棚向羅七覆命",
+      "hint": "返回【烈礬縣・礦工歇腳粗茶棚】告訴羅七賒糧妥當 (ask liefan_old_miner about 賒糧)。",
+      "target_type": "talk",
+      "target_npc": "liefan_old_miner",
+      "target_topic": "賒糧",
+      "location": "/d/counties/liefan/miners_tea_shed",
+      "on_complete": {
+        "msg": "羅七眼眶泛紅抱拳長揖，棚裡等著過日子的礦工們齊聲道謝並湊出幾塊純銅碎料塞進你袖袋。"
+      }
+    }
+  ],
+  "rewards": {
+    "exp": 210,
+    "money": 100
+  }
+}

@@ -411,6 +411,24 @@ int do_chat(object me, string topic) {
             }
         }
     }
+    if (topic == "相場" || topic == "行話" || topic == "實情" || topic == "見聞") {
+        object rumor_d3 = find_object("/daemon/rumor_d.c");
+        if (!rumor_d3) rumor_d3 = load_object("/daemon/rumor_d.c");
+        if (rumor_d3) {
+            string persona = "peasant_boatman";
+            string fac = query("faction");
+            mixed roles = query("roles");
+            if (fac == "shanghui" || fac == "baigong" ||
+                (arrayp(roles) && (member_array("merchant", roles) != -1 ||
+                                   member_array("broker", roles) != -1 ||
+                                   member_array("miner", roles) != -1))) {
+                persona = "merchant_artisan";
+            }
+            string p_msg = rumor_d3->query_persona_rumor(persona, "");
+            tell_object(me, att_prefix + my_name + " 嘆了一聲說道：\n" + p_msg + "\n");
+            return 1;
+        }
+    }
     if (topic == "name" || topic == "名字") {
         string msg = _t("npc_name_is");
         msg = replace_string(msg, "$name", my_name);

@@ -2,6 +2,11 @@
 
 本文件追蹤《遺忘的世界》小說正典修訂與 Mudlib 可執行世界之間的雙向同步紀錄，配合 [data/canon_sync_matrix.json](../data/canon_sync_matrix.json) 與 [tests/quests/novel_mud_sync_audit.py](../tests/quests/novel_mud_sync_audit.py) 使用。
 
+## 2026-11-22 — Phase 3 因果跨區跑商、分層生活語氣與後續六縣官道宗門日常支線
+* **實體貨包跨區因果套利**：新增 `/clone/item/trade_cargo.c` 與 `WORLD_STATE_D` 六大地區特產貨盤（`panmu_timber`、`liefan_alum`、`zhongshi_iron`、`qinghe_herbs`、`zhenfeng_pelt`、`blackstone_charcoal`），於六縣牙行、`peddler_corner.c`、`wine_tavern.c` 與 `exchange_hall.c` 串接 `cargo list / buy / sell` 跨區套利與同產地防刷檢核。
+* **六縣／官道／宗門日常支線擴充至 24 條**：新增停工賒糧（烈礬）、搶修纜樁（青河）、冬寒送炭（黑石→盤木）、寒夜借火（南嶺林海驛）、修補車輪（青河水驛）與八荒伙房整理家書等 6 條生活支線。
+* **分層生活語氣（`RUMOR_D`）**：新增 `query_tiered_folk_rumor()`，區隔農婦船夫的民俗誤解絮語與老匠跑商的結構實務判斷。
+
 ## 2026-11-22 — Phase 2B 世界運作機制（日夜季節節律、庶民動態互動、因果經濟與階層落差）
 * **時間維度 × 季節節律**：`NATURE_D` 新增季節覆寫與 `PHASE_D->query_room_rhythm_line()`，全站呈現清晨／上午／午後／黃昏／夜間作息脈動；`std/route_room.c` 依季節顯示封道／積雪實警。
 * **庶民作息與樞紐 NPC-to-NPC 互動**：`PHASE_D` 擴充至 23 名作息註冊角色（含 `roaming_porter` 阿福、`qinghe_herb_woman` 翠嬸與六縣／城郊勞動群體），並於青河渡口、黑石街市、南關流民矮巷、烈礬茶棚、雲津碼頭與城南酒肆實裝多節拍 NPC-to-NPC 日常互動（支援 `observe` / `旁觀` 指令與定期脈動）。

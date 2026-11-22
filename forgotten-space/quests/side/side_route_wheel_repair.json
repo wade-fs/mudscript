@@ -1,0 +1,41 @@
+{
+  "id": "side_route_wheel_repair",
+  "name": "青河水驛・修補車輪",
+  "category": "side",
+  "type": "once",
+  "start_npc": "route_traveler",
+  "start_topic": "車輪",
+  "requirements": {
+    "level": 2
+  },
+  "steps": [
+    {
+      "step": 1,
+      "title": "在青河半途水驛替斷輻貨車敲入棗木輻條",
+      "hint": "在【青河沿河官道・半途水驛】墊軸敲緊備用棗木輻條與鐵銷 (mend wheel)。",
+      "target_type": "action",
+      "action_verb": "mend",
+      "action_target": "wheel",
+      "location": "/d/routes/qinghe_post",
+      "on_complete": {
+        "msg": "隨著鐵銷嚴絲合縫卡進輪轂，整架重貨騾車終於重新端正著地。"
+      }
+    },
+    {
+      "step": 2,
+      "title": "向半途水驛趕路趟子手覆命",
+      "hint": "告知趕路趟子手車輪已經修妥可繼續上路 (ask route_traveler about 車輪)。",
+      "target_type": "talk",
+      "target_npc": "route_traveler",
+      "target_topic": "車輪",
+      "location": "/d/routes/qinghe_post",
+      "on_complete": {
+        "msg": "趟子手試推兩步發現車軸穩如泰山，感激地摸出一吊工錢遞了過來。"
+      }
+    }
+  ],
+  "rewards": {
+    "exp": 180,
+    "money": 90
+  }
+}

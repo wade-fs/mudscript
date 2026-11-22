@@ -187,6 +187,47 @@ string *query_all_rumors() {
     return list;
 }
 
+// ── 5b. Phase 3：深化生活語氣分層（庶民誤解絮語 vs 跑商／老匠實務判斷）──
+mapping query_tiered_folk_rumor(string persona, string topic) {
+    string *topics = ({ "flood_sluice", "mine_stop", "cold_wave", "road_block" });
+    if (!topic || topic == "" || topic == "general") {
+        topic = topics[random(sizeof(topics))];
+    }
+    if (!persona || (persona != "peasant_boatman" && persona != "merchant_artisan")) {
+        persona = "peasant_boatman";
+    }
+
+    string msg_peasant = "";
+    string msg_merchant = "";
+
+    if (topic == "flood_sluice") {
+        msg_peasant = "【渡口絮語・船婦農話】「哎呀，定是上游有人得罪了青河老龍王！好端端的太陽天，昨夜水頭竟落下去半丈，定是神明收水不準撐船哩！」";
+        msg_merchant = "【商行實判・老船牙子】「別聽婦人家胡扯鬼神！是上游定神道觀私放攔水閘濾靈砂，截住六成來水；平底駁船載重減半才把過河費頂漲兩文，此刻府城洗靈草與米糧必缺！」";
+    } else if (topic == "mine_stop") {
+        msg_peasant = "【礦棚閒談・苦力村言】「聽說北崖與銅駝嶺三號井挖到山龍脊骨，裡頭冒出鬼火哭聲才塌的！咱們老實人不敢再下井觸霉頭啦。」";
+        msg_merchant = "【匠商精算・老匠與跑商】「什麼山龍脊骨，分明是分坊貪利抽薄了鐵木支撐又亂放過量雷管！三號井一旦停工兩個月，烈礬明礬和重石生鐵在府城定要大漲三成！」";
+    } else if (topic == "cold_wave") {
+        msg_peasant = "【北境村謠・牧婦低語】「老輩人講，這風雪這麼早撲下來是星宿變臉要凍死牛羊了，快多燒兩柱香拜拜老天爺賞口熱飯吃。」";
+        msg_merchant = "【北荒走商實務】「玄冥冬歲頭陣寒潮壓境，北塞天風谷積雪一封道，雲津與北荒最缺鎮風生羊皮襖與黑石硬木炭！此刻從黑石鋪或鎮風縣趕運過去，淨利少說四成！」";
+    } else {
+        msg_peasant = "【街巷猜疑・路邊攤販】「南嶺半山腰昨兒落了幾塊天雷石，聽說是有大妖在山口搶糧草，過幾天官老爺怕是要封城不許進人囉！」";
+        msg_merchant = "【牙行底帳判斷】「哪有大妖搶糧，是雨後邊坡滑坡壓了半條盤木車道，加上關卡守軍趁機卡住保書路引想抽三成乾股！盤木原木進不了城，手裡有貨別急著賤賣。」";
+    }
+
+    return ([
+        "topic": topic,
+        "persona": persona,
+        "peasant_boatman": msg_peasant,
+        "merchant_artisan": msg_merchant,
+        "msg": (persona == "merchant_artisan") ? msg_merchant : msg_peasant
+    ]);
+}
+
+string query_persona_rumor(string persona, string topic) {
+    mapping d = query_tiered_folk_rumor(persona, topic);
+    return d["msg"];
+}
+
 // ── 6. 隨機取得一條傳聞（支援主題關鍵字篩選）─────────────────
 string query_random_rumor(string topic) {
     if (topic && topic != "") {

@@ -1,0 +1,41 @@
+{
+  "id": "side_county_qinghe_mooring",
+  "name": "青河碼頭・搶修纜樁",
+  "category": "side",
+  "type": "once",
+  "start_npc": "qinghe_herb_woman",
+  "start_topic": "纜樁",
+  "requirements": {
+    "level": 2
+  },
+  "steps": [
+    {
+      "step": 1,
+      "title": "在青河駁船碼頭迎著水勢打樁繫繩搶修泊位",
+      "hint": "在【青河縣・漕運駁船碼頭】涉水將鬆脫的老橡木纜樁打楔綁實 (repair mooring)。",
+      "target_type": "action",
+      "action_verb": "repair",
+      "action_target": "mooring",
+      "location": "/d/counties/qinghe/ferry_dock",
+      "on_complete": {
+        "msg": "打牢兩根生鐵楔並繞死雙股油麻繩後，整排渡口纜樁總算挺住了湍急水勢。"
+      }
+    },
+    {
+      "step": 2,
+      "title": "向岸邊候船的採藥婦翠嬸回報纜樁已牢",
+      "hint": "告知採藥婦翠嬸渡船纜樁已加固完畢 (ask qinghe_herb_woman about 纜樁)。",
+      "target_type": "talk",
+      "target_npc": "qinghe_herb_woman",
+      "target_topic": "纜樁",
+      "location": "/d/counties/qinghe/ferry_dock",
+      "on_complete": {
+        "msg": "翠嬸與船老大齊鬆一口氣，塞給你一把晒得透乾的上等洗靈草根和一吊銅錢謝禮。"
+      }
+    }
+  ],
+  "rewards": {
+    "exp": 200,
+    "money": 95
+  }
+}

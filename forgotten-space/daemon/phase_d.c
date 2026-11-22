@@ -347,17 +347,17 @@ void init_schedules() {
             "name": "採藥婦翠嬸",
             "file": "/clone/npc/folk/qinghe_herb_woman.c",
             "schedules": ([
-                "dawn":           "/d/counties/qinghe/baicaoping_fields.c",
+                "dawn":           "/d/counties/qinghe/ferry_dock.c",
                 "morning":        "/d/counties/qinghe/ferry_dock.c",
-                "noon_afternoon": "/d/counties/qinghe/luhuadu_dock.c",
-                "dusk":           "/d/counties/qinghe/river_tea_shed.c",
-                "night":          "/d/counties/qinghe/river_tea_shed.c",
-                "midnight":       "/d/counties/qinghe/baicaoping_fields.c"
+                "noon_afternoon": "/d/counties/qinghe/ferry_dock.c",
+                "dusk":           "/d/counties/qinghe/ferry_dock.c",
+                "night":          "/d/counties/qinghe/ferry_dock.c",
+                "midnight":       "/d/counties/qinghe/ferry_dock.c"
             ]),
             "action_descs": ([
-                "dawn":           "翠嬸趁著晨露未散，在百草坪田壟間細心剪下一捆帶露洗靈草。",
+                "dawn":           "翠嬸趁著晨霧在青河渡口石階邊清點剛從百草坪剪來的帶露洗靈草。",
                 "morning":        "翠嬸背著藥簍在青河碼頭排隊候船，跟鄰舍抱怨渡船又漲了兩文錢。",
-                "dusk":           "翠嬸收工後坐在茶棚竹凳上捏著微酸的手腕，把賣剩的草藥仔細綁回簍裡。"
+                "dusk":           "翠嬸收工後把賣剩的草藥仔細綁回簍裡，望著渡口木樁盤算明日船期。"
             ]),
             "relationships": ([ "peers": ({ "qinghe_boatman" }) ])
         ]),

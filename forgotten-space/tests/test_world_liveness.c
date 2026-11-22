@@ -413,6 +413,112 @@ void run_tests(object me) {
     tester->command("lodge");
     assert_equal(m_inn_before - 50, tester->query("money"), "持保書入宿金石大客棧應扣除 50 文雅間房資");
 
+    // ── 7. Phase 3：因果跨區跑商、深化分層語氣與六縣官道宗門日常支線 ──
+    ws->trigger_causal_event("northern_cold_snap", 60);
+    mapping qt_char = ws->query_trade_quote("blackstone_charcoal", "yunjin");
+    assert_true(mapp(qt_char) && qt_char["spread"] > 0 && qt_char["causal_active"] == 1,
+                "寒潮期間黑石硬木炭運往雲津應顯示因果急漲正利潤差價");
+
+    object peddler_rm2 = load_object("/d/village/peddler_corner.c");
+    object yj_ex = load_object("/d/yunjin/exchange_hall.c");
+    tester->add_money(200);
+    move_object(tester, peddler_rm2);
+    tester->command("cargo buy blackstone_charcoal");
+    assert_true(objectp(present("trade_cargo", tester)), "應能於黑石鋪貨郎棚購入實體《黑石硬木炭》貨包");
+    // 同產地原地賣出應遭阻擋
+    int m_orig_try = tester->query("money");
+    tester->command("cargo sell");
+    assert_equal(m_orig_try, tester->query("money"), "同產地原地交割貨包應不給利潤且退回攔阻");
+    // 跨區運至雲津三宗交割廳脫手獲利
+    move_object(tester, yj_ex);
+    int m_yj_before = tester->query("money");
+    tester->command("cargo sell");
+    assert_true(tester->query("money") > m_yj_before, "跨區運至雲津交割廳賣出貨包應實收並獲利");
+    assert_true(!objectp(present("trade_cargo", tester)), "交割脫手後背包內對應貨包應清除");
+    ws->resolve_causal_event("northern_cold_snap");
+
+    // 深化 RUMOR_D 語氣分層驗證
+    mapping r_peasant = rum_d->query_tiered_folk_rumor("peasant_boatman", "flood_sluice");
+    mapping r_merch = rum_d->query_tiered_folk_rumor("merchant_artisan", "flood_sluice");
+    assert_true(strsrch(r_peasant["msg"], "龍王") != -1, "普通農婦／船夫應呈現民俗誤解絮語");
+    assert_true(strsrch(r_merch["msg"], "攔水閘") != -1, "專業跑商／老匠應能點破攔水閘與供需差價實務判斷");
+
+    // 驗證 6 條 Phase 3 新增日常支線可完整通關結算
+    tester->set_level(4);
+
+    // Q1: 烈礬礦棚・停工賒糧（觸發礦場停工期讓羅七匯聚粗茶棚）
+    ws->trigger_causal_event("mine_shutdown", 60);
+    pd->sync_all_npc_locations();
+    object lf_shed = load_object("/d/counties/liefan/miners_tea_shed.c");
+    object lf_mkt = load_object("/d/counties/liefan/market.c");
+    move_object(tester, lf_shed);
+    tester->command("ask liefan_old_miner about 賒糧");
+    assert_equal("ACTIVE", q_engine->query_quest_state(tester, "side_county_liefan_credit_grain"),
+                 "詢問羅七應接取 side_county_liefan_credit_grain");
+    move_object(tester, lf_mkt);
+    tester->command("credit grain");
+    move_object(tester, lf_shed);
+    tester->command("ask liefan_old_miner about 賒糧");
+    assert_equal("COMPLETED", q_engine->query_quest_state(tester, "side_county_liefan_credit_grain"),
+                 "替礦工家屬賒糧覆命後應結算為 COMPLETED");
+    ws->resolve_causal_event("mine_shutdown");
+
+    // Q2: 青河碼頭・搶修纜樁
+    move_object(tester, q_ferry);
+    tester->command("ask qinghe_herb_woman about 纜樁");
+    assert_equal("ACTIVE", q_engine->query_quest_state(tester, "side_county_qinghe_mooring"),
+                 "詢問翠嬸應接取 side_county_qinghe_mooring");
+    tester->command("repair mooring");
+    tester->command("ask qinghe_herb_woman about 纜樁");
+    assert_equal("COMPLETED", q_engine->query_quest_state(tester, "side_county_qinghe_mooring"),
+                 "搶修渡口纜樁並覆命後應結算為 COMPLETED");
+
+    // Q3: 盤木林道・冬寒送炭
+    object pm_inn = load_object("/d/counties/panmu/post_inn.c");
+    move_object(tester, peddler_rm2);
+    tester->command("ask peddler_hu about 木炭");
+    assert_equal("ACTIVE", q_engine->query_quest_state(tester, "side_county_panmu_charcoal_sled"),
+                 "詢問貨郎胡二應接取 side_county_panmu_charcoal_sled");
+    move_object(tester, pm_inn);
+    tester->command("deliver_warmth charcoal");
+    move_object(tester, peddler_rm2);
+    tester->command("ask peddler_hu about 木炭");
+    assert_equal("COMPLETED", q_engine->query_quest_state(tester, "side_county_panmu_charcoal_sled"),
+                 "冬寒送炭至盤木並覆命後應結算為 COMPLETED");
+
+    // Q4: 林海官道・寒夜借火
+    object f_post = load_object("/d/routes/forest_sea_post.c");
+    move_object(tester, f_post);
+    tester->command("ask route_traveler about 借火");
+    assert_equal("ACTIVE", q_engine->query_quest_state(tester, "side_route_winter_hearth"),
+                 "詢問林海驛趟子手應接取 side_route_winter_hearth");
+    tester->command("kindle fire");
+    tester->command("ask route_traveler about 借火");
+    assert_equal("COMPLETED", q_engine->query_quest_state(tester, "side_route_winter_hearth"),
+                 "寒夜借火點燃篝火覆命後應結算為 COMPLETED");
+
+    // Q5: 青河水驛・修補車輪
+    object q_post = load_object("/d/routes/qinghe_post.c");
+    move_object(tester, q_post);
+    tester->command("ask route_traveler about 車輪");
+    assert_equal("ACTIVE", q_engine->query_quest_state(tester, "side_route_wheel_repair"),
+                 "詢問半途水驛趟子手應接取 side_route_wheel_repair");
+    tester->command("mend wheel");
+    tester->command("ask route_traveler about 車輪");
+    assert_equal("COMPLETED", q_engine->query_quest_state(tester, "side_route_wheel_repair"),
+                 "修補車輪覆命後應結算為 COMPLETED");
+
+    // Q6: 八荒伙房・舊欠家書
+    object bh_k = load_object("/d/sects/bahuang/north_garrison_kitchen.c");
+    move_object(tester, bh_k);
+    tester->command("ask a_man about 家書");
+    assert_equal("ACTIVE", q_engine->query_quest_state(tester, "side_sect_bahuang_ration_tally"),
+                 "詢問阿滿應接取 side_sect_bahuang_ration_tally");
+    tester->command("sort letters");
+    tester->command("ask a_man about 家書");
+    assert_equal("COMPLETED", q_engine->query_quest_state(tester, "side_sect_bahuang_ration_tally"),
+                 "整理軍寨家書交還阿滿後應結算為 COMPLETED");
+
     if (tester) destruct(tester);
     report_results();
 }

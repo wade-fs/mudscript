@@ -22,4 +22,16 @@ void create() {
     ]));
 
     set_coordinate(3, 8, 0);
+
+    mapping fire_rule = ([
+        "targets": ({ "fire", "hearth", "篝火", "借火", "" }),
+        "sp_cost": 6,
+        "sensory_msg": HIY "你掏出防水松脂火摺引燃乾燥杉針，替受寒的官道趕路車夫重新點起一盆劈啪作響的旺火，驅散山林寒霧。" NOR,
+        "train_stat": ([ "dex": 6, "sen": 6 ]),
+        "exp_gain": 10,
+        "quest_verb": "kindle",
+        "quest_target": "fire"
+    ]);
+    add_action_rule("kindle", fire_rule);
+    add_action_rule("借火", fire_rule);
 }

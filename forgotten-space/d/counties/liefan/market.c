@@ -27,4 +27,16 @@ void create() {
 
     set_has_shop(1);
     set_coordinate(7, 13, 0);
+
+    mapping credit_rule = ([
+        "targets": ({ "grain", "ration", "米糧", "賒糧", "" }),
+        "sp_cost": 8,
+        "sensory_msg": YEL "你在大集糧鋪替銅駝嶺幾戶斷頓礦工家屬押下名條賒出十斤高粱糙米，糧店掌櫃點頭在帳冊上畫了個記號。" NOR,
+        "train_stat": ([ "per": 8, "str": 6 ]),
+        "exp_gain": 12,
+        "quest_verb": "credit",
+        "quest_target": "grain"
+    ]);
+    add_action_rule("credit", credit_rule);
+    add_action_rule("賒糧", credit_rule);
 }

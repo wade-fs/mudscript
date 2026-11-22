@@ -21,4 +21,16 @@ void create() {
     ]));
 
     set_coordinate(-6, 10, 0);
+
+    mapping wheel_rule = ([
+        "targets": ({ "wheel", "axle", "車輪", "修輪", "" }),
+        "sp_cost": 10,
+        "sensory_msg": YEL "你扛石墊穩車軸，揮錘將兩根棗木備用輻條敲進生鐵輪轂再別牢插銷，陷在水驛泥轍裡的貨車總算恢復轉動。" NOR,
+        "train_stat": ([ "str": 8, "dex": 8 ]),
+        "exp_gain": 12,
+        "quest_verb": "mend",
+        "quest_target": "wheel"
+    ]);
+    add_action_rule("mend", wheel_rule);
+    add_action_rule("修輪", wheel_rule);
 }

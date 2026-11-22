@@ -51,6 +51,28 @@ int do_trade_goods(string arg) {
     object me = this_player();
     if (!me) return 0;
     object ws = load_object(WORLD_STATE_D);
+
+    if (arg == "list" || arg == "行情") {
+        if (ws) write(ws->format_trade_board("city"));
+        return 1;
+    }
+    if (arg == "sell" || arg == "賣") {
+        if (ws) {
+            mapping sres = ws->sell_trade_cargo(me, "city");
+            write(sres["msg"] + "\n");
+        }
+        return 1;
+    }
+    string sub = "";
+    string cid = "";
+    if (arg && sscanf(arg, "%s %s", sub, cid) == 2 && (sub == "buy" || sub == "買")) {
+        if (ws) {
+            mapping bres = ws->buy_trade_cargo(me, cid, "city");
+            write(bres["msg"] + "\n");
+        }
+        return 1;
+    }
+
     int profit = 35;
     string item_desc = "青河粗藥乾與重石石粉";
     if (ws) {

@@ -1091,3 +1091,189 @@ mapping query_seasonal_goods_market() {
     }
     return out;
 }
+
+// ── 10. Phase 3：因果驅動跨區跑商目錄、即時報價與買賣結算 ───────
+mapping get_trade_catalog() {
+    return ([
+        "panmu_timber": ([
+            "name": "盤木紅杉木料", "origin": "panmu", "origin_name": "盤木縣",
+            "base_buy": 35, "causal_ev": "landslide_rain",
+            "dest_bonus": ([ "city": 15, "yunjin": 25 ])
+        ]),
+        "liefan_alum": ([
+            "name": "烈礬精製明礬", "origin": "liefan", "origin_name": "烈礬縣",
+            "base_buy": 45, "causal_ev": "mine_shutdown",
+            "dest_bonus": ([ "city": 20, "yunjin": 20 ])
+        ]),
+        "zhongshi_iron": ([
+            "name": "重石粗生鐵錠", "origin": "zhongshi", "origin_name": "重石縣",
+            "base_buy": 42, "causal_ev": "mine_shutdown",
+            "dest_bonus": ([ "city": 18, "zhenfeng": 25, "yunjin": 15 ])
+        ]),
+        "qinghe_herbs": ([
+            "name": "青河洗靈乾草", "origin": "qinghe", "origin_name": "青河縣",
+            "base_buy": 32, "causal_ev": "river_surge_sluice",
+            "dest_bonus": ([ "city": 20, "liefan": 15, "wastes": 25 ])
+        ]),
+        "zhenfeng_pelt": ([
+            "name": "鎮風生羊皮襖", "origin": "zhenfeng", "origin_name": "鎮風縣",
+            "base_buy": 60, "causal_ev": "northern_cold_snap",
+            "dest_bonus": ([ "city": 20, "yunjin": 45, "wastes": 50 ])
+        ]),
+        "blackstone_charcoal": ([
+            "name": "黑石硬木炭", "origin": "blackstone", "origin_name": "黑石鋪",
+            "base_buy": 20, "causal_ev": "northern_cold_snap",
+            "dest_bonus": ([ "city": 15, "yunjin": 40, "panmu": 20 ])
+        ])
+    ]);
+}
+
+mapping query_trade_quote(string cid, string hub_id) {
+    mapping cat = get_trade_catalog();
+    if (!cid || !cat[cid]) return 0;
+    mapping def = cat[cid];
+    if (!hub_id || hub_id == "") hub_id = "city";
+
+    string orig = def["origin"];
+    int orig_pct = query_causal_price_pct(orig);
+    // 在產地直接採購時以常規批發基準計算，受該縣階段適度波動
+    int buy_price = def["base_buy"] * orig_pct / 100;
+    if (buy_price < 10) buy_price = 10;
+
+    int sell_pct = 100;
+    if (hub_id == orig) {
+        sell_pct = 95; // 同產地就地倒賣無利潤（防止原地刷錢）
+    } else {
+        mapping db = def["dest_bonus"];
+        int cross_bonus = (mapp(db) && db[hub_id]) ? db[hub_id] : 15;
+        sell_pct += cross_bonus;
+
+        string ce = def["causal_ev"];
+        if (ce && is_causal_event_active(ce)) {
+            sell_pct += 40;
+        }
+        if (is_causal_event_active("gate_tax_lockdown")) {
+            sell_pct += 20;
+        }
+        if (ce == "northern_cold_snap") {
+            object nat = find_object("/secure/nature_d.c");
+            if (nat && nat->query_season() == "winter" && !is_causal_event_active("northern_cold_snap")) {
+                sell_pct += 25;
+            }
+        }
+    }
+
+    int sell_price = def["base_buy"] * sell_pct / 100;
+    if (sell_price < 1) sell_price = 1;
+
+    return ([
+        "cargo_id": cid,
+        "name": def["name"],
+        "origin": orig,
+        "origin_name": def["origin_name"],
+        "hub_id": hub_id,
+        "buy_price": buy_price,
+        "sell_price": sell_price,
+        "sell_pct": sell_pct,
+        "spread": sell_price - buy_price,
+        "causal_ev": def["causal_ev"],
+        "causal_active": is_causal_event_active(def["causal_ev"]),
+        "causal_reason": is_causal_event_active(def["causal_ev"]) ? query_causal_reason(orig) : "跨區運距差價"
+    ]);
+}
+
+string format_trade_board(string hub_id) {
+    if (!hub_id || hub_id == "") hub_id = "city";
+    mapping cat = get_trade_catalog();
+    string res = "\n" HIY "┏━━━━━━━━━━━ 因果驅動跨區行商貨盤（目前交割地：" + hub_id + "） ━━━━━━━━━━━┓" NOR "\n";
+    foreach (string cid, mapping def in cat) {
+        mapping q = query_trade_quote(cid, hub_id);
+        string tag = q["causal_active"] ? HIR "【因果急漲】" NOR : (q["spread"] > 0 ? HIG "【順差可圖】" NOR : WHT "【產地無差價】" NOR);
+        res += sprintf("  %-18s 產地:%-6s  產地批價:%3d文  此地收購:%3d文  %s\n",
+            q["name"] + "(" + cid + ")", q["origin_name"], q["buy_price"], q["sell_price"], tag);
+    }
+    res += CYN "  指令：cargo list | cargo buy <貨號> | cargo sell\n" NOR;
+    res += HIY "┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛" NOR "\n";
+    return res;
+}
+
+mapping buy_trade_cargo(object who, string cid, string hub_id) {
+    if (!who) return ([ "ok": 0, "msg": "無效對象" ]);
+    mapping cat = get_trade_catalog();
+    if (!cid || !cat[cid]) {
+        return ([ "ok": 0, "msg": "未知貨品編號（請用 cargo list 查詢可用貨號）。" ]);
+    }
+    mapping q = query_trade_quote(cid, hub_id);
+    int cost = q["buy_price"];
+    if (who->query("money") < cost) {
+        return ([ "ok": 0, "msg": sprintf("這捆「%s」採買本錢須 %d 文銅錢，你身上盤纏不足！", q["name"], cost) ]);
+    }
+
+    who->add_money(-cost);
+    object cargo = clone_object("/clone/item/trade_cargo.c");
+    if (cargo) {
+        cargo->setup_cargo(cid, q["name"], q["origin"], cost);
+        cargo->move(who);
+    }
+    object qe = load_object(QUEST_ENGINE_D);
+    if (qe) {
+        qe->trigger_event(who, "action", ([ "verb": "cargo_buy", "target": cid ]));
+    }
+    return ([
+        "ok": 1,
+        "cargo_id": cid,
+        "buy_price": cost,
+        "msg": sprintf(HIG "【買貨落袋】你付了 %d 文銅錢批入一捆「%s」（產地：%s），若能趕往金石府城或雲津在缺貨／因果漲價期脫手將大有賺頭！" NOR,
+            cost, q["name"], q["origin_name"])
+    ]);
+}
+
+mapping sell_trade_cargo(object who, string hub_id) {
+    if (!who) return ([ "ok": 0, "msg": "無效對象" ]);
+    if (!hub_id || hub_id == "") hub_id = "city";
+
+    object target_cargo = 0;
+    foreach (object item in all_inventory(who)) {
+        if (item && item->query("is_trade_cargo")) {
+            target_cargo = item;
+            break;
+        }
+    }
+    if (!target_cargo) {
+        return ([ "ok": 0, "msg": "你身上目前沒有任何【行商貨包】可交割脫手。" ]);
+    }
+
+    string cid = target_cargo->query("cargo_id");
+    string orig = target_cargo->query("origin_hub");
+    int cost = target_cargo->query("buy_price");
+    mapping q = query_trade_quote(cid, hub_id);
+    if (!mapp(q)) return ([ "ok": 0, "msg": "牙行無法估價這批貨品。" ]);
+
+    if (hub_id == orig) {
+        return ([
+            "ok": 0,
+            "msg": sprintf(YEL "【產地限轉】這批「%s」正是從本地（%s）起批的，就地原轉沒有差價可賺，請運往府城或雲津商埠交割！" NOR,
+                q["name"], q["origin_name"])
+        ]);
+    }
+
+    int revenue = q["sell_price"];
+    int profit = revenue - cost;
+    who->add_money(revenue);
+    who->add("trade_profit_total", profit > 0 ? profit : 0);
+    destruct(target_cargo);
+
+    object qe = load_object(QUEST_ENGINE_D);
+    if (qe) {
+        qe->trigger_event(who, "action", ([ "verb": "cargo_sell", "target": cid ]));
+    }
+
+    return ([
+        "ok": 1,
+        "cargo_id": cid,
+        "sell_price": revenue,
+        "profit": profit,
+        "msg": sprintf(HIY "【貨包交割】你在【%s】順利脫手「%s」，實收 %d 文（成本 %d 文，淨賺 %d 文；因果加成狀態：%s）！" NOR,
+            hub_id, q["name"], revenue, cost, profit, q["causal_active"] ? HIR "急缺翻紅" NOR : "常態跨區")
+    ]);
+}

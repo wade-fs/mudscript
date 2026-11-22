@@ -21,4 +21,16 @@ void create() {
     set_has_tavern(1);
     set_is_outdoor(0);
     set_coordinate(4, 5, 0);
+
+    mapping charcoal_rule = ([
+        "targets": ({ "charcoal", "coal", "木炭", "炭簍", "" }),
+        "sp_cost": 10,
+        "sensory_msg": HIR "你卸下背上沉甸甸的黑石硬木炭倒進聽松客棧中央火盆，松球炭火轟地竄起一尺橘紅暖焰，四周趕路趟子手齊齊呼出一口熱氣。" NOR,
+        "train_stat": ([ "con": 8, "str": 8 ]),
+        "exp_gain": 14,
+        "quest_verb": "deliver_warmth",
+        "quest_target": "charcoal"
+    ]);
+    add_action_rule("deliver_warmth", charcoal_rule);
+    add_action_rule("送炭", charcoal_rule);
 }
