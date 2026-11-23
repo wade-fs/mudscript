@@ -1,0 +1,84 @@
+{
+  "schema_version": "1.1",
+  "region_id": "zhuoshui",
+  "name": "濁水縣",
+  "civ_level": "county",
+  "region_type": "COUNTY",
+  "coords": [350, -350, 10],
+  "geography": {
+    "position": null,
+    "coordinate_space": "LOCAL_GAME_SPACE",
+    "precision": "RELATIVE_COORDS",
+    "terrain": "swamp",
+    "description": "東南沼澤泥地，七星毒蟾棲息之地，暗沼走私黑貨集散要道"
+  },
+  "resources": {
+    "primary_product": "submerged_timber",
+    "secondary_product": "venomous_toad",
+    "demand": ["grain", "iron_tools", "lime"],
+    "reserves": {
+      "submerged_timber": 20000,
+      "black_market_goods": 8000
+    },
+    "price_index": 100
+  },
+  "factions": {
+    "gold_panning_gang": {
+      "power": 65,
+      "agenda": "control_waterway_tolls"
+    },
+    "county_yamen": {
+      "power": 35,
+      "agenda": "suppress_smuggling"
+    }
+  },
+  "crisis_deck": [
+    {
+      "id": "miasma_outbreak",
+      "base_weight": 25,
+      "trigger_metric": "swamp_gas"
+    },
+    {
+      "id": "smuggler_standoff",
+      "base_weight": 20,
+      "trigger_metric": "black_market_tension"
+    }
+  ],
+  "zone_refs": [
+    {
+      "zone_id": "zhuoshui_town",
+      "type": "settlement",
+      "tier": 1
+    },
+    {
+      "zone_id": "zhuoshui_heishui_waterway",
+      "type": "wetland",
+      "tier": 2
+    }
+  ],
+  "lpc_rooms": [
+    "/d/counties/zhuoshui/north_gate.c",
+    "/d/counties/zhuoshui/market.c",
+    "/d/counties/zhuoshui/yamen.c",
+    "/d/counties/zhuoshui/post_inn.c",
+    "/d/counties/zhuoshui/pawnshop.c",
+    "/d/counties/zhuoshui/old_canal_entry.c",
+    "/d/counties/zhuoshui/heishui_pontoon.c",
+    "/d/counties/zhuoshui/heishui_waterhouse.c",
+    "/d/counties/zhuoshui/niluo_shoal.c",
+    "/d/counties/zhuoshui/niluo_panning.c",
+    "/d/counties/zhuoshui/smuggler_dock.c",
+    "/d/counties/zhuoshui/water_fort.c",
+    "/d/counties/zhuoshui/miasma_shrine.c",
+    "/d/counties/zhuoshui/venom_shed.c",
+    "/d/counties/zhuoshui/ginger_soup_stall.c",
+    "/d/counties/zhuoshui/kejiusuan_vault.c"
+  ],
+  "confidence": "CONFIRMED",
+  "evidence": [
+    "world/lore/nine_cities_canon.md",
+    "narrative/docs/maps/world_map.md",
+    "narrative/chapters/ch064.md",
+    "narrative/chapters/ch065.md"
+  ]
+}
