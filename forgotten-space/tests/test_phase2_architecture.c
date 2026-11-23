@@ -1,16 +1,21 @@
 // /tests/test_phase2_architecture.c
-// Phase 2: 標準資料模型與引擎架構驗證 (Region / Route / Lazy Evaluation / Dual-Track)
+// Phase 2: 標準資料模型與引擎架構驗證 (Region / Route / Zone / Site / Lazy Evaluation / Dual-Track)
+// 依據：forgotten-space/world/lore/nine_cities_canon.md 與 world/specifications/spatial_schema.md (v1.1)
 // 驗證項目：
-// 1. region.h 巨集與常數規格完整性 (Spatial, Tier 0~4, Discovery/Access/Survival 三階段)
+// 1. region.h 巨集與常數規格完整性 (Spatial, Tier 0~4, Discovery/Access/Survival, Route Status, Directionality)
 // 2. ROUTE_D 靜態載入與雙軌延遲查詢 (實體物流 vs 消息情報分離，情報前導延遲小於物流延遲)
-// 3. ROUTE_D 道路通阻與離散狀態轉移
-// 4. REGION_D 靜態區域載入與標準 JSON 結構
-// 5. REGION_D 惰性求值 (Lazy Evaluation) 時間戳差額補償
-// 6. REGION_D 指數阻尼回歸演算法 (價格偏離 100% 隨時間阻尼平滑趨向基準，鉗制在 50%~300%)
-// 7. REGION_D 離散物理狀態轉移模型 (災情不隨時間自癒，需具體行動方可解除)
-// 8. WORLD_STATE_D 宏觀協調中樞與 REGION_D / ROUTE_D 串接
-// 9. 太古九城文明依存網絡 (nine_cities_graph.json) 9 個核心節點與 26 條正典依存邊完整性
-// 10. 九城城市基本定義 (world/cities/*.json) 結構化載入
+// 3. ROUTE_D 道路狀態轉移 (OPEN/RESTRICTED/BLOCKED/DESTROYED/SEALED) 與雙向拓撲查找
+// 4. 正典保護：拓荒縣 (tuogu) 宏觀拓撲無直通道路
+// 5. REGION_D 靜態區域載入與地理空間中繼中立性 (position: null, LOCAL_GAME_SPACE)
+// 6. Zone 與 Site 實體化註冊與查詢 (query_zone, query_site, query_zones_by_region, query_sites_by_zone)
+// 7. Danger Tier 解耦驗證：Tier 屬於 Zone/Site，同一 Region 包含多種 Tier
+// 8. REGION_D 惰性求值 (Lazy Evaluation) 與離散指數阻尼精確驗證 (D_{n+1} = 0.9 * D_n)
+// 9. REGION_D 離散物理狀態轉移模型 (災情不隨時間自癒，需具體行動方可解除)
+// 10. REGION_D 動態狀態持久化 round-trip (save_region / restore_region)
+// 11. WORLD_STATE_D 宏觀協調中樞與 REGION_D / ROUTE_D 串接
+// 12. 太古九城文明依存網絡 (nine_cities_graph.json) 9 個核心節點與標準 Edge 語義
+// 13. 九城城市定義狀態解耦 (ancient_status, remaining_structure_status, modern_manifestation, access_status)
+// 14. 巨集拓撲檔 (macro_topology.json) 完整性
 
 inherit "/std/test_case.c";
 
@@ -18,9 +23,11 @@ inherit "/std/test_case.c";
 #include "/include/region.h"
 
 void run_tests(object me) {
-    start_test("Phase 2: 標準資料模型與引擎架構 (Daemon/Route/Zone/LazyEval)");
+    start_test("Phase 2: 標準資料模型與引擎架構 (Daemon/Route/Zone/Site/LazyEval)");
 
     // ── 1. 驗證 region.h 常數與巨集 ──────────────────────────────
+    assert_equal("1.1", SCHEMA_VERSION_1_1, "SCHEMA_VERSION_1_1 定義應為 1.1");
+
     assert_equal("region", SPATIAL_REGION, "SPATIAL_REGION 定義應為 region");
     assert_equal("zone", SPATIAL_ZONE, "SPATIAL_ZONE 定義應為 zone");
     assert_equal("site", SPATIAL_SITE, "SPATIAL_SITE 定義應為 site");
@@ -31,6 +38,17 @@ void run_tests(object me) {
     assert_equal(3, TIER_3, "TIER_3 應為 3");
     assert_equal(4, TIER_4, "TIER_4 應為 4");
 
+    assert_equal("OPEN", ROUTE_STATUS_OPEN, "ROUTE_STATUS_OPEN 定義應為 OPEN");
+    assert_equal("RESTRICTED", ROUTE_STATUS_RESTRICTED, "ROUTE_STATUS_RESTRICTED 定義應為 RESTRICTED");
+    assert_equal("BLOCKED", ROUTE_STATUS_BLOCKED, "ROUTE_STATUS_BLOCKED 定義應為 BLOCKED");
+    assert_equal("DESTROYED", ROUTE_STATUS_DESTROYED, "ROUTE_STATUS_DESTROYED 定義應為 DESTROYED");
+    assert_equal("SEALED", ROUTE_STATUS_SEALED, "ROUTE_STATUS_SEALED 定義應為 SEALED");
+    assert_equal("UNKNOWN", ROUTE_STATUS_UNKNOWN, "ROUTE_STATUS_UNKNOWN 定義應為 UNKNOWN");
+
+    assert_equal("BIDIRECTIONAL", ROUTE_DIR_BIDIRECTIONAL, "ROUTE_DIR_BIDIRECTIONAL 應為 BIDIRECTIONAL");
+    assert_equal("FORWARD_ONLY", ROUTE_DIR_FORWARD_ONLY, "ROUTE_DIR_FORWARD_ONLY 應為 FORWARD_ONLY");
+    assert_equal("BACKWARD_ONLY", ROUTE_DIR_BACKWARD_ONLY, "ROUTE_DIR_BACKWARD_ONLY 應為 BACKWARD_ONLY");
+
     assert_equal("discovery", EXPLORE_DISCOVERY, "EXPLORE_DISCOVERY 定義應為 discovery");
     assert_equal("access", EXPLORE_ACCESS, "EXPLORE_ACCESS 定義應為 access");
     assert_equal("survival", EXPLORE_SURVIVAL, "EXPLORE_SURVIVAL 定義應為 survival");
@@ -38,6 +56,9 @@ void run_tests(object me) {
     assert_equal(50, PRICE_INDEX_MIN, "PRICE_INDEX_MIN 應為 50");
     assert_equal(100, PRICE_INDEX_BASE, "PRICE_INDEX_BASE 應為 100");
     assert_equal(300, PRICE_INDEX_MAX, "PRICE_INDEX_MAX 應為 300");
+
+    assert_equal("/world/zones/", WORLD_ZONES_DIR, "WORLD_ZONES_DIR 定義正確");
+    assert_equal("/world/sites/", WORLD_SITES_DIR, "WORLD_SITES_DIR 定義正確");
 
     // ── 2. 驗證 ROUTE_D 守護進程與雙軌模型 ────────────────────────
     object route_d = load_object(ROUTE_D);
@@ -48,6 +69,8 @@ void run_tests(object me) {
     assert_true(mapp(r_zs), "zhongshi_to_jinshi 路線設定必須存在");
     assert_equal("zhongshi", r_zs["from"], "起點應為 zhongshi");
     assert_equal("jinshi", r_zs["to"], "終點應為 jinshi");
+    assert_equal("1.1", r_zs["schema_version"], "路線 schema_version 應為 1.1");
+    assert_equal(ROUTE_DIR_BIDIRECTIONAL, route_d->query_directionality("zhongshi_to_jinshi"), "重石至金石應為雙向通路");
 
     // 雙軌異步性驗證：消息傳播（60分）必須快於實體貨物運輸（180分）
     int info_delay = route_d->query_information_delay("zhongshi_to_jinshi");
@@ -63,54 +86,115 @@ void run_tests(object me) {
     int horse_time = route_d->query_travel_time("zhongshi_to_jinshi", "horse");
     assert_equal(108, horse_time, "坐騎行旅耗時應快 40% (180 * 0.6 = 108)");
 
-    // 道路通阻與離散狀態轉移
-    assert_equal(0, route_d->is_route_blocked("zhongshi_to_jinshi"), "初始道路應為暢通");
-    route_d->set_route_blocked("zhongshi_to_jinshi", 1, "山洪坍方，大車難通");
-    assert_equal(1, route_d->is_route_blocked("zhongshi_to_jinshi"), "設定封閉後應為受阻");
+    // ── 3. 驗證 ROUTE_D 狀態轉移與雙向拓撲查找 ───────────────────────
+    assert_equal(ROUTE_STATUS_OPEN, route_d->query_route_status("zhongshi_to_jinshi"), "初始道路狀態應為 OPEN");
+    assert_equal(0, route_d->is_route_blocked("zhongshi_to_jinshi"), "初始道路 blocked 應為 0");
+
+    // 狀態轉移：BLOCKED
+    route_d->set_route_status("zhongshi_to_jinshi", ROUTE_STATUS_BLOCKED, "山洪坍方，大車難通");
+    assert_equal(ROUTE_STATUS_BLOCKED, route_d->query_route_status("zhongshi_to_jinshi"), "設定封閉後應為 BLOCKED");
+    assert_equal(1, route_d->is_route_blocked("zhongshi_to_jinshi"), "BLOCKED 狀態下 is_route_blocked 應為 1");
     assert_equal(-1, route_d->query_travel_time("zhongshi_to_jinshi", "walking"), "受阻道路行旅耗時應回傳 -1");
     assert_equal("山洪坍方，大車難通", route_d->query_route_block_reason("zhongshi_to_jinshi"), "應回傳正確封閉原因");
 
-    // 搶通恢復
-    route_d->set_route_blocked("zhongshi_to_jinshi", 0, "搶修完畢");
-    assert_equal(0, route_d->is_route_blocked("zhongshi_to_jinshi"), "搶通後應恢復通行");
+    // 狀態轉移：RESTRICTED (受限通行，但非完全封死)
+    route_d->set_route_status("zhongshi_to_jinshi", ROUTE_STATUS_RESTRICTED, "官府盤查");
+    assert_equal(ROUTE_STATUS_RESTRICTED, route_d->query_route_status("zhongshi_to_jinshi"), "狀態應為 RESTRICTED");
+    assert_equal(0, route_d->is_route_blocked("zhongshi_to_jinshi"), "RESTRICTED 狀態不應完全封鎖 blocked");
+
+    // 搶通恢復：OPEN
+    route_d->set_route_status("zhongshi_to_jinshi", ROUTE_STATUS_OPEN, "搶修完畢");
+    assert_equal(ROUTE_STATUS_OPEN, route_d->query_route_status("zhongshi_to_jinshi"), "搶通後應恢復 OPEN");
+    assert_equal(0, route_d->is_route_blocked("zhongshi_to_jinshi"), "搶通後 blocked 應為 0");
     assert_equal(180, route_d->query_travel_time("zhongshi_to_jinshi", "walking"), "搶通後交通耗時應恢復正常");
 
-    // ── 3. 驗證 REGION_D 守護進程與靜態設定載入 ─────────────────────
+    // 拓撲查找與方向相容性
+    assert_equal("zhongshi_to_jinshi", route_d->query_route_between("zhongshi", "jinshi"), "正向查找重石至金石路線");
+    assert_equal("zhongshi_to_jinshi", route_d->query_route_between("jinshi", "zhongshi"), "雙向通路反向查找金石至重石路線");
+
+    // ── 4. 正典保護：拓荒縣無直通道路 ──────────────────────────
+    assert_equal(0, route_d->query_route_between("tuogu", "jinshi"), "正典保護：拓荒縣不得捏造與金石之直通道路");
+
+    // ── 5. 驗證 REGION_D 區域載入與地理空間中立性 ───────────────────
     object reg_d = load_object(REGION_D);
     assert_true(objectp(reg_d), "REGION_D 必須成功載入");
 
     reg_d->reset_regions();
     mapping all_regs = reg_d->query_all_regions();
     assert_true(mapp(all_regs) && sizeof(all_regs) >= 8, "至少應載入 8 個標準區域定義");
-    assert_true(mapp(all_regs["jinshi"]), "金石府城定義應載入");
-    assert_true(mapp(all_regs["zhongshi"]), "重石縣定義應載入");
-    assert_true(mapp(all_regs["heishipu"]), "黑石鋪定義應載入");
+
+    string *canon_regions = ({ "jinshi", "zhongshi", "heishipu", "qinghe", "liefan", "zhenfeng", "panmu", "tuogu" });
+    foreach (string r_id in canon_regions) {
+        assert_true(mapp(all_regs[r_id]), "區域 " + r_id + " 定義應已載入");
+        mapping r_def = all_regs[r_id];
+        assert_equal("1.1", r_def["schema_version"], "區域 " + r_id + " schema_version 應為 1.1");
+        assert_true(mapp(r_def["geography"]), "區域 " + r_id + " 必須包含 geography 定義");
+        assert_true(r_def["geography"]["position"] == 0, "區域 " + r_id + " position 應為 null (未確認絕對座標)");
+        assert_equal("LOCAL_GAME_SPACE", r_def["geography"]["coordinate_space"], "區域 " + r_id + " 座標空間應標記為 LOCAL_GAME_SPACE");
+        assert_equal("CONFIRMED", r_def["confidence"], "區域 " + r_id + " 可信度應為 CONFIRMED");
+    }
 
     // 檢查資源與儲量
     int iron_reserve = reg_d->query_region_reserves("zhongshi", "iron_ore");
     assert_equal(12000, iron_reserve, "重石縣初始生鐵儲量應為 12000");
 
-    // 調整儲量
     reg_d->adjust_region_reserves("zhongshi", "iron_ore", -2000);
     assert_equal(10000, reg_d->query_region_reserves("zhongshi", "iron_ore"), "消耗後儲量應為 10000");
 
-    // ── 4. 驗證 Lazy Evaluation 與指數阻尼自然回歸 ─────────────────
-    // 初始基準牌價應為 100
+    // ── 6. 驗證 Zone 與 Site 正式化註冊與查詢 ───────────────────────
+    mapping z_jinshi_ug = reg_d->query_zone("jinshi_underground");
+    assert_true(mapp(z_jinshi_ug), "jinshi_underground 場域設定必須存在");
+    assert_equal("jinshi", z_jinshi_ug["region_id"], "jinshi_underground 所屬區域應為 jinshi");
+    assert_equal("UNDERGROUND", z_jinshi_ug["zone_type"], "場域類型應為 UNDERGROUND");
+    assert_equal(2, z_jinshi_ug["danger_tier"], "jinshi_underground 危險等級應為 Tier 2");
+
+    mapping s_ruins = reg_d->query_site("tianshu_south_ruins_hall");
+    assert_true(mapp(s_ruins), "tianshu_south_ruins_hall 地點設定必須存在");
+    assert_equal("jinshi_underground", s_ruins["zone_id"], "南外圍大廳所屬場域應為 jinshi_underground");
+    assert_equal(3, s_ruins["danger_tier"], "南外圍大廳危險等級應為 Tier 3");
+    assert_true(pointerp(s_ruins["room_refs"]) && sizeof(s_ruins["room_refs"]) > 0, "南外圍大廳應包含 room_refs 陣列");
+    assert_equal("/d/city/under/ruins_hall.c", s_ruins["room_refs"][0], "南外圍大廳 LPC 房間映射路徑正確");
+
+    // 查詢區域所屬之所有 Zones
+    string *jinshi_zones = reg_d->query_zones_by_region("jinshi");
+    assert_true(member_array("jinshi_surface", jinshi_zones) != -1, "金石府城應包含 jinshi_surface 場域");
+    assert_true(member_array("jinshi_underground", jinshi_zones) != -1, "金石府城應包含 jinshi_underground 場域");
+
+    // 查詢場域所屬之所有 Sites
+    string *ug_sites = reg_d->query_sites_by_zone("jinshi_underground");
+    assert_equal(3, sizeof(ug_sites), "jinshi_underground 應包含 3 個正典 Sites");
+    assert_true(member_array("tianshu_south_ruins_hall", ug_sites) != -1, "應包含 tianshu_south_ruins_hall");
+    assert_true(member_array("jinshi_black_market", ug_sites) != -1, "應包含 jinshi_black_market");
+    assert_true(member_array("jinshi_canal_hub", ug_sites) != -1, "應包含 jinshi_canal_hub");
+
+    // ── 7. 驗證 Danger Tier 解耦 ─────────────────────────────────
+    // 在同一個金石府城 (jinshi) 區域內：
+    // 地表場域 (jinshi_surface) 為 Tier 1
+    // 地下場域 (jinshi_underground) 為 Tier 2
+    // 古陣大廳地點 (tianshu_south_ruins_hall) 為 Tier 3
+    // 證明 Tier 完全解耦自 Region，屬於 Zone/Site
+    mapping z_surface = reg_d->query_zone("jinshi_surface");
+    assert_equal(1, z_surface["danger_tier"], "地表城區為 Tier 1");
+    assert_equal(2, z_jinshi_ug["danger_tier"], "地下暗渠為 Tier 2");
+    assert_equal(3, s_ruins["danger_tier"], "古代殘廳為 Tier 3");
+
+    // ── 8. 驗證 Lazy Evaluation 與離散指數阻尼 (D_{n+1} = 0.9 * D_n) ───
     assert_equal(100, reg_d->query_region_price_index("zhongshi"), "初始物價指數應為基準 100%");
 
-    // 人為震盪：價格飆升至 180% (溢價 80%)
-    reg_d->adjust_region_price("zhongshi", 80);
-    assert_equal(180, reg_d->query_region_price_index("zhongshi"), "價格調整後應為 180%");
+    // 人為震盪：價格提高至 200% (偏離基準 100)
+    reg_d->adjust_region_price("zhongshi", 100);
+    assert_equal(200, reg_d->query_region_price_index("zhongshi"), "調整後價格應為 200%");
 
-    // 模擬時間推進 300 遊戲分鐘 (5 小時)：Lazy Evaluation 結算指數阻尼
-    mapping s_damped = reg_d->evaluate_region("zhongshi", reg_d->get_current_gtime() + 300);
-    int p_damped = s_damped["price_index"];
-    assert_true(p_damped < 180, "經過時間後物價指數必須衰減");
-    assert_true(p_damped > 100, "尚未完全回歸時物價指數仍應高於基準 100");
-    assert_true(p_damped >= 140 && p_damped <= 160, "300 分鐘後物價指數應阻尼在 140%~160% 區間 (實際: " + p_damped + "%)");
+    // 推進 60 遊戲分鐘 (1 週期)：D_1 = 100 * 0.9 = 90，物價應為 190
+    mapping s_step1 = reg_d->evaluate_region("zhongshi", reg_d->get_current_gtime() + 60);
+    assert_equal(190, s_step1["price_index"], "步進 1 (60分) 指數阻尼回歸應為 190%");
 
-    // 模擬時間推進 2000 遊戲分鐘：平滑完全回歸基準 100%
-    mapping s_final = reg_d->evaluate_region("zhongshi", reg_d->get_current_gtime() + 2000);
+    // 再推進 60 遊戲分鐘 (共 120 分鐘)：D_2 = 90 * 0.9 = 81，物價應為 181
+    mapping s_step2 = reg_d->evaluate_region("zhongshi", reg_d->get_current_gtime() + 120);
+    assert_equal(181, s_step2["price_index"], "步進 2 (120分) 指數阻尼回歸應為 181%");
+
+    // 推進 3000 遊戲分鐘：平滑完全回歸基準 100%
+    mapping s_final = reg_d->evaluate_region("zhongshi", reg_d->get_current_gtime() + 3000);
     assert_equal(100, s_final["price_index"], "經過充裕時間後價格應完全回歸 100% 基準");
 
     // 價格邊界鉗制 (50% ~ 300%)
@@ -120,7 +204,7 @@ void run_tests(object me) {
     assert_equal(50, reg_d->query_region_price_index("zhongshi"), "下限應嚴格鉗制在 50%");
     reg_d->evaluate_region("zhongshi", reg_d->get_current_gtime() + 3000); // 歸回 100%
 
-    // ── 5. 驗證離散物理狀態轉移模型 (災情不自動自癒) ──────────────────
+    // ── 9. 驗證離散物理狀態轉移模型 (災情不自動自癒) ──────────────────
     reg_d->set_region_crisis("zhongshi", "quarry_collapse", 1, ([
         "desc": "重石深井岩層斷裂塌方", "impact_pct": 30
     ]));
@@ -135,7 +219,26 @@ void run_tests(object me) {
     assert_equal(1, res_ok, "解決危機操作應回傳成功");
     assert_true(!mapp(reg_d->query_region_crisis("zhongshi", "quarry_collapse")), "解決後危機狀態應已被移除");
 
-    // ── 6. 驗證 WORLD_STATE_D 宏觀協調與分工 ─────────────────────────
+    // ── 10. 驗證動態持久化 Round-trip (save_region / restore_region) ──
+    reg_d->adjust_region_price("zhongshi", 25);
+    assert_equal(125, reg_d->query_region_price_index("zhongshi"), "調整價格為 125%");
+    int save_ok = reg_d->save_region("zhongshi");
+    assert_equal(1, save_ok, "save_region 應回傳成功");
+
+    // 模擬記憶體重設
+    reg_d->reset_regions();
+    assert_equal(100, reg_d->query_region_price_index("zhongshi"), "reset 後記憶體狀態恢復預設 100%");
+
+    // 從磁碟恢復持久化狀態
+    int restore_ok = reg_d->restore_region("zhongshi");
+    assert_equal(1, restore_ok, "restore_region 應回傳成功");
+    assert_equal(125, reg_d->query_region_price_index("zhongshi"), "持久化狀態成功恢復為 125%");
+
+    // 清理測試寫入之存檔
+    reg_d->remove_save_file("zhongshi");
+    reg_d->reset_regions();
+
+    // ── 11. 驗證 WORLD_STATE_D 宏觀協調中樞 ────────────────────────
     object ws = load_object(WORLD_STATE_D);
     assert_true(objectp(ws), "WORLD_STATE_D 必須成功載入");
 
@@ -147,7 +250,7 @@ void run_tests(object me) {
     assert_equal(120, m_timing["travel_time"], "黑石關驛道步行時間應為 120 分鐘");
     assert_equal(45, m_timing["info_delay"], "黑石關驛道情報延遲應為 45 分鐘");
 
-    // ── 7. 驗證太古九城文明依存圖與城市結構 ────────────────────────
+    // ── 12. 驗證太古九城文明依存圖與標準 Edge 語義 ────────────────────
     string graph_str = read_file(WORLD_DEPENDENCIES_DIR + "nine_cities_graph.json");
     assert_true(graph_str && graph_str != "", "nine_cities_graph.json 必須存在且非空");
 
@@ -156,7 +259,17 @@ void run_tests(object me) {
     assert_equal(9, sizeof(graph_data["nodes"]), "太古九城依存圖必須剛好有 9 個核心節點");
     assert_true(sizeof(graph_data["edges"]) >= 26, "太古九城依存圖應包含至少 26 條正典依存邊");
 
-    // 驗證 9 座城市靜態 JSON 定義檔全數存在
+    // 驗證 Edge 標準語義：relation, evidence, confidence, necessity
+    foreach (mapping edge in graph_data["edges"]) {
+        assert_true(stringp(edge["source"]), "Edge source 必須為字串");
+        assert_true(stringp(edge["target"]), "Edge target 必須為字串");
+        assert_true(stringp(edge["dependency_type"]), "Edge dependency_type 必須存在");
+        assert_true(stringp(edge["relation"]), "Edge relation 必須存在");
+        assert_true(stringp(edge["necessity"]), "Edge necessity 必須存在");
+        assert_true(stringp(edge["confidence"]), "Edge confidence 必須存在");
+    }
+
+    // ── 13. 驗證太古九城城市定義狀態解耦 (Section 10.3) ───────────────
     string *expected_cities = ({
         "tianshu", "xuanzhu", "qingming", "guanxing", "cangjing",
         "canglan", "baigong", "zhenyue", "guixu"
@@ -169,10 +282,16 @@ void run_tests(object me) {
         mixed c_def = json_decode(c_content);
         assert_true(mapp(c_def), "城市定義 " + c_id + " 應能正常解碼");
         assert_equal(c_id, c_def["id"], "城市 id 必須與檔名匹配");
+        assert_equal("1.1", c_def["schema_version"], "城市 " + c_id + " schema_version 應為 1.1");
+        assert_equal("RUINED", c_def["ancient_status"], "太古文明狀態應標記為 RUINED");
+        assert_true(stringp(c_def["remaining_structure_status"]), "殘留構造狀態必須定義");
+        assert_true(stringp(c_def["modern_manifestation"]), "現代顯化形式必須定義");
+        assert_true(stringp(c_def["access_status"]), "存取/探勘狀態必須定義");
+        assert_true(stringp(c_def["status"]), "既有 status 欄位必須保留以相容舊程式");
         assert_true(stringp(c_def["civilization_role"]), "城市 " + c_id + " 必須定義文明機能");
     }
 
-    // ── 8. 驗證巨集拓撲檔 (macro_topology.json) ──────────────────────
+    // ── 14. 驗證巨集拓撲檔 (macro_topology.json) ─────────────────────
     string topo_str = read_file(WORLD_TOPOLOGY_DIR + "macro_topology.json");
     assert_true(topo_str && topo_str != "", "macro_topology.json 必須存在");
     mixed topo_data = json_decode(topo_str);

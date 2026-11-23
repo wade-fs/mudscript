@@ -1,8 +1,15 @@
 {
+  "schema_version": "1.1",
   "region_id": "jinshi",
   "name": "金石府城",
   "civ_level": "prefecture",
+  "region_type": "MODERN_CITY",
   "coords": [0, 0, 100],
+  "geography": {
+    "position": null,
+    "coordinate_space": "LOCAL_GAME_SPACE",
+    "precision": "RELATIVE_COORDS"
+  },
   "resources": {
     "primary_product": "refined_metal",
     "secondary_product": "official_charter",
@@ -22,5 +29,7 @@
     { "zone_id": "jinshi_surface", "type": "city_center", "tier": 1 },
     { "zone_id": "jinshi_underground", "type": "subterranean_canal", "tier": 2 },
     { "zone_id": "tianshu_southern_core", "type": "ancient_array_core", "tier": 3 }
-  ]
+  ],
+  "confidence": "CONFIRMED",
+  "evidence": ["world/lore/nine_cities_canon.md", "narrative/docs/maps/world_map.md"]
 }

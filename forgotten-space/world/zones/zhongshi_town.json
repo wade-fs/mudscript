@@ -1,0 +1,20 @@
+{
+  "schema_version": "1.1",
+  "zone_id": "zhongshi_town",
+  "region_id": "zhongshi",
+  "name": "重石縣城",
+  "zone_type": "SETTLEMENT",
+  "danger_tier": 1,
+  "environment": {
+    "tags": ["SURFACE", "MOUNTAIN_TOWN"]
+  },
+  "site_refs": [],
+  "discovery_rules": {
+    "visibility": "PUBLIC"
+  },
+  "access_rules": {},
+  "survival_rules": {},
+  "status": "ACTIVE",
+  "evidence": ["narrative/docs/maps/world_map.md"],
+  "confidence": "CONFIRMED"
+}

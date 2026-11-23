@@ -1,0 +1,27 @@
+{
+  "schema_version": "1.1",
+  "site_id": "tianshu_south_ruins_hall",
+  "zone_id": "jinshi_underground",
+  "name": "天樞南域殘殿",
+  "site_type": "RUIN",
+  "danger_tier": 3,
+  "room_refs": [
+    "/d/city/under/ruins_hall.c"
+  ],
+  "discovery_rules": {
+    "required_knowledge": ["ancient_tianmen_script"],
+    "required_clues": ["storyteller_hint", "ancient_rubbing_fragment"],
+    "visibility": "HIDDEN"
+  },
+  "access_rules": {
+    "required_items": ["tianmen_token"],
+    "required_event_states": ["array_resonance_open"]
+  },
+  "survival_rules": {
+    "resistance_requirements": { "disha_turbidity": 65 },
+    "protection_requirements": ["disha_ward"]
+  },
+  "status": "ACTIVE",
+  "evidence": ["world/lore/nine_cities_canon.md", "narrative/docs/maps/underground_map.md"],
+  "confidence": "CONFIRMED"
+}

@@ -1,0 +1,22 @@
+{
+  "schema_version": "1.1",
+  "zone_id": "zhongshi_quarry",
+  "region_id": "zhongshi",
+  "name": "重石採石深井工坊",
+  "zone_type": "INDUSTRIAL",
+  "danger_tier": 2,
+  "environment": {
+    "tags": ["SUBTERRANEAN", "MINING_SHAFT", "ROCKFALL_RISK"]
+  },
+  "site_refs": ["zhongshi_deep_mine"],
+  "discovery_rules": {
+    "visibility": "PUBLIC"
+  },
+  "access_rules": {},
+  "survival_rules": {
+    "resistance_requirements": { "con": 15 }
+  },
+  "status": "ACTIVE",
+  "evidence": ["world/regions/zhongshi.json"],
+  "confidence": "CONFIRMED"
+}

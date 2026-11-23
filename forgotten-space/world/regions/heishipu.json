@@ -1,8 +1,15 @@
 {
+  "schema_version": "1.1",
   "region_id": "heishipu",
   "name": "黑石鋪",
   "civ_level": "village",
+  "region_type": "VILLAGE",
   "coords": [-120, -80, 20],
+  "geography": {
+    "position": null,
+    "coordinate_space": "LOCAL_GAME_SPACE",
+    "precision": "RELATIVE_COORDS"
+  },
   "resources": {
     "primary_product": "charcoal",
     "secondary_product": "beast_pelt",
@@ -21,5 +28,7 @@
   "zone_refs": [
     { "zone_id": "heishipu_village", "type": "settlement", "tier": 0 },
     { "zone_id": "heishipu_outskirts", "type": "wilderness", "tier": 1 }
-  ]
+  ],
+  "confidence": "CONFIRMED",
+  "evidence": ["world/lore/nine_cities_canon.md", "narrative/docs/maps/world_map.md"]
 }

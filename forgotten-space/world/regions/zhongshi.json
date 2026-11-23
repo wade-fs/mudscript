@@ -1,8 +1,15 @@
 {
+  "schema_version": "1.1",
   "region_id": "zhongshi",
   "name": "重石縣",
   "civ_level": "county",
+  "region_type": "COUNTY",
   "coords": [-240, -180, 50],
+  "geography": {
+    "position": null,
+    "coordinate_space": "LOCAL_GAME_SPACE",
+    "precision": "RELATIVE_COORDS"
+  },
   "resources": {
     "primary_product": "raw_iron",
     "secondary_product": "heavy_stone",
@@ -19,7 +26,9 @@
     { "id": "miner_wage_strike", "base_weight": 15, "trigger_metric": "guild_greed" }
   ],
   "zone_refs": [
-    { "zone_id": "zhongshi_town", "type": "settlement" },
-    { "zone_id": "zhongshi_quarry", "type": "industrial" }
-  ]
+    { "zone_id": "zhongshi_town", "type": "settlement", "tier": 1 },
+    { "zone_id": "zhongshi_quarry", "type": "industrial", "tier": 2 }
+  ],
+  "confidence": "CONFIRMED",
+  "evidence": ["world/lore/nine_cities_canon.md", "narrative/docs/maps/world_map.md"]
 }

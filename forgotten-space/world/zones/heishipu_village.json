@@ -1,0 +1,20 @@
+{
+  "schema_version": "1.1",
+  "zone_id": "heishipu_village",
+  "region_id": "heishipu",
+  "name": "黑石鋪村落",
+  "zone_type": "SETTLEMENT",
+  "danger_tier": 0,
+  "environment": {
+    "tags": ["SURFACE", "PEACEFUL_VILLAGE"]
+  },
+  "site_refs": [],
+  "discovery_rules": {
+    "visibility": "PUBLIC"
+  },
+  "access_rules": {},
+  "survival_rules": {},
+  "status": "ACTIVE",
+  "evidence": ["narrative/docs/maps/world_map.md"],
+  "confidence": "CONFIRMED"
+}

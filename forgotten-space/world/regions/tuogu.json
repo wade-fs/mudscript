@@ -1,8 +1,15 @@
 {
+  "schema_version": "1.1",
   "region_id": "tuogu",
   "name": "拓荒縣",
   "civ_level": "county",
+  "region_type": "COUNTY",
   "coords": [220, -200, 40],
+  "geography": {
+    "position": null,
+    "coordinate_space": "LOCAL_GAME_SPACE",
+    "precision": "RELATIVE_COORDS"
+  },
   "resources": {
     "primary_product": "pioneer_reagents",
     "secondary_product": "coarse_salt",
@@ -19,7 +26,9 @@
     { "id": "supply_caravan_raid", "base_weight": 15, "trigger_metric": "banditry" }
   ],
   "zone_refs": [
-    { "zone_id": "tuogu_town", "type": "settlement" },
-    { "zone_id": "tuogu_frontier", "type": "outpost" }
-  ]
+    { "zone_id": "tuogu_town", "type": "settlement", "tier": 1 },
+    { "zone_id": "tuogu_frontier", "type": "outpost", "tier": 2 }
+  ],
+  "confidence": "CONFIRMED",
+  "evidence": ["world/lore/nine_cities_canon.md", "narrative/docs/maps/world_map.md"]
 }

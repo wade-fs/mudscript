@@ -1,8 +1,15 @@
 {
+  "schema_version": "1.1",
   "region_id": "panmu",
   "name": "盤木縣",
   "civ_level": "county",
+  "region_type": "COUNTY",
   "coords": [260, 140, 60],
+  "geography": {
+    "position": null,
+    "coordinate_space": "LOCAL_GAME_SPACE",
+    "precision": "RELATIVE_COORDS"
+  },
   "resources": {
     "primary_product": "stout_timber",
     "secondary_product": "carriage_spokes",
@@ -19,7 +26,9 @@
     { "id": "tool_shortage", "base_weight": 15, "trigger_metric": "iron_deficit" }
   ],
   "zone_refs": [
-    { "zone_id": "panmu_town", "type": "settlement" },
-    { "zone_id": "panmu_mill", "type": "mill" }
-  ]
+    { "zone_id": "panmu_town", "type": "settlement", "tier": 1 },
+    { "zone_id": "panmu_mill", "type": "mill", "tier": 1 }
+  ],
+  "confidence": "CONFIRMED",
+  "evidence": ["world/lore/nine_cities_canon.md", "narrative/docs/maps/world_map.md"]
 }

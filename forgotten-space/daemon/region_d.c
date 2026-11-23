@@ -1,10 +1,13 @@
 // daemon/region_d.c
-// 《遺忘的世界》(THE FORGOTTEN SPACE) 宏觀區域模擬與惰性求值守護進程 (Region Daemon)
+// 《遺忘的世界》(THE FORGOTTEN SPACE) 宏觀區域、場域與遺跡模擬守護進程 (Region Daemon)
+// 正典依據：/world/lore/nine_cities_canon.md
+// 空間架構：/world/specifications/spatial_schema.md (v1.1)
 // 職責：
-// 1. 管理單一 Region 內部數值模擬與動態狀態
-// 2. 實裝 Lazy Evaluation 時間戳差額補償演算法
-// 3. 實裝指數阻尼自然回歸 (Continuous) 與離散狀態轉移 (Discrete) 雙軌模型
+// 1. 管理單一 Region / Zone / Site 之定義與層級關聯
+// 2. 實裝 Lazy Evaluation 時間戳差額補償演算法 (D_{n+1} = 0.9 D_n)
+// 3. 實裝指數阻尼自然回歸 (Continuous) 與離散狀態轉移 (Discrete) 雙軌自癒模型
 // 4. 管理本地資源庫存 (reserves)、市場價格 (price_index) 與勢力/危機牌組
+// 5. 實裝分區動態持久化 (save_region / restore_region) 與重啟時間差補償
 
 #include "/include/ansi.h"
 #include "/include/globals.h"
@@ -14,24 +17,45 @@ inherit "/std/object.c";
 
 // 靜態定義池 (唯讀，不進存檔)
 nosave mapping region_defs;
+nosave mapping zone_defs;
+nosave mapping site_defs;
 
 // 動態區域狀態表：region_id -> mapping
 // 包含: reserves, price_index, last_eval_time, factions, active_crises
 mapping region_states;
 
 void load_regions();
+void load_zones();
+void load_sites();
+int save_region(string region_id);
+int restore_region(string region_id);
+int restore_all_regions();
 int get_current_gtime();
 
 string query_save_file(string rid) {
-    return DATA_REGIONS_DIR + rid;
+    return DATA_REGIONS_DIR + rid + ".json";
 }
 
 void create() {
     ::create();
     region_defs = ([]);
+    zone_defs = ([]);
+    site_defs = ([]);
     region_states = ([]);
 
     load_regions();
+    load_zones();
+    load_sites();
+
+    restore_all_regions();
+
+    // 伺服器重啟或載入後，對各區域進行時間差補算
+    int now_gt = get_current_gtime();
+    foreach (string rid, mapping st in region_states) {
+        if (st && st["last_eval_time"] > 0 && now_gt > st["last_eval_time"]) {
+            evaluate_region(rid, now_gt);
+        }
+    }
 }
 
 // 取得當前世界遊戲時間 (分鐘)
@@ -65,8 +89,8 @@ void load_regions() {
         string content = read_file(path);
         if (content && content != "") {
             mixed def = json_decode(content);
-            if (mapp(def) && def["region_id"]) {
-                string rid = def["region_id"];
+            if (mapp(def) && (def["region_id"] || def["id"])) {
+                string rid = def["region_id"] ? def["region_id"] : def["id"];
                 region_defs[rid] = def;
 
                 if (!region_states[rid]) {
@@ -85,8 +109,42 @@ void load_regions() {
     }
 }
 
+// 載入靜態場域 (Zone) 設定
+void load_zones() {
+    string *files = get_dir(WORLD_ZONES_DIR + "*.json");
+    if (!files || !sizeof(files)) return;
+
+    foreach (string f in files) {
+        string path = WORLD_ZONES_DIR + f;
+        string content = read_file(path);
+        if (content && content != "") {
+            mixed def = json_decode(content);
+            if (mapp(def) && def["zone_id"]) {
+                zone_defs[def["zone_id"]] = def;
+            }
+        }
+    }
+}
+
+// 載入靜態遺跡與設施 (Site) 設定
+void load_sites() {
+    string *files = get_dir(WORLD_SITES_DIR + "*.json");
+    if (!files || !sizeof(files)) return;
+
+    foreach (string f in files) {
+        string path = WORLD_SITES_DIR + f;
+        string content = read_file(path);
+        if (content && content != "") {
+            mixed def = json_decode(content);
+            if (mapp(def) && def["site_id"]) {
+                site_defs[def["site_id"]] = def;
+            }
+        }
+    }
+}
+
 // 惰性求值演算法 (Lazy Evaluation Engine)
-// 只有在被查詢、事件觸發或玩家進入時，才計算經過時間的差額補償
+// 依時間戳差額結算連續指數阻尼回歸 (D_{n+1} = 0.9 * D_n)，離散狀態保持不變
 mapping evaluate_region(string region_id, int current_gtime) {
     if (!region_states || !mapp(region_states[region_id])) {
         if (region_defs && mapp(region_defs[region_id])) {
@@ -108,14 +166,12 @@ mapping evaluate_region(string region_id, int current_gtime) {
         return state; // 無時間差，直接回傳
     }
 
-    // ── 1. 連續數值：指數阻尼自然回歸 (Exponential Damping) ──
-    // 價格隨時間流逝，平滑回歸基準值 100%
+    // ── 1. 連續數值：指數阻尼自然回歸 (D_{n+1} = 0.9 * D_n) ──
     int cur_price = state["price_index"];
     int diff = cur_price - PRICE_INDEX_BASE;
     if (diff != 0) {
-        // 每 60 遊戲分鐘衰減約 10% (衰減因子 0.90)
-        int steps = delta_t / 60;
-        if (steps > 50) steps = 50; // 防禦上限
+        int steps = delta_t / 60; // 每 60 遊戲分鐘為一個步進衰減週期
+        if (steps > 50) steps = 50; // 防禦邊界
 
         for (int i = 0; i < steps && diff != 0; i++) {
             diff = (diff * 9) / 10;
@@ -129,9 +185,7 @@ mapping evaluate_region(string region_id, int current_gtime) {
     }
 
     // ── 2. 離散物理災情：狀態轉移模型 (State Transition Model) ──
-    // 塌方的礦道、封鎖的道路絕對不會因時間流逝自動自癒！
-    // 必須透過 resolve_region_crisis() 方能解除。
-    // （此處維持 active_crises 完整不變）
+    // 崩塌、阻斷、故障危機絕不隨時間自癒，保持原樣直至具體行動修復
 
     state["last_eval_time"] = current_gtime;
     return state;
@@ -146,6 +200,54 @@ mapping query_region_def(string region_id) {
 // 查詢所有已註冊區域
 mapping query_all_regions() {
     return copy(region_defs);
+}
+
+// 查詢單一 Zone 定義
+mapping query_zone(string zone_id) {
+    if (!zone_defs || !mapp(zone_defs[zone_id])) return 0;
+    return copy(zone_defs[zone_id]);
+}
+
+// 查詢所有 Zone 定義
+mapping query_all_zones() {
+    return copy(zone_defs);
+}
+
+// 查詢單一 Site 定義
+mapping query_site(string site_id) {
+    if (!site_defs || !mapp(site_defs[site_id])) return 0;
+    return copy(site_defs[site_id]);
+}
+
+// 查詢所有 Site 定義
+mapping query_all_sites() {
+    return copy(site_defs);
+}
+
+// 查詢特定區域所屬之所有 Zone IDs
+string *query_zones_by_region(string region_id) {
+    string *res = ({});
+    if (!zone_defs) return res;
+
+    foreach (string zid, mapping zdata in zone_defs) {
+        if (zdata["region_id"] == region_id) {
+            res += ({ zid });
+        }
+    }
+    return res;
+}
+
+// 查詢特定 Zone 所屬之所有 Site IDs
+string *query_sites_by_zone(string zone_id) {
+    string *res = ({});
+    if (!site_defs) return res;
+
+    foreach (string sid, mapping sdata in site_defs) {
+        if (sdata["zone_id"] == zone_id) {
+            res += ({ sid });
+        }
+    }
+    return res;
 }
 
 // 查詢區域即時動態狀態
@@ -172,6 +274,7 @@ int adjust_region_price(string region_id, int delta_pct) {
     if (new_p < PRICE_INDEX_MIN) new_p = PRICE_INDEX_MIN;
     if (new_p > PRICE_INDEX_MAX) new_p = PRICE_INDEX_MAX;
     state["price_index"] = new_p;
+    save_region(region_id);
     return new_p;
 }
 
@@ -194,6 +297,7 @@ int adjust_region_reserves(string region_id, string resource_id, int delta) {
     int after = cur + delta;
     if (after < 0) after = 0;
     state["reserves"][resource_id] = after;
+    save_region(region_id);
     return after;
 }
 
@@ -220,6 +324,7 @@ int set_region_crisis(string region_id, string crisis_id, int active, mapping de
     } else {
         map_delete(state["active_crises"], crisis_id);
     }
+    save_region(region_id);
     return 1;
 }
 
@@ -229,36 +334,81 @@ int resolve_region_crisis(string region_id, string crisis_id, string action_take
     mapping state = evaluate_region(region_id, now_gt);
     if (!state || !mapp(state["active_crises"])) return 0;
 
-    if (!state["active_crises"][crisis_id]) return 0; // 原本未發生
+    if (!state["active_crises"][crisis_id]) return 0;
 
     map_delete(state["active_crises"], crisis_id);
 
-    // 危機解除後，價格指數開始朝基準回穩 (立即消除額外惡性溢價)
+    // 危機解除後，價格指數立即消除額外惡性溢價
     if (state["price_index"] > PRICE_INDEX_BASE) {
         state["price_index"] = PRICE_INDEX_BASE + (state["price_index"] - PRICE_INDEX_BASE) / 2;
     }
+    save_region(region_id);
     return 1;
 }
 
-// 保存區域持久化狀態
+// 保存個別區域動態持久化狀態
 int save_region(string region_id) {
     if (!region_states || !mapp(region_states[region_id])) return 0;
-    // 將該區狀態存入對應檔案
+
     string file = query_save_file(region_id);
-    // 注意：mudscript 的 save_object 寫入整體的全域變數，因此此處記錄分區存檔
-    if (!getenv("MUD_TEST_MODE")) {
-        // 分區持久化
+    string payload = json_encode(region_states[region_id]);
+    return write_file(file, payload, 1);
+}
+
+// 恢復個別區域動態持久化狀態
+int restore_region(string region_id) {
+    string file = query_save_file(region_id);
+    if (file_size(file) <= 0) return 0;
+
+    string content = read_file(file);
+    if (!content || content == "") return 0;
+
+    mixed data = json_decode(content);
+    if (!mapp(data)) return 0;
+
+    if (!region_states) region_states = ([]);
+    region_states[region_id] = data;
+    return 1;
+}
+
+// 刪除個別區域動態持久化狀態存檔 (供重置與測試清理)
+int remove_save_file(string region_id) {
+    string file = query_save_file(region_id);
+    if (file_size(file) >= 0) {
+        return rm(file);
     }
     return 1;
 }
 
-// 恢復區域狀態
-int restore_region(string region_id) {
-    return 1;
+// 保存全部區域
+int save_all_regions() {
+    int cnt = 0;
+    foreach (string rid, mapping st in region_states) {
+        if (save_region(rid)) cnt++;
+    }
+    return cnt;
+}
+
+// 恢復全部區域
+int restore_all_regions() {
+    int cnt = 0;
+    string *files = get_dir(DATA_REGIONS_DIR + "*.json");
+    if (!files || !sizeof(files)) return 0;
+
+    foreach (string f in files) {
+        int dot = strsrch(f, ".json");
+        if (dot != -1) {
+            string rid = substr(f, 0, dot);
+            if (restore_region(rid)) cnt++;
+        }
+    }
+    return cnt;
 }
 
 // 重設所有區域 (供測試隔離)
 void reset_regions() {
     region_states = ([]);
     load_regions();
+    load_zones();
+    load_sites();
 }

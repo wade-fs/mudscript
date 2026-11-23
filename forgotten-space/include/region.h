@@ -61,17 +61,36 @@
 #define DEP_IMPORTANT               "important"    // 對完整能力十分重要
 #define DEP_SUPPORTING              "supporting"   // 提供額外支援
 
+#define SCHEMA_VERSION_1_1          "1.1"
+
+// ── 實體交通路線狀態 (Route Statuses - Section 8.5) ───────────
+#define ROUTE_STATUS_OPEN           "OPEN"         // 暢通開放
+#define ROUTE_STATUS_RESTRICTED     "RESTRICTED"   // 盤查管制 (需路引或排隊)
+#define ROUTE_STATUS_BLOCKED        "BLOCKED"      // 封閉阻斷 (塌方、軍管)
+#define ROUTE_STATUS_DESTROYED      "DESTROYED"    // 道路徹底毀損
+#define ROUTE_STATUS_SEALED         "SEALED"       // 太古禁制封印
+#define ROUTE_STATUS_UNKNOWN        "UNKNOWN"      // 未知狀態
+
+// ── 實體交通路線方向性 (Route Directionality - Section 8.3) ───
+#define ROUTE_DIR_BIDIRECTIONAL     "BIDIRECTIONAL" // 雙向通行
+#define ROUTE_DIR_FORWARD_ONLY      "FORWARD_ONLY"  // 僅順向通行 (如順流漂舟)
+#define ROUTE_DIR_BACKWARD_ONLY     "BACKWARD_ONLY" // 僅逆向通行
+
 // ── 核心守護進程與靜態/動態路徑 (System Daemons & Paths) ──────
 #define REGION_D                    "/daemon/region_d.c"
 #define ROUTE_D                     "/daemon/route_d.c"
 
 #define WORLD_REGIONS_DIR           "/world/regions/"
+#define WORLD_ZONES_DIR             "/world/zones/"
+#define WORLD_SITES_DIR             "/world/sites/"
 #define WORLD_ROUTES_DIR            "/world/routes/"
 #define WORLD_CITIES_DIR            "/world/cities/"
 #define WORLD_DEPENDENCIES_DIR      "/world/dependencies/"
 #define WORLD_TOPOLOGY_DIR          "/world/topology/"
 
 #define DATA_REGIONS_DIR            "/data/regions/"
+#define DATA_ZONES_DIR              "/data/zones/"
+#define DATA_SITES_DIR              "/data/sites/"
 #define DATA_ROUTES_DIR             "/data/routes/"
 
 #endif // REGION_H

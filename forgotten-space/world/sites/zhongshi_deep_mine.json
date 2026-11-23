@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.1",
+  "site_id": "zhongshi_deep_mine",
+  "zone_id": "zhongshi_quarry",
+  "name": "重石深井岩層採區",
+  "site_type": "MINE_SHAFT",
+  "danger_tier": 2,
+  "room_refs": [
+    "/d/counties/zhongshi/quarry.c"
+  ],
+  "discovery_rules": {
+    "visibility": "PUBLIC"
+  },
+  "access_rules": {},
+  "survival_rules": {
+    "environmental_constraints": ["rockfall_hazard"]
+  },
+  "status": "ACTIVE",
+  "evidence": ["world/regions/zhongshi.json"],
+  "confidence": "CONFIRMED"
+}

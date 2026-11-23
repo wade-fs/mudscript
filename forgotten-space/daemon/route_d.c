@@ -1,9 +1,12 @@
 // daemon/route_d.c
 // 《遺忘的世界》(THE FORGOTTEN SPACE) 跨區道路交通與雙軌因果傳播守護進程 (Route Daemon)
+// 正典依據：/world/lore/nine_cities_canon.md
+// 空間架構：/world/specifications/spatial_schema.md (v1.1)
 // 職責：
 // 1. 管理道路路網拓撲、交通時間、關卡路引檢驗、貨流容量、通阻狀態
 // 2. 嚴格分離「實體交通物流 (transport)」與「因果資訊傳播 (propagation)」
-// 3. 載入 /world/routes/*.json 靜態定義，動態維護通阻與氣候事件波及
+// 3. 支援雙向性 (directionality) 與統一路線狀態 (OPEN, RESTRICTED, BLOCKED, DESTROYED, SEALED)
+// 4. 載入 /world/routes/*.json 靜態定義，動態維護通阻與氣候事件波及
 
 #include "/include/ansi.h"
 #include "/include/globals.h"
@@ -14,7 +17,7 @@ inherit "/std/object.c";
 // 靜態路由定義池 (nosave: 唯讀定義，不寫入存檔)
 nosave mapping routes_def;
 
-// 動態道路狀態：route_id -> ([ "blocked": 0/1, "reason": "...", "traffic_load": int, "modifier": int ])
+// 動態道路狀態：route_id -> ([ "status": string, "blocked": 0/1, "reason": string, "traffic_load": int, "modifier": int ])
 mapping route_states;
 
 void load_routes();
@@ -39,7 +42,6 @@ void create() {
 void load_routes() {
     string *files = get_dir(WORLD_ROUTES_DIR + "*.json");
     if (!files || !sizeof(files)) {
-        // 保底清單
         files = ({
             "zhongshi_to_jinshi.json",
             "heishipu_to_jinshi.json",
@@ -77,34 +79,62 @@ mapping query_all_routes() {
     return copy(routes_def);
 }
 
-// 查詢道路是否受阻
+// 查詢路線方向性 (BIDIRECTIONAL, FORWARD_ONLY, BACKWARD_ONLY)
+string query_directionality(string route_id) {
+    if (!routes_def || !mapp(routes_def[route_id])) return ROUTE_DIR_BIDIRECTIONAL;
+    return routes_def[route_id]["directionality"] ? routes_def[route_id]["directionality"] : ROUTE_DIR_BIDIRECTIONAL;
+}
+
+// 查詢路線統一狀態 (OPEN, RESTRICTED, BLOCKED, DESTROYED, SEALED, UNKNOWN)
+string query_route_status(string route_id) {
+    if (!route_states || !mapp(route_states[route_id])) {
+        if (routes_def && mapp(routes_def[route_id]) && routes_def[route_id]["status"]) {
+            return routes_def[route_id]["status"];
+        }
+        return ROUTE_STATUS_OPEN;
+    }
+    if (route_states[route_id]["status"]) return route_states[route_id]["status"];
+    return route_states[route_id]["blocked"] ? ROUTE_STATUS_BLOCKED : ROUTE_STATUS_OPEN;
+}
+
+// 查詢道路是否受阻 (相容介面)
 int is_route_blocked(string route_id) {
-    if (!route_states || !mapp(route_states[route_id])) return 0;
-    return route_states[route_id]["blocked"] ? 1 : 0;
+    string st = query_route_status(route_id);
+    return (st == ROUTE_STATUS_BLOCKED || st == ROUTE_STATUS_DESTROYED || st == ROUTE_STATUS_SEALED);
 }
 
 // 查詢受阻原因
 string query_route_block_reason(string route_id) {
     if (!is_route_blocked(route_id)) return "";
-    return route_states[route_id]["reason"] ? route_states[route_id]["reason"] : "道路中斷受阻";
+    if (route_states && mapp(route_states[route_id]) && route_states[route_id]["reason"]) {
+        return route_states[route_id]["reason"];
+    }
+    return "道路中斷受阻";
 }
 
-// 設定道路通阻狀態 (離散狀態轉移)
-int set_route_blocked(string route_id, int blocked, string reason) {
+// 設定統一路線狀態 (離散狀態轉移)
+int set_route_status(string route_id, string status, string reason) {
     if (!routes_def || !mapp(routes_def[route_id])) return 0;
 
     if (!route_states) route_states = ([]);
     if (!mapp(route_states[route_id])) {
-        route_states[route_id] = ([ "blocked": 0, "reason": "", "traffic_load": 0, "modifier": 0 ]);
+        route_states[route_id] = ([ "status": ROUTE_STATUS_OPEN, "blocked": 0, "reason": "", "traffic_load": 0, "modifier": 0 ]);
     }
 
-    route_states[route_id]["blocked"] = blocked ? 1 : 0;
-    route_states[route_id]["reason"] = reason ? reason : (blocked ? "封關阻滯" : "通行正常");
+    route_states[route_id]["status"] = status ? status : ROUTE_STATUS_OPEN;
+    int is_blk = (status == ROUTE_STATUS_BLOCKED || status == ROUTE_STATUS_DESTROYED || status == ROUTE_STATUS_SEALED);
+    route_states[route_id]["blocked"] = is_blk;
+    route_states[route_id]["reason"] = reason ? reason : (is_blk ? "通道封阻" : "通行正常");
 
     if (!getenv("MUD_TEST_MODE")) {
         save_object(query_save_file());
     }
     return 1;
+}
+
+// 設定道路通阻狀態 (相容介面)
+int set_route_blocked(string route_id, int blocked, string reason) {
+    return set_route_status(route_id, blocked ? ROUTE_STATUS_BLOCKED : ROUTE_STATUS_OPEN, reason);
 }
 
 // 查詢實體行旅耗時 (分鐘)
@@ -167,7 +197,6 @@ int query_attenuation_pct(string route_id) {
         if (att <= 1) return att * 100;
         return att;
     }
-    // 預設 85%
     return 85;
 }
 
@@ -178,6 +207,8 @@ string *query_routes_from(string region_id) {
 
     foreach (string rid, mapping rdata in routes_def) {
         if (rdata["from"] == region_id) {
+            res += ({ rid });
+        } else if (rdata["to"] == region_id && query_directionality(rid) == ROUTE_DIR_BIDIRECTIONAL) {
             res += ({ rid });
         }
     }
@@ -192,9 +223,32 @@ string *query_routes_to(string region_id) {
     foreach (string rid, mapping rdata in routes_def) {
         if (rdata["to"] == region_id) {
             res += ({ rid });
+        } else if (rdata["from"] == region_id && query_directionality(rid) == ROUTE_DIR_BIDIRECTIONAL) {
+            res += ({ rid });
         }
     }
     return res;
+}
+
+// 查詢兩區域間之直接連通路線
+string query_route_between(string from_reg, string to_reg) {
+    if (!routes_def) return 0;
+    foreach (string rid, mapping rdata in routes_def) {
+        if (rdata["from"] == from_reg && rdata["to"] == to_reg) return rid;
+        if (rdata["from"] == to_reg && rdata["to"] == from_reg && query_directionality(rid) == ROUTE_DIR_BIDIRECTIONAL) {
+            return rid;
+        }
+    }
+    return 0;
+}
+
+// 保存個別路線狀態
+int save_route(string route_id) {
+    if (!route_states || !mapp(route_states[route_id])) return 0;
+    if (!getenv("MUD_TEST_MODE")) {
+        save_object(query_save_file());
+    }
+    return 1;
 }
 
 // 重設道路狀態 (供測試隔離)

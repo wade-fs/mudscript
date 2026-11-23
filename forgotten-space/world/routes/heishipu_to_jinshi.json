@@ -1,9 +1,14 @@
 {
+  "schema_version": "1.1",
   "route_id": "heishipu_to_jinshi",
   "name": "黑石關驛道",
   "from": "heishipu",
   "to": "jinshi",
   "type": "road",
+  "directionality": "BIDIRECTIONAL",
+  "status": "OPEN",
+  "confidence": "CONFIRMED",
+  "evidence": ["narrative/docs/maps/world_map.md"],
   "transport": {
     "distance": 140,
     "travel_time_minutes": 120,

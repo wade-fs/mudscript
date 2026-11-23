@@ -1,9 +1,14 @@
 {
+  "schema_version": "1.1",
   "route_id": "zhenfeng_to_jinshi",
   "name": "北塞鎮風古隘道",
   "from": "zhenfeng",
   "to": "jinshi",
   "type": "pass",
+  "directionality": "BIDIRECTIONAL",
+  "status": "OPEN",
+  "confidence": "CONFIRMED",
+  "evidence": ["narrative/docs/maps/world_map.md"],
   "transport": {
     "distance": 310,
     "travel_time_minutes": 240,

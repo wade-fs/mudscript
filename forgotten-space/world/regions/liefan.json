@@ -1,8 +1,15 @@
 {
+  "schema_version": "1.1",
   "region_id": "liefan",
   "name": "烈礬縣",
   "civ_level": "county",
+  "region_type": "COUNTY",
   "coords": [-180, 220, 80],
+  "geography": {
+    "position": null,
+    "coordinate_space": "LOCAL_GAME_SPACE",
+    "precision": "RELATIVE_COORDS"
+  },
   "resources": {
     "primary_product": "alum_mineral",
     "secondary_product": "red_copper",
@@ -19,7 +26,9 @@
     { "id": "charcoal_shortage", "base_weight": 25, "trigger_metric": "fuel_deficit" }
   ],
   "zone_refs": [
-    { "zone_id": "liefan_town", "type": "settlement" },
-    { "zone_id": "liefan_kilns", "type": "industrial" }
-  ]
+    { "zone_id": "liefan_town", "type": "settlement", "tier": 1 },
+    { "zone_id": "liefan_kilns", "type": "industrial", "tier": 2 }
+  ],
+  "confidence": "CONFIRMED",
+  "evidence": ["world/lore/nine_cities_canon.md", "narrative/docs/maps/world_map.md"]
 }

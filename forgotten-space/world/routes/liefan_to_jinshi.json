@@ -1,9 +1,14 @@
 {
+  "schema_version": "1.1",
   "route_id": "liefan_to_jinshi",
   "name": "烈礬赤銅大官道",
   "from": "liefan",
   "to": "jinshi",
   "type": "road",
+  "directionality": "BIDIRECTIONAL",
+  "status": "OPEN",
+  "confidence": "CONFIRMED",
+  "evidence": ["narrative/docs/maps/world_map.md"],
   "transport": {
     "distance": 260,
     "travel_time_minutes": 200,

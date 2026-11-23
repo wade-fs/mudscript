@@ -1,8 +1,15 @@
 {
+  "schema_version": "1.1",
   "region_id": "zhenfeng",
   "name": "鎮風縣",
   "civ_level": "county",
+  "region_type": "COUNTY",
   "coords": [0, 310, 150],
+  "geography": {
+    "position": null,
+    "coordinate_space": "LOCAL_GAME_SPACE",
+    "precision": "RELATIVE_COORDS"
+  },
   "resources": {
     "primary_product": "fur_cloak",
     "secondary_product": "beast_bone_relic",
@@ -19,7 +26,9 @@
     { "id": "border_beast_incursion", "base_weight": 20, "trigger_metric": "border_alert" }
   ],
   "zone_refs": [
-    { "zone_id": "zhenfeng_town", "type": "settlement" },
-    { "zone_id": "zhenfeng_pass", "type": "fortress" }
-  ]
+    { "zone_id": "zhenfeng_town", "type": "settlement", "tier": 1 },
+    { "zone_id": "zhenfeng_pass", "type": "fortress", "tier": 2 }
+  ],
+  "confidence": "CONFIRMED",
+  "evidence": ["world/lore/nine_cities_canon.md", "narrative/docs/maps/world_map.md"]
 }

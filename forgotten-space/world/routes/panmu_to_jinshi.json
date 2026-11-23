@@ -1,9 +1,14 @@
 {
+  "schema_version": "1.1",
   "route_id": "panmu_to_jinshi",
   "name": "盤木林間木道",
   "from": "panmu",
   "to": "jinshi",
   "type": "road",
+  "directionality": "BIDIRECTIONAL",
+  "status": "OPEN",
+  "confidence": "CONFIRMED",
+  "evidence": ["narrative/docs/maps/world_map.md"],
   "transport": {
     "distance": 250,
     "travel_time_minutes": 180,
