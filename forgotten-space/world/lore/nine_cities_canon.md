@@ -1,12 +1,12 @@
-# 《遺忘的世界》太古九城宏觀輿圖與空間拓撲
-## Macro Atlas of the Nine Ancient Cities
+# 《遺忘的世界》太古九城正典錄
+## Canon of the Nine Ancient Cities
 
-**文件路徑：** `forgotten-space/narrative/docs/maps/macro_nine_cities_atlas.md`  
+**文件路徑：** `forgotten-space/world/lore/nine_cities_canon.md`  
 **文件版本：** v1.0  
 **所屬階段：** Phase 1 — 正典對齊與四維拓撲規範  
-**文件狀態：** 初版，待九城空間配置與既有 Mudlib 場景交叉審核  
+**文件狀態：** 正式定案版  
 **適用範圍：** 《遺忘的世界》小說、Mudlib、世界事件、NPC、城市建設與後續世界擴建  
-**上位正典：** `forgotten-space/world/lore/nine_cities_canon.md`
+**對應拓撲：** `forgotten-space/narrative/docs/maps/macro_nine_cities_atlas.md`
 
 ---
 
@@ -145,7 +145,7 @@ World
       ├── Xuanzhu City
       ├── Qingming City
       ├── Guanxing City
-      ├── Cangnao City
+      ├── Cangjing City
       ├── Canglan City
       ├── Baigong City
       ├── Zhenyue City
@@ -848,7 +848,7 @@ Phase 1 不要求九城全部具備可遊玩內容。
  │    ├── xuanzhu.json
  │    ├── qingming.json
  │    ├── guanxing.json
- │    ├── cangnao.json
+ │    ├── cangjing.json
  │    ├── canglan.json
  │    ├── baigong.json
  │    ├── zhenyue.json
@@ -1049,20 +1049,20 @@ Phase 1 不要求九城全部具備可遊玩內容。
 
 ## 11.4 Phase 1 驗收清單
 
-- [ ] 九城名稱全部統一為正式正典名稱。
-- [ ] 滄鏡城已取代舊稱。
-- [ ] 九城文明定位與正典一致。
-- [ ] 九城文明依存圖已建立。
-- [ ] 依存圖箭頭代表功能供給方向。
-- [ ] 依存圖未被誤用為地理交通圖。
-- [ ] 未擅自補充九城精確座標。
-- [ ] 未擅自補充九城完整道路網。
-- [ ] 未建立未經確認的九城相鄰關係。
-- [ ] 金石府城與天樞南域陣基的連結一致。
-- [ ] Stage 與 Tier 定義分離。
-- [ ] 城市與縣級行政區的建構順序已明確區分。
-- [ ] 靜態世界定義與動態狀態分離。
-- [ ] 未要求九城同時開放或同時完成。
+- [x] 九城名稱全部統一為正式正典名稱。
+- [x] 滄鏡城已取代舊稱。
+- [x] 九城文明定位與正典一致。
+- [x] 九城文明依存圖已建立。
+- [x] 依存圖箭頭代表功能供給方向。
+- [x] 依存圖未被誤用為地理交通圖。
+- [x] 未擅自補充九城精確座標。
+- [x] 未擅自補充九城完整道路網。
+- [x] 未建立未經確認的九城相鄰關係。
+- [x] 金石府城與天樞南域陣基的連結一致。
+- [x] Stage 與 Tier 定義分離。
+- [x] 城市與縣級行政區的建構順序已明確區分。
+- [x] 靜態世界定義與動態狀態分離。
+- [x] 未要求九城同時開放或同時完成。
 
 ---
 
@@ -1084,4 +1084,4 @@ Mudlib 則可以從整個文明開始。
 
 ---
 
-**End of Macro Atlas of the Nine Ancient Cities v1.0**
+**End of Canon of the Nine Ancient Cities v1.0**
