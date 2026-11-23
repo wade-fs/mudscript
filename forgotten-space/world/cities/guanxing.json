@@ -1,0 +1,14 @@
+{
+  "id": "guanxing",
+  "name": "觀星城",
+  "aliases": ["天象星台", "仰觀之巔"],
+  "civilization_role": "天象觀測與異常預警",
+  "spatial_type": "mountain_observatory_peak",
+  "status": "hermit_observatory",
+  "known_by": ["astronomers", "diviners", "taiqing_sect"],
+  "evidence": "world/lore/nine_cities_canon.md",
+  "confidence": "CONFIRMED",
+  "zones": ["star_dial_terrace", "astronomical_archives", "celestial_lens"],
+  "dependencies": ["tianshu", "zhenyue", "qingming", "cangjing"],
+  "topology": ["northern_high_peaks"]
+}

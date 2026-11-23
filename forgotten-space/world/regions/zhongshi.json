@@ -1,0 +1,25 @@
+{
+  "region_id": "zhongshi",
+  "name": "重石縣",
+  "civ_level": "county",
+  "coords": [-240, -180, 50],
+  "resources": {
+    "primary_product": "raw_iron",
+    "secondary_product": "heavy_stone",
+    "demand": ["grain", "herbal_medicine"],
+    "reserves": { "iron_ore": 12000, "stone_blocks": 45000 },
+    "price_index": 100
+  },
+  "factions": {
+    "quarry_guild": { "power": 65, "agenda": "deep_shaft_mining" },
+    "official_garrison": { "power": 35, "agenda": "patrol_mountain_pass" }
+  },
+  "crisis_deck": [
+    { "id": "quarry_collapse", "base_weight": 25, "trigger_metric": "mine_instability" },
+    { "id": "miner_wage_strike", "base_weight": 15, "trigger_metric": "guild_greed" }
+  ],
+  "zone_refs": [
+    { "zone_id": "zhongshi_town", "type": "settlement" },
+    { "zone_id": "zhongshi_quarry", "type": "industrial" }
+  ]
+}

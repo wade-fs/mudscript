@@ -1,0 +1,14 @@
+{
+  "id": "canglan",
+  "name": "滄瀾城",
+  "aliases": ["萬水交匯", "巨浪海港"],
+  "civilization_role": "水利、航運與物流",
+  "spatial_type": "estuary_commercial_port",
+  "status": "flourishing_secular_port",
+  "known_by": ["merchants", "sailors", "water_guilds"],
+  "evidence": "world/lore/nine_cities_canon.md",
+  "confidence": "CONFIRMED",
+  "zones": ["estuary_docks", "submerged_drydocks", "sea_gate_bastion"],
+  "dependencies": ["tianshu", "xuanzhu", "qingming", "zhenyue", "baigong"],
+  "topology": ["coastal_estuary_bay"]
+}

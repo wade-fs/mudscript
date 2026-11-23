@@ -23,6 +23,7 @@
 #define NARRATIVE_DIR   "/narrative/"
 
 #include "/include/world_event.h"
+#include "/include/region.h"
 
 // ── 核心守護進程 (System Daemons) ───────────────────────
 #define QUEST_D         "/daemon/questd.c"
@@ -38,6 +39,8 @@
 #define PHASE_D         "/daemon/phase_d.c"
 #define RUMOR_D         "/daemon/rumor_d.c"
 #define TIER3_D         "/daemon/tier3_d.c"
+#define REGION_D        "/daemon/region_d.c"
+#define ROUTE_D         "/daemon/route_d.c"
 
 // ── 先天核心六維屬性 (Primary Attributes) ────────────────
 #define STAT_STR        "str"     // 臂力（力之本）

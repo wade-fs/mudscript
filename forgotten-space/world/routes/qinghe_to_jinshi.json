@@ -1,0 +1,24 @@
+{
+  "route_id": "qinghe_to_jinshi",
+  "name": "青河漕運水路",
+  "from": "qinghe",
+  "to": "jinshi",
+  "type": "river",
+  "transport": {
+    "distance": 280,
+    "travel_time_minutes": 150,
+    "capacity_freight": 200,
+    "toll_copper": 5,
+    "risk_tier": 1,
+    "conditions": {
+      "weather_sensitive": true,
+      "requires_permit": false,
+      "checkpoint_present": true
+    }
+  },
+  "propagation": {
+    "information_delay_minutes": 50,
+    "freight_impact_delay_minutes": 150,
+    "weight_attenuation": 0.90
+  }
+}

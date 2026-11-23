@@ -1,0 +1,25 @@
+{
+  "region_id": "panmu",
+  "name": "盤木縣",
+  "civ_level": "county",
+  "coords": [260, 140, 60],
+  "resources": {
+    "primary_product": "stout_timber",
+    "secondary_product": "carriage_spokes",
+    "demand": ["iron_saws", "grain", "oil"],
+    "reserves": { "timber_logs": 35000, "carriages": 400 },
+    "price_index": 100
+  },
+  "factions": {
+    "carpentry_guild": { "power": 65, "agenda": "standardize_wagon_axles" },
+    "forest_wardens": { "power": 35, "agenda": "conserve_ancient_groves" }
+  },
+  "crisis_deck": [
+    { "id": "mudslide_road_block", "base_weight": 25, "trigger_metric": "rainfall_intensity" },
+    { "id": "tool_shortage", "base_weight": 15, "trigger_metric": "iron_deficit" }
+  ],
+  "zone_refs": [
+    { "zone_id": "panmu_town", "type": "settlement" },
+    { "zone_id": "panmu_mill", "type": "mill" }
+  ]
+}

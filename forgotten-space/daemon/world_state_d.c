@@ -4,6 +4,7 @@
 
 #include "/include/ansi.h"
 #include "/include/globals.h"
+#include "/include/region.h"
 
 inherit "/std/object.c";
 
@@ -164,6 +165,13 @@ void create() {
     if (!caravan_status || (caravan_status != "arrived" && caravan_status != "traveling" && caravan_status != "blocked")) {
         caravan_status = "blocked";
         caravan_timer = 60;
+    }
+
+    // ── Phase 2: 宏觀守護進程聯動 ──
+    load_object(REGION_D);
+    object rtd = load_object(ROUTE_D);
+    if (rtd && caravan_status == "blocked") {
+        rtd->set_route_blocked("heishipu_to_jinshi", 1, caravan_delay_reason);
     }
 }
 
@@ -509,6 +517,10 @@ void trigger_caravan_arrival() {
         tell_room(sq_room, "\n" + HIY "【商隊抵達】伴隨著一陣清脆悠遠的駝鈴聲，一隊滿載大箱的金石商會馱隊緩緩駛入了青石街市！\n" +
                   "錢大掌櫃跳下駝獸，滿面紅光地朝四周街坊拱手：「金石商會開市收貨，高價收購粗礦、柴刀與良藥！」\n" NOR);
     }
+
+    object rtd = find_object(ROUTE_D);
+    if (!rtd) rtd = load_object(ROUTE_D);
+    if (rtd) rtd->set_route_blocked("heishipu_to_jinshi", 0, "商隊抵達，官道通行");
 }
 
 // ── 商隊離去生命週期函式 ─────────────────────────────────
@@ -528,6 +540,10 @@ void trigger_caravan_departure() {
         }
         tell_room(sq_room2, "\n" + YEL "【商隊啟程】駝鈴聲再次響起，金石商會收攏好收購的物資箱籠，在護衛的護送下拔營離去，返回金石城。\n" NOR);
     }
+
+    object rtd = find_object(ROUTE_D);
+    if (!rtd) rtd = load_object(ROUTE_D);
+    if (rtd) rtd->set_route_blocked("heishipu_to_jinshi", 1, caravan_delay_reason);
 }
 
 // ── 官軍封關與商道敘事驅動 ─────────────────────────────────
@@ -721,6 +737,14 @@ int mine_ore(object player) {
     } else if (mine_stability <= 0) {
         mine_is_collapsed = 1;
         mine_clear_progress = 0;
+
+        object rd = find_object(REGION_D);
+        if (!rd) rd = load_object(REGION_D);
+        if (rd) {
+            rd->set_region_crisis("zhongshi", "quarry_collapse", 1, ([ "desc": "北崖古礦洞塌方堵死" ]));
+            rd->adjust_region_price("zhongshi", 30);
+        }
+
         object room_m = find_object("/d/village/mine.c");
         if (room_m) {
             tell_room(room_m, "\n" + HIR "【地動山搖】伴隨著一聲轟天巨響，整個礦道上方劇烈崩塌！萬斤巨石轟然砸下，將洞口徹底堵死！\n" NOR);
@@ -770,6 +794,12 @@ int clear_mine_rubble(object player) {
         mine_stability = 70;
         mine_ore_reserve = 15;
         mine_clear_progress = 0;
+
+        object rd = find_object(REGION_D);
+        if (!rd) rd = load_object(REGION_D);
+        if (rd) {
+            rd->resolve_region_crisis("zhongshi", "quarry_collapse", "clear_rubble");
+        }
 
         object room_m = find_object("/d/village/mine.c");
         if (room_m) {
@@ -1460,3 +1490,47 @@ mapping sell_trade_cargo(object who, string hub_id) {
             query_hub_stock(hub_id, cid), risk_note)
     ]);
 }
+
+// ── Phase 2: 宏觀區域與雙軌路網協調 (Region & Route Coordination) ──
+
+object query_region_d() {
+    return load_object(REGION_D);
+}
+
+object query_route_d() {
+    return load_object(ROUTE_D);
+}
+
+// 查詢特定區域動態狀態 (透過 REGION_D 進行惰性求值)
+mapping query_macro_region_status(string region_id) {
+    object rd = query_region_d();
+    if (rd) return rd->query_region_state(region_id);
+    return 0;
+}
+
+// 查詢特定區域牌價
+int query_macro_region_price(string region_id) {
+    object rd = query_region_d();
+    if (rd) return rd->query_region_price_index(region_id);
+    return PRICE_INDEX_BASE;
+}
+
+// 查詢道路是否受阻
+int is_macro_route_blocked(string route_id) {
+    object rtd = query_route_d();
+    if (rtd) return rtd->is_route_blocked(route_id);
+    return 0;
+}
+
+// 查詢雙軌傳播：實體耗時 vs 情報延遲
+mapping query_macro_route_timing(string route_id, string mode) {
+    object rtd = query_route_d();
+    if (!rtd) return 0;
+    return ([
+        "travel_time": rtd->query_travel_time(route_id, mode),
+        "info_delay": rtd->query_information_delay(route_id),
+        "freight_delay": rtd->query_freight_delay(route_id),
+        "attenuation_pct": rtd->query_attenuation_pct(route_id)
+    ]);
+}
+

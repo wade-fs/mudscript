@@ -1,0 +1,14 @@
+{
+  "id": "qingming",
+  "name": "青溟城",
+  "aliases": ["萬物生養", "古靈植園"],
+  "civilization_role": "生態、農業與靈植",
+  "spatial_type": "autonomous_ecological_dome",
+  "status": "ecological_preserve",
+  "known_by": ["baicao_sect", "ancient_botanists"],
+  "evidence": "world/lore/nine_cities_canon.md",
+  "confidence": "CONFIRMED",
+  "zones": ["seed_vault", "living_canopy", "water_soil_matrix"],
+  "dependencies": ["tianshu", "xuanzhu", "baigong", "guanxing", "canglan"],
+  "topology": ["eastern_qinghe_basin"]
+}

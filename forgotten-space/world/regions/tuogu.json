@@ -1,0 +1,25 @@
+{
+  "region_id": "tuogu",
+  "name": "拓荒縣",
+  "civ_level": "county",
+  "coords": [220, -200, 40],
+  "resources": {
+    "primary_product": "pioneer_reagents",
+    "secondary_product": "coarse_salt",
+    "demand": ["grain", "weapons", "iron_nails"],
+    "reserves": { "salt": 18000, "herbs": 5000 },
+    "price_index": 100
+  },
+  "factions": {
+    "reclamation_pioneers": { "power": 55, "agenda": "expand_southern_borders" },
+    "official_surveyors": { "power": 45, "agenda": "map_untamed_ridges" }
+  },
+  "crisis_deck": [
+    { "id": "miasma_outbreak", "base_weight": 20, "trigger_metric": "swamp_gas" },
+    { "id": "supply_caravan_raid", "base_weight": 15, "trigger_metric": "banditry" }
+  ],
+  "zone_refs": [
+    { "zone_id": "tuogu_town", "type": "settlement" },
+    { "zone_id": "tuogu_frontier", "type": "outpost" }
+  ]
+}

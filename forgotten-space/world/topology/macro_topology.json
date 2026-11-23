@@ -1,0 +1,23 @@
+{
+  "topology_id": "macro_world_topology",
+  "version": "1.0",
+  "canon_source": "narrative/docs/maps/macro_nine_cities_atlas.md",
+  "nodes": [
+    { "id": "jinshi", "type": "prefecture", "name": "金石府城" },
+    { "id": "zhongshi", "type": "county", "name": "重石縣" },
+    { "id": "heishipu", "type": "village", "name": "黑石鋪" },
+    { "id": "qinghe", "type": "county", "name": "青河縣" },
+    { "id": "liefan", "type": "county", "name": "烈礬縣" },
+    { "id": "zhenfeng", "type": "county", "name": "鎮風縣" },
+    { "id": "panmu", "type": "county", "name": "盤木縣" },
+    { "id": "tuogu", "type": "county", "name": "拓荒縣" }
+  ],
+  "connections": [
+    { "from": "zhongshi", "to": "jinshi", "route_ref": "zhongshi_to_jinshi", "relation": "CONNECTED", "confidence": "CONFIRMED" },
+    { "from": "heishipu", "to": "jinshi", "route_ref": "heishipu_to_jinshi", "relation": "CONNECTED", "confidence": "CONFIRMED" },
+    { "from": "qinghe", "to": "jinshi", "route_ref": "qinghe_to_jinshi", "relation": "CONNECTED", "confidence": "CONFIRMED" },
+    { "from": "liefan", "to": "jinshi", "route_ref": "liefan_to_jinshi", "relation": "CONNECTED", "confidence": "CONFIRMED" },
+    { "from": "zhenfeng", "to": "jinshi", "route_ref": "zhenfeng_to_jinshi", "relation": "CONNECTED", "confidence": "CONFIRMED" },
+    { "from": "panmu", "to": "jinshi", "route_ref": "panmu_to_jinshi", "relation": "CONNECTED", "confidence": "CONFIRMED" }
+  ]
+}

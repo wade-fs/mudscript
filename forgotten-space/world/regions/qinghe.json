@@ -1,0 +1,25 @@
+{
+  "region_id": "qinghe",
+  "name": "青河縣",
+  "civ_level": "county",
+  "coords": [-280, 0, 30],
+  "resources": {
+    "primary_product": "grain",
+    "secondary_product": "herbal_medicine",
+    "demand": ["iron_tools", "refined_metal"],
+    "reserves": { "grain": 90000, "herbs": 12000 },
+    "price_index": 100
+  },
+  "factions": {
+    "baicao_hall": { "power": 60, "agenda": "expand_herbal_farms" },
+    "water_transport_guild": { "power": 40, "agenda": "secure_canal_freight" }
+  },
+  "crisis_deck": [
+    { "id": "canal_silt_blockage", "base_weight": 20, "trigger_metric": "water_level" },
+    { "id": "crop_disha_blight", "base_weight": 15, "trigger_metric": "disha_turbidity" }
+  ],
+  "zone_refs": [
+    { "zone_id": "qinghe_town", "type": "settlement" },
+    { "zone_id": "qinghe_docks", "type": "port" }
+  ]
+}

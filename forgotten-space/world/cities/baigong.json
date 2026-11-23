@@ -1,0 +1,14 @@
+{
+  "id": "baigong",
+  "name": "百工城",
+  "aliases": ["萬器之都", "機關神殿"],
+  "civilization_role": "機關、工程與自律設備",
+  "spatial_type": "clockwork_automaton_city",
+  "status": "closed_automaton_ruin",
+  "known_by": ["craftsmen", "puppet_masters", "engineers"],
+  "evidence": "world/lore/nine_cities_canon.md",
+  "confidence": "CONFIRMED",
+  "zones": ["clockwork_plaza", "assembly_core", "subterranean_foundry"],
+  "dependencies": ["tianshu", "xuanzhu", "cangjing", "canglan"],
+  "topology": ["central_plateau_gorge"]
+}

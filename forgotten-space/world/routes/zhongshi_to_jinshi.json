@@ -1,0 +1,24 @@
+{
+  "route_id": "zhongshi_to_jinshi",
+  "name": "重石金石官道",
+  "from": "zhongshi",
+  "to": "jinshi",
+  "type": "road",
+  "transport": {
+    "distance": 240,
+    "travel_time_minutes": 180,
+    "capacity_freight": 100,
+    "toll_copper": 2,
+    "risk_tier": 1,
+    "conditions": {
+      "weather_sensitive": true,
+      "requires_permit": false,
+      "checkpoint_present": true
+    }
+  },
+  "propagation": {
+    "information_delay_minutes": 60,
+    "freight_impact_delay_minutes": 180,
+    "weight_attenuation": 0.85
+  }
+}
