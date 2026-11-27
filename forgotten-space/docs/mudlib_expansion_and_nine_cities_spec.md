@@ -4,7 +4,7 @@
 > **文件狀態**：正式定案稿 (v3.1 Final Specification)  
 > **核心戰略方針**：**「先讓現有世界具備標準化的區域模擬能力，再讓九城逐步進入世界，絕不預先鋪設九座空城」**  
 > **適用引擎**：MudScript (Go-LPC Engine)  
-> **關聯核心**：[GEMINI.md](file:///home/wade/src/github/mudscript/GEMINI.md) ｜ [README.md](file:///home/wade/src/github/mudscript/forgotten-space/README.md) ｜ [world_state_d.c](file:///home/wade/src/github/mudscript/forgotten-space/daemon/world_state_d.c) ｜ [event_manager.c](file:///home/wade/src/github/mudscript/forgotten-space/daemon/event_manager.c)  
+> **關聯核心**：[GEMINI.md](../../GEMINI.md) ｜ [README.md](../README.md) ｜ [world_state_d.c](../daemon/world_state_d.c) ｜ [event_manager.c](../daemon/event_manager.c)  
 
 ---
 
@@ -295,7 +295,7 @@ flowchart TD
 金石府城歷史與底層正典徹底閉環：
 
 1. **官府「絕靈法網」**：正典上確立其為**太古天樞總陣殘留的秩序機制**（具體運作頻率參數、作用半徑與物理原理保留為後續深入設定），壓制修士神通私鬥，庇佑凡俗市井生活。
-2. **城下太古暗渠**：原為天樞陣基的地下冷卻水系、地脈回流與檢修通道（[underground_map.md](file:///home/wade/src/github/mudscript/forgotten-space/narrative/docs/maps/underground_map.md)）。
+2. **城下太古暗渠**：原為天樞陣基的地下冷卻水系、地脈回流與檢修通道（[underground_map.md](../narrative/docs/maps/underground_map.md)）。
 3. **十二丈人面神像**：為天樞城派駐南域的巡天監察靈位機關，鎮鎖地煞，感應天地總陣。
 
 ---
