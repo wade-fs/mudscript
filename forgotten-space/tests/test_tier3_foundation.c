@@ -208,6 +208,34 @@ void run_tests(object me) {
     assert_equal(1, em->cycle_tier3_calibration(), "cycle_tier3_calibration 應可重置輪轉事件");
     assert_equal(STAGE_TIER3_T_MINUS_2, em->query_event_stage(EVENT_TIER3_CALIBRATION), "週期輪轉後應回到 T-2");
 
+    // ── 6. C-07 洞天跨界時差倍率、換算與消費者機制驗證 (Ch.144~167: 12:1) ──────
+    assert_equal(12, t3->query_realm_time_ratio(), "洞天跨界時差倍率應為 12:1");
+    mapping conv = t3->query_realm_time_conversion(90);
+    assert_equal(90, conv["realm_days"], "洞天 90 日大校準倒數");
+    assert_equal(1080, conv["mortal_days"], "對應人間約 1080 日（整整三年）");
+    assert_equal(12, conv["ratio"], "換算倍率應為 12");
+
+    mapping cycle_info = t3->query_calibration_cycle_info();
+    assert_equal(25, cycle_info["calibration_cycle_realm_years"], "人間三百年大校準對應洞天每 25 年一輪元");
+    assert_equal(300, cycle_info["calibration_cycle_mortal_years"], "人間大校準週期為 300 年");
+
+    object nature_d = load_object(NATURE_D);
+    assert_true(objectp(nature_d), "NATURE_D 必須成功載入");
+    assert_equal(4, nature_d->query_effective_time_ratio(village_room), "凡間時間比例應為 4");
+    assert_equal(48, nature_d->query_effective_time_ratio(realm_room), "洞天有效流速應為 4 * 12 = 48");
+
+    int gtime_before = nature_d->query_game_time();
+    t3->advance_realm_time(10); // 推進洞天 10 分鐘
+    int gtime_after = nature_d->query_game_time();
+    assert_equal(gtime_before + 120, gtime_after, "推進洞天 10 分鐘應依 12:1 倍率推進人間 120 分鐘");
+
+    // 驗證 cmd_time 指令在洞天環境下可正常呼叫並輸出跨界時差
+    object cmd_time_ob = load_object("/cmds/cmd_time.c");
+    assert_true(objectp(cmd_time_ob), "cmd_time 必須成功載入");
+    move_object(me, realm_room);
+    int time_res = cmd_time_ob->main(me, "time", "");
+    assert_equal(1, time_res, "在洞天執行 cmd_time 應成功回傳 1");
+
     // 清理測試物件並還原事件狀態
     em->reset_event("all");
     destruct(fa_a);

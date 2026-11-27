@@ -1,7 +1,7 @@
 // /daemon/tier3_d.c
 // 第四卷 Tier 3 桃花源洞天底層規則守護進程 (TIER3_D)
 // 核心職責：
-// 1. 單一可調表 (tier3_tuning)：集中管理舊招三倍高耗、半威力、U 路徑成本與高代價雙向信標門檻
+// 1. 單一可調表 (tier3_tuning)：集中管理舊招三倍高耗、半威力、U 路徑成本、洞天跨界時差倍率與高代價雙向信標門檻
 // 2. K × U 能力驗證：禁止以計數旗標冒充認知/運用，必須透過「可驗證環境實驗」寫入 K，再經兩條以上觀察路徑之一解鎖 U
 // 3. 高代價雙向信標檢定：嚴禁活體傳送、嚴限半斤載重、強制消耗三百斤鹽晶儲柱與特鍛黑鐵導波環
 // 4. CROSS-05 與 Tier 4 區隔：嚴禁完成 Tier 3 校準事件即自動解鎖 /d/secret/ (須滿足 §4.2 三要件)
@@ -23,12 +23,13 @@ void create() {
 }
 
 void init_tuning_and_specs() {
-    // ── 單一可調表：集中管理三倍高耗、半威力、U 路徑成本與信標門檻 ──
+    // ── 單一可調表：集中管理三倍高耗、半威力、U 路徑成本、時差倍率與信標門檻 ──
     tier3_tuning = ([
         "old_skill_cost_mult" : 3,
         "old_skill_power_pct" : 50,
         "u_skill_cost_pct"    : 100,
         "u_skill_power_pct"   : 100,
+        "realm_time_ratio"    : 12, // 跨界時差倍率：洞天 1 日 ≈ 人間 12 日 (Ch.144~167: 洞天90日大校準 vs 人間三年整)
         "beacon" : ([
             "salt_crystal_jin"    : 300,
             "conduit_rings"       : 1,
@@ -184,6 +185,68 @@ int set_tuning_value(string key, mixed val) {
     if (member_array(key, keys(tier3_tuning)) == -1) return 0;
     tier3_tuning[key] = val;
     return 1;
+}
+
+// ── 跨界時差倍率與時間換算介面 (Ch.144~167：洞天 90 日 ≈ 人間 3 年整，倍率 12:1) ──
+int query_realm_time_ratio() {
+    if (!tier3_tuning || undefinedp(tier3_tuning["realm_time_ratio"])) return 12;
+    int r = tier3_tuning["realm_time_ratio"];
+    return r > 0 ? r : 12;
+}
+
+mapping query_realm_time_conversion(int realm_days) {
+    int ratio = query_realm_time_ratio();
+    int mortal_days = realm_days * ratio;
+    return ([
+        "realm_days"          : realm_days,
+        "mortal_days"         : mortal_days,
+        "mortal_years_approx" : mortal_days / 365,
+        "ratio"               : ratio
+    ]);
+}
+
+mapping query_calibration_cycle_info() {
+    int ratio = query_realm_time_ratio();
+    int realm_cycle_years = (ratio > 0) ? (300 / ratio) : 25;
+    return ([
+        "realm_time_ratio"                  : ratio,
+        "novel_canon_basis"                 : "Ch.144~167: 洞天90日 ≈ 人間3年整 (1095日，倍率12:1)",
+        "calibration_countdown_realm_days"  : 90,
+        "calibration_countdown_mortal_years": 3,
+        "calibration_cycle_mortal_years"    : 300,
+        "calibration_cycle_realm_years"     : realm_cycle_years,
+        "rule_summary"                      : sprintf("洞天 1 日 ≈ 人間 %d 日；人間三百年大校準，洞天每 %d 年一輪元", ratio, realm_cycle_years)
+    ]);
+}
+
+// 推進洞天時間，同時依跨界倍率 (12:1) 同步推進人間日曆
+void advance_realm_time(int realm_minutes) {
+    if (realm_minutes <= 0) return;
+    int ratio = query_realm_time_ratio();
+    object nature_d = find_object(NATURE_D);
+    if (!nature_d) nature_d = load_object(NATURE_D);
+    if (nature_d) {
+        nature_d->advance_time(realm_minutes * ratio);
+    }
+}
+
+// 取得特定對象或環境之有效時間流速比例 (凡間 4:1，洞天 48:1)
+int query_effective_time_ratio(mixed target) {
+    int base_ratio = 4;
+    object nature_d = find_object(NATURE_D);
+    if (!nature_d) nature_d = load_object(NATURE_D);
+    if (nature_d) base_ratio = nature_d->query_time_ratio();
+
+    if (!target) return base_ratio;
+    object env = 0;
+    if (objectp(target)) {
+        env = environment(target);
+        if (!env) env = target;
+    }
+    if (env && is_tier3_environment(env)) {
+        return base_ratio * query_realm_time_ratio();
+    }
+    return base_ratio;
 }
 
 mapping query_domain_spec(string domain) {

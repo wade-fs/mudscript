@@ -15,7 +15,7 @@
 | C-04 | 第四卷 Act 4 物證映射過少 | P1 | ✅ CLOSED | 已補充 4 項關鍵物證入矩陣 |
 | C-05 | 第三卷編年表格式殘缺 | P2 | ✅ CLOSED | article/ 章節格式正常，係舊 narrative/ 殘留 |
 | C-06 | 六區域拓撲只確認數量，尚未驗證連線 | P1 | ✅ CLOSED | 668 個出口全部有效，零斷鏈 |
-| C-07 | Tier 0–3 的時間、空間及規則連續性 | P0 | 🟡 OPEN | 洞天時間倍率尚未在 Mudlib 實作 |
+| C-07 | Tier 0–3 的時間、空間及規則連續性 | P0 | ✅ CLOSED | 已實作跨界 12:1 時差、換算函式、消費者接線與測試 |
 
 ---
 
@@ -126,7 +126,7 @@ Broken exits: 0
 
 ## C-07：Tier 0–3 的時間、空間及規則連續性
 
-**狀態：🟡 OPEN — 洞天時間倍率尚未實作**
+**狀態：✅ CLOSED**
 
 ### 已確認的部分
 
@@ -147,26 +147,30 @@ Broken exits: 0
 - 信標載重上限（半斤）與窗口（三息）
 - K × U 能力驗證框架
 
-### ⚠️ 尚未實作
+### 實作完成：洞天跨界時差倍率（12:1）與消費者接線
 
-**洞天時間倍率（約 12:1）沒有對應的 Mudlib 機制。**
+正文設定：洞天 90 日 ≈ 人間 3 年（倍率 12:1，Ch.144~167）  
+已全面實作並完成使用者/消費者（Consumer）接線：
 
-正文設定：洞天 90 日 ≈ 人間 3 年（倍率 12:1）  
-目前：`tier3_d.c` 無時間倍率設定；`nature_d.c` 只有主世界 4:1 時鐘
+1. **`tier3_d.c` 核心管理**：
+   - `tier3_tuning["realm_time_ratio"] = 12`
+   - `query_realm_time_ratio()`：取得當前跨界時差倍率（12:1）
+   - `query_realm_time_conversion(int realm_days)`：換算洞天日數為人間日數與年份（如 90 洞天日 ↔ 1080 人間日/約 3 年）
+   - `query_calibration_cycle_info()`：大校準週期換算（人間三百年 ↔ 洞天每 25 年一輪元）
+   - `advance_realm_time(int realm_minutes)`：洞天時間推進，依 12 倍率同步推進人間日曆
+   - `query_effective_time_ratio(mixed target)`：對象或環境動態判定有效流速（凡間 4:1、洞天 48:1）
 
-> [!IMPORTANT]
-> **待實作：** 在 `tier3_d.c` 加入 `realm_time_ratio` 設定（建議值 `12`），並讓玩家進入 `/d/realm/` 路徑時切換時鐘倍率，離開時還原。
->
-> 最小實作方案（不改變 `nature_d.c`）：
-> ```lpc
-> // tier3_d.c 加入
-> tier3_tuning["realm_time_ratio"] = 12;  // 洞天 1 日 ≈ 人間 12 日
-> ```
-> 並在 `tier3_d.c` 的 `is_tier3_environment()` 判斷後，透過 `advance_time()` 以 12 倍速推進遊戲日曆。
->
-> 注意：三百年大校準（`tier3_calibration`）的週期換算：
-> - 人間三百年 = 洞天 25 年（若倍率 12:1）
-> - 若定義為「洞天三百年」，則對應人間 3600 年
+2. **`secure/nature_d.c` 系統串接**：
+   - 實作 `query_effective_time_ratio(mixed target)`：可針對特定房間或玩家環境動態返回跨界後的有效時間流速
+
+3. **`cmds/cmd_time.c` 玩家指令消費者**：
+   - 玩家於 `/d/realm/` 環境輸入 `time` 時，動態呈現【跨界時差・桃花源洞天】區塊，顯示 12:1 倍率、洞天 90 日大校準倒數與人間三百年/洞天 25 年輪元換算
+
+4. **`d/realm/peach_plateau.c` 場景消費者**：
+   - 玩家跨越星門進入洞天首度觸發時差律度提示，並在 `vision return` 神識暫返人間時提示「洞天 1 日人間已越 12 日，故交已老三年」
+
+5. **`tests/test_tier3_foundation.c` 自動化驗證**：
+   - 完整測試倍率查詢、90日/3年換算、大校準週期換算、`advance_realm_time` 12 倍流速推進與 `cmd_time` 洞天輸出
 
 ---
 

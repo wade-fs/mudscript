@@ -1,10 +1,11 @@
 // /cmds/cmd_time.c
 #include "/include/ansi.h"
+#include "/include/globals.h"
 
 inherit "/std/object";
 
 int main(object me, string verb, string arg) {
-    object nature_d = load_object("/secure/nature_d.c");
+    object nature_d = load_object(NATURE_D);
     if (!nature_d) {
         write("無法載入時間守護進程。\n");
         return 1;
@@ -42,6 +43,20 @@ int main(object me, string verb, string arg) {
     res += sprintf("%s" CYN "【利】12:00 - 17:59" NOR "：日斜金風，各正性命 (利子時 ~ 利亥時)\n", c2_mark);
     res += sprintf("%s" CYN "【貞】18:00 - 23:59" NOR "：暮夜歸根，太和守正 (貞子時 ~ 貞亥時)\n", c3_mark);
     res += WHT "------------------------------------------------------------\n" NOR;
+
+    object env = me ? environment(me) : 0;
+    object t3 = find_object(TIER3_D);
+    if (!t3) t3 = load_object(TIER3_D);
+    if (t3 && env && t3->is_tier3_environment(env)) {
+        int r_ratio = t3->query_realm_time_ratio();
+        int eff_ratio = nature_d->query_effective_time_ratio(me);
+        res += HIG "  【跨界時差・桃花源洞天】（正典 Ch.144~167 律度）：\n" NOR;
+        res += sprintf(HIY "    空間階度：" NOR "Tier 3 桃花源洞天\n");
+        res += sprintf(HIY "    時差倍率：%d : 1" NOR "（洞天 1 日 ≈ 人間 %d 日，綜合流速 %d : 1）\n", r_ratio, r_ratio, eff_ratio);
+        res += sprintf(CYN "    大校準換算：" NOR "洞天 90 日倒數 ↔ 人間整整三年（人間 300 年 ↔ 洞天每 25 年一輪元）\n");
+        res += WHT "------------------------------------------------------------\n" NOR;
+    }
+
     res += sprintf(MAG "  流速法則：%d : 1 (15 秒現實 = 1 遊戲分；三月即一歲，一歲專一季)\n" NOR, ratio);
     res += WHT "============================================================\n" NOR;
 

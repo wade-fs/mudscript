@@ -380,6 +380,16 @@ int query_time_ratio() {
     return TIME_RATIO;
 }
 
+// 取得針對特定對象/環境之有效時間比例（若處於洞天，則計入跨界 12:1 倍率）
+int query_effective_time_ratio(mixed target) {
+    object t3 = find_object(TIER3_D);
+    if (!t3) t3 = load_object(TIER3_D);
+    if (t3 && target) {
+        return t3->query_effective_time_ratio(target);
+    }
+    return TIME_RATIO;
+}
+
 // 推進指定遊戲分鐘 (管理員或劇情事件專用)
 void advance_time(int minutes) {
     if (minutes <= 0) return;

@@ -48,6 +48,15 @@ void init() {
     add_action("do_breathe", "breathe");
     add_action("do_breathe", "吐納");
     add_action("do_peer", "peer");
+
+    object me = this_player();
+    if (me && userp(me) && !me->query_temp("tier3_time_dilation_seen")) {
+        me->set_temp("tier3_time_dilation_seen", 1);
+        object t3 = find_object(TIER3_D);
+        if (!t3) t3 = load_object(TIER3_D);
+        int r_ratio = t3 ? t3->query_realm_time_ratio() : 12;
+        tell_object(me, HIG "【跨界時差律度（正典 Ch.144~167）】跨越星門後時間流速已改變（倍率 " + r_ratio + ":1）：洞天 1 日 ≈ 人間 " + r_ratio + " 日，洞天九十日大校準倒數對應人間整整三年光陰。\n" NOR);
+    }
 }
 
 int do_peer(string arg) {
@@ -116,7 +125,10 @@ int do_vision(string arg) {
     }
     object dst = load_object("/d/yunjin/mudway_store.c");
     if (dst) {
-        tell_object(me, CYN "你以一縷神識記憶暫返雲津【萬山泥途總號】查閱人間留守帳冊……\n" NOR);
+        object t3 = find_object(TIER3_D);
+        if (!t3) t3 = load_object(TIER3_D);
+        int r_ratio = t3 ? t3->query_realm_time_ratio() : 12;
+        tell_object(me, CYN + sprintf("你以一縷神識記憶暫返雲津【萬山泥途總號】查閱人間留守帳冊……（洞天 1 日人間已越 %d 日，故交已老三年）\n", r_ratio) + NOR);
         me->move(dst);
     }
     return 1;

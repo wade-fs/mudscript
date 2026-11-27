@@ -41,6 +41,7 @@
 #define TIER3_D         "/daemon/tier3_d.c"
 #define REGION_D        "/daemon/region_d.c"
 #define ROUTE_D         "/daemon/route_d.c"
+#define NATURE_D        "/secure/nature_d.c"
 
 // ── 先天核心六維屬性 (Primary Attributes) ────────────────
 #define STAT_STR        "str"     // 臂力（力之本）
