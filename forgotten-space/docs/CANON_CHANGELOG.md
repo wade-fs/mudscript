@@ -2,6 +2,10 @@
 
 本文件追蹤《遺忘的世界》小說正典修訂與 Mudlib 可執行世界之間的雙向同步紀錄，配合 [data/canon_sync_matrix.json](../data/canon_sync_matrix.json)、[data/traceability_matrix.json](../data/traceability_matrix.json) 與 [tests/quests/novel_mud_sync_audit.py](../tests/quests/novel_mud_sync_audit.py) 使用。
 
+## 2026-11-27 — 主線玩法多樣化、分支決策與 `REGION_D` 區域因果聯動
+* **宣告式多分支動作與單步區域結算**：於 [std/room.c](../std/room.c) 補入 `quest_target_from_arg` 與 `sensory_msgs` 分支回饋；於 [daemon/quest_engine_d.c](../daemon/quest_engine_d.c) 抽取出共用 `apply_step_outcome_block()` 暨 `find_step_choice()`，支援任務步驟 `choices` 分支抉擇持久化（`quests/<qid>/choices/step_<n>`）、清單渲染與單步 `region_effects` 寫入 `REGION_D`。
+* **主線脫離純對話單一模式**：改寫 8 條核心純 `talk` 主線（[v2_act4_tripartite_tribunal.json](../quests/main/v2_act4_tripartite_tribunal.json)、[v2_six_county_evidence.json](../quests/main/v2_six_county_evidence.json)、[v2_six_evidence_gaps.json](../quests/main/v2_six_evidence_gaps.json)、[v2_residency_72h.json](../quests/main/v2_residency_72h.json)、[v3_yuntu_market_charter.json](../quests/main/v3_yuntu_market_charter.json)、[v3_five_way_evidence_convergence.json](../quests/main/v3_five_way_evidence_convergence.json)、[v4_act3_labor_pact_stations.json](../quests/main/v4_act3_labor_pact_stations.json)、[v3_bahuang_bloodline_watch.json](../quests/main/v3_bahuang_bloodline_watch.json)），融入實測驗材、火漆封卷、分倉稽核、測冰勘線及常平倉／三印公案／雲海賠付／南關張榜等改寫派系權重、儲備與危機牌組之實質決策，並同步強化 [tests/quests/quest_audit.py](../tests/quests/quest_audit.py) 與新增 [tests/test_quest_choices_and_regions.c](../tests/test_quest_choices_and_regions.c)。
+
 ## 2026-11-27 — 小說↔任務↔NPC↔房間雙向可追溯矩陣與全面標註
 * **任務章節化與引擎整合**：為全部 117 份 [quests/](../quests) JSON 補齊 `"chapter"` 對應章號，並於 [daemon/quest_engine_d.c](../daemon/quest_engine_d.c) `query_quest_checklist()` 呈現對應章節標籤，確保欄位有實體引擎消費（`quest_audit.py` 0 未讀欄位）。
 * **NPC 檔頭章節標記補全**：替未標記的 109 名 NPC 補齊 `Ch.` 章節範圍註記，達成 `clone/npc/` 全數 177/177 NPC 可按章號回溯。

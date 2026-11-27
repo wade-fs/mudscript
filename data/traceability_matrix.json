@@ -10708,7 +10708,7 @@
       "quest_id": "v2_act4_tripartite_tribunal",
       "name": "信用凍結：三方會審與大庫之決",
       "category": "main",
-      "region": "",
+      "region": "jinshi",
       "file": "quests/main/v2_act4_tripartite_tribunal.json",
       "chapter": "Ch.0068-Ch.0076",
       "chapters": [
@@ -10737,19 +10737,13 @@
         "clinic_baixiansheng",
         "gong_fireworks_master",
         "gong_forge_mochui",
-        "granary_liubingzhong",
-        "pawnshop_jiachaofeng",
-        "yamen_archive_wenchengjing",
-        "yamen_magistrate"
+        "pawnshop_jiachaofeng"
       ],
       "npc_files": [
         "clone/npc/center_doctor_bai.c",
         "clone/npc/center_pawn_jia.c",
-        "clone/npc/center_wenchengjing.c",
         "clone/npc/gong_fireworks_master.c",
-        "clone/npc/gong_mochui.c",
-        "clone/npc/granary_liubingzhong.c",
-        "clone/npc/yamen_magistrate.c"
+        "clone/npc/gong_mochui.c"
       ],
       "locations": [
         "/d/city/center/clinic",
@@ -10869,7 +10863,7 @@
       "quest_id": "v2_residency_72h",
       "name": "金石南關：七十二時辰限期令",
       "category": "main",
-      "region": "",
+      "region": "jinshi",
       "file": "quests/main/v2_residency_72h.json",
       "chapter": "Ch.0043-Ch.0046",
       "chapters": [
@@ -10887,11 +10881,9 @@
       "npc_ids": [
         "gate_south_inn_laoliu",
         "gate_south_taxofficer",
-        "shanghui_hq_qianbaichuan",
-        "yamen_archive_wenchengjing"
+        "shanghui_hq_qianbaichuan"
       ],
       "npc_files": [
-        "clone/npc/center_wenchengjing.c",
         "clone/npc/gate_south_inn_laoliu.c",
         "clone/npc/gate_south_taxofficer.c",
         "clone/npc/south_qianbaichuan.c"
@@ -10913,7 +10905,7 @@
       "quest_id": "v2_six_county_evidence",
       "name": "六縣連環：四路物證破局",
       "category": "main",
-      "region": "",
+      "region": "jinshi",
       "file": "quests/main/v2_six_county_evidence.json",
       "chapter": "Ch.0058-Ch.0067",
       "chapters": [
@@ -10943,19 +10935,15 @@
       "npc_ids": [
         "clinic_baixiansheng",
         "gate_south_inn_laoliu",
-        "gong_forge_mochui",
         "market_special_buyer",
         "pawnshop_jiachaofeng",
-        "su ningshuang",
         "wu_hall_bashan"
       ],
       "npc_files": [
         "clone/npc/center_doctor_bai.c",
         "clone/npc/center_pawn_jia.c",
         "clone/npc/gate_south_inn_laoliu.c",
-        "clone/npc/gong_mochui.c",
         "clone/npc/market_special_buyer.c",
-        "clone/npc/su_ningshuang.c",
         "clone/npc/wu_bashan.c"
       ],
       "locations": [
@@ -10979,7 +10967,7 @@
       "quest_id": "v2_six_evidence_gaps",
       "name": "南關夜議：六大物證缺口鎖合",
       "category": "main",
-      "region": "",
+      "region": "jinshi",
       "file": "quests/main/v2_six_evidence_gaps.json",
       "chapter": "Ch.0051-Ch.0057",
       "chapters": [
@@ -11003,11 +10991,9 @@
       "npc_ids": [
         "gate_south_inn_laoliu",
         "market_special_buyer",
-        "yamen_archive_wenchengjing",
         "yamen_prison_zhaodegui"
       ],
       "npc_files": [
-        "clone/npc/center_wenchengjing.c",
         "clone/npc/gate_south_inn_laoliu.c",
         "clone/npc/market_special_buyer.c",
         "clone/npc/yamen_prison_zhaodegui.c"
@@ -11326,13 +11312,11 @@
       ],
       "npc_ids": [
         "du_qinghe",
-        "lei_lie",
-        "qi_wushang"
+        "lei_lie"
       ],
       "npc_files": [
         "clone/npc/du_qinghe.c",
-        "clone/npc/lei_lie.c",
-        "clone/npc/qi_wushang.c"
+        "clone/npc/lei_lie.c"
       ],
       "locations": [
         "/d/sects/bahuang/black_mountain_camp",
@@ -11441,16 +11425,12 @@
         "article/03_volume3/ch0101.md"
       ],
       "npc_ids": [
-        "gu_lanzhou",
         "lei_lie",
-        "qiu_he",
-        "yu_shouzhuo"
+        "qiu_he"
       ],
       "npc_files": [
-        "clone/npc/gu_lanzhou.c",
         "clone/npc/lei_lie.c",
-        "clone/npc/qiu_he.c",
-        "clone/npc/yu_shouzhuo.c"
+        "clone/npc/qiu_he.c"
       ],
       "locations": [
         "/d/sects/bahuang/black_mountain_camp",
@@ -11655,7 +11635,7 @@
       "quest_id": "v3_yuntu_market_charter",
       "name": "泥途商棧：信用從第一筆貨單開始",
       "category": "main",
-      "region": "",
+      "region": "yunjin",
       "file": "quests/main/v3_yuntu_market_charter.json",
       "chapter": "Ch.0084-Ch.0090",
       "chapters": [
@@ -11677,14 +11657,10 @@
         "article/03_volume3/ch0090.md"
       ],
       "npc_ids": [
-        "gu_lanzhou",
-        "luo_jiucheng",
-        "qiu_he"
+        "luo_jiucheng"
       ],
       "npc_files": [
-        "clone/npc/gu_lanzhou.c",
-        "clone/npc/luo_jiucheng.c",
-        "clone/npc/qiu_he.c"
+        "clone/npc/luo_jiucheng.c"
       ],
       "locations": [
         "/d/yunjin/exchange_hall",
@@ -11986,12 +11962,10 @@
         "article/04_volume4/ch0145.md"
       ],
       "npc_ids": [
-        "wanwu_auditor_qi",
-        "wanwu_inspector_chen"
+        "wanwu_auditor_qi"
       ],
       "npc_files": [
-        "clone/npc/wanwu_auditor_qi.c",
-        "clone/npc/wanwu_inspector_chen.c"
+        "clone/npc/wanwu_auditor_qi.c"
       ],
       "locations": [
         "/d/realm/wanwu/scrap_ring"
@@ -15073,11 +15047,7 @@
         124,
         125
       ],
-      "quests": [
-        "v2_act4_tripartite_tribunal",
-        "v2_residency_72h",
-        "v2_six_evidence_gaps"
-      ],
+      "quests": [],
       "host_rooms": [
         "/d/city/center/yamen_archive"
       ]
@@ -17684,8 +17654,7 @@
         "tier1_gong_initiation",
         "v2_act4_tripartite_tribunal",
         "v2_act5_tier2_admission",
-        "v2_career_tier1_qualifications",
-        "v2_six_county_evidence"
+        "v2_career_tier1_qualifications"
       ],
       "host_rooms": [
         "/d/city/north/gong_forge"
@@ -17841,9 +17810,7 @@
         74,
         75
       ],
-      "quests": [
-        "v2_act4_tripartite_tribunal"
-      ],
+      "quests": [],
       "host_rooms": [
         "/d/city/center/granary"
       ]
@@ -17902,9 +17869,7 @@
       "quests": [
         "v3_act2_yunjin_ghost_and_sanyuan",
         "v3_five_relic_resonance",
-        "v3_five_way_evidence_convergence",
-        "v3_preserve_field_evidence",
-        "v3_yuntu_market_charter"
+        "v3_preserve_field_evidence"
       ],
       "host_rooms": [
         "/d/yunjin/exchange_hall"
@@ -19022,9 +18987,7 @@
       "chapters": [
         94
       ],
-      "quests": [
-        "v3_bahuang_bloodline_watch"
-      ],
+      "quests": [],
       "host_rooms": [
         "/d/sects/bahuang/north_watch"
       ]
@@ -19046,8 +19009,7 @@
         "v3_five_way_evidence_convergence",
         "v3_north_wall_beast_surge",
         "v3_postwar_reform_and_restitution",
-        "v3_tier2_departure",
-        "v3_yuntu_market_charter"
+        "v3_tier2_departure"
       ],
       "host_rooms": [
         "/d/yunjin/mudway_store"
@@ -19491,8 +19453,7 @@
         "F03_testimony_cross_check",
         "rescue_maiden",
         "rescue_miners",
-        "v2_act5_tier2_admission",
-        "v2_six_county_evidence"
+        "v2_act5_tier2_admission"
       ],
       "host_rooms": [
         "/d/city/gate/gate_south_inn",
@@ -20122,8 +20083,7 @@
       ],
       "quests": [
         "v4_act2_wanwu_ark_registry",
-        "v4_act3_human_seed_bridge_truce",
-        "v4_act3_labor_pact_stations"
+        "v4_act3_human_seed_bridge_truce"
       ],
       "host_rooms": [
         "/d/realm/wanwu/scrap_ring"
@@ -20603,9 +20563,7 @@
         80,
         81
       ],
-      "quests": [
-        "v2_act4_tripartite_tribunal"
-      ],
+      "quests": [],
       "host_rooms": [
         "/d/city/center/yamen"
       ]
@@ -20939,7 +20897,6 @@
         99
       ],
       "quests": [
-        "v3_five_way_evidence_convergence",
         "v3_taiqing_star_archive"
       ],
       "host_rooms": [

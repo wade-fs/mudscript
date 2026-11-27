@@ -39,6 +39,14 @@ void create() {
     ]);
     add_action_rule("commission", comm_rule);
     add_action_rule("開爐", comm_rule);
+    add_action_rule("inspect", ([
+        "targets": ({ "clay" }),
+        "quest_verb": "inspect",
+        "quest_target": "clay",
+        "usage_msg": "你想實測什麼礦料試塊？試試：inspect clay",
+        "sensory_msg": HIY "你夾起烈礬白泥試塊探入地爐邊火測試耐火度與金蓮刀印紋理，果見矽礬結晶與血精坩堝完全吻合！" NOR,
+        "exp_gain": 12
+    ]));
 
     spawn_npc("/clone/npc/gong_mochui.c");
 }

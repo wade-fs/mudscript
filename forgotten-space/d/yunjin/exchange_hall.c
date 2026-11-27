@@ -24,6 +24,29 @@ void create() {
     set_smell("default", WHT "堂內只有淡淡油墨印泥、冷鐵櫃鎖與乾燥防潮松木匣的清冷氣味。" NOR);
     set_listen("default", HIY "算盤珠清脆利落的撥動聲、印章蓋上厚宣紙的沉穩頓響與商戶低聲核對帳目。" NOR);
 
+    add_action_rule("settle", ([
+        "targets": ({ "split_indemnity", "pledge_warehouse" }),
+        "quest_verb": "settle",
+        "quest_target_from_arg": 1,
+        "usage_msg": "請選擇延誤貨單清算方案：settle split_indemnity（分批自賠）或 settle pledge_warehouse（倉單抵押）。",
+        "sensory_msgs": ([
+            "split_indemnity": HIY "你咬牙拆開備用銀匣按約補足分批違約款，堂內數位押貨掌櫃肅然起敬、當即加簽冬春長約！" NOR,
+            "pledge_warehouse": CYN "你取出實物炭垛與雪松木倉單押入雲海票號銅櫃，顧蘭舟點頭放行展期交割憑證！" NOR
+        ]),
+        "exp_gain": 15
+    ]));
+    add_action_rule("seal", ([
+        "targets": ({ "blind_bags", "customs_registry" }),
+        "quest_verb": "seal",
+        "quest_target_from_arg": 1,
+        "usage_msg": "請選擇五方對帳副本保全方式：seal blind_bags（五袋防潮盲封）或 seal customs_registry（公所優先備案）。",
+        "sensory_msgs": ([
+            "blind_bags": HIG "五套防潮油布袋各自編號並交由五方代表聯簽盲封，鎖入雲海票號地庫銅匣。" NOR,
+            "customs_registry": HIY "你當眾請羅九秤將五方對帳總目逐項登錄萬山公所官簿，任何單方皆無法再私下塗銷。" NOR
+        ]),
+        "exp_gain": 18
+    ]));
+
     spawn_npc("/clone/npc/gu_lanzhou.c");
 }
 

@@ -19,12 +19,34 @@
     },
     {
       "step": 2,
-      "title": "摸清陳楷無主材料清零的稽查死角",
-      "hint": "至萬物外環與陳楷周旋試探，摸清外環工役交接與條例漏洞 (ask wanwu_inspector_chen about 無主材料)。",
-      "target_type": "talk",
-      "target_npc": "wanwu_inspector_chen",
-      "target_topic": "無主材料",
-      "location": "/d/realm/wanwu/scrap_ring"
+      "title": "清查二十四座維修站與稽查反制抉擇",
+      "hint": "在萬物外環對應陳楷『無主材料清零』稽查漏洞擇定調度方針：分倉轉運保工料 (audit_stations stockpile_bypass) 或公差清點緩繳 (audit_stations clause_audit)。",
+      "target_type": "action",
+      "action_verb": "audit_stations",
+      "location": "/d/realm/wanwu/scrap_ring",
+      "choices": [
+        {
+          "target": "stockpile_bypass",
+          "label": "暗道分倉轉運並截留鹽稅回流（保住停工十日所需維修料件）",
+          "msg": "二十四座維修站連夜拆帳分倉，替即將到來的大停工存下足量合金備料與鹽晶！",
+          "region_effects": {
+            "region": "realm_wanwu",
+            "faction_deltas": { "wanwu_scrap_ring_artisans": 10, "wanwu_mainframe_directors": -6 },
+            "resolve_crises": [ "salt_levy_embezzlement" ],
+            "reserve_deltas": { "alloy_scrap": 200 }
+          }
+        },
+        {
+          "target": "clause_audit",
+          "label": "援引檢修公差條例正大封存（迫使陳楷無從依清零條款沒收）",
+          "msg": "你將二十四座維修站掛上待校核公差牌，陳楷在條文死角前無從下手只得退避！",
+          "region_effects": {
+            "region": "realm_wanwu",
+            "faction_deltas": { "wanwu_scrap_ring_artisans": 6, "equal_charter_arbitrators": 6 },
+            "price_delta": -5
+          }
+        }
+      ]
     }
   ],
   "rewards": {

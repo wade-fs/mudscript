@@ -163,20 +163,52 @@ for qid,(f,q) in Q.items():
 
 print("\n"+"="*70); print("E. JSON 欄位 vs 引擎實際讀取"); print("="*70)
 used = collections.Counter()
-def keys(o, path=''):
+DYNAMIC_CHILD_PARENTS = {'affinity', 'faction_deltas', 'reserve_deltas', 'deltas', 'facts'}
+def keys(o, parent_key=''):
     if isinstance(o, dict):
-        for k,v in o.items(): used[k]+=1; keys(v)
+        for k,v in o.items():
+            if parent_key not in DYNAMIC_CHILD_PARENTS:
+                used[k]+=1
+            keys(v, k)
     elif isinstance(o, list):
-        for x in o: keys(x)
+        for x in o: keys(x, parent_key)
 for qid,(f,q) in Q.items(): keys(q)
 cmdq = rd('cmds/cmd_quest.c')
 ev_mgr_src = rd('daemon/event_manager.c') + '\n'.join(open(ef, encoding='utf-8', errors='replace').read() for ef in glob.glob(R + '/data/event_defs/*.json'))
-dynamic_dict_keys = {'fa', 'li', 'wu'} # rewards.affinity 下由 foreach 動態走訪的鍵
 for k in sorted(used):
-    if k in dynamic_dict_keys: continue
     quoted = '"' + k + '"'
     inng = quoted in engine_src or quoted in cmdq or quoted in ev_mgr_src
     if not inng: print(f"  ✗ 欄位 \"{k}\" ({used[k]} 次) 引擎與 cmd_quest 都沒讀")
+
+# Verify region_effects faction/crisis IDs match world/regions/*.json
+region_defs = {}
+for rf in glob.glob(R + '/world/regions/*.json'):
+    rd_json = json.load(open(rf, encoding='utf-8'))
+    rid = rd_json.get('region_id') or rd_json.get('id')
+    if rid: region_defs[rid] = rd_json
+def audit_region_effects(o, default_region, qid):
+    if isinstance(o, dict):
+        if 'region_effects' in o and isinstance(o['region_effects'], dict):
+            eff = o['region_effects']
+            rid = eff.get('region') or default_region
+            rdef = region_defs.get(rid)
+            if not rdef:
+                print(f"  ✗ {qid}: region_effects references unknown region '{rid}'")
+            else:
+                facs = set((rdef.get('factions') or {}).keys())
+                crises = {c.get('id') for c in (rdef.get('crisis_deck') or []) if isinstance(c, dict)}
+                for fid in (eff.get('faction_deltas') or {}):
+                    if fid not in facs:
+                        print(f"  ✗ {qid}: unknown faction '{fid}' in region '{rid}'")
+                for cid in (eff.get('resolve_crises') or []) + (eff.get('trigger_crises') or []):
+                    if cid not in crises:
+                        print(f"  ✗ {qid}: unknown crisis '{cid}' in region '{rid}'")
+        for v in o.values():
+            audit_region_effects(v, default_region, qid)
+    elif isinstance(o, list):
+        for x in o: audit_region_effects(x, default_region, qid)
+for qid,(f,q) in Q.items():
+    audit_region_effects(q, q.get('region', ''), qid)
 print("\n  --- 結算路徑檢查 ---")
 for qid,(f,q) in Q.items():
     if q.get('stages'):

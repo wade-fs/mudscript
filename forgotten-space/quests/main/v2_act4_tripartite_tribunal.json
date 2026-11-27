@@ -4,6 +4,7 @@
   "chapter": "Ch.0068-Ch.0076",
   "category": "main",
   "type": "once",
+  "region": "jinshi",
   "start_npc": "pawnshop_jiachaofeng",
   "start_topic": "成色",
   "requirements": {
@@ -24,15 +25,35 @@
     },
     {
       "step": 2,
-      "title": "常平倉平糶與分級保命條陳",
-      "hint": "在常平倉向劉秉忠呈遞以工代賑分級平糶條陳 (ask liubingzhong about 分級)。",
-      "target_type": "talk",
-      "target_npc": "granary_liubingzhong",
-      "target_topic": "分級",
+      "title": "常平倉平糶與分級保命決策",
+      "hint": "在常平倉核清糧垛後決定賑濟方針：以工代賑五人組平糶 (allocate work_relief) 或嚴控鎖倉限購 (allocate ration_freeze)。",
+      "target_type": "action",
+      "action_verb": "allocate",
       "location": "/d/city/center/granary",
-      "on_complete": {
-        "msg": "【常平定盤】劉秉忠採納五人組分級保命平糶法，以限購代賑穩定西城糧價民心！"
-      }
+      "choices": [
+        {
+          "target": "work_relief",
+          "label": "五人組以工代賑平糶（壓低市價、民心歸附）",
+          "msg": "【常平定盤】劉秉忠依你建言推行五人組以工代賑平糶，即時放糧壓住西城糧價、穩住坊民！",
+          "region_effects": {
+            "region": "jinshi",
+            "faction_deltas": { "prefect_office": 8, "chamber_of_commerce": -4 },
+            "reserve_deltas": { "grain_granary": -400 },
+            "price_delta": -6
+          }
+        },
+        {
+          "target": "ration_freeze",
+          "label": "軍民分儲鎖倉限購（充實官倉、嚴防擠兌）",
+          "msg": "【鎖倉備荒】劉秉忠依你建言優先清點鎖倉防弊，官倉儲備穩增，但市面米價一時難降。",
+          "region_effects": {
+            "region": "jinshi",
+            "faction_deltas": { "prefect_office": 10, "chamber_of_commerce": -8 },
+            "reserve_deltas": { "grain_granary": 600 },
+            "price_delta": 4
+          }
+        }
+      ]
     },
     {
       "step": 3,
@@ -74,28 +95,51 @@
     },
     {
       "step": 6,
-      "title": "天字一號密室火漆公證正底單",
-      "hint": "在府衙案牘庫向主簿文承敬呈驗地下暗渠起獲的正底單 (ask wenchengjing about 密室)。",
-      "target_type": "talk",
-      "target_npc": "yamen_archive_wenchengjing",
-      "target_topic": "密室",
+      "title": "天字一號密室火漆封印正底單",
+      "hint": "在府衙案牘庫當案查驗編號並完成正底單火漆封印 (seal deed)。",
+      "target_type": "action",
+      "action_verb": "seal",
+      "action_target": "deed",
       "location": "/d/city/center/yamen_archive",
       "on_complete": {
         "give_item": "/clone/item/under_canal_deed.c",
-        "msg": "【火漆公證】主簿文承敬在大水沒頂前完成正底單火漆封印，保管鏈滴水不漏，正式頒予【總堂血精交割正底單】！"
+        "msg": "【火漆公證】你親手協助主簿文承敬完成正底單雙印火漆封印，保管鏈滴水不漏，獲頒【總堂血精交割正底單】！"
       }
     },
     {
       "step": 7,
-      "title": "府衙正堂三印合符審定巨蠹",
-      "hint": "在府衙正堂向金石府尹秦正明發起三方會審定讞 (ask yamen_magistrate about 三印)。",
-      "target_type": "talk",
-      "target_npc": "yamen_magistrate",
-      "target_topic": "三印",
+      "title": "府衙正堂三印合符審定裁決",
+      "hint": "在府衙正堂三方會審公案前擇定裁決：三印抄沒補倉 (adjudicate seize_assets) 或公證託管保商埠平穩 (adjudicate public_trusteeship)。",
+      "target_type": "action",
+      "action_verb": "adjudicate",
       "location": "/d/city/center/yamen",
+      "choices": [
+        {
+          "target": "seize_assets",
+          "label": "三印抄沒非法屯銀補倉平市（徹底瓦解囤積、重挫內堂私股）",
+          "msg": "【三印抄沒】驚堂木重落！錢百川革職下獄並抄沒非法私庫撥入常平倉，黑市囤貨立時潰散！",
+          "region_effects": {
+            "region": "jinshi",
+            "resolve_crises": [ "black_market_speculation" ],
+            "faction_deltas": { "prefect_office": 10, "chamber_of_commerce": -10 },
+            "price_delta": -10
+          }
+        },
+        {
+          "target": "public_trusteeship",
+          "label": "主犯下獄・商會餘產改歸公證託管（保六縣商道週轉不致斷裂）",
+          "msg": "【公證託管】驚堂木重落！錢百川革職收押，商會正當行號改歸蘇凝霜與府衙聯合託管，六縣信用穩步恢復！",
+          "region_effects": {
+            "region": "jinshi",
+            "resolve_crises": [ "black_market_speculation" ],
+            "faction_deltas": { "prefect_office": 6, "chamber_of_commerce": 4 },
+            "price_delta": -4
+          }
+        }
+      ],
       "on_complete": {
         "give_item": "/clone/item/tripartite_warrant.c",
-        "msg": "【三印合符】府尹秦正明驚堂木重重拍落！三方會審三印合符定讞，錢百川被革職下獄，正式頒予【三方會審三印合符裁決書】！"
+        "msg": "【三印合符】府尹秦正明簽押頒發【三方會審三印合符裁決書】！"
       }
     }
   ],

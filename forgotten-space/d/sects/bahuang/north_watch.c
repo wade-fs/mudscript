@@ -24,5 +24,14 @@ void create() {
     set_smell("default", CYN "只有荒原冰雪寒風與哨卒火盆裡半熄木炭的微弱煙氣。" NOR);
     set_listen("default", WHT "曠野朔風呼嘯而過，哨塔上偶爾傳來斥候敲響警鐘測試銅音的沉悶一聲。" NOR);
 
+    add_action_rule("stake", ([
+        "targets": ({ "ice_rift" }),
+        "quest_verb": "stake",
+        "quest_target": "ice_rift",
+        "usage_msg": "你想沿哪處目標打設測冰鐵簽？試試：stake ice_rift",
+        "sensory_msg": HIC "你拎起綁紅布條的長鐵簽逐段釘入城下裂谷冰縫，細看布條規律微顫頻率，畫出地底暗脈走向！" NOR,
+        "exp_gain": 14
+    ]));
+
     spawn_npc("/clone/npc/qi_wushang.c");
 }

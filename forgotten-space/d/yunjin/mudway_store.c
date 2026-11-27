@@ -26,6 +26,15 @@ void create() {
     set_smell("default", YEL "新劈木板鬆香、乾草料與櫃邊炭盆熬著的一壺粗麥茶暖香。" NOR);
     set_listen("default", WHT "夥計阿四清點貨單的念數聲、算盤輕響與屋外雪橇車隊卸貨的腳步聲。" NOR);
 
+    add_action_rule("establish", ([
+        "targets": ({ "ledger" }),
+        "quest_verb": "establish",
+        "quest_target": "ledger",
+        "usage_msg": "你想建置什麼商棧制度？試試：establish ledger",
+        "sensory_msg": HIG "你與邱禾將貨單、倉單與押車簽收木牌按編號釘上杉木帳架，建立起泥途商棧第一套三聯追溯帳簿！" NOR,
+        "exp_gain": 12
+    ]));
+
     spawn_npc("/clone/npc/qiu_he.c");
     spawn_npc("/clone/npc/a_si.c");
 }

@@ -4,6 +4,7 @@
   "chapter": "Ch.0043-Ch.0046",
   "category": "main",
   "type": "once",
+  "region": "jinshi",
   "start_npc": "gate_south_taxofficer",
   "start_topic": "入城",
   "requirements": {
@@ -25,14 +26,18 @@
     },
     {
       "step": 2,
-      "title": "府衙案牘庫人犯移交",
-      "hint": "前往府衙案牘庫向主簿文承敬呈交押解文卷 (ask wenchengjing about 移交)，正式移交人犯趙德貴入死牢。",
-      "target_type": "talk",
-      "target_npc": "yamen_archive_wenchengjing",
-      "target_topic": "移交",
+      "title": "府衙案牘庫人犯押解登錄",
+      "hint": "前往府衙案牘庫親手核對簽押簿冊，將要犯趙德貴入籍收監 (register prisoner)。",
+      "target_type": "action",
+      "action_verb": "register",
+      "action_target": "prisoner",
       "location": "/d/city/center/yamen_archive",
       "on_complete": {
-        "msg": "【移交完成】文承敬主簿提筆簽押，黑石要犯趙德貴正式押入府衙死牢！"
+        "msg": "【移交完成】人犯畫押、押解火漆原件雙雙錄入府衙正式刑名底冊，趙德貴正式押入死牢！",
+        "region_effects": {
+          "region": "jinshi",
+          "faction_deltas": { "prefect_office": 4, "chamber_of_commerce": -2 }
+        }
       }
     },
     {

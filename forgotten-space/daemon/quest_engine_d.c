@@ -1066,6 +1066,38 @@ int check_and_handle_lost_item(object who, string npc_id, string topic) {
 
 // ── 世界事件型任務階段檢定與因果結算橋接器 ────────────────────
 
+void apply_step_outcome_block(object who, string qid, mapping q, mapping oc) {
+    if (!who || !mapp(oc)) return;
+    if (oc["give_item"]) {
+        object ob = clone_object(oc["give_item"]);
+        if (ob) {
+            if ((ob->query("is_relic") || ob->query("is_road_pass")) &&
+                (present(ob->query_name(), who) || present("road pass", who))) {
+                destruct(ob);
+            } else {
+                if (!ob->move(who)) ob->move(environment(who));
+                tell_object(who, HIG "【獲得信物：" + ob->query_short() + "】\n" NOR);
+            }
+        }
+    }
+    if (oc["msg"] && oc["msg"] != "") {
+        tell_object(who, HIG + oc["msg"] + "\n" NOR);
+    }
+    if (mapp(oc["region_effects"])) {
+        apply_region_effects(oc["region_effects"], mapp(q) ? q["region"] : "", qid);
+    }
+}
+
+mapping find_step_choice(mapping s, string target) {
+    if (!mapp(s) || !target || target == "" || !arrayp(s["choices"])) return 0;
+    foreach (mixed c in s["choices"]) {
+        if (mapp(c) && c["target"] == target) {
+            return c;
+        }
+    }
+    return 0;
+}
+
 int is_event_quest_stage_valid(mapping q) {
     if (!mapp(q) || !q["world_event"]) return 1;
     object em = load_object(EVENT_MANAGER_D);
@@ -1403,7 +1435,7 @@ mixed trigger_event(object who, string event_type, mapping data) {
 
                 if (q["world_event"] && !is_event_quest_stage_valid(q)) {
                     tell_object(who, HIR "【時機已逝】世界局勢已推進至新階段，【" + q["name"] + "】的行動窗口已關閉！\n" NOR);
-                    return 1;
+                    continue;
                 }
 
                 // 檢查等級條件
@@ -1427,21 +1459,7 @@ mixed trigger_event(object who, string event_type, mapping data) {
                     if (!req_item || req_item == "" || has_required_item(who, req_item)) {
                         // 發放 step 1 完成回饋
                         if (s0_talk["on_complete"]) {
-                            mapping oc0_talk = s0_talk["on_complete"];
-                            if (oc0_talk["give_item"]) {
-                                object r0_talk = clone_object(oc0_talk["give_item"]);
-                                if (r0_talk) {
-                                    if ((r0_talk->query("is_relic") || r0_talk->query("is_road_pass")) && (present(r0_talk->query_name(), who) || present("road pass", who))) {
-                                        destruct(r0_talk);
-                                    } else {
-                                        if (!r0_talk->move(who)) r0_talk->move(environment(who));
-                                        tell_object(who, HIG "【獲得信物：" + r0_talk->query_short() + "】\n" NOR);
-                                    }
-                                }
-                            }
-                            if (oc0_talk["msg"]) {
-                                tell_object(who, HIG + oc0_talk["msg"] + "\n" NOR);
-                            }
+                            apply_step_outcome_block(who, qid, q, s0_talk["on_complete"]);
                         }
 
                         if (sizeof(steps) > 1) {
@@ -1458,7 +1476,9 @@ mixed trigger_event(object who, string event_type, mapping data) {
             // 方式 B: 隱藏奇遇或行為歷練在 step 1 透過 action 行為直接觸發接取
             mapping s0 = steps[0];
             if (s0["target_type"] == "action" && event_type == "action" && verb == s0["action_verb"]) {
-                if (!s0["action_target"] || target == s0["action_target"]) {
+                mapping s0_choice = arrayp(s0["choices"]) ? find_step_choice(s0, target) : 0;
+                if ((arrayp(s0["choices"]) && sizeof(s0["choices"]) > 0 && mapp(s0_choice)) ||
+                    (!arrayp(s0["choices"]) && (!s0["action_target"] || target == s0["action_target"]))) {
                     // 地點檢定
                     string req_loc = s0["location"] ? s0["location"] : s0["room"];
                     if (req_loc && req_loc != "") {
@@ -1470,7 +1490,7 @@ mixed trigger_event(object who, string event_type, mapping data) {
 
                     if (q["world_event"] && !is_event_quest_stage_valid(q)) {
                         tell_object(who, HIR "【時機已逝】世界局勢已推進至新階段，【" + q["name"] + "】的行動窗口已關閉！\n" NOR);
-                        return 0;
+                        continue;
                     }
 
                     // 等級檢定
@@ -1491,22 +1511,12 @@ mixed trigger_event(object who, string event_type, mapping data) {
                     }
 
                     // 發放 step 1 完成回饋
+                    if (mapp(s0_choice)) {
+                        who->set("quests/" + qid + "/choices/step_" + sprintf("%d", s0["step"]), target);
+                        apply_step_outcome_block(who, qid, q, s0_choice);
+                    }
                     if (s0["on_complete"]) {
-                        mapping oc0 = s0["on_complete"];
-                        if (oc0["give_item"]) {
-                            object r0 = clone_object(oc0["give_item"]);
-                            if (r0) {
-                                if ((r0->query("is_relic") || r0->query("is_road_pass")) && (present(r0->query_name(), who) || present("road pass", who))) {
-                                    destruct(r0);
-                                } else {
-                                    if (!r0->move(who)) r0->move(environment(who));
-                                    tell_object(who, HIG "【獲得信物：" + r0->query_short() + "】\n" NOR);
-                                }
-                            }
-                        }
-                        if (oc0["msg"]) {
-                            tell_object(who, HIG + oc0["msg"] + "\n" NOR);
-                        }
+                        apply_step_outcome_block(who, qid, q, s0["on_complete"]);
                     }
 
                     // 直接推進至第 2 步
@@ -1597,6 +1607,7 @@ mixed trigger_event(object who, string event_type, mapping data) {
             }
 
             int matched = 0;
+            mapping chosen_branch = 0;
             string t_type = s["target_type"];
 
             // A. 對話類步驟 (talk)
@@ -1633,10 +1644,17 @@ mixed trigger_event(object who, string event_type, mapping data) {
                     }
                 }
             }
-            // C. 行動類步驟 (action)
+            // C. 行動類步驟 (action，含多分支決策 choices)
             else if (t_type == "action" && event_type == "action") {
                 if (verb == s["action_verb"]) {
-                    if (!s["action_target"] || target == s["action_target"]) {
+                    int target_ok = 0;
+                    if (arrayp(s["choices"]) && sizeof(s["choices"]) > 0) {
+                        chosen_branch = find_step_choice(s, target);
+                        if (mapp(chosen_branch)) target_ok = 1;
+                    } else if (!s["action_target"] || target == s["action_target"]) {
+                        target_ok = 1;
+                    }
+                    if (target_ok) {
                         // 裝備檢定
                         string req_eq = s["require_equipped"];
                         if (req_eq && req_eq != "") {
@@ -1717,23 +1735,13 @@ mixed trigger_event(object who, string event_type, mapping data) {
             }
 
             if (matched) {
-                // 發放步驟完成回饋
+                // 發放決策分支與步驟完成回饋
+                if (mapp(chosen_branch)) {
+                    who->set("quests/" + qid + "/choices/step_" + sprintf("%d", s["step"]), target);
+                    apply_step_outcome_block(who, qid, q, chosen_branch);
+                }
                 if (s["on_complete"]) {
-                    mapping oc = s["on_complete"];
-                    if (oc["give_item"]) {
-                        object reward_ob = clone_object(oc["give_item"]);
-                        if (reward_ob) {
-                            if (reward_ob->query("is_relic") && present(reward_ob->query_name(), who)) {
-                                destruct(reward_ob);
-                            } else {
-                                if (!reward_ob->move(who)) reward_ob->move(environment(who));
-                                tell_object(who, HIG "【獲得道具：" + reward_ob->query_short() + "】\n" NOR);
-                            }
-                        }
-                    }
-                    if (oc["msg"]) {
-                        tell_object(who, HIG + oc["msg"] + "\n" NOR);
-                    }
+                    apply_step_outcome_block(who, qid, q, s["on_complete"]);
                 }
 
                 // 推進到下一步
@@ -1899,6 +1907,14 @@ string query_quest_checklist(object who, string qid) {
             }
             out += sprintf(HIY "  [▶] 第 %d 步：%s (進行中%s)\n" NOR, s_idx, s["title"], progress_info);
             out += sprintf(WHT "      指引：%s\n" NOR, s["hint"]);
+            if (arrayp(s["choices"]) && sizeof(s["choices"]) > 0) {
+                string act_v = s["action_verb"] ? s["action_verb"] : "choose";
+                foreach (mixed ch in s["choices"]) {
+                    if (mapp(ch)) {
+                        out += sprintf(CYN "      決策選項 [%s %s]：%s\n" NOR, act_v, ch["target"], ch["label"] ? ch["label"] : ch["target"]);
+                    }
+                }
+            }
 
             mapping lost_rec = check_lost_item(who, qid);
             if (lost_rec) {

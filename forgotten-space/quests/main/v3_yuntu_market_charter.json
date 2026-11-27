@@ -4,6 +4,7 @@
   "chapter": "Ch.0084-Ch.0090",
   "category": "main",
   "type": "once",
+  "region": "yunjin",
   "start_npc": "luo_jiucheng",
   "start_topic": "商棧登記",
   "steps": [
@@ -21,27 +22,47 @@
     },
     {
       "step": 2,
-      "title": "建立交割帳簿",
-      "hint": "向邱禾建立貨單、倉單與交割簽收制度。",
-      "target_type": "talk",
-      "target_npc": "qiu_he",
-      "target_topic": "帳簿",
+      "title": "立帳設牌建置交割簽收制度",
+      "hint": "於泥途商棧親手核對並立定貨單、倉單與交割簽收雙聯木牌 (establish ledger)。",
+      "target_type": "action",
+      "action_verb": "establish",
+      "action_target": "ledger",
       "location": "/d/yunjin/mudway_store",
       "on_complete": {
-        "msg": "泥途商棧建立第一套可追溯帳簿。"
+        "msg": "泥途商棧正式立定可逐筆追溯之貨單／倉單／簽收三聯帳簿。"
       }
     },
     {
       "step": 3,
-      "title": "首次履約爭議",
-      "hint": "向顧蘭舟協商延誤貨物的票據與分批交割。",
-      "target_type": "talk",
-      "target_npc": "gu_lanzhou",
-      "target_topic": "履約",
+      "title": "首次履約爭議結算抉擇",
+      "hint": "在交割廳針對延誤貨物擇定處置：分批自賠保住信用 (settle split_indemnity) 或押單延緩週轉 (settle pledge_warehouse)。",
+      "target_type": "action",
+      "action_verb": "settle",
       "location": "/d/yunjin/exchange_hall",
-      "on_complete": {
-        "msg": "沈泥以賠償與分批履約維持信用，商棧資金因此承壓。"
-      }
+      "choices": [
+        {
+          "target": "split_indemnity",
+          "label": "傾囊分批賠付履約（商號公信大幅提升、穩住寒地貨源）",
+          "msg": "沈泥堅持足額分批履約自賠，雲津商戶對泥途商棧的信用徹底打響！",
+          "region_effects": {
+            "region": "yunjin",
+            "faction_deltas": { "yunjin_mudway_merchant": 10, "wanbao_futures_guild": -4 },
+            "reserve_deltas": { "timber": 120 },
+            "price_delta": -4
+          }
+        },
+        {
+          "target": "pledge_warehouse",
+          "label": "實物倉單作抵延緩交割（保留週轉銀兩、爭取公所背書）",
+          "msg": "顧蘭舟核驗炭垛倉單作保，以票號擔保替泥途爭取喘息期限並穩住炭料庫存！",
+          "region_effects": {
+            "region": "yunjin",
+            "faction_deltas": { "yunjin_mudway_merchant": 4, "three_sect_customs": 6 },
+            "reserve_deltas": { "charcoal": 80 },
+            "price_delta": -2
+          }
+        }
+      ]
     }
   ],
   "rewards": {

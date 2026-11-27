@@ -10,14 +10,14 @@
   "steps": [
     {
       "step": 1,
-      "title": "整理星曆差異紀錄",
-      "hint": "於藏星秘閣向余守拙核對《紫微星官錄》紙墨年代差異清單。",
-      "target_type": "talk",
-      "target_npc": "yu_shouzhuo",
-      "target_topic": "差異清單",
+      "title": "藏星秘閣實測星曆紙墨差異",
+      "hint": "於藏星秘閣親手檢驗《紫微星官錄》北麻原卷與南宣修訂本的紙墨年代斷層 (inspect_ink star_record)。",
+      "target_type": "action",
+      "action_verb": "inspect_ink",
+      "action_target": "star_record",
       "location": "/d/sects/taiqing/hidden_archive",
       "on_complete": {
-        "msg": "星曆紙墨差異進入跨線索對帳，保留三百年修正原因未知之缺口。"
+        "msg": "紙墨年代差異進入跨線索對帳，保留三百年修正原因未知之缺口。"
       }
     },
     {
@@ -46,15 +46,32 @@
     },
     {
       "step": 4,
-      "title": "交割廳雲海票號封存五方對帳副本",
-      "hint": "前往三宗交割廳暨雲海票號向顧蘭舟申請多方封存副本。",
-      "target_type": "talk",
-      "target_npc": "gu_lanzhou",
-      "target_topic": "封存副本",
+      "title": "交割廳雲海票號封存五方對帳抉擇",
+      "hint": "在交割廳暨雲海票號決定五方副本保全方式：五袋防潮盲封 (seal blind_bags) 或呈交公所登記防滅證 (seal customs_registry)。",
+      "target_type": "action",
+      "action_verb": "seal",
       "location": "/d/yunjin/exchange_hall",
-      "on_complete": {
-        "msg": "形成可交叉核驗的五袋防潮編號副本，不把合理推論提前升格為終審定論。"
-      }
+      "choices": [
+        {
+          "target": "blind_bags",
+          "label": "五袋防潮盲封留待互驗（維持最高公信與多方制衡）",
+          "msg": "五袋防潮編號副本各自歸庫鎖死，不把合理推論提前升格為終審定論。",
+          "region_effects": {
+            "region": "yunjin",
+            "faction_deltas": { "yunjin_mudway_merchant": 6, "three_sect_customs": 6, "wanbao_futures_guild": -4 }
+          }
+        },
+        {
+          "target": "customs_registry",
+          "label": "公所優先登錄索引防滅證（鎖死萬寶期貨關口，換取三宗公所重壓護持）",
+          "msg": "羅九秤當庭錄入公所優先存證編號，萬寶系想私下抽換帳頁之路從此斷絕。",
+          "region_effects": {
+            "region": "yunjin",
+            "faction_deltas": { "three_sect_customs": 10, "yunjin_mudway_merchant": 3, "wanbao_futures_guild": -6 },
+            "price_delta": -2
+          }
+        }
+      ]
     }
   ],
   "rewards": {

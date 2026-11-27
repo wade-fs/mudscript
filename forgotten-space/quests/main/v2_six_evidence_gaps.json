@@ -4,6 +4,7 @@
   "chapter": "Ch.0051-Ch.0057",
   "category": "main",
   "type": "once",
+  "region": "jinshi",
   "start_npc": "gate_south_inn_laoliu",
   "start_topic": "夜議",
   "requirements": {
@@ -48,15 +49,19 @@
     },
     {
       "step": 4,
-      "title": "案牘總庫封閉六大物證",
-      "hint": "前往案牘庫向主簿文承敬呈遞彙總卷宗 (ask wenchengjing about 案卷)，將六缺口案卷正式歸檔。",
-      "target_type": "talk",
-      "target_npc": "yamen_archive_wenchengjing",
-      "target_topic": "案卷",
+      "title": "案牘總庫對帳裝訂六缺口案卷",
+      "hint": "前往府衙案牘庫親手對號裝訂六大缺口底單並烙印封存 (archive_dossier six_gaps)。",
+      "target_type": "action",
+      "action_verb": "archive_dossier",
+      "action_target": "six_gaps",
       "location": "/d/city/center/yamen_archive",
       "on_complete": {
         "give_item": "/clone/item/evidence_six_gaps.c",
-        "msg": "【鐵證合璧】文承敬主簿在公案前長嘆一聲，用硃砂印將這份改寫府城局勢的【六缺口物證案卷】正式烙印封存！"
+        "msg": "【鐵證合璧】六大缺口卷宗逐頁核對編號、以硃砂火漆烙印歸檔，正式取得【六缺口物證案卷】！",
+        "region_effects": {
+          "region": "jinshi",
+          "faction_deltas": { "prefect_office": 5, "chamber_of_commerce": -3 }
+        }
       }
     }
   ],

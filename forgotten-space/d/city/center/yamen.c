@@ -27,6 +27,18 @@ void create() {
     set_smell("default", CYN "公堂上朱砂大印印泥氣、陳茶香與衙役皮靴上的淡淡鐵鏽灰塵味。" NOR);
     set_listen("default", HIY "堂外偶爾傳來鳴冤鼓餘震，堂內肅靜威嚴得連水火棍輕頓地面都能聽見回聲。" NOR);
 
+    add_action_rule("adjudicate", ([
+        "targets": ({ "seize_assets", "public_trusteeship" }),
+        "quest_verb": "adjudicate",
+        "quest_target_from_arg": 1,
+        "usage_msg": "請於三印公案前裁決：adjudicate seize_assets（三印抄沒補倉）或 adjudicate public_trusteeship（公證託管保埠）。",
+        "sensory_msgs": ([
+            "seize_assets": HIR "秦正明聽取呈證後猛拍驚堂木！三印並落，堂下衙役立即奉命查封錢百川屯銀私庫並充入常平倉！" NOR,
+            "public_trusteeship": HIY "秦正明依循三印聯署裁定：革除錢百川收監問罪，商會正當票莊由公證聯合託管以防六縣斷鏈！" NOR
+        ]),
+        "exp_gain": 20
+    ]));
+
     spawn_npc("/clone/npc/yamen_magistrate.c");
     spawn_npc("/clone/npc/yamen_zhou.c");
 }

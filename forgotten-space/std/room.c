@@ -263,7 +263,10 @@ int do_declarative_action(string arg) {
     }
 
     // 6. 感官與物質描述先行
-    if (rule["sensory_msg"]) {
+    string matched_target = arg ? lower_case(arg) : "";
+    if (mapp(rule["sensory_msgs"]) && rule["sensory_msgs"][matched_target]) {
+        write(rule["sensory_msgs"][matched_target] + "\n");
+    } else if (rule["sensory_msg"]) {
         write(rule["sensory_msg"] + "\n");
     }
 
@@ -278,12 +281,13 @@ int do_declarative_action(string arg) {
     }
 
     // 8. 任務引擎觸發
-    if (rule["quest_verb"] || rule["quest_target"]) {
+    if (rule["quest_verb"] || rule["quest_target"] || rule["quest_target_from_arg"]) {
         object qe = load_object("/daemon/quest_engine_d.c");
         if (qe) {
+            string qtarget = rule["quest_target_from_arg"] ? matched_target : (rule["quest_target"] ? rule["quest_target"] : "");
             qe->trigger_event(me, "action", ([
                 "verb": rule["quest_verb"] ? rule["quest_verb"] : verb,
-                "target": rule["quest_target"] ? rule["quest_target"] : ""
+                "target": qtarget
             ]));
         }
     }

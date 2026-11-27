@@ -25,6 +25,15 @@ void create() {
     set_smell("default", YEL "數百年羊皮星曆卷宗、防蟲樟腦丸與陳舊松煙墨混雜的古書房氣息。" NOR);
     set_listen("default", WHT "山腹石室四面厚壁隔絕外風，只聽得見分規尺輕叩案面與細微翻卷聲。" NOR);
 
+    add_action_rule("inspect_ink", ([
+        "targets": ({ "star_record" }),
+        "quest_verb": "inspect_ink",
+        "quest_target": "star_record",
+        "usage_msg": "你想檢驗哪組檔冊紙墨？試試：inspect_ink star_record",
+        "sensory_msg": HIC "你借放大琉璃鏡逐頁比對北麻原卷松煙殘粒與南宣定本紙紋，鎖定三百年間遭人重抄竄改之斷層！" NOR,
+        "exp_gain": 14
+    ]));
+
     spawn_npc("/clone/npc/yu_shouzhuo.c");
 }
 

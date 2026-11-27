@@ -4,6 +4,7 @@
   "chapter": "Ch.0058-Ch.0067",
   "category": "main",
   "type": "once",
+  "region": "jinshi",
   "start_npc": "gate_south_inn_laoliu",
   "start_topic": "四線",
   "requirements": {
@@ -24,15 +25,15 @@
     },
     {
       "step": 2,
-      "title": "烈礬耐火泥出貨單核驗",
-      "hint": "前往千錘地爐坊向莫錘大師呈遞烈礬出貨底單 (ask mochui about 耐火泥)，核定商會內堂私造血精坩堝鐵證。",
-      "target_type": "talk",
-      "target_npc": "gong_forge_mochui",
-      "target_topic": "耐火泥",
+      "title": "烈礬耐火泥樣本實驗比對",
+      "hint": "前往千錘地爐坊檢驗金蓮環刀印與特級耐火白泥試塊 (inspect clay)。",
+      "target_type": "action",
+      "action_verb": "inspect",
+      "action_target": "clay",
       "location": "/d/city/north/gong_forge",
       "on_complete": {
         "give_item": "/clone/item/liefan_clay_batch.c",
-        "msg": "【工料確證】莫錘大師核對金蓮環刀印與特級耐火白泥批單，證實商會內堂私造坩堝，正式頒予【特級烈礬耐火泥出貨單】！"
+        "msg": "【工料確證】火色實測比對出耐火白泥含高純矽礬，與血精坩堝脆片紋理完全一致，取得【特級烈礬耐火泥出貨單】！"
       }
     },
     {
@@ -89,15 +90,34 @@
     },
     {
       "step": 7,
-      "title": "南關小棧四線合璧與凍結反擊",
-      "hint": "返回南關車馬小棧向蘇凝霜通報四線鐵證合璧 (ask su about 合璧)，直面錢百川信用凍結與奪權反擊。",
-      "target_type": "talk",
-      "target_npc": "su ningshuang",
-      "target_topic": "合璧",
+      "title": "南關小棧四線合璧與反擊抉擇",
+      "hint": "返回南關車馬小棧決定四線鐵證合璧後的反制路線：當街張榜揭發迫使擠兌攤牌 (publish_case public_posting) 或密呈府尹合符封庫 (publish_case sealed_petition)。",
+      "target_type": "action",
+      "action_verb": "publish_case",
       "location": "/d/city/gate/gate_south_inn",
-      "on_complete": {
-        "msg": "【合璧反擊】四路物證嚴密鎖合！長街鑼鼓震天，商會全面凍結六縣飛錢並張榜停職蘇凝霜，第三幕大風暴拉開序幕！"
-      }
+      "choices": [
+        {
+          "target": "public_posting",
+          "label": "四線鐵證抄本張榜通衢（正面逼出錢百川私庫，市面一時震盪）",
+          "msg": "【通衢公榜】四線物證抄本貼出瞬間長街沸反，錢百川被迫提前動用凍結飛錢與私庫封門，市面貨價劇震！",
+          "region_effects": {
+            "region": "jinshi",
+            "faction_deltas": { "prefect_office": 6, "chamber_of_commerce": -8 },
+            "trigger_crises": [ "black_market_speculation" ],
+            "price_delta": 6
+          }
+        },
+        {
+          "target": "sealed_petition",
+          "label": "四路原件密遞府衙與公庫（保留突襲優勢，減少坊間恐慌）",
+          "msg": "【密遞合符】四線原件悄悄經暗道封呈府尹秦正明與老劉暗樁，第三幕會審前保留先手證據鎖鏈！",
+          "region_effects": {
+            "region": "jinshi",
+            "faction_deltas": { "prefect_office": 8, "chamber_of_commerce": -4 },
+            "price_delta": 2
+          }
+        }
+      ]
     }
   ],
   "rewards": {

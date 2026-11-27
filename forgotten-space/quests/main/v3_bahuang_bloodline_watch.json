@@ -34,14 +34,19 @@
     },
     {
       "step": 3,
-      "title": "訪查北荒斥候營巡哨紀錄",
-      "hint": "前往北荒巡哨營向斥候祁無傷詢問鬼哭冰澗地底異動與五年前走山隊路線。",
-      "target_type": "talk",
-      "target_npc": "qi_wushang",
-      "target_topic": "走山隊",
+      "title": "北荒巡哨營打設測冰鐵簽核驗裂谷震動",
+      "hint": "前往北荒巡哨營依斥候祁無傷標位打設紅布測冰長簽，實測鬼哭冰澗地底震波週期 (stake ice_rift)。",
+      "target_type": "action",
+      "action_verb": "stake",
+      "action_target": "ice_rift",
       "location": "/d/sects/bahuang/north_watch",
       "on_complete": {
-        "msg": "祁無傷確認冰澗崩塌位置與夜間規律地底震動，燕山生死尚須現場探冰取證。"
+        "msg": "你親手將綁紅布條的測冰長簽釘入邊牆冰裂縫，標定規律地底震波來源直指鬼哭冰澗極深處！",
+        "region_effects": {
+          "region": "bahuang",
+          "faction_deltas": { "bahuang_wall_garrison": 6, "bahuang_restoration_elders": 4 },
+          "reserve_deltas": { "rations": 100 }
+        }
       }
     }
   ],

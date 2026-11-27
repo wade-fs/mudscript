@@ -26,6 +26,18 @@ void create() {
     set_smell("default", CYN "濃重的機油、高溫電弧焦臭與生鐵氧化粉塵味撲鼻而來。" NOR);
     set_listen("default", HIY "數百具巨型齒輪永不停歇的沉重齒合轟鳴，震得腳底與胸腔隱隱共鳴。" NOR);
 
+    add_action_rule("audit_stations", ([
+        "targets": ({ "stockpile_bypass", "clause_audit" }),
+        "quest_verb": "audit_stations",
+        "quest_target_from_arg": 1,
+        "usage_msg": "請選擇二十四座維修站應對稽查之策：audit_stations stockpile_bypass（分倉轉運）或 audit_stations clause_audit（公差清點）。",
+        "sensory_msgs": ([
+            "stockpile_bypass": HIY "你依齊九軸暗號調動推車將無主料件拆分轉入各維修工位分帳，陳楷帶人到場只見賬物兩清！" NOR,
+            "clause_audit": HIC "你按外環保養規範為二十四座工位掛齊公差核驗牌，正面逼退陳楷試圖強行清零之手令！" NOR
+        ]),
+        "exp_gain": 18
+    ]));
+
     spawn_npc("/clone/npc/wanwu_auditor_qi.c");
     spawn_npc("/clone/npc/wanwu_inspector_chen.c");
     spawn_npc("/clone/npc/cross_realm_broker.c");

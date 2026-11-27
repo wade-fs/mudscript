@@ -24,6 +24,18 @@ void create() {
     set_smell("default", YEL "粗茶水氣、濕衣烘烤味與剛從外縣逃難進關的行旅風塵氣。" NOR);
     set_listen("default", WHT "老劉與跑腿小廝在櫃後悄悄互通有無的低語，夾著門外南關盤查喧鬧。" NOR);
 
+    add_action_rule("publish_case", ([
+        "targets": ({ "public_posting", "sealed_petition" }),
+        "quest_verb": "publish_case",
+        "quest_target_from_arg": 1,
+        "usage_msg": "請決定四線物證合璧後的出牌策略：publish_case public_posting（通衢張榜）或 publish_case sealed_petition（密呈府衙）。",
+        "sensory_msgs": ([
+            "public_posting": HIR "老劉與五子連夜刷印四線鐵證摘要貼上南關照壁，消息如野火般捲過六縣與金石長街！" NOR,
+            "sealed_petition": CYN "你將四線原件與密呈帖仔細封蠟，交由老劉暗樁直遞府衙後門，靜候三方會審一網打盡！" NOR
+        ]),
+        "exp_gain": 15
+    ]));
+
     spawn_npc("/clone/npc/gate_south_inn_laoliu.c");
     spawn_npc("/clone/npc/gate_south_runner.c");
     spawn_npc("/clone/npc/su_ningshuang.c");
