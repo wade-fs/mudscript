@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
 """
 《遺忘的世界》敘事—代碼雙向同步稽核工具 (Narrative <-> Mudlib Sync Audit)
-- 核驗三卷 126 章小說與卷末導讀完整性
+- 核驗四卷 170 章小說正文（article/）與卷首導讀、大事紀年表完整性
 - 核驗 data/canon_sync_matrix.json 中宣告的每一個任務 ID、房間路徑、物證/遺物檔案是否真實存在
 - 核驗感官介面、主動出示/互相印證/污染與偽造、五器多階段校驗、傳聞扭曲、資格區隔、宣告式動作規則與歷史回放命令是否齊備
+- 若本機存在 narrative/ 或透過 --narrative-dir 指定外部小說設計 Repo，亦同步檢核 EV 連續性與映射表統計；否則自動略過已移至外部小說 Repo 的 narrative/ 設計檔連結與檢核
 """
+import argparse
 import glob
 import json
 import os
@@ -12,24 +14,48 @@ import re
 import sys
 import collections
 
-ROOT = os.path.abspath(sys.argv[1] if len(sys.argv) > 1 else ".")
+
+def parse_args():
+    parser = argparse.ArgumentParser(description="《遺忘的世界》敘事—代碼雙向同步稽核工具")
+    parser.add_argument("root", nargs="?", default=".", help="forgotten-space 根目錄（預設為當前目錄）")
+    parser.add_argument(
+        "--narrative-dir",
+        default=None,
+        help="選填：外部小說設計 Repo 的 narrative 根目錄（未指定且本地無 narrative/ 時自動略過設計檔檢核）",
+    )
+    return parser.parse_args()
 
 
-def read_text(rel_path):
-    full = os.path.join(ROOT, rel_path)
+ARGS = parse_args()
+ROOT = os.path.abspath(ARGS.root)
+
+
+def resolve_narrative_dir(root_dir, explicit_dir=None):
+    if explicit_dir:
+        return os.path.abspath(explicit_dir)
+    local_narrative = os.path.join(root_dir, "narrative")
+    if os.path.isdir(local_narrative):
+        return local_narrative
+    return None
+
+
+def read_text(rel_path, base_dir=None):
+    full = os.path.join(base_dir or ROOT, rel_path)
     if not os.path.exists(full):
         return ""
     with open(full, encoding="utf-8", errors="replace") as f:
         return f.read()
 
 
-def run_docs_lint(root_dir, errors, warnings, room_count, quest_count):
+def run_docs_lint(root_dir, errors, warnings, room_count, quest_count, narrative_dir=None):
     """
     文件衛生與一致性的自動化檢核 (thinking.md docs lint):
     1. 禁止本機絕對 file:///home/... 路徑；檢查所有 Markdown 相對連結存在性
+       （若目標指向已外移至小說 Repo 的 narrative/ 且未掛載 narrative_dir，則自動略過）
     2. 檢查現行參考文件是否殘留已淘汰原型房名或 /d/mountain/ 目錄漂移
-    3. 檢查 EV2xx / EV3xx / EV4xx 事件編號連續性
-    4. 核對架構映射總表房數/任務數與實碼一致，並掃描 288 間房房描 15-gram 跨房重複度
+    3. （當掛載 narrative_dir 時）檢查 EV2xx / EV3xx / EV4xx 事件編號連續性
+    4. （當掛載 narrative_dir 時）核對架構映射總表房數/任務數；一律掃描全數房間房描 15-gram 跨房重複度
+    5. 掃描 article/ 全四卷正文章節禁用現代科技詞彙
     """
     md_files = sorted(glob.glob(os.path.join(root_dir, "**", "*.md"), recursive=True))
     link_pattern = re.compile(r'\[[^\]]+\]\(([^)\s]+)\)')
@@ -45,6 +71,7 @@ def run_docs_lint(root_dir, errors, warnings, room_count, quest_count):
     )
 
     checked_links = 0
+    skipped_external_narrative_links = 0
     seen_real_mds = set()
     for md_path in md_files:
         real_md = os.path.realpath(md_path)
@@ -72,8 +99,18 @@ def run_docs_lint(root_dir, errors, warnings, room_count, quest_count):
             target_part = href.split("#")[0]
             if not target_part:
                 continue
-            # 僅針對存在副檔名或明確目錄結尾之連結驗證磁碟路徑
             resolved = os.path.normpath(os.path.join(md_dir, target_part))
+            rel_target = os.path.relpath(resolved, root_dir).replace("\\", "/")
+            if rel_target == "narrative" or rel_target.startswith("narrative/"):
+                if narrative_dir:
+                    sub_rel = rel_target[len("narrative/"):] if rel_target.startswith("narrative/") else ""
+                    ext_target = os.path.join(narrative_dir, sub_rel) if sub_rel else narrative_dir
+                    checked_links += 1
+                    if not os.path.exists(ext_target):
+                        errors.append(f"[docs_lint:broken_link] {rel_md} -> {href}")
+                else:
+                    skipped_external_narrative_links += 1
+                continue
             checked_links += 1
             if not os.path.exists(resolved):
                 errors.append(f"[docs_lint:broken_link] {rel_md} -> {href}")
@@ -92,25 +129,29 @@ def run_docs_lint(root_dir, errors, warnings, room_count, quest_count):
                     errors.append(f"[docs_lint:legacy_id] {rel_md} 仍出現過時路徑/ID：{tok}")
 
     # 3. EV 事件編號連續性 (Vol.2 EV-201~244, Vol.3 EV301~327, Vol.4 EV401~422)
-    ev_specs = [
-        ("narrative/events/volume2_events.md", re.compile(r"###\s+事件\s+EV-(\d+)"), 201, 244),
-        ("narrative/events/volume3_events.md", re.compile(r"\|\s*EV(\d+)\s*\|"), 301, 327),
-        ("narrative/events/volume4_events.md", re.compile(r"\*\*EV(\d+)"), 401, 422),
-    ]
-    for ev_rel, pat, expected_min, expected_max in ev_specs:
-        ev_txt = read_text(ev_rel)
-        nums = sorted(set(int(x) for x in pat.findall(ev_txt)))
-        expected = list(range(expected_min, expected_max + 1))
-        if nums != expected:
-            missing = [n for n in expected if n not in nums]
-            errors.append(f"[docs_lint:ev_continuity] {ev_rel} EV 編號不連續或範圍不符，缺漏：{missing}")
+    # 僅在本地保有 narrative/ 或顯式傳入 --narrative-dir 時執行
+    if narrative_dir:
+        ev_specs = [
+            ("events/volume2_events.md", re.compile(r"###\s+事件\s+EV-(\d+)"), 201, 244),
+            ("events/volume3_events.md", re.compile(r"\|\s*EV(\d+)\s*\|"), 301, 327),
+            ("events/volume4_events.md", re.compile(r"\*\*EV(\d+)"), 401, 422),
+        ]
+        for ev_rel, pat, expected_min, expected_max in ev_specs:
+            ev_txt = read_text(ev_rel, base_dir=narrative_dir)
+            nums = sorted(set(int(x) for x in pat.findall(ev_txt)))
+            expected = list(range(expected_min, expected_max + 1))
+            if nums != expected:
+                missing = [n for n in expected if n not in nums]
+                errors.append(f"[docs_lint:ev_continuity] narrative/{ev_rel} EV 編號不連續或範圍不符，缺漏：{missing}")
 
-    # 4. 統計同步 & 房描 15-gram 跨房重複檢測
-    mapping_txt = read_text("narrative/mudlib_lpc_mapping.md")
-    if f"{room_count} 間實體房間" not in mapping_txt:
-        errors.append(f"[docs_lint:stale_count] narrative/mudlib_lpc_mapping.md 未包含最新總房數 {room_count}")
-    if f"共 {quest_count} 份 JSON" not in mapping_txt:
-        errors.append(f"[docs_lint:stale_count] narrative/mudlib_lpc_mapping.md 未包含最新任務數 {quest_count}")
+        # 4a. 統計同步（narrative/mudlib_lpc_mapping.md）
+        mapping_txt = read_text("mudlib_lpc_mapping.md", base_dir=narrative_dir)
+        if f"{room_count} 間實體房間" not in mapping_txt:
+            errors.append(f"[docs_lint:stale_count] narrative/mudlib_lpc_mapping.md 未包含最新總房數 {room_count}")
+        if f"共 {quest_count} 份 JSON" not in mapping_txt:
+            errors.append(f"[docs_lint:stale_count] narrative/mudlib_lpc_mapping.md 未包含最新任務數 {quest_count}")
+
+    # 4b. 房描 15-gram 跨房重複檢測
 
     ng = collections.defaultdict(set)
     for rpath in sorted(glob.glob(os.path.join(root_dir, "d", "**", "*.c"), recursive=True)):
@@ -151,7 +192,7 @@ def run_docs_lint(root_dir, errors, warnings, room_count, quest_count):
             if pat.search(ch_txt):
                 errors.append(f"[docs_lint:tech_jargon] {rel_ch} 出現禁用現代科技詞彙：{label}")
 
-    return checked_links
+    return checked_links, skipped_external_narrative_links
 
 
 def main():
@@ -302,7 +343,10 @@ def main():
 
     all_rooms = sorted(glob.glob(os.path.join(ROOT, "d", "**", "*.c"), recursive=True))
     folk_npcs = sorted(glob.glob(os.path.join(ROOT, "clone", "npc", "folk", "*.c")))
-    checked_links = run_docs_lint(ROOT, errors, warnings, len(all_rooms), len(quest_files))
+    narrative_dir = resolve_narrative_dir(ROOT, ARGS.narrative_dir)
+    checked_links, skipped_ext_links = run_docs_lint(
+        ROOT, errors, warnings, len(all_rooms), len(quest_files), narrative_dir=narrative_dir
+    )
 
     print("=" * 72)
     print("《遺忘的世界》敘事—代碼雙向同步稽核報告 (Novel <-> Mudlib Sync Matrix)")
@@ -312,7 +356,11 @@ def main():
     print(f"  ・已核驗章節追蹤矩陣 : {matrix_acts} 個故事幕次節點 (data/canon_sync_matrix.json)")
     print(f"  ・已核驗宣告式任務數 : {len(quest_files)} 個 JSON 任務定義")
     print(f"  ・已核驗核心感官房間 : {len(sensory_rooms)} 間 (含 Tier 0/1/2/3 五感＋動態狀態)")
-    print(f"  ・Docs Lint 檢核項目 : {checked_links} 條相對連結 / 過時房名 / EV 連續 / 15-gram 重複度")
+    if narrative_dir:
+        print(f"  ・Docs Lint 檢核項目 : {checked_links} 條相對連結 / 過時房名 / EV 連續 / 映射表統計 / 15-gram 重複度")
+    else:
+        print(f"  ・Docs Lint 檢核項目 : {checked_links} 條庫內相對連結 / 過時房名 / 15-gram 重複度 / 禁詞掃描")
+        print(f"  ・外部設計檔檢核狀態 : narrative/ 已移至小說 Repo（略過 {skipped_ext_links} 條跨 Repo 連結及 EV/映射表檢核，可用 --narrative-dir 啟用）")
     print(f"  ・核心體驗與機制接線 : OK (cmd_present/chronicle/set + 宣告式規則 + 五器校驗)")
     print("-" * 72)
 
