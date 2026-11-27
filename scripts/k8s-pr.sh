@@ -139,6 +139,7 @@ req = Request(
         "Authorization": f"token {token}",
         "Content-Type": "application/json",
         "Accept": "application/json",
+        "User-Agent": "mudscript-k8s-pr/1.0",
     },
 )
 try:
