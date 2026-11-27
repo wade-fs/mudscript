@@ -42,7 +42,7 @@ void logon() {
     write(sprintf("{\"ui\": \"commands\", \"title\": \"%s\", \"data\": %s}", 
         lang_d->translate("label_commands", l), json_encode(cmds)));
 
-    write("\n" + "$HIW$Welcome to MudScript World!$NOR$" + "\n");
+    write("\n" + "$HIW$Welcome to Forgotton Space !$NOR$" + "\n");
     write("Please select your language / 請選擇您的語系：\n");
     write("[1] English\n");
     write("[2] 繁體中文 (Traditional Chinese)\n");

@@ -28,8 +28,14 @@ RUN apk add --no-cache libc6-compat ca-certificates
 COPY --from=builder /app/bin/mudscript /app/bin/mudscript
 COPY --from=builder /app/forgotten-space /app/forgotten-space
 
-# 滿足 k8s securityContext (runAsUser: 10001 / readOnlyRootFilesystem: true) 與外掛 data volume
-RUN mkdir -p /app/data && chown -R 10001:10001 /app && chmod -R a+rX /app && chmod +x /app/bin/mudscript
+ARG MUD_COMMIT=dev
+
+# 注入目前 commit hash 到 web UI，並滿足 k8s securityContext (runAsUser: 10001 / readOnlyRootFilesystem: true) 與外掛 data volume
+RUN sed -i \
+      -e "s|<title>Fantasy Space MUD[^<]*</title>|<title>Fantasy Space MUD (${MUD_COMMIT})</title>|" \
+      -e "s|\(<span id=\"build-version\"[^>]*>\)[^<]*</span>|\1${MUD_COMMIT}</span>|" \
+      /app/forgotten-space/web/static/index.html && \
+    mkdir -p /app/data && chown -R 10001:10001 /app && chmod -R a+rX /app && chmod +x /app/bin/mudscript
 
 USER 10001:10001
 

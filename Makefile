@@ -34,8 +34,11 @@ K8S_MANIFEST ?= tenants/wade/mud.yaml
 all: fsmud fsmud.exe fs fs.exe mud-universal mud-universal.exe mudscript mudscript.exe
 
 inject-hash:
-	@echo "Injecting HEAD hash $(COMMIT) into index.html..."
-	@sed -i 's/Fantasy Space MUD.*</Fantasy Space MUD: $(COMMIT)</g' web/static/index.html
+	@echo "Injecting HEAD hash $(COMMIT) into forgotten-space/web/static/index.html..."
+	@sed -i \
+		-e 's|<title>Fantasy Space MUD[^<]*</title>|<title>Fantasy Space MUD ($(COMMIT))</title>|' \
+		-e 's|\(<span id="build-version"[^>]*>\)[^<]*</span>|\1$(COMMIT)</span>|' \
+		forgotten-space/web/static/index.html
 
 # 🚀 推送到 GitHub (乾淨的原始碼)
 push-github:
@@ -64,8 +67,8 @@ push-docker: docker-build
 
 # 🚀 建置、推送 K8s (Forgotten Space) Docker image 並發 PR 更新 mud.yaml
 k8s-build:
-	@echo "🐳 Building K8s Docker image $(K8S_DOCKER_IMAGE) using $(K8S_DOCKERFILE)..."
-	@docker build -f $(K8S_DOCKERFILE) -t $(K8S_DOCKER_IMAGE) .
+	@echo "🐳 Building K8s Docker image $(K8S_DOCKER_IMAGE) using $(K8S_DOCKERFILE) (commit $(COMMIT))..."
+	@docker build --build-arg MUD_COMMIT=$(COMMIT) -f $(K8S_DOCKERFILE) -t $(K8S_DOCKER_IMAGE) .
 
 k8s-push: k8s-build
 	@echo "📤 Pushing $(K8S_DOCKER_IMAGE) to Docker Hub..."
