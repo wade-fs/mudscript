@@ -1,5 +1,5 @@
 // clone/npc/caravan_merchant.c
-// 金石商會掌櫃 - 隨商隊抵達黑石鋪的大商賈
+// 金石商會掌櫃 - 隨商隊抵達黑石鋪的大商賈 (Ch.6-38)
 
 #include "/include/ansi.h"
 #include "/include/globals.h"

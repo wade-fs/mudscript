@@ -1,6 +1,7 @@
 {
   "id": "side_county_panmu_charcoal_sled",
   "name": "盤木林道・冬寒送炭",
+  "chapter": "Ch.0042-Ch.0066",
   "category": "side",
   "type": "once",
   "start_npc": "peddler_hu",

@@ -1,5 +1,5 @@
 // clone/npc/wall_tower_s_archerymaster.c
-// 百步楊・弓兵教頭 (wall_tower_s_archerymaster) - 南城哨樓
+// 百步楊・弓兵教頭 (wall_tower_s_archerymaster) - 南城哨樓 (Ch.43-82)
 
 #include "/include/ansi.h"
 #include "/include/globals.h"

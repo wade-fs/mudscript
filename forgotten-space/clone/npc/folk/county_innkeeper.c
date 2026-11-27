@@ -1,5 +1,5 @@
 // clone/npc/folk/county_innkeeper.c
-// 六縣地方客棧夥計／店小二（依所在縣城自動呈現風土與飲食互動）
+// 六縣地方客棧夥計／店小二（依所在縣城自動呈現風土與飲食互動） (Ch.5-82)
 
 #include "/include/ansi.h"
 #include "/include/globals.h"

@@ -1,6 +1,7 @@
 {
   "id": "side_county_zhenfeng_coat",
   "name": "鎮風矮巷・邊卒冬襖",
+  "chapter": "Ch.0061-Ch.0062",
   "category": "side",
   "type": "once",
   "start_npc": "feng_seamstress",

@@ -1,5 +1,5 @@
 // clone/npc/square_storyteller.c
-// 瞎子陳・說書盲叟 (square_storyteller) - 中央青石廣場
+// 瞎子陳・說書盲叟 (square_storyteller) - 中央青石廣場 (Ch.43-82)
 
 #include "/include/ansi.h"
 #include "/include/globals.h"

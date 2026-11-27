@@ -1,5 +1,5 @@
 // clone/npc/outer_post_depot_laowang.c
-// 老王・馬伕 (outer_post_depot_laowang) - 外城大車馬店
+// 老王・馬伕 (outer_post_depot_laowang) - 外城大車馬店 (Ch.24-82)
 
 #include "/include/ansi.h"
 #include "/include/globals.h"

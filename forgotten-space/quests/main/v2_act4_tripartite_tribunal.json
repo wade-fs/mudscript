@@ -1,6 +1,7 @@
 {
   "id": "v2_act4_tripartite_tribunal",
   "name": "信用凍結：三方會審與大庫之決",
+  "chapter": "Ch.0068-Ch.0076",
   "category": "main",
   "type": "once",
   "start_npc": "pawnshop_jiachaofeng",

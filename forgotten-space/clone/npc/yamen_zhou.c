@@ -1,5 +1,5 @@
 // clone/npc/yamen_zhou.c
-// 周捕頭・捕快總管 (yamen_zhou) - 金石府衙正堂
+// 周捕頭・捕快總管 (yamen_zhou) - 金石府衙正堂 (Ch.44-75)
 
 #include "/include/ansi.h"
 #include "/include/globals.h"

@@ -1,5 +1,5 @@
 // clone/npc/yamen_prison_zhaodegui.c
-// 趙德貴・前商隊二掌櫃（階下囚，yamen_prison_zhaodegui） - 府衙死牢
+// 趙德貴・前商隊二掌櫃（階下囚，yamen_prison_zhaodegui） - 府衙死牢 (Ch.2-75)
 
 #include "/include/ansi.h"
 #include "/include/globals.h"

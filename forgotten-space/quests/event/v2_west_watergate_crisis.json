@@ -1,6 +1,7 @@
 {
   "id": "v2_west_watergate_crisis",
   "name": "西水門驚瀾：千斤閘危局五子合力",
+  "chapter": "Ch.0056",
   "category": "event",
   "type": "once",
   "start_npc": "gate_west_helmsman",

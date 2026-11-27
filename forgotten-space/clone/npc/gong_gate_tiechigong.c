@@ -1,5 +1,5 @@
 // clone/npc/gong_gate_tiechigong.c
-// 鐵尺公・行會知事 (gong_gate_tiechigong) - 百工總會外門
+// 鐵尺公・行會知事 (gong_gate_tiechigong) - 百工總會外門 (Ch.47-54)
 
 #include "/include/ansi.h"
 #include "/include/globals.h"

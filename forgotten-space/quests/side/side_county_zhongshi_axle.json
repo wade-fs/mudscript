@@ -1,6 +1,7 @@
 {
   "id": "side_county_zhongshi_axle",
   "name": "磐石車棚・八輪潤軸",
+  "chapter": "Ch.0066",
   "category": "side",
   "type": "once",
   "start_npc": "zhongshi_wheelwright",

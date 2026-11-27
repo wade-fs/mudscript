@@ -1,6 +1,7 @@
 {
   "id": "hunting_chain",
   "name": "大荒逐獸・獵師之路",
+  "chapter": "Ch.0003-Ch.0030",
   "category": "hunting",
   "type": "stage_chain",
   "start_npc": "zhao",

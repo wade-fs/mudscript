@@ -1,5 +1,5 @@
 // clone/npc/folk/county_broker.c
-// 六縣地方通寶分號朝奉／市集牙人（隨 WORLD_STATE_D 動態反映當地行情與匯兌狀態）
+// 六縣地方通寶分號朝奉／市集牙人（隨 WORLD_STATE_D 動態反映當地行情與匯兌狀態） (Ch.58-125)
 
 #include "/include/ansi.h"
 #include "/include/globals.h"

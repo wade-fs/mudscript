@@ -1,6 +1,7 @@
 {
   "id": "enc_tianmen_token",
   "name": "萬物行商・天門引",
+  "chapter": "Ch.0005-Ch.0010",
   "legacy_key": "search_shed_wood",
   "room": "/d/village/shed",
   "scope": {
@@ -16,7 +17,9 @@
     },
     {
       "type": "background",
-      "any": [ "beggar" ]
+      "any": [
+        "beggar"
+      ]
     },
     {
       "type": "resonance",

@@ -1,5 +1,5 @@
 // clone/npc/wu_gate_squadleader.c
-// 陳鐵甲・值役隊正 (wu_gate_squadleader) - 鎮武軍鎮轅門
+// 陳鐵甲・值役隊正 (wu_gate_squadleader) - 鎮武軍鎮轅門 (Ch.49-82)
 
 #include "/include/ansi.h"
 #include "/include/globals.h"

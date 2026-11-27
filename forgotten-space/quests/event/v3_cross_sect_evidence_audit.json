@@ -1,6 +1,7 @@
 {
   "id": "v3_cross_sect_evidence_audit",
   "name": "三宗查核：證據保管鏈與交叉驗證",
+  "chapter": "Ch.0115-Ch.0116",
   "category": "event",
   "type": "event_quest",
   "start_npc": "luo_jiucheng",

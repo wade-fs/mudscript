@@ -1,10 +1,13 @@
 {
   "id": "v3_act4_sanyuan_defense",
   "name": "半山毒域暨長城破關：三元陣鎮山河",
+  "chapter": "Ch.0117-Ch.0119",
   "category": "main",
   "type": "once",
   "region": "bahuang",
-  "requirements": { "level": 88 },
+  "requirements": {
+    "level": 88
+  },
   "start_npc": "lu_guanlan",
   "start_topic": "壓陣",
   "steps": [

@@ -1,5 +1,5 @@
 // clone/npc/zhang_butcher.c
-// 屠夫 張屠戶 (張大山) - 黑石鋪的粗豪屠戶與獵戶夥伴
+// 屠夫 張屠戶 (張大山) - 黑石鋪的粗豪屠戶與獵戶夥伴 (Ch.1-38)
 
 #include "/include/ansi.h"
 #include "/include/globals.h"

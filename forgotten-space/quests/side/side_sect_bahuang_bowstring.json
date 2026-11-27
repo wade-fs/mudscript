@@ -1,6 +1,7 @@
 {
   "id": "side_sect_bahuang_bowstring",
   "name": "外營通鋪・磨刀修弦",
+  "chapter": "Ch.0087-Ch.0119",
   "category": "side",
   "type": "once",
   "start_npc": "route_traveler",

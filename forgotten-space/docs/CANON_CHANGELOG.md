@@ -1,6 +1,11 @@
 # 《遺忘的世界》正典變更日誌 (Canon Changelog)
 
-本文件追蹤《遺忘的世界》小說正典修訂與 Mudlib 可執行世界之間的雙向同步紀錄，配合 [data/canon_sync_matrix.json](../data/canon_sync_matrix.json) 與 [tests/quests/novel_mud_sync_audit.py](../tests/quests/novel_mud_sync_audit.py) 使用。
+本文件追蹤《遺忘的世界》小說正典修訂與 Mudlib 可執行世界之間的雙向同步紀錄，配合 [data/canon_sync_matrix.json](../data/canon_sync_matrix.json)、[data/traceability_matrix.json](../data/traceability_matrix.json) 與 [tests/quests/novel_mud_sync_audit.py](../tests/quests/novel_mud_sync_audit.py) 使用。
+
+## 2026-11-27 — 小說↔任務↔NPC↔房間雙向可追溯矩陣與全面標註
+* **任務章節化與引擎整合**：為全部 117 份 [quests/](../quests) JSON 補齊 `"chapter"` 對應章號，並於 [daemon/quest_engine_d.c](../daemon/quest_engine_d.c) `query_quest_checklist()` 呈現對應章節標籤，確保欄位有實體引擎消費（`quest_audit.py` 0 未讀欄位）。
+* **NPC 檔頭章節標記補全**：替未標記的 109 名 NPC 補齊 `Ch.` 章節範圍註記，達成 `clone/npc/` 全數 177/177 NPC 可按章號回溯。
+* **完整雙向對照表與自動化檢核**：補齊 [data/canon_sync_matrix.json](../data/canon_sync_matrix.json) 覆蓋全部 117 項任務，新增 [tests/quests/traceability_audit.py](../tests/quests/traceability_audit.py) 自動產生並校驗 [data/traceability_matrix.json](../data/traceability_matrix.json) 與 [data/traceability_matrix.csv](../data/traceability_matrix.csv)（170 章 × 117 任務 × 177 NPC × 305 房間）。
 
 ## 2026-11-27 — 第三～四卷區域定義補完與世界模擬引擎接軌
 * **補齊第三～四卷 Region / Zone / Site 靜態定義**：於 `world/regions/` 新增 10 個區域 JSON（`yunjin`、`taiqing`、`bahuang`、`tiangong`、`danding`、`wastes`、`realm_edge`、`realm_taixu`、`realm_wanwu`、`realm_zhanzu`），含各區 `factions` 初始影響力與 3～4 張 `crisis_deck` 危機牌組；於 `world/zones/` 補齊 17 個對應 Zone JSON（總數由 6 增至 23），於 `world/sites/` 新增 4 個跨區關鍵 Site（`taiqing_ark_portal`、`wastes_ark_core`、`realm_edge_beacon_relay`、`realm_wanwu_conduit_well`），並同步擴充 [world/topology/macro_topology.json](../world/topology/macro_topology.json)。

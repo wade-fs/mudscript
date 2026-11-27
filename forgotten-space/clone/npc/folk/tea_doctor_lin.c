@@ -1,5 +1,5 @@
 // clone/npc/folk/tea_doctor_lin.c
-// 茶博士老林・金石城中槐蔭茶肆（市井傳聞交匯與代書線）
+// 茶博士老林・金石城中槐蔭茶肆（市井傳聞交匯與代書線） (Ch.43-82)
 
 #include "/include/ansi.h"
 #include "/include/globals.h"

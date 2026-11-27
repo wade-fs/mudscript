@@ -1,5 +1,5 @@
 // clone/npc/folk/wastes_herder.c
-// 北荒老牧戶烏蘭・北荒南沿凍土牧戶避風棚（與三宗勘探線無關的普通塞外牧民）
+// 北荒老牧戶烏蘭・北荒南沿凍土牧戶避風棚（與三宗勘探線無關的普通塞外牧民） (Ch.102-119)
 
 #include "/include/ansi.h"
 #include "/include/globals.h"

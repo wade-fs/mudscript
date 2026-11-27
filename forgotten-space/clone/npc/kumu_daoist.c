@@ -1,5 +1,5 @@
 // clone/npc/kumu_daoist.c
-// 盲眼老道 枯木 - 破落道觀的避世修行者
+// 盲眼老道 枯木 - 破落道觀的避世修行者 (Ch.1-38)
 
 #include "/include/ansi.h"
 #include "/include/globals.h"

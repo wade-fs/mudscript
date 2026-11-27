@@ -1,5 +1,5 @@
 // clone/npc/folk/peddler_hu.c
-// 貨郎胡二・黑石鋪老貨郎雜貨棚（走村串縣的日常雜貨買賣與山道小道消息）
+// 貨郎胡二・黑石鋪老貨郎雜貨棚（走村串縣的日常雜貨買賣與山道小道消息） (Ch.2-38)
 
 #include "/include/ansi.h"
 #include "/include/globals.h"

@@ -1,5 +1,5 @@
 // clone/npc/folk/county_worker.c
-// 六縣地方底層匠工／藥農／礦工／石匠／漁民（展現非主線的平凡生計與地方細節）
+// 六縣地方底層匠工／藥農／礦工／石匠／漁民（展現非主線的平凡生計與地方細節） (Ch.39-126)
 
 #include "/include/ansi.h"
 #include "/include/globals.h"

@@ -1,6 +1,7 @@
 {
   "id": "side_route_storm_cargo",
   "name": "官道驟雨・搶運貨棚",
+  "chapter": "Ch.0039-Ch.0082",
   "category": "side",
   "type": "once",
   "start_npc": "route_traveler",

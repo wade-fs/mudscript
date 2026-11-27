@@ -1,6 +1,7 @@
 {
   "id": "v2_panmu_transport",
   "name": "東線押解：盤木驛道與鎖解疑案",
+  "chapter": "Ch.0039-Ch.0042",
   "category": "main",
   "type": "once",
   "start_npc": "caravan_merchant",

@@ -1,6 +1,7 @@
 {
   "id": "side_city_vagrant_letter",
   "name": "南關矮巷・家書代筆",
+  "chapter": "Ch.0043-Ch.0082",
   "category": "side",
   "type": "once",
   "start_npc": "sun_old_carter",

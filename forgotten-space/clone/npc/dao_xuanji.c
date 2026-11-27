@@ -1,5 +1,5 @@
 // clone/npc/dao_xuanji.c
-// 宣道司道官 玄機真人 (dao_hall_xuanji) - 法道一階考核與受牒宗師
+// 宣道司道官 玄機真人 (dao_hall_xuanji) - 法道一階考核與受牒宗師 (Ch.50-81)
 
 #include "/include/ansi.h"
 #include "/include/globals.h"

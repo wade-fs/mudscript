@@ -1,5 +1,5 @@
 // clone/npc/south_grain_guildhead.c
-// 米萬倉・糧行會首 (south_grain_guildhead) - 官辦糧食市集
+// 米萬倉・糧行會首 (south_grain_guildhead) - 官辦糧食市集 (Ch.69)
 
 #include "/include/ansi.h"
 #include "/include/globals.h"

@@ -1,5 +1,5 @@
 // clone/npc/caravan_yard_biaotou.c
-// 駱鎮遠・車馬行總鏢頭 (caravan_yard_biaotou) - 遠行車馬大院（緩衝路徑 B）
+// 駱鎮遠・車馬行總鏢頭 (caravan_yard_biaotou) - 遠行車馬大院（緩衝路徑 B） (Ch.45-82)
 
 #include "/include/ansi.h"
 #include "/include/globals.h"

@@ -1,6 +1,7 @@
 {
   "id": "side_sect_danding_herb_oops",
   "name": "外門藥圃・誤採搶救",
+  "chapter": "Ch.0089-Ch.0119",
   "category": "side",
   "type": "once",
   "start_npc": "danding_cook_nun",

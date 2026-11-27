@@ -1,5 +1,5 @@
 // clone/npc/south_canal_caotiemao.c
-// 曹鐵錨・碼頭水行把頭 (south_canal_caotiemao) - 西水門漕運碼頭
+// 曹鐵錨・碼頭水行把頭 (south_canal_caotiemao) - 西水門漕運碼頭 (Ch.70)
 
 #include "/include/ansi.h"
 #include "/include/globals.h"

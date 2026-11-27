@@ -1,5 +1,5 @@
 // clone/npc/center_teacher_lu.c
-// 金石學塾塾師 陸夫子 (academy_lufuzi) - 三日通牒合法身分緩衝路徑 A
+// 金石學塾塾師 陸夫子 (academy_lufuzi) - 三日通牒合法身分緩衝路徑 A (Ch.46-51)
 
 #include "/include/ansi.h"
 #include "/include/globals.h"

@@ -1,6 +1,7 @@
 {
   "id": "v2_residency_72h",
   "name": "金石南關：七十二時辰限期令",
+  "chapter": "Ch.0043-Ch.0046",
   "category": "main",
   "type": "once",
   "start_npc": "gate_south_taxofficer",

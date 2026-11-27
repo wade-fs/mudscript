@@ -1,5 +1,5 @@
 // clone/npc/folk/zhongshi_wheelwright.c
-// 老車匠沈鐵頭・重石縣條石大車棚（八輪重車修軸與石工運輸日常）
+// 老車匠沈鐵頭・重石縣條石大車棚（八輪重車修軸與石工運輸日常） (Ch.66)
 
 #include "/include/ansi.h"
 #include "/include/globals.h"

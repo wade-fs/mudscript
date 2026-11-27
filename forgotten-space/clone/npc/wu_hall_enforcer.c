@@ -1,5 +1,5 @@
 // clone/npc/wu_hall_enforcer.c
-// 鐵面雷・執法教頭 (wu_hall_enforcer) - 八方武館正堂
+// 鐵面雷・執法教頭 (wu_hall_enforcer) - 八方武館正堂 (Ch.49-75)
 
 #include "/include/ansi.h"
 #include "/include/globals.h"

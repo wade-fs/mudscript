@@ -1,5 +1,5 @@
 // clone/npc/gong_alchemy_sunxiansheng.c
-// 孫先生・藥坊管事 (gong_alchemy_sunxiansheng) - 丹丸物性坊
+// 孫先生・藥坊管事 (gong_alchemy_sunxiansheng) - 丹丸物性坊 (Ch.55-79)
 
 #include "/include/ansi.h"
 #include "/include/globals.h"

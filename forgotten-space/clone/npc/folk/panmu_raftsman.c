@@ -1,5 +1,5 @@
 // clone/npc/folk/panmu_raftsman.c
-// 放排老把式林四・盤木縣木排下水碼頭（林業木排生計與山貨商情）
+// 放排老把式林四・盤木縣木排下水碼頭（林業木排生計與山貨商情） (Ch.42-66)
 
 #include "/include/ansi.h"
 #include "/include/globals.h"

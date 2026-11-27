@@ -1,6 +1,7 @@
 {
   "id": "v4_act1_bastion_arrival",
   "name": "灰燼石堡：熄燈隱匿與阻尼實測",
+  "chapter": "Ch.0127-Ch.0128",
   "category": "main",
   "type": "once",
   "region": "realm_edge",

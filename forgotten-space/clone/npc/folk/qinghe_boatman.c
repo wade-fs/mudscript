@@ -1,5 +1,5 @@
 // clone/npc/folk/qinghe_boatman.c
-// 老船工柳伯・青河縣蘆花渡（水文擺渡、量水尺與藥農船幫日常）
+// 老船工柳伯・青河縣蘆花渡（水文擺渡、量水尺與藥農船幫日常） (Ch.59-64)
 
 #include "/include/ansi.h"
 #include "/include/globals.h"

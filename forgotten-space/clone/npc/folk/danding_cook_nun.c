@@ -1,5 +1,5 @@
 // clone/npc/folk/danding_cook_nun.c
-// 丹鼎門・火頭道姑（宗門底層膳堂與藥膳日常）
+// 丹鼎門・火頭道姑（宗門底層膳堂與藥膳日常） (Ch.89-120)
 
 #include "/include/ansi.h"
 #include "/include/globals.h"

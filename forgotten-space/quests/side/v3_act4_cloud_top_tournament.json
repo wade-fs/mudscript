@@ -1,10 +1,13 @@
 {
   "id": "v3_act4_cloud_top_tournament",
   "name": "雲頂會武：偏峰試治與百工萬商試",
+  "chapter": "Ch.0112-Ch.0115",
   "category": "side",
   "type": "once",
   "region": "yunjin",
-  "requirements": { "level": 82 },
+  "requirements": {
+    "level": 82
+  },
   "start_npc": "jian_su",
   "start_topic": "三日後",
   "steps": [

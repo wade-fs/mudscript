@@ -1,5 +1,5 @@
 // clone/npc/wu_zhaomeng.c
-// 八方武館擂台教頭 鐵臂趙猛 (wu_arena_zhaomeng)
+// 八方武館擂台教頭 鐵臂趙猛 (wu_arena_zhaomeng) (Ch.52-80)
 
 #include "/include/ansi.h"
 #include "/include/globals.h"

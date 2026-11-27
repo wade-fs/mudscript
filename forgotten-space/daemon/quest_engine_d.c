@@ -1814,7 +1814,8 @@ string query_quest_checklist(object who, string qid) {
             state_badge = WHT " [未觸發]" NOR;
         }
 
-        string out = sprintf(HIW "【%s】" NOR "%s\n", q["name"], state_badge);
+        string ch_tag = q["chapter"] ? (CYN " [" + q["chapter"] + "]" NOR) : "";
+        string out = sprintf(HIW "【%s】" NOR "%s%s\n", q["name"], state_badge, ch_tag);
 
         for (int i = 0; i < total_st; i++) {
             mapping st_def = q["stages"][i];
@@ -1878,7 +1879,8 @@ string query_quest_checklist(object who, string qid) {
         string status_note = (r >= 6 ? "・保底物資" : (r > 3 ? "・收益遞減" : "・全額收益"));
         round_info = sprintf(" (已完成: %d 輪%s)", r, status_note);
     }
-    string out = sprintf(HIW "【%s】" NOR "%s\n", q["name"], round_info);
+    string ch_tag = q["chapter"] ? (CYN " [" + q["chapter"] + "]" NOR) : "";
+    string out = sprintf(HIW "【%s】" NOR "%s%s\n", q["name"], round_info, ch_tag);
     mixed *steps = q["steps"];
     if (!arrayp(steps)) return out;
 

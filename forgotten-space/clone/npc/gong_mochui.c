@@ -1,5 +1,5 @@
 // clone/npc/gong_mochui.c
-// 千錘地爐坊大師 莫錘 (gong_forge_mochui)
+// 千錘地爐坊大師 莫錘 (gong_forge_mochui) (Ch.47-75)
 
 #include "/include/ansi.h"
 #include "/include/globals.h"

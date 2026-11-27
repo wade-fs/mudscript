@@ -1,6 +1,7 @@
 {
   "id": "side_county_zhuoshui_bridge",
   "name": "濁水老攤・老薑驅瘴",
+  "chapter": "Ch.0064",
   "category": "side",
   "type": "once",
   "start_npc": "zhuoshui_bridgekeeper",

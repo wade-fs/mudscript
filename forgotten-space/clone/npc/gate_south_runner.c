@@ -1,5 +1,5 @@
 // clone/npc/gate_south_runner.c
-// 刁小七・流民牙子 (gate_south_runner) - 南關車馬小棧
+// 刁小七・流民牙子 (gate_south_runner) - 南關車馬小棧 (Ch.43-56)
 
 #include "/include/ansi.h"
 #include "/include/globals.h"

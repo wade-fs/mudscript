@@ -1,6 +1,7 @@
 {
   "id": "enc_forest_totem",
   "name": "太古戰神獵獸圖騰玄柱",
+  "chapter": "Ch.0003-Ch.0010",
   "legacy_key": "commune_forest_totem",
   "room": "/d/village/forest",
   "scope": {
@@ -16,7 +17,9 @@
     },
     {
       "type": "background",
-      "any": [ "hunter" ]
+      "any": [
+        "hunter"
+      ]
     },
     {
       "type": "resonance",

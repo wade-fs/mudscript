@@ -1,6 +1,7 @@
 {
   "id": "v2_career_tier1_qualifications",
   "name": "府城初試：五道並立之資質認證",
+  "chapter": "Ch.0047-Ch.0053",
   "category": "career",
   "type": "once",
   "start_npc": "gong_forge_mochui",

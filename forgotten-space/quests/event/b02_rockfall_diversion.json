@@ -1,13 +1,19 @@
 {
   "id": "B02_rockfall_diversion",
   "name": "B02 萬斤落石",
+  "chapter": "Ch.0024",
   "category": "event",
   "type": "event_quest",
   "start_npc": "tie",
   "start_topic": "落龍工程,雙契鐵楔,絞盤,diversion",
   "world_event": "beast_surge",
   "deadline_stage": "T0",
-  "valid_stages": ["T-3", "T-2", "T-1", "T0"],
+  "valid_stages": [
+    "T-3",
+    "T-2",
+    "T-1",
+    "T0"
+  ],
   "eval_metric": "route_confidence",
   "eval_min_for_success": 2,
   "steps": [

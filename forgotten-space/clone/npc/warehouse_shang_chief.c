@@ -1,5 +1,5 @@
 // clone/npc/warehouse_shang_chief.c
-// 丁鐵鎖・商會大庫庫頭 (warehouse_shang_chief) - 商會一至三號大庫
+// 丁鐵鎖・商會大庫庫頭 (warehouse_shang_chief) - 商會一至三號大庫 (Ch.73-75)
 
 #include "/include/ansi.h"
 #include "/include/globals.h"

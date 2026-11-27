@@ -1,6 +1,7 @@
 {
   "id": "side_wastes_lost_goat",
   "name": "凍土尋羊・荒原迷蹤",
+  "chapter": "Ch.0102-Ch.0111",
   "category": "side",
   "type": "once",
   "start_npc": "wastes_herder",

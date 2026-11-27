@@ -1,5 +1,5 @@
 // clone/npc/outer_graveyard_keeper.c
-// 守塚老瞎子・守塚人 (outer_graveyard_keeper) - 城外亂葬義塚
+// 守塚老瞎子・守塚人 (outer_graveyard_keeper) - 城外亂葬義塚 (Ch.43-82)
 
 #include "/include/ansi.h"
 #include "/include/globals.h"

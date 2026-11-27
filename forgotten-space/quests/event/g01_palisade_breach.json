@@ -1,13 +1,18 @@
 {
   "id": "G01_palisade_breach",
   "name": "G01 木柵缺口",
+  "chapter": "Ch.0026-Ch.0028",
   "category": "event",
   "type": "event_quest",
   "start_npc": "zhao",
   "start_topic": "木柵缺口,殘獸,breach",
   "world_event": "beast_surge",
   "deadline_stage": "T+1",
-  "valid_stages": ["T-1", "T0", "T+1"],
+  "valid_stages": [
+    "T-1",
+    "T0",
+    "T+1"
+  ],
   "steps": [
     {
       "step": 1,

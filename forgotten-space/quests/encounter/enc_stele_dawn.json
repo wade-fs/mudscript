@@ -1,6 +1,7 @@
 {
   "id": "enc_stele_dawn",
   "name": "史前逆星殘碑",
+  "chapter": "Ch.0001-Ch.0009",
   "legacy_key": "stream_stele",
   "room": "/d/village/stream",
   "scope": {
@@ -16,7 +17,9 @@
     },
     {
       "type": "background",
-      "any": [ "herbalist" ]
+      "any": [
+        "herbalist"
+      ]
     },
     {
       "type": "resonance",

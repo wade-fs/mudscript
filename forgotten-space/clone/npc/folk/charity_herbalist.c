@@ -1,5 +1,5 @@
 // clone/npc/folk/charity_herbalist.c
-// 義診老藥工周伯・南關外施藥義棚（貧苦流民免費施藥與救傷日常）
+// 義診老藥工周伯・南關外施藥義棚（貧苦流民免費施藥與救傷日常） (Ch.43-82)
 
 #include "/include/ansi.h"
 #include "/include/globals.h"

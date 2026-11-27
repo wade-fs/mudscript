@@ -1,5 +1,5 @@
 // clone/npc/wu_barracks_veteran.c
-// 石老兵・輪休老兵 (wu_barracks_veteran) - 鎮武兵營
+// 石老兵・輪休老兵 (wu_barracks_veteran) - 鎮武兵營 (Ch.52-67)
 
 #include "/include/ansi.h"
 #include "/include/globals.h"

@@ -1,5 +1,5 @@
 // clone/npc/folk/feng_seamstress.c
-// 馮嫂・鎮風縣戍卒家眷窄巷（邊塞縫製羊皮冬襖與軍屬日常）
+// 馮嫂・鎮風縣戍卒家眷窄巷（邊塞縫製羊皮冬襖與軍屬日常） (Ch.61-62)
 
 #include "/include/ansi.h"
 #include "/include/globals.h"

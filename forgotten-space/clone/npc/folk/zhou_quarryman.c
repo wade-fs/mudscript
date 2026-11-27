@@ -1,5 +1,5 @@
 // clone/npc/folk/zhou_quarryman.c
-// 石匠老周・南山青石採石場（黑石鋪礦難後自救採石線人物）
+// 石匠老周・南山青石採石場（黑石鋪礦難後自救採石線人物） (Ch.1-38)
 
 #include "/include/ansi.h"
 #include "/include/globals.h"

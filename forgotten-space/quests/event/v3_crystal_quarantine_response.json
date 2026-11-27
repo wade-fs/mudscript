@@ -1,6 +1,7 @@
 {
   "id": "v3_crystal_quarantine_response",
   "name": "晶化毒域：撤離、隔離與病患救援",
+  "chapter": "Ch.0117",
   "category": "event",
   "type": "event_quest",
   "start_npc": "sun_wenlu",

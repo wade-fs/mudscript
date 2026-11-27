@@ -1,13 +1,21 @@
 {
   "id": "F03_testimony_cross_check",
   "name": "F03 證詞互證",
+  "chapter": "Ch.0033-Ch.0035",
   "category": "event",
   "type": "event_quest",
   "start_npc": "lu",
   "start_topic": "雷管引信,雷管,炸礦,detonator",
   "world_event": "beast_surge",
   "deadline_stage": "T+2",
-  "valid_stages": ["T-3", "T-2", "T-1", "T0", "T+1", "T+2"],
+  "valid_stages": [
+    "T-3",
+    "T-2",
+    "T-1",
+    "T0",
+    "T+1",
+    "T+2"
+  ],
   "steps": [
     {
       "step": 1,

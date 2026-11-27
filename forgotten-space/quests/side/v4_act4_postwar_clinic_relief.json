@@ -1,6 +1,7 @@
 {
   "id": "v4_act4_postwar_clinic_relief",
   "name": "校準夜善後：巡診傷員與清點三極代價",
+  "chapter": "Ch.0163-Ch.0164",
   "category": "side",
   "type": "once",
   "region": "realm_edge",

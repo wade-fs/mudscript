@@ -1,6 +1,7 @@
 {
   "id": "side_county_panmu_raft",
   "name": "倒影澗畔・扎排下水",
+  "chapter": "Ch.0042-Ch.0066",
   "category": "side",
   "type": "once",
   "start_npc": "panmu_raftsman",

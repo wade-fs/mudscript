@@ -1,5 +1,5 @@
 // clone/npc/folk/yunjin_tea_vendor.c
-// 茶市老孫頭・雲津山神廟會茶市（北境散修、說書與地方茶市）
+// 茶市老孫頭・雲津山神廟會茶市（北境散修、說書與地方茶市） (Ch.84-126)
 
 #include "/include/ansi.h"
 #include "/include/globals.h"

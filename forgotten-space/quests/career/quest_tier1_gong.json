@@ -1,6 +1,7 @@
 {
   "id": "tier1_gong_initiation",
   "name": "百工總會百工格物試",
+  "chapter": "Ch.0047",
   "category": "career_change",
   "target_class": "gong_initiate",
   "type": "once",

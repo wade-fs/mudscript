@@ -1,13 +1,19 @@
 {
   "id": "D01_last_painkiller",
   "name": "D01 最後一包止痛散",
+  "chapter": "Ch.0029",
   "category": "event",
   "type": "event_quest",
   "start_npc": "ge",
   "start_topic": "止痛散,麻沸散,painkiller,傷患,孫大牛",
   "world_event": "beast_surge",
   "deadline_stage": "T0",
-  "valid_stages": ["T-3", "T-2", "T-1", "T0"],
+  "valid_stages": [
+    "T-3",
+    "T-2",
+    "T-1",
+    "T0"
+  ],
   "steps": [
     {
       "step": 1,

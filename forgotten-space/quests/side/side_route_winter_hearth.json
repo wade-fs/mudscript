@@ -1,6 +1,7 @@
 {
   "id": "side_route_winter_hearth",
   "name": "林海官道・寒夜借火",
+  "chapter": "Ch.0039-Ch.0082",
   "category": "side",
   "type": "once",
   "start_npc": "route_traveler",

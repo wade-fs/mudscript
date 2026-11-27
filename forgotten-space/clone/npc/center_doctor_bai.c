@@ -1,5 +1,5 @@
 // clone/npc/center_doctor_bai.c
-// 杏林醫館館主 白先生 (clinic_baixiansheng) - 濁氣清心散、試藥童緩衝路徑 C
+// 杏林醫館館主 白先生 (clinic_baixiansheng) - 濁氣清心散、試藥童緩衝路徑 C (Ch.46-64)
 
 #include "/include/ansi.h"
 #include "/include/globals.h"

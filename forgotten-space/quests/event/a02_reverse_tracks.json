@@ -1,13 +1,18 @@
 {
   "id": "A02_reverse_tracks",
   "name": "A02 逆行獸跡",
+  "chapter": "Ch.0020-Ch.0022",
   "category": "event",
   "type": "event_quest",
   "start_npc": "zhao",
   "start_topic": "獸跡,逆行獸跡,tracks",
   "world_event": "beast_surge",
   "deadline_stage": "T-1",
-  "valid_stages": ["T-3", "T-2", "T-1"],
+  "valid_stages": [
+    "T-3",
+    "T-2",
+    "T-1"
+  ],
   "steps": [
     {
       "step": 1,

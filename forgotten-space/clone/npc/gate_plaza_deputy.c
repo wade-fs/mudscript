@@ -1,5 +1,5 @@
 // clone/npc/gate_plaza_deputy.c
-// 雷震・巡防副將 (gate_plaza_deputy) - 北關前校場
+// 雷震・巡防副將 (gate_plaza_deputy) - 北關前校場 (Ch.61-117)
 
 #include "/include/ansi.h"
 #include "/include/globals.h"

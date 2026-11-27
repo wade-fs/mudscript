@@ -1,5 +1,5 @@
 // clone/npc/folk/roaming_porter.c
-// 挑夫阿福・依時辰往來魚市、南關車馬小棧、大石堆棧與流民矮巷之活態苦力 NPC
+// 挑夫阿福・依時辰往來魚市、南關車馬小棧、大石堆棧與流民矮巷之活態苦力 NPC (Ch.39-82)
 
 #include "/include/ansi.h"
 #include "/include/globals.h"

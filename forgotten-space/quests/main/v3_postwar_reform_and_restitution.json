@@ -1,10 +1,13 @@
 {
   "id": "v3_postwar_reform_and_restitution",
   "name": "雲津新約：封存、補償與共同治理",
+  "chapter": "Ch.0120",
   "category": "main",
   "type": "once",
   "region": "yunjin",
-  "requirements": { "level": 90 },
+  "requirements": {
+    "level": 90
+  },
   "start_npc": "luo_jiucheng",
   "start_topic": "新約",
   "steps": [

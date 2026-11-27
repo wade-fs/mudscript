@@ -1,6 +1,7 @@
 {
   "id": "mining_loop",
   "name": "北崖供礦・工坊生計",
+  "chapter": "Ch.0001-Ch.0006",
   "category": "loop",
   "type": "loop",
   "start_npc": "lu",

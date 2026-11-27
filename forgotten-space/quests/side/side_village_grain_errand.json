@@ -1,6 +1,7 @@
 {
   "id": "side_village_grain_errand",
   "name": "陳記雜糧・鄰里勻米",
+  "chapter": "Ch.0001-Ch.0038",
   "category": "side",
   "type": "once",
   "start_npc": "chen_grain_owner",

@@ -1,10 +1,13 @@
 {
   "id": "v3_north_wastes_expedition",
   "name": "北荒勘探：走山隊與方舟陣基",
+  "chapter": "Ch.0102-Ch.0106",
   "category": "main",
   "type": "once",
   "region": "wastes",
-  "requirements": { "level": 70 },
+  "requirements": {
+    "level": 70
+  },
   "start_npc": "qi_shiliu",
   "start_topic": "勘探隊",
   "steps": [

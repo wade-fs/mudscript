@@ -1,5 +1,5 @@
 // clone/npc/yamen_prison_hubaihu.c
-// 胡百戶・前黑石關百戶（階下囚，yamen_prison_hubaihu） - 府衙死牢
+// 胡百戶・前黑石關百戶（階下囚，yamen_prison_hubaihu） - 府衙死牢 (Ch.10-75)
 
 #include "/include/ansi.h"
 #include "/include/globals.h"

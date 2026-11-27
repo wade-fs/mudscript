@@ -1,5 +1,5 @@
 // clone/npc/gate_north_hanqing.c
-// 韓清・城門典吏 (gate_north_hanqing) - 金石北關城門
+// 韓清・城門典吏 (gate_north_hanqing) - 金石北關城門 (Ch.43-82)
 
 #include "/include/ansi.h"
 #include "/include/globals.h"

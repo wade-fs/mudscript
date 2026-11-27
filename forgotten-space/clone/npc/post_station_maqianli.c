@@ -1,5 +1,5 @@
 // clone/npc/post_station_maqianli.c
-// 馬千里・驛丞 (post_station_maqianli) - 官辦遞鋪驛館
+// 馬千里・驛丞 (post_station_maqianli) - 官辦遞鋪驛館 (Ch.48-82)
 
 #include "/include/ansi.h"
 #include "/include/globals.h"

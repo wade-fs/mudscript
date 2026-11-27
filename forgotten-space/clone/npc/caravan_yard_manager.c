@@ -1,5 +1,5 @@
 // clone/npc/caravan_yard_manager.c
-// 蘇忠・蘇氏舊部商隊大掌櫃 (caravan_yard_manager) - 遠行車馬大院
+// 蘇忠・蘇氏舊部商隊大掌櫃 (caravan_yard_manager) - 遠行車馬大院 (Ch.45-83)
 
 #include "/include/ansi.h"
 #include "/include/globals.h"

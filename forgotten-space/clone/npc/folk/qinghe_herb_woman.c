@@ -1,5 +1,5 @@
 // clone/npc/folk/qinghe_herb_woman.c
-// 採藥婦翠嬸・青河渡口與百草坪採藥婦人（渡口漲價、水勢與草藥日常互動）
+// 採藥婦翠嬸・青河渡口與百草坪採藥婦人（渡口漲價、水勢與草藥日常互動） (Ch.59-64)
 
 #include "/include/ansi.h"
 #include "/include/globals.h"

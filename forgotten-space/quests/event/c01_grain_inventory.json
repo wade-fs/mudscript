@@ -1,11 +1,17 @@
 {
   "id": "C01_grain_inventory",
   "name": "C01 糧倉盤點",
+  "chapter": "Ch.0019-Ch.0021",
   "category": "event",
   "type": "event_quest",
   "world_event": "beast_surge",
   "deadline_stage": "T0",
-  "valid_stages": ["T-3", "T-2", "T-1", "T0"],
+  "valid_stages": [
+    "T-3",
+    "T-2",
+    "T-1",
+    "T0"
+  ],
   "steps": [
     {
       "step": 1,

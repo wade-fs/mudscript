@@ -1,5 +1,5 @@
 // clone/npc/folk/route_traveler.c
-// 跨縣官道挑夫／車馬趟子手（自動讀取所在路段資訊並回饋氣候與路況）
+// 跨縣官道挑夫／車馬趟子手（自動讀取所在路段資訊並回饋氣候與路況） (Ch.39-119)
 
 #include "/include/ansi.h"
 #include "/include/globals.h"

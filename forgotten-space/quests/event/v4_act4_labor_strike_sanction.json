@@ -1,6 +1,7 @@
 {
   "id": "v4_act4_labor_strike_sanction",
   "name": "萬物外環停工：切斷鹽晶預扣與部落拒徵",
+  "chapter": "Ch.0155-Ch.0156",
   "category": "event",
   "type": "event_quest",
   "region": "realm_wanwu",

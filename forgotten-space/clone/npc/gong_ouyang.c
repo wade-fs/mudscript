@@ -1,5 +1,5 @@
 // clone/npc/gong_ouyang.c
-// 府城百工總會匠首 歐陽大師 (gong_hall_ouyang) - 物道一階考核與受牒宗師
+// 府城百工總會匠首 歐陽大師 (gong_hall_ouyang) - 物道一階考核與受牒宗師 (Ch.45-81)
 
 #include "/include/ansi.h"
 #include "/include/globals.h"

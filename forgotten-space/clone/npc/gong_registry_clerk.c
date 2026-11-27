@@ -1,5 +1,5 @@
 // clone/npc/gong_registry_clerk.c
-// 方矩・司匠簿吏 (gong_registry_clerk) - 匠籍登記處
+// 方矩・司匠簿吏 (gong_registry_clerk) - 匠籍登記處 (Ch.47-54)
 
 #include "/include/ansi.h"
 #include "/include/globals.h"

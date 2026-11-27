@@ -1,5 +1,5 @@
 // clone/npc/under_canal_hub_ferryman.c
-// 擺渡盲叟 (under_canal_hub_ferryman) - 古暗渠樞紐
+// 擺渡盲叟 (under_canal_hub_ferryman) - 古暗渠樞紐 (Ch.73)
 
 #include "/include/ansi.h"
 #include "/include/globals.h"

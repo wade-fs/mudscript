@@ -1,6 +1,7 @@
 {
   "id": "side_city_trade_rumor",
   "name": "老酒肆・跑商聽風",
+  "chapter": "Ch.0043-Ch.0082",
   "category": "side",
   "type": "once",
   "start_npc": "tavern_merchant",

@@ -1,5 +1,5 @@
 // clone/npc/folk/sun_old_carter.c
-// 孫老車夫・金石南關外流民賃居矮巷（底層苦力與家書日常線）
+// 孫老車夫・金石南關外流民賃居矮巷（底層苦力與家書日常線） (Ch.39-82)
 
 #include "/include/ansi.h"
 #include "/include/globals.h"

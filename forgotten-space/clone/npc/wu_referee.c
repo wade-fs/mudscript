@@ -1,5 +1,5 @@
 // clone/npc/wu_referee.c
-// 擂台裁判 厲無咎（名號「斷魂刀」，wu_arena_duanhundao）
+// 擂台裁判 厲無咎（名號「斷魂刀」，wu_arena_duanhundao） (Ch.52)
 
 #include "/include/ansi.h"
 #include "/include/globals.h"

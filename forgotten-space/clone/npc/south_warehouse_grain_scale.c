@@ -1,5 +1,5 @@
 // clone/npc/south_warehouse_grain_scale.c
-// 方平斗・斗秤官 (south_warehouse_grain_scale) - 官商聯營大糧倉
+// 方平斗・斗秤官 (south_warehouse_grain_scale) - 官商聯營大糧倉 (Ch.58-65)
 
 #include "/include/ansi.h"
 #include "/include/globals.h"

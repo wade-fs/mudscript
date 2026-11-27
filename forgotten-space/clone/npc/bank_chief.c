@@ -1,5 +1,5 @@
 // clone/npc/bank_chief.c
-// 沈萬通・錢莊大朝奉 (bank_chief) - 通寶錢莊總號
+// 沈萬通・錢莊大朝奉 (bank_chief) - 通寶錢莊總號 (Ch.68)
 
 #include "/include/ansi.h"
 #include "/include/globals.h"

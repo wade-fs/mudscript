@@ -1,11 +1,16 @@
 {
   "id": "A01_dead_gazelle",
   "name": "A01 暴斃黃羊",
+  "chapter": "Ch.0020",
   "category": "event",
   "type": "event_quest",
   "world_event": "beast_surge",
   "deadline_stage": "T-1",
-  "valid_stages": ["T-3", "T-2", "T-1"],
+  "valid_stages": [
+    "T-3",
+    "T-2",
+    "T-1"
+  ],
   "steps": [
     {
       "step": 1,

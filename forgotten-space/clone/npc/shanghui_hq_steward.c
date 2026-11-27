@@ -1,5 +1,5 @@
 // clone/npc/shanghui_hq_steward.c
-// 錢算子・商會總執事 (shanghui_hq_steward) - 金石商會總堂
+// 錢算子・商會總執事 (shanghui_hq_steward) - 金石商會總堂 (Ch.45-63)
 
 #include "/include/ansi.h"
 #include "/include/globals.h"

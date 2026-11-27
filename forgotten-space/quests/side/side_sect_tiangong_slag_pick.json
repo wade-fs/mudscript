@@ -1,6 +1,7 @@
 {
   "id": "side_sect_tiangong_slag_pick",
   "name": "冷卻渣槽・淘撿玄鐵",
+  "chapter": "Ch.0088-Ch.0119",
   "category": "side",
   "type": "once",
   "start_npc": "county_worker",

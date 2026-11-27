@@ -1,5 +1,5 @@
 // clone/npc/gong_luchangsheng.c
-// 天工木作大棚把頭 魯長生 (gong_wood_luchangsheng)
+// 天工木作大棚把頭 魯長生 (gong_wood_luchangsheng) (Ch.42-75)
 
 #include "/include/ansi.h"
 #include "/include/globals.h"

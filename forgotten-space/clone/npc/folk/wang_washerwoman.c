@@ -1,5 +1,5 @@
 // clone/npc/folk/wang_washerwoman.c
-// 王大嬸・碎石溪下游洗衣婦（黑石鋪家長里短與鄰里日常人物）
+// 王大嬸・碎石溪下游洗衣婦（黑石鋪家長里短與鄰里日常人物） (Ch.1-38)
 
 #include "/include/ansi.h"
 #include "/include/globals.h"

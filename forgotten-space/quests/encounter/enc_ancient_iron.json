@@ -1,6 +1,7 @@
 {
   "id": "enc_ancient_iron",
   "name": "太古不融黑鐵構件",
+  "chapter": "Ch.0002-Ch.0007",
   "legacy_key": "forge_ancient_black_iron",
   "room": "/d/village/forge",
   "scope": {
@@ -16,7 +17,9 @@
     },
     {
       "type": "background",
-      "any": [ "smith" ]
+      "any": [
+        "smith"
+      ]
     },
     {
       "type": "resonance",

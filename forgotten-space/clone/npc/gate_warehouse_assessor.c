@@ -1,5 +1,5 @@
 // clone/npc/gate_warehouse_assessor.c
-// 金算盤・商會驗貨掌櫃 (gate_warehouse_assessor) - 官道大貨棧
+// 金算盤・商會驗貨掌櫃 (gate_warehouse_assessor) - 官道大貨棧 (Ch.69)
 
 #include "/include/ansi.h"
 #include "/include/globals.h"

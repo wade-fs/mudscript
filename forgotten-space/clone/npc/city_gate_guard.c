@@ -1,5 +1,5 @@
 // clone/npc/city_gate_guard.c
-// 金石府城城防精銳衛士 (gate_north_guard)
+// 金石府城城防精銳衛士 (gate_north_guard) (Ch.43-82)
 
 #include "/include/ansi.h"
 #include "/include/globals.h"

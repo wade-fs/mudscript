@@ -1,5 +1,5 @@
 // clone/npc/zhao_hunter.c
-// 老獵戶 趙老獵 - 林邊哨亭的老獵人
+// 老獵戶 趙老獵 - 林邊哨亭的老獵人 (Ch.1-38)
 
 #include "/include/ansi.h"
 #include "/include/globals.h"

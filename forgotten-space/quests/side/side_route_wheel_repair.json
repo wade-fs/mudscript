@@ -1,6 +1,7 @@
 {
   "id": "side_route_wheel_repair",
   "name": "青河水驛・修補車輪",
+  "chapter": "Ch.0039-Ch.0082",
   "category": "side",
   "type": "once",
   "start_npc": "route_traveler",

@@ -1,5 +1,5 @@
 // clone/npc/outer_irrigation_engineer.c
-// 河伯孫・治水工丞 (outer_irrigation_engineer) - 青河水閘與渠首
+// 河伯孫・治水工丞 (outer_irrigation_engineer) - 青河水閘與渠首 (Ch.71)
 
 #include "/include/ansi.h"
 #include "/include/globals.h"

@@ -1,6 +1,7 @@
 {
   "id": "side_county_liefan_credit_grain",
   "name": "烈礬礦棚・停工賒糧",
+  "chapter": "Ch.0063-Ch.0065",
   "category": "side",
   "type": "once",
   "start_npc": "liefan_old_miner",

@@ -1,5 +1,5 @@
 // clone/npc/south_yard_material_foreman.c
-// 石大柱・堆棧把頭 (south_yard_material_foreman) - 大木大石初堆棧
+// 石大柱・堆棧把頭 (south_yard_material_foreman) - 大木大石初堆棧 (Ch.45-82)
 
 #include "/include/ansi.h"
 #include "/include/globals.h"

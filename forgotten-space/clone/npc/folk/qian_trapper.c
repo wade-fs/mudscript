@@ -1,5 +1,5 @@
 // clone/npc/folk/qian_trapper.c
-// 老套手錢七・山麓烘肉寮（山林燻肉存冬與捕獸夾日常生計）
+// 老套手錢七・山麓烘肉寮（山林燻肉存冬與捕獸夾日常生計） (Ch.58-67)
 
 #include "/include/ansi.h"
 #include "/include/globals.h"

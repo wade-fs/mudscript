@@ -1,5 +1,5 @@
 // clone/npc/gate_south_inn_laoliu.c
-// 老劉・棧主 (gate_south_inn_laoliu) - 南關車馬小棧
+// 老劉・棧主 (gate_south_inn_laoliu) - 南關車馬小棧 (Ch.23-83)
 
 #include "/include/ansi.h"
 #include "/include/globals.h"

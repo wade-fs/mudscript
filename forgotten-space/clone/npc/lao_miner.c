@@ -1,5 +1,5 @@
 // clone/npc/lao_miner.c
-// 老礦工 魯大山 - 黑石斷崖古礦坑的守望者 (物修之鏈關鍵 NPC)
+// 老礦工 魯大山 - 黑石斷崖古礦坑的守望者 (物修之鏈關鍵 NPC) (Ch.2-38)
 
 #include "/include/ansi.h"
 #include "/include/globals.h"

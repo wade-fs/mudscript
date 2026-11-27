@@ -1,6 +1,7 @@
 {
   "id": "tier1_wu_initiation",
   "name": "八方武館擂台三合試",
+  "chapter": "Ch.0049-Ch.0052",
   "category": "career_change",
   "target_class": "wu_initiate",
   "type": "once",

@@ -1,5 +1,5 @@
 // clone/npc/folk/taiqing_copy_senior.c
-// 太清門・戒律抄經師兄（宗門底層弟子日常壓抑與抄經苦差線）
+// 太清門・戒律抄經師兄（宗門底層弟子日常壓抑與抄經苦差線） (Ch.86-120)
 
 #include "/include/ansi.h"
 #include "/include/globals.h"

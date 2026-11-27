@@ -1,5 +1,5 @@
 // clone/npc/folk/county_bailiff.c
-// 六縣地方縣衙班頭／城門巡丁
+// 六縣地方縣衙班頭／城門巡丁 (Ch.58-67)
 
 #include "/include/ansi.h"
 #include "/include/globals.h"

@@ -1,5 +1,5 @@
 // clone/npc/yamen_magistrate.c
-// 秦正明・金石府尹 (yamen_magistrate) - 金石府衙正堂
+// 秦正明・金石府尹 (yamen_magistrate) - 金石府衙正堂 (Ch.44-81)
 
 #include "/include/ansi.h"
 #include "/include/globals.h"

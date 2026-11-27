@@ -1,5 +1,5 @@
 // clone/npc/wall_tower_w_navalofficer.c
-// 水連環・水軍哨官 (wall_tower_w_navalofficer) - 西關譙樓
+// 水連環・水軍哨官 (wall_tower_w_navalofficer) - 西關譙樓 (Ch.43-82)
 
 #include "/include/ansi.h"
 #include "/include/globals.h"

@@ -1,5 +1,5 @@
 // clone/npc/wall_tower_e_beaconchief.c
-// 耿烽・烽火長 (wall_tower_e_beaconchief) - 東關箭樓
+// 耿烽・烽火長 (wall_tower_e_beaconchief) - 東關箭樓 (Ch.43-82)
 
 #include "/include/ansi.h"
 #include "/include/globals.h"

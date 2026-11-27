@@ -1,10 +1,13 @@
 {
   "id": "v3_evidence_chain_hearing",
   "name": "雲頂質證：帳冊、病案與走山鐵證",
+  "chapter": "Ch.0116",
   "category": "main",
   "type": "once",
   "region": "yunjin",
-  "requirements": { "level": 85 },
+  "requirements": {
+    "level": 85
+  },
   "start_npc": "luo_jiucheng",
   "start_topic": "公開質證",
   "steps": [

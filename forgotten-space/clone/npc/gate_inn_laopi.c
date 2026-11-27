@@ -1,5 +1,5 @@
 // clone/npc/gate_inn_laopi.c
-// 老皮・店小二 (gate_inn_laopi) - 北關外車馬店
+// 老皮・店小二 (gate_inn_laopi) - 北關外車馬店 (Ch.43-82)
 
 #include "/include/ansi.h"
 #include "/include/globals.h"

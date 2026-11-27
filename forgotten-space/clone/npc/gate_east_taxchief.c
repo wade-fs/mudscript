@@ -1,5 +1,5 @@
 // clone/npc/gate_east_taxchief.c
-// 褚嚴・東關督稅官 (gate_east_taxchief) - 金石東關城門
+// 褚嚴・東關督稅官 (gate_east_taxchief) - 金石東關城門 (Ch.58-75)
 
 #include "/include/ansi.h"
 #include "/include/globals.h"

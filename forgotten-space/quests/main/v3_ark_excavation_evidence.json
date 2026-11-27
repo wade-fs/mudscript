@@ -1,10 +1,13 @@
 {
   "id": "v3_ark_excavation_evidence",
   "name": "母脈盜掘：鎖死總閘與冰谷封證",
+  "chapter": "Ch.0109-Ch.0110",
   "category": "main",
   "type": "once",
   "region": "wastes",
-  "requirements": { "level": 78 },
+  "requirements": {
+    "level": 78
+  },
   "start_npc": "wenjiu",
   "start_topic": "盜掘",
   "steps": [

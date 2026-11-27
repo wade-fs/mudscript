@@ -1,5 +1,5 @@
 // clone/npc/folk/tavern_merchant.c
-// 跑商陳大牙・金石城南老酒肆（酒館吹牛與 WORLD_STATE_D 六縣物價差價跑商）
+// 跑商陳大牙・金石城南老酒肆（酒館吹牛與 WORLD_STATE_D 六縣物價差價跑商） (Ch.43-82)
 
 #include "/include/ansi.h"
 #include "/include/globals.h"

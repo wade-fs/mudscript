@@ -1,5 +1,5 @@
 // clone/npc/moat_angler.c
-// 獨釣叟・釣魚蓑翁 (moat_angler) - 護城河畔
+// 獨釣叟・釣魚蓑翁 (moat_angler) - 護城河畔 (Ch.43-82)
 
 #include "/include/ansi.h"
 #include "/include/globals.h"

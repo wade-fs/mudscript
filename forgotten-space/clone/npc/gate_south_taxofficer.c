@@ -1,5 +1,5 @@
 // clone/npc/gate_south_taxofficer.c
-// 宋算子・南關稅吏 (gate_south_taxofficer) - 金石南關城門
+// 宋算子・南關稅吏 (gate_south_taxofficer) - 金石南關城門 (Ch.43-75)
 
 #include "/include/ansi.h"
 #include "/include/globals.h"

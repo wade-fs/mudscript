@@ -1,5 +1,5 @@
 // clone/npc/south_qianbaichuan.c
-// 金石商會總堂副會長 錢百川 (shanghui_hq_qianbaichuan)
+// 金石商會總堂副會長 錢百川 (shanghui_hq_qianbaichuan) (Ch.36-82)
 
 #include "/include/ansi.h"
 #include "/include/globals.h"

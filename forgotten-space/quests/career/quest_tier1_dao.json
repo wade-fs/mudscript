@@ -1,6 +1,7 @@
 {
   "id": "tier1_dao_initiation",
   "name": "宣道司觀象定風考",
+  "chapter": "Ch.0050-Ch.0053",
   "category": "career_change",
   "target_class": "dao_initiate",
   "type": "once",

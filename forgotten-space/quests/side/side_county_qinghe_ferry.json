@@ -1,6 +1,7 @@
 {
   "id": "side_county_qinghe_ferry",
   "name": "蘆花渡口・量尺問水",
+  "chapter": "Ch.0059-Ch.0064",
   "category": "side",
   "type": "once",
   "start_npc": "qinghe_boatman",

@@ -1,5 +1,5 @@
 // clone/npc/wu_bashan.c
-// 八方武館總教頭 霸山 (wu_hall_bashan) - 力道一階考核與受牌宗師
+// 八方武館總教頭 霸山 (wu_hall_bashan) - 力道一階考核與受牌宗師 (Ch.43-75)
 
 #include "/include/ansi.h"
 #include "/include/globals.h"

@@ -1,5 +1,5 @@
 // clone/npc/folk/liefan_old_miner.c
-// 老礦工羅七・烈礬縣礦工粗茶棚（礦工下工日常與銅駝嶺早年記憶）
+// 老礦工羅七・烈礬縣礦工粗茶棚（礦工下工日常與銅駝嶺早年記憶） (Ch.63-65)
 
 #include "/include/ansi.h"
 #include "/include/globals.h"

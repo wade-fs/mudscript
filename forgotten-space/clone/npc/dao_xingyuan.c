@@ -1,5 +1,5 @@
 // clone/npc/dao_xingyuan.c
-// 觀星師 星淵 (dao_observatory_xingyuan) - 宣道司摘星台主事
+// 觀星師 星淵 (dao_observatory_xingyuan) - 宣道司摘星台主事 (Ch.50-81)
 
 #include "/include/ansi.h"
 #include "/include/globals.h"

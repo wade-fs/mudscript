@@ -1,6 +1,7 @@
 {
   "id": "v4_act5_beacon_crystal_gathering",
   "name": "微光共鳴站：籌備三百斤高純鹽晶儲柱",
+  "chapter": "Ch.0165",
   "category": "main",
   "type": "once",
   "region": "realm_edge",

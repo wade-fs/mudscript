@@ -1,5 +1,5 @@
 // clone/npc/gong_stone_hanlaodiao.c
-// 韓老雕・老石匠 (gong_stone_hanlaodiao) - 精研石雕坊
+// 韓老雕・老石匠 (gong_stone_hanlaodiao) - 精研石雕坊 (Ch.47-82)
 
 #include "/include/ansi.h"
 #include "/include/globals.h"

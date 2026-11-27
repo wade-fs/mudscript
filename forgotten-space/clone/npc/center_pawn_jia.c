@@ -1,5 +1,5 @@
 // clone/npc/center_pawn_jia.c
-// 通寶當鋪總號掌櫃 賈朝奉 (pawnshop_jiachaofeng) - 模式 C 跨縣人脈與地下情報樞紐
+// 通寶當鋪總號掌櫃 賈朝奉 (pawnshop_jiachaofeng) - 模式 C 跨縣人脈與地下情報樞紐 (Ch.51-78)
 
 #include "/include/ansi.h"
 #include "/include/globals.h"

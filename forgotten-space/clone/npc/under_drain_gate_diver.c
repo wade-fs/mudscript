@@ -1,5 +1,5 @@
 // clone/npc/under_drain_gate_diver.c
-// 翻江鼠・潛水賊 (under_drain_gate_diver) - 廢棄排水水閘
+// 翻江鼠・潛水賊 (under_drain_gate_diver) - 廢棄排水水閘 (Ch.73)
 
 #include "/include/ansi.h"
 #include "/include/globals.h"

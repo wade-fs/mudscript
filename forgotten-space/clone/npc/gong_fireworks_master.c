@@ -1,5 +1,5 @@
 // clone/npc/gong_fireworks_master.c
-// 焦烈・火藥督造官 (gong_fireworks_master) - 烈性火硝坊
+// 焦烈・火藥督造官 (gong_fireworks_master) - 烈性火硝坊 (Ch.72)
 
 #include "/include/ansi.h"
 #include "/include/globals.h"

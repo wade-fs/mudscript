@@ -1,5 +1,5 @@
 // clone/npc/folk/fishmonger_liu.c
-// 魚販劉三娘・外城河埠魚市（漁民卸船市井與青河下游水情）
+// 魚販劉三娘・外城河埠魚市（漁民卸船市井與青河下游水情） (Ch.43-82)
 
 #include "/include/ansi.h"
 #include "/include/globals.h"

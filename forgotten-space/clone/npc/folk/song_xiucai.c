@@ -1,5 +1,5 @@
 // clone/npc/folk/song_xiucai.c
-// 宋秀才・黑石鋪村尾蒙館老童生（非修仙線的平民蒙學與府城考帖常識）
+// 宋秀才・黑石鋪村尾蒙館老童生（非修仙線的平民蒙學與府城考帖常識） (Ch.1-38)
 
 #include "/include/ansi.h"
 #include "/include/globals.h"

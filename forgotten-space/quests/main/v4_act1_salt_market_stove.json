@@ -1,6 +1,7 @@
 {
   "id": "v4_act1_salt_market_stove",
   "name": "殘晶黑市核算與換芯暖爐",
+  "chapter": "Ch.0129-Ch.0132",
   "category": "main",
   "type": "once",
   "region": "realm_edge",

@@ -1,5 +1,5 @@
 // clone/npc/dao_tong.c
-// 清茗・司香道童 (dao_quiet_incense) - 宣道司靜心聽經閣掌香道童
+// 清茗・司香道童 (dao_quiet_incense) - 宣道司靜心聽經閣掌香道童 (Ch.50-82)
 
 #include "/include/ansi.h"
 #include "/include/globals.h"

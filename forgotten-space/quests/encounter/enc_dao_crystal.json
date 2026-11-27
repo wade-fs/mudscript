@@ -1,6 +1,7 @@
 {
   "id": "enc_dao_crystal",
   "name": "道化晶石真身遺骸",
+  "chapter": "Ch.0004-Ch.0009",
   "legacy_key": "search_altar_pine",
   "room": "/d/village/altar",
   "scope": {
@@ -16,7 +17,9 @@
     },
     {
       "type": "background",
-      "any": [ "daoist" ]
+      "any": [
+        "daoist"
+      ]
     },
     {
       "type": "resonance",

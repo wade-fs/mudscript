@@ -1,6 +1,7 @@
 {
   "id": "v3_northbound_and_yunjin_arrival",
   "name": "北境行旅：八百里與雲津入市",
+  "chapter": "Ch.0083-Ch.0084",
   "category": "main",
   "type": "once",
   "start_npc": "mu_xue",

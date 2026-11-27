@@ -1,5 +1,5 @@
 // clone/npc/gate_west_inspector.c
-// 盧緝私・水關緝私吏 (gate_west_inspector) - 西水門與西關
+// 盧緝私・水關緝私吏 (gate_west_inspector) - 西水門與西關 (Ch.56-71)
 
 #include "/include/ansi.h"
 #include "/include/globals.h"

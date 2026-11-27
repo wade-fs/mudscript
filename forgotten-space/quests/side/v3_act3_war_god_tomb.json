@@ -1,10 +1,13 @@
 {
   "id": "v3_act3_war_god_tomb",
   "name": "絕谷戰塚：走山血書與燕山護心鏡",
+  "chapter": "Ch.0104-Ch.0105",
   "category": "side",
   "type": "once",
   "region": "wastes",
-  "requirements": { "level": 72 },
+  "requirements": {
+    "level": 72
+  },
   "start_npc": "han_su",
   "start_topic": "韓林",
   "steps": [

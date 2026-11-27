@@ -1,5 +1,5 @@
 // clone/npc/yamen_prison_tieliaozhang.c
-// 鐵鐐張・獄頭 (yamen_prison_tieliaozhang) - 府衙死牢
+// 鐵鐐張・獄頭 (yamen_prison_tieliaozhang) - 府衙死牢 (Ch.44-75)
 
 #include "/include/ansi.h"
 #include "/include/globals.h"

@@ -1,6 +1,7 @@
 {
   "id": "v3_north_wall_beast_surge",
   "name": "北荒獸潮：守關與撤離協同",
+  "chapter": "Ch.0118-Ch.0119",
   "category": "event",
   "type": "event_quest",
   "start_npc": "lei_lie",

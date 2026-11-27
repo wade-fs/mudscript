@@ -1,5 +1,5 @@
 // clone/npc/black_alley_gatekeeper.c
-// 疤臉刀・守門疤臉漢 (black_alley_gatekeeper) - 鬼市暗巷入口
+// 疤臉刀・守門疤臉漢 (black_alley_gatekeeper) - 鬼市暗巷入口 (Ch.77)
 
 #include "/include/ansi.h"
 #include "/include/globals.h"

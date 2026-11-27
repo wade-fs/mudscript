@@ -1,5 +1,5 @@
 // clone/npc/square_watchman.c
-// 李遊徼・巡街遊徼 (square_watchman) - 中央青石廣場
+// 李遊徼・巡街遊徼 (square_watchman) - 中央青石廣場 (Ch.43-82)
 
 #include "/include/ansi.h"
 #include "/include/globals.h"

@@ -1,5 +1,5 @@
 // clone/npc/wu_armory_quartermaster.c
-// 武守備・司庫典軍 (wu_armory_quartermaster) - 披甲兵器庫
+// 武守備・司庫典軍 (wu_armory_quartermaster) - 披甲兵器庫 (Ch.52-72)
 
 #include "/include/ansi.h"
 #include "/include/globals.h"

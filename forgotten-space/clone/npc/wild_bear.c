@@ -1,4 +1,4 @@
-// clone/npc/wild_bear.c - 黑嶺狂暴巨熊（高階菁英怪，Lv6）
+// clone/npc/wild_bear.c - 黑嶺狂暴巨熊（高階菁英怪，Lv6） (Ch.3-30)
 #include "/include/ansi.h"
 #include "/include/config.h"
 

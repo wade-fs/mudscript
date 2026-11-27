@@ -1,5 +1,5 @@
 // clone/npc/outer_farmland_w_zhaodingtian.c
-// 趙定田（人稱趙大叔）・老農 (outer_farmland_w_zhaodingtian) - 城西近郊青禾田
+// 趙定田（人稱趙大叔）・老農 (outer_farmland_w_zhaodingtian) - 城西近郊青禾田 (Ch.43-82)
 
 #include "/include/ansi.h"
 #include "/include/globals.h"

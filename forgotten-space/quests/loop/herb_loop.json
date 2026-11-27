@@ -1,6 +1,7 @@
 {
   "id": "herb_loop",
   "name": "南谷採藥・百草生計",
+  "chapter": "Ch.0001-Ch.0006",
   "category": "loop",
   "type": "loop",
   "start_npc": "ge",

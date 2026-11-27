@@ -1,5 +1,5 @@
 // clone/npc/under_black_market_broker.c
-// 鬼見愁・黑市牙商 (under_black_market_broker) - 地下鬼市暗街
+// 鬼見愁・黑市牙商 (under_black_market_broker) - 地下鬼市暗街 (Ch.77-98)
 
 #include "/include/ansi.h"
 #include "/include/globals.h"

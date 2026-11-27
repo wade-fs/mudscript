@@ -1,6 +1,7 @@
 {
   "id": "v3_preserve_field_evidence",
   "name": "北荒封存：現場物證與獨立來源保全",
+  "chapter": "Ch.0111",
   "category": "event",
   "type": "event_quest",
   "start_npc": "han_su",

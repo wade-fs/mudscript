@@ -1,5 +1,5 @@
 // clone/npc/folk/route_guard.c
-// 跨縣官道關卡什長／巡檢卒（依 WORLD_STATE_D 即時反映封關盤查與路引規定）
+// 跨縣官道關卡什長／巡檢卒（依 WORLD_STATE_D 即時反映封關盤查與路引規定） (Ch.39-82)
 
 #include "/include/ansi.h"
 #include "/include/globals.h"

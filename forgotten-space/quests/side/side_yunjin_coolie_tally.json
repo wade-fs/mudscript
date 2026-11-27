@@ -1,6 +1,7 @@
 {
   "id": "side_yunjin_coolie_tally",
   "name": "冰河碼頭・竹籌對帳",
+  "chapter": "Ch.0084-Ch.0125",
   "category": "side",
   "type": "once",
   "start_npc": "yunjin_wharf_master",

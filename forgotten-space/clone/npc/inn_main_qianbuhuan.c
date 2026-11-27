@@ -1,5 +1,5 @@
 // clone/npc/inn_main_qianbuhuan.c
-// 錢不換・大掌櫃 (inn_main_qianbuhuan) - 金石大客棧（金石商會眼線）
+// 錢不換・大掌櫃 (inn_main_qianbuhuan) - 金石大客棧（金石商會眼線） (Ch.43-82)
 
 #include "/include/ansi.h"
 #include "/include/globals.h"

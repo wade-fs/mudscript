@@ -1,5 +1,5 @@
 // clone/npc/folk/chen_grain_owner.c
-// 陳老漢・黑石鋪陳記雜糧鋪店主（平凡鄰里日常與市井糧價線）
+// 陳老漢・黑石鋪陳記雜糧鋪店主（平凡鄰里日常與市井糧價線） (Ch.1-38)
 
 #include "/include/ansi.h"
 #include "/include/globals.h"

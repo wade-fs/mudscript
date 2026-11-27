@@ -1,6 +1,7 @@
 {
   "id": "side_village_charcoal_stove",
   "name": "南山石場・冬日備炭",
+  "chapter": "Ch.0001-Ch.0038",
   "category": "side",
   "type": "once",
   "start_npc": "zhou_quarryman",

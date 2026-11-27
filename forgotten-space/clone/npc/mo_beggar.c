@@ -1,5 +1,5 @@
 // clone/npc/mo_beggar.c
-// 瘸腿老丐 莫三 - 客棧後巷柴房的市井老乞兒
+// 瘸腿老丐 莫三 - 客棧後巷柴房的市井老乞兒 (Ch.5-125)
 
 #include "/include/ansi.h"
 #include "/include/globals.h"

@@ -1,5 +1,5 @@
 // clone/npc/gate_west_helmsman.c
-// 江平波・西水門守舵官 (gate_west_helmsman) - 西水門與西關
+// 江平波・西水門守舵官 (gate_west_helmsman) - 西水門與西關 (Ch.56-71)
 
 #include "/include/ansi.h"
 #include "/include/globals.h"

@@ -1,5 +1,5 @@
 // clone/npc/ge_doctor.c
-// 瘋郎中 葛半仙 - 採藥草廬的怪異撫養者
+// 瘋郎中 葛半仙 - 採藥草廬的怪異撫養者 (Ch.1-38)
 
 #include "/include/ansi.h"
 #include "/include/globals.h"

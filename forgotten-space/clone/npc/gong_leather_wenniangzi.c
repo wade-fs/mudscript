@@ -1,5 +1,5 @@
 // clone/npc/gong_leather_wenniangzi.c
-// 溫娘子・鞣皮名匠 (gong_leather_wenniangzi) - 百鞣皮甲坊
+// 溫娘子・鞣皮名匠 (gong_leather_wenniangzi) - 百鞣皮甲坊 (Ch.47-82)
 
 #include "/include/ansi.h"
 #include "/include/globals.h"

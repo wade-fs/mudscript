@@ -1,5 +1,5 @@
 {
-  "version": "1.0",
+  "version": "1.1",
   "description": "《遺忘的世界》敘事章節與 Mudlib 任務／房間／狀態變數雙向追蹤矩陣",
   "mappings": [
     {
@@ -11,7 +11,14 @@
         "village_pass",
         "herb_loop",
         "mining_loop",
-        "pelt_loop"
+        "pelt_loop",
+        "side_village_grain_errand",
+        "side_village_charcoal_stove",
+        "side_village_school_ink",
+        "wu_chain",
+        "li_chain",
+        "fa_chain",
+        "enc_map_fusion"
       ],
       "rooms": [
         "d/village/stream.c",
@@ -42,7 +49,10 @@
         "enc_forest_totem",
         "enc_dao_crystal",
         "enc_tianmen_token",
-        "rescue_miners"
+        "rescue_miners",
+        "cycle_of_craft",
+        "rescue_maiden",
+        "ancient_order"
       ],
       "rooms": [
         "d/village/stream.c",
@@ -74,7 +84,9 @@
         "C01_grain_inventory",
         "D01_last_painkiller",
         "E01_street_defense",
-        "G01_palisade_breach"
+        "G01_palisade_breach",
+        "hunting_chain",
+        "wolf_hunter"
       ],
       "rooms": [
         "d/village/square.c",
@@ -119,7 +131,8 @@
       "title": "驛道入城・七十二小時居留與證物交接",
       "world_event": null,
       "quests": [
-        "v2_residency_72h"
+        "v2_residency_72h",
+        "v2_panmu_transport"
       ],
       "rooms": [
         "d/routes/red_stone_pass.c",
@@ -146,7 +159,10 @@
         "v2_career_tier1_qualifications",
         "v2_six_county_evidence",
         "v2_six_evidence_gaps",
-        "v2_west_watergate_crisis"
+        "v2_west_watergate_crisis",
+        "tier1_dao_initiation",
+        "tier1_gong_initiation",
+        "tier1_wu_initiation"
       ],
       "rooms": [
         "d/city/center/yamen.c",
@@ -217,7 +233,29 @@
         "v3_north_wall_beast_surge",
         "v3_act4_sanyuan_defense",
         "v3_act5_lvl100_trials",
-        "v3_tier2_departure"
+        "v3_tier2_departure",
+        "v3_act1_cold_plain_rescue",
+        "v3_yuntu_market_charter",
+        "v3_taiqing_star_archive",
+        "v3_act2_taiqing_ascension_secret",
+        "v3_bahuang_bloodline_watch",
+        "v3_act2_bahuang_ghost_gorge",
+        "v3_tiangong_ancient_mechanism",
+        "v3_danding_blood_pill_cases",
+        "v3_act2_yunjin_ghost_and_sanyuan",
+        "v3_act3_war_god_tomb",
+        "v3_ark_excavation_evidence",
+        "v3_preserve_field_evidence",
+        "v3_act4_cloud_top_tournament",
+        "v3_cross_sect_evidence_audit",
+        "v3_evidence_chain_hearing",
+        "v3_crystal_quarantine_response",
+        "v3_postwar_reform_and_restitution",
+        "side_sect_copy_relief",
+        "side_sect_danding_herb_oops",
+        "side_sect_bahuang_bowstring",
+        "side_sect_tiangong_slag_pick",
+        "side_wastes_lost_goat"
       ],
       "rooms": [
         "d/yunjin/wanshan_square.c",
@@ -260,7 +298,13 @@
         "side_route_winter_hearth",
         "side_route_wheel_repair",
         "side_sect_bahuang_ration_tally",
-        "side_yunjin_coolie_tally"
+        "side_yunjin_coolie_tally",
+        "side_county_liefan_mungbean",
+        "side_county_panmu_raft",
+        "side_county_qinghe_ferry",
+        "side_county_zhenfeng_coat",
+        "side_county_zhongshi_axle",
+        "side_county_zhuoshui_bridge"
       ],
       "rooms": [
         "d/village/chen_grain_shop.c",

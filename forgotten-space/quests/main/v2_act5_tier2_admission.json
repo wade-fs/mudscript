@@ -1,6 +1,7 @@
 {
   "id": "v2_act5_tier2_admission",
   "name": "歷史回響：四維分離與名山考核",
+  "chapter": "Ch.0077-Ch.0082",
   "category": "main",
   "type": "once",
   "start_npc": "black_alley_gatekeeper",

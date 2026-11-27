@@ -1,6 +1,7 @@
 {
   "id": "pelt_loop",
   "name": "荒野獵皮・禦寒生計",
+  "chapter": "Ch.0001-Ch.0006",
   "category": "loop",
   "type": "loop",
   "start_npc": "zhao",

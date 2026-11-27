@@ -1,5 +1,5 @@
 // clone/npc/granary_liubingzhong.c
-// 劉秉忠・常平倉大使 (granary_liubingzhong) - 官平糧倉
+// 劉秉忠・常平倉大使 (granary_liubingzhong) - 官平糧倉 (Ch.69-75)
 
 #include "/include/ansi.h"
 #include "/include/globals.h"

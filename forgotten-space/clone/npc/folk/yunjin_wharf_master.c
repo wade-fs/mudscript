@@ -1,5 +1,5 @@
 // clone/npc/folk/yunjin_wharf_master.c
-// 雲津城・冰河船把頭（北境商貿冰水碼頭日常與船工生計）
+// 雲津城・冰河船把頭（北境商貿冰水碼頭日常與船工生計） (Ch.84-126)
 
 #include "/include/ansi.h"
 #include "/include/globals.h"

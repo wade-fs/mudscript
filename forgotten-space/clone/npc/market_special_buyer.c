@@ -1,5 +1,5 @@
 // clone/npc/market_special_buyer.c
-// 程通四海・六縣採辦總牙人 (market_special_buyer) - 六縣專材長街
+// 程通四海・六縣採辦總牙人 (market_special_buyer) - 六縣專材長街 (Ch.51-68)
 
 #include "/include/ansi.h"
 #include "/include/globals.h"

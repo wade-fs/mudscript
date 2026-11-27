@@ -1,6 +1,7 @@
 {
   "id": "wolf_hunter",
   "name": "東林獵狼平煞",
+  "chapter": "Ch.0003-Ch.0021",
   "category": "side",
   "type": "once",
   "start_npc": "zhao",

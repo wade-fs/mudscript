@@ -1,5 +1,5 @@
 // clone/npc/wu_plaza_colonel.c
-// 岳千軍・操練都尉 (wu_plaza_colonel) - 八方武館外校場
+// 岳千軍・操練都尉 (wu_plaza_colonel) - 八方武館外校場 (Ch.52)
 
 #include "/include/ansi.h"
 #include "/include/globals.h"

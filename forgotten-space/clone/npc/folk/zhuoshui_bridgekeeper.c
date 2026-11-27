@@ -1,5 +1,5 @@
 // clone/npc/folk/zhuoshui_bridgekeeper.c
-// 橋工老譚・濁水縣黑水老薑驅瘴攤（浮橋維護與防瘴草藥日常）
+// 橋工老譚・濁水縣黑水老薑驅瘴攤（浮橋維護與防瘴草藥日常） (Ch.64)
 
 #include "/include/ansi.h"
 #include "/include/globals.h"

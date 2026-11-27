@@ -1,5 +1,5 @@
 // clone/npc/wall_tower_n_yanmu.c
-// 嚴目・瞭望長 (wall_tower_n_yanmu) - 北城望荒箭樓
+// 嚴目・瞭望長 (wall_tower_n_yanmu) - 北城望荒箭樓 (Ch.43-82)
 
 #include "/include/ansi.h"
 #include "/include/globals.h"

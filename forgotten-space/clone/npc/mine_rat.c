@@ -1,4 +1,4 @@
-// clone/npc/mine_rat.c - 黑石地穴鼠（初階怪，Lv2）
+// clone/npc/mine_rat.c - 黑石地穴鼠（初階怪，Lv2） (Ch.1-18)
 #include "/include/ansi.h"
 #include "/include/config.h"
 

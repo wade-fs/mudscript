@@ -1,5 +1,5 @@
 // clone/npc/tie_smith.c
-// 老鐵匠 阿鐵 - 老鐵匠鋪的沉穩師傅
+// 老鐵匠 阿鐵 - 老鐵匠鋪的沉穩師傅 (Ch.1-38)
 
 #include "/include/ansi.h"
 #include "/include/globals.h"
