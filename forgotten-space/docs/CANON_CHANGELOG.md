@@ -2,6 +2,13 @@
 
 本文件追蹤《遺忘的世界》小說正典修訂與 Mudlib 可執行世界之間的雙向同步紀錄，配合 [data/canon_sync_matrix.json](../data/canon_sync_matrix.json)、[data/traceability_matrix.json](../data/traceability_matrix.json) 與 [tests/quests/novel_mud_sync_audit.py](../tests/quests/novel_mud_sync_audit.py) 使用。
 
+## 2026-11-27 — 第四卷短章擴充、高潮打磨與正典連續性校準
+* **第四卷核心戰役與情緒張力擴寫（27 章）**：將第四卷短章與關鍵高潮章節（`ch0131–ch0132`、`ch0134`、`ch0140`、`ch0143`、`ch0145–ch0164`、`ch0166`、`ch0170`）擴充至每章 `3,100–5,368` 字，全卷均字由 `1,680` 字提升至 `2,957` 字、最短章升至 `1,648` 字，補實三極底層工役互動、無星向量與活榫鍛造實作細節、鬥獸坑肉搏與仲裁長橋五方對質張力。
+* **事件／正典與傷勢連續性修復**：
+  * 補實 `EV413` 鬥獸坑實戰代價——石堡老獵戶趙老栓斷後犧牲、燕隼左肋骨裂傷勢與後續 `ch0153`/`ch0161` 繃帶連貫；
+  * 修正 `ch0145` 先行提及「十日復議」之時序錯位，改回九十日大校準收攏脈絡；
+  * 統一 `ch0162`／`ch0164` 林鐵生右肩與右臂燙傷紀錄（對齊 `EV418`），並於 `ch0164`／`ch0170` 嚴守 [world/lore/second_era_ark_canon.md](../world/lore/second_era_ark_canon.md) §6.2 第五卷未定案紅線。
+
 ## 2026-11-27 — 主線玩法多樣化、分支決策與 `REGION_D` 區域因果聯動
 * **宣告式多分支動作與單步區域結算**：於 [std/room.c](../std/room.c) 補入 `quest_target_from_arg` 與 `sensory_msgs` 分支回饋；於 [daemon/quest_engine_d.c](../daemon/quest_engine_d.c) 抽取出共用 `apply_step_outcome_block()` 暨 `find_step_choice()`，支援任務步驟 `choices` 分支抉擇持久化（`quests/<qid>/choices/step_<n>`）、清單渲染與單步 `region_effects` 寫入 `REGION_D`。
 * **主線脫離純對話單一模式**：改寫 8 條核心純 `talk` 主線（[v2_act4_tripartite_tribunal.json](../quests/main/v2_act4_tripartite_tribunal.json)、[v2_six_county_evidence.json](../quests/main/v2_six_county_evidence.json)、[v2_six_evidence_gaps.json](../quests/main/v2_six_evidence_gaps.json)、[v2_residency_72h.json](../quests/main/v2_residency_72h.json)、[v3_yuntu_market_charter.json](../quests/main/v3_yuntu_market_charter.json)、[v3_five_way_evidence_convergence.json](../quests/main/v3_five_way_evidence_convergence.json)、[v4_act3_labor_pact_stations.json](../quests/main/v4_act3_labor_pact_stations.json)、[v3_bahuang_bloodline_watch.json](../quests/main/v3_bahuang_bloodline_watch.json)），融入實測驗材、火漆封卷、分倉稽核、測冰勘線及常平倉／三印公案／雲海賠付／南關張榜等改寫派系權重、儲備與危機牌組之實質決策，並同步強化 [tests/quests/quest_audit.py](../tests/quests/quest_audit.py) 與新增 [tests/test_quest_choices_and_regions.c](../tests/test_quest_choices_and_regions.c)。
