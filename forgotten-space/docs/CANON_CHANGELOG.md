@@ -2,6 +2,10 @@
 
 本文件追蹤《遺忘的世界》小說正典修訂與 Mudlib 可執行世界之間的雙向同步紀錄，配合 [data/canon_sync_matrix.json](../data/canon_sync_matrix.json) 與 [tests/quests/novel_mud_sync_audit.py](../tests/quests/novel_mud_sync_audit.py) 使用。
 
+## 2026-11-27 — 補立第二紀元正典（方舟／離艦總約／洞天／三息）暨第四卷章號清理
+* **新增第二紀元正典**：建立 [world/lore/second_era_ark_canon.md](../world/lore/second_era_ark_canon.md)（`v1.0`），將原分散於第三至四卷正文與 `TIER3_D` 的太古破界方舟三部編制、《離艦火種總約》第七條與沈雲妮權限、方舟九號離艦艙與灰燼石堡 487 戶起源、桃花源洞天 `12:1` 時差與 `2.5x` 重力／`3x` 舊法衰減、`K×U` 非計數器法則、三極巨構與三息微光信標規範全面正典化，並逐條標註 `CONFIRMED`／`INFERRED`／`RUMORED`／`UNKNOWN`，明確鎖定歸墟古淵與大清洗因果關係、假天／十歲象最終操縱者等第五卷未定案邊界。
+* **第四卷重複章修復與文件同步**：補實第 130 章《邊緣醫棚與首例「律令排異症」》及第 160 章《三十座緩衝爐與藥煙護民》，校正 `article/04_volume4/00_intro.md` 與 `article/SUMMARY.md` 章號目錄，並同步 [README.md](../README.md) 與 `docs/mudlib_expansion_and_nine_cities_spec.md` 相對連結。
+
 ## 2026-11-22 — Phase 4 世界鮮活度 2.0 稽核與前三卷小說雙向反哺
 * **World Liveness 2.0 全面稽核**：升級 `tests/quests/world_liveness_audit.py`，全面驗證 288 間房 `set_long` 括號指令 0 遺漏、`PHASE_D` 23 名排程 NPC 與 6 大樞紐互動劇本、`30` 名庶民 NPC 對話覆蓋、動態庫存與 6 維傳聞品質。
 * **前三卷小說 ↔ Mudlib 雙向反哺**：核對全三卷 126 章里程時序一致性（盤木 190+260=450 里、烈礬 320 里、雲津北行 800 里），於第 2、43、84 章補入黑石村塾雜糧鋪、南關外流民矮巷施藥棚與雲津冰河碼頭苦力竹籌等凡俗市井肌理，並於 `data/canon_sync_matrix.json` 新增 `living_world_folk_layer` 納入 `novel_mud_sync_audit.py` 自動驗證。
