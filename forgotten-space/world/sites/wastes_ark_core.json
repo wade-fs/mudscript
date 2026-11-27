@@ -1,0 +1,24 @@
+{
+  "schema_version": "1.1",
+  "site_id": "wastes_ark_core",
+  "zone_id": "wastes_ark_ruins",
+  "name": "北荒方舟五器八角圓台核心室",
+  "site_type": "ANCIENT_ARK_CORE",
+  "danger_tier": 3,
+  "room_refs": [
+    "/d/wastes/ark_core_chamber.c"
+  ],
+  "discovery_rules": {
+    "required_clues": ["ark_cooling_breach_trace"],
+    "visibility": "HIDDEN"
+  },
+  "access_rules": {
+    "required_items": []
+  },
+  "survival_rules": {
+    "resistance_requirements": { "disha_turbidity": 35 }
+  },
+  "status": "ACTIVE",
+  "evidence": ["world/lore/second_era_ark_canon.md", "narrative/events/volume3_events.md"],
+  "confidence": "CONFIRMED"
+}

@@ -52,6 +52,7 @@ mapping evaluate_tier3_calibration();
 int cycle_tier3_calibration();
 void freeze_resolution();
 void propagate_beast_to_military();
+void sync_vol3_4_world_simulation(string event_id, string stage);
 string query_event_stage(string event_id);
 int query_stage_index(string event_id);
 string get_timeout_func(string event_id);
@@ -1019,6 +1020,22 @@ int cycle_tier3_calibration() {
     if (!check_privilege()) return 0;
     reset_event(EVENT_TIER3_CALIBRATION);
     start_event(EVENT_TIER3_CALIBRATION);
+
+    object rd = find_object("/daemon/region_d.c");
+    if (!rd) rd = load_object("/daemon/region_d.c");
+    if (rd) {
+        if (test_mode) rd->set_test_mode(1);
+        foreach (string rid in ({ "realm_edge", "realm_taixu", "realm_wanwu", "realm_zhanzu" })) {
+            mapping active = rd->query_active_crises(rid);
+            if (mapp(active)) {
+                foreach (string cid, mixed unused_v in active) {
+                    rd->resolve_region_crisis(rid, cid, "cycle_tier3_calibration");
+                }
+            }
+        }
+    }
+    sync_vol3_4_world_simulation(EVENT_TIER3_CALIBRATION, STAGE_TIER3_T_MINUS_2);
+
     log_event(EVENT_TIER3_CALIBRATION, "cycle_restart", "【CROSS-05 週期輪轉】三百年校準週期事件重置為 T-2，供新進玩家重新參與。");
     return 1;
 }
@@ -1091,6 +1108,138 @@ void propagate_beast_to_military() {
             "stage": STAGE_MILITARY_ARRIVAL,
             "broadcast_text": "【大軍壓境】大荒煞潮衝斷金石官道，三千府城先鋒鐵騎破霧扣關！黑石關軍事危機正式爆發！"
         ]));
+    }
+}
+
+// ── 第三、四卷事件與 REGION_D / PHASE_D 世界模擬同步橋接器 ────────
+void sync_vol3_4_world_simulation(string event_id, string stage) {
+    object rd = find_object("/daemon/region_d.c");
+    if (!rd) rd = load_object("/daemon/region_d.c");
+    object pd = find_object(PHASE_D);
+    if (!pd) pd = load_object(PHASE_D);
+
+    if (rd && (test_mode || getenv("MUD_TEST_MODE"))) rd->set_test_mode(1);
+    if (pd && (test_mode || getenv("MUD_TEST_MODE"))) pd->set_test_mode(1);
+
+    if (event_id == EVENT_TIER2_CRISIS) {
+        if (stage == STAGE_TIER2_T_MINUS_2) {
+            if (pd) {
+                pd->set_event_phase("tier2_crisis", 0);
+                pd->set_event_phase("crystal_quarantine", 0);
+            }
+        } else if (stage == STAGE_TIER2_T_MINUS_1) {
+            if (rd) {
+                rd->trigger_crisis_from_deck("wastes", "evidence_strength", ([
+                    "desc": "北荒古艦冷卻破口與獸群南壓脈衝升溫",
+                    "price_shock": 15
+                ]));
+                rd->trigger_crisis_from_deck("taiqing", "evidence_strength", ([
+                    "desc": "太清逆星歲差觀測出現系統偏移",
+                    "price_shock": 10
+                ]));
+            }
+        } else if (stage == STAGE_TIER2_T_0) {
+            if (pd) {
+                pd->set_event_phase("tier2_crisis", 1);
+                pd->set_event_phase("crystal_quarantine", 1);
+            }
+            if (rd) {
+                rd->trigger_crisis_from_deck("yunjin", "herd_pressure", ([
+                    "desc": "雲津殘晶毒域擴散與萬寶Futures交割擠兌",
+                    "price_shock": 25
+                ]));
+                rd->trigger_crisis_from_deck("bahuang", "herd_pressure", ([
+                    "desc": "北荒獸潮逼近黑山長城西段缺口",
+                    "price_shock": 20
+                ]));
+            }
+        } else if (stage == STAGE_TIER2_T_PLUS_1) {
+            mapping eval_t2 = evaluate_tier2_crisis();
+            if (rd) {
+                if (eval_t2["defense_outcome"] == "contained_with_scars" || eval_t2["readiness"] == "hearing_ready") {
+                    rd->resolve_region_crisis("bahuang", "black_mountain_beast_surge", "tier2_defense");
+                    rd->resolve_region_crisis("yunjin", "crystal_poison_quarantine", "quarantine_neutralized");
+                    rd->adjust_faction_power("bahuang", "bahuang_wall_garrison", 10);
+                    rd->adjust_faction_power("yunjin", "yunjin_mudway_merchant", 10);
+                } else {
+                    rd->trigger_crisis_from_deck("bahuang", "settlement_resilience", ([
+                        "desc": "長城西段缺口壓力升高",
+                        "price_shock": 20
+                    ]));
+                }
+            }
+        } else if (stage == STAGE_TIER2_T_PLUS_2) {
+            if (pd) {
+                pd->set_event_phase("tier2_crisis", 0);
+                pd->set_event_phase("crystal_quarantine", 0);
+            }
+            if (rd) {
+                rd->adjust_faction_power("wastes", "wastes_expedition_coalition", 10);
+                rd->adjust_faction_power("danding", "danding_herbal_medics", 10);
+            }
+        }
+        return;
+    }
+
+    if (event_id == EVENT_TIER3_CALIBRATION) {
+        if (stage == STAGE_TIER3_T_MINUS_2) {
+            if (pd) {
+                pd->set_event_phase("tier3_calibration", 1);
+                pd->set_event_phase("wanwu_strike", 0);
+            }
+        } else if (stage == STAGE_TIER3_T_MINUS_1) {
+            if (pd) pd->set_event_phase("tier3_calibration", 1);
+            if (rd) {
+                rd->trigger_crisis_from_deck("realm_taixu", "array_deflection", ([
+                    "desc": "太虛三百年天羅掃描預壓攀升，星鎖角位蓄能異常",
+                    "price_shock": 15
+                ]));
+                rd->trigger_crisis_from_deck("realm_edge", "charter_legitimacy", ([
+                    "desc": "灰燼石堡鹽晶預扣加劇，外門新徙法理排異病例增加",
+                    "price_shock": 15
+                ]));
+            }
+        } else if (stage == STAGE_TIER3_T_0) {
+            if (pd) {
+                pd->set_event_phase("tier3_calibration", 1);
+                pd->set_event_phase("wanwu_strike", 1);
+            }
+            if (rd) {
+                rd->trigger_crisis_from_deck("realm_wanwu", "labor_solidarity", ([
+                    "desc": "萬物外環二十四座維修站拉閘停工，拒絕無償強徵鹽晶柱",
+                    "price_shock": 25
+                ]));
+                rd->trigger_crisis_from_deck("realm_zhanzu", "outpost_defense", ([
+                    "desc": "戰祖巨骨哨卡外圍獸群受校準震盪驅離暴衝",
+                    "price_shock": 20
+                ]));
+            }
+        } else if (stage == STAGE_TIER3_T_PLUS_1 || stage == STAGE_TIER3_T_PLUS_2) {
+            mapping eval_t3 = evaluate_tier3_calibration();
+            if (rd) {
+                if (eval_t3["calibration_outcome"] == "blocked_and_equalized") {
+                    rd->resolve_region_crisis("realm_taixu", "sky_net_over_calibration", "array_deflected");
+                    rd->resolve_region_crisis("realm_wanwu", "scrap_ring_general_strike", "equal_charter_signed");
+                    rd->resolve_region_crisis("realm_zhanzu", "bone_gate_beast_stampede", "bone_gate_held");
+                    rd->resolve_region_crisis("realm_edge", "law_rejection_outbreak", "clinic_conduit_relief");
+                    rd->adjust_faction_power("realm_wanwu", "wanwu_scrap_ring_artisans", 15);
+                    rd->adjust_faction_power("realm_wanwu", "equal_charter_arbitrators", 15);
+                    rd->adjust_faction_power("realm_taixu", "taixu_reform_observatory", 15);
+                    rd->adjust_faction_power("realm_edge", "ash_bastion_council", 10);
+                    rd->adjust_region_reserves("realm_edge", "salt_crystal_jin", 300);
+                } else if (eval_t3["calibration_outcome"] == "partial_deflection_with_scars") {
+                    if (eval_t3["outpost_defense"] >= 2) {
+                        rd->resolve_region_crisis("realm_zhanzu", "bone_gate_beast_stampede", "partial_hold");
+                    }
+                    if (eval_t3["labor_solidarity"] >= 2) {
+                        rd->adjust_faction_power("realm_wanwu", "wanwu_scrap_ring_artisans", 5);
+                    }
+                }
+            }
+            if (stage == STAGE_TIER3_T_PLUS_2 && pd) {
+                pd->set_event_phase("wanwu_strike", 0);
+            }
+        }
     }
 }
 
@@ -1239,6 +1388,11 @@ int set_event_stage(string event_id, string new_stage, int force) {
         // Tier 3 週期事件進入 T+2 時結算本輪先行者貢獻，但不設永久 final_resolution 鎖（支援 cycle_tier3_calibration）
         if (event_id == EVENT_TIER3_CALIBRATION && step_stage == STAGE_TIER3_T_PLUS_2) {
             distribute_contribution_rewards(EVENT_TIER3_CALIBRATION);
+        }
+
+        // 第三、四卷世界事件與區域模擬狀態 (REGION_D / PHASE_D) 顯式聯動
+        if (event_id == EVENT_TIER2_CRISIS || event_id == EVENT_TIER3_CALIBRATION) {
+            sync_vol3_4_world_simulation(event_id, step_stage);
         }
 
         string desc = query_stage_desc(event_id, step_stage);

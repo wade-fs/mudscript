@@ -1,0 +1,20 @@
+{
+  "schema_version": "1.1",
+  "zone_id": "realm_edge_salt_flats",
+  "region_id": "realm_edge",
+  "name": "星塵鹽田、玄武風道與跨界信標台",
+  "zone_type": "SALT_FLATS_CONDUIT",
+  "danger_tier": 3,
+  "environment": {
+    "tags": ["DONG_TIAN", "LAW_DAMPENING", "THREE_BREATH_CONDUIT"]
+  },
+  "site_refs": ["realm_edge_beacon_relay"],
+  "discovery_rules": { "visibility": "RESTRICTED", "required_clues": ["bastion_salt_route"] },
+  "access_rules": { "required_items": [] },
+  "survival_rules": {
+    "environmental_constraints": ["old_skill_3x_cost", "salt_crystal_scorch"]
+  },
+  "status": "ACTIVE",
+  "evidence": ["world/lore/second_era_ark_canon.md", "narrative/events/volume4_events.md"],
+  "confidence": "CONFIRMED"
+}

@@ -1,0 +1,25 @@
+{
+  "schema_version": "1.1",
+  "zone_id": "taiqing_inner_summit",
+  "region_id": "taiqing",
+  "name": "太清封存觀測室與祖庭星門",
+  "zone_type": "ANCIENT_PORTAL_VAULT",
+  "danger_tier": 2,
+  "environment": {
+    "tags": ["OBSERVATORY", "ANCIENT_ARRAY", "RESONANCE"]
+  },
+  "site_refs": ["taiqing_ark_portal"],
+  "discovery_rules": {
+    "visibility": "RESTRICTED",
+    "required_clues": ["reverse_star_precession"]
+  },
+  "access_rules": {
+    "required_items": []
+  },
+  "survival_rules": {
+    "environmental_constraints": ["five_relic_resonance"]
+  },
+  "status": "ACTIVE",
+  "evidence": ["world/lore/second_era_ark_canon.md", "narrative/events/volume3_events.md"],
+  "confidence": "CONFIRMED"
+}

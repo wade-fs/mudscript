@@ -1,0 +1,74 @@
+{
+  "schema_version": "1.1",
+  "region_id": "danding",
+  "name": "丹鼎宗",
+  "civ_level": "sect",
+  "region_type": "SECT",
+  "coords": [260, 440, 290],
+  "geography": {
+    "position": null,
+    "coordinate_space": "LOCAL_GAME_SPACE",
+    "precision": "RELATIVE_COORDS",
+    "terrain": "geothermal_herb_ridge",
+    "description": "依託地火藥窟與階梯藥園製備清瘴與道化拮抗劑的醫道宗門"
+  },
+  "resources": {
+    "primary_product": "antidote_pills",
+    "secondary_product": "cleansing_herbs",
+    "demand": ["qinghe_herbs", "alum", "charcoal", "timber"],
+    "reserves": {
+      "clean_herbs": 9500,
+      "sulfur_char": 4500,
+      "antidote_stock": 1200
+    },
+    "price_index": 100
+  },
+  "factions": {
+    "danding_pill_elders": {
+      "power": 50,
+      "agenda": "preserve_traditional_elixir_furnaces"
+    },
+    "danding_herbal_medics": {
+      "power": 50,
+      "agenda": "publish_sanyuan_antidote_protocols"
+    }
+  },
+  "crisis_deck": [
+    {
+      "id": "earth_fire_vent_drop",
+      "base_weight": 35,
+      "trigger_metric": "settlement_capacity"
+    },
+    {
+      "id": "discarded_pill_blight",
+      "base_weight": 35,
+      "trigger_metric": "evidence_strength"
+    },
+    {
+      "id": "qinghe_herb_disruption",
+      "base_weight": 30,
+      "trigger_metric": "civilian_trust"
+    }
+  ],
+  "zone_refs": [
+    {
+      "zone_id": "danding_pill_peaks",
+      "type": "sect_alchemy",
+      "tier": 2
+    }
+  ],
+  "lpc_rooms": [
+    "/d/sects/danding/gate.c",
+    "/d/sects/danding/herb_garden.c",
+    "/d/sects/danding/outer_herb_terrace.c",
+    "/d/sects/danding/earth_fire_pill_cave.c",
+    "/d/sects/danding/discarded_pill_cliff.c",
+    "/d/sects/danding/medical_archive.c",
+    "/d/sects/danding/sect_refectory.c"
+  ],
+  "confidence": "CONFIRMED",
+  "evidence": [
+    "narrative/events/volume3_events.md",
+    "data/event_defs/tier2_crisis.json"
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "schema_version": "1.1",
+  "site_id": "realm_edge_beacon_relay",
+  "zone_id": "realm_edge_salt_flats",
+  "name": "跨界雙向微光信標台（三息窗口）",
+  "site_type": "CONDUIT_BEACON",
+  "danger_tier": 3,
+  "room_refs": [
+    "/d/realm/edge/beacon_relay.c"
+  ],
+  "discovery_rules": {
+    "required_clues": ["three_breath_conduit_window"],
+    "visibility": "RESTRICTED"
+  },
+  "access_rules": {
+    "required_items": [],
+    "transmission_limits": {
+      "living_beings_forbidden": true,
+      "max_weight_liang": 5,
+      "window_breaths": 3,
+      "salt_crystal_jin": 300,
+      "conduit_rings": 1
+    }
+  },
+  "survival_rules": {
+    "environmental_constraints": ["three_breath_thermal_surge"]
+  },
+  "status": "ACTIVE",
+  "evidence": ["world/lore/second_era_ark_canon.md", "daemon/tier3_d.c"],
+  "confidence": "CONFIRMED"
+}

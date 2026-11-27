@@ -762,6 +762,29 @@ int query_act_reward_pct(mapping q) {
             return 125; // 軍事對峙與扣關期：情報/證據與交涉報酬提升 25%
         }
     }
+    string t2_stage = em->query_event_stage(EVENT_TIER2_CRISIS);
+    if (t2_stage == STAGE_TIER2_T_0 || t2_stage == STAGE_TIER2_T_PLUS_1) {
+        if (q["world_event"] == EVENT_TIER2_CRISIS ||
+            member_array(q["region"], ({ "yunjin", "taiqing", "bahuang", "tiangong", "danding", "wastes" })) != -1) {
+            return 125; // 第三卷北荒與三宗危機高峰期
+        }
+    }
+    string t3_stage = em->query_event_stage(EVENT_TIER3_CALIBRATION);
+    if (t3_stage == STAGE_TIER3_T_MINUS_1 || t3_stage == STAGE_TIER3_T_0 || t3_stage == STAGE_TIER3_T_PLUS_1) {
+        if (q["world_event"] == EVENT_TIER3_CALIBRATION ||
+            member_array(q["region"], ({ "realm_edge", "realm_taixu", "realm_wanwu", "realm_zhanzu" })) != -1) {
+            return 125; // 第四卷三極校準與外環停工期
+        }
+    }
+    if (q["region"] && stringp(q["region"])) {
+        object rd = find_object(REGION_D);
+        if (rd) {
+            mapping act_cr = rd->query_active_crises(q["region"]);
+            if (mapp(act_cr) && sizeof(act_cr) > 0) {
+                return 115; // 所屬 Region 存在未解危機時，行動報酬提升 15%
+            }
+        }
+    }
     return 100;
 }
 
@@ -1067,6 +1090,41 @@ int is_event_quest_stage_valid(mapping q) {
     return 1;
 }
 
+void apply_region_effects(mapping eff, string default_region, string qid) {
+    if (!mapp(eff)) return;
+    object rd = find_object(REGION_D);
+    if (!rd) rd = load_object(REGION_D);
+    if (!rd) return;
+    if (getenv("MUD_TEST_MODE")) rd->set_test_mode(1);
+
+    string rid = eff["region"] ? eff["region"] : default_region;
+    if (!rid || rid == "") return;
+
+    if (mapp(eff["faction_deltas"])) {
+        foreach (string fid, int delta in eff["faction_deltas"]) {
+            rd->adjust_faction_power(rid, fid, delta);
+        }
+    }
+    if (arrayp(eff["resolve_crises"])) {
+        foreach (string cid in eff["resolve_crises"]) {
+            rd->resolve_region_crisis(rid, cid, qid ? qid : "quest_resolution");
+        }
+    }
+    if (arrayp(eff["trigger_crises"])) {
+        foreach (string cid in eff["trigger_crises"]) {
+            rd->set_region_crisis(rid, cid, 1, ([ "source_quest": qid ]));
+        }
+    }
+    if (mapp(eff["reserve_deltas"])) {
+        foreach (string res_id, int delta in eff["reserve_deltas"]) {
+            rd->adjust_region_reserves(rid, res_id, delta);
+        }
+    }
+    if (eff["price_delta"]) {
+        rd->adjust_region_price(rid, eff["price_delta"]);
+    }
+}
+
 mapping apply_world_event_outcome(object who, string qid, mapping q) {
     if (!who || !qid || !mapp(q) || !q["world_event"]) return ([]);
     object em = load_object(EVENT_MANAGER_D);
@@ -1103,6 +1161,9 @@ mapping apply_world_event_outcome(object who, string qid, mapping q) {
             // 若有附加第二物證 (如 F03 同時登錄坩堝與雷管雙物證)，一併登錄至物證帳本
             if (mapp(branch["extra_evidence"]) && branch["extra_evidence"]["id"]) {
                 em->register_evidence(branch["extra_evidence"]["id"], branch["extra_evidence"]);
+            }
+            if (mapp(branch["region_effects"])) {
+                apply_region_effects(branch["region_effects"], q["region"], qid);
             }
             who->set("quests/" + qid + "/outcome_grade", selected_grade);
             if (res["message"] && res["message"] != "") {
@@ -1174,6 +1235,9 @@ void handle_stage_completion(object who, string qid, mapping q, int cur_stage) {
             set_quest_state(who, qid, "EXPIRED");
             return;
         }
+    }
+    if (mapp(q["region_effects"])) {
+        apply_region_effects(q["region_effects"], q["region"], qid);
     }
 
     // 若已無後續 Stage，完成整條任務
@@ -1984,6 +2048,42 @@ string query_all_status_report(object who) {
                 if (!has_v2_q) {
                     out += HIC "---------------- 金石風雲・府城與六縣主線 ----------------\n" NOR;
                     has_v2_q = 1;
+                }
+                out += query_quest_checklist(who, qid) + "\n";
+            }
+        }
+    }
+
+    // 9. 第三卷・名山問道、北荒方舟與雲津危機
+    int has_v3_q = 0;
+    foreach (string qid, mapping qdef in quest_defs) {
+        if (strsrch(qid, "v3_") == 0) {
+            int step = who->query("quests/" + qid + "/step");
+            string st = who->query("quests/" + qid + "/state");
+            if (step > 0 || st == "COMPLETED" || st == "EXPIRED") {
+                if (!has_v3_q) {
+                    object em3 = load_object(EVENT_MANAGER_D);
+                    string stg3 = em3 ? em3->query_event_stage(EVENT_TIER2_CRISIS) : "T-2";
+                    out += HIY "---------------- 名山問道・北荒與雲津危機 (當前階段: " + stg3 + ") ----------------\n" NOR;
+                    has_v3_q = 1;
+                }
+                out += query_quest_checklist(who, qid) + "\n";
+            }
+        }
+    }
+
+    // 10. 第四卷・桃花源三極與天羅校準
+    int has_v4_q = 0;
+    foreach (string qid, mapping qdef in quest_defs) {
+        if (strsrch(qid, "v4_") == 0) {
+            int step = who->query("quests/" + qid + "/step");
+            string st = who->query("quests/" + qid + "/state");
+            if (step > 0 || st == "COMPLETED" || st == "EXPIRED") {
+                if (!has_v4_q) {
+                    object em4 = load_object(EVENT_MANAGER_D);
+                    string stg4 = em4 ? em4->query_event_stage(EVENT_TIER3_CALIBRATION) : "T-2";
+                    out += MAG "---------------- 桃花源・三極與百年校準 (當前階段: " + stg4 + ") ----------------\n" NOR;
+                    has_v4_q = 1;
                 }
                 out += query_quest_checklist(who, qid) + "\n";
             }

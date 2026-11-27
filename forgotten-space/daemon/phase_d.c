@@ -13,28 +13,48 @@ mapping hub_scenes;         // 關鍵樞紐 NPC-to-NPC 可觀察互動劇本
 mapping hub_scene_beats;    // 關鍵樞紐當前互動節拍索引
 string current_period;      // 當前時辰劃分: dawn, morning, noon_afternoon, dusk, night, midnight
 int last_update;
+nosave int test_mode;
 
 string query_save_file() { return "/data/phase_d"; }
+
+void set_test_mode(int m) { test_mode = m; }
+int query_test_mode() { return test_mode; }
 
 void init_schedules();
 void init_hub_scenes();
 void sync_all_npc_locations();
 
+void ensure_default_events() {
+    string *required_events = ({
+        "beast_surge",
+        "mine_collapse",
+        "canal_notarization",
+        "tribunal",
+        "tier2_crisis",
+        "crystal_quarantine",
+        "tier3_calibration",
+        "wanwu_strike"
+    });
+    if (!mapp(active_events)) active_events = ([]);
+    foreach (string ev_id in required_events) {
+        if (undefinedp(active_events[ev_id])) {
+            active_events[ev_id] = 0;
+        }
+    }
+}
+
 void create() {
     ::create();
     current_period = "morning";
-    active_events = ([
-        "beast_surge": 0,
-        "mine_collapse": 0,
-        "canal_notarization": 0,
-        "tribunal": 0
-    ]);
+    active_events = ([]);
+    ensure_default_events();
     hub_scene_beats = ([]);
     last_update = time();
 
     if (file_size(query_save_file() + ".o") > 0) {
         restore_object(query_save_file());
     }
+    ensure_default_events();
     if (!mapp(hub_scene_beats)) hub_scene_beats = ([]);
     init_schedules();
     init_hub_scenes();
@@ -471,6 +491,134 @@ void init_schedules() {
                 "dawn":           "周伯生起炭火燉上一大砂鍋甘草金銀花清熱湯，準備免費分給棚外病患。",
                 "morning":        "周伯正俯身為幾名摔傷腳踝的苦力包紮夾板，仔細叮囑別沾冷水。"
             ])
+        ]),
+        // ── 第三卷：雲津、三宗與北荒關鍵駐點 NPC ──
+        "qiu_he": ([
+            "name": "泥途掌櫃邱禾",
+            "file": "/clone/npc/qiu_he.c",
+            "schedules": ([
+                "dawn":           "/d/yunjin/river_wharf.c",
+                "morning":        "/d/yunjin/mudway_store.c",
+                "noon_afternoon": "/d/yunjin/mudway_store.c",
+                "dusk":           "/d/yunjin/exchange_hall.c",
+                "night":          "/d/yunjin/mudway_store.c",
+                "midnight":       "/d/yunjin/mudway_store.c"
+            ]),
+            "action_descs": ([
+                "dawn":           "邱禾在冰河碼頭對著木籌清單點算凍嶺紅杉與雪橇車架。",
+                "morning":        "邱禾站在泥途商棧櫃台後核對北境補給帳目，算盤撥得飛快。"
+            ]),
+            "event_phases": ([
+                "tier2_crisis": ([
+                    "1": "/d/yunjin/stone_arch_quarantine.c"
+                ])
+            ])
+        ]),
+        "lei_lie": ([
+            "name": "八荒鎮邊督陣雷烈",
+            "file": "/clone/npc/lei_lie.c",
+            "schedules": ([
+                "dawn":           "/d/sects/bahuang/black_mountain_camp.c",
+                "morning":        "/d/sects/bahuang/black_mountain_camp.c",
+                "noon_afternoon": "/d/sects/bahuang/west_wall_breach.c",
+                "dusk":           "/d/sects/bahuang/black_mountain_camp.c",
+                "night":          "/d/sects/bahuang/black_mountain_camp.c",
+                "midnight":       "/d/sects/bahuang/black_mountain_camp.c"
+            ]),
+            "action_descs": ([
+                "morning":        "雷烈正檢閱三百守軍的三段輪替陣列與重弩弦軸。",
+                "noon_afternoon": "雷烈登上長城西段缺口勘查北荒冰風與獸跡動靜。"
+            ]),
+            "event_phases": ([
+                "tier2_crisis": ([
+                    "1": "/d/sects/bahuang/west_wall_breach.c"
+                ])
+            ])
+        ]),
+        "han_su": ([
+            "name": "醫道弟子韓素",
+            "file": "/clone/npc/han_su.c",
+            "schedules": ([
+                "dawn":           "/d/yunjin/stone_arch_quarantine.c",
+                "morning":        "/d/yunjin/west_street_recycling.c",
+                "noon_afternoon": "/d/yunjin/west_street_recycling.c",
+                "dusk":           "/d/yunjin/mudway_store.c",
+                "night":          "/d/yunjin/west_street_recycling.c",
+                "midnight":       "/d/yunjin/west_street_recycling.c"
+            ]),
+            "action_descs": ([
+                "dawn":           "韓素正配製生石灰與百草中和霧劑，檢視隔離區邊界的粉化晶塵。",
+                "morning":        "韓素在西街回收廠登記窯工肺脈診錄，分發祛道防塵藥湯。"
+            ]),
+            "event_phases": ([
+                "crystal_quarantine": ([
+                    "1": "/d/yunjin/crystal_poison_edge.c"
+                ])
+            ])
+        ]),
+        // ── 第四卷：桃花源洞天與三極關鍵 NPC ──
+        "ash_warden_qi": ([
+            "name": "灰燼守夜人祁統領",
+            "file": "/clone/npc/ash_warden_qi.c",
+            "schedules": ([
+                "dawn":           "/d/realm/edge/basalt_ridge.c",
+                "morning":        "/d/realm/edge/ash_watch_post.c",
+                "noon_afternoon": "/d/realm/edge/ash_watch_post.c",
+                "dusk":           "/d/realm/edge/ash_watch_post.c",
+                "night":          "/d/realm/edge/ash_watch_post.c",
+                "midnight":       "/d/realm/edge/beacon_relay.c"
+            ]),
+            "action_descs": ([
+                "dawn":           "祁統領沿玄武岩風道巡查前夜機隼哨跡，記下風向與鹽塵厚度。",
+                "morning":        "祁統領在守夜寨核對四百八十七戶鹽晶與燈油配給木牌。"
+            ]),
+            "event_phases": ([
+                "tier3_calibration": ([
+                    "1": "/d/realm/edge/beacon_relay.c"
+                ])
+            ])
+        ]),
+        "stone_clinic_healer_su": ([
+            "name": "灰燼醫官蘇大夫",
+            "file": "/clone/npc/stone_clinic_healer_su.c",
+            "schedules": ([
+                "dawn":           "/d/realm/edge/edge_clinic.c",
+                "morning":        "/d/realm/edge/edge_clinic.c",
+                "noon_afternoon": "/d/realm/edge/edge_clinic.c",
+                "dusk":           "/d/realm/edge/edge_clinic.c",
+                "night":          "/d/realm/edge/edge_clinic.c",
+                "midnight":       "/d/realm/edge/edge_clinic.c"
+            ]),
+            "action_descs": ([
+                "morning":        "蘇大夫以冷霧藥紗替石堡鹽夫清創，紀錄舊法排異病案。",
+                "dusk":           "蘇大夫核對跨極醫藥配額單，將過量抽取鹽晶的痕跡圈出。"
+            ]),
+            "event_phases": ([
+                "tier3_calibration": ([
+                    "1": "/d/realm/wanwu/conduit_well.c"
+                ])
+            ])
+        ]),
+        "wanwu_auditor_qi": ([
+            "name": "萬物外環老匠師齊叔",
+            "file": "/clone/npc/wanwu_auditor_qi.c",
+            "schedules": ([
+                "dawn":           "/d/realm/wanwu/scrap_ring.c",
+                "morning":        "/d/realm/wanwu/scrap_ring.c",
+                "noon_afternoon": "/d/realm/wanwu/scrap_ring.c",
+                "dusk":           "/d/realm/wanwu/arbitration_bridge.c",
+                "night":          "/d/realm/wanwu/scrap_ring.c",
+                "midnight":       "/d/realm/wanwu/scrap_ring.c"
+            ]),
+            "action_descs": ([
+                "morning":        "齊叔拿著黃銅卡尺比對二十四座維修站的報損齒栓。",
+                "dusk":           "齊叔在彩虹仲裁橋頭翻看《離艦火種總約》第七與第九條抄本。"
+            ]),
+            "event_phases": ([
+                "wanwu_strike": ([
+                    "1": "/d/realm/wanwu/arbitration_bridge.c"
+                ])
+            ])
         ])
     ]);
 }
@@ -508,6 +656,16 @@ void init_hub_scenes() {
             "跑商陳大牙抓起一把五香毛豆拍在榆木桌上：「信我的！這波山路落石外加寒潮下來，鎮風皮襖跟盤木原材半月內準得再翻兩成！」",
             "對桌兩個拉貨老車夫哼笑一聲舉碗碰杯：「你們跑商嘴上翻兩成容易，咱們大冬天走虎跳峽，半條命都在懸崖棧道上懸著！」",
             "店小二從櫃後端出滾燙的粗茶老薑湯，屋裡的喧鬧裡多了幾分冬市煙火暖意。"
+        }),
+        "/d/realm/edge/ash_watch_post.c": ({
+            "名簿記室撥亮省油鹽燈，逐筆核對四百八十七戶今日上繳的粗鹽晶重量與藥棚扣額。",
+            "巡哨年輕獵人拍落肩頭灰白玄武岩粉塵，低聲回報：「風道北側昨日又見過太虛的銀羽機隼掠過。」",
+            "屋簷外兩倍半重壓的風沙低沉呼嘯，灶房暖爐邊只飄出淡淡苦草藥湯味。"
+        }),
+        "/d/realm/wanwu/scrap_ring.c": ({
+            "三號維修站的大匠放下扳手敲了敲銅鐘：「今天鹽晶扣稅沒結清前，誰也不準私下替主殿替換備用齒軸！」",
+            "一名戰祖部落出身的運鹽苦力擦著額頭鹹汗抱怨：「上頭說校準缺料要加徵三成，可我們部落傷藥早就斷了半月！」",
+            "總線深井方向傳來低頻金屬共鳴，將外環鐵架震出一層極細微的鐵灰。"
         })
     ]);
 }
@@ -603,6 +761,14 @@ string query_room_rhythm_line(object room) {
             time_note = "深夜正市早已閉門，幽暗巷陌與暗渠鬼市卻在此時點起壓低遮罩的綠燈，私下交易暗湧。";
         } else if (strsrch(rpath, "gate_") != -1 || strsrch(rpath, "wall") != -1 || strsrch(rpath, "tenement_alley") != -1) {
             time_note = "夜深實行街坊宵禁，城防巡夜軍卒提著氣死風燈敲梆盤查，無籍流民多縮門躲避盤問。";
+        } else if (strsrch(rpath, "/d/realm/edge/") != -1 || strsrch(rpath, "/d/realm/peach_plateau") != -1) {
+            time_note = "桃花源邊陲的玄武岩礫石在兩倍半重力壓迫下顯得格外沉凝，風沙裡帶著淡淡鹹礦氣息。";
+        } else if (strsrch(rpath, "/d/realm/taixu/") != -1) {
+            time_note = "太虛懸浮晶塔內傳來微弱卻高頻的星鎖校准蜂鳴，靈機運作格外滯重。";
+        } else if (strsrch(rpath, "/d/realm/wanwu/") != -1) {
+            time_note = "萬物外環合金棧道與維修站燈火長明，十二倍跨界時差下日夜更替被工程輪班徹底切分。";
+        } else if (strsrch(rpath, "/d/realm/zhanzu/") != -1) {
+            time_note = "戰祖巨骨哨卡外獸吼隱約不絕，火把與燻製獸肉的焦煙混在沉厚空氣中。";
         } else {
             time_note = "四野入夜萬籟俱寂，偶有更夫遠處傳來三更梆聲與寒風刮過屋瓦的輕響。";
         }
@@ -619,7 +785,9 @@ string query_room_rhythm_line(object room) {
         season_note = HIG "【品物夏歲・暑汛提醒】盛夏濕熱驟雨頻發，河澤瘴氣加重且山溪易暴漲阻道。" NOR;
     }
 
-    if (weather == "storm" && season_note == "") {
+    if (strsrch(rpath, "/d/realm/") != -1) {
+        season_note = MAG "【洞天法則阻尼・12:1 時差】此間重壓兩倍半且與凡間維持十二倍流速差；未掌握新道物理運用前，舊法消耗三倍、威力折半。" NOR;
+    } else if (weather == "storm" && season_note == "") {
         season_note = HIR "【暴雨警示】狂風驟雨沖刷道路，山區泥石滑坡與河道暴漲風險急升！" NOR;
     } else if (weather == "snowy" && season != "winter") {
         season_note = HIW "【突降寒雪】天際飄下罕見冷雪，炭火與驅寒熱湯價格隨之看漲！" NOR;
@@ -679,8 +847,11 @@ string query_npc_ambient_desc(string npc_key, string period) {
 // ── 5. 事件相位設定與查詢 ────────────────────────────────────
 void set_event_phase(string event_id, int phase) {
     if (!event_id || event_id == "") return;
+    if (!mapp(active_events)) ensure_default_events();
     active_events[event_id] = phase;
-    save_object(query_save_file());
+    if (!test_mode && !getenv("MUD_TEST_MODE")) {
+        save_object(query_save_file());
+    }
     sync_all_npc_locations();
 }
 

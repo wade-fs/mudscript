@@ -1,0 +1,20 @@
+{
+  "schema_version": "1.1",
+  "zone_id": "realm_wanwu_scrap_ring",
+  "region_id": "realm_wanwu",
+  "name": "萬物外環維修站與平權仲裁虹橋",
+  "zone_type": "ARTISAN_RING",
+  "danger_tier": 3,
+  "environment": {
+    "tags": ["DONG_TIAN", "LAW_DAMPENING", "LABOR_RING"]
+  },
+  "site_refs": [],
+  "discovery_rules": { "visibility": "PUBLIC" },
+  "access_rules": { "required_items": [] },
+  "survival_rules": {
+    "environmental_constraints": ["old_skill_3x_cost"]
+  },
+  "status": "ACTIVE",
+  "evidence": ["world/lore/second_era_ark_canon.md", "narrative/events/volume4_events.md"],
+  "confidence": "CONFIRMED"
+}

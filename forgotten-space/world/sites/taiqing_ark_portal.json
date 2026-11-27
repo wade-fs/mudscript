@@ -1,0 +1,24 @@
+{
+  "schema_version": "1.1",
+  "site_id": "taiqing_ark_portal",
+  "zone_id": "taiqing_inner_summit",
+  "name": "太清祖庭單向破界星門",
+  "site_type": "ANCIENT_PORTAL",
+  "danger_tier": 3,
+  "room_refs": [
+    "/d/sects/taiqing/ark_portal_chamber.c"
+  ],
+  "discovery_rules": {
+    "required_clues": ["reverse_star_precession", "five_relic_resonance"],
+    "visibility": "HIDDEN"
+  },
+  "access_rules": {
+    "required_items": []
+  },
+  "survival_rules": {
+    "environmental_constraints": ["five_relic_resonance_drain"]
+  },
+  "status": "ACTIVE",
+  "evidence": ["world/lore/second_era_ark_canon.md", "narrative/events/volume3_events.md"],
+  "confidence": "CONFIRMED"
+}

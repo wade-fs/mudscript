@@ -1,0 +1,80 @@
+{
+  "schema_version": "1.1",
+  "region_id": "realm_taixu",
+  "name": "太虛神宮",
+  "civ_level": "pole_citadel",
+  "region_type": "DONG_TIAN_POLE",
+  "coords": [0, 1250, 1400],
+  "geography": {
+    "position": null,
+    "coordinate_space": "LOCAL_GAME_SPACE",
+    "precision": "RELATIVE_COORDS",
+    "terrain": "crystal_sky_spire",
+    "description": "洞天三極之一，掌星鎖陣列與天羅掃描校準的懸浮晶塔主壇（不具未經證實之太古九城物理映射）"
+  },
+  "resources": {
+    "primary_product": "star_lock_cores",
+    "secondary_product": "astronomy_ephemeris",
+    "demand": ["salt_crystal_jin", "crystal_lenses"],
+    "reserves": {
+      "crystal_lenses": 120,
+      "salt_crystal_jin": 3500,
+      "calibration_tablets": 240
+    },
+    "price_index": 100
+  },
+  "factions": {
+    "taixu_calibration_presidium": {
+      "power": 60,
+      "agenda": "execute_300yr_harvest_calibration"
+    },
+    "taixu_reform_observatory": {
+      "power": 25,
+      "agenda": "deflect_star_lock_by_1_5_degrees"
+    },
+    "taixu_white_jade_scribes": {
+      "power": 15,
+      "agenda": "audit_false_ascension_archives"
+    }
+  },
+  "crisis_deck": [
+    {
+      "id": "sky_net_over_calibration",
+      "base_weight": 35,
+      "trigger_metric": "array_deflection"
+    },
+    {
+      "id": "star_lock_misalignment",
+      "base_weight": 25,
+      "trigger_metric": "beacon_readiness"
+    },
+    {
+      "id": "qi_suppression_pulse",
+      "base_weight": 20,
+      "trigger_metric": "outpost_defense"
+    },
+    {
+      "id": "inner_scholar_schism",
+      "base_weight": 20,
+      "trigger_metric": "charter_legitimacy"
+    }
+  ],
+  "zone_refs": [
+    {
+      "zone_id": "realm_taixu_citadel",
+      "type": "pole_spire",
+      "tier": 3
+    }
+  ],
+  "lpc_rooms": [
+    "/d/realm/taixu/white_jade_steps.c",
+    "/d/realm/taixu/calibration_hall.c",
+    "/d/realm/taixu/crystal_tower_core.c"
+  ],
+  "confidence": "CONFIRMED",
+  "evidence": [
+    "world/lore/second_era_ark_canon.md",
+    "narrative/events/volume4_events.md",
+    "data/event_defs/tier3_calibration.json"
+  ]
+}

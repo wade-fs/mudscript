@@ -1,0 +1,23 @@
+{
+  "schema_version": "1.1",
+  "zone_id": "tiangong_deep_vaults",
+  "region_id": "tiangong",
+  "name": "天工機巧深井與四號庫房",
+  "zone_type": "ANCIENT_VAULT",
+  "danger_tier": 2,
+  "environment": {
+    "tags": ["UNDERGROUND", "ANCIENT_MECHANISM"]
+  },
+  "site_refs": [],
+  "discovery_rules": {
+    "visibility": "RESTRICTED",
+    "required_clues": ["vault_four_tally"]
+  },
+  "access_rules": { "required_items": [] },
+  "survival_rules": {
+    "environmental_constraints": ["pressure_vent_steam"]
+  },
+  "status": "ACTIVE",
+  "evidence": ["narrative/events/volume3_events.md"],
+  "confidence": "CONFIRMED"
+}

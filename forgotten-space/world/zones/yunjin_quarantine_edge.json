@@ -1,0 +1,20 @@
+{
+  "schema_version": "1.1",
+  "zone_id": "yunjin_quarantine_edge",
+  "region_id": "yunjin",
+  "name": "雲津石牌坊殘晶隔離帶",
+  "zone_type": "QUARANTINE_BELT",
+  "danger_tier": 2,
+  "environment": {
+    "tags": ["SURFACE", "CRYSTAL_MIASMA", "QUARANTINE"]
+  },
+  "site_refs": [],
+  "discovery_rules": { "visibility": "PUBLIC" },
+  "access_rules": { "required_items": [] },
+  "survival_rules": {
+    "resistance_requirements": { "crystal_toxicity": 15 }
+  },
+  "status": "ACTIVE",
+  "evidence": ["narrative/events/volume3_events.md"],
+  "confidence": "CONFIRMED"
+}

@@ -1,0 +1,89 @@
+{
+  "schema_version": "1.1",
+  "region_id": "realm_edge",
+  "name": "灰燼石堡（桃花源邊陲）",
+  "civ_level": "bastion",
+  "region_type": "REALM_EDGE",
+  "coords": [0, 1000, 1200],
+  "geography": {
+    "position": null,
+    "coordinate_space": "LOCAL_GAME_SPACE",
+    "precision": "RELATIVE_COORDS",
+    "terrain": "pocket_realm_basalt_border",
+    "description": "桃花源洞天九號離艦艙後裔四百八十七戶聚居的玄武岩邊陲聚落與雙向信標台"
+  },
+  "resources": {
+    "primary_product": "salt_crystal",
+    "secondary_product": "cold_fog_medicine",
+    "demand": ["lamp_oil", "salt_crystal_jin", "black_iron_conduit", "herbs"],
+    "reserves": {
+      "salt_crystal_jin": 1200,
+      "lamp_oil": 800,
+      "herbal_paste": 600
+    },
+    "price_index": 100
+  },
+  "factions": {
+    "ash_bastion_council": {
+      "power": 55,
+      "agenda": "preserve_autonomy_and_ration_parity"
+    },
+    "stone_clinic_medics": {
+      "power": 25,
+      "agenda": "treat_law_rejection_syndromes"
+    },
+    "salt_flats_laborers": {
+      "power": 20,
+      "agenda": "stop_unpaid_salt_levy"
+    }
+  },
+  "crisis_deck": [
+    {
+      "id": "salt_stove_depletion",
+      "base_weight": 30,
+      "trigger_metric": "labor_solidarity"
+    },
+    {
+      "id": "law_rejection_outbreak",
+      "base_weight": 30,
+      "trigger_metric": "charter_legitimacy"
+    },
+    {
+      "id": "sand_lizard_incursion",
+      "base_weight": 20,
+      "trigger_metric": "outpost_defense"
+    },
+    {
+      "id": "beacon_salt_shortage",
+      "base_weight": 20,
+      "trigger_metric": "beacon_readiness"
+    }
+  ],
+  "zone_refs": [
+    {
+      "zone_id": "realm_edge_bastion",
+      "type": "frontier_settlement",
+      "tier": 3
+    },
+    {
+      "zone_id": "realm_edge_salt_flats",
+      "type": "salt_flats_conduit",
+      "tier": 3
+    }
+  ],
+  "lpc_rooms": [
+    "/d/realm/peach_plateau.c",
+    "/d/realm/edge/basalt_ridge.c",
+    "/d/realm/edge/ash_watch_post.c",
+    "/d/realm/edge/edge_clinic.c",
+    "/d/realm/edge/stardust_salt_flats.c",
+    "/d/realm/edge/scorch_border.c",
+    "/d/realm/edge/beacon_relay.c"
+  ],
+  "confidence": "CONFIRMED",
+  "evidence": [
+    "world/lore/second_era_ark_canon.md",
+    "narrative/events/volume4_events.md",
+    "data/event_defs/tier3_calibration.json"
+  ]
+}

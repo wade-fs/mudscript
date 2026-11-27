@@ -24,6 +24,9 @@ nosave mapping site_defs;
 // 包含: reserves, price_index, last_eval_time, factions, active_crises
 mapping region_states;
 
+// 測試模式旗標 (若為 1，save_region 不寫入磁碟)
+nosave int test_mode;
+
 void load_regions();
 void load_zones();
 void load_sites();
@@ -31,6 +34,10 @@ int save_region(string region_id);
 int restore_region(string region_id);
 int restore_all_regions();
 int get_current_gtime();
+mapping evaluate_region(string region_id, int current_gtime);
+
+void set_test_mode(int m) { test_mode = m; }
+int query_test_mode() { return test_mode; }
 
 string query_save_file(string rid) {
     return DATA_REGIONS_DIR + rid + ".json";
@@ -80,7 +87,18 @@ void load_regions() {
             "liefan.json",
             "zhenfeng.json",
             "panmu.json",
-            "tuogu.json"
+            "tuogu.json",
+            "zhuoshui.json",
+            "yunjin.json",
+            "taiqing.json",
+            "bahuang.json",
+            "tiangong.json",
+            "danding.json",
+            "wastes.json",
+            "realm_edge.json",
+            "realm_taixu.json",
+            "realm_wanwu.json",
+            "realm_zhanzu.json"
         });
     }
 
@@ -274,7 +292,7 @@ int adjust_region_price(string region_id, int delta_pct) {
     if (new_p < PRICE_INDEX_MIN) new_p = PRICE_INDEX_MIN;
     if (new_p > PRICE_INDEX_MAX) new_p = PRICE_INDEX_MAX;
     state["price_index"] = new_p;
-    save_region(region_id);
+    if (!test_mode && !getenv("MUD_TEST_MODE")) save_region(region_id);
     return new_p;
 }
 
@@ -297,7 +315,7 @@ int adjust_region_reserves(string region_id, string resource_id, int delta) {
     int after = cur + delta;
     if (after < 0) after = 0;
     state["reserves"][resource_id] = after;
-    save_region(region_id);
+    if (!test_mode && !getenv("MUD_TEST_MODE")) save_region(region_id);
     return after;
 }
 
@@ -324,7 +342,7 @@ int set_region_crisis(string region_id, string crisis_id, int active, mapping de
     } else {
         map_delete(state["active_crises"], crisis_id);
     }
-    save_region(region_id);
+    if (!test_mode && !getenv("MUD_TEST_MODE")) save_region(region_id);
     return 1;
 }
 
@@ -342,8 +360,99 @@ int resolve_region_crisis(string region_id, string crisis_id, string action_take
     if (state["price_index"] > PRICE_INDEX_BASE) {
         state["price_index"] = PRICE_INDEX_BASE + (state["price_index"] - PRICE_INDEX_BASE) / 2;
     }
-    save_region(region_id);
+    if (!test_mode && !getenv("MUD_TEST_MODE")) save_region(region_id);
     return 1;
+}
+
+// 查詢區域勢力影響力 (0 ~ 100)
+int query_faction_power(string region_id, string faction_id) {
+    int now_gt = get_current_gtime();
+    mapping state = evaluate_region(region_id, now_gt);
+    if (!state || !mapp(state["factions"]) || !mapp(state["factions"][faction_id])) return 0;
+    return state["factions"][faction_id]["power"];
+}
+
+// 調整區域勢力影響力 (0 ~ 100 鉗制)
+int adjust_faction_power(string region_id, string faction_id, int delta) {
+    int now_gt = get_current_gtime();
+    mapping state = evaluate_region(region_id, now_gt);
+    if (!state) return 0;
+
+    if (!mapp(state["factions"])) state["factions"] = ([]);
+    if (!mapp(state["factions"][faction_id])) {
+        state["factions"][faction_id] = ([ "power": 0, "agenda": "emergent" ]);
+    }
+    int cur = state["factions"][faction_id]["power"];
+    int after = cur + delta;
+    if (after < 0) after = 0;
+    if (after > 100) after = 100;
+    state["factions"][faction_id]["power"] = after;
+    if (!test_mode && !getenv("MUD_TEST_MODE")) save_region(region_id);
+    return after;
+}
+
+// 查詢區域靜態危機牌組定義 (唯讀副本)
+mixed *query_crisis_deck(string region_id) {
+    if (!region_defs || !mapp(region_defs[region_id])) return ({});
+    mixed deck = region_defs[region_id]["crisis_deck"];
+    if (!pointerp(deck)) return ({});
+    return copy(deck);
+}
+
+// 查詢區域當前所有活躍危機
+mapping query_active_crises(string region_id) {
+    int now_gt = get_current_gtime();
+    mapping state = evaluate_region(region_id, now_gt);
+    if (!state || !mapp(state["active_crises"])) return ([]);
+    return copy(state["active_crises"]);
+}
+
+// 依危機牌組 (crisis_deck) 抽取並觸發對應危機卡
+// 優先比對 trigger_metric 尚未生效的最高權重卡；若指定空字串則取最高權重未啟用卡
+string trigger_crisis_from_deck(string region_id, string trigger_metric, mapping details) {
+    mixed *deck = query_crisis_deck(region_id);
+    if (!sizeof(deck)) return "";
+
+    mapping active = query_active_crises(region_id);
+    string best_id = "";
+    int best_weight = -1;
+
+    foreach (mixed card in deck) {
+        if (!mapp(card) || !card["id"]) continue;
+        string cid = card["id"];
+        if (mapp(active[cid])) continue;
+        if (trigger_metric && trigger_metric != "" && card["trigger_metric"] != trigger_metric) continue;
+        int w = card["base_weight"] ? card["base_weight"] : 10;
+        if (w > best_weight) {
+            best_weight = w;
+            best_id = cid;
+        }
+    }
+
+    if (best_id == "" && trigger_metric && trigger_metric != "") {
+        foreach (mixed card in deck) {
+            if (!mapp(card) || !card["id"]) continue;
+            string cid = card["id"];
+            if (mapp(active[cid])) continue;
+            int w = card["base_weight"] ? card["base_weight"] : 10;
+            if (w > best_weight) {
+                best_weight = w;
+                best_id = cid;
+            }
+        }
+    }
+
+    if (best_id == "") return "";
+
+    mapping d = mapp(details) ? copy(details) : ([]);
+    d["source_deck"] = region_id;
+    if (trigger_metric && trigger_metric != "") d["trigger_metric"] = trigger_metric;
+    if (!set_region_crisis(region_id, best_id, 1, d)) return "";
+
+    if (d["price_shock"]) {
+        adjust_region_price(region_id, d["price_shock"]);
+    }
+    return best_id;
 }
 
 // 保存個別區域動態持久化狀態

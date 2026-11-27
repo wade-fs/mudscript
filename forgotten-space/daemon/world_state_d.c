@@ -54,6 +54,7 @@ string query_causal_reason(string target_id);
 void init_county_clocks();
 void init_market_stocks();
 void economic_batch_tick(int current_gtime);
+void sync_vol3_4_region_economy(string season, string weather);
 
 string query_save_file() { return "/data/world_state"; }
 
@@ -379,6 +380,7 @@ void world_tick(int g_time, string weather) {
     }
 
     if (g_time % 30 == 0) {
+        sync_vol3_4_region_economy(cur_season, weather);
         save_object(query_save_file());
     }
 }
@@ -1256,6 +1258,7 @@ void economic_batch_tick(int current_gtime) {
     }
 
     update_merchant_strategies();
+    sync_vol3_4_region_economy("", "");
     save_object(query_save_file());
 }
 
@@ -1532,5 +1535,78 @@ mapping query_macro_route_timing(string route_id, string mode) {
         "freight_delay": rtd->query_freight_delay(route_id),
         "attenuation_pct": rtd->query_attenuation_pct(route_id)
     ]);
+}
+
+// ── 第三、四卷區域經濟與危機牌組對接 (REGION_D + EVENT_MANAGER_D) ──
+string *query_vol3_4_region_ids() {
+    return ({
+        "yunjin", "taiqing", "bahuang", "tiangong", "danding", "wastes",
+        "realm_edge", "realm_taixu", "realm_wanwu", "realm_zhanzu"
+    });
+}
+
+void sync_vol3_4_region_economy(string season, string weather) {
+    object rd = find_object(REGION_D);
+    if (!rd) rd = load_object(REGION_D);
+    if (!rd) return;
+    if (getenv("MUD_TEST_MODE")) rd->set_test_mode(1);
+
+    // 1. 寒潮與北疆水運封鎖對雲津／北荒 REGION_D 狀態之反映
+    if (is_causal_event_active("northern_cold_snap") || season == "winter" || weather == "snowy") {
+        if (!mapp(rd->query_region_crisis("wastes", "northern_cold_snap"))) {
+            rd->trigger_crisis_from_deck("wastes", "settlement_capacity", ([
+                "desc": "北荒寒潮驟冷，雪原行商補給吃緊",
+                "price_shock": 15
+            ]));
+        }
+        if (!mapp(rd->query_region_crisis("yunjin", "ice_wharf_freeze"))) {
+            rd->set_region_crisis("yunjin", "ice_wharf_freeze", 1, ([
+                "desc": "雲津冰河碼頭封凍，紅杉卸貨滯緩",
+                "source_deck": "yunjin"
+            ]));
+            rd->adjust_region_price("yunjin", 10);
+        }
+    }
+
+    // 2. 青河藥草危機外溢至丹鼎藥庫
+    if (is_causal_event_active("river_surge_sluice")) {
+        if (!mapp(rd->query_region_crisis("danding", "qinghe_herb_disruption"))) {
+            rd->set_region_crisis("danding", "qinghe_herb_disruption", 1, ([
+                "desc": "青河洗靈草漕運中斷，丹鼎改調替代藥材",
+                "source_deck": "danding"
+            ]));
+        }
+    }
+
+    // 3. 洞天三百年校準對灰燼石堡與三極鹽晶物價之連動
+    object em = find_object(EVENT_MANAGER_D);
+    if (em) {
+        string t3_stage = em->query_event_stage("tier3_calibration");
+        if (t3_stage == "T-1" || t3_stage == "T0") {
+            if (!mapp(rd->query_region_crisis("realm_edge", "salt_stove_depletion"))) {
+                rd->trigger_crisis_from_deck("realm_edge", "labor_solidarity", ([
+                    "desc": "校準前夕萬物強徵鹽晶柱，石堡暖爐儲量告警",
+                    "price_shock": 20
+                ]));
+            }
+        }
+    }
+}
+
+mapping query_vol3_4_simulation_snapshot() {
+    object rd = query_region_d();
+    mapping out = ([]);
+    if (!rd) return out;
+    foreach (string rid in query_vol3_4_region_ids()) {
+        mapping st = rd->query_region_state(rid);
+        if (mapp(st)) {
+            out[rid] = ([
+                "price_index": st["price_index"],
+                "active_crises": keys(mapp(st["active_crises"]) ? st["active_crises"] : ([])),
+                "factions": st["factions"]
+            ]);
+        }
+    }
+    return out;
 }
 

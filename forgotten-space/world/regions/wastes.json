@@ -1,0 +1,91 @@
+{
+  "schema_version": "1.1",
+  "region_id": "wastes",
+  "name": "北荒古境",
+  "civ_level": "frontier",
+  "region_type": "WILDERNESS",
+  "coords": [-10, 820, 180],
+  "geography": {
+    "position": null,
+    "coordinate_space": "LOCAL_GAME_SPACE",
+    "precision": "RELATIVE_COORDS",
+    "terrain": "frozen_ark_wasteland",
+    "description": "黑山長城以北的極寒雪原與太古方舟艦首殘骸露頭帶"
+  },
+  "resources": {
+    "primary_product": "frost_pelt",
+    "secondary_product": "ark_alloy_scrap",
+    "demand": ["fur_cloak", "charcoal", "grain", "antidote_pills"],
+    "reserves": {
+      "frost_pelt": 3200,
+      "ark_scrap": 450,
+      "emergency_rations": 2500
+    },
+    "price_index": 100
+  },
+  "factions": {
+    "wastes_expedition_coalition": {
+      "power": 45,
+      "agenda": "catalog_ark_ruins_and_rescue_missing"
+    },
+    "wastes_frost_hunters": {
+      "power": 35,
+      "agenda": "maintain_caravan_and_snow_trails"
+    },
+    "wild_beast_packs": {
+      "power": 20,
+      "agenda": "flee_subterranean_heat_and_sha"
+    }
+  },
+  "crisis_deck": [
+    {
+      "id": "northern_cold_snap",
+      "base_weight": 30,
+      "trigger_metric": "settlement_capacity"
+    },
+    {
+      "id": "ark_cooling_breach",
+      "base_weight": 30,
+      "trigger_metric": "evidence_strength"
+    },
+    {
+      "id": "beast_tide_stampede",
+      "base_weight": 25,
+      "trigger_metric": "herd_pressure"
+    },
+    {
+      "id": "black_ice_avalanche",
+      "base_weight": 15,
+      "trigger_metric": "route_confidence"
+    }
+  ],
+  "zone_refs": [
+    {
+      "zone_id": "wastes_north_road",
+      "type": "frozen_frontier",
+      "tier": 2
+    },
+    {
+      "zone_id": "wastes_ark_ruins",
+      "type": "ancient_ark",
+      "tier": 2
+    }
+  ],
+  "lpc_rooms": [
+    "/d/wastes/black_mountain_pass.c",
+    "/d/wastes/south_approach.c",
+    "/d/wastes/snow_caravan_camp.c",
+    "/d/wastes/frost_hunter_camp.c",
+    "/d/wastes/expedition_camp.c",
+    "/d/wastes/ark_foundation.c",
+    "/d/wastes/ark_cooling_breach.c",
+    "/d/wastes/ark_core_chamber.c",
+    "/d/wastes/missing_families_hall.c"
+  ],
+  "confidence": "CONFIRMED",
+  "evidence": [
+    "world/lore/second_era_ark_canon.md",
+    "narrative/events/volume3_events.md",
+    "data/event_defs/tier2_crisis.json"
+  ]
+}

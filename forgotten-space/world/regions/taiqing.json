@@ -1,0 +1,85 @@
+{
+  "schema_version": "1.1",
+  "region_id": "taiqing",
+  "name": "太清宗",
+  "civ_level": "sect",
+  "region_type": "SECT",
+  "coords": [-180, 560, 420],
+  "geography": {
+    "position": null,
+    "coordinate_space": "LOCAL_GAME_SPACE",
+    "precision": "RELATIVE_COORDS",
+    "terrain": "high_mountain_observatory",
+    "description": "承載星曆推算、律曆正脈與封存祖庭傳送門的高山宗門祖庭"
+  },
+  "resources": {
+    "primary_product": "star_charts",
+    "secondary_product": "talisman_parchment",
+    "demand": ["refined_steel", "lamp_oil", "salt_crystal_jin", "grain"],
+    "reserves": {
+      "spirit_ink": 5000,
+      "star_plates": 300,
+      "grain": 8000
+    },
+    "price_index": 100
+  },
+  "factions": {
+    "taiqing_inner_law": {
+      "power": 60,
+      "agenda": "preserve_star_calendar_orthodoxy"
+    },
+    "taiqing_outer_scribes": {
+      "power": 40,
+      "agenda": "document_reverse_star_anomalies"
+    }
+  },
+  "crisis_deck": [
+    {
+      "id": "star_calendar_precession_drift",
+      "base_weight": 30,
+      "trigger_metric": "evidence_strength"
+    },
+    {
+      "id": "dao_transformation_outbreak",
+      "base_weight": 30,
+      "trigger_metric": "civilian_trust"
+    },
+    {
+      "id": "sealed_observatory_resonance",
+      "base_weight": 20,
+      "trigger_metric": "evidence_verifiability"
+    },
+    {
+      "id": "ark_portal_instability",
+      "base_weight": 20,
+      "trigger_metric": "intel_confidence"
+    }
+  ],
+  "zone_refs": [
+    {
+      "zone_id": "taiqing_outer",
+      "type": "sect_outer",
+      "tier": 2
+    },
+    {
+      "zone_id": "taiqing_inner_summit",
+      "type": "observatory_archive",
+      "tier": 2
+    }
+  ],
+  "lpc_rooms": [
+    "/d/sects/taiqing/gate.c",
+    "/d/sects/taiqing/outer_court.c",
+    "/d/sects/taiqing/outer_observatory.c",
+    "/d/sects/taiqing/star_law_hall.c",
+    "/d/sects/taiqing/scripture_copy_hall.c",
+    "/d/sects/taiqing/sealed_observatory.c",
+    "/d/sects/taiqing/ark_portal_chamber.c"
+  ],
+  "confidence": "CONFIRMED",
+  "evidence": [
+    "world/lore/second_era_ark_canon.md",
+    "narrative/events/volume3_events.md",
+    "data/event_defs/tier2_crisis.json"
+  ]
+}

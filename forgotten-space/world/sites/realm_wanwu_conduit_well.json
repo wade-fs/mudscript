@@ -1,0 +1,25 @@
+{
+  "schema_version": "1.1",
+  "site_id": "realm_wanwu_conduit_well",
+  "zone_id": "realm_wanwu_mainframe",
+  "name": "萬物主殿地脈總線匯流井與七號備用主栓",
+  "site_type": "CORE_CONDUIT",
+  "danger_tier": 3,
+  "room_refs": [
+    "/d/realm/wanwu/conduit_well.c",
+    "/d/realm/wanwu/nine_city_node.c"
+  ],
+  "discovery_rules": {
+    "required_clues": ["ark_registry_charter_audit"],
+    "visibility": "RESTRICTED"
+  },
+  "access_rules": {
+    "required_items": []
+  },
+  "survival_rules": {
+    "environmental_constraints": ["three_breath_thermal_surge", "high_density_conduit_flux"]
+  },
+  "status": "ACTIVE",
+  "evidence": ["world/lore/second_era_ark_canon.md", "narrative/events/volume4_events.md"],
+  "confidence": "CONFIRMED"
+}

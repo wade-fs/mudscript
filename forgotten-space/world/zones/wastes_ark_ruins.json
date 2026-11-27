@@ -1,0 +1,23 @@
+{
+  "schema_version": "1.1",
+  "zone_id": "wastes_ark_ruins",
+  "region_id": "wastes",
+  "name": "北荒太古方舟殘骸帶與五器總室",
+  "zone_type": "ANCIENT_ARK_RUIN",
+  "danger_tier": 2,
+  "environment": {
+    "tags": ["ANCIENT_ARK", "COOLING_BREACH", "HIGH_SHA"]
+  },
+  "site_refs": ["wastes_ark_core"],
+  "discovery_rules": {
+    "visibility": "RESTRICTED",
+    "required_clues": ["expedition_ark_bearing"]
+  },
+  "access_rules": { "required_items": [] },
+  "survival_rules": {
+    "resistance_requirements": { "disha_turbidity": 30 }
+  },
+  "status": "ACTIVE",
+  "evidence": ["world/lore/second_era_ark_canon.md", "narrative/events/volume3_events.md"],
+  "confidence": "CONFIRMED"
+}

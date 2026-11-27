@@ -1,0 +1,20 @@
+{
+  "schema_version": "1.1",
+  "zone_id": "realm_zhanzu_camp",
+  "region_id": "realm_zhanzu",
+  "name": "戰祖巨骨哨卡、獵營與血脈角鬥坑",
+  "zone_type": "MARTIAL_FORTRESS",
+  "danger_tier": 3,
+  "environment": {
+    "tags": ["DONG_TIAN", "LAW_DAMPENING", "BEAST_SURGE_PRESSURE"]
+  },
+  "site_refs": [],
+  "discovery_rules": { "visibility": "RESTRICTED", "required_clues": ["zhanzu_border_trail"] },
+  "access_rules": { "required_items": [] },
+  "survival_rules": {
+    "environmental_constraints": ["old_skill_3x_cost", "gravity_2_5x"]
+  },
+  "status": "ACTIVE",
+  "evidence": ["world/lore/second_era_ark_canon.md", "narrative/events/volume4_events.md"],
+  "confidence": "CONFIRMED"
+}
