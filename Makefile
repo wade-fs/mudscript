@@ -24,8 +24,12 @@ COMMON_ENV := CGO_CFLAGS="-Wno-return-local-addr"
 ENVW := $(COMMON_ENV) CGO_ENABLED=1 GOOS=windows GOARCH=amd64 CC="x86_64-w64-mingw32-gcc -fno-stack-protector -D_FORTIFY_SOURCE=0 -lssp"
 
 DOCKER_IMAGE ?= wadefs/mudscript:latest
+K8S_DOCKER_IMAGE ?= wadefs/forgotten-space:latest
+K8S_DOCKERFILE ?= Dockerfile.forgotten-space
+K8S_DIR ?= $(HOME)/src/Simba/k8s
+K8S_MANIFEST ?= tenants/wade/mud.yaml
 
-.PHONY: all clean test test-driver test-fsmud fsmud fsmud.exe fs fs.exe mud-universal mud-universal.exe mudscript mudscript.exe run-fsmud run-fs push push-github push-hf push-docker docker-build inject-hash
+.PHONY: all clean test test-driver test-fsmud fsmud fsmud.exe fs fs.exe mud-universal mud-universal.exe mudscript mudscript.exe run-fsmud run-fs push push-github push-hf push-docker docker-build k8s-build k8s-push k8s inject-hash
 
 all: fsmud fsmud.exe fs fs.exe mud-universal mud-universal.exe mudscript mudscript.exe
 
@@ -57,6 +61,22 @@ docker-build:
 push-docker: docker-build
 	@echo "📤 Pushing $(DOCKER_IMAGE) to Docker Hub..."
 	@docker push $(DOCKER_IMAGE)
+
+# 🚀 建置、推送 K8s (Forgotten Space) Docker image 並發 PR 更新 mud.yaml
+k8s-build:
+	@echo "🐳 Building K8s Docker image $(K8S_DOCKER_IMAGE) using $(K8S_DOCKERFILE)..."
+	@docker build -f $(K8S_DOCKERFILE) -t $(K8S_DOCKER_IMAGE) .
+
+k8s-push: k8s-build
+	@echo "📤 Pushing $(K8S_DOCKER_IMAGE) to Docker Hub..."
+	@docker push $(K8S_DOCKER_IMAGE)
+
+k8s: k8s-push
+	@K8S_DOCKER_IMAGE="$(K8S_DOCKER_IMAGE)" \
+	 K8S_DIR="$(K8S_DIR)" \
+	 K8S_MANIFEST="$(K8S_MANIFEST)" \
+	 MUD_COMMIT="$(COMMIT)" \
+	 bash scripts/k8s-pr.sh
 
 clean-txt:
 	@ rm -f *txt *log

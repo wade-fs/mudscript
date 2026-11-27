@@ -1,0 +1,41 @@
+# 1. Build Stage
+FROM golang:1.26-alpine AS builder
+
+WORKDIR /app
+
+# 安裝編譯所需的工具
+RUN apk add --no-cache make git
+
+# 複製依賴文件
+COPY go.mod go.sum ./
+RUN go mod download
+
+# 複製源碼
+COPY . .
+
+# 編譯 Linux 純淨版驅動 (bin/mudscript)
+RUN make mudscript
+
+# 2. Final Stage (符合 k8s mud.yaml: non-root 10001、readOnlyRootFilesystem、port 7860)
+FROM alpine:latest
+
+WORKDIR /app
+
+# 安裝運行時必要的套件
+RUN apk add --no-cache libc6-compat ca-certificates
+
+# 複製執行檔與 Forgotten Space 世界檔案 (forgotten-space/data -> ../data)
+COPY --from=builder /app/bin/mudscript /app/bin/mudscript
+COPY --from=builder /app/forgotten-space /app/forgotten-space
+
+# 滿足 k8s securityContext (runAsUser: 10001 / readOnlyRootFilesystem: true) 與外掛 data volume
+RUN mkdir -p /app/data && chown -R 10001:10001 /app && chmod -R a+rX /app && chmod +x /app/bin/mudscript
+
+USER 10001:10001
+
+VOLUME ["/app/data"]
+
+# mud.yaml service / readinessProbe / livenessProbe 使用 7860 連接埠
+EXPOSE 7860
+
+CMD ["./bin/mudscript", "-mudlib", "forgotten-space", "-master", "master.c", "--port", "7860"]
