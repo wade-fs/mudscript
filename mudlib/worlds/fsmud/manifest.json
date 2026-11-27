@@ -1,0 +1,27 @@
+{
+  "world_id": "fsmud",
+  "mudlib_id": "fantasy.space",
+  "name": "Fantasy Space",
+  "name_en": "FANTASY SPACE",
+  "start_room": "/area/newbie/room_0_0.c",
+  "rating": "general",
+  "exclude_cmds": [
+    "cmd_act.c",
+    "cmd_drop.c",
+    "cmd_get.c",
+    "cmd_score.c",
+    "cmd_talk.c"
+  ],
+  "features": {
+    "crafting": true,
+    "guild": true,
+    "party": true,
+    "skills": true,
+    "bank": true,
+    "interstellar": true,
+    "map": true,
+    "pk": true,
+    "pets_mounts": true,
+    "settlements": true
+  }
+}

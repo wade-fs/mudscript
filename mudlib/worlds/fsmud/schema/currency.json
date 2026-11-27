@@ -1,0 +1,12 @@
+{
+  "type": "currency",
+  "id": "fantasy_coin",
+  "primary": 1,
+  "unit": "銅幣",
+  "denominations": [
+    { "name": "酷金", "value": 1000000 },
+    { "name": "金幣", "value": 10000 },
+    { "name": "銀幣", "value": 100 },
+    { "name": "銅幣", "value": 1 }
+  ]
+}

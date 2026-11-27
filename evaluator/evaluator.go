@@ -474,7 +474,10 @@ func evalPrefixExpression(operator string, right object.Object, env object.Envir
 	case "~":
 		return evalBitNotPrefixOperatorExpression(right)
 	case "<":
-		if right.TokenType() != object.IntegerType {
+		if right == nil || right.TokenType() != object.IntegerType {
+			if right == nil {
+				return newError("unknown operator: <NIL")
+			}
 			return newError("unknown operator: <%s", right.TokenType())
 		}
 		return &object.ReverseIndex{Value: right.(*object.Integer).Value}
@@ -491,11 +494,17 @@ func evalPrefixExpression(operator string, right object.Object, env object.Envir
 		// 所以我們需要在 Eval() 中攔截 *ast.PrefixExpression
 		return right
 	default:
+		if right == nil {
+			return newError("unknown operator: %sNIL", operator)
+		}
 		return newError("unknown operator: %s%s", operator, right.TokenType())
 	}
 }
 
 func evalBitNotPrefixOperatorExpression(right object.Object) object.Object {
+	if right == nil || right.TokenType() == object.NilType {
+		return &object.Integer{Value: ^int64(0)}
+	}
 	if right.TokenType() != object.IntegerType {
 		return newError("unknown operator: ~%s", right.TokenType())
 	}
@@ -504,6 +513,9 @@ func evalBitNotPrefixOperatorExpression(right object.Object) object.Object {
 }
 
 func evalMinusPrefixOperatorExpression(right object.Object) object.Object {
+	if right == nil || right.TokenType() == object.NilType {
+		return &object.Integer{Value: 0}
+	}
 	switch right := right.(type) {
 	case *object.Integer:
 		return &object.Integer{Value: -right.Value}

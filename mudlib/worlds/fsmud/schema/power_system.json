@@ -1,0 +1,20 @@
+{
+  "type": "power_system",
+  "id": "fantasy_rpg",
+  "name": "冒險者等級體系",
+  "stat_labels": {
+    "str": "力量",
+    "dex": "敏捷",
+    "int": "智力",
+    "con": "體魄",
+    "wis": "智慧",
+    "cha": "魅力"
+  },
+  "realms": [
+    { "min_level": 1,  "max_level": 9,  "name": "見習冒險者" },
+    { "min_level": 10, "max_level": 19, "name": "英勇戰士" },
+    { "min_level": 20, "max_level": 29, "name": "資深精銳" },
+    { "min_level": 30, "max_level": 39, "name": "傳奇英雄" },
+    { "min_level": 40, "max_level": 50, "name": "星際大師" }
+  ]
+}

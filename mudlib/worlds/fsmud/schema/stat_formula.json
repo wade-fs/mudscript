@@ -1,0 +1,8 @@
+{
+  "type": "stat_formula",
+  "id": "max_hp_bonus",
+  "name": "生命上限體魄加成",
+  "base": 0,
+  "primary_stat": "con",
+  "multiplier": 10
+}

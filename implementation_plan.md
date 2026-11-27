@@ -14,7 +14,8 @@
 | **Phase 2** | MVVM JSON 工廠、Schema 與 DTO | ✅ 已完成 | `schema_d.c`、`*_factory_d.c`、`json_*.c`、`ui_bridge_d.c`、`mvvm_protocol.h`、`web/static/index.html`；`_template` `test_smoke.c` 58/58 通過 |
 | **Phase 3** | 工具鏈與多世界模板化（`mudlib/tools/`） | ✅ 已完成 | `validate_world.py`、`audit_schema_usage.py`、`traceability_audit.py`、`new_world.py`、`world_utils.py`；對 `_template` 稽核全數通過 |
 | **Phase 4** | **`forgotten-space` 重製對接** | ✅ 已完成 | `mudlib/worlds/forgotten-space/`（不動 `./forgotten-space/`）；LPC `4434/4434`、世界工具鏈與雙軌稽核全數通過 |
-| **Phase 5** | **新世界建置（`mudlib/worlds/wanjie-lou/`，最後一步）** | ⏳ 最後一步 | 《萬界風月樓》（對應 `/home/wade/src/github/novel/one-space`）目前進度為 0，待 `forgotten-space` 完成並驗證共用核心後再展開 |
+| **Phase 5A** | **`fsmud` 薄封裝對接** | ✅ 已完成 | `mudlib/worlds/fsmud/`（不動 `./fsmud/`）；沿用 `common/` 核心（`master.c`、`command_d`、`simul_efun`、`system_d`、`interactive`），新增 `world_init_d.c`、`schema/*.json` 與 `test_overlay_fsmud.c`；LPC `323/323` 與工具鏈全數通過 |
+| **Phase 5B** | **新世界建置（`mudlib/worlds/wanjie-lou/`，最後一步）** | ⏳ 最後一步 | 《萬界風月樓》（對應 `/home/wade/src/github/novel/one-space`）目前進度為 0，待適當時機展開 |
 
 ---
 
@@ -25,7 +26,7 @@
 > 1. **既有 `./forgotten-space/` 全程零更動**：根目錄 [forgotten-space/](file:///home/wade/src/github/mudscript/forgotten-space) 保持原樣不改動，於 `./mudlib/` 獨立建置共用核心 `common/`，並於 Phase 4 重製對接至 `./mudlib/worlds/forgotten-space/`。
 > 2. **JSON 房間／NPC／道具具現採 `compile_object()` 虛擬工廠 ＋ JSON 感知檢查**：沿用並強化 [driver/object.go](file:///home/wade/src/github/mudscript/driver/object.go) 既有的 `MasterObject->compile_object(virtualPath)` 機制，無需產生 `.c` stub；同時讓 `common/` 守護進程與稽核工具同步支援 `.json` 存在性檢查。
 > 3. **統一小說正典存放規範**：各小說來源於 `git@github.com:wade-fs/novel.git`，於 MudScript 內統一放置於 `mudlib/worlds/<world_id>/chapters/`（例如 `mudlib/worlds/forgotten-space/chapters/`），稽核工具統一讀取各世界下的 `chapters/`（並以各世界 `manifest.json` 描述其專屬章節命名／稽核規則）。
-> 4. **當前推進階段**：**Phase 0–4（Driver Overlay、`mudlib/common/`、MVVM JSON 工廠、`mudlib/tools/` 工具鏈與 `mudlib/worlds/forgotten-space/` 重製對接）均已完成並通過自動化驗證**；接下來僅餘 **Phase 5（`mudlib/worlds/wanjie-lou/`）**。
+> 4. **當前推進階段**：**Phase 0–5A（Driver Overlay、`mudlib/common/`、MVVM JSON 工廠、`mudlib/tools/` 工具鏈、`mudlib/worlds/forgotten-space/` 與 `mudlib/worlds/fsmud/` 薄封裝對接）均已完成並通過自動化驗證**；接下來僅餘 **Phase 5B（`mudlib/worlds/wanjie-lou/`）**。
 
 ---
 
@@ -94,7 +95,8 @@ flowchart LR
 ## 後續待辦階段（Phase 4–5）
 
 - [x] **Phase 4 — `forgotten-space` 重製對接（✅ 已完成）**：於 `mudlib/worlds/forgotten-space/` 重製對接《遺忘的世界》（不動根目錄 `./forgotten-space/`），保留九城／三維法則、`chapters/` 正典（含 `assets/`）與雙軌／可追溯／鮮活性稽核，驗證成熟世界與 `mudlib/common/` 共用核心穩定運行。
-- [ ] **Phase 5 — 新世界建置（`mudlib/worlds/wanjie-lou/`，最後一步）**：目前進度為 0，待《萬界風月樓》（`/home/wade/src/github/novel/one-space`）展開時，建立 Vol.1（ch001–ch016）切片、`chapters/` 對應、`tower_d.c`/`anchor_d.c`/`resonance_d.c`/`commerce_d.c` 與九界 Schema，並以 `mudlib/tools/` 工具鏈驗證。
+- [x] **Phase 5A — `fsmud` 薄封裝對接（✅ 已完成）**：於 `mudlib/worlds/fsmud/` 以薄封裝模式整合 Fantasy Space（不動根目錄 `./fsmud/`），移除與 `common/` 重疊之 `master.c`、`secure/command_d.c`、`secure/simul_efun.c`、`secure/system_d.c`、`std/interactive.c`，新增 `daemon/world_init_d.c`、`manifest.json`（含 `exclude_cmds`）、`schema/*.json` 與 `tests/test_overlay_fsmud.c`，並強化 `common/daemon/ui_bridge_d.c`（相容 `query_stat()`）與 `evaluator/evaluator.go` 前綴運算子 nil 防護。
+- [ ] **Phase 5B — 新世界建置（`mudlib/worlds/wanjie-lou/`，最後一步）**：目前進度為 0，待《萬界風月樓》（`/home/wade/src/github/novel/one-space`）展開時，建立 Vol.1（ch001–ch016）切片、`chapters/` 對應、`tower_d.c`/`anchor_d.c`/`resonance_d.c`/`commerce_d.c` 與九界 Schema，並以 `mudlib/tools/` 工具鏈驗證。
 
 ---
 
@@ -132,3 +134,11 @@ flowchart LR
    (cd mudlib/worlds/forgotten-space && python3 tests/quests/novel_mud_sync_audit.py && python3 tests/quests/traceability_audit.py && python3 tests/quests/world_liveness_audit.py . && python3 tests/quests/quest_audit.py .)
    ```
    - 結果：LPC 核心與世界整合測試 `4434/4434` 全數通過（含 `test_overlay_phase4.c` `30/30`）；`mudlib/tools/` 三項驗證與世界內四項稽核腳本全數通過；WebSocket E2E 腳本（`test_mvp.py`、`test_ch06_to_ch12_integration.py`、`test_thinking_spec_compliance.py`、`test_world_state.py`）在 Overlay 模式下通過。
+6. **Phase 5A `mudlib/worlds/fsmud/` 薄封裝整合與工具鏈驗證**：
+   ```bash
+   MUD_TEST_MODE=1 ./bin/mudscript -common mudlib/common -mudlib mudlib/worlds/fsmud -master master.c --hub none
+   python3 mudlib/tools/validate_world.py fsmud
+   python3 mudlib/tools/audit_schema_usage.py fsmud
+   python3 mudlib/tools/traceability_audit.py fsmud
+   ```
+   - 結果：LPC 核心與 Overlay 整合測試 `323/323` 全數通過（含原有 33 組測試 `289/289` 與 `test_overlay_fsmud.c` `34/34`）；`mudlib/tools/` 三項驗證全數通過（0 warning、0 ghost fields）。

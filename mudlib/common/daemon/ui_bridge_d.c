@@ -124,6 +124,21 @@ mapping build_room_view(object room, object viewer) {
     return view;
 }
 
+int read_stat(object who, string stat_key) {
+    if (!who || !stat_key || stat_key == "") return 0;
+    string fn = "query_stat_" + stat_key;
+    if (function_exists(fn, who)) {
+        return to_int(call_other(who, fn));
+    }
+    if (function_exists("query_stat", who)) {
+        return to_int(who->query_stat(stat_key));
+    }
+    if (function_exists("query", who)) {
+        return to_int(who->query(stat_key));
+    }
+    return 0;
+}
+
 // ── 角色 ViewModel ─────────────────────────────────────────
 mapping build_char_view(object who) {
     if (!who) return ([]);
@@ -155,12 +170,14 @@ mapping build_char_view(object who) {
         "max_sp":      max_sp_val,
         "atk":         who->query_attack(),
         "def":         who->query_defence(),
-        "str":         function_exists("query_stat_str", who) ? who->query_stat_str() : who->query("str"),
-        "con":         function_exists("query_stat_con", who) ? who->query_stat_con() : who->query("con"),
-        "int":         function_exists("query_stat_int", who) ? who->query_stat_int() : who->query("int"),
-        "spi":         function_exists("query_stat_spi", who) ? who->query_stat_spi() : who->query("spi"),
-        "dex":         function_exists("query_stat_dex", who) ? who->query_stat_dex() : who->query("dex"),
-        "per":         function_exists("query_stat_per", who) ? who->query_stat_per() : who->query("per"),
+        "str":         read_stat(who, "str"),
+        "con":         read_stat(who, "con"),
+        "int":         read_stat(who, "int"),
+        "spi":         read_stat(who, "spi"),
+        "dex":         read_stat(who, "dex"),
+        "per":         read_stat(who, "per"),
+        "wis":         read_stat(who, "wis"),
+        "cha":         read_stat(who, "cha"),
         "stat_labels": labels,
         "money":       money_fmt,
         "money_raw":   money_raw,
