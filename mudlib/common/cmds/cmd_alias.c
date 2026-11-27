@@ -57,7 +57,8 @@ int do_alias(object me, string arg) {
     }
 
     me->set_alias(alias_name, alias_cmd);
-    me->do_save();
+    if (function_exists("do_save", me)) me->do_save();
+    else if (function_exists("save", me)) me->save();
     write(select_lang(([
         "en": "Alias set: ", "zh-TW": "別名設定：", "zh-CN": "别名设定："
     ])) + alias_name + "  ->  " + alias_cmd + "\n");
@@ -86,7 +87,8 @@ int do_unalias(object me, string arg) {
     }
 
     me->remove_alias(arg);
-    me->do_save();
+    if (function_exists("do_save", me)) me->do_save();
+    else if (function_exists("save", me)) me->save();
     write(select_lang(([
         "en": "Alias '" + arg + "' has been deleted.\n",
         "zh-TW": "別名「" + arg + "」已刪除。\n",

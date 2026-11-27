@@ -55,3 +55,46 @@ void set_closed(int v)     { is_closed = v; }
 int  query_closed()        { return is_closed; }
 void set_can_open(int v)   { can_open = v; }
 int  query_can_open()      { return can_open; }
+
+// ── 互動：開啟/關閉 ───────────────────────────────────
+int do_open() {
+    if (!can_open) return 0;
+    if (!is_closed) {
+        write(query_name() + " 已經是開著的了。\n");
+        return 1;
+    }
+    is_closed = 0;
+    write("你打開了 " + query_name() + "。\n");
+    if (this_player()) {
+        say(this_player()->query_name() + " 打開了 " + query_name() + "。\n");
+    }
+    return 1;
+}
+
+int do_close() {
+    if (!can_open) return 0;
+    if (is_closed) {
+        write(query_name() + " 已經是關著的了。\n");
+        return 1;
+    }
+    is_closed = 1;
+    write("你關上了 " + query_name() + "。\n");
+    if (this_player()) {
+        say(this_player()->query_name() + " 關上了 " + query_name() + "。\n");
+    }
+    return 1;
+}
+
+void init() {
+    if (can_open) {
+        add_action("do_open", "open");
+        add_action("do_open", "開啟");
+        add_action("do_close", "close");
+        add_action("do_close", "關閉");
+    }
+}
+
+// 取得當前總重量 (預設為內容物重量)
+int query_weight() {
+    return query_contents_weight();
+}

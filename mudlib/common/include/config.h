@@ -46,6 +46,7 @@
 #define SLOT_WEAPON     "weapon"
 #define SLOT_SHIELD     "shield"
 #define SLOT_LEGS       "legs"
+#define SLOT_SHOULDER   "shoulder"
 #define SLOT_WAIST      "waist"
 #define SLOT_NECK       "neck"
 #define SLOT_RING       "ring"
