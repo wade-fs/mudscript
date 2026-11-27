@@ -1,21 +1,21 @@
 // /tests/test_phase2_architecture.c
 // Phase 2: 標準資料模型與引擎架構驗證 (Region / Route / Zone / Site / Lazy Evaluation / Dual-Track)
-// 依據：forgotten-space/world/lore/nine_cities_canon.md 與 world/specifications/spatial_schema.md (v1.1)
+// 依據：forgotten-space/world/lore/nine_cities_canon.md、world/lore/second_era_ark_canon.md 與 world/specifications/spatial_schema.md (v1.2)
 // 驗證項目：
 // 1. region.h 巨集與常數規格完整性 (Spatial, Tier 0~4, Discovery/Access/Survival, Route Status, Directionality)
 // 2. ROUTE_D 靜態載入與雙軌延遲查詢 (實體物流 vs 消息情報分離，情報前導延遲小於物流延遲)
 // 3. ROUTE_D 道路狀態轉移 (OPEN/RESTRICTED/BLOCKED/DESTROYED/SEALED) 與雙向拓撲查找
 // 4. 正典保護：拓荒縣 (tuogu) 宏觀拓撲無直通道路
 // 5. REGION_D 靜態區域載入與地理空間中繼中立性 (position: null, LOCAL_GAME_SPACE)
-// 6. Zone 與 Site 實體化註冊與查詢 (query_zone, query_site, query_zones_by_region, query_sites_by_zone)
+// 6. Zone 與 Site 實體化註冊、查詢與全量引用完整性 (region_id / zone_id / room_refs 存在性)
 // 7. Danger Tier 解耦驗證：Tier 屬於 Zone/Site，同一 Region 包含多種 Tier
 // 8. REGION_D 惰性求值 (Lazy Evaluation) 與離散指數阻尼精確驗證 (D_{n+1} = 0.9 * D_n)
 // 9. REGION_D 離散物理狀態轉移模型 (災情不隨時間自癒，需具體行動方可解除)
 // 10. REGION_D 動態狀態持久化 round-trip (save_region / restore_region)
 // 11. WORLD_STATE_D 宏觀協調中樞與 REGION_D / ROUTE_D 串接
-// 12. 太古九城文明依存網絡 (nine_cities_graph.json) 9 個核心節點與標準 Edge 語義
+// 12. 太古九城文明依存網絡 (nine_cities_graph.json) 9 節點、32 條正典邊、三條關鍵鏈與雙網分離結構驗證
 // 13. 九城城市定義狀態解耦 (ancient_status, remaining_structure_status, modern_manifestation, access_status)
-// 14. 巨集拓撲檔 (macro_topology.json) 完整性
+// 14. 宏觀拓撲檔 (macro_topology.json) 19 節點、16 連線、route_ref 雙向一致性與拓荒縣正典保護
 
 inherit "/std/test_case.c";
 
@@ -167,6 +167,23 @@ void run_tests(object me) {
     assert_true(member_array("jinshi_black_market", ug_sites) != -1, "應包含 jinshi_black_market");
     assert_true(member_array("jinshi_canal_hub", ug_sites) != -1, "應包含 jinshi_canal_hub");
 
+    // 全量 Zone / Site 參照一致性驗證 (region_id / zone_id / room_refs 實體檔存在)
+    mapping all_zones = reg_d->query_all_zones();
+    mapping all_sites = reg_d->query_all_sites();
+    assert_true(mapp(all_zones) && sizeof(all_zones) >= 23, "至少應載入 23 個正式 Zone JSON 定義");
+    assert_true(mapp(all_sites) && sizeof(all_sites) >= 9, "至少應載入 9 個正式 Site JSON 定義");
+    foreach (string z_id, mapping z_def in all_zones) {
+        assert_true(mapp(all_regs[z_def["region_id"]]), "Zone " + z_id + " 所屬 region_id 必須存在於 REGION_D");
+    }
+    foreach (string s_id, mapping s_def in all_sites) {
+        assert_true(mapp(all_zones[s_def["zone_id"]]), "Site " + s_id + " 所屬 zone_id 必須存在於 REGION_D");
+        assert_true(pointerp(s_def["room_refs"]) && sizeof(s_def["room_refs"]) > 0,
+                    "Site " + s_id + " 必須宣告非空 room_refs");
+        foreach (string rref in s_def["room_refs"]) {
+            assert_true(file_size(rref) > 0, "Site " + s_id + " 引用房間必須存在於檔案系統: " + rref);
+        }
+    }
+
     // ── 7. 驗證 Danger Tier 解耦 ─────────────────────────────────
     // 在同一個金石府城 (jinshi) 區域內：
     // 地表場域 (jinshi_surface) 為 Tier 1
@@ -250,31 +267,84 @@ void run_tests(object me) {
     assert_equal(120, m_timing["travel_time"], "黑石關驛道步行時間應為 120 分鐘");
     assert_equal(45, m_timing["info_delay"], "黑石關驛道情報延遲應為 45 分鐘");
 
-    // ── 12. 驗證太古九城文明依存圖與標準 Edge 語義 ────────────────────
+    // ── 12. 驗證太古九城文明依存圖結構、正典語義與雙網分離 ──────────────
     string graph_str = read_file(WORLD_DEPENDENCIES_DIR + "nine_cities_graph.json");
     assert_true(graph_str && graph_str != "", "nine_cities_graph.json 必須存在且非空");
 
     mixed graph_data = json_decode(graph_str);
     assert_true(mapp(graph_data), "nine_cities_graph.json 應能成功解碼為 mapping");
     assert_equal(9, sizeof(graph_data["nodes"]), "太古九城依存圖必須剛好有 9 個核心節點");
-    assert_true(sizeof(graph_data["edges"]) >= 26, "太古九城依存圖應包含至少 26 條正典依存邊");
+    assert_equal(32, sizeof(graph_data["edges"]), "太古九城依存圖應精確對齊 nine_cities_canon.md §4.2 之 32 條正典依存邊");
 
-    // 驗證 Edge 標準語義：relation, evidence, confidence, necessity
-    foreach (mapping edge in graph_data["edges"]) {
-        assert_true(stringp(edge["source"]), "Edge source 必須為字串");
-        assert_true(stringp(edge["target"]), "Edge target 必須為字串");
-        assert_true(stringp(edge["dependency_type"]), "Edge dependency_type 必須存在");
-        assert_true(stringp(edge["relation"]), "Edge relation 必須存在");
-        assert_true(stringp(edge["necessity"]), "Edge necessity 必須存在");
-        assert_true(stringp(edge["confidence"]), "Edge confidence 必須存在");
-    }
-
-    // ── 13. 驗證太古九城城市定義狀態解耦 (Section 10.3) ───────────────
     string *expected_cities = ({
         "tianshu", "xuanzhu", "qingming", "guanxing", "cangjing",
         "canglan", "baigong", "zhenyue", "guixu"
     });
+    mapping graph_node_ids = ([]);
+    foreach (mapping gnode in graph_data["nodes"]) {
+        assert_true(stringp(gnode["id"]) && member_array(gnode["id"], expected_cities) != -1,
+                    "依存圖節點必須為正典九城 ID");
+        assert_true(!graph_node_ids[gnode["id"]], "依存圖節點 ID 不得重複: " + gnode["id"]);
+        graph_node_ids[gnode["id"]] = 1;
+    }
+    assert_equal(9, sizeof(graph_node_ids), "9 個太古正典城市節點必須全數出現且無重複");
 
+    string *valid_strengths = ({ "S", "A", "B", "C" });
+    string *valid_necessities = ({ "NECESSARY", "IMPORTANT", "SUPPORTING" });
+    string *valid_confidences = ({ "CONFIRMED", "INFERRED", "RUMORED", "UNKNOWN", "DISPUTED" });
+    mapping seen_edges = ([]);
+    int tianshu_coord_count = 0;
+
+    // 驗證 Edge 結構、枚舉值、無自環與無重複邊
+    foreach (mapping edge in graph_data["edges"]) {
+        string src = edge["source"];
+        string dst = edge["target"];
+        assert_true(stringp(src) && graph_node_ids[src], "Edge source 必須為合法九城節點");
+        assert_true(stringp(dst) && graph_node_ids[dst], "Edge target 必須為合法九城節點");
+        assert_true(src != dst, "依存邊不得構成自環: " + src);
+
+        string pair_key = src + "->" + dst;
+        assert_true(!seen_edges[pair_key], "依存圖不得存在重複方向邊: " + pair_key);
+        seen_edges[pair_key] = edge;
+
+        assert_true(stringp(edge["dependency_type"]) && edge["dependency_type"] != "", "Edge dependency_type 必須存在");
+        assert_true(stringp(edge["relation"]) && edge["relation"] != "", "Edge relation 必須存在");
+        assert_true(member_array(edge["strength"], valid_strengths) != -1,
+                    "Edge strength 必須屬於 S/A/B/C: " + pair_key);
+        assert_true(member_array(edge["necessity"], valid_necessities) != -1,
+                    "Edge necessity 必須屬於 NECESSARY/IMPORTANT/SUPPORTING: " + pair_key);
+        assert_true(member_array(edge["confidence"], valid_confidences) != -1,
+                    "Edge confidence 必須屬於正典五級標記: " + pair_key);
+        assert_true(pointerp(edge["evidence"]) && sizeof(edge["evidence"]) > 0 && stringp(edge["evidence"][0]),
+                    "Edge evidence 必須包含至少一筆正典依據: " + pair_key);
+
+        if (src == "tianshu" && edge["dependency_type"] == "COORDINATION" && edge["relation"] == "COORDINATES") {
+            tianshu_coord_count++;
+        }
+    }
+    assert_equal(8, tianshu_coord_count, "天樞城必須對其餘八城建立完整 8 條 COORDINATION / COORDINATES 依存邊");
+
+    // 驗證 nine_cities_canon.md §4.4 三條關鍵依存鏈（防禦存續／材料工程／知識決策）
+    string *critical_chain_edges = ({
+        "guanxing->tianshu", "tianshu->zhenyue", "zhenyue->guixu",
+        "guanxing->zhenyue", "zhenyue->tianshu", "guixu->tianshu",
+        "xuanzhu->baigong", "canglan->xuanzhu", "qingming->xuanzhu",
+        "guanxing->cangjing", "cangjing->guanxing",
+        "cangjing->tianshu", "cangjing->baigong", "cangjing->qingming"
+    });
+    foreach (string ck in critical_chain_edges) {
+        assert_true(mapp(seen_edges[ck]), "正典三條關鍵依存鏈必須包含邊: " + ck);
+    }
+
+    // 雙網分離保護 (spatial_schema.md §11.5)：文明依存邊不得自動轉成 ROUTE_D 實體道路
+    mapping all_routes = route_d->query_all_routes();
+    assert_equal(6, sizeof(all_routes), "現代已確認實體 Route 維持 6 條（不捏造九城或拓荒縣道路）");
+    foreach (string r_id, mapping r_item in all_routes) {
+        assert_true(!graph_node_ids[r_item["from"]] && !graph_node_ids[r_item["to"]],
+                    "雙網分離：實體 Route " + r_id + " 不得以太古九城作為現代交通端點");
+    }
+
+    // ── 13. 驗證太古九城城市定義狀態解耦 (Section 10.3) ───────────────
     foreach (string c_id in expected_cities) {
         string c_path = WORLD_CITIES_DIR + c_id + ".json";
         string c_content = read_file(c_path);
@@ -291,12 +361,44 @@ void run_tests(object me) {
         assert_true(stringp(c_def["civilization_role"]), "城市 " + c_id + " 必須定義文明機能");
     }
 
-    // ── 14. 驗證巨集拓撲檔 (macro_topology.json) ─────────────────────
+    // ── 14. 驗證宏觀拓撲檔 (macro_topology.json) 結構與正典保護 ─────────
     string topo_str = read_file(WORLD_TOPOLOGY_DIR + "macro_topology.json");
     assert_true(topo_str && topo_str != "", "macro_topology.json 必須存在");
     mixed topo_data = json_decode(topo_str);
     assert_true(mapp(topo_data), "macro_topology.json 應能成功解碼");
-    assert_true(sizeof(topo_data["connections"]) >= 6, "至少應記錄 6 條已確認之拓撲連線");
+    assert_equal(19, sizeof(topo_data["nodes"]), "宏觀拓撲應記錄全部 19 個現代／三～四卷 Region 節點");
+    assert_equal(16, sizeof(topo_data["connections"]), "宏觀拓撲應記錄 16 條已確認連線（6 實體路網 + 10 三～四卷跨區連線）");
+
+    mapping topo_node_ids = ([]);
+    foreach (mapping tnode in topo_data["nodes"]) {
+        string nid = tnode["id"];
+        assert_true(stringp(nid) && !topo_node_ids[nid], "拓撲節點 ID 必須有效且不重複: " + nid);
+        assert_true(mapp(all_regs[nid]), "拓撲節點必須對應已載入之 REGION_D 區域: " + nid);
+        assert_true(!graph_node_ids[nid], "雙網分離：太古九城節點不得混充現代宏觀拓撲節點: " + nid);
+        topo_node_ids[nid] = 1;
+    }
+
+    int route_ref_count = 0;
+    int tuogu_conn_count = 0;
+    foreach (mapping conn in topo_data["connections"]) {
+        string c_from = conn["from"];
+        string c_to = conn["to"];
+        assert_true(topo_node_ids[c_from] && topo_node_ids[c_to], "拓撲連線端點必須皆存在於 nodes");
+        assert_true(c_from != c_to, "拓撲連線不得構成自環: " + c_from);
+        assert_true(member_array(conn["confidence"], valid_confidences) != -1,
+                    "拓撲連線 confidence 必須為正典五級標記");
+        if (c_from == "tuogu" || c_to == "tuogu") tuogu_conn_count++;
+        if (stringp(conn["route_ref"]) && conn["route_ref"] != "") {
+            route_ref_count++;
+            mapping r_match = route_d->query_route(conn["route_ref"]);
+            assert_true(mapp(r_match), "拓撲 route_ref 必須存在於 ROUTE_D: " + conn["route_ref"]);
+            assert_true((r_match["from"] == c_from && r_match["to"] == c_to) ||
+                        (r_match["from"] == c_to && r_match["to"] == c_from),
+                        "拓撲 route_ref 端點必須與 ROUTE_D 定義一致: " + conn["route_ref"]);
+        }
+    }
+    assert_equal(6, route_ref_count, "宏觀拓撲應有 6 條連線對應至 ROUTE_D 實體路線");
+    assert_equal(0, tuogu_conn_count, "正典保護：拓荒縣 (tuogu) 於宏觀拓撲維持無已確認直通連線");
 
     // 驗證完畢，重設守護進程狀態
     route_d->reset_routes();

@@ -2,12 +2,13 @@
 ## Spatial Model & Existing Implementation Integration
 
 - **建議路徑：** `forgotten-space/world/specifications/spatial_schema.md`
-- **版本：** v1.1
+- **版本：** v1.2（Phase 2 驗收對齊暨第三～四卷空間規模同步）
 - **階段：** Phase 2 — 空間資料模型與引擎整合
 - **前置文件：**
   - `world/lore/nine_cities_canon.md`
-  - `narrative/docs/maps/macro_nine_cities_atlas.md`
-- **實作基準：** `phase2.tgz`
+  - `world/lore/second_era_ark_canon.md`
+  - `../../novel/forgotten-space/docs/maps/macro_nine_cities_atlas.md`（原 `narrative/docs/maps/macro_nine_cities_atlas.md`）
+- **實作基準：** `forgotten-space/` 現行 Mudlib（Phase 2 + Vol.3–4 擴充）
 - **文件定位：** 既有實作整合、資料模型統一與後續擴充規格
 
 ---
@@ -44,48 +45,53 @@
 
 | 檔案 | 現有職責 | 狀態 |
 |---|---|---|
-| `include/region.h` | 空間層級、Tier、探索階段、路線類型與路徑常數 | IMPLEMENTED |
-| `daemon/region_d.c` | Region 靜態資料載入、資源、物價、危機與惰性求值 | PARTIAL |
-| `daemon/route_d.c` | 路線載入、行旅時間、資訊傳播延遲、道路通阻 | IMPLEMENTED |
-| `daemon/world_state_d.c` | 世界狀態、區域與路線 daemon 聯動 | IMPLEMENTED |
-| `world/regions/*.json` | 現代城市、縣與村落的區域資料 | IMPLEMENTED |
-| `world/routes/*.json` | 現有六條實體交通路線 | IMPLEMENTED |
-| `world/cities/*.json` | 太古九城基本資料 | IMPLEMENTED |
-| `world/dependencies/nine_cities_graph.json` | 九城文明依存圖 | IMPLEMENTED |
-| `world/topology/macro_topology.json` | 現代地理節點及已確認連線 | IMPLEMENTED |
-| `tests/test_phase2_architecture.c` | Phase 2 架構測試 | IMPLEMENTED |
+| `include/region.h` | 空間層級、Tier、探索階段、路線類型、方向性與路徑常數 | IMPLEMENTED |
+| `daemon/region_d.c` | Region/Zone/Site 靜態載入、資源、物價、勢力、危機牌組、惰性求值與分區 JSON 持久化 | IMPLEMENTED |
+| `daemon/route_d.c` | 路線載入、方向性、統一狀態、行旅時間、資訊傳播延遲、道路通阻 | IMPLEMENTED |
+| `daemon/world_state_d.c` | 世界狀態、區域與路線 daemon 聯動（含三～四卷經濟與危機同步） | IMPLEMENTED |
+| `world/regions/*.json` | 現代城市、縣、村落、宗門與洞天三極之 Region 資料（19 份） | IMPLEMENTED |
+| `world/zones/*.json` | 正式化 Zone 場域定義（23 份） | IMPLEMENTED |
+| `world/sites/*.json` | 正式化 Site 地點／設施定義與 `room_refs` 映射（9 份） | IMPLEMENTED |
+| `world/routes/*.json` | 現有六條已確認實體交通路線（含 `directionality` 與 `evidence`） | IMPLEMENTED |
+| `world/cities/*.json` | 太古九城基本資料（含 `ancient_status` 等四態解耦欄位） | IMPLEMENTED |
+| `world/dependencies/nine_cities_graph.json` | 九城文明依存圖（9 節點、32 正典邊） | IMPLEMENTED |
+| `world/topology/macro_topology.json` | 現代與第三～四卷宏觀地理節點（19）及已確認連線（16） | IMPLEMENTED |
+| `tests/test_phase2_architecture.c` | Phase 2 架構、九城依存結構與宏觀拓撲回歸測試 | IMPLEMENTED |
+| `tests/test_vol3_4_simulation.c` | 第三～四卷 10 區 Region/Zone/Site 與世界模擬聯動回歸測試 | IMPLEMENTED |
 
 ## 2.2 現有資料規模
 
-依目前提供的程式包：
+依現行 Mudlib（v1.2 實測）：
 
 | 項目 | 數量 |
 |---|---:|
-| 太古九城資料 | 9 |
-| 現代 Region 資料 | 8 |
-| 九城依存節點 | 9 |
-| 九城依存邊 | 32 |
-| 實體 Route 定義 | 6 |
-| 宏觀拓撲節點 | 8 |
-| 宏觀拓撲已確認連線 | 6 |
+| 太古九城資料（`world/cities/`） | 9 |
+| 現代／三～四卷 Region 資料（`world/regions/`） | 19 |
+| 正式 Zone JSON 資料（`world/zones/`） | 23 |
+| 正式 Site JSON 資料（`world/sites/`） | 9 |
+| 九城依存節點（`nine_cities_graph.json`） | 9 |
+| 九城依存邊（`nine_cities_graph.json`） | 32 |
+| 實體 Route 定義（`world/routes/`） | 6 |
+| 宏觀拓撲節點（`macro_topology.json`） | 19 |
+| 宏觀拓撲已確認連線（`macro_topology.json`） | 16 |
 
-注意：九城依存圖目前實際有 32 條邊；現有測試採用「至少 26 條」作為通過條件。後續應改成結構與正典驗證，而不只是檢查邊數。
+注意：`tests/test_phase2_architecture.c` 已由舊版「至少 26 條邊」升級為精確結構與正典驗證：檢核九城依存圖剛好 9 節點、32 條對齊 `nine_cities_canon.md` §4.2 之無重複有向邊、合法 `strength`/`necessity`/`confidence`/`evidence`、天樞城對其餘八城協調邊、三條關鍵依存鏈（§4.4），以及「依存網與實體 `ROUTE_D`／現代拓撲分離」紅線。
 
-## 2.3 現有實作的重要限制
+## 2.3 現有實作的完成與剩餘缺口
 
-目前程式已經具備 Region 和 Route 的基本運作能力，但仍有以下缺口：
+目前 Phase 2 核心資料結構、持久化與回歸測試均已到位，剩餘項目主要屬 Phase 3 演進範圍：
 
 | 項目 | 現況 | 後續工作 |
 |---|---|---|
-| Region 管理 | 已實作 | 統一 Schema |
-| Zone 管理 | 只有引用欄位及部分 JSON 定義 | 建立正式資料管理 |
-| Site 管理 | 尚無獨立管理機制 | 後續擴充 |
-| Route 管理 | 已實作 | 補充方向性與驗證 |
-| Dependency Graph | 已有 32 條邊 | 正典逐邊驗收 |
-| 靜態資料載入 | 已實作 | 加入 Schema 驗證 |
-| 動態狀態 | 已有初步管理 | 完成持久化 |
-| Lazy Evaluation | 已有價格衰減 | 擴充事件與時間補算 |
-| World State 聯動 | 已實作 | 明確化事件與資料責任 |
+| Region 管理 | 已實作（19 區皆採 v1.1 Schema） | 維持新增區域一致遵守 v1.1 |
+| Zone 管理 | 已建立 23 份 `world/zones/*.json` 並由 `region_d.c` 載入查詢 | 補齊第二卷其餘六縣未細分之候選 Zone JSON 與動態狀態 |
+| Site 管理 | 已建立 9 份 `world/sites/*.json` 且全數 `room_refs` 通過存在檢核 | 後續隨新遺跡／機關擴充與加入動態狀態 |
+| Route 管理 | 已實作方向性、6 種統一狀態與雙軌延遲 | 待正典確認後再新增跨區實體 Route（不捏造） |
+| Dependency Graph | 32 條邊已通過結構、枚舉、三條關鍵鏈與雙網分離自動化驗證 | 逐步淘汰相容用舊欄位 `direction` |
+| 靜態資料載入 | 已實作並以 `test_phase2_architecture.c` / `test_vol3_4_simulation.c` 驗收 | 視需要於載入期加入嚴格 Schema 警告 |
+| 動態狀態持久化 | `region_d.c` 已完成分區 JSON 存取與重啟補算；`route_d.c` 支援 `save_object` | 加入存檔版本號遷移、Zone/Site 動態狀態持久化 |
+| Lazy Evaluation | PARTIAL（已實作價格離散指數阻尼與離散災情不自癒） | 擴充跨區物流批次結算與長時間離線事件冪等補算 |
+| World State 聯動 | 已實作（含 `REGION_D` / `ROUTE_D` / `PHASE_D` / `EVENT_MANAGER_D` 串接） | 強化跨區事件冪等 ID 追蹤 |
 
 **本階段的核心工作不是增加更多 Region，而是讓已存在的空間資料具備一致、可靠、可擴充的管理方式。**
 
@@ -116,16 +122,10 @@ Region 是世界的宏觀地理、生活或經濟節點。
 
 Region 不一定是行政區，也不一定有固定人口或管理者。
 
-目前已有的 Region：
+目前已有的 Region（共 19 區）：
 
-- 金石府城。
-- 黑石鋪。
-- 重石縣。
-- 青河縣。
-- 烈礬縣。
-- 鎮風縣。
-- 盤木縣。
-- 拓荒縣。
+- 第一～二卷金石府與周邊（9 區）：金石府城（`jinshi`）、黑石鋪（`heishipu`）、重石縣（`zhongshi`）、青河縣（`qinghe`）、烈礬縣（`liefan`）、鎮風縣（`zhenfeng`）、盤木縣（`panmu`）、拓荒縣（`tuogu`）、濁水縣（`zhuoshui`）。
+- 第三～四卷北方樞紐、宗門、北荒與洞天三極（10 區）：雲津（`yunjin`）、太清宗（`taiqing`）、八荒宗（`bahuang`）、天工宗（`tiangong`）、丹鼎宗（`danding`）、北荒古境（`wastes`）、灰燼石堡（`realm_edge`）、太虛神宮（`realm_taixu`）、萬物主機城（`realm_wanwu`）、戰祖魔殿（`realm_zhanzu`）。
 
 太古九城則由 `world/cities/` 管理其文明節點資料。
 
@@ -365,7 +365,7 @@ tianshu_south_ruins_hall
 ]
 ```
 
-這兩種格式並不一致，而且目前尚未有獨立的 Zone / Site 管理 daemon。
+這兩種引用格式已透過 `daemon/region_d.c` 的集中查詢層過渡整合：現行 Mudlib 已正式建立 `world/zones/*.json`（23 份）與 `world/sites/*.json`（9 份），並由 `region_d.c` 提供 `query_zone()`、`query_site()`、`query_zones_by_region()` 與 `query_sites_by_zone()` 查詢介面，同時保留 Region `zone_refs` 與城市 `zones` 舊欄位以維持相容。
 
 ## 6.2 目標目錄
 
@@ -902,20 +902,10 @@ Necessity：
 world/topology/macro_topology.json
 ```
 
-包含 8 個現代地理節點及 6 條已確認連線。
+包含 19 個已確認之現代與第三～四卷地理節點，以及 16 條已確認連線：
 
-節點包括：
-
-- 金石府城。
-- 重石縣。
-- 黑石鋪。
-- 青河縣。
-- 烈礬縣。
-- 鎮風縣。
-- 盤木縣。
-- 拓荒縣。
-
-現有六條連線都指向金石府城。
+- 第一～二卷節點（9 個）：金石府城、重石縣、黑石鋪、青河縣、烈礬縣、鎮風縣、盤木縣、拓荒縣、濁水縣。其中 6 條 `route_ref` 實體連線指向金石府城（與 `world/routes/*.json` 端點雙向一致）。
+- 第三～四卷節點（10 個）：雲津、太清宗、八荒宗、天工宗、丹鼎宗、北荒古境、灰燼石堡、太虛神宮、萬物主機城、戰祖魔殿，含 10 條跨區主幹道、邊牆通道與單向星門／洞天廊道連線。
 
 ## 12.2 目前缺口
 
@@ -1079,24 +1069,23 @@ P_n=100+D_n
 
 # 15. 持久化與資料一致性
 
-## 15.1 目前最重要的技術缺口
+## 15.1 現行持久化狀態與剩餘缺口
 
-目前 `region_d.c` 的：
+`region_d.c` 的分區 JSON 存取已完成實作並納入 `tests/test_phase2_architecture.c` §10 回歸測試：
 
 ```c
-int save_region(string region_id)
-int restore_region(string region_id)
+int save_region(string region_id)       // 寫入 /data/regions/<region_id>.json
+int restore_region(string region_id)    // 由 /data/regions/<region_id>.json 恢復
+int restore_all_regions()               // create() 時批次恢復並補算 last_eval_time 時間差
 ```
 
-尚未完成實際分區存取。
+`route_d.c` 亦透過 `save_object("/data/routes/route_state")` 與 `restore_object()` 保存道路通阻狀態。
 
-因此：
+目前尚未完成的持久化進階能力（列入 Phase 3）：
 
-- Region 動態狀態尚不能視為已完整持久化。
-- `last_eval_time` 可能無法在重啟後正確恢復。
-- 資源與物價的跨重啟一致性仍需驗證。
-
-`route_d.c` 已有道路狀態的 `save_object()` 與 `restore_object()`，但仍需檢查是否能正確處理新增路線、舊資料及異常恢復。
+- 動態存檔格式版本號與自動遷移器。
+- Zone / Site 層級之獨立動態狀態持久化。
+- 跨區事件冪等 ID 紀錄與長時間離線跨區物流結算一致性。
 
 ## 15.2 建議優先完成
 
@@ -1155,109 +1144,109 @@ Zone / Site 的獨立管理尚未建立。
 
 ## P2-A：既有資料盤點與正典驗收
 
-- [ ] 核對九城 JSON 與九城正典。
-- [ ] 核對 32 條文明依存邊。
-- [ ] 核對九城 Zone 名稱與正典依據。
-- [ ] 檢查 `topology` 是否被誤用為地理連線。
-- [ ] 檢查 `known_by` 的語義。
-- [ ] 檢查現代 Region 的 `coords` 是否有程式依賴。
-- [ ] 核對六條 Route 的起點、終點及資料依據。
-- [ ] 記錄拓荒縣尚未建立 Route 的狀態。
+- [x] 核對九城 JSON 與九城正典（狀態四欄位解耦已通過 `test_phase2_architecture.c` §13）。
+- [x] 核對 32 條文明依存邊（已逐條對齊 `nine_cities_canon.md` §4.2 與 §4.4 並納入場景測試）。
+- [ ] 核對九城候選 Zone 名稱與正典依據（保留作後續探勘驗收）。
+- [x] 檢查 `topology` 是否被誤用為地理連線（已納入雙網分離自動測試）。
+- [x] 檢查 `known_by` 的語義（不賦予玩家自動地圖權限）。
+- [x] 檢查現代 Region 的 `coords` 並以 `geography.position: null` / `LOCAL_GAME_SPACE` 標記。
+- [x] 核對六條 Route 的起點、終點及與 `macro_topology.json` `route_ref` 一致性。
+- [x] 記錄並以自動測試保護拓荒縣（`tuogu`）尚未建立直通 Route 之狀態。
 
 ## P2-B：資料 Schema 統一
 
-- [ ] 定義 Region Schema。
-- [ ] 定義 Zone Schema。
-- [ ] 定義 Site Schema。
-- [ ] 定義 Route Schema。
-- [ ] 定義 Dependency Schema。
-- [ ] 定義 Topology Schema。
-- [ ] 定義資料版本與相容讀取規則。
-- [ ] 加入 JSON 結構驗證。
+- [x] 定義並套用 Region Schema v1.1（19 區）。
+- [x] 定義並套用 Zone Schema v1.1（23 份）。
+- [x] 定義並套用 Site Schema v1.1（9 份）。
+- [x] 定義並套用 Route Schema v1.1（6 條）。
+- [x] 定義並驗收 Dependency Schema v1.1（9 節點、32 邊）。
+- [x] 定義並驗收 Topology Schema v1.1（19 節點、16 連線）。
+- [x] 定義資料版本與相容讀取規則（保留舊欄位相容）。
+- [x] 加入自動化結構與正典驗證（`test_phase2_architecture.c`、`test_vol3_4_simulation.c`）。
 
 ## P2-C：Zone / Site 管理
 
-- [ ] 統一 Region 的 `zone_refs`。
-- [ ] 將城市 JSON 的 `zones` 轉為標準引用。
-- [ ] 建立 Zone 獨立資料檔。
-- [ ] 建立 Site 獨立資料檔。
-- [ ] 支援 LPC 房間引用。
-- [ ] 不破壞現有房間 exits。
+- [x] 保留 Region 的 `zone_refs` 並由 `region_d.c` 集中管理正式 Zone。
+- [ ] 將九城 JSON 的候選 `zones` 全部完成正典逐項驗收並轉為正式檔案。
+- [x] 建立 Zone 獨立資料檔（`world/zones/*.json`，23 份）。
+- [x] 建立 Site 獨立資料檔（`world/sites/*.json`，9 份）。
+- [x] 支援 LPC 房間引用並驗證 `room_refs` 檔案全數存在。
+- [x] 不破壞現有房間 exits。
 
 ## P2-D：Route 與 Topology 整合
 
-- [ ] 保留現有六條 Route。
-- [ ] 明確 Route 方向性。
-- [ ] 統一 Route 狀態。
-- [ ] 驗證 Topology 的 Route 引用。
-- [ ] 確認拓荒縣交通關係是否存在。
-- [ ] 不補未確認的九城交通網。
+- [x] 保留現有六條 Route。
+- [x] 明確 Route 方向性（`BIDIRECTIONAL` / `FORWARD_ONLY` / `BACKWARD_ONLY`）。
+- [x] 統一 Route 狀態（`OPEN` / `RESTRICTED` / `BLOCKED` / `DESTROYED` / `SEALED` / `UNKNOWN`）。
+- [x] 驗證 Topology 的 `route_ref` 引用與端點一致。
+- [x] 保護拓荒縣未確認交通關係，不自動捏造第七條 Route。
+- [x] 不補未確認的九城交通網。
 
 ## P2-E：Region / Route 持久化
 
-- [ ] 完成 `save_region()`。
-- [ ] 完成 `restore_region()`。
-- [ ] 驗證資源與物價存檔。
-- [ ] 驗證危機狀態存檔。
-- [ ] 驗證 Route 通阻狀態存檔。
-- [ ] 驗證重啟後的時間補算。
-- [ ] 驗證重複事件不會重複執行。
+- [x] 完成 `save_region()`。
+- [x] 完成 `restore_region()`。
+- [x] 驗證資源與物價存檔。
+- [x] 驗證危機狀態存檔。
+- [x] 驗證 Route 通阻狀態存檔。
+- [x] 驗證重啟後的時間補算（`create()` 呼叫 `evaluate_region()`）。
+- [ ] 驗證跨區長週期重複事件之冪等 ID 機制（Phase 3）。
 
 ## P2-F：既有系統回歸
 
-- [ ] 執行 `test_phase2_architecture.c`。
-- [ ] 執行原有世界狀態測試。
-- [ ] 執行原有區域事件測試。
-- [ ] 執行金石府城地下空間測試。
-- [ ] 執行伺服器重啟恢復測試。
-- [ ] 確認既有遊戲行為沒有回歸。
+- [x] 執行 `test_phase2_architecture.c`。
+- [x] 執行原有世界狀態測試與 `test_vol3_4_simulation.c`。
+- [x] 執行原有區域事件測試。
+- [x] 執行金石府城地下空間測試。
+- [x] 執行伺服器重啟／存檔恢復 round-trip 測試。
+- [x] 確認既有遊戲行為沒有回歸。
 
 # 18. 驗收標準
 
 ## 18.1 資料模型
 
-- [ ] Region、Zone、Site 各自有明確定義。
-- [ ] Route 是獨立關係資料。
-- [ ] Dependency Graph 與 Route Graph 分離。
-- [ ] Stage 與 Tier 分離。
-- [ ] Discovery、Access、Survival 分離。
-- [ ] 未知座標可以保留為 null。
-- [ ] 所有資料可追溯來源。
+- [x] Region、Zone、Site 各自有明確定義。
+- [x] Route 是獨立關係資料。
+- [x] Dependency Graph 與 Route Graph 分離（含自動化回歸保護）。
+- [x] Stage 與 Tier 分離。
+- [x] Discovery、Access、Survival 分離。
+- [x] 未知座標可以保留為 null。
+- [x] 所有資料可追溯來源。
 
 ## 18.2 現有程式相容
 
-- [ ] 原有 Region JSON 可以載入。
-- [ ] 原有 Route JSON 可以載入。
-- [ ] 原有九城 JSON 可以載入。
-- [ ] 原有 Dependency Graph 可以載入。
-- [ ] 原有 World State 聯動不受破壞。
-- [ ] 既有 LPC 房間不需要全面重寫。
+- [x] 原有 Region JSON 可以載入。
+- [x] 原有 Route JSON 可以載入。
+- [x] 原有九城 JSON 可以載入。
+- [x] 原有 Dependency Graph 可以載入。
+- [x] 原有 World State 聯動不受破壞。
+- [x] 既有 LPC 房間不需要全面重寫。
 
 ## 18.3 持久化
 
-- [ ] Region 狀態可保存。
-- [ ] Region 狀態可恢復。
-- [ ] Route 狀態可保存。
-- [ ] Route 狀態可恢復。
-- [ ] 重啟後時間差補算正確。
-- [ ] 重複事件不造成重複影響。
+- [x] Region 狀態可保存。
+- [x] Region 狀態可恢復。
+- [x] Route 狀態可保存。
+- [x] Route 狀態可恢復。
+- [x] 重啟後時間差補算正確。
+- [ ] 重複事件不造成重複影響（跨區事件冪等 ID 留待 Phase 3）。
 
 ## 18.4 正典保護
 
-- [ ] 九城名稱正確。
-- [ ] 九城機能與正典一致。
-- [ ] 不將文明依存當成地理相鄰。
-- [ ] 不將推定 Zone 當成已確認地理。
-- [ ] 不補九城精確座標。
-- [ ] 不補九城完整道路。
-- [ ] 不補全部遺跡清單。
-- [ ] 不將歸墟的特殊空間性質簡化為一般地理位置。
+- [x] 九城名稱正確。
+- [x] 九城機能與正典一致。
+- [x] 不將文明依存當成地理相鄰。
+- [x] 不將推定 Zone 當成已確認地理。
+- [x] 不補九城精確座標。
+- [x] 不補九城完整道路。
+- [x] 不補全部遺跡清單。
+- [x] 不將歸墟的特殊空間性質簡化為一般地理位置。
 
 # 19. 版本與後續方向
 
-本文件 v1.1 的核心工作是讓現有 Phase 2 實作與正式規格一致。
+本文件 v1.2 已完成 Phase 2 實作與正式規格對齊（含第三～四卷 10 區擴充與結構驗證強化）。
 
-完成後再進入：
+後續進入：
 
 **Phase 3：世界空間持續演進**
 

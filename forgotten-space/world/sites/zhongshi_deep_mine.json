@@ -6,7 +6,8 @@
   "site_type": "MINE_SHAFT",
   "danger_tier": 2,
   "room_refs": [
-    "/d/counties/zhongshi/quarry.c"
+    "/d/counties/zhongshi/quarry_winch3.c",
+    "/d/counties/zhongshi/terrace_trench.c"
   ],
   "discovery_rules": {
     "visibility": "PUBLIC"

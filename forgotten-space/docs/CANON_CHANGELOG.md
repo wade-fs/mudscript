@@ -2,6 +2,10 @@
 
 本文件追蹤《遺忘的世界》小說正典修訂與 Mudlib 可執行世界之間的雙向同步紀錄，配合 [data/canon_sync_matrix.json](../data/canon_sync_matrix.json)、[data/traceability_matrix.json](../data/traceability_matrix.json) 與 [tests/quests/novel_mud_sync_audit.py](../tests/quests/novel_mud_sync_audit.py) 使用。
 
+## 2026-11-27 — 空間規格書（v1.2）與 Phase 2 拓撲／依存圖結構驗證對齊
+* **強化 Phase 2 結構與正典驗證**：更新 [tests/test_phase2_architecture.c](../tests/test_phase2_architecture.c)，將九城文明依存圖（`world/dependencies/nine_cities_graph.json`）由舊版 `>= 26` 邊數寬鬆檢核升級為精確 `9` 節點、`32` 條正典邊結構驗證（端點有效性、無自環／無重複邊、`strength`/`necessity`/`confidence`/`evidence` 枚舉、天樞協調其餘八城、三條關鍵依存鏈及「依存網與實體路網分離」保護）；同步強化 `macro_topology.json`（`19` 節點、`16` 連線、`6` 條 `route_ref` 端點雙向核對、拓荒縣 `tuogu` 無捏造連線）與全量 Zone／Site `room_refs` 檔案存在性檢核。
+* **修復 Site 房間參照與同步空間規格**：修正 [world/sites/zhongshi_deep_mine.json](../world/sites/zhongshi_deep_mine.json) 過期路徑 `/d/counties/zhongshi/quarry.c` 為實存房間 `/d/counties/zhongshi/quarry_winch3.c` 與 `/d/counties/zhongshi/terrace_trench.c`；同步更新 [world/specifications/spatial_schema.md](../world/specifications/spatial_schema.md) 至 `v1.2`，對齊 19 Region / 23 Zone / 9 Site / 6 Route / 19 拓撲節點與 16 連線、分區 JSON 持久化現況及 Phase 2 驗收進度。
+
 ## 2026-11-27 — 第四卷短章擴充、高潮打磨與正典連續性校準
 * **第四卷核心戰役與情緒張力擴寫（27 章）**：將第四卷短章與關鍵高潮章節（`ch0131–ch0132`、`ch0134`、`ch0140`、`ch0143`、`ch0145–ch0164`、`ch0166`、`ch0170`）擴充至每章 `3,100–5,368` 字，全卷均字由 `1,680` 字提升至 `2,957` 字、最短章升至 `1,648` 字，補實三極底層工役互動、無星向量與活榫鍛造實作細節、鬥獸坑肉搏與仲裁長橋五方對質張力。
 * **事件／正典與傷勢連續性修復**：
