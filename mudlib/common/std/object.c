@@ -1,5 +1,5 @@
 // std/object.c - 所有物件的共用基底類別 (World-Agnostic)
-// 提供 id、名稱、描述、重量與通用 dbase 屬性容器
+// 提供 id、名稱、描述、重量、通用 dbase/temp/responses 與垃圾回收
 
 #include "/include/config.h"
 
@@ -10,9 +10,11 @@ mixed   id_list;       // 識別字串陣列
 int     weight;        // 重量（克）
 int     no_get;        // 不可拿取
 int     no_drop;       // 不可掉落
-int     money_value;   // 金幣面額（如果是貨幣物件）
-mapping dbase;         // 動態持久化屬性表
+int     money_value;   // 錢袋金額
+
+mapping dbase;            // 持久化動態屬性表
 nosave mapping temp_vars; // 暫存屬性表（不存檔）
+mapping responses;        // 關鍵字互動回應表
 
 void create() {
     name        = "某個東西";
@@ -36,9 +38,12 @@ void catch_tell(string msg) {}
 varargs void set_name(mixed n, mixed ids) {
     name = n;
     if (ids) {
-        if (arrayp(ids)) id_list = ids; else id_list = ({ ids });
+        if (arrayp(ids)) id_list = ids;
+        else id_list = ({ ids });
     }
-    if (is_living()) set_living_name(to_string(select_lang(n)));
+    if (is_living()) {
+        set_living_name(to_string(select_lang(n)));
+    }
 }
 void set_short(mixed s)      { short_name = s; }
 void set_long(mixed s)       { long_name  = s; }
@@ -47,52 +52,6 @@ void set_weight(int w)       { weight = w; }
 void set_no_get(int v)       { no_get = v; }
 void set_no_drop(int v)      { no_drop = v; }
 void set_money_value(int v)  { money_value = v; }
-
-// ── 查詢函式 ────────────────────────────────────────────
-mixed query_name()         { return select_lang(name); }
-mixed query_short()        { return select_lang(short_name); }
-mixed query_long()         { return select_lang(long_name); }
-mixed query_id()           { return id_list; }
-int   query_weight()       { return weight; }
-int   query_no_get()       { return no_get; }
-int   query_no_drop()      { return no_drop; }
-int   query_money_value()  { return money_value; }
-
-// ── 通用動態屬性 (dbase / temp_vars) ─────────────────────
-void set(string prop, mixed val) {
-    if (!dbase) dbase = ([]);
-    dbase[prop] = val;
-}
-
-mixed query(string prop) {
-    if (!dbase) return 0;
-    return dbase[prop];
-}
-
-void delete(string prop) {
-    if (dbase) map_delete(dbase, prop);
-}
-
-mixed add(string prop, int val) {
-    if (!dbase) dbase = ([]);
-    int cur = intp(dbase[prop]) ? dbase[prop] : 0;
-    dbase[prop] = cur + val;
-    return dbase[prop];
-}
-
-void set_temp(string prop, mixed val) {
-    if (!temp_vars) temp_vars = ([]);
-    temp_vars[prop] = val;
-}
-
-mixed query_temp(string prop) {
-    if (!temp_vars) return 0;
-    return temp_vars[prop];
-}
-
-void delete_temp(string prop) {
-    if (temp_vars) map_delete(temp_vars, prop);
-}
 
 // ── 方向輔助 ────────────────────────────────────────────
 string query_reverse_dir(string dir) {
@@ -107,11 +66,143 @@ string query_reverse_dir(string dir) {
     return "here";
 }
 
-// ── ID 匹配 ─────────────────────────────────────────────
+// ── 查詢函式 ────────────────────────────────────────────
+string query_name()                      { return select_lang(name); }
+string query_localized_name(string lang) { return select_lang(name, lang); }
+string query_short()                     { return select_lang(short_name); }
+string query_long()                      { return select_lang(long_name); }
+mixed  query_id()                        { return id_list; }
+int    query_weight()                    { return weight; }
+int    query_no_get()                    { return no_get; }
+int    query_no_drop()                   { return no_drop; }
+int    query_money_value()               { return money_value; }
+
+mixed query_coordinate() {
+    object env = environment(this_object());
+    if (env) return env->query_coordinate();
+    return 0;
+}
+
+string query_key_id() {
+    if (arrayp(id_list) && sizeof(id_list) > 0) {
+        return id_list[0];
+    }
+    if (stringp(id_list) && id_list != "") {
+        return id_list;
+    }
+    return get_name(this_object());
+}
+
 int id(string str) {
     if (!str || str == "") return 0;
+    string lstr = lower_case(str);
     if (arrayp(id_list)) {
-        return (member_array(str, id_list) != -1);
+        for (int i = 0; i < sizeof(id_list); i++) {
+            if (id_list[i] == str || lower_case(to_string(id_list[i])) == lstr) return 1;
+        }
+    } else if (stringp(id_list)) {
+        if (id_list == str || lower_case(id_list) == lstr) return 1;
     }
-    return (id_list == str);
+    if (to_string(select_lang(name)) == str) return 1;
+    return 0;
+}
+
+int move(mixed dest) {
+    if (!dest) return 0;
+    return move_object(this_object(), dest);
+}
+
+// ── 通用 dbase / temp 屬性容器 ──────────────────────────
+void set(string prop, mixed val) {
+    if (!mapp(dbase)) dbase = ([]);
+    dbase[prop] = val;
+}
+
+mixed query(string prop) {
+    if (!mapp(dbase)) return 0;
+    return dbase[prop];
+}
+
+void add(string prop, mixed val) {
+    if (!mapp(dbase)) dbase = ([]);
+    if (!dbase[prop]) dbase[prop] = 0;
+    dbase[prop] += val;
+}
+
+void delete(string prop) {
+    if (mapp(dbase)) m_delete(dbase, prop);
+}
+
+mapping query_entire_dbase() {
+    if (!mapp(dbase)) dbase = ([]);
+    return dbase;
+}
+
+void set_temp(string key, mixed val) {
+    if (!mapp(temp_vars)) temp_vars = ([]);
+    temp_vars[key] = val;
+}
+
+mixed query_temp(string key) {
+    if (!mapp(temp_vars)) return 0;
+    return temp_vars[key];
+}
+
+void delete_temp(string key) {
+    if (mapp(temp_vars)) m_delete(temp_vars, key);
+}
+
+// ── 關鍵字互動回應系統 ──────────────────────────────────
+void add_response(mixed keyword, mixed response) {
+    if (!responses) responses = ([]);
+
+    if (arrayp(keyword)) {
+        for (int i = 0; i < sizeof(keyword); i++) {
+            add_response(keyword[i], response);
+        }
+        return;
+    }
+
+    if (!responses[keyword]) responses[keyword] = ({});
+    if (stringp(response) || mapp(response)) {
+        responses[keyword] += ({ response });
+    } else if (arrayp(response)) {
+        responses[keyword] += response;
+    }
+}
+
+mapping query_responses() {
+    if (!responses) return ([]);
+    return responses;
+}
+
+mixed query_response(string keyword) {
+    if (!responses || !responses[keyword]) return 0;
+    mixed res = responses[keyword];
+    if (arrayp(res) && sizeof(res) > 0) return res[0];
+    return res;
+}
+
+// ── 生命週期管理：垃圾回收 ─────────────────────────────
+int clean_up(int inherited_count) {
+    if (inherited_count > 0) return 1;
+
+    string oname = object_name(this_object());
+    if (strsrch(oname, "#") == -1 && strsrch(oname, FS_CACHE_DIR) != 0) return 1;
+
+    object env = environment(this_object());
+    if (env && living(env)) return 1;
+
+    if (sizeof(all_inventory(this_object())) > 0) return 1;
+
+    if (query_idle(this_object()) > 900) {
+        destruct(this_object());
+        return 0;
+    }
+
+    return 1;
+}
+
+int is_destructed() {
+    return 0;
 }

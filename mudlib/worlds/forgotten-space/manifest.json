@@ -22,6 +22,23 @@
     "nine_cities_topology": true,
     "dual_track_economy": true
   },
+  "i18n_overrides": {
+    "en": {
+      "label_hp": "Vitality (KEE)",
+      "label_mp": "Spirit (SEN)",
+      "label_sp": "Stamina (SP)"
+    },
+    "zh-TW": {
+      "label_hp": "氣血",
+      "label_mp": "神識",
+      "label_sp": "精力"
+    },
+    "zh-CN": {
+      "label_hp": "气血",
+      "label_mp": "神识",
+      "label_sp": "精力"
+    }
+  },
   "custom_fields": {
     "quest": [
       "category",
