@@ -1,0 +1,65 @@
+{
+  "id": "v3_act2_bahuang_ghost_gorge",
+  "name": "鬼哭冰澗：鐵甲寒犛與走山斷箭",
+  "chapter": "Ch.0094",
+  "category": "side",
+  "type": "once",
+  "region": "bahuang",
+  "start_npc": "tang_ying",
+  "start_topic": "鬼哭冰澗",
+  "steps": [
+    {
+      "step": 1,
+      "title": "北線長城三號豁口擊殺鐵甲寒犛",
+      "hint": "登上北線長城巡防牆暨關口，擊退襲擊補給車隊的二階鐵甲寒犛（iron_yak）並嚴守絕不追入白霧雪溝之軍紀。",
+      "target_type": "kill",
+      "target_mob": "iron_yak",
+      "location": "/d/sects/bahuang/great_wall_gate",
+      "on_complete": {
+        "msg": "你於三號豁口貫破鐵甲寒犛腋下軟筋搶下戰功，並恪守軍令未踏入三倍地煞之白霧雪溝。"
+      }
+    },
+    {
+      "step": 2,
+      "title": "鬼哭冰澗探冰起獲燕山斷箭",
+      "hint": "出東側鐵包邊門抵鬼哭冰澗，輸入 probe ice 繫繩垂降三尺冰層尋找走山隊物證。",
+      "target_type": "action",
+      "action_verb": "probe",
+      "action_target": "ice",
+      "location": "/d/sects/bahuang/ghost_cry_gorge",
+      "on_complete": {
+        "give_item": "/clone/item/yanshan_broken_arrow.c",
+        "msg": "你自冰層起獲刻有燕山鷹記、遭破甲兵刃斜切的斷折骨箭與八方舊皮甲，並標繪經緯步數。"
+      }
+    },
+    {
+      "step": 3,
+      "title": "炊事後勤區核對失蹤名冊",
+      "hint": "前往北線軍寨炊事後勤區向阿滿查閱《天興十九年失蹤者與未寄家書簿》。",
+      "target_type": "talk",
+      "target_npc": "a_man",
+      "target_topic": "失蹤者",
+      "location": "/d/sects/bahuang/north_garrison_kitchen",
+      "on_complete": {
+        "msg": "阿滿揭露當年走山隊與兩名接應斥候事後全被改判除名，並告知斥候之妹韓素守於互助棚。"
+      }
+    },
+    {
+      "step": 4,
+      "title": "箭樓密談領取軍需出庫副本",
+      "hint": "返黑山煞血營向雷烈出示斷箭與名冊線索，追問五年前撤防密令實情。",
+      "target_type": "talk",
+      "target_npc": "lei_lie",
+      "target_topic": "軍需對帳",
+      "location": "/d/sects/bahuang/black_mountain_camp",
+      "on_complete": {
+        "give_item": "/clone/item/bahuang_logistics_copy.c",
+        "msg": "雷烈自首錯簽撤防調令並交付記載三十斤開山火藥調往鬼哭冰澗的軍需出庫副本。"
+      }
+    }
+  ],
+  "rewards": {
+    "exp": 920,
+    "pot": 260
+  }
+}

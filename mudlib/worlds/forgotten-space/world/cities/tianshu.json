@@ -1,0 +1,19 @@
+{
+  "schema_version": "1.1",
+  "id": "tianshu",
+  "name": "天樞城",
+  "aliases": ["萬象之樞", "總陣中樞"],
+  "civilization_role": "文明協調與陣法中樞",
+  "spatial_type": "ancient_metropolis_core",
+  "status": "damaged_dormant",
+  "ancient_status": "RUINED",
+  "remaining_structure_status": "PARTIAL",
+  "modern_manifestation": "jinshi_underground_foundation",
+  "access_status": "RESTRICTED",
+  "known_by": ["ancient_records", "imperial_astronomers", "tianshu_guardians"],
+  "evidence": "world/lore/nine_cities_canon.md",
+  "confidence": "CONFIRMED",
+  "zones": ["central_sanctum", "southern_foundation_hub", "leyline_regulator"],
+  "dependencies": ["guanxing", "cangjing", "xuanzhu", "baigong", "canglan", "guixu", "zhenyue"],
+  "topology": ["jinshi_underground_foundation"]
+}

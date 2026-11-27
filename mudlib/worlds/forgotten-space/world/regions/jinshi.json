@@ -1,0 +1,35 @@
+{
+  "schema_version": "1.1",
+  "region_id": "jinshi",
+  "name": "金石府城",
+  "civ_level": "prefecture",
+  "region_type": "MODERN_CITY",
+  "coords": [0, 0, 100],
+  "geography": {
+    "position": null,
+    "coordinate_space": "LOCAL_GAME_SPACE",
+    "precision": "RELATIVE_COORDS"
+  },
+  "resources": {
+    "primary_product": "refined_metal",
+    "secondary_product": "official_charter",
+    "demand": ["raw_iron", "grain", "heavy_stone", "timber"],
+    "reserves": { "refined_metal": 50000, "grain_granary": 80000 },
+    "price_index": 100
+  },
+  "factions": {
+    "prefect_office": { "power": 55, "agenda": "maintain_order_and_law" },
+    "chamber_of_commerce": { "power": 45, "agenda": "expand_trade_monopoly" }
+  },
+  "crisis_deck": [
+    { "id": "black_market_speculation", "base_weight": 20, "trigger_metric": "supply_shortage" },
+    { "id": "underground_canal_leak", "base_weight": 15, "trigger_metric": "water_pressure" }
+  ],
+  "zone_refs": [
+    { "zone_id": "jinshi_surface", "type": "city_center", "tier": 1 },
+    { "zone_id": "jinshi_underground", "type": "subterranean_canal", "tier": 2 },
+    { "zone_id": "tianshu_southern_core", "type": "ancient_array_core", "tier": 3 }
+  ],
+  "confidence": "CONFIRMED",
+  "evidence": ["world/lore/nine_cities_canon.md", "narrative/docs/maps/world_map.md"]
+}

@@ -1,0 +1,22 @@
+{
+  "schema_version": "1.1",
+  "site_id": "jinshi_canal_hub",
+  "zone_id": "jinshi_underground",
+  "name": "地下暗渠總水閘",
+  "site_type": "INFRASTRUCTURE",
+  "danger_tier": 2,
+  "room_refs": [
+    "/d/city/under/canal_hub.c"
+  ],
+  "discovery_rules": {
+    "required_clues": ["waterway_inspector_report"],
+    "visibility": "PUBLIC"
+  },
+  "access_rules": {},
+  "survival_rules": {
+    "environmental_constraints": ["high_water_current"]
+  },
+  "status": "ACTIVE",
+  "evidence": ["narrative/docs/maps/underground_map.md"],
+  "confidence": "CONFIRMED"
+}

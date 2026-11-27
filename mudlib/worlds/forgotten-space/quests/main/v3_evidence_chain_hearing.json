@@ -1,0 +1,79 @@
+{
+  "id": "v3_evidence_chain_hearing",
+  "name": "雲頂質證：帳冊、病案與走山鐵證",
+  "chapter": "Ch.0116",
+  "category": "main",
+  "type": "once",
+  "region": "yunjin",
+  "requirements": {
+    "level": 85
+  },
+  "start_npc": "luo_jiucheng",
+  "start_topic": "公開質證",
+  "steps": [
+    {
+      "step": 1,
+      "title": "提交九城契約與萬寶商帳",
+      "hint": "登上問道天台質證高台向公所掌印羅九秤提交契版副本、萬寶暗標帳箱與商埠交割紀錄（話題：「商帳」）。",
+      "target_type": "talk",
+      "target_npc": "luo_jiucheng",
+      "target_topic": "商帳",
+      "location": "/d/yunjin/hearing_hall",
+      "on_complete": {
+        "msg": "第四線商帳進入聯合查核程序；玄冥抗辯索引缺親筆原印，尚不能繞過審理定罪。"
+      }
+    },
+    {
+      "step": 2,
+      "title": "提交走山隊軍需物證",
+      "hint": "於八荒黑山營向雷烈確認第三線走山隊九骸實測圖與軍需調度副本（話題：「走山物證」）。",
+      "target_type": "talk",
+      "target_npc": "lei_lie",
+      "target_topic": "走山物證",
+      "location": "/d/sects/bahuang/black_mountain_camp",
+      "on_complete": {
+        "msg": "韓林銅哨與三十斤千機火藥調撥紀錄進入公開核查。"
+      }
+    },
+    {
+      "step": 3,
+      "title": "提交血丹病理與批次紀錄",
+      "hint": "至丹鼎醫理院向孫聞露提交十七例匿名病案、丙柒爐渣與韓蒼體徵病理追蹤（話題：「病理證據」）。",
+      "target_type": "talk",
+      "target_npc": "sun_wenlu",
+      "target_topic": "病理證據",
+      "location": "/d/sects/danding/medical_archive",
+      "on_complete": {
+        "msg": "病理證據接受五方查核席交叉檢驗，保留採辦調換與故意投毒仍須審理之邊界。"
+      }
+    },
+    {
+      "step": 4,
+      "title": "提交方舟盜掘與煞火魔偶物證",
+      "hint": "入天工萬機地窟向季衡核對鑽山傀儡三十具批次領用簿與魔偶脆化屑（話題：「盜掘物證」）。",
+      "target_type": "talk",
+      "target_npc": "ji_heng",
+      "target_topic": "盜掘物證",
+      "location": "/d/sects/tiangong/machinery_depths",
+      "on_complete": {
+        "msg": "一至四線五欄公證副本悉數咬合，備交三宗掌門聯席裁奪。"
+      }
+    },
+    {
+      "step": 5,
+      "title": "聽宣三宗聯席掌門令與五方查核席",
+      "hint": "返問道天台質證高台向太清掌門紫霄真人請示「聯席掌門令」。",
+      "target_type": "talk",
+      "target_npc": "zixiao_zhenren",
+      "target_topic": "聯席掌門令",
+      "location": "/d/yunjin/hearing_hall",
+      "on_complete": {
+        "msg": "三宗掌門頒令停採封爐並軟禁鶴壽、玄冥、赤煉候審——然收繳印鑰剎那鶴壽自飲母液、玄冥拍碎主令引爆道化驚變！"
+      }
+    }
+  ],
+  "rewards": {
+    "exp": 1400,
+    "pot": 380
+  }
+}

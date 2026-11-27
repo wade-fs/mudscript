@@ -22,6 +22,7 @@ type Macro struct {
 
 type Preprocessor struct {
 	MudLibPath     string
+	CommonPath     string                    // 🚀 新增：唯讀共用 Mudlib 疊層路徑
 	Macros         map[string]Macro
 	EmbeddedFS     fs.FS                     // 🚀 新增：支援嵌入式檔案系統
 	GlobalInclude  string                    // 🚀 新增：全域自動引入標頭檔
@@ -35,6 +36,11 @@ func New(mudLibPath string) *Preprocessor {
 		Macros:     make(map[string]Macro),
 		regexCache: make(map[string]*regexp.Regexp),
 	}
+}
+
+// SetCommonPath 設定唯讀共用 Mudlib 疊層路徑
+func (p *Preprocessor) SetCommonPath(commonPath string) {
+	p.CommonPath = commonPath
 }
 
 // ParseMacros 專門用來解析標頭檔中的巨集定義
@@ -531,42 +537,7 @@ func (p *Preprocessor) processInternal(filename, input string, depth int) (strin
 			isSystem := strings.HasPrefix(includeBody, "<")
 			pathStr := strings.Trim(includeBody, "\"<>")
 
-			var relPath string
-			if strings.HasPrefix(pathStr, "/") {
-			        relPath = strings.TrimPrefix(pathStr, "/")
-			} else {
-			        // 先嘗試相對路徑
-			        dir := filepath.Dir(strings.TrimPrefix(filename, "/"))
-			        relPath = filepath.Join(dir, pathStr)
-
-			        // 如果是系統引入，或者是相對路徑找不到，則嘗試 /include/
-			        fullPath := filepath.Join(p.MudLibPath, relPath)
-			        if _, statErr := os.Stat(fullPath); statErr != nil {
-			            if isSystem || strings.Index(pathStr, "/") == -1 {
-			                relPath = filepath.Join("include", pathStr)
-			            }
-			        }
-			}
-			relPath = strings.TrimPrefix(relPath, "/")
-			var content []byte
-			var err error
-
-			// 1. 優先嘗試從實體磁碟讀取
-			fullPath := filepath.Join(p.MudLibPath, relPath)
-			if _, statErr := os.Stat(fullPath); statErr == nil {
-				content, err = os.ReadFile(fullPath)
-			} else if p.EmbeddedFS != nil {
-				// 2. 備援嘗試從嵌入檔案讀取
-				// 🚀 關鍵修正：根據配置的 MudLibPath 來尋找內嵌資源路徑
-				embedPath := filepath.Join(p.MudLibPath, relPath)
-				embedPath = filepath.ToSlash(embedPath)
-				embedPath = strings.TrimPrefix(embedPath, "/")
-				
-				content, err = fs.ReadFile(p.EmbeddedFS, embedPath)
-			} else {
-				err = fmt.Errorf("找不到檔案: %s", pathStr)
-			}
-
+			relPath, content, err := p.readIncludeFile(filename, pathStr, isSystem)
 			if err != nil {
 				return "", fmt.Errorf("前處理器錯誤: %v", err)
 			}
@@ -591,6 +562,70 @@ func (p *Preprocessor) processInternal(filename, input string, depth int) (strin
 	}
 
 	return output.String(), nil
+}
+
+func (p *Preprocessor) readLayers() []string {
+	layers := []string{p.MudLibPath}
+	if p.CommonPath != "" && filepath.Clean(p.CommonPath) != filepath.Clean(p.MudLibPath) {
+		layers = append(layers, p.CommonPath)
+	}
+	return layers
+}
+
+func isWithinBase(baseDir, targetPath string) bool {
+	rel, err := filepath.Rel(filepath.Clean(baseDir), filepath.Clean(targetPath))
+	if err != nil {
+		return false
+	}
+	return rel != ".." && !strings.HasPrefix(rel, ".."+string(filepath.Separator))
+}
+
+func (p *Preprocessor) readIncludeFile(currentFile, pathStr string, isSystem bool) (string, []byte, error) {
+	var candidates []string
+	if strings.HasPrefix(pathStr, "/") {
+		candidates = []string{strings.TrimPrefix(filepath.ToSlash(filepath.Clean(pathStr)), "/")}
+	} else {
+		dir := filepath.Dir(strings.TrimPrefix(currentFile, "/"))
+		relCandidate := strings.TrimPrefix(filepath.ToSlash(filepath.Clean(filepath.Join(dir, pathStr))), "/")
+		sysCandidate := strings.TrimPrefix(filepath.ToSlash(filepath.Clean(filepath.Join("include", pathStr))), "/")
+		if isSystem {
+			candidates = append(candidates, sysCandidate)
+			if relCandidate != sysCandidate {
+				candidates = append(candidates, relCandidate)
+			}
+		} else {
+			candidates = append(candidates, relCandidate)
+			if !strings.Contains(pathStr, "/") && sysCandidate != relCandidate {
+				candidates = append(candidates, sysCandidate)
+			}
+		}
+	}
+
+	layers := p.readLayers()
+	for _, relPath := range candidates {
+		for _, layer := range layers {
+			fullPath := filepath.Join(layer, relPath)
+			if !isWithinBase(layer, fullPath) {
+				return "", nil, fmt.Errorf("chroot violation in #include: %s", pathStr)
+			}
+			if info, err := os.Stat(fullPath); err == nil && !info.IsDir() {
+				content, readErr := os.ReadFile(fullPath)
+				if readErr == nil {
+					return relPath, content, nil
+				}
+			}
+		}
+		if p.EmbeddedFS != nil {
+			for _, layer := range layers {
+				embedPath := strings.TrimPrefix(filepath.ToSlash(filepath.Join(layer, relPath)), "/")
+				if content, err := fs.ReadFile(p.EmbeddedFS, embedPath); err == nil {
+					return relPath, content, nil
+				}
+			}
+		}
+	}
+
+	return "", nil, fmt.Errorf("找不到檔案: %s", pathStr)
 }
 
 func (p *Preprocessor) stripModifiers(line string) string {

@@ -1,0 +1,42 @@
+{
+  "id": "side_city_vagrant_letter",
+  "name": "南關矮巷・家書代筆",
+  "chapter": "Ch.0043-Ch.0082",
+  "category": "side",
+  "type": "once",
+  "start_npc": "sun_old_carter",
+  "start_topic": "家書",
+  "requirements": {
+    "level": 2
+  },
+  "steps": [
+    {
+      "step": 1,
+      "title": "往城中槐蔭茶肆請書生代寫平安家書",
+      "hint": "進金石府城至金石大客棧北側後巷槐蔭茶肆，找茶博士老林領取替孫老車夫寫好的平安家書 (ask tea_doctor_lin about 代寫完畢)。",
+      "target_type": "talk",
+      "target_npc": "tea_doctor_lin",
+      "target_topic": "代寫完畢",
+      "location": "/d/city/center/tea_alley",
+      "on_complete": {
+        "msg": "老林把寫滿家常囑咐的油紙書信妥貼交到你手裡，信角還縫著老漢託寄的兩錢碎銀。"
+      }
+    },
+    {
+      "step": 2,
+      "title": "送回家書交予南關外孫老車夫",
+      "hint": "出南關沿南關官道向西進流民賃居矮巷，把寫好的家書交給孫老車夫 (ask sun_old_carter about 家書)。",
+      "target_type": "talk",
+      "target_npc": "sun_old_carter",
+      "target_topic": "家書",
+      "location": "/d/city/outer/tenement_alley",
+      "on_complete": {
+        "msg": "孫老車夫雙手捧著家書反覆摩挲紙面墨字，雖一字不識卻笑出滿臉皺紋，硬塞給你幾十文車資謝禮。"
+      }
+    }
+  ],
+  "rewards": {
+    "exp": 180,
+    "money": 80
+  }
+}

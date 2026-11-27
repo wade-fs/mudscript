@@ -1,0 +1,42 @@
+{
+  "id": "side_sect_tiangong_slag_pick",
+  "name": "冷卻渣槽・淘撿玄鐵",
+  "chapter": "Ch.0088-Ch.0119",
+  "category": "side",
+  "type": "once",
+  "start_npc": "county_worker",
+  "start_topic": "玄鐵",
+  "requirements": {
+    "level": 3
+  },
+  "steps": [
+    {
+      "step": 1,
+      "title": "在天工門冷卻爐渣槽濾撿未熔玄鐵珠",
+      "hint": "前往天工門冷卻爐渣槽抄起長柄鐵漏勺，從冷卻礦渣裡濾出殘留的玄鐵珠 (quench slag)。",
+      "target_type": "action",
+      "action_verb": "quench",
+      "action_target": "slag",
+      "location": "/d/sects/tiangong/slag_pit",
+      "on_complete": {
+        "msg": "忍著刺鼻白煙翻找一陣後，你果然在冷卻渣塊裡撈出了七八粒泛著青光的純玄鐵珠。"
+      }
+    },
+    {
+      "step": 2,
+      "title": "回雜役磨件棚把玄鐵珠交給老匠工並領工錢",
+      "hint": "回到天工門雜役磨件棚將玄鐵珠交給地方老匠工 (ask county_worker about 玄鐵)。",
+      "target_type": "talk",
+      "target_npc": "county_worker",
+      "target_topic": "玄鐵",
+      "location": "/d/sects/tiangong/apprentice_shed",
+      "on_complete": {
+        "msg": "老匠工掂了掂手心沉甸甸的玄鐵珠滿意地點頭，這批廢料重熔後又夠打好幾組軸承。"
+      }
+    }
+  ],
+  "rewards": {
+    "exp": 220,
+    "money": 110
+  }
+}

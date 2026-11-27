@@ -1,0 +1,32 @@
+// d/city/south/grain_market.c
+// 官辦糧食市集 (直連青河縣產區)
+
+#include "/include/ansi.h"
+
+inherit "/std/room.c";
+
+void create() {
+    ::create();
+    set_short("城南水陸・官辦糧食市集");
+    set_long("這座露天大集市內擺滿了排排竹席與斗秤，散發著穀麥與油料的純樸氣息。\n"
+             "自青河縣水運抵達的優質稻米、大麥、菜籽油多在此批發集散。\n"
+             "糧行會首與米商坐莊正在看樣定價，全城飯館客棧與軍營皆在此採購主糧。\n"
+             "向北挑簾可進市井熱鬧的【金石老酒肆】，東面通往大料初堆棧，往西穿過水門石拱\n"
+             "直達西水門漕運碼頭，向南是一座戒備嚴密的大糧倉。\n");
+
+    set_exits(([
+        "north": "/d/city/south/wine_tavern.c",
+        "east":  "/d/city/south/yard_material.c",
+        "west":  "/d/city/south/canal.c",
+        "south": "/d/city/south/warehouse_grain.c",
+    ]));
+
+    set("is_outdoor", 1);
+    set("has_shop", 1);
+
+    set_touch("default", YEL "竹席上堆得像小山般的稻穀顆粒飽滿微涼，木斗秤邊沿磨得油亮。" NOR);
+    set_smell("default", HIG "乾燥大麥、稻米穀糠香與大桶菜籽油特有的淳樸清香彌漫市集。" NOR);
+    set_listen("default", HIY "糧商坐莊看樣定價的算盤響、倒穀入袋的沙沙聲與米販討價還價。" NOR);
+
+    spawn_npc("/clone/npc/south_grain_guildhead.c");
+}

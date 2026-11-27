@@ -1,0 +1,29 @@
+{
+  "schema_version": "1.1",
+  "zone_id": "jinshi_underground",
+  "region_id": "jinshi",
+  "name": "金石府城地下暗渠",
+  "zone_type": "UNDERGROUND",
+  "danger_tier": 2,
+  "environment": {
+    "tags": ["UNDERGROUND", "ANCIENT_STRUCTURE", "DISHA_TURBIDITY"]
+  },
+  "site_refs": [
+    "tianshu_south_ruins_hall",
+    "jinshi_black_market",
+    "jinshi_canal_hub"
+  ],
+  "discovery_rules": {
+    "required_clues": ["dry_well_rumor", "canal_gate_hint"],
+    "visibility": "HIDDEN"
+  },
+  "access_rules": {
+    "required_items": ["underground_entry_token"]
+  },
+  "survival_rules": {
+    "resistance_requirements": { "disha_turbidity": 20 }
+  },
+  "status": "ACTIVE",
+  "evidence": ["narrative/docs/maps/underground_map.md"],
+  "confidence": "CONFIRMED"
+}

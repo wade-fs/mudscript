@@ -1,0 +1,87 @@
+{
+  "schema_version": "1.1",
+  "region_id": "realm_wanwu",
+  "name": "萬物主機城",
+  "civ_level": "pole_citadel",
+  "region_type": "DONG_TIAN_POLE",
+  "coords": [220, 1120, 1200],
+  "geography": {
+    "position": null,
+    "coordinate_space": "LOCAL_GAME_SPACE",
+    "precision": "RELATIVE_COORDS",
+    "terrain": "alloy_mainframe_complex",
+    "description": "洞天三極之一，掌《離艦火種總約》檔案庫、九城離線節點匯流井與二十四座外環維修站"
+  },
+  "resources": {
+    "primary_product": "conduit_valves",
+    "secondary_product": "alloy_casing",
+    "demand": ["salt_crystal_jin", "black_iron_conduit", "alloy_scrap"],
+    "reserves": {
+      "salt_crystal_jin": 4200,
+      "black_iron_rings": 90,
+      "alloy_scrap": 6000
+    },
+    "price_index": 100
+  },
+  "factions": {
+    "wanwu_mainframe_directors": {
+      "power": 45,
+      "agenda": "withhold_salt_quotas_for_calibrations"
+    },
+    "wanwu_scrap_ring_artisans": {
+      "power": 35,
+      "agenda": "coordinate_general_strike_and_parity"
+    },
+    "equal_charter_arbitrators": {
+      "power": 20,
+      "agenda": "enforce_charter_articles_7_and_9"
+    }
+  },
+  "crisis_deck": [
+    {
+      "id": "scrap_ring_general_strike",
+      "base_weight": 35,
+      "trigger_metric": "labor_solidarity"
+    },
+    {
+      "id": "salt_levy_embezzlement",
+      "base_weight": 25,
+      "trigger_metric": "charter_legitimacy"
+    },
+    {
+      "id": "conduit_well_backflow",
+      "base_weight": 25,
+      "trigger_metric": "beacon_readiness"
+    },
+    {
+      "id": "charter_arbitration_impasse",
+      "base_weight": 15,
+      "trigger_metric": "array_deflection"
+    }
+  ],
+  "zone_refs": [
+    {
+      "zone_id": "realm_wanwu_mainframe",
+      "type": "pole_archive",
+      "tier": 3
+    },
+    {
+      "zone_id": "realm_wanwu_scrap_ring",
+      "type": "artisan_ring",
+      "tier": 3
+    }
+  ],
+  "lpc_rooms": [
+    "/d/realm/wanwu/scrap_ring.c",
+    "/d/realm/wanwu/ark_registry_hall.c",
+    "/d/realm/wanwu/nine_city_node.c",
+    "/d/realm/wanwu/arbitration_bridge.c",
+    "/d/realm/wanwu/conduit_well.c"
+  ],
+  "confidence": "CONFIRMED",
+  "evidence": [
+    "world/lore/second_era_ark_canon.md",
+    "narrative/events/volume4_events.md",
+    "data/event_defs/tier3_calibration.json"
+  ]
+}

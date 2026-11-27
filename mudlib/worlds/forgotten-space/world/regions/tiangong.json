@@ -1,0 +1,84 @@
+{
+  "schema_version": "1.1",
+  "region_id": "tiangong",
+  "name": "天工宗",
+  "civ_level": "sect",
+  "region_type": "SECT",
+  "coords": [190, 520, 210],
+  "geography": {
+    "position": null,
+    "coordinate_space": "LOCAL_GAME_SPACE",
+    "precision": "RELATIVE_COORDS",
+    "terrain": "industrial_mountain_foundry",
+    "description": "百機鍛造爐火日夜不息的宗門工坊與四號封存庫房所在"
+  },
+  "resources": {
+    "primary_product": "precision_gears",
+    "secondary_product": "black_iron_conduit",
+    "demand": ["raw_iron", "charcoal", "alum", "timber"],
+    "reserves": {
+      "refined_steel": 12000,
+      "coal": 16000,
+      "spare_puppets": 180
+    },
+    "price_index": 100
+  },
+  "factions": {
+    "tiangong_senior_artificers": {
+      "power": 55,
+      "agenda": "standardize_detachable_mechanisms"
+    },
+    "tiangong_furnace_apprentices": {
+      "power": 45,
+      "agenda": "reduce_furnace_slag_hazards"
+    }
+  },
+  "crisis_deck": [
+    {
+      "id": "vault_four_seal_leak",
+      "base_weight": 30,
+      "trigger_metric": "evidence_verifiability"
+    },
+    {
+      "id": "mechanism_feedback_burnout",
+      "base_weight": 30,
+      "trigger_metric": "settlement_resilience"
+    },
+    {
+      "id": "slag_pit_congestion",
+      "base_weight": 20,
+      "trigger_metric": "civilian_trust"
+    },
+    {
+      "id": "raw_iron_shortfall",
+      "base_weight": 20,
+      "trigger_metric": "assault_cost"
+    }
+  ],
+  "zone_refs": [
+    {
+      "zone_id": "tiangong_forges",
+      "type": "foundry",
+      "tier": 2
+    },
+    {
+      "zone_id": "tiangong_deep_vaults",
+      "type": "ancient_vault",
+      "tier": 2
+    }
+  ],
+  "lpc_rooms": [
+    "/d/sects/tiangong/gate.c",
+    "/d/sects/tiangong/forge_yard.c",
+    "/d/sects/tiangong/apprentice_shed.c",
+    "/d/sects/tiangong/slag_pit.c",
+    "/d/sects/tiangong/thousand_mechanisms_hall.c",
+    "/d/sects/tiangong/machinery_depths.c",
+    "/d/sects/tiangong/vault_four.c"
+  ],
+  "confidence": "CONFIRMED",
+  "evidence": [
+    "narrative/events/volume3_events.md",
+    "data/event_defs/tier2_crisis.json"
+  ]
+}

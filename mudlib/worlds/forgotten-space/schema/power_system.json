@@ -1,0 +1,20 @@
+{
+  "type": "power_system",
+  "id": "san_wei_dao",
+  "name": "法・力・物三維道統體系",
+  "stat_labels": {
+    "str": "臂力",
+    "con": "根骨",
+    "int": "悟性",
+    "spi": "靈性",
+    "dex": "靈巧",
+    "per": "感知"
+  },
+  "realms": [
+    { "min_level": 1,  "max_level": 9,  "name": "凡胎" },
+    { "min_level": 10, "max_level": 19, "name": "引氣" },
+    { "min_level": 20, "max_level": 29, "name": "凝罡" },
+    { "min_level": 30, "max_level": 39, "name": "聚丹" },
+    { "min_level": 40, "max_level": 99, "name": "通玄" }
+  ]
+}

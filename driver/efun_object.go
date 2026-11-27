@@ -273,7 +273,10 @@ func (d *Driver) registerPersistenceEfuns(obj *object.LPCObject) {
 				return &object.Integer{Value: 0}
 			}
 
-			fullPath := filepath.Join(d.Config.MudLibPath, fileName)
+			fullPath, err := d.ResolveWritePath(fileName)
+			if err != nil {
+				return &object.Integer{Value: 0}
+			}
 
 			saveData := make(map[string]interface{})
 			for k, v := range obj.Vars.GetAll() {
@@ -317,7 +320,10 @@ func (d *Driver) registerPersistenceEfuns(obj *object.LPCObject) {
 			if !strings.HasSuffix(fileName, ".o") {
 				fileName += ".o"
 			}
-			fullPath := filepath.Join(d.Config.MudLibPath, fileName)
+			fullPath, err := d.ResolveWritePath(fileName)
+			if err != nil {
+				return &object.Integer{Value: 0}
+			}
 
 			jsonData, err := os.ReadFile(fullPath)
 			if err != nil {

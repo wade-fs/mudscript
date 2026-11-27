@@ -1,0 +1,51 @@
+{
+  "id": "v4_act2_wanwu_ark_registry",
+  "name": "萬物外環：九號艙名錄與破匣換債",
+  "chapter": "Ch.0137-Ch.0138",
+  "category": "main",
+  "type": "once",
+  "region": "realm_wanwu",
+  "start_npc": "wanwu_auditor_qi",
+  "start_topic": "銅匣",
+  "steps": [
+    {
+      "step": 1,
+      "title": "承作高公差車軸以換取拆匣資格",
+      "hint": "在萬物外環工棚以九級公差車製備用銅軸取得戚老頭信任 (repair axle)。",
+      "target_type": "action",
+      "action_verb": "repair",
+      "action_target": "axle",
+      "location": "/d/realm/wanwu/scrap_ring",
+      "on_complete": {
+        "give_item": "/clone/item/steady_copper_core.c",
+        "msg": "戚老頭驗收車軸後開啟密閉銅匣，並替你鍛出三枚無毒穩壓銅芯以清償衡真之債。"
+      }
+    },
+    {
+      "step": 2,
+      "title": "應對監察員陳楷的無主材料清零查核",
+      "hint": "在萬物外環向監察員陳楷應詢達標率與材料清零條例 (ask wanwu_inspector_chen about 清零)。",
+      "target_type": "talk",
+      "target_npc": "wanwu_inspector_chen",
+      "target_topic": "清零",
+      "location": "/d/realm/wanwu/scrap_ring"
+    },
+    {
+      "step": 3,
+      "title": "潛查方舟登錄廊九號倉離艦底冊",
+      "hint": "隨戚老頭潛入方舟登錄廊比對太虛銅匣與九號艙失蹤宗門火種清單 (check manifest)。",
+      "target_type": "action",
+      "action_verb": "check",
+      "action_target": "manifest",
+      "location": "/d/realm/wanwu/ark_registry_hall",
+      "on_complete": {
+        "give_item": "/clone/item/ark_pod_nine_manifest.c",
+        "msg": "你抄錄九號艙離艦原始名錄，赫然見戰祖外營冒領高純鹽晶與石堡先民遺漏檔案皆有蛛絲馬跡。"
+      }
+    }
+  ],
+  "rewards": {
+    "exp": 1200,
+    "pot": 340
+  }
+}

@@ -1,0 +1,79 @@
+{
+  "id": "v3_act4_sanyuan_defense",
+  "name": "半山毒域暨長城破關：三元陣鎮山河",
+  "chapter": "Ch.0117-Ch.0119",
+  "category": "main",
+  "type": "once",
+  "region": "bahuang",
+  "requirements": {
+    "level": 88
+  },
+  "start_npc": "lu_guanlan",
+  "start_topic": "壓陣",
+  "steps": [
+    {
+      "step": 1,
+      "title": "毒域東側副陣柱搶箱救衛士與陸觀瀾",
+      "hint": "登上問道高台邊緣結晶毒域救援區，輸入 brace pillar 在二十息內撬出護箱衛士並搶救壓陣三十息的陸觀瀾。",
+      "target_type": "action",
+      "action_verb": "brace",
+      "action_target": "pillar",
+      "location": "/d/yunjin/crystal_poison_edge",
+      "on_complete": {
+        "msg": "陸觀瀾以半邊經絡代價壓偏星煞三尺救出衛士與證物箱，赤煉則已趁最初三息由維修井暗門潛逃。"
+      }
+    },
+    {
+      "step": 2,
+      "title": "石牌坊迎風口十丈生石灰與百草隔離霧阻毒",
+      "hint": "退回雲津天台山道石牌坊迎風口輸入 spread lime 設生石灰防線與熬配百草中和隔離霧，遏止毒域下壓盆地。",
+      "target_type": "action",
+      "action_verb": "spread",
+      "action_target": "lime",
+      "location": "/d/yunjin/stone_arch_quarantine",
+      "on_complete": {
+        "give_item": "/clone/item/sanyuan_isolation_mist.c",
+        "msg": "百草隔離霧將毒域止在距盆地半里處（此霧只抑擴散，尚不能根治鶴壽與晶化傷患）。"
+      }
+    },
+    {
+      "step": 3,
+      "title": "長城西段缺口立三元鎮脈陣頂住二道內門",
+      "hint": "馳援黑山長城西段三十丈崩塌缺口，輸入 stabilize array 以純淨地火驅動巨靈神機與逆星歲差三元大陣鎖定骨龍。",
+      "target_type": "action",
+      "action_verb": "stabilize",
+      "action_target": "array",
+      "location": "/d/sects/bahuang/west_wall_breach",
+      "on_complete": {
+        "msg": "巨靈神機硬生生架住骨龍冰尾半息，三元星網鎖定牠左肋下方熔岩燙傷舊創！"
+      }
+    },
+    {
+      "step": 4,
+      "title": "破核重創並擊退冰獄骨龍王",
+      "hint": "趁三元鎮脈陣牽制之隙，施《八荒破天弓》破核重創並迫退 Lv.95 冰獄骨龍（ice_bone_dragon）。",
+      "target_type": "kill",
+      "target_mob": "ice_bone_dragon",
+      "location": "/d/sects/bahuang/west_wall_breach",
+      "on_complete": {
+        "msg": "最後一枚黑背雪狼重箭炸穿骨龍左肋舊創迫牠帶傷遁回冰谷——黑鐵連接桿報廢，雪地留下八十餘具冰冷屍骨。"
+      }
+    },
+    {
+      "step": 5,
+      "title": "向鐵背山主確認長城搶修與忠烈撫恤",
+      "hint": "返回問道天台質證高台向八荒掌門鐵背山主稟明「長城缺口」戰損實況與走山隊平反事宜。",
+      "target_type": "talk",
+      "target_npc": "tiebei_shanzhu",
+      "target_topic": "長城缺口",
+      "location": "/d/yunjin/hearing_hall",
+      "on_complete": {
+        "msg": "鐵背山主親頒五份《忠烈歸籍與撫恤憑證》予韓素，唯春融搶修三十丈長城缺口與救治傷患重任仍在肩頭。"
+      }
+    }
+  ],
+  "rewards": {
+    "exp": 2100,
+    "pot": 560
+  }
+}

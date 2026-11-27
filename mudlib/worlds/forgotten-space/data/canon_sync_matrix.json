@@ -1,0 +1,495 @@
+{
+  "version": "1.1",
+  "description": "《遺忘的世界》敘事章節與 Mudlib 任務／房間／狀態變數雙向追蹤矩陣",
+  "mappings": [
+    {
+      "act_id": "vol1_act1_roots",
+      "novel_span": "Vol.1 Ch.0001 ~ Ch.0006",
+      "title": "寒村五子生存與初見微光",
+      "world_event": null,
+      "quests": [
+        "village_pass",
+        "herb_loop",
+        "mining_loop",
+        "pelt_loop",
+        "side_village_grain_errand",
+        "side_village_charcoal_stove",
+        "side_village_school_ink",
+        "wu_chain",
+        "li_chain",
+        "fa_chain",
+        "enc_map_fusion"
+      ],
+      "rooms": [
+        "d/village/stream.c",
+        "d/village/herb_hut.c",
+        "d/village/forge.c",
+        "d/village/hunter_cabin.c",
+        "d/village/daoist_temple.c",
+        "d/village/shed.c"
+      ],
+      "world_state_vars": [
+        "stream_water_level",
+        "stream_moss_cleared",
+        "herb_stock"
+      ],
+      "evidence_or_relics": [
+        "clone/item/stele_rubbing.c",
+        "clone/item/dao_crystal.c"
+      ]
+    },
+    {
+      "act_id": "vol1_act2_3_relics_and_mine",
+      "novel_span": "Vol.1 Ch.0007 ~ Ch.0018",
+      "title": "五器初鳴與古礦危機",
+      "world_event": "beast_surge",
+      "quests": [
+        "enc_stele_dawn",
+        "enc_ancient_iron",
+        "enc_forest_totem",
+        "enc_dao_crystal",
+        "enc_tianmen_token",
+        "rescue_miners",
+        "cycle_of_craft",
+        "rescue_maiden",
+        "ancient_order"
+      ],
+      "rooms": [
+        "d/village/stream.c",
+        "d/village/forge.c",
+        "d/village/forest.c",
+        "d/village/altar.c",
+        "d/village/shed.c",
+        "d/village/mine.c"
+      ],
+      "world_state_vars": [
+        "mine_stability",
+        "mine_collapsed",
+        "disha_activity"
+      ],
+      "evidence_or_relics": [
+        "clone/item/miner_thumbprints.c",
+        "clone/item/detonator_serial_ledger.c"
+      ]
+    },
+    {
+      "act_id": "vol1_act4_beast_surge",
+      "novel_span": "Vol.1 Ch.0019 ~ Ch.0032",
+      "title": "大荒煞潮",
+      "world_event": "beast_surge",
+      "quests": [
+        "A01_dead_gazelle",
+        "A02_reverse_tracks",
+        "B02_rockfall_diversion",
+        "C01_grain_inventory",
+        "D01_last_painkiller",
+        "E01_street_defense",
+        "G01_palisade_breach",
+        "hunting_chain",
+        "wolf_hunter"
+      ],
+      "rooms": [
+        "d/village/square.c",
+        "d/village/forest.c",
+        "d/village/mine.c",
+        "d/village/herb_hut.c"
+      ],
+      "world_state_vars": [
+        "forest_beast_alert",
+        "caravan_status",
+        "caravan_delay_reason"
+      ],
+      "evidence_or_relics": [
+        "clone/item/tainted_pelt.c"
+      ]
+    },
+    {
+      "act_id": "vol1_act5_military_crisis",
+      "novel_span": "Vol.1 Ch.0033 ~ Ch.0038",
+      "title": "黑石關多方博弈",
+      "world_event": "military_crisis",
+      "quests": [
+        "F03_testimony_cross_check",
+        "village_pass"
+      ],
+      "rooms": [
+        "d/village/square.c",
+        "d/village/shed.c"
+      ],
+      "world_state_vars": [
+        "garrison_lockdown",
+        "caravan_truth_reason"
+      ],
+      "evidence_or_relics": [
+        "clone/item/custody_ledger.c",
+        "clone/item/road_pass.c"
+      ]
+    },
+    {
+      "act_id": "vol2_arc1_arrival_and_detention",
+      "novel_span": "Vol.2 Ch.0039 ~ Ch.0046",
+      "title": "驛道入城・七十二小時居留與證物交接",
+      "world_event": null,
+      "quests": [
+        "v2_residency_72h",
+        "v2_panmu_transport"
+      ],
+      "rooms": [
+        "d/routes/red_stone_pass.c",
+        "d/city/gate/gate_south.c",
+        "d/city/center/yamen.c",
+        "d/city/center/yamen_archive.c"
+      ],
+      "world_state_vars": [
+        "residency_timer_72h",
+        "zhao_degui_custody_status",
+        "evidence_intake_logged"
+      ],
+      "evidence_or_relics": [
+        "clone/item/custody_ledger.c",
+        "clone/item/liefan_clay_batch.c"
+      ]
+    },
+    {
+      "act_id": "vol2_arc2_city_investigation",
+      "novel_span": "Vol.2 Ch.0047 ~ Ch.0057",
+      "title": "府城分線調查・六缺口物證與西水門危機",
+      "world_event": "west_watergate_crisis",
+      "quests": [
+        "v2_career_tier1_qualifications",
+        "v2_six_county_evidence",
+        "v2_six_evidence_gaps",
+        "v2_west_watergate_crisis",
+        "tier1_dao_initiation",
+        "tier1_gong_initiation",
+        "tier1_wu_initiation"
+      ],
+      "rooms": [
+        "d/city/center/yamen.c",
+        "d/city/center/clinic.c",
+        "d/city/north/gong_forge.c",
+        "d/city/south/market_special.c",
+        "d/city/south/shanghui_hq.c",
+        "d/city/west/dao_hall.c",
+        "d/city/under/canal_hub.c"
+      ],
+      "world_state_vars": [
+        "six_evidence_gaps_filled",
+        "watergate_sluice_status",
+        "canal_contamination_level",
+        "clock_anchor_30day"
+      ],
+      "evidence_or_relics": [
+        "clone/item/relay_poison_sample.c",
+        "clone/item/under_canal_deed.c",
+        "clone/item/evidence_six_gaps.c"
+      ]
+    },
+    {
+      "act_id": "vol2_arc3_fieldwork_tribunal_departure",
+      "novel_span": "Vol.2 Ch.0058 ~ Ch.0082",
+      "title": "六縣實勘・三方會審・出城北上",
+      "world_event": "tripartite_tribunal",
+      "quests": [
+        "v2_act4_tripartite_tribunal",
+        "v2_act5_tier2_admission"
+      ],
+      "rooms": [
+        "d/city/center/yamen.c",
+        "d/city/south/shanghui_hq.c",
+        "d/counties/liefan/west_gate.c",
+        "d/counties/zhuoshui/market.c",
+        "d/counties/panmu/north_gate.c",
+        "d/counties/zhongshi/market.c",
+        "d/counties/qinghe/ferry_dock.c",
+        "d/counties/zhenfeng/south_gate.c",
+        "d/routes/north_wind_highway.c"
+      ],
+      "world_state_vars": [
+        "tribunal_outcome",
+        "shanghui_frozen",
+        "tier2_admission_granted",
+        "WORLD_STATE_D"
+      ],
+      "evidence_or_relics": [
+        "clone/item/bronze_treaty_plate.c",
+        "clone/item/cross_state_trade_tally.c"
+      ]
+    },
+    {
+      "act_id": "vol3_sects_wastes_and_portal",
+      "novel_span": "Vol.3 Ch.0083 ~ Ch.0126",
+      "title": "北上三宗、北荒方舟與桃花源開門",
+      "world_event": "tier2_crisis",
+      "quests": [
+        "v3_northbound_and_yunjin_arrival",
+        "v3_act1_danding_valley",
+        "v3_act1_tiangong_forge",
+        "v3_act1_bahuang_gorge",
+        "v3_act1_taiqing_ladder",
+        "v3_five_way_evidence_convergence",
+        "v3_north_wastes_expedition",
+        "v3_five_relic_resonance",
+        "v3_north_wall_beast_surge",
+        "v3_act4_sanyuan_defense",
+        "v3_act5_lvl100_trials",
+        "v3_tier2_departure",
+        "v3_act1_cold_plain_rescue",
+        "v3_yuntu_market_charter",
+        "v3_taiqing_star_archive",
+        "v3_act2_taiqing_ascension_secret",
+        "v3_bahuang_bloodline_watch",
+        "v3_act2_bahuang_ghost_gorge",
+        "v3_tiangong_ancient_mechanism",
+        "v3_danding_blood_pill_cases",
+        "v3_act2_yunjin_ghost_and_sanyuan",
+        "v3_act3_war_god_tomb",
+        "v3_ark_excavation_evidence",
+        "v3_preserve_field_evidence",
+        "v3_act4_cloud_top_tournament",
+        "v3_cross_sect_evidence_audit",
+        "v3_evidence_chain_hearing",
+        "v3_crystal_quarantine_response",
+        "v3_postwar_reform_and_restitution",
+        "side_sect_copy_relief",
+        "side_sect_danding_herb_oops",
+        "side_sect_bahuang_bowstring",
+        "side_sect_tiangong_slag_pick",
+        "side_wastes_lost_goat"
+      ],
+      "rooms": [
+        "d/yunjin/wanshan_square.c",
+        "d/sects/danding/medical_archive.c",
+        "d/sects/tiangong/machinery_depths.c",
+        "d/sects/bahuang/black_mountain_camp.c",
+        "d/sects/taiqing/star_law_hall.c",
+        "d/wastes/ark_core_chamber.c",
+        "d/sects/taiqing/ark_portal_chamber.c",
+        "d/realm/peach_plateau.c"
+      ],
+      "world_state_vars": [
+        "tier2_crisis"
+      ],
+      "evidence_or_relics": [
+        "clone/item/ev3_drill_head.c",
+        "clone/item/ev3_mother_liquid_vial.c",
+        "clone/item/ev3_private_purchase_ledger.c",
+        "clone/item/ev3_expedition_roster.c",
+        "clone/item/ev3_yanshan_blood_note.c",
+        "clone/item/ev3_heart_guard_mirror.c",
+        "clone/item/wanshan_charter_deed.c"
+      ]
+    },
+    {
+      "act_id": "living_world_folk_layer",
+      "novel_span": "Vol.1~3 平民日常、時節因果與地方經濟連動",
+      "title": "凡間生活生態、六縣自主演進、因果跑商與六維傳聞",
+      "world_event": null,
+      "quests": [
+        "side_village_charcoal_stove",
+        "side_village_grain_errand",
+        "side_village_school_ink",
+        "side_city_vagrant_letter",
+        "side_city_trade_rumor",
+        "side_county_liefan_credit_grain",
+        "side_county_qinghe_mooring",
+        "side_county_panmu_charcoal_sled",
+        "side_route_storm_cargo",
+        "side_route_winter_hearth",
+        "side_route_wheel_repair",
+        "side_sect_bahuang_ration_tally",
+        "side_yunjin_coolie_tally",
+        "side_county_liefan_mungbean",
+        "side_county_panmu_raft",
+        "side_county_qinghe_ferry",
+        "side_county_zhenfeng_coat",
+        "side_county_zhongshi_axle",
+        "side_county_zhuoshui_bridge"
+      ],
+      "rooms": [
+        "d/village/chen_grain_shop.c",
+        "d/village/peddler_corner.c",
+        "d/village/earth_shrine.c",
+        "d/city/outer/tenement_alley.c",
+        "d/city/outer/charity_clinic_shed.c",
+        "d/city/outer/fish_market.c",
+        "d/counties/qinghe/ferry_dock.c",
+        "d/counties/liefan/miners_tea_shed.c",
+        "d/yunjin/river_wharf.c",
+        "d/yunjin/temple_tea_fair.c"
+      ],
+      "world_state_vars": [
+        "market_stocks",
+        "causal_events",
+        "merchant_strategies"
+      ],
+      "evidence_or_relics": [
+        "clone/item/temp_residency_pass.c",
+        "clone/item/trade_cargo.c"
+      ]
+    },
+    {
+      "act_id": "vol4_act1_ash_bastion",
+      "novel_span": "Vol.4 Ch.0127 ~ Ch.0134",
+      "title": "碎石寒原、灰燼石堡與初窺 K×U",
+      "world_event": "tier3_calibration",
+      "quests": [
+        "v4_act1_bastion_arrival",
+        "v4_act1_salt_market_stove",
+        "v4_act1_clinic_and_eagle_mark"
+      ],
+      "rooms": [
+        "d/realm/peach_plateau.c",
+        "d/realm/edge/basalt_ridge.c",
+        "d/realm/edge/ash_watch_post.c",
+        "d/realm/edge/stardust_salt_flats.c",
+        "d/realm/edge/edge_clinic.c",
+        "d/realm/edge/scorch_border.c"
+      ],
+      "world_state_vars": [
+        "tier3_calibration",
+        "tier3_k",
+        "tier3_u"
+      ],
+      "evidence_or_relics": [
+        "clone/item/edge_ration_wooden_tally.c",
+        "clone/item/spent_salt_crystal_core.c",
+        "clone/item/removable_stove_core.c",
+        "clone/item/bastion_salt_route_map.c",
+        "clone/item/yanshan_eagle_rubbing.c"
+      ]
+    },
+    {
+      "act_id": "vol4_act2_three_poles",
+      "novel_span": "Vol.4 Ch.0135 ~ Ch.0144",
+      "title": "分兵三極、九城補冊與九十日倒數合攏",
+      "world_event": "tier3_calibration",
+      "quests": [
+        "v4_act2_taixu_calibration_spy",
+        "v4_act2_wanwu_ark_registry",
+        "v4_act2_zhanzu_yanshan_trail",
+        "v4_act2_law_rejection_clinic",
+        "v4_act2_nine_city_offline_node",
+        "v4_act2_countdown_convergence"
+      ],
+      "rooms": [
+        "d/realm/taixu/white_jade_steps.c",
+        "d/realm/wanwu/scrap_ring.c",
+        "d/realm/wanwu/ark_registry_hall.c",
+        "d/realm/wanwu/nine_city_node.c",
+        "d/realm/zhanzu/hunting_camp.c",
+        "d/realm/edge/edge_clinic.c",
+        "d/realm/edge/ash_watch_post.c"
+      ],
+      "world_state_vars": [
+        "tier3_calibration",
+        "tier3_u"
+      ],
+      "evidence_or_relics": [
+        "clone/item/locked_data_casket.c",
+        "clone/item/taixu_calibration_log_copy.c",
+        "clone/item/steady_copper_core.c",
+        "clone/item/ark_pod_nine_manifest.c",
+        "clone/item/law_rejection_buffer_kit.c",
+        "clone/item/human_seed_quota_ledger.c"
+      ]
+    },
+    {
+      "act_id": "vol4_act3_shadow_war",
+      "novel_span": "Vol.4 Ch.0145 ~ Ch.0154",
+      "title": "工役互助密約、偏星三息、鬥獸救伯與十日緩期",
+      "world_event": "tier3_calibration",
+      "quests": [
+        "v4_act3_labor_pact_stations",
+        "v4_act3_three_pole_mutual_compact",
+        "v4_act3_cross_realm_broker_intercept",
+        "v4_act3_taixu_scan_deflection",
+        "v4_act3_arena_rescue_yanshan",
+        "v4_act3_human_seed_bridge_truce",
+        "v4_act3_ten_day_war_prep"
+      ],
+      "rooms": [
+        "d/realm/wanwu/scrap_ring.c",
+        "d/realm/wanwu/arbitration_bridge.c",
+        "d/realm/zhanzu/arena_pit.c",
+        "d/realm/edge/ash_watch_post.c",
+        "d/realm/edge/edge_clinic.c"
+      ],
+      "world_state_vars": [
+        "tier3_calibration",
+        "scan_deflected"
+      ],
+      "evidence_or_relics": [
+        "clone/item/three_pole_mutual_compact.c",
+        "clone/item/cross_realm_chihuo_crate.c",
+        "clone/item/yanshan_encrypted_tally.c",
+        "clone/item/sanyuan_shunt_valve.c"
+      ]
+    },
+    {
+      "act_id": "vol4_act4_calibration_break",
+      "novel_span": "Vol.4 Ch.0155 ~ Ch.0164",
+      "title": "大校準之夜五條並行戰線、平權契書與歸墟警報",
+      "world_event": "tier3_calibration",
+      "quests": [
+        "v4_act4_labor_strike_sanction",
+        "v4_act4_taixu_star_deflection",
+        "v4_act4_bone_gate_defense",
+        "v4_act4_clinic_fog_and_conduit",
+        "v4_act4_arbitration_equal_charter",
+        "v4_act4_postwar_clinic_relief"
+      ],
+      "rooms": [
+        "d/realm/wanwu/scrap_ring.c",
+        "d/realm/wanwu/conduit_well.c",
+        "d/realm/wanwu/arbitration_bridge.c",
+        "d/realm/taixu/calibration_hall.c",
+        "d/realm/taixu/crystal_tower_core.c",
+        "d/realm/zhanzu/bone_gate.c",
+        "d/realm/edge/edge_clinic.c"
+      ],
+      "world_state_vars": [
+        "tier3_calibration",
+        "labor_solidarity",
+        "array_deflection",
+        "outpost_defense",
+        "charter_legitimacy",
+        "guixu_seal_alerted"
+      ],
+      "evidence_or_relics": [
+        "clone/item/shen_yunnini_charter_edict.c",
+        "clone/item/taixu_calibration_log_copy.c",
+        "clone/item/sanyuan_shunt_valve.c",
+        "clone/item/law_rejection_buffer_kit.c"
+      ],
+      "_evidence_note": "收錄「關鍵正典物證」：沈雲妮總約為制度物證，衡真日誌為太虛星軸物證，分流總栓與緩衝套件為機械工程物證。楔木卸力裝置、連接桿等一般任務道具不收錄。"
+    },
+    {
+      "act_id": "vol4_act5_beacon_and_guixu",
+      "novel_span": "Vol.4 Ch.0165 ~ Ch.0170",
+      "title": "三百斤微光信標、自治抉擇、三元雛流與歸墟門縫",
+      "world_event": "tier3_calibration",
+      "quests": [
+        "v4_act5_beacon_crystal_gathering",
+        "v4_act5_two_way_beacon_and_guixu",
+        "v4_act5_bastion_autonomy_council",
+        "v4_act5_three_yuan_prototype_trial"
+      ],
+      "rooms": [
+        "d/realm/edge/beacon_relay.c",
+        "d/realm/edge/ash_watch_post.c",
+        "d/realm/edge/basalt_ridge.c",
+        "d/realm/peach_plateau.c"
+      ],
+      "world_state_vars": [
+        "tier3_calibration",
+        "beacon_readiness",
+        "beacon_tested"
+      ],
+      "evidence_or_relics": [
+        "clone/item/two_way_beacon_token.c",
+        "clone/item/guixu_threshold_record.c"
+      ]
+    }
+  ]
+}

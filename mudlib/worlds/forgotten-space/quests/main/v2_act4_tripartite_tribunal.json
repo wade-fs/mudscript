@@ -1,0 +1,151 @@
+{
+  "id": "v2_act4_tripartite_tribunal",
+  "name": "信用凍結：三方會審與大庫之決",
+  "chapter": "Ch.0068-Ch.0076",
+  "category": "main",
+  "type": "once",
+  "region": "jinshi",
+  "start_npc": "pawnshop_jiachaofeng",
+  "start_topic": "成色",
+  "requirements": {
+    "level": 20
+  },
+  "steps": [
+    {
+      "step": 1,
+      "title": "信用擠兌與準備金成色破綻",
+      "hint": "在通寶當鋪向賈朝奉查驗錢百川準備金成色破綻 (ask jiachaofeng about 成色)。",
+      "target_type": "talk",
+      "target_npc": "pawnshop_jiachaofeng",
+      "target_topic": "成色",
+      "location": "/d/city/center/pawnshop",
+      "on_complete": {
+        "msg": "【成色告破】賈朝奉比對總號底冊與南關入城稅單，揭穿錢百川扣押足色條銀製造擠兌之陰謀！"
+      }
+    },
+    {
+      "step": 2,
+      "title": "常平倉平糶與分級保命決策",
+      "hint": "在常平倉核清糧垛後決定賑濟方針：以工代賑五人組平糶 (allocate work_relief) 或嚴控鎖倉限購 (allocate ration_freeze)。",
+      "target_type": "action",
+      "action_verb": "allocate",
+      "location": "/d/city/center/granary",
+      "choices": [
+        {
+          "target": "work_relief",
+          "label": "五人組以工代賑平糶（壓低市價、民心歸附）",
+          "msg": "【常平定盤】劉秉忠依你建言推行五人組以工代賑平糶，即時放糧壓住西城糧價、穩住坊民！",
+          "region_effects": {
+            "region": "jinshi",
+            "faction_deltas": { "prefect_office": 8, "chamber_of_commerce": -4 },
+            "reserve_deltas": { "grain_granary": -400 },
+            "price_delta": -6
+          }
+        },
+        {
+          "target": "ration_freeze",
+          "label": "軍民分儲鎖倉限購（充實官倉、嚴防擠兌）",
+          "msg": "【鎖倉備荒】劉秉忠依你建言優先清點鎖倉防弊，官倉儲備穩增，但市面米價一時難降。",
+          "region_effects": {
+            "region": "jinshi",
+            "faction_deltas": { "prefect_office": 10, "chamber_of_commerce": -8 },
+            "reserve_deltas": { "grain_granary": 600 },
+            "price_delta": 4
+          }
+        }
+      ]
+    },
+    {
+      "step": 3,
+      "title": "西水門苦參替代方解毒救險",
+      "hint": "在杏林醫館向白先生請教苦參配方替補西水門藥荒 (ask doctor_bai about 苦參)。",
+      "target_type": "talk",
+      "target_npc": "clinic_baixiansheng",
+      "target_topic": "苦參",
+      "location": "/d/city/center/clinic",
+      "on_complete": {
+        "msg": "【苦參替補】白先生以本地苦參大黃替補斷供靈藥，瓦解黑市投機，挽救西水門數千中毒坊民！"
+      }
+    },
+    {
+      "step": 4,
+      "title": "渠首大閘螺紋頂升衝沙排險",
+      "hint": "在千錘地爐坊向莫錘大師核對渠首金剛砂磨損與排沙應對 (ask mochui about 金剛砂)。",
+      "target_type": "talk",
+      "target_npc": "gong_forge_mochui",
+      "target_topic": "金剛砂",
+      "location": "/d/city/north/gong_forge",
+      "on_complete": {
+        "give_item": "/clone/item/miner_thumbprints.c",
+        "msg": "【人證合流】莫錘大師與逃出生天的老礦工淚灑當場，交出二十二枚血指手印控狀，正式頒予【黑石鋪倖存礦工指血結狀】！"
+      }
+    },
+    {
+      "step": 5,
+      "title": "官禁硝火作軍需雷管存根核驗",
+      "hint": "在官禁硝火作向老工匠查核內堂走私雷管領料存根 (ask fireworks_master about 存根)。",
+      "target_type": "talk",
+      "target_npc": "gong_fireworks_master",
+      "target_topic": "存根",
+      "location": "/d/city/north/gong_fireworks",
+      "on_complete": {
+        "give_item": "/clone/item/detonator_serial_ledger.c",
+        "msg": "【火印合牙】老工匠取出鋼齒鋸齒存根，與炸毀古礦的雷管碎片分毫不差，正式頒予【軍需雷管雙聯火印存根】！"
+      }
+    },
+    {
+      "step": 6,
+      "title": "天字一號密室火漆封印正底單",
+      "hint": "在府衙案牘庫當案查驗編號並完成正底單火漆封印 (seal deed)。",
+      "target_type": "action",
+      "action_verb": "seal",
+      "action_target": "deed",
+      "location": "/d/city/center/yamen_archive",
+      "on_complete": {
+        "give_item": "/clone/item/under_canal_deed.c",
+        "msg": "【火漆公證】你親手協助主簿文承敬完成正底單雙印火漆封印，保管鏈滴水不漏，獲頒【總堂血精交割正底單】！"
+      }
+    },
+    {
+      "step": 7,
+      "title": "府衙正堂三印合符審定裁決",
+      "hint": "在府衙正堂三方會審公案前擇定裁決：三印抄沒補倉 (adjudicate seize_assets) 或公證託管保商埠平穩 (adjudicate public_trusteeship)。",
+      "target_type": "action",
+      "action_verb": "adjudicate",
+      "location": "/d/city/center/yamen",
+      "choices": [
+        {
+          "target": "seize_assets",
+          "label": "三印抄沒非法屯銀補倉平市（徹底瓦解囤積、重挫內堂私股）",
+          "msg": "【三印抄沒】驚堂木重落！錢百川革職下獄並抄沒非法私庫撥入常平倉，黑市囤貨立時潰散！",
+          "region_effects": {
+            "region": "jinshi",
+            "resolve_crises": [ "black_market_speculation" ],
+            "faction_deltas": { "prefect_office": 10, "chamber_of_commerce": -10 },
+            "price_delta": -10
+          }
+        },
+        {
+          "target": "public_trusteeship",
+          "label": "主犯下獄・商會餘產改歸公證託管（保六縣商道週轉不致斷裂）",
+          "msg": "【公證託管】驚堂木重落！錢百川革職收押，商會正當行號改歸蘇凝霜與府衙聯合託管，六縣信用穩步恢復！",
+          "region_effects": {
+            "region": "jinshi",
+            "resolve_crises": [ "black_market_speculation" ],
+            "faction_deltas": { "prefect_office": 6, "chamber_of_commerce": 4 },
+            "price_delta": -4
+          }
+        }
+      ],
+      "on_complete": {
+        "give_item": "/clone/item/tripartite_warrant.c",
+        "msg": "【三印合符】府尹秦正明簽押頒發【三方會審三印合符裁決書】！"
+      }
+    }
+  ],
+  "rewards": {
+    "exp": 8000,
+    "pot": 2500,
+    "money": 5000
+  }
+}

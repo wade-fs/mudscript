@@ -1,0 +1,65 @@
+{
+  "id": "v3_tiangong_ancient_mechanism",
+  "name": "天工地窟：不融黑鐵與巨靈神機",
+  "chapter": "Ch.0095",
+  "category": "main",
+  "type": "once",
+  "region": "tiangong",
+  "start_npc": "ji_heng",
+  "start_topic": "機件檢修",
+  "steps": [
+    {
+      "step": 1,
+      "title": "領取地窟安全閘巡檢權限",
+      "hint": "於萬機地窟向值守匠師季衡確認《地窟安全閘巡檢簿》與巨靈神機維護規範。",
+      "target_type": "talk",
+      "target_npc": "ji_heng",
+      "target_topic": "維護",
+      "location": "/d/sects/tiangong/machinery_depths",
+      "on_complete": {
+        "msg": "季衡准予清擦外圈聯動齒輪，並警告銅管脆化麻點與本月三次主軸異常脈衝。"
+      }
+    },
+    {
+      "step": 2,
+      "title": "實測神機黑鐵主軸共鳴與脈衝",
+      "hint": "在萬機地窟輸入 inspect core 比對腰間不融黑鐵齒輪與三尺黑色主軸螺紋。",
+      "target_type": "action",
+      "action_verb": "inspect",
+      "action_target": "core",
+      "location": "/d/sects/tiangong/machinery_depths",
+      "on_complete": {
+        "msg": "不融黑鐵齒輪與神機黑色主軸發生強烈磁吸共鳴，雙曲線倒角竟完全出自同源母模。"
+      }
+    },
+    {
+      "step": 3,
+      "title": "合繪推進錨機延長線草圖",
+      "hint": "前往陣圖工房與聞九商議後輸入 trace blueprint 繪製斜向鋼樑受力延長線。",
+      "target_type": "action",
+      "action_verb": "trace",
+      "action_target": "blueprint",
+      "location": "/d/sects/tiangong/array_drafting_room",
+      "on_complete": {
+        "give_item": "/clone/item/tiangong_anchor_blueprint.c",
+        "msg": "你與聞九證實巨靈神機實為超巨型平台之推進錨機或轉向關節，將草圖與脆化鐵屑封存貼身。"
+      }
+    },
+    {
+      "step": 4,
+      "title": "依安全規程阻攔血精晶柱試車",
+      "hint": "回到千鍛地火廊向魯長老稟報脆化風險評估，依規停機封存晶柱。",
+      "target_type": "talk",
+      "target_npc": "lu_zhanglao",
+      "target_topic": "停機",
+      "location": "/d/sects/tiangong/thousand_mechanisms_hall",
+      "on_complete": {
+        "msg": "魯長老會同監察文吏將六根高純血精晶柱封入四號庫房，待北荒勘探壓力圖再議。"
+      }
+    }
+  ],
+  "rewards": {
+    "exp": 820,
+    "pot": 240
+  }
+}

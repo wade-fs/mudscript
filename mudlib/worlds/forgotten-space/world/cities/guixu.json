@@ -1,0 +1,19 @@
+{
+  "schema_version": "1.1",
+  "id": "guixu",
+  "name": "歸墟城",
+  "aliases": ["不可知境", "虛空裂隙"],
+  "civilization_role": "能量迴圈與異常邊界",
+  "spatial_type": "spatial_rupture_singularity",
+  "status": "shifting_spacetime_rift",
+  "ancient_status": "RUINED",
+  "remaining_structure_status": "UNKNOWN",
+  "modern_manifestation": "shifting_spacetime_rift",
+  "access_status": "UNSTABLE",
+  "known_by": ["ancient_myths", "high_tier_explorers"],
+  "evidence": "world/lore/nine_cities_canon.md",
+  "confidence": "CONFIRMED",
+  "zones": ["rift_threshold", "void_abyss", "spacetime_nexus"],
+  "dependencies": ["tianshu", "zhenyue"],
+  "topology": ["unknown_spatial_drift"]
+}

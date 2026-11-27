@@ -1,0 +1,7 @@
+{
+  "title": "新世界範本 — MudScript",
+  "css_vars": {
+    "--accent": "#4CAF50",
+    "--accent-dim": "rgba(76, 175, 80, 0.25)"
+  }
+}

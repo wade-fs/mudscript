@@ -1,0 +1,49 @@
+{
+  "id": "v4_act2_zhanzu_yanshan_trail",
+  "name": "戰祖外營：重力獵殺與斷目燕山",
+  "chapter": "Ch.0139-Ch.0140",
+  "category": "main",
+  "type": "once",
+  "region": "realm_zhanzu",
+  "start_npc": "zhanzu_packmaster_tuo",
+  "start_topic": "心核",
+  "steps": [
+    {
+      "step": 1,
+      "title": "查問戰祖馱隊隊長託古有關加徵黑帳",
+      "hint": "在戰祖外營向馱隊隊長託古打聽額外三成獸核去向與韓石虛報案 (ask zhanzu_packmaster_tuo about 心核)。",
+      "target_type": "talk",
+      "target_npc": "zhanzu_packmaster_tuo",
+      "target_topic": "心核",
+      "location": "/d/realm/zhanzu/hunting_camp"
+    },
+    {
+      "step": 2,
+      "title": "於赤炎高重力場實戰獵殺熔骨獸",
+      "hint": "在戰祖外營以截脈停頓身法協助獵群擊殺赤炎熔骨獸 (hunt beast)。",
+      "target_type": "action",
+      "action_verb": "hunt",
+      "action_target": "beast",
+      "location": "/d/realm/zhanzu/hunting_camp",
+      "on_complete": {
+        "msg": "你在兩倍半重力壓制下悟通截息卸力法門，成功配合獵群放倒熔骨獸並取下無毒心核樣本。"
+      }
+    },
+    {
+      "step": 3,
+      "title": "與獨眼老獵頭燕山暗號相認並取得暗倉線索",
+      "hint": "向獨眼老獵頭燕山打聽三號廢鹽倉暗存線索與五年血樣名錄 (ask yan_shan about 暗倉)。",
+      "target_type": "talk",
+      "target_npc": "yan_shan",
+      "target_topic": "暗倉",
+      "location": "/d/realm/zhanzu/hunting_camp",
+      "on_complete": {
+        "msg": "燕山囑咐你先別衝動搶救，將韓石暗藏高純鹽晶與換防血樣座標交給顧玄與石堡醫棚核對。"
+      }
+    }
+  ],
+  "rewards": {
+    "exp": 1250,
+    "pot": 350
+  }
+}

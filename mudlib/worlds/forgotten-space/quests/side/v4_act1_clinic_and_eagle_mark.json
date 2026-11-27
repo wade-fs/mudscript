@@ -1,0 +1,53 @@
+{
+  "id": "v4_act1_clinic_and_eagle_mark",
+  "name": "邊緣醫棚診治、測風與西南鷹記",
+  "chapter": "Ch.0130-Ch.0134",
+  "category": "side",
+  "type": "once",
+  "region": "realm_edge",
+  "start_npc": "stone_clinic_healer_su",
+  "start_topic": "排異",
+  "steps": [
+    {
+      "step": 1,
+      "title": "診斷律令排異症並示範冷敷隔塵",
+      "hint": "在邊緣緩衝醫站與蘇青竹一同檢查晶化鹽夫病灶，停止溫補改用苦苔礦灰冷敷 (diagnose patient)。",
+      "target_type": "action",
+      "action_verb": "diagnose",
+      "action_target": "patient",
+      "location": "/d/realm/edge/edge_clinic",
+      "on_complete": {
+        "msg": "你確認『律令排異症』須集齊三極樣本方得配製緩衝方，取閱石堡三百年病例簿後離開醫棚。"
+      }
+    },
+    {
+      "step": 2,
+      "title": "夜測玄武岩風道幾何張力與頻率夜飄",
+      "hint": "前往玄武岩風道以測量銅尺與炭筆測算大氣張力切線 (measure vector)。",
+      "target_type": "action",
+      "action_verb": "measure",
+      "action_target": "vector",
+      "location": "/d/realm/edge/basalt_ridge",
+      "on_complete": {
+        "msg": "你記下底層幾何頻率每夜微幅上飄的暗兆，並順張力切線領悟了低耗的『無星向量牽引』。"
+      }
+    },
+    {
+      "step": 3,
+      "title": "於赤黑焦土邊坡拓印燕山左撇鷹記",
+      "hint": "潛往西南赤黑焦土獵界邊坡，拂去岩縫黑灰拓印獵戶暗記 (rub mark)。",
+      "target_type": "action",
+      "action_verb": "rub",
+      "action_target": "mark",
+      "location": "/d/realm/edge/scorch_border",
+      "on_complete": {
+        "give_item": "/clone/item/yanshan_eagle_rubbing.c",
+        "msg": "你成功拓下三至五年風化層的燕山左撇雙羽鷹記，並記下戰祖外營加徵三成心核的異象！"
+      }
+    }
+  ],
+  "rewards": {
+    "exp": 1050,
+    "pot": 300
+  }
+}

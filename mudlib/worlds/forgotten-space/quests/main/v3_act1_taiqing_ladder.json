@@ -1,0 +1,53 @@
+{
+  "id": "v3_act1_taiqing_ladder",
+  "name": "太清問心：千丈雲梯測公差",
+  "chapter": "Ch.0086",
+  "category": "main",
+  "type": "once",
+  "region": "taiqing",
+  "start_npc": "lu_guanlan",
+  "start_topic": "登天梯",
+  "steps": [
+    {
+      "step": 1,
+      "title": "領取問心陣考驗規程",
+      "hint": "於登天雲梯山門向陸觀瀾請教問心陣考核規則。",
+      "target_type": "talk",
+      "target_npc": "lu_guanlan",
+      "target_topic": "問心陣",
+      "location": "/d/sects/taiqing/gate",
+      "on_complete": {
+        "msg": "陸觀瀾說明了三百六十五階問心陣考驗，你決定不靠叩拜而以實證心算登頂。"
+      }
+    },
+    {
+      "step": 2,
+      "title": "實測雲梯星力滯後公差",
+      "hint": "在登天雲梯山門輸入 measure ladder 測算東北測星柱星力傳導公差並登頂。",
+      "target_type": "action",
+      "action_verb": "measure",
+      "action_target": "ladder",
+      "location": "/d/sects/taiqing/gate",
+      "on_complete": {
+        "msg": "你捕捉到東北側測星柱固定滯後千分之三息的結構誤差，脊背挺直踏上雲頂。"
+      }
+    },
+    {
+      "step": 3,
+      "title": "呈交誤差實錄受領玉牌",
+      "hint": "前往周天星律院向宋知微呈交實測誤差草稿。",
+      "target_type": "talk",
+      "target_npc": "song_zhiwei",
+      "target_topic": "誤差",
+      "location": "/d/sects/taiqing/star_law_hall",
+      "on_complete": {
+        "give_item": "/clone/item/cred_taiqing_outer_token.c",
+        "msg": "宋知微破格錄你為周天星律院外門上等經生，並頒予太清外門玉牌。"
+      }
+    }
+  ],
+  "rewards": {
+    "exp": 700,
+    "pot": 220
+  }
+}

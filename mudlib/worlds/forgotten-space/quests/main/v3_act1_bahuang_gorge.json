@@ -1,0 +1,52 @@
+{
+  "id": "v3_act1_bahuang_gorge",
+  "name": "八荒試煉：黑石峽鐵背荒狼",
+  "chapter": "Ch.0087",
+  "category": "main",
+  "type": "once",
+  "region": "bahuang",
+  "start_npc": "yue_tingshan",
+  "start_topic": "問心谷",
+  "steps": [
+    {
+      "step": 1,
+      "title": "領受煞血試煉禁律",
+      "hint": "於萬鈞問心谷向教頭岳停山了解黑石峽試煉規則。",
+      "target_type": "talk",
+      "target_npc": "yue_tingshan",
+      "target_topic": "試煉",
+      "location": "/d/sects/bahuang/gate",
+      "on_complete": {
+        "msg": "岳停山嚴誡不得強催氣血自焚，並交代黑石峽頭狼習性。"
+      }
+    },
+    {
+      "step": 2,
+      "title": "擊殺缺耳鐵背荒狼王",
+      "hint": "穿入黑石峽試煉道，節制氣血並擊殺二階缺耳鐵背狼王（ironback_wolf）。",
+      "target_type": "kill",
+      "target_mob": "ironback_wolf",
+      "location": "/d/sects/bahuang/black_stone_gorge",
+      "on_complete": {
+        "msg": "你以精準一箭震殺頭狼迫散狼群，同時護住鬼門彎棄考傷兵。"
+      }
+    },
+    {
+      "step": 3,
+      "title": "黑山營報到領取腰牌",
+      "hint": "前往黑山煞血營向獨臂老將雷烈報到。",
+      "target_type": "talk",
+      "target_npc": "lei_lie",
+      "target_topic": "入營",
+      "location": "/d/sects/bahuang/black_mountain_camp",
+      "on_complete": {
+        "give_item": "/clone/item/cred_bahuang_camp_plate.c",
+        "msg": "雷烈認出你的扣弓壓腕習慣，按規矩頒予八荒黑山營腰牌並囑咐留命在先。"
+      }
+    }
+  ],
+  "rewards": {
+    "exp": 750,
+    "pot": 230
+  }
+}

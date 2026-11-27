@@ -1,0 +1,54 @@
+{
+  "id": "side_county_panmu_raft",
+  "name": "倒影澗畔・扎排下水",
+  "chapter": "Ch.0042-Ch.0066",
+  "category": "side",
+  "type": "once",
+  "start_npc": "panmu_raftsman",
+  "start_topic": "木排",
+  "requirements": {
+    "level": 2
+  },
+  "steps": [
+    {
+      "step": 1,
+      "title": "在木排下水碼頭幫林四捆紮冷杉木排",
+      "hint": "在盤木縣木排下水碼頭用粗棕繩與鐵箍將冷杉原木捆紮牢固 (lash raft)。",
+      "target_type": "action",
+      "action_verb": "lash",
+      "action_target": "raft",
+      "location": "/d/counties/panmu/timber_wharf",
+      "on_complete": {
+        "msg": "十丈長的冷杉木排已被你用三個水手死扣牢牢鎖緊，只等聽松客棧那邊備妥人手便可放行。"
+      }
+    },
+    {
+      "step": 2,
+      "title": "到聽松客棧通知夥計為押車木客備飯",
+      "hint": "前往盤木縣驛・聽松客棧告知客棧夥計木排已綁妥 (ask innkeeper about 木排)。",
+      "target_type": "talk",
+      "target_npc": "innkeeper",
+      "target_topic": "木排",
+      "location": "/d/counties/panmu/post_inn",
+      "on_complete": {
+        "msg": "客棧夥計麻利地記好人頭，轉身吩咐後廚開籠蒸饃。"
+      }
+    },
+    {
+      "step": 3,
+      "title": "回木排下水碼頭向林四覆命領工錢",
+      "hint": "回到盤木縣木排下水碼頭向放排老把式林四回報 (ask panmu_raftsman about 木排)。",
+      "target_type": "talk",
+      "target_npc": "panmu_raftsman",
+      "target_topic": "木排",
+      "location": "/d/counties/panmu/timber_wharf",
+      "on_complete": {
+        "msg": "林四拍著你肩膀大笑，遞來一百一十文大工錢與一塊上好的琥珀松脂。"
+      }
+    }
+  ],
+  "rewards": {
+    "exp": 210,
+    "money": 110
+  }
+}

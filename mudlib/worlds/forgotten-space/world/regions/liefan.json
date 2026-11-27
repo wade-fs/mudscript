@@ -1,0 +1,34 @@
+{
+  "schema_version": "1.1",
+  "region_id": "liefan",
+  "name": "烈礬縣",
+  "civ_level": "county",
+  "region_type": "COUNTY",
+  "coords": [-180, 220, 80],
+  "geography": {
+    "position": null,
+    "coordinate_space": "LOCAL_GAME_SPACE",
+    "precision": "RELATIVE_COORDS"
+  },
+  "resources": {
+    "primary_product": "alum_mineral",
+    "secondary_product": "red_copper",
+    "demand": ["grain", "charcoal"],
+    "reserves": { "alum": 28000, "red_copper": 15000 },
+    "price_index": 100
+  },
+  "factions": {
+    "alum_smelters": { "power": 60, "agenda": "high_temperature_smelting" },
+    "mining_constabulary": { "power": 40, "agenda": "tax_mineral_wagons" }
+  },
+  "crisis_deck": [
+    { "id": "smelting_furnace_explosion", "base_weight": 20, "trigger_metric": "heat_intensity" },
+    { "id": "charcoal_shortage", "base_weight": 25, "trigger_metric": "fuel_deficit" }
+  ],
+  "zone_refs": [
+    { "zone_id": "liefan_town", "type": "settlement", "tier": 1 },
+    { "zone_id": "liefan_kilns", "type": "industrial", "tier": 2 }
+  ],
+  "confidence": "CONFIRMED",
+  "evidence": ["world/lore/nine_cities_canon.md", "narrative/docs/maps/world_map.md"]
+}

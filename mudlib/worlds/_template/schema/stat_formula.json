@@ -1,0 +1,8 @@
+{
+  "type": "stat_formula",
+  "id": "max_hp_bonus",
+  "name": "氣血額外加成公式",
+  "base": 50,
+  "primary_stat": "con",
+  "multiplier": 5
+}

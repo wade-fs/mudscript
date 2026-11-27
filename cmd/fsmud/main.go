@@ -7,6 +7,8 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"path"
+	"path/filepath"
 	"strings"
 	"time"
 
@@ -21,6 +23,7 @@ func main() {
 	hubURL := flag.String("hub", "wss://wade-fs-fsmud-hub.hf.space/ws", "Signaling hub URL (set to 'none' to run in isolation)")
 	port := flag.String("port", "8080", "HTTP server port")
 	mudlib := flag.String("mudlib", "fsmud", "mudlib directory")
+	common := flag.String("common", "", "common mudlib overlay directory (read-only base)")
 	master := flag.String("master", "master.c", "Master of world in mudlib directory")
 	simul := flag.String("simul", "", "SimulEfun file path (optional, master's get_simul_efun takes precedence)")
 	gInclude := flag.String("ginclude", "", "Global include file (e.g. globals.h)")
@@ -32,6 +35,7 @@ func main() {
 	// 1. 準備 MUD 引擎配置
 	config := driver.DriverConfig{
 		MudLibPath:      *mudlib,
+		CommonPath:      *common,
 		MasterFile:      *master,
 		SimulEfunFile:   *simul,
 		GlobalInclude:   *gInclude,
@@ -79,7 +83,7 @@ func main() {
 	})
 
 	// 混合模式網頁服務
-	setupStaticServer(*mudlib)
+	setupStaticServer(*mudlib, *common)
 
 	// 7. 啟動 Web 伺服器
 	log.Printf("Web 伺服器監聽中 :%s\n", *port)
@@ -129,20 +133,75 @@ func setupP2P(d *driver.Driver, hub *signaling.Hub, hubURL string) {
 	}
 }
 
-func setupStaticServer(mudlib string) {
-	diskPath := "./" + mudlib + "/web/static"
+func setupStaticServer(mudlib, common string) {
+	// 若世界層擁有獨立主題資源 (web/theme/)，掛載於 /theme/
+	themeDir := filepath.Join(mudlib, "web", "theme")
+	if info, err := os.Stat(themeDir); err == nil && info.IsDir() {
+		log.Printf("🎨 [WEB] 掛載世界主題目錄: %s -> /theme/\n", themeDir)
+		http.Handle("/theme/", http.StripPrefix("/theme/", http.FileServer(http.Dir(themeDir))))
+	}
 
-	if info, err := os.Stat(diskPath); err == nil && info.IsDir() {
-		log.Printf("🌐 [WEB] 使用外部磁碟網頁檔案: %s\n", diskPath)
-		http.Handle("/", http.FileServer(http.Dir(diskPath)))
-	} else {
-		embedPath := mudlib + "/web/static"
+	worldStatic := filepath.Join(mudlib, "web", "static")
+	var staticLayers []string
+	if info, err := os.Stat(worldStatic); err == nil && info.IsDir() {
+		staticLayers = append(staticLayers, worldStatic)
+	}
+	if common != "" {
+		commonStatic := filepath.Join(common, "web", "static")
+		if info, err := os.Stat(commonStatic); err == nil && info.IsDir() {
+			staticLayers = append(staticLayers, commonStatic)
+		}
+	}
+
+	var fallbackHandler http.Handler
+	if len(staticLayers) == 0 {
+		embedPath := strings.TrimPrefix(filepath.ToSlash(filepath.Join(mudlib, "web", "static")), "/")
 		log.Printf("📦 [WEB] 使用內建嵌入網頁檔案: %s\n", embedPath)
 		subFS, err := fs.Sub(mudscript.Assets, embedPath)
+		if err != nil && common != "" {
+			commonEmbed := strings.TrimPrefix(filepath.ToSlash(filepath.Join(common, "web", "static")), "/")
+			subFS, err = fs.Sub(mudscript.Assets, commonEmbed)
+		}
 		if err != nil {
 			log.Printf("⚠️ 無法開啟嵌入網頁目錄: %v，嘗試預設 fsmud\n", err)
 			subFS, _ = fs.Sub(mudscript.Assets, "fsmud/web/static")
 		}
-		http.Handle("/", http.FileServer(http.FS(subFS)))
+		fallbackHandler = http.FileServer(http.FS(subFS))
+	} else {
+		log.Printf("🌐 [WEB] 使用疊層磁碟網頁目錄: %v\n", staticLayers)
 	}
+
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		cleanReq := path.Clean("/" + r.URL.Path)
+		relReq := strings.TrimPrefix(cleanReq, "/")
+		if relReq == "" {
+			relReq = "index.html"
+		}
+
+		for _, dir := range staticLayers {
+			candidate := filepath.Join(dir, relReq)
+			relCheck, relErr := filepath.Rel(filepath.Clean(dir), filepath.Clean(candidate))
+			if relErr != nil || relCheck == ".." || strings.HasPrefix(relCheck, ".."+string(filepath.Separator)) {
+				continue
+			}
+			if info, err := os.Stat(candidate); err == nil {
+				if info.IsDir() {
+					indexCandidate := filepath.Join(candidate, "index.html")
+					if idxInfo, idxErr := os.Stat(indexCandidate); idxErr == nil && !idxInfo.IsDir() {
+						http.ServeFile(w, r, indexCandidate)
+						return
+					}
+					continue
+				}
+				http.ServeFile(w, r, candidate)
+				return
+			}
+		}
+
+		if fallbackHandler != nil {
+			fallbackHandler.ServeHTTP(w, r)
+			return
+		}
+		http.NotFound(w, r)
+	})
 }

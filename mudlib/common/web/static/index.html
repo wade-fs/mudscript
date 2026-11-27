@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MudScript World</title>
+    <style>
+        :root {
+            --bg-primary: #0b0e14;
+            --bg-secondary: #131822;
+            --bg-card: #1a2130;
+            --accent: #4CAF50;
+            --accent-dim: rgba(76, 175, 80, 0.25);
+            --text-main: #d6dde8;
+            --text-muted: #7f8a9e;
+            --border-color: #273144;
+        }
+        * { box-sizing: border-box; }
+        html, body {
+            height: 100%; margin: 0;
+            background: var(--bg-primary); color: var(--text-main);
+            font-family: 'Consolas', 'Noto Sans TC', monospace; overflow: hidden;
+        }
+        #wrapper {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            grid-template-rows: 48px 1fr 58px;
+            grid-template-areas:
+                "header header"
+                "look sidebar"
+                "send sidebar";
+            height: 100vh; width: 100vw;
+        }
+        @media (max-width: 900px) {
+            #wrapper {
+                grid-template-columns: 1fr;
+                grid-template-areas: "header" "look" "send";
+            }
+            #sidebar { display: none; }
+        }
+        #header {
+            grid-area: header;
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-color);
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0 16px;
+        }
+        #world-title { font-weight: bold; font-size: 16px; color: var(--accent); }
+        #header-tools { display: flex; gap: 8px; }
+        .tool-btn {
+            background: var(--bg-card); border: 1px solid var(--border-color);
+            color: var(--text-main); padding: 5px 10px; border-radius: 4px;
+            cursor: pointer; font-size: 12px;
+        }
+        .tool-btn:hover, .tool-btn.active { border-color: var(--accent); color: var(--accent); }
+        #look-area {
+            grid-area: look; overflow-y: auto; padding: 18px 22px;
+            font-size: 16px; line-height: 1.65; scroll-behavior: smooth;
+        }
+        #look-content > div { white-space: pre-wrap; margin-bottom: 2px; }
+        #sidebar {
+            grid-area: sidebar; background: var(--bg-secondary);
+            border-left: 1px solid var(--border-color);
+            display: flex; flex-direction: column; overflow-y: auto; padding: 12px; gap: 12px;
+        }
+        .mvvm-card {
+            background: var(--bg-card); border: 1px solid var(--border-color);
+            border-radius: 6px; padding: 10px 12px;
+        }
+        .mvvm-card h3 {
+            margin: 0 0 8px 0; font-size: 13px; color: var(--accent);
+            border-bottom: 1px solid var(--border-color); padding-bottom: 4px;
+        }
+        .pill-btn {
+            display: inline-block; margin: 2px 4px 2px 0; padding: 3px 8px;
+            background: var(--bg-secondary); border: 1px solid var(--accent);
+            color: var(--text-main); border-radius: 4px; font-size: 12px; cursor: pointer;
+        }
+        .pill-btn:hover { background: var(--accent-dim); }
+        .stat-row { display: flex; justify-content: space-between; font-size: 13px; margin: 3px 0; }
+        .bar-track { height: 5px; background: #262e3d; border-radius: 3px; overflow: hidden; margin-bottom: 6px; }
+        .bar-fill { height: 100%; transition: width 0.25s; }
+        #send-area {
+            grid-area: send; background: var(--bg-secondary);
+            border-top: 1px solid var(--border-color);
+            display: flex; align-items: center; padding: 0 14px; gap: 8px;
+        }
+        #msg {
+            flex: 1; background: var(--bg-primary); border: 1px solid var(--border-color);
+            color: #7cff7c; padding: 10px 12px; font-size: 15px; border-radius: 4px; outline: none;
+        }
+        #msg:focus { border-color: var(--accent); }
+        #msg.mask-mode { -webkit-text-security: disc; }
+        #btn-send {
+            background: var(--accent); color: #fff; border: none;
+            padding: 10px 18px; border-radius: 4px; font-weight: bold; cursor: pointer;
+        }
+        .cmd-link { color: var(--accent); text-decoration: underline; cursor: pointer; font-weight: bold; }
+        .overlay-panel {
+            position: fixed; top: 48px; left: 0; width: 320px; height: calc(100vh - 106px);
+            background: rgba(18, 22, 31, 0.98); border-right: 2px solid var(--accent);
+            display: none; flex-direction: column; z-index: 500;
+        }
+        .overlay-panel.active { display: flex; }
+        .panel-header {
+            padding: 10px 14px; background: var(--bg-card); font-weight: bold; color: var(--accent);
+            display: flex; justify-content: space-between; border-bottom: 1px solid var(--border-color);
+        }
+        .panel-content { flex: 1; overflow-y: auto; padding: 12px; }
+    </style>
+    <link rel="stylesheet" href="/theme/theme.css" onerror="this.remove()">
+</head>
+<body>
+<div id="wrapper">
+    <div id="header">
+        <div id="world-title">MudScript World</div>
+        <div id="header-tools">
+            <button class="tool-btn" onclick="togglePanel('panel-cmds', this)">指令</button>
+            <button class="tool-btn" onclick="togglePanel('panel-socials', this)">社交</button>
+            <button class="tool-btn" onclick="sendCmd('look')">環顧</button>
+            <button class="tool-btn" onclick="sendCmd('score')">狀態</button>
+        </div>
+    </div>
+
+    <div id="look-area"><div id="look-content"></div></div>
+
+    <aside id="sidebar">
+        <div class="mvvm-card" id="room-vm-card">
+            <h3>📍 當前場景</h3>
+            <div id="vm-room-name" style="font-weight:bold;margin-bottom:6px;">尚未進入世界</div>
+            <div id="vm-room-exits" style="margin-bottom:6px;"></div>
+            <div id="vm-room-entities"></div>
+        </div>
+        <div class="mvvm-card" id="char-vm-card">
+            <h3>👤 角色狀態</h3>
+            <div id="vm-char-info" style="color:var(--text-muted);font-size:13px;">登入後顯示</div>
+        </div>
+        <div class="mvvm-card" id="quest-vm-card">
+            <h3>📜 任務追蹤</h3>
+            <div id="vm-quest-list" style="color:var(--text-muted);font-size:13px;">尚無進行中任務</div>
+        </div>
+    </aside>
+
+    <div id="send-area">
+        <input id="msg" type="text" placeholder="輸入指令..." autocomplete="off">
+        <button id="btn-send" onclick="sendMsg()">發送</button>
+    </div>
+</div>
+
+<div id="panel-cmds" class="overlay-panel">
+    <div class="panel-header">指令列表 <span onclick="togglePanel('panel-cmds')" style="cursor:pointer">×</span></div>
+    <div id="cmds-area" class="panel-content">載入中...</div>
+</div>
+<div id="panel-socials" class="overlay-panel">
+    <div class="panel-header">社交動作 <span onclick="togglePanel('panel-socials')" style="cursor:pointer">×</span></div>
+    <div id="socials-area" class="panel-content"></div>
+</div>
+
+<script>
+let ws = null;
+let isInputHidden = false;
+const historyCmds = [];
+let histIdx = 0;
+const msgInput = document.getElementById("msg");
+
+async function loadThemeManifest() {
+    try {
+        const res = await fetch("/theme/manifest.json");
+        if (!res.ok) return;
+        const theme = await res.json();
+        if (theme.title) {
+            document.title = theme.title;
+            document.getElementById("world-title").innerText = theme.title;
+        }
+        if (theme.css_vars) {
+            const root = document.documentElement.style;
+            for (const [k, v] of Object.entries(theme.css_vars)) {
+                root.setProperty(k, v);
+            }
+        }
+    } catch (_) {}
+}
+
+function togglePanel(id, btn) {
+    const panel = document.getElementById(id);
+    const active = panel.classList.contains("active");
+    document.querySelectorAll(".overlay-panel").forEach(p => p.classList.remove("active"));
+    document.querySelectorAll(".tool-btn").forEach(b => b.classList.remove("active"));
+    if (!active) {
+        panel.classList.add("active");
+        if (btn) btn.classList.add("active");
+    }
+}
+
+function parseOutput(t) {
+    let res = t;
+    let open = 0;
+    res = res.replace(/\x1b\[([0-9;]+)m/g, (m, code) => {
+        if (code === "0" || code === "2;37;0") {
+            let s = ""; while (open > 0) { s += "</span>"; open--; } return s;
+        }
+        const map = {
+            "0;31":"#ff5555","0;32":"#55ff55","0;33":"#ffff55","0;34":"#5555ff",
+            "0;35":"#ff55ff","0;36":"#55ffff","0;37":"#ffffff",
+            "1;31":"#ff7777","1;32":"#77ff77","1;33":"#ffff77","1;34":"#7777ff",
+            "1;35":"#ff77ff","1;36":"#77ffff","1;37":"#ffffff"
+        };
+        const c = map[code];
+        if (!c) return "";
+        open++;
+        return `<span style="color:${c}">`;
+    });
+    while (open > 0) { res += "</span>"; open--; }
+
+    const tagMap = {
+        "$RED$":"#ff5555","$GRN$":"#55ff55","$YEL$":"#ffff55","$BLU$":"#5555ff",
+        "$MAG$":"#ff55ff","$CYN$":"#55ffff","$WHT$":"#ffffff",
+        "$HIR$":"#ff7777","$HIG$":"#77ff77","$HIY$":"#ffff77","$HIB$":"#7777ff",
+        "$HIM$":"#ff77ff","$HIC$":"#77ffff","$HIW$":"#ffffff"
+    };
+    res = res.replace(/\$([A-Z0-9]+)\$/g, (m, name) => {
+        const key = "$" + name + "$";
+        if (key === "$NOR$") { let s = ""; while (open > 0) { s += "</span>"; open--; } return s; }
+        if (!tagMap[key]) return m;
+        open++;
+        return `<span style="color:${tagMap[key]}">`;
+    });
+    while (open > 0) { res += "</span>"; open--; }
+
+    const braceMap = { "RED":"#ff5555","GRN":"#55ff55","YEL":"#ffff55","CYN":"#55ffff","HIW":"#ffffff","r":"#ff5555","g":"#55ff55","y":"#ffff55","c":"#55ffff","w":"#ffffff" };
+    res = res.replace(/\{([A-Za-z]+)\}/g, (m, tag) => {
+        if (tag === "NOR" || tag === "n") { let s = ""; while (open > 0) { s += "</span>"; open--; } return s; }
+        if (!braceMap[tag]) return m;
+        open++;
+        return `<span style="color:${braceMap[tag]}">`;
+    });
+    while (open > 0) { res += "</span>"; open--; }
+
+    return res;
+}
+
+function appendLook(t) {
+    const area = document.getElementById("look-area");
+    const content = document.getElementById("look-content");
+    let p = t.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    p = parseOutput(p);
+    p = p.replace(/\[(.*?)\]/g, (m, p1) => {
+        const pts = p1.split("|");
+        const label = pts[0];
+        const cmd = pts.length > 1 ? pts[1] : pts[0];
+        return `<span class="cmd-link" onclick="sendCmd('${cmd.replace(/'/g, "\\'")}')">${label}</span>`;
+    });
+    const div = document.createElement("div");
+    div.innerHTML = p;
+    content.appendChild(div);
+    area.scrollTop = area.scrollHeight;
+}
+
+function handleUIData(ui) {
+    if (ui.ui === "room_view" && ui.data) {
+        const r = ui.data;
+        document.getElementById("vm-room-name").innerText = r.short || "未知地點";
+        const exEl = document.getElementById("vm-room-exits");
+        exEl.innerHTML = "";
+        if (r.exits) {
+            for (const dir of Object.keys(r.exits)) {
+                const exInfo = r.exits[dir];
+                const btn = document.createElement("button");
+                btn.className = "pill-btn";
+                btn.innerText = "➜ " + dir + (exInfo && exInfo.short ? (" (" + exInfo.short + ")") : "");
+                btn.onclick = () => sendCmd("go " + dir);
+                exEl.appendChild(btn);
+            }
+        }
+        const entEl = document.getElementById("vm-room-entities");
+        entEl.innerHTML = "";
+        (r.npcs || []).forEach(n => {
+            const btn = document.createElement("button");
+            btn.className = "pill-btn";
+            btn.innerText = "💬 " + (n.short || n.id);
+            btn.onclick = () => sendCmd("talk " + n.id);
+            entEl.appendChild(btn);
+        });
+        (r.items || []).forEach(it => {
+            const btn = document.createElement("button");
+            btn.className = "pill-btn";
+            btn.innerText = "📦 " + (it.short || it.id);
+            btn.onclick = () => sendCmd("look " + it.id);
+            entEl.appendChild(btn);
+        });
+        (r.inspectables || []).forEach(key => {
+            const btn = document.createElement("button");
+            btn.className = "pill-btn";
+            btn.style.borderColor = "var(--border-color)";
+            btn.innerText = "🔍 " + key;
+            btn.onclick = () => sendCmd("look " + key);
+            entEl.appendChild(btn);
+        });
+        (r.actions || []).forEach(act => {
+            const btn = document.createElement("button");
+            btn.className = "pill-btn";
+            const target = (act.targets && act.targets.length > 0) ? (" " + act.targets[0]) : "";
+            btn.innerText = "⚡ " + (act.label || act.verb);
+            btn.onclick = () => sendCmd(act.verb + target);
+            entEl.appendChild(btn);
+        });
+    } else if ((ui.ui === "char_view" || ui.ui === "score") && ui.data) {
+        const d = ui.data;
+        const hpPct = d.max_hp > 0 ? Math.min(100, Math.round(d.hp / d.max_hp * 100)) : 0;
+        const mpPct = d.max_mp > 0 ? Math.min(100, Math.round(d.mp / d.max_mp * 100)) : 0;
+        const spPct = d.max_sp > 0 ? Math.min(100, Math.round(d.sp / d.max_sp * 100)) : 0;
+        const labels = d.stat_labels || {};
+        const statKeys = ["str", "con", "int", "spi", "dex", "per"];
+        const statsHtml = statKeys.map(k =>
+            `<div class="stat-row"><span>${labels[k] || k.toUpperCase()}</span><span>${d[k] ?? 10}</span></div>`
+        ).join("");
+        document.getElementById("vm-char-info").innerHTML = `
+            <div class="stat-row"><b>${d.name || d.id}</b><span>${d.realm || ("Lv." + (d.level || 1))}</span></div>
+            <div class="stat-row"><span>氣血</span><span>${d.hp}/${d.max_hp}</span></div>
+            <div class="bar-track"><div class="bar-fill" style="width:${hpPct}%;background:#e53935;"></div></div>
+            <div class="stat-row"><span>神識</span><span>${d.mp}/${d.max_mp}</span></div>
+            <div class="bar-track"><div class="bar-fill" style="width:${mpPct}%;background:#1e88e5;"></div></div>
+            <div class="stat-row"><span>精力</span><span>${d.sp ?? 0}/${d.max_sp ?? 0}</span></div>
+            <div class="bar-track"><div class="bar-fill" style="width:${spPct}%;background:#43a047;"></div></div>
+            <div class="stat-row"><span>攻/防</span><span>${d.atk ?? 0} / ${d.def ?? 0}</span></div>
+            <div class="stat-row"><span>財富</span><span style="color:#ffd54f">${d.money ?? 0}</span></div>
+            <div style="margin-top:6px;border-top:1px solid var(--border-color);padding-top:4px;display:grid;grid-template-columns:1fr 1fr;gap:2px 10px;">${statsHtml}</div>
+        `;
+    } else if (ui.ui === "quest_list" && ui.data) {
+        const list = ui.data.quests || [];
+        const el = document.getElementById("vm-quest-list");
+        if (list.length === 0) { el.innerText = "尚無進行中任務"; return; }
+        el.innerHTML = "";
+        list.forEach(q => {
+            const box = document.createElement("div");
+            box.style.marginBottom = "8px";
+            box.innerHTML = `<div class="stat-row"><span><b>${q.name}</b></span><span style="color:var(--accent)">${q.status}</span></div>` +
+                (q.stage_desc ? `<div style="font-size:12px;color:var(--text-muted);margin:2px 0;">${q.stage_desc}</div>` : "");
+            (q.choices || []).forEach(c => {
+                const btn = document.createElement("button");
+                btn.className = "pill-btn";
+                btn.innerText = c.label || c.id;
+                btn.onclick = () => sendCmd(`quest choose ${q.id} ${c.id}`);
+                box.appendChild(btn);
+            });
+            el.appendChild(box);
+        });
+    } else if ((ui.ui === "cmd_list" || ui.ui === "commands") && ui.data) {
+        const area = document.getElementById("cmds-area");
+        area.innerHTML = "";
+        for (const cat of Object.keys(ui.data)) {
+            const h = document.createElement("div");
+            h.style.cssText = "color:var(--accent);font-weight:bold;margin:8px 0 4px;";
+            h.innerText = cat;
+            area.appendChild(h);
+            ui.data[cat].forEach(c => {
+                const b = document.createElement("button");
+                b.className = "pill-btn";
+                b.innerText = c;
+                b.onclick = () => { msgInput.value = c + " "; msgInput.focus(); };
+                area.appendChild(b);
+            });
+        }
+    } else if (ui.ui === "socials" && ui.data) {
+        const area = document.getElementById("socials-area");
+        area.innerHTML = "";
+        for (const k of Object.keys(ui.data)) {
+            const b = document.createElement("button");
+            b.className = "pill-btn";
+            b.innerText = (ui.data[k].icon || "") + " " + k;
+            b.onclick = () => sendCmd(k);
+            area.appendChild(b);
+        }
+    }
+}
+
+function sendCmd(cmd) {
+    if (!cmd || !ws || ws.readyState !== 1) return;
+    historyCmds.push(cmd);
+    histIdx = historyCmds.length;
+    ws.send(JSON.stringify({ type: "cmd", payload: cmd }));
+    const echo = isInputHidden ? "******" : cmd;
+    appendLook(">> " + echo);
+}
+
+function sendMsg() {
+    const v = msgInput.value;
+    if (!v) return;
+    sendCmd(v);
+    msgInput.value = "";
+    isInputHidden = false;
+    msgInput.classList.remove("mask-mode");
+    msgInput.focus();
+}
+
+function connect() {
+    const proto = location.protocol === "https:" ? "wss:" : "ws:";
+    ws = new WebSocket(proto + "//" + location.host + "/ws");
+    ws.onmessage = (e) => {
+        const msg = JSON.parse(e.data);
+        const p = (msg.payload || "").trim();
+        if (p === "__INPUT_HIDDEN__") {
+            isInputHidden = true;
+            msgInput.classList.add("mask-mode");
+            return;
+        }
+        if (p.startsWith("{") && p.endsWith("}")) {
+            try { handleUIData(JSON.parse(p)); return; } catch (_) {}
+            p.replace(/\}\s*\{/g, "}\n{").split("\n").forEach(line => {
+                try { handleUIData(JSON.parse(line.trim())); } catch (_) {}
+            });
+            return;
+        }
+        appendLook(msg.payload || "");
+    };
+    ws.onclose = () => setTimeout(connect, 2000);
+}
+
+msgInput.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") sendMsg();
+    else if (e.key === "ArrowUp" && histIdx > 0) { histIdx--; msgInput.value = historyCmds[histIdx]; }
+    else if (e.key === "ArrowDown") {
+        if (histIdx < historyCmds.length - 1) { histIdx++; msgInput.value = historyCmds[histIdx]; }
+        else { histIdx = historyCmds.length; msgInput.value = ""; }
+    }
+});
+
+loadThemeManifest();
+connect();
+</script>
+</body>
+</html>

@@ -1,0 +1,18 @@
+{
+  "type": "power_system",
+  "id": "default_power",
+  "name": "基礎修煉體系",
+  "stat_labels": {
+    "str": "氣力",
+    "con": "體魄",
+    "int": "悟性",
+    "spi": "心神",
+    "dex": "身法",
+    "per": "靈覺"
+  },
+  "realms": [
+    { "min_level": 1,  "max_level": 9,   "name": "初境" },
+    { "min_level": 10, "max_level": 19,  "name": "通脈" },
+    { "min_level": 20, "max_level": 99,  "name": "圓滿" }
+  ]
+}

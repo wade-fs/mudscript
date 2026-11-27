@@ -1,0 +1,54 @@
+{
+  "id": "side_county_zhenfeng_coat",
+  "name": "鎮風矮巷・邊卒冬襖",
+  "chapter": "Ch.0061-Ch.0062",
+  "category": "side",
+  "type": "once",
+  "start_npc": "feng_seamstress",
+  "start_topic": "冬襖",
+  "requirements": {
+    "level": 2
+  },
+  "steps": [
+    {
+      "step": 1,
+      "title": "在戍卒家眷窄巷幫馮嫂縫補軍用羊皮冬襖",
+      "hint": "在鎮風縣戍卒家眷窄巷拿起三稜皮針與蜂蠟麻線，把開線的雙層羊皮冬襖縫補牢固 (stitch coat)。",
+      "target_type": "action",
+      "action_verb": "stitch",
+      "action_target": "coat",
+      "location": "/d/counties/zhenfeng/garrison_lane",
+      "on_complete": {
+        "msg": "兩件厚實暖和的雙層羊皮冬襖已縫補妥當，可以送往北塞烽燧交給值守的邊卒。"
+      }
+    },
+    {
+      "step": 2,
+      "title": "將縫好的冬襖送往鎮風北塞烽燧交給守卒",
+      "hint": "從皮甲硬弓邊集往北登上北塞防風石壩與烽燧，將羊皮冬襖交給地方巡檢卒 (ask county_bailiff about 冬襖)。",
+      "target_type": "talk",
+      "target_npc": "county_bailiff",
+      "target_topic": "冬襖",
+      "location": "/d/counties/zhenfeng/north_beacon",
+      "on_complete": {
+        "msg": "守在朔風中的巡檢卒連聲道謝，連說今晚哨塔上總算能擋住割臉的寒風。"
+      }
+    },
+    {
+      "step": 3,
+      "title": "回戍卒家眷窄巷向馮嫂報平安並領針線錢",
+      "hint": "返回鎮風縣戍卒家眷窄巷告知馮嫂冬襖已送到烽燧 (ask feng_seamstress about 冬襖)。",
+      "target_type": "talk",
+      "target_npc": "feng_seamstress",
+      "target_topic": "冬襖",
+      "location": "/d/counties/zhenfeng/garrison_lane",
+      "on_complete": {
+        "msg": "馮嫂鬆了一口氣，笑著往你手裡塞了一百二十文針線工錢與兩塊風乾羊肉。"
+      }
+    }
+  ],
+  "rewards": {
+    "exp": 210,
+    "money": 120
+  }
+}

@@ -1,0 +1,565 @@
+// /secure/map_d.c
+// 地圖守護進程 (Map Daemon)
+// 負責繪製 ASCII 小地圖並處理探索邏輯
+
+#include "/include/ansi.h"
+
+inherit "/std/object";
+
+void create() {
+    ::create();
+}
+
+// 根據坐標取得房間路徑
+string get_room_file(int x, int y, int z) {
+    // 地面區域
+    if (z == 0) {
+        if (x >= 0 && x <= 7 && y >= 0 && y <= 7)
+            return sprintf("/area/newbie/room_%d_%d.c", x, y);
+        if (x == 10 && y == 0)
+            return "/area/water/lake_0_0_0.c";
+    }
+    // 地下區域 (z = -1)
+    if (z == -1) {
+        if (x == 0 && y == 0) return "/area/cave/cave_0_0_minus1.c";
+        if (x == 0 && y == 1) return "/area/cave/cave_0_1_minus1.c";
+    }
+    // 高塔區域 (z > 0)
+    if (z == 0 && x == 0 && y == 5) return "/area/tower/tower_1f.c";
+    if (z == 1 && x == 0 && y == 5) return "/area/tower/tower_2f.c";
+    
+    return 0;
+}
+
+// ── 宏觀全域地理拓撲地圖 (World Map) ──────────────────────
+string draw_world_map(object me) {
+    string msg = "\n" + HIY "【《遺忘的世界》全域城鄉拓撲網絡圖 (Tier 1)】" + NOR + "\n";
+    msg += WHT "──────────────────────────────────────────────────────────\n" + NOR;
+    msg += "                          " + HIW + "[ 鎮風縣 ]" + NOR + " (正北 300 里・天風要塞)\n";
+    msg += "                              │\n";
+    msg += "      " + HIG + "[ 青河縣 ]" + NOR + " ────────── " + HIY + "[ 金石府城 ]" + NOR + " ────────── " + HIR + "[ 烈礬縣 ]" + NOR + " (東北 320 里)\n";
+    msg += "     (正西 280 里)                 │                       (硫礬赤銅)\n";
+    msg += "     (藥草水運)                    │                            │\n";
+    msg += "                                   │                      " + HIB + "[ 濁水縣 ]" + NOR + " (東南 350 里)\n";
+    msg += "                       ┌───────────┴───────────┐          (沼澤黑市)\n";
+    msg += "                       │                       │\n";
+    msg += "                  " + HIG + "[ 盤木縣 ]" + NOR + "              " + HIW + "[ 重石縣 ]" + NOR + "\n";
+    msg += "                 (正南 260 里)           (西南 240 里)\n";
+    msg += "                 (林木機巧)              (條石生鐵)\n";
+    msg += "                       │                       │\n";
+    msg += "                       └───────────┬───────────┘\n";
+    msg += "                                   │ (南嶺官道 450 里)\n";
+    msg += "                              " + CYN + "[ 黑石鋪 ]" + NOR + " (極南古脈深山・發跡之地)\n";
+    msg += WHT "──────────────────────────────────────────────────────────\n" + NOR;
+    msg += "提示：輸入 map city 查看都城地圖，輸入 map village 查看黑石鋪地圖。\n\n";
+    return msg;
+}
+
+// ── 金石都城九大分區詳細地圖 (City Map) ─────────────────────
+string draw_city_map(object me) {
+    string cur = me && environment(me) ? base_name(environment(me)) : "";
+    string msg = "\n" + HIY "【金石都城九大分區空間地圖】" + NOR + "\n";
+    msg += WHT "──────────────────────────────────────────────────────────\n" + NOR;
+    msg += "                        [外城大車馬店]\n";
+    msg += "                              │\n";
+    msg += "      [亂葬義塚] ─── " + HIW + "【金石北關】" + NOR + " ── (北城望荒箭樓)\n";
+    msg += "                             │\n";
+    msg += "  [官道大貨棧] ─── [北關前校場] ─── [關外車馬店]\n";
+    msg += "                             │\n";
+    msg += "    [匠籍登記處] ─── " + CYN + "【百工總會】" + NOR + " ─── (分業工坊街：鍛/木/石/革/藥/硝)\n";
+    msg += "                             │\n";
+    msg += "  " + HIC + "【宣道司】" + NOR + " ────── " + HIY + "【中央青石廣場】" + NOR + " ────── " + HIR + "【鎮武軍鎮】" + NOR + " ─── " + HIW + "【東關城門】" + NOR + "\n";
+    msg += "   (玄機真人)          (士民商貿)          (霸山總教頭)      (烈礬/濁水)\n";
+    msg += "   (摘星台/偏殿)       ┌─────┴─────┐          (大校場/生死擂)\n";
+    msg += "   (聽經閣)        [府衙正堂]   [通寶錢莊]     (披甲兵器庫)\n";
+    msg += "                       │           │\n";
+    msg += "                   [學塾/醫館]  [通寶當鋪] ── [鬼市暗巷] (下通城下暗渠)\n";
+    msg += "                       └─────┬─────┘\n";
+    msg += "                             │\n";
+    msg += "                        [六縣專材長街] ─── [金石商會總堂]\n";
+    msg += "                             │                 │\n";
+    msg += "                        [大料初堆棧] ─── [遠行車馬大院]\n";
+    msg += "                             │\n";
+    msg += "  " + HIB + "【西水門】" + NOR + " ────── " + HIW + "【金石南關】" + NOR + " ─── [南關車馬小棧]\n";
+    msg += " (青河水路漕運)              │\n";
+    msg += "                             │ (南嶺官道)\n";
+    msg += "                             ▼\n";
+    msg += "                     往 " + CYN + "【黑石鋪】" + NOR + " 聚落\n";
+    msg += WHT "──────────────────────────────────────────────────────────\n" + NOR;
+    if (me && environment(me)) {
+        msg += "你當前身處：" + HIG + environment(me)->query_short() + NOR + " (" + cur + ")\n";
+    }
+    return msg;
+}
+
+// ── 城下暗渠與舊城廢墟地圖 (Underground Map) ───────────────
+string draw_under_map(object me) {
+    string cur = me && environment(me) ? base_name(environment(me)) : "";
+    string msg = "\n" + MAG "【金石城下・太古暗渠與舊城廢墟地圖】" + NOR + "\n";
+    msg += WHT "──────────────────────────────────────────────────────────\n" + NOR;
+    msg += "                 [地面・鬼市暗巷]\n";
+    msg += "                        │ (down)\n";
+    msg += "                  " + HIY + "【地下鬼市】" + NOR + " (銷贓黑市暗街)\n";
+    msg += "                        │\n";
+    msg += "  [廢棄水閘] ──── " + HIC + "【古暗渠樞紐】" + NOR + " ──── " + HIR + "【天字一號密室】" + NOR + "\n";
+    msg += " (護城河盲區)      (溶洞暗河・擺渡叟)      (需天門引驗證)\n";
+    msg += "                        │\n";
+    msg += "                  " + MAG + "【史前殘殿】" + NOR + " (人面神像・地煞匯聚)\n";
+    msg += WHT "──────────────────────────────────────────────────────────\n" + NOR;
+    if (me && environment(me)) {
+        msg += "你當前身處：" + HIG + environment(me)->query_short() + NOR + " (" + cur + ")\n";
+    }
+    return msg;
+}
+
+// ── 黑石鋪新手村五方微生態地圖 (Village Map) ────────────────
+string draw_village_map(object me) {
+    string cur = me && environment(me) ? base_name(environment(me)) : "";
+    string msg = "\n" + CYN + "【黑石鋪・聚落五方微生態地圖 (Tier 0)】" + NOR + "\n";
+    msg += WHT "──────────────────────────────────────────────────────────\n" + NOR;
+    msg += "                             【黑石古礦道】(北崖古礦坑)\n";
+    msg += "                                   │ (up/down)\n";
+    msg += "                             【地下崩塌坑道】(深井生鐵索具)\n";
+    msg += "                                   │\n";
+    msg += "   【荒廢殘壇】                    │                    往 " + HIY + "【金石府城】" + NOR + "\n";
+    msg += "    (迎風孤岩)                     │                          ▲\n";
+    msg += "        │                         │                          │ (northeast)\n";
+    msg += "   【三清偏殿】 ───────── " + HIY + "【青石街市】" + NOR + " ───────── 【老鐵匠鋪】\n";
+    msg += "    (枯木老道)                 (核心樞紐)                 (阿鐵爐火)\n";
+    msg += "        │                         │                          │\n";
+    msg += "   【客棧後街】 ───────── 【廢柴房】                   【獵戶哨亭】\n";
+    msg += "    (青石暗巷)                 (沈泥窩棚)                 (趙老獵)\n";
+    msg += "                                   │                          │\n";
+    msg += "                             【碎石溪灘】 ───────── 【大荒荒林】\n";
+    msg += "                              (幽霧水谷)                  (東林獸道)\n";
+    msg += "                                   │\n";
+    msg += "                             【墜龍瀑布】\n";
+    msg += "                              (寒潭瀑布淬體)\n";
+    msg += "                                   │\n";
+    msg += "                             【採藥草廬】(葛半仙草堂)\n";
+    msg += WHT "──────────────────────────────────────────────────────────\n" + NOR;
+    if (me && environment(me)) {
+        msg += "你當前身處：" + HIG + environment(me)->query_short() + NOR + " (" + cur + ")\n";
+    }
+    return msg;
+}
+
+// ── 盤木縣空間拓撲地圖 (Panmu County Map) ──────────────────
+string draw_panmu_map(object me) {
+    string cur = me && environment(me) ? base_name(environment(me)) : "";
+    string msg = "\n" + HIG + "【盤木縣・山林巨木與百工機巧城鎮地圖 (14 房)】" + NOR + "\n";
+    msg += WHT "──────────────────────────────────────────────────────────\n" + NOR;
+    msg += "                        往【南嶺林海驛】→ 金石府城 (260 里)\n";
+    msg += "                                  ▲\n";
+    msg += "                                  │\n";
+    msg += "  " + HIC + "【盤木山神廟】" + NOR + " ─── " + HIW + "【北望木城樓】" + NOR + " ─── " + HIR + "【巡山獵武堂】" + NOR + " ── [倒影澗界碑] ── [古冷杉伐木線]\n";
+    msg += "  (【法】道考場)            │            (【力】道考場)\n";
+    msg += "        │                   │\n";
+    msg += "   [盤木縣衙] ────── " + HIY + "【木革山貨集】" + NOR + " ──── " + YEL + "【天工木作工棚】" + NOR + " ── [鞣革符紙坊]\n";
+    msg += "                    ┌───────┼───────┐    (【物】道考場)\n";
+    msg += "             [通寶盤木分號] │  [盤木縣驛]\n";
+    msg += "                            │\n";
+    msg += "                     " + HIW + "【南林柵門】" + NOR + " ─── [青松塢獵村] ─── [防獸陷阱帶]\n";
+    msg += "                            │\n";
+    msg += "                            ▼\n";
+    msg += "                  往【盤木前驛站・虎跳峽】→ 黑石鋪 (190 里)\n";
+    msg += WHT "──────────────────────────────────────────────────────────\n" + NOR;
+    if (me && environment(me)) {
+        msg += "你當前身處：" + HIG + environment(me)->query_short() + NOR + " (" + cur + ")\n";
+    }
+    return msg;
+}
+
+// ── 重石縣空間拓撲地圖 (Zhongshi County Map) ───────────────
+string draw_zhongshi_map(object me) {
+    string cur = me && environment(me) ? base_name(environment(me)) : "";
+    string msg = "\n" + HIW + "【重石縣・條石生鐵與開山力士城鎮地圖 (14 房)】" + NOR + "\n";
+    msg += WHT "──────────────────────────────────────────────────────────\n" + NOR;
+    msg += "                        往【西南條石馳道】→ 金石府城 (240 里)\n";
+    msg += "                                  ▲\n";
+    msg += "                                  │\n";
+    msg += "  " + HIC + "【重石測脈亭】" + NOR + " ─── " + HIW + "【北鎮條石關】" + NOR + " ─── " + HIR + "【穿山力士堂】" + NOR + "\n";
+    msg += "  (【法】道考場)            │            (【力】道考場)\n";
+    msg += "        │                   │                  │\n";
+    msg += "   [重石縣衙] ────── " + HIY + "【石鐵大集】" + NOR + " ───── " + YEL + "【重石石作總坊】" + NOR + " ── [穿山寨] ── [三號絞盤採石場]\n";
+    msg += "                    ┌───────┼───────┐   (【物】道考場)                        │(down)\n";
+    msg += "             [通寶重石分號] │ [磐石騾馬店]                             [台地深溝・太古石槨]\n";
+    msg += "                            │\n";
+    msg += "                     " + HIW + "【西南巨石甕城】" + NOR + " ── [石碾坡匠村] ── [水磨生鐵工坊]\n";
+    msg += "                            │\n";
+    msg += "                            ▼\n";
+    msg += "                  往【落龍西谷懸崖飛棧】→ 黑石鋪 (180 里，禁重車)\n";
+    msg += WHT "──────────────────────────────────────────────────────────\n" + NOR;
+    if (me && environment(me)) {
+        msg += "你當前身處：" + HIG + environment(me)->query_short() + NOR + " (" + cur + ")\n";
+    }
+    return msg;
+}
+
+// ── 青河縣空間拓撲地圖 (Qinghe County Map) ─────────────────
+string draw_qinghe_map(object me) {
+    string cur = me && environment(me) ? base_name(environment(me)) : "";
+    string msg = "\n" + HIG + "【青河縣・水網藥圃與漕運集散城鎮地圖 (14 房)】" + NOR + "\n";
+    msg += WHT "──────────────────────────────────────────────────────────\n" + NOR;
+    msg += "  " + HIC + "【定神靈植道觀】" + NOR + "(【法】道考場)\n";
+    msg += "        │\n";
+    msg += "  [上游攔水石閘] ─── " + YEL + "【青河洗藥總坊】" + NOR + " ─── " + HIR + "【青河水師營】" + NOR + "\n";
+    msg += "        │             (【物】道考場)      (【力】道考場)\n";
+    msg += "        │                   │                  │\n";
+    msg += "   [青河縣衙] ────── " + HIY + "【百草糧油水集】" + NOR + " ─── " + HIW + "【東迎水陸關】" + NOR + " ──► 柳堤官道 (280里)\n";
+    msg += "                    ┌───────┼───────┐          │\n";
+    msg += "             [通寶青河分號] │  [青河縣驛]  [漕運駁船碼頭] ──► 青河水路 (300里)\n";
+    msg += "                            │                  │\n";
+    msg += "       [曬藥竹棚] ─── [百草坪梯田]        [蘆花渡漁集]\n";
+    msg += "                            │                  │\n";
+    msg += "                            ▼             [古河床・史前石閘]\n";
+    msg += "                  往【西嶺支脈山道】→ 重石縣 (160 里)\n";
+    msg += WHT "──────────────────────────────────────────────────────────\n" + NOR;
+    if (me && environment(me)) {
+        msg += "你當前身處：" + HIG + environment(me)->query_short() + NOR + " (" + cur + ")\n";
+    }
+    return msg;
+}
+
+// ── 鎮風縣空間拓撲地圖 (Zhenfeng County Map) ───────────────
+string draw_zhenfeng_map(object me) {
+    string cur = me && environment(me) ? base_name(environment(me)) : "";
+    string msg = "\n" + HIW + "【鎮風縣・天風要塞與邊關硬弓城鎮地圖 (14 房)】" + NOR + "\n";
+    msg += WHT "──────────────────────────────────────────────────────────\n" + NOR;
+    msg += "  " + HIC + "【鎮風測風祭壇】" + NOR + " ─── [北塞防風石壩・望荒烽燧] ─── " + YEL + "【鎮風軍械修造所】" + NOR + "\n";
+    msg += "  (【法】道考場)                  │                  (【物】道考場)\n";
+    msg += "        │                         │                        │\n";
+    msg += "   [鎮風縣衛所] ──────── " + HIY + "【皮甲硬弓邊集】" + NOR + " ───────── " + HIR + "【八方武館邊關分舵】" + NOR + "\n";
+    msg += "     │(down)             ┌────────┼────────┐         (【力】道考場)\n";
+    msg += " [地下案卷室・走山令] [通寶鎮風分號] │ [鎮風縣驛]\n";
+    msg += "                                  │\n";
+    msg += "  [風蝕石英礦脈]                  │                  [軍屯地下糧窖]\n";
+    msg += "     ▲(up)                        │                        │\n";
+    msg += "  [鷹嘴崖石窟] ───────── " + HIW + "【南塞巨石甕城門】" + NOR + " ───────── [碎冰堡屯寨]\n";
+    msg += "                                  │\n";
+    msg += "                                  ▼\n";
+    msg += "                        往【天風谷・北塞馳道】→ 金石北關 (300 里)\n";
+    msg += WHT "──────────────────────────────────────────────────────────\n" + NOR;
+    if (me && environment(me)) {
+        msg += "你當前身處：" + HIG + environment(me)->query_short() + NOR + " (" + cur + ")\n";
+    }
+    return msg;
+}
+
+// ── 烈礬縣空間拓撲地圖 (Liefan County Map) ─────────────────
+string draw_liefan_map(object me) {
+    string cur = me && environment(me) ? base_name(environment(me)) : "";
+    string msg = "\n" + HIR + "【烈礬縣・紅石斷脈與硫礬冶銅城鎮地圖 (14 房)】" + NOR + "\n";
+    msg += WHT "──────────────────────────────────────────────────────────\n" + NOR;
+    msg += "  [地火堡官造大窯] ─── " + HIC + "【烈礬鎮煞火祠】" + NOR + " ─── [烈礬縣衙]\n";
+    msg += "        │               (【法】道考場)          │\n";
+    msg += "   [地火堡聚落]                                 │\n";
+    msg += "        │                                       │\n";
+    msg += "  " + HIW + "【西迎赤石關】" + NOR + " ─────────── " + HIY + "【銅礬硃砂大集】" + NOR + " ─── " + YEL + "【烈礬百工冶煉分舵】" + NOR + " ── [銅駝嶺礦區]\n";
+    msg += "   (通礬石峽谷)              ┌────────┼────────┐   (【物】道考場)          │(down)\n";
+    msg += "        │             [通寶烈礬分號]  │   [烈礬縣驛]                 [三號深井・毒煙]\n";
+    msg += "   [紅砂坳聚落] ── [廢礬渣堆]   " + HIR + "【烈礬護礦武館】" + NOR + "(【力】道考場)\n";
+    msg += "        │\n";
+    msg += "        ▼\n";
+    msg += "  往【東麓峽谷私梟道】→ 濁水縣 (210 里)\n";
+    msg += WHT "──────────────────────────────────────────────────────────\n" + NOR;
+    if (me && environment(me)) {
+        msg += "你當前身處：" + HIG + environment(me)->query_short() + NOR + " (" + cur + ")\n";
+    }
+    return msg;
+}
+
+// ── 濁水縣空間拓撲地圖 (Zhuoshui County Map) ───────────────
+string draw_zhuoshui_map(object me) {
+    string cur = me && environment(me) ? base_name(environment(me)) : "";
+    string msg = "\n" + HIB + "【濁水縣・沼澤浮橋與淘金暗渠城鎮地圖 (15 房)】" + NOR + "\n";
+    msg += WHT "──────────────────────────────────────────────────────────\n" + NOR;
+    msg += "                        往【東南沼澤浮橋道】→ 金石東關 (350 里)\n";
+    msg += "                                  ▲\n";
+    msg += "   [泥螺灘棚戶] ──────── " + HIW + "【北鎮高腳木樁門】" + NOR + " ──────── " + HIR + "【濁水護澤武館】" + NOR + "\n";
+    msg += "        │                         │                   (【力】道考場)\n";
+    msg += "   [水磨篩金灘]  " + HIC + "【濁水鎮水祠】" + NOR + "   │\n";
+    msg += "                 (【法】道考場)   │\n";
+    msg += "                       │          │\n";
+    msg += "                  [濁水縣署] ─ " + HIY + "【浮橋金砂水集】" + NOR + " ─── " + YEL + "【濁水百草毒理棚】" + NOR + "\n";
+    msg += "                               ┌──┴───┬──────┐      (【物】道考場)\n";
+    msg += "                        [通寶濁水分號]│ [濁水縣驛]\n";
+    msg += "                                      │\n";
+    msg += "                               [黑水埗浮橋] ─────── [水上毒囊交割暗寮]\n";
+    msg += "                                  │(down)\n";
+    msg += "                            [廢棄排石暗渠] ──────── [柯九算石室・雲記名冊]\n";
+    msg += "                                  │\n";
+    msg += "                            [溶洞地下暗埠] ──► 地下溶洞暗河 (310里通城下暗渠)\n";
+    msg += WHT "──────────────────────────────────────────────────────────\n" + NOR;
+    if (me && environment(me)) {
+        msg += "你當前身處：" + HIG + environment(me)->query_short() + NOR + " (" + cur + ")\n";
+    }
+    return msg;
+}
+
+string draw_map(object me, int range) {
+    if (!me) return "";
+    
+    object me_env = environment(me);
+    if (me_env) {
+        string loc = base_name(me_env);
+        if (strsrch(loc, "/d/city/under/") != -1) {
+            return draw_under_map(me);
+        }
+        if (strsrch(loc, "/d/city/") != -1) {
+            return draw_city_map(me);
+        }
+        if (strsrch(loc, "/d/village/") != -1) {
+            return draw_village_map(me);
+        }
+        if (strsrch(loc, "/d/counties/panmu/") != -1) {
+            return draw_panmu_map(me);
+        }
+        if (strsrch(loc, "/d/counties/zhongshi/") != -1) {
+            return draw_zhongshi_map(me);
+        }
+        if (strsrch(loc, "/d/counties/qinghe/") != -1) {
+            return draw_qinghe_map(me);
+        }
+        if (strsrch(loc, "/d/counties/zhenfeng/") != -1) {
+            return draw_zhenfeng_map(me);
+        }
+        if (strsrch(loc, "/d/counties/liefan/") != -1) {
+            return draw_liefan_map(me);
+        }
+        if (strsrch(loc, "/d/counties/zhuoshui/") != -1) {
+            return draw_zhuoshui_map(me);
+        }
+        if (strsrch(loc, "/d/routes/") != -1) {
+            return draw_world_map(me);
+        }
+    }
+    
+    mixed coords = me_env ? me_env->query_coordinate() : 0;
+    if (!coords) return _t("map_not_found") + "\n";
+    
+    int cur_x = coords[0];
+    int cur_y = coords[1];
+    int cur_z = coords[2];
+    
+    mapping explored = me->query_explored_rooms();
+    string room_name = me_env->query_short();
+    
+    string title = _t("minimap_title");
+    title = replace_string(title, "$room", room_name);
+    title = replace_string(title, "$x", sprintf("%d", cur_x));
+    title = replace_string(title, "$y", sprintf("%d", cur_y));
+    title = replace_string(title, "$z", sprintf("%d", cur_z));
+    
+    string out = "\n" + "$HIW$" + title + "$NOR$" + "\n";
+    
+    // 從北到南 (y 遞減)
+    for (int y = cur_y + range; y >= cur_y - range; y--) {
+        string room_line = "  ";
+        string path_line = "  ";
+        
+        // 從西到東 (x 遞增)
+        for (int x = cur_x - range; x <= cur_x + range; x++) {
+            string r_file = get_room_file(x, y, cur_z);
+            
+            // 判斷是否為「可見」房間
+            int visible = 0;
+            if (x == cur_x && y == cur_y) visible = 1;
+            else if (r_file && explored && explored[r_file]) visible = 1;
+            else if (r_file) {
+                // 檢查周圍是否有已探索房間且有通路連向這裡
+                string *dirs = ({ "north", "south", "east", "west" });
+                int *dx = ({ 0, 0, 1, -1 });
+                int *dy = ({ 1, -1, 0, 0 });
+                string *opp = ({ "south", "north", "west", "east" });
+                
+                for (int i = 0; i < 4; i++) {
+                    int nx = x + dx[i];
+                    int ny = y + dy[i];
+                    string neighbor_file = get_room_file(nx, ny, cur_z);
+                    
+                    if (neighbor_file && ((nx == cur_x && ny == cur_y) || (explored && explored[neighbor_file]))) {
+                        object n_ob = find_object(neighbor_file);
+                        if (!n_ob) n_ob = load_object(neighbor_file);
+                        mapping n_exits = n_ob->query_exits();
+                        if (mapp(n_exits) && n_exits[opp[i]]) {
+                            string target = resolve_path(n_exits[opp[i]], neighbor_file);
+                            if (target == r_file) {
+                                visible = 1;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+
+            // 1. 繪製房間符號
+            if (x == cur_x && y == cur_y) {
+                room_line += "$HIY$ * $NOR$"; // 當前位置
+            } else if (!visible) {
+                room_line += "   "; // 不可見則留白
+            } else if (explored && explored[r_file]) {
+                object r_ob = find_object(r_file);
+                if (!r_ob) r_ob = load_object(r_file);
+
+                if (r_ob->query_has_bank()) room_line += "$HIW$ B $NOR$";
+                else if (r_ob->query_has_shop()) room_line += "$HIY$ A $NOR$";
+                else if (r_ob->query_has_tavern()) room_line += "$MAG$ T $NOR$";
+                else if (r_ob->query_has_guild()) room_line += "$HIB$ G $NOR$";
+                else if (r_ob->query_has_forge()) room_line += "$YEL$ F $NOR$";
+                else if (r_ob->query_has_lab()) room_line += "$HIG$ L $NOR$";
+                else if (r_ob->query_no_combat()) room_line += "$HIC$ S $NOR$";
+                else room_line += "$WHT$ # $NOR$";
+            } else {
+                room_line += " ? "; // 通路連接但未曾進入
+            }
+            
+            // 2. 繪製水平連接 (向東)
+            if (x < cur_x + range) {
+                string next_file = get_room_file(x+1, y, cur_z);
+                if (r_file && next_file) {
+                    object r1 = find_object(r_file);
+                    if (!r1) r1 = load_object(r_file);
+                    mapping e1 = r1->query_exits();
+                    int connected = 0;
+                    if (mapp(e1) && e1["east"]) {
+                        string target = resolve_path(e1["east"], r_file);
+                        if (target == next_file) connected = 1;
+                    }
+                    
+                    // 只有當其中一端是可見時才繪製連線
+                    int next_visible = 0;
+                    if ((x+1 == cur_x && y == cur_y) || (explored && explored[next_file])) next_visible = 1;
+                    
+                    if (connected && (visible || next_visible)) room_line += "-"; else room_line += " ";
+                } else {
+                    room_line += " ";
+                }
+            }
+            
+            // 3. 繪製垂直連接 (向南)
+            if (y > cur_y - range) {
+                string south_file = get_room_file(x, y-1, cur_z);
+                int south_visible = 0;
+                if (south_file) {
+                    if ((x == cur_x && y-1 == cur_y) || (explored && explored[south_file])) south_visible = 1;
+                }
+
+                if (r_file && south_file) {
+                    object r1 = find_object(r_file);
+                    if (!r1) r1 = load_object(r_file);
+                    mapping e1 = r1->query_exits();
+                    int connected = 0;
+                    if (mapp(e1) && e1["south"]) {
+                        string target = resolve_path(e1["south"], r_file);
+                        if (target == south_file) connected = 1;
+                    }
+                    if (connected && (visible || south_visible)) path_line += " | "; else path_line += "   ";
+                } else {
+                    path_line += "   ";
+                }
+                if (x < cur_x + range) path_line += " ";
+            }
+        }
+        out += room_line + "\n";
+        if (y > cur_y - range) out += path_line + "\n";
+    }
+    
+    string compass = 
+        "      N      \n" +
+        "    W + E    \n" +
+        "      S      \n";
+        
+    string legend = _t("minimap_legend");
+
+    out += "$HIW$----------------------$NOR$" + "\n";
+    out += "$CYN$" + compass + "$NOR$";
+    out += legend + "\n";
+    return out;
+}
+
+// 提供給 Web UI 的 JSON 資料
+mapping get_map_json(object me, int range) {
+    mapping res = ([ "center_name": "", "grid": ({}), "connections": ({}) ]);
+    if (!me) return res;
+    
+    object me_env2 = environment(me);
+    mixed coords = me_env2 ? me_env2->query_coordinate() : 0;
+    if (!coords) return res;
+    
+    int cur_x = coords[0];
+    int cur_y = coords[1];
+    int cur_z = coords[2];
+    
+    object env = environment(me);
+    if (env) {
+        res["center_name"] = env->query_short();
+    }
+    
+    mapping explored = me->query_explored_rooms();
+    mixed grid = ({});
+    mixed connections = ({});
+    
+    // 從北到南 (y 遞減)
+    for (int y = cur_y + range; y >= cur_y - range; y--) {
+        mixed row = ({});
+        for (int x = cur_x - range; x <= cur_x + range; x++) {
+            string type = "void";
+            string r_file = get_room_file(x, y, cur_z);
+            
+            if (x == cur_x && y == cur_y) {
+                type = "player";
+            } else if (r_file) {
+                if (explored && explored[r_file]) {
+                    object r_ob = find_object(r_file);
+                    if (!r_ob) r_ob = load_object(r_file);
+                    if (r_ob->query_has_bank()) type = "bank";
+                    else if (r_ob->query_has_shop()) type = "shop";
+                    else if (r_ob->query_has_tavern()) type = "tavern";
+                    else if (r_ob->query_has_guild()) type = "guild";
+                    else if (r_ob->query_has_forge()) type = "forge";
+                    else if (r_ob->query_has_lab()) type = "lab";
+                    else if (r_ob->query_no_combat()) type = "safe";
+                    else type = "room";
+                } else {
+                    type = "fog";
+                }
+            }
+            row += ({ type });
+
+            // Check horizontal connection
+            if (x < cur_x + range) {
+                string next_f = get_room_file(x+1, y, cur_z);
+                if (r_file && next_f) {
+                    object r1 = load_object(r_file);
+                    mapping e1 = r1->query_exits();
+                    if (mapp(e1) && e1["east"]) {
+                        string target = resolve_path(e1["east"], r_file);
+                        if (target == next_f) {
+                            connections += ({ ({ x, y, x+1, y }) });
+                        }
+                    }
+                }
+            }
+            // Check vertical connection
+            if (y > cur_y - range) {
+                string south_f = get_room_file(x, y-1, cur_z);
+                if (r_file && south_f) {
+                    object r1 = load_object(r_file);
+                    mapping e1 = r1->query_exits();
+                    if (mapp(e1) && e1["south"]) {
+                        string target = resolve_path(e1["south"], r_file);
+                        if (target == south_f) {
+                            connections += ({ ({ x, y, x, y-1 }) });
+                        }
+                    }
+                }
+            }
+        }
+        grid += ({ row });
+    }
+    
+    res["grid"] = grid;
+    res["connections"] = connections;
+    return res;
+}

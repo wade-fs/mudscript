@@ -1,0 +1,11 @@
+{
+  "type": "currency",
+  "id": "template_coin",
+  "primary": 1,
+  "unit": "銅錢",
+  "denominations": [
+    { "name": "金幣", "value": 10000 },
+    { "name": "銀幣", "value": 100 },
+    { "name": "銅錢", "value": 1 }
+  ]
+}

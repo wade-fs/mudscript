@@ -1,0 +1,43 @@
+{
+  "type": "npc",
+  "id": "guide",
+  "id_list": ["guide", "嚮導", "嚮導大人"],
+  "name": "嚮導",
+  "short": "一位友善的嚮導",
+  "long": "這位嚮導面帶微笑，身穿簡單的旅行服，腰間掛著一個舊皮袋。他正在等待新到的旅人。\n",
+  "level": 10,
+  "stat_str": 12,
+  "stat_con": 12,
+  "home_room": "/rooms/courtyard",
+  "aggressive": 0,
+  "initial_state": "waiting",
+  "states": {
+    "waiting": {
+      "short": "一位友善的嚮導（正在等候旅人）",
+      "transitions": {
+        "quest_started": "guiding"
+      }
+    },
+    "guiding": {
+      "short": "一位友善的嚮導（滿意地點點頭）",
+      "dialogue": {
+        "default": "嚮導說：「既然接了委託，就去完成你的試煉吧！」"
+      }
+    }
+  },
+  "dialogue": {
+    "default": {
+      "text": "嚮導微笑道：「歡迎來到這個世界！你想了解什麼？」",
+      "choices": [
+        { "label": "詢問試煉任務", "topic": "quest" },
+        { "label": "尋求操作幫助", "topic": "help" }
+      ]
+    },
+    "quest": {
+      "text": "嚮導說：「我有一個入門委託，願意接下嗎？」",
+      "accept_quest": "intro",
+      "transition": "quest_started"
+    },
+    "help": "嚮導說：「輸入 look 環顧四周，go 移動，talk 與人對話，quest 查看任務，score 查看狀態。」"
+  }
+}

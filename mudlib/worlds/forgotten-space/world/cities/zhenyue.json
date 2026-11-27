@@ -1,0 +1,19 @@
+{
+  "schema_version": "1.1",
+  "id": "zhenyue",
+  "name": "鎮岳城",
+  "aliases": ["九城之盾", "絕嶺邊關"],
+  "civilization_role": "軍事防禦與邊界封印",
+  "spatial_type": "cliff_bastion_fortress",
+  "status": "garrisoned_bastion",
+  "ancient_status": "RUINED",
+  "remaining_structure_status": "PARTIAL",
+  "modern_manifestation": "cliff_bastion_border_fortress",
+  "access_status": "GARRISONED",
+  "known_by": ["imperial_military", "border_guards"],
+  "evidence": "world/lore/nine_cities_canon.md",
+  "confidence": "CONFIRMED",
+  "zones": ["cliff_rampart", "seal_array_bastion", "garrison_keep"],
+  "dependencies": ["tianshu", "xuanzhu", "guanxing", "canglan", "guixu"],
+  "topology": ["northern_border_pass"]
+}

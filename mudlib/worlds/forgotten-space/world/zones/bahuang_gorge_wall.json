@@ -1,0 +1,20 @@
+{
+  "schema_version": "1.1",
+  "zone_id": "bahuang_gorge_wall",
+  "region_id": "bahuang",
+  "name": "黑山長城西段與鬼哭峽防線",
+  "zone_type": "BORDER_DEFENSE",
+  "danger_tier": 2,
+  "environment": {
+    "tags": ["WALL_BREACH", "COLD_WIND", "BEAST_SURGE_FRONT"]
+  },
+  "site_refs": [],
+  "discovery_rules": { "visibility": "PUBLIC" },
+  "access_rules": { "required_items": [] },
+  "survival_rules": {
+    "environmental_constraints": ["heavy_cold_gale"]
+  },
+  "status": "ACTIVE",
+  "evidence": ["narrative/events/volume3_events.md"],
+  "confidence": "CONFIRMED"
+}

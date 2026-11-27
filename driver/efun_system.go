@@ -3,7 +3,6 @@ package driver
 
 import (
 	"fmt"
-	"io/fs"
 	"os"
 	"path/filepath"
 	"regexp"
@@ -42,8 +41,11 @@ func (d *Driver) registerSystemAndFiles(obj *object.LPCObject) {
 				return &object.Integer{Value: 0}
 			}
 
-			fullPath := filepath.Join(d.Config.MudLibPath, resolvedPath)
-			err := os.Remove(fullPath)
+			fullPath, err := d.ResolveWritePath(resolvedPath)
+			if err != nil {
+				return &object.Integer{Value: 0}
+			}
+			err = os.Remove(fullPath)
 			if err != nil {
 				return &object.Integer{Value: 0}
 			}
@@ -83,8 +85,11 @@ func (d *Driver) registerSystemAndFiles(obj *object.LPCObject) {
 				return &object.Integer{Value: 0}
 			}
 
-			fullFrom := filepath.Join(d.Config.MudLibPath, resolvedFrom)
-			fullTo := filepath.Join(d.Config.MudLibPath, resolvedTo)
+			fullFrom, errFrom := d.ResolveWritePath(resolvedFrom)
+			fullTo, errTo := d.ResolveWritePath(resolvedTo)
+			if errFrom != nil || errTo != nil {
+				return &object.Integer{Value: 0}
+			}
 
 			os.MkdirAll(filepath.Dir(fullTo), 0755)
 			err := os.Rename(fullFrom, fullTo)
@@ -117,8 +122,11 @@ func (d *Driver) registerSystemAndFiles(obj *object.LPCObject) {
 				return &object.Integer{Value: 0}
 			}
 
-			fullPath := filepath.Join(d.Config.MudLibPath, resolvedPath)
-			err := os.MkdirAll(fullPath, 0755)
+			fullPath, err := d.ResolveWritePath(resolvedPath)
+			if err != nil {
+				return &object.Integer{Value: 0}
+			}
+			err = os.MkdirAll(fullPath, 0755)
 			if err != nil {
 				return &object.Integer{Value: 0}
 			}
@@ -148,8 +156,11 @@ func (d *Driver) registerSystemAndFiles(obj *object.LPCObject) {
 				return &object.Integer{Value: 0}
 			}
 
-			fullPath := filepath.Join(d.Config.MudLibPath, resolvedPath)
-			err := os.Remove(fullPath)
+			fullPath, err := d.ResolveWritePath(resolvedPath)
+			if err != nil {
+				return &object.Integer{Value: 0}
+			}
+			err = os.Remove(fullPath)
 			if err != nil {
 				return &object.Integer{Value: 0}
 			}
@@ -189,10 +200,12 @@ func (d *Driver) registerSystemAndFiles(obj *object.LPCObject) {
 				return &object.Integer{Value: 0}
 			}
 
-			fullFrom := filepath.Join(d.Config.MudLibPath, resolvedFrom)
-			fullTo := filepath.Join(d.Config.MudLibPath, resolvedTo)
+			content, err := d.ReadExactFile(resolvedFrom)
+			if err != nil {
+				return &object.Integer{Value: 0}
+			}
 
-			content, err := os.ReadFile(fullFrom)
+			fullTo, err := d.ResolveWritePath(resolvedTo)
 			if err != nil {
 				return &object.Integer{Value: 0}
 			}
@@ -396,7 +409,10 @@ func (d *Driver) registerSystemAndFiles(obj *object.LPCObject) {
 				}
 			}
 
-			fullPath := filepath.Join(d.Config.MudLibPath, resolvedPath)
+			fullPath, err := d.ResolveWritePath(resolvedPath)
+			if err != nil {
+				return &object.Integer{Value: 0}
+			}
 			os.MkdirAll(filepath.Dir(fullPath), 0755)
 			f, err := os.OpenFile(fullPath, flag, 0644)
 			if err != nil {
@@ -512,21 +528,11 @@ func (d *Driver) registerSystemAndFiles(obj *object.LPCObject) {
 			}
 
 			resolvedPath := d.ResolvePath(obj.Filename, fileName.Value)
-			fullPath := filepath.Join(d.Config.MudLibPath, resolvedPath)
-			if info, err := os.Stat(fullPath); err == nil {
+			if info, err := d.StatOverlay(resolvedPath); err == nil {
 				if info.IsDir() {
 					return &object.Integer{Value: -2}
 				}
 				return &object.Integer{Value: info.Size()}
-			}
-			if d.Config.EmbeddedFS != nil {
-				embedPath := filepath.Join("mudlib", strings.TrimPrefix(resolvedPath, "/"))
-				if info, err := fs.Stat(d.Config.EmbeddedFS, embedPath); err == nil {
-					if info.IsDir() {
-						return &object.Integer{Value: -2}
-					}
-					return &object.Integer{Value: info.Size()}
-				}
 			}
 			return &object.Integer{Value: -1}
 		},
@@ -719,8 +725,11 @@ func (d *Driver) registerSystemAndFiles(obj *object.LPCObject) {
 			allowed, _ = d.checkWritePermission(obj, resolvedTo, "link_to")
 			if !allowed { return &object.Integer{Value: 0} }
 
-			fullFrom := filepath.Join(d.Config.MudLibPath, resolvedFrom)
-			fullTo := filepath.Join(d.Config.MudLibPath, resolvedTo)
+			fullFrom, errFrom := d.ResolveWritePath(resolvedFrom)
+			fullTo, errTo := d.ResolveWritePath(resolvedTo)
+			if errFrom != nil || errTo != nil {
+				return &object.Integer{Value: 0}
+			}
 
 			err := os.Link(fullFrom, fullTo)
 			if err != nil {
@@ -819,8 +828,7 @@ func (d *Driver) registerMonitorEfuns(obj *object.LPCObject) {
 			}
 
 			resolved := d.ResolvePath(obj.Filename, path.Value)
-			fullPath := filepath.Join(d.Config.MudLibPath, resolved)
-			info, err := os.Stat(fullPath)
+			info, err := d.StatOverlay(resolved)
 			if err != nil {
 				return &object.Nil{}
 			}

@@ -1,0 +1,42 @@
+{
+  "id": "side_sect_danding_herb_oops",
+  "name": "外門藥圃・誤採搶救",
+  "chapter": "Ch.0089-Ch.0119",
+  "category": "side",
+  "type": "once",
+  "start_npc": "danding_cook_nun",
+  "start_topic": "誤採",
+  "requirements": {
+    "level": 3
+  },
+  "steps": [
+    {
+      "step": 1,
+      "title": "在丹鼎門外門洗藥晾曬坡分揀洗淨混雜草藥",
+      "hint": "經百草靈圃往東來到丹鼎門外門洗藥晾曬坡，在泉水石池邊分揀刷洗帶泥藥根 (wash_herb)。",
+      "target_type": "action",
+      "action_verb": "wash_herb",
+      "action_target": "herb",
+      "location": "/d/sects/danding/outer_herb_terrace",
+      "on_complete": {
+        "msg": "你憑著藥性手感把混進筐裡的毒根全部挑了出來，其餘洗淨的苦參與黃精重新擺進竹匾。"
+      }
+    },
+    {
+      "step": 2,
+      "title": "將分揀好的藥材帶回清淡百味膳堂交給火頭道姑",
+      "hint": "返回丹鼎門清淡百味膳堂向火頭道姑覆命 (ask danding_cook_nun about 誤採)。",
+      "target_type": "talk",
+      "target_npc": "danding_cook_nun",
+      "target_topic": "誤採",
+      "location": "/d/sects/danding/sect_refectory",
+      "on_complete": {
+        "msg": "火頭道姑鬆了一大口氣，直說多虧你眼明手快才沒整鍋鬧出人命，塞給你一大包紅棗與銅錢。"
+      }
+    }
+  ],
+  "rewards": {
+    "exp": 220,
+    "money": 100
+  }
+}

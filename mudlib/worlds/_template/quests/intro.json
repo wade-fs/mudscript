@@ -1,0 +1,45 @@
+{
+  "id": "intro",
+  "name": "初來乍到",
+  "desc": "嚮導委託你熟悉這個新世界的基本操作，並選擇你的行事風格。",
+  "requires": [],
+  "stages": [
+    {
+      "name": "前往庭院",
+      "desc": "前往北邊的庭院（輸入：go north）",
+      "condition": "visited_courtyard",
+      "progress_msg": "你踏入了庭院，完成了第一步！"
+    },
+    {
+      "name": "作出抉擇",
+      "desc": "在保守觀察與積極探索之間作出選擇（quest choose intro cautious 或 explore）",
+      "choices": {
+        "cautious": {
+          "label": "謹慎觀察",
+          "message": "你選擇先仔細記錄周圍細節再行動。",
+          "set_flags": { "style_cautious": 1 },
+          "world_vars": { "caution_index": 1 },
+          "exp": 80,
+          "money": 150,
+          "items": ["/items/badge"],
+          "complete_status": "completed"
+        },
+        "explore": {
+          "label": "積極探索",
+          "message": "你毫不猶豫地邁步探索未知區域！",
+          "set_flags": { "style_explorer": 1 },
+          "world_vars": { "exploration_index": 1 },
+          "exp": 120,
+          "money": 100,
+          "items": ["/items/badge"],
+          "complete_status": "completed"
+        }
+      }
+    }
+  ],
+  "rewards": {
+    "exp": 100,
+    "money": 50
+  },
+  "complete_msg": "嚮導點頭稱讚：「做得很好！你已經掌握了基本操作與抉擇。」"
+}

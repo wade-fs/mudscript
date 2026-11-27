@@ -1,0 +1,46 @@
+{
+  "id": "v4_act3_human_seed_bridge_truce",
+  "name": "秩序仲裁橋：援引火種第七條暫緩清零十日",
+  "chapter": "Ch.0152",
+  "category": "main",
+  "type": "once",
+  "region": "realm_wanwu",
+  "start_npc": "wanwu_arbiter_core",
+  "start_topic": "火種",
+  "steps": [
+    {
+      "step": 1,
+      "title": "於仲裁橋向天穹裁決核心宣讀《離艦火種總約》",
+      "hint": "前往萬物秩序仲裁橋向中立裁決核心調閱《離艦總約》人族火種條款 (ask wanwu_arbiter_core about 火種)。",
+      "target_type": "talk",
+      "target_npc": "wanwu_arbiter_core",
+      "target_topic": "火種",
+      "location": "/d/realm/wanwu/arbitration_bridge"
+    },
+    {
+      "step": 2,
+      "title": "呈遞九城補登總帳強制觸發十日暫緩校準復議",
+      "hint": "在秩序仲裁橋將補冊總帳與雙向證憑正本拍上銅槽援引第七條條款 (invoke treaty)。",
+      "target_type": "action",
+      "action_verb": "invoke",
+      "action_target": "treaty",
+      "location": "/d/realm/wanwu/arbitration_bridge",
+      "on_complete": {
+        "msg": "白銀裁決音正式宣告核驗合律：太虛與萬物聯合清零令強制凍結十日，直至大校準當夜再審！"
+      }
+    },
+    {
+      "step": 3,
+      "title": "當場質詢監察員陳楷退讓",
+      "hint": "見證監察員陳楷在鐵律條文面前無話可說 (ask wanwu_inspector_chen about 達成率)。",
+      "target_type": "talk",
+      "target_npc": "wanwu_inspector_chen",
+      "target_topic": "達成率",
+      "location": "/d/realm/wanwu/scrap_ring"
+    }
+  ],
+  "rewards": {
+    "exp": 1650,
+    "pot": 480
+  }
+}

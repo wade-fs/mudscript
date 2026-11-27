@@ -1,0 +1,80 @@
+{
+  "schema_version": "1.1",
+  "region_id": "realm_zhanzu",
+  "name": "戰祖魔殿",
+  "civ_level": "pole_citadel",
+  "region_type": "DONG_TIAN_POLE",
+  "coords": [-220, 1100, 1180],
+  "geography": {
+    "position": null,
+    "coordinate_space": "LOCAL_GAME_SPACE",
+    "precision": "RELATIVE_COORDS",
+    "terrain": "volcanic_bone_bastion",
+    "description": "洞天三極之一，以重骨哨卡、獵獸外營與血脈角鬥場聞名的高壓武道聚極"
+  },
+  "resources": {
+    "primary_product": "tempered_bone_plates",
+    "secondary_product": "war_beast_hides",
+    "demand": ["cured_meat", "salt_crystal_jin", "herbal_paste"],
+    "reserves": {
+      "bone_plates": 2400,
+      "cured_meat": 4000,
+      "salt_crystal_jin": 1500
+    },
+    "price_index": 100
+  },
+  "factions": {
+    "zhanzu_war_priests": {
+      "power": 50,
+      "agenda": "conscript_tribes_for_harvest_campaign"
+    },
+    "zhanzu_outer_tribes": {
+      "power": 35,
+      "agenda": "refuse_suicidal_blood_levies"
+    },
+    "ash_lineage_scouts": {
+      "power": 15,
+      "agenda": "rescue_captives_and_bridge_truce"
+    }
+  },
+  "crisis_deck": [
+    {
+      "id": "bone_gate_beast_stampede",
+      "base_weight": 35,
+      "trigger_metric": "outpost_defense"
+    },
+    {
+      "id": "forced_conscription_revolt",
+      "base_weight": 25,
+      "trigger_metric": "labor_solidarity"
+    },
+    {
+      "id": "arena_sacrifice_escalation",
+      "base_weight": 20,
+      "trigger_metric": "charter_legitimacy"
+    },
+    {
+      "id": "frontier_ration_blockade",
+      "base_weight": 20,
+      "trigger_metric": "array_deflection"
+    }
+  ],
+  "zone_refs": [
+    {
+      "zone_id": "realm_zhanzu_camp",
+      "type": "martial_fortress",
+      "tier": 3
+    }
+  ],
+  "lpc_rooms": [
+    "/d/realm/zhanzu/bone_gate.c",
+    "/d/realm/zhanzu/hunting_camp.c",
+    "/d/realm/zhanzu/arena_pit.c"
+  ],
+  "confidence": "CONFIRMED",
+  "evidence": [
+    "world/lore/second_era_ark_canon.md",
+    "narrative/events/volume4_events.md",
+    "data/event_defs/tier3_calibration.json"
+  ]
+}

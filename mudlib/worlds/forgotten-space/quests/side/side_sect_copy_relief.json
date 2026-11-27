@@ -1,0 +1,42 @@
+{
+  "id": "side_sect_copy_relief",
+  "name": "山門暮粥・抄經換餐",
+  "chapter": "Ch.0086-Ch.0119",
+  "category": "side",
+  "type": "once",
+  "start_npc": "taiqing_copy_senior",
+  "start_topic": "手痠",
+  "requirements": {
+    "level": 3
+  },
+  "steps": [
+    {
+      "step": 1,
+      "title": "在太清戒律抄經堂謄完科儀經卷",
+      "hint": "留在太清門・戒律抄經堂伏案研磨松煙墨，仔細抄完這一卷《太清守靜科儀》(copy scripture)。",
+      "target_type": "action",
+      "action_verb": "copy",
+      "action_target": "scripture",
+      "location": "/d/sects/taiqing/scripture_copy_hall",
+      "on_complete": {
+        "msg": "你揉了揉酸麻的手腕將墨跡吹乾交卷，師兄暗地朝丹鼎門方向努了努嘴。"
+      }
+    },
+    {
+      "step": 2,
+      "title": "趁夜溜去丹鼎門清淡百味膳堂討碗熱粥",
+      "hint": "穿過萬山廣場往東北入丹鼎門百草靈圃南側的清淡百味膳堂，向火頭道姑討碗溫熱蓮子粥暖暖身子 (ask cook_nun about 領粥)。",
+      "target_type": "talk",
+      "target_npc": "danding_cook_nun",
+      "target_topic": "領粥",
+      "location": "/d/sects/danding/sect_refectory",
+      "on_complete": {
+        "msg": "火頭道姑笑著多舀了一勺桂圓蓮子進你的粗陶大碗——在清規森嚴的四宗門下，這碗熱粥比冷冰冰的丹藥還有人味。"
+      }
+    }
+  ],
+  "rewards": {
+    "exp": 240,
+    "money": 120
+  }
+}

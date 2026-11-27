@@ -174,8 +174,12 @@ func (h *Hub) Run() {
 					continue
 				}
 
-				// 2. 寫入檔案
-				fullPath := filepath.Join(h.mudDriver.Config.MudLibPath, resolvedPath)
+				// 2. 寫入檔案（強制鎖定於上層 MudLibPath，實現 Copy-on-Write）
+				fullPath, err := h.mudDriver.ResolveWritePath(resolvedPath)
+				if err != nil {
+					h.mudDriver.TellObject(obj, "❌ 存檔失敗：" + err.Error() + "\n")
+					continue
+				}
 				if err := os.MkdirAll(filepath.Dir(fullPath), 0755); err != nil {
 					h.mudDriver.TellObject(obj, "❌ 存檔失敗：無法建立目錄\n")
 					continue
@@ -193,7 +197,7 @@ func (h *Hub) Run() {
 					h.mudDriver.DestructObject(ob)
 				}
 				
-				_, err := h.mudDriver.LoadObject(resolvedPath)
+				_, err = h.mudDriver.LoadObject(resolvedPath)
 				if err != nil {
 					// 🚀 發送編譯錯誤給 Web IDE
 					errMsg := err.Error()

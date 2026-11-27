@@ -1,0 +1,11 @@
+{
+  "type": "item",
+  "id": "badge",
+  "id_list": ["badge", "新手徽章", "徽章"],
+  "name": "新手徽章",
+  "short": "一枚銅製的新手徽章",
+  "long": "徽章上刻著旅人協會的徽記，證明你已經熟悉了這座世界的基本法則。\n",
+  "item_type": "quest",
+  "value": 10,
+  "weight": 50
+}

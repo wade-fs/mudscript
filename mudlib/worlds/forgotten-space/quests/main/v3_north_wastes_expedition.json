@@ -1,0 +1,92 @@
+{
+  "id": "v3_north_wastes_expedition",
+  "name": "北荒勘探：走山隊與方舟陣基",
+  "chapter": "Ch.0102-Ch.0106",
+  "category": "main",
+  "type": "once",
+  "region": "wastes",
+  "requirements": {
+    "level": 70
+  },
+  "start_npc": "qi_shiliu",
+  "start_topic": "勘探隊",
+  "steps": [
+    {
+      "step": 1,
+      "title": "報到聯合勘探隊",
+      "hint": "於北荒南沿入口向首席嚮導祁十六報到，核對隊伍正北偏東行進路線。",
+      "target_type": "talk",
+      "target_npc": "qi_shiliu",
+      "target_topic": "勘探隊",
+      "location": "/d/wastes/south_approach",
+      "on_complete": {
+        "msg": "勘探隊成行，赤煉督導隊尾三輛黑布重車去向可疑，各方私下目的並不相同。"
+      }
+    },
+    {
+      "step": 2,
+      "title": "測算雪橇重車磁偏角",
+      "hint": "在雪原行腳營地輸入 inspect sleighs 檢查雪橇防滑鐵齒並窺測黑布重車底細。",
+      "target_type": "action",
+      "action_verb": "inspect",
+      "action_target": "sleighs",
+      "location": "/d/wastes/snow_caravan_camp",
+      "on_complete": {
+        "msg": "星盤測出重車內暗藏微型鑽山機部件，印證其目標為北偏東核心裂谷。"
+      }
+    },
+    {
+      "step": 3,
+      "title": "永凍血原協同破雙頭霜甲地龍",
+      "hint": "踏入永凍血原擊敗暴起的二階頂峰雙頭霜甲地龍（shuangtou_dilong）。",
+      "target_type": "kill",
+      "target_mob": "shuangtou_dilong",
+      "location": "/d/wastes/frozen_blood_plain",
+      "on_complete": {
+        "give_item": "/clone/item/pill_herb_poultice.c",
+        "msg": "你以破甲重箭貫穿右顎逆鱗死穴逼退雙頭霜甲地龍，並記下沸血雄黃煙低壓禁忌。"
+      }
+    },
+    {
+      "step": 4,
+      "title": "前哨醫所對照實驗與染煞病例簿",
+      "hint": "前往北荒前哨醫所向頑固老醫師白岩請教半寸雪線續脈膏對照與採冰礦肺部病例。",
+      "target_type": "talk",
+      "target_npc": "bai_yan",
+      "target_topic": "對照實驗",
+      "location": "/d/wastes/north_outpost_infirmary",
+      "on_complete": {
+        "msg": "對照實驗消腫七成折服白岩，採冰礦散修肺部紫黑硬斑與廢丹崖吻合七成。"
+      }
+    },
+    {
+      "step": 5,
+      "title": "黑冰斷谷勘驗走山隊九具遺骸",
+      "hint": "深入黑冰斷谷輸入 excavate remains 逐件編號遺物並收起「北線斥候・乙十七」銅哨。",
+      "target_type": "action",
+      "action_verb": "excavate",
+      "action_target": "remains",
+      "location": "/d/wastes/black_ice_valley",
+      "on_complete": {
+        "give_item": "/clone/item/hanlin_copper_whistle.c",
+        "msg": "確認兩名斥候中弩矢殉職及「乙十七」韓林銅哨實證；九骸中未見燕山，生死仍未明。"
+      }
+    },
+    {
+      "step": 6,
+      "title": "方舟冷卻艙段化驗母脈實質",
+      "hint": "循暖風裂隙進入方舟主引擎冷卻艙段，輸入 test coolant 對照母脈結晶與黑鐵齒輪。",
+      "target_type": "action",
+      "action_verb": "test",
+      "action_target": "coolant",
+      "location": "/d/wastes/ark_foundation",
+      "on_complete": {
+        "msg": "化驗證實所謂「血精母脈」乃方舟冷卻穩壓管線廢液，強挖恐釀北境地脈陸沉。"
+      }
+    }
+  ],
+  "rewards": {
+    "exp": 1350,
+    "pot": 380
+  }
+}

@@ -1,0 +1,92 @@
+{
+  "schema_version": "1.1",
+  "region_id": "yunjin",
+  "name": "雲津",
+  "civ_level": "prefecture",
+  "region_type": "TRANSIT_HUB",
+  "coords": [0, 420, 120],
+  "geography": {
+    "position": null,
+    "coordinate_space": "LOCAL_GAME_SPACE",
+    "precision": "RELATIVE_COORDS",
+    "terrain": "northern_river_hub",
+    "description": "金石北路與北荒咽喉之間的水陸轉運樞紐，三宗共管交割與殘晶隔離帶交界處"
+  },
+  "resources": {
+    "primary_product": "frost_cedar_timber",
+    "secondary_product": "sled_freight",
+    "demand": ["charcoal", "grain", "fur_cloak", "lime", "antidote_herbs"],
+    "reserves": {
+      "timber": 24000,
+      "charcoal": 6000,
+      "grain": 15000
+    },
+    "price_index": 100
+  },
+  "factions": {
+    "yunjin_mudway_merchant": {
+      "power": 35,
+      "agenda": "stabilize_sled_supply_and_open_audit"
+    },
+    "three_sect_customs": {
+      "power": 40,
+      "agenda": "enforce_cross_sect_quarantine_and_hearing"
+    },
+    "wanbao_futures_guild": {
+      "power": 25,
+      "agenda": "control_grain_and_mineral_futures"
+    }
+  },
+  "crisis_deck": [
+    {
+      "id": "crystal_poison_quarantine",
+      "base_weight": 35,
+      "trigger_metric": "herd_pressure"
+    },
+    {
+      "id": "ice_wharf_freeze",
+      "base_weight": 25,
+      "trigger_metric": "settlement_resilience"
+    },
+    {
+      "id": "futures_reserve_default",
+      "base_weight": 25,
+      "trigger_metric": "evidence_verifiability"
+    },
+    {
+      "id": "three_sect_hearing_deadlock",
+      "base_weight": 15,
+      "trigger_metric": "civilian_trust"
+    }
+  ],
+  "zone_refs": [
+    {
+      "zone_id": "yunjin_city",
+      "type": "settlement",
+      "tier": 1
+    },
+    {
+      "zone_id": "yunjin_quarantine_edge",
+      "type": "quarantine_belt",
+      "tier": 2
+    }
+  ],
+  "lpc_rooms": [
+    "/d/yunjin/wanshan_square.c",
+    "/d/yunjin/river_wharf.c",
+    "/d/yunjin/mudway_store.c",
+    "/d/yunjin/mudway_store_cellar.c",
+    "/d/yunjin/exchange_hall.c",
+    "/d/yunjin/hearing_hall.c",
+    "/d/yunjin/public_office.c",
+    "/d/yunjin/stone_arch_quarantine.c",
+    "/d/yunjin/crystal_poison_edge.c",
+    "/d/yunjin/west_street_recycling.c"
+  ],
+  "confidence": "CONFIRMED",
+  "evidence": [
+    "world/lore/nine_cities_canon.md",
+    "narrative/events/volume3_events.md",
+    "data/event_defs/tier2_crisis.json"
+  ]
+}

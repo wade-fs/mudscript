@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.1",
+  "site_id": "heishipu_ancient_mine",
+  "zone_id": "heishipu_outskirts",
+  "name": "北崖古礦洞",
+  "site_type": "ANCIENT_MINE",
+  "danger_tier": 1,
+  "room_refs": [
+    "/d/village/mine.c"
+  ],
+  "discovery_rules": {
+    "visibility": "PUBLIC"
+  },
+  "access_rules": {},
+  "survival_rules": {
+    "environmental_constraints": ["disha_pulse_shock"]
+  },
+  "status": "ACTIVE",
+  "evidence": ["narrative/docs/maps/world_map.md"],
+  "confidence": "CONFIRMED"
+}

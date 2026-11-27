@@ -1,0 +1,47 @@
+{
+  "id": "v4_act2_taixu_calibration_spy",
+  "name": "太虛白玉階：玉化晶核與日誌銅匣",
+  "chapter": "Ch.0135-Ch.0136",
+  "category": "main",
+  "type": "once",
+  "region": "realm_taixu",
+  "start_npc": "taixu_observer_heng",
+  "start_topic": "日誌",
+  "steps": [
+    {
+      "step": 1,
+      "title": "探訪太虛校星觀測院異見修士",
+      "hint": "在白玉接天階向衡真道人打聽校準誤差與日誌銅匣 (ask taixu_observer_heng about 日誌)。",
+      "target_type": "talk",
+      "target_npc": "taixu_observer_heng",
+      "target_topic": "日誌",
+      "location": "/d/realm/taixu/white_jade_steps"
+    },
+    {
+      "step": 2,
+      "title": "旁查主簿嚴平鹽晶損耗帳目",
+      "hint": "在白玉階旁向執律閣主簿嚴平試探探問外階鹽晶損耗 (ask taixu_clerk_yanping about 鹽晶)。",
+      "target_type": "talk",
+      "target_npc": "taixu_clerk_yanping",
+      "target_topic": "鹽晶",
+      "location": "/d/realm/taixu/white_jade_steps"
+    },
+    {
+      "step": 3,
+      "title": "取得鎖死的太古讀數銅匣與觀測實錄",
+      "hint": "依衡真示意在白玉接天階暗拓日誌副本並取走鎖死銅匣 (copy log)。",
+      "target_type": "action",
+      "action_verb": "copy",
+      "action_target": "log",
+      "location": "/d/realm/taixu/white_jade_steps",
+      "on_complete": {
+        "give_item": "/clone/item/taixu_calibration_log_copy.c",
+        "msg": "你取得衡真冒死轉交的鎖死銅匣與太虛校星誤差日誌副本，並承接替他向萬物外環補鍛三枚穩壓銅芯之債。"
+      }
+    }
+  ],
+  "rewards": {
+    "exp": 1150,
+    "pot": 320
+  }
+}

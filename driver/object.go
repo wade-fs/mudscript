@@ -63,6 +63,17 @@ func (d *Driver) loadObjectInternal(filename string) (*object.LPCObject, bool, e
 			})
 			if virtualObj, ok := res.(*object.LPCObject); ok && virtualObj != nil {
 				d.mu.Lock()
+				if virtualObj.Filename != filename {
+					// 若 compile_object 回傳的是剛從泛用模板 clone 出來的物件，
+					// 將其 ObjectTable 鍵值與自身 Filename 正規化為虛擬路徑，確保 base_name/DestructObject 一致
+					if strings.Contains(virtualObj.Filename, "#") {
+						delete(d.ObjectTable, virtualObj.Filename)
+					}
+					virtualObj.Filename = filename
+					if virtualObj.Vars != nil {
+						virtualObj.Vars.Set("__file__", &object.String{Value: filename})
+					}
+				}
 				d.ObjectTable[filename] = virtualObj
 				d.mu.Unlock()
 				return virtualObj, false, nil
@@ -71,7 +82,7 @@ func (d *Driver) loadObjectInternal(filename string) (*object.LPCObject, bool, e
 		return nil, false, err
 	}
 
-	pp := preprocessor.New(d.Config.MudLibPath)
+	pp := d.newPreprocessor()
 	if d.GlobalMacros != nil {
 		// Seed with global macros
 		for k, v := range d.GlobalMacros {
@@ -92,9 +103,6 @@ func (d *Driver) loadObjectInternal(filename string) (*object.LPCObject, bool, e
 	pp.Macros["__DIR__"] = preprocessor.Macro{Name: "__DIR__", Body: "\"" + dir + "\""}
 
 	pp.StripModifiers = d.Config.StripModifiers
-	if d.Config.EmbeddedFS != nil {
-		pp.SetEmbeddedFS(d.Config.EmbeddedFS)
-	}
 	processedContent, err := pp.Process(filename, string(content))
 	if err != nil {
 		return nil, false, fmt.Errorf("preprocessor error: %v", err)

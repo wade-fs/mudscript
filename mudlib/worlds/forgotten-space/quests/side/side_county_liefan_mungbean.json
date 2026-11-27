@@ -1,0 +1,42 @@
+{
+  "id": "side_county_liefan_mungbean",
+  "name": "赤岩客舍・井水綠豆湯",
+  "chapter": "Ch.0063-Ch.0065",
+  "category": "side",
+  "type": "once",
+  "start_npc": "innkeeper",
+  "start_topic": "吃食",
+  "requirements": {
+    "level": 2
+  },
+  "steps": [
+    {
+      "step": 1,
+      "title": "送甜泉綠豆湯上銅駝嶺赤銅礦區",
+      "hint": "帶著赤岩客舍熬好的大罐解暑綠豆湯，沿百工冶煉分舵往東登上銅駝嶺礦區，交給流汗幹活的地方老匠工 (ask county_worker about 送湯)。",
+      "target_type": "talk",
+      "target_npc": "county_worker",
+      "target_topic": "送湯",
+      "location": "/d/counties/liefan/tongtuo_ridge",
+      "on_complete": {
+        "msg": "沾滿銅灰的老匠工暢快喝下清甜綠豆湯，咳嗽聲都少了一半，直讚客舍夥計厚道。"
+      }
+    },
+    {
+      "step": 2,
+      "title": "回赤岩客舍還空罐並向夥計報訊",
+      "hint": "下山返回烈礬縣驛・赤岩客舍向客棧夥計告知綠豆湯已送到礦工手上 (ask innkeeper about 吃食)。",
+      "target_type": "talk",
+      "target_npc": "innkeeper",
+      "target_topic": "吃食",
+      "location": "/d/counties/liefan/post_inn",
+      "on_complete": {
+        "msg": "夥計收好空陶罐，笑呵呵賞了你一袋清熱甘草片與一百文跑腿酬勞。"
+      }
+    }
+  ],
+  "rewards": {
+    "exp": 200,
+    "money": 100
+  }
+}

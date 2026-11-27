@@ -1,0 +1,42 @@
+{
+  "id": "side_county_qinghe_ferry",
+  "name": "蘆花渡口・量尺問水",
+  "chapter": "Ch.0059-Ch.0064",
+  "category": "side",
+  "type": "once",
+  "start_npc": "qinghe_boatman",
+  "start_topic": "水勢",
+  "requirements": {
+    "level": 2
+  },
+  "steps": [
+    {
+      "step": 1,
+      "title": "前往青河漕運駁船碼頭實測紅白水尺刻度",
+      "hint": "沿蘆花渡往東北來到青河縣漕運駁船碼頭，蹲到岸邊量測水尺吃水刻度 (check_gauge)。",
+      "target_type": "action",
+      "action_verb": "check_gauge",
+      "action_target": "gauge",
+      "location": "/d/counties/qinghe/ferry_dock",
+      "on_complete": {
+        "msg": "你仔細核對了水尺上的濕痕水位，記下「淺水尚可行平底小藥船」的準信。"
+      }
+    },
+    {
+      "step": 2,
+      "title": "返回蘆花渡河鮮粗茶棚將水位報與老船工柳伯",
+      "hint": "返回蘆花渡河鮮粗茶棚向老船工柳伯回報碼頭實測水勢 (ask qinghe_boatman about 水勢)。",
+      "target_type": "talk",
+      "target_npc": "qinghe_boatman",
+      "target_topic": "水勢",
+      "location": "/d/counties/qinghe/river_tea_shed",
+      "on_complete": {
+        "msg": "柳伯聽完心中大定，立刻招呼藥農把曬乾的洗靈草搬上烏篷小船，順便賞了你一壺好茶與銅錢。"
+      }
+    }
+  ],
+  "rewards": {
+    "exp": 190,
+    "money": 95
+  }
+}

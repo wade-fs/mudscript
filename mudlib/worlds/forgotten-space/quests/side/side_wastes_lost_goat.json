@@ -1,0 +1,42 @@
+{
+  "id": "side_wastes_lost_goat",
+  "name": "凍土尋羊・荒原迷蹤",
+  "chapter": "Ch.0102-Ch.0111",
+  "category": "side",
+  "type": "once",
+  "start_npc": "wastes_herder",
+  "start_topic": "黃羊",
+  "requirements": {
+    "level": 3
+  },
+  "steps": [
+    {
+      "step": 1,
+      "title": "前往黑山長城北關雪道尋回驚跑的獨角黃羊",
+      "hint": "沿凍土牧戶避風棚往東經雪原營地南下至黑山長城北關雪道，在雪堆岩縫裡牽住驚跑的黃羊 (herd goat)。",
+      "target_type": "action",
+      "action_verb": "herd",
+      "action_target": "goat",
+      "location": "/d/wastes/black_mountain_pass",
+      "on_complete": {
+        "msg": "這頭受驚的獨角黃羊啃著你手裡的乾草總算安靜下來，乖乖跟著麻繩往回走。"
+      }
+    },
+    {
+      "step": 2,
+      "title": "將黃羊帶回凍土牧戶避風棚交給老牧戶烏蘭",
+      "hint": "返回北荒南沿凍土牧戶避風棚把黃羊還給老牧戶烏蘭 (ask wastes_herder about 黃羊)。",
+      "target_type": "talk",
+      "target_npc": "wastes_herder",
+      "target_topic": "黃羊",
+      "location": "/d/wastes/frost_hunter_camp",
+      "on_complete": {
+        "msg": "烏蘭看著領頭黃羊完好歸隊喜出望外，塞給你一塊熱騰騰的羊乳酪與一百五十文錢。"
+      }
+    }
+  ],
+  "rewards": {
+    "exp": 240,
+    "money": 150
+  }
+}

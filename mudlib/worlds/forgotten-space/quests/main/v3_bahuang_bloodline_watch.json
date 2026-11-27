@@ -1,0 +1,57 @@
+{
+  "id": "v3_bahuang_bloodline_watch",
+  "name": "八荒巡防：傷兵、血丹與走山舊案",
+  "chapter": "Ch.0093-Ch.0094",
+  "category": "main",
+  "type": "once",
+  "region": "bahuang",
+  "start_npc": "lei_lie",
+  "start_topic": "巡防",
+  "steps": [
+    {
+      "step": 1,
+      "title": "巡查傷兵養息院病案",
+      "hint": "前往傷兵養息院向女醫官杜青禾了解宿將夜咳黑血、躁狂與既有病史。",
+      "target_type": "talk",
+      "target_npc": "du_qinghe",
+      "target_topic": "傷兵",
+      "location": "/d/sects/bahuang/restoration_hall",
+      "on_complete": {
+        "msg": "杜青禾出示溫度與臟腑衰弱統計，堅持在未驗清藥物成分前不憑傳聞扣帽。"
+      }
+    },
+    {
+      "step": 2,
+      "title": "核對定心急鎮丸來源",
+      "hint": "向黑山營獨臂老將雷烈詢問營內無藥單藥丸的配給來源與守關難處。",
+      "target_type": "talk",
+      "target_npc": "lei_lie",
+      "target_topic": "藥丸",
+      "location": "/d/sects/bahuang/black_mountain_camp",
+      "on_complete": {
+        "msg": "雷烈坦承老兵靠配給急鎮丸硬撐長城防線換防，拒絕憑氣味臆測輕易定罪。"
+      }
+    },
+    {
+      "step": 3,
+      "title": "北荒巡哨營打設測冰鐵簽核驗裂谷震動",
+      "hint": "前往北荒巡哨營依斥候祁無傷標位打設紅布測冰長簽，實測鬼哭冰澗地底震波週期 (stake ice_rift)。",
+      "target_type": "action",
+      "action_verb": "stake",
+      "action_target": "ice_rift",
+      "location": "/d/sects/bahuang/north_watch",
+      "on_complete": {
+        "msg": "你親手將綁紅布條的測冰長簽釘入邊牆冰裂縫，標定規律地底震波來源直指鬼哭冰澗極深處！",
+        "region_effects": {
+          "region": "bahuang",
+          "faction_deltas": { "bahuang_wall_garrison": 6, "bahuang_restoration_elders": 4 },
+          "reserve_deltas": { "rations": 100 }
+        }
+      }
+    }
+  ],
+  "rewards": {
+    "exp": 850,
+    "pot": 250
+  }
+}

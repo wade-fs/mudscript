@@ -7,6 +7,7 @@ import (
 	"os"
 	"path/filepath"
 	"regexp"
+	"sort"
 	"strconv"
 	"strings"
 
@@ -66,10 +67,6 @@ func (d *Driver) registerStringEfuns(obj *object.LPCObject) {
 			if !strings.HasPrefix(searchPath, "/") {
 				searchPath = "/" + searchPath
 			}
-			fullPath := filepath.Clean(filepath.Join(d.Config.MudLibPath, searchPath))
-			if !strings.HasPrefix(fullPath, filepath.Clean(d.Config.MudLibPath)) {
-				return object.NewError("get_dir 權限錯誤：無法存取根目錄以外的檔案")
-			}
 
 			// 定義結果結構
 			type fileInfo struct {
@@ -78,53 +75,62 @@ func (d *Driver) registerStringEfuns(obj *object.LPCObject) {
 				MTime int64
 				IsDir bool
 			}
-			var results []fileInfo
 
-			if recursive {
-				// ── 模式 1：遞迴掃描目錄 ──
-				info, err := os.Stat(fullPath)
-				if err == nil && info.IsDir() {
-					filepath.WalkDir(fullPath, func(path string, entry os.DirEntry, err error) error {
-						if err != nil {
-							return nil
-						}
-						if path == fullPath {
-							return nil
-						} // 略過根目錄自己
-
-						// 取得相對於目標目錄的路徑
-						rel, _ := filepath.Rel(fullPath, path)
-						// 統一轉換路徑斜線為 LPC 習慣的 "/"
-						rel = filepath.ToSlash(rel)
-
-						info, _ := entry.Info()
-						var size, mtime int64
-						if info != nil {
-							size = info.Size()
-							mtime = info.ModTime().Unix()
-						}
-
-						name := rel
-						if entry.IsDir() {
-							name += "/"
-						}
-
-						results = append(results, fileInfo{
-							Name:  name,
-							Size:  size,
-							MTime: mtime,
-							IsDir: entry.IsDir(),
-						})
-						return nil
-					})
+			// 依低優先序 -> 高優先序掃描各層，讓上層 MudLibPath 覆寫 CommonPath 同名項目
+			layers := d.ReadLayers()
+			for _, layer := range layers {
+				fullPath := filepath.Join(layer, strings.TrimPrefix(d.NormalizePath(searchPath), "/"))
+				if !isWithinBase(layer, fullPath) {
+					return object.NewError("get_dir 權限錯誤：無法存取根目錄以外的檔案")
 				}
-			} else {
-				// ── 模式 2：單層目錄或萬用字元 ──
-				if strings.Contains(searchPath, "*") || strings.Contains(searchPath, "?") {
-					// 處理萬用字元 (例如 /cmds/*.c)
+			}
+
+			merged := make(map[string]fileInfo)
+			for idx := len(layers) - 1; idx >= 0; idx-- {
+				layer := layers[idx]
+				relSearch := strings.TrimPrefix(d.NormalizePath(searchPath), "/")
+				fullPath := filepath.Join(layer, relSearch)
+
+				if recursive {
+					// ── 模式 1：遞迴掃描目錄 ──
+					info, err := os.Stat(fullPath)
+					if err == nil && info.IsDir() {
+						filepath.WalkDir(fullPath, func(path string, entry os.DirEntry, err error) error {
+							if err != nil || path == fullPath {
+								return nil
+							}
+							rel, _ := filepath.Rel(fullPath, path)
+							rel = filepath.ToSlash(rel)
+
+							info, _ := entry.Info()
+							var size, mtime int64
+							if info != nil {
+								size = info.Size()
+								mtime = info.ModTime().Unix()
+							}
+
+							name := rel
+							if entry.IsDir() {
+								name += "/"
+							}
+
+							merged[name] = fileInfo{
+								Name:  name,
+								Size:  size,
+								MTime: mtime,
+								IsDir: entry.IsDir(),
+							}
+							return nil
+						})
+					}
+				} else if strings.Contains(searchPath, "*") || strings.Contains(searchPath, "?") {
+					// ── 模式 2a：萬用字元 (例如 /cmds/*.c) ──
 					matches, err := filepath.Glob(fullPath)
 					if err == nil {
 						for _, match := range matches {
+							if !isWithinBase(layer, match) {
+								continue
+							}
 							info, err := os.Stat(match)
 							if err != nil {
 								continue
@@ -133,16 +139,16 @@ func (d *Driver) registerStringEfuns(obj *object.LPCObject) {
 							if info.IsDir() {
 								name += "/"
 							}
-							results = append(results, fileInfo{
+							merged[name] = fileInfo{
 								Name:  name,
 								Size:  info.Size(),
 								MTime: info.ModTime().Unix(),
 								IsDir: info.IsDir(),
-							})
+							}
 						}
 					}
 				} else {
-					// 處理單純目錄讀取 (例如 /cmds/)
+					// ── 模式 2b：單層目錄或單一檔案 ──
 					entries, err := os.ReadDir(fullPath)
 					if err == nil {
 						for _, entry := range entries {
@@ -156,28 +162,32 @@ func (d *Driver) registerStringEfuns(obj *object.LPCObject) {
 							if entry.IsDir() {
 								name += "/"
 							}
-							results = append(results, fileInfo{
+							merged[name] = fileInfo{
 								Name:  name,
 								Size:  size,
 								MTime: mtime,
 								IsDir: entry.IsDir(),
-							})
+							}
 						}
-					} else {
-						// 如果不是目錄但檔案存在，就回傳它自己
-						info, err := os.Stat(fullPath)
-						if err == nil && !info.IsDir() {
-							_, name := filepath.Split(fullPath)
-							results = append(results, fileInfo{
-								Name:  name,
-								Size:  info.Size(),
-								MTime: info.ModTime().Unix(),
-								IsDir: false,
-							})
+					} else if info, statErr := os.Stat(fullPath); statErr == nil && !info.IsDir() {
+						_, name := filepath.Split(fullPath)
+						merged[name] = fileInfo{
+							Name:  name,
+							Size:  info.Size(),
+							MTime: info.ModTime().Unix(),
+							IsDir: false,
 						}
 					}
 				}
 			}
+
+			results := make([]fileInfo, 0, len(merged))
+			for _, fi := range merged {
+				results = append(results, fi)
+			}
+			sort.Slice(results, func(i, j int) bool {
+				return results[i].Name < results[j].Name
+			})
 
 			// 轉換為 LPC Array 回傳
 			elements := make([]object.Object, len(results))

@@ -1,0 +1,12 @@
+{
+  "type": "currency",
+  "id": "jinshi_coin",
+  "name": "大荒通寶",
+  "primary": true,
+  "denominations": [
+    { "name": "酷金", "value": 1000000 },
+    { "name": "金錠", "value": 10000 },
+    { "name": "銀兩", "value": 100 },
+    { "name": "銅錢", "value": 1 }
+  ]
+}

@@ -1,0 +1,73 @@
+{
+  "id": "v3_yuntu_market_charter",
+  "name": "泥途商棧：信用從第一筆貨單開始",
+  "chapter": "Ch.0084-Ch.0090",
+  "category": "main",
+  "type": "once",
+  "region": "yunjin",
+  "start_npc": "luo_jiucheng",
+  "start_topic": "商棧登記",
+  "steps": [
+    {
+      "step": 1,
+      "title": "核對租約與保證金",
+      "hint": "向羅九秤核對貨棧租約、保證金與貨損責任。",
+      "target_type": "talk",
+      "target_npc": "luo_jiucheng",
+      "target_topic": "租約",
+      "location": "/d/yunjin/public_office",
+      "on_complete": {
+        "msg": "商棧取得登記資格，但保證金與貨損責任仍由沈泥承擔。"
+      }
+    },
+    {
+      "step": 2,
+      "title": "立帳設牌建置交割簽收制度",
+      "hint": "於泥途商棧親手核對並立定貨單、倉單與交割簽收雙聯木牌 (establish ledger)。",
+      "target_type": "action",
+      "action_verb": "establish",
+      "action_target": "ledger",
+      "location": "/d/yunjin/mudway_store",
+      "on_complete": {
+        "msg": "泥途商棧正式立定可逐筆追溯之貨單／倉單／簽收三聯帳簿。"
+      }
+    },
+    {
+      "step": 3,
+      "title": "首次履約爭議結算抉擇",
+      "hint": "在交割廳針對延誤貨物擇定處置：分批自賠保住信用 (settle split_indemnity) 或押單延緩週轉 (settle pledge_warehouse)。",
+      "target_type": "action",
+      "action_verb": "settle",
+      "location": "/d/yunjin/exchange_hall",
+      "choices": [
+        {
+          "target": "split_indemnity",
+          "label": "傾囊分批賠付履約（商號公信大幅提升、穩住寒地貨源）",
+          "msg": "沈泥堅持足額分批履約自賠，雲津商戶對泥途商棧的信用徹底打響！",
+          "region_effects": {
+            "region": "yunjin",
+            "faction_deltas": { "yunjin_mudway_merchant": 10, "wanbao_futures_guild": -4 },
+            "reserve_deltas": { "timber": 120 },
+            "price_delta": -4
+          }
+        },
+        {
+          "target": "pledge_warehouse",
+          "label": "實物倉單作抵延緩交割（保留週轉銀兩、爭取公所背書）",
+          "msg": "顧蘭舟核驗炭垛倉單作保，以票號擔保替泥途爭取喘息期限並穩住炭料庫存！",
+          "region_effects": {
+            "region": "yunjin",
+            "faction_deltas": { "yunjin_mudway_merchant": 4, "three_sect_customs": 6 },
+            "reserve_deltas": { "charcoal": 80 },
+            "price_delta": -2
+          }
+        }
+      ]
+    }
+  ],
+  "rewards": {
+    "exp": 800,
+    "pot": 240,
+    "money": 500
+  }
+}

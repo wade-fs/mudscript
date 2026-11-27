@@ -1,0 +1,55 @@
+{
+  "world_id": "forgotten-space",
+  "mudlib_id": "forgotten.space",
+  "name": "遺忘的世界",
+  "name_en": "THE FORGOTTEN SPACE",
+  "start_room": "/d/village/square.c",
+  "chapters_dir": "chapters/",
+  "rating": "general",
+  "exclude_cmds": [
+    "cmd_act.c",
+    "cmd_drop.c",
+    "cmd_get.c",
+    "cmd_score.c",
+    "cmd_talk.c"
+  ],
+  "features": {
+    "json_rooms": true,
+    "json_npcs": true,
+    "quest_engine": true,
+    "mvvm_ui": true,
+    "ban_modern_jargon": true,
+    "nine_cities_topology": true,
+    "dual_track_economy": true
+  },
+  "custom_fields": {
+    "quest": [
+      "category",
+      "chapter",
+      "deadline_stage",
+      "decay_config",
+      "eval_metric",
+      "eval_min_for_success",
+      "event_outcomes",
+      "gates",
+      "legacy_key",
+      "lost_item_recovery",
+      "on_fail",
+      "path_type",
+      "recovery",
+      "region",
+      "requirements",
+      "roll",
+      "room",
+      "scope",
+      "start_npc",
+      "start_topic",
+      "steps",
+      "target_class",
+      "total_stages",
+      "type",
+      "valid_stages",
+      "world_event"
+    ]
+  }
+}

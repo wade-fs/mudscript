@@ -1,0 +1,42 @@
+{
+  "id": "side_route_storm_cargo",
+  "name": "官道驟雨・搶運貨棚",
+  "chapter": "Ch.0039-Ch.0082",
+  "category": "side",
+  "type": "once",
+  "start_npc": "route_traveler",
+  "start_topic": "官道",
+  "requirements": {
+    "level": 2
+  },
+  "steps": [
+    {
+      "step": 1,
+      "title": "在車轍接官亭協助趟子手搶蓋油布護貨",
+      "hint": "在西南條石馳道・車轍接官亭趁山雨未至將貨車與粗鹽袋覆蓋繫緊 (cover cargo)。",
+      "target_type": "action",
+      "action_verb": "cover",
+      "action_target": "cargo",
+      "location": "/d/routes/stone_highway_pavilion",
+      "on_complete": {
+        "msg": "你冒著大風拉緊桐油布繫死在車軸上，剛綁完最後一扣，豆大的山雨便砸落青石官道！"
+      }
+    },
+    {
+      "step": 2,
+      "title": "向接官亭趟子手覆命並領取跑腿酬勞",
+      "hint": "在車轍接官亭回報趕路趟子手貨物已遮護妥當 (ask route_traveler about 官道)。",
+      "target_type": "talk",
+      "target_npc": "route_traveler",
+      "target_topic": "官道",
+      "location": "/d/routes/stone_highway_pavilion",
+      "on_complete": {
+        "msg": "趟子手抹了一把臉上的雨水大喜，從懷裡掏出幾吊銅錢硬塞給你：「多虧你搭把手，這趟鹽與乾貨沒泡湯！」"
+      }
+    }
+  ],
+  "rewards": {
+    "exp": 180,
+    "money": 90
+  }
+}

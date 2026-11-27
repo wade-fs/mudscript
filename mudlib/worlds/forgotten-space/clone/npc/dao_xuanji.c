@@ -1,0 +1,48 @@
+// clone/npc/dao_xuanji.c
+// 宣道司道官 玄機真人 (dao_hall_xuanji) - 法道一階考核與受牒宗師 (Ch.50-81)
+
+#include "/include/ansi.h"
+#include "/include/globals.h"
+
+inherit "/std/npc.c";
+
+void create() {
+    ::create();
+    set_name("玄機真人");
+    set_short(HIC "宣道司道官" NOR " 玄機真人");
+    set_long("一位身披青白羽衣的清癯老道，雙眸深邃若萬古寒潭，周身環繞著若有若無\n"
+             "的微茫靈光。他掌管金石府宣道司正堂，專司大乾度牒審定與法道入門考核。\n");
+    set_id(({ "dao_hall_xuanji", "xuanji", "xuanji zhenren", "daoist master", "玄機真人", "真人" }));
+
+    setup_archetype("G", 45);
+    set("class", "dao_initiate");
+    set("faction", "dao");
+    set("roles", ({ "trainer", "quest_giver", "quest_target" }));
+    set("schedule", "24h");
+
+    set_skill_to_teach("dao_tuna", 100);
+    set_skill_to_teach("dao_jiefa", 100);
+    set_skill_to_teach("dao_fuzhen", 100);
+    set_skill_to_teach("dao_fudun", 100);
+    set_skill_to_teach("dao_jinglei", 100);
+
+    add_response(({ "受牒", "考核", "轉職", "法道" }),
+        "玄機真人淡淡道：「欲入我宣道司清虛門牆，需先明周虛微茫之理。汝可先登摘星台領取黃銅鏡，測繪西嵐氣流再來見吾。」");
+
+    add_response(({ "大清洗", "古道", "天道", "假天道化" }),
+        "玄機真人目光微凝，沉聲道：「天道有缺，紅塵濁氣瀰漫。我輩修行唯有借法偷天，切莫妄窺太古不可言之秘。」");
+
+    add_response(({ "考核令", "名山", "太清", "登天梯" }),
+        "玄機真人拂塵輕擺，正色道：「爾等道心堅毅，破除心魔與凡胎桎梏。這面【Tier 2 名山外門考核令】承載仙凡之契，持此令前往北方名山，可參試登天梯與問心谷！」");
+}
+
+int do_chat(object me, string topic) {
+    if (!me || !topic || topic == "") return 0;
+    if (string_in(topic, "受牒, certify, 轉職")) {
+        object q_engine = load_object(QUEST_ENGINE_D);
+        if (q_engine) {
+            return q_engine->trigger_quest_event(me, "talk", ({ "dao_hall_xuanji", "受牒" }));
+        }
+    }
+    return 0;
+}

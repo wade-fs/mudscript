@@ -1,0 +1,42 @@
+{
+  "id": "side_county_panmu_charcoal_sled",
+  "name": "盤木林道・冬寒送炭",
+  "chapter": "Ch.0042-Ch.0066",
+  "category": "side",
+  "type": "once",
+  "start_npc": "peddler_hu",
+  "start_topic": "木炭",
+  "requirements": {
+    "level": 2
+  },
+  "steps": [
+    {
+      "step": 1,
+      "title": "將黑石硬木炭趕送至盤木縣驛聽松客棧",
+      "hint": "攜著黑石木炭北上至【盤木縣驛・聽松客棧】，將炭火倒入大堂火盆取暖交割 (deliver_warmth charcoal)。",
+      "target_type": "action",
+      "action_verb": "deliver_warmth",
+      "action_target": "charcoal",
+      "location": "/d/counties/panmu/post_inn",
+      "on_complete": {
+        "msg": "熊熊炭火暖透整個聽松客棧大堂，濕透綁腿的車夫連聲讚這黑石炭耐燒無煙！"
+      }
+    },
+    {
+      "step": 2,
+      "title": "返黑石鋪老貨郎雜貨棚向胡二交帳領賞",
+      "hint": "回【黑石鋪・老貨郎雜貨棚】向貨郎胡二回報木炭已安穩送抵盤木 (ask peddler_hu about 木炭)。",
+      "target_type": "talk",
+      "target_npc": "peddler_hu",
+      "target_topic": "木炭",
+      "location": "/d/village/peddler_corner",
+      "on_complete": {
+        "msg": "胡二數出一百三十文銅錢連同兩張熱騰騰的胡麻麵餅放進你手裡：「這寒冬臘月的跑山錢該你賺！」"
+      }
+    }
+  ],
+  "rewards": {
+    "exp": 230,
+    "money": 130
+  }
+}

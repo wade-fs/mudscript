@@ -1,0 +1,13 @@
+{
+  "world_id": "_template",
+  "name": "新世界範本",
+  "start_room": "/rooms/start",
+  "chapters_dir": "chapters/",
+  "rating": "general",
+  "features": {
+    "json_rooms": true,
+    "json_npcs":  true,
+    "quest_engine": true,
+    "mvvm_ui": true
+  }
+}

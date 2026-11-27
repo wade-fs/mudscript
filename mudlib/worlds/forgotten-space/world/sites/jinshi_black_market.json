@@ -1,0 +1,22 @@
+{
+  "schema_version": "1.1",
+  "site_id": "jinshi_black_market",
+  "zone_id": "jinshi_underground",
+  "name": "金石地下黑市",
+  "site_type": "MARKET",
+  "danger_tier": 2,
+  "room_refs": [
+    "/d/city/under/black_market.c"
+  ],
+  "discovery_rules": {
+    "required_clues": ["crooked_pawnbroker_lead"],
+    "visibility": "RESTRICTED"
+  },
+  "access_rules": {
+    "required_items": ["black_market_pass"]
+  },
+  "survival_rules": {},
+  "status": "ACTIVE",
+  "evidence": ["narrative/docs/maps/underground_map.md"],
+  "confidence": "CONFIRMED"
+}

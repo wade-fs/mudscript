@@ -68,39 +68,71 @@ func (d *Driver) ResolvePath(basePath, relPath string) string {
 	return relPath
 }
 
-// 🚀 新增：混合模式讀取檔案 (支援 .c 尾碼自動修復)
-func (d *Driver) ReadFile(filename string) ([]byte, error) {
-	tryFiles := []string{filename}
-	if !strings.HasSuffix(filename, ".c") {
-		tryFiles = append(tryFiles, filename+".c")
+// IsWithinBase 檢查 targetPath 是否安全位於 baseDir 之內（防禦 .. 逃逸與前綴偽造）
+func isWithinBase(baseDir, targetPath string) bool {
+	cleanBase := filepath.Clean(baseDir)
+	cleanTarget := filepath.Clean(targetPath)
+	rel, err := filepath.Rel(cleanBase, cleanTarget)
+	if err != nil {
+		return false
+	}
+	return rel != ".." && !strings.HasPrefix(rel, ".."+string(filepath.Separator))
+}
+
+// ReadLayers 回傳依優先順序排列的磁碟讀取層：上層 MudLibPath 優先，其次 CommonPath
+func (d *Driver) ReadLayers() []string {
+	layers := []string{d.Config.MudLibPath}
+	if d.Config.CommonPath != "" && filepath.Clean(d.Config.CommonPath) != filepath.Clean(d.Config.MudLibPath) {
+		layers = append(layers, d.Config.CommonPath)
+	}
+	return layers
+}
+
+// ResolveWritePath 將虛擬路徑解析為上層 MudLibPath 內的實體寫入路徑，嚴格禁止寫入 CommonPath 或逃出 Chroot
+func (d *Driver) ResolveWritePath(virtualPath string) (string, error) {
+	relPath := strings.TrimPrefix(d.NormalizePath(virtualPath), "/")
+	fullPath := filepath.Join(d.Config.MudLibPath, relPath)
+	if !isWithinBase(d.Config.MudLibPath, fullPath) {
+		return "", fmt.Errorf("chroot violation: %s", virtualPath)
+	}
+	return fullPath, nil
+}
+
+// ResolveReadPath 依 MudLibPath -> CommonPath 順序尋找磁碟中存在的檔案或目錄
+func (d *Driver) ResolveReadPath(virtualPath string) (string, bool, error) {
+	relPath := strings.TrimPrefix(d.NormalizePath(virtualPath), "/")
+	for i, layer := range d.ReadLayers() {
+		fullPath := filepath.Join(layer, relPath)
+		if !isWithinBase(layer, fullPath) {
+			return "", false, fmt.Errorf("chroot violation: %s", virtualPath)
+		}
+		if _, err := os.Stat(fullPath); err == nil {
+			return fullPath, i > 0, nil
+		}
+	}
+	return "", false, fmt.Errorf("file not found: %s", virtualPath)
+}
+
+// ReadExactFile 讀取精確路徑的檔案（不自動補 .c），支援 MudLibPath -> CommonPath -> EmbeddedFS
+func (d *Driver) ReadExactFile(filename string) ([]byte, error) {
+	relPath := strings.TrimPrefix(d.NormalizePath(filename), "/")
+	if relPath == "" {
+		return nil, fmt.Errorf("file not found: %s", filename)
 	}
 
-	for _, f := range tryFiles {
-		relPath := strings.TrimPrefix(f, "/")
-
-		// 1. 優先從實體磁碟讀取
-		// 🚀 關鍵：確保路徑不會逃脫 MudLibPath (Virtual Chroot)
-		fullPath := filepath.Join(d.Config.MudLibPath, relPath)
-		cleanMudLib := filepath.Clean(d.Config.MudLibPath)
-		cleanFull := filepath.Clean(fullPath)
-		if !strings.HasPrefix(cleanFull, cleanMudLib) {
-			return nil, fmt.Errorf("chroot violation: %s", f)
+	for _, layer := range d.ReadLayers() {
+		fullPath := filepath.Join(layer, relPath)
+		if !isWithinBase(layer, fullPath) {
+			return nil, fmt.Errorf("chroot violation: %s", filename)
 		}
-
-		if _, err := os.Stat(fullPath); err == nil {
+		if info, err := os.Stat(fullPath); err == nil && !info.IsDir() {
 			return os.ReadFile(fullPath)
 		}
+	}
 
-		// 2. 備援從嵌入式系統讀取
-		if d.Config.EmbeddedFS != nil {
-			// 🚀 關鍵修正：根據配置的 MudLibPath 來尋找內嵌資源路徑
-			// 例如 MudLibPath 為 "fsmud", 則 relPath 為 "master.c" -> embedPath 為 "fsmud/master.c"
-			embedPath := filepath.Join(d.Config.MudLibPath, relPath)
-			
-			// 正規化內嵌路徑 (必須是正斜線且不帶開頭斜線)
-			embedPath = filepath.ToSlash(embedPath)
-			embedPath = strings.TrimPrefix(embedPath, "/")
-
+	if d.Config.EmbeddedFS != nil {
+		for _, layer := range d.ReadLayers() {
+			embedPath := strings.TrimPrefix(filepath.ToSlash(filepath.Join(layer, relPath)), "/")
 			if content, err := fs.ReadFile(d.Config.EmbeddedFS, embedPath); err == nil {
 				return content, nil
 			}
@@ -110,9 +142,51 @@ func (d *Driver) ReadFile(filename string) ([]byte, error) {
 	return nil, fmt.Errorf("file not found: %s", filename)
 }
 
+// StatOverlay 查詢檔案或目錄資訊（依 MudLibPath -> CommonPath -> EmbeddedFS 順序）
+func (d *Driver) StatOverlay(filename string) (fs.FileInfo, error) {
+	relPath := strings.TrimPrefix(d.NormalizePath(filename), "/")
+	for _, layer := range d.ReadLayers() {
+		fullPath := filepath.Join(layer, relPath)
+		if !isWithinBase(layer, fullPath) {
+			return nil, fmt.Errorf("chroot violation: %s", filename)
+		}
+		if info, err := os.Stat(fullPath); err == nil {
+			return info, nil
+		}
+	}
+
+	if d.Config.EmbeddedFS != nil {
+		for _, layer := range d.ReadLayers() {
+			embedPath := strings.TrimPrefix(filepath.ToSlash(filepath.Join(layer, relPath)), "/")
+			if info, err := fs.Stat(d.Config.EmbeddedFS, embedPath); err == nil {
+				return info, nil
+			}
+		}
+	}
+
+	return nil, fmt.Errorf("file not found: %s", filename)
+}
+
+// 🚀 新增：混合模式讀取檔案 (支援 .c 尾碼自動修復與多層 Overlay VFS)
+func (d *Driver) ReadFile(filename string) ([]byte, error) {
+	tryFiles := []string{filename}
+	if !strings.HasSuffix(filename, ".c") {
+		tryFiles = append(tryFiles, filename+".c")
+	}
+
+	for _, f := range tryFiles {
+		if content, err := d.ReadExactFile(f); err == nil {
+			return content, nil
+		} else if strings.Contains(err.Error(), "chroot violation") {
+			return nil, err
+		}
+	}
+
+	return nil, fmt.Errorf("file not found: %s", filename)
+}
+
 func (d *Driver) DiscoverMasterFile() string {
-	configPath := filepath.Join(d.Config.MudLibPath, "include/config.h")
-	content, err := os.ReadFile(configPath)
+	content, err := d.ReadFile("/include/config.h")
 	if err != nil {
 		return "/master.c"
 	}

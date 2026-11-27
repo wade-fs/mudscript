@@ -1,0 +1,91 @@
+{
+  "id": "v3_act5_lvl100_trials",
+  "name": "百草格物與萬山共治・破境人間錨點",
+  "chapter": "Ch.0121-Ch.0125",
+  "category": "main",
+  "type": "once",
+  "start_npc": "zhou_shishu",
+  "start_topic": "三元本草",
+  "requirements": {
+    "level": 92
+  },
+  "steps": [
+    {
+      "step": 1,
+      "title": "編纂《三元本草祛道錄》初稿",
+      "hint": "於丹鼎醫理院隔離區向周執事釐清拒絕權後，公開編纂祛道錄與溫度曲線（publish bencao）。",
+      "target_type": "action",
+      "action_verb": "publish",
+      "action_target": "bencao",
+      "location": "/d/sects/danding/medical_archive",
+      "on_complete": {
+        "msg": "顧玄整理三十餘傷患脈象並坦誠明示禁忌與邊界，上游藥渠湧出清冽泉水，無聲邁入醫道大圓滿（Lv.100）。"
+      }
+    },
+    {
+      "step": 2,
+      "title": "拒接神識並改裝可拆卸連動台",
+      "hint": "於天工閣萬機地窟拒絶本命神識接入導線，改裝三段式可拆卸機械力回授連動台（install rig）。",
+      "target_type": "action",
+      "action_verb": "install",
+      "action_target": "rig",
+      "location": "/d/sects/tiangong/machinery_depths",
+      "on_complete": {
+        "msg": "林鐵生秉持「人使錘子」本心讓巨靈神機不用血精亦誤差半厘內平穩行禮，破入天工物道大圓滿（Lv.100）。"
+      }
+    },
+    {
+      "step": 3,
+      "title": "定稿《黑山分段輪替操典》",
+      "hint": "在八荒黑山煞血營核對八十七人安置名冊與燕山附錄頁，並編定輪替操典（compile manual）。",
+      "target_type": "action",
+      "action_verb": "compile",
+      "action_target": "manual",
+      "location": "/d/sects/bahuang/black_mountain_camp",
+      "on_complete": {
+        "msg": "燕隼棄去血祭霸體執念，以普通鐵箭無聲震碎三百步青岩，破入八荒力道大圓滿（Lv.100）。"
+      }
+    },
+    {
+      "step": 4,
+      "title": "公開《逆星歲差實測補遺》並補錄反例",
+      "hint": "赴太清周天星律院公開《逆星歲差實測補遺》並接受反例檢驗（publish addendum）。",
+      "target_type": "action",
+      "action_verb": "publish",
+      "action_target": "addendum",
+      "location": "/d/sects/taiqing/star_law_hall",
+      "on_complete": {
+        "msg": "柳清虛與沈照塵將兩組氣流反例補寫進公開欄，徹底放下絕對天道執念破入法道大圓滿（Lv.100），窺見假天交網裂縫。"
+      }
+    },
+    {
+      "step": 5,
+      "title": "立《萬山共治分權與透明互保章程》",
+      "hint": "於萬山泥途總號公開放棄獨家定價與特批壟斷，與顧蘭舟、羅九秤共簽分權章程（decentralize ledger）。",
+      "target_type": "action",
+      "action_verb": "decentralize",
+      "action_target": "ledger",
+      "location": "/d/yunjin/mudway_store",
+      "on_complete": {
+        "msg": "沈泥甘少賺四成利銀而在紅塵市井不入仙門直觸人間生命極限（Lv.100），立下最堅實的人間商道錨點。"
+      }
+    },
+    {
+      "step": 6,
+      "title": "拆閱故人家書並與莫三立三十年之約",
+      "hint": "下至萬山泥途總號地窖與莫三最後共飲粗炒秋茶（talk mo_san / ask mo_san about 三十年之約），接下三十年看門之約兼收妥故人家書驛袋。",
+      "target_type": "talk",
+      "target_npc": "mo_san",
+      "target_topic": "三十年之約",
+      "location": "/d/yunjin/mudway_store_cellar",
+      "on_complete": {
+        "give_item": "/clone/item/hometown_letters_bag.c",
+        "msg": "蘇凝霜、阿鐵、葛半仙、趙老獵與枯木老道的來信落入行囊；莫三拎起棗木拐杖守住人間門檻，靜候三十年後的重逢。"
+      }
+    }
+  ],
+  "rewards": {
+    "exp": 2600,
+    "pot": 750
+  }
+}

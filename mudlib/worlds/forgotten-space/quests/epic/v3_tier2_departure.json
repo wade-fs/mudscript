@@ -1,0 +1,187 @@
+{
+  "id": "v3_tier2_departure",
+  "name": "凡間排斥：五器驗證與桃花源古陣",
+  "chapter": "Ch.0125-Ch.0126",
+  "category": "epic",
+  "type": "stage_chain",
+  "total_stages": 3,
+  "stages": [
+    {
+      "stage": 1,
+      "title": "五人各自完成二階圓滿",
+      "region": "sects",
+      "region_name": "三宗與雲津",
+      "required_level": 95,
+      "status_on_finish": "dormant",
+      "finish_desc": "五人各自完成最後一項修行與責任，不以同一種方式突破。",
+      "next_region_hint": "太清偏峰・封存觀測室",
+      "steps": [
+        {
+          "step": 1,
+          "title": "完成祛道療法追蹤",
+          "hint": "向醫理院孫聞露提交顧玄整理的祛道療法樣本與患者追蹤紀錄（ask sun_wenlu about 戰後修復）。",
+          "target_type": "talk",
+          "target_npc": "sun_wenlu",
+          "target_topic": "戰後修復",
+          "location": "/d/sects/danding/medical_archive",
+          "on_complete": {
+            "msg": "顧玄完成療法追蹤與樣本紀錄。"
+          }
+        },
+        {
+          "step": 2,
+          "title": "完成巨靈神機回授修復",
+          "hint": "向萬機地窟季衡確認林鐵生的可拆卸機械回授測試紀錄（ask ji_heng about 機械回授）。",
+          "target_type": "talk",
+          "target_npc": "ji_heng",
+          "target_topic": "機械回授",
+          "location": "/d/sects/tiangong/machinery_depths",
+          "on_complete": {
+            "msg": "林鐵生完成不依賴永久神識接入的機械回授修復。"
+          }
+        },
+        {
+          "step": 3,
+          "title": "完成武道與安置名冊校準",
+          "hint": "向黑山營雷烈提交燕隼的氣血控制紀錄與八十七人安置名冊（ask lei_lie about 破境紀錄）。",
+          "target_type": "talk",
+          "target_npc": "lei_lie",
+          "target_topic": "破境紀錄",
+          "location": "/d/sects/bahuang/black_mountain_camp",
+          "on_complete": {
+            "msg": "燕隼完成氣血控制收束；柳清虛的星律模型仍保留可檢驗誤差。"
+          }
+        },
+        {
+          "step": 4,
+          "title": "完成商道託管安排",
+          "hint": "向萬山泥途總號邱禾確認共同治理與多方交接總錄（ask qiu_he about 商道託管）。",
+          "target_type": "talk",
+          "target_npc": "qiu_he",
+          "target_topic": "商道託管",
+          "location": "/d/yunjin/mudway_store",
+          "on_complete": {
+            "msg": "沈泥完成商道責任交接，不把總號交給單一代理人。"
+          }
+        }
+      ]
+    },
+    {
+      "stage": 2,
+      "title": "假天排斥與《祖師密錄》告白",
+      "region": "taiqing",
+      "region_name": "太清偏峰",
+      "required_level": 100,
+      "status_on_finish": "dormant",
+      "finish_desc": "五器共振引發二十八宿天羅假天排斥劫雲鎖定；十七位先輩單向遁入桃花源古陣俱無歸返實證。",
+      "next_region_hint": "三山祖庭地底・太古破界方舟主傳送室",
+      "unlock_condition": {
+        "need_stage": 1,
+        "target_npc": "song_zhiwei",
+        "target_topic": "假天排斥"
+      },
+      "steps": [
+        {
+          "step": 1,
+          "title": "觸發五器十倍共振並抄錄《祖師密錄》",
+          "hint": "登太清偏峰後方不對外開放之【封存觀測室】，合五遺物校驗（resonate relics）。",
+          "target_type": "action",
+          "action_verb": "resonate",
+          "action_target": "relics",
+          "location": "/d/sects/taiqing/sealed_observatory",
+          "on_complete": {
+            "msg": "十倍共鳴引來紫黑排斥劫雲鎖死雲頂；紫霄真人啟封玄鐵舊木匣揭露十七位先輩有去無回實錄。"
+          }
+        },
+        {
+          "step": 2,
+          "title": "確認排斥雲層與星陣機制",
+          "hint": "向宋知微匯報觀測讀數並爭取一晝夜人間交割緩衝（ask song_zhiwei about 假天排斥）。",
+          "target_type": "talk",
+          "target_npc": "song_zhiwei",
+          "target_topic": "假天排斥",
+          "location": "/d/sects/taiqing/star_law_hall",
+          "on_complete": {
+            "msg": "排斥雲層與遺物／二十八宿天羅每三百年校準存在關聯，並非單純個人渡劫。"
+          }
+        },
+        {
+          "step": 3,
+          "title": "確認單向古陣結構與回返風險",
+          "hint": "向季衡核對地底古陣能源總庫、機械承壓與無歸返限制（ask ji_heng about 古陣風險）。",
+          "target_type": "talk",
+          "target_npc": "ji_heng",
+          "target_topic": "古陣風險",
+          "location": "/d/sects/tiangong/machinery_depths",
+          "on_complete": {
+            "msg": "古陣的單向與無回返保證風險被完整列明。"
+          }
+        }
+      ]
+    },
+    {
+      "stage": 3,
+      "title": "五座石台驗證與踏入桃花源洞天",
+      "region": "taiqing",
+      "region_name": "祖庭地底方舟主傳送室",
+      "required_level": 100,
+      "status_on_finish": "completed",
+      "finish_desc": "五人於兩刻鐘極限雷壓下完成五座石台技術驗證進入 Tier 3；望見太虛神宮、戰祖魔殿與萬物主機城三巨構無聲對峙。",
+      "next_region_hint": "Tier 3 桃花源洞天・荒蕪碎石高原（/d/realm/peach_plateau）",
+      "unlock_condition": {
+        "need_stage": 2,
+        "target_npc": "qi_shiliu",
+        "target_topic": "啟動古陣"
+      },
+      "steps": [
+        {
+          "step": 1,
+          "title": "完成同行者知情與補給確認",
+          "hint": "向祁十六核清乾燥口糧、藥物、鍛具、弓矢與證物副本清單兼知情確認（ask qi_shiliu about 同行確認）。",
+          "target_type": "talk",
+          "target_npc": "qi_shiliu",
+          "target_topic": "同行確認",
+          "location": "/d/sects/taiqing/ark_portal_chamber",
+          "on_complete": {
+            "msg": "同行者俱已明確知悉單向古陣無回返保證之風險，攜韓素羊毛護腕與故人家書同行。"
+          }
+        },
+        {
+          "step": 2,
+          "title": "五座控制石台同步校驗啟動星門",
+          "hint": "下達祖庭地底【太古破界方舟・主傳送室】，依北、東北、西北、西南、正南五座石台校驗開門（activate gate）。",
+          "target_type": "action",
+          "action_verb": "activate",
+          "action_target": "gate",
+          "location": "/d/sects/taiqing/ark_portal_chamber",
+          "on_complete": {
+            "msg": "座標鎖定、黑鐵鎖壓、血脈屏蔽、晶核點火與天門引契版五重驗證同步鳴響，三丈青金星門轟然打開！"
+          }
+        },
+        {
+          "step": 3,
+          "title": "向護送宿老告別並邁入三丈星門",
+          "hint": "向護送至此的宋知微確認啟動（ask song_zhiwei about 啟動古陣），於外陣崩碎最後一息踏入光門（enter gate）。",
+          "target_type": "talk",
+          "target_npc": "song_zhiwei",
+          "target_topic": "啟動古陣",
+          "location": "/d/sects/taiqing/ark_portal_chamber",
+          "on_complete": {
+            "msg": "滅世神雷將身後傳送室劈作煙塵；五人落入荒蕪碎石高原，遠望太虛神宮、戰祖魔殿與萬物主機城開啟第四卷新帳本。"
+          }
+        }
+      ],
+      "on_finish": {
+        "exp": 3000,
+        "pot": 900,
+        "msg": "【第三卷・名山問道 全卷通關】已取得入陣實證，可輸入 enter gate 初窺 Tier 3 桃花源洞天。"
+      }
+    }
+  ],
+  "rewards": {
+    "exp": 3000,
+    "pot": 900
+  },
+  "start_npc": "sun_wenlu",
+  "start_topic": "戰後修復"
+}

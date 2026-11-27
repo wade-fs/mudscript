@@ -1,0 +1,54 @@
+{
+  "id": "side_county_zhongshi_axle",
+  "name": "磐石車棚・八輪潤軸",
+  "chapter": "Ch.0066",
+  "category": "side",
+  "type": "once",
+  "start_npc": "zhongshi_wheelwright",
+  "start_topic": "大車",
+  "requirements": {
+    "level": 2
+  },
+  "steps": [
+    {
+      "step": 1,
+      "title": "在條石大車棚替八輪大車塗牛油並敲緊插銷",
+      "hint": "在重石縣條石大車棚給八輪鐵軸塗抹牛油膏並鎖緊插銷 (grease axle)。",
+      "target_type": "action",
+      "action_verb": "grease",
+      "action_target": "axle",
+      "location": "/d/counties/zhongshi/carter_yard",
+      "on_complete": {
+        "msg": "兩架重載大車的鐵軸承潤滑順暢、插銷咬得死緊，已可安心承重萬斤條石。"
+      }
+    },
+    {
+      "step": 2,
+      "title": "到重石石作總坊向匠工核對待運條石車號",
+      "hint": "前往重石石作總坊向地方老匠工核對待發運的條石清單 (ask county_worker about 石料)。",
+      "target_type": "talk",
+      "target_npc": "county_worker",
+      "target_topic": "石料",
+      "location": "/d/counties/zhongshi/stone_guild",
+      "on_complete": {
+        "msg": "老匠工核對過墨斗記號點頭應承，天亮前便會把條石吊裝上車。"
+      }
+    },
+    {
+      "step": 3,
+      "title": "回條石大車棚向沈鐵頭覆命領賞",
+      "hint": "返回重石縣條石大車棚告知老車匠沈鐵頭已核對完畢 (ask zhongshi_wheelwright about 大車)。",
+      "target_type": "talk",
+      "target_npc": "zhongshi_wheelwright",
+      "target_topic": "大車",
+      "location": "/d/counties/zhongshi/carter_yard",
+      "on_complete": {
+        "msg": "沈鐵頭樂呵呵遞來一碗濃麥茶與一百文修車工錢。"
+      }
+    }
+  ],
+  "rewards": {
+    "exp": 210,
+    "money": 100
+  }
+}

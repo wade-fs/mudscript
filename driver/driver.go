@@ -21,6 +21,7 @@ import (
 // DriverConfig 運行時期的配置
 type DriverConfig struct {
 	MudLibPath      string
+	CommonPath      string // 🚀 新增：唯讀共用 Mudlib 疊層路徑 (Overlay Base)
 	MasterFile      string
 	HeartBeatTick   time.Duration
 	CleanUpInterval time.Duration // 🚀 新增：垃圾回收間隔
@@ -224,6 +225,17 @@ func (d *Driver) Stop() {
 	close(d.shutdownCh)
 }
 
+func (d *Driver) newPreprocessor() *preprocessor.Preprocessor {
+	pp := preprocessor.New(d.Config.MudLibPath)
+	if d.Config.CommonPath != "" {
+		pp.SetCommonPath(d.Config.CommonPath)
+	}
+	if d.Config.EmbeddedFS != nil {
+		pp.SetEmbeddedFS(d.Config.EmbeddedFS)
+	}
+	return pp
+}
+
 func (d *Driver) PreloadGlobalInclude() error {
 	if d.Config.GlobalInclude == "" {
 		return nil
@@ -239,10 +251,7 @@ func (d *Driver) PreloadGlobalInclude() error {
 		return err
 	}
 
-	pp := preprocessor.New(d.Config.MudLibPath)
-	if d.Config.EmbeddedFS != nil {
-		pp.SetEmbeddedFS(d.Config.EmbeddedFS)
-	}
+	pp := d.newPreprocessor()
 
 	macros := pp.ParseMacros(string(content))
 	d.GlobalMacros = make(map[string]preprocessor.Macro)

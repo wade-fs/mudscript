@@ -1,0 +1,20 @@
+{
+  "schema_version": "1.1",
+  "zone_id": "realm_taixu_citadel",
+  "region_id": "realm_taixu",
+  "name": "太虛白玉階、校準偏殿與晶塔核心",
+  "zone_type": "POLE_SPIRE",
+  "danger_tier": 3,
+  "environment": {
+    "tags": ["DONG_TIAN", "LAW_DAMPENING", "STAR_LOCK_ARRAY"]
+  },
+  "site_refs": [],
+  "discovery_rules": { "visibility": "RESTRICTED", "required_clues": ["three_pole_invitation_or_infiltration"] },
+  "access_rules": { "required_items": [] },
+  "survival_rules": {
+    "environmental_constraints": ["old_skill_3x_cost", "calibrated_law_pressure"]
+  },
+  "status": "ACTIVE",
+  "evidence": ["world/lore/second_era_ark_canon.md", "narrative/events/volume4_events.md"],
+  "confidence": "CONFIRMED"
+}

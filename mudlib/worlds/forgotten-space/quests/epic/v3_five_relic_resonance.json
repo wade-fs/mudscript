@@ -1,0 +1,149 @@
+{
+  "id": "v3_five_relic_resonance",
+  "name": "五器再鳴：方舟殘篇與九城舊約",
+  "chapter": "Ch.0107-Ch.0108",
+  "category": "epic",
+  "type": "stage_chain",
+  "total_stages": 3,
+  "stages": [
+    {
+      "stage": 1,
+      "title": "五器殘響與後勤控台合璧",
+      "region": "wastes",
+      "region_name": "北荒方舟",
+      "required_level": 75,
+      "status_on_finish": "dormant",
+      "finish_desc": "五件遺物各自提供不完整的訊號，九城總契禁毀條例與乙巳舊盟抄頁顯露但仍有歷史缺頁。",
+      "next_region_hint": "雲津萬山商埠暨三宗交割廳",
+      "steps": [
+        {
+          "step": 1,
+          "title": "八角核心圓台五器入龕共鳴",
+          "hint": "踏上八角形主陣基核心圓台，輸入 place relics 嵌入五件太古信物啟動殘缺光影紀錄。",
+          "target_type": "action",
+          "action_verb": "place",
+          "action_target": "relics",
+          "location": "/d/wastes/ark_core_chamber",
+          "on_complete": {
+            "msg": "投影顯露「領航演算、破陣護衛、工程造物」三職分合卻在大清洗前夜噪點熄滅，背後合金門廊隨即滑開。"
+          }
+        },
+        {
+          "step": 2,
+          "title": "後勤石鋼廳室合璧九城總契銅版",
+          "hint": "步入方舟後勤石鋼廳室，輸入 join treaty 拼合青銅契版與天門引驗印並鈔錄舊約。",
+          "target_type": "action",
+          "action_verb": "join",
+          "action_target": "treaty",
+          "location": "/d/wastes/ark_logistics_hall",
+          "on_complete": {
+            "give_item": "/clone/item/ninety_city_treaty_copy.c",
+            "msg": "揭曉沈雲妮「萬物總調度使」暨《禁毀條例第七條》正典，並起獲「雲記／玄木」與三宗代號皮紙抄頁。"
+          }
+        },
+        {
+          "step": 3,
+          "title": "返山核校太古星位訊號",
+          "hint": "將太古星海投影抄本呈交太清周天星律院宋知微比對「五器訊號」。",
+          "target_type": "talk",
+          "target_npc": "song_zhiwei",
+          "target_topic": "五器訊號",
+          "location": "/d/sects/taiqing/star_law_hall",
+          "on_complete": {
+            "msg": "確認五器各自對應座標、結構、血脈、能源與後勤五種認證訊號，不得單憑殘片定論大清洗全文。"
+          }
+        },
+        {
+          "step": 4,
+          "title": "核對巨靈神機與方舟黑鐵結構",
+          "hint": "至天工閣萬機地窟向季衡提交主導管齒牙倒角公差，比對「黑鐵結構」。",
+          "target_type": "talk",
+          "target_npc": "ji_heng",
+          "target_topic": "黑鐵結構",
+          "location": "/d/sects/tiangong/machinery_depths",
+          "on_complete": {
+            "msg": "確認天工閣十丈鎮山重器原係破界方舟右翼輔助推進錨機，結構與黑石黑鐵完全同源。"
+          }
+        }
+      ]
+    },
+    {
+      "stage": 2,
+      "title": "九城契版與乙巳舊盟核對",
+      "region": "yunjin",
+      "region_name": "雲津",
+      "required_level": 78,
+      "status_on_finish": "dormant",
+      "finish_desc": "九城舊約與三十年前雲記舊盟資金脈絡交叉吻合，三宗掌門知情範圍仍留待會武公開質證。",
+      "next_region_hint": "北荒南沿暨勘探歸途",
+      "unlock_condition": {
+        "need_stage": 1,
+        "target_npc": "gu_lanzhou",
+        "target_topic": "九城契版"
+      },
+      "steps": [
+        {
+          "step": 1,
+          "title": "票號雙鎖比對九城契版與乙巳轉帳",
+          "hint": "在交割廳向顧蘭舟提交《九城總契拓錄》核對「九城契版」與「乙巳舊盟」底冊。",
+          "target_type": "talk",
+          "target_npc": "gu_lanzhou",
+          "target_topic": "九城契版",
+          "location": "/d/yunjin/exchange_hall",
+          "on_complete": {
+            "msg": "契版禁毀條例與小額無名飛錢交叉吻合，顧蘭舟鎖入雙鑰暗匣準備會武對帳。"
+          }
+        },
+        {
+          "step": 2,
+          "title": "雲海鬼市追溯舊約流出副本",
+          "hint": "向雲海鬼市牙商鬼見愁查詢三十年前暗帳流出的「舊約」交易路徑。",
+          "target_type": "talk",
+          "target_npc": "gui_jianchou",
+          "target_topic": "舊約",
+          "location": "/d/yunjin/ghost_market",
+          "on_complete": {
+            "msg": "取得金石商會暗帳流向與採辦代號側證，兩份來源待會武交叉審理方能定罪。"
+          }
+        }
+      ]
+    },
+    {
+      "stage": 3,
+      "title": "方舟主陣基部署完成",
+      "region": "wastes",
+      "region_name": "北荒",
+      "required_level": 82,
+      "status_on_finish": "completed",
+      "finish_desc": "五件遺物與九城契版完成第二階段高階共鳴與撤離評估；單向洞天安全與否仍待Lv.100終章見分曉。",
+      "unlock_condition": {
+        "need_stage": 2,
+        "target_npc": "qi_shiliu",
+        "target_topic": "主陣基"
+      },
+      "steps": [
+        {
+          "step": 1,
+          "title": "完成主陣基退路與物資安全備案",
+          "hint": "於北荒南沿入口向嚮導祁十六回報「主陣基」撤離紀錄與互助會同行備案。",
+          "target_type": "talk",
+          "target_npc": "qi_shiliu",
+          "target_topic": "主陣基",
+          "location": "/d/wastes/south_approach",
+          "on_complete": {
+            "msg": "方舟主陣基第二階段共鳴驗證存檔完畢，各方靜待十日後問道天台三宗論道會武。"
+          }
+        }
+      ],
+      "on_finish": {
+        "exp": 1800,
+        "pot": 500,
+        "msg": "【五器再鳴】五器殘響與九城古商盟第五階段舊約交叉歸檔完成！"
+      }
+    }
+  ],
+  "rewards": {
+    "exp": 1800,
+    "pot": 500
+  }
+}

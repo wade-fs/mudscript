@@ -1,0 +1,20 @@
+{
+  "schema_version": "1.1",
+  "zone_id": "heishipu_outskirts",
+  "region_id": "heishipu",
+  "name": "黑石斷崖與外圍",
+  "zone_type": "WILDERNESS",
+  "danger_tier": 1,
+  "environment": {
+    "tags": ["CLIFF", "DISHA_PULSE", "WILDERNESS"]
+  },
+  "site_refs": ["heishipu_ancient_mine"],
+  "discovery_rules": {
+    "visibility": "PUBLIC"
+  },
+  "access_rules": {},
+  "survival_rules": {},
+  "status": "ACTIVE",
+  "evidence": ["world/regions/heishipu.json"],
+  "confidence": "CONFIRMED"
+}

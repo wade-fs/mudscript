@@ -1,0 +1,37 @@
+{
+  "id": "v4_act2_countdown_convergence",
+  "name": "九十日大校準：五方異常拼圖合攏",
+  "chapter": "Ch.0144",
+  "category": "main",
+  "type": "once",
+  "region": "realm_edge",
+  "start_npc": "ash_warden_qi",
+  "start_topic": "先輩",
+  "steps": [
+    {
+      "step": 1,
+      "title": "集齊太虛萬物戰祖異常線索返抵守夜寨",
+      "hint": "於灰燼石堡守夜寨向戚老頭呈核三極調查所得與石堡異常頻率記錄 (ask ash_warden_qi about 機隼)。",
+      "target_type": "talk",
+      "target_npc": "ash_warden_qi",
+      "target_topic": "機隼",
+      "location": "/d/realm/edge/ash_watch_post"
+    },
+    {
+      "step": 2,
+      "title": "算準九十日三界大校準精確時限",
+      "hint": "將太虛日誌衰減曲線、萬物九號艙缺口、戰祖三號廢鹽倉與玄武岩風道夜飄並桌核對 (converge ledger)。",
+      "target_type": "action",
+      "action_verb": "converge",
+      "action_target": "ledger",
+      "location": "/d/realm/edge/ash_watch_post",
+      "on_complete": {
+        "msg": "五張線索圖譜合攏成同一條陡峭直線：距三百年一回的『全界大校準』僅餘九十日，眾人決意轉入反制佈局！"
+      }
+    }
+  ],
+  "rewards": {
+    "exp": 1400,
+    "pot": 400
+  }
+}

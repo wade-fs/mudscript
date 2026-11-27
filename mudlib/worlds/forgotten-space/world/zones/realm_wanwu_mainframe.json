@@ -1,0 +1,20 @@
+{
+  "schema_version": "1.1",
+  "zone_id": "realm_wanwu_mainframe",
+  "region_id": "realm_wanwu",
+  "name": "萬物方舟名錄殿、九城離線節點與總線匯流井",
+  "zone_type": "POLE_ARCHIVE",
+  "danger_tier": 3,
+  "environment": {
+    "tags": ["DONG_TIAN", "LAW_DAMPENING", "ARK_REGISTRY", "CONDUIT_WELL"]
+  },
+  "site_refs": ["realm_wanwu_conduit_well"],
+  "discovery_rules": { "visibility": "RESTRICTED", "required_clues": ["wanwu_artisan_pass"] },
+  "access_rules": { "required_items": [] },
+  "survival_rules": {
+    "environmental_constraints": ["old_skill_3x_cost", "high_density_conduit_flux"]
+  },
+  "status": "ACTIVE",
+  "evidence": ["world/lore/second_era_ark_canon.md", "narrative/events/volume4_events.md"],
+  "confidence": "CONFIRMED"
+}

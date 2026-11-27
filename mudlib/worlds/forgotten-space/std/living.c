@@ -1,0 +1,985 @@
+// std/living.c - 所有活物（玩家、NPC）的基底類別
+
+#include "/include/config.h"
+#include "/include/ansi.h"
+
+inherit "/std/container.c";
+inherit "/std/interactive.c";
+
+// ── 基本資料 ─────────────────────────────────────────────
+string  race;
+int     level;
+int     exp;
+int     exp_to_next;
+int     money_balance; // 🚀 變更：總財產 (以銅幣為單位)
+int     potential; // 🚀 新增：潛能點數 (用於學習技能)
+mapping skills;    // 格式變更：([ "id": ([ "level": 1, "exp": 0 ]) ])
+
+// ── 先天六維屬性（力：str/con｜法：int/spi｜物：dex/per） ──────
+int     stat_str;   // 臂力（力之本）
+int     stat_con;   // 根骨（力之體）
+int     stat_int;   // 悟性（法之理）
+int     stat_spi;   // 靈性（法之神）
+int     stat_dex;   // 靈巧（物之手）
+int     stat_per;   // 感知（物之心）
+
+// ── 動態三柱與戰鬥屬性（由 recalc_stats 計算） ─────────────────
+int     max_hp;     // 氣血上限 (max_kee)
+int     hp;         // 當前氣血 (kee)
+int     max_mp;     // 神識上限 (max_sen)
+int     mp;         // 當前神識 (sen)
+int     max_sp;     // 精力上限 (max_sp)
+int     sp;         // 當前精力 (sp)
+int     attack;     // 攻擊力
+int     defence;    // 防禦力
+
+// ── 裝備欄位 ─────────────────────────────────────────────
+object  equip_weapon;
+object  equip_head;
+object  equip_body;
+object  equip_hands;
+object  equip_feet;
+object  equip_shield;
+
+// ── 狀態旗標 ─────────────────────────────────────────────
+int     in_combat;     // 是否正在戰鬥
+object  combat_target; // 當前戰鬥目標
+int     is_dead;
+
+// 🚀 新增：PK 系統
+int     pk_score;      // PK 分數 (正值代表殺害無辜次數)
+int     pk_timer;      // 紅名倒數計時 (Unix Time)
+object  active_pet;    // 🚀 新增：當前寵物
+int     is_riding;     // 🚀 新增：正在騎乘
+
+// 🚀 新增：組隊與跟隨
+object  leader; 
+object *followers;
+
+void create() {
+    ::create();
+    name       = "無名氏";
+    level      = 1;
+    exp        = 0;
+    exp_to_next= BASE_EXP_PER_LV;
+
+    stat_str = 10;  stat_con = 10;
+    stat_int = 10;  stat_spi = 10;
+    stat_dex = 10;  stat_per = 10;
+
+    in_combat      = 0;
+    combat_target  = 0;
+    is_dead        = 0;
+    money_balance  = 0;
+    potential      = 0;
+    skills         = ([]);
+    followers      = ({});
+    active_pet     = 0;
+    is_riding      = 0;
+
+    recalc_stats();
+    enable_commands();
+}
+
+// 判斷物件是否可以進入生物的背包 (生物預設不允許其他生物進入)
+int can_receive(object ob) {
+    if (!ob) return 0;
+    if (living(ob)) return 0; // 不允許生物進入另一個生物
+    return ::can_receive(ob); // 呼叫父類別的容量檢查
+}
+
+// 判斷是否為生物
+int is_living() { return 1; }
+
+// ── 指令處理 ──────────────────────────────────────────
+int process_input(string input) {
+    string verb, arg;
+    
+    input = trim(input);
+    if (!input || input == "") return 0;
+
+    // 解析動詞與參數
+    int sp = strsrch(input, " ");
+    if (sp < 0) {
+        verb = input;
+        arg = 0;
+    } else {
+        verb = substr(input, 0, sp);
+        arg = substr(input, sp + 1, strlen(input) - sp - 1);
+    }
+    
+    // 呼叫指令守護進程執行全域指令
+    object cmd_d = load_object("/secure/command_d.c");
+    if (cmd_d) {
+        return cmd_d->execute(this_object(), verb, arg);
+    }
+    return 0;
+}
+
+// ── 重算衍生屬性 ──────────────────────────────────────────
+void recalc_stats() {
+    max_hp  = (stat_str + stat_con) * 10 + level * 10;
+    max_mp  = (stat_int + stat_spi) * 10 + level * 10;
+    max_sp  = (stat_dex + stat_per) * 10 + level * 10;
+    attack  = BASE_ATTACK  + stat_str * 2;
+    defence = BASE_DEFENCE + stat_con;
+
+    // 🚀 新增：技能加成
+    if (equip_weapon) {
+        string w_type = equip_weapon->query_weapon_type();
+        attack += query_skill(w_type);
+        attack += equip_weapon->query_attack();
+    } else {
+        attack += query_skill("unarmed");
+    }
+
+    // 防禦加成 (閃避與招架)
+    defence += query_skill("dodge") / 2;
+    defence += query_skill("parry") / 2;
+
+    // 套上防具加成
+    int armour_def = 0;
+    if (equip_head)   { armour_def = armour_def + equip_head->query_defence(); }
+    if (equip_body)   { armour_def = armour_def + equip_body->query_defence(); }
+    if (equip_hands)  { armour_def = armour_def + equip_hands->query_defence(); }
+    if (equip_feet)   { armour_def = armour_def + equip_feet->query_defence(); }
+    if (equip_shield) { armour_def = armour_def + equip_shield->query_defence(); }
+    defence = defence + armour_def;
+
+    // 確保三柱狀態不超上限
+    if (hp > max_hp) { hp = max_hp; }
+    if (mp > max_mp) { mp = max_mp; }
+    if (sp > max_sp) { sp = max_sp; }
+
+    // 依臂力/力量計算生物負重上限 (基礎 20kg + 每點臂力 3kg)
+    set_max_weight(20000 + stat_str * 3000);
+    set_max_items(30);
+}
+
+// ── 設定 / 查詢（三柱正典介面 kee / sen / sp 與向下相容介面） ──
+void set_race(string r)   { race = r; }
+string query_race()       { return race; }
+void set_level(int l)     { level = l; }
+int query_level()         { return level; }
+int query_exp()           { return exp; }
+int query_exp_to_next()   { return exp_to_next; }
+
+void set_kee(int v)       { hp = v; }
+int query_kee()           { return hp; }
+int query_max_kee()       { return max_hp; }
+void set_sen(int v)       { mp = v; }
+int query_sen()           { return mp; }
+int query_max_sen()       { return max_mp; }
+void set_sp(int v)        { sp = v; }
+int query_sp()            { return sp; }
+int query_max_sp()        { return max_sp; }
+
+// 相容別名 (供底層戰鬥與前端 UI 對接)
+void set_hp(int v)        { hp = v; }
+int query_hp()            { return hp; }
+int query_max_hp()        { return max_hp; }
+void set_mp(int v)        { mp = v; }
+int query_mp()            { return mp; }
+int query_max_mp()        { return max_mp; }
+
+int query_attack()        { return attack; }
+int query_defence()       { return defence; }
+
+mixed query(string prop) {
+    if (prop == "level") return level;
+    if (prop == "kee" || prop == "hp" || prop == "qi") return hp;
+    if (prop == "sen" || prop == "mp" || prop == "shen") return mp;
+    if (prop == "sp" || prop == "jing" || prop == "gin") return sp;
+    if (prop == "max_kee" || prop == "max_hp" || prop == "max_qi") return max_hp;
+    if (prop == "max_sen" || prop == "max_mp" || prop == "max_shen") return max_mp;
+    if (prop == "max_sp" || prop == "max_jing" || prop == "max_gin") return max_sp;
+    if (prop == "str") return stat_str;
+    if (prop == "con") return stat_con;
+    if (prop == "int") return stat_int;
+    if (prop == "spi") return stat_spi;
+    if (prop == "dex") return stat_dex;
+    if (prop == "per") return stat_per;
+    if (prop == "money") return money_balance;
+    return ::query(prop);
+}
+
+void set(string prop, mixed val) {
+    if (prop == "money") money_balance = val;
+    ::set(prop, val);
+}
+
+void add(string prop, mixed val) {
+    if (prop == "money") {
+        add_money(val);
+        return;
+    }
+    if (prop == "kee" || prop == "hp" || prop == "qi") {
+        hp += val;
+        if (hp > max_hp) hp = max_hp;
+        if (hp < 0) hp = 0;
+        return;
+    }
+    if (prop == "sen" || prop == "mp" || prop == "shen") {
+        mp += val;
+        if (mp > max_mp) mp = max_mp;
+        if (mp < 0) mp = 0;
+        return;
+    }
+    if (prop == "sp" || prop == "jing" || prop == "gin") {
+        sp += val;
+        if (sp > max_sp) sp = max_sp;
+        if (sp < 0) sp = 0;
+        return;
+    }
+    if (prop == "exp") {
+        if (val > 0) gain_exp(val);
+        return;
+    }
+    if (prop == "str") { stat_str += val; recalc_stats(); return; }
+    if (prop == "con") { stat_con += val; recalc_stats(); return; }
+    if (prop == "int") { stat_int += val; recalc_stats(); return; }
+    if (prop == "spi") { stat_spi += val; recalc_stats(); return; }
+    if (prop == "dex") { stat_dex += val; recalc_stats(); return; }
+    if (prop == "per") { stat_per += val; recalc_stats(); return; }
+    ::add(prop, val);
+}
+
+int query_stat(string s)  {
+    s = normalize_stat_key(s);
+    if (s == STAT_STR || s == "str") { return stat_str; }
+    if (s == STAT_DEX || s == "dex") { return stat_dex; }
+    if (s == STAT_INT || s == "int") { return stat_int; }
+    if (s == STAT_CON || s == "con") { return stat_con; }
+    if (s == STAT_SPI || s == "spi") { return stat_spi; }
+    if (s == STAT_PER || s == "per") { return stat_per; }
+    return 0;
+}
+string query_display_name() {
+    string id = query_key_id();
+    string res = query_name();
+    if (id && id != "" && id != query_name()) {
+        res = query_name() + "(" + id + ")";
+    }
+    // 🚀 新增：騎乘狀態顯示
+    if (is_riding && active_pet) {
+        res += "$HIY$ <騎乘中: " + active_pet->query_name() + ">$NOR$";
+    }
+    return res;
+}
+
+void set_stat(string s, int v) {
+    s = normalize_stat_key(s);
+    if (s == STAT_STR || s == "str") { stat_str = v; }
+    if (s == STAT_DEX || s == "dex") { stat_dex = v; }
+    if (s == STAT_INT || s == "int") { stat_int = v; }
+    if (s == STAT_CON || s == "con") { stat_con = v; }
+    if (s == STAT_SPI || s == "spi") { stat_spi = v; }
+    if (s == STAT_PER || s == "per") { stat_per = v; }
+    recalc_stats();
+}
+
+int query_growth_affinity(string stat) {
+    return 100;
+}
+
+string normalize_stat_key(string s) {
+    if (s == "wis") return "spi";
+    if (s == "cha") return "per";
+    return s;
+}
+
+string query_stat_cn_name(string s) {
+    s = normalize_stat_key(s);
+    if (s == "str") return "臂力";
+    if (s == "con") return "根骨";
+    if (s == "int") return "悟性";
+    if (s == "spi") return "靈性";
+    if (s == "dex") return "靈巧";
+    if (s == "per") return "感知";
+    return s;
+}
+
+int query_stat_train(string s) {
+    s = normalize_stat_key(s);
+    return ::query("stat_train/" + s);
+}
+
+int query_stat_train_req(string s) {
+    int cur = query_stat(s);
+    if (cur < 1) cur = 1;
+    return cur * 50;
+}
+
+// 🚀 屬性鍛鍊進度系統：結合身世親和度累積鍛鍊度，滿門檻 (當前屬性*50) 才 +1
+int train_stat(string stat, int base_pts) {
+    stat = normalize_stat_key(stat);
+    int cur = query_stat(stat);
+    if (cur < 1) cur = 1;
+    int req = cur * 50;
+
+    int aff = this_object()->query_growth_affinity(stat);
+    if (aff <= 0) aff = 100;
+    int gain = base_pts * aff / 100;
+    if (gain < 1) gain = 1;
+
+    int prog = ::query("stat_train/" + stat) + gain;
+    string sname = query_stat_cn_name(stat);
+
+    if (prog >= req) {
+        prog -= req;
+        ::set("stat_train/" + stat, prog);
+        set_stat(stat, cur + 1);
+        if (query("brief_numeric")) {
+            tell_object(this_object(), HIY "✨【筋骨契機】千錘百鍊的水磨工夫終於水到渠成，你的「" + sname + "」隱隱邁入了全新境界！\n" NOR);
+        } else {
+            tell_object(this_object(), HIY "✨【破障提升】經過千錘百鍊的積累，你的「" + sname + "」正式突破至 " + sprintf("%d", cur + 1) + " 點！\n" NOR);
+        }
+        return 1;
+    } else {
+        ::set("stat_train/" + stat, prog);
+        if (!query("brief_numeric")) {
+            tell_object(this_object(), CYN "  （" + sname + "鍛鍊度 +" + sprintf("%d", gain) + " [" + sprintf("%d", prog) + "/" + sprintf("%d", req) + "]，身世親和 " + sprintf("%d", aff) + "%）\n" NOR);
+        }
+        return 0;
+    }
+}
+
+// ── 功能函式 ────────────────────────────────────────────
+int move(mixed dest, string dir) {
+    object me = this_object();
+    object old_env = environment(me);
+    
+    move_object(dest);
+    
+    object new_env = environment(me);
+    if (new_env == old_env) return 0; // 移動失敗
+
+    // 🚀 處理寵物同步移動
+    if (active_pet && environment(active_pet) == old_env) {
+        active_pet->move_object(new_env);
+        if (is_riding) {
+            tell_object(me, "$HIY$你騎著 " + active_pet->query_name() + " 抵達了目的地。\n$NOR$");
+        }
+    }
+
+    // 🚀 處理跟隨者
+    object *f_list = me->query_followers();
+    if (f_list && sizeof(f_list) > 0) {
+        foreach (object f in f_list) {
+            // 避免無限遞迴 (雖然正常情況下不會)
+            if (!f || f == me || environment(f) != old_env) continue;
+            
+            tell_object(f, "你緊跟著 " + me->query_name() + " 往 " + dir + " 走了過去。\n");
+            f->move(new_env, dir);
+        }
+    }
+    
+    return 1;
+}
+
+int heal_kee(int amount) {
+    hp = hp + amount;
+    if (hp > max_hp) { hp = max_hp; }
+    return hp;
+}
+
+int heal_sen(int amount) {
+    mp = mp + amount;
+    if (mp > max_mp) { mp = max_mp; }
+    return mp;
+}
+
+int heal_sp(int amount) {
+    sp = sp + amount;
+    if (sp > max_sp) { sp = max_sp; }
+    return sp;
+}
+
+int heal_hp(int amount) {
+    return heal_kee(amount);
+}
+
+int take_damage(int amount) {
+    hp = hp - amount;
+    if (hp < 0) { hp = 0; }
+    return hp;
+}
+
+int receive_damage(int amount) {
+    return take_damage(amount);
+}
+
+int receive_sen_damage(int amount) {
+    mp = mp - amount;
+    if (mp < 0) { mp = 0; }
+    return mp;
+}
+
+int receive_sp_damage(int amount) {
+    sp = sp - amount;
+    if (sp < 0) { sp = 0; }
+    return sp;
+}
+
+int use_kee(int amount) {
+    if (hp <= amount) { return 0; }
+    hp = hp - amount;
+    return 1;
+}
+
+int use_sen(int amount) {
+    if (mp < amount) { return 0; }
+    mp = mp - amount;
+    return 1;
+}
+
+int use_sp(int amount) {
+    if (sp < amount) { return 0; }
+    sp = sp - amount;
+    return 1;
+}
+
+int use_mp(int amount) {
+    return use_sen(amount);
+}
+
+// ── 裝備管理 ───────────────────────────────────────────────
+int equip(object item) {
+    if (!item) { return 0; }
+    string slot = item->query_slot();
+
+    if (slot == SLOT_WEAPON) { equip_weapon = item; }
+    else if (slot == SLOT_HEAD)   { equip_head   = item; }
+    else if (slot == SLOT_BODY)   { equip_body   = item; }
+    else if (slot == SLOT_HANDS)  { equip_hands  = item; }
+    else if (slot == SLOT_FEET)   { equip_feet   = item; }
+    else if (slot == SLOT_SHIELD) { equip_shield = item; }
+    else { return 0; }
+
+    recalc_stats();
+    return 1;
+}
+
+int unequip_slot(string slot) {
+    if (slot == SLOT_WEAPON) { equip_weapon = 0; }
+    else if (slot == SLOT_HEAD)   { equip_head   = 0; }
+    else if (slot == SLOT_BODY)   { equip_body   = 0; }
+    else if (slot == SLOT_HANDS)  { equip_hands  = 0; }
+    else if (slot == SLOT_FEET)   { equip_feet   = 0; }
+    else if (slot == SLOT_SHIELD) { equip_shield = 0; }
+    else { return 0; }
+    recalc_stats();
+    return 1;
+}
+
+object query_equip(string slot) {
+    if (slot == SLOT_WEAPON) { return equip_weapon; }
+    if (slot == SLOT_HEAD)   { return equip_head; }
+    if (slot == SLOT_BODY)   { return equip_body; }
+    if (slot == SLOT_HANDS)  { return equip_hands; }
+    if (slot == SLOT_FEET)   { return equip_feet; }
+    if (slot == SLOT_SHIELD) { return equip_shield; }
+    return 0;
+}
+
+// ── 隱藏飲食飽脹度系統 (單純隨心跳時間消化) ───────────────────
+int consume_drink(int amount) {
+    int cur = ::query("water_fullness");
+    if (cur >= 90) {
+        tell_object(this_object(), YEL "你肚子裡已經灌滿了水，脹得直打水嗝，得過一陣子消化後才能再喝。\n" NOR);
+        return 0;
+    }
+    cur += amount;
+    if (cur > 100) cur = 100;
+    ::set("water_fullness", cur);
+    return 1;
+}
+
+int consume_food(int amount) {
+    int cur = ::query("food_fullness");
+    if (cur >= 90) {
+        tell_object(this_object(), YEL "你已經吃得太飽了，肚子撐得慌，得過一陣子消化後才能再吃。\n" NOR);
+        return 0;
+    }
+    cur += amount;
+    if (cur > 100) cur = 100;
+    ::set("food_fullness", cur);
+    return 1;
+}
+
+void digest_food_water(int amount) {
+    int w = ::query("water_fullness");
+    if (w > 0) {
+        w -= amount;
+        if (w < 0) w = 0;
+        ::set("water_fullness", w);
+    }
+    int f = ::query("food_fullness");
+    if (f > 0) {
+        f -= amount;
+        if (f < 0) f = 0;
+        ::set("food_fullness", f);
+    }
+}
+
+// ── 經驗值與升級 ───────────────────────────────────────────
+void gain_exp(int amount) {
+    exp = exp + amount;
+    int pot_gain = amount / 4;
+    if (pot_gain < 1) pot_gain = 1;
+    potential += pot_gain;
+    if (!query("brief_numeric")) {
+        write("你獲得了 " + sprintf("%d", amount) + " 點經驗值（潛能 +" + sprintf("%d", pot_gain) + "）。\n");
+    }
+
+    while (exp >= exp_to_next && level < MAX_LEVEL) {
+        exp = exp - exp_to_next;
+        level = level + 1;
+        exp_to_next = exp_to_next + BASE_EXP_PER_LV * level / 2;
+
+        // 升級獎勵：每升一級先天六維各 +1
+        stat_str = stat_str + 1;
+        stat_con = stat_con + 1;
+        stat_int = stat_int + 1;
+        stat_spi = stat_spi + 1;
+        stat_dex = stat_dex + 1;
+        stat_per = stat_per + 1;
+        recalc_stats();
+        hp = max_hp;
+        mp = max_mp;
+        sp = max_sp;
+
+        if (query("brief_numeric")) {
+            write("\n✨ 一股沉凝沛然的氣息在四肢百骸間化開，你感覺自己比昨日更厚實了幾分！\n\n");
+        } else {
+            write("\n✨ 恭喜升級！你現在是 " + sprintf("%d", level) + " 級了！\n");
+            write("六圍屬性各 +1，氣血/神識/精力完全恢復。\n\n");
+        }
+        say(name + " 升級了！現在是 " + sprintf("%d", level) + " 級。\n");
+    }
+}
+
+// ── 死亡處理 ───────────────────────────────────────────────
+void die() {
+    if (is_dead) { return; }
+
+    object me = this_object();
+    object env = environment(me);
+    
+    if (userp(me)) {
+        tell_object(me, "$HIR$\n👻 你感覺到靈魂正在脫離肉體... 你死了。\n\n$NOR$");
+    }
+    say("$HIR$" + query_name() + " 的呼吸停止了，靈魂飄向了另一個世界。\n$NOR$");
+
+    // 1. 產生屍體
+    object corpse = clone_object("/std/corpse.c");
+    if (corpse) {
+        corpse->set_owner(query_name());
+        if (env) {
+            move_object(corpse, env);
+        } else {
+            // 如果是在測試或特殊情況下死亡且無環境，則先不移動屍體
+        }
+
+        // 🚀 掉落物品 (排除 no_drop)
+        object *inv = all_inventory(me);
+        foreach (object ob in inv) {
+            if (ob && !ob->query_no_drop()) {
+                move_object(ob, corpse);
+            }
+        }
+
+        // 🚀 掉落金錢 (身上所有銅幣)
+        int drop_cash = query_money();
+        if (drop_cash > 0) {
+            add_money(-drop_cash);
+            object money_ob = clone_object("/std/object.c");
+            if (money_ob) {
+                money_ob->set_name("銅幣袋");
+                money_ob->set_short("$YEL$一袋銅幣 (" + drop_cash + ")$NOR$");
+                money_ob->set_id(({"money bag", "bag", "錢袋"}));
+                money_ob->set_money_value(drop_cash);
+                move_object(money_ob, corpse);
+            }
+        }
+
+        // 2. 🚀 死亡懲罰計算 (僅對玩家生效)
+        if (userp(me)) {
+            // 損失當前等級升級所需總額的 5%
+            int lost_exp = exp_to_next / 20; 
+            int lost_pot = potential / 5; // 損失潛能的 20%
+            if (lost_exp < 1) lost_exp = 1;
+            
+            int lv_down = 0;
+            if (random(100) < 20) lv_down = 1;
+
+            // 紀錄懲罰資料，用於跑屍恢復
+            mapping penalty = ([
+                "owner": me->get_id(),
+                "exp": lost_exp,
+                "pot": lost_pot,
+                "level_down": lv_down
+            ]);
+            corpse->set_penalty_data(penalty);
+
+            // 執行懲罰
+            exp -= lost_exp;
+            if (exp < 0) exp = 0;
+            potential -= lost_pot;
+            if (lv_down && level > 1) {
+                level--;
+                tell_object(me, "$HIR$你的等級下降了！現在是等級 " + level + "。\n$NOR$");
+            }
+
+            // 🚀 技能熟練度下降 (所有學過的技能隨機掉 1~5% 熟練度)
+            if (mapp(skills)) {
+                mixed ks = keys(skills);
+                foreach (string sid in ks) {
+                    int s_exp = skills[sid]["exp"];
+                    skills[sid]["exp"] = s_exp * 95 / 100;
+                }
+            }
+        }
+    }
+
+    // 3. 🚀 清除紅名 (死亡贖罪)
+    if (pk_score > 0) {
+        pk_score = 0;
+        pk_timer = 0;
+        write("$HIG$你的罪孽在死亡中得到了洗贖，你不再是紅名了。\n$NOR$");
+    }
+
+    is_dead = 1;
+    in_combat = 0;
+    combat_target = 0;
+    set_heart_beat(0);
+    
+    recalc_stats();
+    me->save();
+
+    // 4. 傳送到起始點或靈魂神殿
+    call_out("revive", 2);
+}
+
+void revive() {
+    is_dead = 0;
+    hp = max_hp / 10; // 復活時只有 10% 狀態
+    mp = max_mp / 10;
+    sp = max_sp / 10;
+    set_heart_beat(1);
+    
+    string start_path = START_ROOM;
+    if (userp(this_object())) {
+        start_path = this_object()->query_start_room();
+    }
+    
+    object start = load_object(start_path);
+    if (start) {
+        move_object(start);
+        write("$HIW$你在祈禱室緩緩睜開雙眼，感覺身體非常虛弱。\n$NOR$");
+        start->look_room(this_object());
+    }
+    this_object()->save();
+}
+
+
+// ── 戰鬥基礎 ─────────────────────────────────────────────
+void stop_combat() {
+    in_combat = 0;
+    combat_target = 0;
+}
+
+object query_combat_target() { return combat_target; }
+void set_combat_target(object ob) { combat_target = ob; if (ob) in_combat = 1; else in_combat = 0; }
+
+void attacked_by(object attacker) {
+    if (is_dead) return;
+    
+    object env = environment(this_object());
+    if (env && env->query_no_combat()) {
+        if (attacker) tell_object(attacker, "這裡禁止戰鬥！\n");
+        return;
+    }
+
+    if (!in_combat) {
+        in_combat     = 1;
+        combat_target = attacker;
+    }
+}
+
+// ── 貨幣、金幣與技能 ───────────────────────────────────────────
+void add_money(int v) { money_balance += v; if (money_balance < 0) money_balance = 0; }
+void gain_money(int v) { money_balance += v; }
+int query_money() { return money_balance; }
+
+// 相容舊代碼 (1 金幣 = 10,000 銅幣)
+void add_gold(int g) { add_money(g * COIN_GOLD); }
+void gain_gold(int g) { add_money(g * COIN_GOLD); }
+int query_gold() { return money_balance / COIN_GOLD; }
+
+// 取得貨幣顯示字串
+string query_money_string() {
+    int rem = money_balance;
+    int cg = rem / COIN_COOL_GOLD;
+    rem = rem % COIN_COOL_GOLD;
+    int g  = rem / COIN_GOLD;
+    rem = rem % COIN_GOLD;
+    int s  = rem / COIN_SILVER;
+    rem = rem % COIN_SILVER;
+    int c  = rem;
+
+    string res = "";
+    if (cg > 0) res += "$HIY$" + to_string(cg) + " " + _t("coin_cool_gold") + " $NOR$";
+    if (g  > 0) res += "$HIY$" + to_string(g) + " " + _t("coin_gold") + " $NOR$";
+    if (s  > 0) res += "$WHT$" + to_string(s) + " " + _t("coin_silver") + " $NOR$";
+    if (c  > 0) res += "$YEL$" + to_string(c) + " " + _t("coin_copper") + " $NOR$";
+    
+    if (res == "") return "$YEL$0 " + _t("coin_copper") + "$NOR$";
+    return res;
+}
+
+// 取得無顏色標籤的貨幣字串 (用於 UI)
+string query_money_plain() {
+    int rem = money_balance;
+    int cg = rem / COIN_COOL_GOLD;
+    rem = rem % COIN_COOL_GOLD;
+    int g  = rem / COIN_GOLD;
+    rem = rem % COIN_GOLD;
+    int s  = rem / COIN_SILVER;
+    rem = rem % COIN_SILVER;
+    int c  = rem;
+
+    string res = "";
+    if (cg > 0) res += to_string(cg) + " " + _t("coin_cool_gold") + " ";
+    if (g  > 0) res += to_string(g)  + " " + _t("coin_gold") + " ";
+    if (s  > 0) res += to_string(s)  + " " + _t("coin_silver") + " ";
+    if (c  > 0) res += to_string(c)  + " " + _t("coin_copper") + " ";
+    
+    if (res == "") return "0 " + _t("coin_copper");
+    return res;
+}
+
+void gain_potential(int v) { potential += v; }
+int query_potential() { return potential; }
+
+// ── 組隊與跟隨介面 ─────────────────────────────────────────────
+object  query_leader() { return leader; }
+void    set_leader(object ob) { leader = ob; }
+object *query_followers() { return followers; }
+void    add_follower(object ob) { if (member_array(ob, followers) == -1) followers += ({ ob }); }
+void    remove_follower(object ob) { followers -= ({ ob }); }
+
+// ── PK 系統介面 ─────────────────────────────────────────────
+int query_pk_score() { return pk_score; }
+void add_pk_score(int v) { 
+    pk_score += v; 
+    if (pk_score < 0) pk_score = 0;
+    if (v > 0) pk_timer = time() + 3600; // 每殺一人紅名維持一小時
+}
+int is_red_name() { 
+    if (pk_score > 0) {
+        if (time() > pk_timer) {
+            // 這裡可以做緩慢下降逻辑，暫時簡單化：計時到就歸零
+            pk_score = 0;
+            return 0;
+        }
+        return 1;
+    }
+    return 0; 
+}
+
+// ── 技能管理介面 ──────────────────────────────────────────
+void set_skill(string s, int v) {
+    if (!skills) skills = ([]);
+    
+    int old_level = 0;
+    mixed existing = skills[s];
+    if (existing) {
+        if (intp(existing)) old_level = existing;
+        else old_level = existing["level"];
+    }
+    
+    skills[s] = ([ "level": v, "exp": 0 ]);
+}
+
+int query_skill(string s) {
+    if (!skills) return 0;
+    mixed existing = skills[s];
+    if (!existing) return 0;
+    if (intp(existing)) return existing;
+    return existing["level"];
+}
+
+int query_skill_exp(string s) {
+    if (!skills) return 0;
+    mixed existing = skills[s];
+    if (!existing) return 0;
+    if (intp(existing)) return 0;
+    return existing["exp"];
+}
+
+void set_skill_level(string s, int v) {
+    set_skill(s, v);
+}
+
+void improve_skill(string s, int v) {
+    if (!skills) skills = ([]);
+    
+    int old_level = 0;
+    int old_exp = 0;
+    mixed existing = skills[s];
+    if (existing) {
+        if (intp(existing)) {
+            old_level = existing;
+        } else {
+            old_level = existing["level"];
+            old_exp = existing["exp"];
+        }
+    }
+
+    skills[s] = ([ "level": old_level, "exp": old_exp + v ]);
+
+    // 呼叫 Skill Daemon 判斷是否升級
+    load_object("/secure/skill_d.c")->check_upgrade(this_object(), s);
+}
+mapping query_skills() { return skills; }
+
+// ── 四維解耦介面：道途 (Path) ≠ 技能 (Skill) ≠ 資格 (Qualification) ≠ 組織 (Organization) ──
+void set_path(string p) {
+    ::set("path", p);
+}
+
+string query_path() {
+    string p = ::query("path");
+    if (p && p != "") return p;
+    string cls = ::query("class");
+    if (cls == "dao_initiate" || cls == "fa") return "fa";
+    if (cls == "wu_initiate" || cls == "li") return "li";
+    if (cls == "gong_initiate" || cls == "wu") return "wu";
+    string g = this_object()->query_guild();
+    if (g == "dao_initiate" || g == "fa" || g == "org_xuandaosi") return "fa";
+    if (g == "wu_initiate" || g == "li" || g == "org_bafang") return "li";
+    if (g == "gong_initiate" || g == "wu" || g == "org_baigong") return "wu";
+    return "";
+}
+
+void grant_qualification(string lic_id, int rank) {
+    if (!lic_id || lic_id == "") return;
+    if (rank <= 0) rank = 1;
+    mapping q = ::query("qualifications");
+    if (!mapp(q)) q = ([]);
+    q[lic_id] = rank;
+    ::set("qualifications", q);
+}
+
+void grant_qualification_by(string lic_id, int rank, string issuer) {
+    grant_qualification(lic_id, rank);
+    if (!lic_id || lic_id == "") return;
+    if (!issuer || issuer == "") return;
+    mapping iss = ::query("qualification_issuers");
+    if (!mapp(iss)) iss = ([]);
+    iss[lic_id] = issuer;
+    ::set("qualification_issuers", iss);
+}
+
+void revoke_qualification(string lic_id) {
+    mapping q = ::query("qualifications");
+    if (mapp(q)) {
+        map_delete(q, lic_id);
+        ::set("qualifications", q);
+    }
+    mapping iss = ::query("qualification_issuers");
+    if (mapp(iss)) {
+        map_delete(iss, lic_id);
+        ::set("qualification_issuers", iss);
+    }
+}
+
+int query_qualification(string lic_id) {
+    mapping q = ::query("qualifications");
+    if (!mapp(q) || !q[lic_id]) return 0;
+    return q[lic_id];
+}
+
+string query_qualification_issuer(string lic_id) {
+    mapping iss = ::query("qualification_issuers");
+    if (!mapp(iss) || !iss[lic_id]) return "";
+    return iss[lic_id];
+}
+
+mapping query_qualifications() {
+    mapping q = ::query("qualifications");
+    if (!mapp(q)) return ([]);
+    return q;
+}
+
+void join_organization(string org_id, string rank_title) {
+    if (!org_id || org_id == "") return;
+    if (!rank_title || rank_title == "") rank_title = "member";
+    mapping orgs = ::query("organizations");
+    if (!mapp(orgs)) orgs = ([]);
+    orgs[org_id] = rank_title;
+    ::set("organizations", orgs);
+}
+
+void set_org_branch(string org_id, string branch_id) {
+    if (!org_id || org_id == "") return;
+    mapping br = ::query("org_branches");
+    if (!mapp(br)) br = ([]);
+    br[org_id] = branch_id;
+    ::set("org_branches", br);
+}
+
+string query_org_branch(string org_id) {
+    mapping br = ::query("org_branches");
+    if (!mapp(br) || !br[org_id]) return "";
+    return br[org_id];
+}
+
+void set_hq_registered(string org_id, int flag) {
+    if (!org_id || org_id == "") return;
+    mapping hq = ::query("org_hq_registered");
+    if (!mapp(hq)) hq = ([]);
+    hq[org_id] = flag ? 1 : 0;
+    ::set("org_hq_registered", hq);
+}
+
+int query_hq_registered(string org_id) {
+    mapping hq = ::query("org_hq_registered");
+    if (!mapp(hq) || !hq[org_id]) return 0;
+    return hq[org_id];
+}
+
+void leave_organization(string org_id) {
+    mapping orgs = ::query("organizations");
+    if (mapp(orgs)) {
+        map_delete(orgs, org_id);
+        ::set("organizations", orgs);
+    }
+    mapping br = ::query("org_branches");
+    if (mapp(br)) {
+        map_delete(br, org_id);
+        ::set("org_branches", br);
+    }
+    mapping hq = ::query("org_hq_registered");
+    if (mapp(hq)) {
+        map_delete(hq, org_id);
+        ::set("org_hq_registered", hq);
+    }
+}
+
+string query_org_rank(string org_id) {
+    mapping orgs = ::query("organizations");
+    if (!mapp(orgs) || !orgs[org_id]) return "";
+    return orgs[org_id];
+}
+
+mapping query_organizations() {
+    mapping orgs = ::query("organizations");
+    if (!mapp(orgs)) return ([]);
+    return orgs;
+}
+
+// catch_tell：活物收到訊息，預設不做任何事（子類別可覆寫）
+void catch_tell(string msg) {
+}

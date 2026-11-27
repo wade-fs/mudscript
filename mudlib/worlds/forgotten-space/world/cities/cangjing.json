@@ -1,0 +1,19 @@
+{
+  "schema_version": "1.1",
+  "id": "cangjing",
+  "name": "滄鏡城",
+  "aliases": ["萬法歸藏", "古經殘庫"],
+  "civilization_role": "典籍與文明記憶",
+  "spatial_type": "subterranean_scriptorium",
+  "status": "sealed_scriptorium_ruins",
+  "ancient_status": "RUINED",
+  "remaining_structure_status": "PARTIAL",
+  "modern_manifestation": "subterranean_scriptorium_vaults",
+  "access_status": "SEALED",
+  "known_by": ["scholars", "archaeologists", "cangjing_seekers"],
+  "evidence": "world/lore/nine_cities_canon.md",
+  "confidence": "CONFIRMED",
+  "zones": ["jade_slip_vault", "transcription_hall", "rune_barrier_vault"],
+  "dependencies": ["tianshu", "guanxing", "baigong", "qingming"],
+  "topology": ["subterranean_limestone_labyrinth"]
+}

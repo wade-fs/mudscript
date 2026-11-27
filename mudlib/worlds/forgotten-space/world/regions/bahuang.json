@@ -1,0 +1,84 @@
+{
+  "schema_version": "1.1",
+  "region_id": "bahuang",
+  "name": "八荒宗",
+  "civ_level": "sect",
+  "region_type": "SECT",
+  "coords": [-40, 650, 260],
+  "geography": {
+    "position": null,
+    "coordinate_space": "LOCAL_GAME_SPACE",
+    "precision": "RELATIVE_COORDS",
+    "terrain": "northern_gorge_fortress",
+    "description": "扼守黑山長城缺口與鬼哭峽防線的尚武宗門駐地"
+  },
+  "resources": {
+    "primary_product": "heavy_crossbow_bolts",
+    "secondary_product": "beast_bone_plates",
+    "demand": ["lamp_oil", "iron_tools", "grain", "cleansing_herbs"],
+    "reserves": {
+      "iron_bolts": 18000,
+      "lamp_oil": 6000,
+      "rations": 9000
+    },
+    "price_index": 100
+  },
+  "factions": {
+    "bahuang_wall_garrison": {
+      "power": 55,
+      "agenda": "rotate_frontier_defense_lines"
+    },
+    "bahuang_restoration_elders": {
+      "power": 45,
+      "agenda": "protect_sect_legacy_and_discipline"
+    }
+  },
+  "crisis_deck": [
+    {
+      "id": "black_mountain_beast_surge",
+      "base_weight": 35,
+      "trigger_metric": "herd_pressure"
+    },
+    {
+      "id": "west_wall_breach_pressure",
+      "base_weight": 25,
+      "trigger_metric": "settlement_resilience"
+    },
+    {
+      "id": "garrison_ration_shortage",
+      "base_weight": 20,
+      "trigger_metric": "settlement_capacity"
+    },
+    {
+      "id": "ghost_gorge_miasma",
+      "base_weight": 20,
+      "trigger_metric": "diversion_effect"
+    }
+  ],
+  "zone_refs": [
+    {
+      "zone_id": "bahuang_barracks",
+      "type": "sect_garrison",
+      "tier": 2
+    },
+    {
+      "zone_id": "bahuang_gorge_wall",
+      "type": "border_defense",
+      "tier": 2
+    }
+  ],
+  "lpc_rooms": [
+    "/d/sects/bahuang/gate.c",
+    "/d/sects/bahuang/outer_barracks.c",
+    "/d/sects/bahuang/black_mountain_camp.c",
+    "/d/sects/bahuang/great_wall_gate.c",
+    "/d/sects/bahuang/west_wall_breach.c",
+    "/d/sects/bahuang/ghost_cry_gorge.c",
+    "/d/sects/bahuang/restoration_hall.c"
+  ],
+  "confidence": "CONFIRMED",
+  "evidence": [
+    "narrative/events/volume3_events.md",
+    "data/event_defs/tier2_crisis.json"
+  ]
+}

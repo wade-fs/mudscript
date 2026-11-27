@@ -139,7 +139,10 @@ func (d *Driver) registerBufferEfuns(obj *object.LPCObject) {
 				return &object.Nil{}
 			}
 
-			fullPath := filepath.Join(d.Config.MudLibPath, resolvedPath)
+			fullPath, _, err := d.ResolveReadPath(resolvedPath)
+			if err != nil {
+				return &object.Nil{}
+			}
 			f, err := os.Open(fullPath)
 			if err != nil {
 				return &object.Nil{}
@@ -203,7 +206,11 @@ func (d *Driver) registerBufferEfuns(obj *object.LPCObject) {
 				return &object.Integer{Value: 0}
 			}
 
-			fullPath := filepath.Join(d.Config.MudLibPath, resolvedPath)
+			fullPath, err := d.ResolveWritePath(resolvedPath)
+			if err != nil {
+				return &object.Integer{Value: 0}
+			}
+			os.MkdirAll(filepath.Dir(fullPath), 0755)
 			f, err := os.OpenFile(fullPath, os.O_RDWR|os.O_CREATE, 0644)
 			if err != nil {
 				return &object.Integer{Value: 0}
